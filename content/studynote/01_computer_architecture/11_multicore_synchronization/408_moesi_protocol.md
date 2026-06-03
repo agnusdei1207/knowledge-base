@@ -23,25 +23,27 @@ MOESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/29
 
 이 비용은 코어 수가 적을 때는 감당 가능하지만, 코어가 늘고 읽기 공유가 잦아질수록 눈에 띄게 커진다. 예를 들어 코어 A가 어떤 캐시 라인을 수정한 뒤, 코어 B와 코어 C가 차례로 그 값을 읽는다면, "최신값은 캐시에 있는데도 메모리를 중간 기준점으로 삼는" 보수적 절차가 반복될 수 있다. MOESI는 여기서 `Owned` 상태를 도입해, 최신 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 책임자는 한 캐시가 계속 맡되 다른 캐시들은 그 값을 공유해서 읽게 만든다.
 
-즉 MOESI의 필요성은 단순히 상태 하나를 늘리는 데 있지 않다. 핵심은 **메모리 최신화 시점과 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 시점을 분리**했다는 데 있다. 메모리는 나중에 반영해도 되지만, 코어 간 읽기 공유는 지금 당장 가능하게 하자는 발상이다. 이 변화 덕분에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 "무조건 즉시 메모리 정합"에서 "최신 책임자를 명확히 한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영"으로 한 단계 진화한다.
+즉 MOESI의 필요성은 단순히 상태 하나를 늘리는 데 있지 않다. 핵심은 <strong>메모리 최신화 시점과 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/">데이터 공유</a> 시점을 분리</strong>했다는 데 있다. 메모리는 나중에 반영해도 되지만, 코어 간 읽기 공유는 지금 당장 가능하게 하자는 발상이다. 이 변화 덕분에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 "무조건 즉시 메모리 정합"에서 "최신 책임자를 명확히 한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영"으로 한 단계 진화한다.
 
 아래 그림은 MESI와 MOESI가 수정 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)를 어떻게 다르게 처리하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Why Owned State Matters in Shared Read                │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ MESI 중심 사고               │ MOESI 중심 사고                      │
-├──────────────────────────────┼───────────────────────────────────────┤
-│ Core0 has dirty data         │ Core0 has dirty data                 │
-│ Core1 reads same line        │ Core1 reads same line                │
-│   └─ memory path involved    │   └─ direct cache-to-cache transfer  │
-│      or early write-back     │      and Core0 keeps ownership       │
-│ Memory becomes sync point    │ Memory update is deferred safely     │
-└──────────────────────────────┴───────────────────────────────────────┘
-```
 
-이 그림의 요점은 MOESI가 메모리를 없애는 것이 아니라, **메모리를 즉시 동원해야 하는 상황을 줄인다**는 데 있다. 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "법적 책임자"를 캐시에 남겨 두기 때문에, 읽기 공유 요청마다 DRAM을 호출하지 않아도 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Owned State Matters in Shared Read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MESI 중심 사고</div><div class="kb-diagram-cell">MOESI 중심 사고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 has dirty data</div><div class="kb-diagram-cell">Core0 has dirty data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core1 reads same line</div><div class="kb-diagram-cell">Core1 reads same line</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ memory path involved</div><div class="kb-diagram-cell">─ direct cache-to-cache transfer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">or early write-back</div><div class="kb-diagram-cell">and Core0 keeps ownership</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory becomes sync point</div><div class="kb-diagram-cell">Memory update is deferred safely</div></div>
+</div>
+</div>
+
+
+
+이 그림의 요점은 MOESI가 메모리를 없애는 것이 아니라, <strong>메모리를 즉시 동원해야 하는 상황을 줄인다</strong>는 데 있다. 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "법적 책임자"를 캐시에 남겨 두기 때문에, 읽기 공유 요청마다 DRAM을 호출하지 않아도 된다.
 
 **📢 섹션 요약 비유**: MESI가 수정한 문서를 공유할 때마다 중앙 문서함에 먼저 정식 등록하고 복사하게 하는 방식이라면, MOESI는 "원본 책임자는 내가 맡을 테니 필요한 사람은 내 자리에서 바로 복사해 가"라고 운영하는 팀장 방식이다.
 
@@ -49,7 +51,7 @@ MOESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/29
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MOESI는 캐시 라인마다 다섯 가지 상태를 두고 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·스누프(snoop) 이벤트에 따라 상태를 전이시킨다. 이때 핵심은 `Owned`가 단순한 중간 상태가 아니라, **더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 공유 가능 상태**라는 점이다. `Modified`는 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 캐시에만 있는 상태이고, `Owned`는 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최신 책임자가 한 캐시에 있으면서 다른 캐시들은 공유 사본을 가질 수 있는 상태다.
+MOESI는 캐시 라인마다 다섯 가지 상태를 두고 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·스누프(snoop) 이벤트에 따라 상태를 전이시킨다. 이때 핵심은 `Owned`가 단순한 중간 상태가 아니라, <strong>더티 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 공유 가능 상태</strong>라는 점이다. `Modified`는 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 캐시에만 있는 상태이고, `Owned`는 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최신 책임자가 한 캐시에 있으면서 다른 캐시들은 공유 사본을 가질 수 있는 상태다.
 
 | 상태 | 의미 | 메모리와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 다른 캐시와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :-- | :-- | :-- | :-- |
@@ -69,31 +71,31 @@ MOESI는 캐시 라인마다 다섯 가지 상태를 두고 읽기·[쓰기](/kn
 
 아래 그림은 `M`에서 `O`로 바뀌는 대표 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Typical MOESI Read-Share Transition                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Step 1                                                               │
-│   Core0 : X = 10 in cache, state = M                                 │
-│   Memory: X = 5 (stale)                                               │
-│                                                                      │
-│ Step 2                                                               │
-│   Core1 issues BusRd(X)                                               │
-│                                                                      │
-│ Step 3                                                               │
-│   Core0 supplies data directly to Core1                               │
-│   Core0 : M ───────────────▶ O                                        │
-│   Core1 : I ───────────────▶ S                                        │
-│   Memory: still stale, update deferred                                │
-│                                                                      │
-│ Step 4                                                               │
-│   Core0 remains responsible for future write-back                     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical MOESI Read-Share Transition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 : X = 10 in cache, state = M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory: X = 5 (stale)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core1 issues BusRd(X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 supplies data directly to Core1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 : M ▶ O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core1 : I ▶ S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory: still stale, update deferred</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 remains responsible for future write-back</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 설계 포인트는 `Owned`가 "공유도 되고 더티이기도 한" 예외 상태라는 점이다. 일반적인 `Shared`는 메모리와 일치하는 복사본을 여러 개 두는 개념이지만, MOESI에서는 owner가 메모리보다 최신인 값을 쥐고 있고 다른 sharer는 그 owner가 배포한 값을 읽는다. 따라서 coherence controller는 "누가 최신 책임자인가"를 별도로 기억해야 한다.
 
-이 구조는 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약하는 대신 상태 기계를 복잡하게 만든다. 캐시 축출 시점, 추가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청 시 무효화 순서, 멀티소켓 인터커넥트에서의 응답 우선순위까지 모두 세밀하게 맞춰야 한다. 그래서 MOESI는 단순한 다섯 글자 약어가 아니라, **메모리 반영을 늦추면서도 최신성 책임을 잃지 않게 하는 정교한 계약**으로 이해해야 한다.
+이 구조는 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약하는 대신 상태 기계를 복잡하게 만든다. 캐시 축출 시점, 추가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청 시 무효화 순서, 멀티소켓 인터커넥트에서의 응답 우선순위까지 모두 세밀하게 맞춰야 한다. 그래서 MOESI는 단순한 다섯 글자 약어가 아니라, <strong>메모리 반영을 늦추면서도 최신성 책임을 잃지 않게 하는 정교한 계약</strong>으로 이해해야 한다.
 
 **📢 섹션 요약 비유**: `Owned` 상태는 공동 과제에서 "최종 원본은 내가 들고 있고, 너희는 복사본을 봐도 되지만 마지막 제출 책임은 나에게 있다"라고 정하는 반장 역할과 같다.
 
@@ -101,7 +103,7 @@ MOESI는 캐시 라인마다 다섯 가지 상태를 두고 읽기·[쓰기](/kn
 
 ## Ⅲ. 비교 및 연결
 
-MOESI를 제대로 이해하려면 MESI, MESIF (Modified, Exclusive, Shared, Invalid, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 그리고 [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)과의 경계를 함께 봐야 한다. MOESI의 초점은 **더티 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 최적화**이고, MESIF의 초점은 **클린 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 응답 대표자 지정**에 가깝다. 따라서 둘은 비슷해 보여도 줄이려는 병목이 다르다.
+MOESI를 제대로 이해하려면 MESI, MESIF (Modified, Exclusive, Shared, Invalid, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 그리고 [디렉터리 기반 프로토콜](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/404_directory_based_protocol/)과의 경계를 함께 봐야 한다. MOESI의 초점은 <strong>더티 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/">데이터 공유</a> 최적화</strong>이고, MESIF의 초점은 <strong>클린 공유 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 응답 대표자 지정</strong>에 가깝다. 따라서 둘은 비슷해 보여도 줄이려는 병목이 다르다.
 
 | 비교 항목 | MESI | MOESI | MESIF |
 | :-- | :-- | :-- | :-- |
@@ -126,13 +128,13 @@ MOESI는 스누핑 기반 시스템에서도 쓰일 수 있지만, 멀티소켓�
 
 ### 설계·운영 판단 포인트
 
-1. **읽기 공유가 많은가, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁이 많은가?**  
+1. <strong>읽기 공유가 많은가, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 경쟁이 많은가?</strong>  
    읽기 공유가 많으면 MOESI의 cache-to-cache 전달 이점이 살아난다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁이 많으면 coherence [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할([sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))과 thread-local 설계가 더 중요하다.
 
-2. **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 거리와 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 경계를 넘는가?**  
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 거리와 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 경계를 넘는가?</strong>  
    멀티소켓 서버에서는 원격 메모리 접근보다 원격 캐시 전달이 더 유리할 수 있다. 이때 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배치와 메모리 배치가 어긋나면 MOESI의 장점도 줄어든다.
 
-3. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 도구에서 무엇을 볼 것인가?**  
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 도구에서 무엇을 볼 것인가?</strong>  
    Linux `perf c2c` 같은 도구의 HITM ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Modified) 계열 지표는 캐시 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 잦다는 신호다. 이 수치가 높다면 하드웨어가 열심히 coherence를 지키고 있다는 뜻이지, 애플리케이션 구조가 좋다는 뜻은 아니다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -151,9 +153,9 @@ MOESI는 스누핑 기반 시스템에서도 쓰일 수 있지만, 멀티소켓�
 
 MOESI의 가장 큰 효과는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)을 유지하면서도 메모리를 매번 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 지점으로 삼지 않아도 된다는 점이다. 그 결과 읽기 공유가 많은 워크로드에서는 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 소비가 줄고, 원격 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 낮아질 수 있다. 특히 코어 수가 많고 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 간 거리가 긴 시스템일수록 `Owned` 상태의 가치가 커진다.
 
-하지만 이 이득은 공짜가 아니다. 구현 측면에서는 상태 전이가 복잡해지고, coherence controller와 인터커넥트가 처리해야 할 예외 경로가 늘어난다. 또한 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 패턴이 나쁘면 MOESI가 있어도 캐시 라인 이동 폭풍은 막지 못한다. 즉 MOESI는 "나쁜 공유 구조를 고쳐 주는 마법"이 아니라, **불가피한 공유를 더 효율적으로 처리하는 하드웨어 최적화**다.
+하지만 이 이득은 공짜가 아니다. 구현 측면에서는 상태 전이가 복잡해지고, coherence controller와 인터커넥트가 처리해야 할 예외 경로가 늘어난다. 또한 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 패턴이 나쁘면 MOESI가 있어도 캐시 라인 이동 폭풍은 막지 못한다. 즉 MOESI는 "나쁜 공유 구조를 고쳐 주는 마법"이 아니라, <strong>불가피한 공유를 더 효율적으로 처리하는 하드웨어 최적화</strong>다.
 
-앞으로 many-core와 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 구조가 더 확산될수록, 단순 브로드캐스트보다 정교한 상태 추적과 로컬 전달의 중요성은 커질 가능성이 높다. 동시에 하드웨어 복잡도를 낮추기 위해 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 최적화, 계층형 coherence, 소프트웨어 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 기반 제어가 함께 발전할 것이다. 따라서 MOESI는 "`Owned`라는 상태 하나를 더한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, **메모리 반영 시점을 늦추고도 책임을 잃지 않는 공유 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 가장 정확하다.
+앞으로 many-core와 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 구조가 더 확산될수록, 단순 브로드캐스트보다 정교한 상태 추적과 로컬 전달의 중요성은 커질 가능성이 높다. 동시에 하드웨어 복잡도를 낮추기 위해 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 최적화, 계층형 coherence, 소프트웨어 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 기반 제어가 함께 발전할 것이다. 따라서 MOESI는 "`Owned`라는 상태 하나를 더한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, <strong>메모리 반영 시점을 늦추고도 책임을 잃지 않는 공유 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 가장 정확하다.
 
 **📢 섹션 요약 비유**: MOESI는 모든 보고서를 본사 서버에 즉시 올리지 않아도, 담당자 한 명이 최신본 책임을 지고 팀원들에게 빠르게 돌려볼 수 있게 만든 운영 방식이다. 다만 팀원들이 한 문서를 동시에 고쳐 대면 그때는 여전히 충돌 관리가 필요하다.
 
@@ -172,23 +174,24 @@ MOESI의 가장 큰 효과는 [캐시 일관성](/knowledge-base/studynote/01_co
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MSI (Modified, Shared, Invalid)
-    │
-    ▼
-MESI (Modified, Exclusive, Shared, Invalid)
-    │
-    ├─▶ 단독 수정 최적화
-    │
-    ▼
-MOESI (Modified, Owned, Exclusive, Shared, Invalid)
-    │
-    ├─▶ dirty data cache-to-cache transfer
-    ├─▶ 멀티소켓 · ccNUMA 최적화
-    │
-    ▼
-MESIF / Directory-based Coherence / many-core 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MSI (Modified, Shared, Invalid)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESI (Modified, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 단독 수정 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MOESI (Modified, Owned, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ dirty data cache-to-cache transfer</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 멀티소켓 · ccNUMA 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESIF / Directory-based Coherence / many-core 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 기본 상태 관리에서 출발해, 단독 수정 최적화, 더티 공유 최적화, 그리고 대규모 시스템 확장으로 이어지는 진화를 보여준다.
 

@@ -22,21 +22,20 @@ tags = ["studynote-it-management"]
 
 SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파이브 포스는 산업의 구조적 수익성을 체계적으로 진단하여 "어느 산업에 진입할 것인가" 또는 "현재 산업에서 어떻게 포지셔닝할 것인가"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 지원한다. IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 및 디지털 비즈니스 포트폴리오 결정에서 필수 분석 도구다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               포터의 5 Forces 구조                            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│              [신규 진입자 위협]                                │
-│                    │ ↓                                       │
-│  [공급자 교섭력] ──→ [기존 경쟁자 간 경쟁] ←── [구매자 교섭력]  │
-│                    │ ↑                                       │
-│              [대체재 위협]                                    │
-│                                                              │
-│  5가지 힘이 강할수록 → 산업 수익성 낮음                        │
-│  5가지 힘이 약할수록 → 산업 수익성 높음                        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포터의 5 Forces 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 진입자 위협</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공급자 교섭력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">기존 경쟁자 간 경쟁</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">구매자 교섭력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대체재 위협</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5가지 힘이 강할수록 → 산업 수익성 낮음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5가지 힘이 약할수록 → 산업 수익성 높음</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 파이브 포스는 식당을 열기 전 동네 분위기를 파악하는 것과 같다. 경쟁 식당이 많은지(기존 경쟁), 새 식당이 쉽게 들어오는지(신규 진입), 손님들이 대체 음식을 선호하는지(대체재), 재료 공급업체가 갑질하는지(공급자), 손님들이 가격 흥정을 심하게 하는지(구매자)를 한꺼번에 분석한다.
 
@@ -56,20 +55,21 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 ### 5 Forces 강도 매핑
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           클라우드 SaaS 산업 5 Forces 예시 평가            │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  신규 진입자 위협   ★★★★☆  (진입 쉬움: 초기 비용 낮음)     │
-│  공급자 교섭력      ★★★★☆  (AWS/Azure 의존 높음)           │
-│  구매자 교섭력      ★★★☆☆  (전환 비용 중간)               │
-│  대체재 위협        ★★★★☆  (오픈소스 대안 풍부)            │
-│  기존 경쟁자 경쟁   ★★★★★  (Salesforce·Microsoft 치열)    │
-│                                                          │
-│  → 전체 경쟁압력 높음 → 차별화 전략 필수                    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 SaaS 산업 5 Forces 예시 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 진입자 위협 ★★★★☆ (진입 쉬움: 초기 비용 낮음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공급자 교섭력 ★★★★☆ (AWS/Azure 의존 높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구매자 교섭력 ★★★☆☆ (전환 비용 중간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대체재 위협 ★★★★☆ (오픈소스 대안 풍부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 경쟁자 경쟁 ★★★★★ (Salesforce·Microsoft 치열)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 경쟁압력 높음 → 차별화 전략 필수</div></div>
+</div>
+</div>
+
+
 
 - **�� 섹션 요약 비유**: 5 Forces 매핑은 산업의 "압력계"다. 5개 바늘이 모두 높은 쪽을 가리키면 이 산업은 돈 벌기 힘든 레드오션이고, 낮은 쪽을 가리키면 수익성이 높은 블루오션이다.
 
@@ -82,7 +82,7 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 | **5 Forces** | 산업 구조·수익성 분석 | 외부 경쟁 환경 | 내부 역량 분석 없음 |
 | **SWOT** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 도출 | 내부+외부 | 수익성 정량화 어려움 |
 | **PESTEL** | [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 정치·경제·사회·기술 등 | 경쟁 구조 심층 분석 부재 |
-| **가치사슬 ([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))** | 내부 경쟁 우위 원천 분석 | 내부 프로세스 | 산업 구조 분석 없음 |
+| <strong>가치사슬 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/">Value Chain</a>)</strong> | 내부 경쟁 우위 원천 분석 | 내부 프로세스 | 산업 구조 분석 없음 |
 
 5 Forces는 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard, 균형 성과 지표)와 연계하여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표로 폭포수처럼 전개되며, 포터의 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Generic Strategies)인 원가 우위·차별화·집중화의 선택 근거를 제공한다.
 
@@ -119,8 +119,8 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 | 기대효과 | 내용 | 수치 |
 |:---|:---|:---|
-| **진입 타당성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 신규 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 사전 평가 | 신규 사업 실패율 30% 감소 |
-| **경쟁 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립** | 차별화 포인트 명확화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 집중도 향상 |
+| <strong>진입 타당성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 신규 사업 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 사전 평가 | 신규 사업 실패율 30% 감소 |
+| <strong>경쟁 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong> | 차별화 포인트 명확화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 집중도 향상 |
 | **투자 우선순위** | 포트폴리오 매력도 순위화 | IT 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 개선 |
 
 파이브 포스 모델은 45년이 지난 지금도 MBA [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과목의 핵심 프레임워크로 자리를 지키고 있다. 디지털 플랫폼 시대에는 보완재(Complementors)를 6번째 Force로 추가하는 확장 모델(Value Net)이나, 에코시스템 경쟁을 반영한 Industry [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 분석으로 진화하고 있다.
@@ -133,34 +133,36 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **포터의 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 5 Forces 분석 결과에 따른 원가 우위·차별화·집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 |
+| <strong>포터의 본원적 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 5 Forces 분석 결과에 따른 원가 우위·차별화·집중화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 |
 | **SWOT 분석** | 5 Forces(외부)와 내부 역량을 결합한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 |
-| **가치사슬 ([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))** | 경쟁 우위 원천을 내부 프로세스에서 찾는 보완 분석 도구 |
-| **블루오션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 기존 5 Forces가 모두 높은 레드오션을 벗어나는 시장 재창조 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)** | 디지털 플랫폼에서 기존 경쟁자 간 경쟁 구조를 바꾸는 핵심 변수 |
+| <strong>가치사슬 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/">Value Chain</a>)</strong> | 경쟁 우위 원천을 내부 프로세스에서 찾는 보완 분석 도구 |
+| <strong>블루오션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 기존 5 Forces가 모두 높은 레드오션을 벗어나는 시장 재창조 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/">네트워크 효과</a></strong> | 디지털 플랫폼에서 기존 경쟁자 간 경쟁 구조를 바꾸는 핵심 변수 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[산업 조직론 (IO Theory) — 시장 구조가 성과를 결정]
-    │
-    ▼
-[포터의 5 Forces (1979) — 산업 수익성 5가지 힘]
-    │
-    ▼
-[본원적 전략 (Generic Strategies) — 원가우위·차별화·집중]
-    │
-    ▼
-[가치사슬 (Value Chain) — 내부 경쟁 우위 원천 분석]
-    │
-    ▼
-[디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">산업 조직론 (IO Theory) — 시장 구조가 성과를 결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포터의 5 Forces (1979) — 산업 수익성 5가지 힘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">본원적 전략 (Generic Strategies) — 원가우위·차별화·집중</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가치사슬 (Value Chain) — 내부 경쟁 우위 원천 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁</div></div>
+</div>
+</div>
+
+
 산업 조직론에서 5 Forces, 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 가치사슬로 심화되며, 디지털 플랫폼 시대의 에코시스템 경쟁으로 확장되는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 파이브 포스는 새 레스토랑을 열기 전에 "우리 동네에서 장사가 잘 될까?"를 알아보는 **5가지 질문**이에요!
+1. 파이브 포스는 새 레스토랑을 열기 전에 "우리 동네에서 장사가 잘 될까?"를 알아보는 <strong>5가지 질문</strong>이에요!
 2. 경쟁 식당이 많은지, 새 식당이 쉽게 생기는지, 손님들이 다른 걸 더 좋아하는지, 재료 공급업체가 갑질하는지, 손님들이 가격 흥정을 심하게 하는지를 확인해요.
 3. 5가지 모두 나쁘면 장사하기 힘든 동네, 5가지 모두 좋으면 장사하기 좋은 동네라는 걸 알 수 있답니다!
 

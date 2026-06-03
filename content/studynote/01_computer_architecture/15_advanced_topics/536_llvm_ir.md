@@ -33,17 +33,19 @@ LLVM (Low Level [Virtual Machine](/knowledge-base/studynote/01_computer_architec
 
 LLVM IR의 핵심 특징은 정적 단일 대입 (SSA, Static Single Assignment) 구조다. SSA에서는 값이 한 번 정의되면 다른 이름으로 다시 정의되므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 분석이 쉬워지고 불필요한 코드 제거, 상수 전파, 루프 변환 같은 최적화가 정교해진다. 또한 타입과 메모리 접근이 비교적 명시적이어서, 하드웨어 독립적인 상태에서도 기계어 수준에 가까운 판단을 내릴 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ LLVM compile pipeline                                               │
-├─────────────────────────────────────────────────────────────────────┤
-│ Source → Frontend → LLVM IR → Mid-end → Machine IR → Backend → ISA │
-│ C/Rust   Clang     typed SSA   inline /   isel /      x86 / Arm /  │
-│                    + flow      vectorize  regalloc    RISC-V       │
-├─────────────────────────────────────────────────────────────────────┤
-│ Target Triple + Data Layout guide lowering and code generation      │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLVM compile pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source → Frontend → LLVM IR → Mid-end → Machine IR → Backend → ISA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C/Rust Clang typed SSA inline / isel / x86 / Arm /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ flow vectorize regalloc RISC-V</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target Triple + Data Layout guide lowering and code generation</div></div>
+</div>
+</div>
+
+
 
 이 파이프라인에서 중간부는 공통 최적화를 담당하고, 후반부는 하드웨어 특화 처리를 담당한다. 타깃 트리플 (Target Triple)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Layout)은 포인터 크기, 엔디언, 호출 규약, 정렬 규칙을 알려 주어, 같은 LLVM IR이라도 타깃마다 다른 코드가 나오도록 만든다. 이후 기계 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 단계에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당, 스케줄링이 수행되며 최종 바이너리가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
@@ -98,7 +100,7 @@ LLVM IR은 자바 가상 머신 바이트코드처럼 "어디서나 같은 방�
 2. **백엔드 완성도**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당, 스케줄링이 하드웨어 특성을 반영하는가?
 3. **특수 기능 노출**: 벡터 명령, 암호화 명령, 가속기 연산을 인트린식이나 패턴으로 연결했는가?
 4. **비용 모델**: 오토 벡터화, 인라이닝, 루프 변환이 해당 하드웨어에서 실제로 이득인지 판단할 수 있는가?
-5. **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계**: [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 단계 테스트와 최종 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 테스트가 함께 준비되어 있는가?
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계</strong>: [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 단계 테스트와 최종 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 테스트가 함께 준비되어 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -118,7 +120,7 @@ LLVM [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 물론 한계도 있다. [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 수준에서는 표현하기 어려운 메모리 뱅크 충돌 회피나 특수 발행 제약처럼, 아주 미세한 하드웨어 차이는 백엔드와 머신 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 단계에서 여전히 개별 대응이 필요하다. 앞으로는 MLIR 기반 다단계 표현, CPU·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 통합 최적화, 링크 단위 이상의 전프로그램 분석이 LLVM 생태계의 다음 진화 축이 될 가능성이 크다.
 
-결론적으로 LLVM [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 변환은 "소스 코드를 중간 형태로 바꾼다"는 기술이 아니라 **소프트웨어의 의미를 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 연결하는 현대 컴퓨팅의 공용 관문**이다. 이 관점을 잡으면 컴파일러와 아키텍처가 왜 별개가 아닌지 자연스럽게 이해할 수 있다.
+결론적으로 LLVM [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 변환은 "소스 코드를 중간 형태로 바꾼다"는 기술이 아니라 <strong>소프트웨어의 의미를 하드웨어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 연결하는 현대 컴퓨팅의 공용 관문</strong>이다. 이 관점을 잡으면 컴파일러와 아키텍처가 왜 별개가 아닌지 자연스럽게 이해할 수 있다.
 
 - **📢 섹션 요약 비유**: LLVM IR은 표준 철도 궤간과 같다. 기차 종류가 달라도 중간 선로 규격이 맞아야 빠르게 연결되듯, 언어와 하드웨어도 공통 중간 계층이 있어야 생태계가 크게 확장된다.
 
@@ -137,19 +139,22 @@ LLVM [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Language × Architecture 별 개별 컴파일러
-        │
-        ▼
-Common IR 도입 = LLVM IR
-        │
-        ▼
-Shared Mid-end Optimization
-        │
-        ├────────▶ Target-specific Backend
-        ├────────▶ LTO · Auto-vectorization
-        └────────▶ MLIR 기반 Heterogeneous Lowering
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Language × Architecture 별 개별 컴파일러</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Common IR 도입 = LLVM IR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shared Mid-end Optimization</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Target-specific Backend</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ LTO · Auto-vectorization</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ MLIR 기반 Heterogeneous Lowering</div>
+</div>
+</div>
+
+
 
 이 흐름은 컴파일러 구조가 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 번역에서 공통 최적화 중심 구조로 바뀌고, 다시 이기종 하드웨어 전체를 아우르는 방향으로 확장되는 과정을 보여 준다.
 

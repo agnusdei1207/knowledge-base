@@ -27,21 +27,22 @@ tags = ["devops_sre"]
 
 이 도식은 기존 파편화된 환경과 현대적인 패리티 기반 환경의 차이를 보여준다. 기존 구조에서는 각 단계마다 도구와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 달라 [구성 편류](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))가 누적되며, 결국 운영 환경 배포 시 폭발적인 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 작용한다. 반면, 현대적 구조에서는 동일한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 모든 환경을 관통하여 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 유지한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ [과거: 환경 불일치로 인한 구성 편류 (Configuration Drift)]  │
-│                                                             │
-│ 개발(Dev)        → 스테이징(Stg)     → 운영(Prod)          │
-│ (Mac, SQLite)       (Linux, MySQL)      (Linux, Oracle)     │
-│ └─ 에러 발생률 증가, 디버깅 어려움, 배포 지연 누적          │
-├─────────────────────────────────────────────────────────────┤
-│ [현대: Dev/Prod Parity 달성 (Container & IaC 기반)]         │
-│                                                             │
-│ 개발(Dev)        → 스테이징(Stg)     → 운영(Prod)          │
-│ (Docker+MySQL)      (K8s+MySQL)         (K8s+MySQL)         │
-│ └─ 동일한 인프라 스펙, 동일한 이미지 배포, 일관성 100%      │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 환경 불일치로 인한 구성 편류 (Configuration Drift)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발(Dev) → 스테이징(Stg) → 운영(Prod)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Mac, SQLite) (Linux, MySQL) (Linux, Oracle)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 에러 발생률 증가, 디버깅 어려움, 배포 지연 누적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대: Dev/Prod Parity 달성 (Container &amp; IaC 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발(Dev) → 스테이징(Stg) → 운영(Prod)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Docker+MySQL) (K8s+MySQL) (K8s+MySQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 동일한 인프라 스펙, 동일한 이미지 배포, 일관성 100%</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 운영 체제나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 종류와 같은 [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/)([Backing Services](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/))를 환경에 상관없이 동일하게 강제한다는 점이다. 따라서 개발자는 운영 환경에서 발생할 수 있는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)이나 특화된 SQL 문법 오류를 로컬에서 미리 발견하고 수정할 수 있으며, 이는 배포 성공률을 비약적으로 상승시킨다.
 
@@ -55,36 +56,33 @@ Dev/Prod Parity를 구현하기 위해서는 코드 수준의 [설정](/knowledg
 
 | 핵심 요소 | 역할 | 내부 동작 메커니즘 | 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 예시 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) ([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))** | 런타임 환경 격리 및 패키징 | 애플리케이션 코드와 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 하나의 불변 이미지로 빌드하여 어느 환경에서든 동일하게 실행 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), Podman | 규격화된 표준 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | 인프라 상태 정의 및 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 환경 구성을 선언적 코드로 작성하여 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)하고, 실행 시 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하며 인프라 구축 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), AWS CDK | 건축 설계도 및 3D 프린터 |
-| **[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) ([Environment Variables](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))** | 런타임 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 | 소스 코드에 하드코딩하지 않고, 실행되는 환경(Dev/Prod)에 따라 동적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값(DB 접속 등) 주입 | .env, K8s [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/) | 공연장 별 맞춤 대본(큐시트) |
-| **[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 패턴** | 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 코드 내에서 특정 DB나 캐시에 강결합되지 않도록 인터페이스를 통해 연결 (로컬 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) DB와 운영 RDS 호환) | ORM, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 만능 콘센트 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인** | 빌드 및 배포 자동화 | 소스 병합 시 단일 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)(이미지)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 이를 Dev→Stg→Prod 순으로 승격(Promotion) | GitHub Actions, ArgoCD | 자동화된 공장 컨베이어 벨트 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong> | 런타임 환경 격리 및 패키징 | 애플리케이션 코드와 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 하나의 불변 이미지로 빌드하여 어느 환경에서든 동일하게 실행 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), Podman | 규격화된 표준 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | 인프라 상태 정의 및 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 환경 구성을 선언적 코드로 작성하여 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)하고, 실행 시 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하며 인프라 구축 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), AWS CDK | 건축 설계도 및 3D 프린터 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">Environment Variables</a>)</strong> | 런타임 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 | 소스 코드에 하드코딩하지 않고, 실행되는 환경(Dev/Prod)에 따라 동적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값(DB 접속 등) 주입 | .env, K8s [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/) | 공연장 별 맞춤 대본(큐시트) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>) 패턴</strong> | 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 코드 내에서 특정 DB나 캐시에 강결합되지 않도록 인터페이스를 통해 연결 (로컬 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) DB와 운영 RDS 호환) | ORM, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 만능 콘센트 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 빌드 및 배포 자동화 | 소스 병합 시 단일 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)(이미지)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 이를 Dev→Stg→Prod 순으로 승격(Promotion) | GitHub Actions, ArgoCD | 자동화된 공장 컨베이어 벨트 |
 
 아래 구조도는 소스 코드에서 시작하여 어떻게 동일한 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)가 모든 환경을 관통하여 Dev/Prod Parity를 유지하는지 보여준다. 핵심은 '빌드' 단계에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 단 하나의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 모든 환경에 배포된다는 것이다.
 
-```text
-이 도식은 빌드(Build), 릴리스(Release), 실행(Run) 단계가 엄격히 분리된 12 팩터 원칙의 핵심 구조를 나타낸다. 소스 코드는 한 번만 빌드되어 컨테이너 이미지로 고정되고, 각 환경별 설정(Config)과 결합되어 독립적인 릴리스 객체를 형성한다.
 
-┌───────────────┐        ┌──────────────────┐
-│ Source Code   │        │ Config (Env)     │
-│ (Git Repo)    │        │ Dev / Stg / Prod │
-└───────┬───────┘        └────────┬─────────┘
-        │                         │
-      [Build]                     │
-        ↓                         │
-┌───────────────┐               [Combine]
-│ Artifact      │ ───────────────>│ 
-│ (Docker Image)│                 ↓
-└───────────────┘        ┌──────────────────┐
-  * Immutable!           │ Release Object   │
-                         └────────┬─────────┘
-                                [Run]
-                     ┌────────────┼────────────┐
-                     ↓            ↓            ↓
-                [Dev Env]     [Stg Env]    [Prod Env]
-                - Local DB    - Test RDS   - Prod RDS
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 빌드(Build), 릴리스(Release), 실행(Run) 단계가 엄격히 분리된 12 팩터 원칙의 핵심 구조를 나타낸다. 소스 코드는 한 번만 빌드되어 컨테이너 이미지로 고정되고, 각 환경별 설정(Config)과 결합되어 독립적인 릴리스 객체를 형성한다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Code</div><div class="kb-diagram-cell">Config (Env)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Git Repo)</div><div class="kb-diagram-cell">Dev / Stg / Prod</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Build</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Combine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Artifact</div><div class="kb-diagram-cell">&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Docker Image)</div><div class="kb-diagram-cell">↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Immutable!</div><div class="kb-diagram-cell">Release Object</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Run</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dev Env</div><div class="kb-diagram-node">Stg Env</div><div class="kb-diagram-node">Prod Env</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">Local DB - Test RDS - Prod RDS</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/))가 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))이라는 점이다. 개발용 빌드, 운영용 빌드를 따로 하지 않고 오직 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))만 교체하여 각 환경에서 실행한다. 따라서 스테이징에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 이미지가 프로덕션에서도 동일하게 동작함을 100% 확신할 수 있으며, 빌드 오차로 인한 장애를 근본적으로 차단한다. 실무에서는 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 이미지를 새로 굽는(Re-build) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 가장 주의해야 한다.
 
@@ -120,7 +118,7 @@ Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 
 |:---|:---|:---|:---|
 | **구성 방식** | SQLite, In-memory Cache | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Compose 기반 Prod와 동일 스펙 (MySQL, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) | K8s 클러스터 내 원격 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 연결 (Telepresence 등) |
 | **일치성 (Parity)** | 낮음 (문법 차이 발생) | 높음 ([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)까지 동일) | 최상 (인프라 환경까지 동일) |
-| **[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 리소스 요구량** | 매우 낮음 | 높음 (CPU, Memory 점유) | 낮음 (연산은 클라우드에서) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 리소스 요구량</strong> | 매우 낮음 | 높음 (CPU, Memory 점유) | 낮음 (연산은 클라우드에서) |
 | **오프라인 개발** | 완벽히 가능 | 완벽히 가능 | 불가능 (네트워크 필수) |
 | **실무 적용 시점** | 단순 CRUD 프로토타이핑 | 일반적인 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 개발 표준 | 거대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), 로컬 구동 불가 시 |
 
@@ -128,25 +126,28 @@ Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 
 
 아래 다이어그램은 환경 간 일치성을 유지하기 위해 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))가 어떻게 여러 환경을 일관되게 제어하는지 보여준다.
 
-```text
-이 도식은 다중 환경(Dev/Prod)을 단일 코드로 관리하는 테라폼(Terraform)의 워크스페이스(Workspace) 또는 모듈 기반 프로비저닝 구조를 나타낸다.
 
-           ┌────────────────── IaC Code (Terraform) ──────────────────┐
-           │ module "database" {                                    │
-           │   source = "./modules/rds"                             │
-           │   instance_type = var.env == "prod" ? "r6g.xlarge" : "t3.micro" │
-           │ }                                                      │
-           └───────────┬───────────────────────────────┬────────────┘
-                       │ apply (workspace: dev)        │ apply (workspace: prod)
-                       ↓                               ↓
-              [Dev AWS Account]               [Prod AWS Account]
-             - t3.micro RDS                  - r6g.xlarge RDS (Multi-AZ)
-             - S3 Bucket (dev)               - S3 Bucket (prod)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 다중 환경(Dev/Prod)을 단일 코드로 관리하는 테라폼(Terraform)의 워크스페이스(Workspace) 또는 모듈 기반 프로비저닝 구조를 나타낸다.</div>
+<div class="kb-diagram-note">IaC Code (Terraform)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">module "database" {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">source = "./modules/rds"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instance_type = var.env == "prod" ? "r6g.xlarge" : "t3.micro"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apply (workspace: dev)</div><div class="kb-diagram-cell">apply (workspace: prod)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dev AWS Account</div><div class="kb-diagram-node">Prod AWS Account</div></div>
+<div class="kb-diagram-tree-item" style="--depth:6">t3.micro RDS - r6g.xlarge RDS (Multi-AZ)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">S3 Bucket (dev) - S3 Bucket (prod)</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 로직([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))은 동일하되, 입력 변수(Variables)만 다르게 주입하여 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)한다는 점이다. 따라서 개발 환경의 인프라 스펙을 수정하면 운영 환경의 스펙도 동일한 코드를 타고 반영되므로, 인프라 계층에서의 누락 및 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 편류(Drift)를 완벽히 차단한다. 비용 절감을 위해 인스턴스 크기는 다르더라도, 엔진의 종류와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(예: MySQL 8.0)은 반드시 일치시켜야 기술적 간극을 없앨 수 있다.
 
-* **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 융합**: Dev/Prod Parity는 보안 측면에서도 중요하다. 개발 환경에서 발견되지 않은 취약점이 운영에서만 발견되는 것을 막기 위해, [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 도구 역시 운영과 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 융합</strong>: Dev/Prod Parity는 보안 측면에서도 중요하다. 개발 환경에서 발견되지 않은 취약점이 운영에서만 발견되는 것을 막기 위해, [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 도구 역시 운영과 동일한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
 
 **📢 섹션 요약 비유**: 자동차 충돌 테스트를 할 때, 실제 도로와 완전히 동일한 재질의 콘크리트 벽과 아스팔트 바닥(Full-Parity)을 세팅해야만 실제 사고 시의 에어백 전개 타이밍을 오차 없이 측정할 수 있는 것과 같습니다.
 
@@ -156,37 +157,39 @@ Dev/Prod Parity를 달성하기 위한 접근 방식은 로컬 개발 환경을 
 
 실무에서 Dev/Prod Parity를 적용할 때 겪게 되는 문제와 의사결정 시나리오는 다음과 같다.
 
-1. **로컬 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계로 인한 타협 ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경)**
+1. <strong>로컬 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 한계로 인한 타협 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경)</strong>
    - **상황**: 50개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 얽힌 시스템에서 개발자가 로컬에 전체 환경을 띄우면 PC가 다운됨.
    - **판단**: 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 로컬에 띄우는 것은 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 자신이 개발 중인 1~2개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 로컬 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 띄우고, 나머지는 스테이징/클라우드 환경의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)/[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(예: Telepresence, KubeForwarder)로 연결하는 원격-로컬 하이브리드(Remote-Local Hybrid) 환경을 구축해야 한다.
 
-2. **[서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(결제, PG)의 파리티 문제**
+2. <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(결제, PG)의 파리티 문제</strong>
    - **상황**: 실제 결제 연동 테스트는 운영망에서만 가능하며, 개발망에서는 모의 응답만 제공함.
    - **판단**: 외부 의존성에 대한 Parity 확보는 불가능하다. 이때는 [계약 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/)(Contract Testing)를 도입하고, 스터빙(Stubbing) 서버나 모의([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 서버를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 띄워 로컬과 개발망에 일관된 응답을 제공하도록 설계해야 장애 전파를 막을 수 있다.
 
-3. **[데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/)과 Parity**
+3. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/">데이터 마스킹</a>과 Parity</strong>
    - **상황**: 개발 환경의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덤프받아 쓰려 하는데, [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)에 위배됨.
    - **판단**: 구조적 파리티([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 일치)는 유지하되, 내용적 파리티는 비식별화([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 거친 후 개발 DB로 적재([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/))하는 자동화 프로세스가 필요하다. 
 
 다음은 환경 일치성 여부를 진단하고 개선하기 위한 실무 운영 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)이다.
 
-```text
-이 도식은 조직 내 Dev/Prod Parity 위반 요소를 식별하고 올바른 패러다임으로 교정하기 위한 진단 흐름을 보여준다.
 
-[배포 장애 발생: "로컬에선 되는데 운영에선 안 됨"]
-   │
-   ├─ Q1. OS/커널 환경이 다른가? (Mac vs Linux)
-   │  ├─ Yes ──> [조치] Docker/Testcontainers 도입하여 런타임 통일
-   │  └─ No ───> ↓
-   │
-   ├─ Q2. DB/캐시 엔진의 종류나 버전이 다른가? (H2 vs MySQL)
-   │  ├─ Yes ──> [조치] 경량 DB 걷어내고 Docker Compose로 Prod DB 스펙 통일
-   │  └─ No ───> ↓
-   │
-   └─ Q3. 환경별로 아티팩트(jar, image)를 따로 빌드하는가?
-      ├─ Yes ──> [조치] 빌드(CI) 1회 보장 및 설정(Config) 분리(환경변수) 주입
-      └─ No ───> 타임아웃, 네트워크 지연 등 비기능적/인프라 병목 조사 진행
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 조직 내 Dev/Prod Parity 위반 요소를 식별하고 올바른 패러다임으로 교정하기 위한 진단 흐름을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">배포 장애 발생: "로컬에선 되는데 운영에선 안 됨"</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q1. OS/커널 환경이 다른가? (Mac vs Linux)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">Docker/Testcontainers 도입하여 런타임 통일</div></div>
+<div class="kb-diagram-note">─ No &gt; ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q2. DB/캐시 엔진의 종류나 버전이 다른가? (H2 vs MySQL)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">경량 DB 걷어내고 Docker Compose로 Prod DB 스펙 통일</div></div>
+<div class="kb-diagram-note">─ No &gt; ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q3. 환경별로 아티팩트(jar, image)를 따로 빌드하는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">빌드(CI) 1회 보장 및 설정(Config) 분리(환경변수) 주입</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">No &gt; 타임아웃, 네트워크 지연 등 비기능적/인프라 병목 조사 진행</div>
+</div>
+</div>
+
+
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 장애의 근본 원인을 '코드 로직' 밖에서 찾는 것이다. OS 간극, [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) 간극, 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 간극을 순차적으로 제거함으로써, 순수 비즈니스 로직에 집중할 수 있는 환경을 만든다. 실무에서는 Q3(환경별 재빌드)를 위반하는 경우가 가장 흔하며, 이는 [12 팩터 앱](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/006_twelve_factor/)의 철학을 정면으로 위배하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
@@ -200,9 +203,9 @@ Dev/Prod Parity가 고도화되면, 단순히 버그를 줄이는 것을 넘어 
 
 | 도입 효과 | 기존 (환경 불일치) | 개선 후 (Parity 달성) | 비즈니스 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) |
 |:---|:---|:---|:---|
-| **배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)** | 주(Weeks) 단위 | 시간(Hours) 단위 | 시장 출시 시간(TTM) 비약적 단축 |
-| **장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))** | 장애 원인 파악에 장시간 소요 | 동일 환경 로컬 디버깅으로 즉각 파악 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수 및 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 방어 |
-| **엔지니어 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)** | [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)/[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 차이 암기 필요 | '내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 환경 = 운영 환경' | 개발자 생산성([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 향상 및 번아웃 방지 |
+| <strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | 주(Weeks) 단위 | 시간(Hours) 단위 | 시장 출시 시간(TTM) 비약적 단축 |
+| <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>)</strong> | 장애 원인 파악에 장시간 소요 | 동일 환경 로컬 디버깅으로 즉각 파악 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수 및 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 방어 |
+| <strong>엔지니어 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a></strong> | [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)/[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 차이 암기 필요 | '내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 환경 = 운영 환경' | 개발자 생산성([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 향상 및 번아웃 방지 |
 
 미래에는 클라우드 기반 개발 환경(Cloud Development Environments, CDE)인 GitHub Codespaces, AWS Cloud9 등이 주류로 자리 잡으며 '로컬 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)'라는 개념 자체가 사라질 것이다. 개발자는 웹 브라우저만으로 이미 100% 프로덕션과 일치하는 격리된 클라우드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 접속하여 코딩하게 되며, 이는 Dev/Prod Parity가 궁극적인 형태([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Gap)로 진화하는 표준 모델이 될 것이다.
 
@@ -211,30 +214,32 @@ Dev/Prod Parity가 고도화되면, 단순히 버그를 줄이는 것을 넘어 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/)** ([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱 개발을 위한 12가지 베스트 프랙티스의 핵심 사상)
-- **[Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)** (서버 구성 변경 시 패치가 아닌 전체 이미지를 교체하여 편류를 막는 인프라)
-- **[Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/)** (시간이 지남에 따라 여러 환경 간의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 불일치하게 되는 장애의 주원인)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a></strong> ([클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱 개발을 위한 12가지 베스트 프랙티스의 핵심 사상)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">Immutable Infrastructure</a></strong> (서버 구성 변경 시 패치가 아닌 전체 이미지를 교체하여 편류를 막는 인프라)
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a></strong> (시간이 지남에 따라 여러 환경 간의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 불일치하게 되는 장애의 주원인)
 - **Testcontainers** ([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 시 운영과 동일한 DB/Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 일회성으로 띄워주는 자바 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))
 - **Cloud Development Environments (CDE)** (로컬 PC의 제약을 벗어나 클라우드 상에서 Parity를 극대화하는 최신 개발 플랫폼)
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 환경 구성 — 개발자별 PC 설정 차이, 'Works on my machine' 문제]
-    │
-    ▼
-[12-Factor App — 환경별 설정 외부화, 서비스 어태치먼트 표준화]
-    │
-    ▼
-[Docker 컨테이너화 — 실행 환경 이미지 패키징, OS 수준 일치 보장]
-    │
-    ▼
-[IaC (Infrastructure as Code) — Terraform/Ansible로 인프라 구성 코드화, 환경 편류 방지]
-    │
-    ▼
-[CDE (Cloud Development Environments) — GitHub Codespaces 등, 클라우드 프로비저닝 즉시 프로덕션 동일 환경]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 환경 구성 — 개발자별 PC 설정 차이, 'Works on my machine' 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">12-Factor App — 환경별 설정 외부화, 서비스 어태치먼트 표준화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Docker 컨테이너화 — 실행 환경 이미지 패키징, OS 수준 일치 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaC (Infrastructure as Code) — Terraform/Ansible로 인프라 구성 코드화, 환경 편류 방지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CDE (Cloud Development Environments) — GitHub Codespaces 등, 클라우드 프로비저닝 즉시 프로덕션 동일 환경</div></div>
+</div>
+</div>
+
+
 이 흐름은 개발자 로컬 환경과 프로덕션 간의 불일치를 단계적으로 제거하면서, 코드와 인프라 모두를 선언적으로 관리하고 클라우드 상의 개발 환경으로 수렴하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Parity 달성의 진화 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 통신국사(CO)의 OLT 장비에서 출발한 1가닥의 광케이블 신호를 32가구, 64가구의 집(ONU/ONT)으로 분기(Split) 시켜주는 기술 방식의 차이다.
-- **필요성**: 전화국에서 아파트 100가구에 광케이블을 깔아준다고 치자. 전화국에서부터 광케이블 100가닥을 일일이 땅을 파서 아파트까지 끌고 오면(Home-Run 방식) 공사비가 수백억 원이 든다. 그래서 굵은 선 1가닥만 아파트 지하 주차장까지 가져온 뒤, 아파트 내부에서 100가닥으로 쪼개주는 장치가 필요했다. 이 장치를 **전기를 먹는 비싼 기계([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))로 할 거냐(AON), 쇳덩어리 거울(스플리터)로 할 거냐(PON)**의 싸움이었다.
+- **필요성**: 전화국에서 아파트 100가구에 광케이블을 깔아준다고 치자. 전화국에서부터 광케이블 100가닥을 일일이 땅을 파서 아파트까지 끌고 오면(Home-Run 방식) 공사비가 수백억 원이 든다. 그래서 굵은 선 1가닥만 아파트 지하 주차장까지 가져온 뒤, 아파트 내부에서 100가닥으로 쪼개주는 장치가 필요했다. 이 장치를 <strong>전기를 먹는 비싼 기계(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)로 할 거냐(AON), 쇳덩어리 거울(스플리터)로 할 거냐(PON)</strong>의 싸움이었다.
 
 - **💡 비유**: 
-  - **AON([액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))**: 아파트 지하에 **"똑똑한 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))"**를 고용해 월급(전기세)을 주고, 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 세대별로 정확히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 배달시키는 방식입니다.
+  - <strong>AON(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a>)</strong>: 아파트 지하에 <strong>"똑똑한 경비 아저씨(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)"</strong>를 고용해 월급(전기세)을 주고, 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 각 세대별로 정확히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 배달시키는 방식입니다.
   - **PON(패시브)**: 아파트 지하에 커다란 **"유리 프리즘(광 분배기)"** 하나만 딱 세워둡니다. 통신사가 레이저를 쏘면 프리즘이 빛을 64갈래로 쪼개어 모든 세대 방바닥에 뿌립니다. 전기세 0원, 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0%입니다.
 
-```text
-[DQDB]
-    │
-    ▼
-[PON / AON]
-    │
-    └──▶ [네트워크 계층의 핵심 3기능]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQDB</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PON / AON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 계층의 핵심 3기능</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AON은 전기가 끊기면 즉시 죽어버리는 **"전자식 수도 펌프"**이고, PON은 높은 곳에서 물을 부으면 전기가 없어도 중력에 의해 여러 파이프로 갈라져 흐르는 **"자연 낙하식 수로"**입니다. 극강의 튼튼함과 저렴함 때문에 PON이 승리했습니다.
 
@@ -49,35 +53,32 @@ tags = ["studynote-network"]
 
 ### 2. 업스트림 (우리 집 ──▶ 전화국) : [시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/) ([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))
 문제가 생긴다. 64가구가 각자 자기가 원할 때 위로 레이저(빛)를 쏴버리면, 프리즘에서 빛이 부딪혀(충돌) 엉망진창이 된다(광 짬뽕).
-- 이를 막기 위해 OLT(전화국)가 집집마다 0.001초 단위로 **말할 수 있는 시간표(Timeslot)**를 할당해 준다 ([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 방식).
+- 이를 막기 위해 OLT(전화국)가 집집마다 0.001초 단위로 <strong>말할 수 있는 시간표(Timeslot)</strong>를 할당해 준다 ([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) 방식).
 - "101호, 넌 지금부터 1밀리초 동안 쏴! 102호, 넌 대기해! 102호, 이제 너 쏴!"
 - 이 시간표가 어마어마하게 빠르게 돌아가므로 사용자는 자신이 혼자 선을 다 쓰고 있는 것처럼 느낀다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                PON (Passive Optical Network) 구조 도식          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 통신사 (KT/SK) ]                                           │
- │     [ OLT 장비 ]                                             │
- │         │   ▲                                                │
- │         │   │ (광케이블 1가닥, 최대 20km)                       │
- │         ▼   │                                                │
- │   ┌─────────────────┐                                        │
- │   │ Optical Splitter│ ◀── 전원이 필요 없는 수동(Passive) 거울 뭉치 │
- │   │ (광 스플리터/분배기)│                                        │
- │   └─────────────────┘                                        │
- │     ↙    │    │    ↘    (빛을 32~64 갈래로 쪼갬)               │
- │ [101호] [102호] [103호] [104호] ...                           │
- │ (ONU)   (ONU)   (ONU)   (ONU)                               │
- │                                                             │
- │   ▶ 다운로드: OLT가 64가구 데이터를 한 번에 섞어 뿌림 (Broadcast)  │
- │   ▶ 업로드  : 각 가구가 정해진 시간에만 차례대로 빛을 쏨 (TDMA)      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PON (Passive Optical Network) 구조 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신사 (KT/SK)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OLT 장비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(광케이블 1가닥, 최대 20km)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optical Splitter</div><div class="kb-diagram-cell">◀── 전원이 필요 없는 수동(Passive) 거울 뭉치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(광 스플리터/분배기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙</div><div class="kb-diagram-cell">↘ (빛을 32~64 갈래로 쪼갬)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">101호</div><div class="kb-diagram-node">102호</div><div class="kb-diagram-node">103호</div><div class="kb-diagram-node">104호</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ONU) (ONU) (ONU) (ONU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 다운로드: OLT가 64가구 데이터를 한 번에 섞어 뿌림 (Broadcast)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 업로드 : 각 가구가 정해진 시간에만 차례대로 빛을 쏨 (TDMA)</div></div>
+</div>
+</div>
+
+
 
 ### 3. PON의 진화 (E-PON vs G-PON)
-- **E-PON ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) PON)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷을 우리가 친숙한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 프레임 그대로 실어 보내는 방식. 구현이 싸고 쉬워서 한국 통신사들이 100M/1G 광랜을 깔 때 도배하다시피 사용했다.
+- <strong>E-PON (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> PON)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷을 우리가 친숙한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 프레임 그대로 실어 보내는 방식. 구현이 싸고 쉬워서 한국 통신사들이 100M/1G 광랜을 깔 때 도배하다시피 사용했다.
 - **G-PON (Gigabit PON)**: 과거 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀의 철학을 섞어서, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)뿐만 아니라 TDM(음성) 등 온갖 짬뽕 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 GEM이라는 자체 포장지로 예쁘게 규격화해서 보내는 통신사 표준 규격. 효율이 E-PON보다 좋아서 현대 기가 인터넷망의 글로벌 대세가 되었다. (현재는 10기가 인터넷을 위한 XG-PON 시대로 진화 중).
 
 - **📢 섹션 요약 비유**: ** PON 아키텍처는 햇빛(전화국)이 하나의 작은 창문(광케이블 1가닥)으로 들어오면, 방 한가운데 걸어둔 **"미러볼(스플리터)"**이 그 빛을 반사해 방 안의 수십 명(가입자)에게 찬란하게 흩뿌려주는 마법 같은 무동력 광학 시스템입니다.
@@ -136,15 +137,19 @@ PON / AON는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DQDB]
-    │
-    ▼
-[현재 개념: PON / AON]
-    │
-    ├──▶ [확장 A: 네트워크 계층의 핵심 3기능]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DQDB</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PON / AON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 계층의 핵심 3기능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 PON / AON는 DQDB에서 출발해 현재 메커니즘을 정교화하고, 이후 네트워크 계층의 핵심 3기능와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

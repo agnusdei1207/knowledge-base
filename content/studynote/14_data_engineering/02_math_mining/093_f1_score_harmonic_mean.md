@@ -33,25 +33,26 @@ F1-Score는 산술 평균이 아니라 **조화 평균 (Harmonic Mean)** 수식�
 
 | 평가 지표 | 의미 | 포커스 |
 | :--- | :--- | :--- |
-| **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** | 모델이 '양성(True)'이라고 예측한 것 중, 실제 정답이 양성인 비율 | 오탐 (False Positive) 방지 |
-| **[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))** | 실제 정답이 '양성(True)'인 것 중, 모델이 양성이라고 찾아낸 비율 | 누락 (False Negative) 방지 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | 모델이 '양성(True)'이라고 예측한 것 중, 실제 정답이 양성인 비율 | 오탐 (False Positive) 방지 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> | 실제 정답이 '양성(True)'인 것 중, 모델이 양성이라고 찾아낸 비율 | 누락 (False Negative) 방지 |
 
 조화 평균은 역수의 산술 평균의 역수로 계산된다. 수식으로는 다음과 같다.
 $$ F1 = 2 \times \frac{P \times R}{P + R} $$
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           산술 평균 vs 조화 평균의 치명적 차이               │
-├──────────────────────────────────────────────────────────────┤
-│ 조건: 모델 A가 정밀도(P) = 0.9, 재현율(R) = 0.1 인 상태      │
-│                                                              │
-│ [산술 평균] (0.9 + 0.1) / 2 = 0.5                            │
-│ ──▶ 한쪽이 형편없어도 중간 점수(50점)를 받아 착시 발생       │
-│                                                              │
-│ [조화 평균 (F1-Score)] 2 * (0.09) / (1.0) = 0.18             │
-│ ──▶ 18점으로 확 낮아짐! 불균형한 극단적 꼼수를 완벽히 차단   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 평균 vs 조화 평균의 치명적 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건: 모델 A가 정밀도(P) = 0.9, 재현율(R) = 0.1 인 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산술 평균</div><div class="kb-diagram-note">(0.9 + 0.1) / 2 = 0.5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 한쪽이 형편없어도 중간 점수(50점)를 받아 착시 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조화 평균 (F1-Score)</div><div class="kb-diagram-note">2 * (0.09) / (1.0) = 0.18</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 18점으로 확 낮아짐! 불균형한 극단적 꼼수를 완벽히 차단</div></div>
+</div>
+</div>
+
+
 
 결과적으로 F1-Score는 0에서 1 사이의 값을 가지며, 두 지표가 모두 높고 비슷할 때 1에 가까워져 모델의 강건성 (Robustness)을 증명한다.
 
@@ -80,12 +81,12 @@ F1-Score는 $F_\beta$ Score에서 [가중치](/knowledge-base/studynote/10_ai/03
 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언스 환경에서 기술사/엔지니어는 F1-Score를 모델 검증의 최종 방어선으로 활용해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밸런스 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))을 그려보고, TN (True Negative, 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정상으로 맞힘) 수치가 비정상적으로 크다면 정확도 대신 즉시 F1-Score로 평가 기준을 전환했는가?
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 밸런스 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))을 그려보고, TN (True Negative, 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정상으로 맞힘) 수치가 비정상적으로 크다면 정확도 대신 즉시 F1-Score로 평가 기준을 전환했는가?
 2. **다중 클래스 평가 방식 결정**: 타겟 라벨이 3개 이상인 다중 클래스 (Multi-class) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서는 클래스별 분포 크기를 무시하는 `Macro-F1`을 쓸지, 전체 빈도를 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 두는 `Micro-F1`을 쓸지 비즈니스 요구에 맞게 선택해야 한다.
 
 ### 기술사적 의사결정 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의)
 - **단일 지표의 함정**: 경영진에게 보고할 때 정확도만 제시하여 "우리 AI가 99% 완벽하다"라고 과장하는 것은 전형적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
-- **채택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 임계값 (Threshold)을 변경하면서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 곡선 ([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Curve)을 그리고, 곡선 아래 면적([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)-AUC)과 결합하여 최고의 F1-Score가 나오는 최적의 판단 기준점을 찾아 모델에 배포해야 한다.
+- <strong>채택 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 임계값 (Threshold)을 변경하면서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 곡선 ([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Curve)을 그리고, 곡선 아래 면적([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)-AUC)과 결합하여 최고의 F1-Score가 나오는 최적의 판단 기준점을 찾아 모델에 배포해야 한다.
 
 - **📢 섹션 요약 비유**: F1-Score는 자동차의 연비 테스트와 같다. 내리막길에서만 잰 연비(정확도)로 광고하면 안 되며, 도심과 고속도로([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))를 종합적으로 달린 평균값을 제시해야 고객이 신뢰한다.
 
@@ -105,28 +106,30 @@ F1-Score를 도입하면 모델 평가의 왜곡을 막고, [데이터](/knowled
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))** | TP, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN, TN을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)을 산출하는 기초 표 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">Confusion Matrix</a>)</strong> | TP, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN, TN을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)을 산출하는 기초 표 |
 | **조화 평균 (Harmonic Mean)** | 극단적으로 낮은 값에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두어 F1-Score의 깐깐함을 만드는 수학적 토대 |
 | **$F_\beta$ Score** | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중 비즈니스 리스크에 따라 특정 지표에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두는 파생 지표 |
-| **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) Curve ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) Curve)** | 임계값 변화에 따른 두 지표의 트레이드오프를 시각화하여 최적의 F1 지점을 찾는 도구 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> Curve (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>-<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a> Curve)</strong> | 임계값 변화에 따른 두 지표의 트레이드오프를 시각화하여 최적의 F1 지점을 찾는 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분류 모델의 기본 평가
-    │
-    ▼
-정확도 (Accuracy) · 불균형 데이터(Imbalanced Data)에서 착시 한계
-    │
-    ▼
-정밀도 (Precision) & 재현율 (Recall) · 상충 관계 (Trade-off) 발견
-    │
-    ▼
-조화 평균 도입 · F1-Score 탄생 (균형 잡힌 평가 표준)
-    │
-    ▼
-비즈니스 리스크 반영 · F-beta Score 및 다중 클래스(Macro/Micro F1) 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분류 모델의 기본 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정확도 (Accuracy) · 불균형 데이터(Imbalanced Data)에서 착시 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정밀도 (Precision) &amp; 재현율 (Recall) · 상충 관계 (Trade-off) 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조화 평균 도입 · F1-Score 탄생 (균형 잡힌 평가 표준)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비즈니스 리스크 반영 · F-beta Score 및 다중 클래스(Macro/Micro F1) 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 별도의 무결손(Lossless) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경을 억지로 구축할 필요 없이, **우리가 일상적으로 쓰는 전통적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 표준 동작 방식 그대로 위에서 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/)) 기능과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 기술을 구현해 내는 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준)
+- **개념**: 별도의 무결손(Lossless) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경을 억지로 구축할 필요 없이, <strong>우리가 일상적으로 쓰는 전통적인 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 표준 동작 방식 그대로 위에서 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> (원격 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/">직접 메모리 접근</a>) 기능과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회 기술을 구현해 내는 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준)
 
-```text
-[RoCE]
-    │
-    ▼
-[iWARP]
-    │
-    └──▶ [오버레이 네트워크 논리 스위치 L2 확장 터…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: iWARP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,22 +43,26 @@ tags = ["studynote-network"]
 목적은 "[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 위에서 RDMA를 쓰자"로 똑같지만, 뼈대가 완전히 다릅니다.
 
 ### 1. [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2 ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반의 쾌속, 하지만 까탈스러움)
-- [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 가벼운 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 4791)** 껍데기를 씁니다. 가벼우니까 속도는 미친 듯이 빠릅니다.
+- [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 가벼운 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 4791)</strong> 껍데기를 씁니다. 가벼우니까 속도는 미친 듯이 빠릅니다.
 - 하지만 UDP는 패킷이 길가다 사라져도 책임지지 않습니다. 그래서 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들에게 "너네 절대 내 패킷 땅에 버리지 마!"라고 강제하는 비싸고 까탈스러운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC/ECN)을 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체에 세팅해야만 합니다.
 
 ### 2. iWARP ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반의 듬직함, 극한의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 🌟
-- iWARP는 우리가 아는 그 무겁고 듬직한 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))** 껍데기를 씁니다.
+- iWARP는 우리가 아는 그 무겁고 듬직한 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">Transmission Control Protocol</a>)</strong> 껍데기를 씁니다.
 - TCP는 본질적으로 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)' 보장 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 인터넷 가다가 패킷이 땅에 떨어져(Drop) 사라지면? [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 자체가 폰에서 다시 쏘라고(재전송) 알아서 완벽하게 커버를 쳐줍니다.
-- **결과 ([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 극대화)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 그 어떤 특수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC 등 무결손 세팅)을 할 필요가 단 1도 없습니다. **그냥 용산에서 산 만원짜리 싸구려 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 써도, iWARP 랜카드(RNIC)만 꽂으면 인터넷(WAN)을 넘나들며 완벽하게 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 통신이 성립**합니다. 전산실 아저씨들이 가장 편해하는 기술입니다.
+- <strong>결과 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 극대화)</strong>: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 그 어떤 특수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC 등 무결손 세팅)을 할 필요가 단 1도 없습니다. <strong>그냥 용산에서 산 만원짜리 싸구려 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 써도, iWARP 랜카드(RNIC)만 꽂으면 인터넷(WAN)을 넘나들며 완벽하게 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 통신이 성립</strong>합니다. 전산실 아저씨들이 가장 편해하는 기술입니다.
 
-```text
-[RoCE]
-    │
-    ▼
-[iWARP]
-    │
-    └──▶ [오버레이 네트워크 논리 스위치 L2 확장 터…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: iWARP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -74,7 +82,7 @@ iWARP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: RDMA라는 VIP 손님을 모시는 두 가지 방법이 있습니다. **[RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2**는 VIP를 모시기 위해 도로의 신호등 시스템 전체를 VIP 전용(PFC 무결손 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))으로 다 뜯어고쳐야 하는 '도로 통제형 에스코트'입니다. 인프라 공사는 힘들지만 일단 길을 통제해 놨으니 속도는 광속입니다. 반면 **iWARP**는 도로의 신호등을 전혀 안 건드리고 그냥 평범한 꽉 막힌 출퇴근 도로(일반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 망)를 그대로 씁니다. 대신 VIP 손님이 직접 탱크처럼 크고 튼튼한 장갑차([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 재전송과 복잡한 RNIC 하드웨어)를 타고 무식하게 목적지까지 뚫고 가는 방식입니다. 도로 공사([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅)가 필요 없어 극도로 편리하지만, 장갑차가 무거워서 최고 속도는 살짝 떨어지는 든든한 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 전술입니다.
+- **📢 섹션 요약 비유**: RDMA라는 VIP 손님을 모시는 두 가지 방법이 있습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a> v2</strong>는 VIP를 모시기 위해 도로의 신호등 시스템 전체를 VIP 전용(PFC 무결손 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))으로 다 뜯어고쳐야 하는 '도로 통제형 에스코트'입니다. 인프라 공사는 힘들지만 일단 길을 통제해 놨으니 속도는 광속입니다. 반면 <strong>iWARP</strong>는 도로의 신호등을 전혀 안 건드리고 그냥 평범한 꽉 막힌 출퇴근 도로(일반 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 망)를 그대로 씁니다. 대신 VIP 손님이 직접 탱크처럼 크고 튼튼한 장갑차([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 재전송과 복잡한 RNIC 하드웨어)를 타고 무식하게 목적지까지 뚫고 가는 방식입니다. 도로 공사([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅)가 필요 없어 극도로 편리하지만, 장갑차가 무거워서 최고 속도는 살짝 떨어지는 든든한 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 전술입니다.
 
 ---
 
@@ -116,15 +124,19 @@ iWARP는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RoCE]
-    │
-    ▼
-[현재 개념: iWARP]
-    │
-    ├──▶ [확장 A: 오버레이 네트워크 논리 스위치 L2 확장 터…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RoCE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: iWARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 iWARP는 RoCE에서 출발해 현재 메커니즘을 정교화하고, 이후 [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

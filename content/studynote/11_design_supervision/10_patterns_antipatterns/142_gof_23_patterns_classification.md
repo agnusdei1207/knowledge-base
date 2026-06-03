@@ -19,21 +19,22 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-23개 패턴을 한꺼번에 암기하면 서로 비슷해 보이기 쉽다. 그래서 GoF는 패턴을 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational), 구조(Structural), 행위(Behavioral)** 세 범주로 나누었다. 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순한 목록 정리가 아니라 지금 마주한 문제가 어떤 차원의 문제인가를 빠르게 판단하게 하는 사고 프레임이다.
+23개 패턴을 한꺼번에 암기하면 서로 비슷해 보이기 쉽다. 그래서 GoF는 패턴을 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Creational), 구조(Structural), 행위(Behavioral)</strong> 세 범주로 나누었다. 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순한 목록 정리가 아니라 지금 마주한 문제가 어떤 차원의 문제인가를 빠르게 판단하게 하는 사고 프레임이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    GoF 23 패턴 분류가 필요한 이유                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ 설계 문제 발생                                                       │
-│    │                                                                 │
-│    ├── 객체를 어떻게 만들지? ───────────────▶ 생성 패턴               │
-│    ├── 객체를 어떻게 조합할지? ─────────────▶ 구조 패턴               │
-│    └── 객체가 어떻게 협력할지? ────────────▶ 행위 패턴               │
-│                                                                      │
-│ 결과: 23개 전체를 외우기보다 문제 유형별 후보를 먼저 좁힐 수 있음    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 23 패턴 분류가 필요한 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계 문제 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 객체를 어떻게 만들지? ▶ 생성 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 객체를 어떻게 조합할지? ▶ 구조 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 객체가 어떻게 협력할지? ▶ 행위 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 23개 전체를 외우기보다 문제 유형별 후보를 먼저 좁힐 수 있음</div></div>
+</div>
+</div>
+
+
 
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없으면 유사한 패턴을 혼동하기 쉽다. 예를 들어 Strategy와 Bridge는 둘 다 합성을 쓰지만, 하나는 행위 교체이고 다른 하나는 구조 분리다. 이런 혼동을 줄이는 가장 좋은 출발점이 바로 범주 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)다.
 
@@ -43,22 +44,24 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 세 개의 질문으로 기억하면 가장 쉽다. **[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)**은 객체를 어떻게 만들까, **[구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)**은 객체를 어떻게 묶을까, **[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)**은 객체가 어떻게 협력할까에 답한다. 즉 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준은 패턴의 모양이 아니라 해결하려는 설계 초점이다.
+GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 세 개의 질문으로 기억하면 가장 쉽다. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a></strong>은 객체를 어떻게 만들까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">구조 패턴</a></strong>은 객체를 어떻게 묶을까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">행위 패턴</a></strong>은 객체가 어떻게 협력할까에 답한다. 즉 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준은 패턴의 모양이 아니라 해결하려는 설계 초점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      GoF 23 패턴 3분류 구조                          │
-├──────────────────────────┬──────────────────────────┬────────────────┤
-│ 생성 패턴 (5)            │ 구조 패턴 (7)            │ 행위 패턴 (11) │
-│ create objects           │ compose objects          │ coordinate acts │
-├──────────────────────────┼──────────────────────────┼────────────────┤
-│ Abstract Factory         │ Adapter                  │ Observer        │
-│ Builder                  │ Bridge                   │ Strategy        │
-│ Factory Method           │ Composite                │ Command         │
-│ Prototype                │ Decorator                │ State           │
-│ Singleton                │ Facade / Proxy / ...     │ Template / ...  │
-└──────────────────────────┴──────────────────────────┴────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 23 패턴 3분류 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성 패턴 (5)</div><div class="kb-diagram-cell">구조 패턴 (7)</div><div class="kb-diagram-cell">행위 패턴 (11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">create objects</div><div class="kb-diagram-cell">compose objects</div><div class="kb-diagram-cell">coordinate acts</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstract Factory</div><div class="kb-diagram-cell">Adapter</div><div class="kb-diagram-cell">Observer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Builder</div><div class="kb-diagram-cell">Bridge</div><div class="kb-diagram-cell">Strategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Factory Method</div><div class="kb-diagram-cell">Composite</div><div class="kb-diagram-cell">Command</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prototype</div><div class="kb-diagram-cell">Decorator</div><div class="kb-diagram-cell">State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Singleton</div><div class="kb-diagram-cell">Facade / Proxy / ...</div><div class="kb-diagram-cell">Template / ...</div></div>
+</div>
+</div>
+
+
 
 | 범주 | 핵심 질문 | 대표 패턴 |
 |:---|:---|:---|
@@ -74,7 +77,7 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 ## Ⅲ. 비교 및 연결
 
-세 범주는 서로 배타적이라기보다 연결된다. 예를 들어 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)으로 만든 객체가 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 묶이고, 그 묶음 위에서 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 협력 흐름을 제어한다. 따라서 실제 설계에서는 범주를 따로 외우는 것보다 **문제 축을 이동하며 읽는 능력**이 중요하다.
+세 범주는 서로 배타적이라기보다 연결된다. 예를 들어 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)으로 만든 객체가 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 묶이고, 그 묶음 위에서 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 협력 흐름을 제어한다. 따라서 실제 설계에서는 범주를 따로 외우는 것보다 <strong>문제 축을 이동하며 읽는 능력</strong>이 중요하다.
 
 | 상황 | 우선 검토 범주 | 이유 |
 |:---|:---|:---|
@@ -84,7 +87,7 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 | 관련 객체 세트를 함께 바꿔야 함 | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 패밀리 단위 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 중심 |
 | 이벤트 통지와 협력 흐름이 복잡함 | [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 객체 간 상호작용 규칙이 중심 |
 
-실무에서는 하나의 기능 안에서도 범주가 섞인다. 예를 들어 UI 툴킷은 Abstract Factory로 위젯을 만들고, Decorator로 기능을 얹고, Observer로 이벤트를 전달할 수 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 패턴을 나누기 위한 것이 아니라 **적용 순서를 생각하게 만드는 지도**다.
+실무에서는 하나의 기능 안에서도 범주가 섞인다. 예를 들어 UI 툴킷은 Abstract Factory로 위젯을 만들고, Decorator로 기능을 얹고, Observer로 이벤트를 전달할 수 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 패턴을 나누기 위한 것이 아니라 <strong>적용 순서를 생각하게 만드는 지도</strong>다.
 
 - **📢 섹션 요약 비유**: 집을 지을 때 자재 조달, 골조 조립, 사람들 작업 분담이 따로이면서도 이어져 있는 것처럼, 세 범주도 한 시스템 안에서 연속적으로 만난다.
 
@@ -117,7 +120,7 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계를 익히면 패턴 학습이 암기에서 판단으로 바뀐다. 설계 문제를 먼저 범주화하고, 그 다음 세부 패턴을 고르는 습관이 생기기 때문이다. 이는 설계 리뷰, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 기술사 논술에서 모두 강력한 사고 틀이 된다.
 
-결국 23가지 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가치는 패턴 개수를 세는 것이 아니라 **설계 문제를 구조적으로 바라보는 시야를 만드는 것**에 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 이해하면 세부 패턴 이름도 더 쉽게 연결된다.
+결국 23가지 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가치는 패턴 개수를 세는 것이 아니라 <strong>설계 문제를 구조적으로 바라보는 시야를 만드는 것</strong>에 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 이해하면 세부 패턴 이름도 더 쉽게 연결된다.
 
 | 기대효과 | 구체적 내용 |
 |:---|:---|
@@ -142,19 +145,22 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-반복 설계 문제
-    │
-    ▼
-문제 축 분류
-    │
-    ├──▶ 생성 패턴 (5)
-    ├──▶ 구조 패턴 (7)
-    └──▶ 행위 패턴 (11)
-            │
-            ▼
-적합 패턴 후보 선정 · 오용 감소 · 설계 설명력 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">반복 설계 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문제 축 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 생성 패턴 (5)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 구조 패턴 (7)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 행위 패턴 (11)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적합 패턴 후보 선정 · 오용 감소 · 설계 설명력 향상</div>
+</div>
+</div>
+
+
 
 이 흐름은 패턴 학습이 단순 암기에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기반 판단으로 전환되는 과정을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 

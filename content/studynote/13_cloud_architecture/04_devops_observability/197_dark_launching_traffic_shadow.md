@@ -21,9 +21,9 @@ tags = ["studynote-cloud-architecture"]
 
 다크 론칭(Dark Launching)은 Facebook이 2009년 "Like" 버튼을 전 세계에 출시하기 전, 기존 버튼 클릭마다 백그라운드에서 Like 버튼 로직을 실행하여 수억 건의 요청을 사전 처리함으로써 대규모 트래픽 처리 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 것이 유명한 사례다.
 
-핵심은 **UI는 그대로, 백엔드만 실행**이다. 사용자가 어떤 버튼을 클릭하면, 기존 로직도 실행하고 새 로직도 "조용히(Dark)" 실행한다. 하지만 사용자에게는 기존 결과만 반환한다. 새 로직의 실행 결과는 로그나 메트릭으로만 수집하여 엔지니어가 분석한다.
+핵심은 <strong>UI는 그대로, 백엔드만 실행</strong>이다. 사용자가 어떤 버튼을 클릭하면, 기존 로직도 실행하고 새 로직도 "조용히(Dark)" 실행한다. 하지만 사용자에게는 기존 결과만 반환한다. 새 로직의 실행 결과는 로그나 메트릭으로만 수집하여 엔지니어가 분석한다.
 
-이 방식이 특히 가치 있는 상황은 **대규모 아키텍처 전환**이다. 예를 들어, 기존 모놀리식 검색 API를 새로운 마이크로서비스로 교체할 때, 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동일한 요청에 대해 기존과 동일한 결과를 반환하는지, 응답 시간이 얼마나 되는지를 실제 운영 트래픽으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+이 방식이 특히 가치 있는 상황은 <strong>대규모 아키텍처 전환</strong>이다. 예를 들어, 기존 모놀리식 검색 API를 새로운 마이크로서비스로 교체할 때, 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동일한 요청에 대해 기존과 동일한 결과를 반환하는지, 응답 시간이 얼마나 되는지를 실제 운영 트래픽으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 📢 **섹션 요약 비유**: 다크 론칭은 연습 시험과 같다. 학생(사용자)은 진짜 시험만 보지만, 선생님(시스템)은 뒤에서 같은 문제를 새 채점 시스템으로도 채점해보며 새 시스템의 정확도와 속도를 확인한다.
 
@@ -33,28 +33,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 다크 론칭 요청 처리 흐름
 
-```
-  클라이언트 요청
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────┐
-  │               API Gateway / Feature Proxy            │
-  └──────────────────────┬──────────────────────────────┘
-                         │
-         ┌───────────────┴───────────────┐
-         │ (동기, 사용자에게 반환)         │ (비동기, 결과 버림/로깅)
-         ▼                               ▼
-  ┌──────────────┐               ┌──────────────────┐
-  │  기존 서비스  │               │  신규 서비스(Dark) │
-  │  (v1)        │               │  (v2)             │
-  └──────┬───────┘               └────────┬─────────┘
-         │                                │
-         ▼                                ▼
-  [사용자에게 응답]              [결과를 Metrics/Log에만 기록]
-                                 - 응답 시간
-                                 - 에러 여부
-                                 - v1과 결과 비교
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway / Feature Proxy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동기, 사용자에게 반환)</div><div class="kb-diagram-cell">(비동기, 결과 버림/로깅)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 서비스</div><div class="kb-diagram-cell">신규 서비스(Dark)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v1)</div><div class="kb-diagram-cell">(v2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자에게 응답</div><div class="kb-diagram-node">결과를 Metrics/Log에만 기록</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">응답 시간</div>
+<div class="kb-diagram-tree-item" style="--depth:8">에러 여부</div>
+<div class="kb-diagram-tree-item" style="--depth:8">v1과 결과 비교</div>
+</div>
+</div>
+
+
 
 ### 다크 론칭 vs [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) 차이점
 
@@ -112,7 +108,7 @@ def process_search(query, user_id):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**DB [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이드 이펙트 방지 설계**:
+<strong>DB <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 사이드 이펙트 방지 설계</strong>:
 ```python
 # 잘못된 예: 다크 론칭 중 실제 DB에 데이터 저장
 def dark_execute():
@@ -172,17 +168,21 @@ def dark_execute():
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Shadow Traffic: 실제 트래픽을 새 버전에 복제
-    │
-    ▼
-Dark Launching: 사용자 모르게 신버전 동작 검증
-    ├─► 응답은 폐기 (사용자에게 전달 안 됨)
-    └─► 성능·정확성 비교: 기존 vs 신규
-    │
-    ▼
-확인 완료 → Canary → 전체 전환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shadow Traffic: 실제 트래픽을 새 버전에 복제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dark Launching: 사용자 모르게 신버전 동작 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">응답은 폐기 (사용자에게 전달 안 됨)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">성능·정확성 비교: 기존 vs 신규</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확인 완료 → Canary → 전체 전환</div>
+</div>
+</div>
+
+
 2. 친구에게는 기존 계산기 답을 알려주고, 새 계산기 결과는 선생님 수첩에만 적어둬.
 3. 수첩에 틀린 답이 없고 속도도 빠르다는 걸 확인하면, 그때서야 친구에게 새 계산기를 공개해.
 

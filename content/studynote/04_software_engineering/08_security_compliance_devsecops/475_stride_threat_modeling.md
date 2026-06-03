@@ -19,36 +19,35 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 **[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)**다. 
+- **개념**: 세상의 모든 소프트웨어 해킹 기법은 수만 가지(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 등)가 있지만, 그 뼈대(목적)를 추려보면 결국 딱 6가지로 귀결된다. 이 6가지 카테고리의 앞 글자를 딴 것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong>다. 
   `S(신분 위조) / T(데이터 변조) / R(오리발 내밀기) / I(정보 훔쳐보기) / D(서버 터뜨리기) / E(권한 빼앗기)`
 
 - **필요성**: 개발자들에게 "이 결제 시스템에서 일어날 수 있는 위협을 찾아봐!"라고 하면 1시간 내내 회의해도 "DB 털리면 어떡하죠?", "디도스 오면 어떡하죠?" 2개만 찾고 끝난다. 인간의 상상력에는 한계가 있다. 하지만 칠판에 `STRIDE` 6글자를 띄워놓고 강제로 1글자씩 대입해 보게 하면? "아, R(Repudiation)을 생각해보니 고객이 결제해 놓고 나중에 안 했다고 우기면 증명할 방법이 없네?"라며 **평소엔 절대 상상하지 못했던 '논리적 맹점'을 강제로 쥐어짜 내게** 만들어준다.
 
-- **💡 비유**: [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델은 종합병원의 **'6단계 종합 건강 검진표'**와 같습니다. 의사가 환자의 얼굴만 보고 "어디 아파요?"라고 물어보는 건 하수입니다. 진정한 의사(아키텍트)는 1.혈압, 2.시력, 3.청력, 4.소변, 5.엑스레이, 6.심전도([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 6원칙)라는 정해진 6개의 매뉴얼을 무조건 한 바퀴 돌립니다. 환자가 괜찮다고 우겨도 무조건 검사합니다. 그래야 숨어있는 췌장암(해킹 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 절대 놓치지 않기 때문입니다.
+- **💡 비유**: [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델은 종합병원의 <strong>'6단계 종합 건강 검진표'</strong>와 같습니다. 의사가 환자의 얼굴만 보고 "어디 아파요?"라고 물어보는 건 하수입니다. 진정한 의사(아키텍트)는 1.혈압, 2.시력, 3.청력, 4.소변, 5.엑스레이, 6.심전도([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 6원칙)라는 정해진 6개의 매뉴얼을 무조건 한 바퀴 돌립니다. 환자가 괜찮다고 우겨도 무조건 검사합니다. 그래야 숨어있는 췌장암(해킹 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))을 절대 놓치지 않기 때문입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **보안의 예술화 시대**: 과거엔 천재 해커 한 명이 직감으로 취약점을 뚫어내는 예술의 영역이었다. 방어하는 쪽도 천재가 없으면 다 뚫렸다.
   2. **마이크로소프트의 공학적 대통일 (1999)**: MS의 로렌 콘펠더와 프라기트 가그가 "천재가 아니어도, 바보라도 매뉴얼만 따라가면 위협을 다 찾을 수 있게 만들자!"며 이 위대한 분류법을 발명했다.
-  3. **클라우드 및 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 시대의 코어 (현재)**: AWS 아키텍처든, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통신이든, 인프라의 껍데기는 수만 번 변했지만 그 알맹이의 보안을 위협하는 6가지 본질([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))은 20년이 지난 지금도 절대 변하지 않는 만유인력의 법칙으로 쓰인다.
+  3. <strong>클라우드 및 <a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 시대의 코어 (현재)</strong>: AWS 아키텍처든, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통신이든, 인프라의 껍데기는 수만 번 변했지만 그 알맹이의 보안을 위협하는 6가지 본질([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))은 20년이 지난 지금도 절대 변하지 않는 만유인력의 법칙으로 쓰인다.
 
-- **📢 섹션 요약 비유**: 해커의 공격 방식이 수백만 가지 파편화된 '전투기, 소총, 수류탄, 화살'이라면, STRIDE는 그것들을 **'육군, 해군, 공군'**처럼 최상위 개념으로 분류해 놓은 완벽한 상자입니다. 6개의 서랍장만 있으면 세상에 존재하는, 그리고 미래에 나올 그 어떤 새로운 해킹 기술도 모두 분류하여 집어넣을 수 있습니다.
+- **📢 섹션 요약 비유**: 해커의 공격 방식이 수백만 가지 파편화된 '전투기, 소총, 수류탄, 화살'이라면, STRIDE는 그것들을 <strong>'육군, 해군, 공군'</strong>처럼 최상위 개념으로 분류해 놓은 완벽한 상자입니다. 6개의 서랍장만 있으면 세상에 존재하는, 그리고 미래에 나올 그 어떤 새로운 해킹 기술도 모두 분류하여 집어넣을 수 있습니다.
 
 ---
 
 다음은 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  STRIDE 모델                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STRIDE 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-STRIDE 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">STRIDE 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

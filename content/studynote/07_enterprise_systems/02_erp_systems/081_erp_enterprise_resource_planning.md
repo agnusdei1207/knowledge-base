@@ -13,7 +13,7 @@ tags = ["studynote-enterprise"]
 
 > 1. **본질**: ERP (Enterprise Resource Planning)는 재무·생산·구매·영업·인사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 기준 정보와 프로세스로 묶는 전사 통합 운영 플랫폼이다.
 > 2. **가치**: 부서별 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 줄여 단일 진실 원천 ([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))을 만들고, 주문부터 회계 반영까지의 흐름을 실시간에 가깝게 연결한다.
-> 3. **판단 포인트**: ERP의 성패는 패키지 구매보다 **표준 프로세스 수용, [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 정합성, 권한 통제**를 얼마나 설계했는가에 달려 있다.
+> 3. **판단 포인트**: ERP의 성패는 패키지 구매보다 <strong>표준 프로세스 수용, <a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">마스터 데이터</a> 정합성, 권한 통제</strong>를 얼마나 설계했는가에 달려 있다.
 
 ---
 
@@ -29,7 +29,7 @@ ERP는 기업의 핵심 업무를 공통 [데이터 모델](/knowledge-base/stud
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ERP의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 따로 보여도 **[마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)와 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 연결**된다는 점이다. 고객, 품목, 원가, 계정, 조직 정보가 공통으로 관리되고, 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 후속 업무를 자동으로 유발한다.
+ERP의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 따로 보여도 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">마스터 데이터</a>와 거래 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 연결</strong>된다는 점이다. 고객, 품목, 원가, 계정, 조직 정보가 공통으로 관리되고, 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 후속 업무를 자동으로 유발한다.
 
 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 주요 역할 | 연결 포인트 |
 | :--- | :--- | :--- |
@@ -41,22 +41,23 @@ ERP의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 아래 흐름은 ERP가 "주문 입력" 하나를 여러 부서의 동시 작업으로 바꾸는 방식을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ ERP integrated flow                                          │
-├──────────────────────────────────────────────────────────────┤
-│ Sales Order                                                  │
-│      │                                                       │
-│      ├─> SD : order / delivery plan                          │
-│      ├─> MM : ATP check / inventory update                   │
-│      ├─> PP : production requirement if stock is short       │
-│      └─> FI : receivable / revenue posting                   │
-│                                                              │
-│ Shared master data: item, customer, supplier, account, org   │
-└──────────────────────────────────────────────────────────────┘
-```
 
-즉 ERP는 화면을 합치는 것이 아니라, **거래의 파급 효과를 같은 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 안에서 연쇄적으로 처리**하는 구조다. 이 때문에 인터페이스보다 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 설계와 코드 체계가 더 중요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP integrated flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sales Order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; SD : order / delivery plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; MM : ATP check / inventory update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; PP : production requirement if stock is short</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; FI : receivable / revenue posting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared master data: item, customer, supplier, account, org</div></div>
+</div>
+</div>
+
+
+
+즉 ERP는 화면을 합치는 것이 아니라, <strong>거래의 파급 효과를 같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 안에서 연쇄적으로 처리</strong>하는 구조다. 이 때문에 인터페이스보다 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 설계와 코드 체계가 더 중요하다.
 
 - **📢 섹션 요약 비유**: ERP는 주문 벨이 울리면 주방, 창고, 계산대가 동시에 움직이는 식당 시스템과 같다. 벨은 하나지만 반응은 여러 곳에서 동시에 일어난다.
 
@@ -73,7 +74,7 @@ ERP의 경계는 "기능별 개별 시스템"과 "외부까지 확장된 통합 
 | 강점 | 도입 범위가 작음 | 내부 통제와 정합성 우수 | 민첩성, 확장성 우수 |
 | 약점 | 불일치·중복 입력 | 구축 비용·변화관리 부담 | 통합 거버넌스가 복잡 |
 
-ERP는 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)·[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II에서 출발해 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ([Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))와 연결되며 확장되었다. 따라서 ERP를 기억할 때는 "모든 기능을 한 제품에 넣는다"보다, **기업 내부의 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 프로세스를 중심에 둔다**는 관점이 더 중요하다.
+ERP는 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)·[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II에서 출발해 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ([Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))와 연결되며 확장되었다. 따라서 ERP를 기억할 때는 "모든 기능을 한 제품에 넣는다"보다, <strong>기업 내부의 기준 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 프로세스를 중심에 둔다</strong>는 관점이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 개별 시스템은 각자 악보를 들고 연주하는 소규모 팀이고, ERP는 한 지휘자 아래 총보를 보는 오케스트라에 가깝다. 확장형 ERP는 여기에 외부 합창단까지 붙인 형태다.
 
@@ -104,7 +105,7 @@ ERP는 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_
 
 ERP가 제대로 정착되면 결산 속도, 재고 정확도, 납기 예측력, 내부 통제 수준이 함께 좋아진다. 특히 주문-구매-생산-회계의 연결이 빨라져 경영진은 늦은 보고가 아니라 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에 가까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 수 있다. 또한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성과 표준 프로세스가 강화되어 기업 운영의 재현성과 책임성이 높아진다.
 
-반면 ERP는 모든 문제를 자동 해결하지 않는다. 조직이 표준 프로세스를 받아들이지 못하거나, 예외 업무를 무분별하게 누적하면 오히려 더 무거운 레거시가 된다. 결국 ERP는 "패키지 도입"이 아니라 **전사 운영 규칙을 하나의 체계로 묶는 일**로 기억하는 것이 정확하다.
+반면 ERP는 모든 문제를 자동 해결하지 않는다. 조직이 표준 프로세스를 받아들이지 못하거나, 예외 업무를 무분별하게 누적하면 오히려 더 무거운 레거시가 된다. 결국 ERP는 "패키지 도입"이 아니라 <strong>전사 운영 규칙을 하나의 체계로 묶는 일</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: ERP는 회사의 혈관을 하나로 정리하는 순환계 수술과 같다. 피가 잘 돌면 몸 전체가 좋아지지만, 기준 혈관이 막히면 영향도 전신으로 번진다.
 
@@ -122,20 +123,22 @@ ERP가 제대로 정착되면 결산 속도, 재고 정확도, 납기 예측력,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MRP
-  │
-  ▼
-MRP II
-  │
-  ▼
-ERP
-  │
-  ├─> SCM / CRM / MES integration
-  │
-  ▼
-Cloud ERP / Composable ERP / Intelligent ERP
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MRP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MRP II</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ERP</div>
+<div class="kb-diagram-tree-item" style="--depth:1">SCM / CRM / MES integration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud ERP / Composable ERP / Intelligent ERP</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

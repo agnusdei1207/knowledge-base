@@ -18,24 +18,25 @@ tags = ["network"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 단순히 "똑똑한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"라는 마케팅 용어가 아니라, **전파를 어디로 보낼지 실시간으로 결정하는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템**을 뜻한다. 이때 가장 대표적인 하드웨어 구현이 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다. 즉 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 소자 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 위상 제어라는 물리 구조이고, 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 그 구조 위에서 사용자 방향 추정, 빔 선택, 간섭 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)를 수행하는 운용 개념이라고 보면 이해가 쉽다.
+스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 단순히 "똑똑한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"라는 마케팅 용어가 아니라, <strong>전파를 어디로 보낼지 실시간으로 결정하는 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 시스템</strong>을 뜻한다. 이때 가장 대표적인 하드웨어 구현이 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다. 즉 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 소자 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 위상 제어라는 물리 구조이고, 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 그 구조 위에서 사용자 방향 추정, 빔 선택, 간섭 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)를 수행하는 운용 개념이라고 보면 이해가 쉽다.
 
 이 기술이 필요해진 이유는 고정형 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)나 기계식 회전 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 빠르게 변하는 무선 환경을 감당하기 어렵기 때문이다. 이동통신 기지국은 사용자가 계속 움직이고, 레이더는 표적을 ms 단위로 추적해야 하며, 다중 사용자 환경에서는 원하는 방향으로는 이득을 높이고 방해 방향으로는 에너지를 줄여야 한다. 무거운 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 구조물을 모터로 돌려서는 이런 요구를 따라가기 어렵다.
 
 아래 그림은 기계식 조향과 전자식 조향의 차이를 한눈에 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Mechanical steering vs electronic steering                         │
-├────────────────────────────────────────────────────────────────────┤
-│ dish antenna                  phased-array panel                   │
-│     \                                                             │
-│      \__ beam                [e][e][e][e]  fixed hardware         │
-│          \                  phase control -> beam turns instantly  │
-│           \                                                        │
-│ motor must rotate structure   no motor rotation for beam steering  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mechanical steering vs electronic steering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dish antenna phased-array panel</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">\__ beam</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-note">fixed hardware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ phase control -&gt; beam turns instantly</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">motor must rotate structure no motor rotation for beam steering</div></div>
+</div>
+</div>
+
+
 
 이 차이는 단순한 편의성 문제가 아니다. 조향 속도, 다중 표적 처리, 고장점 감소, 다중 사용자 수용 능력이 모두 전자식 조향 여부에 달려 있다. 그래서 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 물리 계층 (Physical Layer)의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술이면서도, 동시에 자원 할당과 간섭 관리의 핵심 도구가 된다.
 
@@ -57,24 +58,24 @@ tags = ["network"]
 
 다음 그림은 소자별 위상 차가 누적되며 메인 빔이 한쪽으로 기울어지는 원리를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Phase progression steers the beam                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ element :   E1        E2        E3        E4                       │
-│ phase   :   0°       +30°      +60°      +90°                     │
-│                                                                    │
-│ wavefront tilt ->                                                / │
-│                                                                  /  │
-│ main beam toward theta                                          /   │
-│                                                                /    │
-│ keep element spacing at or below lambda/2 to suppress replicas │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase progression steers the beam</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">element : E1 E2 E3 E4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">phase : 0° +30° +60° +90°</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wavefront tilt -&gt; /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">main beam toward theta /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">keep element spacing at or below lambda/2 to suppress replicas</div></div>
+</div>
+</div>
+
+
 
 실제 시스템은 위상만이 아니라 진폭도 함께 조절한다. 진폭 가중치를 다르게 주면 부엽 (Side Lobe)을 낮출 수 있고, 특정 방향에는 널을 만들어 간섭원을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)할 수 있다. 송신뿐 아니라 수신에서도 같은 원리가 적용되므로, 여러 소자에서 들어온 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 위상 맞춤 후 합성하면 원하는 방향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 키우고 다른 방향 잡음은 줄일 수 있다.
 
-즉 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 "전파를 세게 쏘는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"가 아니라, **공간을 계산하는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**다. 어느 방향에 이득을 줄지, 어디에 널을 만들지, 동시에 몇 개의 빔을 운영할지를 수학적으로 제어한다는 점이 본질이다.
+즉 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 "전파를 세게 쏘는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"가 아니라, <strong>공간을 계산하는 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>다. 어느 방향에 이득을 줄지, 어디에 널을 만들지, 동시에 몇 개의 빔을 운영할지를 수학적으로 제어한다는 점이 본질이다.
 
 - **📢 섹션 요약 비유**: 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 여러 명이 노를 저을 때 박자를 조금씩 다르게 맞춰 배의 방향을 바꾸는 것과 같다. 배 자체를 손으로 밀지 않아도, 리듬 조절만으로 진로가 달라진다.
 
@@ -94,7 +95,7 @@ tags = ["network"]
 
 또한 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 이전 주제의 패치 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Patch [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))와도 이어진다. 실제 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 패널이나 능동 전자 주사 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Electronically Scanned [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), AESA) 레이더는 평판형 패치 소자를 다수 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)한 뒤 각 소자 또는 소자군에 위상 제어를 적용하는 형태가 많다. 여기에 다중 입력 다중 출력 ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)), 특히 Massive MIMO가 결합되면 공간 다중화와 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)이 동시에 가능해진다.
 
-결국 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 강점은 "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자체"보다도 **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + 위상 제어 + [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리**의 결합에서 나온다. 이 세 요소가 함께 있어야 사용자 추적, 간섭 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 공간 재사용성 향상이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성능으로 연결된다.
+결국 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 강점은 "[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자체"보다도 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> + 위상 제어 + <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리</strong>의 결합에서 나온다. 이 세 요소가 함께 있어야 사용자 추적, 간섭 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 공간 재사용성 향상이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성능으로 연결된다.
 
 - **📢 섹션 요약 비유**: 고정 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 한 방향만 보는 망원경이라면, 기계식 조향 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 몸을 돌려가며 보는 망원경이고, 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 눈동자와 초점을 동시에 움직여 여러 목표를 훨씬 빠르게 쫓는 망원경이다.
 
@@ -108,17 +109,20 @@ tags = ["network"]
 
 아래 흐름은 어떤 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 구조를 고를지 판단할 때 자주 쓰는 질문을 정리한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing a smart-antenna architecture                              │
-├────────────────────────────────────────────────────────────────────┤
-│ need many simultaneous beams or deep interference nulling?        │
-│   ├─ yes -> digital or hybrid beamforming                         │
-│   └─ no                                                           │
-│        ├─ cost/power budget tight? -> analog beamforming          │
-│        └─ fast tracking still required? -> hybrid phased array    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing a smart-antenna architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need many simultaneous beams or deep interference nulling?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; digital or hybrid beamforming</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cost/power budget tight? -&gt; analog beamforming</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fast tracking still required? -&gt; hybrid phased array</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -143,7 +147,7 @@ tags = ["network"]
 
 반면 이 기술은 고급 하드웨어와 정교한 제어를 요구한다. 위상 제어 오차, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 보정, 전력 증폭기 효율, 열 관리, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 지연이 모두 실제 성능을 좌우한다. 따라서 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 단순한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 교체 문제가 아니라, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)·RF·베이스밴드·소프트웨어를 함께 설계하는 시스템 문제로 봐야 한다.
 
-정리하면 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 **전자적으로 빔 방향을 합성하는 하드웨어**, 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 그 위에서 **어떤 방향을 택할지 지능적으로 운영하는 시스템**이다. 기억할 핵심은 분명하다. **빠른 조향과 간섭 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)라는 큰 이득을 주지만, 비용·전력·보정 능력까지 함께 설계할 때만 제대로 작동한다.**
+정리하면 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 **전자적으로 빔 방향을 합성하는 하드웨어**, 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 그 위에서 <strong>어떤 방향을 택할지 지능적으로 운영하는 시스템</strong>이다. 기억할 핵심은 분명하다. <strong>빠른 조향과 간섭 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>라는 큰 이득을 주지만, 비용·전력·보정 능력까지 함께 설계할 때만 제대로 작동한다.</strong>
 
 - **📢 섹션 요약 비유**: 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 마법 지팡이가 아니라, 수십 개의 조명을 정밀하게 제어해 원하는 배우만 비추는 무대 조명 시스템과 같다. 스포트라이트만 좋다고 되는 것이 아니라 조명 제어실까지 함께 좋아야 한다.
 
@@ -162,22 +166,23 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-single directional antenna
-          │
-          ▼
-array of radiating elements
-          │
-          ▼
-phase / amplitude control
-          │
-          ▼
-beam steering and beamforming
-          │
-          ├──────────────▶ interference nulling
-          │
-          └──────────────▶ 5G / AESA radar / satellite tracking
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">single directional antenna</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">array of radiating elements</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">phase / amplitude control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">beam steering and beamforming</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ interference nulling</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ 5G / AESA radar / satellite tracking</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술이 단일 지향성 구조에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 제어로 발전하면서, 단순 송수신을 넘어 간섭 제어와 공간 자원 최적화까지 담당하게 되었음을 보여 준다.
 

@@ -23,26 +23,22 @@ tags = ["operating_system"]
 
 이 그림은 가상 메모리가 물리 메모리와 디스크 사이에서 어떻게 동작하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Virtual Memory Concept & Mapping            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Virtual Memory Space ]      [ Physical RAM ]            │
-│   ┌──────────────┐              ┌──────────────┐            │
-│   │ Page 0       │ ────▶ Map ──▶│ Frame 3      │            │
-│   │ Page 1 (Swap)│ ────┐        ├──────────────┤            │
-│   │ Page 2       │ ──┐ └───────▶│ (Empty)      │            │
-│   └──────────────┘   │          └──────────────┘            │
-│                      │                 ▲                    │
-│                      ▼                 │ (Page-in)          │
-│               [ Backing Store (Disk / SSD) ]                │
-│               ┌────────────────────────────┐                │
-│               │ Page 1 content             │                │
-│               └────────────────────────────┘                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Memory Concept &amp; Mapping</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Virtual Memory Space</div><div class="kb-diagram-node">Physical RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 0</div><div class="kb-diagram-cell">▶ Map ──▶</div><div class="kb-diagram-cell">Frame 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 (Swap)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 2</div><div class="kb-diagram-cell">── ▶</div><div class="kb-diagram-cell">(Empty)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(Page-in)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Backing Store (Disk / SSD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 content</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '매핑 (Mapping)'과 '지연 로딩'이다. 실제 데이터가 메모리에 없어도 주소 공간에는 존재하는 것처럼 표시하고, 실제 접근이 발생할 때만 디스크에서 읽어온다. 실무에서는 이러한 구조 덕분에 서버의 가용성이 비약적으로 향상되지만, 빈번한 디스크 접근으로 인한 성능 저하를 관리하는 것이 기술사의 핵심 역량이 된다.
 
@@ -82,22 +78,22 @@ tags = ["operating_system"]
 
 이 구조도는 LRU 알고리즘이 페이지 참조 순서를 어떻게 추적하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 LRU (Least Recently Used) Mechanism         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Page Reference Stream ] : 1, 2, 3, 4, 1, 2, 5, 1 ...    │
-│                                                             │
-│   [ Memory Frames (Size 3) ]                                │
-│   t1 (Ref 1): [ 1,  ,  ]                                    │
-│   t2 (Ref 2): [ 1, 2,  ]                                    │
-│   t3 (Ref 3): [ 1, 2, 3]                                    │
-│   t4 (Ref 4): [ 4, 2, 3] <-- 1이 가장 오래전 참조되어 교체  │
-│   t5 (Ref 1): [ 4, 1, 3] <-- 2가 가장 오래전 참조되어 교체  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU (Least Recently Used) Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page Reference Stream</div><div class="kb-diagram-note">: 1, 2, 3, 4, 1, 2, 5, 1 ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory Frames (Size 3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">t1 (Ref 1):</div><div class="kb-diagram-node">1,  ,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">t2 (Ref 2):</div><div class="kb-diagram-node">1, 2,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">t3 (Ref 3):</div><div class="kb-diagram-node">1, 2, 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">t4 (Ref 4):</div><div class="kb-diagram-node">4, 2, 3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">1이 가장 오래전 참조되어 교체</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">t5 (Ref 1):</div><div class="kb-diagram-node">4, 1, 3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">2가 가장 오래전 참조되어 교체</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '참조의 지역성 (Locality of Reference)'을 활용하는 것이다. 한 번 쓰인 데이터는 조만간 다시 쓰일 가능성이 높다는 가정하에, 최근 사용된 데이터를 유지한다. 실무에서는 LRU를 완벽히 구현하는 비용이 크기 때문에, 참조 비트를 활용한 **Second-Chance (Clock)** 알고리즘이 대안으로 널리 사용된다.
 
@@ -109,7 +105,7 @@ tags = ["operating_system"]
 
 ### 스레싱 (Thrashing)과 작업 집합 (Working Set)
 
-프로세스가 원활하게 돌아가기 위해 필요한 최소한의 페이지 프레임 수를 할당받지 못하면, CPU는 실제 연산보다 페이지 교체에 더 많은 시간을 쓰게 된다. 이 성능 급락 현상을 **스레싱**이라 한다.
+프로세스가 원활하게 돌아가기 위해 필요한 최소한의 페이지 프레임 수를 할당받지 못하면, CPU는 실제 연산보다 페이지 교체에 더 많은 시간을 쓰게 된다. 이 성능 급락 현상을 <strong>스레싱</strong>이라 한다.
 
 - **원인**: 다중 프로그래밍의 정도 (Degree of Multiprogramming)가 너무 높을 때 발생.
 - **해결 (Working Set)**: 프로세스가 특정 시점에 집중적으로 참조하는 페이지들의 집합을 분석하여, 이 집합이 한꺼번에 메모리에 올라갈 수 있을 때만 프로세스를 실행함.
@@ -127,30 +123,26 @@ tags = ["operating_system"]
 ### 기술사적 판단: 시스템 성능 최적화 및 안정화 시나리오
 
 **시나리오 1: 서버의 CPU 사용률은 낮은데 I/O 대기열이 폭발하는 현상**
-- **판단**: **스레싱 (Thrashing)**을 의심한다. 프로세스 수가 너무 많아 메모리 경합이 심해졌을 가능성이 크다. 현재 실행 중인 프로세스 일부를 일시 중단 (Swap-out)시켜 나머지 프로세스에게 충분한 프레임을 보장한다. 근본적으로는 **PFF (Page Fault Frequency)** 조절 기법을 도입하여 각 프로세스에게 동적으로 프레임 할당량을 최적화한다.
+- **판단**: <strong>스레싱 (Thrashing)</strong>을 의심한다. 프로세스 수가 너무 많아 메모리 경합이 심해졌을 가능성이 크다. 현재 실행 중인 프로세스 일부를 일시 중단 (Swap-out)시켜 나머지 프로세스에게 충분한 프레임을 보장한다. 근본적으로는 **PFF (Page Fault Frequency)** 조절 기법을 도입하여 각 프로세스에게 동적으로 프레임 할당량을 최적화한다.
 
 **시나리오 2: 대규모 인메모리 DB 성능 튜닝**
-- **판단**: 페이지 테이블이 너무 커져서 발생하는 오버헤드를 줄여야 한다. 표준 페이지(4KB) 대신 **Huge Pages (2MB/1GB)**를 사용하여 TLB 히트율을 높이고 주소 변환 단계를 단순화한다. 또한 스와핑이 발생하면 성능이 급락하므로 메모리 락 (mlock) 기능을 사용하여 핵심 데이터가 디스크로 쫓겨나지 않게 강제한다.
+- **판단**: 페이지 테이블이 너무 커져서 발생하는 오버헤드를 줄여야 한다. 표준 페이지(4KB) 대신 <strong>Huge Pages (2MB/1GB)</strong>를 사용하여 TLB 히트율을 높이고 주소 변환 단계를 단순화한다. 또한 스와핑이 발생하면 성능이 급락하므로 메모리 락 (mlock) 기능을 사용하여 핵심 데이터가 디스크로 쫓겨나지 않게 강제한다.
 
 이 도식은 스레싱 발생 시 CPU 이용률의 변화와 임계 지점을 보여준다.
 
-```text
 
-┌─────────────────────────────────────────────────────────────┐
-│               Thrashing and CPU Utilization Curve           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   CPU Util ▲                                                │
-│            │          / [Optimal Point / 최적 지점]                     │
-│            │         / \                                    │
-│            │        /   \  <-- Thrashing Area               │
-│            │       /     \                                  │
-│            │      /       \                                 │
-│            └──────────────────────────────────▶             │
-│                 Degree of Multiprogramming                  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thrashing and CPU Utilization Curve</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Util ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">Optimal Point / 최적 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ &lt;-- Thrashing Area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Degree of Multiprogramming</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 성능 튜닝은 '교통 정체 해소'와 같습니다. 도로(메모리)에 차(프로세스)를 무작정 많이 넣는다고 좋은 게 아닙니다. 원활한 흐름을 위해 적절한 차량 수(멀티 프로그래밍 정도)를 유지하는 규제력이 필요합니다.
 
@@ -165,7 +157,7 @@ tags = ["operating_system"]
 
 ### 미래 전망: 클라우드 오버프로비저닝과 동적 최적화
 
-미래의 가상 메모리는 단일 노드를 넘어 클라우드 전체의 자원을 공유하는 **'Remote Direct Memory Access (RDMA)'** 기반의 분산 메모리 체계로 확장될 것이다. 또한 AI 가속기 (NPU/GPU)의 메모리와 시스템 메모리를 하나의 가상 주소 공간으로 묶는 **'Unified Memory Architecture'**가 표준이 되어, 복잡한 데이터 이동 없이 대규모 연산을 수행하게 될 것이다. 기술사는 이러한 하드웨어 융합 환경에서 '메모리 가시성'과 '비용 최적화'를 동시에 달성하는 아키텍트가 되어야 한다.
+미래의 가상 메모리는 단일 노드를 넘어 클라우드 전체의 자원을 공유하는 **'Remote Direct Memory Access (RDMA)'** 기반의 분산 메모리 체계로 확장될 것이다. 또한 AI 가속기 (NPU/GPU)의 메모리와 시스템 메모리를 하나의 가상 주소 공간으로 묶는 <strong>'Unified Memory Architecture'</strong>가 표준이 되어, 복잡한 데이터 이동 없이 대규모 연산을 수행하게 될 것이다. 기술사는 이러한 하드웨어 융합 환경에서 '메모리 가시성'과 '비용 최적화'를 동시에 달성하는 아키텍트가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 메모리는 '마르지 않는 샘물'과 같아질 것입니다. 구름(클라우드)에서 비가 내려 샘물을 채우듯, 필요한 만큼의 메모리 자원이 네트워크를 통해 끊임없이 공급되는 세상이 올 것입니다.
 

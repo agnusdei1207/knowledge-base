@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처의 허리(중간)에 위치하며, 밑바닥에 깔린 물리/[가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)들을 통합 지휘하고, 위쪽에 있는 비즈니스 앱(App)들에게 네트워크의 모든 정보를 제공하는 **중앙 집중형 두뇌 소프트웨어([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), NOS)**입니다.
+- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처의 허리(중간)에 위치하며, 밑바닥에 깔린 물리/[가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)들을 통합 지휘하고, 위쪽에 있는 비즈니스 앱(App)들에게 네트워크의 모든 정보를 제공하는 <strong>중앙 집중형 두뇌 소프트웨어(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>, NOS)</strong>입니다.
 - **대표적 컨트롤러 제품**: ONOS, OpenDaylight (ODL), 상용으로는 [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI, VMware NSX 등이 있습니다.
 
-```text
-[SDN 데이터 평면]
-    │
-    ▼
-[SDN 제어 평면]
-    │
-    └──▶ [사우스바운드 인터페이스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,24 +43,28 @@ tags = ["studynote-network"]
 
 ### 1. 글로벌 뷰 (Global Network [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 확보 🌟
 - 가장 무서운 권력입니다. 기존 라우터는 자기 옆에 있는 친구 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태만 볼 수 있었습니다. (부분 시야)
-- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 헬기를 타고 하늘 위로 올라간 것과 같습니다. 전국에 깔린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수천 대가 현재 어떻게 연결되어 있는지, 어디가 막히고 어디가 고장 났는지를 **거대한 하나의 지도(Topology 맵)**로 완벽하게 다 내려다보고 있습니다. 
+- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 헬기를 타고 하늘 위로 올라간 것과 같습니다. 전국에 깔린 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수천 대가 현재 어떻게 연결되어 있는지, 어디가 막히고 어디가 고장 났는지를 <strong>거대한 하나의 지도(Topology 맵)</strong>로 완벽하게 다 내려다보고 있습니다. 
 
 ### 2. 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 통제 (Centralized Control & [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 - 글로벌 뷰 지도를 보고 있으니, A에서 B로 가는 최단 거리나 우회 경로(차 안 막히는 길)를 컨트롤러의 슈퍼컴퓨터 CPU가 단 0.001초 만에 기가 막히게 계산해 냅니다.
-- **룰 하달**: 계산이 끝나면 밑바닥의 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 1초 만에 **"자, 길 찾았다! 다들 내 플로우 테이블(메뉴얼) 다운받아서 그대로 움직여라!"**라고 명령을 쫙 뿌립니다([프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)). (Southbound [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 활용)
+- **룰 하달**: 계산이 끝나면 밑바닥의 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 1초 만에 <strong>"자, 길 찾았다! 다들 내 플로우 테이블(메뉴얼) 다운받아서 그대로 움직여라!"</strong>라고 명령을 쫙 뿌립니다([프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)). (Southbound [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 활용)
 
 ### 3. 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))
 - 위층(응용 계층)의 앱 개발자가 "부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 닫아!"라고 물리적인 명령을 내릴 필요가 없습니다. 
 - 컨트롤러는 복잡한 쇳덩어리 기계들의 차이를 감춰버립니다. 앱 개발자가 "비디오 트래픽 우선 처리해!"라고 추상적으로 명령(의도)만 내리면, 컨트롤러가 알아서 부산이든 서울이든 기계에 맞는 언어로 번역해서 지시를 내립니다. (네트워크의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역할)
 
-```text
-[SDN 데이터 평면]
-    │
-    ▼
-[SDN 제어 평면]
-    │
-    └──▶ [사우스바운드 인터페이스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,8 +72,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **문제점 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))**: 전국의 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 중앙 컨트롤러 1대의 뇌만 바라보고 있습니다. 만약 이 컨트롤러 서버 1대가 벼락을 맞아 죽어버린다면? (Single Point of Failure) 전국의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 지시를 못 받아 먹통이 되는 대재앙이 터집니다.
-- **해결책 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤 플레인)**: 이를 막기 위해 실제 실무망에서는 컨트롤러 서버 1대만 쓰지 않습니다. 서버 3대~5대를 합쳐서 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 1개의 뇌처럼 보이지만, 물리적으로는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 클러스터(뗏목) 형태**로 구축하여 1대가 죽어도 나머지 뇌가 즉시 일을 이어받아 멈추지 않는 고가용성 망을 설계합니다. (자세한 방어 메커니즘은 863번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- <strong>문제점 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong>: 전국의 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 중앙 컨트롤러 1대의 뇌만 바라보고 있습니다. 만약 이 컨트롤러 서버 1대가 벼락을 맞아 죽어버린다면? (Single Point of Failure) 전국의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 지시를 못 받아 먹통이 되는 대재앙이 터집니다.
+- <strong>해결책 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컨트롤 플레인)</strong>: 이를 막기 위해 실제 실무망에서는 컨트롤러 서버 1대만 쓰지 않습니다. 서버 3대~5대를 합쳐서 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로는 1개의 뇌처럼 보이지만, 물리적으로는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 클러스터(뗏목) 형태</strong>로 구축하여 1대가 죽어도 나머지 뇌가 즉시 일을 이어받아 멈추지 않는 고가용성 망을 설계합니다. (자세한 방어 메커니즘은 863번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면이 기반 조건을 만든다면, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면은 그 위에서 핵심 메커니즘을 구현하고, [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면(Control Plane)은 '국가 철도망 중앙 관제 센터'입니다. 옛날엔 기차역 역장들(라우터)이 서로 전화통을 붙잡고 "거기 기차 보낼 수 있어?" 물어보며 열차를 돌리다 보니 툭하면 기차가 엉키고 사고가 났습니다([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어의 한계). **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러**는 전국의 모든 기찻길과 열차 위치를 거대한 전광판 1개(글로벌 뷰)에 완벽하게 띄워놓고 모니터링하는 관제 센터입니다. 역장들의 머리를 다 뺏어버렸습니다. 관제 센터 직원이 마우스를 한 번 클릭하면, 부산역부터 서울역까지의 모든 기찻길 선로의 방향(플로우 테이블)이 0.1초 만에 자동으로 착착착 돌아가 최단 코스를 만들어냅니다. 전국 철도망을 단 1명의 신(God)이 완벽한 시야로 통제하는 기적의 두뇌입니다.
+- **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면(Control Plane)은 '국가 철도망 중앙 관제 센터'입니다. 옛날엔 기차역 역장들(라우터)이 서로 전화통을 붙잡고 "거기 기차 보낼 수 있어?" 물어보며 열차를 돌리다 보니 툭하면 기차가 엉키고 사고가 났습니다([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어의 한계). <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 컨트롤러</strong>는 전국의 모든 기찻길과 열차 위치를 거대한 전광판 1개(글로벌 뷰)에 완벽하게 띄워놓고 모니터링하는 관제 센터입니다. 역장들의 머리를 다 뺏어버렸습니다. 관제 센터 직원이 마우스를 한 번 클릭하면, 부산역부터 서울역까지의 모든 기찻길 선로의 방향(플로우 테이블)이 0.1초 만에 자동으로 착착착 돌아가 최단 코스를 만들어냅니다. 전국 철도망을 단 1명의 신(God)이 완벽한 시야로 통제하는 기적의 두뇌입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SDN 데이터 평면]
-    │
-    ▼
-[현재 개념: SDN 제어 평면]
-    │
-    ├──▶ [확장 A: 사우스바운드 인터페이스]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 데이터 평면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 제어 평면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사우스바운드 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면에서 출발해 현재 메커니즘을 정교화하고, 이후 [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,16 +31,17 @@ tags = ["studynote-security"]
 
 위험 완화는 보통 위험 평가 후 통제 선택, 구현, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 순서로 진행된다. 통제는 예방, 탐지, 교정으로 나눌 수 있고, 서로 다른 층에서 함께 작동해야 효과가 크다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 위험 완화의 반복적 제어 흐름                │
-├──────────────────────────────────────────────────────────────┤
-│ 위험 식별 → 평가(확률/영향) → 통제 선택 → 구현              │
-│                    │                                          │
-│                    ▼                                          │
-│               효과 검증 → 잔여 위험 재평가                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 완화의 반복적 제어 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 식별 → 평가(확률/영향) → 통제 선택 → 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과 검증 → 잔여 위험 재평가</div></div>
+</div>
+</div>
+
+
 
 | 통제 유형 | 역할 | 예시 |
 | :--- | :--- | :--- |
@@ -117,21 +118,23 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-위험 식별
-    │
-    ▼
-위험 평가 (ARO / SLE / ALE)
-    │
-    ▼
-통제 선택
-    │
-    ▼
-예방 · 탐지 · 교정 통제 구현
-    │
-    ▼
-효과 검증 / 잔여 위험 재평가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">위험 평가 (ARO / SLE / ALE)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통제 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예방 · 탐지 · 교정 통제 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">효과 검증 / 잔여 위험 재평가</div>
+</div>
+</div>
+
+
 
 이 흐름은 위험을 "통제 가능한 수준"으로 낮추는 실무 순서를 보여준다.
 

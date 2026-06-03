@@ -19,16 +19,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 감리·기술사 시험에서 점수를 깎는 대표 원인은 “키워드는 많이 아는데 서로 연결이 안 되는 답안”이다. 예를 들어 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/), 형상관리, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, 테스트, 운영, 품질보증을 각각 외워도 그것이 어떤 평가 축에서 만나는지 모르면 답안은 단어 나열에 머무른다.
 
-빈출 키워드 매핑 요약 연결망은 이 문제를 해결하기 위해 **키워드를 생명주기와 평가 관점에 재배치**한다. 즉 “무엇인가?”보다 “어느 단계에서 왜 중요하고, 어떤 증적과 함께 써야 하는가?”를 먼저 떠올리게 만드는 구조다. 정보관리와 시스템 감리는 범위가 넓기 때문에, 이런 연결망이 있어야 주제 전환이 빨라도 답안 중심축이 흔들리지 않는다.
+빈출 키워드 매핑 요약 연결망은 이 문제를 해결하기 위해 <strong>키워드를 생명주기와 평가 관점에 재배치</strong>한다. 즉 “무엇인가?”보다 “어느 단계에서 왜 중요하고, 어떤 증적과 함께 써야 하는가?”를 먼저 떠올리게 만드는 구조다. 정보관리와 시스템 감리는 범위가 넓기 때문에, 이런 연결망이 있어야 주제 전환이 빨라도 답안 중심축이 흔들리지 않는다.
 
-```text
-┌──────────────────────────────── 키워드 회상 구조 ───────────────────────────────┐
-│ 개별 용어 암기 ─▶ 평가 축 분류 ─▶ 증적·위험 연결 ─▶ 답안 문장화                 │
-│ (점 단위 기억)    (선으로 연결)    (판정 근거 확보)    (실전 답안 완성)         │
-└───────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 이 주제는 단순 요약 노트가 아니라, 방대한 감리 지식을 **채점 가능한 구조로 재조합하는 메타 프레임**으로 보는 것이 맞다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">키워드 회상 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개별 용어 암기 ─▶ 평가 축 분류 ─▶ 증적·위험 연결 ─▶ 답안 문장화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점 단위 기억) (선으로 연결) (판정 근거 확보) (실전 답안 완성)</div></div>
+</div>
+</div>
+
+
+
+따라서 이 주제는 단순 요약 노트가 아니라, 방대한 감리 지식을 <strong>채점 가능한 구조로 재조합하는 메타 프레임</strong>으로 보는 것이 맞다.
 - **📢 섹션 요약 비유**: 지하철 노선도처럼 역 이름만 외우는 것보다 어떤 역이 어디와 연결되는지 알 때 훨씬 빨리 목적지에 갈 수 있다.
 
 ---
@@ -36,14 +41,19 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 연결망의 핵심 원리는 세 축이다. 첫째, 생명주기 축(계획-분석-설계-구현-운영-개선). 둘째, 평가 축(통제, 품질, 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 추적성). 셋째, 증적 축(문서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트 결과, 변경 이력, 인터뷰). 이 세 축을 교차시키면 어떤 키워드도 답안에서 고립되지 않는다.
 
-```text
-┌──────────────────────────── 지식 매핑 3축 ────────────────────────────┐
-│ 생명주기 축 : 계획 → 분석 → 설계 → 구현 → 운영 → 개선               │
-│ 평가 축     : 품질 / 보안 / 성능 / 통제 / 추적성                     │
-│ 증적 축     : 문서 / 로그 / 테스트 결과 / 변경 이력                  │
-│                      └─ 교차 지점이 곧 답안 포인트                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지식 매핑 3축</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생명주기 축 : 계획 → 분석 → 설계 → 구현 → 운영 → 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 축 : 품질 / 보안 / 성능 / 통제 / 추적성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증적 축 : 문서 / 로그 / 테스트 결과 / 변경 이력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 교차 지점이 곧 답안 포인트</div></div>
+</div>
+</div>
+
+
 
 | 평가 축 | 대표 키워드 | 답안 연결 포인트 |
 | :--- | :--- | :--- |
@@ -82,7 +92,7 @@ tags = ["studynote-design-supervision"]
 - 비교형 문제에서 반대 개념이나 대체 수단까지 묶어 설명할 수 있는가?
 - 마지막 문장에서 기대효과나 기술사 판단 기준으로 자연스럽게 닫을 수 있는가?
 
-흔한 실패는 키워드를 많이 쓰되 연결 문장이 없는 경우, 또는 감리 문제인데 기술 설명만 장황한 경우다. 답안은 결국 **평가 문장**으로 완성되어야 한다.
+흔한 실패는 키워드를 많이 쓰되 연결 문장이 없는 경우, 또는 감리 문제인데 기술 설명만 장황한 경우다. 답안은 결국 <strong>평가 문장</strong>으로 완성되어야 한다.
 - **📢 섹션 요약 비유**: 재료 이름만 잔뜩 외운다고 요리가 되지 않고, 어떤 재료를 언제 넣고 맛을 어떻게 확인할지 알아야 진짜 요리가 되는 것과 같다.
 
 ---
@@ -96,25 +106,28 @@ tags = ["studynote-design-supervision"]
 ---
 
 ### 📌 관련 개념 맵
-- **[요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))**: 계획·분석·테스트를 연결하는 대표 키워드
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/">요구사항 추적성</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>)</strong>: 계획·분석·테스트를 연결하는 대표 키워드
 - **형상관리/변경관리**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 통제의 닫힘 구조를 설명할 때 중심이 되는 축
-- **품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 유지보수성을 설계·감리 문장으로 이어 주는 연결점
+- <strong>품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 유지보수성을 설계·감리 문장으로 이어 주는 연결점
 - **감리 증적**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 산출물, 테스트 결과, 인터뷰 등 객관적 판단 근거
 - **기술사 답안 템플릿**: 정의, 비교, 절차, 판단, 기대효과를 빠르게 조합하는 실전 틀
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-개별 키워드 암기
-        │
-        ▼
-생명주기·평가 축 매핑
-        │
-        ▼
-위험·통제·증적 연결
-        │
-        ▼
-비교형·판단형 답안으로 전개
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 키워드 암기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">생명주기·평가 축 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">위험·통제·증적 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비교형·판단형 답안으로 전개</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 단어를 하나씩 따로 외우는 건 길 이름만 외우는 것과 같아요.

@@ -50,24 +50,26 @@ tags = ["studynote-software-engineering"]
 
 ### 변경 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
 
-```text
-변경 요청(CR) 제출
-    │
-    ▼
-영향 분석 (Impact Analysis)
-    ├─ 변경 범위 파악
-    ├─ 리스크 평가
-    └─ 비용·일정 추정
-    │
-    ▼
-변경 승인위원회(CCB: Configuration Change Board)
-    │
-    ▼
-구현 → 테스트 → 배포
-    │
-    ▼
-구성 관리 시스템 업데이트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">변경 요청(CR) 제출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">영향 분석 (Impact Analysis)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">변경 범위 파악</div>
+<div class="kb-diagram-tree-item" style="--depth:2">리스크 평가</div>
+<div class="kb-diagram-tree-item" style="--depth:2">비용·일정 추정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변경 승인위원회(CCB: Configuration Change Board)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구현 → 테스트 → 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구성 관리 시스템 업데이트</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 아파트 공사 허가다. 벽에 못 하나 박는 것도(작은 변경) 관리실([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 신고 절차가 있고, 벽 철거(큰 변경)는 더 엄격한 허가가 필요하다.
 
@@ -116,8 +118,8 @@ tags = ["studynote-software-engineering"]
 | 기대효과 | 내용 |
 |:---|:---|
 | **비용 관리** | 유형별 자원 배분 최적화 |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수** | 유형별 대응 시간 차별화 |
-| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리** | 예방 유지보수로 장기 품질 유지 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 준수</strong> | 유형별 대응 시간 차별화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 관리</strong> | 예방 유지보수로 장기 품질 유지 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 유지보수가 등장하고 있다. GitHub Copilot·Amazon CodeWhisperer가 버그 자동 수정을 제안하고, Dependabot이 의존성 자동 업데이트 PR을 생성하며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 리뷰가 예방 유지보수를 자동화하는 방향으로 발전하고 있다.
 
@@ -130,28 +132,30 @@ tags = ["studynote-software-engineering"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ISO/IEC 14764** | 유지보수 4유형 표준 |
-| **[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) ([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))** | 유지보수 변경 승인 프로세스 |
-| **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)** | 예방 유지보수의 대상 |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)** | 유형별 대응 시간 기준 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/">변경 관리</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>)</strong> | 유지보수 변경 승인 프로세스 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a></strong> | 예방 유지보수의 대상 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a></strong> | 유형별 대응 시간 기준 |
 | **Dependabot** | 적응 유지보수 자동화 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 유지보수 — 전체 비용의 60~80%]
-    │
-    ▼
-[4유형 분류 — 수정/적응/완전화/예방 (ISO 14764)]
-    │
-    ▼
-[변경 관리 (CCB) — 체계적 변경 승인 프로세스]
-    │
-    ▼
-[유지보수성 향상 — 응집도·결합도·테스트 자동화]
-    │
-    ▼
-[AI 자동 유지보수 — 결함 자동 감지·수정 제안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 유지보수 — 전체 비용의 60~80%</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4유형 분류 — 수정/적응/완전화/예방 (ISO 14764)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변경 관리 (CCB) — 체계적 변경 승인 프로세스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유지보수성 향상 — 응집도·결합도·테스트 자동화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동 유지보수 — 결함 자동 감지·수정 제안</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

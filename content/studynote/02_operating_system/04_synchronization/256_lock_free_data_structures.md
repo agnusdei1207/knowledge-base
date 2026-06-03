@@ -19,33 +19,30 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 뮤텍스 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 핵심 문제는 **[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 암전 (Preemption Under [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))** 이다. 뮤텍스를 보유한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 선점당하면, 뮤텍스를 기다리는 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 선점된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 재실행될 때까지 차단된다. 이로 인해 최악의 경우 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 1개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 재실행되기를 기다리는 병목이 발생한다.
+전통적인 뮤텍스 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 핵심 문제는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 암전 (Preemption Under <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong> 이다. 뮤텍스를 보유한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 선점당하면, 뮤텍스를 기다리는 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 선점된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 재실행될 때까지 차단된다. 이로 인해 최악의 경우 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 1개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 재실행되기를 기다리는 병목이 발생한다.
 
-락-프리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 뮤텍스를 사용하지 않고 **[CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 루프**로 갱신을 시도한다. 실패하면 재시도하므로, 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 전진을 방해받아도 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 계속 진행한다.
+락-프리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 뮤텍스를 사용하지 않고 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/">Compare-And-Swap</a>) 루프</strong>로 갱신을 시도한다. 실패하면 재시도하므로, 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 전진을 방해받아도 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 계속 진행한다.
 
 **💡 비유**: 뮤텍스는 창구 줄서기 — 앞 사람이 느리면 모두 기다려야 한다. 락-프리는 팝업 스토어 재고 선점 — 빠른 사람이 먼저 가져가고, 늦은 사람은 재시도한다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│       락-프리 vs 뮤텍스 기반 — 처리량 비교               │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  처리량                                                  │
-│     ▲                                                    │
-│     │      [락-프리]                                     │
-│     │    ··········                                      │
-│     │  ·········                                         │
-│     │ ·······                                            │
-│     │·····                                               │
-│     │    [뮤텍스]    경합이 증가하면 처리량 급락         │
-│     │   ────────\──────────────────────────────          │
-│     │            \\                                      │
-│     │             \──────────────────                    │
-│     └──────────────────────────────────────▶ 스레드 수   │
-│                                                          │
-│  락-프리는 코어 수 증가에 선형적 확장성 유지             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락-프리 vs 뮤텍스 기반 — 처리량 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">락-프리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">··········</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·········</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·······</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·····</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스</div><div class="kb-diagram-note">경합이 증가하면 처리량 급락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스레드 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락-프리는 코어 수 증가에 선형적 확장성 유지</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 락-프리는 교통경찰 없는 회전교차로 — 누군가 막혀도 다른 방향 차량은 계속 진행합니다.
 
@@ -73,61 +70,54 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ### 락-프리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구현
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            락-프리 스택 Push 동작 (CAS 루프)                 │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Push(new_node):                                             │
-│  ┌─────────────────────────────────────────────────────┐     │
-│  │  do {                                               │     │
-│  │    head = atomic_load(&stack->head);                │     │
-│  │    new_node->next = head;  // 새 노드를 head로 설정│      │
-│  │  } while (!CAS(&stack->head, head, new_node));      │     │
-│  └─────────────────────────────────────────────────────┘     │
-│                                                              │
-│  시나리오: T1과 T2 동시 Push                                 │
-│                                                              │
-│  초기: [head → A]                                            │
-│                                                              │
-│  T1: head=A, new->next=A, CAS(A, B) → 성공                   │
-│  상태: [head → B → A]                                        │
-│                                                              │
-│  T2: head=A (구 값), new->next=A, CAS(A, C) → 실패!          │
-│      (head가 이미 B로 변경됨)                                │
-│  T2 재시도: head=B, new->next=B, CAS(B, C) → 성공            │
-│  상태: [head → C → B → A]                                    │
-│                                                              │
-│  보장: 어느 시점이든 최소 1개 스레드는 Push에 성공           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락-프리 스택 Push 동작 (CAS 루프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Push(new_node):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">do {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">head = atomic_load(&amp;stack-&gt;head);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new_node-&gt;next = head; // 새 노드를 head로 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} while (!CAS(&amp;stack-&gt;head, head, new_node));</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시나리오: T1과 T2 동시 Push</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기:</div><div class="kb-diagram-node">head → A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: head=A, new-&gt;next=A, CAS(A, B) → 성공</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">상태:</div><div class="kb-diagram-node">head → B → A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: head=A (구 값), new-&gt;next=A, CAS(A, C) → 실패!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(head가 이미 B로 변경됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2 재시도: head=B, new-&gt;next=B, CAS(B, C) → 성공</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">상태:</div><div class="kb-diagram-node">head → C → B → A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장: 어느 시점이든 최소 1개 스레드는 Push에 성공</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 루프의 핵심은 "내가 읽은 값이 아직도 그대로인가"를 원자적으로 확인한 후 수정하는 것이다. T2가 실패했을 때 T1은 이미 성공했으므로 시스템 전체는 전진한다 — 이것이 락-프리의 Live 보장이다. 단, T2는 재시도해야 하므로 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 완료를 보장하지는 않는다 (Wait-free는 아님).
 
 ### ABA 문제 — 락-프리의 핵심 함정
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              ABA 문제 발생 시나리오                      │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  초기: [head → A → B → C]                                │
-│                                                          │
-│  T1: head 읽음 = A                                       │
-│      (CAS 전에 T1이 선점당함)                            │
-│                                                          │
-│  T2: Pop A (head = B), Pop B (head = C)                  │
-│      A를 재사용해 Push: head = A → C                     │
-│      (A의 next는 이제 C, B는 해제됨!)                    │
-│                                                          │
-│  T1: CAS(A, new) 성공! (head=A이므로)                    │
-│      head = new → next는 B (이미 해제된 메모리!)         │
-│      → Use-After-Free 취약점!                            │
-│                                                          │
-│  해결: Tagged Pointer — 포인터에 카운터를 함께 저장      │
-│  (A, tag=1) → (A, tag=2): CAS가 tag까지 비교하므로 실패  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ABA 문제 발생 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">초기:</div><div class="kb-diagram-node">head → A → B → C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: head 읽음 = A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CAS 전에 T1이 선점당함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: Pop A (head = B), Pop B (head = C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A를 재사용해 Push: head = A → C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A의 next는 이제 C, B는 해제됨!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: CAS(A, new) 성공! (head=A이므로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">head = new → next는 B (이미 해제된 메모리!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Use-After-Free 취약점!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: Tagged Pointer — 포인터에 카운터를 함께 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A, tag=1) → (A, tag=2): CAS가 tag까지 비교하므로 실패</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** ABA 문제는 값이 A→B→A로 바뀌었지만 CAS가 이 변화를 감지하지 못하는 현상이다. 해결법은 포인터와 함께 변경 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(tag)를 유지하는 Tagged Pointer 기법으로, 포인터 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(정렬 보장 영역)나 128비트 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)(`cmpxchg16b`)를 활용한다. Java의 `AtomicStampedReference`가 이 패턴의 표준 구현이다.
 
@@ -139,21 +129,24 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ### [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 보장 수준 비교
 
-```text
-┌──────────────────┬──────────────┬──────────────┬───────────────┐
-│ 보장 수준        │ 블로킹 락    │ 락-프리      │ 웨이트-프리   │
-├──────────────────┼──────────────┼──────────────┼───────────────┤
-│ 데드락 가능성    │ 있음         │ 없음         │ 없음          │
-│ 기아 가능성      │ 있음         │ 없음         │ 없음          │
-│ 개별 완료 보장   │ 있음         │ 없음         │ 있음          │
-│ 구현 복잡도      │ 낮음         │ 높음         │ 매우 높음     │
-│ 실무 적용        │ 일반 목적    │ 고성능 큐/스택│ 하드리얼타임 │
-└──────────────────┴──────────────┴──────────────┴───────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장 수준</div><div class="kb-diagram-cell">블로킹 락</div><div class="kb-diagram-cell">락-프리</div><div class="kb-diagram-cell">웨이트-프리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데드락 가능성</div><div class="kb-diagram-cell">있음</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기아 가능성</div><div class="kb-diagram-cell">있음</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개별 완료 보장</div><div class="kb-diagram-cell">있음</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 복잡도</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">매우 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 적용</div><div class="kb-diagram-cell">일반 목적</div><div class="kb-diagram-cell">고성능 큐/스택</div><div class="kb-diagram-cell">하드리얼타임</div></div>
+</div>
+</div>
+
+
 
 ### 실무 적용 사례
 - **Java LongAdder**: `AtomicLong`보다 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 위해 내부적으로 셀 배열에 분산하여 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 충돌을 줄이는 락-프리 설계.
-- **Linux [kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ring buffer**: `kfifo`는 단일 생산자-소비자 환경에서 락 없이 동작하는 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-free [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/).
+- <strong>Linux <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">kernel</a> ring buffer</strong>: `kfifo`는 단일 생산자-소비자 환경에서 락 없이 동작하는 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-free [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/).
 - **Go channel 내부**: [goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/) 간 채널 통신의 기저가 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 링 버퍼.
 
 **📢 섹션 요약 비유**: 락-프리는 고속도로 요금소에서 하이패스 차선 — 멈추지 않고 통과하되, 충돌이 나면 재시도하는 시스템입니다.
@@ -164,7 +157,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ### 실무 시나리오
 1. **고처리량 메시지 큐**: 뮤텍스 기반 큐는 생산자-소비자 수 증가 시 락 경합으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 감소. `ConcurrentLinkedQueue`(락-프리)는 코어 수 증가에 선형 확장.
-2. **실시간 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)**: 락 없는 링 버퍼로 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)(생산자)와 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(소비자)가 뮤텍스 없이 통신, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장.
+2. <strong>실시간 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/">로그 수집</a></strong>: 락 없는 링 버퍼로 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)(생산자)와 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(소비자)가 뮤텍스 없이 통신, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **ABA 무시**: 포인터 재사용이 있는 환경에서 Tagged Pointer 없이 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 사용 → 희귀하지만 치명적 메모리 오류.
@@ -198,15 +191,19 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SeqLock (순차 락)]
-    │
-    ▼
-[락-프리 (Lock-free) 자료구조]
-    │
-    ├──▶ [웨이트-프리 (Wait-free) 알고리즘]
-    └──▶ [스케줄러 일드 (sched_yield)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SeqLock (순차 락)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">락-프리 (Lock-free) 자료구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웨이트-프리 (Wait-free) 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스케줄러 일드 (sched_yield)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

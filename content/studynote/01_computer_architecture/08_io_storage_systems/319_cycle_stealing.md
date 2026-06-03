@@ -43,18 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "CPU가 완전히 멈추는 구조"가 아니라, 메모리 접근 타이밍 사이에 DMA가 한 번씩 끼어드는 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          사이클 스틸링의 버스 점유 흐름: 짧게 점유하고 즉시 반납          │
-├──────────────────────────────────────────────────────────────────────┤
-│ 시간축        t0        t1        t2        t3        t4        t5   │
-│ CPU 상태   명령 인출   실행 중    실행 중   메모리 접근  대기 1회   재개 │
-│ 버스 소유      CPU        유휴       DMA        CPU        DMA      CPU │
-│ 데이터 이동     -         -      장치→메모리    -      장치→메모리   -   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 핵심: DMA는 필요한 순간마다 1회분만 전송하고, 버스를 계속 붙잡지 않는다.   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 스틸링의 버스 점유 흐름: 짧게 점유하고 즉시 반납</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간축 t0 t1 t2 t3 t4 t5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 상태 명령 인출 실행 중 실행 중 메모리 접근 대기 1회 재개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스 소유 CPU 유휴 DMA CPU DMA CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 이동 - - 장치→메모리 - 장치→메모리 -</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: DMA는 필요한 순간마다 1회분만 전송하고, 버스를 계속 붙잡지 않는다.</div></div>
+</div>
+</div>
+
+
 
 이때 CPU가 체감하는 손실은 "한 클럭 전체 정지"보다 "특정 메모리 접근 한 번 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"에 가깝다. CPU가 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 연산만 하는 구간이라면 거의 티가 나지 않고, 캐시 미스(Cache Miss) 직전처럼 메모리 의존성이 큰 구간이라면 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다. 그래서 [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)의 실제 효과는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 빈도뿐 아니라 CPU의 캐시 구조, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 장치 발생률에 따라 달라진다.
 
@@ -131,21 +133,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-PIO (Programmed I/O)
-    │
-    ▼
-인터럽트 기반 I/O
-    │
-    ▼
-DMA (Direct Memory Access)
-    ├───────────────┬────────────────┐
-    ▼               ▼                ▼
-사이클 스틸링    버스트 모드      스캐터-개더 DMA
-    │
-    ▼
-버스 중재 고도화 · 캐시 일관성 · 온칩 인터커넥트 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PIO (Programmed I/O)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 기반 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access)</div>
+<div class="kb-diagram-note">사이클 스틸링 버스트 모드 스캐터-개더 DMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버스 중재 고도화 · 캐시 일관성 · 온칩 인터커넥트 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 CPU 직접 개입을 줄여 가는 방향 속에서, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 내부에서도 응답성 중심의 [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 중심의 [버스트 모드](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/)로 전략이 분화되는 과정을 보여 준다.
 

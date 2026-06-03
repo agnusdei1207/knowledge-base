@@ -96,25 +96,27 @@ zk-STARK (Scalable Transparent ARguments of Knowledge):
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 응용 분야
 
-```
-1. 블록체인 레이어 2 스케일링 (ZK-Rollup):
-   수천 건의 트랜잭션을 번들로 ZKP 생성
-   메인체인에는 ZKP만 제출 -> 가스비 99% 절감
-   사례: zkSync, StarkEx, Polygon zkEVM
 
-2. 프라이버시 보호 암호화폐:
-   Zcash: ZKP로 발신자/수신자/금액 모두 숨김
 
-3. 신원 인증 (Self-Sovereign Identity):
-   "나이 18세 이상" -> 생년월일 공개 없이 증명
-   "대한민국 국적" -> 여권 내용 공개 없이 증명
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 블록체인 레이어 2 스케일링 (ZK-Rollup):</div>
+<div class="kb-diagram-note">수천 건의 트랜잭션을 번들로 ZKP 생성</div>
+<div class="kb-diagram-note">메인체인에는 ZKP만 제출 -&gt; 가스비 99% 절감</div>
+<div class="kb-diagram-note">사례: zkSync, StarkEx, Polygon zkEVM</div>
+<div class="kb-diagram-note">2. 프라이버시 보호 암호화폐:</div>
+<div class="kb-diagram-note">Zcash: ZKP로 발신자/수신자/금액 모두 숨김</div>
+<div class="kb-diagram-note">3. 신원 인증 (Self-Sovereign Identity):</div>
+<div class="kb-diagram-note">"나이 18세 이상" -&gt; 생년월일 공개 없이 증명</div>
+<div class="kb-diagram-note">"대한민국 국적" -&gt; 여권 내용 공개 없이 증명</div>
+<div class="kb-diagram-note">4. 의료 데이터:</div>
+<div class="kb-diagram-note">"이 환자는 COVID 음성" -&gt; 전체 의무기록 공개 없이 증명</div>
+<div class="kb-diagram-note">5. 금융:</div>
+<div class="kb-diagram-note">"신용 점수 700 이상" -&gt; 상세 내역 공개 없이 증명</div>
+</div>
+</div>
 
-4. 의료 데이터:
-   "이 환자는 COVID 음성" -> 전체 의무기록 공개 없이 증명
 
-5. 금융:
-   "신용 점수 700 이상" -> 상세 내역 공개 없이 증명
-```
 
 > 📢 **섹션 요약 비유**: 금융 기관에 "나는 신용이 좋습니다"를 계좌 내역 한 줄도 보여주지 않고 증명하는 시스템 — [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 혁명.
 
@@ -122,24 +124,27 @@ zk-STARK (Scalable Transparent ARguments of Knowledge):
 
 ## V. 실무 시나리오 — ZK-[Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-```
-Ethereum ZK-Rollup 동작:
 
-Layer 2 Sequencer:
-  사용자 1,000건 트랜잭션 수집
-  -> 상태 변환 계산 (Before State -> After State)
-  -> ZKP 생성 (수백 ms ~ 수 초)
-  -> Proof + 압축 데이터를 Ethereum에 제출
 
-Ethereum L1 검증:
-  ZKP 검증 (수 ms, 가스비 ~300,000 gas)
-  원래 1,000건 * 21,000 gas = 21,000,000 gas
-  ZK-Rollup: ~300,000 gas (70배 절감)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Ethereum ZK-Rollup 동작:</div>
+<div class="kb-diagram-note">Layer 2 Sequencer:</div>
+<div class="kb-diagram-note">사용자 1,000건 트랜잭션 수집</div>
+<div class="kb-diagram-tree-item" style="--depth:1">상태 변환 계산 (Before State -&gt; After State)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ZKP 생성 (수백 ms ~ 수 초)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Proof + 압축 데이터를 Ethereum에 제출</div>
+<div class="kb-diagram-note">Ethereum L1 검증:</div>
+<div class="kb-diagram-note">ZKP 검증 (수 ms, 가스비 ~300,000 gas)</div>
+<div class="kb-diagram-note">원래 1,000건 * 21,000 gas = 21,000,000 gas</div>
+<div class="kb-diagram-note">ZK-Rollup: ~300,000 gas (70배 절감)</div>
+<div class="kb-diagram-note">보안 수준:</div>
+<div class="kb-diagram-note">수학적 증명으로 L1과 동일한 보안</div>
+<div class="kb-diagram-note">사기 증명(Optimistic)과 달리 즉시 완결성</div>
+</div>
+</div>
 
-보안 수준:
-  수학적 증명으로 L1과 동일한 보안
-  사기 증명(Optimistic)과 달리 즉시 완결성
-```
+
 
 > 📢 **섹션 요약 비유**: 1,000명의 계산 결과를 하나의 수학 증명서로 요약해서 감사자에게 제출하는 것 — 1,000개를 하나하나 검사할 필요 없이 증명서 하나로 신뢰.
 

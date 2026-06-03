@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-서브루틴 호출 (Call)과 복귀 (Return)는 **필요한 기능이 있는 코드 구간으로 잠시 이동했다가, 원래 실행하던 지점으로 다시 돌아오는 규칙**이다. 단순 점프 (Jump)는 목적지로 이동만 할 뿐 돌아올 위치를 기억하지 않지만, Call은 이동 직전에 복귀 주소 (Return Address)를 저장하고 Return은 그 주소를 복원한다.
+서브루틴 호출 (Call)과 복귀 (Return)는 <strong>필요한 기능이 있는 코드 구간으로 잠시 이동했다가, 원래 실행하던 지점으로 다시 돌아오는 규칙</strong>이다. 단순 점프 (Jump)는 목적지로 이동만 할 뿐 돌아올 위치를 기억하지 않지만, Call은 이동 직전에 복귀 주소 (Return Address)를 저장하고 Return은 그 주소를 복원한다.
 
 이 메커니즘이 필요한 이유는 프로그램이 커질수록 같은 연산을 여러 번 반복해서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문이다. 출력, 정렬, 오류 처리, 장치 제어처럼 자주 쓰는 동작을 매번 복사하면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 급격히 늘고, 수정 시 모든 위치를 다시 고쳐야 해 유지보수도 어려워진다. 반대로 공통 기능을 한 곳에 모아두고 필요할 때마다 불러 쓰면 코드 밀도와 관리성이 함께 좋아진다.
 
@@ -31,33 +31,32 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Call/Return의 핵심은 **[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 저장 → 목적지 이동 → 작업 수행 → 저장된 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 복원**의 4단계다. 저장 위치는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리일 수도 있고, 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Link [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), LR) 같은 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수도 있다. 어느 방식을 쓰든 중요한 것은 복귀 주소가 중첩 호출 순서와 정확히 맞아야 한다는 점이다.
+Call/Return의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 저장 → 목적지 이동 → 작업 수행 → 저장된 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 복원</strong>의 4단계다. 저장 위치는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 메모리일 수도 있고, 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Link [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), LR) 같은 전용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)일 수도 있다. 어느 방식을 쓰든 중요한 것은 복귀 주소가 중첩 호출 순서와 정확히 맞아야 한다는 점이다.
 
 아래 그림은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 호출에서 주소가 어떻게 왕복하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Caller 코드                                                                │
-│ 0x100: LOAD R1, A                                                           │
-│ 0x104: CALL 0x500   ───────────────┐                                        │
-│ 0x108: ADD  R2, R3   ◀─────────────┼── Return이 복귀하면 여기서 재개         │
-│                                     │                                        │
-│ Stack 메모리                        │  1) CALL 시 0x108 저장                 │
-│ ┌──────────────────────────────┐    │                                        │
-│ │ ...                          │    │                                        │
-│ │ 0x108  ← Top of Stack        │◀───┘                                        │
-│ └──────────────────────────────┘                                             │
-│                                                                              │
-│ Callee 코드                                                                  │
-│ 0x500: PUSH FP / SAVE REGS / ...                                             │
-│        ... 작업 수행 ...                                                      │
-│ 0x520: RET ──────────────── POP 0x108 ───────────────▶ PC = 0x108            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림이 말하는 핵심은 Return이 "목적지를 계산"하는 것이 아니라 **미리 저장해 둔 복귀 주소를 꺼내는 것**이라는 점이다. 따라서 Call/Return은 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)이면서 동시에 상태 보존 메커니즘이기도 하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x100: LOAD R1, A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x104: CALL 0x500</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x108: ADD R2, R3 ◀ ── Return이 복귀하면 여기서 재개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack 메모리</div><div class="kb-diagram-cell">1) CALL 시 0x108 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x108 ← Top of Stack</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Callee 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x500: PUSH FP / SAVE REGS / ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 작업 수행 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x520: RET POP 0x108 ▶ PC = 0x108</div></div>
+</div>
+</div>
+
+
+
+이 그림이 말하는 핵심은 Return이 "목적지를 계산"하는 것이 아니라 <strong>미리 저장해 둔 복귀 주소를 꺼내는 것</strong>이라는 점이다. 따라서 Call/Return은 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)이면서 동시에 상태 보존 메커니즘이기도 하다.
 
 ### 호출 시 실제로 함께 움직이는 것들
 
@@ -71,7 +70,7 @@ Call/Return의 핵심은 **[PC](/knowledge-base/studynote/01_computer_architectu
 
 실제 함수 호출에서는 복귀 주소만 저장되지 않는다. 보통 인자 전달, 저장해야 할 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 보존, 지역 변수 공간 확보가 함께 일어나며, 이 묶음을 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame)이라 한다. 그래서 Call/Return은 단순 분기보다 무겁지만, 그 대가로 함수 단위의 독립성과 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 가능성을 얻는다.
 
-특히 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/))는 Call/Return의 구조적 장점을 잘 보여준다. 같은 함수가 자신을 여러 번 불러도 각 호출은 **서로 다른 복귀 주소와 지역 변수 집합**을 가진 별도 프레임으로 쌓인다. 이 질서가 유지되기 때문에 함수가 끝날 때 가장 최근 호출부터 거꾸로 정확히 복귀할 수 있다.
+특히 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) ([Recursion](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/))는 Call/Return의 구조적 장점을 잘 보여준다. 같은 함수가 자신을 여러 번 불러도 각 호출은 <strong>서로 다른 복귀 주소와 지역 변수 집합</strong>을 가진 별도 프레임으로 쌓인다. 이 질서가 유지되기 때문에 함수가 끝날 때 가장 최근 호출부터 거꾸로 정확히 복귀할 수 있다.
 
 - **📢 섹션 요약 비유**: Call/Return은 택배 분류장 번호표 시스템과 같다. 각 상자에 "다 끝나면 어느 라인으로 돌려보낼지" 번호표를 붙여 두기 때문에, 수많은 상자가 오가도 마지막에 정확한 벨트로 돌아간다.
 
@@ -90,7 +89,7 @@ Call/Return을 제대로 이해하려면 단순 점프와의 차이, 그리고 �
 | 주 사용처 | 분기, 루프, 예외 처리 | 함수, 프로시저, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) |
 | 문맥 관리 | 거의 없음 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임과 연계 |
 
-Jump는 길을 바꾸는 명령이고, Call은 **다녀올 것을 전제로 한 이동**이다. 그래서 고급 언어의 함수는 Jump만으로 흉내 낼 수는 있어도, 복귀 주소와 지역 상태를 매번 수작업으로 관리해야 하므로 확장성이 급격히 떨어진다.
+Jump는 길을 바꾸는 명령이고, Call은 <strong>다녀올 것을 전제로 한 이동</strong>이다. 그래서 고급 언어의 함수는 Jump만으로 흉내 낼 수는 있어도, 복귀 주소와 지역 상태를 매번 수작업으로 관리해야 하므로 확장성이 급격히 떨어진다.
 
 ### 2) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 저장 방식과 링크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식
 
@@ -111,18 +110,18 @@ Jump는 길을 바꾸는 명령이고, Call은 **다녀올 것을 전제로 한 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 Call/Return은 "함수 호출이 된다" 수준보다 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·안정성·보안**의 판단 문제로 나타난다. 특히 호출 깊이, 호출 빈도, 호출 규약, 복귀 주소 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방식은 설계 품질을 직접 좌우한다.
+실무에서 Call/Return은 "함수 호출이 된다" 수준보다 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>·안정성·보안</strong>의 판단 문제로 나타난다. 특히 호출 깊이, 호출 빈도, 호출 규약, 복귀 주소 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방식은 설계 품질을 직접 좌우한다.
 
 ### 설계·운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **호출 깊이 관리**: [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)나 중첩 호출이 깊다면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 크기와 최대 프레임 크기를 계산해야 한다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 우아해 보여도 입력 크기에 따라 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))를 유발하면 운영 환경에서는 위험하다.
 2. **호출 오버헤드 평가**: 매우 짧은 함수가 핫패스 (Hot Path)에서 반복 호출되면 분기 비용, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장 비용, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 비용이 누적된다. 이 경우 인라인 (Inline), 꼬리 호출 최적화 (Tail Call Optimization, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)), 호출 규약 조정이 효과적일 수 있다.
-3. **복귀 주소 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: 복귀 주소는 제어 흐름의 핵심 자산이므로 [스택 카나리](/knowledge-base/studynote/09_security/04_endpoint_security/339_stack_canary/) ([Stack Canary](/knowledge-base/studynote/09_security/04_endpoint_security/339_stack_canary/)), 비실행 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Non-eXecutable, NX), 제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (Control-Flow [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), CFI) 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법을 함께 검토해야 한다.
+3. <strong>복귀 주소 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 복귀 주소는 제어 흐름의 핵심 자산이므로 [스택 카나리](/knowledge-base/studynote/09_security/04_endpoint_security/339_stack_canary/) ([Stack Canary](/knowledge-base/studynote/09_security/04_endpoint_security/339_stack_canary/)), 비실행 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Non-eXecutable, NX), 제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (Control-Flow [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), CFI) 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법을 함께 검토해야 한다.
 4. **디버깅 가능성 확보**: 프레임 포인터 생략 최적화는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 이점이 있지만, 장애 분석과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 추적 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace)을 어렵게 만들 수 있다. 운영 시스템에서는 추적성 확보가 더 중요할 때가 많다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무제한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 남용**: 종료 조건은 있어도 입력 규모가 커지면 프레임이 과도하게 쌓여 실패한다.
+- <strong>무제한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 남용</strong>: 종료 조건은 있어도 입력 규모가 커지면 프레임이 과도하게 쌓여 실패한다.
 - **호출 규약 무시**: 어셈블리와 고급 언어 코드를 섞을 때 caller-saved / callee-saved [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 규칙을 어기면 복귀 후 데이터가 깨진다.
 - **복귀 주소 신뢰 과잉**: 버퍼 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 생기면 Return이 공격자가 심어 둔 주소로 이동할 수 있다. [Return-Oriented Programming](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/), [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격이 여기서 출발한다.
 
@@ -134,11 +133,11 @@ Jump는 길을 바꾸는 명령이고, Call은 **다녀올 것을 전제로 한 
 
 ## Ⅴ. 기대효과 및 결론
 
-Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나열이 아니라, **작은 기능 블록을 연결하는 구조적 시스템**으로 바뀐다. 코드 재사용성이 높아지고, 기능 단위 테스트와 유지보수가 쉬워지며, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)와 추상화도 기계어 수준에서 안정적으로 구현된다.
+Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나열이 아니라, <strong>작은 기능 블록을 연결하는 구조적 시스템</strong>으로 바뀐다. 코드 재사용성이 높아지고, 기능 단위 테스트와 유지보수가 쉬워지며, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)와 추상화도 기계어 수준에서 안정적으로 구현된다.
 
 동시에 이 구조는 비용도 남긴다. 호출에는 분기와 상태 저장이 동반되므로 완전히 공짜가 아니고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 깊어지면 메모리 사용량과 장애 위험이 함께 커진다. 또한 복귀 주소가 공격 표적이 되기 때문에 보안까지 고려해야 비로소 완성된 설계가 된다.
 
-따라서 서브루틴 호출과 복귀는 "함수를 부르는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"로만 외우면 부족하다. **"제어 흐름을 모듈화하되, 복귀 경로의 정확성과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 끝까지 책임지는 메커니즘"** 으로 기억해야 한다. 이 관점이 있어야 Jump, [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame, Calling Convention, [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/), 보안 방어 기법까지 하나의 흐름으로 연결된다.
+따라서 서브루틴 호출과 복귀는 "함수를 부르는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"로만 외우면 부족하다. <strong>"제어 흐름을 모듈화하되, 복귀 경로의 정확성과 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>를 끝까지 책임지는 메커니즘"</strong> 으로 기억해야 한다. 이 관점이 있어야 Jump, [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Frame, Calling Convention, [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/), 보안 방어 기법까지 하나의 흐름으로 연결된다.
 
 - **📢 섹션 요약 비유**: Call/Return은 도시의 환승 시스템과 같다. 노선을 잘 나누면 어디든 효율적으로 갈 수 있지만, 환승 표식과 복귀 동선이 틀어지면 도시 전체가 금세 혼잡과 사고에 빠진다.
 
@@ -158,24 +157,25 @@ Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 분기 (Jump)
-    │
-    ▼
-서브루틴 호출 (Call) · 복귀 주소 (Return Address)
-    │
-    ▼
-스택 프레임 (Stack Frame) · 호출 규약 (Calling Convention)
-    │
-    ▼
-링크 레지스터 (Link Register) · leaf function 최적화
-    │
-    ▼
-복귀 주소 스택 (Return Address Stack, RAS) · 분기 예측
-    │
-    ▼
-스택 보호 기법 · CFI (Control-Flow Integrity) · ROP 방어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 분기 (Jump)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서브루틴 호출 (Call) · 복귀 주소 (Return Address)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스택 프레임 (Stack Frame) · 호출 규약 (Calling Convention)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">링크 레지스터 (Link Register) · leaf function 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복귀 주소 스택 (Return Address Stack, RAS) · 분기 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스택 보호 기법 · CFI (Control-Flow Integrity) · ROP 방어</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 이동"에서 출발해 "구조적 호출", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화", "보안 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로 Call/Return 개념이 확장되는 과정을 보여준다.
 

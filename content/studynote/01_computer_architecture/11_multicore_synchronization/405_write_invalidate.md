@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Invalidate)은 멀티코어 프로세서에서 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정될 때, 다른 코어의 오래된 캐시 사본을 즉시 폐기시켜 최신 값의 단일 소유자를 만드는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 핵심 목적은 "모든 복사본을 동시에 최신으로 유지"하는 것이 아니라, "오래된 복사본이 더 이상 사용되지 못하게 차단"하는 데 있다. 이 발상은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))의 본질이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 자체보다 **오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 사용 금지**에 있음을 잘 보여준다.
+무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Write-Invalidate)은 멀티코어 프로세서에서 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수정될 때, 다른 코어의 오래된 캐시 사본을 즉시 폐기시켜 최신 값의 단일 소유자를 만드는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 핵심 목적은 "모든 복사본을 동시에 최신으로 유지"하는 것이 아니라, "오래된 복사본이 더 이상 사용되지 못하게 차단"하는 데 있다. 이 발상은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/))의 본질이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 자체보다 <strong>오래된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 사용 금지</strong>에 있음을 잘 보여준다.
 
 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요한 이유는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 후 읽기 패턴이 항상 즉시 따라오지 않기 때문이다. 어떤 코어가 같은 값을 짧은 시간에 여러 번 갱신한다면, 매번 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 코어들에게 방송하는 것은 대부분 낭비가 된다. 다른 코어는 그 값을 당장 읽지 않을 수도 있고, 나중에 한 번만 최신 값을 가져오면 충분한 경우가 많다. 따라서 먼저 "기존 사본은 폐기"만 통지하고, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 정말 필요할 때만 수행하는 편이 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율이 높다.
 
@@ -31,30 +31,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 스누핑 (Snooping) 기반 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)이나 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) ([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안에서 동작한다. 대표적으로 MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 여러 코어가 같은 캐시 라인을 `Shared` 상태로 들고 있을 때, 한 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행하면 다른 코어의 사본을 `Invalid`로 바꾸고 자신은 `Modified` 또는 `Exclusive` 성격의 단독 소유 상태를 획득한다. 이때 중요한 점은 **새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 즉시 배포하지 않는다는 것**이다.
+무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 스누핑 (Snooping) 기반 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)이나 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) ([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안에서 동작한다. 대표적으로 MESI (Modified, Exclusive, Shared, Invalid) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 여러 코어가 같은 캐시 라인을 `Shared` 상태로 들고 있을 때, 한 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행하면 다른 코어의 사본을 `Invalid`로 바꾸고 자신은 `Modified` 또는 `Exclusive` 성격의 단독 소유 상태를 획득한다. 이때 중요한 점은 <strong>새 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전체를 즉시 배포하지 않는다는 것</strong>이다.
 
 아래 그림은 여러 코어가 공유하던 캐시 라인에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 들어왔을 때, 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 어떻게 소유권을 재편하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│          Write-Invalidate의 기본 흐름: 공유본 폐기 후 작성자 단독화         │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 초기 상태                                                                    │
-│   Core 0 Cache          Core 1 Cache          Core 2 Cache                  │
-│   [X : S]               [X : S]               [X : S]                       │
-│        \\                  │                  //                            │
-│         \\                 │                 //                             │
-│          └────────────── Shared Interconnect ──────────────┘                │
-│                              │                                               │
-│                          [Memory X=v0]                                       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core 0가 X에 Write 수행                                                     │
-│   1) Core 0  ── Invalidate(X) ──▶ Interconnect                              │
-│   2) Core 1, Core 2 : [X : I] 로 전이                                       │
-│   3) Core 0 : [X : M] 획득 후 로컬 캐시에서 연속 수정                        │
-│   4) 다른 코어가 다시 읽을 때만 최신 데이터 재전송                           │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Invalidate의 기본 흐름: 공유본 폐기 후 작성자 단독화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Cache Core 1 Cache Core 2 Cache</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">X : S</div><div class="kb-diagram-node">X : S</div><div class="kb-diagram-node">X : S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Interconnect</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory X=v0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0가 X에 Write 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Core 0 ── Invalidate(X) ──▶ Interconnect</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2) Core 1, Core 2 :</div><div class="kb-diagram-node">X : I</div><div class="kb-diagram-note">로 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3) Core 0 :</div><div class="kb-diagram-node">X : M</div><div class="kb-diagram-note">획득 후 로컬 캐시에서 연속 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 다른 코어가 다시 읽을 때만 최신 데이터 재전송</div></div>
+</div>
+</div>
+
+
 
 이 방식의 효율은 "한 번 무효화하고 여러 번 로컬 수정"이 가능하다는 점에서 나온다. 예를 들어 코어 하나가 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 100번 증가시키더라도, 다른 캐시를 처음 한 번만 무효화하면 그 뒤의 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 자신의 캐시 안에서 진행할 수 있다. 반대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)-업데이트 ([Write-Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))라면 매 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)마다 값 변경이 계속 전파되어 불필요한 통신이 누적된다.
 
@@ -65,7 +64,7 @@ tags = ["studynote-computer-architecture"]
 | 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 작성 코어가 로컬 캐시에서 반복 수정 | 최신본 단일 유지 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방송 최소화 |
 | 후속 읽기 | 다른 코어가 캐시 미스 후 최신본 획득 | 다시 공유 상태 형성 가능 | 필요한 시점에만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 |
 
-다만 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 다른 코어가 같은 캐시 라인을 다시 사용하려는 순간 캐시 미스를 강제한다. 결국 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시점 비용을 줄이는 대신, 이후 읽기 시점에 필요 비용을 이연**하는 구조다. 그래서 읽기 중심 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다, 특정 코어가 일정 시간 동안 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 독점하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특히 잘 맞는다.
+다만 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 다른 코어가 같은 캐시 라인을 다시 사용하려는 순간 캐시 미스를 강제한다. 결국 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 시점 비용을 줄이는 대신, 이후 읽기 시점에 필요 비용을 이연</strong>하는 구조다. 그래서 읽기 중심 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다, 특정 코어가 일정 시간 동안 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 독점하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특히 잘 맞는다.
 
 - **📢 섹션 요약 비유**: 화이트보드를 한 사람이 발표 중일 때는 다른 사람 메모를 모두 지우게 하고 발표자만 계속 고치게 하는 편이 빠르다. 대신 다른 사람이 나중에 내용을 보려면 다시 최신 판서를 받아 적어야 한다.
 
@@ -97,31 +96,33 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 대표적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴 패턴인 캐시 라인 핑퐁을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 캐시 라인 핑퐁: 번갈아 쓰기 때문에 생기는 손실               │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 시간 t0 : Core 0 writes A   ──▶ Core 0 [Line : M]   Core 1 [Line : I]       │
-│ 시간 t1 : Core 1 writes B   ──▶ Core 0 [Line : I]   Core 1 [Line : M]       │
-│ 시간 t2 : Core 0 writes A   ──▶ Core 0 [Line : M]   Core 1 [Line : I]       │
-│ 시간 t3 : Core 1 writes B   ──▶ Core 0 [Line : I]   Core 1 [Line : M]       │
-│                                                                              │
-│  A와 B가 논리적으로 달라도 같은 캐시 라인에 있으면 무효화가 계속 왕복한다.   │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 라인 핑퐁: 번갈아 쓰기 때문에 생기는 손실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Line : M</div><div class="kb-diagram-note">Core 1</div><div class="kb-diagram-node">Line : I</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Line : I</div><div class="kb-diagram-note">Core 1</div><div class="kb-diagram-node">Line : M</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Line : M</div><div class="kb-diagram-note">Core 1</div><div class="kb-diagram-node">Line : I</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Line : I</div><div class="kb-diagram-note">Core 1</div><div class="kb-diagram-node">Line : M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A와 B가 논리적으로 달라도 같은 캐시 라인에 있으면 무효화가 계속 왕복한다.</div></div>
+</div>
+</div>
+
+
 
 ### 설계 판단 포인트
 
-1. **공유 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 대신 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))된 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 우선 검토한다.**  
+1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 대신 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)된 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>를 우선 검토한다.</strong>  
    전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나를 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `count++` 하면 캐시 라인 쟁탈전이 벌어진다. 코어별 로컬 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 두고 주기적으로 합산하면 무효화 빈도를 크게 줄일 수 있다.
 
-2. **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))과 정렬(Alignment)로 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)를 차단한다.**  
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)과 정렬(Alignment)로 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>를 차단한다.</strong>  
    `alignas(64)` 같은 기법으로 서로 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 변수를 다른 캐시 라인에 배치하면, 논리적 독립성이 물리적 독립성으로 이어진다.
 
-3. **락 경합이 심한 구조에서는 락 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 이동 빈도를 본다.**  
+3. <strong>락 경합이 심한 구조에서는 락 자체보다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유권 이동 빈도를 본다.</strong>  
    단순히 락 구현을 바꾸는 것보다, 공유 자료구조를 분할해 캐시 라인 이동을 줄이는 편이 더 큰 효과를 내는 경우가 많다.
 
-4. **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 환경에서는 코어 간 이동뿐 아니라 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 간 이동도 고려한다.**  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>) 환경에서는 코어 간 이동뿐 아니라 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 간 이동도 고려한다.</strong>  
    무효화된 라인이 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache)와 원격 메모리까지 오가면 비용이 더 커지므로, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핀닝과 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 설계가 중요해진다.
 
 ### 기술사형 답안 포인트
@@ -142,7 +143,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 이 방식은 공짜가 아니다. 캐시 라인 단위 동작 때문에 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)가 생기고, 빈번한 소유권 이동은 지연시간을 확대한다. 또한 코어 수가 커질수록 단순 스누핑만으로는 부담이 커지므로, 대규모 시스템에서는 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이나 MOESI (Modified, Owned, Exclusive, Shared, Invalid) 같은 확장형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 함께 논의된다.
 
-결국 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "최신 값을 모두에게 뿌리는 기술"이 아니라 "최신본의 소유권을 정확히 관리하는 기술"로 기억해야 한다. 시험에서도 실무에서도 핵심은 같다. **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전파를 줄여 얻는 효율과, 재접근 시 발생하는 미스 비용 사이의 균형**이 바로 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 본질이다.
+결국 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "최신 값을 모두에게 뿌리는 기술"이 아니라 "최신본의 소유권을 정확히 관리하는 기술"로 기억해야 한다. 시험에서도 실무에서도 핵심은 같다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 전파를 줄여 얻는 효율과, 재접근 시 발생하는 미스 비용 사이의 균형</strong>이 바로 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 본질이다.
 
 - **📢 섹션 요약 비유**: 중요한 것은 새 공지문을 매번 모두에게 돌리는 일이 아니라, 낡은 공지문을 아무도 믿지 못하게 만드는 일이다. 무효화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 바로 그 규칙으로 큰 조직의 혼선을 막는다.
 
@@ -160,28 +161,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 메모리 병렬 처리
-        │
-        ▼
-캐시 일관성 (Cache Coherence)
-        │
-        ├─ 스누핑 프로토콜 (Snooping Protocol)
-        │        │
-        │        ▼
-        │   무효화 정책 (Write-Invalidate)
-        │        │
-        │        ├─ MESI (Modified, Exclusive, Shared, Invalid)
-        │        └─ MOESI (Modified, Owned, Exclusive, Shared, Invalid)
-        │
-        └─ 디렉터리 프로토콜 (Directory Protocol)
-                 │
-                 ▼
-      대규모 멀티소켓 · NUMA (Non-Uniform Memory Access) 확장
-                 │
-                 ▼
-     거짓 공유 (False Sharing) · 메모리 일관성 모델 논의
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 메모리 병렬 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">스누핑 프로토콜 (Snooping Protocol)</div>
+<div class="kb-diagram-note">무효화 정책 (Write-Invalidate)</div>
+<div class="kb-diagram-note">─ MESI (Modified, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-note">─ MOESI (Modified, Owned, Exclusive, Shared, Invalid)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">디렉터리 프로토콜 (Directory Protocol)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 멀티소켓 · NUMA (Non-Uniform Memory Access) 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">거짓 공유 (False Sharing) · 메모리 일관성 모델 논의</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제 → [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 메커니즘 → 무효화 기반 구현 → 확장성과 부작용 관리"로 이어지는 학습 축을 보여준다.
 

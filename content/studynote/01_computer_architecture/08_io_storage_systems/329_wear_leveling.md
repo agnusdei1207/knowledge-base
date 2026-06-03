@@ -27,20 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 운영체제가 같은 주소를 반복 기록해도, FTL이 실제 저장 위치를 회전시키는 이유를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        같은 논리 주소라도 실제 물리 블록은 순환 배치됨      │
-├──────────────────────────────────────────────────────────────┤
-│ OS 요청: LBA 120 갱신                                        │
-│                                                              │
-│ 시간 t1  LBA 120 ───────────────▶ PBA Block 07  (Erase 120)  │
-│ 시간 t2  LBA 120 ───────────────▶ PBA Block 31  (Erase  84)  │
-│ 시간 t3  LBA 120 ───────────────▶ PBA Block 12  (Erase  86)  │
-│ 시간 t4  LBA 120 ───────────────▶ PBA Block 44  (Erase  85)  │
-│                                                              │
-│ 결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 논리 주소라도 실제 물리 블록은 순환 배치됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 요청: LBA 120 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t1 LBA 120 ▶ PBA Block 07 (Erase 120)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t2 LBA 120 ▶ PBA Block 31 (Erase 84)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t3 LBA 120 ▶ PBA Block 12 (Erase 86)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t4 LBA 120 ▶ PBA Block 44 (Erase 85)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산</div></div>
+</div>
+</div>
+
+
 
 핵심은 사용자가 보는 주소 체계는 그대로 유지하면서, 내부 마모 상태만 재배치한다는 점이다. 이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분에 운영체제는 블록 수명을 직접 계산하지 않아도 되고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 남은 수명 여유를 활용해 전체 장치를 더 오래 서비스할 수 있다.
 
@@ -59,22 +60,24 @@ tags = ["studynote-computer-architecture"]
 | 여유 블록 풀 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이사 및 재배치 공간 제공 | 오버프로비저닝 크기 영향 |
 | [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) | 무효 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정리 후 블록 회수 | [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 최소화 |
 
-실무에서는 두 방식이 함께 쓰인다. **동적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) (Dynamic [Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))**는 새로 갱신되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 덜 닳은 블록에 배치한다. 구현이 단순하고 추가 이동량이 적지만, 한 번 기록된 뒤 거의 바뀌지 않는 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))가 낮은 마모도의 블록을 오래 점유하면 평준화 범위가 제한된다. 반대로 **정적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) (Static [Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))**는 오래 고정된 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)를 일부러 마모가 더 진행된 블록으로 옮기고, 비워진 건강한 블록을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집중 영역에 재투입한다. 이 방식은 전체 편차를 더 잘 줄이지만, 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 생겨 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키울 수 있다.
+실무에서는 두 방식이 함께 쓰인다. <strong>동적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">마모 평준화</a> (Dynamic <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">Wear Leveling</a>)</strong>는 새로 갱신되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 덜 닳은 블록에 배치한다. 구현이 단순하고 추가 이동량이 적지만, 한 번 기록된 뒤 거의 바뀌지 않는 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/))가 낮은 마모도의 블록을 오래 점유하면 평준화 범위가 제한된다. 반대로 <strong>정적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">마모 평준화</a> (Static <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/">Wear Leveling</a>)</strong>는 오래 고정된 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)를 일부러 마모가 더 진행된 블록으로 옮기고, 비워진 건강한 블록을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집중 영역에 재투입한다. 이 방식은 전체 편차를 더 잘 줄이지만, 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 생겨 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키울 수 있다.
 
 아래 그림은 동적 방식과 정적 방식의 차이를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           동적 vs 정적 마모 평준화의 판단 기준               │
-├───────────────────────┬──────────────────────────────────────┤
-│ 동적 방식             │ 정적 방식                            │
-├───────────────────────┼──────────────────────────────────────┤
-│ 새 쓰기만 분산        │ 새 쓰기 + 오래된 콜드 데이터도 이동   │
-│ 추가 복사 적음        │ 추가 복사 많음                       │
-│ 구현 단순             │ 수명 편차를 더 작게 만듦             │
-│ 편한 블록이 남을 수 있음│ 전체 블록을 더 고르게 사용           │
-└───────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 vs 정적 마모 평준화의 판단 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 방식</div><div class="kb-diagram-cell">정적 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 쓰기만 분산</div><div class="kb-diagram-cell">새 쓰기 + 오래된 콜드 데이터도 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 복사 적음</div><div class="kb-diagram-cell">추가 복사 많음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 단순</div><div class="kb-diagram-cell">수명 편차를 더 작게 만듦</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편한 블록이 남을 수 있음</div><div class="kb-diagram-cell">전체 블록을 더 고르게 사용</div></div>
+</div>
+</div>
+
+
 
 따라서 컨트롤러 설계의 핵심은 "얼마나 자주 옮길 것인가"다. 지나치게 소극적이면 일부 블록이 먼저 닳고, 지나치게 공격적이면 평준화를 위해 옮기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체가 수명을 줄인다. 결국 최적점은 워크로드의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편중도, 여유 공간 비율, 낸드 종류에 따라 달라진다.
 
@@ -109,11 +112,11 @@ tags = ["studynote-computer-architecture"]
 운영 단계에서 유효한 체크포인트도 분명하다.
 
 1. **여유 공간 확보**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사용률을 지나치게 높게 유지하면 컨트롤러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 돌려놓을 여백이 줄어든다. 보통 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 수준의 자유 공간은 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)와 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 숨통이 된다.
-2. **TRIM 활성화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 운영체제와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 삭제 정보를 장치에 전달해야 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 줄어든다.
-3. **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴 분리**: 매우 뜨거운 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영역과 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역을 물리 장치 수준에서 분리하면, 한 장치 안에서 극단적 편중을 줄일 수 있다.
+2. <strong>TRIM 활성화 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 운영체제와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 삭제 정보를 장치에 전달해야 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 줄어든다.
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 패턴 분리</strong>: 매우 뜨거운 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영역과 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역을 물리 장치 수준에서 분리하면, 한 장치 안에서 극단적 편중을 줄일 수 있다.
 4. **수명 지표 모니터링**: SMART의 남은 수명, 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량, 불량 블록 증가 추이를 함께 봐야 한다.
 
-대표적인 안티패턴은 "SSD는 어차피 알아서 관리하니 끝까지 꽉 채워도 된다"는 생각이다. 컨트롤러가 똑똑해도 움직일 공간이 없으면 평준화는 급격히 비효율적이 된다. 또 매우 작은 동기식 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 과도하게 강제하는 애플리케이션은 장치 내부 이동량을 키워 예상보다 빠르게 수명을 소모시킬 수 있다. 기술사 관점에서는 단순히 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름을 말하는 것보다, **수명과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이의 교환 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 어떤 운영 정책으로 완화할지**까지 답해야 완성도가 높다.
+대표적인 안티패턴은 "SSD는 어차피 알아서 관리하니 끝까지 꽉 채워도 된다"는 생각이다. 컨트롤러가 똑똑해도 움직일 공간이 없으면 평준화는 급격히 비효율적이 된다. 또 매우 작은 동기식 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 과도하게 강제하는 애플리케이션은 장치 내부 이동량을 키워 예상보다 빠르게 수명을 소모시킬 수 있다. 기술사 관점에서는 단순히 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름을 말하는 것보다, <strong>수명과 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 사이의 교환 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 어떤 운영 정책으로 완화할지</strong>까지 답해야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 짐이 가득 찬 창고에서는 박스를 옮겨 자리 바꾸는 것 자체가 힘들다. SSD도 빈 공간이 조금은 있어야 블록을 쉬게 하며 재배치할 수 있으니, 끝까지 꽉 채우는 운영은 스스로 숨통을 막는 셈이다.
 
@@ -123,7 +126,7 @@ tags = ["studynote-computer-architecture"]
 
 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)의 가장 큰 효과는 "부분 열화를 전체 수명 연장으로 바꾸는 것"이다. 특정 블록만 먼저 실패하는 구조를 완화하면 소비자 PC부터 서버 스토리지까지 플래시 기반 저장장치를 안정적으로 사용할 수 있다. 또한 블록별 편차가 줄어들수록 예측 가능한 수명 관리가 가능해져, 제조사는 TBW나 보증기간을 현실적으로 제시할 수 있고 운영자는 교체 시점을 더 정확하게 계획할 수 있다.
 
-다만 만능은 아니다. [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 물리적 마모를 없애는 기술이 아니라 분산하는 기술이므로, 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량이 설계 한계를 넘으면 결국 수명은 닳는다. 또 정적 평준화를 과도하게 수행하면 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)이 커져 오히려 손해가 될 수 있다. 그래서 이 개념은 "SSD를 영구히 살리는 마법"이 아니라, **제한된 수명을 가장 합리적으로 배분하는 자원 스케줄링 기법**으로 기억하는 것이 정확하다.
+다만 만능은 아니다. [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)는 물리적 마모를 없애는 기술이 아니라 분산하는 기술이므로, 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량이 설계 한계를 넘으면 결국 수명은 닳는다. 또 정적 평준화를 과도하게 수행하면 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)이 커져 오히려 손해가 될 수 있다. 그래서 이 개념은 "SSD를 영구히 살리는 마법"이 아니라, <strong>제한된 수명을 가장 합리적으로 배분하는 자원 스케줄링 기법</strong>으로 기억하는 것이 정확하다.
 
 미래 방향도 이 연장선에 있다. 더 고밀도인 QLC 기반 장치가 늘수록 컨트롤러는 워크로드 예측, 캐시 계층화, 블록 건강도 분석을 더 정교하게 결합해야 한다. 결국 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)의 본질은 저장 위치를 숨기는 기술이 아니라, 플래시 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 약점을 시스템적으로 흡수하는 운영 지능이다.
 
@@ -144,24 +147,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-낸드 플래시의 소거 한계
-    │
-    ▼
-LBA/PBA 분리 + FTL 매핑
-    │
-    ▼
-동적 마모 평준화 (Dynamic Wear Leveling)
-    │
-    ▼
-정적 마모 평준화 (Static Wear Leveling)
-    │
-    ▼
-가비지 컬렉션 · TRIM · 오버프로비저닝 통합 최적화
-    │
-    ▼
-고밀도 TLC/QLC SSD 수명 관리 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">낸드 플래시의 소거 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LBA/PBA 분리 + FTL 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 마모 평준화 (Dynamic Wear Leveling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 마모 평준화 (Static Wear Leveling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가비지 컬렉션 · TRIM · 오버프로비저닝 통합 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고밀도 TLC/QLC SSD 수명 관리 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 수명 연장 기법이 점차 저장장치 전체 운영 정책으로 확장되는 과정을 보여준다.
 

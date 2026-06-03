@@ -29,15 +29,21 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-UI / UX
-  ↓
-Accessibility
-  ↓
-Assistive Tech
-  ↓
-Inclusive Use
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">UI / UX</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Accessibility</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Assistive Tech</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Inclusive Use</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -107,29 +113,41 @@ Inclusive Use
 
 ## 관련 개념 맵
 
-```text
-UI / UX
-  ↓
-Accessibility
-  ↓
-Assistive Tech
-  ↓
-Inclusive Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">UI / UX</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Accessibility</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Assistive Tech</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Inclusive Design</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-WCAG
-  ↓
-Accessibility
-  ↓
-Inclusive UI
-  ↓
-User Experience
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">WCAG</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Accessibility</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Inclusive UI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">User Experience</div>
+</div>
+</div>
+
+
 
 ---
 

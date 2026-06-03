@@ -27,34 +27,30 @@ tags = ["studynote-network"]
 
 - **등장 배경 및 발전 과정**:
   1. **1세대 (IRC 기반 중앙 집중형)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 봇넷은 IRC (Internet Relay Chat) 채널을 C&C 채널로 사용했다. 구조가 단순하고 명령 하달이 빠르다는 장점이 있었으나, 중앙 IRC 서버의 IP나 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 노출되면 방어자에 의해 쉽게 전체 봇넷이 Takedown(무력화)되는 한계(Single Point of Failure)가 있었다.
-  2. **2세대 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 및 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 기반 분산형)**: 방어망의 차단을 우회하기 위해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용하여 정상적인 웹 트래픽에 C&C 통신을 숨겼으며, 이후 중앙 서버 없이 봇들끼리 명령을 주고받는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 아키텍처(예: Zeus 봇넷)가 등장해 Takedown을 기하급수적으로 어렵게 만들었다.
-  3. **3세대 (DGA, 소셜 미디어 및 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 악용)**: 동적으로 수만 개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 C&C 주소를 계속 바꾸는 DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), 텔레그램이나 트위터 등 정상적인 소셜 미디어를 C&C 채널로 악용하는 Fast-Flux 네트워크 등 극한의 은닉 기법을 통해 생존성을 극대화하는 형태로 진화했다.
+  2. <strong>2세대 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 및 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 기반 분산형)</strong>: 방어망의 차단을 우회하기 위해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용하여 정상적인 웹 트래픽에 C&C 통신을 숨겼으며, 이후 중앙 서버 없이 봇들끼리 명령을 주고받는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 아키텍처(예: Zeus 봇넷)가 등장해 Takedown을 기하급수적으로 어렵게 만들었다.
+  3. <strong>3세대 (DGA, 소셜 미디어 및 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> 악용)</strong>: 동적으로 수만 개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 C&C 주소를 계속 바꾸는 DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), 텔레그램이나 트위터 등 정상적인 소셜 미디어를 C&C 채널로 악용하는 Fast-Flux 네트워크 등 극한의 은닉 기법을 통해 생존성을 극대화하는 형태로 진화했다.
 
 다음은 중앙 집중형 C&C 아키텍처의 한계([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))와 이로 인해 봇넷이 무력화되는 과정을 보여주는 다이어그램이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│        초기 중앙 집중형(Centralized) C&C 서버의 취약점 구조         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [Botmaster (해커)]                                             │
-│       │                                                       │
-│       │ 1. 공격 명령 (예: Target IP로 DDoS 수행)                  │
-│       ▼                                                       │
-│  ┌──────────────────────────────────┐                         │
-│  │      C&C Server (명령 제어 서버)    │ ◀── [방어자 (보안 기관)] │
-│  │   (IP: 192.168.X.X / Domain: X)  │    3. C&C 도메인/IP 차단 │
-│  └──────────────────────────────────┘    (Takedown 발생)     │
-│       │        │        │        │                            │
-│       │        │        │        │ 2. 명령 하달                │
-│       ▼        ▼        ▼        ▼                            │
-│    [Bot]    [Bot]    [Bot]    [Bot]  ... (좀비 기기들)          │
-│                                                               │
-│ ⚠ 문제점: 모든 좀비 기기가 단일 C&C 서버를 바라보고 있음. 방어자가 해당 │
-│ C&C 서버의 IP나 도메인(DNS)을 차단/압수하면 봇마스터는 전체 봇넷에 대한 │
-│ 통제권을 영구적으로 상실하는 SPOF (Single Point of Failure)가 존재.  │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 중앙 집중형(Centralized) C&amp;C 서버의 취약점 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Botmaster (해커)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 공격 명령 (예: Target IP로 DDoS 수행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">방어자 (보안 기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP: 192.168.X.X / Domain: X)</div><div class="kb-diagram-cell">3. C&amp;C 도메인/IP 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Takedown 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 명령 하달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-note">... (좀비 기기들)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제점: 모든 좀비 기기가 단일 C&amp;C 서버를 바라보고 있음. 방어자가 해당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C&amp;C 서버의 IP나 도메인(DNS)을 차단/압수하면 봇마스터는 전체 봇넷에 대한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제권을 영구적으로 상실하는 SPOF (Single Point of Failure)가 존재.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조도에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 봇넷의 직관적인 통제 흐름을 보여준다. 해커(Botmaster)는 봇넷 클라이언트가 설치된 개별 좀비 기기(Bot)들에게 직접 명령을 내리지 않고 중간의 C&C 서버를 거쳐 명령을 하달한다. 이 계층 분리는 해커의 실제 IP를 숨기는 데는 유용하지만, C&C 서버 자체가 방어의 단일 병목점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되는 치명적인 약점을 갖는다. 보안 기관이나 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 악성 C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 Sinkhole(블랙홀 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 처리하거나 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에서 삭제해 버리면, 감염된 봇들은 C&C에 접속하지 못해 미아 상태가 되고 해커의 공격 인프라는 순식간에 붕괴된다. 공격자들은 이 근본적인 약점을 극복하기 위해 분산형 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 아키텍처와 DGA 기술을 개발하게 되었다.
 
@@ -70,47 +66,42 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|:---|
 | **Botmaster (Herder)** | 전체 봇넷 네트워크 통제 및 지휘 | 공격 캠페인 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 암호화된 터널로 C&C 접속 | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/), Tor, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) | 배후의 마스터마인드 |
 | **C&C Server** | 봇에게 명령 전달, 탈취 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 | 봇들의 연결(Beaconing) 수락, 큐에 쌓인 명령 응답 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), IRC | 중앙 사령부 |
-| **Bot (Zombie [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))** | 악성코드에 감염되어 실제 공격을 수행하는 말단 노드 | 주기적으로 C&C에 연결([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))하여 명령 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 및 실행 | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 커스텀 헤더 | 세뇌된 군단병 |
-| **[Dropper](/knowledge-base/studynote/09_security/15_malware_attack_vectors/728_dropper/) / [Downloader](/knowledge-base/studynote/09_security/15_malware_attack_vectors/729_downloader/)** | 최초 감염 시 봇 악성코드를 타겟에 설치 | 이메일 첨부파일, 취약점 익스플로잇 후 페이로드 실행 | SMB, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | 침투용 [트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) |
-| **DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 차단 우회 메커니즘 | 시간/날짜 기반으로 매일 수천 개의 랜덤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) | 끊임없이 바뀌는 비밀 암호 |
+| <strong>Bot (Zombie <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong> | 악성코드에 감염되어 실제 공격을 수행하는 말단 노드 | 주기적으로 C&C에 연결([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))하여 명령 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 및 실행 | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 커스텀 헤더 | 세뇌된 군단병 |
+| <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/728_dropper/">Dropper</a> / <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/729_downloader/">Downloader</a></strong> | 최초 감염 시 봇 악성코드를 타겟에 설치 | 이메일 첨부파일, 취약점 익스플로잇 후 페이로드 실행 | SMB, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | 침투용 [트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) |
+| <strong>DGA (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Generation <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 차단 우회 메커니즘 | 시간/날짜 기반으로 매일 수천 개의 랜덤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) | 끊임없이 바뀌는 비밀 암호 |
 
 중앙 집중형 서버의 약점을 극복하기 위해 공격자들은 분산형 아키텍처를 도입했다. 현대 봇넷의 핵심 생존 기술은 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 네트워크와 DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이다.
 
-1. **[P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 아키텍처**: 중앙 C&C 서버 없이 감염된 봇들이 서로 직접 연결되어([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) Network) 명령과 업데이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 공유한다. 봇마스터는 네트워크 내의 아무 노드 하나에 암호화 서명된 명령을 주입하면, 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 통해 전체 네트워크로 명령이 전파된다. 특정 노드를 차단해도 다른 노드들끼리 통신을 유지하므로 Takedown이 극도로 어렵다.
-2. **DGA ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: 봇과 C&C 서버 모두 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: 현재 날짜 + 시드 값의 해시)을 가지고 매일 수천~수만 개의 랜덤한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `x1y2z3.com`)을 예측하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 봇은 이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)들을 순차적으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의하며, 봇마스터는 그중 단 한두 개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)만 실제로 등록([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))해 둔다. 방어자가 하드코딩된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 차단하는 기존 블랙리스트 방식은 DGA 앞에서 완전히 무력화된다.
+1. <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> (<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">Peer-to-Peer</a>) 아키텍처</strong>: 중앙 C&C 서버 없이 감염된 봇들이 서로 직접 연결되어([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) Network) 명령과 업데이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 공유한다. 봇마스터는 네트워크 내의 아무 노드 하나에 암호화 서명된 명령을 주입하면, 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(Gossip [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 통해 전체 네트워크로 명령이 전파된다. 특정 노드를 차단해도 다른 노드들끼리 통신을 유지하므로 Takedown이 극도로 어렵다.
+2. <strong>DGA (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Generation <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 봇과 C&C 서버 모두 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: 현재 날짜 + 시드 값의 해시)을 가지고 매일 수천~수만 개의 랜덤한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `x1y2z3.com`)을 예측하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 봇은 이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)들을 순차적으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의하며, 봇마스터는 그중 단 한두 개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)만 실제로 등록([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))해 둔다. 방어자가 하드코딩된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 차단하는 기존 블랙리스트 방식은 DGA 앞에서 완전히 무력화된다.
 
 다음은 DGA([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 방어자의 차단을 우회하고 C&C 통신을 확립하는 동적 메커니즘을 보여주는 시퀀스 흐름도이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              DGA (Domain Generation Algorithm) 기반 C&C 통신 흐름        │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [방어자 (ISP/보안 장비)]         [Bot (감염 기기)]        [Botmaster]     │
-│             │                       │                      │     │
-│             │ (알고리즘: 날짜+시드)   │                      │     │
-│             │                       ├─▶ 매일 10,000개의     │     │
-│             │                       │   랜덤 도메인 생성     │     │
-│             │                       │                      │     │
-│             │  DNS 질의: qwe.com?   │                      │     │
-│  [차단불가] ◀── (등록 안 됨 - NXDOMAIN)                      │     │
-│             │                       │                      │     │
-│             │  DNS 질의: asd.net?   │                      │     │
-│  [차단불가] ◀── (등록 안 됨 - NXDOMAIN)                      │     │
-│             │                       │                      │     │
-│             │                       │   1개 도메인만 등록 ◀─┤     │
-│             │                       │   (예: zxc.org)      │     │
-│             │  DNS 질의: zxc.org?   │                      │     │
-│  [정상통과] ◀───────────────────────┤▶ IP 반환 (C&C 연결)   │     │
-│             │                       │                      │     │
-│             │                       ├──────────────────────▶ │     │
-│             │                       │  명령 폴링 (HTTP)      │     │
-│                                                                  │
-│ ⚠ 핵심: 방어자는 매일 바뀌는 10,000개의 도메인을 미리 알아내 모두 차단하기 │
-│ 매우 어렵다. 봇은 수많은 실패(NXDOMAIN) 끝에 결국 해커가 준비해 둔 단  │
-│ 하나의 진짜 도메인을 찾아내 C&C 서버와 연결(Beaconing)을 맺는다.      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DGA (Domain Generation Algorithm) 기반 C&amp;C 통신 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방어자 (ISP/보안 장비)</div><div class="kb-diagram-node">Bot (감염 기기)</div><div class="kb-diagram-node">Botmaster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알고리즘: 날짜+시드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 매일 10,000개의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤 도메인 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: qwe.com?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차단불가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (등록 안 됨 - NXDOMAIN) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: asd.net?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차단불가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (등록 안 됨 - NXDOMAIN) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개 도메인만 등록 ◀─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: zxc.org)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: zxc.org?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상통과</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">▶ IP 반환 (C&amp;C 연결) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 폴링 (HTTP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 핵심: 방어자는 매일 바뀌는 10,000개의 도메인을 미리 알아내 모두 차단하기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매우 어렵다. 봇은 수많은 실패(NXDOMAIN) 끝에 결국 해커가 준비해 둔 단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 진짜 도메인을 찾아내 C&amp;C 서버와 연결(Beaconing)을 맺는다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 타이밍/흐름도는 방패(블랙리스트)를 뚫는 현대의 창(DGA)의 핵심 원리를 명확히 보여준다. DGA에 감염된 봇은 봇마스터와 직접 통신을 시도하는 대신, 자신이 내장한 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 무작위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 만들어내고 끊임없이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 질의를 던진다. 대부분은 존재하지 않는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이므로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 NXDOMAIN(Non-Existent [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 에러를 반환한다. 봇마스터 역시 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 알고 있으므로 오늘 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 목록 중 딱 한 개만 미리 돈을 주고 구매해 C&C 서버의 IP와 연결해 둔다. 봇이 수백 번의 헛스윙 끝에 우연히 그 등록된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 질의하는 순간, 마침내 C&C의 IP를 얻어 연결을 맺는다. 방어자가 이 봇넷을 차단하려면 악성코드 리버싱을 통해 DGA [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 추출해내고 해커보다 먼저 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)들을 선점(Sinkhole)해야만 하는 고도의 기술적 카방 놀이가 발생한다.
 
@@ -119,7 +110,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | **명령 전달 구조** | Bot ↔ C&C Server | Bot ↔ Bot (Gossip/[Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) | 통신 추적성 및 구조의 복잡도 |
 | **명령 전파 속도** | 매우 빠름 (실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) | 상대적으로 느림 (노드 간 전파 딜레이) | 타겟에 대한 즉각적인 타격 능력 |
-| **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))** | 존재함 (C&C 차단 시 전체 무력화) | 없음 (특정 노드 차단에 면역) | 봇넷의 장기적 생존성 보장 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)</strong> | 존재함 (C&C 차단 시 전체 무력화) | 없음 (특정 노드 차단에 면역) | 봇넷의 장기적 생존성 보장 |
 | **방어 (Takedown) 난이도** | 낮음 (IP/[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 블랙리스트 차단) | 매우 높음 (네트워크 전체 토폴로지 파악 필요) | 보안 기관의 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Sinkholing vs [Sybil Attack](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)) |
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 해커들은 개발이 쉽고 속도가 빠른 중앙 집중형 구조를 선호했으나, 사법 기관의 적극적인 Takedown 작전으로 인해 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 구조로 진화했다. [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 봇넷을 무력화하기 위해 방어자는 네트워크 내에 수많은 가짜 방어 노드(Sybil Node)를 침투시켜 명령 전파를 교란하는 [Sybil Attack](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 같은 역공 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 사용해야 한다.
@@ -132,17 +123,19 @@ tags = ["studynote-network"]
 
 C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) (Network [Intrusion Detection System](/knowledge-base/studynote/09_security/uncategorized/994_ids_ips_intrusion_detection_prevention_false_positive/)) 탐지를 회피하기 위한 중요한 요소다.
 
-```text
-┌───────────┬──────────────┬─────────────────┬──────────────────────────────┐
-│ Beaconing │ 주기(Interval)│ Jitter(무작위성)│ 장/단점 및 실무 판단           │
-├───────────┼──────────────┼─────────────────┼──────────────────────────────┤
-│ Fast      │ 수 초 ~ 수 분 │ 없음            │ 명령 전달은 빠르나, 방화벽의   │
-│ (동기형)  │              │                 │ 주기적인 연결 로그에 쉽게 탐지됨│
-├───────────┼──────────────┼─────────────────┼──────────────────────────────┤
-│ Slow      │ 수 시간 ~ 수 일│ 높음 (± 20% 등) │ APT 공격 등 장기 잠복에 유리.  │
-│ (비동기형)│              │                 │ 통계적 주기 분석 탐지를 회피함 │
-└───────────┴──────────────┴─────────────────┴──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beaconing</div><div class="kb-diagram-cell">주기(Interval)</div><div class="kb-diagram-cell">Jitter(무작위성)</div><div class="kb-diagram-cell">장/단점 및 실무 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast</div><div class="kb-diagram-cell">수 초 ~ 수 분</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">명령 전달은 빠르나, 방화벽의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동기형)</div><div class="kb-diagram-cell">주기적인 연결 로그에 쉽게 탐지됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slow</div><div class="kb-diagram-cell">수 시간 ~ 수 일</div><div class="kb-diagram-cell">높음 (± 20% 등)</div><div class="kb-diagram-cell">APT 공격 등 장기 잠복에 유리.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비동기형)</div><div class="kb-diagram-cell">통계적 주기 분석 탐지를 회피함</div></div>
+</div>
+</div>
+
+
 
 **[매트릭스 해설]** 봇이 C&C 서버에 "살아있습니다, 명령을 주십시오"라고 보내는 신호를 [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))이라고 한다. 봇마스터는 즉각적인 DDoS 공격이 필요할 때는 Fast Beaconing을 쓰지만, 기업 내부에 침투해 장기간 은밀히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) ([Advanced Persistent Threat](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 공격 시에는 Slow Beaconing에 Jitter(시간의 무작위 변동 값)를 섞어 사용한다. 예를 들어 60분 간격에 20% Jitter를 주면 48분~72분 사이 무작위로 통신하므로, 보안팀이 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))에서 "정확히 일정한 주기로 반복되는 트래픽"을 찾는 정적 룰셋을 완벽히 회피할 수 있다. 이는 공격자가 네트워크 통계학을 융합하여 탐지를 무력화하는 전형적인 사례다.
 
@@ -153,51 +146,45 @@ C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 내부망에서 외부로 향하는 대량의 NXDOMAIN 질의 발생**: 사내 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 모니터링 중, 특정 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대역에서 존재하지 않는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `q1w2e3r4.com`)에 대한 해석(Resolution) 실패 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(NXDOMAIN)가 초당 수십 건씩 폭증하는 현상 발견.
-   - **의사결정**: 이는 전형적인 **DGA 기반 봇넷의 C&C 탐색 행위**다. 보안 엔지니어는 즉각 해당 내부 IP를 네트워크에서 격리(Isolate)하고 침해사고 대응([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)) 절차를 개시한다. 동시에 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(또는 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/))을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 의미 없는 알파벳의 나열로 이뤄진 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 기반의 DGA 탐지 모듈을 활성화한다. 단순 IP 차단으로는 해결되지 않으므로 엔드포인트 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response)을 통해 악성코드 프로세스 자체를 격리해야 한다.
+   - **의사결정**: 이는 전형적인 <strong>DGA 기반 봇넷의 C&C 탐색 행위</strong>다. 보안 엔지니어는 즉각 해당 내부 IP를 네트워크에서 격리(Isolate)하고 침해사고 대응([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/)) 절차를 개시한다. 동시에 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(또는 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/))을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 의미 없는 알파벳의 나열로 이뤄진 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 기반의 DGA 탐지 모듈을 활성화한다. 단순 IP 차단으로는 해결되지 않으므로 엔드포인트 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response)을 통해 악성코드 프로세스 자체를 격리해야 한다.
 
 2. **시나리오 — 정상적인 소셜 미디어 트래픽으로 위장한 C&C 통신 (Steganography / Fast-Flux)**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 상에서는 정상적인 Twitter(X) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 트래픽만 보이나, [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 분석 결과 특정 프로세스가 해커가 만든 특정 트위터 계정의 트윗 글(암호화된 문자열)을 긁어와(Parsing) 파워셸(PowerShell) 명령어로 실행하고 있는 정황 발견.
    - **의사결정**: 공격자가 트위터, 텔레그램, 구글 드라이브 같은 정상 플랫폼(Dead Drop Resolver)을 C&C 채널로 악용하는 고도화된 수법이다. 기업 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 트위터를 전면 차단할 수는 없으므로, 네트워크 수준의 통제 대신 호스트 수준에서 판단해야 한다. [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 정책을 튜닝하여, 브라우저가 아닌 백그라운드 시스템 프로세스(예: `svchost.exe`, `wscript.exe`)가 외부 소셜 미디어 API와 통신하는 비정상적인 행위 트리거를 즉각 차단(Block)하는 Zero-Trust 정책을 적용한다.
 
 의사결정 과정에서, 내부 PC가 봇넷에 감염되었을 때 이를 탐지하고 C&C 통신을 끊어내는 실무 플로우는 다음과 같다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│           실무 기업 망의 봇넷 C&C 탐지 및 무력화 (IR) 플로우           │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│   [네트워크/엔드포인트 이상 징후 포착 (SIEM/EDR)]                      │
-│                │                                                  │
-│                ▼                                                  │
-│      [분석] 이상 트래픽의 형태는 무엇인가?                               │
-│          ├─ [A] 반복적이고 규칙적인 외부 HTTP/TCP 연결 (Beaconing)    │
-│          │       └─▶ 주기 분석 (Jitter 포함 여부 확인)               │
-│          │                                                        │
-│          ├─ [B] 비정상 도메인 질의 폭증 (NXDOMAIN 비율 상승)          │
-│          │       └─▶ DGA 의심, DNS 로그 분석 및 도메인 엔트로피 검사 │
-│          │                                                        │
-│          └─ [C] 평판이 낮거나 신생 도메인으로의 평문 통신             │
-│                  └─▶ 위협 인텔리전스(CTI)와 교차 검증                 │
-│                │                                                  │
-│                ▼                                                  │
-│      [대응 의사결정] 방어 전략 수립                                     │
-│          ├─ 1. [네트워크 차단] 확인된 C&C IP/도메인 Firewall 블랙리스트 │
-│          │                                                        │
-│          ├─ 2. [DNS Sinkhole] DGA 도메인을 사내 분석 서버로 리다이렉트 │
-│          │     하여 감염된 내부 PC(Bot) 목록 전수 파악 (가장 중요)     │
-│          │                                                        │
-│          └─ 3. [엔드포인트 치료] 확인된 봇 PC 네트워크 강제 분리 및     │
-│                악성 프로세스 킬, 레지스트리 영구 지속성(Persistence) 제거│
-└───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 의사결정 트리는 봇넷 감염 시 단순히 "백신으로 치료한다"를 넘어선 엔터프라이즈급 대응([Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/))을 보여준다. 가장 중요한 핵심은 2번의 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Sinkholing**이다. C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 단순히 Drop(차단)해 버리면, 내부에 어떤 PC들이 감염되어 통신을 시도했는지 추적할 단서가 사라진다. 따라서 방어자는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 조작해, 악성 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 질의를 127.0.0.1이나 사내 보안팀의 분석 서버 IP(Sinkhole)로 응답하게 만든다. 그러면 감염된 모든 봇 PC들이 앞다투어 보안팀의 가짜 C&C 서버로 접속을 시도하게 되고, 보안팀은 이 IP 목록을 추출해 사내망에 은닉된 모든 좀비 PC를 일망타진할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 기업 망의 봇넷 C&amp;C 탐지 및 무력화 (IR) 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크/엔드포인트 이상 징후 포착 (SIEM/EDR)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분석</div><div class="kb-diagram-note">이상 트래픽의 형태는 무엇인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">반복적이고 규칙적인 외부 HTTP/TCP 연결 (Beaconing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 주기 분석 (Jitter 포함 여부 확인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">비정상 도메인 질의 폭증 (NXDOMAIN 비율 상승)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ DGA 의심, DNS 로그 분석 및 도메인 엔트로피 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">평판이 낮거나 신생 도메인으로의 평문 통신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 위협 인텔리전스(CTI)와 교차 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대응 의사결정</div><div class="kb-diagram-note">방어 전략 수립</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 1.</div><div class="kb-diagram-node">네트워크 차단</div><div class="kb-diagram-note">확인된 C&amp;C IP/도메인 Firewall 블랙리스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 2.</div><div class="kb-diagram-node">DNS Sinkhole</div><div class="kb-diagram-note">DGA 도메인을 사내 분석 서버로 리다이렉트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하여 감염된 내부 PC(Bot) 목록 전수 파악 (가장 중요)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 3.</div><div class="kb-diagram-node">엔드포인트 치료</div><div class="kb-diagram-note">확인된 봇 PC 네트워크 강제 분리 및</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">악성 프로세스 킬, 레지스트리 영구 지속성(Persistence) 제거</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 의사결정 트리는 봇넷 감염 시 단순히 "백신으로 치료한다"를 넘어선 엔터프라이즈급 대응([Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/))을 보여준다. 가장 중요한 핵심은 2번의 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> Sinkholing</strong>이다. C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 단순히 Drop(차단)해 버리면, 내부에 어떤 PC들이 감염되어 통신을 시도했는지 추적할 단서가 사라진다. 따라서 방어자는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 조작해, 악성 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 질의를 127.0.0.1이나 사내 보안팀의 분석 서버 IP(Sinkhole)로 응답하게 만든다. 그러면 감염된 모든 봇 PC들이 앞다투어 보안팀의 가짜 C&C 서버로 접속을 시도하게 되고, 보안팀은 이 IP 목록을 추출해 사내망에 은닉된 모든 좀비 PC를 일망타진할 수 있다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 NXDOMAIN 응답률이 급증할 때 경보를 발생시키는 룰셋이 적용되어 있는가? 아웃바운드 트래픽에 대해 인가되지 않은 포트나 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 통제하는 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 필터링이 엄격히 준수되는가?
 - **운영·보안적**: 엔드포인트([EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/))와 네트워크 트래픽 분석(NTA) 도구가 SIEM에 통합되어, 호스트의 이상 행위(파워셸 실행)와 네트워크 [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/) 통신을 교차 연관 분석할 수 있는 역량이 확보되었는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **단순 백신 ([Anti-Virus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)) 의존**: 좀비 PC에서 봇 악성코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 지웠다고 해서 대응을 종료하는 패턴. 봇 악성코드는 보통 MBR이나 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 깊숙이 지속성(Persistence) 메커니즘을 심어두거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)리스(Fileless) 형태로 메모리에 상주한다. 통신(C&C) 채널을 막지 않으면 재부팅 시 C&C로부터 페이로드를 다시 다운로드 받아 10분 내로 재감염된다.
+- <strong>단순 백신 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">Anti-Virus</a>) 의존</strong>: 좀비 PC에서 봇 악성코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 지웠다고 해서 대응을 종료하는 패턴. 봇 악성코드는 보통 MBR이나 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 깊숙이 지속성(Persistence) 메커니즘을 심어두거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)리스(Fileless) 형태로 메모리에 상주한다. 통신(C&C) 채널을 막지 않으면 재부팅 시 C&C로부터 페이로드를 다시 다운로드 받아 10분 내로 재감염된다.
 
 - **📢 섹션 요약 비유**: 집에 들어온 모기(봇)를 파리채로 한 마리 잡았다고 끝나는 것이 아니라, 모기들이 밖에서 들어오는 방충망의 구멍(C&C 통신 채널)을 찾아 틀어막아야만 영구적인 퇴치가 가능한 이치와 같습니다.
 
@@ -212,11 +199,11 @@ C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-
 | **정성** | 내부 정보 유출 및 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)([Ransomware](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)) 공격의 거점으로 악용됨 | Kill-Chain [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 C&C 통신을 끊어 공격 페이로드 실행 방지 | 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 및 암호화 등 **치명적 피해 예방** |
 
 ### 미래 전망
-- **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML) 기반 트래픽 분석의 표준화**: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신과 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))로 인해 패킷 내부(Payload)를 까보는 서명(Signature) 기반 방어는 이미 한계에 직면했다. 미래에는 패킷의 크기, 시간 간격(Jitter), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 등 트래픽의 외형적 통계 특성만을 기계학습으로 분석하여 "내용은 모르지만 C&C 통신과 행동 패턴이 99% 일치한다"고 판단해 차단하는 행위 기반 네트워크 분석(NTA/NDR)이 필수 보안 표준이 될 것이다.
-- **클라우드 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 봇넷의 출현 (Cloud-Native Botnets)**: 공격자들은 더 이상 개인 PC를 해킹하지 않고, 클라우드 환경의 노출된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 취약한 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 클러스터를 타겟팅하여 수백 기가비트 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가진 무시무시한 '클라우드 좀비'를 양산하고 있다. 이를 막기 위해 C&C 방어 전선도 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ([Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 영역으로 확대되고 있다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>(ML) 기반 트래픽 분석의 표준화</strong>: [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신과 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))로 인해 패킷 내부(Payload)를 까보는 서명(Signature) 기반 방어는 이미 한계에 직면했다. 미래에는 패킷의 크기, 시간 간격(Jitter), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 등 트래픽의 외형적 통계 특성만을 기계학습으로 분석하여 "내용은 모르지만 C&C 통신과 행동 패턴이 99% 일치한다"고 판단해 차단하는 행위 기반 네트워크 분석(NTA/NDR)이 필수 보안 표준이 될 것이다.
+- <strong>클라우드 및 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 봇넷의 출현 (Cloud-Native Botnets)</strong>: 공격자들은 더 이상 개인 PC를 해킹하지 않고, 클라우드 환경의 노출된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 취약한 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 클러스터를 타겟팅하여 수백 기가비트 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가진 무시무시한 '클라우드 좀비'를 양산하고 있다. 이를 막기 위해 C&C 방어 전선도 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ([Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 영역으로 확대되고 있다.
 
 ### 참고 표준
-- **[MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) Framework**: `TA0011 (Command and Control)` 전술 아래에 DGA, [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) Channels, Web Protocols 등 수십 가지의 C&C 세부 기법이 표준화되어 방어자들의 분석 지표로 사용된다.
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/">MITRE ATT&CK</a> Framework</strong>: `TA0011 (Command and Control)` 전술 아래에 DGA, [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) Channels, Web Protocols 등 수십 가지의 C&C 세부 기법이 표준화되어 방어자들의 분석 지표로 사용된다.
 - **RFC 8499**: DNS를 악용하는 보안 위협(DGA 포함)에 대한 용어 및 방어 개념을 정의한 국제 인터넷 표준.
 
 봇넷은 단순한 해킹 도구가 아니라, 사이버 범죄자들에게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 임대(DDoS-for-hire)하는 거대한 지하 비즈니스 인프라다. 방어의 핵심은 단일 악성코드를 치료하는 미시적 접근에서 벗어나, 그들의 지휘 통제망인 C&C 서버의 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), DGA 토폴로지, [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/) 패턴을 이해하고 네트워크(Network)와 엔드포인트(Host)를 융합하여 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 끊어내는 거시적 아키텍처 관점으로 이동해야 한다.
@@ -236,15 +223,19 @@ C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 서비스 거부 공격]
-    │
-    ▼
-[현재 개념: 봇넷 C&C]
-    │
-    ├──▶ [확장 A: ARP 스푸핑]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 거부 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 봇넷 C&amp;C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 봇넷 C&C는 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

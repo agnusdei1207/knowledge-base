@@ -37,21 +37,21 @@ NodePort는 독립적으로 작동하는 것이 아니라, ClusterIP를 감싸�
 | **ClusterIP** | 내부 중계 | NodePort로 들어온 트래픽을 논리적으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 내부 가상 IP |
 | **Kube-proxy** | 트래픽 릴레이 | iptables나 IPVS 규칙을 통해 트래픽을 최종 목적지([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) IP)로 전송 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       NodePort 트래픽 흐름: 외부 -> 노드 -> 프록시 -> 파드      │
-├──────────────────────────────────────────────────────────────┤
-│ [External Client]                                            │
-│        │ (1) http://Node-A-IP:31000                          │
-│        ▼                                                     │
-│ ┌─ Node A (Worker) ────────────────────────────────────────┐ │
-│ │  [eth0: 31000] ──(2) Kube-proxy (iptables) 가로챔         │ │
-│ │                        │                                 │ │
-│ │                        ▼ (3) 내부 ClusterIP 라우팅        │ │
-│ │                  [Pod: nginx]                            │ │
-│ └──────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NodePort 트래픽 흐름: 외부 -&gt; 노드 -&gt; 프록시 -&gt; 파드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">External Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) http://Node-A-IP:31000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Node A (Worker)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eth0: 31000</div><div class="kb-diagram-note">──(2) Kube-proxy (iptables) 가로챔 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (3) 내부 ClusterIP 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pod: nginx</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 현재 노드 A에 없더라도, Kube-proxy는 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) ([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/)) 계층을 통해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 존재하는 노드 B로 트래픽을 안전하게 건네준다. 즉, 클라이언트는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 실제 위치를 알 필요 없이 아무 노드나 찌르면 된다.
 
@@ -66,7 +66,7 @@ NodePort를 정확히 이해하려면, [쿠버네티스](/knowledge-base/studyno
 | 비교 기준 | ClusterIP (기본) | NodePort | LoadBalancer |
 | :--- | :--- | :--- | :--- |
 | **접근 범위** | 클러스터 내부 전용 | 외부 노출 가능 ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 지정) | 외부 노출 (단일 IP 제공) |
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 대역** | 자유 (80, 443 등) | 고포트 강제 (30000~32767) | 자유 (80, 443 등) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 대역</strong> | 자유 (80, 443 등) | 고포트 강제 (30000~32767) | 자유 (80, 443 등) |
 | **비용 및 의존성** | 무료, K8s 자체 기능 | 무료, K8s 자체 기능 | 유료 (AWS ALB 등 클라우드 의존) |
 | **주요 용도** | 내부 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 통신 | 테스트, [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 외부 연결 | 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 프론트엔드 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
@@ -81,7 +81,7 @@ NodePort는 본질적으로 LoadBalancer를 만들기 위한 중간 단계(Build
 실무 아키텍처에서 NodePort를 직접 엔드유저에게 노출하는 것은 강력히 권장되지 않는다. 높은 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)(예: 31234)를 사용하는 것은 웹 표준(80/443)에 어긋나며, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자에게 모든 노드의 30000번대 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 개방해 달라고 요청하는 것은 심각한 보안 리스크를 초래한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의사결정 기준)
-1. **[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 환경인가?** 로드밸런서 장비인 L4 (Layer 4) 장비가 없다면 MetalLB 등을 도입하거나, [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)) 컨트롤러를 NodePort로 노출하여 단일 진입점으로 삼아야 한다.
+1. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">On-Premise</a>) 환경인가?</strong> 로드밸런서 장비인 L4 (Layer 4) 장비가 없다면 MetalLB 등을 도입하거나, [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)) 컨트롤러를 NodePort로 노출하여 단일 진입점으로 삼아야 한다.
 2. **트래픽이 단일 노드에 집중되는가?** 외부에서 특정 노드의 IP만 계속 호출하면 단일 장애점인 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)가 되므로, 상단에 별도의 HAProxy나 Nginx 리버스 프록시를 두어 워커 노드들의 NodePort로 트래픽을 분산시켜야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -96,7 +96,7 @@ NodePort는 본질적으로 LoadBalancer를 만들기 위한 중간 단계(Build
 
 NodePort는 복잡한 외부 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 없이도 클러스터를 외부와 연결해 주는 가장 확실하고 가벼운 방법이다. 이를 통해 개발자는 네트워크 구성의 딜레이 없이 신속하게 외부 연동 테스트를 진행할 수 있다.
 
-하지만 보안 통제 불가, [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)의 제약, 로드밸런싱의 부재라는 명확한 한계가 존재한다. 따라서 NodePort는 그 자체로 완성된 솔루션이 아니라, [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller나 Cloud LoadBalancer가 트래픽을 내부로 밀어 넣기 위해 밟고 지나가는 **'안정적인 하부 인프라 기틀'**로 이해하는 것이 정확하다.
+하지만 보안 통제 불가, [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)의 제약, 로드밸런싱의 부재라는 명확한 한계가 존재한다. 따라서 NodePort는 그 자체로 완성된 솔루션이 아니라, [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller나 Cloud LoadBalancer가 트래픽을 내부로 밀어 넣기 위해 밟고 지나가는 <strong>'안정적인 하부 인프라 기틀'</strong>로 이해하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: NodePort는 자동차 엔진에 연결된 톱니바퀴와 같다. 톱니바퀴 자체를 손으로 잡고 돌리(직접 접속)는 것이 아니라, 겉에 예쁜 핸들(LoadBalancer/[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))을 달아 간접적으로 제어하는 것이 맞다.
 
@@ -109,25 +109,27 @@ NodePort는 복잡한 외부 [컴포넌트](/knowledge-base/studynote/04_softwar
 | **ClusterIP** | NodePort가 트래픽을 전달하기 위해 내부적으로 감싸고 있는 기본 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **Kube-proxy** | NodePort로 들어온 패킷의 헤더를 변환하여 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 처리를 수행하고 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 에이전트 |
 | **LoadBalancer** | NodePort 위에 클라우드 업체의 로드밸런서를 붙여 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80/443)를 정규화하는 상위 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)** | L7 (Layer 7) 영역의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 경로 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 제공하며, 보통 그 진입점이 NodePort로 구성됨 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a></strong> | L7 (Layer 7) 영역의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 경로 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 제공하며, 보통 그 진입점이 NodePort로 구성됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ClusterIP (내부 통신망)
-    │
-    ▼
-NodePort (워커 노드의 특정 물리 포트 외부 노출)
-    │
-    ▼
-LoadBalancer (클라우드 인프라 연동 및 포트 정규화)
-    │
-    ▼
-Ingress (L7 호스트/경로 기반 라우팅 및 SSL 종료)
-    │
-    ▼
-Gateway API (Ingress의 한계를 넘는 역할 기반 트래픽 라우팅 표준)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ClusterIP (내부 통신망)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NodePort (워커 노드의 특정 물리 포트 외부 노출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LoadBalancer (클라우드 인프라 연동 및 포트 정규화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ingress (L7 호스트/경로 기반 라우팅 및 SSL 종료)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Gateway API (Ingress의 한계를 넘는 역할 기반 트래픽 라우팅 표준)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,18 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 즉시 주소 지정이 왜 빠른지, 경로 자체가 짧다는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Immediate addressing shortens the operand path                     │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction fetch                                                  │
-│      │                                                             │
-│      ├─ opcode decode                                              │
-│      └─ immediate bits ───────────────▶ ALU operand input          │
-│                                                                    │
-│ skipped path: EA generation ─▶ data cache lookup ─▶ operand fetch  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immediate addressing shortens the operand path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ opcode decode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ immediate bits ▶ ALU operand input</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">skipped path: EA generation ─▶ data cache lookup ─▶ operand fetch</div></div>
+</div>
+</div>
+
+
 
 핵심은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오는 순간 상수도 함께 도착한다"는 점이다. 메모리에 있는 변수를 읽는 방식은 주소 계산과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 추가되지만, 즉시 주소 지정은 그 단계를 건너뛴다. 그래서 이 방식은 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서 가장 짧고 예측 가능한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 공급 경로로 취급된다.
 
@@ -60,22 +61,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 즉시값이 실제 실행 경로에서 어떻게 다뤄지는지를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Immediate operand generation                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ IR (Instruction Register)                                          │
-│      │                                                             │
-│      ├─ immediate field extract                                    │
-│      │        │                                                    │
-│      │        ├─ arithmetic / branch ─▶ sign extension             │
-│      │        └─ logical mask      ─▶ zero extension               │
-│      │                                                             │
-│ register operand ───────────────┐                                  │
-│                                 ▼                                  │
-│                         operand multiplexer ─▶ ALU                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immediate operand generation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR (Instruction Register)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ immediate field extract</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ arithmetic / branch ─▶ sign extension</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ logical mask ─▶ zero extension</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register operand</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operand multiplexer ─▶ ALU</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 판단점은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 숫자가 있다"고 해서 언제나 즉시 주소 지정은 아니라는 것이다. 예를 들어 `LOAD R1, 8(R2)`의 `8`은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 값이 아니라 주소 계산용 변위 ([Displacement](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))다. 즉시 주소 지정은 숫자 자체가 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)일 때만 성립하고, 주소 생성에 쓰이면 다른 주소 모드로 봐야 한다.
 
@@ -106,22 +106,23 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 상수가 작고 고정적이며 지금 한 번 바로 쓸 값인지를 먼저 본다. 루프 증가값, 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스크, 초기화 상수, 비교 기준값은 immediate가 적합하다. 반대로 배포 후 바뀔 설정값, 주소 재배치가 필요한 심볼, 32비트나 64비트 전체 상수처럼 큰 값은 다른 수단과 조합해야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing immediate vs register/memory                              │
-├────────────────────────────────────────────────────────────────────┤
-│ compile-time constant?                                             │
-│   ├─ no  ─▶ register or memory                                     │
-│   └─ yes                                                           │
-│        │                                                           │
-│        ▼                                                           │
-│ fits ISA immediate range?                                          │
-│   ├─ yes ─▶ immediate addressing                                   │
-│   └─ no                                                            │
-│        ├─ reused often ─▶ build once in register                   │
-│        └─ rarely used  ─▶ literal pool / split-immediate sequence  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing immediate vs register/memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">compile-time constant?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no ─▶ register or memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fits ISA immediate range?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ immediate addressing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reused often ─▶ build once in register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rarely used ─▶ literal pool / split-immediate sequence</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -167,25 +168,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-compile-time constant
-    │
-    ▼
-immediate field encoding
-    │
-    ├──────────────▶ sign / zero extension
-    │                    │
-    │                    ▼
-    │                 ALU execution
-    │
-    └──────────────▶ too large for field
-                         │
-                         ▼
-               split-immediate / literal load
-                         │
-                         ▼
-                 register-based execution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">compile-time constant</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">immediate field encoding</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ sign / zero extension</div>
+<div class="kb-diagram-note">ALU execution</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ too large for field</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">split-immediate / literal load</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">register-based execution</div>
+</div>
+</div>
+
+
 
 이 흐름도는 즉시 주소 지정이 단순한 상수 삽입이 아니라, 값의 크기와 해석 방식에 따라 immediate 경로와 [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) 경로로 분기되는 설계 판단이라는 점을 보여 준다.
 

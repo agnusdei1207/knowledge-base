@@ -29,7 +29,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-WSN은 크게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 센서 노드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 외부로 보내는 싱크 노드(Base [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)), 그리고 외부 인터넷을 연결하는 게이트웨이로 구성된다. 핵심 메커니즘은 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중계하는 **멀티 홉 (Multi-hop) 통신**과 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병합 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Aggregation)**이다.
+WSN은 크게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 센서 노드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 외부로 보내는 싱크 노드(Base [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/)), 그리고 외부 인터넷을 연결하는 게이트웨이로 구성된다. 핵심 메커니즘은 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중계하는 <strong>멀티 홉 (Multi-hop) 통신</strong>과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 병합 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Aggregation)</strong>이다.
 
 | 구성 요소 | 주요 역할 | 설계 제약 사항 |
 | :--- | :--- | :--- |
@@ -37,19 +37,21 @@ WSN은 크게 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 | **싱크 노드 (Sink Node)** | 센서들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 최종 수집하여 게이트웨이로 전달 | 병목 현상 방지, 전원 공급 안정성 |
 | **게이트웨이 (Gateway)** | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인터넷(IP망)을 통해 서버/사용자로 전송 | 외부망 연결 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             WSN 멀티 홉 라우팅 및 데이터 병합 구조           │
-├──────────────────────────────────────────────────────────────┤
-│    [노드 A] (20도) ─┐                                        │
-│                     ▼           데이터 병합                  │
-│    [노드 B] (21도) ─▶ [헤더 노드] ──────▶ [싱크 노드] ──▶ 인터넷│
-│                     ▲  (평균 20.5도 산출)                    │
-│    [노드 C] (20.5도)┘                                        │
-│                                                              │
-│ * 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WSN 멀티 홉 라우팅 및 데이터 병합 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노드 A</div><div class="kb-diagram-note">(20도) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 데이터 병합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노드 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤더 노드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">싱크 노드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인터넷</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (평균 20.5도 산출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">노드 C</div><div class="kb-diagram-note">(20.5도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)</div></div>
+</div>
+</div>
+
+
 
 센서 노드는 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(RF)이 배터리를 가장 많이 소모하므로, 필요할 때만 깨어나는 듀티 사이클(Duty Cycle) 제어 기법과 LEACH(Low-Energy Adaptive [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) Hierarchy) 같은 에너지 균형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용해 네트워크 전체의 수명을 연장한다.
 
@@ -64,7 +66,7 @@ WSN은 무선 통신망의 한 종류이지만, 스마트폰이 연결되는 기
 | 비교 항목 | 무선 센서 네트워크 (WSN) | 모바일 애드혹 네트워크 ([MANET](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)) | 기존 무선 랜 (Wi-Fi) |
 | :--- | :--- | :--- | :--- |
 | **주요 목적** | 환경 모니터링 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 | 이동하는 단말 간의 통신 | 고속 인터넷 접속 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름** | 센서 $\rightarrow$ 싱크 ([다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) 통신) | 단말 $\leftrightarrow$ 단말 (점대점 통신) | 단말 $\leftrightarrow$ [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) (별형 구조) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong> | 센서 $\rightarrow$ 싱크 ([다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) 통신) | 단말 $\leftrightarrow$ 단말 (점대점 통신) | 단말 $\leftrightarrow$ [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) (별형 구조) |
 | **에너지 제약** | **가장 엄격함 (배터리 교체 불가)** | 비교적 덜함 (충전 가능) | 전원 공급 원활 |
 | **토폴로지 변화** | 노드 사망으로 인한 국소적 변화 | 단말 이동으로 인한 빈번한 변화 | 상대적으로 고정됨 |
 
@@ -79,7 +81,7 @@ WSN은 단순한 통신망을 넘어, 물리적 세상의 정보를 디지털 �
 실무 현장에서 WSN을 설계할 때 가장 치명적인 실패 원인은 화려한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술에 집착하다가 배터리가 방전되어 네트워크 전체가 죽어버리는 현상(Network [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))이다.
 
 ### WSN 구축 시 핵심 의사결정 포인트
-1. **Sleep/Wake-up [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: 센서가 항상 켜져 있으면 며칠 못 가 방전된다. 이웃 노드들이 동시에 깨어나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받고 다시 잠드는 타이밍([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 설계가 WSN 수명을 결정한다.
+1. <strong>Sleep/Wake-up <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: 센서가 항상 켜져 있으면 며칠 못 가 방전된다. 이웃 노드들이 동시에 깨어나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받고 다시 잠드는 타이밍([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 설계가 WSN 수명을 결정한다.
 2. **싱크 노드 주변의 병목(Funneling Effect)**: 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기지국 주변 노드로 몰리므로, 기지국 근처 노드들이 가장 먼저 방전된다. 이를 막기 위해 모바일 싱크 노드(드론 등)를 활용하거나 부하를 분산하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 채택해야 실질적 수명을 늘릴 수 있다.
 3. **경량 보안 채택**: 고사양 암호화([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)는 센서 노드의 연산 능력과 전력을 감당할 수 없다. [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(타원곡선암호)나 경량 해시 기반의 보안 체계로 타협하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성만 최소한으로 보장해야 한다.
 
@@ -102,24 +104,27 @@ WSN을 통해 우리는 교량의 미세한 균열, 공장 파이프의 [가스]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **USN (Ubiquitous Sensor Network)** | WSN을 포함하여 언제 어디서나 서비스에 접근할 수 있게 하는 상위 융합 개념 |
-| **LEACH [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)** | WSN에서 노드 간 전력 소모를 균등화하기 위한 클러스터 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong>LEACH <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | WSN에서 노드 간 전력 소모를 균등화하기 위한 클러스터 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **TinyOS** | 자원이 극도로 제한된 WSN 센서 노드를 위해 개발된 이벤트 구동 방식의 초경량 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
 | **Energy Harvesting** | 주변 환경(태양광, 열, 진동)에서 에너지를 수집하여 WSN 배터리 한계를 극복하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초기 단방향 센서 측정 (Point-to-Point)
-    │
-    ▼
-무선 센서 네트워크 (WSN) · 멀티 홉 라우팅, 배터리 제약 극복
-    │
-    ▼
-유비쿼터스 센서망 (USN) · 인터넷망과의 결합, IPv6 적용 (6LoWPAN)
-    │
-    ▼
-사물인터넷 (IoT) 플랫폼 · 빅데이터 분석 및 인공지능(AI) 기반 자동 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 단방향 센서 측정 (Point-to-Point)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무선 센서 네트워크 (WSN) · 멀티 홉 라우팅, 배터리 제약 극복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유비쿼터스 센서망 (USN) · 인터넷망과의 결합, IPv6 적용 (6LoWPAN)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사물인터넷 (IoT) 플랫폼 · 빅데이터 분석 및 인공지능(AI) 기반 자동 제어</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 측정 도구였던 센서가 자율적인 네트워크로 묶이고, 종국에는 지능형 의사결정 시스템의 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집원으로 진화하는 과정을 보여준다.
 

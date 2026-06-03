@@ -43,20 +43,26 @@ cgroups는 이 문제를 해결하기 위해 등장했다. 프로세스를 계�
 
 아래 그림은 cgroup v2가 자원을 계층적으로 나누는 방식을 단순화한 것이다.
 
-```text
-/
-└─ kubepods.slice
-   ├─ guaranteed
-   │  └─ pod-a
-   │     ├─ cpu.max = 200000 100000
-   │     ├─ memory.high = 4G
-   │     └─ io.max = dev 8:0 rbps=200M
-   └─ burstable
-      └─ pod-b
-         ├─ cpu.weight = 100
-         ├─ memory.max = 2G
-         └─ pids.max = 512
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-tree-item" style="--depth:0">kubepods.slice</div>
+<div class="kb-diagram-tree-item" style="--depth:1">guaranteed</div>
+<div class="kb-diagram-note">─ pod-a</div>
+<div class="kb-diagram-note">─ cpu.max = 200000 100000</div>
+<div class="kb-diagram-note">─ memory.high = 4G</div>
+<div class="kb-diagram-note">─ io.max = dev 8:0 rbps=200M</div>
+<div class="kb-diagram-tree-item" style="--depth:1">burstable</div>
+<div class="kb-diagram-tree-item" style="--depth:3">pod-b</div>
+<div class="kb-diagram-tree-item" style="--depth:4">cpu.weight = 100</div>
+<div class="kb-diagram-tree-item" style="--depth:4">memory.max = 2G</div>
+<div class="kb-diagram-tree-item" style="--depth:4">pids.max = 512</div>
+</div>
+</div>
+
+
 
 여기서 특히 자주 혼동하는 개념이 `cpu.weight`와 `cpu.max`다. `cpu.weight`는 경합이 있을 때 상대적으로 얼마만큼 더 CPU를 받을지 정하는 값이고, `cpu.max`는 한가한 시스템에서도 절대로 넘을 수 없는 상한선이다. 메모리도 비슷하다. `memory.high`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 재회수를 적극적으로 시작하는 경고선이고, `memory.max`는 더 이상 버티지 못할 때 강한 제한으로 이어진다.
 
@@ -134,21 +140,23 @@ cgroups를 잘 설계하면 한 대의 서버 안에서도 [서비스](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ulimit 중심 제한
-    │
-    ▼
-cgroup v1 개별 컨트롤러
-    │
-    ▼
-cgroup v2 단일 계층
-    │
-    ▼
-container orchestrator QoS
-    │
-    ▼
-PSI + 자동 튜닝 루프
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ulimit 중심 제한</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup v1 개별 컨트롤러</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup v2 단일 계층</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">container orchestrator QoS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PSI + 자동 튜닝 루프</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 사용자 제한 → 그룹별 자원 제어 → 통합 계층화 → [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 연동 → 관측 기반 자동화"로 cgroups가 발전한 과정을 보여준다.
 

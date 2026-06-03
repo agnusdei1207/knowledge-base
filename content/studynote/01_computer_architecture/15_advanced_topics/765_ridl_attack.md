@@ -41,20 +41,19 @@ RIDL이 중요한 이유는 기존 [멜트다운](/knowledge-base/studynote/01_c
 
 다음 그림은 RIDL이 "읽기 경로의 찌꺼기"를 훔치는 과정을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ RIDL leak path                                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Victim load miss                                                  │
-│     │                                                             │
-│     ▼                                                             │
-│ LFB / Load Port ── stale bytes remain briefly ──▶ faulting load   │
-│                                                 by attacker        │
-│                                                      │             │
-│                                                      ▼             │
-│                                             cache timing decode    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIDL leak path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim load miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LFB / Load Port ── stale bytes remain briefly ──▶ faulting load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">by attacker</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cache timing decode</div></div>
+</div>
+</div>
+
+
 
 공격 절차는 보통 네 단계로 정리된다. 첫째, 피해자 스레드가 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 로드해 내부 버퍼를 사용한다. 둘째, 공격자는 예외를 유발하거나 보조 처리를 끌어내는 로드 명령을 연속 실행한다. 셋째, 투기 경로에서 stale byte가 공격자 쪽 마이크로상태에 반영된다. 넷째, 캐시 접근 시간 차이를 측정해 어떤 바이트가 샘플되었는지 추정한다. 한 번의 시도로 완전한 값이 나오지는 않지만, 반복 횟수를 높이면 통계적으로 의미 있는 패턴이 떠오른다.
 
@@ -124,21 +123,23 @@ RIDL 완화가 제대로 적용되면 최소한 "같은 코어를 공유했다"�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Out-of-Order Execution
-    │
-    ▼
-Transient Execution
-    │
-    ▼
-MDS (Microarchitectural Data Sampling)
-    │
-    ▼
-RIDL: load-path sampling
-    │
-    ▼
-MD_CLEAR + SMT isolation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Out-of-Order Execution</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transient Execution</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MDS (Microarchitectural Data Sampling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RIDL: load-path sampling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MD_CLEAR + SMT isolation</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-기가비트 와이파이(Giga-bit Wi-Fi) 시대를 연 주역입니다. 간섭이 너무 심한 2.4GHz 대역을 완전히 버리고, **오직 5GHz 단일 대역**에서만 동작하며 이론상 최대 **6.9Gbps**의 무시무시한 속도를 자랑합니다.
+기가비트 와이파이(Giga-bit Wi-Fi) 시대를 연 주역입니다. 간섭이 너무 심한 2.4GHz 대역을 완전히 버리고, <strong>오직 5GHz 단일 대역</strong>에서만 동작하며 이론상 최대 <strong>6.9Gbps</strong>의 무시무시한 속도를 자랑합니다.
 
-```text
-[11n]
-    │
-    ▼
-[11ac]
-    │
-    └──▶ [11ax]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11ac</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ax</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 11ac는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,22 +42,26 @@ tags = ["studynote-network"]
 
 ### 1. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(차선)의 극한 확장 (80~160MHz)
 - [Wi-Fi 4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)(n) 시절 채널 본딩으로 넓힌 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 40MHz가 한계였습니다.
-- Wi-Fi 5([ac](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))는 5GHz 주파수의 넓은 빈 땅을 십분 활용하여 기본 **80MHz**, 최대 **160MHz**까지 채널을 합쳐버립니다. 차선이 무려 4배~8배로 넓어지면서 고화질 4K 스트리밍이 우스워졌습니다.
-- 변조 방식 역시 기존 64-QAM에서 **256-QAM**으로 밀도를 높여, 한 번에 실어 나르는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 양을 25% 늘렸습니다.
+- Wi-Fi 5([ac](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))는 5GHz 주파수의 넓은 빈 땅을 십분 활용하여 기본 **80MHz**, 최대 <strong>160MHz</strong>까지 채널을 합쳐버립니다. 차선이 무려 4배~8배로 넓어지면서 고화질 4K 스트리밍이 우스워졌습니다.
+- 변조 방식 역시 기존 64-QAM에서 <strong>256-QAM</strong>으로 밀도를 높여, 한 번에 실어 나르는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 양을 25% 늘렸습니다.
 
 ### 2. MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))의 최초 도입
-이전 세대의 MIMO는 **[SU-MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/)(Single-User)**였습니다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 4개여도 한 번에 오직 1대의 기기에게만 데이터를 4배로 몰아 쏠 수 있었습니다. 기기가 여러 대면 아주 짧은 시간 단위로 쪼개어(Time Slicing) 번갈아 가며 뿌려주어 대기 지연이 길었습니다.
-- **MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (다중 사용자 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))**: 공유기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이용해 **서로 다른 4명의 스마트폰(사용자)에게 동시에, 같은 주파수로 각기 다른 데이터를 쏴줄 수 있는 혁명적 기술**입니다. (공간 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/), SDMA 구현)
-- **한계점 (다운링크 전용)**: Wi-Fi 5의 MU-MIMO는 **공유기에서 단말기로 데이터를 내려줄 때(Downlink)만 동작**합니다. 단말기들이 공유기로 데이터를 올릴 때(Uplink)는 여전히 한 명씩 순서를 기다려야 하는 반쪽짜리 기술이었습니다.
+이전 세대의 MIMO는 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/098_SU_MIMO_vs_MU_MIMO/">SU-MIMO</a>(Single-User)</strong>였습니다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 4개여도 한 번에 오직 1대의 기기에게만 데이터를 4배로 몰아 쏠 수 있었습니다. 기기가 여러 대면 아주 짧은 시간 단위로 쪼개어(Time Slicing) 번갈아 가며 뿌려주어 대기 지연이 길었습니다.
+- <strong>MU-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (다중 사용자 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a>)</strong>: 공유기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이용해 <strong>서로 다른 4명의 스마트폰(사용자)에게 동시에, 같은 주파수로 각기 다른 데이터를 쏴줄 수 있는 혁명적 기술</strong>입니다. (공간 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/), SDMA 구현)
+- **한계점 (다운링크 전용)**: Wi-Fi 5의 MU-MIMO는 <strong>공유기에서 단말기로 데이터를 내려줄 때(Downlink)만 동작</strong>합니다. 단말기들이 공유기로 데이터를 올릴 때(Uplink)는 여전히 한 명씩 순서를 기다려야 하는 반쪽짜리 기술이었습니다.
 
-```text
-[11n]
-    │
-    ▼
-[11ac]
-    │
-    └──▶ [11ax]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11ac</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ax</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 11ac의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 11n]
-    │
-    ▼
-[현재 개념: 11ac]
-    │
-    ├──▶ [확장 A: 11ax]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11n</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11ac</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11ax</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 11ac는 11n에서 출발해 현재 메커니즘을 정교화하고, 이후 11ax와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,22 +35,22 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 대표적인 이벤트 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Event Bus reference flow                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ OrderService publishes OrderPlaced(v1)                              │
-│        │                                                            │
-│        ▼                                                            │
-│ [Event Bus / Broker / Topic: order.events]                          │
-│        │ schema + routing key                                       │
-│        ├─ InventorySubscriber   -> reserve stock                    │
-│        ├─ NotificationSubscriber -> send message                    │
-│        └─ AnalyticsSubscriber   -> update dashboard                 │
-│                                                                      │
-│ failure path: retry -> DLQ (Dead Letter Queue) -> alert / replay    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Bus reference flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService publishes OrderPlaced(v1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Event Bus / Broker / Topic: order.events</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">schema + routing key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ InventorySubscriber -&gt; reserve stock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NotificationSubscriber -&gt; send message</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AnalyticsSubscriber -&gt; update dashboard</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure path: retry -&gt; DLQ (Dead Letter Queue) -&gt; alert / replay</div></div>
+</div>
+</div>
+
+
 
 핵심 구성 요소는 이벤트 계약(Event Contract), 채널(Topic/Channel), 전달 메커니즘, 구독자 처리기, 실패 처리다. 특히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 "이벤트 이름"보다 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 더 중요하다. 이벤트는 보통 과거형 사실(`OrderPlaced`, `PaymentFailed`)로 정의하고, 구독자는 이를 읽어 자기 책임 범위의 상태를 갱신한다. 이때 재시도와 중복 소비가 흔하므로, 구독 로직은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 확보해야 한다.
 
@@ -83,7 +83,7 @@ tags = ["studynote-design-supervision"]
 
 설계감리에서 자주 나오는 질문은 "[이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)가 만능인가"다. 답은 아니다. 사용자가 버튼을 눌렀을 때 즉시 결제 승인 결과를 받아야 하는 요청-응답 업무는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))나 명시적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 더 적합하다. 반면 주문 완료 후 알림, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 적재, 통계 집계, 검색 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신처럼 후행 반응은 이벤트 기반으로 분리할 때 효과가 크다.
 
-즉 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)는 직접 호출을 없애는 패턴이 아니라, **직접 호출이 꼭 필요하지 않은 반응을 분리하는 패턴**으로 이해해야 한다. 이 경계를 흐리면 시스템은 겉보기엔 느슨하게 연결됐지만, 실제로는 숨은 의존성으로 가득 찬 복잡한 구조가 된다.
+즉 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)는 직접 호출을 없애는 패턴이 아니라, <strong>직접 호출이 꼭 필요하지 않은 반응을 분리하는 패턴</strong>으로 이해해야 한다. 이 경계를 흐리면 시스템은 겉보기엔 느슨하게 연결됐지만, 실제로는 숨은 의존성으로 가득 찬 복잡한 구조가 된다.
 
 - **📢 섹션 요약 비유**: Observer가 같은 교실 안 손들기라면, Event Bus는 학교 방송이고, Work Queue는 청소 당번표이며, Event Sourcing은 학교에서 일어난 일을 전부 적는 생활기록부에 가깝다.
 
@@ -118,7 +118,7 @@ tags = ["studynote-design-supervision"]
 - 구독자 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 없이 재시도를 걸어 중복 적립·중복 발송이 발생하는 경우
 - 관측성 없이 이벤트 흐름을 숨겨 장애 분석이 불가능해지는 경우
 
-기술사 답안에서는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)의 장점만 쓰면 부족하다. **느슨한 결합, 확장성, 비동기화**와 함께 **숨은 제어 흐름, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리, 장애 추적 난이도**를 같이 적어야 현실적인 설계 판단으로 보인다. 특히 "이벤트는 사실 전달에 쓰고, 명령과 즉시 응답은 별도 경로로 분리한다"는 문장을 남기면 좋다.
+기술사 답안에서는 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)의 장점만 쓰면 부족하다. <strong>느슨한 결합, 확장성, 비동기화</strong>와 함께 <strong>숨은 제어 흐름, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 관리, 장애 추적 난이도</strong>를 같이 적어야 현실적인 설계 판단으로 보인다. 특히 "이벤트는 사실 전달에 쓰고, 명령과 즉시 응답은 별도 경로로 분리한다"는 문장을 남기면 좋다.
 
 - **📢 섹션 요약 비유**: [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)를 잘 쓰는 조직은 방송과 전화의 용도를 구분하는 조직이고, 못 쓰는 조직은 긴급 지시도 방송으로만 해서 누가 들었는지 모르는 조직과 같다.
 
@@ -130,7 +130,7 @@ tags = ["studynote-design-supervision"]
 
 하지만 이 장점은 계약과 관측성이 뒷받침될 때만 유지된다. 이벤트가 많아질수록 누가 어떤 이벤트를 소비하는지, 순서는 어떤지, 실패 시 재처리를 어떻게 하는지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성은 어느 수준까지 허용하는지 명확해야 한다. 그렇지 않으면 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)는 느슨한 결합의 도구가 아니라 "이유를 찾기 어려운 시스템"이 되기 쉽다.
 
-결론적으로 기억할 문장은 간단하다. **[이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)는 관심 있는 사실을 널리 알리는 패턴이지, 모든 협업을 숨겨서 해결하는 만능 통로가 아니다.** 설계감리에서는 발행자와 구독자의 분리 수준만이 아니라, 이벤트 계약·[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)·관측성까지 함께 보아야 한다.
+결론적으로 기억할 문장은 간단하다. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/">이벤트 버스</a>는 관심 있는 사실을 널리 알리는 패턴이지, 모든 협업을 숨겨서 해결하는 만능 통로가 아니다.</strong> 설계감리에서는 발행자와 구독자의 분리 수준만이 아니라, 이벤트 계약·[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)·관측성까지 함께 보아야 한다.
 
 - **📢 섹션 요약 비유**: [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)는 잘 설계된 방송국이면 도시를 효율적으로 움직이게 하지만, 방송표와 기록이 없으면 누가 무엇을 들었는지 모르는 소음원이 된다.
 
@@ -149,22 +149,24 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 호출 기반 결합
-    │
-    ▼
-Observer / local event notification
-    │
-    ▼
-Event Bus / Publish-Subscribe
-    │
-    ├─ schema versioning
-    ├─ retry / DLQ
-    └─ observability / correlation ID
-    │
-    ▼
-Event-Driven Architecture · CQRS 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 호출 기반 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Observer / local event notification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Event Bus / Publish-Subscribe</div>
+<div class="kb-diagram-tree-item" style="--depth:2">schema versioning</div>
+<div class="kb-diagram-tree-item" style="--depth:2">retry / DLQ</div>
+<div class="kb-diagram-tree-item" style="--depth:2">observability / correlation ID</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Event-Driven Architecture · CQRS 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 알림 구조가 단순 객체 간 통지에서 시작해, 계약과 운영 체계를 갖춘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 아키텍처로 발전하는 과정을 보여 준다.
 

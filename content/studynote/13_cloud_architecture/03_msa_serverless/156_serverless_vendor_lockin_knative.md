@@ -39,28 +39,22 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 | 이식성 | 어려움 | 모든 K8s 클러스터에서 동일 |
 | 운영 부담 | 낮음 | 중간~높음 (K8s 관리 필요) |
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Knative 아키텍처 개요                               │
-│                                                                      │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                   Knative 레이어                              │  │
-│  │                                                               │  │
-│  │  ┌──────────────────┐     ┌──────────────────────────────┐  │  │
-│  │  │  Knative Serving │     │  Knative Eventing            │  │  │
-│  │  │                  │     │                              │  │  │
-│  │  │  ▶ HTTP 트래픽   │     │  ▶ CloudEvents 표준          │  │  │
-│  │  │  ▶ 자동 스케일링 │     │  ▶ Broker/Trigger 라우팅    │  │  │
-│  │  │  ▶ 0→N 스케일아웃│     │  ▶ Kafka/RabbitMQ 연동      │  │  │
-│  │  │  ▶ 트래픽 분할   │     │                              │  │  │
-│  │  └──────────────────┘     └──────────────────────────────┘  │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-│                         │                                           │
-│  ┌────────────────────── │──────────────────────────────────────┐  │
-│  │          Kubernetes (GKE, EKS, AKS, on-prem)                 │  │
-│  └──────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative 아키텍처 개요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative Serving</div><div class="kb-diagram-cell">Knative Eventing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ HTTP 트래픽</div><div class="kb-diagram-cell">▶ CloudEvents 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 자동 스케일링</div><div class="kb-diagram-cell">▶ Broker/Trigger 라우팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 0→N 스케일아웃</div><div class="kb-diagram-cell">▶ Kafka/RabbitMQ 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 트래픽 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes (GKE, EKS, AKS, on-prem)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Knative는 범용 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(USB-C) — 어떤 벤더의 기기(클라우드)에도 연결 가능하도록 표준 인터페이스를 제공한다.
 
@@ -77,11 +71,11 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 | 스케일 투 제로 | 지원 | 지원 | 지원 |
 | 성숙도 | 매우 높음 | 높음 | 중간 |
 
-**탈출 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Exit [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 설계**
-1. **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) [어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/)**: 벤더 이벤트 형식을 내부 공통 형식으로 변환하는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층 추가
+<strong>탈출 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Exit <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>) 설계</strong>
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/">어댑터 패턴</a></strong>: 벤더 이벤트 형식을 내부 공통 형식으로 변환하는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 계층 추가
 2. **CloudEvents 표준 채택**: [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) CloudEvents 스펙으로 이벤트 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)
-3. **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 기반 배포**: 함수를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 패키징 → Knative/[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 모두 실행 가능
-4. **[인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Pulumi로 벤더 리소스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 이미지 기반 배포</strong>: 함수를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지로 패키징 → Knative/[Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 모두 실행 가능
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">인프라 코드</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), Pulumi로 벤더 리소스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)
 
 📢 **섹션 요약 비유**: CloudEvents 표준은 국제 표준 규격 콘센트 — 각국 콘센트 모양이 달라도 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 하나로 어디서나 전기를 쓸 수 있게 해준다.
 
@@ -89,11 +83,11 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**락인 수준별 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
-- **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 락인 허용**: 단일 벤더 올인으로 생산성 극대화, 탈출 비용은 장기 계획에 반영
+<strong>락인 수준별 대응 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 락인 허용</strong>: 단일 벤더 올인으로 생산성 극대화, 탈출 비용은 장기 계획에 반영
 - **아키텍처적 격리**: 비즈니스 로직을 벤더 API와 분리 ([헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/) 적용)
 - **Knative 하이브리드**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·멀티클라우드 요구 시 Knative로 동일 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경 구현
-- **[이식성 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/454_portability_test/)**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 다른 환경 실행 테스트 포함
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/454_portability_test/">이식성 테스트</a></strong>: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 다른 환경 실행 테스트 포함
 
 **기술사 시험 포인트**
 - 벤더 락인의 세 유형(기술적, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 계약적)을 구분하고 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 맥락에서 설명
@@ -129,17 +123,21 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CSP 전용 FaaS (벤더 종속)
-    │
-    ▼
-Knative: K8s 기반 오픈소스 서버리스 프레임워크
-    ├─► Serving: 자동 스케일링 · 리비전 관리
-    └─► Eventing: 이벤트 소스 바인딩
-    │
-    ▼
-Cloud-Agnostic 서버리스 → 멀티클라우드 이식성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CSP 전용 FaaS (벤더 종속)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Knative: K8s 기반 오픈소스 서버리스 프레임워크</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Serving: 자동 스케일링 · 리비전 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Eventing: 이벤트 소스 바인딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud-Agnostic 서버리스 → 멀티클라우드 이식성</div>
+</div>
+</div>
+
+
 2. Knative는 모든 게임기에서 돌아가는 온라인 게임 — 어느 회사 기기에서도 같은 게임을 즐길 수 있어요.
 3. 자유롭게 게임기를 바꿀 수 있지만, 그러려면 온라인 게임 서버([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))를 직접 관리해야 해요.
 

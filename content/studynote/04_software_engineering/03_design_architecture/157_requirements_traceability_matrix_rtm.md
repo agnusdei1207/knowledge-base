@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 요구사항 추적 매트릭스는 요구사항이 실제 산출물로 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 만든 연결표다. 보통 한 축에는 요구사항 ID를, 다른 축에는 설계 문서, 코드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), 검수 결과 같은 산출물을 둔다. 이 표가 필요한 이유는 프로젝트가 커질수록 “기획서에 있던 기능이 빠졌는지”, “개발자가 고객이 시키지 않은 기능을 넣었는지”, “변경 요청이 어느 테스트까지 영향을 주는지”를 사람의 기억만으로 관리할 수 없기 때문이다.
 
-특히 공공, 금융, 국방, 의료처럼 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 책임이 큰 프로젝트에서는 RTM이 단순 참고 문서가 아니라 계약 이행과 품질 보증의 근거가 된다. 요구사항이 수백 개를 넘기면 누락과 중복은 거의 필연적으로 발생하므로, RTM은 복잡성을 줄이는 도구가 아니라 **복잡성을 눈에 보이게 만드는 통제판**이라고 이해하는 편이 정확하다.
+특히 공공, 금융, 국방, 의료처럼 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 책임이 큰 프로젝트에서는 RTM이 단순 참고 문서가 아니라 계약 이행과 품질 보증의 근거가 된다. 요구사항이 수백 개를 넘기면 누락과 중복은 거의 필연적으로 발생하므로, RTM은 복잡성을 줄이는 도구가 아니라 <strong>복잡성을 눈에 보이게 만드는 통제판</strong>이라고 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: RTM은 택배 추적 화면과 같다. 주문이 접수됐는지, 창고에서 나갔는지, 배송됐는지 단계별로 보이지 않으면 물건이 사라져도 어디서 문제인지 알 수 없다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RTM의 핵심 원리는 모든 요구사항에 고유한 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)를 부여하고, 생명주기 산출물마다 그 ID를 이어 붙이는 것이다. 이때 중요한 것은 표를 예쁘게 채우는 것이 아니라, 요구사항이 **앞으로는 구현과 테스트로 이어지고**, **뒤로는 출처와 승인 근거로 되짚어질 수 있어야 한다**는 점이다.
+RTM의 핵심 원리는 모든 요구사항에 고유한 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)를 부여하고, 생명주기 산출물마다 그 ID를 이어 붙이는 것이다. 이때 중요한 것은 표를 예쁘게 채우는 것이 아니라, 요구사항이 **앞으로는 구현과 테스트로 이어지고**, <strong>뒤로는 출처와 승인 근거로 되짚어질 수 있어야 한다</strong>는 점이다.
 
 ### RTM의 기본 열 구성
 
@@ -43,17 +43,19 @@ RTM의 핵심 원리는 모든 요구사항에 고유한 [식별자](/knowledge-
 
 아래 그림은 RTM이 왜 누락과 과잉 구현을 동시에 잡아낼 수 있는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    RTM links intent to delivery evidence                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ REQ-001 ─▶ SRS-2.3 ─▶ Design-D07 ─▶ PR-142 ─▶ TC-019 Pass                │
-│ REQ-002 ─▶ SRS-2.4 ─▶ Design-D09 ─▶ PR-155 ─▶ TC-021 Pass                │
-│ REQ-003 ─▶ SRS-2.7 ─▶    GAP     ─▶   GAP   ─▶    GAP                    │
-│    ▲                                                                      │
-│    └──── backward trace checks whether code/test exists without REQ ID    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTM links intent to delivery evidence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-001 ─▶ SRS-2.3 ─▶ Design-D07 ─▶ PR-142 ─▶ TC-019 Pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-002 ─▶ SRS-2.4 ─▶ Design-D09 ─▶ PR-155 ─▶ TC-021 Pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-003 ─▶ SRS-2.7 ─▶ GAP ─▶ GAP ─▶ GAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backward trace checks whether code/test exists without REQ ID</div></div>
+</div>
+</div>
+
+
 
 정방향으로 보면 어떤 요구가 어디까지 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있고, 역방향으로 보면 근거 없는 코드나 테스트를 찾을 수 있다. 그래서 RTM은 표 하나로 끝나는 문서가 아니라, [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)·[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)·테스트 관리의 접점을 묶는 구조라고 봐야 한다.
 
@@ -71,7 +73,7 @@ RTM은 추적 방향에 따라 보는 질문이 달라진다.
 | 역방향 추적 (Backward [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) | 이 코드·테스트는 어떤 요구사항에서 왔는가? | 근거 없는 기능 추가, 과잉 설계 |
 | 양방향 추적 (Bidirectional [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) | 변경 시 영향 범위를 양쪽에서 찾을 수 있는가? | 변경 누락, 연쇄 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
 
-실무에서는 RTM이 단독으로 존재하지 않는다. SRS (Software Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)), [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 관리, 변경 통제, V&V ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) and [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 테스트 관리 도구와 연결되어야 비로소 힘을 발휘한다. 또한 소규모 팀에서는 스프레드시트 형태로도 충분할 수 있지만, 대형 프로젝트에서는 Jira, Git, 테스트 관리 도구를 연계한 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 방식이 훨씬 현실적이다. 즉 RTM의 본질은 표 형식이 아니라 **연결을 유지하는 메커니즘**이다.
+실무에서는 RTM이 단독으로 존재하지 않는다. SRS (Software Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)), [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 관리, 변경 통제, V&V ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) and [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 테스트 관리 도구와 연결되어야 비로소 힘을 발휘한다. 또한 소규모 팀에서는 스프레드시트 형태로도 충분할 수 있지만, 대형 프로젝트에서는 Jira, Git, 테스트 관리 도구를 연계한 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 방식이 훨씬 현실적이다. 즉 RTM의 본질은 표 형식이 아니라 <strong>연결을 유지하는 메커니즘</strong>이다.
 
 - **📢 섹션 요약 비유**: RTM은 지하철 노선도와 같다. 한 역에서 출발해 어디로 이어지는지 보는 것이 정방향 추적이고, 어떤 역이 왜 이 노선에 있는지 거꾸로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 역방향 추적이다.
 
@@ -84,7 +86,7 @@ RTM은 추적 방향에 따라 보는 질문이 달라진다.
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **모든 요구사항에 고유 ID가 있는가?** 자연어 문장만 있으면 추적이 끊긴다.
-2. **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)과 변경 이력이 분리되어 있는가?** 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 요구를 추적하는지 명확해야 한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>과 변경 이력이 분리되어 있는가?</strong> 어떤 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 요구를 추적하는지 명확해야 한다.
 3. **설계·코드·테스트 링크가 실제 산출물과 연결되는가?** 이름만 적어 놓은 표는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에 약하다.
 4. **고위험 요구사항을 더 깊게 추적하는가?** 결제, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 안전 기능은 추적 강도를 높여야 한다.
 
@@ -102,7 +104,7 @@ RTM은 추적 방향에 따라 보는 질문이 달라진다.
 
 RTM을 제대로 운영하면 요구사항 누락 방지, 변경 영향 분석, 테스트 완전성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 속도 향상이라는 직접 효과를 얻을 수 있다. 특히 복잡한 프로젝트일수록 RTM은 문서 부담이 아니라 재작업과 분쟁 비용을 줄이는 장치가 된다. 반대로 추적 범위를 무작정 넓히면 유지 비용이 커지므로, 위험도와 규제 수준에 맞춘 추적 깊이 설계가 필요하다.
 
-앞으로의 RTM은 정적인 표보다 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 형태로 발전할 가능성이 크다. 요구사항 시스템, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 시스템, 테스트 파이프라인이 연결되면 RTM은 문서가 아니라 실시간 상태판이 된다. 따라서 RTM은 “감리용 엑셀”로 기억하기보다 **요구사항을 개발과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 끌고 가는 통합 연결 구조**로 이해하는 것이 바람직하다.
+앞으로의 RTM은 정적인 표보다 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 형태로 발전할 가능성이 크다. 요구사항 시스템, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 시스템, 테스트 파이프라인이 연결되면 RTM은 문서가 아니라 실시간 상태판이 된다. 따라서 RTM은 “감리용 엑셀”로 기억하기보다 <strong>요구사항을 개발과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>까지 끌고 가는 통합 연결 구조</strong>로 이해하는 것이 바람직하다.
 
 - **📢 섹션 요약 비유**: 좋은 RTM은 건물의 배선도와 같다. 선이 어디로 이어지는지 보여 주기 때문에 고장이 나도 어디를 뜯어야 할지 빠르게 찾을 수 있다.
 
@@ -121,21 +123,23 @@ RTM을 제대로 운영하면 요구사항 누락 방지, 변경 영향 분석, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 도출
-    │
-    ▼
-SRS (Software Requirements Specification) · Requirement ID 부여
-    │
-    ▼
-RTM (Requirements Traceability Matrix)
-    │
-    ▼
-설계 · 코드 · 테스트 링크 연결
-    │
-    ▼
-변경 영향 분석 · 품질 보증 · 감사 대응 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRS (Software Requirements Specification) · Requirement ID 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTM (Requirements Traceability Matrix)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설계 · 코드 · 테스트 링크 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변경 영향 분석 · 품질 보증 · 감사 대응 자동화</div>
+</div>
+</div>
+
+
 
 이 흐름은 RTM이 단일 문서가 아니라, 요구사항을 개발과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 끌고 가는 연결 사슬의 중심에 있음을 보여준다.
 

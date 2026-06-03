@@ -28,23 +28,24 @@ tags = ["studynote-operating-system"]
 
 이 도식은 운영체제가 하드웨어와 사용자 사이에서 어떻게 샌드위치 구조로 위치하며 각 계층의 복잡도를 은닉하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                   운영체제의 계층적 위치                     │
-├──────────────────────────────────────────────────────────────┤
-│    [ 사용자 ] (User)                                         │
-│        ↕ (UI/UX)                                             │
-│    [ 응용 프로그램 ] (Application Software)                  │
-│        ↕ (System Call API)                                   │
-│  ┌─────────────────────────────────────────────────────┐     │
-│  │               운영체제 (Operating System)            │    │
-│  │  - 인터페이스 제공 (Shell / GUI)                    │     │
-│  │  - 자원 관리 및 추상화 (Kernel)                     │     │
-│  └─────────────────────────────────────────────────────┘     │
-│        ↕ (Interrupt / I/O)                                   │
-│    [ 하드웨어 ] (CPU, RAM, Disk, Network)                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제의 계층적 위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자</div><div class="kb-diagram-note">(User)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (UI/UX)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용 프로그램</div><div class="kb-diagram-note">(Application Software)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (System Call API)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 (Operating System)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인터페이스 제공 (Shell / GUI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자원 관리 및 추상화 (Kernel)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (Interrupt / I/O)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어</div><div class="kb-diagram-note">(CPU, RAM, Disk, Network)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 운영체제 (Operating System)는 하드웨어 (Hardware)의 물리적 복잡성을 숨기고 사용자에게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 환경을 제공한다. 상단의 응용 프로그램은 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 통해 OS에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하며, OS는 내부 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 통해 CPU 스케줄링, 메모리 할당 등을 수행하여 하드웨어를 직접 제어한다. 이 계층 구조 덕분에 사용자는 하드웨어의 상세 스펙을 몰라도 프로그램을 실행할 수 있으며, 여러 프로그램이 동일한 하드웨어를 안전하게 공유할 수 있는 '[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 실행 환경'이 구축된다. 따라서 OS는 단순한 소프트웨어가 아닌, 시스템 전체의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 담보하는 기반 계층으로 이해해야 한다.
 
@@ -58,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | OS의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수행 | CPU/메모리 스케줄링, 장치 관리 | 엔진룸 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> | OS의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수행 | CPU/메모리 스케줄링, 장치 관리 | 엔진룸 |
 | **인터페이스 (Interface)** | 사용자와의 상호작용 | [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) (CLI), GUI (Graphical User Interface) | 계기판/핸들 |
-| **시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))** | 앱과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이의 통로 | 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로의 전환 ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) | 은행 창구 |
+| <strong>시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong> | 앱과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이의 통로 | 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로의 전환 ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) | 은행 창구 |
 | **디바이스 드라이버** | 하드웨어 제어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) | 각 하드웨어별 특화된 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 구현 | 번역기 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 저장 구조 제공 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/디렉토리 구조로 조직화 | 서류 캐비닛 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 저장 구조 제공 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/디렉토리 구조로 조직화 | 서류 캐비닛 |
 
 ---
 
@@ -70,27 +71,22 @@ tags = ["studynote-operating-system"]
 
 운영체제는 자원 관리 (Resource [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 편의성 (Convenience), 효율성 (Efficiency), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))이라는 네 가지 축을 중심으로 설계된다. 각 목적은 서로 유기적으로 연결되어 있으며, 때로는 효율성을 위해 편의성을 일부 희생하거나 그 반대의 결정을 내리기도 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  운영체제 설계의 4대 핵심 목적                     │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│       [ 1. 효율성 ]                [ 2. 편의성 ]                   │
-│    - 처리량 (Throughput) ↑      - 사용자 인터페이스 제공           │
-│    - 자원 낭비 최소화           - 하드웨어 복잡성 은닉             │
-│            │                            │                          │
-│            └──────────────┬─────────────┘                          │
-│                           ▼                                        │
-│                  [ 운영체제 커널 ]                                 │
-│                           ▲                                        │
-│            ┌──────────────┴─────────────┐                          │
-│            │                            │                          │
-│       [ 3. 신뢰성 ]                [ 4. 확장성 ]                   │
-│    - 자원 보호 (Protection)     - 새로운 장치 지원                 │
-│    - 오류 복구 및 가용성        - 계층화된 구조                    │
-│                                                                    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 설계의 4대 핵심 목적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 효율성</div><div class="kb-diagram-node">2. 편의성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리량 (Throughput) ↑ - 사용자 인터페이스 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자원 낭비 최소화 - 하드웨어 복잡성 은닉</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 커널</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 신뢰성</div><div class="kb-diagram-node">4. 확장성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자원 보호 (Protection) - 새로운 장치 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오류 복구 및 가용성 - 계층화된 구조</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 운영체제의 설계 철학은 효율성 (Efficiency)과 편의성 (Convenience) 사이의 균형을 찾는 과정이다. 효율성은 제한된 CPU 시간과 메모리 공간을 낭비 없이 사용하여 단위 시간당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 높이는 데 집중한다. 반면 편의성은 사용자가 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 처리나 메모리 주소 지정을 신경 쓰지 않고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 GUI (Graphical User Interface)를 통해 작업을 수행할 수 있도록 돕는다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))은 한 프로세스의 오류가 시스템 전체의 붕괴 (Crash)로 이어지지 않도록 격리하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 의미하며, 확장성 (Scalability)은 다양한 하드웨어 및 소프트웨어 기술의 변화를 수용할 수 있는 모듈러 구조를 지향한다. 실무적으로는 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) (RTOS)에서 효율성과 결정론적 동작을 최우선으로 하고, 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) OS에서는 편의성과 호환성에 더 비중을 둔다.
 
@@ -100,21 +96,23 @@ tags = ["studynote-operating-system"]
 
 운영체제가 하드웨어 자원을 관리하는 과정은 요청 수신, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 할당, 회수라는 사이클을 반복한다. 이 과정에서 프로세스 스케줄링과 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 방지 로직이 개입한다.
 
-```text
-[프로세스 요청] → [시스템 콜 인터페이스] → [자원 관리자(Kernel)]
-                                               ↓
-                                   ┌───────────┴──────────────────────┐
-                                   │ 자원 상태 테이블 조회            │
-                                   └───────────┬──────────────────────┘
-                                               ↓
-                        ┌──────────────────────┴──────────────────────┐
-                        │      [할당 전략 수립]                       │
-                        │ - CPU: Round Robin, Priority 등             │
-                        │ - Memory: Paging, Segmentation 등           │
-                        └──────────────────────┬──────────────────────┘
-                                               ↓
-[자원 할당 및 실행] ← [컨텍스트 스위칭] ← [상태 갱신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 요청</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">시스템 콜 인터페이스</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">자원 관리자(Kernel)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 상태 테이블 조회</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">할당 전략 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU: Round Robin, Priority 등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Memory: Paging, Segmentation 등</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 및 실행</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">컨텍스트 스위칭</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">상태 갱신</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도는 운영체제가 '자원 관리자'로서 수행하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 단계를 보여준다. 응용 프로그램이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 메모리를 할당받으려 할 때, 직접 하드웨어에 접근하지 못하고 반드시 시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 거쳐야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 자원 상태 테이블 (Resource Status Table)을 참조하여 현재 가용한 자원이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 이때 단순히 남는 것을 주는 것이 아니라, 시스템의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 고려하여 우선순위 기반 스케줄링을 하거나 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) ([Page Replacement Algorithm](/knowledge-base/studynote/02_operating_system/07_virtual_memory/395_page_replacement_algorithm/))을 적용한다. 자원이 할당된 후에는 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/) (PCB, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)을 갱신하고 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)을 통해 실행권을 넘긴다. 이러한 엄격한 절차는 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하고 특정 프로세스가 자원을 독점하는 것을 방지하는 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 역할을 완수하게 한다.
 
@@ -136,8 +134,8 @@ tags = ["studynote-operating-system"]
 ### OS와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술의 시너지
 
 현대 운영체제는 가상 머신 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) ([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)) 기술과 융합되어 물리적 하드웨어의 한계를 극복한다.
-- **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))**: 물리 OS 위에 여러 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) OS를 올림으로써 하드웨어 활용률을 극대화 (효율성).
-- **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하며 프로세스를 격리하여 배포 편의성과 확장성 제공 (편의성+효율성).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">Hypervisor</a>)</strong>: 물리 OS 위에 여러 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) OS를 올림으로써 하드웨어 활용률을 극대화 (효율성).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>/K8s</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하며 프로세스를 격리하여 배포 편의성과 확장성 제공 (편의성+효율성).
 
 - **📢 섹션 요약 비유**: 빠른 속도를 위해 군더더기를 뺀 경주용 자동차(효율성)와 누구나 쉽게 운전할 수 있는 편의 기능을 갖춘 가족용 세단(편의성) 사이의 선택과 집중의 과정입니다.
 
@@ -152,13 +150,13 @@ tags = ["studynote-operating-system"]
 2. **시나리오 — 임베디드 시스템에서의 실시간성 확보**: 자동차 제어 장치와 같은 시스템에서는 '평균적 효율'보다 '최악의 경우의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) (Worst Case [Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))'이 더 중요하다. 따라서 선점형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Preemptive [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 사용하고 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) 방지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 적용하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 결정론적 (Deterministic) 동작을 보장해야 한다.
 
 ### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측면**: CPU 이용률, 메모리 스왑 (Swap) 발생 빈도, I/O 대기 (Wait) 시간이 목표 효율성 지표를 만족하는가?
-- **보안 및 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드와 사용자 모드가 명확히 분리되어 있으며, 권한 없는 프로세스의 메모리 접근이 차단되는가?
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 측면</strong>: CPU 이용률, 메모리 스왑 (Swap) 발생 빈도, I/O 대기 (Wait) 시간이 목표 효율성 지표를 만족하는가?
+- <strong>보안 및 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드와 사용자 모드가 명확히 분리되어 있으며, 권한 없는 프로세스의 메모리 접근이 차단되는가?
 - **사용자 인터페이스**: 관리자가 시스템 상태를 직관적으로 모니터링하고 제어할 수 있는 도구 (CLI/GUI)가 충분한가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **과도한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) (Over-[abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))**: 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮은 환경에서 지나치게 복잡한 프레임워크나 런타임을 OS 위에 올리면, 편의성은 높아지나 자원 관리 효율이 급격히 떨어져 시스템이 멈추는 현상이 발생한다.
-- **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드 무시**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 응용 프로그램에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 직접 접근 권한을 주는 방식은 단기적 속도는 빠를지 모르나, 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 완전히 파괴하는 위험한 설계다.
+- <strong>과도한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> (Over-<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">abstraction</a>)</strong>: 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮은 환경에서 지나치게 복잡한 프레임워크나 런타임을 OS 위에 올리면, 편의성은 높아지나 자원 관리 효율이 급격히 떨어져 시스템이 멈추는 현상이 발생한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 모드 무시</strong>: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 응용 프로그램에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 직접 접근 권한을 주는 방식은 단기적 속도는 빠를지 모르나, 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 완전히 파괴하는 위험한 설계다.
 
 - **📢 섹션 요약 비유**: 건물을 지을 때 튼튼한 기초([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 위에 화려한 외관(편의성)을 입히되, 내부 배관(효율성)이 막히지 않도록 설계하는 종합 건축 예술과 같습니다.
 
@@ -175,7 +173,7 @@ tags = ["studynote-operating-system"]
 | **안정성** | 한 프로그램 오류 시 전체 정지 | 프로세스 격리 및 개별 종료 가능 | 시스템 가동률 ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 99.9% 이상 |
 
 ### 미래 전망
-미래의 운영체제는 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영체제 (Distributed OS)**와 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화 OS**로 진화할 것이다. 수많은 엣지 디바이스의 자원을 하나의 거대한 가상 자원 풀로 관리하며, AI가 워크로드 패턴을 학습하여 스스로 CPU 스케줄링과 메모리 배치를 최적화하는 "자율 주행 OS" 시대가 도래할 것으로 예상된다.
+미래의 운영체제는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 운영체제 (Distributed OS)</strong>와 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 내재화 OS</strong>로 진화할 것이다. 수많은 엣지 디바이스의 자원을 하나의 거대한 가상 자원 풀로 관리하며, AI가 워크로드 패턴을 학습하여 스스로 CPU 스케줄링과 메모리 배치를 최적화하는 "자율 주행 OS" 시대가 도래할 것으로 예상된다.
 
 ### 참고 표준
 - **POSIX (Portable Operating System Interface)**: UNIX 계열 운영체제 간의 호환성을 위한 표준 인터페이스 규격.
@@ -188,33 +186,36 @@ tags = ["studynote-operating-system"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | 운영체제의 핵심 기능을 수행하는 핵심 소프트웨어 계층 |
-| **시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))** | 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 기능을 호출하기 위한 인터페이스 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 하드웨어나 소프트웨어의 상태 변화를 OS에 알리는 통지 메커니즘 |
-| **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))** | 물리 메모리 크기를 넘어선 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 메모리 공간을 제공하는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기술 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> | 운영체제의 핵심 기능을 수행하는 핵심 소프트웨어 계층 |
+| <strong>시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong> | 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 기능을 호출하기 위한 인터페이스 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | 하드웨어나 소프트웨어의 상태 변화를 OS에 알리는 통지 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a>)</strong> | 물리 메모리 크기를 넘어선 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 메모리 공간을 제공하는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기술 |
 | **프로세스 관리** | CPU 자원을 여러 작업에 공정하게 배분하는 핵심 기능 |
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개념 명칭]
-    │
-    ▼
-[커널 (Kernel)]
-    │
-    ▼
-[시스템 콜 (System Call)]
-    │
-    ▼
-[인터럽트 (Interrupt)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념 명칭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 (Kernel)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 (System Call)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 (Interrupt)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 운영체제는 컴퓨터 안의 **"착한 관리자 아저씨"**예요. 게임이나 유튜브 같은 프로그램들이 싸우지 않고 사이좋게 컴퓨터 부품들을 나눠 쓸 수 있게 도와줘요.
+1. 운영체제는 컴퓨터 안의 <strong>"착한 관리자 아저씨"</strong>예요. 게임이나 유튜브 같은 프로그램들이 싸우지 않고 사이좋게 컴퓨터 부품들을 나눠 쓸 수 있게 도와줘요.
 2. 우리가 컴퓨터 부품들의 어려운 말을 몰라도, 마우스 클릭 한 번으로 그림을 그리고 노래를 들을 수 있게 **"쉬운 통역사"** 역할도 해준답니다.
 3. 또 컴퓨터가 갑자기 고장 나지 않도록 지켜주고, 부품들이 낭비되지 않게 아껴 써서 컴퓨터를 **"쌩쌩하게"** 만들어주는 역할을 해요!
 

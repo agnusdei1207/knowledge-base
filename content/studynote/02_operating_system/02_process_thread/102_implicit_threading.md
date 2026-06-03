@@ -24,30 +24,29 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 암묵적 스레딩을 구현하는 대표적인 기술은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)), OpenMP, [GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 세 가지다. 개발자의 의도를 시스템이 어떻게 받아들여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하는지 살펴보자.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          암묵적 스레딩의 런타임 추상화 메커니즘              │
-├──────────────────────────────────────────────────────────────┤
-│ 1. OpenMP (데이터 병렬성 중심 / Fork-Join 모델)              │
-│    #pragma omp parallel for  ◀── (개발자는 이 지시어만 작성)│
-│    for(i=0; i<100; i++) { ... }                              │
-│                                                              │
-│      [런타임이 코어 수에 맞춰 스레드 팀 동적 Fork]           │
-│      T1(0~24)   T2(25~49)   T3(50~74)   T4(75~99)            │
-│      └───────┬─────────┬─────────┬───────┘                 │
-│                ▼ Join (암묵적 장벽 동기화 대기)              │
-│                                                              │
-│ 2. GCD / 스레드 풀 (작업 병렬성 중심 / Task Queue 모델)      │
-│    개발자: Task A, Task B를 비동기 Queue에 밀어 넣음         │
-│               │                                              │
-│               ▼  OS 런타임 (GCD) 스케줄러                    │
-│    [가용 스레드 풀 모니터링] ─▶ 노는 스레드에 Task 동적 매핑│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵적 스레딩의 런타임 추상화 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. OpenMP (데이터 병렬성 중심 / Fork-Join 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#pragma omp parallel for ◀── (개발자는 이 지시어만 작성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for(i=0; i&lt;100; i++) { ... }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">런타임이 코어 수에 맞춰 스레드 팀 동적 Fork</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1(0~24) T2(25~49) T3(50~74) T4(75~99)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ Join (암묵적 장벽 동기화 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. GCD / 스레드 풀 (작업 병렬성 중심 / Task Queue 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자: Task A, Task B를 비동기 Queue에 밀어 넣음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ OS 런타임 (GCD) 스케줄러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가용 스레드 풀 모니터링</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">노는 스레드에 Task 동적 매핑</div></div>
+</div>
+</div>
+
+
 
 1. **OpenMP**: C/C++ 기반에서 포크-조인 (Fork-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 모델을 쓴다. 컴파일러가 `#pragma` 지시어를 보면, 반복문을 쪼개서 내부 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)에 분배한다. 끝나는 지점에 암묵적 장벽을 세워 모두 끝날 때까지 기다린 후 단일 흐름으로 복귀한다.
-2. **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))**: 프로세스 시작 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 미리 만들어 둔다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 오버헤드를 막고, 시스템 리소스 고갈을 제한한다.
-3. **[GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) (Grand Central Dispatch)**: Apple 생태계 기술로, 큐 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))의 개념을 도입했다. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) 또는 동시(Concurrent) 큐에 작업을 던지면, 런타임이 현재 CPU 부하를 계산해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong>: 프로세스 시작 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 미리 만들어 둔다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 오버헤드를 막고, 시스템 리소스 고갈을 제한한다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/">GCD</a> (Grand Central Dispatch)</strong>: Apple 생태계 기술로, 큐 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))의 개념을 도입했다. [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) 또는 동시(Concurrent) 큐에 작업을 던지면, 런타임이 현재 CPU 부하를 계산해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리한다.
 
 - **📢 섹션 요약 비유**: 수동 변속기(명시적)로 RPM을 보며 기어를 바꾸는 피로에서 벗어나, 엑셀만 밟으면 시스템이 알아서 단수를 올려주는 자동 변속기(암묵적)를 탑재한 것과 같다.
 
@@ -69,11 +68,11 @@ tags = ["studynote-operating-system"]
 실무에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 결정할 때는 작업의 성격에 따라 프레임워크를 선택해야 거대한 병목을 방지할 수 있다.
 
 ### 판단 시나리오
-1. **행렬 곱셈 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 (OpenMP 적용)**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 추론 엔진이나 과학 시뮬레이션에서는 거대한 `for` 루프가 병목이다. 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 쪼개어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화할 수 있으므로, 컴파일러 지시어 1줄로 수십 배의 스케일업을 달성하는 OpenMP가 제격이다.
-2. **UI 응답성과 비동기 I/O ([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)/[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 적용)**: 모바일 앱이나 웹 서버에서 네트워크 요청을 기다리느라 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추면 안 된다. 무거운 작업은 백그라운드 동시 큐에 던지고, 화면 갱신은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 큐(메인 큐)로 콜백하여 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이슈를 피하는 패턴을 써야 한다.
+1. <strong>행렬 곱셈 등 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산 (OpenMP 적용)</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 추론 엔진이나 과학 시뮬레이션에서는 거대한 `for` 루프가 병목이다. 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 쪼개어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화할 수 있으므로, 컴파일러 지시어 1줄로 수십 배의 스케일업을 달성하는 OpenMP가 제격이다.
+2. <strong>UI 응답성과 비동기 I/O (<a href="/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/">GCD</a>/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 적용)</strong>: 모바일 앱이나 웹 서버에서 네트워크 요청을 기다리느라 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추면 안 된다. 무거운 작업은 백그라운드 동시 큐에 던지고, 화면 갱신은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 큐(메인 큐)로 콜백하여 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이슈를 피하는 패턴을 써야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 큐 내에서의 동기적(Sync) 대기**: 현재 실행 중인 큐에 새로운 작업을 억지로 밀어 넣고 완료를 기다리면 셀프 데드락 (Self-[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 발생해 앱이 영구 정지된다.
+- <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 큐 내에서의 동기적(Sync) 대기</strong>: 현재 실행 중인 큐에 새로운 작업을 억지로 밀어 넣고 완료를 기다리면 셀프 데드락 (Self-[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 발생해 앱이 영구 정지된다.
 - **공유 상태에 대한 무분별한 뮤텍스 남발**: 암묵적 스레딩 환경에서도 전역 변수에 다수의 큐가 동시 접근하면 경합이 생긴다. 락을 쓰기보다, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 특정 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 큐(또는 [액터 모델](/knowledge-base/studynote/02_operating_system/02_process_thread/139_actor_model/))로 보내 상태를 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))하는 것이 현대적인 설계다.
 
 - **📢 섹션 요약 비유**: 수술실에서 의사가 직접 메스를 소독하고 챙기다 환자를 놓치는 대신, 전문 간호사 팀에게 "절개 준비"라고 지시만 하면 완벽히 세팅된 도구가 손에 쥐어지는 전문 분업화와 같다.
@@ -88,23 +87,26 @@ tags = ["studynote-operating-system"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))** | 암묵적 스레딩 시스템의 기저에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 자원을 재활용하는 핵심 엔진. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> | 암묵적 스레딩 시스템의 기저에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸 자원을 재활용하는 핵심 엔진. |
 | **캐시 지역성 (Cache Locality)** | 고급 암묵적 런타임이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 배치할 때, [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) 히트율을 높이기 위해 고려하는 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 최적화 요소. |
-| **[코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) / [고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)** | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 위에서 사용자 모드 단위로 작업을 더 가볍게 스위칭하는 차세대 비동기 패러다임. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">Coroutine</a>) / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/">고루틴</a></strong> | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 위에서 사용자 모드 단위로 작업을 더 가볍게 스위칭하는 차세대 비동기 패러다임. |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-명시적 스레딩 (Explicit Threading, Pthreads 직접 제어)
-    │
-    ▼
-스레드 풀 (Thread Pool) 도입 (생성/소멸 오버헤드 최소화)
-    │
-    ▼
-암묵적 스레딩 프레임워크 (OpenMP 지시어, Apple GCD 큐)
-    │
-    ▼
-언어 내재화 비동기 모델 (Async/Await, Goroutine, Actor)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명시적 스레딩 (Explicit Threading, Pthreads 직접 제어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스레드 풀 (Thread Pool) 도입 (생성/소멸 오버헤드 최소화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암묵적 스레딩 프레임워크 (OpenMP 지시어, Apple GCD 큐)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언어 내재화 비동기 모델 (Async/Await, Goroutine, Actor)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 예전 식당 사장님은 요리사 10명을 뽑고 양파 썰기, 고기 굽기를 일일이 지시하느라 바빴어요.

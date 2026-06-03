@@ -24,7 +24,7 @@ tags = ["studynote-bigdata"]
 
 ### 1. [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce의 구조적 한계
 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce는 2000년대 초반 빅데이터 처리 혁명의 중심에 있었지만, 필연적 구조적 제약이 존재했습니다.
-- **디스크 병목 (Disk [Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**: Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력은 HDFS에 기록되고, Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 네트워크를 통해 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와야 했습니다. 이 Map→Shuffle→Reduce 사이클의 모든 단계에서 디스크 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Disk I/O)가 발생하여 CPU 바쁜 연산보다 디스크 대기가 전체 처리 시간을 지배하는 비효율이 발생했습니다.
+- <strong>디스크 병목 (Disk <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력은 HDFS에 기록되고, Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 네트워크를 통해 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와야 했습니다. 이 Map→Shuffle→Reduce 사이클의 모든 단계에서 디스크 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Disk I/O)가 발생하여 CPU 바쁜 연산보다 디스크 대기가 전체 처리 시간을 지배하는 비효율이 발생했습니다.
 - **반복 처리 비효율 (Iteration Inefficiency)**: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: K-Means, PageRank)은 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 수십 회에서 수백 회 반복 처리해야 합니다. [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 매 반복마다 디스크에 중간 결과를 읽고 써야 하므로, 10회 반복에서 10배의 디스크 입출력이 발생하여 수렴까지 수 일이 소요되었습니다.
 - **단일 목적**: 배치 배치만 가능하여 스트리밍이나 대화형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에는 별도 시스템([Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/), Impala 등)을 도입해야 했고, 이로 인해 아키텍처가 급격히 복잡해지고 운영 비용이 증가하는 "스파겔리(Spaghetti) 아키텍처"에 빠지는 문제가 대두되었습니다.
 
@@ -40,67 +40,65 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Apache Spark 실행 아키텍처 ] │
-│ [ Apache Spark Execution Architecture ] │
-│ │
-│ [Driver Process / 드라이버 프로세스] ───────────────────── │
-│ │ "SparkContext" 관리, DAG 스케줄링, 태스크 직렬화 │
-│ │ (SparkContext Mgmt, DAG Scheduling, Task Serialization) │
-│ │ │
-│ [Cluster Manager / 클러스터 매니저] ─ YARN / K8s / Standalone │
-│ │ (클러스터 자원 전체 관리) │
-│ │ (Cluster Resource Management) │
-│ │ │
-│ [Executor Process] ─────────── [Executor Process] │
-│ [익제큐터 프로세스] [익제큐터 프로세스] │
-│ │ "Task" 실행 │ │
-│ │ (Task Execution) │ │
-│ │ JVM 프로세스 단위 │ │
-│ │ (JVM Process Unit) │ │
-│ │ ├─ 메모리에 RDD 캐시 ├─ 동일 연산 │
-│ │ │ (Cache RDD in RAM) │ (Same Operation) │
-│ │ └─ 결과 디스크 쓰기 (체크포인트) │ │
-│ │ (Write Result to Disk) │ │
-│ │
-│ [RDD (Resilient Distributed Dataset)] │
-│ - 불변성 (Immutable): 생성 후 데이터 변경 불가 │
-│ - 분산 (Distributed): 클러스터 전체에 파티셔닝 │
-│ - 결함 허용 (Resilient): Lineage(혈통)로 자동 복구 │
-│ │
-│ [DataFrame / Dataset API] │
-│ - 스키마 존재, Catalyst Optimizer가 최적의 물리 실행 계획 선택 │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark 실행 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark Execution Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Driver Process / 드라이버 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"SparkContext" 관리, DAG 스케줄링, 태스크 직렬화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SparkContext Mgmt, DAG Scheduling, Task Serialization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster Manager / 클러스터 매니저</div><div class="kb-diagram-note">─ YARN / K8s / Standalone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클러스터 자원 전체 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cluster Resource Management)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executor Process</div><div class="kb-diagram-node">Executor Process</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">익제큐터 프로세스</div><div class="kb-diagram-node">익제큐터 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Task" 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Task Execution)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM 프로세스 단위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JVM Process Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리에 RDD 캐시 ─ 동일 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cache RDD in RAM)</div><div class="kb-diagram-cell">(Same Operation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 결과 디스크 쓰기 (체크포인트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Write Result to Disk)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDD (Resilient Distributed Dataset)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 불변성 (Immutable): 생성 후 데이터 변경 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분산 (Distributed): 클러스터 전체에 파티셔닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결함 허용 (Resilient): Lineage(혈통)로 자동 복구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataFrame / Dataset API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마 존재, Catalyst Optimizer가 최적의 물리 실행 계획 선택</div></div>
+</div>
+</div>
+
+
 
 ### 1. [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) ([Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))의 5대 특성
 RDD는 스파크의 근간이 되는 불변 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컬렉션으로, 다음 5가지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 보장되어야 합니다.
 
 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 특성 | 설명 | 예시 |
 |:---|:---|:---|
-| **불변성 ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))** | 한 번 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 RDD는 수정 불가, 새 RDD만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `rdd.map(x => x * 2)` → 새 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 반환 |
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Distributed)** | 클러스터 여러 노드에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 저장 | 10개 노드 × 각 2 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) = 20 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) |
-| **[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) (Resilient)** | Lineage(작업 혈통) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 손실 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 부모 RDD가 손실되면 재컴퓨팅 |
-| **[지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))** | 액션 호출 전까지 변환 연산을 실행하지 않음 | `collect()` 호출 시 비로소 실행 |
-| **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) (Partitioned)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사용자에게 투명하게 분할 저장 | `repartition(n)`으로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조절 |
+| <strong>불변성 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a>)</strong> | 한 번 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 RDD는 수정 불가, 새 RDD만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `rdd.map(x => x * 2)` → 새 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 반환 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (Distributed)</strong> | 클러스터 여러 노드에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 저장 | 10개 노드 × 각 2 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) = 20 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (Resilient)</strong> | Lineage(작업 혈통) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 손실 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 부모 RDD가 손실되면 재컴퓨팅 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">지연 평가</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a>)</strong> | 액션 호출 전까지 변환 연산을 실행하지 않음 | `collect()` 호출 시 비로소 실행 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> (Partitioned)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사용자에게 투명하게 분할 저장 | `repartition(n)`으로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조절 |
 
 ### 2. [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 실행 모델
 스파크의 작업 실행은 Stage(단계)로 구분되는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 기반입니다.
 
 1. **사용자 코드 작성**: `sc.textFile("log.txt").filter(_.contains("ERROR")).map(_.split(",")).collect()`
-2. **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구성**: 스파크는 이 코드를 [lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) evaluation에 따라 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 기록합니다. `textFile → filter → map`이 노드가 되고, `collect`가 최종 액션 노드가 됩니다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 구성</strong>: 스파크는 이 코드를 [lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) evaluation에 따라 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 기록합니다. `textFile → filter → map`이 노드가 되고, `collect`가 최종 액션 노드가 됩니다.
 3. **Stage 분리**: 스파크는 DAG를 분석하여 "Shuffle 경계([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크로 전송해야 하는 지점)"를 기준으로 Stage를 분리합니다. Shuffle이 필요 없는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연산([pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))은동일 Stage 내에서 모두 실행됩니다.
-4. **[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 각 Stage는 여러 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 분할되어 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 할당됩니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 100개면 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)도 100개가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됩니다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 각 Stage는 여러 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 분할되어 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 할당됩니다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 100개면 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)도 100개가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됩니다.
 5. **실행**: Cluster Manager가 각 노드의 Executor에 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 분배하고, [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 자신의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 대해 연산을 수행합니다.
 
 ### 3. Spark의 핵심 최적화 기법
 
-- **[Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-lining**: Shuffle이 필요 없는 연속된 변환(map→filter→map)은 하나의 Stage로 합쳐서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행하여 중간 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 완전 제거합니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">Pipe</a>-lining</strong>: Shuffle이 필요 없는 연속된 변환(map→filter→map)은 하나의 Stage로 합쳐서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행하여 중간 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 완전 제거합니다.
 - **메모리 관리**: 스파크는 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리를 Execution(연산) 영역과 Storage(캐시/[RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 보존) 영역으로 나누어 관리합니다. 기본적으로 Execution 60%, Storage 40%이며, `spark.memory.fraction`으로 비율을 조절할 수 있습니다.
-- **카탈리스트 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/))**: DataFrame/SQL 연산에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획(Logical Plan) → 물리 계획(Physical Plan) 변환 시 비용 기반 최적화(Cost-Based Optimization)를 수행하여 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 필터 적용 순서, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용 등을 자동 결정합니다.
-- **코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Whole-Stage Codegen)**: 여러 연산자를 하나의 JVM [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일하여 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 오버헤드를 최소화합니다. Tungsten 프로젝트의 일환으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 10배 이상 향상되었습니다.
+- <strong>카탈리스트 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a> (<a href="/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/">Catalyst Optimizer</a>)</strong>: DataFrame/SQL 연산에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획(Logical Plan) → 물리 계획(Physical Plan) 변환 시 비용 기반 최적화(Cost-Based Optimization)를 수행하여 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 필터 적용 순서, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용 등을 자동 결정합니다.
+- <strong>코드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Whole-Stage Codegen)</strong>: 여러 연산자를 하나의 JVM [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일하여 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 오버헤드를 최소화합니다. Tungsten 프로젝트의 일환으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 10배 이상 향상되었습니다.
 
 ---
 
@@ -111,9 +109,9 @@ RDD는 스파크의 근간이 되는 불변 [분산](/knowledge-base/studynote/0
 | **처리 속도** | 디스크 I/O로 인해 수십 배 느림 | 인메모리 연산으로 최대 100배 빠름 |
 | **iterative ML** | 매 반복마다 디스크 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) → 수일 소요 | 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유지 → 수시간 내 수렴 |
 | **실시간 스트리밍** | 불가능 (별도 Storm/[Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) 필요) | Structured Streaming으로 통합 처리 가능 |
-| **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) | Lineage [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 필요 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재컴퓨팅 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) | Lineage [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 필요 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재컴퓨팅 |
 | **메모리 요구량** | 낮음 (디스크 기반) | 높음 (클러스터 RAM 용량에 의존) |
-| **가장 큰 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 확장을 해도 디스크 병목이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ceiling이 됨 | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 부족) 시 디스크로 fell back → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락 |
+| <strong>가장 큰 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 확장을 해도 디스크 병목이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ceiling이 됨 | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 부족) 시 디스크로 fell back → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락 |
 
 - **📢 섹션 요약 비유**: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce와 Apache Spark의 차이는 "편의점 도시락(배달=디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 수령=디스크 읽기)을 매 끼니마다 주문해야 하는 직원 식당"과 "직원이 자신의 책상 서랍(메모리)에 도시락을 미리해 두고 매 끼니마다 즉석에서 데워 먹는 사내 식당"의 차이와 같습니다. 도시락이 맛있어도 배달 대기 시간이 식사 시간보다 길어 본인의 업무 시간이 낭비되는 것과 동일한 원리입니다.
 
@@ -123,17 +121,17 @@ RDD는 스파크의 근간이 되는 불변 [분산](/knowledge-base/studynote/0
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모** | 수십 TB 이상일 때 Spark의 인메모리 장점 극대화 | 소규모(수백 GB 이하)엔 Spark 오버헤드 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모</strong> | 수십 TB 이상일 때 Spark의 인메모리 장점 극대화 | 소규모(수백 GB 이하)엔 Spark 오버헤드 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) |
 | **iterative 연산 빈도** | ML 훈련, [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/) 등 반복 연산 많을수록 Spark 권장 | 일회성 배치엔 Hadoop도 충분한 경우 |
 | **클러스터 메모리** | 전체 클러스터 RAM이 처리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 2배 이상일 때 안정적 | 메모리 부족 시 disk spilling으로성능 |
 | **실시간 요구 수준** | ms~s 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구 시 [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) + Flink 비교 필요 | 분 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 시 [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)([DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))도 가능 |
 
 *(추가 실무 적용 가이드 - Spark 배포 모드 선택)*
 - **Local 모드**: 개발/테스트용. 드라이버와 Executor가동일 JVM에서 실행되어 별도 클러스터 필요 없음. 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 디버깅에.
-- **[Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 모드**: 스파크 자체 클러스터 매니저. 간단한 단일 클러스터 구성에 적합하지만, 프로덕션에서는 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)/K8s 사용 권장.
-- **[YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 모드**: 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 인프라 활용. [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) محلية 처리로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약. Enterprise [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 사용자.
-- **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 모드**: Cloud-native 환경에 최적. [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 스파크 앱을 표준 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로서실행. 현대 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)와 손색 통합.
-- **실무 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)**: (1) 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 인프라 있나요? → Yes: [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/), No: (2) Cloud-native입니다이나? → Yes: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), No: [Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/))
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> 모드</strong>: 스파크 자체 클러스터 매니저. 간단한 단일 클러스터 구성에 적합하지만, 프로덕션에서는 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)/K8s 사용 권장.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a> 모드</strong>: 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 인프라 활용. [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) محلية 처리로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약. Enterprise [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 사용자.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> 모드</strong>: Cloud-native 환경에 최적. [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 스파크 앱을 표준 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로서실행. 현대 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)와 손색 통합.
+- <strong>실무 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a></strong>: (1) 기존 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 인프라 있나요? → Yes: [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/), No: (2) Cloud-native입니다이나? → Yes: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), No: [Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/))
 
 - **📢 섹션 요약 비유**: Spark 배포 모드 선택은 "새 식당을 열 때 기존 건물에서 시작({[YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)})하다이나, 새 건물을 지을지({[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)}), 아니면 팝업스토어로({Local})"의 결정과 동일합니다. 각 비용과 운영 특성이 있으며, 규모와 인프라 환경에 따라 최적의 선택이 달라집니다.
 
@@ -144,7 +142,7 @@ RDD는 스파크의 근간이 되는 불변 [분산](/knowledge-base/studynote/0
 1. **Spark 3.5+의 ANSI SQL 확대 및 Python 네이티브 강화**
 Spark 3.5부터 ANSI SQL:2003 표준 준수가 크게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되어 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL 등 전통 RDBMS에서 작성한 복잡한 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의수를 스파크에서도 그대로 실행할 수 있게 되었습니다. 동시에 PySpark(파이썬)의 API가 네이티브 Scala API에 버금가는 완성도로 성숙하면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트 간의 언어 장벽이 사실상 사라지고 있습니다.
 
-2. **[Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 시대의 Spark 역할**
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">Lakehouse</a> 시대의 Spark 역할</strong>
 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) 등 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 테이블 포맷과 Spark의 결합이 표준화되면서, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 스파크 SQL을 실행하고 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 지원하는 "된 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)(Open [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))" 아키텍처가 빠르게 확산되고 있습니다. Databricks의 [Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)(네이티브 벡터화 실행 엔진)이나 Amazon EMR의 [Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) 연동 등, 비용 최적화와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화를 동시에 추구하는 방향으로 빠르게 진화하고 있습니다.
 
 3. **Adaptive Query Execution (AQE)의 일상화**
@@ -156,10 +154,10 @@ Spark 3.0에서 도입된 AQE는 런타임 통계에 따라 조인 [전략](/kno
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 생태계 전체 트리 (Ecosystem Taxonomy)**
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/">Apache Spark</a> 생태계 전체 트리 (Ecosystem Taxonomy)</strong>
 * **Spark Core** -> [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 메모리 관리, I/O 핸들링
-* **[Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)** -> DataFrame/Dataset [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/), Spark Thrift Server (ODBC/JDBC)
-* **[Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/)** -> 연속 처리, 마이크로배치, 상태 관리, [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)
+* <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/">Spark SQL</a></strong> -> DataFrame/Dataset [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/), Spark Thrift Server (ODBC/JDBC)
+* <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Structured Streaming</a></strong> -> 연속 처리, 마이크로배치, 상태 관리, [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)
 * **MLlib** -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)/회귀/군집/[협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)/[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출)
 * **GraphX** -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 (PageRank, Connected Components)
 * **Spark 실행 환경 비교**
@@ -173,18 +171,21 @@ Spark 3.0에서 도입된 AQE는 런타임 통계에 따라 조인 [전략](/kno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Hadoop MapReduce]
-│
-▼
-[RDD]
-│
-▼
-[Spark SQL]
-│
-▼
-[Structured Streaming]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hadoop MapReduce</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDD</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark SQL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
@@ -194,7 +195,7 @@ Spark 3.0에서 도입된 AQE는 런타임 통계에 따라 조인 [전략](/kno
 3. 마치 학급 친구들이 각각 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 책을 읽고, 다 읽으면 각자 배운 내용을서 전체 책을 빠르게 이해하는 것과 비슷해요!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 Apache Spark의 최신 아키텍처(3.5.x)를 기준으로 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 기술사 수준의 심층 분석을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 Apache Spark의 최신 아키텍처(3.5.x)를 기준으로 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 기술사 수준의 심층 분석을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

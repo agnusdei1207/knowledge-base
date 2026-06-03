@@ -18,9 +18,9 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-기존의 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 중간 단계를 디스크에 기록했다. 이는 안정적이지만 연산 속도를 크게 떨어뜨리는 원인이 되었다. [아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)는 **"메모리에서 연산하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 위험은 어떻게 막을 것인가?"**라는 질문에 대한 답으로 RDD를 제시했다.
+기존의 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 중간 단계를 디스크에 기록했다. 이는 안정적이지만 연산 속도를 크게 떨어뜨리는 원인이 되었다. [아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)는 <strong>"메모리에서 연산하되, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실 위험은 어떻게 막을 것인가?"</strong>라는 질문에 대한 답으로 RDD를 제시했다.
 
-RDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 올려 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 처리하면서도, 장애가 나면 **리니지(Lineage, 계보)**를 추적해 유실된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 다시 만들어내는 '탄력적(Resilient)'인 특성을 갖는다.
+RDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 올려 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 처리하면서도, 장애가 나면 <strong>리니지(Lineage, 계보)</strong>를 추적해 유실된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 다시 만들어내는 '탄력적(Resilient)'인 특성을 갖는다.
 
 - **📢 섹션 요약 비유**: 요리 과정을 매번 사진 찍어 보관(Disk I/O)하는 대신, 레시피(Lineage)를 기억하고 있다가 요리를 망치면 그 단계부터 다시 요리(Re-computation)하는 것과 같다.
 
@@ -28,14 +28,19 @@ RDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RDD는 3가지 핵심 특징을 가진다: **Resilient(장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능), Distributed([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장), Dataset([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합).**
+RDD는 3가지 핵심 특징을 가진다: <strong>Resilient(장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능), Distributed(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장), Dataset(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 집합).</strong>
 
-```text
-[원본 데이터 (HDFS 등)] ──▶ [RDD 1 (Filter)] ──▶ [RDD 2 (Map)] ──▶ [RDD 3 (Reduce)]
-                                ▲
-                                │ (Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)
-                                └───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터 (HDFS 등)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 1 (Filter)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 2 (Map)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 3 (Reduce)</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">(Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)</div>
+</div>
+</div>
+
+
 
 | 주요 메커니즘 | 설명 | 특징 |
 |:---|:---|:---|
@@ -67,7 +72,7 @@ RDD는 스파크의 1세대 API이며, 현재는 [성능](/knowledge-base/studyn
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 관련 가장 큰 이슈는 **셔플(Shuffle)**과 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew)**다. 특정 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리거나, 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 빈번해지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어진다.
+실무에서 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 관련 가장 큰 이슈는 <strong>셔플(Shuffle)</strong>과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스큐(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Skew)</strong>다. 특정 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리거나, 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 빈번해지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어진다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 장애가 빈번한가? -> `persist()`나 `cache()` [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필요.
@@ -85,7 +90,7 @@ RDD는 스파크의 1세대 API이며, 현재는 [성능](/knowledge-base/studyn
 
 RDD는 빅데이터 처리의 패러다임을 '기록'에서 '계산'으로 바꾼 혁신적인 아이디어다. 이를 통해 스파크는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)보다 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있었고, 현재의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 및 실시간 분석 시대를 여는 초석이 되었다.
 
-결론적으로 RDD는 스파크의 심장이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경에서 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성**이라는 두 마리 토끼를 잡기 위한 가장 영리한 설계 방식이다.
+결론적으로 RDD는 스파크의 심장이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경에서 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 안정성</strong>이라는 두 마리 토끼를 잡기 위한 가장 영리한 설계 방식이다.
 
 - **📢 섹션 요약 비유**: 도미노를 하나씩 세우는 것보다, 넘어진 곳부터 다시 세우는 규칙을 잘 정해두는 것이 전체 도미노 쇼를 성공시키는 비결인 것과 같다.
 
@@ -101,21 +106,23 @@ RDD는 빅데이터 처리의 패러다임을 '기록'에서 '계산'으로 바�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-Hadoop MapReduce - 디스크 기반 중간 결과 저장
-    │
-    ▼
-Spark RDD - 인메모리 분산 데이터셋 추상화
-    │
-    ▼
-Transformation (지연 평가) + Action (실행 트리거)
-    │
-    ▼
-DataFrame/Dataset API - 스키마 기반 최적화
-    │
-    ▼
-Catalyst Optimizer + Tungsten 메모리 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hadoop MapReduce - 디스크 기반 중간 결과 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark RDD - 인메모리 분산 데이터셋 추상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transformation (지연 평가) + Action (실행 트리거)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DataFrame/Dataset API - 스키마 기반 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Catalyst Optimizer + Tungsten 메모리 관리</div>
+</div>
+</div>
+
+
 
 > **키워드**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/), [Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/), Spark, [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/), Lineage, DataFrame, Catalyst
 

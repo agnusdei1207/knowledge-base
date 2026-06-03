@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 우리가 쓰는 은행 암호(공개키 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 "소인수분해가 엄청 어렵다"는 수학적 꼼수에 기대고 있습니다.
-- 10년 뒤 초거대 **[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)**가 상용화되면, 이 소인수분해를 1초 만에 풀어버려 전 세계 금융망이 다 털리게 됩니다. 이를 막기 위해 물리학의 절대 법칙을 활용한 '양자 암호'가 등판했습니다.
+- 10년 뒤 초거대 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a></strong>가 상용화되면, 이 소인수분해를 1초 만에 풀어버려 전 세계 금융망이 다 털리게 됩니다. 이를 막기 위해 물리학의 절대 법칙을 활용한 '양자 암호'가 등판했습니다.
 
-```text
-[양자 중계기]
-    │
-    ▼
-[QKD]
-    │
-    └──▶ [시맨틱 통신 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 중계기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QKD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시맨틱 통신 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: QKD는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 정보를 암호화해서 풀 때 쓰는 **'비밀 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 기술**입니다. 
+- **개념**: 정보를 암호화해서 풀 때 쓰는 <strong>'비밀 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 기술</strong>입니다. 
 - 해커가 중간에 열쇠를 훔쳐보면 양자역학의 법칙(관측자의 개입)에 의해 열쇠가 즉각 붕괴하여 썩어버리기 때문에, [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 사실을 수신자가 100% 알아채고 그 열쇠를 버려버리는 철통 보안 체계입니다.
 
-```text
-[양자 중계기]
-    │
-    ▼
-[QKD]
-    │
-    └──▶ [시맨틱 통신 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 중계기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QKD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시맨틱 통신 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: QKD의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,7 +90,7 @@ QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - **밥과 앨리스의 결단**: "야! 필터가 똑같은데 값이 다르다는 건, 중간에 어떤 새끼가 훔쳐보느라 광자가 붕괴됐다는 뜻이다! 이 암호키 다 폐기해버려!" 해커는 영원히 제대로 된 암호키를 훔칠 수 없습니다.
 
 - **거리 한계**: 광자가 너무 얇아서 100km만 가도 힘이 빠져 죽어버립니다(921번 중계기 문서).
-- **실무 적용 (SKT/KT의 하이브리드)**: QKD만으로 영화를 다운로드받는 건 속도가 느려 불가능합니다. QKD는 오직 은행의 **"암호 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))" 딱 하나만 1분에 1개씩 안전하게 배달하는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)**으로 씁니다. 진짜 영화([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 그 열쇠를 이용해 기존 100G 광케이블 인터넷망으로 안전하게 암호화해서 쏘는 투트랙(Hybrid) 융합망으로 상용화되고 있습니다.
+- **실무 적용 (SKT/KT의 하이브리드)**: QKD만으로 영화를 다운로드받는 건 속도가 느려 불가능합니다. QKD는 오직 은행의 <strong>"암호 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)" 딱 하나만 1분에 1개씩 안전하게 배달하는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a></strong>으로 씁니다. 진짜 영화([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 그 열쇠를 이용해 기존 100G 광케이블 인터넷망으로 안전하게 암호화해서 쏘는 투트랙(Hybrid) 융합망으로 상용화되고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -90,7 +98,7 @@ QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 암호는 '엄청 복잡한 퍼즐 상자'에 돈을 넣어 택배로 보내는 것입니다. 도둑이 중간에 상자를 몰래 훔쳐 가서 사진을 수만 장 찍어놓고 다시 컨베이어 벨트에 올려놔도 우리는 도둑맞은 사실을 영원히 모릅니다([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능). **QKD(양자 암호 통신)**는 돈을 **'극도로 예민한 비눗방울'** 안에 넣어 보내는 것입니다. 도둑이 안을 들여다보려고 비눗방울에 손가락을 살짝 대는 순간, "톡!" 하고 비눗방울이 터져버립니다(양자 붕괴). 목적지에 도착한 수신자는 비눗방울이 터져있는 걸 보자마자 "누가 중간에 훔쳐봤구나!" 100% 확신하고 그 돈(암호 키)을 가짜로 간주해 소각로에 태워버립니다. 도둑이 내용을 훔쳐본 사실을 물리법칙으로 절대 숨길 수 없게 만든 완벽한 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지 알람 방어막입니다.
+- **📢 섹션 요약 비유**: 기존 암호는 '엄청 복잡한 퍼즐 상자'에 돈을 넣어 택배로 보내는 것입니다. 도둑이 중간에 상자를 몰래 훔쳐 가서 사진을 수만 장 찍어놓고 다시 컨베이어 벨트에 올려놔도 우리는 도둑맞은 사실을 영원히 모릅니다([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능). <strong>QKD(양자 암호 통신)</strong>는 돈을 **'극도로 예민한 비눗방울'** 안에 넣어 보내는 것입니다. 도둑이 안을 들여다보려고 비눗방울에 손가락을 살짝 대는 순간, "톡!" 하고 비눗방울이 터져버립니다(양자 붕괴). 목적지에 도착한 수신자는 비눗방울이 터져있는 걸 보자마자 "누가 중간에 훔쳐봤구나!" 100% 확신하고 그 돈(암호 키)을 가짜로 간주해 소각로에 태워버립니다. 도둑이 내용을 훔쳐본 사실을 물리법칙으로 절대 숨길 수 없게 만든 완벽한 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지 알람 방어막입니다.
 
 ---
 
@@ -113,15 +121,19 @@ QKD는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양자 중계기]
-    │
-    ▼
-[현재 개념: QKD]
-    │
-    ├──▶ [확장 A: 시맨틱 통신 망]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 중계기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QKD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 시맨틱 통신 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 QKD는 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

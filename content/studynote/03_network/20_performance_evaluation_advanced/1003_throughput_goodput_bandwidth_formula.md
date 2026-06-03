@@ -21,22 +21,26 @@ tags = ["studynote-network"]
 
 면접과 시험에서 헷갈리기 가장 쉬운 2대 지표입니다.
 
-- **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 
-  - 랜선이나 광케이블이 물리적으로 낼 수 있는 **'이론적인 최대 속도([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 크기)'**입니다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 
+  - 랜선이나 광케이블이 물리적으로 낼 수 있는 <strong>'이론적인 최대 속도(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>의 크기)'</strong>입니다. 
   - 자동차로 치면 속도계에 적힌 '최대 시속 300km'입니다. (고정된 스펙)
-- **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**: 
-  - 에러, 패킷 손실, 병목 현상 등을 다 거치고 난 뒤, 수신자 컴퓨터에 **'실제로 살아서 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양'**을 1초 단위로 측정한 현실 수치입니다. (보통 bps, [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) per Second를 씁니다.)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>: 
+  - 에러, 패킷 손실, 병목 현상 등을 다 거치고 난 뒤, 수신자 컴퓨터에 <strong>'실제로 살아서 도착한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 양'</strong>을 1초 단위로 측정한 현실 수치입니다. (보통 bps, [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) per Second를 씁니다.)
   - 자동차로 치면 퇴근길 강남대로에서 찍힌 '실제 평균 시속 15km'입니다. (변동하는 현실)
   - **법칙**: $[Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) \le [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)$ ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 죽었다 깨어나도 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 넘을 수 없습니다.)
 
-```text
-[네트워크 지연]
-    │
-    ▼
-[처리량 수식화]
-    │
-    └──▶ [Erlang]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Erlang</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,17 +52,21 @@ tags = ["studynote-network"]
 
 - **문제의식**: 내가 친구에게 1,000바이트의 패킷을 보냈고 이게 살아서 도착했습니다([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 1,000바이트). 그런데 패킷을 까보니 앞에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더, IP 헤더, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 껍데기(오버헤드)가 무려 100바이트를 쳐먹고, 진짜 내가 보낸 사진([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 900바이트뿐입니다.
 - **굿풋 (Goodput)**: 
-  - 통신망을 통과한 총 패킷 양([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, **"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 1초에 몇 개 도착했는가?"**를 잰 궁극의 순살 수치입니다.
-  - 사용자가 체감하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)도 아닌 이 **굿풋(Goodput)**과 100% 일치합니다.
+  - 통신망을 통과한 총 패킷 양([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, <strong>"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 1초에 몇 개 도착했는가?"</strong>를 잰 궁극의 순살 수치입니다.
+  - 사용자가 체감하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)도 아닌 이 <strong>굿풋(Goodput)</strong>과 100% 일치합니다.
 
-```text
-[네트워크 지연]
-    │
-    ▼
-[처리량 수식화]
-    │
-    └──▶ [Erlang]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Erlang</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,9 +74,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드**: 방금 말한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 등 껍데기 포장지 무게입니다.
-2. **에러와 재전송 ([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))**: 949번에서 배운 대로 패킷 1개가 깨지면 Go-Back-N으로 10개를 다시 쏘느라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 낭비합니다.
-3. **네트워크 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**: 내 랜카드는 1Gbps지만, 중간에 낀 공유기가 100Mbps 구형이면 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 무조건 가장 좁은 구멍인 100Mbps로 하향 평준화(목 졸림)됩니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 오버헤드</strong>: 방금 말한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 등 껍데기 포장지 무게입니다.
+2. <strong>에러와 재전송 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a>)</strong>: 949번에서 배운 대로 패킷 1개가 깨지면 Go-Back-N으로 10개를 다시 쏘느라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 낭비합니다.
+3. <strong>네트워크 병목 (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 내 랜카드는 1Gbps지만, 중간에 낀 공유기가 100Mbps 구형이면 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 무조건 가장 좁은 구멍인 100Mbps로 하향 평준화(목 졸림)됩니다.
 
 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이 기반 조건을 만든다면, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 그 위에서 핵심 메커니즘을 구현하고, Erlang는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인터넷 통신은 과수원에서 서울로 사과를 트럭에 실어 나르는 작업입니다. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**은 '10톤짜리 초대형 화물 트럭' 그 자체입니다(물리적 스펙). 근데 트럭에 10톤을 꽉 못 채웁니다. 중간에 비포장도로(노이즈)를 달릴 때 사과가 깨질까 봐 두꺼운 스티로폼과 나무 궤짝(헤더 오버헤드)을 잔뜩 넣어야 하기 때문입니다. 서울에 트럭이 도착했을 때 트럭째 무게를 달아보는 것이 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**입니다(대충 8톤 나옴). 하지만 사장님이 진짜 돈을 벌려면 나무 궤짝과 썩은 사과(재전송 패킷)를 다 걷어내고 쓰레기통에 버려야 합니다. 궤짝을 다 버리고 남은 **'오직 팔 수 있는 깨끗한 순살 사과의 무게(6톤)'**만을 재는 것이 바로 **굿풋(Goodput)**입니다. 사용자가 느끼는 진짜 인터넷 속도는 트럭 크기([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 아니라 내 입에 들어오는 순살 사과의 양(굿풋)입니다.
+- **📢 섹션 요약 비유**: 인터넷 통신은 과수원에서 서울로 사과를 트럭에 실어 나르는 작업입니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>은 '10톤짜리 초대형 화물 트럭' 그 자체입니다(물리적 스펙). 근데 트럭에 10톤을 꽉 못 채웁니다. 중간에 비포장도로(노이즈)를 달릴 때 사과가 깨질까 봐 두꺼운 스티로폼과 나무 궤짝(헤더 오버헤드)을 잔뜩 넣어야 하기 때문입니다. 서울에 트럭이 도착했을 때 트럭째 무게를 달아보는 것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>입니다(대충 8톤 나옴). 하지만 사장님이 진짜 돈을 벌려면 나무 궤짝과 썩은 사과(재전송 패킷)를 다 걷어내고 쓰레기통에 버려야 합니다. 궤짝을 다 버리고 남은 <strong>'오직 팔 수 있는 깨끗한 순살 사과의 무게(6톤)'</strong>만을 재는 것이 바로 <strong>굿풋(Goodput)</strong>입니다. 사용자가 느끼는 진짜 인터넷 속도는 트럭 크기([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 아니라 내 입에 들어오는 순살 사과의 양(굿풋)입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네트워크 지연]
-    │
-    ▼
-[현재 개념: 처리량 수식화]
-    │
-    ├──▶ [확장 A: Erlang]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 지연</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 처리량 수식화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Erlang</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Erlang와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

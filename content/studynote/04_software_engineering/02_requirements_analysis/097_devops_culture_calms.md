@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 도구의 조합이 아닌 행동의 프레임워크인 **[CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/)** 원리로 내부 작동 기전을 설명한다.
+[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 도구의 조합이 아닌 행동의 프레임워크인 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/">CALMS</a></strong> 원리로 내부 작동 기전을 설명한다.
 
 | [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 기둥 | 영문 | 핵심 원리 및 메커니즘 | 적용 예시 |
 | :--- | :--- | :--- | :--- |
@@ -40,24 +40,24 @@ tags = ["studynote-software-engineering"]
 
 전통적인 단절 구조와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 아키텍처를 비교 시각화한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           전통적 Silo 장벽 vs DevOps 무한 루프 아키텍처          │
-├──────────────────────────────────────────────────────────────┤
-│ [ 과거: 혼란의 벽 (Wall of Confusion) ]                       │
-│    개발팀 (속도!) ─────(코드 투척)───X──▶ 운영팀 (안정!)     │
-│    (알아서 배포해)       단절/장애       (우리 서버 터트리지 마)│
-│                                                              │
-│ [ 현재: DevOps 피드백 루프 ]                                  │
-│         ◀──── 지속적 피드백 (모니터링/공유) ─────┐             │
-│         │                                      │             │
-│   [ Dev (개발/테스트) ] ──(CI/CD 자동화)──▶ [ Ops (배포/운영) ]│
-│    - 코드 작성           무중단 컨베이어 벨트    - 인프라 배포       │
-│    - 단위 테스트                               - 로깅/모니터링     │
-│                                                              │
-│ * 핵심: 하나의 툴체인 위에서 작은 변화를 자주, 안전하게 굴린다.    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 Silo 장벽 vs DevOps 무한 루프 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 혼란의 벽 (Wall of Confusion)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 (속도!) (코드 투척) X──▶ 운영팀 (안정!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알아서 배포해) 단절/장애 (우리 서버 터트리지 마)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DevOps 피드백 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 지속적 피드백 (모니터링/공유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dev (개발/테스트)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ops (배포/운영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 작성 무중단 컨베이어 벨트 - 인프라 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단위 테스트 - 로깅/모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 하나의 툴체인 위에서 작은 변화를 자주, 안전하게 굴린다.</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 단절된 부서 간 벽을 어떻게 파이프라인으로 연결하는지를 보여준다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 코드가 작성되는 순간부터 빌드, 테스트, 인프라 셋업, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포까지의 모든 과정이 인간의 마우스 클릭 없이 로봇(스크립트)에 의해 끊임없이 안전하게 흘러간다.
 
@@ -72,9 +72,9 @@ tags = ["studynote-software-engineering"]
 | 비교 항목 | 전통적 IT 운영 ([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)/폭포수) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) |
 | :--- | :--- | :--- | :--- |
 | **포커스 영역** | 프로젝트 계획 및 서버 안정성 | 소프트웨어 개발 속도 최적화 | **코드 개발부터 인프라 운영까지 전체 연결** |
-| **배포 주기** | 분기별 또는 연 단위 (거대한 묶음) | 주 단위 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) | **하루 수십 번 ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포)** |
-| **인프라 환경** | 물리 서버 수동 설치 (Hardware) | (인프라 개념은 약함) | **코드로서의 인프라 ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)** |
-| **실패의 대우** | 치명적인 징계와 책임 추궁 대상 | 빠른 궤도 수정의 기회 | **시스템 개선을 위한 핵심 측정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** |
+| **배포 주기** | 분기별 또는 연 단위 (거대한 묶음) | 주 단위 ([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) | <strong>하루 수십 번 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>/배포)</strong> |
+| **인프라 환경** | 물리 서버 수동 설치 (Hardware) | (인프라 개념은 약함) | <strong>코드로서의 인프라 (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>), <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> |
+| **실패의 대우** | 치명적인 징계와 책임 추궁 대상 | 빠른 궤도 수정의 기회 | <strong>시스템 개선을 위한 핵심 측정 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> |
 
 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 개발팀 내부의 혁신이었다면, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 그 혁신의 결과물이 고객에게 닿기까지 막고 있던 인프라팀의 문을 열어젖힌 확장판이다. 최근에는 이 파이프라인 안에 '보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))' [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계를 끼워 넣어 DevSecOps로 진화하며 보안 체크조차 자동화의 흐름 속에 녹여내고 있다.
 
@@ -87,11 +87,11 @@ tags = ["studynote-software-engineering"]
 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 실무에서 툴셋 도입만으로 성공할 수 없으며, 조직의 권한 구조와 배포 방식의 완전한 개편을 수반해야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **코드로서의 인프라 ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) 적용 여부**: 새로운 운영 서버를 띄울 때 아직도 엔지니어가 SSH로 접속해 밤새워 리눅스 패키지를 설치하는가? Terraform이나 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 등을 이용해 인프라 스펙 자체를 코드로 작성하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템(Git)에 올려 자동 프로비저닝되게 판단/결정해야 한다.
+1. <strong>코드로서의 인프라 (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>) 적용 여부</strong>: 새로운 운영 서버를 띄울 때 아직도 엔지니어가 SSH로 접속해 밤새워 리눅스 패키지를 설치하는가? Terraform이나 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 등을 이용해 인프라 스펙 자체를 코드로 작성하고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템(Git)에 올려 자동 프로비저닝되게 판단/결정해야 한다.
 2. **배포 작은 배치 (Small Batches) 원칙**: 한 달 치 코드를 모아 토요일 새벽에 한 번에 배포(빅뱅 배포)하고 있는가? 장애 발생 시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 추적이 불가능하다. 변경 사항을 극도로 잘게 쪼개어 하루에도 수차례 자동화 배포를 태워 파급 반경(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))을 최소화해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 개발팀과 운영팀의 분리 구조는 그대로 둔 채 중간에 **'[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)팀'**이라는 새로운 부서를 하나 더 만드는 행위. 이는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 허무는 게 아니라 벽을 하나 더 추가하는 최악의 아키텍처 역행이다.
+- 개발팀과 운영팀의 분리 구조는 그대로 둔 채 중간에 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>팀'</strong>이라는 새로운 부서를 하나 더 만드는 행위. 이는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 허무는 게 아니라 벽을 하나 더 추가하는 최악의 아키텍처 역행이다.
 
 - **📢 섹션 요약 비유**: 자전거 타는 법(문화)을 모른 채 가장 비싼 선수용 자전거(자동화 툴)를 사 준다고 빨리 달릴 수 없다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 도구를 사기 전에 두 부서가 같이 페달을 밟는 연습부터 해야 성공한다.
 
@@ -111,28 +111,30 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/))** | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 자동화(Automation) 철학을 구현하는 구체적인 파이프라인 실천 기술 |
-| **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** | 거대한 모놀리식 시스템을 작게 쪼개어 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 소규모 배포([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))를 기술적으로 뒷받침하는 구조 |
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링)** | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 추상적인 철학을 구체적인 시스템 엔지니어링 직무와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지표([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))로 구현한 구글의 방법론 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) (코드로서의 인프라)** | 하드웨어 인프라 셋업을 소프트웨어 코드처럼 다루어 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 재현성과 공유(Sharing)를 강화하는 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>)</strong> | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 자동화(Automation) 철학을 구현하는 구체적인 파이프라인 실천 기술 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | 거대한 모놀리식 시스템을 작게 쪼개어 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 소규모 배포([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))를 기술적으로 뒷받침하는 구조 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (사이트 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 엔지니어링)</strong> | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 추상적인 철학을 구체적인 시스템 엔지니어링 직무와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지표([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))로 구현한 구글의 방법론 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (코드로서의 인프라)</strong> | 하드웨어 인프라 셋업을 소프트웨어 코드처럼 다루어 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 재현성과 공유(Sharing)를 강화하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폭포수 (단절된 개발과 인프라)
-    │
-    ▼
-애자일 (개발 속도의 혁신)
-    │
-    ▼
-데브옵스 (개발부터 운영까지의 자동화 융합, CALMS)
-    │
-    ▼
-DevSecOps (파이프라인 내 보안 자동 검증 통합)
-    │
-    ▼
-AIOps / NoOps (AI를 활용한 이상 탐지 및 완전 무인 운영)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폭포수 (단절된 개발과 인프라)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 (개발 속도의 혁신)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데브옵스 (개발부터 운영까지의 자동화 융합, CALMS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevSecOps (파이프라인 내 보안 자동 검증 통합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AIOps / NoOps (AI를 활용한 이상 탐지 및 완전 무인 운영)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

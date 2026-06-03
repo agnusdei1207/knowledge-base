@@ -23,20 +23,22 @@ tags = ["studynote-cloud-architecture"]
 
 SLA가 필요한 이유는 장애 자체보다 장애 이후의 분쟁 비용이 더 크기 때문이다. 공급자는 "최선을 다했다"고 말하고 싶지만, 고객은 실제 매출 손실과 업무 중단을 기준으로 판단한다. 이때 미리 합의된 기준이 없으면 장애의 심각도, 책임 범위, 보상 수준이 모두 사후 협상으로 넘어가며, 기술 문제는 곧 영업·법무 문제로 번진다.
 
-또한 SLA는 "99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)" 같은 숫자 하나로 끝나지 않는다. 어떤 기능이 대상인지, 어느 위치에서 측정하는지, 유지보수 창과 고객 귀책은 어떻게 제외하는지까지 정의해야 계약이 작동한다. 즉 SLA의 본질은 높은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 광고가 아니라, **측정 가능한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 외부에 판매 가능한 약속으로 변환하는 것**이다.
+또한 SLA는 "99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)" 같은 숫자 하나로 끝나지 않는다. 어떤 기능이 대상인지, 어느 위치에서 측정하는지, 유지보수 창과 고객 귀책은 어떻게 제외하는지까지 정의해야 계약이 작동한다. 즉 SLA의 본질은 높은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 광고가 아니라, <strong>측정 가능한 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>을 외부에 판매 가능한 약속으로 변환하는 것</strong>이다.
 
 아래 그림은 SLA가 왜 단순 운영 지표가 아니라 분쟁 비용을 줄이는 계약 장치인지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Why SLA exists                                                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Provider outage -> Customer impact -> dispute                           │
-│                                                                          │
-│ No SLA   : best effort only / blame fight                               │
-│ With SLA : metric + window + exclusion + remedy are pre-agreed          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SLA exists</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provider outage -&gt; Customer impact -&gt; dispute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No SLA : best effort only / blame fight</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With SLA : metric + window + exclusion + remedy are pre-agreed</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 SLA가 장애를 없애는 도구가 아니라, 장애가 발생했을 때 해석과 책임의 기준을 미리 고정하는 도구라는 점이다. 클라우드 아키텍처에서 SLA는 기술 스펙과 계약 스펙이 만나는 경계면이다.
 
@@ -68,17 +70,19 @@ Availability    = Good Time / Eligible Time × 100
 
 아래 구조는 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 계약으로 변환되는 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ From telemetry to contract                                              │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Probe / logs -> SLI -> internal SLO -> public SLA -> credit / report   │
-│                │          │               │                              │
-│                │          │               └─ customer-facing promise     │
-│                │          └─ safety buffer                               │
-│                └─ measurable evidence                                    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From telemetry to contract</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe / logs -&gt; SLI -&gt; internal SLO -&gt; public SLA -&gt; credit / report</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer-facing promise</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ safety buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ measurable evidence</div></div>
+</div>
+</div>
+
+
 
 이때 내부 SLO는 보통 SLA보다 더 엄격해야 한다. 예를 들어 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 30일 동안 99.93%를 기록했다면, 내부 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.95%는 놓쳤더라도 외부 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%는 지킨 상태가 될 수 있다. 이 완충 구간이 있어야 팀은 고객 보상 직전이 아니라 그 이전에 이상을 감지하고 대응할 수 있다.
 
@@ -155,7 +159,7 @@ SLA를 정확히 이해하려면 [SLI](/knowledge-base/studynote/04_software_eng
 
 하지만 SLA에는 분명한 한계도 있다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 크레딧은 고객의 실제 매출 손실을 전부 보상하지 못하며, 계약 문구가 좋아도 관측 체계가 부실하면 위반 여부를 입증하기 어렵다. 또한 지나치게 공격적인 SLA는 팀을 늘 만성 위반 상태로 몰아넣어, 오히려 고객 신뢰를 빠르게 깎아 먹는다.
 
-앞으로는 퍼블릭 [상태 페이지](/knowledge-base/studynote/15_devops_sre/03_sre_observability/182_status_page_public_sla/), 자동 크레딧 정산, 티어별 차등 SLA가 더 중요해질 가능성이 높다. 특히 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)·[멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) SaaS에서는 고객군별 기대치가 다르므로, 하나의 숫자만으로 모든 고객을 설명하기보다 표준 SLA와 프리미엄 SLA를 분리하는 전략이 현실적이다. 결론적으로 SLA는 **관측성의 숫자를 고객 계약으로 번역한 마지막 계층**으로 기억하는 것이 가장 정확하다.
+앞으로는 퍼블릭 [상태 페이지](/knowledge-base/studynote/15_devops_sre/03_sre_observability/182_status_page_public_sla/), 자동 크레딧 정산, 티어별 차등 SLA가 더 중요해질 가능성이 높다. 특히 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/)·[멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) SaaS에서는 고객군별 기대치가 다르므로, 하나의 숫자만으로 모든 고객을 설명하기보다 표준 SLA와 프리미엄 SLA를 분리하는 전략이 현실적이다. 결론적으로 SLA는 <strong>관측성의 숫자를 고객 계약으로 번역한 마지막 계층</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: SLA는 제품 설명서가 아니라 보증서와 같다. 설명서는 기능을 말하지만, 보증서는 문제가 생겼을 때 누가 어디까지 책임질지를 말한다.
 
@@ -175,24 +179,25 @@ SLA를 정확히 이해하려면 [SLI](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Best effort service
-    │
-    ▼
-SLI (Service Level Indicator) measurement
-    │
-    ▼
-SLO (Service Level Objective) target setting
-    │
-    ▼
-SLA (Service Level Agreement) contract
-    │
-    ├─ exclusion / remedy / claim process
-    └─ public status page / monthly report
-    │
-    ▼
-Tiered service credit and customer trust management
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Best effort service</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLI (Service Level Indicator) measurement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLO (Service Level Objective) target setting</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLA (Service Level Agreement) contract</div>
+<div class="kb-diagram-tree-item" style="--depth:2">exclusion / remedy / claim process</div>
+<div class="kb-diagram-tree-item" style="--depth:2">public status page / monthly report</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tiered service credit and customer trust management</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 운영 지표가 내부 목표를 거쳐 외부 계약과 보상 체계로 확장되는 과정을 보여 준다.
 

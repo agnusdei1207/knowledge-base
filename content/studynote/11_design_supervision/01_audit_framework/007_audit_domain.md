@@ -29,33 +29,25 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 4대 감리 영역이 어떻게 상호 연결되어 있는지 보여주는 아키텍처 도식이다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [4대 감리 영역 상호 연결 아키텍처] │
-│ │
-│ ┌──────────────────────────────────────────────────┐ │
-│ │ [사업관리] │ │
-│ │ (일정/예산/품질/인력) │ │
-│ └────────────────────┬─────────────────────────────┘ │
-│ │ │
-│ ┌─────────────┼─────────────┐ │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ ┌───────────┐ ┌───────────┐ ┌───────────┐ │
-│ │ 응용시스템 │ │ DB/보안 │ │ 인프라/보안│ │
-│ │ (기능/UI) │ │ (모델/성능)│ │ (용량/장애)│ │
-│ └───────────┘ └───────────┘ └───────────┘ │
-│ │ │ │ │
-│ └─────────────┼─────────────┘ │
-│ │ │
-│ [ 산출물] │
-│ (통합 시스템 & 서비스) │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">4대 감리 영역 상호 연결 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일정/예산/품질/인력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용시스템</div><div class="kb-diagram-cell">DB/보안</div><div class="kb-diagram-cell">인프라/보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기능/UI)</div><div class="kb-diagram-cell">(모델/성능)</div><div class="kb-diagram-cell">(용량/장애)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산출물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합 시스템 &amp; 서비스)</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 4대 감리 영역이 모두 발주자가 요구하는 산출물(통합 시스템)을 만들어내기 위해 적으로 연결되어 있다는 점이다. 사업관리는 전체의() 역할을 하고, 응용시스템은 몸통(), DB/보안은 혈액과 면역체계(순환/방어), 인프라/보안은 뼈대(구조) 역할을 한다. 어느 한 영역이 무너지면 전체 시스템의에영향을 미친다.
 
-📢 **섹션 요약 비유**: 4대 감리 영역의는 **'자동차 제조의 생산라인'**과 같습니다. 구매(사업관리)가품 구매를관리하고, 엔진팀(응용시스템)이 구동 장치를 만들고, 변속기팀(DB/보안)이전달을 설계하며, 최종 검사팀(보안)이 안전을 검증한, 모든 것이 통합되어 한 대의 자동차( 산출물)가 완성됩니다.
+📢 **섹션 요약 비유**: 4대 감리 영역의는 <strong>'자동차 제조의 생산라인'</strong>과 같습니다. 구매(사업관리)가품 구매를관리하고, 엔진팀(응용시스템)이 구동 장치를 만들고, 변속기팀(DB/보안)이전달을 설계하며, 최종 검사팀(보안)이 안전을 검증한, 모든 것이 통합되어 한 대의 자동차( 산출물)가 완성됩니다.
 
 ---
 
@@ -74,33 +66,35 @@ tags = ["design_supervision"]
 
 각 영역에서 가장 빈번하게 발견되는문제(Typical Findings)를 분석한 도식이다.
 
-```text
-[4대 감리 영역별 대표 문제 분석]
 
-■ 사업관리
-├─ 일정 초과 (진척 보고와 실제 차이)
-├─ 예산 불일치 (변경 Orders 관리 미흡)
-└─ 산출물 부실 (중간 Deliverables 미제출)
 
-■ 응용시스템
-├─ 요구사항 미충족 (요구사항 추적 미흡)
-├─ 화면 불일치 (설계도면과 구현 차이)
-└─ 테스트 부실 (, 시나리오 미실행)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">4대 감리 영역별 대표 문제 분석</div></div>
+<div class="kb-diagram-note">■ 사업관리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">일정 초과 (진척 보고와 실제 차이)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">예산 불일치 (변경 Orders 관리 미흡)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">산출물 부실 (중간 Deliverables 미제출)</div>
+<div class="kb-diagram-note">■ 응용시스템</div>
+<div class="kb-diagram-tree-item" style="--depth:0">요구사항 미충족 (요구사항 추적 미흡)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">화면 불일치 (설계도면과 구현 차이)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">테스트 부실 (, 시나리오 미실행)</div>
+<div class="kb-diagram-note">■ DB/보안</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ERD 불완전 (정규화 미실시, 관계 누락)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">성능 저하 (인덱스 미생성, 쿼리 비효율)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">백업 미실시 (백업 주기 미준수, 복구 테스트 미실시)</div>
+<div class="kb-diagram-note">■ 시스템아키텍처/보안</div>
+<div class="kb-diagram-tree-item" style="--depth:0">용량 미달 (초과 사용자 고려)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">보안 취약 (시큐어 코딩 미흡, 패치 미실시)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">DR 미비 (RTO/RPO 목표 미달, 미실시)</div>
+</div>
+</div>
 
-■ DB/보안
-├─ ERD 불완전 (정규화 미실시, 관계 누락)
-├─ 성능 저하 (인덱스 미생성, 쿼리 비효율)
-└─ 백업 미실시 (백업 주기 미준수, 복구 테스트 미실시)
 
-■ 시스템아키텍처/보안
-├─ 용량 미달 (초과 사용자 고려)
-├─ 보안 취약 (시큐어 코딩 미흡, 패치 미실시)
-└─ DR 미비 (RTO/RPO 목표 미달, 미실시)
-```
 
 이 분석의 핵심은 각 영역에서 반복적으로 나타나는 문제점을 pattern화하여, 감리초기에 이러한 문제의를 하면 조사를 실시하는 것이다. 예를 들어, 사업관리에서 진척 보고와 실제사이 불일치가 보이면, 응용시스템의 산출물 완성도도 함께 의심해봐야 한다.
 
-📢 **섹션 요약 비유**: 감리 영역별 대표 문제는 **'의사의과 자주 보는 질환'**과 같습니다. 소화기과에서는 위염/궤양이, 심장내과는 부정맥/심경색이 자주 나타나듯이, 각 감리 영역에서도 문제들이 반복해서 나타납니다.
+📢 **섹션 요약 비유**: 감리 영역별 대표 문제는 <strong>'의사의과 자주 보는 질환'</strong>과 같습니다. 소화기과에서는 위염/궤양이, 심장내과는 부정맥/심경색이 자주 나타나듯이, 각 감리 영역에서도 문제들이 반복해서 나타납니다.
 
 ---
 
@@ -119,28 +113,33 @@ tags = ["design_supervision"]
 
 이러한 영역 간문제의를 분석하면 다음과 같은프로세스도(프로세스도)로 표현할 수 있다.
 
-```text
-[영역 간 연쇄적 문제 발생 프로세스]
 
-[사업관리 문제]
-│ (일정 초과, 예산 부족)
-▼
-[응용시스템 영향]
-│ (테스트 시간 부족, 화면 미완성)
-▼
-[DB/보안 문제]
-│ (대량 데이터 처리 부하, 백업 누락)
-▼
-[시스템아키텍처/보안 문제]
-│ (용량 초과, 장애 발생, 보안 침해)
-▼
-[ 피해]
-│ (서비스 중단, 데이터 유실, 법적 책임)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">영역 간 연쇄적 문제 발생 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업관리 문제</div></div>
+<div class="kb-diagram-note">(일정 초과, 예산 부족)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용시스템 영향</div></div>
+<div class="kb-diagram-note">(테스트 시간 부족, 화면 미완성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB/보안 문제</div></div>
+<div class="kb-diagram-note">(대량 데이터 처리 부하, 백업 누락)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템아키텍처/보안 문제</div></div>
+<div class="kb-diagram-note">(용량 초과, 장애 발생, 보안 침해)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피해</div></div>
+<div class="kb-diagram-note">(서비스 중단, 데이터 유실, 법적 책임)</div>
+</div>
+</div>
+
+
 
 이프로세스의 핵심은 "사업관리 영역의 문제"가 시발점인 경우가 많다는 점이다. PM 영역이하면 응용, DB, 보안 순으로 문제가 방지되므로, 감리 시 PM 영역의 점검을해야 한다.
 
-📢 **섹션 요약 비유**: 감리 영역 간 연쇄 반응은 **'지하철 연쇄 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)'**과 같습니다. 1호선(사업관리)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 2호선(응용시스템) 환승역이 혼잡해지고, 3호선(DB/보안) 열차가 멈추고, 결국 전체 네트워크(시스템)가 마비됩니다.
+📢 **섹션 요약 비유**: 감리 영역 간 연쇄 반응은 <strong>'지하철 연쇄 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>'</strong>과 같습니다. 1호선(사업관리)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 2호선(응용시스템) 환승역이 혼잡해지고, 3호선(DB/보안) 열차가 멈추고, 결국 전체 네트워크(시스템)가 마비됩니다.
 
 ---
 
@@ -175,7 +174,7 @@ tags = ["design_supervision"]
 
 이프로세스의 핵심은 문제에 대해서는 영역의 시각이 아닌, 을하는 시스템적 시각이 필요하다는 점이다. 감리팀 내 영역 담당자 간의 긴밀한 커뮤니케이션과 정보 공유가 무엇보다 중요하다.
 
-📢 **섹션 요약 비유**: 복합 문제 조사는 **'형사의 수사'**와 같습니다. 피해자가 누군지(응용시스템), 목적이 무엇인지(DB/보안), 어떻게 침입했는지(보안)를 동시에 수사와 Collected하여 전체의 을 밝혀냅니다.
+📢 **섹션 요약 비유**: 복합 문제 조사는 <strong>'형사의 수사'</strong>와 같습니다. 피해자가 누군지(응용시스템), 목적이 무엇인지(DB/보안), 어떻게 침입했는지(보안)를 동시에 수사와 Collected하여 전체의 을 밝혀냅니다.
 
 ---
 
@@ -185,7 +184,7 @@ tags = ["design_supervision"]
 
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
-| ** 전문적 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)** | 각 영역 전문가에 의한 깊이 있는 감리 | 영역별 발견 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 20% |
+| <strong> 전문적 <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/">감리 수행</a></strong> | 각 영역 전문가에 의한 깊이 있는 감리 | 영역별 발견 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수 20% |
 | ** 체계적 결과 보고** | 영역별 명확한 결과 도출 | 보고서 작성 시간 30% 단축 |
 | ** 효율적 인력 배치** | 팀원 성 기반 담당 영역 운영 |당 업무 균형 개선 |
 | ** 종합적 품질 평가** | 4개 영역 couvre하는 통합 평가 | 종합 감리 만족도 90% 이상 |
@@ -193,7 +192,7 @@ tags = ["design_supervision"]
 **미래 전망:**
 기술의 발전에 따라 감리 영역은 더욱 세분화될 전망이다. 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/기계학습 도입이 보편화되면서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 알고리즘의성, 그리고 배포 후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 드리프트(Drift)를 감리하는 영역이 추가될 것이다. 또한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 '클라우드 플랫폼'이라는 새로운 영역이 기존 인프라 영역과 통합되어 관리되어야 할 것이다.
 
-📢 **섹션 요약 비유**: 미래 감리 영역의 진화는 **'의료 과의 세분화'**와 같습니다. 처음에는/ 정도로만 구분했지만, 이제는 심장내과, 뇌신경외과, 소화기내과 등으로 세분화되듯이, 감리 영역도 기술 발전에 따라 더욱 세분화할 것입니다.
+📢 **섹션 요약 비유**: 미래 감리 영역의 진화는 <strong>'의료 과의 세분화'</strong>와 같습니다. 처음에는/ 정도로만 구분했지만, 이제는 심장내과, 뇌신경외과, 소화기내과 등으로 세분화되듯이, 감리 영역도 기술 발전에 따라 더욱 세분화할 것입니다.
 
 ---
 
@@ -206,24 +205,25 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[감리 목적 정의 (Audit Purpose Definition)]
-│
-▼
-[감리 도메인 분류 (Audit Domain Classification)]
-│
-▼
-[감리 영역별 점검항목 (Audit Checklist)]
-│
-▼
-[감리 결과 보고 (Audit Reporting)]
-│
-▼
-[시정 조치 (Corrective Action)]
-│
-▼
-[품질 보증 (Quality Assurance)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 목적 정의 (Audit Purpose Definition)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 도메인 분류 (Audit Domain Classification)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 영역별 점검항목 (Audit Checklist)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 결과 보고 (Audit Reporting)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 (Corrective Action)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">품질 보증 (Quality Assurance)</div></div>
+</div>
+</div>
+
+
 
 감리 도메인이 구조화된 점검 체계를 통해 IT 시스템의 품질과 적합성을 보증하는 흐름이다.
 

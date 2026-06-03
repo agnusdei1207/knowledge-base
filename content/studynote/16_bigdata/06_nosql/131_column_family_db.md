@@ -23,31 +23,27 @@ tags = ["studynote-bigdata"]
 
 ### RDBMS vs 컬럼 패밀리 DB 저장 구조 차이
 
-```text
-┌─────────────────────────────────────────────────────┐
-│     RDBMS (행 기반 저장): 모든 컬럼 고정              │
-├────────┬──────┬──────┬──────┬──────┬──────┬────────┤
-│ Row ID │ col1 │ col2 │ col3 │ col4 │ col5 │ col6   │
-├────────┼──────┼──────┼──────┼──────┼──────┼────────┤
-│ user:1 │ 홍길동│ 20   │ NULL │ NULL │ NULL │ NULL   │
-│ user:2 │ 이몽룡│ 22   │ 서울 │ NULL │ NULL │ NULL   │
-└────────┴──────┴──────┴──────┴──────┴──────┴────────┘
 
-┌─────────────────────────────────────────────────────┐
-│  Wide-Column DB (스파스 저장): 있는 컬럼만 저장       │
-│                                                     │
-│  Row Key: "user:1"                                  │
-│  ├── CF: profile → { name:"홍길동", age:20 }         │
-│  └── CF: activity → { login:"2026-04", views:42 }   │
-│                                                     │
-│  Row Key: "user:2"                                  │
-│  ├── CF: profile → { name:"이몽룡", age:22, city:"서울" }
-│  ├── CF: activity → { login:"2026-04" }             │
-│  └── CF: purchase → { item1:"A",item2:"B" }         │
-│                                                     │
-│  * NULL 컬럼 저장 불필요 → 스토리지 효율 극대화        │
-└─────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS (행 기반 저장): 모든 컬럼 고정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row ID</div><div class="kb-diagram-cell">col1</div><div class="kb-diagram-cell">col2</div><div class="kb-diagram-cell">col3</div><div class="kb-diagram-cell">col4</div><div class="kb-diagram-cell">col5</div><div class="kb-diagram-cell">col6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user:1</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user:2</div><div class="kb-diagram-cell">이몽룡</div><div class="kb-diagram-cell">22</div><div class="kb-diagram-cell">서울</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wide-Column DB (스파스 저장): 있는 컬럼만 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Key: "user:1"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CF: profile → { name:"홍길동", age:20 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CF: activity → { login:"2026-04", views:42 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Key: "user:2"</div></div>
+<div class="kb-diagram-note">── CF: profile → { name:"이몽룡", age:22, city:"서울" }</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CF: activity → { login:"2026-04" }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CF: purchase → { item1:"A",item2:"B" }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* NULL 컬럼 저장 불필요 → 스토리지 효율 극대화</div></div>
+</div>
+</div>
+
+
 
 ### 대표 솔루션 비교
 
@@ -69,81 +65,74 @@ tags = ["studynote-bigdata"]
 
 ### [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 아키텍처
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                   HBase 아키텍처                          │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │              HMaster                              │  │
-│  │  - Region 할당 관리         - DDL 처리             │  │
-│  │  - Region Server 모니터링   - 부하 분산             │  │
-│  └────────────────────────────────────────────────────┘  │
-│                        │ ZooKeeper 코디네이션             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
-│  │RegionServer 1│  │RegionServer 2│  │RegionServer 3│   │
-│  │ Region A     │  │ Region B     │  │ Region C     │   │
-│  │ Region D     │  │ Region E     │  │ Region F     │   │
-│  └──────────────┘  └──────────────┘  └──────────────┘   │
-│                        │                                 │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │           HDFS (Hadoop Distributed File System)     │ │
-│  │  HFile(SSTable) 영구 저장, 3중 복제                  │ │
-│  └─────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBase 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HMaster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Region 할당 관리 - DDL 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Region Server 모니터링 - 부하 분산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 코디네이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RegionServer 1</div><div class="kb-diagram-cell">RegionServer 2</div><div class="kb-diagram-cell">RegionServer 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Region A</div><div class="kb-diagram-cell">Region B</div><div class="kb-diagram-cell">Region C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Region D</div><div class="kb-diagram-cell">Region E</div><div class="kb-diagram-cell">Region F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS (Hadoop Distributed File System)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HFile(SSTable) 영구 저장, 3중 복제</div></div>
+</div>
+</div>
+
+
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 링 구조
 
-```text
-┌──────────────────────────────────────────────────────┐
-│           Cassandra 마스터리스 링 토폴로지               │
-│                                                      │
-│              Node 1 (token: 0)                       │
-│             ╱         ╲                              │
-│  Node 5   ●             ●   Node 2                   │
-│ (token:   │   동등한     │   (token:                  │
-│  2^126)   │   피어들     │    2^30)                   │
-│            ●             ●                           │
-│  Node 4 (token:2^94)  Node 3(token:2^62)             │
-│                                                      │
-│  * 모든 노드가 동등(피어) → 단일 장애점(SPOF) 없음       │
-│  * RF=3: 데이터는 일관된 해싱으로 결정된 3개 노드에 저장  │
-│  * Gossip Protocol: 노드 상태 P2P 전파               │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra 마스터리스 링 토폴로지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1 (token: 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 5 ● ● Node 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(token:</div><div class="kb-diagram-cell">동등한</div><div class="kb-diagram-cell">(token:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2^126)</div><div class="kb-diagram-cell">피어들</div><div class="kb-diagram-cell">2^30)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 4 (token:2^94) Node 3(token:2^62)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 모든 노드가 동등(피어) → 단일 장애점(SPOF) 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RF=3: 데이터는 일관된 해싱으로 결정된 3개 노드에 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Gossip Protocol: 노드 상태 P2P 전파</div></div>
+</div>
+</div>
+
+
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로 (Write Path)
 
-```text
-클라이언트 Write 요청
-        │
-        ↓
-┌──────────────┐
-│  Commit Log  │ ← 내구성 보장 (Sequential Write)
-└──────────────┘
-        │
-        ↓
-┌──────────────┐
-│  MemTable    │ ← 인메모리 정렬 구조
-└──────────────┘
-        │ (임계값 도달 시 Flush)
-        ↓
-┌──────────────┐
-│   SSTable    │ ← 불변(Immutable) 디스크 파일
-└──────────────┘
-        │
-        ↓ (주기적 Compaction)
-┌──────────────┐
-│ 병합된 SSTable│ ← 공간 회수 + 성능 최적화
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 Write 요청</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Log</div><div class="kb-diagram-cell">← 내구성 보장 (Sequential Write)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MemTable</div><div class="kb-diagram-cell">← 인메모리 정렬 구조</div></div>
+<div class="kb-diagram-note">(임계값 도달 시 Flush)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTable</div><div class="kb-diagram-cell">← 불변(Immutable) 디스크 파일</div></div>
+<div class="kb-diagram-note">↓ (주기적 Compaction)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병합된 SSTable</div><div class="kb-diagram-cell">← 공간 회수 + 성능 최적화</div></div>
+</div>
+</div>
+
+
 
 ### [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 설명 | 적합 워크로드 |
 |:---:|:---|:---:|
 | **STCS** (SizeTiered [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) | 비슷한 크기 SSTable 병합 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집중 |
-| **[LCS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/)** (Leveled [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) | 레벨별 정렬 유지 | 읽기 집중 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/053_lcs/">LCS</a></strong> (Leveled [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) | 레벨별 정렬 유지 | 읽기 집중 |
 | **TWCS** (TimeWindow [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) | 시간 윈도우별 병합 | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
 📢 **섹션 요약 비유**
@@ -166,14 +155,19 @@ tags = ["studynote-bigdata"]
 
 ### ScyllaDB의 차별화
 
-```text
-Java Cassandra → GC 일시 정지(Stop-the-World)
-                 100ms~수초 스파이크
 
-C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
-                p99 지연 10배 이상 개선
-                같은 워크로드를 1/5~1/10 노드로 처리
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Java Cassandra → GC 일시 정지(Stop-the-World)</div>
+<div class="kb-diagram-note">100ms~수초 스파이크</div>
+<div class="kb-diagram-note">C++ ScyllaDB → GC 없음, 코어별 CPU 친화성</div>
+<div class="kb-diagram-note">p99 지연 10배 이상 개선</div>
+<div class="kb-diagram-note">같은 워크로드를 1/5~1/10 노드로 처리</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > QUORUM [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 과반수 투표와 같다. 5개 노드 중 3개가 "OK"하면 정상으로 인정한다. 한두 노드가 느리거나 다운되어도 과반수가 살아있으면 계속 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)할 수 있어, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 사이의 균형점이 된다.
@@ -184,19 +178,23 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 
 ### [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 우선 설계
 
-```text
-❌ 잘못된 접근: 엔티티 관계 우선 설계
-   (후에 필요한 쿼리에 맞게 복잡한 JOIN → CQL에서 불가)
 
-✅ 올바른 접근: 쿼리 패턴 우선 설계
-   1. "어떤 쿼리로 데이터를 읽을 것인가?" 정의
-   2. 그 쿼리를 위한 파티션 키 + 클러스터링 키 결정
-   3. 쿼리당 1개 테이블 원칙 (Query-per-table)
 
-예: "사용자별 최근 100개 주문 시간 역순 조회"
-   → PRIMARY KEY ((user_id), order_time)
-      WITH CLUSTERING ORDER BY (order_time DESC)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">❌ 잘못된 접근: 엔티티 관계 우선 설계</div>
+<div class="kb-diagram-note">(후에 필요한 쿼리에 맞게 복잡한 JOIN → CQL에서 불가)</div>
+<div class="kb-diagram-note">✅ 올바른 접근: 쿼리 패턴 우선 설계</div>
+<div class="kb-diagram-note">1. "어떤 쿼리로 데이터를 읽을 것인가?" 정의</div>
+<div class="kb-diagram-note">2. 그 쿼리를 위한 파티션 키 + 클러스터링 키 결정</div>
+<div class="kb-diagram-note">3. 쿼리당 1개 테이블 원칙 (Query-per-table)</div>
+<div class="kb-diagram-note">예: "사용자별 최근 100개 주문 시간 역순 조회"</div>
+<div class="kb-diagram-note">→ PRIMARY KEY ((user_id), order_time)</div>
+<div class="kb-diagram-note">WITH CLUSTERING ORDER BY (order_time DESC)</div>
+</div>
+</div>
+
+
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 설계 주의사항
 
@@ -224,7 +222,7 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 | 사용자 활동 피드 | [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화, 시간 역순 조회 |
 
 ### 결론
-컬럼 패밀리 DB는 시계열·이벤트 중심의 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 타 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델보다 압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다. 기술사 시험에서는 **Cassandra의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터리스 링 구조와 튜너블 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**, **HBase의 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 기반 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 메커니즘**, **TWCS [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 시계열 최적화 원리**가 핵심 논점이다.
+컬럼 패밀리 DB는 시계열·이벤트 중심의 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 타 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 모델보다 압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다. 기술사 시험에서는 <strong>Cassandra의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터리스 링 구조와 튜너블 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>, <strong>HBase의 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a> 기반 강한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 메커니즘</strong>, <strong>TWCS <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>의 시계열 최적화 원리</strong>가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > 컬럼 패밀리 DB는 거대한 실시간 기록 시스템이다. 초당 수백만 개의 센서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 끊임없이 기록하면서도, "지난 1시간 온도 변화"를 즉시 조회할 수 있다. 마치 CCTV가 24시간 녹화하면서도 특정 시간대 영상을 바로 재생할 수 있는 것처럼.
@@ -243,21 +241,23 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RDBMS 행 기반 저장]
-    │
-    ▼
-[와이드 컬럼 필요성]
-    │
-    ▼
-[컬럼 패밀리 DB(HBase/Cassandra)]
-    │
-    ▼
-[SSTable/LSM 트리]
-    │
-    ▼
-[시계열/IoT 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS 행 기반 저장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">와이드 컬럼 필요성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼 패밀리 DB(HBase/Cassandra)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSTable/LSM 트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열/IoT 응용</div></div>
+</div>
+</div>
+
+
 
 컬럼 패밀리 DB는 행 기반 RDBMS의 한계를 넘어 LSM 트리와 wide-column 저장으로 확장된다.
 

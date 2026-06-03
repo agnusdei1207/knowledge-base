@@ -17,28 +17,26 @@ tags = ["computer_architecture"]
 
 ### 멀티코어 시대의 난제: 보이지 않는 데이터의 충돌
 
-CPU 코어가 하나뿐일 때는 동기화가 비교적 단순했다 (인터럽트 금지만으로 해결 가능). 하지만 수십 개의 코어가 각자의 캐시를 들고 동일한 주소를 읽고 쓰는 멀티코어 환경에서는, 물리적으로 떨어져 있는 코어들 사이의 **'데이터 뷰 (View)'**를 일치시키는 것이 거대한 도전 과제가 되었다.
+CPU 코어가 하나뿐일 때는 동기화가 비교적 단순했다 (인터럽트 금지만으로 해결 가능). 하지만 수십 개의 코어가 각자의 캐시를 들고 동일한 주소를 읽고 쓰는 멀티코어 환경에서는, 물리적으로 떨어져 있는 코어들 사이의 <strong>'데이터 뷰 (View)'</strong>를 일치시키는 것이 거대한 도전 과제가 되었다.
 
-하드웨어 기반의 동기화 지원이 필요한 이유는 세 가지이다. 첫째, 소프트웨어만으로 동기화를 구현하면 오버헤드가 너무 커서 **멀티코어의 성능 이점**이 사라지기 때문이며, 둘째, CPU의 비순차 실행 (OoO)으로 인해 **메모리 쓰기 순서**가 뒤바뀌어 논리적 오류가 발생하기 때문이고, 셋째, **하드웨어 레벨의 원자성**이 보장되지 않으면 뮤텍스나 세마포어 같은 고수준 도구가 아예 작동할 수 없기 때문이다.
+하드웨어 기반의 동기화 지원이 필요한 이유는 세 가지이다. 첫째, 소프트웨어만으로 동기화를 구현하면 오버헤드가 너무 커서 <strong>멀티코어의 성능 이점</strong>이 사라지기 때문이며, 둘째, CPU의 비순차 실행 (OoO)으로 인해 <strong>메모리 쓰기 순서</strong>가 뒤바뀌어 논리적 오류가 발생하기 때문이고, 셋째, <strong>하드웨어 레벨의 원자성</strong>이 보장되지 않으면 뮤텍스나 세마포어 같은 고수준 도구가 아예 작동할 수 없기 때문이다.
 
 이 그림은 멀티코어 환경에서 개별 캐시와 공유 메모리 사이의 데이터 불일치 상황을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Cache Coherence Challenge                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Core 0 ] ──▶ [ L1 Cache: x=10 ] ── (Update x=20)        │
-│                                                             │
-│   [ Core 1 ] ──▶ [ L1 Cache: x=10 ] ── (Still sees x=10!)   │
-│                                                             │
-│   [ Shared L3 / Main Memory: x=10 ]                         │
-│                                                             │
-│   * 위기: Core 1은 Core 0이 수정한 최신값을 알 수 없음      │
-│   * 해결: 캐시 일관성 프로토콜 (MESI) 및 버스 스누핑        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Coherence Challenge</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">L1 Cache: x=10</div><div class="kb-diagram-note">── (Update x=20)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">L1 Cache: x=10</div><div class="kb-diagram-note">── (Still sees x=10!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Shared L3 / Main Memory: x=10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위기: Core 1은 Core 0이 수정한 최신값을 알 수 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해결: 캐시 일관성 프로토콜 (MESI) 및 버스 스누핑</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '가시성 (Visibility)'이다. 한 코어의 수정 사항이 즉시 또는 논리적으로 정해진 시점에 다른 코어에게 보여야 한다. 실무에서는 이 가시성을 확보하기 위해 하드웨어가 쉴 새 없이 **Snooping (버스 감시)** 신호를 주고받으며, 이 트래픽이 코어 개수 확장의 주된 병목 (Scalability Wall)이 된다.
 
@@ -75,21 +73,21 @@ CPU 코어가 하나뿐일 때는 동기화가 비교적 단순했다 (인터럽
 
 이 구조도는 CAS 명령어를 이용한 낙관적 동기화 (Optimistic Sync)의 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Compare-and-Swap (CAS) Logic                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   do {                                                      │
-│      old_val = *addr;           // 현재 값 읽기            │
-│      new_val = func(old_val);   // 새 값 계산              │
-│   } while (!CAS(addr, old_val, new_val)); // 성공할 때까지  │
-│                                                             │
-│   * 장점: 락(Lock) 없이도 안전하게 업데이트 가능            │
-│   * 단점: 충돌 잦을 시 CPU 낭비 (Busy-wait)                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compare-and-Swap (CAS) Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">do {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">old_val = *addr; // 현재 값 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new_val = func(old_val); // 새 값 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} while (!CAS(addr, old_val, new_val)); // 성공할 때까지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 락(Lock) 없이도 안전하게 업데이트 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 충돌 잦을 시 CPU 낭비 (Busy-wait)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '락-프리 (Lock-free)'이다. 다른 스레드를 멈추게 하지 않고도 데이터의 무결성을 지킬 수 있다. 실무에서는 이러한 저수준 원자적 연산을 직접 쓰기보다, 언어 차원의 `Atomic` 라이브러리를 통해 하드웨어 기능을 안전하게 호출한다.
 
@@ -127,29 +125,29 @@ CPU 코어가 하나뿐일 때는 동기화가 비교적 단순했다 (인터럽
 ### 기술사적 판단: 멀티스레드 성능 병목 진단 및 해결 전략
 
 **시나리오 1: 코어 수가 늘어날수록 오히려 성능이 떨어지는 현상 (Negative Scaling)**
-- **판단**: **거짓 공유 (False Sharing)**를 의심한다. 물리적으로 다른 변수들이 우연히 같은 캐시 라인(64 Byte)에 배치되어, 코어 간 무의미한 일관성 트래픽을 유발하고 있다. 기술사는 변수 사이에 **Padding**을 넣어 캐시 라인을 분리하거나, 각 스레드만의 독립된 저장 공간 (TLS: Thread Local Storage)을 쓰도록 아키텍처를 가이드한다.
+- **판단**: <strong>거짓 공유 (False Sharing)</strong>를 의심한다. 물리적으로 다른 변수들이 우연히 같은 캐시 라인(64 Byte)에 배치되어, 코어 간 무의미한 일관성 트래픽을 유발하고 있다. 기술사는 변수 사이에 <strong>Padding</strong>을 넣어 캐시 라인을 분리하거나, 각 스레드만의 독립된 저장 공간 (TLS: Thread Local Storage)을 쓰도록 아키텍처를 가이드한다.
 
 **시나리오 2: 동기화 로직에서 원인 불명의 데이터 오염 발생**
-- **판단**: **메모리 장벽 (Memory Barrier)**의 부재 여부를 확인한다. 특히 ARM 아키텍처에서는 컴파일러나 CPU가 쓰기 순서를 바꿀 수 있다. 플래그를 설정하기 전에 이전 데이터 쓰기가 완료되었음을 보장하는 `dmb` (Data Memory Barrier)와 같은 하드웨어 명령어가 소스 코드나 라이브러리 수준에서 누락되었는지 정밀 점검한다.
+- **판단**: <strong>메모리 장벽 (Memory Barrier)</strong>의 부재 여부를 확인한다. 특히 ARM 아키텍처에서는 컴파일러나 CPU가 쓰기 순서를 바꿀 수 있다. 플래그를 설정하기 전에 이전 데이터 쓰기가 완료되었음을 보장하는 `dmb` (Data Memory Barrier)와 같은 하드웨어 명령어가 소스 코드나 라이브러리 수준에서 누락되었는지 정밀 점검한다.
 
 이 도식은 거짓 공유(False Sharing) 현상과 해결책을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               False Sharing and Padding Solution            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Case: Conflict ]                                        │
-│   Cache Line (64B): [ Var A (Core 0) | Var B (Core 1) ]     │
-│   -> Core 0이 A를 고칠 때마다 Core 1의 B 캐시가 무효화됨    │
-│                                                             │
-│   [ Case: Solution ]                                        │
-│   Cache Line 1: [ Var A ] [ Padding ... ]                   │
-│   Cache Line 2: [ Var B ] [ Padding ... ]                   │
-│   -> 물리적으로 라인을 분리하여 경합 원천 차단              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">False Sharing and Padding Solution</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Case: Conflict</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line (64B):</div><div class="kb-diagram-node">Var A (Core 0) | Var B (Core 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Core 0이 A를 고칠 때마다 Core 1의 B 캐시가 무효화됨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Case: Solution</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 1:</div><div class="kb-diagram-node">Var A</div><div class="kb-diagram-node">Padding ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 2:</div><div class="kb-diagram-node">Var B</div><div class="kb-diagram-node">Padding ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 물리적으로 라인을 분리하여 경합 원천 차단</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 동기화 튜닝은 '팀원 간의 불필요한 간섭 제거'와 같습니다. 옆 사람이 숨만 쉬어도 내 집중력이 깨지는 상황(거짓 공유)을 막기 위해 파티션(Padding)을 세워 각자의 작업 효율을 높여주는 지혜가 필요합니다.
 
@@ -164,7 +162,7 @@ CPU 코어가 하나뿐일 때는 동기화가 비교적 단순했다 (인터럽
 
 ### 미래 전망: 가속기 내장형 동기화와 자율 일관성
 
-향후 동기화는 CPU를 넘어 GPU, NPU 등 이기종 가속기 간의 데이터를 조율하는 **Global Coherency**로 확장될 것이다. 특히 CXL (Compute Express Link) 프로토콜을 통해 하드웨어가 네트워크를 건너뛰어 메모리 일관성을 직접 관리하는 시대가 열릴 것이다. 기술사는 운영체제 수준의 동기화를 넘어, 하드웨어가 스스로 데이터 충돌을 감지하고 치유하는 **'자율 일관성 아키텍처'**에 대한 설계 역량을 강화해야 한다.
+향후 동기화는 CPU를 넘어 GPU, NPU 등 이기종 가속기 간의 데이터를 조율하는 <strong>Global Coherency</strong>로 확장될 것이다. 특히 CXL (Compute Express Link) 프로토콜을 통해 하드웨어가 네트워크를 건너뛰어 메모리 일관성을 직접 관리하는 시대가 열릴 것이다. 기술사는 운영체제 수준의 동기화를 넘어, 하드웨어가 스스로 데이터 충돌을 감지하고 치유하는 <strong>'자율 일관성 아키텍처'</strong>에 대한 설계 역량을 강화해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 동기화는 '자율주행 교차로'와 같아질 것입니다. 차들이 멈추지 않아도(Lock-free), 하드웨어가 서로의 속도를 완벽히 계산하여(CXL/TSX) 충돌 없이 빛의 속도로 데이터를 주고받는 세상이 올 것입니다.
 

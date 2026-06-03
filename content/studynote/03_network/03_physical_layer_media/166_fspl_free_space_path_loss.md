@@ -25,18 +25,19 @@ tags = ["studynote-network"]
 
 이 그림은 전력이 왜 거리와 함께 약해지는지 직관적으로 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      자유 공간에서의 전력 확산: 같은 에너지가 더 넓게 퍼진다   │
-├──────────────────────────────────────────────────────────────┤
-│ Tx ● ──▶ (반지름 r)   ○ 작은 구면                            │
-│                                                              │
-│ Tx ● ──▶ (반지름 2r)  ◎ 더 큰 구면                           │
-│                                                              │
-│ 같은 송신 전력이라도 면적은 4πr² → 4π(2r)²로 커짐            │
-│ 따라서 단위 면적당 전력 밀도는 거리 증가와 함께 감소         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자유 공간에서의 전력 확산: 같은 에너지가 더 넓게 퍼진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx ● ──▶ (반지름 r) ○ 작은 구면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx ● ──▶ (반지름 2r) ◎ 더 큰 구면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 송신 전력이라도 면적은 4πr² → 4π(2r)²로 커짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라서 단위 면적당 전력 밀도는 거리 증가와 함께 감소</div></div>
+</div>
+</div>
+
+
 
 따라서 FSPL은 무선 품질 저하의 "첫 번째 원인"이지 "유일한 원인"은 아니다. 먼저 이 기본 손실을 계산한 뒤, 실제 환경 손실을 덧붙이는 순서가 중요하다.
 
@@ -65,22 +66,21 @@ FSPL의 핵심 식은 프리스 전송 방정식 (Friis Transmission Equation)�
 
 이 그림은 FSPL이 링크 버짓 계산으로 이어지는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        링크 버짓의 출발점: 송신 전력에서 FSPL을 먼저 뺀다      │
-├──────────────────────────────────────────────────────────────┤
-│ 송신 전력 + 송신 안테나 이득                                 │
-│              │                                               │
-│              ▼                                               │
-│     EIRP (Equivalent Isotropically Radiated Power)           │
-│              │                                               │
-│              ├─ FSPL 차감                                    │
-│              ├─ 케이블 / 커넥터 손실 차감                    │
-│              └─ 환경 손실 차감                               │
-│              ▼                                               │
-│      수신 안테나 이득 반영 → 수신 전력 → 수신 감도 비교      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">링크 버짓의 출발점: 송신 전력에서 FSPL을 먼저 뺀다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 전력 + 송신 안테나 이득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EIRP (Equivalent Isotropically Radiated Power)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ FSPL 차감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 케이블 / 커넥터 손실 차감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 환경 손실 차감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 안테나 이득 반영 → 수신 전력 → 수신 감도 비교</div></div>
+</div>
+</div>
+
+
 
 여기서 주의할 점은 "주파수가 높아 손실이 커진다"는 말을 자유 공간 자체의 추가 흡수로 오해하면 안 된다는 것이다. FSPL의 주파수 항은 주로 파장과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 유효 개구면적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 나오며, 비·산소·수증기 흡수 같은 대기 손실은 별도 항으로 계산해야 한다. 이 구분이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 밀리미터파나 위성 링크 설계에서 특히 중요하다.
 
@@ -154,22 +154,24 @@ FSPL을 정확히 이해하면 무선 설계자는 막연한 감이 아니라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-거리 / 주파수 결정
-    │
-    ▼
-FSPL (기본 자유 공간 손실)
-    │
-    ▼
-링크 버짓 계산
-    │
-    ├─▶ 안테나 이득 / EIRP 반영
-    ├─▶ 프레넬 영역 / LOS 검토
-    └─▶ 페이드 마진 / 환경 손실 추가
-         │
-         ▼
-셀 계획 / 위성 링크 / 고주파 빔포밍 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">거리 / 주파수 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FSPL (기본 자유 공간 손실)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">링크 버짓 계산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 안테나 이득 / EIRP 반영</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 프레넬 영역 / LOS 검토</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 페이드 마진 / 환경 손실 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셀 계획 / 위성 링크 / 고주파 빔포밍 설계</div>
+</div>
+</div>
+
+
 
 이 흐름도는 FSPL이 단일 공식이 아니라, 실제 무선 설계로 이어지는 첫 단계라는 점을 보여준다.
 

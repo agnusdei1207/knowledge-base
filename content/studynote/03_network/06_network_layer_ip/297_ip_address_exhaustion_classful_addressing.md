@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: 32비트로 구성된 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소(약 43억 개)가 인터넷의 폭발적 성장과 초창기의 무식한 '클래스(Class)' 기반 할당 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 때문에 지구상에서 100% 바닥나버린 현상.
 - **필요성**: 처음에 군대와 대학교 몇 곳을 연결할 목적으로 만들어진 인터넷은 43억 개면 인류가 멸망할 때까지 쓸 줄 알았다. 그래서 기분 좋게 미국 대학 하나에 1600만 개(A클래스)를 던져주기도 했다. 하지만 2000년대 들어 한 사람이 스마트폰, 노트북, 태블릿 등 IP를 3~4개씩 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작하자, 주소가 턱없이 모자라게 되었고, 이를 아껴 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 피눈물 나는 서브넷팅([Subnetting](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/))의 역사가 시작되었다.
 
-- **💡 비유**: 클라스풀(Classful) 할당은 국가에서 땅을 분양할 때 오직 **"10만 평(A), 1만 평(B), 100평(C)" 딱 세 종류의 땅 문서**만 파는 것과 같습니다. 내가 공장을 지으려고 200평이 필요한데 100평짜리 땅(C)은 작으니, 어쩔 수 없이 1만 평짜리 땅(B)을 사서 200평만 쓰고 **나머지 9,800평은 펜스를 치고 영원히 버려두는 끔찍한 낭비**를 저지른 것입니다.
+- **💡 비유**: 클라스풀(Classful) 할당은 국가에서 땅을 분양할 때 오직 <strong>"10만 평(A), 1만 평(B), 100평(C)" 딱 세 종류의 땅 문서</strong>만 파는 것과 같습니다. 내가 공장을 지으려고 200평이 필요한데 100평짜리 땅(C)은 작으니, 어쩔 수 없이 1만 평짜리 땅(B)을 사서 200평만 쓰고 <strong>나머지 9,800평은 펜스를 치고 영원히 버려두는 끔찍한 낭비</strong>를 저지른 것입니다.
 
-```text
-[헤더 체크섬]
-    │
-    ▼
-[IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    └──▶ [클래스 A, B, C, D, E]
-```
 
-- **📢 섹션 요약 비유**: ** IP 고갈 문제는 석유 고갈과 같습니다. 매장량(43억 개)은 정해져 있는데 초창기에 기름을 물 쓰듯 펑펑 쓰다가(Classful), 바닥이 보일 즈음이 되어서야 **연비 좋은 하이브리드카(CIDR)를 만들고 카풀([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 강제**하며 버티고 있는 형국입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 체크섬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> IP 고갈 문제는 석유 고갈과 같습니다. 매장량(43억 개)은 정해져 있는데 초창기에 기름을 물 쓰듯 펑펑 쓰다가(Classful), 바닥이 보일 즈음이 되어서야 </strong>연비 좋은 하이브리드카(CIDR)를 만들고 카풀([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 강제**하며 버티고 있는 형국입니다.
 
 ---
 
@@ -43,9 +47,9 @@ tags = ["studynote-network"]
 IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번호(Host ID)"로 나뉜다. 
 초창기 학자들은 이 경계선을 유연하게 옮길 생각을 못 하고, 칼같이 8비트(1바이트) 단위로만 경계를 쪼개어 A, B, C 클래스로 고정(Hardcoding)해 버렸다.
 
-- **A 클래스**: `[Net 8비트] . [Host 24비트]` ──▶ 1개 동네에 무려 **16,777,214대**의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (초대기업용)
-- **B 클래스**: `[Net 16비트] . [Host 16비트]` ──▶ 1개 동네에 **65,534대**의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (대학, 중견기업용)
-- **C 클래스**: `[Net 24비트] . [Host 8비트]` ──▶ 1개 동네에 **254대**의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (소규모 PC방, 소기업용)
+- **A 클래스**: `[Net 8비트] . [Host 24비트]` ──▶ 1개 동네에 무려 <strong>16,777,214대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (초대기업용)
+- **B 클래스**: `[Net 16비트] . [Host 16비트]` ──▶ 1개 동네에 <strong>65,534대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (대학, 중견기업용)
+- **C 클래스**: `[Net 24비트] . [Host 8비트]` ──▶ 1개 동네에 <strong>254대</strong>의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결 가능. (소규모 PC방, 소기업용)
 
 ### 2. 주소 낭비의 치명적 딜레마
 전 세계 대부분의 회사는 직원 수가 300명 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명 사이다. 
@@ -54,28 +58,28 @@ IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번�
 - 이 회사는 300개의 IP만 쓰고 나머지 **65,234개의 금 같은 IP를 허공에 날려버렸다.** 아무도 이 주소를 쓸 수 없다.
 이런 짓을 전 세계 수만 개의 기업이 저지르자, 1990년대 중반에 이미 "이대로면 몇 년 안에 B 클래스가 멸종한다!"라는 경고가 떴다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 클라스풀(Classful) 낭비의 극단적 예시            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 직원 300명인 회사 ]                                       │
- │                                                             │
- │   요구사항: IP 300개 필요.                                    │
- │   C클래스 (254개) ──▶ "모자라! 이거 안 해!"                   │
- │   B클래스 (65,534개) ──▶ "이거 줘!" ──▶ [ 300개 사용 | 65,234개 낭비! ] │
- │                                                             │
- │   * 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작      │
- │          16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서   │
- │          순식간에 B 클래스가 씨가 말라버림.                      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라스풀(Classful) 낭비의 극단적 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직원 300명인 회사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항: IP 300개 필요.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C클래스 (254개) ──▶ "모자라! 이거 안 해!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">300개 사용 | 65,234개 낭비!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순식간에 B 클래스가 씨가 말라버림.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 고갈을 막기 위한 3대 생명 연장술의 등장
 완전히 고갈된 IPv4를 당장 버릴 수 없었기에 네트워크 엔지니어들은 다음의 해결책들을 도입했다.
-1. **CIDR ([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/) Inter-Domain [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**: "클래스(A, B, C)라는 낡은 개념을 폐기하자! 서브넷 마스크를 도입해서 1비트 단위로 쪼개 주자!" (예: 300명이면 `/23` 블록을 줘서 딱 512개만 할당해 낭비를 최소화함).
-2. **사설 IP와 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)**: "회사 내부에선 무료 가짜 주소(192.168.x.x)를 맘대로 쓰고, 외부 인터넷 나갈 때만 문지기(공유기)가 자기 공인 IP 1개로 모두를 변환([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))시켜 주자!" (수억 대의 폰과 PC가 공인 IP 1개를 돌려씀).
-3. **[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) (동적 IP 할당)**: "스마트폰을 쓸 때만 IP를 빌려주고, 화면 끄면 회수해서 다른 사람 빌려주자!" (IP 재활용 극대화).
+1. <strong>CIDR (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/">Classless</a> Inter-Domain <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: "클래스(A, B, C)라는 낡은 개념을 폐기하자! 서브넷 마스크를 도입해서 1비트 단위로 쪼개 주자!" (예: 300명이면 `/23` 블록을 줘서 딱 512개만 할당해 낭비를 최소화함).
+2. <strong>사설 IP와 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: "회사 내부에선 무료 가짜 주소(192.168.x.x)를 맘대로 쓰고, 외부 인터넷 나갈 때만 문지기(공유기)가 자기 공인 IP 1개로 모두를 변환([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))시켜 주자!" (수억 대의 폰과 PC가 공인 IP 1개를 돌려씀).
+3. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> (동적 IP 할당)</strong>: "스마트폰을 쓸 때만 IP를 빌려주고, 화면 끄면 회수해서 다른 사람 빌려주자!" (IP 재활용 극대화).
 
 - **📢 섹션 요약 비유**: ** 클래스 기반 주소 체계는 옷을 팔 때 사이즈를 오직 **"S, L, XXXL"** 세 개만 만들어 놓고, M 사이즈를 입는 사람에게 억지로 XXXL 옷을 입혀 천 쪼가리를 낭비하던 악습이었습니다. 이를 타파하고 **"맞춤복(CIDR)"**을 도입한 것이 인터넷을 구했습니다.
 
@@ -133,15 +137,19 @@ IP 주소 고갈 문제, 클라스풀 주소체계는 네트워크 계층과 IP�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 헤더 체크섬]
-    │
-    ▼
-[현재 개념: IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    ├──▶ [확장 A: 클래스 A, B, C, D, E]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 헤더 체크섬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 IP 주소 고갈 문제, 클라스풀 주소체계는 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 클래스 A, B, C, D, E와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

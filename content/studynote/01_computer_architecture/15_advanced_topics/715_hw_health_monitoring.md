@@ -50,19 +50,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 센서 값이 단순 숫자가 아니라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결된 관리 루프라는 점을 보여준다.
 
-```text
-┌──────────────┐   analog   ┌────────────────┐   register   ┌──────────────┐
-│ Temp / Volt  ├──────────▶ │ Sensor IC /    ├────────────▶ │ BMC Poller   │
-│ Fan / Power  │            │ ADC / VR Ctrl  │              │ + Thresholds │
-└──────┬───────┘            └────────────────┘              └──────┬───────┘
-       │                                                            │
-       │                                                            ├──▶ Fan Curve
-       │                                                            ├──▶ Alert / SEL
-       │                                                            ├──▶ Throttle
-       │                                                            └──▶ Power-off
-       ▼
-  Physical State
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">analog register</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Temp / Volt ▶</div><div class="kb-diagram-cell">Sensor IC / ▶</div><div class="kb-diagram-cell">BMC Poller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fan / Power</div><div class="kb-diagram-cell">ADC / VR Ctrl</div><div class="kb-diagram-cell">+ Thresholds</div></div>
+<div class="kb-diagram-note">──▶ Fan Curve</div>
+<div class="kb-diagram-note">──▶ Alert / SEL</div>
+<div class="kb-diagram-note">──▶ Throttle</div>
+<div class="kb-diagram-note">──▶ Power-off</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Physical State</div>
+</div>
+</div>
+
+
 
 센서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 의미를 해석할 때는 단순히 "몇 도인가"만 보면 안 된다. 같은 85도라도 CPU 패키지인지, [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) 핫스폿인지, 상한치 대비 상승 속도가 어떤지에 따라 의미가 다르다. 그래서 SDR 기반 단위 해석과 장치별 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 있어야 한다.
 
@@ -108,7 +112,7 @@ tags = ["studynote-computer-architecture"]
 - 경고가 많다는 이유로 특정 센서를 영구 마스킹함
 - OS 에이전트만 믿고, [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 센서를 수집하지 않음
 
-기술사 관점에서는 하드웨어 헬스 모니터링을 **[RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), Serviceability)** 관점과 연결해 설명하는 것이 좋다. 조기 탐지로 장애를 예방하고, 장애 중에는 손상 확산을 막고, 사후에는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 상관분석으로 원인을 추적한다는 3단 구조가 핵심이다.
+기술사 관점에서는 하드웨어 헬스 모니터링을 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/">RAS</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>, Serviceability)</strong> 관점과 연결해 설명하는 것이 좋다. 조기 탐지로 장애를 예방하고, 장애 중에는 손상 확산을 막고, 사후에는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 상관분석으로 원인을 추적한다는 3단 구조가 핵심이다.
 
 - **📢 섹션 요약 비유**: 헬스 모니터링은 학교 화재경보기와 스프링클러를 함께 두는 것과 같다. 연기만 보고 끝내면 소용없고, 감지 뒤 어떤 행동을 자동으로 할지까지 설계되어야 한다.
 
@@ -120,7 +124,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 센서만으로 모든 장애를 설명할 수는 없다. 소프트웨어 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), 애플리케이션 데드락, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 오류처럼 전기적 징후가 약한 문제도 많다. 또한 센서 자체의 보정 오차, 샘플링 주기, 측정 위치 한계 때문에 맹신은 금물이다.
 
-결론적으로 하드웨어 헬스 모니터링은 "온도 읽기 기능"이 아니라, **서버의 생체 징후를 수집하고 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 연결하는 관리 평면**으로 기억해야 한다. 숫자를 보는 것보다, 그 숫자에 어떤 대응이 연결되는지가 더 중요하다.
+결론적으로 하드웨어 헬스 모니터링은 "온도 읽기 기능"이 아니라, <strong>서버의 생체 징후를 수집하고 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>으로 연결하는 관리 평면</strong>으로 기억해야 한다. 숫자를 보는 것보다, 그 숫자에 어떤 대응이 연결되는지가 더 중요하다.
 
 - **📢 섹션 요약 비유**: 건강검진표는 숫자만 보고 끝나면 종이 한 장이지만, 의사가 해석하고 처방할 때 비로소 생명을 지킨다. 센서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 함께 있어야 가치가 생긴다.
 
@@ -138,22 +142,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Physical Sensors
-      │
-      ▼
-ADC + Sensor Registers
-      │
-      ▼
-BMC Polling / Threshold Engine
-      │
-      ├──▶ Fan / Power Protection
-      ├──▶ SEL / Alerting
-      └──▶ Telemetry Export
-      │
-      ▼
-Observability + Predictive Maintenance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Physical Sensors</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ADC + Sensor Registers</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BMC Polling / Threshold Engine</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Fan / Power Protection</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ SEL / Alerting</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Telemetry Export</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Observability + Predictive Maintenance</div>
+</div>
+</div>
+
+
 
 이 흐름은 물리 센싱이 단순 측정에서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 제어와 예지 정비로 확장되는 방향을 보여준다.
 

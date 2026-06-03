@@ -25,24 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 "프로세스를 더 돌렸는데 CPU는 더 놀게 되는 역설"로 나타나는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│         스래싱의 역설: 프로세스 수를 늘리면 어느 지점 이후 CPU가 더 쉰다      │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ CPU 이용률                                                                   │
-│    ▲                                                                         │
-│    │                        최적 구간                                         │
-│    │                     ／￣￣￣￣＼                                         │
-│    │                  ／              ＼                                      │
-│    │               ／                  ＼                                     │
-│    │            ／                       ＼____ 스래싱 구간                    │
-│    │         ／                                 (Fault / Swap 폭증)           │
-│    └────────────────────────────────────────────────────────────────────▶      │
-│                     낮은 DoM                          높은 DoM                │
-│                                                                              │
-│ 핵심: 프로세스 증가 → 프로세스당 프레임 감소 → 페이지 부재 급증 → I/O 대기 증가 │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스래싱의 역설: 프로세스 수를 늘리면 어느 지점 이후 CPU가 더 쉰다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 이용률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／￣￣￣￣＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼____ 스래싱 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ (Fault / Swap 폭증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 DoM 높은 DoM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 프로세스 증가 → 프로세스당 프레임 감소 → 페이지 부재 급증 → I/O 대기 증가</div></div>
+</div>
+</div>
+
+
 
 CPU 사용률이 떨어졌다고 해서 여유가 생긴 것은 아니다. 오히려 실행 가능한 프로세스가 부족할 만큼 모두가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 기다리고 있다는 뜻일 수 있다. 따라서 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)은 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 잘못된 피드백 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽기 시작하는 위험 구간으로 이해해야 한다.
 
@@ -56,32 +56,23 @@ CPU 사용률이 떨어졌다고 해서 여유가 생긴 것은 아니다. 오�
 
 아래 그림은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 발생할 때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 내부에서 어떤 고리가 만들어지는지 압축한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                    스래싱의 폐쇄 루프: 계산이 I/O 대기로 치환됨              │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 프로세스 수 증가                                                              │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 프로세스당 가용 프레임 감소                                                   │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 워킹 셋 미충족                                                                │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 페이지 부재율 상승                                                            │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 희생 페이지 선택 + Swap In/Out 증가                                           │
-│        │                                                                     │
-│        ▼                                                                     │
-│ 디스크 대기 증가, Ready Queue 축소                                            │
-│        │                                                                     │
-│        ▼                                                                     │
-│ CPU 이용률 하락 ──▶ 잘못 해석 시 프로세스 추가 ──┐                            │
-│                                                  └──────── 반복               │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스래싱의 폐쇄 루프: 계산이 I/O 대기로 치환됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 수 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스당 가용 프레임 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋 미충족</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 부재율 상승</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희생 페이지 선택 + Swap In/Out 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 대기 증가, Ready Queue 축소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 이용률 하락 ──▶ 잘못 해석 시 프로세스 추가 ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락하는 이유는 시간 단위가 완전히 다르기 때문이다. RAM 접근은 대략 수십~수백 ns (nanosecond) 수준이지만, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 접근은 수십~수백 μs (microsecond), [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 기반 스왑은 ms (millisecond) 단위까지 커진다. 즉 한 번의 Major Fault가 수만 배 이상의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만들 수 있고, 이런 부재가 연속되면 CPU는 계산 장치가 아니라 I/O 완료를 기다리는 대기 장치가 된다.
 
@@ -166,25 +157,25 @@ CPU 사용률이 떨어졌다고 해서 여유가 생긴 것은 아니다. 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가상 메모리 (Virtual Memory)
-    │
-    ▼
-요구 페이징 (Demand Paging)
-    │
-    ▼
-페이지 부재 (Page Fault)
-    │
-    ▼
-페이지 교체 알고리즘 (Page Replacement)
-    │
-    ├─▶ 워킹 셋 모델 (Working Set Model)
-    │
-    ├─▶ PFF (Page Fault Frequency)
-    │
-    ▼
-스래싱 (Thrashing) 제어와 DoM 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가상 메모리 (Virtual Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구 페이징 (Demand Paging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 부재 (Page Fault)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 교체 알고리즘 (Page Replacement)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 워킹 셋 모델 (Working Set Model)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ PFF (Page Fault Frequency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스래싱 (Thrashing) 제어와 DoM 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "가상 주소 제공 → 필요 시 적재 → 부재 발생 → 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택 → 작업 집합 제어"로 이어지는 메모리 관리의 발전 축을 보여 준다.
 

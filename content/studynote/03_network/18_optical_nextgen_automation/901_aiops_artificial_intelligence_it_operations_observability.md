@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **경고 피로도(Alert Fatigue)**: 옛날 모니터링 시스템은 융통성 없는 룰 기반(Rule-based)이었습니다. "CPU가 90% 넘으면 무조건 빨간불 띄워!" 밤새 백업을 돌리느라 잠깐 CPU가 올라간 건데도 사일렌이 울려서 엔지니어가 자다 깨서 뛰어왔습니다(오탐, False Positive). 
 - 이런 쓰레기 알람이 하루 1만 개씩 터지니 엔지니어들은 노이로제에 걸려 알람 소리를 아예 음소거해버리는 사태가 벌어졌습니다.
 
-```text
-[무선 광통신 대기권 전송 FSO 기상 조건…]
-    │
-    ▼
-[AIOps]
-    │
-    └──▶ [자율-구동 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AIOps는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 글로벌 IT 리서치 기업 가트너(Gartner)가 명명한 개념으로, **수만 대의 IT 인프라, 애플리케이션, 네트워크 장비에서 실시간으로 쏟아지는 방대한 텔레메트리(원격 측정) 및 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Syslog](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/)) 빅데이터를 수집하여, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)/딥러닝) 모델로 분석함으로써 시스템의 이상 징후를 예측(예지)하고, 근본 원인을 핀셋으로 찾아내며, 나아가 사람 개입 없이 스스로 자가 치유(자동화 조치)까지 해내는 차세대 지능형 IT 운영 관제 프레임워크**입니다.
+- **개념**: 글로벌 IT 리서치 기업 가트너(Gartner)가 명명한 개념으로, <strong>수만 대의 IT 인프라, 애플리케이션, 네트워크 장비에서 실시간으로 쏟아지는 방대한 텔레메트리(원격 측정) 및 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/">Syslog</a>) 빅데이터를 수집하여, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>/딥러닝) 모델로 분석함으로써 시스템의 이상 징후를 예측(예지)하고, 근본 원인을 핀셋으로 찾아내며, 나아가 사람 개입 없이 스스로 자가 치유(자동화 조치)까지 해내는 차세대 지능형 IT 운영 관제 프레임워크</strong>입니다.
 
-```text
-[무선 광통신 대기권 전송 FSO 기상 조건…]
-    │
-    ▼
-[AIOps]
-    │
-    └──▶ [자율-구동 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AIOps의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,12 +64,12 @@ tags = ["studynote-network"]
 
 ### 1. [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 기반 빅데이터 융합 수집
 - 단순히 "CPU 죽었음"이라는 단편적 정보만 보지 않습니다. 
-- 879번 문서에서 배운 **[스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)** 기술을 이용해, 장비의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)), 앱 트래픽 흐름 궤적(Traces) 등 과거엔 서로 찢어져 있던 3대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) 한곳으로 폭풍처럼 밀어 넣어 AI의 밥(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))으로 준비시킵니다.
+- 879번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a></strong> 기술을 이용해, 장비의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)), 앱 트래픽 흐름 궤적(Traces) 등 과거엔 서로 찢어져 있던 3대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) 한곳으로 폭풍처럼 밀어 넣어 AI의 밥(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))으로 준비시킵니다.
 
 AIOps의 진정한 마법은 상관관계를 파악하는 추리 능력입니다.
 - **시나리오**: 강남 기지국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 뽑혔습니다. 그러자 1,000명의 폰에서 유튜브 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 터지고, DB 서버에서 연결 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 경고 500개가 동시에 울립니다.
 - 옛날엔 인간이 이 1,500개의 알람 창을 띄워놓고 "뭐가 진짜 원인이야?" 머리를 쥐어뜯었습니다.
-- **AI의 핀셋 추리**: [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) AI는 거미줄처럼 엮인 토폴로지(장비 연결 지도)를 학습하고 있습니다. 1,500개의 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 시간순으로 팍팍 터지는 패턴을 분석한 뒤, **"이 1,500개 쓰레기 알람 다 무시하세요! 근본 원인(Root Cause)은 딱 1개, 강남 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3번이 뽑힌 겁니다!"**라고 단 하나의 직관적인 해답을 모니터에 딱 띄워줍니다. (이벤트 노이즈 99% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 필터링)
+- **AI의 핀셋 추리**: [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) AI는 거미줄처럼 엮인 토폴로지(장비 연결 지도)를 학습하고 있습니다. 1,500개의 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 시간순으로 팍팍 터지는 패턴을 분석한 뒤, <strong>"이 1,500개 쓰레기 알람 다 무시하세요! 근본 원인(Root Cause)은 딱 1개, 강남 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 3번이 뽑힌 겁니다!"</strong>라고 단 하나의 직관적인 해답을 모니터에 딱 띄워줍니다. (이벤트 노이즈 99% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 필터링)
 
 ### 3. 이상 전조 예측 ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) 및 자가 치유 (Auto-Remediation)
 - AI가 매일 밤의 트래픽을 1년간 학습했습니다. "금요일 밤 10시에는 트래픽 패턴이 이렇구나."
@@ -76,7 +84,7 @@ AIOps를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 관제실(NMS)은 수천 개의 불이 깜빡이는 '원전 통제실의 풋내기 신입 사원'이었습니다. 계기판 1,000개에서 삐용삐용 빨간불이 동시에 터지자 신입 사원은 패닉에 빠져 우왕좌왕하다가 결국 원자로를 폭발시켰습니다. **[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 관제탑)**는 30년 경력의 백전노장 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 셜록 홈즈 반장님'입니다. 1,000개의 경고음이 터지자 셜록 반장님은 눈을 딱 감고 모든 파이프라인의 물소리(빅데이터 트래픽)를 머릿속 딥러닝 뇌로 0.1초 만에 조합해 냅니다. 그리고 눈을 번쩍 뜨며 "나머지 999개 알람은 다 허상(노이즈)이다! 진짜 범인은 지하 2층 보일러실 메인 밸브(Root Cause) 파열이다. 즉각 3번 밸브를 열어 우회(자가 치유)시켜라!"라고 단칼에 핀셋 처방을 내려버려 전산실의 평화를 지켜내는 궁극의 자동화 명탐정입니다.
+- **📢 섹션 요약 비유**: 기존 관제실(NMS)은 수천 개의 불이 깜빡이는 '원전 통제실의 풋내기 신입 사원'이었습니다. 계기판 1,000개에서 삐용삐용 빨간불이 동시에 터지자 신입 사원은 패닉에 빠져 우왕좌왕하다가 결국 원자로를 폭발시켰습니다. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 관제탑)</strong>는 30년 경력의 백전노장 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 셜록 홈즈 반장님'입니다. 1,000개의 경고음이 터지자 셜록 반장님은 눈을 딱 감고 모든 파이프라인의 물소리(빅데이터 트래픽)를 머릿속 딥러닝 뇌로 0.1초 만에 조합해 냅니다. 그리고 눈을 번쩍 뜨며 "나머지 999개 알람은 다 허상(노이즈)이다! 진짜 범인은 지하 2층 보일러실 메인 밸브(Root Cause) 파열이다. 즉각 3번 밸브를 열어 우회(자가 치유)시켜라!"라고 단칼에 핀셋 처방을 내려버려 전산실의 평화를 지켜내는 궁극의 자동화 명탐정입니다.
 
 ---
 
@@ -118,15 +126,19 @@ AIOps는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무선 광통신 대기권 전송 FSO 기상 조건…]
-    │
-    ▼
-[현재 개념: AIOps]
-    │
-    ├──▶ [확장 A: 자율-구동 네트워크]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AIOps</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율-구동 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 AIOps는 [무선 광통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 대기권 전송 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기상 조건…에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율-구동 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

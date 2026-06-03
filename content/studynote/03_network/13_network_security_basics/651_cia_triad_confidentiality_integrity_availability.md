@@ -23,27 +23,31 @@ tags = ["studynote-network"]
 
 ### 1. [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) ([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) - "허락된 사람만 볼 수 있다"
 - **개념**: 인가되지 않은 사용자(해커)가 데이터의 내용을 훔쳐보거나 알지 못하도록 막는 성질입니다.
-- **구현 기술**: **암호화(Encryption, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 등)**, **접근 제어([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))**.
+- **구현 기술**: <strong>암호화(Encryption, <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>, <a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> 등)</strong>, <strong>접근 제어(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a>)</strong>.
 - **침해 사례**: 스니핑(Sniffing)으로 패스워드가 평문으로 노출되는 것.
 
 ### 2. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) - "내용이 절대 바뀌지 않았다"
 - **개념**: 데이터가 전송되거나 저장되어 있는 동안, 인가되지 않은 방식이나 악의적인 목적에 의해 데이터가 위조, 변조, 삭제, 훼손되지 않고 원본 그대로임을 보장하는 성질입니다.
-- **구현 기술**: **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(Hash, SHA-256)**, **디지털 서명([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))**, **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)**.
+- **구현 기술**: <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a>(Hash, SHA-256)</strong>, <strong>디지털 서명(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong>, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>(메시지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 코드)</strong>.
 - **침해 사례**: 해커가 중간에 끼어들어 계좌 이체 금액을 1만 원에서 100만 원으로 조작(Tampering)하는 것.
 
 ### 3. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) - "내가 원할 때 언제든 쓸 수 있다"
 - **개념**: 정당한 권한을 가진 사용자가 정보 시스템이나 데이터를 필요로 할 때, 방해받지 않고 언제든지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 접근하여 사용할 수 있도록 보장하는 성질입니다.
-- **구현 기술**: **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 서버)**, [무정전 전원 장치](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)([UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)), 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)).
+- **구현 기술**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>(Redundancy, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 서버)</strong>, [무정전 전원 장치](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)([UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/)), 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)).
 - **침해 사례**: 디도스(DDoS) 공격으로 서버가 마비되어 접속이 불가능해지는 것. 랜섬웨어로 파일이 암호화되어 열어볼 수 없는 것.
 
-```text
-[저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
-[정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    └──▶ [암호학 개요 통신망 보안 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정보보안 3대 요소 + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,21 +57,25 @@ tags = ["studynote-network"]
 
 네트워크를 통한 전자 상거래가 발달하면서, CIA 외에 2가지 요구사항이 더 중요해졌습니다.
 
-1. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) - "네가 진짜 그 사람 맞냐?"**
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>) - "네가 진짜 그 사람 맞냐?"</strong>
    - 시스템에 접속하려는 주체(사용자, 기기)의 신원을 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정입니다. (아이디/패스워드, 생체 인식, 공인인증서, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 등)
 
 2. **부인 방지 (Non-Repudiation) - "발뺌 금지!"**
    - 데이터를 보낸 사람이 나중에 "나 그런 거 보낸 적 없는데?"라고 거짓말(부인)을 하지 못하게 빼도 박도 못하는 명확한 증거를 남기는 기술입니다.
-   - **구현 기술**: 송신자의 '개인키'로 도장을 찍는 **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))**이 부인 방지의 핵심 기술입니다.
+   - **구현 기술**: 송신자의 '개인키'로 도장을 찍는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong>이 부인 방지의 핵심 기술입니다.
 
-```text
-[저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
-[정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    └──▶ [암호학 개요 통신망 보안 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 택배 배송에 비유해 봅시다. 배송 중인 상자를 투명 테이프 대신 속이 안 보이는 '검은색 랩([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))'으로 칭칭 감싸고, 그 위에 뜯으면 자국이 남는 '홀로그램 씰([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))'을 붙인 뒤, 배달원이 24시간 언제든 고객에게 무사히 전달할 수 있도록 '예비 트럭([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'을 준비해 두는 완벽한 배송 시스템이 CIA 트라이어드입니다. 수령 시 신분증을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))하고 고객의 사인(부인 방지)을 받아두면 완벽합니다.
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ▼
-[현재 개념: 정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    ├──▶ [확장 A: 암호학 개요 통신망 보안 적용]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 정보보안 3대 요소 + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 개요 통신망 보안 적용와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

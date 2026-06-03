@@ -25,17 +25,19 @@ tags = ["studynote-it-management"]
 
 아래 그림은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이 왜 별도 의사결정 단계로 필요한지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          리스크 관리에서 '대응'이 필요한 이유                │
-├──────────────────────────────────────────────────────────────┤
-│ 식별만 한 상태 : "이런 위험이 있다"                         │
-│ 대응까지 한 상태 : "누가, 언제, 무엇으로 막을지 정했다"      │
-│                                                              │
-│ 리스크 미대응 ──▶ 발생 시 즉흥 대응 ──▶ 일정·비용 충격 확대    │
-│ 리스크 대응 ──▶ 사전 준비 ──▶ 충격 완화 또는 기회 확대         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 관리에서 '대응'이 필요한 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식별만 한 상태 : "이런 위험이 있다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대응까지 한 상태 : "누가, 언제, 무엇으로 막을지 정했다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 미대응 ──▶ 발생 시 즉흥 대응 ──▶ 일정·비용 충격 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 대응 ──▶ 사전 준비 ──▶ 충격 완화 또는 기회 확대</div></div>
+</div>
+</div>
+
+
 
 또한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 부정적 사건인 위협 (Threat)만이 아니라 긍정적 사건인 기회 (Opportunity)도 포함한다. 그래서 좋은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리는 "문제를 막는 기술"이면서 동시에 "유리한 가능성을 의도적으로 키우는 기술"이기도 하다.
 
@@ -47,21 +49,21 @@ tags = ["studynote-it-management"]
 
 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응은 보통 `식별 → 분석 → 전략 선택 → 실행계획 → 모니터링` 흐름으로 운영된다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택의 핵심 기준은 네 가지다. 첫째, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수 있는가. 둘째, 제3자가 더 잘 감당할 수 있는가. 셋째, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이나 영향을 줄일 수 있는가. 넷째, 대응 비용보다 감수 비용이 더 작은가. 이 기준에 따라 위협에는 회피·전가·완화·수용을, 기회에는 활용·공유·강화·수용을 적용한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              리스크 대응 전략 선택 흐름                      │
-├──────────────────────────────────────────────────────────────┤
-│ 리스크 식별                                                   │
-│      │                                                       │
-│      ▼                                                       │
-│ 확률·영향·원인 분석                                           │
-│      │                                                       │
-│      ├─ 원인을 제거 가능? ───────────────▶ 회피 (Avoid)       │
-│      ├─ 제3자가 더 잘 관리? ────────────▶ 전가 (Transfer)    │
-│      ├─ 확률/영향 축소 가능? ───────────▶ 완화 (Mitigate)    │
-│      └─ 위 세 가지보다 감수가 합리적? ───▶ 수용 (Accept)     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 대응 전략 선택 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확률·영향·원인 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원인을 제거 가능? ▶ 회피 (Avoid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 제3자가 더 잘 관리? ▶ 전가 (Transfer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 확률/영향 축소 가능? ▶ 완화 (Mitigate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 위 세 가지보다 감수가 합리적? ▶ 수용 (Accept)</div></div>
+</div>
+</div>
+
+
 
 | 위협 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 | 대표 수단 | 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -131,7 +133,7 @@ tags = ["studynote-it-management"]
 
 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 체계화하면 프로젝트는 불확실성을 "설명 가능한 관리 항목"으로 바꿀 수 있다. 고위험 영역에 자원을 집중하고, 낮은 위험은 합리적으로 감수하며, 기회 영역에는 공격적으로 투자할 수 있어 예산과 일정의 품질이 함께 좋아진다. 또한 이해관계자에게도 "무엇을 걱정하고 무엇을 준비했는가"를 명확히 설명할 수 있어 신뢰 확보에 유리하다.
 
-다만 모든 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수는 없다. 회피는 범위 축소를 부르고, 전가는 통제력 손실을 만들며, 완화는 비용이 들고, 수용은 항상 잔여 불확실성을 남긴다. 그래서 좋은 프로젝트는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 없는 프로젝트가 아니라, **중요한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)에 대해 이유 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 선택한 프로젝트**라고 보는 편이 정확하다.
+다만 모든 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 없앨 수는 없다. 회피는 범위 축소를 부르고, 전가는 통제력 손실을 만들며, 완화는 비용이 들고, 수용은 항상 잔여 불확실성을 남긴다. 그래서 좋은 프로젝트는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 없는 프로젝트가 아니라, <strong>중요한 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>에 대해 이유 있는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>을 선택한 프로젝트</strong>라고 보는 편이 정확하다.
 
 결론적으로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "위험을 두려워하는 기술"이 아니라 "위험을 분류하고, 비용 대비 최선의 행동을 고르는 기술"이다. 기술사 답안에서도 이 관점을 중심에 두면 단순 암기형 설명을 넘어선다.
 
@@ -151,24 +153,25 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-리스크 식별 (Risk Identification)
-    │
-    ▼
-정성·정량 분석 (Probability · Impact · EMV)
-    │
-    ▼
-위협 대응: Avoid · Transfer · Mitigate · Accept
-    │
-    ▼
-기회 대응: Exploit · Share · Enhance · Accept
-    │
-    ▼
-잔여 리스크 · 2차 리스크 관리
-    │
-    ▼
-모니터링 · 트리거 실행 · 교훈 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">리스크 식별 (Risk Identification)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정성·정량 분석 (Probability · Impact · EMV)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">위협 대응: Avoid · Transfer · Mitigate · Accept</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기회 대응: Exploit · Share · Enhance · Accept</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잔여 리스크 · 2차 리스크 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모니터링 · 트리거 실행 · 교훈 반영</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대응이 단발성 선택이 아니라, 분석에서 실행·재평가까지 이어지는 순환 관리임을 보여준다.
 

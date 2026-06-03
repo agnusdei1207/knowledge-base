@@ -10,27 +10,33 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LiDAR는 **레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정**하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.
-> 2. **가치**: 카메라는 2D 이미지만 제공하고 깊이 추정이 부정확하지만, LiDAR는 **cm 단위의 정밀 3D 거리 측정**으로 자율주행·지형 측량·건설·로봇에 핵심이다.
+> 1. **본질**: LiDAR는 <strong>레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정</strong>하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.
+> 2. **가치**: 카메라는 2D 이미지만 제공하고 깊이 추정이 부정확하지만, LiDAR는 <strong>cm 단위의 정밀 3D 거리 측정</strong>으로 자율주행·지형 측량·건설·로봇에 핵심이다.
 > 3. **판단 포인트**: 기계식(Velodyne, 고비용)→솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(저비용)→FMCW(속도+거리 동시 측정)로 진화하며, iPhone LiDAR(dToF)가 소비자 시장에 진입했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2 = 거리
-  → 초당 30만 포인트 → 3D 포인트 클라우드 생성
-종류: 기계식(360° 회전) | 솔리드 스테이트(고정, 저비용) | FMCW(차세대)
-```
 
-- **📢 섹션 요약 비유**: LiDAR는 **박쥐의 초음파**이다. 소리(레이저) 대신 빛을 쏘고 반사 시간으로 거리를 측정한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2 = 거리</div>
+<div class="kb-diagram-note">→ 초당 30만 포인트 → 3D 포인트 클라우드 생성</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종류: 기계식(360° 회전)</div><div class="kb-diagram-cell">솔리드 스테이트(고정, 저비용)</div><div class="kb-diagram-cell">FMCW(차세대)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: LiDAR는 <strong>박쥐의 초음파</strong>이다. 소리(레이저) 대신 빛을 쏘고 반사 시간으로 거리를 측정한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) LiDAR로 비용이 급락하고 있다.
+LiDAR는 <strong>자율주행·측량의 핵심 센서</strong>이며, 솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) LiDAR로 비용이 급락하고 있다.
 
 ---
 
@@ -41,21 +47,27 @@ LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [스테이�
 | **LiDAR** | 레이저 거리 측정 |
 | **ToF** | 왕복 시간 |
 | **포인트 클라우드** | 3D 점 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 저비용 차세대 |
+| <strong>솔리드 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">스테이트</a></strong> | 저비용 차세대 |
 | **FMCW** | 속도+거리 동시 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기계식 LiDAR (Velodyne, 2007)] → [자율주행 적용 (2015)]
-    → [솔리드 스테이트 (2020, 저비용)]
-    → [iPhone LiDAR (dToF, 2020)]
-    → [현재: FMCW LiDAR — 속도+거리 동시 측정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기계식 LiDAR (Velodyne, 2007)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">자율주행 적용 (2015)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">솔리드 스테이트 (2020, 저비용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">iPhone LiDAR (dToF, 2020)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: FMCW LiDAR — 속도+거리 동시 측정</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. LiDAR는 **박쥐의 초음파**예요. 빛을 쏘고 **돌아오는 시간**으로 거리를 재요.
-2. 초당 **30만 번** 쏴서 주변의 **3D 지도**를 만들어요.
+1. LiDAR는 <strong>박쥐의 초음파</strong>예요. 빛을 쏘고 <strong>돌아오는 시간</strong>으로 거리를 재요.
+2. 초당 **30만 번** 쏴서 주변의 <strong>3D 지도</strong>를 만들어요.
 3. 자율주행차가 **장애물까지 거리를 정확히** 아는 비결이에요!
 
 ---

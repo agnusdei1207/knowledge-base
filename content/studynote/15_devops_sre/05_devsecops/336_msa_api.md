@@ -31,29 +31,26 @@ CDCT는 이 두 문제를 해결한다. 소비자가 [Mock](/knowledge-base/stud
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│             Pact CDCT 흐름 (소비자 주도 계약 테스트)          │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  [소비자 서비스 (Consumer)]                                 │
-│       │ 1. Pact Mock Server로 API 호출 테스트               │
-│       │ 2. 실제 HTTP 상호작용 → Pact 파일 생성               │
-│       ▼                                                    │
-│  ┌───────────────────────────────┐                         │
-│  │  Pact Broker (계약 저장소)      │                        │
-│  │  - Pact 파일 저장               │                        │
-│  │  - 호환성 매트릭스 관리          │                        │
-│  └──────────────┬────────────────┘                         │
-│                 │ 3. 공급자가 계약 검증                      │
-│                 ▼                                          │
-│  [공급자 서비스 (Provider)]                                  │
-│       │ 4. Pact Broker에서 계약 다운로드                     │
-│       │ 5. 실제 서비스로 계약 재생, 응답 검증                  │
-│       ▼                                                    │
-│  ✅ 통과: 배포 가능 / ❌ 실패: 소비자에게 피드백              │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pact CDCT 흐름 (소비자 주도 계약 테스트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소비자 서비스 (Consumer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Pact Mock Server로 API 호출 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 실제 HTTP 상호작용 → Pact 파일 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pact Broker (계약 저장소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Pact 파일 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 호환성 매트릭스 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 공급자가 계약 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공급자 서비스 (Provider)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Pact Broker에서 계약 다운로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 실제 서비스로 계약 재생, 응답 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 통과: 배포 가능 / ❌ 실패: 소비자에게 피드백</div></div>
+</div>
+</div>
+
+
 
 | 항목 | [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 | Contract Testing (CDCT) |
 |:---|:---|:---|
@@ -106,7 +103,7 @@ Can I Deploy: Pact Broker의 기능으로 "현재 [버전](/knowledge-base/study
 
 Contract Testing 도입으로 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 인한 프로덕션 장애가 대폭 감소한다. [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 테스트 의존도가 낮아지고 각 팀이 독립적으로 빠르게 개발·배포할 수 있다.
 
-Contract Testing의 본질은 **"팀 간 신뢰를 코드화"**하는 것이다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약은 팀 간 대화의 결과물이고, 그 대화가 자동화된 테스트로 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된다.
+Contract Testing의 본질은 <strong>"팀 간 신뢰를 코드화"</strong>하는 것이다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약은 팀 간 대화의 결과물이고, 그 대화가 자동화된 테스트로 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된다.
 
 > 📢 **섹션 요약 비유**: Contract Testing은 공급자와 소비자가 서명한 납품 계약서다. 계약서(Pact [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))가 있으면 품질을 매번 협의하지 않아도 자동으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된다.
 
@@ -125,14 +122,19 @@ Contract Testing의 본질은 **"팀 간 신뢰를 코드화"**하는 것이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식 통합 테스트 시대      MSA Contract Testing 시대       자동화 성숙
-──────────────────────   ──────────────────────────   ────────────────────────
-E2E 통합 테스트 의존     →  Pact CDCT 등장             →  Pact Broker/PactFlow
-느린 CI 파이프라인            Spring Cloud Contract          Can I Deploy 게이트
-Mock 드리프트 문제             소비자-공급자 분리 테스트        API 버전 호환성 매트릭스
-                               Pact Broker 중앙화              Bi-directional Contract
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식 통합 테스트 시대 MSA Contract Testing 시대 자동화 성숙</div>
+<div class="kb-diagram-note">E2E 통합 테스트 의존 → Pact CDCT 등장 → Pact Broker/PactFlow</div>
+<div class="kb-diagram-note">느린 CI 파이프라인 Spring Cloud Contract Can I Deploy 게이트</div>
+<div class="kb-diagram-note">Mock 드리프트 문제 소비자-공급자 분리 테스트 API 버전 호환성 매트릭스</div>
+<div class="kb-diagram-note">Pact Broker 중앙화 Bi-directional Contract</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

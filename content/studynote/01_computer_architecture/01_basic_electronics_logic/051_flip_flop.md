@@ -31,20 +31,21 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 가장 많이 쓰는 것은 D 플립플롭 ([D Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/))이다. 내부적으로는 마스터-슬레이브 (Master-Slave) 구조나 펄스 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Pulse-Triggered) 구조를 사용해, 입력 D가 클럭 에지에서만 출력 Q로 반영되도록 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        클럭 에지에서만 데이터가 넘어가는 D 플립플롭          │
-├──────────────────────────────────────────────────────────────┤
-│ D 입력 ──▶ [Master] ──▶ [Slave] ──▶ Q 출력                  │
-│             (준비)        (에지에서 확정)                    │
-│                                                              │
-│ CLK : ___/‾‾‾\___/‾‾‾\___/‾‾‾\___                           │
-│ D   : __11____00______111_____0__                           │
-│ Q   : ____1______0______1_____0__                           │
-│                                                              │
-│ 핵심: Q는 클럭 에지 직후에만 갱신되고, 그 외 시간엔 유지된다 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 에지에서만 데이터가 넘어가는 D 플립플롭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Master</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slave</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Q 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(준비) (에지에서 확정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK : ___/‾‾‾\___/‾‾‾\___/‾‾‾\___</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D : __11____00______111_____0__</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q : ____1______0______1_____0__</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: Q는 클럭 에지 직후에만 갱신되고, 그 외 시간엔 유지된다</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -121,21 +122,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-래치 (Latch)
-    │
-    ▼
-플립플롭 (Flip-Flop)
-    │
-    ▼
-레지스터 (Register) · 카운터 (Counter)
-    │
-    ▼
-파이프라인 (Pipeline) · FSM
-    │
-    ▼
-CDC 동기화 · 스캔/유지형 플립플롭
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">래치 (Latch)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플립플롭 (Flip-Flop)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 (Register) · 카운터 (Counter)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 (Pipeline) · FSM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDC 동기화 · 스캔/유지형 플립플롭</div>
+</div>
+</div>
+
+
 
 이 흐름은 "1비트 저장"에서 시작해 "시스템 수준 시간 제어"로 확장되는 길을 보여준다.
 

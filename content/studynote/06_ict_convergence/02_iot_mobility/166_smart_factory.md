@@ -19,26 +19,25 @@ tags = ["studynote-ict"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트 팩토리 (Smart Factory)는 공장 설비에서 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하고, 이를 분석해 생산 조건과 작업 흐름을 실시간으로 조정하는 지능형 제조 시스템이다. 핵심은 기계를 많이 자동화하는 데 있지 않고, **공장 전체가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보고 같은 판단을 공유하도록 만드는 것**에 있다. 그래서 생산설비, 물류, 품질, 유지보수, 경영계획이 하나의 폐루프 (Closed Loop)로 묶인다.
+스마트 팩토리 (Smart Factory)는 공장 설비에서 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하고, 이를 분석해 생산 조건과 작업 흐름을 실시간으로 조정하는 지능형 제조 시스템이다. 핵심은 기계를 많이 자동화하는 데 있지 않고, <strong>공장 전체가 같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 보고 같은 판단을 공유하도록 만드는 것</strong>에 있다. 그래서 생산설비, 물류, 품질, 유지보수, 경영계획이 하나의 폐루프 (Closed Loop)로 묶인다.
 
 이 개념이 필요해진 배경은 제조 환경의 변화다. 시장은 과거의 소품종 대량생산보다 고객별 맞춤형 생산을 요구하고, 숙련 인력은 줄어들며, 품질 이슈가 생기면 원인 추적 속도가 곧 경쟁력이 된다. 또한 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변동과 에너지 비용 상승까지 겹치면서, 현장의 상황을 늦게 아는 공장은 불량률·납기·재고 측면에서 빠르게 뒤처질 수밖에 없다.
 
 아래 그림은 스마트 팩토리가 단순 설비 자동화가 아니라, 수요와 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해 공정을 다시 조정하는 구조임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                스마트 팩토리의 기본 가치: 보는 공장에서              │
-│                    스스로 조정하는 공장으로 전환                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Customer Demand                                                      │
-│      │                                                               │
-│      ▼                                                               │
-│ Production Plan ──▶ Shop Floor Execution ──▶ Sensor Data             │
-│      ▲                                   │                           │
-│      │                                   ▼                           │
-│ Quality / Maintenance / Energy Analysis ──▶ Feedback Control         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리의 기본 가치: 보는 공장에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스스로 조정하는 공장으로 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer Demand</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Production Plan ──▶ Shop Floor Execution ──▶ Sensor Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quality / Maintenance / Energy Analysis ──▶ Feedback Control</div></div>
+</div>
+</div>
+
+
 
 즉 스마트 팩토리는 "기계가 자동으로 움직이는 공장"이 아니라, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 공정이 지속적으로 최적화되는 공장"으로 이해하는 것이 정확하다.
 
@@ -48,7 +47,7 @@ tags = ["studynote-ict"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스마트 팩토리의 아키텍처는 보통 **현장 계층 → 제어 계층 → 운영 계층 → 경영 계층**으로 구성된다. 현장 센서가 온도, 진동, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 위치 같은 상태를 읽고, 프로그래머블 로직 컨트롤러 ([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))나 산업용 제어기가 설비를 움직인다. 그 위에서 제조 실행 시스템 ([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))이 작업지시와 공정 이력을 관리하고, 전사적 자원관리 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))가 수주·재고·원가를 연결한다.
+스마트 팩토리의 아키텍처는 보통 <strong>현장 계층 → 제어 계층 → 운영 계층 → 경영 계층</strong>으로 구성된다. 현장 센서가 온도, 진동, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 위치 같은 상태를 읽고, 프로그래머블 로직 컨트롤러 ([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/), [Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))나 산업용 제어기가 설비를 움직인다. 그 위에서 제조 실행 시스템 ([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))이 작업지시와 공정 이력을 관리하고, 전사적 자원관리 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))가 수주·재고·원가를 연결한다.
 
 | 계층 | 대표 기술 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -60,18 +59,19 @@ tags = ["studynote-ict"]
 
 핵심 원리는 `감지 → 연결 → 분석 → 제어`의 반복이다. 설비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) (Open Platform Communications Unified [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)), 프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 네트워크를 통해 엣지 또는 중앙 플랫폼으로 모인다. 여기서 AI가 불량 가능성, 설비 이상, 작업 우선순위를 분석하고, 그 결과가 다시 작업지시나 설비 파라미터 조정으로 이어진다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 스마트 팩토리의 폐루프 운영 구조                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ [센서/설비] ─▶ [PLC·SCADA] ─▶ [MES/Edge] ─▶ [AI 분석]                │
-│     ▲              │               │              │                  │
-│     │              ▼               ▼              ▼                  │
-│ [액추에이터] ◀─ [제어 명령] ◀─ [작업지시 조정] ◀─ [예측·최적화]      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간성과 의미를 맞추는 일이다. 설비 이벤트가 1초 늦게 들어오거나, 설비마다 코드 체계가 다르면 분석은 있어도 제어로 이어지지 않는다. 그래서 스마트 팩토리 구축은 단순한 대시보드 설치가 아니라, **현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화와 제어 가능한 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 설계**를 포함한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리의 폐루프 운영 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">센서/설비</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PLC·SCADA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MES/Edge</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">액추에이터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">제어 명령</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">작업지시 조정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">예측·최적화</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간성과 의미를 맞추는 일이다. 설비 이벤트가 1초 늦게 들어오거나, 설비마다 코드 체계가 다르면 분석은 있어도 제어로 이어지지 않는다. 그래서 스마트 팩토리 구축은 단순한 대시보드 설치가 아니라, <strong>현장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표준화와 제어 가능한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a> 설계</strong>를 포함한다.
 
 - **📢 섹션 요약 비유**: 스마트 팩토리는 공장 안에 관제탑을 세우는 것과 같다. 카메라만 많다고 좋은 공항이 되지 않고, 활주로·관제사·비행계획이 서로 같은 정보를 써야 안전하게 움직인다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-ict"]
 
 또한 스마트 팩토리는 다른 ICT 융합 기술과도 밀접하다. 사이버 물리 시스템 ([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), Cyber-Physical System)은 현실 설비와 디지털 제어를 묶는 제어 개념이고, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 공정을 가상 공간에 복제해 시뮬레이션하는 분석 도구다. 프라이빗 5G와 시간 민감형 네트워킹 ([TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), [Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/))은 이동 로봇과 정밀 제어 장비의 연결 품질을 높여 주고, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 분석 지연을 줄여 실시간 제어를 가능하게 한다.
 
-즉 스마트 팩토리는 특정 장비 하나의 이름이 아니라, 여러 기술을 제조 현장에 맞게 엮어 내는 통합 아키텍처다. 그래서 구축의 성패는 기술 스택이 많으냐보다, **생산성과 품질이라는 목표에 맞춰 어떤 기술을 언제 연결하느냐**에 달린다.
+즉 스마트 팩토리는 특정 장비 하나의 이름이 아니라, 여러 기술을 제조 현장에 맞게 엮어 내는 통합 아키텍처다. 그래서 구축의 성패는 기술 스택이 많으냐보다, <strong>생산성과 품질이라는 목표에 맞춰 어떤 기술을 언제 연결하느냐</strong>에 달린다.
 
 - **📢 섹션 요약 비유**: 전통적 자동화 공장이 정해진 안무만 잘 추는 무용수라면, 스마트 팩토리는 음악이 바뀌면 안무를 바로 바꿀 수 있는 팀 공연에 가깝다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-ict"]
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 없이 설비별 형식으로만 저장해 확장 시 통합이 불가능해지는 경우
 - 정보기술 중심으로만 설계해 현장 제어 안정성과 안전 규정을 놓치는 경우
 
-결국 스마트 팩토리는 정보화 사업이 아니라 제조 혁신 사업이다. 기술사 답안에서는 센서, 네트워크, AI를 나열하는 수준을 넘어서, **어떤 공정에서 어떤 의사결정을 자동화할 것인지**까지 말해야 한다.
+결국 스마트 팩토리는 정보화 사업이 아니라 제조 혁신 사업이다. 기술사 답안에서는 센서, 네트워크, AI를 나열하는 수준을 넘어서, <strong>어떤 공정에서 어떤 의사결정을 자동화할 것인지</strong>까지 말해야 한다.
 
 - **📢 섹션 요약 비유**: 스마트 팩토리 구축은 집 안에 전구를 많이 다는 일이 아니라, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·배선·생활 습관까지 함께 바꾸는 리모델링과 같다.
 
@@ -130,7 +130,7 @@ tags = ["studynote-ict"]
 
 스마트 팩토리가 잘 작동하면 생산 계획과 현장 실행의 간격이 줄어든다. 설비 상태를 미리 알고, 품질 이상을 공정 중에 잡고, 자재 흐름을 더 정확히 예측할 수 있어 납기 안정성과 원가 경쟁력이 함께 올라간다. 또한 작업 이력과 품질 이력이 연결되므로 규제 대응과 고객 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 추적도 빨라진다.
 
-하지만 모든 공정이 완전 무인화로 가는 것은 아니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자, 레거시 통합 난이도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 보안 위험, 조직의 변화 수용성 같은 전제조건이 맞지 않으면 기대효과가 제한될 수 있다. 따라서 스마트 팩토리는 "기계를 더 많이 붙이는 사업"이 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 공장 의사결정을 더 잘하게 만드는 체계**로 기억하는 것이 바람직하다.
+하지만 모든 공정이 완전 무인화로 가는 것은 아니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자, 레거시 통합 난이도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 보안 위험, 조직의 변화 수용성 같은 전제조건이 맞지 않으면 기대효과가 제한될 수 있다. 따라서 스마트 팩토리는 "기계를 더 많이 붙이는 사업"이 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 공장 의사결정을 더 잘하게 만드는 체계</strong>로 기억하는 것이 바람직하다.
 
 향후에는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 시뮬레이션, 자율 물류 로봇, 에너지 최적화, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 연계가 더 깊게 결합될 가능성이 크다. 그럼에도 중심은 변하지 않는다. 스마트 팩토리의 핵심은 기술 그 자체가 아니라, 현장을 더 빠르고 정확하게 판단하게 만드는 연결 구조다.
 
@@ -151,25 +151,26 @@ tags = ["studynote-ict"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-설비 자동화 (Factory Automation)
-    │
-    ▼
-SCADA · MES 기반 공정 가시화
-    │
-    ▼
-사물인터넷 (IoT, Internet of Things) · 엣지 데이터 수집
-    │
-    ▼
-스마트 팩토리 (Smart Factory)
-    │
-    ├─ 예지보전
-    ├─ 디지털 트윈
-    └─ CPS 기반 자율 제어
-    │
-    ▼
-자율형 제조 · 에너지 최적화 · 공급망 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">설비 자동화 (Factory Automation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SCADA · MES 기반 공정 가시화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사물인터넷 (IoT, Internet of Things) · 엣지 데이터 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스마트 팩토리 (Smart Factory)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">예지보전</div>
+<div class="kb-diagram-tree-item" style="--depth:2">디지털 트윈</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CPS 기반 자율 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자율형 제조 · 에너지 최적화 · 공급망 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 제조 혁신이 단순 자동화에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 최적화와 자율 운영으로 확장되는 방향을 보여 준다.
 

@@ -21,20 +21,24 @@ tags = ["studynote-network"]
 
 IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)의 차이입니다.
 
-- **기존 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Imperative, 명령형 방식 = How)**: 
+- <strong>기존 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (Imperative, 명령형 방식 = How)</strong>: 
   - 관리자가 목적을 이루기 위해 절차를 다 지시합니다. "1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 열고 ➜ 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 추가하고 ➜ 3번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 지워." (사람이 똑똑해야 합니다.)
-- **IBN ([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/), 선언적 방식 = What) 🌟**:
+- <strong>IBN (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/">Declarative</a>, 선언적 방식 = What) 🌟</strong>:
   - 관리자는 오직 내가 원하는 최종 목적(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 툭 던집니다. **"웹 서버랑 DB 서버 통신은 무조건 암호화(보안)해."**
   - IBN 시스템 내의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/))와 컴파일러가 이 한 줄을 찰떡같이 해석(번역)하여, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 100대의 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드를 지가 알아서 다 짠 뒤 기계에 밀어 넣습니다(자동화).
 
-```text
-[OpenFlow Flow Table]
-    │
-    ▼
-[IBN]
-    │
-    └──▶ [SDDC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDDC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,14 +52,18 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 - 관리자가 인간의 언어나 단순한 마우스 클릭(비즈니스 룰)으로 의도를 던집니다. 
 - IBN의 중앙 뇌(소프트웨어)가 이 문장을 해부하여, "이걸 이루려면 시스코 라우터 3대와 주니퍼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 2대의 어떤 세팅을 건드려야 하는가?"라는 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 AI가 번역합니다.
 
-```text
-[OpenFlow Flow Table]
-    │
-    ▼
-[IBN]
-    │
-    └──▶ [SDDC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDDC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IBN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +81,7 @@ IBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 SDN이 '최첨단 주방 기계들'이라면, 관리자는 요리사로서 "오븐은 200도로 틀고, 가스레인지는 10분간 돌리고, 얼음은 빼라(How 명령)"라고 지시해야 기계가 굴러갔습니다(명령형). **IBN([인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/))**은 아예 최고급 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇 셰프'를 고용한 것입니다. 식당 주인(관리자)은 기계 조작법을 몰라도 됩니다. 소파에 누워 "야! 오늘 VIP 손님 오니까 스테이크 부드럽게 미디엄 레어로 완벽히 구워와!(What 의도)"라고 명령(선언)만 툭 던집니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇(IBN)은 이 말을 찰떡같이 번역해 알아서 오븐과 가스레인지 온도를 조절합니다(자동 변환/배포). 게다가 고기가 타는지 1초마다 온도계로 찌르며 감시(Assurance [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하다가, 불이 너무 세면 스스로 불을 줄여(Self-Healing 자율 치유) 완벽한 미디엄 레어 상태([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 의도)를 목숨 걸고 맞춰내는 궁극의 완전 자율 요리 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 SDN이 '최첨단 주방 기계들'이라면, 관리자는 요리사로서 "오븐은 200도로 틀고, 가스레인지는 10분간 돌리고, 얼음은 빼라(How 명령)"라고 지시해야 기계가 굴러갔습니다(명령형). <strong>IBN(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/">인텐트 기반 네트워킹</a>)</strong>은 아예 최고급 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇 셰프'를 고용한 것입니다. 식당 주인(관리자)은 기계 조작법을 몰라도 됩니다. 소파에 누워 "야! 오늘 VIP 손님 오니까 스테이크 부드럽게 미디엄 레어로 완벽히 구워와!(What 의도)"라고 명령(선언)만 툭 던집니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 로봇(IBN)은 이 말을 찰떡같이 번역해 알아서 오븐과 가스레인지 온도를 조절합니다(자동 변환/배포). 게다가 고기가 타는지 1초마다 온도계로 찌르며 감시(Assurance [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하다가, 불이 너무 세면 스스로 불을 줄여(Self-Healing 자율 치유) 완벽한 미디엄 레어 상태([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 의도)를 목숨 걸고 맞춰내는 궁극의 완전 자율 요리 시스템입니다.
 
 ---
 
@@ -83,7 +91,7 @@ IBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ### 3. 지속적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 상태 인식 (Assurance & [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 🌟 핵심 🌟
 이게 기존 SDN에는 없었던 IBN만의 최고 존엄 기능입니다.
-- [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 끝낸 뒤 IBN은 잠을 자지 않습니다. 24시간 내내 핑(Ping)과 텔레메트리([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 센서)를 돌려, **"관리자님이 처음에 시킨 '암호화 보장' 의도가 지금 네트워크에 제대로 적용되어 돌아가고 있는가?"를 수학적으로 깐깐하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 증명**합니다.
+- [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 끝낸 뒤 IBN은 잠을 자지 않습니다. 24시간 내내 핑(Ping)과 텔레메트리([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 센서)를 돌려, <strong>"관리자님이 처음에 시킨 '암호화 보장' 의도가 지금 네트워크에 제대로 적용되어 돌아가고 있는가?"를 수학적으로 깐깐하게 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하고 증명</strong>합니다.
 
 ### 4. 자율 치유 피드백 (Self-Healing / Remediation)
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중에 문제가 터졌습니다! 3번 라우터가 죽어서 암호화 통신이 끊겼습니다.
@@ -118,15 +126,19 @@ IBN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OpenFlow Flow Table]
-    │
-    ▼
-[현재 개념: IBN]
-    │
-    ├──▶ [확장 A: SDDC]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OpenFlow Flow Table</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDDC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 IBN는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) Flow Table에서 출발해 현재 메커니즘을 정교화하고, 이후 SDDC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

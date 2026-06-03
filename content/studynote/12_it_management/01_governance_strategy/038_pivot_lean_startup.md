@@ -18,27 +18,28 @@ tags = ["studynote-it-management"]
 
 ## I. [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) 핵심 원칙
 
-```
-Lean Startup (Eric Ries, 2011):
 
-핵심 개념:
-  낭비 제거 (Waste Elimination):
-    만들어진 적 없는 기능에 투자 = 낭비
-    고객이 원하는 것을 먼저 검증
-  
-  검증된 학습 (Validated Learning):
-    직관이 아닌 데이터로 가설 검증
-  
-  과학적 실험:
-    가설 설정 -> 실험 설계 -> 데이터 수집 -> 결론
 
-전통적 스타트업 vs 린 스타트업:
-  전통: 계획 -> 2년 개발 -> 출시 -> 시장 반응 확인
-  린: MVP 2주 개발 -> 출시 -> 학습 -> 반복
-  
-  전통: 실패 = 손실 (2년치 투자)
-  린: 실패 = 학습 (2주 투자)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Lean Startup (Eric Ries, 2011):</div>
+<div class="kb-diagram-note">핵심 개념:</div>
+<div class="kb-diagram-note">낭비 제거 (Waste Elimination):</div>
+<div class="kb-diagram-note">만들어진 적 없는 기능에 투자 = 낭비</div>
+<div class="kb-diagram-note">고객이 원하는 것을 먼저 검증</div>
+<div class="kb-diagram-note">검증된 학습 (Validated Learning):</div>
+<div class="kb-diagram-note">직관이 아닌 데이터로 가설 검증</div>
+<div class="kb-diagram-note">과학적 실험:</div>
+<div class="kb-diagram-note">가설 설정 -&gt; 실험 설계 -&gt; 데이터 수집 -&gt; 결론</div>
+<div class="kb-diagram-note">전통적 스타트업 vs 린 스타트업:</div>
+<div class="kb-diagram-note">전통: 계획 -&gt; 2년 개발 -&gt; 출시 -&gt; 시장 반응 확인</div>
+<div class="kb-diagram-note">린: MVP 2주 개발 -&gt; 출시 -&gt; 학습 -&gt; 반복</div>
+<div class="kb-diagram-note">전통: 실패 = 손실 (2년치 투자)</div>
+<div class="kb-diagram-note">린: 실패 = 학습 (2주 투자)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 레시피 테스트처럼 한 그릇 먼저 만들어 맛보고, 재료를 조정해가며 최종 요리법 완성 — 100인분 먼저 만드는 낭비 없이.
 
@@ -46,27 +47,29 @@ Lean Startup (Eric Ries, 2011):
 
 ## II. Build-Measure-Learn 루프
 
-```
-BML 루프 (Build-Measure-Learn):
 
-[Idea]
-  -> [Build MVP]
-      최소한의 노력으로 가설 검증 가능한 버전
-      랜딩 페이지, 프로토타입, 컨시어지 MVP
-  
-  -> [Measure]
-      코호트 분석, A/B 테스트
-      Actionable Metric 측정
-      (주의: Vanity Metric 제외 - 총 가입자 수 등)
-  
-  -> [Learn]
-      가설 검증 여부 판단
-      -> 지속 (Persevere): 방향 유지
-      -> 피벗 (Pivot): 방향 전환
 
-핵심: 루프를 얼마나 빠르게 돌리느냐
-  (Cycle Time 단축 = 경쟁 우위)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BML 루프 (Build-Measure-Learn):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Idea</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Build MVP</div></div>
+<div class="kb-diagram-note">최소한의 노력으로 가설 검증 가능한 버전</div>
+<div class="kb-diagram-note">랜딩 페이지, 프로토타입, 컨시어지 MVP</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Measure</div></div>
+<div class="kb-diagram-note">코호트 분석, A/B 테스트</div>
+<div class="kb-diagram-note">Actionable Metric 측정</div>
+<div class="kb-diagram-note">(주의: Vanity Metric 제외 - 총 가입자 수 등)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Learn</div></div>
+<div class="kb-diagram-note">가설 검증 여부 판단</div>
+<div class="kb-diagram-tree-item" style="--depth:3">지속 (Persevere): 방향 유지</div>
+<div class="kb-diagram-tree-item" style="--depth:3">피벗 (Pivot): 방향 전환</div>
+<div class="kb-diagram-note">핵심: 루프를 얼마나 빠르게 돌리느냐</div>
+<div class="kb-diagram-note">(Cycle Time 단축 = 경쟁 우위)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 요리사의 시식-조정-재조리 사이클 — 완성 전까지 계속 맛보며 레시피를 수정하는 것이 BML 루프.
 
@@ -74,33 +77,29 @@ BML 루프 (Build-Measure-Learn):
 
 ## III. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 유형 10가지
 
-```
-Eric Ries의 피벗 유형:
 
-1. Zoom-in: 하나의 기능 -> 전체 제품
-   예: Instagram (Burbn에서 사진 기능만)
 
-2. Zoom-out: 전체 제품 -> 더 큰 제품의 일부
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Eric Ries의 피벗 유형:</div>
+<div class="kb-diagram-note">1. Zoom-in: 하나의 기능 -&gt; 전체 제품</div>
+<div class="kb-diagram-note">예: Instagram (Burbn에서 사진 기능만)</div>
+<div class="kb-diagram-note">2. Zoom-out: 전체 제품 -&gt; 더 큰 제품의 일부</div>
+<div class="kb-diagram-note">3. Customer Segment: 동일 제품, 다른 고객</div>
+<div class="kb-diagram-note">예: YouTube (기업용) -&gt; 소비자용</div>
+<div class="kb-diagram-note">4. Customer Need: 동일 고객, 다른 문제 해결</div>
+<div class="kb-diagram-note">예: Slack (게임 회사 내부 도구 -&gt; 업무용 메신저)</div>
+<div class="kb-diagram-note">5. Platform: 앱 -&gt; 플랫폼 (또는 반대)</div>
+<div class="kb-diagram-note">6. Business Architecture: 고마진-소량 &lt;-&gt; 저마진-대량</div>
+<div class="kb-diagram-note">7. Value Capture: 수익 모델 변경</div>
+<div class="kb-diagram-note">예: 유료 -&gt; 광고 모델</div>
+<div class="kb-diagram-note">8. Engine of Growth: 바이럴 -&gt; 유료 -&gt; 스티키</div>
+<div class="kb-diagram-note">9. Channel: 유통 채널 변경</div>
+<div class="kb-diagram-note">10. Technology: 같은 솔루션, 다른 기술 스택</div>
+</div>
+</div>
 
-3. Customer Segment: 동일 제품, 다른 고객
-   예: YouTube (기업용) -> 소비자용
 
-4. Customer Need: 동일 고객, 다른 문제 해결
-   예: Slack (게임 회사 내부 도구 -> 업무용 메신저)
-
-5. Platform: 앱 -> 플랫폼 (또는 반대)
-
-6. Business Architecture: 고마진-소량 <-> 저마진-대량
-
-7. Value Capture: 수익 모델 변경
-   예: 유료 -> 광고 모델
-
-8. Engine of Growth: 바이럴 -> 유료 -> 스티키
-
-9. Channel: 유통 채널 변경
-
-10. Technology: 같은 솔루션, 다른 기술 스택
-```
 
 > 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 볼링에서 공 방향 바꾸기 — 레인(핵심 역량)은 그대로, 핀(타겟/방법)만 바꾸는 것.
 
@@ -139,32 +138,33 @@ Runaway의 함정:
 
 ## V. 실무 시나리오 — B2B [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)
 
-```
-사례: 팀 생산성 앱 스타트업
 
-초기 가설:
-  개인 생산성 앱 -> 소비자 대상
-  목표: 100만 MAU
-  
-6개월 BML 결과:
-  DAU/MAU: 8% (기준 25%)
-  리텐션 D30: 5% (기준 15%)
-  NPS: 12 (기준 40+)
-  
-학습:
-  개인 사용자: 무료여야만 씀 (수익화 어려움)
-  팀 어드민들이 API 연동 문의 지속
-  
-피벗 결정 (Customer Segment Pivot):
-  소비자 앱 -> B2B 팀 협업 도구
-  수익 모델: 팀당 월정액
-  핵심 역량 유지: 생산성 데이터 시각화
-  
-6개월 후:
-  기업 고객 50팀 확보
-  ARR (Annual Recurring Revenue) $200K
-  NPS 52 달성
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사례: 팀 생산성 앱 스타트업</div>
+<div class="kb-diagram-note">초기 가설:</div>
+<div class="kb-diagram-note">개인 생산성 앱 -&gt; 소비자 대상</div>
+<div class="kb-diagram-note">목표: 100만 MAU</div>
+<div class="kb-diagram-note">6개월 BML 결과:</div>
+<div class="kb-diagram-note">DAU/MAU: 8% (기준 25%)</div>
+<div class="kb-diagram-note">리텐션 D30: 5% (기준 15%)</div>
+<div class="kb-diagram-note">NPS: 12 (기준 40+)</div>
+<div class="kb-diagram-note">학습:</div>
+<div class="kb-diagram-note">개인 사용자: 무료여야만 씀 (수익화 어려움)</div>
+<div class="kb-diagram-note">팀 어드민들이 API 연동 문의 지속</div>
+<div class="kb-diagram-note">피벗 결정 (Customer Segment Pivot):</div>
+<div class="kb-diagram-note">소비자 앱 -&gt; B2B 팀 협업 도구</div>
+<div class="kb-diagram-note">수익 모델: 팀당 월정액</div>
+<div class="kb-diagram-note">핵심 역량 유지: 생산성 데이터 시각화</div>
+<div class="kb-diagram-note">6개월 후:</div>
+<div class="kb-diagram-note">기업 고객 50팀 확보</div>
+<div class="kb-diagram-note">ARR (Annual Recurring Revenue) $200K</div>
+<div class="kb-diagram-note">NPS 52 달성</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 소비자 앱으로 실패했지만 기업 고객의 열렬한 반응을 발견 -> 고객 세그먼트 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) -> 수익화 성공.
 

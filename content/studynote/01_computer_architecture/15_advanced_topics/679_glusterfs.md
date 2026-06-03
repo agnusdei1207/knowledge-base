@@ -39,18 +39,19 @@ GlusterFS의 기본 단위는 브릭이다. 브릭은 보통 한 서버의 [디�
 | 클라이언트 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 인터페이스 제공 | 응용 프로그램 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보 |
 | Self-heal | 장애 후 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 다시 맞춤 | 네트워크 분리 시 충돌 관리 중요 |
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Client mount                                                            │
-│   │                                                                     │
-│   ▼                                                                     │
-│ Gluster translator stack                                                │
-│   │                                                                     │
-│   ├─ distribute -> Brick A                                              │
-│   ├─ replicate  -> Brick B                                              │
-│   └─ disperse   -> Brick C / Brick D / Brick E                          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client mount</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gluster translator stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ distribute -&gt; Brick A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ replicate -&gt; Brick B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ disperse -&gt; Brick C / Brick D / Brick E</div></div>
+</div>
+</div>
+
+
 
 GlusterFS에서 중요한 볼륨 유형은 세 가지다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 볼륨은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 나눠 배치해 용량을 늘리고, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 볼륨은 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 저장해 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-삭제 코딩 (Dispersed) 볼륨은 두 요구를 함께 만족시키려는 절충안이다. 따라서 GlusterFS는 “무조건 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템”보다 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유의 용량·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 조합을 유연하게 선택하는 플랫폼”으로 보는 편이 맞다.
 
@@ -84,7 +85,7 @@ GlusterFS는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_
    - 큰 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 팀이 공유해야 할 때 적합하다.
    - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 크고 순차 읽기가 많을수록 GlusterFS의 장점이 잘 드러난다.
 
-2. **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 저장소**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 저장소</strong>
    - 여러 서버의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 큰 볼륨으로 수집하기 쉽다.
    - [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-삭제 코딩 구성으로 용량과 안전성의 균형을 잡을 수 있다.
 
@@ -114,7 +115,7 @@ GlusterFS는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_
 
 GlusterFS의 장점은 명확하다. 범용 서버를 붙여 용량을 키우기 쉽고, 사용자에게는 하나의 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공간처럼 보이며, 대형 미디어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·일반 협업 자료를 비교적 친숙한 방식으로 저장할 수 있다. 즉, 전통적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 환경을 크게 깨지 않으면서 수평 확장을 실현하는 데 좋은 도구다.
 
-반면 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 문제가 GlusterFS로 풀리지는 않는다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 매우 많거나, 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 랜덤 입출력이 필요하거나, 블록·객체 저장까지 함께 통합해야 하면 다른 기술이 더 낫다. 따라서 GlusterFS는 **“가장 범용적인 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소”가 아니라 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 중심의 단순한 스케일아웃 스토리지”**로 기억해야 한다.
+반면 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 문제가 GlusterFS로 풀리지는 않는다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 매우 많거나, 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 랜덤 입출력이 필요하거나, 블록·객체 저장까지 함께 통합해야 하면 다른 기술이 더 낫다. 따라서 GlusterFS는 <strong>“가장 범용적인 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장소”가 아니라 “<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 공유 중심의 단순한 스케일아웃 스토리지”</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: GlusterFS는 고급 만능 멀티툴보다, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 나눠 보관하기에 딱 좋은 튼튼한 공구함에 가깝다. 할 일에 맞으면 매우 편하지만, 모든 일을 한 번에 해결해 주지는 않는다.
 
@@ -133,21 +134,23 @@ GlusterFS의 장점은 명확하다. 범용 서버를 붙여 용량을 키우기
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 NAS (Network Attached Storage) 확장 한계
-        │
-        ▼
-브릭 기반 스케일아웃 파일 공유
-        │
-        ▼
-GlusterFS 분산 / 복제 볼륨
-        │
-        ▼
-분산-복제 / 분산-삭제 코딩 기반 고가용성 파일 저장
-        │
-        ▼
-온프레미스 / 엣지 환경의 단순한 공유 스토리지 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 NAS (Network Attached Storage) 확장 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브릭 기반 스케일아웃 파일 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GlusterFS 분산 / 복제 볼륨</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산-복제 / 분산-삭제 코딩 기반 고가용성 파일 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온프레미스 / 엣지 환경의 단순한 공유 스토리지 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 스토리지가 더 큰 단일 장비를 사는 방향보다, 여러 노드를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 묶는 방향으로 발전했음을 보여준다.
 

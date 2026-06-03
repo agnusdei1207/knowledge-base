@@ -17,29 +17,27 @@ tags = ["cloud_architecture"]
 
 ### 데이터의 바다를 다스리는 클라우드의 힘
 
-온프레미스 환경에서 수백 테라바이트의 데이터를 처리하려면 막대한 서버 비용과 관리 인력이 필요했다. **클라우드 데이터 엔지니어링**은 이러한 인프라의 제약을 사라지게 만들었다. 이제 데이터 엔지니어는 하드웨어 장애를 걱정하는 대신, "어떻게 하면 데이터를 더 가치 있게 가공할 것인가"라는 본질적인 문제에 집중할 수 있게 되었다.
+온프레미스 환경에서 수백 테라바이트의 데이터를 처리하려면 막대한 서버 비용과 관리 인력이 필요했다. <strong>클라우드 데이터 엔지니어링</strong>은 이러한 인프라의 제약을 사라지게 만들었다. 이제 데이터 엔지니어는 하드웨어 장애를 걱정하는 대신, "어떻게 하면 데이터를 더 가치 있게 가공할 것인가"라는 본질적인 문제에 집중할 수 있게 되었다.
 
-클라우드 기반 데이터 공학이 필요한 이유는 세 가지이다. 첫째, **무한한 확장성**을 위해서이다. 데이터가 10배 늘어나도 서버 설정 클릭 몇 번으로 대응이 가능하다. 둘째, **데이터 가용성 및 내구성**을 위해서이며 (S3의 99.999999999% 내구성), 셋째, **실시간 인사이트 도출**을 위해 서버리스 분석 엔진을 즉시 가동하기 위함이다.
+클라우드 기반 데이터 공학이 필요한 이유는 세 가지이다. 첫째, <strong>무한한 확장성</strong>을 위해서이다. 데이터가 10배 늘어나도 서버 설정 클릭 몇 번으로 대응이 가능하다. 둘째, <strong>데이터 가용성 및 내구성</strong>을 위해서이며 (S3의 99.999999999% 내구성), 셋째, <strong>실시간 인사이트 도출</strong>을 위해 서버리스 분석 엔진을 즉시 가동하기 위함이다.
 
-이 그림은 클라우드 상에서 데이터가 흐르는 표준 파이프라인인 **ELT 아키텍처**를 보여준다.
+이 그림은 클라우드 상에서 데이터가 흐르는 표준 파이프라인인 <strong>ELT 아키텍처</strong>를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Cloud Data Pipeline (ELT Flow)              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Sources ] ──▶ [ Ingestion ] ──▶ [ Data Lake ] ──┐       │
-│   (Logs, DB)      (Kinesis/Glue)    (S3 / GCS)      │       │
-│                                              │      │       │
-│          ┌───────────────────────────────────┘      │       │
-│          ▼ (Transform via SQL)                      ▼       │
-│   [ Data Warehouse ] ──────▶ [ BI / Dashboard / ML ]        │
-│   (BigQuery/Snowflake)       (Tableau / Vertex AI)          │
-│                                                             │
-│   * 핵심: 데이터를 먼저 담고(Load), 나중에 가공(Transform)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Data Pipeline (ELT Flow)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sources</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingestion</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Lake</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Logs, DB) (Kinesis/Glue) (S3 / GCS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Transform via SQL) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI / Dashboard / ML</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BigQuery/Snowflake) (Tableau / Vertex AI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 데이터를 먼저 담고(Load), 나중에 가공(Transform)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'ELT (Extract-Load-Transform)'로의 패러다임 전환이다. 클라우드 DW의 연산력이 워낙 강력해졌기 때문에, 외부에서 힘들게 요리해 가져오기보다 재료를 통째로 창고(Load)에 넣고 창고 안에서 요리(Transform)하는 것이 훨씬 빠르고 유연하다. 실무에서는 이 과정을 자동화하는 **dbt (data build tool)** 등이 핵심 기술로 쓰인다.
 
@@ -59,7 +57,7 @@ tags = ["cloud_architecture"]
 ### 데이터 레이크하우스 (Data Lakehouse)의 부상
 
 데이터 레이크의 저렴한 비용과 데이터 웨어하우스의 성능/트랜잭션을 결합한 차세대 아키텍처이다.
-- **원리**: S3 같은 객체 스토리지 위에 **Apache Iceberg**, **Delta Lake**와 같은 메타데이터 레이어를 추가.
+- **원리**: S3 같은 객체 스토리지 위에 **Apache Iceberg**, <strong>Delta Lake</strong>와 같은 메타데이터 레이어를 추가.
 - **효과**: "파일" 단위 관리를 넘어 "테이블" 단위의 트랜잭션 (ACID)과 타임 트래블 (과거 데이터 조회)이 가능해짐.
 
 ### 클라우드 데이터 비용 최적화 (FinOps)
@@ -71,23 +69,20 @@ tags = ["cloud_architecture"]
 
 이 구조도는 **서버리스 데이터 분석** 아키텍처의 유연성을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Serverless Data Analytics Stack             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Raw JSON Files ] ──▶ [ AWS Glue (Crawler) ] ──┐         │
-│          (S3)                   │ (Schema)        │         │
-│                                 ▼                 │         │
-│   [ SQL Query ] ──▶ [ Amazon Athena (Engine) ] ◀──┘         │
-│          │                      │                           │
-│          ▼                      ▼                           │
-│   [ QuickSight ] ◀── [ Cleaned Table in S3 ]                │
-│                                                             │
-│   * 특징: 서버를 한 대도 띄우지 않고 SQL로 페타바이트 분석  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless Data Analytics Stack</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Raw JSON Files</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AWS Glue (Crawler)</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3)</div><div class="kb-diagram-cell">(Schema)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL Query</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Amazon Athena (Engine)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QuickSight</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Cleaned Table in S3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 서버를 한 대도 띄우지 않고 SQL로 페타바이트 분석</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'On-demand 연산'이다. 분석할 때만 자원을 쓰고 끝나면 비용이 나가지 않는다. 실무에서는 이 구조를 통해 인프라 유지 비용을 70% 이상 절감하면서도 강력한 분석 능력을 보유할 수 있다.
 
@@ -122,29 +117,27 @@ tags = ["cloud_architecture"]
 ### 기술사적 판단: 전사 데이터 거버넌스 및 파이프라인 현대화 전략
 
 **시나리오 1: 여러 부서의 데이터가 파편화되어 전사 지표 통합이 불가능한 상황**
-- **판단**: 각 부서의 DB를 억지로 하나로 합치려 하지 않는다. **데이터 메시 (Data Mesh)** 아키텍처를 도입한다. 각 부서는 자신의 데이터를 '제품 (Data as a Product)'으로 정의하고 공유할 의무를 갖는다. 기술적으로는 중앙에 **데이터 카탈로그**를 구축하여 전사 데이터의 계보 (Lineage)와 의미를 통합 관리하고, 부서 간 데이터 이동은 표준화된 **API 및 가상화** 기술로 해결한다.
+- **판단**: 각 부서의 DB를 억지로 하나로 합치려 하지 않는다. **데이터 메시 (Data Mesh)** 아키텍처를 도입한다. 각 부서는 자신의 데이터를 '제품 (Data as a Product)'으로 정의하고 공유할 의무를 갖는다. 기술적으로는 중앙에 <strong>데이터 카탈로그</strong>를 구축하여 전사 데이터의 계보 (Lineage)와 의미를 통합 관리하고, 부서 간 데이터 이동은 표준화된 **API 및 가상화** 기술로 해결한다.
 
 **시나리오 2: 클라우드 분석 쿼리 비용이 예산을 초과하여 폭증하는 경우**
-- **판단**: 쿼리 최적화보다 **'데이터 레이아웃'**을 먼저 점검한다. 전체 테이블을 풀 스캔하지 않도록 날짜별 **Partitioning**이 적용되었는지 확인한다. 또한 텍스트 기반인 CSV/JSON을 **Parquet/ORC**와 같은 압축 컬럼 포맷으로 전환하도록 파이프라인을 수정한다. 잦은 집계 쿼리에 대해서는 **Materialized View**를 활용하여 연산 결과를 재사용함으로써 쿼리당 비용을 1/100로 낮추는 전략을 취한다.
+- **판단**: 쿼리 최적화보다 <strong>'데이터 레이아웃'</strong>을 먼저 점검한다. 전체 테이블을 풀 스캔하지 않도록 날짜별 <strong>Partitioning</strong>이 적용되었는지 확인한다. 또한 텍스트 기반인 CSV/JSON을 <strong>Parquet/ORC</strong>와 같은 압축 컬럼 포맷으로 전환하도록 파이프라인을 수정한다. 잦은 집계 쿼리에 대해서는 <strong>Materialized View</strong>를 활용하여 연산 결과를 재사용함으로써 쿼리당 비용을 1/100로 낮추는 전략을 취한다.
 
 이 도식은 기술사가 설계하는 '데이터 품질 보증 (Data QA) 자동화' 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Data Quality Gate in Pipeline                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Raw Data ] ──▶ [ Validation: Not Null? ] ──┐            │
-│                            │                   │            │
-│          ┌─────────────────┴───────────────────┴────┐        │
-│          ▼ (Fail: Quarantine)                      ▼ (Pass) │
-│   [ Alert & Manual Fix ] ◀── [ Statistical Check ] ──▶ [ Load ]│
-│                                (Min/Max/Mean)               │
-│                                                             │
-│   * 핵심: 오염된 데이터가 레이크로 유입되는 것을 원천 차단  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Quality Gate in Pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Validation: Not Null?</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Fail: Quarantine) ▼ (Pass)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Alert &amp; Manual Fix</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Statistical Check</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Min/Max/Mean)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 오염된 데이터가 레이크로 유입되는 것을 원천 차단</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 데이터 판단은 '물류 센터의 소장'과 같습니다. 쏟아지는 택배(데이터)를 무작정 쌓아두는 게 아니라, 송장(메타데이터)을 정확히 붙이고, 깨진 물건(오류 데이터)은 검수대에서 걸러내며, 배송 트럭(분석 엔진)의 연료(비용)를 아끼는 최적의 시스템을 운영합니다.
 
@@ -159,7 +152,7 @@ tags = ["cloud_architecture"]
 
 ### 미래 전망: 자율형 데이터 패브릭 (Data Fabric)
 
-미래의 데이터 엔지니어링은 사람이 파이프라인을 그리지 않는 **'데이터 패브릭'** 시대로 진화할 것이다. AI가 데이터의 성격을 스스로 분석하여 최적의 저장 위치와 형식을 결정하고, 깨진 데이터를 스스로 복구하는 **자가 치유 (Self-healing) 파이프라인**이 표준이 될 것이다. 기술사는 개별 솔루션의 전문가를 넘어, 데이터가 기업의 지능이 되어 흐르는 '데이터 혈류 아키텍트'로서의 전문성을 완성해야 한다.
+미래의 데이터 엔지니어링은 사람이 파이프라인을 그리지 않는 **'데이터 패브릭'** 시대로 진화할 것이다. AI가 데이터의 성격을 스스로 분석하여 최적의 저장 위치와 형식을 결정하고, 깨진 데이터를 스스로 복구하는 <strong>자가 치유 (Self-healing) 파이프라인</strong>이 표준이 될 것이다. 기술사는 개별 솔루션의 전문가를 넘어, 데이터가 기업의 지능이 되어 흐르는 '데이터 혈류 아키텍트'로서의 전문성을 완성해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 데이터 엔지니어링은 '보이지 않는 자동 정수기'와 같아질 것입니다. 우리가 목마르다고 느끼기도 전에, 시스템이 가장 깨끗하고 맛있는 물(데이터)을 우리 컵(분석 도구)에 채워두는 완벽한 지능형 인프라가 실현될 것입니다.
 

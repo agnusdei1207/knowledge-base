@@ -38,23 +38,24 @@ ERC-4337 (Ethereum Request for Comments 4337)은 [프로토콜](/knowledge-base/
 | Paymaster | [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 대신 부담하거나 보조하는 주체 | 스폰서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 악용 방지 |
 | [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) Wallet | 계정 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 수행하는 지갑 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/), 역할 기반 권한 |
 
-```text
-사용자 의도
-   │
-   ▼
-UserOperation
-   │
-   ▼
-Bundler ──────────────┐
-   │                  │ 여러 요청을 묶어 전송
-   ▼                  │
-EntryPoint ───► 검증 ─┤
-   │                  │
-   ├──► Paymaster ────┘
-   │
-   ▼
-Smart Contract Wallet ──► execute()
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 의도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UserOperation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bundler</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 요청을 묶어 전송</div></div>
+<div class="kb-diagram-note">EntryPoint ► 검증 ─</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Paymaster</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Smart Contract Wallet ──► execute()</div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 지갑이 서명을 확인하는 것에 그치지 않고, 누구에게 비용을 맡길지와 어떤 조건에서 실행할지까지 판단한다는 것이다.
 

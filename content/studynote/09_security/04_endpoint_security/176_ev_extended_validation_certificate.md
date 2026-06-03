@@ -25,20 +25,22 @@ tags = ["studynote-security"]
 
 아래 그림은 일반 HTTPS가 답하는 질문과 EV가 추가로 보강하는 질문을 구분해 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ What HTTPS proves, and what EV adds                                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Valid TLS certificate                                               │
-│   ├─ Is traffic encrypted in transit?             -> yes            │
-│   ├─ Does the server control the domain/key?      -> yes            │
-│   └─ Which legal organization runs the site?      -> not always     │
-│                                                                      │
-│ EV certificate                                                       │
-│   ├─ Uses the same TLS handshake and ciphers        -> same crypto  │
-│   └─ Adds stricter verified organization identity   -> more trust   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What HTTPS proves, and what EV adds</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Valid TLS certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Is traffic encrypted in transit? -&gt; yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Does the server control the domain/key? -&gt; yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Which legal organization runs the site? -&gt; not always</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Uses the same TLS handshake and ciphers -&gt; same crypto</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Adds stricter verified organization identity -&gt; more trust</div></div>
+</div>
+</div>
+
+
 
 즉 EV의 필요성은 "더 센 암호"가 아니라 "더 분명한 운영 주체"에 있다. 기술적으로는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결이지만, 운영·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 관점에서는 디지털 신원 보증 문서에 더 가깝다.
 
@@ -48,7 +50,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EV의 핵심은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 **발급 절차의 깊이**다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/Browser Forum ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/B Forum)이 정한 가이드라인에 따라, 발급 기관은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권뿐 아니라 조직의 법적 존재, 영업 지속성, 주소·전화 등 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능 정보, 신청자의 권한을 단계적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그래서 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 발급 시간이 더 길고, 문서·콜백·대조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 포함된다.
+EV의 핵심은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 <strong>발급 절차의 깊이</strong>다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/Browser Forum ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/B Forum)이 정한 가이드라인에 따라, 발급 기관은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권뿐 아니라 조직의 법적 존재, 영업 지속성, 주소·전화 등 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능 정보, 신청자의 권한을 단계적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그래서 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 발급 시간이 더 길고, 문서·콜백·대조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 포함된다.
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 항목 | EV에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 내용 | 의미 |
 | :--- | :--- | :--- |
@@ -60,22 +62,23 @@ EV의 핵심은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_sta
 
 아래 그림은 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 발급 파이프라인을 보여 준다. 중요한 점은 마지막에 나오는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 자체는 DV나 [OV](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/) ([Organization Validation](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/))와 동일하다는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ EV issuance workflow                                                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Applicant -> CSR (Certificate Signing Request)                       │
-│      │                                                               │
-│      ├─ Domain control validation                                    │
-│      ├─ Legal entity existence / good standing check                 │
-│      ├─ Operational presence / address / phone verification          │
-│      ├─ Verified callback for authorized requester                   │
-│      ▼                                                               │
-│ CA issues EV certificate                                             │
-│      ├─ organization fields + policy OID                             │
-│      └─ same TLS handshake / cipher negotiation as other cert types  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV issuance workflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant -&gt; CSR (Certificate Signing Request)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Domain control validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Legal entity existence / good standing check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Operational presence / address / phone verification</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Verified callback for authorized requester</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA issues EV certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ organization fields + policy OID</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ same TLS handshake / cipher negotiation as other cert types</div></div>
+</div>
+</div>
+
+
 
 따라서 EV는 "수학적으로 더 강한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서"가 아니다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 키 길이, [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy 같은 암호 강도 요소는 별도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제다. EV는 발급 시점의 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 레벨을 높인 것이다.
 
@@ -100,7 +103,7 @@ EV를 이해하려면 [DV](/knowledge-base/studynote/09_security/04_endpoint_sec
 
 여기서 중요한 연결점은 EV가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)을 "근본적으로 제거"하지 못한다는 사실이다. 공격자는 여전히 유사 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 [DV](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 붙일 수 있고, 사용자는 브라우저 UI만 보고 조직명을 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않을 수 있다. 따라서 실제 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 대응은 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 하나로 끝나지 않으며, 브랜드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 유사 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 감시, [DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/) ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-based Message [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), Reporting, and Conformance), 사용자 교육 같은 다층 방어가 필요하다.
 
-또한 EV는 와일드카드 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Subject Alternative Name](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/))처럼 "어떤 이름 범위를 한 장으로 다룰 것인가"의 문제와도 다르다. EV는 이름 범위가 아니라 **조직 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 깊이**를 다루는 축이다.
+또한 EV는 와일드카드 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) ([Subject Alternative Name](/knowledge-base/studynote/09_security/04_endpoint_security/174_san_subject_alternative_name/))처럼 "어떤 이름 범위를 한 장으로 다룰 것인가"의 문제와도 다르다. EV는 이름 범위가 아니라 <strong>조직 신원 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>의 깊이</strong>를 다루는 축이다.
 
 - **📢 섹션 요약 비유**: [DV](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)·[OV](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/)·EV의 차이는 문을 여는 열쇠 차이가 아니라, 건물 관리실이 입주자를 얼마나 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했느냐의 차이라고 보면 된다.
 
@@ -132,7 +135,7 @@ EV를 이해하려면 [DV](/knowledge-base/studynote/09_security/04_endpoint_sec
 - EV만 있으면 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 방어가 끝났다고 보는 오해
 - 조직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 엄격하게 하면서도 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명 관리는 느슨하게 두는 운영
 
-기술사 답안에서는 **"EV는 더 강한 TLS가 아니라 더 강한 조직 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이며, 브라우저 UI 약화 이후에는 규제·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·고신뢰 거래에서의 실체 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 수단으로 이해해야 한다"**라고 정리하면 실무 판단력이 드러난다.
+기술사 답안에서는 <strong>"EV는 더 강한 TLS가 아니라 더 강한 조직 신원 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>이며, 브라우저 UI 약화 이후에는 규제·<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>·고신뢰 거래에서의 실체 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 수단으로 이해해야 한다"</strong>라고 정리하면 실무 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: EV는 화려한 간판 장식이 아니라, 계약 상대방이 진짜 회사인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 사업자등록과 대표 승인까지 챙겨 보는 거래처 실사와 같다.
 
@@ -142,7 +145,7 @@ EV를 이해하려면 [DV](/knowledge-base/studynote/09_security/04_endpoint_sec
 
 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 공개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 법적 실체를 덧붙여, 조직 신원에 대한 신뢰도를 높인다. 그 결과 민감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 검토, 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 대외 설명 책임 측면의 품질을 끌어올릴 수 있다. 특히 "누가 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 운영하는가"가 중요한 업무에서는 단순 암호화보다 한 단계 더 나아간 의미를 가진다.
 
-다만 EV는 더 이상 모든 사용자에게 강하게 보이는 보안 배지가 아니다. 현대 브라우저 환경에서는 비용 대비 체감 효과가 줄었고, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 방어도 별도 통제가 없으면 충분하지 않다. 따라서 EV를 기억할 때는 "최고급 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)"가 아니라 **"조직 실체를 더 엄격히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 신원형 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서"**로 이해하는 것이 정확하다.
+다만 EV는 더 이상 모든 사용자에게 강하게 보이는 보안 배지가 아니다. 현대 브라우저 환경에서는 비용 대비 체감 효과가 줄었고, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 방어도 별도 통제가 없으면 충분하지 않다. 따라서 EV를 기억할 때는 "최고급 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)"가 아니라 <strong>"조직 실체를 더 엄격히 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>한 신원형 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서"</strong>로 이해하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: EV는 튼튼한 자물쇠를 하나 더 다는 일이 아니라, 그 자물쇠가 붙은 건물이 누구 소유인지 공적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 두는 등기 문서에 가깝다.
 
@@ -161,31 +164,30 @@ EV를 이해하려면 [DV](/knowledge-base/studynote/09_security/04_endpoint_sec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-평문 HTTP 시대
-    │
-    ▼
-HTTPS 보급 확대
-    │
-    ▼
-DV (Domain Validation) 중심 자동화
-    │
-    ▼
-조직 신원 확인 요구
-    │
-    ▼
-OV / EV (Extended Validation)
-    │
-    ├─ 법적 실체 검증
-    ├─ 정책 OID / 감사 추적
-    └─ 고신뢰 거래 용도
-    │
-    ▼
-브라우저 EV UI 축소
-    │
-    ▼
-인증서 + 브랜드 보호 + 피싱 대응의 다층 방어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">평문 HTTP 시대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTTPS 보급 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DV (Domain Validation) 중심 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조직 신원 확인 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OV / EV (Extended Validation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">법적 실체 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정책 OID / 감사 추적</div>
+<div class="kb-diagram-tree-item" style="--depth:2">고신뢰 거래 용도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브라우저 EV UI 축소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증서 + 브랜드 보호 + 피싱 대응의 다층 방어</div>
+</div>
+</div>
+
+
 
 이 흐름은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 생태계가 "암호화 보급"에서 출발해, 조직 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 그 한계를 반영한 다층 방어 체계로 발전하는 과정을 보여 준다.
 

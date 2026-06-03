@@ -18,18 +18,19 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│          OS 커널 아키텍처 비교                               │
-├────────────────────────┬───────────────────────────────────┤
-│ 전통 모놀리식/마이크로  │         엑소커널                  │
-├────────────────────────┼───────────────────────────────────┤
-│ HW 추상화 통일 (VFS,   │ HW 안전 다중화만 담당             │
-│ 가상 메모리, TCP/IP)   │ 추상화 = LibOS에 위임             │
-│                        │                                   │
-│ 모든 앱이 같은 추상화  │ 앱별 맞춤형 LibOS 구현 가능       │
-└────────────────────────┴───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널 아키텍처 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 모놀리식/마이크로</div><div class="kb-diagram-cell">엑소커널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HW 추상화 통일 (VFS,</div><div class="kb-diagram-cell">HW 안전 다중화만 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리, TCP/IP)</div><div class="kb-diagram-cell">추상화 = LibOS에 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 앱이 같은 추상화</div><div class="kb-diagram-cell">앱별 맞춤형 LibOS 구현 가능</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전통 OS는 요리사(OS)가 모든 식재료(HW)를 미리 손질해서 제공하는 레스토랑이고, 엑소커널은 신선한 식재료(HW)를 직접 제공하고 요리(LibOS)는 고객(앱)이 직접 하는 자연식품 가게다.
 
@@ -71,7 +72,7 @@ tags = ["studynote-operating-system"]
 
 | 항목 | 모놀리식 | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) | 엑소커널 |
 |:---|:---|:---|:---|
-| **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 위치** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | LibOS (유저 공간) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 위치</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | LibOS (유저 공간) |
 | **HW 제어** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전담 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전담 | 앱이 직접 |
 | **유연성** | 낮음 | 중간 | 높음 |
 | **보안 복잡성** | 낮음 | 중간 | 높음 |
@@ -100,7 +101,7 @@ tags = ["studynote-operating-system"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 제거 → 최대 HW [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 불필요한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 제거 → 최대 HW [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **유연성** | 앱별 맞춤 LibOS 구현 가능 |
 | **연구 영향** | [Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/), [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/), MicroVM 설계에 영향 |
 
@@ -115,28 +116,30 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **LibOS** | 엑소커널에서 앱 레벨 OS 기능 구현 |
-| **[Unikernel](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)** | 엑소커널 철학의 현대적 구현 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/">Unikernel</a></strong> | 엑소커널 철학의 현대적 구현 |
 | **Firecracker** | AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/Fargate의 경량 VMM |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장을 유저 코드로 구현 |
-| **[마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리의 중간 단계 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장을 유저 코드로 구현 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">마이크로커널</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리의 중간 단계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모놀리식 커널 — 통합 추상화, 고성능·고결합]
-    │
-    ▼
-[엑소커널 — 추상화 최소화, LibOS에 위임 (MIT, 1994)]
-    │
-    ▼
-[Unikernel — 단일 앱 전용 경량 OS 이미지]
-    │
-    ▼
-[MicroVM (Firecracker) — 경량 VM으로 기능별 격리]
-    │
-    ▼
-[eBPF — 커널 수준 확장을 유저 코드로 안전 실행]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 커널 — 통합 추상화, 고성능·고결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엑소커널 — 추상화 최소화, LibOS에 위임 (MIT, 1994)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unikernel — 단일 앱 전용 경량 OS 이미지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MicroVM (Firecracker) — 경량 VM으로 기능별 격리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF — 커널 수준 확장을 유저 코드로 안전 실행</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

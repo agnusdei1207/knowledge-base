@@ -25,20 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 파이프라인 깊이가 왜 필요한지, 그리고 왜 무한히 늘릴 수 없는지를 함께 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             같은 연산량을 어떻게 나누느냐가 클럭 한계를 바꾼다            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 얕은 분할                                                                   │
-│ [ 인출 + 해독 + 실행 ] ────────────── 긴 조합 논리 ──────────────▶ 늦은 클럭     │
-│                                                                            │
-│ 적절한 분할                                                                 │
-│ [ 인출 ] ─▶ [ 해독 ] ─▶ [ 실행 ] ─▶ [ 메모리 ] ─▶ [ 기록 ] ─────────▶ 빠른 클럭       │
-│                                                                            │
-│ 과도한 분할                                                                 │
-│ [세][분][화][된][단][계] ... ────────────────▶ 경계 오버헤드 증가    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 연산량을 어떻게 나누느냐가 클럭 한계를 바꾼다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얕은 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인출 + 해독 + 실행</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">늦은 클럭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적절한 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인출</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해독</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실행</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기록</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">빠른 클럭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과도한 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세</div><div class="kb-diagram-node">분</div><div class="kb-diagram-node">화</div><div class="kb-diagram-node">된</div><div class="kb-diagram-node">단</div><div class="kb-diagram-node">계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">경계 오버헤드 증가</div></div>
+</div>
+</div>
+
+
 
 핵심은 파이프라인 깊이가 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)를 줄이기 위한 수단이지, 그 자체가 목적은 아니라는 점이다. 설계자는 “어디까지 나누면 이득이고, 어디부터는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·스큐·분기 손실이 더 커지는가”를 함께 계산해야 한다.
 
@@ -48,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-파이프라인 깊이는 보통 **단계당 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**과 **단계 경계 오버헤드**의 합으로 이해한다. 전체 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 \(T_{logic}\), 단계 수를 \(N\), 단계 사이 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드를 \(T_{reg}\)라고 하면, 단순화한 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 모델은 아래처럼 볼 수 있다.
+파이프라인 깊이는 보통 <strong>단계당 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>과 <strong>단계 경계 오버헤드</strong>의 합으로 이해한다. 전체 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 \(T_{logic}\), 단계 수를 \(N\), 단계 사이 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드를 \(T_{reg}\)라고 하면, 단순화한 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 모델은 아래처럼 볼 수 있다.
 
 \[
 T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
@@ -66,21 +67,22 @@ T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
 
 아래 그림은 “깊이를 늘릴수록 주파수는 좋아질 수 있지만, 잘못 예측했을 때 버려야 할 단계 수 역시 함께 늘어난다”는 구조를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   깊이 증가의 이익과 비용은 동시에 커진다                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 얕은 파이프라인                                                            │
-│ [인출]─[해독]─[실행]─[메모리]─[기록]                                                  │
-│   └──────── 분기 실패 시 대략 3~5단계 정리 ────────┘                       │
-│                                                                            │
-│ 깊은 파이프라인                                                            │
-│ [인1][인2][해1][해2][재명][발행][실1][실2][메1][메2][기록]                  │
-│   └────────────── 분기 실패 시 더 많은 단계 플러시 필요 ──────────────┘     │
-│                                                                            │
-│ 결과: 주파수 상승 가능  ↔  회복 비용 증가                                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깊이 증가의 이익과 비용은 동시에 커진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얕은 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인출</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">해독</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">실행</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">메모리</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 실패 시 대략 3~5단계 정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깊은 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인1</div><div class="kb-diagram-node">인2</div><div class="kb-diagram-node">해1</div><div class="kb-diagram-node">해2</div><div class="kb-diagram-node">재명</div><div class="kb-diagram-node">발행</div><div class="kb-diagram-node">실1</div><div class="kb-diagram-node">실2</div><div class="kb-diagram-node">메1</div><div class="kb-diagram-node">메2</div><div class="kb-diagram-node">기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 실패 시 더 많은 단계 플러시 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 주파수 상승 가능 ↔ 회복 비용 증가</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 병목은 세 가지다. 첫째, 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 자체의 셋업 시간 (Setup Time), 홀드 시간 (Hold Time), 클럭 스큐 ([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/)) 마진이 깊이를 무한정 늘리지 못하게 한다. 둘째, 단계 수가 많아질수록 [데이터 포워딩](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/) 경로가 복잡해져 배선과 전력 부담이 커진다. 셋째, 분기 결과가 늦게 확정될수록 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 많이 폐기해야 한다.
 
@@ -116,7 +118,7 @@ T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
 
 1. **임계 경로가 실제로 분할 가능한가?** 단계를 늘려도 배선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 지배적이면 기대한 만큼 주파수가 오르지 않는다.
 2. **분기 실패 패널티를 감당할 예측기가 있는가?** 깊은 구조는 예측 실패 1회 비용이 크므로 예측기 품질이 설계 성패를 좌우한다.
-3. **포워딩·예외·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직이 과도하게 비대해지지 않는가?** 깊이를 늘릴수록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도와 전력 비용도 함께 증가한다.
+3. <strong>포워딩·예외·<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 로직이 과도하게 비대해지지 않는가?</strong> 깊이를 늘릴수록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도와 전력 비용도 함께 증가한다.
 4. **목표 워크로드가 무엇인가?** 순차 계산 위주인지, 분기 많은 일반 애플리케이션인지에 따라 최적 깊이는 달라진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -126,7 +128,7 @@ T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
 - [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 수준은 그대로 둔 채 플러시 비용만 키우는 설계
 - 높은 깊이를 택해 놓고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·예외 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 예산을 충분히 확보하지 않는 설계
 
-기술사 관점에서 기억할 문장은 간단하다. **깊은 파이프라인은 좋은 예측과 넓은 보조 구조가 있을 때만 이득**이며, 그렇지 않으면 고클럭 수치가 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어지지 않는다. 따라서 깊이는 독립 변수라기보다, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)·포워딩·[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)과 묶여 평가해야 하는 시스템 변수다.
+기술사 관점에서 기억할 문장은 간단하다. <strong>깊은 파이프라인은 좋은 예측과 넓은 보조 구조가 있을 때만 이득</strong>이며, 그렇지 않으면 고클럭 수치가 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어지지 않는다. 따라서 깊이는 독립 변수라기보다, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)·포워딩·[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)과 묶여 평가해야 하는 시스템 변수다.
 
 - **📢 섹션 요약 비유**: 더 빠른 컨베이어벨트를 설치하는 것만으로 공장이 빨라지지는 않는다. 불량품을 빨리 골라낼 검사기와 막힌 물건을 우회시킬 동선이 같이 있어야 진짜 생산성이 올라간다.
 
@@ -138,7 +140,7 @@ T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
 
 하지만 한계도 분명하다. 깊이를 늘린다고 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 사라지는 것은 아니고, 전력과 발열 문제도 자동으로 해결되지 않는다. 오히려 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))이 큰 환경에서는 고클럭보다 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 예측 품질, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 능력이 더 큰 차이를 만들 수 있다.
 
-결론적으로 파이프라인 깊이는 "단계를 많이 만든 정도"가 아니라, **주파수 이익과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 비용 사이의 균형 설계**로 기억해야 한다. 현대 CPU가 택하는 방향은 무한히 깊어지는 구조가 아니라, 적정 깊이 위에 더 똑똑한 예측과 더 넓은 실행 자원을 얹는 방향이다.
+결론적으로 파이프라인 깊이는 "단계를 많이 만든 정도"가 아니라, <strong>주파수 이익과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 비용 사이의 균형 설계</strong>로 기억해야 한다. 현대 CPU가 택하는 방향은 무한히 깊어지는 구조가 아니라, 적정 깊이 위에 더 똑똑한 예측과 더 넓은 실행 자원을 얹는 방향이다.
 
 - **📢 섹션 요약 비유**: 좋은 팀은 무조건 사람을 많이 세분화하지 않는다. 일을 가장 빨리 끝내는 지점까지는 역할을 나누되, 그다음부터는 회의와 인수인계가 더 커지기 전에 멈춘다.
 
@@ -156,22 +158,23 @@ T_{clk} \approx \frac{T_{logic}}{N} + T_{reg}
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 사이클 데이터패스
-    │
-    ▼
-명령어 파이프라이닝 (Instruction Pipelining)
-    │
-    ▼
-파이프라인 단계 분할 · 파이프라인 깊이 최적화
-    │
-    ├─▶ 얕은 파이프라인: 단순성 · 낮은 분기 패널티
-    │
-    └─▶ 깊은 파이프라인: 고클럭 · 높은 플러시 비용
-                      │
-                      ▼
-분기 예측 · 데이터 포워딩 · 비순차 실행으로 보완
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 사이클 데이터패스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 단계 분할 · 파이프라인 깊이 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 얕은 파이프라인: 단순성 · 낮은 분기 패널티</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 깊은 파이프라인: 고클럭 · 높은 플러시 비용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분기 예측 · 데이터 포워딩 · 비순차 실행으로 보완</div>
+</div>
+</div>
+
+
 
 이 흐름은 "분업 도입 → 단계 세분화 → 깊이 선택 → 부작용 보완"이라는 현대 CPU 진화의 축을 보여준다.
 

@@ -25,16 +25,19 @@ tags = ["security"]
 
 다음 도식은 무결성 침해가 일어나는 지점과 이를 방어하기 위한 계층적 통제를 보여준다.
 
-```text
-[데이터 생성자] ===(네트워크 전송)====> [데이터 저장소] ====(애플리케이션 처리)====> [최종 사용자]
-       │                 ▲                  ▲                      ▲
-       │                 │                  │                      │
-   (원본 해시)      (네트워크 공격)      (DB 직접 변조)         (메모리 변조)
-       │         - MITM 패킷 변조      - SQL 인젝션           - 버퍼 오버플로우
-       │         - MAC / IPsec 방어    - 무결성 모니터링      - ASLR, 메모리 보호
-       │                                                         │
-       └──────────────────────── (해시값 대조) ──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생성자</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">데이터 저장소</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">최종 사용자</div></div>
+<div class="kb-diagram-note">(원본 해시) (네트워크 공격) (DB 직접 변조) (메모리 변조)</div>
+<div class="kb-diagram-note">- MITM 패킷 변조 - SQL 인젝션 - 버퍼 오버플로우</div>
+<div class="kb-diagram-note">- MAC / IPsec 방어 - 무결성 모니터링 - ASLR, 메모리 보호</div>
+<div class="kb-diagram-tree-item" style="--depth:3">(해시값 대조)</div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 무결성이 어느 한 구간에서만 보장되어서는 안 되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 탄생하는 순간부터 최종 소비되는 순간까지 생명주기 전체에 걸쳐 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다는 점이다. 네트워크 구간에서의 변조를 막더라도 DB 관리자가 악의적으로 값을 수정한다면 무결성은 파괴된다. 따라서 실무에서는 전송 구간의 무결성([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))과 저장 구간의 무결성(FIM, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))을 입체적으로 결합해야 한다.
 
@@ -48,22 +51,27 @@ tags = ["security"]
 
 | 구성 요소 | 역할 및 목적 | 내부 동작 메커니즘 | 실무 적용 사례 |
 |:---|:---|:---|:---|
-| **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) (Hash)** | 임의의 길이를 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 길이의 다이제스트(Digest)로 변환 | 눈사태 효과(Avalanche Effect) 및 충돌 저항성 제공 (SHA-256, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/)) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 무결성 검사, 패스워드 저장 |
-| **[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) / [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)** | 우연한 전송 오류나 물리적 매체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 탐지 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈을 이용한 에러 검출 부호 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 FCS, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 |
-| **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성 + 송신자의 [인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) 동시 확보 | 송수신자가 공유한 대칭키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 해시 입력값에 혼합 ([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청 서명, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명 |
-| **[전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) ([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))** | 무결성 + [인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) + 부인방지 | 해시값을 송신자의 '개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'로 암호화하여 첨부 | 공인인증서, 소프트웨어 [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (Hash)</strong> | 임의의 길이를 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 길이의 다이제스트(Digest)로 변환 | 눈사태 효과(Avalanche Effect) 및 충돌 저항성 제공 (SHA-256, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/)) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 무결성 검사, 패스워드 저장 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a> / <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a></strong> | 우연한 전송 오류나 물리적 매체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 탐지 | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나눗셈을 이용한 에러 검출 부호 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 FCS, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (메시지 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 코드)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성 + 송신자의 [인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) 동시 확보 | 송수신자가 공유한 대칭키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 해시 입력값에 혼합 ([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청 서명, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong> | 무결성 + [인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/) + 부인방지 | 해시값을 송신자의 '개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'로 암호화하여 첨부 | 공인인증서, 소프트웨어 [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) |
 
 다음은 단순 해시(Hash)와 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))가 어떻게 다르게 동작하는지 보여주는 흐름도이다.
 
-```text
-[단순 해시 함수 (Hash) 흐름]
-메시지(M) ──(SHA-256)──> 다이제스트(H)  ===> 해커가 메시지 조작 후 해시도 새로 만들면 탐지 불가!
 
-[메시지 인증 코드 (HMAC) 흐름]
-메시지(M) ─┐
-           ├─(SHA-256)─> MAC 값  ===> 해커는 대칭키가 없으므로 올바른 MAC을 새로 생성할 수 없음!
-대칭키(K) ─┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 해시 함수 (Hash) 흐름</div></div>
+<div class="kb-diagram-note">메시지(M) ──(SHA-256)──&gt; 다이제스트(H) ===&gt; 해커가 메시지 조작 후 해시도 새로 만들면 탐지 불가!</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 인증 코드 (HMAC) 흐름</div></div>
+<div class="kb-diagram-note">메시지(M) ─</div>
+<div class="kb-diagram-tree-item" style="--depth:5">(SHA-256)─&gt; MAC 값 ===&gt; 해커는 대칭키가 없으므로 올바른 MAC을 새로 생성할 수 없음!</div>
+<div class="kb-diagram-note">대칭키(K) ─</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 단순 해시는 우연한 오류나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부패(Corruption)를 막는 데는 유용하지만, 지능적인 해커의 의도적 조작은 막을 수 없다는 점이다. 해커가 원본을 A에서 B로 바꾼 뒤 B의 해시값을 다시 계산해서 덮어씌우면 수신자는 변조 사실을 알 수 없다. 따라서 실무 시스템(예: [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 보안)에서는 반드시 송수신자만이 아는 비밀키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 섞어 해시를 만드는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 방식을 사용해야만 악의적인 위변조를 완벽히 차단할 수 있다.
 
@@ -75,25 +83,25 @@ tags = ["security"]
 
 무결성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기술들은 목적과 암호학적 강도에 따라 명확한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 가진다.
 
-**1. [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) 기술 비교 매트릭스**
+<strong>1. <a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a> 기술 비교 매트릭스</strong>
 
-```text
-┌────────────┬─────────────┬──────────────┬──────────────┬───────────────┐
-│ 검증 기술  │ 검증 대상   │ 사용되는 키  │ 보장하는 보안│ 처리 속도     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ CRC32      │ 통신 노이즈 │ 키 없음      │ 오류 탐지    │ 매우 빠름 (HW)│
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ Hash (SHA) │ 의도적 변조 │ 키 없음      │ 무결성       │ 빠름 (SW)     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ HMAC       │ 위조/변조   │ 대칭키 (공유)│ 무결성+인증성│ 약간 느림     │
-├────────────┼─────────────┼──────────────┼──────────────┼───────────────┤
-│ 전자서명   │ 위조/부인   │ 비대칭키 쌍  │ 무결성+부인방지 매우 느림     │
-└────────────┴─────────────┴──────────────┴──────────────┴───────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 기술</div><div class="kb-diagram-cell">검증 대상</div><div class="kb-diagram-cell">사용되는 키</div><div class="kb-diagram-cell">보장하는 보안</div><div class="kb-diagram-cell">처리 속도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRC32</div><div class="kb-diagram-cell">통신 노이즈</div><div class="kb-diagram-cell">키 없음</div><div class="kb-diagram-cell">오류 탐지</div><div class="kb-diagram-cell">매우 빠름 (HW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash (SHA)</div><div class="kb-diagram-cell">의도적 변조</div><div class="kb-diagram-cell">키 없음</div><div class="kb-diagram-cell">무결성</div><div class="kb-diagram-cell">빠름 (SW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HMAC</div><div class="kb-diagram-cell">위조/변조</div><div class="kb-diagram-cell">대칭키 (공유)</div><div class="kb-diagram-cell">무결성+인증성</div><div class="kb-diagram-cell">약간 느림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자서명</div><div class="kb-diagram-cell">위조/부인</div><div class="kb-diagram-cell">비대칭키 쌍</div><div class="kb-diagram-cell">무결성+부인방지 매우 느림</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스의 핵심은 우측 아래([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))로 갈수록 보안성이 기하급수적으로 높아지지만, 연산 오버헤드 또한 급증한다는 점이다. 고성능 네트워크 라우터가 매 패킷마다 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면 시스템은 즉각적으로 마비([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 침해)될 것이다. 따라서 실무에서는 계층(Layer)별로 적절한 무결성 기술을 혼용해야 한다. L2/L3에서는 CRC를, L4/L7 세션에서는 HMAC을, 그리고 최종 애플리케이션의 중요 계약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)을 사용하는 식이다.
 
-**2. 무결성과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)의 트레이드오프 시너지**
+<strong>2. 무결성과 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>의 트레이드오프 시너지</strong>
 무결성을 지나치게 강제하면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 위협받는다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 등)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 무결성의 일종)을 동기식으로 강력하게 맞추려 들면, 노드 하나에 장애가 생길 때 전체 클러스터의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이 떨어지는 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 딜레마가 발생한다. 실무에서는 [Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)(최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))를 채택하여 무결성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시점을 뒤로 미루는 방식으로 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 확보한다.
 
 **📢 섹션 요약 비유**: 마트에서 물건을 살 때, 100원짜리 껌 하나를 사는데([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 신분증과 인감증명서([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))를 요구하면 계산대 줄이 마비([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 저하)되는 것과 같은 원리입니다.
@@ -104,33 +112,36 @@ tags = ["security"]
 
 실무에서 무결성 파괴는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 유출보다 훨씬 치명적이고 복구하기 어려운 장애를 유발한다.
 
-1. **시나리오 1: 소스코드 [공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/) ([Supply Chain Attack](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))**
+1. <strong>시나리오 1: 소스코드 <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a> (<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>)</strong>
    - **상황**: 기업이 사용하는 유명 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리의 배포 서버가 해킹되어 악성코드가 삽입된 버전이 배포됨. 개발팀은 이를 인지하지 못하고 시스템을 빌드함.
-   - **판단**: 네트워크 경계의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))은 정상적인 업데이트 트래픽이므로 이를 막지 못한다. 이를 방어하려면 빌드 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 **[코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Code Signing](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시 대조 프로세스를 의무화해야 한다. 개발자가 작성한 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)(Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))의 원본 해시값과 다운로드된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값이 1비트라도 다르면 빌드를 강제 중단(Fail-Secure)시켜야 한다.
+   - **판단**: 네트워크 경계의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))은 정상적인 업데이트 트래픽이므로 이를 막지 못한다. 이를 방어하려면 빌드 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/">코드 서명</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/">Code Signing</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시 대조 프로세스를 의무화해야 한다. 개발자가 작성한 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)(Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))의 원본 해시값과 다운로드된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값이 1비트라도 다르면 빌드를 강제 중단(Fail-Secure)시켜야 한다.
 
-2. **시나리오 2: 서버 침해 후 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 삭제 ([Anti-Forensics](/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/))**
+2. <strong>시나리오 2: 서버 침해 후 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 삭제 (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/">Anti-Forensics</a>)</strong>
    - **상황**: 해커가 루트 권한을 획득한 후 자신의 침입 흔적을 지우기 위해 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(/var/log/messages)를 임의로 조작하거나 삭제함.
-   - **판단**: 침해 사고 분석([DFIR](/knowledge-base/studynote/09_security/13_secops_ir_forensics/661_dfir/))을 위해서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 무결성이 생명이다. 로컬에만 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 두면 관리자 권한 탈취 시 무결성이 무너진다. 따라서 **[WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)(Write-Once-Read-Many)** 스토리지를 활용한 원격 중앙 집중식 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버([Syslog](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))를 구축하고, 이전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 대한 암호학적 체인([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 방식)을 구성하여 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 조작을 불가능하게 만들어야 한다.
+   - **판단**: 침해 사고 분석([DFIR](/knowledge-base/studynote/09_security/13_secops_ir_forensics/661_dfir/))을 위해서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 무결성이 생명이다. 로컬에만 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 두면 관리자 권한 탈취 시 무결성이 무너진다. 따라서 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a>(Write-Once-Read-Many)</strong> 스토리지를 활용한 원격 중앙 집중식 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버([Syslog](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))를 구축하고, 이전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 대한 암호학적 체인([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 방식)을 구성하여 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 조작을 불가능하게 만들어야 한다.
 
 다음은 시스템 내부의 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 변조되는 것을 탐지하는 FIM([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Integrity Monitoring)의 운영 플로우다.
 
-```text
-[Baseline 생성 (안전한 상태)]
-   1. OS 및 주요 설정 파일의 SHA-256 해시 계산 → 보안 DB에 저장
-          │
-          ▼
-[정기적 / 실시간 모니터링]
-   2. 현재 파일들의 해시를 지속적으로 계산
-          │
-          ▼
-[무결성 검증 판단 트리]
-   3. 기준 해시 == 현재 해시 ?
-          ├─ (Yes) ──> 안전 (계속 모니터링)
-          │
-          └─ (No) ──> [변경 원인 추적]
-                           ├─ (예정된 패치 시간인가?) ──> Baseline 업데이트 (정상)
-                           └─ (비인가 변경인가?) ──────> 악성코드 의심! (즉시 격리 및 알람)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Baseline 생성 (안전한 상태)</div></div>
+<div class="kb-diagram-note">1. OS 및 주요 설정 파일의 SHA-256 해시 계산 → 보안 DB에 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정기적 / 실시간 모니터링</div></div>
+<div class="kb-diagram-note">2. 현재 파일들의 해시를 지속적으로 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 검증 판단 트리</div></div>
+<div class="kb-diagram-note">3. 기준 해시 == 현재 해시 ?</div>
+<div class="kb-diagram-tree-item" style="--depth:5">(Yes) ──&gt; 안전 (계속 모니터링)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">변경 원인 추적</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">(예정된 패치 시간인가?) ──&gt; Baseline 업데이트 (정상)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">(비인가 변경인가?) &gt; 악성코드 의심! (즉시 격리 및 알람)</div>
+</div>
+</div>
+
+
 
 이 플로우의 핵심은 단순한 탐지를 넘어 "누가, 왜 바꾸었는가"라는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 결합해야 오탐(False Positive)을 줄일 수 있다는 점이다. 실무에서 FIM을 도입할 때 정기적인 OS 패치 작업 시 해시가 변경되는 것을 공격으로 오인하는 경우가 매우 많다. 따라서 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 시스템([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))과 연동하여 승인된 변경 창(Change Window)에서는 베이스라인을 자동 갱신하도록 설계해야 한다.
 
@@ -144,40 +155,42 @@ tags = ["security"]
 
 | 기대효과 구분 | 무결성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 부재 시 | 체계적 무결성 확보 시 | 핵심 지표 ([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) |
 |:---|:---|:---|:---|
-| **소프트웨어 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 악성 패치로 인한 대규모 침해 | 악성코드 유입의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 단계 원천 차단 | 빌드 파이프라인 실패율(탐지율) |
+| <strong>소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 악성 패치로 인한 대규모 침해 | 악성코드 유입의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 단계 원천 차단 | 빌드 파이프라인 실패율(탐지율) |
 | **디지털 포렌식** | 법정에서 증거 효력 상실 (조작 의심) | [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 보관을 통한 완벽한 증거 능력 확보 | 규제기관 소명 소요 시간 단축 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성** | DB 오류로 인한 재무적 손실 누적 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/)으로 손실 제로 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 장애 건수 0건 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 정합성</strong> | DB 오류로 인한 재무적 손실 누적 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/)으로 손실 제로 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 장애 건수 0건 |
 
-미래의 무결성 기술은 중앙 집중식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 진화하고 있다. **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))**과 [분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))은 특정 중앙 서버를 신뢰할 필요 없이, 네트워크 참여자 다수의 합의에 의해 무결성을 보장하는 혁신을 가져왔다. 또한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대에 대비하여 NIST가 표준화 중인 격자 기반(Lattice-based) 및 해시 기반 디지털 서명([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+)은 무결성 아키텍처의 근본적인 전환을 예고하고 있다. 정보보안 기술사 관점에서 무결성은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)이 뚫리더라도 시스템을 포기하지 않고 복구할 수 있게 만드는 최후의 보루다.
+미래의 무결성 기술은 중앙 집중식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 진화하고 있다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong>과 [분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))은 특정 중앙 서버를 신뢰할 필요 없이, 네트워크 참여자 다수의 합의에 의해 무결성을 보장하는 혁신을 가져왔다. 또한 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대에 대비하여 NIST가 표준화 중인 격자 기반(Lattice-based) 및 해시 기반 디지털 서명([SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+)은 무결성 아키텍처의 근본적인 전환을 예고하고 있다. 정보보안 기술사 관점에서 무결성은 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)이 뚫리더라도 시스템을 포기하지 않고 복구할 수 있게 만드는 최후의 보루다.
 
 **📢 섹션 요약 비유**: 건물의 유리창이 깨져 도둑이 들어올 수는 있지만([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 실패), 금고 안의 장부가 철저히 암호학적으로 봉인되어 있다면(무결성 유지) 결국 기업의 진짜 핵심 가치는 지켜지고 정상화될 수 있는 것과 같습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))** | 무결성 증명의 수학적 기반이 되는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호 기술
-- **[전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) ([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))** | 무결성에 비대칭키를 결합하여 발신자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 부인방지를 추가한 복합 기술
-- **FIM ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Integrity Monitoring)** | 서버 내부의 핵심 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변조를 실시간으로 탐지하는 [엔드포인트 보안](/knowledge-base/studynote/09_security/04_endpoint_security/321_endpoint_security/) 도구
-- **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))** | 해시 체인을 이용해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 달성하는 구조
-- **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 설계 시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(무결성)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 사이의 물리적 한계를 설명하는 법칙
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)</strong> | 무결성 증명의 수학적 기반이 되는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호 기술
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong> | 무결성에 비대칭키를 결합하여 발신자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 부인방지를 추가한 복합 기술
+- <strong>FIM (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Integrity Monitoring)</strong> | 서버 내부의 핵심 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변조를 실시간으로 탐지하는 [엔드포인트 보안](/knowledge-base/studynote/09_security/04_endpoint_security/321_endpoint_security/) 도구
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong> | 해시 체인을 이용해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 달성하는 구조
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/">CAP Theorem</a>)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 설계 시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(무결성)과 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 사이의 물리적 한계를 설명하는 법칙
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[해시 함수 (Hash Function)]
-    │
-    ▼
-[전자서명 (Digital Signature)]
-    │
-    ▼
-[FIM (File Integrity Monitoring)]
-    │
-    ▼
-[블록체인 (Blockchain)]
-    │
-    ▼
-[CAP 정리 (CAP Theorem)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수 (Hash Function)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 (Digital Signature)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FIM (File Integrity Monitoring)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 (Blockchain)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAP 정리 (CAP Theorem)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) ([Hash Function](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/))에서 출발해 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

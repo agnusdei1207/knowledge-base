@@ -25,21 +25,22 @@ MoSCoW 기법은 요구사항을 네 가지 우선순위 범주로 구분해 한
 
 이 그림은 요구사항이 왜 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되어야 하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        고정된 일정 아래의 요구사항 정리: 모두를 다 넣을 수는 없다 │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 20개                                                 │
-│   │                                                          │
-│   ├─ 일정 / 예산 / 인력 제약                                 │
-│   ▼                                                          │
-│ MoSCoW 분류                                                  │
-│   ├─ Must   : 이번 릴리스의 생존 조건                        │
-│   ├─ Should : 중요하지만 우회 가능                           │
-│   ├─ Could  : 여유가 있으면 포함                             │
-│   └─ Won't  : 이번 범위에서 제외                             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정된 일정 아래의 요구사항 정리: 모두를 다 넣을 수는 없다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 20개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일정 / 예산 / 인력 제약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MoSCoW 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Must : 이번 릴리스의 생존 조건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Should : 중요하지만 우회 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Could : 여유가 있으면 포함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Won't : 이번 범위에서 제외</div></div>
+</div>
+</div>
+
+
 
 즉 MoSCoW의 목적은 "예쁘게 우선순위를 적는 것"이 아니라, 고정된 제약 아래에서 릴리스 생존선을 지키는 것이다. 그래서 이 기법은 요구사항 관리이면서 동시에 일정 방어 기법이다.
 
@@ -62,21 +63,23 @@ MoSCoW의 핵심은 각 범주를 감정이 아니라 기준으로 나누는 데
 
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 논리가 어떻게 흘러가는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         MoSCoW 분류 질문: 사업 연속성과 우회 가능성으로 판단    │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 X                                                    │
-│    │                                                         │
-│    ├─ 없으면 이번 릴리스 목적이 무너지는가? ── Yes ─▶ Must     │
-│    │                                              No          │
-│    ├─ 단기간 우회가 가능한가?                ── Yes ─▶ Should  │
-│    │                                              No          │
-│    ├─ 여유가 있을 때 넣으면 가치가 큰가?      ── Yes ─▶ Could   │
-│    │                                              No          │
-│    └───────────────────────────────────────────────────▶ Won't │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MoSCoW 분류 질문: 사업 연속성과 우회 가능성으로 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 없으면 이번 릴리스 목적이 무너지는가? ── Yes ─▶ Must</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 단기간 우회가 가능한가? ── Yes ─▶ Should</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 여유가 있을 때 넣으면 가치가 큰가? ── Yes ─▶ Could</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Won't</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 운영 원칙은 Must를 과도하게 늘리지 않는 것이다. Must가 전체 용량 대부분을 차지하면 이미 우선순위화가 실패한 상태다. 그래서 많은 팀이 Must는 전체 개발 용량의 60% 안팎으로 제한하고, 남은 공간을 Should·Could·버퍼로 두어 일정 위험을 흡수한다.
 
@@ -150,22 +153,24 @@ MoSCoW를 제대로 적용하면 프로젝트는 "모든 요구를 다 만족시
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이해관계자 요구 수집
-    │
-    ▼
-사업 목표 / 일정 / 용량 확인
-    │
-    ▼
-MoSCoW 분류
-    │
-    ├─▶ Must → MVP / 이번 릴리스 핵심
-    ├─▶ Should / Could → 여유 용량에 따라 포함
-    └─▶ Won't → 차기 백로그로 관리
-         │
-         ▼
-릴리스 후 피드백 기반 재우선순위화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이해관계자 요구 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사업 목표 / 일정 / 용량 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MoSCoW 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Must → MVP / 이번 릴리스 핵심</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Should / Could → 여유 용량에 따라 포함</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Won't → 차기 백로그로 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">릴리스 후 피드백 기반 재우선순위화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 MoSCoW가 한 번의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)로 끝나는 것이 아니라, 릴리스 계획과 후속 재조정을 연결하는 관리 루프임을 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed Memory)는 물리 램(RAM)에 올라온 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이 **하드디스크의 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `.exe`, `.so`, `.txt`) 내용과 1:1로 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))되어, 확실한 원본(고향)을 두고 있는 축복받은 메모리 공간**을 의미한다.
-> 2. **가치**: 램이 꽉 차서 이 메모리를 쫓아내야(Eviction) 할 때, 내용이 바뀌지 않은(Clean) 코드 영역이라면 **느린 스왑(Swap) 디스크에 쓸 필요 없이 램에서 그냥 삭제해 버리는(Drop) O(1) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리가 가능**하여 시스템의 램 회수 능력을 극대화한다.
-> 3. **융합**: 운영체제의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력 로직(`read/write`)을 가상 메모리의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템으로 덮어씌워버린 **[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/)([Memory-Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/))** 시스템 콜과 완벽히 융합되어, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때 메모리 복사 오버헤드를 제로화하는 현대적 I/O 아키텍처를 완성했다.
+> 1. **본질**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed Memory)는 물리 램(RAM)에 올라온 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각이 <strong>하드디스크의 실제 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(예: <code>.exe</code>, <code>.so</code>, <code>.txt</code>) 내용과 1:1로 매핑(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)되어, 확실한 원본(고향)을 두고 있는 축복받은 메모리 공간</strong>을 의미한다.
+> 2. **가치**: 램이 꽉 차서 이 메모리를 쫓아내야(Eviction) 할 때, 내용이 바뀌지 않은(Clean) 코드 영역이라면 <strong>느린 스왑(Swap) 디스크에 쓸 필요 없이 램에서 그냥 삭제해 버리는(Drop) O(1) <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 처리가 가능</strong>하여 시스템의 램 회수 능력을 극대화한다.
+> 3. **융합**: 운영체제의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력 로직(`read/write`)을 가상 메모리의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템으로 덮어씌워버린 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/">Memory-Mapped File</a>)</strong> 시스템 콜과 완벽히 융합되어, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때 메모리 복사 오버헤드를 제로화하는 현대적 I/O 아키텍처를 완성했다.
 
 ---
 
@@ -23,30 +23,29 @@ tags = ["studynote-operating-system"]
 - **필요성**: 램(RAM)은 비싸고 좁다. 램을 비우는 가장 좋은 방법은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우는 것이다. 앞서 배운 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/[Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 원본이 없어서 지우기 전에 반드시 느려 터진 스왑(Swap) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(Write)을 해야만 했다(매우 느림). 하지만 카카오톡의 '실행 코드(기계어)' 부분은 어차피 하드디스크 `kakao.exe` 안에 똑같은 복사본이 영원히 존재한다. "어차피 고향(디스크 원본)에 똑같은 애가 있는데 뭐 하러 스왑에 힘들게 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)해? 그냥 램에서 시원하게 찢어버려!"라는 극한의 램 절약 및 최적화 철학이 이 개념을 낳았다.
 
 - **등장 배경 및 I/O 철학의 진화**:
-  1. **과거의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 `read()`를 호출해 디스크에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 램으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 2번씩 복사(Memcpy)하는 생노가다를 뛰었다.
+  1. <strong>과거의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 읽기</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 `read()`를 호출해 디스크에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 램으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 2번씩 복사(Memcpy)하는 생노가다를 뛰었다.
   2. **가상 메모리의 각성**: "어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템이 디스크에서 램으로 4KB씩 기가 막히게 잘 퍼오는데, 굳이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 따로 만들 필요가 있나?"
   3. **mmap의 탄생**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주소를 냅다 프로세스의 가상 주소 공간에 꽂아버려([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 프로세스가 램 변수를 건드리듯 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 조작하면 하드웨어가 알아서 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 터뜨려 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 로드하게 만드는 천재적 융합이 일어났다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조        │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함 ]                   │
-│                                                                        │
-│ ▶ 1. 타겟 A: 익명 메모리 (힙/스택)                                     │
-│   - OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"   │
-│   - 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️             │
-│                                                                        │
-│ ▶ 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)                 │
-│   - OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"   │
-│   - 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀               │
-│                                                                        │
-│ ▶ 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)                  │
-│   - OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"│
-│   - 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.       │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 타겟 A: 익명 메모리 (힙/스택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 리눅스가 램 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 상황을 귀신같이 피하면서 버티는 진짜 이유다. 리눅스의 램에는 사실 내가 실행한 수많은 프로그램의 '실행 코드([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed)'들이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache) 형태로 가득 차 있다. 램이 모자라는 순간, OS는 이 코드들을 스왑 디스크에 쓰는 수고 없이 그냥 램 매핑만 툭툭 끊어버려 순식간에 수 기가바이트의 빈 램(Free Frame)을 창출해 낸다.
 
 - **📢 섹션 요약 비유**: 마트(램)에서 진열대 자리가 모자랄 때, 유통기한이 없는 캔커피(Clean [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리)는 굳이 창고에 다시 넣을 필요 없이 그냥 버려도 공장에서 다시 찍어냅니다. 하지만 손님이 주문해서 막 튀겨낸 치킨([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/))은 버리면 끝이니 무조건 보온 창고(스왑)에 넣고 살려야 하는 폐기 우선순위입니다.
@@ -59,9 +58,9 @@ tags = ["studynote-operating-system"]
 
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리의 꽃은 `mmap()` 시스템 콜이다. 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 램 16GB 컴퓨터에서 메모리로 다루는 방법이다.
 
-1. **가상 주소 매핑 ([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))**: 
+1. <strong>가상 주소 매핑 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 
    프로그램이 `mmap("movie.mp4")`을 호출하면, OS는 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트도 안 올리고, 텅 빈 가상 주소 10GB(예: `0x1000 ~ 0x3000`)에 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 논리적으로 연결만(PTE I비트) 해둔다.
-2. **게으른 로딩 ([Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/) & [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))**:
+2. <strong>게으른 로딩 (<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/">Lazy Loading</a> &amp; <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong>:
    앱이 영화의 1시간째 장면(가상 주소 `0x2000`)을 터치한다.
    MMU가 `Invalid(I)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟고 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 던진다.
    OS는 `movie.mp4` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 하드디스크 중간 섹터로 날아가 딱 그 4KB 조각만 램으로 퍼 올린다.
@@ -72,10 +71,10 @@ tags = ["studynote-operating-system"]
 
 ### Clean(깨끗한) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 Dirty(더러워진) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)
 
-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리가 램에서 쫓겨날 때의 운명을 가르는 가장 중요한 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE) 안에 있는 **M (Modify) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / Dirty [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**가 이를 판별한다.
+[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리가 램에서 쫓겨날 때의 운명을 가르는 가장 중요한 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE) 안에 있는 <strong>M (Modify) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> / Dirty <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>가 이를 판별한다.
 
-- **Clean [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (수정 안 됨)**: 디스크에서 퍼온 원본과 램의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 똑같은 상태. (주로 실행 코드). 쫓아낼 때 그냥 **삭제(Discard)** 하면 끝이다. I/O 오버헤드 0.
-- **Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (수정됨)**: 램으로 퍼온 뒤 CPU가 값을 바꿨다. (예: 워드에서 글씨를 침). 디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 내용이 달라진 상태. 쫓아낼 때 반드시 디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기록([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))**을 한 뒤 지워야 한다. I/O 오버헤드가 크다.
+- <strong>Clean <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> (수정 안 됨)</strong>: 디스크에서 퍼온 원본과 램의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 똑같은 상태. (주로 실행 코드). 쫓아낼 때 그냥 **삭제(Discard)** 하면 끝이다. I/O 오버헤드 0.
+- <strong>Dirty <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> (수정됨)</strong>: 램으로 퍼온 뒤 CPU가 값을 바꿨다. (예: 워드에서 글씨를 침). 디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 내용이 달라진 상태. 쫓아낼 때 반드시 디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 기록(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-back</a>)</strong>을 한 뒤 지워야 한다. I/O 오버헤드가 크다.
 
 - **📢 섹션 요약 비유**: 도서관에서 책을 빌려와서 눈으로만 읽은 책(Clean)은 반납할 때 그냥 던져놓고 가도 되지만, 책에 연필로 밑줄을 찍찍 그어놓은 책(Dirty)은 사서가 지우개로 다 지우는 수고([Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))를 거쳐야만 책장에 꽂을 수 있는 페널티 원리입니다.
 
@@ -89,26 +88,29 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **소속 영역** | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/), malloc) | 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(.so/.dll), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) |
 | **디스크 고향** | 고향 없음 (램에서 허공에 태어남) | 하드디스크의 뚜렷한 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (`.exe`, `.txt`) |
-| **[스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 시**| **무조건 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)**에 눈물겹게 묻힘 | **스왑 안 감.** (Clean은 삭제, Dirty는 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 씀) |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 과정** | 해킹 방지 위해 0으로 덮음 (ZFOD) | 디스크 원본을 읽어와서 채움 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/">스왑 아웃</a> 시</strong>| <strong>무조건 스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong>에 눈물겹게 묻힘 | **스왑 안 감.** (Clean은 삭제, Dirty는 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 씀) |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 과정</strong> | 해킹 방지 위해 0으로 덮음 (ZFOD) | 디스크 원본을 읽어와서 채움 |
 | **공유 (Sharing)**| 프로세스 간 공유 까다로움 | **100명이 똑같은 프레임을 공유하기 최적화됨** |
 
 ### 시스템 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 방어의 최전선: [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache
 
 윈도우 작업 관리자나 리눅스의 `free -m` 명령어를 치면 램 사용량이 99%로 뜰 때가 있다.
-놀랍게도 이건 램이 꽉 찬 게 아니다. **OS가 남는 램을 모조리 긁어모아 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)'로 써먹고 있는 훈장**이다.
+놀랍게도 이건 램이 꽉 찬 게 아니다. <strong>OS가 남는 램을 모조리 긁어모아 '<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)'로 써먹고 있는 훈장</strong>이다.
 - 리눅스는 램이 10GB 비어있으면, 한 번 읽었던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등)을 램에서 지우지 않고 가득 채워둔다. 나중에 또 찾을 때 0.1초 만에 주려고.
 - 그러다 카톡이 "램 2GB 줘!"라고 요청하면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 0.001초의 망설임도 없이 꽉 찬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시 중 Clean 한 놈들을 2GB치 찢어버리고 카톡에게 던져준다.
-- 즉, **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리는 OS의 가장 거대하고 유연한 완충 지대(Shock Absorber)**로서, 시스템의 체감 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 속도에서 RAM 속도로 끌어올려 주는 기적의 캐시다.
+- 즉, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리는 OS의 가장 거대하고 유연한 완충 지대(Shock Absorber)</strong>로서, 시스템의 체감 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 속도에서 RAM 속도로 끌어올려 주는 기적의 캐시다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────┐
-│ 램 부족 시 │ Clean 파일 │ Dirty 파일 │ 익명(스택/힙)       │
-├──────────┼────────────┼────────────┼───────────────────────┤
-│ OS의 조치  │ 1순위 사살   │ 2순위 디스크 씀│ 3순위 스왑 씀 │
-│ 지연 시간  │ 🚀 로켓 속도 │ 🐢 느려짐    │ ☠️ 지옥의 렉    │
-└──────────┴────────────┴────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 부족 시</div><div class="kb-diagram-cell">Clean 파일</div><div class="kb-diagram-cell">Dirty 파일</div><div class="kb-diagram-cell">익명(스택/힙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 조치</div><div class="kb-diagram-cell">1순위 사살</div><div class="kb-diagram-cell">2순위 디스크 씀</div><div class="kb-diagram-cell">3순위 스왑 씀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 시간</div><div class="kb-diagram-cell">🚀 로켓 속도</div><div class="kb-diagram-cell">🐢 느려짐</div><div class="kb-diagram-cell">☠️ 지옥의 렉</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 리눅스의 메모리 회수(Reclaim) 정책의 뼈대다. 가장 싸고 버리기 쉬운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(Clean)부터 죽여서 램을 확보한다. 만약 Clean 캐시가 다 말라서 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)를 스왑으로 밀어내야 하는 순간이 오면, 그때부터 시스템은 멈추기([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 시작한다.
 
 - **📢 섹션 요약 비유**: 통장(램)에 돈이 꽉 차 있을 때, 위기가 닥치면 당장 쓸데없는 취미생활(Clean [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 예산부터 1초 만에 확 깎아버립니다. 그다음엔 적금(Dirty [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 깨야 하고, 최악의 경우엔 집([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) 스왑)까지 팔아야 하는 자산 관리의 우선순위입니다.
@@ -119,11 +121,11 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/Elasticsearch의 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 마술
 1. **상황**: 대용량 메시지 큐인 Kafka는 초당 기가바이트 단위의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에서 읽어 네트워크 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))로 쏘아 보낸다.
-2. **과거의 병목 (`read` & `send`)**:
+2. <strong>과거의 병목 (<code>read</code> &amp; <code>send</code>)</strong>:
    - 디스크 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 -> 유저 힙 공간(익명) 복사 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 버퍼 복사 -> 랜카드 
    - 메모리 복사가 4번, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭이 4번 일어나며 CPU가 터져버린다.
-3. **mmap과 sendfile의 융합 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))**:
-   - Kafka는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1GB를 **`mmap` ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리)**으로 램에 딱 1번 올린다([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache).
+3. <strong>mmap과 sendfile의 융합 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)</strong>:
+   - Kafka는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1GB를 <strong><code>mmap</code> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리)</strong>으로 램에 딱 1번 올린다([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache).
    - 유저 공간으로 복사하지도 않는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 `sendfile()` 명령을 때리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 떠 있는 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지원 메모리 조각의 '포인터'만 네트워크 카드([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))로 넘겨버린다.
    - **결과**: 메모리 복사 횟수 0회([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)). CPU 사용률은 바닥을 기면서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴주는 현존 최고 효율의 서버 아키텍처가 완성된다.
 
@@ -141,9 +143,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 통신 지원** | 유저 모드 메모리 복사본(익명)을 만들지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리)를 하드웨어(랜카드)로 직통 매핑해 시스템 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 100% 활용 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a> 통신 지원</strong> | 유저 모드 메모리 복사본(익명)을 만들지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리)를 하드웨어(랜카드)로 직통 매핑해 시스템 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 100% 활용 |
 | **코드 공유(Sharing) 극대화**| 수백 개의 크롬 탭이 `chrome.dll` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 요구해도, 물리 램에는 딱 1장만 올려놓고 공유하여 램 낭비 원천 차단 |
-| **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(메모리 부족) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방어**| 램 회수 시 스왑(Swap) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 해야 하는 최악의 오버헤드를 건너뛰고 0초 만에 램 확보(Clean Drop)를 달성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(메모리 부족) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 방어</strong>| 램 회수 시 스왑(Swap) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 해야 하는 최악의 오버헤드를 건너뛰고 0초 만에 램 확보(Clean Drop)를 달성 |
 
 ### 결론 및 미래 전망
 
@@ -164,15 +166,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[익명 메모리 (Anonymous Memory)]
-    │
-    ▼
-[파일 지원 메모리 (File-backed Memory)]
-    │
-    ├──▶ [쓰기 시 복사 (COW, Copy-on-Write)]
-    └──▶ [vfork()]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">익명 메모리 (Anonymous Memory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 지원 메모리 (File-backed Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 시 복사 (COW, Copy-on-Write)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vfork()</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

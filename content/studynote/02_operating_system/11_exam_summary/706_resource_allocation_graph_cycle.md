@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 시스템 내의 프로세스들과 그들이 쥐고 있거나 요구하는 자원들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 점(Vertex)과 선(Edge)으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여, **[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 발생 여부를 수학적으로 판별**하는 운영체제의 도해적 분석 도구다.
-> 2. **사이클의 의미**: 이 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 선을 따라갔을 때 다시 제자리로 돌아오는 **'사이클(Cycle)'이 존재한다는 것은 원형 대기([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))가 성립**했음을 뜻하며, 이는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 유발하는 가장 강력한 경고등이다.
-> 3. **다중 인스턴스의 예외**: 단일 인스턴스(자원이 딱 1개) 환경에서는 사이클이 곧 100% 데드락을 의미하지만, 다중 인스턴스(동일한 자원이 여러 개) 환경에서는 사이클이 있어도 남는 자원을 가진 외부 프로세스가 고리를 끊어줄 수 있으므로 **'사이클 = 데드락' 공식이 무조건 성립하지 않는다**는 점이 핵심이다.
+> 1. **본질**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 시스템 내의 프로세스들과 그들이 쥐고 있거나 요구하는 자원들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 점(Vertex)과 선(Edge)으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여, <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 발생 여부를 수학적으로 판별</strong>하는 운영체제의 도해적 분석 도구다.
+> 2. **사이클의 의미**: 이 방향성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 선을 따라갔을 때 다시 제자리로 돌아오는 <strong>'사이클(Cycle)'이 존재한다는 것은 원형 대기(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">Circular Wait</a>)가 성립</strong>했음을 뜻하며, 이는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 유발하는 가장 강력한 경고등이다.
+> 3. **다중 인스턴스의 예외**: 단일 인스턴스(자원이 딱 1개) 환경에서는 사이클이 곧 100% 데드락을 의미하지만, 다중 인스턴스(동일한 자원이 여러 개) 환경에서는 사이클이 있어도 남는 자원을 가진 외부 프로세스가 고리를 끊어줄 수 있으므로 <strong>'사이클 = 데드락' 공식이 무조건 성립하지 않는다</strong>는 점이 핵심이다.
 
 ---
 
@@ -26,19 +26,19 @@ tags = ["studynote-operating-system"]
     - **할당 간선 (Assignment Edge, $R \rightarrow P$)**: 자원이 프로세스에게 이미 할당되어 점유된 상태.
   - **사이클 (Cycle)**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 화살표 방향을 따라갔을 때 처음 출발했던 정점으로 다시 돌아올 수 있는 폐쇄된 경로.
 
-- **필요성 (눈에 보이지 않는 꼬임의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/))**: 
+- <strong>필요성 (눈에 보이지 않는 꼬임의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)</strong>: 
   - 서버에서 프로세스 50개가 DB 커넥션, 프린터, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 등 수백 개의 자원을 놓고 싸우고 있다. 
   - 시스템이 멈췄을 때 "도대체 누구 때문에 꼬인 거야?"를 소스 코드만 보고 파악하는 것은 불가능하다.
   - **해결책**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 현재 자원을 "누가 가졌고(할당), 누가 기다리는지(요구)"를 실시간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 그려서 추적하면, 사이클 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 등)을 통해 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 근원지(범인)를 정확히 짚어내고 강제 종료(Kill)시킬 수 있다.
 
   - **상황**: 교차로에서 자동차 4대가 서로 엉켜서 빵빵거리고 있다.
-  - **[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)**: 경찰 헬기가 하늘에서 교차로를 내려다보며 도면을 그린다. "1번 차는 앞길(자원)을 원하는데 2번 차가 막고 있고, 2번 차는 3번 차가... 4번 차는 1번 차가 막고 있네!" 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/">자원 할당 그래프</a></strong>: 경찰 헬기가 하늘에서 교차로를 내려다보며 도면을 그린다. "1번 차는 앞길(자원)을 원하는데 2번 차가 막고 있고, 2번 차는 3번 차가... 4번 차는 1번 차가 막고 있네!" 
   - **사이클**: 헬기에서 보니 4대의 차가 완벽한 '네모(Cycle)' 모양으로 꼬리를 물고 있다. 경찰은 이 도면([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))을 보고 "아, 이건 절대 안 풀리는 데드락이구나"라고 판단하고 견인차를 부른다.
 
 - **발전 과정**:
-  1. **단순 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델링**: 1970년대 데드락 개념 정립 시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구로 제안됨.
-  2. **[Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))**: 단일 자원 환경에서 자원 노드를 빼버리고, 프로세스 간의 대기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)($P_1 \rightarrow P_2$)로만 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 압축하여 탐색 속도를 높임.
-  3. **[DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)**: 현대 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL 등 RDBMS의 [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Detector 데몬이 백그라운드에서 실시간으로 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클을 검사함.
+  1. <strong>단순 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 모델링</strong>: 1970년대 데드락 개념 정립 시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구로 제안됨.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-for Graph</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a>)</strong>: 단일 자원 환경에서 자원 노드를 빼버리고, 프로세스 간의 대기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)($P_1 \rightarrow P_2$)로만 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 압축하여 탐색 속도를 높임.
+  3. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/">교착 상태 탐지</a></strong>: 현대 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL 등 RDBMS의 [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Detector 데몬이 백그라운드에서 실시간으로 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클을 검사함.
 
 - **📢 섹션 요약 비유**: 복잡하게 엉킨 이어폰 줄을 손의 감각만으로 풀려다 포기하고, 책상 위에 넓게 펼쳐놓고 눈으로 보며 어디가 꼬였는지 찾아내는 시각적 분석 작업입니다.
 
@@ -48,36 +48,35 @@ tags = ["studynote-operating-system"]
 
 ### [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)의 기본 문법
 
-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 법은 매우 직관적이다. 자원(사각형) 안에 있는 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))의 개수는 그 자원의 **인스턴스(개수)**를 의미한다.
+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 법은 매우 직관적이다. 자원(사각형) 안에 있는 점([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/))의 개수는 그 자원의 <strong>인스턴스(개수)</strong>를 의미한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 자원 할당 그래프 (RAG) 점과 선의 의미                   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ P1 ] ────(요청 간선)────▶ [ R1 (점 1개) ]                     │
-  │     ▲                             │                               │
-  │     │                             │                               │
-  │     └────────(할당 간선)──────────┘                               │
-  │                                                                   │
-  │  해석: P1이 R1에게 자원을 달라고 요청(->)했는데, R1 안의 유일한 자원 1개가 │
-  │        이미 P1 자신에게 할당(<-)되어 있다.                             │
-  │        (일반적인 락 획득 상태)                                       │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프 (RAG) 점과 선의 의미</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (점 1개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(할당 간선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석: P1이 R1에게 자원을 달라고 요청(-&gt;)했는데, R1 안의 유일한 자원 1개가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미 P1 자신에게 할당(&lt;-)되어 있다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일반적인 락 획득 상태)</div></div>
+</div>
+</div>
+
+
 
 ---
 
 ### 사이클(Cycle)과 데드락의 상관관계 (핵심 함정)
 
-[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 분석할 때 가장 중요한 것은 **자원의 개수(인스턴스)**다.
+[자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 분석할 때 가장 중요한 것은 <strong>자원의 개수(인스턴스)</strong>다.
 
-**Case 1: 단일 인스턴스 자원 (프린터 1대, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 1개)**
+<strong>Case 1: 단일 인스턴스 자원 (프린터 1대, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 락 1개)</strong>
 - 상황: `P1 -> R1 -> P2 -> R2 -> P1` (사이클 발생!)
 - 결과: 자원이 딱 1개씩밖에 없는데 서로 꼬리를 물었다. 제3자가 도와줄 여지가 없다.
 - **판단: 사이클 = 무조건 100% 데드락이다.**
 
-**Case 2: 다중 인스턴스 자원 (DB 커넥션 풀 3개, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 5개)**
+<strong>Case 2: 다중 인스턴스 자원 (DB 커넥션 풀 3개, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 5개)</strong>
 - 상황: `P1 -> R1 -> P2 -> R2 -> P1` 로 P1과 P2가 사이클을 만들었다.
 - 그런데 R1 자원 안에는 점(인스턴스)이 2개 있다! 하나는 P2가 쥐고 있지만, **나머지 하나는 P3가 쥐고 있다.** (P3는 사이클 밖의 제3자다)
 - **판단**: 현재는 사이클이 있지만 데드락이 아닐 수도 있다! 만약 사이클 밖에 있는 착한 P3가 일을 다 끝내고 R1 자원을 반납하면? P1이 그 반납된 R1을 낼름 가져가서 사이클을 부수고 시스템이 정상으로 돌아간다. 
@@ -104,7 +103,7 @@ tags = ["studynote-operating-system"]
 
 ### 과목 융합 관점
 
-- **자료구조 / [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 사이클을 찾는 가장 표준적인 방법은 **[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))**다. 노드를 방문할 때마다 '방문 중(Visiting)' 상태로 마킹하고, 다음 화살표를 따라갔는데 또 '방문 중'인 노드를 만나면 사이클이 발견된 것이다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 $O(N^2)$에 달하므로, 프로세스가 수만 개인 시스템에서는 이 감지기를 너무 자주 돌리면 OS 자체가 느려진다.
+- <strong>자료구조 / <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 사이클을 찾는 가장 표준적인 방법은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">깊이 우선 탐색</a>)</strong>다. 노드를 방문할 때마다 '방문 중(Visiting)' 상태로 마킹하고, 다음 화살표를 따라갔는데 또 '방문 중'인 노드를 만나면 사이클이 발견된 것이다. 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 $O(N^2)$에 달하므로, 프로세스가 수만 개인 시스템에서는 이 감지기를 너무 자주 돌리면 OS 자체가 느려진다.
 
 - **📢 섹션 요약 비유**: RAG는 "사람과 의자"를 모두 그린 복잡한 설계도고, WFG는 "누가 누구를 기다리나" 화살표만 사람끼리 짝지어 놓은 요약본입니다. 의자가 무조건 1인용(단일 자원)이라면 굳이 의자를 그리지 않아도 상황 파악이 끝납니다.
 
@@ -115,41 +114,39 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오
 
 1. **시나리오 — RDBMS(MySQL, PostgreSQL)의 데드락 감지와 희생자(Victim) 선정**: 온라인 쇼핑몰 결제 도중 "[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) found when trying to get [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/); try restarting [transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)" 에러가 발생하며 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 롤백됨.
-   - **원인 분석**: MySQL의 InnoDB 스토리지 엔진은 내부적으로 **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-wait [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)([대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))**를 실시간으로 그리고 있다. A [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 B [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 서로의 Row Lock을 요구하며 꼬리물기(사이클)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 순간, 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Detector)가 이를 즉각 감지했다.
-   - **대응 (기술사적 가이드)**: DB는 데드락을 풀기 위해 사이클 내의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 **[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log(롤백해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 양이 가장 적은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(만만한 놈)을 희생자(Victim)**로 골라 강제로 죽여(Kill) 버리고 에러를 던진다. 따라서 애플리케이션 개발자는 이 에러를 받았을 때 당황하지 말고, `try-catch`로 잡아서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 0.1초 뒤에 다시 시도(Retry)하는 로직을 반드시 짜두어야 한다.
+   - **원인 분석**: MySQL의 InnoDB 스토리지 엔진은 내부적으로 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-wait <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a>)</strong>를 실시간으로 그리고 있다. A [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 B [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 서로의 Row Lock을 요구하며 꼬리물기(사이클)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 순간, 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Detector)가 이를 즉각 감지했다.
+   - **대응 (기술사적 가이드)**: DB는 데드락을 풀기 위해 사이클 내의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log(롤백해야 할 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>) 양이 가장 적은 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(만만한 놈)을 희생자(Victim)</strong>로 골라 강제로 죽여(Kill) 버리고 에러를 던진다. 따라서 애플리케이션 개발자는 이 에러를 받았을 때 당황하지 말고, `try-catch`로 잡아서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 0.1초 뒤에 다시 시도(Retry)하는 로직을 반드시 짜두어야 한다.
 
 2. **시나리오 — K8s 클러스터의 자원(CPU/Mem) 데드락 회피**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A는 서버 1의 CPU를 100% 점유하고 서버 2의 램을 원하며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B는 서버 2의 램을 100% 점유하고 서버 1의 CPU를 원한다.
    - **아키텍처 적용**: 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)(K8s) 레벨에서는 다중 인스턴스 자원을 다룬다. 여기서 사이클이 생겼다고 바로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 죽이면 엄청난 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 온다(사이클이 데드락의 절대 조건이 아니므로). 
-   - 따라서 현대 클라우드는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 방식 대신, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우기 전 남은 자원을 계산하여 **은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Avoidance)**처럼 애초에 데드락이 날 것 같은 스케줄링 자체를 거부하거나, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer처럼 여유 임계치에 도달하면 무자비하게 큰 놈을 밀어내는 **Preemption([비선점 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/))** 방식으로 아키텍처를 해결한다.
+   - 따라서 현대 클라우드는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 방식 대신, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우기 전 남은 자원을 계산하여 <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Avoidance)</strong>처럼 애초에 데드락이 날 것 같은 스케줄링 자체를 거부하거나, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer처럼 여유 임계치에 도달하면 무자비하게 큰 놈을 밀어내는 <strong>Preemption(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/">비선점 부정</a>)</strong> 방식으로 아키텍처를 해결한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 시스템의 교착 상태(Deadlock) 해결 전략 선택 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드/멀티프로세스 환경의 교착 상태 방어 아키텍처 수립]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      OS 커널 단에서 실시간으로 자원 할당 그래프(RAG)를 그려서 사이클을 찾는가?│
-  │          ├─ 예 ─────▶ [엄청난 성능 오버헤드 (O(N^2))]                 │
-  │          │            결론: Windows, Linux 등 현대 범용 OS는 이 방식을   │
-  │          │                  아예 포기함 (타조 알고리즘 적용).            │
-  │          └─ 아니오 ──▶ 그럼 누가 이 귀찮은 사이클 탐지를 하는가?           │
-  │                │                                                  │
-  │                ▼                                                  │
-  │             [응용 프로그램 또는 DBMS 레벨에 위임]                      │
-  │             1) DB: 트랜잭션 락은 짧으므로 WFG 기반 실시간 감지 & Kill 적용 │
-  │             2) 앱: 개발자가 Lock Ordering 규칙(원형 대기 부정)을 소스코드  │
-  │                    에 강제하여 원천적으로 사이클 생성을 차단               │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템의 교착 상태(Deadlock) 해결 전략 선택 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드/멀티프로세스 환경의 교착 상태 방어 아키텍처 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널 단에서 실시간으로 자원 할당 그래프(RAG)를 그려서 사이클을 찾는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엄청난 성능 오버헤드 (O(N^2))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: Windows, Linux 등 현대 범용 OS는 이 방식을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 포기함 (타조 알고리즘 적용).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 그럼 누가 이 귀찮은 사이클 탐지를 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용 프로그램 또는 DBMS 레벨에 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) DB: 트랜잭션 락은 짧으므로 WFG 기반 실시간 감지 &amp; Kill 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 앱: 개발자가 Lock Ordering 규칙(원형 대기 부정)을 소스코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에 강제하여 원천적으로 사이클 생성을 차단</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드를 아무리 뒤져봐도 "데드락 사이클 탐지" 로직은 없다. OS가 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 1ms마다 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색을 돌리면 컴퓨터가 멈출 것이다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 모델은 OS가 직접 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 만든 것이 아니라, "개발자 너희들이 머릿속으로 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그려보고 사이클이 안 나게 코드를 짜라"고 던져준 수학적 분석 도구(Modeling Tool)에 가깝다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 타임아웃의 활용**: 시스템에서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 탐지가 불가능하다면, 가장 현실적인 대안은 "락을 3초 이상 못 얻으면 포기한다"는 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 기법이다. 무한정 기다리는 선(Edge)을 시간제한을 두어 툭 끊어버리면, 거대한 사이클이 형성되다가도 중간중간 알아서 붕괴되어 데드락이 해소되는([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 위험은 있음) 회피형 아키텍처가 구현되었는가?
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 타임아웃의 활용</strong>: 시스템에서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 탐지가 불가능하다면, 가장 현실적인 대안은 "락을 3초 이상 못 얻으면 포기한다"는 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 기법이다. 무한정 기다리는 선(Edge)을 시간제한을 두어 툭 끊어버리면, 거대한 사이클이 형성되다가도 중간중간 알아서 붕괴되어 데드락이 해소되는([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 위험은 있음) 회피형 아키텍처가 구현되었는가?
 
 - **📢 섹션 요약 비유**: 수만 명이 얽힌 거대한 실타래(시스템)에서 매초 꼬인 곳을 찾아내는 것([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 사이클 탐색)은 불가능합니다. 차라리 엉키지 않게 규칙을 주거나([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)), 엉킨 것 같으면 가위로 확 잘라버리는 것([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/Kill)이 실무적인 엔지니어링입니다.
 
@@ -161,13 +158,13 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 감지 메커니즘 부재 | [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)(WFG) 기반 감지 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**| 데드락 발생 시 시스템 무기한 멈춤 | 즉각적인 감지 및 타겟 킬링으로 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) | 중단 없는 24/365 엔터프라이즈 운영 가능 |
+| <strong>정성 (시스템 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong>| 데드락 발생 시 시스템 무기한 멈춤 | 즉각적인 감지 및 타겟 킬링으로 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) | 중단 없는 24/365 엔터프라이즈 운영 가능 |
 | **정량 (탐색 속도)** | 수작업 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 분석 (수 시간) | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반의 사이클 판별 (수 ms) | 장애 인지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간의 극단적 단축 |
 | **정성 (부작용 방어)**| 엉뚱한 프로세스를 강제 종료할 위험 | 사이클에 직접 연관된 프로세스만 조준 | 2차 장애(Cascading Failure) 방지 |
 
 ### 미래 전망
-- **[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)) 툴의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 과거에는 시스템이 런타임에 죽고 나서야 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 떠서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그렸다. 이제는 컴파일 타임에 SonarQube나 Coverity 같은 도구가 소스 코드를 분석하여 "이 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) A와 B는 런타임에 교차 획득되어 사이클을 형성할 확률이 높습니다"라고 미리 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 그려 경고해 주는 사전 방어 모델이 발전하고 있다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 락 매니저 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 WFG를 단일 장비에서 그릴 수 없다. 여러 장비가 중앙의 ZooKeeper나 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 호출할 때, 이 중앙 매니저가 글로벌 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 관리하며 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데드락을 감지하고 끊어내는 지능형 에이전트로 진화 중이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">Static Analysis</a>) 툴의 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 과거에는 시스템이 런타임에 죽고 나서야 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 떠서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그렸다. 이제는 컴파일 타임에 SonarQube나 Coverity 같은 도구가 소스 코드를 분석하여 "이 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) A와 B는 런타임에 교차 획득되어 사이클을 형성할 확률이 높습니다"라고 미리 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 그려 경고해 주는 사전 방어 모델이 발전하고 있다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경의 락 매니저 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a>)</strong>: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 WFG를 단일 장비에서 그릴 수 없다. 여러 장비가 중앙의 ZooKeeper나 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 호출할 때, 이 중앙 매니저가 글로벌 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 관리하며 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데드락을 감지하고 끊어내는 지능형 에이전트로 진화 중이다.
 
 ### 결론
 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))와 사이클은 보이지 않는 소프트웨어의 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 꼬임을, 눈에 보이고 수학적으로 증명 가능한 '기하학적 도형'으로 끌어낸 훌륭한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 모델이다. 단일 인스턴스에서의 '사이클 = 데드락'이라는 명쾌한 공식은 RDBMS의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 방어선으로 깊게 뿌리내렸고, 다중 인스턴스의 얽히고설킨 딜레마는 현대 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 자원 배분 철학으로 남았다. 아키텍트는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 짤 때마다 머릿속 허공에 이 동그라미와 화살표를 그리며, 자신이 짠 코드가 치명적인 폐쇄 루프(Cycle)를 만들고 있지는 않은지 끊임없이 의심해야 한다.
@@ -187,15 +184,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[교착 상태 4가지 조건]
-    │
-    ▼
-[자원 할당 그래프 사이클 (Resource Allocation Graph Cycle)]
-    │
-    ├──▶ [은행원 알고리즘 안전 상태]
-    └──▶ [교착 상태 무시 (타조 알고리즘)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 4가지 조건</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 사이클 (Resource Allocation Graph Cycle)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행원 알고리즘 안전 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 무시 (타조 알고리즘)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

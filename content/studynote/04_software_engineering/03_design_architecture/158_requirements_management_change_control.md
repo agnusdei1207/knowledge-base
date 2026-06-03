@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-요구사항 관리의 핵심은 세 가지다. 첫째, 모든 요구사항에 고유 ID와 속성을 부여한다. 둘째, 특정 시점의 합의본을 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)으로 동결한다. 셋째, 이후 변경은 영향도 분석과 승인 절차를 거쳐 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 반영한다. 즉 요구사항 관리는 “문서를 보관하는 일”이 아니라 **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 변경 이력의 무결성을 유지하는 체계**다.
+요구사항 관리의 핵심은 세 가지다. 첫째, 모든 요구사항에 고유 ID와 속성을 부여한다. 둘째, 특정 시점의 합의본을 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)으로 동결한다. 셋째, 이후 변경은 영향도 분석과 승인 절차를 거쳐 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 반영한다. 즉 요구사항 관리는 “문서를 보관하는 일”이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>과 변경 이력의 무결성을 유지하는 체계</strong>다.
 
 ### 핵심 구성 요소
 
@@ -44,26 +44,22 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 요구사항 변경 통제가 어떤 흐름으로 돌아가는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                requirements control: baseline to approved update           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Requirement set ──▶ Baseline v1.0                                          │
-│                         │                                                   │
-│                         ├── change request raised                           │
-│                         ▼                                                   │
-│                  impact analysis (scope / cost / test / risk)              │
-│                         │                                                   │
-│              ┌──────────┴──────────┐                                        │
-│              │                     │                                        │
-│         Reject / defer        Approve via CCB                               │
-│                                    │                                        │
-│                                    ▼                                        │
-│                         update to v1.1 + RTM + test sync                    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 것은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호 자체보다 **무엇이 현재 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)인지 모두가 동일하게 아는 상태**다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requirements control: baseline to approved update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement set ──▶ Baseline v1.0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── change request raised</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">impact analysis (scope / cost / test / risk)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reject / defer Approve via CCB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update to v1.1 + RTM + test sync</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 것은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호 자체보다 <strong>무엇이 현재 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>인지 모두가 동일하게 아는 상태</strong>다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 게임의 저장 지점과 같다. 중간에 전략을 바꾸더라도, 어느 시점 상태에서 다시 시작하는지 분명해야 전체 진행이 꼬이지 않는다.
 
@@ -92,10 +88,10 @@ tags = ["studynote-software-engineering"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **모든 요구사항에 ID, 상태, 우선순위, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 있는가?** 자연어 문장만 있으면 관리가 끊긴다.
+1. <strong>모든 요구사항에 ID, 상태, 우선순위, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>이 있는가?</strong> 자연어 문장만 있으면 관리가 끊긴다.
 2. **구두 변경을 공식 요청으로 전환하는 절차가 있는가?** 메신저 지시가 바로 개발로 들어가면 통제는 무너진다.
 3. **변경 승인 전 영향도 분석이 이뤄지는가?** 설계, 코드, 테스트, 일정, 계약 범위를 함께 봐야 한다.
-4. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이라도 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)/릴리스 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 명확히 두는가?** 빠름과 무규칙은 다르다.
+4. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 팀이라도 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a>/릴리스 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>을 명확히 두는가?</strong> 빠름과 무규칙은 다르다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -111,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 요구사항 관리를 제대로 운영하면 일정 예측 가능성, 변경 비용 가시성, 테스트 정합성, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응력, 고객과 개발팀 간 책임 경계가 함께 좋아진다. 특히 대규모·규제 산업 프로젝트에서는 이 체계가 단순한 행정 절차가 아니라 품질 보증과 계약 관리의 핵심이 된다. 반대로 통제만 강조하고 변경 속도를 무시하면 승인 병목이 생겨 가치 전달이 늦어질 수 있다.
 
-따라서 좋은 요구사항 관리는 “변경을 막는 시스템”이 아니라 **변경을 이해 가능한 비용과 기록 아래에서 안전하게 수용하는 시스템**이어야 한다. 앞으로는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 영향도 분석, 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 요구사항-코드 연동 자동화가 더 중요해지겠지만, 핵심 원리는 바뀌지 않는다. 무엇이 현재 합의된 요구인지, 왜 바뀌었는지, 그 결과가 어디까지 반영됐는지를 끝까지 추적할 수 있어야 한다.
+따라서 좋은 요구사항 관리는 “변경을 막는 시스템”이 아니라 <strong>변경을 이해 가능한 비용과 기록 아래에서 안전하게 수용하는 시스템</strong>이어야 한다. 앞으로는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 영향도 분석, 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), 요구사항-코드 연동 자동화가 더 중요해지겠지만, 핵심 원리는 바뀌지 않는다. 무엇이 현재 합의된 요구인지, 왜 바뀌었는지, 그 결과가 어디까지 반영됐는지를 끝까지 추적할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 요구사항 관리는 배의 키와 항해일지와 같다. 바람이 바뀌어 항로를 수정할 수는 있지만, 언제 왜 방향을 틀었는지 기록이 남아야 목적지까지 안전하게 갈 수 있다.
 
@@ -130,21 +126,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 도출 · 분석
-    │
-    ▼
-요구사항 ID 부여 · Baseline 확정
-    │
-    ▼
-변경 요청 (CR) · 영향도 분석 · CCB 승인
-    │
-    ▼
-버전 갱신 · RTM 연동 · 테스트/릴리스 동기화
-    │
-    ▼
-지속적 요구사항 관리 · 디지털 스레드 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 도출 · 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항 ID 부여 · Baseline 확정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변경 요청 (CR) · 영향도 분석 · CCB 승인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버전 갱신 · RTM 연동 · 테스트/릴리스 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 요구사항 관리 · 디지털 스레드 자동화</div>
+</div>
+</div>
+
+
 
 이 흐름은 요구사항 관리가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 명세서 작성으로 끝나지 않고, 변경 통제와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 추적성, 릴리스 동기화까지 이어지는 생명주기 활동임을 보여준다.
 

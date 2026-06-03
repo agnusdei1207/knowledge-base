@@ -18,30 +18,24 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           Hadoop 보안 3개 레이어                          │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  레이어 1: 인증 (Authentication)                          │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Kerberos KDC (Key Distribution Center)          │   │
-│  │  → TGT 티켓 발급 → 서비스 티켓으로 HDFS/YARN 접근│   │
-│  └──────────────────────────────────────────────────┘   │
-│                    ↓                                      │
-│  레이어 2: 권한 부여 (Authorization)                       │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Apache Ranger — 정책 기반 세밀한 접근 제어       │   │
-│  │  (DB·테이블·컬럼·행 레벨 정책)                   │   │
-│  └──────────────────────────────────────────────────┘   │
-│                    ↓                                      │
-│  레이어 3: 데이터 거버넌스 (Governance)                    │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Apache Atlas — 메타데이터·계보·분류·태그         │   │
-│  │  (개인정보 컬럼 자동 태그, 데이터 흐름 추적)      │   │
-│  └──────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop 보안 3개 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 1: 인증 (Authentication)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kerberos KDC (Key Distribution Center)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ TGT 티켓 발급 → 서비스 티켓으로 HDFS/YARN 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 2: 권한 부여 (Authorization)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Ranger — 정책 기반 세밀한 접근 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DB·테이블·컬럼·행 레벨 정책)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 3: 데이터 거버넌스 (Governance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Atlas — 메타데이터·계보·분류·태그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인정보 컬럼 자동 태그, 데이터 흐름 추적)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 보안은 회사 출입 관리 시스템이다. 출입 카드([Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) — 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 층별 권한(Ranger — 접근 가능 구역), 방문 기록부(Atlas — 어디서 어디로 이동했는지 추적) 3단계로 구성된다.
 
@@ -51,18 +45,20 @@ tags = ["studynote-bigdata"]
 
 ### [Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 흐름
 
-```text
-사용자     KDC(AS)           KDC(TGS)        서비스
-  │         │                  │               │
-  │ kinit   │                  │               │
-  │────────→│ TGT 발급         │               │
-  │←────────│                  │               │
-  │         │ TGT + 서비스 요청 │               │
-  │────────────────────────────→ 서비스 티켓 발급│
-  │←──────────────────────────────────────────│
-  │                                서비스 티켓으로 HDFS 접근│
-  │──────────────────────────────────────────→│
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 KDC(AS) KDC(TGS) 서비스</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kinit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">TGT 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TGT + 서비스 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 서비스 티켓 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 티켓으로 HDFS 접근</div></div>
+</div>
+</div>
+
+
 
 ### Apache Ranger 세밀한 접근 제어
 
@@ -97,26 +93,35 @@ tags = ["studynote-bigdata"]
 
 ### Apache Atlas [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 ([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/))
 
-```text
-데이터 소스 → ETL 변환 → DW 테이블 → 분석 보고서
 
-Atlas 자동 추적:
-  orders.csv → (Spark ETL) → sales_fact → (HiveQL) → monthly_report
 
-규제 준수 활용:
-  "이 개인정보 컬럼이 어느 다운스트림 테이블에 흘렀는가?"
-  → GDPR 데이터 파악, 개인정보 삭제 영향 범위 분석
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 소스 → ETL 변환 → DW 테이블 → 분석 보고서</div>
+<div class="kb-diagram-note">Atlas 자동 추적:</div>
+<div class="kb-diagram-note">orders.csv → (Spark ETL) → sales_fact → (HiveQL) → monthly_report</div>
+<div class="kb-diagram-note">규제 준수 활용:</div>
+<div class="kb-diagram-note">"이 개인정보 컬럼이 어느 다운스트림 테이블에 흘렀는가?"</div>
+<div class="kb-diagram-note">→ GDPR 데이터 파악, 개인정보 삭제 영향 범위 분석</div>
+</div>
+</div>
+
+
 
 ### 실무 배포 구성
-```text
-HDP (Hortonworks Data Platform) / CDP (Cloudera Data Platform):
-  Kerberos + Ranger + Atlas + Knox(게이트웨이) 번들 제공
 
-Knox Gateway:
-  → 외부에서 Hadoop 클러스터 접근 시 단일 진입점 (API Gateway)
-  → TLS 종단, SSO 통합
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HDP (Hortonworks Data Platform) / CDP (Cloudera Data Platform):</div>
+<div class="kb-diagram-note">Kerberos + Ranger + Atlas + Knox(게이트웨이) 번들 제공</div>
+<div class="kb-diagram-note">Knox Gateway:</div>
+<div class="kb-diagram-note">→ 외부에서 Hadoop 클러스터 접근 시 단일 진입점 (API Gateway)</div>
+<div class="kb-diagram-note">→ TLS 종단, SSO 통합</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Apache Atlas [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 식품 이력 추적 시스템이다. 원재료(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 완제품(분석 보고서)까지 모든 가공 단계를 추적해서 "이 숫자가 어떤 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 왔나?" 역추적이 가능하다.
 
@@ -128,7 +133,7 @@ Knox Gateway:
 |:---|:---|
 | **규제 준수** | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)·금융 규제 충족 |
 | **세밀한 접근 제어** | 컬럼·행 레벨 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 최소 권한 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 계보 추적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·영향 파악 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 계보 추적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·영향 파악 |
 
 현대 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)에서 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) Kerberos는 클라우드 IAM으로, Ranger는 [Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)/LakeFormation으로, Atlas는 Microsoft Purview/OpenMetadata로 대체되는 추세다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 유지 조직에서는 [Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/)+Ranger+Atlas [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 여전히 표준 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)다.
 
@@ -140,29 +145,31 @@ Knox Gateway:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Kerberos](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/)** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 네트워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/">Kerberos</a></strong> | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 네트워크 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 | **Apache Ranger** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 세밀한 접근 제어 |
 | **Apache Atlas** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·계보·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·태그 |
 | **Knox Gateway** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 단일 진입점 |
-| **[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)** | 클라우드 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 통합 거버넌스 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/">Unity Catalog</a></strong> | 클라우드 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 통합 거버넌스 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Simple Security Mode — 인증 없는 초기 Hadoop]
-    │
-    ▼
-[Kerberos 통합 — 네트워크 신원 인증]
-    │
-    ▼
-[Apache Ranger — 정책 기반 세밀한 접근 제어]
-    │
-    ▼
-[Apache Atlas — 데이터 거버넌스·계보 추적]
-    │
-    ▼
-[Unity Catalog/LakeFormation — 클라우드 통합 거버넌스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Simple Security Mode — 인증 없는 초기 Hadoop</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kerberos 통합 — 네트워크 신원 인증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ranger — 정책 기반 세밀한 접근 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Atlas — 데이터 거버넌스·계보 추적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog/LakeFormation — 클라우드 통합 거버넌스</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

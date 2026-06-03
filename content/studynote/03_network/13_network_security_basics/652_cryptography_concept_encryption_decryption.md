@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 평문(Plaintext, 누구나 읽을 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 비밀 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 이용해, 해커가 훔쳐보아도 전혀 의미를 알 수 없는 암호문(Ciphertext, 외계어)으로 변환하는 기술과 이론을 연구하는 학문입니다.
-- **목적**: 네트워크상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 제3자의 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))으로부터 **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))**을 지키는 가장 근본적이고 강력한 방어 수단입니다.
+- **목적**: 네트워크상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 제3자의 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))으로부터 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)</strong>을 지키는 가장 근본적이고 강력한 방어 수단입니다.
 
-```text
-[정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    ▼
-[암호학 개요 통신망 보안 적용]
-    │
-    └──▶ [대칭키 암호화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭키 암호화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 암호학 개요 통신망 보안 적용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 1. **평문 (Plaintext / Cleartext)**: 암호화되기 전의 원본 메시지. (예: 비밀번호 "1234")
 2. **암호문 (Ciphertext)**: 암호화 과정을 거쳐 의미를 알 수 없게 찌그러진 결과물. (예: "Xy9@q!")
-3. **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: 평문을 암호문으로 섞고(Encryption), 암호문을 다시 평문으로 푸는(Decryption) 수학적인 '공식'이나 '기계'입니다. (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
-4. **키 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기계를 돌릴 때 집어넣는 '비밀번호' 또는 '열쇠'입니다. 아무리 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 써도, **키를 해커에게 들키면 암호문은 즉시 뚫립니다.** (현대 암호학에서 가장 지켜야 할 절대 반지입니다.)
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 평문을 암호문으로 섞고(Encryption), 암호문을 다시 평문으로 푸는(Decryption) 수학적인 '공식'이나 '기계'입니다. (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
+4. <strong>키 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기계를 돌릴 때 집어넣는 '비밀번호' 또는 '열쇠'입니다. 아무리 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 써도, **키를 해커에게 들키면 암호문은 즉시 뚫립니다.** (현대 암호학에서 가장 지켜야 할 절대 반지입니다.)
 
-```text
-[정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    ▼
-[암호학 개요 통신망 보안 적용]
-    │
-    └──▶ [대칭키 암호화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭키 암호화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 암호학 개요 통신망 보안 적용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,10 +66,10 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 현대 암호학의 가장 위대한 철학입니다.
-> **"암호 시스템의 안전성은 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 비밀성'에 의존해서는 안 되며, 오직 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))의 비밀성'에만 의존해야 한다."**
+> <strong>"암호 시스템의 안전성은 '<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 비밀성'에 의존해서는 안 되며, 오직 '키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)의 비밀성'에만 의존해야 한다."</strong>
 
 - **과거의 실수**: 아마추어 프로그래머들은 자기 혼자 몰래 만든 독창적인 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 공식을 쓰면 안전할 거라 착각합니다. 하지만 해커가 프로그램을 뜯어보는 순간([리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)) 공식이 탄로 나서 영구적으로 뚫리게 됩니다.
-- **현대 암호학의 정답**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 같은 현대 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공식은 인터넷 논문이나 위키피디아에 누구나 볼 수 있게 100% 투명하게 공개되어 있습니다. 수만 명의 천재 수학자들이 공식을 검증하여 해킹이 불가능함을 증명했기 때문입니다. **"공식([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 전 세계에 다 까발려도 좋다. 단, 금고를 여는 숫자([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 하나만 안전하게 숨기면 절대로 뚫리지 않는다."** 이것이 진정한 암호학입니다.
+- **현대 암호학의 정답**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 같은 현대 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공식은 인터넷 논문이나 위키피디아에 누구나 볼 수 있게 100% 투명하게 공개되어 있습니다. 수만 명의 천재 수학자들이 공식을 검증하여 해킹이 불가능함을 증명했기 때문입니다. <strong>"공식(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)은 전 세계에 다 까발려도 좋다. 단, 금고를 여는 숫자(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 하나만 안전하게 숨기면 절대로 뚫리지 않는다."</strong> 이것이 진정한 암호학입니다.
 
 암호학 개요 통신망 보안 적용을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [정보보안 3대 요소](/knowledge-base/studynote/03_network/13_network_security_basics/651_cia_triad_confidentiality_integrity_availability/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구가 기반 조건을 만든다면, 암호학 개요 통신망 보안 적용은 그 위에서 핵심 메커니즘을 구현하고, [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -78,10 +86,10 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **양방향 암호화 (Two-way)**:
-   - 암호화(잠그기)를 한 뒤, **다시 복호화(풀기)를 해서 원래의 평문으로 되돌릴 수 있는 방식**입니다. (통신, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장용)
-   - 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 어떻게 쓰느냐에 따라 **[대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)(653번)**와 **[비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)(660번)**로 나뉩니다.
+   - 암호화(잠그기)를 한 뒤, <strong>다시 복호화(풀기)를 해서 원래의 평문으로 되돌릴 수 있는 방식</strong>입니다. (통신, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장용)
+   - 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 어떻게 쓰느냐에 따라 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/">대칭키 암호</a>(653번)</strong>와 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/">비대칭키 암호</a>(660번)</strong>로 나뉩니다.
 2. **일방향 암호화 (One-way) = 해시(Hash)**:
-   - 한 번 암호문으로 만들면, 우주가 멸망할 때까지 **절대 다시 원래 평문으로 복호화할 수 없는(풀 수 없는) 암호화**입니다. 비밀번호를 DB에 안전하게 저장하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 씁니다. (667번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+   - 한 번 암호문으로 만들면, 우주가 멸망할 때까지 <strong>절대 다시 원래 평문으로 복호화할 수 없는(풀 수 없는) 암호화</strong>입니다. 비밀번호를 DB에 안전하게 저장하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 씁니다. (667번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 정보보안 3대 요소 + 인증, 부인방지 요구]
-    │
-    ▼
-[현재 개념: 암호학 개요 통신망 보안 적용]
-    │
-    ├──▶ [확장 A: 대칭키 암호화]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 암호학 개요 통신망 보안 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 대칭키 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 암호학 개요 통신망 보안 적용는 [정보보안 3대 요소](/knowledge-base/studynote/03_network/13_network_security_basics/651_cia_triad_confidentiality_integrity_availability/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구에서 출발해 현재 메커니즘을 정교화하고, 이후 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

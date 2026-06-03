@@ -44,23 +44,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 능동 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 어떻게 보안 블록 위를 덮고 반응하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 Active mesh: detect before the secret is touched          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Challenge Gen ─────▶ Mesh Layer A ─────▶ Mesh Layer B ─────▶ Sense Comp   │
-│                         │                     │                              │
-│                         │ abnormal open/short │ abnormal capacitance         │
-│                         └──────────────┬──────┴──────────────┐               │
-│                                        ▼                     │               │
-│                                  Tamper Latch                │               │
-│                                        │                     │               │
-│                                        ▼                     │               │
-│                        Zeroization / lockout / debug disable │               │
-│                                                              │               │
-│                        Sensitive bus / key store / control logic below       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active mesh: detect before the secret is touched</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Challenge Gen ▶ Mesh Layer A ▶ Mesh Layer B ▶ Sense Comp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">abnormal open/short</div><div class="kb-diagram-cell">abnormal capacitance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Latch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zeroization / lockout / debug disable</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensitive bus / key store / control logic below</div></div>
+</div>
+</div>
+
+
 
 실제로는 여기서 세 가지 트레이드오프가 생긴다. 첫째, 피치를 촘촘히 할수록 공격 난도는 높아지지만 배선 자원과 면적이 늘어난다. 둘째, 동적 검사를 강화할수록 보안은 좋아지지만 테스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 복잡해진다. 셋째, 상단 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)만 강해도 배면 박막화 후 뒤쪽에서 접근하는 우회 경로가 남을 수 있으므로, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 패키지 센서·배면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 묶어 보는 것이 중요하다.
 
@@ -102,9 +99,9 @@ tags = ["studynote-computer-architecture"]
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **민감 블록 일부 미커버**: 작은 공백이 실제 공격 경로가 된다.
-- **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 있는데 zeroize 연동이 약한 구조**: 탐지만 하고 비밀을 남기면 효과가 반감된다.
-- **메인 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존형 tamper 처리**: CPU가 멈추면 대응도 멈춘다.
-- **생산 테스트용 우회 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 방치**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 test path가 더 큰 구멍이 될 수 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>는 있는데 zeroize 연동이 약한 구조</strong>: 탐지만 하고 비밀을 남기면 효과가 반감된다.
+- <strong>메인 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 의존형 tamper 처리</strong>: CPU가 멈추면 대응도 멈춘다.
+- <strong>생산 테스트용 우회 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 방치</strong>: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 test path가 더 큰 구멍이 될 수 있다.
 
 기술사 관점에서는 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깐다"보다 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 시스템 반응의 시작점으로 설계한다"는 표현이 중요하다. 즉 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)층 자체보다, 탐지 후 무엇이 얼마나 빨리 어떻게 동작하는지를 함께 서술해야 답안 완성도가 높다.
 
@@ -134,24 +131,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 차폐층
-      │
-      ▼
-정적 연속성 기반 active mesh
-      │
-      ▼
-동적 challenge-response mesh
-      │
-      ▼
-광 · 온도 · 전압 · 정전용량 sensor fusion
-      │
-      ▼
-상단 + 배면 보호
-      │
-      ▼
-zeroization 연계형 전주기 tamper envelope
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 차폐층</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 연속성 기반 active mesh</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 challenge-response mesh</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">광 · 온도 · 전압 · 정전용량 sensor fusion</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상단 + 배면 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">zeroization 연계형 전주기 tamper envelope</div>
+</div>
+</div>
+
+
 
 이 흐름은 "가림막"에서 출발해 "감지층"으로, 다시 "복합 반응형 물리 보안 외피"로 발전하는 과정을 보여 준다.
 

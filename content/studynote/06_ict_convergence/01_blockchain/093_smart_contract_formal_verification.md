@@ -32,28 +32,27 @@ tags = ["ict_convergence"]
 
 | 구성 요소 | 역할 | 상세 동작 |
 | :--- | :--- | :--- |
-| **명세서 ([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 절대 규칙 정의 | 예: "총 잔고(Total Supply)는 항상 금고의 돈과 같아야 한다." |
-| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 변환 (Modeling)** | 코드를 수학적 상태 머신으로 변환 | [Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) 코드를 기계가 이해하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 매핑 |
+| <strong>명세서 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 절대 규칙 정의 | 예: "총 잔고(Total Supply)는 항상 금고의 돈과 같아야 한다." |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 모델 변환 (Modeling)</strong> | 코드를 수학적 상태 머신으로 변환 | [Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) 코드를 기계가 이해하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 매핑 |
 | **증명 엔진 (Prover Engine)** | Z3, Coq 등을 이용한 연산 수행 | 수식을 풀어내어 예외(Counter-example)가 존재하는지 탐색 |
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과 ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 결과 (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           정형 검증 (Formal Verification) 작동 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [개발자 코드]                         [수학적 규칙(명세)]       │
-│    function transfer() { ... }           Total A + B == 100  │
-│         │                                        │           │
-│         └────────────▶ [ 모델 변환기 ] ◀───────────┘           │
-│                               │                              │
-│ 2. [수학적 논리 모델] (상태 A ➔ 상태 B 전이 트리)                   │
-│                               │                              │
-│ 3. [증명기 (Theorem Prover)] (수만 가지 경로를 수학적으로 압축 연산)   │
-│         │                                        │           │
-│  [ TRUE (증명 성공!) ]                  [ FALSE (반례 발견!) ]   │
-│   (우주가 멸망해도 안전함)                 (특정 입력값 x에서 버그)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정형 검증 (Formal Verification) 작동 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">개발자 코드</div><div class="kb-diagram-node">수학적 규칙(명세)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function transfer() { ... } Total A + B == 100</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모델 변환기</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">수학적 논리 모델</div><div class="kb-diagram-note">(상태 A ➔ 상태 B 전이 트리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">증명기 (Theorem Prover)</div><div class="kb-diagram-note">(수만 가지 경로를 수학적으로 압축 연산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TRUE (증명 성공!)</div><div class="kb-diagram-node">FALSE (반례 발견!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우주가 멸망해도 안전함) (특정 입력값 x에서 버그)</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 핵심은 코드를 '실행'하는 것이 아니라 '해석'한다는 점이다. 엔진은 재진입([Re-entrancy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/))이나 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 같은 해커의 악의적 입력값을 수학적 변수 범주로 취급하여, 모든 경로(Path)에서 불변 규칙이 유지되는지 증명한다.
 
@@ -67,9 +66,9 @@ tags = ["ict_convergence"]
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법 | 방식 | 커버리지 | 장점 | 단점 |
 | :--- | :--- | :--- | :--- | :--- |
-| **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))** | 사람이 예상한 입력값 주입 | 낮음 | 구현이 쉽고 빠름 | 예상치 못한 엣지 케이스 놓침 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a>)</strong> | 사람이 예상한 입력값 주입 | 낮음 | 구현이 쉽고 빠름 | 예상치 못한 엣지 케이스 놓침 |
 | **퍼징 (Fuzzing)** | 무작위 가비지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 주입 | 중간 | 런타임 크래시 발견에 탁월 | 100% 안전을 보장하지 않음 |
-| **정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Formal [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** | 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 상태 공간 증명 | 100% | 이론적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 완벽 보장 | 도입 비용이 막대하고 전문 인력 필요 |
+| <strong>정형 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Formal <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 수학적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 상태 공간 증명 | 100% | 이론적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 완벽 보장 | 도입 비용이 막대하고 전문 인력 필요 |
 
 퍼징이 해커처럼 무식하게 문을 수만 번 걷어차 보는 행동이라면, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 문 자체의 분자 구조를 분석해 부서질 수 없는 재질임을 증명하는 것에 가깝다. 비용 문제로 테스트와 퍼징을 먼저 거친 후, 최후의 보루로 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다.
 
@@ -85,7 +84,7 @@ tags = ["ict_convergence"]
 
 - **적용 대상 (채택)**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 내부에 TVL(Total Value Locked)이 수백억 원 이상 묶이는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 프로토콜의 코어 엔진, 토큰 발행 규칙, 크로스체인 브릿지 코드.
 - **비적용 대상 (회피)**: 단순한 NFT [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 업데이트 로직, 자산 이동이 없는 UI 관련 컨트랙트. 여기에는 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수억 원을 태우는 대신 코드 오딧([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))과 버그 바운티가 효율적이다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: "명세서([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 자체의 오류". 사람이 규칙을 잘못 짜면(예: "해커가 돈을 가져가도 된다"고 명세함), 엔진은 그 잘못된 규칙이 100% 달성된다고 기쁜 마음으로 증명해 준다. 비즈니스 로직 오류는 막지 못한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: "명세서([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 자체의 오류". 사람이 규칙을 잘못 짜면(예: "해커가 돈을 가져가도 된다"고 명세함), 엔진은 그 잘못된 규칙이 100% 달성된다고 기쁜 마음으로 증명해 준다. 비즈니스 로직 오류는 막지 못한다.
 
 - **📢 섹션 요약 비유**: 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 100억짜리 다이아몬드를 운반할 때 쓰는 특수 장갑차와 같다. 안전하지만 대여비가 비싸서, 동네 슈퍼에 두부 사러 갈 때(단순 컨트랙트) 타고 가면 배보다 배꼽이 더 커진다.
 
@@ -105,28 +104,30 @@ tags = ["ict_convergence"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 대상이 되는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 상의 불변 코드 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a>)</strong> | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 대상이 되는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 상의 불변 코드 |
 | **퍼징 (Fuzzing)** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전 단계에서 무작위 값으로 오류를 털어내는 테스트 기법 |
-| **The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건** | 재진입 취약점 하나로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 분기(하드포크)된 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 역사적 배경 |
+| <strong>The <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 해킹 사건</strong> | 재진입 취약점 하나로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 분기(하드포크)된 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 역사적 배경 |
 | **정리 증명 (Theorem Proving)** | 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 컴퓨터 공학의 수학적 엔진 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스마트 컨트랙트 등장 (불변성 및 금전적 위협 대두)
-    │
-    ▼
-단위 테스트 / 통합 테스트 (경험적 검증 한계)
-    │
-    ▼
-보안 감사 (Audit) 및 퍼징 (Fuzzing) 도입
-    │
-    ▼
-정형 검증 (Formal Verification: 모델 체킹, 정리 증명) 적용
-    │
-    ▼
-자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스마트 컨트랙트 등장 (불변성 및 금전적 위협 대두)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단위 테스트 / 통합 테스트 (경험적 검증 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 감사 (Audit) 및 퍼징 (Fuzzing) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정형 검증 (Formal Verification: 모델 체킹, 정리 증명) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 코드의 취약성을 막기 위해 테스트 기법이 점점 인간의 경험(감)에서 수학적 완벽성(이성)으로 진화해 온 과정을 보여준다.
 

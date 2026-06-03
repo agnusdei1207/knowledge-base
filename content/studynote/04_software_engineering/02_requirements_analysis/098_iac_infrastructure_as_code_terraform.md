@@ -30,22 +30,23 @@ tags = ["software_engineering"]
 
 IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 방식으로 나뉘지만, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 현대적 도구는 선언형 철학을 따른다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              명령형 vs 선언형 방식의 차이점 (IaC 핵심 철학)             │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 명령형 (Imperative, 셸 스크립트 방식)                       │
-│    "AWS에 접속해라 ─▶ EC2 생성 명령어를 3번 실행해라"              │
-│    (이미 서버가 3대 있는데 또 실행하면 6대가 되어버리는 참사 발생)      │
-│                                                              │
-│ 2. 선언형 (Declarative, Terraform 방식) ★ 멱등성 보장           │
-│    "최종 상태(State)가 'EC2 3대 구동 중'이 되게 만들어라"             │
-│    (현재 1대가 있다면 2대만 추가하고, 4대가 있다면 1대를 삭제함)       │
-│                                                              │
-│ [IaC 엔진 동작 파이프라인]                                      │
-│  [Code(설계도)] ─▶ [IaC Engine (상태 파일 검사)] ─▶ [클라우드 API 통신] │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령형 vs 선언형 방식의 차이점 (IaC 핵심 철학)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령형 (Imperative, 셸 스크립트 방식)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"AWS에 접속해라 ─▶ EC2 생성 명령어를 3번 실행해라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이미 서버가 3대 있는데 또 실행하면 6대가 되어버리는 참사 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 선언형 (Declarative, Terraform 방식) ★ 멱등성 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"최종 상태(State)가 'EC2 3대 구동 중'이 되게 만들어라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 1대가 있다면 2대만 추가하고, 4대가 있다면 1대를 삭제함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaC 엔진 동작 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code(설계도)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IaC Engine (상태 파일 검사)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 API 통신</div></div>
+</div>
+</div>
+
+
 
 엔지니어는 "어떻게 (How) 만들 것인가"를 고민하지 않고, "무엇이 (What) 필요한가"라는 최종 목표 상태만 코드에 선언한다. [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 등의 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 엔진은 자신이 기록해 둔 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))과 실제 클라우드 환경을 비교(Diff)한 뒤, 누락되거나 변경된 부분만을 API를 통해 정확히 맞춰낸다. 이것이 동일한 코드를 백 번 실행해도 결과가 똑같은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) (Idempotence)의 원리이다.
 
@@ -76,8 +77,8 @@ IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowled
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 의사결정
 
-1. **Git 기반 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 및 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))**: 인프라가 텍스트 코드이므로 Git에 올려 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 해야 한다. 어제 적용한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙 변경으로 오늘 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 터지면, 클라우드 콘솔을 뒤지는 것이 아니라 Git에서 `git revert` (이전 코드로 되돌리기) 명령을 내린다. [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)이 즉시 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 과거 상태로 돌려놓는다(1초 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)).
-2. **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 이식성 (Portability)**: AWS CloudFormation은 AWS 종속적이지만, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은 프로바이더 ([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)) 플러그인을 통해 AWS, GCP, Azure 코드를 한 번에 관리할 수 있어 [클라우드 벤더 락인](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/) ([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))을 방지하는 강력한 판단 기준이 된다.
+1. <strong>Git 기반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리 및 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a>)</strong>: 인프라가 텍스트 코드이므로 Git에 올려 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 해야 한다. 어제 적용한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙 변경으로 오늘 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 터지면, 클라우드 콘솔을 뒤지는 것이 아니라 Git에서 `git revert` (이전 코드로 되돌리기) 명령을 내린다. [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)이 즉시 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 과거 상태로 돌려놓는다(1초 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)).
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 이식성 (Portability)</strong>: AWS CloudFormation은 AWS 종속적이지만, [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은 프로바이더 ([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/)) 플러그인을 통해 AWS, GCP, Azure 코드를 한 번에 관리할 수 있어 [클라우드 벤더 락인](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/063_cloud_vendor_lock_in_avoidance/) ([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))을 방지하는 강력한 판단 기준이 된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -101,28 +102,30 @@ IaC는 주로 명령형 (Imperative) 방식과 선언형 ([Declarative](/knowled
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) (Idempotence)** | 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질. [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 신뢰성의 핵심 철학 |
-| **구성 드리프트 ([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))** | 시간이 지나며 서버 설정이 매뉴얼이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태와 미세하게 달라져 일관성이 붕괴되는 현상 |
-| **[테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))** | 하시코프사에서 만든 선언형 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구로, [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통해 인프라 상태를 추적하는 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 표준 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | IaC를 기반으로, 인프라의 배포 및 변경 승인 과정을 개발자의 Git [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 방식으로 통제하는 최신 워크플로 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (Idempotence)</strong> | 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질. [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 신뢰성의 핵심 철학 |
+| <strong>구성 드리프트 (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/">Configuration Drift</a>)</strong> | 시간이 지나며 서버 설정이 매뉴얼이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태와 미세하게 달라져 일관성이 붕괴되는 현상 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">테라폼</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>)</strong> | 하시코프사에서 만든 선언형 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구로, [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통해 인프라 상태를 추적하는 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 표준 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | IaC를 기반으로, 인프라의 배포 및 변경 승인 과정을 개발자의 Git [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 방식으로 통제하는 최신 워크플로 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 인프라 프로비저닝 (마우스 클릭, 눈송이 서버 발생)
-    │
-    ▼
-셸 스크립트 기반 자동화 (명령형, 멱등성 보장 불가)
-    │
-    ▼
-선언형 IaC 도입 (Terraform, CloudFormation / 멱등성 및 상태 관리)
-    │
-    ▼
-형상 관리와 결합 (인프라 버전 관리 및 롤백 가능)
-    │
-    ▼
-GitOps 및 DevSecOps (인프라 CI/CD 파이프라인 자동화 및 코드 보안 점검)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 인프라 프로비저닝 (마우스 클릭, 눈송이 서버 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셸 스크립트 기반 자동화 (명령형, 멱등성 보장 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선언형 IaC 도입 (Terraform, CloudFormation / 멱등성 및 상태 관리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">형상 관리와 결합 (인프라 버전 관리 및 롤백 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps 및 DevSecOps (인프라 CI/CD 파이프라인 자동화 및 코드 보안 점검)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

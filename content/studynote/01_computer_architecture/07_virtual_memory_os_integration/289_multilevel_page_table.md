@@ -27,23 +27,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 다단계가 필요한지를 보여준다. 코드·힙·스택처럼 일부 구간만 쓰는 프로세스라면, 빈 가상 주소 구간의 하위 테이블은 아예 만들지 않아도 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 가상 주소 공간                                                            │
-│ ┌──── 코드 ────┬──────────── 미사용 ────────────┬── 힙 ──┬──── 스택 ────┐ │
-│ └─────┬────────┴────────────────────────────────┴───┬────┴──────┬───────┘ │
-│       │                                             │           │         │
-│       ▼                                             ▼           ▼         │
-│   [하위 테이블 생성]                            [미생성]   [하위 테이블 생성] │
-│                                                                    [생성] │
-│                                                                            │
-│ 상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 아끼는 기법이 아니라, **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메타데이터를 희소하게 유지하는 기법**이라는 점이 중요하다. 그래서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 커질수록 그 가치가 더 커진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 공간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 미사용 ── 힙 ── 스택</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하위 테이블 생성</div><div class="kb-diagram-node">미생성</div><div class="kb-diagram-node">하위 테이블 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL</div></div>
+</div>
+</div>
+
+
+
+즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 아끼는 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 메타데이터를 희소하게 유지하는 기법</strong>이라는 점이 중요하다. 그래서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 커질수록 그 가치가 더 커진다.
 
 - **📢 섹션 요약 비유**: 거대한 전국 주소록을 통째로 인쇄하는 대신, 시도 색인만 먼저 두고 실제로 사는 동네의 상세 주소록만 꽂아 두는 방식과 같다. 사람이 없는 동네의 책자는 애초에 인쇄하지 않으니 서가 공간이 크게 줄어든다.
 
@@ -65,21 +64,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 MMU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 워크 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk)를 수행하는 순서를 압축한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            4단계 페이지 테이블 워크 (Page Table Walk) 흐름               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 가상 주소                                                                 │
-│ ┌──── L4 ────┬──── L3 ────┬──── L2 ────┬──── L1 ────┬──── Offset ─────┐ │
-│ └────┬───────┴────┬───────┴────┬───────┴────┬───────┴────────┬────────┘ │
-│      ▼            ▼            ▼            ▼                ▼          │
-│   [L4 테이블] -> [L3 테이블] -> [L2 테이블] -> [L1 PTE] -> [Frame+Off] │
-│      │            │            │            │                           │
-│      └─ 없으면 페이지 폴트 또는 미매핑 영역 판단                        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 병목은 명확하다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 CPU는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하기 전에 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 여러 번 읽어야 한다. 하지만 반대로 보면, 사용하지 않는 주소 범위는 하위 테이블을 아예 만들지 않으므로 프로세스별 메모리 오버헤드를 크게 낮출 수 있다. 결국 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 **메모리 절약과 추가 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 비용을 맞바꾸는 구조적 타협**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계 페이지 테이블 워크 (Page Table Walk) 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4 L3 L2 L1 Offset</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L4 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L1 PTE</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Frame+Off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 없으면 페이지 폴트 또는 미매핑 영역 판단</div></div>
+</div>
+</div>
+
+
+
+이 구조의 병목은 명확하다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 CPU는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하기 전에 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 여러 번 읽어야 한다. 하지만 반대로 보면, 사용하지 않는 주소 범위는 하위 테이블을 아예 만들지 않으므로 프로세스별 메모리 오버헤드를 크게 낮출 수 있다. 결국 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 <strong>메모리 절약과 추가 메모리 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 비용을 맞바꾸는 구조적 타협</strong>이다.
 
 - **📢 섹션 요약 비유**: 건물 호수를 찾기 위해 시청 → 구청 → 동사무소 → 관리사무소를 차례로 거치는 셈이다. 절차는 길어지지만, 전국 모든 건물 정보를 한 건물 관리실에 몰아넣지 않아도 된다는 장점이 생긴다.
 
@@ -97,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 이 구조는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 직접 연결된다. TLB는 반복 번역을 캐시해 다단계 워크 비용을 줄이고, Huge Page는 마지막 일부 단계를 생략해 워크 깊이를 얕게 만든다. 반대로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 잦거나 메모리 접근 지역성이 낮으면, 다단계 구조의 이론적 절약 효과보다 실성능 손해가 더 크게 체감될 수 있다.
 
-즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 독립된 주제가 아니라, **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 생태계의 중심 축**이다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 형식만 이해해서는 부족하고, 캐시 계층과 접근 패턴까지 함께 봐야 경계가 드러난다.
+즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 독립된 주제가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 생태계의 중심 축</strong>이다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 형식만 이해해서는 부족하고, 캐시 계층과 접근 패턴까지 함께 봐야 경계가 드러난다.
 
 - **📢 섹션 요약 비유**: 단일 테이블은 한 권짜리 초대형 백과사전이고, 다단계는 색인과 분권 체계가 있는 도서관이며, [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)은 책 위치 기준 재고 시스템에 가깝다. 무엇이 빠른지는 "어떻게 찾는가"와 "얼마나 큰 장서를 다루는가"에 따라 달라진다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 촘촘히 쓰는 대용량 메모리 워크로드는 PTE 수가 폭증하고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리도 빠르게 소진한다. 이때 2MB Huge Page를 쓰면 마지막 단계 일부를 생략할 수 있어 워크 깊이와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 함께 줄일 수 있다. 반대로 메모리 사용량이 들쭉날쭉하거나 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 치명적인 서비스에서는 Huge Page가 오히려 낭비를 늘릴 수 있으므로 무조건적인 채택은 위험하다.
 
-[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 문제가 한 단계 더 복잡해진다. 게스트 운영체제의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)과 하이퍼바이저의 2차 변환 테이블(EPT/NPT)이 겹치면, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 한 번의 비용이 더욱 커진다. 따라서 기술사 관점에서는 "주소 변환 구조 자체"보다 **워크로드 지역성, [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 중첩 여부**를 함께 판단해야 한다.
+[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 문제가 한 단계 더 복잡해진다. 게스트 운영체제의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)과 하이퍼바이저의 2차 변환 테이블(EPT/NPT)이 겹치면, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 한 번의 비용이 더욱 커진다. 따라서 기술사 관점에서는 "주소 변환 구조 자체"보다 <strong>워크로드 지역성, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 중첩 여부</strong>를 함께 판단해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -132,11 +131,11 @@ tags = ["studynote-computer-architecture"]
 
 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 가장 큰 효과는 주소 공간 확장성을 메모리 현실성과 연결해 준다는 점이다. 이 구조 덕분에 운영체제는 매우 큰 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)을 각 프로세스에 제공하면서도, 실제로 사용하지 않는 주소 구간에 대한 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메모리는 거의 쓰지 않을 수 있다. 특히 코드·힙·스택이 띄엄띄엄 배치되는 일반적인 프로세스에서는 효과가 크다.
 
-물론 한계도 분명하다. TLB가 충분히 받쳐주지 못하면 다단계 워크 비용이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 드러나고, 단계 수가 늘수록 하드웨어 복잡도와 워크 지연도 함께 커진다. 그래서 이 구조는 "언제나 빠른 방식"이 아니라, **희소한 주소 공간을 감당하기 위한 가장 현실적인 방식**으로 기억해야 한다.
+물론 한계도 분명하다. TLB가 충분히 받쳐주지 못하면 다단계 워크 비용이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 드러나고, 단계 수가 늘수록 하드웨어 복잡도와 워크 지연도 함께 커진다. 그래서 이 구조는 "언제나 빠른 방식"이 아니라, <strong>희소한 주소 공간을 감당하기 위한 가장 현실적인 방식</strong>으로 기억해야 한다.
 
 미래 방향도 같은 축에서 이어진다. 첫째, 5단계 페이징처럼 더 큰 주소 공간을 수용하는 확장이 진행된다. 둘째, Huge Page와 하드웨어 워크 캐시가 워크 비용을 줄인다. 셋째, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) 환경에서도 주소 변환 계층을 덜 비싸게 만드는 방향으로 진화한다.
 
-결론적으로 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "메모리 주소를 잘게 나눠 관리하는 기술"이 아니라, **거대한 주소 공간을 관리 가능한 장부 크기로 접어 넣는 구조적 설계법**이다. 주소 변환 단계가 늘어나는 비용은 남지만, 그 대가로 현대 시스템은 거대한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 모델을 실용적으로 유지할 수 있게 되었다.
+결론적으로 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "메모리 주소를 잘게 나눠 관리하는 기술"이 아니라, <strong>거대한 주소 공간을 관리 가능한 장부 크기로 접어 넣는 구조적 설계법</strong>이다. 주소 변환 단계가 늘어나는 비용은 남지만, 그 대가로 현대 시스템은 거대한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 모델을 실용적으로 유지할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 펼치면 거대한 지도지만, 실제로는 필요한 구역만 접어서 들고 다니는 여행 지도와 같다. 길 찾는 순서는 조금 늘어도, 배낭 안에 들어갈 만큼 가벼워진다는 점이 핵심이다.
 
@@ -155,21 +154,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 페이지 테이블
-        │
-        ▼
-페이지 테이블 크기 폭증 문제
-        │
-        ▼
-다단계 페이지 테이블
-        │
-        ├──────────────▶ TLB (Translation Lookaside Buffer) 최적화
-        │
-        ├──────────────▶ Huge Page 기반 워크 깊이 축소
-        │
-        └──────────────▶ 역 페이지 테이블 · Nested Paging 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 페이지 테이블</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 테이블 크기 폭증 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 페이지 테이블</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ TLB (Translation Lookaside Buffer) 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Huge Page 기반 워크 깊이 축소</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 역 페이지 테이블 · Nested Paging 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 번역 장부"에서 출발해, 주소 공간 확장 문제를 해결하고, 이후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 대응으로 확장되는 진화를 보여준다.
 

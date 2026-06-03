@@ -109,18 +109,21 @@ DAO는 투명성과 참여성을 높이고, 중앙 권한 의존도를 낮춘다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 조직
-    │
-    ▼
-토큰 기반 커뮤니티
-    │
-    ▼
-DAO
-    │
-    ▼
-온체인 거버넌스 / 자동 집행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 조직</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토큰 기반 커뮤니티</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAO</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온체인 거버넌스 / 자동 집행</div>
+</div>
+</div>
+
+
 
 이 흐름은 조직 운영이 사람 중심에서 규칙 코드 중심으로 이동하는 과정을 보여준다.
 

@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 쿠팡 메인 페이지를 딱 띄웠을 때, 맨 위 검색창은 `검색 팀의 Vue.js 앱`, 중간 장바구니는 `주문 팀의 React 앱`, 밑에 상품 추천은 `AI 팀의 Svelte 앱`이 각기 다른 서버에서 동시에 끌려와 하나의 브라우저 DOM 도화지 안에서 섞여 도는 미친 구조다. (폴리글랏 프론트엔드).
 
-- **필요성 (프론트엔드 모놀리스의 붕괴)**: 2018년 백엔드는 MSA로 찢어져서 천국을 맛보았다. 그런데 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 50개를 호출해서 화면을 그리는 프론트엔드 앱(`SPA`, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application)은 무려 용량이 100MB짜리 괴물이 되었다. 검색창 버튼 색깔 1개를 빨간색으로 고쳤는데, `npm run build` 돌리다가 의존성 라이브러리가 꼬여서 장바구니 로직이 통째로 뻗어버렸다. **"백엔드 팀은 하루에 10번씩 독립 배포하며 쌩쌩 날아다니는데, 우리 프론트 팀은 배포 1번 하려면 100명이 깃헙 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 컨펌받고 새벽 2시에 모여서 빌드 폭발 안 하길 기도해야 한다고? ㅆㅂ 우리 프론트도 찢어!!"**라는 피눈물 나는 절규가 이 아키텍처를 탄생시켰다.
+- **필요성 (프론트엔드 모놀리스의 붕괴)**: 2018년 백엔드는 MSA로 찢어져서 천국을 맛보았다. 그런데 백엔드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 50개를 호출해서 화면을 그리는 프론트엔드 앱(`SPA`, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application)은 무려 용량이 100MB짜리 괴물이 되었다. 검색창 버튼 색깔 1개를 빨간색으로 고쳤는데, `npm run build` 돌리다가 의존성 라이브러리가 꼬여서 장바구니 로직이 통째로 뻗어버렸다. <strong>"백엔드 팀은 하루에 10번씩 독립 배포하며 쌩쌩 날아다니는데, 우리 프론트 팀은 배포 1번 하려면 100명이 깃헙 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> 컨펌받고 새벽 2시에 모여서 빌드 폭발 안 하길 기도해야 한다고? ㅆㅂ 우리 프론트도 찢어!!"</strong>라는 피눈물 나는 절규가 이 아키텍처를 탄생시켰다.
 
-- **💡 비유**: 기존 프론트엔드(Monolith)는 100명이 붓을 들고 **'하나의 거대한 벽화(캔버스)'**에 다 같이 그림을 그리는 짓입니다. 철수가 구름을 그리다가 실수로 물감을 쏟으면 캔버스 전체가 더러워져서 다 망합니다(배포 폭발). [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 100명이 각자 **'자기 방에서 작은 스케치북'**에 구름 그림, 나무 그림, 집 그림을 완벽하게 따로 그리는 겁니다. 나중에 전시회 날(브라우저 런타임), 각자 그린 그림을 갤러리 벽에 딱딱 퍼즐 맞추듯 이어붙여 전시합니다. 철수가 구름을 망쳐도 집과 나무 그림은 1도 타격이 없는 절대 독립성입니다.
+- **💡 비유**: 기존 프론트엔드(Monolith)는 100명이 붓을 들고 <strong>'하나의 거대한 벽화(캔버스)'</strong>에 다 같이 그림을 그리는 짓입니다. 철수가 구름을 그리다가 실수로 물감을 쏟으면 캔버스 전체가 더러워져서 다 망합니다(배포 폭발). [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 100명이 각자 <strong>'자기 방에서 작은 스케치북'</strong>에 구름 그림, 나무 그림, 집 그림을 완벽하게 따로 그리는 겁니다. 나중에 전시회 날(브라우저 런타임), 각자 그린 그림을 갤러리 벽에 딱딱 퍼즐 맞추듯 이어붙여 전시합니다. 철수가 구름을 망쳐도 집과 나무 그림은 1도 타격이 없는 절대 독립성입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **iframe 떡칠의 원시 시대 (2010s)**: 옛날엔 그냥 화면에 빵꾸 뚫어놓고 타사 HTML을 쑤셔 넣는 `<iframe>`으로 화면을 찢었다. URL이 꼬이고 보안(CORS) 지옥, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지옥이 터졌다.
   2. **서버 사이드 인클루드 (SSI/ESI)**: 브라우저로 화면을 보내기 직전, 중간 웹 서버(Nginx) 단에서 A HTML과 B HTML 조각을 본드로 붙여서(Server-side) 유저한테 보냈다. (오래된 꼼수).
-  3. **런타임 자바스크립트 통합 (현재, [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/))**: 2020년 웹팩(Webpack) 5가 런칭하며 세상을 찢어놨다. "야, 복잡하게 서버에서 붙일 필요 없어! 브라우저 JS 런타임에서 다른 서버에 있는 React 조각 코드를 그냥 네트워크로 슉 긁어와서 내 코드인 것처럼 변수 박아서 실행해 버려!" 궁극의 런타임 통합 시대가 열렸다.
+  3. <strong>런타임 자바스크립트 통합 (현재, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/">Module Federation</a>)</strong>: 2020년 웹팩(Webpack) 5가 런칭하며 세상을 찢어놨다. "야, 복잡하게 서버에서 붙일 필요 없어! 브라우저 JS 런타임에서 다른 서버에 있는 React 조각 코드를 그냥 네트워크로 슉 긁어와서 내 코드인 것처럼 변수 박아서 실행해 버려!" 궁극의 런타임 통합 시대가 열렸다.
 
 - **📢 섹션 요약 비유**: [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)란, 거대한 로봇(쿠팡 웹사이트) 조립 공장입니다. 옛날엔 로봇 팔, 다리, 머리를 한 공장(단일 Repo)에서 수백 명이 엉켜서 뚝딱거렸습니다(모놀리스). 지금은 '왼팔 공장(검색팀)', '오른팔 공장(결제팀)'이 전국 각지로 흩어져 독립적으로 제작합니다. 이 부품들은 고객의 브라우저에 배송된 직후, 자석처럼 찰칵! 하고 합체(Integration)되어 1개의 거대한 로봇으로 부활하는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 합체 로봇 아키텍처입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) (Micro Fr의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로 프론트엔드 (Micro Fr                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 프론트엔드 (Micro Fr</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) (Micro Fr가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) ([Micro Frontends](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) ([Micro Frontends](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) ([Micro Frontends](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로 프론트엔드 (Micro Frontends) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 프론트엔드 (Micro Frontends) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

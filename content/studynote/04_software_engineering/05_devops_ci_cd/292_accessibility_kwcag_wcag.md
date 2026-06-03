@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 멋진 영상이 자동 재생되는 쇼핑몰을 만들었다. 시력이 없는 사용자가 '스크린 리더(화면을 소리로 읽어주는 기계)'를 켜고 접속했다. 이미지에 설명글([Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) text)이 없어서 스크린 리더는 "이미지 1234.jpg"라고만 읽어준다. 마우스를 못 쓰는 사용자가 키보드 탭(Tab) 키를 눌렀는데, '결제하기' 버튼으로 초점(Focus)이 가지 않는다. 이들에게 이 쇼핑몰은 투명 벽으로 막힌 완벽한 폐허다. 모두가 평등하게 정보를 누릴 권리를 위해 기술적 제약이 필요했다.
 
-- **💡 비유**: 현실 세계에서 휠체어를 탄 사람을 위해 건물 입구에 계단 대신 **경사로**를 만들고, 시각 장애인을 위해 엘리베이터 버튼에 **점자**를 새기는 것과 완벽히 같습니다. 디지털 세상의 경사로와 점자가 바로 '웹 접근성 지침'입니다.
+- **💡 비유**: 현실 세계에서 휠체어를 탄 사람을 위해 건물 입구에 계단 대신 <strong>경사로</strong>를 만들고, 시각 장애인을 위해 엘리베이터 버튼에 <strong>점자</strong>를 새기는 것과 완벽히 같습니다. 디지털 세상의 경사로와 점자가 바로 '웹 접근성 지침'입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **정보 격차(Digital Divide) 심화**: 웹이 생활의 필수가 되면서, 장애인들이 은행 업무, 쇼핑, 공공 서비스를 이용하지 못하는 심각한 인권 문제가 대두되었다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 접근성 (Accessibility)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  접근성 (Accessibility)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근성 (Accessibility)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 접근성 (Accessibility)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-접근성 (Accessibility)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+접근성 (Accessibility)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 접근성 (Accessibility)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-접근성 (Accessibility) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">접근성 (Accessibility) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

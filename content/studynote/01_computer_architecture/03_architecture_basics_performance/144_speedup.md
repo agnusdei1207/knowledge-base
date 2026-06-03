@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-속도 [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) (Speedup)는 어떤 시스템이나 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 개선했을 때 **기존보다 몇 배 빨라졌는가**를 나타내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 지표다. 가장 기본 공식은 `Speedup = T_old / T_new`이며, 여기서 `T_old`는 개선 전 실행 시간, `T_new`는 개선 후 실행 시간이다. 10초 걸리던 작업이 5초로 줄었다면 Speedup은 2이고, 이는 절대적으로 5초를 줄였다는 뜻이 아니라 **같은 일을 절반 시간에 끝냈다**는 뜻이다.
+속도 [향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) (Speedup)는 어떤 시스템이나 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 개선했을 때 <strong>기존보다 몇 배 빨라졌는가</strong>를 나타내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 지표다. 가장 기본 공식은 `Speedup = T_old / T_new`이며, 여기서 `T_old`는 개선 전 실행 시간, `T_new`는 개선 후 실행 시간이다. 10초 걸리던 작업이 5초로 줄었다면 Speedup은 2이고, 이는 절대적으로 5초를 줄였다는 뜻이 아니라 <strong>같은 일을 절반 시간에 끝냈다</strong>는 뜻이다.
 
 이 개념이 필요한 이유는 절대 시간만으로는 개선의 가치를 공정하게 비교하기 어렵기 때문이다. 예를 들어 100초를 50초로 줄인 개선과 2초를 1초로 줄인 개선은 모두 50초, 1초라는 절대 차이만 보면 성격이 달라 보이지만, 둘 다 2배 Speedup이라는 점에서는 같은 수준의 상대 개선이다. 그래서 Speedup은 세대가 다른 중앙처리장치 (Central Processing Unit, CPU), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어 수, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선, 가속기 도입 효과를 공통 언어로 비교하는 기준이 된다.
 
@@ -31,31 +31,31 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Speedup의 핵심은 단순히 시간을 나누는 계산에 있지 않고, **개선 범위와 전체 실행 시간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 읽는 데 있다. 전체 실행 시간 중 개선 대상 비율을 `f`, 그 부분의 개선 배율을 `k`라고 하면 전체 Speedup은 암달의 법칙 (Amdahl's Law) 형태로 다음처럼 표현할 수 있다.
+Speedup의 핵심은 단순히 시간을 나누는 계산에 있지 않고, <strong>개선 범위와 전체 실행 시간의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 읽는 데 있다. 전체 실행 시간 중 개선 대상 비율을 `f`, 그 부분의 개선 배율을 `k`라고 하면 전체 Speedup은 암달의 법칙 (Amdahl's Law) 형태로 다음처럼 표현할 수 있다.
 
 \[
 Speedup_{overall} = \frac{1}{(1-f) + \frac{f}{k}}
 \]
 
-이 식은 “부분 개선의 효과는 전체 시간에서 그 부분이 차지하는 비중만큼만 반영된다”는 사실을 보여 준다. 예를 들어 전체 시간의 40%를 차지하는 구간을 4배 빠르게 만들어도 전체 Speedup은 `1 / (0.6 + 0.4/4) = 1.43`배 정도다. 반대로 전체의 90%를 차지하는 구간을 2배 개선하면 `1 / (0.1 + 0.9/2) = 1.82`배가 된다. 즉 큰 배율보다 더 중요한 것은 **전체에서 어느 부분을 건드렸는가**다.
+이 식은 “부분 개선의 효과는 전체 시간에서 그 부분이 차지하는 비중만큼만 반영된다”는 사실을 보여 준다. 예를 들어 전체 시간의 40%를 차지하는 구간을 4배 빠르게 만들어도 전체 Speedup은 `1 / (0.6 + 0.4/4) = 1.43`배 정도다. 반대로 전체의 90%를 차지하는 구간을 2배 개선하면 `1 / (0.1 + 0.9/2) = 1.82`배가 된다. 즉 큰 배율보다 더 중요한 것은 <strong>전체에서 어느 부분을 건드렸는가</strong>다.
 
 아래 그림은 부분 개선이 전체 시간에 어떻게 반영되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 Speedup은 "부분 배율"이 아니라 "전체 시간"으로 결정      │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 개선 전 전체 시간 = [개선 불가 60] + [개선 대상 40] = 100               │
-│                                                                          │
-│ 개선 대상만 4배 가속                                                     │
-│                 [개선 불가 60] + [개선 대상 10] = 70                    │
-│                                                                          │
-│ 전체 Speedup = 100 / 70 = 1.43배                                         │
-│                                                                          │
-│ 핵심: 부분 4배 향상 ≠ 전체 4배 향상                                      │
-│       전체에서 큰 비중을 차지하는 병목을 건드려야 전체 Speedup이 커진다   │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Speedup은 "부분 배율"이 아니라 "전체 시간"으로 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">개선 전 전체 시간 =</div><div class="kb-diagram-node">개선 불가 60</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">개선 대상 40</div><div class="kb-diagram-note">= 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개선 대상만 4배 가속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개선 불가 60</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">개선 대상 10</div><div class="kb-diagram-note">= 70</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 Speedup = 100 / 70 = 1.43배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 부분 4배 향상 ≠ 전체 4배 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체에서 큰 비중을 차지하는 병목을 건드려야 전체 Speedup이 커진다</div></div>
+</div>
+</div>
+
+
 
 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서는 여기에 코어 수 `N`과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율성 (Parallel Efficiency)이 함께 등장한다. 이상적으로는 `N`개의 코어가 `N`배 Speedup을 내야 하지만, 실제로는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 오버헤드 때문에 `S < N`이 된다. 그래서 멀티코어 시스템에서는 `Efficiency = Speedup / N`을 함께 보며, 추가 자원이 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 얼마나 전환됐는지 확인한다.
 
@@ -71,7 +71,7 @@ Speedup_{overall} = \frac{1}{(1-f) + \frac{f}{k}}
 
 ## Ⅲ. 비교 및 연결
 
-Speedup을 제대로 읽으려면 **실행 시간**, **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율성**, **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** 과 구분해야 한다. 실행 시간은 절대값이고, Speedup은 변화의 배율이며, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 일정 시간 동안 끝낸 작업 수다. 따라서 같은 멀티코어 확장이라도 “한 요청을 빨리 끝내는가”와 “많은 요청을 동시에 처리하는가”는 다른 질문이다.
+Speedup을 제대로 읽으려면 **실행 시간**, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 효율성</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> 과 구분해야 한다. 실행 시간은 절대값이고, Speedup은 변화의 배율이며, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 일정 시간 동안 끝낸 작업 수다. 따라서 같은 멀티코어 확장이라도 “한 요청을 빨리 끝내는가”와 “많은 요청을 동시에 처리하는가”는 다른 질문이다.
 
 | 비교 항목 | Speedup | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율성 (Parallel Efficiency) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) |
 | :--- | :--- | :--- | :--- |
@@ -80,7 +80,7 @@ Speedup을 제대로 읽으려면 **실행 시간**, **[병렬](/knowledge-base/
 | 강한 곳 | 개선 효과 설명 | 멀티코어 가성비 분석 | 서버·배치 시스템 평가 |
 | 놓치기 쉬운 점 | 부분 개선 과대평가 | 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 안 보일 수 있음 | 한 작업 응답 시간은 숨길 수 있음 |
 
-또한 Speedup은 암달의 법칙 (Amdahl's Law), 구스타프슨의 법칙 (Gustafson's Law)과 긴밀히 연결된다. 암달의 법칙은 고정된 작업 크기에서 Speedup의 상한을 설명하고, 구스타프슨의 법칙은 문제 크기를 늘리면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원을 더 잘 활용해 큰 Speedup을 얻을 수 있다고 본다. 즉 Speedup은 단독 개념이라기보다, **어떤 전제에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 읽을 것인가**를 연결하는 중심 축이다.
+또한 Speedup은 암달의 법칙 (Amdahl's Law), 구스타프슨의 법칙 (Gustafson's Law)과 긴밀히 연결된다. 암달의 법칙은 고정된 작업 크기에서 Speedup의 상한을 설명하고, 구스타프슨의 법칙은 문제 크기를 늘리면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원을 더 잘 활용해 큰 Speedup을 얻을 수 있다고 본다. 즉 Speedup은 단독 개념이라기보다, <strong>어떤 전제에서 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상을 읽을 것인가</strong>를 연결하는 중심 축이다.
 
 예를 들어 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 시스템은 개별 응답 시간이 중요하므로 작은 Speedup 차이도 체감 품질에 크게 작용한다. 반면 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확대가 더 중요하므로, 개별 작업의 Speedup보다 전체 자원 활용률과 확장성이 더 중요해질 수 있다. 결국 Speedup은 유용하지만, 언제나 workload의 목표와 함께 읽어야 의미가 선명해진다.
 
@@ -90,7 +90,7 @@ Speedup을 제대로 읽으려면 **실행 시간**, **[병렬](/knowledge-base/
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 Speedup은 홍보 문구가 아니라 **투자 우선순위를 정하는 숫자**로 써야 한다. 클럭 상승, 캐시 증설, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선, 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 또는 신경망처리장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 가속기 도입은 모두 Speedup을 노리지만, 각각의 효과는 workload에 따라 완전히 다르게 나타난다. 따라서 “이론상 몇 배”가 아니라 “실측 기준 전체 실행 시간이 얼마나 줄었는가”를 먼저 확인해야 한다.
+실무에서 Speedup은 홍보 문구가 아니라 <strong>투자 우선순위를 정하는 숫자</strong>로 써야 한다. 클럭 상승, 캐시 증설, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선, 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 또는 신경망처리장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 가속기 도입은 모두 Speedup을 노리지만, 각각의 효과는 workload에 따라 완전히 다르게 나타난다. 따라서 “이론상 몇 배”가 아니라 “실측 기준 전체 실행 시간이 얼마나 줄었는가”를 먼저 확인해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -120,11 +120,11 @@ Speedup을 제대로 읽으려면 **실행 시간**, **[병렬](/knowledge-base/
 
 ## Ⅴ. 기대효과 및 결론
 
-Speedup 개념을 정확히 쓰면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 막연한 감각이 아니라 **전체 시간 감소라는 결과**로 이야기할 수 있다. 이것은 아키텍처 설계, 멀티코어 확장, 가속기 투자, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선을 하나의 비교 틀 안에 넣어 주며, “무엇이 실제 병목인가”를 더 빨리 드러나게 만든다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치가 많은 시스템일수록 Speedup은 여러 개선안을 같은 단위로 정렬하는 데 유용하다.
+Speedup 개념을 정확히 쓰면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 막연한 감각이 아니라 <strong>전체 시간 감소라는 결과</strong>로 이야기할 수 있다. 이것은 아키텍처 설계, 멀티코어 확장, 가속기 투자, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선을 하나의 비교 틀 안에 넣어 주며, “무엇이 실제 병목인가”를 더 빨리 드러나게 만든다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치가 많은 시스템일수록 Speedup은 여러 개선안을 같은 단위로 정렬하는 데 유용하다.
 
 다만 Speedup은 만능 지표가 아니다. 이 값 하나만으로 전력, 비용, 복잡도, 확장성, 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 모두 설명할 수는 없다. 따라서 좋은 설계 판단은 **Speedup을 출발점으로 삼되**, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 효율성·[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)·에너지 효율·총소유비용 (Total Cost of Ownership, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))까지 함께 보는 방식이어야 한다.
 
-결국 Speedup은 “얼마나 빨라졌는가”를 묻는 가장 기본적이면서도 가장 자주 오해되는 지표다. 이 개념은 **큰 배율 숫자 자체보다, 그 숫자가 전체 시스템에서 어떤 조건과 대가로 만들어졌는지**와 함께 기억하는 것이 맞다.
+결국 Speedup은 “얼마나 빨라졌는가”를 묻는 가장 기본적이면서도 가장 자주 오해되는 지표다. 이 개념은 <strong>큰 배율 숫자 자체보다, 그 숫자가 전체 시스템에서 어떤 조건과 대가로 만들어졌는지</strong>와 함께 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: Speedup은 운동선수가 새 신발을 신고 얼마나 빨라졌는지 재는 기록이다. 하지만 진짜 평가는 기록뿐 아니라 신발 값, 체력 소모, 다른 코스에서도 같은 효과가 나는지까지 같이 봐야 완성된다.
 
@@ -142,26 +142,27 @@ Speedup 개념을 정확히 쓰면 [성능](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 실행 시간 측정
-        │
-        ▼
-속도 향상도 (Speedup)
-`T_old / T_new`
-        │
-        ├─▶ 부분 개선의 전체 효과 분석
-        │     └─ 암달의 법칙 (Amdahl's Law)
-        │
-        ├─▶ 병렬 자원 대비 효율 판단
-        │     └─ 병렬 효율성 (Parallel Efficiency)
-        │
-        ▼
-문제 크기 확장 관점의 재해석
-구스타프슨의 법칙 (Gustafson's Law)
-        │
-        ▼
-멀티코어 · 가속기 · 대규모 분산 처리 성능 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 실행 시간 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">속도 향상도 (Speedup)</div>
+<div class="kb-diagram-note"><code>T_old / T_new</code></div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 부분 개선의 전체 효과 분석</div>
+<div class="kb-diagram-note">─ 암달의 법칙 (Amdahl's Law)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 병렬 자원 대비 효율 판단</div>
+<div class="kb-diagram-note">─ 병렬 효율성 (Parallel Efficiency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문제 크기 확장 관점의 재해석</div>
+<div class="kb-diagram-note">구스타프슨의 법칙 (Gustafson's Law)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 · 가속기 · 대규모 분산 처리 성능 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 Speedup이 단순한 계산식에서 출발해, 병목 분석과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 전략의 판단 도구로 확장되는 과정을 보여 준다.
 

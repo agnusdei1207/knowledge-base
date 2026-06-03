@@ -23,32 +23,31 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))의 핵심 원인 중 하나가 부적절한 개발 프로세스였다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 연구에 따르면, 프로세스가 단계 1([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)인 조직 대비 단계 5(최적화)인 조직은 프로젝트 성공률이 2배 이상 높고, 비용 초과가 30% 이상 낮은 것으로 나타났다.
 
-- **💡 비유**: SPI는 **'개인 성장의 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) 사이클'**과 같다. 어떤 스킬(프로세스)을 배우든, 먼저 현재 자신의 수준을 Self-Assess하고(I), 개선 목표를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고(D), 해당 방법으로 실천하고(E), 그 결과를 분석하며(A), 다시 더 높은 수준으로 발전하는 순환적 자기계발 과정이다.
+- **💡 비유**: SPI는 <strong>'개인 성장의 <a href="/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/">PDCA</a> 사이클'</strong>과 같다. 어떤 스킬(프로세스)을 배우든, 먼저 현재 자신의 수준을 Self-Assess하고(I), 개선 목표를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고(D), 해당 방법으로 실천하고(E), 그 결과를 분석하며(A), 다시 더 높은 수준으로 발전하는 순환적 자기계발 과정이다.
 
 - **등장 배경 및 발전 과정**:
 1. **1980년대: 품질 혁명**: 제조업의 TQC (Total Quality Control) 성공에 영향받아 소프트웨어에도품질관리 도입
 2. **1991년: CMM 등장**: SEI가 능력 성숙도 모델(CMM) Version 1 도입
-3. **2000년대: [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 통합**: 여러 CMM 모델을 통합한 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 도입
-4. **현재: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)**: 전통적 SPI와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 으로 경량화된 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 접근법 확산
+3. <strong>2000년대: <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> 통합</strong>: 여러 CMM 모델을 통합한 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 도입
+4. <strong>현재: <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a></strong>: 전통적 SPI와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 으로 경량화된 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 접근법 확산
 
-- **📢 섹션 요약 비유**: SPI는 **'마라톤 훈련 프로그램'**과 같다. 처음부터 42.195km를 완주할 수 없듯이, 소프트웨어 조직도 한 번의 개선으로 최고 수준의 프로세스를 갖추지 못한다. 그러나적으로 훈련을/를 늘려가며([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)→관리→정의→정량관리→최적화), 결국 수준의 선수( 품질 소프트웨어조직)로 성장한다.
+- **📢 섹션 요약 비유**: SPI는 <strong>'마라톤 훈련 프로그램'</strong>과 같다. 처음부터 42.195km를 완주할 수 없듯이, 소프트웨어 조직도 한 번의 개선으로 최고 수준의 프로세스를 갖추지 못한다. 그러나적으로 훈련을/를 늘려가며([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)→관리→정의→정량관리→최적화), 결국 수준의 선수( 품질 소프트웨어조직)로 성장한다.
 
 ---
 
 다음은 소프트웨어 프로세스 개선 ([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 소프트웨어 프로세스 개선 (SPI) │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 프로세스 개선 (SPI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 프로세스 개선 ([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-소프트웨어 프로세스 개선 ([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 프레임워크의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+소프트웨어 프로세스 개선 ([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 프레임워크의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 프로세스 개선 ([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 프레임워크의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-소프트웨어 프로세스 개선 (SPI) 프레임워크 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 프로세스 개선 (SPI) 프레임워크 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

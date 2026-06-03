@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-단위 테스트가 '엔진'을 깎는 것이고 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)가 '엔진과 바퀴'를 연결하는 것이라면, **시스템 테스트(System Test)**는 완성된 자동차를 테스트 트랙에 올리고 시속 200km로 밟아보는 과정이다.
+단위 테스트가 '엔진'을 깎는 것이고 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)가 '엔진과 바퀴'를 연결하는 것이라면, <strong>시스템 테스트(System Test)</strong>는 완성된 자동차를 테스트 트랙에 올리고 시속 200km로 밟아보는 과정이다.
 
 지금까지 개발자들은 각자의 노트북(로컬 환경)이나 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) 위에서 코드를 돌려보며 "내 코드는 완벽해!"라고 외쳤다.
 하지만 진짜 리눅스 서버에 올리고, 진짜 오라클 DB와 연동하고, 진짜 인터넷 망을 타는 순간 예상치 못한 일들이 터진다.
 * "로컬에서는 로그인 버튼 누르면 0.1초 만에 넘어갔는데, 실서버에선 3초나 걸리네요?" ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제)
 * "비밀번호에 특수문자 넣었더니 DB가 터졌어요!" (보안 문제)
 
-이처럼 '기능'은 맞지만 '현실의 물리적 제약' 때문에 발생하는 치명적인 결함들을 찾아내기 위해, 실제 고객에게 인도하기 직전에 **실제 운영 환경과 100% 동일하게 세팅된 환경(Staging [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**에서 수행하는 테스트가 바로 시스템 테스트다.
+이처럼 '기능'은 맞지만 '현실의 물리적 제약' 때문에 발생하는 치명적인 결함들을 찾아내기 위해, 실제 고객에게 인도하기 직전에 <strong>실제 운영 환경과 100% 동일하게 세팅된 환경(Staging <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>에서 수행하는 테스트가 바로 시스템 테스트다.
 
 > 📢 **섹션 요약 비유**: 우주선을 공장에서 아무리 튼튼하게 조립([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))했어도, 진짜 우주로 쏘아 올리기 전에 무중력 방과 진공 챔버(실제 환경) 안에 우주선을 통째로 집어넣고 극한의 압력과 추위를 견디는지 혹독하게 테스트하는 것과 같습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 시스템 테스트 (System Test의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시스템 테스트 (System Test                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 테스트 (System Test</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 시스템 테스트 (System Test가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -59,7 +58,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-시스템 테스트는 크게 두 가지 영역으로 나뉜다. 이 중에서도 **'비기능 테스트'**의 비중이 압도적으로 높다.
+시스템 테스트는 크게 두 가지 영역으로 나뉜다. 이 중에서도 <strong>'비기능 테스트'</strong>의 비중이 압도적으로 높다.
 
 - **📢 섹션 요약 비유**: 시스템 테스트 (System Test)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -77,10 +76,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-시스템 테스트가 성공하려면 테스트 환경이 '진짜 상용(Production) 환경'과 100% 쌍둥이처럼 똑같아야 한다. 이를 **스테이징 환경(Staging)**이라고 부른다.
+시스템 테스트가 성공하려면 테스트 환경이 '진짜 상용(Production) 환경'과 100% 쌍둥이처럼 똑같아야 한다. 이를 <strong>스테이징 환경(Staging)</strong>이라고 부른다.
 
 * **어려움**: 실서버가 CPU 64코어에 256GB 램을 쓰는 수백 대짜리 클러스터라면, 테스트 환경도 똑같이 만들어야 한다. 이 인프라 비용만 수십억 원이 깨진다.
-* **해결책**: 과거엔 돈이 없어서 테스트 환경을 실서버의 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 크기로 만들고 대충 곱하기 10을 해서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유추했다 (매우 부정확). 하지만 현대에는 **클라우드(AWS, GCP)**와 **[테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 같은 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** 기술 덕분에, 테스트할 때만 잠깐 수백 대의 서버를 복사본으로 찍어내어 테스트하고 즉시 삭제함으로써 100% 동일한 환경에서의 시스템 테스트가 가능해졌다.
+* **해결책**: 과거엔 돈이 없어서 테스트 환경을 실서버의 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 크기로 만들고 대충 곱하기 10을 해서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유추했다 (매우 부정확). 하지만 현대에는 <strong>클라우드(AWS, GCP)</strong>와 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">테라폼</a>(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>) 같은 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> 기술 덕분에, 테스트할 때만 잠깐 수백 대의 서버를 복사본으로 찍어내어 테스트하고 즉시 삭제함으로써 100% 동일한 환경에서의 시스템 테스트가 가능해졌다.
 
 ---
 
@@ -142,21 +141,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-시스템 테스트 (System Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 테스트 (System Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

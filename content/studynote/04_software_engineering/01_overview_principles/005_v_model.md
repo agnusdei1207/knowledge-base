@@ -25,15 +25,18 @@ V-모델 ([V-Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/1
 
 > 💡 **비유**: 폭포수가 다리를 다 짓고 나서야 코끼리를 지나가게 해보며 무너지지 않기를 기도하는 방식이라면, V-모델은 다리 도면을 그릴 때부터 코끼리의 무게를 어떻게 측정하고 분산시킬지 '테스트 도면'을 같이 그리는 방식이다.
 
-```text
-[폭포수 모델의 병목 vs V-모델의 사전 대응]
 
-[폭포수]: 요구 ─> 설계 ─> 구현 ─> (여기서부터 부랴부랴 테스트 준비) ─> [테스트] 💥 (설계 결함 폭발)
 
-[V-모델]: 요구 ────────────────────────────────────────────────> 인수 테스트 계획 (사전 준비)
-            ▼                                                  ▲
-          설계 ────────────────────────────────────> 통합 테스트 계획 (사전 준비)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델의 병목 vs V-모델의 사전 대응</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수</div><div class="kb-diagram-note">: 요구 ─&gt; 설계 ─&gt; 구현 ─&gt; (여기서부터 부랴부랴 테스트 준비) ─&gt;</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-note">💥 (설계 결함 폭발)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델</div><div class="kb-diagram-note">: 요구 &gt; 인수 테스트 계획 (사전 준비)</div></div>
+<div class="kb-diagram-note">설계 &gt; 통합 테스트 계획 (사전 준비)</div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)에서 테스트가 지연되며 발생하는 위험을 V-모델이 어떻게 선제적으로 차단하는지 보여준다. V-모델에서는 코딩이 시작되기 한참 전인 '요구 분석' 단계에서부터 우측의 '테스트 계획'이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 생성된다. 이를 통해 설계자는 "이 기능은 나중에 어떻게 테스트되지?"를 염두에 두고 Testable(테스트 가능한) 설계를 하게 되며, 이는 후반부 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생률을 극적으로 낮추는 메커니즘으로 작용한다.
 
@@ -44,30 +47,31 @@ V-모델의 핵심 메커니즘은 좌측의 개발 단계(수준)와 우측의 
 
 | V-모델 좌측 (개발 및 설계) | V-모델 우측 (테스트 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 수평적 매핑의 의미 / 역할 | 비유 |
 |:---|:---|:---|:---|
-| **요구사항 분석 (Requirements)** | **[인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) ([Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))** | 사용자가 애초에 원했던 '비즈니스 목적'이 달성되었는가? ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) | 고객이 주문한 짜장면이 맞게 나왔는가? |
-| **시스템 설계 (System Design)** | **[시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) ([System Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/))** | 전체 시스템이 하드웨어/네트워크 환경에서 정상 연동되는가? | 주방의 모든 조리기구가 잘 돌아가는가? |
-| **아키텍처 설계 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))** | **[통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) ([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))** | 분할된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 인터페이스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 일치하는가? | 면과 춘장이 제대로 섞이는가? |
-| **상세 설계 (Detailed Design)** | **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))** | 개별 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(함수/클래스) 내부의 알고리즘과 로직이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없이 작동하는가? | 양파가 정확한 크기로 썰렸는가? |
+| **요구사항 분석 (Requirements)** | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">Acceptance Test</a>)</strong> | 사용자가 애초에 원했던 '비즈니스 목적'이 달성되었는가? ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) | 고객이 주문한 짜장면이 맞게 나왔는가? |
+| **시스템 설계 (System Design)** | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/">시스템 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/">System Test</a>)</strong> | 전체 시스템이 하드웨어/네트워크 환경에서 정상 연동되는가? | 주방의 모든 조리기구가 잘 돌아가는가? |
+| <strong>아키텍처 설계 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">통합 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">Integration Test</a>)</strong> | 분할된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 인터페이스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 일치하는가? | 면과 춘장이 제대로 섞이는가? |
+| **상세 설계 (Detailed Design)** | <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a>)</strong> | 개별 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(함수/클래스) 내부의 알고리즘과 로직이 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없이 작동하는가? | 양파가 정확한 크기로 썰렸는가? |
 
-```text
-[V-모델 아키텍처 대칭 및 V&V 교차 메커니즘]
 
-[사용자 관점] 요구사항 분석 ────── (인수 테스트 계획) ──────> 인수 테스트 [Validation]
-                   │                                          ▲
-[아키텍처 관점] 시스템 설계 ────── (시스템 테스트 계획) ────> 시스템 테스트 [Verification]
-                       │                                      ▲
-[모듈 간 연동]     아키텍처 설계 ── (통합 테스트 계획) ───> 통합 테스트
-                           │                                  ▲
-[코드 레벨]            상세 설계 ── (단위 테스트 계획) ──> 단위 테스트
-                               │                              ▲
-                               └──────> [구현 (Coding)] ──────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델 아키텍처 대칭 및 V&amp;V 교차 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 관점</div><div class="kb-diagram-note">요구사항 분석 (인수 테스트 계획) &gt; 인수 테스트</div><div class="kb-diagram-node">Validation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 관점</div><div class="kb-diagram-note">시스템 설계 (시스템 테스트 계획) &gt; 시스템 테스트</div><div class="kb-diagram-node">Verification</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 간 연동</div><div class="kb-diagram-note">아키텍처 설계 ── (통합 테스트 계획) &gt; 통합 테스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 레벨</div><div class="kb-diagram-note">상세 설계 ── (단위 테스트 계획) ──&gt; 단위 테스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">구현 (Coding)</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 알파벳 'V'자 다이어그램은 왼쪽의 하강 곡선(상세화 과정)과 오른쪽의 상승 곡선(통합 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정)이 만나는 대칭성을 시각화한다. 왼쪽 상단으로 갈수록 사용자 지향적(추상적)이며, 맨 아래 모서리(구현)는 기계 지향적(구체적)이다. 수평선(화살표)은 좌측 단계 완료 시 우측 단계의 테스트 '계획과 시나리오'가 도출된다는 강력한 연결 고리를 의미한다. 개발이 바닥을 찍고 올라갈 때, 미리 준비된 테스트 시나리오를 통해 각 레벨의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명한다.
 
-여기서 핵심 동작 원리는 **V&V ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) and [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**의 명확한 분리다. 
-1. **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 하단부 집중)**: "Are we building the product right?" (명세서대로 올바르게 코드를 만들었는가?)
-2. **[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 상단부 집중)**: "Are we building the right product?" (사용자가 정말로 원했던 올바른 제품을 만들었는가?)
+여기서 핵심 동작 원리는 <strong>V&amp;V (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a> and <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>의 명확한 분리다. 
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>, 하단부 집중)</strong>: "Are we building the product right?" (명세서대로 올바르게 코드를 만들었는가?)
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>, 상단부 집중)</strong>: "Are we building the right product?" (사용자가 정말로 원했던 올바른 제품을 만들었는가?)
 
 📢 **섹션 요약 비유**: V-모델은 위에서 아래로 설계도를 찢어서 세밀하게 나누는 과정(개발)과, 밑바닥에서부터 조각난 퍼즐을 원본 그림과 대조하며 다시 거대하게 맞춰 올라가는 과정(테스트)의 완벽한 데칼코마니입니다.
 
@@ -80,20 +84,20 @@ V-모델은 [테스트 주도 개발](/knowledge-base/studynote/04_software_engi
 | **테스트의 성격** | 문서 및 명세 기반 (정형적) | 실행 가능한 코드 기반 (실용적) | 산출물의 형태 |
 | **초점 영역** | 전체 시스템 생명주기 통제 | 개별 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 및 함수 단위의 품질 확보 | 관리자 관점 vs 개발자 관점 |
 
-```text
-[결함 발견 시점에 따른 수정 비용 증가 곡선 비교]
 
-수정 비용 ($)
-   ▲                                 [폭포수 모델: 후반 폭발]
-   │                                   /
-   │                                 /
-   │                  [V-모델: 선형적 통제]
-   │                    /
-   │            /
-   │     /
-   └───────────────────────────────────────────────► 시간
-    요구분석    설계    구현    테스트    운영
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">결함 발견 시점에 따른 수정 비용 증가 곡선 비교</div></div>
+<div class="kb-diagram-note">수정 비용 ($)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">폭포수 모델: 후반 폭발</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델: 선형적 통제</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">시간</div>
+<div class="kb-diagram-note">요구분석 설계 구현 테스트 운영</div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 그래프는 "[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 늦게 발견할수록 고치는 비용은 지수 함수로 증가한다(Boehm's Law)"는 소프트웨어 공학의 진리를 보여준다. [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/)은 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 테스트 단계에 가서야 발견하므로 비용 곡선이 치솟는다. 반면 V-모델은 설계 단계에서 테스트 시나리오를 짜면서 "어? 이 요구사항은 모순되는데?"라는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 미리 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있다. 즉, 테스트 계획 활동 자체가 가장 훌륭한 '설계 검토([Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))' 역할을 하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점을 앞으로 당기는([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 효과를 창출한다.
 
@@ -108,18 +112,22 @@ V-모델은 [테스트 주도 개발](/knowledge-base/studynote/04_software_engi
 
 | 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (운영/품질) | 판단 기준 |
 |:---|:---|
-| **추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))** | 특정 코드 한 줄이 어떤 사용자의 요구사항에서 파생되었는지 추적 가능한가? |
+| <strong>추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong> | 특정 코드 한 줄이 어떤 사용자의 요구사항에서 파생되었는지 추적 가능한가? |
 | **독립성 확보** | 좌측을 개발한 팀(Dev)과 우측을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 팀(QA)이 논리적으로 분리되어 있는가? |
 | **스펙의 명확성** | 테스트 케이스를 사전에 도출할 수 있을 만큼 요구사항 명세가 명확한가? |
 
-```text
-[V-모델 적용 시 양방향 추적성(Traceability) 맵]
 
-[요구사항 명세] <==== 매핑 ====> [인수 테스트 결과]
-     │                                  ▲
-     ▼ (상세화)                         │ (증명)
-[컴포넌트 설계] <==== 매핑 ====> [통합 테스트 결과]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델 적용 시 양방향 추적성(Traceability) 맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 명세</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">인수 테스트 결과</div></div>
+<div class="kb-diagram-note">▼ (상세화) │ (증명)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴포넌트 설계</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">통합 테스트 결과</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 실무 V-모델의 핵심 품질 지표인 '양방향 추적성'을 보여준다. 단순히 단계가 짝지어진 것을 넘어, 특정 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)가 실패했을 때 곧바로 어떤 설계 문서를 고쳐야 하는지(역추적), 또는 특정 요구사항이 변경되었을 때 어떤 테스트 케이스를 다시 실행해야 하는지(정추적)를 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 통해 링크(매핑)하는 과정이다. 이것이 끊어지면 V-모델은 그저 문서를 두 배로 만드는 비효율적 족쇄로 전락한다.
 
@@ -148,21 +156,23 @@ V-모델은 비용이 많이 들지만, 그 이상의 '[신뢰성](/knowledge-ba
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[폭포수 모델 (Waterfall Model)]
-    │
-    ▼
-[검증과 확인 (Verification & Validation)]
-    │
-    ▼
-[단위/통합/시스템/인수 테스트]
-    │
-    ▼
-[TDD (Test-Driven Development)]
-    │
-    ▼
-[추적성 매트릭스 (Traceability Matrix)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델 (Waterfall Model)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증과 확인 (Verification &amp; Validation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단위/통합/시스템/인수 테스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TDD (Test-Driven Development)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추적성 매트릭스 (Traceability Matrix)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [폭포수 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/) ([Waterfall Model](/knowledge-base/studynote/04_software_engineering/01_overview_principles/004_waterfall_model/))에서 출발해 추적성 매트릭스 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/) Matrix)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) | 일관된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/권한 | [least privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/), [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) |
 | Platform Standard | 배포/관측 공통화 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) |
 
-```text
-┌──────────────┐    secure link   ┌──────────────┐    policy    ┌──────────────┐
-│ On-Prem DC   │ ───────────────▶ │ Cloud A      │ ───────────▶ │ Cloud B      │
-└──────────────┘                  └──────────────┘              └──────────────┘
-        │                                 │                             │
-        │ federation                      │ observability               │ DR / burst
-        ▼                                 ▼                             ▼
-┌──────────────┐                  ┌──────────────┐              ┌──────────────┐
-│ IAM / DNS    │ ◀──────────────▶ │ GitOps / IaC │ ◀──────────▶ │ Runtime Std. │
-└──────────────┘                  └──────────────┘              └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">secure link policy</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Prem DC</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Cloud A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Cloud B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">federation</div><div class="kb-diagram-cell">observability</div><div class="kb-diagram-cell">DR / burst</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IAM / DNS</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">GitOps / IaC</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Runtime Std.</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 “모든 것을 공통 기술로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)”하는 것과 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 강점을 활용”하는 것 사이의 균형이다. 지나친 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 각 클라우드의 장점을 못 쓰게 만들고, 지나친 특화는 운영자와 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)을 조각낸다.
 
@@ -117,18 +118,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single Cloud
-   │
-   ▼
-Hybrid Cloud
-   │
-   ▼
-Multi-Cloud Platform Standard
-   │
-   ▼
-Policy-driven Placement / DR / Lock-in Mitigation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single Cloud</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid Cloud</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-Cloud Platform Standard</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy-driven Placement / DR / Lock-in Mitigation</div>
+</div>
+</div>
+
+
 
 이 흐름은 “단일 환경 → 혼합 환경 → 표준화된 다중 환경 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 배치”로 성숙하는 과정을 보여준다.
 

@@ -35,32 +35,25 @@ FinOps는 클라우드 환경에서 발생하는 변동적이고 예측 불가�
 | **2. 자원 최적화** | Optimize | 자원 낭비를 줄이고 가장 효율적인 단가 모델로 조정 | Right-Sizing, 예약 인스턴스 (RI), 스팟 |
 | **3. 운영 및 문화** | Operate | 비용 인식을 기술 조직의 일상적 프로세스로 내재화 | 비용 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 자동화, 거버넌스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  FinOps 3단계 순환 라이프사이클                    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [비용 할당]                               [구매 할인]         │
-│     누가 썼는지 태그 달기                         약정 할인 (RI) 구매    │
-│        ▲   │                              ▲   │                │
-│        │   ▼                              │   ▼                │
-│   ┌─────────────┐                        ┌─────────────┐         │
-│   │ 1. Inform   │ ◀────────반복────────▶ │ 2. Optimize │         │
-│   │ (정보 투명화)  │                        │ (자원/단가 최적화)│         │
-│   └─────────────┘                        └─────────────┘         │
-│             ▲                                ▼                │
-│             │                                │                 │
-│             │         ┌─────────────┐        │                 │
-│             └──────── │ 3. Operate  │ ◀──────┘                 │
-│                       │ (자동화 및 문화)│                          │
-│                       └─────────────┘                          │
-│                    인프라 오토스케일링 및 이상 탐지 방어                  │
-│                                                              │
-│ * 핵심 동력: 개발자(Dev), 운영자(Ops), 재무/경영진(Fin)의 단일 팀 협업  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 사이클에서 가장 중요한 첫 단추는 **태깅 (Tagging)**이다. 클라우드에 띄워진 수백 개의 가상 서버 리소스에 "프로젝트: A, 담당자: 김개발, 환경: Dev"라는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 강제로 부착하지 않으면, 영수증에 나온 총비용이 회사의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Production)에서 나온 것인지 잊혀진 좀비 서버(Zombie)에서 발생한 것인지 알 길이 없다. 투명성(Inform)이 100% 확보되어야만 서버의 스펙을 절반으로 줄일지(Right-Sizing)에 대한 구체적인 공학적 최적화(Optimize) 결정을 내릴 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps 3단계 순환 라이프사이클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비용 할당</div><div class="kb-diagram-node">구매 할인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누가 썼는지 태그 달기 약정 할인 (RI) 구매</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Inform</div><div class="kb-diagram-cell">◀ 반복 ▶</div><div class="kb-diagram-cell">2. Optimize</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정보 투명화)</div><div class="kb-diagram-cell">(자원/단가 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Operate</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자동화 및 문화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 오토스케일링 및 이상 탐지 방어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 동력: 개발자(Dev), 운영자(Ops), 재무/경영진(Fin)의 단일 팀 협업</div></div>
+</div>
+</div>
+
+
+
+이 사이클에서 가장 중요한 첫 단추는 <strong>태깅 (Tagging)</strong>이다. 클라우드에 띄워진 수백 개의 가상 서버 리소스에 "프로젝트: A, 담당자: 김개발, 환경: Dev"라는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 강제로 부착하지 않으면, 영수증에 나온 총비용이 회사의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Production)에서 나온 것인지 잊혀진 좀비 서버(Zombie)에서 발생한 것인지 알 길이 없다. 투명성(Inform)이 100% 확보되어야만 서버의 스펙을 절반으로 줄일지(Right-Sizing)에 대한 구체적인 공학적 최적화(Optimize) 결정을 내릴 수 있다.
 
 - **📢 섹션 요약 비유**: 신용카드 명세서에 '마트 10만 원'이라고 뭉뚱그려 나오면(블랙박스) 돈을 어떻게 아낄지 막막하지만, '분유 5만 원, 간식 5만 원'처럼 꼬리표(Tagging)를 세밀하게 달아두면 다음 달에 간식값만 정확하게 타겟팅해서 줄일 수 있는 최적화 원리입니다.
 
@@ -75,9 +68,9 @@ FinOps는 과거 전산실 시대의 고전적인 "예산 삭감(Cost Cutting)" 
 | **통제 방식** | 예산 승인(CapEx) 기반의 사후 감찰 | 실시간 가시성과 사용량(OpEx) 기반 조율 |
 | **의사결정 주체** | 재무팀 단독 (하향식 예산 강제 삭감) | 엔지니어링 + 재무 + 비즈니스 크로스펑셔널 팀 |
 | **목표의 방향성** | 무조건 총비용(Total Cost)의 최소화 유지 | 클라우드 투자 대비 비즈니스 수익 극대화 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프**| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 떨어져도 무시하고 예산 방어 | 고성능과 합리적 비용 사이의 접점 도출 (단위 경제학) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 트레이드오프</strong>| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 떨어져도 무시하고 예산 방어 | 고성능과 합리적 비용 사이의 접점 도출 (단위 경제학) |
 
-이 두 철학을 구분 짓는 가장 중요한 지표는 **단위 경제성 (Unit Economics)**이다. 트래픽 폭증으로 클라우드 총비용이 2,000만 원에서 4,000만 원으로 늘어났을 때, 전통적 회계 부서는 이를 '예산 초과 실패'로 규정한다. 그러나 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 관점에서는 이 기간 활성 유저(MAU)가 10배 늘어나 유저 1명당 클라우드 원가가 200원에서 80원으로 하락했다면, 이는 엄청난 인프라 최적화 성공이자 더 과감하게 클라우드 자원을 투입해야 할 긍정적 시그널로 해석된다.
+이 두 철학을 구분 짓는 가장 중요한 지표는 <strong>단위 경제성 (Unit Economics)</strong>이다. 트래픽 폭증으로 클라우드 총비용이 2,000만 원에서 4,000만 원으로 늘어났을 때, 전통적 회계 부서는 이를 '예산 초과 실패'로 규정한다. 그러나 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 관점에서는 이 기간 활성 유저(MAU)가 10배 늘어나 유저 1명당 클라우드 원가가 200원에서 80원으로 하락했다면, 이는 엄청난 인프라 최적화 성공이자 더 과감하게 클라우드 자원을 투입해야 할 긍정적 시그널로 해석된다.
 
 - **📢 섹션 요약 비유**: 단순히 전기세를 아끼려고 공장 에어컨을 끄는 1차원적 절약(전통적 예산 삭감)이 아니라, 공장 라인별로 전력량을 정밀 측정하며 빵을 1개 구울 때 들어가는 전기료 원가를 최소화하는 고도의 효율성 게임([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/))으로의 진화입니다.
 
@@ -88,10 +81,10 @@ FinOps는 과거 전산실 시대의 고전적인 "예산 삭감(Cost Cutting)" 
 클라우드 아키텍트는 설계 초기부터 인프라의 요구 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용 사이에서 줄타기를 하는 실무적 결단을 내려야 한다.
 
 ### 판단 기준 및 아키텍처 선택
-1. **요금 모델 (Pricing Model) 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 
+1. <strong>요금 모델 (Pricing Model) 매핑 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 
    - **온디맨드 (On-Demand)**: 언제 지울지 모르는 예측 불가능한 단기 테스트 서버에 사용한다 (무약정, 단가 비쌈).
    - **예약 인스턴스 (Reserved Instance, RI)**: 1년 365일 무조건 켜져 있어야 하는 핵심 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 서버에 채택해 40~60%의 대폭 할인을 받아낸다.
-   - **[스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/))**: 클라우드 사업자의 남는 자원을 경매로 빌리며, 중간에 강제 회수당해도 무방한 대규모 배치(Batch)나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 워크로드에 사용해 90% 극단적 할인을 취한다.
+   - <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">스팟 인스턴스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a>)</strong>: 클라우드 사업자의 남는 자원을 경매로 빌리며, 중간에 강제 회수당해도 무방한 대규모 배치(Batch)나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 워크로드에 사용해 90% 극단적 할인을 취한다.
 2. **Right-Sizing (라이트사이징)**: CPU 사용률이 평균 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만으로 맴도는 오버프로비저닝 인스턴스는 개발자의 불안감을 설득하여 과감하게 절반 크기의 인스턴스 타입으로 다운그레이드를 강제해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -116,24 +109,27 @@ FinOps는 과거 전산실 시대의 고전적인 "예산 삭감(Cost Cutting)" 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Right-Sizing (라이트사이징)** | 서버의 CPU/메모리 실사용량을 분석해 낭비 없이 스펙을 깎아내리는 가장 즉각적이고 물리적인 최적화 기법 |
-| **[Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) ([스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/))** | 퍼블릭 클라우드의 유휴 자원을 경매로 최대 90% 싸게 빌려 쓰되, 언제 뺏길지 모르는 고위험-고수익 스케줄링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">스팟 인스턴스</a>)</strong> | 퍼블릭 클라우드의 유휴 자원을 경매로 최대 90% 싸게 빌려 쓰되, 언제 뺏길지 모르는 고위험-고수익 스케줄링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **Tagging (태깅)** | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 1단계인 투명한 가시성(Inform)을 확보하기 위해 리소스마다 강제로 부착하는 부서별/목적별 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 이름표 |
-| **[Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) ([사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상)** | 재무팀과 기술 조직이 소통 없이 각자의 장벽을 쌓는 현상으로, [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 조직 문화가 파괴해야 할 최우선 과제 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 현상)</strong> | 재무팀과 기술 조직이 소통 없이 각자의 장벽을 쌓는 현상으로, [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 조직 문화가 파괴해야 할 최우선 과제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IT Cost Cutting (온프레미스 시대의 무조건적 하향식 하드웨어 예산 삭감)
-    │
-    ▼
-Cloud Migration (종량제 요금 도입과 관리 부재로 인한 통제 불능의 요금 폭탄 경험)
-    │
-    ▼
-FinOps (DevOps와 Finance의 융합, 태깅 및 라이트사이징 기반 자원 최적화)
-    │
-    ▼
-Unit Economics & AI FinOps (AI 기반 이상 요금 탐지 및 1달러당 비즈니스 가치 단위 최적화 극대화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT Cost Cutting (온프레미스 시대의 무조건적 하향식 하드웨어 예산 삭감)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud Migration (종량제 요금 도입과 관리 부재로 인한 통제 불능의 요금 폭탄 경험)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FinOps (DevOps와 Finance의 융합, 태깅 및 라이트사이징 기반 자원 최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unit Economics &amp; AI FinOps (AI 기반 이상 요금 탐지 및 1달러당 비즈니스 가치 단위 최적화 극대화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -24,18 +24,22 @@ tags = ["software_engineering"]
 
 > 💡 **비유**: 마치 동네 목수가 감으로 집을 짓다가 한계에 부딪혀, 전문 설계도, 시방서, 감리 절차를 갖춘 대형 건설사의 '건축 공학'적 시스템을 도입하게 된 것과 같다.
 
-```text
-┌───────────────── 과거 (장인 방식) ─────────────────┐
-│ [요구] ──(개인의 감)──> [코딩] ──(에러발생)──> [실패]│
-│  * 비용 예측 불가, 품질 들쭉날쭉                 │
-└──────────────────────────────────────────────────┘
-                          ▼ (소프트웨어 위기 도래)
-┌─────────────── 현대 (소프트웨어 공학) ───────────────┐
-│ [요구분석] ──> [아키텍처 설계] ──> [구현/테스트]   │
-│   (표준화)        (정량화)         (자동화/검증) │
-│  * 체계적 통제, 일관된 품질 확보                 │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과거 (장인 방식)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구</div><div class="kb-diagram-note">──(개인의 감)──&gt;</div><div class="kb-diagram-node">코딩</div><div class="kb-diagram-note">──(에러발생)──&gt;</div><div class="kb-diagram-node">실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비용 예측 불가, 품질 들쭉날쭉</div></div>
+<div class="kb-diagram-note">▼ (소프트웨어 위기 도래)</div>
+<div class="kb-diagram-note">현대 (소프트웨어 공학)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구분석</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">아키텍처 설계</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">구현/테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표준화) (정량화) (자동화/검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 체계적 통제, 일관된 품질 확보</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 소프트웨어 개발 패러다임이 개인의 비체계적 개발 방식에서 공학적 접근 기반의 체계적 프로세스로 전환되는 과정을 보여준다. 비체계적 접근에서는 복잡도 증가에 따라 실패 확률이 급증하는 구조적 한계(병목)가 명확하다. 따라서 현대 실무에서는 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)와 같은 표준 절차를 필수적으로 도입하여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 식별하고 관리한다.
 
@@ -46,9 +50,9 @@ tags = ["software_engineering"]
 
 | 구성 요소 | 역할 | 내부 동작/특징 | 측정 지표 / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))** | 명세된 조건 하에서 규정된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지속적으로 유지하는 능력 | [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 설계, 예외 처리 메커니즘을 통해 시스템 다운타임 최소화 | [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) (Mean Time Between Failures), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(%) | 튼튼한 건물 뼈대 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>)</strong> | 명세된 조건 하에서 규정된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지속적으로 유지하는 능력 | [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 설계, 예외 처리 메커니즘을 통해 시스템 다운타임 최소화 | [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) (Mean Time Between Failures), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(%) | 튼튼한 건물 뼈대 |
 | **효율성 (Efficiency)** | 요구된 기능을 수행할 때 할당된 자원을 최소한으로 사용하는 능력 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화, 메모리 관리, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조 적용을 통한 리소스 최적화 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 연비 좋은 엔진 |
-| **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) ([Maintainability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))** | 환경 변화나 버그 수정 요구에 따라 소프트웨어를 쉽게 변경할 수 있는 능력 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화(Modularity), [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) 증가, [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 감소 | 수정 소요 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 코드 복잡도 (Cyclomatic Complexity) | 쉽게 부품 교체가 가능한 조립 완구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">Maintainability</a>)</strong> | 환경 변화나 버그 수정 요구에 따라 소프트웨어를 쉽게 변경할 수 있는 능력 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화(Modularity), [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) 증가, [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 감소 | 수정 소요 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 코드 복잡도 (Cyclomatic Complexity) | 쉽게 부품 교체가 가능한 조립 완구 |
 
 ```text
 [소프트웨어 공학의 3대 핵심 목표 트레이드오프]
@@ -75,20 +79,24 @@ tags = ["software_engineering"]
 | 항목 | 기능 중심 접근법 | 객체 지향 접근법 ([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) | 판단 포인트 |
 |:---|:---|:---|:---|
 | **중심 사상** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 프로세스 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드의 결합 (객체) | 복잡한 비즈니스 로직 |
-| **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)** | 상태 변화 추적 어려움 (전역 변수 등) | 캡슐화로 인한 변경 영향도 국소화 | 장기적 확장성 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong> | 상태 변화 추적 어려움 (전역 변수 등) | 캡슐화로 인한 변경 영향도 국소화 | 장기적 확장성 |
 | **재사용성** | 함수 단위의 제한적 재사용 | 클래스, 상속을 통한 높은 재사용성 | 개발 생산성 |
 
-```text
-┌─────────── 시스템 아키텍처 융합 관점 ───────────┐
-│                                                 │
-│ [소프트웨어 공학] (품질 목표: 신뢰성, 유지보수성) │
-│        ║                                        │
-│        ╠══ (융합) ══> [클라우드 네이티브 아키텍처]│
-│        ║              - 마이크로서비스 (MSA)    │
-│ [인프라스트럭처]       - 컨테이너 오케스트레이션 │
-│ (확장성, 탄력성)                                │
-└─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시스템 아키텍처 융합 관점</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 공학</div><div class="kb-diagram-note">(품질 목표: 신뢰성, 유지보수성)</div></div>
+<div class="kb-diagram-note">║</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">══ (융합) ══&gt;</div><div class="kb-diagram-node">클라우드 네이티브 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로서비스 (MSA)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인프라스트럭처</div><div class="kb-diagram-note">- 컨테이너 오케스트레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확장성, 탄력성)</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 도식은 소프트웨어 공학의 원리([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))가 현대의 클라우드 인프라와 결합하여 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 발전하는 융합 지점을 보여준다. 단일 모놀리식 시스템에서는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 한계(수정 시 전체 재배포 등)가 발생하지만, MSA는 공학적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 원리를 인프라 레벨까지 확장 적용하여 장애를 격리하고 배포의 독립성을 확보한다.
 
@@ -105,26 +113,28 @@ tags = ["software_engineering"]
 
 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (운영/보안) | 판단 기준 |
 |:---|:---|
-| **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 통제** | 변경 발생 시 연쇄적인 코드 수정이 일어나지 않는가? |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 통제</strong> | 변경 발생 시 연쇄적인 코드 수정이 일어나지 않는가? |
 | **측정 가능성** | 코드 라인 수(LOC), 순환 복잡도 등 정량적 지표가 수집되는가? |
 | **자동화율** | 테스트 및 배포 과정이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인을 통해 자동화되었는가? |
 
-```text
-[실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름]
 
-      (요구사항 수용)
-           │
-           ▼
-[시간 제약이 매우 타이트한가?] ──(Yes)──> [기술 부채 감수 후 릴리즈] (위험 모니터링 필수)
-           │
-         (No)
-           ▼
-[장기적 유지보수 대상인가?] ──(No)──> [단기 효율성(빠른 구현) 중심 개발]
-           │
-         (Yes)
-           ▼
-[아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름</div></div>
+<div class="kb-diagram-note">(요구사항 수용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 제약이 매우 타이트한가?</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">기술 부채 감수 후 릴리즈</div><div class="kb-diagram-note">(위험 모니터링 필수)</div></div>
+<div class="kb-diagram-note">(No)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장기적 유지보수 대상인가?</div><div class="kb-diagram-note">──(No)──&gt;</div><div class="kb-diagram-node">단기 효율성(빠른 구현) 중심 개발</div></div>
+<div class="kb-diagram-note">(Yes)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)</div></div>
+</div>
+</div>
+
+
 **[도식 설명]**
 이 흐름도는 실무에서 일정 압박과 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 사이의 트레이드오프 상황을 판단하는 의사결정 과정을 보여준다. 가장 큰 병목은 "모든 공학적 원칙을 지키며 기한을 맞추는 것"의 어려움이다. 실무에서는 전략적으로 '[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'를 일시 허용하되, 이를 인지하고 추후 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))하는 절차를 두는 것이 공학적 접근의 핵심이다. 
 
@@ -156,18 +166,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 위기 (Software Crisis)]
-    │
-    ▼
-[SDLC (Software Development Life Cycle)]
-    │
-    ▼
-[모듈화 (Modularity)]
-    │
-    ▼
-[형상 관리 (Configuration Management)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 위기 (Software Crisis)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDLC (Software Development Life Cycle)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모듈화 (Modularity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형상 관리 (Configuration Management)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

@@ -21,13 +21,16 @@ tags = ["studynote-database"]
 
 다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 ([MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/), Multi-Version [Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락 충돌 배제, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 활용 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL 기본)에 초점을 맞춘 개념이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반 읽기 일관성은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 줄이면서도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 의미를 유지하려는 절충안이다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 비용과 가시성 규칙을 잘못 잡으면 장기 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 스토리지 팽창이 생긴다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Read view -> Version chain -> Current concept -> Visible row │
-├──────────────────────────────────────────────────────────────┤
-│ Snapshot -> version choice -> blocking reduction             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read view -&gt; Version chain -&gt; Current concept -&gt; Visible row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snapshot -&gt; version choice -&gt; blocking reduction</div></div>
+</div>
+</div>
+
+
 
 이 그림은 다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -46,13 +49,16 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `낙관적 동시성 제어`·`Undo 세그먼트`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Old version -> current version -> current concept -> reader  │
-├──────────────────────────────────────────────────────────────┤
-│ Undo chain -> snapshot rule -> visibility                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old version -&gt; current version -&gt; current concept -&gt; reader</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Undo chain -&gt; snapshot rule -&gt; visibility</div></div>
+</div>
+</div>
+
+
 
 핵심은 다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -113,15 +119,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[낙관적 동시성 제어]
-    │
-    ▼
-[다중 버전 동시성 제어]
-    │
-    ├──▶ [Undo 세그먼트]
-    └──▶ [블로킹 현상 완화 (MVCC의 가장 큰 장점]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">낙관적 동시성 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 버전 동시성 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Undo 세그먼트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 현상 완화 (MVCC의 가장 큰 장점</div></div>
+</div>
+</div>
+
+
 
 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)에서 출발한 논점이 다중 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어에서 핵심 판단으로 모이고, 이후 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 세그먼트·[블로킹 현상 완화](/knowledge-base/studynote/05_database/04_transactions_concurrency/226_blocking_resolution_mvcc_advantage/) (MVCC의 가장 큰 장점 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

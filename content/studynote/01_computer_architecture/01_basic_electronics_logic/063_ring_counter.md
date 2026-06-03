@@ -29,13 +29,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Init 1
-  ↓
-FF1 → FF2 → FF3 → FF4
-  ↑               ↓
-  └───────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Init 1</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">FF1 → FF2 → FF3 → FF4</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -104,29 +108,41 @@ FF1 → FF2 → FF3 → FF4
 
 ## 관련 개념 맵
 
-```text
-Shift Register
-  ↓
-Feedback
-  ↓
-Ring Counter
-  ↓
-One-hot Sequencing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shift Register</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Feedback</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ring Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">One-hot Sequencing</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Binary Counter
-  ↓
-Shift Register
-  ↓
-Ring Counter
-  ↓
-Sequence Control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Binary Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Shift Register</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ring Counter</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sequence Control</div>
+</div>
+</div>
+
+
 
 ---
 

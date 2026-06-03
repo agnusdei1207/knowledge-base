@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 번인 테스트는 기능 시험으로는 보이지 않는 잠복 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 조기에 표면화하기 위한 제조·검수 단계의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 절차다. 조립 직후에는 정상 부팅과 간단한 연산이 가능해도, 미세한 산화막 약점, 불완전한 납땜, 접촉 불량, 약한 패키지 계면은 며칠 또는 몇 주 후 실제 사용 중에야 문제를 드러낼 수 있다. 번인은 이 시간을 인위적으로 앞당겨 고객 앞이 아니라 공장 안에서 실패하게 만든다.
 
-이 기법이 필요한 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기 장애의 비용이 단순 부품 교체비보다 훨씬 크기 때문이다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버라면 현장 출동, 랙 분해, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 하락이 함께 따라오고, 자동차·항공 전장처럼 안전성이 중요한 제품에서는 조기 고장 자체가 심각한 위험이 된다. 따라서 번인은 불량을 없애는 공정이 아니라, **현장 불량을 출하 전 낙오로 전환하는 비용 이동 장치**라고 볼 수 있다.
+이 기법이 필요한 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기 장애의 비용이 단순 부품 교체비보다 훨씬 크기 때문이다. [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버라면 현장 출동, 랙 분해, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 하락이 함께 따라오고, 자동차·항공 전장처럼 안전성이 중요한 제품에서는 조기 고장 자체가 심각한 위험이 된다. 따라서 번인은 불량을 없애는 공정이 아니라, <strong>현장 불량을 출하 전 낙오로 전환하는 비용 이동 장치</strong>라고 볼 수 있다.
 
 또한 번인은 설계 문제 전체를 고치는 만능 기법은 아니다. 설계 자체가 약하면 번인 낙오율만 높아지고 본질적 원인은 남는다. 그래서 번인은 제조 편차와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 걸러내는 screening이며, 설계 약점은 별도의 HALT나 고장 분석으로 해결해야 한다.
 
@@ -35,20 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 번인이 "검수"가 아니라 잠복 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 의도적으로 조기에 폭로하는 screening 루프임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Burn-in screening workflow                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Assembly / test pass                                                │
-│      │                                                               │
-│      ▼                                                               │
-│ Elevated temperature + voltage + workload                            │
-│      │                                                               │
-│      ├── weak unit fails now ─▶ fallout + failure analysis           │
-│      │                                                               │
-│      └── robust unit survives ─▶ ship to field                       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Burn-in screening workflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assembly / test pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elevated temperature + voltage + workload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── weak unit fails now ─▶ fallout + failure analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── robust unit survives ─▶ ship to field</div></div>
+</div>
+</div>
+
+
 
 번인 프로파일을 설계할 때는 어떤 스트레스가 어떤 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 끌어낼지 연결해서 생각해야 한다.
 
@@ -98,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 번인으로 덮으려는 시도**: 불량을 걸러도 약한 설계는 계속 비용을 만든다.
+- <strong>설계 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>을 번인으로 덮으려는 시도</strong>: 불량을 걸러도 약한 설계는 계속 비용을 만든다.
 - **과도한 프로파일**: 정상품 수명까지 깎아 먹으면 screening 효율보다 손실이 커진다.
 - **낙오품 원인 미분석**: 많이 떨어졌다는 사실만 보고 끝내면 공정 개선이 이루어지지 않는다.
 
@@ -112,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 
 번인 테스트가 잘 설계되면 현장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애율, 반품률, 조기 교체 비용을 크게 줄일 수 있다. 특히 고가 장비나 고신뢰성 제품에서는 고객 현장 1회의 조기 장애가 공장 내 낙오품 여러 개보다 훨씬 비싸기 때문에 번인의 경제적 가치가 크다. 또한 낙오품 고장 분석이 누적되면 공정 편차와 취약 부위를 제조 단계에서 줄일 수 있다.
 
-다만 번인은 시간, 에너지, 장비 점유, 수율 손실 비용을 동반한다. 모든 제품에 똑같은 기간과 강도로 적용하는 것은 비효율적일 수 있으며, 저가 대량 제품에서는 선택적 적용이 더 합리적일 수도 있다. 즉 번인은 언제나 좋은 것이 아니라, **필드 고장 비용과 스크리닝 비용을 비교해 정당화해야 하는 관리 기법**이다.
+다만 번인은 시간, 에너지, 장비 점유, 수율 손실 비용을 동반한다. 모든 제품에 똑같은 기간과 강도로 적용하는 것은 비효율적일 수 있으며, 저가 대량 제품에서는 선택적 적용이 더 합리적일 수도 있다. 즉 번인은 언제나 좋은 것이 아니라, <strong>필드 고장 비용과 스크리닝 비용을 비교해 정당화해야 하는 관리 기법</strong>이다.
 
 앞으로는 패턴 기반 동적 번인, 온칩 센서를 이용한 실시간 스트레스 제어, 제조 이력 기반 선택적 번인처럼 더 정밀한 방식이 늘어날 것이다. 그래도 본질은 변하지 않는다. 번인은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기를 현장 밖으로 밀어내는, 가장 전통적이면서도 여전히 유효한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 방어선이다.
 
@@ -133,22 +132,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-잠복 제조 결함
-    │
-    ▼
-번인 (Burn-in) 테스트
-    : elevated temperature · voltage · workload
-    │
-    ├──▶ 낙오품 분리
-    │     : infant mortality removed before shipment
-    │
-    ├──▶ 고장 분석
-    │     : process correction · assembly improvement
-    │
-    └──▶ 현장 초기 장애 감소
-          : lower return rate · better outgoing quality
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">잠복 제조 결함</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">번인 (Burn-in) 테스트</div>
+<div class="kb-diagram-note">: elevated temperature · voltage · workload</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 낙오품 분리</div>
+<div class="kb-diagram-note">: infant mortality removed before shipment</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 고장 분석</div>
+<div class="kb-diagram-note">: process correction · assembly improvement</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 현장 초기 장애 감소</div>
+<div class="kb-diagram-note">: lower return rate · better outgoing quality</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

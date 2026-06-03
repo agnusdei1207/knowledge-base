@@ -23,26 +23,29 @@ tags = ["studynote-design-supervision"]
 
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 전형적 형태는 "유틸리티 클래스(utility class)"다. `StringUtil`, `CommonHelper` 같은 이름으로 관련 없는 기능들이 한 곳에 모여 있는 것이다. 이런 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 담당 기능이 확장될 때 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 크기만 커지고, 특정 기능만 재사용하기 어렵다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          응집도 수준: 낮음 → 높음 7단계 계층                 │
-├─────────────────────────────────────────────────────────────┤
-│  1. 우연적 응집도 (Coincidental) ← 가장 나쁨                │
-│     └─ 관련 없는 기능들이 임의로 한 모듈에 묶임              │
-│  2. 논리적 응집도 (Logical)                                 │
-│     └─ "이런 종류의 것"이라는 분류로 묶임                    │
-│  3. 시간적 응집도 (Temporal)                                │
-│     └─ 같은 시점(초기화, 종료)에 실행되어 묶임               │
-│  4. 절차적 응집도 (Procedural)                              │
-│     └─ 순서대로 실행되어야 해서 묶임                         │
-│  5. 교환적 응집도 (Communicational)                         │
-│     └─ 같은 데이터를 사용해서 묶임                           │
-│  6. 순차적 응집도 (Sequential)                              │
-│     └─ 한 모듈의 출력이 다음 모듈 입력이 되어 묶임           │
-│  7. 기능적 응집도 (Functional) ← 가장 좋음                  │
-│     └─ 단 하나의 명확한 기능을 수행                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응집도 수준: 낮음 → 높음 7단계 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 우연적 응집도 (Coincidental) ← 가장 나쁨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 관련 없는 기능들이 임의로 한 모듈에 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 논리적 응집도 (Logical)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "이런 종류의 것"이라는 분류로 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 시간적 응집도 (Temporal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 시점(초기화, 종료)에 실행되어 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 절차적 응집도 (Procedural)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 순서대로 실행되어야 해서 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 교환적 응집도 (Communicational)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 데이터를 사용해서 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 순차적 응집도 (Sequential)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 한 모듈의 출력이 다음 모듈 입력이 되어 묶임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 기능적 응집도 (Functional) ← 가장 좋음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 단 하나의 명확한 기능을 수행</div></div>
+</div>
+</div>
+
+
 
 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 재사용성이 낮고, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 작성이 어렵고, 변경 시 예상치 못한 다른 기능에 영향을 미친다. 기술사 시험에서 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 반드시 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))와 함께 "높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) + 낮은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)"를 목표로 제시해야 한다.
 
@@ -61,22 +64,22 @@ tags = ["studynote-design-supervision"]
 | 시간적 | `init() { openDB(); loadConfig(); startLog(); }` | 각 초기화 관심사 분리 |
 | 기능적 | `TaxCalculator.calculate(price)` | 이미 최적. 단일 책임 유지 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│      기능적 응집도 설계: 단일 책임 모듈 구조                 │
-├─────────────────────────────────────────────────────────────┤
-│  낮은 응집도 (CommonService)                                │
-│  ┌────────────────────────────────┐                         │
-│  │ sendEmail()  ← 이메일 담당     │                         │
-│  │ calcTax()    ← 세금 담당       │ ← 변경 이유 3가지       │
-│  │ validateAge() ← 검증 담당      │                         │
-│  └────────────────────────────────┘                         │
-│                                                             │
-│  높은 응집도 (분리 후)                                      │
-│  [EmailService] [TaxPolicy] [AgeValidator]                  │
-│  각자 단일 목적 → 변경 이유 각각 1가지                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능적 응집도 설계: 단일 책임 모듈 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 응집도 (CommonService)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendEmail() ← 이메일 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">calcTax() ← 세금 담당</div><div class="kb-diagram-cell">← 변경 이유 3가지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">validateAge() ← 검증 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 응집도 (분리 후)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EmailService</div><div class="kb-diagram-node">TaxPolicy</div><div class="kb-diagram-node">AgeValidator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각자 단일 목적 → 변경 이유 각각 1가지</div></div>
+</div>
+</div>
+
+
 
 패키지(package) 수준에서도 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙이 적용된다. 패키지 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 원칙(Package [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) Principles) 중 REP (Reuse-Release Equivalence Principle, 재사용-릴리즈 등가 원칙)는 함께 재사용되는 클래스들이 같은 패키지에 있어야 한다는 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 관점이다.
 

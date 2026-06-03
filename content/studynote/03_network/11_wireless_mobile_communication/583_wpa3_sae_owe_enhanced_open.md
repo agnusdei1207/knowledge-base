@@ -23,33 +23,34 @@ tags = ["studynote-network"]
 - **필요성**: [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))는 강력했지만 치명적 단점이 있었다. 동네 카페 사장님이 기억하기 쉽게 와이파이 비번을 전화번호인 `01012345678`로 해두면, 해커는 허공에서 손님이 와이파이에 붙는 찰나의 순간(4-Way Handshake) 패킷 1개를 낚아채서 집에 도망간다. 그리고 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 미친 듯이 돌려서 0부터 9까지의 전화번호 수억 개를 대입(Offline Dictionary Attack)하면, 고작 5분 만에 암호 공식이 맞아떨어지며 평문 비밀번호가 훌렁 털렸다. "사용자가 허접한 비번을 써도 절대 해킹당하지 않는 똑똑한 문지기"가 절실했다.
 - **등장 배경**: ① 2017년 터진 WPA2의 KRACK 취약점으로 인한 전 세계적 불신 폭발 → ② 딕셔너리 공격에 속수무책인 [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)(사전 공유 키) 방식의 구조적 한계 도달 → ③ 비밀번호가 허접해도 방어가 가능하고(SAE), 향후 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 해킹까지 버틸 192비트급 미군 보안(CNSA) 스펙을 담은 WPA3 전격 발표.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             WPA2(오프라인 해킹 지옥) vs WPA3(SAE 철벽 방어) 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   💥 [과거 WPA2 (PSK)의 비극: 도둑의 집구석 수학 놀이]               │
-│   손님: "암호 공식 버무려서 던질게! 받아라! (패킷 쓱~)"                │
-│   해커: (중간에서 낚아채서 집으로 도망감 🏃‍♂️💨)                      │
-│   해커 PC: "이 패킷은 비밀번호가 포함된 해시 결과물이군! 지금부터 내가     │
-│             1234, 1111, 전화번호 1억 개를 1초에 1,000번씩 대입해서      │
-│             공식이 일치할 때까지 때려 맞춰볼게! 오? 5분 만에 찾았다!"     │
-│   => 결과: 허술한 비밀번호(Dictionary)는 오프라인 해킹으로 100% 뚫림.      │
-│                                                             │
-│   🛡️ [미래 WPA3 (SAE)의 기적: 실시간 면접의 강제 (오프라인 불가)]        │
-│   손님 & 공유기: (비번을 타원 곡선 암호(ECC)의 3차원 점 좌표로 바꿔버림)  │
-│   해커: (중간에서 낚아채서 집으로 도망가서 컴퓨터 돌림)                  │
-│   해커 PC: "어? 이 패킷은 아까 쓴 그 '1회용 점의 좌표'일 뿐이네?         │
-│             이것만으로는 다음 비밀번호 수식을 풀 수 있는 힌트가 0%야!     │
-│             비밀번호를 찍어서 맞추려면, 내 컴퓨터가 아니라 진짜 공유기한테 │
-│             다시 돌아가서 1:1로 물어봐야만 해!"                       │
-│   해커: (다시 공유기한테 가서 1234, 1111... 때려 맞춰봄)                │
-│   공유기: "어라 이놈 보소? 패스워드 5번 연속 틀렸네? 1시간 차단(Block) 컷!"│
-│   => 결과: 해커가 비번을 몰래 무한정 때려 맞추는 짓(Brute-force) 원천 차단!│
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** WPA3의 심장인 **SAE (Simultaneous [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) of Equals)**의 핵심 철학은 "비밀번호 검증을 오프라인(집)에서 할 수 없게 강제하여, 무조건 라이브(온라인) 공유기 앞에서 한 땀 한 땀 검사받게 만드는 것"이다. WPA2는 내가 친 비밀번호 문자열이 그대로 수식(해시)에 들어가 허공을 날았다. WPA3의 SAE(Dragonfly [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 문자를 복잡한 타원 곡선의 점(PWE)으로 치환한 뒤, 공유기와 단말기가 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))처럼 "서로 비번을 안 알려주면서 나도 비번을 안다"는 사실만 텔레파시로 증명한다. 이 수학적 늪 때문에 해커가 가로챈 패킷을 백날 뜯어봐도 비번을 역추적할 방정식이 도출되지 않는다. 결국 공유기 앞에서 수동으로 비번을 찍어봐야 하는데, 몇 번 틀리면 밴(Ban)을 당하니 해킹이 완벽하게 박살 난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPA2(오프라인 해킹 지옥) vs WPA3(SAE 철벽 방어) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">과거 WPA2 (PSK)의 비극: 도둑의 집구석 수학 놀이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손님: "암호 공식 버무려서 던질게! 받아라! (패킷 쓱~)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: (중간에서 낚아채서 집으로 도망감 🏃‍♂️💨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 PC: "이 패킷은 비밀번호가 포함된 해시 결과물이군! 지금부터 내가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1234, 1111, 전화번호 1억 개를 1초에 1,000번씩 대입해서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공식이 일치할 때까지 때려 맞춰볼게! 오? 5분 만에 찾았다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 허술한 비밀번호(Dictionary)는 오프라인 해킹으로 100% 뚫림.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">미래 WPA3 (SAE)의 기적: 실시간 면접의 강제 (오프라인 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손님 &amp; 공유기: (비번을 타원 곡선 암호(ECC)의 3차원 점 좌표로 바꿔버림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: (중간에서 낚아채서 집으로 도망가서 컴퓨터 돌림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 PC: "어? 이 패킷은 아까 쓴 그 '1회용 점의 좌표'일 뿐이네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이것만으로는 다음 비밀번호 수식을 풀 수 있는 힌트가 0%야!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀번호를 찍어서 맞추려면, 내 컴퓨터가 아니라 진짜 공유기한테</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 돌아가서 1:1로 물어봐야만 해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: (다시 공유기한테 가서 1234, 1111... 때려 맞춰봄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기: "어라 이놈 보소? 패스워드 5번 연속 틀렸네? 1시간 차단(Block) 컷!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 해커가 비번을 몰래 무한정 때려 맞추는 짓(Brute-force) 원천 차단!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** WPA3의 심장인 <strong>SAE (Simultaneous <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> of Equals)</strong>의 핵심 철학은 "비밀번호 검증을 오프라인(집)에서 할 수 없게 강제하여, 무조건 라이브(온라인) 공유기 앞에서 한 땀 한 땀 검사받게 만드는 것"이다. WPA2는 내가 친 비밀번호 문자열이 그대로 수식(해시)에 들어가 허공을 날았다. WPA3의 SAE(Dragonfly [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 문자를 복잡한 타원 곡선의 점(PWE)으로 치환한 뒤, 공유기와 단말기가 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))처럼 "서로 비번을 안 알려주면서 나도 비번을 안다"는 사실만 텔레파시로 증명한다. 이 수학적 늪 때문에 해커가 가로챈 패킷을 백날 뜯어봐도 비번을 역추적할 방정식이 도출되지 않는다. 결국 공유기 앞에서 수동으로 비번을 찍어봐야 하는데, 몇 번 틀리면 밴(Ban)을 당하니 해킹이 완벽하게 박살 난다.
 
 - **📢 섹션 요약 비유**: WPA2는 스크래치 복권입니다. 도둑이 복권(패킷)을 여러 장 훔쳐 집에 가서 동전으로 밤새 긁어보면(오프라인 해킹) 언젠가 당첨(비번 획득)이 됩니다. WPA3는 은행 창구입니다. 도둑이 훔쳐 갈 복권 자체가 없고, 무조건 은행원(공유기) 앞에 서서 비밀번호를 맞춰야 합니다. 5번 틀리면 경비원이 출동해 내쫓아버리죠(차단).
 
@@ -62,44 +63,43 @@ WPA3-Personal(개인용) 모드의 대문을 굳건히 지키는 혁명적인 �
 | 방어 목표 | [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))의 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) | WPA3(SAE)의 수학적 해결책 |
 |:---|:---|:---|
 | **Brute-force (무차별 대입 공격)**| 가로챈 패킷으로 GPU를 돌려 초당 수십만 번의 암호 대입 가능 (Offline Cracking) | 패킷 하나로는 연산 불가. 1회 대입 시마다 공유기와 **1:1 Live 연산 필수(Online 강제).** 연달아 틀리면 접속 차단. |
-| **PFS (완벽한 전방향 비밀성, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy)** | 내일 카페 사장님이 해커에게 비번을 털리면? **해커가 작년에 몰래 녹음해 둔 1년 치 무선 트래픽의 암호가 다 풀려버림!** (과거 유출) | 내일 와이파이 비번이 털려도, **어제 주고받은 패킷은 절대 풀 수 없음.** (접속할 때마다 완전히 독립된 새로운 타원 곡선 키를 생성하므로 과거 짐은 불변의 상자 안에 갇힘). |
-| **KRACK 공격 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Reinstallation)**| 4-Way 악수 중 3번째 패킷을 반복 주입하면 암호 룰이 리셋됨. | SAE는 각자의 좌표(Commit/Confirm)를 교환하는 '동시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)' 구조라 찌를 틈(버그)이 소멸함. |
+| <strong>PFS (완벽한 전방향 비밀성, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Secrecy)</strong> | 내일 카페 사장님이 해커에게 비번을 털리면? **해커가 작년에 몰래 녹음해 둔 1년 치 무선 트래픽의 암호가 다 풀려버림!** (과거 유출) | 내일 와이파이 비번이 털려도, **어제 주고받은 패킷은 절대 풀 수 없음.** (접속할 때마다 완전히 독립된 새로운 타원 곡선 키를 생성하므로 과거 짐은 불변의 상자 안에 갇힘). |
+| <strong>KRACK 공격 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Reinstallation)</strong>| 4-Way 악수 중 3번째 패킷을 반복 주입하면 암호 룰이 리셋됨. | SAE는 각자의 좌표(Commit/Confirm)를 교환하는 '동시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)' 구조라 찌를 틈(버그)이 소멸함. |
 
 WPA3는 일반 사용자(Personal)의 SAE 혁신뿐만 아니라, 극단적인 보안을 요구하는 정부, 군부대, 대기업(Enterprise)을 위해 암호의 체급을 미친 듯이 올려버렸다.
 
 | 규격 | [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) / WPA3 일반 (128비트) | WPA3-Enterprise 192-bit (CNSA Suite B) |
 |:---|:---|:---|
 | **적용 대상** | 일반 가정, 카페, 일반 오피스 | 미국 국방부(DoD), 1급 기밀망, 국가 인프라 |
-| **등장 배경** | 기존 128비트 AES면 현존 슈퍼컴퓨터로 수백 년 걸려 안전함. | "수십 년 뒤, 1초 만에 암호를 푸는 **[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))**가 나오면 털리는 거 아냐?"라는 공포. |
-| **암호화 엔진** | **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128 / CCMP** | **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 / GCMP-256** (기존 CCMP보다 속도와 보안성이 압도적인 갈루아 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 모드 퓨전) |
-| **키 교환(서명) 엔진**| [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 (2048비트 수준) | **[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 타원 곡선 암호 (384비트 곡선).** (양자 해킹에 버티기 위해 수학적 난이도를 극단적으로 뻥튀기한 미 정부 CNSA 공인 규격). |
+| **등장 배경** | 기존 128비트 AES면 현존 슈퍼컴퓨터로 수백 년 걸려 안전함. | "수십 년 뒤, 1초 만에 암호를 푸는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a>)</strong>가 나오면 털리는 거 아냐?"라는 공포. |
+| **암호화 엔진** | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-128 / CCMP</strong> | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-256 / GCMP-256</strong> (기존 CCMP보다 속도와 보안성이 압도적인 갈루아 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 모드 퓨전) |
+| **키 교환(서명) 엔진**| [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 (2048비트 수준) | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a> 타원 곡선 암호 (384비트 곡선).</strong> (양자 해킹에 버티기 위해 수학적 난이도를 극단적으로 뻥튀기한 미 정부 CNSA 공인 규격). |
 
 **[핵심 분석]** CNSA (Commercial National [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 미국 정부가 가장 기밀성이 높은 일급문서를 보호할 때 쓰는 암호 체계다. WPA3는 이 규격을 무선랜 표준 안에 통째로 박아 넣었다. WPA3-Enterprise 192비트 모드를 켜는 순간, 허공을 날아다니는 전파는 사실상 백악관 지하 벙커에 깔린 광케이블보다도 수학적으로 더 단단한 껍질을 두르게 된다. 이것은 다가올 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) 시대의 해킹 위협([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))까지 선제적으로 방어해 낸 무선 공학의 극한점이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               WPA3 OWE (Opportunistic Wireless Encryption) 마법      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [과거 공용 와이파이 (스타벅스 등 비번 없는 Open 망)]                  │
-│   나: (비번 안 치고 쓱 접속해서 카톡 보냄)                          │
-│   해커(옆자리): Wireshark로 내 카톡 내용, 비밀번호 다 훔쳐봄 😭 (도청 지옥)│
-│                                                               │
-│   [혁신 WPA3 OWE (비번 없는 암호화) - Enhanced Open]               │
-│   나: (마찬가지로 귀찮은 비번 1도 안 치고 와이파이 이름만 눌러서 접속함)      │
-│                                                               │
-│   [뒤에서 벌어지는 마법 🪄]                                         │
-│   공유기: "어? 너 로그인 비번 없이 들어왔네? 상관없지! 자, 허공에서 나랑     │
-│           Diffie-Hellman(디피-헬만) 수학 공식 섞어서 우리 둘만 아는       │
-│           비밀 열쇠를 몰래 만들어 버리자!"                          │
-│   내 폰: "콜! 방금 열쇠 만들었으니 이제부터 통신 다 암호화(AES)해서 쏜다!" │
-│                                                               │
-│   해커(옆자리): "어? 쟤네 비번 안 쳤는데 왜 전파가 암호화되어 있지? 못 훔치네!"│
-│   => 결과: 손님은 비밀번호 치는 귀찮음 0%, 프라이버시 방어는 100% 보장 달성!│
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** WPA3의 숨겨진 최고 걸작 중 하나가 **OWE (Enhanced Open)**다. 공항이나 호텔의 무료 와이파이는 "비밀번호를 안 걸어야 손님이 편하게 붙는다"는 이유로 암호화([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/))를 아예 꺼버린 Open 망으로 운영되었다. 이는 해커들의 완벽한 놀이터였다. OWE는 이 딜레마를 완벽히 깼다. 손님은 비번을 입력할 필요가 없다. 폰이 와이파이를 클릭하는 그 0.1초의 찰나에, 폰과 공유기가 백그라운드에서 은밀하게 Diffie-Hellman 키 교환 공식을 섞어 '일회용 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호키'를 창조해 낸다. 즉, 사용자는 Open 망의 편리함을 누리되, 허공의 전파는 WPA2급의 완벽한 암호화 보호를 받는 "비밀번호 없는 암호화 망"이 완성된 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPA3 OWE (Opportunistic Wireless Encryption) 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거 공용 와이파이 (스타벅스 등 비번 없는 Open 망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나: (비번 안 치고 쓱 접속해서 카톡 보냄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커(옆자리): Wireshark로 내 카톡 내용, 비밀번호 다 훔쳐봄 😭 (도청 지옥)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신 WPA3 OWE (비번 없는 암호화) - Enhanced Open</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나: (마찬가지로 귀찮은 비번 1도 안 치고 와이파이 이름만 눌러서 접속함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뒤에서 벌어지는 마법 🪄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기: "어? 너 로그인 비번 없이 들어왔네? 상관없지! 자, 허공에서 나랑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diffie-Hellman(디피-헬만) 수학 공식 섞어서 우리 둘만 아는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀 열쇠를 몰래 만들어 버리자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 폰: "콜! 방금 열쇠 만들었으니 이제부터 통신 다 암호화(AES)해서 쏜다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커(옆자리): "어? 쟤네 비번 안 쳤는데 왜 전파가 암호화되어 있지? 못 훔치네!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 손님은 비밀번호 치는 귀찮음 0%, 프라이버시 방어는 100% 보장 달성!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** WPA3의 숨겨진 최고 걸작 중 하나가 <strong>OWE (Enhanced Open)</strong>다. 공항이나 호텔의 무료 와이파이는 "비밀번호를 안 걸어야 손님이 편하게 붙는다"는 이유로 암호화([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/))를 아예 꺼버린 Open 망으로 운영되었다. 이는 해커들의 완벽한 놀이터였다. OWE는 이 딜레마를 완벽히 깼다. 손님은 비번을 입력할 필요가 없다. 폰이 와이파이를 클릭하는 그 0.1초의 찰나에, 폰과 공유기가 백그라운드에서 은밀하게 Diffie-Hellman 키 교환 공식을 섞어 '일회용 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호키'를 창조해 낸다. 즉, 사용자는 Open 망의 편리함을 누리되, 허공의 전파는 WPA2급의 완벽한 암호화 보호를 받는 "비밀번호 없는 암호화 망"이 완성된 것이다.
 
 - **📢 섹션 요약 비유**: 카페 비번 없는 와이파이(Open)는 길거리에서 메가폰으로 내 비밀을 소리쳐 말하는 겁니다. 누구나 다 듣죠. WPA3의 OWE 기술은, 내가 카페에 들어오자마자 사장님과 나만 알아듣는 '비밀 외계어 번역기(암호키)'를 공짜로 자동 장착해 줍니다. 비번을 묻지도 치지도 않았는데, 남들은 내 말을 절대 알아들을 수 없게 되는 텔레파시 마법입니다.
 
@@ -124,19 +124,19 @@ WPA3를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 해커들의 가장 짜증 나는 장난질 중 하나가 "공유기 행세하기"다. 동네 카페에서 해커가 자기 노트북으로 "야! 나 공유기인데 연결 끊고 나가!(Deauth Frame)"라는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 뿌리면, 카페 안의 모든 사람들의 폰에서 와이파이가 다 끊어져 버린다([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격).
 
 - **WPA2의 한계**: WPA2는 사용자의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카톡)'는 AES로 암호화했지만, "연결해라, 끊어라, 채널 바꿔라" 같은 '공유기 관리 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Frame)'는 암호화를 안 하고 평문으로 냅뒀다.
-- **WPA3의 조치**: IEEE 802.11w 표준인 **PMF를 WPA3 환경에서는 "무조건 켜기(Mandatory)"로 법제화**했다. 이제 공유기와 폰이 주고받는 제어/관리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Deauth 등)에도 모두 암호화 도장이 찍힌다. 해커가 위조된 로그아웃 명령을 던지면 폰이 "어? 암호 도장 없는 짭새네?"라며 깔끔하게 무시해 버려 튕김 공격이 100% 방어된다.
+- **WPA3의 조치**: IEEE 802.11w 표준인 <strong>PMF를 WPA3 환경에서는 "무조건 켜기(Mandatory)"로 법제화</strong>했다. 이제 공유기와 폰이 주고받는 제어/관리 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Deauth 등)에도 모두 암호화 도장이 찍힌다. 해커가 위조된 로그아웃 명령을 던지면 폰이 "어? 암호 도장 없는 짭새네?"라며 깔끔하게 무시해 버려 튕김 공격이 100% 방어된다.
 
-1. **상황**: 회사 아키텍트가 전 임직원의 쾌적한 인터넷을 위해 최신 **[Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/) (6GHz 대역)** 공유기 수십 대를 천장에 달았다. 그런데 3년 전 산 구형 노트북이나 바코드 스캐너가 아예 와이파이 이름(SSID)을 못 찾거나 연결 실패를 뿜으며 업무가 마비되었다.
-2. **원인 (WPA3 Mandatory [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))**: Wi-Fi Alliance는 6GHz라는 새롭고 깨끗한 영토([Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/))에 구시대의 적폐([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/), TKIP)가 발을 들이는 것을 법으로 철저히 금지했다. **6GHz 대역에서 와이파이를 쏘려면 보안을 무조건 WPA3 (SAE)로만 강제 세팅**해야 한다. 구형 폰들은 WPA3의 복잡한 타원 곡선 암호(SAE)를 이해할 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 지능이 없어 아예 문전박대를 당한 것이다.
+1. **상황**: 회사 아키텍트가 전 임직원의 쾌적한 인터넷을 위해 최신 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/">Wi-Fi 6E</a> (6GHz 대역)</strong> 공유기 수십 대를 천장에 달았다. 그런데 3년 전 산 구형 노트북이나 바코드 스캐너가 아예 와이파이 이름(SSID)을 못 찾거나 연결 실패를 뿜으며 업무가 마비되었다.
+2. <strong>원인 (WPA3 Mandatory <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)</strong>: Wi-Fi Alliance는 6GHz라는 새롭고 깨끗한 영토([Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/))에 구시대의 적폐([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/), TKIP)가 발을 들이는 것을 법으로 철저히 금지했다. <strong>6GHz 대역에서 와이파이를 쏘려면 보안을 무조건 WPA3 (SAE)로만 강제 세팅</strong>해야 한다. 구형 폰들은 WPA3의 복잡한 타원 곡선 암호(SAE)를 이해할 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 지능이 없어 아예 문전박대를 당한 것이다.
 3. **의사결정 및 조치 (망 분리 설계: WPA3 Transition Mode)**:
    - 6GHz 밴드는 구형 기기 배려를 포기하고 오직 **WPA3-Personal Only** (또는 WPA3-Enterprise Only)로 순수하게 구성하여 최신 기기들만 쾌적하게 달리도록 분리(Greenfield)한다.
-   - 기존의 2.4GHz와 5GHz 밴드(SSID)는 **[WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) / WPA3 Transition Mode(전환 모드)**로 세팅한다.
+   - 기존의 2.4GHz와 5GHz 밴드(SSID)는 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/">WPA2</a> / WPA3 Transition Mode(전환 모드)</strong>로 세팅한다.
    - **작동 원리**: Transition Mode를 켜면 공유기는 "난 WPA2도 할 줄 알고 WPA3도 할 줄 알아!"라고 동네에 방송([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))한다. 최신 아이폰이 붙으면 "너 최신 폰이네? 우리 안전한 WPA3 SAE로 대화하자!"고 업그레이드해주고, 구형 바코드 스캐너가 붙으면 "너 멍청하구나? 그럼 옛날 방식인 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 4-Way로 대화해 줄게!"라고 맞춰준다.
-   - **경고 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: Transition Mode는 과도기적 땜질이다. 해커가 중간에서 "야! 공유기가 WPA3 할 줄 모른대! 그냥 WPA2로 낮춰서 연결해!"라고 폰을 속이는 **다운그레이드 공격(Downgrade Attack)**에 당할 치명적 위험이 존재한다. 따라서 최고 수준의 보안 기관은 이 모드를 끄고 망을 완전히 물리적으로 분리해야 한다.
+   - <strong>경고 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: Transition Mode는 과도기적 땜질이다. 해커가 중간에서 "야! 공유기가 WPA3 할 줄 모른대! 그냥 WPA2로 낮춰서 연결해!"라고 폰을 속이는 <strong>다운그레이드 공격(Downgrade Attack)</strong>에 당할 치명적 위험이 존재한다. 따라서 최고 수준의 보안 기관은 이 모드를 끄고 망을 완전히 물리적으로 분리해야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Easy Connect (DPP, Device [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 활용**: 디스플레이 액정이 없는 스마트 전구나 무선 프린터에 대체 어떻게 WPA3의 그 길고 복잡한 SAE 비밀번호를 쳐 넣을까? WPA3 규격에는 **DPP**라는 천재적 규격이 딸려있다. 사용자는 자기 스마트폰(이미 와이파이에 연결된 폰)으로 스마트 전구 박스 뒷면의 **QR 코드**를 찰칵! 스캔하기만 하면 된다. 폰이 공유기에게 "전구 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했으니 보안키를 무선으로 내려꽂아 줘!"라고 보증을 서며, 1초 만에 전구가 WPA3 망에 안전하게 달라붙는 극강의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 편의성 아키텍처다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (불필요한 PMF 해제 꼼수)**: 사내 낡은 프린터가 WPA3 망에서 자꾸 튕기자, 원인을 찾던 관리자가 공유기 설정에서 의무사항인 **PMF (보호된 관리 프레임, 802.11w) 옵션을 Disabled(끄기)로 억지로 낮춰버리는 미친 짓**을 저지른다. PMF를 끄는 순간, 아까 말한 "가짜 공유기가 연결 끊어버리기(Deauth [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))" 공격에 회사 전체 망이 다시 무방비로 노출된다. 프린터 하나 살리겠다고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 전원을 뽑아버리는 거대한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 낡은 장비는 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 전용 격리망으로 치우고, 메인 망의 PMF는 반드시 Required(필수)로 고정해야 한다.
+- <strong>Easy Connect (DPP, Device <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 활용</strong>: 디스플레이 액정이 없는 스마트 전구나 무선 프린터에 대체 어떻게 WPA3의 그 길고 복잡한 SAE 비밀번호를 쳐 넣을까? WPA3 규격에는 <strong>DPP</strong>라는 천재적 규격이 딸려있다. 사용자는 자기 스마트폰(이미 와이파이에 연결된 폰)으로 스마트 전구 박스 뒷면의 <strong>QR 코드</strong>를 찰칵! 스캔하기만 하면 된다. 폰이 공유기에게 "전구 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했으니 보안키를 무선으로 내려꽂아 줘!"라고 보증을 서며, 1초 만에 전구가 WPA3 망에 안전하게 달라붙는 극강의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 편의성 아키텍처다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (불필요한 PMF 해제 꼼수)</strong>: 사내 낡은 프린터가 WPA3 망에서 자꾸 튕기자, 원인을 찾던 관리자가 공유기 설정에서 의무사항인 <strong>PMF (보호된 관리 프레임, 802.11w) 옵션을 Disabled(끄기)로 억지로 낮춰버리는 미친 짓</strong>을 저지른다. PMF를 끄는 순간, 아까 말한 "가짜 공유기가 연결 끊어버리기(Deauth [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))" 공격에 회사 전체 망이 다시 무방비로 노출된다. 프린터 하나 살리겠다고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 전원을 뽑아버리는 거대한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 낡은 장비는 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 전용 격리망으로 치우고, 메인 망의 PMF는 반드시 Required(필수)로 고정해야 한다.
 
 - **📢 섹션 요약 비유**: Transition 모드(전환 모드)는 영어(WPA3)와 한국어([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/))를 다 할 줄 아는 사장님입니다. 최신 엘리트 직원(아이폰)이 오면 고급 암호 영어로 대화하고, 영어를 모르는 옛날 직원이 오면 옛날 한국어로 대화해 줍니다. 하지만 나쁜 사기꾼이 "얘 영어 할 줄 몰라 한국어로 해"라고 속이는(다운그레이드 공격) 맹점이 있어서, 진짜 중요한 은행 같은 곳은 그냥 한국어를 못 쓰게 영어 전용(WPA3 Only)으로 금지해 버립니다.
 
@@ -148,14 +148,14 @@ WPA3를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 |:---|:---|:---|:---|
 | **정량 (무차별 대입 공격)** | 사전 대입 시 쉬운 비번 5분 내 크랙 가능 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 오프라인 계산 자체를 연산 불가로 무효화 | 1234 같은 쉬운 비번을 써도 **해킹 성공률 0% 완전 봉쇄** |
 | **정량 (전방향 비밀성, PFS)** | 마스터 비번 털리면 과거 트래픽(PCAP) 몽땅 털림 | 세션마다 일회용 독립 타원 곡선 키 빚어냄 | 내일 비번이 유출되어도, 어제 통신한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **해독률 0% 방어** |
-| **정성 (공유기 제어망 보안)**| Deauth 튕기기 공격([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))에 속수무책 | PMF 강제 의무화 (제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 암호화) | 카페/공항 등에서 툭하면 와이파이 끊어버리는 **가짜 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 훼방질 원천 방어** |
+| **정성 (공유기 제어망 보안)**| Deauth 튕기기 공격([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))에 속수무책 | PMF 강제 의무화 (제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 암호화) | 카페/공항 등에서 툭하면 와이파이 끊어버리는 <strong>가짜 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 훼방질 원천 방어</strong> |
 
 ### 미래 전망 및 진화 방향
-- **포스트 퀀텀([양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) 시대를 향한 방벽**: WPA3의 192비트 CNSA 모드는 현재 인류가 와이파이에 올릴 수 있는 가장 높은 수준의 수학적 방벽이다. 10년 뒤 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되어 기존의 RSA나 일반 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호의 보호막을 뚫어버리는 시대가 오더라도, WPA3의 이 극단적 타원 곡선([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 384-bit) 셋업은 그 거대한 폭풍을 견뎌낼 수 있도록 선제적으로 설계된 방주(Ark)와 같다.
-- **[Wi-Fi 7](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/) 시대와 WPA3의 완전한 종속**: WPA2까지의 유산은 6GHz라는 새 땅에 발을 들일 수 없다. Wi-Fi 6E에 이어 곧바로 열릴 320MHz 초광폭의 **[Wi-Fi 7](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/)(802.[11be](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/))** 시대에는 2.4/5/6GHz 전체를 엮는 MLO 기술이 탑재된다. 이 거대한 괴물 트래픽을 통제하고 해킹으로부터 지킬 수 있는 유일한 문지기는 오직 WPA3뿐이다. 향후 5년 내 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 칩셋들은 자연 도태되며 무선 세계는 완벽한 WPA3 퓨어(Pure) 환경으로 재편될 것이다.
+- <strong>포스트 퀀텀(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/">양자 컴퓨팅</a>) 시대를 향한 방벽</strong>: WPA3의 192비트 CNSA 모드는 현재 인류가 와이파이에 올릴 수 있는 가장 높은 수준의 수학적 방벽이다. 10년 뒤 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되어 기존의 RSA나 일반 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호의 보호막을 뚫어버리는 시대가 오더라도, WPA3의 이 극단적 타원 곡선([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 384-bit) 셋업은 그 거대한 폭풍을 견뎌낼 수 있도록 선제적으로 설계된 방주(Ark)와 같다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/">Wi-Fi 7</a> 시대와 WPA3의 완전한 종속</strong>: WPA2까지의 유산은 6GHz라는 새 땅에 발을 들일 수 없다. Wi-Fi 6E에 이어 곧바로 열릴 320MHz 초광폭의 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/">Wi-Fi 7</a>(802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/578_802_11be_wifi_7_mlo_4k_qam/">11be</a>)</strong> 시대에는 2.4/5/6GHz 전체를 엮는 MLO 기술이 탑재된다. 이 거대한 괴물 트래픽을 통제하고 해킹으로부터 지킬 수 있는 유일한 문지기는 오직 WPA3뿐이다. 향후 5년 내 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 칩셋들은 자연 도태되며 무선 세계는 완벽한 WPA3 퓨어(Pure) 환경으로 재편될 것이다.
 
 ### 참고 표준
-- **WPA3 [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) (Wi-Fi Alliance, 2018)**: 크랙(KRACK) 사태의 굴욕을 만회하기 위해 WFA가 SAE, OWE, PMF 강제 등 온갖 최강의 보안 룰만 싹싹 긁어모아 공표한 4세대 무선 보안 바이블.
+- <strong>WPA3 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a> (Wi-Fi Alliance, 2018)</strong>: 크랙(KRACK) 사태의 굴욕을 만회하기 위해 WFA가 SAE, OWE, PMF 강제 등 온갖 최강의 보안 룰만 싹싹 긁어모아 공표한 4세대 무선 보안 바이블.
 - **IEEE 802.11s (SAE)** / **RFC 7664 (Dragonfly)**: SAE의 근간이 되는 '드래곤플라이 키 교환' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 원전 문서. 비밀번호를 노출하지 않고 둘이 동시에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과하는 타원 곡선 암호의 극의를 다룬다.
 
 WPA3의 등장은 단순한 '비밀번호 방식'의 교체가 아니다. 그것은 지난 20년간 무선 공학자들이 패배해 왔던 해커들의 가장 비열한 치트키, 즉 "패킷 하나를 훔쳐서 집에서 슈퍼컴퓨터로 돌리면 언젠가는 뚫린다(오프라인 대입 공격)"는 뼈아픈 공식을 수학적으로 완벽하게 사형시킨 위대한 선언이다. WPA3(SAE)는 도둑이 가져간 퍼즐 조각을 아무리 조립해도 남은 힌트가 단 한 톨도 남아있지 않게 증발시키는, 현대 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)) 냄새가 짙게 밴 현존 최고봉의 디지털 성벽이다.
@@ -175,15 +175,19 @@ WPA3의 등장은 단순한 '비밀번호 방식'의 교체가 아니다. 그것
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WPA2 강력 암호화, 개인용/기업용]
-    │
-    ▼
-[현재 개념: WPA3]
-    │
-    ├──▶ [확장 A: 1X 인증 및 EAP/RADIUS 체계]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WPA2 강력 암호화, 개인용/기업용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WPA3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 1X 인증 및 EAP/RADIUS 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 WPA3는 [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/) 강력 암호화, 개인용/기업용에서 출발해 현재 메커니즘을 정교화하고, 이후 [1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

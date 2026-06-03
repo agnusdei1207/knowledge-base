@@ -25,31 +25,28 @@ tags = ["studynote-network"]
 - **필요성**: 무선 전파는 빛이나 소리와 같아서 벽을 부수고 넘어가며, 주파수를 칼로 무 썰듯 완벽히 자를 수도 없다. 스마트폰 화면에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칸이 5개(만땅)가 떠도 인터넷이 지독하게 느린 이유는, 내 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)도 강하지만 밖에서 날아온 잡음(CCI/ACI 간섭)이 더 강해서 폰이 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해독하지 못하고 폐기해 버리기 때문이다.
 - **등장 배경**: ① 가입자 수용을 위해 셀 반경을 줄이고 똑같은 주파수를 여기저기 쑤셔 넣기 시작(재사용) → ② CCI 폭증 현상 발생 → ③ 이를 피하려 주파수를 쪼갰으나 필터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계로 옆 주파수끼리 싸우는 ACI 발생 → ④ 현대 RF(Radio Frequency) 공학의 간섭 최소화([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 튜닝 기법 정립.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             CCI (동일 채널) vs ACI (인접 채널) 발생 원리 시각화     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [CCI 발생 원리: 공간적 침범 (멀리서 날아오는 펀치)]                  │
-│                                                             │
-│    기지국 A [f1 사용] ━━━━(전파가 너무 뻗어 나감)━━━━▶ 기지국 B 밑의 📱│
-│                         거리가 멀어도 닿아버림!      (B도 f1 사용 중)│
-│    => 단말기(📱)는 A와 B의 주파수가 100% 똑같아서 구분할 수가 없어 미침. │
-│                                                             │
-│   [ACI 발생 원리: 스펙트럼 누설 (옆 차선의 꼬리 물기)]                  │
-│                                                             │
-│    주파수 강도                                                 │
-│       ▲                                                     │
-│       │      [내 채널 f1]         [옆 사람 채널 f2 (출력이 너무 셈)]│
-│       │       ╭───╮              ╭───╮                     │
-│       │      / │   \  (침범!) ◀ 💥/ │   \                    │
-│       │     /  │    \_______/    │    \                   │
-│       └─────┴───┴──────┴───────┴───┴──────▶ 주파수 대역    │
-│    => 필터가 완벽한 직사각형이 아니라 종 모양이어서 꼬리가 내 구역을 덮침!   │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 두 간섭은 치료약이 완전히 다르다. **CCI**는 똑같은 주파수 대역이기 때문에 필터로 걸러낼 수 없다. 마치 두 명의 친구가 내 양쪽 귀에 대고 똑같은 목소리와 톤으로 다른 말을 하는 것과 같아 필터링이 불가능하다. 오직 한 친구를 멀리 쫓아내거나(재사용 거리 확보), 목소리를 낮추게 하거나(출력 제어), 확성기 방향을 돌리게(섹터 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 해야 해결된다. 반면 **ACI**는 옆 차선의 주파수다. 베이스 기타 소리가 너무 커서 내 바이올린 소리가 묻히는 것과 같다. 이 경우 베이스와 바이올린 사이에 주파수 완충 지대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 두거나, 기기 내부의 아날로그 필터(Bandpass Filter)를 엄청나게 정교하고 비싸게 깎아서 소리가 넘어오지 않게 칼같이 잘라내야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCI (동일 채널) vs ACI (인접 채널) 발생 원리 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CCI 발생 원리: 공간적 침범 (멀리서 날아오는 펀치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">기지국 A</div><div class="kb-diagram-node">f1 사용</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">기지국 B 밑의 📱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리가 멀어도 닿아버림! (B도 f1 사용 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단말기(📱)는 A와 B의 주파수가 100% 똑같아서 구분할 수가 없어 미침.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACI 발생 원리: 스펙트럼 누설 (옆 차선의 꼬리 물기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 강도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 채널 f1</div><div class="kb-diagram-node">옆 사람 채널 f2 (출력이 너무 셈)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ (침범!) ◀ 💥/</div><div class="kb-diagram-cell">\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주파수 대역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 필터가 완벽한 직사각형이 아니라 종 모양이어서 꼬리가 내 구역을 덮침!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 두 간섭은 치료약이 완전히 다르다. <strong>CCI</strong>는 똑같은 주파수 대역이기 때문에 필터로 걸러낼 수 없다. 마치 두 명의 친구가 내 양쪽 귀에 대고 똑같은 목소리와 톤으로 다른 말을 하는 것과 같아 필터링이 불가능하다. 오직 한 친구를 멀리 쫓아내거나(재사용 거리 확보), 목소리를 낮추게 하거나(출력 제어), 확성기 방향을 돌리게(섹터 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 해야 해결된다. 반면 <strong>ACI</strong>는 옆 차선의 주파수다. 베이스 기타 소리가 너무 커서 내 바이올린 소리가 묻히는 것과 같다. 이 경우 베이스와 바이올린 사이에 주파수 완충 지대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 두거나, 기기 내부의 아날로그 필터(Bandpass Filter)를 엄청나게 정교하고 비싸게 깎아서 소리가 넘어오지 않게 칼같이 잘라내야 한다.
 
 - **📢 섹션 요약 비유**: CCI는 저 멀리 옆 건물 노래방에서 우리 방과 똑같은 주파수 채널의 무선 마이크를 써서 내 스피커에 그 사람의 노래가 섞여 나오는 '동일 채널'의 악몽이고, ACI는 옆방에서 헤비메탈 음악을 너무 크게 틀어 그 쿵쿵거림이 벽(필터)을 뚫고 내 방의 조용한 클래식 음악을 방해하는 '인접 대역'의 횡포입니다.
 
@@ -59,48 +56,47 @@ tags = ["studynote-network"]
 
 ### 간섭 통제 방정식: SIR ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)-to-Interference Ratio)
 
-무선망 설계 엔지니어들의 유일한 목표는 단말기가 수신하는 **SIR ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 대 간섭비)**을 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이상으로 띄워 올리는 것이다.
+무선망 설계 엔지니어들의 유일한 목표는 단말기가 수신하는 <strong>SIR (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 대 간섭비)</strong>을 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이상으로 띄워 올리는 것이다.
 
 $$ SIR = \frac{S}{I_1 + I_2 + \dots + I_n} $$
-- **S ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))**: 내가 통신 중인 기지국으로부터 받는 진짜 원하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기
+- <strong>S (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong>: 내가 통신 중인 기지국으로부터 받는 진짜 원하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기
 - **I (Interference)**: 주위를 둘러싸고 있는 수많은 인접 셀들이 뿜어내는 동일 채널(CCI) 간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들의 총합
 - 결론: $S$를 무한정 키우면 배터리가 타고 기지국이 녹는다. 따라서 아키텍트는 분모인 $I$(간섭)를 줄이기 위한 공간적, 물리적 튜닝에 사활을 건다.
 
 CCI를 없애는 가장 확실한 방법은, 같은 주파수를 재사용하는 셀(Cluster)을 아주 멀리 띄워버리는 것이다. 하지만 그러면 주파수 낭비가 심해져 용량이 줄어든다(트레이드오프). 따라서 거리를 유지한 채 간섭(I)만 줄이는 물리적 기술을 동원한다.
 
 1. **섹터링 (Sectoring)**: 360도로 전파를 뿜는 옴니(Omni) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 버리고, 120도 부채꼴 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 3개로 쪼갠다. 이로 인해 사방에서 날아오던 간섭이 1/3로 극적으로 감소한다.
-2. **다운 틸팅 ([Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) Down-Tilting)**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 각도를 땅을 향해 숙인다(기계적 틸팅) 또는 전파의 위상을 조작해 빔을 꺾어 내린다(전자적 틸팅). 내가 쏜 전파가 우리 동네 바닥에만 꽂히고, 저 멀리 10km 밖의 옆 셀까지 날아가지 않게 하는 궁극의 간섭 억제책이다.
-3. **[스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) ([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))**: 아예 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 사용자 단말기의 위치를 추적해서, 전파를 사방으로 뿌리지 않고 바늘 같은 레이저 빔([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))으로 쏘아준다. 주변에 흩뿌려지는 전파가 아예 소멸하므로 주변 셀에 간섭을 미치지 않는다.
+2. <strong>다운 틸팅 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">Antenna</a> Down-Tilting)</strong>: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 각도를 땅을 향해 숙인다(기계적 틸팅) 또는 전파의 위상을 조작해 빔을 꺾어 내린다(전자적 틸팅). 내가 쏜 전파가 우리 동네 바닥에만 꽂히고, 저 멀리 10km 밖의 옆 셀까지 날아가지 않게 하는 궁극의 간섭 억제책이다.
+3. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/">스마트 안테나</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a>)</strong>: 아예 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 사용자 단말기의 위치를 추적해서, 전파를 사방으로 뿌리지 않고 바늘 같은 레이저 빔([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))으로 쏘아준다. 주변에 흩뿌려지는 전파가 아예 소멸하므로 주변 셀에 간섭을 미치지 않는다.
 
-ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 각도로는 막을 수 없다. 이것은 폰 기기 내부의 아날로그 회로와 주파수 정책의 문제다. 특히 **[근거리-원거리 문제](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)([Near-Far Problem](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/))**가 결합될 때 ACI는 치명적인 재앙으로 변한다.
+ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 각도로는 막을 수 없다. 이것은 폰 기기 내부의 아날로그 회로와 주파수 정책의 문제다. 특히 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">근거리-원거리 문제</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">Near-Far Problem</a>)</strong>가 결합될 때 ACI는 치명적인 재앙으로 변한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               근거리-원거리 문제와 ACI의 치명적 결합 시각화           │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [상황: 기지국(BS)이 스마트폰 A와 B의 업로드를 수신 중]                 │
-│                                                               │
-│   기지국 (BS)  ◀─────(수신 중)─────  [스마트폰 A (가깝다, 10m)]    │
-│    │  (Ch 1은 B꺼)                          (Ch 2 사용, 강한 출력) │
-│    │  (Ch 2는 A꺼)                                                 │
-│    │                                                          │
-│    └◀────────────────────(수신 중)───────── [스마트폰 B (멀다, 5km)] │
-│                                             (Ch 1 사용, 약한 출력) │
-│                                                               │
-│   [기지국 안의 필터 상황]                                          │
-│   스마트폰 A(코앞)가 Ch 2로 뿜어내는 출력이 압도적으로 세서, 필터를 뚫고     │
-│   옆 차선인 Ch 1 영역으로 전파가 미세하게 흘러넘침 (ACI 발생).            │
-│   => 결과: 기지국은 멀리서 헐떡거리며 기어오는 B의 약한 Ch 1 신호를,         │
-│            A가 내지르는 고막 터지는 소리(ACI 누설) 때문에 전혀 듣지 못함!    │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근거리-원거리 문제와 ACI의 치명적 결합 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 기지국(BS)이 스마트폰 A와 B의 업로드를 수신 중</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">스마트폰 A (가깝다, 10m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 1은 B꺼) (Ch 2 사용, 강한 출력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 2는 A꺼)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">스마트폰 B (멀다, 5km)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 1 사용, 약한 출력)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 안의 필터 상황</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰 A(코앞)가 Ch 2로 뿜어내는 출력이 압도적으로 세서, 필터를 뚫고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옆 차선인 Ch 1 영역으로 전파가 미세하게 흘러넘침 (ACI 발생).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 기지국은 멀리서 헐떡거리며 기어오는 B의 약한 Ch 1 신호를,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A가 내지르는 고막 터지는 소리(ACI 누설) 때문에 전혀 듣지 못함!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 기지국 바로 코앞에 있는 스마트폰 A가 전파를 뿜으면 그 파워가 너무 거대해서, 아무리 비싼 필터를 써도 옆 차선(채널)으로 꼬리가 새어 나간다(ACI). 이때 저 멀리 5km 밖에서 쏘는 스마트폰 B의 전파는 기지국에 도착할 때쯤 모기 소리만큼 작아져 있다. 결국 B의 본래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 A가 뿜어낸 꼬리(잡음)에 완벽히 먹혀버려 통신이 끊긴다. 이 '[근거리-원거리 문제](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)'로 촉발되는 ACI를 막기 위한 조치가 필수적이다.
 
 방어 아키텍처:
-1. **가드 밴드 ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))**: 채널과 채널 사이에 자동차 도로의 중앙 분리대처럼 아무도 쓰지 않는 텅 빈 주파수 대역을 강제로 설정해 전파의 꼬리가 넘어오지 않게 완충 지대를 만든다.
-2. **초정밀 송신 전력 제어 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control)**: 기지국이 단말기 A에게 명령한다. "야, 너 나랑 10m 앞 코앞에 있으니까 출력 제일 낮게 1mW로 줄여서 말해!" 반대로 5km 밖의 B에게는 "너 멀리 있으니까 500mW로 빵빵하게 소리쳐!"라고 0.1초마다 명령한다. 이로써 기지국 귀에 도달할 때는 A의 소리나 B의 소리나 볼륨이 똑같아지게 만들어 ACI 누설을 봉쇄한다.
+1. <strong>가드 밴드 (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/">Guard Band</a>)</strong>: 채널과 채널 사이에 자동차 도로의 중앙 분리대처럼 아무도 쓰지 않는 텅 빈 주파수 대역을 강제로 설정해 전파의 꼬리가 넘어오지 않게 완충 지대를 만든다.
+2. <strong>초정밀 송신 전력 제어 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Control)</strong>: 기지국이 단말기 A에게 명령한다. "야, 너 나랑 10m 앞 코앞에 있으니까 출력 제일 낮게 1mW로 줄여서 말해!" 반대로 5km 밖의 B에게는 "너 멀리 있으니까 500mW로 빵빵하게 소리쳐!"라고 0.1초마다 명령한다. 이로써 기지국 귀에 도달할 때는 A의 소리나 B의 소리나 볼륨이 똑같아지게 만들어 ACI 누설을 봉쇄한다.
 
 - **📢 섹션 요약 비유**: ACI 방어의 핵심은 도로 중앙선([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 그어 차가 안 부딪히게 하는 것이고, 근거리-원거리 전력 제어는 코앞에 있는 친구는 조용히 속삭이게 하고 멀리 있는 친구는 소리치게 만들어서, 내 귀에 들리는 두 사람의 볼륨을 똑같이 맞춰주어 고막(기지국 필터)을 보호하는 스마트한 통제 기술입니다.
 
@@ -115,37 +111,34 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 | 비교 기준 | CCI (동일 채널 간섭) | ACI (인접 채널 간섭) |
 |:---|:---|:---|
 | **발생 원인** | 공간 재사용 거리 부족 (D/R 비율 실패) | 필터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 및 근거리/원거리 전력 차이 |
-| **간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 성격** | 목적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 주파수가 100% 같아 필터링 절대 불가 | 목적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 옆 대역에서 꼬리가 넘어와 필터링 까다로움 |
+| <strong>간섭 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 성격</strong> | 목적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 주파수가 100% 같아 필터링 절대 불가 | 목적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 옆 대역에서 꼬리가 넘어와 필터링 까다로움 |
 | **공간적 해결책** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 다운틸팅, 120도 섹터 분할, 셀 크기 축소 | 거주자와 무관. 동일 기지국 내의 전력 밸런싱이 핵심 |
 | **주파수/시간 해결책**| 클러스터 K 값 증가 (용량 대폭 감소 부작용) | 가드 밴드([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/)) 삽입 (주파수 낭비 부작용) |
 | **하드웨어 해결책** | [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술) | 대역 통과 필터(Bandpass Filter) 소자 고급화 |
 
 만약 CCI가 무서워서 똑같은 주파수 쓰는 기지국을 10km씩 뚝뚝 떨어뜨려 놓으면(K값 증가), 서울 시내에 기지국을 몇 개 못 세우니 가입자 수용량(Capacity)이 박살 난다. 만약 ACI가 무서워서 주파수 채널 사이의 빈 공간([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 10MHz씩 벌려버리면, 비싼 돈 주고 산 주파수 대역의 30%를 공터로 낭비하게 된다. 통신망 아키텍트는 엑셀 파일과 시뮬레이터를 돌리며 간섭(I)이 에러를 일으키지 않는 아슬아슬한 임계점(Target SIR)까지만 방어벽을 세우고, 나머지 자원은 전부 트래픽 용량에 욱여넣는 곡예(Tuning)를 타야 한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               4G/5G(OFDMA)의 직교성을 통한 ACI 파훼의 마법         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [과거: FDM 방식 (가드 밴드 필수)]                              │
-│      /\       /\       /\                                     │
-│     /  \     /  \     /  \    => 전파의 둥근 꼬리 때문에 부딪힘.     │
-│    / Ch1\___/ Ch2\___/ Ch3\   => 그 사이에 엄청난 Guard Band 낭비!  │
-│                                                               │
-│   [현재: 4G/5G OFDMA 방식 (직교성 수학의 마법)]                    │
-│        /\   /\   /\   /\                                      │
-│       /  \ /  \ /  \ /  \     => 전파가 완벽히 겹쳐 있음!           │
-│      /   /|\  /|\  /|\   \    => 그런데 ACI 간섭이 0에 수렴함! 왜?  │
-│     /  /  |  \ |  /  |  \  \                                  │
-│                                                               │
-│   => 원리: Ch1 신호가 최고점(정점)을 찍는 그 찰나의 순간에,              │
-│            Ch2, Ch3 신호는 수학적으로 완벽히 0의 값을 지나가도록 꼬아버림. │
-│            이 수학적 90도 엇갈림을 '직교성(Orthogonal)'이라 함!      │
-│   => 결과: Guard Band 낭비를 완전히 지워버려 주파수 효율 100% 폭발!     │
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 초창기 무선 통신에서는 ACI를 막을 유일한 방법이 텅 빈 땅([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 버리는 것뿐이었다. 그러나 4G LTE를 기점으로 도입된 **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)(직교 주파수 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** 기술은 인류 수학의 승리다. 수많은 주파수를 톱니바퀴처럼 촘촘하게 겹쳐(Overlap) 버리되, 파동(Sine파)의 성질을 이용해 하나의 파동 파워가 100%일 때 옆 파동의 파워는 무조건 0%가 되도록 정밀하게 계산해서 쏜다. 이 엇박자 타이밍 덕분에 전파들은 물리적으로 겹쳐있어도 상대방을 ACI로 공격하지 않는다. (단, [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 등으로 타이밍이 조금이라도 어긋나면 즉시 무시무시한 ACI 지옥으로 돌변하는 치명적 단점도 공존한다).
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4G/5G(OFDMA)의 직교성을 통한 ACI 파훼의 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: FDM 방식 (가드 밴드 필수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ =&gt; 전파의 둥근 꼬리 때문에 부딪힘.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Ch1\___/ Ch2\___/ Ch3\ =&gt; 그 사이에 엄청난 Guard Band 낭비!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 4G/5G OFDMA 방식 (직교성 수학의 마법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ / \ =&gt; 전파가 완벽히 겹쳐 있음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ /</div><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">\ \ =&gt; 그런데 ACI 간섭이 0에 수렴함! 왜?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 원리: Ch1 신호가 최고점(정점)을 찍는 그 찰나의 순간에,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ch2, Ch3 신호는 수학적으로 완벽히 0의 값을 지나가도록 꼬아버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 수학적 90도 엇갈림을 '직교성(Orthogonal)'이라 함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: Guard Band 낭비를 완전히 지워버려 주파수 효율 100% 폭발!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 초창기 무선 통신에서는 ACI를 막을 유일한 방법이 텅 빈 땅([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 버리는 것뿐이었다. 그러나 4G LTE를 기점으로 도입된 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a>(직교 주파수 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 기술은 인류 수학의 승리다. 수많은 주파수를 톱니바퀴처럼 촘촘하게 겹쳐(Overlap) 버리되, 파동(Sine파)의 성질을 이용해 하나의 파동 파워가 100%일 때 옆 파동의 파워는 무조건 0%가 되도록 정밀하게 계산해서 쏜다. 이 엇박자 타이밍 덕분에 전파들은 물리적으로 겹쳐있어도 상대방을 ACI로 공격하지 않는다. (단, [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 등으로 타이밍이 조금이라도 어긋나면 즉시 무시무시한 ACI 지옥으로 돌변하는 치명적 단점도 공존한다).
 
 - **📢 섹션 요약 비유**: 옛날엔 뚱뚱한 사람들이 어깨(ACI)를 부딪히지 않게 하려고 사람 사이에 빈 의자([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 꼭 둬야 했습니다. 지금의 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 기술은 한 사람이 숨을 크게 들이마셔 어깨가 넓어지는 딱 그 0.1초 순간에, 옆 사람은 숨을 내쉬어 어깨를 좁히게 완벽한 타이밍 춤을 추게 만들어서, 빈 의자 없이 빽빽하게 앉아도 아무도 안 부딪히는 완벽한 군무입니다.
 
@@ -156,13 +149,13 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 1. **상황**: 통신사가 미국 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 공항 근처에 새로운 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) (C-Band, 3.7GHz 대역) 기지국을 빵빵하게 켜자마자, 착륙하던 비행기의 고도계(Altimeter, 4.2GHz 대역 사용)가 오작동을 일으켜 미 연방항공청(FAA)이 해당 공항의 모든 비행기 이착륙을 금지시키는 초유의 사태가 벌어졌다.
 2. **원인 (Band Out-of-Band Emission, ACI)**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역(3.7GHz)과 비행기 고도계 대역(4.2GHz)은 500MHz나 떨어져 있어 얼핏 안전해 보였다. 그러나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 출력이 어마어마하게 세다 보니, 그 전파 찌꺼기가 500MHz를 넘어 고도계 주파수 대역까지 누설(ACI)되어 비행기 레이더의 눈을 멀게(Desensitization) 만든 것이다.
 3. **의사결정 및 긴급 조치**:
-   - 통신망 아키텍트와 항공 당국은 기지국의 **출력을 강제로 제한([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Back-off)**하여 누설되는 전파의 강도를 낮췄다.
-   - 공항 주변 반경 3km 내에는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파가 비행기 쪽으로 향하지 않도록 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 땅으로 꺾어버리는 **극단적 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 다운 틸팅(Down-Tilting)**을 강제했다.
+   - 통신망 아키텍트와 항공 당국은 기지국의 <strong>출력을 강제로 제한(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Back-off)</strong>하여 누설되는 전파의 강도를 낮췄다.
+   - 공항 주변 반경 3km 내에는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파가 비행기 쪽으로 향하지 않도록 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 땅으로 꺾어버리는 <strong>극단적 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 다운 틸팅(Down-Tilting)</strong>을 강제했다.
    - 통신 장비 벤더에게 기지국 내부의 **RF 대역통과 필터(Cavity Filter)의 롤오프(Roll-off)** [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수천만 원을 들여 업그레이드할 것을 요구하여, 내가 쓰는 주파수 대역을 벗어나는 즉시 전파가 절벽처럼 수직 낙하하여 끊어지도록 하드웨어를 최적화했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/) 패턴(K)과 셀플래닝(Cell Planning) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 도심 한가운데 건물 옥상에 기지국을 박을 때, 구글 맵 위에서 콤파스만 돌려 재사용 거리 $D$를 계산하면 100% CCI 폭탄을 맞는다. 도심에는 유리 건물의 반사, 골목길 전파 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 현상(회절)이 존재하므로, 레이트레이싱(Ray-tracing) 기반의 3D RF 시뮬레이터를 돌려 옆 동네 기지국의 전파가 우리 동네로 흘러드는(Overshooting) 예상 경로를 물리적으로 차단하는 틸팅 시나리오를 세워야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 기지국 바로 앞(근거리)에 있는 스마트폰이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무제한을 쓴다고 출력을 최대(Max [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))로 열어놓게 방치하는 것. 기지국 수신부 앰프가 앞사람의 출력 때문에 '포화(Saturation)' 상태에 빠져, 저 멀리 셀 경계에서 보내오는 가난한 단말기의 SOS [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 모두 노이즈(ACI)로 날려버리게 된다. 단말기의 송신 전력은 1밀리초 단위의 [TPC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/)(Transmit [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control) 명령을 통해 철저한 독재 국가처럼 억제되어야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/">주파수 재사용</a> 패턴(K)과 셀플래닝(Cell Planning) <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 도심 한가운데 건물 옥상에 기지국을 박을 때, 구글 맵 위에서 콤파스만 돌려 재사용 거리 $D$를 계산하면 100% CCI 폭탄을 맞는다. 도심에는 유리 건물의 반사, 골목길 전파 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 현상(회절)이 존재하므로, 레이트레이싱(Ray-tracing) 기반의 3D RF 시뮬레이터를 돌려 옆 동네 기지국의 전파가 우리 동네로 흘러드는(Overshooting) 예상 경로를 물리적으로 차단하는 틸팅 시나리오를 세워야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 기지국 바로 앞(근거리)에 있는 스마트폰이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무제한을 쓴다고 출력을 최대(Max [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))로 열어놓게 방치하는 것. 기지국 수신부 앰프가 앞사람의 출력 때문에 '포화(Saturation)' 상태에 빠져, 저 멀리 셀 경계에서 보내오는 가난한 단말기의 SOS [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 모두 노이즈(ACI)로 날려버리게 된다. 단말기의 송신 전력은 1밀리초 단위의 [TPC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/154_tpc/)(Transmit [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control) 명령을 통해 철저한 독재 국가처럼 억제되어야 한다.
 
 - **📢 섹션 요약 비유**: 공항 근처 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 사건은, 옆 동네에서 여는 콘서트 앰프 소리([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 출력)가 너무 커서, 우리 동네 비행기 조종사들의 미세한 무전 소리(고도계)를 다 잡아먹어 버린 최악의 층간 소음(ACI)입니다. 이를 막으려면 앰프 볼륨을 확 줄이거나 방음벽(RF 필터)을 수십 배 두껍게 쌓아야 합니다.
 
@@ -177,12 +170,12 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 | **정성 (통화 안정성)** | 근거리 단말기 횡포로 인한 원거리 사용자 통화 절단 발생 | 0.1ms 초정밀 전력 제어로 기지국 입력 수신 레벨 균일화 | 10km 밖 사용자도 10m 앞 사용자와 동일한 안정적 통신 품질 보장 |
 
 ### 미래 전망 및 진화 방향
-- **[CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) (Coordinated Multi-Point, 다지점 [협력 통신](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/))**: 과거엔 CCI가 "무조건 막아야 할 잡음(Noise)"이었다. 하지만 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 기술자들은 미친 생각을 해냈다. "A 기지국 전파와 B 기지국 전파가 겹쳐서 간섭이 생긴다면, 아예 두 기지국이 0.1초 단위로 입을 맞춰서 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 똑같은 위상으로 동시에 쏴주면 어떨까?" 이것이 [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) 기술이다. 간섭(파괴)이 오히려 두 개의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 더해지는 보강 간섭(증폭)으로 변해, 지옥 같던 셀 경계 지역이 속도가 가장 빠른 천국으로 뒤바뀌는 패러다임 쉬프트가 일어나고 있다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자가 치유(Self-Healing) RF 엔진**: 예전엔 엔지니어가 차를 타고 동네를 돌며 전파를 잰 뒤, 철탑에 올라가 몽키스패너로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 각도를 꺾었다. [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 기반의 미래망에서는 RIC(지능형 컨트롤러) AI가 1시간 단위로 동네 단말기들의 간섭 수치(SIR) 빅데이터를 모아, 스스로 전파 출력을 올리고 내리며, 빔 각도를 전자식으로 비틀어 간섭을 영으로 수렴시키는(Zero-Touch Optimization) 완벽한 자율 주행 네트워크가 도래할 것이다.
+- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">CoMP</a> (Coordinated Multi-Point, 다지점 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">협력 통신</a>)</strong>: 과거엔 CCI가 "무조건 막아야 할 잡음(Noise)"이었다. 하지만 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 기술자들은 미친 생각을 해냈다. "A 기지국 전파와 B 기지국 전파가 겹쳐서 간섭이 생긴다면, 아예 두 기지국이 0.1초 단위로 입을 맞춰서 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 똑같은 위상으로 동시에 쏴주면 어떨까?" 이것이 [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) 기술이다. 간섭(파괴)이 오히려 두 개의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 더해지는 보강 간섭(증폭)으로 변해, 지옥 같던 셀 경계 지역이 속도가 가장 빠른 천국으로 뒤바뀌는 패러다임 쉬프트가 일어나고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 자가 치유(Self-Healing) RF 엔진</strong>: 예전엔 엔지니어가 차를 타고 동네를 돌며 전파를 잰 뒤, 철탑에 올라가 몽키스패너로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 각도를 꺾었다. [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 기반의 미래망에서는 RIC(지능형 컨트롤러) AI가 1시간 단위로 동네 단말기들의 간섭 수치(SIR) 빅데이터를 모아, 스스로 전파 출력을 올리고 내리며, 빔 각도를 전자식으로 비틀어 간섭을 영으로 수렴시키는(Zero-Touch Optimization) 완벽한 자율 주행 네트워크가 도래할 것이다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 38.104**: Base [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/) (BS) radio transmission and reception ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 대역 외 발사(OOBE) 허용치 및 ACI를 막기 위한 하드웨어 필터 스펙 국제 표준)
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 36.213 / 38.213**: Physical layer procedures for [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (단말기가 기지국을 찢지 못하도록 송신 전력을 강제로 통제하는 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control 소프트웨어 룰)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 38.104</strong>: Base [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/) (BS) radio transmission and reception ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 대역 외 발사(OOBE) 허용치 및 ACI를 막기 위한 하드웨어 필터 스펙 국제 표준)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 36.213 / 38.213</strong>: Physical layer procedures for [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (단말기가 기지국을 찢지 못하도록 송신 전력을 강제로 통제하는 [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control 소프트웨어 룰)
 
 무선 통신의 역사는 한마디로 '간섭(Interference)과의 끝없는 처절한 전쟁'이다. 인간이 만들어낸 전파는 통제가 불가능한 폭주 기관차와 같아서 공간과 대역을 쉴 새 없이 침범(CCI, ACI)한다. 하지만 RF 공학자들은 수학의 마법([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))과 정밀한 하드웨어 필터 공학, 그리고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제어 기술을 융합해 이 날뛰는 괴물에게 재갈을 물리고, 현대의 깨끗하고 고요한 기가비트급 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고속도로를 기어이 완성해 냈다.
 
@@ -201,15 +194,19 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 주파수 재사용]
-    │
-    ▼
-[현재 개념: Co-channel Interference…]
-    │
-    ├──▶ [확장 A: 핸드오버 / 핸드오프 종류 개념]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 주파수 재사용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Co-channel Interference…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 핸드오버 / 핸드오프 종류 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 Co-channel Interference…는 [주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) / 핸드오프 종류 개념와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,19 +31,23 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)·페일세이프·페일오버 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 핵심은 **장애 감지 → 판단 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속 또는 안전 정지**의 흐름을 설계하는 것이다. 이를 위해서는 중복 자원만이 아니라 헬스 체크, 하트비트, 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 절체 규칙, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 함께 있어야 한다. 특히 액티브-스탠바이 구조에서는 절체 시점과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 가장 중요한 관리 포인트다.
+[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)·페일세이프·페일오버 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 핵심은 <strong>장애 감지 → 판단 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 지속 또는 안전 정지</strong>의 흐름을 설계하는 것이다. 이를 위해서는 중복 자원만이 아니라 헬스 체크, 하트비트, 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 절체 규칙, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 함께 있어야 한다. 특히 액티브-스탠바이 구조에서는 절체 시점과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 가장 중요한 관리 포인트다.
 
-```text
-┌──────────────┐      heartbeat      ┌──────────────┐
-│ Active Node  │◀──────────────────▶│ Standby Node │
-│ 서비스 처리    │                    │ 상태 대기      │
-└──────┬───────┘                    └──────┬───────┘
-       │ 장애 감지                               │
-       └──────────────▶ 절체(Failover) ─────────┘
-                           │
-                           ▼
-                     서비스 지속 또는 안전 정지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">heartbeat</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Node</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Standby Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 처리</div><div class="kb-diagram-cell">상태 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 감지</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ 절체(Failover)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 지속 또는 안전 정지</div>
+</div>
+</div>
+
+
 
 | 핵심 요소 | 역할 | 기술사 포인트 |
 | :--- | :--- | :--- |
@@ -71,7 +75,7 @@ tags = ["studynote-design-supervision"]
 | 대표 적용 | 항공, 금융 핵심 처리 | 산업 제어, 안전 설비 | 서버 클러스터, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) |
 | 핵심 설계 포인트 | 중복 경로, 오류 마스킹 | 안전 우선 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 감지·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·자동 절체 |
 
-또한 이 개념은 고가용성 (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), HA), [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지와도 연결된다. 예를 들어 HA 클러스터는 페일오버를 포함하지만, 그것만으로 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)이 완성되는 것은 아니다. 절체는 되었는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어긋나거나 양쪽 노드가 동시에 주 노드라고 판단하면 오히려 더 큰 장애가 난다. 따라서 가용성과 안전성은 언제나 **정합성 통제**와 함께 봐야 한다.
+또한 이 개념은 고가용성 (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), HA), [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지와도 연결된다. 예를 들어 HA 클러스터는 페일오버를 포함하지만, 그것만으로 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)이 완성되는 것은 아니다. 절체는 되었는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어긋나거나 양쪽 노드가 동시에 주 노드라고 판단하면 오히려 더 큰 장애가 난다. 따라서 가용성과 안전성은 언제나 <strong>정합성 통제</strong>와 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: 같은 우산이라도 비를 맞지 않게 계속 걸어가게 하는 우산, 위험하면 잠시 멈추게 하는 우산, 다른 사람이 대신 들 수 있게 넘겨주는 우산은 역할이 다르다.
 
@@ -81,7 +85,7 @@ tags = ["studynote-design-supervision"]
 
 실무에서는 단일 장애점이 있는지부터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 서버를 두 대 둬도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소, 로드 밸런서, 전원, 네트워크 스위치가 하나뿐이면 진짜 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)가 아니다. 다음으로는 장애 감지 주기, 절체 시간, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 복귀 절차를 구체적으로 점검해야 한다. 이때 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))과 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지점 ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))을 함께 제시하면 답안이 더 완성도 있어진다.
 
-또한 안전이 중요한 설비 제어, 의료, 교통 시스템은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속보다 페일세이프 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 우선될 수 있다. 반대로 전자상거래·금융 거래는 짧은 절체 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 핵심이다. 즉 기술사 답안에서는 “장애 대응 개념의 나열”보다 **업무 특성에 따른 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**을 보여 주는 것이 중요하다.
+또한 안전이 중요한 설비 제어, 의료, 교통 시스템은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속보다 페일세이프 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 우선될 수 있다. 반대로 전자상거래·금융 거래는 짧은 절체 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성이 핵심이다. 즉 기술사 답안에서는 “장애 대응 개념의 나열”보다 <strong>업무 특성에 따른 우선순위 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>을 보여 주는 것이 중요하다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -104,7 +108,7 @@ tags = ["studynote-design-supervision"]
 
 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)·페일세이프·페일오버를 구분해 설계하면 장애 대응 체계가 훨씬 명확해진다. 어떤 상황에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속하고, 어떤 상황에서는 안전하게 멈추며, 어떤 상황에서는 대기 자원으로 넘기는지가 분명해져 운영 의사결정도 빨라진다. 이는 장애 시간 단축과 사고 규모 축소로 직결된다.
 
-결론적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 본질은 장비 수를 늘리는 데 있지 않다. 핵심은 장애를 감지하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 안전하게 처리하며, 필요한 경우 대체 자원으로 일관되게 이어받게 만드는 것이다. 기술사 답안에서는 세 개념의 차이와 연결을 구조적으로 정리해 **가용성과 안전성을 함께 달성하는 설계 원칙**으로 마무리하는 것이 적절하다.
+결론적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 본질은 장비 수를 늘리는 데 있지 않다. 핵심은 장애를 감지하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 안전하게 처리하며, 필요한 경우 대체 자원으로 일관되게 이어받게 만드는 것이다. 기술사 답안에서는 세 개념의 차이와 연결을 구조적으로 정리해 <strong>가용성과 안전성을 함께 달성하는 설계 원칙</strong>으로 마무리하는 것이 적절하다.
 
 - **📢 섹션 요약 비유**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 선수를 앉혀 두는 것만으로 팀이 강해지는 게 아니라, 언제 교체하고 어떤 전술로 이어갈지 정해 둬야 진짜 대비가 된다.
 
@@ -123,21 +127,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 운영
-      │
-      ▼
-이중화 자원 구성
-      │
-      ▼
-장애 감지 · 상태 동기화 · 페일오버 자동화
-      │
-      ▼
-결함 허용 설계 · 페일세이프 정책 정립
-      │
-      ▼
-고가용성 · 안전성 · 재해 대응 체계 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이중화 자원 구성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장애 감지 · 상태 동기화 · 페일오버 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결함 허용 설계 · 페일세이프 정책 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고가용성 · 안전성 · 재해 대응 체계 고도화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 장비 중복에서 출발해, 절체 메커니즘과 안전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결합하고, 최종적으로 고가용성 운영 체계로 발전하는 설계 단계를 보여 준다.
 

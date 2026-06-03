@@ -28,12 +28,12 @@ tags = ["studynote-software-engineering"]
   - **클로저의 필요성**: 자바스크립트에는 `private` 같은 변수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 문법이 오랫동안 없었다. 누구나 전역 변수를 건드려 화면 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(버튼 클릭 수)를 조작할 수 있었다. "함수가 끝난 뒤에도 어떤 변수 값을 끈질기게 기억하게 하면서, 바깥세상(해커)은 절대 그 변수를 훔쳐보거나 조작하지 못하게 할 수 없을까?"라는 캡슐화의 열망이 클로저라는 유령 같은 구조를 만들어냈다.
 
 - **💡 비유**: 
-  - **고차 함수**는 **'만능 붕어빵 기계'**입니다. 반죽 굽는 기계(고차 함수)는 똑같은데, 손님이 팥(함수)을 던져주면 팥붕어빵이 나오고, 슈크림(함수)을 던져주면 슈크림붕어빵이 튀어나오는 극강의 조립 시스템입니다.
-  - **클로저**는 **'영원히 간직된 할머니의 비법 노트'**입니다. 할머니 식당(외부 함수)은 망해서 문을 닫았지만(메모리 소멸), 손자(내부 반환된 함수)가 할머니의 비법 노트(외부 변수)를 몰래 가슴에 품고 빠져나와 평생 그 레시피를 기억하며 요리를 만들어 파는 마법입니다.
+  - <strong>고차 함수</strong>는 <strong>'만능 붕어빵 기계'</strong>입니다. 반죽 굽는 기계(고차 함수)는 똑같은데, 손님이 팥(함수)을 던져주면 팥붕어빵이 나오고, 슈크림(함수)을 던져주면 슈크림붕어빵이 튀어나오는 극강의 조립 시스템입니다.
+  - <strong>클로저</strong>는 <strong>'영원히 간직된 할머니의 비법 노트'</strong>입니다. 할머니 식당(외부 함수)은 망해서 문을 닫았지만(메모리 소멸), 손자(내부 반환된 함수)가 할머니의 비법 노트(외부 변수)를 몰래 가슴에 품고 빠져나와 평생 그 레시피를 기억하며 요리를 만들어 파는 마법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. 수학의 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 대수([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Calculus)에서 수학자들이 함수를 조합하는 방식을 연구하며 고차 함수의 이론적 뼈대가 세워졌다.
-  2. Scheme, Lisp 같은 정통 함수형 언어에서 먼저 쓰이다가, 브라우저 생태계를 장악한 **자바스크립트(JavaScript)**가 일급 객체 철학을 채택하며 전 세계 프론트엔드 개발자들의 필수 교양(지옥의 면접 질문)이 되었다.
+  2. Scheme, Lisp 같은 정통 함수형 언어에서 먼저 쓰이다가, 브라우저 생태계를 장악한 <strong>자바스크립트(JavaScript)</strong>가 일급 객체 철학을 채택하며 전 세계 프론트엔드 개발자들의 필수 교양(지옥의 면접 질문)이 되었다.
   3. 현재는 Java 8([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)), Python(Decorators) 등 객체지향 언어들까지 이 마법의 융합성을 깨닫고 언어 스펙에 완벽히 흡수했다.
 
 - **📢 섹션 요약 비유**: 고차 함수는 레고 블록([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대신 모터나 바퀴(움직이는 로직=함수) 자체를 레고 구멍에 끼워 넣는 조립법이고, 클로저는 죽어가는 별(종료된 함수)이 마지막 순간에 자신의 에너지를 씨앗(내부 함수)에 담아 우주로 쏘아 보내 영원히 생명을 유지하는 현상입니다.
@@ -42,18 +42,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 고차 함수 (Higher-Order 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  고차 함수 (Higher-Order                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고차 함수 (Higher-Order</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 고차 함수 (Higher-Order 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-고차 함수 (Higher-Order Function) 및 클로저 (Closure)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+고차 함수 (Higher-Order Function) 및 클로저 (Closure)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 고차 함수 (Higher-Order Function) 및 클로저 (Closure)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-고차 함수 (Higher-Order Function) 및 클로저 (Closure) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고차 함수 (Higher-Order Function) 및 클로저 (Closure) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

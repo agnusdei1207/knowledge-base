@@ -25,15 +25,15 @@ tags = ["studynote-software-engineering"]
   - OS 3종 (Windows, [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), Linux)
   - 브라우저 4종 (Chrome, Edge, Safari, Firefox)
   - 해상도 3종 (FHD, 2K, 4K)
-  - 이걸 다 곱하면 $3 \times 4 \times 3 = 36$번의 테스트를 해야 한다. 만약 변수가 10개, 20개가 넘어가면 테스트 케이스는 수백만 개로 폭발한다. 시간이 생명인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 36번을 다 돌릴 수는 없다. 그렇다고 직관에 의존해 5개만 대충 뽑아서 테스트하면 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 버그가 운영(Production)에서 터진다. **"놓치는 쌍(Pair)이 없으면서도 가장 적게 테스트하는 수학적 공식"**이 절실하게 필요했다.
+  - 이걸 다 곱하면 $3 \times 4 \times 3 = 36$번의 테스트를 해야 한다. 만약 변수가 10개, 20개가 넘어가면 테스트 케이스는 수백만 개로 폭발한다. 시간이 생명인 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 36번을 다 돌릴 수는 없다. 그렇다고 직관에 의존해 5개만 대충 뽑아서 테스트하면 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 버그가 운영(Production)에서 터진다. <strong>"놓치는 쌍(Pair)이 없으면서도 가장 적게 테스트하는 수학적 공식"</strong>이 절실하게 필요했다.
 
 - **💡 비유**: 반 친구 10명끼리 서로 모두 친해지게(상호작용) 하려면 어떻게 해야 할까요? 
   - **전체 조합 (비효율)**: 10명이 다 같이 모여서 피자를 1번씩 먹게 하는 수백 번의 파티를 엽니다. (돈과 시간이 너무 듭니다).
-  - **[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) (효율)**: "어차피 두 명씩 대화(Pair)만 한 번씩 섞어주면 다 친해져!"라는 원리에 따라, 4명씩 앉는 테이블 자리를 똑똑하게 수학적으로 이리저리 바꿔주면 단 3~4번의 피자 파티만으로 10명이 서로 '최소 1번씩은 1:1로 짝꿍'이 되도록 완벽하게 섞을 수 있습니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">페어와이즈</a> (효율)</strong>: "어차피 두 명씩 대화(Pair)만 한 번씩 섞어주면 다 친해져!"라는 원리에 따라, 4명씩 앉는 테이블 자리를 똑똑하게 수학적으로 이리저리 바꿔주면 단 3~4번의 피자 파티만으로 10명이 서로 '최소 1번씩은 1:1로 짝꿍'이 되도록 완벽하게 섞을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(OATS)의 도입**: 원래 제조업(품질 관리)에서 다구치 겐이치(Genichi Taguchi) 박사가 공장 실험 횟수를 줄이기 위해 고안한 '직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Orthogonal [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))' 수학이 근간이다.
-  2. **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 수용**: 1990년대 후반, 리차드 쿤(Richard Kuhn) 등의 연구진이 "S/W 버그의 70~80%는 1개나 2개의 변수 꼬임에서 발생하고, 3~4개 이상이 꼬여서 터지는 버그는 극히 드물다"는 통계를 발표하며 S/W 테스팅에 정식 도입되었다.
+  1. <strong>직교 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(OATS)의 도입</strong>: 원래 제조업(품질 관리)에서 다구치 겐이치(Genichi Taguchi) 박사가 공장 실험 횟수를 줄이기 위해 고안한 '직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Orthogonal [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))' 수학이 근간이다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 수용</strong>: 1990년대 후반, 리차드 쿤(Richard Kuhn) 등의 연구진이 "S/W 버그의 70~80%는 1개나 2개의 변수 꼬임에서 발생하고, 3~4개 이상이 꼬여서 터지는 버그는 극히 드물다"는 통계를 발표하며 S/W 테스팅에 정식 도입되었다.
   3. **자동화 도구 생태계**: 현재는 마이크로소프트의 PICT 도구 등 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 생성기가 발전하여, 개발자가 변수 목록만 던져주면 최적화된 엑셀 시트(Test Suite)를 1초 만에 뽑아준다.
 
 - **📢 섹션 요약 비유**: 수백 가지의 옷(바지, 티셔츠, 모자)을 사서 어떻게 코디해야 가장 예쁠지 알아볼 때, 모든 옷을 다 섞어 입어보려면 1년이 걸리지만, 적어도 "이 바지와 이 모자의 조합"을 한 번씩은 다 입어보도록 옷을 영리하게 섞어주는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 스타일리스트와 같습니다.
@@ -42,18 +42,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  페어와이즈 (Pairwise) 직교                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페어와이즈 (Pairwise) 직교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Orthogonal [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페어와이즈 (Pairwise) 직교 배열 (Orthogonal Array) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

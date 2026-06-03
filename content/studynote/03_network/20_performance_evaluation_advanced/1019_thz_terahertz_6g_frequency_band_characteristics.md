@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 주파수가 0.1 [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) (100GHz ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000GHz) 사이, 파장의 길이가 0.03mm ~ 3mm 수준인 극초고주파 전자기파입니다.
-- **물리학적 위치**: 우리가 쓰는 라디오 전파([마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))의 끝자락과, 적외선(빛)의 시작점 그 중간 경계선에 낀 **'빛과 전파의 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 혼종'**입니다. (전파처럼 벽을 뚫으면서, 빛처럼 엄청난 직진성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가집니다.)
+- **물리학적 위치**: 우리가 쓰는 라디오 전파([마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))의 끝자락과, 적외선(빛)의 시작점 그 중간 경계선에 낀 <strong>'빛과 전파의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/">돌연변이</a> 혼종'</strong>입니다. (전파처럼 벽을 뚫으면서, 빛처럼 엄청난 직진성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가집니다.)
 
-```text
-[밀리미터파 전파 감쇠]
-    │
-    ▼
-[테라헤르츠 대역]
-    │
-    └──▶ [자유 공간 광통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자유 공간 광통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,18 +43,22 @@ tags = ["studynote-network"]
 
 1. **극강의 초광대역폭 (Tbps 시대의 도래)**:
    - 5G는 800MHz 폭으로 넓다고 환호했습니다. [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역에 올라가면 놀고 있는 빈 땅이 수백 기가헤르츠(GHz) 단위로 펼쳐져 있습니다.
-   - 단일 채널로 **1Tbps (1초에 1테라바이트)**의 속도를 껌으로 뽑아내어 완전 자율주행, XR 홀로그램의 대동맥이 됩니다.
-2. **나노 스케일 초소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**:
+   - 단일 채널로 <strong>1Tbps (1초에 1테라바이트)</strong>의 속도를 껌으로 뽑아내어 완전 자율주행, XR 홀로그램의 대동맥이 됩니다.
+2. <strong>나노 스케일 초소형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>:
    - 파장이 너무 짧아서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기도 머리카락 굵기(수 mm)로 작아집니다. 옷의 단추나 스마트 안경 테두리에 수백 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))을 현미경 스케일로 박아 넣을 수 있어 입는 통신 기기를 완성합니다.
 
-```text
-[밀리미터파 전파 감쇠]
-    │
-    ▼
-[테라헤르츠 대역]
-    │
-    └──▶ [자유 공간 광통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자유 공간 광통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -83,8 +91,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 장벽이 너무 커서 현재 표준화 기구는 꼼수를 씁니다.
-1. **서브-[테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) (Sub-[THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)) 타협**: 너무 높은 곳은 죽음의 땅이니, 일단 100GHz ~ 300GHz 사이의 조금 낮은 '서브 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)' 대역부터 살살 밟아가며 상용화([6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 1단계)를 준비하고 있습니다.
-2. **[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) / RIS 융합 (1021번 연계)**: 방 안에서 빔이 끊어지는 걸 막기 위해 방 천장과 벽지 전체에 전파를 강제로 튕겨주는 '스마트 반사경 지능형 표면(RIS)'을 도배하여 [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 빛을 거울의 방처럼 튕겨서 폰에 꽂아줍니다.
+1. <strong>서브-<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a> (Sub-<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a>) 타협</strong>: 너무 높은 곳은 죽음의 땅이니, 일단 100GHz ~ 300GHz 사이의 조금 낮은 '서브 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)' 대역부터 살살 밟아가며 상용화([6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 1단계)를 준비하고 있습니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a> / RIS 융합 (1021번 연계)</strong>: 방 안에서 빔이 끊어지는 걸 막기 위해 방 천장과 벽지 전체에 전파를 강제로 튕겨주는 '스마트 반사경 지능형 표면(RIS)'을 도배하여 [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 빛을 거울의 방처럼 튕겨서 폰에 꽂아줍니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 4G LTE가 '고속도로를 달리는 일반 자동차'라면, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)는 속도는 미친 듯이 빠르지만 장애물에 부딪히면 터지는 'KTH 고속철도'입니다. 6G의 **[테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))** 대역은 철도를 넘어 아예 **'고도 3만 미터 성층권을 뚫고 날아가는 극초음속 스텔스 마하 전투기(마하 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 속도)'**를 띄우는 계획입니다. 마하 전투기([테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))의 짐칸([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 무한대에 가깝고 속도는 우주 최강(1Tbps)이라, 서울 한가운데 1,000명의 4K 홀로그램 영상을 1초 만에 전송하는 미친 배달 능력을 가집니다. 하지만 비행기가 너무 빨라서 대기권의 구름(수증기 감쇠)이나 작은 새 한 마리(장애물 블로킹)에만 스쳐도 비행기 껍데기가 다 녹아버려 추락하는 치명적인 연약함을 갖고 있습니다. 이 비행기가 구름을 뚫고 1미터 단위로 안전하게 비행할 수 있도록, 도심 전체에 수천 개의 미니 인공위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 반사경(RIS) 궤도를 깔아주는 미친 우주 인프라 공사가 바로 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망의 본질입니다.
+- **📢 섹션 요약 비유**: 4G LTE가 '고속도로를 달리는 일반 자동차'라면, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)는 속도는 미친 듯이 빠르지만 장애물에 부딪히면 터지는 'KTH 고속철도'입니다. 6G의 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">테라헤르츠</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a>)</strong> 대역은 철도를 넘어 아예 <strong>'고도 3만 미터 성층권을 뚫고 날아가는 극초음속 스텔스 마하 전투기(마하 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 속도)'</strong>를 띄우는 계획입니다. 마하 전투기([테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))의 짐칸([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 무한대에 가깝고 속도는 우주 최강(1Tbps)이라, 서울 한가운데 1,000명의 4K 홀로그램 영상을 1초 만에 전송하는 미친 배달 능력을 가집니다. 하지만 비행기가 너무 빨라서 대기권의 구름(수증기 감쇠)이나 작은 새 한 마리(장애물 블로킹)에만 스쳐도 비행기 껍데기가 다 녹아버려 추락하는 치명적인 연약함을 갖고 있습니다. 이 비행기가 구름을 뚫고 1미터 단위로 안전하게 비행할 수 있도록, 도심 전체에 수천 개의 미니 인공위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 반사경(RIS) 궤도를 깔아주는 미친 우주 인프라 공사가 바로 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망의 본질입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 밀리미터파 전파 감쇠]
-    │
-    ▼
-[현재 개념: 테라헤르츠 대역]
-    │
-    ├──▶ [확장 A: 자유 공간 광통신]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 테라헤르츠 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자유 공간 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역는 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠에서 출발해 현재 메커니즘을 정교화하고, 이후 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

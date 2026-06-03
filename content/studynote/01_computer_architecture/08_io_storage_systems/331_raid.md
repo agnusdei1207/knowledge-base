@@ -25,23 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 RAID가 왜 필요한지를 보여준다. 핵심은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 입장에서는 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 디스크만 보이지만, 아래에서는 여러 디스크가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 신뢰성을 분담한다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  RAID의 기본 관점: 하나처럼 보이게 묶기      │
-├──────────────────────────────────────────────────────────────┤
-│ 운영체제 (OS, Operating System)                              │
-│            │                                                 │
-│            ▼                                                 │
-│   논리 볼륨 1개로 인식                                        │
-│            │                                                 │
-│            ▼                                                 │
-│ RAID 계층 ── 데이터 분산 / 복제 / 복원 정보 관리              │
-│      ┌────────────┬────────────┬────────────┬────────────┐   │
-│      ▼            ▼            ▼            ▼            │   │
-│   Disk 1       Disk 2       Disk 3       Disk 4          │
-│  데이터 A      데이터 B      데이터 C      미러/패리티    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID의 기본 관점: 하나처럼 보이게 묶기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 (OS, Operating System)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 볼륨 1개로 인식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 계층 ── 데이터 분산 / 복제 / 복원 정보 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk 1 Disk 2 Disk 3 Disk 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 A 데이터 B 데이터 C 미러/패리티</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 시스템은 저장장치를 "부품"이 아니라 "[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 다루게 된다. 따라서 RAID를 이해한다는 것은 단순히 디스크를 여러 개 꽂는 법이 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 장애 대응을 저장 계층에서 어떻게 설계하는지 이해하는 것이다.
 
@@ -63,24 +60,22 @@ RAID의 핵심 원리는 세 가지다. 첫째, [스트라이핑](/knowledge-bas
 
 다음 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 함께 보여준다. RAID는 평상시에는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 저장 장치처럼 동작하고, 장애 시에는 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 패리티를 이용해 손실 블록을 재구성한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              RAID의 평상시 쓰기와 장애 시 복원 흐름           │
-├──────────────────────────────────────────────────────────────┤
-│ [입력 데이터]                                                 │
-│      │                                                        │
-│      ▼                                                        │
-│ 블록 분할 ──▶ Disk 1: D1 ─┐                                   │
-│            ├▶ Disk 2: D2 ├─ 병렬 기록                         │
-│            ├▶ Disk 3: D3 ┘                                   │
-│            └▶ Disk 4: P(XOR)                                  │
-│                                                               │
-│ 장애 발생: Disk 2 손실                                        │
-│      │                                                        │
-│      ▼                                                        │
-│ 남은 D1 + D3 + P ──▶ XOR 재계산 ──▶ D2 복원                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID의 평상시 쓰기와 장애 시 복원 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 분할 ──▶ Disk 1: D1 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Disk 2: D2 ─ 병렬 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Disk 3: D3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Disk 4: P(XOR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생: Disk 2 손실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남은 D1 + D3 + P ──▶ XOR 재계산 ──▶ D2 복원</div></div>
+</div>
+</div>
+
+
 
 구현 방식은 하드웨어 RAID와 소프트웨어 RAID로 나뉜다. 하드웨어 RAID는 전용 컨트롤러가 캐시와 패리티 연산을 담당해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부담을 줄이는 대신 비용과 장비 의존성이 크다. 소프트웨어 RAID는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 직접 구성하므로 유연성과 비용 측면에서 유리하지만, CPU 부하와 관리 복잡도를 함께 감수해야 한다.
 
@@ -128,8 +123,8 @@ RAID를 제대로 이해하려면 각 레벨이 무엇을 포기하고 무엇을
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **RAID를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)으로 오해하는 경우**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 손상, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염은 RAID가 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나 패리티 일관성을 유지한 채 반영한다.
-- **혼합 워크로드를 한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 몰아넣는 경우**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 대용량 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 같은 RAID에 두면 서로 다른 I/O 특성이 충돌한다.
+- <strong>RAID를 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>으로 오해하는 경우</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 손상, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염은 RAID가 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나 패리티 일관성을 유지한 채 반영한다.
+- <strong>혼합 워크로드를 한 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>에 몰아넣는 경우</strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 대용량 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 같은 RAID에 두면 서로 다른 I/O 특성이 충돌한다.
 - **리빌드 시간을 무시하는 경우**: 디스크 개수와 용량이 커질수록 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 창구가 생각보다 길어진다.
 
 기술사 관점에서는 "RAID를 왜 썼는가"보다 "왜 그 레벨을 골랐는가"를 설명할 수 있어야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 용량, 장애 허용, 운영 복잡도, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표를 함께 제시하면 설계 판단이 설득력을 얻는다.
@@ -163,25 +158,25 @@ RAID를 제대로 이해하려면 각 레벨이 무엇을 포기하고 무엇을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 디스크 한계
-    │
-    ▼
-스트라이핑 (Striping)으로 성능 확장
-    │
-    ├──▶ 미러링 (Mirroring)으로 단순 복구 확보
-    │
-    └──▶ 패리티 (Parity)로 용량 효율형 보호 구현
-             │
-             ▼
-RAID 0 / 1 / 5 / 6 / 10 설계 선택
-             │
-             ▼
-핫 스페어 (Hot Spare) · 리빌드 (Rebuild) 운영
-             │
-             ▼
-이레이저 코딩 (Erasure Coding) 기반 분산 스토리지 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 디스크 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트라이핑 (Striping)으로 성능 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 미러링 (Mirroring)으로 단순 복구 확보</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 패리티 (Parity)로 용량 효율형 보호 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAID 0 / 1 / 5 / 6 / 10 설계 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">핫 스페어 (Hot Spare) · 리빌드 (Rebuild) 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이레이저 코딩 (Erasure Coding) 기반 분산 스토리지 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 RAID가 단순 디스크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화에서 출발해, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자동화와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 철학으로 확장되는 과정을 보여준다.
 

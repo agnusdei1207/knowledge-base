@@ -23,15 +23,17 @@ tags = ["studynote-ai"]
 
 핵심은 정답 레이블만 알려 주는 것이 아니라, 교사 모델의 "어느 클래스가 얼마나 비슷해 보이는지"를 함께 전달하는 것이다. 이 부드러운 정보가 학생 모델의 일반화를 돕는다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  Teacher → Student Distillation              │
-├──────────────────────────────────────────────────────────────┤
-│ Teacher logits --Temperature--> soft targets --+             │
-│                                                │             │
-│ Ground truth labels ---------------------------+→ Student    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Teacher → Student Distillation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Teacher logits --Temperature--&gt; soft targets --+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ground truth labels ---------------------------+→ Student</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 선생님이 "정답은 이거야"만 말하는 게 아니라, "이 답도 꽤 비슷해"까지 알려 주는 과외다.
 
@@ -47,16 +49,19 @@ tags = ["studynote-ai"]
 |:---|:---|:---|
 | **Teacher** | 큰 사전 학습 모델 | 고품질 지식 제공 |
 | **Student** | 작은 배포 모델 | 경량화된 추론 |
-| **[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) (T)** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 부드럽게 함 | 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 노출 |
-| **[Soft Target](/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/)** | 교사 분포 | 모호성/유사성 학습 |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> (T)</strong> | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 부드럽게 함 | 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 노출 |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/">Soft Target</a></strong> | 교사 분포 | 모호성/유사성 학습 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    Distillation Loss Concept                 │
-├──────────────────────────────────────────────────────────────┤
-│ L = α · KL(Teacher_T || Student_T) + (1-α) · CE(y, Student)  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distillation Loss Concept</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L = α · KL(Teacher_T</div><div class="kb-diagram-cell">Student_T) + (1-α) · CE(y, Student)</div></div>
+</div>
+</div>
+
+
 
 보통 손실은 교사 분포와 학생 분포의 KL ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)) 또는 로짓 매칭과 하드 레이블의 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 섞어 사용한다. `T`가 높으면 부드러운 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를, 낮으면 원래 정답에 가까운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 강하게 준다.
 
@@ -105,7 +110,7 @@ tags = ["studynote-ai"]
 
 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)를 잘 쓰면 대형 모델의 품질을 유지하면서도 경량 모델을 배포할 수 있다. 특히 모바일, 임베디드, 실시간 추론에서 효과가 크다.
 
-결론적으로 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 **'큰 모델의 지식을 작은 모델로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 기술'**이므로, 우리는 온도와 손실 균형을 설계해 정보 손실을 최소화해야 한다.
+결론적으로 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 <strong>'큰 모델의 지식을 작은 모델로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하는 기술'</strong>이므로, 우리는 온도와 손실 균형을 설계해 정보 손실을 최소화해야 한다.
 
 - **📢 섹션 요약 비유**: 두꺼운 백과사전에서 중요한 내용만 똑똑하게 요약해 작은 포켓북으로 만드는 일이다.
 

@@ -33,28 +33,24 @@ Spotify는 2016년부터 이 문제를 해결하기 위해 내부 도구 Backsta
 
 ### Backstage 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)
 
-```
-  ┌─────────────────────────────────────────────────────────┐
-  │                 Backstage IDP 포털                        │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                          │
-  │  ┌─────────────────┐    ┌─────────────────────────────┐ │
-  │  │  Service Catalog │    │      Software Templates      │ │
-  │  │  (서비스 카탈로그)│    │      (골든 패스 스캐폴딩)    │ │
-  │  │                  │    │                              │ │
-  │  │ - 서비스 목록     │    │ - 서비스 생성 워크플로우      │ │
-  │  │ - 소유자·팀       │    │ - CI/CD 파이프라인 자동 구성  │ │
-  │  │ - API 문서        │    │ - IaC 코드 생성              │ │
-  │  │ - 의존성 맵       │    │ - 보안·모니터링 기본값 포함   │ │
-  │  └─────────────────┘    └─────────────────────────────┘ │
-  │                                                          │
-  │  ┌────────────────────────────────────────────────────┐ │
-  │  │                   Plugin 생태계                      │ │
-  │  │  [K8s] [GitHub] [Jenkins] [PagerDuty] [Datadog]    │ │
-  │  │  [SonarQube] [Vault] [AWS] [Terraform Cloud] ...   │ │
-  │  └────────────────────────────────────────────────────┘ │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backstage IDP 포털</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Catalog</div><div class="kb-diagram-cell">Software Templates</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서비스 카탈로그)</div><div class="kb-diagram-cell">(골든 패스 스캐폴딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서비스 목록</div><div class="kb-diagram-cell">- 서비스 생성 워크플로우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소유자·팀</div><div class="kb-diagram-cell">- CI/CD 파이프라인 자동 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- API 문서</div><div class="kb-diagram-cell">- IaC 코드 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 의존성 맵</div><div class="kb-diagram-cell">- 보안·모니터링 기본값 포함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plugin 생태계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s</div><div class="kb-diagram-node">GitHub</div><div class="kb-diagram-node">Jenkins</div><div class="kb-diagram-node">PagerDuty</div><div class="kb-diagram-node">Datadog</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SonarQube</div><div class="kb-diagram-node">Vault</div><div class="kb-diagram-node">AWS</div><div class="kb-diagram-node">Terraform Cloud</div><div class="kb-diagram-note">... │</div></div>
+</div>
+</div>
+
+
 
 ### catalog-info.yaml ([서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 등록)
 
@@ -165,7 +161,7 @@ Phase 4 (지속): 골든 패스 확장 및 DX 측정
 ```
 
 **기술사 판단 포인트**:
-- Backstage의 가장 큰 도전은 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)의 **최신성 유지**다. catalog-info.yaml 업데이트 의무화와 자동 스캔 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필수다.
+- Backstage의 가장 큰 도전은 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)의 <strong>최신성 유지</strong>다. catalog-info.yaml 업데이트 의무화와 자동 스캔 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 필수다.
 - 플러그인 수가 많아질수록 Backstage 운영 복잡성이 증가하므로, 처음에는 3~5개 핵심 플러그인만으로 시작한다.
 - 기술적 성숙도 점수(TechScorecard)를 통해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 표준 준수 여부를 가시화하면 자발적 개선을 유도한다.
 
@@ -182,7 +178,7 @@ Phase 4 (지속): 골든 패스 확장 및 DX 측정
 | 표준화 강화 | Software Template로 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 표준 자동 적용 |
 | 도구 통합 | 여러 도구 탭 전환 없이 하나의 포털에서 작업 |
 
-IDP는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)의 얼굴이다. 아무리 훌륭한 인프라를 구축해도 개발자가 사용하지 않으면 의미가 없다. Backstage는 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))을 중심에 두고, 조직의 모든 도구와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연결하는 **개발자 생태계의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)**가 되는 것을 목표로 한다.
+IDP는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)의 얼굴이다. 아무리 훌륭한 인프라를 구축해도 개발자가 사용하지 않으면 의미가 없다. Backstage는 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/))을 중심에 두고, 조직의 모든 도구와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연결하는 <strong>개발자 생태계의 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong>가 되는 것을 목표로 한다.
 
 📢 **섹션 요약 비유**: IDP는 스마트폰의 홈 화면과 같다. 각 앱(도구)은 따로 존재하지만, 홈 화면([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))을 통해 모든 앱을 하나의 인터페이스에서 접근할 수 있다. 개발자는 홈 화면만 알면 된다.
 
@@ -205,17 +201,21 @@ IDP는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_enginee
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개발자: 여러 도구 분산 사용 (컨텍스트 스위칭)
-    │
-    ▼
-IDP: 서비스 카탈로그 + 템플릿 + 문서 통합
-    ├─► Backstage (Spotify 오픈소스)
-    └─► 플러그인 생태계: K8s · CI/CD · 비용 연동
-    │
-    ▼
-개발자 경험(DX) 극대화 → 생산성 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발자: 여러 도구 분산 사용 (컨텍스트 스위칭)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IDP: 서비스 카탈로그 + 템플릿 + 문서 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Backstage (Spotify 오픈소스)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">플러그인 생태계: K8s · CI/CD · 비용 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개발자 경험(DX) 극대화 → 생산성 향상</div>
+</div>
+</div>
+
+
 2. 새 친구(신규 입사자)가 와도 스마트패드만 켜면 학교 전체가 어떻게 돌아가는지 바로 알 수 있어.
 3. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들고 싶으면? 버튼 하나 누르면 표준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 서버가 뚝딱 생겨.
 

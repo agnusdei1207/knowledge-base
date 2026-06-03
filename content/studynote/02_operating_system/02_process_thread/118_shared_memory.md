@@ -26,42 +26,32 @@ tags = ["studynote-operating-system"]
 
 공유 메모리의 가상 주소-물리 주소 매핑 구조를 시각화하면, 왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 직접 접근이 가능한지 이해할 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│          공유 메모리의 가상-물리 주소 매핑 구조                     │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  [프로세스 A의 가상 주소 공간]     [프로세스 B의 가상 주소 공간]    │
-│                                                                     │
-│  0x0000 ┌───────────────┐      0x0000 ┌───────────────┐             │
-│         │   Code        │             │   Code        │             │
-│         │   Data        │             │   Data        │             │
-│         │   Heap        │             │   Heap        │             │
-│  0x5000 │ ┌───────────┐ │      0x7000 │ ┌───────────┐ │             │
-│         │ │ 공유 영역  │ │             │ │ 공유 영역  │ │           │
-│         │ │ (매핑됨)  │ │             │ │ (매핑됨)  │ │             │
-│         │ └─────┬─────┘ │             │ └─────┬─────┘ │             │
-│  0x6000 │   Stack      │      0x8000 │   Stack      │               │
-│         └──────┼────────┘             └──────┼────────┘             │
-│                │                             │                      │
-│  ──────────────┼───── Page Table ────────────┼──────────            │
-│                │                             │                      │
-│                ▼                             ▼                      │
-│         ┌──────────────────────────────────────┐                    │
-│         │     물리 메모리 (Physical RAM)         │                  │
-│         │                                      │                    │
-│         │   ┌──────────────────────────────┐   │                    │
-│         │   │     공유 메모리 영역           │   │                  │
-│         │   │  (두 프로세스가 동일 페이지    │   │                  │
-│         │   │   공유함)                     │   │                   │
-│         │   └──────────────────────────────┘   │                    │
-│         └──────────────────────────────────────┘                    │
-│                                                                     │
-│  핵심: Page Table이 두 가상 주소를 동일 물리 주소로 매핑함          │
-│       → 프로세스 A의 쓰기가 프로세스 B에 즉시 반영됨                │
-│       → CPU 명령(LOAD/STORE)만으로 통신 완료 (커널 개입 없음!)      │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리의 가상-물리 주소 매핑 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A의 가상 주소 공간</div><div class="kb-diagram-node">프로세스 B의 가상 주소 공간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0000 0x0000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">Heap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x5000</div><div class="kb-diagram-cell">0x7000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 영역</div><div class="kb-diagram-cell">공유 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매핑됨)</div><div class="kb-diagram-cell">(매핑됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x6000</div><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">0x8000</div><div class="kb-diagram-cell">Stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리 (Physical RAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(두 프로세스가 동일 페이지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: Page Table이 두 가상 주소를 동일 물리 주소로 매핑함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 프로세스 A의 쓰기가 프로세스 B에 즉시 반영됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ CPU 명령(LOAD/STORE)만으로 통신 완료 (커널 개입 없음!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조도는 공유 메모리가 "왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 동작하는가"를 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) 관점에서 명확히 보여준다. 운영체제는 `shmget()`으로 물리 메모리에 공유 영역을 할당하고, `shmat()`를 통해 각 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 내에 이 물리 메모리를 매핑한다. 이 매핑은 프로세스 A의 0x5000 번지와 프로세스 B의 0x7000 번지가 동일한 물리 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 가리키도록 각자의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE)를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 방식으로 이루어진다. 매핑 완료 후에는 CPU가 일반적인 LOAD/STORE 명령으로 메모리에 접근하므로, 시스템 콜이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환 없이 프로세스 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 즉각적으로 이루어진다. 이것이 공유 메모리가 가장 빠른 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 방식인 근본 이유다.
 
@@ -86,45 +76,33 @@ tags = ["studynote-operating-system"]
 
 공유 메모리를 활용한 가장 전형적 패턴은 생산자-소비자 (Producer-Consumer) 문제다. 다음은 공유 메모리 버퍼를 사용한 생산자-소비자 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요구사항이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│     공유 메모리 기반 생산자-소비자 (Producer-Consumer) 구조        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  ┌────────────┐      ┌──────────────────────────────────┐          │
-│  │  생산자      │      │       공유 메모리 영역              │     │
-│  │ (Producer)  │      │                                  │         │
-│  │             │      │  ┌───────────────────────────┐   │         │
-│  │  data를 생성 │      │  │  공유 버퍼 (Buffer)       │   │        │
-│  │             │─────▶│  │  ┌─────┬─────┬─────┐    │   │           │
-│  │  buffer에   │      │  │  │ 10  │ 20  │ 30  │    │   │           │
-│  │  쓰기 (write)│      │  │  └─────┴─────┴─────┘    │   │          │
-│  └────────────┘      │  │  in=3  out=0  count=3   │   │            │
-│                       │  │                           │   │         │
-│  ┌────────────┐      │  │  ┌─────────────────────┐ │   │           │
-│  │  소비자      │      │  │  │ mutex (상호배제)     │ │   │        │
-│  │ (Consumer)  │      │  │  └─────────────────────┘ │   │          │
-│  │             │─────▶│  │  ┌─────────────────────┐ │   │          │
-│  │  buffer에서  │      │  │  │ empty(빈칸=버퍼용량) │ │   │        │
-│  │  읽기 (read) │      │  │  │ full(가득참=0)      │ │   │         │
-│  └────────────┘      │  │  └─────────────────────┘ │   │           │
-│                       │  └───────────────────────────┘   │         │
-│                       └──────────────────────────────────┘         │
-│                                                                    │
-│  동기화 규칙 (필수!):                                              │
-│  ┌─────────────────────────────────────────────────────────┐       │
-│  │ 1. mutex: 버퍼에 한 프로세스만 접근 가능 (상호배제)        │    │
-│  │ 2. empty: 버퍼가 가득 찼을 때 생산자 대기                  │    │
-│  │ 3. full:  버퍼가 비었을 때 소비자 대기                     │    │
-│  │                                                         │       │
-│  │  생산자: wait(empty) → wait(mutex) → write →              │     │
-│  │          signal(mutex) → signal(full)                     │     │
-│  │                                                         │       │
-│  │  소비자: wait(full) → wait(mutex) → read →                │     │
-│  │          signal(mutex) → signal(empty)                    │     │
-│  └─────────────────────────────────────────────────────────┘       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 기반 생산자-소비자 (Producer-Consumer) 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자</div><div class="kb-diagram-cell">공유 메모리 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Producer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data를 생성</div><div class="kb-diagram-cell">공유 버퍼 (Buffer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">buffer에</div><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">30</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 (write)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">in=3 out=0 count=3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자</div><div class="kb-diagram-cell">mutex (상호배제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Consumer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">buffer에서</div><div class="kb-diagram-cell">empty(빈칸=버퍼용량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 (read)</div><div class="kb-diagram-cell">full(가득참=0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기화 규칙 (필수!):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. mutex: 버퍼에 한 프로세스만 접근 가능 (상호배제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. empty: 버퍼가 가득 찼을 때 생산자 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. full: 버퍼가 비었을 때 소비자 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자: wait(empty) → wait(mutex) → write →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex) → signal(full)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자: wait(full) → wait(mutex) → read →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex) → signal(empty)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조도는 공유 메모리를 활용한 생산자-소비자 패턴에서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 왜 필수적인지를 명확히 보여준다. 공유 버퍼는 단일 물리 메모리 영역이므로, 생산자가 버퍼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)(in)를 갱신하는 동시에 소비자가 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 읽으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 발생한다. 이를 방지하기 위해 [mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)(뮤텍스)로 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 보장해야 한다. 또한 버퍼가 가득 찼을 때(empty=0) 생산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰는 것을 막기 위해 empty 세마포어로 대기시키고, 버퍼가 비었을 때(full=0) 소비자가 의미 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 것을 막기 위해 full 세마포어로 대기시킨다. 이 세 가지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 변수([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), empty, full)가 공유 메모리 자체에 함께 저장되어, 모든 프로세스가 동일한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 상태를 공유한다.
 
@@ -143,51 +121,42 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 | 비교 항목 | 공유 메모리 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) ([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)) | 메시지 큐 (Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) ([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) |
 |:---|:---|:---|:---|:---|
 | **통신 속도** | 매우 빠름 (직접 접근) | 중간 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 경유) | 느림 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조체 복사) | 가장 느림 (네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 경유) |
-| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** | 사용자가 직접 구현 필수 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 관리 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 관리 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 자동 관리 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기** | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(4KB~수GB) | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림(무제한) | 메시지 단위(제한 있음) | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 사용자가 직접 구현 필수 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 관리 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 관리 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 자동 관리 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 크기</strong> | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(4KB~수GB) | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림(무제한) | 메시지 단위(제한 있음) | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 |
 | **대상 범위** | 동일 머신 | 부모-자식 프로세스 | 동일 머신 | 동일/원격 머신 |
 
 공유 메모리의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 다이어그램으로 시각화하면, 경합 조건 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 어떻게 발생하는지 구체적으로 이해할 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│     공유 메모리 동기화 없이 두 프로세스가 동시 쓸 때의 문제         │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  공유 메모리: counter = 0 (초기값)                                  │
-│                                                                     │
-│  시간 ──────────────────────────────────────────▶                   │
-│                                                                     │
-│  프로세스 A:  counter값 읽기(0) ─── counter+1 계산(1) ─── 쓰기(1)   │
-│                    │                        │                       │
-│  프로세스 B:        └── counter값 읽기(0) ─── counter+1 계산 ─┤     │
-│                                                │                    │
-│                                                ▼                    │
-│                                           쓰기(1) ← 기대값 2!       │
-│                                                                     │
-│  결과: counter = 1 (기대값은 2였음!)                                │
-│       → 경합 조건 (Race Condition) 발생!                            │
-│                                                                     │
-│  해결:                                                              │
-│  ┌────────────────────────────────────────────────────────┐         │
-│  │  프로세스 A: lock(mutex) → 읽기(0) → 계산(1) → 쓰기(1)  │        │
-│  │                        → unlock(mutex)                 │         │
-│  │                                                        │         │
-│  │  프로세스 B:               lock(mutex) 대기...          │        │
-│  │                           (A의 unlock 후)               │        │
-│  │                           → 읽기(1) → 계산(2) → 쓰기(2)│         │
-│  │                           → unlock(mutex)               │        │
-│  │                                                        │         │
-│  │  결과: counter = 2 (정상!)                               │       │
-│  └────────────────────────────────────────────────────────┘         │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 동기화 없이 두 프로세스가 동시 쓸 때의 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리: counter = 0 (초기값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A: counter값 읽기(0) counter+1 계산(1) 쓰기(1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B: ── counter값 읽기(0) counter+1 계산 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기(1) ← 기대값 2!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: counter = 1 (기대값은 2였음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 경합 조건 (Race Condition) 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A: lock(mutex) → 읽기(0) → 계산(1) → 쓰기(1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ unlock(mutex)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B: lock(mutex) 대기...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A의 unlock 후)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 읽기(1) → 계산(2) → 쓰기(2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ unlock(mutex)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: counter = 2 (정상!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 타임라인 다이어그램은 공유 메모리에서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 없을 때 발생하는 경합 조건([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))의 전형적인 패턴을 보여준다. 두 프로세스가 동시에 `counter`의 값을 읽었을 때, 두 프로세스 모두 0을 읽고 각자 독립적으로 1을 더해 1을 쓴다. 기대값은 2이지만 실제 결과는 1이 된다. 이것이 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))이 보장되지 않는 읽기-수정-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 연산의 근본적 문제다. 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 사용하면 한 프로세스가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 진입하는 동안 다른 프로세스가 대기하도록 강제하여, [counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값이 항상 올바르게 갱신되도록 보장한다. 공유 메모리를 사용하는 모든 시스템에서 이러한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 보장이 필수적이다.
 
 ### 과목 융합 관점
-- **컴퓨터 아키텍처 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: 멀티코어 프로세서에서 각 코어가 공유하는 L3 캐시 (Last Level Cache)는 하드웨어 수준의 공유 메모리다. [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(MESI 등)이 소프트웨어 수준의 뮤텍스와 동일한 역할을 하여, 여러 코어가 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 일관되게 접근하도록 보장한다.
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (DB)**: 공유 메모리는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 공유 버퍼 풀(Shared Buffer Pool) 구현에 사용된다. 여러 백엔드 프로세스가 디스크에서 읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유 버퍼 풀에 저장하고 접근하므로, 디스크 I/O를 최소화할 수 있다. PostgreSQL의 `shared_buffers`가 대표적 사례다.
+- <strong>컴퓨터 아키텍처 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 멀티코어 프로세서에서 각 코어가 공유하는 L3 캐시 (Last Level Cache)는 하드웨어 수준의 공유 메모리다. [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(MESI 등)이 소프트웨어 수준의 뮤텍스와 동일한 역할을 하여, 여러 코어가 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 일관되게 접근하도록 보장한다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (DB)</strong>: 공유 메모리는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 공유 버퍼 풀(Shared Buffer Pool) 구현에 사용된다. 여러 백엔드 프로세스가 디스크에서 읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유 버퍼 풀에 저장하고 접근하므로, 디스크 I/O를 최소화할 수 있다. PostgreSQL의 `shared_buffers`가 대표적 사례다.
 
 - **📢 섹션 요약 비유**: 공유 메모리는 고속도로(빠른 직접 접근)와 같아서 신호등([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))이 있으면 모든 차가 안전하게 통과하지만, 신호등이 고장 나면 교차로에서 충돌 사고(경합 조건)가 발생합니다.
 
@@ -219,18 +188,18 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 
 | 구분 | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) ([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) | 공유 메모리 (Shared Memory) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (1MB [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/))** | 약 50~200us ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 복사 2회) | 약 0.1~1us (직접 접근) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) **100~1000배 단축** |
+| <strong>정량 (1MB <a href="/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/">전송 지연</a>)</strong> | 약 50~200us ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 복사 2회) | 약 0.1~1us (직접 접근) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) **100~1000배 단축** |
 | **정량 (CPU 사용률)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환으로 높음 | 유저 모드에서만 동작 | CPU 오버헤드 **70% 이상 감소** |
-| **정성 ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))** | 시스템 콜당 수 KB~수 MB | 물리 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(수십 GB/s) 극대 활용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) **수십배 증가** |
+| <strong>정성 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong> | 시스템 콜당 수 KB~수 MB | 물리 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(수십 GB/s) 극대 활용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) **수십배 증가** |
 
 ### 미래 전망
-- **[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 원격 공유 메모리**: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.0 표준은 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스를 통해 타 장치의 메모리를 로컬 메모리처럼 직접 접근할 수 있는 코히어런트(coherent) 공유 메모리 인터페이스를 제공한다. 이는 단일 머신의 공유 메모리 개념을 서버 클러스터 규모로 확장하여, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 아키텍처의 메모리 접근 비균일성 문제를 해결하는 차세대 기술이다.
-- **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 공유 메모리와의 통합**: NVIDIA CUDA의 공유 메모리(Shared Memory)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 블록 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유를 위한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 온칩 메모리로, CPU 프로세스 간 공유 메모리와 동일한 설계 원리를 공유한다. 통합 메모리(Unified Memory) 기술이 발전하면서 CPU-[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간의 투명한 공유 메모리 접근이 현실화되고 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">Compute Express Link</a>) 기반 원격 공유 메모리</strong>: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.0 표준은 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스를 통해 타 장치의 메모리를 로컬 메모리처럼 직접 접근할 수 있는 코히어런트(coherent) 공유 메모리 인터페이스를 제공한다. 이는 단일 머신의 공유 메모리 개념을 서버 클러스터 규모로 확장하여, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 아키텍처의 메모리 접근 비균일성 문제를 해결하는 차세대 기술이다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 공유 메모리와의 통합</strong>: NVIDIA CUDA의 공유 메모리(Shared Memory)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 블록 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유를 위한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 온칩 메모리로, CPU 프로세스 간 공유 메모리와 동일한 설계 원리를 공유한다. 통합 메모리(Unified Memory) 기술이 발전하면서 CPU-[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간의 투명한 공유 메모리 접근이 현실화되고 있다.
 
 ### 참고 표준
 - **POSIX.1 (IEEE 1003.1)**: `shm_open()`, `shm_unlink()`, `ftruncate()`, `mmap()`, `munmap()` POSIX 공유 메모리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준.
-- **[System V IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/)**: `shmget()`, `shmat()`, `shmdt()`, `shmctl()` 레거시 공유 메모리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/).
-- **Linux `memfd_create()` (3.17~)**: 익명 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 공유 메모리로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 경로 없이 `mmap()`과 결합하여 사용.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/">System V IPC</a></strong>: `shmget()`, `shmat()`, `shmdt()`, `shmctl()` 레거시 공유 메모리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/).
+- <strong>Linux <code>memfd_create()</code> (3.17~)</strong>: 익명 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 공유 메모리로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 경로 없이 `mmap()`과 결합하여 사용.
 
 - **📢 섹션 요약 비유**: 공유 메모리 기술은 처음에는 한 컴퓨터 안에서만 쓰였지만, 이제는 CXL이라는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 도로를 통해 여러 서버를 하나의 거대한 공용 창고처럼 만드는 수준까지 진화했습니다.
 
@@ -247,15 +216,19 @@ POSIX 표준은 System V API의 정수 [식별자](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[프로세스 간 통신 (IPC, Inter-Process Communication)]
-    │
-    ▼
-[공유 메모리 (Shared Memory) 방식]
-    │
-    ├──▶ [메시지 전달 (Message Passing) 방식]
-    └──▶ [직접 통신 (Direct Communication)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 간 통신 (IPC, Inter-Process Communication)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 (Shared Memory) 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메시지 전달 (Message Passing) 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 통신 (Direct Communication)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

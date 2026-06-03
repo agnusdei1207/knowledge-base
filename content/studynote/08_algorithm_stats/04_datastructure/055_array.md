@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-배열은 컴퓨터 메모리의 물리적 특성—주소 연산이 O(1)—을 그대로 활용한 원시 자료구조다. 배열의 시작 주소 `base`와 원소 크기 `size`를 알면, `i`번째 원소 주소는 `base + i × size`로 즉시 계산된다. 포인터 추적 없이 단 한 번의 산술 연산이므로 **랜덤 접근 (Random Access)이 O(1)**이다.
+배열은 컴퓨터 메모리의 물리적 특성—주소 연산이 O(1)—을 그대로 활용한 원시 자료구조다. 배열의 시작 주소 `base`와 원소 크기 `size`를 알면, `i`번째 원소 주소는 `base + i × size`로 즉시 계산된다. 포인터 추적 없이 단 한 번의 산술 연산이므로 <strong>랜덤 접근 (Random Access)이 O(1)</strong>이다.
 
 ### 배열의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
@@ -42,18 +42,19 @@ tags = ["studynote-algorithm"]
 
 ### 메모리 레이아웃
 
-```
-base address = 0x1000, sizeof(int) = 4
 
-┌──────┬──────┬──────┬──────┬──────┐
-│  10  │  20  │  30  │  40  │  50  │  ← 원소 값
-├──────┼──────┼──────┼──────┼──────┤
-│0x1000│0x1004│0x1008│0x100C│0x1010│  ← 주소
-└──────┴──────┴──────┴──────┴──────┘
-   [0]    [1]    [2]    [3]    [4]
 
-접근: arr[3] = *(base + 3×4) = *(0x100C) = 40   →  O(1)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">base address = 0x1000, sizeof(int) = 4</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">40</div><div class="kb-diagram-cell">50</div><div class="kb-diagram-cell">← 원소 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1000</div><div class="kb-diagram-cell">0x1004</div><div class="kb-diagram-cell">0x1008</div><div class="kb-diagram-cell">0x100C</div><div class="kb-diagram-cell">0x1010</div><div class="kb-diagram-cell">← 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">접근: arr</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">O(1)</div></div>
+</div>
+</div>
+
+
 
 ### 다차원 배열: 행 우선 vs 열 우선
 
@@ -70,15 +71,19 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 동적 배열 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-초기 capacity = 1
-삽입마다 size 초과 시 capacity × 2 재할당
 
-[1]→[1,2]→[1,2,3,4]→[1..8]→...
 
-분할상환 분석:
-  n번 삽입 총 복사 횟수 = 1+2+4+...+n < 2n  →  O(1) amortized
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 capacity = 1</div>
+<div class="kb-diagram-note">삽입마다 size 초과 시 capacity × 2 재할당</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2,3,4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1..8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-note">분할상환 분석:</div>
+<div class="kb-diagram-note">n번 삽입 총 복사 횟수 = 1+2+4+...+n &lt; 2n → O(1) amortized</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 동적 배열은 방이 꽉 차면 두 배 큰 집으로 이사하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)—이삿짐이 가끔 많지만, 평균적으로는 한 번에 조금씩 옮기는 셈이다.
 
@@ -105,19 +110,25 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 주요 활용 사례
 
-- **버퍼 관리 (Buffer [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
+- <strong>버퍼 관리 (Buffer <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 네트워크 패킷, I/O 버퍼, 링 버퍼(원형 배열)
 - **행렬 연산 (Matrix Operations)**: 그래픽스 변환, 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 텐서, BLAS [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
-- **힙·[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)**: 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)를 배열로 표현 (`parent = (i-1)/2`, `left = 2i+1`)
+- <strong>힙·<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong>: 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)를 배열로 표현 (`parent = (i-1)/2`, `left = 2i+1`)
 - **슬라이딩 윈도우**: 연속 구간 최솟값/최댓값 처리 ([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 산술 활용)
 
 ### 기술사 판단 기준
 
-```
-읽기/순회 위주 + 크기 예측 가능  →  정적 배열 또는 ArrayList
-삽입/삭제 빈번 + 순서 중요        →  연결 리스트
-키-값 매핑 + 순서 불필요           →  해시 테이블
-정렬된 범위 쿼리                   →  트리맵 or 세그먼트 트리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">읽기/순회 위주 + 크기 예측 가능 → 정적 배열 또는 ArrayList</div>
+<div class="kb-diagram-note">삽입/삭제 빈번 + 순서 중요 → 연결 리스트</div>
+<div class="kb-diagram-note">키-값 매핑 + 순서 불필요 → 해시 테이블</div>
+<div class="kb-diagram-note">정렬된 범위 쿼리 → 트리맵 or 세그먼트 트리</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 도서관 책장에 번호로 꽂힌 책(배열)은 "23번 책"을 바로 꺼낼 수 있지만, 중간에 새 책을 끼우려면 나머지를 한 칸씩 밀어야 한다.
 
@@ -146,18 +157,21 @@ base address = 0x1000, sizeof(int) = 4
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[동적 배열 (Dynamic Array)]
-    │
-    ▼
-[연결 리스트 (Linked List)]
-    │
-    ▼
-[힙 (Heap)]
-    │
-    ▼
-[해시 테이블 (Hash Table)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 배열 (Dynamic Array)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연결 리스트 (Linked List)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 (Heap)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 테이블 (Hash Table)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

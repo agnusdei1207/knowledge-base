@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 과거에는 보안 위협을 막기 위해 기능별로 장비를 무식하게 하나씩 다 샀습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW), 침입 탐지/방지([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)), 안티 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(백신), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 장비 등등. 이를 **포인트 솔루션(Point Solution)**이라고 합니다.
-- **UTM의 개념**: 관리의 복잡성과 비용 문제를 해결하기 위해, 위에서 말한 4~5가지의 핵심 네트워크 **보안 기능들을 단 하나의 물리적인 하드웨어 박스(Appliance)에 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 형태로 몽땅 쓸어 담아 통합해 버린 차세대 보안 솔루션**입니다.
+- 과거에는 보안 위협을 막기 위해 기능별로 장비를 무식하게 하나씩 다 샀습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW), 침입 탐지/방지([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)), 안티 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(백신), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 장비 등등. 이를 <strong>포인트 솔루션(Point Solution)</strong>이라고 합니다.
+- **UTM의 개념**: 관리의 복잡성과 비용 문제를 해결하기 위해, 위에서 말한 4~5가지의 핵심 네트워크 <strong>보안 기능들을 단 하나의 물리적인 하드웨어 박스(Appliance)에 소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 형태로 몽땅 쓸어 담아 통합해 버린 차세대 보안 솔루션</strong>입니다.
 
-```text
-[WAF]
-    │
-    ▼
-[UTM]
-    │
-    └──▶ [NGFW]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NGFW</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: UTM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,20 +42,24 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 [UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/) 장비를 하나 사면 관리자 화면(웹 UI)에 다음과 같은 스위치들이 일렬로 나열되어 있습니다. 원할 때 딸깍 켜주기만 하면 됩니다.
-1. **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) / [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)**: 기본 중의 기본 기능 (IP/[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단 및 원격 재택근무 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)).
-2. **[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) (침입 방지 시스템)**: 악성코드와 네트워크 해킹 차단.
-3. **[Anti-Virus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) (안티 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))**: 네트워크를 지나가는 이메일 첨부파일이나 다운로드 파일을 가로채어 실시간으로 랜섬웨어나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사.
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> / <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong>: 기본 중의 기본 기능 (IP/[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단 및 원격 재택근무 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)).
+2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> (침입 방지 시스템)</strong>: 악성코드와 네트워크 해킹 차단.
+3. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">Anti-Virus</a> (안티 <a href="/knowledge-base/studynote/02_operating_system/10_security/589_virus/">바이러스</a>)</strong>: 네트워크를 지나가는 이메일 첨부파일이나 다운로드 파일을 가로채어 실시간으로 랜섬웨어나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사.
 4. **Web Filtering (웹 필터링)**: 직원이 회사망에서 도박 사이트, 성인 사이트, 증권 사이트에 들어가는 것을 차단.
 5. **Anti-Spam (안티 스팸)**: 외부에서 쏟아지는 악성/광고 이메일 차단.
 
-```text
-[WAF]
-    │
-    ▼
-[UTM]
-    │
-    └──▶ [NGFW]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NGFW</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: UTM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,8 +72,8 @@ tags = ["studynote-network"]
 - **관리 편의성**: 하나의 제조사, 하나의 관리자 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면에서 클릭 한 번으로 모든 보안 정책을 일괄 통제할 수 있습니다. IT 관리자가 한두 명뿐인 중소/중견 기업(SMB)에 최고의 구세주입니다.
 
 ### 2. 단점 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 🌟
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**: CPU 하나를 가진 장비에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 돌리고, IPS도 돌리고, [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사까지 동시에 키게 되면, 인터넷 속도가 체감될 정도로 뚝 떨어지는 고질적인 병목 현상이 발생합니다. 트래픽이 쏟아지는 대기업이나 통신사 메인 백본망에는 절대 쓰지 못합니다.
-- **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))**: "계란을 한 바구니에 담지 마라"는 보안의 철칙을 어긴 대가입니다. 이 만능 [UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/) 장비가 과부하로 전원이 꺼지거나 해킹을 당해 무너지면, 회사의 모든 보안 방벽 5개가 0.1초 만에 동시에 다 뚫려버리고 성문이 활짝 열리는 끔찍한 상황이 벌어집니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: CPU 하나를 가진 장비에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 돌리고, IPS도 돌리고, [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사까지 동시에 키게 되면, 인터넷 속도가 체감될 정도로 뚝 떨어지는 고질적인 병목 현상이 발생합니다. 트래픽이 쏟아지는 대기업이나 통신사 메인 백본망에는 절대 쓰지 못합니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong>: "계란을 한 바구니에 담지 마라"는 보안의 철칙을 어긴 대가입니다. 이 만능 [UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/) 장비가 과부하로 전원이 꺼지거나 해킹을 당해 무너지면, 회사의 모든 보안 방벽 5개가 0.1초 만에 동시에 다 뚫려버리고 성문이 활짝 열리는 끔찍한 상황이 벌어집니다.
 
 UTM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. WAF가 기반 조건을 만든다면, UTM는 그 위에서 핵심 메커니즘을 구현하고, NGFW는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ UTM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-UTM이 중소기업을 타겟으로 모든 기능을 다 집어넣어 좀 무거워진 가성비 종합 세트라면, **[NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/)([차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/), 698번 문서)**는 대기업을 타겟으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 두 개만 완벽하게 결합하되, 애플리케이션 분석 기능(L7)을 미친 듯이 고도화시킨 날렵하고 비싼 하이엔드 장비입니다.
+UTM이 중소기업을 타겟으로 모든 기능을 다 집어넣어 좀 무거워진 가성비 종합 세트라면, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/">NGFW</a>(<a href="/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/">차세대 방화벽</a>, 698번 문서)</strong>는 대기업을 타겟으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 두 개만 완벽하게 결합하되, 애플리케이션 분석 기능(L7)을 미친 듯이 고도화시킨 날렵하고 비싼 하이엔드 장비입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,15 +120,19 @@ UTM는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WAF]
-    │
-    ▼
-[현재 개념: UTM]
-    │
-    ├──▶ [확장 A: NGFW]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NGFW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 UTM는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 NGFW와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

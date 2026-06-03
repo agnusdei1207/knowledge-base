@@ -25,17 +25,17 @@ tags = ["studynote-software-engineering"]
 
 - **오류 추정과 관련된개념**:
 - **경험 기반 테스트**: 테스터의 경험을 기반으로 테스트
-- **[Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)**: 경험적으로 테스트 추측의를 제공
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a></strong>: 경험적으로 테스트 추측의를 제공
 - ****: 특별한 근거 없이문제발생을 예감
 
-- **비유**: 오류 추정은 **'의사의임상적 판단'**와/과 같다. 의사는 Patients의,, 검사 결과 등의데이터(체계적 테스트)에진찰하지만,의 경험에서 나오는 "이 환자는이나있다"는적판단(오류 추정)도 중요하다. Software에서도 마찬가지로 테스터의 경험에서 나오는 "여기 문제있을 것"이라는 예감이 중요한 발견으로 이어질 수 있다.
+- **비유**: 오류 추정은 <strong>'의사의임상적 판단'</strong>와/과 같다. 의사는 Patients의,, 검사 결과 등의데이터(체계적 테스트)에진찰하지만,의 경험에서 나오는 "이 환자는이나있다"는적판단(오류 추정)도 중요하다. Software에서도 마찬가지로 테스터의 경험에서 나오는 "여기 문제있을 것"이라는 예감이 중요한 발견으로 이어질 수 있다.
 
 - **등장 배경 및 발전 과정**:
 1. **1980년대**: Glenford Myers가 오류 추정을 체계적테스트로서소개
 2. **1990년대**: IEEE에서 프로토콜과 결합하여 활용
 3. **현재**: 적의 중요한으로 활용
 
-- **섹션 요약 비유**: 오류 추정은 **'숙련 된 미식가 예지'**와/과 같다. 미식가가 여러 식당을 다녀본 경험(테스트 경험)에서, 특정 식당이나 요리에서 문제가 발생할 것 같다는예감을 가지고 먹는다. 문제는 발견되지 않았지만이 정확한 경우도 있고, 때로는 예상치 못한를 발견하기도 한다.
+- **섹션 요약 비유**: 오류 추정은 <strong>'숙련 된 미식가 예지'</strong>와/과 같다. 미식가가 여러 식당을 다녀본 경험(테스트 경험)에서, 특정 식당이나 요리에서 문제가 발생할 것 같다는예감을 가지고 먹는다. 문제는 발견되지 않았지만이 정확한 경우도 있고, 때로는 예상치 못한를 발견하기도 한다.
 
 ---
 
@@ -43,18 +43,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 오류 추정 (Error Guessin의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 오류 추정 (Error Guessin │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 추정 (Error Guessin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 오류 추정 (Error Guessin가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -75,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-오류 추정 (Error Guessing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+오류 추정 (Error Guessing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 오류 추정 (Error Guessing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -151,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-오류 추정 (Error Guessing) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오류 추정 (Error Guessing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

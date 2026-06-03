@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 순환 시프트(Rotate)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 열을 좌우로 밀어낼 때, **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 밖으로 밀려나 추락하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 주워다가 반대편 텅 빈자리에 다시 쑤셔 넣는 닫힌 궤도**의 이동 연산이다.
+> 1. **본질**: 순환 시프트(Rotate)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 열을 좌우로 밀어낼 때, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 밖으로 밀려나 추락하는 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 주워다가 반대편 텅 빈자리에 다시 쑤셔 넣는 닫힌 궤도</strong>의 이동 연산이다.
 > 2. **가치**: 정보의 손실([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss)이 1비트도 발생하지 않는 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 특성을 가져, 원래 상태로 되돌릴 수 있는 가역(Reversible) 연산이 필수적인 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 알고리즘의 코어 엔진으로 작동한다.
 > 3. **판단 포인트**: CPU의 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/))를 거쳐서 순환하는가(RCL/RCR) 아니면 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 무시하고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)끼리만 순환하는가(ROL/ROR)에 따라, 다중 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(Multi-precision) 연산 설계 시 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택이 갈린다.
 
@@ -31,26 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 순환 경로의 물리적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ROL(Rotate Left)과 ROR(Rotate Right)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 맨 끝 출력 핀(Output)을 맨 앞 입력 핀(Input)으로 물리적인 와이어 브릿지로 연결하여 동작한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           순환 좌측 시프트(ROL)의 뫼비우스 하드웨어 궤적       │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   원본 데이터: 1 0 1 1 0 0 0 0                             │
-│                                                        │
-│   [ 좌측으로 1칸 순환 시프트 연산 수행 (ROL 1) ]             │
-│                                                        │
-│   1. 좌측으로 슉! 밀어냄 ──▶ 앞쪽 빈자리 발생, MSB의 1은 추락 위기│
-│   2. 쇳덩어리 구원선 ──▶ 추락한 1을 낚아채어 맨 뒤 빈자리에 박음│
-│                                                        │
-│   결과 데이터: 0 1 1 0 0 0 0 [1] ──▶ 데이터 손실률 0%!    │
-│                                                        │
-│ * 핵심 논리: 버려지는 쓰레기 비트를 재활용하여 빈칸을 덮음.      │
-│   만약 ROL을 8번(8비트 기준) 반복하면 정확히 원본으로 되돌아옴.  │
-└────────────────────────────────────────────────────────┘
-```
 
-이 연산의 가장 위대한 아키텍처적 특성은 **가역성(Reversibility)**이다. 오른쪽으로 3칸 순환 이동(ROR 3)한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 왼쪽으로 다시 3칸 순환 이동(ROL 3)하면 1 나노초 만에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 유실 하나 없이 원래 모습으로 100% 복원된다. 일반 시프트에서는 불가능한 마법이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 좌측 시프트(ROL)의 뫼비우스 하드웨어 궤적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터: 1 0 1 1 0 0 0 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좌측으로 1칸 순환 시프트 연산 수행 (ROL 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 좌측으로 슉! 밀어냄 ──▶ 앞쪽 빈자리 발생, MSB의 1은 추락 위기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 쇳덩어리 구원선 ──▶ 추락한 1을 낚아채어 맨 뒤 빈자리에 박음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과 데이터: 0 1 1 0 0 0 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 손실률 0%!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 버려지는 쓰레기 비트를 재활용하여 빈칸을 덮음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 ROL을 8번(8비트 기준) 반복하면 정확히 원본으로 되돌아옴.</div></div>
+</div>
+</div>
+
+
+
+이 연산의 가장 위대한 아키텍처적 특성은 <strong>가역성(Reversibility)</strong>이다. 오른쪽으로 3칸 순환 이동(ROR 3)한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 왼쪽으로 다시 3칸 순환 이동(ROL 3)하면 1 나노초 만에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 유실 하나 없이 원래 모습으로 100% 복원된다. 일반 시프트에서는 불가능한 마법이다.
 
 - **📢 섹션 요약 비유**: 순환 시프트는 '회전 스시 초밥 레일'이다. 손님이 초밥을 집어 먹지 않는 이상, 끝까지 굴러간 초밥은 주방 바닥으로 떨어지지 않고 레일을 타고 빙 돌아 내 눈앞에 다시 나타난다.
 
@@ -64,9 +62,9 @@ tags = ["studynote-computer-architecture"]
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 유형 | 동작 방식 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 궤도 크기 (8비트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기준) | 주 사용 아키텍처 |
 |:---|:---|:---|:---|
 | **일반 순환 (ROL/ROR)** | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)끼리만 빙글빙글 돈다. | **8비트** 루프 | 단일 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 섞기, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 연산 |
-| **확장 순환 (RCL/RCR)** | **캐리(C) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 정거장으로 거쳐서 돈다!** | **9비트** (8비트 + 캐리 1비트) | 다중 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(64, 128비트) 거대 숫자 연결 시프트 |
+| **확장 순환 (RCL/RCR)** | <strong>캐리(C) <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>를 정거장으로 거쳐서 돈다!</strong> | **9비트** (8비트 + 캐리 1비트) | 다중 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(64, 128비트) 거대 숫자 연결 시프트 |
 
-32비트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 두 개를 이어 붙여 64비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시프트할 때, 앞쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에서 밀려 나간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 건네주어야 한다. 이때 밀려 나간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 **[캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/)(C)**라는 임시 정거장에 떨궈놓고, 뒤쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 확장 순환(RCL)을 통해 그 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) 값을 물어가는(Carry-Through) 연계 플레이가 하드웨어 아키텍트들의 눈물겨운 대형 숫자 처리 기법이다.
+32비트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 두 개를 이어 붙여 64비트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시프트할 때, 앞쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에서 밀려 나간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 건네주어야 한다. 이때 밀려 나간 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/">캐리 플래그</a>(C)</strong>라는 임시 정거장에 떨궈놓고, 뒤쪽 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 확장 순환(RCL)을 통해 그 [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) 값을 물어가는(Carry-Through) 연계 플레이가 하드웨어 아키텍트들의 눈물겨운 대형 숫자 처리 기법이다.
 
 - **📢 섹션 요약 비유**: 일반 순환이 '우리 반 교실 안에서 자리 바꾸기'라면, [캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) 확장 순환은 '복도([캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/))를 거쳐서 옆 반 학생과 자리 바꾸기'다. 옆 반(다른 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))과 짝짜꿍을 맞춰 거대한 기차놀이를 할 때 복도라는 매개체가 꼭 필요하다.
 
@@ -75,8 +73,8 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **현대 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 및 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) (SHA-256) 코어 연산**: [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 제1 원칙은 '확산(Diffusion)'이다. 입력값 1비트가 바뀌면 결과값 절반이 완전히 엉망진창으로 바뀌어야 한다. SHA-256 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 뜯어보면 곱셈 대신 오직 순환 시프트(ROR)와 XOR 연산만 수백 번 떡칠되어 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 위치를 미친 듯이 섞어 원래 패턴을 알아볼 수 없는 고기 다짐육 상태로 만들어버리는 1등 공신이다.
-2. **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) (순환 중복 검사) 통신 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)**: 하드웨어 시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에서 나눗셈 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나머지를 뽑아낼 때, 맨 끝으로 밀려난 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 XOR 게이트를 거쳐 다시 맨 앞으로 찔러 넣는 피드백(Feedback) 루프 쇳덩어리 설계. 순환 시프트 로직이 없었으면 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32는 탄생조차 하지 못했다.
+1. <strong>현대 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>) 및 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> (SHA-256) 코어 연산</strong>: [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 제1 원칙은 '확산(Diffusion)'이다. 입력값 1비트가 바뀌면 결과값 절반이 완전히 엉망진창으로 바뀌어야 한다. SHA-256 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 뜯어보면 곱셈 대신 오직 순환 시프트(ROR)와 XOR 연산만 수백 번 떡칠되어 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 위치를 미친 듯이 섞어 원래 패턴을 알아볼 수 없는 고기 다짐육 상태로 만들어버리는 1등 공신이다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> (순환 중복 검사) 통신 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>: 하드웨어 시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에서 나눗셈 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 나머지를 뽑아낼 때, 맨 끝으로 밀려난 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 XOR 게이트를 거쳐 다시 맨 앞으로 찔러 넣는 피드백(Feedback) 루프 쇳덩어리 설계. 순환 시프트 로직이 없었으면 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32는 탄생조차 하지 못했다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **고급 언어(C/Java)에서 순환 시프트를 수동(SW)으로 짜는 비효율**: C 언어는 기본적으로 순환 시프트 연산자(Rotate)를 제공하지 않는다. 이를 구현하겠다고 코더가 `(x << n) | (x >> (32 - n))` 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산자 조합을 치면, 어떤 멍청한 컴파일러는 이걸 진짜 시프트 2번과 OR 연산 1번 등 여러 클럭이 소모되는 코드로 번역한다. 아키텍트는 반드시 `#include <x86intrin.h>`의 `_rotl()` 같은 인트린직(Intrinsic) 내장 함수를 써서, 컴파일러가 CPU의 단 1클럭짜리 순수 `ROL` 어셈블리 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 다이렉트로 때리도록 강제해야 한다.
@@ -101,25 +99,27 @@ tags = ["studynote-computer-architecture"]
 |:---|:---|
 | **가역 연산 (Reversible Logic)** | 입력 상태가 주어지면 반대로 거슬러 올라가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태를 100% 도출해 낼 수 있는 연산. ROL과 ROR은 완벽히 대칭되는 가역 커플이다. |
 | **확산 (Diffusion)** | [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)에서 원본 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나를 바꾸면 암호문의 수많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 연쇄 반응으로 바뀌는 성질. 순환 시프트가 이를 책임진다. |
-| **[캐리 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/) ([Carry Flag](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/))** | 일반 시프트에선 절벽 아래의 무덤이지만, 확장 순환(RCL)에서는 두 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사이를 잇는 텔레포트 게이트(정거장)로 활약하는 CPU [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/">캐리 플래그</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/169_carry_flag/">Carry Flag</a>)</strong> | 일반 시프트에선 절벽 아래의 무덤이지만, 확장 순환(RCL)에서는 두 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사이를 잇는 텔레포트 게이트(정거장)로 활약하는 CPU [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-일반 시프트 연산의 한계 직면 (버려지는 비트로 인한 데이터 영구 손실)
-    │
-    ▼
-데이터 무결성(No Loss) 보존을 위한 순환 배선(Wire Routing) 아이디어 도출
-    │
-    ▼
-순환 시프트 (Rotate Left / Right) 명령어 하드웨어(ALU) 내재화
-    │
-    ▼
-캐리 플래그 연계(RCL/RCR)를 통한 다중 레지스터(64/128비트) 거대 시프트 융합
-    │
-    ▼
-해시(SHA) 및 암호화 블록(AES) 알고리즘의 비트 믹싱(Mixing) 코어로 독점 지위 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 시프트 연산의 한계 직면 (버려지는 비트로 인한 데이터 영구 손실)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 무결성(No Loss) 보존을 위한 순환 배선(Wire Routing) 아이디어 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">순환 시프트 (Rotate Left / Right) 명령어 하드웨어(ALU) 내재화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐리 플래그 연계(RCL/RCR)를 통한 다중 레지스터(64/128비트) 거대 시프트 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시(SHA) 및 암호화 블록(AES) 알고리즘의 비트 믹싱(Mixing) 코어로 독점 지위 확보</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "정보 손실의 물리적 극복 → [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간 확장 체계 확립 → 현대 보안/[암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 핵심 쇳덩어리 엔진으로 진화"하는 순환 시프트 아키텍처의 궤적을 보여준다.
 

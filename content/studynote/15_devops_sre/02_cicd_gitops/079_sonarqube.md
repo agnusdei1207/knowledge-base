@@ -10,15 +10,15 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 소나큐브(SonarQube)는 프로그램을 실행하지 않고 소스 코드(Text) 그 자체를 돋보기로 들여다보며, 인간의 눈으로는 찾기 힘든 보안 취약점, 버그, 스파게티 코드([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 **기계적으로 색출해 내는 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)(Static [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Analysis)의 절대적 표준 쇳덩어리 플랫폼**이다.
-> 2. **가치**: 100명의 개발자가 각자의 스타일로 똥(나쁜 코드)을 싸지르는 것을 막고, 변수명 규칙부터 순환 복잡도(Cyclomatic Complexity)까지 회사의 **'코드 품질(Quality) 거버넌스'를 하나의 대시보드에 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하여 강제로 통일시키는 엄격한 품질 경찰관** 역할을 한다.
-> 3. **판단 포인트**: 단순히 코드만 검사하는 도구가 아니라, Jenkins나 GitHub Actions 같은 **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 한가운데 융합되어(Quality Gate), 품질 기준(예: A등급)을 통과하지 못한 쓰레기 코드는 운영 서버 배포를 물리적으로 차단(Build Fail)해 버리는 파괴적인 통제권**이 핵심이다.
+> 1. **본질**: 소나큐브(SonarQube)는 프로그램을 실행하지 않고 소스 코드(Text) 그 자체를 돋보기로 들여다보며, 인간의 눈으로는 찾기 힘든 보안 취약점, 버그, 스파게티 코드([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 <strong>기계적으로 색출해 내는 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a>(Static <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Analysis)의 절대적 표준 쇳덩어리 플랫폼</strong>이다.
+> 2. **가치**: 100명의 개발자가 각자의 스타일로 똥(나쁜 코드)을 싸지르는 것을 막고, 변수명 규칙부터 순환 복잡도(Cyclomatic Complexity)까지 회사의 <strong>'코드 품질(Quality) 거버넌스'를 하나의 대시보드에 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>하여 강제로 통일시키는 엄격한 품질 경찰관</strong> 역할을 한다.
+> 3. **판단 포인트**: 단순히 코드만 검사하는 도구가 아니라, Jenkins나 GitHub Actions 같은 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 한가운데 융합되어(Quality Gate), 품질 기준(예: A등급)을 통과하지 못한 쓰레기 코드는 운영 서버 배포를 물리적으로 차단(Build Fail)해 버리는 파괴적인 통제권</strong>이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발팀의 가장 큰 재앙은 '동작은 하는데, 속을 까보면 썩어 문드러진 코드'다. 한 개발자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나에 5,000줄짜리 if-else 문을 떡칠해 놓고 퇴사했다(스파게티 코드). 당장 시스템이 돌아가니까 아무도 몰랐다. 1년 뒤, 여기에 기능 하나를 추가하려다가 시스템 전체가 붕괴한다. 이것을 **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))**라고 부른다.
+소프트웨어 개발팀의 가장 큰 재앙은 '동작은 하는데, 속을 까보면 썩어 문드러진 코드'다. 한 개발자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나에 5,000줄짜리 if-else 문을 떡칠해 놓고 퇴사했다(스파게티 코드). 당장 시스템이 돌아가니까 아무도 몰랐다. 1년 뒤, 여기에 기능 하나를 추가하려다가 시스템 전체가 붕괴한다. 이것을 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong>라고 부른다.
 
 사람(시니어 개발자)이 일일이 10만 줄의 코드를 눈으로 읽으며 리뷰([Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/))하는 것은 불가능하다. 여기서 아키텍트들은 "컴파일러처럼 코드를 문법적으로 씹어 먹으면서, '이거 메모리 릭(Leak) 날 패턴인데?', '이 비밀번호 평문으로 박혀있네?'라고 쇳덩어리 규칙으로 알아서 찾아주는 자동화된 로봇을 만들자!"라고 결단했다. 이렇게 탄생한 소나큐브(SonarQube)는 개발자가 코드를 GitHub에 올리는 순간, 0.1초 만에 수백 가지 잣대로 코드를 스캔하여 빨간줄을 긋고 성적표(A, B, C 등급)를 매겨버리는 잔혹하고도 완벽한 품질 측정소가 되었다.
 
@@ -31,33 +31,33 @@ tags = ["studynote-devops-sre"]
 ### [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 엔진과 Quality Gate의 자동화 융합
 소나큐브는 코드를 '실행(Run)'하지 않고, 코드의 구조(AST 트리)를 수학적으로 쪼개어 검사한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처       │
-├────────────────────────────────────────────────────────┤
-│   [ 1. 코드 작성 및 Push ]                              │
-│    개발자 ──▶ (if-else 100개 박힌 스파게티 코드) ──▶ GitHub  │
-│             │                                          │
-│             ▼ (Webhook 트리거)                         │
-│   [ 2. CI/CD 파이프라인 (Jenkins / GitHub Actions) ]     │
-│    ├─ 빌드 (Build)                                      │
-│    ├─ 단위 테스트 (JUnit 등)                              │
-│    └─ 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)       │
-│             │                                          │
-│             ▼ (분석 결과를 SonarQube 서버로 전송)          │
-│   [ 3. SonarQube 서버 (품질 판독소) ]                      │
-│    - 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)          │
-│    - 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)          │
-│    - 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)         │
-│    - 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)   │
-│             │                                          │
-│             ▼ (⭐ Quality Gate 판정 ⭐)                   │
-│   [ 4. 배포 차단 (Build FAILED) ]                       │
-│    "회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!" │
-└────────────────────────────────────────────────────────┘
-```
 
-가장 핵심적이고 무자비한 쇳덩어리 기어는 **퀄리티 게이트(Quality Gate)**다. 아무리 테스트를 통과하고 컴파일이 잘 되어도, 소나큐브가 "이 코드에 중대 보안 취약점 1개가 있다"고 판정(Gate Failed)하는 순간, Jenkins의 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 붉은색 에러를 뿜으며 기계적으로 중단된다. 개발자는 코드를 고치기 전까지는 절대 서버에 코드를 올릴 수 없다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 코드 작성 및 Push</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 ──▶ (if-else 100개 박힌 스파게티 코드) ──▶ GitHub</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Webhook 트리거)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. CI/CD 파이프라인 (Jenkins / GitHub Actions)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빌드 (Build)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 단위 테스트 (JUnit 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (분석 결과를 SonarQube 서버로 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. SonarQube 서버 (품질 판독소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (⭐ Quality Gate 판정 ⭐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 배포 차단 (Build FAILED)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!"</div></div>
+</div>
+</div>
+
+
+
+가장 핵심적이고 무자비한 쇳덩어리 기어는 <strong>퀄리티 게이트(Quality Gate)</strong>다. 아무리 테스트를 통과하고 컴파일이 잘 되어도, 소나큐브가 "이 코드에 중대 보안 취약점 1개가 있다"고 판정(Gate Failed)하는 순간, Jenkins의 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 붉은색 에러를 뿜으며 기계적으로 중단된다. 개발자는 코드를 고치기 전까지는 절대 서버에 코드를 올릴 수 없다.
 
 - **📢 섹션 요약 비유**: 퀄리티 게이트는 공항의 'X-ray 보안 검색대'다. 승객(코드)이 아무리 표를 잘 끊고 짐을 예쁘게 쌌더라도, X-ray(소나큐브)를 통과할 때 가방에 칼(보안 취약점)이나 폭발물(치명적 버그 패턴)이 하나라도 발견되면 삐익! 소리와 함께 절대 비행기(운영 서버)에 타지 못하게 막아버리는 물리적 차단기다.
 
@@ -85,8 +85,8 @@ tags = ["studynote-devops-sre"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))의 화폐(Money) 환산 거버넌스**: 소나큐브 대시보드에 들어가면 무시무시한 지표가 뜬다. `Technical Debt: 45 Days`. 즉, "지금 네 코드가 싸놓은 똥([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))들을 정상으로 치우려면 개발자 한 명이 45일 동안 철야를 해야 한다"는 것을 시각적으로 박제해 버린다. 아키텍트와 PM은 이 지표를 경영진에게 보여주며 "지금 신기능 개발을 멈추고 2주 동안 코드 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(청소)을 하지 않으면, 나중에 시스템이 붕괴하여 수억 원의 손해를 봅니다"라고 예산과 일정을 설득하는 가장 객관적인 쇳덩어리 무기로 사용한다.
-2. **Clean [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) You [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) (새로운 코드만 통제하기) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 10년 된 레거시(낡은) 프로젝트에 소나큐브를 처음 달았더니 에러가 10만 개가 떴다. 개발자들은 절망하고 소나큐브를 끄자고 폭동을 일으킨다. 똑똑한 아키텍트는 룰을 바꾼다. "과거 10년 치 쓰레기는 일단 놔둬(무시). 하지만 **'오늘 새로 추가한 코드([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'**에서는 단 1개의 버그나 C등급도 허용하지 않겠다!" 이것이 소나큐브의 핵심 실무 철학인 Clean [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) You Code다. 이렇게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 낡은 코드가 조금씩 새 코드로 교체되면서, 시스템 전체가 서서히 A등급으로 정화(Purification)되는 마법이 일어난다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)의 화폐(Money) 환산 거버넌스</strong>: 소나큐브 대시보드에 들어가면 무시무시한 지표가 뜬다. `Technical Debt: 45 Days`. 즉, "지금 네 코드가 싸놓은 똥([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))들을 정상으로 치우려면 개발자 한 명이 45일 동안 철야를 해야 한다"는 것을 시각적으로 박제해 버린다. 아키텍트와 PM은 이 지표를 경영진에게 보여주며 "지금 신기능 개발을 멈추고 2주 동안 코드 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)(청소)을 하지 않으면, 나중에 시스템이 붕괴하여 수억 원의 손해를 봅니다"라고 예산과 일정을 설득하는 가장 객관적인 쇳덩어리 무기로 사용한다.
+2. <strong>Clean <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> You <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> (새로운 코드만 통제하기) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 10년 된 레거시(낡은) 프로젝트에 소나큐브를 처음 달았더니 에러가 10만 개가 떴다. 개발자들은 절망하고 소나큐브를 끄자고 폭동을 일으킨다. 똑똑한 아키텍트는 룰을 바꾼다. "과거 10년 치 쓰레기는 일단 놔둬(무시). 하지만 <strong>'오늘 새로 추가한 코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong>에서는 단 1개의 버그나 C등급도 허용하지 않겠다!" 이것이 소나큐브의 핵심 실무 철학인 Clean [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) You Code다. 이렇게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 낡은 코드가 조금씩 새 코드로 교체되면서, 시스템 전체가 서서히 A등급으로 정화(Purification)되는 마법이 일어난다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **소나큐브 룰(Rule)에 대한 무조건적 맹신과 예외 처리(Suppress) 남용**: 보안 부서에서 "소나큐브 빨간 줄 하나라도 있으면 절대 배포 금지!"라고 멍청한 강압 룰을 내린다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)기는 기계라서, 실제로는 완벽하게 방어된 안전한 코드인데도 문법 모양만 보고 오탐(False Positive)을 뱉는 경우가 30%나 된다. 융통성 없는 룰에 지친 개발자들은 코드를 예쁘게 고치는 대신, 코드 위에 `@SuppressWarnings("all")` (소나큐브야 눈감아라) 어노테이션을 무지성으로 도배해 버린다. 결국 소나큐브는 에러를 0개로 표시하지만, 속은 썩어가는 가짜([Fake](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) 대시보드로 전락한다.
@@ -97,7 +97,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-소나큐브(SonarQube)는 개발자의 예술적 허영심과 주관적 고집(내 코드가 최고야!)을 박살 내고, 코드의 품질을 차갑고 기계적인 수치(등급, % 비율)로 계량화해 버린 **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정밀 체중계**다.
+소나큐브(SonarQube)는 개발자의 예술적 허영심과 주관적 고집(내 코드가 최고야!)을 박살 내고, 코드의 품질을 차갑고 기계적인 수치(등급, % 비율)로 계량화해 버린 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 정밀 체중계</strong>다.
 
 과거에는 "코드가 지저분하다"는 말이 시니어 개발자의 주관적 잔소리였지만, 이제는 소나큐브가 내린 'D등급'이라는 쇳덩어리 판결문이 되었다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 한가운데서 Quality Gate로 버티고 선 이 문지기는, 냄새나는 스파게티 코드가 운영 서버라는 신성한 구역에 한 발짝도 들어오지 못하게 막아낸다. 결론적으로 소나큐브의 도입은 단순한 도구의 추가가 아니라, "기계의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과하지 못한 코드는 쓰레기다"라는 가장 냉혹하고 투명한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 청산 거버넌스의 완성이다.
 
@@ -109,27 +109,29 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))** | 당장 에러를 내지는 않지만, 함수가 너무 길거나 변수명이 개판이어서 "나중에 100% 버그를 일으킬 것 같이 냄새가 나는" 찝찝한 소나큐브의 주력 검출 대상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/">코드 스멜</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/">Code Smell</a>)</strong> | 당장 에러를 내지는 않지만, 함수가 너무 길거나 변수명이 개판이어서 "나중에 100% 버그를 일으킬 것 같이 냄새가 나는" 찝찝한 소나큐브의 주력 검출 대상 |
 | **Quality Gate (품질 게이트)** | "커버리지 80% 이상, 치명적 버그 0개"라는 회사의 커트라인 기준. 소나큐브 검사 결과가 이 기준을 통과하지 못하면 쇳덩어리 자물쇠가 걸리며 배포가 물리적으로 차단됨 |
 | **테스트 커버리지 (Test Coverage)** | 소나큐브가 보여주는 핵심 지표 중 하나. 작성된 전체 100줄의 코드 중, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 코드(JUnit)가 실제로 한 번이라도 실행하며 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 코드가 몇 줄인지 보여주는 방어막 비율(%) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개발자 개인의 역량에만 의존한 코딩 (주관적 리뷰의 한계 및 스파게티 코드 양산)
-    │
-    ▼
-PMD, Checkstyle, FindBugs 등 개별적인 정적 분석/Lint 도구들의 파편화된 등장
-    │
-    ▼
-이 모든 도구와 지표를 하나의 웹 대시보드로 통합 관리하는 'SonarQube' 플랫폼 탄생
-    │
-    ▼
-CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Quality Gate 거버넌스 확립
-    │
-    ▼
-레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발자 개인의 역량에만 의존한 코딩 (주관적 리뷰의 한계 및 스파게티 코드 양산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMD, Checkstyle, FindBugs 등 개별적인 정적 분석/Lint 도구들의 파편화된 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이 모든 도구와 지표를 하나의 웹 대시보드로 통합 관리하는 'SonarQube' 플랫폼 탄생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Quality Gate 거버넌스 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "파편화된 잔소리 도구 → 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) → [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
 

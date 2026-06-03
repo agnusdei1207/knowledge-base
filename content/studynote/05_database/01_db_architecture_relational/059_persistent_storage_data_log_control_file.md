@@ -31,17 +31,23 @@ tags = ["studynote-database"]
 
 영구 저장소는 보통 세 축으로 본다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 변경 이력, 제어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 전체 구조의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 담는다.
 
-```text
-Nomount
-   ↓
-제어 파일(Control File) 읽기
-   ↓
-Mount
-   ↓
-데이터 파일(Data File) + 로그 파일(Redo Log) 확인
-   ↓
-Open
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Nomount</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">제어 파일(Control File) 읽기</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mount</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 파일(Data File) + 로그 파일(Redo Log) 확인</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Open</div>
+</div>
+</div>
+
+
 
 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 역할 | 장애 시 의미 |
 | :-- | :-- | :-- |
@@ -110,27 +116,39 @@ DBWR([Database](/knowledge-base/studynote/05_database/04_transactions_concurrenc
 
 ## 관련 개념 맵
 
-```text
-인스턴스(메모리)
-   ↓
-데이터 파일 / 로그 파일 / 제어 파일
-   ↓
-복구 / 기동 / 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인스턴스(메모리)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 파일 / 로그 파일 / 제어 파일</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 / 기동 / 운영</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-휘발성 메모리
-   ↓
-영구 저장소
-   ↓
-Redo Log / Control File
-   ↓
-백업 · 복구 · 재생
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">휘발성 메모리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">영구 저장소</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Redo Log / Control File</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">백업 · 복구 · 재생</div>
+</div>
+</div>
+
+
 
 ---
 

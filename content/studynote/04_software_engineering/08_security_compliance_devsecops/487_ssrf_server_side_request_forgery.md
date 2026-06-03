@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)(Client-Side Request Forgery)가 사용자의 브라우저를 속여서 클릭하게 만드는 거라면, SSRF는 **'서버(Server)' 자체를 해커의 꼭두각시([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))로 속여서 조종**하는 것이다. 이미지 번역 사이트에서 "번역할 이미지 URL을 넣으세요" 칸에, 해커가 사진 주소 대신 `http://localhost:3306(서버 자기 자신의 내부 DB 주소)` 나 `http://192.168.0.5(사내망 깃허브 서버)`를 넣는다. 웹 서버는 순진하게 "오케이, 그 주소로 가서 다운받아 올게!"라며 밖(인터넷)에서는 절대 못 들어가는 내부망의 알몸 데이터를 싹 다 긁어서 해커에게 뱉어준다.
+- **개념**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)(Client-Side Request Forgery)가 사용자의 브라우저를 속여서 클릭하게 만드는 거라면, SSRF는 <strong>'서버(Server)' 자체를 해커의 꼭두각시(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)로 속여서 조종</strong>하는 것이다. 이미지 번역 사이트에서 "번역할 이미지 URL을 넣으세요" 칸에, 해커가 사진 주소 대신 `http://localhost:3306(서버 자기 자신의 내부 DB 주소)` 나 `http://192.168.0.5(사내망 깃허브 서버)`를 넣는다. 웹 서버는 순진하게 "오케이, 그 주소로 가서 다운받아 올게!"라며 밖(인터넷)에서는 절대 못 들어가는 내부망의 알몸 데이터를 싹 다 긁어서 해커에게 뱉어준다.
 
-- **필요성**: 옛날에는 해커가 해킹하려면 1차로 웹 서버를 뚫어 권한을 탈취(RCE)한 뒤에야, 그 서버를 밟고 내부망으로 들어갔다. 그런데 현대의 앱들은 타사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(결제, 날씨), [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)(Slack 알림) 등 **서버가 직접 밖으로 URL을 찔러서 데이터를 가져오는 기능**이 떡칠 되어 있다. 해커 입장에선 굳이 웹 서버 권한을 딸 필요도 없다. 그냥 그 URL 입력창에 "내가 원하는 사내망 주소"만 던지면 웹 서버가 친절하게 다 긁어다 바치기 때문이다. 이 허무한 하이패스(프리패스)를 틀어막기 위해 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) 방어 아키텍처가 급부상했다.
+- **필요성**: 옛날에는 해커가 해킹하려면 1차로 웹 서버를 뚫어 권한을 탈취(RCE)한 뒤에야, 그 서버를 밟고 내부망으로 들어갔다. 그런데 현대의 앱들은 타사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(결제, 날씨), [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)(Slack 알림) 등 <strong>서버가 직접 밖으로 URL을 찔러서 데이터를 가져오는 기능</strong>이 떡칠 되어 있다. 해커 입장에선 굳이 웹 서버 권한을 딸 필요도 없다. 그냥 그 URL 입력창에 "내가 원하는 사내망 주소"만 던지면 웹 서버가 친절하게 다 긁어다 바치기 때문이다. 이 허무한 하이패스(프리패스)를 틀어막기 위해 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) 방어 아키텍처가 급부상했다.
 
-- **💡 비유**: SSRF는 **'택배 기사를 심부름꾼으로 악용하는 도둑'**과 같습니다. 도둑(해커)은 부잣집 대문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 직접 뚫을 수 없습니다. 그래서 부잣집 문 앞에 배달 온 택배 기사(웹 서버)에게 쪽지를 건넵니다. "기사님, 저기 안방(내부망 DB)에 들어가서 금고 좀 열어오라는 게 주인님 명령(위조된 URL)이에요!" 기사님은 아무 의심 없이 안방 문을 엽니다. 경비견([내부 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/220_internal_firewall_segmentation/))은 택배 기사를 한 식구(내부자)로 알고 짖지 않습니다. 도둑은 손가락 하나 까딱 안 하고 금고를 털어갑니다.
+- **💡 비유**: SSRF는 <strong>'택배 기사를 심부름꾼으로 악용하는 도둑'</strong>과 같습니다. 도둑(해커)은 부잣집 대문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))을 직접 뚫을 수 없습니다. 그래서 부잣집 문 앞에 배달 온 택배 기사(웹 서버)에게 쪽지를 건넵니다. "기사님, 저기 안방(내부망 DB)에 들어가서 금고 좀 열어오라는 게 주인님 명령(위조된 URL)이에요!" 기사님은 아무 의심 없이 안방 문을 엽니다. 경비견([내부 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/220_internal_firewall_segmentation/))은 택배 기사를 한 식구(내부자)로 알고 짖지 않습니다. 도둑은 손가락 하나 까딱 안 하고 금고를 털어갑니다.
 
 - **등장 배경 및 발전 과정**:
   1. **CSRF의 유행과 쇠퇴**: 과거엔 해커들이 클라이언트(브라우저)를 속이는 CSRF에 미쳐있었다. 그러나 브라우저 벤더들이 `SameSite` [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 정책을 강제하며 CSRF는 멸종 위기에 처했다.
-  2. **클라우드의 등장 ([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 털기)**: 해커들이 타겟을 서버로 돌렸다. 특히 AWS EC2 인스턴스 내부에 존재하는 마법의 IP(`169.254.169.254`)를 SSRF로 찌르면, EC2에 부여된 **최고 관리자 탈취 키([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Token)**가 평문으로 줄줄 쏟아져 나온다는 사실이 발견되며 전 세계 클라우드가 발칵 뒤집혔다 (2019년 캐피털 원(Capital One) 해킹 사태).
-  3. **[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 신규 진입 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))**: 클라우드 파멸의 주범으로 찍히며 당당히 10위로 신설 진입, "서버 밖으로 나가는 모든 URL 호출(Outbound)을 통제하라"는 새로운 시대정신을 알렸다.
+  2. <strong>클라우드의 등장 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 털기)</strong>: 해커들이 타겟을 서버로 돌렸다. 특히 AWS EC2 인스턴스 내부에 존재하는 마법의 IP(`169.254.169.254`)를 SSRF로 찌르면, EC2에 부여된 <strong>최고 관리자 탈취 키(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> Token)</strong>가 평문으로 줄줄 쏟아져 나온다는 사실이 발견되며 전 세계 클라우드가 발칵 뒤집혔다 (2019년 캐피털 원(Capital One) 해킹 사태).
+  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/">OWASP Top 10</a> 신규 진입 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: 클라우드 파멸의 주범으로 찍히며 당당히 10위로 신설 진입, "서버 밖으로 나가는 모든 URL 호출(Outbound)을 통제하라"는 새로운 시대정신을 알렸다.
 
-- **📢 섹션 요약 비유**: 해커가 성벽 밖에서 돌을 던지는 게 아니라, 성문 앞에 서 있는 **경비병(웹 서버)에게 최면([SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/))을 걸어** "가서 너네 왕의 목을 따오라"고 조종하는 가장 악랄하고 완벽한 내부자 공격의 우회술입니다.
+- **📢 섹션 요약 비유**: 해커가 성벽 밖에서 돌을 던지는 게 아니라, 성문 앞에 서 있는 <strong>경비병(웹 서버)에게 최면(<a href="/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/">SSRF</a>)을 걸어</strong> "가서 너네 왕의 목을 따오라"고 조종하는 가장 악랄하고 완벽한 내부자 공격의 우회술입니다.
 
 ---
 
 다음은 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Re의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SSRF (Server-Side Re                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSRF (Server-Side Re</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Re가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Request Forgery)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Request Forgery)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [SSRF](/knowledge-base/studynote/09_security/05_web_app_security/468_ssrf/) (Server-Side Request Forgery)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SSRF (Server-Side Request Forgery) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSRF (Server-Side Request Forgery) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

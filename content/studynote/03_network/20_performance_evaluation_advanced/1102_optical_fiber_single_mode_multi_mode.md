@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **구조**: 머리카락 두께의 가장 안쪽 유리구멍인 **코어(Core)**와, 코어를 감싸고 있는 거울 코팅인 **클래딩(Cladding)**으로 구성됩니다.
+- **구조**: 머리카락 두께의 가장 안쪽 유리구멍인 <strong>코어(Core)</strong>와, 코어를 감싸고 있는 거울 코팅인 <strong>클래딩(Cladding)</strong>으로 구성됩니다.
 - **원리 (전반사)**: 코어의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 클래딩보다 높게 만듭니다. 빛이 코어 안으로 들어가면, 클래딩 벽에 부딪힐 때 밖으로 빠져나가지 못하고 100% 내부로 튕겨 나오는 **전반사(Total Internal Reflection)** 현상을 이용해 빛의 손실 없이 수백 km를 질주합니다.
 
-```text
-[UTP 배선 카테고리]
-    │
-    ▼
-[광섬유 싱글모드 다중모드]
-    │
-    └──▶ [WDM 무손실 광 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 광섬유 싱글모드 다중모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,25 +46,29 @@ tags = ["studynote-network"]
 ### 1. 다중 모드 (MMF, Multi-Mode Fiber) - "굵은 뚱땡이 통로"
 - **두께**: 코어 직경이 **50 ~ 62.5 마이크로미터($\mu m$)**로 꽤 굵습니다. (겉피복은 보통 주황색이나 하늘색)
 - **특징**: 구멍이 넓으니까 레이저를 그냥 대충 여러 각도로 마구잡이로 쏴도(여러 개의 Mode) 잘 들어갑니다. 빛을 쏘는 기계([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 등)가 싸구려여도 돼서 쌈마이로 구축하기 좋습니다.
-- **치명적 단점 (모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) 🌟**:
+- <strong>치명적 단점 (모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>, Modal <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>) 🌟</strong>:
   - 빛이 넓은 구멍 안에서 이리저리 지그재그로 벽에 튕기며 날아갑니다.
   - 정중앙으로 일직선으로 쏜 빛(A)은 1초 만에 도착하는데, 각도를 틀어서 벽에 백 번 튕긴 빛(B)은 2초 뒤에 늦게 도착합니다! 
-  - 빛들이 도착하는 시간이 제각각이라 목적지에선 데이터가 찌그러져 알아볼 수 없는 똥([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 됩니다. 그래서 10Gbps 속도로는 **수백 미터 (건물 내부, 층간)**밖에 전송하지 못합니다.
+  - 빛들이 도착하는 시간이 제각각이라 목적지에선 데이터가 찌그러져 알아볼 수 없는 똥([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 됩니다. 그래서 10Gbps 속도로는 <strong>수백 미터 (건물 내부, 층간)</strong>밖에 전송하지 못합니다.
 
 ### 2. 싱글 모드 ([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), Single-Mode Fiber) - "바늘구멍 스나이퍼"
 - **두께**: 코어 직경이 고작 **8 ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) $\mu m$**로 미치도록 좁습니다. (겉피복은 보통 노란색)
 - **특징**: 구멍이 레이저 두께만 해서 빛이 오직 일직선으로 딱 1개의 경로(Single Mode)로만 통과할 수 있습니다. 
-- **장점**: 벽에 튕기며 지그재그로 가는 빛이 원천 차단되므로, **도착 시간이 늦어지는 '모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)'이 0%로 사라집니다.** 빛의 순수한 속도 그대로 수십~수백 km를 단 1의 찌그러짐 없이 날아갑니다. 전 세계 해저 케이블과 통신사 전국망의 100% 절대 표준입니다.
+- **장점**: 벽에 튕기며 지그재그로 가는 빛이 원천 차단되므로, <strong>도착 시간이 늦어지는 '모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>'이 0%로 사라집니다.</strong> 빛의 순수한 속도 그대로 수십~수백 km를 단 1의 찌그러짐 없이 날아갑니다. 전 세계 해저 케이블과 통신사 전국망의 100% 절대 표준입니다.
 - **단점**: 구멍이 너무 좁아서 쏠 때 최고급 고가의 레이저(LD) 장비로 나노 단위의 조준을 해야 하므로 구축 비용이 엄청나게 비쌉니다.
 
-```text
-[UTP 배선 카테고리]
-    │
-    ▼
-[광섬유 싱글모드 다중모드]
-    │
-    └──▶ [WDM 무손실 광 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 광섬유 싱글모드 다중모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 싱글 모드로 벽에 튕기는 건 잡았습니다. 그런데 또 다른 문제가 있습니다.
-- 백색광(프리즘)을 쏘면 빨간색 빛과 파란색 빛이 유리 속을 통과하는 '속도'가 미세하게 다릅니다. (파장에 따른 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이). 이 때문에 100km를 날아가면 빨간불이 파란불보다 먼저 도착해서 데이터가 번지는 **색 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**이 발생합니다.
+- 백색광(프리즘)을 쏘면 빨간색 빛과 파란색 빛이 유리 속을 통과하는 '속도'가 미세하게 다릅니다. (파장에 따른 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이). 이 때문에 100km를 날아가면 빨간불이 파란불보다 먼저 도착해서 데이터가 번지는 <strong>색 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>이 발생합니다.
 - 이를 막기 위해 한 가지 색깔(단일 파장)의 레이저만 극도로 정밀하게 뽑아 쏘거나, 아예 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 반대로 뒤집는 특수 광섬유를 중간에 섞어 짜깁기합니다.
 
 광섬유 싱글모드 다중모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리가 기반 조건을 만든다면, 광섬유 싱글모드 다중모드는 그 위에서 핵심 메커니즘을 구현하고, WDM 무손실 광 증폭은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 광케이블의 **다중 모드(MMF)**는 폭이 50미터인 **'초대형 워터파크 미끄럼틀'**입니다. 튜브 100개를 동시에 아무렇게나 집어던져도 잘 내려갑니다(값싼 송신기). 하지만 어떤 튜브는 직진하고, 어떤 튜브는 양쪽 벽에 쾅쾅 부딪히며 지그재그로 내려가느라 도착 시간이 다 달라져, 밑에서 받는 사람은 순서가 엉망진창(모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 되어버립니다(단거리용). 반면 **싱글 모드([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))**는 폭이 1미터밖에 안 되는 **'1인 전용 봅슬레이 통 직진 터널'**입니다. 구멍이 너무 좁아서 정확한 각도로 튜브를 밀어 넣지 않으면 아예 안 들어가서(비싼 송신기), 숙련된 직원이 레이저 조준을 해서 밀어 넣어야 합니다. 하지만 일단 들어가면 튜브가 벽에 부딪힐 틈조차 없이 오직 일직선으로만 질주하므로, 서울에서 부산까지 튜브 1만 개를 쏴도 1만 개가 오차 없이 1열 종대로 쫙 도착하는 우주 최강의 장거리 무결점 파이프라인입니다.
+- **📢 섹션 요약 비유**: 광케이블의 <strong>다중 모드(MMF)</strong>는 폭이 50미터인 <strong>'초대형 워터파크 미끄럼틀'</strong>입니다. 튜브 100개를 동시에 아무렇게나 집어던져도 잘 내려갑니다(값싼 송신기). 하지만 어떤 튜브는 직진하고, 어떤 튜브는 양쪽 벽에 쾅쾅 부딪히며 지그재그로 내려가느라 도착 시간이 다 달라져, 밑에서 받는 사람은 순서가 엉망진창(모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 되어버립니다(단거리용). 반면 <strong>싱글 모드(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/">SMF</a>)</strong>는 폭이 1미터밖에 안 되는 <strong>'1인 전용 봅슬레이 통 직진 터널'</strong>입니다. 구멍이 너무 좁아서 정확한 각도로 튜브를 밀어 넣지 않으면 아예 안 들어가서(비싼 송신기), 숙련된 직원이 레이저 조준을 해서 밀어 넣어야 합니다. 하지만 일단 들어가면 튜브가 벽에 부딪힐 틈조차 없이 오직 일직선으로만 질주하므로, 서울에서 부산까지 튜브 1만 개를 쏴도 1만 개가 오차 없이 1열 종대로 쫙 도착하는 우주 최강의 장거리 무결점 파이프라인입니다.
 
 ---
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: UTP 배선 카테고리]
-    │
-    ▼
-[현재 개념: 광섬유 싱글모드 다중모드]
-    │
-    ├──▶ [확장 A: WDM 무손실 광 증폭]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTP 배선 카테고리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WDM 무손실 광 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 광섬유 싱글모드 다중모드는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리에서 출발해 현재 메커니즘을 정교화하고, 이후 WDM 무손실 광 증폭와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

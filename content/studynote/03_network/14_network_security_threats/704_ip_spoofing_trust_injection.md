@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 해커가 자신의 실제 IP 주소를 감추고, 목표 시스템(서버나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 **신뢰하는 다른 컴퓨터의 IP 주소(Trusted IP)로 출발지(Source) 주소를 위조하여 패킷을 전송하는 기만 공격**입니다.
+- 해커가 자신의 실제 IP 주소를 감추고, 목표 시스템(서버나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 <strong>신뢰하는 다른 컴퓨터의 IP 주소(Trusted IP)로 출발지(Source) 주소를 위조하여 패킷을 전송하는 기만 공격</strong>입니다.
 - 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(IP) 자체가 헤더에 적힌 '출발지 주소'가 진짜인지 가짜인지 검증하는 보안 기능이 아예 없는 낡은 설계이기 때문에 가능합니다.
 
-```text
-[ARP 스푸핑]
-    │
-    ▼
-[IP 스푸핑]
-    │
-    └──▶ [DNS 스푸핑 / DNS Cache Pois…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,16 +51,20 @@ tags = ["studynote-network"]
 
 ### 2. DDoS 공격의 추적 회피 및 반사(Reflection) 무기화
 - 해커가 타겟 서버에 엄청난 양의 쓰레기 패킷(DDoS)을 쏟아부을 때, 경찰이 자신의 진짜 IP를 역추적해 잡으러 올 것을 두려워합니다. 그래서 패킷의 출발지 IP를 수만 개의 가짜 IP로 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)해서 던져 경찰 수사를 마비시킵니다.
-- 더 악랄하게, **출발지 IP를 '공격 타겟(피해자)의 IP'로 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)한 뒤 전 세계의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 질의를 마구 던집니다.** 그러면 전 세계 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버들은 거대한 응답 패킷을 해커가 아닌 '피해자'에게 일제히 반사(Reflection)시켜 쏴버려서 피해자를 완전히 압사시킵니다. (717번 DRDoS 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- 더 악랄하게, <strong>출발지 IP를 '공격 타겟(피해자)의 IP'로 <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>한 뒤 전 세계의 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버에 질의를 마구 던집니다.</strong> 그러면 전 세계 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버들은 거대한 응답 패킷을 해커가 아닌 '피해자'에게 일제히 반사(Reflection)시켜 쏴버려서 피해자를 완전히 압사시킵니다. (717번 DRDoS 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-```text
-[ARP 스푸핑]
-    │
-    ▼
-[IP 스푸핑]
-    │
-    └──▶ [DNS 스푸핑 / DNS Cache Pois…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,11 +74,11 @@ tags = ["studynote-network"]
 
 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 막기 위해서는 라우터와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 엄격한 필터링이 필요합니다.
 
-1. **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Filtering (유입 필터링)**
+1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Filtering (유입 필터링)</strong>
    - 라우터가 외부 인터넷에서 내부망으로 들어오는 패킷을 검사합니다. 만약 밖에서 들어오는 패킷의 출발지 IP가 뜬금없이 '우리 회사 내부망 IP'로 적혀 있다면, "밖에서 들어오는데 출발지가 내부 IP일 리가 없다! 너 가짜지!"라며 즉시 폐기(Drop)해 버립니다.
-2. **[Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Filtering (유출 필터링)**
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> Filtering (유출 필터링)</strong>
    - 회사 내부에서 외부 인터넷으로 나가는 패킷을 검사합니다. 사내 직원의 PC가 디도스 악성코드에 감염되어 가짜 IP를 달고 나가는 것을 막기 위해, 사내 IP 대역이 아닌 이상한 출발지 IP를 단 패킷은 라우터에서 밖으로 못 나가게 막아버립니다.
-3. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 강화 ([IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), 2FA 도입)**
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 강화 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPSec</a>, 2FA 도입)</strong>
    - IP 주소 하나만 믿고 시스템을 열어주는 트러스트(R-login, Rsh 등) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 완전히 폐기하고, 패킷 자체를 암호화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))하거나 추가적인 비밀번호, OTP를 요구하도록 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꿔야 합니다.
 
 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)이 기반 조건을 만든다면, IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 그 위에서 핵심 메커니즘을 구현하고, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -123,15 +131,19 @@ IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARP 스푸핑]
-    │
-    ▼
-[현재 개념: IP 스푸핑]
-    │
-    ├──▶ [확장 A: DNS 스푸핑 / DNS Cache Pois…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

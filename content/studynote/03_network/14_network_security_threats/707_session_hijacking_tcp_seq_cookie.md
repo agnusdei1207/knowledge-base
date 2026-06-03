@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 시스템(웹 서버)과 사용자 간에 합법적으로 맺어져 유지되고 있는 **연결([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 중간에서 비정상적인 방법으로 가로채어(Hijacking), 해커가 마치 정상적인 사용자인 것처럼 행세하며 권한을 탈취하는 해킹 기법**입니다.
-- 공격 방식에 따라 크게 시스템(L4) 단의 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹**과, 웹(L7) 단의 **웹 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)) 하이재킹**으로 나뉩니다.
+- 시스템(웹 서버)과 사용자 간에 합법적으로 맺어져 유지되고 있는 <strong>연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)을 중간에서 비정상적인 방법으로 가로채어(Hijacking), 해커가 마치 정상적인 사용자인 것처럼 행세하며 권한을 탈취하는 해킹 기법</strong>입니다.
+- 공격 방식에 따라 크게 시스템(L4) 단의 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 하이재킹</strong>과, 웹(L7) 단의 <strong>웹 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>) 하이재킹</strong>으로 나뉩니다.
 
-```text
-[중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
-[세션 하이재킹]
-    │
-    └──▶ [재생 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재생 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +50,22 @@ tags = ["studynote-network"]
 ### 2. 공격 시나리오 (RST와 가짜 패킷 [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))
 1. 앨리스와 서버가 한참 즐겁게 통신([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 확립)하고 있습니다.
 2. 해커가 갑자기 앨리스의 컴퓨터로 뜬금없는 리셋 패킷(`RST`)을 던져 앨리스 컴퓨터를 통신 불능 상태(기절)로 만들어버립니다.
-3. 그 찰나의 순간, 해커가 **앨리스의 IP 주소로 위장(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))한 뒤, 아까 미리 계산해 둔 '다음 순서표(정확한 시퀀스 번호)'를 달아서 서버에게 악성 패킷을 팍 꽂아 넣습니다.**
+3. 그 찰나의 순간, 해커가 <strong>앨리스의 IP 주소로 위장(IP <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>)한 뒤, 아까 미리 계산해 둔 '다음 순서표(정확한 시퀀스 번호)'를 달아서 서버에게 악성 패킷을 팍 꽂아 넣습니다.</strong>
 4. 서버는 앨리스가 기절한 줄도 모르고, "오! IP도 맞고 번호표 순서도 정확하네!" 하며 해커의 패킷을 앨리스의 핏줄([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))로 그대로 받아들여 버립니다. 통제권이 완벽히 넘어갔습니다.
-- **방어법**: 데이터를 **IPsec이나 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)**를 통해 통째로 암호화해버리면, 해커가 겉면의 시퀀스 번호를 예측해서 중간에 끼어들어도 내용물 변조 시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사에 걸려 실패합니다.
+- **방어법**: 데이터를 <strong>IPsec이나 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a></strong>를 통해 통째로 암호화해버리면, 해커가 겉면의 시퀀스 번호를 예측해서 중간에 끼어들어도 내용물 변조 시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사에 걸려 실패합니다.
 
-```text
-[중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
-[세션 하이재킹]
-    │
-    └──▶ [재생 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재생 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,14 +76,14 @@ tags = ["studynote-network"]
 우리가 매일 쓰는 웹 사이트에서 벌어지는 악명 높은 해킹입니다.
 
 ### 1. 동작 원리 ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 갈취)
-- 우리가 네이버에 한 번 로그인(ID/PW 입력)하고 나면, 네이버는 우리 브라우저에 임시 통행증인 **'[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)'**를 구워줍니다. 이후에는 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)만 내밀면 로그인 상태가 유지됩니다.
-- 해커는 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 공격([크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/))이나 공용 와이파이 스니핑을 통해 **사용자의 브라우저에 저장된 이 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID) 값' 텍스트를 몰래 훔쳐갑니다.**
+- 우리가 네이버에 한 번 로그인(ID/PW 입력)하고 나면, 네이버는 우리 브라우저에 임시 통행증인 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> ID <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>'</strong>를 구워줍니다. 이후에는 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)만 내밀면 로그인 상태가 유지됩니다.
+- 해커는 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 공격([크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/))이나 공용 와이파이 스니핑을 통해 <strong>사용자의 브라우저에 저장된 이 '<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> ID) 값' 텍스트를 몰래 훔쳐갑니다.</strong>
 - 해커는 자기 컴퓨터 브라우저를 켜고, 훔친 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 값을 자기 브라우저에 덮어씁니다. 그리고 네이버를 열면? 비밀번호를 칠 필요도 없이 홍길동의 로그인 상태로 네이버 화면이 열려버립니다.
 
 ### 2. 완벽한 웹 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 방어 기법
-- **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 전면 적용**: 공용 와이파이에서 날아다니는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐보지 못하게 통신 전체를 암호화합니다.
-- **Secure [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 부여**: 개발자가 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `Secure` 플래그를 달아두면, 브라우저는 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 무조건 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신일 때만 밖으로 내보내어 탈취를 막습니다.
-- **HttpOnly [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 부여 🌟**: 해커가 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 악성 스크립트를 이용해 남의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐 가지 못하도록, 자바스크립트 코드(`document.cookie`)로는 절대 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 열어볼 수 없도록 브라우저 단에서 격리해 버리는 가장 확실한 방어 옵션입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>) 전면 적용</strong>: 공용 와이파이에서 날아다니는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐보지 못하게 통신 전체를 암호화합니다.
+- <strong>Secure <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 부여</strong>: 개발자가 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `Secure` 플래그를 달아두면, 브라우저는 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 무조건 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신일 때만 밖으로 내보내어 탈취를 막습니다.
+- <strong>HttpOnly <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 부여 🌟</strong>: 해커가 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 악성 스크립트를 이용해 남의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐 가지 못하도록, 자바스크립트 코드(`document.cookie`)로는 절대 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 열어볼 수 없도록 브라우저 단에서 격리해 버리는 가장 확실한 방어 옵션입니다.
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치가 기반 조건을 만든다면, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹은 그 위에서 핵심 메커니즘을 구현하고, [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -127,15 +135,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 중간자 공격 도청 흐름과 통제 조치]
-    │
-    ▼
-[현재 개념: 세션 하이재킹]
-    │
-    ├──▶ [확장 A: 재생 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 세션 하이재킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 재생 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치에서 출발해 현재 메커니즘을 정교화하고, 이후 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

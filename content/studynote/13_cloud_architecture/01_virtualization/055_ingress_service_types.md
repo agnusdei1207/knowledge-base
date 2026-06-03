@@ -109,18 +109,21 @@ Ingress와 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클러스터 내부 서비스
-    │
-    ▼
-Service Type
-    │
-    ▼
-Ingress Controller
-    │
-    ▼
-외부 HTTP/HTTPS 라우팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클러스터 내부 서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Service Type</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ingress Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부 HTTP/HTTPS 라우팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출이 계층별로 분리되는 과정을 보여준다.
 

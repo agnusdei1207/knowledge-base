@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)**: 깡통 서버 1대에 여러 개의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 동시에 띄우고 CPU, RAM을 쪼개 나눠주는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 엔진입니다 (VMWare ESXi, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등).
-- **[vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))**: 이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속(소프트웨어 메모리 공간)에 코딩으로 만들어진 **L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)**입니다. VM들끼리 내부 통신을 하거나, VM이 외부 인터넷(물리 랜카드)으로 나갈 수 있게 트래픽을 모아주고 찢어주는 다리 역할을 합니다 (대표적으로 [Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a></strong>: 깡통 서버 1대에 여러 개의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 동시에 띄우고 CPU, RAM을 쪼개 나눠주는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 엔진입니다 (VMWare ESXi, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a>)</strong>: 이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속(소프트웨어 메모리 공간)에 코딩으로 만들어진 <strong>L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>입니다. VM들끼리 내부 통신을 하거나, VM이 외부 인터넷(물리 랜카드)으로 나갈 수 있게 트래픽을 모아주고 찢어주는 다리 역할을 합니다 (대표적으로 [Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)).
 
-```text
-[하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
-[하이퍼바이저와 가상 스위치]
-    │
-    └──▶ [무손실 이더넷]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저와 가상 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무손실 이더넷</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,21 +43,25 @@ tags = ["studynote-network"]
 
 ### 1. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ➜ [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) (서버 내부 통신)
 - 1번 물리 서버 안에서 돌고 있는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) A와 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) B가 통신합니다.
-- 패킷은 서버 밖으로 아예 나가지 않고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속에 있는 **[vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 메모리를 타고 0.0001초 만에 A에서 B로 빛의 속도로 핑퐁** 튕깁니다. 속도가 미친 듯이 빠르고 보안이 완벽합니다.
+- 패킷은 서버 밖으로 아예 나가지 않고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속에 있는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a> 메모리를 타고 0.0001초 만에 A에서 B로 빛의 속도로 핑퐁</strong> 튕깁니다. 속도가 미친 듯이 빠르고 보안이 완벽합니다.
 
 ### 2. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ➜ 외부 인터넷 (물리망 연동)
 - [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) A가 네이버(외부)에 접속하려 합니다.
 - 패킷 경로: `VM A (가상 랜카드)` ➜ `하이퍼바이저 (vSwitch)` ➜ `서버의 물리적 랜카드 (NIC)` ➜ `진짜 쇳덩어리 스위치 (ToR 스위치)` ➜ `인터넷`.
 - vSwitch가 여러 VM에서 쏟아지는 트래픽을 모아서 물리 랜카드 1개로 몰아주는 멀티플렉싱을 수행합니다.
 
-```text
-[하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
-[하이퍼바이저와 가상 스위치]
-    │
-    └──▶ [무손실 이더넷]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저와 가상 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무손실 이더넷</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 
 클라우드 1세대의 아킬레스건이 바로 이 vSwitch였습니다.
 
-- **문제점 폭발**: vSwitch는 쇳덩어리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아니라, 그냥 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 위에서 도는 **순수 100% 소프트웨어 프로그램(C언어 코드)**입니다.
+- **문제점 폭발**: vSwitch는 쇳덩어리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아니라, 그냥 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 위에서 도는 <strong>순수 100% 소프트웨어 프로그램(C언어 코드)</strong>입니다.
 - **CPU의 과로사**: 1대의 물리 서버 안에 50대의 VM을 띄워놓고 얘네들이 동시에 10Gbps의 트래픽을 미친 듯이 쏟아내기 시작합니다. 이 패킷들을 vSwitch가 스위칭(길 찾기)해 주기 위해 서버의 메인 뇌인 **CPU 자원을 무지막지하게 갉아먹습니다 (CPU의 30~50% 낭비).**
 - 결국 비싼 돈을 주고 산 CPU가 넷플릭스 영화(본업)를 연산하지 못하고, 오직 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 노가다(부업)만 하다가 뻗어버리는 처참한 병목이 터졌습니다.
 
@@ -83,12 +91,12 @@ tags = ["studynote-network"]
 
 이 서버 CPU의 짐을 덜어주기 위해 클라우드 천재들이 3가지 마법을 발명했습니다.
 
-1. **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (단일 루트 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/))**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> (단일 루트 I/O <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>)</strong>:
    - 가짜 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))를 거치지 않습니다! 
    - 진짜 비싼 물리 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋을 논리적으로 50개로 쪼개어 썰어버립니다. 그리고 그 쪼개진 진짜 하드웨어 랜카드를 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 50대의 엉덩이에 직접 1:1로 냅다 꽂아줍니다([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Assignment). CPU 소모율이 0%로 떨어지는 극한의 하드웨어 마법입니다.
-2. **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)**:
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)</strong>:
    - 다음 846번 문서에서 다룰 핵심 마법입니다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(vSwitch가 낑겨있는 병목 구간)을 아예 우회(Bypass)해버려 CPU 소모를 박살 냅니다.
-3. **SmartNIC / [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 도입**:
+3. <strong>SmartNIC / <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 도입</strong>:
    - 아예 요즘 랜카드 안에는 휴대폰에 들어가는 ARM CPU 칩이 통째로 박혀있습니다. 메인 서버 CPU를 괴롭히지 않고, 랜카드 자신이 직접 미니 컴퓨터가 되어 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 스위칭 연산을 자기 칩 안에서 100% 다 처리(Offload)해 버립니다. (AWS의 Nitro 시스템이 대표적입니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -97,7 +105,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))는 회사 건물 로비에 앉아있는 '사람 우편 안내원(소프트웨어)'입니다. 건물 안의 50개 부서(가상머신 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 하루에 10만 통의 우편물을 쏟아내면, 이 안내원이 손수 주소를 읽고 분리수거(스위칭)를 하느라 과로사 직전이 되고, 정작 건물의 본업이 올스톱됩니다(CPU 과부하 병목). 이 병목을 해결하는 **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 기술**은 건물 밖의 진짜 우체국 배달원(하드웨어 랜카드)이 안내원([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))을 아예 거치지 않고, 50개 부서의 책상 앞까지 직접 우편물을 다이렉트로 꽂아주고 가버리는 것입니다. **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)(SmartNIC)**는 아예 안내원 책상에 초거대 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계(랜카드 자체 하드웨어 칩셋)'를 설치해 버려서, 회사 사장님(메인 CPU)의 체력을 단 1도 쓰지 않고 우편물을 빛의 속도로 쳐내는 극한의 짐 덜기(오프로드) 구조 혁신입니다.
+- **📢 섹션 요약 비유**: [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))는 회사 건물 로비에 앉아있는 '사람 우편 안내원(소프트웨어)'입니다. 건물 안의 50개 부서(가상머신 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 하루에 10만 통의 우편물을 쏟아내면, 이 안내원이 손수 주소를 읽고 분리수거(스위칭)를 하느라 과로사 직전이 되고, 정작 건물의 본업이 올스톱됩니다(CPU 과부하 병목). 이 병목을 해결하는 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> 기술</strong>은 건물 밖의 진짜 우체국 배달원(하드웨어 랜카드)이 안내원([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))을 아예 거치지 않고, 50개 부서의 책상 앞까지 직접 우편물을 다이렉트로 꽂아주고 가버리는 것입니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>(SmartNIC)</strong>는 아예 안내원 책상에 초거대 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계(랜카드 자체 하드웨어 칩셋)'를 설치해 버려서, 회사 사장님(메인 CPU)의 체력을 단 1도 쓰지 않고 우편물을 빛의 속도로 쳐내는 극한의 짐 덜기(오프로드) 구조 혁신입니다.
 
 ---
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
-    │
-    ▼
-[현재 개념: 하이퍼바이저와 가상 스위치]
-    │
-    ├──▶ [확장 A: 무손실 이더넷]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하이퍼바이저와 가상 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무손실 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 랙 인식 토폴로지 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 연…에서 출발해 현재 메커니즘을 정교화하고, 이후 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

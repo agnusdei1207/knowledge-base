@@ -13,28 +13,32 @@ tags = ["studynote-network"]
 
 > 1. **본질**: 기존의 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)가 "일단 끊고(Break) 새로 연결(Make)"하는 징검다리 방식이라면, 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 "새로운 손을 먼저 잡고(Make) 예전 손을 놓는(Break)" 양다리 방식이다.
 > 2. **가치**: 통화 단절 현상(Ping-pong Effect)을 원천적으로 차단하여, 고속도로를 달리는 차 안에서도 끊김 없는 고품질의 음성 통화와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신을 보장한다.
-> 3. **판단 포인트**: 인접한 모든 기지국이 동일한 주파수를 사용하는 **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)(코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** 기술의 특성 덕분에, 단말기가 2개 이상의 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 수신하고 결합할 수 있어 가능해진 기술이다.
+> 3. **판단 포인트**: 인접한 모든 기지국이 동일한 주파수를 사용하는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 기술의 특성 덕분에, 단말기가 2개 이상의 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 수신하고 결합할 수 있어 가능해진 기술이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-휴대폰을 들고 서울에서 부산으로 이동하면, 휴대폰은 수백 개의 기지국(Cell)을 거쳐 가게 된다. A 기지국의 영역(Coverage)을 벗어나 B 기지국의 영역으로 들어갈 때, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 A에서 B로 넘겨주는 과정을 **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/), 미국식 Handoff)**라고 한다.
+휴대폰을 들고 서울에서 부산으로 이동하면, 휴대폰은 수백 개의 기지국(Cell)을 거쳐 가게 된다. A 기지국의 영역(Coverage)을 벗어나 B 기지국의 영역으로 들어갈 때, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 A에서 B로 넘겨주는 과정을 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>, 미국식 Handoff)</strong>라고 한다.
 
-* **[하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) ([Hard Handoff](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/): Break before Make)**
+* <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/">하드 핸드오버</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/">Hard Handoff</a>: Break before Make)</strong>
   - 아날로그(1G)나 [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/), [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) 방식에서 썼던 방식이다. 인접 기지국들이 서로 '다른 주파수'를 썼기 때문이다.
   - 라디오 채널을 돌리듯, A 주파수 통신을 완전히 끊고 B 주파수로 갈아타야 한다. 이때 0.1~0.2초 정도 통화가 뚝 끊기거나 튀는 현상(Ping-pong)이 발생한다. 타잔이 앞의 밧줄을 놓아야 다음 밧줄을 잡을 수 있는 것과 같다.
 
-이 "뚝 끊기는 현상"에 분노한 공학자들은 새로운 통신 규격인 **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)(3G)**를 설계할 때, "아예 두 기지국이랑 동시에 통화하면서 넘어갈 순 없을까?"라는 획기적인 아이디어를 제안했고, 그것이 바로 **소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)(Soft Handoff)**다.
+이 "뚝 끊기는 현상"에 분노한 공학자들은 새로운 통신 규격인 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(3G)</strong>를 설계할 때, "아예 두 기지국이랑 동시에 통화하면서 넘어갈 순 없을까?"라는 획기적인 아이디어를 제안했고, 그것이 바로 <strong>소프트 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>(Soft Handoff)</strong>다.
 
-```text
-[하드 핸드오버]
-    │
-    ▼
-[소프트 핸드오버]
-    │
-    └──▶ [호 수락 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드 핸드오버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트 핸드오버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">호 수락 제어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 서커스 공중그네를 탈 때, 예전 방식(Hard)은 타고 있던 그네를 허공에서 손에서 완전히 놓은 뒤 날아가서 다음 그네를 잡는 아찔한 방식입니다. 반면 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 오른손으로 다음 그네를 꽉 잡은(Make) 상태에서, 안전하게 왼손의 예전 그네를 놓는(Break) 절대 떨어지지 않는 방식입니다.
 
@@ -48,31 +52,29 @@ tags = ["studynote-network"]
    - 휴대폰이 이동하면서 B 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 점점 세지는 것을 감지한다. 이 세기가 특정 기준(T_ADD)을 넘으면 기지국 제어기에 보고한다.
 2. **양다리 걸치기 (Make: 다중 링크 형성)**
    - 제어기의 허락이 떨어지면, 휴대폰은 A 기지국과의 통화를 유지한 채 **B 기지국과도 동시에 통화 채널을 연다.** (이 순간, 휴대폰은 A와 B 양쪽에서 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 주고받는다!)
-3. **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 결합 (Diversity Combining)**
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 결합 (Diversity Combining)</strong>
    - 폰 안의 [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/)가 A에서 온 전파와 B에서 온 전파를 모아서 가장 깨끗한 소리로 합성해 낸다. (경계 지역에서 오히려 통화 품질이 더 좋아지는 기적이 일어난다!)
 4. **이별 (Break: 구 기지국 단절)**
    - 폰이 B 기지국 쪽으로 완전히 넘어와서, A 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 쓸모없을 만큼 약해지면(T_DROP 이하), 그때서야 조용히 A와의 연결을 끊어버린다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│           하드 핸드오버 vs 소프트 핸드오버의 제어 흐름 시각화  │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│ ❌ [ 하드 핸드오버 (Break before Make) ]                       │
-│   단말기 ──(A 주파수)──▶ 기지국 A                              │
-│            (뚝 끊어짐! 침묵의 0.1초)                           │
-│   단말기 ──(B 주파수)──▶ 기지국 B                              │
-│                                                                │
-│                                                                │
-│ 🛡️ [ 소프트 핸드오버 (Make before break) ]                     │
-│   1단계: 단말기 ━━━━━━▶ 기지국 A                               │
-│                                                                │
-│   2단계: 단말기 ━━┳━━━▶ 기지국 A  (동시에 2개 기지국과 통신!)  │
-│                 ┗━━━▶ 기지국 B                                 │
-│                                                                │
-│   3단계: 단말기 ━━━━━━▶ 기지국 B  (안전하게 A를 끊음)          │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 핸드오버 vs 소프트 핸드오버의 제어 흐름 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">하드 핸드오버 (Break before Make)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──(A 주파수)──▶ 기지국 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(뚝 끊어짐! 침묵의 0.1초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──(B 주파수)──▶ 기지국 B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">소프트 핸드오버 (Make before break)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 단말기 ▶ 기지국 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 단말기 ━━┳ ▶ 기지국 A (동시에 2개 기지국과 통신!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┗ ▶ 기지국 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 단말기 ▶ 기지국 B (안전하게 A를 끊음)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -83,9 +85,9 @@ tags = ["studynote-network"]
 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 통화 품질 면에서는 완벽하지만 치명적인 단점이 있다.
 휴대폰이 양다리를 걸치는 순간, 한 명이 2명분의 통신 자원(기지국 채널 2개)을 독식하게 된다. 트래픽이 몰리는 강남역 같은 곳에서 모든 차들이 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 시도하면, 기지국의 무선 자원이 순식간에 고갈되어 시스템 용량이 수직으로 하락한다.
 
-* **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(4G) / [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대의 회귀 (다시 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)로)**
+* <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>(4G) / <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 시대의 회귀 (다시 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/">하드 핸드오버</a>로)</strong>
   - LTE와 5G는 음성이 아니라 '대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(인터넷)' 전송이 핵심이다.
-  - 자원 낭비가 심한 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 과감히 버리고, 다시 **[하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)** 방식으로 돌아갔다!
+  - 자원 낭비가 심한 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 과감히 버리고, 다시 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/">하드 핸드오버</a></strong> 방식으로 돌아갔다!
   - "어? 그럼 또 뚝뚝 끊기잖아요?" 
   - 아닙니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 장비는 전환 속도가 0.01초 단위로 미친 듯이 빨라져서, 인간의 귀나 유튜브 영상이 끊김을 느끼기 전에 스위칭([하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/))을 끝내버린다. 하드웨어의 발전이 알고리즘의 복잡성을 찍어 누른 대표적인 사례다.
 
@@ -135,15 +137,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 하드 핸드오버]
-    │
-    ▼
-[현재 개념: 소프트 핸드오버]
-    │
-    ├──▶ [확장 A: 호 수락 제어]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 하드 핸드오버</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소프트 핸드오버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 호 수락 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 소프트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [호 수락 제어](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

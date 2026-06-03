@@ -23,18 +23,20 @@ NVLink / NVSwitch는 다중 [GPU](/knowledge-base/studynote/01_computer_architec
 
 문제의 본질은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수가 늘수록 계산량만 선형으로 늘지 않는다는 데 있다. 8장의 GPU를 묶으면 연산 자원은 8배가 되지만, 파라미터 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·텐서 조각 교환·집단 통신 때문에 통신 패턴은 훨씬 복잡해진다. 따라서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 시대의 병목은 "GPU가 얼마나 빠른가"보다 "GPU들이 서로 얼마나 빨리 합의하는가"로 이동했고, 그 답으로 나온 것이 NVLink와 NVSwitch다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 다중 GPU 학습의 병목 이동: 계산 부족이 아니라 통신 정체            │
-├──────────────────────────────────────────────────────────────────────┤
-│ GPU0 계산 ─┐                                                        │
-│ GPU1 계산 ─┼─▶ 결과 교환 / 그래디언트 동기화 / 파라미터 집계 ─▶ 다음 스텝 │
-│ GPU2 계산 ─┤                                                        │
-│ GPU3 계산 ─┘                                                        │
-│                                                                      │
-│ 계산이 빨라질수록 다음 스텝의 시작 시점은 "가장 느린 통신"이 결정한다. │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 GPU 학습의 병목 이동: 계산 부족이 아니라 통신 정체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU0 계산 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU1 계산 ─ ─▶ 결과 교환 / 그래디언트 동기화 / 파라미터 집계 ─▶ 다음 스텝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU2 계산 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU3 계산 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산이 빨라질수록 다음 스텝의 시작 시점은 "가장 느린 통신"이 결정한다.</div></div>
+</div>
+</div>
+
+
 
 따라서 NVLink / NVSwitch는 단순한 케이블 기술이 아니라, 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 시스템에서 연산 자원을 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸기 위한 필수 인프라로 이해해야 한다. GPU를 더 꽂는 행위와 GPU를 더 잘 연결하는 행위는 전혀 다른 투자다.
 
@@ -55,27 +57,30 @@ NVLink는 GPU와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_acc
 
 다음 그림은 "[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 중심 경로"와 "NVSwitch 중심 경로"의 차이를 보여준다.
 
-```text
-┌──────────────────────── PCIe 중심 멀티 GPU ─────────────────────────┐
-│ GPU0 ─┐                                                             │
-│ GPU1 ─┼─▶ PCIe Switch / CPU Root Complex ─▶ 메모리 / 타 GPU         │
-│ GPU2 ─┤                                                             │
-│ GPU3 ─┘                                                             │
-│ 병목 지점이 중앙 버스와 호스트 경로에 몰리기 쉽다.                  │
-└──────────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────── NVSwitch 중심 멀티 GPU ──────────────────────┐
-│ GPU0 ─┐        ┌──────────────┐        ┌─ GPU4                      │
-│ GPU1 ─┼────────┤              ├────────┼─ GPU5                      │
-│ GPU2 ─┼────────┤   NVSwitch   ├────────┼─ GPU6                      │
-│ GPU3 ─┘        └──────────────┘        └─ GPU7                      │
-│ 여러 GPU가 동시에 패브릭을 통해 직접 교환하며 집단 통신을 수행한다. │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 "메모리를 완전히 하나로 합친다"가 아니라, **원격 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 대한 접근과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환의 비용을 크게 낮춘다**는 점이다. Unified Virtual Addressing이나 GPUDirect 계열 기술이 소프트웨어 관점에서 주소 공간과 전송 경로를 단순화하더라도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 어느 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 있는지와 어떤 토폴로지를 타는지의 영향을 받는다. 즉 NVLink / NVSwitch는 마법처럼 물리 제약을 없애는 기술이 아니라, 물리 제약을 충분히 완화해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습을 실용화하는 기술이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCIe 중심 멀티 GPU</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU0 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU1 ─ ─▶ PCIe Switch / CPU Root Complex ─▶ 메모리 / 타 GPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU2 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU3 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 지점이 중앙 버스와 호스트 경로에 몰리기 쉽다.</div></div>
+<div class="kb-diagram-note">NVSwitch 중심 멀티 GPU</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU0 ─ ─ GPU4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU1 ─ ─ GPU5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU2 ─ NVSwitch ─ GPU6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU3 ─ ─ GPU7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 GPU가 동시에 패브릭을 통해 직접 교환하며 집단 통신을 수행한다.</div></div>
+</div>
+</div>
 
-또한 NVSwitch의 가치는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 총량만이 아니라 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 균일성**에도 있다. 일부 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쌍만 빠르고 나머지는 우회해야 하는 구조에서는 링(Ring) 기반 집단 통신이 특정 구간에 묶여 전체 스텝 시간이 늘어난다. NVSwitch는 이런 편차를 줄여 "가장 느린 링크가 전체 학습을 멈추는 상황"을 완화한다.
+
+
+핵심은 "메모리를 완전히 하나로 합친다"가 아니라, <strong>원격 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리에 대한 접근과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 교환의 비용을 크게 낮춘다</strong>는 점이다. Unified Virtual Addressing이나 GPUDirect 계열 기술이 소프트웨어 관점에서 주소 공간과 전송 경로를 단순화하더라도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여전히 어느 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 있는지와 어떤 토폴로지를 타는지의 영향을 받는다. 즉 NVLink / NVSwitch는 마법처럼 물리 제약을 없애는 기술이 아니라, 물리 제약을 충분히 완화해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습을 실용화하는 기술이다.
+
+또한 NVSwitch의 가치는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 총량만이 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>의 균일성</strong>에도 있다. 일부 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쌍만 빠르고 나머지는 우회해야 하는 구조에서는 링(Ring) 기반 집단 통신이 특정 구간에 묶여 전체 스텝 시간이 늘어난다. NVSwitch는 이런 편차를 줄여 "가장 느린 링크가 전체 학습을 멈추는 상황"을 완화한다.
 
 - **📢 섹션 요약 비유**: NVLink는 도시 사이를 잇는 고속도로이고, NVSwitch는 어느 방향에서 차가 몰려와도 특정 톨게이트 하나에만 막히지 않게 설계된 입체 분기점이다. 중요한 것은 차가 빠르게 달리는 것뿐 아니라, 어느 도시에서 출발하든 비슷한 시간 안에 도착하는 균일한 도로망이라는 점이다.
 
@@ -112,7 +117,7 @@ NVLink / NVSwitch의 위치를 정확히 이해하려면 [PCIe](/knowledge-base/
 2. **추론 중심 워크로드**
    - 요청 단위 독립성이 높고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 교환이 적다면 고가 패브릭의 투자 대비 효과가 낮음
    - 배치 추론, 모델 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 서빙은 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반도 충분할 수 있음
-3. **토폴로지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**
+3. <strong>토폴로지 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>
    - "8 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)"라는 숫자만 보지 말고 `nvidia-smi topo -m` 수준의 실제 연결 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
    - 일부 링크만 NVLink이고 나머지가 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 우회라면 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라짐
 
@@ -129,19 +134,22 @@ NVLink / NVSwitch의 위치를 정확히 이해하려면 [PCIe](/knowledge-base/
 - 추론 서버에 과도한 NVSwitch 구성을 넣어 비용만 올리는 행위
 - NVLink 하드웨어는 갖췄지만 소프트웨어가 비효율적인 집단 통신 경로를 타게 방치하는 행위
 
-```text
-┌──────────────────────── 도입 판단 간이 트리 ────────────────────────┐
-│ 워크로드가 대규모 학습인가?                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Yes ─▶ GPU 간 동기화가 잦은가? ─▶ Yes ─▶ NVLink / NVSwitch 우선 검토 │
-│  │                                 │                                 │
-│  │                                 └▶ No  ─▶ PCIe 기반도 가능        │
-│  └▶ No  ─▶ 요청이 GPU별로 독립적인가? ─▶ Yes ─▶ 추론형 Scale-out 적합 │
-│                                        └▶ No  ─▶ 통신 패턴 재측정    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-기술사 관점에서 기억할 문장은 명확하다. **NVLink / NVSwitch는 "항상 빠른 장치"가 아니라 "통신이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하는 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 문제를 풀기 위한 특화 장치"다.** 따라서 비용, 전력, 확장성, 소프트웨어 스택까지 포함한 총체적 판단이 필요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">도입 판단 간이 트리</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드가 대규모 학습인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes ─▶ GPU 간 동기화가 잦은가? ─▶ Yes ─▶ NVLink / NVSwitch 우선 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ No ─▶ PCIe 기반도 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ No ─▶ 요청이 GPU별로 독립적인가? ─▶ Yes ─▶ 추론형 Scale-out 적합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ No ─▶ 통신 패턴 재측정</div></div>
+</div>
+</div>
+
+
+
+기술사 관점에서 기억할 문장은 명확하다. <strong>NVLink / NVSwitch는 "항상 빠른 장치"가 아니라 "통신이 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 결정하는 멀티 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 문제를 풀기 위한 특화 장치"다.</strong> 따라서 비용, 전력, 확장성, 소프트웨어 스택까지 포함한 총체적 판단이 필요하다.
 
 - **📢 섹션 요약 비유**: 대형 공연을 준비할 때 모든 출연진이 한 무대에서 동시에 호흡을 맞춰야 하면 넓은 무대 뒤 통로가 필수다. 하지만 각자가 다른 방에서 따로 녹음만 하면 굳이 비싼 중앙 무대를 지을 필요는 없다.
 
@@ -153,7 +161,7 @@ NVLink / NVSwitch의 가장 큰 효과는 멀티 [GPU](/knowledge-base/studynote
 
 다만 한계도 분명하다. 첫째, 폐쇄형 생태계이므로 벤더 종속성이 크다. 둘째, 서버 내부 패브릭이 강해도 서버 간 네트워크가 약하면 클러스터 전체 확장성은 다시 외부 인터커넥트에 묶인다. 셋째, 추론·가벼운 학습처럼 통신이 적은 작업에서는 투자 대비 효과가 제한적이다. 따라서 NVLink / NVSwitch는 "모든 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버의 정답"이 아니라, "통신 집약형 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 문제의 정답"으로 기억해야 한다.
 
-앞으로의 방향은 세 가지로 정리할 수 있다. 첫째, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)-CPU 결합 패키지와의 통합이 더 강화된다. 둘째, 서버 내부 패브릭과 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 외부 패브릭이 더 긴밀히 연동된다. 셋째, 소프트웨어는 토폴로지를 더 적극적으로 인식해 통신 알고리즘을 최적화하는 방향으로 진화한다. 결국 NVLink / NVSwitch의 의미는 "더 빠른 선"이 아니라, **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 중심이 연산기 자체에서 연결 구조로 이동했음을 보여 주는 증거**다.
+앞으로의 방향은 세 가지로 정리할 수 있다. 첫째, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)-CPU 결합 패키지와의 통합이 더 강화된다. 둘째, 서버 내부 패브릭과 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 외부 패브릭이 더 긴밀히 연동된다. 셋째, 소프트웨어는 토폴로지를 더 적극적으로 인식해 통신 알고리즘을 최적화하는 방향으로 진화한다. 결국 NVLink / NVSwitch의 의미는 "더 빠른 선"이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 시대에 시스템 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 중심이 연산기 자체에서 연결 구조로 이동했음을 보여 주는 증거</strong>다.
 
 - **📢 섹션 요약 비유**: 뛰어난 선수만 모았다고 우승하는 팀이 되지는 않는다. 패스가 막히지 않는 전술과 경기장이 함께 갖춰져야 강팀이 되듯, NVLink / NVSwitch는 GPU라는 선수들을 진짜 팀으로 만들어 주는 연결 전술이다.
 
@@ -171,24 +179,25 @@ NVLink / NVSwitch의 가장 큰 효과는 멀티 [GPU](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-PCIe 기반 다중 GPU
-        │
-        ▼
-GPU 간 병목 인식
-        │
-        ▼
-NVLink 기반 점대점 고속 연결
-        │
-        ▼
-NVSwitch 기반 멀티 GPU 패브릭
-        │
-        ▼
-NCCL · GPUDirect RDMA 최적화
-        │
-        ▼
-노드 내부 패브릭 + 데이터센터 패브릭 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCIe 기반 다중 GPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU 간 병목 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVLink 기반 점대점 고속 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVSwitch 기반 멀티 GPU 패브릭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NCCL · GPUDirect RDMA 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노드 내부 패브릭 + 데이터센터 패브릭 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 연결 → [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 특화 연결 → 패브릭화 → 소프트웨어/네트워크 통합"으로 진화하는 방향을 보여 준다.
 

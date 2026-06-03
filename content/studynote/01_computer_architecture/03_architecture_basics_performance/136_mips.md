@@ -40,24 +40,22 @@ MIPS는 단순한 카운터가 아니라, 클럭과 평균 실행 효율을 묶�
 
 아래 그림은 MIPS가 어떤 흐름에서 계산되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  MIPS 계산 흐름: 클럭과 CPI의 결합                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ 프로그램 실행                                                       │
-│     │                                                               │
-│     ├─▶ 총 명령어 수 (Instruction Count)                            │
-│     │                                                               │
-│     └─▶ 실행 시간 (Execution Time)                                  │
-│             │                                                       │
-│             ├─▶ 클럭 주파수 (Clock Rate)                            │
-│             └─▶ CPI (Cycles Per Instruction)                        │
-│                                                                     │
-│ 결과: MIPS = Clock Rate / (CPI × 10^6)                              │
-│                                                                     │
-│ 해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다. │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS 계산 흐름: 클럭과 CPI의 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 총 명령어 수 (Instruction Count)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실행 시간 (Execution Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 클럭 주파수 (Clock Rate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPI (Cycles Per Instruction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: MIPS = Clock Rate / (CPI × 10^6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다.</div></div>
+</div>
+</div>
+
+
 
 예를 들어 2 GHz (gigahertz) 프로세서가 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 2로 동작하면 약 1,000 MIPS가 된다. 반대로 1 GHz 프로세서라도 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.5 수준으로 매우 효율적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처리하면 이론상 2,000 MIPS까지도 계산될 수 있다. 이처럼 MIPS는 단순 주파수 경쟁보다 한 단계 나아간 지표였지만, 여전히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 개수"를 기준으로 삼는다는 점에서 구조적 전제를 갖는다.
 
@@ -95,7 +93,7 @@ MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_com
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **동일 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 내부 비교인가?**  
+1. <strong>동일 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 내부 비교인가?</strong>  
    같은 계열 코어끼리의 대략적 상대 비교라면 MIPS가 참고가 될 수 있다. 하지만 ISA가 다르면 직접 비교 지표로 쓰지 않는 편이 안전하다.
 2. **목표 워크로드가 무엇인가?**  
    제어 연산 중심인지, 메모리 접근 중심인지, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산 중심인지에 따라 MIPS의 설명력이 달라진다.
@@ -106,7 +104,7 @@ MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_com
 
 - **MIPS가 더 높으니 무조건 더 빠르다고 결론내리는 판단**  
   네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 캐시 미스, 메모리 병목이 큰 시스템에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율보다 지연시간과 대역폭이 더 중요할 수 있다.
-- **최적화 후 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 하락을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 오해하는 판단**  
+- <strong>최적화 후 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a> 하락을 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 오해하는 판단</strong>  
   컴파일러 최적화가 불필요한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 줄이면 총 실행 시간은 짧아지는데, 초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수는 오히려 낮아질 수 있다. 이른바 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) anomaly는 "덜 움직여도 더 빨리 끝나는" 상황을 보여 준다.
 
 기술사 관점에서의 답안 포인트는 명확하다. MIPS는 역사적 의미와 내부 효율 감각을 주는 지표이지만, 현대 시스템의 채택 판단은 SPEC (Standard [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corporation) 벤치마크, 실제 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 같은 더 직접적인 지표로 내려야 한다.
@@ -121,7 +119,7 @@ MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_
 
 하지만 현대 관점에서 MIPS를 기억할 때는 장점보다 전제를 함께 기억해야 한다. MIPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 비슷한 무게를 가진다"는 가정이 어느 정도 맞을 때만 해석이 쉬우며, ISA가 다르거나 워크로드 특성이 크게 다르면 판단력을 잃는다. 그래서 오늘날 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 자체보다, 실제 응용 프로그램 기준의 벤치마크와 작업 완료 시간 중심으로 이동했다.
 
-결론적으로 MIPS는 폐기된 개념이 아니라, **왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표는 워크로드와 맥락을 함께 봐야 하는지**를 가르쳐 주는 역사적 교훈으로 기억하는 것이 가장 정확하다.
+결론적으로 MIPS는 폐기된 개념이 아니라, <strong>왜 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표는 워크로드와 맥락을 함께 봐야 하는지</strong>를 가르쳐 주는 역사적 교훈으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: MIPS는 운동선수를 평가할 때 "초당 발걸음 수"를 재던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기록표와 같다. 지금은 발걸음 수보다 실제 경기 기록을 보지만, 그 옛 기록표 덕분에 무엇을 더 제대로 측정해야 하는지도 배웠다.
 
@@ -139,22 +137,23 @@ MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클럭 주파수 중심 비교
-    │
-    ▼
-MIPS (Million Instructions Per Second)
-    │
-    ├─▶ CPI (Cycles Per Instruction) 인식 확대
-    │
-    ├─▶ ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기
-    │
-    ▼
-DMIPS (Dhrystone MIPS) 같은 보정 시도
-    │
-    ▼
-SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭 주파수 중심 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIPS (Million Instructions Per Second)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CPI (Cycles Per Instruction) 인식 확대</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMIPS (Dhrystone MIPS) 같은 보정 시도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 처리율 숫자에서 출발해, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 질과 실제 작업 완료 시간을 함께 보는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 발전했음을 보여 준다.
 

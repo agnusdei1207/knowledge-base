@@ -18,18 +18,21 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────────┐
-│         위험 관리 프로세스 5단계 (ISO 31000)               │
-├───────────────────────────────────────────────────────────┤
-│ 1. 상황 설정    │ 범위, 기준, 맥락 정의                     │
-│ 2. 위험 식별    │ 자산·위협·취약점 목록화                    │
-│ 3. 위험 분석    │ 가능성×영향도 = 위험 수준                  │
-│ 4. 위험 평가    │ 허용 기준과 비교, 우선순위 결정             │
-│ 5. 위험 처리    │ 수용/전가/감소/회피 선택 → 통제 구현        │
-│    + 모니터링   │ 지속적 검토 및 개선                        │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 관리 프로세스 5단계 (ISO 31000)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 상황 설정</div><div class="kb-diagram-cell">범위, 기준, 맥락 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 위험 식별</div><div class="kb-diagram-cell">자산·위협·취약점 목록화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 위험 분석</div><div class="kb-diagram-cell">가능성×영향도 = 위험 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 위험 평가</div><div class="kb-diagram-cell">허용 기준과 비교, 우선순위 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 위험 처리</div><div class="kb-diagram-cell">수용/전가/감소/회피 선택 → 통제 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 모니터링</div><div class="kb-diagram-cell">지속적 검토 및 개선</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 위험 관리는 보험 설계와 같다. 어떤 위험이 얼마나 자주 발생하는지(가능성), 발생하면 얼마나 피해인지(영향도)를 평가하고, 보험(통제)으로 해결할지, 보험료를 내지 않을지(수용)를 결정한다.
 
@@ -39,21 +42,24 @@ tags = ["studynote-security"]
 
 ### 위험 = 자산 × 위협 × 취약점
 
-```text
-자산 가치: 중요도/민감도 기반 분류
-  (예: 고객 개인정보 DB = 매우 중요)
 
-위협:       의도적(해킹, 내부자) + 비의도적(재해, 실수)
-취약점:     패치 미적용, 취약한 인증, 물리 접근 부재
 
-위험 수준 = 발생 가능성 × 영향도
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자산 가치: 중요도/민감도 기반 분류</div>
+<div class="kb-diagram-note">(예: 고객 개인정보 DB = 매우 중요)</div>
+<div class="kb-diagram-note">위협: 의도적(해킹, 내부자) + 비의도적(재해, 실수)</div>
+<div class="kb-diagram-note">취약점: 패치 미적용, 취약한 인증, 물리 접근 부재</div>
+<div class="kb-diagram-note">위험 수준 = 발생 가능성 × 영향도</div>
+<div class="kb-diagram-note">영향도</div>
+<div class="kb-diagram-note">높음 중간 낮음</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가능성 높음</div><div class="kb-diagram-cell">H</div><div class="kb-diagram-cell">H</div><div class="kb-diagram-cell">M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">H</div><div class="kb-diagram-cell">M</div><div class="kb-diagram-cell">L</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">M</div><div class="kb-diagram-cell">L</div><div class="kb-diagram-cell">L</div></div>
+</div>
+</div>
 
-          영향도
-          높음  중간  낮음
-가능성 높음│  H  │  H  │  M  │
-       중간│  H  │  M  │  L  │
-       낮음│  M  │  L  │  L  │
-```
+
 
 ### 위험 처리 4가지 방안
 
@@ -93,7 +99,7 @@ tags = ["studynote-security"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 위험 관리 수행 절차
-1. **자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)**: 정보 자산 목록(서버, DB, 문서) 작성 + 중요도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
+1. <strong>자산 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 정보 자산 목록(서버, DB, 문서) 작성 + 중요도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 2. **위협·취약점 분석**: [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/), 위협 인텔리전스 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/).
 3. **위험 평가**: 3×3 또는 5×5 위험 매트릭스로 위험 수준 결정.
 4. **위험 처리**: [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 목록 → [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 보고 → 경영진 승인.
@@ -128,27 +134,29 @@ tags = ["studynote-security"]
 |:---|:---|
 | **자산·위협·취약점** | 위험 계산의 3요소 |
 | **위험 처리 4방안** | 수용/전가/감소/회피 |
-| **[잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)** | 통제 후 남은 위험, 경영진 수용 |
-| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | 위험 관리 의무화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
-| **[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)/SLE/ARO** | [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 공식 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/">잔여 위험</a></strong> | 통제 후 남은 위험, 경영진 수용 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 위험 관리 의무화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a>/SLE/ARO</strong> | [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 공식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자산 식별 — 보호 대상 목록화]
-    │
-    ▼
-[위험 분석 — 가능성×영향도 매트릭스]
-    │
-    ▼
-[위험 처리 — 4가지 방안 선택]
-    │
-    ▼
-[잔여 위험 수용 — 경영진 보고·승인]
-    │
-    ▼
-[지속적 모니터링 — AI 기반 실시간 위험 평가]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자산 식별 — 보호 대상 목록화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 분석 — 가능성×영향도 매트릭스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 처리 — 4가지 방안 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">잔여 위험 수용 — 경영진 보고·승인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 모니터링 — AI 기반 실시간 위험 평가</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

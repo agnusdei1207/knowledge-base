@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이중 경로(Multipath I/O)는 서버 본체와 거대 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)/디스크)를 연결하는 광케이블 선(Path)을 하나만 달랑 두지 않고, HBA 랜카드, 케이블, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 몽땅 다 2개 4개씩 다중 병렬로 거미줄 치듯 꽂아서 연결하는 **"물리적 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 원천 차단 무중단 하드웨어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처"** 다.
-> 2. **가치**: 쥐가 케이블을 파먹거나, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원 코드가 뽑혀 물리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 하나가 단절되어도, OS에 설치된 `Multipath 데몬(S/W)`이 0.1초 만에 죽은 길을 폐기하고 살아있는 예비 통로로 트래픽을 즉각 꺾어 돌려주는 **페일오버([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 무중단 생존)**를 구현한다. 더 나아가 길이 여러 개면 짐을 나눠서 쏘는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증폭 **[로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))**까지 동시 성취한다.
+> 1. **본질**: 이중 경로(Multipath I/O)는 서버 본체와 거대 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)/디스크)를 연결하는 광케이블 선(Path)을 하나만 달랑 두지 않고, HBA 랜카드, 케이블, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 몽땅 다 2개 4개씩 다중 병렬로 거미줄 치듯 꽂아서 연결하는 <strong>"물리적 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPoF</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>) 원천 차단 무중단 하드웨어 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 아키텍처"</strong> 다.
+> 2. **가치**: 쥐가 케이블을 파먹거나, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원 코드가 뽑혀 물리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 하나가 단절되어도, OS에 설치된 `Multipath 데몬(S/W)`이 0.1초 만에 죽은 길을 폐기하고 살아있는 예비 통로로 트래픽을 즉각 꺾어 돌려주는 <strong>페일오버(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a> 무중단 생존)</strong>를 구현한다. 더 나아가 길이 여러 개면 짐을 나눠서 쏘는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증폭 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>-<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>)</strong>까지 동시 성취한다.
 > 3. **한계**: 스토리지 장비 깡통이 애초에 컨트롤러(뇌수)를 ALUA ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Optimized vs Non-Optimized) 비대칭 방식으로 허접하게 싸구려로 분배해 놨다면, 애써 선을 4개나 꽂아 놨는데도 나머지 3개 선은 멍하니 놀거나 오히려 잘못 탄 패킷을 내부 통신으로 뺑뺑이 돌리게 만들어 레이턴시가 폭발하는 스토리지 특성 종속 타격을 맞기 쉽다.
 
 ---
@@ -20,39 +20,33 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 내장 하드디스크가 아닌 거대한 외부 깡통 박스 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))를 쓸 때, 그저 선 1개로 연결하면 그 선 하나가 끊어지는 순간 고가용성 DB 서버 전체가 심정지 셧다운 당한다([SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/): Single Point of Failure). 이걸 방어하고자 HBA카드 2개, 광 샌스위치 2대, 스토리지 컨트롤러 2개로 모든 장비와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 더블 듀얼로 포진시켜서 서버 1대와 스토리지 1대 사이에 도달하는 "물리적 길목"을 2~4개 뚫어놓는 게 멀티패스 아키텍처다.
-- **필요성**: 문제는 기계를 2개씩 꽂으면 멍청한 리눅스(OS) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌는 **"똑같은 1개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) 0번)" 을 향해 선이 4개나 뚫려있는 걸 보고, 우둔하게 "어? 내 배에 새로운 외장 하드가 4개(`.dev/sda`, `.dev/sdb`, `sdc`, `sdd`)나 각자 다른 놈으로 동시에 생겼네?!" 라고 치명적 착각 인지 붕괴 오류**를 일으킨다. 똑같은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네 개의 다른 유령 장치로 인식해 버리면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 꼬여서 서버가 폭파된다! 이걸 막기 위해 OS단에서 "이 4개의 가짜 길은 사실 종착역 [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) 0번이 똑같은 놈이니까, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 하나(` /dev/mapper/mpatha `)의 절대 가상 디스크 이름으로 합쳐서 속여버려라!" 하고 다발 통제해 주는 중간자 `Multipath S/W 데몬(통역기)`이 반드시 도입 융합되어야만 했다.
+- **필요성**: 문제는 기계를 2개씩 꽂으면 멍청한 리눅스(OS) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌는 <strong>"똑같은 1개의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/">LUN</a> 0번)" 을 향해 선이 4개나 뚫려있는 걸 보고, 우둔하게 "어? 내 배에 새로운 외장 하드가 4개(<code>.dev/sda</code>, <code>.dev/sdb</code>, <code>sdc</code>, <code>sdd</code>)나 각자 다른 놈으로 동시에 생겼네?!" 라고 치명적 착각 인지 붕괴 오류</strong>를 일으킨다. 똑같은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네 개의 다른 유령 장치로 인식해 버리면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 꼬여서 서버가 폭파된다! 이걸 막기 위해 OS단에서 "이 4개의 가짜 길은 사실 종착역 [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) 0번이 똑같은 놈이니까, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 하나(` /dev/mapper/mpatha `)의 절대 가상 디스크 이름으로 합쳐서 속여버려라!" 하고 다발 통제해 주는 중간자 `Multipath S/W 데몬(통역기)`이 반드시 도입 융합되어야만 했다.
 
 - **단일 경로의 절망 vs 멀티패스 다발 요새화 아키텍처 다이어그램**:
 물리적 선이 어떻게 끊겨도 생존하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 구성 맵으로 전개하여 비교하면 다음 붕괴 방어선과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 단일 경로 SPoF 파괴 vs 이중 경로 Multipath 요새화 도               │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  [ 과거: 단일 경로(Single Path)의 끔찍한 파멸 유리몸 ]                             │
-  │     ┌─────────┐                ┌──────────────────────────┐                        │
-  │     │  서버    ├────── ✂️ ─────▶│ 깡통 스토리지 장비 랙 박스 │                     │
-  │     └─────────┘     (쥐가 끊음)   └──────────────────────────┘                     │
-  │         💥 결과: 연결 선 딱 1개 끊어지니 즉발로 시스템 동반 커널패닉 패망.         │
-  │                                                                                    │
-  │  =============================================================                     │
-  │                                                                                    │
-  │  [ 현대: MPIO (Multipath I/O) 우주 방어 복원 그물망 ]                              │
-  │     ┌─────────────┐                                                                │
-  │     │ 1️⃣ 멀티패스 데몬│ ▶ "OS야 넌 mpath_a 디스크 하나만 보면돼!"                 │
-  │     │    [서버]     │    (그 아래 물리 선 4개는 내가 합쳐서 우회 관리할게)         │
-  │     └─┬─────────┬─┘                                                                │
-  │     [HBA1]   [HBA2]   ◀ (각 포트별로 길을 양쪽 스위치로 완전 분산)                 │
-  │       │         │                                                                  │
-  │   (FabricA) (FabricB) ◀ (지진/정전 방어용으로 광 스위치도 2대로 분리 찢음)         │
-  │       │         │ 💥 만약 1번 루트가 단선돼도!                                     │
-  │     [포트1]   [포트2]   ◀ (스토리지 장비도 통제 컨트롤러를 2개 머리를 둠)          │
-  │     ┌─┴─────────┴─┐      ▶ 즉각 우회! 2번 길로 0.1초만에 트래픽 무중단 전송!       │
-  │     │  거대 스토리지  │                                                            │
-  │     └─────────────┘                                                                │
-  └────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 경로 SPoF 파괴 vs 이중 경로 Multipath 요새화 도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 단일 경로(Single Path)의 끔찍한 파멸 유리몸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 ✂️ ▶</div><div class="kb-diagram-cell">깡통 스토리지 장비 랙 박스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쥐가 끊음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 연결 선 딱 1개 끊어지니 즉발로 시스템 동반 커널패닉 패망.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대: MPIO (Multipath I/O) 우주 방어 복원 그물망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 멀티패스 데몬</div><div class="kb-diagram-cell">▶ "OS야 넌 mpath_a 디스크 하나만 보면돼!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버</div><div class="kb-diagram-note">(그 아래 물리 선 4개는 내가 합쳐서 우회 관리할게)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HBA1</div><div class="kb-diagram-node">HBA2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(각 포트별로 길을 양쪽 스위치로 완전 분산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(FabricA) (FabricB) ◀ (지진/정전 방어용으로 광 스위치도 2대로 분리 찢음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 만약 1번 루트가 단선돼도!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트1</div><div class="kb-diagram-node">포트2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(스토리지 장비도 통제 컨트롤러를 2개 머리를 둠)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ▶ 즉각 우회! 2번 길로 0.1초만에 트래픽 무중단 전송!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대 스토리지</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 그림 하단의 `Multipath` 구조는 눈물겹도록 집요한 이중, 삼중의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 분리 결속 떡칠이다. 단순히 선만 2개 꽂는 게 문제가 아니다. 메인보드 칩(HBA) 2개, 중간 길목의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망 2대, 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 접수하는 스토리지의 헤드 뇌(Controller) 마저 2~4개를 탑재해서 "그 어떤 중간 파편 부품이 1개 완전히 돌연사하고 불에 타 증발하더라도, 무조건 우회해서 살려 통과하는 잔존 1개의 경로가 살아 숨 쉰다!" 라는 걸 철칙으로 보장하는 무결점 엔터프라이즈 HA(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 알파이자 오메가 기저다. 그리고 그 지저분한 물리 선 4가닥을 OS 위에서는 `multipathd` 데몬이 단 하나의 가상 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 디스크 이름(`/dev/mapper/mpatha`) 캡슐로 덮어씌워 줘서 어플리케이션은 편안하게 평화를 누린다.
 
@@ -67,15 +61,15 @@ tags = ["studynote-operating-system"]
 
 | 스토리지 컨트롤러 타겟 아키텍처 | I/O 트래픽의 멀티 경로 배분([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)) 매커니즘 방어구축 | 적용 벤더 및 평가 타결안 |
 |:---|:---|:---|
-| **Symmetric [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) (대칭 찐 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))** | **"내 4개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 통로 어디로 찌르고 I/O 던지건 내 스토리지 뇌는 완전히 동등한 속도로 100% 처리 소화한다!"** 경로 구분 없이 4갈래로 쪼개서 `Round-Robin(돌려막기 밸런싱)` 배포 폭주 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능. | 최상위 엔터프라이즈 하이엔드(Dell EMC VMAX, Hitachi 등) 의 전력. 엄청 비싸지만 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 선마다 모두 100% 짜내 풀 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 흡수 사용 가능. |
+| <strong>Symmetric <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>-<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> (대칭 찐 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a>)</strong> | <strong>"내 4개의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 통로 어디로 찌르고 I/O 던지건 내 스토리지 뇌는 완전히 동등한 속도로 100% 처리 소화한다!"</strong> 경로 구분 없이 4갈래로 쪼개서 `Round-Robin(돌려막기 밸런싱)` 배포 폭주 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 가능. | 최상위 엔터프라이즈 하이엔드(Dell EMC VMAX, Hitachi 등) 의 전력. 엄청 비싸지만 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 선마다 모두 100% 짜내 풀 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 흡수 사용 가능. |
 | **ALUA (Asymmetric Logical Unit Access) 비대칭 배분** | 스토리지 뇌가 메인(Optimized 경로)과 찌끄레기 서브(Non-Optimized)로 은근슬쩍 구별돼 있음. "야 1번 선으로 오면 내 코어가 바로 응답해 줄게 빠른데, 2번 선으로 우회해서 오면 내부 톨게이트 거치니까 좀 2배 느린 페널티 타임 핑 먹어 대기해!" | 세상의 90% 보급형 스토리지(NetApp, 일반급 박스)의 한계 노선 현실 구조. 2번 선에다 짐을 나눠 실으면 속도가 반 토막 나니 평소엔 1번 선방 100% 몰아 쓰고 2번 선은 `Failover (뒤통수 사고예비용)` 으로만 세워둠. |
 
 ### 2. 멀티패스의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 디스크 병합 마스킹 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 트리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 OS(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))단에서 멀티패스는 `Device-Mapper (DM)` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조체 프레임워크를 기반 파편으로 조립되어 돌아간다.
 - **물리 인식 타락의 늪**: 서버 부팅 시 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 장비가 올려보낸 [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/)(루트 블록) 0번을 선 4개로 동시에 감지한 OS는 `/dev/sda, sdb, sdc, sdd` 4개의 블록을 우르르 만들고 발작한다.
-- **DM-Multipath (해결 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**: 데몬이 깨어나면 이 4개의 껍데기를 탁탁탁 두드려(SCSI INQUIRY) 각각의 디스크의 진짜 고유한 지문 시리얼 넘버인 `WWID (World Wide Identifier)` 를 추출해 낸다.
+- <strong>DM-Multipath (해결 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>)</strong>: 데몬이 깨어나면 이 4개의 껍데기를 탁탁탁 두드려(SCSI INQUIRY) 각각의 디스크의 진짜 고유한 지문 시리얼 넘버인 `WWID (World Wide Identifier)` 를 추출해 낸다.
   - "어? sda의 WWID 가 1234고, sdc 의 일련번호도 1234네? 둘이 다른 디스크가 아니라 물리 선만 다르게 들어온 한 놈이구나!" 
-- **마스킹(Masking 융합 씌우기)**: 데몬은 그 4개의 구형 sda 껍데기를 철저하게 숨기고 봉주르 차단해 버린 뒤, 떡 하니 **` /dev/mapper/mpath_a ` 라는 통합 지휘자 가상 블록 기판** 한 개만 아름답게 유저 환경 앱(MySQL 등)에 제공 던진다. 모든 I/O는 이 mpath_a 통로로만 들어와 데몬의 손을 1단계 무조건 거쳐서 선을 분배 판단해 탄다([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer).
+- **마스킹(Masking 융합 씌우기)**: 데몬은 그 4개의 구형 sda 껍데기를 철저하게 숨기고 봉주르 차단해 버린 뒤, 떡 하니 <strong><code> /dev/mapper/mpath_a </code> 라는 통합 지휘자 가상 블록 기판</strong> 한 개만 아름답게 유저 환경 앱(MySQL 등)에 제공 던진다. 모든 I/O는 이 mpath_a 통로로만 들어와 데몬의 손을 1단계 무조건 거쳐서 선을 분배 판단해 탄다([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer).
 
 - **📢 섹션 요약 비유**: 이 병합 구조는 어떤 사람이 쌍둥이 가면 4개를 쓰고 우리 집에 따로따로 동시 방문(가짜 물리 디스크 4개 인식)해서 정신이 혼미한데, 경찰관 데몬(DM-Multipath)이 딱 막아서서 그 4명의 지문(고유 WWID [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))을 찍어보니 "아, 너희 사실 똑같은 홍길동 한 명이고 문구멍 4개로 복제해 들어온 환상이구나!" 하고 정체를 파악 병합해서, 거실에 "진짜 홍길동 1명(단일 `mpath_a` 폴더)" 의 의자 1개만 딱 융합되어 착석하게 만들어 혼란을 컷 박살 내어 주는 신원 조회 매핑 융합 기법입니다!
 
@@ -87,13 +81,13 @@ OS(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_
 
 엔지니어가 무중단 구조를 심었다고 안심하다가 전산실 새벽 3시에 서버가 메모리 락이 걸려 완전히 터져버리는 끔찍한 버그 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 딜레마다.
 
-- **장애 요인 (현상 붕괴)**: 연결된 광케이블 1번이 완전히 뚝 잘려서 죽으면 차라리 깔끔하다. 데몬이 2번 예비 통로로 넘기고 1번은 포기 컷(Fail) 치면 그만이니까. 그런데 광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP 렌즈)에 멍청하게 먼지가 끼거나 불량이 나서, 선이 "1초 끊겼다가 1초 다시 붙고, 다시 죽었다가 다시 살아붙고..." 하는 **플래핑 진동(Flapping 미친 반복)**이 일어나는 반 송장 좀비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 발생 시 우주 재앙이 유발 터진다.
-- **[커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 붕괴 타격의 연쇄**: `multipathd` 데몬은 선이 죽으면 "우회 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 명령 계산!" 선이 다시 살면 "호스트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Failback 재계산!" 이 미친 경로 재계산 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산을 1초에 수십 번씩 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 테이블을 쑤셔 넣느라 락백(Lockback) CPU를 미친 듯이 소모 불태우게 된다. 이러면 I/O 큐는 죄다 정지하고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스루풋은 다운 파괴되어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 멈춤 랙이 장악된다.
+- **장애 요인 (현상 붕괴)**: 연결된 광케이블 1번이 완전히 뚝 잘려서 죽으면 차라리 깔끔하다. 데몬이 2번 예비 통로로 넘기고 1번은 포기 컷(Fail) 치면 그만이니까. 그런데 광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP 렌즈)에 멍청하게 먼지가 끼거나 불량이 나서, 선이 "1초 끊겼다가 1초 다시 붙고, 다시 죽었다가 다시 살아붙고..." 하는 <strong>플래핑 진동(Flapping 미친 반복)</strong>이 일어나는 반 송장 좀비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 발생 시 우주 재앙이 유발 터진다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">커널 패닉</a> 붕괴 타격의 연쇄</strong>: `multipathd` 데몬은 선이 죽으면 "우회 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) 명령 계산!" 선이 다시 살면 "호스트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Failback 재계산!" 이 미친 경로 재계산 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산을 1초에 수십 번씩 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 테이블을 쑤셔 넣느라 락백(Lockback) CPU를 미친 듯이 소모 불태우게 된다. 이러면 I/O 큐는 죄다 정지하고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스루풋은 다운 파괴되어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 멈춤 랙이 장악된다.
 - **해법 패치 튜닝**: 현업 베테랑 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 들은 반드시 리눅스 `/etc/multipath.conf` 에 `marginal_path_err_sample_time` (불량 경로 혐오 시간 격리) 같은 옵션을 마법 튜닝으로 집어넣어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방어한다. "야 데몬아, 10초 사이에 3번 이상 이상하게 죽었다 살았다 까부는 플래핑 얍삽이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 선이 있으면, 그 선은 당장 그냥 완전 부러진 사망 선으로 영구 취급해 버리고 경로 테이블 연산에서 영구 삭제 추방시켜버려 복귀 금지!" 라는 마진 분리 격리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 불필요 흔들림 오버헤드를 막아서 방호 요새화하는 게 필수 지침 아크다.
 
 | 서버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망 안정성 구축 요새 아크 | 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (선 1개) 스토리지 연결 유지 | 4포트 Multipath ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 로드 산포) 튜닝 시 | 고가용 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 통계 보장 결착력 |
 |:---|:---|:---|:---|
-| **정량 (선 단절 장애시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 다운타임)** | 케이블 단선 즉시 리눅스 Read-Only 전환 붕괴, 엔지니어 투입 케이블 교환 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 서버 100% 장기간 무한 마비 | 단선되는 그 찰나 0.05초 만(Queued-Retry)에 즉각 멀쩡한 선으로 우회 이탈. 무중단 0초 즉발 치유 생존 | 클라우드 물리 장애 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 페널티율 99% 삭제 방어 완전체 무적화 진입 |
+| <strong>정량 (선 단절 장애시 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 다운타임)</strong> | 케이블 단선 즉시 리눅스 Read-Only 전환 붕괴, 엔지니어 투입 케이블 교환 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 서버 100% 장기간 무한 마비 | 단선되는 그 찰나 0.05초 만(Queued-Retry)에 즉각 멀쩡한 선으로 우회 이탈. 무중단 0초 즉발 치유 생존 | 클라우드 물리 장애 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 페널티율 99% 삭제 방어 완전체 무적화 진입 |
 | **정량 (총괄 I/O 인터페이스 스루풋 IOPS)** | 10G 케이블 하나가 가진 물리적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사이즈 한계 스루풋으로 딱 옹졸하게 막혀 제한됨 | 10G 선 4개로 Round-Robin 배포, 40G 합산 풀 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 한 융합 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 미친 듯 빨아 증폭해 돌파 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 산술적 레인 확장, 선 개수 비례 깡성능 펌핑 배관 부스트 포팅 |
 
 ### Ⅳ. 기대효과 및 결론
@@ -136,15 +130,19 @@ OS(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[NVMe over Fabrics (NVMe-oF)]
-    │
-    ▼
-[이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
-    │
-    ├──▶ [파일 (File)의 정의]
-    └──▶ [파일 속성 (Attributes)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NVMe over Fabrics (NVMe-oF)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 (File)의 정의</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 속성 (Attributes)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -10,27 +10,30 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 **[릴레이션 스키마](/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/)(테이블·PK·FK·컬럼)**로 변환하는 **체계적 규칙 집합**이다.
-> 2. **가치**: 규칙 없이 직감으로 변환하면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 누락·PK 오류·중복 테이블이 발생하므로, **7대 매핑 규칙**을 순서대로 적용하여 정확한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 도출한다.
-> 3. **판단 포인트**: 1:1, 1:N, M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 변환 방식이 각각 다르며, **M:N → 교차 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**, **다치 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) → 별도 테이블 분리**, **약한 엔터티 → 소유자 FK 포함 복합 PK**를 정확히 적용해야 한다.
+> 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a>(테이블·PK·FK·컬럼)</strong>로 변환하는 <strong>체계적 규칙 집합</strong>이다.
+> 2. **가치**: 규칙 없이 직감으로 변환하면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 누락·PK 오류·중복 테이블이 발생하므로, <strong>7대 매핑 규칙</strong>을 순서대로 적용하여 정확한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 도출한다.
+> 3. **판단 포인트**: 1:1, 1:N, M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 변환 방식이 각각 다르며, <strong>M:N → 교차 테이블 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>, <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> → 별도 테이블 분리</strong>, <strong>약한 엔터티 → 소유자 FK 포함 복합 PK</strong>를 정확히 적용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    7대 매핑 규칙 순서                                  │
-├───────────────────────────────────────────────────────┤
-│  1. 강한 엔터티 → 테이블 (PK = 식별자)               │
-│  2. 약한 엔터티 → 테이블 (PK = 소유자FK + 부분키)    │
-│  3. 1:1 관계 → 한쪽 테이블에 FK 추가                 │
-│  4. 1:N 관계 → N쪽 테이블에 FK 추가                  │
-│  5. M:N 관계 → 교차 테이블 생성 (양쪽 PK가 복합키)   │
-│  6. 다치 속성 → 별도 테이블 분리                      │
-│  7. N-ary 관계 → 관계 테이블 생성                    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7대 매핑 규칙 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 강한 엔터티 → 테이블 (PK = 식별자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 약한 엔터티 → 테이블 (PK = 소유자FK + 부분키)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 1:1 관계 → 한쪽 테이블에 FK 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 1:N 관계 → N쪽 테이블에 FK 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. M:N 관계 → 교차 테이블 생성 (양쪽 PK가 복합키)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 다치 속성 → 별도 테이블 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. N-ary 관계 → 관계 테이블 생성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 매핑 규칙은 외국어 번역 문법이다. "주어+동사+목적어" 순서를 지키지 않으면 엉뚱한 문장(잘못된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))이 나온다.
 
@@ -46,9 +49,9 @@ tags = ["studynote-database"]
 | **1:N** | N쪽에 FK | 부서←→사원 |
 | **M:N** | **교차 테이블** | 학생←→과목 → 수강(학생ID, 과목ID) |
 | **약한 엔터티** | 소유자 FK + 부분키 = 복합 PK | 주문←→주문상세 |
-| **다치 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)** | 별도 테이블 + FK | 사원(취미) → 취미(사원ID, 취미명) |
+| <strong>다치 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong> | 별도 테이블 + FK | 사원(취미) → 취미(사원ID, 취미명) |
 
-- **📢 섹션 요약 비유**: M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 학생과 과목이 서로 "누가 누구를 듣는지" 모르므로, **수강 기록부(교차 테이블)**를 만들어 연결하는 것이다.
+- **📢 섹션 요약 비유**: M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 학생과 과목이 서로 "누가 누구를 듣는지" 모르므로, <strong>수강 기록부(교차 테이블)</strong>를 만들어 연결하는 것이다.
 
 ---
 
@@ -73,7 +76,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-매핑 규칙은 DB 설계의 "번역 문법"이며, 이를 체계적으로 적용하면 ERD의 비즈니스 의미를 **손실 없이 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 변환**할 수 있다. CASE 도구(ERwin, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)#)가 이 규칙을 자동으로 적용하여 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+매핑 규칙은 DB 설계의 "번역 문법"이며, 이를 체계적으로 적용하면 ERD의 비즈니스 의미를 <strong>손실 없이 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">릴레이션</a>으로 변환</strong>할 수 있다. CASE 도구(ERwin, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)#)가 이 규칙을 자동으로 적용하여 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ---
 
@@ -82,33 +85,35 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ERD** | 매핑 규칙의 입력 |
-| **[릴레이션 스키마](/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/)** | 매핑 규칙의 출력 |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/391_relation_schema_intension/">릴레이션 스키마</a></strong> | 매핑 규칙의 출력 |
 | **교차 테이블** | M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매핑의 핵심 산출물 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** | 매핑 후 적용하는 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> | 매핑 후 적용하는 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 |
 | **약한 엔터티** | 소유자 FK + 부분키 복합 PK 매핑 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ER 모델 (Chen, 1976) — 개념적 데이터 모델]
-    │
-    ▼
-[매핑 규칙 체계화 (1980s) — ERD→릴레이션 7대 규칙]
-    │
-    ▼
-[CASE 도구 (ERwin, 1990s) — 자동 매핑 구현]
-    │
-    ▼
-[Schema-as-Code (2020s) — 코드 기반 스키마 생성]
-    │
-    ▼
-[현재: AI 기반 ERD→스키마 자동 변환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 (Chen, 1976) — 개념적 데이터 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매핑 규칙 체계화 (1980s) — ERD→릴레이션 7대 규칙</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CASE 도구 (ERwin, 1990s) — 자동 매핑 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-as-Code (2020s) — 코드 기반 스키마 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 ERD→스키마 자동 변환</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. ERD는 "학생이 과목을 듣는다"라는 **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 그림**으로 표현한 거예요.
-2. 매핑 규칙은 이 그림을 **컴퓨터가 이해하는 표(테이블)**로 바꾸는 번역 문법이에요.
-3. "학생↔과목" 같은 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 **수강 기록부(교차 테이블)**를 만들어서 연결한답니다!
+1. ERD는 "학생이 과목을 듣는다"라는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 그림</strong>으로 표현한 거예요.
+2. 매핑 규칙은 이 그림을 <strong>컴퓨터가 이해하는 표(테이블)</strong>로 바꾸는 번역 문법이에요.
+3. "학생↔과목" 같은 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 <strong>수강 기록부(교차 테이블)</strong>를 만들어서 연결한답니다!
 
 ---
 

@@ -32,45 +32,41 @@ tags = ["studynote-design-supervision"]
 - 전역 예외 처리기(Global Exception Handler) 미구현
 - `catch (Exception e) { e.printStackTrace(); }` 패턴 남용
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 오류 메시지를 그대로 노출하는 것은 "고장난 자판기가 내부 회로도를 유리창에 붙여두는 것"이다. 수리 직원만 볼 수 있어야 할 정보가 모든 사람에게 공개된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────┐
-│              예외 처리 2-Channel 아키텍처                    │
-│                                                            │
-│  예외 발생                                                  │
-│       │                                                    │
-│       ▼                                                    │
-│  ┌──────────────────────────────────────────────┐          │
-│  │         전역 예외 처리기 (Global Handler)      │          │
-│  │   @ControllerAdvice / web.xml error-page      │          │
-│  └────────────────────┬─────────────────────────┘          │
-│                       │                                    │
-│           ┌───────────┴──────────────┐                     │
-│           │                          │                     │
-│           ▼                          ▼                     │
-│  ┌──────────────────┐   ┌─────────────────────────┐        │
-│  │  사용자 응답      │   │  서버 내부 로그           │        │
-│  │  (Public)        │   │  (Private)               │        │
-│  │                  │   │                          │        │
-│  │ "서비스 오류가    │   │ [ERROR] 2026-04-21       │        │
-│  │  발생했습니다.    │   │ NullPointerException     │        │
-│  │  관리자에게       │   │ at UserDAO.java:45       │        │
-│  │  문의하세요."     │   │ SQL: SELECT * FROM...   │        │
-│  │                  │   │ Stack: ...               │        │
-│  └──────────────────┘   └─────────────────────────┘        │
-│    브라우저에 표시           로그 파일/SIEM에만 기록          │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 처리 2-Channel 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 예외 처리기 (Global Handler)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@ControllerAdvice / web.xml error-page</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 응답</div><div class="kb-diagram-cell">서버 내부 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Public)</div><div class="kb-diagram-cell">(Private)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ "서비스 오류가 │</div><div class="kb-diagram-node">ERROR</div><div class="kb-diagram-note">2026-04-21 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생했습니다.</div><div class="kb-diagram-cell">NullPointerException</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리자에게</div><div class="kb-diagram-cell">at UserDAO.java:45</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문의하세요."</div><div class="kb-diagram-cell">SQL: SELECT * FROM...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack: ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브라우저에 표시 로그 파일/SIEM에만 기록</div></div>
+</div>
+</div>
+
+
 
 ```java
 // 취약한 코드 (Bad)
@@ -125,20 +121,23 @@ public class GlobalExceptionHandler {
 | `logging.level.root` | `DEBUG` | `WARN` |
 | `spring.mvc.log-request-details` | `true` | `false` |
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│          개발 vs 운영 오류 응답 차이                          │
-│                                                             │
-│  [개발 환경 응답]          [운영 환경 응답]                   │
-│  {                         {                               │
-│    "error": "500",           "error": "서비스 오류",         │
-│    "message": "NullPointer", "code": "ERR_500",            │
-│    "trace": "at com.app...", "message": "관리자 문의"        │
-│    "path": "/api/user/1"   }                               │
-│  }                                                          │
-│       ↑ 공격자에게 노출 금지      ↑ 안전한 응답              │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 vs 운영 오류 응답 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발 환경 응답</div><div class="kb-diagram-node">운영 환경 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"error": "500", "error": "서비스 오류",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"message": "NullPointer", "code": "ERR_500",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"trace": "at com.app...", "message": "관리자 문의"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"path": "/api/user/1" }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 공격자에게 노출 금지 ↑ 안전한 응답</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 개발 환경과 운영 환경의 오류 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이는 "연습장과 공연장의 차이"다. 연습 중엔 감독이 큰 소리로 지시를 외치지만, 공연 중엔 관객에게는 들리지 않게 귓속말로만 한다.
 
@@ -147,11 +146,11 @@ public class GlobalExceptionHandler {
 ## Ⅳ. 실무 적용 및 기술사 판단
 | 점검 단계 | 점검 방법 | 판정 기준 |
 |:---|:---|:---|
-| **1단계: [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | `application-prod.properties` 검토 | `include-stacktrace=never` |
+| <strong>1단계: <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | `application-prod.properties` 검토 | `include-stacktrace=never` |
 | **2단계: 고의 오류 유발** | 존재하지 않는 URL 접근, 잘못된 파라미터 전송 | 일반 오류 메시지만 반환 |
-| **3단계: SQL 오류 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | `' OR '1'='1` 입력 후 응답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | DB 오류 메시지 미노출 |
+| <strong>3단계: SQL 오류 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | `' OR '1'='1` 입력 후 응답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | DB 오류 메시지 미노출 |
 | **4단계: 소스코드 검색** | `e.printStackTrace()` 패턴 검색 | 운영 코드에서 0건 |
-| **5단계: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | 응답 헤더의 `Server:`, `X-Powered-By:` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 서버 정보 미노출 |
+| <strong>5단계: <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 헤더 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | 응답 헤더의 `Server:`, `X-Powered-By:` [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 서버 정보 미노출 |
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답 헤더에서도 서버 정보가 노출될 수 있다.
 
@@ -182,7 +181,7 @@ X-Frame-Options: DENY
 ## Ⅴ. 기대효과 및 결론
 예외 처리 정보 노출을 방지하면 공격자가 시스템 구조를 역추적하는 첫 번째 발판을 차단한다. 많은 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([Advanced Persistent Threat](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/), 지능형 지속 공격) 사례에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 정찰 단계의 핵심 정보는 오류 메시지 분석을 통해 수집되었다. 운영 환경의 오류 응답 일반화와 서버 측 로깅 체계 구축은 최소 비용으로 최대 효과를 얻는 보안 기초 조치다.
 
-감리인은 단순히 코드 패턴 탐색에 그치지 않고, **실제 고의 오류를 유발하여 응답 내용을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**하는 블랙박스 테스트를 병행해야 한다.
+감리인은 단순히 코드 패턴 탐색에 그치지 않고, <strong>실제 고의 오류를 유발하여 응답 내용을 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>하는 블랙박스 테스트를 병행해야 한다.
 
 확장 방향은 ① [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ② Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/), ③ [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기반 이상 탐지와 결합하는 것이다.
 

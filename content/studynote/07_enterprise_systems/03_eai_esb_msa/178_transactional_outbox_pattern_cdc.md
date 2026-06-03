@@ -21,27 +21,28 @@ tags = ["studynote-enterprise"]
 
 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)는 "내 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에는 성공이 기록됐는데, 외부 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)에는 그 사실이 전달되지 않는" 문제를 해결하기 위한 패턴이다. 모놀리식에서는 하나의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 여러 테이블을 같이 커밋하면 됐지만, MSA에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 Database가 나뉘어 있어 외부 브로커 발행까지 한 번에 묶기 어렵다. 결국 단순한 `save()` 다음 `publish()` 구조는 눈에 잘 띄지 않는 실패 구간을 남긴다.
 
-문제의 핵심은 외부 네트워크 호출이 로컬 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 같은 성질이 아니라는 점이다. 애플리케이션이 주문 저장 직후 죽으면 이벤트는 사라지고, 반대로 이벤트를 먼저 보내고 저장이 실패하면 없는 주문이 외부로 퍼진다. 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 실패는 코드가 부주의해서가 아니라, **서로 다른 두 시스템에 같은 순간 성공을 강제하려는 구조 자체**에서 생긴다.
+문제의 핵심은 외부 네트워크 호출이 로컬 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 같은 성질이 아니라는 점이다. 애플리케이션이 주문 저장 직후 죽으면 이벤트는 사라지고, 반대로 이벤트를 먼저 보내고 저장이 실패하면 없는 주문이 외부로 퍼진다. 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 실패는 코드가 부주의해서가 아니라, <strong>서로 다른 두 시스템에 같은 순간 성공을 강제하려는 구조 자체</strong>에서 생긴다.
 
 아래 그림은 아웃박스가 왜 필요한지 보여 주는 대표적인 실패 창을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Dual-write failure window                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ 1) ORDER row commit  ----X---- broker publish failed               │
-│    => local state exists, event missing                            │
-│                                                                    │
-│ 2) broker publish ----X---- ORDER rollback or app crash            │
-│    => event exists, local truth missing                            │
-│                                                                    │
-│ 3) Outbox pattern                                                   │
-│    ORDER row + OUTBOX row committed together                       │
-│    => relay may be delayed, but event intent is durable            │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 아웃박스의 출발점은 "브로커 발행도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 묶자"가 아니라, **브로커로 내보낼 사실을 먼저 내 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 안에 안전하게 남기자**는 것이다. 이 한 단계가 있어야 이후 재시도와 비동기 전달이 의미를 가진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dual-write failure window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) ORDER row commit ----X---- broker publish failed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; local state exists, event missing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) broker publish ----X---- ORDER rollback or app crash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; event exists, local truth missing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Outbox pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORDER row + OUTBOX row committed together</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; relay may be delayed, but event intent is durable</div></div>
+</div>
+</div>
+
+
+
+즉 아웃박스의 출발점은 "브로커 발행도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 묶자"가 아니라, <strong>브로커로 내보낼 사실을 먼저 내 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> 안에 안전하게 남기자</strong>는 것이다. 이 한 단계가 있어야 이후 재시도와 비동기 전달이 의미를 가진다.
 
 - **📢 섹션 요약 비유**: 우체국에 바로 달려가 편지를 보내다 넘어질 수 있다면, 먼저 책상 위 발송함에 편지를 넣어 두는 편이 안전하다. 우체부가 늦을 수는 있어도 편지 자체는 사라지지 않는다.
 
@@ -51,7 +52,7 @@ tags = ["studynote-enterprise"]
 
 아웃박스 패턴의 핵심 구조는 간단하다. 애플리케이션은 비즈니스 테이블에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 같은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 `outbox` 테이블에도 이벤트 레코드를 함께 쓴다. 커밋이 성공하면 "업무 상태"와 "발행해야 할 사실"이 동시에 영속화된다. 그 뒤 별도 릴레이 프로세스가 Outbox를 읽어 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)로 전달한다.
 
-중요한 포인트는 **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)은 애플리케이션 코드가 아니라 로컬 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 제공한다**는 점이다. 따라서 브로커 발행은 비동기여도 괜찮다. 이미 "발행해야 한다"는 사실이 Outbox에 남아 있으므로, 릴레이는 실패하면 재시도하면 되고, 잠시 늦더라도 정합성은 잃지 않는다.
+중요한 포인트는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>은 애플리케이션 코드가 아니라 로컬 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>이 제공한다</strong>는 점이다. 따라서 브로커 발행은 비동기여도 괜찮다. 이미 "발행해야 한다"는 사실이 Outbox에 남아 있으므로, 릴레이는 실패하면 재시도하면 되고, 잠시 늦더라도 정합성은 잃지 않는다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -64,22 +65,23 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 Outbox + [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 흐름을 한눈에 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Transactional outbox with CDC relay                                │
-├────────────────────────────────────────────────────────────────────┤
-│ App transaction                                                    │
-│   ├─ INSERT business row                                           │
-│   ├─ INSERT outbox(event_id, aggregate_id, payload)                │
-│   └─ COMMIT                                                        │
-│                                                                    │
-│ Database commit log ─▶ CDC connector ─▶ Message broker ─▶ Consumer │
-│         │                         │                   │             │
-│         └─ atomic truth secured   └─ retry / resume   └─ idempotent│
-└────────────────────────────────────────────────────────────────────┘
-```
 
-릴레이 방식은 크게 두 가지다. **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))** 은 주기적으로 `outbox` 테이블을 조회해 새 레코드를 가져가므로 구현이 쉽다. **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)** 는 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 변경을 감지하므로 조회 부하가 적고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간도 짧다. 하지만 어떤 방식을 써도 핵심은 동일하다. **정합성은 Outbox row가 커밋된 순간 확보되고, 릴레이는 그 사실을 전달하는 후속 단계**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transactional outbox with CDC relay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App transaction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ INSERT business row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ INSERT outbox(event_id, aggregate_id, payload)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ COMMIT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database commit log ─▶ CDC connector ─▶ Message broker ─▶ Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ atomic truth secured ─ retry / resume ─ idempotent</div></div>
+</div>
+</div>
+
+
+
+릴레이 방식은 크게 두 가지다. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong> 은 주기적으로 `outbox` 테이블을 조회해 새 레코드를 가져가므로 구현이 쉽다. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong> 는 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 변경을 감지하므로 조회 부하가 적고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간도 짧다. 하지만 어떤 방식을 써도 핵심은 동일하다. <strong>정합성은 Outbox row가 커밋된 순간 확보되고, 릴레이는 그 사실을 전달하는 후속 단계</strong>다.
 
 실무에서는 다음과 같은 형태의 Outbox [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 자주 쓴다.
 
@@ -112,7 +114,7 @@ CREATE TABLE outbox (
 | 아웃박스 + [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) | 로컬 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 안 | 실시간성, 낮은 DB 부하 | 운영 복잡도 증가 | 고트래픽 이벤트 시스템 |
 | [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) | 여러 시스템 전체 | 강한 동기 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) | 락, 병목, 장애 전파 | 제한된 강결합 환경 |
 
-여기서 중요한 구분은 **아웃박스는 "로컬 상태와 이벤트 기록"까지만 원자적으로 묶는다**는 점이다. 이후 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 즉시 일관되게 만드는 것은 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)), 멱등 소비자 같은 다른 패턴과 함께 풀어야 한다. 즉 아웃박스는 전체 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 만능 해법이 아니라, [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)의 첫 단계를 안정화하는 기반 공사다.
+여기서 중요한 구분은 <strong>아웃박스는 "로컬 상태와 이벤트 기록"까지만 원자적으로 묶는다</strong>는 점이다. 이후 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 즉시 일관되게 만드는 것은 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)), 멱등 소비자 같은 다른 패턴과 함께 풀어야 한다. 즉 아웃박스는 전체 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 만능 해법이 아니라, [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)의 첫 단계를 안정화하는 기반 공사다.
 
 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)과도 헷갈리기 쉽다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자체가 시스템의 진실 원천이지만, 아웃박스는 보통 비즈니스 테이블이 여전히 주 저장소이고 Outbox는 외부 전파를 위한 보조 기록이다. 따라서 기존 CRUD 기반 시스템에 점진적으로 붙이기 쉽다는 점이 아웃박스의 강점이다.
 
@@ -122,7 +124,7 @@ CREATE TABLE outbox (
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 아웃박스를 적용할 때 가장 먼저 결정할 것은 "[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이면 충분한가, CDC가 필요한가"다. 트래픽이 크지 않고 몇 초 안 전달이면 충분한 시스템은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 더 단순할 수 있다. 반면 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 낮은 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 조회 부하 최소화가 중요하면 CDC가 적합하다. 기술사 답안에서는 CDC를 무조건 상위 개념처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **Outbox의 전달 메커니즘 중 고급 구현**으로 설명하는 것이 더 정확하다.
+실무에서 아웃박스를 적용할 때 가장 먼저 결정할 것은 "[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이면 충분한가, CDC가 필요한가"다. 트래픽이 크지 않고 몇 초 안 전달이면 충분한 시스템은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 더 단순할 수 있다. 반면 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 낮은 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 조회 부하 최소화가 중요하면 CDC가 적합하다. 기술사 답안에서는 CDC를 무조건 상위 개념처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, <strong>Outbox의 전달 메커니즘 중 고급 구현</strong>으로 설명하는 것이 더 정확하다.
 
 두 번째 판단은 소비자 설계다. 아웃박스는 보통 "최소 한 번 이상 전달 (At-Least-Once Delivery)" 특성을 가지므로, 중복 발행 가능성을 제거하지 않는다. 따라서 소비자는 `event_id` 기반 중복 제거, 유니크 키, 상태 검사로 멱등하게 동작해야 한다. 이를 빼면 Outbox는 이벤트 유실을 막는 대신 중복 처리 장애를 초래할 수 있다.
 
@@ -142,7 +144,7 @@ CREATE TABLE outbox (
 - 전송 성공 전에 Outbox 레코드를 먼저 삭제하거나, 반대로 영구 보관만 하고 정리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 없는 경우
 - 한 토픽에 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이벤트를 뒤섞어 순서와 책임 경계를 잃는 경우
 
-실무 의사결정에서 마지막으로 중요한 것은 관측성이다. Outbox 적체 건수, 최고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 재시도 횟수, 브로커 전송 실패율이 보여야 운영할 수 있다. 결국 아웃박스는 코드 한 줄이 아니라 **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계, 릴레이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 소비자 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 운영 대시보드를 함께 갖춘 시스템 패턴**이다.
+실무 의사결정에서 마지막으로 중요한 것은 관측성이다. Outbox 적체 건수, 최고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 재시도 횟수, 브로커 전송 실패율이 보여야 운영할 수 있다. 결국 아웃박스는 코드 한 줄이 아니라 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계, 릴레이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인, 소비자 <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a>, 운영 대시보드를 함께 갖춘 시스템 패턴</strong>이다.
 
 - **📢 섹션 요약 비유**: 우편함을 잘 만들어도 배달 추적표와 받는 사람 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차가 없으면 결국 분실 사고가 난다. 아웃박스도 보내는 쪽만 안전해서는 충분하지 않다.
 
@@ -154,7 +156,7 @@ CREATE TABLE outbox (
 
 그러나 한계도 분명하다. 아웃박스만으로 시스템 전체에 즉시 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 생기지는 않으며, 중복 전달·순서 보장·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화·테이블 비대화 같은 운영 문제가 남는다. 특히 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 도입은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 권한, 커넥터 운영, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 같은 새로운 운영 책임을 가져온다.
 
-결론적으로 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)는 "브로커까지 한 번에 커밋하는 기술"이 아니라, **브로커 발행 의도를 로컬 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 안에 원자적으로 남겨 두고 이후 비동기 전달을 신뢰 가능하게 만드는 패턴**이다. 기억할 문장은 하나다. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 잃지 말고, 전달은 나중에 안전하게 반복하라.**
+결론적으로 [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)는 "브로커까지 한 번에 커밋하는 기술"이 아니라, <strong>브로커 발행 의도를 로컬 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> 안에 원자적으로 남겨 두고 이후 비동기 전달을 신뢰 가능하게 만드는 패턴</strong>이다. 기억할 문장은 하나다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 먼저 잃지 말고, 전달은 나중에 안전하게 반복하라.</strong>
 
 - **📢 섹션 요약 비유**: 중요한 부탁은 입으로만 전하지 말고 메모를 남겨 두어야 한다. 메모가 남아 있으면 전달이 늦어질 수는 있어도 부탁 자체가 사라지지는 않는다.
 
@@ -175,25 +177,25 @@ CREATE TABLE outbox (
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business command accepted
-        │
-        ▼
-Local transaction: business row + outbox row
-        │
-        ▼
-Atomic commit in Database
-        │
-        ├──────────────► Polling relay
-        │
-        └──────────────► CDC relay
-                              │
-                              ▼
-                      Message broker publish
-                              │
-                              ▼
-                 Idempotent consumer + eventual consistency
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business command accepted</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Local transaction: business row + outbox row</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Atomic commit in Database</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Polling relay</div>
+<div class="kb-diagram-tree-item" style="--depth:4">CDC relay</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Message broker publish</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Idempotent consumer + eventual consistency</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "명령 수락 → 로컬 원자 커밋 → 릴레이 방식 선택 → 브로커 발행 → 소비자 멱등 처리"라는 아웃박스 패턴의 실제 운영 경로를 요약한다.
 

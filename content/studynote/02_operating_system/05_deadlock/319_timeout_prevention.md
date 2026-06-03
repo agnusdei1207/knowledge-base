@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 환상형 대기 고리를 수학적으로 찾거나 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 시뮬레이션 돌리는 모든 데드락 예방/회피/탐지 이론들을 깡그리 무시하고, 단순히 **"특정 스레드가 자원을 기다린 지 N초(임계 시간)가 경과하면 묻지도 따지지도 않고 데드락으로 간주해 버려서 에러 내고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시키는 야성적 실무 제어 수단"**이다.
-> 2. **가치**: 가장 멍청한 로직처럼 보이지만 `O(N^2)`에 달하는 시스템 스캔 오버헤드를 `0(Zero)`로 만들어버리고 복잡한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 로직 파괴를 1방울 연산량 없이 전면 돌파하기에, **가벼움도 스피드가 최고인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) DB(MySQL)나 현대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통신의 최강의 생존 실전 룰**로 굴림한다.
-> 3. **융합**: 하지만 네트워크가 느려서 연산이 조금 밀린 건지, 진짜로 데드락이 나서 영원히 멈춘 건지 구별할 천리안이 없기에, **애꿎은 정상 작업마저 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)에 걸려 무수히 난도질(에러/강제 종료)당할 수 있는 치명적 한계(False Positive)** 탓에 Timeout 기준값의 튜닝이 비즈니스 성패를 가른다.
+> 1. **본질**: 환상형 대기 고리를 수학적으로 찾거나 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 시뮬레이션 돌리는 모든 데드락 예방/회피/탐지 이론들을 깡그리 무시하고, 단순히 <strong>"특정 스레드가 자원을 기다린 지 N초(임계 시간)가 경과하면 묻지도 따지지도 않고 데드락으로 간주해 버려서 에러 내고 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 시키는 야성적 실무 제어 수단"</strong>이다.
+> 2. **가치**: 가장 멍청한 로직처럼 보이지만 `O(N^2)`에 달하는 시스템 스캔 오버헤드를 `0(Zero)`로 만들어버리고 복잡한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 로직 파괴를 1방울 연산량 없이 전면 돌파하기에, <strong>가벼움도 스피드가 최고인 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> DB(MySQL)나 현대 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 통신의 최강의 생존 실전 룰</strong>로 굴림한다.
+> 3. **융합**: 하지만 네트워크가 느려서 연산이 조금 밀린 건지, 진짜로 데드락이 나서 영원히 멈춘 건지 구별할 천리안이 없기에, <strong>애꿎은 정상 작업마저 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>에 걸려 무수히 난도질(에러/강제 종료)당할 수 있는 치명적 한계(False Positive)</strong> 탓에 Timeout 기준값의 튜닝이 비즈니스 성패를 가른다.
 
 ---
 
@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 "아니 시발 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1만 개가 통신하는데 무슨 WFG [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리라고? 이딴 연산할 바엔 서버가 먼저 죽겠다!" 
 
 그래서 현장의 실무자들은 수학책을 던져버리고 엄청나게 터프하고 무식한 한 줄의 `Config` 값을 도입했다.
-**"야. 그냥 5초 기다렸는데 자원 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 안 떨어져? 그거 무조건 데드락 난 거야. 더 기다리지말고 그냥 바로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 터트려서 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시켜버려. 그리고 어플리케이션한테 재시도(Retry) 보내."**
-이것이 바로 신의 한 수, **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) (Timeout)** 예방법의 탄생이다.
+<strong>"야. 그냥 5초 기다렸는데 자원 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 안 떨어져? 그거 무조건 데드락 난 거야. 더 기다리지말고 그냥 바로 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 터트려서 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>시켜버려. 그리고 어플리케이션한테 재시도(Retry) 보내."</strong>
+이것이 바로 신의 한 수, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> (Timeout)</strong> 예방법의 탄생이다.
 
 **💡 비유**: 길거리 4거리에 자동차 꼬리물기로 원형 데드락이 터졌다. 과학자(OS이론)는 CCTV를 돌려 "1번 차가 우회전, 2번 차가 좌회전, 사이클 완성!" 분석하는 데 1시간을 쓴다. 실무자([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))는 눈 감고 카운트다운을 외친다. "3초간 차선 하나라도 아무 방구 소리도 안 나면 니들 꼬인 걸로 친다! 3! 2! 1! 땡! 싹 다 견인해 버려!" 분석 필요 없고 너무 깔끔하고 싸다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         Timeout 메커니즘의 무지성, 그러나 미친 효율 통치        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [이론적 알고리즘]                                              │
-│   "지금 자원 락 잡은 프로세스들을 전부 순회해 사이클인지..."    │
-│   (연산 복잡도 폭발 O(N^2), 성능 저하, 메모리 오버헤드 떡락)    │
-│                                                                 │
-│  [Timeout (타임아웃)의 미학]                                    │
-│   P1 락 요청 → T+0.0sec (대기 시작)                             │
-│   P1 무한 슬립 → T+4.9sec (아직 아무 일 없음)                   │
-│   P1 사망 펑! → T+5.0sec (Limit 돌파!)                          │
-│                                                                 │
-│   경찰(DB): "너 왜 혼자 터져 죽냐?"                             │
-│   P1 Config: "나 5초 동안 락 못 잡았어요. 데드락 100%니까       │
-│               그냥 혼자 사이클 예방 차원에서 혀 깨물고 뒤질게요!│
-│               저만 던져버리면 나머지 애들 살아서 굴러갑니다!"   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timeout 메커니즘의 무지성, 그러나 미친 효율 통치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이론적 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지금 자원 락 잡은 프로세스들을 전부 순회해 사이클인지..."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(연산 복잡도 폭발 O(N^2), 성능 저하, 메모리 오버헤드 떡락)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Timeout (타임아웃)의 미학</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 락 요청 → T+0.0sec (대기 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 무한 슬립 → T+4.9sec (아직 아무 일 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 사망 펑! → T+5.0sec (Limit 돌파!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경찰(DB): "너 왜 혼자 터져 죽냐?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 Config: "나 5초 동안 락 못 잡았어요. 데드락 100%니까</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그냥 혼자 사이클 예방 차원에서 혀 깨물고 뒤질게요!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저만 던져버리면 나머지 애들 살아서 굴러갑니다!"</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 이 방식은 무식하지만 속도는 빛입니다. "범인이 누군지 수사(탐지) 마라. 밤 12시까지 안 자고 남아있는 놈은 무조건 다 도둑(데드락)으로 간주하고 모가지 베어라!" 연쇄 교착을 한 방에 썰어버리는 극단적 타겟팅 전략입니다.
 
@@ -62,11 +62,11 @@ tags = ["studynote-operating-system"]
 
 이 멋진 야매 전략에는 치명적인 약점이 있다. 바로 사람을 잡을 수 있다는 점이다.
 
-1. **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 판별 불가 (Indistinguishability)**:
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 판별 불가 (Indistinguishability)</strong>:
    - 만약 P1이 디스크에 기가바이트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 다운받느라 정상적으로 락 잡고 10초 돌고 있었다. P2가 줄 섰는데, P2는 데드락이 아니라 그냥 착하게 기다리고 있었다. 
    - 근데 Timeout이 5초면? P2가 5초 되자마자 "와 데드락 났다!" 소리치며 뻥 터져 죽어버리고 DB 에러가 우르르 뜬다. P1은 10초 뒤 멀쩡하게 다운 끝냈는데 뒤를 돌아보니 P2가 억울하게 자살해 있는 대참사(False Positive 오판)가 벌어지는 것이다.
 2. **트레이드 오프의 미학 (Tuning Threshold)**:
-   - 이 억울함을 피하려면 5초를 50초로 늘리면 된다. 하지만 그렇게 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 기준값을 늘릴수록? **진짜 데드락에 빠졌을 때 내 시스템이 멍청하게 뻗어있는 빙하기 시간이 50초로 길어지는 최악의 병목 참사**를 맞이하게 된다.
+   - 이 억울함을 피하려면 5초를 50초로 늘리면 된다. 하지만 그렇게 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 기준값을 늘릴수록? <strong>진짜 데드락에 빠졌을 때 내 시스템이 멍청하게 뻗어있는 빙하기 시간이 50초로 길어지는 최악의 병목 참사</strong>를 맞이하게 된다.
 
 **📢 섹션 요약 비유**: 친구 만나기로 했는데 10분 안 오면 "바람맞았다(데드락)" 라고 치부하고 바로 집에 가버리는 겁니다. 1시간 기다리면(긴 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 화나서 내 시간을 버리게 되지만, 1분 만에 집에 가버리면(짧은 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 진짜 늦은 친구를 바람맞았다고 오해해버려서 싸움나게 되는 무시무시한 눈치 게임입니다.
 
@@ -76,9 +76,9 @@ tags = ["studynote-operating-system"]
 
 | 척도 항목 | 정밀 뱅커스/탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) (Timeout) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 |:---|:---|:---|
-| **데드락 해결의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)** | 100% 데드락만 잡아내 죽임 | 가끔 멀쩡한 애 찔러 죽일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 존재 (오탐) |
-| **백그라운드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부하** | WFG 스캔 돌리느라 CPU 질식함 | **연산 0 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 방해 일절 없음의 빛** |
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 효용성** | 노드끼리 통신하느라 네트웍 장비 다 부서짐 | **노드 자기 혼자 시계 보고 자살하니까 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최강자** |
+| <strong>데드락 해결의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | 100% 데드락만 잡아내 죽임 | 가끔 멀쩡한 애 찔러 죽일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 존재 (오탐) |
+| <strong>백그라운드 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 부하</strong> | WFG 스캔 돌리느라 CPU 질식함 | <strong>연산 0 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>) 방해 일절 없음의 빛</strong> |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경의 효용성</strong> | 노드끼리 통신하느라 네트웍 장비 다 부서짐 | <strong>노드 자기 혼자 시계 보고 자살하니까 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 최강자</strong> |
 
 **📢 섹션 요약 비유**: 복잡한 병의 진짜 원인을 찾겠다고 수천만 원어치 MRI 수십 번 돌리기 vs 그냥 배 아프다 하면 100원짜리 소화제 아무나 다 던져주기. 100원짜리 소화제로 오진이 쪼금 나도 어차피 사람은 잘 크니까 이게 현대 IT 시장의 승부 패러다임입니다.
 
@@ -87,11 +87,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **RDBMS 락 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 세팅 (MySQL InnoDB)**: `innodb_lock_wait_timeout=50` (기본값 보통 50초). 실무 DBA들의 1순위 만병통치약. MySQL은 WFG로 무거운 탐지도 곁들이지만, 이걸 설정해 두면 락 잡고 무기력증에 빠진 쿼리들을 50초가 되면 칼같이 `ER_LOCK_WAIT_TIMEOUT` 에러 코드 뱉으며 모가지를 대거 날려버린다. 트래픽 폭주해서 디비가 멈출 뻔한 걸 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 예제 1줄이 다 막아 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 수술해 낸다.
-2. **[REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 결제 통신 및 넷플릭스 Hystrix**: 타 서버로 결제 찔렀는데(자원 요청 대기) 3초 지나도 응답 없다면? 통신을 즉시 폭파하고 클라이언트에게 `Timeout Exception` 주고 재시도 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 태우거나 차단([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)). [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 데드락을 원천 예방하는 실증적 지배 논리다. 
+1. <strong>RDBMS 락 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 세팅 (MySQL InnoDB)</strong>: `innodb_lock_wait_timeout=50` (기본값 보통 50초). 실무 DBA들의 1순위 만병통치약. MySQL은 WFG로 무거운 탐지도 곁들이지만, 이걸 설정해 두면 락 잡고 무기력증에 빠진 쿼리들을 50초가 되면 칼같이 `ER_LOCK_WAIT_TIMEOUT` 에러 코드 뱉으며 모가지를 대거 날려버린다. 트래픽 폭주해서 디비가 멈출 뻔한 걸 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 예제 1줄이 다 막아 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 수술해 낸다.
+2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a> 결제 통신 및 넷플릭스 Hystrix</strong>: 타 서버로 결제 찔렀는데(자원 요청 대기) 3초 지나도 응답 없다면? 통신을 즉시 폭파하고 클라이언트에게 `Timeout Exception` 주고 재시도 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 태우거나 차단([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)). [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 데드락을 원천 예방하는 실증적 지배 논리다. 
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **잘못된 배치(Batch) 잡의 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 폭사**: 새벽에 100만 유저 정산해주는 대규모 쿼리문은 기본 3시간 락 잡고 돈다. 그런데 공통 셋팅 `Timeout 50초`를 걸어버리면? 배치 작업자는 50초마다 쿼리가 뻥 터져서 "우리 회사 정산 시스템 망가졌어요 데드락 납나봐요!" 비명을 지르며 3일 밤을 샌다. 용도에 따라 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)의 T값을 철벽같이 조율([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Tuning)해 줘야 한다. 
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>잘못된 배치(Batch) 잡의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 폭사</strong>: 새벽에 100만 유저 정산해주는 대규모 쿼리문은 기본 3시간 락 잡고 돈다. 그런데 공통 셋팅 `Timeout 50초`를 걸어버리면? 배치 작업자는 50초마다 쿼리가 뻥 터져서 "우리 회사 정산 시스템 망가졌어요 데드락 납나봐요!" 비명을 지르며 3일 밤을 샌다. 용도에 따라 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)의 T값을 철벽같이 조율([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Tuning)해 줘야 한다. 
 
 **📢 섹션 요약 비유**: 이 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 무기를 잘못 튜닝해서 짧게 주면, 조금만 느린 사람은 이 도시에 살 수가 없습니다. 노인(배치 작업)이 횡단보도를 천천히 건너는데 10초 만에 빨간불로 바꿔버리면 다 치어(강제 종료) 죽어버리는 아수라장이 열립니다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-operating-system"]
 | 개발자 구현 난이도 | 뱅커스, 회피 코드 오지게 다 짜야 함 (불가) | 변수 1개 Config에 박고, Client단에서 Retry Catch |
 
 `교착 상태 예방 메커니즘을 위한 타임아웃(Timeout)`의 위엄은 컴퓨터 공학도들의 "어떻게든 완벽하게 원인을 찾아 증명하겠다"는 결벽증에 종지부를 찍은 실전 아키텍처의 찬란한 등대다.
-교착([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))인지 그냥 느린 정상(Normal)인지 신조차 몰라도, **"기다리게 해서 내 전체 시스템을 진흙탕에 빠트릴 바에야, 억울하더라도 시간 넘기면 네 놈 모가지를 쳐내겠다!"**는 이 터프한 철학 하나로 거대한 아마존, 구글의 클러스터 노드들이 서로 물리지 않고 숨을 쉬고 평화를 누리게 되었다.
+교착([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))인지 그냥 느린 정상(Normal)인지 신조차 몰라도, <strong>"기다리게 해서 내 전체 시스템을 진흙탕에 빠트릴 바에야, 억울하더라도 시간 넘기면 네 놈 모가지를 쳐내겠다!"</strong>는 이 터프한 철학 하나로 거대한 아마존, 구글의 클러스터 노드들이 서로 물리지 않고 숨을 쉬고 평화를 누리게 되었다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -122,15 +122,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분산 시스템에서의 교착 상태 탐지]
-    │
-    ▼
-[교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용]
-    │
-    ├──▶ [2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)]
-    └──▶ [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 시스템에서의 교착 상태 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

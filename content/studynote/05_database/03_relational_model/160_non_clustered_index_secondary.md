@@ -11,7 +11,7 @@ tags = ["studynote-database"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Non-[Clustered Index](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/))는 테이블 본문을 다시 정렬하지 않고, **별도의 B+트리 (B+Tree)에 검색 키와 행 위치 정보만 정리해 둔 보조 접근 경로**다.
+> 1. **본질**: 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Non-[Clustered Index](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/))는 테이블 본문을 다시 정렬하지 않고, <strong>별도의 B+트리 (B+Tree)에 검색 키와 행 위치 정보만 정리해 둔 보조 접근 경로</strong>다.
 > 2. **가치**: 하나의 테이블에 여러 검색 축을 동시에 부여할 수 있어, 이름·이메일·주문일자처럼 서로 다른 `WHERE` 조건을 빠르게 처리하는 데 유리하다.
 > 3. **판단 포인트**: 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 보고 남발하면 안 되며, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)), 추가 테이블 조회 비용, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하를 함께 따져야 진짜 효과가 난다.
 
@@ -19,9 +19,9 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 순서와 독립적으로 만드는 보조 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**다. 즉 행이 디스크에 어떤 순서로 저장되어 있든, 자주 찾는 컬럼 기준으로만 따로 정렬된 탐색 구조를 둔다. [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 줄 세우는 방식"이라면, 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "찾아가는 목차를 여러 개 더 만드는 방식"에 가깝다.
+넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장 순서와 독립적으로 만드는 보조 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>다. 즉 행이 디스크에 어떤 순서로 저장되어 있든, 자주 찾는 컬럼 기준으로만 따로 정렬된 탐색 구조를 둔다. [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 줄 세우는 방식"이라면, 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "찾아가는 목차를 여러 개 더 만드는 방식"에 가깝다.
 
-이 구조가 필요한 이유는 실무 질의가 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK, Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 하나로만 끝나지 않기 때문이다. 고객 테이블을 생각해 보면, 어떤 화면은 고객 ID로 찾고, 어떤 화면은 이메일로 찾고, 또 어떤 화면은 가입일 범위로 조회한다. 테이블을 한 번만 물리 정렬할 수 있는 환경에서는 이런 다양한 검색 패턴을 **별도 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경로**로 보완해야 한다.
+이 구조가 필요한 이유는 실무 질의가 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK, Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 하나로만 끝나지 않기 때문이다. 고객 테이블을 생각해 보면, 어떤 화면은 고객 ID로 찾고, 어떤 화면은 이메일로 찾고, 또 어떤 화면은 가입일 범위로 조회한다. 테이블을 한 번만 물리 정렬할 수 있는 환경에서는 이런 다양한 검색 패턴을 <strong>별도 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 경로</strong>로 보완해야 한다.
 
 결국 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 출발점은 유연성이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 본문을 건드리지 않고도 다른 조회 축을 추가할 수 있으므로, 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 시스템에서 가장 널리 쓰이는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 하나가 되었다.
 
@@ -31,27 +31,26 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심은 리프 노드 (Leaf Node)가 실제 행 전체를 담지 않고, **행 위치를 가리키는 포인터**를 보관한다는 점이다. 이 포인터는 엔진에 따라 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (RID, Row [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))일 수도 있고, 클러스터드 키 값일 수도 있다. 따라서 검색은 보통 두 단계로 일어난다. 먼저 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 후보 행을 찾고, 그다음 실제 테이블로 한 번 더 내려가 필요한 컬럼을 읽는다.
+넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심은 리프 노드 (Leaf Node)가 실제 행 전체를 담지 않고, <strong>행 위치를 가리키는 포인터</strong>를 보관한다는 점이다. 이 포인터는 엔진에 따라 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) (RID, Row [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))일 수도 있고, 클러스터드 키 값일 수도 있다. 따라서 검색은 보통 두 단계로 일어난다. 먼저 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 후보 행을 찾고, 그다음 실제 테이블로 한 번 더 내려가 필요한 컬럼을 읽는다.
 
 아래 그림은 이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 → 본문 조회" 경로를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        넌클러스터드 인덱스의 기본 조회 경로                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Query: WHERE email = 'kim@example.com'                             │
-│                                                                    │
-│ [Non-Clustered Index B+Tree]                                       │
-│   root/branch -> leaf: email='kim@example.com' -> row locator      │
-│                                                    │               │
-│                                                    ▼               │
-│ [Base Table or Clustered Data] -> target row fetch -> column read  │
-│                                                                    │
-│ If needed columns are already in index: table lookup can be skipped│
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림에서 중요한 부분은 마지막 줄이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 없는 컬럼을 `SELECT`하면 테이블로 다시 가야 하므로, 랜덤 입출력 (Random I/O) 비용이 늘어난다. 반대로 필요한 컬럼이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 들어 있으면 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 되어 본문 접근을 생략할 수 있다. 그래서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 단순히 "검색 컬럼 하나 추가"가 아니라, **조회 경로 전체를 얼마나 짧게 만들 것인가**의 문제다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넌클러스터드 인덱스의 기본 조회 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query: WHERE email = 'kim@example.com'</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Non-Clustered Index B+Tree</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">root/branch -&gt; leaf: email='kim@example.com' -&gt; row locator</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Base Table or Clustered Data</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">target row fetch -&gt; column read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If needed columns are already in index: table lookup can be skipped</div></div>
+</div>
+</div>
+
+
+
+이 그림에서 중요한 부분은 마지막 줄이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 없는 컬럼을 `SELECT`하면 테이블로 다시 가야 하므로, 랜덤 입출력 (Random I/O) 비용이 늘어난다. 반대로 필요한 컬럼이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 들어 있으면 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 되어 본문 접근을 생략할 수 있다. 그래서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 단순히 "검색 컬럼 하나 추가"가 아니라, <strong>조회 경로 전체를 얼마나 짧게 만들 것인가</strong>의 문제다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 의미 |
 | :--- | :--- | :--- |
@@ -78,7 +77,7 @@ tags = ["studynote-database"]
 | 범위 조회 | 매우 유리 | 결과 건수가 많아질수록 불리 가능 |
 | 대표 장점 | 연속 읽기 효율 | 다양한 검색 축 추가 |
 
-여기서 파생되는 대표 개념이 키 룩업 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Lookup) 또는 북마크 룩업 (Bookmark Lookup)이다. 조건 컬럼은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 빨리 찾았지만, 출력 컬럼이 본문에 있어 다시 테이블에 가는 상황을 말한다. 이 비용이 커지면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 차라리 전체 스캔을 택할 수도 있다. 따라서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 무조건 빠르다"가 아니라, **[선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)와 반환 건수에 따라 손익이 갈리는 구조**다.
+여기서 파생되는 대표 개념이 키 룩업 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Lookup) 또는 북마크 룩업 (Bookmark Lookup)이다. 조건 컬럼은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 빨리 찾았지만, 출력 컬럼이 본문에 있어 다시 테이블에 가는 상황을 말한다. 이 비용이 커지면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 차라리 전체 스캔을 택할 수도 있다. 따라서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 무조건 빠르다"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/">선택도</a>와 반환 건수에 따라 손익이 갈리는 구조</strong>다.
 
 또한 복합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Composite Index](/knowledge-base/studynote/05_database/03_relational_model/161_composite_index_leading_column/)), 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Seek/Scan 해석도 모두 이 개념과 연결된다. 즉 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 독립 기술이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 경로 최적화의 중심에 놓인 실무 개념이다.
 
@@ -113,9 +112,9 @@ tags = ["studynote-database"]
 
 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 가장 큰 효과는 하나의 테이블에 여러 검색 관점을 부여할 수 있다는 점이다. 이 덕분에 다양한 업무 화면과 API가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 조건으로 빠르게 조회할 수 있다. 특히 적절한 복합 키와 커버링 설계를 조합하면, 디스크 접근 수를 크게 줄여 체감 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 낮출 수 있다.
 
-하지만 한계도 분명하다. 본문 접근이 추가로 필요할 수 있고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 많아질수록 저장공간과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 늘어난다. 따라서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "많을수록 좋다"가 아니라, **자주 실행되는 질의를 근거로 선택적으로 배치해야 하는 보조 경로**로 기억하는 것이 맞다.
+하지만 한계도 분명하다. 본문 접근이 추가로 필요할 수 있고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 많아질수록 저장공간과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 늘어난다. 따라서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "많을수록 좋다"가 아니라, <strong>자주 실행되는 질의를 근거로 선택적으로 배치해야 하는 보조 경로</strong>로 기억하는 것이 맞다.
 
-결론적으로 이 개념의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬을 바꾸지 않으면서도 빠른 탐색 경로를 추가하는 데 있다. 즉 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 테이블 본문이 아니라, **조회 패턴에 맞춰 설계하는 탐색 네트워크**다.
+결론적으로 이 개념의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬을 바꾸지 않으면서도 빠른 탐색 경로를 추가하는 데 있다. 즉 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 테이블 본문이 아니라, <strong>조회 패턴에 맞춰 설계하는 탐색 네트워크</strong>다.
 
 - **📢 섹션 요약 비유**: 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 도시를 다시 짓는 일이 아니라, 자주 가는 목적지로 가는 표지판과 지름길을 추가하는 일이다. 길은 빨라지지만 표지판 유지 비용도 함께 따라온다.
 
@@ -133,19 +132,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Full Scan 중심 조회
-    │
-    ▼
-넌클러스터드 인덱스 도입
-    │
-    ├─ 조건절 탐색 가속
-    ├─ 키 룩업 발생
-    └─ 다중 인덱스 유지 비용 증가
-    │
-    ▼
-복합 인덱스 · 커버링 인덱스 · 실행 계획 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Full Scan 중심 조회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">넌클러스터드 인덱스 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">조건절 탐색 가속</div>
+<div class="kb-diagram-tree-item" style="--depth:2">키 룩업 발생</div>
+<div class="kb-diagram-tree-item" style="--depth:2">다중 인덱스 유지 비용 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복합 인덱스 · 커버링 인덱스 · 실행 계획 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 보조 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 출발해, 조회 경로와 유지 비용을 함께 최적화하는 실무 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계로 발전하는 과정을 보여준다.
 

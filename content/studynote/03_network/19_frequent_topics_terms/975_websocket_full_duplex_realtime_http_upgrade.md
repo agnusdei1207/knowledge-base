@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신 (Half-Duplex 느낌)**: 무조건 클라이언트(웹 브라우저)가 먼저 "요청(Request)"을 해야만, 서버가 "응답(Response)"을 줄 수 있습니다. 서버가 나에게 먼저 "야 주식 올랐어!"라고 밀어줄(Push) 방법이 아예 없습니다.
-- **눈물겨운 꼼수들 (AJAX, [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/), Long [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))**:
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 통신 (Half-Duplex 느낌)</strong>: 무조건 클라이언트(웹 브라우저)가 먼저 "요청(Request)"을 해야만, 서버가 "응답(Response)"을 줄 수 있습니다. 서버가 나에게 먼저 "야 주식 올랐어!"라고 밀어줄(Push) 방법이 아예 없습니다.
+- <strong>눈물겨운 꼼수들 (AJAX, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>, Long <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong>:
   - 브라우저가 1초에 한 번씩 "새 카톡 왔어요?" 계속 새로고침을 해서 서버에 물어봅니다([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)). 
   - 매번 무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더(껍데기)를 1KB씩 싣고 물어보느라, 실제 대화(1바이트)보다 쓰레기 통신(오버헤드)이 100배 커서 서버 대역폭이 찢어집니다.
 
-```text
-[RESTful API]
-    │
-    ▼
-[웹소켓]
-    │
-    └──▶ [DNS 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹소켓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 웹소켓은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,16 +43,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: HTML5 표준의 일부로, 브라우저와 웹 서버 사이에 **한 번 연결을 맺으면 끊지 않고(지속 연결), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반의 완벽한 양방향 전이중(Full-Duplex) 통신 채널을 형성하여 서버가 원할 때 언제든 데이터를 클라이언트로 쏠 수 있게(Push) 해주는 실시간 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. (`ws://` 또는 보안 적용된 `wss://` 접두사를 씁니다.)
+- **개념**: HTML5 표준의 일부로, 브라우저와 웹 서버 사이에 <strong>한 번 연결을 맺으면 끊지 않고(지속 연결), <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 기반의 완벽한 양방향 전이중(Full-Duplex) 통신 채널을 형성하여 서버가 원할 때 언제든 데이터를 클라이언트로 쏠 수 있게(Push) 해주는 실시간 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (`ws://` 또는 보안 적용된 `wss://` 접두사를 씁니다.)
 
-```text
-[RESTful API]
-    │
-    ▼
-[웹소켓]
-    │
-    └──▶ [DNS 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹소켓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 웹소켓의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ### 2단계: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 뚫기 (Switching Protocols)
 - 서버가 동의하면 상태 코드 `101 Switching Protocols`를 반환합니다.
-- 이 순간, 두 컴퓨터를 잇고 있던 무겁고 답답한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 영혼은 증발해 버리고, 그 자리에 **가볍고 날쌘 '웹소켓' [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 피가 흐르는 고속 터널이 영원히 뚫리게 됩니다.**
+- 이 순간, 두 컴퓨터를 잇고 있던 무겁고 답답한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 영혼은 증발해 버리고, 그 자리에 <strong>가볍고 날쌘 '웹소켓' <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 피가 흐르는 고속 터널이 영원히 뚫리게 됩니다.</strong>
 
 ### 3단계: 양방향 무제한 폭격 (Full-Duplex)
 - 이제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 뻥 뚫렸습니다. 더 이상 "새 카톡 있어?" 묻지 않아도 됩니다. 
@@ -87,8 +95,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **적용**: 웹 브라우저 기반의 실시간 채팅, 주식 HTS, 캔디크러쉬 같은 멀티플레이어 웹 게임 등 지연시간 0.1초가 생명인 곳의 절대 군주입니다.
-- **경쟁자 ([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/), [Server-Sent Events](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))**: 
-  - 채팅처럼 양방향이 아니라, "주식 시세"처럼 오직 **'서버에서 브라우저로 한 방향으로만 쏟아내는(Push)'** 거라면 무거운 웹소켓 대신 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규격에 내장된 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 푸시 기술인 **[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)(965번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**를 쓰는 것이 배터리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 면에서 유리합니다. (트레이드오프 선택)
+- <strong>경쟁자 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">Server-Sent Events</a>)</strong>: 
+  - 채팅처럼 양방향이 아니라, "주식 시세"처럼 오직 **'서버에서 브라우저로 한 방향으로만 쏟아내는(Push)'** 거라면 무거운 웹소켓 대신 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규격에 내장된 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 푸시 기술인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>(965번 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 쓰는 것이 배터리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 면에서 유리합니다. (트레이드오프 선택)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -96,7 +104,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))은 친구랑 문자로 대화하는데 매번 **'등기 우편'**을 고집하는 짓입니다. "철수야 뭐해?" 편지를 봉투에 넣고 우표(무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더)를 붙여서 우체통에 넣고, 답장이 올 때까지 멍때립니다(오버헤드 지옥). **웹소켓([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/))**은 첫 번째 등기 우편 안에 '종이컵 실 전화기'를 하나 동봉해서 보내는 짓(Upgrade 요청)입니다. 철수가 그걸 뜯어서 귀에 대는 순간(101 응답), 우편 배달은 끝납니다. **이제부터 둘은 팽팽하게 연결된 실 전화기(양방향 터널)를 통해, 편지 봉투나 우표 없이 입만 뻥끗하면 0.01초 만에 서로의 목소리가 직통으로 전달됩니다.** 내가 묻기도 전에 철수가 "야 밥 먹자!" 소리치면 즉각 내 귀에 박히는(서버 푸시) 실시간 웹 통신 아키텍처의 혁명입니다.
+- **📢 섹션 요약 비유**: 기존 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))은 친구랑 문자로 대화하는데 매번 <strong>'등기 우편'</strong>을 고집하는 짓입니다. "철수야 뭐해?" 편지를 봉투에 넣고 우표(무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더)를 붙여서 우체통에 넣고, 답장이 올 때까지 멍때립니다(오버헤드 지옥). <strong>웹소켓(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">WebSocket</a>)</strong>은 첫 번째 등기 우편 안에 '종이컵 실 전화기'를 하나 동봉해서 보내는 짓(Upgrade 요청)입니다. 철수가 그걸 뜯어서 귀에 대는 순간(101 응답), 우편 배달은 끝납니다. **이제부터 둘은 팽팽하게 연결된 실 전화기(양방향 터널)를 통해, 편지 봉투나 우표 없이 입만 뻥끗하면 0.01초 만에 서로의 목소리가 직통으로 전달됩니다.** 내가 묻기도 전에 철수가 "야 밥 먹자!" 소리치면 즉각 내 귀에 박히는(서버 푸시) 실시간 웹 통신 아키텍처의 혁명입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RESTful API]
-    │
-    ▼
-[현재 개념: 웹소켓]
-    │
-    ├──▶ [확장 A: DNS 스푸핑]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RESTful API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 웹소켓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 웹소켓는 RESTful API에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

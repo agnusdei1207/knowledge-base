@@ -19,14 +19,14 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 등장 배경**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 등장 배경</strong>
 
 - **노동력 부족**: 제조업 인력 감소 → 자동화·무인화 필수.
 - **맞춤 생산(Mass Customization)**: 소품종 대량 생산에서 다품종 소량 생산으로 전환.
 - **에너지 효율화**: 에너지 비용 상승 및 탄소 중립(Carbon Neutrality) 목표.
 - **품질 실시간 관리**: 불량률 0%를 향한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 실시간 검사.
 
-**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 5단계 레벨 (ISA-95 기반)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 5단계 레벨 (ISA-95 기반)</strong>
 
 | 레벨 | 명칭 | 특징 |
 |:---:|:---:|:---:|
@@ -42,28 +42,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│        스마트 팩토리 통합 아키텍처 (CPS + 에너지)           │
-├──────────────────────────────────────────────────────────┤
-│  [경영 계층]  ERP(전사자원관리) / 디지털 트윈 대시보드       │
-│        │  OPC UA (기업-현장 데이터 표준 교환)               │
-│  [운영 계층]  MES(제조실행시스템) / SCADA                  │
-│        │  TSN(결정론적 이더넷) / 산업용 이더넷              │
-│  [제어 계층]  PLC·DCS·로봇 컨트롤러                        │
-│        │  OPC UA (필드 수준)                              │
-│  [현장 계층]  센서·액추에이터·AGV·로봇                     │
-│                                                          │
-│  [CPS 계층]  사이버-물리 실시간 연동 (디지털 트윈 동기화)    │
-│                                                          │
-│  [에너지 계층]                                            │
-│  ┌────────────────────────────────────────────────┐     │
-│  │ 마이크로그리드(Microgrid)                        │     │
-│  │ 태양광(PV) + ESS(배터리) + 계통 연계(Grid-tie)  │     │
-│  │ EMS(Energy Management System)으로 자동 최적화   │     │
-│  └────────────────────────────────────────────────┘     │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리 통합 아키텍처 (CPS + 에너지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경영 계층</div><div class="kb-diagram-note">ERP(전사자원관리) / 디지털 트윈 대시보드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA (기업-현장 데이터 표준 교환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영 계층</div><div class="kb-diagram-note">MES(제조실행시스템) / SCADA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSN(결정론적 이더넷) / 산업용 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어 계층</div><div class="kb-diagram-note">PLC·DCS·로봇 컨트롤러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA (필드 수준)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현장 계층</div><div class="kb-diagram-note">센서·액추에이터·AGV·로봇</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPS 계층</div><div class="kb-diagram-note">사이버-물리 실시간 연동 (디지털 트윈 동기화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에너지 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로그리드(Microgrid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태양광(PV) + ESS(배터리) + 계통 연계(Grid-tie)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMS(Energy Management System)으로 자동 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 기술 비교
 
@@ -81,7 +80,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) vs 전통 산업 통신**
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/">OPC UA</a> vs 전통 산업 통신</strong>
 
 | 항목 | Modbus/Profibus | [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) |
 |:---:|:---:|:---:|
@@ -91,7 +90,7 @@ tags = ["studynote-ict-convergence"]
 | 클라우드 연동 | 어려움 | 네이티브 지원 |
 | 실시간성 | 일부 | [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 결합으로 강화 |
 
-**[마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 동작 모드**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/">마이크로그리드</a> 동작 모드</strong>
 
 - **계통 연계 모드(Grid-tied)**: 전력망과 연결. 잉여 전력 역송, 부족 시 계통 구매.
 - **독립 운전 모드(Island Mode)**: 계통 장애 시 자체 전원으로 공장 운영 지속.
@@ -102,7 +101,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 구축 단계별 판단**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 구축 단계별 판단</strong>
 
 | 단계 | 핵심 기술 | 투자 포인트 |
 |:---|:---:|:---|
@@ -111,11 +110,11 @@ tags = ["studynote-ict-convergence"]
 | 고도화(4단계) | [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) | 예측 유지보수·실시간 최적화 |
 | 지능화(5단계) | 완전 자율 [CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트 | 자기 최적화 공장 |
 
-**[IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) 보안 영역**
+<strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/">IEC 62443</a> 보안 영역</strong>
 
 - **Zone·Conduit 모델**: 보안 수준별 영역(Zone) 분리, 영역 간 통신로(Conduit) 제어.
-- **SL([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Level) 1~4**: SL1(기본) → SL4(국가 인프라 수준).
-- **[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)/IT 융합 보안**: 에어갭(Air-gap) 제거 후 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)(운영기술) 망이 IT 망과 연결 → 새로운 공격 경로.
+- <strong>SL(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Level) 1~4</strong>: SL1(기본) → SL4(국가 인프라 수준).
+- <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/">OT</a>/IT 융합 보안</strong>: 에어갭(Air-gap) 제거 후 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)(운영기술) 망이 IT 망과 연결 → 새로운 공격 경로.
 
 - **📢 섹션 요약 비유**: [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) Zone/Conduit는 공장 출입 통제 시스템이다. 일반 사무동(IT Zone)과 생산 현장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) Zone)은 분리 운영하고, 두 구역 간 이동은 반드시 보안 게이트(Conduit)를 통과해야 한다.
 

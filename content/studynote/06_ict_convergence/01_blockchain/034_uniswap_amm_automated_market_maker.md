@@ -52,12 +52,18 @@ CPMM(Constant Product Market Maker): **x × y = k** 공식
 
 ### v3 집중 유동성
 
-```
-v2: 유동성이 [0, ∞) 전체에 균등 분배 → 자본 비효율
-v3: LP가 [최소가, 최대가] 범위 지정 → 집중 유동성
-    같은 자본으로 특정 범위 내 슬리피지 대폭 감소
-    단, 가격이 범위 밖으로 벗어나면 수수료 미발생
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">v2: 유동성이 [0, ∞) 전체에 균등 분배 → 자본 비효율</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">v3: LP가</div><div class="kb-diagram-node">최소가, 최대가</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">집중 유동성</div></div>
+<div class="kb-diagram-note">같은 자본으로 특정 범위 내 슬리피지 대폭 감소</div>
+<div class="kb-diagram-note">단, 가격이 범위 밖으로 벗어나면 수수료 미발생</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: v3 집중 유동성은 주차장이다 — 전체 도로에 주차하는 것(v2) 대신, 자주 쓰는 구역에만 집중 배치(v3)해서 동일 면적으로 더 많은 거래를 처리한다.
 
@@ -91,15 +97,20 @@ v3: LP가 [최소가, 최대가] 범위 지정 → 집중 유동성
 
 ## Ⅳ. 유동성 공급자 (LP) 수익 구조
 
-```
-LP 수익 = 거래 수수료 수입 - 비영구적 손실
-  수수료: 0.05% / 0.3% / 1% (v3 티어별)
-  
-수익성 조건:
-  수수료 수입 > 비영구적 손실
-  → 안정적 자산 쌍 (USDC/USDT): IL 적음, 수익성 좋음
-  → 변동성 큰 자산 쌍 (ETH/SHIB): IL 크고, 수익성 불확실
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LP 수익 = 거래 수수료 수입 - 비영구적 손실</div>
+<div class="kb-diagram-note">수수료: 0.05% / 0.3% / 1% (v3 티어별)</div>
+<div class="kb-diagram-note">수익성 조건:</div>
+<div class="kb-diagram-note">수수료 수입 &gt; 비영구적 손실</div>
+<div class="kb-diagram-note">→ 안정적 자산 쌍 (USDC/USDT): IL 적음, 수익성 좋음</div>
+<div class="kb-diagram-note">→ 변동성 큰 자산 쌍 (ETH/SHIB): IL 크고, 수익성 불확실</div>
+</div>
+</div>
+
+
 
 **LP 토큰**: 유동성 공급 증명 + 수수료 청구권
 
@@ -122,48 +133,55 @@ LP 수익 = 거래 수수료 수입 - 비영구적 손실
 
 ## 📌 관련 개념 맵
 
-```
-AMM / 유니스왑
-├── 핵심 알고리즘
-│   ├── CPMM: x × y = k
-│   └── 집중 유동성 (v3 범위 지정)
-├── 주요 개념
-│   ├── 슬리피지 (Slippage)
-│   ├── 비영구적 손실 (Impermanent Loss)
-│   └── LP 토큰 (수수료 청구권)
-├── 유니스왑 버전
-│   ├── v1/v2 (기본 AMM)
-│   ├── v3 (집중 유동성)
-│   └── v4 (Hooks 커스터마이징)
-└── 경쟁·발전
-    ├── Curve (스테이블코인 특화)
-    ├── Balancer (다자산 풀)
-    └── dYdX (오더북+AMM 하이브리드)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AMM / 유니스왑</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 알고리즘</div>
+<div class="kb-diagram-note">── CPMM: x × y = k</div>
+<div class="kb-diagram-note">── 집중 유동성 (v3 범위 지정)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">주요 개념</div>
+<div class="kb-diagram-note">── 슬리피지 (Slippage)</div>
+<div class="kb-diagram-note">── 비영구적 손실 (Impermanent Loss)</div>
+<div class="kb-diagram-note">── LP 토큰 (수수료 청구권)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">유니스왑 버전</div>
+<div class="kb-diagram-note">── v1/v2 (기본 AMM)</div>
+<div class="kb-diagram-note">── v3 (집중 유동성)</div>
+<div class="kb-diagram-note">── v4 (Hooks 커스터마이징)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">경쟁·발전</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Curve (스테이블코인 특화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Balancer (다자산 풀)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">dYdX (오더북+AMM 하이브리드)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 AMM 발전 흐름                                    │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2018년       │ 유니스왑 v1        │ 최초 AMM DEX, ETH ↔ ERC-20  │
-│ 2020년       │ 유니스왑 v2        │ ERC-20 ↔ ERC-20, 플래시 스왑│
-│ 2020년       │ Curve Finance      │ 스테이블코인 특화 StableSwap │
-│ 2021년       │ 유니스왑 v3        │ 집중 유동성, 자본 효율 10배↑ │
-│ 2023년       │ AMM + CLOB 하이브리드 │ dYdX v4 오더북+AMM 통합  │
-│ 2024년       │ 유니스왑 v4        │ Hooks 플러그인 아키텍처      │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-CPMM (x·y=k) → 슬리피지 → 집중 유동성 → 자본 효율
-    ↓               ↓              ↓
-LP 수수료       MEV 위험       비영구적 손실
-    ↓
-DeFi 생태계 → TVL(Total Value Locked) 지표
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMM 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">유니스왑 v1</div><div class="kb-diagram-cell">최초 AMM DEX, ETH ↔ ERC-20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">유니스왑 v2</div><div class="kb-diagram-cell">ERC-20 ↔ ERC-20, 플래시 스왑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">Curve Finance</div><div class="kb-diagram-cell">스테이블코인 특화 StableSwap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021년</div><div class="kb-diagram-cell">유니스왑 v3</div><div class="kb-diagram-cell">집중 유동성, 자본 효율 10배↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2023년</div><div class="kb-diagram-cell">AMM + CLOB 하이브리드</div><div class="kb-diagram-cell">dYdX v4 오더북+AMM 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024년</div><div class="kb-diagram-cell">유니스왑 v4</div><div class="kb-diagram-cell">Hooks 플러그인 아키텍처</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">CPMM (x·y=k) → 슬리피지 → 집중 유동성 → 자본 효율</div>
+<div class="kb-diagram-note">LP 수수료 MEV 위험 비영구적 손실</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DeFi 생태계 → TVL(Total Value Locked) 지표</div>
+</div>
+</div>
+
+
 
 ---
 

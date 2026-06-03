@@ -18,47 +18,43 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 개념
 
-```
-BPO (Business Process Outsourcing):
 
-비즈니스 프로세스 종류:
-  핵심 프로세스 (Core): 경쟁 우위의 원천
-    → 내재화 (아웃소싱 금지)
-    예: Apple의 제품 디자인, 삼성의 반도체 설계
-    
-  비핵심 프로세스 (Non-core): 보조적 기능
-    → BPO 적합
-    예: 급여 처리, 회계 장부, 고객 콜센터
 
-BPO 분류 (기능별):
-  F&A BPO (Finance & Accounting):
-    매출채권/매입채무, 회계 결산, 세무
-    
-  HR BPO (Human Resources):
-    급여 처리, 복리후생, 채용 지원
-    
-  CX BPO (Customer Experience):
-    콜센터, 기술 지원, 챗봇 운영
-    
-  SCM BPO (Supply Chain):
-    조달, 물류, 재고 관리
-    
-  Legal Process Outsourcing (LPO):
-    계약 검토, 특허 분석
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BPO (Business Process Outsourcing):</div>
+<div class="kb-diagram-note">비즈니스 프로세스 종류:</div>
+<div class="kb-diagram-note">핵심 프로세스 (Core): 경쟁 우위의 원천</div>
+<div class="kb-diagram-note">→ 내재화 (아웃소싱 금지)</div>
+<div class="kb-diagram-note">예: Apple의 제품 디자인, 삼성의 반도체 설계</div>
+<div class="kb-diagram-note">비핵심 프로세스 (Non-core): 보조적 기능</div>
+<div class="kb-diagram-note">→ BPO 적합</div>
+<div class="kb-diagram-note">예: 급여 처리, 회계 장부, 고객 콜센터</div>
+<div class="kb-diagram-note">BPO 분류 (기능별):</div>
+<div class="kb-diagram-note">F&amp;A BPO (Finance &amp; Accounting):</div>
+<div class="kb-diagram-note">매출채권/매입채무, 회계 결산, 세무</div>
+<div class="kb-diagram-note">HR BPO (Human Resources):</div>
+<div class="kb-diagram-note">급여 처리, 복리후생, 채용 지원</div>
+<div class="kb-diagram-note">CX BPO (Customer Experience):</div>
+<div class="kb-diagram-note">콜센터, 기술 지원, 챗봇 운영</div>
+<div class="kb-diagram-note">SCM BPO (Supply Chain):</div>
+<div class="kb-diagram-note">조달, 물류, 재고 관리</div>
+<div class="kb-diagram-note">Legal Process Outsourcing (LPO):</div>
+<div class="kb-diagram-note">계약 검토, 특허 분석</div>
+<div class="kb-diagram-note">BPO 위치 분류:</div>
+<div class="kb-diagram-note">온쇼어 (Onshore): 동일 국가</div>
+<div class="kb-diagram-note">장점: 소통 용이, 규제 준수</div>
+<div class="kb-diagram-note">단점: 비용 높음</div>
+<div class="kb-diagram-note">니어쇼어 (Nearshore): 인접국</div>
+<div class="kb-diagram-note">예: 미국→멕시코, 독일→폴란드</div>
+<div class="kb-diagram-note">오프쇼어 (Offshore): 원격국</div>
+<div class="kb-diagram-note">예: 미국→인도, 한국→필리핀</div>
+<div class="kb-diagram-note">장점: 비용 최저</div>
+<div class="kb-diagram-note">단점: 시간대, 언어, 데이터 규제</div>
+</div>
+</div>
 
-BPO 위치 분류:
-  온쇼어 (Onshore): 동일 국가
-    장점: 소통 용이, 규제 준수
-    단점: 비용 높음
-    
-  니어쇼어 (Nearshore): 인접국
-    예: 미국→멕시코, 독일→폴란드
-    
-  오프쇼어 (Offshore): 원격국
-    예: 미국→인도, 한국→필리핀
-    장점: 비용 최저
-    단점: 시간대, 언어, 데이터 규제
-```
+
 
 > 📢 **섹션 요약 비유**: BPO는 집안일 외주 — 요리(핵심 사업)는 내가 하고, 청소(비핵심 회계)·빨래(HR)는 가사도우미에게 맡겨요. 핵심에 집중하면서 나머지는 전문가에게.
 
@@ -66,45 +62,43 @@ BPO 위치 분류:
 
 ## Ⅱ. [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크
 
-```
-BPO 결정 매트릭스:
 
-아웃소싱 여부 결정:
-  전략적 중요도 (높음/낮음) × 내부 역량 (높음/낮음)
-  
-  낮음×낮음 → 즉시 아웃소싱 적합
-  낮음×높음 → 아웃소싱 고려 (비용 분석)
-  높음×낮음 → 선택적 아웃소싱 + 역량 개발
-  높음×높음 → 내재화 유지
 
-아웃소싱 계약 유형:
-  FTE (Full-Time Equivalent): 인력 기반
-  거래량 기반: 처리 건당 비용
-  성과 기반: KPI 달성에 따른 변동 보수
-  SLAS (Service Level Agreement): 품질 기준
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BPO 결정 매트릭스:</div>
+<div class="kb-diagram-note">아웃소싱 여부 결정:</div>
+<div class="kb-diagram-note">전략적 중요도 (높음/낮음) × 내부 역량 (높음/낮음)</div>
+<div class="kb-diagram-note">낮음×낮음 → 즉시 아웃소싱 적합</div>
+<div class="kb-diagram-note">낮음×높음 → 아웃소싱 고려 (비용 분석)</div>
+<div class="kb-diagram-note">높음×낮음 → 선택적 아웃소싱 + 역량 개발</div>
+<div class="kb-diagram-note">높음×높음 → 내재화 유지</div>
+<div class="kb-diagram-note">아웃소싱 계약 유형:</div>
+<div class="kb-diagram-note">FTE (Full-Time Equivalent): 인력 기반</div>
+<div class="kb-diagram-note">거래량 기반: 처리 건당 비용</div>
+<div class="kb-diagram-note">성과 기반: KPI 달성에 따른 변동 보수</div>
+<div class="kb-diagram-note">SLAS (Service Level Agreement): 품질 기준</div>
+<div class="kb-diagram-note">SLA 핵심 KPI:</div>
+<div class="kb-diagram-note">F&amp;A BPO:</div>
+<div class="kb-diagram-note">인보이스 처리 정확도: 99.5% 이상</div>
+<div class="kb-diagram-note">처리 시간: 3일 이내</div>
+<div class="kb-diagram-note">CX BPO:</div>
+<div class="kb-diagram-note">첫 통화 해결률 (FCR): 85% 이상</div>
+<div class="kb-diagram-note">평균 처리 시간 (AHT): 5분 이내</div>
+<div class="kb-diagram-note">고객 만족도 (CSAT): 4.2/5 이상</div>
+<div class="kb-diagram-note">HR BPO:</div>
+<div class="kb-diagram-note">급여 오류율: 0.01% 이하</div>
+<div class="kb-diagram-note">급여 지급 정시율: 99.9%</div>
+<div class="kb-diagram-note">리스크 관리:</div>
+<div class="kb-diagram-note">데이터 보안: GDPR, 개인정보보호법</div>
+<div class="kb-diagram-note">사업 연속성: BCP (재해 복구 계획)</div>
+<div class="kb-diagram-note">벤더 의존성: 단일 벤더 리스크</div>
+<div class="kb-diagram-note">품질 저하: 전환 기간 품질 갭</div>
+<div class="kb-diagram-note">대응: 이중 벤더, 강력한 SLA, 감사 권한</div>
+</div>
+</div>
 
-SLA 핵심 KPI:
-  F&A BPO:
-    인보이스 처리 정확도: 99.5% 이상
-    처리 시간: 3일 이내
-    
-  CX BPO:
-    첫 통화 해결률 (FCR): 85% 이상
-    평균 처리 시간 (AHT): 5분 이내
-    고객 만족도 (CSAT): 4.2/5 이상
-    
-  HR BPO:
-    급여 오류율: 0.01% 이하
-    급여 지급 정시율: 99.9%
 
-리스크 관리:
-  데이터 보안: GDPR, 개인정보보호법
-  사업 연속성: BCP (재해 복구 계획)
-  벤더 의존성: 단일 벤더 리스크
-  품질 저하: 전환 기간 품질 갭
-  
-  대응: 이중 벤더, 강력한 SLA, 감사 권한
-```
 
 > 📢 **섹션 요약 비유**: [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) SLA는 청소 도우미 계약서 — "일주일 3회 방문, 화장실 청결도 95% 이상, 지각 3회 시 계약 해지". SLA는 결과를 계약으로 보장하는 방법.
 
@@ -112,46 +106,42 @@ SLA 핵심 KPI:
 
 ## Ⅲ. RPA와 [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 융합
 
-```
-RPA (Robotic Process Automation) + BPO:
 
-RPA 정의:
-  소프트웨어 로봇이 반복적 규칙 기반 작업 자동화
-  사람의 GUI 조작을 모방
-  
-  예: 인보이스 스캔 → 회계 시스템 입력 → 이메일 발송
 
-BPO + RPA 진화:
-  1세대 BPO:
-    단순 인력 비용 절감 (오프쇼어)
-    
-  2세대 BPO:
-    BPO + 프로세스 최적화 (리엔지니어링)
-    
-  3세대 BPO (현재):
-    BPO + RPA + AI = 지능형 자동화
-    인력 비용 절감 + 오류 제로 + 24/7 처리
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RPA (Robotic Process Automation) + BPO:</div>
+<div class="kb-diagram-note">RPA 정의:</div>
+<div class="kb-diagram-note">소프트웨어 로봇이 반복적 규칙 기반 작업 자동화</div>
+<div class="kb-diagram-note">사람의 GUI 조작을 모방</div>
+<div class="kb-diagram-note">예: 인보이스 스캔 → 회계 시스템 입력 → 이메일 발송</div>
+<div class="kb-diagram-note">BPO + RPA 진화:</div>
+<div class="kb-diagram-note">1세대 BPO:</div>
+<div class="kb-diagram-note">단순 인력 비용 절감 (오프쇼어)</div>
+<div class="kb-diagram-note">2세대 BPO:</div>
+<div class="kb-diagram-note">BPO + 프로세스 최적화 (리엔지니어링)</div>
+<div class="kb-diagram-note">3세대 BPO (현재):</div>
+<div class="kb-diagram-note">BPO + RPA + AI = 지능형 자동화</div>
+<div class="kb-diagram-note">인력 비용 절감 + 오류 제로 + 24/7 처리</div>
+<div class="kb-diagram-note">RPA 적용 BPO 사례:</div>
+<div class="kb-diagram-note">F&amp;A: 인보이스 자동 매칭 (85% 자동화)</div>
+<div class="kb-diagram-note">HR: 온보딩 서류 처리 (90% 자동화)</div>
+<div class="kb-diagram-note">CX: 챗봇 1차 응대 (60% 자동화)</div>
+<div class="kb-diagram-note">SCM: 발주서 처리 (95% 자동화)</div>
+<div class="kb-diagram-note">ITO vs BPO vs KPO:</div>
+<div class="kb-diagram-note">ITO (IT Outsourcing):</div>
+<div class="kb-diagram-note">IT 인프라, 애플리케이션 개발/운영</div>
+<div class="kb-diagram-note">BPO (Business Process):</div>
+<div class="kb-diagram-note">비즈니스 프로세스 (인사, 재무, CS)</div>
+<div class="kb-diagram-note">KPO (Knowledge Process):</div>
+<div class="kb-diagram-note">고급 지식 작업 (리서치, 분석, 의료 진단)</div>
+<div class="kb-diagram-note">예: 특허 분석, 금융 리서치, 임상 데이터 분석</div>
+<div class="kb-diagram-note">BPO → KPO: AI가 단순 업무 자동화 후</div>
+<div class="kb-diagram-note">고부가가치 지식 업무로 이동 추세</div>
+</div>
+</div>
 
-RPA 적용 BPO 사례:
-  F&A: 인보이스 자동 매칭 (85% 자동화)
-  HR: 온보딩 서류 처리 (90% 자동화)
-  CX: 챗봇 1차 응대 (60% 자동화)
-  SCM: 발주서 처리 (95% 자동화)
 
-ITO vs BPO vs KPO:
-  ITO (IT Outsourcing):
-    IT 인프라, 애플리케이션 개발/운영
-    
-  BPO (Business Process):
-    비즈니스 프로세스 (인사, 재무, CS)
-    
-  KPO (Knowledge Process):
-    고급 지식 작업 (리서치, 분석, 의료 진단)
-    예: 특허 분석, 금융 리서치, 임상 데이터 분석
-    
-  BPO → KPO: AI가 단순 업무 자동화 후
-  고부가가치 지식 업무로 이동 추세
-```
 
 > 📢 **섹션 요약 비유**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) + BPO는 자동 생산라인 + 전문 공장 — 자동화 로봇([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))이 단순 작업하고, 전문 외주 공장([BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))이 판단이 필요한 복잡한 작업 처리.
 
@@ -159,45 +149,44 @@ ITO vs BPO vs KPO:
 
 ## Ⅳ. [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 전환 과정
 
-```
-BPO 전환 프로세스:
 
-1. 전략 평가 (2~3개월):
-   현행 프로세스 매핑
-   TCO (총소유비용) vs 아웃소싱 비용 분석
-   Make vs Buy 의사결정
 
-2. 벤더 선정 (3~4개월):
-   RFI → RFP → 제안서 평가
-   Due Diligence (재정, 보안, SLA 이력)
-   계약 협상 (SLA, 위약금, 데이터 권리)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BPO 전환 프로세스:</div>
+<div class="kb-diagram-note">1. 전략 평가 (2~3개월):</div>
+<div class="kb-diagram-note">현행 프로세스 매핑</div>
+<div class="kb-diagram-note">TCO (총소유비용) vs 아웃소싱 비용 분석</div>
+<div class="kb-diagram-note">Make vs Buy 의사결정</div>
+<div class="kb-diagram-note">2. 벤더 선정 (3~4개월):</div>
+<div class="kb-diagram-note">RFI → RFP → 제안서 평가</div>
+<div class="kb-diagram-note">Due Diligence (재정, 보안, SLA 이력)</div>
+<div class="kb-diagram-note">계약 협상 (SLA, 위약금, 데이터 권리)</div>
+<div class="kb-diagram-note">3. 전환 (Transition, 6~12개월):</div>
+<div class="kb-diagram-note">지식 이전 (Knowledge Transfer)</div>
+<div class="kb-diagram-note">병행 운영 (기존 + 신규 동시)</div>
+<div class="kb-diagram-note">테스트 및 검증</div>
+<div class="kb-diagram-note">4. 안정화 (Steady State, 1~2년):</div>
+<div class="kb-diagram-note">SLA 모니터링</div>
+<div class="kb-diagram-note">지속적 개선 (Continuous Improvement)</div>
+<div class="kb-diagram-note">전환 리스크 완화:</div>
+<div class="kb-diagram-note">숨겨진 비용:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">전환 관리 인력 (내부 소요 시간)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">벤더 의존성 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:1">품질 저하 기간 (학습 곡선)</div>
+<div class="kb-diagram-note">전환 기간 SLA:</div>
+<div class="kb-diagram-note">Month 1~3: 85% 달성 (ramping)</div>
+<div class="kb-diagram-note">Month 4~6: 92% 달성</div>
+<div class="kb-diagram-note">Month 7+: 99% 달성 (steady state)</div>
+<div class="kb-diagram-note">성과 측정:</div>
+<div class="kb-diagram-note">비용 절감: 20~40% 일반적</div>
+<div class="kb-diagram-note">품질: SLA 달성률</div>
+<div class="kb-diagram-note">사업 집중도: 핵심 인력 비핵심 업무 시간 감소</div>
+<div class="kb-diagram-note">직원 만족도: 핵심 업무 집중으로 개선 여부</div>
+</div>
+</div>
 
-3. 전환 (Transition, 6~12개월):
-   지식 이전 (Knowledge Transfer)
-   병행 운영 (기존 + 신규 동시)
-   테스트 및 검증
 
-4. 안정화 (Steady State, 1~2년):
-   SLA 모니터링
-   지속적 개선 (Continuous Improvement)
-
-전환 리스크 완화:
-  숨겨진 비용:
-  - 전환 관리 인력 (내부 소요 시간)
-  - 벤더 의존성 증가
-  - 품질 저하 기간 (학습 곡선)
-  
-  전환 기간 SLA:
-  Month 1~3: 85% 달성 (ramping)
-  Month 4~6: 92% 달성
-  Month 7+: 99% 달성 (steady state)
-
-성과 측정:
-  비용 절감: 20~40% 일반적
-  품질: SLA 달성률
-  사업 집중도: 핵심 인력 비핵심 업무 시간 감소
-  직원 만족도: 핵심 업무 집중으로 개선 여부
-```
 
 > 📢 **섹션 요약 비유**: [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) 전환은 집 이사 — 새 집(벤더)을 구하고, 짐(지식)을 옮기고, 며칠 병행 생활(병행 운영)하다가 완전히 이사. 처음엔 불편하지만 결국 더 효율적.
 
@@ -205,45 +194,43 @@ BPO 전환 프로세스:
 
 ## Ⅴ. 실무 시나리오 — 글로벌 제조기업 [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/)
 
-```
-글로벌 제조기업 F&A BPO 전환:
 
-배경:
-  매출: 1조원 규모
-  F&A 인력: 150명 (국내 100 + 해외 50)
-  문제: 회계 결산 5일 소요, 오류율 2%
 
-BPO 결정:
-  전략적 중요도: 낮음 (회계는 표준 업무)
-  내부 역량: 중간 (오류율 높음)
-  → BPO 적합 판단
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 제조기업 F&amp;A BPO 전환:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">매출: 1조원 규모</div>
+<div class="kb-diagram-note">F&amp;A 인력: 150명 (국내 100 + 해외 50)</div>
+<div class="kb-diagram-note">문제: 회계 결산 5일 소요, 오류율 2%</div>
+<div class="kb-diagram-note">BPO 결정:</div>
+<div class="kb-diagram-note">전략적 중요도: 낮음 (회계는 표준 업무)</div>
+<div class="kb-diagram-note">내부 역량: 중간 (오류율 높음)</div>
+<div class="kb-diagram-note">→ BPO 적합 판단</div>
+<div class="kb-diagram-note">벤더: 글로벌 BPO 업체 (Accenture/IBM/Wipro 등)</div>
+<div class="kb-diagram-note">전환 범위:</div>
+<div class="kb-diagram-note">인소싱 유지:</div>
+<div class="kb-diagram-note">CFO 재무 전략, 세무 전략, M&amp;A 재무 자문</div>
+<div class="kb-diagram-note">아웃소싱:</div>
+<div class="kb-diagram-note">인보이스 처리, 매출채권 관리</div>
+<div class="kb-diagram-note">회계 결산 지원, 급여 처리</div>
+<div class="kb-diagram-note">계약 SLA:</div>
+<div class="kb-diagram-note">인보이스 처리 정확도: 99.8%</div>
+<div class="kb-diagram-note">결산 지원: D+3 (영업일 3일 이내)</div>
+<div class="kb-diagram-note">급여 오류율: 0.001% 이하</div>
+<div class="kb-diagram-note">가격: 현재 인건비 대비 30% 절감</div>
+<div class="kb-diagram-note">전환 후 2년 결과:</div>
+<div class="kb-diagram-note">비용: 연간 15억 절감 (인건비 30% + 오류 재처리 비용)</div>
+<div class="kb-diagram-note">품질: 결산 5일 → 3일, 오류율 2% → 0.1%</div>
+<div class="kb-diagram-note">집중: F&amp;A 내부 인력 → 전략 재무 분석으로 재배치</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">초기 지식 이전 3개월이 가장 중요</div>
+<div class="kb-diagram-note">SLA 위약금 조항 철저히 (벤더 이행 강제)</div>
+<div class="kb-diagram-note">데이터 보안 계약 (GDPR 준수) 필수</div>
+</div>
+</div>
 
-벤더: 글로벌 BPO 업체 (Accenture/IBM/Wipro 등)
 
-전환 범위:
-  인소싱 유지:
-    CFO 재무 전략, 세무 전략, M&A 재무 자문
-    
-  아웃소싱:
-    인보이스 처리, 매출채권 관리
-    회계 결산 지원, 급여 처리
-
-계약 SLA:
-  인보이스 처리 정확도: 99.8%
-  결산 지원: D+3 (영업일 3일 이내)
-  급여 오류율: 0.001% 이하
-  가격: 현재 인건비 대비 30% 절감
-
-전환 후 2년 결과:
-  비용: 연간 15억 절감 (인건비 30% + 오류 재처리 비용)
-  품질: 결산 5일 → 3일, 오류율 2% → 0.1%
-  집중: F&A 내부 인력 → 전략 재무 분석으로 재배치
-  
-교훈:
-  초기 지식 이전 3개월이 가장 중요
-  SLA 위약금 조항 철저히 (벤더 이행 강제)
-  데이터 보안 계약 (GDPR 준수) 필수
-```
 
 > 📢 **섹션 요약 비유**: F&A BPO는 외식업체 위탁 급식 — 직원 식당을 직접 운영하는 것(내재화)보다, 전문 외식업체([BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/))에 맡겨 비용 절감 + 품질 향상. 요리는 맡기고, 메뉴([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))는 우리가 결정.
 

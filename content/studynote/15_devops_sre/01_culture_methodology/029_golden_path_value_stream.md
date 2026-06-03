@@ -18,22 +18,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           가치 흐름 맵핑 (Value Stream Mapping)           │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  아이디어 → [계획] → [개발] → [테스트] → [배포] → 고객   │
-│                                                           │
-│  작업 시간:   2일    3일     1일      0.5일               │
-│  대기 시간:   5일    1일     3일      1일                 │
-│                                                           │
-│  총 리드 타임: 11.5일 (작업 6.5일 + 대기 9.5일)          │
-│  효율: 6.5/16 = 40.6%  ← 대기가 대부분!                  │
-│                                                           │
-│  VSM 목표: 대기 시간 원인 파악 → 제거 → 리드 타임 단축   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가치 흐름 맵핑 (Value Stream Mapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">계획</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배포</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">고객</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 시간: 2일 3일 1일 0.5일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 시간: 5일 1일 3일 1일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 리드 타임: 11.5일 (작업 6.5일 + 대기 9.5일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효율: 6.5/16 = 40.6% ← 대기가 대부분!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VSM 목표: 대기 시간 원인 파악 → 제거 → 리드 타임 단축</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [가치 흐름 맵핑](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/)은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
 
@@ -55,18 +54,22 @@ tags = ["studynote-devops-sre"]
 
 ### 골든 패스 vs 비표준 경로
 
-```text
-골든 패스 (표준):
-  새 서비스 → Backstage 템플릿 → GitHub 리포 자동 생성
-  → CI/CD 자동 설정 → K8s 네임스페이스 → 모니터링 연결
-  → 총 30분
 
-비표준 경로 (수동):
-  새 서비스 → 리포 수동 생성 → CI/CD 수동 설정 → 인프라 수동
-  → 총 2~3일
 
-골든 패스 = 비표준 경로 대비 100배 생산성
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">골든 패스 (표준):</div>
+<div class="kb-diagram-note">새 서비스 → Backstage 템플릿 → GitHub 리포 자동 생성</div>
+<div class="kb-diagram-note">→ CI/CD 자동 설정 → K8s 네임스페이스 → 모니터링 연결</div>
+<div class="kb-diagram-note">→ 총 30분</div>
+<div class="kb-diagram-note">비표준 경로 (수동):</div>
+<div class="kb-diagram-note">새 서비스 → 리포 수동 생성 → CI/CD 수동 설정 → 인프라 수동</div>
+<div class="kb-diagram-note">→ 총 2~3일</div>
+<div class="kb-diagram-note">골든 패스 = 비표준 경로 대비 100배 생산성</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 골든 패스는 고속도로다. 비표준 경로(국도)는 목적지에 도달하지만 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등·공사 구간으로 느리고 예측 불가하다. 고속도로(골든 패스)는 표준화된 빠른 경로로 모두가 예측 가능하게 이동한다.
 
@@ -125,9 +128,9 @@ tags = ["studynote-devops-sre"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축** | 대기 시간 제거로 전달 속도 향상 |
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 개선** | 배포 빈도↑, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)↓ |
-| **[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)** | 골든 패스로 마찰 없는 개발 환경 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a> 단축</strong> | 대기 시간 제거로 전달 속도 향상 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 개선</strong> | 배포 빈도↑, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)↓ |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 골든 패스로 마찰 없는 개발 환경 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), JIRA 이슈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 Engineering Intelligence 플랫폼이 발전하고 있다.
 
@@ -139,29 +142,31 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | 가치 흐름 개선 측정 지표 |
-| **[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)** | 골든 패스 제공 주체 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 가치 흐름 개선 측정 지표 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/">플랫폼 엔지니어링</a></strong> | 골든 패스 제공 주체 |
 | **린 소프트웨어** | 가치 흐름 이론 기원 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 승인 병목 자동화 패턴 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 승인 병목 자동화 패턴 |
 | **Engineering Intelligence** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 흐름 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[린 제조 — 가치 흐름 맵핑, 낭비 제거]
-    │
-    ▼
-[DevOps VSM — 소프트웨어 전달 파이프라인 분석]
-    │
-    ▼
-[골든 패스 — 표준화된 빠른 개발·배포 경로]
-    │
-    ▼
-[DORA 메트릭 — 가치 흐름 개선 성과 측정]
-    │
-    ▼
-[Engineering Intelligence — AI 기반 실시간 흐름 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">린 제조 — 가치 흐름 맵핑, 낭비 제거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps VSM — 소프트웨어 전달 파이프라인 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">골든 패스 — 표준화된 빠른 개발·배포 경로</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DORA 메트릭 — 가치 흐름 개선 성과 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Engineering Intelligence — AI 기반 실시간 흐름 분석</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

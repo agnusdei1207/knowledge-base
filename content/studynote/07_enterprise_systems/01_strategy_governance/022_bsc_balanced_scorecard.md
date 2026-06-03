@@ -25,22 +25,23 @@ tags = ["enterprise_systems"]
 
 이러한 재무 중심 경영의 부작용으로 기업들은 단기 실적을 맞추기 위해 R&D 투자를 줄이거나 고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 축소하는 등 장기적 경쟁력을 갉아먹는 역기능에 시달렸다. 이를 극복하기 위해 재무적 관점뿐만 아니라, 그 재무적 성과를 만들어내는 원인(Driver)인 비재무적 관점의 선행 지표(Leading Indicator)들을 유기적으로 연결하여 종합적인 건강 상태를 측정하는 새로운 패러다임이 요구되었다.
 
-```text
-이 도식은 과거의 재무 지표에 편중된 불균형한 성과 평가가 미래 지향적인 4대 관점의 BSC 체계로 어떻게 진화했는지를 비교하여 보여준다.
 
-[과거: 재무 지표 중심의 불균형]        [현재 BSC: 4가지 관점의 균형]
-      과거의 결과만 측정                   과거 + 현재 + 미래의 선순환
-+--------------------------+           +--------------------------+
-|       [ 재무 지표 ]      |           |       [ 재무 관점 ]      |
-|    (매출, 이익, 주가)    |           |             ▲            |
-+-------------+------------+           +-------------|------------+
-              |                        |       [ 고객 관점 ]      |
-              | 단기 성과 압박         +-------------|------------+
-              ▼                        |  [ 내부 프로세스 관점 ]  |
-+--------------------------+           +-------------|------------+
-|  미래 투자 축소 (R&D 등) |           |  [ 학습 및 성장 관점 ]   |
-+--------------------------+           +--------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 과거의 재무 지표에 편중된 불균형한 성과 평가가 미래 지향적인 4대 관점의 BSC 체계로 어떻게 진화했는지를 비교하여 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 재무 지표 중심의 불균형</div><div class="kb-diagram-node">현재 BSC: 4가지 관점의 균형</div></div>
+<div class="kb-diagram-note">과거의 결과만 측정 과거 + 현재 + 미래의 선순환</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재무 지표</div><div class="kb-diagram-node">재무 관점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매출, 이익, 주가)</div><div class="kb-diagram-cell">▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객 관점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단기 성과 압박 +-------------</div><div class="kb-diagram-cell">------------+</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">내부 프로세스 관점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">미래 투자 축소 (R&amp;D 등) |</div><div class="kb-diagram-node">학습 및 성장 관점</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 인과관계(Cause and Effect)의 발견이다. 학습과 성장 투자가 내부 프로세스를 개선하고, 이것이 고객 만족을 이끌어내며, 궁극적으로 재무적 성과로 직결된다는 강력한 인과 고리를 시스템적으로 증명하려는 것이다. 실무에서는 이 BSC가 최고경영자의 추상적인 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'을 일선 직원들의 구체적인 '행동 목표'로 번역해주는 번역기 역할을 한다.
 
@@ -55,31 +56,27 @@ BSC의 아키텍처는 기업의 비전과 [전략](/knowledge-base/studynote/04
 | 구성 요소 (관점) | 핵심 질문 | 내부 평가 대상 및 동작 메커니즘 | 관련 IT 시스템 결합 | 비유 |
 |:---|:---|:---|:---|:---|
 | **재무 관점 (Financial)** | "주주들에게 어떻게 보일 것인가?" | 매출 성장, 원가 절감, 자산 활용도 등 전통적 결과 지표 측정 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) (FI/CO [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) | 성적표 (최종 결과) |
-| **고객 관점 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))** | "고객들에게 어떻게 보일 것인가?" | 시장 점유율, 고객 유지율, 신규 고객 획득률, 고객 만족도 | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) | 평가단 (외부 시선) |
-| **내부 프로세스 (Internal [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))** | "어떤 프로세스에 탁월해야 하는가?" | 운영 주기 시간, 품질 개선, 신제품 개발 속도, 혁신 프로세스 관리 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) | 엔진 (동력 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
-| **학습 및 성장 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) & Growth)** | "어떻게 변화하고 개선할 것인가?" | 직원 역량(교육), 정보 시스템 인프라 구축, 조직 문화 | HRIS, [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/), EP | 영양분 (기초 체력) |
+| <strong>고객 관점 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a>)</strong> | "고객들에게 어떻게 보일 것인가?" | 시장 점유율, 고객 유지율, 신규 고객 획득률, 고객 만족도 | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) | 평가단 (외부 시선) |
+| <strong>내부 프로세스 (Internal <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong> | "어떤 프로세스에 탁월해야 하는가?" | 운영 주기 시간, 품질 개선, 신제품 개발 속도, 혁신 프로세스 관리 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/), [BPM](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/) | 엔진 (동력 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) |
+| <strong>학습 및 성장 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> &amp; Growth)</strong> | "어떻게 변화하고 개선할 것인가?" | 직원 역량(교육), 정보 시스템 인프라 구축, 조직 문화 | HRIS, [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/), EP | 영양분 (기초 체력) |
 
-```text
-이 도식은 BSC의 4가지 관점이 기업의 전략을 중심으로 어떻게 순환하며, 하위의 선행 지표가 상위의 후행 지표를 어떻게 견인하는지 상태 전이 및 인과 관계를 보여준다.
 
-                 [전략 및 비전 (Vision & Strategy)]
-                               │
-                +--------------▼--------------+
-                |     ① 재무 관점 (Financial) | <--- (최종 목표 / 후행 지표)
-                +--------------▲--------------+
-                               │ 가치 증대
-                +--------------|--------------+
-                |     ② 고객 관점 (Customer)  | <--- (차별화된 가치 제안)
-                +--------------▲--------------+
-                               │ 만족도 향상
-                +--------------|--------------+
-                |③ 내부 프로세스 관점(Process)| <--- (운영 효율성 / 혁신)
-                +--------------▲--------------+
-                               │ 효율 극대화
-                +--------------|--------------+
-                |④ 학습 및 성장 관점(Learning)| <--- (인적 자본, IT 인프라 / 선행 지표)
-                +-----------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 BSC의 4가지 관점이 기업의 전략을 중심으로 어떻게 순환하며, 하위의 선행 지표가 상위의 후행 지표를 어떻게 견인하는지 상태 전이 및 인과 관계를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 및 비전 (Vision &amp; Strategy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 재무 관점 (Financial)</div><div class="kb-diagram-cell">&lt;--- (최종 목표 / 후행 지표)</div></div>
+<div class="kb-diagram-note">가치 증대</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 고객 관점 (Customer)</div><div class="kb-diagram-cell">&lt;--- (차별화된 가치 제안)</div></div>
+<div class="kb-diagram-note">만족도 향상</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 내부 프로세스 관점(Process)</div><div class="kb-diagram-cell">&lt;--- (운영 효율성 / 혁신)</div></div>
+<div class="kb-diagram-note">효율 극대화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 학습 및 성장 관점(Learning)</div><div class="kb-diagram-cell">&lt;--- (인적 자본, IT 인프라 / 선행 지표)</div></div>
+</div>
+</div>
+
+
 
 이 아키텍처의 가장 깊은 내부 원리는 '선행 지표(Leading Indicator)'와 '후행 지표(Lagging Indicator)'의 믹스 매치다. 학습 및 성장 관점의 IT 시스템 도입률(선행)이 높아지면 프로세스 관점의 불량률(후행)이 낮아진다. 낮아진 불량률은 프로세스의 후행 지표지만, 동시에 고객 관점의 고객 만족도(후행)를 높이는 선행 지표로 작용한다. 이러한 다중 도미노 효과를 통해 경영진은 실적이 떨어지기 훨씬 전에 원인이 되는 뿌리를 파악하고 선제적으로 대응할 수 있다.
 
@@ -93,26 +90,27 @@ BSC는 독립적인 [전략](/knowledge-base/studynote/04_software_engineering/0
 
 | 항목 | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard) | [MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) ([Management by Objectives](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/)) | [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) (Objectives & [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Results) |
 |:---|:---|:---|:---|
-| **핵심 철학** | **균형**과 **인과관계** | **목표 할당**과 **개인 평가** | **도전적 목표**와 **빠른 정렬** |
+| **핵심 철학** | <strong>균형</strong>과 **인과관계** | <strong>목표 할당</strong>과 **개인 평가** | <strong>도전적 목표</strong>와 **빠른 정렬** |
 | **운영 주기** | 연간 / 중장기 (다소 무거움) | 연간 (하향식 폭포수) | 분기 / 월별 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), 가벼움) |
 | **평가 관점** | 4대 관점의 다차원 평가 | 주로 개인 및 부서별 결과 중심 | 투명한 전사 목표의 수평적 정렬 |
 | **보상 연계** | 중간 수준 (조직 성과 위주) | 매우 강함 (평가와 연봉 직결) | 낮음 (보상과 분리하여 도전 장려) |
 
 BSC의 강점은 거시적 통제력이다. 특히 IT 거버넌스([COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/)) 체계를 기업에 내재화할 때, IT 부서만의 고립된 성과 지표(예: 서버 업타임 99.9%)를 비즈니스 언어(예: 시스템 안정성을 통한 고객 이탈률 1% 감소)로 변환하는 데 결정적인 역할을 한다.
 
-```text
-이 도식은 부서의 이기주의가 심한 조직에서 전통적 KPI와 균형 잡힌 BSC가 가져오는 상반된 의사결정 결과를 비교 매트릭스로 보여준다.
 
-┌──────────────┬────────────────────────────┬────────────────────────────┐
-│ 상황         │ 단일 KPI 중심 (부분 최적화)│ BSC 기반 통제 (전체 최적화)│
-├──────────────┼────────────────────────────┼────────────────────────────┤
-│ 영업부서     │ 무리한 할인으로 매출만 달성│ (재무)할인 방어 + (고객)유지│
-│ 의사결정     │ (이익률 하락, 공장 과부하) │ 균형 달성으로 무리수 방지  │
-├──────────────┼────────────────────────────┼────────────────────────────┤
-│ IT/개발부서  │ 배포 건수 극대화에만 집중  │ (프로세스)속도 + (고객)품질 │
-│ 의사결정     │ (버그 증가, 기술 부채 누적)│ 테스트 자동화 및 안정성 보장│
-└──────────────┴────────────────────────────┴────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 부서의 이기주의가 심한 조직에서 전통적 KPI와 균형 잡힌 BSC가 가져오는 상반된 의사결정 결과를 비교 매트릭스로 보여준다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">단일 KPI 중심 (부분 최적화)</div><div class="kb-diagram-cell">BSC 기반 통제 (전체 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영업부서</div><div class="kb-diagram-cell">무리한 할인으로 매출만 달성</div><div class="kb-diagram-cell">(재무)할인 방어 + (고객)유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정</div><div class="kb-diagram-cell">(이익률 하락, 공장 과부하)</div><div class="kb-diagram-cell">균형 달성으로 무리수 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT/개발부서</div><div class="kb-diagram-cell">배포 건수 극대화에만 집중</div><div class="kb-diagram-cell">(프로세스)속도 + (고객)품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정</div><div class="kb-diagram-cell">(버그 증가, 기술 부채 누적)</div><div class="kb-diagram-cell">테스트 자동화 및 안정성 보장</div></div>
+</div>
+</div>
+
+
 
 이 분석의 핵심은 부분 최적화(Local Optimization)의 함정을 피하는 것이다. 특정 부서가 자신의 KPI만 100% 달성하기 위해 타 부서에 비용과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 전가하는 '풍선 효과'를 BSC는 근본적으로 차단한다. 4가지 관점이 상호 견제 장치(Check and Balance)로 작동하기 때문이다. 실무에서는 이러한 균형을 유지하기 위해 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 내 EPM([Enterprise Performance Management](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/133_epm_enterprise_performance_management_cpm/)) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 방법론을 탑재하여 운영한다.
 
@@ -124,24 +122,29 @@ BSC의 강점은 거시적 통제력이다. 특히 IT 거버넌스([COBIT](/know
 
 실무에서 BSC를 도입할 때 겪는 가장 큰 실패 원인은 지표의 과잉([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) Overload)과 IT 시스템과의 괴리다. 각 관점별로 10개씩 총 40개의 KPI를 할당하면, 현업은 보고서를 작성하느라 본업을 잃는 주객전도가 발생한다.
 
-1. **지표의 슬림화와 [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 연계**: 모든 부서의 업무를 측정하는 것이 아니다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 직결되는 [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/)([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))을 뽑아내고, 이를 대변하는 최소한의 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)(관점당 2~3개)만을 엄선해야 한다.
-2. **IT 인프라(BI/[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 확보**: BSC의 수치를 엑셀 수작업으로 집계하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 반드시 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))와 [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI) 대시보드를 연동하여 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계를 구축해야 한다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 경고**: BSC를 단순한 '다면 평가 도구'로 축소하여 직원을 압박하는 용도로 쓰는 것은 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. BSC는 평가가 아니라 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 실행과 소통'을 위한 내비게이션임을 명심해야 한다.
+1. <strong>지표의 슬림화와 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a> 연계</strong>: 모든 부서의 업무를 측정하는 것이 아니다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 직결되는 [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/)([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))을 뽑아내고, 이를 대변하는 최소한의 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)(관점당 2~3개)만을 엄선해야 한다.
+2. <strong>IT 인프라(BI/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>) 확보</strong>: BSC의 수치를 엑셀 수작업으로 집계하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 반드시 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))와 [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI) 대시보드를 연동하여 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계를 구축해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 경고</strong>: BSC를 단순한 '다면 평가 도구'로 축소하여 직원을 압박하는 용도로 쓰는 것은 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. BSC는 평가가 아니라 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 실행과 소통'을 위한 내비게이션임을 명심해야 한다.
 
-```text
-이 흐름도는 성공적인 BSC 구축을 위해 조직이 거쳐야 하는 전략 캐스케이딩(Cascading) 운영 플로우와 잠재적 병목 구간을 보여준다.
 
-[전사 비전 수립] => [4대 관점 전략 목표 설정] => [CSF 도출] => [KPI 확정]
-                                │ 병목: 관점 간 인과관계 부재
-                                ▼
-                        [부서/개인 목표로 전개 (Cascading)]
-                                │ 병목: 직원들의 거부감 및 이해 부족
-                                ▼
-                       [IT 대시보드(BI) 자동화 연동]
-                                │ 병목: ERP 등 원천 데이터 무결성 결여
-                                ▼
-                        [전략 피드백 및 리밸런싱]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 성공적인 BSC 구축을 위해 조직이 거쳐야 하는 전략 캐스케이딩(Cascading) 운영 플로우와 잠재적 병목 구간을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전사 비전 수립</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">4대 관점 전략 목표 설정</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">CSF 도출</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">KPI 확정</div></div>
+<div class="kb-diagram-note">병목: 관점 간 인과관계 부재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부서/개인 목표로 전개 (Cascading)</div></div>
+<div class="kb-diagram-note">병목: 직원들의 거부감 및 이해 부족</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 대시보드(BI) 자동화 연동</div></div>
+<div class="kb-diagram-note">병목: ERP 등 원천 데이터 무결성 결여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 피드백 및 리밸런싱</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 '자동화'와 '피드백'이다. BSC가 1년에 한 번 연말 평가 때만 열어보는 서류가 되어서는 안 된다. 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 통해 시장 환경이 변하면 BSC의 지표 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)도 신속하게 리밸런싱(Rebalancing) 되어야 한다. 이 과정에서 IT 시스템의 유연성(Agility)이 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 생명력의 핵심 병목 지점이 된다.
 
@@ -155,9 +158,9 @@ BSC의 성공적 안착은 기업의 무형 자산(인재, IT 시스템, 조직 
 
 | 구분 | 기대 효과 | 핵심 가치 증명 |
 |:---|:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬** | 전사적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 커뮤니케이션 도구화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 실행력(Execution) 극대화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 정렬</strong> | 전사적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 커뮤니케이션 도구화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 실행력(Execution) 극대화 |
 | **위험 회피** | 단기주의 타파 및 균형 잡힌 성장 | 재무적 역풍 전 선행 지표 경고 발동 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경영** | 경험/직관 경영에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 경영 전환 | BI 및 대시보드 인프라 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 증명 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경영</strong> | 경험/직관 경영에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 경영 전환 | BI 및 대시보드 인프라 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 증명 |
 
 최근 BSC는 고정된 연간 체계를 넘어, OKR의 민첩성과 결합하는 방향으로 진화하고 있다. 거시적이고 장기적인 조직의 균형추 역할은 BSC가 담당하되, 개별 프로젝트나 분기 단위의 혁신 목표는 OKR을 통해 추진하는 '투트랙(Two-Track) 하이브리드' 방식이 엔터프라이즈 성과 관리의 새로운 표준이 되고 있다.
 
@@ -166,29 +169,31 @@ BSC의 성공적 안착은 기업의 무형 자산(인재, IT 시스템, 조직 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **[Strategy Map](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) ([전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/))** : BSC의 4가지 관점이 서로 어떻게 영향을 주고받는지 인과관계를 시각적으로 그린 맵.
-* **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))** : BSC의 4가지 관점 안에 채워지는 구체적이고 정량적인 성과 측정 지표.
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">Strategy Map</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">전략 체계도</a>)</strong> : BSC의 4가지 관점이 서로 어떻게 영향을 주고받는지 인과관계를 시각적으로 그린 맵.
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/">Key Performance Indicator</a>)</strong> : BSC의 4가지 관점 안에 채워지는 구체적이고 정량적인 성과 측정 지표.
 * **Lagging & Leading Indicators** : 결과로 나타나는 후행 지표(재무 등)와 원인이 되는 선행 지표(학습/프로세스 등).
 * **BI (Business Intelligence)** : BSC의 지표들을 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 수집하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드로 보여주는 IT 시스템.
-* **[MBO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/) ([Management by Objectives](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/))** : [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 이전에 널리 쓰였던 결과 및 재무 중심의 목표 관리 체계.
+* <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/">MBO</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/025_mbo_management_by_objectives/">Management by Objectives</a>)</strong> : [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 이전에 널리 쓰였던 결과 및 재무 중심의 목표 관리 체계.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[학습·성장 관점 (Learning & Growth) — 역량 구축]
-    │
-    ▼
-[내부 프로세스 관점 (Internal Process) — 운영 효율화]
-    │
-    ▼
-[고객 관점 (Customer) — 만족도·점유율 향상]
-    │
-    ▼
-[재무 관점 (Financial) — 매출·이익 창출]
-    │
-    ▼
-[전략 체계도 (Strategy Map) + BI 대시보드 — 실시간 KPI 연결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습·성장 관점 (Learning &amp; Growth) — 역량 구축</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부 프로세스 관점 (Internal Process) — 운영 효율화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객 관점 (Customer) — 만족도·점유율 향상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재무 관점 (Financial) — 매출·이익 창출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 체계도 (Strategy Map) + BI 대시보드 — 실시간 KPI 연결</div></div>
+</div>
+</div>
+
+
 학습·성장이 프로세스를 개선하고, 프로세스가 고객 만족을 높이고, 고객 만족이 재무 성과로 이어지는 BSC의 인과 사슬이 BI 대시보드로 실시간 가시화되는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 유니캐스트 주소의 한 종류로, 라우터를 넘지 못하는 단일 링크(Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 내에서만 유효한 주소 (`FE80::/10` 대역).
 - **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절에는 공유기가 IP를 안 주면(장애) PC가 먹통이 되다가 한참 뒤에 169.254.x.x (APIPA)를 마지못해 부여하며 징징댔다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 설계자들은 이 멍청한 구조를 갈아엎었다. "아예 처음부터 기계가 태어나자마자(전원이 켜지자마자) 자급자족으로 쓸 수 있는 공짜 기본 주소를 하나 줘버리자! 이 주소로 일단 동네 사람들이랑 라우터한테 인사부터 하고 나서, 인터넷으로 나갈 진짜 주소를 받아오게 만들자!"
 
-- **💡 비유**: 링크 로컬 주소는 갓 태어난 아기에게 부모가 임시로 지어준 **"태명(예: 개똥이)"**과 같습니다. 태명만으로도 집안 식구들끼리(링크 내부)는 "개똥아 밥 먹어~" 하고 완벽하게 소통할 수 있습니다. 하지만 이 아기가 나중에 동사무소(라우터)에 태명을 말하고 정식 출생신고를 마쳐야만, 사회(인터넷)에서 통용되는 진짜 **"주민등록 이름(Global Unicast)"**을 얻고 바깥세상과 소통할 수 있습니다.
+- **💡 비유**: 링크 로컬 주소는 갓 태어난 아기에게 부모가 임시로 지어준 <strong>"태명(예: 개똥이)"</strong>과 같습니다. 태명만으로도 집안 식구들끼리(링크 내부)는 "개똥아 밥 먹어~" 하고 완벽하게 소통할 수 있습니다. 하지만 이 아기가 나중에 동사무소(라우터)에 태명을 말하고 정식 출생신고를 마쳐야만, 사회(인터넷)에서 통용되는 진짜 <strong>"주민등록 이름(Global Unicast)"</strong>을 얻고 바깥세상과 소통할 수 있습니다.
 
-```text
-[유니캐스트, 멀티캐스트, 애니캐스트]
-    │
-    ▼
-[링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    └──▶ [EUI-64]
-```
 
-- **📢 섹션 요약 비유**: ** 링크 로컬 주소(`fe80::`)는 무인도에 표류한 사람들끼리 서로 부르기 위해 임시로 등판에 써 붙인 **"등번호"**입니다. 섬 안에서는 100% 통하지만, 구조대가 와서 육지로 나가면 아무 의미 없는 번호입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">링크 로컬 주소 / 사이트 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EUI-64</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 링크 로컬 주소(<code>fe80::</code>)는 무인도에 표류한 사람들끼리 서로 부르기 위해 임시로 등판에 써 붙인 </strong>"등번호"**입니다. 섬 안에서는 100% 통하지만, 구조대가 와서 육지로 나가면 아무 의미 없는 번호입니다.
 
 ---
 
@@ -42,40 +46,38 @@ tags = ["studynote-network"]
 ### 1. 링크 로컬 주소의 자동 조립 마법 ([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 기반)
 내 PC의 랜선을 꽂으면 다음과 같은 기계적 합체가 일어난다.
 - **앞머리 고정**: 무조건 처음 64비트는 `FE80:0000:0000:0000` (축약하면 `fe80::`)으로 고정한다.
-- **뒷머리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 남은 64비트(인터페이스 ID)는, 내 랜카드의 고유한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(48비트)를 뻥튀기 조작([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)하여 64비트로 만들어 끼워 넣는다.
+- <strong>뒷머리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 남은 64비트(인터페이스 ID)는, 내 랜카드의 고유한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(48비트)를 뻥튀기 조작([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)하여 64비트로 만들어 끼워 넣는다.
 - **합체 완료**: `fe80::[내 MAC을 조작한 64비트]`라는 전 세계 유일무이한 링크 로컬 주소가 1초 만에 공짜로 탄생한다. (공유기의 허락조차 필요 없다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 통신의 시작점 (NDP와 라우터 찾기)            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC ] IP를 두 개 갖게 됨!                                 │
- │   1. Link-local (fe80::abcd...) ◀─ 켜자마자 자급자족으로 만듦    │
- │                                                             │
- │   * PC의 속마음: "일단 내 방(링크) 사람들과 대화할 입(fe80)은 생겼어. │
- │                이제 진짜 인터넷으로 나갈 주소를 구해보자!"         │
- │                                                             │
- │   2. 라우터 요청: "이 동네 라우터님 계심? (RS 발송)"                │
- │                  (출발지 주소를 방금 만든 fe80::abcd 로 씀!)     │
- │                                                             │
- │   3. 라우터 응답: "오냐 내 주소는 fe80::111 이다! 인터넷 할 거면    │
- │                  네 주소 앞자리에 2001:db8:.. (RA 발송) 써라!"    │
- │                                                             │
- │   4. Global Unicast (2001:db8:abcd...) ◀─ 드디어 밖으로 나갈   │
- │                                             진짜 인터넷 IP 완성! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6 통신의 시작점 (NDP와 라우터 찾기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-note">IP를 두 개 갖게 됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Link-local (fe80::abcd...) ◀─ 켜자마자 자급자족으로 만듦</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC의 속마음: "일단 내 방(링크) 사람들과 대화할 입(fe80)은 생겼어.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 진짜 인터넷으로 나갈 주소를 구해보자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 라우터 요청: "이 동네 라우터님 계심? (RS 발송)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(출발지 주소를 방금 만든 fe80::abcd 로 씀!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 라우터 응답: "오냐 내 주소는 fe80::111 이다! 인터넷 할 거면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네 주소 앞자리에 2001:db8:.. (RA 발송) 써라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Global Unicast (2001:db8:abcd...) ◀─ 드디어 밖으로 나갈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 인터넷 IP 완성!</div></div>
+</div>
+</div>
+
+
 
 ### 2. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에서의 절대 법칙
-모든 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원 라우터는 출발지나 목적지가 `fe80::`으로 시작하는 패킷을 받으면, **어떤 짓을 해도 다른 포트로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(포워딩) 해주지 않고 가차 없이 차단(Drop)하거나 무시**한다. "이건 너희 동네 안에서만 쓰는 번호야! 나보고 다른 동네로 배달하라고 하지 마!"라는 엄격한 격리 룰이다.
+모든 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원 라우터는 출발지나 목적지가 `fe80::`으로 시작하는 패킷을 받으면, <strong>어떤 짓을 해도 다른 포트로 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(포워딩) 해주지 않고 가차 없이 차단(Drop)하거나 무시</strong>한다. "이건 너희 동네 안에서만 쓰는 번호야! 나보고 다른 동네로 배달하라고 하지 마!"라는 엄격한 격리 룰이다.
 
 ### 3. 사이트 로컬 주소 (Site-Local Address)의 폐기
-- 과거엔 IPv4의 '사설 IP(192.168.x.x)'와 완벽히 똑같은 역할을 하라고 **Site-Local 주소(`fec0::/10`)**라는 것도 만들었었다.
+- 과거엔 IPv4의 '사설 IP(192.168.x.x)'와 완벽히 똑같은 역할을 하라고 <strong>Site-Local 주소(<code>fec0::/10</code>)</strong>라는 것도 만들었었다.
 - 하지만 IPv6는 기본적으로 공인 IP가 무한대라서 모든 기기가 공인 IP를 달고 살 수 있다. "어차피 널린 게 진짜 IP인데, 귀찮게 사설 IP 만들고 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 또 돌려야 해?"라는 회의론이 터졌다.
-- 결국 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제인터넷표준화기구)는 **"사이트 로컬 주소는 너무 복잡하고 쓸모없으니 공식적으로 폐기(Deprecated)한다!"**라고 선언했다. (현재는 ULA라는 대체 규격이 있으나 거의 안 쓴다).
+- 결국 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제인터넷표준화기구)는 <strong>"사이트 로컬 주소는 너무 복잡하고 쓸모없으니 공식적으로 폐기(Deprecated)한다!"</strong>라고 선언했다. (현재는 ULA라는 대체 규격이 있으나 거의 안 쓴다).
 
-- **📢 섹션 요약 비유**: ** `fe80::`으로 시작하는 링크 로컬 주소는 마치 군대의 **"무전기 주파수"**와 같습니다. 우리 소대원들끼리 작전을 짤 때는 무전기(fe80)로 완벽히 소통하지만, 국방부 장관(인터넷 서버)에게 무전기(fe80)로 백날 연락해 봐야 거리가 닿지 않아 통신이 불가능합니다.
+- **📢 섹션 요약 비유**: <strong> <code>fe80::</code>으로 시작하는 링크 로컬 주소는 마치 군대의 </strong>"무전기 주파수"**와 같습니다. 우리 소대원들끼리 작전을 짤 때는 무전기(fe80)로 완벽히 소통하지만, 국방부 장관(인터넷 서버)에게 무전기(fe80)로 백날 연락해 봐야 거리가 닿지 않아 통신이 불가능합니다.
 
 ---
 
@@ -131,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 유니캐스트, 멀티캐스트, 애니캐스트]
-    │
-    ▼
-[현재 개념: 링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    ├──▶ [확장 A: EUI-64]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 유니캐스트, 멀티캐스트, 애니캐스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 링크 로컬 주소 / 사이트 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EUI-64</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 링크 로컬 주소 / 사이트 로컬 주소는 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트에서 출발해 현재 메커니즘을 정교화하고, 이후 EUI-64와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,29 +19,25 @@ tags = ["database"]
 
 기업의 데이터는 각 부서별 시스템 (영업, 인사, 생산 등)에 흩어져 있다. 이러한 **'데이터 사일로 (Data Silo)'** 현상은 전사적 관점의 분석을 가로막는다. 데이터 웨어하우스는 이 산재한 데이터들을 한곳으로 모으고, 분석하기 좋은 형태로 가공하여 기업의 '단일 진실 원천 (Single Source of Truth)'을 제공한다.
 
-DW 및 분석 기술이 필요한 이유는 세 가지이다. 첫째, **의사결정의 과학화**를 위해서이다. 감이 아닌 데이터 증거에 기반한 경영이 가능해진다. 둘째, **운영 시스템의 보호**를 위해서이다. 복잡한 분석 쿼리가 실제 업무용 DB의 성능을 갉아먹지 않게 분리한다. 셋째, **다차원 통찰 도출**을 위해서이며 (예: 지역별, 상품별, 기간별 매출 분석), 이를 통해 숨겨진 비즈니스 기회를 포착한다.
+DW 및 분석 기술이 필요한 이유는 세 가지이다. 첫째, <strong>의사결정의 과학화</strong>를 위해서이다. 감이 아닌 데이터 증거에 기반한 경영이 가능해진다. 둘째, <strong>운영 시스템의 보호</strong>를 위해서이다. 복잡한 분석 쿼리가 실제 업무용 DB의 성능을 갉아먹지 않게 분리한다. 셋째, <strong>다차원 통찰 도출</strong>을 위해서이며 (예: 지역별, 상품별, 기간별 매출 분석), 이를 통해 숨겨진 비즈니스 기회를 포착한다.
 
 이 그림은 데이터가 원천 시스템에서 DW를 거쳐 시각화되는 전체 파이프라인 (ETL)을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Data Warehouse Architecture (ETL Flow)      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Source Systems ]      [ Staging / ETL ]      [ Data Warehouse ] │
-│   ┌──────────────┐        ┌──────────────┐       ┌────────────┐     │
-│   │ CRM / ERP    │ ──▶    │ Extract      │ ──▶   │ Subject    │     │
-│   │ Log Files    │        │ Transform    │       │ Oriented   │     │
-│   │ Legacy DB    │        │ Load         │       │ Integrated │     │
-│   └──────────────┘        └──────────────┘       └─────┬──────┘     │
-│                                                        │            │
-│          ┌─────────────────────────────────────────────┘            │
-│          ▼                                                          │
-│   [ Data Marts ] ──▶ [ OLAP / BI Tools ] ──▶ [ Decision Support ]   │
-│   (부서별 요약)       (다차원 분석)           (대시보드)             │
-│                                                                     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Warehouse Architecture (ETL Flow)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Source Systems</div><div class="kb-diagram-node">Staging / ETL</div><div class="kb-diagram-node">Data Warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM / ERP</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Extract</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Subject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log Files</div><div class="kb-diagram-cell">Transform</div><div class="kb-diagram-cell">Oriented</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy DB</div><div class="kb-diagram-cell">Load</div><div class="kb-diagram-cell">Integrated</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Marts</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OLAP / BI Tools</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Decision Support</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부서별 요약) (다차원 분석) (대시보드)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '주제 중심적 통합'이다. 고객이라는 주제를 위해 여러 시스템의 데이터를 정제하고 하나로 묶는 과정이 DW의 정수이다. 실무에서는 이 ETL 과정이 전체 구축 공정의 70% 이상을 차지하며, 데이터의 품질 (Quality)을 결정짓는 결정적 단계가 된다.
 
@@ -79,27 +75,22 @@ DW의 성능을 극대화하기 위한 설계 기법이다.
 
 이 구조도는 스타 스키마의 논리적 구성을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Star Schema Dimensional Model               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│      [ Dim: Time ]             [ Dim: Product ]             │
-│      (Date, Year, Month)       (ProdID, Name, Category)     │
-│               │                         │                   │
-│               └───────────┐ ┌───────────┘                   │
-│                           ▼ ▼                               │
-│                    [ Fact: Sales ]                          │
-│                    (TimeID, ProdID, StoreID,                │
-│                     Amount, Quantity)                       │
-│                           ▲ ▲                               │
-│               ┌───────────┘ └───────────┐                   │
-│               │                         │                   │
-│      [ Dim: Store ]            [ Dim: Region ]              │
-│      (StoreID, Address)        (RegionID, City, Country)    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Star Schema Dimensional Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dim: Time</div><div class="kb-diagram-node">Dim: Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Date, Year, Month) (ProdID, Name, Category)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fact: Sales</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TimeID, ProdID, StoreID,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amount, Quantity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dim: Store</div><div class="kb-diagram-node">Dim: Region</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(StoreID, Address) (RegionID, City, Country)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Fact와 Dimension의 분리'이다. 수조 건의 매출 데이터는 Fact에 담고, 그 배경 정보는 Dimension에 따로 담아 조인 비용을 최소화한다. 실무에서는 성능을 위해 이 구조를 더 정규화하거나 (Snowflake Schema), 아예 하나로 합치는 (Flat Table) 전략을 선택하기도 한다.
 
@@ -140,29 +131,24 @@ DW의 성능을 극대화하기 위한 설계 기법이다.
 - **판단**: 거버넌스와 메타데이터 관리의 부재이다. **데이터 카탈로그** 도입을 통해 데이터의 계보 (Lineage)를 관리하고, 레이크의 유연성과 DW의 구조적 장점을 결합한 **데이터 레이크하우스 (Data Lakehouse)** 아키텍처로의 전환을 제안한다. 이를 통해 비정형 데이터에서도 SQL 분석이 가능하게 하여 활용도를 높인다.
 
 **시나리오 2: 실시간 마케팅 인사이트가 필요한 이커머스 플랫폼**
-- **판단**: 전통적인 배치 방식의 DW는 너무 느리다. 실시간 스트리밍 처리 (Kafka/Flink)와 연동되는 **실시간 DW (Real-time DW)** 또는 **HTAP** 기술을 적용한다. 또한 컬럼 기반 저장 방식 (Columnar Storage)을 사용하여 대량 집계 연산을 하드웨어 수준에서 가속화하고, 자주 쓰이는 쿼리는 **Materialized View**로 미리 계산해 두는 전략을 취한다.
+- **판단**: 전통적인 배치 방식의 DW는 너무 느리다. 실시간 스트리밍 처리 (Kafka/Flink)와 연동되는 **실시간 DW (Real-time DW)** 또는 **HTAP** 기술을 적용한다. 또한 컬럼 기반 저장 방식 (Columnar Storage)을 사용하여 대량 집계 연산을 하드웨어 수준에서 가속화하고, 자주 쓰이는 쿼리는 <strong>Materialized View</strong>로 미리 계산해 두는 전략을 취한다.
 
 이 도식은 데이터 레이크하우스 아키텍처의 통합적 관점을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Data Lakehouse: The Modern Stack            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Consumers ] : SQL, BI, AI/ML, Data Science              │
-│          ▲                                                  │
-│   ┌──────┴────────────────────────────────────────────────┐ │
-│   │          Unified Metadata & Governance Layer          │ │
-│   ├───────────────────────────────────────────────────────┤ │
-│   │          Open Table Formats (Iceberg, Delta)          │ │
-│   ├───────────────────────────────────────────────────────┤ │
-│   │          Cloud Object Storage (S3, GCS)               │ │
-│   └───────────────────────────────────────────────────────┘ │
-│                                                             │
-│   * 혁신: 하나의 저장소에서 BI(DW)와 AI(Lake)를 모두 수행   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lakehouse: The Modern Stack</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumers</div><div class="kb-diagram-note">: SQL, BI, AI/ML, Data Science</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Metadata &amp; Governance Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open Table Formats (Iceberg, Delta)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Object Storage (S3, GCS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 혁신: 하나의 저장소에서 BI(DW)와 AI(Lake)를 모두 수행</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 분석 아키텍처 판단은 '정수 시스템 설계'와 같습니다. 원수(Raw Data)를 어떻게 끌어와서 필터링(ETL)하고, 어떤 수돗물(DW)과 식수(Data Mart)로 나누어 각 가정(사용자)에 공급할지를 결정하는 물류의 마스터입니다.
 
@@ -177,7 +163,7 @@ DW의 성능을 극대화하기 위한 설계 기법이다.
 
 ### 미래 전망: 분석의 민주화와 자율 지능
 
-향후 DW는 전문가의 영역을 넘어 현업 누구나 활용하는 **'분석 민주화'** 시대로 접어들 것이다. 자연어로 질문하면 SQL을 생성해 결과를 보여주는 **Generative BI**가 표준이 될 것이며, 데이터가 흐르는 경로 자체가 인공지능에 의해 최적화되는 **데이터 메시 (Data Mesh)** 거버넌스가 정착될 것이다. 기술사는 특정 벤더의 도구 사용법보다는, 데이터의 가치를 비즈니스 성과로 연결하는 '인사이트 아키텍트'로서의 전문성을 극대화해야 한다.
+향후 DW는 전문가의 영역을 넘어 현업 누구나 활용하는 **'분석 민주화'** 시대로 접어들 것이다. 자연어로 질문하면 SQL을 생성해 결과를 보여주는 <strong>Generative BI</strong>가 표준이 될 것이며, 데이터가 흐르는 경로 자체가 인공지능에 의해 최적화되는 **데이터 메시 (Data Mesh)** 거버넌스가 정착될 것이다. 기술사는 특정 벤더의 도구 사용법보다는, 데이터의 가치를 비즈니스 성과로 연결하는 '인사이트 아키텍트'로서의 전문성을 극대화해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 분석은 '자율주행 내비게이션'과 같아질 것입니다. 목적지(비즈니스 목표)만 말하면 시스템이 실시간 교통 상황(시장 데이터)을 분석하여 최적의 경로를 알려주고, 위험 구간을 미리 경고하는 똑똑한 동반자가 될 것입니다.
 

@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-크고 복잡한 소프트웨어를 개발할 때, 전체 시스템을 구성하는 **독립적인 기능을 수행하는 가장 작은 단위**를 말합니다.
+크고 복잡한 소프트웨어를 개발할 때, 전체 시스템을 구성하는 <strong>독립적인 기능을 수행하는 가장 작은 단위</strong>를 말합니다.
 C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class) 하나, 혹은 여러 클래스가 묶인 하나의 패키지(Package)나 라이브러리가 될 수도 있습니다.
 
 - **📢 섹션 요약 비유**: 모듈 (Module)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 모듈 (Module)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  모듈 (Module)                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈 (Module)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 모듈 (Module)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -48,7 +47,7 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 수만 줄의 스파게티 코드를 모듈 단위로 쪼개는([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 이유는 명확합니다.
 
 1. **재사용성 (Reusability)**: 잘 만들어진 '결제 모듈'은 A쇼핑몰뿐만 아니라 B게임회사 프로젝트에도 그대로 복사해서 쓸 수 있습니다.
-2. **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) ([Maintainability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))**: 버그가 났을 때 전체 코드를 다 뒤질 필요 없이, 문제가 발생한 해당 모듈만 열어서 고치면 됩니다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">Maintainability</a>)</strong>: 버그가 났을 때 전체 코드를 다 뒤질 필요 없이, 문제가 발생한 해당 모듈만 열어서 고치면 됩니다.
 3. **독립적 개발 (Parallel Development)**: A팀은 '로그인 모듈'을, B팀은 '검색 모듈'을 동시에 병렬로 개발할 수 있어 개발 기간이 획기적으로 단축됩니다.
 
 - **📢 섹션 요약 비유**: 모듈 (Module)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -65,18 +64,24 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 모듈의 크기는 적절해야 합니다.
 
-```text
-비용 (Cost)
-  ▲
-  │       [최적의 모듈 개수]
-  │      *                  * ◀ 너무 잘게 쪼개면: 
-  │     *                    *   모듈 간 통신비용(인터페이스) 폭발
-  │    *                      *
-  │  *                          *
-  │* (너무 크게 만들면:          *
-  │  하나의 모듈 개발비용 폭발)   *
-  └──────────────────────────────────▶ 모듈 개수
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비용 (Cost)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최적의 모듈 개수</div></div>
+<div class="kb-diagram-note">* * ◀ 너무 잘게 쪼개면:</div>
+<div class="kb-diagram-note">* * 모듈 간 통신비용(인터페이스) 폭발</div>
+<div class="kb-diagram-note">* *</div>
+<div class="kb-diagram-note">* *</div>
+<div class="kb-diagram-note">* (너무 크게 만들면: *</div>
+<div class="kb-diagram-note">하나의 모듈 개발비용 폭발) *</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ 모듈 개수</div>
+</div>
+</div>
+
+
 - 모듈을 너무 **크게** 만들면: 한 모듈 안에 기능이 너무 많아 복잡해지고, 재사용이 불가능해집니다.
 - 모듈을 너무 **작게** 만들면: 모듈 자체는 단순해지지만, 모듈끼리 데이터를 주고받는 연결(인터페이스) 작업이 너무 많아져서 시스템 전체의 조립 비용이 폭발합니다.
 
@@ -87,8 +92,8 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 '설계를 잘했다'라고 평가하는 유일한 기준은 딱 2단어입니다.
-- **[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))는 높게 (High)**: 하나의 모듈 안에는 똘똘 뭉친 연관된 기능들만 있어야 합니다.
-- **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))는 낮게 (Low)**: 모듈과 모듈 사이의 연결 고리는 느슨해야(쉽게 뗐다 붙였다 할 수 있어야) 합니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)는 높게 (High)</strong>: 하나의 모듈 안에는 똘똘 뭉친 연관된 기능들만 있어야 합니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)는 낮게 (Low)</strong>: 모듈과 모듈 사이의 연결 고리는 느슨해야(쉽게 뗐다 붙였다 할 수 있어야) 합니다.
 
 > 📢 **섹션 요약 비유**: 스마트폰을 조립할 때, '카메라 부품(모듈)'은 사진 찍는 기능 하나만 완벽하게 수행하면 됩니다(높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)). 만약 카메라 부품이 고장 났을 때 메인보드까지 뜯어내야 한다면 최악의 설계이고, 나사만 풀어서 새 카메라로 똑딱 갈아 끼울 수 있어야(낮은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 최고의 모듈 설계입니다.
 
@@ -127,21 +132,23 @@ C언어의 함수(Function) 하나가 될 수도 있고, Java의 클래스(Class
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-모듈 (Module) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈 (Module) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

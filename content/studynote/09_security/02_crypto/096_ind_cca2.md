@@ -19,9 +19,9 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 [IND-CPA](/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/) (선택 평문 공격에 대한 구별 불가능성) 등급을 통과한 암호 시스템이라 하더라도, 현실의 웹 서버는 속수무책으로 뚫리기 일쑤였다. 공격자는 평문 대신 **조작된 쓰레기 암호문(Ciphertext)**을 웹 서버(오라클)에 집어넣었고, 서버가 당황하며 내뱉는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러("[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌어요!")의 패턴을 모아 단숨에 비밀키나 평문을 역산해 냈다. 
+과거 [IND-CPA](/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/) (선택 평문 공격에 대한 구별 불가능성) 등급을 통과한 암호 시스템이라 하더라도, 현실의 웹 서버는 속수무책으로 뚫리기 일쑤였다. 공격자는 평문 대신 <strong>조작된 쓰레기 암호문(Ciphertext)</strong>을 웹 서버(오라클)에 집어넣었고, 서버가 당황하며 내뱉는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러("[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 깨졌어요!")의 패턴을 모아 단숨에 비밀키나 평문을 역산해 냈다. 
 
-이러한 적응적 선택 암호문 공격(Adaptive [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/)) 환경에 암호가 노출되자, 암호학계는 기존의 기준을 버리고 **"서버가 해커의 가짜 암호문 폭격에도 단 한 줌의 에러 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)도 주지 않는 완벽한 벙어리가 되어야 한다"**는 지옥의 충돌 테스트 기준을 만들었다. 이것이 바로 현대 암호 설계가 도달해야 할 가장 완벽한 방어력의 척도, IND-CCA2다.
+이러한 적응적 선택 암호문 공격(Adaptive [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/)) 환경에 암호가 노출되자, 암호학계는 기존의 기준을 버리고 <strong>"서버가 해커의 가짜 암호문 폭격에도 단 한 줌의 에러 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>도 주지 않는 완벽한 벙어리가 되어야 한다"</strong>는 지옥의 충돌 테스트 기준을 만들었다. 이것이 바로 현대 암호 설계가 도달해야 할 가장 완벽한 방어력의 척도, IND-CCA2다.
 
 - **📢 섹션 요약 비유**: IND-CPA가 가방 겉면을 엑스레이로 찍는 것만 방어하는 것이라면, IND-CCA2는 해커가 드릴로 자물쇠 구멍을 쑤시며 튀어나오는 금속 부스러기와 소음(에러 메시지)까지 관찰하는 극한 상황에서도 끄떡없이 방어하는 절대 금고다.
 
@@ -38,24 +38,25 @@ IND-CCA2 방어력은 가상의 '스무고개 게임(Game)'을 통해 증명된�
 | **3. 2차 적응적 찌르기** | 해커가 $C^*$를 교묘하게 조작한 $C', C''$ 등을 실시간(Adaptive)으로 오라클에 던져 에러 반응을 살핌 |
 | **4. 최종 판결** | 모든 찌르기에도 불구하고 $C^*$가 $M_0$인지 $M_1$인지 50% 확률로밖에 찍을 수 없으면 방어(IND-CCA2) 성공 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         IND-CCA2 방어 실패 vs 성공 모델 비교 (오라클 반응)   │
-├──────────────────────────────────────────────────────────────┤
-│ [공격] 조작된 암호문 (C*) ─▶ 1비트 변조 후 서버에 투척       │
-│                                                              │
-│ [방어 실패: 일반 CBC 모드 등]                                │
-│  서버: (해독 시도) ─▶ "앗, 패딩 블록 규칙에 안 맞는데요?"   │
-│  해커: "나이스! 패딩 에러를 보니 이전 블록 유추 가능함!"     │
-│  결과: IND-CCA2 탈락 (힌트 누출)                             │
-│                                                              │
-│ [방어 성공: IND-CCA2 달성]                                   │
-│  서버: (해독 전 인증 태그 검사) ─▶ "태그 깨짐. 조작됐군."   │
-│  서버: "..." (세션 강제 종료. 아무런 에러 메시지 없음)       │
-│  해커: "반응이 없네... 힌트를 얻을 수 없다."                 │
-│  결과: IND-CCA2 통과 (50% 확률 찍기 강제)                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IND-CCA2 방어 실패 vs 성공 모델 비교 (오라클 반응)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공격</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1비트 변조 후 서버에 투척</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방어 실패: 일반 CBC 모드 등</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: (해독 시도) ─▶ "앗, 패딩 블록 규칙에 안 맞는데요?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "나이스! 패딩 에러를 보니 이전 블록 유추 가능함!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: IND-CCA2 탈락 (힌트 누출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방어 성공: IND-CCA2 달성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: (해독 전 인증 태그 검사) ─▶ "태그 깨짐. 조작됐군."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: "..." (세션 강제 종료. 아무런 에러 메시지 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "반응이 없네... 힌트를 얻을 수 없다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: IND-CCA2 통과 (50% 확률 찍기 강제)</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 해독(Decryption) 과정 자체에서 에러를 뱉게 놔두면 방어에 실패하며, 조작된 암호문은 해독기가 씹기 전에 '침묵 상태로 폐기(Drop)'해야만 IND-CCA2를 달성할 수 있다는 점이다.
 
@@ -69,9 +70,9 @@ IND-CCA2 방어력은 가상의 '스무고개 게임(Game)'을 통해 증명된�
 
 | 방어 등급 | 공격자 권한 및 전제 | 방어의 핵심 | 취약점 |
 | :--- | :--- | :--- | :--- |
-| **[IND-CPA](/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/)** | 평문을 선택해 암호화해 볼 수 있음 (Chosen Plaintext) | 항상 다른 암호문 출력 ([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 사용) | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 등 [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/) 공격에 무너짐 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/095_ind_cpa/">IND-CPA</a></strong> | 평문을 선택해 암호화해 볼 수 있음 (Chosen Plaintext) | 항상 다른 암호문 출력 ([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 사용) | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 등 [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/) 공격에 무너짐 |
 | **IND-CCA1** | 목표 암호문을 받기 전(1차)까지만 암호문 해독 오라클 사용 | 1차 학습 방어 | 목표 암호문을 받은 후 조작에 뚫림 |
-| **IND-CCA2** | 목표 암호문을 받은 이후(2차)에도 조작된 암호문 실시간 해독 시도 | **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 복호화** | 상용 환경에서 방어할 수 있는 최고 등급 |
+| **IND-CCA2** | 목표 암호문을 받은 이후(2차)에도 조작된 암호문 실시간 해독 시도 | <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 후 복호화</strong> | 상용 환경에서 방어할 수 있는 최고 등급 |
 
 현대 암호 시스템에서 단순 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 보장 수준인 IND-CPA는 더 이상 안전하지 않다. [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 결합해야만 IND-CCA2 방어선을 구축할 수 있다.
 
@@ -84,8 +85,8 @@ IND-CCA2 방어력은 가상의 '스무고개 게임(Game)'을 통해 증명된�
 시스템 설계자나 보안 담당자는 서버 아키텍처를 그릴 때 "우리 암호 모듈이 IND-CCA2를 만족하는가?"를 가장 먼저 물어야 한다. 이를 달성하는 방법은 명확하다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
-1. **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화) 도입**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 보장하는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 또는 ChaCha20-Poly1305 모드를 사용하고 있는가?
-2. **Encrypt-then-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 아키텍처**: 직접 암호화를 조립해야 한다면, 반드시 [평문 암호화 $\rightarrow$ 그 암호문 전체에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그) 생성] 순서를 따랐는가? (반대로 하면 뚫림)
+1. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 암호화) 도입</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 보장하는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 또는 ChaCha20-Poly1305 모드를 사용하고 있는가?
+2. <strong>Encrypt-then-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 아키텍처</strong>: 직접 암호화를 조립해야 한다면, 반드시 [평문 암호화 $\rightarrow$ 그 암호문 전체에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그) 생성] 순서를 따랐는가? (반대로 하면 뚫림)
 3. **에러 핸들링**: 복호화 실패 시, 내부 로직의 차이([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 불량, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 불량 등)를 유추할 수 있는 세부 에러 코드나 응답 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Time-based) 차이를 외부로 노출하지 않도록 구현했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -109,28 +110,30 @@ IND-CCA2를 달성한 암호 시스템은 공격자가 시스템의 약점을 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **CCA2 (Adaptive [Chosen Ciphertext Attack](/knowledge-base/studynote/09_security/02_crypto/093_cca/))** | 해커가 실시간으로 조작된 암호문을 서버에 던져 반응을 살피는 공격 방식 |
-| **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))** | IND-CCA2를 달성하기 위해 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 결합한 최신 암호화 규격 |
-| **[Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack** | 에러 메시지(피드백)를 분석해 평문을 훔쳐내는 대표적인 [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/) 공격 기법 |
-| **Encrypt-then-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)** | 암호화 후 외부 껍질에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 발라 조작 즉시 튕겨내는 방어 아키텍처 |
+| <strong>CCA2 (Adaptive <a href="/knowledge-base/studynote/09_security/02_crypto/093_cca/">Chosen Ciphertext Attack</a>)</strong> | 해커가 실시간으로 조작된 암호문을 서버에 던져 반응을 살피는 공격 방식 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> (Authenticated Encryption with Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong> | IND-CCA2를 달성하기 위해 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 결합한 최신 암호화 규격 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Attack</strong> | 에러 메시지(피드백)를 분석해 평문을 훔쳐내는 대표적인 [CCA](/knowledge-base/studynote/09_security/02_crypto/093_cca/) 공격 기법 |
+| <strong>Encrypt-then-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a></strong> | 암호화 후 외부 껍질에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 발라 조작 즉시 튕겨내는 방어 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 암호화 (단순 기밀성 방어)
-    │
-    ▼
-IND-CPA 안전성 (선택 평문 공격 방어, IV 도입)
-    │
-    ▼
-패딩 오라클 등 CCA 공격의 출현 (에러 피드백 악용)
-    │
-    ▼
-인증 암호화(AEAD) 도입 및 Encrypt-then-MAC 설계
-    │
-    ▼
-IND-CCA2 (적응적 선택 암호문 공격 방어, 궁극의 안전성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 암호화 (단순 기밀성 방어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IND-CPA 안전성 (선택 평문 공격 방어, IV 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패딩 오라클 등 CCA 공격의 출현 (에러 피드백 악용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증 암호화(AEAD) 도입 및 Encrypt-then-MAC 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IND-CCA2 (적응적 선택 암호문 공격 방어, 궁극의 안전성)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

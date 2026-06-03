@@ -39,31 +39,37 @@ tags = ["studynote-algorithm"]
 
 ### 기본 동작 흐름
 
-```
-배열: [7, 2, 15, 4, 9, 11, 3]     목표: 9
 
-단계 1:  i=0 → arr[0]=7  → 7 ≠ 9 → 계속
-단계 2:  i=1 → arr[1]=2  → 2 ≠ 9 → 계속
-단계 3:  i=2 → arr[2]=15 → 15 ≠ 9 → 계속
-단계 4:  i=3 → arr[3]=4  → 4 ≠ 9 → 계속
-단계 5:  i=4 → arr[4]=9  → 9 = 9 → 반환(4) ✓
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">7, 2, 15, 4, 9, 11, 3</div><div class="kb-diagram-note">목표: 9</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">7 ≠ 9 → 계속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">2 ≠ 9 → 계속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">15 ≠ 9 → 계속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">4 ≠ 9 → 계속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">9 = 9 → 반환(4) ✓</div></div>
+</div>
+</div>
+
+
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 선형 탐색 포인터 이동
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  배열:    [ 7 ] [ 2 ] [15 ] [ 4 ] [ 9 ] [11 ] [ 3 ]        │
-│  인덱스:    0     1     2     3     4     5     6            │
-│                                                             │
-│  탐색 진행 →→→→→→→→→→→→→→→→→→→→→→→                         │
-│   i=0: 7≠9  i=1: 2≠9  i=2: 15≠9  i=3: 4≠9                 │
-│                                                             │
-│                               i=4: 9=9  ← Found!           │
-│                               ↓                            │
-│                            반환: 4                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">15</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">11</div><div class="kb-diagram-node">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스: 0 1 2 3 4 5 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 진행 →→→→→→→→→→→→→→→→→→→→→→→</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=0: 7≠9 i=1: 2≠9 i=2: 15≠9 i=3: 4≠9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=4: 9=9 ← Found!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반환: 4</div></div>
+</div>
+</div>
+
+
 
 ### Sentinel(감시자) 최적화
 
@@ -83,7 +89,7 @@ Sentinel: arr[n] = target;   while (arr[i] != target)   // 범위 검사 제거
 | 일반 선형 탐색 | 2 | 범위 검사 + 값 비교 |
 | Sentinel 최적화 | 1 | 값 비교만 (분기 절반 감소) |
 
-탐색 비교 횟수는 동일하지만 **분기(Branch) 횟수가 절반**으로 줄어 CPU 파이프라인 친화적이다.
+탐색 비교 횟수는 동일하지만 <strong>분기(Branch) 횟수가 절반</strong>으로 줄어 CPU 파이프라인 친화적이다.
 
 📢 **섹션 요약 비유**: Sentinel은 미로 출구에 "도착!" 표지판을 세워두는 것과 같다. 표지판이 없으면 매 걸음마다 "여기가 출구인가? 벽에 부딪혔나?"를 두 번 물어야 하지만, 표지판이 있으면 한 번만 물으면 된다.
 
@@ -104,7 +110,7 @@ Sentinel: arr[n] = target;   while (arr[i] != target)   // 범위 검사 제거
 
 - **문자열 매칭**: Naive 패턴 매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) = 텍스트 상의 선형 탐색 확장
 - **스트리밍 처리**: 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림에서 조건 원소 추출 (정렬 불가)
-- **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)**: 임의 접근 불가이므로 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 자체가 불가능
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a></strong>: 임의 접근 불가이므로 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 자체가 불가능
 
 📢 **섹션 요약 비유**: 선형 탐색과 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 작은 동네 골목길과 고속도로의 차이다. 골목이 짧다면 굳이 고속도로 진입로를 찾을 필요가 없다.
 
@@ -138,7 +144,7 @@ Sentinel: arr[n] = target;   while (arr[i] != target)   // 범위 검사 제거
 
 ## Ⅴ. 기대효과 및 결론
 
-선형 탐색 (Linear Search)은 O(n)이라는 한계에도 불구하고 **정렬 불필요, 구현 단순, 임의 접근 불요**라는 세 가지 장점으로 실무에서 지속적으로 활용된다.
+선형 탐색 (Linear Search)은 O(n)이라는 한계에도 불구하고 <strong>정렬 불필요, 구현 단순, 임의 접근 불요</strong>라는 세 가지 장점으로 실무에서 지속적으로 활용된다.
 
 Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨어 수준에서 소규모 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(n < 32)은 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)보다 캐시 친화적이어서 실질 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 빠른 경우도 있다.
 
@@ -159,18 +165,21 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이진 탐색 (Binary Search)]
-    │
-    ▼
-[해시 탐색 (Hash Search)]
-    │
-    ▼
-[Sentinel 최적화]
-    │
-    ▼
-[풀 테이블 스캔 (Full Table Scan)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 (Binary Search)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 탐색 (Hash Search)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sentinel 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">풀 테이블 스캔 (Full Table Scan)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

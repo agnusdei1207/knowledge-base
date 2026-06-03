@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어가 커지면서 수백 명의 개발자가 각자 짠 함수들이 서로를 호출하기 시작했다. A 개발자가 만든 `출금(금액)` 함수를 B 개발자가 호출할 때, B가 실수로 `출금(-100원)`이라고 마이너스 값을 넘기면 어떻게 될까?
 
-과거의 **[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)**에서는 A 개발자가 피곤했다. "B가 바보일 수 있으니 내가 방어해야 해"라며 `if(금액 < 0) return 에러;` 코드를 덕지덕지 발랐다. 하지만 모든 함수가 서로를 의심하며 똑같은 방어벽을 세우다 보니 시스템 전체가 중복 코드로 무거워졌다.
+과거의 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/">방어적 프로그래밍</a></strong>에서는 A 개발자가 피곤했다. "B가 바보일 수 있으니 내가 방어해야 해"라며 `if(금액 < 0) return 에러;` 코드를 덕지덕지 발랐다. 하지만 모든 함수가 서로를 의심하며 똑같은 방어벽을 세우다 보니 시스템 전체가 중복 코드로 무거워졌다.
 
-이에 대해 버트랜드 마이어는 **"현실 세계의 '계약서'를 프로그래밍에 도입하자"**고 주장했다. A는 "금액이 0보다 큰 경우에만 내가 출금해 줄게"라고 선언(계약)한다. 만약 B가 -100원을 넘기면, 이건 A가 방어할 문제가 아니라 **'계약을 위반한 B의 명백한 버그'**이므로 프로그램은 즉시 터져야(Fail-Fast) 한다는 것이다. 이것이 **DbC ([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/))**다.
+이에 대해 버트랜드 마이어는 <strong>"현실 세계의 '계약서'를 프로그래밍에 도입하자"</strong>고 주장했다. A는 "금액이 0보다 큰 경우에만 내가 출금해 줄게"라고 선언(계약)한다. 만약 B가 -100원을 넘기면, 이건 A가 방어할 문제가 아니라 <strong>'계약을 위반한 B의 명백한 버그'</strong>이므로 프로그램은 즉시 터져야(Fail-Fast) 한다는 것이다. 이것이 <strong>DbC (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/">Design by Contract</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)이 택배 기사(함수)가 물건을 받을 때마다 폭발물인지 일일이 엑스레이로 검사하는 것이라면, DbC는 "위험물을 넣으면 네 책임"이라는 계약서에 서명받고, 어기면 바로 감옥(에러)에 보내버리는 효율적인 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [디자인 바이 컨트랙트](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/) 불변 조건의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  디자인 바이 컨트랙트 불변 조건                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 바이 컨트랙트 불변 조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [디자인 바이 컨트랙트](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/) 불변 조건가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,7 +77,7 @@ DbC의 계약서는 크게 3가지 조항으로 구성되며, 주로 **어설션
 |:---|:---|:---|
 | **기본 철학** | 아무도 믿지 마라 (비관적) | **서로의 계약(조건)을 믿어라** (합리적) |
 | **에러의 책임** | 방어하지 못한 내(함수) 책임 | **사전 조건을 어긴 네(호출자) 책임** |
-| **에러 처리 방식**| `try-catch`로 에러를 잡아서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/우회 | **`assert`로 가차 없이 시스템 폭파 (Fail-Fast)** |
+| **에러 처리 방식**| `try-catch`로 에러를 잡아서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/우회 | <strong><code>assert</code>로 가차 없이 시스템 폭파 (Fail-Fast)</strong> |
 | **적용 범위** | 외부망(인터넷)에서 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | **내부망(우리 팀 코드) 간의 메서드 호출** |
 
 인터넷에서 모르는 유저가 폼(Form)에 입력하는 값은 계약을 맺을 수 없으므로 무조건 [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)을 써야 한다. 반면, 백엔드 서버 깊숙한 곳에서 우리 팀원들끼리 만든 함수를 호출할 때는 DbC를 쓰는 것이 훨씬 효율적이다.
@@ -132,21 +131,23 @@ DbC의 이론은 환상적이지만, Java나 C++ 같은 주류 언어에서는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-디자인 바이 컨트랙트 불변 조건 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디자인 바이 컨트랙트 불변 조건 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

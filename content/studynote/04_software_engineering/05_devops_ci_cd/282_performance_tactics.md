@@ -19,16 +19,16 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 성능은 시스템이 자극(요청)에 대해 응답하는 시간과 관련된 품질 속성이다. 주로 **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**과 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**이라는 두 가지 상충하는(Trade-off) 지표로 측정된다.
+- **개념**: 성능은 시스템이 자극(요청)에 대해 응답하는 시간과 관련된 품질 속성이다. 주로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>/<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>과 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>이라는 두 가지 상충하는(Trade-off) 지표로 측정된다.
 
 - **필요성**: 티켓팅 사이트가 오픈했다. 10만 명의 사용자가 동시에 접속(자극)했다. 만약 서버가 1초에 10명만 처리할 수 있다면, 대기열의 뒷사람은 티켓을 사기 위해 몇 시간을 기다려야 한다. 심지어 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 터지면 서버가 다운된다. 고객은 느린 시스템을 '고장 난 시스템'과 동일하게 취급한다. 이를 막기 위해 성능을 아키텍처 레벨에서 통제해야 한다.
 
 - **💡 비유**: 인기 있는 놀이공원의 롤러코스터와 같습니다. 대기줄에서 탑승까지 걸리는 대기 시간([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))을 줄이면서도, 하루에 최대한 많은 사람([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 태우기 위해 레일을 여러 개 깔거나, 한 번에 타는 인원을 늘리거나, VIP 패스를 도입해 순서를 조정하는 모든 고민이 성능 설계입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **수직적 확장 ([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 의존**: 과거에는 성능이 느리면 단순히 더 빠르고 비싼 CPU와 RAM을 사서 끼우는 하드웨어 업그레이드에 의존했다.
-  2. **수평적 확장 ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 대두**: 인터넷의 발달로 단일 서버로는 감당할 수 없는 트래픽이 쏟아지자, 저렴한 서버 여러 대를 병렬로 묶고 로드밸런서(L4)를 두는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처가 표준이 되었다.
-  3. **비동기/[이벤트 주도 아키텍처](/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/)**: 현대에는 서버 대수를 늘리는 것을 넘어, 스레드가 멈춰서 기다리는 시간([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 자체를 없애기 위해 Node.js나 WebFlux 같은 Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O 성능 최적화가 주류를 이루고 있다.
+  1. <strong>수직적 확장 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">Scale-Up</a>) 의존</strong>: 과거에는 성능이 느리면 단순히 더 빠르고 비싼 CPU와 RAM을 사서 끼우는 하드웨어 업그레이드에 의존했다.
+  2. <strong>수평적 확장 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-Out</a>) 대두</strong>: 인터넷의 발달로 단일 서버로는 감당할 수 없는 트래픽이 쏟아지자, 저렴한 서버 여러 대를 병렬로 묶고 로드밸런서(L4)를 두는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처가 표준이 되었다.
+  3. <strong>비동기/<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/367_architecture/">이벤트 주도 아키텍처</a></strong>: 현대에는 서버 대수를 늘리는 것을 넘어, 스레드가 멈춰서 기다리는 시간([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 자체를 없애기 위해 Node.js나 WebFlux 같은 Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O 성능 최적화가 주류를 이루고 있다.
 
 - **📢 섹션 요약 비유**: 옛날엔 짐을 빨리 옮기려고 소달구지 대신 비싼 페라리를 샀다면([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)), 지금은 저렴한 오토바이 수십 대를 고용해서 짐을 나눠 배달시키는([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 전략으로 진화했습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 성능 (Performance)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  성능 (Performance)                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 (Performance)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 성능 (Performance)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-성능 (Performance)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+성능 (Performance)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 성능 (Performance)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-성능 (Performance) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 (Performance) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

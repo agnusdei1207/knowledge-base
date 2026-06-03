@@ -13,7 +13,7 @@ tags = ["software_engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 도구는 요구사항을 적어 두는 메모장이 아니라, 요구사항 항목·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·승인·링크를 중앙에서 관리하는 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/) ([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다.
-> 2. **가치**: 진짜 효용은 카드 보드가 아니라 **양방향 추적성 (Bidirectional [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))** 에 있으며, 요구사항에서 설계·코드·테스트·배포 증적까지 이어지는 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 만들 수 있다.
+> 2. **가치**: 진짜 효용은 카드 보드가 아니라 <strong>양방향 추적성 (Bidirectional <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong> 에 있으며, 요구사항에서 설계·코드·테스트·배포 증적까지 이어지는 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 만들 수 있다.
 > 3. **판단 포인트**: Jira는 빠른 협업과 개발 워크플로에, IBM DOORS (Dynamic Object-Oriented Requirements System) 계열은 정형 문서·[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)·규제 대응에 강하므로 프로젝트의 규제 강도와 변경 통제 수준에 맞춰 선택해야 한다.
 
 ---
@@ -22,22 +22,24 @@ tags = ["software_engineering"]
 
 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 도구 (Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Tool)는 요구사항을 중앙 저장소에 등록하고, [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)·우선순위·승인 상태·변경 이력·연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 체계적으로 관리하는 도구다. 핵심은 단순 기록이 아니라 **단일 진실 원천 (Single Source of Truth)** 을 만드는 데 있다. 요구사항이 메일, 엑셀, 회의록, 채팅창에 흩어져 있으면 어느 문장이 최신인지조차 합의하기 어렵다.
 
-이 문제가 심각한 이유는 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 상당수가 코드보다도 **누락·오해·변경 전파 실패**에서 시작되기 때문이다. 고객 요구가 바뀌었는데 개발 태스크가 갱신되지 않거나, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 옛 기준으로 남아 있으면 구현과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 서로 다른 제품을 향해 달리게 된다. 요구사항 도구는 이 단절을 막기 위해 요구사항, 작업, 테스트, 형상 항목을 하나의 연결망으로 묶는다.
+이 문제가 심각한 이유는 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 상당수가 코드보다도 <strong>누락·오해·변경 전파 실패</strong>에서 시작되기 때문이다. 고객 요구가 바뀌었는데 개발 태스크가 갱신되지 않거나, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 옛 기준으로 남아 있으면 구현과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 서로 다른 제품을 향해 달리게 된다. 요구사항 도구는 이 단절을 막기 위해 요구사항, 작업, 테스트, 형상 항목을 하나의 연결망으로 묶는다.
 
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 관리와 도구 기반 관리의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Spreadsheet silo vs managed requirement repository                 │
-├────────────────────────────────────────────────────────────────────┤
-│ spreadsheet / mail / chat      -> versions diverge                │
-│ design doc / code / test       -> links are manual and fragile    │
-│                                                                    │
-│ managed repository             -> one requirement ID               │
-│                                -> version history + trace links    │
-│                                -> impact analysis on change        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spreadsheet silo vs managed requirement repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spreadsheet / mail / chat -&gt; versions diverge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">design doc / code / test -&gt; links are manual and fragile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">managed repository -&gt; one requirement ID</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; version history + trace links</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; impact analysis on change</div></div>
+</div>
+</div>
+
+
 
 즉 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 도구의 역할은 "기획 문서 정리"보다 훨씬 넓다. 요구사항이 바뀌었을 때 누가 승인해야 하는지, 어떤 설계와 코드가 영향을 받는지, 어느 테스트가 다시 수행되어야 하는지까지 보이게 만드는 것이 핵심이다.
 
@@ -47,7 +49,7 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-좋은 요구사항 도구는 단순 목록이 아니라 **객체, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/), 변경 통제**를 함께 다룬다. 요구사항 항목 하나에는 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 설명, 중요도, 출처, 상태, 승인자, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정보가 들어가며, 상위 요구와 하위 요구, 설계 산출물, 개발 작업, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 사이에 링크를 건다. 그래서 변경이 발생하면 도구가 영향 범위를 추적할 수 있다.
+좋은 요구사항 도구는 단순 목록이 아니라 <strong>객체, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>, 변경 통제</strong>를 함께 다룬다. 요구사항 항목 하나에는 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 설명, 중요도, 출처, 상태, 승인자, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정보가 들어가며, 상위 요구와 하위 요구, 설계 산출물, 개발 작업, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 사이에 링크를 건다. 그래서 변경이 발생하면 도구가 영향 범위를 추적할 수 있다.
 
 | 핵심 기능 | 무엇을 관리하는가 | 실무 의미 |
 | :--- | :--- | :--- |
@@ -62,20 +64,19 @@ tags = ["software_engineering"]
 
 아래 그림은 요구사항 도구가 만드는 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Requirement digital thread                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ stakeholder need                                                    │
-│      │                                                              │
-│      ▼                                                              │
-│ requirement ID  ----> design item ----> dev task / commit          │
-│      │                                   │                          │
-│      └-------------------------------> test case / result          │
-│                                                                    │
-│ change on requirement ID -> impact analysis across the thread      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement digital thread</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stakeholder need</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requirement ID ----&gt; design item ----&gt; dev task / commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-------------------------------&gt; test case / result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">change on requirement ID -&gt; impact analysis across the thread</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 점은 도구가 자동으로 품질을 보장하지는 않는다는 사실이다. Requirement ID 규칙, 링크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 승인 절차가 함께 있어야만 도구가 추적성과 영향 분석을 제대로 제공한다. 도구는 거버넌스를 실행 가능한 형태로 고정해 주는 장치다.
 
@@ -96,9 +97,9 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 | 테스트·코드 연계 | 플러그인과 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 연동이 강함 | 공식 추적성, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 관리에 강함 |
 | 대표 적합 환경 | 웹·모바일·일반 엔터프라이즈 | 국방, 철도, 항공, 의료기기, 대형 SI |
 
-많은 조직은 둘 중 하나만 쓰기보다 **하이브리드 구조**를 선택한다. 예를 들어 계약·시스템 레벨 요구는 DOORS에 고정하고, 개발 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위의 [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)/Story와 구현 작업은 Jira에서 운영한 뒤, 두 도구의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 동기화한다. 이렇게 하면 상위 요구의 엄격한 변경 통제와 하위 개발의 민첩성을 동시에 확보할 수 있다.
+많은 조직은 둘 중 하나만 쓰기보다 <strong>하이브리드 구조</strong>를 선택한다. 예를 들어 계약·시스템 레벨 요구는 DOORS에 고정하고, 개발 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위의 [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)/Story와 구현 작업은 Jira에서 운영한 뒤, 두 도구의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 동기화한다. 이렇게 하면 상위 요구의 엄격한 변경 통제와 하위 개발의 민첩성을 동시에 확보할 수 있다.
 
-요구사항 도구는 Git, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 테스트 관리 도구와도 연결된다. 이 연결이 제대로 되면 특정 요구사항이 어떤 커밋과 테스트 결과로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되었는지 조회할 수 있고, 미연결 항목을 릴리스 전에 찾는 것도 가능해진다. 즉 도구 비교의 핵심은 기능 개수보다 **어떤 생명주기 연결을 더 잘 지원하는가**에 있다.
+요구사항 도구는 Git, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 테스트 관리 도구와도 연결된다. 이 연결이 제대로 되면 특정 요구사항이 어떤 커밋과 테스트 결과로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되었는지 조회할 수 있고, 미연결 항목을 릴리스 전에 찾는 것도 가능해진다. 즉 도구 비교의 핵심은 기능 개수보다 <strong>어떤 생명주기 연결을 더 잘 지원하는가</strong>에 있다.
 
 - **📢 섹션 요약 비유**: Jira가 현장 작업 지휘에 강한 공사 현장 보드라면, DOORS는 계약서와 도면 변경 이력을 엄격하게 관리하는 설계 감리실에 가깝다. 큰 프로젝트는 둘을 함께 써야 전체가 잘 돌아간다.
 
@@ -112,22 +113,25 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 
 아래 흐름은 도구 선택 시 자주 쓰는 판단 기준을 정리한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Selecting a requirements tool strategy                             │
-├────────────────────────────────────────────────────────────────────┤
-│ strict regulation / formal baseline / audit evidence required?    │
-│   ├─ yes -> DOORS-centric or hybrid model                         │
-│   └─ no                                                           │
-│        ├─ agile backlog and dev integration are primary?          │
-│        │      └─ yes -> Jira-centric model                        │
-│        └─ both are important -> synchronize DOORS and Jira        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Selecting a requirements tool strategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">strict regulation / formal baseline / audit evidence required?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; DOORS-centric or hybrid model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ agile backlog and dev integration are primary?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Jira-centric model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ both are important -&gt; synchronize DOORS and Jira</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **규제와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 수준은 어느 정도인가?** [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 증명과 전자 승인 흔적이 중요하면 DOORS 계열이 유리하다.
+1. <strong>규제와 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 수준은 어느 정도인가?</strong> [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 증명과 전자 승인 흔적이 중요하면 DOORS 계열이 유리하다.
 2. **개발 흐름과의 결합이 중요한가?** [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), 보드, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 연동이 핵심이면 Jira가 유리하다.
 3. **요구사항 계층이 깊은가?** 상위 계약 요구부터 세부 시스템 요구까지 촘촘하면 정형 저장소가 필요하다.
 4. **조직이 링크 discipline을 지킬 수 있는가?** 규칙 없는 도구 도입은 오히려 관리 비용만 높인다.
@@ -149,7 +153,7 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 
 물론 도구가 만능은 아니다. 모호한 요구사항을 명확하게 써 주는 것도, 링크를 꾸준히 유지하는 것도 결국 조직의 프로세스와 사람의 책임이다. 잘못된 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계, 과도한 워크플로, 형식만 남은 추적 링크는 오히려 거짓 안정감을 줄 수 있다. 따라서 도구는 문서를 많이 쌓는 데 쓰기보다, **변경 통제와 추적성이라는 핵심 약속을 지속적으로 지키는 데** 써야 한다.
 
-정리하면 Jira와 DOORS 계열 도구는 경쟁 제품이라기보다 서로 다른 관리 강도를 대표하는 축에 가깝다. 기억할 핵심은 분명하다. **민첩한 실행이 우선이면 Jira 중심, 엄격한 증적과 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)이 우선이면 DOORS 중심, 둘 다 필요하면 하이브리드**라는 관점으로 접근하는 것이 가장 실용적이다.
+정리하면 Jira와 DOORS 계열 도구는 경쟁 제품이라기보다 서로 다른 관리 강도를 대표하는 축에 가깝다. 기억할 핵심은 분명하다. <strong>민첩한 실행이 우선이면 Jira 중심, 엄격한 증적과 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>이 우선이면 DOORS 중심, 둘 다 필요하면 하이브리드</strong>라는 관점으로 접근하는 것이 가장 실용적이다.
 
 - **📢 섹션 요약 비유**: 요구사항 도구는 건축 현장의 청사진 보관함과 공정 관리판을 연결해 주는 체계와 같다. 설계도만 있어도 안 되고, 작업표만 있어도 안 되며, 둘이 같은 번호로 이어져야 건물이 제대로 올라간다.
 
@@ -168,22 +172,23 @@ Jira와 DOORS 계열 도구는 둘 다 요구사항을 다룰 수 있지만 출�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-stakeholder needs
-        │
-        ▼
-requirement repository with unique IDs
-        │
-        ▼
-baseline and change control
-        │
-        ▼
-trace links to design / code / test
-        │
-        ├──────────────▶ impact analysis
-        │
-        └──────────────▶ audit evidence and release confidence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">stakeholder needs</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">requirement repository with unique IDs</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">baseline and change control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">trace links to design / code / test</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ impact analysis</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ audit evidence and release confidence</div>
+</div>
+</div>
+
+
 
 이 흐름도는 요구사항 도구가 단순 목록 관리에서 끝나지 않고, 변경 통제와 추적성을 통해 실제 릴리스 품질과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응력까지 연결된다는 점을 보여 준다.
 

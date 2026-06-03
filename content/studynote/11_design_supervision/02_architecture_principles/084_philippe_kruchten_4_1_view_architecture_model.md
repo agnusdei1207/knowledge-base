@@ -23,18 +23,20 @@ tags = ["studynote-design"]
 
 아키텍처 문서가 단일 뷰에만 기대면 리뷰가 쉽게 어긋난다. 개발자는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조를 보는데 운영자는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 찾고, 기획자는 사용자 흐름을 묻는다. 4+1은 이런 충돌을 '같은 시스템을 다른 언어로 설명하는 작업'으로 바꿔 준다.
 
-```text
-요구사항 / 시나리오
-        │
-        ▼
-┌───────────────────────────────┐
-│   4+1 View Model              │
-│  논리 / 개발 / 프로세스 / 물리 │
-└───────────────────────────────┘
-        │
-        ▼
-아키텍처 합의와 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 / 시나리오</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4+1 View Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 / 개발 / 프로세스 / 물리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 합의와 검증</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 같은 집이라도 가족은 방 배치를 보고, 전기기사는 배선을 보고, 소방관은 탈출로를 본다.
 
@@ -52,17 +54,20 @@ tags = ["studynote-design"]
 | 물리 뷰 | 어디에 배치되는가? | 노드, 네트워크, 배포 토폴로지 | 운영, 인프라 |
 | +1 시나리오 | 이 구조가 실제로 작동하는가? | 대표 사용 사례, 시퀀스 | 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) |
 
-```text
-시나리오 1개가 네 뷰를 동시에 관통하는 방식
-┌────────────────┐
-│ Use Case (UC)  │
-└──────┬─────────┘
-       │
-       ├── 논리 뷰 : 기능 흐름과 책임 분리
-       ├── 개발 뷰 : 모듈 / 패키지 배치
-       ├── 프로세스 뷰 : 병렬 처리와 동기화
-       └── 물리 뷰 : 서버 / 네트워크 배치
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시나리오 1개가 네 뷰를 동시에 관통하는 방식</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use Case (UC)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">논리 뷰 : 기능 흐름과 책임 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:3">개발 뷰 : 모듈 / 패키지 배치</div>
+<div class="kb-diagram-tree-item" style="--depth:3">프로세스 뷰 : 병렬 처리와 동기화</div>
+<div class="kb-diagram-tree-item" style="--depth:3">물리 뷰 : 서버 / 네트워크 배치</div>
+</div>
+</div>
+
+
 
 시나리오를 먼저 잡으면 문서가 '그림 모음'에서 '증명서'로 바뀐다. 어떤 기능이든 대표 흐름을 따라가며 각 뷰의 설명이 서로 모순되지 않는지 확인할 수 있기 때문이다.
 
@@ -130,21 +135,20 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항
-  │
-  ▼
-Use Case (UC) 시나리오
-  │
-  ├──────────────┬──────────────┬──────────────┬──────────────┐
-  ▼              ▼              ▼              ▼
-논리 뷰         개발 뷰       프로세스 뷰       물리 뷰
-  │              │              │              │
-  └──────────────┴──────────────┴──────────────┴──────────────┘
-                      │
-                      ▼
-           Architecture Decision Record (ADR)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Use Case (UC) 시나리오</div>
+<div class="kb-diagram-note">논리 뷰 개발 뷰 프로세스 뷰 물리 뷰</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Architecture Decision Record (ADR)</div>
+</div>
+</div>
+
+
 
 이 흐름은 '요구를 말한다'에서 '구조를 나눈다', 다시 '시나리오로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다'로 진화한다.
 

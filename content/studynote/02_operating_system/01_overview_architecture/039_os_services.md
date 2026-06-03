@@ -52,29 +52,31 @@ OS 서비스 두 가지 범주:
 
 ## II. 시스템 콜 인터페이스
 
-```
-시스템 콜 (System Call):
-  사용자 모드 -> 커널 모드 전환 메커니즘
-  
-  방법: trap/int 명령어 (x86: int 0x80 또는 syscall)
-  
-계층 구조:
-  애플리케이션
-    -> 표준 라이브러리 (libc: printf, fopen)
-      -> 시스템 콜 래퍼 (write, open)
-        -> 커널 (파일 시스템, 장치 드라이버)
 
-시스템 콜 종류:
-  프로세스 제어: fork, exec, exit, waitpid
-  파일 관리: open, read, write, close
-  장치 관리: ioctl, read, write
-  정보 유지: getpid, alarm, sleep
-  통신: socket, send, recv, pipe
 
-예: C에서 printf 호출 시:
-  printf() -> write() 시스템 콜 -> 커널 write
-  -> 파일 디스크립터(stdout) -> 터미널 드라이버
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시스템 콜 (System Call):</div>
+<div class="kb-diagram-note">사용자 모드 -&gt; 커널 모드 전환 메커니즘</div>
+<div class="kb-diagram-note">방법: trap/int 명령어 (x86: int 0x80 또는 syscall)</div>
+<div class="kb-diagram-note">계층 구조:</div>
+<div class="kb-diagram-note">애플리케이션</div>
+<div class="kb-diagram-tree-item" style="--depth:2">표준 라이브러리 (libc: printf, fopen)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">시스템 콜 래퍼 (write, open)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">커널 (파일 시스템, 장치 드라이버)</div>
+<div class="kb-diagram-note">시스템 콜 종류:</div>
+<div class="kb-diagram-note">프로세스 제어: fork, exec, exit, waitpid</div>
+<div class="kb-diagram-note">파일 관리: open, read, write, close</div>
+<div class="kb-diagram-note">장치 관리: ioctl, read, write</div>
+<div class="kb-diagram-note">정보 유지: getpid, alarm, sleep</div>
+<div class="kb-diagram-note">통신: socket, send, recv, pipe</div>
+<div class="kb-diagram-note">예: C에서 printf 호출 시:</div>
+<div class="kb-diagram-note">printf() -&gt; write() 시스템 콜 -&gt; 커널 write</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파일 디스크립터(stdout) -&gt; 터미널 드라이버</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 시스템 콜은 은행 창구 — 고객(앱)은 창구(시스템 콜)를 통해서만 금고([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/하드웨어)에 접근, 직접 접근 불가.
 
@@ -82,31 +84,33 @@ OS 서비스 두 가지 범주:
 
 ## III. 사용자 모드 vs [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드
 
-```
-듀얼 모드 (Dual Mode) 동작:
 
-사용자 모드 (User Mode):
-  제한된 권한
-  하드웨어 직접 접근 불가
-  메모리 보호 (자신의 공간만)
-  
-커널 모드 (Kernel Mode / Supervisor Mode):
-  모든 하드웨어 접근 가능
-  모든 메모리 접근 가능
-  보호 레지스터/포트 접근 가능
 
-전환:
-  사용자 -> 커널: 시스템 콜, 인터럽트, 예외
-  커널 -> 사용자: 시스템 콜 반환, 인터럽트 처리 완료
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">듀얼 모드 (Dual Mode) 동작:</div>
+<div class="kb-diagram-note">사용자 모드 (User Mode):</div>
+<div class="kb-diagram-note">제한된 권한</div>
+<div class="kb-diagram-note">하드웨어 직접 접근 불가</div>
+<div class="kb-diagram-note">메모리 보호 (자신의 공간만)</div>
+<div class="kb-diagram-note">커널 모드 (Kernel Mode / Supervisor Mode):</div>
+<div class="kb-diagram-note">모든 하드웨어 접근 가능</div>
+<div class="kb-diagram-note">모든 메모리 접근 가능</div>
+<div class="kb-diagram-note">보호 레지스터/포트 접근 가능</div>
+<div class="kb-diagram-note">전환:</div>
+<div class="kb-diagram-note">사용자 -&gt; 커널: 시스템 콜, 인터럽트, 예외</div>
+<div class="kb-diagram-note">커널 -&gt; 사용자: 시스템 콜 반환, 인터럽트 처리 완료</div>
+<div class="kb-diagram-note">CPU 모드 비트:</div>
+<div class="kb-diagram-note">x86: CPL (Current Privilege Level) 0~3</div>
+<div class="kb-diagram-note">Ring 0: 커널 (가장 높은 권한)</div>
+<div class="kb-diagram-note">Ring 3: 사용자 애플리케이션</div>
+<div class="kb-diagram-note">ARM: EL (Exception Level) 0~3</div>
+<div class="kb-diagram-note">EL0: 앱, EL1: OS 커널</div>
+<div class="kb-diagram-note">EL2: 하이퍼바이저, EL3: 보안 모니터</div>
+</div>
+</div>
 
-CPU 모드 비트:
-  x86: CPL (Current Privilege Level) 0~3
-    Ring 0: 커널 (가장 높은 권한)
-    Ring 3: 사용자 애플리케이션
-  ARM: EL (Exception Level) 0~3
-    EL0: 앱, EL1: OS 커널
-    EL2: 하이퍼바이저, EL3: 보안 모니터
-```
+
 
 > 📢 **섹션 요약 비유**: 모드 전환은 일반 직원(User)이 금고실([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 진입 시 보안 카드 태그 — 통과 후 권한 확대, 나올 때 다시 제한.
 
@@ -114,30 +118,32 @@ CPU 모드 비트:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). OS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 구조
 
-```
-서비스 제공 방식 비교:
 
-모놀리식 커널 (Monolithic):
-  모든 OS 서비스를 커널 공간에서 실행
-  서비스 간 직접 함수 호출 (빠름)
-  예: Linux, BSD
-  단점: 한 드라이버 버그 -> 시스템 전체 충돌
 
-마이크로커널 (Microkernel):
-  최소 커널 (IPC, 메모리 관리, 스케줄링만)
-  파일 시스템, 드라이버 -> 사용자 공간 서버
-  예: QNX, seL4, macOS(Mach 기반)
-  단점: IPC 오버헤드로 느림
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 제공 방식 비교:</div>
+<div class="kb-diagram-note">모놀리식 커널 (Monolithic):</div>
+<div class="kb-diagram-note">모든 OS 서비스를 커널 공간에서 실행</div>
+<div class="kb-diagram-note">서비스 간 직접 함수 호출 (빠름)</div>
+<div class="kb-diagram-note">예: Linux, BSD</div>
+<div class="kb-diagram-note">단점: 한 드라이버 버그 -&gt; 시스템 전체 충돌</div>
+<div class="kb-diagram-note">마이크로커널 (Microkernel):</div>
+<div class="kb-diagram-note">최소 커널 (IPC, 메모리 관리, 스케줄링만)</div>
+<div class="kb-diagram-note">파일 시스템, 드라이버 -&gt; 사용자 공간 서버</div>
+<div class="kb-diagram-note">예: QNX, seL4, macOS(Mach 기반)</div>
+<div class="kb-diagram-note">단점: IPC 오버헤드로 느림</div>
+<div class="kb-diagram-note">하이브리드:</div>
+<div class="kb-diagram-note">Windows: 마이크로커널 아이디어 + 성능상</div>
+<div class="kb-diagram-note">executive 서비스는 커널 모드에서 실행</div>
+<div class="kb-diagram-note">macOS: Mach 마이크로커널 + BSD 레이어</div>
+<div class="kb-diagram-note">엑소커널/유니커널:</div>
+<div class="kb-diagram-note">라이브러리 OS: 애플리케이션이 직접 하드웨어 추상화</div>
+<div class="kb-diagram-note">컨테이너/VM 경량화 (Unikraft)</div>
+</div>
+</div>
 
-하이브리드:
-  Windows: 마이크로커널 아이디어 + 성능상
-  executive 서비스는 커널 모드에서 실행
-  macOS: Mach 마이크로커널 + BSD 레이어
 
-엑소커널/유니커널:
-  라이브러리 OS: 애플리케이션이 직접 하드웨어 추상화
-  컨테이너/VM 경량화 (Unikraft)
-```
 
 > 📢 **섹션 요약 비유**: 모놀리식은 백화점(모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 한 건물), 마이크로커널은 쇼핑몰 입점 구조(각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 독립 매장) — 빠름 vs 안전성 트레이드오프.
 
@@ -145,36 +151,37 @@ CPU 모드 비트:
 
 ## V. 실무 시나리오 — strace 분석
 
-```
-strace: 시스템 콜 추적 도구
 
-명령:
-  strace -e trace=file ls /tmp
 
-출력 예시:
-  execve("/bin/ls", ["ls", "/tmp"], ...) = 0
-  openat(AT_FDCWD, "/tmp", O_RDONLY) = 3
-  getdents64(3, ...) = 120
-  write(1, "file1.txt  file2.txt\n", 20) = 20
-  close(3) = 0
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">strace: 시스템 콜 추적 도구</div>
+<div class="kb-diagram-note">명령:</div>
+<div class="kb-diagram-note">strace -e trace=file ls /tmp</div>
+<div class="kb-diagram-note">출력 예시:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">execve("/bin/ls",</div><div class="kb-diagram-node">"ls", "/tmp"</div><div class="kb-diagram-note">, ...) = 0</div></div>
+<div class="kb-diagram-note">openat(AT_FDCWD, "/tmp", O_RDONLY) = 3</div>
+<div class="kb-diagram-note">getdents64(3, ...) = 120</div>
+<div class="kb-diagram-note">write(1, "file1.txt file2.txt\n", 20) = 20</div>
+<div class="kb-diagram-note">close(3) = 0</div>
+<div class="kb-diagram-note">분석:</div>
+<div class="kb-diagram-note">1. execve: 프로그램 실행 시스템 콜</div>
+<div class="kb-diagram-note">2. openat: /tmp 디렉토리 열기</div>
+<div class="kb-diagram-note">3. getdents64: 디렉토리 항목 읽기</div>
+<div class="kb-diagram-note">4. write: 화면 출력 (fd=1: stdout)</div>
+<div class="kb-diagram-note">5. close: 파일 디스크립터 닫기</div>
+<div class="kb-diagram-note">성능 분석:</div>
+<div class="kb-diagram-note">strace -c ls</div>
+<div class="kb-diagram-tree-item" style="--depth:1">시스템 콜별 호출 횟수/시간 통계</div>
+<div class="kb-diagram-tree-item" style="--depth:1">느린 시스템 콜 병목 파악</div>
+<div class="kb-diagram-note">실무 활용:</div>
+<div class="kb-diagram-note">앱 행(hang) 원인 파악 (어떤 syscall에서 대기?)</div>
+<div class="kb-diagram-note">파일 접근 경로 추적</div>
+<div class="kb-diagram-note">권한 오류 디버깅 (EPERM, EACCES)</div>
+</div>
+</div>
 
-분석:
-  1. execve: 프로그램 실행 시스템 콜
-  2. openat: /tmp 디렉토리 열기
-  3. getdents64: 디렉토리 항목 읽기
-  4. write: 화면 출력 (fd=1: stdout)
-  5. close: 파일 디스크립터 닫기
 
-성능 분석:
-  strace -c ls
-  -> 시스템 콜별 호출 횟수/시간 통계
-  -> 느린 시스템 콜 병목 파악
-
-실무 활용:
-  앱 행(hang) 원인 파악 (어떤 syscall에서 대기?)
-  파일 접근 경로 추적
-  권한 오류 디버깅 (EPERM, EACCES)
-```
 
 > 📢 **섹션 요약 비유**: strace는 앱의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 창구 방문 기록 — "언제, 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를, 얼마나 요청했는지" 전부 기록.
 

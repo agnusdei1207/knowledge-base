@@ -36,18 +36,20 @@ tags = ["14_data_engineering", "education", "study"]
 | **수집 (Ingestion)** | 실시간 스트리밍 및 배치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추출 | [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/), Logstash |
 | **저장 (Storage)** | 정형/비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 영구적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보관 | Amazon S3, [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) |
 | **처리 (Processing)** | [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/), 집계, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변환 연산 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Flink, dbt |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Serving)** | 최종 분석 및 BI 도구를 위한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Serving)</strong> | 최종 분석 및 BI 도구를 위한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 데이터 흐름: 추출부터 서비스까지의 파이프라인 │
-├──────────────────────────────────────────────────────────────┤
-│ [Source DB] ─CDC─▶ [Kafka] ─▶ [Spark 연산] ─▶ [Cloud DW] │
-│ (Raw Data) (실시간 수집) (ETL 정제) (BI/AI 연동)│
-│ │
-│ * 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 흐름: 추출부터 서비스까지의 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Source DB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kafka</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spark 연산</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cloud DW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data) (실시간 수집) (ETL 정제) (BI/AI 연동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능</div></div>
+</div>
+</div>
+
+
 
 최근에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 목적지까지 옮겨서 변환([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))하는 대신, 값싼 클라우드 스토리지에 무조건 적재(Load)한 뒤 강력한 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 연산력을 빌려 변환(Transform)하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 아키텍처가 대세로 자리 잡았다.
 
@@ -61,11 +63,11 @@ tags = ["14_data_engineering", "education", "study"]
 
 | 항목 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태** | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) ([스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태</strong> | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) ([스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)) | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)) |
 | **주요 목적** | BI 리포팅 및 과거 실적 분석 | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 훈련 및 원본 보존 |
 | **저장 비용** | 상대적으로 고가 (컴퓨팅 결합형) | 매우 저렴 ([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) |
 
-DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 떨어지며, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 저렴하지만 자칫 관리가 안 되면 [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))으로 전락한다. 두 개념은 서로 경쟁하다가, 최근에는 레이크의 저비용 저장소 위에 DW의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 기능을 부여한 **[오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) ([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/), [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/))** 기술을 통해 '[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)'로 융합되고 있다.
+DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 떨어지며, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 저렴하지만 자칫 관리가 안 되면 [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))으로 전락한다. 두 개념은 서로 경쟁하다가, 최근에는 레이크의 저비용 저장소 위에 DW의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 기능을 부여한 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/">오픈 테이블 포맷</a> (<a href="/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/">Apache Iceberg</a>, <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a>)</strong> 기술을 통해 '[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)'로 융합되고 있다.
 
 - **📢 섹션 요약 비유**: DW는 예쁘게 포장된 백화점 진열대이고, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 무엇이든 던져놓는 거대한 야외 창고다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 야외 창고에 백화점식 재고 관리 시스템을 도입한 것이다.
 
@@ -76,9 +78,9 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라를 설계할 때는 속도(Speed)와 비용(Cost) 사이의 의사결정이 가장 중요하다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/Flink)으로 처리하는 것은 환상에 불과하며 막대한 인프라 비용을 초래한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Freshness)**: 비즈니스 요구사항이 초 단위 실시간 분석을 요하는가, 아니면 1일 1회 배치(Batch) 분석으로 충분한가?
-2. **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 확보**: 파이프라인이 중간에 끊겨서 재실행되더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중복 적재되지 않고 동일한 결과를 보장하는가?
-3. **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 에볼루션 ([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution)**: 원본 DB의 테이블 컬럼이 추가되거나 삭제될 때, 다운스트림 파이프라인이 터지지 않고 유연하게 대응하는가?
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 신선도 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Freshness)</strong>: 비즈니스 요구사항이 초 단위 실시간 분석을 요하는가, 아니면 1일 1회 배치(Batch) 분석으로 충분한가?
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>) 확보</strong>: 파이프라인이 중간에 끊겨서 재실행되더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중복 적재되지 않고 동일한 결과를 보장하는가?
+3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 에볼루션 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a> Evolution)</strong>: 원본 DB의 테이블 컬럼이 추가되거나 삭제될 때, 다운스트림 파이프라인이 터지지 않고 유연하게 대응하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수십 TB 단위의 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 값비싼 DW에 무작정 적재하여 비용 폭탄을 맞는 아키텍처
@@ -92,7 +94,7 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 
 견고한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 인프라가 구축되면, 조직 내의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))가 붕괴되고 누구나 신뢰할 수 있는 단일 진실 공급원(SSOT)에 접근할 수 있게 된다. 이는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 파이프라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))의 기반이 되어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도입을 앞당긴다.
 
-앞으로는 기술적 복잡성을 추상화하는 매니지드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Managed [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 더욱 발전할 것이며, 궁극적으로는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 스스로가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트를 생산하고 소비하는 **[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))** 사상으로 조직 아키텍처 자체가 전환될 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링은 단순한 파이프라인 구축을 넘어 "기업의 피([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 순환시키는 심장"으로 기억해야 한다.
+앞으로는 기술적 복잡성을 추상화하는 매니지드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Managed [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 더욱 발전할 것이며, 궁극적으로는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 스스로가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트를 생산하고 소비하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a>)</strong> 사상으로 조직 아키텍처 자체가 전환될 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링은 단순한 파이프라인 구축을 넘어 "기업의 피([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 순환시키는 심장"으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 정수장(인프라)이 완벽하게 돌아가면, 사람들은 물이 어디서 오는지 신경 쓰지 않고 수도꼭지(대시보드)만 틀어 편하게 갈증(비즈니스 문제)을 해소하게 된다.
 
@@ -109,21 +111,23 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스 RDBMS (단일 서버 한계)
-│
-▼
-하둡 (Hadoop) 기반 데이터 레이크 (저비용 분산 저장)
-│
-▼
-클라우드 데이터 웨어하우스 (Snowflake, BigQuery) + ELT
-│
-▼
-데이터 레이크하우스 (Data Lakehouse) (오픈 테이블 포맷 융합)
-│
-▼
-데이터 메시 (Data Mesh) (중앙 집중형에서 분산/도메인 오너십으로 진화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 RDBMS (단일 서버 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하둡 (Hadoop) 기반 데이터 레이크 (저비용 분산 저장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 데이터 웨어하우스 (Snowflake, BigQuery) + ELT</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 레이크하우스 (Data Lakehouse) (오픈 테이블 포맷 융합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 (Data Mesh) (중앙 집중형에서 분산/도메인 오너십으로 진화)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "단일 저장 → 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 → 연산 분리 및 클라우드화 → 구조 융합 → 조직 및 아키텍처 혁신"으로 개념이 발전하는 과정을 보여준다.
 

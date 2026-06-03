@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 클라이언트(웹, 앱)와 백엔드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 사이에서 중계자 역할을 하는 서버다. 클라이언트의 요청을 받아 적절한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 라우팅하고, 때로는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 데이터를 하나로 합쳐서(Aggregation) 반환하기도 한다.
 
-- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 '주문', '결제', '배송'이 모두 다른 서버(IP)에서 돈다. 모바일 앱(클라이언트)이 '내 주문 내역 화면'을 그리기 위해, 주문 서버 IP를 찌르고, 결제 서버 IP를 찌르고, 배송 서버 IP를 찔러야 한다면 앱은 엄청나게 느려지고 코드는 스파게티가 된다. 게다가 3개 서버 모두 로그인 토큰([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 검사 코드를 따로 짜야 한다. 클라이언트 앞단에 **모든 짐을 떠안아 줄 '친절한 수문장'**이 절실했다.
+- **필요성**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 '주문', '결제', '배송'이 모두 다른 서버(IP)에서 돈다. 모바일 앱(클라이언트)이 '내 주문 내역 화면'을 그리기 위해, 주문 서버 IP를 찌르고, 결제 서버 IP를 찌르고, 배송 서버 IP를 찔러야 한다면 앱은 엄청나게 느려지고 코드는 스파게티가 된다. 게다가 3개 서버 모두 로그인 토큰([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 검사 코드를 따로 짜야 한다. 클라이언트 앞단에 <strong>모든 짐을 떠안아 줄 '친절한 수문장'</strong>이 절실했다.
 
-- **💡 비유**: 초대형 프랜차이즈 식당의 **안내 데스크(홀 매니저)**와 완벽히 같습니다. 손님(클라이언트)이 주방장(결제), 튀김 담당(주문), 설거지 담당(배송)에게 일일이 뛰어가서 대화하지 않습니다. 손님은 안내 데스크에 "세트 메뉴 주세요"라고 딱 한 번 요청(단일 진입점)하면, 안내 데스크가 주방, 튀김, 콜라를 착착 지시해서 하나의 쟁반에 모아(Aggregation) 손님에게 건네주는 환상적인 협업 시스템입니다.
+- **💡 비유**: 초대형 프랜차이즈 식당의 <strong>안내 데스크(홀 매니저)</strong>와 완벽히 같습니다. 손님(클라이언트)이 주방장(결제), 튀김 담당(주문), 설거지 담당(배송)에게 일일이 뛰어가서 대화하지 않습니다. 손님은 안내 데스크에 "세트 메뉴 주세요"라고 딱 한 번 요청(단일 진입점)하면, 안내 데스크가 주방, 튀김, 콜라를 착착 지시해서 하나의 쟁반에 모아(Aggregation) 손님에게 건네주는 환상적인 협업 시스템입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Client-to-Microservice 통신의 비극**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) MSA는 클라이언트가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 IP를 직접 찔렀다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) IP가 바뀔 때마다 앱을 재배포해야 했고 네트워크 오버헤드가 극심했다.
-  2. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 / [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴 도입**: 넷플릭스(Zuul) 등을 선두로 앞단에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버를 두어 라우팅을 몰아주었다. 더 나아가 모바일용 게이트웨이, 웹용 게이트웨이를 따로 두는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴으로 진화했다.
-  3. **완전 관리형 클라우드 및 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)**: 현재는 개발자가 스프링(Spring Cloud Gateway)으로 직접 짜지 않아도, AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway나 Kong 같은 전용 인프라 솔루션이 그 자리를 대체하며 극도의 스케일 아웃을 지원하고 있다.
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> Client-to-Microservice 통신의 비극</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) MSA는 클라이언트가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 IP를 직접 찔렀다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) IP가 바뀔 때마다 앱을 재배포해야 했고 네트워크 오버헤드가 극심했다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이 / <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>) 패턴 도입</strong>: 넷플릭스(Zuul) 등을 선두로 앞단에 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버를 두어 라우팅을 몰아주었다. 더 나아가 모바일용 게이트웨이, 웹용 게이트웨이를 따로 두는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴으로 진화했다.
+  3. <strong>완전 관리형 클라우드 및 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong>: 현재는 개발자가 스프링(Spring Cloud Gateway)으로 직접 짜지 않아도, AWS [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway나 Kong 같은 전용 인프라 솔루션이 그 자리를 대체하며 극도의 스케일 아웃을 지원하고 있다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 오케스트라의 '지휘자'입니다. 100명의 연주자([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))가 있지만 관객(클라이언트)은 오직 지휘자의 손끝 하나만 바라보면 됩니다. 지휘자가 연주자들의 소리를 모아 완벽한 하나의 음악으로 만들어 관객에게 전달합니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로서비스 설계                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 설계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로서비스 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

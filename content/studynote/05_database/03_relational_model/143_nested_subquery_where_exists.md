@@ -10,32 +10,38 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 중첩 서브쿼리는 **서브쿼리 안에 또 다른 서브쿼리가 포함**된 다단계 구조이며, WHERE EXISTS와 결합하면 **존재 여부를 다단계로 필터링**할 수 있다.
-> 2. **가치**: "주문이 있고, 그 주문에 반품이 있는 고객"처럼 **다단계 조건**을 직관적으로 표현할 수 있지만, 깊어질수록 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나빠진다.
-> 3. **판단 포인트**: 2단계 이상 중첩 시 **CTE(WITH 절)로 분해**하여 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 높이고, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 실행계획을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+> 1. **본질**: 중첩 서브쿼리는 <strong>서브쿼리 안에 또 다른 서브쿼리가 포함</strong>된 다단계 구조이며, WHERE EXISTS와 결합하면 <strong>존재 여부를 다단계로 필터링</strong>할 수 있다.
+> 2. **가치**: "주문이 있고, 그 주문에 반품이 있는 고객"처럼 <strong>다단계 조건</strong>을 직관적으로 표현할 수 있지만, 깊어질수록 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나빠진다.
+> 3. **판단 포인트**: 2단계 이상 중첩 시 <strong>CTE(WITH 절)로 분해</strong>하여 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 높이고, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 실행계획을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-SELECT * FROM customer c WHERE EXISTS (
-  SELECT 1 FROM orders o WHERE o.cust_id = c.id
-    AND EXISTS (
-      SELECT 1 FROM returns r WHERE r.order_id = o.id
-    )
-);
-→ 주문이 있고, 그 주문에 반품이 있는 고객
-→ CTE 분해 권장 (가독성)
-```
 
-- **📢 섹션 요약 비유**: 중첩 서브쿼리는 **러시안 마트료시카(인형 안의 인형)**이다. 열면 안에 또 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SELECT * FROM customer c WHERE EXISTS (</div>
+<div class="kb-diagram-note">SELECT 1 FROM orders o WHERE o.cust_id = c.id</div>
+<div class="kb-diagram-note">AND EXISTS (</div>
+<div class="kb-diagram-note">SELECT 1 FROM returns r WHERE r.order_id = o.id</div>
+<div class="kb-diagram-note">)</div>
+<div class="kb-diagram-note">);</div>
+<div class="kb-diagram-note">→ 주문이 있고, 그 주문에 반품이 있는 고객</div>
+<div class="kb-diagram-note">→ CTE 분해 권장 (가독성)</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 중첩 서브쿼리는 <strong>러시안 마트료시카(인형 안의 인형)</strong>이다. 열면 안에 또 있다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-중첩 서브쿼리는 **다단계 필터의 직관적 표현**이지만, 2단계+ 시 CTE 분해로 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 확보한다.
+중첩 서브쿼리는 <strong>다단계 필터의 직관적 표현</strong>이지만, 2단계+ 시 CTE 분해로 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 확보한다.
 
 ---
 
@@ -44,24 +50,30 @@ SELECT * FROM customer c WHERE EXISTS (
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **중첩** | 다단계 서브쿼리 |
-| **[EXISTS](/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/)** | 존재 필터 |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/435_exists_boolean_fast_search/">EXISTS</a></strong> | 존재 필터 |
 | **CTE** | [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 분해 |
 | **실행계획** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 필수 |
-| **Semi-[Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 변환 |
+| <strong>Semi-<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a></strong> | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 변환 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 서브쿼리] → [중첩 서브쿼리 (복잡)]
-    → [CTE 분해 (가독성)]
-    → [LATERAL/APPLY (고급)]
-    → [현재: 옵티마이저 자동 Flatten — 중첩 해소]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서브쿼리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">중첩 서브쿼리 (복잡)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CTE 분해 (가독성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LATERAL/APPLY (고급)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 옵티마이저 자동 Flatten — 중첩 해소</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 중첩 서브쿼리는 **마트료시카 인형**이에요. 열면 **안에 또 있어요**.
+1. 중첩 서브쿼리는 <strong>마트료시카 인형</strong>이에요. 열면 **안에 또 있어요**.
 2. 너무 깊으면 **복잡해지니까** CTE로 한 단계씩 나눠요.
-3. 한 번에 두 가지 조건("주문 있고 반품 있는")을 **[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**할 수 있어요!
+3. 한 번에 두 가지 조건("주문 있고 반품 있는")을 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>할 수 있어요!
 
 ---
 

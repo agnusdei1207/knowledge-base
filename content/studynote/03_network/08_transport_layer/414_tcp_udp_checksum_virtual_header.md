@@ -20,25 +20,29 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 중 발생할 수 있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) error)를 수신 측에서 검출하기 위해, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더와 페이로드, 그리고 IP 헤더의 일부(가상 헤더)를 합산해 생성하는 16비트 길이의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필드.
-- **필요성**: 내가 여자친구 계좌로 '100만 원'을 송금하는 패킷을 쐈다. 가다가 낡은 해저 광케이블에서 전기적 노이즈(스파크)가 튀어서 100만 원의 `0`이 `1`로 바뀌어 '110만 원'이 되어버렸다. 은행 서버(수신자)가 이 패킷을 덥석 받고 110만 원을 송금해 버리면 내 인생은 망한다. **"야! 내가 보낼 때 이 패킷 안의 모든 숫자를 다 더해서 그 '합계([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))'를 봉투 겉면에 적어둘 테니까, 너도 받으면 다 더해봐! 합계가 다르면 가다가 깨진 거니까 무조건 찢어 버려(Drop)!"**
+- **필요성**: 내가 여자친구 계좌로 '100만 원'을 송금하는 패킷을 쐈다. 가다가 낡은 해저 광케이블에서 전기적 노이즈(스파크)가 튀어서 100만 원의 `0`이 `1`로 바뀌어 '110만 원'이 되어버렸다. 은행 서버(수신자)가 이 패킷을 덥석 받고 110만 원을 송금해 버리면 내 인생은 망한다. <strong>"야! 내가 보낼 때 이 패킷 안의 모든 숫자를 다 더해서 그 '합계(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a>)'를 봉투 겉면에 적어둘 테니까, 너도 받으면 다 더해봐! 합계가 다르면 가다가 깨진 거니까 무조건 찢어 버려(Drop)!"</strong>
 
-- **💡 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 은행에서 돈 뭉치를 보낼 때 찍어두는 **"무게 스티커"**와 같습니다.
+- **💡 비유**: [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 은행에서 돈 뭉치를 보낼 때 찍어두는 <strong>"무게 스티커"</strong>와 같습니다.
   - 내가 50,000원짜리 지폐 100장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 박스에 담습니다. 
   - 박스의 총무게를 저울로 재보니 정확히 "100.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))"이 나옵니다. 겉면에 100.5g이라고 씁니다.
   - 택배 기사(인터넷)가 가다가 실수로 지폐 한 장을 잃어버렸습니다.
   - 수취인(서버)이 박스를 받고 저울에 재보니 "99.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)"이 나옵니다.
-  - 수취인은 겉면에 적힌 스티커(100.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))와 지금 잰 무게가 다른 걸 보고 **"이거 오면서 돈 빠졌네!! 무효 처리해!!"**라며 거래를 취소시킵니다.
+  - 수취인은 겉면에 적힌 스티커(100.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))와 지금 잰 무게가 다른 걸 보고 <strong>"이거 오면서 돈 빠졌네!! 무효 처리해!!"</strong>라며 거래를 취소시킵니다.
 
-```text
-[윈도우 크기]
-    │
-    ▼
-[체크섬]
-    │
-    └──▶ [긴급 포인터]
-```
 
-- **📢 섹션 요약 비유**: ** [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 택배 상자가 오면서 모서리가 찌그러졌는지 내용물이 상했는지 검사하는 **"안심 스티커"**입니다. 단 1비트의 손상이라도 발생하면 스티커 색깔이 변하여 수신자가 패킷을 가차 없이 폐기하게 만듭니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">긴급 포인터</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>은 택배 상자가 오면서 모서리가 찌그러졌는지 내용물이 상했는지 검사하는 </strong>"안심 스티커"**입니다. 단 1비트의 손상이라도 발생하면 스티커 색깔이 변하여 수신자가 패킷을 가차 없이 폐기하게 만듭니다.
 
 ---
 
@@ -51,37 +55,37 @@ tags = ["studynote-network"]
 3. 만약 넘침(Carry)이 발생하면 맨 뒤에 다시 더해준다.
 4. **마지막에 나온 결과의 0과 1을 전부 뒤집어버린다 (1의 보수).** 
 5. 그 숫자를 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 칸에 딱 적어서 보낸다.
-- 받는 쪽은 자기가 계산한 거랑 겉면에 적힌 거랑 더해봤을 때, **모든 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1111 1111... 로 꽉 채워지면 "에러 없음(정상)!"**으로 판정하고, 0이 하나라도 섞여 있으면 "에러 발생!"으로 무조건 패킷을 버린다.
+- 받는 쪽은 자기가 계산한 거랑 겉면에 적힌 거랑 더해봤을 때, <strong>모든 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 1111 1111... 로 꽉 채워지면 "에러 없음(정상)!"</strong>으로 판정하고, 0이 하나라도 섞여 있으면 "에러 발생!"으로 무조건 패킷을 버린다.
 
 ### 2. 가상 헤더 (Virtual Header)의 극강의 치밀함
 이게 시험에 100% 나오는 변태 같은 꼼수다.
-TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 검사하면 된다. 그런데 굳이 3계층 IP 헤더에 있는 정보를 복사해 와서 **12바이트짜리 가짜 헤더(Virtual Header)**를 만들어 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 믹서기에 같이 넣고 돌려버린다.
+TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 검사하면 된다. 그런데 굳이 3계층 IP 헤더에 있는 정보를 복사해 와서 <strong>12바이트짜리 가짜 헤더(Virtual Header)</strong>를 만들어 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 믹서기에 같이 넣고 돌려버린다.
 
 - **가상 헤더 내용물**: 출발지 IP(4B) + 목적지 IP(4B) + 예약(1B) + [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호(1B) + [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 길이(2B)
 - **왜 이런 미친 짓을 할까?**: 극악의 확률로, 중간에 고장 난 라우터가 목적지 IP 주소를 `10.1.1.2`에서 `10.1.1.3`으로 잘못 바꿔서 엉뚱한 집에 배달했다고 치자 (L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 오류). 패킷(L4) 내용물은 하나도 안 깨졌다. 만약 가상 헤더를 안 썼다면, 엉뚱한 집에 온 패킷이 "내용물 안 깨졌네? 굿!" 하고 정상 처리되는 대재앙이 일어난다.
 - **가상 헤더의 방어**: 수신자는 자기가 받은 목적지 IP(`10.1.1.3`)를 가상 헤더로 만들어 믹서기에 돌린다. 그런데 원래 계산된 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 출발할 때 `10.1.1.2`로 만들어진 놈이다. 두 값이 불일치하므로 "야! 이거 내용물은 멀쩡한데, 내 IP로 와야 할 패킷이 아니잖아! 잘못 배달 온 놈이네! 버려!" 하고 귀신같이 오배송을 컷트해 버린다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                공유기(NAT/PAT)의 눈물겨운 체크섬 재계산            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (IP 192.168.0.5) ]                                │
- │   - 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!     │
- │                                                             │
- │   [ 집 공유기 (NAT) ]                                         │
- │   - 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...  │
- │   - 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔 │
- │     체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ                       │
- │   - 아놔 귀찮아!! ──▶ **공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로**│
- │                   **놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!**│
- │                                                             │
- │   ▶ 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를   │
- │           바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 가상 헤더 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)법은 우체국 배달원이 내용물(편지)이 상했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것을 넘어서, **"겉봉투에 적힌 수취인 이름(목적지 IP)과 이 집에 사는 실제 집주인의 명패가 완벽하게 일치하는지"**까지 깐깐하게 크로스 체크하여 오배송을 원천 차단하는 이중 삼중의 검수 작업입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기(NAT/PAT)의 눈물겨운 체크섬 재계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (IP 192.168.0.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">집 공유기 (NAT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아놔 귀찮아!! ──▶ 공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 가상 헤더 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>법은 우체국 배달원이 내용물(편지)이 상했는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 것을 넘어서, </strong>"겉봉투에 적힌 수취인 이름(목적지 IP)과 이 집에 사는 실제 집주인의 명패가 완벽하게 일치하는지"**까지 깐깐하게 크로스 체크하여 오배송을 원천 차단하는 이중 삼중의 검수 작업입니다.
 
 ---
 
@@ -137,15 +141,19 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 윈도우 크기]
-    │
-    ▼
-[현재 개념: 체크섬]
-    │
-    ├──▶ [확장 A: 긴급 포인터]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 윈도우 크기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 긴급 포인터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)는 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Tickless Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/))은 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 일정한 시간(예: 1ms)마다 무조건 강제로 깨어나던 고정된 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Periodic [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 방식을 버리고, **"할 일이 없을 때는 다음 예약된 스케줄이 올 때까지 알람을 끄고 무한정 깊은 수면(Deep Sleep)에 빠지는" 동적 이벤트 기반(Event-Driven) 타이머 아키텍처**다.
-> 2. **가치**: 아무 일도 안 하면서 1초에 1,000번씩 허공에 도끼질을 하던 CPU의 무의미한 각성(Wake-up) 오버헤드를 0으로 만들어, 스마트폰이 주머니 속에 있을 때(대기 모드) 배터리가 증발하는 현상을 막고 기기의 **대기 전력 수명을 며칠 단위로 획기적으로 연장**시켰다.
+> 1. **본질**: 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Tickless Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/))은 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 일정한 시간(예: 1ms)마다 무조건 강제로 깨어나던 고정된 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(Periodic [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 방식을 버리고, <strong>"할 일이 없을 때는 다음 예약된 스케줄이 올 때까지 알람을 끄고 무한정 깊은 수면(Deep Sleep)에 빠지는" 동적 이벤트 기반(Event-Driven) 타이머 아키텍처</strong>다.
+> 2. **가치**: 아무 일도 안 하면서 1초에 1,000번씩 허공에 도끼질을 하던 CPU의 무의미한 각성(Wake-up) 오버헤드를 0으로 만들어, 스마트폰이 주머니 속에 있을 때(대기 모드) 배터리가 증발하는 현상을 막고 기기의 <strong>대기 전력 수명을 며칠 단위로 획기적으로 연장</strong>시켰다.
 > 3. **융합**: 모바일(Android/iOS)의 배터리 보존을 위해 탄생한 이 `CONFIG_NO_HZ_IDLE` 기술은, 이제 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)(고성능 컴퓨팅)와 금융 서버 환경에서 단 1코어만 돌릴 때 타이머 간섭 자체를 없애는 `CONFIG_NO_HZ_FULL` 극저지연 튜닝 기술로 융합 발전하여 데스크톱/서버의 생태계까지 정복했다.
 
 ---
@@ -29,33 +29,34 @@ tags = ["studynote-operating-system"]
   - 잠드는 데 2ms가 걸리는데 1ms마다 깨우니, CPU는 영원히 깊은 잠에 들지 못하고 얕은 잠만 자며 전기를 퍼먹었다.
   - **해결책**: "할 일이 10초 뒤에 있다면, 10초 동안 알람 자체를 꺼버리자!"
 
-  - **고정 틱 (Periodic [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))**: 비행기 조종사가 승객들이 잘 자는지 확인하려고, 아무 일도 없는데 무조건 1분마다 방송을 켜서 "승객 여러분, 이상 없으십니까?"라고 묻는 미친 짓. 승객(CPU)은 밤새 잠을 못 자 피곤해 죽는다(배터리 고갈).
+  - <strong>고정 틱 (Periodic <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)</strong>: 비행기 조종사가 승객들이 잘 자는지 확인하려고, 아무 일도 없는데 무조건 1분마다 방송을 켜서 "승객 여러분, 이상 없으십니까?"라고 묻는 미친 짓. 승객(CPU)은 밤새 잠을 못 자 피곤해 죽는다(배터리 고갈).
   - **틱리스 (Tickless)**: 조종사가 "내일 아침 7시 도착 예정이니 그때까지 방송 끕니다. 응급 환자가 생기면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 승무원 호출 벨을 누르세요"라고 선언. 승객(CPU)은 아침까지 한 번도 안 깨고 푹 잔다(전력 보존).
 
 - **등장 배경**: 
   - 2008년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6.21에 `NO_HZ`라는 이름으로 처음 도입되었다. 스마트폰(Android)의 등장과 함께 배터리 수명이 기기의 상업적 성패를 가르는 1순위 지표가 되면서, 모바일 아키텍처의 가장 절대적이고 기본적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝으로 자리 잡았다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │                 전통적 Tick vs Tickless(동적 틱)의 수면 상태 비교      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [ HZ = 1000 (1ms) 인 구형 커널 ]                           │
-  │  CPU: 💤 (Sleep 진입)                                       │
-  │  1ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤           │
-  │  2ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤           │
-  │  3ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤           │
-  │  ▶ 결과: 깊은 잠(Deep C-State)에 들어갈 시간이 없어서 전력 누수 폭발. │
-  │                                                             │
-  │  [ Tickless (NO_HZ_IDLE) 현대 안드로이드 커널 ]               │
-  │  CPU: "나 할 일 다 끝났어."                                    │
-  │  커널: "다음 예약된 크론(Cron) 작업이 5초 뒤네?                  │
-  │        하드웨어 타이머야, 알람 1ms 말고 5초(5000ms) 뒤로 맞춰 놔!" │
-  │  CPU: 💤💤💤💤💤 (Deep Sleep 진입 - 화면 꺼짐)                │
-  │  1ms ~ 4999ms : (아무 일도 일어나지 않음. 전력 소모 0.1mW)      │
-  │  5000ms: ⏰ 예약된 알람! ─▶ CPU 기상 ─▶ 5초 전 예약된 작업 실행.   │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 Tick vs Tickless(동적 틱)의 수면 상태 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HZ = 1000 (1ms) 인 구형 커널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 💤 (Sleep 진입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3ms: ⚡ Tick! ─▶ 커널: "일 있냐?" ─▶ 없음 ─▶ 다시 💤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 깊은 잠(Deep C-State)에 들어갈 시간이 없어서 전력 누수 폭발.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tickless (NO_HZ_IDLE) 현대 안드로이드 커널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "나 할 일 다 끝났어."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널: "다음 예약된 크론(Cron) 작업이 5초 뒤네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 타이머야, 알람 1ms 말고 5초(5000ms) 뒤로 맞춰 놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 💤💤💤💤💤 (Deep Sleep 진입 - 화면 꺼짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms ~ 4999ms : (아무 일도 일어나지 않음. 전력 소모 0.1mW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5000ms: ⏰ 예약된 알람! ─▶ CPU 기상 ─▶ 5초 전 예약된 작업 실행.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 단순해 보이는 구조 변경이 모바일 혁명을 가능케 했다. CPU는 단순히 '자고/깨고' 두 상태만 있는 게 아니라, 깊이에 따라 C0(실행), C1(얕은 잠), C3(깊은 잠), C6(가사 상태) 등의 [C-States](/knowledge-base/studynote/02_operating_system/01_overview_architecture/077_c_states/) 등급을 가진다. 깊은 잠(C6)에 들어갈수록 전기는 아끼지만 깨어나는 데 수 밀리초가 걸린다. 1ms마다 틱이 울리면 CPU는 구조적으로 절대 C3 이하의 깊은 잠으로 내려가지 못한다. 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 1ms 족쇄를 끊어버려, CPU가 화면이 꺼진 주머니 속에서 C6 가사 상태로 돌입할 수 있게 허락해 주는 절대적 전제 조건이다.
 
@@ -70,30 +71,29 @@ tags = ["studynote-operating-system"]
 틱리스를 구현하려면 하드웨어의 뒷받침이 필수적이었다.
 
 1. **PIT (구형 발진기)**: "1ms마다 무조건 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 발사!"라는 기능밖에 없었다. 소프트웨어가 틱리스를 하고 싶어도 끄거나 조절할 수가 없었다.
-2. **Local APIC [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) / HPET (현대 타이머)**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타이머 레지스터에 접근하여, "지금부터 452 밀리초 뒤에 딱 한 번만([One-shot](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) mode) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쏴 줘"라고 아주 정밀하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Reprogramming)할 수 있는 고해상도 하드웨어 칩이 도입되었다. 틱리스는 이 [One-shot](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) 모드를 이용한 것이다.
+2. <strong>Local APIC <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> / HPET (현대 타이머)</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타이머 레지스터에 접근하여, "지금부터 452 밀리초 뒤에 딱 한 번만([One-shot](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) mode) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쏴 줘"라고 아주 정밀하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Reprogramming)할 수 있는 고해상도 하드웨어 칩이 도입되었다. 틱리스는 이 [One-shot](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/272_in_context_learning_icl/) 모드를 이용한 것이다.
 
 ### jiffies (시간 기록) 복원의 마술
 
 틱리스의 맹점은 "시계가 멈춘다"는 데 있다. 리눅스는 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))이 울릴 때마다 `jiffies`라는 전역 변수를 +1 올려서 시스템의 현재 시간을 계산한다. 그런데 5초 동안 틱을 꺼버리면, 시스템은 5초 전 과거의 시간에 갇히게 된다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Tickless 모드에서의 시간 누락(Drift) 보정 알고리즘       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ T=0초 ] CPU가 Idle 진입. 틱 정지. (현재 jiffies = 100)           │
-  │                                                                   │
-  │   [ T=5초 ] ⚡ 외부 인터럽트(카톡 알림)로 인해 CPU 강제 기상!              │
-  │                                                                   │
-  │   [ 커널 기상 핸들러 작동 (`tick_nohz_idle_exit`) ]                 │
-  │   1. 커널: "헐 나 5초나 잤어? jiffies 갱신 안 했는데!"                 │
-  │   2. 커널은 메인보드의 영구 하드웨어 클럭(RTC 또는 TSC)을 즉시 읽어옴.     │
-  │   3. 커널: "하드웨어 시계를 보니 5000 밀리초가 지났네."                 │
-  │   4. `jiffies = jiffies + 5000;` ◀ 단숨에 5000번 분량의 시간을 보상! │
-  │                                                                   │
-  │   [ T=5.001초 ] 앱 실행 재개. 앱은 시스템 시계가 정상적으로 5초 흐른 걸로 착각.│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tickless 모드에서의 시간 누락(Drift) 보정 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T=0초</div><div class="kb-diagram-note">CPU가 Idle 진입. 틱 정지. (현재 jiffies = 100)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T=5초</div><div class="kb-diagram-note">⚡ 외부 인터럽트(카톡 알림)로 인해 CPU 강제 기상!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 기상 핸들러 작동 (<code>tick_nohz_idle_exit</code>)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 커널: "헐 나 5초나 잤어? jiffies 갱신 안 했는데!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 커널은 메인보드의 영구 하드웨어 클럭(RTC 또는 TSC)을 즉시 읽어옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널: "하드웨어 시계를 보니 5000 밀리초가 지났네."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. <code>jiffies = jiffies + 5000;</code> ◀ 단숨에 5000번 분량의 시간을 보상!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T=5.001초</div><div class="kb-diagram-note">앱 실행 재개. 앱은 시스템 시계가 정상적으로 5초 흐른 걸로 착각.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** OS는 시계가 멈추는 것을 결코 허용하지 않는다. 잠에서 깬 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 가장 먼저 하는 일은, 자신이 얼마 동안 기절해 있었는지 '절대 시계(하드웨어 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))'를 쳐다보고 계산하는 것이다. 이 과정(Time-keeping compensation) 덕분에, 스마트폰은 배터리를 아끼느라 수시로 심장([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))을 멈추지만 사용자 눈에는 카카오톡 시계가 1초의 오차도 없이 완벽히 맞는 기적 같은 동기화를 유지한다.
 
@@ -110,13 +110,13 @@ tags = ["studynote-operating-system"]
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 옵션 | 동작 방식 | 주요 사용처 | 장단점 |
 |:---|:---|:---|:---|
 | **NO_HZ_NONE** (고정 틱) | 클래식. 무슨 일이 있어도 HZ 주기로 틱 발생. | 낡은 레거시 시스템 | 배터리 다 버림. 대신 타이머 구현이 가장 심플함. |
-| **NO_HZ_IDLE** (동적 틱) | CPU가 **유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 상태일 때만** 틱을 끔. 일할 때는 정상 틱 발생. | **모든 안드로이드/일반 리눅스** | 일반적인 배터리 방어의 표준. (대부분의 시스템 기본값) |
-| **NO_HZ_FULL** (완전 틱리스)| CPU가 **일하고 있을 때(단 1개의 스레드만 돌 때)**조차 틱을 아예 꺼버림. | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 금융 트레이딩(HFT), 슈퍼컴퓨터 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방해가 0%가 되어 초저지연 달성. 단, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 난이도가 극악. |
+| **NO_HZ_IDLE** (동적 틱) | CPU가 <strong>유휴(<a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>) 상태일 때만</strong> 틱을 끔. 일할 때는 정상 틱 발생. | **모든 안드로이드/일반 리눅스** | 일반적인 배터리 방어의 표준. (대부분의 시스템 기본값) |
+| **NO_HZ_FULL** (완전 틱리스)| CPU가 <strong>일하고 있을 때(단 1개의 스레드만 돌 때)</strong>조차 틱을 아예 꺼버림. | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 금융 트레이딩(HFT), 슈퍼컴퓨터 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방해가 0%가 되어 초저지연 달성. 단, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 난이도가 극악. |
 
 ### 과목 융합 관점
 
-- **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 클라우드 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 오버헤드 방어)**: 1대의 호스트 머신에 100대의 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄웠다고 가정하자. 100대의 VM이 `NO_HZ_NONE` (고정 틱)을 쓴다면, 아무 일도 안 하는 밤에도 100대의 VM이 1ms마다 번갈아 가며 "나 틱 울렸어!"라며 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 깨운다([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 발생). 호스트 서버는 틱을 처리하느라 CPU 100%를 찍고 폭발한다. 클라우드에서 게스트 OS의 틱리스(Tickless) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 적용은, 클라우드 제공자(AWS)의 서버 터짐을 막아주는 핵심 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 튜닝 요소다.
-- **[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) ([PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 와의 충돌)**: 하드 리얼타임 OS는 철저하게 타이머 틱 단위로 스케줄링([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/))을 잘라야 한다. 틱리스를 켜버리면 스레드가 영원히 CPU를 독점할 위험이 생긴다. 따라서 극단적인 제어가 필요한 드론/의료 장비에서는 배터리가 닳더라도 오히려 틱리스를 끄고 1ms 단위의 숨 막히는 고정 틱 환경으로 세팅하여 데드라인([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))을 확보한다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 및 클라우드 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit 오버헤드 방어)</strong>: 1대의 호스트 머신에 100대의 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄웠다고 가정하자. 100대의 VM이 `NO_HZ_NONE` (고정 틱)을 쓴다면, 아무 일도 안 하는 밤에도 100대의 VM이 1ms마다 번갈아 가며 "나 틱 울렸어!"라며 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 깨운다([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 발생). 호스트 서버는 틱을 처리하느라 CPU 100%를 찍고 폭발한다. 클라우드에서 게스트 OS의 틱리스(Tickless) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 적용은, 클라우드 제공자(AWS)의 서버 터짐을 막아주는 핵심 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 튜닝 요소다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/">PREEMPT_RT</a> 와의 충돌)</strong>: 하드 리얼타임 OS는 철저하게 타이머 틱 단위로 스케줄링([라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/))을 잘라야 한다. 틱리스를 켜버리면 스레드가 영원히 CPU를 독점할 위험이 생긴다. 따라서 극단적인 제어가 필요한 드론/의료 장비에서는 배터리가 닳더라도 오히려 틱리스를 끄고 1ms 단위의 숨 막히는 고정 틱 환경으로 세팅하여 데드라인([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))을 확보한다.
 
 - **📢 섹션 요약 비유**: 틱리스-아이들이 "쉬는 시간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에만 종을 안 치는 학교"라면, 완전 틱리스(Full)는 "전교 1등 학생(단일 워크로드) 한 명만 교실에 있으면 공부에 방해된다고 아예 수업 시간 종([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))조차 영원히 안 쳐주는 초특급 대우 학교"입니다.
 
@@ -134,34 +134,30 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 백그라운드 서비스에서 GPS 위치를 수집하겠다고, 안드로이드 API인 `WakeLock.acquire()`를 걸어두고 해제(`release()`)하지 않았다. 웨이크락은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게 "나 지금 일해야 하니까 CPU 제발 재우지 마!"라고 멱살을 잡는 권한이다. 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 기기 화면이 꺼진 걸 보고 깊은 잠(C-state)으로 들어가 알람을 끄려고 했는데, 이 멍청한 앱 하나가 멱살을 쥐고 있어서 CPU가 밤새 켜진 채로 전기를 태운 것이다.
    - **아키텍트 판단 (Doze 모드와 JobScheduler 수용)**: 모바일 앱 개발자는 절대 `WakeLock`을 직접 다루면 안 된다. 구글이 강제하는 **JobScheduler** 나 **WorkManager** API를 써야 한다. 이 도구들은 앱이 산발적으로 깨워달라는 요청을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 거부하고 모아두었다가, 폰이 가끔 메일을 받기 위해 깨어날 때(Maintenance Window) "야, 기왕 일어난 김에 니들 것도 한 번에 다 처리해!"라고 일괄 처리([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))를 강제하여 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 깊은 잠을 보장해 주는 아키텍처다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 모바일 및 서버 아키텍트의 타이머(Timer) 최적화 트리           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [ 시스템에 "일정 주기로 반복되는 로직(Timer)"을 설계해야 한다 ]              │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      그 주기가 반드시 0.1초 단위의 정확한 간격(Strict)으로 실행되어야 하는가?  │
-  │          ├─ 예 ─────▶ 🚨 [ 배터리 소모 각오. High-res Timer 사용 ]     │
-  │          │             (커널의 틱리스를 강제로 깨워 막대한 전력 소모 유발)      │
-  │          │                                                        │
-  │          └─ 아니오 (대충 10분, 30분 근처에 실행돼도 서비스에 지장 없음)         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      [ 타이머 연기 및 병합(Timer Coalescing / Slack) 튜닝 적용 ]           │
-  │      - Linux: `prctl(PR_SET_TIMERSLACK)` 로 타이머 오차 범위(Slack)를 넓힘 │
-  │      - Android: `AlarmManager.setInexactRepeating()` 사용         │
-  │                                                                   │
-  │      ▶ 결과: OS가 여러 앱의 자잘한 타이머를 5분에 한 번으로 뭉쳐서(Batch)      │
-  │              한꺼번에 처리함. CPU가 깨어나는 횟수를 1/10로 줄여 배터리 수호!   │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일 및 서버 아키텍트의 타이머(Timer) 최적화 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템에 "일정 주기로 반복되는 로직(Timer)"을 설계해야 한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 주기가 반드시 0.1초 단위의 정확한 간격(Strict)으로 실행되어야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">배터리 소모 각오. High-res Timer 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널의 틱리스를 강제로 깨워 막대한 전력 소모 유발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (대충 10분, 30분 근처에 실행돼도 서비스에 지장 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타이머 연기 및 병합(Timer Coalescing / Slack) 튜닝 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Linux: <code>prctl(PR_SET_TIMERSLACK)</code> 로 타이머 오차 범위(Slack)를 넓힘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Android: <code>AlarmManager.setInexactRepeating()</code> 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OS가 여러 앱의 자잘한 타이머를 5분에 한 번으로 뭉쳐서(Batch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한꺼번에 처리함. CPU가 깨어나는 횟수를 1/10로 줄여 배터리 수호!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "정확함(Exactness)은 배터리의 적이다." 이것이 틱리스 생태계의 제1원칙이다. 카톡 알림이 정확히 오후 1시 0분 0초에 와야 하는가? 1시 0분 2초에 와도 아무도 죽지 않는다. 하지만 이 2초의 여유(Slack)를 허락해주면, OS는 화면 뒤에서 이메일 갱신, 날씨 갱신, 카톡 알림을 한꺼번에 묶어서 오후 1시 0분 2초에 CPU를 단 한 번만 깨워(Wake-up) 처리하고 다시 재운다. 인프라 설계자는 자신의 로직이 OS의 깊은 잠(Tickless)을 방해하지 않는 둥글둥글한 로직인지 끊임없이 반문해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **0.1초짜리 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 루프로 백그라운드 대기하기**: "새 데이터가 왔나?" 확인하려고 `while(1) { sleep(0.1); check_data(); }` 코드를 짜는 짓. `sleep` 함수는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 타이머 이벤트를 세팅한다. 0.1초마다 타이머가 울린다는 것은, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 애써 틱을 끄고(Tickless) 수면에 돌입하려 할 때마다 당신의 앱이 0.1초 간격으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뺨을 갈겨서 계속 깨우는 패륜적 행위다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 버리고 반드시 이벤트 기반의 블로킹 함수(`epoll_wait`, `select`)를 써서, 진짜 데이터가 왔을 때만 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 깨워달라고 OS에게 고이 목숨을 맡겨야 한다.
+- <strong>0.1초짜리 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 루프로 백그라운드 대기하기</strong>: "새 데이터가 왔나?" 확인하려고 `while(1) { sleep(0.1); check_data(); }` 코드를 짜는 짓. `sleep` 함수는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 타이머 이벤트를 세팅한다. 0.1초마다 타이머가 울린다는 것은, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 애써 틱을 끄고(Tickless) 수면에 돌입하려 할 때마다 당신의 앱이 0.1초 간격으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뺨을 갈겨서 계속 깨우는 패륜적 행위다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 버리고 반드시 이벤트 기반의 블로킹 함수(`epoll_wait`, `select`)를 써서, 진짜 데이터가 왔을 때만 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 깨워달라고 OS에게 고이 목숨을 맡겨야 한다.
 
 - **📢 섹션 요약 비유**: 아이(앱)가 잠든 엄마(틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 "엄마, 내일 아침에 깨워줘" 하고 자는 건 착한 일(이벤트 대기)이지만, "엄마, 아침인지 10분마다 물어볼게" 하면서 밤새 엄마를 툭툭 치는 건 집안(시스템)을 파탄 내는 최악의 불효([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))입니다.
 
@@ -174,15 +170,15 @@ tags = ["studynote-operating-system"]
 | 구분 | 고정 틱 (Periodic [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 환경 | 틱리스 (NO_HZ) 환경 적용 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (Wake-up 횟수)** | 화면 꺼진 상태에서도 초당 1,000회 기상 | 화면 꺼지면 시간당 수십 회로 극감 | CPU [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 진입 비율 극대화 |
-| **정량 ([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) / 배터리)**| 대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 극심 (스마트폰 하루 못 감) | C-State 최고 깊이(C6) 도달 가능 | **모바일 기기 대기 시간 수십~수백 배 상승** |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a> / 배터리)</strong>| 대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 극심 (스마트폰 하루 못 감) | C-State 최고 깊이(C6) 도달 가능 | **모바일 기기 대기 시간 수십~수백 배 상승** |
 | **정성 (클라우드 효율)** | 100개 VM이 호스트 CPU를 틱으로 찢어놓음 | VM들이 쉴 땐 호스트도 간섭 0으로 완벽히 쉼| [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 멀티테넌시(오버커밋) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화 |
 
 ### 미래 전망
 - **NOHZ_FULL의 상용화 (Zero-Jitter)**: 현재는 극한의 튜닝을 아는 소수의 HFT(금융)나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 텔레콤 업체만 쓰지만, 클라우드의 게임 스트리밍(Cloud Gaming)과 자율주행 관제 서버가 발전함에 따라 "아무 방해도 받지 않는 100% 격리 코어"의 수요가 늘고 있다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1초에 한 번 울리던 그 최소한의 틱마저 완전히 박멸하여, 스레드가 영원히 방해받지 않는 완벽한 0-[Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) 아키텍처로 진화 중이다.
-- **이기종 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩셋과의 연동 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 레벨 틱리스)**: 이제 CPU만 자는 게 능사가 아니다. 스마트폰의 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 안에는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 통신 모뎀이 섞여 있다. CPU가 깊은 잠(Tickless)에 빠졌을 때, 화면은 꺼져있어도 칩셋 구석의 초저전력 오디오 DSP(음성 인식기) 혼자 깨어있다가 "헤이 구글" 소리를 듣는 순간에만 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 전체 칩셋을 깨우는 시스템 온 칩([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 단위의 광역 틱리스 기술이 현재 온디바이스 AI의 뼈대를 이루고 있다.
+- <strong>이기종 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 칩셋과의 연동 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a> 레벨 틱리스)</strong>: 이제 CPU만 자는 게 능사가 아니다. 스마트폰의 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 안에는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), 통신 모뎀이 섞여 있다. CPU가 깊은 잠(Tickless)에 빠졌을 때, 화면은 꺼져있어도 칩셋 구석의 초저전력 오디오 DSP(음성 인식기) 혼자 깨어있다가 "헤이 구글" 소리를 듣는 순간에만 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 전체 칩셋을 깨우는 시스템 온 칩([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 단위의 광역 틱리스 기술이 현재 온디바이스 AI의 뼈대를 이루고 있다.
 
 ### 참고 표준
-- **[ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어 간의 전원 관리(C-State, P-State)를 정의하는 글로벌 표준. 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 성립하기 위한 하드웨어적 토대.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/">ACPI</a> (Advanced Configuration and <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Interface)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어 간의 전원 관리(C-State, P-State)를 정의하는 글로벌 표준. 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 성립하기 위한 하드웨어적 토대.
 - **Linux High-Resolution Timers (hrtimers)**: 구형의 둔탁한 1ms 틱을 버리고 나노초(ns) 단위로 타이머를 예약/해제할 수 있게 해 준 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 혁명적 서브시스템(Thomas Gleixner 주도).
 
 틱리스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Tickless Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/))은 컴퓨터가 항상 바쁘게 돌아가야만 쓸모 있다는 산업화 시대의 강박관념(HZ)을 과감히 부숴버린 철학적 전환이다. "아무것도 하지 않는 시간"을 가장 가치 있는 시간(배터리 보존)으로 만들기 위해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 스스로의 심장 박동([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))마저 멈추는 기괴하고도 눈물겨운 진화를 택했다. 오늘날 여러분의 스마트폰이 주머니 속에서 일주일간 배터리를 유지하다가 전화가 오는 그 1초의 찰나에만 번개처럼 살아날 수 있는 것은, 바로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 매 순간 "죽은 듯이 자는 법"을 완벽하게 터득했기 때문이다.
@@ -202,15 +198,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[페이지 컬러링 캐시 경합 회피 물리 할당]
-    │
-    ▼
-[틱리스 커널(Tickless) 모바일 배터리 보존]
-    │
-    ├──▶ [NUMA 로컬 메모리 원격 메모리 지연차]
-    └──▶ [유니커널 보안과 가벼운 부팅 특성 망 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 컬러링 캐시 경합 회피 물리 할당</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">틱리스 커널(Tickless) 모바일 배터리 보존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA 로컬 메모리 원격 메모리 지연차</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니커널 보안과 가벼운 부팅 특성 망 적용</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

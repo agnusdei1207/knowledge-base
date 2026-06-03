@@ -25,17 +25,18 @@ ARM Cortex-R 시리즈는 ARM 프로파일 중 실시간 제어를 담당하는 
 
 아래 그림은 Cortex-R이 "입력 사건에서 제어 출력까지의 시간"을 짧고 예측 가능하게 유지하려는 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Sensor / IRQ / DMA Event                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Fast Interrupt Path · MPU Check · Predictable Scheduling    │
-├──────────────────────────────────────────────────────────────┤
-│ Cortex-R Core(s) · TCM · Optional Lockstep / ECC            │
-├──────────────────────────────────────────────────────────────┤
-│ Motor Drive · SSD Flash Control · Modem Timing              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / IRQ / DMA Event</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast Interrupt Path · MPU Check · Predictable Scheduling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cortex-R Core(s) · TCM · Optional Lockstep / ECC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Motor Drive · SSD Flash Control · Modem Timing</div></div>
+</div>
+</div>
+
+
 
 즉 Cortex-R은 "빨라 보이는 프로세서"가 아니라, 시간 약속을 지키는 프로세서로 이해해야 한다. 이 차이가 실시간 시스템에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치 하나보다 더 중요하다.
 
@@ -61,15 +62,17 @@ Cortex-R의 핵심은 [지연](/knowledge-base/studynote/03_network/01_data_comm
 
 아래 그림은 Cortex-R이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 오류를 동시에 다루는 방식을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Event ─▶ Fast IRQ ─▶ Control Code in TCM ─▶ Output Action   │
-│                 │                                            │
-│                 └──▶ MPU / ECC / Lockstep Check             │
-│                                                             │
-│ Goal: short path + bounded latency + fault detection        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event ─▶ Fast IRQ ─▶ Control Code in TCM ─▶ Output Action</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ MPU / ECC / Lockstep Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: short path + bounded latency + fault detection</div></div>
+</div>
+</div>
+
+
 
 요약하면 Cortex-R의 아키텍처는 "기능을 많이 넣기"보다 "시간과 오류를 통제하기"에 최적화되어 있다.
 
@@ -110,9 +113,9 @@ Cortex-R은 Cortex-A와 Cortex-M 사이의 빈칸을 채운다. Cortex-A보다 �
 
 ### 대표 적용 사례
 
-- **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러**: 플래시 변환 계층, 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 호스트 응답을 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 안에 처리해야 하므로 Cortex-R이 자주 쓰인다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 컨트롤러</strong>: 플래시 변환 계층, 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 호스트 응답을 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 안에 처리해야 하므로 Cortex-R이 자주 쓰인다.
 - **차량 섀시/파워트레인 제어**: 브레이크, 조향, 모터 제어처럼 시간 약속과 안전이 동시에 중요할 때 적합하다.
-- **무선 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 베이스밴드**: 슬롯 타이밍과 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 응답이 엄격해 결정성이 핵심이다.
+- <strong>무선 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/">모뎀</a> 베이스밴드</strong>: 슬롯 타이밍과 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 응답이 엄격해 결정성이 핵심이다.
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -150,21 +153,23 @@ Cortex-R을 적절히 쓰면 시스템은 빠를 뿐 아니라 예측 가능해�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인터럽트 기반 임베디드 제어
-    │
-    ▼
-MPU · TCM 중심 실시간 코어
-    │
-    ▼
-SSD / 모뎀 / 자동차 제어 확산
-    │
-    ▼
-락스텝 · ECC · 안전 진단 강화
-    │
-    ▼
-소프트웨어 정의 차량 · 산업 실시간 플랫폼
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인터럽트 기반 임베디드 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MPU · TCM 중심 실시간 코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD / 모뎀 / 자동차 제어 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">락스텝 · ECC · 안전 진단 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 정의 차량 · 산업 실시간 플랫폼</div>
+</div>
+</div>
+
+
 
 이 흐름은 Cortex-R이 단순 제어 코어에서 기능 안전 중심 실시간 플랫폼으로 확장되는 방향을 보여준다.
 

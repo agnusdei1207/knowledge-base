@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 클라우드 시대, [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사 룰이 전부 서버 안의 소프트웨어로 돌아갑니다.
-- 이걸 메인 CPU가 전부 계산하려다 보니, 정작 돈을 벌어야 할 **고객의 비즈니스 앱(웹 서버, DB)에 쓸 CPU 자원이 50%나 네트워킹 '세금(Tax)'으로 깎여나가는 대참사**가 발생했습니다.
+- 이걸 메인 CPU가 전부 계산하려다 보니, 정작 돈을 벌어야 할 <strong>고객의 비즈니스 앱(웹 서버, DB)에 쓸 CPU 자원이 50%나 네트워킹 '세금(Tax)'으로 깎여나가는 대참사</strong>가 발생했습니다.
 
-```text
-[DPDK 패킷 바이패스]
-    │
-    ▼
-[스마트NIC 가속 오프로딩 시스템]
-    │
-    └──▶ [5G SA/NSA 아키텍처 비교망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기존의 멍청하게 패킷만 옮기던 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 쇳덩어리에 **자체적인 프로그래머블 칩셋([FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/), ARM 코어)과 메모리를 아예 통째로 박아 넣어, 메인 CPU가 하던 무거운 네트워크, 스토리지, 보안 연산을 랜카드가 대신 다 처리해버리는([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 지능형 하드웨어 가속 장비**입니다.
-- 최근 엔비디아(NVIDIA)에서는 이를 더 진화시켜 **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치)**라는 이름으로 서버의 제3의 뇌로 밀고 있습니다.
+- **개념**: 기존의 멍청하게 패킷만 옮기던 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 쇳덩어리에 <strong>자체적인 프로그래머블 칩셋(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a>, <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>, ARM 코어)과 메모리를 아예 통째로 박아 넣어, 메인 CPU가 하던 무거운 네트워크, 스토리지, 보안 연산을 랜카드가 대신 다 처리해버리는(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>) 지능형 하드웨어 가속 장비</strong>입니다.
+- 최근 엔비디아(NVIDIA)에서는 이를 더 진화시켜 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/">Data Processing Unit</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 장치)</strong>라는 이름으로 서버의 제3의 뇌로 밀고 있습니다.
 
-```text
-[DPDK 패킷 바이패스]
-    │
-    ▼
-[스마트NIC 가속 오프로딩 시스템]
-    │
-    └──▶ [5G SA/NSA 아키텍처 비교망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,11 +67,11 @@ tags = ["studynote-network"]
 
 ### 1. [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) ([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 하드웨어 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
 - 하나의 물리 서버 안에 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 100대 떠 있습니다. 이 VM들끼리 통신하는 다리([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))를 메인 CPU가 계산했습니다.
-- **[오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)**: 이 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(규칙)을 스마트NIC의 칩셋으로 통째로 다운로드시킵니다. 이제 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1번에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 2번으로 가는 패킷은 메인 CPU를 괴롭히지 않고, 랜카드 안에서 100Gbps 속도로 하드웨어 턴을 꺾어서 꽂아버립니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong>: 이 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(규칙)을 스마트NIC의 칩셋으로 통째로 다운로드시킵니다. 이제 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1번에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 2번으로 가는 패킷은 메인 CPU를 괴롭히지 않고, 랜카드 안에서 100Gbps 속도로 하드웨어 턴을 꺾어서 꽂아버립니다.
 
 ### 2. [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (암호 노가다 해방)
 - 1085번 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널이나 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호를 푸는 건 극한의 수학 계산이라 CPU가 터져 나갑니다.
-- 스마트NIC 안에는 아예 **암호 해독 전문 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩**이 박혀있습니다. 패킷이 랜선에서 들어오자마자 스마트NIC이 암호를 빛의 속도로 싹 다 풀고, 쌩얼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 메인 메모리로 툭 올려줍니다. 메인 CPU는 암호가 걸려있었는지조차 모릅니다.
+- 스마트NIC 안에는 아예 <strong>암호 해독 전문 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 칩</strong>이 박혀있습니다. 패킷이 랜선에서 들어오자마자 스마트NIC이 암호를 빛의 속도로 싹 다 풀고, 쌩얼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 메인 메모리로 툭 올려줍니다. 메인 CPU는 암호가 걸려있었는지조차 모릅니다.
 
 ### 3. 스토리지 가속 ([NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/))
 - 1050번 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/)) 연계입니다. 원격에 있는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 하드디스크의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올 때, 스마트NIC이 메인 CPU 몰래 스토리지 서버랑 텔레파시 통신을 해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쫙 빨아와 메인 메모리에 꽂아버립니다.
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 서버의 **메인 CPU**는 **'세계 최고의 천재 요리사'**입니다. 그런데 요리사가 요리([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산, DB)는 안 하고, 밖에서 배달 온 양파 껍질 까고, 마늘 다지고, 배달부 신원 검사([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 암호 해독) 하느라 체력을 50%나 소진해버려 하루에 요리를 5그릇밖에 못 팔았습니다. **SmartNIC(스마트 랜카드 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))**은 이 주방 입구에 **'마늘 까기 전문 기계와 배달 보안 요원(하드웨어 가속 칩셋)'을 통째로 세워둔 혁명**입니다. 밖에서 양파(패킷)가 들어오면 입구의 스마트NIC 기계가 0.1초 만에 껍질을 까고 씻어서 도마 위에 딱 올려줍니다. 천재 요리사(메인 CPU)는 더러운 양파 껍질(암호화 껍데기)은 구경도 하지 않은 채 100% 맑은 정신으로 최고급 요리에만 몰빵하여 레스토랑의 수익(클라우드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 200%로 뻥튀기해 버리는 차세대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 심장 분업 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 서버의 <strong>메인 CPU</strong>는 <strong>'세계 최고의 천재 요리사'</strong>입니다. 그런데 요리사가 요리([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산, DB)는 안 하고, 밖에서 배달 온 양파 껍질 까고, 마늘 다지고, 배달부 신원 검사([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 암호 해독) 하느라 체력을 50%나 소진해버려 하루에 요리를 5그릇밖에 못 팔았습니다. <strong>SmartNIC(스마트 랜카드 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>)</strong>은 이 주방 입구에 <strong>'마늘 까기 전문 기계와 배달 보안 요원(하드웨어 가속 칩셋)'을 통째로 세워둔 혁명</strong>입니다. 밖에서 양파(패킷)가 들어오면 입구의 스마트NIC 기계가 0.1초 만에 껍질을 까고 씻어서 도마 위에 딱 올려줍니다. 천재 요리사(메인 CPU)는 더러운 양파 껍질(암호화 껍데기)은 구경도 하지 않은 채 100% 맑은 정신으로 최고급 요리에만 몰빵하여 레스토랑의 수익(클라우드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 200%로 뻥튀기해 버리는 차세대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 심장 분업 아키텍처입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DPDK 패킷 바이패스]
-    │
-    ▼
-[현재 개념: 스마트NIC 가속 오프로딩 시스템]
-    │
-    ├──▶ [확장 A: 5G SA/NSA 아키텍처 비교망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DPDK 패킷 바이패스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트NIC 가속 오프로딩 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G SA/NSA 아키텍처 비교망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

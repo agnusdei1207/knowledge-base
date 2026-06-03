@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 RNN은 h_t = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)(W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 사용한다. 이를 T 시간 단계로 펼치면 T개의 층을 가진 깊은 네트워크가 된다. BPTT는 이 펼쳐진 네트워크에서 각 시간 단계의 그래디언트를 체인 룰로 계산하고, W_h가 공유되므로 모든 시간 단계의 그래디언트를 합산한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BPTT는 "긴 전화 게임의 책임 역추적"이다. 100명이 릴레이로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 전달했을 때 오류가 생기면, 오류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 100명 → 99명 → ... → 1번으로 거슬러 올라가며 각자의 잘못(그래디언트)을 계산한다.
 
@@ -36,25 +39,24 @@ RNN은 h_t = [tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│              BPTT 수식 전개                              │
-├──────────────────────────────────────────────────────────┤
-│  Forward:  h_t = tanh(W_h·h_{t-1} + W_x·x_t)          │
-│            y_t = W_y·h_t                                │
-│                                                          │
-│  Loss:     L = Σₜ Lₜ(y_t, ŷ_t)                        │
-│                                                          │
-│  Backward: ∂Lₜ/∂h_k = (∂Lₜ/∂h_t) · Πᵢ₌ₖ₊₁ᵗ W_hᵀ·diag(1-hᵢ²)│
-│            (tanh 도함수: 1-tanh²)                       │
-│                                                          │
-│  기울기 소실: |W_h| < 1 → Πᵀ|W_h|ᵀ → 0              │
-│  기울기 폭발: |W_h| > 1 → Πᵀ|W_h|ᵀ → ∞              │
-│                                                          │
-│  Truncated BPTT: T_bptt << T로 자른 후 BPTT 적용       │
-│  → 메모리·계산 절감, 단기 의존성만 학습               │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPTT 수식 전개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forward: h_t = tanh(W_h·h_{t-1} + W_x·x_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_t = W_y·h_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss: L = Σₜ Lₜ(y_t, ŷ_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backward: ∂Lₜ/∂h_k = (∂Lₜ/∂h_t) · Πᵢ₌ₖ₊₁ᵗ W_hᵀ·diag(1-hᵢ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(tanh 도함수: 1-tanh²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 소실:</div><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&lt; 1 → Πᵀ</div><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">ᵀ → 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 폭발:</div><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&gt; 1 → Πᵀ</div><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">ᵀ → ∞</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Truncated BPTT: T_bptt &lt;&lt; T로 자른 후 BPTT 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메모리·계산 절감, 단기 의존성만 학습</div></div>
+</div>
+</div>
+
+
 
 | 문제 | 조건 | 증상 | 해결책 |
 |:---|:---|:---|:---|

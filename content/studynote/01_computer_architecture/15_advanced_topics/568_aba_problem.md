@@ -45,23 +45,22 @@ ABA 문제는 [락-프리](/knowledge-base/studynote/02_operating_system/04_sync
 
 다음 그림은 "값은 같아도 연결 구조는 달라질 수 있다"는 ABA의 본질을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다         │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ T1 read: Top = A, next = B                                                  │
-│                                                                              │
-│   Top ─▶ [A] ─▶ [B] ─▶ [C]                                                   │
-│                                                                              │
-│ T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push                        │
-│                                                                              │
-│   Top ─▶ [A*] ─▶ [D]                                                         │
-│                                                                              │
-│ T1 resumes: CAS(Top, A, B) 성공  ->  Top = B (이미 해제/재사용된 노드 가능) │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 사실은 ABA가 단지 주소 재사용 버그가 아니라는 점이다. 주소가 재사용되지 않더라도, 상태 기계에서 중간 변화 이력이 중요하면 동일 값 복귀가 문제를 만들 수 있다. 그래서 해결도 단순 allocator 교체가 아니라, **비교 대상과 메모리 생애 관리 모델을 함께 설계하는 일**이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 read: Top = A, next = B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A*</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 resumes: CAS(Top, A, B) 성공 -&gt; Top = B (이미 해제/재사용된 노드 가능)</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 사실은 ABA가 단지 주소 재사용 버그가 아니라는 점이다. 주소가 재사용되지 않더라도, 상태 기계에서 중간 변화 이력이 중요하면 동일 값 복귀가 문제를 만들 수 있다. 그래서 해결도 단순 allocator 교체가 아니라, <strong>비교 대상과 메모리 생애 관리 모델을 함께 설계하는 일</strong>이 된다.
 
 - **📢 섹션 요약 비유**: ABA는 똑같은 번호표를 다시 받은 사람을 보고 "아까 그 사람"이라고 착각하는 것과 같다. 번호만 같을 뿐, 실제로는 완전히 다른 손님일 수 있다.
 
@@ -90,7 +89,7 @@ ABA 대응 방식은 크게 탐지형과 예방형으로 나뉜다. 태그드 �
 
 실무에서는 플랫폼과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표에 따라 해법이 갈린다. x86-64에서 `CMPXCHG16B` 같은 128비트 비교-교환이 가능하면 포인터와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 함께 묶는 방식이 직관적이다. 반면 범용 C/C++ [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)처럼 여러 CPU를 지원해야 하면 해저드 포인터나 EBR을 택해 이식성을 높이는 경우가 많다.
 
-선택 기준도 단순하지 않다. 해저드 포인터는 각 접근마다 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 선언이 들어가므로 읽기 경로가 매우 짧아야 하는 곳에서는 부담이 될 수 있다. EBR은 평균 성능이 좋지만, 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 오래 멈추면 메모리 회수가 밀려 tail latency와 메모리 사용량이 악화될 수 있다. 따라서 "무엇이 가장 안전한가"뿐 아니라 **어떤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 메모리 비용을 감당할 수 있는가**를 함께 판단해야 한다.
+선택 기준도 단순하지 않다. 해저드 포인터는 각 접근마다 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 선언이 들어가므로 읽기 경로가 매우 짧아야 하는 곳에서는 부담이 될 수 있다. EBR은 평균 성능이 좋지만, 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 오래 멈추면 메모리 회수가 밀려 tail latency와 메모리 사용량이 악화될 수 있다. 따라서 "무엇이 가장 안전한가"뿐 아니라 <strong>어떤 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>과 메모리 비용을 감당할 수 있는가</strong>를 함께 판단해야 한다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -117,7 +116,7 @@ ABA 문제를 정확히 다루면 [락-프리](/knowledge-base/studynote/02_oper
 
 물론 비용은 있다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드가 메모리를 더 먹고, 넓은 원자 연산은 하드웨어 제약을 가지며, 안전한 메모리 회수는 코드와 운영 복잡도를 올린다. 앞으로는 언어 차원의 SMR [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 표준화, 더 넓은 원자 폭, 하드웨어 메모리 태깅과의 결합이 점점 중요해질 가능성이 크다.
 
-결국 ABA 문제는 "값이 같음"과 "역사가 같음"이 다르다는 사실을 알려 주는 대표 사례다. [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 설계자는 현재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴만 보지 말고, **그 값이 어떤 생애를 거쳐 다시 돌아왔는지**까지 추적할 수 있어야 한다.
+결국 ABA 문제는 "값이 같음"과 "역사가 같음"이 다르다는 사실을 알려 주는 대표 사례다. [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 설계자는 현재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴만 보지 말고, <strong>그 값이 어떤 생애를 거쳐 다시 돌아왔는지</strong>까지 추적할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: ABA를 막는 일은 얼굴만 보고 사람을 확인하지 않고 출입 기록까지 함께 보는 것과 같다. 같은 얼굴이라도 언제 들어왔고 나갔는지 알아야 진짜 신원이 확인된다.
 
@@ -136,21 +135,23 @@ ABA 문제를 정확히 다루면 [락-프리](/knowledge-base/studynote/02_oper
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CAS 기반 락-프리 자료구조
-        │
-        ▼
-Treiber Stack에서 ABA 문제 인식
-        │
-        ▼
-태그드 포인터 · DWCAS
-        │
-        ▼
-Hazard Pointer · EBR · RCU 같은 SMR
-        │
-        ▼
-언어/런타임 통합 메모리 회수 · 더 넓은 원자 폭 지원
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CAS 기반 락-프리 자료구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Treiber Stack에서 ABA 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">태그드 포인터 · DWCAS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hazard Pointer · EBR · RCU 같은 SMR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언어/런타임 통합 메모리 회수 · 더 넓은 원자 폭 지원</div>
+</div>
+</div>
+
+
 
 이 흐름은 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구조가 단순 원자 명령에서 출발해, 결국 메모리 생애 전체를 다루는 체계적 안전 모델로 확장되는 과정을 보여 준다.
 

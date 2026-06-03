@@ -51,21 +51,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 5 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) × [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 지식 영역
 
-```
-프로세스 그룹
-  착수   계획   실행   감시통제   종료
-   |      |      |        |        |
-   +------+------+---------+--------+
-   |         49개 프로세스          |
-   +--------------------------------+
 
-주요 프로세스 예시:
-- 착수: 프로젝트 헌장 개발, 이해관계자 식별
-- 계획: WBS 작성, 일정 개발, 위험 식별
-- 실행: 품질 보증 수행, 팀 개발
-- 감시통제: 범위 검증, EVM 분석
-- 종료: 프로젝트 또는 단계 종료
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 그룹</div>
+<div class="kb-diagram-note">착수 계획 실행 감시통제 종료</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">49개 프로세스</div></div>
+<div class="kb-diagram-note">주요 프로세스 예시:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">착수: 프로젝트 헌장 개발, 이해관계자 식별</div>
+<div class="kb-diagram-tree-item" style="--depth:0">계획: WBS 작성, 일정 개발, 위험 식별</div>
+<div class="kb-diagram-tree-item" style="--depth:0">실행: 품질 보증 수행, 팀 개발</div>
+<div class="kb-diagram-tree-item" style="--depth:0">감시통제: 범위 검증, EVM 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:0">종료: 프로젝트 또는 단계 종료</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 10가지 역할이 5막 연극에 각자 등장하는 것 — 모든 배우가 전막에 나오지 않고 필요한 장면에만 나온다.
 
@@ -89,14 +91,19 @@ tags = ["studynote-software-engineering"]
 
 ### 3-2. 일정 관리 — [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))
 
-```
-A(3일) → B(2일) → D(4일)
-              ↓
-         C(5일) → D
-         
-CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
-여유시간(Float): B = 12 - (3+2+4) = 3일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A(3일) → B(2일) → D(4일)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">C(5일) → D</div>
+<div class="kb-diagram-note">CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)</div>
+<div class="kb-diagram-note">여유시간(Float): B = 12 - (3+2+4) = 3일</div>
+</div>
+</div>
+
+
 
 ### 3-3. 원가 관리 — [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))
 

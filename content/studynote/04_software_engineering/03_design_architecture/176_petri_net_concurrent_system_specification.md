@@ -22,19 +22,22 @@ tags = ["software_engineering"]
 
 페트리 넷은 병행 시스템이 "어떤 상태에 있는가"와 "어떤 사건이 발생할 수 있는가"를 동시에 표현하기 위한 정형 모델이다. 순서도는 보통 한 줄의 절차를 따라가며, 일반적인 상태도는 전체 시스템 상태를 한 점으로 뭉쳐 그리는 경향이 있다. 그러나 실제 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 여러 작업이 동시에 진행되고, 같은 자원을 서로 차지하려 하며, 어떤 사건은 특정 조건이 만족될 때만 발생한다.
 
-이 개념이 필요한 이유는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류가 코드의 길이보다 **실행 순서의 조합**에서 발생하기 때문이다. 결제 승인, 재고 차감, 주문 확정이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 쇼핑몰 시스템을 생각하면, 각 기능을 따로 보면 단순해도 서로 어떤 자원을 공유하고 어떤 순서 제약을 가지는지는 쉽게 놓치게 된다. 이런 경우 문제는 함수 문장 안보다, 여러 흐름이 만나는 경계에서 터진다.
+이 개념이 필요한 이유는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류가 코드의 길이보다 <strong>실행 순서의 조합</strong>에서 발생하기 때문이다. 결제 승인, 재고 차감, 주문 확정이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 쇼핑몰 시스템을 생각하면, 각 기능을 따로 보면 단순해도 서로 어떤 자원을 공유하고 어떤 순서 제약을 가지는지는 쉽게 놓치게 된다. 이런 경우 문제는 함수 문장 안보다, 여러 흐름이 만나는 경계에서 터진다.
 
 아래 그림은 병행 시스템이 왜 일반적인 순차 모델보다 더 강한 표현 도구를 요구하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why concurrent systems need more than a simple flowchart           │
-├────────────────────────────────────────────────────────────────────┤
-│ sequential view  : step1 -> step2 -> step3                         │
-│ concurrent view  : many jobs wait, race, synchronize, and block    │
-│ key question     : which action may occur when resources are shared?│
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why concurrent systems need more than a simple flowchart</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sequential view : step1 -&gt; step2 -&gt; step3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">concurrent view : many jobs wait, race, synchronize, and block</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">key question : which action may occur when resources are shared?</div></div>
+</div>
+</div>
+
+
 
 즉 페트리 넷은 "무슨 순서로 적을까"보다 "지금 어떤 조건이 충족되어야 이 사건이 일어나는가"를 중심에 둔다. 그래서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 자원 경쟁, 대기 조건, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 같은 문제를 표현하기에 적합하다.
 
@@ -58,24 +61,21 @@ tags = ["software_engineering"]
 
 아래 그림은 두 조건이 모두 만족될 때만 작업이 실행되는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Enabling and firing                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ input places :   [P1 ready] ●      [P2 resource] ●                │
-│                        \              /                           │
-│                         \            /                            │
-│                          \          /                             │
-│                         ( T1 execute )                             │
-│                               │                                    │
-│                               ▼                                    │
-│                           [P3 done] ●                              │
-│                                                                    │
-│ T1 can fire only when both input places hold required tokens.      │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조를 결제 시스템에 적용하면, `결제 요청 토큰`과 `재고 확보 토큰`이 모두 있을 때만 `주문 확정 전이`가 발화하도록 설계할 수 있다. 반대로 어느 한쪽 토큰이 없으면 전이는 멈춘다. 그래서 페트리 넷은 단순 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 아니라, **조건 기반 실행 규칙을 분석 가능한 형태로 바꾸는 모델**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enabling and firing</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">input places :</div><div class="kb-diagram-node">P1 ready</div><div class="kb-diagram-note">●</div><div class="kb-diagram-node">P2 resource</div><div class="kb-diagram-note">●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( T1 execute )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P3 done</div><div class="kb-diagram-note">●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 can fire only when both input places hold required tokens.</div></div>
+</div>
+</div>
+
+
+
+이 구조를 결제 시스템에 적용하면, `결제 요청 토큰`과 `재고 확보 토큰`이 모두 있을 때만 `주문 확정 전이`가 발화하도록 설계할 수 있다. 반대로 어느 한쪽 토큰이 없으면 전이는 멈춘다. 그래서 페트리 넷은 단순 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 아니라, <strong>조건 기반 실행 규칙을 분석 가능한 형태로 바꾸는 모델</strong>이다.
 
 또한 페트리 넷은 도달 가능성 (Reachability), 유계성 (Boundedness), 활성성 (Liveness) 같은 성질을 분석할 수 있다. 특정 마킹에 도달 가능한지, 어떤 장소의 토큰 수가 무한히 커질 수 있는지, 어떤 전이가 영원히 발화 불가능해지는지 같은 질문을 모델 수준에서 다룰 수 있다는 점이 정형 명세로서의 강점이다.
 
@@ -106,23 +106,26 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 실무에서 페트리 넷이 빛나는 곳은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 흐름이 충돌할 때 비용이 큰 영역"이다. 결제-재고-배송 확정, 생산 설비의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 송수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 락 획득 순서 같은 문제는 오류가 나면 장애 원인 추적 비용이 매우 크다. 이런 구간은 페트리 넷으로 핵심 자원과 전이 규칙을 먼저 모델링해 보는 것이 설계 리스크를 크게 줄인다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Should this problem be modeled with a Petri Net?                   │
-├────────────────────────────────────────────────────────────────────┤
-│ concurrent branches + shared resources + need formal analysis?     │
-│   ├─ yes -> build a Petri Net / workflow net model                 │
-│   └─ no                                                            │
-│        ├─ mostly sequential flow? -> flowchart or BPMN             │
-│        └─ single-object state logic? -> FSM / statechart           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Should this problem be modeled with a Petri Net?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">concurrent branches + shared resources + need formal analysis?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; build a Petri Net / workflow net model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mostly sequential flow? -&gt; flowchart or BPMN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ single-object state logic? -&gt; FSM / statechart</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **공유 자원이 있는가?** 락, 재고, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), 연결 수처럼 수량 제한 자원이 있으면 페트리 넷이 유리하다.
 2. **동시 실행이 핵심 위험인가?** 순차 로직보다 인터리빙과 경쟁이 문제라면 적합하다.
-3. **무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가?** 데드락, 활성성, 자원 누수, 무한 대기 중 무엇을 보고 싶은지 먼저 정한다.
+3. <strong>무엇을 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할 것인가?</strong> 데드락, 활성성, 자원 누수, 무한 대기 중 무엇을 보고 싶은지 먼저 정한다.
 4. **모델 범위를 좁혔는가?** 시스템 전체가 아니라 위험한 핵심 경로를 잘라 모델링해야 효과가 크다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -144,7 +147,7 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 물론 페트리 넷이 만능은 아니다. 모델 범위를 잘못 잡으면 오히려 복잡도가 커질 수 있고, 토큰 의미가 불분명하면 분석도 공허해진다. 또한 대규모 시스템에서는 여전히 상태 공간 폭발 문제가 남으므로, 컬러드·타임드 확장이나 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 전략을 함께 고려해야 한다.
 
-정리하면 페트리 넷은 병행 시스템을 위한 "정지 화면"이 아니라, **조건이 맞을 때만 사건이 발생하고 토큰이 이동하는 규칙 시스템**이다. 기억할 핵심은 분명하다. **장소는 상태와 자원을 담고, 전이는 조건 충족 시 발화하며, 토큰 흐름은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 구조를 드러낸다.**
+정리하면 페트리 넷은 병행 시스템을 위한 "정지 화면"이 아니라, <strong>조건이 맞을 때만 사건이 발생하고 토큰이 이동하는 규칙 시스템</strong>이다. 기억할 핵심은 분명하다. <strong>장소는 상태와 자원을 담고, 전이는 조건 충족 시 발화하며, 토큰 흐름은 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>의 구조를 드러낸다.</strong>
 
 - **📢 섹션 요약 비유**: 페트리 넷은 여러 문이 있는 놀이공원에서 표와 열쇠가 있어야만 다음 구역으로 넘어갈 수 있게 설계한 출입 규칙표와 같다.
 
@@ -164,22 +167,23 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-informal concurrent requirements
-        │
-        ▼
-places + transitions + tokens
-        │
-        ▼
-marking and firing rules
-        │
-        ├──────────────▶ reachability analysis
-        │
-        ├──────────────▶ liveness / boundedness / deadlock check
-        │
-        ▼
-safer concurrent design and test scenarios
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">informal concurrent requirements</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">places + transitions + tokens</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">marking and firing rules</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ reachability analysis</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ liveness / boundedness / deadlock check</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">safer concurrent design and test scenarios</div>
+</div>
+</div>
+
+
 
 이 흐름도는 비정형 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 요구를 페트리 넷 구조로 바꾸고, 그 위에서 발화 규칙과 도달 가능성 분석을 수행해 더 안전한 구현과 테스트로 연결하는 과정을 요약한다.
 

@@ -21,12 +21,16 @@ tags = ["studynote-design-supervision"]
 
 감리 관점에서 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 더 이상 배치 보고서 전용이 아니라 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 실시간 분석, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유의 공용 기반이 되었기 때문이다. 즉 단순 저장소 선택 문제가 아니라, 적재 유연성과 분석 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 동시에 확보하는 설계 문제다.
 
-```text
-┌─────────────┐    ┌────────────────┐    ┌──────────────────┐
-│ Raw Data    │──▶│ Lakehouse Core │──▶│ BI / AI / SQL    │
-│ Structured+ │    │ Schema-on-Read │    │ Unified Access   │
-└─────────────┘    └────────────────┘    └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Data</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Lakehouse Core</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">BI / AI / SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structured+</div><div class="kb-diagram-cell">Schema-on-Read</div><div class="kb-diagram-cell">Unified Access</div></div>
+</div>
+</div>
+
+
 
 이 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 모으고 나중에 해석하되, 그냥 쌓아 두는 것이 아니라 통제 가능한 공용 자산으로 만든다는 뜻이다. 그래서 설계 문서에는 적재 경로뿐 아니라 품질과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 책임까지 포함되어야 한다.
 
@@ -36,18 +40,17 @@ tags = ["studynote-design-supervision"]
 
 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 핵심 원리는 저장과 계산을 분리한 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 질의 엔진을 얹어 하나의 분석 체계를 만드는 데 있다. [스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)라고 해서 무질서하게 읽는 것이 아니라, 읽는 시점에 해석하더라도 품질 규칙과 거버넌스를 중앙에서 관리해야 한다. 감리에서는 기술 유행어보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 통제 지점을 증적 중심으로 본다.
 
-```text
-┌────────────┐    ┌────────────────┐    ┌─────────────────────┐
-│ Source     │──▶│ Object Storage │──▶│ Table Format / Cat. │
-└────────────┘    └────────────────┘    └─────────────────────┘
-                           │                         │
-                           ├──────────────▶┌──────────────┐
-                           │               │ Quality Rule │
-                           │               └──────────────┘
-                           └──────────────▶┌──────────────┐
-                                           │ SQL / ML Eng │
-                                           └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Object Storage</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Table Format / Cat.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quality Rule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL / ML Eng</div></div>
+</div>
+</div>
+
+
 
 | 구성축 | 핵심 내용 | 감리 포인트 |
 |:---|:---|:---|
@@ -113,31 +116,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-┌────────────────┐
-│ Data Warehouse │
-└────────────────┘
-         │
-         ▼
-┌────────────────┐
-│ Data Lake      │
-└────────────────┘
-         │
-         ▼
-┌────────────────────────────┐
-│ Lakehouse + Open Formats   │
-└────────────────────────────┘
-         │
-         ▼
-┌────────────────────────────┐
-│ Unified BI / ML / RAG      │
-└────────────────────────────┘
-         │
-         ▼
-┌────────────────────────────┐
-│ Governed Data Products     │
-└────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Warehouse</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lake</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lakehouse + Open Formats</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified BI / ML / RAG</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Governed Data Products</div></div>
+</div>
+</div>
+
+
 
 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 단순 절충안이 아니라 개방형 저장 기반 위에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 거버넌스를 올려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품화로 가는 흐름의 중간 축이다.
 

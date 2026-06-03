@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 미디어 빅데이터는 **시청 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 분석하여 "무엇을 언제 추천할 것인가"를 결정하며, 이는 플랫폼의 체류 시간(Engagement)과 직결된다.
+- 미디어 빅데이터는 <strong>시청 행동 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 분석하여 "무엇을 언제 추천할 것인가"를 결정하며, 이는 플랫폼의 체류 시간(Engagement)과 직결된다.
 - [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) + 콘텐츠 기반(Content-Based) 하이브리드 추천이 실전 추천 엔진의 표준 구조다.
 - RTB (Real-Time Bidding, 실시간 광고입찰)는 100ms 이내에 수백만 건의 광고 경매를 처리하는 초저지연 빅데이터 시스템이다.
 
@@ -38,58 +38,50 @@ tags = ["studynote-bigdata"]
 
 ### 콘텐츠 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/): Two-Tower DNN
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              Two-Tower 추천 모델 구조                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사용자 타워 (User Tower)    콘텐츠 타워 (Item Tower)            │
-│  ┌─────────────────────┐    ┌─────────────────────────┐         │
-│  │ 시청 이력 임베딩     │    │ 장르·배우·감독 임베딩   │         │
-│  │ 선호 장르 벡터       │    │ 텍스트 설명 BERT 인코딩 │         │
-│  │ 최근 시청 패턴       │    │ 시각적 특징 (포스터 CNN)│         │
-│  │ 인구 통계 피처       │    │ 인기도·평점             │         │
-│  └──────────┬──────────┘    └─────────────┬───────────┘         │
-│             │                             │                     │
-│             ▼                             ▼                     │
-│     ┌───────────────┐           ┌───────────────┐               │
-│     │  User 임베딩  │           │  Item 임베딩  │               │
-│     │  (256-dim)    │           │  (256-dim)    │               │
-│     └───────┬───────┘           └───────┬───────┘               │
-│             └─────────────┬─────────────┘                       │
-│                           │ 내적 (Dot Product)                   │
-│                           ▼                                     │
-│                  ┌─────────────────┐                            │
-│                  │  유사도 점수     │                            │
-│                  │  후보 아이템     │                            │
-│                  │  랭킹 정렬       │                            │
-│                  └─────────────────┘                            │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-Tower 추천 모델 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 타워 (User Tower) 콘텐츠 타워 (Item Tower)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시청 이력 임베딩</div><div class="kb-diagram-cell">장르·배우·감독 임베딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선호 장르 벡터</div><div class="kb-diagram-cell">텍스트 설명 BERT 인코딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 시청 패턴</div><div class="kb-diagram-cell">시각적 특징 (포스터 CNN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인구 통계 피처</div><div class="kb-diagram-cell">인기도·평점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User 임베딩</div><div class="kb-diagram-cell">Item 임베딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(256-dim)</div><div class="kb-diagram-cell">(256-dim)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내적 (Dot Product)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유사도 점수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 아이템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랭킹 정렬</div></div>
+</div>
+</div>
+
+
 
 ### RTB (Real-Time Bidding) 광고 경매 흐름
 
-```
-사용자 페이지 로드
-      │
-      ▼ (< 10ms)
- 공급자 플랫폼 (SSP)
- 입찰 요청 발송
-      │
-      ▼ (< 100ms 전체)
- 수요자 플랫폼 (DSP)
- ┌─────────────────────────────────┐
- │ 1. 유저 프로필 조회 (DMP)        │
- │ 2. 관련성 점수 계산 (ML)         │
- │ 3. 입찰가 결정 (경매 전략)       │
- └─────────────────────────────────┘
-      │
-      ▼
- 2nd Price 경매 → 낙찰
-      │
-      ▼
- 광고 소재 전달 → 렌더링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 페이지 로드</div>
+<div class="kb-diagram-note">▼ (&lt; 10ms)</div>
+<div class="kb-diagram-note">공급자 플랫폼 (SSP)</div>
+<div class="kb-diagram-note">입찰 요청 발송</div>
+<div class="kb-diagram-note">▼ (&lt; 100ms 전체)</div>
+<div class="kb-diagram-note">수요자 플랫폼 (DSP)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 유저 프로필 조회 (DMP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 관련성 점수 계산 (ML)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 입찰가 결정 (경매 전략)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2nd Price 경매 → 낙찰</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">광고 소재 전달 → 렌더링</div>
+</div>
+</div>
+
+
 
 ### 시청 분석 핵심 지표
 
@@ -133,7 +125,7 @@ tags = ["studynote-bigdata"]
 
 **문제**: 추천 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 정체, 신규 콘텐츠 노출 부족, 롱테일 콘텐츠 발굴 저하.
 
-**개선 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong>개선 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 
 | 문제 | 원인 | 해결책 |
 |:---|:---|:---|
@@ -143,7 +135,7 @@ tags = ["studynote-bigdata"]
 | A/B 테스트 느린 피드백 | 오프라인 평가 지표 부정확 | Online Interleaving 실험 도입 |
 
 **기술사 핵심 판단**:
-- [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 **오프라인 지표(AUC/NDCG)와 온라인 지표([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)/체류시간)가 반드시 일치하지 않음** → 온라인 A/B 테스트 필수.
+- [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 <strong>오프라인 지표(AUC/NDCG)와 온라인 지표(<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>/체류시간)가 반드시 일치하지 않음</strong> → 온라인 A/B 테스트 필수.
 - [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)리스 환경 전환으로 퍼스트파티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자체 수집) 중요성 급증.
 
 > 📢 **섹션 요약 비유**: 좋은 추천 엔진은 "항상 네가 좋아하는 것만 보여주는 것이 아니라, 가끔 놀라운 새로운 취향을 발견하게 해주는 것"이다. 너무 똑같으면 지루해지기 때문이다.
@@ -177,18 +169,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[콘텐츠 소비 (Content Consumption)]
-    │
-    ▼
-[미디어 빅데이터 (Media Big Data)]
-    │
-    ▼
-[추천 시스템 (Recommendation System)]
-    │
-    ▼
-[개인화 (Personalization)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠 소비 (Content Consumption)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미디어 빅데이터 (Media Big Data)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추천 시스템 (Recommendation System)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인화 (Personalization)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 콘텐츠 소비가 미디어 빅데이터와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/), 개인화로 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

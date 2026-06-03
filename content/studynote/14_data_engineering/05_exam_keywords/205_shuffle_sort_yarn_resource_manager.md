@@ -22,36 +22,26 @@ tags = ["studynote-data-engineering"]
 
 MapReduce는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Map → Shuffle & Sort → Reduce 세 단계로 처리한다.
 
-```
-MapReduce 전체 흐름
-┌──────────────────────────────────────────────────────────────┐
-│  입력 데이터 (HDFS)                                           │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
-│  │  Split 1  │  │  Split 2  │  │  Split 3  │                   │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                   │
-│       │              │              │                         │
-│  ┌────▼─────┐  ┌────▼─────┐  ┌────▼─────┐                   │
-│  │  Map 1    │  │  Map 2    │  │  Map 3    │  ← Map 단계      │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                   │
-│       │              │              │                         │
-│  ┌────▼──────────────▼──────────────▼─────┐                  │
-│  │         셔플 & 정렬 (Shuffle & Sort)      │  ← 핵심 병목   │
-│  │   키별 파티셔닝 + 정렬 + 네트워크 전송     │                 │
-│  └────┬──────────────┬───────────────────┘                   │
-│       │              │                                        │
-│  ┌────▼─────┐  ┌────▼─────┐                                  │
-│  │ Reduce 1  │  │ Reduce 2  │  ← Reduce 단계                  │
-│  └────┬─────┘  └────┬─────┘                                  │
-│       │              │                                        │
-│  ┌────▼──────────────▼─────┐                                  │
-│  │     출력 (HDFS 저장)      │                                  │
-│  └──────────────────────────┘                                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MapReduce 전체 흐름</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 (HDFS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split 1</div><div class="kb-diagram-cell">Split 2</div><div class="kb-diagram-cell">Split 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map 1</div><div class="kb-diagram-cell">Map 2</div><div class="kb-diagram-cell">Map 3</div><div class="kb-diagram-cell">← Map 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셔플 &amp; 정렬 (Shuffle &amp; Sort)</div><div class="kb-diagram-cell">← 핵심 병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키별 파티셔닝 + 정렬 + 네트워크 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reduce 1</div><div class="kb-diagram-cell">Reduce 2</div><div class="kb-diagram-cell">← Reduce 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 (HDFS 저장)</div></div>
+</div>
+</div>
+
+
 
 ### 왜 셔플이 병목인가?
 
-셔플은 모든 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력이 모든 Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 이동해야 하는 **All-to-All 통신 패턴**이다. 노드 N개가 있을 때 최악의 경우 N² 개의 네트워크 연결이 생성된다.
+셔플은 모든 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 출력이 모든 Reduce [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 이동해야 하는 <strong>All-to-All 통신 패턴</strong>이다. 노드 N개가 있을 때 최악의 경우 N² 개의 네트워크 연결이 생성된다.
 
 📢 **섹션 요약 비유**: 셔플은 "반 전체 학생(Map)이 각자 쓴 답을 과목별로 정리해서 과목 담당 교사(Reduce)에게 전달하는 것"이다. 영어 답지는 영어 선생님께, 수학은 수학 선생님께. 100명 학생 × 10개 과목 = 1,000번 이동이 발생한다.
 
@@ -61,22 +51,24 @@ MapReduce 전체 흐름
 
 ### 셔플 & 정렬 단계 상세 메커니즘
 
-```
-셔플 & 정렬 상세 흐름
-┌─────────────────────────────────────────────────────────────┐
-│  Map 태스크 측 (Map-Side):                                   │
-│  Map 출력 → 순환 버퍼(80MB) → 파티셔닝(키 해시) → 정렬      │
-│           → 스필(Spill to Disk, 버퍼 80% 찰 때)              │
-│           → 여러 스필 파일 병합(Merge Sort) → 로컬 디스크    │
-│                                                             │
-│  네트워크 전송 (Network Transfer):                           │
-│  HTTP로 Reduce 태스크에게 Map 출력 전송                       │
-│                                                             │
-│  Reduce 태스크 측 (Reduce-Side):                             │
-│  여러 Map의 출력 수신 → 병합 정렬(Merge Sort)                │
-│  → 키별 그룹화 → Reduce 함수 호출                           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">셔플 &amp; 정렬 상세 흐름</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map 태스크 측 (Map-Side):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map 출력 → 순환 버퍼(80MB) → 파티셔닝(키 해시) → 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 스필(Spill to Disk, 버퍼 80% 찰 때)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 여러 스필 파일 병합(Merge Sort) → 로컬 디스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 전송 (Network Transfer):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP로 Reduce 태스크에게 Map 출력 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reduce 태스크 측 (Reduce-Side):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 Map의 출력 수신 → 병합 정렬(Merge Sort)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 키별 그룹화 → Reduce 함수 호출</div></div>
+</div>
+</div>
+
+
 
 | 셔플 세부 단계 | 설명 | 최적화 방법 |
 |:---|:---|:---|
@@ -91,53 +83,47 @@ MapReduce 전체 흐름
 
 Combiner는 Map 출력을 Reduce로 보내기 전에 같은 노드에서 사전 집계하는 미니 Reduce다.
 
-```
-Combiner 효과
-┌─────────────────────────────────────────────────────────────┐
-│  Combiner 없음:                                             │
-│  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             │
-│  → 셔플: apple 3개 + banana 1개 전송 (4건)                   │
-│                                                             │
-│  Combiner 있음:                                             │
-│  Map1: (apple,1),(apple,1),(banana,1),(apple,1)             │
-│  → Combine: (apple,3),(banana,1)                           │
-│  → 셔플: (apple,3),(banana,1) 전송 (2건, 50% 감소!)          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Combiner 효과</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Combiner 없음:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map1: (apple,1),(apple,1),(banana,1),(apple,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 셔플: apple 3개 + banana 1개 전송 (4건)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Combiner 있음:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map1: (apple,1),(apple,1),(banana,1),(apple,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Combine: (apple,3),(banana,1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 셔플: (apple,3),(banana,1) 전송 (2건, 50% 감소!)</div></div>
+</div>
+</div>
+
+
 
 > ⚠️ **주의**: Combiner는 결합법칙과 교환법칙이 성립하는 연산(합계, 최댓값)에만 적용 가능. 평균값 계산에 직접 적용하면 잘못된 결과가 나온다.
 
 ### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 아키텍처
 
-```
-YARN 전체 아키텍처
-┌────────────────────────────────────────────────────────────────┐
-│                                                                │
-│  ┌────────────────────────────────────────────────────────┐   │
-│  │              ResourceManager (클러스터 1대)              │   │
-│  │  ┌─────────────────────┐  ┌─────────────────────────┐  │   │
-│  │  │  Scheduler           │  │  ApplicationManager      │  │   │
-│  │  │  (자원 할당 결정)     │  │  (애플리케이션 생명주기) │  │   │
-│  │  └─────────────────────┘  └─────────────────────────┘  │   │
-│  └────────────────────────────────────────────────────────┘   │
-│              │ 자원 할당        │ AM 시작                       │
-│              ▼                  ▼                              │
-│  ┌──────────────────┐  ┌──────────────────┐                   │
-│  │   NodeManager 1   │  │   NodeManager 2   │ (각 워커 노드)    │
-│  │  ┌────────────┐   │  │  ┌────────────┐   │                  │
-│  │  │ Container   │   │  │  │ Container   │   │                  │
-│  │  │ (AM 또는    │   │  │  │ (Task 실행) │   │                  │
-│  │  │  Task 실행) │   │  │  └────────────┘   │                  │
-│  │  └────────────┘   │  └──────────────────┘                   │
-│  └──────────────────┘                                          │
-│              │ 태스크 시작 요청                                   │
-│              ▼                                                  │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  ApplicationMaster (앱별 1개)                             │  │
-│  │  → 구체적인 태스크 계획 수립, Container 요청, 진행 모니터링│  │
-│  └──────────────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">YARN 전체 아키텍처</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResourceManager (클러스터 1대)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">ApplicationManager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자원 할당 결정)</div><div class="kb-diagram-cell">(애플리케이션 생명주기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당</div><div class="kb-diagram-cell">AM 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NodeManager 1</div><div class="kb-diagram-cell">NodeManager 2</div><div class="kb-diagram-cell">(각 워커 노드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AM 또는</div><div class="kb-diagram-cell">(Task 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 시작 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ApplicationMaster (앱별 1개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 구체적인 태스크 계획 수립, Container 요청, 진행 모니터링</div></div>
+</div>
+</div>
+
+
 
 | [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x 대비 |
 |:---|:---|:---|
@@ -162,20 +148,20 @@ YARN 전체 아키텍처
 
 ### YARN에서 지원하는 프레임워크
 
-```
-YARN 멀티 프레임워크 지원
-┌─────────────────────────────────────────────────────────────┐
-│                    YARN 클러스터                             │
-│                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │MapReduce  │  │  Spark   │  │   Tez    │  │   MPI    │   │
-│  │(배치 ETL) │  │(ML, SQL) │  │(Hive 최적)│  │(고성능   │   │
-│  │          │  │          │  │          │  │  계산)    │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-│                                                             │
-│  공통: 모두 YARN ApplicationMaster로 구현됨                  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">YARN 멀티 프레임워크 지원</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YARN 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce</div><div class="kb-diagram-cell">Spark</div><div class="kb-diagram-cell">Tez</div><div class="kb-diagram-cell">MPI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(배치 ETL)</div><div class="kb-diagram-cell">(ML, SQL)</div><div class="kb-diagram-cell">(Hive 최적)</div><div class="kb-diagram-cell">(고성능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통: 모두 YARN ApplicationMaster로 구현됨</div></div>
+</div>
+</div>
+
+
 
 ### 셔플 최적화 종합 비교
 
@@ -195,23 +181,24 @@ YARN 멀티 프레임워크 지원
 
 ### 셔플 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단 방법
 
-```
-셔플 병목 진단 체크리스트
-┌──────────────────────────────────────────────────────────┐
-│  1. 셔플 시간 비중 확인:                                  │
-│     Job 총 시간 중 Shuffle: XX% → 40% 이상이면 병목       │
-│                                                          │
-│  2. 데이터 스큐 확인:                                     │
-│     Reduce 태스크 완료 시간 편차 → 편차 크면 파티셔닝 문제 │
-│                                                          │
-│  3. 스필 횟수 확인:                                       │
-│     mapreduce.map.sort.spill.percent 모니터링             │
-│     → 스필 빈번하면 Map 버퍼 크기(io.sort.mb) 증가 필요   │
-│                                                          │
-│  4. 네트워크 사용률 확인:                                  │
-│     셔플 중 네트워크 포화 → 압축 설정 확인                 │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">셔플 병목 진단 체크리스트</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 셔플 시간 비중 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Job 총 시간 중 Shuffle: XX% → 40% 이상이면 병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 데이터 스큐 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reduce 태스크 완료 시간 편차 → 편차 크면 파티셔닝 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 스필 횟수 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mapreduce.map.sort.spill.percent 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 스필 빈번하면 Map 버퍼 크기(io.sort.mb) 증가 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 네트워크 사용률 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셔플 중 네트워크 포화 → 압축 설정 확인</div></div>
+</div>
+</div>
+
+
 
 ### [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 자원 계획 실무
 
@@ -226,7 +213,7 @@ YARN 멀티 프레임워크 지원
 
 1. **셔플 병목의 본질**: 셔플은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 본질적 비용이다. 완전히 제거할 수 없으나, Combiner·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 최소화할 수 있음을 구체적 수치로 제시.
 2. **YARN의 역할 분리 철학**: ResourceManager가 "무엇을 실행할지"가 아닌 "어디에서 실행할지"만 결정함으로써 프레임워크 중립성을 확보. 이것이 멀티 프레임워크 지원의 핵심.
-3. **Spark vs [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 셔플**: Spark도 셔플이 존재하지만 (GroupBy, [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등), 중간 결과를 메모리에 유지해 디스크 I/O를 최소화한다는 차이를 명확히 서술.
+3. <strong>Spark vs <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> 셔플</strong>: Spark도 셔플이 존재하지만 (GroupBy, [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등), 중간 결과를 메모리에 유지해 디스크 I/O를 최소화한다는 차이를 명확히 서술.
 
 📢 **섹션 요약 비유**: YARN의 역할 분리는 "공항 관제탑(ResourceManager)은 활주로 배정만 하고, 각 항공사 운항 계획(ApplicationMaster)은 항공사가 직접 짜는 것"이다. 관제탑이 항공사마다 다른 운항 규칙을 알 필요 없이, 활주로만 효율적으로 배분하면 된다.
 
@@ -277,20 +264,24 @@ YARN 멀티 프레임워크 지원
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MapReduce 셔플: Map 출력 → 네트워크 전송 → Reduce 입력
-    │ 네트워크·디스크 병목
-    ▼
-YARN: 자원 관리 분리 (ResourceManager + NodeManager)
-    ├─► ApplicationMaster: 잡별 독립 관리
-    └─► 컨테이너 기반 자원 할당
-    │
-    ▼
-Spark Shuffle: Sort-Based · Tungsten Off-Heap 최적화
-    │
-    ▼
-AQE (Adaptive Query Execution): 런타임 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MapReduce 셔플: Map 출력 → 네트워크 전송 → Reduce 입력</div>
+<div class="kb-diagram-note">네트워크·디스크 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">YARN: 자원 관리 분리 (ResourceManager + NodeManager)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ApplicationMaster: 잡별 독립 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">컨테이너 기반 자원 할당</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark Shuffle: Sort-Based · Tungsten Off-Heap 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AQE (Adaptive Query Execution): 런타임 최적화</div>
+</div>
+</div>
+
+
 2. Combiner는 "출발 전에 같은 선생님한테 갈 카드를 미리 묶어두는 것"이에요. 100장이 10묶음이 되면 훨씬 빠르게 전달할 수 있어요.
 3. YARN은 "여러 반 선생님들이 쓸 교실(자원)을 배정해주는 교무처"예요. 수학·영어·과학 수업이 동시에 이루어질 수 있도록 교실을 공평하게 나눠줘요.
 

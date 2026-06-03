@@ -37,31 +37,24 @@ tags = ["studynote-software-engineering"]
 
 |Enron 사건, SOX (Sarbanes-Oxley) 법안 등으로 기업 지배구조와 내부 통제의 중요성이 부각되면서,보안도 경영 거버넌스의 일부로 인식되게 되었다. 2000년대 이후 NIST, ISO 등에서 보안 거버넌스 프레임워크를 발표하였고, 정보보안은 더 이상 CTO/CIO의 전유물이 아니라 이사회까지 다루어야 할 경영 과제가 되었다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보안 거버넌스 3층 피라미드 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ ┌───────────┐ │
-│ │ 이사회 │ ← 전략적 의사결정 │
-│ /────────────\ │
-│ /──────────────\ │
-│ /─────────────────\ │
-│ │ 경영진 (CISO) │ ← 정책 및 자원 배분 │
-│ /────────────────────\ │
-│ /──────────────────────\ │
-│ │ 보안 팀 (운영) │ ← 실행 및 구현 │
-│ /────────────────────────\ │
-│ │
-│ 각 층의 책임: │
-│ ├─ 이사회: 보안 위험의 여부, 투자 규모, 규제 준수 감독 │
-│ ├─ 경영진: 보안 정책 승인, 자원 배분, KPI 정의 │
-│ └─ 보안 팀: 정책 실행, 모니터링, 사고 대응 │
-│ │
-│ ※ 경영진이 보안 거버넌스의설계을 하지 않으면 │
-│ 보안은 효과적이지 못한 막 inúmer에 그친다 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 거버넌스 3층 피라미드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이사회</div><div class="kb-diagram-cell">← 전략적 의사결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영진 (CISO)</div><div class="kb-diagram-cell">← 정책 및 자원 배분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 팀 (운영)</div><div class="kb-diagram-cell">← 실행 및 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 층의 책임:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이사회: 보안 위험의 여부, 투자 규모, 규제 준수 감독</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 경영진: 보안 정책 승인, 자원 배분, KPI 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 팀: 정책 실행, 모니터링, 사고 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 경영진이 보안 거버넌스의설계을 하지 않으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안은 효과적이지 못한 막 inúmer에 그친다</div></div>
+</div>
+</div>
+
+
 
 **[다이어</think> 해설]** 보안 거버넌스의 핵심은 "하향식 접근 ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) Approach)"이다. 이사회는 보안의 중요성과 위험을 인식하고 경영진에 대한 감독 책임을지는설계자이며, 경영진은 이를 바탕으로 구체적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 자원 배분을 결정한다. 보안 팀은 이 경영 의사결정을하는 Implementation자다. 만약 어느 한 층이라도 부재하거나 역할이 불분명하면 거버넌스 체계가 제대로 작동하지 않는다. 예를 들어, 이사회가 보안 투자를قبل하지 않으면 보안 팀이 아무리 우수해도 충분한 자원 없이 효과적인 방어가 어렵다.
 
@@ -71,53 +64,47 @@ tags = ["studynote-software-engineering"]
 
 ### 보안 거버넌스 프레임워크 핵심 요소
 
-보안 거버넌스는 다음 요소들로 구성된다. **보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**은 조직의 목표와 연계된 보안의이며, **조직 구조 (Organizational Structure)**는 보안 책임을하는 체계다. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 및 표준 (Policies & Standards)**은 보안 활동을 규범하는 규칙이고, **프로세스 (Processes)**는 이러한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 실행하는 구체적 절차다. **사람 (People)**은 보안을 수행하는 인력이며, **기술 (Technology)**은 보안을 지원하는 기술적 도구다.
+보안 거버넌스는 다음 요소들로 구성된다. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>)</strong>은 조직의 목표와 연계된 보안의이며, <strong>조직 구조 (Organizational Structure)</strong>는 보안 책임을하는 체계다. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 및 표준 (Policies &amp; Standards)</strong>은 보안 활동을 규범하는 규칙이고, <strong>프로세스 (Processes)</strong>는 이러한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 실행하는 구체적 절차다. <strong>사람 (People)</strong>은 보안을 수행하는 인력이며, <strong>기술 (Technology)</strong>은 보안을 지원하는 기술적 도구다.
 
 | 요소 | 설명 | 주요 활동 |
 |:---|:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | 비즈니스 목표와 연계된 보안 방향 | 보안 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 우선순위 정의, 투자 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | 비즈니스 목표와 연계된 보안 방향 | 보안 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 우선순위 정의, 투자 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **조직 구조** | 보안 책임의 정의와 분리 | [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 임명, 보안 팀 구성, 역할 분담 |
-| **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)/표준** | 보안 활동의 규범적 기준 | 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)문서, 표준, 지침 관리 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>/표준</strong> | 보안 활동의 규범적 기준 | 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)문서, 표준, 지침 관리 |
 | **프로세스** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실행을 위한 운영 절차 | [접근 검토](/knowledge-base/studynote/09_security/11_iam_access_control/580_access_review/), [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/), [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) |
 | **사람** | 보안 역량을 가진 인력 | 교육, 인식 프로그램, 전문성 개발 |
 | **기술** | 보안을 지원하는 기술적 도구 | 보안 솔루션 도입, 운영, 고도화 |
 
 ### 주요 보안 거버넌스 프레임워크
 
-**ISO 27001**은 정보보안 관리 시스템 ([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/): [Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)의으로, [Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 기반으로 한 보안 거버넌스 프레임워크다. 인증을 통해 조직의 보안 관리 수준을에 증명할 수 있다.
+<strong>ISO 27001</strong>은 정보보안 관리 시스템 ([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/): [Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)의으로, [Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 기반으로 한 보안 거버넌스 프레임워크다. 인증을 통해 조직의 보안 관리 수준을에 증명할 수 있다.
 
-**NIST Cybersecurity Framework ([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))**는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) controls을 매핑한다. 규제 요건이 아닌적 framework로, 다양한 규모의 조직에 적용 가능한이/가。
+<strong>NIST Cybersecurity Framework (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a>)</strong>는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) controls을 매핑한다. 규제 요건이 아닌적 framework로, 다양한 규모의 조직에 적용 가능한이/가。
 
-**[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) (Control Objectives for Information Technologies)**는 IT 거버넌스 및 관리에 대한 comprehensive framework로, 비즈니스 목표와 IT 목표를 연결하고, 정보보안을 포함한 IT 관리 영역을적으로 다룬다.
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a> (Control Objectives for Information Technologies)</strong>는 IT 거버넌스 및 관리에 대한 comprehensive framework로, 비즈니스 목표와 IT 목표를 연결하고, 정보보안을 포함한 IT 관리 영역을적으로 다룬다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 주요 보안 거버넌스 프레임워크 비교 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ ┌──────────────────────────────────────────────────────────┐│
-│ │ ││
-│ │ ISO 27001 NIST CSF COBIT ││
-│ │ ─────────── ───────── ────── ││
-│ │ Plan-Do-Check-Act 5대 기능 4대 도메인 ││
-│ │ ┌────────────────┐ ┌──────────┐ ┌───────────┐ ││
-│ │ │Plan: risk 분석 │ │ Identify │ │EDM(평가 │ ││
-│ │ │Do: 구현 │ │ Protect │ │ │ ││
-│ │ │Check: 모니터링│ │ Detect │ │DSS(배송 │ ││
-│ │ │Act: 개선 │ │ Respond │ │MEA(모니터 │ ││
-│ │ └────────────────┘ │ Recover │ └───────────┘ ││
-│ │ └──────────┘ ││
-│ │ ││
-│ │ 인증 가능 / 국제 표준 자발적 / 미국 NIST رسمي한 / ││
-│ │ 규제 및 감사 부담 최소한의 관리 부담 IT 관리 ││
-│ └──────────────────────────────────────────────────────────┘│
-│ │
-│ 프레임워크 선택 기준: │
-│ ├─ 규제 요건 (금융, 의료, 군사 등) → ISO 27001 우선 │
-│ ├─ 자발적 보안 강화 → NIST CSF 권장 │
-│ └─ IT 전사적 거버넌스 → COBIT 고려 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 보안 거버넌스 프레임워크 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO 27001 NIST CSF COBIT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan-Do-Check-Act 5대 기능 4대 도메인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan: risk 분석</div><div class="kb-diagram-cell">Identify</div><div class="kb-diagram-cell">EDM(평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Do: 구현</div><div class="kb-diagram-cell">Protect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check: 모니터링</div><div class="kb-diagram-cell">Detect</div><div class="kb-diagram-cell">DSS(배송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Act: 개선</div><div class="kb-diagram-cell">Respond</div><div class="kb-diagram-cell">MEA(모니터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recover</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증 가능 / 국제 표준 자발적 / 미국 NIST رسمي한 /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제 및 감사 부담 최소한의 관리 부담 IT 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크 선택 기준:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 규제 요건 (금융, 의료, 군사 등) → ISO 27001 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자발적 보안 강화 → NIST CSF 권장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IT 전사적 거버넌스 → COBIT 고려</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 각 프레임워크는 서로 다른 철학과 강점을 가진다. ISO 27001은 인증을 통해 외부의 인정을/를 조직에 적합하며, 국제 표준으로서 글로벌 공급망에서 경쟁력이 된다. NIST CSF는 특정 규제 요건이 없는 조직이 자발적으로 보안 수준을 향상시키고 싶을 때 권장되며, 자체 평가가 용이하다. COBIT은 IT 부서 중심의 거버넌스가 아닌 조직 전체의 IT 관리 체계가 필요한 경우에 적합하다. 실무에서는 하나의 프레임워크만 고수하기보다, 상황에 맞게 여러 프레임워크를 조합하여 사용하기도 한다. 예를 들어, NIST CSF로 보안 수준을 평가하고, ISO 27001로 관리 체계를 인증받는 방식이 있다.
 
@@ -139,9 +126,9 @@ tags = ["studynote-software-engineering"]
 
 ### 과목 융합 관점
 
-- **기업 지배구조 ([Corporate Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/))**: 보안 거버넌스는 기업 지배구조의 일부로서, 이사회와 경영진의 책임 (Fiduciary Duty)에 포함된다.
-- **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 (Enterprise [Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))**: 정보보안 위험은관리의 일부이며, 보안 거버넌스는 ERM 프레임워크와 통합되어 운영된다.
-- **컴플라이언스 ([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는 거버넌스 구축의적 동기가 된다.
+- <strong>기업 지배구조 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/003_corporate_governance_it_governance/">Corporate Governance</a>)</strong>: 보안 거버넌스는 기업 지배구조의 일부로서, 이사회와 경영진의 책임 (Fiduciary Duty)에 포함된다.
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리 (Enterprise <a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong>: 정보보안 위험은관리의 일부이며, 보안 거버넌스는 ERM 프레임워크와 통합되어 운영된다.
+- <strong>컴플라이언스 (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong>: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS, [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는 거버넌스 구축의적 동기가 된다.
 
 ---
 
@@ -153,37 +140,34 @@ tags = ["studynote-software-engineering"]
 
 2. **시나리오 — 보안 거버넌스 도입 실패 사례**: CFO하여 비용을 위해 보안 팀을 감편한 사례. 단기적으로 인건비가 절감되었으나, 보안 사고 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 절감액의 10배 이상 소요되고, 규제 당국으로부터 과태료 처분을 받는 상황이 발생했다. 보안 거버넌스 부재로 경영진이 보안의 실제 비용과 가치를 이해하지 못한 경우다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보안 KPI 예시 및 경영진 보고 구조 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ 보안 KPI 계층 구조: │
-│ │
-│ [CISO 보고] │
-│ │ │
-│ ├── 운영 KPIs │
-│ │ ├─ 평균 패치 적용 시간: 72시간 │
-│ │ ├─ 보안 이벤트 대응 시간: 15분 │
-│ │ └─ 취약점 스캔: 98% │
-│ │ │
-│ ├── 관리 KPIs │
-│ │ ├─ MFA 적용률: 95% │
-│ │ ├─ 직원 보안 교육 이수율: 100% │
-│ │ └─ 접근 검토 완료율: 99% │
-│ │ │
-│ └── 전략 KPIs │
-│ ├─ 보안 사고 감소율: YoY 30% │
-│ ├─ 보안 투자의 ROI: 400% │
-│ └─ 규제 감사 합격률: 100% │
-│ │
-│ 경영진 보고 원칙: │
-│ ├─ 기술 용어 최소화, 비즈니스 언어로 변환 │
-│ ├─ 추세 (Trend) 중심, 정량적 비교 제공 │
-│ ├─ 액션Items과 의사결정 필요 사항 명확히 │
-│ └─ 월 1회 정기 보고 + 시 즉시 보고 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 KPI 예시 및 경영진 보고 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 KPI 계층 구조:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CISO 보고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 운영 KPIs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 평균 패치 적용 시간: 72시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 이벤트 대응 시간: 15분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 취약점 스캔: 98%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 관리 KPIs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ MFA 적용률: 95%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 직원 보안 교육 이수율: 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 접근 검토 완료율: 99%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 전략 KPIs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 사고 감소율: YoY 30%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 투자의 ROI: 400%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 규제 감사 합격률: 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영진 보고 원칙:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기술 용어 최소화, 비즈니스 언어로 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 추세 (Trend) 중심, 정량적 비교 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 액션Items과 의사결정 필요 사항 명확히</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 월 1회 정기 보고 + 시 즉시 보고</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 효과적인 보안 거버넌스는 측정 가능한 KPIs에 기반해야 한다. 그러나 중요한 것은 "측정하는 것"만이 아니라 "올바른 것을 측정하는 것"이다. 운영 KPIs (패치 시간, 대응 시간)는 보안 팀의 활동에 유용하지만, 경영진에게는관리 KPIs ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 적용률, 교육 이수율)와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) KPIs (사고 감소율, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 더 Relevantsms이다. 이 비율을 통해 보안 투자가 실제로 бизнес에 기여하는지를 보여줄 수 있다. NIST CSF는 이런 KPIs와 측정 방법을정의하는 데 도움 되는 프레임워크다.
 
@@ -196,7 +180,7 @@ tags = ["studynote-software-engineering"]
 
 - **보안 = IT 부서 책임**: 경영진이 보안을 순수 IT 문제로 인식하고 직접적인 책임하지 않는 것. 보안 거버넌스는 경영 거버넌스의 일부이며, 경영진의 적극적인 참여가 필수적이다.
 - **기술 중심 사고**: 최신 보안 도구 도입만으로 보안을 충분히 했다고 믿는 것. 도구만 있고 사람과 프로세스가 뒷받침되지 않으면 효과적이지 못하다.
-- **문서화만 된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 있지만 실제로되지 않고, 정기적인 검토도 이루어지지 않는 것. 이는 허구한 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) governance에 불리한다.
+- <strong>문서화만 된 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 있지만 실제로되지 않고, 정기적인 검토도 이루어지지 않는 것. 이는 허구한 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) governance에 불리한다.
 
 ---
 
@@ -207,7 +191,7 @@ tags = ["studynote-software-engineering"]
 | 구분 | 거버넌스 부재 시 | 체계적 거버넌스 적용 시 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량** | 보안 사고 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 10억 원+ | 사전으로 사고 최소화 | 비용 **60% 절감** |
-| **정성** | 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 빈번한 지적 | 프로액티브Compliance | 기업 평판 **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** |
+| **정성** | 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 빈번한 지적 | 프로액티브Compliance | 기업 평판 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> |
 
 ### 미래 전망
 
@@ -220,12 +204,12 @@ tags = ["studynote-software-engineering"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) ([Information Security Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/) System)** | 조직의 정보보안을적으로관리하는 시스템으로, ISO 27001의 기반이 된다. |
-| **[CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) / CSO** | 조직의 정보보안에 대한 최종 책임자로, 보안 거버넌스의 핵심 경영진 역할이다. |
-| **NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)** | 미국 NIST의 사이버보안 프레임워크로, 보안 거버넌스의 자발적 표준으로 널리 사용된다. |
-| **GRC (Governance, [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), and [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))** | 거버넌스, 위험관리, 컴플라이언스를 통합 관리하는 분야로, 보안 거버넌스의적 구현이다. |
-| **KRI ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Indicator)** | 보안 위험을 조기에 탐지하기 위한 지표로, 보안 거버넌스에서 중요한 측정 도구다. |
-| **[ISACA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/)** | IT 거버넌스, 보안, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 전문가의 국제 조직으로, [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 등을 개발 및 보급한다. |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/">ISMS</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/">Information Security Management</a> System)</strong> | 조직의 정보보안을적으로관리하는 시스템으로, ISO 27001의 기반이 된다. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/">CISO</a> / CSO</strong> | 조직의 정보보안에 대한 최종 책임자로, 보안 거버넌스의 핵심 경영진 역할이다. |
+| <strong>NIST <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/">CSF</a></strong> | 미국 NIST의 사이버보안 프레임워크로, 보안 거버넌스의 자발적 표준으로 널리 사용된다. |
+| <strong>GRC (Governance, <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>, and <a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong> | 거버넌스, 위험관리, 컴플라이언스를 통합 관리하는 분야로, 보안 거버넌스의적 구현이다. |
+| <strong>KRI (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Indicator)</strong> | 보안 위험을 조기에 탐지하기 위한 지표로, 보안 거버넌스에서 중요한 측정 도구다. |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/">ISACA</a></strong> | IT 거버넌스, 보안, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 전문가의 국제 조직으로, [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 등을 개발 및 보급한다. |
 
 ---
 
@@ -237,18 +221,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[위험 관리 (Risk Management)]
-│
-▼
-[보안 정책 (Security Policy)]
-│
-▼
-[보안 거버넌스 (Security Governance)]
-│
-▼
-[컴플라이언스 (Compliance)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 관리 (Risk Management)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 (Security Policy)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 거버넌스 (Security Governance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴플라이언스 (Compliance)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 위험 관리가 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 보안 거버넌스를 거쳐 컴플라이언스로 정착되는 과정을 보여준다.
 

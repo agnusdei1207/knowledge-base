@@ -19,21 +19,25 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 대규모 통신 네트워크(Carrier [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OTN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) 백본망 등)에서 망을 안정적으로 운영하기 위해, **네트워크의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하고, 장애(단선, 루핑)를 실시간으로 탐지하고, 에러 위치를 격리하여 관리자에게 즉각 통지해 주는 일련의 관리 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 아키텍처 체계 전체**를 의미합니다.
+- **개념**: 대규모 통신 네트워크(Carrier [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OTN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) 백본망 등)에서 망을 안정적으로 운영하기 위해, <strong>네트워크의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 측정하고, 장애(단선, 루핑)를 실시간으로 탐지하고, 에러 위치를 격리하여 관리자에게 즉각 통지해 주는 일련의 관리 제어 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 및 아키텍처 체계 전체</strong>를 의미합니다.
 - (Operations=운영 활성화, Administration=[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/과금 관리, Maintenance=장애 및 유지보수 수리)
 
 890번 문서에서 배운 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(랜선)'은 속도는 엄청 빠르지만, 원래 **"패킷 버려져도 난 몰라~" 하는 무책임한 쿨가이(Best-Effort)** 였습니다.
 - 이 무책임한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 서울-부산 국가 백본망에 깔려니, 선이 끊어져도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아무도 모르게 멍을 때립니다. 
-- 통신사(Carrier) 급 망으로 진화시키기 위해서는 구형 장비([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))가 가지고 있던 미치도록 **깐깐한 에러 감시 기능(장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 50ms 보장)**을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에 강제로 이식해야만 했습니다. 그래서 탄생한 것이 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM)'입니다.
+- 통신사(Carrier) 급 망으로 진화시키기 위해서는 구형 장비([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))가 가지고 있던 미치도록 <strong>깐깐한 에러 감시 기능(장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 50ms 보장)</strong>을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에 강제로 이식해야만 했습니다. 그래서 탄생한 것이 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) OAM)'입니다.
 
-```text
-[OTN]
-    │
-    ▼
-[OAM 망 결함 관리]
-    │
-    └──▶ [SDH]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OAM 망 결함 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDH</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,14 +47,18 @@ tags = ["studynote-network"]
 
 OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 고속 전송과 지능형 운영이 결합되는 미래 네트워크 축라는 관점에서 이해해야 한다. OTN와 [SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[OTN]
-    │
-    ▼
-[OAM 망 결함 관리]
-    │
-    └──▶ [SDH]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OAM 망 결함 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDH</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,11 +71,11 @@ OAM은 크게 두 가지, 점과 점(링크) 사이를 감시하는 놈과, 끝�
 ### 1. 링크 OAM (IEEE 802.3ah) - "옆 동네 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Link Fault [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))"
 - 딱 나([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))와 내 바로 옆에 꽂힌 1촌 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(1-Hop) 사이의 랜선 한 가닥만 쳐다보고 감시하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 - **심박수 체크 (Discovery & Keepalive)**: 1초마다 옆 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 특수한 'OAM PDU' 패킷(핑)을 던집니다. "살아있냐?"
-- **다잉 가스프 (Dying Gasp, 단말마의 비명) 🌟 핵심 🌟**: 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 전원 콘센트가 확 뽑혔습니다. 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 불이 완전히 꺼지기 직전, 남아있는 0.01초의 찰나의 전력을 쥐어 짜내어 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 **"나 지금 죽는다 악!!!" 하고 최후의 유언(Dying Gasp 패킷)**을 날리고 장렬히 전사합니다. 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 유언을 듣고 즉각 연결을 끊어버리고 본사에 보고합니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 방지).
+- **다잉 가스프 (Dying Gasp, 단말마의 비명) 🌟 핵심 🌟**: 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 전원 콘센트가 확 뽑혔습니다. 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 불이 완전히 꺼지기 직전, 남아있는 0.01초의 찰나의 전력을 쥐어 짜내어 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 <strong>"나 지금 죽는다 악!!!" 하고 최후의 유언(Dying Gasp 패킷)</strong>을 날리고 장렬히 전사합니다. 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 유언을 듣고 즉각 연결을 끊어버리고 본사에 보고합니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 방지).
 
 ### 2. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) OAM (IEEE 802.1ag / ITU-T Y.1731) - "끝에서 끝까지 감시 (CFM)"
 - 서울 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 부산 100번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 이어지는 전체 터널([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))의 연결성을 감시합니다. (Connectivity Fault [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
-- **CCM (연속성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 메시지, 심박선)**: 서울과 부산 끝단 장비끼리 마치 헬스장 런닝머신 심박 센서처럼 "쿵쾅 쿵쾅(CCM 패킷)" 신호를 지속적으로 주고받습니다. 이 신호가 0.05초(50ms) 이상 안 들리면 "아! 중간 대전 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 쪽 선이 끊어졌구나!"라고 즉시 판단(장애 감지)하고 우회 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 경로([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 스위칭)로 트래픽을 꺾어버립니다.
+- <strong>CCM (연속성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 메시지, 심박선)</strong>: 서울과 부산 끝단 장비끼리 마치 헬스장 런닝머신 심박 센서처럼 "쿵쾅 쿵쾅(CCM 패킷)" 신호를 지속적으로 주고받습니다. 이 신호가 0.05초(50ms) 이상 안 들리면 "아! 중간 대전 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 쪽 선이 끊어졌구나!"라고 즉시 판단(장애 감지)하고 우회 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 경로([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 스위칭)로 트래픽을 꺾어버립니다.
 
 ### 3. 루프 감지 및 루프백 테스트 (Loopback / Linktrace)
 - **에러 추적기**: 대전쯤에서 선이 끊어졌다는 걸 알았으니, 정확히 몇 번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 막혔는지 수사해야 합니다. 네트워크판 Ping 명령어인 'LBM (루프백 메시지)'을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)마다 튕겨보며 어느 구간에서 핑이 멈추는지 귀신같이 추적(Linktrace)해 에러를 격리시킵니다.
@@ -86,7 +94,7 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 깐깐한 감시 체계 OAM(오에이엠)이 탑재된 덕분에, 싸구려 장난감 같았던 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선 규격이 **"무슨 일이 있어도 50ms(0.05초) 안에 장애를 파악하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 낸다"**라는 통신사 급 무결점 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(Carrier-Grade) 훈장을 받게 되었고, 전 세계 통신 인프라(백본망)를 완벽히 천하통일 할 수 있었습니다.
+- 이 깐깐한 감시 체계 OAM(오에이엠)이 탑재된 덕분에, 싸구려 장난감 같았던 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선 규격이 <strong>"무슨 일이 있어도 50ms(0.05초) 안에 장애를 파악하고 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>해 낸다"</strong>라는 통신사 급 무결점 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(Carrier-Grade) 훈장을 받게 되었고, 전 세계 통신 인프라(백본망)를 완벽히 천하통일 할 수 있었습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -94,7 +102,7 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인터넷이 아프리카 야생의 초원이라면, **OAM(운영/관리/유지보수)**은 100km에 걸쳐 뻗어있는 동물원의 '초정밀 24시간 철조망 캡스(보안) 경보 시스템'입니다. 철조망(광케이블)에는 1미터마다 미세한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(CCM 심박 센서)가 흐르고 있습니다. 멧돼지가 철조망을 끊어 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 0.05초라도 멈추면(장애 감지), 철조망 센서가 "35km 지점 3번 구역 철망 단절!(링크 추적 통지)"이라고 중앙 통제실에 사이렌을 울립니다. 그리고 끊어지기 직전에 기둥 하나가 쓰러지면서 "나 전원 꺼짐!(다잉 가스프 유언)"이라고 최후의 보고까지 날려줍니다. 이 소름 돋는 감시 시스템 덕분에 관리자는 사자가 튀어나오기(통신 마비) 전에 1초 만에 철창을 내리고 샛길로 손님을 대피(우회 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))시켜 동물원의 완벽한 안전을 영원히 보장해 낼 수 있습니다.
+- **📢 섹션 요약 비유**: 인터넷이 아프리카 야생의 초원이라면, <strong>OAM(운영/관리/유지보수)</strong>은 100km에 걸쳐 뻗어있는 동물원의 '초정밀 24시간 철조망 캡스(보안) 경보 시스템'입니다. 철조망(광케이블)에는 1미터마다 미세한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(CCM 심박 센서)가 흐르고 있습니다. 멧돼지가 철조망을 끊어 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 0.05초라도 멈추면(장애 감지), 철조망 센서가 "35km 지점 3번 구역 철망 단절!(링크 추적 통지)"이라고 중앙 통제실에 사이렌을 울립니다. 그리고 끊어지기 직전에 기둥 하나가 쓰러지면서 "나 전원 꺼짐!(다잉 가스프 유언)"이라고 최후의 보고까지 날려줍니다. 이 소름 돋는 감시 시스템 덕분에 관리자는 사자가 튀어나오기(통신 마비) 전에 1초 만에 철창을 내리고 샛길로 손님을 대피(우회 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))시켜 동물원의 완벽한 안전을 영원히 보장해 낼 수 있습니다.
 
 ---
 
@@ -117,15 +125,19 @@ OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OTN]
-    │
-    ▼
-[현재 개념: OAM 망 결함 관리]
-    │
-    ├──▶ [확장 A: SDH]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OTN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OAM 망 결함 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 OAM 망 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리는 OTN에서 출발해 현재 메커니즘을 정교화하고, 이후 SDH와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

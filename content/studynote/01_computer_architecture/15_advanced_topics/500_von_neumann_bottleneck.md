@@ -23,21 +23,22 @@ tags = ["studynote-computer-architecture"]
 
 이 문제가 중요해진 이유는 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 속도와 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 개선 속도가 같지 않았기 때문이다. 클럭 향상과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 덕분에 코어는 빨라졌지만, 외부 메모리 접근은 물리 거리와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 전력 한계 때문에 훨씬 천천히 개선되었다. 그래서 현대 시스템에서는 "얼마나 빨리 계산하는가"보다 "얼마나 적게 옮기고 빨리 공급받는가"가 더 중요해졌다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 같은 연산기라도 메모리 공급이 늦으면 실제 성능은 멈춘다                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU Core : 연산 수 ns                                                       │
-│    │                                                                        │
-│    ├─ L1 Hit    : 수 cycle                                                  │
-│    ├─ L2 / L3   : 수십 cycle                                                │
-│    └─ DRAM Miss : 수백 cycle                                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 결과: 연산기 속도보다 데이터 도착 시간이 전체 처리량을 지배                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 폰 노이만 병목은 "CPU와 메모리가 분리돼 있다"는 교과서 문장을 넘어, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 에너지의 주적이 된 상태**를 가리킨다. 이 관점을 잡아야 개선 기법도 하나의 흐름으로 읽힌다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 연산기라도 메모리 공급이 늦으면 실제 성능은 멈춘다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core : 연산 수 ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 Hit : 수 cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 / L3 : 수십 cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DRAM Miss : 수백 cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 연산기 속도보다 데이터 도착 시간이 전체 처리량을 지배</div></div>
+</div>
+</div>
+
+
+
+즉 폰 노이만 병목은 "CPU와 메모리가 분리돼 있다"는 교과서 문장을 넘어, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 자체가 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 에너지의 주적이 된 상태</strong>를 가리킨다. 이 관점을 잡아야 개선 기법도 하나의 흐름으로 읽힌다.
 
 - **📢 섹션 요약 비유**: 요리사는 매우 빠른데 냉장고가 멀어서 재료를 가지러 다니느라 시간을 다 쓰는 주방과 같다. 요리 실력보다 동선이 문제인 상황이다.
 
@@ -49,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 이 흐름을 정량적으로 이해할 때 자주 쓰는 식이 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)다.
 
-**[AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) = [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Time + Miss Rate × Miss Penalty**
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/">AMAT</a> = <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> Time + Miss Rate × Miss Penalty</strong>
 즉 캐시 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 시간을 줄이거나, miss 비율을 낮추거나, miss가 났을 때 손실을 줄이는 방향이 모두 병목 개선으로 이어진다.
 
 | 기법군 | 대표 수단 | 직접 겨냥하는 문제 | 잘 맞는 상황 |
@@ -59,25 +60,25 @@ tags = ["studynote-computer-architecture"]
 | 통로 확장 | 다중 채널, 인터리빙, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족 | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 스트리밍 처리 |
 | 이동 축소 | [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 최적화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지와 트래픽 | 분석, 검색, 대규모 메모리 스캔 |
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 병목 완화 기법이 개입하는 위치                                               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU Core                                                                    │
-│   │  ← 비순차 실행 · SMT · 벡터화                                           │
-│   ▼                                                                        │
-│ Cache Hierarchy                                                             │
-│   │  ← 지역성 최적화 · 블로킹 · 프리패치                                   │
-│   ▼                                                                        │
-│ Memory Channels / HBM                                                       │
-│   │  ← 다중 채널 · 인터리빙 · 초광폭 패키징                                │
-│   ▼                                                                        │
-│ Near-Memory / PIM                                                           │
-│      ← 데이터 이동 자체 축소                                                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림이 보여 주는 핵심은 개선 기법들이 서로 경쟁하기보다 계층별로 누적된다는 점이다. 좋은 시스템은 캐시만 크거나, HBM만 넣거나, PIM만 도입하는 식으로 해결하지 않고, **가까이 두기·겹쳐 숨기기·넓히기·덜 옮기기**를 함께 조합한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 완화 기법이 개입하는 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 비순차 실행 · SMT · 벡터화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Hierarchy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 지역성 최적화 · 블로킹 · 프리패치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Channels / HBM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 다중 채널 · 인터리빙 · 초광폭 패키징</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Near-Memory / PIM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 데이터 이동 자체 축소</div></div>
+</div>
+</div>
+
+
+
+이 그림이 보여 주는 핵심은 개선 기법들이 서로 경쟁하기보다 계층별로 누적된다는 점이다. 좋은 시스템은 캐시만 크거나, HBM만 넣거나, PIM만 도입하는 식으로 해결하지 않고, <strong>가까이 두기·겹쳐 숨기기·넓히기·덜 옮기기</strong>를 함께 조합한다.
 
 - **📢 섹션 요약 비유**: 폰 노이만 병목 해결은 냉장고를 더 가깝게 두고, 필요한 재료를 미리 꺼내 놓고, 주방 통로를 넓히고, 어떤 음식은 냉장고 앞에서 바로 손질하는 식으로 동선을 여러 겹 줄이는 일과 같다.
 
@@ -119,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 - 지역성 개선 없이 랜덤 접근 패턴을 그대로 둔 채 캐시 용량만 키우는 설계
 - HBM을 넣고도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 잘못해 자주 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express)나 외부 메모리로 왕복시키는 운영
 
-기술사 답안에서는 "캐시를 넣는다" 수준으로 끝내지 말고, **지역성·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량**을 구분해 어느 기법이 어느 문제를 직접 겨냥하는지 적는 것이 좋다. 그래야 폰 노이만 병목을 구조적으로 이해하고 있다는 점이 드러난다.
+기술사 답안에서는 "캐시를 넣는다" 수준으로 끝내지 말고, <strong>지역성·<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>·<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동량</strong>을 구분해 어느 기법이 어느 문제를 직접 겨냥하는지 적는 것이 좋다. 그래야 폰 노이만 병목을 구조적으로 이해하고 있다는 점이 드러난다.
 
 - **📢 섹션 요약 비유**: 주방이 막혔을 때 요리사만 더 뽑아서는 해결되지 않는다. 재료 보관 위치, 통로 폭, 미리 준비하는 방식까지 함께 바꿔야 진짜 빨라진다.
 
@@ -131,7 +132,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 이 병목은 완전히 사라지지 않는다. 모델과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 다시 새로운 메모리 벽이 생기고, 계층을 늘릴수록 관리 복잡도도 커진다. 앞으로는 HBM4, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/), 3D 적층 캐시, [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/), [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 아키텍처가 이 문제를 계속 다른 층위에서 완화해 나갈 가능성이 크다.
 
-결론적으로 폰 노이만 병목 개선의 본질은 "더 빠른 CPU 만들기"가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덜 움직이고, 더 가깝게 두고, 필요한 순간 더 넓게 공급하는 것**이다. 이 한 문장을 기억하면 캐시에서 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), PIM까지 이어지는 흐름이 자연스럽게 정리된다.
+결론적으로 폰 노이만 병목 개선의 본질은 "더 빠른 CPU 만들기"가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 덜 움직이고, 더 가깝게 두고, 필요한 순간 더 넓게 공급하는 것</strong>이다. 이 한 문장을 기억하면 캐시에서 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), PIM까지 이어지는 흐름이 자연스럽게 정리된다.
 
 - **📢 섹션 요약 비유**: 폰 노이만 병목 개선은 요리사를 더 빠르게 뛰게 만드는 일이 아니라, 재료가 알아서 제때 도착하고 멀리 가지 않게 주방 구조를 바꾸는 일과 같다.
 
@@ -150,21 +151,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 버스 기반 고전적 폰 노이만 구조
-        │
-        ▼
-CPU-메모리 속도 격차 확대 = Memory Wall
-        │
-        ▼
-캐시 계층 · 프리패치 · 비순차 실행
-        │
-        ▼
-다중 채널 · 인터리빙 · HBM
-        │
-        ▼
-Near-Memory Computing · PIM · 데이터 중심 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 버스 기반 고전적 폰 노이만 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU-메모리 속도 격차 확대 = Memory Wall</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 계층 · 프리패치 · 비순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 채널 · 인터리빙 · HBM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Near-Memory Computing · PIM · 데이터 중심 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 병목을 처음에는 숨기고 완화하다가, 점차 메모리 자체와 계산 위치를 바꾸는 방향으로 진화하는 과정을 보여 준다.
 

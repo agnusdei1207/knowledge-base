@@ -36,24 +36,21 @@ tags = ["enterprise_systems"]
 | **분석 및 예측 (Intelligence)** | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), 빅데이터 분석 | 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습하여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(날씨, 항만 파업 등)를 사전 감지하고 경고 |
 | **통합 가시성 (Visibility)** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 공급사부터 최종 고객([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 위치, 온도, 재고 상태 실시간 매핑 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            SCM 컨트롤 타워의 감지-판단-실행 메커니즘         │
-├──────────────────────────────────────────────────────────────┤
-│ [ IoT 데이터 파이프라인 ]                                    │
-│  원자재 공장 ──▶ 항만 ──▶ 해상 운송 ──▶ 조립 공장 ──▶ 유통    │
-│       ▲            ▲         ▲           ▲           ▲      │
-│       │            │         │           │           │      │
-│       └────────────┴─────────┴───────────┴───────────┘      │
-│                 (실시간 데이터 100% 동기화)                   │
-│                              ▼                               │
-│ [ SCM 컨트롤 타워 대시보드 ]                                 │
-│  🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"│
-│                              │                               │
-│                              ▼                               │
-│  💡 대안 시뮬레이션 ─▶ "선박 화물을 항공편으로 긴급 우회하라"│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 컨트롤 타워의 감지-판단-실행 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 데이터 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자재 공장 ──▶ 항만 ──▶ 해상 운송 ──▶ 조립 공장 ──▶ 유통</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 데이터 100% 동기화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SCM 컨트롤 타워 대시보드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 대안 시뮬레이션 ─▶ "선박 화물을 항공편으로 긴급 우회하라"</div></div>
+</div>
+</div>
+
+
 
 가장 밑단의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 단순 위치뿐 아니라 냉동 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실시간 온도, 습도, 진동까지 잡아낸다. 중앙의 컨트롤 타워는 이 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 외부 뉴스(날씨, 파업)를 결합하여, 문제가 터지기 전에 "이대로 가면 3일 뒤 납기를 맞출 수 없다"고 선제적 예측을 내놓는 것이 핵심 원리다.
 
@@ -67,7 +64,7 @@ tags = ["enterprise_systems"]
 
 | 비교 항목 | 전통적 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 기반) | 디지털 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 컨트롤 타워 |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조** | [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화, 선형적 전달 | 플랫폼 기반 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크 (모든 주체 실시간 연결) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조</strong> | [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화, 선형적 전달 | 플랫폼 기반 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크 (모든 주체 실시간 연결) |
 | **가시성 범위** | 1차 협력사(Tier-1) 위주, 사후 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | N차 협력사(Tier-N) 및 외부 환경까지 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 실시간 파악 |
 | **의사결정 방식** | 문제 발생 후 사람이 엑셀로 분석 (사후 대응) | 문제 발생 전 AI가 예측 시나리오 및 최적 대안 제시 (선제 대응) |
 | **연결 기술** | EDI, 이메일, 주기적 배치 작업 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [Open API](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) |
@@ -82,7 +79,7 @@ tags = ["enterprise_systems"]
 
 컨트롤 타워 구축 프로젝트는 단순히 멋진 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 다는 것이 아니라, 전 세계 협력사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 강제로 끌어모으는 표준화 전쟁이다.
 
-1. **실무적 난제 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Onboarding)**: 하청업체들은 자신의 재고 현황이나 공장 가동률이 원청에 실시간으로 털리는 것을 극도로 꺼린다. 따라서 컨트롤 타워 구축의 성패는 IT 기술력보다, N차 벤더들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하도록 유도하는 인센티브 제도나 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반의 투명한 보상 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 설계에 달려있다.
+1. <strong>실무적 난제 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Onboarding)</strong>: 하청업체들은 자신의 재고 현황이나 공장 가동률이 원청에 실시간으로 털리는 것을 극도로 꺼린다. 따라서 컨트롤 타워 구축의 성패는 IT 기술력보다, N차 벤더들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력하도록 유도하는 인센티브 제도나 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반의 투명한 보상 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 설계에 달려있다.
 2. **기술사 판단 포인트**: 도입 시 단일 벤더([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 종속을 피하기 위해 글로벌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 표준(예: EPCIS)을 준수해야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 가시성([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링) 확보에만 집중하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분히 쌓인 2~3단계 이후에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율 예측/제어 기능을 활성화하는 단계적 로드맵을 수립해야 한다.
 
 - **📢 섹션 요약 비유**: 화려한 컨트롤 타워 껍데기를 짓는 건 쉽다. 진짜 어려운 것은 골목 상인(영세 하청업체)들에게 최신 포스(POS) 기기를 나눠주고 "매일 재고를 정확히 찍으세요"라고 설득하는 일이다. 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰레기면(GIGO) 컨트롤 타워 화면에는 쓰레기만 깜빡이게 된다.
@@ -103,28 +100,30 @@ tags = ["enterprise_systems"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))** | 여러 주체가 참여하는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에서 위변조 불가능한 원산지 추적 및 계약([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) 보장 |
-| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))** | 물리적 물류 인프라를 가상 공간에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 수요 폭증이나 병목 시나리오를 미리 시뮬레이션하는 기술 |
-| **[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) (SC Resilience)** | 외부 충격(코로나 등)으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)이 끊어졌을 때, 얼마나 빨리 대안 경로를 찾아 정상 상태로 돌아오는지 나타내는 지표 |
-| **EDI (Electronic [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange)** | 전통적으로 기업 간 문서를 교환하던 구형 표준, 점차 실시간 API로 대체되고 있음 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong> | 여러 주체가 참여하는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에서 위변조 불가능한 원산지 추적 및 계약([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) 보장 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> | 물리적 물류 인프라를 가상 공간에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 수요 폭증이나 병목 시나리오를 미리 시뮬레이션하는 기술 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a> (SC Resilience)</strong> | 외부 충격(코로나 등)으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)이 끊어졌을 때, 얼마나 빨리 대안 경로를 찾아 정상 상태로 돌아오는지 나타내는 지표 |
+| <strong>EDI (Electronic <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Interchange)</strong> | 전통적으로 기업 간 문서를 교환하던 구형 표준, 점차 실시간 API로 대체되고 있음 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 선형 SCM (단절된 사일로 구조)
-    │
-    ▼
-가시성 확보 (Visibility) · IoT 센서를 통한 E2E 모니터링 대시보드
-    │
-    ▼
-예측형 SCM (Predictive) · AI 빅데이터 분석을 통한 리스크 사전 경보
-    │
-    ▼
-SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안 시뮬레이션
-    │
-    ▼
-자율형 공급망 (Autonomous Supply Chain) · 무개입(Zero-Touch) 자동 실행 네트워크
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 선형 SCM (단절된 사일로 구조)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가시성 확보 (Visibility) · IoT 센서를 통한 E2E 모니터링 대시보드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측형 SCM (Predictive) · AI 빅데이터 분석을 통한 리스크 사전 경보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안 시뮬레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자율형 공급망 (Autonomous Supply Chain) · 무개입(Zero-Touch) 자동 실행 네트워크</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

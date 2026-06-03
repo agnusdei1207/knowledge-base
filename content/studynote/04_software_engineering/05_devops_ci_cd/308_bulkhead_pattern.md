@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 웹 서버에 200개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 있다. 사용자는 이 서버에서 '상품 검색'도 하고 '결제'도 한다. 어느 날 외부 '결제 카드사 서버'가 죽어서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 30초가 걸렸다. 결제를 누른 사용자 200명의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 전부 30초씩 멈춰(Blocked) 대기 상태에 빠졌다. 201번째 사용자가 가벼운 '상품 검색'을 하려고 들어왔지만, 남은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 0개라서 검색조차 안 되고 사이트 전체가 먹통이 되었다. 아무런 죄가 없는 검색 기능이, 결제 기능 때문에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 빼앗겨 억울하게 죽은 것이다.
 
-- **💡 비유**: 타이타닉 호가 침몰한 이유를 생각해 보십시오. 배 밑바닥이 하나의 거대한 공간이었습니다. 얼음에 부딪혀 구멍 하나가 나자, 물이 배 전체로 퍼져나가 가라앉았습니다. 현대의 군함은 **밑바닥이 16개의 독립된 강철 방(격벽, Bulkhead)**으로 나뉘어 있습니다. 구멍이 3개 나서 물이 꽉 차도, 나머지 13개의 방으로는 물이 절대 넘어오지 못해 배는 침몰하지 않습니다.
+- **💡 비유**: 타이타닉 호가 침몰한 이유를 생각해 보십시오. 배 밑바닥이 하나의 거대한 공간이었습니다. 얼음에 부딪혀 구멍 하나가 나자, 물이 배 전체로 퍼져나가 가라앉았습니다. 현대의 군함은 <strong>밑바닥이 16개의 독립된 강철 방(격벽, Bulkhead)</strong>으로 나뉘어 있습니다. 구멍이 3개 나서 물이 꽉 차도, 나머지 13개의 방으로는 물이 절대 넘어오지 못해 배는 침몰하지 않습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **조선 공학과 선박 설계**: 수백 년 전 선박 건조에서, 배 하부를 여러 방수 구획으로 나누는 물리적 설계에서 이름과 개념을 그대로 가져왔다.
   2. **모놀리식의 자원 공유 비극**: WAS(톰캣 등) 하나에 모든 비즈니스 로직을 때려 넣고 단일 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 쓰던 시절, 병목 하나가 서버 전체를 죽이는 일이 비일비재했다.
-  3. **MSA와 Resilience4j 의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 격리**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 통신이 활발해지면서, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 독립된 작은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(예: 10개짜리 풀)을 따로 할당하는 벌크헤드 기술이 넷플릭스 Hystrix를 거쳐 산업 표준 방어막으로 자리 잡았다.
+  3. <strong>MSA와 Resilience4j 의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 격리</strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 통신이 활발해지면서, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 독립된 작은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(예: 10개짜리 풀)을 따로 할당하는 벌크헤드 기술이 넷플릭스 Hystrix를 거쳐 산업 표준 방어막으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 벌크헤드는 식당에서 불이 가장 많이 나는 '주방'과 손님이 밥을 먹는 '홀' 사이에 엄청나게 두꺼운 내화(불연재) 벽을 치는 것입니다. 주방이 홀라당 타버려도 불이 홀로 번지지 않게 하여 손님들을 살리는 잔인하지만 확실한 분리 기술입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 벌크헤드 (Bulkhead) 패턴의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  벌크헤드 (Bulkhead) 패턴                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벌크헤드 (Bulkhead) 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 벌크헤드 (Bulkhead) 패턴가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-벌크헤드 (Bulkhead) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+벌크헤드 (Bulkhead) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 벌크헤드 (Bulkhead) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-벌크헤드 (Bulkhead) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벌크헤드 (Bulkhead) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

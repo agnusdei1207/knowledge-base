@@ -24,27 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 병목의 발견**:
   1. **배치 처리의 한계**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 한 번에 하나의 프로그램만 메모리에 올려 실행했다(메모리보다 큰 프로그램은 오버레이로 해결).
-  2. **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 등장**: 여러 사용자가 동시에 접속하는 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)(Time-sharing)이 등장하며, 대기 상태에 빠진 프로세스들이 귀한 메모리를 점유하고 있는 것이 심각한 자원 낭비로 인식되었다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 등장</strong>: 여러 사용자가 동시에 접속하는 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/)(Time-sharing)이 등장하며, 대기 상태에 빠진 프로세스들이 귀한 메모리를 점유하고 있는 것이 심각한 자원 낭비로 인식되었다.
   3. **디스크 I/O 오버헤드**: [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 도입되었으나, 디스크는 메모리보다 수십만 배 느리다. 100MB짜리 프로세스 전체를 스왑 아웃/인 하는 데 수 초가 걸려 시스템이 멈칫하는 'Stuttering(렉)' 현상이 새로운 과제로 떠올랐다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│        스왑 아웃 (Swap Out) & 스왑 인 (Swap In)의 기본 동작      │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│ [ 메인 메모리 (RAM) ]                     [ 백킹 스토어 (Disk) ] │
-│                                                                  │
-│ ┌───────────────┐     1. 스왑 아웃 (Swap Out)   ┌───────────────┐│
-│ │ 프로세스 A (대기)├───────────────────────▶│ 프로세스 A 보관 │  │
-│ │ (100MB)       │ (메모리 공간 확보!)          │ (100MB)       │ │
-│ └───────────────┘                          └───────────────┘     │
-│                                                                  │
-│ ┌───────────────┐     2. 스왑 인 (Swap In)     ┌───────────────┐ │
-│ │ 프로세스 B (실행)│◀───────────────────────┤ 프로세스 B 보관 │  │
-│ │ (100MB)       │ (CPU 할당받아 실행 준비)     │ (100MB)       │ │
-│ └───────────────┘                          └───────────────┘     │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 아웃 (Swap Out) &amp; 스왑 인 (Swap In)의 기본 동작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리 (RAM)</div><div class="kb-diagram-node">백킹 스토어 (Disk)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 스왑 아웃 (Swap Out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A (대기) ▶</div><div class="kb-diagram-cell">프로세스 A 보관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100MB)</div><div class="kb-diagram-cell">(메모리 공간 확보!)</div><div class="kb-diagram-cell">(100MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스왑 인 (Swap In)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B (실행)</div><div class="kb-diagram-cell">◀ 프로세스 B 보관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100MB)</div><div class="kb-diagram-cell">(CPU 할당받아 실행 준비)</div><div class="kb-diagram-cell">(100MB)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/)([Medium-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/))가 이 흐름을 관장한다. 메모리가 꽉 찬 상태에서 새로운 프로세스를 실행해야 할 때, OS는 가장 오랫동안 CPU를 쓰지 않았거나(Sleep 상태), 우선순위가 낮은 프로세스 A를 디스크로 내쫓는다. 이 과정(Swap Out)을 통해 생긴 빈자리에, 예전에 디스크로 쫓겨났지만 이제 다시 실행할 준비가 된 프로세스 B를 적재(Swap In)한다.
 
 - **📢 섹션 요약 비유**: 작은 주방(메모리)에서 여러 가지 요리를 동시에 할 때, 지금 당장 안 쓰는 프라이팬을 베란다(디스크)로 내다 놓고(스왑 아웃), 도마를 가져와서(스왑 인) 공간을 확보하는 요리사의 동선 정리와 같습니다.
@@ -57,35 +55,34 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) (Swapper)** | [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 의사결정 주체 | 어떤 프로세스를 쫓아낼지(Swap Out) 결정 | [Medium-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) | 클럽 입구의 기도 (수용 인원 관리) |
-| **[스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) (Backing Store)** | 쫓겨난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 디스크 영역 | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 분리된 고속 I/O 블록 공간 | Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), `pagefile.sys` | 클럽 밖의 임시 대기 줄 |
-| **[디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/))** | CPU 제어권 할당 | 스왑 인이 완료된 프로세스의 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 복원 | [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching | 클럽 안으로 손님을 안내하는 직원 |
-| **[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory-Management Unit](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))** | 메모리 주소 재배치 지원 | 스왑 인될 때 이전과 다른 주소에 적재되어도 정상 실행되게 변환 | 베이스/[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) | 손님이 예전 자리가 아닌 새 자리에 앉아도 되게 하는 명찰 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/">중기 스케줄러</a> (Swapper)</strong> | [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 의사결정 주체 | 어떤 프로세스를 쫓아낼지(Swap Out) 결정 | [Medium-term Scheduler](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) | 클럽 입구의 기도 (수용 인원 관리) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a> (Backing Store)</strong> | 쫓겨난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하는 디스크 영역 | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 분리된 고속 I/O 블록 공간 | Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), `pagefile.sys` | 클럽 밖의 임시 대기 줄 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">디스패처</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/">Dispatcher</a>)</strong> | CPU 제어권 할당 | 스왑 인이 완료된 프로세스의 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 복원 | [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching | 클럽 안으로 손님을 안내하는 직원 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">Memory-Management Unit</a>)</strong> | 메모리 주소 재배치 지원 | 스왑 인될 때 이전과 다른 주소에 적재되어도 정상 실행되게 변환 | 베이스/[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) | 손님이 예전 자리가 아닌 새 자리에 앉아도 되게 하는 명찰 |
 
 ---
 
 ### 스왑 인(Swap In) 시의 동적 재배치(Dynamic Relocation) 필수성
 
-과거의 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 치명적인 제약이 있었다. 디스크로 스왑 아웃된 프로세스가 다시 메모리로 스왑 인될 때, **반드시 예전에 있던 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 위치로 돌아와야만 했다**(정적 재배치 환경). 하지만 현대의 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 MMU와 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)의 도움으로 메모리 안의 **어떤 빈 공간(Any Available Space)**으로든 들어갈 수 있다.
+과거의 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 치명적인 제약이 있었다. 디스크로 스왑 아웃된 프로세스가 다시 메모리로 스왑 인될 때, <strong>반드시 예전에 있던 그 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 위치로 돌아와야만 했다</strong>(정적 재배치 환경). 하지만 현대의 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 MMU와 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)의 도움으로 메모리 안의 <strong>어떤 빈 공간(Any Available Space)</strong>으로든 들어갈 수 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              스왑 아웃/인 과정에서의 물리 주소 동적 재배치              │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 1. 최초 적재 시 ]                                                     │
-│ 물리 주소 1000번지: [프로세스 P1] (Base Register = 1000)                │
-│                                                                         │
-│ [ 2. Swap Out ]                                                         │
-│ 프로세스 P1 ──▶ 백킹 스토어(디스크)로 쫓겨남. 1000번지는 다른 앱이 씀   │
-│                                                                         │
-│ [ 3. Swap In ]                                                          │
-│ 백킹 스토어 ──▶ 메모리에 남은 빈 공간 '5000번지'로 적재!                │
-│                 (OS가 Base Register 값을 5000으로 자동 수정)            │
-│                                                                         │
-│ [ 결과 ] 프로세스 P1은 자신이 위치가 바뀐 줄 모르고 0번지부터 정상 실행!│
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 아웃/인 과정에서의 물리 주소 동적 재배치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 최초 적재 시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 주소 1000번지:</div><div class="kb-diagram-node">프로세스 P1</div><div class="kb-diagram-note">(Base Register = 1000)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Swap Out</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1 ──▶ 백킹 스토어(디스크)로 쫓겨남. 1000번지는 다른 앱이 씀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Swap In</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백킹 스토어 ──▶ 메모리에 남은 빈 공간 '5000번지'로 적재!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 Base Register 값을 5000으로 자동 수정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">프로세스 P1은 자신이 위치가 바뀐 줄 모르고 0번지부터 정상 실행!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 만약 동적 재배치 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 없다면, 스왑 인을 하기 위해 예전 주소(1000번지)가 빌 때까지 하염없이 기다려야 하므로 시스템 효율이 바닥을 친다. [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)([Execution Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))과 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) 덕분에, 운영체제는 디스크에서 올라오는 프로세스를 테트리스처럼 빈 공간 아무 데나 끼워 넣고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값만 쓱 바꿔치기하여 완벽한 착시를 만들어낸다.
 
@@ -113,7 +110,7 @@ tags = ["studynote-operating-system"]
 | **저장 위치** | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 메모리(PCB)에 보관 | 메모리의 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드디스크에 보관 |
 | **발생 주기** | 수 밀리초(ms) 단위로 매우 빈번함 | 메모리가 고갈될 때만 제한적으로 발생 |
 | **소요 시간** | 나노초~마이크로초 수준 (극도로 빠름) | 밀리초~초 단위 (극도로 느림, 시스템 병목 유발) |
-| **관여 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**| [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) (Short-term) | [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) (Medium-term) |
+| <strong>관여 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>| [단기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/161_short_term_scheduler/) (Short-term) | [중기 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/162_medium_term_scheduler_swapping/) (Medium-term) |
 
 ### 비교 2: I/O 대기 중인 프로세스의 스왑 아웃 딜레마
 
@@ -121,16 +118,19 @@ tags = ["studynote-operating-system"]
 
 **해결책**:
 1. **Never Swap Out**: I/O 작업이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 프로세스는 절대 스왑 아웃시키지 않음 (메모리 낭비 발생).
-2. **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 사용**: 입출력 장치는 무조건 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 공간([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 절대 스왑 아웃되지 않음)으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘게 하고, 프로세스가 스왑 인되어 돌아오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 프로세스 공간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해주는 기법([Double Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/))을 사용한다. (현대 OS의 표준)
+2. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼 사용</strong>: 입출력 장치는 무조건 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 공간([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 절대 스왑 아웃되지 않음)으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘게 하고, 프로세스가 스왑 인되어 돌아오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 프로세스 공간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해주는 기법([Double Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/))을 사용한다. (현대 OS의 표준)
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ I/O 도착 시│ 스왑 아웃 상태│ 데이터 기록 위치│ 시스템 안정성        │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 직접 기록  │ 타 앱이 점유 중│ 타 앱 메모리 파괴│ 붕괴 (Kernel Panic)│
-│ 커널 버퍼링│ 타 앱이 점유 중│ 안전한 OS 커널  │ 완벽함 (데이터 보존)│
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 도착 시</div><div class="kb-diagram-cell">스왑 아웃 상태</div><div class="kb-diagram-cell">데이터 기록 위치</div><div class="kb-diagram-cell">시스템 안정성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 기록</div><div class="kb-diagram-cell">타 앱이 점유 중</div><div class="kb-diagram-cell">타 앱 메모리 파괴</div><div class="kb-diagram-cell">붕괴 (Kernel Panic)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 버퍼링</div><div class="kb-diagram-cell">타 앱이 점유 중</div><div class="kb-diagram-cell">안전한 OS 커널</div><div class="kb-diagram-cell">완벽함 (데이터 보존)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 것을 넘어 입출력(I/O) 서브시스템과 매우 복잡하게 얽혀있다. 하드웨어([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 모르고 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로만 쏘기 때문에, [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 인해 메모리의 주인이 바뀐 사실을 인지하지 못한다. 이를 방어하기 위해 현대 운영체제는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간이라는 든든한 '버퍼(방파제)'를 두어 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 부작용을 원천 차단한다.
 
 - **📢 섹션 요약 비유**: 택배를 시킨 사람이 잠시 외출(스왑 아웃)했을 때, 택배 기사가 빈집에 물건을 던져놓고 가면 다음 세입자의 물건과 섞여 분실되므로, 아파트 경비실(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼)에서 안전하게 대신 맡아주는 것과 같습니다.
@@ -142,7 +142,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)와 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러
 
 1. **상황**: 리눅스 서버에서 자바(Spring) 애플리케이션이 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))를 일으켜 물리 RAM 32GB를 모두 소진했다.
-2. **[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)의 개입**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>의 개입</strong>:
    - 시스템은 죽지 않기 위해 안 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 미친 듯이 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(디스크)으로 밀어낸다(Swap Out).
    - 하드디스크의 I/O 램프가 불타듯이 깜빡이며([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 현상), 서버에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속조차 1분이 넘게 걸릴 정도로 시스템이 마비된다.
 3. **의사결정 플로우**:
@@ -164,7 +164,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **가용 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 한계 돌파**| 16GB 물리 메모리로 100GB 규모의 여러 프로세스를 띄우는 메모리 가상화의 기반 제공 |
+| <strong>가용 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 한계 돌파</strong>| 16GB 물리 메모리로 100GB 규모의 여러 프로세스를 띄우는 메모리 가상화의 기반 제공 |
 | **유휴 자원 회수** | Sleep 상태나 대기 상태인 앱이 점유한 메모리를 강제 환수하여 활성 앱에 몰아줌 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화) |
 | **시스템 크래시 유예**| 메모리가 100% 찼을 때 시스템이 즉각 멈추지 않고 버퍼링할 수 있는 최후의 생명연장 장치 |
 
@@ -187,15 +187,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스와핑 (Swapping)]
-    │
-    ▼
-[스왑 아웃 (Swap out) / 스왑 인 (Swap in)]
-    │
-    ├──▶ [표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)]
-    └──▶ [연속 메모리 할당 (Contiguous Memory Allocation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스와핑 (Swapping)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 아웃 (Swap out) / 스왑 인 (Swap in)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연속 메모리 할당 (Contiguous Memory Allocation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

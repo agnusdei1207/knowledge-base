@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더에 포함된 16비트 길이의 필드로, 수신 측이 수신 가능한 여유 버퍼 공간(Receive Window)의 크기를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 송신 측에 통보하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량을 제어하는 메커니즘.
-- **필요성**: 구글 서버는 100Gbps로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 능력이 있다. 그런데 내 노트북은 CPU가 똥컴이라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10Mbps로밖에 저장을 못 한다. 구글이 100Gbps로 영화를 쏴버리면, 내 노트북 랜카드로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리(버퍼)에 쌓이다가 결국 넘쳐흘러서([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 90%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰레기통에 버려지고 노트북은 뻗어버린다. **"야, 구글! 내 창고(버퍼) 크기가 지금 64,000 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)밖에 안 남았으니까 깝치지 말고 딱 64,000 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)까지만 보내고 내 영수증 올 때까지 숨 참고 기다려!!"**라는 완벽한 브레이크 장치가 필요했다.
+- **필요성**: 구글 서버는 100Gbps로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 능력이 있다. 그런데 내 노트북은 CPU가 똥컴이라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 10Mbps로밖에 저장을 못 한다. 구글이 100Gbps로 영화를 쏴버리면, 내 노트북 랜카드로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리(버퍼)에 쌓이다가 결국 넘쳐흘러서([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 90%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰레기통에 버려지고 노트북은 뻗어버린다. <strong>"야, 구글! 내 창고(버퍼) 크기가 지금 64,000 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>밖에 안 남았으니까 깝치지 말고 딱 64,000 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>까지만 보내고 내 영수증 올 때까지 숨 참고 기다려!!"</strong>라는 완벽한 브레이크 장치가 필요했다.
 
-- **💡 비유**: 윈도우 사이즈는 식당의 **"남은 테이블 개수"**와 같습니다.
-  - 홀 서빙 직원(수신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 주방장(송신자 서버)에게 외칩니다. **"지금 밖에 빈 테이블([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) 3개밖에 없으니까, 요리 3개만 먼저 한 방에 내보내!"**
+- **💡 비유**: 윈도우 사이즈는 식당의 <strong>"남은 테이블 개수"</strong>와 같습니다.
+  - 홀 서빙 직원(수신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 주방장(송신자 서버)에게 외칩니다. <strong>"지금 밖에 빈 테이블(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>) 3개밖에 없으니까, 요리 3개만 먼저 한 방에 내보내!"</strong>
   - 주방장은 3개의 요리를 연달아 내놓고 멈춥니다.
-  - 손님이 1명 밥을 다 먹고 나갔습니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 완료, ACK 발송). 직원이 **"빈자리 하나 났어! 창문(Window) 한 칸 옆으로 밀어서 요리 1개 더 줘!"**라고 하면 주방장이 다시 요리를 만듭니다.
+  - 손님이 1명 밥을 다 먹고 나갔습니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 완료, ACK 발송). 직원이 <strong>"빈자리 하나 났어! 창문(Window) 한 칸 옆으로 밀어서 요리 1개 더 줘!"</strong>라고 하면 주방장이 다시 요리를 만듭니다.
 
-```text
-[ECN 징후 플래그]
-    │
-    ▼
-[윈도우 크기]
-    │
-    └──▶ [체크섬]
-```
 
-- **📢 섹션 요약 비유**: ** [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)용 윈도우 크기는 정수기 호스의 **"수압 조절 다이얼"**입니다. 내 컵(수신자 버퍼)이 찰랑찰랑 넘칠 것 같으면 다이얼([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 줄여 물을 쫄쫄 나오게 하고, 컵을 비워서 여유가 생기면 다이얼을 최대로 틀어 콸콸 쏟아지게 만드는 완벽한 수위 조절 장치입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 플래그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">체크섬</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>용 윈도우 크기는 정수기 호스의 </strong>"수압 조절 다이얼"**입니다. 내 컵(수신자 버퍼)이 찰랑찰랑 넘칠 것 같으면 다이얼([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 줄여 물을 쫄쫄 나오게 하고, 컵을 비워서 여유가 생기면 다이얼을 최대로 틀어 콸콸 쏟아지게 만드는 완벽한 수위 조절 장치입니다.
 
 ---
 
@@ -46,38 +50,39 @@ tags = ["studynote-network"]
 내 노트북이 롤(LOL)을 하느라 CPU 점유율이 100%를 찍었다.
 - 구글 서버에서 영화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 막 들어오는데, 내 CPU가 바빠서 이걸 램(버퍼)에서 하드디스크로 빼내지(저장하지) 못하고 있다.
 - 결국 수신 버퍼가 100% 꽉 차버렸다!
-- 내 노트북은 구글에게 **`Window Size = 0 (Zero Window)`**이라고 적은 ACK 영수증을 날린다.
+- 내 노트북은 구글에게 <strong><code>Window Size = 0 (Zero Window)</code></strong>이라고 적은 ACK 영수증을 날린다.
 - 이 패킷을 받은 구글은 **"헐, 쟤 창고 다 찼대! 당장 전송 중지(STOP)!!"** 하고 얼음 상태가 되어 숨을 참는다.
 - 5초 뒤, 내 노트북이 하드디스크에 저장을 마치고 버퍼를 싹 비웠다.
-- 내 노트북은 구글에게 **`Window Size = 64000 (Window Update)`**이라고 엽서를 날려, "나 창고 비웠어! 다시 쏴!!"라며 기가 막히게 통신을 재개한다.
+- 내 노트북은 구글에게 <strong><code>Window Size = 64000 (Window Update)</code></strong>이라고 엽서를 날려, "나 창고 비웠어! 다시 쏴!!"라며 기가 막히게 통신을 재개한다.
 
 ### 2. 16비트의 한계: 64KB 지옥
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더를 만든 1980년대 천재들의 유일한 실수다.
-- [Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 필드는 **16비트**다. 표현할 수 있는 최대 숫자는 $2^{16} - 1 = \text{65,535}$ 다.
-- 즉, 수신자가 송신자에게 한 번에 요구할 수 있는 최대 크기(창문 크기)가 **고작 64KB**밖에 안 된다는 뜻이다.
+- [Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 필드는 <strong>16비트</strong>다. 표현할 수 있는 최대 숫자는 $2^{16} - 1 = \text{65,535}$ 다.
+- 즉, 수신자가 송신자에게 한 번에 요구할 수 있는 최대 크기(창문 크기)가 <strong>고작 64KB</strong>밖에 안 된다는 뜻이다.
 - 송신자가 1Gbps 속도로 쏴도, 수신자가 "64KB 보내고 잠깐 대기!"를 시전하니까, 기가비트 인터넷 시대에 1GB짜리 파일을 다운받는 데 수십 분이 걸리는(속도가 안 나오는) 미친 대참사가 벌어졌다. (이를 LFN(Long [Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) Network) 문제라 한다).
 
 ### 3. 기적의 꼼수: [Window Scale Option](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/) (RFC 1323)
 "야, 20바이트 기본 헤더를 뜯어고칠 순 없으니까, 뒤에 꼬리표(Option 구역)를 달아서 꼼수를 부리자!"
-- 통신을 처음 맺을 때(SYN 패킷), Option 구역에 **`Window Scale = 8`** 이라는 치트키를 박아 넣는다.
+- 통신을 처음 맺을 때(SYN 패킷), Option 구역에 <strong><code>Window Scale = 8</code></strong> 이라는 치트키를 박아 넣는다.
 - 이 뜻은 "앞으로 내가 기본 헤더에 Window Size를 `100`이라고 적어서 보내면, 너는 그걸 그대로 믿지 말고 내 치트키($2^8 = 256$)를 곱해서 **`100 * 256 = 25,600`** [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)라고 해석해라!"라는 뜻이다.
-- 이 꼼수 덕분에 윈도우 사이즈는 최대 64KB에서 무려 **1GB(기가바이트)**까지 우주 팽창을 이루어냈고, 오늘날 우리가 스팀에서 100GB짜리 게임을 10분 만에 다운받을 수 있게 되었다.
+- 이 꼼수 덕분에 윈도우 사이즈는 최대 64KB에서 무려 <strong>1GB(기가바이트)</strong>까지 우주 팽창을 이루어냈고, 오늘날 우리가 스팀에서 100GB짜리 게임을 10분 만에 다운받을 수 있게 되었다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                와이어샤크의 Window Size와 Scale 곱셈의 기적        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ TCP 분석 화면 ]                                            │
- │   Window size value: 258          ◀─ (16비트 헤더에 실제 찍힌 값)  │
- │   [Calculated window size: 66048] ◀─ (실제 한 번에 쏘는 크기!!)   │
- │   Window size scaling factor: 256 ◀─ (아까 SYN 때 합의한 치트키 값)│
- │                                                             │
- │   ▶ 258 * 256 = 66,048 바이트!                                │
- │   ▶ 이 마법의 곱셈(Scale)이 없었다면 현대의 기가비트 인터넷은          │
- │     존재하지 못하고 구석기 시대 모뎀 속도에 머물렀을 것이다.           │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이어샤크의 Window Size와 Scale 곱셈의 기적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 분석 화면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Window size value: 258 ◀─ (16비트 헤더에 실제 찍힌 값)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Calculated window size: 66048</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (실제 한 번에 쏘는 크기!!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Window size scaling factor: 256 ◀─ (아까 SYN 때 합의한 치트키 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 258 * 256 = 66,048 바이트!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이 마법의 곱셈(Scale)이 없었다면 현대의 기가비트 인터넷은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">존재하지 못하고 구석기 시대 모뎀 속도에 머물렀을 것이다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** Window Size가 64KB밖에 안 되던 시절은 삽으로 흙을 퍼서 트럭을 채우는 **"가내 수공업"**이었습니다. Window Scale 옵션의 도입은 이 삽의 크기를 $2^8$(256배), $2^{14}$(16,384배)로 뻥튀기하는 마법의 가루를 뿌려, 한 번의 삽질(1번의 ACK)로 포크레인 급의 흙을 퍼담는 **"중장비 산업 혁명"**을 이루어 낸 것입니다.
 
@@ -135,15 +140,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ECN 징후 플래그]
-    │
-    ▼
-[현재 개념: 윈도우 크기]
-    │
-    ├──▶ [확장 A: 체크섬]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECN 징후 플래그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 윈도우 크기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 윈도우 크기는 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -10,7 +10,7 @@ tags = ["r-and-d"]
 
 # 🚀 N-gram 해시 링커 알고리즘 (N-Gram Hash Linker)
 
-이 문서는 지식베이스 내 약 10,000개 문서의 연결성을 높이기 위해 개발된 **4세대 N-gram 해시 기반 상호 링킹(Wiki-linking) 알고리즘**의 설계 원리와 기술적 가치를 기록한 아키텍처 문서입니다.
+이 문서는 지식베이스 내 약 10,000개 문서의 연결성을 높이기 위해 개발된 <strong>4세대 N-gram 해시 기반 상호 링킹(Wiki-linking) 알고리즘</strong>의 설계 원리와 기술적 가치를 기록한 아키텍처 문서입니다.
 
 ---
 
@@ -22,30 +22,33 @@ tags = ["r-and-d"]
 *   **원리**: $O(M \times N)$ 복잡도로 매 파일마다 20,000여 개의 정규식 패턴을 순차적으로 대입.
 *   **문제점 (Catastrophic Backtracking)**: 
     *   파이썬의 정규식 엔진(NFA 구조)은 매칭 실패 시 백트래킹(탐색 복원)을 반복합니다.
-    *   대다수 키워드는 문서 내에 존재하지 않는데도 경계 조건 검사(`(?<!...)` 등)를 수행하느라 CPU 연산이 정체되며, 문서 9,400개 처리 시 **10분 이상 소요되거나 무한 대기 상태(Hang)**에 빠졌습니다.
+    *   대다수 키워드는 문서 내에 존재하지 않는데도 경계 조건 검사(`(?<!...)` 등)를 수행하느라 CPU 연산이 정체되며, 문서 9,400개 처리 시 <strong>10분 이상 소요되거나 무한 대기 상태(Hang)</strong>에 빠졌습니다.
 
 ---
 
 ## 💡 2. 4세대 해결책: N-gram 해시 테이블 룩업
 
-4세대 알고리즘은 정규식을 돌리기 전에 **"문서에 존재하는 단어들만 먼저 고속 수집하여 주소록과 해시 대조"**하는 방식을 채택하여 복잡도를 $O(W \times N)$ ($W$ = 문서당 단어 수)로 압축했습니다.
+4세대 알고리즘은 정규식을 돌리기 전에 <strong>"문서에 존재하는 단어들만 먼저 고속 수집하여 주소록과 해시 대조"</strong>하는 방식을 채택하여 복잡도를 $O(W \times N)$ ($W$ = 문서당 단어 수)로 압축했습니다.
 
 ### ⚙️ 핵심 알고리즘 흐름
 
-```text
- [ 마크다운 본문 ] ──▶ 1. 보호 영역(코드블럭 등) 임시 격리 (Placeholder)
-                             │
-                             ▼
- 2. 텍스트 내 단어 토큰 순서대로 추출 -> N-gram (1~3어절 조합) 수집
-    * 예: "컴퓨터 구조는" -> {"컴퓨터", "구조는", "컴퓨터 구조"} (문서당 약 300개 조합)
-                             │
-                             ▼
- 3. 19,846개 키워드 해시 맵 (O(1) Hash Table Lookup) 대조
-    * matched_kws = {c for c in candidates if c in keyword_map} (보통 5~20개로 필터링)
-                             │
-                             ▼
- 4. 실제 검증된 소수 키워드만 1대1 정규식 치환 및 격리 해제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마크다운 본문</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드블럭 등</div><div class="kb-diagram-note">임시 격리</div><div class="kb-diagram-node">Placeholder</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1~3어절 조합</div><div class="kb-diagram-note">수집</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">문서당 약 300개 조합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 19,846개 키워드 해시 맵 (O</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">Hash Table Lookup) 대조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* matched_kws = {c for c in candidates if c in keyword_map}</div><div class="kb-diagram-node">보통 5~20개로 필터링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">4. 실제 검증된 소수 키워드만 1대1 정규식 치환 및 격리 해제</div>
+</div>
+</div>
+
+
 
 ### 📈 시간 복잡도 및 성능 분석
 
@@ -60,7 +63,7 @@ tags = ["r-and-d"]
 ## 🛠️ 3. 링킹 무결성 및 구조적 이점
 
 ### 1) 마크다운 문법 안전 보호 (Whitespace & Code Block Safety)
-본문의 치환 도중 소스코드가 오염되는 것을 방지하기 위해 다음 영역은 치환 탐색 전 **임시 토큰(`___PLACEHOLDER_N___`)**으로 완벽히 백업하고 치환 완료 후 복원합니다:
+본문의 치환 도중 소스코드가 오염되는 것을 방지하기 위해 다음 영역은 치환 탐색 전 <strong>임시 토큰(<code>___PLACEHOLDER_N___</code>)</strong>으로 완벽히 백업하고 치환 완료 후 복원합니다:
 *   YAML/TOML Frontmatter
 *   `` ``` `` Multi-line 코드 블록 및 `` ` `` 인라인 코드
 *   기존에 이미 설정된 위키링크(``) 및 이미지 마크다운(`![caption](url)`)

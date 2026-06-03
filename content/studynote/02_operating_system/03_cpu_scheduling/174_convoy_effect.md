@@ -25,16 +25,19 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 긴 작업 하나가 어떻게 짧은 작업들과 I/O 장치까지 동시에 묶어 두는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Convoy effect in one ready queue                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ CPU        : [ long CPU-bound job P1 ........................... ] │
-│ Ready Queue:                      [P2][P3][P4] short jobs wait    │
-│ I/O device : idle ----------------------------------------------  │
-│ result     : one long burst dictates the pace of everyone         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Convoy effect in one ready queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CPU :</div><div class="kb-diagram-node">long CPU-bound job P1 ...........................</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Ready Queue:</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P4</div><div class="kb-diagram-note">short jobs wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O device : idle ----------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : one long burst dictates the pace of everyone</div></div>
+</div>
+</div>
+
+
 
 핵심은 뒤에 있는 작업들이 단지 늦게 끝나는 것에서 그치지 않는다는 점이다. 짧은 작업들이 CPU를 받지 못하니 I/O 요청도 늦게 발생하고, 그동안 I/O 장치는 놀게 된다. 즉 convoy effect는 한 줄이 막히는 현상이 아니라, 시스템 안의 여러 자원을 엇박자로 만드는 구조적 병목이다.
 
@@ -48,16 +51,19 @@ tags = ["studynote-operating-system"]
 
 예를 들어 P1은 `CPU 20ms`, P2와 P3는 `CPU 1ms + I/O 6ms`라고 하자. 모두 동시에 도착했는데 FCFS가 P1을 먼저 잡으면 다음과 같은 흐름이 나온다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Resource desynchronization caused by convoy effect                │
-├────────────────────────────────────────────────────────────────────┤
-│ time : 0................20 21 22......27 28                       │
-│ CPU  : [P1..............][P2][P3][ idle ][P2][P3]                 │
-│ I/O  : [idle............][P2 I/O......][P3 I/O......]             │
-│ wait : P2 starts after 20ms, P3 starts after 21ms                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource desynchronization caused by convoy effect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time : 0................20 21 22......27 28</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CPU :</div><div class="kb-diagram-node">P1..............</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">idle</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I/O :</div><div class="kb-diagram-node">idle............</div><div class="kb-diagram-node">P2 I/O......</div><div class="kb-diagram-node">P3 I/O......</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait : P2 starts after 20ms, P3 starts after 21ms</div></div>
+</div>
+</div>
+
+
 
 위 도식에서 0~20ms 동안 I/O 장치는 사실상 쉬고 있다. 반대로 22~27ms 구간에는 짧은 작업들이 모두 I/O로 빠져 CPU가 놀게 된다. 즉 시스템은 두 자원을 동시에 잘 쓰는 대신, 한쪽이 바쁘면 다른 쪽이 쉬는 나쁜 리듬에 빠진다.
 
@@ -85,7 +91,7 @@ tags = ["studynote-operating-system"]
 | [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) / [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/) | 낮음 | 평균 대기 시간 최소화 경향 | burst 예측 필요, [starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 가능 |
 | [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 낮음 | 짧은 interactive 작업 우대 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 튜닝과 구현 복잡도 증가 |
 
-이 현상은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안에만 갇혀 있지 않다. 네트워크에서는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)) Blocking으로 나타나고, 멀티스레드에서는 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) convoy로, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이벤트 루프에서는 long [task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) blocking으로 나타난다. 공통점은 하나다. **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간이 긴 항목이 FIFO의 머리를 차지하면, 뒤에 있는 짧은 항목들이 구조적으로 손해 본다**는 점이다.
+이 현상은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안에만 갇혀 있지 않다. 네트워크에서는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)) Blocking으로 나타나고, 멀티스레드에서는 [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) convoy로, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이벤트 루프에서는 long [task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) blocking으로 나타난다. 공통점은 하나다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 시간이 긴 항목이 FIFO의 머리를 차지하면, 뒤에 있는 짧은 항목들이 구조적으로 손해 본다</strong>는 점이다.
 
 그래서 convoy effect는 스케줄링 이론의 옛 사례가 아니라, 오늘날 큐 기반 시스템을 설계할 때도 반복해서 등장하는 경고문이다. 웹 요청 큐, 메시지 소비기, 배치 작업 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 모두 같은 패턴에 취약할 수 있다.
 
@@ -99,24 +105,25 @@ tags = ["studynote-operating-system"]
 
 아래 판단 흐름은 언제 convoy effect를 적극적으로 의심해야 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When to suspect convoy effect                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ mixed heavy and light jobs in one FIFO queue?                     │
-│   ├─ yes ─▶ split queues or add preemption                        │
-│   └─ no                                                           │
-│        │                                                          │
-│        ▼                                                          │
-│ response time critical?                                           │
-│   ├─ yes ─▶ RR / MLFQ / priority scheduling                       │
-│   └─ no  ─▶ FCFS acceptable for bounded batch jobs                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When to suspect convoy effect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mixed heavy and light jobs in one FIFO queue?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ split queues or add preemption</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">response time critical?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ RR / MLFQ / priority scheduling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no ─▶ FCFS acceptable for bounded batch jobs</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **작업 분포 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: heavy job과 light job이 한 큐에 섞여 있는지 먼저 본다.
+1. <strong>작업 분포 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: heavy job과 light job이 한 큐에 섞여 있는지 먼저 본다.
 2. **선점 가능성 확보**: CPU scheduler라면 time [quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/), 애플리케이션이라면 cooperative yield나 worker 분리를 검토한다.
 3. **자원별 지표 동시 관찰**: CPU 사용률만 보지 말고 I/O 대기, [queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) wait, response time을 함께 본다.
 4. **클래스 분리**: 사용자 요청과 배치 작업, interactive task와 background task를 서로 다른 큐로 분리한다.
@@ -140,7 +147,7 @@ tags = ["studynote-operating-system"]
 
 물론 convoy effect를 없애겠다고 무조건 quantum을 작게 줄이거나 우선순위를 과하게 주면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용과 [starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 같은 다른 문제가 생길 수 있다. 따라서 목표는 "긴 작업을 벌주는 것"이 아니라 "긴 작업이 전체를 묶지 못하게 하는 것"이어야 한다. 이 균형이 바로 현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계의 핵심이다.
 
-정리하면 convoy effect는 도착 순서 기반 공정성이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 분포를 만나면서 생기는 구조적 실패다. 기억할 핵심은 단순하다. **작업 길이 편차가 큰데도 하나의 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) FIFO에 모두 태우면, 가장 느린 작업의 속도가 시스템 전체의 체감 속도가 된다.**
+정리하면 convoy effect는 도착 순서 기반 공정성이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 분포를 만나면서 생기는 구조적 실패다. 기억할 핵심은 단순하다. <strong>작업 길이 편차가 큰데도 하나의 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> FIFO에 모두 태우면, 가장 느린 작업의 속도가 시스템 전체의 체감 속도가 된다.</strong>
 
 - **📢 섹션 요약 비유**: 호위 효과를 막는 일은 느린 차를 없애는 것이 아니라, 느린 차 한 대가 모든 차의 평균 속도를 결정하지 못하게 도로를 설계하는 것과 같다.
 
@@ -159,23 +166,25 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-mixed job lengths
-    │
-    ▼
-long job at FIFO head
-    │
-    ├──────────────▶ short jobs wait in ready queue
-    ├──────────────▶ I/O devices stay idle
-    ▼
-bursty release of short jobs
-    │
-    ▼
-CPU / I/O imbalance · poor response time
-    │
-    ▼
-preemption · class separation · MLFQ
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">mixed job lengths</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">long job at FIFO head</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ short jobs wait in ready queue</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ I/O devices stay idle</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">bursty release of short jobs</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU / I/O imbalance · poor response time</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">preemption · class separation · MLFQ</div>
+</div>
+</div>
+
+
 
 이 흐름도는 convoy effect가 단순 대기열 문제를 넘어 자원 활용 불균형까지 만들어 내고, 그래서 현대 시스템이 선점과 다중 큐 구조로 진화했음을 보여 준다.
 

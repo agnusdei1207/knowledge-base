@@ -21,19 +21,17 @@ tags = ["studynote-design-supervision"]
 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)(Cost Benefit Analysis Method) 경제성 관점 확장는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 의사결정을 구조적으로 다루는 설계 주제다. 최근 환경에서는 비용 추정, 효익 비교, 투자 우선순위가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 경제성 관점 확장은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-```text
-┌──────────────┐
-│ 요구·시나리오 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 관점·패턴 설계 │
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ 평가·결정 기록 │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구·시나리오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관점·패턴 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가·결정 기록</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 집을 짓기 전에 방 배치와 동선을 함께 그려 보는 것과 같다.
 
@@ -48,11 +46,15 @@ tags = ["studynote-design-supervision"]
 | 평가 시나리오 | 효익 비교와 연결된 상충·변화 시나리오를 설계한다. | 기능보다 운영 상황을 보아야 한다. |
 | 결정 추적 | 투자 우선순위을 근거로 선택안과 파급효과를 기록한다. | 나중에 다시 설명할 수 있어야 한다. |
 
-```text
-┌────────────┬────────────┬────────────┐
-│ 뷰·패턴     │ 시나리오     │ 결정 기록    │
-└────────────┴────────────┴────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뷰·패턴</div><div class="kb-diagram-cell">시나리오</div><div class="kb-diagram-cell">결정 기록</div></div>
+</div>
+</div>
+
+
 
 또한 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 경제성 관점 확장은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 기둥 위치와 배선 경로를 같이 보아야 오래 버티는 건물과 같다.

@@ -26,8 +26,8 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: ARS 고객센터에 전화하는 것과 같습니다. "1번은 요금 문의, 2번은 고장 신고, 상담원 연결은 0번입니다" 안내 멘트를 듣고 고장 신고를 누르면 해당 부서로 넘어가고, 그 부서에서 해결을 못하면 전문 엔지니어에게 전화를 돌려주는(토스) 방식과 완벽히 동일합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **요청-수신 객체의 강결합 (Hard-wired [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**: 과거에는 이벤트를 발생시키는 객체가 수신할 객체의 클래스와 메서드를 직접 참조해야만 했다.
-  2. **처리자 파이프라인 형성 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)/Chain)**: 조건문을 밖으로 빼내어, 각 객체가 "내가 처리할 수 있는가?"라는 작은 책임만 지도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Decoupling)시켰다.
+  1. <strong>요청-수신 객체의 강결합 (Hard-wired <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: 과거에는 이벤트를 발생시키는 객체가 수신할 객체의 클래스와 메서드를 직접 참조해야만 했다.
+  2. <strong>처리자 파이프라인 형성 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a>/Chain)</strong>: 조건문을 밖으로 빼내어, 각 객체가 "내가 처리할 수 있는가?"라는 작은 책임만 지도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Decoupling)시켰다.
   3. **인터셉터/미들웨어로의 진화**: 엔터프라이즈 웹 서버(Express.js, Spring)에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청이 컨트롤러에 도달하기 전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, 인코딩 필터들을 거쳐가게 하는 근본 아키텍처로 발전했다.
 
 - **📢 섹션 요약 비유**: 수건 돌리기 게임처럼, 질문(요청)을 받은 친구가 답을 모르면 옆 친구에게 질문지를 그대로 넘겨주고, 답을 아는 친구가 나올 때까지 계속 옆으로 넘기는 게임 룰입니다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 책임 연쇄 (Chain of Resp의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  책임 연쇄 (Chain of Resp                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 연쇄 (Chain of Resp</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 책임 연쇄 (Chain of Resp가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-책임 연쇄 (Chain of Responsibility)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+책임 연쇄 (Chain of Responsibility)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 책임 연쇄 (Chain of Responsibility)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-책임 연쇄 (Chain of Responsibility) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">책임 연쇄 (Chain of Responsibility) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

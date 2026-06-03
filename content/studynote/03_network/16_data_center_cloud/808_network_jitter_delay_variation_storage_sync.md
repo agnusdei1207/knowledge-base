@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 네트워크를 통해 여러 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷을 연속으로 전송할 때, **각 패킷들이 목적지에 도착하는 시간 간격([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 일정하지 않고 불규칙하게 변동하는 현상([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변이, Delay Variation)**입니다.
+- **개념**: 네트워크를 통해 여러 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷을 연속으로 전송할 때, <strong>각 패킷들이 목적지에 도착하는 시간 간격(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)이 일정하지 않고 불규칙하게 변동하는 현상(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 변이, Delay Variation)</strong>입니다.
 - **원인**: 패킷들이 라우터를 거칠 때, 갑자기 다른 트래픽이 몰려 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), 대기열)에서 오래 줄을 서거나, 패킷 1번과 2번이 서로 다른 경로([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 변경)를 타고 오게 되면서 도착 타이밍이 어긋나버릴 때 발생합니다.
 
-```text
-[East-West 트래픽]
-    │
-    ▼
-[네트워크 지터 데이터센터 스토리지 망 동기…]
-    │
-    └──▶ [FCoE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCoE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,19 +41,23 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Delay / [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 서울에서 부산까지 택배가 가는 **절대적인 시간**. (예: 5초 걸림)
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Delay / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 서울에서 부산까지 택배가 가는 **절대적인 시간**. (예: 5초 걸림)
 - **지터 (Jitter)**: 택배들이 도착하는 **시간 간격의 오차**. 
   - (1번 택배: 5초, 2번: 5초, 3번: 5초) ➜ [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 길지만 **지터는 0** (완벽히 안정적)
   - (1번 택배: 1초, 2번: 9초, 3번: 3초) ➜ **지터 폭발!** (시스템 대혼란)
 
-```text
-[East-West 트래픽]
-    │
-    ▼
-[네트워크 지터 데이터센터 스토리지 망 동기…]
-    │
-    └──▶ [FCoE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCoE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,9 +68,9 @@ tags = ["studynote-network"]
 음성 통화(VoIP)에서 지터가 생기면 목소리가 로봇처럼 끊기고 찌그러지지만 뇌로 대충 때울 수 있습니다. 하지만 스토리지(Storage) 망은 다릅니다.
 
 ### 동기식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 붕괴
-- 네이버가 화재를 대비해 분당 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 DB 하드디스크와 춘천 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 하드디스크를 **실시간 1:1 쌍둥이처럼 똑같이 복사([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**하고 있습니다.
+- 네이버가 화재를 대비해 분당 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 DB 하드디스크와 춘천 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 하드디스크를 <strong>실시간 1:1 쌍둥이처럼 똑같이 복사(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong>하고 있습니다.
 - 금융 거래 원칙상 분당 DB에 "1만 원 입금"이 쓰이면, 춘천 DB에도 0.01초 만에 "1만 원 입금"이 무조건 똑같이 쓰이고 양쪽에서 "성공!" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장이 찍혀야만 다음 결제로 넘어갈 수 있습니다.
-- **지터 폭발 시나리오**: 광케이블 망에 지터가 생겨 분당 패킷이 춘천에 1밀리초 만에 갔다가 100밀리초 만에 갔다가 들쭉날쭉합니다. 춘천 스토리지는 언제 도착할지 모르는 패킷을 기다리느라 다음 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 멈춘 채([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 무한정 대기(I/O Wait)에 빠집니다. 결국 분당 메인 서버마저 락이 걸려 **전체 결제 시스템이 병목에 걸려 마비(Hang)**되는 끔찍한 연쇄 붕괴가 일어납니다.
+- **지터 폭발 시나리오**: 광케이블 망에 지터가 생겨 분당 패킷이 춘천에 1밀리초 만에 갔다가 100밀리초 만에 갔다가 들쭉날쭉합니다. 춘천 스토리지는 언제 도착할지 모르는 패킷을 기다리느라 다음 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 멈춘 채([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 무한정 대기(I/O Wait)에 빠집니다. 결국 분당 메인 서버마저 락이 걸려 <strong>전체 결제 시스템이 병목에 걸려 마비(Hang)</strong>되는 끔찍한 연쇄 붕괴가 일어납니다.
 
 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. East-West 트래픽이 기반 조건을 만든다면, 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 그 위에서 핵심 메커니즘을 구현하고, FCoE는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,9 +90,9 @@ tags = ["studynote-network"]
 
 1. **Jitter Buffer (지터 버퍼)의 한계**: 
    - 도착하는 패킷을 잠시 바구니(버퍼)에 모아뒀다가 일정한 간격으로 예쁘게 뽑아주는 기술입니다. 화상 회의(Zoom)에서는 최고지만, 1ms가 급한 스토리지 망에서는 이 버퍼에서 기다리는 시간조차 치명적인 딜레이([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 되어 못 씁니다.
-2. **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 최우선 할당**: 
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>) 최우선 할당</strong>: 
    - 스위치와 라우터 장비에서 스토리지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패킷(예: [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/), [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 패킷)을 발견하면, 다른 유튜브 트래픽들을 무조건 옆으로 밀어버리고 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 없이 0순위 하이패스로 통과시켜 도착 시간을 완벽하게 일정하게 맞춥니다. ([TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 기술 적용)
-3. **Lossless [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) (DCB, [Data Center](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Bridging) 도입**:
+3. <strong>Lossless <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> (DCB, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a> Bridging) 도입</strong>:
    - 아예 스토리지 전용 무결손(Lossless) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)망을 구성하여, 지터와 패킷 드랍 자체를 근원적으로 제거하는 값비싼 인프라를 깔아버립니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: East-West 트래픽]
-    │
-    ▼
-[현재 개념: 네트워크 지터 데이터센터 스토리지 망 동기…]
-    │
-    ├──▶ [확장 A: FCoE]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: East-West 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FCoE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 East-West 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 FCoE와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,22 +19,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 네트워크 패킷 처리에서 반복적이고 규칙적인 일을 호스트 CPU 대신 NIC가 맡는 구조다. 기본 철학은 단순하다. 패킷마다 똑같이 반복되는 계산과 큐잉, 일부 헤더 조작은 범용 코어보다 전용 하드웨어가 더 싸고 일정하게 처리할 수 있다는 것이다. 그래서 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 CPU 성능을 대체한다기보다, **CPU가 애플리케이션에 써야 할 시간을 되찾아 주는 역할**에 가깝다.
+NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 네트워크 패킷 처리에서 반복적이고 규칙적인 일을 호스트 CPU 대신 NIC가 맡는 구조다. 기본 철학은 단순하다. 패킷마다 똑같이 반복되는 계산과 큐잉, 일부 헤더 조작은 범용 코어보다 전용 하드웨어가 더 싸고 일정하게 처리할 수 있다는 것이다. 그래서 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 CPU 성능을 대체한다기보다, <strong>CPU가 애플리케이션에 써야 할 시간을 되찾아 주는 역할</strong>에 가깝다.
 
-이 기술이 중요해진 이유는 네트워크 속도와 패킷 수가 CPU 성장 속도보다 더 가파르게 늘었기 때문이다. 10기가비트 이더넷을 넘어 25기가비트, 100기가비트급 환경에서는 작은 패킷이 쏟아질 때 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산, 분할·병합 오버헤드가 먼저 CPU를 붙잡는다. 이런 환경에서 문제는 "회선 속도"가 아니라, **그 속도로 들어오는 패킷을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 얼마나 자주 깨워서 처리해야 하느냐**다.
+이 기술이 중요해진 이유는 네트워크 속도와 패킷 수가 CPU 성장 속도보다 더 가파르게 늘었기 때문이다. 10기가비트 이더넷을 넘어 25기가비트, 100기가비트급 환경에서는 작은 패킷이 쏟아질 때 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산, 분할·병합 오버헤드가 먼저 CPU를 붙잡는다. 이런 환경에서 문제는 "회선 속도"가 아니라, <strong>그 속도로 들어오는 패킷을 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 얼마나 자주 깨워서 처리해야 하느냐</strong>다.
 
 이 그림은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 없을 때 CPU가 어디에 시간을 쓰는지 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             Offload가 없으면 패킷마다 CPU가 여러 번 개입한다              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Packet -> Interrupt -> Kernel Parse -> Checksum -> Segment/Merge          │
-│        -> Application                                                     │
-│                                                                            │
-│ 패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.│
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offload가 없으면 패킷마다 CPU가 여러 번 개입한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Packet -&gt; Interrupt -&gt; Kernel Parse -&gt; Checksum -&gt; Segment/Merge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.</div></div>
+</div>
+</div>
+
+
 
 따라서 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 단순한 편의 기능이 아니다. 고속 네트워크 시대에 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)만으로는 감당하기 어려운 per-packet 비용을 낮추는, 사실상 필수적인 시스템 균형 장치다.
 
@@ -56,24 +58,24 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 아래 그림은 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 송수신 경로에서 어디에 개입하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│             NIC offload datapath: control on host, repetition on NIC      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application -> OS Stack -> DMA Descriptor Ring -> [NIC Offload Engine]    │
-│                                          │                                 │
-│                                          ├─ checksum / segmentation        │
-│                                          ├─ receive merge                  │
-│                                          └─ queue steering                 │
-│                                          ▼                                 │
-│                                         Wire                               │
-│                                                                            │
-│ Wire -> [NIC Parser / Receive Queue] -> DMA -> selected CPU core          │
-│                                         -> Application                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 모두 같은 급이 아니라는 점이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), TSO, RSS는 비교적 **비상태성 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))** [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이고, 연결 상태를 오래 기억하지 않는다. 반면 수신 병합이나 이후의 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 기능은 더 많은 상태 추적과 재조립을 요구하므로 구현과 운영 난도가 높아진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC offload datapath: control on host, repetition on NIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NIC Offload Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ checksum / segmentation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ receive merge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ queue steering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wire</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NIC Parser / Receive Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">DMA -&gt; selected CPU core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Application</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 모두 같은 급이 아니라는 점이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), TSO, RSS는 비교적 <strong>비상태성 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이고, 연결 상태를 오래 기억하지 않는다. 반면 수신 병합이나 이후의 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 기능은 더 많은 상태 추적과 재조립을 요구하므로 구현과 운영 난도가 높아진다.
 
 - **📢 섹션 요약 비유**: 창고 자동화도 송장 붙이기, 박스 분할, 출고 라인 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)처럼 단계별로 나뉜다. 자동화가 많을수록 사람 손은 줄지만, 기계끼리 타이밍을 맞추는 설계는 더 중요해진다.
 
@@ -116,7 +118,7 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 - RSS 큐는 많지만 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) affinity와 애플리케이션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 배치를 맞추지 않아 캐시 locality를 잃는 운영
 - 실제 CPU 병목 측정 없이 "[오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) = 무조건 빠름"이라고 가정하는 튜닝
 
-기술사 답안에서는 기능 이름만 나열하기보다, **어떤 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 stateless이고 어떤 것이 stateful이며, 왜 특정 장비에서는 켜고 다른 장비에서는 꺼야 하는지**를 함께 써야 실무 감각이 살아난다.
+기술사 답안에서는 기능 이름만 나열하기보다, <strong>어떤 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>이 stateless이고 어떤 것이 stateful이며, 왜 특정 장비에서는 켜고 다른 장비에서는 꺼야 하는지</strong>를 함께 써야 실무 감각이 살아난다.
 
 - **📢 섹션 요약 비유**: 자동 변속기는 일반 도로에서는 편하고 빠르지만, 정밀한 엔진 브레이크가 필요한 산길에서는 운전자가 수동으로 개입해야 할 때가 있다. [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)도 워크로드에 따라 그만큼 섬세하게 켜고 꺼야 한다.
 
@@ -128,7 +130,7 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 다만 한계도 있다. [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 많아질수록 디버깅 경로는 길어지고, 일부 기능은 장비 역할과 충돌하며, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 드라이버 품질에 더 민감해진다. 앞으로는 고정 기능 NIC를 넘어, SmartNIC과 DPU처럼 네트워크·스토리지·보안 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 한 칩 안에서 프로그래머블하게 다루는 방향이 더 중요해질 가능성이 크다.
 
-결론적으로 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 "네트워크를 더 빠르게 보내는 기술"이라기보다, **패킷 처리에서 범용 CPU가 굳이 하지 않아도 되는 일을 하드웨어에 위임하는 기술**로 기억하는 것이 정확하다. 그래야 588번 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 상태성 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)과도 자연스럽게 연결된다.
+결론적으로 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 "네트워크를 더 빠르게 보내는 기술"이라기보다, <strong>패킷 처리에서 범용 CPU가 굳이 하지 않아도 되는 일을 하드웨어에 위임하는 기술</strong>로 기억하는 것이 정확하다. 그래야 588번 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 상태성 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)과도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: 좋은 물류센터는 도로를 더 넓히는 것만이 아니라, 출하장 안의 반복 작업을 얼마나 자동화하느냐로 성능이 갈린다. NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 서버 안에 그 자동 출하장을 들이는 일이다.
 
@@ -147,24 +149,25 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 NIC + DMA
-    │
-    ▼
-Checksum Offload
-    │
-    ▼
-TSO · LRO · RSS
-    │
-    ▼
-상태성 오프로딩 (TOE)
-    │
-    ▼
-SmartNIC · DPU 기반 통합 오프로딩
-    │
-    ▼
-프로그래머블 네트워크 / 보안 / 스토리지 데이터 경로
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 NIC + DMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Checksum Offload</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TSO · LRO · RSS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태성 오프로딩 (TOE)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SmartNIC · DPU 기반 통합 오프로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래머블 네트워크 / 보안 / 스토리지 데이터 경로</div>
+</div>
+</div>
+
+
 
 이 흐름은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 작은 per-packet 최적화에서 출발해, 점차 연결 상태와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 전체를 맡는 방향으로 커졌음을 보여 준다.
 

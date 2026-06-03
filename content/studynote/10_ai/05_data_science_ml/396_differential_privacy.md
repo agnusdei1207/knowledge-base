@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 DP는 "이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함하든 포함하지 않든 출력이 거의 같다"를 수학적으로 보장한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 차분 프라이버시는 "설문조사 결과를 발표할 때 특정 한 명의 답변을 알아낼 수 없도록" 수학적으로 보장하는 기법이다.
 
@@ -53,17 +56,21 @@ P[M(D) ∈ S] ≤ e^ε · P[M(D') ∈ S] + δ
 
 ### 라플라스 메커니즘 (ε-DP 달성)
 
-```
-쿼리 함수 f: D → ℝ의 전역 민감도:
-Δf = max_{D~D'} ||f(D) - f(D')||₁
 
-라플라스 메커니즘:
-M(D) = f(D) + Lap(Δf/ε)
-       ↑ 실제 답  ↑ 노이즈
 
-Lap(b): 평균=0, 스케일 b의 라플라스 분포
-→ ε이 클수록 노이즈 작음 (프라이버시 약함)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">쿼리 함수 f: D → ℝ의 전역 민감도:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δf = max_{D~D'}</div><div class="kb-diagram-cell">f(D) - f(D')</div><div class="kb-diagram-cell">₁</div></div>
+<div class="kb-diagram-note">라플라스 메커니즘:</div>
+<div class="kb-diagram-note">M(D) = f(D) + Lap(Δf/ε)</div>
+<div class="kb-diagram-note">↑ 실제 답 ↑ 노이즈</div>
+<div class="kb-diagram-note">Lap(b): 평균=0, 스케일 b의 라플라스 분포</div>
+<div class="kb-diagram-note">→ ε이 클수록 노이즈 작음 (프라이버시 약함)</div>
+</div>
+</div>
+
+
 
 ### 가우시안 메커니즘 ((ε,δ)-DP 달성)
 
@@ -74,20 +81,22 @@ M(D) = f(D) + N(0, σ²I)
 L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 ```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  프라이버시 예산 관리                                 │
-│                                                      │
-│  전체 예산 ε_total                                   │
-│  쿼리 1: ε₁ 소비 → 남은 예산 ε_total - ε₁           │
-│  쿼리 2: ε₂ 소비 → 남은 예산 ε_total - ε₁ - ε₂      │
-│  ...                                                 │
-│  예산 소진 → 더 이상 쿼리 불가                        │
-│                                                      │
-│  기본 합성 (Basic Composition): ε_total = Σεᵢ        │
-│  고급 합성: ε_total < Σεᵢ (모멘트 어카운턴트)         │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프라이버시 예산 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 예산 ε_total</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 1: ε₁ 소비 → 남은 예산 ε_total - ε₁</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 2: ε₂ 소비 → 남은 예산 ε_total - ε₁ - ε₂</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예산 소진 → 더 이상 쿼리 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 합성 (Basic Composition): ε_total = Σεᵢ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고급 합성: ε_total &lt; Σεᵢ (모멘트 어카운턴트)</div></div>
+</div>
+</div>
+
+
 
 | 파라미터 | 범위 | 프라이버시 강도 | 노이즈 크기 |
 |:---|:---|:---|:---|
@@ -107,7 +116,7 @@ L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 - 클리핑된 기울기에 가우시안 노이즈 추가
 - 모멘트 어카운턴트 (Moments Accountant)로 누적 ε 추적
 
-**[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)) + DP**: 로컬 DP로 각 클라이언트의 기울기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>) + DP</strong>: 로컬 DP로 각 클라이언트의 기울기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -123,7 +132,7 @@ L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 
 **Apple/Google의 DP**: 로컬 DP로 사용자 통계 수집 (ε=1~4)
 **TensorFlow Privacy**: DP-SGD 구현체
-**의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: ε<[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)으로 [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습
+<strong>의료 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: ε<[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)으로 [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습
 
 기술사 포인트: ε-DP 정의, 라플라스 메커니즘 수식 (노이즈 = Lap(Δf/ε)), ε 예산 소모 개념을 체계적으로 설명.
 

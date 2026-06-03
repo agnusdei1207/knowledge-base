@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 Unit of Work는 이 문제를 해결하기 위해 등장했다. 핵심 아이디어는 "지금 당장 DB에 쓰지 말고, 한 업무 단위에서 무슨 일이 바뀌었는지 먼저 기억하자"다. 그리고 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 커밋 시점에 새 객체는 INSERT, 변경 객체는 UPDATE, 삭제 객체는 DELETE로 묶어 반영한다.
 
-Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))에서 정리된 이 패턴은 오늘날 JPA/Hibernate의 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), Entity Framework의 DbContext, SQLAlchemy의 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 같은 형태로 널리 구현되어 있다. 즉 Unit of Work는 특정 프레임워크 기능이 아니라, **엔터프라이즈 애플리케이션이 변경을 안전하게 모아 처리하는 공통 원리**다.
+Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))에서 정리된 이 패턴은 오늘날 JPA/Hibernate의 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), Entity Framework의 DbContext, SQLAlchemy의 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 같은 형태로 널리 구현되어 있다. 즉 Unit of Work는 특정 프레임워크 기능이 아니라, <strong>엔터프라이즈 애플리케이션이 변경을 안전하게 모아 처리하는 공통 원리</strong>다.
 
 - **📢 섹션 요약 비유**: Unit of Work는 장을 보면서 물건마다 바로 계산하지 않고, 카트에 담아 둔 뒤 계산대에서 한 번에 결제하는 방식과 같다.
 
@@ -43,25 +43,25 @@ Unit of Work는 보통 Identity Map, 변경 추적, Flush, [트랜잭션](/knowl
 
 아래 그림은 Unit of Work가 "객체 변경 회계장부"처럼 동작한다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Unit of Work inside one business transaction                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Application Service                                                 │
-│    │ load / modify / remove via Repository                          │
-│    ▼                                                                │
-│ Unit of Work                                                        │
-│   ├─ Identity Map      : loaded entities                            │
-│   ├─ New Objects       : INSERT queue                               │
-│   ├─ Dirty Objects     : UPDATE queue                               │
-│   └─ Removed Objects   : DELETE queue                               │
-│            │                                                        │
-│            ├─ flush()    -> SQL generation / batching               │
-│            └─ rollback() -> discard tracked changes                 │
-│                                                                      │
-│ Database transaction commits all or nothing                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unit of Work inside one business transaction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load / modify / remove via Repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unit of Work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Identity Map : loaded entities</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ New Objects : INSERT queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty Objects : UPDATE queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Removed Objects : DELETE queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ flush() -&gt; SQL generation / batching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rollback() -&gt; discard tracked changes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database transaction commits all or nothing</div></div>
+</div>
+</div>
+
+
 
 JPA/Hibernate에서는 이 메커니즘이 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 구현된다. 엔티티를 조회하면 1차 캐시에 올라가고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 필드를 바꾸면 스냅샷과 현재 상태를 비교하는 Dirty Checking으로 UPDATE가 준비된다. 즉 `save()`를 반복 호출하지 않아도 Unit of Work가 "무엇이 달라졌는지"를 알아낸다.
 
@@ -83,7 +83,7 @@ Unit of Work는 즉시 저장 방식과 비교할 때 차이가 분명하다. �
 | 코드 표현 | `save()` 호출이 자주 등장 | 변경 추적이 자동화되는 경우가 많음 |
 | 주의점 | 중복 저장, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 깨짐 | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 길어지면 메모리와 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 이슈 |
 
-이 패턴은 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script와 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model 양쪽 모두와 연결된다. [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script를 쓰더라도 내부 저장 계층이 Unit of Work를 제공할 수 있고, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model에서는 Aggregate의 불변식을 유지한 뒤 Repository를 통해 한 번에 반영하기 때문에 더 자연스럽게 결합된다. 즉 Unit of Work는 상위 설계 스타일과 독립적으로, **저장 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지키는 하부 메커니즘**이다.
+이 패턴은 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script와 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model 양쪽 모두와 연결된다. [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script를 쓰더라도 내부 저장 계층이 Unit of Work를 제공할 수 있고, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model에서는 Aggregate의 불변식을 유지한 뒤 Repository를 통해 한 번에 반영하기 때문에 더 자연스럽게 결합된다. 즉 Unit of Work는 상위 설계 스타일과 독립적으로, <strong>저장 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 지키는 하부 메커니즘</strong>이다.
 
 또한 [Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/), Repository, Optimistic Locking과도 밀접하다. 조회된 객체를 같은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 관리하므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 로딩이 가능하고, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드 비교로 동시 수정 충돌도 커밋 시점에 감지할 수 있다. 반대로 이 메커니즘을 모르고 쓰면 "왜 SQL이 지금 나가지?", "왜 수정이 자동 저장됐지?" 같은 혼란이 생긴다.
 
@@ -117,7 +117,7 @@ Unit of Work는 즉시 저장 방식과 비교할 때 차이가 분명하다. �
 - Detached 엔티티를 수정해 놓고 자동 저장될 것이라 오해하는 구현
 - 대량 배치에서 수만 건을 한 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)에 쌓아 놓고 Flush / Clear를 하지 않는 운영
 
-기술사 답안에서는 **"Unit of Work는 객체 변경을 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 단위로 추적해 커밋 시 일괄 반영하는 패턴이며, JPA [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 1차 캐시·Dirty Checking·Flush 메커니즘이 대표 구현"**이라고 정리하면 핵심이 살아난다.
+기술사 답안에서는 <strong>"Unit of Work는 객체 변경을 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 단위로 추적해 커밋 시 일괄 반영하는 패턴이며, JPA <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>의 1차 캐시·Dirty Checking·Flush 메커니즘이 대표 구현"</strong>이라고 정리하면 핵심이 살아난다.
 
 - **📢 섹션 요약 비유**: Unit of Work를 잘 쓰는 팀은 한 장의 업무 전표로 입금·출금·수정 내역을 묶어 처리하고, 못 쓰는 팀은 칸마다 따로 결재를 올려 중간에 서류가 어긋나는 셈이다.
 
@@ -127,7 +127,7 @@ Unit of Work는 즉시 저장 방식과 비교할 때 차이가 분명하다. �
 
 Unit of Work의 장점은 명확하다. 변경을 한 번에 반영하므로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 왕복이 줄고, 한 유스케이스 안의 변경을 원자적으로 묶어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 지키기 쉽다. 또한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직은 "무엇을 바꿀지"에 집중하고, 저장 계층은 "언제 어떻게 반영할지"를 책임지게 되어 코드 구조도 정리된다.
 
-하지만 이 패턴은 보이지 않게 SQL을 만들어 주기 때문에 내부 동작을 모른 채 쓰면 오히려 위험하다. Flush 시점, [Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/), 잠금 충돌, 대량 배치 메모리 사용량을 이해하지 못하면 성능과 정합성 문제를 뒤늦게 만난다. 즉 Unit of Work는 편의 기능이 아니라, **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계와 변경 추적을 disciplined 하게 다루게 만드는 패턴**이다.
+하지만 이 패턴은 보이지 않게 SQL을 만들어 주기 때문에 내부 동작을 모른 채 쓰면 오히려 위험하다. Flush 시점, [Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/), 잠금 충돌, 대량 배치 메모리 사용량을 이해하지 못하면 성능과 정합성 문제를 뒤늦게 만난다. 즉 Unit of Work는 편의 기능이 아니라, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 경계와 변경 추적을 disciplined 하게 다루게 만드는 패턴</strong>이다.
 
 결론적으로 기억할 문장은 이렇다. "Unit of Work는 ORM의 마법이 아니라, 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 변경 내역을 회계 장부처럼 관리하는 원리다." 설계감리 관점에서는 이 경계가 짧고 명확한지, 그리고 대량 처리·[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 상황까지 고려했는지를 보는 것이 핵심이다.
 
@@ -148,22 +148,24 @@ Unit of Work의 장점은 명확하다. 변경을 한 번에 반영하므로 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 유스케이스 시작
-    │
-    ▼
-Repository로 엔티티 로드
-    │
-    ▼
-Identity Map + New / Dirty / Removed 추적
-    │
-    ├─ dirty checking
-    ├─ flush
-    └─ rollback / commit
-    │
-    ▼
-일관된 트랜잭션 반영과 ORM 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 유스케이스 시작</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Repository로 엔티티 로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Identity Map + New / Dirty / Removed 추적</div>
+<div class="kb-diagram-tree-item" style="--depth:2">dirty checking</div>
+<div class="kb-diagram-tree-item" style="--depth:2">flush</div>
+<div class="kb-diagram-tree-item" style="--depth:2">rollback / commit</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일관된 트랜잭션 반영과 ORM 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 Unit of Work가 단순 캐시가 아니라, 변경 추적에서 커밋 제어까지 이어지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 관리 패턴임을 보여 준다.
 

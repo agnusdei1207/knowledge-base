@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 아키텍처 내에서, 과거에는 전용 하드웨어 어플라이언스로 동작하던 개별 네트워크 기능들([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드밸런서, 라우터, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 장비 등)을 **순수 소프트웨어로 프로그래밍하여 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)) 위에 올려서 실행시킨 개별 가상 인스턴스(앱)**를 말합니다.
-- (참고: 최근 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 기반의 VNF를 넘어, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 더 가볍게 쪼갠 **CNF(Cloud-native Network Function)**라는 용어로 진화하고 있습니다.)
+- **개념**: [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)([네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 아키텍처 내에서, 과거에는 전용 하드웨어 어플라이언스로 동작하던 개별 네트워크 기능들([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드밸런서, 라우터, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 장비 등)을 <strong>순수 소프트웨어로 프로그래밍하여 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)이나 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>) 위에 올려서 실행시킨 개별 가상 인스턴스(앱)</strong>를 말합니다.
+- (참고: 최근 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 기반의 VNF를 넘어, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반으로 더 가볍게 쪼갠 <strong>CNF(Cloud-native Network Function)</strong>라는 용어로 진화하고 있습니다.)
 
-```text
-[NFV]
-    │
-    ▼
-[VNF]
-    │
-    └──▶ [NFVI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFVI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VNF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,23 +43,27 @@ tags = ["studynote-network"]
 
 옛날 통신사 전산실을 가득 채웠던 쇳덩어리들이 전부 VNF 소프트웨어로 변신했습니다.
 
-1. **보안 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 장비 (vFW, vRouter)**: 
+1. <strong>보안 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 장비 (vFW, vRouter)</strong>: 
    - 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 하드웨어 라우터 ➜ **가상 라우터(vRouter) VNF** (소프트웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
-   - 팰로앨토(Palo Alto) 물리 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ **가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(vFW) VNF**
+   - 팰로앨토(Palo Alto) 물리 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ <strong>가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(vFW) VNF</strong>
    - L4/L7 로드밸런서 ➜ **가상 로드밸런서(vLB) VNF** (F5, Nginx 등)
-2. **통신사 모바일 코어망 (vEPC, [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 🌟**:
+2. <strong>통신사 모바일 코어망 (vEPC, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>) 🌟</strong>:
    - 가장 돈이 많이 절약된 혁신입니다. 4G의 뇌인 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), S-GW 장비와 5G의 뇌인 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), UPF(768번 문서)가 쇳덩어리가 아니라 **전부 VNF(또는 CNF) 소프트웨어로 찍혀 나와 클라우드 위에서 돕니다.**
-3. **가정용 셋톱박스 ([vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/))**:
+3. <strong>가정용 셋톱박스 (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/">vCPE</a>)</strong>:
    - 집집마다 나눠주던 비싼 인터넷 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 장비 기능마저도 통신사 클라우드 서버의 VNF로 올려버리고([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)), 집에는 깡통 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)만 둡니다. 기계가 고장 날 일이 없어 유지보수비가 사라집니다.
 
-```text
-[NFV]
-    │
-    ▼
-[VNF]
-    │
-    └──▶ [NFVI]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFVI</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VNF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 앱(소프트웨어)으로 만들었으니 무한 복제가 가능해졌지만, 치명적인 문제도 생겼습니다.
 
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 (I/O 병목)**: 소프트웨어 VNF가 범용 인텔 CPU에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수만 개 검사하다 보니, 전용 하드웨어([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 칩셋을 쓸 때보다 속도가 10배나 느려집니다. 이를 극복하기 위해 **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회, 846번)나 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/)(847번) 같은 가속 기술**을 VNF 밑바닥에 무조건 깔아주어야만 합니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 (I/O 병목)</strong>: 소프트웨어 VNF가 범용 인텔 CPU에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수만 개 검사하다 보니, 전용 하드웨어([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 칩셋을 쓸 때보다 속도가 10배나 느려집니다. 이를 극복하기 위해 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회, 846번)나 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a>(847번) 같은 가속 기술</strong>을 VNF 밑바닥에 무조건 깔아주어야만 합니다.
 - **상태 유지(Stateful)의 고통**: 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF가 죽어서 2번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF를 새로 띄웠는데, 해커 차단 목록 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 다 날아가면 큰일 납니다. 그래서 요즘 VNF들은 계산하는 뇌([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))와, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 장부를 저장하는 DB(Stateful)를 분리하여 장애에 대비하는 구조를 취합니다.
 
 VNF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NFV가 기반 조건을 만든다면, VNF는 그 위에서 핵심 메커니즘을 구현하고, NFVI는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -82,8 +90,8 @@ VNF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **탄력적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)**: 트래픽이 폭주하면 수천만 원짜리 장비를 살 필요 없이, 중앙 통제기가 VNF 복사 버튼을 눌러 **동일한 vFW(가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 100대를 1분 만에 찍어내 트래픽을 막아냅니다.**
-- **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 패치**: 보안 취약점이 터지면 장비 펌웨어를 올리러 USB를 들고 전산실에 갈 필요가 없습니다. 소프트웨어 업데이트 스크립트만 던지면 전국의 10만 대 VNF가 새벽 3시에 일제히 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)업이 완료됩니다.
+- <strong>탄력적 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a></strong>: 트래픽이 폭주하면 수천만 원짜리 장비를 살 필요 없이, 중앙 통제기가 VNF 복사 버튼을 눌러 <strong>동일한 vFW(가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>) 100대를 1분 만에 찍어내 트래픽을 막아냅니다.</strong>
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 패치</strong>: 보안 취약점이 터지면 장비 펌웨어를 올리러 USB를 들고 전산실에 갈 필요가 없습니다. 소프트웨어 업데이트 스크립트만 던지면 전국의 10만 대 VNF가 새벽 3시에 일제히 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)업이 완료됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ VNF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: VNF(가상 네트워크 기능)는 물리적인 '계산기, 달력, 손전등 기계'를 쓰레기통에 버리고, 내 스마트폰(서버) 안에 앱스토어에서 다운받아 설치한 **'계산기 앱, 달력 앱, 손전등 앱(소프트웨어 인스턴스)'**입니다. 계산기 기계는 한 번 사면 덧셈 뺄셈 규칙(하드웨어)을 영원히 고칠 수 없지만, 계산기 앱(VNF)은 어제는 더하기 앱이었다가, 오늘 새벽에 업데이트(소프트웨어 패치)를 받으면 내일은 미적분까지 풀어주는 공학용 계산기 앱으로 무한 진화할 수 있습니다. 필요할 땐 앱을 10개 띄우고, 필요 없으면 앱을 꺼버리는(메모리 반환) 궁극의 유연한 도구입니다.
+- **📢 섹션 요약 비유**: VNF(가상 네트워크 기능)는 물리적인 '계산기, 달력, 손전등 기계'를 쓰레기통에 버리고, 내 스마트폰(서버) 안에 앱스토어에서 다운받아 설치한 <strong>'계산기 앱, 달력 앱, 손전등 앱(소프트웨어 인스턴스)'</strong>입니다. 계산기 기계는 한 번 사면 덧셈 뺄셈 규칙(하드웨어)을 영원히 고칠 수 없지만, 계산기 앱(VNF)은 어제는 더하기 앱이었다가, 오늘 새벽에 업데이트(소프트웨어 패치)를 받으면 내일은 미적분까지 풀어주는 공학용 계산기 앱으로 무한 진화할 수 있습니다. 필요할 땐 앱을 10개 띄우고, 필요 없으면 앱을 꺼버리는(메모리 반환) 궁극의 유연한 도구입니다.
 
 ---
 
@@ -114,15 +122,19 @@ VNF는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NFV]
-    │
-    ▼
-[현재 개념: VNF]
-    │
-    ├──▶ [확장 A: NFVI]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VNF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFVI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 VNF는 NFV에서 출발해 현재 메커니즘을 정교화하고, 이후 NFVI와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

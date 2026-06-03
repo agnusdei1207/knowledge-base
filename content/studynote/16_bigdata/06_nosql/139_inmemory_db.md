@@ -20,31 +20,33 @@ tags = ["studynote-bigdata"]
 
 ### 메모리 vs 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│         스토리지 계층별 접근 지연 (Latency Hierarchy)       │
-│                                                          │
-│  CPU 레지스터     ~0.3ns   ████                          │
-│  L1 캐시         ~1ns     ████                           │
-│  L2 캐시         ~4ns     ████                           │
-│  RAM (DRAM)      ~100ns   ████                           │
-│  NVMe SSD        ~100μs   ████████████████               │
-│  SATA SSD        ~500μs   ████████████████████           │
-│  HDD             ~10ms    ██████████████████████████████ │
-│                                                          │
-│  RAM vs HDD 차이: 약 100,000배                            │
-│  → 인메모리 DB의 성능 우위 근거                            │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 계층별 접근 지연 (Latency Hierarchy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 레지스터 ~0.3ns ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 캐시 ~1ns ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 캐시 ~4ns ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM (DRAM) ~100ns ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe SSD ~100μs ████████████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA SSD ~500μs ████████████████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD ~10ms ██████████████████████████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM vs HDD 차이: 약 100,000배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 인메모리 DB의 성능 우위 근거</div></div>
+</div>
+</div>
+
+
 
 ### 인메모리 DB [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 솔루션 | 내구성 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 복잡도 |
 |:---:|:---:|:---:|:---:|
 | **순수 캐시** | Memcached | 없음 | 키-값 only |
-| **캐시+[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)** | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | RDB+AOF | 자료구조 |
-| **엔터프라이즈 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/)** | SAP HANA | 완전한 ACID | 복잡한 SQL |
-| **인메모리 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)** | VoltDB | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 | SQL + 절차 |
+| <strong>캐시+<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a></strong> | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) | RDB+AOF | 자료구조 |
+| <strong>엔터프라이즈 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a></strong> | SAP HANA | 완전한 ACID | 복잡한 SQL |
+| <strong>인메모리 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/">OLTP</a></strong> | VoltDB | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 | SQL + 절차 |
 | **분석 가속** | Apache Ignite | 선택적 | SQL + KV |
 
 📢 **섹션 요약 비유**
@@ -56,48 +58,42 @@ tags = ["studynote-bigdata"]
 
 ### Memcached vs [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 아키텍처 심층 비교
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  Memcached 아키텍처:                                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                  │
-│  │  Thread 1 │  │  Thread 2 │  │  Thread N │  (멀티스레드)  │
-│  └──────────┘  └──────────┘  └──────────┘                  │
-│  단일 해시 테이블, String 타입만, 복제 없음                    │
-│  슬랩 할당자(Slab Allocator): 메모리 단편화 방지              │
-│  LRU 기반 자동 퇴출 (eviction)                              │
-│                                                             │
-│  Redis 아키텍처:                                             │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │  단일 메인 스레드 (이벤트 루프)                          │  │
-│  │  + I/O 스레드 (Redis 6.0+)                             │  │
-│  └───────────────────────────────────────────────────────┘  │
-│  다양한 자료구조, RDB+AOF 영속성, 복제, 클러스터 지원          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memcached 아키텍처:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread 1</div><div class="kb-diagram-cell">Thread 2</div><div class="kb-diagram-cell">Thread N</div><div class="kb-diagram-cell">(멀티스레드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 해시 테이블, String 타입만, 복제 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬랩 할당자(Slab Allocator): 메모리 단편화 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU 기반 자동 퇴출 (eviction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis 아키텍처:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 메인 스레드 (이벤트 루프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ I/O 스레드 (Redis 6.0+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다양한 자료구조, RDB+AOF 영속성, 복제, 클러스터 지원</div></div>
+</div>
+</div>
+
+
 
 ### SAP HANA 인메모리 컬럼 스토어
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              SAP HANA 아키텍처                                │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              Row Store (OLTP 최적화)                    │  │
-│  │  빠른 INSERT/UPDATE, 개별 행 접근                        │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │              Column Store (OLAP 최적화)                 │  │
-│  │  컬럼별 압축 (Dictionary + Run-Length Encoding)          │  │
-│  │  SIMD 병렬 집계, 수십억 행 집계도 초고속                   │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │           영속성: 비동기 로그 + 세이브포인트              │  │
-│  │  (서버 재시작 시 약 수분 내 복구)                         │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAP HANA 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Store (OLTP 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빠른 INSERT/UPDATE, 개별 행 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Store (OLAP 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼별 압축 (Dictionary + Run-Length Encoding)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 병렬 집계, 수십억 행 집계도 초고속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영속성: 비동기 로그 + 세이브포인트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버 재시작 시 약 수분 내 복구)</div></div>
+</div>
+</div>
+
+
 
 ### VoltDB 인메모리 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 특화
 
@@ -124,9 +120,9 @@ VoltDB 설계 원칙:
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 위험 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 솔루션 |
 |:---:|:---:|:---:|:---:|
 | **없음** | 재시작 시 전부 손실 | 최고 | Memcached |
-| **[스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)(RDB)** | 마지막 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이후 | 높음 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) RDB |
-| **AOF(명령 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))** | 최대 1초 | 중간 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) AOF |
-| **동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)** | 매우 적음 | 중간 | VoltDB |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a>(RDB)</strong> | 마지막 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이후 | 높음 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) RDB |
+| <strong>AOF(명령 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong> | 최대 1초 | 중간 | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) AOF |
+| <strong>동기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong> | 매우 적음 | 중간 | VoltDB |
 | **WAL + 세이브포인트** | 최소 | 중간~낮음 | SAP HANA |
 
 ### 메모리 관리: 캐시 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
@@ -154,21 +150,23 @@ Redis maxmemory-policy 옵션:
 
 ### 실시간 입찰 시스템 (RTB, Real-Time Bidding) 아키텍처
 
-```text
-광고 입찰 요청 (100ms 이내 응답 필수)
-        │
-        ↓
-┌──────────────────────────────────────────────────────┐
-│  입찰 엔진 (VoltDB / Redis 기반)                      │
-│  1. 사용자 프로필 조회       (Redis Hash: <1ms)       │
-│  2. 광고 예산 잔액 확인      (Redis 원자 연산: <1ms)   │
-│  3. 예산 차감 + 입찰 기록    (원자 트랜잭션: <2ms)     │
-│  4. 낙찰 결과 반환           (총 <10ms)               │
-└──────────────────────────────────────────────────────┘
-        │
-        ↓
-Kafka (배치 처리용 로그 → BigQuery/Redshift)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">광고 입찰 요청 (100ms 이내 응답 필수)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입찰 엔진 (VoltDB / Redis 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사용자 프로필 조회 (Redis Hash: &lt;1ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 광고 예산 잔액 확인 (Redis 원자 연산: &lt;1ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 예산 차감 + 입찰 기록 (원자 트랜잭션: &lt;2ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 낙찰 결과 반환 (총 &lt;10ms)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Kafka (배치 처리용 로그 → BigQuery/Redshift)</div>
+</div>
+</div>
+
+
 
 ### 인메모리 DB 선택 가이드
 
@@ -196,7 +194,7 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 | SAP [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) + HANA | 배치 리포트 24시간 → 실시간 | 비즈니스 민첩성 |
 
 ### 결론
-인메모리 DB는 현대 고성능 아키텍처에서 "빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"를 담당하는 필수 레이어다. 순수 캐시부터 엔터프라이즈 HTAP까지 스펙트럼이 넓어, 요구 사항의 정확한 분석이 솔루션 선택의 관건이다. 기술사 시험에서는 **RAM vs 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이의 물리적 근거**, **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) RDB+AOF [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 메커니즘**, **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)/[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**, **SAP HANA 행/컬럼 이중 스토어 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 원리**가 핵심 논점이다.
+인메모리 DB는 현대 고성능 아키텍처에서 "빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"를 담당하는 필수 레이어다. 순수 캐시부터 엔터프라이즈 HTAP까지 스펙트럼이 넓어, 요구 사항의 정확한 분석이 솔루션 선택의 관건이다. 기술사 시험에서는 <strong>RAM vs 디스크 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 차이의 물리적 근거</strong>, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> RDB+AOF <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a> 메커니즘</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>/<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 캐시 교체 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>, <strong>SAP HANA 행/컬럼 이중 스토어 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a> 원리</strong>가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > 인메모리 DB 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "자주 쓰는 물건을 책상 위에 두는" 집 정리와 같다. 가장 자주 꺼내는 것([핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/))을 책상 위(RAM)에, 가끔 필요한 것은 서랍([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에, 거의 안 쓰는 것은 창고([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에 두면 일의 효율이 극적으로 올라간다. 전부를 책상 위에 놓으면 어수선해지듯, 인메모리와 디스크의 적절한 계층화가 핵심이다.
@@ -215,24 +213,25 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[디스크 기반 RDBMS — 영속 저장, I/O 병목, 밀리초~초 단위 응답]
-    │
-    ▼
-[캐시 레이어 (Cache Layer) — Memcached 키-값 캐시, DB 부하 분산]
-    │
-    ▼
-[인메모리 DB (In-Memory DB) — Redis / SAP HANA, 전체 데이터 RAM 상주, 마이크로초 응답]
-    │
-    ▼
-[영속 인메모리 (Persistent In-Memory) — AOF / RDB 스냅샷, 재시작 후 데이터 복구]
-    │
-    ▼
-[분산 인메모리 클러스터 (Redis Cluster) — 수평 샤딩·자동 장애 조치, 수백 GB 용량]
-    │
-    ▼
-[인메모리 HTAP (SAP HANA / MemSQL) — 트랜잭션 + 분석 워크로드 통합 실시간 처리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 기반 RDBMS — 영속 저장, I/O 병목, 밀리초~초 단위 응답</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 레이어 (Cache Layer) — Memcached 키-값 캐시, DB 부하 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인메모리 DB (In-Memory DB) — Redis / SAP HANA, 전체 데이터 RAM 상주, 마이크로초 응답</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영속 인메모리 (Persistent In-Memory) — AOF / RDB 스냅샷, 재시작 후 데이터 복구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 인메모리 클러스터 (Redis Cluster) — 수평 샤딩·자동 장애 조치, 수백 GB 용량</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인메모리 HTAP (SAP HANA / MemSQL) — 트랜잭션 + 분석 워크로드 통합 실시간 처리</div></div>
+</div>
+</div>
+
+
 이 흐름은 디스크 기반 DB의 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 메모리 캐시로 완화하고, 완전한 인메모리 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확장으로 진화하여 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 분석을 동시에 처리하는 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 아키텍처로 수렴하는 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

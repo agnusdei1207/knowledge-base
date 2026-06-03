@@ -5,10 +5,10 @@ title = "R&D (연구 개발 허브)"
 tags = ["r-and-d"]
 +++
 
-검색, RAG, 문서 자동화, 에이전트 협업 등 **연구개발 가설과 실험**을 다루는 공간입니다.
-R&D 과정에서 습득한 원천 기술 지식은 **Study 허브**의 **Study Note**와 융합하여 체계적으로 학습 및 검증을 이어갑니다.
+검색, RAG, 문서 자동화, 에이전트 협업 등 <strong>연구개발 가설과 실험</strong>을 다루는 공간입니다.
+R&D 과정에서 습득한 원천 기술 지식은 <strong>Study 허브</strong>의 <strong>Study Note</strong>와 융합하여 체계적으로 학습 및 검증을 이어갑니다.
 
-스터디 노트와 달리 **빈번한 쓰기와 반복적 갱신**이 발생하므로 Study와 분리 운영합니다.
+스터디 노트와 달리 <strong>빈번한 쓰기와 반복적 갱신</strong>이 발생하므로 Study와 분리 운영합니다.
 
 ---
 
@@ -47,10 +47,10 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 관련 원칙: **소프트웨어 품질 및 형상관리론**
 
 ### D. 주요 연구개발 프로젝트
-*   **[Quartz v5 아키텍처 분석](/knowledge-base/r-and-d/quartz-architecture/)**: 백링크·그래프 뷰 개념 구분, 빌드 파이프라인, 강점/한계, 타 SSG 비교, 스케일 전략.
-*   **[r-and-d-roadmap](/knowledge-base/r-and-d/r-and-d-roadmap/)**: 연구 개발 로드맵 및 핵심 아젠다.
-*   **[N-gram 해시 링커 알고리즘](/knowledge-base/r-and-d/n-gram-linker/)**: 9,400개 스터디 노트를 백트래킹 없이 초고속으로 상호 연결한 링커 구조 설명.
-*   **[Neo4j vs Dgraph 기술 비교](/knowledge-base/r-and-d/graph-databases/)**: 그래프 데이터베이스의 아키텍처 및 Graph RAG 분산 확장 전략 비교 분석.
+*   <strong><a href="/knowledge-base/r-and-d/quartz-architecture/">Quartz v5 아키텍처 분석</a></strong>: 백링크·그래프 뷰 개념 구분, 빌드 파이프라인, 강점/한계, 타 SSG 비교, 스케일 전략.
+*   <strong><a href="/knowledge-base/r-and-d/r-and-d-roadmap/">r-and-d-roadmap</a></strong>: 연구 개발 로드맵 및 핵심 아젠다.
+*   <strong><a href="/knowledge-base/r-and-d/n-gram-linker/">N-gram 해시 링커 알고리즘</a></strong>: 9,400개 스터디 노트를 백트래킹 없이 초고속으로 상호 연결한 링커 구조 설명.
+*   <strong><a href="/knowledge-base/r-and-d/graph-databases/">Neo4j vs Dgraph 기술 비교</a></strong>: 그래프 데이터베이스의 아키텍처 및 Graph RAG 분산 확장 전략 비교 분석.
 
 ---
 

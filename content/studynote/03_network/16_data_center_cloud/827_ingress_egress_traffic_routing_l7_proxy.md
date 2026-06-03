@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/), 인입 트래픽)**: 외부 인터넷(클라이언트)에서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) **내부로 들어오는(Inbound)** 모든 트래픽을 말합니다.
-- **[Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) (이그레스, 유출 트래픽)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 내부의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 외부 인터넷(예: 구글 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 외부 결제망)으로 **나가는(Outbound)** 모든 트래픽을 말합니다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a>, 인입 트래픽)</strong>: 외부 인터넷(클라이언트)에서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) **내부로 들어오는(Inbound)** 모든 트래픽을 말합니다.
+- <strong><a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> (이그레스, 유출 트래픽)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 내부의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 외부 인터넷(예: 구글 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 외부 결제망)으로 **나가는(Outbound)** 모든 트래픽을 말합니다.
 
-```text
-[Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
-[Ingress와 Egress 트래픽]
-    │
-    └──▶ [서비스 메시]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress와 Egress 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 메시</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,22 +44,26 @@ tags = ["studynote-network"]
 그냥 L4 로드밸런서(IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호만 보는 것)로는 부족합니다. URL의 세부 경로를 보고 똑똑하게 찢어주는 L7 (애플리케이션 계층) 라우터가 필수적입니다.
 
 ### 1. [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Resource (설계도)
-- 관리자가 작성하는 **'[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 룰북'**입니다.
+- 관리자가 작성하는 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 규칙 룰북'</strong>입니다.
 - "만약 인터넷 손님이 `domain.com/video`로 접속하면 비디오 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 보내고, `domain.com/music`으로 접속하면 음악 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 보내라. 그리고 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화(SSL 인증서)를 여기서 풀어서 넘겨라!"라고 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 언어(YAML)로 적어둡니다.
 
 ### 2. [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller (검문소 수문장) 🌟
-- 위에서 적어둔 설계도(Resource)를 받아서 실제로 트래픽을 분류하고 분배하는 **진짜 실물 소프트웨어 라우터(L7 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버)**입니다.
-- **대표적 제품**: **Nginx [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller**가 전 세계를 제패한 압도적 1위이며, 이외에 HAProxy, Traefik, ALB(AWS 전용) 등이 쓰입니다.
+- 위에서 적어둔 설계도(Resource)를 받아서 실제로 트래픽을 분류하고 분배하는 <strong>진짜 실물 소프트웨어 라우터(L7 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 서버)</strong>입니다.
+- **대표적 제품**: <strong>Nginx <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Controller</strong>가 전 세계를 제패한 압도적 1위이며, 이외에 HAProxy, Traefik, ALB(AWS 전용) 등이 쓰입니다.
 - **역할**: 외부에서 들어오는 거대한 트래픽 폭풍을 정문(Nginx)에서 다 얻어맞고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더를 깐깐하게 뜯어본 뒤, 규칙에 맞춰 내부의 적절한 Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(826번)나 Pod들에게 패킷을 예쁘게 던져줍니다(Reverse [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)).
 
-```text
-[Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
-[Ingress와 Egress 트래픽]
-    │
-    └──▶ [서비스 메시]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress와 Egress 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 메시</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,11 +75,11 @@ tags = ["studynote-network"]
 
 ### 1. 왜 Egress를 통제해야 하는가?
 - 만약 우리 회사 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나가 해커에게 털렸습니다([제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 등).
-- 해커는 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 몰래 들어와, **내부망의 기밀 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 압축해서 자신의 외부 러시아 해커 서버(C&C 서버)로 업로드하려 합니다.** 이때 나가는 문([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/))이 뻥 뚫려있으면 기밀이 100% 털립니다.
+- 해커는 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 몰래 들어와, <strong>내부망의 기밀 DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 싹 다 압축해서 자신의 외부 러시아 해커 서버(C&amp;C 서버)로 업로드하려 합니다.</strong> 이때 나가는 문([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/))이 뻥 뚫려있으면 기밀이 100% 털립니다.
 - 또는 감염된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 밖으로 비트코인 채굴(마이닝) 트래픽을 미친 듯이 뿜어낼 수도 있습니다.
 
 ### 2. [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Gateway (나가는 통제소) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- 824번 문서에서 배운 **[Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** 등을 이용해 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 규칙을 빡세게 겁니다.
+- 824번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a> Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> 등을 이용해 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 규칙을 빡세게 겁니다.
 - "이 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 오직 [외부 카드사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 IP]로만 나갈 수 있고([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Allow), 나머지 구글이나 이상한 해외 IP로 접속을 시도하면 즉각 그 패킷을 갈기갈기 찢어버려라([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Deny)!"라는 화이트리스트 룰을 세팅해야 비로소 진정한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))가 완성됩니다.
 
 Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…가 기반 조건을 만든다면, Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽은 그 위에서 핵심 메커니즘을 구현하고, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -124,15 +132,19 @@ Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    │
-    ▼
-[현재 개념: Ingress와 Egress 트래픽]
-    │
-    ├──▶ [확장 A: 서비스 메시]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Ingress와 Egress 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서비스 메시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽는 Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 이 방식 덕분에 잡음이 조금 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서도 비교적 안정적이며, 비선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)으로 확장할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                   ε-insensitive regression tube             │
-├──────────────────────────────────────────────────────────────┤
-│   o  o      ●●● predicted line ●●●      o  o                │
-│   within ε  → no penalty             outside ε → penalty     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-insensitive regression tube</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o o ●●● predicted line ●●● o o</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">within ε → no penalty outside ε → penalty</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 종이 위에 선을 그을 때, 선에서 아주 조금 삐져나간 건 봐주고 너무 벗어난 것만 혼내는 규칙이다.
 
@@ -51,17 +54,20 @@ SVR의 목표는 가능한 한 평평한 함수 `f(x)`를 찾되, 실제 값과�
 |:---|:---|:---|
 | **ε (Epsilon)** | 허용 오차 튜브 반경 | 작은 오차 무시 |
 | **C** | 벌점 강도 | 튜브 밖 오차를 얼마나 강하게 벌줄지 |
-| **[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)** | 비선형 투영 | 복잡한 패턴 학습 |
-| **[Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Vectors** | 튜브 경계/밖에 있는 샘플 | 모델을 실제로 정의하는 핵심 점 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a></strong> | 비선형 투영 | 복잡한 패턴 학습 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Vectors</strong> | 튜브 경계/밖에 있는 샘플 | 모델을 실제로 정의하는 핵심 점 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                     SVR Optimization Idea                    │
-├──────────────────────────────────────────────────────────────┤
-│ Flat line + ε tube + penalty outside the tube                │
-│  -> sparse solution dominated by support vectors             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVR Optimization Idea</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flat line + ε tube + penalty outside the tube</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; sparse solution dominated by support vectors</div></div>
+</div>
+</div>
+
+
 
 SVR은 모든 샘플이 아니라 일부 경계 샘플만 중요해지는 희소성(sparsity)을 갖는다는 점이 강점이다.
 
@@ -110,7 +116,7 @@ SVR은 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_fun
 
 SVR을 잘 쓰면 잡음이 있는 회귀 문제에서도 안정적인 예측이 가능하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통해 복잡한 비선형 패턴까지 표현할 수 있다.
 
-결론적으로 SVR은 **'허용 오차가 있는 회귀'**이므로, 우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기·스케일·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택을 함께 고려해야 한다.
+결론적으로 SVR은 <strong>'허용 오차가 있는 회귀'</strong>이므로, 우리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기·스케일·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택을 함께 고려해야 한다.
 
 - **📢 섹션 요약 비유**: 완벽하게 맞추려다 오히려 망가지기보다, 일정 범위는 봐주면서 전체 모양을 잘 맞추는 옷 재단과 같다.
 

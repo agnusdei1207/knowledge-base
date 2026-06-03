@@ -32,28 +32,24 @@ tags = ["ict_convergence"]
 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) | 구조 및 특징 | 핵심 동작 원리 |
 | :--- | :--- | :--- |
 | **TinyOS** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 기반 아키텍처 | nesC 언어 사용, 철저한 **이벤트 구동(Event-Driven)** 방식. 평소엔 깊은 수면(Sleep) 상태를 유지하다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시에만 동작하여 전력을 극강으로 절약함. |
-| **RIOT** | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 아키텍처 | IoT를 위한 친화적 OS. 표준 C/C++ 사용 및 POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원으로 **[멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)(Multi-Threading)**을 완벽히 제공하면서도 1.5KB RAM 수준으로 구동 가능함. |
-| **FreeRTOS** | [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 **엄격한 시간 제약(Hard Real-Time)**이 필요한 상업용 임베디드 장비 제어에 특화됨. |
+| **RIOT** | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 아키텍처 | IoT를 위한 친화적 OS. 표준 C/C++ 사용 및 POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원으로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/">멀티스레딩</a>(Multi-Threading)</strong>을 완벽히 제공하면서도 1.5KB RAM 수준으로 구동 가능함. |
+| **FreeRTOS** | [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 <strong>엄격한 시간 제약(Hard Real-Time)</strong>이 필요한 상업용 임베디드 장비 제어에 특화됨. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링           │
-├──────────────────────────────────────────────────────────────┤
-│ [ Active State (활성 상태) ]        [ Deep Sleep (대기 상태) ] │
-│                                                              │
-│      인터럽트 발생 (센서 감지) ──▶ 깨어남 (Wake-up)            │
-│                 │                      │                     │
-│                 ▼                      ▼                     │
-│      작업(Task) 큐에 등록 ──▶ CPU 실행 (데이터 전송)          │
-│                 │                      │                     │
-│                 └─────────── 작업 완료 ─┘                     │
-│                                        │                     │
-│                                        ▼                     │
-│                                 다시 수면 모드로 진입           │
-│ ──────────────────────────────────────────────────────────── │
-│ 배터리 소모: (High) 10mA       배터리 소모: (Low) 1μA 미만    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active State (활성 상태)</div><div class="kb-diagram-node">Deep Sleep (대기 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 발생 (센서 감지) ──▶ 깨어남 (Wake-up)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업(Task) 큐에 등록 ──▶ CPU 실행 (데이터 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 완료 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 수면 모드로 진입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배터리 소모: (High) 10mA 배터리 소모: (Low) 1μA 미만</div></div>
+</div>
+</div>
+
+
 이 그림은 TinyOS 등에서 주로 사용하는 전력 관리 메커니즘을 보여준다. 시스템은 대부분의 시간을 초저전력 상태(Deep Sleep)로 보내며, 외부 환경의 변화(이벤트)가 감지되는 찰나의 순간에만 CPU를 가동해 작업을 처리하고 즉시 다시 잠든다.
 
 - **📢 섹션 요약 비유**: 초소형 OS의 코어 원리는 '불침번 교대'와 같다. 평소에는 내무반 전체가 불을 끄고 자면서 에너지를 아끼다가, 적의 침투(이벤트)가 발생했을 때만 즉각 기상하여 총(CPU)을 쏘고 다시 취침하는 극단적인 에너지 절약 전술이다.
@@ -83,8 +79,8 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ### 판단 가이드 (의사결정)
 1. **배터리 수명이 절대적일 때 (스마트 농업 센서)**: TinyOS를 채택하여 이벤트 발생 시에만 기동하도록 극단적인 전력 설계를 적용한다.
-2. **다양한 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 통신이 필요할 때 (스마트홈 게이트웨이)**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 등을 손쉽게 포팅할 수 있고 개발자 풀이 넓은 RIOT을 우선 고려한다.
-3. **정밀한 모터 제어나 산업 표준이 중요할 때 ([스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 기계)**: AWS 생태계와 긴밀히 연동되며, 엄격한 타이밍을 보장하는 FreeRTOS를 표준으로 삼는다.
+2. <strong>다양한 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 통신이 필요할 때 (스마트홈 게이트웨이)</strong>: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 등을 손쉽게 포팅할 수 있고 개발자 풀이 넓은 RIOT을 우선 고려한다.
+3. <strong>정밀한 모터 제어나 산업 표준이 중요할 때 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 기계)</strong>: AWS 생태계와 긴밀히 연동되며, 엄격한 타이밍을 보장하는 FreeRTOS를 표준으로 삼는다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 단순한 온습도 수집 센서에 불필요하게 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 많이 생성하는 선점형 OS를 적용하여 오버헤드로 인해 건전지가 한 달 만에 방전되게 만드는 설계.
@@ -107,28 +103,31 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **RTOS (Real-Time OS)** | 정해진 시간 제약([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) 내에 논리적으로 정확한 결과를 산출해야 하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
-| **MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)** | CPU, 메모리, I/O 포트가 하나의 칩에 집적된 소형 제어기 |
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things)** | 각종 사물에 센서와 통신 기능을 내장하여 인터넷에 연결하는 기술 |
-| **[WSN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Wireless Sensor Network)** | 무선 통신을 이용해 환경이나 물리적 상태를 관측하는 센서 노드들의 집합 |
+| <strong>MCU (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">Microcontroller</a> Unit)</strong> | CPU, 메모리, I/O 포트가 하나의 칩에 집적된 소형 제어기 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong> | 각종 사물에 센서와 통신 기능을 내장하여 인터넷에 연결하는 기술 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/">WSN</a> (Wireless Sensor Network)</strong> | 무선 통신을 이용해 환경이나 물리적 상태를 관측하는 센서 노드들의 집합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 OS (Linux, Windows) · 무거운 자원 요구
-    │
-    ▼
-임베디드 OS (Embedded Linux) · 커스텀 가능, 여전히 무거움
-    │
-    ▼ (본 문서)
-초소형 운영체제 (Micro OS) · 수 KB 램, 초저전력 구동
-    │ (분화)
-    ├─▶ TinyOS (이벤트 기반 전력 최적화)
-    ├─▶ RIOT (IoT 친화적 POSIX 지원)
-    └─▶ FreeRTOS (엄격한 실시간성 보장)
-    │
-    ▼
-엣지 AI OS (TinyML 지원) · 초소형 기기 내 직접 AI 추론
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 OS (Linux, Windows) · 무거운 자원 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임베디드 OS (Embedded Linux) · 커스텀 가능, 여전히 무거움</div>
+<div class="kb-diagram-note">▼ (본 문서)</div>
+<div class="kb-diagram-note">초소형 운영체제 (Micro OS) · 수 KB 램, 초저전력 구동</div>
+<div class="kb-diagram-note">(분화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ TinyOS (이벤트 기반 전력 최적화)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ RIOT (IoT 친화적 POSIX 지원)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ FreeRTOS (엄격한 실시간성 보장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 AI OS (TinyML 지원) · 초소형 기기 내 직접 AI 추론</div>
+</div>
+</div>
+
+
 이 흐름도는 무거운 시스템 소프트웨어가 기기의 소형화에 맞춰 극도로 경량화되고, 다시 특수 목적에 맞게 분화 및 지능화되는 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

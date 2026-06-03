@@ -31,18 +31,18 @@ tags = ["studynote-ai"]
 
 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 학습해야 할 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 파라미터가 없는 정적 연산이다. 주로 $2 \times 2$ 크기의 윈도우([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))와 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 2를 사용하여 공간 해상도를 정확히 1/4로 줄인다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           [Max Pooling vs Average Pooling 연산 비교]           │
-├──────────────────────────────────────────────────────────────┤
-│  [입력 2x2 특성 맵]                                               │
-│  ┌───┬───┐                                                 │
-│  │ 1 │ 5 │ ─── Max Pooling ───────▶ [ 9 ] (가장 큰 값 추출)   │
-│  ├───┼───┤                                                 │
-│  │ 2 │ 9 │ ─── Average Pooling ───▶ [ 4.25 ] (전체 평균 계산) │
-│  └───┴───┘                                                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Max Pooling vs Average Pooling 연산 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 2x2 특성 맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">9</div><div class="kb-diagram-note">(가장 큰 값 추출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4.25</div><div class="kb-diagram-note">(전체 평균 계산)</div></div>
+</div>
+</div>
+
+
 
 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)에서 큰 값(`9`)은 해당 위치에 필터가 찾는 특징(예: 고양이 귀)이 강하게 존재함을 의미한다. 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 이 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 살리고 나머지 노이즈(`1, 2, 5`)는 제거하여 특징을 극대화한다. 반면 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 노이즈까지 모두 섞어 평균(`4.25`)을 내므로, 특징이 뭉개지는 블러 (Blur) 현상을 초래한다.
 
@@ -72,8 +72,8 @@ GAP는 $7 \times 7$ 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai
 실무 아키텍처 설계 시 다운샘플링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 크기를 결정짓는 핵심 요소다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **은닉층 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**: 이미지의 질감, 윤곽선이 중요한 비전 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/), 분할 등)에서는 반드시 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 사용하고 있는가?
-2. **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 설계**: 모델의 맨 마지막 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 단계를 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층에서 GAP로 교체하여 과적합을 방지하고 메모리 사용량을 최소화했는가?
+1. <strong>은닉층 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>: 이미지의 질감, 윤곽선이 중요한 비전 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/), 분할 등)에서는 반드시 최대 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 사용하고 있는가?
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>기 설계</strong>: 모델의 맨 마지막 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 단계를 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층에서 GAP로 교체하여 과적합을 방지하고 메모리 사용량을 최소화했는가?
 3. **최신 트렌드 반영**: 최근에는 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 연산 자체를 생략하고, [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2)을 넓혀 학습 가능한 다운샘플링(Strided [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 대체하는 구조(예: ResNet의 일부 층)를 고려했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -105,18 +105,21 @@ GAP는 $7 \times 7$ 크기의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-합성곱 층 (Convolution Layer) 특징 추출
-    │
-    ▼
-최대 풀링 (Max Pooling) · 은닉층의 공간 정보 압축
-    │
-    ▼
-전역 평균 풀링 (GAP) · 분류기 파라미터 경량화 (ResNet 등)
-    │
-    ▼
-스트라이드 합성곱 (Strided Convolution) · 풀링을 대체하는 학습 가능한 압축
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">합성곱 층 (Convolution Layer) 특징 추출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최대 풀링 (Max Pooling) · 은닉층의 공간 정보 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전역 평균 풀링 (GAP) · 분류기 파라미터 경량화 (ResNet 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트라이드 합성곱 (Strided Convolution) · 풀링을 대체하는 학습 가능한 압축</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

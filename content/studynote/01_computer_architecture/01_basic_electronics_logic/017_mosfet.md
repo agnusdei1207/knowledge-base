@@ -37,23 +37,22 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 | **소스/드레인 (S/D)** | 전자가 밀려 들어오고(소스), 빠져나가는(드레인) 터미널 | 물이 콸콸 쏟아져 들어오고 나가는 대형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) |
 | **바디 (Body/Bulk)** | 댐 전체가 박혀있는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기판 (문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 튜닝에 사용) | 전체 댐 시설을 지탱하는 거대한 암반 지대 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           MOSFET의 M-O-S 단면 아키텍처 및 전기장 원리            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ M: 게이트 금속 ] ◀─ 전압(+) 인가                     │
-│       ==================                                     │
-│       [ O: 산화막(유리) ] ◀─ 전자는 못 가고 전기장만 통과        │
-│    +---+----------------+---+                                │
-│    | S | (전기장에 끌려옴) | D |                                │
-│    | o |── e- e- e- e- ──| r | ◀─ [ N 채널 완성! 전기가 통함 ]│
-│    | u |    P형 기판     | a |                                │
-│    | r | (Substrate)    | i |                                │
-│    | c |                | n |                                │
-│    +---+----------------+---+                                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MOSFET의 M-O-S 단면 아키텍처 및 전기장 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">M: 게이트 금속</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 전압(+) 인가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O: 산화막(유리)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 전자는 못 가고 전기장만 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">(전기장에 끌려옴)</div><div class="kb-diagram-cell">D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">N 채널 완성! 전기가 통함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">u</div><div class="kb-diagram-cell">P형 기판</div><div class="kb-diagram-cell">a</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">r</div><div class="kb-diagram-cell">(Substrate)</div><div class="kb-diagram-cell">i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c</div><div class="kb-diagram-cell">n</div></div>
+</div>
+</div>
+
+
 
 게이트에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(+)을 가하면, 방탄유리(산화막) 때문에 전자는 밖으로 나가지 못한다. 대신 그 강한 전기장이 기판 밑바닥에 숨어있던 전자(-)들을 표면으로 멱살 잡고 끌어올린다. 표면에 모인 전자들이 소스와 드레인을 잇는 튼튼한 징검다리(채널)를 만들어, 마침내 전기가 폭포수처럼 흐르게(Turn-On) 된다.
 
@@ -68,7 +67,7 @@ MOSFET은 눈에 보이는 3개의 단자와 보이지 않는 바닥 뼈대까�
 | 비교 항목 | NMOS (N-channel) | PMOS (P-channel) | [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 아키텍처 (결합) |
 |:---|:---|:---|:---|
 | **동작 캐리어** | 전자 (가볍고 아주 빠름) | 정공 (무겁고 느림) | 둘의 장점을 융합 배치 |
-| **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 켜짐** | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 High(1)일 때 열림 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 Low(0)일 때 열림 | **1과 0 모두에 철벽 대응** |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 켜짐</strong> | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 High(1)일 때 열림 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 Low(0)일 때 열림 | **1과 0 모두에 철벽 대응** |
 | **연결 담당** | 바닥 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(GND)을 끌어옴 | 천장 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(VDD)을 끌어옴 | **동시에 열리는 일 절대 없음** |
 
 이 두 청개구리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 위아래로 묶어놓은 것이 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/)(상보형 금속 산화막 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/))다. 입력이 1이든 0이든 둘 중 하나는 무조건 닫혀있게 만든 구조 덕분에, 상태를 유지하는 동안 전원에서 바닥으로 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 직통으로 줄줄 새는 합선(Short Circuit)이 원천 차단된다. 이 마법 덕분에 스마트폰의 대기 전력이 0에 수렴하게 되었다.
@@ -106,30 +105,31 @@ MOSFET은 진공관의 발열 딜레마를 '전기장과 절연막'이라는 획
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) ([Complementary MOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/))** | NMOS와 PMOS를 상보적으로 결합해 관통 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 원천 차단하고 대기 전력을 0으로 만든 혁명적 회로 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">CMOS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">Complementary MOS</a>)</strong> | NMOS와 PMOS를 상보적으로 결합해 관통 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 원천 차단하고 대기 전력을 0으로 만든 혁명적 회로 |
 | **High-K 절연막** | 미세화에 따른 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(누설)을 막기 위해 도입된 고유전율 소재로, 칩의 물리적 붕괴를 구원함 |
-| **양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))** | 산화막이 너무 얇아지면 전자가 파동으로 변해 절연 벽을 그대로 뚫고 도망가버리는 치명적 양자 현상 |
+| <strong>양자 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>)</strong> | 산화막이 너무 얇아지면 전자가 파동으로 변해 절연 벽을 그대로 뚫고 도망가버리는 치명적 양자 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[진공관 (Vacuum Tube) — 열전자 방출 ON/OFF, 발열·부피 한계]
-    │
-    ▼
-[바이폴라 트랜지스터 (BJT, Bipolar Junction Transistor) — 전류 제어, 소형화]
-    │
-    ▼
-[MOSFET (Metal-Oxide-Semiconductor FET) — 전압 제어, 절연 게이트, 저전력]
-    │
-    ▼
-[CMOS (Complementary MOS) — NMOS+PMOS 상보 결합, 정적 전력 소모 제로]
-    │
-    ▼
-[FinFET / GAA (Gate-All-Around) — 3D 게이트 구조, 누설 전류 차단, 5nm 이하]
-    │
-    ▼
-[CFET (Complementary FET) — NMOS·PMOS 수직 적층, 1nm 시대 면적 혁신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">진공관 (Vacuum Tube) — 열전자 방출 ON/OFF, 발열·부피 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">바이폴라 트랜지스터 (BJT, Bipolar Junction Transistor) — 전류 제어, 소형화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MOSFET (Metal-Oxide-Semiconductor FET) — 전압 제어, 절연 게이트, 저전력</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMOS (Complementary MOS) — NMOS+PMOS 상보 결합, 정적 전력 소모 제로</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FinFET / GAA (Gate-All-Around) — 3D 게이트 구조, 누설 전류 차단, 5nm 이하</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CFET (Complementary FET) — NMOS·PMOS 수직 적층, 1nm 시대 면적 혁신</div></div>
+</div>
+</div>
+
+
 이 흐름은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 열전자 소자에서 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어 절연 게이트로 진화한 뒤, 미세화의 물리적 한계를 3D 입체 구조 확보로 돌파해가는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 기술의 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

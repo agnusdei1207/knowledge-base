@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 도심지에는 기지국이 바둑판처럼 촘촘히 100m마다 세워져 있습니다(고밀도 셀 환경).
-- 폰이 A 기지국 바로 밑에 있으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 깨끗하지만, A 기지국과 B 기지국 영역이 겹치는 **셀 가장자리(Cell Edge) 경계선**에 진입하는 순간, 폰 입장에서는 A의 전파와 B의 엉뚱한 전파가 똑같이 강하게 들려와 대혼란(심각한 전파 간섭 노이즈)에 빠지고 속도가 바닥을 칩니다.
+- 폰이 A 기지국 바로 밑에 있으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 깨끗하지만, A 기지국과 B 기지국 영역이 겹치는 <strong>셀 가장자리(Cell Edge) 경계선</strong>에 진입하는 순간, 폰 입장에서는 A의 전파와 B의 엉뚱한 전파가 똑같이 강하게 들려와 대혼란(심각한 전파 간섭 노이즈)에 빠지고 속도가 바닥을 칩니다.
 
-```text
-[동적 스펙트럼 공유 기술]
-    │
-    ▼
-[주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    └──▶ [데이터센터 3-Tier 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 스마트폰이 여러 기지국이 겹치는 경계 지역(Cell Edge)에 있을 때, 인접한 여러 개의 기지국이 서로 적이 되는 것이 아니라 **실시간으로 정보를 교환하고 찰떡같이 스케줄을 조율(협력, Coordinated)하여 폰의 통신 품질을 극대화시켜주는 고차원 전파 최적화망 송수신 기술**입니다.
-- 이 마법이 가능해진 이유는 앞서 781번 문서에서 배운 **[C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/)(클라우드 기지국)** 구조 덕분입니다. 전화국 지하에 모여있는 하나의 뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 강남역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 역삼역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 두 개를 마치 '자신의 양팔'처럼 완벽히 동시에 조종할 수 있게 되었기 때문입니다.
+- **개념**: 스마트폰이 여러 기지국이 겹치는 경계 지역(Cell Edge)에 있을 때, 인접한 여러 개의 기지국이 서로 적이 되는 것이 아니라 <strong>실시간으로 정보를 교환하고 찰떡같이 스케줄을 조율(협력, Coordinated)하여 폰의 통신 품질을 극대화시켜주는 고차원 전파 최적화망 송수신 기술</strong>입니다.
+- 이 마법이 가능해진 이유는 앞서 781번 문서에서 배운 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a>(클라우드 기지국)</strong> 구조 덕분입니다. 전화국 지하에 모여있는 하나의 뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 강남역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 역삼역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 두 개를 마치 '자신의 양팔'처럼 완벽히 동시에 조종할 수 있게 되었기 때문입니다.
 
-```text
-[동적 스펙트럼 공유 기술]
-    │
-    ▼
-[주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    └──▶ [데이터센터 3-Tier 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 ### 1. 합동 전송 (JT, Joint Transmission) - "양쪽에서 듀엣으로 쏴주기"
 - 가장 극적이고 직관적인 기술입니다.
-- 셀 경계에 서 있는 스마트폰 하나를 향해, **A 기지국과 B 기지국이 정확히 똑같은 넷플릭스 영화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 정확히 똑같은 타이밍과 주파수 빔으로 양쪽에서 동시에** 쏴버립니다.
+- 셀 경계에 서 있는 스마트폰 하나를 향해, <strong>A 기지국과 B 기지국이 정확히 똑같은 넷플릭스 영화 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를, 정확히 똑같은 타이밍과 주파수 빔으로 양쪽에서 동시에</strong> 쏴버립니다.
 - 스마트폰은 A와 B의 파동을 방해물이 아니라 하나의 거대한 파동 에너지로 흡수하여 찰칵 합칩니다. 전파 간섭이 0이 되고, 오히려 경계선에서 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))가 폭증하여 다운로드 속도가 두 배로 뜁니다. (간섭을 역이용한 축복)
 
 ### 2. 동적 포인트 선택 (DPS, Dynamic Point [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) - "가장 상태 좋은 놈이 쏘기"
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 폰이 두 기지국 사이 경계 구역에 있는 상황은 '양쪽 귀에 각각 헤드폰 스피커 두 개를 대고 있는 사람'과 같습니다. 옛날에는 왼쪽 스피커(A 기지국)는 모차르트를 틀고 오른쪽 스피커(B 기지국)는 뽕짝을 크게 틀어 서로 믹스되어 소음(간섭) 고문을 받았습니다. **[CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/)([협력 통신](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/))** 기술은 두 스피커를 하나의 앰프([C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 두뇌)에 선으로 연결한 것입니다. 앰프가 0.001초 오차 없이 두 스피커에 똑같은 모차르트 음악(합동 전송, JT)을 동시에 틀어줍니다. 사람의 귀에는 양쪽에서 완벽한 스테레오 화음이 쏟아져 들어와 오히려 음악이 2배로 크고 선명하고 웅장해지는 간섭 회피의 기적입니다.
+- **📢 섹션 요약 비유**: 폰이 두 기지국 사이 경계 구역에 있는 상황은 '양쪽 귀에 각각 헤드폰 스피커 두 개를 대고 있는 사람'과 같습니다. 옛날에는 왼쪽 스피커(A 기지국)는 모차르트를 틀고 오른쪽 스피커(B 기지국)는 뽕짝을 크게 틀어 서로 믹스되어 소음(간섭) 고문을 받았습니다. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">CoMP</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">협력 통신</a>)</strong> 기술은 두 스피커를 하나의 앰프([C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 두뇌)에 선으로 연결한 것입니다. 앰프가 0.001초 오차 없이 두 스피커에 똑같은 모차르트 음악(합동 전송, JT)을 동시에 틀어줍니다. 사람의 귀에는 양쪽에서 완벽한 스테레오 화음이 쏟아져 들어와 오히려 음악이 2배로 크고 선명하고 웅장해지는 간섭 회피의 기적입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 동적 스펙트럼 공유 기술]
-    │
-    ▼
-[현재 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ├──▶ [확장 A: 데이터센터 3-Tier 아키텍처]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 주파수 집성 기술 고급 모델 연대 전방위 고…는 동적 스펙트럼 공유 기술에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

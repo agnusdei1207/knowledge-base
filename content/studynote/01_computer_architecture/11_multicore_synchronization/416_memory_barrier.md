@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 코드 순서와 관찰 순서가 달라질 수 있는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Producer code vs Consumer observation                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Producer program order                                            │
-│   [Write data] ───────────────────────────────▶ [Write flag]      │
-│        │                                        │                 │
-│        │ delayed in store buffer                │ quick visible   │
-│        ▼                                        ▼                 │
-│ Global visibility                                                   │
-│   [data not visible yet]                         [flag visible]    │
-│                                                     │              │
-│                                                     ▼              │
-│ Consumer may see : flag == 1, data == old value                    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer code vs Consumer observation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer program order</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Write data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Write flag</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">delayed in store buffer</div><div class="kb-diagram-cell">quick visible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global visibility</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">data not visible yet</div><div class="kb-diagram-node">flag visible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer may see : flag == 1, data == old value</div></div>
+</div>
+</div>
+
+
 
 즉 메모리 배리어는 "순서를 강요하는 추가 연산"이 아니라, 멀티코어 세계에서 프로그램 의미를 유지하기 위한 최소한의 계약이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 강해질수록 이런 계약의 중요성은 더 커진다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 배리어의 핵심은 두 가지다. 첫째, **재배치 방지**다. 컴파일러와 CPU는 독립적인 메모리 접근을 앞뒤로 바꿔 실행하려 하지만, 배리어는 특정 종류의 `Load`와 `Store` 이동을 금지한다. 둘째, **가시성 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)**이다. 이미 실행된 쓰기가 스토어 버퍼나 캐시에 머무르며 다른 코어에 늦게 보이는 상황에서, 배리어는 그 경계 이전의 결과가 충분히 외부에 반영되도록 압박한다.
+메모리 배리어의 핵심은 두 가지다. 첫째, <strong>재배치 방지</strong>다. 컴파일러와 CPU는 독립적인 메모리 접근을 앞뒤로 바꿔 실행하려 하지만, 배리어는 특정 종류의 `Load`와 `Store` 이동을 금지한다. 둘째, <strong>가시성 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a></strong>이다. 이미 실행된 쓰기가 스토어 버퍼나 캐시에 머무르며 다른 코어에 늦게 보이는 상황에서, 배리어는 그 경계 이전의 결과가 충분히 외부에 반영되도록 압박한다.
 
 | 배리어 유형 | 주로 제어하는 순서 | 의미 | 대표 사용 맥락 |
 | :-- | :-- | :-- | :-- |
@@ -61,22 +60,23 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 생산자와 소비자 사이에서 Release-Acquire가 어떤 경계를 만드는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Release-Acquire ordering                                           │
-├──────────────────────────────┬─────────────────────────────────────┤
-│ Producer Core                │ Consumer Core                       │
-├──────────────────────────────┼─────────────────────────────────────┤
-│ 1) payload = 42              │ 1) while (flag == 0) wait          │
-│ 2) release barrier/store     │ 2) acquire barrier/load            │
-│ 3) flag = 1                  │ 3) read payload                    │
-├──────────────────────────────┼─────────────────────────────────────┤
-│ payload write가 flag 뒤로     │ flag를 본 이후의 payload read가     │
-│ 밀리지 않도록 고정            │ 그 이전으로 당겨지지 않도록 고정    │
-└──────────────────────────────┴─────────────────────────────────────┘
-```
 
-여기서 중요한 점은 배리어가 "메모리를 즉시 모두 비운다"는 단순 그림으로만 이해되면 안 된다는 것이다. 실제 구현은 아키텍처마다 다르며, 어떤 경우에는 명시적 펜스 명령이 필요하고, 어떤 경우에는 원자 연산 자체가 필요한 배리어 의미를 포함한다. 결국 배리어는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름보다, **어떤 재배치를 어느 방향으로 금지할지 정의하는 메모리 모델 계약**으로 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Release-Acquire ordering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Core</div><div class="kb-diagram-cell">Consumer Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) payload = 42</div><div class="kb-diagram-cell">1) while (flag == 0) wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) release barrier/store</div><div class="kb-diagram-cell">2) acquire barrier/load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) flag = 1</div><div class="kb-diagram-cell">3) read payload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">payload write가 flag 뒤로</div><div class="kb-diagram-cell">flag를 본 이후의 payload read가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밀리지 않도록 고정</div><div class="kb-diagram-cell">그 이전으로 당겨지지 않도록 고정</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 점은 배리어가 "메모리를 즉시 모두 비운다"는 단순 그림으로만 이해되면 안 된다는 것이다. 실제 구현은 아키텍처마다 다르며, 어떤 경우에는 명시적 펜스 명령이 필요하고, 어떤 경우에는 원자 연산 자체가 필요한 배리어 의미를 포함한다. 결국 배리어는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름보다, <strong>어떤 재배치를 어느 방향으로 금지할지 정의하는 메모리 모델 계약</strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 배리어는 택배 분류장의 출고 도장과 같다. 상자를 다 싣기 전에는 "출고 완료" 도장을 찍지 못하게 하고, 도장을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 사람은 그 뒤에야 안심하고 상자를 찾으러 간다.
 
@@ -107,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 기준
 
-1. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **값**만 중요하냐, 아니면 그 값이 보이는 **순서**까지 중요하냐?
+1. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>값</strong>만 중요하냐, 아니면 그 값이 보이는 <strong>순서</strong>까지 중요하냐?
 2. 전역 순서를 모두 맞춰야 하냐, 아니면 생산자와 소비자 한 쌍 사이의 인과관계만 보장하면 되냐?
 3. 대상 플랫폼이 x86 중심이냐, ARM과 이종 가속기까지 포함하느냐?
 4. 락으로 단순화하는 편이 전체 유지보수 비용을 줄이느냐?
@@ -117,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 - **Publish-Subscribe**: 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기록 후 `release`로 완료 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 게시
 - **Consumer Check**: [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 `acquire`로 읽은 뒤 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근
 - **Device I/O (Input/Output)**: 메모리 맵 입출력 (Memory-Mapped I/O)에서는 더 강한 배리어로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근 순서를 강제
-- **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Primitive**: 락 획득/해제 내부에서 배리어가 숨어 동작
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Primitive</strong>: 락 획득/해제 내부에서 배리어가 숨어 동작
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -126,7 +126,7 @@ tags = ["studynote-computer-architecture"]
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 걱정 때문에 배리어를 빼고, 테스트가 드물게 실패하는 Heisenbug를 운영 환경에서 맞는 경우
 - 반대로 모든 공유 변수에 가장 강한 `seq_cst`를 걸어 멀티코어 이점을 스스로 지워 버리는 경우
 
-기술사 관점에서는 "배리어는 락의 대체품"이라고 단순화하면 부족하다. 정확한 설명은, **완화된 메모리 모델 위에서 필요한 순서와 가시성을 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)하는 선택적 제어 장치**라는 점이다. 따라서 도입 여부보다도, 어떤 happens-before [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 만들기 위해 어느 강도의 배리어를 선택했는지가 핵심 판단 포인트다.
+기술사 관점에서는 "배리어는 락의 대체품"이라고 단순화하면 부족하다. 정확한 설명은, <strong>완화된 메모리 모델 위에서 필요한 순서와 가시성을 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>하는 선택적 제어 장치</strong>라는 점이다. 따라서 도입 여부보다도, 어떤 happens-before [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 만들기 위해 어느 강도의 배리어를 선택했는지가 핵심 판단 포인트다.
 
 - **📢 섹션 요약 비유**: 배리어는 자동차 브레이크와 같다. 코너에서 안 밟으면 사고가 나지만, 직선도로 내내 브레이크를 밟고 있으면 엔진 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 써 보지도 못한다.
 
@@ -138,7 +138,7 @@ tags = ["studynote-computer-architecture"]
 
 반면 배리어는 항상 비용을 동반한다. 순서를 강하게 묶을수록 파이프라인 겹침, 버퍼 활용, 캐시 최적화 여지가 줄어들고, 처리량과 전력 효율이 함께 떨어질 수 있다. 그래서 현대 설계의 방향은 "전체를 강하게"가 아니라 "필요한 경계만 정확히 강하게"로 수렴한다.
 
-결국 메모리 배리어는 단순한 저수준 명령이 아니라, 멀티코어 세계에서 인과관계를 복원하는 제어선이다. 기억해야 할 한 문장은 이것이다. **배리어는 값을 맞추는 도구가 아니라, 값이 보이는 순서를 의미 있게 만드는 도구**다.
+결국 메모리 배리어는 단순한 저수준 명령이 아니라, 멀티코어 세계에서 인과관계를 복원하는 제어선이다. 기억해야 할 한 문장은 이것이다. <strong>배리어는 값을 맞추는 도구가 아니라, 값이 보이는 순서를 의미 있게 만드는 도구</strong>다.
 
 - **📢 섹션 요약 비유**: 좋은 무대 감독은 배우를 모두 줄 세워 느리게 움직이게 하지 않는다. 장면 전환이 꼬일 위험이 있는 순간에만 정확히 큐 사인을 줘서 전체 공연을 매끄럽게 만든다.
 
@@ -157,24 +157,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비순차 실행 (Out-of-Order Execution)
-        │
-        ▼
-스토어 버퍼 (Store Buffer) · 가시성 지연 (Visibility Delay)
-        │
-        ▼
-완화된 일관성 (Relaxed Consistency)
-        │
-        ▼
-메모리 배리어 (Memory Barrier / Fence)
-        │
-        ├──▶ Release / Acquire
-        │
-        ├──▶ Full Fence
-        │
-        └──▶ 원자 연산 (Atomic Operation) · 락프리 자료구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토어 버퍼 (Store Buffer) · 가시성 지연 (Visibility Delay)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완화된 일관성 (Relaxed Consistency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 배리어 (Memory Barrier / Fence)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Release / Acquire</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Full Fence</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 원자 연산 (Atomic Operation) · 락프리 자료구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 "하드웨어 최적화 확대"가 왜 배리어를 필요하게 만들었고, 그 이후 소프트웨어가 더 정교한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 추상화로 발전했는지를 보여준다.
 

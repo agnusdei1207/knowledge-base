@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LIME (Local Interpretable Model-agnostic Explanations)은 특정 예측 인스턴스 주변에 수백 개의 가짜 샘플을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 **해석 가능한 선형 모델(대리 모델, Surrogate Model)**을 국소적으로 근사 학습하고, 이 간단한 모델의 계수로 원본 블랙박스 모델의 해당 예측을 설명하는 모델 불가지론적 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법이다.
+> 1. **본질**: LIME (Local Interpretable Model-agnostic Explanations)은 특정 예측 인스턴스 주변에 수백 개의 가짜 샘플을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 <strong>해석 가능한 선형 모델(대리 모델, Surrogate Model)</strong>을 국소적으로 근사 학습하고, 이 간단한 모델의 계수로 원본 블랙박스 모델의 해당 예측을 설명하는 모델 불가지론적 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 기법이다.
 > 2. **가치**: 딥러닝·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)·XGBoost 등 어떤 복잡한 모델에도 적용 가능(Model-Agnostic)하며, 특정 고객의 대출 거절 이유, 특정 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정 이유를 인간 친화적으로 설명하는 실용적 국소 설명 도구다.
-> 3. **판단 포인트**: LIME의 한계는 가짜 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방법과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 너비(ε) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 설명이 불안정하게 변하는 **설명 불안정성(Explanation Instability)**이다. 동일 예측에 대해 LIME 실행 시마다 다른 설명이 나올 수 있어, 안정성이 중요한 규제 환경에서는 SHAP을 선호한다.
+> 3. **판단 포인트**: LIME의 한계는 가짜 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방법과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 너비(ε) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 설명이 불안정하게 변하는 <strong>설명 불안정성(Explanation Instability)</strong>이다. 동일 예측에 대해 LIME 실행 시마다 다른 설명이 나올 수 있어, 안정성이 중요한 규제 환경에서는 SHAP을 선호한다.
 
 ---
 
@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 "고양이 vs 개" [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 딥러닝 모델이 왜 특정 사진을 "고양이"로 예측했는가? 딥러닝 전체를 해석하기는 너무 복잡하다. 그러나 이 사진 주변의 아주 작은 영역에서 모델이 어떻게 행동하는지는 간단한 선형 모델로 설명할 수 있지 않을까?
 
-**LIME**은 이 아이디어를 구현한다: 해당 예측 인스턴스 x₀의 "근방(Neighborhood)"에서 복잡한 블랙박스 f가 어떻게 행동하는지 관찰하고, 이를 설명 가능한 간단한 모델 g(x)(선형 회귀, 결정 트리)로 근사한다.
+<strong>LIME</strong>은 이 아이디어를 구현한다: 해당 예측 인스턴스 x₀의 "근방(Neighborhood)"에서 복잡한 블랙박스 f가 어떻게 행동하는지 관찰하고, 이를 설명 가능한 간단한 모델 g(x)(선형 회귀, 결정 트리)로 근사한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LIME은 지구 전체 지형(블랙박스 모델 전체)을 이해하려는 대신, 현재 서 있는 서울 강남구(설명할 예측 인스턴스) 주변만 평평한 지도(선형 대리 모델)로 만드는 것이다. 전체 지구 지도는 복잡하지만, 강남구만 확대하면 단순한 격자 지도로 길 안내(설명)가 가능하다.
 
@@ -38,34 +41,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         LIME 알고리즘 단계별 과정                                    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  설명 대상: 입력 x₀, 블랙박스 모델 f                                │
-│                                                                  │
-│  단계 1: 섭동 샘플 생성 (Perturbed Samples)                        │
-│  - 텍스트: x₀의 단어 일부를 무작위로 제거하여 변형 샘플 생성          │
-│  - 이미지: x₀의 슈퍼픽셀(Superpixel) 일부를 회색으로 마스킹          │
-│  - 표 데이터: 연속 특징에 가우시안 노이즈 추가                        │
-│                                                                  │
-│  단계 2: 블랙박스 예측 수집                                         │
-│  - 생성된 N개 샘플들을 f(모델)에 입력 → 예측값 레이블링              │
-│                                                                  │
-│  단계 3: 근접도 가중치 계산                                          │
-│  - π(x₀, x') = exp(-d(x₀,x')²/σ²)  (x₀과의 거리 역 가중치)       │
-│  - x₀와 가까운 샘플일수록 높은 가중치                               │
-│                                                                  │
-│  단계 4: 가중 선형 모델 학습                                         │
-│  - 가중 선형 회귀: g* = argmin_g Σ π(x₀,x')·(f(x')-g(x'))²      │
-│  - 규제 항으로 간단한 모델 강제                                      │
-│                                                                  │
-│  단계 5: 설명 도출                                                  │
-│  - g*의 계수 → 각 특징의 양/음 기여도                               │
-│  - 예: "단어 '환불'(+0.3)이 부정적 감성 예측에 기여"                │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME 알고리즘 단계별 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설명 대상: 입력 x₀, 블랙박스 모델 f</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 1: 섭동 샘플 생성 (Perturbed Samples)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 텍스트: x₀의 단어 일부를 무작위로 제거하여 변형 샘플 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이미지: x₀의 슈퍼픽셀(Superpixel) 일부를 회색으로 마스킹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 표 데이터: 연속 특징에 가우시안 노이즈 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 2: 블랙박스 예측 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 생성된 N개 샘플들을 f(모델)에 입력 → 예측값 레이블링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 3: 근접도 가중치 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- π(x₀, x') = exp(-d(x₀,x')²/σ²) (x₀과의 거리 역 가중치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- x₀와 가까운 샘플일수록 높은 가중치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 4: 가중 선형 모델 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가중 선형 회귀: g* = argmin_g Σ π(x₀,x')·(f(x')-g(x'))²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 규제 항으로 간단한 모델 강제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 5: 설명 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- g*의 계수 → 각 특징의 양/음 기여도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: "단어 '환불'(+0.3)이 부정적 감성 예측에 기여"</div></div>
+</div>
+</div>
+
+
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 | 특징 분해 방식 | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 방법 |
 |:---|:---|:---|
@@ -79,7 +79,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**LIME vs [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)**:
+<strong>LIME vs <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a></strong>:
 | 항목 | LIME | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) |
 |:---|:---|:---|
 | 설명 범위 | 국소적만 | 국소적 + 전역적 |
@@ -102,7 +102,7 @@ exp = explainer.explain_instance(X_test[0], model.predict_proba, num_features=5)
 exp.show_in_notebook()
 ```
 
-**LIME 설명 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 설명이 실제로 의미 있는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법 — 중요 특징으로 지목된 특징을 실제로 변경했을 때 예측이 설명한 방향으로 변하는지(Faithfulness Test) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+<strong>LIME 설명 품질 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 설명이 실제로 의미 있는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법 — 중요 특징으로 지목된 특징을 실제로 변경했을 때 예측이 설명한 방향으로 변하는지(Faithfulness Test) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 **이미지 LIME 실용성**: 의료 영상 AI에서 LIME으로 어느 병변 부위(슈퍼픽셀)가 양성 진단에 기여했는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면, 의사가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 진단 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 임상 신뢰를 높이는 데 직접 활용된다.
 
@@ -136,7 +136,7 @@ LIME은 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **LIME**은 복잡한 AI가 "왜 이 결정을 했는지"를 알기 위해, **주변의 비슷한 예시들을 많이 만들어보고** 간단한 규칙으로 설명하는 방법이에요!
+1. <strong>LIME</strong>은 복잡한 AI가 "왜 이 결정을 했는지"를 알기 위해, **주변의 비슷한 예시들을 많이 만들어보고** 간단한 규칙으로 설명하는 방법이에요!
 2. "이 리뷰가 부정적" 이유를 알고 싶으면 **단어를 하나씩 지워가며** "어떤 단어가 없어지면 예측이 바뀌나?" 관찰해서 핵심 단어를 찾아요.
 3. 딥러닝·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 등 **어떤 AI에도 쓸 수 있는** 범용 설명 도구라서, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발 현장에서 빠른 디버깅에 많이 활용돼요!
 

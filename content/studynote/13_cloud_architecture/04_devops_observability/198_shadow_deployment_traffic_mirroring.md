@@ -23,7 +23,7 @@ tags = ["studynote-cloud-architecture"]
 
 이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
 
-[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 특히 **대규모 시스템 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)·마이그레이션**에서 강력하다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 분리, DB 엔진 교체, 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 상황에서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거한다.
+[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 특히 <strong>대규모 시스템 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>·마이그레이션</strong>에서 강력하다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 분리, DB 엔진 교체, 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 상황에서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거한다.
 
 📢 **섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 번역가를 채용할 때 고객 편지를 기존 번역가와 새 번역가에게 동시에 보내서 번역 결과를 비교하는 것과 같다. 고객에게는 기존 번역가 답장만 보내고, 새 번역가의 결과는 내부 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용한다.
 
@@ -33,29 +33,26 @@ tags = ["studynote-cloud-architecture"]
 
 ### 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 구조
 
-```
-  ┌────────────┐
-  │   클라이언트  │
-  └─────┬──────┘
-        │ 요청
-        ▼
-  ┌─────────────────────────────────┐
-  │   서비스 메시 (Istio Envoy)      │
-  │   또는 API Gateway               │
-  └────────┬──────────┬─────────────┘
-           │ 원본     │ 미러링 (100% 복제)
-           ▼          ▼
-  ┌──────────────┐  ┌─────────────────────┐
-  │ 운영 서비스   │  │  Shadow 서비스 (신버전) │
-  │ (v1)         │  │  (v2, 격리 환경)      │
-  └──────┬───────┘  └────────┬────────────┘
-         │                    │
-         ▼                    ▼
-  [사용자에게 응답]      [응답 버림 / 로그만 기록]
-                        - 에러 여부
-                        - 응답 시간
-                        - v1과 결과 차이
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
+<div class="kb-diagram-note">요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 (Istio Envoy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 API Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본</div><div class="kb-diagram-cell">미러링 (100% 복제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 서비스</div><div class="kb-diagram-cell">Shadow 서비스 (신버전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v1)</div><div class="kb-diagram-cell">(v2, 격리 환경)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자에게 응답</div><div class="kb-diagram-node">응답 버림 / 로그만 기록</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">에러 여부</div>
+<div class="kb-diagram-tree-item" style="--depth:8">응답 시간</div>
+<div class="kb-diagram-tree-item" style="--depth:8">v1과 결과 차이</div>
+</div>
+</div>
+
+
 
 ### [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -84,18 +81,18 @@ spec:
 
 ### 신버전 격리 환경 구성
 
-```
-  ┌─────────────────────────────────────────────┐
-  │                Shadow 환경                   │
-  │                                             │
-  │  [shadow-search-v2]                          │
-  │       │                                     │
-  │       ▼                                     │
-  │  [shadow-db-v2]  ← 별도 격리 DB              │
-  │  (Read-only replica 또는 별도 인스턴스)        │
-  │                                             │
-  └─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shadow 환경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">shadow-search-v2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">shadow-db-v2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">별도 격리 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Read-only replica 또는 별도 인스턴스)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) `mirror` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
 
@@ -201,15 +198,19 @@ class ShadowComparisonService:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Shadow Deployment: 트래픽 미러링 + 응답 비교
-    │
-    ▼
-Istio Mirror: 서비스 메시 기반 트래픽 복제
-    │
-    ▼
-검증 완료 → Canary/Blue-Green 전환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shadow Deployment: 트래픽 미러링 + 응답 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Istio Mirror: 서비스 메시 기반 트래픽 복제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증 완료 → Canary/Blue-Green 전환</div>
+</div>
+</div>
+
+
 2. 학생들(사용자)은 기존 선생님의 수업만 듣고, 새 선생님의 결과는 교장선생님(개발팀)만 확인해.
 3. 새 선생님이 틀린 답을 말하거나 너무 느리다면 수업 방식을 고치고, 완벽해지면 그때 공식 선생님으로 교체해.
 

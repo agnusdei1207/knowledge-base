@@ -41,23 +41,23 @@ tags = ["studynote-enterprise"]
 
 아래 매트릭스는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택이 고객 범위와 우위 원천의 조합이라는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Porter's Generic Strategies matrix                                │
-├────────────────────────────────────────────────────────────────────┤
-│                      Advantage Source                             │
-│                 Cost                              Differentiation  │
-│ Broad Scope   ┌────────────────────┬───────────────────────────┐  │
-│               │ Cost Leadership    │ Differentiation           │  │
-│               │ scale, automation  │ brand, UX, innovation     │  │
-│               ├────────────────────┼───────────────────────────┤  │
-│ Narrow Scope  │ Cost Focus         │ Differentiation Focus     │  │
-│               │ local efficiency   │ niche expertise, trust    │  │
-│               └────────────────────┴───────────────────────────┘  │
-│                                                                    │
-│ Center risk: Stuck in the Middle = cost structure ↑, identity ↓    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Porter's Generic Strategies matrix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Advantage Source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Differentiation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broad Scope</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Leadership</div><div class="kb-diagram-cell">Differentiation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scale, automation</div><div class="kb-diagram-cell">brand, UX, innovation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Narrow Scope</div><div class="kb-diagram-cell">Cost Focus</div><div class="kb-diagram-cell">Differentiation Focus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local efficiency</div><div class="kb-diagram-cell">niche expertise, trust</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Center risk: Stuck in the Middle = cost structure ↑, identity ↓</div></div>
+</div>
+</div>
+
+
 
 이 구조가 말하는 바는 단순하다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 제품 한 줄 설명이 아니라 비용 구조와 조직 역량의 방향을 고정하는 선택이다. 따라서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라지면 아키텍처, 운영지표, 채용기준, 파트너십까지 함께 달라져야 한다.
 
@@ -126,21 +126,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Industry Competition
-    │
-    ▼
-Cost Leadership / Differentiation / Focus
-    │
-    ▼
-Value Chain Alignment
-    │
-    ▼
-Cloud Scale · Premium UX · Vertical SaaS
-    │
-    ▼
-Strategic Repositioning and Blue Ocean
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Industry Competition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cost Leadership / Differentiation / Focus</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Value Chain Alignment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud Scale · Premium UX · Vertical SaaS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Strategic Repositioning and Blue Ocean</div>
+</div>
+</div>
+
+
 
 이 흐름은 포터의 고전적 경쟁 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 오늘날 디지털 운영 모델과 제품 포지셔닝 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 이어지는 과정을 요약한다.
 

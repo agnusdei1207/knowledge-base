@@ -25,24 +25,26 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 
 [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)의 의도: "객체의 내부 상태가 변할 때 객체의 행위를 변경한다. 객체는 클래스를 바꾸는 것처럼 보인다."
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          구조 비교 (UML 거의 동일)                           │
-├─────────────────────────────────────────────────────────────┤
-│  전략 패턴                  상태 패턴                        │
-│  Context                    Context                         │
-│  - strategy: Strategy       - state: State                  │
-│  + setStrategy(s)           + setState(s)  ← State 내부 호출│
-│  + execute()                + request()                     │
-│        │ (위임)                   │ (위임)                  │
-│   Strategy (인터페이스)      State (인터페이스)              │
-│  + algorithm()              + handle(ctx)                   │
-│        ▲                          ▲                         │
-│  StrategyA  StrategyB       StateA  StateB                  │
-│                             (StateA.handle에서 ctx.setState  │
-│                              (new StateB()) 호출)            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 비교 (UML 거의 동일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략 패턴 상태 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- strategy: Strategy - state: State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ setStrategy(s) + setState(s) ← State 내부 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ execute() + request()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위임)</div><div class="kb-diagram-cell">(위임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy (인터페이스) State (인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ algorithm() + handle(ctx)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StrategyA StrategyB StateA StateB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(StateA.handle에서 ctx.setState</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(new StateB()) 호출)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 같은 '교체 메커니즘'을 사용하지만, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 요리사가 레시피를 선택(외부 교체), 상태는 신호등이 스스로 다음 상태로 전환(내부 전이)하는 것이다.
 
@@ -61,22 +63,24 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [UML](/know
 | 주 관심사 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 | 상태에 따른 행동 변경 |
 | 클라이언트 인식 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 종류 알아야 함 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 알 필요 없음 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       코드 수준 차이                                         │
-├─────────────────────────────────────────────────────────────┤
-│  // 전략 패턴: 외부에서 교체                                │
-│  context.setStrategy(new FastSortStrategy());               │
-│  context.executeStrategy(data);                             │
-│                                                             │
-│  // 상태 패턴: 내부 전이                                    │
-│  // 클라이언트는 상태 전이를 모름                           │
-│  order.process(); // 내부에서 상태 전이 발생                │
-│  // ReceivedState.process(ctx) {                            │
-│  //   ctx.setState(new ProcessingState()); // 내부 전이     │
-│  // }                                                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 수준 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 전략 패턴: 외부에서 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">context.setStrategy(new FastSortStrategy());</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">context.executeStrategy(data);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 상태 패턴: 내부 전이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 클라이언트는 상태 전이를 모름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order.process(); // 내부에서 상태 전이 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ReceivedState.process(ctx) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ctx.setState(new ProcessingState()); // 내부 전이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// }</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 리모컨(클라이언트)이 채널([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 선택하는 것이고, [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 자판기가 내부 상태에 따라 자동으로 모드를 전환하는 것이다.
 

@@ -31,34 +31,26 @@ tags = ["studynote-operating-system"]
 
 프로세스의 전체 생명주기에서 좀비 상태가 어느 위치에 있는지를 상태 전이도로 시각화하면, 좀비가 왜 발생하고 어떻게 해소되는지 직관적으로 파악할 수 있다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │           프로세스 생명주기와 좀비(Zombie) 상태의 위치            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  fork()          exec()         exit()        wait()              │
-  │    │                │              │             │                │
-  │    ▼                ▼              ▼             ▼                │
-  │ [New/Created] ──▶ [Running] ──▶ [Zombie] ──▶ [Removed]            │
-  │                                        ▲                          │
-  │                                        │                          │
-  │                      부모가 wait()를 호출하지 않으면              │
-  │                      ──▶ Zombie 상태에서 영구 대기!               │
-  │                                                                   │
-  │  ┌────────────────────────────────────────────────────────┐       │
-  │  │  프로세스 테이블 (Process Table)                        │      │
-  │  │  ┌──────┬────────┬──────────┬──────────┬───────────┐   │       │
-  │  │  │ PID  │ PPID   │ 상태     │ 종료 코드 │ CPU 시간  │   │      │
-  │  │  ├──────┼────────┼──────────┼──────────┼───────────┤   │       │
-  │  │  │ 1001 │ 1000   │ Running  │ -        │ 0.05s     │   │       │
-  │  │  │ 1002 │ 1000   │ Zombie   │ 0 (정상) │ 0.02s     │ ◀─│       │
-  │  │  │ 1003 │ 1000   │ Zombie   │ 139(충돌)│ 1.30s     │ ◀─│       │
-  │  │  │ 1004 │ 1000   │ Running  │ -        │ 0.10s     │   │       │
-  │  │  └──────┴────────┴──────────┴──────────┴───────────┘   │       │
-  │  │  ※ Zombie 항목은 PID 슬롯을 계속 점유함                 │      │
-  │  └────────────────────────────────────────────────────────┘       │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 생명주기와 좀비(Zombie) 상태의 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() exec() exit() wait()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New/Created</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Running</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Zombie</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Removed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모가 wait()를 호출하지 않으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Zombie 상태에서 영구 대기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 테이블 (Process Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID</div><div class="kb-diagram-cell">PPID</div><div class="kb-diagram-cell">상태</div><div class="kb-diagram-cell">종료 코드</div><div class="kb-diagram-cell">CPU 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1001</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">Running</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">0.05s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1002</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">Zombie</div><div class="kb-diagram-cell">0 (정상)</div><div class="kb-diagram-cell">0.02s</div><div class="kb-diagram-cell">◀─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1003</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">Zombie</div><div class="kb-diagram-cell">139(충돌)</div><div class="kb-diagram-cell">1.30s</div><div class="kb-diagram-cell">◀─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1004</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">Running</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">0.10s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Zombie 항목은 PID 슬롯을 계속 점유함</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 프로세스는 `fork()`로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 `Running` 상태에서 실행되다가 `exit()` 시스템 콜로 종료되면 `Zombie` 상태로 전이된다. 이때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스의 메모리 공간, 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 등 실행에 필요했던 모든 자원을 해제하지만, PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID), PPID (Parent PID), 종료 상태 코드(Exit Status), 자원 사용 통계(CPU Time 등)는 프로세스 테이블 항목에 그대로 보존한다. [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 `wait()` 또는 `waitpid()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 정보를 부모에게 전달하고 최종적으로 프로세스 테이블 항목을 삭제하여 프로세스를 완전히 소멸(Removed)시킨다. 문제는 부모가 `wait()`를 호출하지 않을 때 발생한다. 표에서 PID 1002와 1003은 이미 종료되었으나 프로세스 테이블에 항목이 남아 PID 슬롯을 낭비하고 있다. 이러한 항목이 축적되면 시스템 전체의 PID 공간이 고갈되어 더 이상 새로운 프로세스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 없게 된다.
 
@@ -81,42 +73,34 @@ tags = ["studynote-operating-system"]
 
 자식 프로세스가 `exit()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 내부적으로 일련의 정리 작업을 수행한다. 이 과정에서 어떤 자원은 즉시 회수되고 어떤 정보는 보존되는지, 그리고 부모의 `wait()` 호출이 어떻게 좀비를 해소하는지를 단계별로 시각화한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │          좀비 프로세스의 생성 및 해소 (Reaping) 동작 흐름도           │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [자식 프로세스]                        [부모 프로세스]               │
-  │       │                                     │                         │
-  │  1) exit(status) 호출                       │                         │
-  │       │                                     │                         │
-  │       ▼                                     │                         │
-  │  2) 커널 정리 작업:                           │                       │
-  │     ├─ 사용자 메모리 공간 해제               │                        │
-  │     ├─ 열린 파일 디스크립터 닫기             │                        │
-  │     ├─ 공유 메모리 세그먼트 참조 해제         │                       │
-  │     └─ 스케줄링 큐에서 제거                 │                         │
-  │       │                                     │                         │
-  │       ▼                                     │                         │
-  │  3) 프로세스 테이블 항목 보존 (Zombie 상태):    │                     │
-  │     ├─ PID: 1002                             │                        │
-  │     ├─ 종료 상태: 0 (정상)                    │                       │
-  │     ├─ 사용된 CPU 시간: 0.02초                │                       │
-  │     └─ 상태 플래그: TASK_DEAD (Zombie)        │                       │
-  │       │                                     │                         │
-  │       ├──── SIGCHLD 시그널 발송 ─────────────▶│                       │
-  │       │                                     ▼                         │
-  │       │                              4) 시그널 핸들러 실행            │
-  │       │                              (또는 주기적 wait 루프)          │
-  │       │                                     │                         │
-  │       │                              5) waitpid(1002, &status, 0)     │
-  │       │                                     │                         │
-  │       ◀──── 종료 상태 전달 & 테이블 삭제 ─────┤                       │
-  │       │                                     │                         │
-  │  6) 프로세스 완전 소멸                       ▼                        │
-  │     PID 1002 재사용 가능              부모는 status 확인 완료         │
-  └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 프로세스의 생성 및 해소 (Reaping) 동작 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자식 프로세스</div><div class="kb-diagram-node">부모 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) exit(status) 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 커널 정리 작업:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용자 메모리 공간 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 열린 파일 디스크립터 닫기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 공유 메모리 세그먼트 참조 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스케줄링 큐에서 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 프로세스 테이블 항목 보존 (Zombie 상태):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PID: 1002</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 종료 상태: 0 (정상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용된 CPU 시간: 0.02초</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태 플래그: TASK_DEAD (Zombie)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIGCHLD 시그널 발송 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 시그널 핸들러 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(또는 주기적 wait 루프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) waitpid(1002, &amp;status, 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 종료 상태 전달 &amp; 테이블 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6) 프로세스 완전 소멸 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID 1002 재사용 가능 부모는 status 확인 완료</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 자식이 `exit()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 사용자 공간의 메모리(힙, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 코드 세그먼트), 열린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트 등 대부분의 자원을 즉시 회수한다. 그러나 프로세스 테이블 항목은 부모가 종료 결과를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 권리를 보장하기 위해 그대로 유지된다. 이때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)에게 `SIGCHLD` 시그널을 비동기적으로 발송한다. 부모가 이 시그널을 수신하여 `waitpid()`를 호출하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 보존 중이던 종료 상태(Exit Status)를 부모의 버퍼에 복사하고 최종적으로 프로세스 테이블에서 항목을 삭제하여 PID를 재사용 가능하게 만든다. 부모가 `waitpid()`를 호출하지 않으면 3번 단계에서 영구 정체되며, 이것이 바로 좀비 프로세스가 시스템 자원(PID 슬롯, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리)을 지속적으로 낭비하는 원인이다.
 
@@ -140,36 +124,29 @@ tags = ["studynote-operating-system"]
 
 좀비 프로세스와 [고아 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/)가 부모-자식 관계에서 각각 다른 시나리오로 발생하는 과정을 비교 시각화하면 두 상태의 본질적 차이를 명확히 이해할 수 있다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │            좀비 vs 고아 -- 부모-자식 종료 타이밍에 따른 분기          │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │                    [부모-자식 관계]                                   │
-  │                        │                                              │
-  │            ┌───────────┴───────────┐                                  │
-  │            ▼                       ▼                                  │
-  │    자식이 먼저 종료              부모가 먼저 종료                     │
-  │            │                       │                                  │
-  │            ▼                       ▼                                  │
-  │    부모가 wait() 호출?         자식의 새 부모 = init (PID 1)          │
-  │      ├─ 예 -> 정상 종료          │                                    │
-  │      └─ 아니오 ->                ▼                                    │
-  │                  │           init가 주기적 wait() 수행                │
-  │                  ▼               │                                    │
-  │          ┌──────────────┐        ▼                                    │
-  │          │  좀비 프로세스  │    자식 정상 실행 후 정상 종료           │
-  │          │  (Zombie)     │    ┌──────────────┐                        │
-  │          │              │    │  고아 프로세스  │                      │
-  │          │ PID 점유 중!  │    │  (Orphan)     │                       │
-  │          │ CPU 소모 없음 │    │ 자동 해소됨   │                       │
-  │          └──────────────┘    └──────────────┘                         │
-  │                                                                       │
-  │  핵심 차이:                                                           │
-  │  좀비 = "부모가 책임을 다하지 않음" -> 수동 해결 필요                 │
-  │  고아 = "부모가 먼저 떠남" -> init가 대리 양육하여 자동 해소          │
-  └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 vs 고아 -- 부모-자식 종료 타이밍에 따른 분기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부모-자식 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식이 먼저 종료 부모가 먼저 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모가 wait() 호출? 자식의 새 부모 = init (PID 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 정상 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 -&gt; ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">init가 주기적 wait() 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 프로세스</div><div class="kb-diagram-cell">자식 정상 실행 후 정상 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Zombie)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고아 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID 점유 중!</div><div class="kb-diagram-cell">(Orphan)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 소모 없음</div><div class="kb-diagram-cell">자동 해소됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 차이:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 = "부모가 책임을 다하지 않음" -&gt; 수동 해결 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고아 = "부모가 먼저 떠남" -&gt; init가 대리 양육하여 자동 해소</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 부모-자식 관계에서 어느 쪽이 먼저 종료하느냐에 따라 전혀 다른 결과가 발생한다. 자식이 먼저 종료하고 부모가 `wait()`를 호출하지 않으면 좀비가 되며, 이는 수동 개입(부모 코드 수정, 부모 강제 종료 등)이 필요하다. 반면 부모가 먼저 종료하면 자식은 고아가 되지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 즉시 고아의 PPID (Parent PID)를 init 프로세스(PID 1)로 변경하여 입양(Adopt)한다. init 프로세스는 주기적으로 모든 자식에 대해 `wait()`를 호출하므로, 고아가 종료되면 자동으로 정리된다. 즉, 고아는 시스템이 자체적으로 처리하는 안전한 상태인 반면, 좀비는 시스템이 자체적으로 해결할 수 없는 잠재적 위험이다. 이 차이를 이해하는 것이 프로세스 생명주기 관리 설계의 핵심이다.
 
@@ -179,9 +156,9 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **wait() / waitpid() 명시적 호출** | 부모가 자식 종료를 직접 대기 | 가장 정석적이고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높음 | 부모가 자식 종료 시점을 모를 경우 블로킹 문제 |
 | **SIGCHLD 시그널 핸들러** | 자식 종료 시 비동기 통지 수신 후 wait() 수행 | 비동기 처리로 부모 블로킹 없음 | 시그널 핸들러 내 제약(비동기 시그널 안전 함수만 호출) |
-| **SA_NOCLDWAIT [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)** | 자식 종료 시 좀비 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체를 방지 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 정리하여 좀비 발생 원천 차단 | wait()로 종료 상태를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 없음 |
+| <strong>SA_NOCLDWAIT <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a></strong> | 자식 종료 시 좀비 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체를 방지 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동 정리하여 좀비 발생 원천 차단 | wait()로 종료 상태를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 없음 |
 | **waitpid() with WNOHANG** | 논블로킹으로 자식 상태만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 주기적 폴링에 적합 | CPU 낭비 가능성 ([바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)) |
-| **[부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) 강제 종료** | 부모가 죽으면 좀비 자식이 고아로 전환되어 init이 정리 | 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 유효 | 부모 종료로 인한 부작용 ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 등) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/">부모 프로세스</a> 강제 종료</strong> | 부모가 죽으면 좀비 자식이 고아로 전환되어 init이 정리 | 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 유효 | 부모 종료로 인한 부작용 ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 등) |
 
 ### 과목 융합 관점
 
@@ -196,46 +173,37 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 -- 대규모 웹 서버의 좀비 누적으로 인한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애**: 한 전자상거래 플랫폼의 결제 서버가 급격한 트래픽 증가로 초당 수백 건의 결제 요청을 처리하며 매 건마다 `fork()` + `exec()`로 외부 결제 모듈을 호출했다. 그러나 개발자가 `wait()` 호출을 누락하고 `SIGCHLD` 핸들러도 등록하지 않아, 하루가 지나 수만 개의 좀비 프로세스가 누적되었다. 시스템의 `pid_max`에 도달하면서 새로운 결제 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)이 실패하여 전체 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비되었다.
+1. <strong>시나리오 -- 대규모 웹 서버의 좀비 누적으로 인한 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 장애</strong>: 한 전자상거래 플랫폼의 결제 서버가 급격한 트래픽 증가로 초당 수백 건의 결제 요청을 처리하며 매 건마다 `fork()` + `exec()`로 외부 결제 모듈을 호출했다. 그러나 개발자가 `wait()` 호출을 누락하고 `SIGCHLD` 핸들러도 등록하지 않아, 하루가 지나 수만 개의 좀비 프로세스가 누적되었다. 시스템의 `pid_max`에 도달하면서 새로운 결제 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)이 실패하여 전체 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비되었다.
 
-2. **시나리오 -- 좀비 프로세스 탐지 및 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스크립트**: 운영팀은 쉘 명령으로 좀비 프로세스 수를 모니터링하고, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 100개) 초과 시 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)를 종료시켜 자식 좀비들을 고아로 전환시키는 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 구축했다. 이는 근본 해결책은 아니지만 긴급 상황에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 확보하는 임시방편으로 유효했다.
+2. <strong>시나리오 -- 좀비 프로세스 탐지 및 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 스크립트</strong>: 운영팀은 쉘 명령으로 좀비 프로세스 수를 모니터링하고, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 100개) 초과 시 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)를 종료시켜 자식 좀비들을 고아로 전환시키는 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 구축했다. 이는 근본 해결책은 아니지만 긴급 상황에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 확보하는 임시방편으로 유효했다.
 
 좀비 프로세스가 시스템에 누적될 때 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 도달까지의 시간과 자원 소모를 모델링하면, 모니터링 및 대응 시점을 체계적으로 판단할 수 있다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │         좀비 프로세스 누적 모델 및 대응 의사결정 플로우               │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │  [좀비 프로세스 누적 모델]                                            │
-  │                                                                       │
-  │  누적 좀비 수 = fork/sec * 비율(wait 누락) * 경과 시간                │
-  │                                                                       │
-  │  예: fork/sec = 200, wait 누락률 = 5%, 경과 시간 = 24시간             │
-  │  -> 200 * 0.05 * 86400 = 864,000개 좀비 (pid_max 초과!)               │
-  │                                                                       │
-  │  ┌────────────────────────────────────────────────────────────┐       │
-  │  │            좀비 프로세스 대응 의사결정 플로우                  │   │
-  │  ├────────────────────────────────────────────────────────────┤       │
-  │  │                                                            │       │
-  │  │  [좀비 프로세스 감지 (ps, top, /proc)]                     │       │
-  │  │                │                                           │       │
-  │  │                ▼                                           │       │
-  │  │  좀비의 부모 프로세스를 식별할 수 있는가?                       │  │
-  │  │      ├─ 예 ──▶ 부모 프로세스가 여전히 실행 중인가?             │   │
-  │  │      │            ├─ 예 ──▶ 부모 코드에 wait/SIGCHLD 추가    │     │
-  │  │      │            │         (근본 해결, 서비스 재시작 필요)    │   │
-  │  │      │            └─ 아니오(부모도 좀비/죽음)                │     │
-  │  │      │                    └─▶ kill 부모의 부모(연쇄 해소)     │    │
-  │  │      │                                                        │    │
-  │  │      └─ 아니오(PPID=1이 아님에도 부모를 찾을 수 없음)           │  │
-  │  │                └─▶ 부모 프로세스 강제 종료                     │   │
-  │  │                     (긴급 복구: 부모 종료 -> init이 정리)       │  │
-  │  │                                                            │       │
-  │  │  최종 검증: 좀비 프로세스 수 = 0 확인                        │     │
-  │  └────────────────────────────────────────────────────────────┘       │
-  └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 프로세스 누적 모델 및 대응 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 프로세스 누적 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누적 좀비 수 = fork/sec * 비율(wait 누락) * 경과 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: fork/sec = 200, wait 누락률 = 5%, 경과 시간 = 24시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 200 * 0.05 * 86400 = 864,000개 좀비 (pid_max 초과!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비 프로세스 대응 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 프로세스 감지 (ps, top, /proc)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좀비의 부모 프로세스를 식별할 수 있는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ──▶ 부모 프로세스가 여전히 실행 중인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ──▶ 부모 코드에 wait/SIGCHLD 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(근본 해결, 서비스 재시작 필요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오(부모도 좀비/죽음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ kill 부모의 부모(연쇄 해소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오(PPID=1이 아님에도 부모를 찾을 수 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 부모 프로세스 강제 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(긴급 복구: 부모 종료 -&gt; init이 정리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 검증: 좀비 프로세스 수 = 0 확인</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 상단의 수학적 모델은 좀비가 누적되는 속도를 정량화한다. `fork()` 속도가 높고 `wait()` 누락 비율이 존재하면 시간에 비례하여 좀비가 선형적으로 증가하며, 시스템의 `pid_max` 한계(리눅스 기본 32768)에 도달하는 시점을 예측할 수 있다. 하단의 의사결정 플로우는 좀비 발견 시 운영자가 취해야 할 조치를 체계화한다. 가장 근본적인 해결책은 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)의 소스 코드에 `wait()` 또는 `SIGCHLD` 핸들러를 추가하는 것이지만, 이는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재시작을 수반한다. 긴급 상황에서는 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)를 종료하는 것으로 좀비들을 고아로 전환시키고 init이 자동 정리하도록 하는 것이 가장 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이다. 이 플로우의 핵심은 "좀비 문제는 항상 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 원인이므로, 해결도 부모를 중심으로 접근해야 한다"는 점이다.
 
@@ -258,17 +226,17 @@ tags = ["studynote-operating-system"]
 | 구분 | 좀비 방지 미적용 | 좀비 방지 적용 (SIGCHLD + wait) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량** | PID 고갈로 새 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 실패 | 좀비 발생률 **0%** 유지 | 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) **99.99%** 이상 보장 |
-| **정량** | 프로세스 테이블 낭비 (약 1~2KB/좀비) | 테이블 즉시 회수 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 낭비 **[제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)** |
+| **정량** | 프로세스 테이블 낭비 (약 1~2KB/좀비) | 테이블 즉시 회수 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 낭비 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a></strong> |
 | **정성** | 장애 발생 시 근본 원인 파악 어려움 | 프로세스 생명주기 완전 관리 | 운영 안정성 및 장애 대응 역량 강화 |
 
 ### 미래 전망
-- **systemd의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 진화**: 현대 리눅스에서는 `systemd`가 PID 1을 담당하며, `Type=forking` [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 경우 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 종료되고 자식이 백그라운드로 전환되는 패턴을 자동으로 추적하여 좀비 누적을 방지한다.
-- **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)) 환경에서의 PID [namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 격리**: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 독립적인 PID [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)(PID [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))를 사용하며, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내의 PID 1 프로세스(보통 애플리케이션)가 좀비 정리를 수행해야 한다. 일반 애플리케이션은 init 동작을 모르므로 `tini`, `dumb-init` 같은 경량 init 프로세스를 도입하여 좀비 정리를 자동화하는 것이 표준 관행이다.
+- <strong>systemd의 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 관리 진화</strong>: 현대 리눅스에서는 `systemd`가 PID 1을 담당하며, `Type=forking` [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 경우 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 종료되고 자식이 백그라운드로 전환되는 패턴을 자동으로 추적하여 좀비 누적을 방지한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>) 환경에서의 PID <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">namespace</a> 격리</strong>: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 독립적인 PID [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)(PID [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))를 사용하며, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내의 PID 1 프로세스(보통 애플리케이션)가 좀비 정리를 수행해야 한다. 일반 애플리케이션은 init 동작을 모르므로 `tini`, `dumb-init` 같은 경량 init 프로세스를 도입하여 좀비 정리를 자동화하는 것이 표준 관행이다.
 
 ### 참고 표준
 - **POSIX.1-2008 (IEEE Std 1003.1)**: `wait()`, `waitpid()`, `SIGCHLD` 시그널의 동작 규격 정의
 - **Linux proc(5) 매뉴얼**: `/proc/[pid]/stat`에서 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 필드(코드 Z) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방법
-- **Linux [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(7) 매뉴얼**: `SA_NOCLDWAIT`, `SA_SIGINFO` 등 시그널 관련 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 규격
+- <strong>Linux <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">signal</a>(7) 매뉴얼</strong>: `SA_NOCLDWAIT`, `SA_SIGINFO` 등 시그널 관련 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 규격
 
 좀비 프로세스 문제는 유닉스 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 '부모 책임 원칙'에서 기인하는 필연적 부산물이다. 이를 완전히 제거할 수는 없으나, `SIGCHLD` 핸들링과 `waitpid()` 루프 패턴이라는 검증된 방어 기법을 통해 좀비 발생을 원천 차단할 수 있다. 특히 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 PID 1의 특수성으로 인해 좀비 문제가 더 빈번하게 발생하므로, `tini`와 같은 경량 init 프로세스 도입은 필수적이다.
 
@@ -287,15 +255,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[연쇄적 종료 (Cascading Termination)]
-    │
-    ▼
-[좀비 프로세스 (Zombie Process)]
-    │
-    ├──▶ [고아 프로세스 (Orphan Process)]
-    └──▶ [스레드 취소 (Thread Cancellation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄적 종료 (Cascading Termination)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 프로세스 (Zombie Process)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고아 프로세스 (Orphan Process)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 취소 (Thread Cancellation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -17,32 +17,28 @@ tags = ["computer_architecture"]
 
 ### 가상 메모리: 하드웨어와 OS의 완벽한 공조
 
-가상 메모리는 단순히 소프트웨어만으로 구현할 수 없는 기술이다. 매 명령어가 실행될 때마다 일어나는 주소 변환을 소프트웨어가 처리한다면 시스템은 마비될 것이다. 따라서 현대 컴퓨터 구조는 **MMU**라는 전용 하드웨어를 CPU와 메모리 사이에 배치하여, 찰나의 순간에 주소를 번역한다.
+가상 메모리는 단순히 소프트웨어만으로 구현할 수 없는 기술이다. 매 명령어가 실행될 때마다 일어나는 주소 변환을 소프트웨어가 처리한다면 시스템은 마비될 것이다. 따라서 현대 컴퓨터 구조는 <strong>MMU</strong>라는 전용 하드웨어를 CPU와 메모리 사이에 배치하여, 찰나의 순간에 주소를 번역한다.
 
-하드웨어 기반의 가상 메모리 지원이 필요한 이유는 세 가지이다. 첫째, **주소 변환의 고속화**를 위해서이다. 전용 캐시인 TLB가 없다면 메모리 접근 속도는 절반 이하로 떨어질 것이다. 둘째, **하드웨어 레벨의 보안 강제**를 위해서이며 (예: 실행 방지 비트 - NX bit), 셋째, 프로세스에게 **연속된 주소 공간**이라는 편리한 환상을 제공하면서 실제로는 물리 메모리를 효율적으로 조각내어 관리하기 위함이다.
+하드웨어 기반의 가상 메모리 지원이 필요한 이유는 세 가지이다. 첫째, <strong>주소 변환의 고속화</strong>를 위해서이다. 전용 캐시인 TLB가 없다면 메모리 접근 속도는 절반 이하로 떨어질 것이다. 둘째, <strong>하드웨어 레벨의 보안 강제</strong>를 위해서이며 (예: 실행 방지 비트 - NX bit), 셋째, 프로세스에게 <strong>연속된 주소 공간</strong>이라는 편리한 환상을 제공하면서 실제로는 물리 메모리를 효율적으로 조각내어 관리하기 위함이다.
 
 이 그림은 가상 주소(VA)가 하드웨어를 거쳐 물리 주소(PA)로 변환되는 전체 경로를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Address Translation Pipeline                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU ] ──▶ [ Virtual Address ] ──▶ [ TLB (Cache) ] ──┐   │
-│                                         │               │   │
-│          ┌──────────────────────────────┴──────┐        │   │
-│          ▼ (TLB Miss)                          ▼ (Hit!) │   │
-│   [ MMU: Page Table Walk ]              [ Return PA ] ◀─┘   │
-│          │                                     ▲            │
-│          ▼                                     │            │
-│   [ Main Memory (Page Table) ] ────────────────┘            │
-│                                                             │
-│   * Page Fault 발생 시 -> OS Kernel로 제어권 이양 (Trap)    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'TLB의 존재'이다. 대부분의 주소 변환은 TLB 히트를 통해 단 몇 사이클 내에 종료된다. 실무에서는 컨텍스트 스위칭 시 이 TLB를 비워야 (Flush) 하는 비용이 발생하며, 이를 최적화하기 위해 **ASID (Address Space Identifier)**를 부여하는 기술이 사용된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address Translation Pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Virtual Address</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB (Cache)</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (TLB Miss) ▼ (Hit!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MMU: Page Table Walk</div><div class="kb-diagram-node">Return PA</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory (Page Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Page Fault 발생 시 -&gt; OS Kernel로 제어권 이양 (Trap)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'TLB의 존재'이다. 대부분의 주소 변환은 TLB 히트를 통해 단 몇 사이클 내에 종료된다. 실무에서는 컨텍스트 스위칭 시 이 TLB를 비워야 (Flush) 하는 비용이 발생하며, 이를 최적화하기 위해 <strong>ASID (Address Space Identifier)</strong>를 부여하는 기술이 사용된다.
 
 ### 가상 메모리의 하드웨어 구성 요소
 
@@ -62,22 +58,19 @@ tags = ["computer_architecture"]
 
 이 구조도는 2단계 페이지 테이블의 논리적 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Two-Level Page Table Structure              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Virtual Address ] : [ Outer p1 ] [ Inner p2 ] [ Offset ]│
-│                                │          │                 │
-│          ┌─────────────────────┘          │                 │
-│          ▼                                ▼                 │
-│   [ Outer Page Table ] ──▶ [ Inner Page Table ] ──▶ [ Frame ]│
-│                                                             │
-│   * 장점: 메모리 절약 (Sparse 주소 공간에 최적화)           │
-│   * 단점: 메모리 접근 횟수 증가 (성능 하락 -> TLB로 보완)   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-Level Page Table Structure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Virtual Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Outer p1</div><div class="kb-diagram-node">Inner p2</div><div class="kb-diagram-node">Offset</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Outer Page Table</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Inner Page Table</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Frame</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 메모리 절약 (Sparse 주소 공간에 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 메모리 접근 횟수 증가 (성능 하락 -&gt; TLB로 보완)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '공간 절약'이다. 64비트 시스템에서는 4단계 이상의 페이지 테이블이 사용되기도 한다. 실무에서는 이 단계가 깊어질수록 주소 변환 페널티가 커지므로, TLB 히트율 관리가 시스템 성능의 생명선이 된다.
 
@@ -106,7 +99,7 @@ tags = ["computer_architecture"]
 ### 하드웨어와 OS의 예외 처리 협업
 
 1. **하드웨어 (MMU)**: 페이지 테이블 조회 중 Valid 비트가 0임을 발견.
-2. **하드웨어**: 실행을 멈추고 OS의 **Page Fault Handler**로 트랩 발생.
+2. **하드웨어**: 실행을 멈추고 OS의 <strong>Page Fault Handler</strong>로 트랩 발생.
 3. **운영체제**: 디스크에서 페이지를 가져와 빈 프레임에 로드.
 4. **운영체제**: 페이지 테이블 업데이트 후 CPU에게 재실행 명령 (IRET).
 
@@ -119,28 +112,27 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 메모리 가상화 병목 진단 및 튜닝 전략
 
 **시나리오 1: 컨테이너 밀집도가 높은 서버에서 TLB Miss가 빈번한 경우**
-- **판단**: 프로세스 전환이 너무 잦아 TLB가 계속 비워지고 있다 (TLB Thrashing). 하드웨어가 지원한다면 **PCID (Process Context Identifier)**를 활성화하여 컨텍스트 스위칭 시에도 이전 프로세스의 TLB를 유지하도록 설정한다. 또한 대용량 페이지인 **Huge Pages**를 사용하여 하나의 TLB 엔트리가 커버하는 범위를 넓혀 히트율을 개선한다.
+- **판단**: 프로세스 전환이 너무 잦아 TLB가 계속 비워지고 있다 (TLB Thrashing). 하드웨어가 지원한다면 <strong>PCID (Process Context Identifier)</strong>를 활성화하여 컨텍스트 스위칭 시에도 이전 프로세스의 TLB를 유지하도록 설정한다. 또한 대용량 페이지인 <strong>Huge Pages</strong>를 사용하여 하나의 TLB 엔트리가 커버하는 범위를 넓혀 히트율을 개선한다.
 
 **시나리오 2: 64비트 시스템에서 가상 메모리 오버헤드가 큰 경우**
 - **판단**: 페이지 테이블 단계가 너무 깊어 (4~5단계) 메모리 참조 횟수가 너무 많다. 어플리케이션의 메모리 할당 패턴을 분석하여 **역 페이지 테이블 (Inverted Page Table)** 도입 가능성을 검토하거나, 하드웨어 레벨에서 **TLB Prefetching** 기능이 지원되는 기종으로 하드웨어를 교체하는 아키텍처 결단을 내린다.
 
 이 도식은 Huge Pages 사용 시 주소 변환 단계의 간소화를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Standard vs Huge Pages Efficiency             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Standard (4KB) ] : L1 -> L2 -> L3 -> L4 -> [4KB Frame]  │
-│   (TLB 1개당 4KB 커버)                                      │
-│                                                             │
-│   [ Huge Page (2MB) ] : L1 -> L2 -> L3 -> [2MB Frame]       │
-│   (TLB 1개당 2MB 커버, 변환 단계 1회 감소!)                 │
-│                                                             │
-│   * 실무 효과: DB 서버 등 대규모 메모리 사용 시 성능 10~15% ↑│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard vs Huge Pages Efficiency</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Standard (4KB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4KB Frame</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 1개당 4KB 커버)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Huge Page (2MB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2MB Frame</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 1개당 2MB 커버, 변환 단계 1회 감소!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 효과: DB 서버 등 대규모 메모리 사용 시 성능 10~15% ↑</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 튜닝은 '지도의 축척 조절'과 같습니다. 마을 지도(4KB)를 수천 장 들고 다니는 것보다, 광역 지도(Huge Pages) 한 장으로 길을 찾는 것이 훨씬 효율적임을 꿰뚫어 보는 통찰이 필요합니다.
 
@@ -155,7 +147,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 가상화의 가상화, 2단계 주소 변환
 
-클라우드 컴퓨팅 환경에서는 호스트 OS와 게스트 OS가 각각 가상 메모리를 관리해야 한다. 이를 하드웨어로 가속하는 **EPT (Extended Page Tables)**나 **NPT (Nested Page Tables)** 기술이 서버 성능의 핵심이 되고 있다. 또한 보안 강화를 위해 하드웨어가 직접 메모리를 암호화하고 가상 주소 공간을 감시하는 **Enclave (Intel SGX 등)** 기술이 표준화될 것이다. 기술사는 CPU 내부의 변환 로직뿐만 아니라 가상화 계층이 겹칠 때 발생하는 성능 저하 (Virtualization Penalty)를 최소화하는 설계 능력을 갖추어야 한다.
+클라우드 컴퓨팅 환경에서는 호스트 OS와 게스트 OS가 각각 가상 메모리를 관리해야 한다. 이를 하드웨어로 가속하는 <strong>EPT (Extended Page Tables)</strong>나 **NPT (Nested Page Tables)** 기술이 서버 성능의 핵심이 되고 있다. 또한 보안 강화를 위해 하드웨어가 직접 메모리를 암호화하고 가상 주소 공간을 감시하는 **Enclave (Intel SGX 등)** 기술이 표준화될 것이다. 기술사는 CPU 내부의 변환 로직뿐만 아니라 가상화 계층이 겹칠 때 발생하는 성능 저하 (Virtualization Penalty)를 최소화하는 설계 능력을 갖추어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 주소 변환은 '공간 이동 장치'와 같아질 것입니다. 우리가 어디에 있든 상관없이, 생각하는 즉시 필요한 데이터 공간으로 순간 이동하여 연결되는 마법 같은 인프라가 완성될 것입니다.
 

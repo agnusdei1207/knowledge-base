@@ -37,58 +37,50 @@ Yahoo! 연구팀이 2006년~2008년에 걸쳐 대규모 [분산](/knowledge-base
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Apache ZooKeeper 아키텍처 ] │
-│ │
-│ [ZooKeeper Service (앙상블)] │
-│ ┌───────────┐ ┌───────────┐ ┌───────────┐ │
-│ │ Server 1 │ │ Server 2 │ │ Server 3 │ (3대 기준) │
-│ │ (Leader) │←─┼─ Quorum ─┼─→│ (Follower)│ │
-│ │ │ │ (수) │ │ │ │
-│ └───────────┘ └───────────┘ └───────────┘ │
-│ │
-│ [앙상블 내부 동작] │
-│ - Leader: Zab (ZooKeeper Atomic Broadcast) 프로토콜 │
-│ - 모든 쓰기요청은 Leader에서 처리 → Follower에 전파 │
-│ - 읽기요청은 어떤 Server에서든 처리 (동기) │
-│ - 과반수(Quorum) 서버가 살아 있으면 서비스 지속 │
-│ │
-│ [ZooKeeper 데이터 모델: znodes] │
-│ ┌──────────────────────────────────────────────────────────┐ │
-│ │ /workers [E] │ │
-│ │ ├─ /worker-1 { "status": "active" } [E] │ │
-│ │ └─ /worker-2 { "status": "idle" } [E] │ │
-│ │ /tasks │ │
-│ │ ├─ /task-001 { "assignee": "worker-1" } [E] │ │
-│ │ └─ /task-002 { "assignee": "" } [E] │ │
-│ │ /leader { "elected": "server-1" } [SE] │ │
-│ │ │ │
-│ │ [E] = Ephemeral Node (세션 동안만 존재, 연결 끊으면 자동 삭제) │ │
-│ │ [SE] = Sequential Ephemeral (순번 자동 증가 + 세션 종료 시 삭제) │ │
-│ └──────────────────────────────────────────────────────────┘ │
-│ │
-│ [주요 활용 사례] │
-│ ┌──────────────────────────────────────────────────────────┐ │
-│ │ ① 리더 선출 (Leader Election) │ │
-│ │ /leader 경로에 Sequential Ephemeral 노드 생성 │ │
-│ │ → 가장 작은 sequence number이 리더! │ │
-│ │ ② 분산 잠금 (Distributed Lock) │ │
-│ │ /lock 경로에 Sequential Ephemeral 노드 생성 │ │
-│ │ → 자신의 순번보다 작은 노드가 없으면 Lock 획득! │ │
-│ │ ③ 서비스 디스커버리 (Service Discovery) │ │
-│ │ /services/{service-name}/{{service-instance}} 등록 │ │
-│ │ ④ 설정 관리 (Configuration Management) │ │
-│ │ /config/{service} 경로에 설정 정보 저장 │ │
-│ └──────────────────────────────────────────────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache ZooKeeper 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZooKeeper Service (앙상블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server 1</div><div class="kb-diagram-cell">Server 2</div><div class="kb-diagram-cell">Server 3</div><div class="kb-diagram-cell">(3대 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Leader)</div><div class="kb-diagram-cell">←─ ─ Quorum ─ ─→</div><div class="kb-diagram-cell">(Follower)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앙상블 내부 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Leader: Zab (ZooKeeper Atomic Broadcast) 프로토콜</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 쓰기요청은 Leader에서 처리 → Follower에 전파</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 읽기요청은 어떤 Server에서든 처리 (동기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과반수(Quorum) 서버가 살아 있으면 서비스 지속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZooKeeper 데이터 모델: znodes</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /workers</div><div class="kb-diagram-node">E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ /worker-1 { "status": "active" }</div><div class="kb-diagram-node">E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ /worker-2 { "status": "idle" }</div><div class="kb-diagram-node">E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/tasks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ /task-001 { "assignee": "worker-1" }</div><div class="kb-diagram-node">E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ /task-002 { "assignee": "" }</div><div class="kb-diagram-node">E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /leader { "elected": "server-1" }</div><div class="kb-diagram-node">SE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">E</div><div class="kb-diagram-note">= Ephemeral Node (세션 동안만 존재, 연결 끊으면 자동 삭제) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SE</div><div class="kb-diagram-note">= Sequential Ephemeral (순번 자동 증가 + 세션 종료 시 삭제) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주요 활용 사례</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 리더 선출 (Leader Election)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/leader 경로에 Sequential Ephemeral 노드 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 가장 작은 sequence number이 리더!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 분산 잠금 (Distributed Lock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/lock 경로에 Sequential Ephemeral 노드 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자신의 순번보다 작은 노드가 없으면 Lock 획득!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 서비스 디스커버리 (Service Discovery)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/services/{service-name}/{{service-instance}} 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 설정 관리 (Configuration Management)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/config/{service} 경로에 설정 정보 저장</div></div>
+</div>
+</div>
+
+
 
 ### 1. Zab ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 원자적 브로드캐스트를 달성합니다.
 - **역할**: Zab은"모든 Follower이 동일한 순서로 동일한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를"하도록하는적 브로드캐스트 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 이것이 보장되지 않으면, 일부 Follower만 업데이트되어 상태가 불일치하게 됩니다.
-- **모드**: Zab은 두 가지 모드로 동작합니다. (1) **[Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (리더 선출 후)**: 새 리더가 모든 Follower의 상태를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 확보합니다. (2) **Broadcast (정상 작동)**: 리더가 받은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 모든 Follower에 동시에 전파(Atomic Broadcast)합니다.
+- **모드**: Zab은 두 가지 모드로 동작합니다. (1) <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a> (리더 선출 후)</strong>: 새 리더가 모든 Follower의 상태를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 확보합니다. (2) **Broadcast (정상 작동)**: 리더가 받은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 모든 Follower에 동시에 전파(Atomic Broadcast)합니다.
 
 ### 2. Znode 유형: 영속 vs 임시, 순차 vs 비순차
 
@@ -103,7 +95,7 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 ### 3. Quorum (과반수)와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)
 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)에서"과반수(Quorum)"는"[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속되기 위해 필요한 최소한의 정상 서버 수"입니다.
 - **Quorum 계산**: 서버 3대 → 과반수 2대, 서버 5대 → 과반수 3대, 서버 7대 → 과반수 4대
-- **읽기 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**: ZooKeeper는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))을제공하지 않고"임시적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Tentative [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))"을제공합니다. 읽기는 어떤 서버에서든하지만, 그 서버가 최신 writes를 반영하지 못할 수 있습니다. 그러나clients는`watch`를 통해 변경 사항을 실시간으로받을 수 있어에는 일관된 View를 얻을 수 있습니다.
+- <strong>읽기 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>: ZooKeeper는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Strong [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))을제공하지 않고"임시적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Tentative [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))"을제공합니다. 읽기는 어떤 서버에서든하지만, 그 서버가 최신 writes를 반영하지 못할 수 있습니다. 그러나clients는`watch`를 통해 변경 사항을 실시간으로받을 수 있어에는 일관된 View를 얻을 수 있습니다.
 
 - **📢 섹션 요약 비유**: ZooKeeper의 Quorum 메커니즘은"합의의 [voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 시스템"과 같습니다. 5명의 이사진(서버)이 있는 회사에서 중요한가 있으면"수의이 필요"합니다. 만약 3명 이상이"승인"이라고하면는되고, 나머지 2명의""는 무시됩니다. 하지만 만약 3명 이상이"사에 동의하면서도 각자의 사정을 전달하지 못하는 상황"(네트워크 분할)에 처하면, 두 그룹으로 나뉘어"내가 수을 차지하고 있다"고 생각하는"분열 뇌(split-brain)"가 발생할 수 있습니다. ZooKeeper는 이러한split-brain를방지하기 위해, 오직 단일 Leader만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 처리하도록하고, Leader의 상태를 Follower가 항상하여,"만약 Leader가 쓰러지면 즉시에 다른 Leader를 선출"하는 메커니즘을 내장하고 있습니다.
 
@@ -113,9 +105,9 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 | 비교 항목 | [Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) (CoreOS) | Consul (HashiCorp) |
 |:---|:---|:---|:---|
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 모델** | 임계적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Fencing Token) | [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 기반 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | Gossip 기반 Eventually Consistent |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 모델</strong> | 임계적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (Fencing Token) | [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 기반 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | Gossip 기반 Eventually Consistent |
 | **주요 용도** | 리더 선출, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 키-값 스토어 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메쉬, KV 스토어 |
-| **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)** | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용) | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a></strong> | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용) | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)+[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용) |
 | ** bahasa pemrograman** | Java 중심 | Go | Go, Python, etc |
 | **헬스체크** | 없음 (ephemeral 노드로 간접) | 자체 제공 | 에이전트 기반 |
 | **주요 사용자** | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
@@ -131,7 +123,7 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
 | **필요 용도** | 리더 선출만 필요 → [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)/SimpleServiceRegistry | KV 스토어 + 리더 선출 → [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 요구** | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수 → [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) / [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Quorum | Eventual 허용 → Consul |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 요구</strong> | 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 필수 → [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) / [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Quorum | Eventual 허용 → Consul |
 | **규모** | 수십 개 수준 노드 → [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 3~5대 | 수백~수천 노드 → Consul Gossip |
 | **운영 난이도** | [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 전담 관리 역량 필요 | etcd는 Kubernetes와 긴밀 | Consul은 간단한 KV |
 
@@ -146,10 +138,10 @@ ZooKeeper는 Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **ZooKeeper의 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 대체재 등장: KRaft와 etcd의 확산**
+1. <strong>ZooKeeper의 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a> 대체재 등장: KRaft와 etcd의 확산</strong>
 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.3+에서 도입된 KRaft 모드는 ZooKeeper를 대체하여 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 자체의 [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를관리합니다. 이는 ZooKeeper에 대한 의존성을 제거하고"운영 단순화"와"[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거"를 동시에 달성합니다. 또한 Kubernetes의 etcd가 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 세계의"[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이션 표준"으로 자리잡음에 따라, ZooKeeper의 사용 범위가 줄어드는 추세가 가속화되고 있습니다.
 
-2. **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mesh의 코디네이션 통합**
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>와 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Mesh의 코디네이션 통합</strong>
 HashiCorp Consul, [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd 등의 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 기술이"[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/) + [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) + [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 암호화 + 코디네이션"을통합하여 제공함에 따라, ZooKeeper가 제공하던"[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등록/탐색" 기능이 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 레벨로되고 있습니다. 이러한 추세는"별도의 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 클러스터 운영"의 부담을 줄이면서"더 풍부한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관찰 가능성"을 제공하는 이점을 가집니다.
 
 3. **ZooKeeper의 역할 재정의: 대규모 상태 저장이 아닌"이벤트 기반 코디네이션"으로**
@@ -161,10 +153,10 @@ ZooKeeper의 설계 철학은"작고 빠른 코디네이션"에 집중하는 것
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) 핵심 개념**
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/">Apache ZooKeeper</a> 핵심 개념</strong>
 * **Znode**: ZooKeeper의 기본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단위 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)+디렉토리 hybrid)
 * **Watcher**: 노드 변경 시 자동 알림
-* **Zab [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**: Atomic Broadcast + Leader Election
+* <strong>Zab <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a></strong>: Atomic Broadcast + Leader Election
 * **Quorum**: 과반수 서버 consensus
 * **Znode 유형 조합**
 * **Regular Persistent (P)**: 영속 비순차 - [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 정보 저장
@@ -173,34 +165,34 @@ ZooKeeper의 설계 철학은"작고 빠른 코디네이션"에 집중하는 것
 * **Ephemeral Sequential (ES)**: 임시 순차 - 리더 선출, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금
 * **주요 활용 패턴**
 * **리더 선출**: 가장 낮은 sequence number의 ES 노드
-* **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금**: Zookeeper의 `getChildren()` + `watch` 조합
-* **[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)**: ephemeral 노드 등록 + watch
+* <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 잠금</strong>: Zookeeper의 `getChildren()` + `watch` 조합
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a></strong>: ephemeral 노드 등록 + watch
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Apache ZooKeeper 핵심 개념]
-│
-▼
-[Znode: ZooKeeper의 기본 데이터 단위 (파일+디렉토리 hybrid)]
-│
-▼
-[Watcher: 노드 변경 시 자동 알림]
-│
-▼
-[Zab Protocol: Atomic Broadcast + Leader Election]
-│
-▼
-[Quorum: 과반수 서버 consensus]
-│
-▼
-[Znode 유형 조합]
-│
-▼
-[Regular Persistent (P): 영속 비순차 - 설정 정보 저장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache ZooKeeper 핵심 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Znode: ZooKeeper의 기본 데이터 단위 (파일+디렉토리 hybrid)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Watcher: 노드 변경 시 자동 알림</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Zab Protocol: Atomic Broadcast + Leader Election</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Quorum: 과반수 서버 consensus</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Znode 유형 조합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Regular Persistent (P): 영속 비순차 - 설정 정보 저장</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [Apache ZooKeeper](/knowledge-base/studynote/14_data_engineering/01_infrastructure/029_apache_zookeeper/) 핵심 개념에서 출발해 Znode 유형 조합까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
@@ -210,7 +202,7 @@ ZooKeeper의 설계 철학은"작고 빠른 코디네이션"에 집중하는 것
 3. 컴퓨터들이 서로 누가 살아 있는지 죽었는지하지 않고, ZooKeeper에게만 물어보면 돼서와/과도입니다!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 Apache ZooKeeper의 코디네이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로서의 역할, Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 그리고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 활용 사례를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 Apache ZooKeeper의 코디네이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로서의 역할, Zab [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 그리고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 활용 사례를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

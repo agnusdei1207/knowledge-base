@@ -19,25 +19,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 **숫자를 옮기는 것이 아니라 숫자의 의미를 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 가져오는 공급망이라면, 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 그 재료를 이용해 합계, 차이, 주소 오프셋, 반복 횟수 같은 새로운 상태를 만든다. 운영체제의 [tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 증가, [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 조정, 루프 종료 조건 계산까지 모두 결국 산술 연산에 기대고 있다.
+산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 <strong>숫자를 옮기는 것이 아니라 숫자의 의미를 바꾸는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 가져오는 공급망이라면, 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 그 재료를 이용해 합계, 차이, 주소 오프셋, 반복 횟수 같은 새로운 상태를 만든다. 운영체제의 [tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 증가, [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 조정, 루프 종료 조건 계산까지 모두 결국 산술 연산에 기대고 있다.
 
-이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 중요한 이유는 프로그램이 "같은 상태를 반복"하지 않고 "다음 상태로 이동"하려면 값이 변해야 하기 때문이다. `i = i + 1`이 없으면 반복문은 전진하지 못하고, `base + offset`이 없으면 메모리의 다음 원소를 가리킬 수 없으며, `a - b`가 없으면 비교 결과를 만들기도 어렵다. 즉 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 계산 기능이면서 동시에 **주소 계산과 제어 판단의 기반**이다.
+이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 중요한 이유는 프로그램이 "같은 상태를 반복"하지 않고 "다음 상태로 이동"하려면 값이 변해야 하기 때문이다. `i = i + 1`이 없으면 반복문은 전진하지 못하고, `base + offset`이 없으면 메모리의 다음 원소를 가리킬 수 없으며, `a - b`가 없으면 비교 결과를 만들기도 어렵다. 즉 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 계산 기능이면서 동시에 <strong>주소 계산과 제어 판단의 기반</strong>이다.
 
 아래 그림은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))에서 처리된 뒤, 조건 코드까지 갱신해 분기와 저장으로 이어지는 흐름을 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Arithmetic instruction in program flow                            │
-├───────────────────────────────────────────────────────────────────┤
-│ Load operands ─▶ Integer ALU ─▶ Result writeback                 │
-│                         │                                         │
-│                         └─▶ Flags(Z/N/C/V) ─▶ Branch / compare    │
-│                                                                   │
-│ Example: sum += a[i]                                              │
-│          index = index + 1                                        │
-│          remain = remain - 1                                      │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Arithmetic instruction in program flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load operands ─▶ Integer ALU ─▶ Result writeback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Flags(Z/N/C/V) ─▶ Branch / compare</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Example: sum += a</div><div class="kb-diagram-node">i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">index = index + 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">remain = remain - 1</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 결과값 하나만 만드는 것이 아니라, 다음 명령의 행동 기준까지 만든다는 점이다. 그래서 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서 산술 연산은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 주소 계산, 조건 분기의 공통 분모로 취급된다.
 
@@ -47,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대부분의 정수 산술은 **가산기(Adder) 하나를 중심으로 확장**된다. 덧셈은 두 수를 더하는 동작이고, 뺄셈은 2의 보수 (Two's Complement)를 이용해 "보수를 더하는 덧셈"으로 처리할 수 있으므로 같은 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 자원을 공유한다. 곱셈은 부분곱 생성과 누적이 필요해 더 오래 걸리고, 나눗셈은 비교와 시프트를 반복하므로 일반적으로 가장 비싼 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 된다.
+대부분의 정수 산술은 <strong>가산기(Adder) 하나를 중심으로 확장</strong>된다. 덧셈은 두 수를 더하는 동작이고, 뺄셈은 2의 보수 (Two's Complement)를 이용해 "보수를 더하는 덧셈"으로 처리할 수 있으므로 같은 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 자원을 공유한다. 곱셈은 부분곱 생성과 누적이 필요해 더 오래 걸리고, 나눗셈은 비교와 시프트를 반복하므로 일반적으로 가장 비싼 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 된다.
 
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 계열 | 대표 예 | 하드웨어 관점 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성(대략) |
 | :--- | :--- | :--- | :--- |
@@ -59,26 +60,28 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 어떤 실행 유닛을 거쳐 결과와 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 만드는지 압축해서 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Integer arithmetic datapath                                       │
-├───────────────────────────────────────────────────────────────────┤
-│ Register A ─┐                                                     │
-│             ├─▶ Adder/Subtractor ───────▶ Result Register         │
-│ Register B ─┘                    │                                │
-│ Immediate ───────────────────────┘                                │
-│                                  ├─▶ C : Carry / borrow info      │
-│                                  ├─▶ V : Signed overflow          │
-│                                  ├─▶ Z : Zero result             │
-│                                  └─▶ N : Negative(sign) result    │
-│                                                                   │
-│ Multiplier / Divider are usually separate, slower execution units │
-└───────────────────────────────────────────────────────────────────┘
-```
 
-여기서 특히 중요한 것은 **Carry Flag와 [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) Flag가 다르다**는 점이다. Carry Flag는 unsigned 연산에서 자리올림·자리내림을 뜻하고, [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) Flag는 signed 연산에서 표현 범위를 벗어났음을 뜻한다. 예를 들어 8비트 signed 정수에서 `127 + 1`은 결과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴상 `10000000`이 되므로 Carry보다 [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해석이 핵심이 된다.
 
-또한 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 폭에도 민감하다. 8비트, 32비트, 64비트 연산은 같은 `ADD` 계열이라도 결과 범위가 다르고, 일부 ISA는 즉시값([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) 산술을 지원해 메모리 접근 없이 작은 상수를 곧바로 더한다. 따라서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 본질은 "수학 공식"이 아니라 **유한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭 위에서 정의된 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙**이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integer arithmetic datapath</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Adder/Subtractor ▶ Result Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register B ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Immediate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ C : Carry / borrow info</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ V : Signed overflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Z : Zero result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ N : Negative(sign) result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multiplier / Divider are usually separate, slower execution units</div></div>
+</div>
+</div>
+
+
+
+여기서 특히 중요한 것은 <strong>Carry Flag와 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a> Flag가 다르다</strong>는 점이다. Carry Flag는 unsigned 연산에서 자리올림·자리내림을 뜻하고, [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) Flag는 signed 연산에서 표현 범위를 벗어났음을 뜻한다. 예를 들어 8비트 signed 정수에서 `127 + 1`은 결과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴상 `10000000`이 되므로 Carry보다 [Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해석이 핵심이 된다.
+
+또한 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 폭에도 민감하다. 8비트, 32비트, 64비트 연산은 같은 `ADD` 계열이라도 결과 범위가 다르고, 일부 ISA는 즉시값([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) 산술을 지원해 메모리 접근 없이 작은 상수를 곧바로 더한다. 따라서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 본질은 "수학 공식"이 아니라 <strong>유한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>폭 위에서 정의된 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a> 규칙</strong>이다.
 
 - **📢 섹션 요약 비유**: 산술 연산 유닛은 계산기 한 대가 아니라 작업대가 나뉜 공장과 같다. 덧셈 컨베이어는 빠르게 지나가지만, 곱셈과 나눗셈 코너는 더 복잡한 공정을 거쳐야 해서 줄이 길어진다.
 
@@ -86,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해할 때 가장 중요한 경계는 **정수 산술과 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 산술**, 그리고 **[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)와 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)의 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 처리 방식**이다. 정수 산술은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭 안에서 정확한 결과를 추구하지만, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 산술은 FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)에서 지수·가수를 다루며 반올림과 예외 처리가 동반된다. 겉보기에는 둘 다 "더하기"지만 비용과 의미가 다르다.
+산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이해할 때 가장 중요한 경계는 <strong>정수 산술과 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 산술</strong>, 그리고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/">RISC</a> (Reduced <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Set Computer)와 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/">CISC</a> (Complex <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Set Computer)의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/">피연산자</a> 처리 방식</strong>이다. 정수 산술은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭 안에서 정확한 결과를 추구하지만, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 산술은 FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)에서 지수·가수를 다루며 반올림과 예외 처리가 동반된다. 겉보기에는 둘 다 "더하기"지만 비용과 의미가 다르다.
 
 | 비교 항목 | 정수 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
 | :--- | :--- | :--- |
@@ -96,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 | 대표 이슈 | [overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/), carry, sign | rounding, [NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/), [underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) |
 | 주 사용처 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 길이, 포인터, 정수 계산 | 과학 계산, 그래픽, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 |
 
-또한 많은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) ISA는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 메모리를 직접 읽지 않고 **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)끼리만 계산**하도록 제한한다. 그 대신 `LOAD`/`STORE`로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 옮긴 뒤 산술을 수행해 파이프라인을 단순하게 만든다. 반면 일부 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) ISA는 메모리를 직접 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)로 허용해 코드 밀도는 높이지만, 디코드와 실행 제어는 더 복잡해진다.
+또한 많은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) ISA는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 메모리를 직접 읽지 않고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>끼리만 계산</strong>하도록 제한한다. 그 대신 `LOAD`/`STORE`로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 옮긴 뒤 산술을 수행해 파이프라인을 단순하게 만든다. 반면 일부 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) ISA는 메모리를 직접 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)로 허용해 코드 밀도는 높이지만, 디코드와 실행 제어는 더 복잡해진다.
 
 이 연결점은 컴파일러 최적화에서도 그대로 드러난다. 산술이 빠르려면 단지 좋은 ALU만으로는 부족하고, 필요한 값이 이미 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 있어야 하며, 이후 분기나 저장이 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속성을 과도하게 만들지 않아야 한다. 즉 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송, 주소 지정, 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 끊어져 있지 않다.
 
@@ -106,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 볼 때는 "무슨 연산인가"보다 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 요구와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 비용이 무엇인가**를 먼저 따져야 한다. 현대 CPU에서 정수 `ADD`는 매우 빠르지만, `DIV`는 여전히 비싼 편이며, 곱셈도 덧셈보다 길다. 그래서 핫 루프에서는 나눗셈을 상수 곱셈·시프트로 대체할 수 있는지, 또는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 여러 값을 한 번에 계산할 수 있는지를 먼저 검토한다.
+실무에서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 볼 때는 "무슨 연산인가"보다 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> 요구와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 비용이 무엇인가</strong>를 먼저 따져야 한다. 현대 CPU에서 정수 `ADD`는 매우 빠르지만, `DIV`는 여전히 비싼 편이며, 곱셈도 덧셈보다 길다. 그래서 핫 루프에서는 나눗셈을 상수 곱셈·시프트로 대체할 수 있는지, 또는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 여러 값을 한 번에 계산할 수 있는지를 먼저 검토한다.
 
 ### 실무 판단 기준
 
@@ -122,7 +125,7 @@ tags = ["studynote-computer-architecture"]
 - 주소 계산과 일반 수치 계산을 같은 관점으로만 보고, 포인터 산술의 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 경쟁을 놓치는 설계
 - 32비트 누적값으로 충분하다고 생각했다가 장시간 실행 후 overflow를 맞는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 설계
 
-기술사 답안에서는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 단순히 `ADD/SUB/MUL/DIV` 나열로 끝내면 약하다. **[플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 의미, signed/unsigned 차이, 곱셈·나눗셈의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 비용, load/store 구조와의 연결**까지 짚어야 실제 CPU 설계와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 살아난다.
+기술사 답안에서는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 단순히 `ADD/SUB/MUL/DIV` 나열로 끝내면 약하다. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a> 의미, signed/unsigned 차이, 곱셈·나눗셈의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 비용, load/store 구조와의 연결</strong>까지 짚어야 실제 CPU 설계와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 살아난다.
 
 - **📢 섹션 요약 비유**: 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택은 공사 현장에서 어떤 공구를 쓸지 고르는 일과 같다. 망치 하나로 대부분 해결되지만, 정밀 절단이 필요한데 전기톱 대신 망치만 휘두르면 시간도 오래 걸리고 결과도 망가진다.
 
@@ -130,11 +133,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 정확히 이해하면 프로그램을 "수식의 집합"이 아니라 **유한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭 위에서 상태가 갱신되는 과정**으로 보게 된다. 이 관점은 CPU 설계자에게는 ALU와 파이프라인 구성으로, 컴파일러에게는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당과 명령 스케줄링으로, 개발자에게는 [overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)-safe 코드와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화로 이어진다. 결국 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 계산 기능이면서 동시에 시스템의 시간과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 동시에 좌우하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.
+산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 정확히 이해하면 프로그램을 "수식의 집합"이 아니라 <strong>유한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>폭 위에서 상태가 갱신되는 과정</strong>으로 보게 된다. 이 관점은 CPU 설계자에게는 ALU와 파이프라인 구성으로, 컴파일러에게는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당과 명령 스케줄링으로, 개발자에게는 [overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)-safe 코드와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화로 이어진다. 결국 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 계산 기능이면서 동시에 시스템의 시간과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 동시에 좌우하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.
 
 물론 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 빠르다고 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아지지는 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 제때 공급되지 않으면 ALU는 놀게 되고, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)폭이 부족하면 overflow가 나며, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)에서는 반올림 오차가 남는다. 그래서 현대 시스템은 캐시, 벡터 유닛, 예외 처리, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 확장 같은 보조 메커니즘을 함께 사용한다.
 
-정리하면 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 **"숫자를 바꾸는 문법"이 아니라 "프로그램 상태를 다음 단계로 밀어 주는 핵심 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 명령"** 으로 기억하는 것이 맞다. 특히 시험과 실무에서는 `ADD`의 이름보다 그 연산이 만드는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 한계를 함께 떠올려야 한다.
+정리하면 산술 연산 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 <strong>"숫자를 바꾸는 문법"이 아니라 "프로그램 상태를 다음 단계로 밀어 주는 핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a> 명령"</strong> 으로 기억하는 것이 맞다. 특히 시험과 실무에서는 `ADD`의 이름보다 그 연산이 만드는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 한계를 함께 떠올려야 한다.
 
 - **📢 섹션 요약 비유**: 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 보드게임에서 말을 한 칸씩 앞으로 밀어 주는 주사위와 같다. 움직임이 있어야 게임이 진행되지만, 잘못 던지면 규칙 위반도 함께 생긴다.
 
@@ -154,20 +157,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Binary number representation
-        │
-        ▼
-Adder / Two's Complement
-        │
-        ▼
-ADD · SUB · INC · DEC
-        │
-        ├──────────────▶ MUL · DIV specialization
-        ├──────────────▶ Flags and conditional branch
-        ├──────────────▶ Load/Store + address arithmetic
-        └──────────────▶ SIMD · FPU · checked arithmetic
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Binary number representation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adder / Two's Complement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ADD · SUB · INC · DEC</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ MUL · DIV specialization</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Flags and conditional branch</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Load/Store + address arithmetic</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ SIMD · FPU · checked arithmetic</div>
+</div>
+</div>
+
+
 
 이 흐름도는 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 단순 덧셈 회로에서 출발해, 곱셈·나눗셈 전용 유닛과 조건 분기, 벡터화, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 관리까지 확장되는 과정을 보여 준다.
 

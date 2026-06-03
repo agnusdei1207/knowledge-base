@@ -11,7 +11,7 @@ tags = ["studynote-cloud"]
 
 ## 핵심 인사이트 (3줄 요약)
 1. **개발과 운영의 통합**: 개발(Dev)과 운영(Ops) 팀 간의 소유권 공유와 협업을 통해 소프트웨어 배포 속도와 안정성을 동시에 달성함.
-2. **신속한 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)**: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 배포(CD)를 자동화하여 버그를 조기 발견하고 시장의 요구에 기민하게 대응함.
+2. <strong>신속한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>: [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))과 배포(CD)를 자동화하여 버그를 조기 발견하고 시장의 요구에 기민하게 대응함.
 3. **문화적 패러다임**: 단순한 도구의 도입이 아니라, 비난 없는(Blameless) 회고와 지속적인 학습을 중시하는 조직 문화적 전환임.
 
 ---
@@ -23,27 +23,27 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 무한 루프(Infinity Loop) 형태의 [지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/) 시스템 구축.
 
-```text
-[ DevOps Infinity Loop & Lifecycle ]
 
-       (Plan)      (Code)      (Build)     (Test)
-    +---------+ +---------+ +---------+ +---------+
-    |         | |         | |         | |         |
-    | Strategy| | Dev     | | CI Tool | | QA/Test |
-    +---------+ +---------+ +---------+ +---------+
-          ^                                     |
-          |       <<< Feedback Loop >>>         v
-    +---------+ +---------+ +---------+ +---------+
-    | Monitor | | Operate | | Deploy  | | Release |
-    | Metrics | | SRE     | | CD Tool | | Artifact|
-    +---------+ +---------+ +---------+ +---------+
-      (Monitor)   (Operate)   (Deploy)    (Release)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps Infinity Loop &amp; Lifecycle</div></div>
+<div class="kb-diagram-note">(Plan) (Code) (Build) (Test)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy</div><div class="kb-diagram-cell">Dev</div><div class="kb-diagram-cell">CI Tool</div><div class="kb-diagram-cell">QA/Test</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">&lt;&lt;&lt; Feedback Loop &gt;&gt;&gt; v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor</div><div class="kb-diagram-cell">Operate</div><div class="kb-diagram-cell">Deploy</div><div class="kb-diagram-cell">Release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics</div><div class="kb-diagram-cell">SRE</div><div class="kb-diagram-cell">CD Tool</div><div class="kb-diagram-cell">Artifact</div></div>
+<div class="kb-diagram-note">(Monitor) (Operate) (Deploy) (Release)</div>
+</div>
+</div>
+
+
 
 - **주요 원칙**:
-    1. **[Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))**: 인프라 설정을 코드로 관리하여 재현성 확보.
-    2. **[Shift-Left Security](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/) ([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))**: 보안 검증을 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계로 전진 배치.
-    3. **[Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: 독립적으로 배포 가능한 단위로 쪼개어 배포 속도 향상.
+    1. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>)</strong>: 인프라 설정을 코드로 관리하여 재현성 확보.
+    2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/105_devsecops_shift_left_security/">Shift-Left Security</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a>)</strong>: 보안 검증을 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계로 전진 배치.
+    3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>: 독립적으로 배포 가능한 단위로 쪼개어 배포 속도 향상.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -72,18 +72,21 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사일로 조직 (Dev ↔ Ops 분리, 배포 지연)
-    │
-    ▼
-DevOps: 문화 + 자동화 + 협업 (CI/CD · IaC)
-    │
-    ▼
-SRE: 신뢰성 엔지니어링 (SLI/SLO · Error Budget)
-    │
-    ▼
-Platform Engineering · DevSecOps · FinOps
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사일로 조직 (Dev ↔ Ops 분리, 배포 지연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevOps: 문화 + 자동화 + 협업 (CI/CD · IaC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRE: 신뢰성 엔지니어링 (SLI/SLO · Error Budget)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Platform Engineering · DevSecOps · FinOps</div>
+</div>
+</div>
+
+
 2. 예전에는 일주일에 한 번 배달했다면, 이제는 주문 즉시 요리하고 바로 배달(자동화)해요.
 3. 음식이 식었거나 맛이 없으면(장애) 같이 고민해서 더 맛있는 조리법을 찾아내요!
 

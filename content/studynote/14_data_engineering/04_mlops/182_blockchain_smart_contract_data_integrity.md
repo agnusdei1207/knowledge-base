@@ -19,24 +19,26 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 여러 참여자가 같은 원장 사본을 공유하고, 과거 기록 변경이 즉시 드러나도록 만든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점에서 이것은 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대체재가 아니라, 서로 완전히 신뢰하지 않는 조직 사이에서 **누가 언제 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 등록했는가**를 공동으로 증빙하는 계층으로 이해하는 편이 정확하다. 특히 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 의료, 모델 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래처럼 원본을 모두 한 기관에 맡기기 어려운 환경에서 의미가 크다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 여러 참여자가 같은 원장 사본을 공유하고, 과거 기록 변경이 즉시 드러나도록 만든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점에서 이것은 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대체재가 아니라, 서로 완전히 신뢰하지 않는 조직 사이에서 <strong>누가 언제 어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 등록했는가</strong>를 공동으로 증빙하는 계층으로 이해하는 편이 정확하다. 특히 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 의료, 모델 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래처럼 원본을 모두 한 기관에 맡기기 어려운 환경에서 의미가 크다.
 
 전통적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보장은 보통 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 제약, 중앙 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 접근 통제에 의존한다. 내부 단일 조직에는 충분할 수 있지만, 여러 회사가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두고 이해관계가 엇갈리는 순간 한계가 드러난다. 관리자 권한으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 수정할 수 있고, 사후에 "원래 이 값이었다"를 두고 분쟁이 생기면 어느 쪽 기록을 신뢰해야 할지 합의가 어렵다.
 
-그래서 실무에서는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 체인에 넣기보다, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크나 오브젝트 스토리지에 원본을 두고 해시만 체인에 남기는 패턴이 많이 쓰인다. 이 방식이면 저장 비용과 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 노출을 억제하면서도, 나중에 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 즉 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 역할은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 잘 보관하는 저장소"가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 변경 이력을 외부에 부인하기 어렵게 만드는 공통 증인**이다.
+그래서 실무에서는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 체인에 넣기보다, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크나 오브젝트 스토리지에 원본을 두고 해시만 체인에 남기는 패턴이 많이 쓰인다. 이 방식이면 저장 비용과 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 노출을 억제하면서도, 나중에 동일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 즉 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 역할은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 잘 보관하는 저장소"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 변경 이력을 외부에 부인하기 어렵게 만드는 공통 증인</strong>이다.
 
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙이 어떻게 분리되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Off-chain data, on-chain proof                                          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Producer file -> normalize -> hash -> blockchain anchor                 │
-│       │                                              │                  │
-│       └──────────── object storage keeps raw bytes ──┘                  │
-│ Buyer / auditor -> download file -> recompute hash -> compare           │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Off-chain data, on-chain proof</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer file -&gt; normalize -&gt; hash -&gt; blockchain anchor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">object storage keeps raw bytes ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buyer / auditor -&gt; download file -&gt; recompute hash -&gt; compare</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 저장과 증빙을 분리하는 것이다. 원본은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리에 적합한 저장소에 두고, 체인은 그 원본이 사후에 바뀌지 않았는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기준점이 된다.
 
@@ -59,19 +61,21 @@ tags = ["studynote-data-engineering"]
 
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙과 거래 기능을 얻는 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Data asset lifecycle                                                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Dataset -> canonical form -> SHA-256 hash -> smart contract record     │
-│    │                                   │                                │
-│    └-> encrypted object storage URI ---┘                                │
-│                                            -> NFT license token         │
-│ Buyer -> payment / escrow -> access grant -> hash verification          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 NFT ([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/))는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 체인에 저장하는 방식이 아니다. 보통은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 또는 모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)에 대한 **접근권, 사용권, 재판매 로열티 규칙**을 표현하는 토큰으로 쓰인다. 즉 NFT는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 권리와 거래 이력을 표현하는 표지에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data asset lifecycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dataset -&gt; canonical form -&gt; SHA-256 hash -&gt; smart contract record</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; encrypted object storage URI ---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; NFT license token</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buyer -&gt; payment / escrow -&gt; access grant -&gt; hash verification</div></div>
+</div>
+</div>
+
+
+
+여기서 NFT ([Non-Fungible Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/029_nft_non_fungible_token/))는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 체인에 저장하는 방식이 아니다. 보통은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 또는 모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)에 대한 <strong>접근권, 사용권, 재판매 로열티 규칙</strong>을 표현하는 토큰으로 쓰인다. 즉 NFT는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 권리와 거래 이력을 표현하는 표지에 가깝다.
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 들어오면 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙은 단순 확인을 넘어서 자동 거래로 확장된다. 예를 들어 판매자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 해시와 라이선스 조건을 등록하고, 구매자는 대금을 예치한 뒤 권한을 얻는다. 이후 재판매가 발생하면 로열티 분배까지 계약 코드가 자동으로 처리할 수 있다. 이런 구조 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마켓은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 판매"를 넘어 "조건부 사용권 거래"로 진화한다.
 
@@ -94,7 +98,7 @@ tags = ["studynote-data-engineering"]
 
 또한 NFT 기반 거래를 쓰는 이유도 단순 소유권 표시 때문만은 아니다. 해시 등록만으로는 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 같다"는 증명은 가능하지만, 가격·기간·재판매 로열티·접근 회수 같은 상거래 규칙은 별도 시스템이 필요하다. NFT와 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 함께 쓰면 이 권리 구조를 체인 위에서 일관되게 추적할 수 있다.
 
-여기서 반드시 구분해야 할 개념이 **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**과 **진실성**이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 등록된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이후에 바뀌지 않았음을 잘 보여 주지만, 애초에 잘못된 센서 값이나 조작된 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 응답이 들어오면 그것도 그대로 고정해 버린다. 이 문제가 바로 오라클 문제다. 즉 체인은 위조 방지에는 강하지만, 현실 세계 입력의 진위를 보장하는 장치는 별도로 필요하다.
+여기서 반드시 구분해야 할 개념이 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>과 <strong>진실성</strong>이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 등록된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이후에 바뀌지 않았음을 잘 보여 주지만, 애초에 잘못된 센서 값이나 조작된 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 응답이 들어오면 그것도 그대로 고정해 버린다. 이 문제가 바로 오라클 문제다. 즉 체인은 위조 방지에는 강하지만, 현실 세계 입력의 진위를 보장하는 장치는 별도로 필요하다.
 
 이 지점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 기존 도구들과 연결된다. [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 같은 테이블 포맷은 내부 ACID ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리에 강하다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 여기에 외부 공증 계층을 추가하는 개념이다. 다시 말해 내부 분석 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화는 레이크하우스가 담당하고, 기관 간 부인 방지와 거래 정산은 체인이 담당하는 식의 역할 분리가 현실적이다.
 
@@ -115,16 +119,19 @@ tags = ["studynote-data-engineering"]
 
 아래 흐름은 NFT [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 마켓에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 거래되는 과정을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ NFT data transaction market                                             │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Seller -> register hash + license -> mint NFT                          │
-│ Buyer  -> escrow payment -> receive access grant                        │
-│ Verify -> recompute hash -> accept dataset                              │
-│ Resale -> royalty split by smart contract                               │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NFT data transaction market</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seller -&gt; register hash + license -&gt; mint NFT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buyer -&gt; escrow payment -&gt; receive access grant</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verify -&gt; recompute hash -&gt; accept dataset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resale -&gt; royalty split by smart contract</div></div>
+</div>
+</div>
+
+
 
 기술사 관점에서 자주 묻는 설계 체크리스트는 다음과 같다.
 
@@ -148,7 +155,7 @@ tags = ["studynote-data-engineering"]
 
 반면 한계도 명확하다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 비용 때문에 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 체인에 저장하기 어렵고, 잘못된 입력은 그대로 굳어진다. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 버그는 운영 실수보다 더 큰 영구적 문제를 만들 수 있으며, 법적 권리 해석은 여전히 오프체인 계약과 규제 체계를 따라야 한다. 즉 체인은 신뢰 비용을 줄여 주지만, 책임과 거버넌스를 없애 주지는 않는다.
 
-앞으로는 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)), [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 신원 체계와 결합한 형태가 더 중요해질 가능성이 높다. 그러면 원문 노출 없이도 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 특정 조건을 만족한다"를 증명할 수 있어, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 공개 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)성의 긴장을 더 잘 다룰 수 있다. 결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)과 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 엔진이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 거래 규칙을 외부 신뢰 수준으로 끌어올리는 증빙 계층**으로 기억해야 한다.
+앞으로는 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)), [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 신원 체계와 결합한 형태가 더 중요해질 가능성이 높다. 그러면 원문 노출 없이도 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 특정 조건을 만족한다"를 증명할 수 있어, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 공개 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)성의 긴장을 더 잘 다룰 수 있다. 결론적으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)과 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장 엔진이 아니라, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>과 거래 규칙을 외부 신뢰 수준으로 끌어올리는 증빙 계층</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증빙은 금고 자체보다 금고의 봉인 기록장에 가깝다. 물건을 넣어 두는 장소보다, 누가 봉인을 열고 닫았는지를 모두가 함께 확인할 수 있다는 점이 핵심이다.
 
@@ -168,25 +175,26 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Central audit log
-    │
-    ▼
-Hash anchoring for tamper evidence
-    │
-    ▼
-Smart contract automation
-    │
-    ├─ settlement / escrow
-    ├─ royalty / reuse rules
-    └─ NFT license token
-    │
-    ▼
-Cross-organization data market
-    │
-    ▼
-Zero-knowledge proof and privacy-preserving verification
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Central audit log</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hash anchoring for tamper evidence</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Smart contract automation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">settlement / escrow</div>
+<div class="kb-diagram-tree-item" style="--depth:2">royalty / reuse rules</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NFT license token</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cross-organization data market</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero-knowledge proof and privacy-preserving verification</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 다자간 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증빙과 자동 거래 규칙으로 확장되고, 다시 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술과 결합되는 방향을 보여 준다.
 

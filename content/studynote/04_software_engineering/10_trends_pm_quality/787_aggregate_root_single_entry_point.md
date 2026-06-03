@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 쇼핑몰 시스템에서 '주문(Order)'이라는 개념을 코드로 짠다고 해보자. 주문 객체 안에는 '주문자 정보', '배송지 정보', '주문 상품 목록(OrderLine)' 같은 수많은 자식 객체들이 딸려 있다.
 
-만약 어떤 개발자가 "상품의 가격이 바뀌었네? 주문 상품 목록 객체를 직접 DB에서 꺼내서 가격을 수정해야지!"라고 코드를 짰다고 치자. 무슨 일이 생길까? 자식 객체인 '상품 목록'의 가격은 올랐는데, 부모 객체인 '주문'의 '총결제 금액'은 업데이트되지 않는 끔찍한 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치**가 발생한다.
+만약 어떤 개발자가 "상품의 가격이 바뀌었네? 주문 상품 목록 객체를 직접 DB에서 꺼내서 가격을 수정해야지!"라고 코드를 짰다고 치자. 무슨 일이 생길까? 자식 객체인 '상품 목록'의 가격은 올랐는데, 부모 객체인 '주문'의 '총결제 금액'은 업데이트되지 않는 끔찍한 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 불일치</strong>가 발생한다.
 
-이런 재앙을 막기 위해 에릭 에반스(Eric Evans)는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))에서 규칙을 정했다. **"관련된 객체들을 하나의 비닐봉지([애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))에 담아라. 그리고 그 봉지에 손을 넣을 수 있는 권한은 오직 대장 객체([애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트)에게만 주어라!"**
+이런 재앙을 막기 위해 에릭 에반스(Eric Evans)는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))에서 규칙을 정했다. <strong>"관련된 객체들을 하나의 비닐봉지(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a>)에 담아라. 그리고 그 봉지에 손을 넣을 수 있는 권한은 오직 대장 객체(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a> 루트)에게만 주어라!"</strong>
 
 - **📢 섹션 요약 비유**: 회사에 신입사원(자식 객체)이 10명 있다. 외부 손님이 신입사원에게 개별적으로 다가가 "이것 좀 해줘"라고 지시하면 팀 전체의 스케줄이 엉망이 된다. 반드시 팀장([애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트)을 통해서만 업무를 지시해야 팀장이 스케줄을 조율([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지)할 수 있다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 외부 접근 단일 진의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  애그리게이트 루트 외부 접근 단일 진                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애그리게이트 루트 외부 접근 단일 진</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 외부 접근 단일 진가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ JPA나 Hibernate 같은 ORM(객체 [관계](/knowledge-base/studynote/05_databas
 
 | 비교 항목 | RDBMS / ORM 중심 설계 (전통적) | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 중심 설계 |
 |:---|:---|:---|
-| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매핑** | 모든 테이블을 `Foreign Key`로 엮음. (거대한 거미줄) | **[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 외부의 객체는 오직 ID로만 매핑 (끊어냄)** |
-| **저장 방식** | `save(Order)`, `save(OrderLine)` 각각 따로 호출 | **`save(OrderRoot)` 한 번만 호출하면 자식들까지 다 같이 저장됨 (Cascade)** |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 매핑</strong> | 모든 테이블을 `Foreign Key`로 엮음. (거대한 거미줄) | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a> 외부의 객체는 오직 ID로만 매핑 (끊어냄)</strong> |
+| **저장 방식** | `save(Order)`, `save(OrderLine)` 각각 따로 호출 | <strong><code>save(OrderRoot)</code> 한 번만 호출하면 자식들까지 다 같이 저장됨 (Cascade)</strong> |
 | **장점** | SQL 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 가져오기 편함 | **로직이 안전하게 캡슐화되어 버그가 안 생김** |
 | **단점** | 테이블 10개가 묶여 있어서, 하나 고치면 다 뻗음 | 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이 힘들어져서 조회용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)([CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/))를 따로 만들어야 함 |
 
@@ -93,7 +92,7 @@ JPA나 Hibernate 같은 ORM(객체 [관계](/knowledge-base/studynote/05_databas
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 많이 터지는 문제는 **"[애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)를 너무 크게 잡는 것(God [Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))"**이다.
+실무에서 가장 많이 터지는 문제는 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a>를 너무 크게 잡는 것(God <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">Aggregate</a>)"</strong>이다.
 
 - **📢 섹션 요약 비유**: [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 외부 접근 단일 진입점 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -107,7 +106,7 @@ JPA나 Hibernate 같은 ORM(객체 [관계](/knowledge-base/studynote/05_databas
 
 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 루트 설계 원칙을 철저히 지키면, 신입 개발자가 무심코 남의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 함부로 건드려 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 깨뜨리는 대형 사고(Side-effect)를 컴파일/아키텍처 수준에서 물리적으로 막아낼 수 있다.
 
-결론적으로 기술 리더는 "이 코드가 돌아가느냐"를 넘어서 **"이 객체가 누구의 통제를 받고 있는가(Ownership)"**를 명확히 선을 그어주는 설계자여야 한다. 객체들의 경계를 잘라내어 독립된 왕국([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))을 세우고, 그 왕국을 다스리는 왕(Root)에게만 외교권(접근 권한)을 주는 것이 썩지 않는 코드를 만드는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))의 핵심이다.
+결론적으로 기술 리더는 "이 코드가 돌아가느냐"를 넘어서 <strong>"이 객체가 누구의 통제를 받고 있는가(Ownership)"</strong>를 명확히 선을 그어주는 설계자여야 한다. 객체들의 경계를 잘라내어 독립된 왕국([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/))을 세우고, 그 왕국을 다스리는 왕(Root)에게만 외교권(접근 권한)을 주는 것이 썩지 않는 코드를 만드는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))의 핵심이다.
 
 - **📢 섹션 요약 비유**: [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)는 바다에 떠 있는 튼튼한 '잠수함'이다. 물(외부의 무분별한 접근)이 들어오지 못하게 꽉 막혀 있으며, 잠수함의 문을 열고 닫는 권한은 오직 선장(루트 객체)에게만 있다. 선장이 허락할 때만 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 타고 내릴 수 있어야 잠수함이 침몰하지 않는다.
 
@@ -130,21 +129,23 @@ JPA나 Hibernate 같은 ORM(객체 [관계](/knowledge-base/studynote/05_databas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-애그리게이트 루트 외부 접근 단일 진입점 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애그리게이트 루트 외부 접근 단일 진입점 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

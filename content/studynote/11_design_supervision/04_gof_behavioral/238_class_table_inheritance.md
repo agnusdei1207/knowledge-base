@@ -18,56 +18,60 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 CTI (Class Table Inheritance) 는 가장 **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 친화적인** 방식이다. 객체 세계의 클래스 계층을 그대로 테이블 계층으로 반영한다.
+ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 의 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 매핑 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 CTI (Class Table Inheritance) 는 가장 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 친화적인</strong> 방식이다. 객체 세계의 클래스 계층을 그대로 테이블 계층으로 반영한다.
 
 STI ([Single Table Inheritance](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/237_single_table_inheritance/)) 가 "하나의 서랍에 모두 넣기"라면, CTI는 "각 서랍에 해당 서류만 넣고 서랍끼리 공통 번호로 연결하기"다.
 
 JPA (Java Persistence [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 에서는 `@Inheritance(strategy = InheritanceType.JOINED)` 로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하며, 마틴 파울러의 PEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 에서 Class Table Inheritance라는 이름으로 정의되었다.
 
-```
-Vehicle (추상 부모)
- ├── Car       (doors, fuelType 컬럼)
- ├── Truck     (payload, trailerHitch 컬럼)
- └── Motorcycle (hasSidecar 컬럼)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Vehicle (추상 부모)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Car (doors, fuelType 컬럼)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Truck (payload, trailerHitch 컬럼)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Motorcycle (hasSidecar 컬럼)</div>
+</div>
+</div>
+
+
 
 각 클래스가 별도 테이블을 갖고, 자식 테이블의 `id`는 부모 `vehicles.id`를 참조한다.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 병원에서 기본 진료 기록(부모 테이블)은 모든 환자가 공유하고, 외과·내과·소아과는 각자의 전문 차트(자식 테이블)를 추가로 가지는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌───────────────────────────────────────────────────────────────────┐
-│              Class Table Inheritance 테이블 구조                   │
-│                                                                   │
-│  vehicles (부모 테이블)                                            │
-│  ┌─────┬────────────┬──────────────┬──────────────────────────┐   │
-│  │ id  │ type       │ make         │ model                    │   │
-│  ├─────┼────────────┼──────────────┼──────────────────────────┤   │
-│  │  1  │ Car        │ Toyota       │ Camry                    │   │
-│  │  2  │ Truck      │ Ford         │ F-150                    │   │
-│  │  3  │ Motorcycle │ Honda        │ CBR500                   │   │
-│  └─────┴────────────┴──────────────┴──────────────────────────┘   │
-│          │                  │                     │               │
-│          ▼                  ▼                     ▼               │
-│  cars                 trucks              motorcycles             │
-│  ┌───────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
-│  │ id(FK) │ doors│  │ id(FK) │ payload │  │ id(FK)│ sidecar  │   │
-│  ├────────┼──────┤  ├────────┼─────────┤  ├───────┼──────────┤   │
-│  │   1    │   4  │  │   2    │  1500kg │  │   3   │  false   │   │
-│  └────────┴──────┘  └────────┴─────────┘  └───────┴──────────┘   │
-│                                                                   │
-│  ※ 자식 id = 부모 id (FK이자 PK)                                  │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class Table Inheritance 테이블 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vehicles (부모 테이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">type</div><div class="kb-diagram-cell">make</div><div class="kb-diagram-cell">model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">Car</div><div class="kb-diagram-cell">Toyota</div><div class="kb-diagram-cell">Camry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">Truck</div><div class="kb-diagram-cell">Ford</div><div class="kb-diagram-cell">F-150</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">Motorcycle</div><div class="kb-diagram-cell">Honda</div><div class="kb-diagram-cell">CBR500</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cars trucks motorcycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">doors</div><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">payload</div><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">sidecar</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">1500kg</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">false</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 자식 id = 부모 id (FK이자 PK)</div></div>
+</div>
+</div>
+
+
 
 ```java
 @Entity
@@ -136,11 +140,11 @@ public class Truck extends Vehicle {
 ## Ⅳ. 실무 적용 및 기술사 판단
 CTI의 가장 큰 단점은 조인 비용이다. 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):
 
-1. **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 자식 테이블 FK 컬럼에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 필수
+1. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 자식 테이블 FK 컬럼에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 필수
 2. **Fetch Type 주의**: JPA `@ManyToOne(fetch = LAZY)` 로 N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 방지
-3. **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화**: 특정 서브타입만 조회할 경우 자식 테이블 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)
+3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 최적화</strong>: 특정 서브타입만 조회할 경우 자식 테이블 직접 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)
 
-- **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 비용**: 부모 테이블 컬럼 추가는 모든 자식에 영향
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경 비용</strong>: 부모 테이블 컬럼 추가는 모든 자식에 영향
 - **ORM 복잡성**: Hibernate의 JOINED [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 SQL [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 복잡해 디버깅 어려움
 - **마이그레이션**: 서브타입 추가 시 새 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) + FK 제약 추가 필요
 
@@ -174,7 +178,7 @@ CTI 패턴의 실무 적용 판단:
 - 다형 조회 시 조인 비용 발생
 - ORM [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 디버깅 복잡도 증가
 
-기술사 논점: **"[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이의 균형"** 이다. CTI는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 원칙에 충실하지만, 고트래픽 환경에서는 STI의 단순함이 더 실용적일 수 있다. 시스템의 조회 패턴과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 요구사항을 분석해 선택 근거를 명확히 서술해야 한다.
+기술사 논점: <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>와 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 사이의 균형"</strong> 이다. CTI는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 원칙에 충실하지만, 고트래픽 환경에서는 STI의 단순함이 더 실용적일 수 있다. 시스템의 조회 패턴과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 요구사항을 분석해 선택 근거를 명확히 서술해야 한다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

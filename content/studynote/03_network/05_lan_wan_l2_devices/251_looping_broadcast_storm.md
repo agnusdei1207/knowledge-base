@@ -23,17 +23,21 @@ tags = ["studynote-network"]
 - **발생 이유 (이중화의 역설)**: 네트워크 관리자들은 선이 끊어지는 장애를 대비해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A, B, C를 서로 예비용([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))으로 연결해 삼각형(Loop)을 만든다. 그런데 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 모르는 길을 물어볼 때 사방으로 방송(Flooding)하는 습성이 있어, 이 예비용 선로를 타고 방송이 다시 자기 자신에게 되돌아오는 재앙이 시작된다.
 
 - **💡 비유**: 
-  - 루핑은 **"거울 방(거울의 방)에 레이저 포인터를 쏜 것"**과 같습니다. 한 줄기의 빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 거울([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))들에 끝없이 반사되어 방 전체가 눈이 부시게 하얘지고 아무것도 볼 수 없게 됩니다.
-  - TTL이 없는 L2 루핑은 **"브레이크가 고장 난 채 영원히 달리는 무한동력 열차"**입니다.
+  - 루핑은 <strong>"거울 방(거울의 방)에 레이저 포인터를 쏜 것"</strong>과 같습니다. 한 줄기의 빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 거울([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))들에 끝없이 반사되어 방 전체가 눈이 부시게 하얘지고 아무것도 볼 수 없게 됩니다.
+  - TTL이 없는 L2 루핑은 <strong>"브레이크가 고장 난 채 영원히 달리는 무한동력 열차"</strong>입니다.
 
-```text
-[Native VLAN]
-    │
-    ▼
-[루프 문제]
-    │
-    └──▶ [MAC 주소 호핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Native VLAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 주소 호핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 브로드캐스트 스톰은 마을에 이장님 3명이 모여서 서로에게 **"불났대! 동네방네 전해!"**라고 릴레이로 무한 반복해서 확성기를 대고 소리치는 바람에, 고막이 터져 아무도 전화를 못 받는 대혼란 상태입니다.
 
@@ -46,30 +50,25 @@ tags = ["studynote-network"]
 1. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1이 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 브로드캐스트(`FF:FF...`) 프레임을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A로 보낸다.
 2. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A는 "방송이네? 다 뿌려야지!" 하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B와 C 양쪽 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 플러딩(복사)한다.
 3. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B는 A에게서 받은 방송을 C로 뿌리고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) C도 A에게서 받은 방송을 B로 뿌린다.
-4. B가 C로 뿌린 방송은 C가 다시 A로 뿌리고... 이 과정이 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))의 마이크로초 처리 속도로 증폭**된다. 초당 수십만 개의 쓰레기 프레임이 선로를 가득 채운다.
+4. B가 C로 뿌린 방송은 C가 다시 A로 뿌리고... 이 과정이 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 칩셋(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>)의 마이크로초 처리 속도로 증폭</strong>된다. 초당 수십만 개의 쓰레기 프레임이 선로를 가득 채운다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                브로드캐스트 스톰 (Broadcast Storm) 도식        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │           [ PC 1 (Broadcast 발송) ]                           │
- │                     │                                       │
- │                     ▼                                       │
- │               ┌─────────┐                                   │
- │               │ 스위치 A │  ◀── "끝없는 방송의 무한 증폭!"       │
- │               └─────────┘                                   │
- │              ↙           ↖                                  │
- │         Flooding        Flooding                            │
- │            ↙               ↖                               │
- │      ┌─────────┐      ┌─────────┐                         │
- │      │ 스위치 B │ ──▶  │ 스위치 C │                         │
- │      └─────────┘ ◀──  └─────────┘                         │
- │                                                             │
- │  * L2 이더넷 프레임은 TTL(수명)이 없어 장비가 타버리거나 전원을   │
- │    뽑기 전까지 이 폭풍(Storm)은 절대 스스로 멈추지 않는다.        │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로드캐스트 스톰 (Broadcast Storm) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC 1 (Broadcast 발송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A</div><div class="kb-diagram-cell">◀── "끝없는 방송의 무한 증폭!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ↖</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flooding Flooding</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ↖</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 B</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">스위치 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* L2 이더넷 프레임은 TTL(수명)이 없어 장비가 타버리거나 전원을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뽑기 전까지 이 폭풍(Storm)은 절대 스스로 멈추지 않는다.</div></div>
+</div>
+</div>
+
+
 
 ### 2. [MAC Flapping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/252_mac_address_hopping_flapping/) ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑)
 브로드캐스트 스톰과 세트로 묶여서 일어나는 현상이다. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1의 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) A를 거쳐 B로, B에서 C로, C에서 다시 A의 '다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)'로 빙빙 돈다.
@@ -77,7 +76,7 @@ tags = ["studynote-network"]
 - 0.001초 뒤, 반대쪽 선로를 타고 온 프레임 때문에 "아 아니네! 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)네!" 하고 또 지도를 수정한다.
 - 초당 수만 번 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 테이블이 엎어지면서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 CPU가 완전히 뻗어버리게 되며, 정상적인 유니캐스트 통신은 100% 마비된다.
 
-- **📢 섹션 요약 비유**: ** 루핑이 발생한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크는, 마치 3대의 마이크와 스피커를 서로 가까이 마주 대었을 때 **"삐이이이익!" 하고 귀청이 찢어질 듯 무한 증폭되는 하울링(Howling) 현상**과 완벽히 똑같은 물리학적 재앙입니다.
+- **📢 섹션 요약 비유**: <strong> 루핑이 발생한 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 네트워크는, 마치 3대의 마이크와 스피커를 서로 가까이 마주 대었을 때 </strong>"삐이이이익!" 하고 귀청이 찢어질 듯 무한 증폭되는 하울링(Howling) 현상**과 완벽히 똑같은 물리학적 재앙입니다.
 
 ---
 
@@ -133,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Native VLAN]
-    │
-    ▼
-[현재 개념: 루프 문제]
-    │
-    ├──▶ [확장 A: MAC 주소 호핑]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Native VLAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루프 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC 주소 호핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 루프 문제는 Native VLAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

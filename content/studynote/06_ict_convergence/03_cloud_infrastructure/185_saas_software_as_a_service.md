@@ -25,19 +25,21 @@ SaaS는 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_manageme
 
 아래 그림은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 사이에서 책임 경계가 어떻게 이동하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Responsibility shift                                              │
-├───────────────────────────────┬───────────────┬────────────────────┤
-│ Layer                         │ On-premise    │ SaaS               │
-├───────────────────────────────┼───────────────┼────────────────────┤
-│ Business configuration        │ Customer      │ Customer           │
-│ Application feature           │ Customer      │ Provider           │
-│ Runtime / middleware          │ Customer      │ Provider           │
-│ Server / storage / network    │ Customer      │ Provider           │
-│ Patch / backup / availability │ Customer      │ Provider           │
-└───────────────────────────────┴───────────────┴────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Responsibility shift</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer</div><div class="kb-diagram-cell">On-premise</div><div class="kb-diagram-cell">SaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business configuration</div><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Customer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application feature</div><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Provider</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime / middleware</div><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Provider</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server / storage / network</div><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Provider</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch / backup / availability</div><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Provider</div></div>
+</div>
+</div>
+
+
 
 즉 SaaS의 본질은 단순한 원격 접속이 아니다. 이는 "설치형 소프트웨어 도입"을 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소비"로 바꾸는 구조이며, 정보기술 예산의 초점을 자산 구매에서 운영 구독과 활용 가치로 옮긴다.
 
@@ -49,26 +51,23 @@ SaaS는 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_manageme
 
 SaaS가 성립하려면 단지 웹 화면만 있으면 되는 것이 아니다. 핵심은 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 많은 고객 조직을 동시에 수용하면서도 보안, 과금, 맞춤 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 업그레이드를 안정적으로 처리하는 운영 구조다. 이를 위해 대부분의 SaaS는 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) ([Multi-tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)), 중앙 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 구독 과금, 운영 자동화, 응용 프로그램 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 연계를 함께 갖춘다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Typical SaaS runtime                                               │
-├────────────────────────────────────────────────────────────────────┤
-│ User browser / mobile app                                          │
-│        │                                                           │
-│        ▼                                                           │
-│ Identity Provider (IdP) / Single Sign-On (SSO)                    │
-│        │                                                           │
-│        ▼                                                           │
-│ Shared SaaS application layer                                      │
-│   ├─ tenant context / authorization                               │
-│   ├─ feature plan / billing                                       │
-│   ├─ shared business logic                                        │
-│   └─ audit / monitoring / rollout                                 │
-│        │                                                           │
-│        ▼                                                           │
-│ Data isolation : pooled | schema-per-tenant | dedicated instance  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical SaaS runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User browser / mobile app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identity Provider (IdP) / Single Sign-On (SSO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared SaaS application layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ tenant context / authorization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ feature plan / billing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shared business logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ audit / monitoring / rollout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data isolation : pooled</div><div class="kb-diagram-cell">schema-per-tenant</div><div class="kb-diagram-cell">dedicated instance</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -110,20 +109,21 @@ SaaS는 초창기 응용 [서비스](/knowledge-base/studynote/13_cloud_architec
 
 실무에서 SaaS는 "직접 만들 것인가, 사서 쓸 것인가"라는 판단 문제와 직결된다. 사내 메신저, 협업 문서, 고객 지원 시스템처럼 시장에서 검증된 범용 기능이라면 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도입이 보통 훨씬 경제적이다. 반면 회사의 핵심 경쟁력 자체를 담은 업무 로직, 강한 규제로 외부 반출이 어려운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 대규모 레거시와 초저지연으로 결합된 시스템은 SaaS가 오히려 제약이 될 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ SaaS adoption decision flow                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Is this a commodity business capability ?                         │
-│        ├─ No  -> build on IaaS or PaaS                            │
-│        └─ Yes                                                     │
-│             │                                                     │
-│             ▼                                                     │
-│ Can provider satisfy security, compliance, export, integration ?  │
-│        ├─ Yes -> adopt SaaS                                       │
-│        └─ No  -> keep private package or custom build             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SaaS adoption decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is this a commodity business capability ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; build on IaaS or PaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Can provider satisfy security, compliance, export, integration ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; adopt SaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; keep private package or custom build</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -152,7 +152,7 @@ SaaS가 잘 맞는 영역에서는 도입 시간, [초기](/knowledge-base/study
 
 하지만 SaaS는 만능이 아니다. 공급자의 장애나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화에 영향을 받으며, 깊은 맞춤 개발이나 특수 규제 대응에서는 한계가 있다. 또한 여러 SaaS를 병행 사용하면 계정 관리, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 비용 통제가 새로운 관리 과제가 된다.
 
-앞으로는 산업별 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 깊게 담은 버티컬 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기능이 내장된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 여러 제품을 조합하는 컴포저블 SaaS가 더 확대될 가능성이 크다. 그럼에도 기억해야 할 본질은 같다. SaaS는 "프로그램을 빌려 쓰는 것"이 아니라, **완성된 비즈니스 기능을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 소비하는 운영 모델**이다.
+앞으로는 산업별 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 깊게 담은 버티컬 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기능이 내장된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), 여러 제품을 조합하는 컴포저블 SaaS가 더 확대될 가능성이 크다. 그럼에도 기억해야 할 본질은 같다. SaaS는 "프로그램을 빌려 쓰는 것"이 아니라, <strong>완성된 비즈니스 기능을 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 소비하는 운영 모델</strong>이다.
 
 - **📢 섹션 요약 비유**: SaaS는 완성된 놀이공원 입장권과 같다. 놀이기구를 직접 만들 필요 없이 바로 즐길 수 있지만, 놀이공원 규칙 안에서 움직여야 하고 내 집 뒤뜰처럼 마음대로 고칠 수는 없다.
 
@@ -171,20 +171,23 @@ SaaS가 잘 맞는 영역에서는 도입 시간, [초기](/knowledge-base/study
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-패키지 구매형 소프트웨어
-    │
-    ▼
-ASP (Application Service Provider)
-    │
-    ▼
-SaaS (Software as a Service)
-    │
-    ├──────────────► 멀티 테넌시
-    ├──────────────► 구독 과금
-    ├──────────────► API 기반 통합
-    └──────────────► 버티컬 SaaS · AI SaaS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패키지 구매형 소프트웨어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASP (Application Service Provider)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SaaS (Software as a Service)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">멀티 테넌시</div>
+<div class="kb-diagram-tree-item" style="--depth:2">구독 과금</div>
+<div class="kb-diagram-tree-item" style="--depth:2">API 기반 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버티컬 SaaS · AI SaaS</div>
+</div>
+</div>
+
+
 
 이 흐름은 소프트웨어 산업이 "설치와 소유"에서 "접속과 구독"으로 중심축을 옮겨 온 과정을 압축해서 보여 준다.
 

@@ -19,26 +19,26 @@ tags = ["computer_architecture"]
 
 명령어 세트(ISA)가 '악보'라면, 제어 장치는 '지휘자'와 같다. 제어 장치는 메모리에서 명령어를 인출 (Fetch)하여 해독 (Decode)한 뒤, 연산 장치 (ALU)나 메모리에게 어떤 동작을 할지 정확한 시점에 신호를 보낸다. 초기 컴퓨터는 명령어 하나를 완전히 끝내고 다음 명령어를 시작했으나, 이는 하드웨어 자원의 심각한 유휴 상태를 유발했다.
 
-**파이프라이닝 (Pipelining)**은 이러한 비효율을 타파하기 위해 등장했다. 세탁-건조-정리의 과정을 한 사람이 다 끝내고 다음 빨래를 시작하는 것이 아니라, 세탁기가 도는 동안 다음 빨래를 분류하는 것처럼 연산 단계를 중첩시켜 전체 처리 속도를 높이는 방식이다.
+<strong>파이프라이닝 (Pipelining)</strong>은 이러한 비효율을 타파하기 위해 등장했다. 세탁-건조-정리의 과정을 한 사람이 다 끝내고 다음 빨래를 시작하는 것이 아니라, 세탁기가 도는 동안 다음 빨래를 분류하는 것처럼 연산 단계를 중첩시켜 전체 처리 속도를 높이는 방식이다.
 
 이 그림은 고전적인 5단계 파이프라인의 중첩 실행 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 5-Stage Pipeline Execution Flow              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Cycle:   1     2     3     4     5     6     7              │
-│   Inst 1: [IF]─[ID]─[EX]─[MEM]─[WB]                         │
-│   Inst 2:      [IF]─[ID]─[EX]─[MEM]─[WB]                    │
-│   Inst 3:           [IF]─[ID]─[EX]─[MEM]─[WB]               │
-│   Inst 4:                [IF]─[ID]─[EX]─[MEM]─[WB]          │
-│                                                             │
-│   * 효과: 5사이클 후부터는 매 사이클마다 명령어 1개씩 완료  │
-│   * 이상적 속도 향상: 단계 수 (5배)                         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5-Stage Pipeline Execution Flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle: 1 2 3 4 5 6 7</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 1:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 2:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 3:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 4:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 5사이클 후부터는 매 사이클마다 명령어 1개씩 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이상적 속도 향상: 단계 수 (5배)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '병렬성의 실현'이다. 각 단계가 독립적인 하드웨어 자원을 사용하기 때문에 여러 명령어가 동시에 CPU를 점유할 수 있다. 실무에서는 이 단계가 너무 길어지면 (Super-pipelining) 한 번의 예측 실패 시 손실이 커지고, 짧으면 클럭 속도를 높이기 어려운 트레이드오프가 존재한다.
 
@@ -72,20 +72,19 @@ tags = ["computer_architecture"]
 
 이 구조도는 데이터 포워딩의 물리적 경로를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Data Forwarding (Bypassing) Logic           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Inst 1: add r1, r2, r3  (EX 완료) ─────┐ (Forwarding Path) │
-│                                          │                  │
-│   Inst 2: sub r4, r1, r5  (ID 단계) ◀────┘                  │
-│                                                             │
-│   * 원리: EX/MEM 레지스터나 MEM/WB 레지스터의 값을          │
-│     ID/EX 단계의 ALU 입력으로 우회 시킴                     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Forwarding (Bypassing) Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst 1: add r1, r2, r3 (EX 완료) (Forwarding Path)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst 2: sub r4, r1, r5 (ID 단계) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: EX/MEM 레지스터나 MEM/WB 레지스터의 값을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID/EX 단계의 ALU 입력으로 우회 시킴</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '지름길'이다. 정상적인 흐름이라면 WB 단계까지 가야 r1 값을 쓸 수 있지만, 포워딩을 통해 연산 직후의 값을 가로채어 즉시 활용한다. 실무에서는 이 제어 로직이 복잡해질수록 칩의 면적과 전력 소모가 늘어나는 비용이 발생한다.
 
@@ -93,7 +92,7 @@ tags = ["computer_architecture"]
 
 프로그램의 절반 이상이 조건문이다. 결과가 나오기 전에 어느 길로 갈지 미리 '찍어서' 실행하는 기술이다.
 - **정적 예측**: 무조건 실행될 것으로 가정하거나 컴파일러 힌트 활용.
-- **동적 예측**: 과거의 실행 이력을 바탕으로 **BHT (Branch History Table)**를 참조하여 예측.
+- **동적 예측**: 과거의 실행 이력을 바탕으로 <strong>BHT (Branch History Table)</strong>를 참조하여 예측.
 
 📢 **섹션 요약 비유**: 포워딩은 요리사가 완성된 요리를 접시에 담아 서빙하기 전에, 옆에서 국자를 들고 기다리던 다음 요리사에게 맛을 보게 해서 소스를 바로 완성하게 하는 기민한 협업과 같습니다.
 
@@ -130,29 +129,26 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 아키텍처 병목 진단 및 튜닝 시나리오
 
 **시나리오 1: 분기문이 많은 비즈니스 로직 실행 시 IPC가 급격히 하락하는 현상**
-- **판단**: **제어 해저드**로 인한 파이프라인 플러시 (Flush) 비용이 과다하다. 분기 예측기의 정확도를 높이기 위해 컴파일러 레벨의 **Branch Unrolling**이나 **If-Conversion** (조건문을 산술 연산으로 변경) 기법을 적용한다. 또한 하드웨어적으로는 분기 표적 버퍼 (BTB) 크기를 늘리는 설계를 제안한다.
+- **판단**: <strong>제어 해저드</strong>로 인한 파이프라인 플러시 (Flush) 비용이 과다하다. 분기 예측기의 정확도를 높이기 위해 컴파일러 레벨의 <strong>Branch Unrolling</strong>이나 **If-Conversion** (조건문을 산술 연산으로 변경) 기법을 적용한다. 또한 하드웨어적으로는 분기 표적 버퍼 (BTB) 크기를 늘리는 설계를 제안한다.
 
 **시나리오 2: 메모리 접근이 잦은 워크로드에서 CPU가 빈번히 멈추는(Stall) 현상**
-- **판단**: 메모리 대기 시간으로 인한 **데이터 해저드 (Load-use Hazard)**가 원인이다. 비순차 실행 (OoO) 성능을 점검하고, 데이터 의존성이 없는 명령어들을 사이사이에 끼워 넣는 코드 재배치를 수행한다. 하드웨어적으로는 **Symmetric Multithreading (SMT/Hyper-threading)**을 활성화하여 한 스레드가 메모리를 기다리는 동안 다른 스레드가 연산 자원을 쓰도록 유도한다.
+- **판단**: 메모리 대기 시간으로 인한 <strong>데이터 해저드 (Load-use Hazard)</strong>가 원인이다. 비순차 실행 (OoO) 성능을 점검하고, 데이터 의존성이 없는 명령어들을 사이사이에 끼워 넣는 코드 재배치를 수행한다. 하드웨어적으로는 <strong>Symmetric Multithreading (SMT/Hyper-threading)</strong>을 활성화하여 한 스레드가 메모리를 기다리는 동안 다른 스레드가 연산 자원을 쓰도록 유도한다.
 
 이 도식은 비순차 실행 (OoO)의 스케줄링 의사결정 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Out-of-Order Execution Logic                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ In-order Fetch ] ──▶ [ Register Renaming ] ──┐          │
-│                                                  │          │
-│   ┌── [ Ready to Execute? ] ◀── [ Issue Queue ] ◀┘          │
-│   │          │                                              │
-│   │          ▼                                              │
-│   │   [ Out-of-Order Execution ] ──▶ [ Reorder Buffer ]     │
-│   │                                          │              │
-│   └──────────────── [ In-order Commit ] ◀────┘              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Out-of-Order Execution Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">In-order Fetch</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Register Renaming</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Ready to Execute?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Issue Queue</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Out-of-Order Execution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reorder Buffer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">In-order Commit</div><div class="kb-diagram-connector">◀</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 파이프라인 튜닝은 '교통 신호 체계 최적화'와 같습니다. 단순히 도로를 넓히는(멀티코어) 것보다, 교차로(분기점)에서 신호 대기(Stall)를 최소화하고 꼬리물기(데이터 의존성)를 방지하는 세밀한 설계가 고성능의 비결임을 이해해야 합니다.
 
@@ -167,7 +163,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 가변 길이 파이프라인과 AI 제어
 
-향후 제어 장치는 딥러닝 알고리즘이 내장되어 프로그램의 패턴을 스스로 학습하고 파이프라인의 깊이나 분기 예측 전략을 실시간으로 변경하는 **지능형 제어 장치**로 진화할 것이다. 또한 보안 취약점인 스펙터 (Spectre)와 멜트다운 (Meltdown) 공격이 투측 실행 (Speculative Execution)의 허점을 파고든 만큼, 성능을 희생하지 않으면서도 보안 격리를 완벽히 보장하는 '안전한 파이프라인' 설계가 핵심 표준이 될 것이다.
+향후 제어 장치는 딥러닝 알고리즘이 내장되어 프로그램의 패턴을 스스로 학습하고 파이프라인의 깊이나 분기 예측 전략을 실시간으로 변경하는 <strong>지능형 제어 장치</strong>로 진화할 것이다. 또한 보안 취약점인 스펙터 (Spectre)와 멜트다운 (Meltdown) 공격이 투측 실행 (Speculative Execution)의 허점을 파고든 만큼, 성능을 희생하지 않으면서도 보안 격리를 완벽히 보장하는 '안전한 파이프라인' 설계가 핵심 표준이 될 것이다.
 
 📢 **섹션 요약 비유**: 미래의 CPU는 숙련된 장인이 눈을 감고도 기계를 돌리듯, 어떤 소프트웨어가 들어와도 앞날을 미리 내다보고(AI 예측) 가장 효율적인 동작으로 연산을 끝내는 '예언자형 엔진'이 될 것입니다.
 

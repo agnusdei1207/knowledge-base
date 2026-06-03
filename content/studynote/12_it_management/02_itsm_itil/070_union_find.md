@@ -99,29 +99,41 @@ Union-Find는 큰 데이터에서도 집합 관계를 효율적으로 처리한�
 
 ## 관련 개념 맵
 
-```text
-Set
-  ↓
-Union-Find
-  ↓
-Path Compression
-  ↓
-Connectivity
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Set</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Union-Find</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Path Compression</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Connectivity</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Disjoint Set
-  ↓
-Union-Find
-  ↓
-Optimized Find
-  ↓
-Graph Algorithms
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Disjoint Set</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Union-Find</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Optimized Find</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Graph Algorithms</div>
+</div>
+</div>
+
+
 
 ---
 

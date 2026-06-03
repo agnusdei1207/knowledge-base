@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 마트에서 '1+1 세일'이라고 크게 적힌 푯말 아래에 아주 작은 글씨로 '(교차 증정 불가)'라고 적어두어 계산대에서 제값을 다 내게 만드는 얄팍한 상술과 같습니다. 당장 물건은 하나 더 팔 수 있겠지만, 그 손님은 두 번 다시 그 마트에 오지 않습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **A/B 테스트와 [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)([Growth Hacking](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/))의 부작용**: 데이터를 기반으로 전환율(Conversion Rate)을 높이려는 테스트가 반복되면서, 사람들을 가장 잘 속이는 UI가 통계적으로 채택되는 역기능이 발생했다.
+  1. <strong>A/B 테스트와 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">그로스 해킹</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/">Growth Hacking</a>)의 부작용</strong>: 데이터를 기반으로 전환율(Conversion Rate)을 높이려는 테스트가 반복되면서, 사람들을 가장 잘 속이는 UI가 통계적으로 채택되는 역기능이 발생했다.
   2. **눈속임(Deceptive Design)의 만연**: 아마존(Amazon), 라이언에어 등 글로벌 대기업들조차 구독 해지를 방해하는 '로치 모텔(Roach Motel)' 방식을 쓰며 다크 패턴이 업계의 관행처럼 번졌다.
   3. **규제와 법제화**: 유럽의 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), 미국의 FTC 규제에 이어 한국 공정거래위원회도 다크 패턴을 기만행위로 규정하고 과징금을 부과하는 등 법적 제재가 본격화되었다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 다크 패턴 (Dark Pattern)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  다크 패턴 (Dark Pattern)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다크 패턴 (Dark Pattern)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 다크 패턴 (Dark Pattern)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-다크 패턴 (Dark Pattern) 회피 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+다크 패턴 (Dark Pattern) 회피 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 다크 패턴 (Dark Pattern) 회피 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-다크 패턴 (Dark Pattern) 회피 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다크 패턴 (Dark Pattern) 회피 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

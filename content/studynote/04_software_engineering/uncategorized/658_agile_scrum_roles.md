@@ -27,34 +27,31 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **폭포수 모델의 PM 과부하**: 기획자와 개발자 사이의 소통 단절로 인해 만들어진 결과물이 고객의 요구와 다르고, PM이 개발자에게 마이크로매니지먼트(Micro-[management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))를 가하는 안티패턴이 만연했다.
-  2. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언 ([Agile Manifesto](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/))의 등장**: "프로세스와 도구보다 개인과 상호작용을" 중시하는 철학이 확산되면서, 사람 중심의 권한 위임 체계가 요구되었다.
-  3. **[스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 가이드 (Scrum Guide)의 정립**: 켄 슈와버(Ken Schwaber)와 제프 서덜랜드(Jeff Sutherland)가 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 3가지 역할을 공식화하며, 관리자(Manager)라는 단어를 의도적으로 배제하고 팀(Team)과 리더십(Leadership)이라는 용어로 대체했다.
+  2. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 선언 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/061_agile_manifesto/">Agile Manifesto</a>)의 등장</strong>: "프로세스와 도구보다 개인과 상호작용을" 중시하는 철학이 확산되면서, 사람 중심의 권한 위임 체계가 요구되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/">스크럼</a> 가이드 (Scrum Guide)의 정립</strong>: 켄 슈와버(Ken Schwaber)와 제프 서덜랜드(Jeff Sutherland)가 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 3가지 역할을 공식화하며, 관리자(Manager)라는 단어를 의도적으로 배제하고 팀(Team)과 리더십(Leadership)이라는 용어로 대체했다.
 
 전통적인 PM 중심 구조와 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 3역할 체제의 권한 흐름 차이를 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         전통적 PM 조직 구조 vs 스크럼 (Scrum) 역할 분담 구조       │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [전통적 폭포수(Waterfall) 모델]     [애자일 스크럼(Scrum) 모델]        │
-  │                                                               │
-  │        [Project Manager]            (What)        (How)       │
-  │         │ (일정/작업 통제)             [PO] ◀────▶ [Dev Team]  │
-  │   ┌─────┼─────┐                       │            │         │
-  │   ▼     ▼     ▼                       ▼            ▼         │
-  │ [기획] [개발] [테스트]                 [     Product     ]        │
-  │ (각 부서 간 소통 단절,                  (비즈니스 가치 창출)           │
-  │  책임 전가 발생)                                 ▲               │
-  │                                              │ (장애물 제거)      │
-  │                                              │               │
-  │                                        [Scrum Master]         │
-  │                                           (Process)           │
-  │                                                               │
-  │  특징: 수직적 명령 하달 (Command)     특징: 수평적 상호 협력 및 견제     │
-  │        책임의 집중 (PM 병목)             책임의 분산 (자가 조직화)      │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 PM 조직 구조 vs 스크럼 (Scrum) 역할 분담 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 폭포수(Waterfall) 모델</div><div class="kb-diagram-node">애자일 스크럼(Scrum) 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Project Manager</div><div class="kb-diagram-note">(What) (How)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ (일정/작업 통제)</div><div class="kb-diagram-node">PO</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Dev Team</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기획</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-node">Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 부서 간 소통 단절, (비즈니스 가치 창출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 전가 발생) ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장애물 제거)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scrum Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Process)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 수직적 명령 하달 (Command) 특징: 수평적 상호 협력 및 견제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임의 집중 (PM 병목) 책임의 분산 (자가 조직화)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 전통적 모델에서는 PM이 맨 꼭대기에 앉아 기획, 개발, 테스트 담당자들에게 작업을 할당하고 일정을 독촉하는 중앙집권적 통제([Command and Control](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)) 구조를 갖는다. 반면, [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 모델은 상하 관계가 없는 수평적 삼각형 구조를 이룬다. Product Owner(PO)는 '무엇(What)'을 만들지 결정하고 비즈니스 가치를 극대화할 책임을 지며, Development Team은 '어떻게(How)' 만들지 결정하는 기술적 주도권을 갖는다. [Scrum Master](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 이들이 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙에 맞게 소통하도록 돕고 외부의 간섭(장애물)을 차단하는 서번트 리더(Servant Leader) 역할을 한다. 이 상호 견제 구조가 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 핵심 엔진이다.
 
@@ -79,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -155,21 +152,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-애자일 스크럼 (Scrum) 역할 분담 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 스크럼 (Scrum) 역할 분담 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

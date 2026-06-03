@@ -11,32 +11,33 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공간적 지역성 (Spatial Locality)은 어떤 주소를 읽은 직후 그 **주변 주소**도 곧이어 읽힐 가능성이 높다는 메모리 접근의 통계적 성질이다.
+> 1. **본질**: 공간적 지역성 (Spatial Locality)은 어떤 주소를 읽은 직후 그 <strong>주변 주소</strong>도 곧이어 읽힐 가능성이 높다는 메모리 접근의 통계적 성질이다.
 > 2. **가치**: 이 성질 덕분에 CPU (Central Processing Unit)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트씩이 아니라 캐시 라인 (Cache Line) 단위로 한꺼번에 가져와 메모리 지연을 숨긴다.
-> 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 연산량만으로 결정되지 않으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 **얼마나 연속적으로 배치되어 있는가**가 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 크게 좌우한다.
+> 3. **판단 포인트**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 연산량만으로 결정되지 않으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 <strong>얼마나 연속적으로 배치되어 있는가</strong>가 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 크게 좌우한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-공간적 지역성은 프로그램이 한 주소를 접근하면 바로 그 옆 주소도 뒤따라 접근할 가능성이 높다는 성질이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 순차 실행, 이미지·행렬 처리처럼 "줄지어 읽는" 작업에서 특히 강하게 나타난다. 즉 컴퓨터는 메모리를 점으로 보지 않고, **가까운 주소가 묶여 움직이는 구간**으로 본다.
+공간적 지역성은 프로그램이 한 주소를 접근하면 바로 그 옆 주소도 뒤따라 접근할 가능성이 높다는 성질이다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 순차 실행, 이미지·행렬 처리처럼 "줄지어 읽는" 작업에서 특히 강하게 나타난다. 즉 컴퓨터는 메모리를 점으로 보지 않고, <strong>가까운 주소가 묶여 움직이는 구간</strong>으로 본다.
 
 이 개념이 중요한 이유는 주기억장치인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 접근 지연이 CPU 속도에 비해 매우 크기 때문이다. CPU가 주소 하나를 읽기 위해 외부 메모리까지 다녀오는 동안 수십~수백 개의 명령 실행 기회를 잃을 수 있다. 그래서 하드웨어는 "하나만 필요해도 근처까지 같이 필요할 것"이라고 가정하고, 인접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 함께 끌어온다.
 
 아래 그림은 하나의 요청이 주변 주소 전체를 가져오게 만드는 이유를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        공간적 지역성: 한 번의 미스로 주변 데이터까지 확보           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 메모리 주소:   1000 1004 1008 1012 1016 1020 1024 1028              │
-│ CPU 요청:      [1008]                                               │
-│                    │                                                 │
-│                    ▼                                                 │
-│ 캐시 적재:     [1000 1004 1008 1012 1016 1020 1024 1028]            │
-│ 결과:          현재 값은 즉시 사용, 다음 접근은 캐시 히트 가능      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간적 지역성: 한 번의 미스로 주변 데이터까지 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소: 1000 1004 1008 1012 1016 1020 1024 1028</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">CPU 요청:</div><div class="kb-diagram-node">1008</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">캐시 적재:</div><div class="kb-diagram-node">1000 1004 1008 1012 1016 1020 1024 1028</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 현재 값은 즉시 사용, 다음 접근은 캐시 히트 가능</div></div>
+</div>
+</div>
+
+
 
 핵심은 CPU가 1008만 원한 것이 아니라, 하드웨어가 1008 주변까지 함께 준비해 둔다는 점이다. 만약 프로그램이 1008 다음에 1012, 1016을 읽는다면 첫 미스 이후에는 훨씬 빠르게 처리된다. 반대로 주소가 매번 멀리 점프하면 이 가정은 깨지고 캐시 효율도 급격히 떨어진다.
 
@@ -57,22 +58,25 @@ tags = ["studynote-computer-architecture"]
 | 프리페처 (Prefetcher) | 다음 블록을 미리 읽는 하드웨어 | 공간적·[순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)이 강할수록 정확도 상승 |
 | 블록 오염 (Cache Pollution) | 안 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 캐시에 들어오는 현상 | 블록이 지나치게 크면 공간적 지역성이 약한 코드에서 손해 |
 
-공간적 지역성의 이득은 블록 크기 선택과도 연결된다. 블록이 너무 작으면 인접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같이 가져오는 효과가 약하고, 블록이 너무 크면 안 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 끌어와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 캐시 공간을 낭비한다. 결국 캐시 라인 크기는 **미래 인접 접근을 얼마나 믿을 것인가**에 대한 하드웨어의 타협값이다.
+공간적 지역성의 이득은 블록 크기 선택과도 연결된다. 블록이 너무 작으면 인접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같이 가져오는 효과가 약하고, 블록이 너무 크면 안 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 끌어와 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 캐시 공간을 낭비한다. 결국 캐시 라인 크기는 <strong>미래 인접 접근을 얼마나 믿을 것인가</strong>에 대한 하드웨어의 타협값이다.
 
 아래 그림은 공간적 지역성이 캐시 라인과 프리페치를 어떻게 정당화하는지 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          캐시 라인과 프리페치의 동작 논리                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) CPU가 주소 0x1008 요청                                            │
-│ 2) L1 캐시 미스 발생                                                 │
-│ 3) 메모리에서 0x1000~0x103F 캐시 라인 적재                           │
-│ 4) CPU는 0x1008 사용                                                 │
-│ 5) 다음 접근이 0x100C, 0x1010이면 히트                               │
-│ 6) 패턴이 계속되면 다음 라인 0x1040~0x107F를 미리 프리페치           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 라인과 프리페치의 동작 논리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CPU가 주소 0x1008 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) L1 캐시 미스 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 메모리에서 0x1000~0x103F 캐시 라인 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) CPU는 0x1008 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 다음 접근이 0x100C, 0x1010이면 히트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6) 패턴이 계속되면 다음 라인 0x1040~0x107F를 미리 프리페치</div></div>
+</div>
+</div>
+
+
 
 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 페치에도 같은 원리가 적용된다. 프로그램 카운터가 보통 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 진행하므로, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 역시 주변 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 함께 읽는다. 따라서 공간적 지역성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시뿐 아니라 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시, 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 프리페치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 전체를 떠받치는 기본 가정이다.
 
@@ -82,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-공간적 지역성을 제대로 이해하려면 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/))과의 경계를 봐야 한다. 세 개념은 모두 캐시 효율을 설명하지만, **무엇을 기대하느냐**가 다르다. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)은 같은 주소의 재사용을, 공간적 지역성은 주변 주소의 활용을, [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)은 일정한 방향의 직진 패턴을 강조한다.
+공간적 지역성을 제대로 이해하려면 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/))과의 경계를 봐야 한다. 세 개념은 모두 캐시 효율을 설명하지만, <strong>무엇을 기대하느냐</strong>가 다르다. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)은 같은 주소의 재사용을, 공간적 지역성은 주변 주소의 활용을, [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)은 일정한 방향의 직진 패턴을 강조한다.
 
 | 비교 항목 | 공간적 지역성 | [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) | [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) |
 | :--- | :--- | :--- | :--- |
@@ -93,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 소프트웨어 설계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 방식이 공간적 지역성을 직접 만든다. 예를 들어 AoS ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures)는 객체 단위로는 자연스럽지만, 특정 필드만 반복 처리할 때 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 캐시에 실어 나를 수 있다. 반면 [SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) (Structure of Arrays)는 같은 성질의 값이 연속 배치되어, 벡터 연산이나 대량 반복 처리에서 공간적 지역성을 더 강하게 만든다.
 
-운영체제와 저장장치 관점에서도 이 원리는 이어진다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)는 인접 블록을 함께 읽어 디스크 지연을 줄이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 순차 스캔이 예상되면 연속 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 읽기를 선택한다. 즉 공간적 지역성은 CPU 캐시의 주제가 아니라, **메모리 계층 전체가 연속 배치를 선호하는 이유**다.
+운영체제와 저장장치 관점에서도 이 원리는 이어진다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)는 인접 블록을 함께 읽어 디스크 지연을 줄이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 순차 스캔이 예상되면 연속 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 읽기를 선택한다. 즉 공간적 지역성은 CPU 캐시의 주제가 아니라, <strong>메모리 계층 전체가 연속 배치를 선호하는 이유</strong>다.
 
 - **📢 섹션 요약 비유**: [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)이 "같은 컵을 계속 쓰는 습관"이라면, 공간적 지역성은 "컵 옆의 접시와 수저도 곧 함께 집게 되는 식탁 배치"에 가깝다. [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/)은 거기서 한 걸음 더 나아가 식탁을 왼쪽부터 오른쪽으로 차례대로 훑는 모습이다.
 
@@ -105,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 판단해야 할 대표 상황
 
-1. **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) vs [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)**
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> vs <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a></strong>
    - 같은 원소 수라면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 연속 주소에 저장되어 공간적 지역성이 높다.
    - [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))는 포인터를 따라 멀리 점프하므로 캐시 라인 이득을 거의 못 본다.
 
@@ -124,7 +128,7 @@ tags = ["studynote-computer-architecture"]
 - 블록 크기 증가가 진짜 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 향상으로 이어지는가, 아니면 캐시 오염만 키우는가?
 - 프리페처가 따라갈 수 있는 패턴인가, 아니면 불규칙 포인터 추적인가?
 
-대표 안티패턴은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조만 예쁘고 물리 배치는 흩어진" 설계다. 객체를 잘게 쪼개 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 여기저기에 두면 코드 가독성은 좋아질 수 있어도, CPU는 매번 새로운 캐시 라인을 불러와야 한다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 구간에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준뿐 아니라 **실제 메모리 배치**까지 함께 설계해야 한다.
+대표 안티패턴은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조만 예쁘고 물리 배치는 흩어진" 설계다. 객체를 잘게 쪼개 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 여기저기에 두면 코드 가독성은 좋아질 수 있어도, CPU는 매번 새로운 캐시 라인을 불러와야 한다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 구간에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준뿐 아니라 <strong>실제 메모리 배치</strong>까지 함께 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 공간적 지역성을 살린 설계는 관련 서류를 한 서랍에 모아 두는 사무실 정리와 같다. 반대로 서류마다 다른 층, 다른 캐비닛에 흩어 두면 직원은 일보다 이동에 더 많은 시간을 쓰게 된다.
 
@@ -136,7 +140,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 공간적 지역성은 만능이 아니다. 접근이 랜덤하거나, 한 블록에서 실제로 쓰는 바이트가 매우 적거나, 구조체가 지나치게 커서 캐시 라인 낭비가 심하면 기대한 이득이 줄어든다. 그래서 "무조건 큰 블록"이 아니라 **연속 배치와 실제 사용 패턴이 맞아떨어질 때** 가장 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 나온다.
 
-결론적으로 공간적 지역성은 "메모리는 가까이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 쓰는 경향이 있다"는 관찰에서 출발해, 캐시 라인·프리페치·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃 최적화까지 이어지는 핵심 원리다. 이 개념을 기억할 때는 단순 정의보다, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이웃끼리 모아 두면 하드웨어가 훨씬 더 똑똑하게 도와준다**는 관점으로 잡는 것이 좋다.
+결론적으로 공간적 지역성은 "메모리는 가까이 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 쓰는 경향이 있다"는 관찰에서 출발해, 캐시 라인·프리페치·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃 최적화까지 이어지는 핵심 원리다. 이 개념을 기억할 때는 단순 정의보다, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 이웃끼리 모아 두면 하드웨어가 훨씬 더 똑똑하게 도와준다</strong>는 관점으로 잡는 것이 좋다.
 
 - **📢 섹션 요약 비유**: 공간적 지역성은 도시 계획에서 관련 시설을 한 구역에 모으는 일과 같다. 학교, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)정류장, 편의점이 가까이 모여 있으면 한 번 이동으로 여러 일을 끝낼 수 있다.
 
@@ -154,24 +158,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 지연 문제
-    │
-    ▼
-인접 주소 재사용 관찰
-    │
-    ▼
-공간적 지역성 (Spatial Locality)
-    │
-    ├─▶ 캐시 라인 (Cache Line) 단위 적재
-    │
-    ├─▶ 프리페치 (Prefetch) 최적화
-    │
-    └─▶ 데이터 레이아웃 개선
-          │
-          ▼
-      AoS → SoA · 타일링 · 연속 버퍼 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 지연 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인접 주소 재사용 관찰</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간적 지역성 (Spatial Locality)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 라인 (Cache Line) 단위 적재</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 프리페치 (Prefetch) 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 데이터 레이아웃 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AoS → SoA · 타일링 · 연속 버퍼 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "관찰된 접근 패턴"이 하드웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 소프트웨어 배치 전략으로 동시에 확장되는 과정을 보여준다.
 

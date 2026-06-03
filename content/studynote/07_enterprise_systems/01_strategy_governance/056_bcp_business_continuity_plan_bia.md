@@ -30,17 +30,23 @@ BCP는 "서버를 되살리는 문서"가 아니다. 재난이 발생했을 때 
 
 비상 계획의 출발점은 "무엇이 가장 중요한가"를 가르는 일이다. 이를 위해 BIA와 RA를 먼저 수행한다.
 
-```text
-재난/장애 발생
-    ↓
-BIA (Business Impact Analysis)
-    ↓
-RA (Risk Assessment)
-    ↓
-RTO / RPO 설정
-    ↓
-복구 전략과 자원 배치
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">재난/장애 발생</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RA (Risk Assessment)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO 설정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복구 전략과 자원 배치</div>
+</div>
+</div>
+
+
 
 - [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ([Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/))는 업무별 피해 규모와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 우선순위를 정한다.
 - [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)는 화재, 홍수, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 같은 위협의 발생 가능성과 영향을 본다.
@@ -54,11 +60,11 @@ RTO / RPO 설정
 
 BCP는 한 장짜리 선언이 아니라 여러 실행 항목의 묶음이다.
 
-1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 대응 및 대피**: 인명 안전 확보, 비상 연락망, 출입 통제, 대피 경로 안내.
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 대응 및 대피</strong>: 인명 안전 확보, 비상 연락망, 출입 통제, 대피 경로 안내.
 2. **위기 관리 및 소통**: 고객, 임직원, 주주, 언론에 같은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 빠르게 전달.
 3. **대체 사업장 가동**: 본사 마비 시 대체 사무실, 원격근무, 대체 좌석 확보.
-4. **IT [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)**: 핵심 시스템 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복원, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재가동.
-5. **[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 연속성**: 주요 협력사, 결제, 물류, 외주 운영의 대체 경로 준비.
+4. <strong>IT <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a></strong>: 핵심 시스템 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복원, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재가동.
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 연속성</strong>: 주요 협력사, 결제, 물류, 외주 운영의 대체 경로 준비.
 
 - **📢 섹션 요약 비유**: BCP는 비상구, 구급상자, 대체 열쇠, 가족 연락망을 한 번에 챙겨 둔 집안 매뉴얼이다.
 
@@ -68,9 +74,9 @@ BCP는 한 장짜리 선언이 아니라 여러 실행 항목의 묶음이다.
 
 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 "무엇을 어디까지 살릴 것인가"를 정하는 일이다. 모든 시스템을 똑같이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수는 없으므로, 핵심 업무 중심으로 자원을 배분한다.
 
-- **[Hot site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/)**: 거의 즉시 전환 가능한 대체 센터
-- **[Warm site](/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/)**: 일부 준비가 되어 있어 단시간 내 전환 가능한 센터
-- **[Cold site](/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/)**: 기본 시설만 갖춘 저비용 대체 장소
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/">Hot site</a></strong>: 거의 즉시 전환 가능한 대체 센터
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/180_warm_site_dr/">Warm site</a></strong>: 일부 준비가 되어 있어 단시간 내 전환 가능한 센터
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/181_cold_site_dr/">Cold site</a></strong>: 기본 시설만 갖춘 저비용 대체 장소
 
 사람과 절차도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 대상이다. 핵심 인력이 없으면 서버가 살아도 업무는 멈춘다. 그래서 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 인력, 업무 인수인계, 수동 처리 절차가 함께 있어야 한다.
 
@@ -95,17 +101,23 @@ BCP는 작성보다 운영이 더 중요하다. 계획은 시간이 지나면 �
 
 ## 관련 개념 맵
 
-```text
-재난/재해
-   ↓
-BIA + RA
-   ↓
-RTO / RPO
-   ↓
-인력 / 장소 / 시스템 / 공급망 대응
-   ↓
-훈련 / 점검 / 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">재난/재해</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BIA + RA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RTO / RPO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">인력 / 장소 / 시스템 / 공급망 대응</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">훈련 / 점검 / 개선</div>
+</div>
+</div>
+
+
 
 ---
 

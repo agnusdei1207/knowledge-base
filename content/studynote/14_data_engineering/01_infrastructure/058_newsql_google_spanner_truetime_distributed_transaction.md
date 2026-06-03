@@ -45,15 +45,21 @@ NewSQL은 기본적으로 관계형 모델을 유지한다.
 
 Google Spanner는 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 시간의 순서를 맞추기 위해 TrueTime을 활용한다.
 
-```text
-클라이언트 요청
-   ↓
-분산 노드
-   ↓
-TrueTime 기반 순서 결정
-   ↓
-트랜잭션 커밋
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 요청</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분산 노드</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">TrueTime 기반 순서 결정</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">트랜잭션 커밋</div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 멀리 떨어진 데이터센터에서도 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 제공할 수 있다.
 
@@ -91,15 +97,21 @@ NewSQL은 강력하지만 만능은 아니다.
 
 ## 관련 개념 맵
 
-```text
-RDBMS / NoSQL 딜레마
-   ↓
-NewSQL
-   ↓
-TrueTime / 합의 / 샤딩
-   ↓
-분산 트랜잭션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDBMS / NoSQL 딜레마</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">NewSQL</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">TrueTime / 합의 / 샤딩</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분산 트랜잭션</div>
+</div>
+</div>
+
+
 
 ---
 

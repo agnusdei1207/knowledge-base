@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 임의의 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(크기가 1바이트든 100기가바이트든 상관없음)를 수학적 알고리즘에 통과시켜, **항상 "고정된 짧은 길이"의 무작위 해시값(Hash Value, 다이제스트)으로 변환해 내는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(일방향) 암호화 기술**입니다.
-- 평문을 암호문으로 숨기는 것([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))이 목적이 아니라, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송 중에 지워지거나 해커에 의해 변조되지 않았음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 **'[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))' [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**이 존재의 목적입니다.
+- 임의의 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(크기가 1바이트든 100기가바이트든 상관없음)를 수학적 알고리즘에 통과시켜, <strong>항상 "고정된 짧은 길이"의 무작위 해시값(Hash Value, 다이제스트)으로 변환해 내는 <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a>(일방향) 암호화 기술</strong>입니다.
+- 평문을 암호문으로 숨기는 것([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))이 목적이 아니라, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송 중에 지워지거나 해커에 의해 변조되지 않았음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong>'<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)' <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이 존재의 목적입니다.
 
-```text
-[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    ▼
-[해시 함수]
-    │
-    └──▶ [MD5 회피 조치, SHA-1 차단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MD5 회피 조치, SHA-1 차단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해시 함수는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,17 +47,21 @@ tags = ["studynote-network"]
    - 믹서기에 간 과일 주스(해시값)를 보고, 원래 무슨 모양의 과일(원본 평문)이 들어갔는지 절대 거꾸로 복원(복호화)할 수 없어야 합니다.
 2. **제2 역상 저항성 (약한 충돌 내성)**
    - 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시값이 `[AbCd]`라고 할 때, 해커가 일부러 똑같이 `[AbCd]`라는 해시값이 튀어나오는 전혀 다른 내용의 '가짜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'을 수학적으로 찾아내어 바꿔치기할 수 없어야 합니다.
-3. **충돌 저항성 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) [Resistance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) 🌟**
+3. <strong>충돌 저항성 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">Resistance</a>) 🌟</strong>
    - 내용이 완전히 다른 A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 B [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 해시에 넣었는데, 우연히 똑같은 해시값 `[AbCd]`가 튀어나오는 현상을 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이라고 합니다. 해시값이 고정된 길이이므로 확률상 무조건 충돌이 존재하지만, 지구상의 컴퓨터를 다 동원해도 이 **충돌하는 쌍을 억지로 찾아내는 것이 불가능할 정도로 경우의 수(해시 길이)가 거대해야 합니다.**
 
-```text
-[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    ▼
-[해시 함수]
-    │
-    └──▶ [MD5 회피 조치, SHA-1 차단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MD5 회피 조치, SHA-1 차단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해시 함수의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -77,9 +85,9 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **다운로드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 홈페이지에서 윈도우 설치 ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받을 때, 옆에 `SHA256: e3b0c4...` 라고 적혀 있습니다. 내가 다운받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내 컴퓨터의 해시 검사기에 넣어 똑같은 값이 나오면, 중간에 해커가 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)를 섞지 않았음이 100% 증명됩니다.
+1. <strong>다운로드 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 홈페이지에서 윈도우 설치 ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받을 때, 옆에 `SHA256: e3b0c4...` 라고 적혀 있습니다. 내가 다운받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내 컴퓨터의 해시 검사기에 넣어 똑같은 값이 나오면, 중간에 해커가 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)를 섞지 않았음이 100% 증명됩니다.
 2. **비밀번호(Password) DB 저장**: 카카오나 네이버는 내 비밀번호 원본(예: "1234")을 DB에 그대로 저장하지 않습니다. 해시값으로 갈아서(예: "a6xg9...") 저장합니다. 나중에 DB가 통째로 털려도 해커는 이 해시를 다시 "1234"로 복호화할 수 없으므로 내 비밀번호는 안전합니다. (671번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
-3. **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(비트코인) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 앞 블록의 해시값을 다음 블록에 쇠사슬처럼 묶어, 해커가 10년 전 장부를 조작하면 눈사태 효과로 현재 블록까지 모조리 파괴되게 만들어 위변조를 막습니다.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>(비트코인) <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 앞 블록의 해시값을 다음 블록에 쇠사슬처럼 묶어, 해커가 10년 전 장부를 조작하면 눈사태 효과로 현재 블록까지 모조리 파괴되게 만들어 위변조를 막습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
-    │
-    ▼
-[현재 개념: 해시 함수]
-    │
-    ├──▶ [확장 A: MD5 회피 조치, SHA-1 차단]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MD5 회피 조치, SHA-1 차단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 해시 함수는 디피-헬만 상호 키 교환 원리 및 스니핑 취…에서 출발해 현재 메커니즘을 정교화하고, 이후 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 회피 조치, SHA-1 차단와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

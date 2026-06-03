@@ -28,11 +28,11 @@ tags = ["studynote-algorithm"]
 
 ### 존재 조건
 
-**무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)**:
+<strong>무방향 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
 - Euler Circuit: 모든 정점의 차수가 짝수 + 연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
 - Euler Path: 홀수 차수 정점이 정확히 2개 (시작, 종료) + 연결
 
-**방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)**:
+<strong>방향 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
 - Euler Circuit: 모든 정점에서 in-degree = out-degree
 - Euler Path: 정확히 1개 정점에서 out-degree = in-degree + 1 (시작), 1개에서 in-degree = out-degree + 1 (종료)
 
@@ -42,14 +42,18 @@ tags = ["studynote-algorithm"]
 
 ### 존재 조건 판별 예시
 
-```
-그래프 A:              그래프 B:
-A─B─C─D               A─B─C
-│   │                 │   │
-└───┘                 └───┘
-차수: A=2,B=2,C=2,D=2  차수: A=2,B=3,C=3 → 홀수 2개
-→ Euler Circuit 가능   → Euler Path만 가능 (B→C 또는 C→B)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래프 A: 그래프 B:</div>
+<div class="kb-diagram-note">A─B─C─D A─B─C</div>
+<div class="kb-diagram-note">차수: A=2,B=2,C=2,D=2 차수: A=2,B=3,C=3 → 홀수 2개</div>
+<div class="kb-diagram-note">→ Euler Circuit 가능 → Euler Path만 가능 (B→C 또는 C→B)</div>
+</div>
+</div>
+
+
 
 ### Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(E))
 
@@ -62,21 +66,21 @@ A─B─C─D               A─B─C
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Hierholzer 동작
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  그래프:  A─B─C─D                                        │
-│           │   │                                          │
-│           └───┘                                          │
-│                                                          │
-│  Hierholzer 진행 (A에서 시작):                            │
-│  DFS: A→B→C→A (사이클, 막힘) → 스택: [A]                 │
-│  역추적: C→D→B 방문 가능 → C에서 DFS                     │
-│  DFS: C→D→B→C (완성) → 스택: [A, C, B, D, C]             │
-│  역추적: B에서 A→B 사용 → 스택: [A, C, B, D, C, B, A]    │
-│                                                          │
-│  역순 출력: A→B→C→D→B→C→A (Euler Circuit)                │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프: A─B─C─D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hierholzer 진행 (A에서 시작):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역추적: C→D→B 방문 가능 → C에서 DFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A, C, B, D, C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A, C, B, D, C, B, A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역순 출력: A→B→C→D→B→C→A (Euler Circuit)</div></div>
+</div>
+</div>
+
+
 
 ### Fleury [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs Hierholzer
 
@@ -163,21 +167,23 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[그래프(Graph) 탐색 기초 — 정점(V)과 간선(E) 구조]
-    │
-    ▼
-[오일러 경로 조건 — 홀수 차수 정점 0개 또는 2개]
-    │
-    ▼
-[오일러 서킷 (Eulerian Circuit) — 모든 간선을 1회 순회 후 시작점 복귀]
-    │
-    ▼
-[플뢰리 알고리즘 / Hierholzer 알고리즘 — O(E) 탐색 구현]
-    │
-    ▼
-[해밀턴 경로 — 오일러 경로와 대비, 모든 정점을 1회 방문 (NP-완전)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프(Graph) 탐색 기초 — 정점(V)과 간선(E) 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오일러 경로 조건 — 홀수 차수 정점 0개 또는 2개</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오일러 서킷 (Eulerian Circuit) — 모든 간선을 1회 순회 후 시작점 복귀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플뢰리 알고리즘 / Hierholzer 알고리즘 — O(E) 탐색 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밀턴 경로 — 오일러 경로와 대비, 모든 정점을 1회 방문 (NP-완전)</div></div>
+</div>
+</div>
+
+
 오일러 경로는 간선을 기준으로 홀수 차수 조건을 검사하며, 플뢰리/Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E) 내에 탐색이 가능하다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

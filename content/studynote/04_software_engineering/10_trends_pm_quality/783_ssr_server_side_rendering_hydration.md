@@ -21,11 +21,11 @@ tags = ["studynote-software-engineering"]
 
 웹의 역사는 '화면을 어디서 그릴 것인가?'의 전쟁이었다. 초창기 PHP, JSP 시절에는 모든 화면을 서버가 다 그렸다(전통적 [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)). 하지만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 이동할 때마다 화면이 하얗게 깜빡이는(Blinking) 현상 때문에 사용자 경험(UX)이 최악이었다.
 
-이 깜빡임을 없애기 위해 React, Vue 같은 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application)가 등장했다. 서버는 텅 빈 HTML 한 장만 주고, 나머지 모든 그림 그리기(렌더링)는 사용자의 스마트폰(브라우저) 안에서 자바스크립트(JS)가 알아서 하는 **[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)(Client-Side Rendering)** 시대가 열렸다.
+이 깜빡임을 없애기 위해 React, Vue 같은 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application)가 등장했다. 서버는 텅 빈 HTML 한 장만 주고, 나머지 모든 그림 그리기(렌더링)는 사용자의 스마트폰(브라우저) 안에서 자바스크립트(JS)가 알아서 하는 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a>(Client-Side Rendering)</strong> 시대가 열렸다.
 
-하지만 CSR은 치명적인 부작용을 낳았다. 유저의 스마트폰이 느리면 수 MB의 자바스크립트를 다운받고 실행할 때까지 몇 초 동안 **'하얀 빈 화면'**만 봐야 했다. 게다가 구글 검색 로봇은 자바스크립트를 실행할 줄 몰라 텅 빈 사이트로 인식해 버렸다(SEO 폭망).
+하지만 CSR은 치명적인 부작용을 낳았다. 유저의 스마트폰이 느리면 수 MB의 자바스크립트를 다운받고 실행할 때까지 몇 초 동안 <strong>'하얀 빈 화면'</strong>만 봐야 했다. 게다가 구글 검색 로봇은 자바스크립트를 실행할 줄 몰라 텅 빈 사이트로 인식해 버렸다(SEO 폭망).
 
-이를 해결하기 위해, **"첫 화면은 옛날처럼 서버에서 다 그려서([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 빠르게 보여주고, 그 다음부터는 CSR처럼 부드럽게 넘어가자"**는 하이브리드 아키텍처(Next.js, Nuxt 등)가 등장했다.
+이를 해결하기 위해, <strong>"첫 화면은 옛날처럼 서버에서 다 그려서(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a>) 빠르게 보여주고, 그 다음부터는 CSR처럼 부드럽게 넘어가자"</strong>는 하이브리드 아키텍처(Next.js, Nuxt 등)가 등장했다.
 
 - **📢 섹션 요약 비유**: CSR은 손님 테이블에 밀가루와 화덕(JS)을 주고 "직접 구워 드세요" 하는 것이다. 느리지만 굽고 나면 마음대로 모양을 낼 수 있다. SSR은 주방장(서버)이 다 구운 피자를 테이블에 내어주는 것이다. 나오자마자 바로 먹을 수 있다(빠른 로딩).
 
@@ -33,18 +33,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 하이드레의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서버 사이드 렌더링(SSR) 하이드레                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 사이드 렌더링(SSR) 하이드레</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 하이드레가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -56,7 +55,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대의 [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) 아키텍처는 서버에서 HTML을 던져주는 것으로 끝나지 않는다. **하이드레이션(Hydration)**이라는 마법의 과정이 필수적이다.
+현대의 [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) 아키텍처는 서버에서 HTML을 던져주는 것으로 끝나지 않는다. <strong>하이드레이션(Hydration)</strong>이라는 마법의 과정이 필수적이다.
 
 - **📢 섹션 요약 비유**: [서버 사이드 렌더링](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 하이드레이션(Hydration)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -78,10 +77,10 @@ tags = ["studynote-software-engineering"]
 
 | 렌더링 방식 | 렌더링 위치 | 장점 (SEO / [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 속도) | 단점 | 대표 프레임워크 |
 |:---|:---|:---|:---|:---|
-| **[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)** (Client-Side) | 유저 브라우저 | SEO 취약 / 첫 로딩 느림 | 서버 부하 없음, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 전환 부드러움 | React (순수 SPA) |
-| **[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)** (Server-Side) | 실시간 서버 | **SEO 완벽 / 첫 로딩 빠름** | 서버 부하 큼 (요청마다 그림) | Next.js, Nuxt |
-| **[SSG](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/)** (Static Site Gen.)| 빌드 타임 (Build) | **가장 빠름 (HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 고정)**| 내용이 바뀌면 전체를 다시 빌드해야 함 | Gatsby, Hugo |
-| **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)** (Incremental) | 빌드 + 런타임 | SSG의 속도 + SSR의 유연성 | 특정 주기(예: 10초)마다 뒤에서 몰래 새 HTML을 구워놓음 | Next.js |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a></strong> (Client-Side) | 유저 브라우저 | SEO 취약 / 첫 로딩 느림 | 서버 부하 없음, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 전환 부드러움 | React (순수 SPA) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a></strong> (Server-Side) | 실시간 서버 | **SEO 완벽 / 첫 로딩 빠름** | 서버 부하 큼 (요청마다 그림) | Next.js, Nuxt |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/">SSG</a></strong> (Static Site Gen.)| 빌드 타임 (Build) | <strong>가장 빠름 (HTML <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 고정)</strong>| 내용이 바뀌면 전체를 다시 빌드해야 함 | Gatsby, Hugo |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a></strong> (Incremental) | 빌드 + 런타임 | SSG의 속도 + SSR의 유연성 | 특정 주기(예: 10초)마다 뒤에서 몰래 새 HTML을 구워놓음 | Next.js |
 
 최신 프레임워크(Next.js)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 이 방식을 섞어 쓴다. (예: 메인 화면은 [SSG](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/), 마이페이지는 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/), 상품 상세페이지는 [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)).
 
@@ -111,7 +110,7 @@ SSR의 치명적인 함정은, 화면은 다 떴는데 클릭이 안 되는 **'�
 
 SSR과 하이드레이션을 완벽하게 제어하면, 무거운 자바스크립트 프레임워크(React)를 쓰면서도 옛날 네이버 메인 화면(순수 HTML)처럼 0.1초 만에 팍! 하고 뜨는 극강의 웹 성능을 달성할 수 있다. 이는 쇼핑몰의 이탈률을 줄이고 구글 검색 노출 1위를 달성하는 직접적인 매출 상승으로 이어진다.
 
-결론적으로 기술 리더는 "요즘은 리액트([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))가 대세야"라는 단순한 생각을 버려야 한다. 웹 아키텍처는 **"렌더링의 주도권을 서버와 클라이언트 중 누가, 어느 비율로 나눠 가질 것인가?"**라는 정교한 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))이다. SSR의 하이드레이션 병목을 이해하고 쪼개어 제어하는 자만이 사용자 경험(UX)의 최종 승자가 될 수 있다.
+결론적으로 기술 리더는 "요즘은 리액트([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))가 대세야"라는 단순한 생각을 버려야 한다. 웹 아키텍처는 <strong>"렌더링의 주도권을 서버와 클라이언트 중 누가, 어느 비율로 나눠 가질 것인가?"</strong>라는 정교한 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))이다. SSR의 하이드레이션 병목을 이해하고 쪼개어 제어하는 자만이 사용자 경험(UX)의 최종 승자가 될 수 있다.
 
 - **📢 섹션 요약 비유**: 훌륭한 마술 쇼는 관객이 자리에 앉기 전에 미리 예쁜 무대([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))를 세팅해 두고, 관객이 눈을 깜빡이는 짧은 찰나(하이드레이션)에 생명체(JS)를 등장시켜 환호를 이끌어낸다. 기다림을 0초로 만드는 것이 프론트엔드 아키텍트의 마술이다.
 
@@ -134,21 +133,23 @@ SSR과 하이드레이션을 완벽하게 제어하면, 무거운 자바스크�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서버 사이드 렌더링(SSR) 하이드레이션(Hydration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버 사이드 렌더링(SSR) 하이드레이션(Hydration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

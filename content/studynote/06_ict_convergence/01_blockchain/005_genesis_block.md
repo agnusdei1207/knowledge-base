@@ -45,26 +45,27 @@ tags = ["ict_convergence"]
 
 ### 제네시스 블록 구조
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ 비트코인 제네시스 블록 (블록 높이: 0) │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ [블록 헤더] │
-│ ├── 버전: 1 │
-│ ├── Previous Block Hash: 00000000000000000000000000000000... │
-│ │ (64자리 제로, 조상이 없음을 표시) │
-│ ├── 머클 루트: 4a5e1e4baab89f3a32518a88c31bc87f618f76673... │
-│ ├── 타임스탬프: 2009-01-03 18:15:05 GMT │
-│ ├── 난이도 비트: 1d00ffff │
-│ └── 논스: 2083236893 │
-│ │
-│ [블록 바디] │
-│ └── 단일 거래: The Times 03/Jan/2009 │
-│ Chancellor on brink of second bailout for banks │
-│ (영국 재무장관, 은행 구제를 위한 2차 조달 직전) │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트코인 제네시스 블록 (블록 높이: 0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 헤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 버전: 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Previous Block Hash: 00000000000000000000000000000000...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(64자리 제로, 조상이 없음을 표시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 머클 루트: 4a5e1e4baab89f3a32518a88c31bc87f618f76673...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 타임스탬프: 2009-01-03 18:15:05 GMT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 난이도 비트: 1d00ffff</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 논스: 2083236893</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 바디</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 단일 거래: The Times 03/Jan/2009</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chancellor on brink of second bailout for banks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(영국 재무장관, 은행 구제를 위한 2차 조달 직전)</div></div>
+</div>
+</div>
+
+
 
 제네시스 블록의 블록 헤더에서 가장 중요한 필드는Previous Block Hash이다. 모든 다른 블록에서는 이전 블록의 해시값이 이 필드에 저장되어 사슬처럼 연결된다. 그러나 제네시스 블록에서는 이 값이 64자의 16진수 영(0)으로 채워져 있어, 이것이 네트워크의의이며、하다이/가에서하지 않는다와/과을/를하여있다.
 
@@ -140,73 +141,67 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```
-+------------------------------------------------------------------+
-| 제네시스 블록과 블록체인 구조 |
-+------------------------------------------------------------------+
-| |
-| [제네시스 블록] │ 모든 블록의 조상(Origin) │
-| ┌──────────────────────┐ │ │
-| │ Block #0 (Genesis) │ │ 이 블록만 Previous Hash = 0 │
-| │ Prev: 0x0000...0000 │◄────┼─ 가장 처음 생성된 블록 │
-| │ Time: 2009-01-03 │ │ 네트워크 전체의 출발점 │
-| │ Nonce: 2083236893 │ │ │
-| └──────────────────────┘ │ │
-| │ │ │
-| │ 다음 블록이 참조 │ │
-| ▼ │ │
-| ┌──────────────────────┐ │ │
-| │ Block #1 │ │ 이전 블록(Genesis)의 해시 참조 │
-| │ Prev: abc123...def │─────┘ │
-| │ Time: 2009-01-03 │ │
-| │ Nonce: 2688104448 │ │
-| └──────────────────────┘ │
-| │ │
-| │ 다음 블록이 참조 │
-| ▼ │
-| ┌──────────────────────┐ 모든 블록은 자신의 이전 블록의 │
-| │ Block #2 │◄──── 해시값을 저장하여 연결됨 │
-| │ Prev: ghi456...klm │────► 만약 Block #0을 변조하면... │
-| │ Time: 2009-01-09 │ → Block #1의 Prev가 불일치 │
-| │ Nonce: 2411854994 │ → Block #2도 연쇄 무효화 │
-| └──────────────────────┘ → 네트워크 전체 신뢰 붕괴 │
-| │ │
-| ... │
-+------------------------------------------------------------------+
-| 핵심 특성: |
-| - Genesis Block만 Previous Hash = 0 (조상 없음) |
-| - 모든 블록의 해시 체인 조상 |
-| - 한 번 생성되면 변경 불가능 |
-| - 네트워크 전체 무결성의 출발점 |
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제네시스 블록과 블록체인 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제네시스 블록</div><div class="kb-diagram-note">모든 블록의 조상(Origin)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block #0 (Genesis)</div><div class="kb-diagram-cell">이 블록만 Previous Hash = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prev: 0x0000...0000</div><div class="kb-diagram-cell">◄ ─ 가장 처음 생성된 블록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time: 2009-01-03</div><div class="kb-diagram-cell">네트워크 전체의 출발점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce: 2083236893</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 블록이 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block #1</div><div class="kb-diagram-cell">이전 블록(Genesis)의 해시 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prev: abc123...def</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time: 2009-01-03</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce: 2688104448</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 블록이 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 블록은 자신의 이전 블록의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block #2</div><div class="kb-diagram-cell">◄ 해시값을 저장하여 연결됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prev: ghi456...klm</div><div class="kb-diagram-cell">► 만약 Block #0을 변조하면...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time: 2009-01-09</div><div class="kb-diagram-cell">→ Block #1의 Prev가 불일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce: 2411854994</div><div class="kb-diagram-cell">→ Block #2도 연쇄 무효화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 네트워크 전체 신뢰 붕괴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Genesis Block만 Previous Hash = 0 (조상 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 블록의 해시 체인 조상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한 번 생성되면 변경 불가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 네트워크 전체 무결성의 출발점</div></div>
+</div>
+</div>
+
+
 
 
 ### 📌 관련 개념 맵
 
 - **제네시스 블록 (Genesis Block)**
-- **코인베이스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Coinbase [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))**
+- <strong>코인베이스 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> (Coinbase <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)</strong>
 - **채굴 난이도 (Mining Difficulty)**
 - **하드코딩 (Hard Coding)**
 - **알트코인 (Altcoin)**
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[제네시스 블록 (Genesis Block)]
-│
-▼
-[코인베이스 트랜잭션 (Coinbase Transaction)]
-│
-▼
-[채굴 난이도 (Mining Difficulty)]
-│
-▼
-[하드코딩 (Hard Coding)]
-│
-▼
-[알트코인 (Altcoin)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제네시스 블록 (Genesis Block)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코인베이스 트랜잭션 (Coinbase Transaction)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채굴 난이도 (Mining Difficulty)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드코딩 (Hard Coding)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알트코인 (Altcoin)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 제네시스 블록 (Genesis Block)에서 출발해 알트코인 (Altcoin)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

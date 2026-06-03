@@ -28,30 +28,30 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-컴포저블 ERP를 가능하게 하는 아키텍처의 핵심은 **PBC (Packaged Business Capability)**와 **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First ([Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/))** 설계, 그리고 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)** 환경이다.
+컴포저블 ERP를 가능하게 하는 아키텍처의 핵심은 <strong>PBC (Packaged Business Capability)</strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>-First (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a>)</strong> 설계, 그리고 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a></strong> 환경이다.
 
 | 핵심 구성 요소 | 역할 및 동작 원리 | 설계 이점 |
 | :--- | :--- | :--- |
 | **PBC (패키징된 비즈니스 역량)** | '환율 계산기', '장바구니', '가상계좌 발급기'처럼 독립적으로 완결성을 가진 가장 작은 비즈니스 소프트웨어 단위 (레고 블록) | 특정 기능 장애가 타 시스템으로 전파되지 않음 (Fault [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 설계 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First)** | 서로 다른 벤더가 만든 PBC들이 소통하기 위해 사용하는 표준화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 통로 (RESTful, [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) | 타사 SaaS와의 자유로운 결합 및 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 |
-| **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) ([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))** | 각 PBC들이 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s) 위에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 중심 설계 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>-First)</strong> | 서로 다른 벤더가 만든 PBC들이 소통하기 위해 사용하는 표준화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 통로 (RESTful, [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) | 타사 SaaS와의 자유로운 결합 및 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a>)</strong> | 각 PBC들이 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s) 위에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                모놀리식 ERP vs 컴포저블 ERP 구조 비교             │
-├──────────────────────────────────────────────────────────────┤
-│    [ 과거: 모놀리식 ERP ]              [ 최신: 컴포저블 ERP ]          │
-│  ┌──────────────────────┐         ┌─────┐ ┌─────┐ ┌─────┐    │
-│  │    [UI / 화면]       │         │ UI  │ │ 앱  │ │ IoT │    │
-│  ├──────────────────────┤         └──┬──┘ └──┬──┘ └──┬──┘    │
-│  │   재무 ↔ 물류 ↔ 인사 │    ==== (Headless API Gateway) ====│
-│  │  (단단하게 엉킨 코드)  │         ┌──┴──┐ ┌──┴──┐ ┌──┴──┐    │
-│  ├──────────────────────┤         │ PBC │ │ PBC │ │ PBC │    │
-│  │   단일 거대 DB       │         │(재무)│ │(AI) │ │(물류)│    │
-│  └──────────────────────┘         └─────┘ └─────┘ └─────┘    │
-│                                  (블록 하나만 쏙 뽑아서 교체 가능)   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 ERP vs 컴포저블 ERP 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 모놀리식 ERP</div><div class="kb-diagram-node">최신: 컴포저블 ERP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UI / 화면</div><div class="kb-diagram-note">│ UI │ │ 앱 │ │ IoT │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재무 ↔ 물류 ↔ 인사</div><div class="kb-diagram-cell">==== (Headless API Gateway) ====</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단단하게 엉킨 코드)</div><div class="kb-diagram-cell">── ── ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBC</div><div class="kb-diagram-cell">PBC</div><div class="kb-diagram-cell">PBC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 거대 DB</div><div class="kb-diagram-cell">(재무)</div><div class="kb-diagram-cell">(AI)</div><div class="kb-diagram-cell">(물류)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블록 하나만 쏙 뽑아서 교체 가능)</div></div>
+</div>
+</div>
+
+
 
 특히 [Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) 아키텍처는 사용자 인터페이스(UI)와 뒷단의 비즈니스 로직(PBC)을 완전히 분리시킨다. 모바일, 웹, 스마트워치 등 어떤 화면(Head)이 오더라도 뒷단 시스템을 고칠 필요 없이 API로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 던져주면 된다.
 
@@ -82,8 +82,8 @@ tags = ["enterprise_systems"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스**: 수백 개의 서로 다른 PBC와 외부 SaaS가 API로 통신할 때, 병목 현상이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 깨짐 현상을 제어할 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이(Gateway) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 수립되어 있는가?
-2. **벤더 관리(Multi-Vendor [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**: 여러 회사의 솔루션을 조립해 쓴다면, 장애 발생 시 벤더 간의 책임 떠넘기기(Ping-pong)를 방어할 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계가 있는가?
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 거버넌스</strong>: 수백 개의 서로 다른 PBC와 외부 SaaS가 API로 통신할 때, 병목 현상이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 깨짐 현상을 제어할 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이(Gateway) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 수립되어 있는가?
+2. <strong>벤더 관리(Multi-Vendor <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 여러 회사의 솔루션을 조립해 쓴다면, 장애 발생 시 벤더 간의 책임 떠넘기기(Ping-pong)를 방어할 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약)와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계가 있는가?
 3. **비즈니스 테크놀로지스트 (BT) 양성**: IT 부서가 코드를 짜주는 대신, 현업 실무자가 로우코드([LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)) 툴을 이용해 스스로 PBC를 조립할 수 있는 조직 문화가 준비되었는가?
 
 ### 실무 판단 포인트
@@ -109,28 +109,30 @@ tags = ["enterprise_systems"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))** | 거대한 소프트웨어를 작고 독립적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분할하는 컴포저블 ERP의 근간이 되는 기술 철학 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/">Microservices Architecture</a>)</strong> | 거대한 소프트웨어를 작고 독립적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 분할하는 컴포저블 ERP의 근간이 되는 기술 철학 |
 | **PBC (Packaged Business Capability)** | 기술적 단위가 아닌, '가상계좌 발급'처럼 실제 비즈니스 의미를 갖는 단위로 패키징된 소프트웨어 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
-| **[LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/) (Low-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) / No-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 코딩 전문 지식 없이도 시각적 인터페이스로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 블록(PBC)들을 조립하게 해주는 플랫폼 |
-| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | 서로 다른 수많은 PBC 간의 트래픽을 통제하고 보안 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식을 일치시켜주는 중앙 관제탑 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a> (Low-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> / No-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 코딩 전문 지식 없이도 시각적 인터페이스로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 블록(PBC)들을 조립하게 해주는 플랫폼 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | 서로 다른 수많은 PBC 간의 트래픽을 통제하고 보안 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식을 일치시켜주는 중앙 관제탑 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스 기반 모놀리식 ERP (전통적 사일로)
-    │
-    ▼
-클라우드 전환 (IaaS/PaaS 도입 및 유연성 확보)
-    │
-    ▼
-MSA (마이크로서비스 아키텍처) 기술 성숙
-    │
-    ▼
-기능 중심의 API-First 및 Headless 설계 도입
-    │
-    ▼
-컴포저블 ERP (Composable ERP) 및 로우코드 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 기반 모놀리식 ERP (전통적 사일로)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 전환 (IaaS/PaaS 도입 및 유연성 확보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA (마이크로서비스 아키텍처) 기술 성숙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기능 중심의 API-First 및 Headless 설계 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포저블 ERP (Composable ERP) 및 로우코드 융합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 시스템이 거대한 통짜 쇳덩이에서 구름 위의 가벼운 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로, 그리고 최종적으로 사용자가 스스로 조립하는 레고 블록으로 진화하는 궤적을 보여준다.
 

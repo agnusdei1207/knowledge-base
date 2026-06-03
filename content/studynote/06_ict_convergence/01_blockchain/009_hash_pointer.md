@@ -45,42 +45,43 @@ tags = ["ict_convergence"]
 
 ### 해시 포인터 vs 일반 포인터
 
-```
-[일반 포인터 (Traditional Pointer)] [해시 포인터 (Hash Pointer)]
 
-┌─────────────────────┐ ┌─────────────────────┐
-│ 데이터 위치 (Pointer) │ │ 데이터 위치 (Pointer) │
-│ 0x7fff5fbff8c0 │ │ 0x7fff5fbff8c0 │
-└─────────────────────┘ └──────────┬──────────┘
-│
-▼
-┌─────────────────────┐
-│ 데이터의 해시값 │
-│ (Integrity Check) │
-│ Hash = SHA256(data) │
-│ abc123...xyz │
-└─────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 포인터 (Traditional Pointer)</div><div class="kb-diagram-node">해시 포인터 (Hash Pointer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 위치 (Pointer)</div><div class="kb-diagram-cell">데이터 위치 (Pointer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x7fff5fbff8c0</div><div class="kb-diagram-cell">0x7fff5fbff8c0</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Integrity Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash = SHA256(data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">abc123...xyz</div></div>
+</div>
+</div>
+
+
 
 일반 포인터는 단순히 메모리 주소를 저장하며, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유효한지 아닌지는알 수 없다. 반면 해시 포인터는 메모리 주소와 함께 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 해시값을저장하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다integrity를자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 특히 중요한데, 어떤 노드로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받을 때, 해당 노드를하지 않더라도 해시 포인터만 있다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있기 때문이다.
 
 ### [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 해시 포인터 구조
 
-```
-[블록 #N] [블록 #N+1]
-┌──────────────────────┐ ┌──────────────────────┐
-│ 이전 블록 해시 │ ───────► │ 이전 블록 해시 │
-│ (Hash of Block #N-1) │ │ (Hash of Block #N) │ ◄── 현재 블록의 해시
-│ │ │ │ 값이 다음 블록에
-│ ... │ │ ... │ 저장됨
-│ (Block Header) │ │ (Block Header) │
-└──────────────────────┘ └──────────────────────┘
-│ │
-│ │
-└────────────────────────────────────┘
-이 연결 자체가 해시 포인터
-(이전 블록의 위치 + 무결성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 #N</div><div class="kb-diagram-node">블록 #N+1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 블록 해시</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">이전 블록 해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hash of Block #N-1)</div><div class="kb-diagram-cell">(Hash of Block #N)</div><div class="kb-diagram-cell">◄── 현재 블록의 해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값이 다음 블록에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">저장됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Block Header)</div><div class="kb-diagram-cell">(Block Header)</div></div>
+<div class="kb-diagram-note">이 연결 자체가 해시 포인터</div>
+<div class="kb-diagram-note">(이전 블록의 위치 + 무결성)</div>
+</div>
+</div>
+
+
 
 블록체인에서 각 블록은 이전 블록의 해시값을.header에 저장한다. 이것은 전형적인 해시 포인터의 이다. 이전 블록의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를조작하면 이전 블록의 해시값이 변하고, 이후 모든 블록의「이전 블록 해시」값과 맞지 않게 되어 okie에된다.
 
@@ -156,78 +157,68 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```
-+------------------------------------------------------------------+
-| 해시 포인터 구조 및 동작 원리 |
-+------------------------------------------------------------------+
-| |
-│ [일반 포인터] │
-│ ┌──────────────────┐ │
-│ │ 데이터 위치 │ ──────► [데이터] │
-│ │ (메모리 주소) │ │
-│ └──────────────────┘ │
-│ 문제: 데이터가 조작되었는지 알 수 없음 │
-│ │
-│ [해시 포인터] │
-│ ┌──────────────────┐ │
-│ │ 데이터 위치 │ ──────► [데이터] ──► 데이터의 해시값 │
-│ │ (메모리 주소) │ │ │ │
-│ └────────┬─────────┘ ▼ ▼ │
-│ │ ┌─────────────────┐ abc123... │
-│ │ │ 무결성 검증: │ │
-│ │ │ Hash(data) ==? │ │
-│ └──────────────► │Stored Hash │ │
-│ └─────────────────┘ │
-│ ✅ 일치 → 데이터 무결 │
-│ ❌ 불일치 → 데이터 조작됨 │
-│ │
-+------------------------------------------------------------------+
-| 블록체인에서의 해시 포인터: │
-│ │
-│ [블록 N] [블록 N+1] [블록 N+2] │
-│ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
-│ │ Prev: │ │ Prev: │ │ Prev: │ │
-│ │ Hash(N-1)│◄─│ Hash(N) │◄─│Hash(N+1)│ │
-│ └─────────┘ └─────────┘ └─────────┘ │
-│ ▲ ▲ │
-│ │ │ │
-│ 이것들이 해시 포인터! │
-│ (이전 블록 위치 + 이전 블록 무결성) │
-│ │
-│ 만약 블록 N의 데이터를 조작하면: │
-│ → Hash(N)이 변함 → 블록 N+1의 Prev Hash와 불일치 │
-│ → 블록 N+2도잠금적으로 무효화 │
-│ → 전체 체인의 조작 │
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 포인터 구조 및 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 포인터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 데이터 위치 │ ►</div><div class="kb-diagram-node">데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리 주소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 데이터가 조작되었는지 알 수 없음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 포인터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 데이터 위치 │ ►</div><div class="kb-diagram-node">데이터</div><div class="kb-diagram-note">──► 데이터의 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리 주소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">abc123...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무결성 검증:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash(data) ==?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">Stored Hash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 일치 → 데이터 무결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 불일치 → 데이터 조작됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인에서의 해시 포인터:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 N</div><div class="kb-diagram-node">블록 N+1</div><div class="kb-diagram-node">블록 N+2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prev:</div><div class="kb-diagram-cell">Prev:</div><div class="kb-diagram-cell">Prev:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash(N-1)</div><div class="kb-diagram-cell">◄─</div><div class="kb-diagram-cell">Hash(N)</div><div class="kb-diagram-cell">◄─</div><div class="kb-diagram-cell">Hash(N+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이것들이 해시 포인터!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이전 블록 위치 + 이전 블록 무결성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 블록 N의 데이터를 조작하면:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Hash(N)이 변함 → 블록 N+1의 Prev Hash와 불일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 블록 N+2도잠금적으로 무효화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 체인의 조작</div></div>
+</div>
+</div>
+
+
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **일반 포인터 (Pointer)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 메모리 위치만 참조하는 기본 구조 |
-| **SHA-256 (Secure Hash [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 해시 포인터의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용되는 암호학적 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) |
-| **[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/))** | 해시 포인터를 계층적으로 연결하여 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자료구조 |
-| **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))** | 해시 포인터로 블록을 사슬처럼 연결하여 변조 불가능성을 구현한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 |
-| **[영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개 없이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만 증명하는 해시 포인터의 발전된 개념 |
+| <strong>SHA-256 (Secure Hash <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 해시 포인터의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용되는 암호학적 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">머클 트리</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a>)</strong> | 해시 포인터를 계층적으로 연결하여 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자료구조 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>)</strong> | 해시 포인터로 블록을 사슬처럼 연결하여 변조 불가능성을 구현한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/">Zero-Knowledge Proof</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개 없이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만 증명하는 해시 포인터의 발전된 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[일반 포인터 (Pointer) — 위치 참조만]
-│
-▼
-[해시 함수 (SHA-256) — 데이터 지문 생성]
-│
-▼
-[해시 포인터 (Hash Pointer) — 위치 + 무결성 동시 보장]
-│
-▼
-[블록체인 해시 체인 — 연속 해시 포인터로 위·변조 방지]
-│
-▼
-[머클 트리 / 영지식 증명 — 효율적 부분 검증 및 프라이버시 보호]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 포인터 (Pointer) — 위치 참조만</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수 (SHA-256) — 데이터 지문 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 포인터 (Hash Pointer) — 위치 + 무결성 동시 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 해시 체인 — 연속 해시 포인터로 위·변조 방지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리 / 영지식 증명 — 효율적 부분 검증 및 프라이버시 보호</div></div>
+</div>
+</div>
+
+
 
 해시 포인터가 단순 위치 참조에서 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/), 나아가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장과 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 증명으로 발전한 흐름이다.
 

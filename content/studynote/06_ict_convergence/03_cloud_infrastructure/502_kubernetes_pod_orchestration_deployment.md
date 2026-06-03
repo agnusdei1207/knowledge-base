@@ -24,7 +24,7 @@ tags = ["studynote-ict-convergence"]
 **K8s가 해결하는 핵심 문제**:
 - **자가 치유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 비정상 종료 시 자동 재시작, 노드 장애 시 다른 노드로 재배치
 - **선언적 관리**: YAML로 "원하는 상태"를 선언하면 K8s가 현재 상태를 그 상태로 지속 유지
-- **[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)**: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) IP가 변경되어도 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 오브젝트가 안정적인 엔드포인트 제공
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a></strong>: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) IP가 변경되어도 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 오브젝트가 안정적인 엔드포인트 제공
 - **오토스케일링**: 부하에 따라 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수를 자동으로 증감
 
 - **📢 섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 대형 물류 창고의 관리 시스템이다 — 박스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))가 어디 있어야 하는지, 몇 개여야 하는지 자동으로 정리하고, 박스가 부서지면 새 박스를 즉시 보충한다.
@@ -35,19 +35,20 @@ tags = ["studynote-ict-convergence"]
 
 **K8s 아키텍처**:
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                    Control Plane (컨트롤 플레인)               │
-│  ┌───────────┐  ┌──────────┐  ┌──────────────────────────┐  │
-│  │ API Server│  │  etcd    │  │ Scheduler │ Ctrl Manager │  │
-│  │(진입점/검증)│  │(분산 KV) │  │(배치 결정) │(상태 유지)   │  │
-│  └───────────┘  └──────────┘  └──────────────────────────┘  │
-├──────────────────────────────────────────────────────────────┤
-│                   Data Plane (워커 노드)                       │
-│  Node 1: [ Pod A ][ Pod B ]  ← Kubelet + Kube-proxy          │
-│  Node 2: [ Pod C ][ Pod D ]  ← Kubelet + Kube-proxy          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane (컨트롤 플레인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">etcd</div><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Ctrl Manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(진입점/검증)</div><div class="kb-diagram-cell">(분산 KV)</div><div class="kb-diagram-cell">(배치 결정)</div><div class="kb-diagram-cell">(상태 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Plane (워커 노드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 1:</div><div class="kb-diagram-node">Pod A</div><div class="kb-diagram-node">Pod B</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Kubelet + Kube-proxy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Node 2:</div><div class="kb-diagram-node">Pod C</div><div class="kb-diagram-node">Pod D</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Kubelet + Kube-proxy</div></div>
+</div>
+</div>
+
+
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 |
 |:---|:---|
@@ -59,9 +60,9 @@ tags = ["studynote-ict-convergence"]
 | Kube-proxy | iptables/IPVS 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로드밸런싱 |
 
 **배포 오브젝트 계층**:
-- **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)**: 1개 이상의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 묶음, 동일 네트워크/스토리지 공유, 최소 배포 단위
-- **[ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)**: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 복제본 수 보장 (지정 수 미달 시 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))
-- **[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)**: [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 관리
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a></strong>: 1개 이상의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 묶음, 동일 네트워크/스토리지 공유, 최소 배포 단위
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/">ReplicaSet</a></strong>: [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 복제본 수 보장 (지정 수 미달 시 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a></strong>: [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 관리
 
 **오토스케일링**:
 - [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)([Horizontal Pod Autoscaler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)): CPU/메모리 기준 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수 자동 증감
@@ -74,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유형(외부 접근 방법)**:
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 유형(외부 접근 방법)</strong>:
 
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입 | 접근 범위 | 사용 사례 |
 |:---|:---|:---|
@@ -83,7 +84,7 @@ tags = ["studynote-ict-convergence"]
 | LoadBalancer | 외부 로드밸런서 연동 | 프로덕션 외부 트래픽 |
 | [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 | 멀티 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단일 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) |
 
-**[etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) KV)**: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 기반, 홀수 개(3 또는 5) 노드로 HA 구성. 클러스터의 "두뇌 저장소" — 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 손실되면 클러스터 전체 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가.
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/">etcd</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> KV)</strong>: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 기반, 홀수 개(3 또는 5) 노드로 HA 구성. 클러스터의 "두뇌 저장소" — 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 손실되면 클러스터 전체 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가.
 
 - **📢 섹션 요약 비유**: etcd는 회사의 인사 서류 창고다. 누가 어디 배치됐는지, 몇 명이 필요한지 기록한 문서가 타면 회사 전체가 혼란에 빠진다.
 

@@ -29,29 +29,27 @@ tags = ["studynote-ict-convergence"]
 
 MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네트워크(Router)로 구성된다.
 
-```text
-[ Mixture of Experts (MoE) Architecture ]
 
-         Input (Token)
-               |
-      +--------v--------+
-      | Gating Network  | (Router: Softmax based)
-      | (Top-K Selection)|
-      +---+----+----+---+
-          |    |    |
-    +-----+    |    +-----+
-    |          |          |
-+---v---+  +---v---+  +---v---+  +-------+
-|Expert1|  |Expert2|  |Expert3|..|ExpertN| (FFN Layers)
-+---+---+  +---+---+  +---+---+  +-------+
-    |          |          |
-    +----------v----------+
-      | Sum (Weighted)  |
-      +--------v--------+
-         Output (Token)
-```
 
-1. **Gating/[Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)(보통 1~2개) 전문가에게 데이터를 전달한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mixture of Experts (MoE) Architecture</div></div>
+<div class="kb-diagram-note">Input (Token)</div>
+<div class="kb-diagram-note">+--------v--------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gating Network</div><div class="kb-diagram-cell">(Router: Softmax based)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Top-K Selection)</div></div>
+<div class="kb-diagram-note">+---v---+ +---v---+ +---v---+ +-------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expert1</div><div class="kb-diagram-cell">Expert2</div><div class="kb-diagram-cell">Expert3</div><div class="kb-diagram-cell">..</div><div class="kb-diagram-cell">ExpertN</div><div class="kb-diagram-cell">(FFN Layers)</div></div>
+<div class="kb-diagram-note">+----------v----------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sum (Weighted)</div></div>
+<div class="kb-diagram-note">+--------v--------+</div>
+<div class="kb-diagram-note">Output (Token)</div>
+</div>
+</div>
+
+
+
+1. <strong>Gating/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a></strong>: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)(보통 1~2개) 전문가에게 데이터를 전달한다.
 2. **Experts (FFN)**: 각 전문가는 특화된 지식을 학습한 피드포워드 신경망(FFN)이다. 예를 들어, 수학 전문가, 코드 전문가, 인문학 전문가 등으로 자연스럽게 역할이 분담된다.
 3. **Sparsity**: 비활성화된 전문가는 연산에 참여하지 않으므로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용량과 에너지를 대폭 절감한다.
 
@@ -75,10 +73,10 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사로서의 판단으로는, MoE는 초거대 AI의 **'경제적 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)'**을 담보하는 핵심 기술이다.
-1. **[로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))**: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
-2. **인프라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 전문가들이 여러 GPU에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치되므로, 노드 간 통신 병목을 줄이기 위한 **Expert Parallelism**과 고속 인터커넥트(NVLink) 환경이 필수적이다.
-3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** 기술과의 결합이 권장된다.
+기술사로서의 판단으로는, MoE는 초거대 AI의 <strong>'경제적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/">지속 가능성</a>'</strong>을 담보하는 핵심 기술이다.
+1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
+2. <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전문가들이 여러 GPU에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치되므로, 노드 간 통신 병목을 줄이기 위한 <strong>Expert Parallelism</strong>과 고속 인터커넥트(NVLink) 환경이 필수적이다.
+3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> 기술과의 결합이 권장된다.
 
 - **📢 섹션 요약 비유**: 현장 체크리스트처럼 조건을 짚어야 기술이 장점이 아니라 실제 성과로 이어진다.
 

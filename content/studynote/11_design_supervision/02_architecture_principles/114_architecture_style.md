@@ -23,26 +23,27 @@ tags = ["studynote-design-supervision"]
 
 아키텍처 스타일 없이 설계를 시작하면 각 팀원이 서로 다른 구조적 가정을 갖고 코드를 작성하게 된다. 어떤 개발자는 계층형으로, 어떤 개발자는 이벤트 중심으로 코드를 구성하면 시스템은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 혼합 구조가 되어 어떤 스타일의 장점도 제대로 얻지 못한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         주요 아키텍처 스타일 분류 체계                        │
-├─────────────────────────────────────────────────────────────┤
-│  구조 중심                                                   │
-│  ├─ 계층형 (Layered)                                        │
-│  ├─ 파이프-필터 (Pipe-Filter)                               │
-│  └─ 블랙보드 (Blackboard)                                   │
-│                                                             │
-│  분산 중심                                                   │
-│  ├─ 마이크로서비스 (MSA)                                    │
-│  ├─ 이벤트 주도 (EDA)                                       │
-│  └─ 공간 기반 (Space-Based)                                 │
-│                                                             │
-│  도메인 중심                                                 │
-│  ├─ 헥사고날 (Hexagonal)                                    │
-│  ├─ 클린 아키텍처 (Clean)                                   │
-│  └─ 어니언 (Onion)                                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 아키텍처 스타일 분류 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계층형 (Layered)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 파이프-필터 (Pipe-Filter)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 블랙보드 (Blackboard)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 마이크로서비스 (MSA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이벤트 주도 (EDA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 공간 기반 (Space-Based)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 헥사고날 (Hexagonal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클린 아키텍처 (Clean)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 어니언 (Onion)</div></div>
+</div>
+</div>
+
+
 
 아키텍처 스타일이 중요한 또 다른 이유는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method, 아키텍처 트레이드오프 분석 방법)과 같은 아키텍처 평가 방법론이 스타일을 기반으로 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 트레이드오프를 분석하기 때문이다.
 
@@ -61,24 +62,22 @@ tags = ["studynote-design-supervision"]
 | 이벤트 주도 | 이벤트 생산자·브로커·소비자 / [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | 헥사고날 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) / 테스트 용이성, 유연성 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 복잡도 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│   아키텍처 스타일 선택 의사결정 흐름                         │
-├─────────────────────────────────────────────────────────────┤
-│  주요 품질 속성이 무엇인가?                                  │
-│         │                                                   │
-│    ┌────┴────┐                                              │
-│    ▼         ▼                                              │
-│  단순성/     독립 배포/확장성                                │
-│  유지보수성  │                                              │
-│    │         ▼                                              │
-│    ▼    MSA / EDA                                           │
-│  계층형                                                     │
-│                                                             │
-│  도메인 복잡도가 높은가?                                    │
-│    └──▶ 헥사고날/클린/DDD 스타일 고려                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 스타일 선택 의사결정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 품질 속성이 무엇인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순성/ 독립 배포/확장성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유지보수성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ MSA / EDA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 복잡도가 높은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 헥사고날/클린/DDD 스타일 고려</div></div>
+</div>
+</div>
+
+
 
 스타일 선택에서 Conway의 법칙(Conway's Law)은 중요한 제약이다. "시스템 구조는 그것을 만드는 조직의 커뮤니케이션 구조를 반영한다." MSA를 선택했다면 팀 구조도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 독립되어야 한다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-design-supervision"]
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 복잡도** | 낮음 | 높음 |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 복잡도</strong> | 낮음 | 높음 |
 | **확장성** | 수직 확장 한계 | 수평 확장 용이 |
 | **독립 배포** | 불가 (전체 재배포) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 |
 | **운영 복잡도** | 낮음 | 높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리) |

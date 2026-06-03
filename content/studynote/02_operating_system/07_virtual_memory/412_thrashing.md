@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))은 시스템의 물리 메모리(RAM)가 턱없이 부족해져서, 프로세스들이 서로의 프레임을 뺏고 뺏기는 **[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))의 악순환에 빠져, CPU가 실제 연산은 전혀 하지 못하고 디스크 I/O 심부름만 하다가 서버가 얼어붙는 최악의 뇌사 상태**를 의미한다.
+> 1. **본질**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))은 시스템의 물리 메모리(RAM)가 턱없이 부족해져서, 프로세스들이 서로의 프레임을 뺏고 뺏기는 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)의 악순환에 빠져, CPU가 실제 연산은 전혀 하지 못하고 디스크 I/O 심부름만 하다가 서버가 얼어붙는 최악의 뇌사 상태</strong>를 의미한다.
 > 2. **가치(위험성)**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))가 가진 "램보다 훨씬 큰 프로그램을 돌릴 수 있다"는 마법이 임계점을 넘어 오만(Over-allocation)으로 변질되었을 때, 시스템이 치러야 하는 가장 파멸적인 대가(Penalty)다.
-> 3. **융합**: 이 파국을 막기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 '[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)'의 야생성을 억제하고, **[다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(Degree)를 강제로 낮추거나 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 및 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)([페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)) 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 융합**하여 프로세스의 생사를 통제하는 비상 방어망을 가동한다.
+> 3. **융합**: 이 파국을 막기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 '[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)'의 야생성을 억제하고, <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/">다중 프로그래밍 정도</a>(Degree)를 강제로 낮추거나 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 모델 및 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/">페이지 부재 빈도</a>) 제어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>과 융합</strong>하여 프로세스의 생사를 통제하는 비상 방어망을 가동한다.
 
 ---
 
@@ -22,35 +22,34 @@ tags = ["studynote-operating-system"]
 - **개념**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)은 "프로세스가 실제 코드를 실행하는 시간보다, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크와 램 사이에서 교체([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)/[Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))하는 데 보내는 시간이 더 많아진 현상"이다. CPU 이용률(Utilization)이 1% 밑으로 곤두박질치고 디스크 대기열(I/O Wait)이 100%를 찍으며 화면 마우스조차 뚝뚝 끊기는 환장할 상태다.
 - **필요성(발견의 중요성)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시대엔 "램이 모자라면 디스크 스왑을 쓰면 되지!" 라며 앱을 수십 개씩 막 띄웠다. 그러자 어느 순간 컴퓨터가 완전히 멈췄다. 램을 아껴보겠다고 만든 기술이 컴퓨터 전체의 숨통을 끊어버린 것이다. OS 설계자들은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 왜 터지는지 그 수학적 원인을 분석하고, "어떤 놈을 죽이더라도([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥에 빠지는 것만큼은 막아야 한다"는 안전핀(Anti-[Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 로직을 커널의 최우선 순위로 개발해야 했다.
 
-- **등장 배경 및 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 치명적 오판**:
-  1. **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 무한 신뢰**: "램 없어도 스왑으로 막으면 됨!" -> 과도한 프로세스 띄움.
-  2. **바보 같은 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**: 디스크 긁느라 CPU가 할 일이 없어지자([CPU Utilization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/) 하락), 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "어? CPU가 노네? 앱을 하나 더 띄워!(Degree 증가)"라는 최악의 오판을 내림.
+- <strong>등장 배경 및 OS <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 치명적 오판</strong>:
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>의 무한 신뢰</strong>: "램 없어도 스왑으로 막으면 됨!" -> 과도한 프로세스 띄움.
+  2. <strong>바보 같은 CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>: 디스크 긁느라 CPU가 할 일이 없어지자([CPU Utilization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/) 하락), 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "어? CPU가 노네? 앱을 하나 더 띄워!(Degree 증가)"라는 최악의 오판을 내림.
   3. **재앙의 나비효과**: 새로 들어온 앱이 기존 앱의 얼마 안 남은 램마저 빼앗으면서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 지수함수적으로 대폭발. 
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        스래싱(Thrashing)이 폭발하는 연쇄 작용 (Doom Loop) 시각화       │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 1. 메모리 부족 시작 ]                                                │
-│  - 프로세스 A, B가 램(16GB)을 꽉 채우고 치열하게 전역 교체 싸움 중.    │
-│  - A가 B의 페이지를 뺏음 -> B가 폴트 나서 A의 페이지를 다시 뺏음.      │
-│                                                                        │
-│ [ 2. I/O 대기 (CPU 놀림) ]                                             │
-│  - A와 B 둘 다 디스크 스왑을 기다리느라 뻗음(Wait/Sleep).              │
-│  - CPU 사용률이 10%로 폭락함.                                          │
-│                                                                        │
-│ [ 3. 💥 멍청한 스케줄러의 자해 공갈 (치명상) ]                         │
-│  - OS 스케줄러: "CPU가 왜 10%밖에 안 돌아? 놀지 말고 일해!"            │
-│  - 강제로 새로운 프로세스 C를 램에 들이밀어 실행시킴 (Degree 상승).    │
-│                                                                        │
-│ [ 4. 스래싱 지옥 도래 ]                                                │
-│  - C가 들어오면서 A와 B의 마지막 남은 핵심 램마저 다 스왑으로 날려버림.│
-│  - A, B, C 세 놈이 0.1초마다 폴트를 뿜으며 디스크 암(Arm)을 찢어버림.  │
-│  - CPU 이용률 0%, 디스크 사용률 100%. 서버 뇌사 상태 돌입.             │
-└────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)은 단순한 메모리 부족 에러가 아니다. "시스템이 살려고 발버둥 치는 스케줄링 로직(CPU 가동률 높이기)"이 하필이면 "메모리 시스템의 숨통을 조이는 방향"으로 작용하여 서로 물고 물리며 침몰하는 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 내부의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)([Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)) 모순**이다. 이 고리를 끊으려면 누군가가 칼을 들어야 한다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스래싱(Thrashing)이 폭발하는 연쇄 작용 (Doom Loop) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 메모리 부족 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 A, B가 램(16GB)을 꽉 채우고 치열하게 전역 교체 싸움 중.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A가 B의 페이지를 뺏음 -&gt; B가 폴트 나서 A의 페이지를 다시 뺏음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. I/O 대기 (CPU 놀림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A와 B 둘 다 디스크 스왑을 기다리느라 뻗음(Wait/Sleep).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 사용률이 10%로 폭락함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 💥 멍청한 스케줄러의 자해 공갈 (치명상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 스케줄러: "CPU가 왜 10%밖에 안 돌아? 놀지 말고 일해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 강제로 새로운 프로세스 C를 램에 들이밀어 실행시킴 (Degree 상승).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 스래싱 지옥 도래</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C가 들어오면서 A와 B의 마지막 남은 핵심 램마저 다 스왑으로 날려버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A, B, C 세 놈이 0.1초마다 폴트를 뿜으며 디스크 암(Arm)을 찢어버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 이용률 0%, 디스크 사용률 100%. 서버 뇌사 상태 돌입.</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)은 단순한 메모리 부족 에러가 아니다. "시스템이 살려고 발버둥 치는 스케줄링 로직(CPU 가동률 높이기)"이 하필이면 "메모리 시스템의 숨통을 조이는 방향"으로 작용하여 서로 물고 물리며 침몰하는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 내부의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">Feedback Loop</a>) 모순</strong>이다. 이 고리를 끊으려면 누군가가 칼을 들어야 한다.
 
 - **📢 섹션 요약 비유**: 회사에 일이 너무 많아 직원(프로세스)들이 야근하다 과로로 쓰러져 결근(디스크 대기)했습니다. 멍청한 사장([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))은 회사 출근율(CPU 가동률)이 떨어졌다며 신입사원을 더 뽑아 빈자리에 앉혔습니다. 신입들이 남은 직원들의 모니터와 키보드(램)를 뺏어가자, 회사 전체가 서류 한 장 처리 못 하고 자리 뺏기 싸움만 하는 아수라장([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 된 꼴입니다.
 
@@ -60,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 근본 원인: 최소 프레임 (Minimum Frames) 확보 실패
 
-컴퓨터 구조에서 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 유발하는 단 하나의 원인은 **"프로세스가 당장 돌기 위해 필요한 '최소한의 물리 프레임 뭉치([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'를 OS가 빼앗아 버렸기 때문"**이다.
+컴퓨터 구조에서 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 유발하는 단 하나의 원인은 <strong>"프로세스가 당장 돌기 위해 필요한 '최소한의 물리 프레임 뭉치(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)'를 OS가 빼앗아 버렸기 때문"</strong>이다.
 
 - 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄이 `LOAD [배열 A], [배열 B]` 라면, 이 1클럭을 넘기기 위해 최소 3장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)장, A데이터장, B데이터장)가 무조건 램에 있어야 한다.
 - 만약 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))로 인해 OS가 이 앱의 램을 2장으로 깎아버리면?
-- 1, 2장을 올렸다가 3장째를 부를 때 1장을 디스크로 내쫓는다. 다시 1장을 부르려 2장을 쫓아낸다. 영원히 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 통과하지 못하는 **무한 폴트 지옥(Infinite [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Loop)**에 빠진다. 
+- 1, 2장을 올렸다가 3장째를 부를 때 1장을 디스크로 내쫓는다. 다시 1장을 부르려 2장을 쫓아낸다. 영원히 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1줄을 통과하지 못하는 <strong>무한 폴트 지옥(Infinite <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Loop)</strong>에 빠진다. 
 - 이것이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 가장 기계적이고 밑바닥에 깔린 물리적 원인이다.
 
 ---
@@ -73,8 +72,8 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)론 시험에 무조건 나오는 전설의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 곡선이다. 이 곡선은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 무서움을 완벽하게 시각화한다. (다음 키워드에서 더 상세히 다룸)
 - **초반 상승**: 램에 앱을 1개, 2개 띄울수록 CPU가 놀 틈이 없어([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) CPU 가동률이 쑥쑥 100%를 향해 오른다.
-- **임계점 ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) Point)**: 램이 감당할 수 있는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 합을 넘어가는 순간.
-- **수직 낙하 (절벽)**: 앱을 하나 더 띄우는 그 찰나의 순간, CPU 이용률 곡선이 99%에서 1%로 **절벽처럼 수직 자유 낙하**한다. 시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 늪에 빠진 것이다.
+- <strong>임계점 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a> Point)</strong>: 램이 감당할 수 있는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 합을 넘어가는 순간.
+- **수직 낙하 (절벽)**: 앱을 하나 더 띄우는 그 찰나의 순간, CPU 이용률 곡선이 99%에서 1%로 <strong>절벽처럼 수직 자유 낙하</strong>한다. 시스템이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 늪에 빠진 것이다.
 
 - **📢 섹션 요약 비유**: 고속도로에 차를 100대, 500대 넣을 때까지는 도로 전체의 수송량(CPU 가동률)이 쑥쑥 오릅니다. 하지만 도로 수용량(램)을 1대라도 넘어선 1001대가 들어오는 순간, 차들이 서로 엉켜서 시속 0km([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))로 멈춰버려 고속도로 수송량이 0이 되는 정체 절벽 현상과 똑같습니다.
 
@@ -88,28 +87,31 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
 
 | 방어 기법 | 동작 원리 | 효과와 한계 |
 |:---|:---|:---|
-| **[지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) ([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/))** | 빈 램이 없어도 **남의 램을 못 뺏게 철창([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))을 침**. 자기가 램 모자라면 자기 혼자 버벅대고 끝남. | 남(서버 전체)에게 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 전염되는 건 막지만, 본인이 죽는 건 못 막음. |
-| **[워킹 셋 모델](/knowledge-base/studynote/02_operating_system/07_virtual_memory/416_working_set_model/) ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))** | 프로세스가 쾌적하게 돌기 위한 **'최소 필요 램 뭉치(세트)'를 계산해서 그만큼은 절대 안 뺏고 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**해 줌. | 가장 이상적이나, 과거 이력을 계속 트래킹해야 해서 CPU 오버헤드가 무거움. |
-| **[PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) ([페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)) 제어** | "초당 폴트가 100번 이상 터지면 램 더 주고, 1번 터지면 램 뺏어라!"라는 **상하한선 실시간 조절 로직**. | [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 훌륭한 짝퉁(근사치). 가벼우면서도 직관적으로 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 차단함. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">지역 교체</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">Local Replacement</a>)</strong> | 빈 램이 없어도 <strong>남의 램을 못 뺏게 철창(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a>)을 침</strong>. 자기가 램 모자라면 자기 혼자 버벅대고 끝남. | 남(서버 전체)에게 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 전염되는 건 막지만, 본인이 죽는 건 못 막음. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/416_working_set_model/">워킹 셋 모델</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)</strong> | 프로세스가 쾌적하게 돌기 위한 <strong>'최소 필요 램 뭉치(세트)'를 계산해서 그만큼은 절대 안 뺏고 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>해 줌. | 가장 이상적이나, 과거 이력을 계속 트래킹해야 해서 CPU 오버헤드가 무거움. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/">페이지 부재 빈도</a>) 제어</strong> | "초당 폴트가 100번 이상 터지면 램 더 주고, 1번 터지면 램 뺏어라!"라는 **상하한선 실시간 조절 로직**. | [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 훌륭한 짝퉁(근사치). 가벼우면서도 직관적으로 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 차단함. |
 
 ### [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)의 부작용과 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))의 최후 심판
 
 현대 리눅스는 효율을 위해 무조건 '[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)'를 쓴다. 그래서 누군가 램을 미친 듯이 원하면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 임계점 절벽으로 시스템을 몰고 가는 걸 알면서도 남의 램을 뺏어다 준다.
-[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽에 다다르면 리눅스는 어떻게 할까? **'아예 절벽 밑으로 떨어지기 전에 총을 쏴서 죽인다'**를 선택했다.
-- 디스크 암(Arm)이 미친 듯이 돌며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 조짐이 보이면, OS는 백그라운드의 자비로운 청소부(kswapd)를 거두고 무자비한 암살자 **[OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)**를 출동시킨다.
+[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽에 다다르면 리눅스는 어떻게 할까? <strong>'아예 절벽 밑으로 떨어지기 전에 총을 쏴서 죽인다'</strong>를 선택했다.
+- 디스크 암(Arm)이 미친 듯이 돌며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 조짐이 보이면, OS는 백그라운드의 자비로운 청소부(kswapd)를 거두고 무자비한 암살자 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>를 출동시킨다.
 - "지금 이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 원흉인 가장 램을 많이 먹은 놈 1명(희생양 프로세스)의 대갈통을 날려라(SIGKILL)!"
 - 앱 하나가 즉사하며 10GB의 램이 허공에 확 풀린다. 폴트가 멈추고 디스크가 조용해지며 서버가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽에서 극적으로 구출된다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 위기 단계  │ 램 가용 상태  │ OS의 대응 행동 │ 시스템 체감 상태      │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 1단계    │ 약간 부족   │ kswapd가 조용히 청소│ 쾌적함               │
-│ 2단계    │ 거의 바닥   │ 강제 폴트(Direct Reclaim)│ 마우스 툭툭 끊김│
-│ 3단계(스래싱)│ 완전 바닥   │ ☠️ OOM 킬러 발동 │ 앱 하나 강제 종료   │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
-**[매트릭스 해설]** 초보자들은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 앱을 죽이는 걸 보고 OS를 원망하지만, 사실 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 **서버 전체가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 빠져 모든 서비스가 영원히 멈추는 동반 자살을 막기 위해 자신의 팔을 자르는(Fail-fast) 위대한 구원자**다. 
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위기 단계</div><div class="kb-diagram-cell">램 가용 상태</div><div class="kb-diagram-cell">OS의 대응 행동</div><div class="kb-diagram-cell">시스템 체감 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계</div><div class="kb-diagram-cell">약간 부족</div><div class="kb-diagram-cell">kswapd가 조용히 청소</div><div class="kb-diagram-cell">쾌적함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계</div><div class="kb-diagram-cell">거의 바닥</div><div class="kb-diagram-cell">강제 폴트(Direct Reclaim)</div><div class="kb-diagram-cell">마우스 툭툭 끊김</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계(스래싱)</div><div class="kb-diagram-cell">완전 바닥</div><div class="kb-diagram-cell">☠️ OOM 킬러 발동</div><div class="kb-diagram-cell">앱 하나 강제 종료</div></div>
+</div>
+</div>
+
+
+**[매트릭스 해설]** 초보자들은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 앱을 죽이는 걸 보고 OS를 원망하지만, 사실 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 <strong>서버 전체가 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>에 빠져 모든 서비스가 영원히 멈추는 동반 자살을 막기 위해 자신의 팔을 자르는(Fail-fast) 위대한 구원자</strong>다. 
 
 - **📢 섹션 요약 비유**: 구명보트(램)에 사람이 너무 많이 타서 보트가 물에 가라앉으려 합니다([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)). 다 같이 물귀신이 되어 죽느니, 가장 무거운 짐을 든 뚱뚱한 사람 한 명([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 타겟)을 매정하게 바다로 밀어버려서 남은 사람들을 살려내는 타이타닉의 냉혹한 생존 법칙입니다.
 
@@ -119,7 +121,7 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
 
 ### 실무 시나리오: AWS 인스턴스의 크레딧 고갈과 I/O 병목
 1. **문제의 발단**: AWS의 t2.micro (램 1GB) 싼 서버에 Spring Boot 웹서버를 올렸다.
-2. **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)의 폭발**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>의 폭발</strong>:
    - 램 1GB는 JVM이 뜨자마자 100% 꽉 찼다.
    - 요청이 1건 들어올 때마다 서버는 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(EBS 디스크)으로 미친 듯이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 밀어내며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 빠졌다. EAT(접근 시간)가 디스크 속도로 떨어졌다.
 3. **AWS EBS Burst Balance(크레딧)의 탕진**:
@@ -127,7 +129,7 @@ OS가 이 끔찍한 뇌사를 막기 위해 도입한 방어 전략들이다.
    - [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 때문에 1초에 수천 번 디스크를 긁어대니, AWS가 제공하는 디스크 크레딧이 10분 만에 0이 되어 버렸다.
    - 디스크 속도가 초당 1MB 속도로 강제 제한(Throttling) 걸린다.
    - 서버는 뇌사([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 상태에 빠진 채 재부팅 명령([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))조차 먹히지 않는 영원한 혼수상태에 빠진다.
-4. **실무적 결론**: "램이 모자라면 스왑(Swap)이 막아주겠지"라는 건 1990년대 생각이다. 클라우드 시대에서 스왑에 기댄다는 것은 곧 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 빠져 클라우드 자원을 탕진하고 서버가 타버리는 결과를 낳으므로, 애초에 **스왑을 끄고(Swapoff), 무조건 램을 증설([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))하는 것만이 유일한 정답**이다.
+4. **실무적 결론**: "램이 모자라면 스왑(Swap)이 막아주겠지"라는 건 1990년대 생각이다. 클라우드 시대에서 스왑에 기댄다는 것은 곧 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 빠져 클라우드 자원을 탕진하고 서버가 타버리는 결과를 낳으므로, 애초에 <strong>스왑을 끄고(Swapoff), 무조건 램을 증설(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">Scale-up</a>)하는 것만이 유일한 정답</strong>이다.
 
 ### 프론트엔드/모바일 개발자의 시선 (Memory Warning)
 iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명을 지키기 위해 스와핑을 최소화한다. 
@@ -144,8 +146,8 @@ iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메�
 | 구분 | 내용 |
 |:---|:---|
 | **하드웨어 한계의 증명** | 아무리 우아한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법과 캐시 매핑을 써도, 물리 램 총량의 부족 앞에서는 소프트웨어가 할 수 있는 일이 없음을 실증 |
-| **[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 혁신** | 단순히 CPU 가동률만 보고 무지성으로 앱을 띄우던 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에게 '메모리 폴트 임계점'이라는 새로운 통제 지표를 이식 |
-| **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 이론 정립**| [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막기 위한 연구가 결국 "프로그램이 최소한 필요로 하는 램의 지역적 묶음"이라는 현대 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 이론의 근본을 탄생시킴 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 혁신</strong> | 단순히 CPU 가동률만 보고 무지성으로 앱을 띄우던 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에게 '메모리 폴트 임계점'이라는 새로운 통제 지표를 이식 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 이론 정립</strong>| [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막기 위한 연구가 결국 "프로그램이 최소한 필요로 하는 램의 지역적 묶음"이라는 현대 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 이론의 근본을 탄생시킴 |
 
 ### 결론 및 미래 전망
 
@@ -166,15 +168,19 @@ iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [플래시 메�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[에이징 (Aging) 기반 페이지 교체 로직]
-    │
-    ▼
-[스래싱 (Thrashing)]
-    │
-    ├──▶ [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-    └──▶ [스래싱 원인]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에이징 (Aging) 기반 페이지 교체 로직</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱 원인</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

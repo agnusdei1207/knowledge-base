@@ -31,34 +31,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심은 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 읽기 단일화, 장애 시 즉시 절체**다. 메모리 컨트롤러는 CPU가 보내는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 주 채널과 미러 채널에 동시에 반영한다. 평상시 읽기는 일반적으로 주 채널에서 수행하고, 미러 채널은 실시간 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본 역할을 한다. 이 구조 덕분에 한쪽에 치명적 오류가 발생해도 다른 쪽은 이미 최신 상태를 갖고 있다.
+메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>, 읽기 단일화, 장애 시 즉시 절체</strong>다. 메모리 컨트롤러는 CPU가 보내는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 주 채널과 미러 채널에 동시에 반영한다. 평상시 읽기는 일반적으로 주 채널에서 수행하고, 미러 채널은 실시간 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본 역할을 한다. 이 구조 덕분에 한쪽에 치명적 오류가 발생해도 다른 쪽은 이미 최신 상태를 갖고 있다.
 
 아래 그림은 메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 정상 상태와 장애 상태에서 어떻게 동작하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               메모리 미러링의 데이터 경로와 절체 흐름               │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU / 메모리 요청                                                   │
-│        │                                                           │
-│        ▼                                                           │
-│ [메모리 컨트롤러]                                                   │
-│        │                                                           │
-│        ├────────────── 쓰기 데이터 ──────────────┐                 │
-│        │                                         │                 │
-│        ▼                                         ▼                 │
-│ [채널 A : Primary]                         [채널 B : Mirror]       │
-│ [DIMM A0, A1 ... ]                         [DIMM B0, B1 ... ]      │
-│        │                                         │                 │
-│        └────── 동일 주소 / 동일 데이터 동시 반영 ────────┘         │
-│                                                                   │
-│ 읽기 기본 경로 : 채널 A                                             │
-│ 장애 감지      : ECC 오류 누적, 링크 실패, 채널 타임아웃, DIMM 장애   │
-│ 절체 후 읽기   : 채널 B로 즉시 전환                                 │
-│                                                                   │
-│ 결과 : 서비스 지속 / 대가 : 유효 용량 50%, 채널 활용도 감소          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 미러링의 데이터 경로와 절체 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / 메모리 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 컨트롤러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 A : Primary</div><div class="kb-diagram-node">채널 B : Mirror</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DIMM A0, A1 ...</div><div class="kb-diagram-node">DIMM B0, B1 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 주소 / 동일 데이터 동시 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 기본 경로 : 채널 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 감지 : ECC 오류 누적, 링크 실패, 채널 타임아웃, DIMM 장애</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절체 후 읽기 : 채널 B로 즉시 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 : 서비스 지속 / 대가 : 유효 용량 50%, 채널 활용도 감소</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘이 성립하려면 짝을 이루는 채널의 용량과 속도가 대체로 대칭이어야 한다. 예를 들어 256GB 구성을 메모리 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 운영하면 설치 용량은 256GB여도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 실제로 활용 가능한 유효 용량은 대개 128GB 수준으로 본다. 또한 읽기를 양쪽에서 병렬로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 인터리빙 (Interleaving) 최적화가 제한되므로, 고대역폭 워크로드에서는 단순 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 구성보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 효율이 낮아질 수 있다.
 
@@ -145,33 +140,31 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비트 오류 증가
-    │
-    ▼
-ECC (Error-Correcting Code)
-    │
-    ▼
-칩 단위 보호 확장
-    │
-    ▼
-칩킬 ECC (Chipkill ECC) · 메모리 스크러빙 (Memory Scrubbing)
-    │
-    ▼
-DIMM 열화 대응
-    │
-    ▼
-Online Sparing
-    │
-    ▼
-채널 단위 연속성 보장
-    │
-    ▼
-메모리 미러링 (Memory Mirroring)
-    │
-    ▼
-시스템 전계층 RAS · Failover 중심 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비트 오류 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ECC (Error-Correcting Code)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩 단위 보호 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩킬 ECC (Chipkill ECC) · 메모리 스크러빙 (Memory Scrubbing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DIMM 열화 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Online Sparing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">채널 단위 연속성 보장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 미러링 (Memory Mirroring)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템 전계층 RAS · Failover 중심 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정정에서 출발해, 더 큰 고장 단위를 견디는 방향으로 확장되는 과정을 보여준다.
 

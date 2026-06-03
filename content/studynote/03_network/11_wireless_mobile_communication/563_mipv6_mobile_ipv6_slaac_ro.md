@@ -23,23 +23,24 @@ tags = ["studynote-network"]
 - **필요성**: 이전 세대인 [MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/)(562번 문서)는 위대한 사상이지만 실무에서는 쓰레기였다. 타지(외부망)로 갈 때마다 호텔 지배인 같은 멍텅구리 라우터(FA)가 반드시 깔려 있어야 했고, 모든 데이터가 서울 집(HA)을 억지로 한 번 찍고 꺾여 들어오는 '세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)' 때문에 속도가 너무 느려서 영상 통화나 스트리밍이 다 끊겼다. 더 빠르고 군더더기 없는 아키텍처 재설계가 절실했다.
 - **등장 배경**: ① [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 도입에 따른 주소 고갈 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병목 해결 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 형성 → ② MIPv4의 삼각 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 FA 장비 종속성에 대한 거센 비판 → ③ 이동성 지원을 외부 패치가 아니라 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) "순정 코어 스펙"으로 녹여낸 MIPv6의 탄생 및 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 제정.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             MIPv4의 억지 구조 vs MIPv6의 다이렉트 자율 구조 비교     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: MIPv4 아키텍처 (장애물과 병목 투성이)]                        │
-│   - 임시 IP(COA) 발급: 멍청한 FA 라우터가 대신 터널을 파고 할당해 줘야 함  │
-│   - 통신 경로: 구글(CN) ──▶ 엄마 집(HA) ──(꺾임)──▶ 호텔 라우터(FA) ─▶ 폰│
-│   => 결과: FA 장비 없으면 인터넷 불가, 세모 라우팅으로 지연 최악!          │
-│                                                             │
-│   [혁신: MIPv6 아키텍처 (군더더기 0%)]                             │
-│   - 임시 IP(COA) 발급: 폰이 SLAAC로 1초 만에 스스로 주소를 찍어내 버림(FA 소멸)│
-│   - 통신 경로: (최초 1회만) 구글(CN) ──▶ HA ──▶ 폰                 │
-│              (경로 최적화 후) 구글(CN) ═════(다이렉트!)═════▶ 폰   │
-│   => 결과: 폰과 서버가 다이렉트로 통신. 지연 시간 최소화 및 속도 극대화!       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv4의 억지 구조 vs MIPv6의 다이렉트 자율 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: MIPv4 아키텍처 (장애물과 병목 투성이)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임시 IP(COA) 발급: 멍청한 FA 라우터가 대신 터널을 파고 할당해 줘야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통신 경로: 구글(CN) ──▶ 엄마 집(HA) ──(꺾임)──▶ 호텔 라우터(FA) ─▶ 폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: FA 장비 없으면 인터넷 불가, 세모 라우팅으로 지연 최악!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: MIPv6 아키텍처 (군더더기 0%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임시 IP(COA) 발급: 폰이 SLAAC로 1초 만에 스스로 주소를 찍어내 버림(FA 소멸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통신 경로: (최초 1회만) 구글(CN) ──▶ HA ──▶ 폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경로 최적화 후) 구글(CN) (다이렉트!) ▶ 폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 폰과 서버가 다이렉트로 통신. 지연 시간 최소화 및 속도 극대화!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** MIPv6는 통신 공학의 '다이어트' 승리다. 가장 눈에 띄는 것은 FA(Foreign Agent)의 완전한 삭제다. IPv6는 폰이 공유기에 붙는 순간 앞자리 주소(Prefix)만 받으면 뒷자리 주소를 자기 맘대로 찍어내는 마법([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))이 있기 때문에 지배인(FA)이 임시 방 번호를 줄 필요가 없어졌다. 그리고 가장 중요한 것은, 서버(CN)가 단말기의 진짜 임시 주소를 직접 폰에게 통보받아(Binding Update), 굳이 서울 집(HA)을 거치지 않고 다이렉트로 터널링을 뚫어 데이터를 쏟아붓는 경로 최적화(Route Optimization)가 기본값(Default)으로 탑재되었다는 점이다.
 
@@ -55,43 +56,35 @@ tags = ["studynote-network"]
 
 | 요소명 | 의미 | MIPv4와의 결정적 차이 |
 |:---|:---|:---|
-| **MN (Mobile Node)** | 이동하는 단말기 | **FA의 도움 없이 스스로 COA(임시 주소)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 등록([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))함.** 이를 Co-located COA (CCOA) 방식이라 부름. |
+| **MN (Mobile Node)** | 이동하는 단말기 | <strong>FA의 도움 없이 스스로 COA(임시 주소)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고 등록(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)함.</strong> 이를 Co-located COA (CCOA) 방식이라 부름. |
 | **HA (Home Agent)** | 홈 네트워크 공유기 | MN의 홈 주소(HoA)를 관리하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1회성 패킷 포워딩을 담당함. 구조는 비슷하나 부담이 크게 줆. |
-| **CN (Correspondent Node)** | 외부 상대 서버/단말| **MIPv6를 기본 스펙으로 탑재**하여, MN이 보내는 "바인딩 업데이트"를 이해하고 다이렉트로 패킷을 쏠 지능을 갖춤. |
+| **CN (Correspondent Node)** | 외부 상대 서버/단말| <strong>MIPv6를 기본 스펙으로 탑재</strong>하여, MN이 보내는 "바인딩 업데이트"를 이해하고 다이렉트로 패킷을 쏠 지능을 갖춤. |
 | **FA (Foreign Agent)** | 외부 네트워크 라우터 | **영구 삭제됨! (아예 존재하지 않음).** 외부 망 라우터는 일반 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만 해주면 됨. |
 
 ### MIPv6 통신 흐름: 바인딩 업데이트(BU)와 경로 최적화 (Route Optimization)
 
-MIPv6의 가장 눈부신 마법은 "세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)"을 어떻게 다이렉트 직통 연결로 바꿔버리느냐 하는 것이다. 이 과정의 핵심이 **바인딩 캐시(Binding Cache)**와 **Return Routability(수신 가능성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))** 절차다.
+MIPv6의 가장 눈부신 마법은 "세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)"을 어떻게 다이렉트 직통 연결로 바꿔버리느냐 하는 것이다. 이 과정의 핵심이 <strong>바인딩 캐시(Binding Cache)</strong>와 <strong>Return Routability(수신 가능성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)</strong> 절차다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               MIPv6 경로 최적화 (Route Optimization)의 다이렉트 댄스  │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [스마트폰 MN (대전 COA)]           [서울 집 (HA)]         [구글 서버 (CN)]│
-│            │                             │                      │  │
-│            │ 1. (구글이 처음 보낼 땐) ───▶ │ ──(터널 포워딩)──────▶│  │
-│            │                             │                      │  │
-│   === 아 답답해! 내가 구글에 직접 내 현재 대전 주소를 알려줘야겠다! ===         │
-│            │                             │                      │  │
-│            │ 2. Return Routability (RR) 검증: "내가 진짜 폰 맞는지 확인해봐" │
-│            ├─ (HoTI 메시지: HA 거쳐서 보냄) ─▶│ ───────────────────▶│  │
-│            ├─ (CoTI 메시지: 다이렉트로 보냄) ─┼─────────────────────▶│  │
-│            │                             │                      │  │
-│            │ 3. 구글이 두 메시지 답장(HoT, CoT)을 폰에 줌. 폰은 암호키 획득! │
-│            │◀─────────────────────────────┼──────────────────────┤  │
-│            │                             │                      │  │
-│            │ 4. Binding Update (BU): "나 인증 끝났지? 앞으로 대전으로 쏴!" │
-│            ├─────────────────────────────┼─────────────────────▶│  │
-│            │                             │                      │  │
-│            │ 5. 경로 최적화 통신 시작 (다이렉트 스트리밍 🚀)              │  │
-│            │◀═════════════════════════════════════════════════▶│  │
-│                                                               │
-│   => 결과: 서울 집(HA)은 통신에서 완전히 빠지고, 스마트폰과 구글 서버가       │
-│            직접 초고속으로 데이터를 주고받으며 세모 라우팅 병목을 부수어버림!  │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv6 경로 최적화 (Route Optimization)의 다이렉트 댄스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 MN (대전 COA)</div><div class="kb-diagram-node">서울 집 (HA)</div><div class="kb-diagram-node">구글 서버 (CN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. (구글이 처음 보낼 땐) ▶</div><div class="kb-diagram-cell">──(터널 포워딩) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=== 아 답답해! 내가 구글에 직접 내 현재 대전 주소를 알려줘야겠다! ===</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Return Routability (RR) 검증: "내가 진짜 폰 맞는지 확인해봐"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (HoTI 메시지: HA 거쳐서 보냄) ─▶</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (CoTI 메시지: 다이렉트로 보냄) ─ ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 구글이 두 메시지 답장(HoT, CoT)을 폰에 줌. 폰은 암호키 획득!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Binding Update (BU): "나 인증 끝났지? 앞으로 대전으로 쏴!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 경로 최적화 통신 시작 (다이렉트 스트리밍 🚀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 서울 집(HA)은 통신에서 완전히 빠지고, 스마트폰과 구글 서버가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 초고속으로 데이터를 주고받으며 세모 라우팅 병목을 부수어버림!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 단말기(MN)가 대전에 도착하면 일단은 옛날 방식([MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/))처럼 구글이 쏜 패킷이 서울(HA)을 거쳐 꺾여 들어온다. 답답함을 느낀 폰은 구글(CN)에게 "나 대전(COA)에 있어!"라고 바인딩 업데이트(BU)를 날리고 싶다. 하지만 해커가 "내가 단말기인데 나 부산에 있어!"라고 가짜 메시지를 날려 트래픽을 가로채는 공격([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))을 막아야 한다. 그래서 폰은 2번 단계([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))에서 서울 집을 거쳐서 메시지 하나, 대전에서 직접 메시지 하나를 구글에 쏘아 "나는 원래 서울 집에 등록된 정상 유저이면서, 지금 대전에 있는 진짜 폰이 맞다"는 것을 암호학적으로 동시에 증명해 낸다(Return Routability). 증명이 끝나면 구글 서버는 폰의 대전 주소를 메모리에 저장(Binding Cache)하고 5번 단계처럼 HA를 무시한 채 다이렉트 직통 터널로 엄청난 속도의 영상을 쏟아부어 준다.
 
@@ -100,34 +93,33 @@ MIPv6의 가장 눈부신 마법은 "세모 [라우팅](/knowledge-base/studynot
 
 | 비교 기준 | [MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/) ([Mobile IPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/)) | MIPv6 (Mobile [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) |
 |:---|:---|:---|
-| **설계 태생** | IPv4에 억지로 '기워 넣은(Patch)' 외부 옵션 | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 스펙의 기본(Built-in) 기능** |
+| **설계 태생** | IPv4에 억지로 '기워 넣은(Patch)' 외부 옵션 | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 스펙의 기본(Built-in) 기능</strong> |
 | **FA (포린 에이전트)** | 타지 이동 시 **반드시 필요함 (의존성 심각)** | **필요 없음.** 폰 스스로 모든 걸 해결함 (독립성) |
-| **임시 주소 (COA) 할당**| FA가 나눠주거나, 별도 DHCPv4 서버가 필요함 | **[SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/)** (상태비저장 주소 자동설정)로 1초 만에 자가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **임시 주소 (COA) 할당**| FA가 나눠주거나, 별도 DHCPv4 서버가 필요함 | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a></strong> (상태비저장 주소 자동설정)로 1초 만에 자가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **경로 최적화 (RO)** | 옵션. 지원하는 서버 거의 없고 보안 위험(세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 만연) | **기본 내장(Default).** [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) 기반 암호학적 보안으로 완벽 지원 |
-| **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과 ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Filtering)** | 역터널링(Reverse [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))이라는 꼼수 필요 | **기본적으로 출발지 주소를 COA로 쏴서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 패스** |
-| **헤더 오버헤드** | 무식하게 IP 껍데기를 통째로 하나 더 씌움 (IP-in-IP) | **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 확장 헤더(Extension Header)**로 깔끔하게 처리 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 통과 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Filtering)</strong> | 역터널링(Reverse [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))이라는 꼼수 필요 | <strong>기본적으로 출발지 주소를 COA로 쏴서 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 패스</strong> |
+| **헤더 오버헤드** | 무식하게 IP 껍데기를 통째로 하나 더 씌움 (IP-in-IP) | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 확장 헤더(Extension Header)</strong>로 깔끔하게 처리 |
 
 MIPv4는 짐을 박스에 담고 그 위에 더 큰 종이 박스를 통째로 하나 더 씌워(IP-in-IP 캡슐화) 배송했다. 패킷이 뚱뚱해지고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 사기꾼으로 몰려 차단([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Filtering)당하기 일쑤였다. 반면 MIPv6는 박스를 2개 씌우지 않는다. 박스 겉면에는 무조건 '현재 대전 주소(COA)'를 적어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 당당히 통과하고, 박스 모서리의 '확장 헤더'라는 작은 메모지에 "사실 내 진짜 영구 주소는 서울 집(HoA) 1.1.1.1이야"라고 살짝 적어 넣는 기법(Home Address Option)을 써서 트래픽 낭비와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단 문제를 우아하게 붕괴시켰다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               MIPv6 확장 헤더를 이용한 스마트한 캡슐화 붕괴        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [단말기가 구글로 보낼 때 - 방화벽(Ingress Filter) 통과 마법]            │
-│   출발지 IP: 대전 임시 주소(COA) ──▶ (방화벽 통과 OK! 대전 놈 맞네!)         │
-│   목적지 IP: 구글 서버(CN)                                          │
-│                                                               │
-│   [IPv6 확장 헤더 (Destination Options Header)]                   │
-│   - Home Address Option: "나 사실 서울 집(HoA) 1.1.1.1 이야!"     │
-│   ------------------------------------------------------------- │
-│   [구글 서버의 똑똑한 처리]                                          │
-│   구글: "어? 겉엔 대전 주소인데, 확장 헤더를 까보니 진짜 신분은 서울 사람이네?"  │
-│   구글: "그래, 그럼 응답은 네 진짜 신분(HoA)에 맞춰서 대전으로 직통 쏴줄게!"    │
-│                                                               │
-│   => 뚱뚱한 이중 터널링 없이, 얇은 확장 메모지 하나로 모든 문제를 해결함!    │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv6 확장 헤더를 이용한 스마트한 캡슐화 붕괴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단말기가 구글로 보낼 때 - 방화벽(Ingress Filter) 통과 마법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출발지 IP: 대전 임시 주소(COA) ──▶ (방화벽 통과 OK! 대전 놈 맞네!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지 IP: 구글 서버(CN)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 확장 헤더 (Destination Options Header)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Home Address Option: "나 사실 서울 집(HoA) 1.1.1.1 이야!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구글 서버의 똑똑한 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글: "어? 겉엔 대전 주소인데, 확장 헤더를 까보니 진짜 신분은 서울 사람이네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글: "그래, 그럼 응답은 네 진짜 신분(HoA)에 맞춰서 대전으로 직통 쏴줄게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 뚱뚱한 이중 터널링 없이, 얇은 확장 메모지 하나로 모든 문제를 해결함!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 아키텍처는 MIPv4가 가졌던 태생적 딜레마(자기 진짜 주소를 쓰면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 막히고, 임시 주소를 쓰면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊김)를 돌파한 천재적 아이디어다. 네트워크의 라우터들은 바쁘기 때문에 패킷의 겉면 '출발지 주소'만 보고 휙휙 넘긴다. 겉면은 '대전 주소(COA)'이므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 무사히 넘는다. 최종 도착지인 구글 서버(CN)만 박스 안의 '확장 헤더 메모지'를 읽어보고, "아! 이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 진짜 주인공은 1.1.1.1(HoA)이구나!"라며 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 절대 끊지 않고 그대로 통신을 유지해 준다. MIPv6 단말기와 서버만 할 수 있는 둘만의 암호 같은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 
@@ -153,15 +145,15 @@ MIPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 1. **상황**: 스마트 도로 위를 달리는 자율주행 트럭이 도로변 기지국([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))을 10초 단위로 휙휙 지나가며 네트워크 서브넷이 계속 바뀌고 있다. 클라우드의 관제 서버는 이 트럭의 IP 주소가 바뀔 때마다 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 뚝뚝 끊어져 트럭을 통제할 수 없는 위험한 상황(V2N 통신 절단)에 빠졌다.
 2. **원인**: 차량이 톨게이트 단위의 서브넷을 지날 때마다 DHCP로 새 IP를 받아 기존 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 연결이 파괴되는 L3 이동성 부재가 원인이다.
-3. **의사결정 및 조치 (MIPv6 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 및 Route Optimization 적용)**:
+3. <strong>의사결정 및 조치 (MIPv6 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a> 및 Route Optimization 적용)</strong>:
    - 트럭 단말기에 **MIPv6** 스택을 올린다. 관제 서버(CN) 역시 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) MIPv6 확장을 지원하도록 업그레이드한다.
-   - 트럭이 새로운 기지국 서브넷에 진입하는 순간, 트럭은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 1~2초씩 걸리는 구형 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버를 찾지 않고 **[SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) ([Stateless Address Autoconfiguration](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))** 기능을 통해 "기지국이 뿌린 앞자리(Prefix) + 내 트럭 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(Interface ID)"를 합쳐 0.1초 만에 스스로 새 임시 주소(COA)를 찍어내 통신망에 붙어버린다.
+   - 트럭이 새로운 기지국 서브넷에 진입하는 순간, 트럭은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 1~2초씩 걸리는 구형 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버를 찾지 않고 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong> 기능을 통해 "기지국이 뿌린 앞자리(Prefix) + 내 트럭 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(Interface ID)"를 합쳐 0.1초 만에 스스로 새 임시 주소(COA)를 찍어내 통신망에 붙어버린다.
    - 트럭은 즉시 관제 서버에 새 COA를 바인딩 업데이트(BU) 하여, HA를 거치는 낭비 없이 관제 서버와 직통(Route Optimization)으로 통신 파이프를 유지한다.
    - **결과**: 트럭이 시속 100km로 서브넷을 수십 개 돌파해도, 관제 서버의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 모니터링 화면에서는 트럭의 IP(HoA)가 1시간 내내 변하지 않는 완벽한 0ms 심리스(Seamless) 모빌리티가 완성되었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 기반 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association) 부하 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 경로 최적화(RO)의 선행 조건인 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)(Return Routability) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 해킹 방어엔 좋지만, 트럭이 너무 빠르게 이동하면 암호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통신을 하느라 CPU 오버헤드와 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 너무 길어질 수 있다. 빠르게 이동하는 환경에서는 사전에 단말기와 코어망 사이에 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(보안 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 미리 강하게 맺어두고 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단계를 건너뛰거나 최소화하는 패스트 트랙(Fast-Handoff MIPv6, FMIPv6) 확장을 반드시 결합 설계해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (모든 모바일 환경에 MIPv6 강제 적용)**: 스마트폰 가입자 5천만 명에게 MIPv6를 쓰라고 단말기 배터리를 깎아먹으며 스스로 COA를 만들고 바인딩 업데이트를 쏘게 만드는 짓(Client-based Mobility). 이 방식은 결국 스마트폰의 전력 낭비와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 폭주를 낳는다. 현대 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대국민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망에서는 폰은 가만히 놔두고, 통신사 뒷단의 코어망 장비들(SGW, PGW, UPF)이 알아서 터널을 뚫어 폰의 IP를 유지해 주는 **네트워크 주도형 이동성(PMIPv6, [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Mobile [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 또는 GTP 터널 아키텍처**로 전환하는 것이 정답이다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 기반 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Association) 부하 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 경로 최적화(RO)의 선행 조건인 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)(Return Routability) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 해킹 방어엔 좋지만, 트럭이 너무 빠르게 이동하면 암호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통신을 하느라 CPU 오버헤드와 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 너무 길어질 수 있다. 빠르게 이동하는 환경에서는 사전에 단말기와 코어망 사이에 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(보안 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 미리 강하게 맺어두고 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단계를 건너뛰거나 최소화하는 패스트 트랙(Fast-Handoff MIPv6, FMIPv6) 확장을 반드시 결합 설계해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (모든 모바일 환경에 MIPv6 강제 적용)</strong>: 스마트폰 가입자 5천만 명에게 MIPv6를 쓰라고 단말기 배터리를 깎아먹으며 스스로 COA를 만들고 바인딩 업데이트를 쏘게 만드는 짓(Client-based Mobility). 이 방식은 결국 스마트폰의 전력 낭비와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 폭주를 낳는다. 현대 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대국민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망에서는 폰은 가만히 놔두고, 통신사 뒷단의 코어망 장비들(SGW, PGW, UPF)이 알아서 터널을 뚫어 폰의 IP를 유지해 주는 <strong>네트워크 주도형 이동성(PMIPv6, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> Mobile <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>) 또는 GTP 터널 아키텍처</strong>로 전환하는 것이 정답이다.
 
 - **📢 섹션 요약 비유**: 폰이 직접 주소를 만들고 본부에 연락하는 MIPv6(내가 다 하는 여행)는 멋지지만 폰이 너무 피곤합니다. 그래서 진짜 통신사들은 폰은 아무것도 안 하고 푹 쉬게 놔두고, 보이지 않는 통신사 장비(가이드)들이 알아서 폰의 주소와 이삿짐을 다 옮겨주는 VVIP 방식(PMIPv6, GTP)으로 똑똑하게 업그레이드하여 쓰고 있습니다.
 
@@ -171,13 +163,13 @@ MIPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 | 구분 | [MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/) (삼각 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 FA 종속) | MIPv6 (다이렉트 통신 및 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/)) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 무조건 HA 경유로 Ping 100ms 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 경로 최적화(RO)로 서버와 1:1 직통 통신 | 통신 오버헤드 소멸 및 **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 90% 이상 단축** |
+| <strong>정량 (경로 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 무조건 HA 경유로 Ping 100ms 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 경로 최적화(RO)로 서버와 1:1 직통 통신 | 통신 오버헤드 소멸 및 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 90% 이상 단축</strong> |
 | **정량 (인프라 구축 비용)** | 모든 방문망 라우터에 FA 기능 추가 비용 막대 | FA 장비 불필요 (일반 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 라우터면 끝) | 외부망 인프라 개조 비용 **100% 절감 (경제성 폭발)** |
 | **정성 (보안 및 유연성)** | [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 잡히고 해킹 위험 큼 | 기본 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 탑재 및 확장 헤더로 우아한 통과 | 암호학적 신분 증명([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))으로 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 원천 방어 |
 
 ### 미래 전망 및 진화 방향
-- **PMIPv6 ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Mobile [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) - 네트워크 주도형 진화**: 앞서 언급했듯, 단말기(스마트폰)가 배터리를 깎아가며 MIPv6 시그널링을 하는 것은 무리다. IETF는 단말기는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 모빌리티를 전혀 모르는 멍청이로 놔두고, 접속한 기지국 뒤의 MAG(Mobile Access Gateway) 장비와 LMA(Local Mobility Anchor) 장비 간에 대신 멱살을 잡고 터널을 파주는 PMIPv6 스펙(RFC 5213)을 만들어 차세대 이종망 융합(Wi-Fi ↔ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 지배적 백본 표준으로 안착시켰다.
-- **LISP (Locator/ID Separation [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 통폐합**: MIPv6가 모바일 환경의 이동성(Mobility)을 챙겼다면, LISP는 "인터넷 전반의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 구조에서 아예 IP의 신분(ID)과 위치(Locator)를 쪼개버리자"는 거대한 글로벌 인프라 철학이다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 및 자율주행 우주 통신(NTN) 시대에는 단말기 이동성(MIPv6)과 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 이동성(LISP)이 하나의 융합된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 통합되어 우주 공간의 연결성을 보장하게 될 것이다.
+- <strong>PMIPv6 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> Mobile <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a>) - 네트워크 주도형 진화</strong>: 앞서 언급했듯, 단말기(스마트폰)가 배터리를 깎아가며 MIPv6 시그널링을 하는 것은 무리다. IETF는 단말기는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 모빌리티를 전혀 모르는 멍청이로 놔두고, 접속한 기지국 뒤의 MAG(Mobile Access Gateway) 장비와 LMA(Local Mobility Anchor) 장비 간에 대신 멱살을 잡고 터널을 파주는 PMIPv6 스펙(RFC 5213)을 만들어 차세대 이종망 융합(Wi-Fi ↔ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 지배적 백본 표준으로 안착시켰다.
+- <strong>LISP (Locator/ID Separation <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 통폐합</strong>: MIPv6가 모바일 환경의 이동성(Mobility)을 챙겼다면, LISP는 "인터넷 전반의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 구조에서 아예 IP의 신분(ID)과 위치(Locator)를 쪼개버리자"는 거대한 글로벌 인프라 철학이다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 및 자율주행 우주 통신(NTN) 시대에는 단말기 이동성(MIPv6)과 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 이동성(LISP)이 하나의 융합된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 통합되어 우주 공간의 연결성을 보장하게 될 것이다.
 
 ### 참고 표준
 - **RFC 6275**: Mobility [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) in [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) (MIPv6 코어 표준, Route Optimization과 Binding Update 정의)
@@ -201,15 +193,19 @@ MIPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MIPv4]
-    │
-    ▼
-[현재 개념: MIPv6]
-    │
-    ├──▶ [확장 A: 다이버시티 시스템]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIPv4</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MIPv6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다이버시티 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 MIPv6는 MIPv4에서 출발해 현재 메커니즘을 정교화하고, 이후 [다이버시티 시스템](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

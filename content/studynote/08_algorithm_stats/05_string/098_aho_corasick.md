@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-악성코드 탐지 엔진은 수만 개의 시그니처 패턴을 텍스트에서 찾아야 한다. 각 패턴에 KMP를 적용하면 O(k×n)으로 수만 배 느려진다. 아호-코라식은 모든 패턴을 **[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) ([Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/))** 로 합치고, KMP의 실패 함수 아이디어를 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)의 **실패 링크 (Failure Link)** 로 확장하여 텍스트를 한 번만 순회하게 한다.
+악성코드 탐지 엔진은 수만 개의 시그니처 패턴을 텍스트에서 찾아야 한다. 각 패턴에 KMP를 적용하면 O(k×n)으로 수만 배 느려진다. 아호-코라식은 모든 패턴을 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/">트라이</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/">Trie</a>)</strong> 로 합치고, KMP의 실패 함수 아이디어를 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)의 **실패 링크 (Failure Link)** 로 확장하여 텍스트를 한 번만 순회하게 한다.
 
 ### [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)
 
@@ -37,67 +37,80 @@ tags = ["studynote-algorithm"]
 
 ### 구성 단계 1: [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 구축
 
-```
-패턴: {"he", "she", "his", "hers"}
 
-트라이 구조:
-          (root)
-         /    \
-        h      s
-        |      |
-        e      h
-       / \     |
-      *   r    e
-     (he) |    |
-          s   *+s→ "she"
-          |
-          *
-        (hers)
 
-h → i → s → * (his)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패턴: {"he", "she", "his", "hers"}</div>
+<div class="kb-diagram-note">트라이 구조:</div>
+<div class="kb-diagram-note">(root)</div>
+<div class="kb-diagram-note">h s</div>
+<div class="kb-diagram-note">e h</div>
+<div class="kb-diagram-note">* r e</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(he)</div></div>
+<div class="kb-diagram-note">s *+s→ "she"</div>
+<div class="kb-diagram-note">*</div>
+<div class="kb-diagram-note">(hers)</div>
+<div class="kb-diagram-note">h → i → s → * (his)</div>
+</div>
+</div>
+
+
 
 ### 구성 단계 2: 실패 링크 (Failure Link)
 
-```
-실패 링크: 현재 노드에서 매칭 실패 시 이동할 가장 긴 진짜 접미사 노드
 
-BFS 순서로 계산:
-  node "he" → 실패 링크 → root("e"가 없으면 root)
-  node "she" → "he" (접미사 "he" 존재)
-  node "hers" → root
 
-실패 링크 다이어그램 (점선):
-  "she" ----→ "he"   (she의 접미사 "he" 매칭 가능)
-  "his" ----→ "is"→root
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실패 링크: 현재 노드에서 매칭 실패 시 이동할 가장 긴 진짜 접미사 노드</div>
+<div class="kb-diagram-note">BFS 순서로 계산:</div>
+<div class="kb-diagram-note">node "he" → 실패 링크 → root("e"가 없으면 root)</div>
+<div class="kb-diagram-note">node "she" → "he" (접미사 "he" 존재)</div>
+<div class="kb-diagram-note">node "hers" → root</div>
+<div class="kb-diagram-note">실패 링크 다이어그램 (점선):</div>
+<div class="kb-diagram-note">"she" ----→ "he" (she의 접미사 "he" 매칭 가능)</div>
+<div class="kb-diagram-note">"his" ----→ "is"→root</div>
+</div>
+</div>
+
+
 
 ### 구성 단계 3: 출력 링크 (Output Link)
 
-```
-출력 링크: 현재 노드 또는 실패 링크 체인에서 완성된 패턴이 있으면 기록
 
-node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
-→ 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">출력 링크: 현재 노드 또는 실패 링크 체인에서 완성된 패턴이 있으면 기록</div>
+<div class="kb-diagram-note">node "she"의 출력: {"she", "he"} ← 실패 링크로 "he"도 포함</div>
+<div class="kb-diagram-note">→ 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고</div>
+</div>
+</div>
+
+
 
 ### 텍스트 매칭
 
-```
-텍스트: "ushers"
-패턴:   {"he", "she", "his", "hers"}
 
-처리:
-  u → root
-  s → s 노드
-  h → sh 노드
-  e → she 노드 → 출력: "she"(위치2), "he"(위치2, 출력링크)
-  r → sher 노드
-  s → shers? 없음 → 실패링크 이동 → "hers" 노드
-     → 출력: "hers"(위치4)
 
-결과: "she"@1, "he"@1, "hers"@2  (0-based 시작 인덱스)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">텍스트: "ushers"</div>
+<div class="kb-diagram-note">패턴: {"he", "she", "his", "hers"}</div>
+<div class="kb-diagram-note">처리:</div>
+<div class="kb-diagram-note">u → root</div>
+<div class="kb-diagram-note">s → s 노드</div>
+<div class="kb-diagram-note">h → sh 노드</div>
+<div class="kb-diagram-note">e → she 노드 → 출력: "she"(위치2), "he"(위치2, 출력링크)</div>
+<div class="kb-diagram-note">r → sher 노드</div>
+<div class="kb-diagram-note">s → shers? 없음 → 실패링크 이동 → "hers" 노드</div>
+<div class="kb-diagram-note">→ 출력: "hers"(위치4)</div>
+<div class="kb-diagram-note">결과: "she"@1, "he"@1, "hers"@2 (0-based 시작 인덱스)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 실패 링크는 미로에서 막혔을 때 "가장 비슷한 다른 경로"로 순간이동하는 지름길—처음부터 다시 시작하지 않아도 돼.
 
@@ -127,21 +140,27 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 
 ### 주요 활용 사례
 
-- **안티바이러스 ([Antivirus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)) 엔진**: ClamAV, 맥아피—수만 개 시그니처 동시 검색
-- **네트워크 침입 탐지 ([NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/))**: [Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/)—패킷 페이로드에서 다중 룰 매칭
+- <strong>안티바이러스 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">Antivirus</a>) 엔진</strong>: ClamAV, 맥아피—수만 개 시그니처 동시 검색
+- <strong>네트워크 침입 탐지 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/">NIDS</a>)</strong>: [Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/)—패킷 페이로드에서 다중 룰 매칭
 - **스팸 필터 (Spam Filter)**: 금칙어/패턴 목록 동시 검사
 - **유전체 분석**: 다중 프라이머(Primer) 서열 동시 탐색
 - **검색 엔진 하이라이팅**: 여러 검색어의 텍스트 내 위치 동시 표시
 
 ### 기술사 판단 기준
 
-```
-단일 패턴 + 단순 구현        →  KMP 또는 Z 알고리즘
-다중 패턴 동시 탐색          →  아호-코라식 (단 한 번의 텍스트 순회)
-패턴이 사전에 고정            →  아호-코라식 자동자 미리 컴파일
-패턴이 실시간으로 추가/삭제  →  Aho-Corasick + 동적 트라이 갱신
-임의 부분 문자열 탐색         →  서픽스 배열
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 패턴 + 단순 구현 → KMP 또는 Z 알고리즘</div>
+<div class="kb-diagram-note">다중 패턴 동시 탐색 → 아호-코라식 (단 한 번의 텍스트 순회)</div>
+<div class="kb-diagram-note">패턴이 사전에 고정 → 아호-코라식 자동자 미리 컴파일</div>
+<div class="kb-diagram-note">패턴이 실시간으로 추가/삭제 → Aho-Corasick + 동적 트라이 갱신</div>
+<div class="kb-diagram-note">임의 부분 문자열 탐색 → 서픽스 배열</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 아호-코라식은 공항 세관의 금지 물품 스캐너—짐 하나를 한 번만 통과시켜 수천 가지 금지 물품을 동시에 검사하는 것과 같다.
 
@@ -170,21 +189,23 @@ node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[트라이 (Trie)]
-    │
-    ▼
-[KMP 실패 함수]
-    │
-    ▼
-[DFA (Deterministic Finite Automaton)]
-    │
-    ▼
-[실패 링크 (Failure Link)]
-    │
-    ▼
-[출력 링크 (Output Link)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMP 실패 함수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DFA (Deterministic Finite Automaton)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실패 링크 (Failure Link)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력 링크 (Output Link)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) ([Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/))에서 출발해 출력 링크 (Output Link)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 전통적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터는 컴퓨팅(서버), 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)), 네트워크([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/라우터)가 벤더별 전용 하드웨어로 분리 운영된다. 이는 구매, 설치, 운영 각각에 전문 인력이 필요하고 자원 활용률이 낮다는 문제가 있다.
 
-**[SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 개념**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> 개념</strong>:
 - SDC(Software-Defined Computing): [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(VMware vSphere, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))
 - [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)(Software-Defined Storage): Ceph, VMware vSAN
 - [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking): 제어 플레인과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 분리
@@ -34,22 +34,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 레이어 구조**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> 레이어 구조</strong>:
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│              관리 플레인 (Management Plane)                    │
-│  VMware vCenter / NSX-T / vSAN / Aria Automation             │
-├──────────────────────────────────────────────────────────────┤
-│              제어 플레인 (Control Plane)                       │
-│  SDN 컨트롤러 (OpenDaylight / NSX)                            │
-│  SDS 오케스트레이터 (Ceph Mgr / vSAN)                          │
-├──────────────────────────────────────────────────────────────┤
-│              데이터 플레인 (Data Plane)                        │
-│  x86 서버 (vSphere ESXi + vSAN + vNIC)                       │
-│  HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리 플레인 (Management Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMware vCenter / NSX-T / vSAN / Aria Automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 플레인 (Control Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN 컨트롤러 (OpenDaylight / NSX)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDS 오케스트레이터 (Ceph Mgr / vSAN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 플레인 (Data Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 서버 (vSphere ESXi + vSAN + vNIC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)</div></div>
+</div>
+</div>
+
+
 
 | 기술 | 역할 | 대표 솔루션 |
 |:---|:---|:---|
@@ -58,7 +60,7 @@ tags = ["studynote-ict-convergence"]
 | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) (Software-Defined Networking) | [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소프트웨어화 | NSX-T, OVN |
 | [HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/) (Hyper-Converged Infrastructure) | 위 세 가지 통합 단일 어플라이언스 | Nutanix, VMware VSAN |
 
-**[HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/)(Hyper-Converged Infrastructure) 특징**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/">HCI</a>(Hyper-Converged Infrastructure) 특징</strong>:
 - 표준 x86 서버에 컴퓨팅(CPU/RAM) + 스토리지([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) + 네트워킹을 단일 노드로 통합
 - 노드 추가만으로 선형 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)): 3노드 → 6노드 → N노드
 - 소프트웨어 정의 스토리지(vSAN, Nutanix AOS)로 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)
@@ -69,7 +71,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**기존 3계층 아키텍처 vs [HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/)**:
+<strong>기존 3계층 아키텍처 vs <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/">HCI</a></strong>:
 
 | 구분 | 3계층 (서버+[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)+네트워크) | [HCI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/630_hci/) |
 |:---|:---|:---|
@@ -79,9 +81,9 @@ tags = ["studynote-ict-convergence"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 높음 (전용 스토리지 최적화) | 중간 ([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) 오버헤드) |
 | 관리 | 복잡 (다수 관리 콘솔) | 단순 (단일 콘솔) |
 
-**[SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)(Software-Defined Storage) — Ceph**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지. 객체 스토리지(RADOS GW), 블록 스토리지([RBD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(CephFS)을 동시 제공. [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [영구 스토리지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/)([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) 백엔드로 널리 사용.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/">SDS</a>(Software-Defined Storage) — Ceph</strong>: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지. 객체 스토리지(RADOS GW), 블록 스토리지([RBD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(CephFS)을 동시 제공. [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [영구 스토리지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/098_kubernetes_storage_volume_pv_pvc/)([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) 백엔드로 널리 사용.
 
-**[하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 연장**: VMware vSphere 기반 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) HCI를 AWS VMware Cloud로 연결하면 동일한 vSphere 관리 도구로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 AWS 클라우드를 함께 운영 가능.
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a> 연장</strong>: VMware vSphere 기반 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) HCI를 AWS VMware Cloud로 연결하면 동일한 vSphere 관리 도구로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 AWS 클라우드를 함께 운영 가능.
 
 - **📢 섹션 요약 비유**: SDS는 기존 금고(전용 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))를 없애고, 사무실 직원들(서버 노드)의 서랍을 묶어서 하나의 공용 금고로 만드는 것이다 — 관리는 쉽지만 보안 설계는 더 중요해진다.
 

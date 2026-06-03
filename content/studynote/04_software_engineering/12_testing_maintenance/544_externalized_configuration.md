@@ -26,14 +26,14 @@ String dbUrl = "jdbc:mysql://1.2.3.4:3306/prod_db";
 ```
 이러면 운영 DB 주소가 바뀔 때마다 코드를 고치고, 빌드하고, 배포해야 한다. 서버가 100대라면 100번 배포해야 한다.
 
-**외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)**는 소스 코드에는 변수 이름만 적어두고, 실제 값은 서버가 켜질 때 밖에서 땡겨오는 방식이다.
+<strong>외부화된 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">구성 관리</a></strong>는 소스 코드에는 변수 이름만 적어두고, 실제 값은 서버가 켜질 때 밖에서 땡겨오는 방식이다.
 ```java
 // 🟢 권장: 밖에서 "DB_URL" 이라는 이름으로 값을 주입받음
 @Value("${DB_URL}")
 String dbUrl;
 ```
 
-> 📢 **섹션 요약 비유**: 가전제품을 살 때 건전지가 끼워져 있는 게 하드코딩이라면, **외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)는 건전지 칸을 비워두고 사용자가 필요할 때 건전지([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값)를 갈아 끼우는 것**과 같습니다. 건전지가 다 떨어졌다고 가전제품 통째로 새로 살 필요는 없으니까요.
+> 📢 **섹션 요약 비유**: 가전제품을 살 때 건전지가 끼워져 있는 게 하드코딩이라면, <strong>외부화된 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">구성 관리</a>는 건전지 칸을 비워두고 사용자가 필요할 때 건전지(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>값)를 갈아 끼우는 것</strong>과 같습니다. 건전지가 다 떨어졌다고 가전제품 통째로 새로 살 필요는 없으니까요.
 
 ---
 
@@ -56,7 +56,7 @@ String dbUrl;
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -69,26 +69,23 @@ String dbUrl;
 ## Ⅲ. 비교 및 연결
 
 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 중에는 공개되어도 되는 것([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시간 등)과 절대 안 되는 것(DB 비번, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키)이 있다.
-- **비밀 정보**는 일반 [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server가 아닌 **[Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/)(514번 문서)**나 **AWS Secrets Manager** 같은 암호화된 금고에 넣어야 한다.
+- <strong>비밀 정보</strong>는 일반 [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server가 아닌 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/">Vault</a>(514번 문서)</strong>나 **AWS Secrets Manager** 같은 암호화된 금고에 넣어야 한다.
 - [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server는 이 금고들과 연동되어, 안전하게 암호화된 상태로 값을 전달하는 통로 역할만 수행한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           외부화된 구성 관리 (Config Server) 아키텍처 시각화             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 🐙 GitHub / Git ] <─── (설정 파일 저장: prod.yml)           │
-│          │                                                   │
-│          ▼                                                   │
-│  [ ⚙️ Config Server ] ◀─── (설정 동기화)                       │
-│          │                                                   │
-│   ┌──────┴────────┬──────────────┐ (런타임 주입)               │
-│   ▼               ▼              ▼                           │
-│ [주문서비스]     [결제서비스]     [상품서비스]                   │
-│                                                              │
-│ ★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부화된 구성 관리 (Config Server) 아키텍처 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🐙 GitHub / Git</div><div class="kb-diagram-note">&lt; (설정 파일 저장: prod.yml)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">⚙️ Config Server</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(설정 동기화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(런타임 주입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문서비스</div><div class="kb-diagram-node">결제서비스</div><div class="kb-diagram-node">상품서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -150,21 +147,23 @@ String dbUrl;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-외부화된 구성 관리 (Externalized Configuration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부화된 구성 관리 (Externalized Configuration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

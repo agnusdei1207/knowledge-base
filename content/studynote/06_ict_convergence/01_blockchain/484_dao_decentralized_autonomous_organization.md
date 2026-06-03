@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 자율 조직)는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 조직의 규칙을 코드화하여, **CEO 없이 토큰 홀더의 투표로 의사결정**이 이루어지는 새로운 조직 형태다.
+> 1. **본질**: [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)([Decentralized Autonomous Organization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 자율 조직)는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 조직의 규칙을 코드화하여, <strong>CEO 없이 토큰 홀더의 투표로 의사결정</strong>이 이루어지는 새로운 조직 형태다.
 > 2. **가치**: 거버넌스 토큰(Governance Token)과 타임락(Timelock) 메커니즘이 결합되어 악의적 프로포절을 차단하고, 위임 투표(Delegate [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))로 일반 홀더도 의사결정에 참여할 수 있다.
 > 3. **판단 포인트**: The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹(2016, $6000만 손실)이 보여주듯 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 취약점이 거버넌스 공격 벡터가 되므로, [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))와 타임락이 모든 DAO의 필수 요건이다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 전통 조직 vs [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)
 
-전통 기업: CEO → 이사회 → 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 규칙이 코드화되어 **24/7 온체인 투표**로 실시간 의사결정이 가능하다.
+전통 기업: CEO → 이사회 → 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 규칙이 코드화되어 <strong>24/7 온체인 투표</strong>로 실시간 의사결정이 가능하다.
 
 **DAO가 필요한 이유**:
 - [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파라미터 변경(이자율, 수수료) → 커뮤니티 합의 필요
@@ -36,29 +36,28 @@ tags = ["studynote-ict-convergence"]
 
 ### [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 프로세스
 
-```
-┌─────────────────────────────────────────────────────┐
-│ DAO 거버넌스 사이클 │
-│ │
-│ 1. 제안(Proposal) │
-│ 토큰 홀더 → 스마트 컨트랙트에 제안 제출 │
-│ (최소 토큰 보유량 요건: Proposal Threshold) │
-│ │
-│ 2. 투표(Voting Period, 예: 3일~7일) │
-│ 홀더: 찬성(For) / 반대(Against) / 기권(Abstain) │
-│ 위임(Delegation): 투표권 위임 가능 │
-│ │
-│ 3. 쿼럼(Quorum) 달성 확인 │
-│ 예: 전체 공급량의 4% 이상 참여 필요 │
-│ │
-│ 4. 타임락(Timelock, 예: 2일~7일) │
-│ 승인된 제안 → 즉시 실행 아님 → 대기 │
-│ 이 기간 긴급 철회(Guardian) 가능 │
-│ │
-│ 5. 실행(Execution) │
-│ 타임락 만료 → 스마트 컨트랙트 자동 실행 │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO 거버넌스 사이클</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 제안(Proposal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 홀더 → 스마트 컨트랙트에 제안 제출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최소 토큰 보유량 요건: Proposal Threshold)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 투표(Voting Period, 예: 3일~7일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홀더: 찬성(For) / 반대(Against) / 기권(Abstain)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임(Delegation): 투표권 위임 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 쿼럼(Quorum) 달성 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 전체 공급량의 4% 이상 참여 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 타임락(Timelock, 예: 2일~7일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인된 제안 → 즉시 실행 아님 → 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 기간 긴급 철회(Guardian) 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 실행(Execution)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임락 만료 → 스마트 컨트랙트 자동 실행</div></div>
+</div>
+</div>
+
+
 
 ### 주요 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 비교
 
@@ -77,13 +76,19 @@ tags = ["studynote-ict-convergence"]
 
 ### The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건 (2016)
 
-```
-취약 컨트랙트: splitDAO() 함수
-공격자: ETH 출금 → 잔액 차감 전 재진입 → 반복 출금
-피해: 360만 ETH ($6000만, 당시 ETH 공급의 15%)
-결과: 이더리움 하드포크 → ETH / ETC 분리
-교훈: DAO 컨트랙트 보안 감사 필수, 타임락 도입
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">취약 컨트랙트: splitDAO() 함수</div>
+<div class="kb-diagram-note">공격자: ETH 출금 → 잔액 차감 전 재진입 → 반복 출금</div>
+<div class="kb-diagram-note">피해: 360만 ETH ($6000만, 당시 ETH 공급의 15%)</div>
+<div class="kb-diagram-note">결과: 이더리움 하드포크 → ETH / ETC 분리</div>
+<div class="kb-diagram-note">교훈: DAO 컨트랙트 보안 감사 필수, 타임락 도입</div>
+</div>
+</div>
+
+
 
 ### 거버넌스 공격 유형
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클럭 글리칭 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Glitching)은 정상 주기보다 빠른 edge를 삽입하거나 특정 주기를 비정상적으로 줄여, 아직 계산이 끝나지 않은 값을 플립플롭이 먼저 잡게 만드는 **시간 축 기반 [fault injection](/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/)**이다.
+> 1. **본질**: 클럭 글리칭 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Glitching)은 정상 주기보다 빠른 edge를 삽입하거나 특정 주기를 비정상적으로 줄여, 아직 계산이 끝나지 않은 값을 플립플롭이 먼저 잡게 만드는 <strong>시간 축 기반 <a href="/knowledge-base/studynote/02_operating_system/10_security/670_fault_injection_chaos_testing_kernel/">fault injection</a></strong>이다.
 > 2. **가치**: [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 글리칭보다 목표 사이클을 정밀하게 겨냥할 수 있어, branch compare, loop [counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [secure boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) step처럼 "한 클럭"이 중요한 구간에서 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip과 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 오류를 만들기 좋다.
 > 3. **판단 포인트**: 공격 난도는 외부 클럭 접근 가능성에 크게 좌우되며, 방어는 internal oscillator와 PLL (Phase-Locked Loop), [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), test-mode [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), duplicated check를 함께 설계해야 실효성이 생긴다.
 
@@ -42,19 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 정상 클럭과 glitch 클럭의 차이를 보여 준다. 한 번의 이른 edge만으로도 critical path는 미완성 값을 저장할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Clock glitch timing                                                │
-├────────────────────────────────────────────────────────────────────┤
-│ normal : ──┐  ┌──┐  ┌──┐  ┌──┐                                     │
-│            └──┘  └──┘  └──┘  └──                                  │
-│ glitch : ──┐  ┌─┐┌──┐  ┌──┐                                       │
-│            └──┘ └┘  └──┘  └──                                    │
-│                    ▲                                               │
-│            early edge latches data too soon                       │
-│            Tglitch < tlogic + tsetup                              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock glitch timing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">normal : ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">glitch : ── ─ ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">early edge latches data too soon</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tglitch &lt; tlogic + tsetup</div></div>
+</div>
+</div>
+
+
 
 실험실에서는 FPGA나 delay line 기반 [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) generator를 사용해 ns 단위로 edge 위치를 스윕한다. 예를 들어 20MHz MCU라면 nominal period는 50ns인데, critical path slack이 작다면 특정 사이클을 40ns 이하로 줄이는 것만으로도 fault가 날 수 있다. 공격자는 전력 분석이나 GPIO (General-Purpose Input/Output) trigger로 목표 루틴 타이밍을 잡은 뒤, branch compare나 loop update 직전에 glitch를 삽입해 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip을 노린다.
 
@@ -124,23 +124,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-외부 클럭 접근 / timing trigger 수집
-              │
-              ▼
-클럭 글리칭 파라미터 탐색
-: offset / shortened period / extra edge
-              │
-              ▼
-타이밍 위반 fault
-: instruction skip / wrong branch / faulty crypto state
-              │
-              ▼
-secure boot 우회 · 인증 오판 · fault analysis 발판
-              │
-              ▼
-internal clock + monitor + redundancy + tamper lock
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 클럭 접근 / timing trigger 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클럭 글리칭 파라미터 탐색</div>
+<div class="kb-diagram-note">: offset / shortened period / extra edge</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타이밍 위반 fault</div>
+<div class="kb-diagram-note">: instruction skip / wrong branch / faulty crypto state</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">secure boot 우회 · 인증 오판 · fault analysis 발판</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">internal clock + monitor + redundancy + tamper lock</div>
+</div>
+</div>
+
+
 
 이 흐름은 "잘못된 박자 한 번"이 어떻게 "보안 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 오류"로 이어지고, 이를 막기 위해 클럭 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·감시·중복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 함께 필요해지는지 보여 준다.
 

@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 인터넷 방식으로 데이터를 보내면 무조건 **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층)**을 거쳐야 합니다.
+- 기존 인터넷 방식으로 데이터를 보내면 무조건 <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 계층)</strong>을 거쳐야 합니다.
 - **CPU의 과로사**: 데이터가 응용 프로그램 공간(User Space)에서 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)으로 복사될 때, 또 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 버퍼로 복사될 때([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching & Memory Copy) CPU가 미친 듯이 연산을 해야 합니다. 
 - 100Gbps로 데이터가 쏟아지면, 컴퓨터 CPU는 넷플릭스 영화를 처리하기도 전에 이 '택배 포장 업무([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오버헤드)'만 하다가 서버가 뻗어버립니다.
 
-```text
-[인피니밴드]
-    │
-    ▼
-[RDMA]
-    │
-    └──▶ [RoCE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RoCE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RDMA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 컴퓨터의 메인 CPU나 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전혀 거치지 않고([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), **한 컴퓨터(서버)의 애플리케이션 메모리(RAM) 영역에서 다른 컴퓨터의 메모리 영역으로 하드웨어 랜카드(RNIC)끼리 직접 데이터를 쏴서 복사해 버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신 기법**입니다.
-- 앞서 배운 811번의 **[인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))** [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망에서 가장 핵심적으로 쓰이는 영혼 같은 소프트웨어/하드웨어 전송 기술입니다.
+- **개념**: 컴퓨터의 메인 CPU나 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전혀 거치지 않고([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), <strong>한 컴퓨터(서버)의 애플리케이션 메모리(RAM) 영역에서 다른 컴퓨터의 메모리 영역으로 하드웨어 랜카드(RNIC)끼리 직접 데이터를 쏴서 복사해 버리는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 통신 기법</strong>입니다.
+- 앞서 배운 811번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">인피니밴드</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">InfiniBand</a>)</strong> [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망에서 가장 핵심적으로 쓰이는 영혼 같은 소프트웨어/하드웨어 전송 기술입니다.
 
-```text
-[인피니밴드]
-    │
-    ▼
-[RDMA]
-    │
-    └──▶ [RoCE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RoCE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RDMA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 - [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 랜카드는 직접 메인보드의 램(RAM) A 구역에 다이렉트로 손을 뻗어([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 데이터를 움켜쥔 뒤, 바로 랜선으로 냅다 던져버립니다. 복사에 낭비되는 시간과 메모리가 0이 됩니다.
 
 ### 3. CPU [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (CPU [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) - "하드웨어가 다 해줌"
-- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기를 씌우고 벗기고 에러를 체크하는 무거운 연산을 컴퓨터 CPU가 하지 않습니다. 비싼 **[RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 전용 랜카드(RNIC) 안에 박혀있는 칩셋(하드웨어)이 그 연산을 대신 100% 다 해치워줍니다(Offload).**
+- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기를 씌우고 벗기고 에러를 체크하는 무거운 연산을 컴퓨터 CPU가 하지 않습니다. 비싼 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 전용 랜카드(RNIC) 안에 박혀있는 칩셋(하드웨어)이 그 연산을 대신 100% 다 해치워줍니다(Offload).</strong>
 - 덕분에 컴퓨터 CPU는 통신에 신경 쓰지 않고 오직 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산(본업)에만 100% 집중할 수 있습니다.
 
 RDMA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)가 기반 조건을 만든다면, RDMA는 그 위에서 핵심 메커니즘을 구현하고, RoCE는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -89,7 +97,7 @@ RDMA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신은 '대기업의 부서 간 우편 시스템'입니다. 기획부(A 메모리) 직원이 문서를 보내려면 결재판을 들고 부장님(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 도장을 받고, 우편물 수발실(랜카드 버퍼)로 내려가 포장([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 캡슐화)을 한 뒤 배송해야 합니다(병목 폭발). **[RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)**는 층간 벽을 뚫어버린 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 진공 튜브(다이렉트 라인)'입니다. 기획부 직원이 부장님(OS) 결재도 안 받고, 봉투 포장(CPU 연산)도 안 한 날것의 서류를 진공 튜브에 쏙 밀어 넣으면([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)), 그 서류가 빛의 속도로 날아가 옆 건물 기획부 직원 책상(원격 메모리) 위에 그대로 톡 떨어지는 궁극의 비관료적 광속 행정 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신은 '대기업의 부서 간 우편 시스템'입니다. 기획부(A 메모리) 직원이 문서를 보내려면 결재판을 들고 부장님(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 도장을 받고, 우편물 수발실(랜카드 버퍼)로 내려가 포장([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 캡슐화)을 한 뒤 배송해야 합니다(병목 폭발). <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a></strong>는 층간 벽을 뚫어버린 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 진공 튜브(다이렉트 라인)'입니다. 기획부 직원이 부장님(OS) 결재도 안 받고, 봉투 포장(CPU 연산)도 안 한 날것의 서류를 진공 튜브에 쏙 밀어 넣으면([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)), 그 서류가 빛의 속도로 날아가 옆 건물 기획부 직원 책상(원격 메모리) 위에 그대로 톡 떨어지는 궁극의 비관료적 광속 행정 시스템입니다.
 
 ---
 
@@ -112,15 +120,19 @@ RDMA는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 인피니밴드]
-    │
-    ▼
-[현재 개념: RDMA]
-    │
-    ├──▶ [확장 A: RoCE]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 인피니밴드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RDMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RoCE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 RDMA는 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)에서 출발해 현재 메커니즘을 정교화하고, 이후 RoCE와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,19 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 PUF는 원래 미세한 공정 편차를 칩의 지문으로 사용하는 구조다. 문제는 그 지문이 사진처럼 영원히 고정되지 않는다는 점이다. 고온, 고전압, 반복 스위칭이 누적되면 트랜지스터의 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 서서히 이동하고, 그 결과 한때는 안정적이던 응답 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집힐 수 있다. 그래서 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 단순 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이슈가 아니라, 하드웨어 [루트 오브 트러스트](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/)([Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/))의 유효 기간을 결정하는 보안 이슈다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      PUF lifetime problem: stable at birth, unstable later  │
-├──────────────────────────────────────────────────────────────┤
-│ Process variation ─▶ Initial margin ─▶ Aging stress         │
-│                                           │                  │
-│                                           ▼                  │
-│                               Delay / Vth shift accumulates │
-│                                           │                  │
-│                                           ▼                  │
-│                           Weak bits flip -> auth failure    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUF lifetime problem: stable at birth, unstable later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process variation ─▶ Initial margin ─▶ Aging stress</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delay / Vth shift accumulates</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weak bits flip -&gt; auth failure</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 막 새긴 도장은 선명하지만 오래 쓰면 모서리가 닳아 같은 도장을 찍어도 모양이 달라진다. [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)도 그와 같아서, 지문을 만들던 미세한 차이가 시간에 따라 변형된다.
 
@@ -50,19 +49,20 @@ PUF는 원래 미세한 공정 편차를 칩의 지문으로 사용하는 구조
 | PBTI | NMOS 특성 이동 | 미세 마진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 뒤집힘 증가 |
 | EM | 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 증가 | RO [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 주파수 비교 오차 확대 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Margin-based view of PUF aging impact            │
-├──────────────────────────────────────────────────────────────┤
-│ Initial state:   Path A ────── 10.0ns                       │
-│                  Path B ────── 10.4ns   -> stable bit = 0   │
-│                                                              │
-│ Aged state:      Path A ────── 10.5ns                       │
-│                  Path B ────── 10.6ns   -> weak / flip risk  │
-│                                                              │
-│ Rule: larger initial margin -> lower lifetime bit error     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Margin-based view of PUF aging impact</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initial state: Path A 10.0ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path B 10.4ns -&gt; stable bit = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aged state: Path A 10.5ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path B 10.6ns -&gt; weak / flip risk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: larger initial margin -&gt; lower lifetime bit error</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 대응은 줄다리기에서 처음부터 넉넉하게 앞서 있는 팀을 고르는 일과 같다. 출발선 차이가 작으면 시간이 지나며 금방 역전된다.
 
@@ -110,18 +110,21 @@ PUF는 원래 미세한 공정 편차를 칩의 지문으로 사용하는 구조
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Process Variation]
-    │
-    ▼
-[PUF Enrollment]
-    │
-    ▼
-[Aging Stress Over Time]
-    │
-    ├──▶ [Helper Data / ECC Margin]
-    └──▶ [Lifetime Reliability Check]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process Variation</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PUF Enrollment</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Aging Stress Over Time</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Helper Data / ECC Margin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lifetime Reliability Check</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 제조 편차에서 출발한 PUF가 시간이 지나며 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계로 확장되는 과정을 보여준다. 핵심은 "등록"보다 "수명 관리"가 뒤에 반드시 따라온다는 점이다.
 

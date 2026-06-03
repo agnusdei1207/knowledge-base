@@ -23,24 +23,24 @@ tags = ["studynote-design-supervision"]
 
 ACL은 이 오염을 방지한다. 외부 API와 접촉하는 지점에 변환 레이어를 두어 외부 개념을 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델로 번역하고, 그 이후의 내부 코드는 오직 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념만 사용한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               ACL 동작 구조                                  │
-├─────────────────────────────────────────────────────────────┤
-│  [외부 결제 시스템]                                          │
-│  paymentCode, orderId, merchantKey (외부 개념)              │
-│       │                                                     │
-│  ┌────▼────────────────────────────────────────────────┐    │
-│  │  ACL (Anti-Corruption Layer)                         │    │
-│  │  PaymentGatewayAdapter (Facade + Translator)         │    │
-│  │  - paymentCode → paymentId (번역)                    │    │
-│  │  - 외부 예외 → 내부 DomainException (변환)           │    │
-│  └────┬────────────────────────────────────────────────┘    │
-│       │ (내부 도메인 언어만 사용)                            │
-│  [주문 바운디드 컨텍스트]                                    │
-│  paymentId, orderId (내부 개념)                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACL 동작 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 결제 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">paymentCode, orderId, merchantKey (외부 개념)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACL (Anti-Corruption Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PaymentGatewayAdapter (Facade + Translator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- paymentCode → paymentId (번역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 외부 예외 → 내부 DomainException (변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부 도메인 언어만 사용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 바운디드 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">paymentId, orderId (내부 개념)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ACL은 외교관처럼, 두 나라(시스템) 간에 서로 다른 언어([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)를 번역하여 한 나라의 문화(외부 모델)가 다른 나라 내부를 오염시키지 않게 막는다.
 
@@ -57,18 +57,21 @@ ACL은 이 오염을 방지한다. 외부 API와 접촉하는 지점에 변환 �
 | Translator | 모델 번역 | ExternalPaymentTranslator |
 | Repository (방향) | 외부 저장소를 내부 모델로 | LegacyProductRepository |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         레거시 통합 시 ACL 위치                              │
-├─────────────────────────────────────────────────────────────┤
-│  [신규 도메인 서비스]                                        │
-│       │ (내부 도메인 객체 사용)                              │
-│  [ACL: LegacySystemAdapter]                                 │
-│       │ (레거시 모델 ↔ 내부 모델 변환)                      │
-│  [레거시 시스템 API]                                        │
-│  (오래된 필드명, 구조, 예외 타입)                           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 통합 시 ACL 위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 도메인 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부 도메인 객체 사용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACL: LegacySystemAdapter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(레거시 모델 ↔ 내부 모델 변환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레거시 시스템 API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오래된 필드명, 구조, 예외 타입)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ACL은 수입통관(변환)과 같다. 외국 제품(외부 모델)이 국내 기준(내부 모델)에 맞게 검사·변환되어야 국내 시장(내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 유통될 수 있다.
 

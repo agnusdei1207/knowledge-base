@@ -23,9 +23,9 @@ tags = ["studynote-devops-sre"]
 
 CXL은 2019년 Intel 주도로 AMD, ARM, Google, Microsoft, Meta 등이 참여해 설립한 컨소시엄이 제정한 표준이다. 핵심 혁신은 PCIe의 물리 계층을 재사용하면서 그 위에 세 가지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 추가한 것이다.
 
-- **[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).io**: 기존 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) I/O 장치 접근 (기존 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지)
-- **[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).cache**: 장치가 호스트 CPU 메모리를 캐시화
-- **[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem**: 호스트 CPU가 장치의 메모리에 LOAD/STORE 명령으로 직접 접근
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a>.io</strong>: 기존 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) I/O 장치 접근 (기존 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a>.cache</strong>: 장치가 호스트 CPU 메모리를 캐시화
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a>.mem</strong>: 호스트 CPU가 장치의 메모리에 LOAD/STORE 명령으로 직접 접근
 
 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) 아키텍처는 모놀리식 대형 다이(die) 대신 기능별로 소형 다이를 분리해 고급 패키징으로 연결하는 설계 방식이다. AMD Ryzen의 CCD (Core Complex Die), Intel Meteor Lake의 Tile 아키텍처가 대표적이다. [UCIe](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) ([Universal Chiplet Interconnect Express](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/)) 표준은 서로 다른 제조사의 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)을 연결하는 개방형 규격이다.
 
@@ -43,28 +43,24 @@ CXL은 2019년 Intel 주도로 AMD, ARM, Google, Microsoft, Meta 등이 참여�
 | Type 2  | [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).cache + [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem: 가속기 자체 메모리  | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 메모리 통합 |
 | Type 3  | [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem: 순수 메모리 확장 장치            | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)/PMem [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 확장  |
 
-```text
-+-----------------------------------------+
-|   CXL 메모리 풀링 서버 아키텍처           |
-+-----------------------------------------+
-|                                         |
-|  서버1              서버2               |
-|  +---------------+  +---------------+  |
-|  | CPU+로컬DRAM  |  | CPU+로컬DRAM  |  |
-|  |  64GB DDR5   |  |  64GB DDR5   |  |
-|  +------+--------+  +------+--------+  |
-|         | CXL.mem         | CXL.mem    |
-|         +--------+--------+            |
-|                  |                     |
-|         +--------v--------+            |
-|         | CXL 메모리 풀   |            |
-|         | DRAM: 4TB       |            |
-|         | PMem: 16TB      |            |
-|         | 레이턴시: ~250ns |            |
-|         +-----------------+            |
-|                                         |
-+-----------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 메모리 풀링 서버 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버1 서버2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU+로컬DRAM</div><div class="kb-diagram-cell">CPU+로컬DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64GB DDR5</div><div class="kb-diagram-cell">64GB DDR5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL.mem</div><div class="kb-diagram-cell">CXL.mem</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--------v--------+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 메모리 풀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM: 4TB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMem: 16TB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이턴시: ~250ns</div></div>
+</div>
+</div>
+
+
 
 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 토폴로지: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리는 OS에 별도 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드로 노출된다. Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 numactl, memkind [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 통해 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리와 로컬 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 간의 메모리 배치를 제어할 수 있다.
 

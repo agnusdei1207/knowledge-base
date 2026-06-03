@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 1950년대 공장에서는 컨베이어 벨트 끝에 검사관을 세워두고, 다 만들어진 물건 중 불량품을 버리는 방식(QC, Quality Control)을 썼다. 이 방식은 불량품을 만드는 데 이미 재료비와 인건비가 낭비되었기 때문에 회사에 엄청난 손실을 입혔다.
 
-일본의 도요타 등은 사고방식을 완전히 바꿨다. "마지막에 검사하지 말고, 아예 처음부터 불량이 안 나오는 제조 공정(프로세스)을 만들자!" 이를 위해 부품을 깎는 노동자부터 사장님까지 전 직원이 품질 개선에 참여하는 문화가 생겼고, 이것이 미국으로 건너가 **TQM ([Total Quality Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/))**이라는 경영 철학으로 정립되었다.
+일본의 도요타 등은 사고방식을 완전히 바꿨다. "마지막에 검사하지 말고, 아예 처음부터 불량이 안 나오는 제조 공정(프로세스)을 만들자!" 이를 위해 부품을 깎는 노동자부터 사장님까지 전 직원이 품질 개선에 참여하는 문화가 생겼고, 이것이 미국으로 건너가 <strong>TQM (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/">Total Quality Management</a>)</strong>이라는 경영 철학으로 정립되었다.
 
 소프트웨어 역시 마찬가지다. 배포 전날 QA 팀이 밤을 새워 버그를 100개 찾는 것(QC)보다, 애초에 개발자가 버그를 낼 수 없는 아키텍처와 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 문화를 정착시키는 것(TQM)이 훨씬 싸고 완벽하다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 TQM [전사적 품질 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  TQM 전사적 품질 관리 예방 위주                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TQM 전사적 품질 관리 예방 위주</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 TQM [전사적 품질 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/) 예방 위주가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ TQM과 소프트웨어 세계의 QA(품질 보증)는 어떻게 다를까?
 | 비교 항목 | QA (Quality Assurance) | TQM ([Total Quality Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/350_total_quality_management/)) |
 |:---|:---|:---|
 | **주요 초점** | 프로세스 준수 및 산출물 보장 | **조직 문화, 리더십, 고객 만족** |
-| **적용 범위** | 소프트웨어 개발 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내 | **경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 인사, 영업 등 회사 전체** |
+| **적용 범위** | 소프트웨어 개발 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 내 | <strong>경영 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>, 인사, 영업 등 회사 전체</strong> |
 | **핵심 활동** | 리뷰, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)), 테스팅 프로세스 | 품질 경영, 식스시그마([6 Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)), 사내 교육 |
 | **목표** | 불량이 발생하지 않는 프로세스 구축 | **품질을 통한 기업의 궁극적 경쟁력 제고** |
 
@@ -109,7 +108,7 @@ TQM을 도입한다고 하면서 책상에 '품질 제일' 표어만 붙여놓�
 
 TQM이 성공적으로 내재화된 기업(예: 구글의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 문화, 도요타의 린 생산 방식)은 버그가 터진 후 개발자를 비난(Blame)하지 않는다. 대신 "어떤 프로세스의 빈틈이 이 버그를 실서버까지 살아서 가게 만들었는가?"를 질문하고 시스템을 고친다([Blameless Post-mortem](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/)).
 
-결론적으로 기술 리더는 "QA 팀의 인원을 늘려서 테스트를 빡세게 하라"고 지시하는 사람이 아니다. 경영진을 설득하여 **개발, 기획, 인프라 전 부서가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계부터 품질(Quality)을 고민하도록 조직의 체질을 완전히 뜯어고치는 TQM 마에스트로**가 되어야 한다.
+결론적으로 기술 리더는 "QA 팀의 인원을 늘려서 테스트를 빡세게 하라"고 지시하는 사람이 아니다. 경영진을 설득하여 <strong>개발, 기획, 인프라 전 부서가 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 설계 단계부터 품질(Quality)을 고민하도록 조직의 체질을 완전히 뜯어고치는 TQM 마에스트로</strong>가 되어야 한다.
 
 - **📢 섹션 요약 비유**: 나무에 썩은 열매가 자꾸 열릴 때, 가지에 매달려 썩은 열매만 하루 종일 따서 버리는 것은 하수(QC)다. 진짜 농부(TQM)는 나무뿌리에 병이 들었는지 흙과 비료를 갈아엎는 근본적인 체질 개선을 한다.
 
@@ -132,21 +131,23 @@ TQM이 성공적으로 내재화된 기업(예: 구글의 [SRE](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-TQM 전사적 품질 관리 예방 위주 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TQM 전사적 품질 관리 예방 위주 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

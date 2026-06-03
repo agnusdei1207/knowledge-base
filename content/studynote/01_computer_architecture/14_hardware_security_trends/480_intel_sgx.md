@@ -25,22 +25,23 @@ Intel [SGX](/knowledge-base/studynote/09_security/04_endpoint_security/389_sgx/)
 
 아래 그림은 SGX가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 경계가 어디인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            SGX의 위협 모델: 앱은 보호하되, OS와 하이퍼바이저는 의심한다     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Application Process                                                        │
-│  ├─ 일반 코드              ── OS가 메모리와 시스템 호출을 관리             │
-│  └─ Enclave 코드           ── CPU가 별도 보호                             │
-│                                                                            │
-│ Untrusted Layers                                                           │
-│  ├─ OS Kernel                                                              │
-│  ├─ Hypervisor                                                             │
-│  └─ Host Administrator                                                     │
-│                                                                            │
-│ SGX의 목표: 위 계층이 존재해도 Enclave 내부 비밀은 직접 읽지 못하게 하기    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGX의 위협 모델: 앱은 보호하되, OS와 하이퍼바이저는 의심한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Process</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 코드 ── OS가 메모리와 시스템 호출을 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Enclave 코드 ── CPU가 별도 보호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Untrusted Layers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ OS Kernel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hypervisor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Host Administrator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGX의 목표: 위 계층이 존재해도 Enclave 내부 비밀은 직접 읽지 못하게 하기</div></div>
+</div>
+</div>
+
+
 
 따라서 SGX는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 대체품이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 통과해도 끝까지 드러나면 안 되는 계산 조각을 위한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이다. 반대로 I/O 중심 애플리케이션이나 대용량 메모리 작업 전체를 통째로 넣으면 SGX의 제약이 먼저 드러난다.
 
@@ -63,28 +64,25 @@ SGX의 핵심 구성은 [Enclave](/knowledge-base/studynote/09_security/04_endpo
 
 아래 그림은 SGX가 메모리와 인터페이스를 어떻게 다루는지 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                SGX 실행 흐름: 작은 보호 구역과 엄격한 출입문               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User Process                                                                │
-│  ├─ Untrusted Part                                                          │
-│  │    └─ 시스템 호출, 파일 I/O, 네트워크                                   │
-│  │                                                                          │
-│  └─ ECALL ───────────────▶ Enclave                                          │
-│                               ├─ 비밀 계산                                  │
-│                               ├─ 키 사용                                     │
-│                               └─ 민감 상태 저장                              │
-│                                     │                                       │
-│                                     ▼                                       │
-│                             EPC (Protected Pages)                            │
-│                                     │                                       │
-│                                     ▼                                       │
-│                    CPU 외부로 나갈 때 암호화 및 무결성 보호                  │
-│                                                                            │
-│ Enclave 밖에서는 결과값만 사용, 내부 메모리는 직접 열람 불가                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGX 실행 흐름: 작은 보호 구역과 엄격한 출입문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Process</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Untrusted Part</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 시스템 호출, 파일 I/O, 네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ECALL ▶ Enclave</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비밀 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 키 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 민감 상태 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPC (Protected Pages)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 외부로 나갈 때 암호화 및 무결성 보호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enclave 밖에서는 결과값만 사용, 내부 메모리는 직접 열람 불가</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 SGX는 경계 설계가 전부라고 해도 과언이 아니다. [Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) 바깥과 자주 왕복할수록 ECALL ([Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))·OCALL (Outside [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 비용이 커지고, 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 EPC에 억지로 넣을수록 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 부담이 늘어난다. 결국 SGX는 "비밀 계산을 작고 선명하게 잘라 넣는 기술"이다.
 
@@ -117,11 +115,11 @@ SGX는 ARM TrustZone이나 AMD SEV-SNP (Secure Encrypted Virtualization-Secure N
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) 축소**: 정말 민감한 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 Enclave에 넣었는가?
-2. **[EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 예산 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메모리 한계를 넘겨 과도한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 발생하지 않는가?
-3. **경계 설계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: ECALL·OCALL 인터페이스가 지나치게 많지 않은가?
-4. **원격 증명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 측정값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 승인 대상 목록이 준비되어 있는가?
-5. **부채널 대응 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 시간 차, 캐시 패턴, 예외 처리 등 사이드 채널 완화가 포함되어 있는가?
+1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/">Enclave</a> 축소</strong>: 정말 민감한 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 Enclave에 넣었는가?
+2. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a> 예산 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메모리 한계를 넘겨 과도한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 발생하지 않는가?
+3. <strong>경계 설계 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: ECALL·OCALL 인터페이스가 지나치게 많지 않은가?
+4. <strong>원격 증명 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 측정값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 승인 대상 목록이 준비되어 있는가?
+5. <strong>부채널 대응 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 시간 차, 캐시 패턴, 예외 처리 등 사이드 채널 완화가 포함되어 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -160,21 +158,23 @@ SGX의 가장 큰 공헌은 "클라우드에서도 CPU가 직접 신뢰 경계�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-디스크 암호화 · 전송 암호화
-        │
-        ▼
-Intel SGX (Software Guard Extensions)
-        │
-        ▼
-Enclave 측정값 · Remote Attestation
-        │
-        ▼
-Confidential Computing
-        │
-        ▼
-TDX · SEV-SNP · 차세대 하드웨어 기밀 VM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">디스크 암호화 · 전송 암호화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Intel SGX (Software Guard Extensions)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Enclave 측정값 · Remote Attestation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Confidential Computing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TDX · SEV-SNP · 차세대 하드웨어 기밀 VM</div>
+</div>
+</div>
+
+
 
 이 흐름은 "저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에서 "실행 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로, 다시 "애플리케이션 단위에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 단위"로 확장되는 보안 진화를 보여 준다.
 

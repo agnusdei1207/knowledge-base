@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개발의 반복성**: 전 세계 수백만 명의 프로그래머가 코딩하지만, 겪는 문제(예: "똑같은 객체 복사하기", "상태 바뀔 때 알림 주기")의 구조는 소름 돋게 99% 똑같습니다.
-- **GoF (Gang of Four)의 위대한 업적**: 1994년, 에리히 감마를 비롯한 4명의 천재(4인방, GoF)가 "객체지향 설계에서 매번 반복해서 나타나는 고질적인 문제들과, 그 문제를 가장 우아하게 해결한 모범 답안 클래스 도면(해결책)"을 모아 책으로 냈습니다. 이 책에 수록된 **23가지의 패턴**이 현대 객체지향 프로그래밍의 절대 헌법이 되었습니다.
+- **GoF (Gang of Four)의 위대한 업적**: 1994년, 에리히 감마를 비롯한 4명의 천재(4인방, GoF)가 "객체지향 설계에서 매번 반복해서 나타나는 고질적인 문제들과, 그 문제를 가장 우아하게 해결한 모범 답안 클래스 도면(해결책)"을 모아 책으로 냈습니다. 이 책에 수록된 <strong>23가지의 패턴</strong>이 현대 객체지향 프로그래밍의 절대 헌법이 되었습니다.
 
 - **📢 섹션 요약 비유**: 디자인 패턴 (Design Patterns) 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 디자인 패턴 (Design Patte의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  디자인 패턴 (Design Patte                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 패턴 (Design Patte</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 디자인 패턴 (Design Patte가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,8 +48,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 소프트웨어 설계에서 공통으로 발생하는 문제에 대해, **자주 쓰이는 검증된 설계 구조(클래스들의 역할과 화살표 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))를 정형화된 패턴으로 만들어 재사용할 수 있게 한 '객체지향 설계의 모범 답안지(템플릿)'**입니다.
-- **기반 룰**: 242번에서 배운 **[SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/)(객체지향 5대 원칙)**를 가장 완벽하게 지켜내기 위한 '실전 기술(초식)'들의 모음집입니다. (244번 OCP를 밥 먹듯이 씁니다.)
+- **개념**: 소프트웨어 설계에서 공통으로 발생하는 문제에 대해, <strong>자주 쓰이는 검증된 설계 구조(클래스들의 역할과 화살표 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)를 정형화된 패턴으로 만들어 재사용할 수 있게 한 '객체지향 설계의 모범 답안지(템플릿)'</strong>입니다.
+- **기반 룰**: 242번에서 배운 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/">SOLID</a>(객체지향 5대 원칙)</strong>를 가장 완벽하게 지켜내기 위한 '실전 기술(초식)'들의 모음집입니다. (244번 OCP를 밥 먹듯이 씁니다.)
 
 - **📢 섹션 요약 비유**: 디자인 패턴 (Design Patterns) 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,13 +88,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-정보처리기사 객관식/실기 단골손님입니다. 23가지 패턴은 **"어떤 문제를 해결하느냐"**에 따라 크게 3가지 덩어리로 나뉩니다. (각 덩어리의 구체적인 패턴은 252~266번에서 배웁니다.)
+정보처리기사 객관식/실기 단골손님입니다. 23가지 패턴은 <strong>"어떤 문제를 해결하느냐"</strong>에 따라 크게 3가지 덩어리로 나뉩니다. (각 덩어리의 구체적인 패턴은 252~266번에서 배웁니다.)
 
-1. **[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) ([Creational Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/), 5개)**: "객체를 어떻게 똑똑하게 찍어낼(Create) 것인가?"에 관한 고민. (`new` 키워드의 하드코딩을 피하는 법) ➜ [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), 팩토리 등.
-2. **[구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) ([Structural Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/), 7개)**: "조그만 클래스 블록들을 어떻게 조립해서, 더 크고 복잡한 거대 구조(뼈대)를 튼튼하게 만들 것인가?"에 관한 고민. ➜ [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 등.
-3. **[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) ([Behavioral Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/), 11개)**: "클래스들이 어떻게 서로 핑퐁을 치며 임무([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 분담하고 대화(행동)할 것인가?"에 관한 고민. ➜ [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 등.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">Creational Patterns</a>, 5개)</strong>: "객체를 어떻게 똑똑하게 찍어낼(Create) 것인가?"에 관한 고민. (`new` 키워드의 하드코딩을 피하는 법) ➜ [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), 팩토리 등.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">구조 패턴</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">Structural Patterns</a>, 7개)</strong>: "조그만 클래스 블록들을 어떻게 조립해서, 더 크고 복잡한 거대 구조(뼈대)를 튼튼하게 만들 것인가?"에 관한 고민. ➜ [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 등.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">행위 패턴</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">Behavioral Patterns</a>, 11개)</strong>: "클래스들이 어떻게 서로 핑퐁을 치며 임무([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 분담하고 대화(행동)할 것인가?"에 관한 고민. ➜ [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 등.
 
-> 📢 **섹션 요약 비유**: **디자인 패턴(Design Patterns)**은 체스나 바둑에서 최고수들이 수백 년 동안 싸우며 만들어낸 **'필승 정석(기보)'**과 같습니다. 체스 초보자(신입 개발자)는 말(객체)을 자기 마음대로 툭툭 던지다가(스파게티 코딩) 상대의 함정(수정 폭발 버그)에 빠져 금방 게임에서 집니다. 하지만 체스 고수(GoF)들은 "상대방이 나이트를 이쪽으로 빼면(특정 문제 상황 발생), 나는 폰을 이렇게 빼고 비숍을 이렇게 세우는 뼈대 구조(모범 답안)가 방어력과 공격력이 가장 완벽하더라!"라는 것을 깨닫고 그걸 책(족보)으로 써놨습니다. 개발자는 매번 새로운 코드를 짜면서 맨땅에 헤딩할 필요가 없습니다. 내가 지금 부딪힌 문제가 "어? 이거 상태 변할 때 알림 주는 기능이네?" 하고 깨달으면, 체스 족보에서 **'[옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)'이라는 정석을 그대로 꺼내와 도면에 맞게 말(클래스)을 배치하기만 하면**, 결합도와 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)(수비와 공격)가 100% 완벽하게 계산된 난공불락의 아키텍처를 순식간에 찍어낼 수 있는 객체지향 21세기 마법서입니다.
+> 📢 **섹션 요약 비유**: <strong>디자인 패턴(Design Patterns)</strong>은 체스나 바둑에서 최고수들이 수백 년 동안 싸우며 만들어낸 <strong>'필승 정석(기보)'</strong>과 같습니다. 체스 초보자(신입 개발자)는 말(객체)을 자기 마음대로 툭툭 던지다가(스파게티 코딩) 상대의 함정(수정 폭발 버그)에 빠져 금방 게임에서 집니다. 하지만 체스 고수(GoF)들은 "상대방이 나이트를 이쪽으로 빼면(특정 문제 상황 발생), 나는 폰을 이렇게 빼고 비숍을 이렇게 세우는 뼈대 구조(모범 답안)가 방어력과 공격력이 가장 완벽하더라!"라는 것을 깨닫고 그걸 책(족보)으로 써놨습니다. 개발자는 매번 새로운 코드를 짜면서 맨땅에 헤딩할 필요가 없습니다. 내가 지금 부딪힌 문제가 "어? 이거 상태 변할 때 알림 주는 기능이네?" 하고 깨달으면, 체스 족보에서 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/">옵저버 패턴</a>'이라는 정석을 그대로 꺼내와 도면에 맞게 말(클래스)을 배치하기만 하면</strong>, 결합도와 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)(수비와 공격)가 100% 완벽하게 계산된 난공불락의 아키텍처를 순식간에 찍어낼 수 있는 객체지향 21세기 마법서입니다.
 
 - **📢 섹션 요약 비유**: 디자인 패턴 (Design Patterns) 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -140,21 +139,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-디자인 패턴 (Design Patterns) 개요 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디자인 패턴 (Design Patterns) 개요 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

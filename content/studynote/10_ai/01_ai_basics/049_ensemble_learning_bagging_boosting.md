@@ -18,39 +18,38 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 개요
 
-```
-앙상블 학습 (Ensemble Learning):
-  여러 모델의 예측을 결합하여 최종 예측
 
-필요성:
 
-단일 모델의 한계:
-  과적합 (Overfitting): 훈련 데이터에만 잘 맞음
-  과소적합 (Underfitting): 복잡한 패턴 학습 못함
-  불안정: 데이터 조금 바뀌면 예측 크게 변함
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">앙상블 학습 (Ensemble Learning):</div>
+<div class="kb-diagram-note">여러 모델의 예측을 결합하여 최종 예측</div>
+<div class="kb-diagram-note">필요성:</div>
+<div class="kb-diagram-note">단일 모델의 한계:</div>
+<div class="kb-diagram-note">과적합 (Overfitting): 훈련 데이터에만 잘 맞음</div>
+<div class="kb-diagram-note">과소적합 (Underfitting): 복잡한 패턴 학습 못함</div>
+<div class="kb-diagram-note">불안정: 데이터 조금 바뀌면 예측 크게 변함</div>
+<div class="kb-diagram-note">앙상블 효과:</div>
+<div class="kb-diagram-note">투표 (Voting): 다수결로 안정적 예측</div>
+<div class="kb-diagram-note">평균 (Averaging): 분산 감소</div>
+<div class="kb-diagram-note">오류 보완: 한 모델의 오류를 다른 모델이 보완</div>
+<div class="kb-diagram-note">편향-분산 트레이드오프:</div>
+<div class="kb-diagram-note">편향(Bias): 모델이 실제 패턴에서 벗어난 정도</div>
+<div class="kb-diagram-note">분산(Variance): 데이터 변화에 민감한 정도</div>
+<div class="kb-diagram-note">복잡한 모델: 편향↓, 분산↑ (과적합)</div>
+<div class="kb-diagram-note">단순한 모델: 편향↑, 분산↓ (과소적합)</div>
+<div class="kb-diagram-note">앙상블 목표:</div>
+<div class="kb-diagram-note">배깅 → 분산 감소</div>
+<div class="kb-diagram-note">부스팅 → 편향 감소</div>
+<div class="kb-diagram-note">앙상블 방법:</div>
+<div class="kb-diagram-note">배깅 (Bagging): 병렬, 분산 감소</div>
+<div class="kb-diagram-note">부스팅 (Boosting): 순차, 편향 감소</div>
+<div class="kb-diagram-note">스태킹 (Stacking): 메타 학습기 결합</div>
+<div class="kb-diagram-note">보팅 (Voting): 단순 다수결</div>
+</div>
+</div>
 
-앙상블 효과:
-  투표 (Voting): 다수결로 안정적 예측
-  평균 (Averaging): 분산 감소
-  오류 보완: 한 모델의 오류를 다른 모델이 보완
 
-편향-분산 트레이드오프:
-  편향(Bias): 모델이 실제 패턴에서 벗어난 정도
-  분산(Variance): 데이터 변화에 민감한 정도
-  
-  복잡한 모델: 편향↓, 분산↑ (과적합)
-  단순한 모델: 편향↑, 분산↓ (과소적합)
-  
-  앙상블 목표:
-  배깅 → 분산 감소
-  부스팅 → 편향 감소
-
-앙상블 방법:
-  배깅 (Bagging): 병렬, 분산 감소
-  부스팅 (Boosting): 순차, 편향 감소
-  스태킹 (Stacking): 메타 학습기 결합
-  보팅 (Voting): 단순 다수결
-```
 
 > 📢 **섹션 요약 비유**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) = 의사 그룹 진료 — 여러 의사(모델)가 각자 진단. 다수결([Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/))로 최종 결정. 한 의사의 실수를 다른 의사가 보완. 집단 지성!
 
@@ -58,49 +57,44 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))
 
-```
-Bagging (Bootstrap Aggregating):
-  부트스트랩 샘플 → 독립 모델 → 결합
 
-부트스트랩 샘플링:
-  원본 데이터 N개 → 복원 추출로 N개 샘플
-  
-  특성:
-  약 63.2%의 원본 데이터 포함 (중복 허용)
-  약 36.8%: Out-of-Bag (OOB) 샘플 (검증용)
 
-배깅 절차:
-  1. 훈련 데이터 D에서 T개 부트스트랩 샘플 생성
-  2. 각 샘플로 독립적 모델 m1, m2, ..., mT 훈련
-  3. 예측:
-     분류: 다수결 투표
-     회귀: 평균
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bagging (Bootstrap Aggregating):</div>
+<div class="kb-diagram-note">부트스트랩 샘플 → 독립 모델 → 결합</div>
+<div class="kb-diagram-note">부트스트랩 샘플링:</div>
+<div class="kb-diagram-note">원본 데이터 N개 → 복원 추출로 N개 샘플</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">약 63.2%의 원본 데이터 포함 (중복 허용)</div>
+<div class="kb-diagram-note">약 36.8%: Out-of-Bag (OOB) 샘플 (검증용)</div>
+<div class="kb-diagram-note">배깅 절차:</div>
+<div class="kb-diagram-note">1. 훈련 데이터 D에서 T개 부트스트랩 샘플 생성</div>
+<div class="kb-diagram-note">2. 각 샘플로 독립적 모델 m1, m2, ..., mT 훈련</div>
+<div class="kb-diagram-note">3. 예측:</div>
+<div class="kb-diagram-note">분류: 다수결 투표</div>
+<div class="kb-diagram-note">회귀: 평균</div>
+<div class="kb-diagram-note">분산 감소 원리:</div>
+<div class="kb-diagram-note">독립적 모델 T개의 평균:</div>
+<div class="kb-diagram-note">Var(평균) = Var(개별) / T</div>
+<div class="kb-diagram-note">→ 모델 수가 많을수록 분산 감소</div>
+<div class="kb-diagram-note">Random Forest (랜덤 포레스트):</div>
+<div class="kb-diagram-note">배깅 + 특성 무작위 선택</div>
+<div class="kb-diagram-note">개선:</div>
+<div class="kb-diagram-note">각 분기점: 전체 특성 중 √m개만 무작위 선택</div>
+<div class="kb-diagram-note">→ 트리 간 상관관계 감소 → 추가 분산 감소</div>
+<div class="kb-diagram-note">OOB 평가:</div>
+<div class="kb-diagram-note">각 트리의 OOB 샘플로 교차 검증 대체</div>
+<div class="kb-diagram-note">특성 중요도:</div>
+<div class="kb-diagram-note">OOB 오류 증가율로 특성 기여도 측정</div>
+<div class="kb-diagram-note">배깅 구현:</div>
+<div class="kb-diagram-note">from sklearn.ensemble import BaggingClassifier, RandomForestClassifier</div>
+<div class="kb-diagram-note">bag = BaggingClassifier(n_estimators=100, bootstrap=True)</div>
+<div class="kb-diagram-note">rf = RandomForestClassifier(n_estimators=100, max_features='sqrt')</div>
+</div>
+</div>
 
-분산 감소 원리:
-  독립적 모델 T개의 평균:
-  Var(평균) = Var(개별) / T
-  
-  → 모델 수가 많을수록 분산 감소
 
-Random Forest (랜덤 포레스트):
-  배깅 + 특성 무작위 선택
-  
-  개선:
-  각 분기점: 전체 특성 중 √m개만 무작위 선택
-  → 트리 간 상관관계 감소 → 추가 분산 감소
-  
-  OOB 평가:
-  각 트리의 OOB 샘플로 교차 검증 대체
-  
-  특성 중요도:
-  OOB 오류 증가율로 특성 기여도 측정
-
-배깅 구현:
-  from sklearn.ensemble import BaggingClassifier, RandomForestClassifier
-  
-  bag = BaggingClassifier(n_estimators=100, bootstrap=True)
-  rf = RandomForestClassifier(n_estimators=100, max_features='sqrt')
-```
 
 > 📢 **섹션 요약 비유**: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) = 여론 조사 집계 — 각 조사(부트스트랩 샘플)에서 독립적 결과. 100개 조사 평균 내면 단일보다 정확. Random Forest는 조사마다 다른 질문 섞어서 중복 의견 제거!
 
@@ -108,53 +102,48 @@ Random Forest (랜덤 포레스트):
 
 ## Ⅲ. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))
 
-```
-Boosting:
-  이전 모델의 오류에 집중 → 순차적 편향 감소
 
-AdaBoost:
-  틀린 샘플의 가중치 증가 → 다음 모델이 집중
-  
-  1. 균등 가중치로 모델 1 훈련
-  2. 오분류 샘플 가중치 증가
-  3. 증가된 가중치로 모델 2 훈련
-  4. 반복
-  5. 최종: 가중 투표 (정확한 모델에 더 큰 가중치)
 
-Gradient Boosting:
-  잔차(Residual)를 목표로 훈련
-  
-  F(x) = F_0(x) + F_1(x) + F_2(x) + ...
-  
-  각 단계:
-  r = y - F_prev(x)  # 잔차(음의 그래디언트)
-  새 모델 h = 잔차 r을 예측하도록 훈련
-  F_new = F_prev + 학습률 × h
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Boosting:</div>
+<div class="kb-diagram-note">이전 모델의 오류에 집중 → 순차적 편향 감소</div>
+<div class="kb-diagram-note">AdaBoost:</div>
+<div class="kb-diagram-note">틀린 샘플의 가중치 증가 → 다음 모델이 집중</div>
+<div class="kb-diagram-note">1. 균등 가중치로 모델 1 훈련</div>
+<div class="kb-diagram-note">2. 오분류 샘플 가중치 증가</div>
+<div class="kb-diagram-note">3. 증가된 가중치로 모델 2 훈련</div>
+<div class="kb-diagram-note">4. 반복</div>
+<div class="kb-diagram-note">5. 최종: 가중 투표 (정확한 모델에 더 큰 가중치)</div>
+<div class="kb-diagram-note">Gradient Boosting:</div>
+<div class="kb-diagram-note">잔차(Residual)를 목표로 훈련</div>
+<div class="kb-diagram-note">F(x) = F_0(x) + F_1(x) + F_2(x) + ...</div>
+<div class="kb-diagram-note">각 단계:</div>
+<div class="kb-diagram-note">r = y - F_prev(x) # 잔차(음의 그래디언트)</div>
+<div class="kb-diagram-note">새 모델 h = 잔차 r을 예측하도록 훈련</div>
+<div class="kb-diagram-note">F_new = F_prev + 학습률 × h</div>
+<div class="kb-diagram-note">XGBoost (Extreme Gradient Boosting):</div>
+<div class="kb-diagram-note">그래디언트 부스팅 최적화</div>
+<div class="kb-diagram-note">특징:</div>
+<div class="kb-diagram-note">정규화 (L1/L2): 과적합 방지</div>
+<div class="kb-diagram-note">병렬 처리: 트리 내 분기점 탐색 병렬화</div>
+<div class="kb-diagram-note">가지치기: 음수 이득 분기 제거</div>
+<div class="kb-diagram-note">결측값 처리 내장</div>
+<div class="kb-diagram-note">실용성:</div>
+<div class="kb-diagram-note">Kaggle 2015~2022: 우승 모델 다수 XGBoost</div>
+<div class="kb-diagram-note">LightGBM:</div>
+<div class="kb-diagram-note">Leaf-wise 트리 성장 (XGBoost: Level-wise)</div>
+<div class="kb-diagram-note">→ 더 빠른 학습, 더 낮은 메모리</div>
+<div class="kb-diagram-note">GOSS (Gradient-based One-Side Sampling):</div>
+<div class="kb-diagram-note">큰 그래디언트 샘플 유지, 작은 것 일부만</div>
+<div class="kb-diagram-note">→ 정확도 유지하며 속도 향상</div>
+<div class="kb-diagram-note">CatBoost:</div>
+<div class="kb-diagram-note">카테고리 변수 자동 처리</div>
+<div class="kb-diagram-note">Ordered Boosting: 데이터 누설 방지</div>
+</div>
+</div>
 
-XGBoost (Extreme Gradient Boosting):
-  그래디언트 부스팅 최적화
-  
-  특징:
-  정규화 (L1/L2): 과적합 방지
-  병렬 처리: 트리 내 분기점 탐색 병렬화
-  가지치기: 음수 이득 분기 제거
-  결측값 처리 내장
-  
-  실용성:
-  Kaggle 2015~2022: 우승 모델 다수 XGBoost
 
-LightGBM:
-  Leaf-wise 트리 성장 (XGBoost: Level-wise)
-  → 더 빠른 학습, 더 낮은 메모리
-  
-  GOSS (Gradient-based One-Side Sampling):
-  큰 그래디언트 샘플 유지, 작은 것 일부만
-  → 정확도 유지하며 속도 향상
-
-CatBoost:
-  카테고리 변수 자동 처리
-  Ordered Boosting: 데이터 누설 방지
-```
 
 > 📢 **섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) = 약점 집중 훈련 — 시험에서 틀린 문제에 집중. 다음 모델이 이전 모델의 오류(잔차)를 공략. 100번 반복 → 점점 정확해짐!
 
@@ -162,41 +151,40 @@ CatBoost:
 
 ## Ⅳ. 스태킹과 비교
 
-```
-스태킹 (Stacking):
-  기본 학습기(Base Learner) 예측을 메타 학습기 입력으로
 
-절차:
-  1. N개 기본 모델 (SVM, RF, LGBM 등) 훈련
-  2. 각 모델의 예측값 → 새로운 특성
-  3. 메타 모델(보통 선형 회귀/로지스틱): 예측값 결합
-  
-  예:
-  기본 모델 3개: [0.8, 0.3, 0.7] 예측
-  메타 모델: 이 3개 예측으로 최종 예측
-  
-  K-Fold 스태킹:
-  데이터 누설 방지 위해 교차 검증으로 기본 예측 생성
 
-보팅 (Voting):
-  하드 보팅: 다수결 (클래스 직접)
-  소프트 보팅: 확률 평균 (더 정확)
-  
-  from sklearn.ensemble import VotingClassifier
-  vc = VotingClassifier([('rf', rf), ('lgbm', lgbm)], voting='soft')
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스태킹 (Stacking):</div>
+<div class="kb-diagram-note">기본 학습기(Base Learner) 예측을 메타 학습기 입력으로</div>
+<div class="kb-diagram-note">절차:</div>
+<div class="kb-diagram-note">1. N개 기본 모델 (SVM, RF, LGBM 등) 훈련</div>
+<div class="kb-diagram-note">2. 각 모델의 예측값 → 새로운 특성</div>
+<div class="kb-diagram-note">3. 메타 모델(보통 선형 회귀/로지스틱): 예측값 결합</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">기본 모델 3개:</div><div class="kb-diagram-node">0.8, 0.3, 0.7</div><div class="kb-diagram-note">예측</div></div>
+<div class="kb-diagram-note">메타 모델: 이 3개 예측으로 최종 예측</div>
+<div class="kb-diagram-note">K-Fold 스태킹:</div>
+<div class="kb-diagram-note">데이터 누설 방지 위해 교차 검증으로 기본 예측 생성</div>
+<div class="kb-diagram-note">보팅 (Voting):</div>
+<div class="kb-diagram-note">하드 보팅: 다수결 (클래스 직접)</div>
+<div class="kb-diagram-note">소프트 보팅: 확률 평균 (더 정확)</div>
+<div class="kb-diagram-note">from sklearn.ensemble import VotingClassifier</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">vc = VotingClassifier(</div><div class="kb-diagram-node">('rf', rf), ('lgbm', lgbm)</div><div class="kb-diagram-note">, voting='soft')</div></div>
+<div class="kb-diagram-note">방법 비교:</div>
+<div class="kb-diagram-note">방법 순서 목표 대표 알고리즘</div>
+<div class="kb-diagram-note">배깅 병렬 분산↓ Random Forest</div>
+<div class="kb-diagram-note">부스팅 순차 편향↓ XGBoost, LightGBM</div>
+<div class="kb-diagram-note">스태킹 2단계 둘 다 Blending</div>
+<div class="kb-diagram-note">보팅 병렬 안정 Voting Classifier</div>
+<div class="kb-diagram-note">데이터 유형별:</div>
+<div class="kb-diagram-note">정형 데이터: LightGBM/XGBoost 최강</div>
+<div class="kb-diagram-note">이미지/텍스트: 딥러닝 (앙상블은 보조)</div>
+<div class="kb-diagram-note">소규모: Random Forest (해석 가능)</div>
+</div>
+</div>
 
-방법 비교:
-  방법     순서   목표    대표 알고리즘
-  배깅     병렬   분산↓   Random Forest
-  부스팅   순차   편향↓   XGBoost, LightGBM
-  스태킹   2단계  둘 다   Blending
-  보팅     병렬   안정    Voting Classifier
 
-데이터 유형별:
-  정형 데이터: LightGBM/XGBoost 최강
-  이미지/텍스트: 딥러닝 (앙상블은 보조)
-  소규모: Random Forest (해석 가능)
-```
 
 > 📢 **섹션 요약 비유**: 스태킹 = 전문가 패널 + 심사위원장 — 전문가 3명(기본 모델) 의견 듣고, 심사위원장(메타 모델)이 최종 결정. 단순 다수결보다 더 정교한 결합!
 

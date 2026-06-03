@@ -23,16 +23,18 @@ tags = ["studynote-enterprise"]
 
 이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 기술 시연에 머물고 운영 설계가 비는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 Layer 2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) Optimistic vs ZK 차이는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                     Layer 2 롤업 Op…의 필요성                         │
-├──────────────────────────────────────────────────────────────┤
-│ 현장 입력             설계 기준                기대 결과     │
-│ [Layer 2 롤업 Op…] ─────▶ [Layer 2 롤업 Op…] ─────▶ [기술 내재화]                  │
-│      │                           │                           │
-│      └────────▶ [기술 시연에 머물고 운영…] 완화 ───────────────▶ 운영 안정화 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 2 롤업 Op…의 필요성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현장 입력 설계 기준 기대 결과</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2 롤업 Op…</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Layer 2 롤업 Op…</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기술 내재화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기술 시연에 머물고 운영…</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">운영 안정화</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Layer 2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) Optimistic vs ZK 차이가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
 
@@ -51,15 +53,17 @@ tags = ["studynote-enterprise"]
 | ZK | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             핵심 원리: 기준 → 실행 → 피드백 루프             │
-├──────────────────────────────────────────────────────────────┤
-│ [Layer 2 롤업 Op…] ─────▶ [Layer 2 Rollup] ─────▶ [ZK]                       │
-│      ▲                                             │         │
-│      └───────────── 지표·리스크·교정 루프 ──────────┘         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 원리: 기준 → 실행 → 피드백 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2 롤업 Op…</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Layer 2 Rollup</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지표·리스크·교정 루프</div></div>
+</div>
+</div>
+
+
 
 이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 Layer 2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) Optimistic vs ZK 차이는 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
 
@@ -126,15 +130,19 @@ Layer 2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Layer 2 롤업 Op… 정리]
-    │
-    ▼
-[Layer 2 롤업 Op… 적용]
-    │
-    ├──▶ [Layer 2 Rollup 최적화]
-    └──▶ [플랫폼 기반 서비스화 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2 롤업 Op… 정리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2 롤업 Op… 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Layer 2 Rollup 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플랫폼 기반 서비스화 확장</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
 

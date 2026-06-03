@@ -17,29 +17,27 @@ tags = ["operating_system"]
 
 ### 데이터의 영속성: 비휘발성 저장의 핵심
 
-메인 메모리(RAM)는 속도가 빠르지만 전원이 꺼지면 데이터가 사라지는 휘발성 자원이다. 사용자의 소중한 데이터와 프로그램을 영구적으로 보관하기 위해서는 하드디스크 (HDD)나 SSD와 같은 비휘발성 저장장치가 필수적이다. 운영체제는 이러한 물리적 장치를 사용자가 이해하기 쉬운 **파일 (File)**이라는 논리적 단위로 추상화하여 관리한다.
+메인 메모리(RAM)는 속도가 빠르지만 전원이 꺼지면 데이터가 사라지는 휘발성 자원이다. 사용자의 소중한 데이터와 프로그램을 영구적으로 보관하기 위해서는 하드디스크 (HDD)나 SSD와 같은 비휘발성 저장장치가 필수적이다. 운영체제는 이러한 물리적 장치를 사용자가 이해하기 쉬운 <strong>파일 (File)</strong>이라는 논리적 단위로 추상화하여 관리한다.
 
-파일 시스템이 필요한 이유는 세 가지이다. 첫째, 수조 개의 비트(Bit)가 저장된 거대한 저장공간에서 내가 원하는 데이터를 **이름과 경로**로 쉽게 찾기 위해서이며, 둘째, 여러 사용자가 시스템을 사용할 때 **데이터 접근 권한**을 제어하여 보안을 유지하기 위해서이고, 셋째, 디스크의 물리적 오류나 시스템 충돌 시에도 **데이터를 안전하게 복구**하기 위함이다.
+파일 시스템이 필요한 이유는 세 가지이다. 첫째, 수조 개의 비트(Bit)가 저장된 거대한 저장공간에서 내가 원하는 데이터를 <strong>이름과 경로</strong>로 쉽게 찾기 위해서이며, 둘째, 여러 사용자가 시스템을 사용할 때 <strong>데이터 접근 권한</strong>을 제어하여 보안을 유지하기 위해서이고, 셋째, 디스크의 물리적 오류나 시스템 충돌 시에도 <strong>데이터를 안전하게 복구</strong>하기 위함이다.
 
 이 그림은 파일 시스템의 계층 구조를 보여준다. 사용자의 명령이 어떻게 하드웨어 제어로 변환되는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 File System Layered Architecture            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Application Program ] ──▶ [ Logical File System ]       │
-│                                (Directory, Metadata)        │
-│                                         │                   │
-│   [ File Organization Module ] ◀────────┘                   │
-│   (Logical to Physical Block Mapping)                       │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Basic File System ] ──▶ [ I/O Control ] ──▶ [ Device ]  │
-│   (Issue Generic Commands)   (Drivers, IRQ)     (HDD/SSD)   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File System Layered Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Application Program</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Logical File System</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Directory, Metadata)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">File Organization Module</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Logical to Physical Block Mapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Basic File System</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Issue Generic Commands) (Drivers, IRQ) (HDD/SSD)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '매핑 (Mapping)'이다. 사용자는 "my_photo.jpg"라는 이름을 보지만, 파일 시스템은 이를 디스크의 "1024번부터 1050번 블록"으로 번역하여 읽어온다. 실무에서는 이 매핑 정보를 담은 메타데이터가 손상되지 않도록 관리하는 것이 파일 시스템 안정성의 핵심이다.
 
@@ -72,22 +70,22 @@ tags = ["operating_system"]
 
 이 구조도는 대용량 파일을 수용하기 위한 i-node의 다단계 인덱싱 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Unix i-node Structure (Multi-level)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ i-node ]                                                │
-│   - Metadata (Mode, Owner, Size...)                         │
-│   - Direct Blocks (12 pointers) ──▶ [ Data Blocks 0 ~ 11 ]  │
-│   - Single Indirect ──────────────▶ [ Index Block ] ──▶ [Data]│
-│   - Double Indirect ──────────────▶ [ Index 1 ] ──▶ [I2] ──▶ [Data]│
-│   - Triple Indirect ──────────────▶ [ I1 ] ──▶ [I2] ──▶ [I3] ──▶ [D]│
-│                                                             │
-│   * 효과: 작은 파일은 빠르게, 큰 파일은 계층적으로 수용     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unix i-node Structure (Multi-level)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">i-node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Metadata (Mode, Owner, Size...)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Blocks 0 ~ 11</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index Block</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 작은 파일은 빠르게, 큰 파일은 계층적으로 수용</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '유연성'이다. 대부분의 작은 파일은 12개의 직접 블록 주소만으로도 즉시 접근이 가능하며, 대용량 파일은 3단계 인덱스까지 확장하여 수 테라바이트 급의 크기를 지원한다. 실무에서는 이 i-node 개수가 부족하면 디스크 용량이 남아도 파일을 생성할 수 없는 'i-node 고갈' 이슈가 발생할 수 있으므로 주의가 필요하다.
 
@@ -124,30 +122,26 @@ tags = ["operating_system"]
 ### 기술사적 판단: 스토리지 아키텍처 및 복구 전략
 
 **시나리오 1: 빈번한 정전이 발생하는 공장 현장의 제어 단말기**
-- **판단**: 데이터 손실 방지가 최우선이므로 반드시 **저널링 파일 시스템 (Ext4/XFS)**을 사용한다. 추가로 'Metadata Journaling'뿐만 아니라 실제 데이터까지 기록하는 'Full Data Journaling' 옵션을 검토하되, 성능 저하 폭을 테스트하여 결정한다. 또한 파일 시스템 위에 **RAID 1 (Mirroring)** 구성을 더해 물리적 디스크 결함에 대비한다.
+- **판단**: 데이터 손실 방지가 최우선이므로 반드시 <strong>저널링 파일 시스템 (Ext4/XFS)</strong>을 사용한다. 추가로 'Metadata Journaling'뿐만 아니라 실제 데이터까지 기록하는 'Full Data Journaling' 옵션을 검토하되, 성능 저하 폭을 테스트하여 결정한다. 또한 파일 시스템 위에 **RAID 1 (Mirroring)** 구성을 더해 물리적 디스크 결함에 대비한다.
 
 **시나리오 2: 수백만 개의 소규모 이미지 파일을 서비스하는 웹 플랫폼**
-- **판단**: i-node 접근 오버헤드가 병목이 될 수 있다. i-node를 메모리에 캐싱하는 **VFS (Virtual File System) 캐시** 크기를 최적화한다. 파일 시스템은 많은 수의 파일을 효율적으로 관리하는 **XFS**나 **Btrfs**를 추천하며, 디렉터리 구조를 계층화하여 한 폴더에 파일이 몰리지 않도록 설계한다.
+- **판단**: i-node 접근 오버헤드가 병목이 될 수 있다. i-node를 메모리에 캐싱하는 **VFS (Virtual File System) 캐시** 크기를 최적화한다. 파일 시스템은 많은 수의 파일을 효율적으로 관리하는 <strong>XFS</strong>나 <strong>Btrfs</strong>를 추천하며, 디렉터리 구조를 계층화하여 한 폴더에 파일이 몰리지 않도록 설계한다.
 
 이 도식은 가상 파일 시스템 (VFS)이 다양한 실제 파일 시스템을 통합하는 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Virtual File System (VFS) Layer             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User Application ] ──▶ [ open(), read(), write() ]      │
-│                                         │                   │
-│   ========================= [ VFS Layer ] ==================  │
-│                                         │                   │
-│          ┌──────────────────────┬───────┴──────────────┐    │
-│          ▼                      ▼                      ▼    │
-│   [ Ext4 module ]        [ NTFS module ]        [ NFS module ]  │
-│          │                      │                      │    │
-│   [ Local Disk ]         [ USB Drive ]          [ Network ] │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual File System (VFS) Layer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Application</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">open(), read(), write()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">VFS Layer</div><div class="kb-diagram-note">==================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ext4 module</div><div class="kb-diagram-node">NTFS module</div><div class="kb-diagram-node">NFS module</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Local Disk</div><div class="kb-diagram-node">USB Drive</div><div class="kb-diagram-node">Network</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 스토리지 판단은 '은행의 금고 설계'와 같습니다. 돈(데이터)을 얼마나 안전하게 보관할지(저널링/RAID), 그리고 고객이 찾으러 왔을 때 얼마나 빨리 줄지(디스크 스케줄링/캐싱)를 비용과 성능 사이에서 균형 있게 설계해야 합니다.
 

@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))와 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 같은 비면허 대역 통신은 누구나 공짜로 쓰는 900MHz 도로를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 '전파 간섭'에 의한 통신 실패가 잦았습니다. 이는 스마트 가로등이나 심장 박동기 등 국가 단위의 중요한 관제 인프라에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)엔 리스크가 컸습니다.
-- 이에 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)(국제 이동통신 표준화 기구) 진영의 통신사들은 **"우리가 국가에 돈 내고 산 독점 주파수([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 면허 대역) 도로 중, 구석의 짜투리 갓길을 센서용으로 비워줄 테니 안정적으로 요금 내고 써라"**라며 반격용 표준을 제정했습니다.
+- 이에 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)(국제 이동통신 표준화 기구) 진영의 통신사들은 <strong>"우리가 국가에 돈 내고 산 독점 주파수(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 면허 대역) 도로 중, 구석의 짜투리 갓길을 센서용으로 비워줄 테니 안정적으로 요금 내고 써라"</strong>라며 반격용 표준을 제정했습니다.
 
-```text
-[Sigfox]
-    │
-    ▼
-[면허 대역 LPWAN 분야]
-    │
-    └──▶ [NB-IoT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NB-IoT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,19 +46,23 @@ tags = ["studynote-network"]
 
 ### 2. 전국망 커버리지 (기지국 재활용)
 - [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))는 농장 주인이 자기 돈으로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 10개를 사서 뒷산에 박고 랜선을 끌어와야 합니다([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용 발생).
-- 반면 면허 대역 방식은 통신사가 이미 전국 산간벽지까지 촘촘히 박아놓은 **수십만 개의 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국에 간단한 소프트웨어 패치(업그레이드)만 발라주면 즉시 전국구 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 망으로 변신**합니다. 센서 전원만 켜면 제주도 산속이든 부산 앞바다든 1초 만에 서울 서버와 연결됩니다.
+- 반면 면허 대역 방식은 통신사가 이미 전국 산간벽지까지 촘촘히 박아놓은 <strong>수십만 개의 4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 기지국에 간단한 소프트웨어 패치(업그레이드)만 발라주면 즉시 전국구 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 망으로 변신</strong>합니다. 센서 전원만 켜면 제주도 산속이든 부산 앞바다든 1초 만에 서울 서버와 연결됩니다.
 
 ### 3. 막강한 글로벌 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)
 - 기존 스마트폰 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)망을 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 한국에서 만든 물류 추적 GPS 태그를 수출용 컨테이너에 달아 유럽으로 보내면 현지 Vodafone, Orange 통신망에 자동으로 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)되어 끊김 없이 추적이 가능합니다.
 
-```text
-[Sigfox]
-    │
-    ▼
-[면허 대역 LPWAN 분야]
-    │
-    └──▶ [NB-IoT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NB-IoT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,8 +71,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 LTE망을 어떻게 깎아서 IoT에 적용할 것인가를 두고 속도와 용도에 따라 두 가지 모델이 나왔습니다. (다음 620번, 621번 문서에서 상세히 다룸)
-- **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)**: 주파수 폭을 극단적으로 줄여(200kHz) 배터리 소모를 아예 제로에 가깝게 만든 궁극의 가성비, 느림보 센서([가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 검침기 등) 모델.
-- **[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) ([eMTC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))**: 속도도 1Mbps쯤 나오고, 기지국을 넘어갈 때 핸드오버도 되는 약간 고급형 센서(웨어러블 기기, 블랙박스 등) 모델.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a></strong>: 주파수 폭을 극단적으로 줄여(200kHz) 배터리 소모를 아예 제로에 가깝게 만든 궁극의 가성비, 느림보 센서([가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 검침기 등) 모델.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">eMTC</a>)</strong>: 속도도 1Mbps쯤 나오고, 기지국을 넘어갈 때 핸드오버도 되는 약간 고급형 센서(웨어러블 기기, 블랙박스 등) 모델.
 
 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Sigfox가 기반 조건을 만든다면, 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 그 위에서 핵심 메커니즘을 구현하고, NB-IoT는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ LTE망을 어떻게 깎아서 IoT에 적용할 것인가를 두고 속도와 용
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Sigfox]
-    │
-    ▼
-[현재 개념: 면허 대역 LPWAN 분야]
-    │
-    ├──▶ [확장 A: NB-IoT]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Sigfox</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NB-IoT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 Sigfox에서 출발해 현재 메커니즘을 정교화하고, 이후 NB-IoT와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

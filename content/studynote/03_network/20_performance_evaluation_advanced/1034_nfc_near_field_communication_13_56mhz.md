@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **기존 RFID (1035번 연계)**: 물류 창고에서 박스에 붙은 스티커(태그)를 멀리서 수십 개씩 총(리더기)으로 한방에 쏘아 읽어내는 기술입니다. 리더기는 똑똑하지만, 스티커는 멍청한 '[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 읽기' 전용입니다.
-- **NFC (Near Field Communication)의 반란**: 소니와 NXP가 13.56MHz 대역 RFID 기술을 뜯어고쳐 **양방향 통신([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))**이 가능하게 만들고, 스마트폰 안에 리더기와 태그 기능을 동시에 쑤셔 넣어 모바일 결제 시장을 폭발시킨 글로벌 무선 표준 기술입니다.
+- **NFC (Near Field Communication)의 반란**: 소니와 NXP가 13.56MHz 대역 RFID 기술을 뜯어고쳐 <strong>양방향 통신(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>)</strong>이 가능하게 만들고, 스마트폰 안에 리더기와 태그 기능을 동시에 쑤셔 넣어 모바일 결제 시장을 폭발시킨 글로벌 무선 표준 기술입니다.
 
-```text
-[지그비 메쉬]
-    │
-    ▼
-[NFC 표준]
-    │
-    └──▶ [RFID 충돌 방지 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFC 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 1. 카드 에뮬레이션 (Card Emulation) 모드 - "내가 신용카드다"
 - 지하철 개찰구나 삼성페이 단말기에 폰을 갖다 댈 때의 모드입니다.
-- 내 스마트폰이 멍청한 **교통카드(플라스틱 카드)인 척 연기(Emulation)**를 합니다.
+- 내 스마트폰이 멍청한 <strong>교통카드(플라스틱 카드)인 척 연기(Emulation)</strong>를 합니다.
 - **배터리 오프 기적**: 내 폰 배터리가 0%여서 폰이 꺼져도, 개찰구 단말기에서 뿜어져 나오는 '강력한 자석의 힘(자기 유도 전력)'이 내 폰 안의 구리 코일에 전기를 찌릿 발생시켜, 그 공짜 전기로 폰 안의 신용카드 칩(SE)을 찰나에 깨워 결제 데이터를 넘겨버립니다. 폰이 꺼져도 삼성페이(교통카드)가 되는 이유입니다.
 
 ### 2. 리더/라이터 (Reader/Writer) 모드 - "내가 스캐너다"
@@ -52,14 +56,18 @@ tags = ["studynote-network"]
 - 내 폰과 친구 폰을 서로 등 맞대고 비빌 때의 모드입니다. (안드로이드 빔)
 - 두 스마트폰이 서로 10cm 안으로 들어오면 귀찮은 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링(비번 교환) 없이 1초 만에 악수(Handshake)를 끝냅니다. 그리고 명함이나 사진, 혹은 진짜 파일을 넘길 거면 빠르고 안정적인 Wi-Fi [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 채널로 스르륵 넘겨줘 버리는(OOB, Out-of-Band 연결) 기적의 브로커 역할을 합니다.
 
-```text
-[지그비 메쉬]
-    │
-    ▼
-[NFC 표준]
-    │
-    └──▶ [RFID 충돌 방지 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NFC 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)나 와이파이는 10m 밖 주차장의 해커가 내 전파를 훔쳐보고 결제 암호를 털어갈 수 있습니다.
-- **NFC의 철벽**: 전파가 아니라 **'자기장 결합(Inductive [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))'** 원리를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 물리적인 통신 거리가 **10cm 이내**로 제한됩니다. 
+- **NFC의 철벽**: 전파가 아니라 <strong>'자기장 결합(Inductive <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)'</strong> 원리를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 물리적인 통신 거리가 <strong>10cm 이내</strong>로 제한됩니다. 
 - 해커가 내 삼성페이 결제 정보를 훔치려면, 내 스마트폰과 편의점 결제기 사이 10cm 틈새로 머리를 들이밀어야만 해킹이 가능합니다(물리적 보안 에어갭 완벽 구현). 모바일 결제 시장을 평정한 결정적 이유입니다.
 
 NFC 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬가 기반 조건을 만든다면, NFC 표준은 그 위에서 핵심 메커니즘을 구현하고, RFID 충돌 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -79,7 +87,7 @@ NFC 표준을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)나 와이파이** 통신이 방 안의 사람들과 멀리서 대화하는 **'스피커 방송'**이라면, **NFC(13.56MHz)**는 입술을 귀에 바짝 갖다 대고 숨소리만으로 소곤거리는 **'10cm 초밀착 귓속말'**입니다. 스피커로 "내 신용카드 비밀번호는 1234야!"라고 외치면 옆 테이블 해커가 듣고 훔쳐 가지만, 귀에 대고 10cm 거리에서 귓속말을 하면 중간에 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치를 댈 물리적 공간이 없어 완벽한 보안이 유지됩니다. 이 스마트폰은 귓속말로 상대방의 비밀(포스터 정보)을 듣기도 하고(리더 모드), 내 몸을 완전 끄고 잠든 상태에서도 상대방이 귀에 소리를 지르는 에너지(자기 유도)에 의해 잠꼬대처럼 신용카드 번호를 내뱉기도 하며(카드 에뮬레이션 모드), 두 스마트폰끼리 귀를 맞대고 은밀한 명함을 순식간에 교환([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 모드)해 내는, 세상에서 가장 안전하고 짧은 무선 결제 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>나 와이파이</strong> 통신이 방 안의 사람들과 멀리서 대화하는 <strong>'스피커 방송'</strong>이라면, <strong>NFC(13.56MHz)</strong>는 입술을 귀에 바짝 갖다 대고 숨소리만으로 소곤거리는 <strong>'10cm 초밀착 귓속말'</strong>입니다. 스피커로 "내 신용카드 비밀번호는 1234야!"라고 외치면 옆 테이블 해커가 듣고 훔쳐 가지만, 귀에 대고 10cm 거리에서 귓속말을 하면 중간에 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치를 댈 물리적 공간이 없어 완벽한 보안이 유지됩니다. 이 스마트폰은 귓속말로 상대방의 비밀(포스터 정보)을 듣기도 하고(리더 모드), 내 몸을 완전 끄고 잠든 상태에서도 상대방이 귀에 소리를 지르는 에너지(자기 유도)에 의해 잠꼬대처럼 신용카드 번호를 내뱉기도 하며(카드 에뮬레이션 모드), 두 스마트폰끼리 귀를 맞대고 은밀한 명함을 순식간에 교환([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 모드)해 내는, 세상에서 가장 안전하고 짧은 무선 결제 아키텍처입니다.
 
 ---
 
@@ -121,15 +129,19 @@ NFC 표준은 [성능](/knowledge-base/studynote/04_software_engineering/05_devo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 지그비 메쉬]
-    │
-    ▼
-[현재 개념: NFC 표준]
-    │
-    ├──▶ [확장 A: RFID 충돌 방지 알고리즘]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지그비 메쉬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFC 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RFID 충돌 방지 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 NFC 표준는 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬에서 출발해 현재 메커니즘을 정교화하고, 이후 RFID 충돌 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

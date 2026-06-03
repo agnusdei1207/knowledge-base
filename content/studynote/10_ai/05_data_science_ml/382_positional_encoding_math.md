@@ -47,33 +47,47 @@ dₘₒₐₑₗ : 임베딩 차원 (예: 512)
 
 i가 작을수록 고주파(빠른 변화), i가 클수록 저주파(느린 변화):
 
-```
-i=0: sin(pos / 10000⁰) = sin(pos)         ← 주기 2π ≈ 6.28
-i=128: sin(pos / 10000^(256/512))          ← 주기 ≈ 2π × 100
-i=255: sin(pos / 10000^(510/512))          ← 주기 ≈ 2π × 10000
-```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  PE 행렬 (pos × dₘₒₐₑₗ)                              │
-│                                                      │
-│  pos=0  [sin₀,  cos₀,  sin₁,  cos₁, ...]            │
-│  pos=1  [sin₁,  cos₁,  sin₁', cos₁'...]             │
-│  pos=2  [sin₂,  cos₂,  ...]                          │
-│  ...                                                 │
-│                                                      │
-│  낮은 차원: 고주파 (미세 위치 구분)                    │
-│  높은 차원: 저주파 (대략적 위치 구분)                  │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">i=0: sin(pos / 10000⁰) = sin(pos) ← 주기 2π ≈ 6.28</div>
+<div class="kb-diagram-note">i=128: sin(pos / 10000^(256/512)) ← 주기 ≈ 2π × 100</div>
+<div class="kb-diagram-note">i=255: sin(pos / 10000^(510/512)) ← 주기 ≈ 2π × 10000</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE 행렬 (pos × dₘₒₐₑₗ)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pos=0</div><div class="kb-diagram-node">sin₀,  cos₀,  sin₁,  cos₁, ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pos=1</div><div class="kb-diagram-node">sin₁,  cos₁,  sin₁', cos₁'...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pos=2</div><div class="kb-diagram-node">sin₂,  cos₂,  ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 차원: 고주파 (미세 위치 구분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 차원: 저주파 (대략적 위치 구분)</div></div>
+</div>
+</div>
+
+
 
 ### 상대 위치 표현 (내적 성질)
 
-```
-PE(pos) · PE(pos+k) = f(k)  (pos에 독립적)
-→ 두 위치의 내적이 상대 거리 k에만 의존
-→ 어텐션 스코어에 상대 위치 정보 암묵적 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PE(pos) · PE(pos+k) = f(k) (pos에 독립적)</div>
+<div class="kb-diagram-note">→ 두 위치의 내적이 상대 거리 k에만 의존</div>
+<div class="kb-diagram-note">→ 어텐션 스코어에 상대 위치 정보 암묵적 반영</div>
+</div>
+</div>
+
+
 
 | PE 방식 | 외삽 | 학습 파라미터 | 상대 위치 | 채택 모델 |
 |:---|:---|:---|:---|:---|

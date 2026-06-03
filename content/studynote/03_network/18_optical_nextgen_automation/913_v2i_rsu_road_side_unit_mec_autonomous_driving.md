@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 카메라, 레이더, 라이다 센서는 오직 '내 눈에 보이는 것(가시거리)'만 인식합니다.
 - 앞차가 거대한 트럭이면 그 너머에서 무단 횡단하는 어린아이를 절대 볼 수 없습니다(센서의 사각지대). 눈(센서)만 믿다가는 교차로에서 100% 사고가 납니다.
 
-```text
-[IPFS]
-    │
-    ▼
-[V2I 노변 기지국]
-    │
-    └──▶ [철도 통신망 LTE-R]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: V2I 노변 기지국은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **V2I**: 자동차(Vehicle)와 도로의 인프라(Infrastructure: 신호등, 가로등, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/))가 서로 무선 통신으로 대화하며 정보를 주고받는 기술입니다.
-- **RSU (Road Side Unit, 노변 기지국)**: 이 V2I 통신을 위해 **교차로나 가로등 기둥마다 설치된 작은 무선 송수신기([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 및 중계 장비)**입니다. 차량(OBU, 차량 단말기)이 반경 1km 내에 들어오면 즉시 연결되어 도로의 상태(결빙, 사고, 신호등 잔여 시간)를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 차량에 꽂아 넣어 줍니다.
+- **RSU (Road Side Unit, 노변 기지국)**: 이 V2I 통신을 위해 <strong>교차로나 가로등 기둥마다 설치된 작은 무선 송수신기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 및 중계 장비)</strong>입니다. 차량(OBU, 차량 단말기)이 반경 1km 내에 들어오면 즉시 연결되어 도로의 상태(결빙, 사고, 신호등 잔여 시간)를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 차량에 꽂아 넣어 줍니다.
 
-```text
-[IPFS]
-    │
-    ▼
-[V2I 노변 기지국]
-    │
-    └──▶ [철도 통신망 LTE-R]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: V2I 노변 기지국의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,7 +70,7 @@ tags = ["studynote-network"]
 ### 2. [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) ([모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))와의 융합 결합 🌟 핵심 🌟
 - RSU가 이런 정보를 처리하려면 뇌(컴퓨터)가 필요합니다. 
 - 그런데 1,000km 떨어진 네이버 클라우드 중앙 서버까지 이 영상을 보내서 "이거 사람입니까?" 물어보면 왕복 100ms(0.1초)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 발생해 이미 차에 사람이 치인 후입니다.
-- **오프맵 다운 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극복**: 그래서 통신사는 **RSU 기둥 바로 밑바닥 맨홀에 '작은 미니 서버 컴퓨터([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/), [모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))'를 파묻어 둡니다.** 
+- <strong>오프맵 다운 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 극복</strong>: 그래서 통신사는 <strong>RSU 기둥 바로 밑바닥 맨홀에 '작은 미니 서버 컴퓨터(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/">모바일 엣지 컴퓨팅</a>)'를 파묻어 둡니다.</strong> 
 - 데이터가 중앙 서버로 가지 않고([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 신호등 밑의 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 컴퓨터가 0.01초 만에 "이건 사람이다!"라고 자체 결단(로컬 컴퓨팅)을 내려 바로 차에 통보합니다. (초저지연 통신망 패러다임)
 
 ### 3. 고정밀 지도(HD Map) 실시간 다운로드
@@ -84,7 +92,7 @@ V2I 노변 기지국을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 전국 교차로 100만 개에 이 RSU 기계와 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버를 다 파묻으려면 돈이 천문학적으로 깨집니다. 
-- 또한, RSU가 자동차에 말을 걸 때 옛날 방식인 **[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(Wi-Fi 기반)**를 쓸 것인가, 아니면 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰과 같은 **[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)(이동통신 기반)**를 쓸 것인가를 두고 국가 간, 통신사 간 밥그릇 표준 전쟁이 치열하게 벌어지고 있습니다.
+- 또한, RSU가 자동차에 말을 걸 때 옛날 방식인 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">WAVE</a>(Wi-Fi 기반)</strong>를 쓸 것인가, 아니면 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰과 같은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a>(이동통신 기반)</strong>를 쓸 것인가를 두고 국가 간, 통신사 간 밥그릇 표준 전쟁이 치열하게 벌어지고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ V2I 노변 기지국을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 독고다이 자율주행차가 밤길에 헤드라이트(센서)만 켜고 숲속을 더듬거리며 혼자 걷는 장님이라면, **V2I 통신과 RSU(노변 기지국)**는 숲길 나무마다 매달려 있는 '동네 이장님들의 확성기'입니다. 장님이 걷다가 웅덩이에 빠지려 할 때, 바로 앞 나무에 달린 확성기(RSU)가 "야! 세 걸음 앞에 웅덩이 파였어! 멈춰!"라고 즉각 경고를 때려줍니다. 만약 이장님이 경찰서 본부(중앙 클라우드)에 전화를 걸어 "웅덩이 빠질 거 같은데 말해줄까요?"라고 허락을 맡는다면(100ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 장님은 이미 빠져 죽습니다. 그래서 나무 바로 밑둥에 조그만 미니 경찰서 파출소([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지 서버)를 지어놓고, 묻지도 따지지도 않고 그 자리에서 즉각 0.01초 만에 판단해 확성기를 울려 장님의 생명을 살려내는 궁극의 현장 지휘 시스템입니다.
+- **📢 섹션 요약 비유**: 독고다이 자율주행차가 밤길에 헤드라이트(센서)만 켜고 숲속을 더듬거리며 혼자 걷는 장님이라면, <strong>V2I 통신과 RSU(노변 기지국)</strong>는 숲길 나무마다 매달려 있는 '동네 이장님들의 확성기'입니다. 장님이 걷다가 웅덩이에 빠지려 할 때, 바로 앞 나무에 달린 확성기(RSU)가 "야! 세 걸음 앞에 웅덩이 파였어! 멈춰!"라고 즉각 경고를 때려줍니다. 만약 이장님이 경찰서 본부(중앙 클라우드)에 전화를 걸어 "웅덩이 빠질 거 같은데 말해줄까요?"라고 허락을 맡는다면(100ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 장님은 이미 빠져 죽습니다. 그래서 나무 바로 밑둥에 조그만 미니 경찰서 파출소([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 엣지 서버)를 지어놓고, 묻지도 따지지도 않고 그 자리에서 즉각 0.01초 만에 판단해 확성기를 울려 장님의 생명을 살려내는 궁극의 현장 지휘 시스템입니다.
 
 ---
 
@@ -115,15 +123,19 @@ V2I 노변 기지국은 광통신·차세대·자동화를 이해할 때 핵심 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPFS]
-    │
-    ▼
-[현재 개념: V2I 노변 기지국]
-    │
-    ├──▶ [확장 A: 철도 통신망 LTE-R]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPFS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: V2I 노변 기지국</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 철도 통신망 LTE-R</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 V2I 노변 기지국는 IPFS에서 출발해 현재 메커니즘을 정교화하고, 이후 [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) LTE-R와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

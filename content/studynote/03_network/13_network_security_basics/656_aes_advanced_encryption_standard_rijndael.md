@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 미국 국립표준기술연구소(NIST)가 낡은 DES를 강판시키고 새롭게 전 세계 표준으로 제정한 **현존 최고 수준의 2세대 블록 기반 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다. 
+- **개념**: 미국 국립표준기술연구소(NIST)가 낡은 DES를 강판시키고 새롭게 전 세계 표준으로 제정한 <strong>현존 최고 수준의 2세대 블록 기반 <a href="/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/">대칭키 암호</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다. 
 - **탄생**: 전 세계 15개의 쟁쟁한 암호가 경쟁한 끝에, 벨기에의 수학자 두 명이 만든 **Rijndael(레인달)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 처리 속도, 메모리 절약 등 모든 부문에서 만점에 가까운 점수를 받아 최종 AES 표준으로 채택되었습니다.
 
-```text
-[블록 암호]
-    │
-    ▼
-[AES]
-    │
-    └──▶ [SEED, ARIA, LEA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AES</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AES는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,23 +44,27 @@ tags = ["studynote-network"]
 AES는 과거 DES의 설계 철학(페이스텔 구조)을 완전히 버리고 완전히 새로운 방식을 채택했습니다.
 
 ### 1. 강력해진 블록과 키 사이즈
-- 데이터는 무조건 **128비트짜리 커다란 박스 단위**로 잘라 넣습니다.
+- 데이터는 무조건 <strong>128비트짜리 커다란 박스 단위</strong>로 잘라 넣습니다.
 - 금고를 잠그는 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))의 길이는 보안 등급에 따라 **128비트, 192비트, 256비트** 세 가지 중 선택할 수 있습니다. 가장 짧은 128비트 키조차도 해커가 무차별 대입 공격을 하려면 전 세계 컴퓨터를 다 동원해도 수백억 년이 걸려 물리적으로 해독이 불가능합니다.
 
 ### 2. SPN (Substitution-Permutation Network) 구조
 - 데이터를 반으로 쪼개지 않고, 128비트 전체를 한 판의 거대한 4x4 퍼즐 보드(행렬)에 올려놓습니다.
 - **S (Substitution, 치환)**: S-Box라는 수학 공식을 이용해, 'A'라는 글자를 완전히 쌩뚱맞은 'Z'라는 글자로 1:1로 통째로 바꿔치기합니다(혼돈 효과).
 - **P (Permutation, 순열)**: 퍼즐 보드의 가로줄과 세로줄을 마구잡이로 비틀어버리고 섞어버립니다(확산 효과).
-- 이 극도로 어지러운 과정을 키 길이에 따라 **10바퀴 ~ 14바퀴(라운드)**나 쉴 새 없이 돌려버리니, 원본 데이터의 흔적이 공중으로 산산이 흩어져버립니다.
+- 이 극도로 어지러운 과정을 키 길이에 따라 <strong>10바퀴 ~ 14바퀴(라운드)</strong>나 쉴 새 없이 돌려버리니, 원본 데이터의 흔적이 공중으로 산산이 흩어져버립니다.
 
-```text
-[블록 암호]
-    │
-    ▼
-[AES]
-    │
-    └──▶ [SEED, ARIA, LEA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AES</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AES의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ AES는 과거 DES의 설계 철학(페이스텔 구조)을 완전히 버리고 �
 ## Ⅲ. 비교 및 연결
 
 미국 NSA가 1급 국가 기밀(Top [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 암호화할 때 공식적으로 승인한 유일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
-- 인터넷 뱅킹([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 무선 와이파이([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/), [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/)), 카카오톡 메시지 암호화, 아이폰 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) 등 여러분이 인터넷상에서 비밀번호를 치고 로그인하는 **모든 행위의 99.9% 밑바닥에서 이 AES [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 돌아가며** 여러분의 돈과 프라이버시를 지켜주고 있습니다.
+- 인터넷 뱅킹([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 무선 와이파이([WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/), [WPA3](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/583_wpa3_sae_owe_enhanced_open/)), 카카오톡 메시지 암호화, 아이폰 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/) 등 여러분이 인터넷상에서 비밀번호를 치고 로그인하는 <strong>모든 행위의 99.9% 밑바닥에서 이 AES <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>이 돌아가며</strong> 여러분의 돈과 프라이버시를 지켜주고 있습니다.
 - CPU 제조사(인텔, AMD)들은 아예 CPU 칩셋 안에 AES 암호를 1초 만에 풀어버리는 전용 물리 회로(AES-NI)를 탑재해 놓을 정도로 절대적인 국제 표준입니다.
 
 AES를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)가 기반 조건을 만든다면, AES는 그 위에서 핵심 메커니즘을 구현하고, SEED, ARIA, LEA는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -118,15 +126,19 @@ AES는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 블록 암호]
-    │
-    ▼
-[현재 개념: AES]
-    │
-    ├──▶ [확장 A: SEED, ARIA, LEA]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록 암호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AES</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SEED, ARIA, LEA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 AES는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SEED, ARIA, LEA와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

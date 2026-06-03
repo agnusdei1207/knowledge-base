@@ -29,7 +29,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SRP의 핵심 원리는 기능의 **응집성([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))**과 **변경의 캡슐화**다. 모든 코드는 역할에 따라 철저히 분리되며, 서로 간의 소통은 명확히 정의된 인터페이스를 통해서만 이루어진다.
+SRP의 핵심 원리는 기능의 <strong>응집성(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong>과 <strong>변경의 캡슐화</strong>다. 모든 코드는 역할에 따라 철저히 분리되며, 서로 간의 소통은 명확히 정의된 인터페이스를 통해서만 이루어진다.
 
 | 구성 요소 | 단일 책임 준수 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | 단일 책임 위반 (God Class) |
 | :--- | :--- | :--- |
@@ -37,20 +37,21 @@ SRP의 핵심 원리는 기능의 **응집성([Cohesion](/knowledge-base/studyno
 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과의 의존성이 낮고 독립적임 | 외부 라이브러리와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 과도하게 묶임 |
 | 변경 영향도 | 변경된 해당 클래스만 다시 테스트하면 됨 | 한 줄 변경 시 전체 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) 필요 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             SRP 관점에서의 아키텍처 분리 원리                  │
-├──────────────────────────────────────────────────────────────┤
-│ [위반: God Class]                                            │
-│ UserAccount ─▶ (회원가입 로직 + DB 저장 쿼리 + 가입 메일 발송) │
-│                                                              │
-│ [준수: SRP 적용 후]                                          │
-│ UserRegistration ───▶ (회원가입 비즈니스 로직만 담당)        │
-│        │                                                     │
-│        ├─▶ UserRepository (DB 저장만 담당)                   │
-│        └─▶ EmailSender (메일 발송망 담당)                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRP 관점에서의 아키텍처 분리 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위반: God Class</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserAccount ─▶ (회원가입 로직 + DB 저장 쿼리 + 가입 메일 발송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">준수: SRP 적용 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserRegistration ▶ (회원가입 비즈니스 로직만 담당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ UserRepository (DB 저장만 담당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ EmailSender (메일 발송망 담당)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 하나의 덩치 큰 클래스가 비즈니스, [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(DB), 외부 통신 책임을 모두 지고 있던 상태에서, SRP를 적용하여 각각의 고유한 책임을 가진 3개의 클래스로 분리된 구조를 보여준다. 이렇게 분리하면 메일 서버의 API가 바뀌더라도 `UserRepository`나 `UserRegistration` 코드는 단 한 줄도 수정할 필요가 없다.
 
@@ -112,21 +113,23 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스파게티 코드 및 갓 클래스 (God Class) 출현
-    │
-    ▼
-응집도 (Cohesion)와 결합도 (Coupling) 개념 정립
-    │
-    ▼
-단일 책임 원칙 (SRP) ─▶ SOLID 설계 원칙의 기반 확립
-    │
-    ▼
-관심사의 분리 (SoC) 및 디자인 패턴 (Design Patterns) 적용
-    │
-    ▼
-바운디드 컨텍스트 (Bounded Context) 및 MSA (Microservices Architecture)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스파게티 코드 및 갓 클래스 (God Class) 출현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응집도 (Cohesion)와 결합도 (Coupling) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 책임 원칙 (SRP) ─▶ SOLID 설계 원칙의 기반 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관심사의 분리 (SoC) 및 디자인 패턴 (Design Patterns) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">바운디드 컨텍스트 (Bounded Context) 및 MSA (Microservices Architecture)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "무질서한 코드 → 설계 원칙 도입 → 구조적 패턴 적용 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍처"로 단일 책임의 개념이 확장되는 과정을 보여준다.
 

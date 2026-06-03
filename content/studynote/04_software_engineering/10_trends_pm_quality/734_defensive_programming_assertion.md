@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 실전에서는 유저가 키보드를 마구 두드리거나, 네트워크가 끊기거나, 다른 팀원이 짠 코드가 이상한 값을 넘겨주는 일이 매초 발생한다. 이때 예외 처리(Exception Handling)를 제대로 안 해두면, `NaN(Not a Number)` 같은 쓰레기 값이 데이터베이스에 저장되고, 한 달 뒤에 회계 정산을 돌릴 때 시스템 전체가 붕괴된다.
 
-이러한 비극을 막기 위해, 자동차에 에어백과 범퍼를 달듯이 **"내 함수로 들어오는 모든 데이터는 악의적이고 위험하다"**고 간주하고, 철저하게 검문소를 세우는 코딩 기법이 바로 **[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)([Defensive Programming](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/))**이다.
+이러한 비극을 막기 위해, 자동차에 에어백과 범퍼를 달듯이 <strong>"내 함수로 들어오는 모든 데이터는 악의적이고 위험하다"</strong>고 간주하고, 철저하게 검문소를 세우는 코딩 기법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/">방어적 프로그래밍</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/">Defensive Programming</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 공격적 프로그래밍이 헬멧 없이 오토바이를 타는 것이라면, [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)은 헬멧, 무릎 보호대, 에어백 조끼까지 다 입고 "모든 자동차가 나를 치려고 달려든다"고 생각하며 방어 운전을 하는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) Assertion 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  방어적 프로그래밍 Assertion                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어적 프로그래밍 Assertion</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) Assertion 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)을 구현하는 핵심 도구는 **어설션(Assertion, 단언문)**과 **예외 처리(Exception Handling)**다. 두 가지는 쓰임새가 완전히 다르다.
+[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)을 구현하는 핵심 도구는 <strong>어설션(Assertion, 단언문)</strong>과 <strong>예외 처리(Exception Handling)</strong>다. 두 가지는 쓰임새가 완전히 다르다.
 
 - **📢 섹션 요약 비유**: [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) Assertion 계약 기반 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,14 +71,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)과 철학을 공유하면서도 이를 공식적인 아키텍처 원칙으로 격상시킨 것이 **'계약 기반 설계([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/))'**다.
+[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)과 철학을 공유하면서도 이를 공식적인 아키텍처 원칙으로 격상시킨 것이 <strong>'계약 기반 설계(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/">Design by Contract</a>)'</strong>다.
 
 | [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) (Defensive) | 계약 기반 설계 ([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/), DbC) |
 |:---|:---|
 | **모든 것을 의심하라** (비관적) | **서로 약속한 것만 믿어라** (합리적) |
-| A 함수가 호출되면, 일단 값이 제대로 들어왔는지 A 함수 안에서 **무조건 다시 검사**한다. | 호출하는 쪽([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))과 호출받는 쪽(Server)이 **사전에 계약서(Contract)**를 쓴다. |
+| A 함수가 호출되면, 일단 값이 제대로 들어왔는지 A 함수 안에서 <strong>무조건 다시 검사</strong>한다. | 호출하는 쪽([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))과 호출받는 쪽(Server)이 <strong>사전에 계약서(Contract)</strong>를 쓴다. |
 | 코드가 방어벽(`if`문)으로 도배되어 지저분해진다. | 계약을 지켰다면 함수 내부에서는 **방어벽 없이 핵심 로직만 깔끔하게** 짠다. |
-| 쓰레기가 들어오면 에러를 뱉거나 우회한다. | **"네가 쓰레기 값을 줬으니(Pre-condition 위반), 이 에러는 내 책임이 아니라 네 책임이다!"**라고 명확히 선을 긋는다. |
+| 쓰레기가 들어오면 에러를 뱉거나 우회한다. | <strong>"네가 쓰레기 값을 줬으니(Pre-condition 위반), 이 에러는 내 책임이 아니라 네 책임이다!"</strong>라고 명확히 선을 긋는다. |
 
 계약 기반 설계는 1. 사전 조건(Pre-condition), 2. 사후 조건(Post-condition), 3. 불변 조건(Invariant)이라는 3가지 계약서 조항을 어설션(Assertion)으로 구현하는 세련된 기법이다.
 
@@ -95,7 +94,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)은 훌륭하지만, 실무에서 이를 과도하게 맹신하면 코드가 두 배로 길어지고 성능이 느려지는 **'패라노이드(Paranoid, 편집증) 프로그래밍'**으로 변질된다.
+[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)은 훌륭하지만, 실무에서 이를 과도하게 맹신하면 코드가 두 배로 길어지고 성능이 느려지는 <strong>'패라노이드(Paranoid, 편집증) 프로그래밍'</strong>으로 변질된다.
 
 - **📢 섹션 요약 비유**: [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/) Assertion 계약 기반 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)과 어설션을 코드 곳곳에 심어두면, 개발 및 테스트 단계에서 버그가 눈덩이처럼 커지기 전에 초기에 즉시 터져버려(Fail-Fast) QA 팀으로 넘어가는 결함률이 획기적으로 줄어든다.
 
-결론적으로 기술 리더는 "코드가 정상적으로 도는가?"보다 **"코드가 비정상적인 상황을 맞이했을 때 어떻게 우아하게 죽는가?"**를 묻는 사람이어야 한다. 남을 믿지 않는 비관주의([방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/))와 약속을 어기면 가차 없이 쳐내는 냉정함(Assertion)이야말로 고신뢰성 소프트웨어 아키텍처의 필수 교양이다.
+결론적으로 기술 리더는 "코드가 정상적으로 도는가?"보다 <strong>"코드가 비정상적인 상황을 맞이했을 때 어떻게 우아하게 죽는가?"</strong>를 묻는 사람이어야 한다. 남을 믿지 않는 비관주의([방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/))와 약속을 어기면 가차 없이 쳐내는 냉정함(Assertion)이야말로 고신뢰성 소프트웨어 아키텍처의 필수 교양이다.
 
 - **📢 섹션 요약 비유**: [방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)은 건물 곳곳에 설치해 둔 '화재 감지기(Assertion)'다. 평소엔 쓸모없어 보이지만, 누군가 작은 담배꽁초(버그)라도 버리면 즉시 요란하게 사이렌을 울려 건물 전체가 타버리는 것을 막아주는 최고의 파수꾼이다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-방어적 프로그래밍 Assertion 계약 기반 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">방어적 프로그래밍 Assertion 계약 기반 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

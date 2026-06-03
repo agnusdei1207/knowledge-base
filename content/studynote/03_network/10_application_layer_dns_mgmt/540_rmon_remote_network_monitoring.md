@@ -23,24 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: 기존 SNMP는 Manager가 Agent에게 "현재 CPU 사용량은 얼마인가?", "인터페이스 IN/OUT 바이트는 얼마인가?"를 주기적으로 물어보는 구조([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))였다. 만약 회사가 전국 100개 지사를 둔 환경이라면, 본사 NMS가 100개 지사의 트래픽 상태를 파악하기 위해 WAN [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 심각하게 낭비해야 한다. 또한 패킷 충돌, 런트(Runt), 자이언트(Giant) 프레임 등 특정 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 세그먼트에서 발생하는 원인 모를 핑계([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))는 라우터 단위의 SNMP로는 보이지 않는다.
 - **등장 배경**: ① SNMP의 과도한 중앙 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드 한계 → ② 리피터나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 환경(콜리전 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서의 국지적 L2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 추적 불능 → ③ 개별 서브넷에 '지능형 감시병(Probe)'을 파견하여 로컬에서 통계를 산출하고 결과만 요약 보고하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모니터링 철학(RMON)의 대두.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              SNMP Polling 한계와 RMON 분산 분석의 패러다임 변화    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 중앙 집중형 SNMP] - "시력이 나쁘고 대역폭을 많이 낭비함"         │
-│     (본사 NMS)  <── 수시로 질의/응답 트래픽 폭증 ──> [지사 라우터 100대] │
-│      * 단점: 지사 내부(Subnet)끼리 일어나는 브로드캐스트 통신은 볼 수 없음.│
-│                                                             │
-│   [혁신: 분산형 RMON] - "지능형 요원을 현장에 파견함"                    │
-│     (본사 NMS)  <── 하루 한 번 요약 보고 / 장애 시 비상 알람 ──>        │
-│                                            ┌───────────┐  │
-│                                            │ RMON Probe│  │
-│                                            └───┬───────┘  │
-│     [지사 로컬 네트워크 (L2 Switch Segment)] ◀───────┘(모든 패킷 스니핑)│
-│      * 장점: 자기들끼리 충돌난 패킷, CRC 에러 등 하위 계층 통계를 싹 긁어 모음.│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SNMP Polling 한계와 RMON 분산 분석의 패러다임 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 중앙 집중형 SNMP</div><div class="kb-diagram-note">- "시력이 나쁘고 대역폭을 많이 낭비함"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(본사 NMS) &lt;── 수시로 질의/응답 트래픽 폭증 ──&gt;</div><div class="kb-diagram-node">지사 라우터 100대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 지사 내부(Subnet)끼리 일어나는 브로드캐스트 통신은 볼 수 없음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 분산형 RMON</div><div class="kb-diagram-note">- "지능형 요원을 현장에 파견함"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(본사 NMS) &lt;── 하루 한 번 요약 보고 / 장애 시 비상 알람 ──&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMON Probe</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지사 로컬 네트워크 (L2 Switch Segment)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(모든 패킷 스니핑)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 자기들끼리 충돌난 패킷, CRC 에러 등 하위 계층 통계를 싹 긁어 모음.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 기존 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 아키텍처는 매니저(본사)가 에이전트(지사 장비)의 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 테이블 숫자를 지속적으로 당겨와야(Pull) 했다. RMON 아키텍처에서는 지사 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부, 혹은 별도의 하드웨어 탐지기(RMON Probe)가 그 지역의 트래픽 패킷 전체를 무차별 모드(Promiscuous Mode)로 캡처하고 분석한다. 그래서 본사 NMS는 평소에 가만히 있다가, 지사의 RMON Probe가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘긴 장애(예: 10초간 브로드캐스트 비율 50% 초과)를 발견하여 알람을 보내거나 정기 통계 리포트만을 받아보게 되어, 네트워크 운용의 극단적 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 가능해진다.
 
@@ -55,40 +54,39 @@ tags = ["studynote-network"]
 | 요소명 | 역할 | 내부 동작 | 계층적 특징 | 비유 |
 |:---|:---|:---|:---|:---|
 | **RMON Probe (에이전트)** | 네트워크 세그먼트 전수 감시 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 Promiscuous 모드로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 자신에게 오지 않은 패킷까지 전부 수신 및 파싱 | 소프트웨어 에이전트 또는 하드웨어 탐지기 | 매장의 전수 감시 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라 |
-| **[Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) (통계) 그룹** | 실시간 트래픽 양 및 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 계수 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 크기 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 드롭 패킷, 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)), [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러 등 물리적 장애 요인 누적 카운트 | L1/L2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 | 물건 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 계산원 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a> (통계) 그룹</strong> | 실시간 트래픽 양 및 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 계수 | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 크기 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 드롭 패킷, 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)), [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러 등 물리적 장애 요인 누적 카운트 | L1/L2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 | 물건 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 계산원 |
 | **History (이력) 그룹** | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 일정 주기로 [Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 샘플링하여 로컬 메모리에 보관, 네트워크 트렌드 제공 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 평면 | 일일 매출 장부 |
 | **Alarm (경보) & Event 그룹** | 능동적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 통보 | 사용자가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 변수 임계값(Threshold) 초과/미달 시 [SNMP Trap](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/534_snmp_trap_inform/) 형식으로 NMS에 이벤트(경보) 발송 | 자율 제어 평면 | 화재 경보기 / 보안 요원 |
 | **Host & Matrix 그룹** | 노드 간 통신 맵 매핑 | 서브넷 내 누가 가장 통신을 많이 했는지(Top Talker), 누구와 주로 통신했는지 매트릭스 도출 | 트래픽 분석 평면 | 우수 고객 분석 시스템 |
 
 ### RMON 프로브의 무차별(Promiscuous) 스니핑 및 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 저장 원리
 
-RMON의 근본적인 차별점은 에이전트가 단말기 본인의 상태(CPU 등)가 아니라, **자신이 물려 있는 네트워크 회선 전체를 흐르는 패킷**을 분석한다는 점이다.
+RMON의 근본적인 차별점은 에이전트가 단말기 본인의 상태(CPU 등)가 아니라, <strong>자신이 물려 있는 네트워크 회선 전체를 흐르는 패킷</strong>을 분석한다는 점이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               RMON Probe의 동작 원리 및 스위치 포트 연동              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [L2 Switch / Hub]                                           │
-│   PC A ──▶ ┌─ 포트1       [포트 미러링(SPAN)]                     │
-│   PC B ◀── ├─ 포트2 ════════════════════════════▶ ┌─────────┐ │
-│   PC C ──▶ └─ 포트3                                   │RMON     │ │
-│                                                      │Probe    │ │
-│                                                      │(에이전트)│ │
-│   [수집 및 분석 메커니즘]                                 └────┬────┘ │
-│     1. 모든 패킷 수신 (Promiscuous Mode)                         │   │
-│     2. 패킷 분해 (L2 이더넷 헤더 분석)                            │   │
-│     3. 에러 프레임 감지 (Runt < 64B, Giant > 1518B, CRC 오류)    │   │
-│     4. 로컬 RMON MIB에 통계 업데이트                             │   │
-│                                                               │   │
-│   [이벤트 발생 시점]                                              │   │
-│     "브로드캐스트 패킷 초당 1,000개 초과!" (Threshold 위반)         │   │
-│           │                                                   │   │
-│           └────────────────(SNMP Trap 전송)───────────────────┘   │
-│                                  ▼                                │
-│                              [본사 NMS 서버]                        │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMON Probe의 동작 원리 및 스위치 포트 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2 Switch / Hub</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 미러링(SPAN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC B ◀── ─ 포트2 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC C ──▶ ─ 포트3</div><div class="kb-diagram-cell">RMON</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(에이전트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수집 및 분석 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 모든 패킷 수신 (Promiscuous Mode)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 패킷 분해 (L2 이더넷 헤더 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 에러 프레임 감지 (Runt &lt; 64B, Giant &gt; 1518B, CRC 오류)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 로컬 RMON MIB에 통계 업데이트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 발생 시점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"브로드캐스트 패킷 초당 1,000개 초과!" (Threshold 위반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SNMP Trap 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">본사 NMS 서버</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도는 RMON 탐지기가 어떻게 망의 숨겨진 에러를 잡아내는지를 보여준다. 과거 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 환경이나, 현대의 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)(SPAN) 기술을 통해 세그먼트를 지나는 모든 L2 프레임이 RMON Probe로 복사된다. RMON 에이전트는 프레임의 길이를 측정하여 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준 규격 미달인 런트(Runt) 패킷이나 너무 큰 자이언트(Giant) 패킷을 잡아내고, 케이블 불량이나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 노후화로 발생하는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러를 로컬 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 테이블에 조용히 쌓아둔다. 관리자가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 경고 한계선(Threshold)을 돌파하는 순간, Probe는 능동적으로 NMS에 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 발사하여 망이 마비되기 전에 선제적인 장비 교체나 루프 차단 조치를 취할 수 있게 해준다.
 
@@ -104,28 +102,29 @@ RMON의 근본적인 차별점은 에이전트가 단말기 본인의 상태(CPU
 |:---|:---|:---|:---|
 | **모니터링 대상** | 장비 (Router/[Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 자체 상태 | 네트워크 세그먼트 (회선/서브넷) 전체 | 종단 간 ([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 연결 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) (IP 흐름) |
 | **수집 위치/관점** | L3 네트워크 계층 장비 | L1/L2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 특성 특화) | L3/L4 및 그 이상 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 통화 내역) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 방식** | NMS가 주기적으로 찔러서 수집 ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) | 에이전트가 자율 분석 후 요약 제공, 이벤트 시 Push | 흐름 타이머 만료 시 중앙 수집기로 대량 Push |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 방식</strong> | NMS가 주기적으로 찔러서 수집 ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) | 에이전트가 자율 분석 후 요약 제공, 이벤트 시 Push | 흐름 타이머 만료 시 중앙 수집기로 대량 Push |
 | **주요 발견 항목** | CPU/RAM 부족, 인터페이스 단절 | 물리적 케이블 손상, [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/), 충돌율 상승 | 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 확산 추적, 부서별 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 과금 증빙 |
 | **인프라 부하 비용** | 낮음 (CPU 연산 미미함) | 높음 (모든 패킷을 파싱해야 하므로 별도 Probe 장비 권장) | 중간~높음 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 메모리 Cache 점유) |
 
 RMON1은 L2 계층 스니핑에 강력하여 "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 케이블이 불량인지", "듀플렉스(Duplex) 미스매치로 찌그러진 프레임이 생기는지" 잡는 데 탁월하다. 반면 NetFlow는 "내부 PC가 외부 중국 서버로 기밀문서를 몇 메가 빼돌렸는지" 잡는 데 특화되어 있다. 최신 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 안에 Mini-RMON(미니 알몬) 에이전트를 기본 탑재하여, 별도의 장비 없이도 SNMP와 RMON의 장점을 결합해 사용한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               RMON 1 vs RMON 2의 가시성 진화 단계 비교              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [RMON 1] (L1 ~ L2 계층 특화)                                    │
-│   - 관심사: "이더넷 선로가 물리적으로 건강한가?"                       │
-│   - MIB 항목: Collision (충돌), CRC Error, Runt, Broadcast 수     │
-│   - 한계점: 패킷이 캡슐화된 IP 내부나 프로토콜이 무엇인지는 모름.         │
-│                                                               │
-│   [RMON 2] (L3 ~ L7 계층 확장)                                    │
-│   - 관심사: "어떤 네트워크 프로토콜이나 응용프로그램이 망을 점유하는가?"     │
-│   - MIB 항목: Protocol Directory, Network Layer Host, Application │
-│   - 발전상: 캡슐화된 패킷 내부를 까보기 시작 (DPI 기술의 효시가 됨).     │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMON 1 vs RMON 2의 가시성 진화 단계 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RMON 1</div><div class="kb-diagram-note">(L1 ~ L2 계층 특화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관심사: "이더넷 선로가 물리적으로 건강한가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MIB 항목: Collision (충돌), CRC Error, Runt, Broadcast 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계점: 패킷이 캡슐화된 IP 내부나 프로토콜이 무엇인지는 모름.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RMON 2</div><div class="kb-diagram-note">(L3 ~ L7 계층 확장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관심사: "어떤 네트워크 프로토콜이나 응용프로그램이 망을 점유하는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MIB 항목: Protocol Directory, Network Layer Host, Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 발전상: 캡슐화된 패킷 내부를 까보기 시작 (DPI 기술의 효시가 됨).</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 초창기 RMON 1은 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 시절 물리적 선로의 장애를 색출하는 강력한 도구였다. 하지만 망이 커지고 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 중심의 L3 환경으로 발전하면서, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 기반의 통계만으로는 라우터를 넘어온 패킷의 정체를 파악할 수 없었다. 이에 따라 IETF는 RMON 2 규격을 내놓아, 패킷 헤더의 IP 정보와 상위 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 등을 파싱(Parsing)할 수 있는 계층 트리를 추가했다. 이는 단순 하드웨어 통계를 넘어선 트래픽 심층 분석(Deep Packet Inspection) 개념의 초석을 다졌으며, 이후 NetFlow와 같은 L3/L4 전문 분석 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 대중화를 이끄는 마중물 역할을 하였다.
 
@@ -138,14 +137,14 @@ RMON1은 L2 계층 스니핑에 강력하여 "[스위치](/knowledge-base/studyn
 1. **상황**: 대형 병원 콜센터 네트워크가 갑자기 심한 렉([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))에 빠지며 IP 전화기가 끊어지고 업무가 마비되었다. 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 모니터링 대시보드에는 인터페이스 트래픽이 100% 찼다는 경고만 뜰 뿐, 구체적으로 어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 무슨 일이 벌어지는지 보이지 않았다.
 2. **원인 규명**: 층간 배선 작업 중 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 두 대가 실수로 이중 연결되어 루프(Loop)가 발생했고, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)(Spanning Tree [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류로 인해 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)이 망 전체를 덮치고 있었다.
 3. **의사결정 및 RMON 조치**:
-   - 관리자는 평소 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 구성해 둔 **RMON Event & Alarm [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 활용한다.
+   - 관리자는 평소 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 구성해 둔 <strong>RMON Event &amp; Alarm <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">MIB</a></strong> [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 활용한다.
    - 미리 세팅된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/): `Broadcast Packet 비율이 전체 트래픽의 30%를 5초 이상 초과 시 Rising Threshold 이벤트 발생`
    - 스톰이 시작되자마자 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 RMON 에이전트는 NMS로 비상 Trap을 발사하여 장애 진원지(특정 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 정확히 지목한다.
    - 관리자는 해당 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 즉각 셧다운(Shutdown) 조치하여 병원 전체의 네트워크 마비를 10초 내로 조기 진압할 수 있었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하 딜레마 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: RMON을 활성화하면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자신의 주 업무인 패킷 포워딩 외에, 덤으로 모든 패킷을 파싱하고 통계 테이블을 갱신하는 CPU 연산을 수행해야 한다. 저가형 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) 그룹 10개를 모두 돌리면 CPU 사용률이 100%를 쳐서 오히려 네트워크 마비를 유발할 수 있다. 실무에서는 미니 알몬(Mini-RMON) 필수 통계 4가지만 켜거나, 대규모 망의 경우 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)(SPAN)을 통해 별도의 '하드웨어 RMON 전용 Probe 어플라이언스'로 빼내어 분석하는 오프오드(Offload) 아키텍처가 필수적이다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 현대 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 클라우드([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 망에서 L2 통계 기반의 RMON 1에 과도하게 집착하는 행위. 클라우드 환경에서는 논리적 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 등)이 주로 쓰이므로 물리적 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 오류나 Runt 프레임은 거의 의미가 없다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망에서는 RMON보다는 Flow 기반(sFlow, IPFIX) 분석에 리소스를 집중해야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> CPU 부하 딜레마 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: RMON을 활성화하면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자신의 주 업무인 패킷 포워딩 외에, 덤으로 모든 패킷을 파싱하고 통계 테이블을 갱신하는 CPU 연산을 수행해야 한다. 저가형 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) 그룹 10개를 모두 돌리면 CPU 사용률이 100%를 쳐서 오히려 네트워크 마비를 유발할 수 있다. 실무에서는 미니 알몬(Mini-RMON) 필수 통계 4가지만 켜거나, 대규모 망의 경우 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)(SPAN)을 통해 별도의 '하드웨어 RMON 전용 Probe 어플라이언스'로 빼내어 분석하는 오프오드(Offload) 아키텍처가 필수적이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 현대 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 클라우드([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 망에서 L2 통계 기반의 RMON 1에 과도하게 집착하는 행위. 클라우드 환경에서는 논리적 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 등)이 주로 쓰이므로 물리적 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 오류나 Runt 프레임은 거의 의미가 없다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망에서는 RMON보다는 Flow 기반(sFlow, IPFIX) 분석에 리소스를 집중해야 한다.
 
 - **📢 섹션 요약 비유**: 알몬(RMON) 감시 요원에게 너무 돋보기를 세게 끼우고 먼지 하나하나 다 보고하라고 시키면, 요원이 감시 서류를 쓰느라 정작 중요한 업무([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달)를 못하게 과로사(CPU 100% 장애)하게 됩니다. 적절한 알람 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(Threshold) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 생명입니다.
 
@@ -160,12 +159,12 @@ RMON1은 L2 계층 스니핑에 강력하여 "[스위치](/knowledge-base/studyn
 | **정성 (운영 효율성)** | 장애 발생 시 엔지니어가 직접 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속 후 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뒤짐 | RMON이 생성해둔 History 통계 테이블로 장애 발생 시점 역추적 | L2 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 소요 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 분 단위로 단축 |
 
 ### 미래 전망 및 진화 방향
-- **[스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/) ([Streaming Telemetry](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/))로의 흡수 진화**: 과거에는 장비 CPU가 부족해 RMON Probe를 따로 둬야 했지만, 최신 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 고성능 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(예: Broadcom Tomahawk)은 하드웨어 내부에서 초당 10억 개의 패킷 통계를 깎아내고 모아 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 채널로 중앙 컨트롤러에 수 밀리초 단위로 쏟아내는 인밴드 네트워크 텔레메트리(INT)로 눈부시게 진화했다. RMON의 철학이었던 '지엽적 통계의 푸시(Push)'가 클라우드 스케일로 부활한 것이다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 이상 징후 자동 탐지 결합**: RMON에서 가장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 어려웠던 "어느 정도 선이 이상 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?"라는 문제를 해결하기 위해, 수집된 RMON 통계를 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 관제 시스템)가 받아 평시 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 학습하고 스스로 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 조절하는 지능형 네트워크로 이행하고 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a> (<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/">Streaming Telemetry</a>)로의 흡수 진화</strong>: 과거에는 장비 CPU가 부족해 RMON Probe를 따로 둬야 했지만, 최신 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 고성능 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(예: Broadcom Tomahawk)은 하드웨어 내부에서 초당 10억 개의 패킷 통계를 깎아내고 모아 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 채널로 중앙 컨트롤러에 수 밀리초 단위로 쏟아내는 인밴드 네트워크 텔레메트리(INT)로 눈부시게 진화했다. RMON의 철학이었던 '지엽적 통계의 푸시(Push)'가 클라우드 스케일로 부활한 것이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 이상 징후 자동 탐지 결합</strong>: RMON에서 가장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하기 어려웠던 "어느 정도 선이 이상 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?"라는 문제를 해결하기 위해, 수집된 RMON 통계를 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 관제 시스템)가 받아 평시 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 학습하고 스스로 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 조절하는 지능형 네트워크로 이행하고 있다.
 
 ### 참고 표준
 - **RFC 2819**: Remote Network Monitoring [Management Information Base](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) (RMON 1)
-- **RFC [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)**: Remote Network Monitoring [Management Information Base](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) Version 2 (RMON 2)
+- <strong>RFC <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a></strong>: Remote Network Monitoring [Management Information Base](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) Version 2 (RMON 2)
 
 RMON은 네트워크 엔지니어들에게 "눈으로 볼 수 없는 물리적 파동의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 숫자로 증명해준" 최초의 진정한 엑스레이였다. 오늘날 첨단 텔레메트리와 NetFlow의 화려함 뒤에는, 서브넷 단말에서 묵묵히 패킷 충돌을 카운트하던 RMON의 자율-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 모니터링 철학이 고스란히 숨 쉬고 있다.
 
@@ -184,15 +183,19 @@ RMON은 네트워크 엔지니어들에게 "눈으로 볼 수 없는 물리적 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NetFlow / sFlow 트래픽 흐름 모…]
-    │
-    ▼
-[현재 개념: RMON]
-    │
-    ├──▶ [확장 A: RADIUS]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NetFlow / sFlow 트래픽 흐름 모…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RMON</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RADIUS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 RMON는 [NetFlow](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) / sFlow 트래픽 흐름 모…에서 출발해 현재 메커니즘을 정교화하고, 이후 RADIUS와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

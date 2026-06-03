@@ -20,27 +20,25 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 YARN은 크게 4가지 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성되며, 각 노드와 애플리케이션의 상태를 계층적으로 관리한다.
 
-```text
-[ YARN Cluster Architecture ]
 
-         +-----------------------------+
-         |      Resource Manager       | (Global Master)
-         | [Scheduler] [App Manager]   |
-         +--------------+--------------+
-                        | (1. Request Container)
-      +-----------------+-----------------+
-      |                 |                 |
-+-----+-------+   +-----+-------+   +-----+-------+
-| Node Manager |   | Node Manager |   | Node Manager | (Slave)
-| [Container]  |   | [App Master] |   | [Container]  |
-+--------------+   +--------------+   +--------------+
 
-[ Bilingual Core Components ]
-- Resource Manager (RM): 클러스터 전체 자원(Total CPU/RAM) 관리 및 스케줄링.
-- Node Manager (NM): 개별 워커 노드의 자원 사용 현황 모니터링 및 보고.
-- Application Master (AM): 특정 작업(Job) 전담. RM과 자원 협상 후 NM에서 작업 실행.
-- Container (컨테이너): CPU, Memory 등 자원 할당의 최소 논리 단위.
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">YARN Cluster Architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource Manager</div><div class="kb-diagram-cell">(Global Master)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scheduler</div><div class="kb-diagram-node">App Manager</div></div>
+<div class="kb-diagram-note">(1. Request Container)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">(Slave)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Container</div><div class="kb-diagram-node">App Master</div><div class="kb-diagram-node">Container</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Core Components</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">Resource Manager (RM): 클러스터 전체 자원(Total CPU/RAM) 관리 및 스케줄링.</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Node Manager (NM): 개별 워커 노드의 자원 사용 현황 모니터링 및 보고.</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Application Master (AM): 특정 작업(Job) 전담. RM과 자원 협상 후 NM에서 작업 실행.</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Container (컨테이너): CPU, Memory 등 자원 할당의 최소 논리 단위.</div>
+</div>
+</div>
+
+
 
 애플리케이션이 실행될 때 RM은 먼저 AM을 띄울 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나를 할당하고, 그 AM이 자신의 작업을 위해 추가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 RM에게 요청하여 실제 연산을 수행하는 '[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 협상' 구조를 가진다.
 
@@ -48,14 +46,14 @@ YARN은 크게 4가지 [컴포넌트](/knowledge-base/studynote/04_software_engi
 
 | 비교 항목 | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.0 (JobTracker) | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0+ ([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)) |
 | :--- | :--- | :--- |
-| **자원 관리 단위** | 슬롯 (Map Slot, Reduce Slot) | **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) (Generic [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))** |
-| **확장성 한계** | 노드 약 4,000대 수준 | **노드 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대 이상 무한 확장** |
-| **다양성** | 오직 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)만 실행 | **Spark, Flink, [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 등 병행 실행** |
+| **자원 관리 단위** | 슬롯 (Map Slot, Reduce Slot) | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> (Generic <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong> |
+| **확장성 한계** | 노드 약 4,000대 수준 | <strong>노드 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000대 이상 무한 확장</strong> |
+| **다양성** | 오직 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)만 실행 | <strong>Spark, Flink, <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a> 등 병행 실행</strong> |
 | **장애 영향** | JT 장애 시 전체 클러스터 정지 | AM 장애는 해당 앱에만 국한됨 |
-| **기술사적 판단** | "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 전용 엔진" | **"[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Cluster OS)"** |
+| **기술사적 판단** | "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 전용 엔진" | <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 자원 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(Cluster OS)"</strong> |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 선택)** 실무에서는 작업 성격에 따라 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/), Capacity(용량별 할당), Fair(모든 앱에 균등 배분) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 중 하나를 선택해야 한다. 일반적으로 다수의 부서가 공유하는 환경에서는 **Capacity Scheduler**가 권장된다.
+- <strong>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 선택)</strong> 실무에서는 작업 성격에 따라 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/), Capacity(용량별 할당), Fair(모든 앱에 균등 배분) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 중 하나를 선택해야 한다. 일반적으로 다수의 부서가 공유하는 환경에서는 <strong>Capacity Scheduler</strong>가 권장된다.
 - **(자원 격리)** NM은 [CGroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))를 통해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간의 자원 간섭을 물리적으로 제한하여, 특정 작업이 전체 노드의 CPU를 고갈시키는 현상을 방지해야 한다.
 - **(Liveness 점검)** RM과 NM 간의 하트비트(Heartbeat) 통신 장애 시, YARN은 즉시 해당 노드의 작업을 다른 노드로 재할당(Re-run)하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장한다.
 
@@ -63,28 +61,30 @@ YARN은 크게 4가지 [컴포넌트](/knowledge-base/studynote/04_software_engi
 YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계가 10년 넘게 살아남을 수 있었던 '심장'과 같은 기술이다. 현재는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))가 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 그 역할을 대신하고 있지만, 대규모 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 빅데이터 클러스터에서는 여전히 YARN이 독보적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보여준다. 향후 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속기 지원 강화 등 이종 자원([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Resources) 관리가 강화될 전망이다. 기술사는 YARN과 K8s의 특성을 이해하고 하이브리드 인프라 설계 역량을 갖추어야 한다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 물리 계층
-- **[MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Spark**: [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 위에서 돌아가는 앱
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 물리 계층
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> / Spark</strong>: [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 위에서 돌아가는 앱
 - **Resource Manager**: 중앙 통제실
-- **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s)**: 현대적 대안 플랫폼
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> (K8s)</strong>: 현대적 대안 플랫폼
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[하둡 v1 JobTracker — 리소스 관리와 작업 스케줄링을 단일 노드에서 담당, 병목]
-    │
-    ▼
-[YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리 아키텍처]
-    │
-    ▼
-[ApplicationMaster — 각 앱이 자체 스케줄링 담당, 프레임워크 독립성 확보]
-    │
-    ▼
-[컨테이너 (Container) — CPU·메모리 단위 자원 할당, 다중 프레임워크 공존]
-    │
-    ▼
-[Kubernetes on YARN / 클라우드 네이티브 — YARN을 대체하는 컨테이너 오케스트레이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 v1 JobTracker — 리소스 관리와 작업 스케줄링을 단일 노드에서 담당, 병목</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ApplicationMaster — 각 앱이 자체 스케줄링 담당, 프레임워크 독립성 확보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Container) — CPU·메모리 단위 자원 할당, 다중 프레임워크 공존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes on YARN / 클라우드 네이티브 — YARN을 대체하는 컨테이너 오케스트레이션</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) v1의 JobTracker 병목을 해결하기 위해 YARN이 ResourceManager·ApplicationMaster로 분리 진화하고, 이후 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 대체되는 과정을 보여준다.
 

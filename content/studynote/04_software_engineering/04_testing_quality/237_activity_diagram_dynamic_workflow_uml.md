@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 235번 시퀀스는 객체끼리의 핑퐁(대화)에 집중하고, 236번 상태는 객체 하나가 멍때리며 기다리는 꼬라지(명사)에 집중합니다.
-- 하지만 사용자가 "주문 취소" 버튼을 눌렀을 때, 백엔드 서버 안에서 **`A함수 실행 ➜ 조건문(if) 검사 ➜ B, C함수 동시 병렬 실행 ➜ DB 쾅`** 하고 끊임없이 쏟아져 내리는 복잡한 '제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(로직)의 워크플로우'를 그리기엔 앞의 두 개는 너무 거창하고 핀트가 안 맞습니다.
+- 하지만 사용자가 "주문 취소" 버튼을 눌렀을 때, 백엔드 서버 안에서 <strong><code>A함수 실행 ➜ 조건문(if) 검사 ➜ B, C함수 동시 병렬 실행 ➜ DB 쾅</code></strong> 하고 끊임없이 쏟아져 내리는 복잡한 '제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(로직)의 워크플로우'를 그리기엔 앞의 두 개는 너무 거창하고 핀트가 안 맞습니다.
 
 - **📢 섹션 요약 비유**: 액티비티 다이어그램 (Activity Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 액티비티 다이어그램 (Activity의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  액티비티 다이어그램 (Activity                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액티비티 다이어그램 (Activity</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 액티비티 다이어그램 (Activity가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 소프트웨어 시스템의 내부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 로직이나, 기업의 전체적인 비즈니스 업무 프로세스(흐름)가 **'어떤 처리 활동(Activity)'에서 시작하여 '어떤 조건 분기(if-else)'를 거쳐 '어떻게 병렬로 갈라지며(Fork)' 흘러가는지 그 제어 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))의 순서를 명확하게 보여주는 동적 다이어그램**입니다.
+- **개념**: 소프트웨어 시스템의 내부 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 로직이나, 기업의 전체적인 비즈니스 업무 프로세스(흐름)가 <strong>'어떤 처리 활동(Activity)'에서 시작하여 '어떤 조건 분기(if-else)'를 거쳐 '어떻게 병렬로 갈라지며(Fork)' 흘러가는지 그 제어 흐름(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>)의 순서를 명확하게 보여주는 동적 다이어그램</strong>입니다.
 - 옛날 절차지향 시절의 '순서도(Flowchart)'와 가장 똑같이 생겼고, 목적도 똑같은 객체지향판 순서도입니다.
 
 - **📢 섹션 요약 비유**: 액티비티 다이어그램 (Activity Diagram)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -123,21 +122,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-액티비티 다이어그램 (Activity Diagram) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">액티비티 다이어그램 (Activity Diagram) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

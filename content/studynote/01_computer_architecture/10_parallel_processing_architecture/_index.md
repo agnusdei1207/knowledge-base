@@ -17,31 +17,30 @@ tags = ["computer_architecture"]
 
 ### 병렬 처리의 필연성: 무어의 법칙을 넘어서
 
-과거에는 CPU의 클럭 속도를 높이는 것만으로도 성능 향상이 가능했다. 하지만 클럭이 높아질수록 발열과 전력 소모가 기하급수적으로 늘어나는 **'전력의 벽 (Power Wall)'**에 부딪혔다. 이제 성능 향상의 유일한 탈출구는 하나의 작업을 여러 개로 쪼개어 동시에 처리하는 **병렬 처리**뿐이다.
+과거에는 CPU의 클럭 속도를 높이는 것만으로도 성능 향상이 가능했다. 하지만 클럭이 높아질수록 발열과 전력 소모가 기하급수적으로 늘어나는 <strong>'전력의 벽 (Power Wall)'</strong>에 부딪혔다. 이제 성능 향상의 유일한 탈출구는 하나의 작업을 여러 개로 쪼개어 동시에 처리하는 <strong>병렬 처리</strong>뿐이다.
 
-병렬 처리가 필요한 이유는 세 가지이다. 첫째, **초거대 규모의 데이터 연산** (기상 예측, 유전자 분석, AI 학습)을 현실적인 시간 내에 끝내기 위해서이다. 둘째, 여러 사용자의 요청을 동시에 처리하는 **처리량 (Throughput)**을 극대화하기 위해서이며, 셋째, 단일 고성능 코어보다 여러 개의 효율적인 코어를 쓰는 것이 **전력 효율 ( 전성비 )** 면에서 유리하기 때문이다.
+병렬 처리가 필요한 이유는 세 가지이다. 첫째, **초거대 규모의 데이터 연산** (기상 예측, 유전자 분석, AI 학습)을 현실적인 시간 내에 끝내기 위해서이다. 둘째, 여러 사용자의 요청을 동시에 처리하는 <strong>처리량 (Throughput)</strong>을 극대화하기 위해서이며, 셋째, 단일 고성능 코어보다 여러 개의 효율적인 코어를 쓰는 것이 **전력 효율 ( 전성비 )** 면에서 유리하기 때문이다.
 
 이 그림은 플린 (Flynn)의 분류에 따른 컴퓨터 시스템의 4대 병렬 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Flynn's Taxonomy of Computer Systems        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│                     [ Single Data ]       [ Multiple Data ] │
-│  [ Single Inst. ]      SISD (고전 CPU)       SIMD (GPU/벡터) │
-│                                                             │
-│  [ Multiple Inst. ]    MISD (특수 목적)      MIMD (멀티코어) │
-│                                                             │
-│   * SISD: Single Instruction, Single Data                   │
-│   * SIMD: Single Instruction, Multiple Data                 │
-│   * MISD: Multiple Instruction, Single Data                 │
-│   * MIMD: Multiple Instruction, Multiple Data               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '데이터와 명령어의 조합'이다. 현대 고성능 컴퓨팅의 주류는 동일한 명령으로 여러 데이터를 한꺼번에 요리하는 **SIMD**와, 각자 다른 일을 동시에 수행하는 **MIMD**의 결합이다. 실무에서는 이러한 병렬 구조를 소프트웨어가 얼마나 잘 활용하느냐 (병렬 프로그래밍)가 아키텍처 효율의 관건이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flynn's Taxonomy of Computer Systems</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Single Data</div><div class="kb-diagram-node">Multiple Data</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Single Inst.</div><div class="kb-diagram-note">SISD (고전 CPU) SIMD (GPU/벡터)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Multiple Inst.</div><div class="kb-diagram-note">MISD (특수 목적) MIMD (멀티코어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SISD: Single Instruction, Single Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SIMD: Single Instruction, Multiple Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MISD: Multiple Instruction, Single Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MIMD: Multiple Instruction, Multiple Data</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '데이터와 명령어의 조합'이다. 현대 고성능 컴퓨팅의 주류는 동일한 명령으로 여러 데이터를 한꺼번에 요리하는 <strong>SIMD</strong>와, 각자 다른 일을 동시에 수행하는 <strong>MIMD</strong>의 결합이다. 실무에서는 이러한 병렬 구조를 소프트웨어가 얼마나 잘 활용하느냐 (병렬 프로그래밍)가 아키텍처 효율의 관건이다.
 
 ### 병렬성의 수준 (Levels of Parallelism)
 
@@ -72,29 +71,24 @@ tags = ["computer_architecture"]
 | **확장성** | 낮음 (버스 경합 발생) | 매우 높음 (노드 추가 용이) |
 | **비유** | 한 냄비의 찌개를 같이 먹기 | 각자 도시락을 들고 대화하기 |
 
-이 구조도는 현대적인 **멀티코어 시스템의 메모리 계층 및 연결망**을 보여준다.
+이 구조도는 현대적인 <strong>멀티코어 시스템의 메모리 계층 및 연결망</strong>을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Modern Multi-core Architecture              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Core 0 ]   [ Core 1 ]   [ Core 2 ]   [ Core 3 ]         │
-│   ┌──────┐     ┌──────┐     ┌──────┐     ┌──────┐           │
-│   │L1/L2 │     │L1/L2 │     │L1/L2 │     │L1/L2 │           │
-│   └──┬───┘     └──┬───┘     └──┬───┘     └──┬───┘           │
-│      └────────────┴─────┬──────┴────────────┘               │
-│                         ▼                                   │
-│                  [ Shared L3 Cache ]                        │
-│                         │                                   │
-│                  [ System Interconnect ]                    │
-│                         │                                   │
-│                  [ Main Memory (DRAM) ]                     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '캐시 일관성 (Cache Coherency)'이다. 코어마다 가진 L1/L2 캐시의 데이터가 서로 다를 경우 치명적인 오류가 발생하므로, **Snooping**이나 **Directory 기반** 프로토콜이 배경에서 쉴 새 없이 움직인다. 실무에서는 이 오버헤드가 코어 확장의 물리적 한계점이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Multi-core Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0</div><div class="kb-diagram-node">Core 1</div><div class="kb-diagram-node">Core 2</div><div class="kb-diagram-node">Core 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Shared L3 Cache</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">System Interconnect</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory (DRAM)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '캐시 일관성 (Cache Coherency)'이다. 코어마다 가진 L1/L2 캐시의 데이터가 서로 다를 경우 치명적인 오류가 발생하므로, <strong>Snooping</strong>이나 **Directory 기반** 프로토콜이 배경에서 쉴 새 없이 움직인다. 실무에서는 이 오버헤드가 코어 확장의 물리적 한계점이 된다.
 
 📢 **섹션 요약 비유**: 공유 메모리는 거실에 커다란 화이트보드(메모리)를 두고 가족 모두가 적는 것이고, 분산 메모리는 각자 수첩(독립 메모리)을 들고 필요한 내용만 전화(메시지)로 알려주는 차이입니다.
 
@@ -129,30 +123,29 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 병렬 처리 시스템 구축 및 튜닝 전략
 
 **시나리오 1: 기상 시뮬레이션 모델의 연산 속도 개선**
-- **판단**: 데이터 의존성이 적고 반복 연산이 많으므로 **GPU 가속기 (SIMD)** 도입을 제안한다. 하지만 GPU와 CPU 사이의 데이터 전송 병목을 해결하기 위해 **NVLink**와 같은 고속 연결망을 구성하고, 메모리 대역폭이 넓은 **HBM (High Bandwidth Memory)** 탑재 모델을 선정한다. 또한 암달의 법칙을 고려하여 순차적 로직을 최소화하는 알고리즘 리팩토링을 병행한다.
+- **판단**: 데이터 의존성이 적고 반복 연산이 많으므로 **GPU 가속기 (SIMD)** 도입을 제안한다. 하지만 GPU와 CPU 사이의 데이터 전송 병목을 해결하기 위해 <strong>NVLink</strong>와 같은 고속 연결망을 구성하고, 메모리 대역폭이 넓은 **HBM (High Bandwidth Memory)** 탑재 모델을 선정한다. 또한 암달의 법칙을 고려하여 순차적 로직을 최소화하는 알고리즘 리팩토링을 병행한다.
 
 **시나리오 2: 멀티코어 서버에서 코어 수가 늘어도 성능 향상이 정체되는 상황**
-- **판단**: **캐시 일관성 프로토콜 오버헤드**와 **버스 경합 (Bus Contention)**을 의심한다. UMA 방식의 한계를 넘기 위해 **NUMA (Non-Uniform Memory Access)** 아키텍처로 전환하고, 소프트웨어적으로는 코어 간 공유 자원을 최소화하는 **Partitioning** 기법을 적용한다. 또한 특정 코어에만 인터럽트가 쏠리지 않도록 **IRQ Balancing**을 최적화한다.
+- **판단**: <strong>캐시 일관성 프로토콜 오버헤드</strong>와 <strong>버스 경합 (Bus Contention)</strong>을 의심한다. UMA 방식의 한계를 넘기 위해 **NUMA (Non-Uniform Memory Access)** 아키텍처로 전환하고, 소프트웨어적으로는 코어 간 공유 자원을 최소화하는 **Partitioning** 기법을 적용한다. 또한 특정 코어에만 인터럽트가 쏠리지 않도록 <strong>IRQ Balancing</strong>을 최적화한다.
 
 이 도식은 병렬화 효율을 극대화하기 위한 '데이터 분할 전략'을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Data Decomposition & Speedup                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Original Task ] : ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━        │
-│                                                             │
-│   [ Parallel Task ]                                         │
-│   Core 0 : ━━━━━━                                           │
-│   Core 1 : ━━━━━━   (Parallel Exec)                         │
-│   Core 2 : ━━━━━━                                           │
-│   Core 3 : ━━━━━━                                           │
-│                                                             │
-│   * 핵심: 작업 간의 의존성(Dependency) 제거가 성패의 열쇠   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Decomposition &amp; Speedup</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Original Task</div><div class="kb-diagram-note">:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Parallel Task</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 : (Parallel Exec)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2 :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 3 :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 작업 간의 의존성(Dependency) 제거가 성패의 열쇠</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 병렬 설계 판단은 '공사 현장의 인력 배치'와 같습니다. 인부를 무작정 많이 고용한다고 집이 빨리 지어지는 게 아닙니다. 벽돌을 쌓는 사람과 시멘트를 나르는 사람의 순서가 꼬이지 않게 작업 동선(데이터 흐름)을 짜는 것이 전문가의 실력입니다.
 
@@ -167,7 +160,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 엑사스케일 (Exascale) 컴퓨팅과 가속기 대전
 
-향후 아키텍처는 초당 100경 번 연산하는 **엑사스케일** 시대를 넘어, 수만 개의 이기종 코어가 협력하는 구조로 발전할 것이다. 특히 연산 유닛이 메모리 옆으로 이동하는 **NDP (Near Data Processing)**와 광통신 기반의 상호 연결망이 표준이 될 것이다. 기술사는 단순한 멀티코어를 넘어, FPGA, TPU, NPU 등 다양한 가속기가 혼재된 **'이종 병렬 컴퓨팅 (Heterogeneous Parallel Computing)'** 환경에서 최적의 연산 지도를 그리는 지능형 설계자가 되어야 한다.
+향후 아키텍처는 초당 100경 번 연산하는 **엑사스케일** 시대를 넘어, 수만 개의 이기종 코어가 협력하는 구조로 발전할 것이다. 특히 연산 유닛이 메모리 옆으로 이동하는 <strong>NDP (Near Data Processing)</strong>와 광통신 기반의 상호 연결망이 표준이 될 것이다. 기술사는 단순한 멀티코어를 넘어, FPGA, TPU, NPU 등 다양한 가속기가 혼재된 **'이종 병렬 컴퓨팅 (Heterogeneous Parallel Computing)'** 환경에서 최적의 연산 지도를 그리는 지능형 설계자가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 컴퓨터는 '거대한 오케스트라'와 같아질 것입니다. 바이올린(CPU), 피아노(GPU), 북(NPU) 등 각기 다른 악기들이 지휘자(아키텍처)의 완벽한 조율 아래 하나의 웅장한 교향곡(초고성능 연산)을 완성하는 세상이 올 것입니다.
 

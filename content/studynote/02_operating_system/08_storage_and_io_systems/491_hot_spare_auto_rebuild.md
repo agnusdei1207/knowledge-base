@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 핫 스페어(Hot Spare)란 전기가 켜져 동작 중인 고가용성 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 서버/스토리지 샷시 안에 미리 빈 깡통 디스크를 꽂아두고 대기시키다가, 기존 사용 중인 디스크 중 하나가 고장 나면 **이를 즉각 감지해 관리자의 개입 없이 자동으로 그 빈 공간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Rebuilding)를 투입하는 자동 예비 교체 시스템**이다.
-> 2. **가치**: 스토리지 관리자가 야밤에 장애 알람 문자를 받고 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 차를 몰고 뛰어가서 새 디스크를 손으로 갈아 끼워 넣어야 하는 그 **위험하고 지체되는 긴급 다운타임 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 무인 0초 자동화로 삭제**해 주는 심리적, 물리적 인프라 생명 연장 장치다.
+> 1. **본질**: 핫 스페어(Hot Spare)란 전기가 켜져 동작 중인 고가용성 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 서버/스토리지 샷시 안에 미리 빈 깡통 디스크를 꽂아두고 대기시키다가, 기존 사용 중인 디스크 중 하나가 고장 나면 <strong>이를 즉각 감지해 관리자의 개입 없이 자동으로 그 빈 공간으로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Rebuilding)를 투입하는 자동 예비 교체 시스템</strong>이다.
+> 2. **가치**: 스토리지 관리자가 야밤에 장애 알람 문자를 받고 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 차를 몰고 뛰어가서 새 디스크를 손으로 갈아 끼워 넣어야 하는 그 <strong>위험하고 지체되는 긴급 다운타임 시간(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>)을 무인 0초 자동화로 삭제</strong>해 주는 심리적, 물리적 인프라 생명 연장 장치다.
 > 3. **융합**: 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 목표로 하는 엔터프라이즈 환경에서 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)/6의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 오류 정정 복원(Parity) 스펙과 결합하여, 인간(엔지니어)의 수동 교체 부재 없이도 기계 스스로가 '자가 치유(Self-Healing)'를 시작하게 만드는 핵심적인 무인 방벽이다.
 
 ---
@@ -25,33 +25,27 @@ tags = ["studynote-operating-system"]
 - **핫 스페어의 디스크 자동 편입(Auto-Rebuild) 매커니즘 흐름도**:
 물리적으로 고장 난 디스크가 방출되고 대기하던 스페어가 어떻게 어레이로 진입하는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 체계화 시각 묘사하면 아래와 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 핫 스페어(Hot Spare) 자동 감지 및 투입 프로세스                │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │   [ 평상시 평온한 상태 (RAID 5) ]                                              │
-  │    ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐     ┌─────────────┐               │
-  │    │Disk 1│   │Disk 2│   │Disk 3│   │Disk 4│     │Hot Spare 1│                 │
-  │    │ Active │  │ Active │  │ Active │  │ Active │     │  (빈 그릇)  │          │
-  │    └──────┘   └──────┘   └──────┘   └──────┘     └─────────────┘               │
-  │        (데이터 100% 분산 및 안전. 스페어는 그냥 전기만 먹고 잠수 중)           │
-  │                                                                                │
-  │   [ 💥 심야 장애 발생 (Disk 2 하드 모터 돌연사 멈춤 발생!) ]                   │
-  │    1. RAID 컨트롤러: "경고! Disk 2 응답 끊김! Fault(결함) 처리 및 퇴출!"       │
-  │    2. RAID 컨트롤러: "어? 우리 벤치에 핫 스페어 자원 등록된 거 있네?"          │
-  │                                                                                │
-  │   [ 🏥 자동 치유 (Rebuilding / Auto-Recovery) 즉각 발동 ]                      │
-  │    ┌──────┐   ┌ ─ ─ ─┐   ┌──────┐   ┌──────┐     ┌─────────────┐               │
-  │    │Disk 1│   │(고장난│   │Disk 3│   │Disk 4│     │  (승격!)    │              │
-  │    │ Active │  │ 디스크)│   │ Active │  │ Active │     │New Disk 2 │           │
-  │    └──────┘   └ ─ ─ ─┘   └──────┘   └──────┘     └─────────────┘               │
-  │          │                   │           │               ▲                     │
-  │          └─────────▶─────────┴─────▶─────┴──── (XOR패리티 역산 붓기)           │
-  │                                                                                │
-  │   결과: 관리자 수면 중에도, 스페어로 I/O 복원이 완료되어 다음 날 100% 정상화!  │
-  └────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핫 스페어(Hot Spare) 자동 감지 및 투입 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평상시 평온한 상태 (RAID 5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk 1</div><div class="kb-diagram-cell">Disk 2</div><div class="kb-diagram-cell">Disk 3</div><div class="kb-diagram-cell">Disk 4</div><div class="kb-diagram-cell">Hot Spare 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">(빈 그릇)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 100% 분산 및 안전. 스페어는 그냥 전기만 먹고 잠수 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 심야 장애 발생 (Disk 2 하드 모터 돌연사 멈춤 발생!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. RAID 컨트롤러: "경고! Disk 2 응답 끊김! Fault(결함) 처리 및 퇴출!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. RAID 컨트롤러: "어? 우리 벤치에 핫 스페어 자원 등록된 거 있네?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🏥 자동 치유 (Rebuilding / Auto-Recovery) 즉각 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk 1</div><div class="kb-diagram-cell">(고장난</div><div class="kb-diagram-cell">Disk 3</div><div class="kb-diagram-cell">Disk 4</div><div class="kb-diagram-cell">(승격!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">디스크)</div><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">New Disk 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ▶ (XOR패리티 역산 붓기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 관리자 수면 중에도, 스페어로 I/O 복원이 완료되어 다음 날 100% 정상화!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 그림에서 보듯이 핫 스페어는 평소에는 I/O를 전혀 일으키지 않는 순수한 대기 기계다. 장애가 발생해서 레이드 카드가 에러(Fault) [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 빨간불을 켜는 순간, 알람을 띄움과 **동시에** (Delay 없이) 예약된 핫 스페어 드라이브를 활성화([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 시키고, 살아남은 1, 3, 4번 디스크를 미친 듯이 긁어 역산 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Rebuilding) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 처리를 핫 스페어로 내려보낸다. [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 모두 100% 끝나면 시스템은 다시 완전한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요새 상태(Optimal)로 귀환한다. 나중에 출근해 느긋하게 커피를 마시던 관리자는 고장 난 구형 디스크 2만 슬롯에서 뽑아내 시리얼 넘버를 적어 폐기하고, 빈 그 자리에 껍데기 새 하드를 꼽은 뒤 그것을 "새로운 핫 스페어"로 지정 토글 버튼만 눌러주면 영원한 뫼비우스의 운영 유지보수 고리가 완성된다.
 
@@ -66,8 +60,8 @@ tags = ["studynote-operating-system"]
 
 | 구분 명칭 | 물리적 장착 및 상태 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 투입 조건 매커니즘 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 타격률 |
 |:---|:---|:---|:---|
-| **Hot Spare (핫스페어)** | 서버 전원 켜져 있음. 레이드 카드 포트에 이미 장착 슬롯 결합 할당 완료 됨. | 컨트롤러가 에러 띄우자마자 0.5초 안에 오토 릴리전(Auto-invoke) 포팅 장악 스왑 처리 | 디스크를 미리 사서 박아두므로 낭비비용 추가 전력소모 있으나 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 극상 100% 방어** |
-| **Cold Spare (콜드스페어)** | 전산실 책상 서랍장 안에 비닐(정전보호) 팩에 고이 박혀 자고 있음. (컴 밖) | 담당자가 출장 복귀 후 서랍 열쇠 열고, 불량 디스크 뽑은 뒤 빈칸에 수동으로 밀어 넣어야만 가동 | 예비용(Spare) 자산이지만 결국 인간이 개입해야 해서 주말에 장애 나면 월요일까지 무방비 노출 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 저해** |
+| **Hot Spare (핫스페어)** | 서버 전원 켜져 있음. 레이드 카드 포트에 이미 장착 슬롯 결합 할당 완료 됨. | 컨트롤러가 에러 띄우자마자 0.5초 안에 오토 릴리전(Auto-invoke) 포팅 장악 스왑 처리 | 디스크를 미리 사서 박아두므로 낭비비용 추가 전력소모 있으나 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 극상 100% 방어</strong> |
+| **Cold Spare (콜드스페어)** | 전산실 책상 서랍장 안에 비닐(정전보호) 팩에 고이 박혀 자고 있음. (컴 밖) | 담당자가 출장 복귀 후 서랍 열쇠 열고, 불량 디스크 뽑은 뒤 빈칸에 수동으로 밀어 넣어야만 가동 | 예비용(Spare) 자산이지만 결국 인간이 개입해야 해서 주말에 장애 나면 월요일까지 무방비 노출 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 저해</strong> |
 
 ### 2. 스페어 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) : 글로벌 스페어(Global) vs 데디케이티드(Dedicated) 스페어
 하나의 거대 스토리지 백플레인에 디스크가 24개쯤 꼽혀있어 레이드 볼륨(그룹)이 3개 이상 쪼개져 있다면, 이 잉여 스페어 자원을 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 범위로 설정할 건지 아키텍처 토폴로지를 구성해야 한다.
@@ -85,13 +79,13 @@ tags = ["studynote-operating-system"]
 ### 스페어 낭비론 - 언제 핫 스페어를 사야 하는가? (구매 경제학 결정)
 중소규모 기업의 주니어 엔지니어들은 흔히 "안전은 많을수록 좋으니까 다 쑤셔 넣어" 하며 4 베이(Bay) 소형 NAS에 무작정 디스크 4개를 사들고 와선, `RAID 5 (3개 사용) + 핫 스페어 1개 할당`이라는 기형적이고 소름 끼치는 아키텍처 실수를 세팅한다. 이것의 치사율은 다음과 같다.
 
-1. 디스크 4대 중 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) (N=3)을 묶고 1대를 핫스페어로 던졌다면: 실 가용 용량은 고작 **N=2대 분량**밖에 못 쓴다. ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 2용량 + 패리티 1희생 + 스페어 1버림)
-2. 차라리 같은 4대, 똑같은 2대 분량 가용할 거면 처음부터 통째로 **[RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) (Striping over Mirroring)** 이나 최소 4대를 통째 묶는 **[RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) (이중패리티 N-2)** 로 묶는 게 모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 읽기 파워/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티 속도 극복과 방어 요율 측면에서 핫 스페어 대기보다 백만 배 이득 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭발을 낸다. ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 애초에 2개가 죽어도 멀쩡하니, 굳이 놀리는 스페어를 재건축하느니 4대를 전부 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막으로 돌리는 게 경제학적으로 깡패 우월이다.)
+1. 디스크 4대 중 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) (N=3)을 묶고 1대를 핫스페어로 던졌다면: 실 가용 용량은 고작 <strong>N=2대 분량</strong>밖에 못 쓴다. ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 2용량 + 패리티 1희생 + 스페어 1버림)
+2. 차라리 같은 4대, 똑같은 2대 분량 가용할 거면 처음부터 통째로 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">RAID 10</a> (Striping over Mirroring)</strong> 이나 최소 4대를 통째 묶는 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/">RAID 6</a> (이중패리티 N-2)</strong> 로 묶는 게 모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 읽기 파워/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티 속도 극복과 방어 요율 측면에서 핫 스페어 대기보다 백만 배 이득 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭발을 낸다. ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6는 애초에 2개가 죽어도 멀쩡하니, 굳이 놀리는 스페어를 재건축하느니 4대를 전부 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막으로 돌리는 게 경제학적으로 깡패 우월이다.)
 3. **핫스페어 도입 황금 권장 룰**: 즉 핫 스페어라는 자본의 추가 투입 낭비 옵션은 베이 슬롯이 4개 따리인 우물 안에서 쓰는 게 아니라, 거대 엔터프라이즈 스토리지 랙(Rack) 단위 (최소 12 Bay/ 24 Bay 시스템 이상) 에서 [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) 듀얼 묶음 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 2~3개를 치고 **"이 큰 공장에서 전체 디스크 수십 개 중 밤에 누가 갑자기 늙어 뒤질지 모르니 만능 우산 1개(Global Hot spare)를 예산 태워 꽂자"** 하는 물량의 규모 경제선([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))에서 써야 비로소 가치가 증폭된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의도치 않은 다운그레이드 지옥)
 - **스페어 용량의 법칙**: 핫 스페어로 지정할 디스크의 물리적 용량 크기(예: 8TB)는, 반드시 그 장비에 속해 있는 '가장 큰 디스크 용량'(예: 8TB 이상)과 동일하거나 커야 한다! 볼륨들은 작은 스페어 파츠 깡통에 큰 코어를 구겨 담을 수 없어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 실패 거절 Reject 터질 수 있다. 
-- **RPM/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) Type 매칭**: 만일 10k RPM 쌩쌩 돌아가는 미친 속도 SAS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 그룹에, 대충 굴러다니는 싸구려 5,000 RPM 구형 하드를 핫 스페어로 지정해 두면, "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 진행된 이후부터" 그 그룹 전체의 속도는 저 구형 하드의 느려터진 I/O 스루풋에 볼모 체증이 걸려 하향 평준화되는 I/O 병목 렉 테러가 발생한다. 
+- <strong>RPM/<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> Type 매칭</strong>: 만일 10k RPM 쌩쌩 돌아가는 미친 속도 SAS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 그룹에, 대충 굴러다니는 싸구려 5,000 RPM 구형 하드를 핫 스페어로 지정해 두면, "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 진행된 이후부터" 그 그룹 전체의 속도는 저 구형 하드의 느려터진 I/O 스루풋에 볼모 체증이 걸려 하향 평준화되는 I/O 병목 렉 테러가 발생한다. 
 
 - **📢 섹션 요약 비유**: 4명 이하의 작은 스타트업 팀 단칸방에서 굳이 직원을 1명 뽑아다 "너는 일하지 말고 노는 예비역(핫스페어) 해" 라고 시키면 노동 자원 낭비 손해가 멍청함의 극심이죠. 모두 같이 일하고 서로 방어해 주는 쌍둥이 결합([RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/6)이 현명합니다. 스페어 예비역 투입은 직원이 수십 명 넘어가는(Bay 24개 이상 대형 스토리지) 거대 기업 총무팀이나 공장에서나 쓸 수 있는 예비 인력 우산 인프라 여유분 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 룰입니다.
 
@@ -104,7 +98,7 @@ tags = ["studynote-operating-system"]
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재난 상황 | Hot Spare 미도입 (Cold 대기 상황) | Hot Spare 활성 할당 아키텍처 토폴로지 구동 시 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 파장 및 효과 |
 |:---|:---|:---|:---|
 | **긴급 투입의 인적 자원** | 주말 토요일 오전 장애 콜, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 출입증 발급 받고 디스크 손 달달 떨며 교체 오프라인 핫플러그 투입 시간 | 0.0001 초 만에 레이드 커널이 드라이브 UUID [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 할당 변경 후 무음 백그라운드 재건축 치유 돌입 (출근 불필요) | 인건비, 인프라 운영 심리 피로도, 워라밸 개선 부스터 정성 효과 |
-| **URE 2차 연쇄 사망 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 출근하는 이틀 공백 버티기 래그 타임(Lag Time) 동안 2차 디스크 사망해 볼륨 전체 날려 먹을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 폭상 노출 극심 | 에러 나자마자 즉결 처형 후 신형 투입 복원해버리므로, 2차 감염 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 공간 시간 빈틈 창문을 강제 소멸 닫아버림 | 치명적 2nd Fail ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭파) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제로 수렴 달성. |
+| <strong>URE 2차 연쇄 사망 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 출근하는 이틀 공백 버티기 래그 타임(Lag Time) 동안 2차 디스크 사망해 볼륨 전체 날려 먹을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 폭상 노출 극심 | 에러 나자마자 즉결 처형 후 신형 투입 복원해버리므로, 2차 감염 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 공간 시간 빈틈 창문을 강제 소멸 닫아버림 | 치명적 2nd Fail ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭파) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 제로 수렴 달성. |
 
 ### 미래 전망
 - 클라우드의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)(Ceph / AWS Block 등) 시대로 넘어오며, 핫 스페어라는 단일 박스 안에서의 '여분 물리 디스크' 개념조차 노드 확장으로 소프트웨어화 되고 있다. 즉 거대한 클라우드 클러스터 자체가 수백 대의 노드 자원과 가상 디스크 풀을 가지고 있으므로, 한 블레이드가 망가지면 남는 아무 잉여 노드의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 풀이 "내가 소프트웨어 핫 스페어 빈 깡통 역할 가져갈게" 며 스토리지 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링으로 자자가 무한 치유 확장을 도모하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소프트웨어 정의([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 핫 스페어 네트워크 레플리카 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 스웜(Swarm) 형태로 전수 계승 진화 중이다.
@@ -134,15 +128,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
-    │
-    ▼
-[핫 스페어 (Hot Spare) 디스크 자동 재구성]
-    │
-    ├──▶ [NAS (Network Attached Storage)]
-    └──▶ [SAN (Storage Area Network)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAS (Network Attached Storage)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SAN (Storage Area Network)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

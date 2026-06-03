@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 일반적인 인터넷 환경에서는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름을 IP로 변환하기 위해 외부의 지정된 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 8.8.8.8)가 반드시 필요합니다.
-그러나 가정이나 소규모 사무실 같은 **로컬 네트워크(LAN)** 에서는 전담 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버를 구축하기 어렵습니다. 이럴 때 **중앙 서버 없이도 로컬 네트워크에 연결된 기기들끼리 호스트 이름을 IP 주소로 변환해 주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**이 mDNS(Multicast [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))와 LLMNR입니다.
+그러나 가정이나 소규모 사무실 같은 **로컬 네트워크(LAN)** 에서는 전담 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버를 구축하기 어렵습니다. 이럴 때 <strong>중앙 서버 없이도 로컬 네트워크에 연결된 기기들끼리 호스트 이름을 IP 주소로 변환해 주는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이 mDNS(Multicast [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))와 LLMNR입니다.
 
-```text
-[DoH]
-    │
-    ▼
-[mDNS / LMNR]
-    │
-    └──▶ [DHCP 포트 67, 68]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mDNS / LMNR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,17 +45,21 @@ tags = ["studynote-network"]
 |:---|:---|:---|
 | **주체 / 표준** | Apple 주도 (Bonjour 기술의 핵심), [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 | Microsoft 주도 (Windows 환경 최적화) |
 | **작동 방식** | `224.0.0.251` [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 5353)로 질의 | `224.0.0.252` [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주소([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 5355)로 질의 |
-| **특징(접미사)**| 호스트 이름 뒤에 반드시 **`.local`** 접미사를 붙임 | 접미사 없이 단일 호스트 이름(예: `my-pc`) 사용 가능 |
+| **특징(접미사)**| 호스트 이름 뒤에 반드시 <strong><code>.local</code></strong> 접미사를 붙임 | 접미사 없이 단일 호스트 이름(예: `my-pc`) 사용 가능 |
 | **지원 기기** | macOS, iOS, 프린터, 스마트 홈 기기 널리 사용 | 주로 Windows [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 간의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/프린터 공유 시 사용 |
 
-```text
-[DoH]
-    │
-    ▼
-[mDNS / LMNR]
-    │
-    └──▶ [DHCP 포트 67, 68]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mDNS / LMNR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -78,7 +86,7 @@ mDNS / LMNR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **라우터 통과 불가**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷의 특성상 로컬 네트워크(동일 서브넷) 안에서만 동작하며, 라우터를 넘어서 다른 네트워크로는 전파되지 않습니다.
-- **보안 취약점 ([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))**: 누구나 "내가 그 기기야"라고 가짜 응답을 던질 수 있어 **[중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MitM)** 에 취약합니다. (보안이 엄격한 기업 망에서는 차단 권장)
+- <strong>보안 취약점 (<a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>)</strong>: 누구나 "내가 그 기기야"라고 가짜 응답을 던질 수 있어 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/">중간자 공격</a>(MitM)</strong> 에 취약합니다. (보안이 엄격한 기업 망에서는 차단 권장)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ mDNS / LMNR는 이름 해석과 네트워크 관리를 이해할 때 핵심 축�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DoH]
-    │
-    ▼
-[현재 개념: mDNS / LMNR]
-    │
-    ├──▶ [확장 A: DHCP 포트 67, 68]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mDNS / LMNR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP 포트 67, 68</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 mDNS / LMNR는 DoH에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

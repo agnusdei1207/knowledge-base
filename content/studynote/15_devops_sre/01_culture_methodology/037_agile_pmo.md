@@ -116,28 +116,31 @@ LeSS (Large Scale Scrum):
 
 ## V. 실무 시나리오 — 대기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)
 
-```
-상황:
-  5,000명 SI 기업 → 애자일 전환 2년차
-  기존: PMP 중심 워터폴 PMO
-  문제: 팀별로 제각각 스크럼 도입, 효과 미흡
 
-애자일 PMO 구성:
-  구성원: 엔터프라이즈 애자일 코치 5명
-         스크럼 마스터 리드 3명
-         전략 기획 2명
 
-  활동:
-  + 분기 PI 플래닝 행사 운영 (전사 60개 팀)
-  + 스크럼 마스터 커뮤니티 격주 운영
-  + 팀 간 의존성 시각화 (Program Board)
-  + OKR 연계 스프린트 목표 설정 지원
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상황:</div>
+<div class="kb-diagram-note">5,000명 SI 기업 → 애자일 전환 2년차</div>
+<div class="kb-diagram-note">기존: PMP 중심 워터폴 PMO</div>
+<div class="kb-diagram-note">문제: 팀별로 제각각 스크럼 도입, 효과 미흡</div>
+<div class="kb-diagram-note">애자일 PMO 구성:</div>
+<div class="kb-diagram-note">구성원: 엔터프라이즈 애자일 코치 5명</div>
+<div class="kb-diagram-note">스크럼 마스터 리드 3명</div>
+<div class="kb-diagram-note">전략 기획 2명</div>
+<div class="kb-diagram-note">활동:</div>
+<div class="kb-diagram-note">+ 분기 PI 플래닝 행사 운영 (전사 60개 팀)</div>
+<div class="kb-diagram-note">+ 스크럼 마스터 커뮤니티 격주 운영</div>
+<div class="kb-diagram-note">+ 팀 간 의존성 시각화 (Program Board)</div>
+<div class="kb-diagram-note">+ OKR 연계 스프린트 목표 설정 지원</div>
+<div class="kb-diagram-note">1년 성과:</div>
+<div class="kb-diagram-note">+ 출시 빈도: 분기 → 격주 (8배 향상)</div>
+<div class="kb-diagram-note">+ 결함률: 23% 감소</div>
+<div class="kb-diagram-note">+ 팀 만족도: 3.2 → 4.1 (5점 만점)</div>
+</div>
+</div>
 
-  1년 성과:
-  + 출시 빈도: 분기 → 격주 (8배 향상)
-  + 결함률: 23% 감소
-  + 팀 만족도: 3.2 → 4.1 (5점 만점)
-```
+
 
 > 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)을 조율.
 
@@ -145,24 +148,30 @@ LeSS (Large Scale Scrum):
 
 ## 📌 관련 개념 맵
 
-```
-애자일 PMO
-+-- 전통 PMO 대비 전환
-|   +-- 감시자 → 촉진자
-|   +-- 계획 준수 → 가치 전달
-+-- 핵심 기능
-|   +-- 전략 정렬 (OKR 연계)
-|   +-- 장애물 제거
-|   +-- CoP 운영
-+-- 확장 프레임워크
-|   +-- SAFe (LACE)
-|   +-- Spotify (길드/챕터)
-|   +-- LeSS
-+-- KPI
-    +-- Flow Metrics
-    +-- 비즈니스 가치
-    +-- 팀 심리적 안전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애자일 PMO</div>
+<div class="kb-diagram-note">+-- 전통 PMO 대비 전환</div>
+<div class="kb-diagram-note">+-- 감시자 → 촉진자</div>
+<div class="kb-diagram-note">+-- 계획 준수 → 가치 전달</div>
+<div class="kb-diagram-note">+-- 핵심 기능</div>
+<div class="kb-diagram-note">+-- 전략 정렬 (OKR 연계)</div>
+<div class="kb-diagram-note">+-- 장애물 제거</div>
+<div class="kb-diagram-note">+-- CoP 운영</div>
+<div class="kb-diagram-note">+-- 확장 프레임워크</div>
+<div class="kb-diagram-note">+-- SAFe (LACE)</div>
+<div class="kb-diagram-note">+-- Spotify (길드/챕터)</div>
+<div class="kb-diagram-note">+-- LeSS</div>
+<div class="kb-diagram-note">+-- KPI</div>
+<div class="kb-diagram-note">+-- Flow Metrics</div>
+<div class="kb-diagram-note">+-- 비즈니스 가치</div>
+<div class="kb-diagram-note">+-- 팀 심리적 안전</div>
+</div>
+</div>
+
+
 
 ---
 

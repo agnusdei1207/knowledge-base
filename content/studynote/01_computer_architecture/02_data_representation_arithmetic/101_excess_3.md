@@ -30,23 +30,23 @@ tags = ["studynote-computer-architecture"]
 
 3초과 코드의 가장 핵심적인 작동 원리는 **'자기 보수(Self-Complementing)'** 메커니즘이다. 이를 통해 연산 장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내에서 뺄셈기가 어떻게 단순화되는지 살펴본다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Excess-3 코드의 자기 보수(Self-Complementing) 원리       │
-├──────────────────────────────────────────────────────────────┤
-│  [목표: 10진수 '4'의 9의 보수인 '5'를 구하라]                           │
-│                                                              │
-│  1. 10진수 4를 3초과 코드로 변환:                                  │
-│     4 + 3 = 7 ──▶ 2진수 '0111'                               │
-│                                                              │
-│  2. 비트 반전 (NOT 게이트 통과, 1의 보수):                           │
-│     '0111' ──▶ '1000'                                       │
-│                                                              │
-│  3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):              │
-│     '1000'은 10진수 8. 8 - 3 = 5 !                            │
-│     ──▶ 4의 9의 보수인 '5'가 정확히 도출됨.                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Excess-3 코드의 자기 보수(Self-Complementing) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목표: 10진수 '4'의 9의 보수인 '5'를 구하라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 10진수 4를 3초과 코드로 변환:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 + 3 = 7 ──▶ 2진수 '0111'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 비트 반전 (NOT 게이트 통과, 1의 보수):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'0111' ──▶ '1000'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'1000'은 10진수 8. 8 - 3 = 5 !</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 4의 9의 보수인 '5'가 정확히 도출됨.</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 덧셈 연산기만으로 뺄셈을 수행할 수 있게 하는 핵심 과정을 보여준다. 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(`~`)시키는 가장 가벼운 게이트 연산만으로 원래 숫자의 9의 보수를 얻어낸다. 덧셈 시에는 $A(+3) + B(+3) = A+B(+6)$이 되므로 자리올림 발생 여부에 따라 $+3$ 또는 $-3$을 보정하는 추가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로가 필요하다.
 
@@ -60,7 +60,7 @@ tags = ["studynote-computer-architecture"]
 
 | 비교 항목 | [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (8421) | Excess-3 (3초과 코드) | 시스템 적용 시 차이 |
 |:---|:---|:---|:---|
-| **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))** | 있음 (8, 4, 2, 1) | **없음 (비가중치)** | 자릿수 계산이 불가하며 패턴 매핑으로만 동작 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)</strong> | 있음 (8, 4, 2, 1) | **없음 (비가중치)** | 자릿수 계산이 불가하며 패턴 매핑으로만 동작 |
 | **코드 범위** | `0000` $\sim$ `1001` | **`0011` $\sim$ `1100`** | 양 끝단(`0000`, `1111`) 미사용으로 오류 탐지율 증가 |
 | **자기 보수성** | 불가능 | **가능 (NOT 연산으로 9의 보수 도출)** | [감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)([Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)) 하드웨어 설계 면적 대폭 절감 |
 | **덧셈 연산** | 자리올림 시 +6 보정 | **자리올림 발생 여부에 따라 보정(+3/-3)** | 덧셈 보정 회로는 분기 예측이 필요하여 다소 복잡해짐 |
@@ -76,7 +76,7 @@ tags = ["studynote-computer-architecture"]
 실무 설계에서는 연산의 종류와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 요구 수준에 따라 3초과 코드의 도입 여부를 판단해야 한다.
 
 ### 판단 포인트 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 통신 채널 설계**: 열악한 환경(고온, 진동)의 산업용 센서 통신에서 단선(0V)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) '0'을 명확히 구분해야 할 때 3초과 코드를 적용한다. `0000`이 수신되면 즉시 하드웨어 인터럽트를 발생시켜 시스템을 정지시키는 안전 로직을 구현할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>) 통신 채널 설계</strong>: 열악한 환경(고온, 진동)의 산업용 센서 통신에서 단선(0V)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) '0'을 명확히 구분해야 할 때 3초과 코드를 적용한다. `0000`이 수신되면 즉시 하드웨어 인터럽트를 발생시켜 시스템을 정지시키는 안전 로직을 구현할 수 있다.
 2. **연산 비율 분석**: 산술 연산([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 설계 시 덧셈 비중이 압도적으로 높다면 일반 2의 보수나 BCD를 사용해야 한다. 3초과 코드는 더할 때마다 오프셋이 누적($+6$, $+9$)되어 덧셈 보정 회로가 복잡해지므로, 뺄셈이나 비교 연산이 주를 이루는 특정 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)(Accelerator) 모듈에 국한하여 적용하는 것이 유리하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -100,31 +100,32 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (8421 [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/))** | 인간의 10진법을 2진수로 나타내는 기본 코드로, 3초과 코드가 +3 오프셋을 더하기 전의 원형 상태 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (8421 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">Binary Coded Decimal</a>)</strong> | 인간의 10진법을 2진수로 나타내는 기본 코드로, 3초과 코드가 +3 오프셋을 더하기 전의 원형 상태 |
 | **자기 보수성 (Self-Complementing)** | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전(1의 보수)만으로 10진수의 9의 보수가 도출되는 특성으로, Excess-3의 핵심 존재 이유 |
-| **[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))** | `0000`과 `1111`을 사용하지 않아 단선(0V) 및 합선(5V) 에러를 하드웨어 레벨에서 즉각 감지하는 능력 |
-| **[편향 지수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) Exponent)** | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표현 시 음수를 피하기 위해 무조건 특정한 값을 더해 저장하는 방식으로, 3초과 코드의 사상과 일치함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong> | `0000`과 `1111`을 사용하지 않아 단선(0V) 및 합선(5V) 에러를 하드웨어 레벨에서 즉각 감지하는 능력 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">편향 지수</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a> Exponent)</strong> | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표현 시 음수를 피하기 위해 무조건 특정한 값을 더해 저장하는 방식으로, 3초과 코드의 사상과 일치함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-BCD (8421) 코딩
-    │
-    ▼
-뺄셈 연산의 복잡도 문제 직면
-    │
-    ▼
-Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
-    │
-    ▼
-자기 보수 (Self-Complementing) 메커니즘 완성
-    │
-    ▼
-결함 탐지 (Fault Detection) 기능 부수적 획득
-    │
-    ▼
-부동소수점 지수 편향 (Bias Exponent) 개념으로 사상 계승
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BCD (8421) 코딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">뺄셈 연산의 복잡도 문제 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자기 보수 (Self-Complementing) 메커니즘 완성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결함 탐지 (Fault Detection) 기능 부수적 획득</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부동소수점 지수 편향 (Bias Exponent) 개념으로 사상 계승</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 편지예요!

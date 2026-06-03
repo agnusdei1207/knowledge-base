@@ -43,18 +43,19 @@ SGAxe와 CrossTalk는 같은 문맥에서 자주 묶이지만, 메커니즘은 �
 
 다음 그림은 두 공격이 겨냥한 신뢰 경로를 한눈에 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Trusted path failures                                             │
-├───────────────────────────────┬────────────────────────────────────┤
-│ SGAxe                         │ CrossTalk / SRBDS                  │
-│ SGX enclave / attest secret   │ Core 0: RDRAND / SGX op            │
-│            │                  │            │                       │
-│    L1D eviction path          │   shared staging buffer            │
-│            │                  │            │                       │
-│   CacheOut-style sample       │   Core 1: transient sample         │
-└───────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trusted path failures</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGAxe</div><div class="kb-diagram-cell">CrossTalk / SRBDS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGX enclave / attest secret</div><div class="kb-diagram-cell">Core 0: RDRAND / SGX op</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1D eviction path</div><div class="kb-diagram-cell">shared staging buffer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CacheOut-style sample</div><div class="kb-diagram-cell">Core 1: transient sample</div></div>
+</div>
+</div>
+
+
 
 SGAxe를 이해할 때는 Quoting [Enclave](/knowledge-base/studynote/09_security/04_endpoint_security/390_enclave/) (QE)와 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체인이 중요하다. 공격자가 attestation-related secret을 회수하면, 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 입장에서는 가짜 엔클레이브를 진짜처럼 믿을 위험이 생긴다. CrossTalk를 이해할 때는 "특수 명령은 코어 안에서만 끝난다"는 믿음이 깨진다는 점이 중요하다. 공유 staging buffer에 값이 잠깐 놓이는 순간, 다른 코어도 그 잔상을 관찰할 수 있기 때문이다.
 
@@ -122,19 +123,21 @@ SGAxe를 이해할 때는 Quoting [Enclave](/knowledge-base/studynote/09_securit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Transient-execution research
-    │
-    ▼
-MDS / CacheOut / SRBDS
-    │
-    ├─ SGAxe: SGX trust collapse
-    │
-    └─ CrossTalk: cross-core leakage
-    │
-    ▼
-Microcode + TCB Recovery + secure deployment policy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Transient-execution research</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MDS / CacheOut / SRBDS</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SGAxe: SGX trust collapse</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CrossTalk: cross-core leakage</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Microcode + TCB Recovery + secure deployment policy</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

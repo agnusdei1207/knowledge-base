@@ -25,19 +25,20 @@ tags = ["studynote-ai"]
 
 아래 그림은 같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 시간에 따라 전혀 다른 의미를 갖게 되는 상황을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Same signal, different answer over time                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Time T1                                                             │
-│   frequent late-night foreign payment -> likely fraud               │
-│                                                                      │
-│ Time T2                                                             │
-│   global subscription launch      -> often normal                   │
-│                                                                      │
-│ Input pattern looks similar, but label meaning has changed          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same signal, different answer over time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time T1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frequent late-night foreign payment -&gt; likely fraud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time T2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">global subscription launch -&gt; often normal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input pattern looks similar, but label meaning has changed</div></div>
+</div>
+</div>
+
+
 
 즉 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)의 위험은 "모델이 낡았다"가 아니라 "세상의 채점 기준이 바뀌었다"는 데 있다. 그래서 이 문제는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라 운영 중인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템의 생존 문제로 이어진다.
 
@@ -60,26 +61,26 @@ tags = ["studynote-ai"]
 
 아래 그림은 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 탐지와 대응의 기본 루프를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Concept drift monitoring loop                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Live features + predictions                                          │
-│        │                                                             │
-│        ├─ delayed labels / outcomes                                  │
-│        ▼                                                             │
-│ Drift detector                                                       │
-│   ├─ DDM (Drift Detection Method)                                    │
-│   ├─ ADWIN (Adaptive Windowing)                                      │
-│   └─ error / calibration trend monitor                               │
-│        │                                                             │
-│        ├─ gradual  -> windowed retraining                            │
-│        ├─ abrupt   -> fast rollback or rule fallback                 │
-│        └─ recurring-> seasonal model switching                       │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 실무 포인트는 **오래된 정답의 독성**이다. [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)라면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보완 자료로 쓸 수 있지만, [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)에서는 과거 라벨이 오히려 새로운 규칙 학습을 방해할 수 있다. 그래서 슬라이딩 윈도우, 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감소, 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우선 학습이 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Concept drift monitoring loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live features + predictions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ delayed labels / outcomes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift detector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DDM (Drift Detection Method)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ADWIN (Adaptive Windowing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ error / calibration trend monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ gradual -&gt; windowed retraining</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ abrupt -&gt; fast rollback or rule fallback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ recurring-&gt; seasonal model switching</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 실무 포인트는 <strong>오래된 정답의 독성</strong>이다. [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)라면 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보완 자료로 쓸 수 있지만, [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)에서는 과거 라벨이 오히려 새로운 규칙 학습을 방해할 수 있다. 그래서 슬라이딩 윈도우, 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감소, 최근 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 우선 학습이 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
 
 - **📢 섹션 요약 비유**: [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 대응은 오래된 지도 위에 새 길을 덧그리는 일이 아니라, 길 자체가 바뀌면 낡은 지도를 과감히 접고 새 지도를 펴는 일에 가깝다.
 
@@ -130,7 +131,7 @@ tags = ["studynote-ai"]
 - 1~2년 전 라벨을 현재와 같은 비중으로 학습시켜 새로운 규칙 학습을 방해하는 구성
 - 재학습은 자동화했지만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)·[fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 경로는 비워 둔 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-기술사 답안에서는 **"[컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)는 입력 분포 변화가 아니라 정답 해석 규칙의 변화이므로, 최근 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 재학습과 라벨 재검증, [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 통제를 함께 설계해야 한다"**라고 정리하면 운영 관점의 깊이가 살아난다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">컨셉 드리프트</a>는 입력 분포 변화가 아니라 정답 해석 규칙의 변화이므로, 최근 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/">데이터 중심</a> 재학습과 라벨 재검증, <a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">fallback</a> 통제를 함께 설계해야 한다"</strong>라고 정리하면 운영 관점의 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 대응은 계절이 바뀌었는데도 같은 옷장만 고집하지 않는 일과 같다. 날씨가 달라지면 옷도 바꾸고, 갑작스러운 폭우에는 우산이라는 비상 수단도 함께 준비해야 한다.
 
@@ -140,7 +141,7 @@ tags = ["studynote-ai"]
 
 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)를 체계적으로 다루면 모델 운영은 "한 번 배포하고 끝"이 아니라, 현실 변화에 맞춰 지식을 계속 갱신하는 폐루프 시스템이 된다. 그 결과 자동화 의사결정의 오류 누적을 줄이고, 환경 변화에 빠르게 적응하며, 모델 실패가 비즈니스 사고로 번지기 전에 통제할 수 있다.
 
-반대로 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)를 무시하면 모델은 점점 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보더라도 더 똑똑해지지 않는다. 잘못된 정답을 오래 학습할수록 오히려 확신만 강한 오판 시스템이 되기 쉽다. 그래서 기억해야 할 핵심은 **[컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)를 "모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하"가 아니라 "세상의 답안이 바뀐 사건"으로 보는 것**이다.
+반대로 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)를 무시하면 모델은 점점 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보더라도 더 똑똑해지지 않는다. 잘못된 정답을 오래 학습할수록 오히려 확신만 강한 오판 시스템이 되기 쉽다. 그래서 기억해야 할 핵심은 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">컨셉 드리프트</a>를 "모델 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하"가 아니라 "세상의 답안이 바뀐 사건"으로 보는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 관리는 오래된 문제집을 더 많이 푸는 것이 아니라, 출제 경향이 바뀌면 새 교재로 갈아타는 공부 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같다.
 
@@ -159,27 +160,28 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 학습 가정
-    │
-    ▼
-운영 데이터 + 지연 라벨 수집
-    │
-    ▼
-관계 변화 탐지
-    ├─ 급격한 변화
-    ├─ 점진적 변화
-    └─ 반복적 변화
-    │
-    ▼
-슬라이딩 윈도우 · 재라벨링 · fallback 설계
-    │
-    ▼
-재학습 / 모델 교체 / 피처 재설계
-    │
-    ▼
-지속형 MLOps 운영 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 학습 가정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 데이터 + 지연 라벨 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관계 변화 탐지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">급격한 변화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">점진적 변화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">반복적 변화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슬라이딩 윈도우 · 재라벨링 · fallback 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재학습 / 모델 교체 / 피처 재설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속형 MLOps 운영 거버넌스</div>
+</div>
+</div>
+
+
 
 이 흐름은 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/) 대응이 단순 재학습 버튼이 아니라, 변화 감지에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 운영 통제까지 이어지는 과정임을 보여 준다.
 

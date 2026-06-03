@@ -29,15 +29,21 @@ tags = ["studynote-devops"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Source
-  ↓
-Build Tool
-  ↓
-Artifact
-  ↓
-Deploy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Source</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Build Tool</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Artifact</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deploy</div>
+</div>
+</div>
+
+
 
 | 도구 | 특징 |
 | :-- | :-- |
@@ -106,29 +112,41 @@ Deploy
 
 ## 관련 개념 맵
 
-```text
-Source
-  ↓
-Build Tool
-  ↓
-Artifact
-  ↓
-CI/CD
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Source</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Build Tool</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Artifact</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI/CD</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Maven / Gradle / npm
-  ↓
-Build Tool
-  ↓
-Dependency Management
-  ↓
-CI/CD
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Maven / Gradle / npm</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Build Tool</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Dependency Management</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI/CD</div>
+</div>
+</div>
+
+
 
 ---
 

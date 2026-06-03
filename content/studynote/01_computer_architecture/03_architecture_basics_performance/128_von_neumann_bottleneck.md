@@ -19,25 +19,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-폰 노이만 병목현상은 **프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 기억장치와 같은 전송 경로를 공유할 때 발생하는 구조적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계**다. 폰 노이만 구조는 저장 프로그램 방식 덕분에 범용 컴퓨터를 단순하고 유연하게 만들었지만, 그 대가로 CPU가 계산보다 "가져오기"에 더 많은 시간을 쓰게 만들었다.
+폰 노이만 병목현상은 <strong>프로그램 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 같은 기억장치와 같은 전송 경로를 공유할 때 발생하는 구조적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 한계</strong>다. 폰 노이만 구조는 저장 프로그램 방식 덕분에 범용 컴퓨터를 단순하고 유연하게 만들었지만, 그 대가로 CPU가 계산보다 "가져오기"에 더 많은 시간을 쓰게 만들었다.
 
 문제가 커진 이유는 CPU의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 속도와 주기당 처리 능력은 크게 향상된 반면, 메인 메모리 접근 지연과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 같은 속도로 따라오지 못했기 때문이다. 즉, 계산 엔진은 스포츠카가 되었는데 연료를 공급하는 관로는 여전히 좁은 골목인 셈이다. 이 구조를 이해하지 못하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 원인을 코드, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 하드웨어 중 어디에서 먼저 찾아야 하는지 판단하기 어렵다.
 
 특히 오늘날에는 단순한 산술 연산보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 이동, 캐시 미스, 메모리 대기 시간이 전체 응답시간을 좌우하는 경우가 많다. 그래서 폰 노이만 병목은 고전 컴퓨터 구조의 개념이면서 동시에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 클라우드 인프라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석의 출발점이기도 하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│     왜 병목이 생기는가: 빠른 계산기와 느린 공급선의 충돌     │
-├──────────────────────────────────────────────────────────────┤
-│ CPU 코어         ───── 계산 수행 ─────▶ 결과 생성             │
-│   ▲                                                        │
-│   │ 명령어 요청 / 데이터 요청                               │
-│   │                                                        │
-│ 단일 메모리 경로 ───── 전송 대기 ─────▶ 메인 메모리          │
-│   │                                                        │
-│   └──── 명령어와 데이터가 같은 길을 번갈아 사용             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 병목이 생기는가: 빠른 계산기와 느린 공급선의 충돌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 코어 계산 수행 ▶ 결과 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 요청 / 데이터 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 메모리 경로 전송 대기 ▶ 메인 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어와 데이터가 같은 길을 번갈아 사용</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 병목이 "CPU 자체가 느려서"가 아니라 **CPU가 필요한 재료를 제때 공급받지 못해서** 생긴다는 점이다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석의 질문도 "연산을 더 빠르게 할까?"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덜 움직이게 할까?"로 바뀐다.
 
@@ -47,9 +47,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-폰 노이만 병목의 핵심은 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch)** 과 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Access)** 가 동일한 메모리 체계를 공유한다는 점이다. CPU 내부의 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 매우 빠르게 동작하지만, 실제 프로그램 실행은 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽고 피연산자를 가져오고 결과를 다시 기록하는 반복 과정으로 이루어진다. 이때 한 번의 계산보다 여러 번의 메모리 왕복이 더 비싸면, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 메모리 지연시간과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에 의해 결정된다.
+폰 노이만 병목의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 인출 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Fetch)</strong> 과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Access)</strong> 가 동일한 메모리 체계를 공유한다는 점이다. CPU 내부의 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 매우 빠르게 동작하지만, 실제 프로그램 실행은 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽고 피연산자를 가져오고 결과를 다시 기록하는 반복 과정으로 이루어진다. 이때 한 번의 계산보다 여러 번의 메모리 왕복이 더 비싸면, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 메모리 지연시간과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에 의해 결정된다.
 
-이를 정량적으로 보면 평균 메모리 접근 시간인 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)은 `캐시 적중 시간 + 미스율 × 미스 페널티`로 표현할 수 있다. 캐시가 아무리 빨라도 미스가 자주 발생하면 결국 느린 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근 비용이 전체 실행시간을 지배한다. 그래서 현대 프로세서는 단순 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 **메모리 계층의 적중률을 높이는 구조**에 더 많은 면적과 전력을 투자한다.
+이를 정량적으로 보면 평균 메모리 접근 시간인 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)은 `캐시 적중 시간 + 미스율 × 미스 페널티`로 표현할 수 있다. 캐시가 아무리 빨라도 미스가 자주 발생하면 결국 느린 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근 비용이 전체 실행시간을 지배한다. 그래서 현대 프로세서는 단순 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 <strong>메모리 계층의 적중률을 높이는 구조</strong>에 더 많은 면적과 전력을 투자한다.
 
 | 구성 요소 | 빠른 이유 또는 느린 이유 | 병목과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :-- | :-- | :-- |
@@ -60,24 +60,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 명령이 계산되기까지 병목이 어디서 발생하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│          한 명령의 실행 경로와 병목 위치                           │
-├────────────────────────────────────────────────────────────────────┤
-│  1. 명령어 인출        2. 피연산자 읽기        3. 결과 기록         │
-│                                                                    │
-│  CPU ───────────────┐  CPU ───────────────┐  CPU ───────────────┐   │
-│                     ▼                     ▼                     ▼   │
-│                ┌────────┐            ┌────────┐            ┌────────┐│
-│                │ 공용   │            │ 공용   │            │ 공용   ││
-│                │ 경로   │            │ 경로   │            │ 경로   ││
-│                └───┬────┘            └───┬────┘            └───┬────┘│
-│                    ▼                     ▼                     ▼      │
-│                 메모리                메모리                메모리    │
-│                                                                    │
-│  계산은 짧지만, 세 번의 왕복이 누적되면 CPU는 대부분 대기 상태가 된다 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 명령의 실행 경로와 병목 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령어 인출 2. 피연산자 읽기 3. 결과 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU CPU CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공용</div><div class="kb-diagram-cell">공용</div><div class="kb-diagram-cell">공용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로</div><div class="kb-diagram-cell">경로</div><div class="kb-diagram-cell">경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 메모리 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산은 짧지만, 세 번의 왕복이 누적되면 CPU는 대부분 대기 상태가 된다</div></div>
+</div>
+</div>
+
+
 
 현대 CPU는 이 문제를 줄이기 위해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/), 캐시 분할, 하드웨어 스레딩을 사용한다. 하지만 이런 기법도 결국 "메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 빨리, 얼마나 덜 가져오게 하느냐"라는 제약 안에서 움직인다. 즉 폰 노이만 병목은 사라진 것이 아니라 더 정교하게 숨겨졌을 뿐이다.
 
@@ -96,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 | 장점 | 범용성, 구현 단순성, 유연성 | 동시 접근 용이, 구조적 충돌 감소 |
 | 한계 | 병목 발생 가능성 큼 | 설계 복잡도와 비용 증가 |
 
-다만 현대 프로세서는 두 구조를 완전히 양자택일하지 않는다. 내부 L1 캐시를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시로 나누는 **수정 하버드 구조**를 쓰면서도, 외부 메모리 공간은 여전히 통합된 주소 공간으로 다루는 경우가 많다. 즉 현실의 아키텍처는 폰 노이만의 유연성과 하버드의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 절충한다.
+다만 현대 프로세서는 두 구조를 완전히 양자택일하지 않는다. 내부 L1 캐시를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시로 나누는 <strong>수정 하버드 구조</strong>를 쓰면서도, 외부 메모리 공간은 여전히 통합된 주소 공간으로 다루는 경우가 많다. 즉 현실의 아키텍처는 폰 노이만의 유연성과 하버드의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 절충한다.
 
 이 개념은 [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)), 지역성 (Locality), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 문제와도 이어진다. 예를 들어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론에서는 계산 유닛보다 모델 가중치를 메모리에서 끌어오는 비용이 더 커져 "연산 집약적"이 아니라 "메모리 집약적" 워크로드가 된다. 결국 폰 노이만 병목은 단일 CPU 교과서 주제가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 많은 모든 시스템에서 반복되는 보편적 패턴이다.
 
@@ -106,13 +103,13 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 폰 노이만 병목은 "CPU 사용률이 낮은데 응답속도가 느리다"는 형태로 자주 나타난다. 이때 무작정 코어를 늘리거나 클럭을 높이기보다, 먼저 **캐시 미스율, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 방식**을 점검해야 한다. 연산기 증설은 계산 병목에만 효과가 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목에는 비용 대비 효과가 낮기 때문이다.
+실무에서 폰 노이만 병목은 "CPU 사용률이 낮은데 응답속도가 느리다"는 형태로 자주 나타난다. 이때 무작정 코어를 늘리거나 클럭을 높이기보다, 먼저 <strong>캐시 미스율, 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치 방식</strong>을 점검해야 한다. 연산기 증설은 계산 병목에만 효과가 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목에는 비용 대비 효과가 낮기 때문이다.
 
 ### 실무 판단 포인트
 
-1. **[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 우선 설계**: 연속 메모리 접근이 가능한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 구조가 링크드 리스트 중심 구조보다 유리하다.
-2. **캐시 친화적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택**: 같은 시간복잡도라도 캐시 적중률이 높은 구현이 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 훨씬 좋다.
-3. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장 여부 판단**: 멀티채널 메모리, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 도입은 연산량보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량이 큰 워크로드에서 효과가 크다.
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">데이터 지역성</a> 우선 설계</strong>: 연속 메모리 접근이 가능한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 구조가 링크드 리스트 중심 구조보다 유리하다.
+2. <strong>캐시 친화적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 선택</strong>: 같은 시간복잡도라도 캐시 적중률이 높은 구현이 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 훨씬 좋다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 확장 여부 판단</strong>: 멀티채널 메모리, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 배치, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 도입은 연산량보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동량이 큰 워크로드에서 효과가 크다.
 4. **근본 해결 방식 검토**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체가 지배적이면 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)), [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/), [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 같은 접근이 더 적합할 수 있다.
 
 ### 자주 보는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -121,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 - 작은 연산을 위해 큰 객체를 반복적으로 메모리에서 불러오는 설계
 - 메모리 병목인데 CPU 스펙만 올리는 과투자
 
-예를 들어 행렬 연산, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 대규모 추천 시스템은 계산식 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로드 패턴이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 반대로 제어 분기가 복잡하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 작다면 폰 노이만 병목보다 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 직렬화 오버헤드가 더 큰 문제가 될 수 있다. 즉 기술사 관점의 핵심은 **모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 같은 축으로 보지 않고, 계산 병목과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목을 구분해 처방하는 것**이다.
+예를 들어 행렬 연산, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 대규모 추천 시스템은 계산식 자체보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로드 패턴이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 반대로 제어 분기가 복잡하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 작다면 폰 노이만 병목보다 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 직렬화 오버헤드가 더 큰 문제가 될 수 있다. 즉 기술사 관점의 핵심은 <strong>모든 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 문제를 같은 축으로 보지 않고, 계산 병목과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 병목을 구분해 처방하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 창고 정리가 엉망인 공장에서 직원을 더 뽑아도 소용없고, 먼저 자재가 자주 쓰이는 순서대로 가까운 선반에 놓여야 일이 빨라진다.
 
@@ -133,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 이 병목은 완전히 사라지지 않는다. 메모리 용량, 소비전력, 칩 면적, 비용이라는 현실적 제약 때문에 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 코어 가까이에 둘 수 없기 때문이다. 그래서 미래 아키텍처는 "더 빠른 코어"보다 "덜 움직이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 목표로 진화하고 있으며, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 메모리 확장, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)), [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) 같은 기술이 그 연장선에 있다.
 
-결국 폰 노이만 병목은 **범용 컴퓨터의 성공이 낳은 그림자**로 기억하면 좋다. 저장 프로그램 방식이 유연성을 주었고, 그 유연성의 대가로 [데이터 이동 비용](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)이 핵심 설계 변수가 되었다. 현대 아키텍처의 경쟁력은 이 병목을 없애는 데 있지 않고, 얼마나 영리하게 숨기고 완화하느냐에 달려 있다.
+결국 폰 노이만 병목은 <strong>범용 컴퓨터의 성공이 낳은 그림자</strong>로 기억하면 좋다. 저장 프로그램 방식이 유연성을 주었고, 그 유연성의 대가로 [데이터 이동 비용](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)이 핵심 설계 변수가 되었다. 현대 아키텍처의 경쟁력은 이 병목을 없애는 데 있지 않고, 얼마나 영리하게 숨기고 완화하느냐에 달려 있다.
 
 - **📢 섹션 요약 비유**: 도시가 커질수록 문제는 자동차 엔진 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 도로와 물류 체계가 되고, 좋은 도시는 차를 더 빠르게 만드는 대신 이동 자체를 덜 필요하게 설계한다.
 
@@ -152,21 +149,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 프로그램 방식
-        │
-        ▼
-폰 노이만 구조
-        │
-        ▼
-폰 노이만 병목현상
-        │
-        ├──────────────▶ 캐시 메모리 · 지역성 최적화
-        │
-        ├──────────────▶ 수정 하버드 구조 · 다중 채널 메모리
-        │
-        └──────────────▶ 메모리 월 · HBM · PIM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 프로그램 방식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폰 노이만 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폰 노이만 병목현상</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐시 메모리 · 지역성 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 수정 하버드 구조 · 다중 채널 메모리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 메모리 월 · HBM · PIM</div>
+</div>
+</div>
+
+
 
 이 흐름은 "구조적 출발점 → 병목 발생 → 완화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → 차세대 극복 시도"의 계보를 보여준다. 시험에서는 개념 정의만 외우기보다, 이 진화 방향을 함께 기억해야 응용 문제가 풀린다.
 

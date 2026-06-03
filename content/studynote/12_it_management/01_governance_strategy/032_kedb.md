@@ -18,17 +18,23 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. KEDB의 정의와 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 프로세스 위치
 
-[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/), 기지 오류 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 **[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)([Problem Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)) 프로세스**의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
+[KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/)([Known Error Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/), 기지 오류 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/">문제 관리</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/">Problem Management</a>) 프로세스</strong>의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
 
-```
-인시던트 관리
-    ↓
-문제 관리
-    ↓  ← 근본 원인 분석 완료 시
-  [KEDB 등록]
-    ↓
-서비스 데스크: 동일 인시던트 발생 시 KEDB 조회
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인시던트 관리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">문제 관리</div>
+<div class="kb-diagram-note">↓ ← 근본 원인 분석 완료 시</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KEDB 등록</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서비스 데스크: 동일 인시던트 발생 시 KEDB 조회</div>
+</div>
+</div>
+
+
 
 ### [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 핵심 용어
 
@@ -65,17 +71,22 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 활용 — 인시던트 해결 시간 단축
 
-```
-인시던트 접수
-    ↓
-KEDB 검색 (증상 키워드 매칭)
-    ↓
-기지 오류 발견? ─── YES ──→ 임시 조치 즉시 적용 → MTTR 단축
-    │
-    NO
-    ↓
-문제 조사 → RCA → 신규 KEDB 등록
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인시던트 접수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">KEDB 검색 (증상 키워드 매칭)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기지 오류 발견? YES ──→ 임시 조치 즉시 적용 → MTTR 단축</div>
+<div class="kb-diagram-note">NO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">문제 조사 → RCA → 신규 KEDB 등록</div>
+</div>
+</div>
+
+
 
 ### [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 개선 효과 (사례)
 
@@ -102,11 +113,16 @@ KEDB 검색 (증상 키워드 매칭)
 
 ### [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 유지 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
 
-```
-등록 → 검토 (정확성 확인) → 발행 (서비스 데스크 공개)
-  ↑           ↓
-정기 리뷰 ← 폐기 (영구 해결 완료 시)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">등록 → 검토 (정확성 확인) → 발행 (서비스 데스크 공개)</div>
+<div class="kb-diagram-note">정기 리뷰 ← 폐기 (영구 해결 완료 시)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 관리는 냉장고 정리와 같다 — 넣기만 하고 정리를 안 하면 유통기한 지난 음식(구식 정보)이 가득 차 필요한 것을 찾기가 더 어려워진다.
 
@@ -124,11 +140,17 @@ KEDB 검색 (증상 키워드 매칭)
 
 ### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [KEDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_kedb/) 혁신
 
-```
-인시던트 로그 → NLP 분석 → 유사 KEDB 자동 추천
-                         → 신규 기지 오류 자동 탐지
-                         → 임시 조치 효과성 평가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인시던트 로그 → NLP 분석 → 유사 KEDB 자동 추천</div>
+<div class="kb-diagram-note">→ 신규 기지 오류 자동 탐지</div>
+<div class="kb-diagram-note">→ 임시 조치 효과성 평가</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연계 KEDB는 스마트 검색 엔진이다 — 정확한 키워드 없이도 "비슷한 증상"만 입력하면 가장 관련 높은 해결책을 추천해준다.
 
@@ -136,48 +158,55 @@ KEDB 검색 (증상 키워드 매칭)
 
 ## 📌 관련 개념 맵
 
-```
-KEDB (Known Error Database)
-├── ITIL 프로세스 위치
-│   ├── 문제 관리 (Problem Management)
-│   └── 인시던트 관리 (Incident Management)
-├── 핵심 구성
-│   ├── 근본 원인 (Root Cause)
-│   ├── 임시 조치 (Workaround)
-│   └── 영구 해결책 (Permanent Fix)
-├── 연계 프로세스
-│   ├── 변경 관리 (Change Management)
-│   ├── 릴리즈 관리
-│   └── 구성 관리 (CMDB)
-└── 도구
-    ├── ServiceNow
-    ├── Jira Service Management
-    └── BMC Remedy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">KEDB (Known Error Database)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ITIL 프로세스 위치</div>
+<div class="kb-diagram-note">── 문제 관리 (Problem Management)</div>
+<div class="kb-diagram-note">── 인시던트 관리 (Incident Management)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 구성</div>
+<div class="kb-diagram-note">── 근본 원인 (Root Cause)</div>
+<div class="kb-diagram-note">── 임시 조치 (Workaround)</div>
+<div class="kb-diagram-note">── 영구 해결책 (Permanent Fix)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">연계 프로세스</div>
+<div class="kb-diagram-note">── 변경 관리 (Change Management)</div>
+<div class="kb-diagram-note">── 릴리즈 관리</div>
+<div class="kb-diagram-note">── 구성 관리 (CMDB)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">도구</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ServiceNow</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Jira Service Management</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BMC Remedy</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                KEDB 발전 흐름                                    │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1980년대     │ ITIL v1 등장       │ 문제 관리 개념 정립          │
-│ 1990년대     │ ITIL v2 정착       │ KEDB 공식화·서비스 데스크 연계│
-│ 2007년       │ ITIL v3            │ 서비스 생명주기 통합 프레임  │
-│ 2011년       │ ITIL 2011 업데이트 │ KEDB 품질 관리 강화          │
-│ 2019년       │ ITIL 4             │ DevOps·애자일과 통합 접근   │
-│ 2020년대     │ AI·NLP 통합        │ 자동 KEDB 추천·분류          │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-인시던트 → 문제 → RCA → KEDB 등록
-    ↓                      ↓
-MTTR 단축          임시 조치 → 영구 해결 → 변경 관리
-    ↓
-서비스 데스크 품질 향상 → SLA 달성
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KEDB 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">ITIL v1 등장</div><div class="kb-diagram-cell">문제 관리 개념 정립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">ITIL v2 정착</div><div class="kb-diagram-cell">KEDB 공식화·서비스 데스크 연계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2007년</div><div class="kb-diagram-cell">ITIL v3</div><div class="kb-diagram-cell">서비스 생명주기 통합 프레임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2011년</div><div class="kb-diagram-cell">ITIL 2011 업데이트</div><div class="kb-diagram-cell">KEDB 품질 관리 강화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019년</div><div class="kb-diagram-cell">ITIL 4</div><div class="kb-diagram-cell">DevOps·애자일과 통합 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">AI·NLP 통합</div><div class="kb-diagram-cell">자동 KEDB 추천·분류</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">인시던트 → 문제 → RCA → KEDB 등록</div>
+<div class="kb-diagram-note">MTTR 단축 임시 조치 → 영구 해결 → 변경 관리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서비스 데스크 품질 향상 → SLA 달성</div>
+</div>
+</div>
+
+
 
 ---
 

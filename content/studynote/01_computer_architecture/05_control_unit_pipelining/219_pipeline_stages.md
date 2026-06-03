@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-파이프라인 단계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 완료되기까지의 경로를 의미 있는 작업 단위로 나눈 실행 구간이다. 고전적인 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 프로세서는 이를 **IF ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch)**, **ID ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decode)**, **EX (Execute)**, **MEM (Memory Access)**, **WB ([Write Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))**의 5단으로 설명한다.
+파이프라인 단계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 완료되기까지의 경로를 의미 있는 작업 단위로 나눈 실행 구간이다. 고전적인 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 프로세서는 이를 <strong>IF (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Fetch)</strong>, <strong>ID (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Decode)</strong>, **EX (Execute)**, **MEM (Memory Access)**, <strong>WB (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write Back</a>)</strong>의 5단으로 설명한다.
 
 이렇게 나누는 이유는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 모든 일을 한 번에 끝내게 두면, 가장 긴 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 지연이 전체 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)를 결정하기 때문이다. 예를 들어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치인 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리 접근, 결과 기록을 한 사이클에 모두 처리하면 클럭은 느려질 수밖에 없다. 반대로 작업을 잘게 나누면 각 단계의 책임이 줄어들고, 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 EX에 있을 때 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 ID에, 그다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 IF에 있을 수 있어 하드웨어 놀림 시간이 줄어든다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-5단 파이프라인의 핵심은 **단계별 역할 분리**와 **단계 사이 저장 장치**다. 각 단계 사이에는 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))가 있어, 한 단계의 결과와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다음 클럭까지 붙잡아 둔다. 덕분에 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 동시에 칩 안에 있어도 서로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞지 않고 독립적으로 전진할 수 있다.
+5단 파이프라인의 핵심은 <strong>단계별 역할 분리</strong>와 <strong>단계 사이 저장 장치</strong>다. 각 단계 사이에는 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))가 있어, 한 단계의 결과와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다음 클럭까지 붙잡아 둔다. 덕분에 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 동시에 칩 안에 있어도 서로의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞지 않고 독립적으로 전진할 수 있다.
 
 | 단계 | 핵심 역할 | 주요 하드웨어 | 다음 단계로 넘기는 것 |
 | :--- | :--- | :--- | :--- |
@@ -43,23 +43,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "무엇을 하느냐"보다 "어떤 정보가 어떻게 넘겨지느냐"를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                5단 파이프라인의 단계 흐름과 레지스터 경계                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ IF                ID                EX                MEM              WB  │
-│ ┌──────────┐      ┌──────────┐      ┌──────────┐      ┌──────────┐   ┌──┐ │
-│ │ PC, I$   │ ───▶ │ Decode   │ ───▶ │ ALU      │ ───▶ │ D$       │ ─▶│RF│ │
-│ │ Fetch    │      │ Reg Read │      │ Branch   │      │ Load/    │   │  │ │
-│ └──────────┘      └──────────┘      └──────────┘      │ Store    │   └──┘ │
-│        │                │                │             └──────────┘        │
-│        ▼                ▼                ▼                  ▼              │
-│    IF/ID Reg        ID/EX Reg        EX/MEM Reg        MEM/WB Reg          │
-│  (명령어, PC)   (피연산자, 제어)   (결과, 분기)     (메모리값, 목적지)     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 본질은 **한 단계가 끝난 결과만 넘기는 것이 아니라, 나중 단계에서 필요한 제어 의도까지 함께 넘긴다**는 점이다. 예를 들어 ID 단계에서 "이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리 읽기 후 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록해야 한다"는 제어 비트가 만들어지면, 그 정보는 EX와 MEM, WB를 지나며 필요한 순간에만 효력을 발휘한다. 그래서 파이프라인 단계는 단순한 작업 순서가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 제어가 같이 이동하는 시간 구조라고 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5단 파이프라인의 단계 흐름과 레지스터 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF ID EX MEM WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC, I$</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Decode</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">ALU</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">D$</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">RF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch</div><div class="kb-diagram-cell">Reg Read</div><div class="kb-diagram-cell">Branch</div><div class="kb-diagram-cell">Load/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Store</div><div class="kb-diagram-cell">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF/ID Reg ID/EX Reg EX/MEM Reg MEM/WB Reg</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어, PC) (피연산자, 제어) (결과, 분기) (메모리값, 목적지)</div></div>
+</div>
+</div>
+
+
+
+이 구조의 본질은 <strong>한 단계가 끝난 결과만 넘기는 것이 아니라, 나중 단계에서 필요한 제어 의도까지 함께 넘긴다</strong>는 점이다. 예를 들어 ID 단계에서 "이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리 읽기 후 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록해야 한다"는 제어 비트가 만들어지면, 그 정보는 EX와 MEM, WB를 지나며 필요한 순간에만 효력을 발휘한다. 그래서 파이프라인 단계는 단순한 작업 순서가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 제어가 같이 이동하는 시간 구조라고 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 택배 분류장에서 상자만 넘기는 것이 아니라 "냉장", "파손주의", "오늘배송" 스티커까지 함께 붙여 보내야 다음 구간에서 제대로 처리되는 것과 같다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 각 단계는 주변 개념과 긴밀하게 연결된다. IF와 MEM이 같은 메모리를 동시에 원하면 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/) ([Structural Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))가 생기므로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 분리한 하버드 구조 ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/))가 유리하다. EX 단계에서 앞선 결과를 바로 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 넘겨 주는 포워딩 (Forwarding)이 없으면 [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)) 때문에 자주 멈춘다. 분기 결과가 EX에서 늦게 확정되면 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))가 커지므로 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) 기술이 중요해진다.
 
-즉 파이프라인 단계는 개별 명칭 암기보다, **어느 단계에서 어떤 종류의 위험이 발생하는가**로 이해해야 실전에서 쓸 수 있다. 같은 5단 구조라도 캐시 분리 여부, 분기 판단 위치, 포워딩 경로 수에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 달라진다.
+즉 파이프라인 단계는 개별 명칭 암기보다, <strong>어느 단계에서 어떤 종류의 위험이 발생하는가</strong>로 이해해야 실전에서 쓸 수 있다. 같은 5단 구조라도 캐시 분리 여부, 분기 판단 위치, 포워딩 경로 수에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 달라진다.
 
 - **📢 섹션 요약 비유**: 같은 5칸짜리 주방이라도 냉장고와 싱크대를 한곳에 몰아두면 서로 부딪히고, 재료 전달 통로를 잘 뚫어 두면 셰프들이 훨씬 덜 멈추는 것과 같다.
 
@@ -87,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 파이프라인 단계 설계는 "5단이냐 7단이냐"보다 **어디서 병목과 패널티가 생기느냐**를 보는 일이 더 중요하다. 예를 들어 EX 단계가 분기 비교, 덧셈, 주소 계산을 모두 담당해 지나치게 무거워지면 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)가 EX에 끌려가므로 단계 분할을 다시 검토해야 한다. 반대로 단계를 과도하게 늘리면 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드와 분기 미스 패널티가 커져 실성능이 떨어진다.
+실무에서 파이프라인 단계 설계는 "5단이냐 7단이냐"보다 <strong>어디서 병목과 패널티가 생기느냐</strong>를 보는 일이 더 중요하다. 예를 들어 EX 단계가 분기 비교, 덧셈, 주소 계산을 모두 담당해 지나치게 무거워지면 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)가 EX에 끌려가므로 단계 분할을 다시 검토해야 한다. 반대로 단계를 과도하게 늘리면 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드와 분기 미스 패널티가 커져 실성능이 떨어진다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 효과는 전제조건이 있다. 단계가 균형을 이루어야 하고, 해저드 처리 회로가 충분해야 하며, 메모리 계층이 이를 받쳐줘야 한다. 이 조건이 빠지면 파이프라인은 이론상 빠른 구조일 뿐, 실제로는 스톨과 플러시가 많은 비효율 구조가 된다.
 
-결국 파이프라인 단계는 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 나누는 목록**이 아니라 **시간을 통제하는 설계 언어**로 기억해야 한다. IF, ID, EX, MEM, WB를 외우는 데서 끝나지 않고, 각 단계가 왜 분리되었고 어디서 위험이 생기는지를 함께 이해해야 진짜 아키텍처 지식이 된다.
+결국 파이프라인 단계는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 나누는 목록</strong>이 아니라 <strong>시간을 통제하는 설계 언어</strong>로 기억해야 한다. IF, ID, EX, MEM, WB를 외우는 데서 끝나지 않고, 각 단계가 왜 분리되었고 어디서 위험이 생기는지를 함께 이해해야 진짜 아키텍처 지식이 된다.
 
 - **📢 섹션 요약 비유**: 좋은 릴레이 팀은 주자가 몇 명인지보다 배턴을 언제 어떻게 넘기느냐가 더 중요하듯, 파이프라인도 단계 이름보다 단계 사이 연결 품질이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다.
 
@@ -133,27 +133,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 사이클 실행
-    │
-    ▼
-다중 사이클 제어
-    │
-    ▼
-명령어 파이프라이닝 (Instruction Pipelining)
-    │
-    ├──▶ IF · ID · EX · MEM · WB 표준 5단 분할
-    │
-    ├──▶ 해저드 대응
-    │      ├─ 구조적 해저드 (Structural Hazard)
-    │      ├─ 데이터 해저드 (Data Hazard)
-    │      └─ 제어 해저드 (Control Hazard)
-    │
-    └──▶ 고도화
-           ├─ 데이터 포워딩 (Data Forwarding)
-           ├─ 분기 예측 (Branch Prediction)
-           └─ 슈퍼스칼라 (Superscalar) · 비순차 실행 (Out-of-Order Execution)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 사이클 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 사이클 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ IF · ID · EX · MEM · WB 표준 5단 분할</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 해저드 대응</div>
+<div class="kb-diagram-note">─ 구조적 해저드 (Structural Hazard)</div>
+<div class="kb-diagram-note">─ 데이터 해저드 (Data Hazard)</div>
+<div class="kb-diagram-note">─ 제어 해저드 (Control Hazard)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 고도화</div>
+<div class="kb-diagram-tree-item" style="--depth:5">데이터 포워딩 (Data Forwarding)</div>
+<div class="kb-diagram-tree-item" style="--depth:5">분기 예측 (Branch Prediction)</div>
+<div class="kb-diagram-tree-item" style="--depth:5">슈퍼스칼라 (Superscalar) · 비순차 실행 (Out-of-Order Execution)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 실행 → 단계 분리 → 충돌 인식 → 충돌 완화 → 고성능 확장"으로 이어지는 발전 방향을 보여준다.
 

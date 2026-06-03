@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-마이크로아키텍처의 핵심은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 길**과 **그 길을 제어하는 규칙**을 함께 설계하는 데 있다. 보통 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) ([Datapath](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)), [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)), 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 재정렬 구조가 유기적으로 결합된다. 이때 정수 연산은 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가, 실수 연산은 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 유닛 ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit, FPU)이, 메모리 접근은 로드/스토어 유닛 (Load-Store Unit, LSU)이 담당한다.
+마이크로아키텍처의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 처리하는 길</strong>과 <strong>그 길을 제어하는 규칙</strong>을 함께 설계하는 데 있다. 보통 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/) ([Datapath](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)), [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)), 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 재정렬 구조가 유기적으로 결합된다. 이때 정수 연산은 산술논리연산장치 ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가, 실수 연산은 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 유닛 ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit, FPU)이, 메모리 접근은 로드/스토어 유닛 (Load-Store Unit, LSU)이 담당한다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 |
 | :--- | :--- | :--- |
@@ -44,31 +44,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 ISA가 실제 실리콘 동작으로 바뀌는 계층과, 마이크로아키텍처 내부에서 병목이 생기는 위치를 압축해서 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        ISA contract  ->  Microarchitecture organization  ->  Silicon      │
-├────────────────────────────────────────────────────────────────────────────┤
-│  ISA: ADD, LOAD, BRANCH                                                   │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Frontend   : Fetch -> Decode -> Rename                                   │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Execution  : Scheduler -> ALU / FPU / LSU                                │
-│      │                           │       │                                 │
-│      │                           │       └-> Load/Store Unit               │
-│      │                           └-> Integer / Floating pipelines          │
-│      ▼                                                                     │
-│  Memory     : L1 -> L2 -> L3 -> Memory                                    │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Commit     : retire in architectural order                               │
-│                                                                            │
-│  Main bottlenecks: branch miss | cache miss | dependency | narrow width   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 설계 변수는 세 가지다. 첫째, **얼마나 많이 동시에 처리할 것인가**다. 이는 발행 폭, 실행 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 캐시 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 같은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 문제다. 둘째, **얼마나 깊게 쪼갤 것인가**다. 파이프라인을 깊게 하면 클럭을 올리기 쉽지만, 분기 실패나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존이 터질 때 손실도 커진다. 셋째, **어떤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨길 것인가**다. 캐시 미스는 프리패치와 캐시 구조로, 분기 불확실성은 예측기로, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 간 의존성은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍으로 완화한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA contract -&gt; Microarchitecture organization -&gt; Silicon</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA: ADD, LOAD, BRANCH</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frontend : Fetch -&gt; Decode -&gt; Rename</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution : Scheduler -&gt; ALU / FPU / LSU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Load/Store Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Integer / Floating pipelines</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory : L1 -&gt; L2 -&gt; L3 -&gt; Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit : retire in architectural order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main bottlenecks: branch miss</div><div class="kb-diagram-cell">cache miss</div><div class="kb-diagram-cell">dependency</div><div class="kb-diagram-cell">narrow width</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 설계 변수는 세 가지다. 첫째, <strong>얼마나 많이 동시에 처리할 것인가</strong>다. 이는 발행 폭, 실행 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 캐시 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 같은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 문제다. 둘째, <strong>얼마나 깊게 쪼갤 것인가</strong>다. 파이프라인을 깊게 하면 클럭을 올리기 쉽지만, 분기 실패나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존이 터질 때 손실도 커진다. 셋째, <strong>어떤 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 숨길 것인가</strong>다. 캐시 미스는 프리패치와 캐시 구조로, 분기 불확실성은 예측기로, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 간 의존성은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 리네이밍으로 완화한다.
 
 즉 마이크로아키텍처는 단순한 회로 배치가 아니라, 제한된 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 예산 안에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도를 함께 조정하는 최적화 문제다.
 
@@ -145,26 +139,27 @@ ISA와 마이크로아키텍처는 자주 혼동되지만 초점이 다르다. I
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single-cycle design
-        │
-        ▼
-Multi-cycle control
-        │
-        ▼
-Pipeline organization
-        │
-        ├──────────────► Hazard handling
-        │                 (stall, forwarding, prediction)
-        ▼
-Superscalar issue
-        │
-        ▼
-Out-of-Order execution
-        │
-        ▼
-Heterogeneous cores + domain-specific accelerators
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single-cycle design</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-cycle control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pipeline organization</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Hazard handling</div>
+<div class="kb-diagram-note">(stall, forwarding, prediction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Superscalar issue</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Out-of-Order execution</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Heterogeneous cores + domain-specific accelerators</div>
+</div>
+</div>
+
+
 
 이 흐름은 마이크로아키텍처가 단순 실행기에서 출발해, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 확대를 거쳐, 오늘날에는 워크로드 맞춤형 이기종 구조로 확장되는 진화 방향을 보여준다.
 

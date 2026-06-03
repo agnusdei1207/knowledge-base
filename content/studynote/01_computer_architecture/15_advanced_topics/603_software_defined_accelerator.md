@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 "새 실리콘을 매번 찍을 수 없는 분야"에서 SDA가 등장했는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          Workload changes faster than silicon refresh in many domains     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Algorithm v1 -> fixed accelerator fits                                    │
-│ Algorithm v2 -> dataflow changes                                          │
-│ Algorithm v3 -> precision / memory pattern changes                        │
-│                                                                            │
-│ ASIC : efficient but rigid    SDA : same silicon, new configuration        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 SDA의 본질은 "하드웨어를 소프트웨어처럼 만든다"가 아니라, **자주 바뀌는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 감당할 만큼만 하드웨어의 유연성을 열어 둔다**는 데 있다. 범위를 정한 유연성이기 때문에 효율과 적응성을 함께 잡을 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload changes faster than silicon refresh in many domains</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v1 -&gt; fixed accelerator fits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v2 -&gt; dataflow changes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v3 -&gt; precision / memory pattern changes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASIC : efficient but rigid SDA : same silicon, new configuration</div></div>
+</div>
+</div>
+
+
+
+따라서 SDA의 본질은 "하드웨어를 소프트웨어처럼 만든다"가 아니라, <strong>자주 바뀌는 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙을 감당할 만큼만 하드웨어의 유연성을 열어 둔다</strong>는 데 있다. 범위를 정한 유연성이기 때문에 효율과 적응성을 함께 잡을 수 있다.
 
 - **📢 섹션 요약 비유**: SDA는 매번 새 공장을 짓는 대신, 같은 공장의 기계 배치를 작업 지시에 맞춰 바꾸는 방식과 같다. 어떤 물건을 만들지 자주 바뀌는 시대에는 완전 고정형 공장보다 이런 구조가 오래 버틴다.
 
@@ -57,17 +59,18 @@ SDA는 보통 컴파일러와 런타임이 만든 [설정](/knowledge-base/study
 
 이 그림은 SDA가 어떻게 "프로그램을 실행"하는 대신 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Host software -> config -> domain accelerator fabric         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Model / Kernel -> Compiler -> Configuration -> Reconfigurable Fabric      │
-│                                   │                 │                      │
-│ Input DMA -> Local Buffer --------┘                 └------> Output DMA   │
-│                                                     │                      │
-│                                      routing / precision / schedule       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host software -&gt; config -&gt; domain accelerator fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model / Kernel -&gt; Compiler -&gt; Configuration -&gt; Reconfigurable Fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input DMA -&gt; Local Buffer -------- ------&gt; Output DMA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">routing / precision / schedule</div></div>
+</div>
+</div>
+
+
 
 이 구조는 거대 단위 재구성 아키텍처 ([Coarse-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) Reconfigurable [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CGRA)와 닮은 경우가 많다. 연산 타일이 정수 산술, 행렬 곱셈, 벡터 처리처럼 비교적 큰 단위로 묶여 있기 때문에, FPGA보다 재구성은 빠르고 ASIC보다 유연하다. 대신 소프트웨어가 하드웨어 자원을 잘 배치하지 못하면 이론 성능이 나지 않으므로, 하드웨어만큼 컴파일러가 핵심 자산이 된다.
 
@@ -77,7 +80,7 @@ SDA는 보통 컴파일러와 런타임이 만든 [설정](/knowledge-base/study
 
 ## Ⅲ. 비교 및 연결
 
-SDA의 위치를 제대로 이해하려면 CPU, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), ASIC과 동시에 비교해야 한다. CPU는 제어 흐름에 강하지만 같은 연산을 대량 반복할 때 에너지 효율이 낮고, FPGA는 매우 유연하지만 개발과 재구성 비용이 크다. ASIC은 가장 빠르고 효율적이지만 한 번 굳으면 바꾸기 어렵다. SDA는 이 세 축 사이에서 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 한정 유연성**을 무기로 삼는다.
+SDA의 위치를 제대로 이해하려면 CPU, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), ASIC과 동시에 비교해야 한다. CPU는 제어 흐름에 강하지만 같은 연산을 대량 반복할 때 에너지 효율이 낮고, FPGA는 매우 유연하지만 개발과 재구성 비용이 크다. ASIC은 가장 빠르고 효율적이지만 한 번 굳으면 바꾸기 어렵다. SDA는 이 세 축 사이에서 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 한정 유연성</strong>을 무기로 삼는다.
 
 | 방식 | 유연성 | 에너지 효율 | 변경 속도 | 잘 맞는 영역 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -86,7 +89,7 @@ SDA의 위치를 제대로 이해하려면 CPU, [FPGA](/knowledge-base/studynote
 | SDA | 중간~높음 | 높음 | 빠름 | 반복 구조가 있는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 연산 |
 | [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) | 낮음 | 매우 높음 | 불가능에 가까움 | 수년간 안정된 대량 반복 워크로드 |
 
-이 때문에 SDA는 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)), 영상 처리 가속기 안에 자주 들어간다. 외형은 전용 가속기처럼 보이지만, 내부 일부 블록은 새 모델 레이어나 새 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드에 맞춰 software-defined하게 바뀐다. 즉 전체 칩이 범용화되는 것이 아니라, **변화가 잦은 구간만 선택적으로 프로그래머블하게 만든다**는 것이 핵심이다.
+이 때문에 SDA는 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)), 영상 처리 가속기 안에 자주 들어간다. 외형은 전용 가속기처럼 보이지만, 내부 일부 블록은 새 모델 레이어나 새 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드에 맞춰 software-defined하게 바뀐다. 즉 전체 칩이 범용화되는 것이 아니라, <strong>변화가 잦은 구간만 선택적으로 프로그래머블하게 만든다</strong>는 것이 핵심이다.
 
 또 하나 중요한 연결점은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 아키텍처 (Domain-Specific [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), DSA)다. DSA가 "어떤 분야를 위해 하드웨어를 좁힐 것인가"를 정하는 철학이라면, SDA는 그 좁혀진 영역 안에서 다시 얼마나 적응성을 줄 것인가를 다루는 실천 구조다.
 
@@ -113,7 +116,7 @@ SDA의 위치를 제대로 이해하려면 CPU, [FPGA](/knowledge-base/studynote
 - 재구성 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 넣어 놓고 메모리 시스템을 그대로 둬 병목이 메모리로 이동하는 구조
 - 장기적으로 거의 안 바뀌는 초대량 워크로드에까지 SDA를 고집해 ASIC의 효율 이점을 놓치는 선택
 
-기술사 답안에서는 SDA를 "업데이트되는 가속기" 정도로 쓰면 부족하다. **재구성 범위가 어디까지인지, 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 CPU·[FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)·[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 사이 절충점이 되는지, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오버헤드와 메모리 병목을 어떻게 관리하는지**까지 같이 써야 한다.
+기술사 답안에서는 SDA를 "업데이트되는 가속기" 정도로 쓰면 부족하다. <strong>재구성 범위가 어디까지인지, 어떤 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>에서 CPU·<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a>·<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 사이 절충점이 되는지, <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 오버헤드와 메모리 병목을 어떻게 관리하는지</strong>까지 같이 써야 한다.
 
 - **📢 섹션 요약 비유**: SDA는 만능 비서가 아니라 숙련된 주방 라인 관리자와 같다. 같은 주방에서도 메뉴가 바뀌면 조리 순서를 다시 짜 줄 수 있지만, 회계 처리나 손님 응대까지 맡기면 금세 엉킨다.
 
@@ -125,7 +128,7 @@ SDA를 잘 설계하면 칩 하나가 여러 세대의 워크로드를 더 오�
 
 물론 대가도 있다. 절대 성능과 전력 효율은 순수 ASIC보다 낮을 수 있고, 도구 체인과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계가 성숙하지 않으면 유연성이 오히려 복잡성으로 바뀐다. 앞으로는 mixed [precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 컴파일러, [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 자원 분할, 보안 격리 같은 요소가 함께 발전해야 SDA의 가치가 더 커질 가능성이 높다.
 
-결론적으로 SDA는 **"소프트웨어처럼 다 바꾸는 하드웨어"가 아니라 "정해진 분야 안에서만 충분히 바뀌는 하드웨어"**로 기억해야 한다. 바로 그 제한된 유연성 덕분에 CPU의 범용성과 ASIC의 효율 사이에서 실용적인 균형점이 만들어진다.
+결론적으로 SDA는 <strong>"소프트웨어처럼 다 바꾸는 하드웨어"가 아니라 "정해진 분야 안에서만 충분히 바뀌는 하드웨어"</strong>로 기억해야 한다. 바로 그 제한된 유연성 덕분에 CPU의 범용성과 ASIC의 효율 사이에서 실용적인 균형점이 만들어진다.
 
 - **📢 섹션 요약 비유**: SDA는 아무 직업이나 하는 만능 로봇이 아니라, 공장 라인을 빠르게 바꿔 가며 여러 제품을 잘 만드는 스마트 제조 셀과 같다. 모든 일에는 못 쓰지만, 맡은 분야에서는 오래 살아남는다.
 
@@ -144,24 +147,25 @@ SDA를 잘 설계하면 칩 하나가 여러 세대의 워크로드를 더 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 CPU 기반 가속
-    │
-    ▼
-Fixed-function accelerator
-    │
-    ▼
-FPGA 기반 재구성 가속
-    │
-    ▼
-Software-Defined Accelerator
-    │
-    ▼
-Compiler-co-designed NPU / DPU
-    │
-    ▼
-도메인별 adaptive accelerator ecosystem
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 CPU 기반 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fixed-function accelerator</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FPGA 기반 재구성 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Software-Defined Accelerator</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Compiler-co-designed NPU / DPU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인별 adaptive accelerator ecosystem</div>
+</div>
+</div>
+
+
 
 이 흐름은 가속 기술이 "고정 기능과 범용 소프트웨어"의 양극단에서 출발해, 이제는 컴파일러와 하드웨어가 함께 움직이는 적응형 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 가속기로 발전하고 있음을 보여 준다.
 

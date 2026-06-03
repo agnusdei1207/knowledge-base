@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 엑셀러레이터는 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) ([Tensor Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), [LPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/) ([Language Processing Unit](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/317_lpu_language_processing_unit/))처럼 **행렬 곱셈과 추론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름**에 맞춰 회로를 재배치한 [주문형 반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/), Application-Specific Integrated Circuit)다.
+> 1. **본질**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 엑셀러레이터는 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) ([Tensor Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), [LPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/) ([Language Processing Unit](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/317_lpu_language_processing_unit/))처럼 <strong>행렬 곱셈과 추론 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>에 맞춰 회로를 재배치한 [주문형 반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/), Application-Specific Integrated Circuit)다.
 > 2. **가치**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 병목이 계산기 수보다 메모리 이동량에 있다는 점을 겨냥해, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 대비 더 높은 전성비와 더 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 만든다.
 > 3. **판단 포인트**: 훈련용인지 추론용인지, 모델 구조가 규칙적인지, 컴파일러·프레임워크 생태계가 충분한지에 따라 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)·[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)·LPU의 채택 결과가 크게 달라진다.
 
@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 엑셀러레이터는 딥러닝 연산을 범용 CPU (Central Processing Unit)나 범용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 위에서 억지로 수행하지 않고, 신경망이 반복하는 핵심 작업만 회로 수준에서 가속하는 특수 프로세서다. 딥러닝의 대부분은 곱셈-누산([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))과 텐서 이동으로 구성되므로, 범용 명령 해석과 복잡한 제어 회로보다 **규칙적인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산과 메모리 근접성**이 더 중요하다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 엑셀러레이터는 딥러닝 연산을 범용 CPU (Central Processing Unit)나 범용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 위에서 억지로 수행하지 않고, 신경망이 반복하는 핵심 작업만 회로 수준에서 가속하는 특수 프로세서다. 딥러닝의 대부분은 곱셈-누산([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))과 텐서 이동으로 구성되므로, 범용 명령 해석과 복잡한 제어 회로보다 <strong>규칙적인 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산과 메모리 근접성</strong>이 더 중요하다.
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 CPU가 모델 학습과 추론을 모두 맡았지만, 코어 수가 적고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 약해 대규모 행렬 연산에서 한계가 분명했다. 이후 GPU가 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산으로 딥러닝 붐을 열었지만, 그래픽 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 유산과 높은 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 메모리 이동 비용 때문에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전용 칩의 필요성이 커졌다. 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라는 “더 많은 연산기” 경쟁에서 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 덜 움직이게 설계했는가” 경쟁으로 넘어왔다.
 
-TPU는 대규모 클라우드 훈련과 서빙을 겨냥했고, NPU는 모바일·엣지 장치의 저전력 추론에 최적화됐으며, LPU는 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 토큰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 방향으로 등장했다. 즉 이름은 달라도 공통 질문은 같다. **모델의 계산 패턴을 가장 잘 흘려보낼 수 있는 하드웨어 배관이 무엇인가**가 핵심이다.
+TPU는 대규모 클라우드 훈련과 서빙을 겨냥했고, NPU는 모바일·엣지 장치의 저전력 추론에 최적화됐으며, LPU는 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 토큰 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 방향으로 등장했다. 즉 이름은 달라도 공통 질문은 같다. <strong>모델의 계산 패턴을 가장 잘 흘려보낼 수 있는 하드웨어 배관이 무엇인가</strong>가 핵심이다.
 
 - **📢 섹션 요약 비유**: 범용 칩이 만능 공구 세트라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엑셀러레이터는 “나사만 하루 종일 조이는 공장”에 맞춰 전동드라이버를 벽면에 고정 설치한 것과 같다. 다른 일은 못 하지만, 그 일 하나는 훨씬 빠르고 전기도 덜 먹는다.
 
@@ -35,25 +35,23 @@ TPU는 대규모 클라우드 훈련과 서빙을 겨냥했고, NPU는 모바일
 
 아래 그림은 엑셀러레이터가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 지점을 보여준다. 핵심은 “연산기 개수”보다 “[HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))·LPDDR에서 가져온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 칩 안에서 얼마나 오래 재사용하느냐”다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                AI 엑셀러레이터의 공통 데이터 경로: 메모리 이동 최소화       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Host CPU        Compiler/XLA         Global Memory         On-Chip Fabric   │
-│    │                 │               (HBM/LPDDR)                │           │
-│    ▼                 ▼                    │                      ▼           │
-│ [작업 배치] ──▶ [그래프 최적화] ──▶ [타일 적재] ──▶ [SRAM Scratchpad]       │
-│                                                                  │           │
-│                                                                  ▼           │
-│                                                        [MAC Array / Tensor]  │
-│                                                                  │           │
-│                 TPU  : 시스톨릭 어레이로 행렬 파동 처리          │           │
-│                 NPU  : INT8/INT4 중심 저전력 추론 파이프라인      │           │
-│                 LPU  : 토큰 생성용 고정 지연 파이프라인            │           │
-│                                                                  ▼           │
-│                                                     [Activation / Output]    │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 엑셀러레이터의 공통 데이터 경로: 메모리 이동 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host CPU Compiler/XLA Global Memory On-Chip Fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HBM/LPDDR)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">작업 배치</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">그래프 최적화</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타일 적재</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SRAM Scratchpad</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC Array / Tensor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPU : 시스톨릭 어레이로 행렬 파동 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPU : INT8/INT4 중심 저전력 추론 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPU : 토큰 생성용 고정 지연 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Activation / Output</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -81,7 +79,7 @@ TPU의 대표 특징은 행렬이 어레이 내부를 파도처럼 통과하며 
 | 적합 모델 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 대형 배치 | 비전·음성·온디바이스 모델 | [Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 기반 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) | 거의 모든 딥러닝 모델 |
 | 약점 | 전용 컴파일러 의존 | 모델 크기 제한 | 범용성 부족 | 전력·비용 부담 |
 
-이 차이는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 설계와도 연결된다. 훈련 단계에서는 GPU나 TPU가 유리하고, 서빙 단계에서는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))된 NPU나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특화 LPU가 더 경제적일 수 있다. 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어 선택은 칩 자체의 FLOPS보다 **모델 구조, 배치 크기, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구, 소프트웨어 이식성**을 함께 보는 문제다.
+이 차이는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 설계와도 연결된다. 훈련 단계에서는 GPU나 TPU가 유리하고, 서빙 단계에서는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))된 NPU나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특화 LPU가 더 경제적일 수 있다. 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어 선택은 칩 자체의 FLOPS보다 <strong>모델 구조, 배치 크기, <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구, 소프트웨어 이식성</strong>을 함께 보는 문제다.
 
 - **📢 섹션 요약 비유**: 대형 화물열차([TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)), 전기 스쿠터([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 특급 오토바이 퀵서비스([LPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/438_lpu/)), 다목적 트럭([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))은 모두 짐을 옮기지만, 싣는 짐과 가야 할 길이 다르기 때문에 최고 속도보다 “어떤 길에 올릴 것인가”가 더 중요하다.
 
@@ -105,7 +103,7 @@ TPU의 대표 특징은 행렬이 어레이 내부를 파도처럼 통과하며 
 - 훈련용 고가 칩을 그대로 온라인 추론에 사용해 비용과 전력을 동시에 악화시키는 경우
 - 하드웨어 스펙만 보고 컴파일러, 디버깅, [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 도구의 미성숙을 무시하는 경우
 
-기술사 답안에서는 “[TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/LPU는 모두 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대체재”라고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **훈련 vs 추론, 클라우드 vs 엣지, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) vs [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간**으로 판단 축을 나눠 쓰는 편이 설득력이 높다. 하드웨어-소프트웨어 공동 설계(Hw/SW Co-design)가 성패를 좌우한다는 점도 반드시 함께 언급하는 것이 좋다.
+기술사 답안에서는 “[TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/LPU는 모두 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 대체재”라고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, <strong>훈련 vs 추론, 클라우드 vs 엣지, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> vs <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간</strong>으로 판단 축을 나눠 쓰는 편이 설득력이 높다. 하드웨어-소프트웨어 공동 설계(Hw/SW Co-design)가 성패를 좌우한다는 점도 반드시 함께 언급하는 것이 좋다.
 
 - **📢 섹션 요약 비유**: [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 열차를 사는 것보다 먼저 봐야 할 것은 우리 동네에 그 열차가 달릴 선로가 있는지다. 칩 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 소프트웨어 선로와 운영 역량이 더 먼저다.
 
@@ -115,7 +113,7 @@ TPU의 대표 특징은 행렬이 어레이 내부를 파도처럼 통과하며 
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엑셀러레이터의 가장 큰 효과는 같은 모델을 더 낮은 전력과 더 짧은 시간 안에 학습·서빙할 수 있다는 점이다. 이는 단순한 비용 절감이 아니라, 더 큰 모델 실험, 더 빠른 배포, 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 확대 같은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택지를 열어 준다. 특히 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력과 냉각이 병목이 되는 시점에는 칩의 전성비가 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경쟁력으로 이어진다.
 
-그러나 만능 해법은 아니다. 전용 칩일수록 소프트웨어 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 벤더 의존성이 커지고, 모델 구조 변화에 덜 유연할 수 있다. 따라서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 “GPU를 완전히 대체하는 존재”가 아니라, **특정 병목을 극적으로 줄이기 위해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 생태계를 보완·분화시키는 흐름**으로 기억하는 편이 정확하다.
+그러나 만능 해법은 아니다. 전용 칩일수록 소프트웨어 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 벤더 의존성이 커지고, 모델 구조 변화에 덜 유연할 수 있다. 따라서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 “GPU를 완전히 대체하는 존재”가 아니라, <strong>특정 병목을 극적으로 줄이기 위해 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 생태계를 보완·분화시키는 흐름</strong>으로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 맞춤형 경주화는 트랙에서는 압도적이지만, 등산길과 눈길까지 책임지지는 못한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엑셀러레이터도 가장 잘 맞는 경기장에서 쓸 때 진짜 가치가 나온다.
 
@@ -135,22 +133,23 @@ TPU의 대표 특징은 행렬이 어레이 내부를 파도처럼 통과하며 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU 기반 학습
-    │
-    ▼
-GPU 병렬 연산 · 텐서 코어
-    │
-    ▼
-TPU 시스톨릭 어레이 · 대규모 분산 학습
-    │
-    ├──────────────▶ NPU 온디바이스 저전력 추론
-    │
-    └──────────────▶ LPU 초저지연 LLM 토큰 생성
-                           │
-                           ▼
-                Hw/SW Co-design · 전용 추론 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 기반 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU 병렬 연산 · 텐서 코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TPU 시스톨릭 어레이 · 대규모 분산 학습</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ NPU 온디바이스 저전력 추론</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ LPU 초저지연 LLM 토큰 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hw/SW Co-design · 전용 추론 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 “범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)흐름 특화 → 사용처별 세분화”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어가 분화되는 방향을 보여준다.
 

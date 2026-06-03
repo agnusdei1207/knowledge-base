@@ -23,18 +23,20 @@ Parquet은 분석 워크로드를 위해 설계된 컬럼형 저장 포맷이다
 
 아래 그림은 왜 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 컬럼형 저장이 유리한지 보여준다. 핵심은 "많은 행 전체"보다 "적은 컬럼 대량 스캔"이 분석의 기본 패턴이라는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 행 저장 vs 열 저장의 차이                                    │
-├──────────────────────────────────────────────────────────────┤
-│ 행 저장: [id region status amount] [id region status amount] │
-│         질의 시 불필요한 컬럼도 함께 읽음                    │
-│                                                              │
-│ 열 저장: id[] | region[] | status[] | amount[]              │
-│         sum(amount) where status='PAID'                      │
-│         → status, amount 컬럼만 읽으면 됨                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행 저장 vs 열 저장의 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">행 저장:</div><div class="kb-diagram-node">id region status amount</div><div class="kb-diagram-node">id region status amount</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질의 시 불필요한 컬럼도 함께 읽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">열 저장: id[]</div><div class="kb-diagram-cell">region[]</div><div class="kb-diagram-cell">status[]</div><div class="kb-diagram-cell">amount[]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sum(amount) where status='PAID'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ status, amount 컬럼만 읽으면 됨</div></div>
+</div>
+</div>
+
+
 
 컬럼형 포맷이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에도 강한 이유는 같은 타입의 값이 연속으로 배치되기 때문이다. 예를 들어 `status`, `country`, `is_active`처럼 카디널리티가 낮은 컬럼은 같은 값이 길게 반복되기 쉬워 RLE과 Dictionary Encoding의 효과가 커진다. 반대로 행 기반 포맷에서는 문자열, 숫자, 날짜가 한 레코드 안에 섞여 있어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)기는 일반 목적 알고리즘에 더 의존하게 된다.
 
@@ -57,21 +59,24 @@ Parquet [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 
 아래 구조를 보면 Parquet이 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나"가 아니라, 컬럼별 청크와 통계 정보를 함께 가진 작은 저장 엔진처럼 동작한다는 점이 보인다.
 
-```text
-┌───────────────────────── Parquet File ───────────────────────┐
-│ Row Group 0                                                  │
-│  ├─ status Column Chunk ─▶ Dictionary Page + Data Pages      │
-│  ├─ amount Column Chunk ─▶ Data Pages                        │
-│  └─ country Column Chunk ─▶ Dictionary Page + Data Pages     │
-│                                                              │
-│ Row Group 1                                                  │
-│  ├─ status Column Chunk                                      │
-│  ├─ amount Column Chunk                                      │
-│  └─ country Column Chunk                                     │
-│                                                              │
-│ Footer: schema · min/max · null_count · encodings            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Parquet File</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Group 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ status Column Chunk ─▶ Dictionary Page + Data Pages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ amount Column Chunk ─▶ Data Pages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ country Column Chunk ─▶ Dictionary Page + Data Pages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Group 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ status Column Chunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ amount Column Chunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ country Column Chunk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Footer: schema · min/max · null_count · encodings</div></div>
+</div>
+</div>
+
+
 
 [RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) (Run-Length Encoding)는 Parquet에서 특히 저카디널리티 컬럼과 중첩 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 level 정보에 강하다. 문자열 자체를 바로 [RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) 하는 것이 아니라, 먼저 Dictionary Encoding으로 값을 작은 정수 ID로 바꾸고, 그 뒤 반복되는 ID 구간을 [RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)/Bit-Packing 하이브리드로 저장하는 경우가 많다. 반복이 길면 RLE가 이득이고, 값이 자주 바뀌면 Bit-Packing으로 촘촘히 묶어 손해를 줄인다.
 
@@ -168,24 +173,25 @@ Parquet을 잘 설계하면 저장 크기 절감, 스캔 비용 축소, 대규�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-행 기반 파일 포맷
-    │
-    ▼
-컬럼형 저장 포맷 (Parquet · ORC)
-    │
-    ▼
-Dictionary Encoding · RLE/Bit-Packing
-    │
-    ▼
-Row Group 통계 · Predicate Pushdown
-    │
-    ▼
-Bloom Filter · Page Index · Vectorized Read
-    │
-    ▼
-Lakehouse 물리 저장 계층
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">행 기반 파일 포맷</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컬럼형 저장 포맷 (Parquet · ORC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dictionary Encoding · RLE/Bit-Packing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Row Group 통계 · Predicate Pushdown</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bloom Filter · Page Index · Vectorized Read</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lakehouse 물리 저장 계층</div>
+</div>
+</div>
+
+
 
 이 흐름은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 초점이 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 작게 만들기"에서 "필요 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 않기"로 발전하는 과정을 보여준다.
 

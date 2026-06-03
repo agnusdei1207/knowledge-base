@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 배스터브 곡선 (Bathtub Curve)은 시간에 따른 고장률, 즉 위험함수 `h(t)`가 욕조 단면처럼 **처음에는 높고, 중간에는 낮고 평평하며, 끝에서는 다시 높아지는** 형태를 보인다는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 개념이다. 핵심은 장비가 "평생 같은 확률로 고장 난다"는 직관이 틀렸다는 점이다.
 
-이 모델이 중요한 이유는 운영 의사결정이 시간 축에 따라 달라지기 때문이다. 새로 들여온 서버는 제조 편차와 조립 불량 때문에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 문제가 많이 나오고, 충분히 안정화된 뒤에는 비교적 낮고 일정한 고장률을 보인다. 하지만 수명이 다가오면 베어링 마모, 절연 열화, 플래시 셀 소모처럼 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 메커니즘이 지배하면서 고장률이 다시 상승한다. 따라서 같은 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 숫자라도 **언제의 MTBF인가**를 물어야 한다.
+이 모델이 중요한 이유는 운영 의사결정이 시간 축에 따라 달라지기 때문이다. 새로 들여온 서버는 제조 편차와 조립 불량 때문에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 문제가 많이 나오고, 충분히 안정화된 뒤에는 비교적 낮고 일정한 고장률을 보인다. 하지만 수명이 다가오면 베어링 마모, 절연 열화, 플래시 셀 소모처럼 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 메커니즘이 지배하면서 고장률이 다시 상승한다. 따라서 같은 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 숫자라도 <strong>언제의 MTBF인가</strong>를 물어야 한다.
 
 특히 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/), 스토리지, 임베디드 제어기처럼 장비 수가 많고 연속 운영이 중요한 환경에서는 배스터브 곡선을 이해해야 예비 부품, 보증 기간, 교체 주기, [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 합리적으로 설계할 수 있다. 즉 이 곡선은 단순한 통계 그래프가 아니라, 수명 관리 전략의 출발점이다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-배스터브 곡선은 보통 세 구간으로 설명한다. 고장률이 감소하는 **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 고장기**, 거의 일정한 **우발 고장기**, 다시 증가하는 **마모 고장기**다. 이 세 구간은 단순한 이름 붙이기가 아니라, 각각 다른 물리적 원인과 다른 관리 전략을 뜻한다.
+배스터브 곡선은 보통 세 구간으로 설명한다. 고장률이 감소하는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 고장기</strong>, 거의 일정한 **우발 고장기**, 다시 증가하는 <strong>마모 고장기</strong>다. 이 세 구간은 단순한 이름 붙이기가 아니라, 각각 다른 물리적 원인과 다른 관리 전략을 뜻한다.
 
 | 구간 | 고장률 추세 | 대표 원인 | 실무 대응 | Weibull 형상계수 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -41,22 +41,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 시간에 따라 고장률이 어떻게 달라지는지 보여 준다. 중간 평탄 구간만 떼어 보면 지수분포나 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 모델이 잘 맞지만, 전체 생애를 한 식으로 설명하기는 어렵다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             Bathtub Curve: hazard rate h(t) over lifetime           │
-├──────────────────────────────────────────────────────────────────────┤
-│ h(t)                                                                 │
-│  ▲                                                                   │
-│  │  \                                                                │
-│  │   \                                                               │
-│  │    \______________________________                         /       │
-│  │                                   \_______________________/        │
-│  └──────────────────────────────────────────────────────────────▶ time │
-│     early failure               useful life                  wear-out  │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 기술적 포인트는 **배스터브 곡선 자체가 단일 분포가 아니라는 점**이다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)·중기·말기 구간을 별도로 피팅하거나, Weibull Distribution을 구간별로 나눠 적용하는 경우가 많다. 그래서 "장비의 MTBF가 높다"는 말은 주로 우발 고장기의 평균적 특성을 뜻할 뿐, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이나 말기 마모를 자동으로 설명해 주지 않는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bathtub Curve: hazard rate h(t) over lifetime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h(t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">early failure useful life wear-out</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 기술적 포인트는 <strong>배스터브 곡선 자체가 단일 분포가 아니라는 점</strong>이다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)·중기·말기 구간을 별도로 피팅하거나, Weibull Distribution을 구간별로 나눠 적용하는 경우가 많다. 그래서 "장비의 MTBF가 높다"는 말은 주로 우발 고장기의 평균적 특성을 뜻할 뿐, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이나 말기 마모를 자동으로 설명해 주지 않는다.
 
 - **📢 섹션 요약 비유**: 배스터브 곡선은 학생 성적 변화와 비슷하다. 새 학기 초에는 적응 못 해서 실수가 많고, 익숙해지면 안정되며, 시험이 몰리면 다시 체력이 떨어져 흔들린다.
 
@@ -72,9 +70,9 @@ tags = ["studynote-computer-architecture"]
 | 잘 맞는 상황 | 수명 주기 전체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 우발 고장기 단순 계산 | 현장 수명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피팅 |
 | 대표 활용 | [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/), 교체 주기, 보증 설계 | [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/), Markov, 단순 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 계산 | [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) ([Accelerated Life Testing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)), 수명 예측 |
 
-컴퓨터구조와 저장장치로 연결하면 차이가 더 분명하다. 기계적 부품이 많은 HDD는 베어링과 모터 마모의 영향이 커서 마모 고장기가 비교적 뚜렷하다. 반면 SSD는 회전 부품은 없지만 P/E (Program/Erase) cycle 소모, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 열화, 컨트롤러 고장 같은 다른 메커니즘이 지배한다. 즉 두 장비 모두 배스터브 곡선을 따를 수 있지만, **어느 시점에 어느 원인이 지배적인지**는 다르다.
+컴퓨터구조와 저장장치로 연결하면 차이가 더 분명하다. 기계적 부품이 많은 HDD는 베어링과 모터 마모의 영향이 커서 마모 고장기가 비교적 뚜렷하다. 반면 SSD는 회전 부품은 없지만 P/E (Program/Erase) cycle 소모, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 열화, 컨트롤러 고장 같은 다른 메커니즘이 지배한다. 즉 두 장비 모두 배스터브 곡선을 따를 수 있지만, <strong>어느 시점에 어느 원인이 지배적인지</strong>는 다르다.
 
-또한 배스터브 곡선은 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) 테스트, 가속 수명 시험인 [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) ([Accelerated Life Testing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)), 예지 정비와 직접 연결된다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 줄이기 위해서는 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)으로 약한 개체를 걸러야 하고, 마모 고장기를 예측하려면 고온·고전압·고습 스트레스를 이용한 수명 시험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요하다. 결국 배스터브 곡선은 단독 지식이 아니라, **시험 전략과 운영 전략을 묶는 프레임**이다.
+또한 배스터브 곡선은 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/) 테스트, 가속 수명 시험인 [ALT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/) ([Accelerated Life Testing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)), 예지 정비와 직접 연결된다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 줄이기 위해서는 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)으로 약한 개체를 걸러야 하고, 마모 고장기를 예측하려면 고온·고전압·고습 스트레스를 이용한 수명 시험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요하다. 결국 배스터브 곡선은 단독 지식이 아니라, <strong>시험 전략과 운영 전략을 묶는 프레임</strong>이다.
 
 - **📢 섹션 요약 비유**: 배스터브 곡선이 계절 전체의 날씨 달력이라면, MTBF는 그중 봄철 평균 기온 하나만 보는 것과 같다. 봄 평균만 알아서는 한겨울과 한여름 준비를 할 수 없다.
 
@@ -84,7 +82,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 배스터브 곡선은 장비 반입부터 폐기까지의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾼다. 예를 들어 신규 서버는 랙에 올리자마자 본서비스에 넣지 않고, 48~72시간 정도의 [번인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/)과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진단을 거쳐 불량 개체를 먼저 걸러내는 것이 일반적이다. 반대로 안정 구간에 들어간 장비는 무턱대고 예방 교체하기보다, 장애를 흡수할 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 빠른 교체 체계를 갖추는 편이 경제적일 수 있다.
 
-문제는 말기 마모 구간이다. 이때는 "아직 안 고장 났다"는 사실 자체가 안전을 보장하지 않는다. HDD라면 3~5년, 엔터프라이즈 SSD라면 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량인 TBW (Terabytes Written)와 오류 증가 추세, 서버 팬이라면 회전 편차와 진동 같은 지표를 보고 교체 시점을 앞당겨야 한다. 기술사 관점에서는 결국 **고장률 곡선의 어느 구간에 있는가**에 따라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 달라진다는 점을 분명히 적어야 한다.
+문제는 말기 마모 구간이다. 이때는 "아직 안 고장 났다"는 사실 자체가 안전을 보장하지 않는다. HDD라면 3~5년, 엔터프라이즈 SSD라면 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량인 TBW (Terabytes Written)와 오류 증가 추세, 서버 팬이라면 회전 편차와 진동 같은 지표를 보고 교체 시점을 앞당겨야 한다. 기술사 관점에서는 결국 <strong>고장률 곡선의 어느 구간에 있는가</strong>에 따라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 달라진다는 점을 분명히 적어야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,9 +108,9 @@ tags = ["studynote-computer-architecture"]
 
 배스터브 곡선을 제대로 적용하면 품질 관리와 자산 운영이 한 흐름으로 연결된다. 제조 단계에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 줄이고, 운영 단계에서는 안정 구간의 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전략을 세우며, 자산 관리 단계에서는 마모 구간 전에 교체 예산을 계획할 수 있다. 그 결과 장애는 줄고, 예비 부품 확보와 유지보수 예산도 더 예측 가능해진다.
 
-다만 이 곡선은 **집단 수준의 평균 모델**이지, 모든 개별 장비가 정확히 같은 곡선을 그린다는 뜻은 아니다. 온도, 진동, 전력 품질, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하, 냉각 환경이 달라지면 곡선 모양도 이동한다. 또한 소프트웨어 버그처럼 비물리적 장애는 전형적인 배스터브 형태를 따르지 않을 수 있다. 그래서 현장 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 시험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 보정해 주어야 한다.
+다만 이 곡선은 <strong>집단 수준의 평균 모델</strong>이지, 모든 개별 장비가 정확히 같은 곡선을 그린다는 뜻은 아니다. 온도, 진동, 전력 품질, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하, 냉각 환경이 달라지면 곡선 모양도 이동한다. 또한 소프트웨어 버그처럼 비물리적 장애는 전형적인 배스터브 형태를 따르지 않을 수 있다. 그래서 현장 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 시험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 보정해 주어야 한다.
 
-결론적으로 배스터브 곡선은 "장비는 결국 늙는다"는 상식을 공학적으로 구조화한 모델이다. 기억해야 할 핵심은 하나다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 한 번의 좋은 설계로 끝나지 않고, **수명 구간별로 다른 관리 전략을 써야 완성된다**는 것이다.
+결론적으로 배스터브 곡선은 "장비는 결국 늙는다"는 상식을 공학적으로 구조화한 모델이다. 기억해야 할 핵심은 하나다. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 한 번의 좋은 설계로 끝나지 않고, <strong>수명 구간별로 다른 관리 전략을 써야 완성된다</strong>는 것이다.
 
 - **📢 섹션 요약 비유**: 사람도 아기 때는 예방접종이 중요하고, 성인기에는 운동과 보험이 중요하며, 노년기에는 정기검진과 조기 치료가 중요하다. 장비 관리도 그 흐름을 따라간다.
 
@@ -131,24 +129,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-manufacturing variation
-    │
-    ▼
-early failure / DFR
-: burn-in · screening
-    │
-    ▼
-useful life / CFR
-: MTBF · exponential model · redundancy
-    │
-    ▼
-wear-out / IFR
-: preventive replacement · predictive maintenance
-    │
-    ▼
-life testing · warranty planning · asset renewal
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">manufacturing variation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">early failure / DFR</div>
+<div class="kb-diagram-note">: burn-in · screening</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">useful life / CFR</div>
+<div class="kb-diagram-note">: MTBF · exponential model · redundancy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">wear-out / IFR</div>
+<div class="kb-diagram-note">: preventive replacement · predictive maintenance</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">life testing · warranty planning · asset renewal</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

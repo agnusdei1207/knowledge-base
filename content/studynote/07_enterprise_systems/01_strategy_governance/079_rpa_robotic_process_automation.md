@@ -10,9 +10,9 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기계 팔(Robot)이 아니라 컴퓨터에 깔리는 **소프트웨어 봇(Bot)**으로, 사람이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면을 보고 마우스 클릭과 키보드 타이핑을 하는 **반복적인 규칙 기반(Rule-based) 업무를 100% 똑같이 흉내 내는 자동화 아키텍처**다.
+> 1. **본질**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기계 팔(Robot)이 아니라 컴퓨터에 깔리는 <strong>소프트웨어 봇(Bot)</strong>으로, 사람이 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면을 보고 마우스 클릭과 키보드 타이핑을 하는 <strong>반복적인 규칙 기반(Rule-based) 업무를 100% 똑같이 흉내 내는 자동화 아키텍처</strong>다.
 > 2. **가치**: 레거시 시스템(SAP, 엑셀, 사내 인트라넷)의 코드를 단 한 줄도 뜯어고치거나 비싼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 개발을 할 필요 없이, 프론트엔드 UI(User Interface) 껍데기 위에서 작동하므로 개발 비용과 적용 시간이 압도적으로 저렴하고 빠르다.
-> 3. **판단 포인트**: 사람의 판단력이나 창의성이 필요한 예외 상황(Exception)을 처리하지 못하는 무식한 매크로에 불과했지만, 최근 OCR(문자인식)과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 융합된 **IPA (Intelligent [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Automation)**로 진화하며 인간의 뇌 기능까지 대체하는 지능형 자동화로 도약하고 있다.
+> 3. **판단 포인트**: 사람의 판단력이나 창의성이 필요한 예외 상황(Exception)을 처리하지 못하는 무식한 매크로에 불과했지만, 최근 OCR(문자인식)과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 융합된 <strong>IPA (Intelligent <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Automation)</strong>로 진화하며 인간의 뇌 기능까지 대체하는 지능형 자동화로 도약하고 있다.
 
 ---
 
@@ -31,28 +31,26 @@ tags = ["studynote-enterprise-systems"]
 ### 프레젠테이션 계층(UI) 침투와 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 구조
 RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저하게 화면 껍데기(UI/Presentation Layer) 위에서만 움직인다. 
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           엔터프라이즈 RPA (Robotic Process Automation) 아키텍처 │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  [ 1. 스튜디오 (Studio) ] : 개발 환경                       │
-│    개발자(또는 현업)가 순서도(Flowchart)를 그리거나, 마우스 움직임을 │
-│    녹화(Record)하여 봇의 행동 대본(Script)을 작성한다.          │
-│            │ (배포)                                    │
-│            ▼                                           │
-│  [ 2. 오케스트레이터 (Orchestrator) ] : 중앙 관제탑 (Control Room)│
-│    대본을 수십 대의 PC(봇)에게 스케줄링하여 뿌리고, 봇이 뻗지 않았는지│
-│    24시간 모니터링하며 로그(Log)를 수집하는 거버넌스 엔진.        │
-│            │ (명령 하달)                                │
-│            ▼                                           │
-│  [ 3. 봇 (Bot / Runner) ] : 행동 대원                       │
-│   ┌──────────────────────────────────────────────────┐ │
-│   │ [Attended Bot (반자동)] 직원이 PC에서 클릭하면 도와줌       │ │
-│   │ [Unattended Bot (완전 자동)] 빈 서버실에서 혼자 24시간 일함 │ │
-│   └──────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 RPA (Robotic Process Automation) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 스튜디오 (Studio)</div><div class="kb-diagram-note">: 개발 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자(또는 현업)가 순서도(Flowchart)를 그리거나, 마우스 움직임을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">녹화(Record)하여 봇의 행동 대본(Script)을 작성한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(배포)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 오케스트레이터 (Orchestrator)</div><div class="kb-diagram-note">: 중앙 관제탑 (Control Room)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대본을 수십 대의 PC(봇)에게 스케줄링하여 뿌리고, 봇이 뻗지 않았는지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">24시간 모니터링하며 로그(Log)를 수집하는 거버넌스 엔진.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령 하달)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 봇 (Bot / Runner)</div><div class="kb-diagram-note">: 행동 대원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Attended Bot (반자동)</div><div class="kb-diagram-note">직원이 PC에서 클릭하면 도와줌 │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unattended Bot (완전 자동)</div><div class="kb-diagram-note">빈 서버실에서 혼자 24시간 일함 │</div></div>
+</div>
+</div>
+
+
 
 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇은 화면에 떠 있는 버튼의 좌표(X, Y)나 웹페이지의 HTML DOM 요소(XPath)를 집요하게 추적하여 마우스 클릭 이벤트를 쇳덩어리(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 레벨에서 발생시킨다. 컴퓨터 입장에서는 진짜 사람이 마우스를 딸깍이는 것과 100% 동일한 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어오는 셈이다.
 
@@ -69,7 +67,7 @@ RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저�
 |:---|:---|:---|
 | **통합 계층** | **백엔드 (DB, 소스 코드 레벨 연동)** | **프론트엔드 (UI 껍데기 레벨)** |
 | **시스템 개조 여부**| 기존 시스템 소스 코드를 뜯어고쳐야 함 (침습적) | **기존 시스템 개조 0% (비침습적, Non-invasive)** |
-| **개발 기간/비용** | 수개월 ~ 수년 (거대 SI 프로젝트) | **수일 ~ 수주 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 달성)** |
+| **개발 기간/비용** | 수개월 ~ 수년 (거대 SI 프로젝트) | <strong>수일 ~ 수주 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 달성)</strong> |
 | **변화 적응성** | DB 구조가 바뀌지 않는 한 안 터짐 | **화면 UI 버튼 위치가 바뀌면 봇이 즉시 뻗어버림(에러)** |
 
 기존 IT 자동화가 "로봇의 뇌(DB)와 내 뇌(DB)를 전선으로 직결([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))"하는 수술이라면, RPA는 "로봇의 뇌를 못 여니까 로봇의 눈([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 카메라를 대고 로봇의 손(마우스)을 원격으로 조종"하는 임시방편이다. 하지만 현실 기업에는 소스코드를 잃어버리거나 남의 회사(관공서 등)라 맘대로 개조할 수 없는 시스템이 99%이므로, RPA라는 가성비 최강의 우회로가 전 세계 기업 시장을 집어삼킨 것이다.
@@ -82,7 +80,7 @@ RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저�
 
 ### 실무 시나리오
 1. **Unattended Bot을 활용한 새벽 정산 자동화**: 밤 12시가 넘으면 서버실에 있는 가상머신([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/))에 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇이 스스로 윈도우 부팅 및 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인을 한다. 전국 1,000개 지점의 POS 매출 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템 화면에 자동으로 하나씩 타이핑해 넣고, 차이가 나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 예외 처리(Exception) 폴더에 빼둔 뒤 아침 8시에 재무팀 담당자에게 요약 이메일을 발송하고 스스로 종료한다. 사람이 5시간 할 일을 봇이 10분 만에 끝내는 완벽한 야간 공장 시스템이다.
-2. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-OCR과 융합된 [하이퍼오토메이션](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/)([Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)) 도약**: 기존 RPA는 "사진으로 된 팩스 영수증"은 글자를 읽지 못해([정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 아님) 무용지물이었다. 아키텍트는 구글 Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(문자인식) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중간에 꽂아 넣는다. 봇이 이메일로 팩스 사진을 다운받아 AI에게 던지면, AI가 텍스트(영수증 금액, 상호)를 추출해 주고, 봇은 그 숫자를 읽어 회계 시스템(SAP)에 입력한다. [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)(손발)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(눈과 뇌)가 결합한 IPA(지능형 자동화)의 완성이다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>-OCR과 융합된 <a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/">하이퍼오토메이션</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">Hyperautomation</a>) 도약</strong>: 기존 RPA는 "사진으로 된 팩스 영수증"은 글자를 읽지 못해([정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 아님) 무용지물이었다. 아키텍트는 구글 Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(문자인식) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중간에 꽂아 넣는다. 봇이 이메일로 팩스 사진을 다운받아 AI에게 던지면, AI가 텍스트(영수증 금액, 상호)를 추출해 주고, 봇은 그 숫자를 읽어 회계 시스템(SAP)에 입력한다. [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)(손발)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(눈과 뇌)가 결합한 IPA(지능형 자동화)의 완성이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **화면(UI) 의존성의 취약성을 무시한 핵심 프로세스 도입**: 개발팀이 웹사이트의 버튼 색깔이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 팝업 위치를 1픽셀만 바꿔도, 화면 좌표나 XPath에 의존하던 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇은 "버튼이 없어졌습니다!"라며 그 자리에서 뻗어버린다(화면 깨짐 에러). 이런 극악의 깨짐(Fragility) 특성 때문에, 절대 멈추면 안 되는 '핵심 거래 시스템(Core Banking)'을 RPA로 엮어버리면 프론트엔드 업데이트 날마다 서버가 마비되는 대참사가 터진다. 핵심 프로세스는 돈을 들여서라도 무조건 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동을 해야 하며, RPA는 주변 업무(Back-office)에만 붙여야 한다.
@@ -105,27 +103,29 @@ RPA는 첨단 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_t
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))** | RPA가 화면 껍데기를 긁어오는 임시방편이라면, API는 기계끼리 고속도로(백엔드)를 뚫어 다이렉트로 대화하는 근본적이고 견고한 자동화의 정석 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>)</strong> | RPA가 화면 껍데기를 긁어오는 임시방편이라면, API는 기계끼리 고속도로(백엔드)를 뚫어 다이렉트로 대화하는 근본적이고 견고한 자동화의 정석 |
 | **OCR (Optical Character Recognition)** | 스캔 문서나 이미지 속의 글자를 컴퓨터가 읽을 수 있는 텍스트로 뽑아내어, 맹인이었던 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇에게 시력을 달아주는 핵심 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 기술 |
 | **비침습적 시스템 (Non-invasive System)** | 낡은 시스템의 뼈대(소스 코드, DB)를 1mm도 건드리지 않고 겉(화면)에서만 알짱대며 목표를 달성하여 시스템 장애 위험성을 없앤 RPA의 가장 위대한 설계 철학 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기업 내 레거시(Legacy) 시스템의 파편화 및 수작업(복사/붙여넣기) 노가다 만연
-    │
-    ▼
-백엔드 API 통합의 천문학적 비용 장벽 직면
-    │
-    ▼
-프론트엔드 UI 조작 기반의 데스크톱 매크로 등장 (Screen Scraping)
-    │
-    ▼
-중앙 통제(Orchestrator) 및 로깅/보안 거버넌스 융합 ──▶ 엔터프라이즈 RPA 시장 폭발 (UiPath 등)
-    │
-    ▼
-AI(문자인식, 머신러닝, LLM) 기술 융합 ──▶ 사람의 뇌까지 대체하는 하이퍼오토메이션(Hyperautomation)으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기업 내 레거시(Legacy) 시스템의 파편화 및 수작업(복사/붙여넣기) 노가다 만연</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">백엔드 API 통합의 천문학적 비용 장벽 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프론트엔드 UI 조작 기반의 데스크톱 매크로 등장 (Screen Scraping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중앙 통제(Orchestrator) 및 로깅/보안 거버넌스 융합 ──▶ 엔터프라이즈 RPA 시장 폭발 (UiPath 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI(문자인식, 머신러닝, LLM) 기술 융합 ──▶ 사람의 뇌까지 대체하는 하이퍼오토메이션(Hyperautomation)으로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "비용 장벽 → 우회로(UI 껍데기 조작) 발명 → 기업형 거버넌스 탑재 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합을 통한 지능형 노동력으로 승격"이라는 비즈니스 프로세스 자동화의 역사를 보여준다.
 

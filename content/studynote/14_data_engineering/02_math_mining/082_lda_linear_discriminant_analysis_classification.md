@@ -10,14 +10,14 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 선형 판별 분석(LDA)은 PCA와 같은 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법이지만, 정답 라벨(Y)을 활용하여 "클래스(집단)를 가장 잘 구별할 수 있는 축"을 찾아내는 **[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))** 기반의 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 및 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 알고리즘이다.
-> 2. **수학적 목표**: LDA의 목적 함수는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 투영되었을 때, 서로 다른 클래스 간의 중심 거리(Between-class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))는 **최대화**하고, 동일한 클래스 내의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 퍼짐(Within-class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))은 **최소화**하는 최적의 직교 축을 찾는 것이다.
+> 1. **본질**: 선형 판별 분석(LDA)은 PCA와 같은 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법이지만, 정답 라벨(Y)을 활용하여 "클래스(집단)를 가장 잘 구별할 수 있는 축"을 찾아내는 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong> 기반의 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 및 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 알고리즘이다.
+> 2. **수학적 목표**: LDA의 목적 함수는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 투영되었을 때, 서로 다른 클래스 간의 중심 거리(Between-class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))는 <strong>최대화</strong>하고, 동일한 클래스 내의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 퍼짐(Within-class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))은 <strong>최소화</strong>하는 최적의 직교 축을 찾는 것이다.
 > 3. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 군집이 확실하게 분리되도록 차원을 압축하기 때문에, 이후에 적용되는 로지스틱 회귀나 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 같은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비약적으로 끌어올리는 강력한 전처리 도구로 활용된다.
 
 ---
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-빅데이터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에서 변수의 수가 너무 많아지면 모델이 학습 방향을 잃어버리는 '차원의 저주'가 발생합니다. 앞서 다룬 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체의 퍼짐([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))만을 고려하기 때문에, 정작 "사과와 바나나를 구별하는 데 핵심적인 정보"는 지워버리고 쓸데없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 남길 위험이 존재합니다. 이러한 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)의 한계를 극복하기 위해 제안된 것이 바로 **LDA(Linear Discriminant Analysis)**입니다. LDA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 속한 범주(Class) 정보를 적극적으로 활용하여, 집단 간의 차이를 가장 극명하게 보여주는 선형 축을 찾아 투영시킵니다. 즉, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델링을 동시에 수행할 수 있는 스마트한 알고리즘입니다.
+빅데이터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제에서 변수의 수가 너무 많아지면 모델이 학습 방향을 잃어버리는 '차원의 저주'가 발생합니다. 앞서 다룬 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체의 퍼짐([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))만을 고려하기 때문에, 정작 "사과와 바나나를 구별하는 데 핵심적인 정보"는 지워버리고 쓸데없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 남길 위험이 존재합니다. 이러한 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)의 한계를 극복하기 위해 제안된 것이 바로 <strong>LDA(Linear Discriminant Analysis)</strong>입니다. LDA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 속한 범주(Class) 정보를 적극적으로 활용하여, 집단 간의 차이를 가장 극명하게 보여주는 선형 축을 찾아 투영시킵니다. 즉, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델링을 동시에 수행할 수 있는 스마트한 알고리즘입니다.
 
 ---
 
@@ -28,31 +28,30 @@ LDA의 최적화 메커니즘은 두 가지 [분산](/knowledge-base/studynote/0
 2. **$S_W$ (Within-class Scatter Matrix)**: 동일 클래스 내에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 뭉쳐있는 정도. (이 값은 작을수록 좋다)
 3. **목적 함수**: $J(W) = \frac{W^T S_B W}{W^T S_W W}$ 를 최대화하는 투영 행렬 $W$를 구합니다.
 
-```text
-+---------------------------------------------------------------+
-|         LDA (Linear Discriminant Analysis) Mechanism          |
-+---------------------------------------------------------------+
-|  [Bad Projection (Like PCA)]    [Good Projection (LDA)]       |
-|                                                               |
-|        Class A      Class B        Class A          Class B   |
-|         ooo          xxx             ooo              xxx     |
-|          ooo        xxx               ooo            xxx      |
-|           ooo      xxx                 ooo          xxx       |
-|                                                               |
-|  --+---------+---------+-->    --+----------+----------+-->   |
-|   Mixed Projection Axis        Discriminant Axis (LDA)        |
-|  (Hard to separate A & B)      (A & B are clearly separated)  |
-|                                                               |
-| [Mathematical Pipeline]                                       |
-|  1. Compute d-dimensional mean vectors for different classes. |
-|  2. Compute Within-class Scatter Matrix (S_W).                |
-|  3. Compute Between-class Scatter Matrix (S_B).               |
-|  4. Compute Eigenvectors & Eigenvalues for (S_W^-1 * S_B).    |
-|  5. Sort Eigenvectors by decreasing Eigenvalues.              |
-|  6. Choose Top-K Eigenvectors to form transformation matrix W.|
-|  7. Project samples onto the new subspace: Y = X * W          |
-+---------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDA (Linear Discriminant Analysis) Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bad Projection (Like PCA)</div><div class="kb-diagram-node">Good Projection (LDA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class A Class B Class A Class B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed Projection Axis Discriminant Axis (LDA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hard to separate A &amp; B) (A &amp; B are clearly separated)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mathematical Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Compute d-dimensional mean vectors for different classes.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Compute Within-class Scatter Matrix (S_W).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Compute Between-class Scatter Matrix (S_B).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Compute Eigenvectors &amp; Eigenvalues for (S_W^-1 * S_B).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Sort Eigenvectors by decreasing Eigenvalues.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Choose Top-K Eigenvectors to form transformation matrix W.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Project samples onto the new subspace: Y = X * W</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -60,8 +59,8 @@ LDA의 최적화 메커니즘은 두 가지 [분산](/knowledge-base/studynote/0
 
 | 비교 항목 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)) | LDA (선형 판별 분석) |
 | :--- | :--- | :--- |
-| **목적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화** (정보량 보존) | 클래스 간 **분리도 최대화** ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화) |
-| **학습 방법** | **[비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)** (Unsupervised) | **[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)** (Supervised) |
+| **목적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 최대화</strong> (정보량 보존) | 클래스 간 **분리도 최대화** ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화) |
+| **학습 방법** | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/">비지도 학습</a></strong> (Unsupervised) | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a></strong> (Supervised) |
 | **라벨(Y) 유무** | 필요 없음 (X 변수들만 사용) | **반드시 필요함** (클래스 소속 정보 필수) |
 | **축소 가능한 최대 차원** | 변수의 개수 (D) | **클래스 개수 - 1** (C - 1) |
 | **취약점** | 클래스 구분에 중요한 정보가 손실될 수 있음 | 정규분포 가정을 위배하거나, $S_W$ 행렬의 역행렬을 구할 수 없는 경우(소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 취약함 |
@@ -71,8 +70,8 @@ LDA의 최적화 메커니즘은 두 가지 [분산](/knowledge-base/studynote/0
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 현업 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 파이프라인에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 과제를 수행할 때, LDA는 단순한 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)를 넘어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(Classifier) 자체로도 훌륭한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘합니다.
-1. **차원 제약 조건의 인식**: LDA가 생성할 수 있는 새로운 축(차원)의 최대 개수는 `(클래스 개수 - 1)`입니다. 즉, 개와 고양이를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 2진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 문제에서는 수백 개의 변수가 단 **1개**의 차원(1D 축)으로 극단적으로 압축됩니다. 이는 강력한 압축률을 자랑하지만, 복잡한 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 담아내기에는 한계가 있음을 인지해야 합니다.
-2. **[다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)과 PCA와의 융합**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변수들 간에 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))이 너무 심하면 LDA 내부에서 역행렬 연산 시 오류(Singular Matrix)가 발생할 수 있습니다. 기술사적 최적화 전략으로는 **먼저 PCA를 적용하여 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)을 제거한 뒤, 그 결과물에 LDA를 적용하는 하이브리드 파이프라인([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) -> LDA)**을 구축하여 수학적 안정성과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 취하는 방식을 권장합니다.
+1. **차원 제약 조건의 인식**: LDA가 생성할 수 있는 새로운 축(차원)의 최대 개수는 `(클래스 개수 - 1)`입니다. 즉, 개와 고양이를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 2진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 문제에서는 수백 개의 변수가 단 <strong>1개</strong>의 차원(1D 축)으로 극단적으로 압축됩니다. 이는 강력한 압축률을 자랑하지만, 복잡한 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 담아내기에는 한계가 있음을 인지해야 합니다.
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">다중 공선성</a>과 PCA와의 융합</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변수들 간에 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))이 너무 심하면 LDA 내부에서 역행렬 연산 시 오류(Singular Matrix)가 발생할 수 있습니다. 기술사적 최적화 전략으로는 **먼저 PCA를 적용하여 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)을 제거한 뒤, 그 결과물에 LDA를 적용하는 하이브리드 파이프라인([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) -> LDA)**을 구축하여 수학적 안정성과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 취하는 방식을 권장합니다.
 
 ---
 
@@ -96,24 +95,26 @@ LDA는 통계학과 패턴 인식 분야에서 가장 역사 깊고 견고한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-피셔 판별 분석 (Fisher's LDA, 1936)
-    │
-    ▼
-LDA: 클래스 간 분산 최대화 + 클래스 내 분산 최소화
-    │
-    ├─► 차원 축소: 최대 (C-1)개 축으로 압축
-    └─► 분류기: 가우시안 사후 확률로 직접 분류
-    │
-    ▼
-PCA → LDA 하이브리드 파이프라인 (실무 표준)
-    │
-    ▼
-비선형 확장
-    ├─► QDA (이차 판별 분석) — 클래스별 공분산 허용
-    ├─► Kernel LDA — 커널 트릭 적용
-    └─► 대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">피셔 판별 분석 (Fisher's LDA, 1936)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LDA: 클래스 간 분산 최대화 + 클래스 내 분산 최소화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">차원 축소: 최대 (C-1)개 축으로 압축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">분류기: 가우시안 사후 확률로 직접 분류</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCA → LDA 하이브리드 파이프라인 (실무 표준)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비선형 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">QDA (이차 판별 분석) — 클래스별 공분산 허용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Kernel LDA — 커널 트릭 적용</div>
+<div class="kb-diagram-tree-item" style="--depth:2">대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승</div>
+</div>
+</div>
+
+
 
 ---
 

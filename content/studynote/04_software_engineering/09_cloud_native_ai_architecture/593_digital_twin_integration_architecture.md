@@ -25,31 +25,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성 (수백억짜리 파괴 테스트의 한계와 공포)**: 보잉(Boeing)[사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 제트기 엔진을 새로 만들었다. "야 이거 하늘에서 영하 50도에 10시간 날면 터지는지 테스트해 봐!" 100억짜리 진짜 제트기를 날렸다가 터지면 조종사도 죽고 100억도 허공에 날아간다(물리적 1회성 테스트의 절망). **"아 씨발! 현실의 제트기랑 부품, 물리 법칙이 100% 똑같은 가상 제트기를 컴퓨터에 띄워놓고, 컴퓨터 안에서 온도를 영하 50도로 확 깎아버리는 가짜 테스트(Simulation)를 1만 번 무한 반복으로 돌려볼 순 없을까?! 그럼 엔진 터져도 컴퓨터 재부팅 1초 치면 끝이잖아!!"** 이 피 맺힌 비용 절감과 무한 테스트에 대한 탐욕이 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 발명했다.
 
-- **💡 비유**: 기존의 모니터링은 **'아기방에 설치한 흑백 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)'**입니다. 화면을 보고 "아기가 우네?" 하고 엄마가 직접 뛰어갑니다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 아예 엄마의 거실 한가운데에 아기방과 똑같은 **'움직이는 홀로그램 방(3D 쌍둥이)'**을 띄워둔 것입니다. 홀로그램 아기가 울면 온도를 보고 거실에서 홀로그램 보일러 스위치를 딸깍! 누릅니다. 그러면 진짜 아기방의 보일러가 1초 만에 윙! 하고 돌아갑니다. 현실과 가상이 완벽하게 거울처럼 연결되어 만물을 원격에서 지배하는 궁극의 흑마법입니다.
+- **💡 비유**: 기존의 모니터링은 <strong>'아기방에 설치한 흑백 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a>'</strong>입니다. 화면을 보고 "아기가 우네?" 하고 엄마가 직접 뛰어갑니다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 아예 엄마의 거실 한가운데에 아기방과 똑같은 <strong>'움직이는 홀로그램 방(3D 쌍둥이)'</strong>을 띄워둔 것입니다. 홀로그램 아기가 울면 온도를 보고 거실에서 홀로그램 보일러 스위치를 딸깍! 누릅니다. 그러면 진짜 아기방의 보일러가 1초 만에 윙! 하고 돌아갑니다. 현실과 가상이 완벽하게 거울처럼 연결되어 만물을 원격에서 지배하는 궁극의 흑마법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Apollo 13호의 그림자 (1970)**: 우주에 떠 있는 고장 난 우주선과 똑같은 '물리적 쌍둥이 모형'을 NASA 지상에 만들어두고 며칠 동안 수동으로 고장 테스트를 함. (물리적 트윈 원시 시대).
   2. **GE와 NASA의 소프트웨어 명명 (2010s)**: "야 이제 쇳덩이로 쌍둥이 만들지 마! 클라우드 컴퓨터 안에 3D 시뮬레이터로 띄우고 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 연결해!" 본격적인 IT 융합 용어로 각성.
-  3. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML과의 결합 (현재)**: 걍 똑같이 움직이는 걸 넘어섰다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 뇌를 박아 넣었다. 가상 쌍둥이가 현실 모터의 과거 10년 치 진동 그래프를 학습한 뒤, "이 패턴이면 3일 뒤에 현실 모터 베어링 터져서 불납니다 ㅋ" 라고 미래를 예측(Predictive Maintenance)해 주는 예언자(Seer)로 신분 상승함.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML과의 결합 (현재)</strong>: 걍 똑같이 움직이는 걸 넘어섰다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 뇌를 박아 넣었다. 가상 쌍둥이가 현실 모터의 과거 10년 치 진동 그래프를 학습한 뒤, "이 패턴이면 3일 뒤에 현실 모터 베어링 터져서 불납니다 ㅋ" 라고 미래를 예측(Predictive Maintenance)해 주는 예언자(Seer)로 신분 상승함.
 
-- **📢 섹션 요약 비유**: 이것은 **'주술사의 부두 인형(Voodoo Doll)'**과 100% 똑같습니다. 현실의 김 대리(기계)의 머리카락(센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 부두 인형([디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))에 묶어둡니다. 부두 인형의 팔을 꺾으면 현실의 김 대리 팔이 부러지고(원격 제어), 인형의 심장 소리를 들으면 김 대리의 현재 건강 상태(실시간 모니터링)를 1초 만에 엑스레이로 꿰뚫어 볼 수 있는 무적의 주술 아키텍처입니다.
+- **📢 섹션 요약 비유**: 이것은 <strong>'주술사의 부두 인형(Voodoo Doll)'</strong>과 100% 똑같습니다. 현실의 김 대리(기계)의 머리카락(센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 부두 인형([디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))에 묶어둡니다. 부두 인형의 팔을 꺾으면 현실의 김 대리 팔이 부러지고(원격 제어), 인형의 심장 소리를 들으면 김 대리의 현재 건강 상태(실시간 모니터링)를 1초 만에 엑스레이로 꿰뚫어 볼 수 있는 무적의 주술 아키텍처입니다.
 
 ---
 
 다음은 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) (Digital Twin의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  디지털 트윈 (Digital Twin                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 (Digital Twin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) (Digital Twin가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 소프트웨어 통합 통신 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 소프트웨어 통합 통신 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 소프트웨어 통합 통신 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-디지털 트윈 (Digital Twin) 소프트웨어 통합 통신 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 트윈 (Digital Twin) 소프트웨어 통합 통신 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

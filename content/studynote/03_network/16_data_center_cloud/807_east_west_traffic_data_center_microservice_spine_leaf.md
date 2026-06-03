@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 외부 인터넷([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))을 거치지 않고, **[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부에 있는 서버와 서버, 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 가상머신, 혹은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받으며 발생하는 수평적(좌/우)인 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름**을 의미합니다.
+- **개념**: 외부 인터넷([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))을 거치지 않고, <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부에 있는 서버와 서버, 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 가상머신, 혹은 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>들끼리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 주고받으며 발생하는 수평적(좌/우)인 네트워크 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>을 의미합니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램에서 서버들끼리의 통신을 양옆(East, West) 방향 화살표로 그리기 때문에 붙여진 이름입니다.
 
-```text
-[North-South 트래픽]
-    │
-    ▼
-[East-West 트래픽]
-    │
-    └──▶ [네트워크 지터 데이터센터 스토리지 망 동기…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: East-West 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,14 +52,18 @@ tags = ["studynote-network"]
 ### 3. 빅데이터 클러스터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 ([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))
 - 거대한 빅데이터를 분석할 때 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 노드 수백 대가 서로 쪼개서 계산하고, 그 결과를 다시 뭉치기 위해 자기들끼리 수 테라바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Shuffle & Sort](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/))를 옆으로 던지며 통신합니다.
 
-```text
-[North-South 트래픽]
-    │
-    ▼
-[East-West 트래픽]
-    │
-    └──▶ [네트워크 지터 데이터센터 스토리지 망 동기…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: East-West 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 
 - **3-Tier의 패배**: 앞선 801번 문서에서 봤듯, 피라미드 구조에서는 옆 서버와 대화하려면 무조건 저 꼭대기 층(Aggregation [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))까지 올라갔다 내려와야 해서 중앙 고속도로가 매일 마비되었습니다(헤어핀 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병목).
 - **Spine-Leaf의 대관식**: 802번 문서의 2계층 바둑판 구조(Spine-Leaf)가 이 East-West 트래픽을 빛의 속도로 치워버리기 위해 발명된 구원자입니다. 어떤 서버든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 딱 한 번(1-Hop)만 찍으면 옆 서버로 광속 도달하므로, 내부망 트래픽 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 바닥으로 뚝 떨어집니다.
-- **보안의 변화**: 정문 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하나로는 내부 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 전파를 막을 수 없어, 내부 서버마다 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 씌우는 **[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)(739번)** 기술이 떡상했습니다.
+- **보안의 변화**: 정문 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하나로는 내부 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 전파를 막을 수 없어, 내부 서버마다 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 씌우는 <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>(739번)</strong> 기술이 떡상했습니다.
 
 East-West 트래픽을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. North-South 트래픽이 기반 조건을 만든다면, East-West 트래픽은 그 위에서 핵심 메커니즘을 구현하고, [네트워크 지터](/knowledge-base/studynote/03_network/16_data_center_cloud/808_network_jitter_delay_variation_storage_sync/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -119,15 +127,19 @@ East-West 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: North-South 트래픽]
-    │
-    ▼
-[현재 개념: East-West 트래픽]
-    │
-    ├──▶ [확장 A: 네트워크 지터 데이터센터 스토리지 망 동기…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: North-South 트래픽</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: East-West 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 East-West 트래픽는 North-South 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지터](/knowledge-base/studynote/03_network/16_data_center_cloud/808_network_jitter_delay_variation_storage_sync/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

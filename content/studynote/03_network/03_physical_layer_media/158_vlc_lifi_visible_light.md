@@ -43,23 +43,20 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 아래 그림은 Li-Fi 셀에서 조명과 통신이 함께 동작하는 모습을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Li-Fi room cell: light and data together               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Ethernet / Switch]                                                       │
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Li-Fi Controller]                                                         │
-│        │                                                                   │
-│        ▼                                                                   │
-│ [Ceiling LED AP]  >>> visible-light downlink >>>  [Laptop / Phone + PD]   │
-│        ▲                                              │                    │
-│        └──────────── IR / RF uplink (optional) ───────┘                    │
-│                                                                            │
-│ Wall blocks light leakage  → higher spatial reuse / stronger room security │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Li-Fi room cell: light and data together</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ethernet / Switch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Li-Fi Controller</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ceiling LED AP</div><div class="kb-diagram-note">&gt;&gt;&gt; visible-light downlink &gt;&gt;&gt;</div><div class="kb-diagram-node">Laptop / Phone + PD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR / RF uplink (optional)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wall blocks light leakage → higher spatial reuse / stronger room security</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 다운로드는 천장 조명에서 넓게 제공하되, 업로드는 적외선이나 다른 보조 채널로 분리할 수 있다는 점이다. 또한 조명 셀 반경이 작아 같은 건물 안에서도 공간 재사용이 쉽고, 벽을 통과하지 않으므로 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높다. 반면 손으로 수신부를 가리거나, 직사광선이 강하게 들어오거나, 단말이 빠르게 이동하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질이 급격히 나빠질 수 있다.
 
@@ -95,7 +92,7 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 1. **가시선 (LoS, Line of Sight)과 조명 커버리지가 확보되는가?** 그림자 영역이 많으면 품질이 불안정하다.
 2. **상향 링크를 어떻게 설계할 것인가?** 적외선, RF 보조, 하이브리드 구성을 미리 정해야 한다.
 3. **외란광과 디밍 조건을 감당할 수 있는가?** 태양광, 반사광, 저조도 조건을 함께 검증해야 한다.
-4. **Wi-Fi와 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 통합할 것인가?** 단독망보다 하이브리드 운영이 현실적인 경우가 많다.
+4. <strong>Wi-Fi와 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>를 통합할 것인가?</strong> 단독망보다 하이브리드 운영이 현실적인 경우가 많다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -111,7 +108,7 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 [VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)/Li-Fi가 성숙하면 실내 무선 네트워크는 단순히 더 빠른 접속을 넘어, 조명·위치·보안이 결합된 공간형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 발전할 수 있다. 조명 인프라와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 통합하면 공간 재사용성이 높아지고, 전파 혼잡을 줄이며, 특정 구역에 매우 높은 용량을 집중할 수 있다. 특히 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 실내망, XR (Extended Reality), 산업 자동화, 정밀 위치 인식과의 연계 가능성이 크다.
 
-다만 이 기술은 물리 조건에 민감하고, 상향 링크와 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 설계가 까다롭다. 따라서 [VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)/Li-Fi는 Wi-Fi를 없애는 기술이 아니라 **RF 무선망을 보완하는 실내 고밀도 광셀 기술**로 기억하는 편이 정확하다. 빛의 속도보다 중요한 것은, 그 빛을 안정적으로 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 바꾸는 시스템 설계 능력이다.
+다만 이 기술은 물리 조건에 민감하고, 상향 링크와 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 설계가 까다롭다. 따라서 [VLC](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1021_vlc_lifi/)/Li-Fi는 Wi-Fi를 없애는 기술이 아니라 <strong>RF 무선망을 보완하는 실내 고밀도 광셀 기술</strong>로 기억하는 편이 정확하다. 빛의 속도보다 중요한 것은, 그 빛을 안정적으로 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 바꾸는 시스템 설계 능력이다.
 
 - **📢 섹션 요약 비유**: Li-Fi는 천장 조명을 인터넷 도로로 바꾸는 기술이다. 방 안에서는 아주 빠른 전용차로가 되지만, 건물 전체를 잇는 고속도로 역할까지 혼자 맡지는 않는다.
 
@@ -130,20 +127,22 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-광무선 통신 (OWC)
-    │
-    ▼
-가시광 통신 (VLC)
-    │
-    ├── IM/DD · LED 변조 · Photodiode 수신
-    │
-    ▼
-Li-Fi 네트워킹
-    │
-    ▼
-실내 고밀도 셀 · 보안 구역 통신 · 위치기반 서비스 · 6G 실내망
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">광무선 통신 (OWC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가시광 통신 (VLC)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">IM/DD · LED 변조 · Photodiode 수신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Li-Fi 네트워킹</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실내 고밀도 셀 · 보안 구역 통신 · 위치기반 서비스 · 6G 실내망</div>
+</div>
+</div>
+
+
 
 이 흐름은 VLC가 단순 조명 제어가 아니라, 광무선 전송에서 시작해 실내 네트워크와 공간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확장되는 기술 축임을 보여준다.
 

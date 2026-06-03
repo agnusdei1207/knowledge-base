@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-앞서 536번 문서에서 배운 **[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) ([Network Time Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))**는 장비 간 시계를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해주는 필수 표준입니다. 이 역시 속도를 위해 인사 절차가 없는 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 123번)**를 사용하므로, 겉봉투의 발신자 IP 주소를 마음대로 속여서(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 반사 공격(DRDoS)을 날리기에 가장 완벽한 타겟이 되었습니다.
+앞서 536번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">Network Time Protocol</a>)</strong>는 장비 간 시계를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해주는 필수 표준입니다. 이 역시 속도를 위해 인사 절차가 없는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 123번)</strong>를 사용하므로, 겉봉투의 발신자 IP 주소를 마음대로 속여서(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 반사 공격(DRDoS)을 날리기에 가장 완벽한 타겟이 되었습니다.
 
-```text
-[반사 증폭 공격]
-    │
-    ▼
-[NTP 증폭]
-    │
-    └──▶ [DNS 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NTP 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,20 +40,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-단순히 "지금 몇 시예요?" 묻고 시간만 답장해주면 증폭률이 1:1이라 의미가 없습니다. 해커는 엄청난 답장을 끌어내기 위해 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에 숨겨진 관리자용 디버깅 명령어인 **`monlist` (또는 `req_mon_getlist`)** 명령어를 악용합니다.
+단순히 "지금 몇 시예요?" 묻고 시간만 답장해주면 증폭률이 1:1이라 의미가 없습니다. 해커는 엄청난 답장을 끌어내기 위해 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에 숨겨진 관리자용 디버깅 명령어인 <strong><code>monlist</code> (또는 <code>req_mon_getlist</code>)</strong> 명령어를 악용합니다.
 
-- **`monlist`의 본래 기능**: 관리자가 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에게 "최근에 너한테 시간 물어보고 접속했던 애들 명단 좀 줘봐"라고 상태를 점검하는 명령어입니다.
-- **증폭의 폭발성**: 해커가 고작 **40바이트** 남짓한 아주 짧은 텍스트로 `monlist` 패킷을 만들어 던지면, 멍청한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버는 자신의 메모리에서 최근 접속했던 **최대 600개의 IP 주소 목록 전체를 끌어모아 4,000바이트가 넘는 거대한 텍스트 보따리 100개 묶음으로 쪼개서 대답**해 줍니다. 
-- **결과**: 들어간 패킷의 크기에 비해 나오는 응답 패킷의 크기가 무려 **200배 ~ 500배 이상 폭발적으로 증폭(Amplification)**됩니다.
+- <strong><code>monlist</code>의 본래 기능</strong>: 관리자가 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버에게 "최근에 너한테 시간 물어보고 접속했던 애들 명단 좀 줘봐"라고 상태를 점검하는 명령어입니다.
+- **증폭의 폭발성**: 해커가 고작 **40바이트** 남짓한 아주 짧은 텍스트로 `monlist` 패킷을 만들어 던지면, 멍청한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버는 자신의 메모리에서 최근 접속했던 <strong>최대 600개의 IP 주소 목록 전체를 끌어모아 4,000바이트가 넘는 거대한 텍스트 보따리 100개 묶음으로 쪼개서 대답</strong>해 줍니다. 
+- **결과**: 들어간 패킷의 크기에 비해 나오는 응답 패킷의 크기가 무려 <strong>200배 ~ 500배 이상 폭발적으로 증폭(Amplification)</strong>됩니다.
 
-```text
-[반사 증폭 공격]
-    │
-    ▼
-[NTP 증폭]
-    │
-    └──▶ [DNS 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NTP 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-1. 해커는 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 수만 대를 동원해, 출발지 IP를 **'피해자 서버 IP'**로 조작합니다.
+1. 해커는 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 수만 대를 동원해, 출발지 IP를 <strong>'피해자 서버 IP'</strong>로 조작합니다.
 2. 전 세계 인터넷에 널려 있는 취약한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버 수십만 대를 향해 일제히 `monlist` 명령 패킷을 쏩니다.
 3. [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버들은 "아, 피해자 서버가 최근 접속자 명단을 요구했구나!"라고 감쪽같이 속아 넘어갑니다.
 4. 전 세계의 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버들이 500배로 뻥튀기된 수만 바이트의 응답 쓰레기 명단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷)를 억울한 피해자 서버로 일제히 쏟아부어 대역폭을 마비시킵니다.
@@ -77,8 +85,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 오늘날 대부분의 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버 관리자들은 이 바보 같은 약점을 막아두었습니다.
-- **`monlist` 기능 비활성화**: 최신 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버 프로그램([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4.2.7p26 이상)에서는 아예 `monlist` 명령어를 디폴트로 비활성화(Disable)하여 지워버렸습니다.
-- **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정**: `/etc/ntp.conf` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 `disable monitor` 혹은 `restrict default noquery` 옵션을 넣어서, 외부 해커가 쓸데없는 상태 질의 명령을 던질 수 없도록 원천 차단하고 오직 '시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)' 본연의 임무만 응답하게 틀어막았습니다.
+- <strong><code>monlist</code> 기능 비활성화</strong>: 최신 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 서버 프로그램([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 4.2.7p26 이상)에서는 아예 `monlist` 명령어를 디폴트로 비활성화(Disable)하여 지워버렸습니다.
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 수정</strong>: `/etc/ntp.conf` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 `disable monitor` 혹은 `restrict default noquery` 옵션을 넣어서, 외부 해커가 쓸데없는 상태 질의 명령을 던질 수 없도록 원천 차단하고 오직 '시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)' 본연의 임무만 응답하게 틀어막았습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 반사 증폭 공격]
-    │
-    ▼
-[현재 개념: NTP 증폭]
-    │
-    ├──▶ [확장 A: DNS 증폭]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 반사 증폭 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NTP 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭는 [반사 증폭 공격](/knowledge-base/studynote/03_network/14_network_security_threats/717_drdos_amplification_reflection_attack/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

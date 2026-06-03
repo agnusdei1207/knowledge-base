@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 등장**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a>의 등장</strong>
 
 NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 개념을 처음 도입했다. 이후 GE(General Electric)가 항공 엔진 모니터링에 적용하며 산업화가 시작되었다.
 
@@ -27,7 +27,7 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [�
 
 - **물리 엔티티(Physical Entity)**: 실제 장비·설비·도시. [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 수집.
 - **가상 모델(Virtual Model)**: 물리 엔티티의 디지털 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/). 형상·동작·물리 법칙을 수식화한 모델.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connection)**: 양방향 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름. 물리 → 가상(센싱), 가상 → 물리(제어·피드백).
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연결(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Connection)</strong>: 양방향 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름. 물리 → 가상(센싱), 가상 → 물리(제어·피드백).
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 실시간 거울이다. 내(물리 엔티티)가 움직이면 거울(가상 모델)도 같이 움직인다. 더 나아가 거울 속의 나를 먼저 실험한 뒤, 결과가 좋으면 실제 내가 그 행동을 한다.
 
@@ -35,26 +35,25 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                디지털 트윈 동기화 아키텍처                   │
-├──────────────────────────────────────────────────────────┤
-│  [물리 세계]                                               │
-│  공장 설비 / 교량 / 도시 인프라                              │
-│     │  ① IoT 센서 데이터 수집 (온도·진동·전류)               │
-│     ▼                                                    │
-│  [데이터 연결 계층]  스트리밍(Kafka) / MQTT / OPC UA         │
-│     │                          ▲                         │
-│     ▼  실시간 동기화             │ ④ 제어 명령(피드백)        │
-│  [가상 모델 계층]   Digital Twin Engine                    │
-│  ┌────────────────────────────────────┐                  │
-│  │ 형상 모델 + 물리 시뮬레이션 + AI 예측 │                  │
-│  └────────────────────────────────────┘                  │
-│     │  ② 현재 상태 반영              │                     │
-│     ▼  ③ 시나리오 시뮬레이션         │                     │
-│  [분석·최적화 계층]  예측 유지보수 / 이상 탐지 / 운영 최적화   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 동기화 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 세계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공장 설비 / 교량 / 도시 인프라</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① IoT 센서 데이터 수집 (온도·진동·전류)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 연결 계층</div><div class="kb-diagram-note">스트리밍(Kafka) / MQTT / OPC UA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 실시간 동기화</div><div class="kb-diagram-cell">④ 제어 명령(피드백)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 모델 계층</div><div class="kb-diagram-note">Digital Twin Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 모델 + 물리 시뮬레이션 + AI 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 현재 상태 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ③ 시나리오 시뮬레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분석·최적화 계층</div><div class="kb-diagram-note">예측 유지보수 / 이상 탐지 / 운영 최적화</div></div>
+</div>
+</div>
+
+
 
 ### [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 유형 비교
 
@@ -80,9 +79,9 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [�
 | 다운타임 | 계획된 정지 | 최소화 |
 | 기반 기술 | [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) + [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) + [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) |
 
-**디지털 쓰레드(Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**
+<strong>디지털 쓰레드(Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>
 
-- **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)**: 특정 시점의 실시간 상태 반영.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong>: 특정 시점의 실시간 상태 반영.
 - **디지털 쓰레드**: 제품 설계→제조→운영→폐기까지 전 생애주기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속성. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이 각 단계의 스냅샷이라면, 디지털 쓰레드는 그 스냅샷들을 연결하는 타임라인.
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 지금 찍은 사진, 디지털 쓰레드는 태어나서 지금까지의 앨범 전체다. 사진 한 장으로 현재 건강 상태를 보고, 앨범으로 생애 전체 트렌드를 분석한다.

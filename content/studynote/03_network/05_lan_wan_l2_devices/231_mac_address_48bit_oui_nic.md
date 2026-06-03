@@ -23,18 +23,22 @@ tags = ["studynote-network"]
 
 - **필요성**: 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(또는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 연결된 수십 대의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아야 할 '진짜 수신자'가 누구인지 알려면 이름표가 필요하다. 만약 이름표가 제조사마다 중첩되거나 사용자가 마음대로 바꾸면 통신 대혼란이 발생하므로, 전 세계 제조사들이 합의하여 겹치지 않는 고정된 번호 체계를 만든 것이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소다.
 
-- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 자동차의 **"차대 번호(VIN)"나 사람의 "주민등록번호"**와 같습니다. 내가 태어나거나 차가 생산될 때 변하지 않게 부여되는 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호입니다. 반면 IP 주소는 내가 이사 갈 때마다 바뀌는 "집 주소"나 "우편번호"와 같아서, 우체부(라우터)는 집 주소(IP)를 보고 동네까지 찾아온 뒤, 마지막에 그 집에 사는 사람의 주민등록번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 편지를 줍니다.
+- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 자동차의 <strong>"차대 번호(VIN)"나 사람의 "주민등록번호"</strong>와 같습니다. 내가 태어나거나 차가 생산될 때 변하지 않게 부여되는 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호입니다. 반면 IP 주소는 내가 이사 갈 때마다 바뀌는 "집 주소"나 "우편번호"와 같아서, 우체부(라우터)는 집 주소(IP)를 보고 동네까지 찾아온 뒤, 마지막에 그 집에 사는 사람의 주민등록번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 편지를 줍니다.
 
-```text
-[이더넷 구조 및 원리]
-    │
-    ▼
-[MAC 주소]
-    │
-    └──▶ [멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-```
 
-- **📢 섹션 요약 비유**: ** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 공장에서 찍혀 나오는 **"전자 기기의 지문"**입니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 지문 인식기는 이 지문을 보고 정확히 그 기기에게만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 택배를 건네줍니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 구조 및 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소는 공장에서 찍혀 나오는 </strong>"전자 기기의 지문"**입니다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 지문 인식기는 이 지문을 보고 정확히 그 기기에게만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 택배를 건네줍니다.
 
 ---
 
@@ -43,24 +47,22 @@ tags = ["studynote-network"]
 ### 1. 48비트 구조의 분할
 IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 48비트(6바이트)는 정확히 절반으로 나뉘어 관리된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                      MAC 주소 48비트 구조                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   16진수 표기:   00 : 1A : 2B  :  3C : 4D : 5E                │
- │                 └───────────┘    └───────────┘                │
- │                    24 bit           24 bit                  │
- │                                                             │
- │   의미:       [OUI (제조사 번호)]   [NIC 특정 일련번호]           │
- │                                                             │
- │   - OUI (Organizationally Unique Identifier):               │
- │     IEEE가 애플, 인텔, 삼성 등 각 제조사에게 돈을 받고 할당함.    │
- │   - NIC Specific (UAA: Universally Administered Address):   │
- │     제조사가 생산 라인에서 1씩 증가시키며 찍어내는 고유 시리얼.   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 주소 48비트 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16진수 표기: 00 : 1A : 2B : 3C : 4D : 5E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">24 bit 24 bit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">의미:</div><div class="kb-diagram-node">OUI (제조사 번호)</div><div class="kb-diagram-node">NIC 특정 일련번호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OUI (Organizationally Unique Identifier):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE가 애플, 인텔, 삼성 등 각 제조사에게 돈을 받고 할당함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NIC Specific (UAA: Universally Administered Address):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제조사가 생산 라인에서 1씩 증가시키며 찍어내는 고유 시리얼.</div></div>
+</div>
+</div>
+
+
 
 ### 2. 주소의 관리와 고갈 문제
 - 24비트 일련번호는 $2^{24}$ = 약 1,677만 개의 기기를 생산할 수 있다. 큰 제조사는 1,677만 대를 넘게 생산하므로, OUI를 여러 개 구매하여 사용한다. (예: 애플은 수십 개의 OUI를 보유)
@@ -68,10 +70,10 @@ IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_secur
 
 ### 3. I/G (Individual/Group) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 U/L [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 가장 첫 번째 바이트를 이진수로 풀었을 때, 첫 번째와 두 번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 특별한 용도로 쓰인다.
-- **I/G [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (최하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), b0)**: 0이면 단일 기기(Unicast), 1이면 다수 기기(Multicast)를 의미한다. (예: 브로드캐스트 `FF:FF...`는 모두 1이므로 1이다)
-- **U/L [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (b1)**: 0이면 전 세계 고유(Universally Administered), 1이면 로컬 관리자(사용자)가 임의로 바꾼 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Locally Administered)을 의미한다.
+- <strong>I/G <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (최하위 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>, b0)</strong>: 0이면 단일 기기(Unicast), 1이면 다수 기기(Multicast)를 의미한다. (예: 브로드캐스트 `FF:FF...`는 모두 1이므로 1이다)
+- <strong>U/L <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (b1)</strong>: 0이면 전 세계 고유(Universally Administered), 1이면 로컬 관리자(사용자)가 임의로 바꾼 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Locally Administered)을 의미한다.
 
-- **📢 섹션 요약 비유**: ** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 OUI는 **"자동차 브랜드 마크(현대, 벤츠)"**이고, 뒤의 24비트는 공장에서 찍어낸 **"순서 번호"**입니다. 이 두 개를 조합하면 지구상의 어떤 자동차도 완벽하게 구별해 낼 수 있습니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소의 OUI는 </strong>"자동차 브랜드 마크(현대, 벤츠)"**이고, 뒤의 24비트는 공장에서 찍어낸 **"순서 번호"**입니다. 이 두 개를 조합하면 지구상의 어떤 자동차도 완벽하게 구별해 낼 수 있습니다.
 
 ---
 
@@ -127,15 +129,19 @@ IEEE가 관리하는 [MAC](/knowledge-base/studynote/03_network/13_network_secur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 이더넷 구조 및 원리]
-    │
-    ▼
-[현재 개념: MAC 주소]
-    │
-    ├──▶ [확장 A: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이더넷 구조 및 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MAC 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구조 및 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

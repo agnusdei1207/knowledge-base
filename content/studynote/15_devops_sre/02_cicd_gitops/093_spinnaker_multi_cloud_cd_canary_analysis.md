@@ -38,27 +38,24 @@ tags = ["cicd", "studynote-devops-sre"]
 | **CloudDriver (클라우드드라이버)** | AWS, GCP, K8s 등 대상 클라우드의 리소스를 조회하고 배포 API를 직접 호출하는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 엔진 |
 | **Kayenta (카옌타)** | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 엔진. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 등)과 연동해 신/구 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 통계적으로 비교 판정 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Spinnaker 파이프라인 오케스트레이션 흐름          │
-├──────────────────────────────────────────────────────────────┤
-│ [CI 도구] ──▶ 빌드 완료 트리거 ──▶ (API Gate)                  │
-│                                      │                       │
-│ ┌────────────────────────────────────▼─────────────────────┐ │
-│ │ Orca (오케스트레이터): 파이프라인 상태 관리 및 명령 지휘     │ │
-│ │ 1. 테스트 환경 배포 ─▶ 2. 승인 대기 ─▶ 3. 카나리 배포 10% │ │
-│ └────────────────────────────────────┬─────────────────────┘ │
-│                                      │                       │
-│        ┌─────────────────────────────┼───────────────┐       │
-│        ▼                             ▼               │       │
-│ [ CloudDriver ]                [ Kayenta ]           │       │
-│ 이기종 API 호출 번역             메트릭 기반 자동 분석   │       │
-│ ├──▶ AWS EC2 인스턴스 생성      (에러율 튀면 즉시 롤백) │       │
-│ └──▶ GCP K8s 파드 업데이트                             │       │
-└──────────────────────────────────────────────────────────────┘
-```
 
-가장 강력한 기능은 Kayenta를 활용한 **ACA (Automated [Canary Analysis](/knowledge-base/studynote/15_devops_sre/05_devsecops/268_canary_analysis_cpu_spinnaker_kayenta/))**다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 트래픽만 받도록 배포한 뒤, 인간이 대시보드를 쳐다보지 않아도 Kayenta가 CPU, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하여 "통과" 또는 "자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"을 기계적으로 결단한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spinnaker 파이프라인 오케스트레이션 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI 도구</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">빌드 완료 트리거 ──▶ (API Gate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orca (오케스트레이터): 파이프라인 상태 관리 및 명령 지휘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 테스트 환경 배포 ─▶ 2. 승인 대기 ─▶ 3. 카나리 배포 10%</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CloudDriver</div><div class="kb-diagram-node">Kayenta</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이기종 API 호출 번역 메트릭 기반 자동 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ AWS EC2 인스턴스 생성 (에러율 튀면 즉시 롤백)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ GCP K8s 파드 업데이트</div></div>
+</div>
+</div>
+
+
+
+가장 강력한 기능은 Kayenta를 활용한 <strong>ACA (Automated <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/268_canary_analysis_cpu_spinnaker_kayenta/">Canary Analysis</a>)</strong>다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 트래픽만 받도록 배포한 뒤, 인간이 대시보드를 쳐다보지 않아도 Kayenta가 CPU, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하여 "통과" 또는 "자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"을 기계적으로 결단한다.
 
 - **📢 섹션 요약 비유**: Orca는 작전 지휘관이고, CloudDriver는 외국어를 통역하는 외교관이며, Kayenta는 독이 들었는지 맛을 보는 기미상궁이다.
 
@@ -70,8 +67,8 @@ tags = ["cicd", "studynote-devops-sre"]
 
 | 비교 항목 | Spinnaker (스핀네이커) | ArgoCD (아르고CD) | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ([젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) |
 | :--- | :--- | :--- | :--- |
-| **배포 패러다임** | **명령형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)-driven)** | 선언적 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) | 스크립트 실행 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)-driven) |
-| **타겟 클라우드** | **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), K8s 혼용 등)** | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) (K8s) 전용 특화 | 범용적 (직접 스크립트 작성 필요) |
+| **배포 패러다임** | <strong>명령형 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a>-driven)</strong> | 선언적 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) | 스크립트 실행 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)-driven) |
+| **타겟 클라우드** | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>, K8s 혼용 등)</strong> | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) (K8s) 전용 특화 | 범용적 (직접 스크립트 작성 필요) |
 | **복잡도 및 자원** | 매우 높음 (여러 MSA로 구성되어 무거움) | 낮음 (K8s 내부에서 가볍게 동작) | 플러그인에 따라 다름 |
 | **강점** | 글로벌 스케일, 내장 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 통계 분석 | 간편한 K8s 관리, Git 기반의 확실한 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) | 뛰어난 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 유연성과 레거시 통합 |
 
@@ -87,7 +84,7 @@ tags = ["cicd", "studynote-devops-sre"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **유지보수 오버헤드**: 스핀네이커는 그 자체를 운영하고 패치하기 위해 전담 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Engineer) 팀이 필요할 만큼 헤비 (Heavy)한 도구다. 감당할 여력이 있는가?
-2. **배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 정교함**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석(Kayenta)의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 높이려면, 애플리케이션이 이미 Prometheus나 Datadog으로 정밀한 시계열 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 방출하고 있어야 한다.
+2. <strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>의 정교함</strong>: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석(Kayenta)의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 높이려면, 애플리케이션이 이미 Prometheus나 Datadog으로 정밀한 시계열 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))을 방출하고 있어야 한다.
 
 ### 기술사적 의사결정
 - **채택**: AWS EC2([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), Google Cloud, K8s가 혼재된 엔터프라이즈 하이브리드 인프라에서 단일 배포 컨트롤 타워가 필요할 때. 장애 시 인간 개입 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(ACA)해야 하는 고가용성 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 채택한다.
@@ -111,28 +108,30 @@ tags = ["cicd", "studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))** | 코드를 신뢰할 수 있는 환경에 안전하게 릴리스하는 스핀네이커의 존재 이유 |
-| **[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Release](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/))** | 소수 사용자에게만 먼저 배포해 오류를 감지하는 기법 (Kayenta의 분석 대상) |
-| **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))** | 벤더 락인 방지를 위해 스핀네이커의 CloudDriver가 해결하는 이기종 인프라 환경 |
-| **ArgoCD / [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | K8s 생태계에서 스핀네이커와 경쟁/보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 형성하는 차세대 선언적 배포 도구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>)</strong> | 코드를 신뢰할 수 있는 환경에 안전하게 릴리스하는 스핀네이커의 존재 이유 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong> | 소수 사용자에게만 먼저 배포해 오류를 감지하는 기법 (Kayenta의 분석 대상) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">Multi-Cloud</a>)</strong> | 벤더 락인 방지를 위해 스핀네이커의 CloudDriver가 해결하는 이기종 인프라 환경 |
+| <strong>ArgoCD / <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | K8s 생태계에서 스핀네이커와 경쟁/보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 형성하는 차세대 선언적 배포 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 스크립트 배포 
-    │
-    ▼
-Jenkins / CI 중심 배포 · 배포 과정의 복잡도 제어 한계
-    │
-    ▼
-Spinnaker (스핀네이커) · 멀티 클라우드 CD, 파이프라인 시각화 및 추상화
-    │
-    ▼
-Kayenta (ACA) 통합 · 인간 개입 없는 통계적 카나리 분석 및 롤백
-    │
-    ▼
-GitOps 융합 · K8s 전용 경량화 도구(ArgoCD)와의 하이브리드 아키텍처 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 스크립트 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Jenkins / CI 중심 배포 · 배포 과정의 복잡도 제어 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spinnaker (스핀네이커) · 멀티 클라우드 CD, 파이프라인 시각화 및 추상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kayenta (ACA) 통합 · 인간 개입 없는 통계적 카나리 분석 및 롤백</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps 융합 · K8s 전용 경량화 도구(ArgoCD)와의 하이브리드 아키텍처 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

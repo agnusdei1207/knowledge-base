@@ -12,18 +12,18 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 무정전 운영 (Non-Stop [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) 아키텍처는 장애가 나도 "빨리 재시작"하는 구조가 아니라, **처리 중인 상태와 입출력 경로를 유지한 채 계산을 계속 이어 가는** 무중단 설계다.
-> 2. **가치**: 이를 위해 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) ([Lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)) 실행, 메모리/입출력 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 오류 격리, 핫스왑 (Hot Swap) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 결합해 **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) 0, [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)) 0**에 가깝게 접근한다.
+> 2. **가치**: 이를 위해 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/) ([Lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)) 실행, 메모리/입출력 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), 오류 격리, 핫스왑 (Hot Swap) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 결합해 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">Recovery Time Objective</a>) 0, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">Recovery Point Objective</a>) 0</strong>에 가깝게 접근한다.
 > 3. **판단 포인트**: 거래 체결, 관제, 생명 유지 장비처럼 순간 단절 자체가 사고가 되는 시스템에는 유효하지만, 일반 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에는 비용·전력·복잡도가 과할 수 있어 소프트웨어 고가용성 (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), HA)과 구분해서 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-무정전 운영 (Non-Stop [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) 아키텍처는 단일 부품 고장이나 계획 정비가 발생해도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 흐름을 끊지 않도록 설계한 **[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), FT)** 중심 구조다. 핵심은 장애 후 전환 시간이 짧은 것이 아니라, **전환이라는 사건 자체를 사용자 관점에서 거의 보이지 않게 만드는 것**이다. 즉 "죽으면 다른 장비로 넘긴다"가 아니라, 처음부터 같은 상태를 공유하거나 동기화한 대체 경로가 동시에 준비되어 있어야 한다.
+무정전 운영 (Non-Stop [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) 아키텍처는 단일 부품 고장이나 계획 정비가 발생해도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 흐름을 끊지 않도록 설계한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>, FT)</strong> 중심 구조다. 핵심은 장애 후 전환 시간이 짧은 것이 아니라, <strong>전환이라는 사건 자체를 사용자 관점에서 거의 보이지 않게 만드는 것</strong>이다. 즉 "죽으면 다른 장비로 넘긴다"가 아니라, 처음부터 같은 상태를 공유하거나 동기화한 대체 경로가 동시에 준비되어 있어야 한다.
 
 이 구조가 필요한 이유는 일부 시스템이 "몇 초의 재기동"조차 허용하지 않기 때문이다. 증권 매칭 엔진은 밀리초 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 주문 우선순위를 바꾸고, 항공·철도 제어는 제어 공백 자체가 안전 사고가 된다. 일반적인 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 장애 감지, 리더 선출, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 복원, 캐시 재예열이 필요하지만, 무정전 운영은 이런 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 단계를 최대한 설계 시점에 흡수해 둔다.
 
-또한 무정전 운영은 단순히 **[무정전 전원 장치](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/) (Uninterruptible [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply, [UPS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/))** 를 붙이는 개념과 다르다. UPS는 전원 공백을 메우는 장치이고, Non-Stop 아키텍처는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 입출력 (Input/Output, I/O), 인터커넥트, 저장장치, 전원, 냉각, 운영 절차까지 포함해 **시스템 전체의 연속성**을 설계하는 관점이다. 따라서 전원만 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)하고 공유 스토리지를 그대로 두면 진짜 Non-Stop이라 부르기 어렵다.
+또한 무정전 운영은 단순히 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/">무정전 전원 장치</a> (Uninterruptible <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Supply, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/652_ups_architecture/">UPS</a>)</strong> 를 붙이는 개념과 다르다. UPS는 전원 공백을 메우는 장치이고, Non-Stop 아키텍처는 중앙처리장치 (Central Processing Unit, CPU), 메모리, 입출력 (Input/Output, I/O), 인터커넥트, 저장장치, 전원, 냉각, 운영 절차까지 포함해 <strong>시스템 전체의 연속성</strong>을 설계하는 관점이다. 따라서 전원만 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)하고 공유 스토리지를 그대로 두면 진짜 Non-Stop이라 부르기 어렵다.
 
 - **📢 섹션 요약 비유**: 무정전 운영은 공연 중 주인공이 쓰러져도 무대 뒤의 대역 배우가 같은 대사를 같은 박자로 이미 따라 하고 있어서 관객이 장면 끊김을 느끼지 못하는 연출과 같다.
 
@@ -31,27 +31,27 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무정전 운영의 핵심 메커니즘은 **중복 실행 → 비교/투표 → [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 격리 → 상태 재동기화**의 연쇄다. 가장 엄격한 형태는 두 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 같은 순서로 실행하는 **이중 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 중복 (Dual Modular Redundancy, DMR)** 또는 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 다수결을 수행하는 **삼중 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 중복 (Triple Modular Redundancy, [TMR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/))** 이다. 여기에 오류 정정 코드 (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 메모리, 이중 전원 경로, 중복 인터커넥트, 핫스왑 부품이 결합되면 단일 고장이 전체 중단으로 번지지 않는다.
+무정전 운영의 핵심 메커니즘은 <strong>중복 실행 → 비교/투표 → <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 격리 → 상태 재동기화</strong>의 연쇄다. 가장 엄격한 형태는 두 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 같은 입력을 같은 순서로 실행하는 <strong>이중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Dual Modular Redundancy, DMR)</strong> 또는 세 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 다수결을 수행하는 <strong>삼중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 중복 (Triple Modular Redundancy, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/455_tmr/">TMR</a>)</strong> 이다. 여기에 오류 정정 코드 (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 메모리, 이중 전원 경로, 중복 인터커넥트, 핫스왑 부품이 결합되면 단일 고장이 전체 중단으로 번지지 않는다.
 
-아래 그림은 Non-Stop 아키텍처가 "예비 장비를 세워 둔다" 수준을 넘어, **실행 상태를 동시에 유지하고 문제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 떼어내는 방식**임을 보여 준다.
+아래 그림은 Non-Stop 아키텍처가 "예비 장비를 세워 둔다" 수준을 넘어, <strong>실행 상태를 동시에 유지하고 문제 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>만 떼어내는 방식</strong>임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Non-Stop path: duplicate, compare, isolate, resync           │
-├──────────────────────────────────────────────────────────────────────┤
-│ Input stream                                                        │
-│    │                                                                 │
-│    ├──▶ CPU-A + Mem-A + I/O-A ──┐                                    │
-│    │                            ├──▶ compare / vote ──▶ output       │
-│    └──▶ CPU-B + Mem-B + I/O-B ──┘                                    │
-│                     │                                                 │
-│                     ├── fault detected ──▶ isolate bad module         │
-│                     │                                                 │
-│                     └── spare or hot-swap module ─▶ state resync      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이때 중요한 것은 **공유 자원의 최소화**다. CPU만 두 개이고 메모리 컨트롤러나 전원 백플레인이 하나라면 숨은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 남는다. 그래서 고신뢰성 장비는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위를 크게 잡아 프로세서, 메모리, I/O 경로, 전원 공급을 묶어서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나, 최소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파를 막는 격리 경계를 분명히 둔다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Non-Stop path: duplicate, compare, isolate, resync</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU-A + Mem-A + I/O-A ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ compare / vote ──▶ output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU-B + Mem-B + I/O-B ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── fault detected ──▶ isolate bad module</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── spare or hot-swap module ─▶ state resync</div></div>
+</div>
+</div>
+
+
+
+이때 중요한 것은 <strong>공유 자원의 최소화</strong>다. CPU만 두 개이고 메모리 컨트롤러나 전원 백플레인이 하나라면 숨은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 남는다. 그래서 고신뢰성 장비는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위를 크게 잡아 프로세서, 메모리, I/O 경로, 전원 공급을 묶어서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나, 최소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파를 막는 격리 경계를 분명히 둔다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -61,7 +61,7 @@ tags = ["studynote-computer-architecture"]
 | 핫스왑 전원·팬·디스크 | 정비 중에도 지속 운영 | 라이브 교체 시 전기적 아크·순간 강하 방지 |
 | 상태 재동기화 엔진 | 교체 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 운영 상태로 복귀 | 체크포인트 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 재동기화 시간 관리 |
 
-결국 Non-Stop 아키텍처는 "두 배 장비"가 아니라 **상태를 잃지 않는 중복 경로 시스템**이다. 하드웨어만 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해도 소프트웨어가 비결정적이면 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)이 깨지므로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 순서·시간 소스·입출력 순서까지 통제하는 운영체제와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설계가 함께 따라와야 한다.
+결국 Non-Stop 아키텍처는 "두 배 장비"가 아니라 <strong>상태를 잃지 않는 중복 경로 시스템</strong>이다. 하드웨어만 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해도 소프트웨어가 비결정적이면 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)이 깨지므로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 순서·시간 소스·입출력 순서까지 통제하는 운영체제와 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설계가 함께 따라와야 한다.
 
 - **📢 섹션 요약 비유**: 이 구조는 자동차 바퀴를 트렁크에 싣는 예비타이어가 아니라, 달리는 중에도 같은 속도로 함께 굴러가다가 하나가 터지면 바로 하중을 받아 주는 이중 바퀴 시스템에 가깝다.
 
@@ -69,7 +69,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-무정전 운영을 제대로 이해하려면 **HA 기반 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**와 **FT 기반 연속 실행**을 분리해서 봐야 한다. HA는 장애 후 재배치가 빠른 구조이고, Non-Stop은 장애가 사용자의 흐름을 끊지 않도록 설계된 구조다. 둘 다 중요하지만, 비용 구조와 대상 업무가 다르다.
+무정전 운영을 제대로 이해하려면 <strong>HA 기반 빠른 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>와 <strong>FT 기반 연속 실행</strong>을 분리해서 봐야 한다. HA는 장애 후 재배치가 빠른 구조이고, Non-Stop은 장애가 사용자의 흐름을 끊지 않도록 설계된 구조다. 둘 다 중요하지만, 비용 구조와 대상 업무가 다르다.
 
 | 항목 | HA 클러스터 (Active-Standby 등) | 무정전 운영 (Non-Stop / FT) |
 | :--- | :--- | :--- |
@@ -79,9 +79,9 @@ tags = ["studynote-computer-architecture"]
 | 자원 효율 | 상대적으로 높음 | 중복 실행 비용 큼 |
 | 대표 대상 | 웹, 앱, 일반 업무 시스템 | 거래·제어·안전 임계 시스템 |
 
-또한 Non-Stop은 **[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))** 이나 **[결함 주입 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) ([Fault Injection Test](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/))** 와 경쟁 개념이 아니라 상호보완 관계다. Non-Stop은 구조 자체를 만들고, Fault Injection은 그 구조가 정말로 무정전으로 버티는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, Chaos Engineering은 더 큰 운영 경계에서 다중 장애와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문화를 시험한다. 여기에 **고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))** 를 결합하면 어떤 부품을 먼저 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)해야 하는지 우선순위를 잡을 수 있다.
+또한 Non-Stop은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> 이나 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">결함 주입 테스트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">Fault Injection Test</a>)</strong> 와 경쟁 개념이 아니라 상호보완 관계다. Non-Stop은 구조 자체를 만들고, Fault Injection은 그 구조가 정말로 무정전으로 버티는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, Chaos Engineering은 더 큰 운영 경계에서 다중 장애와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문화를 시험한다. 여기에 <strong>고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a>)</strong> 를 결합하면 어떤 부품을 먼저 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)해야 하는지 우선순위를 잡을 수 있다.
 
-특히 착각하기 쉬운 지점은 "액티브-액티브면 다 Non-Stop"이라는 오해다. 액티브-액티브는 처리 분산을 의미할 수 있지만, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이나 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보존을 못 하면 장애 순간 사용자는 재시도나 롤백을 겪는다. Non-Stop은 **동시 가동**보다 **연속 상태 보존**이 더 중요한 기준이다.
+특히 착각하기 쉬운 지점은 "액티브-액티브면 다 Non-Stop"이라는 오해다. 액티브-액티브는 처리 분산을 의미할 수 있지만, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이나 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보존을 못 하면 장애 순간 사용자는 재시도나 롤백을 겪는다. Non-Stop은 <strong>동시 가동</strong>보다 <strong>연속 상태 보존</strong>이 더 중요한 기준이다.
 
 - **📢 섹션 요약 비유**: HA는 예비 발전기를 켜는 방식이고, Non-Stop은 발전기 둘이 이미 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운전 중이라 하나가 빠져도 건물 조명이 깜빡이지 않는 방식이다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 무정전 운영은 "가용성이 높으면 좋다"는 감성으로 도입하면 실패한다. 먼저 **정말 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 0 / [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 0이 필요한가**, 그리고 **업무가 상태 보존 실패를 견딜 수 있는가**를 판단해야 한다. 예를 들어 주문 체결, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어, 생명 유지 제어는 순간 중단 비용이 매우 크므로 FT 설계가 정당화되지만, 이미지 CDN이나 일반 포털은 수 초 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만으로도 경제성이 높다.
+실무에서 무정전 운영은 "가용성이 높으면 좋다"는 감성으로 도입하면 실패한다. 먼저 <strong>정말 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 0 / <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a> 0이 필요한가</strong>, 그리고 <strong>업무가 상태 보존 실패를 견딜 수 있는가</strong>를 판단해야 한다. 예를 들어 주문 체결, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어, 생명 유지 제어는 순간 중단 비용이 매우 크므로 FT 설계가 정당화되지만, 이미지 CDN이나 일반 포털은 수 초 이내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만으로도 경제성이 높다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -101,11 +101,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **부분 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)를 전체 무정전으로 착각**: 서버 두 대를 두었지만 동일 스토리지 하나에 의존하면 숨은 SPOF가 남는다.
+- <strong>부분 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>를 전체 무정전으로 착각</strong>: 서버 두 대를 두었지만 동일 스토리지 하나에 의존하면 숨은 SPOF가 남는다.
 - **비용 대비 효과 미검토**: 정적 웹 서버에도 하드웨어 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)을 적용하면 복잡도만 증가한다.
-- **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없는 신뢰**: Non-Stop 설계를 해 두고 실제 전원 분리, 링크 절단, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리 실험을 하지 않으면 문서상의 안전망에 머문다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 없는 신뢰</strong>: Non-Stop 설계를 해 두고 실제 전원 분리, 링크 절단, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리 실험을 하지 않으면 문서상의 안전망에 머문다.
 
-기술사 관점에서는 "얼마나 안 죽는가"보다 **어떤 장애를 어떤 시간 감각으로 흡수할 것인가**를 설명해야 한다. 즉, FT 장비·소프트웨어 HA·운영 절차를 계층별로 조합해 목표 업무 연속성에 맞춘 설계를 제시하는 것이 핵심이다.
+기술사 관점에서는 "얼마나 안 죽는가"보다 <strong>어떤 장애를 어떤 시간 감각으로 흡수할 것인가</strong>를 설명해야 한다. 즉, FT 장비·소프트웨어 HA·운영 절차를 계층별로 조합해 목표 업무 연속성에 맞춘 설계를 제시하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 무정전 설계는 왕복 1회용 우산이 아니라, 태풍 속에서도 계속 돌아가야 하는 관제탑의 비상 설비를 짜는 일과 같다. 비가 좀 오는 날과 태풍이 오는 날의 설계 예산은 같을 수 없다.
 
@@ -113,11 +113,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-무정전 운영 아키텍처의 가장 큰 효과는 **장애를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이벤트가 아니라 내부 유지보수 이벤트로 바꾸는 것**이다. 사용자는 중단을 인지하지 못하고, 운영자는 고장 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 분리·교체·재동기화하면서도 업무를 계속 이어 갈 수 있다. 이 덕분에 거래 손실, 제어 공백, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재처리 비용, 운영자의 심야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부담이 크게 줄어든다.
+무정전 운영 아키텍처의 가장 큰 효과는 <strong>장애를 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 이벤트가 아니라 내부 유지보수 이벤트로 바꾸는 것</strong>이다. 사용자는 중단을 인지하지 못하고, 운영자는 고장 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 분리·교체·재동기화하면서도 업무를 계속 이어 갈 수 있다. 이 덕분에 거래 손실, 제어 공백, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재처리 비용, 운영자의 심야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부담이 크게 줄어든다.
 
-하지만 한계도 분명하다. 하드웨어 중복에 따른 비용과 전력 소모가 크고, 같은 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 버그는 중복 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 동시에 영향을 줄 수 있다. 즉 Non-Stop은 모든 위험을 제거하는 마법이 아니라, **단일 부품 고장과 계획 정비를 무중단으로 흡수하는 강력한 방법**이다.
+하지만 한계도 분명하다. 하드웨어 중복에 따른 비용과 전력 소모가 크고, 같은 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 버그는 중복 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 동시에 영향을 줄 수 있다. 즉 Non-Stop은 모든 위험을 제거하는 마법이 아니라, <strong>단일 부품 고장과 계획 정비를 무중단으로 흡수하는 강력한 방법</strong>이다.
 
-앞으로는 전체 시스템을 무조건 FT로 만드는 대신, 거래 커밋 경로·제어 루프 같은 핵심 구간만 선택적으로 Non-Stop화하고 나머지는 소프트웨어 탄력성으로 받치는 하이브리드 설계가 중요해진다. 따라서 이 개념은 "가장 비싼 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)"가 아니라, **단절 비용이 가장 큰 지점에 연속성 예산을 집중하는 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 정확하다.
+앞으로는 전체 시스템을 무조건 FT로 만드는 대신, 거래 커밋 경로·제어 루프 같은 핵심 구간만 선택적으로 Non-Stop화하고 나머지는 소프트웨어 탄력성으로 받치는 하이브리드 설계가 중요해진다. 따라서 이 개념은 "가장 비싼 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)"가 아니라, <strong>단절 비용이 가장 큰 지점에 연속성 예산을 집중하는 아키텍처 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 집 전체를 방탄차처럼 만드는 것이 아니라, 정말 멈추면 안 되는 심장 박동기 회로만 이중으로 감싸는 것처럼 핵심 경로에만 무정전 설계를 집중하는 것이 현명하다.
 
@@ -136,27 +136,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 + 수동 복구
-    │
-    ▼
-고가용성 (High Availability, HA)
-: 장애 감지 후 전환
-    │
-    ▼
-결함 허용 (Fault Tolerance, FT)
-: 중복 실행 · 상태 보존
-    │
-    ▼
-무정전 운영 (Non-Stop Operation) 아키텍처
-: lockstep · mirrored I/O · hot swap
-    │
-    ├──▶ 결함 주입 테스트 (Fault Injection Test)
-    │     : 실제 무중단 동작 검증
-    │
-    └──▶ FMEA / FTA 기반 신뢰성 설계
-          : SPOF 제거 · 공통 원인 장애 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 + 수동 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고가용성 (High Availability, HA)</div>
+<div class="kb-diagram-note">: 장애 감지 후 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결함 허용 (Fault Tolerance, FT)</div>
+<div class="kb-diagram-note">: 중복 실행 · 상태 보존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무정전 운영 (Non-Stop Operation) 아키텍처</div>
+<div class="kb-diagram-note">: lockstep · mirrored I/O · hot swap</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 결함 주입 테스트 (Fault Injection Test)</div>
+<div class="kb-diagram-note">: 실제 무중단 동작 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ FMEA / FTA 기반 신뢰성 설계</div>
+<div class="kb-diagram-note">: SPOF 제거 · 공통 원인 장애 분석</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

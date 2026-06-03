@@ -33,32 +33,30 @@ ISP의 핵심 원리는 '인터페이스의 세분화'와 그로 인한 '불필�
 
 | 설계 구조 | 특징 | 클라이언트 의존성 | 변경 파급력 |
 | :--- | :--- | :--- | :--- |
-| **[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) Interface (위반)** | 모든 기능(인쇄, 스캔, 팩스)이 하나의 통짜 인터페이스에 집중됨 | 자신이 안 쓰는 메서드 영역에도 억지로 의존함 | 기능 하나만 수정해도 모든 클라이언트와 구현체가 깨짐 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> Interface (위반)</strong> | 모든 기능(인쇄, 스캔, 팩스)이 하나의 통짜 인터페이스에 집중됨 | 자신이 안 쓰는 메서드 영역에도 억지로 의존함 | 기능 하나만 수정해도 모든 클라이언트와 구현체가 깨짐 |
 | **Role Interface (준수)** | 클라이언트 역할별로 잘게 쪼개진 구체적 인터페이스 | 자신이 호출하는 메서드 접점에만 정확히 의존함 | 해당 역할을 쓰는 특정 클라이언트만 제한적으로 영향 받음 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  ISP 위반과 준수 구조 아키텍처 비교               │
-├──────────────────────────────────────────────────────────────┤
-│ [위반: Fat Interface]                                          │
-│ +-------------------+        강제 구현 (안 쓰는 기능도 억지 구현)   │
-│ │   MultiMachine    │◀───────── [일반 흑백 프린터]             │
-│ │ - print()         │               - print() : 정상 구현   │
-│ │ - scan()          │               - scan()  : 텅 빈 에러   │
-│ │ - fax()           │               - fax()   : 텅 빈 에러   │
-│ +-------------------+                                        │
-│                                                              │
-│ [준수: Segregated Interfaces]                                  │
-│ +-------------------+   +-------------------+                │
-│ │     IPrinter      │   │     IScanner      │                │
-│ │ - print()         │   │ - scan()          │                │
-│ +-------------------+   +-------------------+                │
-│          ▲                                                   │
-│          │ 필요한 계약(IPrinter)만 깔끔하게 구현                 │
-│  [일반 흑백 프린터]                                            │
-│    - print() : 정상 구현                                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP 위반과 준수 구조 아키텍처 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위반: Fat Interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------------------+ 강제 구현 (안 쓰는 기능도 억지 구현)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">일반 흑백 프린터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print()</div><div class="kb-diagram-cell">- print() : 정상 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- scan()</div><div class="kb-diagram-cell">- scan() : 텅 빈 에러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- fax()</div><div class="kb-diagram-cell">- fax() : 텅 빈 에러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">준수: Segregated Interfaces</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPrinter</div><div class="kb-diagram-cell">IScanner</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print()</div><div class="kb-diagram-cell">- scan()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요한 계약(IPrinter)만 깔끔하게 구현</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 흑백 프린터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print() : 정상 구현</div></div>
+</div>
+</div>
+
+
 
 잘게 쪼개진 인터페이스를 도입하면 복합기(Copier) 같이 다기능이 필요한 클래스는 `IPrinter`, `IScanner`, `IFax`를 모두 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(다중 구현)하여 묶어 쓰면 되고, 단일 기능이 필요한 일반 프린터는 `IPrinter`만 구현하면 되므로 전체 코드가 훨씬 가벼워진다.
 
@@ -88,9 +86,9 @@ ISP는 객체지향 원칙 중 [SRP](/knowledge-base/studynote/04_software_engin
 실무 아키텍처나 대규모 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시스템 설계 시 ISP는 소리 없이 번지는 인터페이스 오염(Interface Pollution)을 초기에 막아내는 훌륭한 방패가 된다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 메서드 냄새(Smell)**: 특정 인터페이스를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 구현 클래스 내부에 `NotImplementedException`을 고의로 던지거나, 아무 내용도 없는 텅 빈 메서드들이 반복적으로 목격되는가?
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> 메서드 냄새(Smell)</strong>: 특정 인터페이스를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 구현 클래스 내부에 `NotImplementedException`을 고의로 던지거나, 아무 내용도 없는 텅 빈 메서드들이 반복적으로 목격되는가?
 2. **클라이언트의 제한적 사용**: 해당 인터페이스를 주입받아 사용하는 클라이언트가 거대한 인터페이스 내의 수많은 메서드 중 극히 일부(예: 1~2개)만 고정적으로 호출하고 있는가?
-3. **다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 활용**: Java, C#, TypeScript 등 언어가 지원하는 인터페이스 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기능을 활용하여 잘게 쪼개진 원자적 인터페이스들을 필요에 따라 유연하게 묶어서(Composition) 사용하고 있는가?
+3. <strong>다중 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 활용</strong>: Java, C#, TypeScript 등 언어가 지원하는 인터페이스 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기능을 활용하여 잘게 쪼개진 원자적 인터페이스들을 필요에 따라 유연하게 묶어서(Composition) 사용하고 있는가?
 
 ### 실무 판단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (레거시 환경의 우회 기법)
 이미 거대해져 버린 레거시 인터페이스를 당장 쪼개는 것이 운영상 리스크가 크다면, 파사드([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴이나 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 패턴을 중간에 배치하여 클라이언트 측에는 작게 분리된 맞춤형 인터페이스만 노출시키는 '점진적 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 판단해야 한다. 또한 현대의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 모바일, 웹 등 각 프론트엔드 요구사항에 맞춰 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답을 분리하는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴 역시 아키텍처 레벨로 진화한 ISP의 우수 적용 사례로 볼 수 있다.
@@ -113,28 +111,30 @@ ISP를 철저히 지켜내면 [모듈](/knowledge-base/studynote/04_software_eng
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))** | 클래스를 단일 책임으로 나누는 과정이 인터페이스 분리 설계를 가장 자연스럽게 유도함 |
-| **[어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) ([Adapter Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/))** | 기존의 뚱뚱하고 변경 불가능한 인터페이스를 클라이언트가 원하는 얇은 인터페이스로 래핑하여 변환할 때 필수 |
-| **[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/))** | 단일 거대 API를 쓰는 대신, 아키텍처 수준에서 각 클라이언트(모바일/웹)의 요구에 딱 맞춰 통신 인터페이스를 분리 제공하는 패턴 |
-| **[LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) ([리스코프 치환 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/))** | 인터페이스 분리를 통해 의미 없는 에러 구현을 막아내면, 하위 타입이 상위 타입을 오류 없이 완벽히 대체([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 준수)하기가 훨씬 쉬워짐 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>)</strong> | 클래스를 단일 책임으로 나누는 과정이 인터페이스 분리 설계를 가장 자연스럽게 유도함 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/">어댑터 패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/151_adapter_pattern/">Adapter Pattern</a>)</strong> | 기존의 뚱뚱하고 변경 불가능한 인터페이스를 클라이언트가 원하는 얇은 인터페이스로 래핑하여 변환할 때 필수 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend For Frontend</a>)</strong> | 단일 거대 API를 쓰는 대신, 아키텍처 수준에서 각 클라이언트(모바일/웹)의 요구에 딱 맞춰 통신 인터페이스를 분리 제공하는 패턴 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/">리스코프 치환 원칙</a>)</strong> | 인터페이스 분리를 통해 의미 없는 에러 구현을 막아내면, 하위 타입이 상위 타입을 오류 없이 완벽히 대체([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 준수)하기가 훨씬 쉬워짐 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-객체지향 프로그래밍 (OOP)의 대중화 - 재사용성을 핑계로 한 거대 상속 구조 등장
-    │
-    ▼
-God Object 및 Fat Interface 문제 대두 - 결합도 폭발 및 샷건 수술 현상(수정 시 연쇄 붕괴) 발생
-    │
-    ▼
-SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 원칙) 공식화
-    │
-    ▼
-역할 인터페이스 (Role Interface) 패턴 - 구현체 중심에서 클라이언트(사용자 역할) 중심으로 설계 패러다임 완전 이동
-    │
-    ▼
-컴포넌트 및 MSA 아키텍처로 확장 - 코드 레벨의 인터페이스 분리 원칙이 분산 시스템의 API 설계(BFF 등) 원칙으로 거대하게 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">객체지향 프로그래밍 (OOP)의 대중화 - 재사용성을 핑계로 한 거대 상속 구조 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">God Object 및 Fat Interface 문제 대두 - 결합도 폭발 및 샷건 수술 현상(수정 시 연쇄 붕괴) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 원칙) 공식화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역할 인터페이스 (Role Interface) 패턴 - 구현체 중심에서 클라이언트(사용자 역할) 중심으로 설계 패러다임 완전 이동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포넌트 및 MSA 아키텍처로 확장 - 코드 레벨의 인터페이스 분리 원칙이 분산 시스템의 API 설계(BFF 등) 원칙으로 거대하게 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -10,28 +10,31 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: TextOps/DocOps는 기술 문서를 **코드처럼 Git으로 관리하고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 빌드·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·배포**하는 Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 패러다임이며, 마크다운·AsciiDoc으로 작성한 문서를 자동으로 웹 사이트·PDF·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서로 변환한다.
-> 2. **가치**: 위키·Confluence는 코드와 문서가 분리되어 문서가 빠르게 구식이 되지만, Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 **코드 PR에 문서 변경을 함께 포함**하여 코드와 문서의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 보장한다.
-> 3. **판단 포인트**: MkDocs(Material)·Docusaurus(React)·Hugo가 대표 [SSG](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/)(Static Site Generator)이며, Vale(문법 린트)·markdownlint·OpenAPI Spec [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 CI에 통합하여 **문서 품질을 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**한다.
+> 1. **본질**: TextOps/DocOps는 기술 문서를 <strong>코드처럼 Git으로 관리하고, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인으로 빌드·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>·배포</strong>하는 Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 패러다임이며, 마크다운·AsciiDoc으로 작성한 문서를 자동으로 웹 사이트·PDF·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서로 변환한다.
+> 2. **가치**: 위키·Confluence는 코드와 문서가 분리되어 문서가 빠르게 구식이 되지만, Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 <strong>코드 PR에 문서 변경을 함께 포함</strong>하여 코드와 문서의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 보장한다.
+> 3. **판단 포인트**: MkDocs(Material)·Docusaurus(React)·Hugo가 대표 [SSG](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/)(Static Site Generator)이며, Vale(문법 린트)·markdownlint·OpenAPI Spec [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 CI에 통합하여 <strong>문서 품질을 자동 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    Docs-as-Code 파이프라인                             │
-├───────────────────────────────────────────────────────┤
-│  1. 개발자: docs/ 디렉터리에 .md 파일 수정            │
-│  2. PR 생성 → CI 실행:                                │
-│     - markdownlint (마크다운 문법 검증)                │
-│     - Vale (영어 문체·용어 일관성)                     │
-│     - linkchecker (깨진 링크 탐지)                     │
-│  3. 리뷰어 Approve → 머지                             │
-│  4. CD: MkDocs build → GitHub Pages 자동 배포         │
-│  5. 결과: docs.example.com 자동 업데이트              │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docs-as-Code 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자: docs/ 디렉터리에 .md 파일 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. PR 생성 → CI 실행:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- markdownlint (마크다운 문법 검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Vale (영어 문체·용어 일관성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- linkchecker (깨진 링크 탐지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 리뷰어 Approve → 머지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. CD: MkDocs build → GitHub Pages 자동 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 결과: docs.example.com 자동 업데이트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 코드와 문서를 같은 공장(Git)에서 만들어, 코드가 바뀌면 설명서(문서)도 함께 바뀌는 시스템이다.
 
@@ -65,10 +68,10 @@ tags = ["studynote-devops-sre"]
 
 | 비교 | Wiki/Confluence | Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) |
 |:---|:---|:---|
-| **코드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** | 분리 (구식화) | **동일 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) ([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))** |
-| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리** | 위키 히스토리 | **Git 이력** |
-| **리뷰** | 없음/약함 | **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰** |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 없음 | **린트·링크 검사** |
+| <strong>코드 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 분리 (구식화) | <strong>동일 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong> | 위키 히스토리 | **Git 이력** |
+| **리뷰** | 없음/약함 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> 리뷰</strong> |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 없음 | **린트·링크 검사** |
 
 ---
 
@@ -86,11 +89,11 @@ tags = ["studynote-devops-sre"]
 
 | 지표 | Wiki | Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 개선 |
 |:---|:---|:---|:---|
-| 코드-문서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 수동 | **[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 강제** | 구식화 방지 |
-| 문서 품질 | 주관적 | **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| 코드-문서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 수동 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/">PR</a> 강제</strong> | 구식화 방지 |
+| 문서 품질 | 주관적 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 자동 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 | 배포 | 수동 | **CD 자동** | 즉시 반영 |
 
-Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 GenAI와 결합하여 **코드 변경 시 문서 자동 업데이트·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**이 가능해지고 있다.
+Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 GenAI와 결합하여 <strong>코드 변경 시 문서 자동 업데이트·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 문서 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>이 가능해지고 있다.
 
 ---
 
@@ -98,7 +101,7 @@ Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_a
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)** | TextOps의 핵심 패러다임 |
+| <strong>Docs-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a>-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong> | TextOps의 핵심 패러다임 |
 | **MkDocs Material** | 가장 인기 있는 기술 문서 [SSG](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/578_ssg_and_isr_architecture/) |
 | **Vale** | 문체·용어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 린트 |
 | **markdownlint** | 마크다운 문법 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
@@ -106,26 +109,28 @@ Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Wiki/Confluence (2000s) — 코드와 문서 분리]
-    │
-    ▼
-[Docs-as-Code 개념 (2015~) — Git으로 문서 관리]
-    │
-    ▼
-[MkDocs Material / Docusaurus (2018~) — 아름다운 문서 사이트]
-    │
-    ▼
-[Vale + CI 통합 (2020~) — 문서 품질 자동 검증]
-    │
-    ▼
-[현재: GenAI 문서 자동 생성 — 코드 변경 → 문서 자동 업데이트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wiki/Confluence (2000s) — 코드와 문서 분리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Docs-as-Code 개념 (2015~) — Git으로 문서 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MkDocs Material / Docusaurus (2018~) — 아름다운 문서 사이트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Vale + CI 통합 (2020~) — 문서 품질 자동 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI 문서 자동 생성 — 코드 변경 → 문서 자동 업데이트</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 제품(코드)과 설명서(문서)를 **따로따로** 만들어서, 설명서가 맨날 옛날 것이었어요.
-2. Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 제품과 설명서를 **같은 공장(Git)**에서 만들어, 항상 최신 상태를 유지해요.
-3. 로봇([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))이 설명서의 **맞춤법(lint)과 링크(linkchecker)를 자동 검사**해서 품질도 보장해요!
+2. Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 제품과 설명서를 <strong>같은 공장(Git)</strong>에서 만들어, 항상 최신 상태를 유지해요.
+3. 로봇([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))이 설명서의 <strong>맞춤법(lint)과 링크(linkchecker)를 자동 검사</strong>해서 품질도 보장해요!
 
 ---
 

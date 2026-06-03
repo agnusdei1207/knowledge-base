@@ -32,23 +32,26 @@ x_{t+1} = x_t - η · ∇f(x_t)
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η의 영향
 
-```
-손실 L
-   │
-   │╲         η 너무 큰 경우: 발산 (Diverge)
-   │ ╲  ╱╲   ↗
-   │  ╲╱  ╲─╱
-   │
-   │╲                 η 적절: 수렴 (Converge)
-   │ ╲
-   │  ╲─────────
-   │
-   │╲              η 너무 작음: 매우 느린 수렴
-   │ ╲
-   │  ╲─────────────────────────────
-   └────────────────────────────────►
-                   반복 횟수 t
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">손실 L</div>
+<div class="kb-diagram-note">╲ η 너무 큰 경우: 발산 (Diverge)</div>
+<div class="kb-diagram-note">╲ ╱╲ ↗</div>
+<div class="kb-diagram-note">╲╱ ╲─╱</div>
+<div class="kb-diagram-note">╲ η 적절: 수렴 (Converge)</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲ η 너무 작음: 매우 느린 수렴</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-tree-item" style="--depth:1">►</div>
+<div class="kb-diagram-note">반복 횟수 t</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기울기 하강법은 "안개 속 산 내려가기"다 — 현재 위치의 기울기(∇f)만 보고 가장 가파르게 내려가는 방향(-∇f)으로 조금씩(η) 발걸음을 옮긴다.
 
@@ -82,17 +85,20 @@ x_{t+1} = x_t - η · m̂_t / (√v̂_t + ε)
 
 ### 주요 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 비교
 
-```
-손실 경관 (Loss Landscape)
-          ╭──────────────────────────────╮
-          │     ╭───────────╮            │
-          │  ╭──╯           ╰──╮         │
-          │ ╱  안장점(Saddle)   ╲        │
-SGD ──────│─────────────────────X────────┼──► 지역 최소
-Momentum ─│──────────────────/──X────────┼──► 빠른 수렴
-Adam ─────│────────────────/────X────────┼──► 안장점 탈출 잘함
-          ╰──────────────────────────────╯
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">손실 경관 (Loss Landscape)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ 안장점(Saddle) ╲</div></div>
+<div class="kb-diagram-note">SGD │ X ──► 지역 최소</div>
+<div class="kb-diagram-note">Momentum ─│ /──X ──► 빠른 수렴</div>
+<div class="kb-diagram-note">Adam │ / X ──► 안장점 탈출 잘함</div>
+</div>
+</div>
+
+
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 아이디어 | 장점 | 단점 |
 |:---|:---|:---|:---|
@@ -116,7 +122,7 @@ Adam ─────│────────────────/──�
 | SGD (감소 lr) | O(1/√t) | O(1/t) |
 | Nesterov 가속 [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) | O(1/t²) | O(ρᵗ) 더 빠름 |
 
-**Nesterov [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)**:
+<strong>Nesterov <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">모멘텀</a></strong>:
 
 ```
 y_{t+1} = x_t + γ(x_t - x_{t-1})   (미리보기 위치)
@@ -127,13 +133,19 @@ x_{t+1} = y_{t+1} - η·∇f(y_{t+1})  (보정된 위치에서 업데이트)
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링 (LR Scheduling)
 
-```
-시간에 따른 lr 변화 전략:
-Step Decay:    lr = lr₀ × γ^(epoch / step_size)
-Cosine:        lr = lr_min + ½(lr_max - lr_min)(1 + cos(πt/T))
-Warmup:        초기 몇 스텝 lr 천천히 증가 → 안정화
-OneCycleLR:    lr 상승 → 하강 (1 사이클)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시간에 따른 lr 변화 전략:</div>
+<div class="kb-diagram-note">Step Decay: lr = lr₀ × γ^(epoch / step_size)</div>
+<div class="kb-diagram-note">Cosine: lr = lr_min + ½(lr_max - lr_min)(1 + cos(πt/T))</div>
+<div class="kb-diagram-note">Warmup: 초기 몇 스텝 lr 천천히 증가 → 안정화</div>
+<div class="kb-diagram-note">OneCycleLR: lr 상승 → 하강 (1 사이클)</div>
+</div>
+</div>
+
+
 
 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 모델의 Warmup + Cosine decay가 현대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습 표준.
 
@@ -166,8 +178,8 @@ GPT-3 학습 설정:
 
 ### 기술사 판단 포인트
 
-1. **"SGD vs [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 선택 기준은?"** → 볼록 문제/소규모: SGD (이론적 보장) / 딥러닝: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) (빠른 수렴)
-2. **"배치 크기와 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)의 관계는?"** → 배치 크기 2배 → [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) √2 또는 2배 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Linear Scaling Rule)
+1. <strong>"SGD vs <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a> 선택 기준은?"</strong> → 볼록 문제/소규모: SGD (이론적 보장) / 딥러닝: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) (빠른 수렴)
+2. <strong>"배치 크기와 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>의 관계는?"</strong> → 배치 크기 2배 → [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) √2 또는 2배 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Linear Scaling Rule)
 3. **"그래디언트 소실/폭발 대응은?"** → 소실: [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), 잔차 연결([ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)) / 폭발: 그래디언트 클리핑
 
 📢 **섹션 요약 비유**: 그래디언트 클리핑은 "과속 방지 턱"이다 — 그래디언트가 너무 크면(급경사) 정해진 속도(threshold) 이상으로 달리지 못하게 제한한다.
@@ -176,7 +188,7 @@ GPT-3 학습 설정:
 
 ## Ⅴ. 기대효과 및 결론
 
-기울기 하강법은 **딥러닝 혁명의 계산 엔진**이다. SGD의 단순함에서 Adam의 적응적 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)까지, 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전이 신경망의 규모 확장을 가능하게 했다.
+기울기 하강법은 <strong>딥러닝 혁명의 계산 엔진</strong>이다. SGD의 단순함에서 Adam의 적응적 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)까지, 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전이 신경망의 규모 확장을 가능하게 했다.
 
 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/):
 - [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/): [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일로 탐색 (1e-4 ~ 1e-1)
@@ -203,25 +215,28 @@ GPT-3 학습 설정:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[손실 함수 (Loss Function)]
-    │
-    ▼
-[경사 하강법 (Gradient Descent)]
-    │
-    ▼
-[학습률 (Learning Rate)]
-    │
-    ▼
-[최적화 (Optimization)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">손실 함수 (Loss Function)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경사 하강법 (Gradient Descent)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습률 (Learning Rate)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최적화 (Optimization)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 손실 함수를 줄이기 위해 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 최적화를 이끄는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **기울기 하강은 "안개 속 언덕 내려가기"**: 현재 발밑 기울기만 보고 가장 가파른 아래 방향으로 한 발씩 내딛는다.
 2. **Adam은 "관성 있는 지혜로운 하이커"**: 지금까지 어떤 방향으로 얼마나 빠르게 왔는지를 기억하며 다음 발걸음을 최적화한다.
-3. **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링은 "속도 조절 여행"**: 처음엔 빠르게 달리다가 목적지에 가까워지면 천천히 정밀하게 이동한다.
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> 스케줄링은 "속도 조절 여행"</strong>: 처음엔 빠르게 달리다가 목적지에 가까워지면 천천히 정밀하게 이동한다.
 
 ---
 

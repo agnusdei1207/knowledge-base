@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 여러 CPU 코어 중 어떤 코어가 특정 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받을지 정하고 전달하는 메커니즘이다. 단일 코어 시대에는 "받을 사람"이 하나뿐이었지만, 멀티코어 시스템에서는 같은 장치라도 어느 코어에 보낼지에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 전력 상태, 심지어 가상 머신 격리 수준까지 달라진다. 그래서 현대 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 배선 장치가 아니라 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진**에 가깝다.
+멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 여러 CPU 코어 중 어떤 코어가 특정 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 받을지 정하고 전달하는 메커니즘이다. 단일 코어 시대에는 "받을 사람"이 하나뿐이었지만, 멀티코어 시스템에서는 같은 장치라도 어느 코어에 보낼지에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 전력 상태, 심지어 가상 머신 격리 수준까지 달라진다. 그래서 현대 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러는 배선 장치가 아니라 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 엔진</strong>에 가깝다.
 
 이 메커니즘이 중요한 이유는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)도 결국 작업이기 때문이다. 네트워크 카드가 초당 수백만 패킷을 올리는데 모든 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 CPU0으로 몰리면, 다른 코어가 놀고 있어도 시스템은 한 코어에서 병목이 난다. 반대로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 매번 다른 코어로 무작위 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하면 캐시와 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 지역성이 깨져 처리량이 다시 떨어진다.
 
@@ -43,21 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 왜 "한 번 배달하고 끝"이 아니라, 코어 지역성과 코어 간 협업까지 포함하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Device / MSI-X Vector                                                       │
-│          │                                                                   │
-│          ▼                                                                   │
-│   Distributor / I/O APIC ── target mask / priority ──▶ Core Local IF        │
-│          │                                                    │              │
-│          ├─▶ Core 0                                           ├─▶ Core 1    │
-│          ├─▶ Core 2                                           └─▶ Core N    │
-│          │                                                                   │
-│          └────────────── IPI / reschedule / TLB shootdown ───────────────▶  │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device / MSI-X Vector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distributor / I/O APIC ── target mask / priority ──▶ Core Local IF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Core 0 ─▶ Core 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Core 2 ─▶ Core N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / reschedule / TLB shootdown ▶</div></div>
+</div>
+</div>
+
+
 
 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로를 맞추는 것이다. 예를 들어 16개의 수신 큐를 가진 NIC는 각 큐의 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 벡터를 해당 큐를 소비하는 코어에 붙일 때 가장 효율적이다. 반대로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 실제 패킷 처리는 다른 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서 하게 두면 캐시 라인 이동과 원격 메모리 접근이 늘어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-멀티코어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 크게 정적 친화도, 동적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 브로드캐스트 계열로 나눌 수 있다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 단순히 "균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)" 여부보다, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리한 뒤 실제 작업이 같은 코어에서 이어지는지에 따라 결정된다. 그래서 가장 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 평균 부하가 아니라 **핸들러 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 경로**와 함께 봐야 한다.
+멀티코어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 크게 정적 친화도, 동적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 브로드캐스트 계열로 나눌 수 있다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 단순히 "균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)" 여부보다, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리한 뒤 실제 작업이 같은 코어에서 이어지는지에 따라 결정된다. 그래서 가장 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 평균 부하가 아니라 <strong>핸들러 이후 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 경로</strong>와 함께 봐야 한다.
 
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 장점 | 약점 | 적합한 경우 |
 | :-- | :-- | :-- | :-- |
@@ -89,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 가장 대표적인 사례는 고속 NIC와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치다. 100GbE NIC가 16개 수신 큐를 제공하면, 각 큐의 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 벡터를 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 코어 16개에 고정하고, 해당 큐를 읽는 소프트웨어 poll 루프 또는 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 같은 코어 그룹에 묶는 편이 일반적이다. 이렇게 해야 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리, 패킷 파싱, 애플리케이션 소비가 한 코어 주변에서 이어져 캐시 재사용이 극대화된다.
 
-반대로 실시간 시스템에서는 일반 I/O [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 제어 루프 코어에서 아예 배제하는 것이 중요하다. 산업 제어기나 자동차 제어기에서 제어 코어에 네트워크 폭주 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 섞이면 지터가 커지므로, housekeeping core를 따로 두고 그쪽으로 대부분의 장치 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 몰아 주는 식의 격리가 흔하다. 즉 멀티코어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기술이기도 하지만, **격리 기술**이기도 하다.
+반대로 실시간 시스템에서는 일반 I/O [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 제어 루프 코어에서 아예 배제하는 것이 중요하다. 산업 제어기나 자동차 제어기에서 제어 코어에 네트워크 폭주 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 섞이면 지터가 커지므로, housekeeping core를 따로 두고 그쪽으로 대부분의 장치 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 몰아 주는 식의 격리가 흔하다. 즉 멀티코어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기술이기도 하지만, <strong>격리 기술</strong>이기도 하다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,7 +105,7 @@ tags = ["studynote-computer-architecture"]
 - 실시간 코어에 housekeeping [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 IPI를 무분별하게 허용하는 운영
 - 평균 CPU 사용률만 보고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), cache miss, tail latency를 측정하지 않는 판단
 
-기술사 답안에서는 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 "부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"만으로 쓰면 부족하다. 반드시 **[affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/), locality, IPI, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) remapping**까지 연결해야 실제 설계 의사결정으로 이어진다.
+기술사 답안에서는 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 "부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"만으로 쓰면 부족하다. 반드시 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">affinity</a>, locality, IPI, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> remapping</strong>까지 연결해야 실제 설계 의사결정으로 이어진다.
 
 - **📢 섹션 요약 비유**: 실무 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 주방 동선 설계와 같다. 재료, 조리사, 화구가 가까이 있어야 빠르지, 사람 수만 많다고 음식이 빨리 나오지는 않는다.
 
@@ -118,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 복잡도는 피할 수 없다. 코어 수가 많아질수록 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), IPI 폭발, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) remapping 테이블, 보안 경계 관리가 함께 어려워진다. 따라서 단순히 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 많이 뿌리는 것이 아니라, 무엇을 고정하고 무엇을 유동화할지 아키텍처 차원에서 정해야 한다.
 
-앞으로는 장치가 더 직접적으로 코어 친화도를 표현하는 IMS ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Message Store), 가상 머신에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입을 줄이는 posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 그리고 학습 기반 동적 배치가 더 중요해질 가능성이 있다. 그래도 본질은 같다. 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 "벨을 누구에게 울릴까"의 문제가 아니라, **시스템 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동선을 어떻게 설계할까**의 문제다.
+앞으로는 장치가 더 직접적으로 코어 친화도를 표현하는 IMS ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Message Store), 가상 머신에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입을 줄이는 posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 그리고 학습 기반 동적 배치가 더 중요해질 가능성이 있다. 그래도 본질은 같다. 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 "벨을 누구에게 울릴까"의 문제가 아니라, <strong>시스템 전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동선을 어떻게 설계할까</strong>의 문제다.
 
 - **📢 섹션 요약 비유**: 이 기술은 오케스트라에서 각 악보를 어떤 연주자 앞에 놓을지 정하는 일과 같다. 같은 악보라도 사람과 위치가 맞아야 전체 연주가 매끄럽게 이어진다.
 
@@ -137,21 +136,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 코어 공유 IRQ
-        │
-        ▼
-대칭형 다중처리 (Symmetric Multiprocessing, SMP)용 I/O APIC · GIC Distributor
-        │
-        ▼
-MSI / MSI-X 기반 다중 큐 인터럽트
-        │
-        ▼
-NUMA-aware Affinity · IPI 최적화
-        │
-        ▼
-Interrupt Remapping · Posted Interrupt
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 코어 공유 IRQ</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대칭형 다중처리 (Symmetric Multiprocessing, SMP)용 I/O APIC · GIC Distributor</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSI / MSI-X 기반 다중 큐 인터럽트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NUMA-aware Affinity · IPI 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Interrupt Remapping · Posted Interrupt</div>
+</div>
+</div>
+
+
 
 이 흐름은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 단순 외부 신호에서 출발해, 점차 멀티코어·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·보안까지 고려하는 시스템 수준 배치 기술로 발전하는 과정을 보여 준다.
 

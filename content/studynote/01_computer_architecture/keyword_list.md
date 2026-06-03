@@ -14,7 +14,7 @@ tags = ["studynote-computer-architecture"]
 
 정보관리기술사, 컴퓨터응용시스템기술사 시험에 가장 적합한 범위로 엄선한 1,000여 개의 컴퓨터구조 핵심 및 심화 키워드입니다. 
 
-너무 지엽적인 물리·전자공학적 레벨은 지양하고, **IT 시스템 엔지니어링, 아키텍처, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가, 메모리 및 스토리지 시스템, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅, 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/[TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)), 그리고 클라우드 및 보안 하드웨어**에 초점을 맞추어 재구성하였습니다.
+너무 지엽적인 물리·전자공학적 레벨은 지양하고, <strong>IT 시스템 엔지니어링, 아키텍처, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가, 메모리 및 스토리지 시스템, <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 컴퓨팅, 최신 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>/<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/">TPU</a>), 그리고 클라우드 및 보안 하드웨어</strong>에 초점을 맞추어 재구성하였습니다.
 
 ---
 
@@ -852,4 +852,4 @@ tags = ["studynote-computer-architecture"]
 
 ---
 **총합 요약 : 총 802개의 핵심 키워드 수록**
-(지나치게 지엽적인 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공학 및 물리학 용어는 제거하고, 기술사 시험(정보관리, 컴퓨터응용시스템)에서 실질적으로 출제되는 **시스템 아키텍처, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 메모리 계층, 스토리지 시스템, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)/클라우드 하드웨어, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 및 하드웨어 보안** 위주로 심화 확장하여 1000여 개의 실전 키워드로 재구성하였습니다.)
+(지나치게 지엽적인 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공학 및 물리학 용어는 제거하고, 기술사 시험(정보관리, 컴퓨터응용시스템)에서 실질적으로 출제되는 <strong>시스템 아키텍처, <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리, 메모리 계층, 스토리지 시스템, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>/클라우드 하드웨어, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 가속기 및 하드웨어 보안</strong> 위주로 심화 확장하여 1000여 개의 실전 키워드로 재구성하였습니다.)

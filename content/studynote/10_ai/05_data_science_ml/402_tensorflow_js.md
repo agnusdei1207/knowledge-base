@@ -22,18 +22,21 @@ tags = ["studynote-ai"]
 기존의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 주로 Python 서버 환경에서 동작했으나, 사용자 경험 고도화와 보안 강화를 위해 브라우저 단의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 필요성이 증대되었다. TensorFlow.js는 웹 개발자들에게 친숙한 JS 환경에서 고성능 ML 기능을 제공한다.
 
 **필요성**:
-- **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: 민감한 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카메라, 마이크 등)를 서버에 업로드하지 않고 로컬에서 처리 가능
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 민감한 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(카메라, 마이크 등)를 서버에 업로드하지 않고 로컬에서 처리 가능
 - **인터랙티브 경험**: 실시간 이미지 인식, 모션 캡처 등을 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 없이 브라우저에서 즉각 구현
 - **인프라 비용 절감**: 중앙 서버의 CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원 대신 사용자의 디바이스 자원을 활용하여 서빙 비용 최소화
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TensorFlow.js는 거대한 공장(서버)에 주문서를 보내 결과를 기다리는 대신, 집 거실(브라우저)에 미니 조리 도구를 갖다 놓고 직접 요리하는 것과 같다.
 
@@ -45,34 +48,28 @@ TensorFlow.js는 상위 레벨의 Layers API와 하위 레벨의 Core API로 구
 
 | 계층 | 설명 | 특징 |
 |:---|:---|:---|
-| **Layers [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)** | Keras와 유사한 고수준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 모델 설계, 학습, 평가가 용이함 |
-| **Core [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)** | 저수준 연산 (Ops) 및 Tensor 제어 | 미세한 메모리 관리 및 연산 최적화 가능 |
+| <strong>Layers <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | Keras와 유사한 고수준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 모델 설계, 학습, 평가가 용이함 |
+| <strong>Core <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | 저수준 연산 (Ops) 및 Tensor 제어 | 미세한 메모리 관리 및 연산 최적화 가능 |
 | **Backends** | 실제 연산이 수행되는 환경 | WebGL, WebGPU, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/), CPU 지원 |
 
-```text
-[ TensorFlow.js 실행 아키텍처 ]
 
-   ┌──────────────────────────────────────────┐
-   │             User Application (JS)        │
-   └──────────────────────────────────────────┘
-           │                        │
-   ┌───────────────────┐    ┌──────────────────┐
-   │    Layers API     │    │     Core API     │
-   └───────────────────┘    └──────────────────┘
-           └───────────┬────────────┘
-                       ▼
-   ┌──────────────────────────────────────────┐
-   │             TensorFlow.js Engine         │
-   └──────────────────────────────────────────┘
-           │            │           │
-   ┌───────────┐  ┌───────────┐  ┌────────────┐
-   │   WebGL   │  │   WASM    │  │   WebGPU   │  ◀── Hardware Acceleration
-   └───────────┘  └───────────┘  └────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TensorFlow.js 실행 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Application (JS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layers API</div><div class="kb-diagram-cell">Core API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TensorFlow.js Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WebGL</div><div class="kb-diagram-cell">WASM</div><div class="kb-diagram-cell">WebGPU</div><div class="kb-diagram-cell">◀── Hardware Acceleration</div></div>
+</div>
+</div>
+
+
 
 **최적화 기술**:
 - **Model Conversion**: Python에서 학습된 모델(`.h5`, `SavedModel`)을 웹용 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/Binary 형식으로 변환 및 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
-- **[Memory Management](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/)**: [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)가 즉시 회수하지 못하는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 관리하기 위해 `tf.tidy()` 및 `dispose()` 활용
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/610_memory_management/">Memory Management</a></strong>: [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)가 즉시 회수하지 못하는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 관리하기 위해 `tf.tidy()` 및 `dispose()` 활용
 
 - **📢 섹션 요약 비유**: 주방 도구([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 아무리 좋아도 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지(Backend)가 강력해야 요리가 빠르다. WebGL은 고화력 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지 역할을 하여 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Tensor)를 순식간에 익혀낸다.
 
@@ -87,7 +84,7 @@ TensorFlow.js는 상위 레벨의 Layers API와 하위 레벨의 Core API로 구
 | 하드웨어 가속 | [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/), ROCm | WebGL, WebGPU, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, DB 직접 접근 | DOM, 카메라, 마이크, 센서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 
-TensorFlow.js는 13_cloud_architecture의 **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** 및 06_ict_convergence의 **[온디바이스 AI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)** 개념과 밀접하게 연결된다.
+TensorFlow.js는 13_cloud_architecture의 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> 및 06_ict_convergence의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/">온디바이스 AI</a></strong> 개념과 밀접하게 연결된다.
 
 - **📢 섹션 요약 비유**: Python TF가 모든 장비를 갖춘 전문 셰프의 주방이라면, TF.js는 캠핑장에서도 훌륭한 맛을 낼 수 있게 최적화된 휴대용 조리 도구 세트다.
 
@@ -101,7 +98,7 @@ TensorFlow.js는 13_cloud_architecture의 **[엣지 컴퓨팅](/knowledge-base/s
 3. **가속도 지원**: 사용자의 브라우저 환경에 따라 WebGL 지원 여부가 다르므로, [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/)/CPU)을 마련해야 한다.
 
 ### 기술사 판단 포인트
-- 단순히 브라우저에서 돌아간다는 점을 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용과 서버 확장성(Scalability) 문제를 클라이언트 사이드 컴퓨팅으로 해결하는 **'[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추론(Distributed Inference)'** 관점에서 접근해야 한다.
+- 단순히 브라우저에서 돌아간다는 점을 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용과 서버 확장성(Scalability) 문제를 클라이언트 사이드 컴퓨팅으로 해결하는 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 추론(Distributed Inference)'</strong> 관점에서 접근해야 한다.
 
 - **📢 섹션 요약 비유**: 요리(추론) 도중 주방이 멈추지 않게(UI 블로킹) [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)을 잘해야 하며, 화력이 약한 캠핑장(저사양 기기)에서도 요리가 완성될 수 있도록 준비해야 한다.
 

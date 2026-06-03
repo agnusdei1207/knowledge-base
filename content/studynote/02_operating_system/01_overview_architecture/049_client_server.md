@@ -18,44 +18,43 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 클라이언트-서버 기본 구조
 
-```
-클라이언트-서버 모델:
 
-클라이언트 (Client):
-  서비스 요청자
-  능동적: 연결 시작
-  예: 브라우저, 모바일 앱, CLI
 
-서버 (Server):
-  서비스 제공자
-  수동적: 연결 대기
-  예: 웹 서버, DB 서버, 파일 서버
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트-서버 모델:</div>
+<div class="kb-diagram-note">클라이언트 (Client):</div>
+<div class="kb-diagram-note">서비스 요청자</div>
+<div class="kb-diagram-note">능동적: 연결 시작</div>
+<div class="kb-diagram-note">예: 브라우저, 모바일 앱, CLI</div>
+<div class="kb-diagram-note">서버 (Server):</div>
+<div class="kb-diagram-note">서비스 제공자</div>
+<div class="kb-diagram-note">수동적: 연결 대기</div>
+<div class="kb-diagram-note">예: 웹 서버, DB 서버, 파일 서버</div>
+<div class="kb-diagram-note">기본 통신 흐름:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">요청: Request</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">서버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">응답: Response</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">서버</div></div>
+<div class="kb-diagram-note">소켓 기반 통신:</div>
+<div class="kb-diagram-note">서버:</div>
+<div class="kb-diagram-note">1. socket() → 소켓 생성</div>
+<div class="kb-diagram-note">2. bind(IP, Port) → 주소 바인딩</div>
+<div class="kb-diagram-note">3. listen() → 연결 대기</div>
+<div class="kb-diagram-note">4. accept() → 연결 수락 (블로킹)</div>
+<div class="kb-diagram-note">5. recv()/send() → 데이터 교환</div>
+<div class="kb-diagram-note">6. close() → 연결 종료</div>
+<div class="kb-diagram-note">클라이언트:</div>
+<div class="kb-diagram-note">1. socket() → 소켓 생성</div>
+<div class="kb-diagram-note">2. connect(서버IP, 서버Port) → 연결 시도</div>
+<div class="kb-diagram-note">3. send()/recv() → 데이터 교환</div>
+<div class="kb-diagram-note">4. close() → 종료</div>
+<div class="kb-diagram-note">아키텍처 유형:</div>
+<div class="kb-diagram-note">2-Tier: 클라이언트 ↔ DB 서버 (직접)</div>
+<div class="kb-diagram-note">3-Tier: 클라이언트 ↔ 앱 서버 ↔ DB 서버</div>
+<div class="kb-diagram-note">N-Tier: 마이크로서비스 (각 서비스가 클라+서버)</div>
+</div>
+</div>
 
-기본 통신 흐름:
 
-클라이언트 → [요청: Request] → 서버
-클라이언트 ← [응답: Response] ← 서버
-
-소켓 기반 통신:
-  서버:
-  1. socket() → 소켓 생성
-  2. bind(IP, Port) → 주소 바인딩
-  3. listen() → 연결 대기
-  4. accept() → 연결 수락 (블로킹)
-  5. recv()/send() → 데이터 교환
-  6. close() → 연결 종료
-  
-  클라이언트:
-  1. socket() → 소켓 생성
-  2. connect(서버IP, 서버Port) → 연결 시도
-  3. send()/recv() → 데이터 교환
-  4. close() → 종료
-
-아키텍처 유형:
-  2-Tier: 클라이언트 ↔ DB 서버 (직접)
-  3-Tier: 클라이언트 ↔ 앱 서버 ↔ DB 서버
-  N-Tier: 마이크로서비스 (각 서비스가 클라+서버)
-```
 
 > 📢 **섹션 요약 비유**: 클라이언트-서버 = 손님과 식당 — 손님(클라이언트)이 주문(요청), 식당(서버)이 요리해서 전달(응답). 식당은 항상 열려 있고(listen), 손님이 와야 시작!
 
@@ -139,51 +138,47 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. C10K 문제와 해결
 
-```
-C10K 문제 (1999, Dan Kegel):
-  단일 서버에서 동시 10,000 연결 처리 도전
-  
-  당시 Apache (멀티프로세스) 한계:
-  프로세스 10,000개 × 50MB = 500GB 메모리 필요
-  컨텍스트 스위칭: 10,000번/초 → CPU 병목
 
-해결책:
 
-epoll (Linux 2.6):
-  select(): O(N) - 전체 FD 스캔
-  poll(): O(N) - 유사
-  epoll(): O(1) - 이벤트 기반 준비 통보
-  
-  epoll 메커니즘:
-  - epoll_create(): 이벤트 큐 생성
-  - epoll_ctl(): FD 등록/수정/삭제
-  - epoll_wait(): 준비된 이벤트 블로킹 대기
-  
-  10,000 연결 중 100개 활성 → 100개만 처리
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">C10K 문제 (1999, Dan Kegel):</div>
+<div class="kb-diagram-note">단일 서버에서 동시 10,000 연결 처리 도전</div>
+<div class="kb-diagram-note">당시 Apache (멀티프로세스) 한계:</div>
+<div class="kb-diagram-note">프로세스 10,000개 × 50MB = 500GB 메모리 필요</div>
+<div class="kb-diagram-note">컨텍스트 스위칭: 10,000번/초 → CPU 병목</div>
+<div class="kb-diagram-note">해결책:</div>
+<div class="kb-diagram-note">epoll (Linux 2.6):</div>
+<div class="kb-diagram-note">select(): O(N) - 전체 FD 스캔</div>
+<div class="kb-diagram-note">poll(): O(N) - 유사</div>
+<div class="kb-diagram-note">epoll(): O(1) - 이벤트 기반 준비 통보</div>
+<div class="kb-diagram-note">epoll 메커니즘:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">epoll_create(): 이벤트 큐 생성</div>
+<div class="kb-diagram-tree-item" style="--depth:1">epoll_ctl(): FD 등록/수정/삭제</div>
+<div class="kb-diagram-tree-item" style="--depth:1">epoll_wait(): 준비된 이벤트 블로킹 대기</div>
+<div class="kb-diagram-note">10,000 연결 중 100개 활성 → 100개만 처리</div>
+<div class="kb-diagram-note">Nginx 아키텍처:</div>
+<div class="kb-diagram-note">마스터 프로세스 1개</div>
+<div class="kb-diagram-note">워커 프로세스 = CPU 코어 수 (예: 16개)</div>
+<div class="kb-diagram-note">각 워커: 이벤트 루프로 수천 연결 처리</div>
+<div class="kb-diagram-note">구성:</div>
+<div class="kb-diagram-note">worker_processes auto; # CPU 코어 수</div>
+<div class="kb-diagram-note">events {</div>
+<div class="kb-diagram-note">worker_connections 1024;</div>
+<div class="kb-diagram-note">use epoll;</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">이론적 최대: 16 × 1024 = 16,384 동시 연결</div>
+<div class="kb-diagram-note">Node.js libuv:</div>
+<div class="kb-diagram-note">V8 엔진 + libuv(이벤트 루프 라이브러리)</div>
+<div class="kb-diagram-note">epoll(Linux), kqueue(macOS), IOCP(Windows) 통합</div>
+<div class="kb-diagram-note">비동기 I/O:</div>
+<div class="kb-diagram-note">fs.readFile('data.json', (err, data) =&gt; {</div>
+<div class="kb-diagram-note">// I/O 완료 후 콜백 (블로킹 없음)</div>
+<div class="kb-diagram-note">});</div>
+</div>
+</div>
 
-Nginx 아키텍처:
-  마스터 프로세스 1개
-  워커 프로세스 = CPU 코어 수 (예: 16개)
-  각 워커: 이벤트 루프로 수천 연결 처리
-  
-  구성:
-  worker_processes auto;  # CPU 코어 수
-  events {
-      worker_connections 1024;
-      use epoll;
-  }
-  
-  이론적 최대: 16 × 1024 = 16,384 동시 연결
 
-Node.js libuv:
-  V8 엔진 + libuv(이벤트 루프 라이브러리)
-  epoll(Linux), kqueue(macOS), IOCP(Windows) 통합
-  
-  비동기 I/O:
-  fs.readFile('data.json', (err, data) => {
-      // I/O 완료 후 콜백 (블로킹 없음)
-  });
-```
 
 > 📢 **섹션 요약 비유**: C10K = 동시 손님 1만 명 — 멀티프로세스 식당은 요리사 1만 명 고용(불가). Nginx/epoll은 "요청 완료" 알림 시스템으로 효율화. 알림 받은 것만 처리!
 
@@ -191,48 +186,44 @@ Node.js libuv:
 
 ## Ⅳ. 로드밸런싱과 고가용성
 
-```
-로드밸런서 (Load Balancer):
-  다수의 서버에 요청 분산
-  단일 장애 지점(SPOF) 제거
 
-로드밸런싱 알고리즘:
 
-라운드 로빈 (Round Robin):
-  순서대로 서버에 배분
-  1→2→3→1→2→3
-  단순, 서버 성능 동일할 때 적합
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">로드밸런서 (Load Balancer):</div>
+<div class="kb-diagram-note">다수의 서버에 요청 분산</div>
+<div class="kb-diagram-note">단일 장애 지점(SPOF) 제거</div>
+<div class="kb-diagram-note">로드밸런싱 알고리즘:</div>
+<div class="kb-diagram-note">라운드 로빈 (Round Robin):</div>
+<div class="kb-diagram-note">순서대로 서버에 배분</div>
+<div class="kb-diagram-note">1→2→3→1→2→3</div>
+<div class="kb-diagram-note">단순, 서버 성능 동일할 때 적합</div>
+<div class="kb-diagram-note">가중 라운드 로빈 (Weighted RR):</div>
+<div class="kb-diagram-note">서버 성능에 따라 비율 조정</div>
+<div class="kb-diagram-note">A(4코어): 4배, B(2코어): 2배, C(2코어): 2배</div>
+<div class="kb-diagram-note">→ A에 50%, B에 25%, C에 25%</div>
+<div class="kb-diagram-note">최소 연결 (Least Connections):</div>
+<div class="kb-diagram-note">현재 연결 수가 가장 적은 서버에 배분</div>
+<div class="kb-diagram-note">처리 시간이 다른 요청에 효과적</div>
+<div class="kb-diagram-note">IP 해시 (IP Hash):</div>
+<div class="kb-diagram-note">클라이언트 IP로 서버 고정</div>
+<div class="kb-diagram-note">세션 친화성(Session Affinity) 필요 시</div>
+<div class="kb-diagram-note">헬스 체크 (Health Check):</div>
+<div class="kb-diagram-note">주기적으로 서버 상태 확인</div>
+<div class="kb-diagram-note">HTTP: GET /health → 200 OK (정상)</div>
+<div class="kb-diagram-note">TCP: 연결 시도 성공 여부</div>
+<div class="kb-diagram-note">이상 감지 시: 라우팅에서 제외 (자동)</div>
+<div class="kb-diagram-note">L4 vs L7 로드밸런서:</div>
+<div class="kb-diagram-note">L4 (Transport): IP/Port 기반 (빠름, 내용 모름)</div>
+<div class="kb-diagram-note">L7 (Application): URL/헤더 기반 (느리지만 스마트)</div>
+<div class="kb-diagram-note">L7 예:</div>
+<div class="kb-diagram-note">/api/ → API 서버 클러스터</div>
+<div class="kb-diagram-note">/static/ → 파일 서버</div>
+<div class="kb-diagram-note">/admin/ → 관리 서버</div>
+</div>
+</div>
 
-가중 라운드 로빈 (Weighted RR):
-  서버 성능에 따라 비율 조정
-  A(4코어): 4배, B(2코어): 2배, C(2코어): 2배
-  → A에 50%, B에 25%, C에 25%
 
-최소 연결 (Least Connections):
-  현재 연결 수가 가장 적은 서버에 배분
-  처리 시간이 다른 요청에 효과적
-
-IP 해시 (IP Hash):
-  클라이언트 IP로 서버 고정
-  세션 친화성(Session Affinity) 필요 시
-
-헬스 체크 (Health Check):
-  주기적으로 서버 상태 확인
-  
-  HTTP: GET /health → 200 OK (정상)
-  TCP: 연결 시도 성공 여부
-  
-  이상 감지 시: 라우팅에서 제외 (자동)
-
-L4 vs L7 로드밸런서:
-  L4 (Transport): IP/Port 기반 (빠름, 내용 모름)
-  L7 (Application): URL/헤더 기반 (느리지만 스마트)
-  
-  L7 예:
-  /api/ → API 서버 클러스터
-  /static/ → 파일 서버
-  /admin/ → 관리 서버
-```
 
 > 📢 **섹션 요약 비유**: 로드밸런서 = 식당 안내 데스크 — 손님 오면 대기줄 짧은 테이블(최소 연결) 배정. 한 테이블 고장(헬스 체크 실패) 시 자동으로 다른 테이블 배정!
 
@@ -240,51 +231,48 @@ L4 vs L7 로드밸런서:
 
 ## Ⅴ. 실무 시나리오 — 대규모 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 설계
 
-```
-월 10억 요청 처리 API 서버 아키텍처:
 
-요구사항:
-  RPS 피크: 50,000 req/s
-  P99 응답시간: 50ms 이하
-  가용성: 99.99% (연 52분 이하 다운)
 
-아키텍처:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">월 10억 요청 처리 API 서버 아키텍처:</div>
+<div class="kb-diagram-note">요구사항:</div>
+<div class="kb-diagram-note">RPS 피크: 50,000 req/s</div>
+<div class="kb-diagram-note">P99 응답시간: 50ms 이하</div>
+<div class="kb-diagram-note">가용성: 99.99% (연 52분 이하 다운)</div>
+<div class="kb-diagram-note">아키텍처:</div>
+<div class="kb-diagram-note">클라이언트 → CDN(CloudFront)</div>
+<div class="kb-diagram-note">→ L7 로드밸런서(ALB) × 2</div>
+<div class="kb-diagram-note">→ API 서버 클러스터 (20대)</div>
+<div class="kb-diagram-note">→ 내부 L4 LB → DB 서버</div>
+<div class="kb-diagram-note">API 서버 (Nginx + Node.js):</div>
+<div class="kb-diagram-note">Nginx:</div>
+<div class="kb-diagram-note">worker_processes 8;</div>
+<div class="kb-diagram-note">worker_connections 4096;</div>
+<div class="kb-diagram-note">upstream api_pool {</div>
+<div class="kb-diagram-note">server 127.0.0.1:3000 weight=1;</div>
+<div class="kb-diagram-note">server 127.0.0.1:3001 weight=1;</div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">keepalive 100;</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">Node.js PM2 클러스터:</div>
+<div class="kb-diagram-note">instances = CPU 코어 수</div>
+<div class="kb-diagram-note">→ 각 인스턴스: 이벤트 루프로 I/O 처리</div>
+<div class="kb-diagram-note">연결 풀:</div>
+<div class="kb-diagram-note">DB 연결 풀: 서버당 20연결 × 20대 = 400연결</div>
+<div class="kb-diagram-note">연결 생성 비용: ~20ms</div>
+<div class="kb-diagram-note">풀로 재사용 → ~1ms 이하</div>
+<div class="kb-diagram-note">성능 결과:</div>
+<div class="kb-diagram-note">Nginx + epoll: 50,000 RPS 안정 처리</div>
+<div class="kb-diagram-note">P99: 23ms (목표 50ms 대비 여유)</div>
+<div class="kb-diagram-note">서버 1대 CPU: 45% (헤드룸 55%)</div>
+<div class="kb-diagram-note">쿠버네티스 HPA:</div>
+<div class="kb-diagram-note">CPU 70% 초과 시 자동 스케일아웃</div>
+<div class="kb-diagram-note">RPS 급증 → 20 → 40대 자동 확장</div>
+</div>
+</div>
 
-클라이언트 → CDN(CloudFront)
-  → L7 로드밸런서(ALB) × 2
-  → API 서버 클러스터 (20대)
-  → 내부 L4 LB → DB 서버
 
-API 서버 (Nginx + Node.js):
-  Nginx:
-  worker_processes 8;
-  worker_connections 4096;
-  upstream api_pool {
-      server 127.0.0.1:3000 weight=1;
-      server 127.0.0.1:3001 weight=1;
-      ...
-      keepalive 100;
-  }
-  
-  Node.js PM2 클러스터:
-  instances = CPU 코어 수
-  → 각 인스턴스: 이벤트 루프로 I/O 처리
-
-연결 풀:
-  DB 연결 풀: 서버당 20연결 × 20대 = 400연결
-  
-  연결 생성 비용: ~20ms
-  풀로 재사용 → ~1ms 이하
-
-성능 결과:
-  Nginx + epoll: 50,000 RPS 안정 처리
-  P99: 23ms (목표 50ms 대비 여유)
-  서버 1대 CPU: 45% (헤드룸 55%)
-  
-  쿠버네티스 HPA:
-  CPU 70% 초과 시 자동 스케일아웃
-  RPS 급증 → 20 → 40대 자동 확장
-```
 
 > 📢 **섹션 요약 비유**: 대규모 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 = 패스트푸드 체인 본사 관리 — [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(포장 완료품 배달), ALB(매장 안내), Nginx(주문 접수), Node.js(요리), DB 풀(식재료 창고). 자동 확장으로 피크도 안정!
 

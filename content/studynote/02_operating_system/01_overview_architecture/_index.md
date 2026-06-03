@@ -19,28 +19,25 @@ tags = ["operating_system"]
 
 운영체제는 컴퓨터 하드웨어의 복잡한 물리적 동작을 감추고, 응용 프로그램이 일관된 인터페이스 (System Call)를 통해 하드웨어를 제어할 수 있도록 돕는 소프트웨어 계층이다. 만약 운영체제가 없다면 개발자는 메모리의 특정 주소값을 직접 관리하고, 디스크의 물리적 섹터를 직접 제어하는 등 극심한 개발 피로도에 직면할 것이다.
 
-운영체제의 주요 목적은 크게 두 가지이다. 첫째는 **자원 이용률의 최적화**이다. 고가의 자원인 CPU와 메모리가 유휴 상태 (Idle) 없이 바쁘게 일하도록 스케줄링한다. 둘째는 **사용자 편의성 제공**이다. 파일 시스템과 GUI/CLI 등을 통해 하드웨어를 직관적으로 다룰 수 있는 '가상 머신 (Virtual Machine)' 환경을 제공한다.
+운영체제의 주요 목적은 크게 두 가지이다. 첫째는 <strong>자원 이용률의 최적화</strong>이다. 고가의 자원인 CPU와 메모리가 유휴 상태 (Idle) 없이 바쁘게 일하도록 스케줄링한다. 둘째는 <strong>사용자 편의성 제공</strong>이다. 파일 시스템과 GUI/CLI 등을 통해 하드웨어를 직관적으로 다룰 수 있는 '가상 머신 (Virtual Machine)' 환경을 제공한다.
 
 이 그림은 운영체제가 컴퓨터 시스템 계층 구조에서 차지하는 위치와 중재자로서의 역할을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Computer System Hierarchical Structure          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Users ] ◀──────────▶ [ Applications (Browser, Game) ]   │
-│                                     │                       │
-│   ======================== (System Call) ===================  │
-│                                     │                       │
-│   [ Operating System ] ◀────────────┘                       │
-│   (Kernel, Device Drivers, Resource Mgmt)                   │
-│                                     │                       │
-│   ========================= (Hardware) =====================  │
-│                                     │                       │
-│   [ CPU ] [ RAM ] [ Storage ] [ I/O Devices ]               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computer System Hierarchical Structure</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Users</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Applications (Browser, Game)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================== (System Call) ===================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kernel, Device Drivers, Resource Mgmt)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========================= (Hardware) =====================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-node">RAM</div><div class="kb-diagram-node">Storage</div><div class="kb-diagram-node">I/O Devices</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '보호된 진입점 (System Call)'이다. 응용 프로그램은 하드웨어에 직접 접근할 수 없으며, 반드시 운영체제가 열어둔 좁은 문(시스템 콜)을 통해서만 자원을 요청할 수 있다. 실무에서 이러한 '유저 모드 (User Mode)'와 '커널 모드 (Kernel Mode)'의 분리는 시스템의 전체적인 보안과 안정성을 유지하는 근본 아키텍처가 된다.
 
@@ -70,27 +67,24 @@ tags = ["operating_system"]
 
 ### 운영체제의 핵심 동작 메커니즘: 인터럽트 (Interrupt)
 
-현대 운영체제는 **인터럽트 주도적 (Interrupt-driven)**으로 동작한다. I/O 작업 완료, 0으로 나누기 오류, 타이머 종료 등 예기치 않은 사건이 발생하면 CPU는 현재 작업을 멈추고 OS 커널의 특정 루틴 (ISR: Interrupt Service Routine)을 실행한다.
+현대 운영체제는 <strong>인터럽트 주도적 (Interrupt-driven)</strong>으로 동작한다. I/O 작업 완료, 0으로 나누기 오류, 타이머 종료 등 예기치 않은 사건이 발생하면 CPU는 현재 작업을 멈추고 OS 커널의 특정 루틴 (ISR: Interrupt Service Routine)을 실행한다.
 
 이 구조도는 시스템 콜을 통한 유저/커널 모드 전환 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 System Call & Mode Transition               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   (User Mode: Ring 3)                                       │
-│   [ User Program ] ──▶ [ Library (printf) ] ──▶ [ SW Trap ] │
-│                                                   │         │
-│   ================================================│=======  │
-│   (Kernel Mode: Ring 0)                           ▼         │
-│   [ ISR / System Call Handler ] ◀─────────────────┘         │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Process / File / Memory Mgmt Services ] ──▶ [ H/W ]     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Call &amp; Mode Transition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Mode: Ring 3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Program</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Library (printf)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SW Trap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kernel Mode: Ring 0) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISR / System Call Handler</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process / File / Memory Mgmt Services</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">H/W</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '특권 명령어 (Privileged Instructions)'의 제어이다. I/O 제어나 인터럽트 금지 등 치명적인 명령은 오직 커널 모드에서만 실행 가능하다. 실무에서 보안 위협인 '권한 상승 (Privilege Escalation)' 공격은 이 경계를 불법적으로 넘어 커널 권한을 획득하려는 시도이다.
 
@@ -128,24 +122,22 @@ tags = ["operating_system"]
 - **판단**: 안정성이 최우선이므로 **마이크로커널** 기반의 RTOS (예: QNX)를 선택한다. 파일 시스템이나 네트워크 드라이버가 고장 나더라도 커널 핵심부는 영향을 받지 않으며, 고장 난 모듈만 재시작할 수 있는 복원력 (Resilience)을 확보한다.
 
 **시나리오 2: 초당 수백만 건의 요청을 처리하는 웹 서버 최적화**
-- **판단**: 커널 모드 전환 비용을 최소화하기 위해 **커널 우회 (Kernel Bypass)** 기술인 DPDK나 eBPF를 고려한다. 또한 I/O 병목을 해결하기 위해 동기식 차단 (Blocking) 방식 대신 **비동기 I/O (io_uring)**를 적용하여 CPU가 I/O 완료를 기다리지 않고 다른 연산을 수행하게 한다.
+- **판단**: 커널 모드 전환 비용을 최소화하기 위해 **커널 우회 (Kernel Bypass)** 기술인 DPDK나 eBPF를 고려한다. 또한 I/O 병목을 해결하기 위해 동기식 차단 (Blocking) 방식 대신 <strong>비동기 I/O (io_uring)</strong>를 적용하여 CPU가 I/O 완료를 기다리지 않고 다른 연산을 수행하게 한다.
 
 이 도식은 부팅 시 커널이 로드되는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Operating System Booting Sequence            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Power On ] ──▶ [ BIOS / UEFI ] ──▶ [ POST (Self Test) ] │
-│                           │                                 │
-│   [ Kernel Execution ] ◀── [ Boot Loader (GRUB) ] ◀───────┘ │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Init Process (PID 1) ] ──▶ [ User Applications ]        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operating System Booting Sequence</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Power On</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BIOS / UEFI</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POST (Self Test)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Execution</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Boot Loader (GRUB)</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Init Process (PID 1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">User Applications</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 OS 설계 판단은 건물의 설계 방식을 고르는 것과 같습니다. 무너지면 큰일 나는 병원(RTOS)은 철저히 방을 나누고, 많은 사람이 오가는 백화점(범용 OS)은 넓고 빠른 통로를 만드는 것과 같습니다.
 
@@ -160,7 +152,7 @@ tags = ["operating_system"]
 
 ### 미래 전망: 플랫폼으로서의 OS
 
-향후 운영체제는 단일 하드웨어를 넘어, 엣지 기기부터 거대 데이터 센터까지를 하나로 묶는 **'Cloud-Native OS'**로 진화할 것이다. 또한 하드웨어 레벨의 보안 기술 (TEE, TrustZone)과 결합하여 운영체제조차 믿지 못하는 상황에서도 데이터를 보호하는 **'Confidential Computing'**이 핵심 표준이 될 것이다. 기술사는 커널 내부의 알고리즘뿐만 아니라, 하드웨어와 소프트웨어의 경계에서 발생하는 새로운 추상화 레이어를 이해하는 '시스템 아키텍트'로서의 통찰력을 가져야 한다.
+향후 운영체제는 단일 하드웨어를 넘어, 엣지 기기부터 거대 데이터 센터까지를 하나로 묶는 <strong>'Cloud-Native OS'</strong>로 진화할 것이다. 또한 하드웨어 레벨의 보안 기술 (TEE, TrustZone)과 결합하여 운영체제조차 믿지 못하는 상황에서도 데이터를 보호하는 <strong>'Confidential Computing'</strong>이 핵심 표준이 될 것이다. 기술사는 커널 내부의 알고리즘뿐만 아니라, 하드웨어와 소프트웨어의 경계에서 발생하는 새로운 추상화 레이어를 이해하는 '시스템 아키텍트'로서의 통찰력을 가져야 한다.
 
 📢 **섹션 요약 비유**: 미래의 운영체제는 보이지 않는 공기와 같아질 것입니다. 우리는 그 존재를 느끼지 못하지만, 세상의 모든 기기와 정보가 그 안에서 유기적으로 연결되어 숨 쉬게 될 것입니다.
 

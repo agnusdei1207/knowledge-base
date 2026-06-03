@@ -23,64 +23,67 @@ tags = ["studynote-network"]
 - **필요성**: IPv4는 43억 개의 주소밖에 없었다. 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 써서 하나의 공인 IP에 100대의 스마트폰이 숨어 사는 꼼수로 수십 년을 버텼다. 하지만 NAT를 쓰면 밖에서 안으로 직접 치고 들어가는 통신([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/), 서버 호스팅, VoIP)이 방화벽에 막혀 너무나도 끔찍하게 복잡해진다(STUN, TURN 등 낭비 발생). "아 꼼수 그만 쓰고, 전 세계 모든 먼지 한 알에까지 진짜 IP를 줘서 어디서든 1:1로 뚫리게 만들자!"라는 원초적인 갈증이 IPv6를 탄생시켰다.
 
 - **💡 비유**: 
-  - **[IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)**: 번호판 자릿수가 4자리밖에 없어서 온 동네가 "강남 1234", "강동 1234"처럼 **'지역+번호([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))' 꼼수**를 써서 억지로 차를 굴리는 구형 번호판 체계.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a></strong>: 번호판 자릿수가 4자리밖에 없어서 온 동네가 "강남 1234", "강동 1234"처럼 <strong>'지역+번호(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)' 꼼수</strong>를 써서 억지로 차를 굴리는 구형 번호판 체계.
   - **IPv6**: 번호판 자릿수를 아예 30자리로 늘려버려서, **우주 전체에 똑같은 번호판이 단 1개도 존재하지 않게 만든 궁극의 바코드 시스템**.
 
-```text
-[Redirect 메시지]
-    │
-    ▼
-[IPv6]
-    │
-    └──▶ [IPv6 단순화된 헤더]
-```
 
-- **📢 섹션 요약 비유**: ** IPv6는 인구가 폭발해 4자리 우편번호([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))가 바닥나자, 정부가 **"어차피 바꾸는 김에 우편번호를 30자리로 늘려서, 건물 단위가 아니라 건물 안에 있는 책상 서랍마다 각자 고유한 우편번호를 부여하자!"**라고 선언한 우주 스케일의 대공사입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redirect 메시지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6 단순화된 헤더</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> IPv6는 인구가 폭발해 4자리 우편번호(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a>)가 바닥나자, 정부가 </strong>"어차피 바꾸는 김에 우편번호를 30자리로 늘려서, 건물 단위가 아니라 건물 안에 있는 책상 서랍마다 각자 고유한 우편번호를 부여하자!"**라고 선언한 우주 스케일의 대공사입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 128비트 표기법과 생략의 미학 (콜론 16진수)
-너무나도 길기 때문에 IPv4처럼 십진수 점(.)을 찍지 못하고, **16비트씩 8등분하여 16진수와 콜론(:)**으로 묶어 쓴다. (예: `2001:0db8:85a3:0000:0000:8a2e:0370:7334`)
+너무나도 길기 때문에 IPv4처럼 십진수 점(.)을 찍지 못하고, <strong>16비트씩 8등분하여 16진수와 콜론(:)</strong>으로 묶어 쓴다. (예: `2001:0db8:85a3:0000:0000:8a2e:0370:7334`)
 
 **생략 규칙 (축약법)**: 매번 저렇게 치면 손가락이 부러지므로 쿨한 축약 룰을 둔다.
-1. 각 블록에서 **앞에 오는 `0`은 싹 다 지운다**. (예: `0db8` -> `db8`)
-2. `0000`으로 꽉 찬 블록이 연속될 경우, 한 번에 한해서 **더블 콜론(`::`)**으로 완전히 뭉개버릴 수 있다.
-   - 예시: `2001:db8:0:0:0:0:0:1` ──▶ **`2001:db8::1`** (궁극의 숏폼)
+1. 각 블록에서 <strong>앞에 오는 <code>0</code>은 싹 다 지운다</strong>. (예: `0db8` -> `db8`)
+2. `0000`으로 꽉 찬 블록이 연속될 경우, 한 번에 한해서 <strong>더블 콜론(<code>::</code>)</strong>으로 완전히 뭉개버릴 수 있다.
+   - 예시: `2001:db8:0:0:0:0:0:1` ──▶ <strong><code>2001:db8::1</code></strong> (궁극의 숏폼)
 
 ### 2. 주소의 3대 타입 (브로드캐스트의 멸망)
-IPv6는 IPv4의 쓰레기 같은 점들을 치워버렸다. 가장 중요한 것은 **동네를 시끄럽게 하던 확성기 방송(Broadcast)을 완전히 삭제해 버렸다는 점**이다.
+IPv6는 IPv4의 쓰레기 같은 점들을 치워버렸다. 가장 중요한 것은 <strong>동네를 시끄럽게 하던 확성기 방송(Broadcast)을 완전히 삭제해 버렸다는 점</strong>이다.
 - **유니캐스트 (Unicast, 1:1)**: 정확히 한 놈에게만 보낸다. (Global Unicast `2000::/3`, Link-Local `fe80::/10`)
-- **[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) (Multicast, 1:N)**: 듣고 싶은(구독한) 놈들에게만 뿌린다. 브로드캐스트의 역할을 이 녀석이 전부 대체했다. (`ff00::/8`)
-- **애니캐스트 (Anycast, 1:가장 가까운 1)**: 여러 서버가 같은 IP를 쓴다. 내가 쏘면 그중 **지리적으로 나랑 제일 가까운(가장 Cost가 짧은) 서버 딱 한 대**가 받아서 응답해 주는 클라우드 시대 최고의 통신법.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (Multicast, 1:N)</strong>: 듣고 싶은(구독한) 놈들에게만 뿌린다. 브로드캐스트의 역할을 이 녀석이 전부 대체했다. (`ff00::/8`)
+- **애니캐스트 (Anycast, 1:가장 가까운 1)**: 여러 서버가 같은 IP를 쓴다. 내가 쏘면 그중 <strong>지리적으로 나랑 제일 가까운(가장 Cost가 짧은) 서버 딱 한 대</strong>가 받아서 응답해 주는 클라우드 시대 최고의 통신법.
 
 ### 3. 무상태 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))의 마법
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 환경에서 IP를 자동으로 받으려면 무조건 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버(공유기)가 있어야 했다.
-IPv6는 **[SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) ([Stateless Address Autoconfiguration](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))** 기능을 내장하고 있다.
-- PC에 랜선을 꽂으면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 스스로 자기 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)을 부려 **혼자서 완벽하게 고유한 IPv6 주소를 자동 창조**해 낸다. 
+IPv6는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong> 기능을 내장하고 있다.
+- PC에 랜선을 꽂으면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 스스로 자기 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 반으로 쪼개서 `FF:FE`를 중간에 쑤셔 넣는 마법([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)을 부려 <strong>혼자서 완벽하게 고유한 IPv6 주소를 자동 창조</strong>해 낸다. 
 - 그런 다음 라우터에게 "이 동네 앞자리 번호(Prefix)가 뭐죠?"라고 물어보고(RS/[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)), 라우터가 "응, 여기 앞자리는 `2001:db8::` 이야"라고 대답하면 그걸 합쳐서 0.1초 만에 풀 공인 IP 세팅을 스스로 마친다. 공유기([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 할 일이 아예 사라진다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 SLAAC (스스로 주소 만들기) 원리 도식         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (MAC: 00:11:22:33:44:55) ]                          │
- │                                                             │
- │   1) 랜선 꽂힘!                                                │
- │   2) "내 MAC 주소 가운데에 FF:FE를 억지로 쑤셔 넣자!"               │
- │      -> 인터페이스 ID 완성! (0211:22FF:FE33:4455)             │
- │   3) 라우터한테 물어봄: "아저씨, 여기 동네 앞번호(Prefix) 뭐임?"        │
- │                                                             │
- │   [ 라우터 ] "어, 우리 동네는 2001:abcd:1234:5678 이다!"         │
- │                                                             │
- │   4) 두 개를 풀로 딱 붙임! (합체 완료!)                            │
- │   ▶ 완성된 내 글로벌 IP: 2001:abcd:1234:5678:0211:22FF:FE33:4455 │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** IPv6는 128비트라는 **"무한한 잉크"**를 바탕으로, 시끄러운 동네 방송(브로드캐스트)을 끄고, 공유기라는 귀찮은 중개업자([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/), [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 모조리 해고한 뒤, **기계들이 전원만 켜면 알아서 자기 신분증([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))을 뚝딱 만들어 전 세계와 직통 전화([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))를 거는 진정한 플러그 앤 플레이(Plug & Play)의 완성작**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6 SLAAC (스스로 주소 만들기) 원리 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (MAC: 00:11:22:33:44:55)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 랜선 꽂힘!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) "내 MAC 주소 가운데에 FF:FE를 억지로 쑤셔 넣자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 인터페이스 ID 완성! (0211:22FF:FE33:4455)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 라우터한테 물어봄: "아저씨, 여기 동네 앞번호(Prefix) 뭐임?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-note">"어, 우리 동네는 2001:abcd:1234:5678 이다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 두 개를 풀로 딱 붙임! (합체 완료!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 완성된 내 글로벌 IP: 2001:abcd:1234:5678:0211:22FF:FE33:4455</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** IPv6는 128비트라는 **"무한한 잉크"<strong>를 바탕으로, 시끄러운 동네 방송(브로드캐스트)을 끄고, 공유기라는 귀찮은 중개업자(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)를 모조리 해고한 뒤, </strong>기계들이 전원만 켜면 알아서 자기 신분증([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))을 뚝딱 만들어 전 세계와 직통 전화([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))를 거는 진정한 플러그 앤 플레이(Plug & Play)의 완성작**입니다.
 
 ---
 
@@ -136,15 +139,19 @@ IPv6는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Redirect 메시지]
-    │
-    ▼
-[현재 개념: IPv6]
-    │
-    ├──▶ [확장 A: IPv6 단순화된 헤더]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Redirect 메시지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv6 단순화된 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 IPv6는 Redirect 메시지에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv6 단순화된 헤더와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

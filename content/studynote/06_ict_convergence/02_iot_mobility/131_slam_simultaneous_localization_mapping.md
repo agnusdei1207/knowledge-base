@@ -10,8 +10,8 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SLAM(Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 **센서(카메라·[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/))로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정**하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.
-> 2. **가치**: GPS가 안 되는 실내·지하에서도 SLAM으로 **카메라만으로 위치를 파악**할 수 있으며, Vision Pro·Quest 등 XR 디바이스의 Inside-Out 트래킹이 SLAM 기반이다.
+> 1. **본질**: SLAM(Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 <strong>센서(카메라·<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a>)로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정</strong>하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.
+> 2. **가치**: GPS가 안 되는 실내·지하에서도 SLAM으로 <strong>카메라만으로 위치를 파악</strong>할 수 있으며, Vision Pro·Quest 등 XR 디바이스의 Inside-Out 트래킹이 SLAM 기반이다.
 > 3. **판단 포인트**: [Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)(카메라)·[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM(라이다)을 구분하고, ORB-SLAM·RTAB-MAP이 대표적 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 구현이다.
 
 ---
@@ -23,7 +23,7 @@ SLAM = 지도 작성(Mapping) + 위치 추정(Localization) 동시 수행
   센서 → 특징점 추출 → 지도 업데이트 → 위치 보정 → 반복
 ```
 
-- **📢 섹션 요약 비유**: SLAM은 **눈을 가린 채 손으로 더듬으며 방 지도를 그리면서 내 위치를 파악**하는 것이다.
+- **📢 섹션 요약 비유**: SLAM은 <strong>눈을 가린 채 손으로 더듬으며 방 지도를 그리면서 내 위치를 파악</strong>하는 것이다.
 
 ---
 
@@ -31,14 +31,14 @@ SLAM = 지도 작성(Mapping) + 위치 추정(Localization) 동시 수행
 
 | 유형 | 센서 | 특징 |
 |:---|:---|:---|
-| **[Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)** | 카메라 | 저비용, XR 표준 |
-| **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM** | [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) | 정밀, 자율주행 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/">Visual SLAM</a></strong> | 카메라 | 저비용, XR 표준 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a> SLAM</strong> | [LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) | 정밀, 자율주행 |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-SLAM은 **GPS 없는 환경에서 위치·공간을 인식하는 유일한 방법**이며, XR·자율주행·로봇의 핵심 기반 기술이다.
+SLAM은 <strong>GPS 없는 환경에서 위치·공간을 인식하는 유일한 방법</strong>이며, XR·자율주행·로봇의 핵심 기반 기술이다.
 
 ---
 
@@ -47,22 +47,28 @@ SLAM은 **GPS 없는 환경에서 위치·공간을 인식하는 유일한 방�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SLAM** | 동시 위치+지도 |
-| **[Visual SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/)** | 카메라 기반 (XR) |
-| **[LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/) SLAM** | 라이다 기반 (자율주행) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/132_v_slam_visual_slam_camera/">Visual SLAM</a></strong> | 카메라 기반 (XR) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a> SLAM</strong> | 라이다 기반 (자율주행) |
 | **6DoF** | SLAM이 제공하는 추적 |
 | **ORB-SLAM** | 대표 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[EKF-SLAM (1990s)] → [PTAM (2007)] → [ORB-SLAM (2015)]
-    → [Deep SLAM (2018~, DL 기반)]
-    → [현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EKF-SLAM (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PTAM (2007)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ORB-SLAM (2015)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Deep SLAM (2018~, DL 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SLAM은 **눈을 가리고 손으로 더듬어서 방 지도를 그리는** 거예요.
-2. 동시에 **"나는 지금 어디쯤이지?"**도 알아내요.
+2. 동시에 <strong>"나는 지금 어디쯤이지?"</strong>도 알아내요.
 3. VR 헤드셋이 **방 안에서 내 위치를 아는 건** SLAM 덕분이에요!
 
 ---

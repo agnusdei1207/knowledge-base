@@ -25,16 +25,18 @@ tags = ["studynote-network"]
 
 아래 그림은 다중 경로 채널이 왜 두 종류의 대책을 동시에 요구하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          다중 경로 채널이 만드는 두 가지 대표 문제          │
-├─────────────────────────────┬────────────────────────────────┤
-│ 어떤 경로는 세고 어떤 경로는 약함 │ 지연된 복사본이 다음 심볼과 겹침 │
-│ → 페이딩 / SNR 흔들림            │ → ISI / 파형 왜곡                │
-├─────────────────────────────┼────────────────────────────────┤
-│ 대응 1: 다이버시티              │ 대응 2: 이퀄라이저               │
-└─────────────────────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 경로 채널이 만드는 두 가지 대표 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 경로는 세고 어떤 경로는 약함</div><div class="kb-diagram-cell">지연된 복사본이 다음 심볼과 겹침</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페이딩 / SNR 흔들림</div><div class="kb-diagram-cell">→ ISI / 파형 왜곡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대응 1: 다이버시티</div><div class="kb-diagram-cell">대응 2: 이퀄라이저</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 두 기법이 같은 문제를 중복 해결하는 것이 아니라, 채널의 서로 다른 고장을 다룬다는 점이다. 다이버시티는 "여러 길 중 덜 나쁜 길을 잡는 것"에 가깝고, 이퀄라이저는 "들어온 길의 찌그러짐을 펴는 것"에 가깝다. 그래서 무선 채널이 복잡해질수록 둘을 병행하는 수신기 구조가 자연스러워진다.
 
@@ -48,16 +50,19 @@ tags = ["studynote-network"]
 
 이퀄라이저의 핵심은 채널 응답을 추정한 뒤 그 역특성을 근사하는 필터를 적용하는 것이다. 선형 이퀄라이저 (Linear [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 단순한 구조로 앞뒤 심볼 영향을 줄이고, 결정 피드백 이퀄라이저 (Decision Feedback [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/), DFE)는 이미 판정한 심볼을 활용해 후행 간섭을 제거한다. 직교 [주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), OFDM)에서는 순환 접두부 ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 덕분에 각 서브캐리어를 거의 평탄 채널처럼 볼 수 있어, 서브캐리어별 1-tap 등화가 가능해진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           현대 수신기의 기본 흐름: 결합 후 등화              │
-├──────────────────────────────────────────────────────────────┤
-│                ┌─ branch 1 : h1(t) ─┐                        │
-│ 송신 심볼 ─채널─┼─ branch 2 : h2(t) ─┼─▶ 결합기 ─▶ 이퀄라이저 ─▶ 판정 │
-│                └─ branch 3 : h3(t) ─┘                        │
-│             다이버시티가 페이딩 완화      등화기가 ISI 보정   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 수신기의 기본 흐름: 결합 후 등화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ branch 1 : h1(t) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 심볼 ─채널─ ─ branch 2 : h2(t) ─ ─▶ 결합기 ─▶ 이퀄라이저 ─▶ 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ branch 3 : h3(t) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다이버시티가 페이딩 완화 등화기가 ISI 보정</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 다이버시티는 "좋은 복사본을 더 잘 모으는 단계"이고, 이퀄라이저는 "모아진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 시간축 왜곡을 바로잡는 단계"다. 실제 시스템에서는 채널 추정기가 각 브랜치의 복소 채널 계수를 구하고, 결합기와 이퀄라이저가 그 추정값을 동시에 사용한다. 그래서 이동 속도가 빠를수록 채널 추정과 계수 갱신 주기도 함께 빨라져야 한다.
 
@@ -96,25 +101,24 @@ tags = ["studynote-network"]
 
 실무에서는 먼저 채널이 어떤 방식으로 망가지는지부터 판단해야 한다. 심볼 시간보다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 훨씬 짧아 파형 겹침이 크지 않다면, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 다이버시티와 결합 방식만으로 충분할 수 있다. 반대로 광대역 전송처럼 심볼이 짧고 경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 상대적으로 길면, 다이버시티만으로는 ISI를 제거할 수 없어 등화가 필수다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              수신기 설계 시 먼저 볼 판단 순서                │
-├──────────────────────────────────────────────────────────────┤
-│ 지연 확산이 심볼 시간에 비해 큰가?                           │
-│   ├─ 예  -> 이퀄라이저 또는 OFDM 우선 검토                   │
-│   └─ 아니오                                                  │
-│        │                                                     │
-│        ▼                                                     │
-│ 브랜치 간 상관이 충분히 낮은가?                              │
-│   ├─ 예  -> 공간/주파수/시간 다이버시티 이득 기대            │
-│   └─ 아니오 -> 안테나 간격, 편파 분리, 주파수 분산 재검토    │
-│        │                                                     │
-│        ▼                                                     │
-│ 이동 속도가 빠른가?                                          │
-│   ├─ 예  -> 파일럿 밀도·적응 계수 갱신 주기 강화             │
-│   └─ 아니오 -> 복잡도와 전력 소모 최적화                     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신기 설계 시 먼저 볼 판단 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 확산이 심볼 시간에 비해 큰가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 이퀄라이저 또는 OFDM 우선 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브랜치 간 상관이 충분히 낮은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 공간/주파수/시간 다이버시티 이득 기대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 -&gt; 안테나 간격, 편파 분리, 주파수 분산 재검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동 속도가 빠른가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 -&gt; 파일럿 밀도·적응 계수 갱신 주기 강화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 -&gt; 복잡도와 전력 소모 최적화</div></div>
+</div>
+</div>
+
+
 
 예를 들어 스마트폰 셀 가장자리에서는 2개 이상 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 두고 MRC 또는 유사 결합을 적용해 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 줄인다. 동시에 LTE와 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 같은 OFDM 기반 시스템은 파일럿으로 채널을 추정해 서브캐리어별 등화를 수행한다. 반면 DSL이나 수중 음향 통신처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 ISI가 매우 큰 환경에서는 다이버시티보다 이퀄라이저 복잡도와 적응 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 큰 설계 이슈가 되기도 한다.
 
@@ -161,22 +165,22 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다중 경로 채널
-    │
-    ├──────────────▶ 진폭 요동 · 딥 페이딩
-    │                  │
-    │                  ▼
-    │             다이버시티 결합
-    │
-    └──────────────▶ 지연 확산 · ISI
-                       │
-                       ▼
-                  채널 추정 · 이퀄라이저
-                       │
-                       ▼
-                 BER 감소 · 링크 안정화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다중 경로 채널</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 진폭 요동 · 딥 페이딩</div>
+<div class="kb-diagram-note">다이버시티 결합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 지연 확산 · ISI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">채널 추정 · 이퀄라이저</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BER 감소 · 링크 안정화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 다중 경로가 만드는 두 종류의 문제를 다이버시티와 이퀄라이저가 각각 어떻게 받아내고, 최종적으로 링크 품질 개선으로 이어지는지 보여준다.
 

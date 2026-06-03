@@ -25,19 +25,21 @@ CPU는 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_con
 
 특히 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 딥러닝, 영상 처리 분야에서는 연산량이 폭증했지만 클럭만 올려 성능을 해결하기 어려웠다. 이때 GPGPU는 "더 복잡한 한 코어" 대신 "더 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어"라는 대안을 제시했고, 슈퍼컴퓨터급 계산을 연구실과 기업 서버로 끌어내리는 전환점이 되었다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         왜 GPGPU가 필요해졌는가: 같은 계산의 대량 반복        │
-├──────────────────────────────────────────────────────────────┤
-│ CPU가 잘하는 일            │ GPU가 잘하는 일                 │
-│ 복잡한 제어                │ 동일 연산의 대량 반복           │
-│ 분기 많은 코드             │ 벡터 · 행렬 · 픽셀 계산         │
-│ 짧은 응답시간              │ 높은 처리량                     │
-├──────────────────────────────────────────────────────────────┤
-│ 문제 성격: 데이터가 많고 계산식이 거의 같음                   │
-│ 결론: CPU 단독보다 GPU 병렬 구조를 일반 계산에 활용           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 GPGPU가 필요해졌는가: 같은 계산의 대량 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 잘하는 일</div><div class="kb-diagram-cell">GPU가 잘하는 일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡한 제어</div><div class="kb-diagram-cell">동일 연산의 대량 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 많은 코드</div><div class="kb-diagram-cell">벡터 · 행렬 · 픽셀 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 응답시간</div><div class="kb-diagram-cell">높은 처리량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 성격: 데이터가 많고 계산식이 거의 같음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: CPU 단독보다 GPU 병렬 구조를 일반 계산에 활용</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 GPGPU가 GPU를 "더 빠른 CPU"로 바꾸는 것이 아니라, 문제의 모양에 맞는 연산 자원을 새로 배치하는 전략이라는 점이다. 즉 GPGPU는 그래픽 장치를 탈취한 편법이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성에 맞는 하드웨어를 재배치한 구조적 선택이다.
 
@@ -63,26 +65,21 @@ GPGPU의 핵심 원리는 호스트인 CPU가 전체 흐름을 제어하고, 디
 
 아래 그림은 GPGPU 성능이 단순 계산 속도보다 "복사-실행-회수" 전체 파이프라인에서 결정된다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              GPGPU 오프로딩 파이프라인의 실제 병목            │
-├──────────────────────────────────────────────────────────────┤
-│ ① Host 메모리                                                 │
-│    CPU가 입력 준비                                            │
-│        │                                                      │
-│        ▼                                                      │
-│ ② PCIe 전송 ── 데이터 복사 비용 발생                          │
-│        │                                                      │
-│        ▼                                                      │
-│ ③ GPU / SM에서 커널 병렬 실행                                 │
-│        │                                                      │
-│        ▼                                                      │
-│ ④ 결과 축약 · 저장                                            │
-│        │                                                      │
-│        ▼                                                      │
-│ ⑤ PCIe 역전송 ── 결과가 작을수록 유리                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPGPU 오프로딩 파이프라인의 실제 병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Host 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 입력 준비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② PCIe 전송 ── 데이터 복사 비용 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ GPU / SM에서 커널 병렬 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 결과 축약 · 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ PCIe 역전송 ── 결과가 작을수록 유리</div></div>
+</div>
+</div>
+
+
 
 따라서 GPGPU 최적화의 본질은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 GPU에 올린 뒤 가능한 한 오래 머물게 하고, 그 안에서 많은 계산을 수행하게 만드는 것이다. 연산 밀도는 낮고 복사만 많은 작업이라면 GPU는 강점이 아니라 오히려 부담이 된다.
 
@@ -105,22 +102,24 @@ GPGPU를 정확히 이해하려면 CPU 중심 계산, 전통적 [GPU](/knowledge
 | 약점 | 대량 반복 계산 비효율 | 복사 비용, 분기 발산 | 범용성 부족 |
 | 대표 환경 | OS, DB, 제어 로직 | 과학 계산, 딥러닝, 렌더링 | 추론 가속, 대규모 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 일부 |
 
-```text
-고정 기능 그래픽 가속
-        │
-        ▼
-프로그래머블 셰이더 (Programmable Shader)
-        │
-        ▼
-GPGPU (General-Purpose GPU)
-        │
-        ├─ CUDA (Compute Unified Device Architecture)
-        ├─ OpenCL (Open Computing Language)
-        └─ 과학 계산 · 딥러닝 학습
-                │
-                ▼
-전용 AI 가속기(TPU · NPU)와 역할 분화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 기능 그래픽 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래머블 셰이더 (Programmable Shader)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPGPU (General-Purpose GPU)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">CUDA (Compute Unified Device Architecture)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">OpenCL (Open Computing Language)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">과학 계산 · 딥러닝 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전용 AI 가속기(TPU · NPU)와 역할 분화</div>
+</div>
+</div>
+
+
 
 이 흐름이 보여주는 핵심은 GPGPU가 GPU의 범용화 단계라는 점이다. GPU가 모든 것을 해결하는 종착점이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅을 대중화하고 이후 더 특화된 가속기 분화를 가능하게 만든 중간 플랫폼이라는 뜻이다.
 
@@ -151,23 +150,24 @@ GPGPU (General-Purpose GPU)
 - 메모리 접근이 흩어져 VRAM [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 잃는 설계
 - [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용률 숫자만 보고 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 병목을 착각하는 운영 방식
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 GPGPU 적용 여부 판단 트리                    │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터가 크고 반복 계산인가?                                  │
-│      ├─ No  ─▶ CPU 우선                                      │
-│      └─ Yes                                                  │
-│            ▼                                                 │
-│ 분기와 의존성이 적은가?                                       │
-│      ├─ No  ─▶ GPU 효율 저하 가능성 큼                       │
-│      └─ Yes                                                  │
-│            ▼                                                 │
-│ 복사 비용보다 계산 이득이 큰가?                               │
-│      ├─ No  ─▶ CPU 또는 다른 가속 방식 검토                  │
-│      └─ Yes ─▶ GPGPU 적용 적합                               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPGPU 적용 여부 판단 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 크고 반복 계산인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ CPU 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기와 의존성이 적은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ GPU 효율 저하 가능성 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복사 비용보다 계산 이득이 큰가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ CPU 또는 다른 가속 방식 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ GPGPU 적용 적합</div></div>
+</div>
+</div>
+
+
 
 기술사 답안 관점에서는 "GPGPU는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산기"라고만 쓰면 부족하다. 반드시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 메모리 이동, 분기 발산, 이기종 역할 분담까지 함께 언급해야 실제 설계 판단이 된다.
 
@@ -200,22 +200,24 @@ GPGPU는 컴퓨터 아키텍처의 중심을 "더 빠른 단일 코어"에서 "�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-그래픽 전용 병렬 처리
-        │
-        ▼
-프로그래머블 셰이더 (Programmable Shader)
-        │
-        ▼
-GPGPU (General-Purpose GPU)
-        │
-        ├─ CUDA (Compute Unified Device Architecture)
-        ├─ OpenCL (Open Computing Language)
-        └─ HPC (High Performance Computing) · 딥러닝 학습
-                │
-                ▼
-이기종 컴퓨팅 · 전용 AI 가속기 분화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래픽 전용 병렬 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래머블 셰이더 (Programmable Shader)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPGPU (General-Purpose GPU)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">CUDA (Compute Unified Device Architecture)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">OpenCL (Open Computing Language)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">HPC (High Performance Computing) · 딥러닝 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이기종 컴퓨팅 · 전용 AI 가속기 분화</div>
+</div>
+</div>
+
+
 
 이 흐름은 GPU가 화면 처리 장치에서 출발해 범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산의 핵심 자원으로 확장되고, 다시 더 특화된 가속기 생태계로 갈라지는 과정을 보여준다.
 

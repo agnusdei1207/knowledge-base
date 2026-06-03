@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 적재 (Dynamic Loading)는 프로그램의 모든 루틴(함수, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 메모리에 미리 다 올려두지 않고, **실제 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))되는 시점**에 비로소 메모리에 적재하는 메모리 최적화 기법이다.
+> 1. **본질**: 동적 적재 (Dynamic Loading)는 프로그램의 모든 루틴(함수, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))을 메모리에 미리 다 올려두지 않고, <strong>실제 호출(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)되는 시점</strong>에 비로소 메모리에 적재하는 메모리 최적화 기법이다.
 > 2. **가치**: 오류 처리 루틴이나 잘 쓰이지 않는 희귀한 기능이 차지하는 불필요한 메모리 낭비를 극적으로 줄여주며, 시스템 전체의 메모리 공간 활용도(Utilization)를 높여 더 많은 프로세스를 동시에 실행할 수 있게 한다.
 > 3. **융합**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 특별한 지원 없이도 프로그래머가 직접 구현할 수 있지만([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 지원), 현대 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기법 중 하나인 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))과 결합하여 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준의 자동화된 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당으로 진화했다.
 
@@ -25,25 +25,26 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 발전 과정**:
   1. **정적 적재 (Static Loading)의 한계**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 프로그램이 실행되려면 전체 코드가 반드시 메모리에 연속적으로 적재되어야 했다. 메모리가 64KB인데 100KB짜리 프로그램은 실행조차 불가능했다.
   2. **오버레이 (Overlay) 기법**: 메모리보다 큰 프로그램을 실행하기 위해 프로그래머가 수동으로 메모리 공간을 쪼개고 코드를 덮어쓰는(Overlay) 기법을 썼으나, 코딩이 너무 복잡하고 에러가 잦았다.
-  3. **동적 적재 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 지원**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 부담을 덜기 위해, 프로그램 내부에 동적 적재를 수행하는 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 루틴을 삽입하여 메모리 최적화를 유도했다.
-  4. **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))**: 오늘날에는 프로그래머가 신경 쓰지 않아도 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 필요할 때 알아서 적재하는 방식으로 자동화되었다.
+  3. <strong>동적 적재 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 지원</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 부담을 덜기 위해, 프로그램 내부에 동적 적재를 수행하는 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 루틴을 삽입하여 메모리 최적화를 유도했다.
+  4. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)</strong>: 오늘날에는 프로그래머가 신경 쓰지 않아도 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 필요할 때 알아서 적재하는 방식으로 자동화되었다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│     정적 적재 (전체 로드) vs 동적 적재 (지연 로드) 차이           │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [정적 적재 (Static Loading)]                                      │
-│ 디스크의 프로그램 A (10MB) ──전부 로드──▶ 메모리에 10MB 차지      │
-│ (단점: 에러 코드 3MB는 한 번도 안 쓰이는데 램만 차지함)           │
-│                                                                   │
-│ [동적 적재 (Dynamic Loading)]                                     │
-│ 디스크의 프로그램 A (10MB)                                        │
-│  ├─ 메인 루틴 (2MB)  ────시작 시 로드──▶ 메모리에 2MB 차지        │
-│  ├─ 일반 루틴 (5MB)  ────호출 시 로드──▶ 필요할 때 5MB 추가       │
-│  └─ 에러 루틴 (3MB)  ────호출 안됨   ──▶ 메모리 0MB (절약!)       │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 적재 (전체 로드) vs 동적 적재 (지연 로드) 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 적재 (Static Loading)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크의 프로그램 A (10MB) ──전부 로드──▶ 메모리에 10MB 차지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단점: 에러 코드 3MB는 한 번도 안 쓰이는데 램만 차지함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 적재 (Dynamic Loading)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크의 프로그램 A (10MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메인 루틴 (2MB) 시작 시 로드──▶ 메모리에 2MB 차지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 루틴 (5MB) 호출 시 로드──▶ 필요할 때 5MB 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 에러 루틴 (3MB) 호출 안됨 ──▶ 메모리 0MB (절약!)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 동적 적재의 진정한 위력은 '[방어적 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/382_defensive_programming/)'으로 작성된 방대한 예외 처리 코드나, 다국어 지원 팩(다양한 언어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))과 같은 선택적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 나타난다. 정적 적재였다면 이 모든 경우의 수를 대비해 메모리를 소모했겠지만, 동적 적재는 실제 실행 경로(Execution Path)에 포함된 코드만 메모리에 올리므로 공간 효율이 압도적으로 높다.
 
 - **📢 섹션 요약 비유**: 뷔페에 갔을 때 메뉴판에 있는 모든 음식을 처음부터 내 접시에 다 퍼오는 것이 아니라, 먹고 싶은 음식(메인 루틴)만 가져오고 나중에 디저트(에러 루틴)가 당길 때 다시 가서 가져오는 것과 같습니다.
@@ -57,7 +58,7 @@ tags = ["studynote-operating-system"]
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
 | **메인 루틴 (Main Routine)** | 프로그램의 진입점 (Entry Point) | 가장 먼저 메모리에 적재되어 실행을 주도함 | `main()` 함수 | 프로젝트의 메인 매니저 |
-| **재배치 가능 코드 (Relocatable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 호출 전까지 디스크에 대기하는 서브루틴 | 절대 주소가 아닌 상대 주소로 컴파일된 상태로 보관됨 | Object [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (.o) | 매뉴얼 책꽂이에 꽂힌 외부 전문가 |
+| <strong>재배치 가능 코드 (Relocatable <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 호출 전까지 디스크에 대기하는 서브루틴 | 절대 주소가 아닌 상대 주소로 컴파일된 상태로 보관됨 | Object [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (.o) | 매뉴얼 책꽂이에 꽂힌 외부 전문가 |
 | **재배치 링킹 로더 (Relocating Loader)** | 루틴 호출 시 메모리로 가져오는 주체 | 주소 변환(Base Address 할당)을 수행하며 적재 | Loader | 필요할 때 부르는 콜택시 기사 |
 | **호출 감지 메커니즘** | 루틴이 메모리에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 루틴 호출 명령 실행 시 메모리 적재 여부 테이블 검사 | [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) Routine | 출근부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (없으면 전화해서 부름) |
 
@@ -67,35 +68,26 @@ tags = ["studynote-operating-system"]
 
 동적 적재 환경에서 특정 서브루틴을 호출하는([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 명령어는 일반적인 `JUMP`나 `CALL`과는 조금 다른 과정을 거친다. 먼저 해당 루틴이 메모리에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 코드가 선행된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│              동적 적재 시스템의 함수 호출 시퀀스                   │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [메인 루틴 실행 중]                                                │
-│    │                                                               │
-│    ▼                                                               │
-│ "CALL Function_X" 명령어 도달                                      │
-│    │                                                               │
-│    ▼                                                               │
-│ [루틴 존재 여부 검사 (OS 또는 라이브러리)]                         │
-│ Function_X 가 메모리에 있는가?                                     │
-│    │                                                               │
-│    ├────(Yes)─────▶ [즉시 Function_X 실행]                         │
-│    │                                                               │
-│    └────(No)──────┐                                                │
-│                   ▼                                                │
-│          [재배치 링킹 로더(Loader) 호출]                           │
-│          디스크에서 Function_X 를 읽어 빈 메모리에 적재            │
-│                   │                                                │
-│                   ▼                                                │
-│          [메모리 주소 테이블 업데이트]                             │
-│          방금 적재된 Function_X의 물리 주소 기록                   │
-│                   │                                                │
-│                   ▼                                                │
-│          [Function_X 로 점프하여 실행]                             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 적재 시스템의 함수 호출 시퀀스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 루틴 실행 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"CALL Function_X" 명령어 도달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루틴 존재 여부 검사 (OS 또는 라이브러리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Function_X 가 메모리에 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">즉시 Function_X 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재배치 링킹 로더(Loader) 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크에서 Function_X 를 읽어 빈 메모리에 적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 주소 테이블 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방금 적재된 Function_X의 물리 주소 기록</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Function_X 로 점프하여 실행</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 발생하는 '분기(Branch)' 로직이다. 일반적인 정적 로드 환경에서는 주소 검사 없이 무조건 점프하지만, 동적 적재에서는 로드 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 오버헤드가 발생한다. 이 오버헤드 때문에 한 번 호출된 루틴은 주소 테이블을 갱신해 두어, 두 번째 호출부터는 검사나 디스크 I/O 없이 즉시 실행(Yes 경로)되도록 설계된다.
 
@@ -103,9 +95,9 @@ tags = ["studynote-operating-system"]
 
 ### 심층 동작 원리 및 주체
 
-1. **사용자/[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주도**: 전통적인 의미의 동적 적재는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자동으로 해주는 것이 아니다. OS는 단순히 프로그램을 위해 메모리 공간을 내어줄 뿐이다.
-2. **동적 적재 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)**: C 언어나 어셈블리 언어로 코딩할 때, 개발자가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 제공하는 동적 로드용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (예: Windows의 `LoadLibrary()`, POSIX의 `dlopen()`)를 명시적으로 호출하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 런타임에 끌어올리는 방식이다.
-3. **OS 자동화 ([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))**: 반면 현대 OS의 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))라는 하드웨어 인터럽트를 통해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 투명하게(Transparent) 백그라운드에서 동적 적재를 수행한다.
+1. <strong>사용자/<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 주도</strong>: 전통적인 의미의 동적 적재는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자동으로 해주는 것이 아니다. OS는 단순히 프로그램을 위해 메모리 공간을 내어줄 뿐이다.
+2. <strong>동적 적재 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a></strong>: C 언어나 어셈블리 언어로 코딩할 때, 개발자가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 제공하는 동적 로드용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (예: Windows의 `LoadLibrary()`, POSIX의 `dlopen()`)를 명시적으로 호출하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 런타임에 끌어올리는 방식이다.
+3. <strong>OS 자동화 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>)</strong>: 반면 현대 OS의 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))라는 하드웨어 인터럽트를 통해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 완전히 투명하게(Transparent) 백그라운드에서 동적 적재를 수행한다.
 
 - **📢 섹션 요약 비유**: 회사에서 정규직(메인 루틴)만 상주시키고, 디자인 작업이 필요할 때만 프리랜서(동적 루틴)에게 전화를 걸어 당일 알바로 사무실에 부르는 유연한 인력 운영과 같습니다.
 
@@ -121,7 +113,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **목적** | 메모리 사용량 최소화 (공간 절약) | 디스크 공간 절약 및 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 공유 (수정 용이성) |
 | **대상** | 같은 프로그램 내의 서브루틴/[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들 | 서로 다른 프로그램들이 공통으로 쓰는 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (.dll, .so) |
-| **발생 시점** | 특정 루틴이 **호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))되는 순간** | 프로그램이 실행되거나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수가 **처음 참조되는 순간** |
+| **발생 시점** | 특정 루틴이 <strong>호출(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)되는 순간</strong> | 프로그램이 실행되거나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수가 **처음 참조되는 순간** |
 | **주체** | 사용자 프로그램 자체 또는 OS | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS) 지원 필수 |
 
 ### 비교 2: 오버레이 (Overlay) vs 동적 적재 (Dynamic Loading)
@@ -132,15 +124,18 @@ tags = ["studynote-operating-system"]
 | **동작 방식** | 개발자가 수동으로 A모듈이 끝나면 그 자리에 B모듈을 덮어씀 | 빈 공간에 새로운 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 추가로 적재함 (덮어쓰지 않음) |
 | **개발 난이도** | 최상 (OS 지원 없이 프로그래머가 메모리 맵을 다 짜야 함) | 낮음 ([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)나 OS [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 지원을 받음) |
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────┐
-│ 방식       │ 메모리 낭비 │ 로드 지연   │ 구현 복잡도   │
-├──────────┼────────────┼────────────┼───────────────────┤
-│ 정적 적재  │ 매우 심함   │ 프로그램 시작시│ 낮음       │
-│ 오버레이   │ 없음       │ 잦은 덮어쓰기│ 매우 높음     │
-│ 동적 적재  │ 거의 없음   │ 최초 호출 시만│ 중간        │
-└──────────┴────────────┴────────────┴───────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">메모리 낭비</div><div class="kb-diagram-cell">로드 지연</div><div class="kb-diagram-cell">구현 복잡도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 적재</div><div class="kb-diagram-cell">매우 심함</div><div class="kb-diagram-cell">프로그램 시작시</div><div class="kb-diagram-cell">낮음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버레이</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">잦은 덮어쓰기</div><div class="kb-diagram-cell">매우 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 적재</div><div class="kb-diagram-cell">거의 없음</div><div class="kb-diagram-cell">최초 호출 시만</div><div class="kb-diagram-cell">중간</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 초창기 컴퓨터는 메모리가 워낙 작아 오버레이라는 극단적인 수동 덮어쓰기 기법을 썼지만, 개발자가 비즈니스 로직보다 메모리 관리에 더 많은 시간을 쏟게 만들었다. 동적 적재는 이 책임을 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)나 OS에게 넘기면서도 정적 적재의 메모리 낭비 문제를 획기적으로 해결한 타협점이다.
 
 - **📢 섹션 요약 비유**: 오버레이가 한 칸짜리 텐트에서 동생이 나오면 내가 들어가 자는 '교대 취침'이라면, 동적 적재는 필요할 때마다 거실에 방석을 하나씩 추가로 까는 '유연한 공간 확장'입니다.
@@ -176,8 +171,8 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **메모리 최적화** | 오류 처리 등 예외 상황 코드가 차지하는 수 MB~GB의 불필요한 메모리 상주 방지 |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구동 속도** | 프로그램 실행 시 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 디스크에서 읽으므로, 무거운 앱도 찰나의 순간에 켜짐 |
-| **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 향상**| 개별 프로세스의 덩치가 작아져 물리 메모리에 더 많은 프로세스를 적재([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) Degree 증가) 가능 |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구동 속도</strong> | 프로그램 실행 시 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 디스크에서 읽으므로, 무거운 앱도 찰나의 순간에 켜짐 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 향상</strong>| 개별 프로세스의 덩치가 작아져 물리 메모리에 더 많은 프로세스를 적재([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) Degree 증가) 가능 |
 
 ### 결론 및 미래 전망
 
@@ -198,15 +193,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[한계 레지스터 (Limit Register)]
-    │
-    ▼
-[동적 적재 (Dynamic Loading)]
-    │
-    ├──▶ [동적 연결 (Dynamic Linking)]
-    └──▶ [공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">한계 레지스터 (Limit Register)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 적재 (Dynamic Loading)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 연결 (Dynamic Linking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 라이브러리 (Shared Library) 스터브 (Stub) 코드</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -20,19 +20,23 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 구글이 TCP를 버린 이유입니다.
-1. **극악의 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Handshake 지옥)**: 
+1. <strong>극악의 연결 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Handshake 지옥)</strong>: 
    - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake로 1번 왕복(1-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)), 게다가 보안([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 챙긴다고 암호키 맞추느라 또 2번 왕복(2-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기도 전에 인사하느라 총 3번을 왕복(3-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))하며 수백 밀리초를 까먹습니다.
-2. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL Blocking](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/) (971번 문서)**: 패킷 1개 유실되면 뒤에 멀쩡히 도착한 100개 패킷도 폰 화면에 못 뜨고 무한 대기합니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/">HOL Blocking</a> (971번 문서)</strong>: 패킷 1개 유실되면 뒤에 멀쩡히 도착한 100개 패킷도 폰 화면에 못 뜨고 무한 대기합니다.
 3. **망 전환 시 통신 끊김**: 폰 들고 지하철 타다 와이파이 ➜ LTE로 바뀌면 IP 주소가 바뀝니다. TCP는 IP가 바뀌면 무조건 터널이 끊어진 걸로 간주해, 아까 그 3번 인사를 처음부터 다시 시작합니다(유튜브 끊김 현상).
 
-```text
-[홀오브라인 블로킹]
-    │
-    ▼
-[QUIC]
-    │
-    └──▶ [HTTP/2 멀티플렉싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: QUIC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,30 +44,34 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 구글이 개발하고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)이 된 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반의 차세대 전송 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다. UDP의 미친 속도를 챙기면서, TCP의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(재전송)은 애플리케이션 단에서 스마트하게 구현한 완전체입니다.
+- **개념**: 구글이 개발하고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)이 된 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반의 차세대 전송 계층 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. UDP의 미친 속도를 챙기면서, TCP의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(재전송)은 애플리케이션 단에서 스마트하게 구현한 완전체입니다.
 
 ### 1. 0-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 핸드셰이크 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)) 🌟 핵심 🌟
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 최고의 마법입니다. 인사를 생략합니다.
 - **처음 방문**: 1-RTT만 소모해 재빨리 암호키를 맞춥니다([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 내장).
-- **두 번째 방문 (0-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))**: 어제 접속했던 네이버에 다시 들어갑니다. QUIC은 옛날에 썼던 암호키를 기억하고 있습니다. 인사? 안 합니다. **"야 나 철수야! 어제 그 암호로 잠갔어, 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 받아라!"라며 첫 번째 패킷에 인사와 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청)를 한 방에 묶어서 쏴버립니다.** 왕복 대기 시간([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 '0'이 되어 유튜브 영상이 터치하자마자 재생됩니다.
+- <strong>두 번째 방문 (0-<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong>: 어제 접속했던 네이버에 다시 들어갑니다. QUIC은 옛날에 썼던 암호키를 기억하고 있습니다. 인사? 안 합니다. <strong>"야 나 철수야! 어제 그 암호로 잠갔어, 바로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 받아라!"라며 첫 번째 패킷에 인사와 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 요청)를 한 방에 묶어서 쏴버립니다.</strong> 왕복 대기 시간([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 '0'이 되어 유튜브 영상이 터치하자마자 재생됩니다.
 
 ### 2. 완벽한 독립 멀티플렉싱 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL Blocking](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/) 격파)
-- 10개의 사진을 10개의 **완벽히 독립된 '스트림([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))' 차선**으로 쏩니다.
+- 10개의 사진을 10개의 <strong>완벽히 독립된 '스트림(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)' 차선</strong>으로 쏩니다.
 - 1번 사진 패킷이 에러가 나서 멈춰도, 2번~10번 사진 패킷 차선은 전혀 영향을 받지 않고 그대로 폰 화면에 쓱쓱 렌더링 됩니다. 앞차가 막혀도 뒷차가 뚫고 나가는 다차선 고속도로를 뚫었습니다.
 
 ### 3. Connection ID (IP가 바뀌어도 안 끊김)
 - 와이파이에서 LTE로 바뀌어 내 폰의 IP 주소가 `1.1.1.1` ➜ `2.2.2.2`로 싹 바뀌었습니다.
 - TCP는 IP가 바뀌면 연결이 찢어집니다. 
-- QUIC은 패킷에 IP 주소가 아니라 **고유한 'Connection ID(연결 여권 번호)'**를 박아 쏩니다. IP가 100번 바뀌어도 네이버 서버는 "어? 너 아까 걔구나?" 하고 신분을 알아채서 단 1초의 끊김도 없이 유튜브 영상을 부드럽게 이어서(Seamless) 쏴줍니다.
+- QUIC은 패킷에 IP 주소가 아니라 <strong>고유한 'Connection ID(연결 여권 번호)'</strong>를 박아 쏩니다. IP가 100번 바뀌어도 네이버 서버는 "어? 너 아까 걔구나?" 하고 신분을 알아채서 단 1초의 끊김도 없이 유튜브 영상을 부드럽게 이어서(Seamless) 쏴줍니다.
 
-```text
-[홀오브라인 블로킹]
-    │
-    ▼
-[QUIC]
-    │
-    └──▶ [HTTP/2 멀티플렉싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: QUIC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,7 +79,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 이 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 바닥에 깔고 돌아가는 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바로 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3**입니다. 구글 크롬 브라우저, 유튜브, 넷플릭스 등은 이미 100% 이 방식을 쓰고 있어 미친 체감 속도를 자랑합니다.
+- 이 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 바닥에 깔고 돌아가는 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바로 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3</strong>입니다. 구글 크롬 브라우저, 유튜브, 넷플릭스 등은 이미 100% 이 방식을 쓰고 있어 미친 체감 속도를 자랑합니다.
 
 QUIC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [홀오브라인 블로킹](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/)이 기반 조건을 만든다면, QUIC는 그 위에서 핵심 메커니즘을 구현하고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ QUIC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)**는 택배 기사가 배달 갈 때마다 벨을 누르고 "철수 씨 맞습니까?", "네 맞습니다", "신분증 보여주세요", "여기요", "자 이제 물건 받으세요!"라며 3번의 깐깐한 본인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(3-Way Handshake)을 거쳐야만 물건을 주는 융통성 0점의 기사입니다. 이사(IP 변경) 가면 처음부터 다시 다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) (0-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))**은 구글이 고용한 '단골 전담 퀵서비스 기사([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반)'입니다. 한 번 얼굴을 튼 손님(재접속)이라면, 다음 날 문을 발로 뻥 차고 들어오며 "어제 그 아저씨지? 여기 택배 던진다!" 하고 **인사할 시간(0-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))도 없이 그 자리에서 0.1초 만에 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 꽂아버립니다.** 손님이 중간에 다른 집([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망)으로 이사를 가도, 손님 얼굴(Connection ID)만 보고 쫓아가서 끊김 없이 짐을 던져주는 궁극의 미친 스피드와 효율성의 차세대 물류 혁명입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>는 택배 기사가 배달 갈 때마다 벨을 누르고 "철수 씨 맞습니까?", "네 맞습니다", "신분증 보여주세요", "여기요", "자 이제 물건 받으세요!"라며 3번의 깐깐한 본인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(3-Way Handshake)을 거쳐야만 물건을 주는 융통성 0점의 기사입니다. 이사(IP 변경) 가면 처음부터 다시 다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (0-<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong>은 구글이 고용한 '단골 전담 퀵서비스 기사([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반)'입니다. 한 번 얼굴을 튼 손님(재접속)이라면, 다음 날 문을 발로 뻥 차고 들어오며 "어제 그 아저씨지? 여기 택배 던진다!" 하고 <strong>인사할 시간(0-<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)도 없이 그 자리에서 0.1초 만에 물건(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 꽂아버립니다.</strong> 손님이 중간에 다른 집([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망)으로 이사를 가도, 손님 얼굴(Connection ID)만 보고 쫓아가서 끊김 없이 짐을 던져주는 궁극의 미친 스피드와 효율성의 차세대 물류 혁명입니다.
 
 ---
 
@@ -123,15 +131,19 @@ QUIC는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 홀오브라인 블로킹]
-    │
-    ▼
-[현재 개념: QUIC]
-    │
-    ├──▶ [확장 A: HTTP/2 멀티플렉싱]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홀오브라인 블로킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 QUIC는 [홀오브라인 블로킹](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

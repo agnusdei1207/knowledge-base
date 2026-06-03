@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **OAuth 2.0**: 권한 위임([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). "야 구글아, 나 대신 저 배달 앱한테 내 캘린더 읽을 권한(Access Token)만 좀 줘!"
-  - **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/))**: OAuth 2.0 뼈대 위에 올라탄 '신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))' 규격. "야 구글아, 얘 진짜 철수 맞아? ID 카드([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/)) 발급 좀 해줘!"
-  - **[JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))**: 위에서 발급한 그 '티켓(Token)'의 생김새(포맷)다. 위조를 막기 위해 도장(Signature)이 콱 찍혀있어 서버가 DB를 안 뒤져봐도 "이거 진품이네!" 1초 만에 알게 해주는 텍스트 쪼가리다.
+  - <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/">OpenID Connect</a>)</strong>: OAuth 2.0 뼈대 위에 올라탄 '신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))' 규격. "야 구글아, 얘 진짜 철수 맞아? ID 카드([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/)) 발급 좀 해줘!"
+  - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JSON Web Token</a>)</strong>: 위에서 발급한 그 '티켓(Token)'의 생김새(포맷)다. 위조를 막기 위해 도장(Signature)이 콱 찍혀있어 서버가 DB를 안 뒤져봐도 "이거 진품이네!" 1초 만에 알게 해주는 텍스트 쪼가리다.
 
-- **필요성**: 옛날 2000년대(모놀리식 시대)에는 게임 사이트에 가입할 때 내 네이버 아이디와 비밀번호를 쌩으로 갖다 바쳤다. 게임 사이트가 해킹당하면 내 네이버 메일까지 다 털리는 대참사가 일어났다. 뿐만 아니라, 클라우드 서버 100대([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도는데, API를 쏠 때마다 100대 서버가 일일이 "이놈 누군지 DB가서 조회해봐!"라며 트래픽을 때리니 DB가 뻗어버렸다. **"비밀번호 공유라는 미친 짓을 멈추고(OAuth), 무거운 DB 조회 없이 100대 서버가 토큰 껍데기만 보고 광속으로 통과시켜 줄([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 궁극의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 신분증 체계"**가 목마르게 필요했다.
+- **필요성**: 옛날 2000년대(모놀리식 시대)에는 게임 사이트에 가입할 때 내 네이버 아이디와 비밀번호를 쌩으로 갖다 바쳤다. 게임 사이트가 해킹당하면 내 네이버 메일까지 다 털리는 대참사가 일어났다. 뿐만 아니라, 클라우드 서버 100대([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도는데, API를 쏠 때마다 100대 서버가 일일이 "이놈 누군지 DB가서 조회해봐!"라며 트래픽을 때리니 DB가 뻗어버렸다. <strong>"비밀번호 공유라는 미친 짓을 멈추고(OAuth), 무거운 DB 조회 없이 100대 서버가 토큰 껍데기만 보고 광속으로 통과시켜 줄(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>) 궁극의 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 신분증 체계"</strong>가 목마르게 필요했다.
 
-- **💡 비유**: 이 삼형제는 **'호텔의 만능 카드키 시스템'**과 똑같습니다. 
+- **💡 비유**: 이 삼형제는 <strong>'호텔의 만능 카드키 시스템'</strong>과 똑같습니다. 
   - 내가 호텔 프론트(구글/카카오)에 가서 신분증을 보여주면([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 
   - 프론트 직원이 "3층 헬스장과 수영장만 1박 2일 동안 쓸 수 있는" 제한된 카드키(Access Token / OAuth 2.0 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))를 만들어 줍니다. 
   - 이 카드키는 홀로그램 도장([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 서명)이 찍혀있어서, 내가 헬스장 문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버)에 카드를 대면, 헬스장 문은 프론트에 전화 걸어 물어볼(DB 조회) 필요 없이 "아! 도장 찍힌 진품 카드가 맞네, 유효기간 안 지났네! 열려라 참깨!"라며 1초 만에 스스로 락을 푸는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 미친 자동화 마법입니다.
@@ -34,26 +34,25 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **비밀번호 바치기의 참상**: 옛날엔 '스크린 스크래핑'이라고 해서, 핀테크 앱에 은행 비밀번호를 줘버리고 핀테크 앱이 나인 척 로그인했다. 은행이 분노했다.
   2. **OAuth 1.0의 등장과 2.0의 혁명**: 비밀번호를 안 주기 위해 토큰(Token) 교환 방식(OAuth)이 발명됐다. 모바일에 맞게 더 깔끔하게 튜닝된 2.0이 전 세계 인터넷 통신 규격을 천하통일했다.
-  3. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(AuthN) 꼼수의 한계와 OIDC의 구원**: 사람들이 권한 위임증(OAuth 2.0)을 자꾸 신분증(로그인용)으로 쓰는 꼼수(Pseudo-[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))를 부리다 해킹이 터졌다. 빡친 진영에서 "제발 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)(OAuth)랑 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(신원) 섞어 쓰지 마!"라며 신분증 전용 규격인 **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/))**를 덮어씌우며 현재의 거대한 로그인 평정(Social Login)이 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(AuthN) 꼼수의 한계와 OIDC의 구원</strong>: 사람들이 권한 위임증(OAuth 2.0)을 자꾸 신분증(로그인용)으로 쓰는 꼼수(Pseudo-[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))를 부리다 해킹이 터졌다. 빡친 진영에서 "제발 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)(OAuth)랑 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(신원) 섞어 쓰지 마!"라며 신분증 전용 규격인 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/">OpenID Connect</a>)</strong>를 덮어씌우며 현재의 거대한 로그인 평정(Social Login)이 완성되었다.
 
-- **📢 섹션 요약 비유**: 이 시스템은 **'대리운전 기사님에게 스마트 키 넘겨주기'**입니다. 내 지갑(비밀번호)을 기사님에게 통째로 주면 기사님이 내 집까지 다 털어갑니다. 대신 "차 문만 열고 시동만 2시간 동안 걸리는 임시 1회용 스마트 키(OAuth Access Token)"를 폰으로 발급해서 넘겨줍니다. 기사님이 아무리 딴맘을 먹어도 차(한정된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 밖으로는 그 어떤 권한도 뚫어낼 수 없는 가장 안전한 권한 위임술입니다.
+- **📢 섹션 요약 비유**: 이 시스템은 <strong>'대리운전 기사님에게 스마트 키 넘겨주기'</strong>입니다. 내 지갑(비밀번호)을 기사님에게 통째로 주면 기사님이 내 집까지 다 털어갑니다. 대신 "차 문만 열고 시동만 2시간 동안 걸리는 임시 1회용 스마트 키(OAuth Access Token)"를 폰으로 발급해서 넘겨줍니다. 기사님이 아무리 딴맘을 먹어도 차(한정된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 밖으로는 그 어떤 권한도 뚫어낼 수 없는 가장 안전한 권한 위임술입니다.
 
 ---
 
 다음은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  API 보안 관리                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 보안 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 보안 관리의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-API 보안 관리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API 보안 관리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,41 +11,39 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨터 공학 최대의 물리적 한계인 **"빠른 저장 장치는 비싸고 좁으며, 넓은 저장 장치는 싸지만 느리다"**는 모순을 극복하기 위해, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)부터 하드디스크까지 부품들을 피라미드식으로 쌓아 올린 궁극의 가성비 융합 아키텍처다.
-> 2. **가치**: CPU는 오직 최상단 매니저인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 L1 캐시만 쳐다보고 일을 시킬 뿐이며, 밑단([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), 디스크)의 느려 터진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 알아서 위로 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))되어 올라오는 착시 현상을 통해 **전체 시스템이 마치 '가장 빠르면서 가장 큰 메모리' 하나를 쓰는 것처럼 동작**하게 만든다.
-> 3. **융합**: 이 계층 구조가 마법처럼 굴러가게 만드는 핵심 동력은 **지역성의 원리([Locality of Reference](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))**이며, 현대 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))이나 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 기술은 이 계층 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 승강기(Elevator) 역할을 소프트웨어적으로 구현한 산물이다.
+> 1. **본질**: 컴퓨터 공학 최대의 물리적 한계인 <strong>"빠른 저장 장치는 비싸고 좁으며, 넓은 저장 장치는 싸지만 느리다"</strong>는 모순을 극복하기 위해, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)부터 하드디스크까지 부품들을 피라미드식으로 쌓아 올린 궁극의 가성비 융합 아키텍처다.
+> 2. **가치**: CPU는 오직 최상단 매니저인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 L1 캐시만 쳐다보고 일을 시킬 뿐이며, 밑단([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), 디스크)의 느려 터진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 알아서 위로 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))되어 올라오는 착시 현상을 통해 <strong>전체 시스템이 마치 '가장 빠르면서 가장 큰 메모리' 하나를 쓰는 것처럼 동작</strong>하게 만든다.
+> 3. **융합**: 이 계층 구조가 마법처럼 굴러가게 만드는 핵심 동력은 <strong>지역성의 원리(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/">Locality of Reference</a>)</strong>이며, 현대 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))이나 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 기술은 이 계층 사이의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 승강기(Elevator) 역할을 소프트웨어적으로 구현한 산물이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), 보통 3~5GHz)는 미친 듯이 빠르지만, 메인 메모리([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 속도는 모터사이클에 비유할 만큼 처참하게 느리다. 만약 CPU가 매번 메모리에 직접 가서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼온다면, CPU는 계산하는 시간보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오기를 기다리며 놀고 있는 시간(Memory Stall)이 99%**에 달하게 된다.
+CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), 보통 3~5GHz)는 미친 듯이 빠르지만, 메인 메모리([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 속도는 모터사이클에 비유할 만큼 처참하게 느리다. 만약 CPU가 매번 메모리에 직접 가서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼온다면, CPU는 계산하는 시간보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 오기를 기다리며 놀고 있는 시간(Memory Stall)이 99%</strong>에 달하게 된다.
 
 그렇다고 전부 다 빛의 속도인 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)(캐시)으로 도배하자니, 컴퓨터 한 대 값이 10억 원을 우습게 넘어갈 것이다.
-이 극악무도한 **비용 vs 속도 vs 용량**의 딜레마를 타파하기 위해 인류는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피라미드 모양으로 배치했다.
+이 극악무도한 <strong>비용 vs 속도 vs 용량</strong>의 딜레마를 타파하기 위해 인류는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피라미드 모양으로 배치했다.
 "당장 1초 뒤에 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 100만 원짜리 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 책상(캐시)에 두고, 내일 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 1만 원짜리 느린 창고(디스크)에 두자!" 이것이 [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))의 탄생이다.
 
 **💡 비유**: CPU는 요리사다. 책상 위 도마([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에는 당장 썰 양파를 둔다. 냉장고(캐시)에는 오늘 저녁 재료를 둔다. 마트(메인 메모리)에는 일주일 치 식량을, 해외 직구(하드디스크)에는 1년 보관용 통조림을 둔다. 요리사는 마트에 직접 가지 않고 보조 주방장(OS/하드웨어)이 알아서 도마 위로 올려주는 재료만 썰면 된다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│         메모리 계층 구조 피라미드 (속도와 용량의 반비례)          │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│        [ CPU 내부 ]                                               │
-│             ▲                                                     │
-│          / 레지 \       ◀ 1ns 속도 / 수십 Byte 용량 / 수백만 원   │
-│         / L1캐시 \      ◀ 2ns 속도 / 수십 KB 용량   / 수십만 원   │
-│        / L2캐시   \     ◀ 10ns 속도/ 수 MB 용량     / 만 원대     │
-│       /────────────\                                              │
-│      / 메인 메모리  \   ◀ 100ns 속도/ 16~64 GB 용량 / 천 원대     │
-│     /   (DRAM)       \                                            │
-│    /──────────────────\                                           │
-│   / 보조기억장치 (SSD)\ ◀ 100μs 속도/ 수 TB 용량    / 백 원대     │
-│  /  (HDD, Magnetic)    \◀ 10ms 속도 / 수십 TB 용량  / 십 원대     │
-│ └────────────────────────┘                                        │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 계층 구조 피라미드 (속도와 용량의 반비례)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 레지 \ ◀ 1ns 속도 / 수십 Byte 용량 / 수백만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ L1캐시 \ ◀ 2ns 속도 / 수십 KB 용량 / 수십만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ L2캐시 \ ◀ 10ns 속도/ 수 MB 용량 / 만 원대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 메인 메모리 \ ◀ 100ns 속도/ 16~64 GB 용량 / 천 원대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (DRAM) \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 보조기억장치 (SSD)\ ◀ 100μs 속도/ 수 TB 용량 / 백 원대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (HDD, Magnetic) \◀ 10ms 속도 / 수십 TB 용량 / 십 원대</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 돈이 무한대라면 피라미드가 아니라 직사각형(전부 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))으로 지었겠지만, 현실은 가난하기에 위는 뾰족하게(비싼 건 조금), 아래는 펑퍼짐하게(싼 건 넓게) 지어놓고 마치 전체가 금괴인 척 속이는 마술입니다.
 
@@ -55,11 +53,11 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 
 ### 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상하 이동 ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) & [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))
 
-상위 계층은 하위 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **부분 집합본(복사본)**을 들고 있다. 이것을 '[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))'이라 부른다.
+상위 계층은 하위 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>부분 집합본(복사본)</strong>을 들고 있다. 이것을 '[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))'이라 부른다.
 
-1. **[Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) (적중)**: CPU가 "A [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내놔" 했을 때 L1 캐시에 A가 있다! 즉시 빛의 속도로 가져간다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> (적중)</strong>: CPU가 "A [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내놔" 했을 때 L1 캐시에 A가 있다! 즉시 빛의 속도로 가져간다.
 2. **Miss (실패)**: L1에 없네? 그럼 L2로 내려가서 찾는다. 거기도 없으면 메인 메모리([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))까지 내려가서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해 위로 끌고 올라온다 (Cache Miss Penalty).
-3. **블록 전송 (Block Transfer)**: 물건을 가져올 때 딸랑 바늘 하나만 가져오는 게 아니라, **캐시 라인(Block) 단위나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 단위로 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 뭉텅이로 퍼서** 가져온다. (왜? 인간의 프로그램은 한 번 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근처에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 또 쓸 확률이 90%가 넘는 '지역성'을 띠기 때문).
+3. **블록 전송 (Block Transfer)**: 물건을 가져올 때 딸랑 바늘 하나만 가져오는 게 아니라, <strong>캐시 라인(Block) 단위나 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>) 단위로 주변 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>까지 뭉텅이로 퍼서</strong> 가져온다. (왜? 인간의 프로그램은 한 번 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근처에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 또 쓸 확률이 90%가 넘는 '지역성'을 띠기 때문).
 
 **📢 섹션 요약 비유**: 서랍에 볼펜을 찾으러 갔는데 없으면(Miss), 창고 밑바닥까지 가서 볼펜을 찾은 뒤 이왕 온 김에 연필, 지우개, 자식까지 한 박스(Block)를 통째로 서랍(캐시)으로 들고 올라오는 원리입니다.
 
@@ -69,10 +67,10 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 
 | 계층 (Layer) | 주 관리자 (Manager) | 관리 단위 (Unit) | 휘발성 여부 |
 |:---|:---|:---|:---|
-| **[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** | 컴파일러 (코드 최적화) | [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), 4/8 Bytes) | 전원 꺼지면 날아감 (Volatile) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> | 컴파일러 (코드 최적화) | [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) ([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), 4/8 Bytes) | 전원 꺼지면 날아감 (Volatile) |
 | **캐시 (L1, L2, L3)** | 순수 하드웨어 장비 ([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)/캐시컨트롤러) | 캐시 라인 (Cache Line, 64 Bytes) | 휘발성 |
-| **메인 메모리 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 4KB) | 휘발성 |
-| **디스크 ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) + 사용자 | 블록/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Block, 512B~4KB) | **영구 보존 (Non-Volatile)** |
+| <strong>메인 메모리 (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a>)</strong> | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 4KB) | 휘발성 |
+| <strong>디스크 (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>)</strong> | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) + 사용자 | 블록/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Block, 512B~4KB) | **영구 보존 (Non-Volatile)** |
 
 **📢 섹션 요약 비유**: 위층([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)/캐시)은 기계와 컴파일러가 알아서 빛의 속도로 관리하는 눈에 안 보이는 신의 영역이고, 아래층(메인메모리/디스크)은 윈도우(OS)가 하드디스크 윙윙거리며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 옮기듯 직접 제어하는 인간계의 영역입니다.
 
@@ -83,8 +81,8 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 **실무 시나리오**:
 1. **CPU 캐시 사이즈가 깡패인 게임의 세계**: 3D 게임이나 딥러닝 연산을 돌릴 때 CPU 클럭(GHz)보다 "L3 캐시 용량이 몇 MB냐"가 프레임(FPS) 방어에 훨씬 절대적인 영향을 미친다. AMD의 `X3D` CPU 시리즈가 L3 캐시를 층따리(3D V-Cache)로 무식하게 쌓아 올렸더니, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메인 메모리까지 내려갈 일(Cache Miss)이 사라져 게임 속도를 압살해 버린 것이 최고의 실전 증명이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 맹신**: 학부생 시절 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))은 나쁘고 리스트([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))가 크기 조절돼서 좋다고 배운다. 하지만 실무에서 캐시 계층을 이해하면 얘기가 달라진다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리에 1열 종대로 늘어서 있어 하드웨어가 "다음 블록"을 풀스윙으로 캐시에 한 번에 올려버리면([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 1000% 증가) 끝이다. 반면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 없이 징검다리처럼 뿔뿔이 흩어진 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 탐색하면 매번 **Cache Miss**가 터지면서 무지막지하게 느려진다 (캐시 친화성 파괴).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a>) 맹신</strong>: 학부생 시절 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))은 나쁘고 리스트([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))가 크기 조절돼서 좋다고 배운다. 하지만 실무에서 캐시 계층을 이해하면 얘기가 달라진다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 메모리에 1열 종대로 늘어서 있어 하드웨어가 "다음 블록"을 풀스윙으로 캐시에 한 번에 올려버리면([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 1000% 증가) 끝이다. 반면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 없이 징검다리처럼 뿔뿔이 흩어진 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 탐색하면 매번 <strong>Cache Miss</strong>가 터지면서 무지막지하게 느려진다 (캐시 친화성 파괴).
 
 **📢 섹션 요약 비유**: 아무리 훌륭한 택배 기사(캐시 하드웨어)라도, 집이 일렬로 쫙 모여있는 아파트([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조)는 한 번에 100집을 배송할 수 있지만, 산꼭대기마다 한 채씩 떨어져 있는 시골집([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))은 배송하느라 하루 종일 걸리는([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락) 이치입니다.
 
@@ -115,15 +113,19 @@ CPU의 연산 속도(Core [Clock](/knowledge-base/studynote/01_computer_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)]
-    │
-    ▼
-[메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-    │
-    ├──▶ [논리 주소 (Logical/Virtual Address)]
-    └──▶ [물리 주소 (Physical Address)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리 주소 (Logical/Virtual Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

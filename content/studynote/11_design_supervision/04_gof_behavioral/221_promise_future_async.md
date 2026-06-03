@@ -39,51 +39,49 @@ getUser(id)
     .catch(err => handleErr(err)); // 에러 중앙 처리
 ```
 
-```
-┌──────────────────────────────────────────────────────────┐
-│               Promise State Machine                      │
-│                                                          │
-│   ┌─────────────┐                                        │
-│   │   PENDING   │ ← 초기 상태 (비동기 작업 진행 중)        │
-│   │  (대기 중)   │                                        │
-│   └──────┬──────┘                                        │
-│          │                                               │
-│    ┌─────┴─────┐                                         │
-│    │           │                                         │
-│    ▼           ▼                                         │
-│ ┌──────────┐ ┌──────────┐                                │
-│ │FULFILLED │ │ REJECTED │                                │
-│ │(이행 완료)│ │(거부/실패)│                                │
-│ └──────────┘ └──────────┘                                │
-│                                                          │
-│  ※ 한번 결정(Settled)되면 상태 변경 불가 (불변)            │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Promise State Machine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PENDING</div><div class="kb-diagram-cell">← 초기 상태 (비동기 작업 진행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대기 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FULFILLED</div><div class="kb-diagram-cell">REJECTED</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이행 완료)</div><div class="kb-diagram-cell">(거부/실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 한번 결정(Settled)되면 상태 변경 불가 (불변)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Promise는 식당 예약 확인서 — "아직 확정 안 됨(Pending)", "예약 확정(Fulfilled)", "예약 불가(Rejected)" 세 가지 상태가 있고, 한번 결정되면 다시 바꿀 수 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-Promise 생성:
-  new Promise((resolve, reject) => {
-      // 비동기 작업
-      resolve(result);  // 성공 → FULFILLED
-      reject(error);    // 실패 → REJECTED
-  });
 
-체이닝 API:
-  .then(onFulfilled)           → 성공 시 실행, 새 Promise 반환
-  .catch(onRejected)           → 실패 시 실행 (.then(null, onRejected))
-  .finally(onFinally)          → 성공/실패 무관 항상 실행 (정리 작업)
 
-병렬 처리 API:
-  Promise.all([p1, p2, p3])    → 모두 완료 시 완료 (하나라도 실패 → 실패)
-  Promise.allSettled([...])    → 모두 완료 시 완료 (실패 포함 결과 반환)
-  Promise.race([p1, p2])       → 첫 번째 완료/실패된 것 반환
-  Promise.any([p1, p2])        → 첫 번째 성공한 것 반환
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Promise 생성:</div>
+<div class="kb-diagram-note">new Promise((resolve, reject) =&gt; {</div>
+<div class="kb-diagram-note">// 비동기 작업</div>
+<div class="kb-diagram-note">resolve(result); // 성공 → FULFILLED</div>
+<div class="kb-diagram-note">reject(error); // 실패 → REJECTED</div>
+<div class="kb-diagram-note">});</div>
+<div class="kb-diagram-note">체이닝 API:</div>
+<div class="kb-diagram-note">.then(onFulfilled) → 성공 시 실행, 새 Promise 반환</div>
+<div class="kb-diagram-note">.catch(onRejected) → 실패 시 실행 (.then(null, onRejected))</div>
+<div class="kb-diagram-note">.finally(onFinally) → 성공/실패 무관 항상 실행 (정리 작업)</div>
+<div class="kb-diagram-note">병렬 처리 API:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.all(</div><div class="kb-diagram-node">p1, p2, p3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">모두 완료 시 완료 (하나라도 실패 → 실패)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.allSettled(</div><div class="kb-diagram-node">...</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">모두 완료 시 완료 (실패 포함 결과 반환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.race(</div><div class="kb-diagram-node">p1, p2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">첫 번째 완료/실패된 것 반환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.any(</div><div class="kb-diagram-node">p1, p2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">첫 번째 성공한 것 반환</div></div>
+</div>
+</div>
+
+
 
 ```javascript
 // Promise 체이닝
@@ -114,36 +112,43 @@ async function fetchUserData(id) {
 | `.finally(fn)` | `.whenComplete(fn)` | 항상 실행 |
 | `Promise.all([...])` | `CompletableFuture.allOf(...)` | 모두 완료 대기 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: async/await는 마법 안경 — 비동기 코드(구불구불한 실)를 쓰면 마치 직선처럼 보여주는 착시 안경이다. 실제 실행은 여전히 비동기(구불구불)지만, 읽기는 동기처럼 자연스럽다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-```
-Promise.all([A, B, C]):
-  A: ──────✓──
-  B: ────────────✓──
-  C: ──────────────✓──
-  결과: C 완료 후 [A결과, B결과, C결과] (모두 성공)
-  하나라도 실패 → 즉시 실패
 
-Promise.race([A, B, C]):
-  A: ──────✓──           ← 가장 빠름
-  결과: A 결과 (나머지는 무시)
 
-Promise.allSettled([A, B, C]):
-  모두 완료 후 [{status:"fulfilled",value:...}, {status:"rejected",...}]
-  (실패해도 모두 기다림)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.all(</div><div class="kb-diagram-node">A, B, C</div><div class="kb-diagram-note">):</div></div>
+<div class="kb-diagram-note">A: ✓──</div>
+<div class="kb-diagram-note">B: ✓──</div>
+<div class="kb-diagram-note">C: ✓──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과: C 완료 후</div><div class="kb-diagram-node">A결과, B결과, C결과</div><div class="kb-diagram-note">(모두 성공)</div></div>
+<div class="kb-diagram-note">하나라도 실패 → 즉시 실패</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.race(</div><div class="kb-diagram-node">A, B, C</div><div class="kb-diagram-note">):</div></div>
+<div class="kb-diagram-note">A: ✓── ← 가장 빠름</div>
+<div class="kb-diagram-note">결과: A 결과 (나머지는 무시)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.allSettled(</div><div class="kb-diagram-node">A, B, C</div><div class="kb-diagram-note">):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">모두 완료 후</div><div class="kb-diagram-node">{status:"fulfilled",value:...}, {status:"rejected",...}</div></div>
+<div class="kb-diagram-note">(실패해도 모두 기다림)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Promise.any(</div><div class="kb-diagram-node">A, B, C</div><div class="kb-diagram-note">):</div></div>
+<div class="kb-diagram-note">첫 번째 성공한 결과 반환 (모두 실패 시 AggregateError)</div>
+</div>
+</div>
 
-Promise.any([A, B, C]):
-  첫 번째 성공한 결과 반환 (모두 실패 시 AggregateError)
-```
+
 
 | 언어/플랫폼 | Promise 유사체 | async/await | 비고 |
 |:---|:---|:---|:---|
@@ -212,7 +217,7 @@ Promise/Future 패턴은 콜백 지옥을 해결하고 비동기 코드의 가�
 **핵심 기대효과**:
 - **선형 코드 흐름**: 다단계 비동기 체인을 읽기 쉽게 표현
 - **중앙화된 에러 처리**: `.catch()` / `try/catch` 하나로 모든 에러 처리
-- **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 용이**: `Promise.all()` 한 줄로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비동기 실행
+- <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 용이</strong>: `Promise.all()` 한 줄로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비동기 실행
 - **언어 표준화**: 모든 현대 언어/플랫폼에서 동일한 개념
 
 **한계**:
@@ -220,7 +225,7 @@ Promise/Future 패턴은 콜백 지옥을 해결하고 비동기 코드의 가�
 - 취소(Cancellation) 지원이 약함 (AbortController 별도 필요)
 - Kotlin [Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/), Java Virtual Thread가 새로운 대안으로 부상
 
-기술사 시험에서는 **Promise 상태 기계(Pending/Fulfilled/Rejected)**, **async/await가 Promise의 문법적 설탕임**, **Promise.all vs Promise.race 차이**를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 **Promise 상태 기계(Pending/Fulfilled/Rejected)**, **async/await가 Promise의 문법적 설탕임**, <strong>Promise.all vs Promise.race 차이</strong>를 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

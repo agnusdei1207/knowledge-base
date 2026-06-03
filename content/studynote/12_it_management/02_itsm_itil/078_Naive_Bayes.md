@@ -103,21 +103,23 @@ Naive Bayes는 복잡한 모델이 나오기 전에도 빠른 자동화를 가�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-training data
-│
-▼
-count features by class
-│
-▼
-estimate prior / likelihood
-│
-▼
-compute posterior
-│
-▼
-route to class
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">training data</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">count features by class</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">estimate prior / likelihood</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">compute posterior</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">route to class</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

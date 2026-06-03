@@ -10,7 +10,7 @@ tags = ["studynote-security"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([Block Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/))는 평문([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 1비트씩 쪼개지 않고, **64비트나 128비트 크기의 덩어리(Block) 단위로 뭉텅 썰어서 한 번에 암호화/복호화**를 수행하는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) 알고리즘의 절대 표준이다.
+> 1. **본질**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([Block Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/))는 평문([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 1비트씩 쪼개지 않고, <strong>64비트나 128비트 크기의 덩어리(Block) 단위로 뭉텅 썰어서 한 번에 암호화/복호화</strong>를 수행하는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/) 알고리즘의 절대 표준이다.
 > 2. **가치**: 데이터를 갈기갈기 섞는 혼돈(Confusion)과 퍼뜨리는 확산(Diffusion) 연산을 수십 번의 라운드(Round) 동안 쇳덩어리(XOR 게이트) 내부에서 반복시켜, 현대의 슈퍼컴퓨터로도 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 없이 원본을 역추적할 수 없는 완벽한 아수라장을 만들어낸다.
 > 3. **판단 포인트**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 본질적으로 크기가 정해져 있으므로, 원본 데이터가 블록 크기보다 크면 블록들을 어떻게 이어 붙일지(운영 모드: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/), [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) 결정해야 하며, 마지막에 남는 빈 공간을 찌꺼기로 채우는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 아키텍처가 필수적으로 융합된다.
 
@@ -31,29 +31,26 @@ tags = ["studynote-security"]
 ### 섀넌의 2대 철학과 SPN (Substitution-Permutation Network) 구조
 가장 완벽한 현대 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)인 AES는 데이터를 블록 단위로 자른 뒤, S-box와 P-box라는 쇳덩어리 기계 장치를 통과시킨다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           AES 블록 암호의 내부 라운드(Round) 아키텍처 흐름         │
-├────────────────────────────────────────────────────────┤
-│   [ 평문 데이터 (128-bit Block) ]                         │
-│             │                                          │
-│  [ 반복 라운드 (10회 ~ 14회 뺑뺑이 루프) ]                  │
-│   ┌──────────────────────────────────────────────────┐ │
-│   │ 1. SubBytes (혼돈/Confusion) : S-Box 치환         │ │
-│   │    - 'A'라는 데이터를 규칙이 전혀 없는 다른 값 'K'로 바꿈 │ │
-│   │                                                  │ │
-│   │ 2. ShiftRows (확산/Diffusion) : 행 단위로 밀어버림   │ │
-│   │ 3. MixColumns (극강 확산) : 열을 수학적 행렬 곱셈으로 믹싱│ │
-│   │    - 1비트만 바뀌어도 블록 전체가 미친 듯이 연쇄 폭발함!   │ │
-│   │                                                  │ │
-│   │ 4. AddRoundKey : 매 라운드마다 쪼개진 암호키(Key)를 XOR │ │
-│   └─────────────────────────┬────────────────────────┘ │
-│                             ▼                          │
-│   [ 암호문 데이터 (128-bit Block) 도출 완료! ]             │
-└────────────────────────────────────────────────────────┘
-```
 
-**혼돈(Confusion)**은 암호문과 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))' 사이의 관계를 숨겨서 해커가 키를 역추적하지 못하게 S-box로 값을 바꿔치기하는 것이다. **확산(Diffusion)**은 원본 평문의 글자 하나(a ➔ b)만 살짝 바뀌어도, 출력되는 암호문 블록 전체(128비트)가 180도 완전히 다른 쓰레기 값(눈사태 효과, Avalanche Effect)으로 렌더링되어 패턴 분석을 원천 봉쇄하는 물리적 믹싱 궤적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AES 블록 암호의 내부 라운드(Round) 아키텍처 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평문 데이터 (128-bit Block)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반복 라운드 (10회 ~ 14회 뺑뺑이 루프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SubBytes (혼돈/Confusion) : S-Box 치환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 'A'라는 데이터를 규칙이 전혀 없는 다른 값 'K'로 바꿈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ShiftRows (확산/Diffusion) : 행 단위로 밀어버림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. MixColumns (극강 확산) : 열을 수학적 행렬 곱셈으로 믹싱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1비트만 바뀌어도 블록 전체가 미친 듯이 연쇄 폭발함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. AddRoundKey : 매 라운드마다 쪼개진 암호키(Key)를 XOR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 데이터 (128-bit Block) 도출 완료!</div></div>
+</div>
+</div>
+
+
+
+<strong>혼돈(Confusion)</strong>은 암호문과 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))' 사이의 관계를 숨겨서 해커가 키를 역추적하지 못하게 S-box로 값을 바꿔치기하는 것이다. <strong>확산(Diffusion)</strong>은 원본 평문의 글자 하나(a ➔ b)만 살짝 바뀌어도, 출력되는 암호문 블록 전체(128비트)가 180도 완전히 다른 쓰레기 값(눈사태 효과, Avalanche Effect)으로 렌더링되어 패턴 분석을 원천 봉쇄하는 물리적 믹싱 궤적이다.
 
 - **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 라운드는 '루빅스 큐브(Rubik's Cube) 섞기'다. 색깔을 마구 바꾸는 것(혼돈)과 큐브 전체를 비틀어 층을 돌려버리는 것(확산)을 10번(라운드) 반복하면, 처음 맞춰져 있던 큐브 모양(평문)은 절대 유추할 수 없는 극강의 어지러운 상태(암호문)가 된다.
 
@@ -68,9 +65,9 @@ tags = ["studynote-security"]
 |:---|:---|:---|
 | **제정 연도** | 1977년 (IBM과 NSA가 만듦) | 2001년 (전 세계 공모전에서 채택됨) |
 | **블록 크기** | 64-bit (너무 작아서 충돌 위험) | **128-bit (극도로 안전한 거대한 도마)** |
-| **키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 길이**| 56-bit (최악의 취약점) | **128, 192, 256-bit (우주적 경우의 수)** |
+| <strong>키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 길이</strong>| 56-bit (최악의 취약점) | **128, 192, 256-bit (우주적 경우의 수)** |
 | **내부 구조** | 페이스텔(Feistel) 구조 - 복호화 회로 공유 | **SPN 구조** - 암/복호화 회로 별도 구축으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 광속 연산 |
-| **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)** | **1990년대 무차별 대입(Brute-force)으로 뚫림. 사망** | 현존 최고 존엄. 외계인이 와도 못 푼다고 평가받음 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a></strong> | **1990년대 무차별 대입(Brute-force)으로 뚫림. 사망** | 현존 최고 존엄. 외계인이 와도 못 푼다고 평가받음 |
 
 DES의 치명적 약점은 암호키 길이가 56비트에 불과했다는 점이다. 컴퓨터 CPU가 기하급수적으로 빨라지면서 $2^{56}$번의 경우의 수는 며칠 만에 다 두들겨 맞춰버릴(무차별 대입 공격) 수 있게 되었다. 반면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256은 $2^{256}$가지의 경우의 수를 가지는데, 이는 우주에 있는 모든 원자의 수보다 많아서 태양이 수명을 다해 폭발할 때까지 양자 컴퓨터로도 뚫을 수 없는 철벽이다.
 
@@ -81,8 +78,8 @@ DES의 치명적 약점은 암호키 길이가 56비트에 불과했다는 점�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **운영 모드 (Modes of [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))의 CBC와 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 취사선택**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 1GB(수백만 블록)일 때, 단순히 블록 단위로 AES를 때리면 똑같은 원본(예: 새하얀 배경 이미지)은 똑같은 암호 블록 덩어리를 뱉어내 해커가 펭귄 이미지를 유추할 수 있는 'ECB 펭귄의 저주(ECB 핑거프린팅)'가 터진다. 아키텍트는 앞 블록의 암호화 결과를 뒤 블록 평문에 XOR로 섞어버리는 **[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/))** 모드를 쓰거나, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 고속 연산과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))까지 동시에 때려버리는 현대의 지배자 **[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)(Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)**으로 암호화 파이프라인을 구축해 패턴 유출을 방어한다.
-2. **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 오라클 공격 방어**: 블록 크기가 128비트(16바이트)인데 암호화할 데이터가 10바이트뿐이면, 남는 6바이트를 '06 06 06 06 06 06' (PKCS#7 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 같은 쓰레기 값으로 강제로 채워 넣어 블록 규격을 맞춰야 한다. 서버가 이 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 잘못되었다고 에러 메시지를 뱉어주면, 해커는 그 에러 응답 시간을 악용해 암호문을 한 바이트씩 역산하는 끔찍한 공격([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)을 감행한다. 보안 아키텍트는 에러가 나든 성공하든 무조건 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간과 모호한 메시지를 뱉어내게 코드를 방어해야 한다.
+1. <strong>운영 모드 (Modes of <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>)의 CBC와 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> 취사선택</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 1GB(수백만 블록)일 때, 단순히 블록 단위로 AES를 때리면 똑같은 원본(예: 새하얀 배경 이미지)은 똑같은 암호 블록 덩어리를 뱉어내 해커가 펭귄 이미지를 유추할 수 있는 'ECB 펭귄의 저주(ECB 핑거프린팅)'가 터진다. 아키텍트는 앞 블록의 암호화 결과를 뒤 블록 평문에 XOR로 섞어버리는 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a>(<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">Cipher Block Chaining</a>)</strong> 모드를 쓰거나, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 고속 연산과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))까지 동시에 때려버리는 현대의 지배자 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a>(Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>으로 암호화 파이프라인을 구축해 패턴 유출을 방어한다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>) 오라클 공격 방어</strong>: 블록 크기가 128비트(16바이트)인데 암호화할 데이터가 10바이트뿐이면, 남는 6바이트를 '06 06 06 06 06 06' (PKCS#7 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 같은 쓰레기 값으로 강제로 채워 넣어 블록 규격을 맞춰야 한다. 서버가 이 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 잘못되었다고 에러 메시지를 뱉어주면, 해커는 그 에러 응답 시간을 악용해 암호문을 한 바이트씩 역산하는 끔찍한 공격([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack)을 감행한다. 보안 아키텍트는 에러가 나든 성공하든 무조건 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간과 모호한 메시지를 뱉어내게 코드를 방어해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **"나만의 독자적인(Proprietary) 암호 알고리즘을 짜겠다"는 CISO의 광기**: "오픈소스인 AES는 알고리즘이 다 공개되어 있으니까 위험해. 우리 회사만의 비밀 C언어 암호화 로직을 짜서 쓰자!"라는 건 보안 공학에서 가장 멍청하고 위험한 배임 행위다([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) by Obscurity). 전 세계 수만 명의 천재 수학자들이 수십 년간 두들겨 패도 못 뚫은 AES의 안전성은 공개된 알고리즘의 투명성에서 나온다. 회사에서 독자적으로 짠 비비꼬인 XOR 로직은, 해커가 맘먹고 리버싱하면 5분 만에 수학적 취약점이 털려서 DB가 전부 날아간다. 무조건 국제 표준([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) API를 그대로 가져다 써야 한다.
@@ -105,27 +102,29 @@ DES의 치명적 약점은 암호키 길이가 56비트에 불과했다는 점�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **운영 모드 (Modes of [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))** | 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(1GB)을 수백만 개의 128비트 블록으로 쪼갠 뒤, 앞 블록과 뒷 블록을 어떻게 물고 물리게(체인) 엮을지 결정하는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 필수 조립 설명서 (ECB, [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/), [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
-| **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))** | 마지막 남은 꼬투리 데이터가 도마(128비트 블록) 크기보다 작을 때, 빈 공간을 강제로 솜덩어리로 꽉꽉 채워 넣어 블록 크기를 쇳덩어리 규격에 강제로 맞추는 로직 |
-| **공개키 암호 ([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))** | 속도가 치명적으로 느려 대용량 암호화에 못 쓴다. 그래서 공개키로는 '[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호키' 딱 하나만 몰래 배달하고, 진짜 거대한 데이터는 광속의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)로 잠그는 하이브리드 조합이 쓰인다. |
+| <strong>운영 모드 (Modes of <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>)</strong> | 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(1GB)을 수백만 개의 128비트 블록으로 쪼갠 뒤, 앞 블록과 뒷 블록을 어떻게 물고 물리게(체인) 엮을지 결정하는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 필수 조립 설명서 (ECB, [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/), [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 마지막 남은 꼬투리 데이터가 도마(128비트 블록) 크기보다 작을 때, 빈 공간을 강제로 솜덩어리로 꽉꽉 채워 넣어 블록 크기를 쇳덩어리 규격에 강제로 맞추는 로직 |
+| <strong>공개키 암호 (<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)</strong> | 속도가 치명적으로 느려 대용량 암호화에 못 쓴다. 그래서 공개키로는 '[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호키' 딱 하나만 몰래 배달하고, 진짜 거대한 데이터는 광속의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)로 잠그는 하이브리드 조합이 쓰인다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스트림 암호의 한계 (네트워크 전송 중 비트 손실 시 복구 불가 등 취약점)
-    │
-    ▼
-혼돈(Confusion)과 확산(Diffusion)을 동시 구현하기 위한 블록 암호 철학 등장
-    │
-    ▼
-IBM의 Feistel 구조 기반 DES (64비트 블록 / 56비트 키) 표준 제정 (1970년대)
-    │
-    ▼
-컴퓨터 연산력 폭발에 의한 Brute-force 공격으로 DES 붕괴 및 Triple-DES 한계 봉착
-    │
-    ▼
-SPN 구조를 적용하여 병렬 처리가 가능하고 양자 내성까지 갖춘 AES-256 절대 표준 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스트림 암호의 한계 (네트워크 전송 중 비트 손실 시 복구 불가 등 취약점)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">혼돈(Confusion)과 확산(Diffusion)을 동시 구현하기 위한 블록 암호 철학 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IBM의 Feistel 구조 기반 DES (64비트 블록 / 56비트 키) 표준 제정 (1970년대)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴퓨터 연산력 폭발에 의한 Brute-force 공격으로 DES 붕괴 및 Triple-DES 한계 봉착</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPN 구조를 적용하여 병렬 처리가 가능하고 양자 내성까지 갖춘 AES-256 절대 표준 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "속도와 단순성의 한계 → 수학적 믹싱(블록) 구조 발명 → 연산력 발전에 따른 과거 표준([DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/))의 죽음 → 완벽한 수학적 안전성과 하드웨어 가속([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 통일"이라는 암호 공학의 잔혹한 생존사를 보여준다.
 

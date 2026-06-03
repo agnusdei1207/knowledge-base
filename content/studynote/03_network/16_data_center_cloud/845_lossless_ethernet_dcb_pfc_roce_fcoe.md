@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 트래픽이 미어터져서 버퍼(대기줄 창고)가 꽉 차면, 새로 들어오는 패킷을 가차 없이 버립니다(Tail Drop).
-- **스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/))의 분노**: 앞서 809번([FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/))과 813번([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/))에서 배웠듯, 거대한 하드디스크 연결이나 초저지연 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 메모리 복사 기술은 패킷이 하나라도 드랍되면 엄청난 재전송 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))에 걸려 시스템 전체가 기절해 버립니다.
+- <strong>스토리지(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)와 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 클러스터(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a>)의 분노</strong>: 앞서 809번([FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/))과 813번([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/))에서 배웠듯, 거대한 하드디스크 연결이나 초저지연 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 메모리 복사 기술은 패킷이 하나라도 드랍되면 엄청난 재전송 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))에 걸려 시스템 전체가 기절해 버립니다.
 
-```text
-[가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
-[무손실 이더넷]
-    │
-    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,33 +41,37 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-비싼 '[인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)(811번)' 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)처럼 패킷 드랍이 0%인 완벽한 무결손 환경을, 값싼 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)' [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위에서 구현하기 위해 IEEE(국제전기전자공학회)가 만든 4가지 기능의 묶음 세트, 즉 **DCB ([Data Center](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Bridging)** 표준입니다.
+비싼 '[인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)(811번)' 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)처럼 패킷 드랍이 0%인 완벽한 무결손 환경을, 값싼 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)' [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위에서 구현하기 위해 IEEE(국제전기전자공학회)가 만든 4가지 기능의 묶음 세트, 즉 <strong>DCB (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a> Bridging)</strong> 표준입니다.
 
 ### DCB를 완성하는 4대 필수 톱니바퀴 마법 🌟
 
-1. **PFC (Priority-based [Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/), 최우선 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)) 🌟 핵심 🌟**
+1. <strong>PFC (Priority-based <a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>, 최우선 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>) 🌟 핵심 🌟</strong>
    - 구형 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)도 `Pause(정지)` 프레임 기능이 있었지만, 길이 막히면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전체를 셧다운시켜버려 유튜브 트래픽까지 같이 죽었습니다.
    - **PFC의 마법**: 트래픽을 8개의 차선(Priority 0~7)으로 잘게 쪼갭니다. 3번 차선([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 트래픽)이 막혀서 터지기 직전이면, 앞의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 뒤의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 0.001초 만에 "야! 3번 차선 트래픽 쏘지 말고 잠깐만 정지(Pause)!!"라고 무전을 칩니다. 
    - **결과**: 3번 차선 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 패킷은 바닥에 버려지지 않고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에서 잠깐 안전하게 멈춰 대기합니다. 동시에 나머지 1번 차선(유튜브 트래픽)은 정지되지 않고 쌩쌩 잘 달립니다. 완벽한 무결손 달성입니다.
 
-2. **ETS (Enhanced Transmission [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 할당)**
+2. <strong>ETS (Enhanced Transmission <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 할당)</strong>
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 하나에 10Gbps의 속도가 나옵니다. 
    - ETS는 이 구멍을 쪼개어 "무조건 4Gbps는 [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/) 스토리지망에 주고, 4Gbps는 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) AI망에 주고, 나머지 2Gbps는 잉여 인터넷용으로 배급해!"라고 최소 보장 속도를 칼같이 나눠줍니다. 서로의 밥그릇([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 뺏지 않게 막아줍니다.
 
 3. **QCN (Quantized Congestion Notification)**
    - 차가 막히면 톨게이트에서 멈추는 것(PFC)도 좋지만, 아예 출발지(서버)한테 "야, 저 앞 강남대로 꽉 막혔으니까 지금부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏘는 속도 자체를 좀 늦춰 줘!"라고 알려서 사전에 속도를 줄이는 똑똑한 혼잡 알림(ECN) 기능입니다.
 
-4. **DCBX ([Data Center](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Bridging Exchange)**
+4. <strong>DCBX (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a> Bridging Exchange)</strong>
    - 수백 대의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 저 세 가지 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC, ETS 룰)을 일일이 수동으로 세팅하면 사람이 죽습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 "우리 이렇게 무결손 세팅 맞추자!"라고 1초 만에 지들끼리 알아서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 자동 교환하고 동기화하는 프로토콜입니다.
 
-```text
-[가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
-[무손실 이더넷]
-    │
-    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망은 '무자비한 놀이기구 입구'입니다. 사람이 꽉 찼는데도 계속 밀어 넣고, 밖으로 튕겨 나간 사람(패킷 드랍)은 책임지지 않습니다. **무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(DCB와 PFC)**은 최첨단 '지능형 고속도로 진입로 신호등' 시스템입니다. 톨게이트 전광판([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼)을 1초마다 감시하다가, 1차선(VIP [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 막혀 톨게이트가 미어터질 것 같으면, 즉각 1차선 위에만 '빨간불(Pause 프레임)'을 켭니다. 뒤따라오던 1차선 VIP 차들은 도로 밖으로 튕겨 나가지 않고 제자리에 브레이크를 밟고 안전하게 대기합니다. 길이 뚫리면 다시 파란불을 켜서 통과시킵니다. 차를 단 한 대도 절벽 밑으로 떨어뜨리지 않는 완벽한 0% 패킷 손실 교통 통제 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망은 '무자비한 놀이기구 입구'입니다. 사람이 꽉 찼는데도 계속 밀어 넣고, 밖으로 튕겨 나간 사람(패킷 드랍)은 책임지지 않습니다. <strong>무손실 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(DCB와 PFC)</strong>은 최첨단 '지능형 고속도로 진입로 신호등' 시스템입니다. 톨게이트 전광판([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼)을 1초마다 감시하다가, 1차선(VIP [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 막혀 톨게이트가 미어터질 것 같으면, 즉각 1차선 위에만 '빨간불(Pause 프레임)'을 켭니다. 뒤따라오던 1차선 VIP 차들은 도로 밖으로 튕겨 나가지 않고 제자리에 브레이크를 밟고 안전하게 대기합니다. 길이 뚫리면 다시 파란불을 켜서 통과시킵니다. 차를 단 한 대도 절벽 밑으로 떨어뜨리지 않는 완벽한 0% 패킷 손실 교통 통제 시스템입니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    │
-    ▼
-[현재 개념: 무손실 이더넷]
-    │
-    ├──▶ [확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무손실 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)는 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

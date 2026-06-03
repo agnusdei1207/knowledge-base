@@ -25,15 +25,20 @@ tags = ["bigdata"]
 
 이러한 한계를 극복하기 위해, 의미의 동적 변화를 추적하는 Variability와, 복잡도를 낮추어 인지성을 극대화하는 Visualization이 추가된 7V 체계가 등장하게 되었다.
 
-```text
-이 도식은 데이터의 기계적 처리(5V)를 넘어 인간의 인지와 문맥 이해를 돕는 영역(7V)으로의 확장을 보여준다.
 
-[ 기계/알고리즘 중심 (5V) ]        [ 인간/문맥 중심 (7V) ]
-     Veracity (검증)     ──┐
-           +             ──┼─>  Variability (문맥/상황 변화 해석)
-     Value (가치 도출)   ──┘             +
-                                Visualization (시각적 의사결정)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 데이터의 기계적 처리(5V)를 넘어 인간의 인지와 문맥 이해를 돕는 영역(7V)으로의 확장을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기계/알고리즘 중심 (5V)</div><div class="kb-diagram-node">인간/문맥 중심 (7V)</div></div>
+<div class="kb-diagram-note">Veracity (검증) ──</div>
+<div class="kb-diagram-note">+ ── ─&gt; Variability (문맥/상황 변화 해석)</div>
+<div class="kb-diagram-note">Value (가치 도출) ── +</div>
+<div class="kb-diagram-note">Visualization (시각적 의사결정)</div>
+</div>
+</div>
+
+
 
 이 확장의 핵심은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 보여줄 것인가'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이면적 의미가 어떻게 변하는가'를 시스템 설계에 포함시켰다는 점이다. 소셜 미디어 트렌드 분석이나 주식 시장 예측에서는 어제의 호재성 키워드가 오늘의 악재로 돌변(Variability)할 수 있다. 이를 실시간으로 포착하여 인터랙티브 대시보드(Visualization)로 띄워주지 않으면, 산출된 가치(Value)는 실무 적용의 골든 타임을 놓치고 폐기된다.
 
@@ -47,8 +52,8 @@ Variability와 Visualization을 지원하기 위해서는 문맥을 인식하는
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 관련 도구/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 비유 |
 |:---|:---|:---|:---|:---|
-| **[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Tracker (Variability)** | 시계열/상황별 의미 변화 추적 | 동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Dynamic [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)), 윈도우 기반 트렌드 분석 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) | 카멜레온의 색 변화 감지기 |
-| **[Real-time OLAP](/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/)** | 시각화를 위한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 집계 | 컬럼형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [비트맵 인덱스](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/) 기반 마이크로초 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 | Apache Druid, ClickHouse | 즉각 응답하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 계산기 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Tracker (Variability)</strong> | 시계열/상황별 의미 변화 추적 | 동적 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)(Dynamic [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)), 윈도우 기반 트렌드 분석 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) | 카멜레온의 색 변화 감지기 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/">Real-time OLAP</a></strong> | 시각화를 위한 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 집계 | 컬럼형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [비트맵 인덱스](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/) 기반 마이크로초 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 | Apache Druid, ClickHouse | 즉각 응답하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 계산기 |
 | **Semantic Layer** | 복잡한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 비즈니스 용어와 물리적 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 간의 맵핑 및 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) | LookML, dbt | 통역사가 있는 안내 데스크 |
 | **Rendering Engine (Visualization)**| 인간이 인지 가능한 차트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | WebGL/Canvas 기반 브라우저 내 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 렌더링 | [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/), Superset, D3.js | 복잡한 설계도를 3D 모델로 시각화 |
 
@@ -85,25 +90,27 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 
 | 특성 비교 | Variety (다양성) | Variability (가변성) | 실무적 영향 및 차이점 |
 |:---|:---|:---|:---|
-| **근본 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **구조적/형태적** 다름 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **의미와 문맥의 시간적** 변화 | 포맷(구조) vs 의미(Semantics)의 차이 |
+| <strong>근본 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **구조적/형태적** 다름 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **의미와 문맥의 시간적** 변화 | 포맷(구조) vs 의미(Semantics)의 차이 |
 | **처리 난이도** | 정적 파싱 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), XML 파서 개발) | 동적 추론 (NLP, 딥러닝 문맥 모델링) | 엔지니어링 영역 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언스 영역 |
 | **주요 사례** | 텍스트, 이미지, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 오디오 혼재 | 계절에 따른 검색어 의미 변화, 유행어 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)-온-리드 vs 윈도우 기반 트렌드 감지 |
 | **시각화 연계** | 포맷별 별도 뷰어 필요 | 시계열 흐름에 따른 감성 변화 애니메이션 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 정적 레이아웃 vs 동적 상태 변화 렌더링 |
 
 한편, Visualization 시스템을 구축할 때 렌더링 방식에 따른 트레이드오프 역시 심층적으로 비교해야 한다.
 
-```text
-이 매트릭스는 대시보드 시각화(Visualization) 아키텍처 설계 시, 데이터 처리 위치에 따른 성능 트레이드오프를 가이드한다.
 
-┌────────────────┬──────────────────────────┬──────────────────────────┐
-│ 방식           │ In-Memory BI (Tableau 등)│ Direct Query (Superset 등)│
-├────────────────┼──────────────────────────┼──────────────────────────┤
-│ 데이터 처리    │ BI 서버 메모리로 추출(Extract)│ DB로 직접 쿼리 전달(Live) │
-│ 응답 속도      │ 매우 빠름 (단일 화면 렌더)│ DB 성능에 강하게 종속됨  │
-│ 데이터 신선도  │ 낮음 (주기적 배치 업데이트)│ 매우 높음 (실시간 Variability 반영)│
-│ 실무 판단      │ 과거 데이터 정적 보고서용│ 실시간 모니터링 대시보드용│
-└────────────────┴──────────────────────────┴──────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 매트릭스는 대시보드 시각화(Visualization) 아키텍처 설계 시, 데이터 처리 위치에 따른 성능 트레이드오프를 가이드한다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">In-Memory BI (Tableau 등)</div><div class="kb-diagram-cell">Direct Query (Superset 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 처리</div><div class="kb-diagram-cell">BI 서버 메모리로 추출(Extract)</div><div class="kb-diagram-cell">DB로 직접 쿼리 전달(Live)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 속도</div><div class="kb-diagram-cell">매우 빠름 (단일 화면 렌더)</div><div class="kb-diagram-cell">DB 성능에 강하게 종속됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 신선도</div><div class="kb-diagram-cell">낮음 (주기적 배치 업데이트)</div><div class="kb-diagram-cell">매우 높음 (실시간 Variability 반영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 판단</div><div class="kb-diagram-cell">과거 데이터 정적 보고서용</div><div class="kb-diagram-cell">실시간 모니터링 대시보드용</div></div>
+</div>
+</div>
+
+
 
 이 표의 해설적 가치는, Variability가 극심한 환경(예: 실시간 장애 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 트위터 여론 분석)에서는 아무리 UI가 예쁘더라도 In-Memory 추출 방식을 쓰면 안 된다는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 과거의 문맥을 담고 있기 때문이다. [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Query 기반으로 실시간 OLAP과 직접 결합해야만 7V의 진정한 시너지가 발휘된다.
 
@@ -115,22 +122,27 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 
 실무에서 7V를 적용할 때 겪는 가장 흔한 실패는 무분별한 시각화(Chart Junk)와 문맥 해석 오류다.
 
-```text
-이 의사결정 트리는 시각화(Visualization) 대시보드 설계 시 인지적 과부하를 막기 위한 체크리스트 흐름을 나타낸다.
 
-[시각화 요구사항 도출]
-        ↓
-[Variability 체크] ──(시계열 의미 변화가 큰가?)──> [Yes] ─> 정적 파이 차트 배제 / 라인 애니메이션 채택
-        ↓ [No]
-[인지 과부하 체크] ──(한 화면에 차트 5개 초과?)──> [Yes] ─> KPI 중심 요약 / 드릴다운(Drill-down) 분리
-        ↓ [No]
-[렌더링 한계 체크] ──(수백만 포인트 산점도?)──> [Yes] ─> 헥스빈(Hexbin) 군집화 / 서버 사이드 샘플링
-        ↓ [No]
-[최종 인터랙티브 대시보드 배포]
-```
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 대응**
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율 실패**: 단순한 수치 하나를 보여주기 위해 화려한 3D 게이지 차트를 사용하여 오히려 경영진의 직관적 해석을 방해하는 경우. 시각화의 목적은 '아름다움'이 아니라 '빠른 판단'이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 의사결정 트리는 시각화(Visualization) 대시보드 설계 시 인지적 과부하를 막기 위한 체크리스트 흐름을 나타낸다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 요구사항 도출</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Variability 체크</div><div class="kb-diagram-note">──(시계열 의미 변화가 큰가?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; 정적 파이 차트 배제 / 라인 애니메이션 채택</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인지 과부하 체크</div><div class="kb-diagram-note">──(한 화면에 차트 5개 초과?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; KPI 중심 요약 / 드릴다운(Drill-down) 분리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">렌더링 한계 체크</div><div class="kb-diagram-note">──(수백만 포인트 산점도?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; 헥스빈(Hexbin) 군집화 / 서버 사이드 샘플링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 인터랙티브 대시보드 배포</div></div>
+</div>
+</div>
+
+
+
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 대응</strong>
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 잉크 비율 실패</strong>: 단순한 수치 하나를 보여주기 위해 화려한 3D 게이지 차트를 사용하여 오히려 경영진의 직관적 해석을 방해하는 경우. 시각화의 목적은 '아름다움'이 아니라 '빠른 판단'이다.
 2. **문맥 무시 필터링**: 코로나19 이전의 소비 패턴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 이후의 패턴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 동일한 축(Variability 무시)에 놓고 선형 회귀 시각화를 하여 심각한 예측 오류를 범하는 사례. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 구조적 변화 지점([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))을 시각적으로 명확히 단절시켜 표현해야 한다.
 
 > 📢 **섹션 요약 비유**: 복잡한 비행기 조종석([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 일반인에게 보여주면 아무것도 조종할 수 없다. 중요한 고도와 속도만 큼직하게 HUD(헤드업 디스플레이)에 시각화(Visualization)해 주어야 즉각적인 대처가 가능하다.
@@ -148,29 +160,31 @@ Variability(가변성)는 Variety(다양성)와 헷갈리기 쉽지만 명확히
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)** | 시간이 지남에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성이나 목표 변수의 문맥(Variability)이 변하는 현상
-- **[Real-time OLAP](/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/)** | 대규모 시각화 연산을 1초 미만으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리하기 위한 ClickHouse, Druid 등의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술
-- **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율)** | 불필요한 디자인 요소를 줄이고 핵심 정보 전달에 시각적 자원을 집중해야 한다는 시각화 기본 원칙
-- **Drill-down & [Roll-up](/knowledge-base/studynote/05_database/06_dw_olap_trends/330_olap_rollup_drilldown/)** | 시각화 대시보드에서 요약된 상위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 상세한 하위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 계층적으로 탐색하는 상호작용 기법
-- **[Data Democratization](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) ([데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/))** | 고도의 시각화와 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 통해 비개발자도 자유롭게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 활용할 수 있게 하는 철학
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">Concept Drift</a></strong> | 시간이 지남에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성이나 목표 변수의 문맥(Variability)이 변하는 현상
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/099_realtime_olap/">Real-time OLAP</a></strong> | 대규모 시각화 연산을 1초 미만으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리하기 위한 ClickHouse, Druid 등의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 기술
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>-Ink Ratio (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 잉크 비율)</strong> | 불필요한 디자인 요소를 줄이고 핵심 정보 전달에 시각적 자원을 집중해야 한다는 시각화 기본 원칙
+- <strong>Drill-down &amp; <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/330_olap_rollup_drilldown/">Roll-up</a></strong> | 시각화 대시보드에서 요약된 상위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 상세한 하위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 계층적으로 탐색하는 상호작용 기법
+- <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/">Data Democratization</a> (<a href="/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/">데이터 민주화</a>)</strong> | 고도의 시각화와 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)를 통해 비개발자도 자유롭게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 활용할 수 있게 하는 철학
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Concept Drift]
-    │
-    ▼
-[Real-time OLAP]
-    │
-    ▼
-[Data-Ink Ratio (데이터 잉크 비율)]
-    │
-    ▼
-[Drill-down & Roll-up]
-    │
-    ▼
-[Data Democratization (데이터 민주화)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Concept Drift</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Real-time OLAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data-Ink Ratio (데이터 잉크 비율)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Drill-down &amp; Roll-up</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Democratization (데이터 민주화)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Drift에서 출발해 [Data Democratization](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) ([데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

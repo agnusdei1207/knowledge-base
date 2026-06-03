@@ -11,15 +11,15 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TOCTOU는 프로그램이 어떤 자원([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 변수, 권한 등)에 접근하기 전에 **'유효한지 검사(Check)'**를 하고 통과한 뒤, **'실제 작업(Use)'**을 수행하기 위해 손을 뻗는 그 0.001초의 틈새에, 다른 해커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자원의 상태를 악의적으로 바꿔치기하는 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 취약점이다.
+> 1. **본질**: TOCTOU는 프로그램이 어떤 자원([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 변수, 권한 등)에 접근하기 전에 <strong>'유효한지 검사(Check)'</strong>를 하고 통과한 뒤, <strong>'실제 작업(Use)'</strong>을 수행하기 위해 손을 뻗는 그 0.001초의 틈새에, 다른 해커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자원의 상태를 악의적으로 바꿔치기하는 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 취약점이다.
 > 2. **가치**: 겉보기에는 완벽한 방어 로직(예: "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 존재하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) $\rightarrow$ [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)")을 짠 것 같지만, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(락)가 결여된 검사는 휴지조각에 불과하다는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 가장 뼈아픈 진실을 알려주는 척도다.
-> 3. **융합**: 이 취약점은 단순히 소프트웨어 버그를 넘어 심각한 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 탈취나 시스템 파괴로 이어지며, 이를 막기 위해서는 검사와 사용을 하나로 묶는 **[원자적 트랜잭션](/knowledge-base/studynote/02_operating_system/04_synchronization/267_atomic_transaction/)(Atomic [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))**이나 엄격한 **[뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/)([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/))** 처리가 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))의 법적 필수로 요구된다.
+> 3. **융합**: 이 취약점은 단순히 소프트웨어 버그를 넘어 심각한 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 탈취나 시스템 파괴로 이어지며, 이를 막기 위해서는 검사와 사용을 하나로 묶는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/267_atomic_transaction/">원자적 트랜잭션</a>(Atomic <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>)</strong>이나 엄격한 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">뮤텍스 락</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/">Mutex Lock</a>)</strong> 처리가 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))의 법적 필수로 요구된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> ⚠️ 이 문서는 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)나 다중 프로세스 환경에서, "검사(Check)하는 시점"과 "실제로 사용하는(Use) 시점" 사이의 아주 짧은 찰나의 틈을 비집고 들어와 데이터를 변조해 버리는 가장 악랄하고 고전적인 보안 취약점인 **TOCTOU (검사 시점과 사용 시점의 불일치) [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)**을 다룹니다.
+> ⚠️ 이 문서는 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)나 다중 프로세스 환경에서, "검사(Check)하는 시점"과 "실제로 사용하는(Use) 시점" 사이의 아주 짧은 찰나의 틈을 비집고 들어와 데이터를 변조해 버리는 가장 악랄하고 고전적인 보안 취약점인 <strong>TOCTOU (검사 시점과 사용 시점의 불일치) <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">경쟁 조건</a></strong>을 다룹니다.
 
 웹 서버에서 사용자가 자기 프로필 사진(profile.png)을 삭제하는 기능을 구현했다고 치자.
 개발자는 보안을 위해 이렇게 코드를 짰다.
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
 해커는 악성 스크립트를 짜서 1번(검사)과 3번(사용) 사이의 찰나의 순간에, `profile.png` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지우고 그 자리에 서버의 핵심 비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 `/etc/shadow`로 연결되는 지름길([심볼릭 링크](/knowledge-base/studynote/02_operating_system/09_file_system/512_symbolic_link/))을 몰래 생성해 버린다.
 3번 줄이 실행될 때, 삭제 함수는 해커의 사진이 아니라 서버의 심장(비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 무참히 삭제해 버린다. (권한 우회 대참사)
 
-이처럼 **검사할 때(Time of Check)**는 정상이었는데, **사용할 때(Time of Use)**는 해커의 함정으로 바뀌어 있는 악몽을 **TOCTOU (톡투)** 취약점이라고 부른다.
+이처럼 <strong>검사할 때(Time of Check)</strong>는 정상이었는데, <strong>사용할 때(Time of Use)</strong>는 해커의 함정으로 바뀌어 있는 악몽을 **TOCTOU (톡투)** 취약점이라고 부른다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -54,26 +54,24 @@ TOCTOU는 주로 [파일](/knowledge-base/studynote/02_operating_system/09_file_
 - 해커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2: (동시에 다른 창에서 100만 원 송금 버튼을 눌러 먼저 빼감! 잔액 0원)
 - 은행 서버: `잔액 = 잔액 - 100만 원` $\rightarrow$ (내 통장 잔고가 마이너스 100만 원이 되며 은행 돈이 털림).
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│           TOCTOU (Time of Check to Time of Use) 공격 흐름 시각화        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 정상 프로그램 (Victim) ]                [ 해커 프로그램 (Attacker) ]  │
-│                                                                         │
-│ 1. Check (검사)                                                         │
-│    "권한이 정상인가?" ───────── (통과)                                  │
-│                                  │                                      │
-│ 2. ⏳ (CPU 스케줄링으로 인한 멈춤 찰나)     💥 해커 난입!               │
-│                                  ├───▶ 1. 정상 파일을 싹 치워버림       │
-│                                  ├───▶ 2. 악성 폭탄 파일로 몰래 교체!   │
-│                                                                         │
-│ 3. Use (사용/실행)                                                      │
-│    파일 삭제 실행! ─────────────── (💣 쾅!) 해커의 폭탄을 실행해버림    │
-│                                                                         │
-│ ★ 핵심: Check와 Use가 분리되어 있으면 무조건 그 사이에 틈이 생긴다.     │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TOCTOU (Time of Check to Time of Use) 공격 흐름 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 프로그램 (Victim)</div><div class="kb-diagram-node">해커 프로그램 (Attacker)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Check (검사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"권한이 정상인가?" (통과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ⏳ (CPU 스케줄링으로 인한 멈춤 찰나) 💥 해커 난입!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 정상 파일을 싹 치워버림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 악성 폭탄 파일로 몰래 교체!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Use (사용/실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 삭제 실행! (💣 쾅!) 해커의 폭탄을 실행해버림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 핵심: Check와 Use가 분리되어 있으면 무조건 그 사이에 틈이 생긴다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) OS에서는 CPU가 언제 내 프로그램의 실행을 멈추고([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 남의 프로그램을 돌릴지 예측할 수 없다. 1번 줄과 3번 줄이 바로 붙어있어도, 그 사이에 운영체제가 100번 넘게 프로그램을 멈췄다 재개할 수 있다. 그 모든 틈새가 해커에게는 문이 활짝 열린 놀이터가 된다.
 
@@ -98,7 +96,7 @@ synchronized(lock) {
 ```
 
 #### 2. [원자적 트랜잭션](/knowledge-base/studynote/02_operating_system/04_synchronization/267_atomic_transaction/) (Atomic Operations) 사용
-- 데이터베이스나 OS가 제공하는 **'단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Atomic)'**를 쓴다.
+- 데이터베이스나 OS가 제공하는 <strong>'단일 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(Atomic)'</strong>를 쓴다.
 - 예를 들어, 잔액 출금 시 검사와 출금을 따로 하지 않고, 쿼리문 한 방으로 던진다.
   `UPDATE accounts SET balance = balance - 100 WHERE balance >= 100;` (DB가 알아서 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 보장)
 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 경우, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들 때 `O_CREAT | O_EXCL` 옵션을 결합해서 열면, OS가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 존재하면 열지 마(Check)"와 "없으면 열어라(Use)"를 찰나의 틈새 없이 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 한 방에 완벽하게 처리해 준다.
@@ -135,15 +133,19 @@ TOCTOU 취약점은 개발자가 정적(Static)인 코드의 논리만 맹신하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
-    │
-    ▼
-[세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    │
-    ├──▶ [임계 구역 크기 최소화 기법]
-    └──▶ [락 경합 (Lock Contention) 모니터링 도구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 크기 최소화 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 경합 (Lock Contention) 모니터링 도구</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

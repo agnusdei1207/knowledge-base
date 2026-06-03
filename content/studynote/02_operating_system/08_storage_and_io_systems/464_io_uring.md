@@ -11,44 +11,45 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: `io_uring`은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1에 혜성처럼 등장한 차세대 100% 비동기 I/O(Asynchronous I/O) 프레임워크로, **유저 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간이 램(RAM)을 공유하여 두 개의 거대한 링 버퍼(Ring Buffer)를 놓고 포인터만 교환하며 데이터를 처리하는 극강의 제로 오버헤드 아키텍처**다.
-> 2. **가치**: 기존 `epoll`이 요구하던 "이벤트가 오면 유저가 직접 시스템 콜(`read`)을 쳐서 데이터를 복사해 가야 하는 병목([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 렉)"을 우주 끝까지 소멸시켜버려, **시스템 콜 횟수 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))으로 수십만 IOPS의 디스크/네트워크 작업을 쳐내는 압도적인 스루풋**을 달성한다.
-> 3. **융합**: 네트워크 통신([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))에서만 빛을 발하던 `epoll`의 한계를 넘어, **일반 하드디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O까지 완벽한 비동기(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))로 융합**시킴으로써 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진과 웹서버 생태계의 판도를 갈아엎는 게임 체인저로 등극했다.
+> 1. **본질**: `io_uring`은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1에 혜성처럼 등장한 차세대 100% 비동기 I/O(Asynchronous I/O) 프레임워크로, <strong>유저 공간과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간이 램(RAM)을 공유하여 두 개의 거대한 링 버퍼(Ring Buffer)를 놓고 포인터만 교환하며 데이터를 처리하는 극강의 제로 오버헤드 아키텍처</strong>다.
+> 2. **가치**: 기존 `epoll`이 요구하던 "이벤트가 오면 유저가 직접 시스템 콜(`read`)을 쳐서 데이터를 복사해 가야 하는 병목([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 렉)"을 우주 끝까지 소멸시켜버려, <strong>시스템 콜 횟수 0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)으로 수십만 IOPS의 디스크/네트워크 작업을 쳐내는 압도적인 스루풋</strong>을 달성한다.
+> 3. **융합**: 네트워크 통신([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))에서만 빛을 발하던 `epoll`의 한계를 넘어, <strong>일반 하드디스크 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> I/O까지 완벽한 비동기(Non-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">blocking</a>)로 융합</strong>시킴으로써 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진과 웹서버 생태계의 판도를 갈아엎는 게임 체인저로 등극했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: `io_uring`은 링(Ring) 형태의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 2개를 유저와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 셰어하우스처럼 같이 쓰는 시스템이다. 유저는 '제출 링(Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), SQ)'에 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어줘"라고 쪽지만 밀어 넣고 딴일 하러 간다(시스템 콜 안 부름!). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 백그라운드에서 그 쪽지를 빼서 디스크를 긁어온 뒤, '완료 링(Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), CQ)'에 "다 퍼왔다!"라고 데이터와 함께 쪽지를 던져놓는다. 
-- **필요성**: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 1초에 기가바이트를 뿜어내는 시대가 왔다. 하드웨어는 엄청나게 빠른데, 리눅스의 I/O 소프트웨어(`epoll`, `libaio`)가 멍청해서 속도를 갉아먹었다. `epoll`은 알림만 줄 뿐 결국 데이터를 가져오려면 유저가 `read()` 함수를 호출해야 했다. `read()`를 호출하면? 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 넘어가는 **'시스템 콜([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))'** 렉이 터진다. 초당 100만 번 `read`를 치면 CPU가 이 모드 전환 비용(Overhead)에 깔려 즉사한다. "아니, 그냥 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이랑 유저 사이에 중간 바구니([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 놔두고, 시스템 콜 칠 필요 없이 바구니로만 쪽지를 주고받으면 안 돼?"라는 발상의 전환이 `io_uring`을 탄생시켰다.
+- **필요성**: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 1초에 기가바이트를 뿜어내는 시대가 왔다. 하드웨어는 엄청나게 빠른데, 리눅스의 I/O 소프트웨어(`epoll`, `libaio`)가 멍청해서 속도를 갉아먹었다. `epoll`은 알림만 줄 뿐 결국 데이터를 가져오려면 유저가 `read()` 함수를 호출해야 했다. `read()`를 호출하면? 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 넘어가는 <strong>'시스템 콜(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>)'</strong> 렉이 터진다. 초당 100만 번 `read`를 치면 CPU가 이 모드 전환 비용(Overhead)에 깔려 즉사한다. "아니, 그냥 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이랑 유저 사이에 중간 바구니([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 놔두고, 시스템 콜 칠 필요 없이 바구니로만 쪽지를 주고받으면 안 돼?"라는 발상의 전환이 `io_uring`을 탄생시켰다.
 
 - **등장 배경 및 리눅스의 열등감 폭발**:
   1. **윈도우 IOCP의 30년 독주**: 윈도우는 옛날부터 완벽한 비동기 I/O(Proactor)로 게임 서버 시장을 지배했다.
   2. **리눅스 AIO의 폭망**: 리눅스의 구형 `libaio`는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시를 쓰면 블로킹에 빠지는 등 반쪽짜리 쓰레기라 엔지니어들이 혐오했다.
   3. **Jens Axboe의 빡침**: 페이스북의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커 옌스 악스보(Jens Axboe)가 "이따위 AIO 못 쓰겠다. 내가 싹 다 갈아엎는다"라며 2019년에 혜성처럼 `io_uring`을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 밀어 넣으며 단숨에 윈도우 IOCP의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 목밑까지 추격했다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        epoll (과거의 렉) vs io_uring (미래의 빛) 파이프라인 시각화        │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ ▶ 1. `epoll` 기반의 데이터 수신 (시스템 콜 폭발 💣)                       │
-│  1) 유저가 `epoll_wait()` 호출 ──(커널 진입)──▶ "아직 안 왔네 대기!"      │
-│  2) 랜카드 데이터 도착! 커널이 "야 데이터 왔다!" 알림 던짐.               │
-│  3) 유저가 알림 받고 `read()` 호출 ──(커널 진입 또 함!)──▶ 데이터 복사    │
-│  💥 결과: 1번 통신에 무거운 [시스템 콜(문맥 교환)]이 최소 2~3회 터짐.     │
-│                                                                           │
-│ ▶ 2. `io_uring` 기반의 데이터 수신 (시스템 콜 제로 🚀)                    │
-│  [ 유저와 커널이 램(mmap)을 공유하는 2개의 링(Ring) 버퍼가 있음 ]         │
-│  1) 유저: [SQ(제출 링)]에 "데이터 오면 버퍼A에 줘" 쪽지 밀어 넣고 딴일함. │
-│     (※ 🌟 시스템 콜 안 부름! 그냥 메모리 배열에 글씨만 쓴 거임)           │
-│  2) 커널(Polling): 백그라운드에서 쪽지 발견! 디스크/랜카드 긁어옴.        │
-│  3) 커널: 버퍼A에 데이터 꽉 채우고 [CQ(완료 링)]에 "다 담았음" 쪽지 투척. │
-│  4) 유저: 나중에 [CQ] 열어보고 "오 왔네!" 하고 냠냠 먹음.                 │
-│  ✅ 결과: 유저 <-> 커널 간 무거운 시스템 콜(System Call) 횟수 [0회]!      │
-└───────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 이 아키텍처의 혁명성은 **'[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))'의 극한 활용**에 있다. 유저 프로세스와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 본래 절대 섞일 수 없는 물과 기름이지만, 램에 조그만 공터(SQ, CQ 링버퍼)를 파놓고 서로의 가상 주소를 그곳에 다이렉트로 꽂아주어 '메모리 복사'와 '권한 검문소(시스템 콜)'를 통째로 철거해 버린 것이다. 보안의 벽을 허물지 않고도 통신 고속도로를 뚫은 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해킹의 정수다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">epoll (과거의 렉) vs io_uring (미래의 빛) 파이프라인 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. <code>epoll</code> 기반의 데이터 수신 (시스템 콜 폭발 💣)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 유저가 <code>epoll_wait()</code> 호출 ──(커널 진입)──▶ "아직 안 왔네 대기!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 랜카드 데이터 도착! 커널이 "야 데이터 왔다!" 알림 던짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 유저가 알림 받고 <code>read()</code> 호출 ──(커널 진입 또 함!)──▶ 데이터 복사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💥 결과: 1번 통신에 무거운</div><div class="kb-diagram-node">시스템 콜(문맥 교환)</div><div class="kb-diagram-note">이 최소 2~3회 터짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. <code>io_uring</code> 기반의 데이터 수신 (시스템 콜 제로 🚀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저와 커널이 램(mmap)을 공유하는 2개의 링(Ring) 버퍼가 있음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1) 유저:</div><div class="kb-diagram-node">SQ(제출 링)</div><div class="kb-diagram-note">에 "데이터 오면 버퍼A에 줘" 쪽지 밀어 넣고 딴일함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 🌟 시스템 콜 안 부름! 그냥 메모리 배열에 글씨만 쓴 거임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 커널(Polling): 백그라운드에서 쪽지 발견! 디스크/랜카드 긁어옴.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3) 커널: 버퍼A에 데이터 꽉 채우고</div><div class="kb-diagram-node">CQ(완료 링)</div><div class="kb-diagram-note">에 "다 담았음" 쪽지 투척.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4) 유저: 나중에</div><div class="kb-diagram-node">CQ</div><div class="kb-diagram-note">열어보고 "오 왔네!" 하고 냠냠 먹음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-node">0회</div><div class="kb-diagram-note">!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 이 아키텍처의 혁명성은 <strong>'<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 매핑(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>)'의 극한 활용</strong>에 있다. 유저 프로세스와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 본래 절대 섞일 수 없는 물과 기름이지만, 램에 조그만 공터(SQ, CQ 링버퍼)를 파놓고 서로의 가상 주소를 그곳에 다이렉트로 꽂아주어 '메모리 복사'와 '권한 검문소(시스템 콜)'를 통째로 철거해 버린 것이다. 보안의 벽을 허물지 않고도 통신 고속도로를 뚫은 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해킹의 정수다.
 
 - **📢 섹션 요약 비유**: 옛날엔 관공서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 서류(I/O)를 내려면 내가 직접 문을 열고 들어가서 번호표 뽑고 창구 직원과 대화해야 했습니다(시스템 콜). `io_uring`은 관공서 건물 벽에 작은 투입구(SQ)와 배출구(CQ)를 뚫어버린 겁니다. 나는 밖에서 투입구로 서류만 쓱 밀어 넣고 커피 마시다 오면, 배출구에 처리된 도장이 찍힌 서류가 툭 떨어져 있습니다. 관공서 문을 열고 들어갈 필요([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 1도 없는 비대면 스마트 행정입니다.
 
@@ -60,11 +61,11 @@ tags = ["studynote-operating-system"]
 
 `io_uring`이라는 이름 자체가 I/O를 위한 '유저(u)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring)'이라는 뜻을 담고 있다.
 
-1. **Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (SQ, 제출 큐)**:
+1. <strong>Submission <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (SQ, 제출 큐)</strong>:
    - 유저(앱)가 쓴다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 읽는다.
    - "500번지 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 읽어줘", "10번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 A 써줘" 같은 임무 지시서(SQE, SQ Entry)를 차곡차곡 쌓는다.
    - 꼬리(Tail) 포인터는 유저가 밀고, 머리(Head) 포인터는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 당기며 처리한다.
-2. **Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (CQ, 완료 큐)**:
+2. <strong>Completion <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (CQ, 완료 큐)</strong>:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 쓴다. 유저(앱)가 읽는다.
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 하드웨어 조작을 끝내면 "아까 시킨 일 다 했어! 성공/실패 여부는 이거야"라는 결과 보고서(CQE)를 쌓는다.
    - 꼬리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 밀고, 머리는 유저가 당기며 수거해 간다.
@@ -80,7 +81,7 @@ tags = ["studynote-operating-system"]
 - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 아예 백그라운드에 전담 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 1개를 영구적으로 띄워놓는다.
 - 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 `while(1)`을 돌며 미친 듯이 유저의 SQ 바구니만 쳐다보고 있다.
 - 유저가 SQ에 쪽지를 딱! 놓는 순간, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 0.0001초 만에 낚아채서 디스크로 들고 튄다.
-- **결과**: 유저는 평생 시스템 콜을 한 번도 호출할 필요 없이, 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(SQ)에 값만 적어주면 알아서 디스크 I/O가 펑펑 터지는 진정한 **100% [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-System-[Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 아키텍처**가 완성된다.
+- **결과**: 유저는 평생 시스템 콜을 한 번도 호출할 필요 없이, 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(SQ)에 값만 적어주면 알아서 디스크 I/O가 펑펑 터지는 진정한 <strong>100% <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-System-<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> 아키텍처</strong>가 완성된다.
 
 - **📢 섹션 요약 비유**: 우체통(SQ)에 편지를 넣고 우체부 아저씨한테 "가져가세요!(시스템 콜)"라고 카톡을 쳐야 하는 게 일반 모드라면, SQPOLL 모드는 아예 우체부 아저씨가 우리 집 우체통 앞에서 24시간 쪼그려 앉아 대기하다가 편지가 떨어지는 0.1초 찰나에 바로 오토바이를 타고 출발해 버리는 미친 VIP 전담 배송 서비스입니다.
 
@@ -94,23 +95,26 @@ tags = ["studynote-operating-system"]
 
 | I/O 프레임워크 | 동작 방식 | 장점 | 치명적 한계 (단점) |
 |:---|:---|:---|:---|
-| **동기 (Sync) `read/write`**| 내가 멈춰서 직접 퍼옴 | 코드 짜기 너무 편함 | 1만 접속 오면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭발로 서버 즉사 |
-| **`epoll` (리눅스 대세)** | 알림 오면 내가 직접 퍼옴 | 네트워크([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 1만 명 거뜬함 | **디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 긁을 땐 강제 멈춤([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 터짐. 시스템 콜 많이 부름** |
-| **`libaio` (구형 리눅스 AIO)**| OS가 퍼다 주고 콜백 부름 | DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 긁을 때 멈춤 없음 | `O_DIRECT` 안 쓰면 블로킹 터지는 반쪽짜리 쓰레기 |
-| **`io_uring` (차세대 제왕)**| **OS가 링버퍼로 조용히 퍼다 놓음**| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이든 구별 없이 100% 넌블로킹! 시스템 콜 0회 달성!** | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1 이상 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필요. 도입 초기라 코딩 복잡함 |
+| <strong>동기 (Sync) <code>read/write</code></strong>| 내가 멈춰서 직접 퍼옴 | 코드 짜기 너무 편함 | 1만 접속 오면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭발로 서버 즉사 |
+| <strong><code>epoll</code> (리눅스 대세)</strong> | 알림 오면 내가 직접 퍼옴 | 네트워크([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 1만 명 거뜬함 | <strong>디스크 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 긁을 땐 강제 멈춤(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>) 터짐. 시스템 콜 많이 부름</strong> |
+| <strong><code>libaio</code> (구형 리눅스 AIO)</strong>| OS가 퍼다 주고 콜백 부름 | DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 긁을 때 멈춤 없음 | `O_DIRECT` 안 쓰면 블로킹 터지는 반쪽짜리 쓰레기 |
+| <strong><code>io_uring</code> (차세대 제왕)</strong>| **OS가 링버퍼로 조용히 퍼다 놓음**| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이든 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>이든 구별 없이 100% 넌블로킹! 시스템 콜 0회 달성!</strong> | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1 이상 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필요. 도입 초기라 코딩 복잡함 |
 
 ### 왜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O에서 `epoll`은 안 되고 `io_uring`은 되는가?
 - `epoll`은 "데이터가 올지 안 올지 모르는(네트워크)" 장비만 감시할 수 있다. 하드디스크처럼 "데이터가 무조건 그 자리에 있는" [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)를 `epoll`에 넣으면 "항상 준비 완료(Always Ready)!"라고 구라를 친다. 그래서 결국 `read()`를 때리면 디스크 바늘이 움직이는 8ms 동안 꼼짝없이 블로킹(멈춤)에 빠진다.
-- 하지만 `io_uring`은 **OS에게 "디스크에서 퍼와서 램에 놔둬"라는 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 자체를 하청 주는([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 구조**다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안쪽 깊숙한 비동기 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이 이 더러운 8ms 블로킹을 대신 쳐맞아주기 때문에, 유저의 메인 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1나노초도 안 멈추고 100% 미끄러지듯 굴러가는 완벽한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 비동기가 최초로 성립했다.
+- 하지만 `io_uring`은 <strong>OS에게 "디스크에서 퍼와서 램에 놔둬"라는 작업(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a>) 자체를 하청 주는(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>) 구조</strong>다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안쪽 깊숙한 비동기 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이 이 더러운 8ms 블로킹을 대신 쳐맞아주기 때문에, 유저의 메인 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1나노초도 안 멈추고 100% 미끄러지듯 굴러가는 완벽한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 비동기가 최초로 성립했다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 프레임워크  │ 네트워크 소켓  │ 디스크 파일 I/O│ 시스템 콜 오버헤드│
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ epoll    │ 🟢 완벽함   │ ☠️ 블로킹 터짐 │ 🔴 심하게 튐            │
-│ io_uring │ 🚀 미친 속도 │ 🚀 로켓 스피드 │ 🟢 거의 없음 (0)       │
-└──────────┴────────────┴────────────┴──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크</div><div class="kb-diagram-cell">네트워크 소켓</div><div class="kb-diagram-cell">디스크 파일 I/O</div><div class="kb-diagram-cell">시스템 콜 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">epoll</div><div class="kb-diagram-cell">🟢 완벽함</div><div class="kb-diagram-cell">☠️ 블로킹 터짐</div><div class="kb-diagram-cell">🔴 심하게 튐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">io_uring</div><div class="kb-diagram-cell">🚀 미친 속도</div><div class="kb-diagram-cell">🚀 로켓 스피드</div><div class="kb-diagram-cell">🟢 거의 없음 (0)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** `io_uring`의 등장으로 인해 Node.js나 Nginx 개발자들은 뒤통수를 한 대 맞았다. 지금까지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 렉을 없애겠다고 뒤로 몰래 C++ [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))을 파서 더럽게 우회하던 모든 눈물겨운 꼼수들이 더 이상 필요 없어졌다. `io_uring` 한 방이면 네트워크 패킷이든 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든 똑같이 비동기로 미끄럽게 빼낼 수 있는 만능 치트키가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에 추가되었기 때문이다.
 
 - **📢 섹션 요약 비유**: `epoll`은 식당(서버)에서 배달(네트워크) 주문 처리엔 기가 막히지만, 직접 농장(디스크) 가서 배추 캐오는 일([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O)은 알바생([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 밭에 가서 직접 다 캐야 해서 시간이 다 뺏깁니다. `io_uring`은 아예 배추 캐는 외주 용역([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))을 계약해서, 알바생은 요리(연산)만 하고 배추든 배달이든 바구니(링버퍼)로 쏙쏙 1초 만에 넘겨받는 요식업계의 혁명입니다.
@@ -121,9 +125,9 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: RocksDB와 Redis의 `io_uring` 도입 전쟁
 1. **문제 상황**: 인메모리 캐시인 Redis조차도 최신 100Gbps 네트워크 환경에서는 1만 번의 `epoll` 시스템 콜([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 벽에 부딪혔다. 
-2. **`io_uring` 벤치마크의 충격**:
+2. <strong><code>io_uring</code> 벤치마크의 충격</strong>:
    - 디스크 DB인 RocksDB나 캐시인 Redis에 `io_uring` 엔진을 붙여서 테스트해 보았다.
-   - 기존 `epoll` 대비 **초당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(IOPS)이 20%~40% 이상 공짜로 뻥튀기**되고, CPU 사용률은 오히려 떨어지는 기적의 벤치마크 결과가 전 세계 IT 커뮤니티를 휩쓸었다.
+   - 기존 `epoll` 대비 <strong>초당 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(IOPS)이 20%~40% 이상 공짜로 뻥튀기</strong>되고, CPU 사용률은 오히려 떨어지는 기적의 벤치마크 결과가 전 세계 IT 커뮤니티를 휩쓸었다.
 3. **생태계의 대격변**:
    - 현재(2025년경), Node.js (libuv), Java (Netty), Python (asyncio), Golang 등 전 세계 백엔드를 지배하는 모든 런타임 언어들이 밑바닥 `epoll` 코드를 뜯어내고 `io_uring`을 디폴트 엔진으로 갈아 끼우기 위한 대공사에 돌입했다.
    - "서버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 5.1 이상으로 올리고 `io_uring`을 켜는 것"만으로 회사 인프라 비용을 수억 원 깎을 수 있는 현대 백엔드 튜닝의 최전선이다.
@@ -144,7 +148,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 오버헤드 멸종** | `read`, `write`, `epoll_wait` 등 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 동반하던 낡은 통신 방식을 버리고 0회 호출로 수만 건의 I/O 배치(Batch) 처리 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a> 오버헤드 멸종</strong> | `read`, `write`, `epoll_wait` 등 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 동반하던 낡은 통신 방식을 버리고 0회 호출로 수만 건의 I/O 배치(Batch) 처리 |
 | **Unified Async I/O (대통합)** | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(Network)과 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(Disk)로 나뉘어 각각 `epoll`과 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)로 더럽게 찢어 처리하던 파편화 코드를 단일 링버퍼 인터페이스로 우아하게 통일 |
 | **CPU 효율의 극한화 (Poll 모드)**| 인터럽트를 아예 끄고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 링을 쳐다보게 하는(SQPOLL) 하드코어 세팅을 통해, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 100만 IOPS 스펙을 CPU 병목 없이 100% 쥐어짬 |
 
@@ -167,15 +171,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[epoll / kqueue]
-    │
-    ▼
-[io_uring (I/O Uring)]
-    │
-    ├──▶ [하드 디스크 드라이브 (HDD) 구조]
-    └──▶ [논리적 블록 주소 (LBA, Logical Block Address)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">epoll / kqueue</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">io_uring (I/O Uring)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

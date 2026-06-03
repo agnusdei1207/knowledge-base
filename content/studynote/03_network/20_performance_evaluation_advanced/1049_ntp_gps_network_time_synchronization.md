@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 컴퓨터 안에는 수은 건전지로 돌아가는 조그만 시계(RTC, Real Time [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 칩이 있습니다.
 - 이 싸구려 칩은 수정 발진자를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 기온이 변하거나 건전지가 닳으면 하루에 몇 초씩 시간이 멋대로 빨라지거나 느려지는 끔찍한 오차([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Drift)를 냅니다. 서버 2대의 시계가 1분 차이 나면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 박살이 납니다.
 
-```text
-[IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
-[NTP / GPS 동기화]
-    │
-    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,29 +42,33 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 피라미드 꼭대기, 절대 권력자입니다.
-- 우주에 떠 있는 30여 개의 **GPS 인공위성**들 뱃속에는 무려 수만 년에 1초 오차가 나는 완벽한 '세슘 원자시계'가 박혀있습니다.
+- 우주에 떠 있는 30여 개의 <strong>GPS 인공위성</strong>들 뱃속에는 무려 수만 년에 1초 오차가 나는 완벽한 '세슘 원자시계'가 박혀있습니다.
 - GPS 위성은 이 절대 시간을 전파에 실어 계속 지구로 쏴 내립니다.
-- 지구에 있는 국가 표준 서버(한국표준과학연구원 타임 서버 등)는 지붕에 GPS [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 달아놓고 이 우주 전파를 받아서 **지구상의 절대 시간(UTC)**을 확정합니다.
+- 지구에 있는 국가 표준 서버(한국표준과학연구원 타임 서버 등)는 지붕에 GPS [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 달아놓고 이 우주 전파를 받아서 <strong>지구상의 절대 시간(UTC)</strong>을 확정합니다.
 
 1048번 PTP가 나노초(10억분의 1초) 강박증 환자라면, NTP는 적당히 밀리초(0.001초)만 맞춰도 감사한 일반 인터넷 환경의 갓성비 표준입니다.
 
 - **개념**: 인터넷망에 물린 컴퓨터들의 시간을 절대 시간(UTC)으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키기 위해 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 123)으로 통신하는 30년 넘은 고전적이고 강력한 글로벌 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 프로토콜입니다.
 
 ### 스트라텀 (Stratum) 계층 구조 (시험 단골) 🌟 핵심 🌟
-NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서버가 터지는 걸 막기 위해, 거대한 **피라미드 다단계 구조(계층형)**로 짜여 있습니다.
+NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서버가 터지는 걸 막기 위해, 거대한 <strong>피라미드 다단계 구조(계층형)</strong>로 짜여 있습니다.
 - **Stratum 0 (절대 신)**: GPS 원자시계 자체입니다. 네트워크 통신 기능이 없는 순수 하드웨어 시계입니다.
 - **Stratum 1 (1차 서버)**: GPS [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(Stratum 0)를 전선으로 직접 꽂아 직빵으로 절대 시간을 받아오는 극강의 정확도를 가진 최상위 컴퓨터 타임 서버들입니다. (국가 기관 등)
 - **Stratum 2 (중간 도매상)**: 수만 대의 일반 PC가 Stratum 1에 몰리면 뻗으니까, 방패막이로 세워둔 중간 타임 서버들입니다. 얘네들은 인터넷(LAN)을 통해 Stratum 1에게 시간을 물어보고([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 자기가 다시 하위 서버들에게 뿌립니다.
-- **Stratum 3 ~ 15 (하위 소매상 및 개인 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))**: 계속 다단계로 내려가며 우리 집 윈도우 PC는 대략 Stratum 3이나 4급 서버(`time.windows.com`)에 접속해 시간을 맞춰옵니다. (Stratum 번호가 16이면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 불가를 뜻합니다.)
+- <strong>Stratum 3 ~ 15 (하위 소매상 및 개인 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong>: 계속 다단계로 내려가며 우리 집 윈도우 PC는 대략 Stratum 3이나 4급 서버(`time.windows.com`)에 접속해 시간을 맞춰옵니다. (Stratum 번호가 16이면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 불가를 뜻합니다.)
 
-```text
-[IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
-[NTP / GPS 동기화]
-    │
-    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -83,8 +91,8 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 내 PC가 타임 서버에 "지금 몇 시야?" 물어봅니다. 서버가 "3시 정각!" 대답했는데 우리 집에 패킷이 도착할 때까지 인터넷이 막혀서 1초가 걸렸습니다. 나는 3시 1초에 3시로 맞추는 오차가 생깁니다.
-- **오차 보정 마법 ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: NTP는 편지를 한 번 보내고 마는 게 아닙니다. 내 PC가 편지를 **보낸 시간($T_1$)**, 서버가 **받은 시간($T_2$)**, 서버가 **답장 쏜 시간($T_3$)**, 내 PC가 **최종 답장 받은 시간($T_4$)** 4가지 도장을 쾅쾅 찍어 왕복합니다.
-- 내 PC의 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 데몬(소프트웨어)은 이 4가지 숫자를 수학 공식에 넣어, **'인터넷망에서 패킷이 날아오느라 허공에서 버린 편도 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay)'을 기가 막히게 역산하여 빼버립니다.** 이 꼼수 덕분에 일반 인터넷망에서도 수십 밀리초(ms) 이내의 쓸만한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 성립되는 것입니다.
+- <strong>오차 보정 마법 (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>: NTP는 편지를 한 번 보내고 마는 게 아닙니다. 내 PC가 편지를 **보낸 시간($T_1$)**, 서버가 **받은 시간($T_2$)**, 서버가 **답장 쏜 시간($T_3$)**, 내 PC가 **최종 답장 받은 시간($T_4$)** 4가지 도장을 쾅쾅 찍어 왕복합니다.
+- 내 PC의 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 데몬(소프트웨어)은 이 4가지 숫자를 수학 공식에 넣어, <strong>'인터넷망에서 패킷이 날아오느라 허공에서 버린 편도 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(Delay)'을 기가 막히게 역산하여 빼버립니다.</strong> 이 꼼수 덕분에 일반 인터넷망에서도 수십 밀리초(ms) 이내의 쓸만한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 성립되는 것입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 컴퓨터의 자체 시계는 밥을 제때 안 주면 하루에 1분씩 오차가 나는 **'싸구려 태엽 시계'**입니다. 이 시계를 전 세계인이 똑같이 맞추기 위한 **[NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 피라미드 아키텍처**는 **'거대한 다단계 시계 맞추기 전파망'**입니다. 맨 꼭대기(Stratum 0)에는 절대 틀리지 않는 **'우주 GPS 원자시계'**가 있습니다. 한국표준과학연구원(Stratum 1 대장)은 망원경으로 그 우주 시계를 쳐다보며 자기 손목시계를 정확히 맞춥니다. KT 통신사 서버(Stratum 2 중간 보스)는 표준연구원 대장에게 전화를 걸어 "대장님 지금 몇 시입니까?" 묻고 자기 시계를 맞춥니다. 우리 집 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Stratum 3 쫄따구)는 KT 서버에 다시 전화해서 시간을 물어보고 내 컴퓨터 시계를 고칩니다. 전화 통화를 하느라 발생하는 목소리 전달 딜레이조차 수학 공식으로 다 깎아내어, 전 세계 수십억 대의 싸구려 태엽 시계들이 다단계 릴레이로 우주의 절대 시간과 0.01초 차이로 심장을 같이 뛰게 만드는 인터넷의 위대한 시계탑 시스템입니다.
+- **📢 섹션 요약 비유**: 컴퓨터의 자체 시계는 밥을 제때 안 주면 하루에 1분씩 오차가 나는 <strong>'싸구려 태엽 시계'</strong>입니다. 이 시계를 전 세계인이 똑같이 맞추기 위한 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a> 피라미드 아키텍처</strong>는 <strong>'거대한 다단계 시계 맞추기 전파망'</strong>입니다. 맨 꼭대기(Stratum 0)에는 절대 틀리지 않는 <strong>'우주 GPS 원자시계'</strong>가 있습니다. 한국표준과학연구원(Stratum 1 대장)은 망원경으로 그 우주 시계를 쳐다보며 자기 손목시계를 정확히 맞춥니다. KT 통신사 서버(Stratum 2 중간 보스)는 표준연구원 대장에게 전화를 걸어 "대장님 지금 몇 시입니까?" 묻고 자기 시계를 맞춥니다. 우리 집 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Stratum 3 쫄따구)는 KT 서버에 다시 전화해서 시간을 물어보고 내 컴퓨터 시계를 고칩니다. 전화 통화를 하느라 발생하는 목소리 전달 딜레이조차 수학 공식으로 다 깎아내어, 전 세계 수십억 대의 싸구려 태엽 시계들이 다단계 릴레이로 우주의 절대 시간과 0.01초 차이로 심장을 같이 뛰게 만드는 인터넷의 위대한 시계탑 시스템입니다.
 
 ---
 
@@ -115,15 +123,19 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IEEE 1588 PTP 시각 동기망]
-    │
-    ▼
-[현재 개념: NTP / GPS 동기화]
-    │
-    ├──▶ [확장 A: RDMA / RoCE 스토리지 서버 네트워킹]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NTP / GPS 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 IEEE 1588 PTP 시각 동기망에서 출발해 현재 메커니즘을 정교화하고, 이후 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

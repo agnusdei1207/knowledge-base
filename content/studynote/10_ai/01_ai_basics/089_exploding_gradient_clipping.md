@@ -29,26 +29,25 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-기울기 폭발을 막는 가장 직관적이고 강력한 처방은 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 클리핑 (Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))**이다. 이는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 계산된 기울기가 특정 임곗값 (Threshold)을 넘어서면, 그 크기를 강제로 잘라내는([Clip](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)) 방식이다.
+기울기 폭발을 막는 가장 직관적이고 강력한 처방은 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 클리핑 (Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a>)</strong>이다. 이는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)로 계산된 기울기가 특정 임곗값 (Threshold)을 넘어서면, 그 크기를 강제로 잘라내는([Clip](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/)) 방식이다.
 
 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 클리핑은 크게 두 가지 방식으로 나뉜다. 값 클리핑 (Value [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 각 파라미터의 기울기 값을 개별적으로 자르는 방식이고, 노름 클리핑 (Norm [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 기울기 벡터 전체의 방향은 유지한 채 길이(L2 Norm)만 임곗값으로 축소하는 방식이다. 딥러닝에서는 방향성 왜곡을 막기 위해 주로 노름 클리핑을 사용한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           가중치 클리핑 (Norm Clipping) 동작 원리            │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 역전파 수행 ─▶ 2. 기울기 벡터(g) 계산 ─▶ 3. Norm(||g||) 확인 │
-│                                                              │
-│       ┌── ||g|| > Threshold 인가? ──┐                        │
-│       │                             │                        │
-│     [Yes]                         [No]                       │
-│       ▼                             ▼                        │
-│  방향 유지, 길이 축소          기울기 그대로 유지            │
-│  g = g * (Threshold / ||g||)                                 │
-│       │                             │                        │
-│       └───────────▶ 4. 가중치 갱신 ◀───────────┘            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 클리핑 (Norm Clipping) 동작 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 역전파 수행 ─▶ 2. 기울기 벡터(g) 계산 ─▶ 3. Norm(</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">) 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">&gt; Threshold 인가? ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Yes</div><div class="kb-diagram-node">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향 유지, 길이 축소 기울기 그대로 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">g = g * (Threshold /</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4. 가중치 갱신 ◀</div></div>
+</div>
+</div>
+
+
 
 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) ([Weight Initialization](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 역시 중요하다. Xavier [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 사용하여 처음부터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 1 근처로 안정적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 반복 곱셈이 발생해도 값이 폭주하거나 소멸하는 현상을 원천적으로 완화할 수 있다.
 
@@ -67,7 +66,7 @@ tags = ["studynote-ai"]
 | **직접적 해결** | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 클리핑 (Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 변경 ([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등) |
 | **구조적 해결** | [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) | 잔차 연결 (Residual Connection) |
 
-전통적인 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 동일한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 시점마다 반복 곱하므로 기울기 폭발에 가장 취약하다. 이 문제를 우회하기 위해, 곱셈이 아닌 덧셈 위주로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전달하는 **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))**이나 **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) ([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/))** 같은 게이트(Gate) 기반 구조가 탄생하여 RNN의 표준으로 자리 잡았다.
+전통적인 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))은 동일한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 시점마다 반복 곱하므로 기울기 폭발에 가장 취약하다. 이 문제를 우회하기 위해, 곱셈이 아닌 덧셈 위주로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전달하는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">Long Short-Term Memory</a>)</strong>이나 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">Gated Recurrent Unit</a>)</strong> 같은 게이트(Gate) 기반 구조가 탄생하여 RNN의 표준으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 소문이 사람을 거칠수록 작아져 끝내 사라지는 것이고, 기울기 폭발은 소문이 눈덩이처럼 과장되어 폭동으로 번지는 것이다. 클리핑은 폭동을 막는 경찰 방패막이다.
 
@@ -79,9 +78,9 @@ tags = ["studynote-ai"]
 
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **클리핑 임곗값 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: PyTorch 등 프레임워크에서 `clip_grad_norm_` 함수를 적용했는가? (통상 임곗값은 1.0~5.0 사이로 잡는다.)
-2. **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) 적용**: 층 사이를 지날 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 재조정하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 팽창을 막아주고 있는가?
-3. **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 너무 커서 발산의 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 되지 않았는지 웜업(Warm-up)이나 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 적용했는가?
+1. <strong>클리핑 임곗값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: PyTorch 등 프레임워크에서 `clip_grad_norm_` 함수를 적용했는가? (통상 임곗값은 1.0~5.0 사이로 잡는다.)
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>) 적용</strong>: 층 사이를 지날 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 재조정하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 팽창을 막아주고 있는가?
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Rate) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 너무 커서 발산의 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 되지 않았는지 웜업(Warm-up)이나 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 적용했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -107,27 +106,29 @@ tags = ["studynote-ai"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **연쇄 법칙 (Chain Rule)** | 딥러닝 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 수학적 근간이자 기울기 폭발의 원인 |
-| **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))** | 활성화 값을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 기울기 폭발/소실을 동시에 완화하는 밸브 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> | 활성화 값을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 기울기 폭발/소실을 동시에 완화하는 밸브 |
 | **L2 Norm 클리핑** | 기울기의 방향(비율)은 유지하면서 크기만 강제로 줄이는 기법 |
-| **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))** | 반복 곱셈의 약점을 덧셈 기반 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))로 극복한 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">Long Short-Term Memory</a>)</strong> | 반복 곱셈의 약점을 덧셈 기반 셀 상태(Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))로 극복한 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 아키텍처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-역전파 미분값 반복 누적
-    │
-    ▼
-기울기 폭발 (Exploding Gradient) · NaN 오류
-    │
-    ▼
-가중치 클리핑 (Gradient Clipping) · He/Xavier 초기화
-    │
-    ▼
-배치 정규화 (Batch Normalization)
-    │
-    ▼
-LSTM · GRU · ResNet (구조적 우회로 설계)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">역전파 미분값 반복 누적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기울기 폭발 (Exploding Gradient) · NaN 오류</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가중치 클리핑 (Gradient Clipping) · He/Xavier 초기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배치 정규화 (Batch Normalization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSTM · GRU · ResNet (구조적 우회로 설계)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

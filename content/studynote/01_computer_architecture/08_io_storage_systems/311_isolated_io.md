@@ -19,31 +19,31 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-분리형 I/O (Isolated I/O)는 **CPU (Central Processing Unit)가 메모리를 읽고 쓰는 길과 장치를 읽고 쓰는 길을 논리적으로 분리**한 방식이다. 즉, 같은 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰더라도 "이 값은 메모리 주소인가, I/O [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인가"를 별도 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 구분한다. 그래서 장치는 메모리 셀처럼 보이지 않고, 독립된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 집합으로 취급된다.
+분리형 I/O (Isolated I/O)는 <strong>CPU (Central Processing Unit)가 메모리를 읽고 쓰는 길과 장치를 읽고 쓰는 길을 논리적으로 분리</strong>한 방식이다. 즉, 같은 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰더라도 "이 값은 메모리 주소인가, I/O [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인가"를 별도 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 구분한다. 그래서 장치는 메모리 셀처럼 보이지 않고, 독립된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 집합으로 취급된다.
 
 이 구조가 등장한 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템의 주소 공간이 매우 좁았기 때문이다. 16비트, 20비트 수준의 환경에서는 몇 KB, 몇십 KB를 장치 제어용으로 떼어 주는 일조차 부담이었다. 만약 모든 장치를 MMIO로 배치하면, 그만큼 실제 프로그램과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사용할 수 있는 메모리 공간이 줄어든다. 분리형 I/O는 이 문제를 피하기 위해 "메모리는 메모리대로, 장치는 장치대로" 관리하는 해법이 되었다.
 
 또한 설계 의도 측면에서도 장점이 있었다. 메모리 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 장치 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준에서 분리하면, 하드웨어 제어 행위가 더 분명해진다. 예를 들어 `IN`, `OUT` 같은 명령은 "지금은 장치와 대화한다"는 뜻을 즉시 드러내므로, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 제어 로직이 명시적인 형태를 갖는다.
 
-```text
-┌─────────────────────────────────────┬─────────────────────────────────────┐
-│ 메모리 맵 I/O (MMIO)               │ 분리형 I/O (Isolated I/O)          │
-├─────────────────────────────────────┼─────────────────────────────────────┤
-│ 주소 공간 하나를 함께 사용         │ 주소 공간을 둘로 나눠 사용         │
-│                                     │                                     │
-│ 0x0000 ───────────────┐             │ 메모리: 0x0000 ───────────────┐    │
-│                       │             │                              │    │
-│      Main Memory      │             │         Main Memory          │    │
-│                       │             │                              │    │
-│ 0xDFFF ───────────────┘             │ 0xFFFF ──────────────────────┘    │
-│ 0xE000 ───────────────┐             │                                     │
-│      Device Reg       │             │ 포트:   0x0000 ──────────────┐    │
-│ 0xFFFF ───────────────┘             │         I/O Port Space       │    │
-│                                     │ 0xFFFF ──────────────────────┘    │
-└─────────────────────────────────────┴─────────────────────────────────────┘
-```
 
-이 그림의 핵심은 **분리형 I/O가 메모리 공간 보존을 위해 주소 체계를 이원화**한다는 점이다. 그래서 역사적으로는 메모리가 귀하던 시대에 특히 설득력이 컸고, 오늘날에는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 측면에서 그 흔적이 남아 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 I/O (MMIO)</div><div class="kb-diagram-cell">분리형 I/O (Isolated I/O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 공간 하나를 함께 사용</div><div class="kb-diagram-cell">주소 공간을 둘로 나눠 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0000</div><div class="kb-diagram-cell">메모리: 0x0000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">Main Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xDFFF</div><div class="kb-diagram-cell">0xFFFF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xE000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device Reg</div><div class="kb-diagram-cell">포트: 0x0000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFF</div><div class="kb-diagram-cell">I/O Port Space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFF</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 <strong>분리형 I/O가 메모리 공간 보존을 위해 주소 체계를 이원화</strong>한다는 점이다. 그래서 역사적으로는 메모리가 귀하던 시대에 특히 설득력이 컸고, 오늘날에는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 측면에서 그 흔적이 남아 있다.
 
 📢 섹션 요약 비유: 작은 집에서 책장을 더 놓고 싶을 때, 거실 한쪽을 포기하는 대신 창고를 따로 두는 방식이 분리형 I/O다.
 
@@ -51,7 +51,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-분리형 I/O의 핵심은 **전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) + [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소 + 구분 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**의 조합이다. CPU가 메모리 접근 명령을 실행하면 메모리 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 활성화되고, I/O 명령을 실행하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소와 I/O 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 함께 나간다. 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 일부 공유하더라도, 시스템은 이 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보고 지금 요청이 메모리용인지 장치용인지 판별한다.
+분리형 I/O의 핵심은 <strong>전용 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> + <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 주소 + 구분 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>의 조합이다. CPU가 메모리 접근 명령을 실행하면 메모리 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 활성화되고, I/O 명령을 실행하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소와 I/O 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 함께 나간다. 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 일부 공유하더라도, 시스템은 이 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보고 지금 요청이 메모리용인지 장치용인지 판별한다.
 
 대표적으로 x86 계열에서는 `IN`, `OUT` 명령이 사용된다. [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)는 보통 16비트로 해석되며, 주소 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 해당 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 보고 특정 장치의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 선택한다. 이때 장치 입장에서는 "메모리 주소의 일부"가 아니라 "내 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)가 호출되었는가"가 반응 조건이 된다.
 
@@ -65,32 +65,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 CPU가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 어떤 경로로 동작하는지를 보여 준다.
 
-```text
-┌──────────────┐      ┌────────────────┐      ┌────────────────┐
-│     CPU      │      │  Address Bus   │      │  Control Bus   │
-└──────┬───────┘      └────────┬───────┘      └────────┬───────┘
-       │  IN AL, port                   │                       │
-       ├───────────────────────────────▶│  port number          │
-       │                                ├──────────────────────▶│ I/O read
-       │                                │                       │ signal
-       ▼                                ▼                       ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                       I/O Address Decoder                           │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 포트 번호 일치                │ 포트 번호 불일치                     │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ 해당 장치 선택                │ 다른 장치는 무시                     │
-└───────────────┬───────────────┴──────────────────────────────────────┘
-                ▼
-         ┌──────────────┐
-         │ I/O Device   │
-         │ Data Register│
-         └──────┬───────┘
-                ▼
-            Data Bus
-                ▼
-               CPU
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">Address Bus</div><div class="kb-diagram-cell">Control Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IN AL, port</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">port number</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">I/O read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Address Decoder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 번호 일치</div><div class="kb-diagram-cell">포트 번호 불일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 장치 선택</div><div class="kb-diagram-cell">다른 장치는 무시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Register</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Bus</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU</div>
+</div>
+</div>
+
+
 
 중요한 점은 메모리 컨트롤러가 이 요청에 직접 반응하지 않는다는 것이다. 즉, 분리형 I/O에서는 **제어 경로의 의미가 먼저 갈리고**, 그다음에 주소 해석이 일어난다. 이 때문에 하드웨어는 명확하지만, 반대로 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합과 제어 로직은 다소 복잡해질 수 있다.
 
@@ -100,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-분리형 I/O를 제대로 이해하려면 MMIO와의 경계를 분명히 봐야 한다. 두 방식 모두 CPU와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받게 하지만, **무엇을 주소로 보느냐**와 **어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쓰느냐**가 다르다. 이 차이는 단순 문법 차이가 아니라, 하드웨어 복잡도·프로그래밍 방식·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장성에 직접 연결된다.
+분리형 I/O를 제대로 이해하려면 MMIO와의 경계를 분명히 봐야 한다. 두 방식 모두 CPU와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받게 하지만, <strong>무엇을 주소로 보느냐</strong>와 <strong>어떤 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 쓰느냐</strong>가 다르다. 이 차이는 단순 문법 차이가 아니라, 하드웨어 복잡도·프로그래밍 방식·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장성에 직접 연결된다.
 
 | 항목 | 분리형 I/O (Isolated I/O) | 메모리 맵 I/O (MMIO) |
 | :--- | :--- | :--- |
@@ -113,7 +110,7 @@ tags = ["studynote-computer-architecture"]
 
 왜 현대 시스템은 대부분 MMIO로 기울었을까? 첫째, 32비트·64비트 환경에서는 주소 공간이 과거보다 훨씬 넓어져 "메모리 공간을 아끼기 위해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 따로 둘" 이유가 약해졌다. 둘째, 고속 장치는 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)뿐 아니라 대규모 버퍼, 큐, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상태를 함께 다뤄야 하므로 메모리처럼 연속된 공간으로 다루는 편이 훨씬 유연하다. 셋째, 컴파일러·[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·드라이버 관점에서도 MMIO가 더 자연스럽다.
 
-그럼에도 분리형 I/O는 컴퓨터구조를 이해하는 데 중요하다. 이 개념은 **Programmed I/O**, **[Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)**, **[Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)**, **[Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/) ([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))** 같은 후속 I/O 제어 방식과 연결되며, 특히 "CPU가 장치와 대화하는 경로를 어떻게 분리하고 조직하는가"를 보여 주는 역사적 단계이기 때문이다. 즉, 분리형 I/O는 단순한 구식 기술이 아니라, I/O 제어가 독립된 설계 축이라는 사실을 선명하게 드러낸다.
+그럼에도 분리형 I/O는 컴퓨터구조를 이해하는 데 중요하다. 이 개념은 **Programmed I/O**, <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a></strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a></strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>)</strong> 같은 후속 I/O 제어 방식과 연결되며, 특히 "CPU가 장치와 대화하는 경로를 어떻게 분리하고 조직하는가"를 보여 주는 역사적 단계이기 때문이다. 즉, 분리형 I/O는 단순한 구식 기술이 아니라, I/O 제어가 독립된 설계 축이라는 사실을 선명하게 드러낸다.
 
 📢 섹션 요약 비유: 분리형 I/O와 MMIO의 차이는 전용 리모컨으로만 조작하는 가전과 스마트폰 앱 하나로 통합 제어하는 가전의 차이와 비슷하다.
 
@@ -121,9 +118,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 분리형 I/O는 "주류 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술"이라기보다 **레거시 호환 기술**로 보는 것이 정확하다. 예를 들어 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계, 오래된 키보드 컨트롤러, 타이머, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 같은 전통적 장치는 여전히 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 제어를 남겨 두는 경우가 있다. 하지만 고속 네트워크 카드, 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 비휘발성 메모리 익스프레스 ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 저장장치처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 중요한 장치에는 거의 쓰이지 않는다.
+실무에서 분리형 I/O는 "주류 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술"이라기보다 <strong>레거시 호환 기술</strong>로 보는 것이 정확하다. 예를 들어 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계, 오래된 키보드 컨트롤러, 타이머, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 같은 전통적 장치는 여전히 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 제어를 남겨 두는 경우가 있다. 하지만 고속 네트워크 카드, 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 비휘발성 메모리 익스프레스 ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 저장장치처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 중요한 장치에는 거의 쓰이지 않는다.
 
-기술사 관점의 판단 포인트는 분명하다. **주소 공간 절약**이 절대 과제이고, 제어 대상이 단순하며, 기존 x86 소프트웨어 자산을 반드시 유지해야 한다면 분리형 I/O는 타당한 선택이 될 수 있다. 반대로 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 많고, 메모리와 유사한 방식의 범용 접근이 필요하며, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리·드라이버 확장성이 중요하다면 MMIO가 훨씬 적합하다.
+기술사 관점의 판단 포인트는 분명하다. <strong>주소 공간 절약</strong>이 절대 과제이고, 제어 대상이 단순하며, 기존 x86 소프트웨어 자산을 반드시 유지해야 한다면 분리형 I/O는 타당한 선택이 될 수 있다. 반대로 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 많고, 메모리와 유사한 방식의 범용 접근이 필요하며, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리·드라이버 확장성이 중요하다면 MMIO가 훨씬 적합하다.
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -150,7 +147,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 한계도 분명하다. 별도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 별도 주소 체계는 하드웨어·소프트웨어 양쪽 모두에 특수성을 남긴다. 또한 현대 시스템이 요구하는 대규모 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합, 고속 전송, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 친화성, 드라이버 추상화에는 MMIO와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 중심 설계가 더 잘 맞는다.
 
-따라서 분리형 I/O는 "과거의 낡은 방식"으로만 기억하면 반쪽짜리 이해다. 더 정확한 기억법은 **주소 공간이 희소할 때의 합리적 해법이자, 현대 시스템에서는 레거시 호환 계층으로 남아 있는 방식**이라는 것이다. 즉, 이 개념은 사라진 것이 아니라 역할이 축소된 채 역사적·실무적 의미를 유지하고 있다.
+따라서 분리형 I/O는 "과거의 낡은 방식"으로만 기억하면 반쪽짜리 이해다. 더 정확한 기억법은 <strong>주소 공간이 희소할 때의 합리적 해법이자, 현대 시스템에서는 레거시 호환 계층으로 남아 있는 방식</strong>이라는 것이다. 즉, 이 개념은 사라진 것이 아니라 역할이 축소된 채 역사적·실무적 의미를 유지하고 있다.
 
 📢 섹션 요약 비유: 분리형 I/O는 작은 도시에서 길을 아껴 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 만든 전용 골목길이었다. 지금은 대로가 넓어졌지만, 오래된 동네를 지나갈 때는 여전히 그 골목길 지도가 필요하다.
 
@@ -169,25 +166,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-좁은 주소 공간 시대
-        │
-        ▼
-분리형 I/O (Isolated I/O)
-        │
-        ├─▶ 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)
-        │
-        ├─▶ 인터럽트 (Interrupt) 기반 I/O
-        │
-        ▼
-메모리 맵 I/O (Memory-Mapped I/O)
-        │
-        ▼
-DMA (Direct Memory Access) · 고속 장치 제어
-        │
-        ▼
-현대 버스/가속기 중심 통합 I/O
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">좁은 주소 공간 시대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분리형 I/O (Isolated I/O)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터럽트 (Interrupt) 기반 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 맵 I/O (Memory-Mapped I/O)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access) · 고속 장치 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 버스/가속기 중심 통합 I/O</div>
+</div>
+</div>
+
+
 
 이 흐름은 "주소 공간 절약" 중심 설계에서 "확장성과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)" 중심 설계로 무게중심이 이동한 과정을 보여 준다.
 

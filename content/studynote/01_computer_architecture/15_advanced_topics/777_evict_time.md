@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Evict+Time은 공격자가 특정 캐시 세트를 먼저 축출(Evict)한 뒤 피해자의 **전체 실행 시간(Time)** 변화를 측정해, 비밀 연산이 그 세트에 의존했는지 추론하는 캐시 부채널 공격이다.
-> 2. **가치**: [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)나 `clflush` 없이도 성립해 적용 범위가 넓지만, 개별 캐시 라인이 아니라 **프로그램 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 평균적 변화**를 읽는 저해상도 공격이라는 점이 핵심이다.
+> 2. **가치**: [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)나 `clflush` 없이도 성립해 적용 범위가 넓지만, 개별 캐시 라인이 아니라 <strong>프로그램 전체 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 평균적 변화</strong>를 읽는 저해상도 공격이라는 점이 핵심이다.
 > 3. **판단 포인트**: 노이즈에 약하므로 상수 시간 구현, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions), 캐시 격리, 타이머 완화가 방어의 핵심이며, 공격자는 보통 수천~수십만 회 반복과 통계 검정을 함께 사용한다.
 
 ---
@@ -23,19 +23,22 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 
 이 방식이 중요한 이유는 현실의 많은 시스템이 세밀한 캐시 상태는 감추더라도 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체는 숨기기 어렵기 때문이다. 특히 T-table 기반 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 구현처럼 키 의존 인덱스가 특정 캐시 세트 사용량을 바꾸는 코드에서는, 한 세트를 고의로 불리하게 만들었을 때 평균 실행 시간이 달라진다. 즉 Evict+Time은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 낮아도, 블랙박스 환경에 가까운 조건에서 성립하는 "범용형 캐시 공격"으로 이해해야 한다.
 
-아래 그림은 Evict+Time이 개별 메모리 접근이 아니라 **전체 런타임의 이동**을 관찰한다는 점을 보여준다.
+아래 그림은 Evict+Time이 개별 메모리 접근이 아니라 <strong>전체 런타임의 이동</strong>을 관찰한다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Evict+Time watches total runtime, not a single cache access     │
-├──────────────────────────────────────────────────────────────────┤
-│ 1) Baseline run : victim(input) -> T_base                       │
-│ 2) Evict set S : attacker fills all ways of one cache set       │
-│ 3) Victim rerun : victim(input) -> T_evict                      │
-│ 4) Compare      : ΔT = T_evict - T_base                         │
-│ 5) Repetition   : if ΔT stays positive, set S likely mattered   │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evict+Time watches total runtime, not a single cache access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Baseline run : victim(input) -&gt; T_base</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Evict set S : attacker fills all ways of one cache set</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Victim rerun : victim(input) -&gt; T_evict</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Compare : ΔT = T_evict - T_base</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) Repetition : if ΔT stays positive, set S likely mattered</div></div>
+</div>
+</div>
+
+
 
 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 단 한 번 느려졌다고 바로 공격이 성립하는 것은 아니다. 핵심은 같은 입력 조건을 반복했을 때, 특정 세트를 eviction한 경우에만 평균값이나 중앙값이 유의미하게 오른다는 사실을 포착하는 데 있다.
 
@@ -60,17 +63,20 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 
 아래 그림은 한 캐시 세트가 eviction된 뒤 피해자가 다시 같은 세트를 쓰면서 refill penalty를 떠안는 구조를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Example: one 4-way cache set S                                 │
-├──────────────────────────────────────────────────────────────────┤
-│ Before attack : [ V0 ][ V1 ][ V2 ][ V3 ]  victim-owned lines    │
-│ Attacker fill : [ A0 ][ A1 ][ A2 ][ A3 ]  same-set addresses    │
-│ After eviction: [ A0 ][ A1 ][ A2 ][ A3 ]  victim lines gone     │
-│ Victim rerun   : needs set S -> refill from lower cache / DRAM   │
-│ Observable     : extra misses accumulate into total runtime      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example: one 4-way cache set S</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Before attack :</div><div class="kb-diagram-node">V0</div><div class="kb-diagram-node">V1</div><div class="kb-diagram-node">V2</div><div class="kb-diagram-node">V3</div><div class="kb-diagram-note">victim-owned lines</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Attacker fill :</div><div class="kb-diagram-node">A0</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">A3</div><div class="kb-diagram-note">same-set addresses</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">After eviction:</div><div class="kb-diagram-node">A0</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">A3</div><div class="kb-diagram-note">victim lines gone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim rerun : needs set S -&gt; refill from lower cache / DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observable : extra misses accumulate into total runtime</div></div>
+</div>
+</div>
+
+
 
 이 기법의 본질은 캐시를 "훔쳐보는" 것이 아니라 캐시를 "괴롭혀서 느려지게 만드는" 데 있다. 그래서 관찰 해상도는 낮지만, 공격자가 볼 수 있는 정보가 전체 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)뿐일 때도 성립 여지가 생긴다.
 
@@ -80,7 +86,7 @@ Evict+Time 기법은 공격자가 특정 캐시 세트를 미리 비워 놓고, 
 
 ## Ⅲ. 비교 및 연결
 
-Evict+Time을 이해하려면 같은 캐시 계열 공격인 Prime+Probe, Flush+Reload와 비교해야 경계가 선명해진다. 세 기법 모두 캐시 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 차이를 이용하지만, **무엇을 직접 관찰하느냐**가 다르다. Evict+Time은 전체 실행 시간을 보고, Prime+Probe는 공격자 자신의 probe miss를 보고, Flush+Reload는 특정 공유 라인의 재적재 여부를 본다.
+Evict+Time을 이해하려면 같은 캐시 계열 공격인 Prime+Probe, Flush+Reload와 비교해야 경계가 선명해진다. 세 기법 모두 캐시 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 차이를 이용하지만, <strong>무엇을 직접 관찰하느냐</strong>가 다르다. Evict+Time은 전체 실행 시간을 보고, Prime+Probe는 공격자 자신의 probe miss를 보고, Flush+Reload는 특정 공유 라인의 재적재 여부를 본다.
 
 | 기법 | 관찰 단위 | 전제조건 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -90,7 +96,7 @@ Evict+Time을 이해하려면 같은 캐시 계열 공격인 Prime+Probe, Flush+
 
 Evict+Time은 해상도가 낮은 대신 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) latency만 있으면 적용될 수 있어 원격 공격과도 개념적으로 연결된다. 반대로 Prime+Probe와 Flush+Reload는 더 정밀하지만, 공격자에게 더 많은 구조 정보나 실행 권한이 필요하다. 즉 Evict+Time은 캐시 공격 계열의 "거친 망원경", Flush+Reload는 "현미경"에 가깝다.
 
-또한 방어 관점에서는 세 기법 모두 결국 **키 의존 메모리 접근**과 **공유 캐시 자원**이라는 공통 원인을 노린다. 그래서 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI, bitslicing, CAT (Cache Allocation Technology), [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 같은 대책이 여러 기법을 함께 약화시킨다.
+또한 방어 관점에서는 세 기법 모두 결국 <strong>키 의존 메모리 접근</strong>과 <strong>공유 캐시 자원</strong>이라는 공통 원인을 노린다. 그래서 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI, bitslicing, CAT (Cache Allocation Technology), [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring) 같은 대책이 여러 기법을 함께 약화시킨다.
 
 - **📢 섹션 요약 비유**: Flush+Reload가 CCTV라면 Evict+Time은 건물 전체 전기요금 고지서를 보는 방식이다. 해상도는 낮지만, 세부 센서가 없어도 반복적으로 보면 어느 층이 바빴는지 감이 잡힌다.
 
@@ -120,7 +126,7 @@ Evict+Time은 해상도가 낮은 대신 [end-to-end](/knowledge-base/studynote/
 - 보안 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 대신 빠른 테이블 구현을 그대로 서버에 배포하는 것
 - [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)(Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))을 켠 채로 상이한 신뢰 수준의 코드를 같은 코어에 올리는 것
 
-Evict+Time은 한 번에 많은 정보를 뽑아내는 공격은 아니지만, 방치된 반복 인터페이스와 공유 캐시가 만나면 충분히 실용적이다. 기술사 관점에서는 "정밀한 공격만 위험하다"가 아니라, **거친 시간 지표도 반복되면 정보 채널이 된다**는 사실을 기억해야 한다.
+Evict+Time은 한 번에 많은 정보를 뽑아내는 공격은 아니지만, 방치된 반복 인터페이스와 공유 캐시가 만나면 충분히 실용적이다. 기술사 관점에서는 "정밀한 공격만 위험하다"가 아니라, <strong>거친 시간 지표도 반복되면 정보 채널이 된다</strong>는 사실을 기억해야 한다.
 
 - **📢 섹션 요약 비유**: Evict+Time 방어는 시험 종료 시간을 모두에게 똑같이 알려 주는 감독관과 같다. 누가 어떤 문제에서 오래 고민했는지 밖에서는 알 수 없게, 내부 차이를 외부 시간으로 드러내지 않아야 한다.
 
@@ -128,7 +134,7 @@ Evict+Time은 한 번에 많은 정보를 뽑아내는 공격은 아니지만, �
 
 ## Ⅴ. 기대효과 및 결론
 
-Evict+Time을 이해하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 보안 위험이 같은 현상의 양면이라는 점이 선명해진다. 캐시는 원래 속도를 높이기 위한 구조지만, 바로 그 속도 차이가 평균 실행 시간의 형태로 외부에 새어나가면 정보 채널이 된다. 즉 "정확한 기능"만으로는 안전을 보장할 수 없고, **실행 시간 분포까지 설계 대상**으로 봐야 한다.
+Evict+Time을 이해하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 보안 위험이 같은 현상의 양면이라는 점이 선명해진다. 캐시는 원래 속도를 높이기 위한 구조지만, 바로 그 속도 차이가 평균 실행 시간의 형태로 외부에 새어나가면 정보 채널이 된다. 즉 "정확한 기능"만으로는 안전을 보장할 수 없고, <strong>실행 시간 분포까지 설계 대상</strong>으로 봐야 한다.
 
 이 기법의 한계도 분명하다. 노이즈가 큰 환경에서는 공격 비용이 급격히 올라가고, 상수 시간 구현과 캐시 격리가 적용된 시스템에는 효율이 크게 떨어진다. 그러나 클라우드, 브라우저 샌드박스, 원격 API처럼 공격자가 세밀한 관측 수단을 갖지 못하는 환경이 많다는 점에서 Evict+Time은 여전히 교육적·실무적으로 중요한 개념이다.
 
@@ -150,21 +156,23 @@ Evict+Time을 이해하면 [성능](/knowledge-base/studynote/04_software_engine
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-캐시 집합 연관 구조 이해
-    │
-    ▼
-Conflict Miss · Eviction Set
-    │
-    ▼
-Evict+Time (전체 실행 시간 관찰)
-    │
-    ├──► Prime+Probe (세트 상태 직접 관찰)
-    └──► Flush+Reload (공유 라인 정밀 관찰)
-    │
-    ▼
-Constant-time 구현 · 캐시 격리 · 타이머 완화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">캐시 집합 연관 구조 이해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Conflict Miss · Eviction Set</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Evict+Time (전체 실행 시간 관찰)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Prime+Probe (세트 상태 직접 관찰)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Flush+Reload (공유 라인 정밀 관찰)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Constant-time 구현 · 캐시 격리 · 타이머 완화</div>
+</div>
+</div>
+
+
 
 이 흐름은 캐시의 구조 이해가 공격 기법의 세분화로 이어지고, 다시 구현·격리·관측 제한이라는 방어 전략으로 귀결되는 과정을 보여준다.
 

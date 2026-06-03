@@ -21,36 +21,35 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **M (Model, 모델)**: 눈에 안 보이는 진짜 비즈니스 로직과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(잔고 1만 원, 유저 이름).
-  - **V ([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/), 뷰)**: 눈에 보이는 예쁜 껍데기 화면(버튼, 빨간 글씨).
-  - **C / P / [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 3대장)**: 유저가 화면(V) 버튼을 눌렀을 때 뇌(M)한테 "야 돈 까라!" 지시하고, 뇌가 바꾼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 화면에 "야 잔고 0원으로 다시 그려!" 지휘하는 가운데 다리 역할의 진화 폼들.
+  - <strong>V (<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>, 뷰)</strong>: 눈에 보이는 예쁜 껍데기 화면(버튼, 빨간 글씨).
+  - <strong>C / P / <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/">중재자</a> 3대장)</strong>: 유저가 화면(V) 버튼을 눌렀을 때 뇌(M)한테 "야 돈 까라!" 지시하고, 뇌가 바꾼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 화면에 "야 잔고 0원으로 다시 그려!" 지휘하는 가운데 다리 역할의 진화 폼들.
 
-- **필요성 (jQuery 1만 줄 통짜 코딩의 파멸과 피눈물)**: 2010년 웹 프론트엔드. 주니어가 `index.html` 밑에 `<script>` 태그 하나 파놓고 jQuery로 1만 줄을 우다다다 쳤다. `$target.find('#btn').css('color','red'); db.save(money);` 화면 조작 로직(UI)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장(DB) 로직이 완전 비빔밥 믹스된 '신의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(God Object)'이 탄생했다. 한 달 뒤 디자인팀이 "야 버튼 아이디 `#btn`에서 `#submit`으로 바꿨음 ㅋ" 툭 던졌다. **개발자가 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열고 `Ctrl+F` 로 `#btn` 찾아서 1,000군데를 수정하다가 괄호 하나 빼먹고 쿠팡 결제 창이 하얗게 뻗으며 전사 셧다운(DOM-Driven Spaghetti) 파국이 터졌다.** "아 씨발!! 화면 껍데기(HTML) 1글자 바꿨다고 내 고귀한 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로직(JS) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)까지 다 뒤져서 갈아엎어야 해?! 화면 그리는 놈이랑 계산 치는 놈 제발 다른 폴더로 찢어놔!!" 이 처절한 원성이 아키텍처 패턴을 강제했다.
+- **필요성 (jQuery 1만 줄 통짜 코딩의 파멸과 피눈물)**: 2010년 웹 프론트엔드. 주니어가 `index.html` 밑에 `<script>` 태그 하나 파놓고 jQuery로 1만 줄을 우다다다 쳤다. `$target.find('#btn').css('color','red'); db.save(money);` 화면 조작 로직(UI)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장(DB) 로직이 완전 비빔밥 믹스된 '신의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(God Object)'이 탄생했다. 한 달 뒤 디자인팀이 "야 버튼 아이디 `#btn`에서 `#submit`으로 바꿨음 ㅋ" 툭 던졌다. <strong>개발자가 JS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 열고 <code>Ctrl+F</code> 로 <code>#btn</code> 찾아서 1,000군데를 수정하다가 괄호 하나 빼먹고 쿠팡 결제 창이 하얗게 뻗으며 전사 셧다운(DOM-Driven Spaghetti) 파국이 터졌다.</strong> "아 씨발!! 화면 껍데기(HTML) 1글자 바꿨다고 내 고귀한 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로직(JS) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)까지 다 뒤져서 갈아엎어야 해?! 화면 그리는 놈이랑 계산 치는 놈 제발 다른 폴더로 찢어놔!!" 이 처절한 원성이 아키텍처 패턴을 강제했다.
 
-- **💡 비유**: 스파게티 쌩 코딩은 **'주방장 1명이 홀 서빙도 하고 요리도 하고 계산도 하는 개판 식당'**입니다. 손님이 메뉴를 바꾸면 주방장이 불 끄고 튀어나와 땀 뻘뻘 흘리며 응대하느라 요리가 다 탑니다. MVC/[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM 아키텍처는 **'주방(Model)'과 '홀 서빙([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))', 그리고 '지배인(Controller)'을 철저히 벽(격벽)으로 갈라친 완벽한 고급 레스토랑**입니다. 지배인이 손님 주문을 받아 주방에 넘기고, 주방장이 만든 요리만 홀에 던져줍니다. 주방장은 홀에 의자가 몇 개인지 알 필요가 없고(디커플링), 홀 알바생은 요리법을 몰라도 100점짜리 식당이 굴러가는 마술입니다.
+- **💡 비유**: 스파게티 쌩 코딩은 <strong>'주방장 1명이 홀 서빙도 하고 요리도 하고 계산도 하는 개판 식당'</strong>입니다. 손님이 메뉴를 바꾸면 주방장이 불 끄고 튀어나와 땀 뻘뻘 흘리며 응대하느라 요리가 다 탑니다. MVC/[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM 아키텍처는 <strong>'주방(Model)'과 '홀 서빙(<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)', 그리고 '지배인(Controller)'을 철저히 벽(격벽)으로 갈라친 완벽한 고급 레스토랑</strong>입니다. 지배인이 손님 주문을 받아 주방에 넘기고, 주방장이 만든 요리만 홀에 던져줍니다. 주방장은 홀에 의자가 몇 개인지 알 필요가 없고(디커플링), 홀 알바생은 요리법을 몰라도 100점짜리 식당이 굴러가는 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **MVC (1970년대 Trygve Reenskaug 발명)**: "일단 화면(V)이랑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(M) 찢어! 컨트롤러(C)가 가운데 껴!" ➡ 근데 V랑 M이 서로 눈치 보며 살짝살짝 직접 통신하는 기형적 양방향 꼬임(Massive [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Controller) 지옥 발생.
-  2. **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (1990년대)**: "야 V랑 M 아예 말 섞지 마! 모든 연락은 프레젠터(P) 통해서만 해!!" ➡ 결합도는 0%가 됐는데, P 놈이 "버튼 색깔 빨간색 칠해! 글씨 써!" 일일이 수동 노가다 명령(Boilerplate) 치다 뻗어버림.
-  3. **MVVM (2005년 MS 발명, 현재 1티어 👑)**: "야 프레젠터 수동 노가다 치우고 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Binding)** 매직 걸어!! V랑 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 변수를 본드로 딱 붙여놔서, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 변수 값 1개만 스윽 고치면 화면 V가 지 혼자 0.1초 컷으로 알아서 그려지게 오토 돌려 ㅋ" ➡ 프론트엔드 천하 통일.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (1990년대)</strong>: "야 V랑 M 아예 말 섞지 마! 모든 연락은 프레젠터(P) 통해서만 해!!" ➡ 결합도는 0%가 됐는데, P 놈이 "버튼 색깔 빨간색 칠해! 글씨 써!" 일일이 수동 노가다 명령(Boilerplate) 치다 뻗어버림.
+  3. **MVVM (2005년 MS 발명, 현재 1티어 👑)**: "야 프레젠터 수동 노가다 치우고 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 바인딩(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Binding)</strong> 매직 걸어!! V랑 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 변수를 본드로 딱 붙여놔서, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 변수 값 1개만 스윽 고치면 화면 V가 지 혼자 0.1초 컷으로 알아서 그려지게 오토 돌려 ㅋ" ➡ 프론트엔드 천하 통일.
 
-- **📢 섹션 요약 비유**: 이 3단 진화는 자동차 운전과 같습니다. **MVC**는 '수동 기어'입니다. 클러치(C) 밟고 기어(M) 넣고 액셀(V) 밟고 3박자를 사람이 다 맞춰야 해서 툭하면 시동 꺼집니다. **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)**는 '오토 기어'입니다. 기계(P)가 웬만한 건 해주지만 여전히 핸들과 액셀은 인간이 땀 흘려 돌려야 하죠. **MVVM**은 **'테슬라 자율 주행(FSD)'**입니다. 나는 지도(ViewModel)에 목적지 좌표 딱 1줄만 찍고 잡니다. 자동차 바퀴([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 지 혼자 알아서 돌고 멈추고 렌더링 쳐서 결승선에 딱 꽂아주는 궁극의 오토파일럿 해방감입니다.
+- **📢 섹션 요약 비유**: 이 3단 진화는 자동차 운전과 같습니다. <strong>MVC</strong>는 '수동 기어'입니다. 클러치(C) 밟고 기어(M) 넣고 액셀(V) 밟고 3박자를 사람이 다 맞춰야 해서 툭하면 시동 꺼집니다. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong>는 '오토 기어'입니다. 기계(P)가 웬만한 건 해주지만 여전히 핸들과 액셀은 인간이 땀 흘려 돌려야 하죠. <strong>MVVM</strong>은 <strong>'테슬라 자율 주행(FSD)'</strong>입니다. 나는 지도(ViewModel)에 목적지 좌표 딱 1줄만 찍고 잡니다. 자동차 바퀴([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 지 혼자 알아서 돌고 멈추고 렌더링 쳐서 결승선에 딱 꽂아주는 궁극의 오토파일럿 해방감입니다.
 
 ---
 
 다음은 MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), MVVM 프론트엔드의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  MVC, MVP, MVVM 프론트엔드                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVC, MVP, MVVM 프론트엔드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), MVVM 프론트엔드가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), MVVM 프론트엔드 패턴 진화의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), MVVM 프론트엔드 패턴 진화의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), MVVM 프론트엔드 패턴 진화의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ MVC, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-MVC, MVP, MVVM 프론트엔드 패턴 진화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVC, MVP, MVVM 프론트엔드 패턴 진화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

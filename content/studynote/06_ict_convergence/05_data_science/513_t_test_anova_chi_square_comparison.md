@@ -39,15 +39,19 @@ tags = ["studynote-ict-convergence"]
 
 ### 검정 통계량 흐름
 
-```
-데이터 입력
-    │
-    ├─ 연속형 ──┬─ 2집단 ──┬─ 독립 → t = (X̄₁-X̄₂) / SE
-    │           │          └─ 대응 → t = d̄ / (s_d/√n)
-    │           └─ 3집단+ → F = MS_between / MS_within (ANOVA)
-    │
-    └─ 범주형 ─────────────→ χ² = Σ(O-E)²/E (Chi-Square)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 입력</div>
+<div class="kb-diagram-tree-item" style="--depth:2">연속형 ── ─ 2집단 ── ─ 독립 → t = (X̄₁-X̄₂) / SE</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대응 → t = d̄ / (s_d/√n)</div></div>
+<div class="kb-diagram-note">─ 3집단+ → F = MS_between / MS_within (ANOVA)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">범주형 → χ² = Σ(O-E)²/E (Chi-Square)</div>
+</div>
+</div>
+
+
 
 ### [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F-통계량
 
@@ -69,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 사후 검정 (Post-hoc Test)
 
-ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면, **어느 쌍이 다른지**를 사후 검정으로 찾는다.
+ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면, <strong>어느 쌍이 다른지</strong>를 사후 검정으로 찾는다.
 
 | 방법 | 특징 | 활용 |
 |:---|:---|:---|
@@ -88,12 +92,12 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 1 - 마케팅 채널 비교 ([t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))**:
+<strong>시나리오 1 - 마케팅 채널 비교 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a>)</strong>:
 - 이메일 vs SNS 광고의 클릭률([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 차이 검정.
 - Levene's Test로 등분산성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 동일하지 않으면 Welch's [t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 적용.
 - p = 0.02 < 0.05 → SNS 광고 CTR이 통계적으로 유의미하게 높음.
 
-**시나리오 2 - 처리법 비교 ([ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))**:
+<strong>시나리오 2 - 처리법 비교 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
 - A/B/C 3가지 UI 디자인의 체류 시간 비교.
 - One-way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/): F=6.3, p=0.003 → H₀ 기각.
 - Tukey HSD: A-C 간 유의미한 차이 (p=0.002), B-C 차이 없음.
@@ -114,7 +118,7 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 집단 비교 검정을 올바르게 선택하고 가정 조건을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사 결정의 오류를 최소화한다.
 
-- **의사 결정 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**: 다중 비교 문제를 사후 검정으로 적절히 통제.
+- <strong>의사 결정 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>: 다중 비교 문제를 사후 검정으로 적절히 통제.
 - **실험 설계 최적화**: 올바른 검정 선택으로 표본 크기와 비용 최소화.
 - **가정 위배 대응**: 비모수 방법으로 정규성 가정 없이도 유효한 추론.
 

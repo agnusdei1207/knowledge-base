@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 개발 프로젝트에서 경영진이 "프로젝트 잘돼가?"라고 물으면, 개발자는 "90% 완료되었습니다"라고 답한다. 그리고 한 달 뒤에도 여전히 "90% 완료되었습니다"라고 말한다. 소프트웨어는 눈에 보이지 않기 때문에(비가시성), 작업자의 '감(Feeling)'에 의존하는 진척도 보고는 언제나 파국을 맞는다.
 
-이러한 주먹구구식 관리를 타파하기 위해, [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)(소프트웨어 성숙도 모델) 레벨 4에서는 **'정량적 프로젝트 관리(QPM)'**를 강제한다. 프로젝트의 일정, 비용, 품질을 철저하게 '숫자'와 '통계'로 관리하라는 뜻이다.
+이러한 주먹구구식 관리를 타파하기 위해, [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)(소프트웨어 성숙도 모델) 레벨 4에서는 <strong>'정량적 프로젝트 관리(QPM)'</strong>를 강제한다. 프로젝트의 일정, 비용, 품질을 철저하게 '숫자'와 '통계'로 관리하라는 뜻이다.
 
-이때 가장 널리 쓰이는 숫자의 마법이 바로 **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득 가치 관리)** 기법이다. "우리가 지금까지 일한 것을 돈으로 환산하면 얼마어치인가?"를 계산하여 프로젝트의 건강 상태를 수학적으로 진단한다.
+이때 가장 널리 쓰이는 숫자의 마법이 바로 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>, 획득 가치 관리)</strong> 기법이다. "우리가 지금까지 일한 것을 돈으로 환산하면 얼마어치인가?"를 계산하여 프로젝트의 건강 상태를 수학적으로 진단한다.
 
 - **📢 섹션 요약 비유**: 운전을 할 때 창밖 풍경만 보고 "대충 시속 100km쯤 달리는 것 같네"라고 생각하는 것은 정성적 관리다. 정량적 관리는 자동차 계기판(대시보드)의 속도계 숫자(105km/h)를 보고 과속 카메라 앞에서 브레이크를 밟는 정확한 통제다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 정량적 프로젝트 관리 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 통제 한의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  정량적 프로젝트 관리 SPI 통제 한                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정량적 프로젝트 관리 SPI 통제 한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 정량적 프로젝트 관리 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 통제 한가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 관련 개념 | 정량적 관리(QPM)와의 연결성 |
 |:---|:---|
-| **[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 4** (정량적 관리) | 회사가 직원의 감(레벨 1~3)을 버리고, 통계적 기법([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 등)으로 프로젝트를 예측하고 통제하기 시작하는 성숙도 단계. |
-| **식스시그마 ([6 Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))** | 100만 번 중에 3.4번의 불량만 허용하겠다는 극단적인 정량적 품질 통제(통계) 기법. 통제 한계선을 가장 정밀하게 활용한다. |
-| **[GQM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/366_gqm/) (Goal-Question-Metric)**| 정량적 관리를 할 때 "무엇을 측정할 것인가?"를 비즈니스 목표(Goal)에 맞게 맵핑해 주는 지표 설계 도구. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> 레벨 4</strong> (정량적 관리) | 회사가 직원의 감(레벨 1~3)을 버리고, 통계적 기법([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 등)으로 프로젝트를 예측하고 통제하기 시작하는 성숙도 단계. |
+| <strong>식스시그마 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/">6 Sigma</a>)</strong> | 100만 번 중에 3.4번의 불량만 허용하겠다는 극단적인 정량적 품질 통제(통계) 기법. 통제 한계선을 가장 정밀하게 활용한다. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/366_gqm/">GQM</a> (Goal-Question-Metric)</strong>| 정량적 관리를 할 때 "무엇을 측정할 것인가?"를 비즈니스 목표(Goal)에 맞게 맵핑해 주는 지표 설계 도구. |
 
 - **📢 섹션 요약 비유**: [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3까지가 "우리 회사는 김밥 마는 매뉴얼이 있어요"라면, 레벨 4(정량적 관리)는 "우리 집 김밥은 밥알이 정확히 300개, 단무지 길이는 10cm(통계적 통제)입니다"라고 숫자로 품질을 보증하는 마스터의 단계다.
 
@@ -106,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 정량적 프로젝트 관리를 정착시키면, 프로젝트 막판에 가서야 "오픈을 한 달 미뤄야겠습니다"라고 폭탄선언을 하는 끔찍한 사태를 막을 수 있다. 프로젝트 중반부(약 20% 지점)에 계산된 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)/[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 지수만으로도, 최종 완료 시점의 일정과 비용(EAC, 완료 시점 추정치)을 거의 오차 없이 수학적으로 예측해 낼 수 있기 때문이다.
 
-결론적으로 기술 리더(PM/아키텍트)는 맹목적인 낙관주의("하면 된다!")를 버리고 차가운 통계주의자가 되어야 한다. **프로젝트의 흐름을 숫자로 번역해 통제 한계선(Control Limit) 위에 올려놓고, 선을 벗어날 때만 기계적으로 개입하는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 거버넌스'**야말로 대규모 IT 프로젝트를 성공으로 이끄는 유일한 과학이다.
+결론적으로 기술 리더(PM/아키텍트)는 맹목적인 낙관주의("하면 된다!")를 버리고 차가운 통계주의자가 되어야 한다. <strong>프로젝트의 흐름을 숫자로 번역해 통제 한계선(Control Limit) 위에 올려놓고, 선을 벗어날 때만 기계적으로 개입하는 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 거버넌스'</strong>야말로 대규모 IT 프로젝트를 성공으로 이끄는 유일한 과학이다.
 
 - **📢 섹션 요약 비유**: 배의 연료 게이지([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))와 속도계([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/))를 보면서 항해하는 선장이다. 게이지를 보면 중간 지점에서 이미 "이대로 가면 목적지 도착 전에 기름이 떨어진다"는 것을 알 수 있다. 똑똑한 선장은 멈춰 서서 노를 젓는 게 아니라, 빨리 무전을 쳐서 보급선(비상 예산)을 부른다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-정량적 프로젝트 관리 SPI 통제 한계선 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정량적 프로젝트 관리 SPI 통제 한계선 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

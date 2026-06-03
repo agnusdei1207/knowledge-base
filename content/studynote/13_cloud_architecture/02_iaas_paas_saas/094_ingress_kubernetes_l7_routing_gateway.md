@@ -37,25 +37,22 @@ tags = ["studynote-cloud-architecture"]
 | Ingress Controller | 규칙을 물리적으로 실행하는 라우터 | Nginx, Traefik 등 웹 서버 엔진 |
 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Termination | 인증서 해독 및 평문 변환 | 백엔드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 복호화 부하 제거 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Ingress L7 Routing Architecture                │
-├──────────────────────────────────────────────────────────────┤
-│ [Client] ─▶ (HTTPS) ─▶ [ External LoadBalancer ] (L4)      │
-│                               │                            │
-│ ┌─────────────────────────────▼──────────────────────────┐ │
-│ │                  Ingress Controller                    │ │
-│ │ (TLS Termination: 복호화 수행, HTTP로 변환)            │ │
-│ │                                                        │ │
-│ │  if Host == api.shop.com/order ──▶ [Service: Order]    │ │
-│ │  if Host == api.shop.com/pay   ──▶ [Service: Pay]      │ │
-│ └─────────────────────────────┬──────────────────────────┘ │
-│                               │ 트래픽 분배                │
-│             ┌─────────────────┴─────────────────┐          │
-│             ▼                                   ▼          │
-│   [ Order Pods ]                          [ Pay Pods ]     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingress L7 Routing Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">External LoadBalancer</div><div class="kb-diagram-note">(L4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingress Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLS Termination: 복호화 수행, HTTP로 변환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service: Order</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service: Pay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Order Pods</div><div class="kb-diagram-node">Pay Pods</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 외부에서 단일 진입점으로 들어온 암호화된 트래픽이 컨트롤러에서 복호화된 후, L7 정보(URL)를 바탕으로 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 나뉘는 병목 해소 과정을 보여준다.
 
@@ -85,8 +82,8 @@ NodePort나 LoadBalancer는 단순한 '[파이프](/knowledge-base/studynote/02_
 실무에서 인그레스 도입 시 가장 중요한 의사결정은 어떤 인그레스 컨트롤러를 선택할 것인가이다. Nginx Ingress Controller가 가장 대중적이지만, 환경에 따라 ALB Ingress(AWS), [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) Gateway([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)) 등을 고려해야 한다. 
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **컨트롤러 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)**: 인그레스 컨트롤러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽으면 클러스터 전체의 외부 통신이 끊어지므로 반드시 복제본(Replica)을 늘려 고가용성(HA)을 확보했는가?
-2. **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 인증서 자동화**: Cert-Manager와 연동하여 Let's Encrypt 등으로 인증서 발급과 갱신을 자동화했는가?
+1. <strong>컨트롤러 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong>: 인그레스 컨트롤러 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽으면 클러스터 전체의 외부 통신이 끊어지므로 반드시 복제본(Replica)을 늘려 고가용성(HA)을 확보했는가?
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 인증서 자동화</strong>: Cert-Manager와 연동하여 Let's Encrypt 등으로 인증서 발급과 갱신을 자동화했는가?
 3. **규칙 충돌 방지**: 여러 부서가 작성한 Ingress yaml [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 간에 동일 경로(`/`)에 대한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 충돌이 없는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -118,21 +115,23 @@ NodePort나 LoadBalancer는 단순한 '[파이프](/knowledge-base/studynote/02_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-NodePort / LoadBalancer (L4)
-    │
-    ▼
-Ingress Resource · Ingress Controller (L7 통합 라우팅)
-    │
-    ▼
-Cert-Manager 연동 (TLS 자동화) · SSL Termination
-    │
-    ▼
-Service Mesh (Istio Ingress Gateway)
-    │
-    ▼
-Gateway API (차세대 표준)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NodePort / LoadBalancer (L4)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ingress Resource · Ingress Controller (L7 통합 라우팅)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cert-Manager 연동 (TLS 자동화) · SSL Termination</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Service Mesh (Istio Ingress Gateway)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Gateway API (차세대 표준)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "L4 단순 포워딩 → L7 URL 기반 통합 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) → [보안 자동화](/knowledge-base/studynote/09_security/13_secops_ir_forensics/638_security_automation/) → K8s 네이티브 고급 게이트웨이"로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 체계가 진화하는 과정을 보여준다.
 

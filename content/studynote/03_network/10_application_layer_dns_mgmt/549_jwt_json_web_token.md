@@ -23,24 +23,24 @@ tags = ["studynote-network"]
 - **필요성**: 기존의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)-[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 방식에서는 사용자가 로그인하면 서버 메모리에 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 저장해두고, 사용자가 올 때마다 메모리를 뒤져야 했다. 만약 회사가 커져 서버가 100대로 늘어나면? 1번 서버에서 로그인한 사용자가 2번 서버로 요청을 보내면 2번 서버는 "너 누구야?"라며 로그인을 다시 요구한다. 이를 막기 위해 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 클러스터링([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)을 구축해야 하는데, 이는 거대한 낭비와 병목 지점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 만든다.
 - **등장 배경**: ① 레거시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식의 스케일아웃([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 한계 폭발 → ② 모바일 앱과 SPA(React/Vue) 환경에서의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 사용 제약 및 CORS 문제 발생 → ③ 서버 부하를 0으로 만들면서도 모바일/웹 모두에서 호환되는 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 토큰 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처(JWT)의 표준화.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             기존 세션(Session) 방식 vs JWT(Stateless) 방식 비교    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 무거운 Stateful 세션 방식]                              │
-│   Client ─(로그인)─▶ [서버 A] ──▶ [Session DB (Redis)] 저장     │
-│   Client ─(구매)──▶ [서버 B] ──▶ [Session DB] 뒤져봄 (병목 발생)  │
-│   => 서버가 늘어날수록 인증 확인 때문에 중앙 DB가 마비되는 재앙!         │
-│                                                             │
-│   [혁신: 가벼운 Stateless JWT 방식]                             │
-│   Client ─(로그인)─▶ [인증 서버] ─▶ 서버가 '디지털 도장(JWT)' 찍어서 발급│
-│                                                             │
-│   Client ─(구매)──▶ [서버 A] (DB 안 봄. 토큰의 도장만 수학적으로 1초 계산)│
-│   Client ─(결제)──▶ [서버 B] (DB 안 봄. 토큰의 도장만 수학적으로 1초 계산)│
-│   => 1만 대의 서버가 늘어나도 인증 DB 병목이 0! 무한한 스케일아웃 가능!   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 세션(Session) 방식 vs JWT(Stateless) 방식 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 무거운 Stateful 세션 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서버 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Session DB (Redis)</div><div class="kb-diagram-note">저장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서버 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Session DB</div><div class="kb-diagram-note">뒤져봄 (병목 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 서버가 늘어날수록 인증 확인 때문에 중앙 DB가 마비되는 재앙!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 가벼운 Stateless JWT 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인증 서버</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">서버가 '디지털 도장(JWT)' 찍어서 발급</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서버 A</div><div class="kb-diagram-note">(DB 안 봄. 토큰의 도장만 수학적으로 1초 계산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서버 B</div><div class="kb-diagram-note">(DB 안 봄. 토큰의 도장만 수학적으로 1초 계산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 1만 대의 서버가 늘어나도 인증 DB 병목이 0! 무한한 스케일아웃 가능!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 그림은 아키텍처 설계에서 왜 개발자들이 열광하며 JWT로 넘어왔는지(Paradigm Shift)를 완벽히 보여준다. 예전엔 놀이공원 입구에서 표를 사면, 놀이기구 직원이 매번 무전기로 본부에 "이 사람 표 산 거 맞아요?"라고 물어봐야(DB 조회) 했다. JWT는 놀이공원 입구에서 특수 형광 도장이 찍힌 팔찌(토큰)를 채워주는 것이다. 이제 놀이기구 직원(서버 A, B)들은 본부에 연락할 필요 없이, 자기가 가진 형광등([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))으로 팔찌의 도장만 비춰보면 진짜인지 가짜인지 그 자리에서 바로 판별할 수 있다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경에 빛과 같은 효율을 가져왔다.
 
@@ -64,75 +64,73 @@ JWT는 매우 콤팩트한 문자열로 `xxxxxxx.yyyyyyy.zzzzzzz` 처럼 점(.) 
 
 해커가 Payload 부분의 Base64 문자열을 디코딩하여 `"name": "Hong"`을 `"name": "Admin"`으로 위조했다고 가정하자. 이 공격이 통하지 않는 원리가 JWT의 심장이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               JWT 위조 공격 방어와 수학적 서명 검증 원리            │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [해커의 토큰 조작]                                            │
-│   원본 Payload: {"role": "user"}  ──▶ 조작: {"role": "admin"}   │
-│   (해커는 헤더와 페이로드를 Base64로 묶어 서버로 전송!)               │
-│                                                               │
-│   [서버의 검증 로직 가동]                                         │
-│   1. 수신: 서버가 조작된 헤더 + 조작된 페이로드 + 기존 서명을 받음.       │
-│                                                               │
-│   2. 연산: 서버 금고에 있는 [비밀키(Secret)]를 꺼내어                 │
-│            해커가 보낸 (헤더 + 페이로드)를 공식에 넣고 믹서기(해싱) 돌림.│
-│                                                               │
-│   3. 대조: 서버가 방금 갓 짠 따끈한 새 [도장 값]  VS  해커가 보낸 [도장 값] │
-│                                                               │
-│   4. 결론: "어? 글자 하나가 바뀌었더니 믹서기 결과가 완전히 다르잖아!"      │
-│            "이 토큰은 조작되었다!" ──▶ HTTP 401 Unauthorized 차단! │
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 암호학적 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256 등)는 눈곱만한 글자 하나만 바뀌어도 결과 값이 완전히 달라지는 눈사태 효과(Avalanche Effect)를 갖는다. 서버는 토큰을 받을 때마다 자기가 가진 **유일한 비밀키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))**를 이용해 헤더와 페이로드를 다시 해싱해본다. 해커는 헤더와 페이로드는 마음대로 고칠 수 있지만, 서버의 금고 안에 있는 '비밀키'를 모르기 때문에 바뀐 내용에 딱 들어맞는 새로운 '서명(Signature)'을 절대 찍어낼 수가 없다. 결국 서버가 계산한 서명과 토큰에 달린 서명이 불일치하게 되어 100% 위조 적발이 가능해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JWT 위조 공격 방어와 수학적 서명 검증 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 토큰 조작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 Payload: {"role": "user"} ──▶ 조작: {"role": "admin"}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해커는 헤더와 페이로드를 Base64로 묶어 서버로 전송!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버의 검증 로직 가동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 수신: 서버가 조작된 헤더 + 조작된 페이로드 + 기존 서명을 받음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 연산: 서버 금고에 있는</div><div class="kb-diagram-node">비밀키(Secret)</div><div class="kb-diagram-note">를 꺼내어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 보낸 (헤더 + 페이로드)를 공식에 넣고 믹서기(해싱) 돌림.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 대조: 서버가 방금 갓 짠 따끈한 새</div><div class="kb-diagram-node">도장 값</div><div class="kb-diagram-note">VS 해커가 보낸</div><div class="kb-diagram-node">도장 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 결론: "어? 글자 하나가 바뀌었더니 믹서기 결과가 완전히 다르잖아!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 토큰은 조작되었다!" ──▶ HTTP 401 Unauthorized 차단!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 암호학적 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-256 등)는 눈곱만한 글자 하나만 바뀌어도 결과 값이 완전히 달라지는 눈사태 효과(Avalanche Effect)를 갖는다. 서버는 토큰을 받을 때마다 자기가 가진 <strong>유일한 비밀키(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>를 이용해 헤더와 페이로드를 다시 해싱해본다. 해커는 헤더와 페이로드는 마음대로 고칠 수 있지만, 서버의 금고 안에 있는 '비밀키'를 모르기 때문에 바뀐 내용에 딱 들어맞는 새로운 '서명(Signature)'을 절대 찍어낼 수가 없다. 결국 서버가 계산한 서명과 토큰에 달린 서명이 불일치하게 되어 100% 위조 적발이 가능해진다.
 
 
 백엔드 및 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계 시 가장 격렬하게 논쟁하는 두 가지 방식의 트레이드오프다.
 
 | 비교 기준 | [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) + [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) (Stateful) | JWT 토큰 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) |
 |:---|:---|:---|
-| **상태 저장 위치** | **서버의 메모리** 또는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) DB | **클라이언트(브라우저, 앱)**의 로컬 저장소 / [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) |
-| **서버 확장성 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))** | 불편함 (서버 간 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 공유([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 인프라 필수) | **최상** (각 서버가 독립적으로 서명만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 끝) |
+| **상태 저장 위치** | **서버의 메모리** 또는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) DB | <strong>클라이언트(브라우저, 앱)</strong>의 로컬 저장소 / [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) |
+| <strong>서버 확장성 (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>)</strong> | 불편함 (서버 간 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 공유([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 인프라 필수) | **최상** (각 서버가 독립적으로 서명만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 끝) |
 | **보안 (탈취 및 강제 로그아웃)** | 강력함 (서버에서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID 지워버리면 해커 즉시 쫓겨남) | **취약함** (발급된 JWT는 수명이 끝날 때까지 서버가 강제로 죽일 수 없음) |
-| **[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 및 모바일 호환** | [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)(교차 사이트 요청 위조) 공격에 취약, 네이티브 모바일 앱 구현 귀찮음 | 헤더(Bearer) 전송 시 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어 우수, Android/iOS 네이티브 완벽 호환 |
+| <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/">CSRF</a> 및 모바일 호환</strong> | [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)(교차 사이트 요청 위조) 공격에 취약, 네이티브 모바일 앱 구현 귀찮음 | 헤더(Bearer) 전송 시 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어 우수, Android/iOS 네이티브 완벽 호환 |
 | **트래픽 오버헤드** | 적음 ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID 문자열만 오감) | 다소 큼 (Payload에 넣는 정보가 많을수록 패킷 뚱뚱해짐) |
 
 JWT는 완벽하지 않다. 서버가 한 번 토큰을 발급하고 나면, "앗 저 토큰 해커가 훔쳐 갔네!"라고 알아채도 그 토큰을 즉시 정지시킬 버튼([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))이 서버에 존재하지 않는다. (통제권 상실). 이 치명적인 단점을 극복하기 위해 실무에서는 Access Token과 Refresh Token을 쪼개는 아키텍처가 강제된다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               JWT의 치명적 단점 극복: Refresh Token 아키텍처        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [Access Token] (수명: 15분)                                   │
-│   - 가볍고 서명 검증만으로 통과. DB 안 봄 (Stateless)                 │
-│   - 해커가 훔쳐 가도 15분 뒤면 쓰레기가 됨. 피해 최소화.               │
-│                                                               │
-│   [Refresh Token] (수명: 2주일)                                  │
-│   - Access Token이 죽었을 때만, 새것을 받기 위해 제한적으로 서버에 제시. │
-│   - 이것만큼은 서버 DB(Stateful)에 저장해서 해킹 발견 시 DB에서 지워버림!│
-│                                                               │
-│   => 결과: "평소엔 매우 빠른 Stateless API 통신을 유지하면서도,        │
-│            해킹 시 최대 15분 이내에 해커를 영구히 쫓아낼 수 있는 하이브리드"│
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JWT의 치명적 단점 극복: Refresh Token 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Access Token</div><div class="kb-diagram-note">(수명: 15분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가볍고 서명 검증만으로 통과. DB 안 봄 (Stateless)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커가 훔쳐 가도 15분 뒤면 쓰레기가 됨. 피해 최소화.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Refresh Token</div><div class="kb-diagram-note">(수명: 2주일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Access Token이 죽었을 때만, 새것을 받기 위해 제한적으로 서버에 제시.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이것만큼은 서버 DB(Stateful)에 저장해서 해킹 발견 시 DB에서 지워버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: "평소엔 매우 빠른 Stateless API 통신을 유지하면서도,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해킹 시 최대 15분 이내에 해커를 영구히 쫓아낼 수 있는 하이브리드"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 순도 100%의 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) JWT 아키텍처는 이론상 아름답지만, 보안 사고 대응이 불가능해 실제 엔터프라이즈 환경에서는 쓸 수 없다. 따라서 "통신의 99%를 차지하는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 구간은 가벼운 Access Token으로 날아다니고(서버 부하 0), 토큰이 만료되어 1% 빈도로 발생하는 갱신 요청 때에만 무거운 Refresh Token을 검사하는(서버 DB 조회)" 형태의 융합(Hybrid) 구조를 채택한다. 만약 사용자가 핸드폰을 분실해서 "기기 강제 로그아웃" 버튼을 누르면, 서버는 DB의 Refresh Token을 지워버린다. 해커는 들고 있던 Access Token으로 길어야 15분 더 놀 수 있지만, 그 뒤 갱신 시점에 매정하게 차단당한다.
 
 
 1. **상황**: 쇼핑몰이 커져서 회원 서버, 주문 서버, 결제 서버, 배송 서버 등 50개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 쪼개졌다. 고객이 주문을 할 때 4개의 서버를 차례대로 거치는데, 각 서버가 "이 고객 로그인한 거 맞아?"라며 회원 서버 DB를 찔러보면 회원 서버가 죽어버리는 병목 현상이 발생한다.
-2. **해결책 (JWT [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))**:
-   - 고객이 로그인하면 **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이(Gateway)**가 JWT 토큰을 만들어 브라우저에 내려준다.
+2. <strong>해결책 (JWT <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)</strong>:
+   - 고객이 로그인하면 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이(Gateway)</strong>가 JWT 토큰을 만들어 브라우저에 내려준다.
    - 고객은 주문할 때마다 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더에 `Authorization: Bearer eyJhbG...` 형태로 JWT를 달고 쏜다.
    - [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 토큰 서명이 맞는지 가볍게 1차 검사한 후, 그 토큰을 주문 서버 -> 결제 서버 -> 배송 서버로 통과시킨다.
    - 각 뒷단(Back-end) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)들은 중앙 DB를 쳐다볼 필요 없이, 자기가 건네받은 JWT 페이로드를 뜯어서 `{"user_id":"123", "role":"VIP"}`라는 정보를 믿고 0.1초 만에 즉시 비즈니스 로직(결제, 배송 처리)을 실행한다.
 3. **결과**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 의한 DB I/O 부하가 100% 소멸하며, 뒷단 서버들이 무한정 스케일아웃(서버 증설) 가능한 궁극의 유연성을 확보했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 'None' 공격 (치명적)**: 해커가 토큰 헤더의 `"alg": "HS256"`을 `"alg": "none"`으로 변조하여 서버로 보내는 고전적 해킹 기법. 라이브러리를 대충 쓰면 서버가 "어? 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 none이네? 그럼 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과시켜줄게!"라며 조작된 페이로드를 허용해버리는 참사가 일어났다. 현재는 대부분 패치되었으나, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시 서버 측에서 '반드시 HS256/RS256만 수용'하도록 명시적 코드 방어를 구축해야 한다.
-- **[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 탈취 방어 (보관 위치 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: 발급받은 JWT를 브라우저의 `localStorage` 나 `sessionStorage`에 보관하는 행위. 게시판에 악성 스크립트를 숨기는 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/)) 공격에 1초 만에 토큰을 통째로 털린다. 이를 막기 위해 토큰은 반드시 **`HttpOnly` 속성이 부여된 보안 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))**에 담아 브라우저가 자바스크립트로 절대 접근할 수 없게 철벽을 쳐야 한다. 페이로드에 민감 정보(주민번호, 비밀번호)를 담는 것도 절대 금기다(Base64는 암호화가 아니므로 누구나 디코딩해 읽을 수 있음).
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 'None' 공격 (치명적)</strong>: 해커가 토큰 헤더의 `"alg": "HS256"`을 `"alg": "none"`으로 변조하여 서버로 보내는 고전적 해킹 기법. 라이브러리를 대충 쓰면 서버가 "어? 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 none이네? 그럼 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통과시켜줄게!"라며 조작된 페이로드를 허용해버리는 참사가 일어났다. 현재는 대부분 패치되었으나, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 시 서버 측에서 '반드시 HS256/RS256만 수용'하도록 명시적 코드 방어를 구축해야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> 탈취 방어 (보관 위치 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 발급받은 JWT를 브라우저의 `localStorage` 나 `sessionStorage`에 보관하는 행위. 게시판에 악성 스크립트를 숨기는 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)([Cross-Site Scripting](/knowledge-base/studynote/09_security/05_web_app_security/470_xss/)) 공격에 1초 만에 토큰을 통째로 털린다. 이를 막기 위해 토큰은 반드시 <strong><code>HttpOnly</code> 속성이 부여된 보안 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>)</strong>에 담아 브라우저가 자바스크립트로 절대 접근할 수 없게 철벽을 쳐야 한다. 페이로드에 민감 정보(주민번호, 비밀번호)를 담는 것도 절대 금기다(Base64는 암호화가 아니므로 누구나 디코딩해 읽을 수 있음).
 
 - **📢 섹션 요약 비유**: JWT는 누구도 글자를 몰래 바꿀 수 없는(위조 방지) 튼튼한 유리 상자입니다. 하지만 유리 상자이므로 밖에서 안의 내용물이 훤히 보입니다([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 없음). 따라서 그 상자 안에 일기장이나 현관 비밀번호 같은 진짜 중요한 프라이버시는 절대 넣어두면 안 됩니다.
 
@@ -176,12 +174,12 @@ JWT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 구분 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 기반 아키텍처 | JWT 기반 아키텍처 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (인프라 비용)** | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 공유를 위해 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 클러스터 유지 비용 수천만 원 | 서버 메모리/DB 의존 0 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 연산만 수행) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) 유지 인프라 비용 **100% 절감** |
-| **정량 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))** | 로그인 사용자 10만 명 몰리면 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) DB 조회 병목(수백 ms) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 각자가 CPU 연산으로 서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(수십 µs) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 속도 **10배 이상 단축** |
+| <strong>정량 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>/<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong> | 로그인 사용자 10만 명 몰리면 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) DB 조회 병목(수백 ms) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버 각자가 CPU 연산으로 서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(수십 µs) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 속도 **10배 이상 단축** |
 | **정성 (개발 확장성)** | 웹, 모바일 앱, 외부 파트너사 API마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직 별도 구현 | 모든 이기종 환경이 `Authorization: Bearer` 헤더 표준 하나로 통일 | 프론트엔드/백엔드/클라우드 통신 범용성 및 유연성 극대화 |
 
 ### 미래 전망 및 진화 방향
 - **비대칭키(RS256) 기반 글로벌 파트너십 확장**: 우리 회사 안에서만 JWT를 쓰면 대칭키(HS256) 하나로 충분하지만, 우리 토큰을 외부 파트너사도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하게 하려면 비밀키를 넘겨줄 수 없다. 따라서 발급(서버)은 공개 안 된 '개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'로 하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(파트너사)은 누구나 받을 수 있는 '공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'로 하는 비대칭키 JWT 융합(RS256, ES256 등)이 현대 B2B, 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 환경의 대세로 군림하고 있다.
-- **JWE ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) Web Encryption)**: JWT의 내용물이 평문으로 노출된다는 단점을 보완하기 위해, 아예 페이로드 자체를 강력한 암호 덩어리로 찌그러뜨리는 JWE 규격이 있다. 극도로 민감한 금융/의료 페이로드를 담아야 하는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구간에서 부분적으로 채택이 늘고 있다.
+- <strong>JWE (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> Web Encryption)</strong>: JWT의 내용물이 평문으로 노출된다는 단점을 보완하기 위해, 아예 페이로드 자체를 강력한 암호 덩어리로 찌그러뜨리는 JWE 규격이 있다. 극도로 민감한 금융/의료 페이로드를 담아야 하는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구간에서 부분적으로 채택이 늘고 있다.
 
 ### 참고 표준
 - **RFC 7519**: [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) Web Token (JWT) 기본 기술 규격
@@ -205,15 +203,19 @@ JWT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OpenID Connect]
-    │
-    ▼
-[현재 개념: JWT]
-    │
-    ├──▶ [확장 A: X.509 v3 디지털 인증서 표준 규격]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OpenID Connect</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: JWT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: X.509 v3 디지털 인증서 표준 규격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 JWT는 OpenID Connect에서 출발해 현재 메커니즘을 정교화하고, 이후 X.509 v3 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 표준 규격와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

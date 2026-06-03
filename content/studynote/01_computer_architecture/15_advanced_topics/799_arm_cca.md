@@ -21,15 +21,18 @@ tags = ["studynote-computer-architecture"]
 
 ARM 서버와 단말이 클라우드형 보안 요구를 받아들이면서, 기존 Secure World / Normal World만으로는 부족해졌다. 클라우드에서는 하이퍼바이저가 자원을 조정하지만, 동시에 잠재적 위협 모델이 되기도 한다. ARM CCA는 이런 상황에서 Realm이라는 새로운 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 상태를 도입해, 하이퍼바이저는 스케줄링만 하고 내용물은 보지 못하게 하는 방향으로 설계됐다. 즉 ARM CCA는 TrustZone의 후계라기보다, ARM이 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 시장에 들어오기 위해 추가한 제3의 세계라고 이해하는 편이 정확하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             ARM world split grows into realms               │
-├──────────────────────────────────────────────────────────────┤
-│ Normal world : rich OS / hypervisor                          │
-│ Secure world : trusted services                              │
-│ Realm world  : confidential workloads                        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM world split grows into realms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal world : rich OS / hypervisor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure world : trusted services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Realm world : confidential workloads</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 호텔에 일반 객실과 직원실만 있던 구조에서, 관리인도 함부로 열 수 없는 개인 금고형 객실이 새로 생긴 셈이다.
 
@@ -46,16 +49,17 @@ CCA의 핵심 메커니즘은 RMM이 Realm의 생명주기를 관리하고, GPT�
 | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) | 메모리 소유권 하드웨어 강제 | 상태 전환 오류 방지 |
 | Attestation | 원격 신뢰 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 측정값 정책과 키 릴리스 연계 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Realm creation and trust establishment          │
-├──────────────────────────────────────────────────────────────┤
-│ Hypervisor request -> RMM create -> GPT assign              │
-│                                      │                       │
-│                                      ▼                       │
-│                         measure / attest / release secrets   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Realm creation and trust establishment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor request -&gt; RMM create -&gt; GPT assign</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">measure / attest / release secrets</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 새 방을 만들고 나서 열쇠만 주는 것이 아니라, 방 주인 이름표와 봉인 상태를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에만 귀중품을 맡기는 과정과 같다.
 
@@ -102,18 +106,21 @@ ARM CCA는 ARM 생태계가 [기밀 컴퓨팅](/knowledge-base/studynote/01_comp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Realm Creation]
-    │
-    ▼
-[GPT Ownership Enforcement]
-    │
-    ▼
-[Measured Realm Execution]
-    │
-    ├──▶ [Remote Attestation]
-    └──▶ [Secret Injection]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Realm Creation</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GPT Ownership Enforcement</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Measured Realm Execution</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Remote Attestation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Secret Injection</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 Realm [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이후 GPT가 소유권을 강제하고, 측정·증명 뒤에야 비밀 주입이 이뤄지는 구조를 보여준다. 즉 CCA의 가치는 Realm [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체보다 검증된 Realm 운영에 있다.
 

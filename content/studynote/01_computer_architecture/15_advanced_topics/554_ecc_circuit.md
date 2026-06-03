@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[오류 정정 부호](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) (Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ECC) 회로는 저장되거나 전송되는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에 검사 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추가해, 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집혀도 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원할 수 있게 하는 하드웨어 논리다. 단순 패리티 (Parity)가 "문제가 있다"까지만 알려 준다면, ECC는 그보다 한 단계 더 나아가 **어디가 틀렸는지 계산해 직접 고치는 구조**다.
+[오류 정정 부호](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/) (Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), ECC) 회로는 저장되거나 전송되는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에 검사 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추가해, 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집혀도 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원할 수 있게 하는 하드웨어 논리다. 단순 패리티 (Parity)가 "문제가 있다"까지만 알려 준다면, ECC는 그보다 한 단계 더 나아가 <strong>어디가 틀렸는지 계산해 직접 고치는 구조</strong>다.
 
 이 회로가 필수인 이유는 현대 시스템이 더 이상 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 항상 안정적일 것"이라는 가정을 할 수 없기 때문이다. 미세 공정에서는 임계 전하가 줄어 우주선이나 잡음에 의한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전 가능성이 높아지고, 메모리 용량은 수백 기가바이트에서 수테라바이트로 커지면서 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러가 나타날 통계적 기회도 함께 커진다. ECC가 없으면 이런 오류는 조용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 (Silent [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption)이나 예기치 않은 시스템 중단으로 이어진다.
 
-또한 ECC는 단지 서버용 부가 기능이 아니다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random-Access Memory), [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/), 통신 링크는 각각 다른 오류 양상을 가지므로, 어느 계층에서 어느 정도까지 고쳐야 하는지 결정하는 순간부터 회로 설계가 시작된다. 즉 ECC는 보조 장치가 아니라 **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춘 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 전략의 중심**이다.
+또한 ECC는 단지 서버용 부가 기능이 아니다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory), [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random-Access Memory), [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/), 통신 링크는 각각 다른 오류 양상을 가지므로, 어느 계층에서 어느 정도까지 고쳐야 하는지 결정하는 순간부터 회로 설계가 시작된다. 즉 ECC는 보조 장치가 아니라 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 특성에 맞춘 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 전략의 중심</strong>이다.
 
 - **📢 섹션 요약 비유**: ECC 회로는 시험지를 제출하기 전에 자동으로 오답 위치를 찾아 수정해 주는 감독관과 같다. 틀렸다는 사실만 알리는 것이 아니라, 어디를 고쳐야 하는지까지 짚어 준다.
 
@@ -43,22 +43,22 @@ ECC 회로의 기본 흐름은 [쓰기](/knowledge-base/studynote/13_cloud_archi
 
 다음 그림은 ECC 회로가 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때 코드워드를 만들고, 읽기 때 신드롬으로 판단하는 구조"임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ ECC circuit: build a codeword on write, decode it with syndrome on read   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Write path:  Data[64] -> [Encoder] -> Codeword[72] -> Memory / Link       │
-│                                                                            │
-│ Read path :  Codeword[72] -> [Syndrome] -> [Classify] -> [Correct / Flag] │
-│                                                │              │            │
-│                                                │              ├-> 1-bit fix│
-│                                                │              └-> UE trap  │
-│                                                ▼                           │
-│                                   Syndrome = error location / pattern      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-예를 들어 SECDED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/))는 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 4를 이용해 1비트 오류를 정정하고 2비트 오류를 탐지한다. 일반적으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 경로에서는 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로 Hamming 계열이나 SECDED가 널리 쓰이고, NAND Flash처럼 오류 패턴이 더 거칠고 누적되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서는 BCH (Bose–Chaudhuri–Hocquenghem)나 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) (Low-Density Parity-Check)처럼 더 강한 코드를 사용한다. 결국 ECC 설계는 "얼마나 많이 고칠 수 있는가"보다 **얼마나 빨리, 얼마나 적은 비용으로, 어떤 오류 분포를 상대로 고칠 것인가**의 문제다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECC circuit: build a codeword on write, decode it with syndrome on read</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Write path: Data</div><div class="kb-diagram-node">64</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Encoder</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">72</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Memory / Link</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Read path : Codeword</div><div class="kb-diagram-node">72</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Syndrome</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Classify</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Correct / Flag</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 1-bit fix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; UE trap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Syndrome = error location / pattern</div></div>
+</div>
+</div>
+
+
+
+예를 들어 SECDED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/))는 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 4를 이용해 1비트 오류를 정정하고 2비트 오류를 탐지한다. 일반적으로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 경로에서는 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하므로 Hamming 계열이나 SECDED가 널리 쓰이고, NAND Flash처럼 오류 패턴이 더 거칠고 누적되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서는 BCH (Bose–Chaudhuri–Hocquenghem)나 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) (Low-Density Parity-Check)처럼 더 강한 코드를 사용한다. 결국 ECC 설계는 "얼마나 많이 고칠 수 있는가"보다 <strong>얼마나 빨리, 얼마나 적은 비용으로, 어떤 오류 분포를 상대로 고칠 것인가</strong>의 문제다.
 
 - **📢 섹션 요약 비유**: ECC의 신드롬 계산은 엇갈린 퍼즐 조각을 보고 어느 조각이 잘못 끼워졌는지 역으로 찾아내는 작업과 같다. 조각 수가 늘수록 더 똑똑한 규칙이 필요하다.
 
@@ -85,7 +85,7 @@ ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ECC 회로는 "메모리에 ECC 넣을까?" 수준의 선택이 아니라, [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예산을 나누는 설계 문제다. DRAM은 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수 ns 차이도 민감하므로 저지연 정정이 우선이고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 수명 말기에 급격히 나빠지는 원시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율을 감당하기 위해 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 같은 반복 복호를 사용한다. 따라서 기술사는 **정정력만이 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·면적·전력·오버프로비저닝까지 포함한 전체 시스템 관점**으로 답해야 한다.
+실무에서 ECC 회로는 "메모리에 ECC 넣을까?" 수준의 선택이 아니라, [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 예산을 나누는 설계 문제다. DRAM은 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수 ns 차이도 민감하므로 저지연 정정이 우선이고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 수명 말기에 급격히 나빠지는 원시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율을 감당하기 위해 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 같은 반복 복호를 사용한다. 따라서 기술사는 <strong>정정력만이 아니라 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·면적·전력·오버프로비저닝까지 포함한 전체 시스템 관점</strong>으로 답해야 한다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -101,7 +101,7 @@ ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "�
 - DRAM과 NAND의 오류 특성이 다른데도 같은 코드 강도를 적용하려는 설계
 - 정정 불가 오류를 감추기 위해 과도한 미스코렉션 위험을 허용하는 복호 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-기술사 답안에서는 ECC를 단순 암기 항목으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **저지연 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 SECDED, 고열화 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)는 BCH/[LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), 고가용성 서버는 Chipkill과 스크러빙 결합**처럼 선택 논리를 분명히 써야 설계 감각이 드러난다. 운영 관점에서는 반복 오류가 디스크 중복 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) 재구성이나 메모리 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 어떻게 이어지는지도 함께 봐야 한다.
+기술사 답안에서는 ECC를 단순 암기 항목으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, <strong>저지연 메모리 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>는 SECDED, 고열화 저장 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>는 BCH/<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/">LDPC</a>, 고가용성 서버는 Chipkill과 스크러빙 결합</strong>처럼 선택 논리를 분명히 써야 설계 감각이 드러난다. 운영 관점에서는 반복 오류가 디스크 중복 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks) 재구성이나 메모리 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 어떻게 이어지는지도 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: ECC 선택은 모든 환자에게 같은 약을 주는 일이 아니라, 감기인지 골절인지에 따라 치료법을 달리 정하는 의료 판단과 같다.
 
@@ -111,7 +111,7 @@ ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "�
 
 ECC 회로의 가장 직접적인 효과는 조용한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상과 갑작스러운 시스템 중단을 크게 줄인다는 점이다. 이 덕분에 서버는 더 오랜 시간 안정적으로 동작하고, 저장장치는 더 높은 밀도와 더 긴 사용 수명을 감당할 수 있다. 즉 ECC는 성능을 조금 내어 주는 대신, 시스템 전체의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 크게 끌어올리는 매우 효율적인 투자다.
 
-하지만 한계도 있다. 강한 코드는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 회로 면적을 늘리고, 코드 설계가 잘못되면 미스코렉션이라는 더 위험한 문제를 만들 수 있다. 앞으로는 DDR 계열의 온다이 ECC 고도화, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 메모리 확장 환경에서의 계층형 ECC, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강도를 조절하는 적응형 ECC가 더 중요해질 것이다. 결국 ECC 회로는 **완벽한 소자를 전제하지 않고도 신뢰할 수 있는 시스템을 만드는 수학+하드웨어의 접점**으로 기억해야 한다.
+하지만 한계도 있다. 강한 코드는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 회로 면적을 늘리고, 코드 설계가 잘못되면 미스코렉션이라는 더 위험한 문제를 만들 수 있다. 앞으로는 DDR 계열의 온다이 ECC 고도화, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 메모리 확장 환경에서의 계층형 ECC, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강도를 조절하는 적응형 ECC가 더 중요해질 것이다. 결국 ECC 회로는 <strong>완벽한 소자를 전제하지 않고도 신뢰할 수 있는 시스템을 만드는 수학+하드웨어의 접점</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: ECC 회로는 흔들리는 다리 아래에 설치한 자동 보강 장치와 같다. 다리 자체가 완벽하지 않아도, 흔들림을 감지하고 바로 보정해 사람들을 안전하게 건너게 해 준다.
 
@@ -130,21 +130,23 @@ ECC 회로의 가장 직접적인 효과는 조용한 [데이터](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Parity 기반 오류 탐지
-        │
-        ▼
-Hamming Code · SECDED
-        │
-        ▼
-Chipkill · 시스템 수준 메모리 보호
-        │
-        ▼
-BCH · LDPC 기반 고정정력 저장장치 ECC
-        │
-        ▼
-온다이 ECC · 적응형 계층형 신뢰성 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Parity 기반 오류 탐지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hamming Code · SECDED</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chipkill · 시스템 수준 메모리 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCH · LDPC 기반 고정정력 저장장치 ECC</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온다이 ECC · 적응형 계층형 신뢰성 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 오류 알림에서 출발해, 지금은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 특성에 맞춘 다층 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계로 발전해 왔음을 보여 준다.
 

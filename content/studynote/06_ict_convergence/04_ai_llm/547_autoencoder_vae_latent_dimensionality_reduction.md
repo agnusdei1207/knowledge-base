@@ -32,27 +32,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌───────────────────────────────────────────────────────┐
-│           오토인코더 vs VAE 구조                        │
-│                                                       │
-│  오토인코더                                            │
-│  입력x ─►[인코더]─► z (결정론적) ─►[디코더]─► x̂      │
-│                     (병목층)                           │
-│                                                       │
-│  VAE                                                  │
-│  입력x ─►[인코더]─► μ, σ (분포 파라미터)              │
-│                        │                              │
-│                        ▼ 재파라미터화                  │
-│                   z = μ + σ·ε (ε~N(0,I))             │
-│                        │                              │
-│                   [디코더]─► x̂                        │
-│                                                       │
-│  손실: 재구성 손실 + KL 발산(D_KL[q(z|x)‖p(z)])      │
-└───────────────────────────────────────────────────────┘
-```
 
-**[오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 변형**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토인코더 vs VAE 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토인코더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력x ─►</div><div class="kb-diagram-node">인코더</div><div class="kb-diagram-note">─► z (결정론적) ─►</div><div class="kb-diagram-node">디코더</div><div class="kb-diagram-note">─► x̂</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병목층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VAE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력x ─►</div><div class="kb-diagram-node">인코더</div><div class="kb-diagram-note">─► μ, σ (분포 파라미터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 재파라미터화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = μ + σ·ε (ε~N(0,I))</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디코더</div><div class="kb-diagram-note">─► x̂</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">손실: 재구성 손실 + KL 발산(D_KL</div><div class="kb-diagram-node">q(z|x)‖p(z)</div><div class="kb-diagram-note">)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> 변형</strong>
 
 | 유형 | 원리 | 주요 용도 |
 |:---:|:---:|:---|
@@ -66,7 +65,7 @@ tags = ["studynote-ict-convergence"]
 
 z를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 샘플링하면 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 불가. 해결: z = μ + σ·ε (ε ~ N(0,I))로 표현하면 μ, σ에 대한 기울기 계산 가능 → [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 훈련 가능.
 
-**[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 손실함수**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a> 손실함수</strong>
 
 ```
 L_VAE = E[log p(x|z)]        (재구성 손실)
@@ -89,7 +88,7 @@ L_VAE = E[log p(x|z)]        (재구성 손실)
 | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | ✓ | ✗(기본) | ✗(기본) |
 | [LDM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/) 사용 | ✓([VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 기반) | ✗ | ✓ |
 
-**[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) 활용**
+<strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(<a href="/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>) 활용</strong>
 
 1. 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 훈련 → 정상 패턴 학습
 2. 이상 입력은 잠재 공간에 잘 매핑되지 않아 재구성 오류([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) 높음
@@ -107,7 +106,7 @@ L_VAE = E[log p(x|z)]        (재구성 손실)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) 적용 시나리오**
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> 적용 시나리오</strong>
 
 | 시나리오 | 방법 | 기대 효과 |
 |:---:|:---:|:---|
@@ -120,8 +119,8 @@ L_VAE = E[log p(x|z)]        (재구성 손실)
 **기술사 판단 포인트**
 
 1. **잠재 차원 선택**: 너무 작으면 재구성 품질 저하, 너무 크면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과 없음 → 재구성 오류 vs 잠재 차원 곡선으로 엘보우 포인트 찾기
-2. **KL [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(β-[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/))**: β > 1이면 더 분리된(Disentangled) 잠재 공간 → 해석 가능성 향상
-3. **VQ-[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)**: 연속 잠재 공간 대신 이산(Discrete) 코드북 → 언어 모델과 통합 용이 (DALL-E 1 기반)
+2. <strong>KL <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(β-<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a>)</strong>: β > 1이면 더 분리된(Disentangled) 잠재 공간 → 해석 가능성 향상
+3. <strong>VQ-<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a></strong>: 연속 잠재 공간 대신 이산(Discrete) 코드북 → 언어 모델과 통합 용이 (DALL-E 1 기반)
 4. **모델 선택**: [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) → AE, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·보간 → [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), 최고 품질 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [LDM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/288_latent_diffusion_model/)
 
 - **📢 섹션 요약 비유**: 잠재 공간 차원 수는 요약본의 분량 — 너무 짧으면 줄거리를 잃고, 너무 길면 요약 의미가 없다.

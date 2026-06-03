@@ -111,18 +111,21 @@ Trunk-Based Development는 빠른 통합, 낮은 충돌, 지속 배포에 유리
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-긴 브랜치
-    │
-    ▼
-짧은 브랜치
-    │
-    ▼
-자주 병합
-    │
-    ▼
-Trunk-Based + Feature Flag
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">긴 브랜치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">짧은 브랜치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자주 병합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trunk-Based + Feature Flag</div>
+</div>
+</div>
+
+
 
 이 흐름은 느슨한 분기에서 빠른 통합 중심으로의 변화를 보여준다.
 

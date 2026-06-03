@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **주파수 자원 고갈 (Spectrum Crunch)**: 세상의 모든 스마트폰과 IoT가 2.4GHz/5GHz 허공 전파를 쓰다 보니, 보이지 않는 무선 고속도로가 꽉 차서 핑이 튀고 속도가 느려지는 포화 상태에 도달했습니다.
 - **전자파 인체 유해 논란**: 병원 수술실이나 비행기 조종석에서는 강한 Wi-Fi 전파가 정밀 기기를 오작동시킬 위험(EMI)이 있어 전파를 아예 쏠 수가 없었습니다.
 
-```text
-[테라헤르츠 대역]
-│
-▼
-[자유 공간 광통신]
-│
-└──▶ [가시광 통신 라이파이]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자유 공간 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가시광 통신 라이파이</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 (1020번 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 문서가 실외 빌딩 간 레이저 통신이라면, VLC는 '방 안' 조명용입니다.)
 
-- **개념**: 전구([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))에서 나오는 인간의 눈에 보이는 **빛(가시광선, 400~800THz 대역)을 1초에 수백만 번 껐다 켰다(깜빡임 조절, Modulation) 함으로써 무선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 초고속으로 전송하는 광통신 기술**입니다. 이를 와이파이처럼 양방향 통신으로 만든 상용 브랜드명이 **Li-Fi (Light-Fidelity)**입니다.
+- **개념**: 전구([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))에서 나오는 인간의 눈에 보이는 <strong>빛(가시광선, 400~800THz 대역)을 1초에 수백만 번 껐다 켰다(깜빡임 조절, Modulation) 함으로써 무선 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 초고속으로 전송하는 광통신 기술</strong>입니다. 이를 와이파이처럼 양방향 통신으로 만든 상용 브랜드명이 <strong>Li-Fi (Light-Fidelity)</strong>입니다.
 - 에든버러 대학의 헤럴드 하스(Harald Haas) 교수가 2011년에 주창한 개념입니다.
 
-```text
-[테라헤르츠 대역]
-│
-▼
-[자유 공간 광통신]
-│
-└──▶ [가시광 통신 라이파이]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자유 공간 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가시광 통신 라이파이</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,12 +66,12 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 스펙트럼 고갈 완전 해방 (무한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
-- 가시광선 대역(빛)은 기존 전체 라디오 전파(RF) 대역보다 무려 **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배나 넓은 우주적인 빈 공간**입니다. 수만 명이 강당에 모여서 다 같이 Li-Fi 불빛을 쪼여도 절대 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 엉키지 않아(간섭 없음) 기가비트 속도를 가볍게 뽑아냅니다.
+- 가시광선 대역(빛)은 기존 전체 라디오 전파(RF) 대역보다 무려 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000배나 넓은 우주적인 빈 공간</strong>입니다. 수만 명이 강당에 모여서 다 같이 Li-Fi 불빛을 쪼여도 절대 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 엉키지 않아(간섭 없음) 기가비트 속도를 가볍게 뽑아냅니다.
 
 ### 2. 완벽한 물리적 보안 방패 (스니핑 제로) 🌟 핵심 🌟
 Wi-Fi의 뚫을 수 없는 벽입니다.
 - Wi-Fi 전파는 벽을 뚫고 밖으로 새어 나가서, 집 밖 주차장 해커가 안테나로 훔쳐볼 수 있습니다.
-- **Li-Fi의 철벽 방어**: 빛은 벽이나 방문을 절대 뚫지 못합니다! 방 안에서 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명으로 보낸 1급 비밀문서는 방 안을 절대 벗어나지 못합니다. 문을 딱 닫고 커튼을 치면, 밖의 해커는 내가 무슨 통신을 하는지 1비트도 도청할 수 없는 **물리적 차단망(에어갭 수준)**이 완성됩니다. (군부대 작전실, 청와대 지하 벙커 도입 1순위)
+- **Li-Fi의 철벽 방어**: 빛은 벽이나 방문을 절대 뚫지 못합니다! 방 안에서 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명으로 보낸 1급 비밀문서는 방 안을 절대 벗어나지 못합니다. 문을 딱 닫고 커튼을 치면, 밖의 해커는 내가 무슨 통신을 하는지 1비트도 도청할 수 없는 <strong>물리적 차단망(에어갭 수준)</strong>이 완성됩니다. (군부대 작전실, 청와대 지하 벙커 도입 1순위)
 
 ### 3. 무전자파 청정구역 (EMI 제로)
 - 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 때문에 전파 방해(EMI)가 0%입니다.
@@ -93,7 +101,7 @@ Wi-Fi의 뚫을 수 없는 벽입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **와이파이(Wi-Fi 전파)**는 아파트 전체가 울리도록 **'벽을 뚫고 나가는 거대한 꽹과리 소리'**입니다. 소리가 너무 커서 옆집 사람(해커)이 귀를 대면 다 엿들을 수 있고, 윗집 아랫집이 동시에 꽹과리를 치면 소리가 뭉개져 노래(속도)가 느려집니다. **라이파이(Li-Fi [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/))**는 방 천장에 달린 전구 불빛을 이용한 **'빛의 모스 부호 통신'**입니다. 소음이 0%입니다. 방 안에 있는 사람만 전등빛을 보고 1초 만에 영화를 다운로드 받습니다. 방문을 닫고 커튼을 치는 순간 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 절대 밖으로 새어 나가지 않아 옆집 해커는 내가 무슨 영화를 받는지 100% 도청할 수 없는 극강의 보안 밀실이 됩니다. 단, 내 폰과 전구 사이에 파리가 지나가서 찰나의 그림자가 지거나 불을 꺼버리면 그 즉시 통신이 100% 단절되는 극단적인 '빛 ' 융합 통신망입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>와이파이(Wi-Fi 전파)</strong>는 아파트 전체가 울리도록 <strong>'벽을 뚫고 나가는 거대한 꽹과리 소리'</strong>입니다. 소리가 너무 커서 옆집 사람(해커)이 귀를 대면 다 엿들을 수 있고, 윗집 아랫집이 동시에 꽹과리를 치면 소리가 뭉개져 노래(속도)가 느려집니다. <strong>라이파이(Li-Fi <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/">가시광 통신</a>)</strong>는 방 천장에 달린 전구 불빛을 이용한 <strong>'빛의 모스 부호 통신'</strong>입니다. 소음이 0%입니다. 방 안에 있는 사람만 전등빛을 보고 1초 만에 영화를 다운로드 받습니다. 방문을 닫고 커튼을 치는 순간 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 절대 밖으로 새어 나가지 않아 옆집 해커는 내가 무슨 영화를 받는지 100% 도청할 수 없는 극강의 보안 밀실이 됩니다. 단, 내 폰과 전구 사이에 파리가 지나가서 찰나의 그림자가 지거나 불을 꺼버리면 그 즉시 통신이 100% 단절되는 극단적인 '빛 ' 융합 통신망입니다.
 
 ---
 
@@ -116,15 +124,19 @@ Wi-Fi의 뚫을 수 없는 벽입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 테라헤르츠 대역]
-│
-▼
-[현재 개념: 자유 공간 광통신]
-│
-├──▶ [확장 A: 가시광 통신 라이파이]
-└──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 테라헤르츠 대역</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자유 공간 광통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가시광 통신 라이파이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 자유 공간 광통신는 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

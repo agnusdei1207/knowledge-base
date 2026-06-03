@@ -31,8 +31,8 @@ tags = ["studynote-bigdata"]
 ### 2. [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 설계 철학:plan은 계획대로, 실행은 필요한 때
 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은 수학에서"드 모르간 법칙"과 같은 원리를 프로그래밍에 적용한 것입니다.
 - **원칙**: "표현식의 평가(Evaluation)는 그 결과가 실제로 필요할 때까지 미룬다."
-- **[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) vs 실행**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation에서는 `data.filter(...).map(...).count()`라는 코드 조각은"[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)서([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))"일 뿐입니다. 이것은 영화의"촬영(Storyboard)"와 같습니다. 실제 영화 촬영(실제 연산)은 제작진이"이 장면 준비됐어?"(Action 호출)라고 말하는 시점에 비로소 시작됩니다.
-- **[함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)의 결합성 (Composability)**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 가장 큰 위력은 다양한 변환 함수를 자유롭게 조합할 수 있다는 점입니다. filter, map, flatMap, groupByKey, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등 모든 변환 함수가 동일한"[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 기록" 인터페이스를 공유하므로, 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 작은 building block을 조립하듯이모듈화할 수 있습니다.
+- <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a> vs 실행</strong>: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation에서는 `data.filter(...).map(...).count()`라는 코드 조각은"[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)서([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))"일 뿐입니다. 이것은 영화의"촬영(Storyboard)"와 같습니다. 실제 영화 촬영(실제 연산)은 제작진이"이 장면 준비됐어?"(Action 호출)라고 말하는 시점에 비로소 시작됩니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/">함수형 프로그래밍</a>의 결합성 (Composability)</strong>: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 가장 큰 위력은 다양한 변환 함수를 자유롭게 조합할 수 있다는 점입니다. filter, map, flatMap, groupByKey, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 등 모든 변환 함수가 동일한"[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 기록" 인터페이스를 공유하므로, 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 작은 building block을 조립하듯이모듈화할 수 있습니다.
 
 - **📢 섹션 요약 비유**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은 " строительная компания([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)처리워크)"가 현장 책임자(엔지니어)에게 받는 시공 계획서와 같습니다. 현장 책임자는 "2층 벽에 전기 배선 + 3층에 보일러 배관"이라는 계획서를 받으면, 이를 즉시시공하는 대신 현장 상황(클러스터 자원, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 상태)을 종합적으로 분석하여 "전기 배선은 1층 철근 공사가 끝나고 나서 시작하는 게 효율적"이라는 최적된 시공를 세우고, 실제 공사는의"All clear, 시공 개시!" 명령(acion 호출)이 떨어지는 시점에 비로소 착공하는 것입니다.、Eager Evaluation은 계획서를 받자마자 아무 판단 없이즉시시공에 들어가는 것입니다.
 
@@ -40,53 +40,44 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Lazy Evaluation 실행 모델 ] │
-│ │
-│ [1단계: 코드 작성 - 실행 계획 BUILD] │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ sc.textFile("hdfs://data/logs/*.txt") │ │
-│ │ .filter(line => line.contains("ERROR")) ← 미실행! │ │
-│ │ .map(line => line.split(",")) ← 미실행! │ │
-│ │ .groupByKey(key => key) ← 미실행! │ │
-│ │ .count() ← 미실행! │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ [2단계: DAG 구축 - "계획서"만 기록] │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ textFile → filter → map → groupByKey → count │ │
-│ │ ( DAG의 노드로 변환, 엣지는 의존성 ) │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │ │
-│ ▼ │
-│ [3단계: Action 호출 - "시공 개시!"] │
-│ count()가 호출되는 순간: │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ ① DAG 스케줄러가 전체 플랜을 │ │
-│ │ ② filter: 파이프라이닝 가능한 Narrow_dependency 확인 │ │
-│ │ → filter + map + groupByKey 중 Shuffle 지점 탐색 │ │
-│ │ ③ groupByKey에서 Wide_dependency 발견 → Stage 분리 │ │
-│ │ ④ Stage 1: textFile → filter → map (파이프라이닝) │ │
-│ │ ⑤ Stage 2: groupByKey → count (Shuffle 후 집계) │ │
-│ │ ⑥ 실행: 전체 플랜의 최적화된 순서로 태스크 시작! │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │
-│ [핵심 최적화: 필터 프루닝 (Filter Pruning)] │
-│ count()의 결과가 Int(정수)라는 것을 알기에, │
-│ ③ groupByKey에서Key=0건인 항목은 만들 이유 없음! │
-│ → 불필요한 map 결과 전체를 생성하지 않고 통과시킴 │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lazy Evaluation 실행 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 코드 작성 - 실행 계획 BUILD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sc.textFile("hdfs://data/logs/*.txt")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.filter(line =&gt; line.contains("ERROR")) ← 미실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.map(line =&gt; line.split(",")) ← 미실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.groupByKey(key =&gt; key) ← 미실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.count() ← 미실행!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: DAG 구축 - "계획서"만 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">textFile → filter → map → groupByKey → count</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( DAG의 노드로 변환, 엣지는 의존성 )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: Action 호출 - "시공 개시!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count()가 호출되는 순간:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① DAG 스케줄러가 전체 플랜을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② filter: 파이프라이닝 가능한 Narrow_dependency 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ filter + map + groupByKey 중 Shuffle 지점 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ groupByKey에서 Wide_dependency 발견 → Stage 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Stage 1: textFile → filter → map (파이프라이닝)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ Stage 2: groupByKey → count (Shuffle 후 집계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 실행: 전체 플랜의 최적화된 순서로 태스크 시작!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 최적화: 필터 프루닝 (Filter Pruning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count()의 결과가 Int(정수)라는 것을 알기에,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ groupByKey에서Key=0건인 항목은 만들 이유 없음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 불필요한 map 결과 전체를 생성하지 않고 통과시킴</div></div>
+</div>
+</div>
+
+
 
 ### 1. [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과의 결합
 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은 Spark의 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 결합될 때 비로소 진정한 힘을 발휘합니다.
 
-- **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 역할**: Action 호출 시, [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 전체 변환 체인을 거꾸로(Backwards) 분석하여, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 대해"이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 계산하려면 어떤[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 먼저 계산되어야 하는지"를 결정합니다. 이 때 Wide Dependency(Shuffle)가 발견되면 그 지점에서 Stage를 분리합니다.
-- **[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝 최적화**: Narrow Dependency로 연결된 변환들은 같은 Stage 내에서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝됩니다. 즉, 한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에서 filter를 적용한 결과가 곧바로 map으로 들어가고, 그 결과가 또 바로 reduce로 전달되어, 중간 결과를 메모리에 저장하지 않고 스트림처럼 바로 다음 연산으로 흘려보냅니다.
-- **필터 프루닝 (Filter [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))**: DAG를 분석하면, 어떤 필터 조건이 항상 false를 반환하는 것을 알 수 있는 경우(예: null 체크 followed by null이 아닌 필터), 아예 해당 필터 이하의 변환 체인을 실행하지 않을 수 있습니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 역할</strong>: Action 호출 시, [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 전체 변환 체인을 거꾸로(Backwards) 분석하여, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 대해"이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 계산하려면 어떤[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 먼저 계산되어야 하는지"를 결정합니다. 이 때 Wide Dependency(Shuffle)가 발견되면 그 지점에서 Stage를 분리합니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라이닝 최적화</strong>: Narrow Dependency로 연결된 변환들은 같은 Stage 내에서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝됩니다. 즉, 한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에서 filter를 적용한 결과가 곧바로 map으로 들어가고, 그 결과가 또 바로 reduce로 전달되어, 중간 결과를 메모리에 저장하지 않고 스트림처럼 바로 다음 연산으로 흘려보냅니다.
+- <strong>필터 프루닝 (Filter <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong>: DAG를 분석하면, 어떤 필터 조건이 항상 false를 반환하는 것을 알 수 있는 경우(예: null 체크 followed by null이 아닌 필터), 아예 해당 필터 이하의 변환 체인을 실행하지 않을 수 있습니다.
 
 ### 2. Eager vs [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/): toy 예제로 비교
 
@@ -97,7 +88,7 @@ result_list = [x * 2 for x in range(1000000000)] # 10억 개 즉시 생성!
 print(result_list[:5]) # 이 줄에서 비로소 출력
 ```
 
-**Python [lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) (generator: [lazy evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)):**
+<strong>Python <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">lazy</a> (generator: <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">lazy evaluation</a>):</strong>
 ```python
 # Python (lazy): 제너레이터는plan만 기록, 실제 연산은 iteration 시
 result_gen = (x * 2 for x in range(1000000000)) # 계획만 기록
@@ -126,7 +117,7 @@ print(next(result_gen)) # 이 줄에서 비로소 첫 번째 값만 연산
 | **디버깅 용이성** | 단계별로 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능 | 전체 플랜이 블랙박스, 디버깅 어려움 |
 | **순수 함수 보장** | 부수 효과(side effect) 있어도 실행됨 | 부수 효과가 실제로 실행되는 시점에만 발현 |
 
-- **[Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 숨은 위험: [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)의 역설**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은"실행되지 않는 연산은 메모리를 사용하지 않는다"는 장점이 있지만, 반대로"실행되지 않은 연산의 계획([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))이 계속 누적된다"면 이는 이것이 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)의 원인이 될 수 있습니다. 예를 들어, 어떤 Spark 잡이 수백 개의 Transformation을 차례로 적용하는 DAG를 만들었지만, 단 한 번의 Action만 호출한다면, [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 자체는 메모리에 유지되므로 수백 메가바이트의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 메모리를 점유하게 됩니다. 이는 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처에서 Batch Layer의 DAG를 만들 때 특히 주의해야 할 문제입니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Evaluation의 숨은 위험: <a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>의 역설</strong>: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은"실행되지 않는 연산은 메모리를 사용하지 않는다"는 장점이 있지만, 반대로"실행되지 않은 연산의 계획([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))이 계속 누적된다"면 이는 이것이 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)의 원인이 될 수 있습니다. 예를 들어, 어떤 Spark 잡이 수백 개의 Transformation을 차례로 적용하는 DAG를 만들었지만, 단 한 번의 Action만 호출한다면, [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 자체는 메모리에 유지되므로 수백 메가바이트의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 메모리를 점유하게 됩니다. 이는 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처에서 Batch Layer의 DAG를 만들 때 특히 주의해야 할 문제입니다.
 
 - **📢 섹션 요약 비유**: Eager vs Lazy의 차이는 "그림 그리기의 두 가지 방식"과 같습니다. Eager는 눈앞의 풍경을 보면서 붓을 놓을 때마다 바로 페인트를 칠하는 것으로( части 완성품이 자꾸 쌓임), Lazy는 전체 구도를 스케치에 미리 그린 다음, 최종 완성본이 필요한 시점에 비로소 스케치북의 선을 따라 페인트를 것입니다. 스케치북에는"어떤 선을 어떻게 칠할지"만 적혀 있고 실제 페인트는도사용되지 않습니다. 다만 스케치북을 아무리 크게 그려도 실제 캔버스에 그려지기 전까지는의로서사용에서지 않다 것과 같이, [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation도 Action이라는"초상화 완성 의뢰"가 없으면물는 생산되지 않습니다.
 
@@ -137,13 +128,13 @@ print(next(result_gen)) # 이 줄에서 비로소 첫 번째 값만 연산
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
 | **파ipelining 가능 여부** | Narrow Dependency 연속 시 → [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 최적화 | Wide Dependency 섞여 있으면 Stage 분리 |
-| **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 복잡도** | 100개 이상 Transformation → [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Overhead 증가 | 너무 긴 lineage → checkpoint 권장 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 복잡도</strong> | 100개 이상 Transformation → [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Overhead 증가 | 너무 긴 lineage → checkpoint 권장 |
 | **Action 빈도** | 1개 RDD에 여러 Action → cache 필요 | 1개 Action만 → 불필요 캐시 제거 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 체인 분석** | filter→map→reduce 순서: filter를 map 이전에 적용하여 네트워크 전송량 최소화 | map→filter→reduce: 필터가 나중에 오면 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 네트워크 통과 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 체인 분석</strong> | filter→map→reduce 순서: filter를 map 이전에 적용하여 네트워크 전송량 최소화 | map→filter→reduce: 필터가 나중에 오면 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 네트워크 통과 |
 
 *(추가 실무 적용 가이드 - [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evalutation 디버깅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))*
 - **take(n) action 활용**: 전체 collect() 대신 take(n)을 사용하여 결과의 만 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). take는 첫 n 개 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 읽기 때문에 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하지 않아 디버깅 속도가 매우 빠릅니다.
-- **[RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/).toDebugString**: RDD의 lineage 체인([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 문자열로 출력하여, 어떤 변환들이 어떤 순서로 연결되어 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 중요한 디버깅 도구입니다.
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a>.toDebugString</strong>: RDD의 lineage 체인([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 문자열로 출력하여, 어떤 변환들이 어떤 순서로 연결되어 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 중요한 디버깅 도구입니다.
 - **queryExecution**: Spark DataFrame의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 official API로, .queryExecution.executedPlan으로 물리 계획, .queryExecution.analyzed으로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)을/를할 수 있습니다.
 - **실무 의사결정**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 "미리보기(Preview)" 기능을 활용하려면, 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아닌"샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 먼저 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 테스트한 후 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 실행하는"2단계 개발 패턴"을 따르는 것이 업계 Best Practice입니다.
 
@@ -153,13 +144,13 @@ print(next(result_gen)) # 이 줄에서 비로소 첫 번째 값만 연산
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **Adaptive Query Execution (AQE)과 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 결합**
+1. <strong>Adaptive Query Execution (AQE)과 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Evaluation의 결합</strong>
 Spark 3.0에서 도입된 AQE는 런타임 통계를 기반으로Lazy Evaluation이 세운 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을"재조정"하는 능동적 최적화입니다. 예를 들어, 조인 시 한쪽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기가 예상과 달리 매우 작은 것으로 밝혀지면, Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)(작은 쪽 전체를 네트워크로하여 모든 Executor에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))으로 자동으로 전환합니다. 이는 기존"계획 시점([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/))"의Lazy Evaluation을"실행 시점(Runtime)"까지 확장한 것으로, 동적 최적화의 새로운 지평을 열었습니다.
 
-2. **[Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/) DSL ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-Specific Language)의 대중화**
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/">Declarative</a> DSL (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>-Specific Language)의 대중화</strong>
 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의"무엇을 계산할지(What), 아닌 어떻게 계산할지(How)"라는 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 특성은, 이제 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/), Apache Beam, Flink SQL처럼"SQL-like 언어"로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 DSL의 대중화로 이어지고 있습니다. 사용자는"어떻게 필터를 적용하고 조인을 구현할지"가 아니라"어떤 테이블을 조인할지"만 선언하면, 프레임워크가 [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) + [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 최적화를 통해 자동으로 최적의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 세웁니다.
 
-3. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)Evalusation와 메타프로그래밍의 결합**
+3. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>Evalusation와 메타프로그래밍의 결합</strong>
 Scala의 macros이나Rust의 procedural macros처럼, [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 개념이"컴파일 타임 최적화"로 확장되고 있습니다. Apache Spark의 Catalyst Optimizer는 Scala의 변환(Tree Transformation) 기능을 활용하여, DataFrame 연산의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획을 컴파일 시점에 최적화된 물리 계획로 변환합니다. 이는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의"실행 전 최적화" 특성을 더 강력한"컴파일 타임 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"으로 발전시킨 것으로, 컴파일러가 불필요한 변환을 제거하고 상수 폴딩(Constant Folding)을 적용하여 런타임 비용을 최소화합니다.
 
 - **📢 섹션 요약 비유**: [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 미래는 "설계도의 자동 + 시공의 роботизации"와 같습니다. 과거 건축가는 설계도만 그리고 현장감독이시공순서를 수동으로 조정했지만, 이제는 компьютер 프로그램이"이 설계도대로시공하면 자재가 에하는 순서는 이것"이라고 으로하고, 로봇 공학자가 그 순서에 따라 자동으로 строительство를 실행합니다. 인간은"어떤 건물을 지을지(What)"만 생각하면 되고,"어떻게 지을지(How)"는 기계가 전부 자동하는 것입니다. [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation은 바로 그"무엇을(What)"과"어떻게(How)"를 분리하는 핵심 설계 원칙으로서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처리 분야를 넘어 프로그래밍 언어론 전반에 걸쳐 지속할 것입니다.
@@ -168,14 +159,14 @@ Scala의 macros이나Rust의 procedural macros처럼, [Lazy Evaluation](/knowled
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 적용 기술 생태계**
-* **[함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)**: Haskell(순수 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)), Scala([LAZY](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 키워드), Clojure([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시퀀스)
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a> 적용 기술 생태계</strong>
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/">함수형 프로그래밍</a></strong>: Haskell(순수 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)), Scala([LAZY](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 키워드), Clojure([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시퀀스)
 * **빅데이터 처리**: [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)/DataFrame), [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)(밍), Apache Beam( [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
 * ** языки программирования**: Python(Generator/[Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)), Java([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), JavaScript(제너레이터)
-* **Spark [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 핵심 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)**
+* <strong>Spark <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a> 핵심 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a></strong>
 * **Transformation** ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/)): map, filter, flatMap, groupByKey, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), reduceByKey, union, distinct, repartition...
 * **Action** (실행 개시): collect, count, sum, take, save, foreach, reduce...
-* **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 최적화 기법**
+* <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 최적화 기법</strong>
 * Constant Folding (컴파일 타임 상수 연산)
 * Predicate Pushdown (필터 조건을 으로 내림)
 * Column [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (필요한 컬럼만 선택)
@@ -185,24 +176,25 @@ Scala의 macros이나Rust의 procedural macros처럼, [Lazy Evaluation](/knowled
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Lazy Evaluation 적용 기술 생태계]
-│
-▼
-[함수형 프로그래밍: Haskell(순수 지연 평가), Scala(LAZY 키워드), Clojure(지연 시퀀스)]
-│
-▼
-[빅데이터 처리: Apache Spark(RDD/DataFrame), Apache Flink(밍), Apache Beam( API)]
-│
-▼
-[языки программирования: Python(Generator/Iterator), Java(Stream API), JavaScript(제너레이터)]
-│
-▼
-[Spark Lazy Evaluation 핵심 트리거]
-│
-▼
-[Transformation (Lazy): map, filter, flatMap, groupByKey, join, reduceByKey, union, distinct, repartition...]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lazy Evaluation 적용 기술 생태계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">함수형 프로그래밍: Haskell(순수 지연 평가), Scala(LAZY 키워드), Clojure(지연 시퀀스)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 처리: Apache Spark(RDD/DataFrame), Apache Flink(밍), Apache Beam( API)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">языки программирования: Python(Generator/Iterator), Java(Stream API), JavaScript(제너레이터)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Lazy Evaluation 핵심 트리거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transformation (Lazy): map, filter, flatMap, groupByKey, join, reduceByKey, union, distinct, repartition...</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 적용 기술 생태계에서 출발해 Spark [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 핵심 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
@@ -212,7 +204,7 @@ Scala의 macros이나Rust의 procedural macros처럼, [Lazy Evaluation](/knowled
 3. 마치 크레용을 미리 다 준비해두는 게 아니라, 선생님이"이제 풀어보세요"할 때 필요한 색만 꺼내서 쓰는 것과 비슷해요!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/) 이론적 기반과 Apache Spark에서의 실습적 구현을 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Evaluation의 [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/) 이론적 기반과 Apache Spark에서의 실습적 구현을 모두 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

@@ -25,25 +25,27 @@ tags = ["studynote-design-supervision"]
 
 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)의 질문: "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이 단계를 어떻게 수행해야 하는가?" → [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          팩터리 메서드 vs 템플릿 메서드 비교                 │
-├─────────────────────────────────────────────────────────────┤
-│  팩터리 메서드                                              │
-│  Creator.someOperation() {                                  │
-│    Product p = createProduct(); // 팩터리 메서드 (생성)     │
-│    p.doSomething();                                         │
-│  }                                                          │
-│  ConcreteCreator.createProduct() { return new ProductA(); } │
-│                                                             │
-│  템플릿 메서드                                              │
-│  AbstractClass.templateMethod() {  // final                 │
-│    step1(); // 공통                                         │
-│    step2(); // abstract - 서브클래스 구현 (행위)            │
-│  }                                                          │
-│  ConcreteClass.step2() { // A만의 행위 구현 }              │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드 vs 템플릿 메서드 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Creator.someOperation() {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product p = createProduct(); // 팩터리 메서드 (생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p.doSomething();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteCreator.createProduct() { return new ProductA(); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">템플릿 메서드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractClass.templateMethod() { // final</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step1(); // 공통</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step2(); // abstract - 서브클래스 구현 (행위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteClass.step2() { // A만의 행위 구현 }</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 팩터리 메서드는 '무엇을 만들지'를 결정하는 것이고(요리 재료 선택), [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 '어떻게 만들지'를 결정하는 것이다(조리 방법 선택).
 
@@ -60,19 +62,22 @@ tags = ["studynote-design-supervision"]
 | 반환값 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 객체 | (없거나 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결과) |
 | 주요 사용 | 다형적 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 코드 재사용·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변형 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       두 패턴 조합 예시 (AbstractApplicationContext)        │
-├─────────────────────────────────────────────────────────────┤
-│  AbstractApplicationContext.refresh() { // 템플릿 메서드    │
-│    1. createBeanFactory()   ← 팩터리 메서드                 │
-│    2. loadBeanDefinitions() ← 추상 메서드 (행위)           │
-│    3. invokeBeanFactoryPostProcessors()                     │
-│    4. registerBeanPostProcessors()                          │
-│    5. finishBeanFactoryInitialization()                     │
-│  }                                                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 패턴 조합 예시 (AbstractApplicationContext)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractApplicationContext.refresh() { // 템플릿 메서드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. createBeanFactory() ← 팩터리 메서드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. loadBeanDefinitions() ← 추상 메서드 (행위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. invokeBeanFactoryPostProcessors()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. registerBeanPostProcessors()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. finishBeanFactoryInitialization()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 식당(AbstractApplicationContext)이 개장(refresh [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)) 시 주방 도구(BeanFactory, 팩터리 메서드)를 준비하고, 음식 조리법(행위 단계)을 따라 운영을 시작한다.
 

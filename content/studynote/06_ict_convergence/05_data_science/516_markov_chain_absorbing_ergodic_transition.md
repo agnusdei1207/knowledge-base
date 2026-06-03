@@ -24,7 +24,7 @@ tags = ["studynote-ict-convergence"]
 ### [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 기본 요소
 
 - **상태 공간 S**: {S₁, S₂, ..., Sₙ} — 시스템이 취할 수 있는 모든 상태.
-- **전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P(i→j)**: 상태 i에서 j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (각 행의 합 = 1).
+- <strong>전이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> P(i→j)</strong>: 상태 i에서 j로 이동할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (각 행의 합 = 1).
 - **전이 행렬 (Transition Matrix)**: n×n 행렬, Pᵢⱼ = P(Xₜ₊₁=j | Xₜ=i).
 
 - **📢 섹션 요약 비유**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 기억상실증 여행자 같아. 오늘 어디 있는지는 알지만, 어제 어디서 왔는지는 신경 쓰지 않고 오늘 위치에서만 다음 목적지를 정해.
@@ -35,27 +35,29 @@ tags = ["studynote-ict-convergence"]
 
 ### 상태 분류와 체인 구조
 
-```
-마르코프 체인 상태 유형
-┌───────────────────────────────────────┐
-│  일시적 상태 (Transient)              │
-│  한 번 떠나면 돌아올 보장 없음         │
-├───────────────────────────────────────┤
-│  재귀적 상태 (Recurrent)              │
-│  언제나 반드시 다시 방문              │
-│  ├─ 양성 재귀 (Positive Recurrent)   │
-│  │  평균 재방문 시간 유한 → 정상분포  │
-│  └─ 영 재귀 (Null Recurrent)         │
-│     평균 재방문 시간 무한             │
-├───────────────────────────────────────┤
-│  흡수 상태 (Absorbing)               │
-│  진입 후 탈출 불가: P(i→i) = 1       │
-└───────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마르코프 체인 상태 유형</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일시적 상태 (Transient)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번 떠나면 돌아올 보장 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀적 상태 (Recurrent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제나 반드시 다시 방문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 양성 재귀 (Positive Recurrent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 재방문 시간 유한 → 정상분포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 영 재귀 (Null Recurrent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 재방문 시간 무한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">흡수 상태 (Absorbing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진입 후 탈출 불가: P(i→i) = 1</div></div>
+</div>
+</div>
+
+
 
 ### 정상 분포 (Stationary Distribution)
 
-전이 행렬 P의 **정상 분포 π**는 π = πP를 만족하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 벡터.
+전이 행렬 P의 <strong>정상 분포 π</strong>는 π = πP를 만족하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 벡터.
 - **에르고딕 체인(Ergodic Chain)**: 모든 상태가 도달 가능(Irreducible) + 비주기적(Aperiodic) → 유일한 정상 분포 존재.
 - 수렴 속도: **혼합 시간(Mixing Time)** = [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 분포가 정상 분포의 ε-근방에 도달하는 시간.
 
@@ -83,7 +85,7 @@ tags = ["studynote-ict-convergence"]
 
 - 직접 샘플링이 어려운 복잡한 분포에서 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)을 이용해 샘플링.
 - **Metropolis-Hastings**: 제안 분포에서 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 수락/기각 결정.
-- **Gibbs [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: 조건부 분포를 순환적으로 샘플링.
+- <strong>Gibbs <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 조건부 분포를 순환적으로 샘플링.
 - 수렴 후 체인의 상태 시퀀스 = 목표 분포의 샘플.
 
 - **📢 섹션 요약 비유**: MCMC는 지도 없이 산을 탐험하면서 높이 비례 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 각 위치에 머무는 방법이야. 오래 걸으면 결국 높은 봉우리 근처에 자주 머물게 되어 지형도(목표 분포)를 자동으로 그릴 수 있어.
@@ -117,7 +119,7 @@ tags = ["studynote-ict-convergence"]
 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 동역학의 범용 프레임워크로 PageRank부터 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL)의 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))까지 광범위하게 활용된다.
 
 - **예측 정밀화**: 장기 거동(정상 분포)과 단기 거동(k단계 전이) 모두 계산 가능.
-- **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반**: RL의 MDP는 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)에 행동(Action)과 보상(Reward)을 추가한 확장.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 기반</strong>: RL의 MDP는 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)에 행동(Action)과 보상(Reward)을 추가한 확장.
 - **베이즈 추론 실용화**: MCMC로 해석적으로 풀기 어려운 사후 분포(Posterior) 샘플링.
 
 - **📢 섹션 요약 비유**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 미래를 예측하는 데 현재 순간만 필요하다는 간단하지만 강력한 원칙이야. 이 원칙 하나로 구글 검색 순위, 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 유전자 분석까지 다 연결돼 있어.

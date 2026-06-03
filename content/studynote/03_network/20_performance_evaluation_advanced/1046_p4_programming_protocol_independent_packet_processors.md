@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 855번에서 배운 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뇌(Control Plane)를 빼앗아 중앙에서 조종했습니다.
-- 하지만 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 **손발([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane, 진짜 패킷을 전달하는 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩)**은 여전히 공장에서 고정된 기능(Fixed-Function)으로 만들어져 있었습니다.
+- 하지만 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 <strong>손발(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane, 진짜 패킷을 전달하는 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩)</strong>은 여전히 공장에서 고정된 기능(Fixed-Function)으로 만들어져 있었습니다.
 - 딜레마: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 컨트롤러가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 "새로운 IPv8 패킷 헤더 까봐!"라고 명령해도, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋은 "저 그런 거 공장에서 배운 적 없는데요?" 라며 거부합니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 진짜 하드웨어 칩셋([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) 자체를 내 마음대로 코딩할 방법이 없었습니다.
 
-```text
-[eBPF 커널 네트워킹 후킹 시스템]
-    │
-    ▼
-[P4 네트워크 프로그래밍 모델 플로우]
-    │
-    └──▶ [타임 센시티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,14 @@ tags = ["studynote-network"]
 
 스탠포드 닉 맥커운(Nick McKeown) 교수팀이 2014년에 제안한 탑-다운([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 아키텍처입니다.
 
-- **개념**: 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 랜카드(SmartNIC)의 **하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane, 패킷 전달 파이프라인)이 패킷을 어떻게 파싱(Parsing)하고, 매치-액션(Match-Action) 할지를 개발자가 직접 C언어처럼 코딩하여 칩셋 구조를 런타임에 마음대로 재구성할 수 있게 해주는 네트워크 전용 프로그래밍 언어**입니다.
+- **개념**: 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 랜카드(SmartNIC)의 <strong>하드웨어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플레인(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane, 패킷 전달 파이프라인)이 패킷을 어떻게 파싱(Parsing)하고, 매치-액션(Match-Action) 할지를 개발자가 직접 C언어처럼 코딩하여 칩셋 구조를 런타임에 마음대로 재구성할 수 있게 해주는 네트워크 전용 프로그래밍 언어</strong>입니다.
 - **핵심 철학 (Protocol-Independent)**: P4로 짜인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 자기가 처리하는 게 IP인지 TCP인지 알 바 아닙니다. 개발자가 "패킷 맨 앞 14바이트를 잘라내서, 이 테이블이랑 비교해!"라고 코드([P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/))를 짜서 밀어 넣으면, 백지상태의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 그대로 학습하여 100Gbps 광속으로 패킷을 처리하는 괴물로 진화합니다.
 
 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 프로그래밍하는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뱃속(파이프라인) 구조입니다.
 
 ### 1. 파서 (Parser) - "택배 상자 분해기"
 - 패킷이 들어오면 어디서부터 어디까지가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 껍데기이고, 어디가 IP 껍데기인지 잘라내는 기계입니다.
-- **[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 마법**: 개발자가 `parse_ipv4 { extract(hdr.ipv4); }` 라고 코드를 짜면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 즉시 IP 헤더를 칼같이 발라내는 파서로 변신합니다. 새로운 커스텀 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들면 파서 코드만 한 줄 추가하면 끝입니다(기계 안 바꿔도 됨).
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a> 마법</strong>: 개발자가 `parse_ipv4 { extract(hdr.ipv4); }` 라고 코드를 짜면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 즉시 IP 헤더를 칼같이 발라내는 파서로 변신합니다. 새로운 커스텀 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들면 파서 코드만 한 줄 추가하면 끝입니다(기계 안 바꿔도 됨).
 
 ### 2. 매치-액션 파이프라인 (Match-Action Tables) - "[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 조작"
 - 파서가 분해한 헤더 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들고, 여러 개의 표(Table)를 거치며 비교(Match)하고 행동(Action)을 취합니다.
@@ -57,14 +61,18 @@ tags = ["studynote-network"]
 ### 3. 디파서 (Deparser) - "택배 상자 재포장"
 - 조작이 끝난 헤더와 페이로드를 다시 하나의 예쁜 패킷 덩어리로 재조립(직렬화)하여 랜선 밖으로 쏘아 보냅니다.
 
-```text
-[eBPF 커널 네트워킹 후킹 시스템]
-    │
-    ▼
-[P4 네트워크 프로그래밍 모델 플로우]
-    │
-    └──▶ [타임 센시티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 네트워크 역사상 최고의 돋보기 기술 중 하나입니다.
-- P4로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 개조해서, 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1 ➜ 2 ➜ 3을 지나갈 때마다 **패킷 껍데기 뒷면에다가 "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1번 통과 시간: 0.1ms, 큐 대기열: 5개"라는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 상태 정보(텔레메트리)를 도장 찍듯이 쾅쾅 누적해서 기록([Piggybacking](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/))**하게 만듭니다.
+- P4로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 개조해서, 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1 ➜ 2 ➜ 3을 지나갈 때마다 <strong>패킷 껍데기 뒷면에다가 "<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 1번 통과 시간: 0.1ms, 큐 대기열: 5개"라는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 내부 상태 정보(텔레메트리)를 도장 찍듯이 쾅쾅 누적해서 기록(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>하게 만듭니다.
 - 도착지 서버에서 패킷 껍데기만 쓱 벗겨보면? 이 패킷이 어떤 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 몇 초 동안 병목이 걸렸는지 100% 완벽한 내시경 촬영(가시성)이 가능해집니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -96,7 +104,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))는 공장에서 구워져 나온 **'붕어빵 기계'**입니다. 팥 붕어빵([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))과 슈크림 붕어빵([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 딱 두 개만 찍어낼 수 있는 고정된 틀(Fixed-Function)을 갖고 있습니다. 사장님이 피자 붕어빵(새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 팔고 싶으면 수천만 원짜리 기계를 버리고 새로 사야 했습니다. **[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어와 프로그래머블 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 형체가 자유자재로 변하는 **'3D 프린터 기계'**입니다. 기계 안은 텅 비어있지만, 개발자가 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 "자, 이제부터 십자가 모양 틀을 만들어서 피자를 넣어라!"라고 도면 코드(코드 컴파일)를 기계에 USB로 밀어 넣으면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 칩셋이 1초 만에 피자 붕어빵을 초당 1억 개씩 찍어내는 완벽한 맞춤형 하드웨어로 변신합니다. 장비 교체 없이 소프트웨어 타이핑만으로 거대한 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뱃속([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인)을 마음대로 진화시키는 궁극의 인프라 연금술입니다.
+- **📢 섹션 요약 비유**: 기존 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))는 공장에서 구워져 나온 <strong>'붕어빵 기계'</strong>입니다. 팥 붕어빵([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))과 슈크림 붕어빵([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 딱 두 개만 찍어낼 수 있는 고정된 틀(Fixed-Function)을 갖고 있습니다. 사장님이 피자 붕어빵(새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 팔고 싶으면 수천만 원짜리 기계를 버리고 새로 사야 했습니다. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a> 언어와 프로그래머블 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 형체가 자유자재로 변하는 <strong>'3D 프린터 기계'</strong>입니다. 기계 안은 텅 비어있지만, 개발자가 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 "자, 이제부터 십자가 모양 틀을 만들어서 피자를 넣어라!"라고 도면 코드(코드 컴파일)를 기계에 USB로 밀어 넣으면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 칩셋이 1초 만에 피자 붕어빵을 초당 1억 개씩 찍어내는 완벽한 맞춤형 하드웨어로 변신합니다. 장비 교체 없이 소프트웨어 타이핑만으로 거대한 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뱃속([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인)을 마음대로 진화시키는 궁극의 인프라 연금술입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: eBPF 커널 네트워킹 후킹 시스템]
-    │
-    ▼
-[현재 개념: P4 네트워크 프로그래밍 모델 플로우]
-    │
-    ├──▶ [확장 A: 타임 센시티브 네트워킹]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: P4 네트워크 프로그래밍 모델 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [타임 센시티브 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

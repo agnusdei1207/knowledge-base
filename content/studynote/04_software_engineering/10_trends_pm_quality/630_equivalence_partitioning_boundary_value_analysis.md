@@ -19,14 +19,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **동등 분할**은 입력값의 도메인을 유효한 값(Valid)과 유효하지 않은 값(Invalid)의 여러 덩어리(클래스)로 나눈 뒤, 각 덩어리에서 딱 1개의 대푯값만 뽑아 테스트하는 기법이다. **[경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)**은 동등 분할의 맹점을 보완하여, 덩어리가 나뉘는 '경계선(Boundary)'에 위치한 값들(최대값, 최소값, 바로 옆값)을 콕 집어서 추가로 테스트하는 기법이다.
+- **개념**: <strong>동등 분할</strong>은 입력값의 도메인을 유효한 값(Valid)과 유효하지 않은 값(Invalid)의 여러 덩어리(클래스)로 나눈 뒤, 각 덩어리에서 딱 1개의 대푯값만 뽑아 테스트하는 기법이다. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">경계값 분석</a></strong>은 동등 분할의 맹점을 보완하여, 덩어리가 나뉘는 '경계선(Boundary)'에 위치한 값들(최대값, 최소값, 바로 옆값)을 콕 집어서 추가로 테스트하는 기법이다.
 
 - **필요성**: 비밀번호를 8~12자리로 입력해야 하는 가입 창이 있다. 8자리, 9자리, 10자리, 11자리, 12자리, 그리고 1~7자리, 13~100자리까지 모든 경우의 수(문자열 조합)를 테스트하려면 우주가 멸망할 때까지 테스트해도 모자란다(완벽한 테스팅의 불가능성). 테스터는 "9자리나 10자리나 어차피 로직이 똑같이 동작할 텐데 굳이 두 번 다 테스트할 필요가 있나?"라는 철학적 질문을 던졌고, 그 결과 수학의 '동치류(Equivalence Class)' 개념을 차용하여 똑똑하게 1개의 값만 솎아내는 설계법을 발명했다.
 
 - **💡 비유**: 당신이 놀이공원 매표소 알바생입니다. 키가 120cm 이상~150cm 이하인 아이만 청룡열차를 탈 수 있습니다.
   - **무식한 테스팅**: 키 120cm인 아이부터 150cm인 아이까지 31명을 1cm 단위로 다 데려와서 탑승이 되는지 한 명씩 표를 찍어봅니다. (불가능)
   - **동등 분할 (숲)**: "안 되는 그룹(100cm), 되는 그룹(135cm), 안 되는 그룹(160cm)" 딱 3명만 뽑아서 검사합니다.
-  - **[경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/) (나무)**: "경계에 있는 애들이 헷갈리지! 119cm(안됨), 120cm(됨), 150cm(됨), 151cm(안됨)" 딱 4명을 추가로 검사하여 알바생이 `<=` 기호를 `<`로 잘못 썼는지(버그) 찾아냅니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">경계값 분석</a> (나무)</strong>: "경계에 있는 애들이 헷갈리지! 119cm(안됨), 120cm(됨), 150cm(됨), 151cm(안됨)" 딱 4명을 추가로 검사하여 알바생이 `<=` 기호를 `<`로 잘못 썼는지(버그) 찾아냅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **주먹구구식 테스팅 시대**: 개발자가 그냥 자기가 좋아하는 숫자나 글자 몇 개 넣어보고 "돌아가네!" 하고 배포하던 시절, 운영에서 치명적 에러([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Out of Bounds 등)가 속출했다.
@@ -39,18 +39,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 동등 분할 (Equivalence P의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  동등 분할 (Equivalence P                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동등 분할 (Equivalence P</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 동등 분할 (Equivalence P가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-동등 분할 (Equivalence [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+동등 분할 (Equivalence [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 동등 분할 (Equivalence [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-동등 분할 (Equivalence Partitioning) 경계값 분석 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동등 분할 (Equivalence Partitioning) 경계값 분석 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

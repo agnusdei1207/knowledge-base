@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 * "저 10년 된 구형 그래픽카드 쓰는데 글씨가 다 깨져 나오네요."
 * "지하철에서 와이파이 잡으면서 하니까 아이템이 복사가 되는데요? ㅋㅋㅋ"
 
-이것이 베타 테스트의 진정한 목적이다. 개발사의 통제된 랩실에서는 죽었다 깨어나도 재현할 수 없는 **수만 가지 변수(백신 충돌, 똥컴, 느린 3G 네트워크)가 결합된 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**들을, 불특정 다수의 유저들을 갈아 넣어(Crowdsourcing) 무료로 찾아내는 것이다. 그래서 베타 테스트를 **필드 테스트(Field Test)**라고도 부른다.
+이것이 베타 테스트의 진정한 목적이다. 개발사의 통제된 랩실에서는 죽었다 깨어나도 재현할 수 없는 <strong>수만 가지 변수(백신 충돌, 똥컴, 느린 3G 네트워크)가 결합된 치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>들을, 불특정 다수의 유저들을 갈아 넣어(Crowdsourcing) 무료로 찾아내는 것이다. 그래서 베타 테스트를 <strong>필드 테스트(Field Test)</strong>라고도 부른다.
 
 > 📢 **섹션 요약 비유**: 알파 테스트가 정비소 안에서 자동차 시동을 걸어보는 것이라면, 베타 테스트는 수만 명의 일반인에게 차 키를 던져주고 아스팔트, 비포장도로, 눈길, 진흙탕 등 온갖 야생(필드)으로 차를 몰고 나가게 한 뒤, 어디가 부서져서 돌아오는지 확인하는 거친 주행 테스트입니다.
 
@@ -37,18 +37,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 베타 테스트 (Beta Test)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  베타 테스트 (Beta Test)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베타 테스트 (Beta Test)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 베타 테스트 (Beta Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -62,31 +61,31 @@ tags = ["studynote-software-engineering"]
 
 알파와 대조되는 베타 테스트만의 독보적인 특징은 3가지다.
 
-1. **통제 불가능한 환경 (Uncontrolled [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**
+1. <strong>통제 불가능한 환경 (Uncontrolled <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>
    - 개발자는 유저의 집에 따라가지 않는다. 유저가 어떤 불법 프로그램을 켜놨는지, 컴퓨터에 바이러스가 있는 상태인지 알 길이 없다.
    - 따라서 에러가 나면 화면에 뜨는 증상을 알림으로 보내주는 '에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 자동 수집기(Crashlytics 등)'가 소프트웨어 안에 반드시 내장되어 있어야 한다.
-2. **다양성 및 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 커버리지 ([Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))**
+2. <strong>다양성 및 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 커버리지 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">Compatibility</a>)</strong>
    - 삼성폰, 애플폰, 샤오미폰, 화면 비율 16:9, 21:9 등 무한에 가까운 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 이슈를 베타 테스터들의 기기 다양성으로 완벽하게 덮어버린다.
 3. **블랙박스 중의 블랙박스**
    - 유저는 코드를 전혀 볼 수 없다. "안 돼요"라고 게시판에 한 줄 쓰면 끝이다. 개발자는 유저가 남긴 엉성한 피드백 글과 에러 코드 몇 줄만 보고 머리를 쥐어뜯으며 역추적해서 버그를 고쳐야 한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│           알파 테스트 vs 베타 테스트의 통제 환경 비교 시각화                │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ 🏢 [ 알파 테스트 ]           │ 🌍 [ 베타 테스트 (필드 테스트) ]             │
-│   (개발사 랩실 내부)          │   (전 세계 유저들의 집)                     │
-│                              │                                              │
-│   💻 + 👀 (개발자가 등 뒤에)   │   💻 (똥컴)   📱 (구형 폰)    💻 (해외망)  │
-│   💻 + 👀                   │      \           │            /               │
-│   💻 + 👀                   │       \          │           /                │
-│                              │        ▼         ▼         ▼                 │
-│ ★ 환경: 하드웨어 1종류         │        [ 개발사 게시판 / 로그 수집기 ]     │
-│ ★ 조치: 실시간 코드 수정 가능   │ ★ 환경: 파편화된 수만 가지 야생 환경      │
-│                              │ ★ 조치: 유저 리포트를 보고 사후 패치         │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알파 테스트 vs 베타 테스트의 통제 환경 비교 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">알파 테스트</div><div class="kb-diagram-note">🌍</div><div class="kb-diagram-node">베타 테스트 (필드 테스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발사 랩실 내부)</div><div class="kb-diagram-cell">(전 세계 유저들의 집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💻 + 👀 (개발자가 등 뒤에)</div><div class="kb-diagram-cell">💻 (똥컴) 📱 (구형 폰) 💻 (해외망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💻 + 👀</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💻 + 👀</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">★ 환경: 하드웨어 1종류</div><div class="kb-diagram-node">개발사 게시판 / 로그 수집기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 조치: 실시간 코드 수정 가능</div><div class="kb-diagram-cell">★ 환경: 파편화된 수만 가지 야생 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 조치: 유저 리포트를 보고 사후 패치</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -166,21 +165,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-베타 테스트 (Beta Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">베타 테스트 (Beta Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

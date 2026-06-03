@@ -29,12 +29,18 @@ tags = ["studynote-cloud"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Pod
-  ↓ Service
-  ↓ Deployment
-  ↓ Cluster
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pod</div>
+<div class="kb-diagram-note">↓ Service</div>
+<div class="kb-diagram-note">↓ Deployment</div>
+<div class="kb-diagram-note">↓ Cluster</div>
+</div>
+</div>
+
+
 
 | 구성 | 의미 |
 | :-- | :-- |
@@ -102,25 +108,37 @@ Pod
 
 ## 관련 개념 맵
 
-```text
-Pod
-  ↓
-Service
-  ↓
-Deployment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pod</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Service</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deployment</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Container Runtime
-  ↓
-Kubernetes
-  ↓
-Orchestration Platform
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Container Runtime</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Kubernetes</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Orchestration Platform</div>
+</div>
+</div>
+
+
 
 ---
 

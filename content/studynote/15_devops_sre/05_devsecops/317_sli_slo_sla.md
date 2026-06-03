@@ -18,15 +18,18 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계층 구조
 
-```
-┌──────────────────────────────────────────────────────┐
-│                   신뢰성 지표 계층                   │
-│                                                      │
-│  SLA  (계약) : 99.9% 가용성 — 위반 시 환불 조항     │
-│    └─ SLO  (목표) : 99.95% — 내부 엄격 목표         │
-│         └─ SLI  (지표) : 실제 측정값 (현재 99.97%)  │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신뢰성 지표 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA (계약) : 99.9% 가용성 — 위반 시 환불 조항</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SLO (목표) : 99.95% — 내부 엄격 목표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SLI (지표) : 실제 측정값 (현재 99.97%)</div></div>
+</div>
+</div>
+
+
 
 | 개념  | 정의                                      | 주체           |
 |-------|-------------------------------------------|----------------|
@@ -43,7 +46,7 @@ tags = ["studynote-devops-sre"]
 
 SLI는 사용자가 체감하는 품질을 직접 반영해야 한다.
 
-**4 Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/) (4대 황금 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))**:
+<strong>4 Golden <a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/">Signals</a> (4대 황금 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)</strong>:
 
 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)        | 설명                              | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 예시                     |
 |-------------|-----------------------------------|------------------------------|
@@ -59,20 +62,31 @@ SLI는 사용자가 체감하는 품질을 직접 반영해야 한다.
 
 ## Ⅲ. [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 계산과 활용
 
-```
-Error Budget = 1 - SLO
 
-SLO 99.9% → 월 43.8분 허용 다운타임
-SLO 99.99% → 월 4.38분 허용 다운타임
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Error Budget = 1 - SLO</div>
+<div class="kb-diagram-note">SLO 99.9% → 월 43.8분 허용 다운타임</div>
+<div class="kb-diagram-note">SLO 99.99% → 월 4.38분 허용 다운타임</div>
+</div>
+</div>
+
+
 
 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/):
 
-```
-남은 예산 > 50%  →  적극적 실험·배포 허용
-남은 예산 < 10%  →  배포 속도 제한, 안정화 우선
-예산 소진        →  기능 동결, 신뢰성 개선 집중
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">남은 예산 &gt; 50% → 적극적 실험·배포 허용</div>
+<div class="kb-diagram-note">남은 예산 &lt; 10% → 배포 속도 제한, 안정화 우선</div>
+<div class="kb-diagram-note">예산 소진 → 기능 동결, 신뢰성 개선 집중</div>
+</div>
+</div>
+
+
 
 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 번 레이트(Burn Rate): 예산 소진 속도. 1시간 만에 1주치 예산이 소진되면 즉각 알림을 발생시킨다.
 
@@ -112,13 +126,19 @@ SLO 99.99% →  Error Budget = 월 4.38분  ← 배포 한 번 실패하면 소�
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-SLI/SLO/SLA
-    ├── Error Budget → 혁신-안정성 균형
-    ├── Burn Rate Alert → 예산 조기 경보
-    ├── 4 Golden Signals → 핵심 SLI 선정
-    └── Multi-window Alerting → SLO 기반 고급 알림 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SLI/SLO/SLA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Error Budget → 혁신-안정성 균형</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Burn Rate Alert → 예산 조기 경보</div>
+<div class="kb-diagram-tree-item" style="--depth:2">4 Golden Signals → 핵심 SLI 선정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Multi-window Alerting → SLO 기반 고급 알림 설계</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > SLO는 "이번 달 지각 허용 횟수 2번" 같은 규칙이에요. 2번 다 쓰면 새 방과후 활동(기능 추가)은 다음 달로 미뤄야 해요.

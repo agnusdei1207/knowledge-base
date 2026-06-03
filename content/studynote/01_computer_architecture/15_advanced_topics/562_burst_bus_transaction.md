@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 첫 주소만 명시한 뒤 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 한 호흡에 전송하는 방식이다. 단일 전송에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 단어를 보낼 때마다 `중재 → 주소 → 응답 → 데이터` 절차가 반복되지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트에서는 이 제어 절차를 묶어 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat가 연속해서 흐른다. 따라서 본질은 "더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다"가 아니라, **같은 제어 비용으로 더 많은 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 나른다**에 가깝다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 첫 주소만 명시한 뒤 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 한 호흡에 전송하는 방식이다. 단일 전송에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 단어를 보낼 때마다 `중재 → 주소 → 응답 → 데이터` 절차가 반복되지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트에서는 이 제어 절차를 묶어 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat가 연속해서 흐른다. 따라서 본질은 "더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다"가 아니라, <strong>같은 제어 비용으로 더 많은 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 나른다</strong>에 가깝다.
 
 이 기법이 필요한 이유는 현대 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 대개 뭉치로 이동하기 때문이다. Central Processing Unit (CPU)이 캐시 라인 64바이트를 읽을 때, 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)라면 8번의 beat가 필요하다. 이 8번을 각각 따로 주소 지정하면 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 상당 부분이 주소와 중재 신호에 소모된다. 반면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트로 묶으면 한 번의 주소 단계 뒤에 8개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) beat를 연속으로 받아올 수 있다.
 
@@ -43,26 +43,28 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 64바이트 캐시 라인을 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 읽을 때 주소가 왜 한 번이면 충분한지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Grant -> Addr=0x8000, LEN=8, SIZE=8B                                        │
-│            │                                                                 │
-│            ├─ Beat0 : 0x8000 ~ 0x8007                                       │
-│            ├─ Beat1 : 0x8008 ~ 0x800F                                       │
-│            ├─ Beat2 : 0x8010 ~ 0x8017                                       │
-│            ├─ Beat3 : 0x8018 ~ 0x801F                                       │
-│            ├─ Beat4 : 0x8020 ~ 0x8027                                       │
-│            ├─ Beat5 : 0x8028 ~ 0x802F                                       │
-│            ├─ Beat6 : 0x8030 ~ 0x8037                                       │
-│            └─ Beat7 : 0x8038 ~ 0x803F -> Release                            │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grant -&gt; Addr=0x8000, LEN=8, SIZE=8B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat0 : 0x8000 ~ 0x8007</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat1 : 0x8008 ~ 0x800F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat2 : 0x8010 ~ 0x8017</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat3 : 0x8018 ~ 0x801F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat4 : 0x8020 ~ 0x8027</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat5 : 0x8028 ~ 0x802F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat6 : 0x8030 ~ 0x8037</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat7 : 0x8038 ~ 0x803F -&gt; Release</div></div>
+</div>
+</div>
+
+
 
 실제 메모리 시스템에서는 이 연속성이 더 큰 이득을 만든다. [DDR SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) [Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random-Access Memory)은 내부적으로 Burst Length 8 (BL8) 같은 고정 burst 길이를 사용해 열린 행에서 여러 열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 출력한다. CPU 캐시 라인, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) burst 길이, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) burst 길이가 잘 맞아떨어질수록 주소 오버헤드와 행 전환 비용을 함께 줄일 수 있다.
 
-또한 WRAP burst는 캐시 라인 내부를 순환하면서 필요한 단어부터 먼저 가져오게 해 준다. 즉 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 단순히 "연속 주소"만 뜻하는 것이 아니라, **연속성을 어떤 규칙으로 소비할지**까지 포함한 설계 개념이다.
+또한 WRAP burst는 캐시 라인 내부를 순환하면서 필요한 단어부터 먼저 가져오게 해 준다. 즉 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 단순히 "연속 주소"만 뜻하는 것이 아니라, <strong>연속성을 어떤 규칙으로 소비할지</strong>까지 포함한 설계 개념이다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 기차 편성처럼 생각하면 쉽다. 기관차가 한 번 출발하면 뒤 칸들이 줄줄이 따라가듯, 시작 주소만 알려 주면 나머지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 정해진 규칙대로 이어서 이동한다.
 
@@ -70,7 +72,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트를 이해할 때 가장 중요한 비교 축은 단일 전송과 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이다. 단일 전송은 단순하지만 제어 오버헤드가 크고, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 기다리는 시간을 숨기지만 구조가 더 복잡하다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 이 둘 사이에서 **"[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 잡은 뒤 얼마나 효율적으로 실어 나르느냐"**를 담당한다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트를 이해할 때 가장 중요한 비교 축은 단일 전송과 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이다. 단일 전송은 단순하지만 제어 오버헤드가 크고, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 기다리는 시간을 숨기지만 구조가 더 복잡하다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 이 둘 사이에서 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>를 잡은 뒤 얼마나 효율적으로 실어 나르느냐"</strong>를 담당한다.
 
 | 항목 | 단일 전송 | [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송 | 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) |
 | :-- | :-- | :-- | :-- |
@@ -80,7 +82,7 @@ tags = ["studynote-computer-architecture"]
 | 장점 | 구조 단순 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율 우수 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 동안 다른 작업 가능 |
 | 약점 | 제어 오버헤드 큼 | 긴 burst는 공정성 저하 | 태그·버퍼·재정렬 필요 |
 
-이 차이는 설계 목표도 다르게 만든다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율화**, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 은닉**이 핵심이다. 실제 고성능 시스템에서는 둘이 자주 결합된다. 예를 들어 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 읽기 요청을 먼저 던지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 응답 단계에서는 다시 burst 형태로 캐시 라인 전체를 보내는 식이다.
+이 차이는 설계 목표도 다르게 만든다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 효율화</strong>, 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 은닉</strong>이 핵심이다. 실제 고성능 시스템에서는 둘이 자주 결합된다. 예를 들어 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 읽기 요청을 먼저 던지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 응답 단계에서는 다시 burst 형태로 캐시 라인 전체를 보내는 식이다.
 
 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트는 캐시, prefetch, DMA와도 직접 연결된다. 선형 스캔, 이미지 프레임 버퍼, 오디오 샘플 블록처럼 연속 메모리 접근이 많은 워크로드는 burst 친화적이다. 반대로 해시 테이블처럼 무작위 접근이 많은 작업은 주소 재사용 이득이 작아 burst 효과가 제한적이다.
 
@@ -117,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 
 좋은 burst 설계는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 더 빨리 만드는 것이 아니라, 이미 있는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 더 많이 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 채우게 만든다. 그 결과 캐시 미스 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 복사 효율, 메모리 컨트롤러의 행 적중률이 함께 좋아진다. 주소와 중재에 드는 에너지가 여러 beat에 분산되므로 바이트당 전력 효율도 개선된다.
 
-하지만 burst는 첫 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애지는 못한다. 연속성이 없는 워크로드나 작은 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근에서는 장점이 거의 없고, 긴 burst는 공정성과 실시간성을 해칠 수 있다. 따라서 burst는 만능 해법이 아니라 **지역성이 있을 때 가장 강력한 최적화**로 기억해야 한다.
+하지만 burst는 첫 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애지는 못한다. 연속성이 없는 워크로드나 작은 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 접근에서는 장점이 거의 없고, 긴 burst는 공정성과 실시간성을 해칠 수 있다. 따라서 burst는 만능 해법이 아니라 <strong>지역성이 있을 때 가장 강력한 최적화</strong>로 기억해야 한다.
 
 앞으로는 멀티채널 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), 온칩 Network-on-Chip ([NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))에서도 burst 성격의 다중 beat 전송이 계속 중요할 것이다. 결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 핵심은 "한 번 길을 열었으면 빈차로 다니지 말자"는 매우 실용적인 원칙이다.
 
@@ -138,21 +140,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 beat 전송
-        │
-        ▼
-INCR burst 기반 연속 블록 전송
-        │
-        ▼
-WRAP burst 기반 캐시 라인 최적화
-        │
-        ▼
-DDR BL8 · AXI 다중 beat 전송
-        │
-        ▼
-멀티채널 DMA · NoC 기반 대용량 스트리밍
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 beat 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">INCR burst 기반 연속 블록 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WRAP burst 기반 캐시 라인 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DDR BL8 · AXI 다중 beat 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티채널 DMA · NoC 기반 대용량 스트리밍</div>
+</div>
+</div>
+
+
 
 이 흐름은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 단순 주소 생략 기법에서 출발해, 캐시·[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·온칩 인터커넥트 전체를 관통하는 기본 전송 단위로 발전했음을 보여 준다.
 

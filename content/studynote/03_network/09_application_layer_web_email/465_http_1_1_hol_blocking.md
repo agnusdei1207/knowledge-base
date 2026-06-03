@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 ### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 파이프라이닝의 꿈 (The Ambition)
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0)은 한 번 요청하고 응답이 올 때까지 하염없이 기다리는 '비동기 통신의 무덤'이었습니다. 이를 타파하고자 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1은 **파이프라이닝(Pipelining)**을 도입했습니다. 
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0)은 한 번 요청하고 응답이 올 때까지 하염없이 기다리는 '비동기 통신의 무덤'이었습니다. 이를 타파하고자 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1은 <strong>파이프라이닝(Pipelining)</strong>을 도입했습니다. 
 - 클라이언트가 `이미지 1`, `이미지 2`, `이미지 3`을 달라는 요청(Request) 3개를 응답도 기다리지 않고 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)으로 한 방에 밀어 넣습니다. 
 - 이론상으로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율성이 3배 좋아져야 했습니다.
 
 ### 2. 순서 강제의 저주 (The Pain Point)
-하지만 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에는 치명적인 법이 있었습니다. **"서버는 반드시 요청이 들어온 순서대로([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 응답(Response)을 보내야 한다."**
+하지만 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에는 치명적인 법이 있었습니다. <strong>"서버는 반드시 요청이 들어온 순서대로(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>) 응답(Response)을 보내야 한다."</strong>
 - **문제 발생**: `이미지 1`이 용량이 1GB짜리 고화질 영상이고, `이미지 2`와 `3`이 1KB짜리 작은 텍스트라고 가정해 봅시다. 서버는 2번과 3번 텍스트를 눈 깜짝할 새에 준비 완료했습니다. 그러나 1번 영상의 렌더링이 10초 걸린다면, 2번과 3번은 10초 동안 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 입구에서 나가지 못하고 갇혀버립니다.
-- **결과**: 이로 인해 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더링이 완전히 멈춰버리는 재앙, 즉 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/)) 블로킹**이 발생했습니다.
+- **결과**: 이로 인해 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더링이 완전히 멈춰버리는 재앙, 즉 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">Head-of-Line</a>) 블로킹</strong>이 발생했습니다.
 
-```text
-[HTTP 1.1]
-    │
-    ▼
-[HTTP 1.1 HOL 블로킹]
-    │
-    └──▶ [HTTP/2 특징]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 HOL 블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 특징</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 "1차선 도로의 정체"와 같습니다. 내 차가 아무리 시속 300km로 달리는 페라리(1KB 텍스트)라도, 내 앞에 시속 10km로 달리는 낡은 경운기(1GB 영상)가 길을 막고 있다면 나는 절대 앞으로 나아갈 수 없습니다.
 
@@ -46,41 +50,40 @@ tags = ["studynote-network"]
 
 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 물리적 네트워크 장애가 아니라, '[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 논리적 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 관리 실패'로 인한 소프트웨어적 병목입니다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘 ]        │
-│                                                             │
-│  [ 클라이언트 (Browser) ]                  [ 웹 서버 (Server) ] │
-│        |                                        |           │
-│        |--- Req 1 (무거운 DB 연산 영상) -------->|  (처리 중..)│
-│        |--- Req 2 (가벼운 CSS) ---------------->|  (처리 완료!)│
-│        |--- Req 3 (가벼운 JS) ----------------->|  (처리 완료!)│
-│        |                                        |           │
-│        |     (Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)   │
-│        |        <========== HOL Blocking ==========>        │
-│        |                                        |           │
-│        |   (10초 뒤... 1번 끝남)                   |           │
-│        |<-- Res 1 (1GB 영상) -------------------|           │
-│        |<-- Res 2 (1KB CSS) --------------------| (이제야..)  │
-│        |<-- Res 3 (1KB JS) ---------------------| (방출됨)    │
-│                                                             │
-│   * 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은       │
-│           10초 전에 도착해서 화면에 렌더링 되었을 것임.            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Browser)</div><div class="kb-diagram-node">웹 서버 (Server)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 1 (무거운 DB 연산 영상) --------&gt;</div><div class="kb-diagram-cell">(처리 중..)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 2 (가벼운 CSS) ----------------&gt;</div><div class="kb-diagram-cell">(처리 완료!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 3 (가벼운 JS) -----------------&gt;</div><div class="kb-diagram-cell">(처리 완료!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;========== HOL Blocking ==========&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10초 뒤... 1번 끝남)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 1 (1GB 영상) -------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 2 (1KB CSS) --------------------</div><div class="kb-diagram-cell">(이제야..)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 3 (1KB JS) ---------------------</div><div class="kb-diagram-cell">(방출됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10초 전에 도착해서 화면에 렌더링 되었을 것임.</div></div>
+</div>
+</div>
+
+
 
 ### 1. 웹 브라우저 제조사들의 포기 선언
 이 문제가 너무나 끔찍했기 때문에, 애플(Safari), 구글(Chrome), 모질라(Firefox) 등 전 세계 브라우저 개발사들은 소스 코드에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 파이프라이닝 기능을 아예 **기본 비활성화(Disabled by Default)** 시켜버렸습니다. 사실상 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 파이프라이닝은 '스펙 문서에만 존재하는 죽은 기술'이 되었습니다.
 
 ### 2. 브라우저의 꼼수: 다중 커넥션 (Multi-Connections)
 파이프라이닝을 껐다면, 한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서는 무조건 1개 받고 1개 받아야 하므로 100개의 이미지를 받으려면 세월아 네월아 걸립니다. 
-- 이를 해결하기 위해 브라우저들은 1개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `www.naver.com`)당 **동시에 6개의 독립적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(커넥션)을 강제로 뚫어버리는 꼼수**를 사용했습니다. 6차선 도로를 억지로 만든 것입니다. 하지만 이 역시 6개를 넘어가면 7번째 요청부터는 다시 막히는 근본적 한계를 지닙니다.
+- 이를 해결하기 위해 브라우저들은 1개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: `www.naver.com`)당 <strong>동시에 6개의 독립적인 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(커넥션)을 강제로 뚫어버리는 꼼수</strong>를 사용했습니다. 6차선 도로를 억지로 만든 것입니다. 하지만 이 역시 6개를 넘어가면 7번째 요청부터는 다시 막히는 근본적 한계를 지닙니다.
 
 | 우회 기술 ([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)) | 동작 메커니즘 | 치명적 단점 (Trade-off) |
 | :--- | :--- | :--- |
-| **다중 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션 (Multi-connections)** | 브라우저가 서버에 6개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 동시에 엶 | 브라우저 1만 명이 접속하면 서버는 6만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 감당해야 하므로 **서버 메모리가 폭발([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))하는 막대한 오버헤드** 발생 |
-| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))** | `img1.com`, `img2.com` 등 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 쪼개어 브라우저당 6개 제한을 12개, 18개로 억지로 늘림 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 다르면 매번 3-Way Handshake와 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 새로 해야 하므로 **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 페널티 극대화** |
-| **이미지 스프라이트 (Image Sprite)** | 수백 개의 아이콘 이미지를 1개의 거대한 통짜 이미지로 디자이너가 합쳐서 클라이언트로 내려보냄 (요청 횟수를 1번으로 줌) | 이미지 1개만 수정하고 싶어도 거대한 통짜 이미지를 다시 다운로드해야 하므로 **[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 효율이 완전히 파괴됨** |
+| <strong>다중 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 커넥션 (Multi-connections)</strong> | 브라우저가 서버에 6개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 동시에 엶 | 브라우저 1만 명이 접속하면 서버는 6만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 감당해야 하므로 <strong>서버 메모리가 폭발(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>)하는 막대한 오버헤드</strong> 발생 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>)</strong> | `img1.com`, `img2.com` 등 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 쪼개어 브라우저당 6개 제한을 12개, 18개로 억지로 늘림 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 다르면 매번 3-Way Handshake와 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회를 새로 해야 하므로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 접속 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 페널티 극대화</strong> |
+| **이미지 스프라이트 (Image Sprite)** | 수백 개의 아이콘 이미지를 1개의 거대한 통짜 이미지로 디자이너가 합쳐서 클라이언트로 내려보냄 (요청 횟수를 1번으로 줌) | 이미지 1개만 수정하고 싶어도 거대한 통짜 이미지를 다시 다운로드해야 하므로 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a>) 효율이 완전히 파괴됨</strong> |
 
 - **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹(1차선 도로 정체)을 피하기 위해 인간은 눈물겨운 사투를 벌였습니다. 불법으로 옆에 비포장도로 6개를 파버리고(다중 커넥션), 짐을 테이프로 칭칭 감아 거대한 트럭 하나에 다 실어버리는(이미지 스프라이트) 억지 최적화를 거듭하며 시스템 아키텍처는 점점 누더기가 되었습니다.
 
@@ -105,12 +108,12 @@ tags = ["studynote-network"]
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| **비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - 현대 웹 서버(Nginx/Apache) 아키텍처 결정)*
 - 현재 실무 환경에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 파이프라이닝을 켜는 것은 미친 짓입니다. 하지만 레거시 클라이언트(오래된 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 등)가 강제로 파이프라이닝 요청을 보내오는 경우가 있습니다.
-- **실무 의사결정**: Nginx 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이나 AWS Application [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/)(ALB) 세팅 시, 웹 백엔드 아키텍트는 억지스러운 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) 코드를 짜는 것을 멈춰야 합니다. 대신 로드밸런서와 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(CloudFront) 단에서 클라이언트와 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 협상(ALPN)**을 강제하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Enable [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2)하는 클릭 한 번이 수십만 줄의 꼼수 코드를 지워버리는 아키텍처의 마스터키입니다.
+- **실무 의사결정**: Nginx 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이나 AWS Application [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/)(ALB) 세팅 시, 웹 백엔드 아키텍트는 억지스러운 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) 코드를 짜는 것을 멈춰야 합니다. 대신 로드밸런서와 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(CloudFront) 단에서 클라이언트와 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 협상(ALPN)</strong>을 강제하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Enable [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2)하는 클릭 한 번이 수십만 줄의 꼼수 코드를 지워버리는 아키텍처의 마스터키입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -124,21 +127,21 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-1. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 등장: L7 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 완벽 타파**
-   구글이 주도한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 응답 메시지를 텍스트로 보내지 않고, 잘게 쪼갠 '바이너리 프레임(Binary Frame)'으로 분해했습니다. 1번, 2번, 3번 응답을 믹서기에 넣고 섞어버리듯 하나의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 안에서 뒤섞어 보내는 **멀티플렉싱([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))** 기술을 통해, 무거운 1번 응답이 뒤의 응답을 막는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹을 인류 역사에서 완전히 소멸시켰습니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2의 등장: L7 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹 완벽 타파</strong>
+   구글이 주도한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 응답 메시지를 텍스트로 보내지 않고, 잘게 쪼갠 '바이너리 프레임(Binary Frame)'으로 분해했습니다. 1번, 2번, 3번 응답을 믹서기에 넣고 섞어버리듯 하나의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 안에서 뒤섞어 보내는 <strong>멀티플렉싱(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong> 기술을 통해, 무거운 1번 응답이 뒤의 응답을 막는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹을 인류 역사에서 완전히 소멸시켰습니다.
 
-2. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))의 등장: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹마저 파괴**
-   하지만 반전이 있었습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 애플리케이션(L7) 단의 HOL은 없앴지만, 밑바탕에 깔린 통신망인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(L4) 자체가 "패킷 하나가 유실되면 뒷 패킷을 다 붙잡아두는" 태생적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제를 가지고 있었습니다. 이를 타파하기 위해 최신 웹은 무거운 TCP를 아예 쓰레기통에 버리고, 순서 강제가 없는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반에 신뢰성을 추가한 **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)** [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 진화하며 0.001초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)마저 허용하지 않는 완벽한 독립 스트림의 세계를 완성했습니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>)의 등장: <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹마저 파괴</strong>
+   하지만 반전이 있었습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 애플리케이션(L7) 단의 HOL은 없앴지만, 밑바탕에 깔린 통신망인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(L4) 자체가 "패킷 하나가 유실되면 뒷 패킷을 다 붙잡아두는" 태생적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제를 가지고 있었습니다. 이를 타파하기 위해 최신 웹은 무거운 TCP를 아예 쓰레기통에 버리고, 순서 강제가 없는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반에 신뢰성을 추가한 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3)</strong> [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 진화하며 0.001초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)마저 허용하지 않는 완벽한 독립 스트림의 세계를 완성했습니다.
 
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-*   **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목의 역사적 계보**
+*   <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목의 역사적 계보</strong>
     *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0 -> 매번 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결을 끊는 비효율 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Handshake 병목)
-    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 -> 지속 연결(Keep-Alive) 도입, **파이프라이닝 실패 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 유발)**
-    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 -> **멀티플렉싱([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))으로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 해결**, 단 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) HOL은 잔존
-    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)) -> [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반으로 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹까지 완벽히 해결**
-*   **[HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 회피를 위한 실무 꼼수 (현재는 지양됨)**
+    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 -> 지속 연결(Keep-Alive) 도입, <strong>파이프라이닝 실패 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹 유발)</strong>
+    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 -> <strong>멀티플렉싱(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)으로 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹 해결</strong>, 단 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) HOL은 잔존
+    *   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)) -> [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반으로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹까지 완벽히 해결</strong>
+*   <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹 회피를 위한 실무 꼼수 (현재는 지양됨)</strong>
     *   [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)), 이미지 스프라이트 (Image Sprite)
     *   다중 커넥션 (브라우저별 6개 제한) 향후에는 지능형 애플리케이션 전달 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
@@ -157,15 +160,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HTTP 1.1]
-    │
-    ▼
-[현재 개념: HTTP 1.1 HOL 블로킹]
-    │
-    ├──▶ [확장 A: HTTP/2 특징]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 1.1</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 1.1 HOL 블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 특징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

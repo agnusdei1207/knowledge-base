@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 이 공개 이미지 안에는 수백 개의 리눅스 패키지와 라이브러리가 깔려 있으며, 그중에는 해커가 심어둔 비트코인 채굴기([크립토재킹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/069_cryptojacking_malware_mining/))나 치명적인 보안 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 숨어있는 경우가 허다하다. 더 큰 문제는 개발자가 실수로 DB 비밀번호나 AWS 접속 키([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))를 [Dockerfile](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/067_dockerfile_container_image_build_script/) 안에 평문으로 하드코딩해서 이미지로 말아버리는 경우다. 이 이미지가 배포되면 해커의 먹잇감이 된다.
 
-이를 막기 위해 **"[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지가 만들어지는 순간부터 실서버에 올라가는 순간까지 모든 길목에서 엑스레이 검사(Scanning)를 하고, 검사를 통과하지 못한 불량 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 입국을 거부(Admission Control)하자"**는 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 아키텍처가 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))의 표준으로 자리 잡았다.
+이를 막기 위해 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 이미지가 만들어지는 순간부터 실서버에 올라가는 순간까지 모든 길목에서 엑스레이 검사(Scanning)를 하고, 검사를 통과하지 못한 불량 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>는 입국을 거부(Admission Control)하자"</strong>는 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 아키텍처가 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))의 표준으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 안이 안 보이는 '택배 상자'다. 이 상자가 공항([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))을 출발할 때 엑스레이(스캐닝)를 찍고, 우리 집(K8s) 현관문에 도착했을 때 경비원(권한 통제)이 "이 상자에 안전 검사 통과 도장이 없네? 반송해!"라고 막아내는 완벽한 보안 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [컨테이너 이미지 스캐닝](/knowledge-base/studynote/15_devops_sre/05_devsecops/247_container_image_scanning_os_trivy/) 권한 통제의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컨테이너 이미지 스캐닝 권한 통제                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨테이너 이미지 스캐닝 권한 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [컨테이너 이미지 스캐닝](/knowledge-base/studynote/15_devops_sre/05_devsecops/247_container_image_scanning_os_trivy/) 권한 통제가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,9 +77,9 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **Trivy** (Aqua [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) | 엄청나게 빠르고 가벼움. OS 패키지 취약점, 비밀번호 유출([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류(Misconfig)를 한 번에 다 잡아냄. | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인 내 (GitHub Actions 연동) |
 | **Clair** (Quay) | 정적 분석에 강하며, 다수의 취약점 DB와 동기화됨. 약간 무거움. | 이미지 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 내부 스캔 |
-| **Cosign** (Sigstore) | 이미지 자체를 스캔하는 게 아니라, 안전한 이미지에 **위변조 불가 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)**을 하는 도구. | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) $\rightarrow$ 배포 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 |
+| **Cosign** (Sigstore) | 이미지 자체를 스캔하는 게 아니라, 안전한 이미지에 <strong>위변조 불가 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a></strong>을 하는 도구. | [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) $\rightarrow$ 배포 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 |
 
-최근의 트렌드는 단순히 스캐너를 돌리는 것을 넘어, 스캔 결과(안전함)를 Cosign으로 서명하고, 이 서명이 없으면 K8s가 아예 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 다운받지 못하게 막는 **'서명 기반 이미지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계'**로 진화하고 있다.
+최근의 트렌드는 단순히 스캐너를 돌리는 것을 넘어, 스캔 결과(안전함)를 Cosign으로 서명하고, 이 서명이 없으면 K8s가 아예 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 다운받지 못하게 막는 <strong>'서명 기반 이미지 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계'</strong>로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: Trivy는 택배 상자 안에 폭탄이 있는지 검사하는 '엑스레이 기계'고, Cosign은 검사가 끝난 상자에 붙이는 '경찰청장 공식 홀로그램 씰(봉인)'이다. K8s는 내용물은 안 보고 씰이 안 붙어있으면 무조건 쓰레기통에 버린다.
 
@@ -108,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 [컨테이너 이미지 스캐닝](/knowledge-base/studynote/15_devops_sre/05_devsecops/247_container_image_scanning_os_trivy/)과 K8s 기반의 권한 통제 아키텍처를 결합하면, 개발자의 실수(비밀번호 하드코딩 등)가 실운영 서버로 유출되는 것을 기계적으로, 그리고 100% 원천 차단할 수 있다. 
 
-결론적으로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 '보안'은 더 이상 사람이 눈으로 코드를 리뷰해서 지켜낼 수 있는 영역이 아니다. 기술 리더는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인의 **스캐너(탐지)**, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)의 **서명([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**, 쿠버네티스의 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진(통제)**이라는 3중 방어막을 자동화하여, 사람의 개입 없이도 안전한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만이 시스템에 생존하도록 설계([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))해야 한다.
+결론적으로 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 '보안'은 더 이상 사람이 눈으로 코드를 리뷰해서 지켜낼 수 있는 영역이 아니다. 기술 리더는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 파이프라인의 **스캐너(탐지)**, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)의 <strong>서명(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong>, 쿠버네티스의 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 엔진(통제)</strong>이라는 3중 방어막을 자동화하여, 사람의 개입 없이도 안전한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만이 시스템에 생존하도록 설계([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))해야 한다.
 
 - **📢 섹션 요약 비유**: 이 아키텍처는 완벽한 공항 보안 시스템이다. 출발지에서 엑스레이를 통과한(Trivy) 사람에게만 비자를 찍어주고(Cosign), 도착지 입국 심사대([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))에서 비자가 없거나 칼을 숨긴 사람(Root 권한)은 즉시 추방하는 물 샐 틈 없는 방어망이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컨테이너 이미지 스캐닝 권한 통제 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 이미지 스캐닝 권한 통제 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

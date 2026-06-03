@@ -20,35 +20,39 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)(IEEE 802.1D) 알고리즘이 동작을 완료(Convergence, 수렴)했을 때, 네트워크 내의 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 각각의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들이 부여받는 고정된 '역할(Role)'이다.
-- **필요성**: 수십 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 얽히고설켜 있을 때 "너는 문 닫아! 너는 열어!"를 누군가 중앙에서 지시하는 사람 없이 기계들끼리 완벽한 트리를 만들어내려면, 절대 흔들리지 않는 **"철저한 서열 룰과 역할 분담"**이 필요하다. 이것이 바로 Root, [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), DP, BP라는 네 가지 명찰이다.
+- **필요성**: 수십 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 얽히고설켜 있을 때 "너는 문 닫아! 너는 열어!"를 누군가 중앙에서 지시하는 사람 없이 기계들끼리 완벽한 트리를 만들어내려면, 절대 흔들리지 않는 <strong>"철저한 서열 룰과 역할 분담"</strong>이 필요하다. 이것이 바로 Root, [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), DP, BP라는 네 가지 명찰이다.
 
 - **💡 비유**: 거대한 배관망(네트워크)에서 물이 역류(루핑)하지 않도록 밸브를 세팅하는 과정입니다. 
-  - **Root [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)**: 물이 뿜어져 나오는 유일한 **"최고 상류 수원지"**입니다.
-  - **[RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) (루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 하류 마을([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 수원지로 거슬러 올라가는 **"가장 굵고 빠른 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(최단 경로)"**입니다.
-  - **DP (지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 각 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(선로) 구간에서 물을 내려보낼 권리를 가진 **"책임 밸브"**입니다.
-  - **Block (차단 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**: 물이 역류하지 않게 평소엔 꽉 잠가두는 **"비상용 예비 밸브"**입니다.
+  - <strong>Root <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a></strong>: 물이 뿜어져 나오는 유일한 <strong>"최고 상류 수원지"</strong>입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/">RP</a> (루트 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 하류 마을([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 수원지로 거슬러 올라가는 <strong>"가장 굵고 빠른 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(최단 경로)"</strong>입니다.
+  - <strong>DP (지정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 각 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(선로) 구간에서 물을 내려보낼 권리를 가진 <strong>"책임 밸브"</strong>입니다.
+  - <strong>Block (차단 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 물이 역류하지 않게 평소엔 꽉 잠가두는 <strong>"비상용 예비 밸브"</strong>입니다.
 
-```text
-[BPDU]
-    │
-    ▼
-[루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    └──▶ [브리지 ID, 비용]
-```
 
-- **📢 섹션 요약 비유**: ** [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 선거는 **"왕(Root)을 뽑고, 각 영주들이 왕에게 충성 맹세를 하러 가는 가장 빠른 고속도로([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 하나씩 뚫은 뒤, 불법 우회로(Block)에는 성벽을 쌓아버리는 완벽한 봉건제 왕국 건설 과정"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BPDU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브리지 ID, 비용</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 선거는 </strong>"왕(Root)을 뽑고, 각 영주들이 왕에게 충성 맹세를 하러 가는 가장 빠른 고속도로([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 하나씩 뚫은 뒤, 불법 우회로(Block)에는 성벽을 쌓아버리는 완벽한 봉건제 왕국 건설 과정"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모든 대결의 승리 조건은 **가장 낮은 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID(Priority + [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) ──▶ 가장 낮은 누적 Cost ──▶ 가장 낮은 송신자 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID ──▶ 가장 낮은 송신자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ID** 순으로 비교하여 가장 숫자가 작은 쪽이 승리한다.
+모든 대결의 승리 조건은 <strong>가장 낮은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID(Priority + <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>) ──▶ 가장 낮은 누적 Cost ──▶ 가장 낮은 송신자 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID ──▶ 가장 낮은 송신자 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> ID</strong> 순으로 비교하여 가장 숫자가 작은 쪽이 승리한다.
 
 ### 1. 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) (Root [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 선출
-- 네트워크라는 마을의 단 한 명뿐인 **대장(Root)**이다.
-- BPDU를 주고받아 **[브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID(Priority + [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)**가 가장 작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 무조건 당선된다.
-- **특징**: 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)의 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 항상 100% **지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP)**로 동작하며, 자신의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 중에는 절대 막히는(Block) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 없다.
+- 네트워크라는 마을의 단 한 명뿐인 <strong>대장(Root)</strong>이다.
+- BPDU를 주고받아 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> ID(Priority + <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)</strong>가 가장 작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 무조건 당선된다.
+- **특징**: 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)의 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 항상 100% <strong>지정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(DP)</strong>로 동작하며, 자신의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 중에는 절대 막히는(Block) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 없다.
 
 ### 2. 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), Root [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 선출
 - 대장을 제외한 나머지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Non-Root [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))들이 각자 수행하는 숙제다.
@@ -57,37 +61,35 @@ tags = ["studynote-network"]
 - RP를 결정하는 Cost는 10Gbps(2), 1Gbps(4), 100Mbps(19) 등 선로 속도에 따라 IEEE가 정해두었다.
 
 ### 3. 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (DP, Designated [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 선출
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아니라 **'[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 잇는 각각의 랜선 1가닥([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))'** 입장에서 수행하는 선거다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 아니라 <strong>'<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 잇는 각각의 랜선 1가닥(<a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a>)'</strong> 입장에서 수행하는 선거다.
 - "이 1가닥의 선 양끝에 구멍이 2개([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 양쪽 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 있는데, 둘 중 누가 이 선을 지배하는([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뿜어내는) 주인이 될 것인가?"
 - 둘이 BPDU를 교환하여 "대장(Root)까지 가는 전체 Cost가 더 적은(더 대장과 친한) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)"가 그 선로의 주인인 DP로 지정된다. 
 - 만약 Cost마저 똑같으면 서로의 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID를 까보고 작은 놈이 이긴다. (RP가 있는 선로의 반대쪽 끝은 무조건 DP가 된다.)
 
 ### 4. 차단 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Block [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / Non-Designated [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
 - 위에서 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 대결에서도 떨어지고, 선로 주인을 가리는 DP 대결에서도 진 루저(패배자) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 운명이다.
-- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 논리적으로 "막힘([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))" 상태로 진입하여 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이나 프레임을 절대 통과시키지 않는다. 이로써 **루프(원형) 고리가 완벽히 끊어져 트리(나뭇가지) 모양이 완성**된다.
+- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 논리적으로 "막힘([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))" 상태로 진입하여 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이나 프레임을 절대 통과시키지 않는다. 이로써 <strong>루프(원형) 고리가 완벽히 끊어져 트리(나뭇가지) 모양이 완성</strong>된다.
 - **안전핀**: 하지만 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 완전히 귀를 막은 건 아니다. 상대방이 보내는 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)(상태 엽서)는 계속 듣고(Listen) 있다. 만약 20초(Max Age) 동안 상대방 DP가 BPDU를 보내지 않으면 "어? 선로가 죽었나?" 하고 자기가 닫아둔 문을 서서히 열기 시작하여 통신 장애를 50초 만에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)해 낸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 4대 역할 배정 다이어그램                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │            [ Root Bridge (대장) ]                           │
- │                DP ↙      ↘ DP (대장의 포트는 100% DP)       │
- │                  /        \                                 │
- │                 /          \                                │
- │             RP ↙            ↘ RP  (대장에게 가는 가장 빠른 길) │
- │       [ 스위치 B ] ────────── [ 스위치 C ]                  │
- │           (ID: 2등)          (ID: 3등)                      │
- │                 DP          Block                           │
- │                 │             │                             │
- │                 └──── 선로 ───┘                             │
- │          (선로의 주인은 2등인 B가 차지. C의 포트는 막힘)          │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** RP가 왕궁으로 출근하는 **"나만의 전용 하이패스 차로"**라면, DP는 동네 도로를 관리하는 **"관할 구역 통행권"**이고, Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 꼬리물기 사고가 나지 않게 차단봉을 내려놓은 **"비상용 갓길"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 4대 역할 배정 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Root Bridge (대장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP ↙ ↘ DP (대장의 포트는 100% DP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP ↙ ↘ RP (대장에게 가는 가장 빠른 길)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div><div class="kb-diagram-node">스위치 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ID: 2등) (ID: 3등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP Block</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선로의 주인은 2등인 B가 차지. C의 포트는 막힘)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** RP가 왕궁으로 출근하는 **"나만의 전용 하이패스 차로"**라면, DP는 동네 도로를 관리하는 **"관할 구역 통행권"<strong>이고, Block <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 꼬리물기 사고가 나지 않게 차단봉을 내려놓은 </strong>"비상용 갓길"**입니다.
 
 ---
 
@@ -143,15 +145,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BPDU]
-    │
-    ▼
-[현재 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…]
-    │
-    ├──▶ [확장 A: 브리지 ID, 비용]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BPDU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브리지 ID, 비용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…는 BPDU에서 출발해 현재 메커니즘을 정교화하고, 이후 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

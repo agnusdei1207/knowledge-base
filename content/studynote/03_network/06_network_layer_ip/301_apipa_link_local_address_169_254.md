@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)(동적 IP 할당) 설정이 켜져 있는 호스트가 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버를 찾지 못할 때([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), OS(윈도우 등)가 자체적으로 생성하여 할당하는 B 클래스 대역의 특수 IP 주소. (마이크로소프트가 처음 도입하여 APIPA라 불림).
 - **필요성**: 컴퓨터 두 대를 샀다. 둘 다 "자동으로 IP 받기"로 설정되어 있다. 랜선 하나로 두 대를 직접 연결했다. 이때 IP를 나눠주는 공유기([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 없으므로 두 컴퓨터는 IP를 받지 못해 통신을 아예 할 수 없게 된다. "아니, 공유기 없이 그냥 선만 꽂아도 지들끼리는 통신하게 만들어야지!"라는 불만에서, OS가 랜덤으로 `169.254.x.x`를 만들어 서로 통신할 수 있게 만든 최후의 보루([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))다.
 
-- **💡 비유**: APIPA는 국가([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 없어서 주민등록증(공인/사설 IP)을 발급받지 못한 무국적자들이, 임시로 무인도에 모여 자기들끼리 **"이름표(169.254)"**를 대충 써 붙이고 노는 것과 같습니다. 자기들끼리(링크 내부)는 이름표를 보고 통신할 수 있지만, 무인도 밖으로 나가는 순간 여권(정상 IP)이 없으므로 경찰(라우터)에게 잡혀 버려집니다.
+- **💡 비유**: APIPA는 국가([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))가 없어서 주민등록증(공인/사설 IP)을 발급받지 못한 무국적자들이, 임시로 무인도에 모여 자기들끼리 <strong>"이름표(169.254)"</strong>를 대충 써 붙이고 노는 것과 같습니다. 자기들끼리(링크 내부)는 이름표를 보고 통신할 수 있지만, 무인도 밖으로 나가는 순간 여권(정상 IP)이 없으므로 경찰(라우터)에게 잡혀 버려집니다.
 
-```text
-[루프백 IP]
-    │
-    ▼
-[APIPA / 링크 로컬 주소]
-    │
-    └──▶ [브로드캐스트 주소]
-```
 
-- **📢 섹션 요약 비유**: ** `169.254.x.x`는 식당에서 주문([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 요청)을 했는데 종업원이 안 오자, 손님이 **"에잇! 내가 주방 가서 대충 컵라면(임시 IP) 끓여 먹고 말지!"**라며 임시방편으로 배를 채우는(랜 통신) 생존 본능입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프백 IP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">APIPA / 링크 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브로드캐스트 주소</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <code>169.254.x.x</code>는 식당에서 주문(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 요청)을 했는데 종업원이 안 오자, 손님이 </strong>"에잇! 내가 주방 가서 대충 컵라면(임시 IP) 끓여 먹고 말지!"**라며 임시방편으로 배를 채우는(랜 통신) 생존 본능입니다.
 
 ---
 
@@ -46,35 +50,34 @@ tags = ["studynote-network"]
 4. 혹시 다른 놈이 이 주소를 쓰고 있을지 모르니, ARP로 "누구 169.254.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).5 쓰는 사람 있어?"라고 허공에 찔러본다([Gratuitous ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/)). 대답이 없으면 안심하고 자기 랜카드에 그 주소를 박아 넣는다.
 
 ### 2. 링크 로컬(Link-local)의 철저한 격리
-- 라우터들은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 **`169.254.0.0/16`** 대역이 목적지이거나 출발지인 패킷이 들어오면 가차 없이 **Drop(폐기)**하도록 세팅되어 있다.
+- 라우터들은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 <strong><code>169.254.0.0/16</code></strong> 대역이 목적지이거나 출발지인 패킷이 들어오면 가차 없이 <strong>Drop(폐기)</strong>하도록 세팅되어 있다.
 - 즉, 같은 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 허브나 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(같은 Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 꽂힌 PC들끼리만 스타크래프트 로컬 게임이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유가 가능할 뿐, 네이버나 구글로는 절대 갈 수 없다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                APIPA를 만났을 때의 현실 트러블슈팅(T/S)          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황 ] 인터넷이 안 돼서 명령 프롬프트에 `ipconfig`를 쳤다.         │
- │                                                             │
- │   IPv4 주소 . . . . . . . . . : 169.254.85.123              │
- │   서브넷 마스크 . . . . . . . : 255.255.0.0                  │
- │   기본 게이트웨이 . . . . . . : (비어 있음)                    │
- │                                                             │
- │   [ 엔지니어의 뇌 구조 (원인 추적) ]                               │
- │   1. "앗 169.254네! DHCP 서버가 죽었구나!"                       │
- │   2. (벽 랜 단자 점검) "랜선이 딸깍 안 꽂혀있나?"                    │
- │   3. (스위치 점검) "사무실 스위치 포트가 죽었나?"                    │
- │   4. (DHCP 서버 점검) "공유기 전원이 꺼졌나? DHCP 풀이 꽉 찼나?"      │
- │                                                             │
- │   ▶ 결과: "내 PC가 이상한 IP를 잡았어"가 아니라 "내 PC가 IP를      │
- │           못 받고 비상 모드에 들어갔어"라고 해석해야 한다!            │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APIPA를 만났을 때의 현실 트러블슈팅(T/S)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">인터넷이 안 돼서 명령 프롬프트에 <code>ipconfig</code>를 쳤다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv4 주소 . . . . . . . . . : 169.254.85.123</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브넷 마스크 . . . . . . . : 255.255.0.0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 게이트웨이 . . . . . . : (비어 있음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔지니어의 뇌 구조 (원인 추적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "앗 169.254네! DHCP 서버가 죽었구나!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (벽 랜 단자 점검) "랜선이 딸깍 안 꽂혀있나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. (스위치 점검) "사무실 스위치 포트가 죽었나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. (DHCP 서버 점검) "공유기 전원이 꺼졌나? DHCP 풀이 꽉 찼나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: "내 PC가 이상한 IP를 잡았어"가 아니라 "내 PC가 IP를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">못 받고 비상 모드에 들어갔어"라고 해석해야 한다!</div></div>
+</div>
+</div>
+
+
 
 ### 3. IPv6의 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) (`fe80::`)
-IPv4는 169.254를 에러 시 임시로 쓰지만, 차세대 프로토콜인 **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)**에서는 아예 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)를 통신의 기본 뼈대로 삼았다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 랜카드를 켜면 무조건 `fe80::`으로 시작하는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)를 먼저 하나 강제로 부여받은 뒤, 이 주소를 이용해 진짜 글로벌 주소를 라우터와 협상한다.
+IPv4는 169.254를 에러 시 임시로 쓰지만, 차세대 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a></strong>에서는 아예 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)를 통신의 기본 뼈대로 삼았다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 랜카드를 켜면 무조건 `fe80::`으로 시작하는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)를 먼저 하나 강제로 부여받은 뒤, 이 주소를 이용해 진짜 글로벌 주소를 라우터와 협상한다.
 
-- **📢 섹션 요약 비유**: ** 내 PC에 `169.254` 주소가 찍혀 있다는 것은, 소방서(인터넷)와 연결된 화재경보기가 작동하지 않아 건물 자체적으로 **"비상벨(임시 조치)"**을 왱왱 울리며 건물 안의 사람들끼리만 살길을 도모하고 있는 단절 상태를 의미합니다.
+- **📢 섹션 요약 비유**: <strong> 내 PC에 <code>169.254</code> 주소가 찍혀 있다는 것은, 소방서(인터넷)와 연결된 화재경보기가 작동하지 않아 건물 자체적으로 </strong>"비상벨(임시 조치)"**을 왱왱 울리며 건물 안의 사람들끼리만 살길을 도모하고 있는 단절 상태를 의미합니다.
 
 ---
 
@@ -130,15 +133,19 @@ APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_l
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 루프백 IP]
-    │
-    ▼
-[현재 개념: APIPA / 링크 로컬 주소]
-    │
-    ├──▶ [확장 A: 브로드캐스트 주소]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 루프백 IP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: APIPA / 링크 로컬 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브로드캐스트 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)는 루프백 IP에서 출발해 현재 메커니즘을 정교화하고, 이후 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

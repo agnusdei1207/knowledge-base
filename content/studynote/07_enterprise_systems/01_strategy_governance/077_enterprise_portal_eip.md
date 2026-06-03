@@ -36,20 +36,23 @@ EIP는 보통 `사용자 → 포털 → 인증/권한 → 콘텐츠 집계 → �
 | 검색/[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 필요한 문서·업무를 찾음 | 색인 품질 |
 | 위젯/대시보드 | 개인화된 요약 제공 | 역할별 맞춤 |
 
-```text
-사용자
-  │
-  ▼
-포털(EIP)
-  │
-  ├─ SSO (Single Sign-On)
-  ├─ RBAC (Role-Based Access Control)
-  ├─ 개인화 대시보드
-  └─ 검색 / 업무 위젯
-         │
-         ▼
-ERP · CRM · 그룹웨어 · 문서관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포털(EIP)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">SSO (Single Sign-On)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">RBAC (Role-Based Access Control)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">개인화 대시보드</div>
+<div class="kb-diagram-tree-item" style="--depth:1">검색 / 업무 위젯</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ERP · CRM · 그룹웨어 · 문서관리</div>
+</div>
+</div>
+
+
 
 EIP는 화면만 통합하는 것이 아니라, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 권한을 묶어 "같은 정보라도 누구에게 무엇을 보여줄지"를 결정한다. 이때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늦게 오거나 권한이 섞이면 포털은 편리한 창구가 아니라 혼란의 창구가 된다.
 
@@ -100,21 +103,23 @@ EIP는 화면만 통합하는 것이 아니라, [메타데이터](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분산된 시스템
-    │
-    ▼
-인트라넷 / 그룹웨어 / ERP / CRM
-    │
-    ▼
-EP / EIP
-    │
-    ▼
-SSO · RBAC · 개인화 · 검색
-    │
-    ▼
-단일 창구 기반 업무 경험
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분산된 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인트라넷 / 그룹웨어 / ERP / CRM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EP / EIP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSO · RBAC · 개인화 · 검색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 창구 기반 업무 경험</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

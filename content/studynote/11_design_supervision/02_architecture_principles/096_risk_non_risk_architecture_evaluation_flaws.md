@@ -31,18 +31,19 @@ tags = ["studynote-design"]
 
 리스크와 비리스크는 단독으로 튀어나오지 않는다. 설계 결정이 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 주는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))과, 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 서로 충돌하는 타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)) 분석을 거쳐 최종적으로 도출된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│            ATAM 평가에서의 리스크/비리스크 도출 메커니즘           │
-├────────────────────────────────────────────────────────────────────────┤
-│  [아키텍처 결정] ──▶ [민감도점 식별] ──▶ [타협점 분석] ──▶ [최종 판정] │
-│   (예: 256bit 암호화)  (보안↑, 성능↓)    (보안 vs 성능)         │        │
-│                                                                        │
-│   ├─ 시나리오 A 통과 실패 (응답시간 3초 초과) ──▶ [ Risk (리스크) ]     │
-│   │                                                                    │
-│   └─ 시나리오 B 무난히 통과 (보안 요건 충족)  ──▶ [ Non-risk (비리스크)]│
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM 평가에서의 리스크/비리스크 도출 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 결정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">민감도점 식별</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타협점 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최종 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 256bit 암호화) (보안↑, 성능↓) (보안 vs 성능)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Risk (리스크)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Non-risk (비리스크)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 하나의 설계 결정이 어떻게 위험으로 발전하는지 보여준다. 리스크(Risk)는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 목표를 달성하지 못하게 방해하는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다. 반면 비리스크(Non-risk)는 현재 주어진 시나리오 하에서는 목표 달성을 방해하지 않는 수용 가능한 결정이다. 비리스크라고 해서 완벽하다는 뜻은 아니며, 미래의 요구사항 변경 시에는 언제든 리스크로 돌변할 수 있다.
 
@@ -74,7 +75,7 @@ tags = ["studynote-design"]
 ### 기술사 판단: 리스크 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **우선순위 할당**: 모든 리스크를 고칠 수는 없다. 비즈니스 중요도와 발생 확률을 곱하여 최우선 해결 과제를 선정한다.
 2. **타협의 재조정**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(DB [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 때문에 예산(비용) 리스크가 커졌다면, 사장님과 협상하여 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표를 99.99%에서 99.9%로 낮추는 대신 비용 리스크를 비리스크로 돌리자"는 비즈니스 타협을 이끌어내야 한다.
-3. **위험 주제 (Risk [Theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)) 도출**: 개별 리스크들을 모아보면 "이 시스템은 전체적으로 네트워크 지연에 취약하다"는 거시적인 위험 테마가 도출된다. 이는 경영진에게 보고하는 핵심 메시지가 된다.
+3. <strong>위험 주제 (Risk <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">Theme</a>) 도출</strong>: 개별 리스크들을 모아보면 "이 시스템은 전체적으로 네트워크 지연에 취약하다"는 거시적인 위험 테마가 도출된다. 이는 경영진에게 보고하는 핵심 메시지가 된다.
 
 - **📢 섹션 요약 비유**: 배에 구멍이 났을 때(Risk 발견), 모든 구멍을 완벽하게 메울 재료가 없다면, 가장 물이 많이 새는 구멍부터 메우고(우선순위), 작은 구멍은 양동이로 물을 퍼내는 방법(타협 및 완화)으로 항해를 계속하는 의사결정입니다.
 
@@ -94,28 +95,30 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)** | 리스크와 비리스크를 도출하는 카네기멜론 대학의 아키텍처 평가 표준 |
-| **[민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))** | 특정 아키텍처 결정이 특정 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 크게 영향을 미치는 지점 |
-| **타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/))** | 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 충돌이 발생하여 균형을 맞춰야 하는 지점 |
-| **[품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) (QA Scenario)** | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 리스크와 비리스크를 도출하는 카네기멜론 대학의 아키텍처 평가 표준 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/">민감도점</a> (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/">Sensitivity Point</a>)</strong> | 특정 아키텍처 결정이 특정 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 크게 영향을 미치는 지점 |
+| <strong>타협점 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/">Trade-off Point</a>)</strong> | 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 충돌이 발생하여 균형을 맞춰야 하는 지점 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 리스크인지 아닌지를 판정하는 절대적인 측정 기준 (예: 응답시간, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-품질 속성 시나리오 (QA Scenario) 도출
-    │
-    ▼
-아키텍처 전술 (Architecture Tactic) 투영
-    │
-    ▼
-민감도점 (Sensitivity) · 타협점 (Trade-off) 분석
-    │
-    ▼
-리스크 (Risk) · 비리스크 (Non-risk) 식별
-    │
-    ▼
-리스크 완화 계획 (Mitigation Plan) 및 도면 갱신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">품질 속성 시나리오 (QA Scenario) 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 전술 (Architecture Tactic) 투영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">민감도점 (Sensitivity) · 타협점 (Trade-off) 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리스크 (Risk) · 비리스크 (Non-risk) 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리스크 완화 계획 (Mitigation Plan) 및 도면 갱신</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -21,7 +21,7 @@ tags = ["studynote-enterprise"]
 
 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 기존 모놀리식 시스템 바깥에 제어 지점을 두고, 요청 흐름을 조금씩 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 우회시키며 구형 기능을 점진적으로 제거하는 마이그레이션 패턴이다. 이 패턴이 필요한 이유는 오래된 엔터프라이즈 시스템일수록 코드 의존성, 배치, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 외부 연계가 얽혀 있어 한 번의 컷오버로 전체를 안전하게 바꾸기 어렵기 때문이다. 특히 은행, 제조, 공공처럼 24시간에 가까운 업무 연속성이 필요한 환경에서는 "주말에 전면 교체"라는 방식이 가장 위험한 선택이 된다.
 
-빅뱅 전환은 계획상으로는 단순해 보이지만, 실제로는 숨은 규칙과 운영 관행을 한 번에 재현해야 하므로 실패 비용이 매우 크다. 반면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인, 조회, 리뷰, 알림처럼 상대적으로 독립된 기능부터 잘라내며 학습 효과를 축적한다. 즉 이 패턴의 본질은 단순한 분할 개발이 아니라, **사업 연속성을 유지한 채 위험을 잘게 쪼개는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+빅뱅 전환은 계획상으로는 단순해 보이지만, 실제로는 숨은 규칙과 운영 관행을 한 번에 재현해야 하므로 실패 비용이 매우 크다. 반면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인, 조회, 리뷰, 알림처럼 상대적으로 독립된 기능부터 잘라내며 학습 효과를 축적한다. 즉 이 패턴의 본질은 단순한 분할 개발이 아니라, <strong>사업 연속성을 유지한 채 위험을 잘게 쪼개는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 낡은 건물을 하루 만에 폭파하고 새로 짓는 대신, 바깥에 새 건물을 조금씩 붙여 놓고 출입문만 단계적으로 바꾸는 이사 방식과 같다.
 
@@ -33,18 +33,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 점진적 전환 구조를 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Progressive routing envelope                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Users -> API Gateway -> /account/* -------------> Monolith          │
-│                    ├─ /review/* ---------------> Review Service     │
-│                    ├─ /catalog/* --------------> Catalog Service    │
-│                    └─ /payment/* --------------> Payment Service    │
-│                                                                      │
-│ Legacy DB ---- CDC / events ----> Service DBs ----> Metrics / Trace │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Progressive routing envelope</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Users -&gt; API Gateway -&gt; /account/* -------------&gt; Monolith</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /review/* ---------------&gt; Review Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /catalog/* --------------&gt; Catalog Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /payment/* --------------&gt; Payment Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy DB ---- CDC / events ----&gt; Service DBs ----&gt; Metrics / Trace</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 기술 요소는 경계 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 관측성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이다. 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여전히 레거시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 공유하면 배포만 분리되었을 뿐 진짜 독립성은 생기지 않는다. 그래서 점진적 전환에서는 [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 이벤트 발행, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최소화 같은 기법이 함께 논의된다.
 
@@ -74,7 +76,7 @@ tags = ["studynote-enterprise"]
 
 이 패턴은 [부패 방지 계층](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/188_anti_corruption_layer_acl_pattern/) (Anti-Corruption Layer, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))과도 자주 함께 쓰인다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 레거시 기능을 당분간 호출해야 한다면, ACL을 두어 레거시 개념이 신규 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 침투하는 것을 막는다. 또한 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/) ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/), [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리와 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 문제를 완화하는 연결 기술로 자주 등장한다.
 
-즉 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 단독 패턴이 아니라, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분해 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전환 + 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**가 결합된 현대화 프로그램의 뼈대다.
+즉 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 단독 패턴이 아니라, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분해 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전환 + 경계 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>가 결합된 현대화 프로그램의 뼈대다.
 
 - **📢 섹션 요약 비유**: 통째로 새 도시를 옮겨 짓는 것보다, 오래된 도심 옆에 신도시를 만들고 도로 연결을 조금씩 바꾸는 방식에 가깝다.
 
@@ -109,7 +111,7 @@ tags = ["studynote-enterprise"]
 
 이 패턴의 가장 큰 효과는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없는 현대화와 학습 가능한 전환이다. 팀은 실제 운영 트래픽을 받으면서 신규 아키텍처의 병목, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이, 배포 절차를 조기에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있고, 문제 구간만 되돌려 전체 사고를 피할 수 있다. 또한 기능별 책임이 분리되면서 조직 구조와 배포 주기도 점차 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 정렬되기 시작한다.
 
-하지만 공짜는 아니다. 과도기에는 운영 대상이 두 벌이 되고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·보안·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 관리 비용이 늘어난다. 특히 추출 기준 없이 무작정 잘게 쪼개면 레거시의 복잡성이 그대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사이로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)될 수 있다. 따라서 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 "천천히 바꾸는 방법"이 아니라, **위험을 제어하며 레거시를 계획적으로 소멸시키는 아키텍처**로 기억해야 한다.
+하지만 공짜는 아니다. 과도기에는 운영 대상이 두 벌이 되고, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·보안·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 관리 비용이 늘어난다. 특히 추출 기준 없이 무작정 잘게 쪼개면 레거시의 복잡성이 그대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사이로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)될 수 있다. 따라서 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)은 "천천히 바꾸는 방법"이 아니라, <strong>위험을 제어하며 레거시를 계획적으로 소멸시키는 아키텍처</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 덩굴이 오래된 나무를 천천히 감싸 결국 새 몸체를 만드는 것처럼, 핵심은 서두르는 것이 아니라 안전하게 주도권을 옮기는 데 있다.
 
@@ -128,21 +130,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식 유지보수 한계
-        │
-        ▼
-API 게이트웨이 / 퍼사드 배치
-        │
-        ▼
-기능 단위 추출과 점진적 라우팅
-        │
-        ▼
-데이터 분리 · CDC · 관측성 강화
-        │
-        ▼
-레거시 기능 폐기와 MSA 전환 완료
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식 유지보수 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API 게이트웨이 / 퍼사드 배치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기능 단위 추출과 점진적 라우팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 분리 · CDC · 관측성 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레거시 기능 폐기와 MSA 전환 완료</div>
+</div>
+</div>
+
+
 
 이 흐름은 "전면 교체"가 아니라 "경계 장악 → 기능 추출 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 → 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
 

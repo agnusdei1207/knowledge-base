@@ -35,59 +35,62 @@ tags = ["studynote-design-supervision"]
 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 | ≤ 10초 | 10MB 기준 |
 | 보고서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | ≤ 30초 | 비동기 처리 권장 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 "음식 주문 후 첫 번째 요리가 나오는 시간"이고, TPS는 "주방에서 시간당 처리하는 주문 수"다. 손님(동시 사용자)이 많아질수록 두 지표 모두 악화된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────┐
-│              성능 지표 상관관계 그래프                       │
-│                                                            │
-│  TPS                                                       │
-│   ▲                                                        │
-│   │      ╭──────────╮  ← 포화점 (Saturation Point)         │
-│   │    ╭─╯           ╰──────── TPS 하락 (과부하)            │
-│   │  ╭─╯                                                   │
-│   │ ─╯  (선형 증가 구간)                                    │
-│   └────────────────────────────────── 동시 사용자 수         │
-│                                                            │
-│  응답시간                                                   │
-│   ▲                                                        │
-│   │                          ╭──────────  (급격 증가)       │
-│   │                      ╭───╯                             │
-│   │ ─────────────────────╯  (허용 한계 초과)                │
-│   └────────────────────────────────── 동시 사용자 수         │
-└────────────────────────────────────────────────────────────┘
-```
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  총 응답 시간 = 네트워크 지연 + 서버 처리 + DB 처리           │
-│                                                            │
-│  클라이언트              WAS                  DB            │
-│  ┌───────┐  요청(ms)  ┌───────┐  쿼리(ms) ┌───────┐        │
-│  │       │ ─────────► │       │ ─────────► │       │        │
-│  │       │            │       │            │       │        │
-│  │       │            │       │ ◄───────── │       │        │
-│  │       │ ◄───────── │       │  결과 반환  └───────┘        │
-│  └───────┘  응답(ms)  └───────┘                            │
-│                                                            │
-│  분석 포인트:                                               │
-│  ┌──────────────────────────────────┐                      │
-│  │ N/W 지연:  20ms  (허용 기준 < 50ms) │                    │
-│  │ WAS 처리: 150ms  (허용 기준 < 200ms) │                   │
-│  │ DB 처리:  830ms  ← 병목! (목표 < 100ms) │               │
-│  │ 총 응답:  1,000ms                  │                    │
-│  └──────────────────────────────────┘                      │
-└────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 지표 상관관계 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 포화점 (Saturation Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TPS 하락 (과부하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (선형 증가 구간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 사용자 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(급격 증가)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(허용 한계 초과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 사용자 수</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 응답 시간 = 네트워크 지연 + 서버 처리 + DB 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 WAS DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청(ms) 쿼리(ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">►</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">결과 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답(ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 포인트:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N/W 지연: 20ms (허용 기준 &lt; 50ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAS 처리: 150ms (허용 기준 &lt; 200ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 처리: 830ms ← 병목! (목표 &lt; 100ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 응답: 1,000ms</div></div>
+</div>
+</div>
+
+
 
 단순 평균(Average) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)은 실제 사용자 경험을 왜곡한다. 99%의 요청이 1초 이내이지만 1%가 30초라면 평균은 1.3초처럼 보이지만 실제로는 큰 문제다.
 
@@ -127,20 +130,22 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 감리인은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표가 명확히 문서화되었는지 먼저 확인한다.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│           성능 목표 정의 체크리스트                           │
-│                                                             │
-│  □ 최대 동시 사용자 수: ____명                               │
-│  □ 목표 TPS: ____tps                                        │
-│  □ 허용 응답 시간 (P95): ____초                              │
-│  □ 목표 가용성: ____% (예: 99.9%)                            │
-│  □ 피크 부하 배수: ____배 (예: 평균의 3배)                   │
-│  □ 오류율 허용 기준: ____% 미만                              │
-│                                                             │
-│  ★ 목표 미정의 시: 감리 지적 사항 (성능 목표 부재)            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 목표 정의 체크리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 최대 동시 사용자 수: ____명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 목표 TPS: ____tps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 허용 응답 시간 (P95): ____초</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 목표 가용성: ____% (예: 99.9%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 피크 부하 배수: ____배 (예: 평균의 3배)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 오류율 허용 기준: ____% 미만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 목표 미정의 시: 감리 지적 사항 (성능 목표 부재)</div></div>
+</div>
+</div>
+
+
 
 | 상황 | 판단 | 조치 |
 |:---|:---|:---|

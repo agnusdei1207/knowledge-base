@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: UWB ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/))는 500메가헤르츠 (MHz) 이상의 넓은 대역에 매우 짧은 임펄스 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 퍼뜨려, **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기보다 도착 시간 차이를 정밀하게 재는 근거리 고정밀 무선 기술**이다.
+> 1. **본질**: UWB ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/))는 500메가헤르츠 (MHz) 이상의 넓은 대역에 매우 짧은 임펄스 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 퍼뜨려, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 세기보다 도착 시간 차이를 정밀하게 재는 근거리 고정밀 무선 기술</strong>이다.
 > 2. **가치**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 저에너지 ([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/), [Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)) 기반 근접 추정보다 훨씬 정확한 거리·방향 계산이 가능해, 디지털 키·자산 추적·실내 내비게이션 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 크게 높인다.
 > 3. **판단 포인트**: UWB의 강점은 단순 통신 속도가 아니라 센티미터급 측위 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 있으므로, 앵커 배치·[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·전력 예산·단말 생태계를 함께 설계해야 한다.
 
@@ -19,9 +19,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-UWB는 매우 넓은 주파수 대역에 짧은 펄스를 분산해 보내는 무선 통신 및 거리 측정 기술이다. 와이파이 (Wi-Fi)나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 주로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 연결성에 초점을 맞춘다면, UWB는 **"정확히 어디에 있는가"**를 판단하는 능력에서 차별화된다. 그래서 최근에는 통신 기술이라기보다 위치 인식과 근접 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 결합한 플랫폼 기술로 이해하는 경우가 많다.
+UWB는 매우 넓은 주파수 대역에 짧은 펄스를 분산해 보내는 무선 통신 및 거리 측정 기술이다. 와이파이 (Wi-Fi)나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 주로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 연결성에 초점을 맞춘다면, UWB는 <strong>"정확히 어디에 있는가"</strong>를 판단하는 능력에서 차별화된다. 그래서 최근에는 통신 기술이라기보다 위치 인식과 근접 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 결합한 플랫폼 기술로 이해하는 경우가 많다.
 
-이 기술이 필요해진 배경은 실내 위치 추정의 한계 때문이다. RSSI (Received [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Strength Indicator)처럼 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 기반 방식은 벽, 사람, 금속 반사에 따라 값이 크게 흔들린다. 자동차 디지털 키나 고가 자산 추적처럼 오차가 1미터만 나도 문제가 되는 환경에서는, "근처에 있는 듯함"이 아니라 **정말 가까이에 있는지**를 정밀하게 판별해야 한다.
+이 기술이 필요해진 배경은 실내 위치 추정의 한계 때문이다. RSSI (Received [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Strength Indicator)처럼 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기 기반 방식은 벽, 사람, 금속 반사에 따라 값이 크게 흔들린다. 자동차 디지털 키나 고가 자산 추적처럼 오차가 1미터만 나도 문제가 되는 환경에서는, "근처에 있는 듯함"이 아니라 <strong>정말 가까이에 있는지</strong>를 정밀하게 판별해야 한다.
 
 따라서 UWB는 단순한 차세대 근거리 무선이 아니라, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things) 기기와 모바일 단말이 공간 정보를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 다루기 위해 등장한 기술이라고 볼 수 있다. 특히 릴레이 공격 (Relay Attack) 방어가 중요한 디지털 키 분야에서 존재감이 빠르게 커졌다.
 
@@ -35,23 +35,24 @@ UWB의 핵심 원리는 비행 시간 (ToF, Time of Flight) 측정이다. 송신
 
 아래 그림은 대표적인 UWB 거리 측정 흐름을 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                UWB 양방향 거리 측정 개념                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Initiator (Phone/Tag)                    Responder (Car/Anchor)    │
-│   t1: Poll  --------------------------->                           │
-│                               <---------  t2,t3: Response          │
-│   t4: Final --------------------------->                           │
-│                                                                    │
-│ Round-trip time - device reply delay = propagation time            │
-│ distance ≈ c × ToF / 2                                             │
-│                                                                    │
-│ Multiple anchors + AoA/TDoA => 2D/3D position estimation           │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 UWB가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기보다 **시간 정보**를 더 중요한 판단 근거로 삼는다는 점이다. 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 덕분에 시간 해상도가 높아지고, 반사파가 많아도 첫 도착 경로를 구분하기 쉬워진다. 그래서 복잡한 실내 환경에서도 BLE보다 안정적인 정밀 측정이 가능하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UWB 양방향 거리 측정 개념</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initiator (Phone/Tag) Responder (Car/Anchor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t1: Poll ---------------------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;--------- t2,t3: Response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t4: Final ---------------------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round-trip time - device reply delay = propagation time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">distance ≈ c × ToF / 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multiple anchors + AoA/TDoA =&gt; 2D/3D position estimation</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 UWB가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기보다 <strong>시간 정보</strong>를 더 중요한 판단 근거로 삼는다는 점이다. 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 덕분에 시간 해상도가 높아지고, 반사파가 많아도 첫 도착 경로를 구분하기 쉬워진다. 그래서 복잡한 실내 환경에서도 BLE보다 안정적인 정밀 측정이 가능하다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -60,7 +61,7 @@ UWB의 핵심 원리는 비행 시간 (ToF, Time of Flight) 측정이다. 송신
 | TWR | 왕복 시간으로 거리 측정 | 장치 간 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 보정 필요 |
 | 앵커/태그 구조 | 위치 기준점과 이동 단말 구성 | 설치 밀도와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 품질 중요 |
 
-즉 UWB는 통신과 측위를 동시에 수행할 수 있지만, 설계의 중심축은 어디까지나 **정밀 거리 계산**이다. 그래서 단순 연결 기술보다 센서 융합 성격이 강하다.
+즉 UWB는 통신과 측위를 동시에 수행할 수 있지만, 설계의 중심축은 어디까지나 <strong>정밀 거리 계산</strong>이다. 그래서 단순 연결 기술보다 센서 융합 성격이 강하다.
 
 - **📢 섹션 요약 비유**: UWB는 손전등 밝기로 거리를 재는 것이 아니라, 빛이 벽에 닿고 돌아오는 시간을 초정밀 스톱워치로 재는 방식과 같다.
 
@@ -110,7 +111,7 @@ UWB를 이해하려면 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_ed
 
 UWB의 기대효과는 명확하다. 실내에서도 높은 거리 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 방향 정보를 제공해, 기존 근거리 무선이 잘 못하던 공간 인식을 가능하게 만든다. 이 덕분에 스마트 태그는 "어디쯤 있음"이 아니라 실제 위치를 더 정확히 알려 줄 수 있고, 디지털 키는 보안성과 사용자 경험을 동시에 개선할 수 있다.
 
-하지만 한계도 있다. 커버리지가 와이파이만큼 넓지 않고, 인프라 구축 비용과 단말 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 남아 있다. 또한 정밀 측위는 배치 환경에 민감하므로, 표준 스펙만으로 결과를 장담할 수 없다. 따라서 UWB는 "빠른 무선"보다 **정밀한 공간 인식 무선**으로 기억하는 것이 정확하다.
+하지만 한계도 있다. 커버리지가 와이파이만큼 넓지 않고, 인프라 구축 비용과 단말 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 남아 있다. 또한 정밀 측위는 배치 환경에 민감하므로, 표준 스펙만으로 결과를 장담할 수 없다. 따라서 UWB는 "빠른 무선"보다 <strong>정밀한 공간 인식 무선</strong>으로 기억하는 것이 정확하다.
 
 결론적으로 UWB의 핵심은 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 자체가 아니라, 그 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 이용해 시간을 정밀하게 재고 공간을 해석하는 능력에 있다. 즉 UWB는 통신 기술이면서 동시에 위치 인식 인프라다.
 
@@ -130,22 +131,24 @@ UWB의 기대효과는 명확하다. 실내에서도 높은 거리 [정밀도](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RSSI 기반 근접 추정
-    │
-    ▼
-Wi-Fi RTT · BLE 비콘
-    │
-    ▼
-UWB 정밀 거리 측정
-    │
-    ├─ TWR
-    ├─ AoA / TDoA
-    └─ 센티미터급 위치 추정
-    │
-    ▼
-디지털 키 · 스마트 태그 · 산업용 RTLS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RSSI 기반 근접 추정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Wi-Fi RTT · BLE 비콘</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UWB 정밀 거리 측정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TWR</div>
+<div class="kb-diagram-tree-item" style="--depth:2">AoA / TDoA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">센티미터급 위치 추정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 키 · 스마트 태그 · 산업용 RTLS</div>
+</div>
+</div>
+
+
 
 이 흐름도는 근접 추정 기술이 단순 연결성에서 정밀 위치 인식과 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 중심으로 확장되는 흐름을 보여준다.
 

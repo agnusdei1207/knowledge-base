@@ -31,15 +31,18 @@ tags = ["studynote-cloud-architecture"]
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터는 제어 평면과 워커 노드로 구성된다. 제어 평면은 상태를 결정하고, 워커 노드는 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 실행한다. etcd는 상태 저장소이고, Scheduler는 배치 판단, Controller Manager는 원하는 상태와 실제 상태의 차이를 메운다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                   Kubernetes Cluster Flow                   │
-├──────────────────────────────────────────────────────────────┤
-│ kubectl → API Server → etcd                                 │
-│                      → Scheduler / Controller Manager       │
-│                      → Kubelet → Container Runtime → Pod    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Cluster Flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl → API Server → etcd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Scheduler / Controller Manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Kubelet → Container Runtime → Pod</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -118,21 +121,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-컨테이너 실행
-    │
-    ▼
-오케스트레이션
-    │
-    ▼
-쿠버네티스 제어 평면
-    │
-    ▼
-워커 노드 / self-healing
-    │
-    ▼
-멀티 클러스터 / 클라우드 네이티브
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨테이너 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오케스트레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쿠버네티스 제어 평면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워커 노드 / self-healing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 클러스터 / 클라우드 네이티브</div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 운영에서 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영으로 확장되는 과정을 보여준다.
 

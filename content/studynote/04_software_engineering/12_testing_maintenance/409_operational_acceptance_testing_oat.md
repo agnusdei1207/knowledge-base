@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 - "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트 실행해 보니까 에러 나면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 하나도 안 돼 있잖아!"
 - "CPU가 100%를 찍고 뻗었는데 우리 관제 화면(모니터링 알람)에는 아무것도 안 떴다고?"
 
-은행원들(UAT)은 기능만 완벽하면 오케이를 하지만, 정작 그 무거운 시스템을 짊어지고 가야 할 **운영팀(인프라 관리자) 입장에서는 완벽한 쓰레기 폭탄**을 떠안은 셈이다. 이 폭탄이 운영망에 넘어오기 전에, 운영팀이 칼을 빼 들고 "우리 운영 표준에 맞게 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 다 되는지 내 눈앞에서 증명해!"라고 깐깐하게 따지는 과정이 바로 **[OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/))**다.
+은행원들(UAT)은 기능만 완벽하면 오케이를 하지만, 정작 그 무거운 시스템을 짊어지고 가야 할 <strong>운영팀(인프라 관리자) 입장에서는 완벽한 쓰레기 폭탄</strong>을 떠안은 셈이다. 이 폭탄이 운영망에 넘어오기 전에, 운영팀이 칼을 빼 들고 "우리 운영 표준에 맞게 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)/[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 다 되는지 내 눈앞에서 증명해!"라고 깐깐하게 따지는 과정이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>다.
 
 > 📢 **섹션 요약 비유**: 새 자동차를 살 때 일반인(UAT)은 "우와 디자인 이쁘고 엑셀 잘 밟히네! 합격!" 합니다. 하지만 자동차 정비사([OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/))가 다가와서 "엔진오일은 갈기 편한가? 사고가 났을 때 에어백은 정확히 터지는가? 비상 스페어타이어는 들어있는가?"라며 고장 났을 때의 유지보수 생존성을 따지는 것이 바로 [운영 인수 테스트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)입니다.
 
@@ -37,18 +37,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) (Operational Acc의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  OAT (Operational Acc                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAT (Operational Acc</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) (Operational Acc가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -62,38 +61,37 @@ tags = ["studynote-software-engineering"]
 
 운영팀은 소프트웨어의 기능(비즈니스 로직)에는 관심이 1도 없다. 그들의 관심사는 오직 "서버가 죽었을 때 어떻게 살릴 것인가" 뿐이다.
 
-1. **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 복원 ([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) & Restore)**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 및 복원 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> &amp; Restore)</strong>
    - "매일 새벽 3시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 NAS로 잘 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)되는가?"
    - "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가지고 텅 빈 서버에 부었을 때, 시스템이 1시간 내에 100% 정상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore)되는가?" (가장 중요한 테스트)
-2. **고가용성과 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) (HA / [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) / Fail-over)**
+2. <strong>고가용성과 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a> (HA / <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> / Fail-over)</strong>
    - [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 상태인 메인 서버의 랜선을 가위로 확 잘라버린다 ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)).
    - "몇 초 만에 스탠바이(Standby) 서버가 자동으로 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)로 튀어 올라와서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어받는가?"
 3. **모니터링 및 알림 (Monitoring & Alerting)**
    - "메모리 사용량이 90%를 넘겼을 때, 우리 운영팀 슬랙(Slack)이나 SMS 문자로 즉시 알람 경고가 날아오는가?"
-4. **유지보수 및 배포 (Maintenance & [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))**
+4. <strong>유지보수 및 배포 (Maintenance &amp; <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>)</strong>
    - "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이([무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/), 무중단 패치) 새 버전을 서버에 덮어씌울 수 있는 구조인가?"
    - "에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log) 파일이 디스크를 다 파먹지 않게 매일 1GB씩 자동으로 분할 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Log Rotation)되는가?"
-5. **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**
+5. <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>
    - "관리자 콘솔은 사내 IP 대역([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))에서만 접근 가능하게 막혀 있는가?"
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│           UAT(사용자 인수) vs OAT(운영 인수)의 관심사 비교 시각화               │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│ 👨‍💼 [ UAT: 비즈니스 현업 부서 (은행원, 마케터) ]                              │
-│   - 관심사: "돈이 잘 송금되나? 화면이 예쁜가?"                                  │
-│   - 테스트: 정상적인 마우스 클릭, 데이터 입력                                   │
-│                                                                                 │
-│ ──────────────────────── VS ────────────────────────────────                    │
-│                                                                                 │
-│ 👷‍♂️ [ OAT: IT 인프라/운영 부서 (SysAdmin, SRE) ]                              │
-│   - 관심사: "새벽에 서버 죽어도 내가 출근 안하고 자동 복구되나?"                │
-│   - 테스트: 랜선 뽑기, DB 강제 종료, 백업 파일로 복원, 모니터링 알람 띄우기     │
-│                                                                                 │
-│ ★ 시스템이 라이브(Go-Live) 되려면 UAT와 OAT 양쪽 모두의 사인(Sign-off)이 필수!  │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UAT(사용자 인수) vs OAT(운영 인수)의 관심사 비교 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💼</div><div class="kb-diagram-node">UAT: 비즈니스 현업 부서 (은행원, 마케터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관심사: "돈이 잘 송금되나? 화면이 예쁜가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테스트: 정상적인 마우스 클릭, 데이터 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">👷‍♂️</div><div class="kb-diagram-node">OAT: IT 인프라/운영 부서 (SysAdmin, SRE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관심사: "새벽에 서버 죽어도 내가 출근 안하고 자동 복구되나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테스트: 랜선 뽑기, DB 강제 종료, 백업 파일로 복원, 모니터링 알람 띄우기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 시스템이 라이브(Go-Live) 되려면 UAT와 OAT 양쪽 모두의 사인(Sign-off)이 필수!</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -115,7 +113,7 @@ tags = ["studynote-software-engineering"]
 
 많은 SI(외주) 프로젝트에서 납기일이 부족하면 "OAT는 대충 서버 세팅 됐으니까 스킵하시죠. UAT 기능 다 돌아가잖아요?"라며 구렁이 담 넘어가듯 넘긴다.
 
-그 결과는 보통 시스템 오픈 후 한 달 뒤에 나타난다. 하드웨어 장애가 났을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 매뉴얼이 안 맞아서 이틀 동안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 죽어 있거나, 매일 밤 운영자가 손으로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트를 타이핑해야 하는 **'인프라 노동 지옥'**이 열린다. OAT는 외주 개발사가 시스템을 무책임하게 던지고 도망가는 것을 막고, 운영의 주도권(Ownership)을 운영팀이 튼튼하게 물려받는 가장 중요한 법적/기술적 이관([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 절차다.
+그 결과는 보통 시스템 오픈 후 한 달 뒤에 나타난다. 하드웨어 장애가 났을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 매뉴얼이 안 맞아서 이틀 동안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 죽어 있거나, 매일 밤 운영자가 손으로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트를 타이핑해야 하는 <strong>'인프라 노동 지옥'</strong>이 열린다. OAT는 외주 개발사가 시스템을 무책임하게 던지고 도망가는 것을 막고, 운영의 주도권(Ownership)을 운영팀이 튼튼하게 물려받는 가장 중요한 법적/기술적 이관([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 절차다.
 
 ---
 
@@ -177,21 +175,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-OAT (Operational Acceptance Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OAT (Operational Acceptance Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

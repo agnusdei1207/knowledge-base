@@ -19,11 +19,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 등장 배경**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> 등장 배경</strong>
 
 기존 [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))은 범위가 수십 m에 불과하고, 이동통신(4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))은 전력 소비가 커서 배터리 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에 부적합했다. 수 km 이상의 넓은 지역을 수년간 배터리로 커버하는 틈새 요구를 LPWAN이 채운다.
 
-**[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 핵심 특성**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> 핵심 특성</strong>
 
 - 배터리 수명: 10년 이상 (초저전력 설계)
 - 전송 거리: 2~50km
@@ -36,24 +36,25 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌───────────────────────────────────────────────────────────┐
-│ LPWAN 기술 분류 체계 │
-├──────────────────────────┬────────────────────────────────┤
-│ 비면허(Unlicensed) │ 면허(Licensed) │
-├──────────────────────────┼────────────────────────────────┤
-│ LoRaWAN │ NB-IoT (Narrowband IoT) │
-│ - CSS(Chirp Spread │ - 3GPP Release 13 │
-│ Spectrum) 변조 │ - LTE 보호대역(200kHz) 활용 │
-│ - Star-of-Stars 토폴로지 │ - 최대 200kbps │
-│ - 전송 범위 2~15km │ - PSM/eDRX 초저전력 모드 │
-│ │ │
-│ Sigfox │ LTE-M (eMTC) │
-│ - UNB(Ultra Narrow Band)│ - 3GPP Release 13 │
-│ - 최대 140 메시지/일 │ - 이동성 + 음성(VoLTE) 지원 │
-│ - 12 바이트 페이로드 한계 │ - 최대 1Mbps │
-└──────────────────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPWAN 기술 분류 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비면허(Unlicensed)</div><div class="kb-diagram-cell">면허(Licensed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRaWAN</div><div class="kb-diagram-cell">NB-IoT (Narrowband IoT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CSS(Chirp Spread</div><div class="kb-diagram-cell">- 3GPP Release 13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spectrum) 변조</div><div class="kb-diagram-cell">- LTE 보호대역(200kHz) 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Star-of-Stars 토폴로지</div><div class="kb-diagram-cell">- 최대 200kbps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전송 범위 2~15km</div><div class="kb-diagram-cell">- PSM/eDRX 초저전력 모드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sigfox</div><div class="kb-diagram-cell">LTE-M (eMTC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- UNB(Ultra Narrow Band)</div><div class="kb-diagram-cell">- 3GPP Release 13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 140 메시지/일</div><div class="kb-diagram-cell">- 이동성 + 음성(VoLTE) 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 12 바이트 페이로드 한계</div><div class="kb-diagram-cell">- 최대 1Mbps</div></div>
+</div>
+</div>
+
+
 
 ### [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 기술 상세 비교표
 
@@ -85,7 +86,7 @@ tags = ["studynote-ict-convergence"]
 | 배포 속도 | 빠름 | 통신사 의존 |
 | 이동성 | 낮음 | [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) 지원 |
 
-**eDRX(Extended Discontinuous Reception)와 PSM([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Saving Mode)**: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M의 초저전력 핵심. PSM은 등록 유지하면서 수신 회로를 꺼 배터리를 극대화한다.
+<strong>eDRX(Extended Discontinuous Reception)와 PSM(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Saving Mode)</strong>: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M의 초저전력 핵심. PSM은 등록 유지하면서 수신 회로를 꺼 배터리를 극대화한다.
 
 - **📢 섹션 요약 비유**: eDRX/PSM은 알람 맞춰놓고 자는 것이다. 정해진 시간에만 잠깐 깨서(수신) 메시지를 확인하고, 나머지 시간은 깊이 잠든다(슬립). 덕분에 배터리가 10년간 버틴다.
 

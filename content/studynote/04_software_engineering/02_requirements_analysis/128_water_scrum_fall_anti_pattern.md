@@ -10,30 +10,30 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 **요구사항은 Waterfall식(상의하달), 개발만 [Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/), 배포는 다시 Waterfall식(긴 릴리스 주기)**으로 운영되는 안티패턴이며, Agile의 외형만 차용하고 핵심 원칙은 실행하지 않는다.
-> 2. **가치**: 조직이 "우리는 Agile을 한다"고 주장하지만 **실제로는 계획·배포에서 Waterfall을 유지**하면 Agile의 이점(빠른 피드백·적응)이 사라지고, 개발팀만 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 압박을 받는 악순환이 발생한다.
-> 3. **판단 포인트**: 진정한 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 **요구사항 발견(Discovery)·배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)·조직 문화까지 전체 흐름**의 변화가 필요하며, 개발 프로세스만 바꾸는 것은 부분 적용에 불과하다.
+> 1. **본질**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>요구사항은 Waterfall식(상의하달), 개발만 <a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>, 배포는 다시 Waterfall식(긴 릴리스 주기)</strong>으로 운영되는 안티패턴이며, Agile의 외형만 차용하고 핵심 원칙은 실행하지 않는다.
+> 2. **가치**: 조직이 "우리는 Agile을 한다"고 주장하지만 <strong>실제로는 계획·배포에서 Waterfall을 유지</strong>하면 Agile의 이점(빠른 피드백·적응)이 사라지고, 개발팀만 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 압박을 받는 악순환이 발생한다.
+> 3. **판단 포인트**: 진정한 [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환은 <strong>요구사항 발견(Discovery)·배포(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD)·조직 문화까지 전체 흐름</strong>의 변화가 필요하며, 개발 프로세스만 바꾸는 것은 부분 적용에 불과하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    Water-Scrum-Fall 구조                              │
-├───────────────────────────────────────────────────────┤
-│  [Water] — 요구사항: 6개월 전 확정, 변경 불가        │
-│     ↓                                                 │
-│  [Scrum] — 개발: 2주 스프린트, 데일리 스크럼          │
-│     ↓                                                 │
-│  [Fall]  — 배포: 3개월 릴리스, 수동 QA, 승인 절차    │
-│                                                       │
-│  문제: 개발만 Agile, 전후는 Waterfall                │
-│  → Agile 이점 소멸, 개발팀만 고통                    │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 **고속도로([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) 양쪽에 비포장 도로(Water·Fall)**를 붙인 것이다. 고속도로에서 빨라도 비포장에서 막히면 의미 없다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Water-Scrum-Fall 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Water</div><div class="kb-diagram-note">— 요구사항: 6개월 전 확정, 변경 불가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scrum</div><div class="kb-diagram-note">— 개발: 2주 스프린트, 데일리 스크럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fall</div><div class="kb-diagram-note">— 배포: 3개월 릴리스, 수동 QA, 승인 절차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 개발만 Agile, 전후는 Waterfall</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Agile 이점 소멸, 개발팀만 고통</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>고속도로(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>) 양쪽에 비포장 도로(Water·Fall)</strong>를 붙인 것이다. 고속도로에서 빨라도 비포장에서 막히면 의미 없다.
 
 ---
 
@@ -74,7 +74,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 **"[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 흉내"의 대표 안티패턴**이며, 진정한 Agile은 개발뿐 아니라 **요구사항 발견·배포·조직 문화의 총체적 전환**을 요구한다.
+Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>"<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> 흉내"의 대표 안티패턴</strong>이며, 진정한 Agile은 개발뿐 아니라 <strong>요구사항 발견·배포·조직 문화의 총체적 전환</strong>을 요구한다.
 
 ---
 
@@ -82,34 +82,36 @@ Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/65
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall** | [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 부분 적용 안티패턴 |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD** | Fall(배포) 해결 핵심 |
-| **Discovery [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)** | Water(요구사항) 해결 |
-| **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)** | 개발-운영 통합 (Fall 해소) |
-| **[Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Transformation** | 전체 흐름 변환 |
+| <strong>Water-<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>-Fall</strong> | [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 부분 적용 안티패턴 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | Fall(배포) 해결 핵심 |
+| <strong>Discovery <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">Sprint</a></strong> | Water(요구사항) 해결 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a></strong> | 개발-운영 통합 (Fall 해소) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Transformation</strong> | 전체 흐름 변환 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Waterfall (전통, ~2000s)]
-    │
-    ▼
-[Agile 도입 시도 (2001~) — Scrum만 적용]
-    │
-    ▼
-[Water-Scrum-Fall (안티패턴 인식, 2010~)]
-    │
-    ▼
-[DevOps + CI/CD (2015~) — Fall 해소]
-    │
-    ▼
-[현재: 전체 흐름 Agile — Discovery → Dev → Deploy 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Waterfall (전통, ~2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agile 도입 시도 (2001~) — Scrum만 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Water-Scrum-Fall (안티패턴 인식, 2010~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps + CI/CD (2015~) — Fall 해소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 전체 흐름 Agile — Discovery → Dev → Deploy 통합</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 **고속도로 양쪽에 비포장 도로**를 붙인 거예요.
+1. Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>고속도로 양쪽에 비포장 도로</strong>를 붙인 거예요.
 2. 고속도로([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))에서 빨리 달려도 비포장(Water·Fall)에서 **막혀서** 의미 없어요.
-3. 전체 도로를 **다 포장([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환)**해야 빠르게 갈 수 있답니다!
+3. 전체 도로를 <strong>다 포장(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> 전환)</strong>해야 빠르게 갈 수 있답니다!
 
 ---
 

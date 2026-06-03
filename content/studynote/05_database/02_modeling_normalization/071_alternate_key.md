@@ -28,11 +28,17 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Candidate Keys
-  ├─ Primary Key
-  └─ Alternate Keys
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Candidate Keys</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Primary Key</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Alternate Keys</div>
+</div>
+</div>
+
+
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -99,25 +105,37 @@ Candidate Keys
 
 ## 관련 개념 맵
 
-```text
-Candidate Key
-  ↓
-Primary Key
-  ↓
-Alternate Key
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Primary Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Alternate Key</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Candidate Key
-  ↓
-Alternate Key
-  ↓
-Key Constraint
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Alternate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Key Constraint</div>
+</div>
+</div>
+
+
 
 ---
 

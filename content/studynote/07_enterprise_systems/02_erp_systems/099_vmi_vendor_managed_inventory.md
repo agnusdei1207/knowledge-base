@@ -24,25 +24,26 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VMI의 핵심은 **투명한 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)**와 **자율 보충(Continuous Replenishment)** 메커니즘이다. 소매점의 POS (Point of Sales) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공급자의 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템과 실시간으로 연동되어야 한다.
+VMI의 핵심은 <strong>투명한 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/">데이터 공유</a></strong>와 **자율 보충(Continuous Replenishment)** 메커니즘이다. 소매점의 POS (Point of Sales) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공급자의 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 시스템과 실시간으로 연동되어야 한다.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방 및 수집**: 소매점은 판매 시점의 실시간 영수증 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 현재 재고 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 EDI (Electronic [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange)나 API를 통해 공급자에게 전송한다.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 개방 및 수집</strong>: 소매점은 판매 시점의 실시간 영수증 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 현재 재고 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 EDI (Electronic [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange)나 API를 통해 공급자에게 전송한다.
 2. **수요 예측 및 계획**: 공급자는 수신한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 소매점의 미래 수요를 계산하고, 상호 합의된 '최소/최대 재고 수준(Min/Max Inventory Level)'을 유지하기 위한 보충 계획을 세운다.
 3. **자율 배송 및 보충**: 소매점의 발주서(PO) 없이, 공급자가 자체적인 생산 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 최적화하여 소매점 진열대나 창고에 제품을 직접 납품한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  VMI (공급자 주도 재고 관리) 흐름도            │
-├──────────────────────────────────────────────────────────────┤
-│ [ 소매점 (월마트) ]                          [ 공급자 (P&G) ]    │
-│                                                              │
-│ 1. 바코드 스캔 (POS) ─── 실시간 판매 데이터 ──▶ 2. 데이터 분석/예측 │
-│   (발주 업무 없음!)                              (ERP/SCM 연동) │
-│                                                              │
-│ 4. 진열대에 꽉 찬 제품 ◀── 최적 수량 자율 배송 ── 3. 생산 및 출하 지시│
-│   (결품 방지, 창고 축소)                           (안전 재고 최소화) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMI (공급자 주도 재고 관리) 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소매점 (월마트)</div><div class="kb-diagram-node">공급자 (P&amp;G)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 바코드 스캔 (POS) 실시간 판매 데이터 ──▶ 2. 데이터 분석/예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(발주 업무 없음!) (ERP/SCM 연동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 진열대에 꽉 찬 제품 ◀── 최적 수량 자율 배송 ── 3. 생산 및 출하 지시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결품 방지, 창고 축소) (안전 재고 최소화)</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 소매점은 판매에만 집중하고, 공급자는 생산부터 유통 진열까지 전체 물류 리드타임([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 스스로 통제하게 된다.
 
@@ -96,21 +97,23 @@ VMI 도입의 기대효과는 양방향(Win-Win)으로 나타난다. 소매점�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 재고 관리 (RMI) ─▶ 정보 단절 및 채찍 효과 발생
-    │
-    ▼
-POS 데이터 및 EDI 인프라 확산 (데이터 교환 기반 마련)
-    │
-    ▼
-VMI (Vendor Managed Inventory) 도입 (제조사가 재고 보충 주도)
-    │
-    ▼
-CMI (Co-Managed Inventory) (양사 공동 재고 관리로 발전)
-    │
-    ▼
-CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 재고 관리 (RMI) ─▶ 정보 단절 및 채찍 효과 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">POS 데이터 및 EDI 인프라 확산 (데이터 교환 기반 마련)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMI (Vendor Managed Inventory) 도입 (제조사가 재고 보충 주도)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CMI (Co-Managed Inventory) (양사 공동 재고 관리로 발전)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

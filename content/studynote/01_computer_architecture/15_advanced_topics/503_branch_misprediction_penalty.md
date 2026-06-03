@@ -25,20 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 예측 실패가 단순 오답이 아니라, "잘못된 경로를 일정 시간 진짜로 달린 뒤 되돌아오는 일"이라는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Wrong-path work must be flushed and refilled             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ cycle 0 : branch fetched, predictor says TAKEN                            │
-│ cycle 1 : wrong-path instructions enter decode / rename                   │
-│ cycle 2 : wrong-path ops occupy ROB / Issue Queue / Load-Store Queue      │
-│ cycle 3 : branch executes, actual = NOT-TAKEN                             │
-│ cycle 4 : flush wrong-path state, redirect fetch PC                        │
-│ cycle 5~ : fetch correct path, decode again, backend refills               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 "분기 하나를 다시 계산하는 시간"이 아니라, **잘못된 투기 실행을 정리하고 올바른 경로로 파이프라인을 다시 채우는 전체 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간**이라고 봐야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wrong-path work must be flushed and refilled</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 0 : branch fetched, predictor says TAKEN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 1 : wrong-path instructions enter decode / rename</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 2 : wrong-path ops occupy ROB / Issue Queue / Load-Store Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 3 : branch executes, actual = NOT-TAKEN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 4 : flush wrong-path state, redirect fetch PC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 5~ : fetch correct path, decode again, backend refills</div></div>
+</div>
+</div>
+
+
+
+즉 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 "분기 하나를 다시 계산하는 시간"이 아니라, <strong>잘못된 투기 실행을 정리하고 올바른 경로로 파이프라인을 다시 채우는 전체 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong>이라고 봐야 한다.
 
 - **📢 섹션 요약 비유**: [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패는 고속열차가 잘못된 선로로 잠깐 들어갔다가 본선으로 다시 갈아타는 일과 같다. 되돌아오는 동안 엔진은 계속 움직였지만 승객은 목적지에 한 걸음도 가까워지지 못한다.
 
@@ -46,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 여러 구간의 합이다. 먼저 분기 결과가 실제 실행 단계에서 확정될 때까지의 **해결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**이 있다. 그다음 틀린 경로에 있던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 리오더 버퍼 ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB), 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)에서 제거하는 **정리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**이 붙는다. 마지막으로 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 올바른 목표 주소로 돌리고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시·분기 대상 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))·디코더를 다시 거쳐 백엔드를 채우는 **재공급 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**이 더해진다.
+[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 여러 구간의 합이다. 먼저 분기 결과가 실제 실행 단계에서 확정될 때까지의 <strong>해결 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 있다. 그다음 틀린 경로에 있던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 리오더 버퍼 ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB), 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)에서 제거하는 <strong>정리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 붙는다. 마지막으로 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 올바른 목표 주소로 돌리고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시·분기 대상 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/))·디코더를 다시 거쳐 백엔드를 채우는 <strong>재공급 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이 더해진다.
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)식으로 보면 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패는 보통 실제 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))에 다음처럼 반영된다.
 
@@ -61,7 +64,7 @@ tags = ["studynote-computer-architecture"]
 | 프런트엔드 재시작 | 올바른 PC로 다시 인출·디코드하는 시간 | [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/) 품질 향상, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 변환 후방 버퍼 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 적중 유지 |
 | 잘못된 일의 양 | 넓은 코어가 틀린 경로에서 소비한 자원 | 예측 정확도 향상, 투기 폭 제어 |
 
-깊은 파이프라인과 넓은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 코어에서 페널티가 특히 커지는 이유도 여기에 있다. 분기 결과가 뒤늦게 나오면 이미 수많은 잘못된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 윈도우를 채우고 있을 수 있고, 이를 비우는 동안 백엔드는 새 일을 받지 못한다. 결국 페널티는 단순 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 아니라 **잘못된 추측이 파이프라인 전체에 퍼진 정도**까지 포함한다.
+깊은 파이프라인과 넓은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 코어에서 페널티가 특히 커지는 이유도 여기에 있다. 분기 결과가 뒤늦게 나오면 이미 수많은 잘못된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 윈도우를 채우고 있을 수 있고, 이를 비우는 동안 백엔드는 새 일을 받지 못한다. 결국 페널티는 단순 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 아니라 <strong>잘못된 추측이 파이프라인 전체에 퍼진 정도</strong>까지 포함한다.
 
 - **📢 섹션 요약 비유**: [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 잘못 인쇄된 신문을 전량 회수하고, 새 판을 찍어 다시 배달하는 과정과 같다. 오답 한 줄만 고치는 일이 아니라, 이미 퍼진 잘못된 결과 전체를 되돌려야 한다.
 
@@ -80,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 이 현상은 [비순차 실행 윈도우](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/502_ooo_window/)와도 직접 연결된다. 큰 윈도우는 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기는 데 유리하지만, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이 틀리면 그 넓은 윈도우 안의 잘못된 명령을 한꺼번에 버려야 한다. 그래서 현대 코어는 더 큰 윈도우를 만들수록 더 정교한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, 반환 주소 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Return Address [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/)), 간접 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기를 함께 발전시켜 왔다.
 
-또한 소프트웨어 관점에서는 **예측 실패율**과 **대체 비용**을 함께 봐야 한다. 매우 예측 가능한 분기는 그대로 두는 편이 명령 수가 적고 빠르지만, 랜덤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 따라 거의 반반으로 갈리는 분기는 조건부 이동 (Conditional Move, CMOV)이나 벡터 마스크 연산처럼 분기 없는 형태가 더 유리할 수 있다.
+또한 소프트웨어 관점에서는 <strong>예측 실패율</strong>과 <strong>대체 비용</strong>을 함께 봐야 한다. 매우 예측 가능한 분기는 그대로 두는 편이 명령 수가 적고 빠르지만, 랜덤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 따라 거의 반반으로 갈리는 분기는 조건부 이동 (Conditional Move, CMOV)이나 벡터 마스크 연산처럼 분기 없는 형태가 더 유리할 수 있다.
 
 - **📢 섹션 요약 비유**: 좁은 골목길에서 길을 잘못 들면 금방 돌아나오지만, 다차선 고속도로에서 출구를 잘못 타면 더 먼 우회로를 돌아야 하는 것과 같다.
 
@@ -113,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 
 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티를 줄이면 같은 코어에서도 유효 처리량이 크게 좋아진다. 오예측률을 낮추거나 페널티 자체를 줄이면 파이프라인이 덜 비워지고, 잘못 실행했다가 버리는 연산도 줄어 에너지 효율도 함께 개선된다. 특히 분기가 잦은 일반 목적 코드에서는 몇 사이클의 차이도 전체 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 큰 영향을 준다.
 
-다만 모든 분기를 없애는 것이 답은 아니다. 예측이 잘 맞는 분기는 유지하는 편이 더 간단하고, 분기 없는 대체 코드가 오히려 더 많은 연산과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박을 부를 수 있다. 결국 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 **잘못된 추측에 붙는 세금**으로 기억하되, 그 세금을 줄이는 방법은 예측기 개선, 조기 분기 해결, 코드 구조 개선이라는 세 축으로 함께 봐야 한다.
+다만 모든 분기를 없애는 것이 답은 아니다. 예측이 잘 맞는 분기는 유지하는 편이 더 간단하고, 분기 없는 대체 코드가 오히려 더 많은 연산과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박을 부를 수 있다. 결국 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 <strong>잘못된 추측에 붙는 세금</strong>으로 기억하되, 그 세금을 줄이는 방법은 예측기 개선, 조기 분기 해결, 코드 구조 개선이라는 세 축으로 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 페널티는 문제를 빨리 풀려고 답을 미리 적었다가, 틀린 걸 알고 전체를 지우고 다시 쓰는 시간과 같다.
 
@@ -131,24 +134,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-No branch prediction
-      │
-      ▼
-Static prediction
-      │
-      ▼
-Dynamic Branch History Table (BHT) / BTB predictors
-      │
-      ▼
-Deep pipeline + speculative OoO
-      │
-      ▼
-High misprediction penalty awareness
-      │
-      ▼
-Tagged Geometric History Length (TAGE) / perceptron / branchless mitigation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">No branch prediction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Static prediction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dynamic Branch History Table (BHT) / BTB predictors</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Deep pipeline + speculative OoO</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">High misprediction penalty awareness</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tagged Geometric History Length (TAGE) / perceptron / branchless mitigation</div>
+</div>
+</div>
+
+
 
 이 흐름은 "예측 부재 → 동적 예측 도입 → 깊은 파이프라인으로 인한 페널티 확대 → 더 정교한 예측과 소프트웨어 완화"로 이어진 진화를 요약한다.
 

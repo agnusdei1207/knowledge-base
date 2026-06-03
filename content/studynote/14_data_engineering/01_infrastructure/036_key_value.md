@@ -18,24 +18,27 @@ tags = ["studynote-data-engineering"]
 
 ## I. 키-값 저장소 원리
 
-```
-구조: 해시 맵의 분산 영속화 버전
 
-key: "session:user_1234"
-value: {"user_id":1234, "username":"홍길동", "role":"admin", "exp":1735689600}
 
-기본 연산:
-  SET key value           <- O(1)
-  GET key                 <- O(1)
-  DEL key                 <- O(1)
-  EXISTS key              <- O(1)
-  EXPIRE key seconds      <- TTL 설정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">구조: 해시 맵의 분산 영속화 버전</div>
+<div class="kb-diagram-note">key: "session:user_1234"</div>
+<div class="kb-diagram-note">value: {"user_id":1234, "username":"홍길동", "role":"admin", "exp":1735689600}</div>
+<div class="kb-diagram-note">기본 연산:</div>
+<div class="kb-diagram-note">SET key value &lt;- O(1)</div>
+<div class="kb-diagram-note">GET key &lt;- O(1)</div>
+<div class="kb-diagram-note">DEL key &lt;- O(1)</div>
+<div class="kb-diagram-note">EXISTS key &lt;- O(1)</div>
+<div class="kb-diagram-note">EXPIRE key seconds &lt;- TTL 설정</div>
+<div class="kb-diagram-note">특징:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">키: 임의 문자열 (최대 512MB, Redis 기준)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">값: 문자열, JSON, 바이너리 등 임의 형식</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스키마 없음 (Schema-less)</div>
+</div>
+</div>
 
-특징:
-  - 키: 임의 문자열 (최대 512MB, Redis 기준)
-  - 값: 문자열, JSON, 바이너리 등 임의 형식
-  - 스키마 없음 (Schema-less)
-```
+
 
 > 📢 **섹션 요약 비유**: 사물함 보관소 — 고유 번호(키)만 알면 내용물(값)을 즉시 꺼낼 수 있다. 내용물 형식은 자유.
 
@@ -76,21 +79,25 @@ Redis (Remote Dictionary Server) 특성:
 
 ## III. [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) — [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 키-값
 
-```
-DynamoDB 특성:
-  완전 관리형 (서버리스)
-  단일 자릿수 밀리초 응답
-  자동 수평 확장 (수천 TPS -> 수백만 TPS)
-  
-  기본 키 설계:
-  - Partition Key (PK): 데이터 분산 키
-  - Sort Key (SK): 파티션 내 정렬 (선택)
-  
-  예시 설계:
-  PK: "USER#1234"
-  SK: "ORDER#2024-01-01"
-  -> 단일 사용자의 모든 주문을 효율적으로 쿼리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DynamoDB 특성:</div>
+<div class="kb-diagram-note">완전 관리형 (서버리스)</div>
+<div class="kb-diagram-note">단일 자릿수 밀리초 응답</div>
+<div class="kb-diagram-note">자동 수평 확장 (수천 TPS -&gt; 수백만 TPS)</div>
+<div class="kb-diagram-note">기본 키 설계:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Partition Key (PK): 데이터 분산 키</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Sort Key (SK): 파티션 내 정렬 (선택)</div>
+<div class="kb-diagram-note">예시 설계:</div>
+<div class="kb-diagram-note">PK: "USER#1234"</div>
+<div class="kb-diagram-note">SK: "ORDER#2024-01-01"</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단일 사용자의 모든 주문을 효율적으로 쿼리</div>
+</div>
+</div>
+
+
 
 | 비교       | [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)           | [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)          |
 |-----------|-----------------|-------------------|
@@ -106,23 +113,26 @@ DynamoDB 특성:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 캐시 패턴
 
-```
-1. Cache-Aside (Lazy Loading):
-   앱 -> Redis에 요청
-   Redis 미스 -> DB 쿼리 -> Redis에 저장 -> 반환
-   
-2. Write-Through:
-   쓰기 시 DB와 캐시에 동시 저장
-   항상 캐시와 DB 동기화
-   
-3. Write-Behind:
-   쓰기 시 캐시에만 저장
-   비동기로 DB 반영 (고성능, 데이터 손실 위험)
 
-4. TTL (Time To Live):
-   SET session:1234 {...} EX 3600
-   1시간 후 자동 만료
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. Cache-Aside (Lazy Loading):</div>
+<div class="kb-diagram-note">앱 -&gt; Redis에 요청</div>
+<div class="kb-diagram-note">Redis 미스 -&gt; DB 쿼리 -&gt; Redis에 저장 -&gt; 반환</div>
+<div class="kb-diagram-note">2. Write-Through:</div>
+<div class="kb-diagram-note">쓰기 시 DB와 캐시에 동시 저장</div>
+<div class="kb-diagram-note">항상 캐시와 DB 동기화</div>
+<div class="kb-diagram-note">3. Write-Behind:</div>
+<div class="kb-diagram-note">쓰기 시 캐시에만 저장</div>
+<div class="kb-diagram-note">비동기로 DB 반영 (고성능, 데이터 손실 위험)</div>
+<div class="kb-diagram-note">4. TTL (Time To Live):</div>
+<div class="kb-diagram-note">SET session:1234 {...} EX 3600</div>
+<div class="kb-diagram-note">1시간 후 자동 만료</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: Cache-Aside는 책장에서 찾고 없으면 도서관 가는 것, Write-Through는 빌릴 때 바로 복사해 책장에 꽂는 것.
 

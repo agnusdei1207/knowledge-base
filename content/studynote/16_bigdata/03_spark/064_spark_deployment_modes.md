@@ -15,37 +15,35 @@ tags = ["studynote-bigdata"]
 - 각 모드는 보안, 네트워크 오버헤드, 대화형 분석 여부 등 실무 요구사항에 따라 선택하며, 리소스 격리와 안정성 차이를 가진다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-[아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 동작하므로, 작업을 지시하는 '두뇌(Driver)'와 실제 연산을 수행하는 '팔다리(Executor)'의 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 중요하다. **배포 모드([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Mode)**는 이 배치를 결정하며, 특히 클라우드 기반의 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 도입이 늘어나면서 단순 자원 관리를 넘어 인프라 아키텍처의 핵심 의사결정 요소가 되었다.
+[아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 동작하므로, 작업을 지시하는 '두뇌(Driver)'와 실제 연산을 수행하는 '팔다리(Executor)'의 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 중요하다. <strong>배포 모드(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> Mode)</strong>는 이 배치를 결정하며, 특히 클라우드 기반의 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 도입이 늘어나면서 단순 자원 관리를 넘어 인프라 아키텍처의 핵심 의사결정 요소가 되었다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 드라이버가 클라이언트([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 측에 있느냐, 아니면 클러스터(Cluster) 내부에 있느냐에 따라 아키텍처가 달라진다.
 
-```text
-[ Spark Deployment: Client Mode vs Cluster Mode ]
-(스파크 배포: 클라이언트 모드 vs 클러스터 모드)
 
-   < Client Mode >                  < Cluster Mode >
-   (대화형 분석/디버깅 유리)           (프로덕션 배포/안정성 유리)
-   
-     Client Node                       Cluster Node (Master)
-   +---------------+                 +--------------------+
-   | [Driver]      |                 | Cluster Manager    |
-   | (User Code)   | <---- Net ----> | (YARN, K8s, Mesos) |
-   +---------------+                 +---------+----------+
-          |                                    |
-   +------v-------+                    +-------v--------+
-   | Cluster Node |                    | Cluster Node   |
-   | [Executor]   |                    | [Driver]       |
-   +--------------+                    +-------+--------+
-                                               |
-                                       +-------v--------+
-                                       | Cluster Node   |
-                                       | [Executor]     |
-                                       +----------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Deployment: Client Mode vs Cluster Mode</div></div>
+<div class="kb-diagram-note">(스파크 배포: 클라이언트 모드 vs 클러스터 모드)</div>
+<div class="kb-diagram-note">&lt; Client Mode &gt; &lt; Cluster Mode &gt;</div>
+<div class="kb-diagram-note">(대화형 분석/디버깅 유리) (프로덕션 배포/안정성 유리)</div>
+<div class="kb-diagram-note">Client Node Cluster Node (Master)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Driver</div><div class="kb-diagram-note">| Cluster Manager</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Code)</div><div class="kb-diagram-cell">&lt;---- Net ----&gt;</div><div class="kb-diagram-cell">(YARN, K8s, Mesos)</div></div>
+<div class="kb-diagram-note">+------v-------+ +-------v--------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster Node</div><div class="kb-diagram-cell">Cluster Node</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executor</div><div class="kb-diagram-node">Driver</div></div>
+<div class="kb-diagram-note">+-------v--------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster Node</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executor</div></div>
+</div>
+</div>
+
+
 
 1. **Local Mode:** 단일 컴퓨터(JVM)에서 드라이버와 실행기가 모두 실행된다. (개발/테스트용)
-2. **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Mode:** 드라이버가 클러스터 외부(사용자 로컬 장비)에서 실행된다. 즉시 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필요한 REPL(쉘) 환경에 적합하다.
+2. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Mode:</strong> 드라이버가 클러스터 외부(사용자 로컬 장비)에서 실행된다. 즉시 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필요한 REPL(쉘) 환경에 적합하다.
 3. **Cluster Mode:** 드라이버가 클러스터 내부의 워커 노드 중 하나에서 실행된다. 드라이버가 종료되더라도 클러스터 내에서 관리되므로 장기 실행 작업(Production Batch)에 필수적이다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
@@ -60,8 +58,8 @@ tags = ["studynote-bigdata"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 **실무적 판단 (Technical Insight):**
-배포 모드 선택은 **네트워크 토폴로지**와 직결된다.
-- **[Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/):** 드라이버가 워커 노드와 물리적으로 멀리 떨어져 있으면([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 모드), 셔플링(Shuffle)이나 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 교환 시 레이턴시가 급증한다.
+배포 모드 선택은 <strong>네트워크 토폴로지</strong>와 직결된다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">Data Locality</a>:</strong> 드라이버가 워커 노드와 물리적으로 멀리 떨어져 있으면([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 모드), 셔플링(Shuffle)이나 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 교환 시 레이턴시가 급증한다.
 - **K8s & Cloud:** 현대적인 스파크 아키텍처는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 Cluster 모드로 실행하는 것이 표준이다. 이는 리소스 격리와 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing) 기능을 클러스터 매니저에게 완전히 위임할 수 있기 때문이다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
@@ -74,21 +72,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[로컬 모드 (Local Mode) — 단일 JVM에서 드라이버·익스큐터 실행, 개발·테스트용]
-    │
-    ▼
-[독립 실행 모드 (Standalone Mode) — Spark 자체 클러스터 매니저, 소규모 전용 환경]
-    │
-    ▼
-[YARN 모드 (YARN Mode) — 하둡 클러스터 자원 공유, 엔터프라이즈 표준]
-    │
-    ▼
-[Kubernetes 모드 (K8s Mode) — Pod 단위 동적 프로비저닝, 클라우드 네이티브 표준]
-    │
-    ▼
-[서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 모드 (Local Mode) — 단일 JVM에서 드라이버·익스큐터 실행, 개발·테스트용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">독립 실행 모드 (Standalone Mode) — Spark 자체 클러스터 매니저, 소규모 전용 환경</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YARN 모드 (YARN Mode) — 하둡 클러스터 자원 공유, 엔터프라이즈 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 모드 (K8s Mode) — Pod 단위 동적 프로비저닝, 클라우드 네이티브 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 Spark의 배포 모드가 로컬 개발 환경에서 출발하여 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 클러스터 공유를 거쳐 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 배포로 진화하는 과정을 보여준다.
 

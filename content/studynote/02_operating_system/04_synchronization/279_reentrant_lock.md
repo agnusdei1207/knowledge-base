@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 재진입 가능 락(Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 요청할 때, 그 락을 이미 쥐고 있는 주인이 '나 자신(현재 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'이라면, 멈춰 세우지(Block) 않고 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Count)만 1 증가시킨 뒤 그대로 통과시켜 주는 뮤텍스의 변형 모델이다.
-> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자신이 락을 쥔 상태에서 내부적으로 똑같은 락을 요구하는 다른 메서드([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 함수, 또는 연쇄 호출)를 불렀을 때, 스스로가 스스로를 기다리며 멈춰버리는 **셀프 데드락(Self-[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**의 멍청한 비극을 원천적으로 막아준다.
+> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 자신이 락을 쥔 상태에서 내부적으로 똑같은 락을 요구하는 다른 메서드([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 함수, 또는 연쇄 호출)를 불렀을 때, 스스로가 스스로를 기다리며 멈춰버리는 <strong>셀프 데드락(Self-<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>의 멍청한 비극을 원천적으로 막아준다.
 > 3. **융합**: Java의 `synchronized` 블록이나 `ReentrantLock` 클래스 등 현대 고수준 언어가 제공하는 락은 개발자의 실수를 덮어주기 위해 대부분 기본적으로 '재진입 가능성'을 내장하고 있다.
 
 ---
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
   3. `출금()`이 시작되려는데 "어? 락이 잠겨있네?" 하고 락이 풀리길 기다린다 (Sleep).
   4. 락을 풀려면 `이체()`가 끝나야 하는데, `이체()`는 `출금()`이 끝나길 기다리며 영원히 멈춰버렸다. (셀프 데드락 발생 💣)
 
-이 멍청한 상황을 본 설계자들은 이마를 탁 쳤다. **"야, 락을 쥐고 있는 놈이 나 자신이면 그냥 통과시켜 줘야지!"** 그렇게 자물쇠에 **소유자 확인증**과 **진입 횟수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)**를 달아놓은 것이 **재진입 가능 락(Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**이다.
+이 멍청한 상황을 본 설계자들은 이마를 탁 쳤다. **"야, 락을 쥐고 있는 놈이 나 자신이면 그냥 통과시켜 줘야지!"** 그렇게 자물쇠에 <strong>소유자 확인증</strong>과 <strong>진입 횟수 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a></strong>를 달아놓은 것이 <strong>재진입 가능 락(Reentrant <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -39,13 +39,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-재진입 락의 내부는 순수 뮤텍스보다 2개의 부품을 더 가지고 있다. **'소유자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID'**와 **'홀드 카운트(Hold Count)'**다.
+재진입 락의 내부는 순수 뮤텍스보다 2개의 부품을 더 가지고 있다. <strong>'소유자 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> ID'</strong>와 <strong>'홀드 카운트(Hold Count)'</strong>다.
 
 #### 1. 락 획득 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), 진입)
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 락을 요청한다.
-- 락이 풀려있으면(Count=0), 락을 잠그고 **소유자=A, 카운트=1**로 기록한다.
+- 락이 풀려있으면(Count=0), 락을 잠그고 <strong>소유자=A, 카운트=1</strong>로 기록한다.
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 안에서 한 번 더 락을 요청한다([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출 등).
-- 락은 잠겨있지만, 소유자가 A임을 확인하고 **"주인님이네!" 하며 카운트를 2로 올리고 통과**시킨다.
+- 락은 잠겨있지만, 소유자가 A임을 확인하고 <strong>"주인님이네!" 하며 카운트를 2로 올리고 통과</strong>시킨다.
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 락을 요청하면? 소유자가 B가 아니므로 무자비하게 문 밖에서 재운다(Block).
 
 #### 2. 락 해제 (Unlock, 탈출)
@@ -54,28 +54,26 @@ tags = ["studynote-operating-system"]
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `unlock()`을 한 번 더 호출해서 **카운트가 0이 되는 순간!**
 - 비로소 락의 문이 철컥 열리며 대기하던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 들어올 수 있게 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│           재진입 락 (Reentrant Lock)의 재귀적 호출과 카운팅 시각화           │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│ public synchronized void 이체() {        [ 락 상태 모니터 ]                  │
-│     // 1. 여기서 스레드 A가 락 획득!         -> 소유자: A, Count: 1          │
-│                                                                              │
-│     출금(); // 2. 내부에서 다른 메서드 호출                                  │
-│ }                                                                            │
-│                                                                              │
-│ public synchronized void 출금() {                                            │
-│     // 3. 일반 락이면 여기서 셀프 데드락으로 뻗어버림!                       │
-│     // 하지만 재진입 락이면? "나 A야!"       -> 소유자: A, Count: 2 (통과!)  │
-│                                                                              │
-│     잔액 = 잔액 - 100;                                                       │
-│ } // 4. 출금 끝 (1차 Unlock)             -> 소유자: A, Count: 1              │
-│                                                                              │
-│ // 5. 이체 끝 (2차 Unlock)               -> 소유자: 없음, Count: 0           │
-│ // ★ 비로소 밖에서 기다리던 스레드 B가 락을 쥐고 진입 가능!                  │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재진입 락 (Reentrant Lock)의 재귀적 호출과 카운팅 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">public synchronized void 이체() {</div><div class="kb-diagram-node">락 상태 모니터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 여기서 스레드 A가 락 획득! -&gt; 소유자: A, Count: 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출금(); // 2. 내부에서 다른 메서드 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized void 출금() {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 3. 일반 락이면 여기서 셀프 데드락으로 뻗어버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 하지만 재진입 락이면? "나 A야!" -&gt; 소유자: A, Count: 2 (통과!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔액 = 잔액 - 100;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} // 4. 출금 끝 (1차 Unlock) -&gt; 소유자: A, Count: 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 5. 이체 끝 (2차 Unlock) -&gt; 소유자: 없음, Count: 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ★ 비로소 밖에서 기다리던 스레드 B가 락을 쥐고 진입 가능!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조 덕분에 개발자는 메서드 안에서 다른 동기화된 메서드를 호출할 때 "이게 락이 걸려있나 안 걸려있나?"를 눈치 보며 설계할 필요가 없어진다. 코드를 아주 깔끔하고 모듈화(조립)하기 좋게 만들어주는 객체 지향 프로그래밍의 구원자다.
 
@@ -87,7 +85,7 @@ tags = ["studynote-operating-system"]
 
 세상에 공짜는 없다. 재진입을 지원하기 위해 자물쇠 안에 부품을 더 구겨 넣었기 때문에 필연적인 오버헤드가 발생한다.
 
-1. **상태 추적의 비용 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Overhead)**
+1. <strong>상태 추적의 비용 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Overhead)</strong>
    - 락을 걸고 풀 때마다, "네가 주인이 맞냐?"라고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ID를 확인하고 숫자를 더하고 빼는 추가적인 메모리 연산(Overhead)이 발생한다.
    - 극단적으로 성능을 쥐어짜야 하는 리눅스 커널의 최하위 단이나 임베디드 시스템에서는 이런 오버헤드조차 아까워서 '순수 뮤텍스(Non-Reentrant [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'나 '스핀 락(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 고집하는 경우가 많다.
 2. **락 해제 횟수 불일치 오류**
@@ -126,15 +124,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
-    │
-    ▼
-[재진입 가능 락 (Reentrant Lock / Recursive Lock)]
-    │
-    ├──▶ [읽기-쓰기 락 (Read-Write Lock)]
-    └──▶ [교착 상태 (Deadlock) 정의]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 세마포어 vs 뮤텍스 차이 (소유권 유무)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재진입 가능 락 (Reentrant Lock / Recursive Lock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">읽기-쓰기 락 (Read-Write Lock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 (Deadlock) 정의</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

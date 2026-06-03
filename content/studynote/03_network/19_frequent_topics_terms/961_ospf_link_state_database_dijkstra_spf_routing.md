@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) ([Distance Vector](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/))**: 앞서 배운 멍청한 라우터입니다. 옆집 라우터가 주는 엑셀 장부만 믿고 길을 결정하여, 거짓 정보(루핑)에 엄청나게 취약합니다.
-- **[링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) ([Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)) 🌟**: 남의 장부를 믿지 않고, 전국의 모든 라우터가 자기가 가진 **'[링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/)(내가 누구랑 연결되어 있고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 얼마인지)'**만 쪽지(LSA)에 적어 온 세상에 뿌립니다. 라우터는 이 수만 장의 쪽지를 모아 전국 지형도(LSDB)를 자기 뱃속에 직접 그립니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">거리 벡터</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">Distance Vector</a>)</strong>: 앞서 배운 멍청한 라우터입니다. 옆집 라우터가 주는 엑셀 장부만 믿고 길을 결정하여, 거짓 정보(루핑)에 엄청나게 취약합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>) 🌟</strong>: 남의 장부를 믿지 않고, 전국의 모든 라우터가 자기가 가진 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a>(내가 누구랑 연결되어 있고 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 얼마인지)'</strong>만 쪽지(LSA)에 적어 온 세상에 뿌립니다. 라우터는 이 수만 장의 쪽지를 모아 전국 지형도(LSDB)를 자기 뱃속에 직접 그립니다.
 
-```text
-[루프 어보이던스]
-    │
-    ▼
-[OSPF 링크 상태 데이터베이스]
-    │
-    └──▶ [BGP AS-Path]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP AS-Path</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터의 램(RAM) 메모리를 가장 많이 잡아먹는 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창고입니다.
 
-- **개념**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 영역(Area) 안에 있는 모든 라우터들끼리 쏘아 보낸 수만 장의 **LSA ([Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) Advertisement, [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) 쪽지)** 패킷들을 모조리 모아 엮어놓은 **'완벽한 전국 네트워크 토폴로지(연결 지도) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)'**입니다.
-- **핵심 특징**: 똑같은 구역(Area 0 등) 안에 있는 A 라우터와 B 라우터의 뱃속에 있는 이 **LSDB 지도는 글자 하나 틀리지 않고 100% 완벽하게 똑같이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(복사)**되어 있습니다. 모두가 똑같은 지형도를 뇌 속에 띄우고 있습니다.
+- **개념**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 영역(Area) 안에 있는 모든 라우터들끼리 쏘아 보낸 수만 장의 <strong>LSA (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a> Advertisement, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> 쪽지)</strong> 패킷들을 모조리 모아 엮어놓은 <strong>'완벽한 전국 네트워크 토폴로지(연결 지도) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>'</strong>입니다.
+- **핵심 특징**: 똑같은 구역(Area 0 등) 안에 있는 A 라우터와 B 라우터의 뱃속에 있는 이 <strong>LSDB 지도는 글자 하나 틀리지 않고 100% 완벽하게 똑같이 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(복사)</strong>되어 있습니다. 모두가 똑같은 지형도를 뇌 속에 띄우고 있습니다.
 
-```text
-[루프 어보이던스]
-    │
-    ▼
-[OSPF 링크 상태 데이터베이스]
-    │
-    └──▶ [BGP AS-Path]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP AS-Path</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,9 +67,9 @@ tags = ["studynote-network"]
 
 전국 3D 지도를 뱃속에 넣었으니, 내비게이션을 돌릴 차례입니다.
 
-- **[SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) ([Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) First) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: 수학자 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 만든 길 찾기 공식입니다.
-- 라우터는 자기 뱃속의 지형도(LSDB)를 촥 펼쳐놓고, **"내가 중심(Root)일 때, 네이버 서버까지 가는 모든 수십만 개의 경우의 수 중 가장 빠른 최단 거리 선 하나"**를 0.1초 만에 수학적으로 그려냅니다. 이 그려진 1개의 빨간 선(최단 경로)만이 진짜 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 엑셀 장부에 등록되어 패킷을 쏘게 됩니다.
-- **OSPF의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (비용 계산)**: 길을 고르는 기준(비용, Cost)은 철저히 **'[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 속도)'**입니다. 100km짜리 국도(10Mbps)보다, 조금 삥 돌아가더라도 1,000km짜리 8차선 뻥 뚫린 광케이블 고속도로(100Gbps)가 수학적으로 점수가 더 싸게(Cost가 낮게) 먹혀서 그 길을 최우선으로 선택합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> (<a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 수학자 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 만든 길 찾기 공식입니다.
+- 라우터는 자기 뱃속의 지형도(LSDB)를 촥 펼쳐놓고, <strong>"내가 중심(Root)일 때, 네이버 서버까지 가는 모든 수십만 개의 경우의 수 중 가장 빠른 최단 거리 선 하나"</strong>를 0.1초 만에 수학적으로 그려냅니다. 이 그려진 1개의 빨간 선(최단 경로)만이 진짜 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 엑셀 장부에 등록되어 패킷을 쏘게 됩니다.
+- <strong>OSPF의 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> (비용 계산)</strong>: 길을 고르는 기준(비용, Cost)은 철저히 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> 속도)'</strong>입니다. 100km짜리 국도(10Mbps)보다, 조금 삥 돌아가더라도 1,000km짜리 8차선 뻥 뚫린 광케이블 고속도로(100Gbps)가 수학적으로 점수가 더 싸게(Cost가 낮게) 먹혀서 그 길을 최우선으로 선택합니다.
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)가 기반 조건을 만든다면, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 그 위에서 핵심 메커니즘을 구현하고, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 구식 라우터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 산속에서 길을 잃었을 때 '지나가는 등산객에게 길을 묻는 짓'입니다. 등산객이 "저쪽으로 10분 가면 출구 나와요"라고 뻥을 치면, 100명의 라우터가 그 길로 갔다가 절벽(루핑)에 떨어집니다. **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터와 LSDB([링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) DB)**는 산속에 들어갈 때 아예 '초정밀 3D 위성 지도 앱'을 폰에 깔아서 들어가는 완벽한 생존가입니다. 모든 라우터는 등산객의 소문을 1%도 믿지 않습니다. 오직 위성(LSA 쪽지)이 보내준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 내 폰 화면에 전국 3D 지도(LSDB)를 100% 똑같이 완벽하게 띄워놓습니다. 그리고 내 폰의 내비게이션 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 켜서 8차선 고속도로([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최적)만 골라 타는 최단 거리([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/))를 혼자서 정확하게 계산해 뚫어버리는 대기업망의 최강 길잡이 기술입니다.
+- **📢 섹션 요약 비유**: 구식 라우터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 산속에서 길을 잃었을 때 '지나가는 등산객에게 길을 묻는 짓'입니다. 등산객이 "저쪽으로 10분 가면 출구 나와요"라고 뻥을 치면, 100명의 라우터가 그 길로 갔다가 절벽(루핑)에 떨어집니다. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> 라우터와 LSDB(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> DB)</strong>는 산속에 들어갈 때 아예 '초정밀 3D 위성 지도 앱'을 폰에 깔아서 들어가는 완벽한 생존가입니다. 모든 라우터는 등산객의 소문을 1%도 믿지 않습니다. 오직 위성(LSA 쪽지)이 보내준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 내 폰 화면에 전국 3D 지도(LSDB)를 100% 똑같이 완벽하게 띄워놓습니다. 그리고 내 폰의 내비게이션 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 켜서 8차선 고속도로([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최적)만 골라 타는 최단 거리([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/))를 혼자서 정확하게 계산해 뚫어버리는 대기업망의 최강 길잡이 기술입니다.
 
 ---
 
@@ -109,15 +117,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 루프 어보이던스]
-    │
-    ▼
-[현재 개념: OSPF 링크 상태 데이터베이스]
-    │
-    ├──▶ [확장 A: BGP AS-Path]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 루프 어보이던스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF 링크 상태 데이터베이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP AS-Path</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

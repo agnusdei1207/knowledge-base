@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순전파([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Propagation)는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 신경망의 입력층→은닉층→출력층 방향으로 흐르며 행렬 곱과 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 순차 적용해 예측값을 계산하는 과정이다.
-> 2. **가치**: 순전파는 **예측(Inference)**만 수행하며, 중간 계산 결과(활성화 값, 선형 결합값 z)를 저장해 이후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))에서 기울기 계산에 활용한다.
+> 2. **가치**: 순전파는 <strong>예측(Inference)</strong>만 수행하며, 중간 계산 결과(활성화 값, 선형 결합값 z)를 저장해 이후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))에서 기울기 계산에 활용한다.
 > 3. **판단 포인트**: 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 이해하면 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기(Local Gradient) 계산이 순전파에서 이미 결정됨을 알 수 있으며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 효율을 극대화한다.
 
 ---
@@ -21,25 +21,30 @@ tags = ["studynote-ai"]
 
 ### 순전파 정의
 
-순전파는 신경망에 입력 x를 넣으면 출력 ŷ이 계산되는 **전방향 연산 흐름**이다. 각 층(Layer)에서 수행되는 연산:
+순전파는 신경망에 입력 x를 넣으면 출력 ŷ이 계산되는 <strong>전방향 연산 흐름</strong>이다. 각 층(Layer)에서 수행되는 연산:
 
-```
-층 ℓ의 순전파 연산:
-  zˡ = Wˡ × aˡ⁻¹ + bˡ    ← 선형 변환 (Linear Transformation)
-  aˡ = f(zˡ)              ← 활성화 함수 적용 (Non-linear)
 
-  여기서:
-  - aˡ   : 층 ℓ의 활성화 출력 (Activation Output)
-  - Wˡ   : 층 ℓ의 가중치 행렬 (Weight Matrix)
-  - bˡ   : 층 ℓ의 편향 벡터 (Bias Vector)
-  - zˡ   : 층 ℓ의 사전 활성화 값 (Pre-activation)
-  - f    : 활성화 함수 (Activation Function)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">층 ℓ의 순전파 연산:</div>
+<div class="kb-diagram-note">zˡ = Wˡ × aˡ⁻¹ + bˡ ← 선형 변환 (Linear Transformation)</div>
+<div class="kb-diagram-note">aˡ = f(zˡ) ← 활성화 함수 적용 (Non-linear)</div>
+<div class="kb-diagram-note">여기서:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">aˡ : 층 ℓ의 활성화 출력 (Activation Output)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Wˡ : 층 ℓ의 가중치 행렬 (Weight Matrix)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">bˡ : 층 ℓ의 편향 벡터 (Bias Vector)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">zˡ : 층 ℓ의 사전 활성화 값 (Pre-activation)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">f : 활성화 함수 (Activation Function)</div>
+</div>
+</div>
+
+
 
 ### 순전파의 역할
 
 순전파는 두 가지 목적으로 실행된다:
-1. **학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))**: 손실 계산 후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 준비 → 중간 값 저장 필요
+1. <strong>학습(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>: 손실 계산 후 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 준비 → 중간 값 저장 필요
 2. **추론(Inference)**: 학습된 모델로 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측 → 중간 값 저장 불필요
 
 - **📢 섹션 요약 비유**: 순전파는 수도관에서 물이 저수지(입력)에서 수도꼭지(출력)로 흐르는 과정 — 각 밸브(층)를 통과하며 압력(값)이 변환되고, 최종 수도꼭지에서 나온 물의 양을 측정해 목표 수량과 비교한다.
@@ -50,24 +55,23 @@ tags = ["studynote-ai"]
 
 ### 3층 MLP 순전파 전체 흐름
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                순전파 (Forward Propagation) 흐름                  │
-│                                                                  │
-│  입력층         은닉층 1         은닉층 2         출력층            │
-│                                                                  │
-│  a⁰ = x         z¹ = W¹a⁰+b¹   z² = W²a¹+b²   z³ = W³a²+b³    │
-│  ↓               ↓               ↓               ↓              │
-│ [x₁]           a¹ = ReLU(z¹)   a² = ReLU(z²)  ŷ = σ(z³)       │
-│ [x₂]                                                             │
-│ [x₃]    ←─────  저장: z¹,a¹  ───  저장: z²,a²  ───  저장: z³   │
-│                   (역전파에서 사용)                                │
-│                                                                  │
-│  ↓                                                               │
-│  손실 계산: L = loss(ŷ, y_target)                                 │
-│  예) 이진 분류: L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]               │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (Forward Propagation) 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 은닉층 1 은닉층 2 출력층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a⁰ = x z¹ = W¹a⁰+b¹ z² = W²a¹+b² z³ = W³a²+b³</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x₁</div><div class="kb-diagram-note">a¹ = ReLU(z¹) a² = ReLU(z²) ŷ = σ(z³)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x₂</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x₃</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">저장: z¹,a¹ 저장: z²,a² 저장: z³</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(역전파에서 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 계산: L = loss(ŷ, y_target)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">예) 이진 분류: L = -</div><div class="kb-diagram-node">y·log(ŷ) + (1-y)·log(1-ŷ)</div></div>
+</div>
+</div>
+
+
 
 ### 행렬 연산으로 이해하는 순전파
 
@@ -87,23 +91,23 @@ Z = W × X + b (브로드캐스팅)
 
 ### 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│              연산 그래프 (Computational Graph)                │
-│                                                              │
-│  x ────────────────────────────────────────────────────┐    │
-│                                                         │    │
-│  W ──► [×] ──► z = Wx+b ──► [f] ──► a ──► [Loss] ──► L│    │
-│                  ↑                                      │    │
-│  b ─────────────┘                          ↑            │    │
-│                                       y_true ───────────┘    │
-│                                                              │
-│  노드: 연산 (×, +, f, Loss)                                  │
-│  엣지: 데이터 흐름                                            │
-│  순전파: 왼쪽 → 오른쪽 (예측)                                 │
-│  역전파: 오른쪽 → 왼쪽 (기울기 전파)                           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 그래프 (Computational Graph)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">W ──►</div><div class="kb-diagram-node">×</div><div class="kb-diagram-note">──► z = Wx+b ──►</div><div class="kb-diagram-node">f</div><div class="kb-diagram-note">──► a ──►</div><div class="kb-diagram-node">Loss</div><div class="kb-diagram-note">──► L│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_true</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드: 연산 (×, +, f, Loss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지: 데이터 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파: 왼쪽 → 오른쪽 (예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파: 오른쪽 → 왼쪽 (기울기 전파)</div></div>
+</div>
+</div>
+
+
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)) 계산
 
@@ -135,9 +139,9 @@ Z = W × X + b (브로드캐스팅)
 
 | 처리 방식 | 설명 | 특징 |
 |:---|:---|:---|
-| **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 경사 하강 (SGD)** | N=1, 샘플 1개씩 | 빠른 업데이트, 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **미니배치 (Mini-batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))** | N=32~256, 배치 단위 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 표준 방법 |
-| **배치 경사 하강 (Batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))** | N=전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 안정적, 메모리 비효율 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 경사 하강 (SGD)</strong> | N=1, 샘플 1개씩 | 빠른 업데이트, 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong>미니배치 (Mini-batch <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">GD</a>)</strong> | N=32~256, 배치 단위 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 표준 방법 |
+| <strong>배치 경사 하강 (Batch <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">GD</a>)</strong> | N=전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 안정적, 메모리 비효율 |
 
 - **📢 섹션 요약 비유**: 순전파와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 학생이 시험을 치르고 채점하는 과정 — 순전파는 답을 쓰는 것(예측), [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 틀린 문제를 분석해 어떤 개념([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 더 공부해야 하는지 파악하는 것이다.
 
@@ -148,7 +152,7 @@ Z = W × X + b (브로드캐스팅)
 ### 기술사 시험 핵심 논점
 
 1. **순전파에서 저장하는 값**: z(선형 결합)와 a(활성화 출력) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 국소 기울기 계산에 필수
-2. **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 효율**: 행렬 연산(GEMM, General Matrix Multiply)으로 GPU에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 → 단일 샘플 대비 수십~수백 배 속도
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a> 효율</strong>: 행렬 연산(GEMM, General Matrix Multiply)으로 GPU에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 → 단일 샘플 대비 수십~수백 배 속도
 3. **순전파의 계산 복잡도**: 각 층에서 O(n_in × n_out) → 전체 O(L × d²) (L: 층 수, d: 평균 노드 수)
 4. **추론(Inference) 최적화**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 불필요 → no_grad() 모드로 중간값 저장 생략 → 메모리·속도 절약
 
@@ -179,10 +183,10 @@ with torch.no_grad():
 
 | 기법 | 내용 | 효과 |
 |:---|:---|:---|
-| **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) (Batch Norm)** | 층 간 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 학습 안정화, 수렴 가속 |
-| **[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))** | 순전파 시 랜덤 뉴런 비활성화 | 과적합 방지 |
-| **그래디언트 [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)** | 중간 값 일부만 저장 | 메모리 절약, 속도 트레이드오프 |
-| **혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** | FP16/BF16 연산 | 2배 메모리 절약, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용도 향상 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (Batch Norm)</strong> | 층 간 활성화 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 학습 안정화, 수렴 가속 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a>)</strong> | 순전파 시 랜덤 뉴런 비활성화 | 과적합 방지 |
+| <strong>그래디언트 <a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a></strong> | 중간 값 일부만 저장 | 메모리 절약, 속도 트레이드오프 |
+| <strong>혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (Mixed <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | FP16/BF16 연산 | 2배 메모리 절약, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 활용도 향상 |
 
 ### 결론
 

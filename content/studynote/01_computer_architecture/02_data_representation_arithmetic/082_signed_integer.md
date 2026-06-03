@@ -34,7 +34,7 @@ tags = ["studynote-computer-architecture"]
 | 4비트 표현 방식 | 2 (양수) | -2 (음수) | 2 + (-2) 연산 결과 (보수 덧셈) |
 |:---|:---|:---|:---|
 | [부호와 절댓값](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/083_sign_magnitude/) | `0010` | `1010` | `1100` (-4) ❌ 연산 붕괴 |
-| **2의 보수 (표준)** | `0010` | **`1110`** | `1 0000` ➔ 버림 ➔ `0000` (0) ✅ 완벽 |
+| **2의 보수 (표준)** | `0010` | <strong><code>1110</code></strong> | `1 0000` ➔ 버림 ➔ `0000` (0) ✅ 완벽 |
 
 ### [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 한계점
 MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 42억에서 21억으로 반토막 났다. 21억에 1을 더하면 캐리가 발생해 MSB가 1로 덮어씌워지며, 갑자기 $-21억$ 이라는 끔찍한 음수로 돌변하는 '[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)'가 발생한다. ALU는 이를 막기 위해 MSB의 XOR 연산을 통해 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(V [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))를 띄워 CPU에 경고를 보낸다.
@@ -46,13 +46,13 @@ MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 
 ## Ⅲ. 비교 및 연결
 
 ### Signed vs Unsigned의 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 처리 차이
-컴퓨터 메모리 안에서 `11111111`은 이게 -1인지(Signed) 아니면 255인지(Unsigned) 알 방법이 없다. 결국 이를 어떻게 읽고 연산할지는 **어셈블리어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**가 결정한다.
+컴퓨터 메모리 안에서 `11111111`은 이게 -1인지(Signed) 아니면 255인지(Unsigned) 알 방법이 없다. 결국 이를 어떻게 읽고 연산할지는 <strong>어셈블리어 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>가 결정한다.
 
 | 아키텍처 관점 | 부호 있는 정수 (Signed) | [부호 없는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/) (Unsigned) |
 |:---|:---|:---|
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장 (Extension)** | **부호 확장 (Sign Extension)**: 앞을 MSB로 채움 | **제로 확장 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Extension)**: 앞을 0으로 채움 |
-| **우측 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/)** | **[산술 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/) ([Arithmetic Shift](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/))**: 부호 유지 | **[논리 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/) ([Logical Shift](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/))**: 0 삽입 |
-| **분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (x86)** | `JG` (Jump if Greater), `JL` ([Less](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)) | `JA` (Jump if Above), `JB` (Below) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 확장 (Extension)</strong> | **부호 확장 (Sign Extension)**: 앞을 MSB로 채움 | <strong>제로 확장 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Extension)</strong>: 앞을 0으로 채움 |
+| <strong>우측 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/">시프트 연산</a></strong> | <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/">산술 시프트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/">Arithmetic Shift</a>)</strong>: 부호 유지 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">논리 시프트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/120_logical_shift/">Logical Shift</a>)</strong>: 0 삽입 |
+| <strong>분기 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> (x86)</strong> | `JG` (Jump if Greater), `JL` ([Less](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/)) | `JA` (Jump if Above), `JB` (Below) |
 
 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열이라도 C 컴파일러가 변수 타입에 따라 완전히 다른 종류의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)) 경로를 타도록 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 다르게 매핑한다. 
 
@@ -67,7 +67,7 @@ MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 
 2. **범위 초과 방어 로직**: 은행 계좌 잔액이나 시간차([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 연산을 수행할 때, 더하기 연산 직후 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(V)가 세팅되었는지 검사하여 비정상적인 마이너스 잔액 발생을 방지하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **부호 불일치에 의한 [정수 오버플로우](/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/) 해킹**: 악의적 유저가 버퍼 크기 파라미터로 `-1`을 입력할 때, 코드가 `size < 100` 처럼 단순히 크기 검사만 하고 통과시키는 로직. 메모리를 복사하는 `memcpy` 함수는 `size` 파라미터를 Unsigned로 해석하므로, `-1`이 `4,294,967,295` [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 복사 명령으로 둔갑하여 시스템 메모리를 완전히 파괴해버린다.
+- <strong>부호 불일치에 의한 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/">정수 오버플로우</a> 해킹</strong>: 악의적 유저가 버퍼 크기 파라미터로 `-1`을 입력할 때, 코드가 `size < 100` 처럼 단순히 크기 검사만 하고 통과시키는 로직. 메모리를 복사하는 `memcpy` 함수는 `size` 파라미터를 Unsigned로 해석하므로, `-1`이 `4,294,967,295` [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 복사 명령으로 둔갑하여 시스템 메모리를 완전히 파괴해버린다.
 
 - **📢 섹션 요약 비유**: 부호 확장을 잘못 다루는 것은 문서를 복사하면서 도장(부호)을 위조하는 것과 같다. 도장을 마음대로 찍거나 빼먹으면 원본의 의미([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기와 방향)가 완전히 훼손되어 시스템 전체에 치명적인 계약 위반(버그)을 초래한다.
 
@@ -89,25 +89,27 @@ MSB를 부호로 양보한 대가로 32비트 정수의 최대 표현 한계는 
 |:---|:---|
 | **2의 보수 (2's Complement)** | 뺄셈을 덧셈으로 치환하여 부호 있는 정수를 하드웨어가 효율적으로 처리하게 만드는 마법의 인코딩 |
 | **부호 확장 (Sign Extension)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭을 넓힐 때, 원래의 값이 가진 부호(음/양)와 크기 무결성을 유지하는 하드웨어 규칙 |
-| **[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) ([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))** | 부호 있는 정수가 가용 범위를 초과했을 때 MSB를 침범하여 부호가 역전되는 재난적 에러 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>)</strong> | 부호 있는 정수가 가용 범위를 초과했을 때 MSB를 침범하여 부호가 역전되는 재난적 에러 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-덧셈기와 뺄셈기의 분리 (Hardware Inefficiency)
-    │
-    ▼
-부호와 절댓값 표현 (MSB 도입, 0 중복 문제 발생)
-    │
-    ▼
-2의 보수 체계 확립 (단일 0 구현 및 덧셈기 일원화)
-    │
-    ▼
-부호 확장 (Sign Extension) 및 산술 시프트 설계
-    │
-    ▼
-멀티미디어 가속 명령어 (SIMD) 내 부호 최적화 (Saturating Arithmetic)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">덧셈기와 뺄셈기의 분리 (Hardware Inefficiency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호와 절댓값 표현 (MSB 도입, 0 중복 문제 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2의 보수 체계 확립 (단일 0 구현 및 덧셈기 일원화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호 확장 (Sign Extension) 및 산술 시프트 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티미디어 가속 명령어 (SIMD) 내 부호 최적화 (Saturating Arithmetic)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "회로 낭비 극복 → [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 해결 → 뺄셈의 소프트웨어적(보수) 치환 → 예외 처리 및 가속 최적화"로 이어지는 부호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 아키텍처의 발전을 보여준다.
 

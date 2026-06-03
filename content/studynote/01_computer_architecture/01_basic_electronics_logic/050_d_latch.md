@@ -45,13 +45,19 @@ D 래치([Data](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 
 ### 2.1 NAND 게이트 구현
 
-```
-D ──┬──[NOT]──┐
-    │          ├── NAND ── S'──┐
-    └── EN ───┘                ├── SR 래치 → Q
-              EN ───┐          │
-    D ─────── NAND─ R'──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">D ── ──</div><div class="kb-diagram-node">NOT</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-note">── NAND ── S'──</div>
+<div class="kb-diagram-tree-item" style="--depth:2">EN ── SR 래치 → Q</div>
+<div class="kb-diagram-note">EN</div>
+<div class="kb-diagram-note">D NAND─ R'</div>
+</div>
+</div>
+
+
 
 D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D→S, D'→R [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 자동 생성한다.
 
@@ -59,11 +65,17 @@ D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D→S, D'→R [
 
 EN=1 구간 동안 D가 변화하면 Q도 즉시 변화한다. 이를 **투명(transparent)** 특성이라 한다.
 
-```
-EN: ‾‾‾‾‾‾|_____|‾‾‾‾
-D:  0→1→0  (변화 중)
-Q:  EN=1 동안 D 추적 → EN=0이면 마지막 D값 유지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EN: ‾‾‾‾‾‾</div><div class="kb-diagram-cell">_____</div><div class="kb-diagram-cell">‾‾‾‾</div></div>
+<div class="kb-diagram-note">D: 0→1→0 (변화 중)</div>
+<div class="kb-diagram-note">Q: EN=1 동안 D 추적 → EN=0이면 마지막 D값 유지</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: EN은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화 버튼 — 버튼 눌린 동안만 실시간 화면, 버튼 떼면 마지막 장면 고정.
 
@@ -98,13 +110,19 @@ EN이 서로 반전된 두 D 래치를 [직렬](/knowledge-base/studynote/03_net
 
 N비트 데이터를 동시에 저장하기 위해 N개의 D 래치를 공통 EN [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 묶는다.
 
-```
-EN ─────────────────────
-D0 → [D래치] → Q0
-D1 → [D래치] → Q1
-...
-Dn → [D래치] → Qn
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EN</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D래치</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Q0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D래치</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Q1</div></div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D래치</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Qn</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
@@ -143,40 +161,52 @@ EN 구간이 길면 D 입력의 글리치(glitch)가 Q에 직접 전달 → 셋�
 
 ## 📌 관련 개념 맵
 
-```
-D 래치
-├── 파생 소자
-│   ├── SR 래치 (기반)
-│   ├── D 플립플롭 (엣지 트리거)
-│   └── JK 플립플롭
-├── 응용
-│   ├── 병렬 레지스터
-│   ├── SRAM 셀
-│   └── 파이프라인 스테이지 버퍼
-└── 설계 주의
-    ├── 래치 추론 방지
-    └── 글리치 필터링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">D 래치</div>
+<div class="kb-diagram-tree-item" style="--depth:0">파생 소자</div>
+<div class="kb-diagram-note">── SR 래치 (기반)</div>
+<div class="kb-diagram-note">── D 플립플롭 (엣지 트리거)</div>
+<div class="kb-diagram-note">── JK 플립플롭</div>
+<div class="kb-diagram-tree-item" style="--depth:0">응용</div>
+<div class="kb-diagram-note">── 병렬 레지스터</div>
+<div class="kb-diagram-note">── SRAM 셀</div>
+<div class="kb-diagram-note">── 파이프라인 스테이지 버퍼</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설계 주의</div>
+<div class="kb-diagram-tree-item" style="--depth:2">래치 추론 방지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">글리치 필터링</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-SR 래치 (1950s)
-     │  금지 상태 문제
-     ▼
-D 래치 (레벨 트리거)
-     │  투명성 제거 필요
-     ▼
-D 플립플롭 (엣지 트리거, 1960s)
-     │  N개 병렬 구성
-     ▼
-레지스터 파일 (Register File)
-     │  클록 도메인 설계
-     ▼
-동기 설계(Synchronous Design) → CDC(Clock Domain Crossing) 처리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SR 래치 (1950s)</div>
+<div class="kb-diagram-note">금지 상태 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">D 래치 (레벨 트리거)</div>
+<div class="kb-diagram-note">투명성 제거 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">D 플립플롭 (엣지 트리거, 1960s)</div>
+<div class="kb-diagram-note">N개 병렬 구성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 파일 (Register File)</div>
+<div class="kb-diagram-note">클록 도메인 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동기 설계(Synchronous Design) → CDC(Clock Domain Crossing) 처리</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: SR 래치, 투명 래치, 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 마스터-슬레이브, 래치 추론, 셋업/홀드 타임
 

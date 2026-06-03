@@ -23,11 +23,11 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 과거 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) 환경에서는 서버의 IP나 디스크 경로가 바뀌지 않는다고 가정하고 코드를 작성했다(하드코딩). 하지만 클라우드 환경에서는 언제든 서버가 죽고 다른 곳에서 새로 태어난다. 앱이 클라우드의 동적 환경(Auto-scaling)을 견뎌내고, 개발/스테이징/운영 환경 간의 불일치로 인한 "내 PC에서는 되는데 서버에서는 안 돼"라는 고질적인 문제를 원천 봉쇄하려면 인프라와 코드를 완벽히 분리하는 표준화된 규약이 필수적이었다.
 
-- **💡 비유**: 캠핑 갈 때 텐트, 버너, 코펠을 일일이 챙기고 숲속에 가서 직접 나무를 베어 텐트를 치는 것이 옛날 방식([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))이라면, 12 Factor App은 **최고급 트레일러(캠핑카)**를 만드는 설계도입니다. 이 트레일러는 강가든 산속이든(클라우드 벤더 무관) 끌고 가기만 하면 즉시 똑같이 작동하며, 물이나 전기(백킹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 외부에서 호스만 꽂으면 되도록 완벽하게 규격화되어 있습니다.
+- **💡 비유**: 캠핑 갈 때 텐트, 버너, 코펠을 일일이 챙기고 숲속에 가서 직접 나무를 베어 텐트를 치는 것이 옛날 방식([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))이라면, 12 Factor App은 <strong>최고급 트레일러(캠핑카)</strong>를 만드는 설계도입니다. 이 트레일러는 강가든 산속이든(클라우드 벤더 무관) 끌고 가기만 하면 즉시 똑같이 작동하며, 물이나 전기(백킹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 외부에서 호스만 꽂으면 되도록 완벽하게 규격화되어 있습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **PaaS의 부상**: 2011년경 Heroku 플랫폼이 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 배포의 사실상 표준으로 자리 잡으면서, 자사 플랫폼에 앱을 올리려면 지켜야 할 규칙들을 12 Factor로 문서화했다.
-  2. **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 패러다임과의 결합**: 이후 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 아키텍처가 부상하면서, 수백 개의 독립된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 클라우드에 안정적으로 배포하기 위한 바이블로 격상되었다.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 패러다임과의 결합</strong>: 이후 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 아키텍처가 부상하면서, 수백 개의 독립된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 클라우드에 안정적으로 배포하기 위한 바이블로 격상되었다.
   3. **Beyond 12 Factor (15 Factor)**: 최근에는 API-First 설계, 원격 분석(Telemetry/[Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 등을 추가하여 15 Factor App으로 확장하려는 논의도 활발하다.
 
 - **📢 섹션 요약 비유**: 요리(코드)를 만들 때, 주방(서버)이 어디로 바뀌더라도 냄비 크기나 불의 온도에 상관없이 항상 똑같은 맛이 나도록, 요리 재료와 레시피, 조리 도구의 규격을 완벽하게 표준화한 매뉴얼과 같습니다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 12 Factor 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 네이티브 12 Factor                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 네이티브 12 Factor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 12 Factor 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 12 Factor App의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 12 Factor App의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 12 Factor App의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라우드 네이티브 12 Factor App 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 12 Factor App 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

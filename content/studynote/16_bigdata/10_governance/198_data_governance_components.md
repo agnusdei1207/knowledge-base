@@ -23,13 +23,19 @@ tags = ["studynote-bigdata"]
 
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)를 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)만 만들면 끝"이라고 오해하는 조직이 많다. 그러나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(What)이 있어도 이를 실행할 역할(Who), 절차(How), 도구(With What)가 없으면 선언에 그친다. [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) DMBOK이 제시하는 5대 구성 요소는 이 간극을 메운다:
 
-```
-정책 ──▶ 무엇을 해야 하는가?
-표준 ──▶ 어떤 형식/기준으로?
-역할 ──▶ 누가 책임지는가?
-프로세스 ─▶ 어떤 절차로?
-도구 ──▶ 어떤 시스템으로?
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정책 ──▶ 무엇을 해야 하는가?</div>
+<div class="kb-diagram-note">표준 ──▶ 어떤 형식/기준으로?</div>
+<div class="kb-diagram-note">역할 ──▶ 누가 책임지는가?</div>
+<div class="kb-diagram-note">프로세스 ─▶ 어떤 절차로?</div>
+<div class="kb-diagram-note">도구 ──▶ 어떤 시스템으로?</div>
+</div>
+</div>
+
+
 
 ### 1.2 구성 요소 개요
 
@@ -41,7 +47,7 @@ tags = ["studynote-bigdata"]
 | 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | 거버넌스 의사결정·문제해결·변경 절차 | 접근 신청 승인, 품질 이슈 해결 워크플로 |
 | 도구(Tool) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·표준·프로세스를 실행·자동화하는 시스템 | [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/), 품질 검사 툴, [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 시스템 |
 
-**📢 섹션 요약 비유**: 5대 구성 요소는 **레스토랑 운영 시스템**과 같다. 메뉴판([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 레시피(표준), 셰프·웨이터 역할(역할), 주문 처리 절차(프로세스), 주방 기기(도구)가 모두 갖춰져야 맛있는 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 나온다.
+**📢 섹션 요약 비유**: 5대 구성 요소는 <strong>레스토랑 운영 시스템</strong>과 같다. 메뉴판([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 레시피(표준), 셰프·웨이터 역할(역할), 주문 처리 절차(프로세스), 주방 기기(도구)가 모두 갖춰져야 맛있는 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 나온다.
 
 ---
 
@@ -49,46 +55,39 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 5대 구성 요소 상세
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                  데이터 거버넌스 5대 구성 요소                     │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  1. 정책 (Policy)                                         │    │
-│  │   · 접근 정책 (Access Policy): 최소 권한 원칙              │    │
-│  │   · 보유/삭제 정책 (Retention Policy): 법적 보관 기간       │    │
-│  │   · 품질 정책 (Quality Policy): 허용 오류율 ≤ 0.1%         │    │
-│  │   · 보안 분류 정책: Public/Internal/Confidential/Secret    │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  2. 표준 (Standard)                                       │    │
-│  │   · 명명 규칙 (Naming Convention): DB, 테이블, 칼럼 명명    │    │
-│  │   · 데이터 형식 (Format Standard): 날짜, 전화번호, 주소     │    │
-│  │   · 마스터 데이터 표준: 코드 목록, 분류 체계                │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  3. 역할 (Role) — RACI Matrix                             │    │
-│  │   · Data Owner: 전략적 책임, 접근 최종 승인                │    │
-│  │   · Data Steward: 일상적 품질·정의 관리                    │    │
-│  │   · Data Custodian: IT 인프라·보안 구현                    │    │
-│  │   · Data Consumer: 데이터 사용자, 품질 피드백 제공          │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  4. 프로세스 (Process)                                    │    │
-│  │   · 접근 신청·승인 워크플로                                │    │
-│  │   · 데이터 품질 이슈 해결 절차                             │    │
-│  │   · 변경 관리 (Change Management): 스키마 변경 승인         │    │
-│  │   · 데이터 인증 (Data Certification): 공식 데이터셋 지정    │    │
-│  └──────────────────────────────────────────────────────────┘    │
-│  ┌──────────────────────────────────────────────────────────┐    │
-│  │  5. 도구 (Tool)                                           │    │
-│  │   · 데이터 카탈로그: DataHub, Collibra, Apache Atlas       │    │
-│  │   · 데이터 품질: Great Expectations, Deequ, Soda Core      │    │
-│  │   · 데이터 리니지: OpenLineage, Marquez                    │    │
-│  │   · MDM: Informatica MDM, IBM InfoSphere                  │    │
-│  └──────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 5대 구성 요소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정책 (Policy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 접근 정책 (Access Policy): 최소 권한 원칙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 보유/삭제 정책 (Retention Policy): 법적 보관 기간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 품질 정책 (Quality Policy): 허용 오류율 ≤ 0.1%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 보안 분류 정책: Public/Internal/Confidential/Secret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 표준 (Standard)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 명명 규칙 (Naming Convention): DB, 테이블, 칼럼 명명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 형식 (Format Standard): 날짜, 전화번호, 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 마스터 데이터 표준: 코드 목록, 분류 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 역할 (Role) — RACI Matrix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Data Owner: 전략적 책임, 접근 최종 승인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Data Steward: 일상적 품질·정의 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Data Custodian: IT 인프라·보안 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Data Consumer: 데이터 사용자, 품질 피드백 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 프로세스 (Process)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 접근 신청·승인 워크플로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 품질 이슈 해결 절차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 변경 관리 (Change Management): 스키마 변경 승인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 인증 (Data Certification): 공식 데이터셋 지정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 도구 (Tool)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 카탈로그: DataHub, Collibra, Apache Atlas</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 품질: Great Expectations, Deequ, Soda Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 리니지: OpenLineage, Marquez</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· MDM: Informatica MDM, IBM InfoSphere</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 성숙도 모델 (CMM 기반)
 
@@ -123,7 +122,7 @@ tags = ["studynote-bigdata"]
 | [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) | 거버넌스 접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안 모델과 연계 |
 | ISO 8000 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 표준 — 거버넌스 품질 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 기준 |
 
-**📢 섹션 요약 비유**: 거버넌스 운영 모델은 **학교 교칙 운영 방식**이다. 전교 공통 규칙(중앙집중)만 있으면 경직되고, 반마다 다른 규칙(연방형)만 있으면 혼란스럽다. 두 가지를 조화시키는 것이 하이브리드다.
+**📢 섹션 요약 비유**: 거버넌스 운영 모델은 <strong>학교 교칙 운영 방식</strong>이다. 전교 공통 규칙(중앙집중)만 있으면 경직되고, 반마다 다른 규칙(연방형)만 있으면 혼란스럽다. 두 가지를 조화시키는 것이 하이브리드다.
 
 ---
 
@@ -143,13 +142,19 @@ tags = ["studynote-bigdata"]
 
 ### 4.2 구성 요소별 도입 순서
 
-```
-Step 1: 역할 정의 ─▶ 누가 책임지는지 먼저 확정
-Step 2: 정책 수립 ─▶ 핵심 4대 정책(접근/보유/품질/보안) 우선
-Step 3: 표준화 ──▶ 명명 규칙·코드 목록부터 시작
-Step 4: 프로세스 ─▶ 접근 신청·이슈 해결 워크플로 자동화
-Step 5: 도구 도입 ─▶ 데이터 카탈로그, 품질 도구 도입
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Step 1: 역할 정의 ─▶ 누가 책임지는지 먼저 확정</div>
+<div class="kb-diagram-note">Step 2: 정책 수립 ─▶ 핵심 4대 정책(접근/보유/품질/보안) 우선</div>
+<div class="kb-diagram-note">Step 3: 표준화 ──▶ 명명 규칙·코드 목록부터 시작</div>
+<div class="kb-diagram-note">Step 4: 프로세스 ─▶ 접근 신청·이슈 해결 워크플로 자동화</div>
+<div class="kb-diagram-note">Step 5: 도구 도입 ─▶ 데이터 카탈로그, 품질 도구 도입</div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 구성 요소 도입은 **집 짓기** 순서와 같다. 설계도(역할·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 없이 벽돌(도구)부터 사는 실수를 범하지 말아야 한다.
 
@@ -169,9 +174,9 @@ Step 5: 도구 도입 ─▶ 데이터 카탈로그, 품질 도구 도입
 
 ### 5.2 결론
 
-[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 5대 구성 요소는 단독으로 존재할 수 없고 **유기적으로 연결**되어야 한다. 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성숙도를 진단하고(현재 레벨 파악), 부족한 요소부터 우선순위를 정해 점진적으로 고도화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다. 기술사는 각 구성 요소의 설계 방법과 도구 선택 기준을 명확히 제시할 수 있어야 한다.
+[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 5대 구성 요소는 단독으로 존재할 수 없고 <strong>유기적으로 연결</strong>되어야 한다. 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성숙도를 진단하고(현재 레벨 파악), 부족한 요소부터 우선순위를 정해 점진적으로 고도화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다. 기술사는 각 구성 요소의 설계 방법과 도구 선택 기준을 명확히 제시할 수 있어야 한다.
 
-**📢 섹션 요약 비유**: 5대 구성 요소는 **오케스트라의 파트**다. 바이올린([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))만 잘 해도 전체 연주는 엉망이 된다. 지휘자([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 모든 파트를 조화시켜야 아름다운 음악(신뢰할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 나온다.
+**📢 섹션 요약 비유**: 5대 구성 요소는 <strong>오케스트라의 파트</strong>다. 바이올린([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))만 잘 해도 전체 연주는 엉망이 된다. 지휘자([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))가 모든 파트를 조화시켜야 아름다운 음악(신뢰할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 나온다.
 
 ---
 
@@ -191,21 +196,23 @@ Step 5: 도구 도입 ─▶ 데이터 카탈로그, 품질 도구 도입
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 소유권 (Data Ownership) — Owner/Steward/Custodian]
-    │
-    ▼
-[데이터 정책 (Data Policy) / 표준 (Data Standard)]
-    │
-    ▼
-[데이터 카탈로그 (Data Catalog) — 메타데이터 목록]
-    │
-    ▼
-[데이터 거버넌스 (Data Governance) — 5대 구성 요소]
-    │
-    ▼
-[데이터 메시 (Data Mesh) — 연방형 거버넌스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소유권 (Data Ownership) — Owner/Steward/Custodian</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정책 (Data Policy) / 표준 (Data Standard)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) — 메타데이터 목록</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 (Data Governance) — 5대 구성 요소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 연방형 거버넌스</div></div>
+</div>
+</div>
+
+
 
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 역할 정의에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·표준·[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 거쳐 조직 전체의 연방형 자율 관리로 발전한 흐름이다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 스케줄링 (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))은 프로세스의 과거 CPU 사용 행동을 보고 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 **승급·강등**시키는 동적 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+> 1. **본질**: [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 스케줄링 (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))은 프로세스의 과거 CPU 사용 행동을 보고 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 <strong>승급·강등</strong>시키는 동적 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 > 2. **가치**: 미래 실행 시간을 모르는 현실에서도 짧은 대화형 작업은 위에서 빨리 끝내고, 긴 CPU 바운드 작업은 아래로 내려 처리해 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 동시에 절충할 수 있다.
 > 3. **판단 포인트**: 큐 개수, 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)), priority boost 주기, gaming 방지 규칙을 어떻게 잡느냐에 따라 MLFQ는 민첩한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 되기도 하고, 불공정하고 복잡한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 되기도 한다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-operating-system"]
 
 MLFQ는 **"처음에는 모두를 빠른 줄에 세워 보고, CPU를 오래 붙잡는 작업만 점차 뒤로 보내는"** 스케줄링 방식이다. 운영체제는 새 프로세스가 I/O 바운드 (I/O Bound)인지 CPU 바운드 (CPU Bound)인지 미리 알 수 없기 때문에, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 완벽한 분류를 할 수 없다. MLFQ는 이 불확실성을 정적으로 가정하지 않고, 실제 실행 모습을 관찰해 우선순위를 계속 바꾼다.
 
-이 방식이 필요한 이유는 두 가지 고전적 한계 때문이다. 첫째, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))는 평균 대기 시간 관점에서 매우 강력하지만, 프로세스의 다음 CPU burst 길이를 미리 알아야 한다. 둘째, 일반 다단계 큐 (Multilevel [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 한 번 들어간 큐에서 거의 움직이지 않으므로, 초기에 잘못 분류된 작업이나 성격이 바뀐 작업에 약하다. 결국 범용 운영체제에는 **예측 대신 피드백**이 필요했고, MLFQ가 그 해답이 되었다.
+이 방식이 필요한 이유는 두 가지 고전적 한계 때문이다. 첫째, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))는 평균 대기 시간 관점에서 매우 강력하지만, 프로세스의 다음 CPU burst 길이를 미리 알아야 한다. 둘째, 일반 다단계 큐 (Multilevel [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 한 번 들어간 큐에서 거의 움직이지 않으므로, 초기에 잘못 분류된 작업이나 성격이 바뀐 작업에 약하다. 결국 범용 운영체제에는 <strong>예측 대신 피드백</strong>이 필요했고, MLFQ가 그 해답이 되었다.
 
 특히 대화형 시스템에서는 키 입력, 마우스 이벤트, 짧은 시스템 호출처럼 잠깐 CPU를 쓰고 곧바로 I/O로 빠지는 작업을 빨리 처리해야 체감 성능이 산다. 반면 긴 컴파일, 렌더링, 분석 작업은 순간 반응성보다 총 처리 기회가 중요하다. MLFQ는 이 두 부류를 과거 사용 패턴만으로 구분해, 하나의 프레임 안에서 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 제공한다.
 
@@ -31,7 +31,7 @@ MLFQ는 **"처음에는 모두를 빠른 줄에 세워 보고, CPU를 오래 붙
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MLFQ의 핵심은 **우선순위 계층 + 피드백 이동 + 기아 방지**의 세 축이다. 일반적으로 상위 큐는 짧은 타임 퀀텀을 가진 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin)로 동작하고, 아래 큐로 갈수록 퀀텀이 길어지거나 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come, First Served)에 가까워진다. 새 프로세스는 최상위 큐에 들어오고, 할당 시간을 다 쓰면 아래로 강등되며, 오랫동안 기다리면 priority boost나 aging으로 다시 올라온다.
+MLFQ의 핵심은 <strong>우선순위 계층 + 피드백 이동 + 기아 방지</strong>의 세 축이다. 일반적으로 상위 큐는 짧은 타임 퀀텀을 가진 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin)로 동작하고, 아래 큐로 갈수록 퀀텀이 길어지거나 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come, First Served)에 가까워진다. 새 프로세스는 최상위 큐에 들어오고, 할당 시간을 다 쓰면 아래로 강등되며, 오랫동안 기다리면 priority boost나 aging으로 다시 올라온다.
 
 | 규칙 | 의미 | 설계 의도 |
 | :--- | :--- | :--- |
@@ -43,28 +43,25 @@ MLFQ의 핵심은 **우선순위 계층 + 피드백 이동 + 기아 방지**의 
 
 아래 그림은 MLFQ의 전형적인 계층 구조를 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Typical MLFQ flow                                                  │
-├───────────────────────────────────────────────────────────────────┤
-│ New job                                                            │
-│   │                                                                │
-│   ▼                                                                │
-│ Q0 : RR, 8 ms     ── uses full slice ──▶ demote to Q1              │
-│   │                                                                │
-│   └─ blocks early for I/O ───────────▶ stay near top               │
-│                                                                    │
-│ Q1 : RR, 16 ms    ── uses full slice ──▶ demote to Q2              │
-│                                                                    │
-│ Q2 : long quantum or FCFS                                          │
-│                                                                    │
-│ Every S ms : priority boost moves waiting jobs back toward Q0      │
-└───────────────────────────────────────────────────────────────────┘
-```
 
-이 구조가 SJF를 닮아 보이는 이유는, 짧은 작업일수록 상위 큐에서 끝날 가능성이 높기 때문이다. 반대로 긴 작업은 여러 번 퀀텀을 소진하며 아래로 내려가므로, 자연스럽게 "대화형 작업은 위, 계산형 작업은 아래"라는 분리가 생긴다. 운영체제가 미래를 맞히는 것이 아니라, **짧게 실행해 보고 분류를 수정하는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))** 을 쓰는 셈이다.
 
-또한 하위 큐의 퀀텀을 길게 잡는 이유도 중요하다. 상위 큐는 빠른 응답을 위해 자주 선점하고, 하위 큐는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드를 줄이기 위해 더 오래 실행하게 한다. 즉 MLFQ는 모든 큐를 같은 규칙으로 다루는 것이 아니라, **우선순위 수준에 따라 시간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자체를 다르게 설계**한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical MLFQ flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New job</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q0 : RR, 8 ms ── uses full slice ──▶ demote to Q1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ blocks early for I/O ▶ stay near top</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q1 : RR, 16 ms ── uses full slice ──▶ demote to Q2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q2 : long quantum or FCFS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Every S ms : priority boost moves waiting jobs back toward Q0</div></div>
+</div>
+</div>
+
+
+
+이 구조가 SJF를 닮아 보이는 이유는, 짧은 작업일수록 상위 큐에서 끝날 가능성이 높기 때문이다. 반대로 긴 작업은 여러 번 퀀텀을 소진하며 아래로 내려가므로, 자연스럽게 "대화형 작업은 위, 계산형 작업은 아래"라는 분리가 생긴다. 운영체제가 미래를 맞히는 것이 아니라, <strong>짧게 실행해 보고 분류를 수정하는 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> 을 쓰는 셈이다.
+
+또한 하위 큐의 퀀텀을 길게 잡는 이유도 중요하다. 상위 큐는 빠른 응답을 위해 자주 선점하고, 하위 큐는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드를 줄이기 위해 더 오래 실행하게 한다. 즉 MLFQ는 모든 큐를 같은 규칙으로 다루는 것이 아니라, <strong>우선순위 수준에 따라 시간 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 자체를 다르게 설계</strong>한다.
 
 - **📢 섹션 요약 비유**: MLFQ는 고속 차로와 일반 차로가 있는 톨게이트와 같다. 금방 빠져나갈 차는 앞줄에서 빨리 통과시키고, 오래 걸리는 차만 점점 바깥 차로로 돌린다.
 
@@ -72,7 +69,7 @@ MLFQ의 핵심은 **우선순위 계층 + 피드백 이동 + 기아 방지**의 
 
 ## Ⅲ. 비교 및 연결
 
-MLFQ를 정확히 이해하려면 일반 다단계 큐, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/), 현대의 CFS (Completely Fair Scheduler)와 함께 봐야 한다. 일반 다단계 큐는 계층은 있지만 이동이 거의 없어 경직되고, SJF는 이론적으로 매력적이지만 미래 burst를 알아야 하며, CFS는 계층 이동 대신 virtual runtime 기반의 공정성을 강조한다. MLFQ는 이 사이에서 **현실적 추정과 사용자 반응성**을 택한 구조다.
+MLFQ를 정확히 이해하려면 일반 다단계 큐, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/), 현대의 CFS (Completely Fair Scheduler)와 함께 봐야 한다. 일반 다단계 큐는 계층은 있지만 이동이 거의 없어 경직되고, SJF는 이론적으로 매력적이지만 미래 burst를 알아야 하며, CFS는 계층 이동 대신 virtual runtime 기반의 공정성을 강조한다. MLFQ는 이 사이에서 <strong>현실적 추정과 사용자 반응성</strong>을 택한 구조다.
 
 | 비교 대상 | MLFQ와의 차이 | MLFQ가 얻는 것 | MLFQ가 잃는 것 |
 | :--- | :--- | :--- | :--- |
@@ -80,9 +77,9 @@ MLFQ를 정확히 이해하려면 일반 다단계 큐, [SJF](/knowledge-base/st
 | [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 미래 burst 필요 vs 과거 행동 관찰 | 현실 적용성 | 이론적 최적성 보장 부족 |
 | CFS (Completely Fair Scheduler) | 계층 중심 vs 연속적 공정성 지표 | 인터랙티브 체감 최적화 | 수학적 fairness는 약함 |
 
-MLFQ는 사실상 **SJF를 흉내 내는 범용형 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)**이라고 볼 수 있다. 짧은 작업은 상위 큐에서 빨리 끝나고, 긴 작업은 여러 번 강등되므로 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 측면에서 좋은 성질을 일부 가져온다. 그러나 burst 예측이 정확한 것은 아니므로, 특정 워크로드에서는 예상보다 늦게 강등되거나 너무 빨리 강등될 수 있다.
+MLFQ는 사실상 <strong>SJF를 흉내 내는 범용형 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a></strong>이라고 볼 수 있다. 짧은 작업은 상위 큐에서 빨리 끝나고, 긴 작업은 여러 번 강등되므로 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 측면에서 좋은 성질을 일부 가져온다. 그러나 burst 예측이 정확한 것은 아니므로, 특정 워크로드에서는 예상보다 늦게 강등되거나 너무 빨리 강등될 수 있다.
 
-또한 MLFQ는 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/), [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), time slicing 같은 개념과도 자연스럽게 연결된다. 상위 큐 우선 실행은 [priority scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) 철학이고, boost는 aging과 닿아 있으며, 같은 큐 안 RR은 time slicing의 직접 응용이다. 즉 MLFQ는 독립 개념이 아니라 **여러 스케줄링 원리를 계층적으로 합성한 프레임워크**에 가깝다.
+또한 MLFQ는 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/), [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), time slicing 같은 개념과도 자연스럽게 연결된다. 상위 큐 우선 실행은 [priority scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) 철학이고, boost는 aging과 닿아 있으며, 같은 큐 안 RR은 time slicing의 직접 응용이다. 즉 MLFQ는 독립 개념이 아니라 <strong>여러 스케줄링 원리를 계층적으로 합성한 프레임워크</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: 일반 다단계 큐가 반을 한 번 정하면 영영 못 바꾸는 학교라면, MLFQ는 시험 결과와 수업 태도를 보고 반을 옮겨 주는 수준별 이동 수업에 가깝다.
 
@@ -90,7 +87,7 @@ MLFQ는 사실상 **SJF를 흉내 내는 범용형 [휴리스틱](/knowledge-bas
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MLFQ는 "좋은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하나를 켠다"기보다 **파라미터를 조율하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 프레임워크**로 봐야 한다. 같은 MLFQ라도 데스크톱 운영체제는 상위 큐 퀀텀을 짧게 두고 boost를 적극적으로 사용해 화면 반응성을 살리고, 배치 중심 서버는 하위 큐의 실행 시간을 길게 가져가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드를 줄인다. 결국 질문은 "MLFQ를 쓸까?"가 아니라 "어떤 MLFQ를 만들까?"에 가깝다.
+실무에서 MLFQ는 "좋은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하나를 켠다"기보다 <strong>파라미터를 조율하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 프레임워크</strong>로 봐야 한다. 같은 MLFQ라도 데스크톱 운영체제는 상위 큐 퀀텀을 짧게 두고 boost를 적극적으로 사용해 화면 반응성을 살리고, 배치 중심 서버는 하위 큐의 실행 시간을 길게 가져가 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드를 줄인다. 결국 질문은 "MLFQ를 쓸까?"가 아니라 "어떤 MLFQ를 만들까?"에 가깝다.
 
 ### 실무 판단 기준
 
@@ -111,7 +108,7 @@ MLFQ는 사실상 **SJF를 흉내 내는 범용형 [휴리스틱](/knowledge-bas
 - interactive workload를 고려하지 않고 모든 큐의 퀀텀을 비슷하게 잡는 설계
 - gaming 방지 회계 없이 "I/O를 자주 하면 무조건 좋은 프로세스"라고 보는 단순 구현
 
-기술사 답안에서는 MLFQ를 단순히 "큐가 여러 개다"로 쓰면 부족하다. **SJF를 근사하려는 배경, 동적 승급·강등 규칙, boost의 의미, 튜닝 파라미터, 현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**까지 묶어 설명해야 답안이 살아난다.
+기술사 답안에서는 MLFQ를 단순히 "큐가 여러 개다"로 쓰면 부족하다. <strong>SJF를 근사하려는 배경, 동적 승급·강등 규칙, boost의 의미, 튜닝 파라미터, 현대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>까지 묶어 설명해야 답안이 살아난다.
 
 - **📢 섹션 요약 비유**: [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 튜닝은 놀이공원 줄 서기 규칙을 정하는 일과 같다. 빠른 놀이기구를 너무 자주 새 손님에게만 열어 주면 오래 기다린 손님이 화나고, 반대로 줄을 너무 오래 묶어 두면 새 손님이 답답해진다.
 
@@ -119,11 +116,11 @@ MLFQ는 사실상 **SJF를 흉내 내는 범용형 [휴리스틱](/knowledge-bas
 
 ## Ⅴ. 기대효과 및 결론
 
-MLFQ의 가장 큰 효과는 **미래를 몰라도 꽤 그럴듯한 분류를 해 낸다**는 점이다. 짧은 작업은 빨리 응답하고, 긴 작업은 시스템을 독점하지 못하게 하며, 오래 기다린 작업은 다시 기회를 얻는다. 이 덕분에 범용 운영체제는 하나의 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 안에서 대화형 반응성과 장기 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 관리할 수 있다.
+MLFQ의 가장 큰 효과는 <strong>미래를 몰라도 꽤 그럴듯한 분류를 해 낸다</strong>는 점이다. 짧은 작업은 빨리 응답하고, 긴 작업은 시스템을 독점하지 못하게 하며, 오래 기다린 작업은 다시 기회를 얻는다. 이 덕분에 범용 운영체제는 하나의 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 안에서 대화형 반응성과 장기 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 관리할 수 있다.
 
-다만 MLFQ는 만능은 아니다. 파라미터에 민감하고, 멀티코어 환경에서는 승급·강등 관리가 무거울 수 있으며, 공정성을 수학적으로 깔끔하게 보장하는 모델은 아니다. 그래서 현대 리눅스는 CFS처럼 다른 공정성 모델을 채택했지만, **과거 행동을 근거로 우선순위를 조정한다**는 MLFQ의 통찰 자체는 여전히 중요하다.
+다만 MLFQ는 만능은 아니다. 파라미터에 민감하고, 멀티코어 환경에서는 승급·강등 관리가 무거울 수 있으며, 공정성을 수학적으로 깔끔하게 보장하는 모델은 아니다. 그래서 현대 리눅스는 CFS처럼 다른 공정성 모델을 채택했지만, <strong>과거 행동을 근거로 우선순위를 조정한다</strong>는 MLFQ의 통찰 자체는 여전히 중요하다.
 
-정리하면 MLFQ는 **"알 수 없는 작업의 성격을 실행 중에 추정해, 큐 이동으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 달리하는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)"** 로 기억하는 것이 가장 정확하다. 시험에서는 SJF의 현실 대안으로, 실무에서는 반응성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 절충하는 동적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이해하면 된다.
+정리하면 MLFQ는 <strong>"알 수 없는 작업의 성격을 실행 중에 추정해, 큐 이동으로 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준을 달리하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>"</strong> 로 기억하는 것이 가장 정확하다. 시험에서는 SJF의 현실 대안으로, 실무에서는 반응성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 절충하는 동적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이해하면 된다.
 
 - **📢 섹션 요약 비유**: MLFQ는 학생을 처음부터 완벽히 분반하는 제도가 아니라, 수업을 들어 보면서 수준을 다시 조정하는 적응형 반편성과 같다.
 
@@ -142,19 +139,22 @@ MLFQ의 가장 큰 효과는 **미래를 몰라도 꽤 그럴듯한 분류를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-FCFS · RR · Priority Scheduling
-    │
-    ▼
-Multilevel Queue
-    │
-    ▼
-MLFQ
-    │
-    ├──────────────▶ SJF approximation by feedback
-    ├──────────────▶ Aging / priority boost
-    └──────────────▶ CFS and modern fairness models
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FCFS · RR · Priority Scheduling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multilevel Queue</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLFQ</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ SJF approximation by feedback</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Aging / priority boost</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CFS and modern fairness models</div>
+</div>
+</div>
+
+
 
 이 흐름도는 기본 스케줄링 기법이 다단계 큐로 합쳐지고, 다시 MLFQ의 피드백 구조와 현대 공정성 모델로 확장되는 흐름을 보여 준다.
 

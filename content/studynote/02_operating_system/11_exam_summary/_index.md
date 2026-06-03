@@ -19,27 +19,24 @@ tags = ["operating_system"]
 
 운영체제 분야의 기술사(정보관리, 컴퓨터응용) 시험은 고전적인 **알고리즘 계산 문제** (스케줄링 간트 차트, 페이지 교체 횟수 계산 등)와 현대적인 **커널 아키텍처 및 가상화 기술** (컨테이너, 하이퍼바이저, eBPF)이 균형 있게 출제된다.
 
-특히 최근에는 클라우드 네이티브 환경이 보편화됨에 따라, 단일 노드의 OS 관리를 넘어 **"어떻게 리눅스 커널 기술이 컨테이너 격리를 구현하는가?"**나 **"분산 환경에서의 동기화와 데드락 해결 전략"** 등 융합적인 통찰력을 묻는 문제가 핵심 당락을 결정한다.
+특히 최근에는 클라우드 네이티브 환경이 보편화됨에 따라, 단일 노드의 OS 관리를 넘어 <strong>"어떻게 리눅스 커널 기술이 컨테이너 격리를 구현하는가?"</strong>나 **"분산 환경에서의 동기화와 데드락 해결 전략"** 등 융합적인 통찰력을 묻는 문제가 핵심 당락을 결정한다.
 
 이 그림은 운영체제의 전체 지식 체계를 시험 관점에서 구조화한 것이다. 하드웨어 추상화부터 응용 서비스 지원까지의 논리적 흐름을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             운영체제(OS) 시험 핵심 지식 체계                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       [ 가상화/클라우드 ] ◀─────▶ [ 최신 커널 ] ◀─────▶ [ 보안 ] │
-│       (K8s, Docker)        (eBPF, io_uring)   (Dual Mode)   │
-│             ▲                     ▲                 ▲       │
-│             └───────┬─────────────┴────────┬────────┘       │
-│                     │                      │                │
-│               [ 자원 관리 ] ◀──────▶ [ 병행 제어 ]           │
-│               (Memory, FS)         (Sync, Deadlock)         │
-│                                                             │
-│               [ 실행 관리 ] (Process, Scheduling)           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제(OS) 시험 핵심 지식 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상화/클라우드</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">최신 커널</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(K8s, Docker) (eBPF, io_uring) (Dual Mode)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 관리</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">병행 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Memory, FS) (Sync, Deadlock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 관리</div><div class="kb-diagram-note">(Process, Scheduling)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '계층적 종속성'이다. 프로세스 관리를 이해하지 못하면 스케줄링을 논할 수 없고, 메모리 관리의 페이징 원리를 모르면 컨테이너의 격리 수준을 설명할 수 없다. 실무에서는 이러한 모든 레이어가 유기적으로 맞물려 돌아가므로, 기술사는 각 레이어 간의 인터페이스와 파급 효과를 꿰뚫어 보아야 한다.
 
@@ -91,25 +88,20 @@ tags = ["operating_system"]
 
 이 구조도는 유저 모드와 커널 모드의 보안 경계와 시스템 콜 처리 흐름을 보여준다.
 
-```text
 
-┌─────────────────────────────────────────────────────────────┐
-│                 Secure Mode Transition Flow                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User Application  / 사용자 애플리케이션]                                      │
-│          │                                                  │
-│   -------┼------- (Software Interrupt / syscall) ----------  │
-│          ▼                                                  │
-│   [ System Call Interface  / 시스템 호출 인터페이스] ──▶ [ Kernel Mode  / 커널 모드]             │
-│                                         │                   │
-│          ┌──────────────────────────────┴──────┐            │
-│          ▼                                     ▼            │
-│   [ Resource Protection  / 리소스 보호]               [ Task Execution  / 작업 실행]  │
-│   (Check Permissions)                   (Hardware Access)   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Mode Transition Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Application  / 사용자 애플리케이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------- ------- (Software Interrupt / syscall) ----------</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">System Call Interface  / 시스템 호출 인터페이스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel Mode  / 커널 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Protection  / 리소스 보호</div><div class="kb-diagram-node">Task Execution  / 작업 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Check Permissions) (Hardware Access)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 성능과 안정성의 균형을 잡는 것은 줄타기와 같습니다. 한쪽으로 너무 치우치면 떨어지기(시스템 마비) 때문에, 데이터와 이론이라는 양팔 저울을 잘 활용해야 합니다.
 
@@ -120,27 +112,26 @@ tags = ["operating_system"]
 ### 기술사적 판단: 장애 원인 진단 및 해결 시나리오
 
 **시나리오 1: 신규 배포 후 서버의 CPU Load는 높은데 실제 처리량은 바닥인 경우**
-- **판단**: **스핀락 (Spinlock)**에 의한 무한 루프나 **스레싱 (Thrashing)** 발생 여부를 먼저 확인한다. 메모리 부족으로 인해 페이지 교체에 CPU가 매몰되어 있는지 (`vmstat`), 아니면 특정 공유 자원을 잡기 위해 스레드들이 과도하게 경합하고 있는지 (`strace`, `pstack`) 진단한다. 해결책으로 메모리 증설, 프로세스 수 제한, 혹은 락의 범위를 줄이는 리팩토링을 제안한다.
+- **판단**: <strong>스핀락 (Spinlock)</strong>에 의한 무한 루프나 **스레싱 (Thrashing)** 발생 여부를 먼저 확인한다. 메모리 부족으로 인해 페이지 교체에 CPU가 매몰되어 있는지 (`vmstat`), 아니면 특정 공유 자원을 잡기 위해 스레드들이 과도하게 경합하고 있는지 (`strace`, `pstack`) 진단한다. 해결책으로 메모리 증설, 프로세스 수 제한, 혹은 락의 범위를 줄이는 리팩토링을 제안한다.
 
 **시나리오 2: 컨테이너 환경에서 특정 파드 (Pod)가 다른 파드의 자원을 간섭하는 증상**
-- **판단**: 리눅스 커널의 격리 메커니즘인 **Namespace**와 **cgroups** 설정 오류를 의심한다. 하드웨어 자원 제한 (CPU/Memory Limit)이 제대로 걸려있는지 확인하고, 커널 레벨의 격리를 강화하기 위해 **gVisor**나 **Kata Containers**와 같은 샌드박스 기술 도입을 검토한다.
+- **판단**: 리눅스 커널의 격리 메커니즘인 <strong>Namespace</strong>와 **cgroups** 설정 오류를 의심한다. 하드웨어 자원 제한 (CPU/Memory Limit)이 제대로 걸려있는지 확인하고, 커널 레벨의 격리를 강화하기 위해 <strong>gVisor</strong>나 <strong>Kata Containers</strong>와 같은 샌드박스 기술 도입을 검토한다.
 
 이 도식은 교착 상태 (Deadlock) 발생 시 기술사가 내려야 할 판단 트리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Deadlock Recovery Decision Tree                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Deadlock Detected!] ──▶ [Can we Rollback?] ──▶ [YES] ──┐ │
-│          │                                         │      │
-│        [NO]                                        ▼      │
-│          │                                [Checkpoint Restore]│
-│          ▼                                                │
-│   [Select Victim Process] ──▶ [Least Cost?] ──▶ [Kill & Free]│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock Recovery Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Deadlock Detected!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Can we Rollback?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Checkpoint Restore</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Select Victim Process</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Least Cost?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kill &amp; Free</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 진단은 'CSI 과학 수사'와 같습니다. 시스템이 남긴 흔적(로그, 메트릭)을 추적하여 범인(병목/오류의 근본 원인)을 찾아내고, 다시는 같은 범죄가 일어나지 않도록 성벽(아키텍처)을 보수하는 일입니다.
 
@@ -150,9 +141,9 @@ tags = ["operating_system"]
 
 ### OS 공학의 미래 전망과 기술사의 역할
 
-운영체제는 이제 인프라의 바닥을 넘어 **'인공지능 실행 환경'**으로 진화하고 있다. GPU와 NPU를 CPU처럼 효율적으로 가상화하고 스케줄링하는 기술이 미래 OS의 핵심 전쟁터가 될 것이다. 또한 양자 컴퓨팅 시대를 대비한 **양자 운영체제 (Quantum OS)** 연구도 시작되고 있다.
+운영체제는 이제 인프라의 바닥을 넘어 <strong>'인공지능 실행 환경'</strong>으로 진화하고 있다. GPU와 NPU를 CPU처럼 효율적으로 가상화하고 스케줄링하는 기술이 미래 OS의 핵심 전쟁터가 될 것이다. 또한 양자 컴퓨팅 시대를 대비한 **양자 운영체제 (Quantum OS)** 연구도 시작되고 있다.
 
-기술사는 이러한 기술의 홍수 속에서 변하지 않는 운영체제의 '근본 원리' (추상화와 자원 관리)를 굳건히 지키면서도, 새로운 하드웨어와 클라우드 환경에 유연하게 대응하는 **'시스템 풀스택 전문가'**가 되어야 한다.
+기술사는 이러한 기술의 홍수 속에서 변하지 않는 운영체제의 '근본 원리' (추상화와 자원 관리)를 굳건히 지키면서도, 새로운 하드웨어와 클라우드 환경에 유연하게 대응하는 <strong>'시스템 풀스택 전문가'</strong>가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 운영체제는 스스로 고장 난 곳을 고치고, 사용자의 마음을 읽어 자원을 미리 준비하는 '자율주행 뇌'와 같은 모습으로 우리와 공존할 것입니다.
 

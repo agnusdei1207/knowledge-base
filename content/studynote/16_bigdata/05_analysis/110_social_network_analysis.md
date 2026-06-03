@@ -28,32 +28,31 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                SNA 분석 구조 및 주요 개념                         │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   노드 A ──────── 노드 B ──────── 노드 D                         │
-│      │ \              │                                          │
-│      │  \             │          중심성 지표:                    │
-│      │   \            │          A: Degree=3 (연결 많음)         │
-│   노드 C   \──── 노드 E          B: Betweenness 높음 (다리 역할) │
-│               \                  E: Eigenvector 높음 (영향력)    │
-│                노드 F                                            │
-│                                                                  │
-├──────────────────────────────────────────────────────────────────┤
-│  커뮤니티 탐지:  {A,B,C} ←→ {D,E,F} (모듈러리티 최적화)         │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SNA 분석 구조 및 주요 개념</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 A 노드 B 노드 D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">중심성 지표:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">A: Degree=3 (연결 많음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 C \ 노드 E B: Betweenness 높음 (다리 역할)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ E: Eigenvector 높음 (영향력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커뮤니티 탐지: {A,B,C} ←→ {D,E,F} (모듈러리티 최적화)</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 중심성 지표
 
 | 지표 | 수식/원리 | 의미 | 활용 |
 |:---|:---|:---|:---|
-| **연결 중심성 (Degree [Centrality](/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/))** | 노드의 직접 연결 수 / (N-1) | 가장 많이 연결된 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) | 슈퍼 커넥터 발굴 |
-| **매개 중심성 (Betweenness [Centrality](/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/))** | 노드를 통과하는 최단 경로 비율 | 정보 흐름의 병목/다리 | 핵심 브로커 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
-| **근접 중심성 (Closeness [Centrality](/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/))** | 다른 모든 노드까지의 평균 거리 역수 | 정보 빠르게 전파 가능 | 전파 효율 분석 |
-| **고유벡터 중심성 (Eigenvector [Centrality](/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/))** | 연결된 이웃의 중심성 가중 합 | 영향력 있는 노드와 연결 | PageRank의 기반 |
+| <strong>연결 중심성 (Degree <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/">Centrality</a>)</strong> | 노드의 직접 연결 수 / (N-1) | 가장 많이 연결된 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) | 슈퍼 커넥터 발굴 |
+| <strong>매개 중심성 (Betweenness <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/">Centrality</a>)</strong> | 노드를 통과하는 최단 경로 비율 | 정보 흐름의 병목/다리 | 핵심 브로커 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong>근접 중심성 (Closeness <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/">Centrality</a>)</strong> | 다른 모든 노드까지의 평균 거리 역수 | 정보 빠르게 전파 가능 | 전파 효율 분석 |
+| <strong>고유벡터 중심성 (Eigenvector <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/383_graph_mining_centrality_metrics/">Centrality</a>)</strong> | 연결된 이웃의 중심성 가중 합 | 영향력 있는 노드와 연결 | PageRank의 기반 |
 
 ### 커뮤니티 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -62,7 +61,7 @@ tags = ["studynote-bigdata"]
 | **Louvain** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러리티 (Modularity) 최적화 | O(n log n) | 대규모 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 실용적, 계층적 |
 | **Girvan-Newman** | 매개 중심성 높은 엣지 순차 제거 | O(m²n) | 계층적 분해, 대규모에 느림 |
 | **Label Propagation** | 이웃 레이블 다수결 전파 | O(n+m) | 가장 빠름, 비결정적 |
-| **Spectral [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 라플라시안 고유벡터 | O(n³) | 수학적으로 정교, 소규모 |
+| <strong>Spectral <a href="/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/">Clustering</a></strong> | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 라플라시안 고유벡터 | O(n³) | 수학적으로 정교, 소규모 |
 
 - **📢 섹션 요약 비유**: 중심성은 도시에서 교통의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 찾는 것과 같다. 연결 중심성은 가장 많은 도로가 만나는 교차로, 매개 중심성은 다른 도시로 가려면 반드시 거쳐야 하는 분기점이다.
 
@@ -98,7 +97,7 @@ SNA와 [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_g
 |:---|:---|:---|
 | **NetworkX (Python)** | 프로토타이핑·연구, 단일 머신 | 수백만 노드 |
 | **Gephi** | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 특화, 인터랙티브 | 수십만 노드 |
-| **[Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) GraphX** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, Pregel [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 수십억 노드 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/">Apache Spark</a> GraphX</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, Pregel [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 수십억 노드 |
 | **TigerGraph** | 실시간 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) DB | 수십억 노드, 실시간 |
 | **Amazon Neptune** | 관리형 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB (RDF+Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) | 클라우드 스케일 |
 
@@ -136,21 +135,23 @@ SNA는 개인이 아닌 [관계](/knowledge-base/studynote/05_database/02_modeli
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[네트워크 그래프 구성 (Network Graph) — 노드(행위자)와 엣지(관계) 모델링]
-    │
-    ▼
-[중심성 분석 (Centrality Analysis) — 연결·매개·근접 중심성으로 핵심 노드 탐지]
-    │
-    ▼
-[커뮤니티 탐지 (Community Detection) — Louvain·Girvan-Newman으로 그룹 식별]
-    │
-    ▼
-[영향력 확산 모델 (Diffusion Model) — SIR·IC 모델로 정보·전파 시뮬레이션]
-    │
-    ▼
-[그래프 머신러닝 (GNN — Graph Neural Network) — 관계 구조 학습으로 추천·예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 그래프 구성 (Network Graph) — 노드(행위자)와 엣지(관계) 모델링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중심성 분석 (Centrality Analysis) — 연결·매개·근접 중심성으로 핵심 노드 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커뮤니티 탐지 (Community Detection) — Louvain·Girvan-Newman으로 그룹 식별</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영향력 확산 모델 (Diffusion Model) — SIR·IC 모델로 정보·전파 시뮬레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 머신러닝 (GNN — Graph Neural Network) — 관계 구조 학습으로 추천·예측</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구축에서 중심성 분석·커뮤니티 탐지·GNN까지 [소셜 네트워크 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/) 기술이 진화하는 경로를 나타낸다.
 

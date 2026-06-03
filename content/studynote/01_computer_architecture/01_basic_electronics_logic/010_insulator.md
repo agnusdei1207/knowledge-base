@@ -30,22 +30,23 @@ tags = ["studynote-computer-architecture"]
 
 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 내에서 절연체의 역할은 게이트 산화막 (Gate Oxide)과 층간 절연막 (ILD, Inter-Layer Dielectric)으로 나뉜다. 
 
-전통적으로 실리콘(Si)을 산화시킨 이산화규소 (SiO2)가 완벽한 자연 절연체로 쓰였다. 하지만 칩이 나노미터 단위로 축소되면서 절연막 두께가 얇아지자, 전자가 장벽을 무시하고 유령처럼 벽을 통과해버리는 **양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))** 현상이 발생해 치명적인 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))를 만든다.
+전통적으로 실리콘(Si)을 산화시킨 이산화규소 (SiO2)가 완벽한 자연 절연체로 쓰였다. 하지만 칩이 나노미터 단위로 축소되면서 절연막 두께가 얇아지자, 전자가 장벽을 무시하고 유령처럼 벽을 통과해버리는 <strong>양자 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>)</strong> 현상이 발생해 치명적인 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Leakage [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))를 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           양자 터널링 (Quantum Tunneling) 현상의 발생 원리       │
-├──────────────────────────────────────────────────────────────┤
-│  [정상 두께의 절연막]                [초박막 절연막 (1.5nm 이하)] │
-│                                                              │
-│   (전자) ──▶ █ 절벽 █              (전자) ──▶ ▒ ▒ ──▶ (통과!) │
-│              █ 통과불가 █                        ▒ ▒             │
-│              █        █                        ▒ ▒             │
-│                                                              │
-│ * 벽이 너무 얇아지면, 에너지가 부족한 전자도 파동의 성질을 이용해 │
-│   절연벽을 뚫고 지나가 전력 누수가 발생한다.                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 터널링 (Quantum Tunneling) 현상의 발생 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 두께의 절연막</div><div class="kb-diagram-node">초박막 절연막 (1.5nm 이하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전자) ──▶ █ 절벽 █ (전자) ──▶ ▒ ▒ ──▶ (통과!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">█ 통과불가 █ ▒ ▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">█ █ ▒ ▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 벽이 너무 얇아지면, 에너지가 부족한 전자도 파동의 성질을 이용해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절연벽을 뚫고 지나가 전력 누수가 발생한다.</div></div>
+</div>
+</div>
+
+
 
 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 연산을 하지 않는 대기 상태에서도 배터리를 방전시키고 발열을 일으키는 주범이 된다. 
 
@@ -71,7 +72,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-초미세 공정 설계 시 가장 경계해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 절연막의 장기 피로 파괴 현상인 **TDDB (Time-Dependent Dielectric Breakdown)**다.
+초미세 공정 설계 시 가장 경계해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 절연막의 장기 피로 파괴 현상인 <strong>TDDB (Time-Dependent Dielectric Breakdown)</strong>다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. 초미세 노드 전환 시 기존 SiO2 대신 High-k 메탈 게이트(HKMG) 공정이 완벽히 수율을 달성했는가?
@@ -98,30 +99,31 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 효과 ([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))** | 너무 얇아진 절연막을 전자가 파동성을 띠며 투과해버리는 누설 원리 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> 효과 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a>)</strong> | 너무 얇아진 절연막을 전자가 파동성을 띠며 투과해버리는 누설 원리 |
 | **High-K 절연막** | 유전 상수가 높아 얇은 두께로도 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 막는 고품질 게이트 방어막 |
-| **RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (RC Delay)** | 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R)과 기생 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)(C)이 곱해져 칩의 속도를 느리게 하는 현상 |
+| <strong>RC <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (RC Delay)</strong> | 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R)과 기생 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)(C)이 곱해져 칩의 속도를 느리게 하는 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[절연체 (Insulator) — 전류 흐름 차단]
-    │
-    ▼
-[절연 파괴 (Dielectric Breakdown) — 임계 전압 초과 시 도통]
-    │
-    ▼
-[유전체 (Dielectric) — 전기장 저장·절연 기능 통합]
-    │
-    ▼
-[커패시터 (Capacitor) — 유전체를 이용한 전하 저장 소자]
-    │
-    ▼
-[게이트 산화막 (Gate Oxide) — MOSFET의 핵심 절연층]
-    │
-    ▼
-[High-K 절연막 — 누설 전류 억제를 위한 차세대 소재]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">절연체 (Insulator) — 전류 흐름 차단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">절연 파괴 (Dielectric Breakdown) — 임계 전압 초과 시 도통</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유전체 (Dielectric) — 전기장 저장·절연 기능 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커패시터 (Capacitor) — 유전체를 이용한 전하 저장 소자</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게이트 산화막 (Gate Oxide) — MOSFET의 핵심 절연층</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High-K 절연막 — 누설 전류 억제를 위한 차세대 소재</div></div>
+</div>
+</div>
+
+
 절연체는 단순한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 차단 재료에서 출발해, 유전체·커패시터를 거쳐 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 게이트 산화막이라는 초미세 소자의 핵심 구조로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

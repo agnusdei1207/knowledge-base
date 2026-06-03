@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 특히 타워형 CPU 쿨러나 얇은 노트북은 발열원과 방열 면적이 물리적으로 떨어져 있다. 열을 "넓게 퍼뜨리는" 것보다 "멀리 실어 나르는" 문제가 더 중요해지는 순간, 히트파이프의 가치가 커진다. 그래서 히트파이프는 공랭 쿨러, 노트북 통합 방열 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 핀 어레이의 핵심 연결부가 되었다.
 
-즉 히트파이프는 단순 구리관이 아니라, **작은 열원을 원하는 위치의 방열판으로 옮겨 주는 선형 열수송 장치**다.
+즉 히트파이프는 단순 구리관이 아니라, <strong>작은 열원을 원하는 위치의 방열판으로 옮겨 주는 선형 열수송 장치</strong>다.
 - **📢 섹션 요약 비유**: 주방의 뜨거운 국물을 먼 테이블까지 가져갈 때 냄비째 들고 가는 대신, 잘 연결된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 바로 보내는 것과 같다. 이동 거리가 길수록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 가치가 커진다.
 
 ---
@@ -43,17 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 히트파이프가 CPU 근처의 열을 핀 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)까지 옮기는 선형 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│     Heatpipe moves heat from the base to the fin stack by phase change    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [CPU base] -> [Evaporator] ===== [Adiabatic pipe] ===== [Condenser + Fins]│
-│      ^             vapor  ------------------------------------>           │
-│      |             liquid <------------------------------------  wick     │
-│      |                                                                   │
-│   heat in                                                        heat out │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatpipe moves heat from the base to the fin stack by phase change</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU base</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Evaporator</div><div class="kb-diagram-note">=====</div><div class="kb-diagram-node">Adiabatic pipe</div><div class="kb-diagram-note">=====</div><div class="kb-diagram-node">Condenser + Fins</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ vapor ------------------------------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">liquid &lt;------------------------------------ wick</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">heat in heat out</div></div>
+</div>
+</div>
+
+
 
 따라서 히트파이프는 금속봉보다 가볍고, 열을 멀리 보내는 데 훨씬 유리한 구조를 제공한다.
 - **📢 섹션 요약 비유**: 뜨거운 짐을 사람이 손에서 손으로 나르는 대신, 위로는 빈 엘리베이터가 빠르게 올라가고 아래로는 빈 카트가 돌아오는 순환 시스템을 만든 것과 같다.
@@ -96,7 +98,7 @@ tags = ["studynote-computer-architecture"]
 - 과도하게 눌러 평평하게 만든 direct-touch pipe로 vapor passage를 약화시키는 것
 - dry-out이나 공유 [pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) coupling을 무시한 채 sustained load를 평가하는 것
 
-기술사 답안에서는 히트파이프를 passive liquid cooling의 일종으로 설명하되, **펌프 없는 상변화 수송 + capillary return + 후단 핀 방열**의 조합으로 정리하면 좋다.
+기술사 답안에서는 히트파이프를 passive liquid cooling의 일종으로 설명하되, <strong>펌프 없는 상변화 수송 + capillary return + 후단 핀 방열</strong>의 조합으로 정리하면 좋다.
 - **📢 섹션 요약 비유**: 택배 트럭이 아무리 좋아도 창고가 좁고 도로가 막히면 배송이 늦듯, 히트파이프도 핀과 바람이 받쳐 줘야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 난다.
 
 ---
@@ -107,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 히트파이프는 무한한 해결책이 아니다. 초고열유속에서는 dry-out, capillary limit, 응축부 포화가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제한하고, 굽힘과 납작한 구조는 내부 유동을 약화시킬 수 있다. 앞으로는 [vapor chamber](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/) base와 결합한 하이브리드 구조, loop heat [pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), 더 정교한 wick 설계가 고전력 프로세서 냉각의 발전 방향이 될 가능성이 크다.
 
-결론적으로 히트파이프는 **열을 선처럼 멀리 운반하는 passive 2상 수송관**으로 기억해야 하며, 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 자체보다 전체 방열 체인 속에서 판단해야 한다.
+결론적으로 히트파이프는 <strong>열을 선처럼 멀리 운반하는 passive 2상 수송관</strong>으로 기억해야 하며, 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 자체보다 전체 방열 체인 속에서 판단해야 한다.
 - **📢 섹션 요약 비유**: 히트파이프는 뜨거운 물을 멀리 있는 정원으로 보내는 호스와 같다. 호스가 좋아도 끝에서 물을 받아 줄 스프링클러가 없으면 정원은 시원해지지 않는다.
 
 ---
@@ -125,21 +127,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Solid copper heat spread
-        │
-        ▼
-Single heatpipe transport
-        │
-        ▼
-Multi-heatpipe tower and laptop modules
-        │
-        ▼
-Vapor chamber base + heatpipe hybrid
-        │
-        ▼
-Loop heat pipe / advanced wick structures
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Solid copper heat spread</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Single heatpipe transport</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-heatpipe tower and laptop modules</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Vapor chamber base + heatpipe hybrid</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Loop heat pipe / advanced wick structures</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 금속 전도에서 시작한 방열 설계가, 점점 더 멀고 큰 방열부를 효율적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 2상 수송 구조로 발전해 왔음을 보여 준다.
 

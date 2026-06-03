@@ -18,19 +18,20 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│              RDD 핵심 특성                                   │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 분산 (Distributed): 여러 노드에 파티션으로 분산 저장     │
-│  2. 불변 (Immutable): 한번 생성 후 수정 불가, 변환만 가능    │
-│  3. 내결함성 (Resilient): 리니지 그래프로 자동 재계산 복구   │
-│  4. 지연 실행 (Lazy): Action 호출 시만 실제 계산 수행        │
-│  5. 타입 안전 (Type-safe): 컴파일 타임 타입 체크              │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDD 핵심 특성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 분산 (Distributed): 여러 노드에 파티션으로 분산 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 불변 (Immutable): 한번 생성 후 수정 불가, 변환만 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내결함성 (Resilient): 리니지 그래프로 자동 재계산 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 지연 실행 (Lazy): Action 호출 시만 실제 계산 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 타입 안전 (Type-safe): 컴파일 타임 타입 체크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RDD는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 창고의 배송 주문서 모음이다. 각 창고(노드)에 배분된 주문서([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))들을 모아 처리하고, 창고 하나가 불이 나도(노드 장애) 원본 주문서 제작 과정(리니지)을 기억하니 다시 만들 수 있다.
 
@@ -59,22 +60,26 @@ counts.saveAsTextFile("s3://bucket/output")  # 저장
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 및 리니지
 
-```text
-textFile → flatMap → map → reduceByKey
-   ↓           ↓       ↓        ↓
-Stage1:    Stage2:  Stage2:  Stage3:
-읽기       변환     변환    셔플+집계
 
-리니지 (Lineage):
-rdd → words → pairs → counts
-      (만약 pairs 손실 → words부터 재계산)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">textFile → flatMap → map → reduceByKey</div>
+<div class="kb-diagram-note">Stage1: Stage2: Stage2: Stage3:</div>
+<div class="kb-diagram-note">읽기 변환 변환 셔플+집계</div>
+<div class="kb-diagram-note">리니지 (Lineage):</div>
+<div class="kb-diagram-note">rdd → words → pairs → counts</div>
+<div class="kb-diagram-note">(만약 pairs 손실 → words부터 재계산)</div>
+</div>
+</div>
+
+
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) vs DataFrame [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
 | 항목 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) | DataFrame |
 |:---|:---|:---|
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)** | 없음 (타입 추론 없음) | 있음 (컬럼 이름·타입) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a></strong> | 없음 (타입 추론 없음) | 있음 (컬럼 이름·타입) |
 | **최적화** | 없음 (수동 최적화) | [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) 자동 최적화 |
 | **직렬화** | Java 직렬화 (느림) | Tungsten [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) (빠름) |
 | **사용 권장** | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/), 커스텀 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/), 일반 분석 |
@@ -85,19 +90,23 @@ rdd → words → pairs → counts
 
 ## Ⅲ. 비교 및 연결
 
-```text
-Spark API 계층:
-┌───────────────────────────────────────────────┐
-│      고수준 (High-Level)                        │
-│  Spark SQL / DataFrames / Datasets (ML, ETL)   │
-│      ↓ Catalyst Optimizer + Tungsten           │
-│      중수준 (Mid-Level)                         │
-│  Dataset[T] (Scala/Java 타입 안전 DataFrame)   │
-│      ↓ RDD 기반 실행                            │
-│      저수준 (Low-Level)                         │
-│  RDD (직접 파티션/셔플 제어 필요 시)             │
-└───────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Spark API 계층:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고수준 (High-Level)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark SQL / DataFrames / Datasets (ML, ETL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ Catalyst Optimizer + Tungsten</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중수준 (Mid-Level)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Dataset</div><div class="kb-diagram-node">T</div><div class="kb-diagram-note">(Scala/Java 타입 안전 DataFrame)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ RDD 기반 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저수준 (Low-Level)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDD (직접 파티션/셔플 제어 필요 시)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RDD는 어셈블리어(저수준, 강력하지만 복잡)이고 DataFrame은 파이썬(고수준, 편리하고 최적화 자동)이다. 일반 작업은 파이썬, 시스템 수준 제어는 어셈블리를 쓰는 것처럼 선택한다.
 
@@ -149,28 +158,30 @@ Spark 3.x에서 RDD는 Adaptive Query Execution (AQE)과 직접 통합되지 않
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **DataFrame/Dataset** | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 기반의 고수준 최적화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
-| **[Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/)** | DataFrame의 자동 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 엔진 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/">Catalyst Optimizer</a></strong> | DataFrame의 자동 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 엔진 |
 | **리니지 (Lineage)** | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 내결함성의 핵심 메커니즘 |
-| **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 Stage로 분해 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 Stage로 분해 |
 | **Tungsten** | 메모리·CPU 효율 최적화 실행 엔진 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[MapReduce — 디스크 기반 분산 처리, 느림]
-    │
-    ▼
-[Spark RDD — 인메모리 분산 처리, 리니지 기반 복구]
-    │
-    ▼
-[DataFrame/Dataset — 스키마+Catalyst 자동 최적화]
-    │
-    ▼
-[Structured Streaming — 통합 배치·스트리밍 API]
-    │
-    ▼
-[Delta Lake + Spark — ACID 트랜잭션 레이크하우스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce — 디스크 기반 분산 처리, 느림</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark RDD — 인메모리 분산 처리, 리니지 기반 복구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataFrame/Dataset — 스키마+Catalyst 자동 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming — 통합 배치·스트리밍 API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake + Spark — ACID 트랜잭션 레이크하우스</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

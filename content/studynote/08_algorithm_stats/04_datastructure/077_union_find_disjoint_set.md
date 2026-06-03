@@ -18,20 +18,21 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           Union-Find 핵심 연산                             │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  Find(x)  : x가 속한 집합의 루트(대표 원소) 반환           │
-│  Union(x,y): x의 집합과 y의 집합을 하나로 합치기            │
-│  isConnected(x,y): Find(x)==Find(y) → 같은 집합 여부      │
-│                                                          │
-│  최적화                                                    │
-│  ├─ 경로 압축 (Path Compression): Find 시 루트 직결        │
-│  └─ 랭크 합집합 (Union by Rank): 트리 높이 균형 유지        │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Union-Find 핵심 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Find(x) : x가 속한 집합의 루트(대표 원소) 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Union(x,y): x의 집합과 y의 집합을 하나로 합치기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">isConnected(x,y): Find(x)==Find(y) → 같은 집합 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 경로 압축 (Path Compression): Find 시 루트 직결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 랭크 합집합 (Union by Rank): 트리 높이 균형 유지</div></div>
+</div>
+</div>
+
+
 
 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 Union-Find를 구현하면 편향 트리(Skewed Tree)가 되어 Find가 O(n)으로 저하된다.
 
@@ -60,17 +61,21 @@ def union(parent, rank, x, y):
 
 ### [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) MST에서의 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 활용
 
-```text
-간선을 가중치 오름차순 정렬
-    │
-    ▼
-각 간선 (u, v) 순회
-    │
-    ▼
-[Find(u) == Find(v)?]
-  YES → 사이클 형성 → 간선 제외 (Skip)
-  NO  → 사이클 없음  → 간선 MST에 포함, Union(u,v)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">간선을 가중치 오름차순 정렬</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">각 간선 (u, v) 순회</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Find(u) == Find(v)?</div></div>
+<div class="kb-diagram-note">YES → 사이클 형성 → 간선 제외 (Skip)</div>
+<div class="kb-diagram-note">NO → 사이클 없음 → 간선 MST에 포함, Union(u,v)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 지하철 탑승 이력을 단순화하는 것이다. 원래 A→B→C→D(루트) 경로로 다녀왔다면, 다음에는 A→D 직접 경로를 기억하게 하여 매번 전체 경로를 따라가지 않아도 된다.
 
@@ -81,8 +86,8 @@ def union(parent, rank, x, y):
 | 연산 | [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) |
 |:---|:---|:---|
 | **사용 목적** | 동적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결성, [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 사이클 검출 | 정적 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 경로 찾기 |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | O(α(n)) per op ≈ O(1) | O(V+E) per traversal |
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)** | O(n) | O(V+E) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | O(α(n)) per op ≈ O(1) | O(V+E) per traversal |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a></strong> | O(n) | O(V+E) |
 | **간선 추가** | 효율적 (Union 1회) | 재탐색 필요 |
 
 - **📢 섹션 요약 비유**: [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/DFS는 미로 전체를 탐색하는 것이고, Union-Find는 미로 지도를 가지고 "이 두 방이 연결되어 있나?"만 빠르게 답하는 것이다. 동적으로 연결이 추가되는 상황에서는 Union-Find가 훨씬 효율적이다.
@@ -110,7 +115,7 @@ def is_connected(u, v):
 
 #### 코딩 테스트 활용 패턴
 - **사이클 검출**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 간선 추가 시 Union-Find로 O(α(n))에 사이클 판별
-- **[MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) ([크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/))**: 간선 정렬 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) → O(E log E)
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/">크루스칼</a>)</strong>: 간선 정렬 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) → O(E log E)
 - **최소 간선 연결**: N개 노드를 N-1개 간선으로 연결 + 사이클 없음 = Spanning Tree
 
 - **📢 섹션 요약 비유**: Union-Find는 SNS의 팔로우 네트워크에서 두 사람이 같은 커뮤니티에 속하는지 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이다. 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(간선)가 새로 생겨도 Union 한 번으로 업데이트하고, isConnected 한 번으로 같은 그룹인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
@@ -122,7 +127,7 @@ def is_connected(u, v):
 | 기대효과 | 내용 |
 |:---|:---|
 | **효율성** | 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)+랭크 → 거의 O(1) 연산 |
-| **[MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)** | [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a></strong> | [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
 | **동적 연결성** | 실시간 간선 추가 시 연결성 유지 |
 
 Union-Find는 CPU 코어 할당(같은 소켓의 코어 [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 아이노드 관리, 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 등 대규모 시스템에서 폭넓게 활용된다.
@@ -135,29 +140,31 @@ Union-Find는 CPU 코어 할당(같은 소켓의 코어 [그룹화](/knowledge-b
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)** | Union-Find를 사이클 검출에 활용 |
-| **[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결 요소** | Union-Find로 O(V+E) → O(V·α(n)) |
-| **경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)** | Find 연산 최적화의 핵심 기법 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/">크루스칼</a> <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a></strong> | Union-Find를 사이클 검출에 활용 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 연결 요소</strong> | Union-Find로 O(V+E) → O(V·α(n)) |
+| <strong>경로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong> | Find 연산 최적화의 핵심 기법 |
 | **아커만 역함수(α)** | 경로압축+랭크 시 실질적 상수 복잡도 |
-| **프림 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 대안 ([우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 기반) |
+| <strong>프림 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 대안 ([우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 기반) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기본 Union-Find — 루트 탐색 O(n)]
-    │
-    ▼
-[경로 압축 (Path Compression) — O(log n)]
-    │
-    ▼
-[랭크 기반 합집합 (Union by Rank) — O(log n)]
-    │
-    ▼
-[경로 압축 + 랭크 — O(α(n)) ≈ O(1)]
-    │
-    ▼
-[응용: 크루스칼 MST, 동적 연결성, 클러스터링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기본 Union-Find — 루트 탐색 O(n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경로 압축 (Path Compression) — O(log n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">랭크 기반 합집합 (Union by Rank) — O(log n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경로 압축 + 랭크 — O(α(n)) ≈ O(1)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용: 크루스칼 MST, 동적 연결성, 클러스터링</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

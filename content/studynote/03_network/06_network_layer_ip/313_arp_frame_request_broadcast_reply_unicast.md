@@ -22,71 +22,74 @@ tags = ["studynote-network"]
 - **개념**: IP를 MAC으로 변환하기 위해 송수신자가 주고받는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 메시지의 내부 규격과 필드 포맷.
 - **필요성**: 컴퓨터가 "192.168.0.20 쓰는 사람 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 알려줘!"라고 방송할 때, 단순히 텍스트로 보낼 수는 없다. 스위치와 랜카드 칩셋이 해석할 수 있도록 "나는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이고, 내가 보내는 사람 IP, 네가 받을 사람 IP, 그리고 빈칸으로 남겨둔 네 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 칸"을 엄격한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 규칙에 맞춰 깎아놓은 틀이 필요했다.
 
-- **💡 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임은 경찰이 동네방네 뿌리는 **"현상수배 전단지"**와 같습니다. 전단지(프레임)에는 "찾는 사람 얼굴(Target IP)", "이 사람을 잡으면 연락할 경찰 번호(Sender [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))", 그리고 "빈칸으로 둔 범인의 은신처 주소(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) = 00:00...)" 양식이 정확히 인쇄되어 있습니다.
+- **💡 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임은 경찰이 동네방네 뿌리는 <strong>"현상수배 전단지"</strong>와 같습니다. 전단지(프레임)에는 "찾는 사람 얼굴(Target IP)", "이 사람을 잡으면 연락할 경찰 번호(Sender [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))", 그리고 "빈칸으로 둔 범인의 은신처 주소(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) = 00:00...)" 양식이 정확히 인쇄되어 있습니다.
 
-```text
-[ARP]
-    │
-    ▼
-[ARP 프레임]
-    │
-    └──▶ [RARP]
-```
 
-- **📢 섹션 요약 비유**: ** [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임 구조는 주관식 **"설문지 양식"**입니다. 내 이름과 연락처는 꽉 채워 넣고, 네가 적어야 할 답변 칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 텅 비운 채로 동네 사람들에게 돌리는 종이 쪼가리입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 프레임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RARP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 프레임 구조는 주관식 </strong>"설문지 양식"**입니다. 내 이름과 연락처는 꽉 채워 넣고, 네가 적어야 할 답변 칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 텅 비운 채로 동네 사람들에게 돌리는 종이 쪼가리입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷은 3계층인가 2계층인가?
-ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(2계층)을 찾는 것"이므로 논란이 있지만, 구조적으로 보면 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 헤더 바로 뒤에 붙는 2.5계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**에 가깝다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 헤더의 Type 필드가 `0x0806`이면, "아, 내 뱃속에 든 건 IP 패킷이 아니라 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임이구나!"라고 인식한다.
+ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(2계층)을 찾는 것"이므로 논란이 있지만, 구조적으로 보면 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 헤더 바로 뒤에 붙는 2.5계층 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>에 가깝다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 헤더의 Type 필드가 `0x0806`이면, "아, 내 뱃속에 든 건 IP 패킷이 아니라 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임이구나!"라고 인식한다.
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 메시지 28바이트의 구조
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 헤더는 다음과 같이 철저히 규격화되어 있다.
 
 - **Hardware Type (2B)**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경이면 `1`.
-- **[Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Type (2B)**: 찾고자 하는 주소가 IPv4면 `0x0800`.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Type (2B)</strong>: 찾고자 하는 주소가 IPv4면 `0x0800`.
 - **H/W Length (1B)** & **Proto Length (1B)**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 길이는 6바이트, IP 길이는 4바이트.
-- **[Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) (2B) ★핵심**: 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/">Opcode</a> (2B) ★핵심</strong>: 
   - `1` = [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Request (물어볼 때)
   - `2` = [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply (대답할 때)
-- **Sender [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (6B)**: 질문하는 내 PC의 진짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/).
+- <strong>Sender <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (6B)</strong>: 질문하는 내 PC의 진짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/).
 - **Sender IP (4B)**: 질문하는 내 PC의 진짜 IP.
-- **Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (6B)**: **질문할 땐 `00:00:00:00:00:00` (모르니까 0으로 채움). 대답할 땐 내 진짜 MAC을 채워 넣음.**
+- <strong>Target <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (6B)</strong>: <strong>질문할 땐 <code>00:00:00:00:00:00</code> (모르니까 0으로 채움). 대답할 땐 내 진짜 MAC을 채워 넣음.</strong>
 - **Target IP (4B)**: 내가 찾고자 하는 김대리의 IP 주소.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ARP Request (요청) 메시지 생성 과정             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC: IP 1.1.1.1, MAC AA:AA ]                          │
- │   [ 타겟 : IP 1.1.1.2, MAC 모름! ]                            │
- │                                                             │
- │   1. 이더넷 봉투 (L2 헤더)                                      │
- │      - 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)            │
- │      - 출발지 MAC: AA:AA:AA:AA:AA:AA                          │
- │      - Type    : 0x0806 (ARP)                               │
- │                                                             │
- │   2. ARP 알맹이 (28 Bytes)                                    │
- │      - Opcode    : 1 (Request)                              │
- │      - Sender MAC: AA:AA:AA:AA:AA:AA                        │
- │      - Sender IP : 1.1.1.1                                  │
- │      - Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)       │
- │      - Target IP : 1.1.1.2                                  │
- │                                                             │
- │   ▶ 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기  │
- │     진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!                 │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP Request (요청) 메시지 생성 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC: IP 1.1.1.1, MAC AA:AA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 : IP 1.1.1.2, MAC 모름!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이더넷 봉투 (L2 헤더)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 출발지 MAC: AA:AA:AA:AA:AA:AA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Type : 0x0806 (ARP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ARP 알맹이 (28 Bytes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Opcode : 1 (Request)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Sender MAC: AA:AA:AA:AA:AA:AA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Sender IP : 1.1.1.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Target IP : 1.1.1.2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!</div></div>
+</div>
+</div>
+
+
 
 ### 3. 와이어샤크(Wireshark)에서 잡히는 모습
 네트워크 문제 해결 시 와이어샤크로 패킷을 뜨면, 통신 극초반에 항상 노란색 박스로 된 두 줄이 뜬다.
 1. `Who has 192.168.0.20? Tell 192.168.0.10` (이것이 [Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) 1, Request)
 2. `192.168.0.20 is at AA:BB:CC:DD:EE:FF` (이것이 [Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) 2, Reply)
 
-- **📢 섹션 요약 비유**: ** [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임은 빈칸 채우기 **"시험지"**입니다. 선생님이 시험지를 복사해서 반 전체에 쫙 뿌리면(브로드캐스트), 자기 이름(Target IP)이 적힌 학생 한 명만 빈칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))에 자기 학번을 적어서 선생님께 개인적으로 제출(유니캐스트)합니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 프레임은 빈칸 채우기 </strong>"시험지"**입니다. 선생님이 시험지를 복사해서 반 전체에 쫙 뿌리면(브로드캐스트), 자기 이름(Target IP)이 적힌 학생 한 명만 빈칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))에 자기 학번을 적어서 선생님께 개인적으로 제출(유니캐스트)합니다.
 
 ---
 
@@ -142,15 +145,19 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARP]
-    │
-    ▼
-[현재 개념: ARP 프레임]
-    │
-    ├──▶ [확장 A: RARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 프레임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임는 ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 RARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

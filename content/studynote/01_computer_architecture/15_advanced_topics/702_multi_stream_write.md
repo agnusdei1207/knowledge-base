@@ -41,17 +41,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 혼합 기록과 스트림 분리 기록의 차이를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Mixed placement vs stream-aware placement      │
-├──────────────────────────────────────────────────────────────┤
-│ Legacy block                     Stream-aware blocks         │
-│ [Hot][Cold][Hot][Cold]           [Hot][Hot][Hot][Hot]       │
-│        │                         [Cold][Cold][Cold][Cold]   │
-│        └─ Hot data dies early    Reclaim hot block at once  │
-│           => copy cold pages     Keep cold block untouched   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed placement vs stream-aware placement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy block Stream-aware blocks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hot</div><div class="kb-diagram-node">Cold</div><div class="kb-diagram-node">Hot</div><div class="kb-diagram-node">Cold</div><div class="kb-diagram-node">Hot</div><div class="kb-diagram-node">Hot</div><div class="kb-diagram-node">Hot</div><div class="kb-diagram-node">Hot</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cold</div><div class="kb-diagram-node">Cold</div><div class="kb-diagram-node">Cold</div><div class="kb-diagram-node">Cold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hot data dies early Reclaim hot block at once</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; copy cold pages Keep cold block untouched</div></div>
+</div>
+</div>
+
+
 
 현실적으로는 스트림 수가 무한하지 않다. 많은 장치가 동시에 잘 처리할 수 있는 활성 스트림 수는 제한적이며, 스트림마다 열어 둬야 하는 블록과 메타데이터가 늘어난다. 그래서 보통은 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 3~5개 정도의 굵은 수명 그룹으로 나누는 편이 효과적이다.
 
@@ -123,21 +126,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-혼합 수명 데이터 기록
-    │
-    ▼
-블록 내부 온도 혼합
-    │
-    ▼
-GC 증가 · WAF 상승
-    │
-    ▼
-쓰기 수명 힌트 제공
-    │
-    ▼
-스트림 분리 배치 · 마모 완화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">혼합 수명 데이터 기록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록 내부 온도 혼합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GC 증가 · WAF 상승</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쓰기 수명 힌트 제공</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트림 분리 배치 · 마모 완화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "플래시의 숨은 정리 비용"을 호스트 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)로 줄여 가는 사고방식을 보여준다.
 

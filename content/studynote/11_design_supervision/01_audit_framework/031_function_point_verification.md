@@ -18,19 +18,22 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-FP 산정 컴포넌트:
 
-  기능 유형    | 설명                    | 단순 | 보통 | 복잡
-  ─────────────┼─────────────────────────┼──────┼──────┼──────
-  EI (외부입력) | 사용자→시스템 데이터    |  3   |  4   |  6
-  EO (외부출력) | 시스템→사용자 데이터    |  4   |  5   |  7
-  EQ (외부조회) | 입출력 합산 없는 조회   |  3   |  4   |  6
-  ILF (내부파일) | 내부 논리 데이터 그룹  |  7   | 10   | 15
-  EIF (외부파일) | 참조 외부 데이터 그룹  |  5   |  7   | 10
 
-  합산 FP = Σ(각 컴포넌트 수 × FP 가중치)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FP 산정 컴포넌트:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 유형</div><div class="kb-diagram-cell">설명</div><div class="kb-diagram-cell">단순</div><div class="kb-diagram-cell">보통</div><div class="kb-diagram-cell">복잡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EI (외부입력)</div><div class="kb-diagram-cell">사용자→시스템 데이터</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EO (외부출력)</div><div class="kb-diagram-cell">시스템→사용자 데이터</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EQ (외부조회)</div><div class="kb-diagram-cell">입출력 합산 없는 조회</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ILF (내부파일)</div><div class="kb-diagram-cell">내부 논리 데이터 그룹</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EIF (외부파일)</div><div class="kb-diagram-cell">참조 외부 데이터 그룹</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">10</div></div>
+<div class="kb-diagram-note">합산 FP = Σ(각 컴포넌트 수 × FP 가중치)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정은 건물 평형 측정이다. 방 수(EI/EO/EQ)와 창고(ILF)·주차장(EIF) 면적을 각각 측정하고 복잡도(고급/일반/기본)를 반영해 전체 면적([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 합계)을 산출한다.
 
@@ -119,27 +122,29 @@ FP 산정 컴포넌트:
 |:---|:---|
 | **IFPUG** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 국제 표준 방법론 |
 | **SW 사업 대가 기준** | 한국 공공 사업 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 적용 법규 |
-| **복잡도 DET/[FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/)** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 세부 측정 기준 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 자동 산정** | NLP 기반 자동화 연구 |
+| <strong>복잡도 DET/<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/">FTR</a></strong> | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 세부 측정 기준 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> 자동 산정</strong> | NLP 기반 자동화 연구 |
 | **Use Case Point** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 대안 규모 산정 방법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[코드 라인 수(LOC) — 초기 규모 측정, 언어 의존적]
-    │
-    ▼
-[IFPUG FP — 기능 중심 언어 독립적 규모 측정]
-    │
-    ▼
-[SW 사업 대가 기준 — 한국 공공 사업 FP 기반 예산]
-    │
-    ▼
-[FP 감리 검증 — 산정 오류·과다 산정 독립 검토]
-    │
-    ▼
-[AI 자동 FP 산정 — NLP 요구사항 분석 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 라인 수(LOC) — 초기 규모 측정, 언어 의존적</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IFPUG FP — 기능 중심 언어 독립적 규모 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SW 사업 대가 기준 — 한국 공공 사업 FP 기반 예산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FP 감리 검증 — 산정 오류·과다 산정 독립 검토</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동 FP 산정 — NLP 요구사항 분석 자동화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -188,9 +188,9 @@ Speedup_ìì(N) = f + N  (1-f)
 | ëê | ìì ëì | íì |
 |---|---|---|
 | **perf sched** | ìììë ìì, ìíìí ììì | CPUë ìììë ìë ëë íì |
-| **perf [lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)** | ë ëê ìê, íë ìë íì | ìë ëë ë êí ëì |
+| <strong>perf <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">lock</a></strong> | ë ëê ìê, íë ìë íì | ìë ëë ë êí ëì |
 | **perf stat** | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(íëë ëëì ì) | ìììì CPU íì íì |
-| **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)/bpftrace** | ëì ë ìì | ëíììì ë êí ììê ëì |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a>/bpftrace</strong> | ëì ë ìì | ëíììì ë êí ììê ëì |
 
 - **ìì ëì**: Amdahl's Lawë "ìë ìê ììíì êí"ê êë. ìë ëì ìëìê ëìì ìëíëëë, ëë ìëìê í ìë ììë ì ììë(ë êí) ìë ìëê íìëì ìëë. ê ìëìëë ëëìì ìëëë ìêíì ëëì ëëíì íêê êëíëë.
 
@@ -263,9 +263,9 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 | êë ëì | êê ë ìëì ìë |
 |---|---|
 | **Gustafson's Law** | ëì íêê ìêíë ìì ìíìì ëëíì íêë ììíë ëììë, Amdahl's Lawëëìíë. |
-| **ë êí ([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))** | ëíìììì êì ììì ëí ë ëê ìêì ìì ëëììêìì, Amdahl's Lawì fêì íê ëëë. |
+| <strong>ë êí (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock Contention</a>)</strong> | ëíìììì êì ììì ëí ë ëê ìêì ìì ëëììêìì, Amdahl's Lawì fêì íê ëëë. |
 | **ìíìí ììì ìëíë** | ìëë/íëììê ììëë ììì ìêì ìì ëëììêìíë. |
-| **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))** | CPUê ëëì íëë ìííëë íìí íë ììí ìë, ëëí êë ëëìêìììë íìíë ìíìë. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/">Cycles Per Instruction</a>)</strong> | CPUê ëëì íëë ìííëë íìí íë ììí ìë, ëëí êë ëëìêìììë íìíë ìíìë. |
 
 ---
 
@@ -288,15 +288,19 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
-    │
-    ▼
-[멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
-    │
-    ├──▶ [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
-    └──▶ [캐시 미스 오버헤드 측정 분석망 구조 적용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 미스 오버헤드 측정 분석망 구조 적용</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

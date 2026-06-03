@@ -10,28 +10,31 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 온콜(On-[Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 **지정된 엔지니어가 일정 기간 동안 프로덕션 시스템의 장애·알림에 대응하는 당번 체계**이며, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 운영의 핵심 실천이다.
-> 2. **가치**: 온콜 없이는 **"누가 대응할 것인가"가 불분명**하여 장애 시 혼란이 발생하지만, 온콜 로테이션을 통해 **책임자가 명확하고 대응 시간(MTTA)이 최소화**된다.
-> 3. **판단 포인트**: 온콜 부담이 과도하면 번아웃·이직이 발생하므로, **온콜 빈도(주 1회 이하)·[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비율(25% 이하)·보상 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)의 핵심이다.
+> 1. **본질**: 온콜(On-[Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 <strong>지정된 엔지니어가 일정 기간 동안 프로덕션 시스템의 장애·알림에 대응하는 당번 체계</strong>이며, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 운영의 핵심 실천이다.
+> 2. **가치**: 온콜 없이는 <strong>"누가 대응할 것인가"가 불분명</strong>하여 장애 시 혼란이 발생하지만, 온콜 로테이션을 통해 <strong>책임자가 명확하고 대응 시간(MTTA)이 최소화</strong>된다.
+> 3. **판단 포인트**: 온콜 부담이 과도하면 번아웃·이직이 발생하므로, <strong>온콜 빈도(주 1회 이하)·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 비율(25% 이하)·보상 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    온콜 프로세스                                      │
-├───────────────────────────────────────────────────────┤
-│  1. [알림 발생] — Prometheus → PagerDuty              │
-│  2. [온콜 엔지니어 호출] — 5분 내 응답               │
-│  3. [초기 대응] — 상황 파악·영향 범위 판단           │
-│  4. [에스컬레이션] — 필요 시 2차 온콜·팀 호출        │
-│  5. [해결] — 장애 복구·사용자 통보                   │
-│  6. [사후 분석] — Postmortem 작성                     │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: 온콜은 병원의 **당직 의사**이다. 24시간 환자(시스템)를 돌볼 의사가 항상 있어야 하고, 로테이션으로 번갈아 근무한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온콜 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">알림 발생</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PagerDuty</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">온콜 엔지니어 호출</div><div class="kb-diagram-note">— 5분 내 응답</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">초기 대응</div><div class="kb-diagram-note">— 상황 파악·영향 범위 판단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">에스컬레이션</div><div class="kb-diagram-note">— 필요 시 2차 온콜·팀 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">해결</div><div class="kb-diagram-note">— 장애 복구·사용자 통보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">6.</div><div class="kb-diagram-node">사후 분석</div><div class="kb-diagram-note">— Postmortem 작성</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 온콜은 병원의 <strong>당직 의사</strong>이다. 24시간 환자(시스템)를 돌볼 의사가 항상 있어야 하고, 로테이션으로 번갈아 근무한다.
 
 ---
 
@@ -43,7 +46,7 @@ tags = ["studynote-devops-sre"]
 |:---|:---|
 | **로테이션 주기** | 1~2주 |
 | **야간 호출** | 주당 2회 이하 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비율** | **25% 이하** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 비율</strong> | **25% 이하** |
 | **MTTA** | 5분 이내 |
 | **Postmortem** | 모든 주요 장애 후 작성 |
 
@@ -57,7 +60,7 @@ tags = ["studynote-devops-sre"]
 |:---|:---|:---|
 | **대응** | 혼란 (누가?) | **명확한 책임자** |
 | **시간** | 느림 | **MTTA 단축** |
-| **번아웃** | 특정인 과부하 | **로테이션 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)** |
+| **번아웃** | 특정인 과부하 | <strong>로테이션 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> |
 
 ---
 
@@ -73,7 +76,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-온콜 관리는 **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀의 지속 가능한 장애 대응 체계**이며, [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 감소·자동화와 함께 엔지니어 번아웃을 예방하는 핵심이다.
+온콜 관리는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 팀의 지속 가능한 장애 대응 체계</strong>이며, [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 감소·자동화와 함께 엔지니어 번아웃을 예방하는 핵심이다.
 
 ---
 
@@ -85,28 +88,30 @@ tags = ["studynote-devops-sre"]
 | **PagerDuty** | 알림·에스컬레이션 도구 |
 | **MTTA** | 알림 인지 시간 |
 | **Postmortem** | 장애 사후 분석 |
-| **[Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)** | 온콜에서 발생하는 반복 작업 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a></strong> | 온콜에서 발생하는 반복 작업 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 모니터링 + 전화 (2000s)]
-    │
-    ▼
-[PagerDuty (2009~) — 자동 알림·에스컬레이션]
-    │
-    ▼
-[SRE 온콜 문화 (Google SRE Book, 2016)]
-    │
-    ▼
-[AIOps 자동 대응 (2020~)]
-    │
-    ▼
-[현재: AI Incident Response — 자동 진단·자가 치유]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 모니터링 + 전화 (2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PagerDuty (2009~) — 자동 알림·에스컬레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SRE 온콜 문화 (Google SRE Book, 2016)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps 자동 대응 (2020~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Incident Response — 자동 진단·자가 치유</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 온콜은 병원의 **당직 의사**예요. 밤에도 **환자(시스템)**를 돌볼 사람이 있어야 해요.
+1. 온콜은 병원의 <strong>당직 의사</strong>예요. 밤에도 <strong>환자(시스템)</strong>를 돌볼 사람이 있어야 해요.
 2. 한 사람만 계속 당직하면 **지치니까**, 번갈아(로테이션) 근무해요.
 3. 당직 의사 덕분에 **환자가 위급할 때** 빠르게 치료받을 수 있답니다!
 

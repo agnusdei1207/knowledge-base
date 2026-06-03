@@ -37,20 +37,21 @@ tags = ["studynote-cloud-architecture"]
 | **Role** (역할) | 자원에 대한 접근 권한(허용 규칙)의 모음 | "[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 목록 보기(Get/List)", "[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" |
 | **RoleBinding** (연결) | 주체(Subject)와 역할(Role)을 결합 | "ServiceAccount A에게 Role B를 부여하라" |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  K8s RBAC 권한 부여 메커니즘                 │
-├──────────────────────────────────────────────────────────────┤
-│  [Subject]                         [Role]                    │
-│ ServiceAccount (Pod 신분증)        API Resources (Pod, SVC)  │
-│       │                              ▲    Verbs (Get, List)  │
-│       │                              │                       │
-│       └────────▶ [RoleBinding] ──────┘                       │
-│                 (둘을 연결하는 결재 서류)                      │
-│                                                              │
-│ API Server: "요청이 들어왔다. Binding을 확인해 허용/차단 판정!"│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s RBAC 권한 부여 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Subject</div><div class="kb-diagram-node">Role</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceAccount (Pod 신분증) API Resources (Pod, SVC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Verbs (Get, List)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RoleBinding</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(둘을 연결하는 결재 서류)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server: "요청이 들어왔다. Binding을 확인해 허용/차단 판정!"</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주듯, 권한(Role)과 신분증(ServiceAccount)은 완전히 독립적으로 존재하며, RoleBinding을 통해서만 결합된다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄울 때 `spec.serviceAccountName`을 명시하면 해당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 지정된 신분증을 지니게 되고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버는 RoleBinding을 조회하여 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 요청을 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))하거나 거부(403 Forbidden)한다.
 
@@ -82,7 +83,7 @@ Role은 101동 내부에서만 유효한 권한이므로, `dev` [네임스페이
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **디폴트 토큰 차단**: 모든 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 `default` [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 어카운트에는 권한을 비워두고, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 템플릿에 `automountServiceAccountToken: false`를 설정하여 불필요한 토큰 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)를 원천 차단해야 한다.
 2. **최소 권한의 원칙**: "필요할지도 모른다"는 이유로 `*` (와일드카드) 권한을 남발하지 마라. 읽기 전용(Get, List)이 필요한 모니터링 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Create, Delete) 권한을 주는 것은 보안 결함이다.
-3. **명시적 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 할당**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 배포할 때는 반드시 해당 애플리케이션 전용으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 `ServiceAccount`를 매핑하여 역할을 세분화해야 한다.
+3. <strong>명시적 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a> 할당</strong>: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 배포할 때는 반드시 해당 애플리케이션 전용으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 `ServiceAccount`를 매핑하여 역할을 세분화해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트로 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 앱을 설치할 때, 묻지도 따지지도 않고 ClusterRoleBinding을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 매니페스트를 그대로 적용하는 행위.
@@ -106,28 +107,30 @@ RBAC와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server (kube-apiserver)** | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 규칙을 최종적으로 검사하고 승인/거부하는 K8s의 심장 |
-| **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) / Dex** | 사람(User)의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 K8s 외부의 사내 AD/구글 계정과 연동하는 기술 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Server (kube-apiserver)</strong> | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 규칙을 최종적으로 검사하고 승인/거부하는 K8s의 심장 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> / Dex</strong> | 사람(User)의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 K8s 외부의 사내 AD/구글 계정과 연동하는 기술 |
 | **Admission Controller** | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 통과 후에도 요청의 내용을 한 번 더 뜯어보고 필터링하는 검문소 |
-| **[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)** | 내부 네트워크망에 들어와 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)조차도 믿지 않고 권한을 검증하는 철학 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a></strong> | 내부 네트워크망에 들어와 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)조차도 믿지 않고 권한을 검증하는 철학 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 제공 마스터키의 남용 (보안 취약점)
-    │
-    ▼
-ServiceAccount (기계용 신분증 분리)
-    │
-    ▼
-RBAC (Role-Based Access Control 도입)
-    │
-    ▼
-최소 권한의 원칙 (Least Privilege) 적용
-    │
-    ▼
-네트워크 정책(NetworkPolicy)과 결합한 입체적 방어망 구성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 제공 마스터키의 남용 (보안 취약점)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ServiceAccount (기계용 신분증 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RBAC (Role-Based Access Control 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 권한의 원칙 (Least Privilege) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네트워크 정책(NetworkPolicy)과 결합한 입체적 방어망 구성</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 부재 → 신분증 도입 → 권한 세분화 → 최적화 → 다계층 보안 방어"로 발전하는 K8s 클러스터 내부 보안의 진화를 보여준다.
 

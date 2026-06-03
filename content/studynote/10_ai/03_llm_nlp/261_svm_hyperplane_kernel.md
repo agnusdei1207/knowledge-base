@@ -19,10 +19,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-SVM은 Vapnik과 Cortes(1995)가 제안한 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, **통계 학습 이론(Statistical [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Theory)**에 기반한 가장 수학적으로 엄밀한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 중 하나다.
+SVM은 Vapnik과 Cortes(1995)가 제안한 [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, <strong>통계 학습 이론(Statistical <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Theory)</strong>에 기반한 가장 수학적으로 엄밀한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 중 하나다.
 
 **핵심 동기**: 두 클래스를 분리하는 초평면이 무수히 많을 때, 어느 것을 선택해야 하는가?
-→ **마진(Margin)이 가장 큰 초평면**을 선택하면 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 높다.
+→ <strong>마진(Margin)이 가장 큰 초평면</strong>을 선택하면 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 가장 높다.
 
 SVM이 빛나는 상황:
 - 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (특성 수 >> 샘플 수)
@@ -37,14 +37,17 @@ SVM이 빛나는 상황:
 | 고차원 | 강함 | 중간 | 약함 |
 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 | 기본 없음 (Platt Scaling 별도) | 자연적 | 가능 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SVM은 "두 팀 사이에 경계선을 그을 때, 양쪽 팀원에서 가장 멀리 떨어진 선을 택하는 심판"이다. 이 선(최대 마진)이 가장 안전하고 공정한 경계다.
 
@@ -54,59 +57,64 @@ SVM이 빛나는 상황:
 
 ### 최대 마진 초평면 (Maximum Margin Hyperplane)
 
-```
-  2차원 예시:
-  ┌──────────────────────────────────────────┐
-  │                                          │
-  │   ○  ○                                   │
-  │  ○  ○  ●---서포트 벡터(Support Vector)  │
-  │           ‖  ← 마진(Margin)             │
-  │ ─────────────────────── 초평면          │
-  │           ‖                             │
-  │     ●---서포트 벡터        ● ●          │
-  │                             ●           │
-  │   클래스 -1               클래스 +1     │
-  └──────────────────────────────────────────┘
 
-  초평면: w·x + b = 0
-  마진 = 2 / ‖w‖  → 마진 최대화 ≡ ‖w‖ 최소화
 
-  서포트 벡터: 마진 경계에 놓인 점 (결정에 참여하는 유일한 샘플)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2차원 예시:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○ ●---서포트 벡터(Support Vector)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‖ ← 마진(Margin)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초평면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‖</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●---서포트 벡터 ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 -1 클래스 +1</div></div>
+<div class="kb-diagram-note">초평면: w·x + b = 0</div>
+<div class="kb-diagram-note">마진 = 2 / ‖w‖ → 마진 최대화 ≡ ‖w‖ 최소화</div>
+<div class="kb-diagram-note">서포트 벡터: 마진 경계에 놓인 점 (결정에 참여하는 유일한 샘플)</div>
+</div>
+</div>
+
+
 
 ### 하드 마진 vs 소프트 마진
 
-```
-  하드 마진 (Hard Margin): 완전 선형 분리 가능 가정
-  ┌────────────────────────────────────────┐
-  │ min  1/2 ‖w‖²                         │
-  │  s.t. y_i(w·x_i + b) ≥ 1  ∀i         │
-  │ (어떤 오분류도 허용하지 않음)          │
-  └────────────────────────────────────────┘
 
-  소프트 마진 (Soft Margin): 슬랙 변수 ξ 도입
-  ┌────────────────────────────────────────┐
-  │ min  1/2 ‖w‖² + C·Σξ_i               │
-  │  s.t. y_i(w·x_i + b) ≥ 1 - ξ_i       │
-  │       ξ_i ≥ 0                         │
-  │ C: 오분류 페널티 (클수록 엄격)         │
-  └────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하드 마진 (Hard Margin): 완전 선형 분리 가능 가정</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min 1/2 ‖w‖²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s.t. y_i(w·x_i + b) ≥ 1 ∀i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어떤 오분류도 허용하지 않음)</div></div>
+<div class="kb-diagram-note">소프트 마진 (Soft Margin): 슬랙 변수 ξ 도입</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min 1/2 ‖w‖² + C·Σξ_i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s.t. y_i(w·x_i + b) ≥ 1 - ξ_i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ξ_i ≥ 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C: 오분류 페널티 (클수록 엄격)</div></div>
+</div>
+</div>
+
+
 
 ### [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
 
-비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원으로 변환하지 않고, **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Function)**를 통해 내적을 직접 계산한다.
+비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고차원으로 변환하지 않고, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 함수(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Function)</strong>를 통해 내적을 직접 계산한다.
 
-```
-  원본 공간 (비선형 분리)      고차원 공간 (선형 분리)
-  ┌─────────────────┐          ┌─────────────────────┐
-  │  ●   ○   ●      │  φ(x)   │        ─────        │
-  │ ○ ●●●● ○       │ ──────► │    ○   ─────   ○    │
-  │  ●   ○   ●      │          │  ●●●● ─────         │
-  └─────────────────┘          └─────────────────────┘
 
-  K(x_i, x_j) = φ(x_i)·φ(x_j)  ← 고차원 변환 없이 계산!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 공간 (비선형 분리) 고차원 공간 (선형 분리)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ○ ●</div><div class="kb-diagram-cell">φ(x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ●●●● ○</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">○ ○</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ○ ●</div><div class="kb-diagram-cell">●●●●</div></div>
+<div class="kb-diagram-note">K(x_i, x_j) = φ(x_i)·φ(x_j) ← 고차원 변환 없이 계산!</div>
+</div>
+</div>
+
+
 
 ### 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수
 
@@ -125,24 +133,24 @@ SVM이 빛나는 상황:
 
 ### C 파라미터와 γ 파라미터의 효과
 
-```
-  C (소프트 마진 조절):
-  ┌────────────────────────────────────────┐
-  │ C 작음 → 마진 넓음 → 오분류 허용      │
-  │          → 과소적합(Underfitting) 위험 │
-  │                                        │
-  │ C 큼   → 마진 좁음 → 오분류 불허      │
-  │          → 과적합(Overfitting) 위험    │
-  └────────────────────────────────────────┘
 
-  γ (RBF 커널 영향 범위):
-  ┌────────────────────────────────────────┐
-  │ γ 작음 → 넓은 영향 → 부드러운 경계   │
-  │          → 과소적합 위험              │
-  │ γ 큼   → 좁은 영향 → 복잡한 경계     │
-  │          → 과적합 위험                │
-  └────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">C (소프트 마진 조절):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 작음 → 마진 넓음 → 오분류 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과소적합(Underfitting) 위험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 큼 → 마진 좁음 → 오분류 불허</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과적합(Overfitting) 위험</div></div>
+<div class="kb-diagram-note">γ (RBF 커널 영향 범위):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ 작음 → 넓은 영향 → 부드러운 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과소적합 위험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ 큼 → 좁은 영향 → 복잡한 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과적합 위험</div></div>
+</div>
+</div>
+
+
 
 | 지표 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 장점 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 단점 |
 |:---|:---|:---|
@@ -161,30 +169,33 @@ SVM이 빛나는 상황:
 ### [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 적용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 1. **전처리 필수**: SVM은 특성 스케일에 민감 → `StandardScaler` 적용
-2. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택**: 기본적으로 RBF 사용, 선형 분리 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 Linear 고려
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택</strong>: 기본적으로 RBF 사용, 선형 분리 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 Linear 고려
 3. **하이퍼파라미터 탐색**: Grid Search로 C, γ 조합 탐색
-4. **대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `LinearSVC` (SGD 기반) 사용 → O(n) 스케일
+4. <strong>대규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `LinearSVC` (SGD 기반) 사용 → O(n) 스케일
 
 ### SVM의 현재 위치
 
-```
-  딥러닝 등장 이후 SVM의 포지셔닝:
-  ┌──────────────────────────────────────────────┐
-  │ 강점 유지 영역:                               │
-  │  - 소규모 고차원 데이터 (텍스트, 유전자)     │
-  │  - 데이터가 부족한 의료 진단                 │
-  │  - 이론적 근거가 필요한 규제 환경            │
-  │                                              │
-  │ 딥러닝에 밀린 영역:                          │
-  │  - 이미지 분류 (CNN이 월등)                  │
-  │  - 대규모 자연어 처리 (Transformer 우위)     │
-  └──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">딥러닝 등장 이후 SVM의 포지셔닝:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점 유지 영역:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소규모 고차원 데이터 (텍스트, 유전자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터가 부족한 의료 진단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이론적 근거가 필요한 규제 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딥러닝에 밀린 영역:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이미지 분류 (CNN이 월등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대규모 자연어 처리 (Transformer 우위)</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 답안 포인트
 
 - **"서포트 벡터가 중요한 이유"**: 결정 경계를 결정하는 것은 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아닌 경계면 샘플들뿐 → 메모리 효율적
-- **"[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택 기준"**: 특성 수가 샘플 수보다 많으면 Linear, 비선형 패턴이 있으면 RBF
+- <strong>"<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 선택 기준"</strong>: 특성 수가 샘플 수보다 많으면 Linear, 비선형 패턴이 있으면 RBF
 - **"SVM과 딥러닝 비교"**: 딥러닝은 특성 자동 추출, SVM은 이론적 보장이 강점
 
 - **📢 섹션 요약 비유**: SVM은 "두 나라 국경에 완충지대(마진)를 최대한 넓게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"하는 협상가다. 중립 지대가 넓을수록 양쪽 분쟁(오분류)이 적어지지만, 새로운 영토 특성(비선형)에는 조약([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 필요하다.

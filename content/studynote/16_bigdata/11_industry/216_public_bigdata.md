@@ -38,37 +38,23 @@ tags = ["studynote-bigdata"]
 
 ### 스마트 교통 시스템 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                스마트 교통 빅데이터 플랫폼                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 수집층                                                     │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
-│  │ 도로     │ │ CCTV     │ │ 교통카드 │ │ 내비게이션       │   │
-│  │ 감지기   │ │ 영상     │ │ (승하차) │ │ 프로브 데이터    │   │
-│  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────────┬─────────┘   │
-│       └────────────┴────────────┴─────────────────┘             │
-│                           │                                      │
-│                           ▼                                      │
-│              ┌────────────────────────┐                         │
-│              │ 국가교통데이터베이스    │                         │
-│              │ (KTDB) + 실시간 허브   │                         │
-│              └─────────┬──────────────┘                         │
-│                        │                                        │
-│              ┌─────────┴──────────────┐                         │
-│              ▼                        ▼                         │
-│  ┌────────────────────┐   ┌────────────────────────┐           │
-│  │ 단기 교통 예측      │   │  신호 최적화 제어       │           │
-│  │ (LSTM, 5~30분)     │   │  (강화학습 기반)        │           │
-│  └────────────────────┘   └────────────────────────┘           │
-│              │                        │                         │
-│              ▼                        ▼                         │
-│  ┌────────────────────────────────────────────────┐            │
-│  │   시민 서비스 (내비 API / 대중교통 앱 / 경보)   │            │
-│  └────────────────────────────────────────────────┘            │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 교통 빅데이터 플랫폼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도로</div><div class="kb-diagram-cell">CCTV</div><div class="kb-diagram-cell">교통카드</div><div class="kb-diagram-cell">내비게이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감지기</div><div class="kb-diagram-cell">영상</div><div class="kb-diagram-cell">(승하차)</div><div class="kb-diagram-cell">프로브 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국가교통데이터베이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KTDB) + 실시간 허브</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단기 교통 예측</div><div class="kb-diagram-cell">신호 최적화 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LSTM, 5~30분)</div><div class="kb-diagram-cell">(강화학습 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시민 서비스 (내비 API / 대중교통 앱 / 경보)</div></div>
+</div>
+</div>
+
+
 
 ### 범죄 예방 핫스팟 분석 기법
 
@@ -80,24 +66,25 @@ tags = ["studynote-bigdata"]
 
 ### 도시 계획용 인구 이동 분석
 
-```
-이동통신 기지국 핑퐁 데이터
-        │
-        ▼
-  비식별화 · 집계
-  (개인 위치 → 격자 단위 인구 분포)
-        │
-        ▼
-  ┌───────────────────────────────┐
-  │  인구 이동 패턴 모델           │
-  │  - 주거/직장/여가 구역 분류   │
-  │  - 인구 유입/유출 예측        │
-  │  - 상권·생활 SOC 수요 추정    │
-  └───────────────────────────────┘
-        │
-        ▼
-  도시 기본 계획 · 개발 타당성 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이동통신 기지국 핑퐁 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비식별화 · 집계</div>
+<div class="kb-diagram-note">(개인 위치 → 격자 단위 인구 분포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인구 이동 패턴 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주거/직장/여가 구역 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인구 유입/유출 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상권·생활 SOC 수요 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도시 기본 계획 · 개발 타당성 분석</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 스마트 교통 시스템은 "도시의 혈관이 막히기 전에 미리 우회로를 여는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 심장박동기"다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 실시간으로 생각하며, 교통 흐름을 스스로 조절한다.
 
@@ -116,14 +103,18 @@ tags = ["studynote-bigdata"]
 
 ### 예측 치안의 윤리적 딜레마
 
-```
-효율성 ◄─────────────────────────────────► 공정성
-  │                                          │
-  ▼                                          ▼
-범죄 패트롤 최적화              알고리즘 편향 (특정 지역·계층)
-사전 예방 효과                 과잉 치안 (Over-policing)
-자원 절감                      시민권 침해 우려
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">효율성 ◄ ► 공정성</div>
+<div class="kb-diagram-note">범죄 패트롤 최적화 알고리즘 편향 (특정 지역·계층)</div>
+<div class="kb-diagram-note">사전 예방 효과 과잉 치안 (Over-policing)</div>
+<div class="kb-diagram-note">자원 절감 시민권 침해 우려</div>
+</div>
+</div>
+
+
 
 **기술사 판단**: 예측 치안 시스템에는 반드시 인간 검토(Human-in-the-loop) 와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 체계를 병행해야 한다.
 
@@ -137,7 +128,7 @@ tags = ["studynote-bigdata"]
 
 **배경**: 위기 가구는 스스로 신고하지 않아 복지 혜택을 받지 못하는 경우가 많음.
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 구조**:
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연계 구조</strong>:
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 | 활용 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 |:---|:---|
@@ -151,7 +142,7 @@ tags = ["studynote-bigdata"]
 
 ### 기술사 핵심 판단 포인트
 
-- **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)**: 부처 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong>: 부처 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
 - **편향 관리**: 복지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 지역·집단을 낙인찍지 않도록 정기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
 - **시민 참여**: 공공 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결정에 이의제기 절차 마련 필수.
 
@@ -186,24 +177,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[스마트 교통]
-    │
-    ▼
-[예측 치안]
-    │
-    ▼
-[도시 계획]
-    │
-    ▼
-[복지 사각지대]
-    │
-    ▼
-[공공데이터포털]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 교통</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예측 치안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도시 계획</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복지 사각지대</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공공데이터포털</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 복지 사각지대까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

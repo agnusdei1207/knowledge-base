@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 해커가 신뢰할 수 있는 정상적인 웹사이트(예: 네이버 카페, 학교 게시판)의 허술한 입력 창을 뚫고, 악의적인 **클라이언트 사이드 스크립트(주로 JavaScript)**를 삽입하여, 그 사이트에 접속한 다른 정상 **사용자의 웹 브라우저에서 해커의 스크립트가 몰래 실행되도록 만드는 해킹 기법**입니다.
-- **목적**: 브라우저에서 돌아가기 때문에 서버 DB를 부수는 건 못합니다. 대신, 사용자의 브라우저에 임시로 저장된 **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 707번 하이재킹 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**를 훔쳐서 사용자의 아이디로 무혈입성 로그인하거나, 악성 코드를 다운받게 유도하는 것이 핵심 타겟입니다.
+- **개념**: 해커가 신뢰할 수 있는 정상적인 웹사이트(예: 네이버 카페, 학교 게시판)의 허술한 입력 창을 뚫고, 악의적인 <strong>클라이언트 사이드 스크립트(주로 JavaScript)</strong>를 삽입하여, 그 사이트에 접속한 다른 정상 <strong>사용자의 웹 브라우저에서 해커의 스크립트가 몰래 실행되도록 만드는 해킹 기법</strong>입니다.
+- **목적**: 브라우저에서 돌아가기 때문에 서버 DB를 부수는 건 못합니다. 대신, 사용자의 브라우저에 임시로 저장된 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>, 707번 하이재킹 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 훔쳐서 사용자의 아이디로 무혈입성 로그인하거나, 악성 코드를 다운받게 유도하는 것이 핵심 타겟입니다.
 
-```text
-[스키밍 공격]
-    │
-    ▼
-[XSS 개요와 3대 기법]
-    │
-    └──▶ [SQL 인젝션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 개요와 3대 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SQL 인젝션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,26 +45,30 @@ tags = ["studynote-network"]
 
 ### 1. [Stored XSS](/knowledge-base/studynote/09_security/05_web_app_security/472_stored_xss/) (저장형 / Persistent XSS) - "폭탄 설치형"
 - **수법**: 가장 파괴적입니다. 해커가 자유게시판의 글쓰기 창이나 댓글 창에 `<script>쿠키를 훔쳐라</script>`라는 코드를 적어서 서버로 전송합니다.
-- **동작**: 이 악성 코드는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫고 **서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)에 영구적으로 안전하게 저장(Stored)**됩니다.
+- **동작**: 이 악성 코드는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 뚫고 <strong>서버의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB)에 영구적으로 안전하게 저장(Stored)</strong>됩니다.
 - **폭발**: 내일 아침, 1,000명의 일반 사용자가 그 게시판 글을 클릭해서 읽는 순간, DB에서 불러와진 악성 코드가 1,000명의 브라우저에서 동시에 실행되며 1,000명의 로그인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 해커에게 와다다다 전송됩니다. 피해가 기하급수적으로 커집니다.
 
 ### 2. [Reflected XSS](/knowledge-base/studynote/09_security/05_web_app_security/471_reflected_xss/) (반사형 / Non-Persistent XSS) - "반사 거울형"
 - **수법**: 서버 DB에 저장하지 못할 때 쓰는 꼼수입니다. 웹사이트의 '검색창'을 노립니다.
 - **동작**: 해커가 "네이버 검색창에 악성 코드를 친 상태로 만들어진 엄청 긴 URL 링크(`http://naver.com/search?q=<script>털어라</script>`)"를 몰래 만듭니다. 그리고 이 링크를 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일이나 카톡으로 수백 명에게 뿌립니다.
-- **폭발**: 순진한 피해자가 이 카톡 링크를 무심코 클릭합니다. 서버는 검색어인 악성 코드를 보고 "어? 이게 네가 검색한 단어구나!"라며 그 악성 코드를 그대로 사용자 화면에 **반사(Reflect)**시켜 띄워줍니다. 그 순간 사용자 브라우저에서 코드가 실행되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 털립니다. DB에 남지 않고 1회성으로 끝납니다.
+- **폭발**: 순진한 피해자가 이 카톡 링크를 무심코 클릭합니다. 서버는 검색어인 악성 코드를 보고 "어? 이게 네가 검색한 단어구나!"라며 그 악성 코드를 그대로 사용자 화면에 <strong>반사(Reflect)</strong>시켜 띄워줍니다. 그 순간 사용자 브라우저에서 코드가 실행되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 털립니다. DB에 남지 않고 1회성으로 끝납니다.
 
 ### 3. DOM 기반 XSS ([DOM-based XSS](/knowledge-base/studynote/09_security/05_web_app_security/473_dom_xss/))
-- **수법**: 서버와는 전혀 상관없이, 철저히 **사용자 브라우저 내부의 자바스크립트(DOM 환경) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**만을 파고드는 고도의 공격입니다. 
+- **수법**: 서버와는 전혀 상관없이, 철저히 <strong>사용자 브라우저 내부의 자바스크립트(DOM 환경) <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>만을 파고드는 고도의 공격입니다. 
 - **동작**: 해커가 던진 악성 URL을 클릭하면, 이 악성 코드는 서버로 전송되지도 않고 브라우저 안에서만 빙글빙글 돌다가, 브라우저가 화면을 렌더링(DOM 조작)할 때 몰래 발동되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 털어갑니다. 서버 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 입장에선 패킷에 악성 코드가 안 보이므로 탐지하기가 극도로 어렵습니다.
 
-```text
-[스키밍 공격]
-    │
-    ▼
-[XSS 개요와 3대 기법]
-    │
-    └──▶ [SQL 인젝션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 개요와 3대 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SQL 인젝션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,15 +128,19 @@ XSS 개요와 3대 기법은 [네트워크 보안](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스키밍 공격]
-    │
-    ▼
-[현재 개념: XSS 개요와 3대 기법]
-    │
-    ├──▶ [확장 A: SQL 인젝션]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스키밍 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XSS 개요와 3대 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SQL 인젝션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 XSS 개요와 3대 기법는 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

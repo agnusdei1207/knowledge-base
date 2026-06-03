@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 문제는 이 '부품' 중 하나에 치명적인 취약점이 숨어있을 때 발생한다. 2021년 전 세계를 강타한 **Log4j 사태** 당시, 수많은 기업은 "우리 회사 서버 중에 Log4j 2.14 이하 버전을 쓰는 곳이 도대체 어디인가?"를 찾는 데만 며칠을 허비하며 해커에게 속수무책으로 당했다. 시스템 안에 무슨 부품이 들어있는지 '명세서'가 없었기 때문이다.
 
-이 사건을 계기로 미국 바이든 정부는 행정명령(EO 14028)을 통해 공공기관에 납품되는 모든 소프트웨어에 **[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)(Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))** 제출을 의무화했다. 소프트웨어의 원재료를 투명하게 밝혀 **[공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)([Supply Chain Security](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/))**을 강화하겠다는 전 세계적인 패러다임 전환이다.
+이 사건을 계기로 미국 바이든 정부는 행정명령(EO 14028)을 통해 공공기관에 납품되는 모든 소프트웨어에 <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a>(Software <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">Bill of Materials</a>)</strong> 제출을 의무화했다. 소프트웨어의 원재료를 투명하게 밝혀 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">Supply Chain Security</a>)</strong>을 강화하겠다는 전 세계적인 패러다임 전환이다.
 
 - **📢 섹션 요약 비유**: 마트에서 산 과자에 '땅콩'이 들어있는지 확인하려면 뒷면의 '영양 성분표'를 보면 된다. SBOM은 땅콩 알레르기 환자(취약점)를 위해 소프트웨어 뒷면에 붙여놓은 '[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 성분표'다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 소프트웨어 자재 명세서 ([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 자재 명세서 (SBOM)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 자재 명세서 (SBOM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 자재 명세서 ([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ SBOM은 단순히 엑셀로 적은 목록이 아니라, 기계(Machine)가 읽�
 | 구분 | [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구 ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) |
 |:---|:---|:---|
 | **정의** | 소프트웨어 성분을 분석해 취약점/라이선스 위반을 **찾아내는 '행위(동사)' 및 '도구'** | 그 분석을 통해 만들어진 표준화된 **'문서/결과물(명사)'** |
-| **소유권** | 보안팀, 개발팀 내부에서 사용 | 파트너사, 고객사, 규제 기관에 **제출하고 공유**하는 용도 |
+| **소유권** | 보안팀, 개발팀 내부에서 사용 | 파트너사, 고객사, 규제 기관에 <strong>제출하고 공유</strong>하는 용도 |
 | **핵심 역할**| 소스코드 스캔 $\rightarrow$ [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) DB 대조 $\rightarrow$ 경고 | "내부에는 이런 부품이 들어있습니다"라는 투명한 사실 공표 |
 
 즉, 좋은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도구를 사용해야 완벽하고 정확한 SBOM을 추출할 수 있다. 
@@ -131,21 +130,23 @@ SBOM을 성공적으로 구축하면 [제로데이](/knowledge-base/studynote/09
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 자재 명세서 (SBOM) 공급망 보안 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 자재 명세서 (SBOM) 공급망 보안 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

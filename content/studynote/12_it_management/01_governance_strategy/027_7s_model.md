@@ -18,22 +18,21 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│           McKinsey 7S 모델 구조                       │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│              [Shared Values]                          │
-│             /       |       \                         │
-│      [Strategy] [Structure] [Systems]                 │
-│             \       |       /                         │
-│          [Style] [Staff] [Skills]                     │
-│                                                       │
-│  하드 S (하드웨어): Strategy, Structure, Systems      │
-│  소프트 S (소프트웨어): Shared Values, Style, Staff,  │
-│                         Skills                        │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">McKinsey 7S 모델 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Shared Values</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy</div><div class="kb-diagram-node">Structure</div><div class="kb-diagram-node">Systems</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Style</div><div class="kb-diagram-node">Staff</div><div class="kb-diagram-node">Skills</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 S (하드웨어): Strategy, Structure, Systems</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 S (소프트웨어): Shared Values, Style, Staff,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Skills</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 7S 모델은 오케스트라 조율이다. 악기([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), 자리 배치(Structure), 악보(Systems), 연주 스타일(Style), 단원(Staff), 연주 실력(Skills), 화음(Shared Values) — 7가지가 조화를 이뤄야 아름다운 음악이 나온다.
 
@@ -45,7 +44,7 @@ tags = ["studynote-it-management"]
 
 | 요소 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 정의 |
 |:---|:---|:---|
-| **[Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))** | Hard | 경쟁 우위를 위한 자원 배분 계획 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong> | Hard | 경쟁 우위를 위한 자원 배분 계획 |
 | **Structure (구조)** | Hard | 조직 체계, 보고 라인 |
 | **Systems (시스템)** | Hard | 업무 수행 절차, IT 시스템 |
 | **Shared Values (공유 가치)** | Soft | 조직 문화의 핵심 가치 |
@@ -106,27 +105,29 @@ tags = ["studynote-it-management"]
 |:---|:---|
 | **SWOT** | 7S의 내부 요소(S·W)를 상세화하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | **조직 문화** | Shared Values·Style·Staff의 핵심 |
-| **[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)** | 7S 프레임워크의 대표 적용 사례 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong> | 7S 프레임워크의 대표 적용 사례 |
 | **변화 관리** | 7S 기반 조직 변화 계획·실행 |
-| **[CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/)** | Structure 요소의 디지털 리더십 역할 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/">CDO</a></strong> | Structure 요소의 디지털 리더십 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 조직 분석 — 구조·전략 중심]
-    │
-    ▼
-[McKinsey 7S — 하드+소프트 7요소 통합 분석]
-    │
-    ▼
-[DT 맥락 적용 — AI·클라우드 도입 시 7S 정합성 점검]
-    │
-    ▼
-[데이터 기반 7S 진단 — 설문·성과 데이터 정량 분석]
-    │
-    ▼
-[AI 조직 분석 — 자동화된 정합성 평가 및 개선 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 조직 분석 — 구조·전략 중심</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">McKinsey 7S — 하드+소프트 7요소 통합 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DT 맥락 적용 — AI·클라우드 도입 시 7S 정합성 점검</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 기반 7S 진단 — 설문·성과 데이터 정량 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 조직 분석 — 자동화된 정합성 평가 및 개선 추천</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

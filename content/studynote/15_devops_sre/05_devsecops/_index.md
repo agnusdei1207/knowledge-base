@@ -17,31 +17,28 @@ tags = ["devops_sre"]
 
 ### 보안은 더 이상 장애물이 아니다: '보안 내재화'의 철학
 
-전통적인 개발 방식에서 보안은 모든 개발이 끝난 후 마지막에 수행하는 '검문소'였다. 이는 배포 속도를 늦출 뿐만 아니라, 뒤늦게 발견된 취약점을 고치기 위해 코드를 다시 짜야 하는 비효율을 초래했다. **DevSecOps**는 보안을 파이프라인의 모든 단계에 녹여내어, 개발자가 코드를 짜는 순간부터 보안이 자동으로 체크되는 '문화와 기술의 융합'이다.
+전통적인 개발 방식에서 보안은 모든 개발이 끝난 후 마지막에 수행하는 '검문소'였다. 이는 배포 속도를 늦출 뿐만 아니라, 뒤늦게 발견된 취약점을 고치기 위해 코드를 다시 짜야 하는 비효율을 초래했다. <strong>DevSecOps</strong>는 보안을 파이프라인의 모든 단계에 녹여내어, 개발자가 코드를 짜는 순간부터 보안이 자동으로 체크되는 '문화와 기술의 융합'이다.
 
-DevSecOps 및 공급망 보안이 필요한 이유는 세 가지이다. 첫째, **배포 속도와 안전의 동기화**를 위해서이다. 자동화된 보안 검증 없이 하루에 수십 번 배포하는 것은 자살 행위다. 둘째, **오픈소스 취약점 대응**을 위해서이며 (Log4j 사태 등), 셋째, 클라우드 네이티브 환경에서 발생하는 **설정 오류와 컨테이너 위협**을 실시간으로 제어하기 위함이다.
+DevSecOps 및 공급망 보안이 필요한 이유는 세 가지이다. 첫째, <strong>배포 속도와 안전의 동기화</strong>를 위해서이다. 자동화된 보안 검증 없이 하루에 수십 번 배포하는 것은 자살 행위다. 둘째, <strong>오픈소스 취약점 대응</strong>을 위해서이며 (Log4j 사태 등), 셋째, 클라우드 네이티브 환경에서 발생하는 <strong>설정 오류와 컨테이너 위협</strong>을 실시간으로 제어하기 위함이다.
 
 이 그림은 기존의 DevOps 루프에 보안 요소가 어떻게 결합되어 DevSecOps로 진화하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DevSecOps Lifecycle Loop                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│         [ Plan ] ────▶ [ Code ] ────▶ [ Build ] ──┐         │
-│           │              │              │         │         │
-│      (Threat Mod)   (SAST/Lint)    (SCA/SBOM)     │         │
-│           ▲                                       ▼         │
-│           │                                    [ Test ]     │
-│           │                                  (DAST/IAST)    │
-│           │                                       │         │
-│        [ Monitor ] ◀── [ Operate ] ◀── [ Deploy ] ◀┘         │
-│       (SIEM/RASP)     (Zero Trust)   (IaC Scan)             │
-│                                                             │
-│   * 핵심: 모든 단계에 보안 체크포인트(Gate) 자동화          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps Lifecycle Loop</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Plan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Threat Mod) (SAST/Lint) (SCA/SBOM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DAST/IAST)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Operate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Deploy</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SIEM/RASP) (Zero Trust) (IaC Scan)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 모든 단계에 보안 체크포인트(Gate) 자동화</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Shift-Left (보안의 조기 투입)'이다. 빌드와 테스트 단계에서 보안 약점을 미리 잡아내면, 운영 환경에서 사고가 터졌을 때보다 100배 이상의 비용을 아낄 수 있다. 실무에서는 이를 위해 개발자의 IDE에 보안 플러그인을 설치하는 것부터 시작한다.
 
@@ -69,23 +66,22 @@ DevSecOps 및 공급망 보안이 필요한 이유는 세 가지이다. 첫째, 
 - **Image Scanning**: 도커 이미지 내의 OS 취약점 및 악성 설정 탐지 (Trivy, Clair).
 - **IaC Scanning**: Terraform, K8s 매니페스트 파일의 보안 오류 (예: 권한 과다) 탐지.
 
-이 구조도는 **보안 품질 게이트 (Security Quality Gate)**가 적용된 파이프라인 아키텍처를 보여준다.
+이 구조도는 <strong>보안 품질 게이트 (Security Quality Gate)</strong>가 적용된 파이프라인 아키텍처를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DevSecOps Pipeline with Quality Gates       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Commit ] ──▶ [ Static Scan ] ──▶ [ Pass? ] ──▶ [ Build ]│
-│                          │             │ (NO)        │      │
-│                          └─────────────┼────────▶ [ Reject ]│
-│                                        │                    │
-│   [ Deploy ] ◀── [ Runtime Scan ] ◀── [ Pass? ] ◀── [ Test ] │
-│                                                             │
-│   * 핵심: 보안 기준 미달 시 자동화된 파이프라인이 즉시 중단  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps Pipeline with Quality Gates</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Commit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Static Scan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pass?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NO)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reject</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Deploy</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Runtime Scan</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Pass?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안 기준 미달 시 자동화된 파이프라인이 즉시 중단</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '자동화된 거절 (Automated Rejection)'이다. 사람이 미안해서 봐주는 일 없이, 보안 점수가 낮으면 시스템이 무자비하게 배포를 막아야 한다. 실무에서는 이 기준을 어떻게 설정하느냐가 개발팀과 보안팀의 협업 수준을 결정한다.
 
@@ -118,28 +114,27 @@ DevSecOps 및 공급망 보안이 필요한 이유는 세 가지이다. 첫째, 
 ### 기술사적 판단: 전사 DevSecOps 체계 구축 및 거버넌스 전략
 
 **시나리오 1: 보안 점검 때문에 배포가 일주일씩 지연되는 병목 현상 발생**
-- **판단**: 모든 보안 점검을 한꺼번에 하지 않는다. **'Grad적 보안 게이트'**를 설계한다. 개발 단계에서는 크리티컬한 5가지 취약점만 1분 내로 체크하는 '경량 SAST'를 적용하고, 정밀 점검은 주간 빌드로 분리한다. 또한 보안 팀의 역할을 '심판'에서 '도구 제공자'로 전환하여, 개발자가 스스로 보안을 해결하게 돕는 **'Self-serve Security'** 체계를 구축한다.
+- **판단**: 모든 보안 점검을 한꺼번에 하지 않는다. <strong>'Grad적 보안 게이트'</strong>를 설계한다. 개발 단계에서는 크리티컬한 5가지 취약점만 1분 내로 체크하는 '경량 SAST'를 적용하고, 정밀 점검은 주간 빌드로 분리한다. 또한 보안 팀의 역할을 '심판'에서 '도구 제공자'로 전환하여, 개발자가 스스로 보안을 해결하게 돕는 **'Self-serve Security'** 체계를 구축한다.
 
 **시나리오 2: 사용 중인 오픈소스 라이브러리 (Log4j 등)에서 치명적 취약점 발표**
-- **판단**: 수동 전수 조사는 불가능하다. 평소 관리해온 **SBOM (소프트웨어 자산 명세서)**을 즉시 쿼리하여, 해당 라이브러리를 사용하는 모든 서비스 리스트를 10초 내로 추출한다. 이후 취약한 이미지를 **Quarantine (격리)** 처리하고, 파이프라인의 **SCA** 정책을 상향 조정하여 업데이트되지 않은 버전의 빌드를 자동 차단하는 긴급 거버넌스를 가동한다.
+- **판단**: 수동 전수 조사는 불가능하다. 평소 관리해온 <strong>SBOM (소프트웨어 자산 명세서)</strong>을 즉시 쿼리하여, 해당 라이브러리를 사용하는 모든 서비스 리스트를 10초 내로 추출한다. 이후 취약한 이미지를 **Quarantine (격리)** 처리하고, 파이프라인의 **SCA** 정책을 상향 조정하여 업데이트되지 않은 버전의 빌드를 자동 차단하는 긴급 거버넌스를 가동한다.
 
 이 도식은 기술사가 설계하는 '보안 취약점 조치 및 보상 체계'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Security Feedback and Gamification            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Scan Tool ] ──▶ [ Real-time Feedback to Dev ] ──┐       │
-│          ▲                    │ (Score Card)       │        │
-│          │          ┌─────────┴─────────┐          │        │
-│   [ Fix Bug ] ◀── [ High Risk Found ]   │ [ Reward Dev ] ◀──┘│
-│                                                             │
-│   * 기술사 가이드: 보안을 '숙제'가 아닌 '게임'으로 승화     │
-│     보안 점수가 높은 팀에게 인센티브 부여 (Culture Up)      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Feedback and Gamification</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scan Tool</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Real-time Feedback to Dev</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(Score Card)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fix Bug</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">High Risk Found</div><div class="kb-diagram-node">Reward Dev</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: 보안을 '숙제'가 아닌 '게임'으로 승화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 점수가 높은 팀에게 인센티브 부여 (Culture Up)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '공항 보안 검색대의 스마트화'와 같습니다. 모든 승객을 발가벗길 순 없으므로, 위험군(고위험 코드)을 데이터로 선별하고 자동 검색기(SAST/SCA)를 통해 흐름을 막지 않으면서도 테러(해킹)를 완벽히 차단하는 설계자입니다.
 

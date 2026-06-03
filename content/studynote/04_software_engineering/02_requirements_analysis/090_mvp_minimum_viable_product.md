@@ -30,23 +30,23 @@ tags = ["software_engineering"]
 
 MVP의 아키텍처는 제품 완성의 로드맵이 아니라 '가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'의 로드맵이어야 한다. 가장 흔한 오해는 MVP를 거대한 시스템의 1차 부품 조립으로 착각하는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  잘못된 MVP vs 올바른 MVP                    │
-├──────────────────────────────────────────────────────────────┤
-│ [❌ 나쁜 MVP: 부품 방식 - 고객 가치 검증 불가]                  │
-│                                                              │
-│  바퀴 1개 ────▶ 바퀴 2개 ────▶ 차체 조립 ────▶ 자동차 완성  │
-│  (이동 불가)    (이동 불가)     (이동 불가)      (비로소 이동)  │
-│  * 고객은 마지막까지 불만족, 중간 피드백 획득 실패               │
-│                                                              │
-│ [✅ 좋은 MVP: 핵심 가치 방식 - 단계별 생존/이동 가치 제공]       │
-│                                                              │
-│ 스케이트보드 ─▶ 킥보드 ──────▶ 자전거 ───────▶ 자동차 완성  │
-│  (이동 가능!)   (조금 더 편함)   (훨씬 편함)      (가장 편함)    │
-│  * 허접해도 1단계부터 'A에서 B로 이동한다'는 본질적 가치를 검증  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘못된 MVP vs 올바른 MVP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 나쁜 MVP: 부품 방식 - 고객 가치 검증 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바퀴 1개 ▶ 바퀴 2개 ▶ 차체 조립 ▶ 자동차 완성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 불가) (이동 불가) (이동 불가) (비로소 이동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 고객은 마지막까지 불만족, 중간 피드백 획득 실패</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 좋은 MVP: 핵심 가치 방식 - 단계별 생존/이동 가치 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케이트보드 ─▶ 킥보드 ▶ 자전거 ▶ 자동차 완성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 가능!) (조금 더 편함) (훨씬 편함) (가장 편함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 허접해도 1단계부터 'A에서 B로 이동한다'는 본질적 가치를 검증</div></div>
+</div>
+</div>
+
+
 
 올바른 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 아키텍처는 매 단계에서 소프트웨어의 본질적인 기능이 동작(Viable)해야 한다. 고객은 바퀴 하나를 원한 것이 아니라 '이동 수단'을 원했기 때문이다. 스케이트보드는 볼품없지만 당장 오늘부터 고객이 타보고 "생각보다 균형 잡기 힘드네, 손잡이(킥보드)가 있으면 좋겠어"라는 핵심적인 피드백을 줄 수 있게 만든다.
 
@@ -60,10 +60,10 @@ MVP를 구축하는 방법은 꼭 애플리케이션 코딩일 필요조차 없�
 
 | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 유형 | 작동 방식 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 대표 사례 |
 | :--- | :--- | :--- | :--- |
-| **비디오 (Video) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)** | 실제 제품 없이 동작하는 듯한 시연 영상만 제작 | "이 문제가 해결된다면 쓸 것인가?" (수요 입증) | 드롭박스 (Dropbox)의 3분 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) 영상 |
-| **컨시어지 (Concierge) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)**| 뒷단의 자동화 없이 사람이 직접 1:1 수동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | "고객이 돈을 내고 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살 것인가?" | 자포스 (Zappos)의 수동 신발 구매 배송 |
+| <strong>비디오 (Video) <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> | 실제 제품 없이 동작하는 듯한 시연 영상만 제작 | "이 문제가 해결된다면 쓸 것인가?" (수요 입증) | 드롭박스 (Dropbox)의 3분 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) 영상 |
+| <strong>컨시어지 (Concierge) <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong>| 뒷단의 자동화 없이 사람이 직접 1:1 수동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | "고객이 돈을 내고 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살 것인가?" | 자포스 (Zappos)의 수동 신발 구매 배송 |
 | **오즈의 마법사 (Wizard of Oz)** | 겉은 자동화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 같으나, 뒤에서 사람이 수동 처리 | "제품의 UI/UX 흐름이 고객을 설득하는가?" | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 카드 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| **랜딩 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) (Landing [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))** | 기능 설명과 '사전 예약' 버튼만 있는 단일 웹페이지 | "마케팅 메시지가 구매 전환율로 이어지는가?" | 수많은 모바일 앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 티저 |
+| <strong>랜딩 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (Landing <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong> | 기능 설명과 '사전 예약' 버튼만 있는 단일 웹페이지 | "마케팅 메시지가 구매 전환율로 이어지는가?" | 수많은 모바일 앱 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 티저 |
 
 이들은 모두 거대한 백엔드 인프라 아키텍처나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 알고리즘을 구축하지 않고도(저비용), 비즈니스 로직의 타당성(생존 가능성)을 100% 입증해냈다는 공통점을 가진다.
 
@@ -77,7 +77,7 @@ MVP를 구축하는 방법은 꼭 애플리케이션 코딩일 필요조차 없�
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단 포인트
 1. **완벽주의 타파 (Build-Measure-Learn)**: 에릭 리스는 "당신이 처음 출시한 제품이 부끄럽지 않다면, 너무 늦게 출시한 것이다"라고 말했다. 사소한 버그 수정이나 로고 색상을 바꾸느라 출시를 1달 미루고 있다면, 과감히 잘라내고 내일 당장 배포하여 고객의 욕(피드백)을 먹는 것을 선택해야 한다.
-2. **기능의 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/) 방지)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기획 회의에서 마케팅, 영업, 개발팀이 제안하는 "있으면 좋은 기능(Nice-to-have)"들을 무자비하게 쳐내야 한다. 단 하나의 핵심 기능(Must-have)만 남기고 나머지는 모두 백로그로 밀어내어 개발 주기를 2~4주 이내로 압축했는가?
+2. <strong>기능의 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a> 방지)</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기획 회의에서 마케팅, 영업, 개발팀이 제안하는 "있으면 좋은 기능(Nice-to-have)"들을 무자비하게 쳐내야 한다. 단 하나의 핵심 기능(Must-have)만 남기고 나머지는 모두 백로그로 밀어내어 개발 주기를 2~4주 이내로 압축했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 고객 피드백 없이 경영진의 "내 뇌피셜로는 이게 무조건 대박 나"라는 착각에 빠져 1년 내내 지하 연구실에서 거대한 코드를 짜고 있는 '스텔스 모드(Stealth Mode)' 개발. 출시 직후 아무도 쓰지 않는 예쁜 쓰레기로 전락한다.
@@ -100,28 +100,30 @@ MVP는 실패의 비용을 극단적으로 낮춰주는 가장 강력한 보험�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))** | 낭비를 최소화하고 극단적으로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 돌린다는, MVP를 잉태한 상위 경영 철학 |
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론** | MVP의 빠른 출시와 지속적 개선([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))을 뒷받침하는 소프트웨어 개발 프로세스 |
-| **[피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))** | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 테스트 결과, 가설이 틀렸음을 데이터로 확인하고 제품 방향을 틀어버리는 전략적 결단 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">린 스타트업</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | 낭비를 최소화하고 극단적으로 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 돌린다는, MVP를 잉태한 상위 경영 철학 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 방법론</strong> | MVP의 빠른 출시와 지속적 개선([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))을 뒷받침하는 소프트웨어 개발 프로세스 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 테스트 결과, 가설이 틀렸음을 데이터로 확인하고 제품 방향을 틀어버리는 전략적 결단 |
 | **PMF (Product-Market Fit)** | MVP가 시장의 강렬한 요구와 완벽히 맞아떨어져 성장하기 시작하는 궤도 진입 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 폭포수 (Waterfall) 빅뱅 출시 · 실패 리스크 극대화
-    │
-    ▼
-애자일 (Agile) 선언 · 점진적 기능 개발 도입
-    │
-    ▼
-린 스타트업 (Lean Startup) 대두 · 극단적 낭비 제거
-    │
-    ▼
-MVP (최소 존립 제품) 출시 · 가설 검증과 피드백 루프
-    │
-    ▼
-PMF (Product-Market Fit) 달성 및 스케일업 (Scale-up)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 폭포수 (Waterfall) 빅뱅 출시 · 실패 리스크 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 (Agile) 선언 · 점진적 기능 개발 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">린 스타트업 (Lean Startup) 대두 · 극단적 낭비 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP (최소 존립 제품) 출시 · 가설 검증과 피드백 루프</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMF (Product-Market Fit) 달성 및 스케일업 (Scale-up)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 무거운 기획과 거대한 런칭이, 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 위주의 가벼운 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 실험을 거쳐 시장의 선택을 받는 과학적 프로세스로 발전해 왔음을 보여준다.
 

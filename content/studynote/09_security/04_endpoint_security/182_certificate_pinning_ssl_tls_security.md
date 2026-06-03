@@ -23,7 +23,7 @@ tags = ["studynote-security"]
 
 특히 모바일 앱과 엔드포인트 보안에서는 이 약점이 더 크게 드러난다. 사용자가 악성 프로파일을 설치하거나, 탈옥·루팅된 단말에 위조 Root CA가 추가되거나, 공용 와이파이에서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)형 공격이 시도되면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만으로는 위조 서버를 걸러내지 못할 수 있다. 앱이 스스로 "우리 서버의 공개키 지문은 이것뿐"이라고 기억하고 비교해야 하는 이유가 여기에 있다.
 
-즉 핀닝의 필요성은 TLS를 부정하는 데 있지 않다. 오히려 TLS가 제공하는 일반 신뢰 모델 위에, 고가치 앱이 요구하는 **좁고 강한 신뢰 모델**을 추가하는 데 있다. 금융, 의료, 사내 에이전트처럼 서버와 앱을 모두 통제하는 환경일수록 이 선택의 의미가 커진다.
+즉 핀닝의 필요성은 TLS를 부정하는 데 있지 않다. 오히려 TLS가 제공하는 일반 신뢰 모델 위에, 고가치 앱이 요구하는 <strong>좁고 강한 신뢰 모델</strong>을 추가하는 데 있다. 금융, 의료, 사내 에이전트처럼 서버와 앱을 모두 통제하는 환경일수록 이 선택의 의미가 커진다.
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 핀닝은 아파트 정문 경비실만 믿는 것이 아니라, 우리 집 현관문이 가족 지문을 한 번 더 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 이중 잠금장치와 같다.
 
@@ -41,28 +41,27 @@ tags = ["studynote-security"]
 
 아래 그림은 핀닝이 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 대체하는 것이 아니라, 마지막 신뢰 결정을 더 좁게 만드는 계층이라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ TLS session with certificate pinning │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client App │
-│ │ ClientHello / ServerHello │
-│ ▼ │
-│ Server certificate chain │
-│ │ │
-│ ├─ 1) OS / library validation │
-│ │ - trusted CA chain │
-│ │ - validity period │
-│ │ - hostname match │
-│ │ │
-│ └─ 2) App pin validation │
-│ - leaf cert hash or SPKI hash │
-│ - compare with primary / backup pins │
-│ │ │
-│ match ─┴─ allow secure session │
-│ mismatch ─── reject connection and raise alert │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS session with certificate pinning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClientHello / ServerHello</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server certificate chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1) OS / library validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- trusted CA chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validity period</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- hostname match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2) App pin validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- leaf cert hash or SPKI hash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- compare with primary / backup pins</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">match ─ ─ allow secure session</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mismatch reject connection and raise alert</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 설계 포인트는 두 가지다. 첫째, 핀은 한 개만 두지 말고 최소 2개 이상 둬야 한다. 현재 운영 키와 다음 교체 키를 함께 넣어 두어야 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신 시 전체 앱이 동시에 멈추는 일을 피할 수 있다. 둘째, 핀닝은 서버 진위를 더 좁게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이지, 앱 위변조나 메모리 후킹을 자동으로 막아 주는 기술은 아니다. 따라서 모바일 앱에서는 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 루팅·탈옥 탐지, 후킹 탐지와 함께 설계해야 실효성이 높아진다.
 
@@ -81,7 +80,7 @@ tags = ["studynote-security"]
 | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) | "서버뿐 아니라 클라이언트도 승인된 주체인가?" | 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), B2B·내부망 강점 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급·폐기 운영 복잡 |
 | [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/) | "공개 CA가 이상 발급을 했는가?" | 오발급 탐지와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) | 클라이언트에서 즉시 차단하는 수단은 아님 |
 
-즉 핀닝은 mTLS의 대체재가 아니고, Certificate Transparency의 상위 개념도 아니다. 핀닝은 **클라이언트 쪽 신뢰 앵커를 줄이는 기법**, mTLS는 **양방향 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**, Certificate Transparency는 **공개 발급 감시 체계**다. 실무에서는 이들을 조합해 쓴다. 예를 들어 모바일 금융 앱은 핀닝으로 서버 진위를 좁게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 백엔드 간 내부 호출은 mTLS로 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하며, 외부 공개 도메인은 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 모니터링으로 오발급을 감시하는 식이다.
+즉 핀닝은 mTLS의 대체재가 아니고, Certificate Transparency의 상위 개념도 아니다. 핀닝은 **클라이언트 쪽 신뢰 앵커를 줄이는 기법**, mTLS는 <strong>양방향 신원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>, Certificate Transparency는 <strong>공개 발급 감시 체계</strong>다. 실무에서는 이들을 조합해 쓴다. 예를 들어 모바일 금융 앱은 핀닝으로 서버 진위를 좁게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 백엔드 간 내부 호출은 mTLS로 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하며, 외부 공개 도메인은 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 모니터링으로 오발급을 감시하는 식이다.
 
 또한 브라우저 환경에서 [HPKP](/knowledge-base/studynote/09_security/04_endpoint_security/183_hpkp_http_public_key_pinning_deprecated/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Pinning)가 사실상 폐기된 이유도 기억할 필요가 있다. 웹은 다수의 브라우저, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), 제3자 연동, 잦은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 교체를 감당해야 하므로 핀 고정 실패가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 중단으로 이어질 수 있다. 반면 모바일 앱은 배포 채널과 통신 대상 서버를 더 강하게 통제할 수 있어 핀닝이 현실적이다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-security"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "보안이 중요하니 무조건 핀닝"이 아니라, **클라이언트·서버·키 수명주기를 내가 얼마나 통제할 수 있는가**를 먼저 따져야 한다. 자사 모바일 앱이 자사 API만 호출하는 구조라면 공개키 핀닝이 유효하다. 반대로 제3자 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 빈번한 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 교체, 여러 운영 주체가 얽힌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 핀닝이 보안 이득보다 운영 사고를 더 크게 만들 수 있다.
+실무에서는 "보안이 중요하니 무조건 핀닝"이 아니라, <strong>클라이언트·서버·키 수명주기를 내가 얼마나 통제할 수 있는가</strong>를 먼저 따져야 한다. 자사 모바일 앱이 자사 API만 호출하는 구조라면 공개키 핀닝이 유효하다. 반대로 제3자 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 빈번한 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 교체, 여러 운영 주체가 얽힌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 핀닝이 보안 이득보다 운영 사고를 더 크게 만들 수 있다.
 
 | 적용 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
@@ -115,7 +114,7 @@ tags = ["studynote-security"]
 - 핀닝만 적용하면 모바일 역공학과 후킹까지 해결된다고 오해하는 경우
 - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 끄고 핀 비교만 남겨, 기본 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 보안을 오히려 약화시키는 구현
 
-기술사 답안에서는 **"[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 핀닝은 공용 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 신뢰를 좁혀 모바일 MITM 위험을 줄이는 강력한 수단이지만, 키 회전과 앱 배포를 관리할 거버넌스가 함께 있어야 한다"**고 정리하면 핵심이 선명해진다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 핀닝은 공용 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 신뢰를 좁혀 모바일 MITM 위험을 줄이는 강력한 수단이지만, 키 회전과 앱 배포를 관리할 거버넌스가 함께 있어야 한다"</strong>고 정리하면 핵심이 선명해진다.
 
 - **📢 섹션 요약 비유**: 핀닝 운영은 금고 비밀번호를 강하게 거는 일과 같지만, 예비 열쇠와 교체 절차가 없으면 주인도 금고를 못 여는 상황이 된다.
 
@@ -125,7 +124,7 @@ tags = ["studynote-security"]
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 핀닝의 가장 큰 효과는 신뢰 범위를 줄인다는 점이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 기본적으로 신뢰하는 수많은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 전체가 아니라, 내가 지정한 몇 개의 키 또는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 받아들이므로 MITM 성공 가능성을 크게 낮출 수 있다. 특히 고위험 모바일 앱에서는 이 차이가 크다.
 
-하지만 핀닝은 만능 보안책이 아니다. 공격자가 합법적인 서버 개인키를 탈취했다면 핀과도 일치할 수 있고, 앱 자체를 변조해 핀 비교 로직을 우회할 수도 있다. 또한 키 회전 실패, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 핀 부재, 업데이트 지연은 곧바로 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 사고로 이어진다. 즉 핀닝의 진짜 난점은 암호 이론보다 **운영 수명주기 관리**에 있다.
+하지만 핀닝은 만능 보안책이 아니다. 공격자가 합법적인 서버 개인키를 탈취했다면 핀과도 일치할 수 있고, 앱 자체를 변조해 핀 비교 로직을 우회할 수도 있다. 또한 키 회전 실패, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 핀 부재, 업데이트 지연은 곧바로 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 사고로 이어진다. 즉 핀닝의 진짜 난점은 암호 이론보다 <strong>운영 수명주기 관리</strong>에 있다.
 
 결론적으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 핀닝은 "TLS를 더 강하게 만드는 기술"이라기보다, "우리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 신뢰 경계를 의도적으로 좁히는 설계 결정"으로 기억하는 편이 정확하다. 통제 가능한 고가치 모바일 채널에서는 매우 강력하지만, 통제 불가능한 다자간 웹 생태계에서는 신중해야 한다.
 
@@ -146,26 +145,27 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공개 CA 신뢰 기반 TLS
-│
-▼
-운영체제 체인 검증
-│
-├─ 악성 Root CA 설치
-├─ 오발급 인증서
-└─ 프록시형 MITM 위험
-│
-▼
-Pinset(인증서 / SPKI / backup key) 추가 검증
-│
-├─ mismatch -> 연결 차단
-├─ key rotation -> backup pin 필요
-└─ app hardening -> 우회 저항성 강화
-│
-▼
-모바일 고신뢰 채널 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공개 CA 신뢰 기반 TLS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영체제 체인 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:0">악성 Root CA 설치</div>
+<div class="kb-diagram-tree-item" style="--depth:0">오발급 인증서</div>
+<div class="kb-diagram-tree-item" style="--depth:0">프록시형 MITM 위험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pinset(인증서 / SPKI / backup key) 추가 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:0">mismatch -&gt; 연결 차단</div>
+<div class="kb-diagram-tree-item" style="--depth:0">key rotation -&gt; backup pin 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:0">app hardening -&gt; 우회 저항성 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모바일 고신뢰 채널 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 핀닝이 TLS를 대체하는 기술이 아니라, 공개 PKI의 넓은 신뢰를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 다시 좁혀 가는 보완 계층임을 보여 준다.
 

@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 빌더 (Builder)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  빌더 (Builder)                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빌더 (Builder)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 빌더 (Builder)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 작고 단순한 객체가 아니라 **'복잡하게 얽히고 속성이 미치도록 많은 객체'를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때, 한 번의 끔찍한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출로 퉁치지 않고, 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 방법(과정)과 객체를 실제로 표현하는 방법(결과)을 분리하여, "동일한 조립 공정(순서)을 거치면서도 서로 다른 속성값을 가진 객체를 뚝딱 만들어낼 수 있는 단계별(Step-by-step) 조립 패턴"**입니다.
+- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 작고 단순한 객체가 아니라 <strong>'복잡하게 얽히고 속성이 미치도록 많은 객체'를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>할 때, 한 번의 끔찍한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 호출로 퉁치지 않고, 객체를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하는 방법(과정)과 객체를 실제로 표현하는 방법(결과)을 분리하여, "동일한 조립 공정(순서)을 거치면서도 서로 다른 속성값을 가진 객체를 뚝딱 만들어낼 수 있는 단계별(Step-by-step) 조립 패턴"</strong>입니다.
 
 - **📢 섹션 요약 비유**: 빌더 (Builder)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -68,12 +67,12 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-1. **Builder (빌더 껍데기)**: "빵 깔기", "소스 바르기" 같은 **각 조립 단계들의 빈 구멍(인터페이스)**만 정의해 둔 놈입니다.
-2. **ConcreteBuilder (진짜 조립 기계)**: 이 구멍을 상속받아, 진짜로 빵에 얇은 밀가루를 펴 바르고 토마토소스를 바르는 **실제 내부 로직을 구현하는 노가다꾼**입니다. 자기가 만든 완성된 부품 덩어리를 쥐고 있습니다.
+1. **Builder (빌더 껍데기)**: "빵 깔기", "소스 바르기" 같은 <strong>각 조립 단계들의 빈 구멍(인터페이스)</strong>만 정의해 둔 놈입니다.
+2. **ConcreteBuilder (진짜 조립 기계)**: 이 구멍을 상속받아, 진짜로 빵에 얇은 밀가루를 펴 바르고 토마토소스를 바르는 <strong>실제 내부 로직을 구현하는 노가다꾼</strong>입니다. 자기가 만든 완성된 부품 덩어리를 쥐고 있습니다.
 3. **Product (최종 완성품)**: 조립 기계가 한 땀 한 땀 찍어서 최종적으로 내뱉은 '하와이안 피자' 객체 본체입니다.
 4. **Director (감독관 / 디렉터) 🌟**:
    - 2번 노가다꾼을 채찍질하는 놈입니다. 자기는 피자를 못 만듭니다.
-   - 대신 조립 순서를 압니다. "야 기계야! 1. 빵 깔아라 ➜ 2. 소스 발라라 ➜ 3. 치즈 얹어라 ➜ 완성본 내놔!" 라고 **조립의 순서(순서도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))만 캡슐화**해서 지휘합니다.
+   - 대신 조립 순서를 압니다. "야 기계야! 1. 빵 깔아라 ➜ 2. 소스 발라라 ➜ 3. 치즈 얹어라 ➜ 완성본 내놔!" 라고 <strong>조립의 순서(순서도 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)만 캡슐화</strong>해서 지휘합니다.
 
 - **📢 섹션 요약 비유**: 빌더 (Builder)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -93,7 +92,7 @@ tags = ["studynote-software-engineering"]
   `.build();`
 - 내가 넣고 싶은 옵션만 딱딱 명시적으로 이름표를 붙여서 골라 넣을 수 있고(null 똥칠 방지), 마지막에 `.build()` 버튼 하나만 쾅 누르면 완전무결한 뚱뚱한 객체 하나가 안전하게 조립되어 떨어집니다.
 
-> 📢 **섹션 요약 비유**: **빌더(Builder) 패턴**은 서브웨이(Subway) 샌드위치 매장의 **'단계별 샌드위치 조립 시스템'**입니다. 하수 햄버거집([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 하드코딩)은 손님이 "토마토 빼고 올리브 많이 넣고 소스는 칠리 뿌린 치킨버거 주세요"라고 10가지 요구사항을 한 문장(`new`)으로 속사포로 내뱉으면, 직원이 못 알아듣고 엉뚱한 햄버거를 내놓습니다([가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 및 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 에러). 서브웨이(Builder)는 이 무식한 방식을 거부합니다. 손님(Director 감독관)이 유리창을 따라 옆으로 한 발짝씩 걸어가며 조립 기계(ConcreteBuilder)에게 **순서대로 하나씩 명령합니다(단계별 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).** "1단계: 빵은 플랫 브레드로 깔아(Step 1). 2단계: 치즈 빼고 닭고기 올려(Step 2). 3단계: 칠리소스 뿌려(Step 3). 끝! 포장해 줘(Build)!" 복잡하고 요구사항이 수십 개인 거대한 샌드위치(복잡한 객체)라도, 이렇게 순서를 쪼개서 하나씩 재료를 얹어 조립해 나가면 알바생도 절대 헷갈리지 않고 손님이 원하는 완벽한 100% 맞춤형 샌드위치(최종 객체)를 에러 없이 안전하게 찍어낼 수 있는 궁극의 맞춤형 조립 라인입니다.
+> 📢 **섹션 요약 비유**: <strong>빌더(Builder) 패턴</strong>은 서브웨이(Subway) 샌드위치 매장의 <strong>'단계별 샌드위치 조립 시스템'</strong>입니다. 하수 햄버거집([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 하드코딩)은 손님이 "토마토 빼고 올리브 많이 넣고 소스는 칠리 뿌린 치킨버거 주세요"라고 10가지 요구사항을 한 문장(`new`)으로 속사포로 내뱉으면, 직원이 못 알아듣고 엉뚱한 햄버거를 내놓습니다([가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 및 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 에러). 서브웨이(Builder)는 이 무식한 방식을 거부합니다. 손님(Director 감독관)이 유리창을 따라 옆으로 한 발짝씩 걸어가며 조립 기계(ConcreteBuilder)에게 <strong>순서대로 하나씩 명령합니다(단계별 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>).</strong> "1단계: 빵은 플랫 브레드로 깔아(Step 1). 2단계: 치즈 빼고 닭고기 올려(Step 2). 3단계: 칠리소스 뿌려(Step 3). 끝! 포장해 줘(Build)!" 복잡하고 요구사항이 수십 개인 거대한 샌드위치(복잡한 객체)라도, 이렇게 순서를 쪼개서 하나씩 재료를 얹어 조립해 나가면 알바생도 절대 헷갈리지 않고 손님이 원하는 완벽한 100% 맞춤형 샌드위치(최종 객체)를 에러 없이 안전하게 찍어낼 수 있는 궁극의 맞춤형 조립 라인입니다.
 
 - **📢 섹션 요약 비유**: 빌더 (Builder)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -138,21 +137,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-빌더 (Builder) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빌더 (Builder) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

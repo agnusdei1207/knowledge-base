@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 2차 기회 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))은 가장 무식하고 빠른 **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)(원형 큐)의 뼈대 위에, 하드웨어가 제공하는 1비트짜리 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'를 얹어, 최근에 사용된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 한 번 더 살 수 있는 '2차 기회'를 부여**하는 지능형 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 완벽한 LRU의 끔찍한 연산 오버헤드(타임스탬프, 리스트 조작)를 0으로 만들면서도, "최근에 쓴 놈은 살려준다"는 LRU의 핵심 철학을 원형 큐의 포인터 회전만으로 완벽하게 모방(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))하여 **가성비의 극치**를 달성했다.
-> 3. **융합**: 이 기법은 이론과 실무의 완벽한 타협점으로서, 현재 우리가 사용하는 **리눅스(Linux), 윈도우(Windows), 맥(macOS) 등 전 세계 거의 모든 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(Reclaim) 엔진으로 융합되어 천하를 통일**했다.
+> 1. **본질**: 2차 기회 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))은 가장 무식하고 빠른 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(원형 큐)의 뼈대 위에, 하드웨어가 제공하는 1비트짜리 '<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)'를 얹어, 최근에 사용된 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>에게 한 번 더 살 수 있는 '2차 기회'를 부여</strong>하는 지능형 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 완벽한 LRU의 끔찍한 연산 오버헤드(타임스탬프, 리스트 조작)를 0으로 만들면서도, "최근에 쓴 놈은 살려준다"는 LRU의 핵심 철학을 원형 큐의 포인터 회전만으로 완벽하게 모방(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))하여 <strong>가성비의 극치</strong>를 달성했다.
+> 3. **융합**: 이 기법은 이론과 실무의 완벽한 타협점으로서, 현재 우리가 사용하는 <strong>리눅스(Linux), 윈도우(Windows), 맥(macOS) 등 전 세계 거의 모든 범용 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 기본 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>(Reclaim) 엔진으로 융합되어 천하를 통일</strong>했다.
 
 ---
 
@@ -27,30 +27,26 @@ tags = ["studynote-operating-system"]
   2. **1비트 근사의 맹점**: 하드웨어가 달아준 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개만 보니, 수백만 장의 램 중에 0인 놈들이 너무 많아 누굴 죽일지 찾느라 램 전체를 스캔(O(N))하는 렉이 걸림.
   3. **Clock의 등장**: 전체를 찾을 필요 없이 시곗바늘이 멈춘 곳에서부터 돌다가 0이 나오는 순간 그놈만 족치고 스탑! [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 극소화와 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 흉내 내기를 동시에 달성하며 실무의 왕좌에 오름.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│        시계(Clock) 알고리즘의 2차 기회 부여 런타임 시각화         │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [ 둥그런 원형 큐 구조 (램 프레임들) ]                             │
-│                                                                   │
-│        [ 페이지 A (R=1) ]  ◀── (시곗바늘 시작점)                  │
-│       /                 \                                         │
-│ [ 페이지 D (R=1) ]   [ 페이지 B (R=0) ]                           │
-│       \                 /                                         │
-│        [ 페이지 C (R=1) ]                                         │
-│                                                                   │
-│ ▶ 위기: 빈방이 없어서 누군가 쫓아내야 함 (Page Fault)             │
-│                                                                   │
-│ 1️⃣ 바늘이 A를 가리킴: "R=1 이네? 너 살려준다(2차 기회)."         │
-│    -> A의 비트를 R=0 으로 깎아내리고 바늘은 다음으로 이동.        │
-│                                                                   │
-│ 2️⃣ 바늘이 B를 가리킴: "R=0 이네? 너 내가 저번 바퀴에 0으로       │
-│    깎아놨는데 그동안 한 번도 안 썼단 얘기지? 너 당첨! 나가!"      │
-│    -> 💥 B를 디스크로 내쫓고 빈자리에 새 페이지를 끼워 넣음.      │
-│    -> 바늘은 C를 가리킨 상태로 휴식 모드 돌입.                    │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계(Clock) 알고리즘의 2차 기회 부여 런타임 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">둥그런 원형 큐 구조 (램 프레임들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 A (R=1)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (시곗바늘 시작점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 D (R=1)</div><div class="kb-diagram-node">페이지 B (R=0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 C (R=1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기: 빈방이 없어서 누군가 쫓아내야 함 (Page Fault)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 바늘이 A를 가리킴: "R=1 이네? 너 살려준다(2차 기회)."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; A의 비트를 R=0 으로 깎아내리고 바늘은 다음으로 이동.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 바늘이 B를 가리킴: "R=0 이네? 너 내가 저번 바퀴에 0으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깎아놨는데 그동안 한 번도 안 썼단 얘기지? 너 당첨! 나가!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 💥 B를 디스크로 내쫓고 빈자리에 새 페이지를 끼워 넣음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 바늘은 C를 가리킨 상태로 휴식 모드 돌입.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 우아함은 '바늘이 돌면서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내린다'는 데 있다. 내가 아무리 예전에 램에 들어왔어도(FIFO의 맹점 극복), 시곗바늘이 내 앞을 지나가기 직전에 CPU가 날 한 번 터치(R=1)해 주면, 나는 방패(1)를 들고 바늘의 공격을 튕겨내며 생명을 한 바퀴 연장 받는다. 이것이 LRU의 '최근 사용 우대' 철학이 $O(1)$의 회전 큐에 완벽히 스며든 결과다.
 
 - **📢 섹션 요약 비유**: 서바이벌 게임에서 폭탄(시곗바늘)이 순서대로 돌아갑니다. 폭탄을 받았을 때 주머니에 '방어막 코인(R=1)'이 있으면 코인을 내고(R=0) 폭탄을 옆 사람에게 넘길 수 있습니다(2차 기회). 하지만 방어막 코인이 없는 사람(R=0)에게 폭탄이 오면 그 자리에서 즉사([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 쫓겨남)하는 잔혹하고도 공평한 룰렛 게임입니다.
@@ -67,15 +63,15 @@ tags = ["studynote-operating-system"]
 - 1번 방(R=1 -> 0으로 깎음) -> 2번 방(R=1 -> 0으로 깎음) -> ... 400만 번 방(1 -> 0)
 - **한 바퀴를 다 돌았는데 쫓아낼 놈을 한 명도 못 찾았다! (전부 2차 기회를 받아버림)**
 - 결국 바늘은 두 바퀴째를 돌게 되고, 방금 0으로 깎였던 1번 방이 첫 번째 희생양으로 무참히 쫓겨난다.
-- **결론**: 모든 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 때, [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **100% 멍청한 순수 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 퇴화(Degradation)**하여 벨라디의 모순을 터뜨릴 수 있는 약점을 노출한다. 
+- **결론**: 모든 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 때, [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>100% 멍청한 순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 퇴화(Degradation)</strong>하여 벨라디의 모순을 터뜨릴 수 있는 약점을 노출한다. 
 
 ---
 
 ### 하드웨어와 소프트웨어의 역할 분담
 
-1. **하드웨어 ([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))**:
+1. <strong>하드웨어 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)</strong>:
    - OS가 자는 동안 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽으면, 조용히 해당 PTE의 `R 비트`를 `1`로 세팅한다. (Set 연산)
-2. **소프트웨어 (OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), kswapd)**:
+2. <strong>소프트웨어 (OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>, kswapd)</strong>:
    - 램이 모자랄 때 깨어나서 큐를 뱅글뱅글 돌며 `R 비트`를 `0`으로 지우고 쫓아낼 놈을 찾는다. (Clear 및 Eviction 연산)
 
 이 철저한 분업 덕분에, CPU 연산은 조금도 느려지지 않으면서 OS는 백그라운드에서 유유히 램 청소를 할 수 있는 비동기(Asynchronous) 튜닝의 정수가 완성되었다.
@@ -98,7 +94,7 @@ tags = ["studynote-operating-system"]
 ### 개선된 2차 기회 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Enhanced Second-Chance)
 
 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 여기서 한 발 더 진화한다. 
-쫓아낼 때 "디스크에 써야 하는가(Dirty)?"가 속도에 치명적이므로, **[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R)**뿐만 아니라 **[변경 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)(M, Dirty)**까지 묶어서 2비트짜리 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 룰렛을 돌린다.
+쫓아낼 때 "디스크에 써야 하는가(Dirty)?"가 속도에 치명적이므로, <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(R)</strong>뿐만 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">변경 비트</a>(M, Dirty)</strong>까지 묶어서 2비트짜리 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 룰렛을 돌린다.
 
 - `(0, 0)`: 최근 안 씀 + 수정 안 됨 (Clean). -> **[1순위 즉각 사살]** 램에서 그냥 지우면 됨. 개꿀.
 - `(0, 1)`: 최근 안 씀 + 수정됨 (Dirty). -> **[2순위 보류]** 안 쓰긴 하지만, 죽이면 디스크에 써야 해서 8ms 렉 걸림. 살짝 고민.
@@ -107,14 +103,17 @@ tags = ["studynote-operating-system"]
 
 시곗바늘이 돌면서 이 4가지 클래스를 필터링한다. 무조건 `(0, 0)`을 찾을 때까지 바늘을 돌리고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 깎아내린다. 디스크 I/O를 죽어라 피하려는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 눈물겨운 발악이 녹아있는 실전형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 시곗바늘 회전│ 찾는 타겟 (R, M)│ 실패 시 행동  │ 최악의 바퀴 수 │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 1회전    │ (0, 0) 타겟 │ (0,1)은 패스  │ 4바퀴 이상 돌며        │
-│ 2회전    │ (0, 1) 타겟 │ R을 0으로 깎음│ 미친 듯이 스캔함       │
-└──────────┴────────────┴────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시곗바늘 회전</div><div class="kb-diagram-cell">찾는 타겟 (R, M)</div><div class="kb-diagram-cell">실패 시 행동</div><div class="kb-diagram-cell">최악의 바퀴 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회전</div><div class="kb-diagram-cell">(0, 0) 타겟</div><div class="kb-diagram-cell">(0,1)은 패스</div><div class="kb-diagram-cell">4바퀴 이상 돌며</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회전</div><div class="kb-diagram-cell">(0, 1) 타겟</div><div class="kb-diagram-cell">R을 0으로 깎음</div><div class="kb-diagram-cell">미친 듯이 스캔함</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 개선된 Clock은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 끝내주지만, 바늘이 램 400만 장을 4바퀴나 뱅글뱅글 헛돌 수도 있는(OS 데몬 과부하) 위험성을 안고 있다. 실무 OS는 이 바늘이 너무 빨리 돌 때([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Scan Rate 급증)를 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 전조 증상으로 파악하고 비상벨을 울린다.
 
 - **📢 섹션 요약 비유**: 청소할 때 안 쓰는 물건(R=0)을 버리는 걸 넘어, "기왕 버릴 거면 당근마켓에 팔기 귀찮은 물건(Dirty)보다 그냥 쓰레기통에 바로 던지면 되는 물건(Clean)부터 버리자!"라고 얌체같이 우선순위를 짠 극강의 게으름/효율성 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -148,7 +147,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **CPU 오버헤드 99% 삭감** | 순수 LRU의 타임스탬프 갱신과 리스트 정렬 렉을 원형 큐 포인터 하나로 대체하여 0.001초 단위의 교체 엔진 완성 |
-| **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/)) 보전**| 단 1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만으로 "최근에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 쫓아내지 않는다"는 지역성 방어를 완벽에 가깝게 모방해 냄 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/">Hit Ratio</a>) 보전</strong>| 단 1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만으로 "최근에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 쫓아내지 않는다"는 지역성 방어를 완벽에 가깝게 모방해 냄 |
 | **디스크 I/O 최적화 결합** | [변경 비트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)(Dirty)를 탐색 로직에 편입시켜, 16ms가 걸리는 최악의 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 교체를 막고 8ms 클린 교체를 유도 |
 
 ### 결론 및 미래 전망
@@ -170,15 +169,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[LRU 근사 알고리즘 (LRU Approximation)]
-    │
-    ▼
-[2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
-    │
-    ├──▶ [개선된 2차 기회 알고리즘]
-    └──▶ [LFU (Least Frequently Used) 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">개선된 2차 기회 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFU (Least Frequently Used) 알고리즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

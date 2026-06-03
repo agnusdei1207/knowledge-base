@@ -32,23 +32,25 @@ tags = ["studynote-computer-architecture"]
 
 | 요소 | 역할 | 예시 |
 |:---|:---|:---|
-| **코드 포인트 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point)** | 문자에 부여된 고유한 수학적 일련번호 (논리적 주소) | '가' $\rightarrow$ $U+AC00$, 💩 $\rightarrow$ $U+1F4A9$ |
+| <strong>코드 포인트 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Point)</strong> | 문자에 부여된 고유한 수학적 일련번호 (논리적 주소) | '가' $\rightarrow$ $U+AC00$, 💩 $\rightarrow$ $U+1F4A9$ |
 | **인코딩 (Encoding)** | 논리적 주소를 실제 메모리나 디스크에 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))로 변환하여 저장하는 규칙 | [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/), [UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/), UTF-32 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         The Unicode Abstraction Layer: 분리된 두 개의 우주           │
-├──────────────────────────────────────────────────────────────┤
-│  [ STEP 1: 논리적 매핑 (Code Point) ]                          │
-│   '가'라는 문자에 영구 불변의 일련번호를 강제 부여                 │
-│   ──▶ U+AC00 (추상적 번호표일 뿐, 아직 저장된 상태가 아님)           │
-│                                                              │
-│  [ STEP 2: 물리적 저장 (Encoding Scheme) ]                     │
-│   부여받은 U+AC00을 하드디스크나 RAM에 어떻게 비트로 기록할 것인가?    │
-│      * UTF-32: 무조건 4바이트 고정 크기로 넉넉하게 담기 (메모리 낭비)  │
-│      * UTF-8: 문자에 따라 1~4바이트 가변 길이로 압축해서 담기 (통신 효율)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Unicode Abstraction Layer: 분리된 두 개의 우주</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STEP 1: 논리적 매핑 (Code Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'가'라는 문자에 영구 불변의 일련번호를 강제 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ U+AC00 (추상적 번호표일 뿐, 아직 저장된 상태가 아님)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STEP 2: 물리적 저장 (Encoding Scheme)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부여받은 U+AC00을 하드디스크나 RAM에 어떻게 비트로 기록할 것인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UTF-32: 무조건 4바이트 고정 크기로 넉넉하게 담기 (메모리 낭비)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UTF-8: 문자에 따라 1~4바이트 가변 길이로 압축해서 담기 (통신 효율)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 유니코드가 단순히 글자를 저장하는 방식이 아니라, 글자를 추상적인 주소로 먼저 치환하고 물리적 렌더링은 하위 계층([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))에 위임하는 구조임을 보여준다.
 
@@ -63,9 +65,9 @@ tags = ["studynote-computer-architecture"]
 | 유니코드 영역 | 수용 범위 및 특징 | 비유 |
 |:---|:---|:---|
 | **BMP (Basic Multilingual Plane)** | $U+0000 \sim U+FFFF$. 한글, 영어, 한자 등 일상 문자가 집중된 0번 평면 | 쇼핑몰 1층 로열층 명당 |
-| **[SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Supplementary 평면들)** | $U+10000$ 이상. 이모지(Emoji), 고대어 등을 수용하기 위해 증축된 보충 공간 | 16층짜리 증축 옥탑방 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> (Supplementary 평면들)</strong> | $U+10000$ 이상. 이모지(Emoji), 고대어 등을 수용하기 위해 증축된 보충 공간 | 16층짜리 증축 옥탑방 |
 
-또한 유니코드를 실제 물리 메모리에 2바이트 이상으로 저장할 때, CPU 아키텍처에 따라 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 저장 순서인 엔디안(Endianness)이 달라진다. 인텔 CPU([Little Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/))와 IBM CPU([Big Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)) 간의 해석 충돌을 막기 위해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 최상단에 **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark)**을 삽입하여 읽는 방향을 지시한다.
+또한 유니코드를 실제 물리 메모리에 2바이트 이상으로 저장할 때, CPU 아키텍처에 따라 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 저장 순서인 엔디안(Endianness)이 달라진다. 인텔 CPU([Little Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/))와 IBM CPU([Big Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)) 간의 해석 충돌을 막기 위해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 최상단에 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order Mark)</strong>을 삽입하여 읽는 방향을 지시한다.
 
 - **📢 섹션 요약 비유**: BOM은 외국어 편지 첫 줄에 몰래 숨겨둔 '책을 어느 방향으로 읽는지 알려주는 나침반'과 같다. CPU마다 글자를 퍼 담는 순서가 다르므로, 텍스트 문서를 열자마자 첫 줄의 BOM을 보고 역순으로 조립할지 정순으로 읽을지 결정한다.
 
@@ -77,12 +79,12 @@ tags = ["studynote-computer-architecture"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인코딩 용량**: MySQL 등에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) `utf8` 캐릭터셋은 유니코드를 최대 3바이트까지만 할당하는 최적화를 수행했다. 모바일 시대에 4바이트인 이모지(🚀, 💩)가 입력되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘리며(Truncated) 시스템이 뻗는다. 반드시 `utf8mb4` 캐릭터셋을 적용하여 보충 평면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 온전히 수용해야 한다.
-2. **글자 수 산출 및 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))**: macOS(HFS+ [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)는 한글 '가'를 자모 분리형(NFD)으로 다루고, Windows는 완성형(NFC)으로 다룬다. 서로 다른 OS 간에 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름이 교환될 때 글자 수 `len()` 결과가 달라지므로, 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연동 시 반드시 유니코드 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(`normalize('NFC')`) 필터를 적용해야 한다.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 인코딩 용량</strong>: MySQL 등에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) `utf8` 캐릭터셋은 유니코드를 최대 3바이트까지만 할당하는 최적화를 수행했다. 모바일 시대에 4바이트인 이모지(🚀, 💩)가 입력되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘리며(Truncated) 시스템이 뻗는다. 반드시 `utf8mb4` 캐릭터셋을 적용하여 보충 평면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 온전히 수용해야 한다.
+2. <strong>글자 수 산출 및 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong>: macOS(HFS+ [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)는 한글 '가'를 자모 분리형(NFD)으로 다루고, Windows는 완성형(NFC)으로 다룬다. 서로 다른 OS 간에 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름이 교환될 때 글자 수 `len()` 결과가 달라지므로, 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연동 시 반드시 유니코드 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(`normalize('NFC')`) 필터를 적용해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **가변 길이 문자열의 고정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 절단**: UTF-8은 1글자가 1바이트에서 4바이트까지 가변적으로 변한다. C/C++ 등에서 텍스트 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 임의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 위치를 강제로 끊어버리면 한글이나 이모지 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵이 훼손되어 시스템에 대체 문자($U+FFFD$) 테러가 발생한다.
+- <strong>가변 길이 문자열의 고정 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 절단</strong>: UTF-8은 1글자가 1바이트에서 4바이트까지 가변적으로 변한다. C/C++ 등에서 텍스트 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 임의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 위치를 강제로 끊어버리면 한글이나 이모지 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵이 훼손되어 시스템에 대체 문자($U+FFFD$) 테러가 발생한다.
 
 - **📢 섹션 요약 비유**: 가변 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 문자열을 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 자르는 것은 KTX 좌석 예매 시 무조건 한 칸에 한 명이라고 착각하는 것과 같다. 3칸을 차지하고 누운 승객을 강제로 칼로 자르면 팔다리가 찢어져 나가며 수습 불가의 에러가 발생한다.
 
@@ -102,28 +104,30 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) / [UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/)** | 유니코드라는 논리적 번호표를 실제 물리적 디스크 트랙(RAM)에 어떻게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·매핑하여 넣을지 결정하는 구현 레이어 |
-| **코드 포인트 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Point)** | 유니코드 지도 상에서 해당 문자가 할당받은 영구적인 16진수 일련번호 ($U+XXXX$) |
-| **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Order Mark)** | 메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다중 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 나누어 저장할 때 발생하는 CPU 진영 간 역방향 파싱(엔디안) 충돌을 방어하기 위한 헤더 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | 한글의 '한'을 완성형($NFC$)으로 볼지, 분해형($NFD$, $\text{ㅎ}+\text{ㅏ}+\text{ㄴ}$)으로 볼지에 대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간 다양성 충돌을 해결하는 합의 과정 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/">UTF-8</a> / <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/">UTF-16</a></strong> | 유니코드라는 논리적 번호표를 실제 물리적 디스크 트랙(RAM)에 어떻게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·매핑하여 넣을지 결정하는 구현 레이어 |
+| <strong>코드 포인트 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Point)</strong> | 유니코드 지도 상에서 해당 문자가 할당받은 영구적인 16진수 일련번호 ($U+XXXX$) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> Order Mark)</strong> | 메모리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다중 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 나누어 저장할 때 발생하는 CPU 진영 간 역방향 파싱(엔디안) 충돌을 방어하기 위한 헤더 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | 한글의 '한'을 완성형($NFC$)으로 볼지, 분해형($NFD$, $\text{ㅎ}+\text{ㅏ}+\text{ㄴ}$)으로 볼지에 대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간 다양성 충돌을 해결하는 합의 과정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-국가별 독립 인코딩 (ASCII, EUC-KR, Shift-JIS)
-    │
-    ▼
-단일 논리 주소 체계 합의 (Unicode Code Point 발급)
-    │
-    ▼
-가변/고정 물리 저장소 변환 (Encoding: UTF-8, UTF-16, UTF-32)
-    │
-    ▼
-CPU 바이트 순서 파싱 보호 (Endianness 및 BOM 적용)
-    │
-    ▼
-운영체제 간 텍스트 조합 규격 통일 (Normalization: NFC/NFD)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">국가별 독립 인코딩 (ASCII, EUC-KR, Shift-JIS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 논리 주소 체계 합의 (Unicode Code Point 발급)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가변/고정 물리 저장소 변환 (Encoding: UTF-8, UTF-16, UTF-32)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU 바이트 순서 파싱 보호 (Endianness 및 BOM 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영체제 간 텍스트 조합 규격 통일 (Normalization: NFC/NFD)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

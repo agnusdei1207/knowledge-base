@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 2000년대 웹사이트(멀티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션, MPA)는 '장바구니' 버튼을 누르면 화면 전체가 하얗게 변했다가(White Screen of Death) 다시 떴다. 서버에서 헤더, 푸터, 메뉴판을 포함한 거대한 HTML을 다시 렌더링해서 네트워크로 보내야 했기 때문이다. 사람들은 아이폰 앱처럼 탭을 누르면 화면이 휙휙 부드럽게 넘어가는 속도에 익숙해졌고, 과거처럼 깜빡이는 웹사이트는 이탈의 원인이 되었다. "왜 매번 똑같은 헤더와 메뉴판을 서버에서 다운받아야 하지? 알맹이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 바꿔 끼우자!"라는 발상이 절실했다.
 
-- **💡 비유**: MPA(전통적 웹)는 식당에서 볶음밥을 먹다가 "단무지 좀 더 주세요"라고 하면, 웨이터가 볶음밥과 그릇, 수저를 싹 다 치우고 다시 새로운 볶음밥과 단무지가 담긴 완벽한 새 쟁반을 가져다주는 미친 방식입니다. **SPA**는 웨이터가 볶음밥(뼈대)은 놔두고, 조그만 종지에 단무지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 딱 가져와서 빈칸에 채워주는 효율적이고 우아한 서빙 방식입니다.
+- **💡 비유**: MPA(전통적 웹)는 식당에서 볶음밥을 먹다가 "단무지 좀 더 주세요"라고 하면, 웨이터가 볶음밥과 그릇, 수저를 싹 다 치우고 다시 새로운 볶음밥과 단무지가 담긴 완벽한 새 쟁반을 가져다주는 미친 방식입니다. <strong>SPA</strong>는 웨이터가 볶음밥(뼈대)은 놔두고, 조그만 종지에 단무지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 딱 가져와서 빈칸에 채워주는 효율적이고 우아한 서빙 방식입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **AJAX (Asynchronous JavaScript and XML)**: 2005년 구글 맵스(Google Maps)가 화면 새로고침 없이 지도를 이리저리 드래그하는 마법(비동기 통신)을 선보이며 SPA의 시초가 되었다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션 (SPA, 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  단일 페이지 애플리케이션 (SPA,                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 페이지 애플리케이션 (SPA,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션 (SPA, 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션 (SPA, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션 (SPA, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 단일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 애플리케이션 (SPA, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application) 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-단일 페이지 애플리케이션 (SPA, Single Page Application) 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 페이지 애플리케이션 (SPA, Single Page Application) 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

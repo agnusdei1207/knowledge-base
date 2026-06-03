@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 연결된 장치들이 **언제 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 내보내고 언제 읽을지**를 공통 클럭으로 합의한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 방식이다. 즉, 중앙처리장치 (Central Processing Unit, CPU), 메모리, 주변 장치가 제각각 "준비됐나?"를 계속 묻는 대신, 클럭 에지 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Edge)가 오면 미리 약속된 동작을 수행한다.
+동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 연결된 장치들이 <strong>언제 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 내보내고 언제 읽을지</strong>를 공통 클럭으로 합의한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 방식이다. 즉, 중앙처리장치 (Central Processing Unit, CPU), 메모리, 주변 장치가 제각각 "준비됐나?"를 계속 묻는 대신, 클럭 에지 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Edge)가 오면 미리 약속된 동작을 수행한다.
 
 이 방식이 필요해진 이유는 고속 장치 사이 통신에서 제어 오버헤드가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹기 때문이다. CPU와 주기억장치가 나노초 (ns) 단위로 동작하는 환경에서는 매 전송마다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받는 것보다, 1사이클에는 주소를 놓고 2사이클 뒤에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 식으로 타이밍을 고정하는 편이 훨씬 효율적이다. 그래서 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 특히 메인보드 내부의 짧고 빠른 경로, 예를 들어 과거의 [프론트 사이드 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/) (Front Side [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), [FSB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/365_fsb/))나 동기식 메모리 인터페이스에서 강점을 보였다.
 
@@ -43,21 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 "정해진 클럭 수 뒤에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다"는 사실을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Synchronous Bus Cycle : fixed timing contract            │
-├──────────────┬──────────────┬──────────────┬──────────────┬──────────┤
-│ Clock        │      C1      │      C2      │      C3      │    C4    │
-├──────────────┼──────────────┼──────────────┼──────────────┼──────────┤
-│ Master       │ Addr + Read  │ Hold control │ Sample data  │ Finish   │
-│ Slave        │ Decode addr  │ Access data  │ Drive bus    │ Release  │
-│ Data bus     │    ----      │    ----      │  VALID DATA  │   ----   │
-├──────────────┴──────────────┴──────────────┴──────────────┴──────────┤
-│ Rule: data must become valid by the agreed sampling edge.           │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 식은 간단하다. **[클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) ≥ 주소 해석 시간 + 장치 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) + 배선 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) + 안전 마진**이어야 한다. 메모리가 이 시간 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리지 못하면, 마스터는 잘못된 값을 읽게 된다. 그래서 실제 시스템은 느린 장치를 위해 대기 상태를 삽입하거나, 아예 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 분리한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Synchronous Bus Cycle : fixed timing contract</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock</div><div class="kb-diagram-cell">C1</div><div class="kb-diagram-cell">C2</div><div class="kb-diagram-cell">C3</div><div class="kb-diagram-cell">C4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master</div><div class="kb-diagram-cell">Addr + Read</div><div class="kb-diagram-cell">Hold control</div><div class="kb-diagram-cell">Sample data</div><div class="kb-diagram-cell">Finish</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slave</div><div class="kb-diagram-cell">Decode addr</div><div class="kb-diagram-cell">Access data</div><div class="kb-diagram-cell">Drive bus</div><div class="kb-diagram-cell">Release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data bus</div><div class="kb-diagram-cell">----</div><div class="kb-diagram-cell">----</div><div class="kb-diagram-cell">VALID DATA</div><div class="kb-diagram-cell">----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: data must become valid by the agreed sampling edge.</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 식은 간단하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/">클럭 주기</a> ≥ 주소 해석 시간 + 장치 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> + 배선 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> + 안전 마진</strong>이어야 한다. 메모리가 이 시간 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리지 못하면, 마스터는 잘못된 값을 읽게 된다. 그래서 실제 시스템은 느린 장치를 위해 대기 상태를 삽입하거나, 아예 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 분리한다.
 
 또 하나의 핵심은 물리 한계다. 클럭이 빨라질수록 배선 길이 차이에서 생기는 클럭 스큐가 더 치명적이 된다. 인쇄회로기판 (Printed Circuit Board, PCB) 위에서 몇 밀리미터 차이도 고속 인터페이스에서는 무시하기 어렵기 때문에, 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계만이 아니라 배선 정합까지 포함한 타이밍 공학이다.
 
@@ -78,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 
 이 비교는 다른 컴퓨터구조 개념과도 바로 이어진다. 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 동기식 동적 램 ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random Access Memory, [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/))과 이중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송률 ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/), DDR) 계열 메모리의 기반 철학이며, 동시에 멀티클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 설계의 출발점이기도 하다. 반대로 [비동기식 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/349_asynchronous_bus/)는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 중심의 입출력 (Input/Output, I/O) 인터페이스 사고방식과 닿아 있다.
 
-즉, 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 이해한다는 것은 단순히 "클럭이 있다"를 외우는 것이 아니라, **공통 시간축이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올리는 대신 시스템 경계를 더 엄격하게 만든다**는 점을 이해하는 것이다. 그래서 현대 시스템은 빠른 구간은 동기식으로 묶고, 경계에서는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)와 버퍼로 비동기성을 흡수하는 계층형 구조를 선택한다.
+즉, 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 이해한다는 것은 단순히 "클럭이 있다"를 외우는 것이 아니라, <strong>공통 시간축이 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 올리는 대신 시스템 경계를 더 엄격하게 만든다</strong>는 점을 이해하는 것이다. 그래서 현대 시스템은 빠른 구간은 동기식으로 묶고, 경계에서는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)와 버퍼로 비동기성을 흡수하는 계층형 구조를 선택한다.
 
 - **📢 섹션 요약 비유**: 동기식은 군악대 행진처럼 모두가 같은 박자로 움직이는 방식이고, 비동기식은 서로 눈짓을 하며 합을 맞추는 소규모 합주와 같다. 전자는 웅장하고 빠르지만 규율이 필요하고, 후자는 유연하지만 템포가 흔들리기 쉽다.
 
@@ -90,10 +91,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 체크포인트
 
-1. **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 상한**: 가장 느린 장치도 정해진 사이클 안에 응답할 수 있는가?
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> 상한</strong>: 가장 느린 장치도 정해진 사이클 안에 응답할 수 있는가?
 2. **배선 길이 제어**: 보드 배선 길이와 스큐를 관리할 수 있는가?
 3. **대기 상태 허용도**: 느린 장치를 위해 wait state를 넣어도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 만족하는가?
-4. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 필요성**: 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 저속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 분리해야 하는가?
+4. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리 필요성</strong>: 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 저속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 분리해야 하는가?
 
 대표 사례는 [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) 계열 메모리다. 메모리 컨트롤러와 메모리는 같은 클럭 기준으로 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받기 때문에 연속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송에서 높은 효율을 낸다. 다만 속도가 올라갈수록 배선 정합, 타이밍 캘리브레이션, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 관리가 필수이며, 이 부담을 감당하지 못하면 이론 대역폭은 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어지지 않는다.
 
@@ -109,7 +110,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 클럭을 공유해야 하므로 물리적 거리 확장에 불리하고, 서로 다른 속도의 장치를 자연스럽게 수용하기 어렵다. 결국 현대 아키텍처는 "모든 곳을 동기식으로 통일"하지 않고, 고속 핵심 구간에서만 동기식을 강하게 적용한 뒤 경계에서는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 버퍼, 패킷 기반 인터커넥트로 문제를 푼다.
 
-따라서 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "무조건 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"로 기억하기보다, **공통 시간 기준을 무기로 단순성과 고속성을 얻는 대신, 물리 제약과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 비용을 떠안는 구조**로 기억하는 것이 정확하다. 기술사 관점에서도 핵심은 장점 암기가 아니라, 어디까지 동기성을 유지하고 어디서 경계를 끊을지 판단하는 데 있다.
+따라서 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 "무조건 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"로 기억하기보다, <strong>공통 시간 기준을 무기로 단순성과 고속성을 얻는 대신, 물리 제약과 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 비용을 떠안는 구조</strong>로 기억하는 것이 정확하다. 기술사 관점에서도 핵심은 장점 암기가 아니라, 어디까지 동기성을 유지하고 어디서 경계를 끊을지 판단하는 데 있다.
 
 - **📢 섹션 요약 비유**: 좋은 지휘자는 무조건 빠른 템포만 고집하지 않는다. 모든 연주자가 정확히 맞출 수 있는 범위 안에서 템포를 정해야 합주가 아름답게 완성된다.
 
@@ -127,23 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공통 시간 기준 수립
-    │
-    ▼
-동기식 버스 (Synchronous Bus)
-    │
-    ├─▶ 고정 버스 사이클 · 버스트 전송
-    │
-    ▼
-SDRAM (Synchronous Dynamic Random Access Memory)
-    │
-    ▼
-DDR (Double Data Rate) 계열 고속 메모리
-    │
-    ▼
-멀티버스 구조 · 브리지 · 클럭 도메인 분리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공통 시간 기준 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동기식 버스 (Synchronous Bus)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 고정 버스 사이클 · 버스트 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SDRAM (Synchronous Dynamic Random Access Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DDR (Double Data Rate) 계열 고속 메모리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티버스 구조 · 브리지 · 클럭 도메인 분리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "시간 합의"에서 출발해 "고속 메모리 최적화"로 발전하고, 이후에는 다시 "경계 분리"와 "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리"로 확장되는 방향을 보여준다.
 

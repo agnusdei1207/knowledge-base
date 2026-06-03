@@ -25,23 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 완전 연관 사상에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 사라지고, 왜 검색 범위가 전체 캐시가 되는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Fully Associative: no fixed index, any block can use any cache line │
-├──────────────────────────────────────────────────────────────────────┤
-│ address = [ Tag ][ Block Offset ]                                   │
-│            │         │                                               │
-│            │         └─ line 내부 바이트 선택                        │
-│            │                                                         │
-│            └────── requested tag ────────────────────────────────┐    │
-│                                                                  │    │
-│ cache line 0   : [valid][tag A][data] ── compare ─────────────┐  │    │
-│ cache line 1   : [valid][tag B][data] ── compare ─────────────┼──┼──▶ OR ─▶ hit
-│ cache line 2   : [valid][tag C][data] ── compare ─────────────┤  │    │
-│ ...                                                          ... │    │
-│ cache line N-1 : [valid][tag X][data] ── compare ─────────────┘  │    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fully Associative: no fixed index, any block can use any cache line</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">address =</div><div class="kb-diagram-node">Tag</div><div class="kb-diagram-node">Block Offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ line 내부 바이트 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requested tag</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 0 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag A</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag B</div><div class="kb-diagram-node">data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">OR ─▶ hit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 2 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag C</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">cache line N-1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag X</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
+</div>
+</div>
+
+
 
 핵심은 저장 위치를 주소의 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 정하는 것이 아니라, 빈 라인과 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 정한다는 점이다. 그래서 공간 활용은 좋아지지만, 적중 여부를 확인할 때는 전체 후보를 동시에 살펴봐야 한다.
 
@@ -100,7 +100,7 @@ miss 처리 흐름
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 완전 연관 사상은 "무조건 최고 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)"만 보고 채택하지 않는다. 핵심 판단 기준은 **엔트리 수가 작고, 미스 패널티가 매우 크며, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교 비용을 감당할 수 있는가**다. 이 세 조건이 동시에 성립할 때 비로소 완전 연관 사상이 설계 대안이 된다.
+실무에서 완전 연관 사상은 "무조건 최고 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)"만 보고 채택하지 않는다. 핵심 판단 기준은 <strong>엔트리 수가 작고, 미스 패널티가 매우 크며, <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 비교 비용을 감당할 수 있는가</strong>다. 이 세 조건이 동시에 성립할 때 비로소 완전 연관 사상이 설계 대안이 된다.
 
 대표 사례는 메모리 관리 장치 ([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/), [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) 안의 TLB다. TLB는 엔트리 수가 수십~수백 개 수준으로 비교 대상이 작고, 한 번 미스가 나면 [다단계 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/) 탐색 때문에 수십~수백 사이클 손실이 발생한다. 그래서 약간의 하드웨어 비용을 더 지불하더라도 충돌 미스를 줄이는 편이 전체 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 더 이롭다.
 
@@ -119,7 +119,7 @@ miss 처리 흐름
 - conflict miss와 capacity miss를 구분하지 않고 "미스가 많으니 fully associative"로 결론내리는 분석
 - [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 전력과 배선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 무시한 채 개념적으로만 이상적인 구조를 선택하는 판단
 
-기술사 답안에서는 "완전 연관 = 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라고 단정하면 부족하다. 정확한 표현은 **"[적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 관점에서는 가장 유리하지만, [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) time·면적·전력 관점에서는 가장 비싼 구조"** 다. 결국 실무 채택 여부는 이상적 배치보다 전체 메모리 계층의 비용 균형으로 결정된다.
+기술사 답안에서는 "완전 연관 = 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이라고 단정하면 부족하다. 정확한 표현은 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a> 관점에서는 가장 유리하지만, <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">hit</a> time·면적·전력 관점에서는 가장 비싼 구조"</strong> 다. 결국 실무 채택 여부는 이상적 배치보다 전체 메모리 계층의 비용 균형으로 결정된다.
 
 - **📢 섹션 요약 비유**: 완전 연관 사상은 응급실 우선 진료실과 같다. 환자 수가 많지 않고 한 번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적일 때는 최고지만, 동네 모든 외래 진료를 같은 방식으로 운영하면 인력과 비용이 감당되지 않는다.
 
@@ -131,7 +131,7 @@ miss 처리 흐름
 
 하지만 이 장점은 엔트리 수가 작다는 전제 위에서만 유지된다. 규모가 커질수록 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교 회로와 교체 상태 관리 비용이 급격히 증가하고, 그 결과 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 이득보다 적중 시간 손해가 더 커질 수 있다. 현대 시스템이 대부분 [집합 연관 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/269_set_associative_mapping/)을 기본으로 쓰는 이유도 바로 이 현실적 한계 때문이다.
 
-결론적으로 완전 연관 사상은 캐시 설계의 이상형이면서 동시에 경고문이다. 배치 자유도를 끝까지 밀어붙이면 충돌은 사라지지만, 검색 비용이 다시 병목이 된다. 따라서 이 개념은 "가장 좋은 구조"로 기억하기보다, **충돌 제거와 하드웨어 비용 사이 교환관계를 가장 극적으로 보여주는 기준점**으로 기억하는 것이 정확하다.
+결론적으로 완전 연관 사상은 캐시 설계의 이상형이면서 동시에 경고문이다. 배치 자유도를 끝까지 밀어붙이면 충돌은 사라지지만, 검색 비용이 다시 병목이 된다. 따라서 이 개념은 "가장 좋은 구조"로 기억하기보다, <strong>충돌 제거와 하드웨어 비용 사이 교환관계를 가장 극적으로 보여주는 기준점</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 완전 연관 사상은 모두가 원하는 곳에 차를 댈 수 있는 완전 자유 주차장과 같다. 주차 스트레스는 줄지만, 차를 찾고 관리하는 시스템은 훨씬 더 비싸고 복잡해진다.
 
@@ -150,24 +150,24 @@ miss 처리 흐름
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        └─ 충돌 미스 증가
-        │
-        ├─▶ 완전 연관 사상 (Fully Associative)
-        │        │
-        │        ├─ 충돌 미스 제거
-        │        └─ CAM · 교체 정책 비용 증가
-        │
-        ▼
-집합 연관 사상 (Set Associative Mapping)
-        │
-        ▼
-TLB · Victim Cache · TCAM 응용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
+<div class="kb-diagram-note">─ 충돌 미스 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 완전 연관 사상 (Fully Associative)</div>
+<div class="kb-diagram-note">─ 충돌 미스 제거</div>
+<div class="kb-diagram-note">─ CAM · 교체 정책 비용 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB · Victim Cache · TCAM 응용</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 배치 → 충돌 문제 노출 → 자유도 극대화 → 현실적 절충과 특수 응용"으로 이어지는 설계 진화를 보여준다.
 

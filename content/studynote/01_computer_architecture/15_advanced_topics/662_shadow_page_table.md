@@ -23,19 +23,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 어떤 발상으로 만들어졌는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            그림자 페이지 테이블의 핵심: 두 지도를 한 장으로 합성          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Guest Page Table : GVA ──▶ GPA                                            │
-│ Host Mapping     : GPA ──▶ HPA                                            │
-│                                  │                                         │
-│ Hypervisor가 둘을 합성            ▼                                         │
-│ Shadow Page Table: GVA ──▶ HPA                                             │
-│ 중앙 처리 장치 (Central Processing Unit, CPU)의                            │
-│ CR3 (Control Register 3)는 Shadow Page Table을 가리킴                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그림자 페이지 테이블의 핵심: 두 지도를 한 장으로 합성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest Page Table : GVA ──▶ GPA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Mapping : GPA ──▶ HPA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor가 둘을 합성 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shadow Page Table: GVA ──▶ HPA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 처리 장치 (Central Processing Unit, CPU)의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CR3 (Control Register 3)는 Shadow Page Table을 가리킴</div></div>
+</div>
+</div>
+
+
 
 이 방식의 출발점은 단순하다. 하드웨어가 두 번 번역하지 못한다면, 소프트웨어가 미리 번역해 둔 결과를 넣어 주자는 것이다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제품들은 게스트 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 변경될 때마다 그 변화를 감지하고, 이에 대응하는 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 새로 만들거나 수정했다. 즉 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 “하드웨어 한계를 소프트웨어 장인 정신으로 메운” 대표적 기술이다.
 
@@ -125,21 +127,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 단계 MMU 한계
-    │
-    ▼
-그림자 페이지 테이블 합성
-    │
-    ▼
-쓰기 보호 · 트랩 기반 동기화
-    │
-    ▼
-EPT · NPT 같은 하드웨어 2차 페이징
-    │
-    ▼
-메모리 인트로스펙션 · 연구용 제한 활용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 단계 MMU 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">그림자 페이지 테이블 합성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쓰기 보호 · 트랩 기반 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EPT · NPT 같은 하드웨어 2차 페이징</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 인트로스펙션 · 연구용 제한 활용</div>
+</div>
+</div>
+
+
 
 이 흐름은 그림자 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 “주류 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술”에서 “특수 목적의 관찰 기술”로 역할이 이동한 배경을 압축한다.
 

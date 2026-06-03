@@ -18,17 +18,20 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│      정보시스템 감리 5대 영역 (행안부 기준)                  │
-├──────────────────────────────────────────────────────────┤
-│ 1. 사업관리 영역      │ 프로젝트 계획·진도·품질 관리         │
-│ 2. 응용시스템 영역 ★  │ 기능·요구사항·인터페이스 품질        │
-│ 3. 데이터 영역        │ DB 설계·품질·표준화                  │
-│ 4. 아키텍처 영역      │ HW/SW/NW 구성 적절성                 │
-│ 5. 보안 영역          │ 정보보호 통제 적용 여부               │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보시스템 감리 5대 영역 (행안부 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사업관리 영역</div><div class="kb-diagram-cell">프로젝트 계획·진도·품질 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 응용시스템 영역 ★</div><div class="kb-diagram-cell">기능·요구사항·인터페이스 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 영역</div><div class="kb-diagram-cell">DB 설계·품질·표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 아키텍처 영역</div><div class="kb-diagram-cell">HW/SW/NW 구성 적절성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 보안 영역</div><div class="kb-diagram-cell">정보보호 통제 적용 여부</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 응용 시스템 감리는 자동차 품질 검사에서 '기능 테스트'에 해당한다. 엔진(인프라)이 잘 만들어져도 핸들(UI/UX)이 이상하거나 브레이크(오류 처리)가 작동 안 하면 합격이 안 된다.
 
@@ -38,20 +41,23 @@ tags = ["studynote-design-supervision"]
 
 ### 응용 시스템 감리 주요 점검 항목
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│             응용 시스템 감리 체크리스트                     │
-├──────────────────────────────────────────────────────────┤
-│ □ 요구사항 추적         : RTM 기준 구현 완전성 확인         │
-│ □ 입출력 데이터 정확성  : 업무 규칙 준수, 유효성 검증       │
-│ □ 인터페이스 표준       : IF 명세서 준수, 오류 처리 여부     │
-│ □ 배치 처리             : 처리 순서, 오류 시 재처리 여부     │
-│ □ 접근 통제             : 권한별 기능 제어 구현 여부         │
-│ □ 감사 추적             : 주요 업무 로그 기록 여부           │
-│ □ 사용성                : 화면 표준, 사용자 가이드           │
-│ □ 성능                  : 응답 시간 목표값 충족 여부         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 시스템 감리 체크리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 요구사항 추적 : RTM 기준 구현 완전성 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 입출력 데이터 정확성 : 업무 규칙 준수, 유효성 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 인터페이스 표준 : IF 명세서 준수, 오류 처리 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 배치 처리 : 처리 순서, 오류 시 재처리 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 접근 통제 : 권한별 기능 제어 구현 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 감사 추적 : 주요 업무 로그 기록 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 사용성 : 화면 표준, 사용자 가이드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 성능 : 응답 시간 목표값 충족 여부</div></div>
+</div>
+</div>
+
+
 
 ### 인터페이스 감리 포인트
 
@@ -116,29 +122,31 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) (추적 매트릭스)** | 응용 시스템 감리의 핵심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a> (추적 매트릭스)</strong> | 응용 시스템 감리의 핵심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도구 |
 | **인터페이스 명세서** | 연계 시스템 감리의 기준 문서 |
-| **[SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)** | 코드 품질 자동 감리 도구 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a></strong> | 코드 품질 자동 감리 도구 |
 | **전자정부법** | 감리 의무화의 법적 근거 |
 | **감리보고서** | 발견사항·조치요구 공식 문서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 코드 리뷰 — 전통적 품질 검토]
-    │
-    ▼
-[정보시스템 감리 도입 — 5대 영역 체계화]
-    │
-    ▼
-[자동화 도구 (SonarQube, JMeter) — 정량적 품질 측정]
-    │
-    ▼
-[DevSecOps CI/CD 통합 — 개발 중 실시간 감리]
-    │
-    ▼
-[AI 기반 지능형 감리 — 패턴 기반 자동 결함 탐지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 코드 리뷰 — 전통적 품질 검토</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보시스템 감리 도입 — 5대 영역 체계화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 도구 (SonarQube, JMeter) — 정량적 품질 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DevSecOps CI/CD 통합 — 개발 중 실시간 감리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 지능형 감리 — 패턴 기반 자동 결함 탐지</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

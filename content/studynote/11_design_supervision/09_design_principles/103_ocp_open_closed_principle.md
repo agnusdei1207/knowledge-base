@@ -29,29 +29,26 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OCP를 달성하는 가장 강력한 무기는 **인터페이스 (Interface)**와 **다형성 (Polymorphism)**이다. 클라이언트 코드는 구체적인 구현체에 의존하지 않고 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스에만 의존하게 만든다.
+OCP를 달성하는 가장 강력한 무기는 <strong>인터페이스 (Interface)</strong>와 <strong>다형성 (Polymorphism)</strong>이다. 클라이언트 코드는 구체적인 구현체에 의존하지 않고 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 인터페이스에만 의존하게 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    OCP 아키텍처 구조의 원리                    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [기존: OCP 위배 - 강한 결합]                                   │
-│  OrderService ──▶ if (type == "CARD") CardPayment()          │
-│               ──▶ else if (type == "CASH") CashPayment()     │
-│  (* 새 결제 추가 시 OrderService 코드를 직접 수정해야 함)         │
-│                                                              │
-│  [개선: OCP 준수 - 추상화와 다형성]                              │
-│  OrderService ──▶ ◁interface▷ PaymentStrategy              │
-│                           △                                  │
-│                           │                                  │
-│              ┌────────────┼────────────┐                     │
-│              │            │            │                     │
-│         CardPayment  CashPayment  CryptoPayment (새로 추가!) │
-│                                                              │
-│  (* 새 결제 추가 시, 기존 코드 수정 없이 새 클래스만 끼워 넣음)     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCP 아키텍처 구조의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존: OCP 위배 - 강한 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ if (type == "CARD") CardPayment()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ else if (type == "CASH") CashPayment()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(* 새 결제 추가 시 OrderService 코드를 직접 수정해야 함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개선: OCP 준수 - 추상화와 다형성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ ◁interface▷ PaymentStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">△</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CardPayment CashPayment CryptoPayment (새로 추가!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(* 새 결제 추가 시, 기존 코드 수정 없이 새 클래스만 끼워 넣음)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램에서 보듯, 시스템의 행위(결제 방식)를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(PaymentStrategy) 뒤에 숨기면 `CryptoPayment`라는 새로운 요구사항이 들어와도 `OrderService`는 단 한 줄도 수정되지 않는다. 확장에 열려 있고(새 구현체 추가 가능), 수정에 닫혀 있는(OrderService 불변) 상태가 완성되는 것이다.
 
@@ -81,8 +78,8 @@ OCP는 단독으로 존재하지 않으며, SOLID의 다른 원칙들과 강하�
 실무에서 완벽한 100% OCP는 불가능하며 오히려 설계 복잡도만 높이는 '오버 엔지니어링'이 될 수 있다. 따라서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적인 판단이 필요하다.
 
 1. **변경의 축 (Axis of Change) 예측**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 협의하여 "앞으로 무엇이 자주 변할 것인가?"를 예측해야 한다. 결제 수단, 할인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 알림 방식 등 변동성이 높은 곳에만 인터페이스를 방화벽처럼 세워야 한다.
-2. **[의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 프레임워크 활용**: Spring 같은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 컨테이너를 사용하면 클라이언트 코드 변경 없이 외부 설정만으로 실행 시점에 구현체를 싹 교체할 수 있어 완벽한 OCP를 구현할 수 있다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: 한 번도 변경되지 않은 단순한 CRUD 로직까지 무조건 인터페이스와 구현체로 쪼개는 행위는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수만 늘리고 가독성을 해치는 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a> (<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>) 프레임워크 활용</strong>: Spring 같은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 컨테이너를 사용하면 클라이언트 코드 변경 없이 외부 설정만으로 실행 시점에 구현체를 싹 교체할 수 있어 완벽한 OCP를 구현할 수 있다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: 한 번도 변경되지 않은 단순한 CRUD 로직까지 무조건 인터페이스와 구현체로 쪼개는 행위는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수만 늘리고 가독성을 해치는 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 집에 도둑이 들까 봐 모든 방문과 서랍에 복잡한 자물쇠([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))를 채우면 살기가 너무 피곤해집니다. 현관문과 금고(변동성이 크고 중요한 곳)에만 튼튼한 인터페이스를 설치하는 것이 실무적 지혜입니다.
 
@@ -102,31 +99,32 @@ OCP를 제대로 적용하면 시스템은 '수정'이라는 파괴적 행위 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[의존 역전 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/) ([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))** | 구체적인 클래스가 아닌 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(Interface)에 의존해야 OCP가 가능해짐 |
-| **[전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))** | OCP를 코드 수준에서 구현하는 가장 대표적인 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/">의존 역전 원칙</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)</strong> | 구체적인 클래스가 아닌 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(Interface)에 의존해야 OCP가 가능해짐 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/">전략 패턴</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy Pattern</a>)</strong> | OCP를 코드 수준에서 구현하는 가장 대표적인 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) |
 | **파급 효과 (Ripple Effect)** | 한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 수정이 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 연쇄적으로 오류를 일으키는 현상 (OCP로 방지) |
-| **플러그인 아키텍처 (Plugin [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))** | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙을 시스템 수준으로 끌어올린 소프트웨어 구조 |
+| <strong>플러그인 아키텍처 (Plugin <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong> | [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙을 시스템 수준으로 끌어올린 소프트웨어 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절차지향 (Spaghetti Code)
-    │
-    ▼
-모듈화 (함수 분리, 여전히 수정에는 열려있음)
-    │
-    ▼
-추상화 도입 (Interface와 클래스의 분리)
-    │
-    ▼
-다형성 활용 (전략 패턴, 다이나믹 바인딩)
-    │
-    ▼
-개방-폐쇄 원칙 (OCP 달성, 기능 확장의 자유)
-    │
-    ▼
-플러그인 아키텍처 및 마이크로서비스 (시스템 레벨의 OCP)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절차지향 (Spaghetti Code)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈화 (함수 분리, 여전히 수정에는 열려있음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상화 도입 (Interface와 클래스의 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다형성 활용 (전략 패턴, 다이나믹 바인딩)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개방-폐쇄 원칙 (OCP 달성, 기능 확장의 자유)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플러그인 아키텍처 및 마이크로서비스 (시스템 레벨의 OCP)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

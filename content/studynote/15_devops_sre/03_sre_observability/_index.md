@@ -17,34 +17,30 @@ tags = ["devops_sre"]
 
 ### 희망은 전략이 아니다: SRE의 철학
 
-전통적인 운영은 장애가 나지 않기를 기도하는 '희망'에 의존하곤 했다. 하지만 구글이 창안한 **SRE**는 운영을 수학과 공학의 영역으로 끌어올렸다. 시스템은 반드시 고장 난다는 전제하에, "얼마나 고장 나도 괜찮은가?"를 정의하고 이를 관리한다. 또한 현대의 마이크로서비스 (MSA)는 너무나 복잡하여 단순 모니터링만으로는 "왜 시스템이 느린지" 알 수 없다. 이때 필요한 것이 시스템 내부를 투명하게 들여다보는 **관측성**이다.
+전통적인 운영은 장애가 나지 않기를 기도하는 '희망'에 의존하곤 했다. 하지만 구글이 창안한 <strong>SRE</strong>는 운영을 수학과 공학의 영역으로 끌어올렸다. 시스템은 반드시 고장 난다는 전제하에, "얼마나 고장 나도 괜찮은가?"를 정의하고 이를 관리한다. 또한 현대의 마이크로서비스 (MSA)는 너무나 복잡하여 단순 모니터링만으로는 "왜 시스템이 느린지" 알 수 없다. 이때 필요한 것이 시스템 내부를 투명하게 들여다보는 <strong>관측성</strong>이다.
 
-SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, **데이터 기반의 의사결정**을 위해서이다. 감이 아닌 지표 (SLO)를 보고 배포 여부를 결정한다. 둘째, **복잡한 분산 시스템의 가시성 확보**를 위해서이며 (어느 구간에서 병목이 생기는지 추적), 셋째, **엔지니어의 번아웃 방지**를 위해서이다 (자동화를 통해 반복 업무인 Toil 제거).
+SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, <strong>데이터 기반의 의사결정</strong>을 위해서이다. 감이 아닌 지표 (SLO)를 보고 배포 여부를 결정한다. 둘째, <strong>복잡한 분산 시스템의 가시성 확보</strong>를 위해서이며 (어느 구간에서 병목이 생기는지 추적), 셋째, <strong>엔지니어의 번아웃 방지</strong>를 위해서이다 (자동화를 통해 반복 업무인 Toil 제거).
 
 이 그림은 SRE의 핵심 구성 요소인 SLI, SLO, SLA의 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 SRE Reliability Metrics Hierarchy           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ SLA ] (Service Level Agreement) - 비즈니스/법적 약속    │
-│      │                                                      │
-│      ▼                                                      │
-│   [ SLO ] (Service Level Objective) - 내부 관리 목표        │
-│      │                                                      │
-│      ▼                                                      │
-│   [ SLI ] (Service Level Indicator) - 실제 측정 지표        │
-│                                                             │
-│   * 예시:                                                   │
-│     - SLI: 응답 성공률                                      │
-│     - SLO: 한 달간 성공률 99.9% 유지                        │
-│     - SLA: 99.9% 미달 시 요금 환불                          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '보수적인 목표 설정'이다. 고객과의 약속 (SLA)보다는 내부 목표 (SLO)를 더 엄격하게 잡아, 문제가 커지기 전에 미리 대응할 여유를 갖는다. 실무에서는 이 차이가 바로 **에러 버짓 (Error Budget)**이 되어 팀의 혁신 속도를 조절한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE Reliability Metrics Hierarchy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLA</div><div class="kb-diagram-note">(Service Level Agreement) - 비즈니스/법적 약속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLO</div><div class="kb-diagram-note">(Service Level Objective) - 내부 관리 목표</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SLI</div><div class="kb-diagram-note">(Service Level Indicator) - 실제 측정 지표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLI: 응답 성공률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLO: 한 달간 성공률 99.9% 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA: 99.9% 미달 시 요금 환불</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '보수적인 목표 설정'이다. 고객과의 약속 (SLA)보다는 내부 목표 (SLO)를 더 엄격하게 잡아, 문제가 커지기 전에 미리 대응할 여유를 갖는다. 실무에서는 이 차이가 바로 <strong>에러 버짓 (Error Budget)</strong>이 되어 팀의 혁신 속도를 조절한다.
 
 ### 관측성의 3대 기둥 (Three Pillars)
 
@@ -71,27 +67,23 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, **데이터 �
 - **Trace ID**: 요청의 고유 식별자. 모든 서비스 로그에 이 ID를 남겨 연결한다.
 - **Span**: 개별 서비스 내부에서 소요된 시간 단위.
 
-이 구조도는 **Prometheus와 Grafana**를 활용한 현대적 관측성 인프라를 보여준다.
+이 구조도는 <strong>Prometheus와 Grafana</strong>를 활용한 현대적 관측성 인프라를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Observability Stack Architecture            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Target App ] ──▶ [ Exporter / Agent ] ──┐               │
-│                                             │ (Pull/Push)   │
-│   ┌─────────────────────────────────────────┘               │
-│   ▼                                                         │
-│   [ Prometheus (TSDB) ] ──▶ [ Grafana (Dashboards) ]        │
-│          │                          ▲                       │
-│          └──────▶ [ Alertmanager ] ─┘                       │
-│                        │                                    │
-│                 (Slack / PagerDuty)                         │
-│                                                             │
-│   * 핵심: 단순 수치 수집을 넘어, 이상 징후 발생 시 즉시 알람 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observability Stack Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Target App</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Exporter / Agent</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pull/Push)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prometheus (TSDB)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Grafana (Dashboards)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Alertmanager</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Slack / PagerDuty)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 단순 수치 수집을 넘어, 이상 징후 발생 시 즉시 알람</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '실시간성'이다. 시계열 데이터베이스 (TSDB)를 통해 초 단위의 변화를 감지하고, 이를 시각화하여 운영자의 상황 인지 능력을 극대화한다. 실무에서는 이러한 대시보드가 '워룸 (War Room)'의 중심이 되어 빠른 의사결정을 돕는다.
 
@@ -126,28 +118,28 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, **데이터 �
 ### 기술사적 판단: 신뢰성 설계 및 장애 분석 전략
 
 **시나리오 1: 수천 개의 마이크로서비스에서 발생하는 원인 불명의 간헐적 지연 현상**
-- **판단**: 단순 로그로는 추적이 불가능하다. 전사적인 **분산 추적 (Jaeger, Zipkin)** 인프라를 강제한다. 모든 API 호출에 **Trace Context**를 주입하고, 특정 요청이 어느 서비스의 어느 DB 쿼리에서 시간을 소모했는지 시각화한다. 또한 서비스 간 통신에 **서킷 브레이커 (Circuit Breaker)**를 적용하여 지연이 발생하는 서비스를 즉시 격리하는 아키텍처 설계를 수행한다.
+- **판단**: 단순 로그로는 추적이 불가능하다. 전사적인 **분산 추적 (Jaeger, Zipkin)** 인프라를 강제한다. 모든 API 호출에 <strong>Trace Context</strong>를 주입하고, 특정 요청이 어느 서비스의 어느 DB 쿼리에서 시간을 소모했는지 시각화한다. 또한 서비스 간 통신에 <strong>서킷 브레이커 (Circuit Breaker)</strong>를 적용하여 지연이 발생하는 서비스를 즉시 격리하는 아키텍처 설계를 수행한다.
 
 **시나리오 2: 운영 팀의 과도한 수작업 (Toil)으로 인한 엔지니어 이탈 위기**
-- **판단**: **Toil (노고)**의 양을 정량적으로 측정한다. 전체 업무 시간의 50% 이상이 수작업이라면 데브옵스 실패다. "수동 작업을 자동화 코드로 바꾸는 것"을 운영자의 핵심 KPI로 설정한다. 인프라 구축은 **IaC (Terraform)**로, 반복적인 배치는 **Airflow**로 자동화하여 운영자가 시스템의 구조를 개선하는 '엔지니어링'에 집중할 수 있도록 조직 구조를 개편한다.
+- **판단**: <strong>Toil (노고)</strong>의 양을 정량적으로 측정한다. 전체 업무 시간의 50% 이상이 수작업이라면 데브옵스 실패다. "수동 작업을 자동화 코드로 바꾸는 것"을 운영자의 핵심 KPI로 설정한다. 인프라 구축은 <strong>IaC (Terraform)</strong>로, 반복적인 배치는 <strong>Airflow</strong>로 자동화하여 운영자가 시스템의 구조를 개선하는 '엔지니어링'에 집중할 수 있도록 조직 구조를 개편한다.
 
 이 도식은 기술사가 주도하는 '장애 사후 복기 (Post-mortem)'의 표준 템플릿을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Blameless Post-mortem Structure               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. 개요: 발생 시각, 영향도, 감지 경로                     │
-│   2. 타임라인: 최초 징후부터 복구 완료까지의 기록           │
-│   3. 근본 원인 (Root Cause): 5-Whys 분석                    │
-│   4. 대응 과정: 무엇이 잘 되었고, 무엇이 어려웠나?         │
-│   5. 재발 방지 대책: 자동화된 방어막 구축 계획              │
-│                                                             │
-│   * 철학: "사람을 비난하지 말고, 시스템의 구멍을 찾아라"    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless Post-mortem Structure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개요: 발생 시각, 영향도, 감지 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 타임라인: 최초 징후부터 복구 완료까지의 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 근본 원인 (Root Cause): 5-Whys 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 대응 과정: 무엇이 잘 되었고, 무엇이 어려웠나?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 재발 방지 대책: 자동화된 방어막 구축 계획</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "사람을 비난하지 말고, 시스템의 구멍을 찾아라"</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 SRE 판단은 '사고 조사 위원회'의 역할과 같습니다. 비행기 사고가 났을 때 조종사를 탓하기보다, 기체의 결함이나 관제 시스템의 허점을 찾아내어 전 세계 비행기가 다시는 똑같은 사고를 내지 않게 만드는 전문가입니다.
 
@@ -162,7 +154,7 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, **데이터 �
 
 ### 미래 전망: 자율 치유 (Self-healing)와 지능형 관측성
 
-향후 SRE는 사람이 대시보드를 보지 않아도 되는 **AIOps**로 진화할 것이다. AI가 관측성 데이터를 학습하여 장애를 미리 예견하고, 에러 버짓 소모율에 따라 배포 속도를 자동으로 제어할 것이다. 또한 인프라의 복잡성을 완전히 추상화한 **자율 운영 플랫폼**이 등장할 것이다. 기술사는 개별 지표의 모니터링을 넘어, 시스템의 전체적인 '건강 지수'를 정의하고 비즈니스 영속성을 보장하는 '신뢰성 수호자'로 거듭나야 한다.
+향후 SRE는 사람이 대시보드를 보지 않아도 되는 <strong>AIOps</strong>로 진화할 것이다. AI가 관측성 데이터를 학습하여 장애를 미리 예견하고, 에러 버짓 소모율에 따라 배포 속도를 자동으로 제어할 것이다. 또한 인프라의 복잡성을 완전히 추상화한 <strong>자율 운영 플랫폼</strong>이 등장할 것이다. 기술사는 개별 지표의 모니터링을 넘어, 시스템의 전체적인 '건강 지수'를 정의하고 비즈니스 영속성을 보장하는 '신뢰성 수호자'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 SRE는 '자율주행 선박의 인공지능 항해사'와 같아질 것입니다. 항해사는 거친 파도를 미리 읽고 배의 평형을 유지하며, 엔진에 결함이 생기면 스스로 부품을 교체하면서도 목적지를 향해 멈추지 않고 나아가는 완벽한 생존 시스템을 구현할 것입니다.
 

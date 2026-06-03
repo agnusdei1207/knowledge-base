@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: PIM-SM 네트워크의 구심점 역할을 하는 RP(Rendezvous Point)와, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 트래픽의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지 및 최적 분배 트리 구성을 위한 RPF(Reverse Path Forwarding) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
-- **필요성**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 "1개를 받아서 2개로 복사(Flooding)해 던지는" 아주 위험한 기술이다. 라우터 3대가 삼각형으로 묶여있는데 1개가 2개로, 2개가 4개로, 4개가 16개로 복사되며 루프가 돌면 1초 만에 기가비트 백본이 터져버린다(Broadcast Storm). **"어디서 들어온 패킷인지 깐깐하게 검사해서, 정문(최단 경로)으로 들어온 패킷만 통과시키고 뒷문으로 몰래 굴러들어온 중복 패킷은 다 버리자!"**라는 생존 본능이 RPF라는 마법의 검문소를 만들어냈다.
+- **필요성**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 "1개를 받아서 2개로 복사(Flooding)해 던지는" 아주 위험한 기술이다. 라우터 3대가 삼각형으로 묶여있는데 1개가 2개로, 2개가 4개로, 4개가 16개로 복사되며 루프가 돌면 1초 만에 기가비트 백본이 터져버린다(Broadcast Storm). <strong>"어디서 들어온 패킷인지 깐깐하게 검사해서, 정문(최단 경로)으로 들어온 패킷만 통과시키고 뒷문으로 몰래 굴러들어온 중복 패킷은 다 버리자!"</strong>라는 생존 본능이 RPF라는 마법의 검문소를 만들어냈다.
 
 - **💡 비유**: 
-  - **RP**: 소개팅 앱의 **"마담뚜(중매인)"**입니다. 남자(방송국)는 마담뚜에게 프로필을 보내고, 여자(시청자)는 마담뚜에게 소개를 요청합니다. 마담뚜가 없으면 둘은 평생 만나지 못합니다.
-  - **RPF**: 궁궐 문지기의 **"신분증 거꾸로 검사법"**입니다. 문지기(라우터)는 택배가 오면 목적지(누구한테 갈래?)를 보지 않습니다. 택배에 적힌 발송인(부산)을 봅니다. "어? 부산에서 출발한 택배면 KTX(정문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 왔어야지, 왜 배(뒷문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 엉뚱한 데서 들어와? 너 가짜 복제품이지! 버려!"라며 짝퉁 중복 택배를 완벽히 걸러냅니다.
+  - **RP**: 소개팅 앱의 <strong>"마담뚜(중매인)"</strong>입니다. 남자(방송국)는 마담뚜에게 프로필을 보내고, 여자(시청자)는 마담뚜에게 소개를 요청합니다. 마담뚜가 없으면 둘은 평생 만나지 못합니다.
+  - **RPF**: 궁궐 문지기의 <strong>"신분증 거꾸로 검사법"</strong>입니다. 문지기(라우터)는 택배가 오면 목적지(누구한테 갈래?)를 보지 않습니다. 택배에 적힌 발송인(부산)을 봅니다. "어? 부산에서 출발한 택배면 KTX(정문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 왔어야지, 왜 배(뒷문 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 타고 엉뚱한 데서 들어와? 너 가짜 복제품이지! 버려!"라며 짝퉁 중복 택배를 완벽히 걸러냅니다.
 
-```text
-[멀티캐스트 라우팅]
-    │
-    ▼
-[RP, RPF 멀티캐스트 루프 방지]
-    │
-    └──▶ [VRF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RP, RPF 멀티캐스트 루프 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VRF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RP는 모든 혈관이 모이는 **"심장(Heart)"**이며, RPF는 혈액이 거꾸로 역류하여 혈관이 터지는 것을 막아주는 완벽한 1방향 **"판막(Valve)"**입니다. 이 두 기관이 없으면 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 몸통은 단 1분도 살지 못하고 심장마비로 즉사합니다.
 
@@ -51,29 +55,28 @@ tags = ["studynote-network"]
 가장 중요한 핵심이다. 면접이나 트러블슈팅에서 PIM의 작동 여부는 RPF가 결정한다.
 어떤 라우터의 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 영상 패킷이 쏟아져 들어왔다. (출발지 IP: `10.1.1.1` 방송국).
 
-1. 라우터는 영상([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP)을 일단 킵해두고, **출발지 IP(`10.1.1.1`)를 가지고 자신의 유니캐스트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도)을 펴서 거꾸로(Reverse) 검색을 때려본다**.
-2. "내 지도([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))를 보니까, 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1 방송국으로 갈 때는 **1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**로 나가는 게 제일 빠르네!"
+1. 라우터는 영상([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP)을 일단 킵해두고, <strong>출발지 IP(<code>10.1.1.1</code>)를 가지고 자신의 유니캐스트 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> 지도)을 펴서 거꾸로(Reverse) 검색을 때려본다</strong>.
+2. "내 지도([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))를 보니까, 내가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1 방송국으로 갈 때는 <strong>1번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 나가는 게 제일 빠르네!"
 3. **RPF 검사 (일치 여부 판단)**: "어? 내가 OSPF로 갈 때 쓰는 제일 빠른 길(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이랑, 지금 영상이 굴러 들어온 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 완벽히 똑같네? 오케이! 넌 빙빙 돌지 않고 똑바로 최단 거리로 날아온 진짜 찐 패킷이다! 통과 (RPF Success)!"
 4. **RPF 실패 (Drop)**: 만약 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도는 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 제일 빠른데, 영상이 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 기어들어 왔다? "너 이 새끼, 1번으로 안 오고 왜 2번으로 뺑 돌아왔어! 너 어디서 핑퐁(루프) 돌다가 굴러들어온 복제품 찌꺼기 패킷이지! 쓰레기통으로 가라!" ──▶ **즉시 패킷 폐기 (RPF Failure Drop)**.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RPF (역방향 경로 포워딩) 루프 방어 시각화           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 방송국 (10.1.1.1) ]                                        │
- │        │ (정문 1번 포트) ◀── (OSPF 지도로 보면 이쪽이 최단거리!) │
- │        ▼                                                     │
- │     [ 라우터 ] ──── (뒷문 2번 포트) ◀── (어딘가서 뺑뺑 돌다 들어온 패킷)│
- │                                                             │
- │   * 1번 포트로 들어온 패킷:                                      │
- │     "OSPF 지도(1번) == 들어온 포트(1번)" ──▶ 합격! 영상 시청자에게 복사!│
- │                                                             │
- │   * 2번 포트로 들어온 패킷:                                      │
- │     "OSPF 지도(1번) != 들어온 포트(2번)" ──▶ 불합격! 복제된 루프 패킷! │
- │     (만약 이걸 통과시켰으면 스위치로 복사되면서 망이 뻗었을 것이다).   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPF (역방향 경로 포워딩) 루프 방어 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방송국 (10.1.1.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정문 1번 포트) ◀── (OSPF 지도로 보면 이쪽이 최단거리!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (어딘가서 뺑뺑 돌다 들어온 패킷)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1번 포트로 들어온 패킷:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"OSPF 지도(1번) == 들어온 포트(1번)" ──▶ 합격! 영상 시청자에게 복사!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 2번 포트로 들어온 패킷:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"OSPF 지도(1번) != 들어온 포트(2번)" ──▶ 불합격! 복제된 루프 패킷!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(만약 이걸 통과시켰으면 스위치로 복사되면서 망이 뻗었을 것이다).</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -95,7 +98,7 @@ RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-RPF는 "돌아가는 길이 같아야 한다"는 대원칙을 쓴다. 그런데 실무에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 두 대를 놓고 들어오는 길(Inbound)과 나가는 길(Outbound)을 일부러 다르게 세팅해 놓은 **비대칭 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Asymmetric [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))** 환경이라면?
+RPF는 "돌아가는 길이 같아야 한다"는 대원칙을 쓴다. 그런데 실무에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 두 대를 놓고 들어오는 길(Inbound)과 나가는 길(Outbound)을 일부러 다르게 세팅해 놓은 <strong>비대칭 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Asymmetric <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong> 환경이라면?
 - 영상 패킷은 정상적으로 들어왔는데, 라우터가 "어? 나가는 길은 2번 포튼데 넌 1번으로 왔네?"라며 정상 패킷을 RPF Fail로 몽땅 다 쏴 죽여버린다! 
 - **해결책**: 관리자가 억지로 `ip mroute` ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전용 Static [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))을 한 줄 쳐서 "야, 1번으로 들어오는 거 RPF 합격시켜줘!"라고 RPF 검사기를 강제로 속여(수정해) 줘야만 영상이 뚫린다.
 
@@ -128,15 +131,19 @@ RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티캐스트 라우팅]
-    │
-    ▼
-[현재 개념: RP, RPF 멀티캐스트 루프 방지]
-    │
-    ├──▶ [확장 A: VRF]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RP, RPF 멀티캐스트 루프 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VRF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 RP, RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지는 [멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VRF와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

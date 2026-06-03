@@ -30,18 +30,19 @@ tags = ["studynote-enterprise"]
 
 이 아키텍처의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층(Persistence Layer)은 영구적이고 안정적인 공유 스토리지를 활용하고, 연산 계층(Execution Layer)은 필요에 따라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸되는 일시적(Ephemeral)인 구조를 갖는 것이다.
 
-```text
-┌───────────────────────────┐      ┌───────────────────────────┐
-│     연산 계층 (Compute)    │      │     연산 계층 (Compute)    │
-│ [Cluster A - Marketing]   │      │ [Cluster B - Finance]     │
-└─────────────┬─────────────┘      └─────────────┬─────────────┘
-              │                                  │
-              ▼          네트워크 전송           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                  공유 스토리지 계층 (Shared Storage)          │
-│ [Object Storage / Cloud Data Lake / S3 / Blob Storage]       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 계층 (Compute)</div><div class="kb-diagram-cell">연산 계층 (Compute)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster A - Marketing</div><div class="kb-diagram-node">Cluster B - Finance</div></div>
+<div class="kb-diagram-note">▼ 네트워크 전송 ▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 스토리지 계층 (Shared Storage)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Object Storage / Cloud Data Lake / S3 / Blob Storage</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 특징 | 역할 |
 |:---|:---|:---|
@@ -71,7 +72,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 **워크로드의 동적 특성**을 고려하여 도입을 결정한다. 24시간 일정한 부하가 걸리는 환경이라면 결합형이 네트워크 비용 면에서 유리할 수 있으나, 대부분의 기업 분석 환경처럼 특정 시간에만 부하가 몰리는 경우 분리형이 압도적인 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 이점을 제공한다.
+실무에서는 <strong>워크로드의 동적 특성</strong>을 고려하여 도입을 결정한다. 24시간 일정한 부하가 걸리는 환경이라면 결합형이 네트워크 비용 면에서 유리할 수 있으나, 대부분의 기업 분석 환경처럼 특정 시간에만 부하가 몰리는 경우 분리형이 압도적인 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 이점을 제공한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 속도가 연산량 증가 속도보다 훨씬 빠른가?
@@ -87,7 +88,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-스토리지와 컴퓨팅의 분리는 단순히 기술적 변화를 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 **경제적 패러다임**을 바꾼다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저렴하게 쌓아두고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)), 연산은 필요할 때만 강력하게 투입하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능해지기 때문이다.
+스토리지와 컴퓨팅의 분리는 단순히 기술적 변화를 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 <strong>경제적 패러다임</strong>을 바꾼다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저렴하게 쌓아두고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)), 연산은 필요할 때만 강력하게 투입하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능해지기 때문이다.
 
 결론적으로, 이 아키텍처는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 같은 차세대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 근간이며, 기업이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모의 경제를 실현하기 위해 반드시 거쳐야 할 관문이다.
 
@@ -105,21 +106,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-온프레미스 공유 스토리지 (SAN/NAS) 병목
-    │
-    ▼
-Hadoop HDFS - 데이터 로컬리티 강제 결합
-    │
-    ▼
-S3/GCS/ADLS 오브젝트 스토리지 분리 등장
-    │
-    ▼
-Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장
-    │
-    ▼
-Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 공유 스토리지 (SAN/NAS) 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hadoop HDFS - 데이터 로컬리티 강제 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S3/GCS/ADLS 오브젝트 스토리지 분리 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Lakehouse (Delta Lake, Iceberg) - 통합 계층</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/), [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), S3, [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Elasticity
 

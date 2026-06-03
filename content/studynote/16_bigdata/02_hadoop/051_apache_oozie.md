@@ -18,24 +18,22 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│          Oozie 워크플로 구조                               │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  워크플로 DAG:                                            │
-│  [START] → [Sqoop 임포트] → [Hive ETL] → [Pig 집계]      │
-│                                 │                         │
-│                           성공/실패 분기                  │
-│                         /              \                  │
-│                    [이메일 알림]    [오류 처리 잡]          │
-│                         \              /                  │
-│                              [END]                        │
-│                                                           │
-│  코디네이터:                                              │
-│  매일 02:00 → 전날 데이터 준비 확인 → 워크플로 자동 실행  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oozie 워크플로 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크플로 DAG:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">START</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sqoop 임포트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hive ETL</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Pig 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공/실패 분기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이메일 알림</div><div class="kb-diagram-node">오류 처리 잡</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">END</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코디네이터:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매일 02:00 → 전날 데이터 준비 확인 → 워크플로 자동 실행</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Oozie는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공장의 자동화 관리자다. 매일 새벽 원재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 도착을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 순서대로 공정([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 잡)을 실행하며, 문제가 생기면 알림을 보내는 공장 자동화 시스템이다.
 
@@ -116,12 +114,18 @@ Airflow:
 
 ### 마이그레이션: Oozie → Airflow
 
-```text
-1. Oozie XML 워크플로를 Airflow Python DAG로 변환
-2. YARN 직접 실행 → SparkSubmitOperator, HiveOperator
-3. 코디네이터 스케줄 → Airflow cron expression
-4. 데이터 가용성 트리거 → Airflow Sensor (HdfsFileSensor)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. Oozie XML 워크플로를 Airflow Python DAG로 변환</div>
+<div class="kb-diagram-note">2. YARN 직접 실행 → SparkSubmitOperator, HiveOperator</div>
+<div class="kb-diagram-note">3. 코디네이터 스케줄 → Airflow cron expression</div>
+<div class="kb-diagram-note">4. 데이터 가용성 트리거 → Airflow Sensor (HdfsFileSensor)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Oozie → Airflow 마이그레이션은 구형 팩스기에서 이메일로 전환하는 것이다. 기능(문서 전달)은 같지만, 더 빠르고 추적 가능하며 다른 시스템과 통합이 훨씬 쉬워진다.
 
@@ -132,7 +136,7 @@ Airflow:
 | 기대효과 | 내용 |
 |:---|:---|
 | **자동화** | 복잡한 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 |
-| **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링** | 잡 실행 이력·상태 중앙 관리 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong> | 잡 실행 이력·상태 중앙 관리 |
 | **의존성 관리** | [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) 기반 자동 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 환경에서는 Oozie가 여전히 현역이지만, 클라우드 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)로 이전하는 기업들은 Airflow·AWS MWAA·Google Cloud Composer로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 마이그레이션하고 있다.
@@ -145,29 +149,31 @@ Airflow:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/)** | Oozie의 현대적 대안 |
-| **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)** | 워크플로 비순환 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
-| **[Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)** | Oozie 잡 실행 환경 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/">Apache Airflow</a></strong> | Oozie의 현대적 대안 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a></strong> | 워크플로 비순환 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a></strong> | Oozie 잡 실행 환경 |
 | **코디네이터** | 시간/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 워크플로 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 | **NiFi** | GUI 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플로우 관리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Cron + 쉘 스크립트 — 기본 배치 스케줄링]
-    │
-    ▼
-[Apache Oozie — Hadoop 전용 워크플로 스케줄러]
-    │
-    ▼
-[Apache Airflow — Python DAG 기반 범용 오케스트레이터]
-    │
-    ▼
-[클라우드 관리형 — AWS MWAA, GCP Composer]
-    │
-    ▼
-[AI 파이프라인 — MLflow·Kubeflow·Vertex AI 워크플로]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cron + 쉘 스크립트 — 기본 배치 스케줄링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Oozie — Hadoop 전용 워크플로 스케줄러</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Airflow — Python DAG 기반 범용 오케스트레이터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 관리형 — AWS MWAA, GCP Composer</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 파이프라인 — MLflow·Kubeflow·Vertex AI 워크플로</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

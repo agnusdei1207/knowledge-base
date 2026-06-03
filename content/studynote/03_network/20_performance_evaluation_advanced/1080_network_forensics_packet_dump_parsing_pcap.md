@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **컴퓨터(디스크) 포렌식**: 컴퓨터 하드디스크, USB에 남은 삭제된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복원하는 고전적 수사입니다. 클라우드 서버나 1초 만에 휘발되는 램(RAM) 악성코드에는 무용지물입니다.
-- **[네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) ([Network Forensics](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/)) 🌟**:
-  - 공격자가 내부망으로 어떻게 뚫고 들어와서(침입 경로), 어떤 악성코드를 퍼뜨렸고(내부 전파), 최종적으로 어떤 기밀문서를 들고 튀었는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출), **인터넷 랜선을 타고 날아간 '네트워크 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(패킷)' 자체를 가로채어 수집, 분석, 역추적, 증거로 채택하는 사이버 수사 기법**입니다. "패킷은 거짓말을 하지 않는다(Packets never lie)."
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/">네트워크 포렌식</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/">Network Forensics</a>) 🌟</strong>:
+  - 공격자가 내부망으로 어떻게 뚫고 들어와서(침입 경로), 어떤 악성코드를 퍼뜨렸고(내부 전파), 최종적으로 어떤 기밀문서를 들고 튀었는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출), <strong>인터넷 랜선을 타고 날아간 '네트워크 트래픽 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(패킷)' 자체를 가로채어 수집, 분석, 역추적, 증거로 채택하는 사이버 수사 기법</strong>입니다. "패킷은 거짓말을 하지 않는다(Packets never lie)."
 
-```text
-[망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    ▼
-[네트워크 포렌식 패킷 덤프 파싱]
-    │
-    └──▶ [IPS 시그니처 정규식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,20 +46,24 @@ tags = ["studynote-network"]
 
 ### 1. [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/) ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring / SPAN)
 - 회사 길목에 있는 대장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 설정을 건드립니다.
-- "1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터넷 나가는 길)로 지나가는 **모든 패킷을 똑같이 쌍둥이로 복사(Mirroring)**해서 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))로도 던져줘라!" (TAP 장비라는 물리적 Y자 구리선 분배기를 꽂아서 하드웨어적으로 100% 무손실 복사하기도 합니다.)
+- "1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터넷 나가는 길)로 지나가는 <strong>모든 패킷을 똑같이 쌍둥이로 복사(Mirroring)</strong>해서 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))로도 던져줘라!" (TAP 장비라는 물리적 Y자 구리선 분배기를 꽂아서 하드웨어적으로 100% 무손실 복사하기도 합니다.)
 
 ### 2. 패킷 덤프 (Packet Dump)와 PCAP 포맷
 - [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 쏟아지는 초당 1GB의 어마어마한 패킷 쓰레기들을, 감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Wireshark, tcpdump 등)가 차곡차곡 받아 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장합니다. 
-- 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 전 세계 공통 확장자 표준이 바로 **`.pcap` (Packet Capture)**입니다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 범죄자가 친 엔터키(Enter) 1바이트 헥사(Hex) 코드까지 원본 그대로 냉동 보관되어 있습니다.
+- 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 전 세계 공통 확장자 표준이 바로 <strong><code>.pcap</code> (Packet Capture)</strong>입니다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 범죄자가 친 엔터키(Enter) 1바이트 헥사(Hex) 코드까지 원본 그대로 냉동 보관되어 있습니다.
 
-```text
-[망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    ▼
-[네트워크 포렌식 패킷 덤프 파싱]
-    │
-    └──▶ [IPS 시그니처 정규식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,12 +78,12 @@ tags = ["studynote-network"]
 
 - 해커의 IP를 알아냈으니 그 IP가 주고받은 패킷만 필터링식으로 걸러냅니다. (예: `ip.addr == 123.x.x.x`)
 - 패킷의 L4 껍데기([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 까봅니다. "어라? 443([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 웹 통신 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 달고 나갔네? 근데 껍데기를 좀 더 벗겨서 L7 페이로드(속살)를 까보니까, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 웹 문법이 아니라 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송) 명령어인 `RETR` 텍스트가 박혀있잖아?!"
-- **핵심 통찰**: 해커가 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(웹 차단 장비)을 속이려고 **가짜 껍데기([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 변조)를 씌워서 암호화 문서를 빼돌렸음을 파싱(Parsing)으로 완벽하게 적발해 냅니다.**
+- **핵심 통찰**: 해커가 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(웹 차단 장비)을 속이려고 <strong>가짜 껍데기(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 변조)를 씌워서 암호화 문서를 빼돌렸음을 파싱(Parsing)으로 완벽하게 적발해 냅니다.</strong>
 
 ### 3단계: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 스트림 조립과 페이로드(Payload) 복원 (시체 부검)
 - 가장 소름 돋는 마무리입니다. 네트워크로 날아갈 때는 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 패킷 1,000개로 찢어져서 날아갔습니다.
-- 포렌식 분석가는 와이어샤크(Wireshark)에서 해커가 날린 **'[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 스트림 추적(Follow [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))'** 버튼을 딱 누릅니다.
-- 산산조각 났던 1,000개의 패킷 조각(순서 번호 SEQ 맞춤)이 0.1초 만에 찰칵찰칵 조립되면서, **해커가 훔쳐 간 '고객 명부.xlsx' 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 내 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면에 그대로 100% 부활하여 복원(Reassembly)됩니다.** (법정 제출용 완벽한 증거 획득)
+- 포렌식 분석가는 와이어샤크(Wireshark)에서 해커가 날린 <strong>'<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 스트림 추적(Follow <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)'</strong> 버튼을 딱 누릅니다.
+- 산산조각 났던 1,000개의 패킷 조각(순서 번호 SEQ 맞춤)이 0.1초 만에 찰칵찰칵 조립되면서, <strong>해커가 훔쳐 간 '고객 명부.xlsx' 원본 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 내 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> 화면에 그대로 100% 부활하여 복원(Reassembly)됩니다.</strong> (법정 제출용 완벽한 증거 획득)
 
 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델이 기반 조건을 만든다면, [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱은 그 위에서 핵심 메커니즘을 구현하고, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -100,7 +108,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **디스크 포렌식** 수사가 범죄자가 다 불태우고 도망간 뒤 **'남겨진 재투성이 범죄 현장(하드디스크)'을 돋보기로 긁어모으는 뒷북 수사**라면, **[네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/)(패킷 덤프 파싱)**은 범죄자가 침입할 때부터 도망갈 때까지 이용했던 **'아파트 복도 전체의 고화질 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화본(PCAP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'을 0.1초 단위로 돌려보는 완벽한 타임머신 부검**입니다. 수사관(와이어샤크)은 녹화본 10만 시간 분량을 빨리 감기 하며 이상한 놈이 지나간 1분을 찾고([타임라인 분석](/knowledge-base/studynote/09_security/13_secops_ir_forensics/670_timeline_analysis/)), 그놈의 얼굴과 차 번호판(IP와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))을 검색하여 필터링합니다. 그리고 그 도둑놈이 100번에 걸쳐 몰래 쪼개서 들고나간 서류 조각들(패킷 페이로드)을 압수하여 테이프로 다시 이어 붙이면([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 스트림 복원), 도둑놈이 훔쳐 간 완벽한 1급 기밀문서 원본이 내 책상 위에 마법처럼 재탄생하게 되는, 거짓말을 용납하지 않는 통신망의 절대 지문 채취술입니다.
+- **📢 섹션 요약 비유**: 기존 **디스크 포렌식** 수사가 범죄자가 다 불태우고 도망간 뒤 <strong>'남겨진 재투성이 범죄 현장(하드디스크)'을 돋보기로 긁어모으는 뒷북 수사</strong>라면, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/">네트워크 포렌식</a>(패킷 덤프 파싱)</strong>은 범죄자가 침입할 때부터 도망갈 때까지 이용했던 <strong>'아파트 복도 전체의 고화질 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 녹화본(PCAP <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)'을 0.1초 단위로 돌려보는 완벽한 타임머신 부검</strong>입니다. 수사관(와이어샤크)은 녹화본 10만 시간 분량을 빨리 감기 하며 이상한 놈이 지나간 1분을 찾고([타임라인 분석](/knowledge-base/studynote/09_security/13_secops_ir_forensics/670_timeline_analysis/)), 그놈의 얼굴과 차 번호판(IP와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))을 검색하여 필터링합니다. 그리고 그 도둑놈이 100번에 걸쳐 몰래 쪼개서 들고나간 서류 조각들(패킷 페이로드)을 압수하여 테이프로 다시 이어 붙이면([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 스트림 복원), 도둑놈이 훔쳐 간 완벽한 1급 기밀문서 원본이 내 책상 위에 마법처럼 재탄생하게 되는, 거짓말을 용납하지 않는 통신망의 절대 지문 채취술입니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 망분리 논리적 / 물리적 VDI 전이 모델]
-    │
-    ▼
-[현재 개념: 네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ├──▶ [확장 A: IPS 시그니처 정규식]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 망분리 논리적 / 물리적 VDI 전이 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

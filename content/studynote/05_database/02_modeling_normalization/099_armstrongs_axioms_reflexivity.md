@@ -31,23 +31,24 @@ tags = ["database"]
 3. **이행의 공리 (Transitivity Rule)**: $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 이면, $X \rightarrow Z$ 이다.
    - 꼬리물기다. `사번 \rightarrow 부서코드`이고 `부서코드 \rightarrow 부서명`이면, 결과적으로 `사번 \rightarrow 부서명`이 성립한다. [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 위반의 핵심 원인이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  암스트롱의 3대 기본 공리 흐름                │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 반사 (Reflexivity)  : [ X, Y ] ────────────▶ [ Y ]       │
-│                          (전체 집합은 부분 집합을 결정함)     │
-│                                                              │
-│ 2. 첨가 (Augmentation) : [ X ] ─▶ [ Y ]  => [ X, Z ] ─▶ [ Y, Z ] │
-│                          (양쪽에 같은 속성 Z를 더해도 유지됨) │
-│                                                              │
-│ 3. 이행 (Transitivity) : [ X ] ─▶ [ Y ] ─▶ [ Z ]           │
-│                          => [ X ] ───────────▶ [ Z ]       │
-│                          (건너뛰기 결정이 가능함)             │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 세 가지 공리는 **건전성(Soundness, 잘못된 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 만들지 않음)**과 **완전성(Completeness, 모든 참인 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 찾을 수 있음)**을 수학적으로 보장한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암스트롱의 3대 기본 공리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 반사 (Reflexivity) :</div><div class="kb-diagram-node">X, Y</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 집합은 부분 집합을 결정함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 첨가 (Augmentation) :</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">X, Z</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y, Z</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(양쪽에 같은 속성 Z를 더해도 유지됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 이행 (Transitivity) :</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(건너뛰기 결정이 가능함)</div></div>
+</div>
+</div>
+
+
+
+이 세 가지 공리는 <strong>건전성(Soundness, 잘못된 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 만들지 않음)</strong>과 <strong>완전성(Completeness, 모든 참인 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 찾을 수 있음)</strong>을 수학적으로 보장한다.
 
 - **📢 섹션 요약 비유**: 이 규칙들은 마치 '삼단논법'과 같다. "소크라테스는 사람이다(X->Y)", "사람은 죽는다(Y->Z)"를 알면 "소크라테스는 죽는다(X->Z)"는 절대 틀릴 수 없는 결론을 도출하는 뇌 구조다.
 
@@ -70,7 +71,7 @@ tags = ["database"]
 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링에서 암스트롱의 공리 수식을 직접 풀고 있지는 않지만, 이 원리는 테이블 설계의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준으로 강하게 작동한다.
 
 ### 실무 판단 시나리오
-1. **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs 반정규화([Denormalization](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)) 결정**: 테이블 조인 성능을 위해 반정규화를 고려할 때, 이행의 공리로 인해 파생되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복(예: 주문 테이블에 부서명까지 넣기)이 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 일으킬 위험도를 평가해야 한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> vs 반정규화(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">Denormalization</a>) 결정</strong>: 테이블 조인 성능을 위해 반정규화를 고려할 때, 이행의 공리로 인해 파생되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복(예: 주문 테이블에 부서명까지 넣기)이 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)을 일으킬 위험도를 평가해야 한다.
 2. **복합 기본키(PK) 설계**: 첨가 및 연합의 규칙을 무의식적으로 적용하여 불필요하게 긴 복합 PK를 만들지 않았는지(부분 종속 발생 가능성) 점검해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -98,21 +99,24 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 룰 분석
-    │
-    ▼
-명시적 함수적 종속성 (FD) 도출
-    │
-    ▼
-암스트롱의 공리 (Armstrong's Axioms) 적용
-    │ (반사, 첨가, 이행을 통한 폐포 F+ 계산)
-    ▼
-숨겨진 종속성 (이행적 종속 등) 발견
-    │
-    ▼
-정규화 (Normalization) 및 무손실 분해 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 룰 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명시적 함수적 종속성 (FD) 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암스트롱의 공리 (Armstrong's Axioms) 적용</div>
+<div class="kb-diagram-note">(반사, 첨가, 이행을 통한 폐포 F+ 계산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">숨겨진 종속성 (이행적 종속 등) 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 (Normalization) 및 무손실 분해 검증</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

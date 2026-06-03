@@ -33,24 +33,25 @@ tags = ["enterprise_systems"]
 | 핵심 원인 (4요소) | 메커니즘 묘사 | 결과적 왜곡 |
 | :--- | :--- | :--- |
 | **1. 수요 예측의 착각 (Demand Forecast Updating)** | 최종 소비자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이 바로 앞 거래처의 주문량만 보고 미래를 과장되게 예측함 | 가짜 수요(거품) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **2. 일괄 주문 (Order [Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))** | 운송비나 행정 비용을 아끼려고 주문을 모았다가 월말에 한 번에 쏟아냄 | 튀는 주문 패턴([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 발생 |
+| <strong>2. 일괄 주문 (Order <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)</strong> | 운송비나 행정 비용을 아끼려고 주문을 모았다가 월말에 한 번에 쏟아냄 | 튀는 주문 패턴([스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 발생 |
 | **3. 가격 변동 (Price Fluctuation)** | 제조사의 할인 프로모션에 도매상들이 쌀 때 쟁여놓으려고 미친 듯이 매점매석함 | 비정상적 가수요([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Buying) |
-| **4. 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 할당 (Rationing & Shortage Gaming)** | 물건이 부족할 때 공급자가 쪼개서 준다고 하면, 더 받으려고 일부러 뻥튀기 주문을 넣음 | 주문량 조작 및 재고 폭탄 |
+| <strong>4. 배송 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 및 할당 (Rationing &amp; Shortage Gaming)</strong> | 물건이 부족할 때 공급자가 쪼개서 준다고 하면, 더 받으려고 일부러 뻥튀기 주문을 넣음 | 주문량 조작 및 재고 폭탄 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  채찍 효과 (Bullwhip Effect)의 증폭 과정            │
-├──────────────────────────────────────────────────────────────┤
-│               (수요 변동성 그래프: 오른쪽으로 갈수록 파동이 커짐)     │
-│                                                              │
-│ [소비자]    [소매상 (마트)]    [도매상 (물류센터)]     [제조사 (공장)]  │
-│  ±10%  ──▶    ±30%    ───▶      ±80%      ────▶    ±200%    │
-│  〰️〰️       ∿∿∿∿        〽️〽️〽️〽️         🌊🌊🌊🌊🌊 │
-│ (실제소비)  (안전재고 추가)   (일괄주문/할인)     (예측실패 폭주)  │
-│                                                              │
-│ ❌ 문제: 제조사는 "소비자가 200% 늘었다"고 착각하고 공장을 풀가동함  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채찍 효과 (Bullwhip Effect)의 증폭 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수요 변동성 그래프: 오른쪽으로 갈수록 파동이 커짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소비자</div><div class="kb-diagram-node">소매상 (마트)</div><div class="kb-diagram-node">도매상 (물류센터)</div><div class="kb-diagram-node">제조사 (공장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">±10% ──▶ ±30% ▶ ±80% ▶ ±200%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">〰️〰️ ∿∿∿∿ 〽️〽️〽️〽️ 🌊🌊🌊🌊🌊</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실제소비) (안전재고 추가) (일괄주문/할인) (예측실패 폭주)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 문제: 제조사는 "소비자가 200% 늘었다"고 착각하고 공장을 풀가동함</div></div>
+</div>
+</div>
+
+
 
 다이어그램이 보여주듯, 각 단계마다 자신들만의 '안전 재고 버퍼'를 더하는 순간 정보의 노이즈는 기하급수적으로 커진다. 이 노이즈를 걷어내는 유일한 방법은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(사슬)을 투명한 유리관으로 만드는 것뿐이다.
 
@@ -82,9 +83,9 @@ IT 시스템의 발달은 제조사가 소매점의 계산대(POS) [데이터](/
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 해결 방안
 
 1. **정보 공유 체계 (CPFR 도입)**: 협력적 계획/예측/보충(CPFR) 프로세스를 구축하여, 제조사와 유통사가 엑셀을 주고받는 게 아니라 하나의 통합 플랫폼에서 POS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 바라보도록 한다.
-2. **벤더 주도 재고 관리 ([VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 적용)**: 소매상이 발주를 넣는 게 아니라, 벤더(제조사)가 알아서 소매점의 재고를 실시간 파악하고 빈 매대를 채워주는 권한을 위임받아 발주 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 없앤다.
+2. <strong>벤더 주도 재고 관리 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> 적용)</strong>: 소매상이 발주를 넣는 게 아니라, 벤더(제조사)가 알아서 소매점의 재고를 실시간 파악하고 빈 매대를 채워주는 권한을 위임받아 발주 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 없앤다.
 3. **일괄 주문 타파**: IT 물류 최적화([TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))를 통해 소량 다빈도 배송을 경제적으로 만들어 큼지막한 배치(Batch) 주문의 파동을 줄인다.
-4. **가격 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 안정화 (EDLP)**: 월마트처럼 '매일매일 싼 가격(Every Day Low Price)' [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 유지해, 도매상들이 세일 기간을 노려 사재기([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Buying)를 하는 꼼수를 원천 차단한다.
+4. <strong>가격 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 안정화 (EDLP)</strong>: 월마트처럼 '매일매일 싼 가격(Every Day Low Price)' [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 유지해, 도매상들이 세일 기간을 노려 사재기([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Buying)를 하는 꼼수를 원천 차단한다.
 
 - **📢 섹션 요약 비유**: 채찍 효과를 잠재우는 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 설계는 고속도로 톨게이트의 하이패스를 설치하는 것과 같다. 중간중간 차를 세우고(재고 비축) 통행권을 끊는(발주서 작성) 낡은 장벽을 허물어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 막힘없이 공장까지 쌩쌩 달리게 만드는 것이다.
 
@@ -104,28 +105,30 @@ IT 시스템의 발달은 제조사가 소매점의 계산대(POS) [데이터](/
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리)** | 채찍 효과가 발생하는 거대한 기업 간 물류/정보 네트워크 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 관리)</strong> | 채찍 효과가 발생하는 거대한 기업 간 물류/정보 네트워크 |
 | **CPFR (협력적 계획/예측/보충)** | 제조사와 유통사가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 공유해 채찍 효과를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하는 기법 |
-| **[VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) (공급자 재고 관리)** | 소매상 대신 제조사가 직접 재고를 채워넣어 발주 뻥튀기를 막는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **EDLP (상시 저가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))** | 사재기로 인한 수요 왜곡을 막기 위한 마케팅/가격 통제 수단 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (공급자 재고 관리)</strong> | 소매상 대신 제조사가 직접 재고를 채워넣어 발주 뻥튀기를 막는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong>EDLP (상시 저가 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)</strong> | 사재기로 인한 수요 왜곡을 막기 위한 마케팅/가격 통제 수단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정보 단절 및 Push 방식 공급망 구조
-    │
-    ▼
-정보 비대칭 발생 ➔ 채찍 효과 (Bullwhip Effect) 극대화
-    │
-    ▼
-POS 데이터 공유 및 Pull 방식 (JIT) 전환
-    │
-    ▼
-기업 간 시스템 통합 (VMI, CPFR 도입)
-    │
-    ▼
-AI 수요 예측 및 블록체인 기반 실시간 투명성 확보 (차세대 SCM)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정보 단절 및 Push 방식 공급망 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 비대칭 발생 ➔ 채찍 효과 (Bullwhip Effect) 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">POS 데이터 공유 및 Pull 방식 (JIT) 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기업 간 시스템 통합 (VMI, CPFR 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 수요 예측 및 블록체인 기반 실시간 투명성 확보 (차세대 SCM)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 재앙인 채찍 효과를 인지한 후, 이를 극복하기 위해 단순 정보 공유에서 시스템 결합, 궁극적으로 AI와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반의 완벽한 투명성으로 진화해 온 과정을 보여준다.
 

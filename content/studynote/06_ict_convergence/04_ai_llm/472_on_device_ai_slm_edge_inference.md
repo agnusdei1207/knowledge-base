@@ -21,13 +21,13 @@ tags = ["studynote-ict-convergence"]
 
 GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) GPU가 필요하다. 그러나 스마트폰 앱, 차량 내 음성 인식, 산업 현장 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에서는 클라우드 연결 없이 즉시 응답이 필요하다.
 
-**온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 필요 시나리오**
+<strong>온디바이스 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 필요 시나리오</strong>
 - 프라이버시 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 의료 음성 기록, 금융 거래 분석
 - 오프라인 환경: 비행기, 지하, 원격 현장
 - [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 자율주행 보조, 실시간 번역
 - 비용 절감: 클라우드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 비용 제거 (GPT-4 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ≈ $0.03/1K tokens)
 
-**[SLM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/) 대표 모델 (7B 이하)**
+<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/313_slm/">SLM</a> 대표 모델 (7B 이하)</strong>
 
 | 모델 | 파라미터 | 개발사 | 특징 |
 |:---:|:---:|:---:|:---|
@@ -42,36 +42,35 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────┐
-│              온디바이스 AI 스택               │
-│                                              │
-│  ┌─────────┐  경량화  ┌──────────────────┐  │
-│  │  원본    │ ───────► │  경량 모델        │  │
-│  │  LLM    │          │ ┌──────────────┐ │  │
-│  │  (70B)  │ 양자화   │ │ INT4 Weight  │ │  │
-│  └─────────┘ 프루닝   │ │ 4GB VRAM     │ │  │
-│              증류     │ └──────────────┘ │  │
-│                       └──────────────────┘  │
-│                              │               │
-│                       ┌──────▼──────┐        │
-│                       │  NPU 가속   │        │
-│                       │(Hexagon/ANE)│        │
-│                       └─────────────┘        │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온디바이스 AI 스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경량화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">경량 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(70B)</div><div class="kb-diagram-cell">양자화</div><div class="kb-diagram-cell">INT4 Weight</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프루닝</div><div class="kb-diagram-cell">4GB VRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPU 가속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hexagon/ANE)</div></div>
+</div>
+</div>
+
+
 
 **모델 경량화 3대 기법**
 
-**1. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32 → INT8 → INT4로 낮춤
+<strong>1. <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 FP32 → INT8 → INT4로 낮춤
 - FP32(32bit) → INT4(4bit): 메모리 87.5% 절감, 추론 속도 2~4배 향상
 - 도구: GGUF(llama.cpp), AWQ, GPTQ
 
-**2. 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/), [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))**: 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(~0에 가까운 값) 제거
+<strong>2. 프루닝(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)</strong>: 중요도 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(~0에 가까운 값) 제거
 - 구조적 프루닝: 뉴런/레이어 단위 제거 → 하드웨어 최적화 용이
 - 비구조적 프루닝: 개별 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거 → 높은 압축률, 하드웨어 지원 필요
 
-**3. [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))**: 대형 교사(Teacher) 모델의 소프트 레이블(Soft Label)로 소형 학생(Student) 모델 학습
+<strong>3. <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">지식 증류</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/">Knowledge Distillation</a>)</strong>: 대형 교사(Teacher) 모델의 소프트 레이블(Soft Label)로 소형 학생(Student) 모델 학습
 - DistilBERT: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 40% 파라미터 감소, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 97% 유지
 
 ### 경량화 기법 비교
@@ -115,9 +114,9 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 **배포 프레임워크**
 - **llama.cpp**: CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 혼합, GGUF 포맷, 크로스 플랫폼
-- **MediaPipe [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)**: Google, 모바일 특화, Android/iOS
+- <strong>MediaPipe <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a></strong>: Google, 모바일 특화, Android/iOS
 - **Core ML**: Apple ANE 최적화, iOS/macOS 전용
-- **MLC [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)**: 다양한 하드웨어 자동 최적화
+- <strong>MLC <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a></strong>: 다양한 하드웨어 자동 최적화
 
 **기술사 판단 포인트**
 

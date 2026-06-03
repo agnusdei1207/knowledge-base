@@ -25,15 +25,21 @@ tags = ["data_engineering"]
 따라서, 운영 서비스의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에 영향을 주지 않으면서 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳으로 모아 포맷을 통일(정제)하고, 오직 대규모 조회(Read) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 최적화된 새로운 저장 시스템과 아키텍처가 필연적으로 탄생하게 되었다.
 
 [OLTP와 OLAP의 경합 및 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 분리 배경 (문제 배경도)]
-```text
-[과거: 단일 DB의 비극]
-Client (초당 1만건 트랜잭션) ──> [ 영업 OLTP DB ] <── 분석가 (수십억 건 GROUP BY 쿼리)
-                                (🚨 CPU/락 경합 발생, 서비스 마비)
-                                        ↓
-[현재: DW 분리 아키텍처 (해결)]
-[ 영업 OLTP ] ──(ETL 새벽 복제)──> [ 전사 Data Warehouse (OLAP) ] ──> 분석가 (안전한 쿼리)
-[ 재무 OLTP ] ──(정제/포맷통일)──> (읽기 전용, 통계 최적화 구조)     ──> 대시보드(BI)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 단일 DB의 비극</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Client (초당 1만건 트랜잭션) ──&gt;</div><div class="kb-diagram-node">영업 OLTP DB</div><div class="kb-diagram-note">&lt;── 분석가 (수십억 건 GROUP BY 쿼리)</div></div>
+<div class="kb-diagram-note">(🚨 CPU/락 경합 발생, 서비스 마비)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DW 분리 아키텍처 (해결)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영업 OLTP</div><div class="kb-diagram-note">──(ETL 새벽 복제)──&gt;</div><div class="kb-diagram-node">전사 Data Warehouse (OLAP)</div><div class="kb-diagram-note">──&gt; 분석가 (안전한 쿼리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재무 OLTP</div><div class="kb-diagram-note">──(정제/포맷통일)──&gt; (읽기 전용, 통계 최적화 구조) ──&gt; 대시보드(BI)</div></div>
+</div>
+</div>
+
+
 이 도식은 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 등장한 가장 큰 구조적 원인을 보여준다. 단건 쓰기에 최적화된 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 시스템과 대규모 집계 읽기에 최적화된 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 시스템은 요구하는 하드웨어 리소스와 튜닝 방식이 완전히 다르다. [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처를 도입함으로써 운영망은 트래픽을 안전하게 소화하고, 분석망은 정제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 자유롭게 통계를 낼 수 있는 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 환경이 완성된다.
 
 📢 **섹션 요약 비유**: DW의 등장은 마치 식당에서 요리사([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))가 바쁘게 요리하는 주방에 들어가서 "지난달 장부 좀 보여달라"고 방해하던 사장님을 위해, 식당 뒤편에 조용한 회계 전용 사무실([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))을 따로 만들어준 것과 같습니다.
@@ -43,20 +49,26 @@ Client (초당 1만건 트랜잭션) ──> [ 영업 OLTP DB ] <── 분석�
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 실무 의미 |
 |:---|:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 (Source)** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생지 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 등의 운영 RDBMS [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 추출 부하 최소화([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 등) 기술 필요 |
-| **[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인** | 추출(Extract), 변환(Transform), 적재(Load) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 통일, 결측치 제거, 단위 변환 등의 정제 연산 수행 | 전체 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축 비용과 시간의 70% 차지 |
-| **[ODS](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/291_ods/) ([Operational Data Store](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/264_ods_operational_data_store_realtime/))** | 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 임시 통합 버퍼 | 원본 시스템의 최신 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 짧은 주기로 임시 보관 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 병목의 완충 지대 |
-| **EDW (Enterprise [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))** | 전사 통합 중앙 저장소 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 모델에 따른 [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 기반의 비휘발성 이력 누적 저장 | 단일 진실 공급원 (Single Source of Truth) |
-| **[데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) ([Data Mart](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))** | 부서별(영업, 마케팅 등) 맞춤형 소규모 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 모델에 따른 다차원 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 요약 테이블 구성 | 분석가의 실제 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 접근점 및 BI 연동 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 (Source)</strong> | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생지 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 등의 운영 RDBMS [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 추출 부하 최소화([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 등) 기술 필요 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 파이프라인</strong> | 추출(Extract), 변환(Transform), 적재(Load) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 통일, 결측치 제거, 단위 변환 등의 정제 연산 수행 | 전체 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축 비용과 시간의 70% 차지 |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/291_ods/">ODS</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/264_ods_operational_data_store_realtime/">Operational Data Store</a>)</strong> | 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 임시 통합 버퍼 | 원본 시스템의 최신 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 짧은 주기로 임시 보관 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 병목의 완충 지대 |
+| <strong>EDW (Enterprise <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)</strong> | 전사 통합 중앙 저장소 | [Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/) 모델에 따른 [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 기반의 비휘발성 이력 누적 저장 | 단일 진실 공급원 (Single Source of Truth) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/">데이터 마트</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/">Data Mart</a>)</strong> | 부서별(영업, 마케팅 등) 맞춤형 소규모 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) | [Kimball](/knowledge-base/studynote/12_it_management/05_security_compliance/312_kimball/) 모델에 따른 다차원 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 요약 테이블 구성 | 분석가의 실제 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 접근점 및 BI 연동 |
 
 [전형적인 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 계층 아키텍처 흐름도]
-```text
-[ Sources ]       [ Staging / ETL ]       [ Core Storage ]      [ Access / BI ]
- 운영 DB 1 ──┐                                                     ┌── 영업 마트 ──> BI
- 외부 API  ──┼─> [ ODS (임시저장) ] ──> [ EDW (전사 웨어하우스) ] ─┼── 재무 마트 ──> 분석가
- 로그 파일 ──┘     (타입/코드 통일)         (정규화, 과거이력 영구보존) └── 마케팅 마트 ─> AI 모델
-                                          (단일 진실 공급원)       (Star 스키마, 집계)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sources</div><div class="kb-diagram-node">Staging / ETL</div><div class="kb-diagram-node">Core Storage</div><div class="kb-diagram-node">Access / BI</div></div>
+<div class="kb-diagram-note">운영 DB 1 ── ── 영업 마트 ──&gt; BI</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">외부 API ── ─&gt;</div><div class="kb-diagram-node">ODS (임시저장)</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">EDW (전사 웨어하우스)</div><div class="kb-diagram-note">─ ── 재무 마트 ──&gt; 분석가</div></div>
+<div class="kb-diagram-note">로그 파일 ── (타입/코드 통일) (정규화, 과거이력 영구보존) ── 마케팅 마트 ─&gt; AI 모델</div>
+<div class="kb-diagram-note">(단일 진실 공급원) (Star 스키마, 집계)</div>
+</div>
+</div>
+
+
 이 흐름도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가공 수준에 따른 물리적 분리다. 각기 다른 시스템(Source)에서 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ODS에서 일단 임시로 모이고, 무거운 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 변환([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), 형변환)을 거쳐 EDW라는 하나의 거대한 진실 창고에 쌓인다. 하지만 EDW는 너무 방대하여 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 느리므로, 각 부서(영업, 재무 등)가 필요로 하는 차원(시간, 지역 등) 단위로 미리 요약 집계해 놓은 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)([Data Mart](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))를 최종적으로 제공하여 응답 속도를 극대화한다.
 
 📢 **섹션 요약 비유**: [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처는 여러 농장(소스)에서 캔 흙 묻은 감자를 모아 씻고([ODS](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/291_ods/)), 거대한 중앙 창고(EDW)에 규격별로 보관한 뒤, 마트([Data Mart](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))의 진열대에 소비자가 요리하기 쉽게 다듬어 올려놓는 유통 과정입니다.
@@ -73,16 +85,20 @@ Client (초당 1만건 트랜잭션) ──> [ 영업 OLTP DB ] <── 분석�
 | **단점** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 시간과 비용이 너무 막대함 | 마트 간 통합 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 위험 | 전사 거버넌스 통제력 |
 
 Kimball 모델의 [다차원 모델링](/knowledge-base/studynote/05_database/06_dw_olap_trends/333_multidimensional_modeling/): [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 구조도]
-```text
-           [차원 테이블: 시간 (Dim_Time)]         [차원 테이블: 지역 (Dim_Region)]
-                 (PK: 시간_ID)                         (PK: 지역_ID)
-                       │                                   │
-                       └─────────> [팩트 테이블] <─────────┘
-                                   (매출액, 판매수량 등 수치 중심)
-                       ┌─────────> (각 차원의 FK 모음) <───┐
-                       │                                   │
-            [차원 테이블: 고객 (Dim_Cust)]         [차원 테이블: 상품 (Dim_Prod)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">차원 테이블: 시간 (Dim_Time)</div><div class="kb-diagram-node">차원 테이블: 지역 (Dim_Region)</div></div>
+<div class="kb-diagram-note">(PK: 시간_ID) (PK: 지역_ID)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">팩트 테이블</div><div class="kb-diagram-note">&lt;</div></div>
+<div class="kb-diagram-note">(매출액, 판매수량 등 수치 중심)</div>
+<div class="kb-diagram-note">&gt; (각 차원의 FK 모음) &lt;</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차원 테이블: 고객 (Dim_Cust)</div><div class="kb-diagram-node">차원 테이블: 상품 (Dim_Prod)</div></div>
+</div>
+</div>
+
+
 이 구조도는 킴볼 모델의 핵심인 다차원 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)를 보여준다. 중앙의 '[팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)([Fact Table](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/))'에는 실제 비즈니스 측정값(매출 100만 원 등)과 숫자로 된 외래키(FK)만 저장되어 엄청난 용량을 압축한다. 주변의 '[차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)([Dimension Table](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/))'에는 "누가, 언제, 어디서"에 해당하는 상세 설명이 비정규화된 상태로 들어간다. 분석가가 "강남구(지역)에서 5월(시간)에 팔린 사과(상품) 매출"을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)할 때 조인 횟수를 극적으로 줄여(별 모양 1회 조인) [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 폭발적으로 높이는 구조다.
 
 📢 **섹션 요약 비유**: 인몬 모델이 완벽한 도시 계획을 다 짜놓고([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 집을 짓는 것이라면, 킴볼 모델은 일단 급한 대로 동네 상가([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))부터 하나씩 열고 나중에 길을 연결하는 방식입니다.
@@ -90,11 +106,11 @@ Kimball 모델의 [다차원 모델링](/knowledge-base/studynote/05_database/06
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 실무에서 DW를 구축 및 운영할 때는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 최신 클라우드 기술 트렌드 수용 여부가 가장 큰 의사결정 요소다.
 
-1. **배치(Batch) 윈도우 초과 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 병목) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 밤 12시부터 새벽 6시 사이에 전날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 추출해 정제([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))해야 하는데, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커져 6시를 넘겨버리면 다음 날 오전 비즈니스 리포트가 마비된다.
+1. <strong>배치(Batch) 윈도우 초과 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 병목) <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 밤 12시부터 새벽 6시 사이에 전날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 추출해 정제([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))해야 하는데, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커져 6시를 넘겨버리면 다음 날 오전 비즈니스 리포트가 마비된다.
    - **판단**: 전통적 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(추출->변환->적재) 사상을 버리고 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)(Extract, Load, Transform) 로 전환해야 한다. 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/))의 무한한 컴퓨팅 파워를 활용하기 위해, 일단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DW에 무지성으로 적재(Load)한 뒤, [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 강력한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) SQL 엔진을 이용해 변환(Transform)을 병렬로 수행하여 시간을 단축해야 한다.
-2. **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 연동**: 운영 DB의 부하를 피하려고 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복제를 쓰면 항상 "어제" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보게 된다. 실시간 분석이 필요한 경우 치명적이다.
+2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">Change Data Capture</a>) 연동</strong>: 운영 DB의 부하를 피하려고 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복제를 쓰면 항상 "어제" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보게 된다. 실시간 분석이 필요한 경우 치명적이다.
    - **판단**: 운영 RDBMS의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 빈로그(Binlog, [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) Log)를 실시간으로 캡처하는 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 솔루션(Debezium 등)과 Kafka를 연동하여, 부하 없이 변경분(Delta)만 실시간으로 DW에 동기화하는 스트리밍 적재 파이프라인을 구축해야 한다.
-3. **무분별한 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 난립 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))**: 부서마다 필요하다며 무작정 마트를 찍어내면, 똑같은 로직을 계산하는데 부서마다 매출액이 다르게 나오는 참사가 발생한다.
+3. <strong>무분별한 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/">데이터 마트</a> 난립 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)</strong>: 부서마다 필요하다며 무작정 마트를 찍어내면, 똑같은 로직을 계산하는데 부서마다 매출액이 다르게 나오는 참사가 발생한다.
    - **판단**: 전사 EDW에 강력한 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 및 리니지([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 추적 도구를 도입하여, 마트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 반드시 EDW의 단일 소스를 경유하도록 거버넌스(Governance)를 강제해야 한다.
 
 [전통적 ETL과 모던 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 아키텍처의 패러다임 전환 흐름도]
@@ -119,7 +135,7 @@ Sources => [ 단순 추출 및 즉시 적재(Load) ] => [ Cloud DW 저장 (Snowf
 | 아키텍처 분리 | [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장 및 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 전용 인프라 분리 | 운영 DB 장애율 90% 이상 감소 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰 | 전사 단위 단일 진실 공급원(SSOT) 확보 | 부서 간 리포트 수치 불일치([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 제거 |
 
-최근 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 기술은 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수용하는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))의 장점과 융합되어 **[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))** 로 진화하고 있다. 과거에는 RDB 기반의 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)만 담을 수 있었으나, 이제는 객체 스토리지 위에 개방형 테이블 포맷([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 등)을 얹어 비정형 파일에 대해서도 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 수준의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하는 방향으로 표준이 수렴 중이다. 아무리 AI가 발전해도, 고품질로 정제된 DW의 테이블 없이는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))를 구축할 수 없으므로 그 핵심 지위는 영원할 것이다.
+최근 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 기술은 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수용하는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))의 장점과 융합되어 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/">데이터 레이크하우스</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/">Data Lakehouse</a>)</strong> 로 진화하고 있다. 과거에는 RDB 기반의 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)만 담을 수 있었으나, 이제는 객체 스토리지 위에 개방형 테이블 포맷([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 등)을 얹어 비정형 파일에 대해서도 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 수준의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID)과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공하는 방향으로 표준이 수렴 중이다. 아무리 AI가 발전해도, 고품질로 정제된 DW의 테이블 없이는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))를 구축할 수 없으므로 그 핵심 지위는 영원할 것이다.
 
 📢 **섹션 요약 비유**: DW는 기업의 과거와 현재의 성적표를 가장 정확하게 보관하는 중앙 기록실입니다. 이 기록이 거짓 없이 완벽해야만 인공지능이라는 미래 예측기가 올바른 답을 내놓을 수 있습니다.
 
@@ -133,21 +149,23 @@ Sources => [ 단순 추출 및 즉시 적재(Load) ] => [ Cloud DW 저장 (Snowf
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[OLAP (On-Line Analytical Processing)]
-    │
-    ▼
-[ETL (Extract, Transform, Load)]
-    │
-    ▼
-[데이터 마트 (Data Mart)]
-    │
-    ▼
-[스타 스키마 (Star Schema)]
-    │
-    ▼
-[데이터 레이크하우스 (Data Lakehouse)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OLAP (On-Line Analytical Processing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ETL (Extract, Transform, Load)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마트 (Data Mart)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스타 스키마 (Star Schema)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크하우스 (Data Lakehouse)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) ([On-Line Analytical Processing](/knowledge-base/studynote/05_database/06_dw_olap_trends/328_lsm_tree_compaction/))에서 출발해 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -25,18 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 로우해머의 기본 배치를 단순화해 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ DRAM disturbance: aggressor rows shake a victim row                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Row A  : hammered again and again                                          │
-│ Row B  : victim row, charge decays faster                                  │
-│ Row C  : hammered again and again                                          │
-│                                                                            │
-│ Repeated activations of A/C within one refresh window                      │
-│                    └────────────▶ bit flips may appear in B                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM disturbance: aggressor rows shake a victim row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row A : hammered again and again</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row B : victim row, charge decays faster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row C : hammered again and again</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repeated activations of A/C within one refresh window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ bit flips may appear in B</div></div>
+</div>
+</div>
+
+
 
 즉 로우해머는 "읽으면 안 되는 것을 읽는" 공격이 아니라, "건드리면 안 되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 흔들어 값 자체를 바꾸는" 공격이다. 그래서 하드웨어 보안에서는 정보 유출뿐 아니라 정보 변조를 만드는 물리 공격면으로 따로 기억해야 한다.
 
@@ -59,20 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 공격자가 실제로 노리는 반복 패턴을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Rowhammer cycle: open-close-open-close before refresh catches up          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Aggressor Row A   -> activate -> precharge                                 │
-│ Aggressor Row C   -> activate -> precharge                                 │
-│ Aggressor Row A   -> activate -> precharge                                 │
-│ Aggressor Row C   -> activate -> precharge                                 │
-│        ... repeated many times within one refresh interval                 │
-│                                                                            │
-│ Victim Row B sits between A and C                                          │
-│        └────────────▶ charge loss accumulates -> threshold crossed -> flip │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rowhammer cycle: open-close-open-close before refresh catches up</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggressor Row A -&gt; activate -&gt; precharge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggressor Row C -&gt; activate -&gt; precharge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggressor Row A -&gt; activate -&gt; precharge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggressor Row C -&gt; activate -&gt; precharge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... repeated many times within one refresh interval</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim Row B sits between A and C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ charge loss accumulates -&gt; threshold crossed -&gt; flip</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 로우해머는 메모리 컨트롤러, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 물리 배치, 리프레시 회로를 모두 함께 본다. 또한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만 뒤집혀도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리나 권한 플래그가 변조될 수 있으므로, "한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정도는 괜찮다"는 직관이 통하지 않는다.
 
@@ -105,9 +109,9 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **하드웨어 완화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: TRR, On-Die [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 벤더 권고 펌웨어가 실제 장비에 적용되어 있는가?
-2. **메모리 오류 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), patrol scrub, 반복 오류 알림이 운영 모니터링에 연결되어 있는가?
-3. **민감 구조 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 (PTE, [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 자격 증명 구조가 공격자 데이터와 무분별하게 인접 배치되지 않는가?
+1. <strong>하드웨어 완화 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: TRR, On-Die [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 벤더 권고 펌웨어가 실제 장비에 적용되어 있는가?
+2. <strong>메모리 오류 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), patrol scrub, 반복 오류 알림이 운영 모니터링에 연결되어 있는가?
+3. <strong>민감 구조 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 (PTE, [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 자격 증명 구조가 공격자 데이터와 무분별하게 인접 배치되지 않는가?
 4. **캐시 우회 가정 점검**: `CLFLUSH`를 막았다고 끝내지 않고 eviction 기반 해머링 가능성까지 검토했는가?
 5. **다중 테넌트 통제**: 공유 호스트에서 고위험 워크로드와 비신뢰 코드를 어떻게 분리할지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 
@@ -147,19 +151,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DRAM 미세화 · 전하 간섭 증가
-        │
-        ▼
-Disturbance Error 발견
-        │
-        ▼
-로우해머 공격 (Rowhammer)
-        │
-        ├────────▶ Double-sided · Half-Double · Blacksmith
-        │
-        └────────▶ TRR · ECC · On-Die ECC · 행 배치 격리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DRAM 미세화 · 전하 간섭 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Disturbance Error 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로우해머 공격 (Rowhammer)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Double-sided · Half-Double · Blacksmith</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ TRR · ECC · On-Die ECC · 행 배치 격리</div>
+</div>
+</div>
+
+
 
 이 흐름은 "고집적 메모리의 물리 한계"가 "실제 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 공격"으로 이어지고, 다시 메모리 컨트롤러와 시스템 소프트웨어가 함께 방어를 진화시키는 과정을 보여 준다.
 

@@ -23,23 +23,23 @@ tags = ["studynote-computer-architecture"]
 
 문제는 규모가 커질수록 명확해진다. 100GbE, 200GbE급 네트워크, 저장장치 암호화, [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 격리, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 동서 트래픽이 늘어나면 패킷 처리와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 암호화, 주소 변환이 모두 CPU에 부담으로 쌓인다. 이때 SDI는 유연성을 얻는 대신, 제대로 설계하지 않으면 호스트 CPU가 인프라 오버헤드에 잠식되는 이른바 Datacenter Tax를 맞게 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ "소프트웨어 정의" 계층 아래에서 실제로 버티는 것                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Orchestrator / Hypervisor / SDN Controller                                 │
-│                 │ policy                                                    │
-│                 ▼                                                           │
-│ Host CPU ─ vSwitch ─ NIC ─ Network                                          │
-│    │        │                                                               │
-│    ├─ VM / Container                                                        │
-│    └─ Storage Stack                                                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 패킷 전송, DMA, 인터럽트, 암호화, 격리는 결국 하드웨어 특성에 좌우됨         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 SDI의 핵심 질문은 "하드웨어를 없앨 수 있는가"가 아니라, **하드웨어를 얼마나 잘 추상화하고 가속해 소프트웨어 유연성을 유지할 것인가**다. 그래서 SDI는 본질적으로 하드웨어 독립이 아니라 하드웨어 활용 방식의 변화라고 보는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"소프트웨어 정의" 계층 아래에서 실제로 버티는 것</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orchestrator / Hypervisor / SDN Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host CPU ─ vSwitch ─ NIC ─ Network</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ VM / Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Storage Stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 전송, DMA, 인터럽트, 암호화, 격리는 결국 하드웨어 특성에 좌우됨</div></div>
+</div>
+</div>
+
+
+
+즉 SDI의 핵심 질문은 "하드웨어를 없앨 수 있는가"가 아니라, <strong>하드웨어를 얼마나 잘 추상화하고 가속해 소프트웨어 유연성을 유지할 것인가</strong>다. 그래서 SDI는 본질적으로 하드웨어 독립이 아니라 하드웨어 활용 방식의 변화라고 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: SDI는 가게 운영을 매뉴얼로 통일하는 것과 같지만, 계산대와 창고 리프트가 느리면 아무리 매뉴얼이 좋아도 손님 처리가 막히는 것과 같다.
 
@@ -58,21 +58,22 @@ tags = ["studynote-computer-architecture"]
 | [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) / [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over Fabrics) 지원 장치 | 저지연 스토리지 경로 | [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정화 |
 | [Root of Trust](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/487_root_of_trust/) 계열 하드웨어 | [부팅 무결성](/knowledge-base/studynote/09_security/18_iot_ot_physical/916_secure_boot/), 장치 신뢰, 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 보안 강화 |
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 현대 SDI 서버의 역할 분담                                                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Control Plane : Kubernetes / OpenStack / SDN                               │
-│        │                                                                    │
-│        ▼                                                                    │
-│ Host CPU / Hypervisor ── config ──▶ DPU / SmartNIC ──▶ NIC Queues          │
-│        │                        │                 ├─ 접근 제어 / 오버레이    │
-│        ├─ VM scheduling         ├─ SR-IOV        ├─ 저지연 전송 / 저장 경로 │
-│        └─ storage policy        └─ IOMMU         └─ Telemetry / Isolation   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 핵심은 소프트웨어가 완전히 사라지는 것이 아니라, **소프트웨어가 하드웨어 기능을 프로그래밍하는 구조**라는 점이다. 예를 들어 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 여전히 소프트웨어가 작성하지만, 실제 빠른 패킷 분류와 터널 종단은 DPU나 NIC가 맡는다. 소프트웨어 정의가 성공하려면 하드웨어는 더 단순해지는 것이 아니라 오히려 더 프로그래머블해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 SDI 서버의 역할 분담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane : Kubernetes / OpenStack / SDN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host CPU / Hypervisor ── config ──▶ DPU / SmartNIC ──▶ NIC Queues</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 접근 제어 / 오버레이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ VM scheduling ─ SR-IOV ─ 저지연 전송 / 저장 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ storage policy ─ IOMMU ─ Telemetry / Isolation</div></div>
+</div>
+</div>
+
+
+
+여기서 핵심은 소프트웨어가 완전히 사라지는 것이 아니라, <strong>소프트웨어가 하드웨어 기능을 프로그래밍하는 구조</strong>라는 점이다. 예를 들어 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 여전히 소프트웨어가 작성하지만, 실제 빠른 패킷 분류와 터널 종단은 DPU나 NIC가 맡는다. 소프트웨어 정의가 성공하려면 하드웨어는 더 단순해지는 것이 아니라 오히려 더 프로그래머블해진다.
 
 - **📢 섹션 요약 비유**: SDI는 지휘자가 악보를 소프트웨어로 바꾸는 일이지만, 실제 연주는 각 악기와 연주자가 해내야 한다. 악기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 부족하면 지휘가 좋아도 소리가 무너진다.
 
@@ -92,7 +93,7 @@ SDI는 흔히 "범용 서버만 있으면 된다"는 식으로 오해되지만, 
 
 이 주제는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/), [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) (Network Functions [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)), [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) (Software-Defined Storage), 기밀 컴퓨팅과도 직접 연결된다. 네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 프로그래머블 NIC의 도움을 받고, 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over Fabrics)와 암호화 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 활용한다. 즉 SDI는 "모든 것을 코드로 바꾼다"는 철학이지만, 그 코드가 실제로 빠르게 동작하게 만드는 기반은 점점 더 특화된 하드웨어가 된다.
 
-그래서 SDI의 하드웨어 종속성은 후퇴가 아니라 진화다. 과거의 전용 장비는 기능이 고정된 박스였다면, 지금의 DPU와 SmartNIC는 소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 받는 가속 장치다. 즉 하드웨어는 다시 중요해졌지만, 예전처럼 경직된 방식이 아니라 **프로그래머블한 인프라 하부 구조**로 돌아온 것이다.
+그래서 SDI의 하드웨어 종속성은 후퇴가 아니라 진화다. 과거의 전용 장비는 기능이 고정된 박스였다면, 지금의 DPU와 SmartNIC는 소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 받는 가속 장치다. 즉 하드웨어는 다시 중요해졌지만, 예전처럼 경직된 방식이 아니라 <strong>프로그래머블한 인프라 하부 구조</strong>로 돌아온 것이다.
 
 - **📢 섹션 요약 비유**: 예전 전용 장비가 한 가지 일만 하는 전문 직원이었다면, 오늘날의 DPU는 여러 매뉴얼을 받아 즉시 역할을 바꿀 수 있는 숙련 보조 인력에 가깝다.
 
@@ -116,7 +117,7 @@ SDI는 흔히 "범용 서버만 있으면 된다"는 식으로 오해되지만, 
 - 실제 부하 분석 없이 모든 서버에 최고급 DPU를 일괄 적용하는 과투자
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 보고 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 넣고, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 수명주기와 장애 가시성은 준비하지 않는 운영
 
-기술사 답안에서는 SDI의 철학만 적지 말고, **왜 하드웨어 종속성이 다시 중요해졌는지**를 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·격리·보안·운영 네 축으로 설명하는 것이 좋다. 그래야 SDI를 추상 개념이 아니라 실제 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 언어로 풀 수 있다.
+기술사 답안에서는 SDI의 철학만 적지 말고, <strong>왜 하드웨어 종속성이 다시 중요해졌는지</strong>를 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·격리·보안·운영 네 축으로 설명하는 것이 좋다. 그래야 SDI를 추상 개념이 아니라 실제 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 언어로 풀 수 있다.
 
 - **📢 섹션 요약 비유**: SDI 운영은 매장 직원에게 모든 잡일을 시키느냐, 창고 로봇과 자동 계산대를 들이느냐를 정하는 문제와 같다. 자동화를 넣으면 효율은 오르지만 관리 방식도 함께 바뀐다.
 
@@ -128,7 +129,7 @@ SDI는 흔히 "범용 서버만 있으면 된다"는 식으로 오해되지만, 
 
 물론 복잡도는 올라간다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 드라이버, 관리 평면이 늘어나고, 특정 벤더 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 모델에 묶일 위험도 있다. 앞으로는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 기반 프로그래머블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면, DPU와 그래픽 처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 협업, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 분리형 인프라, 하드웨어 기반 기밀 컴퓨팅이 이 흐름을 더 강하게 만들 가능성이 크다.
 
-결론적으로 SDI는 하드웨어를 없애는 개념이 아니라, **하드웨어를 소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 아래 재배치하는 개념**이다. 따라서 "소프트웨어 정의"를 "하드웨어 무시"로 이해하면 틀리고, "하드웨어를 더 잘 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 상위 제어 방식"으로 이해해야 정확하다.
+결론적으로 SDI는 하드웨어를 없애는 개념이 아니라, <strong>하드웨어를 소프트웨어 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 아래 재배치하는 개념</strong>이다. 따라서 "소프트웨어 정의"를 "하드웨어 무시"로 이해하면 틀리고, "하드웨어를 더 잘 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 상위 제어 방식"으로 이해해야 정확하다.
 
 - **📢 섹션 요약 비유**: SDI는 악기를 없애고 지휘만 하는 오케스트라가 아니라, 더 좋은 지휘를 위해 악기를 역할별로 다시 배치하는 합주단과 같다.
 
@@ -147,21 +148,23 @@ SDI는 흔히 "범용 서버만 있으면 된다"는 식으로 오해되지만, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전용 네트워크 / 스토리지 어플라이언스
-        │
-        ▼
-범용 서버 + 가상화 기반 SDI 확산
-        │
-        ▼
-CPU 오버헤드 증가 · Datacenter Tax 부각
-        │
-        ▼
-SR-IOV · IOMMU · SmartNIC · DPU 도입
-        │
-        ▼
-프로그래머블 데이터 평면 · 기밀 컴퓨팅 · 분리형 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전용 네트워크 / 스토리지 어플라이언스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">범용 서버 + 가상화 기반 SDI 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU 오버헤드 증가 · Datacenter Tax 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SR-IOV · IOMMU · SmartNIC · DPU 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래머블 데이터 평면 · 기밀 컴퓨팅 · 분리형 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 인프라 제어가 소프트웨어로 올라간 뒤, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 격리를 유지하기 위해 하드웨어 가속이 다시 핵심이 되는 과정을 보여 준다.
 

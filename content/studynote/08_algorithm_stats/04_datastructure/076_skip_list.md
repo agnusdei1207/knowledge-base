@@ -20,21 +20,22 @@ tags = ["studynote-algorithm-stats"]
 
 정렬된 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)는 탐색이 O(n)으로 느리다. [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 이 문제를 여러 레벨의 "고속 레인(Express Lane)"을 추가하여 해결한다.
 
-```text
-┌───────────────────────────────────────────────────────────┐
-│              스킵 리스트 구조 (값: 1~10 일부)               │
-├───────────────────────────────────────────────────────────┤
-│                                                           │
-│  레벨3:  [1] ────────────────────────────────→ [9] → NIL │
-│  레벨2:  [1] ────────────→ [5] ──────────────→ [9] → NIL │
-│  레벨1:  [1] ──→ [3] ────→ [5] ──→ [7] ──────→ [9] → NIL │
-│  레벨0:  [1] →[2]→[3] →[4]→[5] →[6]→[7] →[8]→[9] → NIL │
-│                                                           │
-│  탐색 7: 레벨3(1→9 X) → 레벨2(1→5 ok, 5→9 X) →          │
-│          레벨1(5→7 ok!) → 발견 ✓                          │
-│  비교 횟수: ~4회 vs 연결리스트 7회                          │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스킵 리스트 구조 (값: 1~10 일부)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">레벨3:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">레벨2:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">레벨1:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">레벨0:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 7: 레벨3(1→9 X) → 레벨2(1→5 ok, 5→9 X) →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레벨1(5→7 ok!) → 발견 ✓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 횟수: ~4회 vs 연결리스트 7회</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도시 교통 시스템이다. 모든 골목(레벨0)을 걷는 대신, 도시 고속도로(레벨3)→간선도로(레벨2)→지선(레벨1)→골목 순으로 내려가며 목적지를 빠르게 찾는다.
 
@@ -77,7 +78,7 @@ def random_level(max_level, p=0.5):
 | **최악 탐색** | O(n) (확률적) | O(log n) | O(log n) |
 | **삽입/삭제** | O(log n) 평균 | O(log n) + 회전 | O(log n) + 회전 |
 | **구현 복잡도** | 낮음 | 중간 | 높음 |
-| **[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구현** | 용이 | 어려움 | 어려움 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a> 구현</strong> | 용이 | 어려움 | 어려움 |
 
 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sorted Set은 내부적으로 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)를 사용하여 ZADD·ZRANK·ZRANGE 연산을 O(log n)에 처리한다.
 
@@ -106,8 +107,8 @@ def random_level(max_level, p=0.5):
 | 기대효과 | 내용 |
 |:---|:---|
 | **단순 구현** | 트리 회전 불필요, 코드 간결 |
-| **[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 친화** | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구현 가능 |
-| **범위 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)** | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 순서 유지 → 범위 탐색 효율 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 친화</strong> | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구현 가능 |
+| <strong>범위 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 기반 순서 유지 → 범위 탐색 효율 |
 
 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 LevelDB·RocksDB의 [memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) 자료구조로 사용되어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화에 기여하며, CRDTs (Conflict-free Replicated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Types) 등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서도 확률적 자료구조의 활용이 증가하고 있다.
 
@@ -119,29 +120,31 @@ def random_level(max_level, p=0.5):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **AVL / [Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/)** | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)의 비교 대상; 최악 보장 균형 트리 |
-| **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sorted Set** | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/) 실무 활용의 대표 사례 |
-| **LevelDB [memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/)** | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/) 기반 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 자료구조 |
+| <strong>AVL / <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a></strong> | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)의 비교 대상; 최악 보장 균형 트리 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Sorted Set</strong> | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/) 실무 활용의 대표 사례 |
+| <strong>LevelDB <a href="/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/">memtable</a></strong> | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/) 기반 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화 자료구조 |
 | **확률적 자료구조** | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)가 속하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패밀리 |
-| **[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)** | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 장점 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a></strong> | [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경 장점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[연결 리스트 — O(n) 탐색, 단순 구조]
-    │
-    ▼
-[스킵 리스트 (1990) — 확률적 레벨, 평균 O(log n)]
-    │
-    ▼
-[Redis Sorted Set — 스킵 리스트 실무 적용]
-    │
-    ▼
-[LevelDB / RocksDB memtable — 쓰기 최적화 활용]
-    │
-    ▼
-[Lock-free 스킵 리스트 — 동시성 분산 환경 활용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연결 리스트 — O(n) 탐색, 단순 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스킵 리스트 (1990) — 확률적 레벨, 평균 O(log n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redis Sorted Set — 스킵 리스트 실무 적용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LevelDB / RocksDB memtable — 쓰기 최적화 활용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lock-free 스킵 리스트 — 동시성 분산 환경 활용</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -30,19 +30,20 @@ tags = ["studynote-computer-architecture"]
 
 고속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 구형파([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 형태를 띠며, 수많은 고주파 성분의 합으로 이루어져 있다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전송 선로를 이동할 때, 선로의 폭, 절연체의 두께, 유전율 등에 의해 고유한 특성 임피던스 ($Z_0$)가 결정된다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           임피던스 불일치에 따른 신호 반사 메커니즘        │
-├──────────────────────────────────────────────────────────────┤
-│  [송신단 TX]          임피던스 불연속점         [수신단 RX]      │
-│  Z = 50Ω                   │                 Z = 100Ω      │
-│                            ▼                                │
-│   정상 펄스 신호 ────▶    (장벽 충돌)   ──▶ 왜곡된 신호 통과    │
-│   ___/‾‾‾\___             │         ___/‾\^/\__            │
-│                            │                                │
-│                 ◀──── 반사파 (Echo)                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임피던스 불일치에 따른 신호 반사 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신단 TX</div><div class="kb-diagram-note">임피던스 불연속점</div><div class="kb-diagram-node">수신단 RX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z = 50Ω</div><div class="kb-diagram-cell">Z = 100Ω</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 펄스 신호 ▶ (장벽 충돌) ──▶ 왜곡된 신호 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">___/‾‾‾\___</div><div class="kb-diagram-cell">___/‾\^/\__</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 반사파 (Echo)</div></div>
+</div>
+</div>
+
+
 
 송신단의 임피던스와 전송 선로, 그리고 수신단의 임피던스가 모두 일치(Matching)해야만 반사 계수($\Gamma$)가 0이 되어 전력이 100% 전달된다. 만약 임피던스가 어긋나면 반사파가 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 겹쳐져 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 심하게 출렁이는 링잉(Ringing) 현상이 발생하고, 통신 품질을 나타내는 아이 패턴(Eye Pattern)이 완전히 감겨버리게 된다.
 
@@ -56,7 +57,7 @@ tags = ["studynote-computer-architecture"]
 
 | 성분 | 수학적 표현 | 주파수 응답 특성 | 물리적 의미 |
 |:---|:---|:---|:---|
-| **[저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) (R)** | $R$ | 주파수와 무관하게 일정 | 전력을 열로 소모하는 실수부 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a> (R)</strong> | $R$ | 주파수와 무관하게 일정 | 전력을 열로 소모하는 실수부 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) |
 | **인덕턴스 (L)** | $X_L = 2\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) f L$ | 고주파수일수록 방해([저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) 증가 | [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화를 거부하는 관성 (직류 통과, 교류 차단) |
 | **커패시턴스 (C)**| $X_C = \frac{1}{2\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) f C}$ | 고주파수일수록 방해([저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) 감소 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화를 거부하는 탄성 (교류 통과, 직류 차단) |
 
@@ -73,7 +74,7 @@ tags = ["studynote-computer-architecture"]
 코어가 수백 암페어의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 나노초 단위로 스위칭할 때, 전원 배선이 가진 인덕턴스 때문에 거대한 임피던스 장벽이 생겨 칩 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 곤두박질친다. 이를 막으려면 주파수 대역별로 크기가 다른 디커플링 커패시터들을 병렬로 촘촘히 배치하여, **타겟 임피던스 (Target Impedance)** 곡선 이하로 임피던스를 평탄화(Flat)해야 한다.
 
 ### 판단 포인트 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 대책)
-1. **직각 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 금지**: 배선이 90도로 꺾이는 코너는 선폭이 넓어지는 효과를 낳아 기생 커패시턴스가 급증하고 임피던스가 깨진다. 반드시 45도 사선이나 둥근 곡선으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)해야 한다.
+1. <strong>직각 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 금지</strong>: 배선이 90도로 꺾이는 코너는 선폭이 넓어지는 효과를 낳아 기생 커패시턴스가 급증하고 임피던스가 깨진다. 반드시 45도 사선이나 둥근 곡선으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)해야 한다.
 2. **분할된 기준면 (Split Plane) 횡단 금지**: [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 아래의 접지(Ground) 평면이 갈라져 있으면 돌아오는 귀환 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Return [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 경로가 끊겨 임피던스가 폭증하고 강력한 노이즈(EMI)를 방사한다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선은 반드시 끊어짐 없는 단일 접지면 위를 지나야 한다.
 3. **차동 쌍(Differential Pair) 유지**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 선로는 두 선의 간격과 폭을 일정하게 유지하여 보통 85$\Omega$ 또는 100$\Omega$의 차동 임피던스를 보장해야 노이즈 상쇄 효과를 얻을 수 있다.
 
@@ -96,27 +97,29 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **반사 계수 (Reflection Coefficient)** | 임피던스 차이에 의해 전송 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 얼마나 튕겨 나오는지를 나타내는 비율 |
-| **종단 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) (ODT, On-Die Termination)** | 수신단 칩 내부에 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 달아 선로와 임피던스를 매칭, 에코를 흡수하는 기술 |
-| **전력 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/), [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** | 타겟 임피던스 관리를 통해 노이즈 없이 안정적인 VDD 전원을 공급하는 설계 |
-| **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential Signaling)** | 두 가닥의 선으로 위상이 반대인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 외부 노이즈를 상쇄하는 고속 전송 방식 |
+| <strong>종단 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a> (ODT, On-Die Termination)</strong> | 수신단 칩 내부에 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 달아 선로와 임피던스를 매칭, 에코를 흡수하는 기술 |
+| <strong>전력 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a>, <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong> | 타겟 임피던스 관리를 통해 노이즈 없이 안정적인 VDD 전원을 공급하는 설계 |
+| <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential Signaling)</strong> | 두 가닥의 선으로 위상이 반대인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 외부 노이즈를 상쇄하는 고속 전송 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[반사 계수 (Reflection Coefficient)]
-    │
-    ▼
-[종단 저항 (ODT, On-Die Termination)]
-    │
-    ▼
-[전력 무결성 (PI, Power Integrity)]
-    │
-    ▼
-[차동 신호 (Differential Signaling)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반사 계수 (Reflection Coefficient)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">종단 저항 (ODT, On-Die Termination)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전력 무결성 (PI, Power Integrity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차동 신호 (Differential Signaling)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential Signaling)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 디스크가 깨지거나 랜섬웨어가 걸렸을 때 기업 멸망을 막는 유일한 사슬은 다른 디스크로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파내어 격리 보관하는 백업이다. 매일 밤 10TB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체를 무식하게 통째로 복사하는 **전체(Full) 백업 늪** 과, 어제 복사한 이후 '새로 수정된 추가 사항(Diff 찌꺼기)' 만 긁어가는 **증분(Incremental) 백업 렌더** 사이의 극한 줄다리기가 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 재난 복원([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))의 핵심 통치다.
 > 2. **가치**: 증분 백업망 록백 덕분에, 매일 10시간씩 걸리던 10TB 디스크 I/O 복사 지옥(병목 부하 오버헤드 스루풋 붕괴)을 단 5분 컷(수정된 1GB만 덤프 빔!)으로 분쇄 압살시킬 수 있었다. 기업은 네트워크 트래픽 낭비 없이 매일 밤 사실상 0비용($O(1)$)으로 백업 타임머신 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))의 톱니바퀴를 굴릴 수 있게 되었다 포팅.
-> 3. **한계**: 백업할 때는 증분(Incremental)이 신이지만, 서버가 불타고 깡통 하드가 들어온 "불시의 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore)** 데들락 랙" 순간에는 지옥의 파단 모순이 닥친다. 1년 전의 '전체(Full) 원본' 부터 시작해서 365개의 쪼가리(증분 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 매일 날짜 순서대로 하나하나 끼워 맞추며(Rebuild 복원 병목 연산 폭쇄!) 눈물의 수작업 합체 로봇놀이를 해야만 서버가 살아나는 치명적 역가성비([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Time 오버헤드 늪)를 안고 있다 결착.
+> 3. **한계**: 백업할 때는 증분(Incremental)이 신이지만, 서버가 불타고 깡통 하드가 들어온 "불시의 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Restore)</strong> 데들락 랙" 순간에는 지옥의 파단 모순이 닥친다. 1년 전의 '전체(Full) 원본' 부터 시작해서 365개의 쪼가리(증분 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 매일 날짜 순서대로 하나하나 끼워 맞추며(Rebuild 복원 병목 연산 폭쇄!) 눈물의 수작업 합체 로봇놀이를 해야만 서버가 살아나는 치명적 역가성비([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Time 오버헤드 늪)를 안고 있다 결착.
 
 ---
 
@@ -27,40 +27,34 @@ tags = ["studynote-operating-system"]
   - (풀 백업 미친 삽질 늪): 1,000장짜리 책을 쓰는 작가가, 혹시 원고를 잃어버릴까 봐 매일 밤 자수성가로 1,000장을 똑같이 손글씨로 1세트씩 더 카피해서 책상 서랍에 넣어둡니다. 글씨 쓰다 밤 다 새고 원래 책을 못 씁니다 오버헤드!
   - **(증분 백업 복원 도축 기전!)**: 똑똑한 리눅스 작가는 일요일에 딱 1번만 1,000장을 크게 복사(Full 바탕본) 해둡니다! 월요일엔 어제 추가한 [1장 쪼가리!] 만 서랍에 넣어요(초광속 부스트!). 화요일엔 [2장 쪼가리!] 만 넣어요!(용량 절약 끝판왕 스왑). 대신 책이 다 불타서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore)할 때는 일요일 원본 1,000장에다가 월화수 쪼가리를 하나하나 풀로 붙여야([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 오래 걸림 데들락!) 읽을 수 있는 단점 결속입니다!
 
-- **Full vs Differential vs Incremental [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 핑퐁 폭쇄 뷰**:
+- <strong>Full vs Differential vs Incremental <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Restore) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 핑퐁 폭쇄 뷰</strong>:
 만약 금요일에 서버가 랜섬웨어로 완전히 참수당했을 때, 각 모델별로 "복원 합체 로봇 수술([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))" 을 몇 번이나 해야 하는지 그 렌더를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "백업할 땐 편했지? 복원할 때 피눈물 쏟으며 깨닫는 트레이드오프!"         │
-  ├──────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                          │
-  │  🚨 [ 대전제 록백 ]: 일요일에 Full(원판) 생성. 서버는 목요일 밤 사망!                    │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  ✅ [ 모델 1: 증분 (Incremental 백업) 최악의 수작업 복구 폭쇄 렌더!! ]                   │
-  │     (특징: 매일매일 '어제 뜬 백업본' 이후 바뀐 점만 찔끔찔끔 긁어감)                     │
-  │                                                                                          │
-  │      [ 복구 순서 빔! ]: 총 5번의 덤프 파일 수술 퍼즐을 순서대로 맞출 것!                 │
-  │       1. 일요일 [Full 원본] 로딩  (어휴 안도..)                                          │
-  │       2. 월요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       3. 화요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       4. 수요일 [Incr 쪼가리] 덮어쓰기                                                   │
-  │       5. 목요일 [Incr 쪼가리] 덮어쓰기 -> "휴! 드디어 100% 원래대로 복원 컷!"            │
-  │       => 단점: 중간 화요일 파일 하나 깨져있으면 수/목 파일 전부 연쇄 쓰레기 파단!        │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  🔥 [ 모델 2: 차등 (Differential 백업) 중간자 합체 스왑!! ]                              │
-  │     (특징: 무조건 '일요일 Full 원본' 기준으로 바뀐 덩어리를 계속 크게 누적해 떠감)       │
-  │                                                                                          │
-  │      [ 복구 순서 빔! ]: 딱 2방 콤보! (속도 엄청 빠름 부스트)                             │
-  │       1. 일요일 [Full 원본] 로딩                                                         │
-  │       2. 목요일 [Diff 뚱보 쪼가리 (월+화+수+목 변동분 누적결합체)] 1방 덮어쓰기 끝!      │
-  │       => 단점: 목요일 백업 뜰 때 덩치가 월~목 누적 4배로 존나 커서 평소 디스크 비효율 늪!│
-  └──────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"백업할 땐 편했지? 복원할 때 피눈물 쏟으며 깨닫는 트레이드오프!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">대전제 록백</div><div class="kb-diagram-note">: 일요일에 Full(원판) 생성. 서버는 목요일 밤 사망!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">모델 1: 증분 (Incremental 백업) 최악의 수작업 복구 폭쇄 렌더!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(특징: 매일매일 '어제 뜬 백업본' 이후 바뀐 점만 찔끔찔끔 긁어감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복구 순서 빔!</div><div class="kb-diagram-note">: 총 5번의 덤프 파일 수술 퍼즐을 순서대로 맞출 것!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 일요일</div><div class="kb-diagram-node">Full 원본</div><div class="kb-diagram-note">로딩 (어휴 안도..)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 월요일</div><div class="kb-diagram-node">Incr 쪼가리</div><div class="kb-diagram-note">덮어쓰기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 화요일</div><div class="kb-diagram-node">Incr 쪼가리</div><div class="kb-diagram-note">덮어쓰기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4. 수요일</div><div class="kb-diagram-node">Incr 쪼가리</div><div class="kb-diagram-note">덮어쓰기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5. 목요일</div><div class="kb-diagram-node">Incr 쪼가리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"휴! 드디어 100% 원래대로 복원 컷!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: 중간 화요일 파일 하나 깨져있으면 수/목 파일 전부 연쇄 쓰레기 파단!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">모델 2: 차등 (Differential 백업) 중간자 합체 스왑!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(특징: 무조건 '일요일 Full 원본' 기준으로 바뀐 덩어리를 계속 크게 누적해 떠감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">복구 순서 빔!</div><div class="kb-diagram-note">: 딱 2방 콤보! (속도 엄청 빠름 부스트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 일요일</div><div class="kb-diagram-node">Full 원본</div><div class="kb-diagram-note">로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 목요일</div><div class="kb-diagram-node">Diff 뚱보 쪼가리 (월+화+수+목 변동분 누적결합체)</div><div class="kb-diagram-note">1방 덮어쓰기 끝!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: 목요일 백업 뜰 때 덩치가 월~목 누적 4배로 존나 커서 평소 디스크 비효율 늪!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 백업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 3대장 뼈대다. **1. 증분(Incremental)** 은 도미노 사슬이다. 매일 백업 용량이 $O(1)$ 로 작아 통신 속도는 빛의 빔이지만, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Restore [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙) 시 사슬을 10번 끼워야 하고 1개라도 분실하면 그 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 박살(Chain Corruption 단절) 난다. **2. 차등(Differential)** 은 타협점(Trade-off 렌더)이다. 일요일을 기준으로 뚱뚱한 차등 덩어리 1개만 들고 다니다가, 사고 나면 [원본 1방 + 차등본 1방] 으로 목숨을 살린다. 엔터프라이즈(기업) C-Level은 멍청한 "오래 걸리는 백업" 보다 1분 1초가 급한 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스피드([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))에 환장하기 때문에 실제 실무에선 단순 증분 대신 Differential 또는 진화형 합성 모드를 강제 병행 조율한다 도출.
 
@@ -75,19 +69,19 @@ tags = ["studynote-operating-system"]
 
 | 재난 복원([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 평가 지표 뷰 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 얼마만큼 뒤로 시계방향?) | ✨ [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 서버 부활까지 몇 시간?) |
 |:---|:---|:---|
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방파제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 의미** | "은행 서버가 죽기 직전 거래 내역 **1시간 분실은 용납? OR 단 1초 분실도 금지인가?**" (과거 지향 록백) | "서버가 죽은 지금 당장 박스 뜯어서 **새 시스템 서비스가 켜지기까지 몇 시간 걸려야 하나?**" (미래 부스트 빔) |
-| **백업 솔루션 대응 모델 늪** | 1시간 간격으로 계속 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 뜨기! [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 제로를 위해선 **동기식 실시간 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(RAID-1 531장) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 구축.** | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 백업 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 퍼즐 풀칠이 적어야 함! Incremental 버리고 **Full 백업 상시 보관 스루풋 타격.** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 방파제 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 의미</strong> | "은행 서버가 죽기 직전 거래 내역 **1시간 분실은 용납? OR 단 1초 분실도 금지인가?**" (과거 지향 록백) | "서버가 죽은 지금 당장 박스 뜯어서 **새 시스템 서비스가 켜지기까지 몇 시간 걸려야 하나?**" (미래 부스트 빔) |
+| **백업 솔루션 대응 모델 늪** | 1시간 간격으로 계속 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 뜨기! [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 제로를 위해선 <strong>동기식 실시간 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>(RAID-1 531장) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 구축.</strong> | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 백업 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 퍼즐 풀칠이 적어야 함! Incremental 버리고 **Full 백업 상시 보관 스루풋 타격.** |
 | **비용(Cost)의 피눈물 트레이드오프** | RPO를 짧게 잡을수록 하드디스크와 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(초당 Sync 핑퐁 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 발동) 등 장비 유지 **천문학적 돈 폭발.** | RTO를 짧게 잡을수록 대기용 스탠바이(Standby 잉여 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 서버를 놀리면서 전기를 먹이는 빈집 **서버 유지비 폭쇄 데들락.** |
 
 ### 2. 치명적 오버헤드 폭발: 백업 정합성([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 락킹)과 DB I/O [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 정지 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙
 서버 전원을 끄지 않고 서비스가 팔팔 도는 중에(Hot Backup 활성 상태) 거대 볼륨을 뒤에서 몰래 퍼가는 현상의 파편 붕괴를 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (더티 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 복사 중 변이 OOS 찢어짐 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (더티 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 복사 중 변이 OOS 찢어짐 데들락 랙)</strong>: 
   - (온라인 핫 덤프 늪 스왑): 오라클(DB) 서비스가 1초에 1만 번씩 결제 장부([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 쓰고 지우고 있다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 가 뒤에서 야밤에 무식하게 `tar -cvf` 백업 툴로 오라클 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 1시간째 복사하고 있다 타결.
   - (파괴된 복원 빔 결합 발동!): 1시간 동안 백업 툴이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 윗부분 복사하고 아랫부분 긁고 있는데, 오라클 앱이 그사이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 윗부분을 냅다 수정해버렸다(수정 시간차 불일치!).
   - 결과: 백업 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 다 떠져서 안심했는데, 막상 나중에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해서 이 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 켜보면 뇌(상단)와 배(하단)의 과거 시간대가 완전히 다른 프랑켄슈타인 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변모, 정합성 붕괴(Inconsistency 멸망 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파단) 지옥에 빠져 아무 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 사용할 수 없게 된다 입증.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 ([스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) 542장 타임 플리즈 록백!!) / 얼음 방패**: 
-  - 천재 백엔드 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 1방!: 살아있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 백업(Hot Backup)은 애초에 무조건 깨지는 데들락 오류 덩어리다. 그래서 LVM([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨 관리자)이나 ZFS의 **"순간 포착 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 기전 빔!)"** 을 쏴서 그 1초 찰나에 디스크 사진을 `얼음(Freeze 멈춤 렌더)` 때려버린다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a> 542장 타임 플리즈 록백!!) / 얼음 방패</strong>: 
+  - 천재 백엔드 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 1방!: 살아있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 백업(Hot Backup)은 애초에 무조건 깨지는 데들락 오류 덩어리다. 그래서 LVM([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨 관리자)이나 ZFS의 <strong>"순간 포착 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> 기전 빔!)"</strong> 을 쏴서 그 1초 찰나에 디스크 사진을 `얼음(Freeze 멈춤 렌더)` 때려버린다.
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 포팅 로직: 오라클 앱은 원래 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 계속 "무궁화꽃이 피었습니다" 일하며 변이를 거듭하고, 백업 데몬은 저 뒤에 안전하게 사진기로 촬영된 "박제된 얼음 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 찌꺼기 블록 공간" 만 안전망을 따라 천천히 퍼가 복사함으로써, 백업 도중 발생할 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 불일치 뇌파탄을 물리 블록(포인터 조작 $O(1)$) 수준에서 원천 차단해 낸다 증명 보장 록.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -99,10 +93,10 @@ tags = ["studynote-operating-system"]
 ### "할아버지-아버지-아들 (GFS: Grandfather-Father-Son)" 3단 로테이션 보관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 디스크가 꽉 차지 않게 하면서도 1년 전의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)도 보장하는 SRE의 닳고 닳은 시계 톱니 백업 마스킹.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (무한 백업 스토리지 터짐 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 폭쇄 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (무한 백업 스토리지 터짐 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 폭쇄 파단 랙)</strong>: 
   - 백업 엔지니어가 "우리도 무적의 백업을 뜬다!" 며 매일 밤 전체(Full) 서버를 카피해서 쌓아뒀다([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2...).
   - 재앙 터짐: 30일 뒤, 10TB X 30일 = 300TB짜리 외계 스토리지 괴물이 탄생! 회사가 백업 디스크(Storage) 사느라 기둥뿌리가 뽑혀 파산한다 데들락 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/). 
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (GFS 순환식 덮어쓰기 로테이션 렌더 방어 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (GFS 순환식 덮어쓰기 로테이션 렌더 방어 빔!)</strong>: 
   - 엔지니어 한 방: 기간별로 테이프(디스크) 등급을 철저히 매긴다! 
   - 매일 뜨는 백업(Son 아들)은 딱 7일 치만 보관하고 옛날 건 계속 덮어쓴다(삭제). 일주일에 1번 뜨는(Father 아빠) 건 딱 4~5개(1달 치)만 보관한다. 한 달에 1번 뜨는(Grandfather 할배) 건 은행 지하 창고에 12개(1년 치) 모아둔다.
   - 갓기능 회전 스로틀: 이 절묘한 톱니바퀴 주기 덕분에, 디스크 사용량을 수직 하락시키면서도(비용 최소화 O(1)), "어제 실수로 지운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)" 은 Son에서 부활시키고, "해커가 6개월 전에 몰래 깔아놓은 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)" 는 할배(Grandfather) 타임머신에서 완전 이주 복원 탈환시켜내는 엔터프라이즈 하이브리드 통치 기전이다 통달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
@@ -140,15 +134,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[FUSE (Filesystem in Userspace)]
-    │
-    ▼
-[백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
-    │
-    ├──▶ [삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
-    └──▶ [임시 파일 시스템 (tmpfs / ramfs)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FUSE (Filesystem in Userspace)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -20,7 +20,7 @@ tags = ["studynote-ict-convergence"]
 
 인터넷이 탄생할 때, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)에는 있었지만 정작 가장 중요한 '신원(Identity)을 증명하는 레이어'가 빠져 있었다. 
 
-그래서 우리는 웹사이트에 접속할 때마다 구글, 애플, 네이버 같은 거대 플랫폼의 아이디로 로그인([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/))하거나 정부의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 거쳐야 했다. 이 **중앙집중형 신원 모델**은 플랫폼이 내가 언제 어떤 사이트에 접속하는지 모든 족적을 감시하게 만들었고, 플랫폼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 뚫리는 순간 수천만 명의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 탈탈 털리는 참사를 낳았다. 이에 분노한 아키텍트들은 "내 정보는 내 스마트폰(지갑)에 두고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 이용해 플랫폼의 간섭 없이 내가 직접 나를 증명하겠다"는 철학인 SSI(자기주권 신원)를 선언했고, 이를 구동하는 기계적 쇳덩어리 표준이 바로 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity)다.
+그래서 우리는 웹사이트에 접속할 때마다 구글, 애플, 네이버 같은 거대 플랫폼의 아이디로 로그인([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/))하거나 정부의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 거쳐야 했다. 이 <strong>중앙집중형 신원 모델</strong>은 플랫폼이 내가 언제 어떤 사이트에 접속하는지 모든 족적을 감시하게 만들었고, 플랫폼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 뚫리는 순간 수천만 명의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 탈탈 털리는 참사를 낳았다. 이에 분노한 아키텍트들은 "내 정보는 내 스마트폰(지갑)에 두고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 이용해 플랫폼의 간섭 없이 내가 직접 나를 증명하겠다"는 철학인 SSI(자기주권 신원)를 선언했고, 이를 구동하는 기계적 쇳덩어리 표준이 바로 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(Decentralized Identity)다.
 
 - **📢 섹션 요약 비유**: 중앙집중형 신원 증명이 술집에 들어갈 때 '주민등록증(내 모든 정보가 적힘)'을 통째로 넘겨주고 사장님이 진짜인지 정부에 전화해서 물어보는 것이라면, DID는 '성인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 마크가 찍힌 비밀 팔찌'만 보여주고 넘어가는 것이다. 사장님은 내 이름도 나이도 모르지만 팔찌가 진짜라는 것([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 증명)만 믿고 들여보내 준다.
 
@@ -31,27 +31,26 @@ tags = ["studynote-ict-convergence"]
 ### [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계의 3대 주체와 VC 흐름 구조
 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본은 절대 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올라가지 않는다. 정보는 발급자(Issuer)로부터 사용자(Holder)의 지갑으로 직접 들어간다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           DID (분산 신원 증명) 트러스트 트라이앵글 로직      │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   [ 발급자 (Issuer) ] ──────(VC 발급)─────▶ [ 사용자 (Holder) ]│
-│    (학교, 병원, 정부)                            (개인의 스마트폰 지갑)│
-│            │                                           │
-│            │ (공개키 등록)                 (VP 제출) │
-│            ▼                                           ▼
-│   [ 블록체인 (DID Registry) ] ◀──(DID 검증)── [ 검증자 (Verifier) ]│
-│    - 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록     (기업, 쇼핑몰)  │
-│                                                        │
-│ * 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로   │
-│   서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서        │
-│   학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다! │
-└────────────────────────────────────────────────────────┘
-```
 
-- **VC (Verifiable Credential, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 크리덴셜)**: 플라스틱 신분증의 디지털 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발급자의 전자 서명이 포함된 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꾸러미다.
-- **VP (Verifiable Presentation, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 프레젠테이션)**: 사용자가 지갑에 있는 VC 중 '필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(나이 등)만' 쏙 빼서 새롭게 묶어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 제출하는 정보의 최소 공개 묶음이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID (분산 신원 증명) 트러스트 트라이앵글 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발급자 (Issuer)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사용자 (Holder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학교, 병원, 정부) (개인의 스마트폰 지갑)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공개키 등록) (VP 제출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 (DID Registry)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">검증자 (Verifier)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록 (기업, 쇼핑몰)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다!</div></div>
+</div>
+</div>
+
+
+
+- <strong>VC (Verifiable Credential, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 크리덴셜)</strong>: 플라스틱 신분증의 디지털 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발급자의 전자 서명이 포함된 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꾸러미다.
+- <strong>VP (Verifiable Presentation, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 프레젠테이션)</strong>: 사용자가 지갑에 있는 VC 중 '필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(나이 등)만' 쏙 빼서 새롭게 묶어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 제출하는 정보의 최소 공개 묶음이다.
 
 - **📢 섹션 요약 비유**: 발급자(경찰청)는 내 폰(Holder)에 운전면허증(VC)을 쏴주고, 동시에 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 게시판에 "내 도장(공개키)은 이거야"라고 올려놓는다. 내가 렌터카 회사([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자)에 면허증을 주면, 회사는 경찰청에 전화할 필요 없이 게시판의 도장과 내 면허증의 도장 자국만 맞춰보고 계약을 진행한다.
 
@@ -66,7 +65,7 @@ tags = ["studynote-ict-convergence"]
 |:---|:---|:---|:---|
 | **1세대** | **중앙집중형 (Siloed)** | 개별 웹사이트 (쇼핑몰 등) | 사이트마다 ID/PW [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 사용자 피로도 극악, 개별 DB 해킹 취약 |
 | **2세대** | **연합형 (Federated)** | 빅테크 플랫폼 (구글, 카카오 [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)) | 편리함. 그러나 플랫폼이 내 모든 로그인 족적을 수집/감시하는 프라이버시 종속 |
-| **3세대** | **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 ([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) / SSI)** | **사용자 본인 (스마트폰 지갑 + [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))** | 플랫폼 종속 탈피. 내 정보는 내 폰에 저장. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 무결성만 증명 |
+| **3세대** | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>형 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> / SSI)</strong> | <strong>사용자 본인 (스마트폰 지갑 + <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>)</strong> | 플랫폼 종속 탈피. 내 정보는 내 폰에 저장. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 무결성만 증명 |
 
 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)(3세대)는 페더레이션(2세대)의 편리함을 유지하면서도, 그동안 구글이나 네이버가 가져갔던 '개인데이터 중개 수수료와 감시 권력'을 박탈하여 개인에게 돌려주는 무혈 혁명이다.
 
@@ -78,10 +77,10 @@ tags = ["studynote-ict-convergence"]
 
 ### 실무 시나리오
 1. **모바일 신분증 및 백신 패스 구축**: 대한민국 정부의 모바일 운전면허증이나 코로나19 백신 여권(COOV) 앱이 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 아키텍처로 구현되었다. 질병관리청(Issuer)은 접종 정보(VC)를 개인 폰(Holder)에 암호화해 발급하고, 식당(Verifier)에서 QR을 찍을 때 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 공개키로 위변조만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 질병청 중앙 서버가 다운되어도 이미 폰에 VC가 있기 때문에 수천만 명의 식당 입장이 오프라인에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 돌아가는 탈중앙화의 승리다.
-2. **[영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)) 융합의 최소 공개 (Selective Disclosure)**: 편의점에서 술을 살 때 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 지갑은 주민번호나 집 주소(VC 전체)를 넘기지 않는다. [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 암호학을 융합하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기에게 "이 사람의 나이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 19보다 크다"는 수학적 결과값(True)만을 연산하여 던져준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 넘기지 않고 조건만 증명하는 극단적인 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술이다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/">Zero-Knowledge Proof</a>) 융합의 최소 공개 (Selective Disclosure)</strong>: 편의점에서 술을 살 때 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 지갑은 주민번호나 집 주소(VC 전체)를 넘기지 않는다. [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 암호학을 융합하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기에게 "이 사람의 나이 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 19보다 크다"는 수학적 결과값(True)만을 연산하여 던져준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체를 넘기지 않고 조건만 증명하는 극단적인 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본(PII)을 기록하는 설계**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장이 안전하다고 착각하여, [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 시스템을 설계할 때 이름, 전화번호 같은 민감 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(PII)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 기록해 버리는 범죄적 아키텍처. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 영구 삭제(Right to be Forgotten)가 불가능한 수정 불가(Append-only) 장부다. 여기에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 올리면 전 세계 노드에 내 정보가 영원히 박제되어 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)(유럽 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)) 위반으로 즉각 철퇴를 맞는다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에는 오직 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 난수 식별자와 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 '공개키'만 올라가야 한다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>에 <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 원본(PII)을 기록하는 설계</strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장이 안전하다고 착각하여, [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 시스템을 설계할 때 이름, 전화번호 같은 민감 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(PII)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 기록해 버리는 범죄적 아키텍처. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 영구 삭제(Right to be Forgotten)가 불가능한 수정 불가(Append-only) 장부다. 여기에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 올리면 전 세계 노드에 내 정보가 영원히 박제되어 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)(유럽 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)) 위반으로 즉각 철퇴를 맞는다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에는 오직 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 난수 식별자와 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 '공개키'만 올라가야 한다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 올리는 것은, 광화문 네거리 돌비석에 내 일기장 내용을 영원히 지워지지 않게 조각해 놓는 미친 짓이다. 돌비석([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))에는 내 서명이 진짜인지 비교할 '도장 모양(공개키)' 하나만 새겨둬야 한다.
 
@@ -102,26 +101,28 @@ DID와 SSI는 단순히 로그인 방식을 바꾸는 기술이 아니라, 인�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **VC (Verifiable Credential)** | 종이 증명서를 대체하는 디지털 신원 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/). 발급자의 암호학적 서명이 찍혀있어, 내용이 1비트만 바뀌어도 즉각 가짜로 판별되는 쇳덩어리 문서 |
-| **[영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))** | 내 비밀(패스워드나 나이)을 상대방에게 알려주지 않고도, 내가 그 비밀을 알고 있거나 조건에 맞음을 수학적으로 증명해 내는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 프라이버시의 핵무기 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/">영지식 증명</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/">Zero-Knowledge Proof</a>)</strong> | 내 비밀(패스워드나 나이)을 상대방에게 알려주지 않고도, 내가 그 비밀을 알고 있거나 조건에 맞음을 수학적으로 증명해 내는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 프라이버시의 핵무기 |
 | **Web 3.0** | 플랫폼이 독점하던 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 통해 개인에게 되돌려주려는 차세대 인터넷 철학. SSI는 Web 3.0의 가장 핵심적인 ID 레이어다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개인정보 유출 사고 빈발 및 거대 플랫폼의 데이터 독점 (Siloed & Federated ID)
-    │
-    ▼
-자기주권 신원(SSI, Self-Sovereign Identity) 철학 대두 (데이터 주권 회복)
-    │
-    ▼
-블록체인 인프라 성숙 ──▶ 위변조 없는 분산 원장 기술(DLT) 융합
-    │
-    ▼
-W3C 표준 DID (Decentralized Identifier) 및 VC 규격 국제 표준화 제정
-    │
-    ▼
-ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지털 국가 신분증(eID) 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개인정보 유출 사고 빈발 및 거대 플랫폼의 데이터 독점 (Siloed &amp; Federated ID)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자기주권 신원(SSI, Self-Sovereign Identity) 철학 대두 (데이터 주권 회복)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록체인 인프라 성숙 ──▶ 위변조 없는 분산 원장 기술(DLT) 융합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">W3C 표준 DID (Decentralized Identifier) 및 VC 규격 국제 표준화 제정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지털 국가 신분증(eID) 적용</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 상실 → 철학적 반성 → [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 하드웨어 기술 결합 → 글로벌 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준화 → 극강의 프라이버시 실현"으로 치닫는 디지털 신원 패러다임의 혁명을 보여준다.
 

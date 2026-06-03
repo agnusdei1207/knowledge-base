@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 가정집에서는 인터넷을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(Modem)을 씁니다. [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 컴퓨터의 '디지털' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전화선이나 동축케이블을 타고 갈 수 있는 '아날로그' 파동으로 변환합니다.
 
-하지만 기업에서 사용하는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)(예: T1 1.544Mbps 회선)은 처음부터 끝까지 **디지털 회선**입니다. 그럼 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 필요 없을까요? 
-라우터나 컴퓨터 내부에서 쓰는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(유니폴라, 단극성)는 약해서 수 킬로미터 밖으로 보내면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 죽어버립니다. 이를 통신사 국사까지 **장거리로 쏠 수 있는 강력한 통신용 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(바이폴라, 양극성)로 변환해 주는 장비**가 바로 DSU/CSU입니다.
+하지만 기업에서 사용하는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)(예: T1 1.544Mbps 회선)은 처음부터 끝까지 <strong>디지털 회선</strong>입니다. 그럼 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 필요 없을까요? 
+라우터나 컴퓨터 내부에서 쓰는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(유니폴라, 단극성)는 약해서 수 킬로미터 밖으로 보내면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 죽어버립니다. 이를 통신사 국사까지 <strong>장거리로 쏠 수 있는 강력한 통신용 디지털 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(바이폴라, 양극성)로 변환해 주는 장비</strong>가 바로 DSU/CSU입니다.
 
-```text
-[케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    ▼
-[DSU / CSU]
-    │
-    └──▶ [모뎀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모뎀</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSU / CSU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,25 +46,29 @@ tags = ["studynote-network"]
 보통 두 기능이 하나의 박스(DCE 장비)에 합쳐져 있어 `CSU/DSU`라고 통칭하지만, 내부적으로는 역할이 다릅니다.
 
 ### 1. DSU (Digital [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Unit)
-- **주요 역할: [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변환 및 속도 제어**
+- <strong>주요 역할: <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 변환 및 속도 제어</strong>
 - 라우터(단말)에서 나오는 단극성(Unipolar) NRZ 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 선로 전송에 적합한 양극성(Bipolar, 예: [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/), B8ZS) 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환합니다. 
 - 반대로 통신망에서 들어온 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 라우터가 이해할 수 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 복원합니다.
 - 데이터의 타이밍(클럭)을 맞추어주는 역할도 합니다.
 
 ### 2. CSU (Channel [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Unit)
-- **주요 역할: 선로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 테스트, [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 채널 관리**
+- <strong>주요 역할: 선로 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>, 테스트, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 채널 관리</strong>
 - DSU와 통신사 외부 선로(WAN) 사이의 문지기 역할을 합니다. 
 - 외부 선로에서 낙뢰나 과전압이 들어오면 차단하여 내부 라우터를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)합니다.
 - T1 회선(1.544Mbps)은 24개의 채널(DS0, 64Kbps)로 쪼개져 있는데, 이 채널들을 묶고 나누는([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 역할을 수행합니다. 루프백(Loopback) 테스트 기능이 있어 회선 어디가 끊어졌는지 점검할 수 있습니다.
 
-```text
-[케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    ▼
-[DSU / CSU]
-    │
-    └──▶ [모뎀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모뎀</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSU / CSU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -79,7 +87,7 @@ DSU / CSU를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(Modem)이 한국어(디지털)를 완전히 다른 언어인 영어(아날로그)로 번역하는 **번역가**라면, DSU/CSU는 작은 목소리의 한국어([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 10km 밖에서도 들릴 수 있도록 **우렁찬 확성기(장거리 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))로 바꾸어 소리쳐주는 아나운서**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/">모뎀</a>(Modem)이 한국어(디지털)를 완전히 다른 언어인 영어(아날로그)로 번역하는 </strong>번역가<strong>라면, DSU/CSU는 작은 목소리의 한국어(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)를 10km 밖에서도 들릴 수 있도록 </strong>우렁찬 확성기(장거리 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))로 바꾸어 소리쳐주는 아나운서**입니다.
 
 ---
 
@@ -121,15 +129,19 @@ DSU / CSU는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    ▼
-[현재 개념: DSU / CSU]
-    │
-    ├──▶ [확장 A: 모뎀]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSU / CSU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 모뎀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 DSU / CSU는 케이블 배선: 다이렉트 케이블 vs 크로스오…에서 출발해 현재 메커니즘을 정교화하고, 이후 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

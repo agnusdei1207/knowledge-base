@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 스마트폰의 보급, 넷플릭스 등 고화질 스트리밍, 그리고 최근의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)) 모델 학습을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내부의 트래픽은 기하급수적으로 증가했습니다. 
-이를 감당하기 위해 IEEE 802.3 위원회는 10GbE를 넘어 **40GbE, 100GbE (IEEE 802.3ba, 2010년)**를 거쳐, 현재는 **400GbE (IEEE 802.3bs, 2017년)**와 **800GbE (2024년 발표 예정/[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중)**까지 표준을 확장하고 있습니다.
+이를 감당하기 위해 IEEE 802.3 위원회는 10GbE를 넘어 <strong>40GbE, 100GbE (IEEE 802.3ba, 2010년)</strong>를 거쳐, 현재는 <strong>400GbE (IEEE 802.3bs, 2017년)</strong>와 <strong>800GbE (2024년 발표 예정/<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중)</strong>까지 표준을 확장하고 있습니다.
 
-```text
-[10GBASE-T / 10GBASE-SR /…]
-    │
-    ▼
-[40GbE / 100GbE / 400GbE…]
-    │
-    └──▶ [MDI/MDI-X]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MDI/MDI-X</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하나의 케이블 가닥(레인)에서 100Gbps, 400Gbps를 한 번에 쏘는 것은 물리적으로 한계가 있습니다. 따라서 고속 이더넷은 **물리적 병렬화(레인 묶기)**와 **전기적 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(변조)**을 동시에 사용합니다.
+하나의 케이블 가닥(레인)에서 100Gbps, 400Gbps를 한 번에 쏘는 것은 물리적으로 한계가 있습니다. 따라서 고속 이더넷은 <strong>물리적 병렬화(레인 묶기)</strong>와 <strong>전기적 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(변조)</strong>을 동시에 사용합니다.
 
 ### 1. 다중 레인 (Multi-Lane) 방식
 - 하나의 물리적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: QSFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 안에 여러 개의 광섬유 가닥(또는 파장)을 배치하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 동시에 전송합니다.
@@ -46,17 +50,21 @@ tags = ["studynote-network"]
 
 ### 2. 고차 변조 방식 (PAM-4) 도입
 - 레인 개수를 무작정 늘리면 케이블이 너무 굵어지고 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 커지는 문제가 발생합니다. 따라서 레인 1개당 전송하는 기본 속도를 10Gbps ➔ 25Gbps ➔ 50Gbps ➔ 100Gbps로 계속 끌어올려야 합니다.
-- **NRZ (Non-Return to [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))**: 기존 10GbE나 25GbE까지는 0과 1 두 가지 전압만 사용하는 NRZ 방식을 썼습니다.
-- **PAM-4 (Pulse Amplitude Modulation 4-level)**: 400GbE 등 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 영역에서는 전압을 4단계(00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))로 쪼개어, **한 번의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 2비트씩 전송**합니다. 주파수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 높이지 않고도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량을 2배로 뻥튀기하는 마법입니다.
+- <strong>NRZ (Non-Return to <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)</strong>: 기존 10GbE나 25GbE까지는 0과 1 두 가지 전압만 사용하는 NRZ 방식을 썼습니다.
+- **PAM-4 (Pulse Amplitude Modulation 4-level)**: 400GbE 등 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 영역에서는 전압을 4단계(00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))로 쪼개어, <strong>한 번의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>에 2비트씩 전송</strong>합니다. 주파수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 높이지 않고도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량을 2배로 뻥튀기하는 마법입니다.
 
-```text
-[10GBASE-T / 10GBASE-SR /…]
-    │
-    ▼
-[40GbE / 100GbE / 400GbE…]
-    │
-    └──▶ [MDI/MDI-X]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MDI/MDI-X</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 10GBASE-T / 10GBASE-SR /…]
-    │
-    ▼
-[현재 개념: 40GbE / 100GbE / 400GbE…]
-    │
-    ├──▶ [확장 A: MDI/MDI-X]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 10GBASE-T / 10GBASE-SR /…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 40GbE / 100GbE / 400GbE…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MDI/MDI-X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 40GbE / 100GbE / 400GbE…는 10GBASE-T / 10GBASE-SR /…에서 출발해 현재 메커니즘을 정교화하고, 이후 MDI/MDI-X와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

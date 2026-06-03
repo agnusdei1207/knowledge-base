@@ -18,25 +18,27 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-아키텍처 발전:
 
-1-Tier (파일 공유):
-  [앱+DB+데이터 모두 한 기계]
-  → 다중 사용자 불가
 
-2-Tier (C/S):
-  [클라이언트 앱] ──SQL──> [DB 서버]
-  → 클라이언트가 두꺼움 (Fat Client)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">아키텍처 발전:</div>
+<div class="kb-diagram-note">1-Tier (파일 공유):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱+DB+데이터 모두 한 기계</div></div>
+<div class="kb-diagram-note">→ 다중 사용자 불가</div>
+<div class="kb-diagram-note">2-Tier (C/S):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 앱</div><div class="kb-diagram-note">──SQL──&gt;</div><div class="kb-diagram-node">DB 서버</div></div>
+<div class="kb-diagram-note">→ 클라이언트가 두꺼움 (Fat Client)</div>
+<div class="kb-diagram-note">3-Tier:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브라우저/앱</div><div class="kb-diagram-note">──HTTP──&gt;</div><div class="kb-diagram-node">앱 서버</div><div class="kb-diagram-note">──SQL──&gt;</div><div class="kb-diagram-node">DB 서버</div></div>
+<div class="kb-diagram-note">→ 표준 웹 아키텍처</div>
+<div class="kb-diagram-note">N-Tier (MSA):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API 게이트웨이</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서비스A,B,C</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB A,B,C</div></div>
+<div class="kb-diagram-note">→ 서비스별 독립 DB</div>
+</div>
+</div>
 
-3-Tier:
-  [브라우저/앱] ──HTTP──> [앱 서버] ──SQL──> [DB 서버]
-  → 표준 웹 아키텍처
 
-N-Tier (MSA):
-  [클라이언트] → [API 게이트웨이] → [서비스A,B,C] → [DB A,B,C]
-  → 서비스별 독립 DB
-```
 
 - **📢 섹션 요약 비유**: 아키텍처 발전은 음식점 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 방식이다. 혼자 밥 해먹기(1-Tier), 식당 가서 주문(2-Tier), 배달앱으로 주문(3-Tier), 여러 배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연동([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 순으로 복잡성과 확장성이 증가한다.
 
@@ -70,8 +72,8 @@ N-Tier (MSA):
 | **JDBC/ODBC** | 표준 DB 접근 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | **ORM** | 객체-[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 매핑 (Hibernate, JPA) |
 | **커넥션 풀** | 연결 재사용 (HikariCP, DBCP) |
-| **[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)** | 연결 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (ProxySQL, PgBouncer) |
-| **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)** | [MSA DB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/284_msa_db/) 연결 관리 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong> | 연결 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (ProxySQL, PgBouncer) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a></strong> | [MSA DB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/284_msa_db/) 연결 관리 |
 
 - **📢 섹션 요약 비유**: 커넥션 풀은 택시 대기소다. 항상 10대의 택시(DB 연결)가 대기하고 있어서 손님(요청)이 오면 즉시 배차(연결 제공)한다. 매번 새 택시를 불러오는 것(새 연결 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))보다 훨씬 빠르다.
 
@@ -110,15 +112,20 @@ spring:
 
 ### 읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분리 아키텍처
 
-```text
-쓰기 연결 풀 → Primary DB (쓰기 전용)
-읽기 연결 풀 → Replica DB×N (읽기 분산)
 
-장점:
-  - 읽기 쿼리 부하 분산
-  - Primary DB 쓰기 성능 보호
-  - 읽기 쿼리 다중 복제본 병렬 처리
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">쓰기 연결 풀 → Primary DB (쓰기 전용)</div>
+<div class="kb-diagram-note">읽기 연결 풀 → Replica DB×N (읽기 분산)</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">읽기 쿼리 부하 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Primary DB 쓰기 성능 보호</div>
+<div class="kb-diagram-tree-item" style="--depth:1">읽기 쿼리 다중 복제본 병렬 처리</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분리는 복사 센터 운영이다. 원본 작성(Primary/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))과 복사 출력(Replica/읽기)을 분리하여, 복사 수요가 많아도 원본 작업에 방해가 없다.
 
@@ -128,7 +135,7 @@ spring:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 커넥션 풀로 연결 오버헤드 제거 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 커넥션 풀로 연결 오버헤드 제거 |
 | **확장성** | 3-Tier/MSA로 수평 확장 용이 |
 | **보안** | DB 서버를 클라이언트로부터 격리 |
 
@@ -144,27 +151,29 @@ spring:
 |:---|:---|
 | **커넥션 풀** | DB 연결 재사용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
 | **HikariCP** | Spring Boot 표준 커넥션 풀 |
-| **읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분리** | Primary/Replica 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **RDS [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)** | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경 DB 연결 관리 |
+| <strong>읽기-<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 분리</strong> | Primary/Replica 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong>RDS <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong> | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경 DB 연결 관리 |
 | **ORM** | 객체-DB 매핑 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파일 공유 DB — 1-Tier, 동시성 문제]
-    │
-    ▼
-[2-Tier C/S — DB 서버 중앙화, Fat Client]
-    │
-    ▼
-[3-Tier — 앱 서버 추가, 커넥션 풀, 표준 웹 구조]
-    │
-    ▼
-[MSA — 서비스별 독립 DB, API 게이트웨이]
-    │
-    ▼
-[서버리스 DB 프록시 — Lambda 커넥션 폭발 해결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 공유 DB — 1-Tier, 동시성 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2-Tier C/S — DB 서버 중앙화, Fat Client</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3-Tier — 앱 서버 추가, 커넥션 풀, 표준 웹 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MSA — 서비스별 독립 DB, API 게이트웨이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 DB 프록시 — Lambda 커넥션 폭발 해결</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

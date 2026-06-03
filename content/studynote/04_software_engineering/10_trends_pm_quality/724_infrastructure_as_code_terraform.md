@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 과거의 인프라 엔지니어(시스템 관리자)들은 서버 한 대를 띄우기 위해 서버실에 들어가 랜선을 꽂고, 리눅스 CD를 넣고, 밤새워 까만 화면에 리눅스 명령어를 타이핑했다. 클라우드(AWS)가 등장하자 서버실에 갈 필요는 없어졌지만, 여전히 웹 브라우저 콘솔에 접속해서 수십 번의 '마우스 클릭'을 통해 서버(EC2)와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)을 만들어야 했다.
 
-문제는 **'사람의 실수(Human Error)'와 '재현 불가능성'**이었다. 클릭으로 서버를 만들면, "어제 내가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 포트를 80번을 열었나, 8080번을 열었나?"를 아무도 기억하지 못했다. 퇴사한 직원이 만든 서버와 똑같은 서버를 하나 더 만들려면 며칠 밤을 새우며 메뉴얼을 뒤져야 했다.
+문제는 <strong>'사람의 실수(Human Error)'와 '재현 불가능성'</strong>이었다. 클릭으로 서버를 만들면, "어제 내가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 포트를 80번을 열었나, 8080번을 열었나?"를 아무도 기억하지 못했다. 퇴사한 직원이 만든 서버와 똑같은 서버를 하나 더 만들려면 며칠 밤을 새우며 메뉴얼을 뒤져야 했다.
 
-이 눈물겨운 삽질([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))을 끝내기 위해, **"클릭하지 말고, 우리가 원하는 인프라의 상태를 코드로 적어놓자. 그러면 기계가 알아서 클라우드 API를 호출해 코드를 인프라로 똑같이 번역해 주게 만들자"**는 혁명적인 사상이 등장했다. 이것이 바로 **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))**다.
+이 눈물겨운 삽질([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))을 끝내기 위해, <strong>"클릭하지 말고, 우리가 원하는 인프라의 상태를 코드로 적어놓자. 그러면 기계가 알아서 클라우드 API를 호출해 코드를 인프라로 똑같이 번역해 주게 만들자"</strong>는 혁명적인 사상이 등장했다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 마우스로 인프라를 만드는 건 '모래성 쌓기'다. 발로 차서 부서지면 처음부터 내 손으로 다시 만들어야 한다. IaC는 모래성을 만드는 완벽한 '금형 틀(코드)'을 파놓는 것이다. 모래성이 부서져도 금형에 모래를 붓고 찍어내기만 하면 1초 만에 똑같은 성이 계속 복제된다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [인프라스트럭처 애즈 코드](/knowledge-base/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인프라스트럭처 애즈 코드 (IaC)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라스트럭처 애즈 코드 (IaC)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [인프라스트럭처 애즈 코드](/knowledge-base/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IaC의 대명사인 **[테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))**을 기준으로 아키텍처와 작동 원리를 살펴보자.
+IaC의 대명사인 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">테라폼</a>(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>)</strong>을 기준으로 아키텍처와 작동 원리를 살펴보자.
 
 - **📢 섹션 요약 비유**: [인프라스트럭처 애즈 코드](/knowledge-base/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,12 +71,12 @@ IaC의 대명사인 **[테라폼](/knowledge-base/studynote/15_devops_sre/05_dev
 
 ## Ⅲ. 비교 및 연결
 
-[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구들은 크게 **'서버를 찍어내는 도구([Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))'**와 **'서버 안의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 맞추는 도구([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/))'**로 나뉜다.
+[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구들은 크게 <strong>'서버를 찍어내는 도구(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)'</strong>와 <strong>'서버 안의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>을 맞추는 도구(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">Configuration Management</a>)'</strong>로 나뉜다.
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 주요 목적 | 대표 도구 | 특징 |
 |:---|:---|:---|:---|
-| **[프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) ([Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))** | 인프라 뼈대 창조 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), DB [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | **[Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)**, AWS CloudFormation | 선언적. 여러 클라우드(AWS, GCP)를 동시에 지원함. |
-| **[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) (Configuration)** | 뼈대 안의 살 붙이기 (OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Nginx 설치) | **[Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)**, Chef, Puppet | 서버에 접속해서 스크립트를 차례대로 실행함. ([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장) |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong> | 인프라 뼈대 창조 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), DB [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a></strong>, AWS CloudFormation | 선언적. 여러 클라우드(AWS, GCP)를 동시에 지원함. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a> (Configuration)</strong> | 뼈대 안의 살 붙이기 (OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), Nginx 설치) | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/">Ansible</a></strong>, Chef, Puppet | 서버에 접속해서 스크립트를 차례대로 실행함. ([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장) |
 
 최근에는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)와 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술이 발달하면서 서버 안에 Nginx를 까는 '[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)' 작업은 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지로 대체되었다. 따라서 현대 인프라 엔지니어링은 **Terraform으로 뼈대를 만들고, Docker로 살을 붙이는** 조합이 대세가 되었다.
 
@@ -93,7 +92,7 @@ IaC의 대명사인 **[테라폼](/knowledge-base/studynote/15_devops_sre/05_dev
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-IaC를 도입하면 인프라가 텍스트 파일이 되므로, [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 위대한 유산인 **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리(Git)**를 인프라에 그대로 쓸 수 있다. 이를 **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)**라고 부른다.
+IaC를 도입하면 인프라가 텍스트 파일이 되므로, [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 위대한 유산인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리(Git)</strong>를 인프라에 그대로 쓸 수 있다. 이를 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong>라고 부른다.
 
 - **📢 섹션 요약 비유**: [인프라스트럭처 애즈 코드](/knowledge-base/studynote/12_it_management/05_security_compliance/207_iac_terraform_immutable_infrastructure/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -130,21 +129,23 @@ IaC를 내재화하면, 메인 서버가 랜섬웨어에 감염되어 파괴되�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인프라스트럭처 애즈 코드 (IaC) 테라폼 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인프라스트럭처 애즈 코드 (IaC) 테라폼 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

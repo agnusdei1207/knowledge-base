@@ -42,18 +42,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 두 패턴의 호출 흐름 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Who owns service instance selection?                │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ Client-side Discovery        │ Server-side Discovery                │
-├──────────────────────────────┼───────────────────────────────────────┤
-│ Caller -> Registry           │ Caller -> Proxy / LB                 │
-│ Caller gets instance list    │ Proxy -> Registry                    │
-│ Caller selects one target    │ Proxy selects one target             │
-│ Caller -> Target instance    │ Proxy -> Target instance             │
-└──────────────────────────────┴───────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Who owns service instance selection?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client-side Discovery</div><div class="kb-diagram-cell">Server-side Discovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller -&gt; Registry</div><div class="kb-diagram-cell">Caller -&gt; Proxy / LB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller gets instance list</div><div class="kb-diagram-cell">Proxy -&gt; Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller selects one target</div><div class="kb-diagram-cell">Proxy selects one target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller -&gt; Target instance</div><div class="kb-diagram-cell">Proxy -&gt; Target instance</div></div>
+</div>
+</div>
+
+
 
 클라이언트 사이드는 소프트웨어 개발 키트 (SDK, Software Development Kit)나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 품질이 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질로 이어진다. 예를 들어 넷플릭스 유레카 (Eureka)와 리본 (Ribbon) 조합처럼, 클라이언트가 인스턴스 목록을 캐시하고 자체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 선택할 수 있다. 반면 서버 사이드는 [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)), 리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), Envoy, 클라우드 로드밸런서가 중앙에서 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해 애플리케이션 코드를 단순화한다.
 
@@ -116,7 +118,7 @@ tags = ["studynote-enterprise"]
 
 올바른 패턴을 선택하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고, [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)·오토스케일링·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 더 자연스럽게 운영할 수 있다. 클라이언트 사이드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 세밀 제어에서, 서버 사이드는 표준화와 운영 효율에서 강점을 보인다. 중요한 것은 어떤 이름을 붙이느냐가 아니라, 조직과 플랫폼에 맞게 책임 경계를 분명히 두는 것이다.
 
-물론 어느 쪽도 공짜는 아니다. 클라이언트 사이드는 코드와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 비용이 커지고, 서버 사이드는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 계층의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 관측성을 반드시 보장해야 한다. 따라서 이 주제는 "둘 중 누가 더 우월한가"보다 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인스턴스 선택 책임을 어디에 둘 것인가**라는 설계 문제로 기억해야 한다.
+물론 어느 쪽도 공짜는 아니다. 클라이언트 사이드는 코드와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 비용이 커지고, 서버 사이드는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 계층의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 관측성을 반드시 보장해야 한다. 따라서 이 주제는 "둘 중 누가 더 우월한가"보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 인스턴스 선택 책임을 어디에 둘 것인가</strong>라는 설계 문제로 기억해야 한다.
 
 현대 환경에서는 서버 사이드가 기본값에 가까워졌지만, 특수 저지연 워크로드와 맞춤 로드밸런싱 요구에서는 클라이언트 사이드가 여전히 살아 있다. 결국 좋은 아키텍처는 패턴 이름보다도, 장애 전파와 운영 복잡도를 누가 감당하는지까지 명확하게 설계한 아키텍처다.
 
@@ -137,20 +139,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 IP / 설정 파일 의존
-    │
-    ▼
-서비스 레지스트리 도입
-    │
-    ├─ 클라이언트 사이드 디스커버리
-    │      └─ App 내부 로드밸런싱
-    └─ 서버 사이드 디스커버리
-           └─ Proxy / Gateway / Mesh
-    │
-    ▼
-Kubernetes Service · Service Mesh · Policy-driven traffic
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 IP / 설정 파일 의존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 레지스트리 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">클라이언트 사이드 디스커버리</div>
+<div class="kb-diagram-note">─ App 내부 로드밸런싱</div>
+<div class="kb-diagram-tree-item" style="--depth:2">서버 사이드 디스커버리</div>
+<div class="kb-diagram-tree-item" style="--depth:5">Proxy / Gateway / Mesh</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kubernetes Service · Service Mesh · Policy-driven traffic</div>
+</div>
+</div>
+
+
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 고정 주소 기반 통신에서, 상태 기반 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)과 플랫폼 자동화 중심으로 발전하는 과정을 보여 준다.
 

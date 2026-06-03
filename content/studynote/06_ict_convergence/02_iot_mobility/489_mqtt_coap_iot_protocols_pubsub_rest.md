@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 필요성**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 필요성</strong>
 
 HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)에 달해, RAM이 수십 KB에 불과한 MCU(Micro Controller Unit)에서 동작하기 어렵다. [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서는 아래 조건을 모두 만족하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 필요하다.
 
@@ -34,21 +34,24 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────────────┐
-│         MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교         │
-├──────────────────────────┬─────────────────────────────────┤
-│         MQTT             │           CoAP                  │
-│  [Publisher(발행자)]      │  [CoAP Client]                  │
-│       │                  │       │ GET/PUT/POST/DELETE      │
-│       ▼  토픽(Topic)      │       ▼                         │
-│  [Broker(브로커)]         │  [CoAP Server]                  │
-│       │                  │  (자원 URI: /sensor/temp)        │
-│       ▼  구독(Subscribe)  │                                 │
-│  [Subscriber(구독자)]     │  [Observe 옵션]                  │
-│  (다수의 클라이언트)        │  (변경 시 자동 알림 → Push)       │
-└──────────────────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT</div><div class="kb-diagram-cell">CoAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Publisher(발행자)</div><div class="kb-diagram-node">CoAP Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET/PUT/POST/DELETE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 토픽(Topic)</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Broker(브로커)</div><div class="kb-diagram-node">CoAP Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자원 URI: /sensor/temp)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 구독(Subscribe)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Subscriber(구독자)</div><div class="kb-diagram-node">Observe 옵션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다수의 클라이언트)</div><div class="kb-diagram-cell">(변경 시 자동 알림 → Push)</div></div>
+</div>
+</div>
+
+
 
 ### [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) vs [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 핵심 비교표
 
@@ -63,13 +66,13 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 | 보안 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) | [DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) |
 | 적합 환경 | 안정적 네트워크, 다수 구독 | 제약적 기기, 저전력 |
 
-**[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 3단계**
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/">MQTT</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>) 3단계</strong>
 
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0 (At most once)**: 전달 보장 없음. 손실 허용 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 1 (At least once)**: 최소 1회 전달. 중복 가능. 대부분의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이벤트.
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2 (Exactly once)**: 정확히 1회 전달. 금융·의료 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/). 오버헤드 최대.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 0 (At most once)</strong>: 전달 보장 없음. 손실 허용 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 1 (At least once)</strong>: 최소 1회 전달. 중복 가능. 대부분의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이벤트.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 2 (Exactly once)</strong>: 정확히 1회 전달. 금융·의료 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/). 오버헤드 최대.
 
-**[CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 특징**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a> 특징</strong>
 
 - **Observe 옵션**: 클라이언트가 서버 자원을 구독하면, 값 변경 시 서버가 자동으로 알림 전송. MQTT의 Push와 유사한 효과를 UDP로 구현.
 - **CON/NON 메시지**: CON(Confirmable)은 ACK 수신까지 재전송. NON(Non-confirmable)은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송, 저전력.
@@ -80,7 +83,7 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 
 ## Ⅲ. 비교 및 연결
 
-**MQTT와 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 선택 기준**
+<strong>MQTT와 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a> 선택 기준</strong>
 
 | 조건 | 선택 |
 |:---|:---:|
@@ -99,7 +102,7 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 선택 시나리오**
+<strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 선택 시나리오</strong>
 
 | 시나리오 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 이유 |
 |:---|:---:|:---|

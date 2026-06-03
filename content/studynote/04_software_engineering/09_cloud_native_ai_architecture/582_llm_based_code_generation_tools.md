@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성 (스택오버플로우 검색 노가다의 죽음)**: 옛날 개발자들은 `자바스크립트 날짜 포맷 변환`을 짜려다 기억이 안 나면 ➡ 크롬 브라우저 켬 ➡ 구글 검색 ➡ 스택오버플로우 접속 ➡ 추천 1위 코드 복사 ➡ 내 에디터로 돌아와서 변수 이름 내 거에 맞게 10분 동안 수정. 이 똥개 훈련([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)을 하루 100번씩 했다. **"아 씨발 구글 가서 코드 퍼오기 귀찮아 죽겠네! 그냥 내 에디터 안에서 내가 주석 치면, AI가 내 변수 이름까지 찰떡같이 맞춰서 완성된 코드 100줄 화면에 딱 띄워주고 Tab 키 누르면 적용되게 해 줘!!"** 이 지독한 귀차니즘의 열망이 IDE 내장형 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 코드 어시스턴트를 탄생시켰다.
 
-- **💡 비유**: 옛날 구글링 코딩은 **'도서관에서 백과사전 찾기'**입니다. 요리(코딩)하다가 레시피를 까먹으면, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 불을 끄고 도서관에 가서 책을 빌려와(스택오버플로우) 다시 내 주방 재료에 맞게 응용해야 합니다. Copilot([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 도구)은 내 옆에 서 있는 **'천재 보조 셰프(페어 프로그래머)'**입니다. 내가 "양파 좀 썰어서 볶아봐" 말 한마디(주석) 던지면, 보조 셰프가 우리 집 주방(IDE)에 있는 칼과 도마(내 프로젝트의 변수와 환경)를 기가 막히게 써서 1초 만에 볶아다 내 눈앞에 들이밉니다. 나는 그냥 "음, 간이 딱 맞네(Tab 키 승인)" 하고 꿀을 빠는 압도적 분업입니다.
+- **💡 비유**: 옛날 구글링 코딩은 <strong>'도서관에서 백과사전 찾기'</strong>입니다. 요리(코딩)하다가 레시피를 까먹으면, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 불을 끄고 도서관에 가서 책을 빌려와(스택오버플로우) 다시 내 주방 재료에 맞게 응용해야 합니다. Copilot([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 도구)은 내 옆에 서 있는 <strong>'천재 보조 셰프(페어 프로그래머)'</strong>입니다. 내가 "양파 좀 썰어서 볶아봐" 말 한마디(주석) 던지면, 보조 셰프가 우리 집 주방(IDE)에 있는 칼과 도마(내 프로젝트의 변수와 환경)를 기가 막히게 써서 1초 만에 볶아다 내 눈앞에 들이밉니다. 나는 그냥 "음, 간이 딱 맞네(Tab 키 승인)" 하고 꿀을 빠는 압도적 분업입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **IntelliSense (정적 추론 원시 시대)**: IDE가 `String.` 치면 `length(), substring()` 등 그 클래스 안에 든 함수 목록만 멍청하게 알파벳순으로 보여줌.
-  2. **GitHub Copilot의 충격 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))**: OpenAI의 GPT-3 모델을 코드 억만 줄로 튜닝한 Codex 모델 장착. 주석 1줄 치면 알고리즘이 통째로 튀어나옴. 개발자들 경악.
+  2. <strong>GitHub Copilot의 충격 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: OpenAI의 GPT-3 모델을 코드 억만 줄로 튜닝한 Codex 모델 장착. 주석 1줄 치면 알고리즘이 통째로 튀어나옴. 개발자들 경악.
   3. **Cursor 등 초융합 IDE 시대 (현재)**: "플러그인 형태론 부족해!" 아예 VS Code를 마개조해서 챗GPT를 에디터 창틀 벽에 박아버림(Cursor IDE). 에러 나면 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 복붙할 필요도 없이 `Cmd+K` 누르면 AI가 터미널 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스스로 읽고 내 소스 코드 10개 파일을 통째로 고쳐서 덮어씌워 주는 궁극의 오토파일럿 시대 개막.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'말 마차에서 자동차로의 전환'**이 아닙니다. **'수동 기어 자동차에서 완벽한 자율 주행(FSD) 자동차로의 퀀텀 점프'**입니다. 엑셀과 핸들을 쥐고 피똥 싸던 개발자들은 이제 손을 떼고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기사에게 "강남역(결제 기능)으로 가줘"라고 목적지(Prompt)만 지시하면 됩니다. 차가 알아서 좌회전 우회전을 치며 1초 컷으로 데려다주는 미친 시대입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'말 마차에서 자동차로의 전환'</strong>이 아닙니다. <strong>'수동 기어 자동차에서 완벽한 자율 주행(FSD) 자동차로의 퀀텀 점프'</strong>입니다. 엑셀과 핸들을 쥐고 피똥 싸던 개발자들은 이제 손을 떼고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기사에게 "강남역(결제 기능)으로 가줘"라고 목적지(Prompt)만 지시하면 됩니다. 차가 알아서 좌회전 우회전을 치며 1초 컷으로 데려다주는 미친 시대입니다.
 
 ---
 
 다음은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  LLM(대규모 언어 모델) 기반 코드                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM(대규모 언어 모델) 기반 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원 도구 (GitHub Copilot, Cursor 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원 도구 (GitHub Copilot, Cursor 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대규모 언어 모델) 기반 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원 도구 (GitHub Copilot, Cursor 등)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-LLM(대규모 언어 모델) 기반 코드 생성 지원 도구 (GitHub Copilot, Cursor 등) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM(대규모 언어 모델) 기반 코드 생성 지원 도구 (GitHub Copilot, Cursor 등) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

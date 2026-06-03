@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 과거엔 시스템을 짤 때 무조건 **"DB 테이블(E-R 다이어그램)을 어떻게 예쁘게 만들까?"**부터 고민했습니다.
+- 과거엔 시스템을 짤 때 무조건 <strong>"DB 테이블(E-R 다이어그램)을 어떻게 예쁘게 만들까?"</strong>부터 고민했습니다.
 - 결과적으로 시스템이 은행의 '진짜 복잡한 이자 계산 규칙(비즈니스 로직)'을 담지 못하고, 그냥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣고 빼는 멍청한 서류철(CRUD 기계)로 전락해 버렸습니다.
 
 - **📢 섹션 요약 비유**: [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), Doma의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  도메인 주도 설계 (DDD, Doma                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 주도 설계 (DDD, Doma</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), Doma가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,8 +48,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))**: 소프트웨어가 해결하고자 하는 현실 세계의 '업무 영역' (예: 쇼핑몰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 은행 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 물류 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)).
-- **개념**: 기술(DB, 프레임워크) 중심의 사고방식을 철저히 배제하고, **해결해야 할 핵심 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)을 가장 중심에 두고, 개발자와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가(현업 실무자)가 완벽하게 동일한 언어로 소통하며 시스템의 뼈대를 설계해 나가는 극단적 비즈니스 중심의 소프트웨어 설계 철학**입니다.
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong>: 소프트웨어가 해결하고자 하는 현실 세계의 '업무 영역' (예: 쇼핑몰 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 은행 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/), 물류 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)).
+- **개념**: 기술(DB, 프레임워크) 중심의 사고방식을 철저히 배제하고, <strong>해결해야 할 핵심 비즈니스 로직(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델)을 가장 중심에 두고, 개발자와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가(현업 실무자)가 완벽하게 동일한 언어로 소통하며 시스템의 뼈대를 설계해 나가는 극단적 비즈니스 중심의 소프트웨어 설계 철학</strong>입니다.
 - 현대 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(213번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 생태계에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(캡슐)를 어떻게 쪼갤지 결정하는 **절대적인 교과서(가이드라인)** 역할을 합니다.
 
 - **📢 섹션 요약 비유**: [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -82,10 +81,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 213번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 챕터에서 1,000만 줄짜리 코드를 100개의 컨테이너로 갈기갈기 찢어야 한다고 했습니다. 
-- 근데 **"어떤 기준으로 찢어야(경계를 그어야) 완벽하게 독립적인 캡슐이 나오지?"**라는 질문에 수많은 회사가 대답을 못 하고 스파게티로 찢었다가 폭망했습니다.
-- 에릭 에반스의 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)(전략적 설계)가 15년 전에 그 정답을 책에 써놨기 때문입니다. **"현실 세계의 비즈니스 업무 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))를 기준으로 찢어라!"** 이 위대한 진리가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 복음이 되어 전 세계 개발자를 구원했습니다.
+- 근데 <strong>"어떤 기준으로 찢어야(경계를 그어야) 완벽하게 독립적인 캡슐이 나오지?"</strong>라는 질문에 수많은 회사가 대답을 못 하고 스파게티로 찢었다가 폭망했습니다.
+- 에릭 에반스의 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)(전략적 설계)가 15년 전에 그 정답을 책에 써놨기 때문입니다. <strong>"현실 세계의 비즈니스 업무 경계(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">Bounded Context</a>)를 기준으로 찢어라!"</strong> 이 위대한 진리가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 복음이 되어 전 세계 개발자를 구원했습니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 설계**는 병원을 지을 때 건축가(개발자)가 의사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가)의 말은 듣지도 않고 **"일단 시멘트로 벽돌(DB 테이블) 1,000개부터 찍어내자!"라며 벽돌부터 예쁘게 쌓아 올린 짓**입니다. 다 지어놓고 보니 수술실 문이 좁아서 침대가 못 들어가는 코미디가 발생합니다(비즈니스 붕괴). **[도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))**는 건축가가 벽돌을 내려놓고, 의사와 함께 도화지 앞에 앉는 것입니다. 의사가 "수술실에서는 환자의 피가 튀니까(비즈니스 요구사항), 동선이 이렇게 되어야 해!"라고 말하면, 건축가와 의사가 **'수술실 동선([유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))'**이라는 공통의 단어로 도면([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)을 완벽하게 그립니다. 그리고 병원을 '응급실 구역', '외래 진료 구역'([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))으로 명확히 벽을 쳐서 쪼갭니다(전략적 설계). 도면이 100% 완성된 후에야 비로소 시멘트와 벽돌(DB와 코드)을 가져와 그 도면을 현실에 그대로 복사해서 짓는(전술적 설계), 소프트웨어의 영혼(비즈니스 로직)을 기계(DB)보다 우위에 두는 궁극의 장인 정신입니다.
+> 📢 **섹션 요약 비유**: 기존의 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주도 설계</strong>는 병원을 지을 때 건축가(개발자)가 의사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가)의 말은 듣지도 않고 <strong>"일단 시멘트로 벽돌(DB 테이블) 1,000개부터 찍어내자!"라며 벽돌부터 예쁘게 쌓아 올린 짓</strong>입니다. 다 지어놓고 보니 수술실 문이 좁아서 침대가 못 들어가는 코미디가 발생합니다(비즈니스 붕괴). <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">도메인 주도 설계</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a>)</strong>는 건축가가 벽돌을 내려놓고, 의사와 함께 도화지 앞에 앉는 것입니다. 의사가 "수술실에서는 환자의 피가 튀니까(비즈니스 요구사항), 동선이 이렇게 되어야 해!"라고 말하면, 건축가와 의사가 <strong>'수술실 동선(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/">유비쿼터스 언어</a>)'</strong>이라는 공통의 단어로 도면([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)을 완벽하게 그립니다. 그리고 병원을 '응급실 구역', '외래 진료 구역'([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))으로 명확히 벽을 쳐서 쪼갭니다(전략적 설계). 도면이 100% 완성된 후에야 비로소 시멘트와 벽돌(DB와 코드)을 가져와 그 도면을 현실에 그대로 복사해서 짓는(전술적 설계), 소프트웨어의 영혼(비즈니스 로직)을 기계(DB)보다 우위에 두는 궁극의 장인 정신입니다.
 
 - **📢 섹션 요약 비유**: [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-도메인 주도 설계 (DDD, Domain-Driven Design) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 주도 설계 (DDD, Domain-Driven Design) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

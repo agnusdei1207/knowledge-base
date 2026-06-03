@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스핀락 (Spinlock)은 스레드가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 진입하려 할 때 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 이미 잠겨있으면, OS 대기실([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))로 물러나지 않고 **락이 풀릴 때까지 제자리에서 무한 루프(`while`)를 돌며 CPU를 소모([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법**이다.
-> 2. **가치**: 스레드를 재우고(Sleep) 다시 깨우는(Wakeup) 과정에서 발생하는 무거운 **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 오버헤드를 원천적으로 제거**하므로, 락 유지 시간이 매우 짧은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 로직이나 실시간 시스템에서 궁극의 디스패치 속도를 제공한다.
-> 3. **융합**: 단일 코어에서는 즉각 데드락을 유발하므로 절대 쓸 수 없으며, 멀티코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 환경이라도 과도한 스핀락은 캐시 오염과 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)을 폭발시키기 때문에 현대에는 로컬 캐시에서만 도는 **MCS 락(큐 기반 스핀락)**으로 진화했다.
+> 1. **본질**: 스핀락 (Spinlock)은 스레드가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 진입하려 할 때 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 이미 잠겨있으면, OS 대기실([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))로 물러나지 않고 <strong>락이 풀릴 때까지 제자리에서 무한 루프(<code>while</code>)를 돌며 CPU를 소모(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)하는 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 기법</strong>이다.
+> 2. **가치**: 스레드를 재우고(Sleep) 다시 깨우는(Wakeup) 과정에서 발생하는 무거운 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>) 오버헤드를 원천적으로 제거</strong>하므로, 락 유지 시간이 매우 짧은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 로직이나 실시간 시스템에서 궁극의 디스패치 속도를 제공한다.
+> 3. **융합**: 단일 코어에서는 즉각 데드락을 유발하므로 절대 쓸 수 없으며, 멀티코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 환경이라도 과도한 스핀락은 캐시 오염과 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention)을 폭발시키기 때문에 현대에는 로컬 캐시에서만 도는 <strong>MCS 락(큐 기반 스핀락)</strong>으로 진화했다.
 
 ---
 
@@ -24,19 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 운영체제가 멀티 프로세서([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))를 지원하기 시작하면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 락(Big [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 필요해졌다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리하다가 잠이 들어버리면 시스템 전체가 정지할 수 있으므로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 "절대 잠들지 않는 락"이 필수적이었고 하드웨어 `Test-And-Set (TAS)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 감싼 스핀락을 탄생시켰다.
 
-```text
-  [뮤텍스(Sleep) vs 스핀락(Busy Wait)의 CPU 사이클 소모 시각화]
 
-  [ 1. Mutex (Sleep & Wakeup) ]
-  문맥 교환(Save) ─▶ 수면(Sleep) ─▶ 락 해제 ─▶ 문맥 교환(Restore) ─▶ 실행
-  [███ 2,000ns ███]   (CPU 딴일 함)              [███ 2,000ns ███] [█10ns█]
-  ▶ 락 대기가 길 땐 좋지만, 락 대기가 짧을 땐 엄청난 손해.
 
-  [ 2. Spinlock (Busy Waiting) ]
-  while(락 닫힘?) ─▶ while(락 닫힘?) ─▶ 락 해제됨! ─▶ 즉시 실행
-  [█ 10ns █]         [█ 10ns █]                       [█ 10ns █]
-  ▶ 문맥 교환 0번! CPU를 태우면서 문을 두드리다가, 문 열리는 찰나의 순간 난입.
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스(Sleep) vs 스핀락(Busy Wait)의 CPU 사이클 소모 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Mutex (Sleep &amp; Wakeup)</div></div>
+<div class="kb-diagram-note">문맥 교환(Save) ─▶ 수면(Sleep) ─▶ 락 해제 ─▶ 문맥 교환(Restore) ─▶ 실행</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">███ 2,000ns ███</div><div class="kb-diagram-note">(CPU 딴일 함)</div><div class="kb-diagram-node">███ 2,000ns ███</div><div class="kb-diagram-node">█10ns█</div></div>
+<div class="kb-diagram-note">▶ 락 대기가 길 땐 좋지만, 락 대기가 짧을 땐 엄청난 손해.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Spinlock (Busy Waiting)</div></div>
+<div class="kb-diagram-note">while(락 닫힘?) ─▶ while(락 닫힘?) ─▶ 락 해제됨! ─▶ 즉시 실행</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">█ 10ns █</div><div class="kb-diagram-node">█ 10ns █</div><div class="kb-diagram-node">█ 10ns █</div></div>
+<div class="kb-diagram-note">▶ 문맥 교환 0번! CPU를 태우면서 문을 두드리다가, 문 열리는 찰나의 순간 난입.</div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 스핀락은 CPU 사이클을 100% 낭비하는 바보 같은 짓처럼 보이지만, "기다리는 시간(Spin)"이 "수면 및 기상 시간([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))"보다 짧다는 확신만 있다면 시스템 전체의 처리량을 극대화하는 최고의 선택이 된다. 이 임계점(Break-even point)을 계산하는 것이 아키텍트의 실력이다.
 
 - **📢 섹션 요약 비유**: 택시가 편의점 앞에 정차할 때, 1분 안에 물건을 사 올 거면 시동을 켜둔 채(스핀락, 기름 낭비)로 기다리는 게 낫습니다. 하지만 1시간 장을 볼 거면 무조건 시동을 끄고(뮤텍스 슬립) 배터리를 아껴야 합니다. 스핀락은 시동을 절대 끄지 않는 엔진입니다.
@@ -68,29 +72,27 @@ tags = ["studynote-operating-system"]
 ```
 
 ### 멀티코어 환경의 캐시 무효화 (Cache Invalidation) 폭탄
-위의 단순한 `while(TestAndSet)` 코드는 2코어 시절엔 괜찮았지만, 64코어 시대에 접어들며 서버를 불태우는 **'[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 락([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))' 폭탄**이 되었다.
+위의 단순한 `while(TestAndSet)` 코드는 2코어 시절엔 괜찮았지만, 64코어 시대에 접어들며 서버를 불태우는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 락(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)' 폭탄</strong>이 되었다.
 
-1. 64개의 코어가 동시에 `TestAndSet`을 때리면, CPU는 원자성을 보장하기 위해 64번 모두 **시스템 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 자체를 물리적으로 잠가버린다**.
+1. 64개의 코어가 동시에 `TestAndSet`을 때리면, CPU는 원자성을 보장하기 위해 64번 모두 <strong>시스템 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>) 자체를 물리적으로 잠가버린다</strong>.
 2. 게다가 누군가 락을 풀기 위해 변수를 0으로 갱신하면, 나머지 63개 코어의 L1 캐시에 저장된 `lock` 변수가 일제히 '쓰레기(Invalid)' 처리된다([캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 발동).
 3. 63개의 코어가 일제히 메인 메모리(RAM)로 달려가 바뀐 0 값을 퍼오느라 거대한 트래픽 폭풍이 발생한다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │         단순 스핀락(TAS)의 무식함이 유발하는 버스 경합(Bus Contention)  │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [ 코어 1 ] [ 코어 2 ] [ 코어 3 ] [ 코어 4 ] (모두 스핀락 대기 중)      │
-  │       │          │          │          │                                │
-  │       ▼          ▼          ▼          ▼                                │
-  │  =================== [ System Bus ] ====================                │
-  │       ▲ 💥 충돌! 서로 메모리에 1을 쓰겠다고 버스를 마비시킴.            │
-  │       │                                                                 │
-  │   [ Main Memory (lock = 1) ]                                            │
-  │                                                                         │
-  │  🚨 결과: 락과 상관없는 불쌍한 '코어 5'가 자기 데이터를 읽으려 해도,    │
-  │          1~4가 버스를 점거하고 싸우느라 코어 5까지 멈추는 대참사 터짐.  │
-  └─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순 스핀락(TAS)의 무식함이 유발하는 버스 경합(Bus Contention)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코어 1</div><div class="kb-diagram-node">코어 2</div><div class="kb-diagram-node">코어 3</div><div class="kb-diagram-node">코어 4</div><div class="kb-diagram-note">(모두 스핀락 대기 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">===================</div><div class="kb-diagram-node">System Bus</div><div class="kb-diagram-note">====================</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 💥 충돌! 서로 메모리에 1을 쓰겠다고 버스를 마비시킴.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory (lock = 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 결과: 락과 상관없는 불쌍한 '코어 5'가 자기 데이터를 읽으려 해도,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1~4가 버스를 점거하고 싸우느라 코어 5까지 멈추는 대참사 터짐.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 64명의 사람이 화장실 1개를 기다리며 1초에 한 번씩 화장실 문손잡이를 미친 듯이 덜컥거리고 있는 상황(TAS 스핀락)입니다. 문손잡이가 고장 나는 건 둘째 치고, 시끄러워서 건물 전체([시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/))가 마비됩니다.
 
@@ -99,13 +101,13 @@ tags = ["studynote-operating-system"]
 ## Ⅲ. 비교 및 연결
 
 ### 스핀락의 진화: MCS Spinlock (큐 기반 스핀락)
-단순 스핀락의 '[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마비'를 해결하기 위해 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 **MCS 스핀락 (Mellor-Crummey and Scott)**을 도입했다. 이 락은 놀랍게도 "돌긴 도는데, 남의 눈치를 보지 않고 자기 방에서만 조용히 도는" 혁신적인 아키텍처다.
+단순 스핀락의 '[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마비'를 해결하기 위해 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 <strong>MCS 스핀락 (Mellor-Crummey and Scott)</strong>을 도입했다. 이 락은 놀랍게도 "돌긴 도는데, 남의 눈치를 보지 않고 자기 방에서만 조용히 도는" 혁신적인 아키텍처다.
 
 | 특징 | 기존 TAS 스핀락 | MCS 스핀락 (현대 리눅스 표준) |
 |:---|:---|:---|
 | **스핀(Spin) 도는 위치** | 하나의 글로벌 `lock` 메모리 변수 | **각 코어의 독립적인 로컬 캐시 변수 (Node)** |
 | **캐시 무효화 발생** | 락이 풀릴 때마다 대기 중인 N개 코어 캐시 싹 다 박살남 | **다음 순서인 딱 1개 코어의 캐시만 깨워줌** |
-| **공정성 (Fairness)**| 불공정. 재수 없으면 영원히 못 들어감 (기아) | 링크드 리스트로 큐를 만들어 **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)(선착순) 완벽 보장** |
+| **공정성 (Fairness)**| 불공정. 재수 없으면 영원히 못 들어감 (기아) | 링크드 리스트로 큐를 만들어 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(선착순) 완벽 보장</strong> |
 | **확장성** | 코어가 늘어날수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수직 낙하 | 코어가 1,000개가 되어도 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 변동 없음 |
 
 **MCS 동작 원리**: 대기하려는 코어는 락 메모리에 무식하게 박치기를 하지 않는다. 대신 "나 줄 섰음"이라는 자기만의 `로컬 노드`를 만들어 앞사람 꼬리에 매단다. 그리고 **"자기 로컬 캐시" 안에서만 얌전히 뺑뺑이를 돈다**. 앞사람이 볼일을 끝내면, 내 로컬 노드의 변수를 딱 한 번 찔러주고 간다(0 -> 1). 그럼 내 로컬 스핀이 멈추고 락을 획득한다. 트래픽 폭주가 0이 되는 예술적인 우회법이다.
@@ -123,29 +125,29 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리눅스 [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) ([Interrupt Handler](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)) 와 스핀락**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리하는 `Top Half` 구역 코드를 짜고 있다. 여기서 공유 자원 락을 걸 때 절대 뮤텍스를 쓰면 안 된다.
+1. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/">인터럽트 핸들러</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/">Interrupt Handler</a>) 와 스핀락</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 처리하는 `Top Half` 구역 코드를 짜고 있다. 여기서 공유 자원 락을 걸 때 절대 뮤텍스를 쓰면 안 된다.
    - **이유**: 뮤텍스는 락을 못 얻으면 스레드를 수면(Sleep)시킨다. 그런데 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨텍스트는 특수한 상태라 "잠들면 시스템 전체가 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 일으키고 즉사"한다.
    - **결단**: [인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)처럼 "절대 잠들 수 없는(Non-sleepable)" 구역에서는 무조건 스핀락(`spin_lock_irqsave`)을 써야만 한다. 스핀락은 잠들지 않고 뺑뺑이를 돌기 때문에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 규칙을 어기지 않는다.
 2. **싱글 코어 (Uni-processor) 환경의 스핀락 최적화**: 라즈베리 파이 제로(1코어) 환경에서 리눅스를 컴파일했다.
    - **실무 판단**: 코어가 1개일 때 스핀락을 호출하면 `while`문을 돌아봤자 영원히 락을 풀 대상(다른 코어)이 없으므로 데드락이 걸린다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 알아채고, 싱글 코어 빌드에서는 `spin_lock()` 매크로를 아예 빈 코드(No-op)나 "[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화(Disable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))" [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 딱 한 줄로 컴파일 단계에서 치환해 버린다. OS의 경이로운 적응형 설계다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     동시성 프로그래밍 시 락(Lock) 메커니즘 선정 아키텍처 가이드   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [요구사항: 공유 리스트에 노드를 추가하는 로직(약 100ns 소요)]   │
-  │                │                                                  │
-  │                ▼ 1. 임계 구역의 실행 시간이 얼마나 긴가?          │
-  │      [ 컨텍스트 스위치 시간(2μs)보다 압도적으로 짧다! ]           │
-  │       ├─▶ 판단: 스핀락(Spinlock) 또는 Lock-free 알고리즘 사용     │
-  │       └─▶ 효과: 스레드가 잠들고 깨는 엄청난 세금을 회피함.        │
-  │                                                                   │
-  │      [ I/O 대기나 거대한 연산이 섞여 있어 길다! (1ms 이상) ]      │
-  │       ├─▶ 판단: 🚨 절대 스핀락 금지. 무조건 Mutex/Semaphore 사용  │
-  │       └─▶ 효과: 락 대기자들을 잠재워 CPU를 다른 프로세스에 양보함.│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 프로그래밍 시 락(Lock) 메커니즘 선정 아키텍처 가이드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 공유 리스트에 노드를 추가하는 로직(약 100ns 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 임계 구역의 실행 시간이 얼마나 긴가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 스위치 시간(2μs)보다 압도적으로 짧다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: 스핀락(Spinlock) 또는 Lock-free 알고리즘 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 스레드가 잠들고 깨는 엄청난 세금을 회피함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 대기나 거대한 연산이 섞여 있어 길다! (1ms 이상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: 🚨 절대 스핀락 금지. 무조건 Mutex/Semaphore 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 락 대기자들을 잠재워 CPU를 다른 프로세스에 양보함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "스핀락은 빠르고 뮤텍스는 느리다"는 초보적인 착각이다. 스핀락은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)이 극도로 짧을 때만 빠르다. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 DB 쿼리를 날리는(I/O) 미친 짓을 스핀락으로 감싸면, 밖에서 기다리는 100개의 스레드가 DB 쿼리가 끝날 때까지 CPU를 100% 점유하며 헛돌게 되어 서버에서 연기가 피어오른다.
 
 - **📢 섹션 요약 비유**: 스핀락은 100m 달리기 전력 질주이고, 뮤텍스는 마라톤 페이스 조절입니다. 목적지가 10m 앞(짧은 코드)이면 전력 질주가 최고지만, 목적지가 10km 앞(긴 코드)인데 전력 질주(스핀락)를 시키면 선수는 중간에 심장마비로 쓰러집니다.
@@ -176,15 +178,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[경쟁 조건 (Race Condition)]
-    │
-    ▼
-[스핀락 (Spinlock)]
-    │
-    ├──▶ [임계 구역 문제 해결의 3조건]
-    └──▶ [선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스핀락 (Spinlock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 문제 해결의 3조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

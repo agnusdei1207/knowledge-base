@@ -43,34 +43,33 @@ tags = ["studynote-security"]
 
 아래 그림은 브라우저가 체인을 어떻게 조립하고 어디서 실패하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Certificate chain verification                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client Trust Store                                                   │
-│   Root CA certificate                                                │
-│        ▲ verify signature on Intermediate CA                         │
-│        │                                                             │
-│ Server sends                                                         │
-│   Intermediate CA certificate                                        │
-│        ▲ verify signature on End Entity                              │
-│        │                                                             │
-│   End Entity certificate for requested host                          │
-│        │                                                             │
-│ Additional checks                                                    │
-│   - SAN / hostname match                                             │
-│   - validity time window                                             │
-│   - key usage / Extended Key Usage                                   │
-│   - revocation status                                                │
-│                                                                      │
-│ Failure cases                                                        │
-│   missing intermediate / expired cert / untrusted root / revoked     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate chain verification</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Trust Store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root CA certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ verify signature on Intermediate CA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server sends</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intermediate CA certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ verify signature on End Entity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">End Entity certificate for requested host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Additional checks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SAN / hostname match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validity time window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- key usage / Extended Key Usage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- revocation status</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure cases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing intermediate / expired cert / untrusted root / revoked</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 서버가 보통 Root Certificate Authority까지 보내지 않는다는 것이다. 루트는 이미 클라이언트 쪽 Trust Store에 있다고 가정하고, 서버는 보통 End Entity와 필요한 Intermediate 묶음만 전달한다. 따라서 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 `fullchain.pem`을 올바르게 구성하지 않으면 서명 자체는 멀쩡해도 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 깨질 수 있다.
 
-또한 경로는 항상 단순 직선 하나만 있는 것이 아니다. 루트 전환기에는 Cross-Signing을 통해 같은 End Entity 인증서가 서로 다른 신뢰 경로로 연결되기도 한다. 그래서 현대 클라이언트는 "서버가 보낸 순서"만 보는 것이 아니라, 자신이 알고 있는 인증서들과 함께 **유효한 경로를 구성할 수 있는가**를 판단한다.
+또한 경로는 항상 단순 직선 하나만 있는 것이 아니다. 루트 전환기에는 Cross-Signing을 통해 같은 End Entity 인증서가 서로 다른 신뢰 경로로 연결되기도 한다. 그래서 현대 클라이언트는 "서버가 보낸 순서"만 보는 것이 아니라, 자신이 알고 있는 인증서들과 함께 <strong>유효한 경로를 구성할 수 있는가</strong>를 판단한다.
 
 - **📢 섹션 요약 비유**: 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 학생증만 보는 것이 아니라, 담임 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서와 학교 직인까지 이어 붙여서 "정말 이 학교 학생이 맞는가"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 연속 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차와 같다.
 
@@ -78,7 +77,7 @@ tags = ["studynote-security"]
 
 ## Ⅲ. 비교 및 연결
 
-인증서 체인을 제대로 이해하려면 Self-signed 인증서, 사설 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), 공인 인증서 체계를 같이 봐야 한다. 세 방식 모두 암호화는 가능하지만, **신뢰가 어디서 시작되는가**가 다르다.
+인증서 체인을 제대로 이해하려면 Self-signed 인증서, 사설 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), 공인 인증서 체계를 같이 봐야 한다. 세 방식 모두 암호화는 가능하지만, <strong>신뢰가 어디서 시작되는가</strong>가 다르다.
 
 | 비교 항목 | Self-signed 리프 인증서 | 사설 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 체인 | 공인 인증서 체인 |
 | :--- | :--- | :--- | :--- |
@@ -89,7 +88,7 @@ tags = ["studynote-security"]
 
 Root Certificate Authority와 Intermediate Certificate Authority의 역할도 구분해야 한다. Root는 신뢰의 기준점이고, Intermediate는 발급의 실무 담당이다. 루트가 직접 인터넷에 노출되면 사고 반경이 너무 커지므로, 실제 공개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 Intermediate 계층을 둬서 발급과 폐기를 유연하게 운영한다.
 
-이 개념은 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([Mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))와도 이어진다. mTLS에서는 서버뿐 아니라 클라이언트도 인증서를 제시하므로, 양쪽 모두 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요해진다. 또 내부망에서는 공인 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 대신 사설 Root Certificate Authority를 두고 같은 체인 원리를 그대로 적용하기도 한다. 즉 인증서 체인은 인터넷 전용 기술이 아니라, **신뢰를 계층적으로 전달하는 일반 원리**다.
+이 개념은 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) ([Mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/))와도 이어진다. mTLS에서는 서버뿐 아니라 클라이언트도 인증서를 제시하므로, 양쪽 모두 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요해진다. 또 내부망에서는 공인 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 대신 사설 Root Certificate Authority를 두고 같은 체인 원리를 그대로 적용하기도 한다. 즉 인증서 체인은 인터넷 전용 기술이 아니라, <strong>신뢰를 계층적으로 전달하는 일반 원리</strong>다.
 
 - **📢 섹션 요약 비유**: Self-signed가 자기소개서 한 장이라면, 인증서 체인은 추천서가 추천서를 낳아 최종적으로 모두가 아는 공인 기관의 도장까지 이어지는 이력 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서와 같다.
 
@@ -97,7 +96,7 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 체인 문제는 암호 알고리즘보다 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수로 더 자주 터진다. 서버 인증서만 교체하고 Intermediate 인증서를 누락하거나, 새 루트로 갈아탔는데 구형 단말의 Trust Store [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않거나, 폐기 정보를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는 식이다. 따라서 인증서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "발급 완료"가 아니라 **배포·[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)·폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한 운영 절차**로 봐야 한다.
+실무에서 체인 문제는 암호 알고리즘보다 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수로 더 자주 터진다. 서버 인증서만 교체하고 Intermediate 인증서를 누락하거나, 새 루트로 갈아탔는데 구형 단말의 Trust Store [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않거나, 폐기 정보를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않는 식이다. 따라서 인증서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "발급 완료"가 아니라 <strong>배포·<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>·폐기 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>까지 포함한 운영 절차</strong>로 봐야 한다.
 
 | 점검 항목 | 왜 중요한가 | 대표 실수 |
 | :--- | :--- | :--- |
@@ -122,7 +121,7 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 - 새 인증서 발급 후 서버에는 리프만 교체하고 로드밸런서·역방향 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 체인을 잊는 배포
 - 루트를 과도하게 노출하거나, 반대로 신뢰 루트 갱신 절차 없이 단말을 장기간 방치하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-기술사 답안에서는 **"인증서 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 End Entity부터 Root Certificate Authority까지의 신뢰 경로를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 과정이며, 실제 설계 포인트는 루트 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·중간 발급 위임·체인 완전성·클라이언트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보"**라고 정리하면 핵심이 살아난다.
+기술사 답안에서는 <strong>"인증서 체인 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>은 End Entity부터 Root Certificate Authority까지의 신뢰 경로를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하는 과정이며, 실제 설계 포인트는 루트 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>·중간 발급 위임·체인 완전성·클라이언트 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 확보"</strong>라고 정리하면 핵심이 살아난다.
 
 - **📢 섹션 요약 비유**: 체인 운영은 졸업증명서만 출력해 두는 일이 아니라, 학교 직인·행정 시스템·신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차까지 함께 유지해야 어디서 제출해도 인정받는 것과 같다.
 
@@ -132,7 +131,7 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 
 인증서 체인 구조가 잘 설계되면 공개 인터넷에서 대규모 신뢰를 비교적 적은 루트 집합으로 운영할 수 있다. Root Certificate Authority는 강하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, Intermediate Certificate Authority는 목적별로 분리해 발급 규모를 감당하며, 문제가 생기면 특정 Intermediate만 폐기해 피해 반경을 줄일 수 있다. 이런 분업 덕분에 TLS는 전 세계 웹, 애플리케이션 인터페이스, 메일, 장비 인증에 공통 기반으로 자리 잡았다.
 
-반면 체인은 만능이 아니다. 클라이언트 Trust Store에 의존하고, 루트 전환과 폐기 처리에는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 따르며, 잘못된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나로 정상 인증서도 장애가 될 수 있다. 그래서 인증서 체인은 "서명 사슬이 있으니 안전하다"가 아니라, **신뢰 기준점·위임 구조·운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 모두 맞물릴 때 비로소 안전하다**고 기억해야 한다.
+반면 체인은 만능이 아니다. 클라이언트 Trust Store에 의존하고, 루트 전환과 폐기 처리에는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 따르며, 잘못된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나로 정상 인증서도 장애가 될 수 있다. 그래서 인증서 체인은 "서명 사슬이 있으니 안전하다"가 아니라, <strong>신뢰 기준점·위임 구조·운영 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>이 모두 맞물릴 때 비로소 안전하다</strong>고 기억해야 한다.
 
 결론적으로 인증서 체인은 웹 보안의 장식이 아니라, 신뢰를 확장 가능하게 만드는 핵심 인프라다. TLS의 자물쇠 아이콘은 인증서 한 장의 힘이 아니라, 그 뒤에 보이지 않게 연결된 체인이 끊어지지 않았다는 사실을 보여 주는 결과다.
 
@@ -153,22 +152,24 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Self-signed local trust
-        │
-        ▼
-PKI trust anchor establishment
-        │
-        ▼
-Root CA -> Intermediate CA -> End Entity chain
-        │
-        ├─ hostname / validity / EKU checks
-        ├─ CRL / OCSP revocation checks
-        └─ Cross-Signing for root migration
-        │
-        ▼
-Automated issuance and large-scale certificate operations
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Self-signed local trust</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKI trust anchor establishment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Root CA -&gt; Intermediate CA -&gt; End Entity chain</div>
+<div class="kb-diagram-tree-item" style="--depth:4">hostname / validity / EKU checks</div>
+<div class="kb-diagram-tree-item" style="--depth:4">CRL / OCSP revocation checks</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Cross-Signing for root migration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Automated issuance and large-scale certificate operations</div>
+</div>
+</div>
+
+
 
 이 흐름은 인증서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 출발해, 폐기·[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)·자동화까지 포함하는 운영 체계로 발전했음을 보여 준다.
 

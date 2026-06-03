@@ -43,25 +43,23 @@ OPC UA의 중심에는 서버가 제공하는 주소 공간 (Address Space)이 �
 
 아래 그림은 OPC UA가 장비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 상위 애플리케이션을 어떻게 연결하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 OPC UA stack from machine to enterprise             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cloud / MES / Historian / Analytics                                 │
-│        ▲     Browse / Read / Write / Subscribe                      │
-│        │                                                            │
-│ Client applications                                                 │
-│        │  SecureChannel + Session + User auth                       │
-│        ▼                                                            │
-│ OPC UA Services                                                     │
-│        │                                                            │
-│ Address Space : Object -> Variable -> Method -> Event               │
-│        │                                                            │
-│ OPC UA Server in PLC / Robot / Edge Gateway                         │
-│        │                                                            │
-│ Transport : OPC TCP / HTTPS / PubSub over UDP or TSN               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA stack from machine to enterprise</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud / MES / Historian / Analytics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Browse / Read / Write / Subscribe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client applications</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SecureChannel + Session + User auth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA Services</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address Space : Object -&gt; Variable -&gt; Method -&gt; Event</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA Server in PLC / Robot / Edge Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transport : OPC TCP / HTTPS / PubSub over UDP or TSN</div></div>
+</div>
+</div>
+
+
 
 이 구조의 강점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 스스로 의미를 설명한다는 점이다. 예를 들어 값 `35.5`만 보내는 대신, 이 값이 "A라인 모터의 현재 온도, 단위는 섭씨, 상태 코드는 정상"이라는 문맥까지 함께 전달할 수 있다. 덕분에 상위 시스템은 벤더별 문서나 별도 엑셀 매핑에 덜 의존하고 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이나 분석 모델을 더 안정적으로 만들 수 있다.
 
@@ -122,7 +120,7 @@ OPC UA는 산업용 이더넷과 [TSN](/knowledge-base/studynote/01_computer_arc
 
 OPC UA를 제대로 적용하면 벤더 종속성을 줄이고, 장비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 의미 있게 재사용할 수 있다. 상위 시스템은 특정 제조사 드라이버에 덜 묶이고, 보안 정책과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델도 일관되게 유지할 수 있다. 이는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/), 예지보전, 품질 분석 같은 상위 활용 시나리오의 기반이 된다.
 
-하지만 대가도 있다. 정보 모델 설계, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 운영, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 레거시 장비 연계까지 고려해야 하므로 단순 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)보다 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 난이도가 높다. 따라서 OPC UA는 "아무 데나 붙이는 만능 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, **상호 운용성과 의미론, 보안을 장기적으로 확보하려는 산업 통합 프레임워크**로 기억해야 한다.
+하지만 대가도 있다. 정보 모델 설계, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 운영, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 레거시 장비 연계까지 고려해야 하므로 단순 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)보다 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 난이도가 높다. 따라서 OPC UA는 "아무 데나 붙이는 만능 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, <strong>상호 운용성과 의미론, 보안을 장기적으로 확보하려는 산업 통합 프레임워크</strong>로 기억해야 한다.
 
 앞으로는 [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) over [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/), 엣지 분석, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 제조 플랫폼과의 결합이 더 늘어날 가능성이 크다. 그럼에도 본질은 같다. 장비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하고 표준화된 의미 구조로 연결해, 공장의 여러 계층이 같은 사실을 바라보게 만드는 것이 OPC UA의 핵심이다.
 
@@ -143,22 +141,24 @@ OPC UA를 제대로 적용하면 벤더 종속성을 줄이고, 장비 [데이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-벤더별 전용 프로토콜
-    │
-    ▼
-OPC Classic
-    │
-    ▼
-OPC UA (Model + Security + Services)
-    │
-    ├─ Client/Server 통합
-    ├─ Pub/Sub 확장
-    └─ 정보 모델 표준화
-    │
-    ▼
-OPC UA over TSN · Edge Integration · Digital Twin
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">벤더별 전용 프로토콜</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPC Classic</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPC UA (Model + Security + Services)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Client/Server 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Pub/Sub 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정보 모델 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPC UA over TSN · Edge Integration · Digital Twin</div>
+</div>
+</div>
+
+
 
 이 흐름은 산업 통신이 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서, 의미와 보안까지 포함하는 통합 아키텍처로 확장되는 과정을 보여 준다.
 

@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 의료 AI를 구축한다고 가정하자. 방사선 영상 100만 장으로 처음부터 CNN을 훈련하려면 수개월과 수십억 원이 필요하다. 하지만 ImageNet으로 사전 학습된 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)(이미 일반적인 시각 특징을 학습)을 가져와서, 방사선 영상 1만 장으로 마지막 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 레이어만 파인 튜닝하면 수일과 수백만 원으로 동등한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성할 수 있다.
 
-이것이 파인 튜닝의 핵심 가치다. 사전 학습 모델이 이미 보유한 **일반 표현(General Representation)**을 재활용하고, 소량의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 **전문 적응([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Adaptation)**만 수행하는 것이다.
+이것이 파인 튜닝의 핵심 가치다. 사전 학습 모델이 이미 보유한 <strong>일반 표현(General Representation)</strong>을 재활용하고, 소량의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 <strong>전문 적응(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Adaptation)</strong>만 수행하는 것이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 파인 튜닝은 의대를 졸업한 의사(사전 학습 모델)에게 "이제 심장외과(파인 튜닝 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 전문의가 되세요"라고 전공의 수련을 시키는 것이다. 초등학교부터 의대까지의 교육(사전 학습)은 이미 완료됐으니, 심장외과 전공 훈련만 받으면 된다. 전문의 양성 기간이 수십 배 단축된다.
 
@@ -38,33 +41,27 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         파인 튜닝 전략 비교 (Full vs Feature Extraction vs PEFT)    │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  방식 1: 전체 파인 튜닝 (Full Fine-Tuning)                          │
-│  ┌──────────────────────────────────────────────┐               │
-│  │ [Layer 1] [Layer 2] ... [Layer N] [헤드]      │ ← 모두 업데이트  │
-│  │ (사전 학습 가중치 → 모두 조금씩 업데이트)         │               │
-│  └──────────────────────────────────────────────┘               │
-│  장점: 최고 성능 | 단점: GPU 메모리 큼, 재앙적 망각(Catastrophic Forgetting)│
-│                                                                  │
-│  방식 2: 특징 추출 (Feature Extraction / Frozen)                   │
-│  ┌──────────────────────────────────────────────┐               │
-│  │ [Layer 1] [Layer 2] ... [Layer N] ← 동결(Frozen, 학습 안 함)  │
-│  │                              [새 분류 헤드] ← 만 학습         │
-│  └──────────────────────────────────────────────┘               │
-│  장점: 빠르고 저렴 | 단점: 도메인 괴리 클 때 성능 제한              │
-│                                                                  │
-│  방식 3: PEFT / LoRA (Parameter-Efficient Fine-Tuning)           │
-│  ┌──────────────────────────────────────────────┐               │
-│  │ [사전 학습 가중치 W] ← 동결 (Frozen)            │               │
-│  │ + [저랭크 행렬 ΔW = A×B] ← 만 학습 (파라미터 1%)│               │
-│  └──────────────────────────────────────────────┘               │
-│  장점: 메모리 절약(~95%), 성능 ≈ 전체 파인 튜닝                     │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파인 튜닝 전략 비교 (Full vs Feature Extraction vs PEFT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 1: 전체 파인 튜닝 (Full Fine-Tuning)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1</div><div class="kb-diagram-node">Layer 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Layer N</div><div class="kb-diagram-node">헤드</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">모두 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사전 학습 가중치 → 모두 조금씩 업데이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 최고 성능</div><div class="kb-diagram-cell">단점: GPU 메모리 큼, 재앙적 망각(Catastrophic Forgetting)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 2: 특징 추출 (Feature Extraction / Frozen)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1</div><div class="kb-diagram-node">Layer 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Layer N</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동결(Frozen, 학습 안 함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새 분류 헤드</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">만 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 빠르고 저렴</div><div class="kb-diagram-cell">단점: 도메인 괴리 클 때 성능 제한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 3: PEFT / LoRA (Parameter-Efficient Fine-Tuning)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사전 학습 가중치 W</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동결 (Frozen) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ +</div><div class="kb-diagram-node">저랭크 행렬 ΔW = A×B</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">만 학습 (파라미터 1%)│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 메모리 절약(~95%), 성능 ≈ 전체 파인 튜닝</div></div>
+</div>
+</div>
+
+
 
 | 방식 | 업데이트 파라미터 | 메모리 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 적합 상황 |
 |:---|:---|:---|:---|:---|
@@ -81,7 +78,7 @@ tags = ["studynote-ai"]
 
 **재앙적 망각 (Catastrophic Forgetting)**: 전체 파인 튜닝 시 새 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 학습하다 보면 사전 학습에서 익힌 범용 능력이 손상된다. 이를 방지하기 위해 EWC (Elastic [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Consolidation), [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate Warm-Up, [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 강화 등의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 사용한다.
 
-**[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 사전 학습 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)-Specific Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))**: 금융·의료·법률 등 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 경우, 범용 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 일반 파인 튜닝만으로는 전문 용어·문맥을 충분히 학습하기 어렵다. 이 경우 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 텍스트로 계속 사전 학습(Continued Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 후 파인 튜닝하는 2단계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 효과적이다.
+<strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화 사전 학습 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>-Specific Pre-<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">training</a>)</strong>: 금융·의료·법률 등 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 경우, 범용 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 일반 파인 튜닝만으로는 전문 용어·문맥을 충분히 학습하기 어렵다. 이 경우 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 텍스트로 계속 사전 학습(Continued Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) 후 파인 튜닝하는 2단계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 효과적이다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -95,7 +92,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**파인 튜닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계 (실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))**:
+<strong>파인 튜닝 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 설계 (실무 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a>)</strong>:
 1. 기반 모델 선택: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 유형([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/이해)과 모델 크기([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 용량) 고려
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비: 최소 수백~수천 개의 고품질 레이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Dataset 형식 권장)
 3. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 사전 학습 대비 100~1000배 작은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) (2e-5 ~ 5e-5)
@@ -132,9 +129,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **파인 튜닝**은 의과대학을 졸업한 의사에게 **"이제 심장외과 전문의가 되세요"** 하고 추가 훈련을 시키는 거예요 — 처음부터 다시 공부할 필요가 없어요!
+1. <strong>파인 튜닝</strong>은 의과대학을 졸업한 의사에게 **"이제 심장외과 전문의가 되세요"** 하고 추가 훈련을 시키는 거예요 — 처음부터 다시 공부할 필요가 없어요!
 2. 사전 학습된 AI는 이미 **언어와 상식을 잔뜩 알고 있으니**, 새로운 분야(법률, 의료, 게임)에 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 **조금만 더 가르치면** 전문가가 돼요.
-3. 특히 **[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)** 같은 방법을 쓰면 파라미터의 **1%만 업데이트**해도 거의 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나와서, 작은 컴퓨터로도 파인 튜닝이 가능해요!
+3. 특히 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a></strong> 같은 방법을 쓰면 파라미터의 <strong>1%만 업데이트</strong>해도 거의 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나와서, 작은 컴퓨터로도 파인 튜닝이 가능해요!
 
 ---
 

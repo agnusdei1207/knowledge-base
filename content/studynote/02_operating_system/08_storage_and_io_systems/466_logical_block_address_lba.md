@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 블록 주소(LBA)는 하드디스크의 복잡한 물리적 구조(원판, 바늘, 트랙)를 깡그리 숨기고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)에게 디스크를 **"0번부터 N번까지 쭉 늘어선 단순한 1차원 블록(Sector) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)"**로 보이게끔 속여서 보여주는 매핑 아키텍처다.
-> 2. **가치**: OS가 기계마다 다른 쇳덩어리(디스크)의 물리적 위치(CHS 좌표)를 계산해야 하는 악몽에서 영원히 해방시켜 주어, **소프트웨어 개발자는 그저 '몇 번째 블록(LBA) 줘!'라는 공통된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나만으로 세상의 모든 저장장치를 통제**할 수 있게 되었다.
-> 3. **융합**: 이 가상의 주소를 진짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 번역해 주는 역할은 디스크 내부에 탑재된 **디스크 컨트롤러(Disk Controller)**가 전담하며, 배드 섹터(Bad Sector)가 나도 LBA를 몰래 옆 칸으로 갈아 끼워주는(Remapping) 하드웨어적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 융합의 뼈대가 된다.
+> 1. **본질**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 블록 주소(LBA)는 하드디스크의 복잡한 물리적 구조(원판, 바늘, 트랙)를 깡그리 숨기고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)에게 디스크를 <strong>"0번부터 N번까지 쭉 늘어선 단순한 1차원 블록(Sector) <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>"</strong>로 보이게끔 속여서 보여주는 매핑 아키텍처다.
+> 2. **가치**: OS가 기계마다 다른 쇳덩어리(디스크)의 물리적 위치(CHS 좌표)를 계산해야 하는 악몽에서 영원히 해방시켜 주어, <strong>소프트웨어 개발자는 그저 '몇 번째 블록(LBA) 줘!'라는 공통된 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 하나만으로 세상의 모든 저장장치를 통제</strong>할 수 있게 되었다.
+> 3. **융합**: 이 가상의 주소를 진짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 번역해 주는 역할은 디스크 내부에 탑재된 <strong>디스크 컨트롤러(Disk Controller)</strong>가 전담하며, 배드 섹터(Bad Sector)가 나도 LBA를 몰래 옆 칸으로 갈아 끼워주는(Remapping) 하드웨어적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 융합의 뼈대가 된다.
 
 ---
 
@@ -25,30 +25,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 저장장치 패러다임의 혁명**:
   1. **CHS (Cylinder-Head-Sector) 체계의 붕괴**: 물리적 구조를 노출했다가 528MB, 8GB 벽(Wall)에 부딪히며 시스템이 터짐.
   2. **하드웨어 칩셋의 지능화**: 디스크 기판에 아주 똑똑한 마이크로 컨트롤러(소형 컴퓨터)가 탑재되기 시작함.
-  3. **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))의 스토리지 적용**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 램을 속였듯, LBA는 디스크 컨트롤러가 OS를 속이는 거대한 1차원 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기법으로 정착함.
+  3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)의 스토리지 적용</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 램을 속였듯, LBA는 디스크 컨트롤러가 OS를 속이는 거대한 1차원 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기법으로 정착함.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        과거 물리 주소(CHS) vs 현대 논리 주소(LBA)의 매핑 시각화         │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ ▶ 1. 과거 CHS (Cylinder-Head-Sector) 방식 (OS의 개고생)                 │
-│   [ 운영체제 (OS) ]                                                     │
-│   "음, 이 디스크는 헤드가 16개고 실린더가 1024개군. 수식 계산 징징..."  │
-│   "야 하드디스크! [ 실린더 5번, 헤드 3번, 섹터 12번 ] 으로 바늘 돌려!"  │
-│   [ 하드디스크 ] "넵 바늘 돌립니다 덜그럭~"                             │
-│                                                                         │
-│ ▶ 2. 현대 LBA (Logical Block Address) 방식 (하드웨어의 짬처리)          │
-│   [ 운영체제 (OS) ]                                                     │
-│   "난 이 하드 안에 쇠구슬이 들었는지 반도체가 들었는지 알 바 아님."     │
-│   "야 하드디스크! [ LBA 1,000,000번 ] 데이터 퍼와!"                     │
-│          │                                                              │
-│          ▼                                                              │
-│   [ 하드디스크 컨트롤러 (펌웨어) ]                                      │
-│   "100만 번이 어디더라? (내부 해독기 가동) 아, 12번 트랙 5번 섹터네."   │
-│   (스스로 바늘을 움직여 데이터를 찾고 OS에게 쿨하게 올려보냄)           │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 물리 주소(CHS) vs 현대 논리 주소(LBA)의 매핑 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거 CHS (Cylinder-Head-Sector) 방식 (OS의 개고생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음, 이 디스크는 헤드가 16개고 실린더가 1024개군. 수식 계산 징징..."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"야 하드디스크!</div><div class="kb-diagram-node">실린더 5번, 헤드 3번, 섹터 12번</div><div class="kb-diagram-note">으로 바늘 돌려!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크</div><div class="kb-diagram-note">"넵 바늘 돌립니다 덜그럭~"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 현대 LBA (Logical Block Address) 방식 (하드웨어의 짬처리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"난 이 하드 안에 쇠구슬이 들었는지 반도체가 들었는지 알 바 아님."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">"야 하드디스크!</div><div class="kb-diagram-node">LBA 1,000,000번</div><div class="kb-diagram-note">데이터 퍼와!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크 컨트롤러 (펌웨어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"100만 번이 어디더라? (내부 해독기 가동) 아, 12번 트랙 5번 섹터네."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스스로 바늘을 움직여 데이터를 찾고 OS에게 쿨하게 올려보냄)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))는 복잡성을 덮는 이불이다." LBA 덕분에 OS는 더 이상 '실린더', '바늘' 같은 단어를 코드에 쓰지 않는다. `Read(LBA 500, size 4KB)` 라는 우아한 함수 하나면 끝난다. 훗날 바늘이 없는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(낸드 플래시)가 발명되었을 때, OS 코드를 한 줄도 안 고치고 기존 HDD를 빼고 바로 SSD를 꽂아서 쓸 수 있었던 이유가 바로 이 LBA라는 위대한 공용 껍데기 덕분이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 편지를 보낼 때 "서울시 서초구 서초동 100번지 3층 우측 집(CHS)"이라고 길게 썼지만, 지금은 "우편번호 06000(LBA)" 하나만 쓰면 우체국(컨트롤러)이 알아서 그게 어느 아파트 몇 동인지 해석해서 배달해 주는 완벽한 규격화 시스템입니다.
@@ -75,8 +74,8 @@ tags = ["studynote-operating-system"]
 - **현대 LBA 시절 (Remapping)**: 
   - OS가 "LBA 500번에 써라"고 던졌다.
   - 디스크 컨트롤러가 써보니 에러가 난다. (배드 섹터 발견).
-  - 컨트롤러는 OS에게 보고하지 않고, **디스크 구석에 짱박아둔 여분의 예비 공간(Spare Sector)**으로 슬쩍 찾아가서 거기에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 온다.
-  - 그리고 내부 장부에 **"앞으로 OS가 LBA 500 부르면 원래 자리 말고 예비 자리 10번으로 몰래 연결해 줘라"**고 화살표를 바꿔(Remapping) 버린다.
+  - 컨트롤러는 OS에게 보고하지 않고, <strong>디스크 구석에 짱박아둔 여분의 예비 공간(Spare Sector)</strong>으로 슬쩍 찾아가서 거기에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 온다.
+  - 그리고 내부 장부에 <strong>"앞으로 OS가 LBA 500 부르면 원래 자리 말고 예비 자리 10번으로 몰래 연결해 줘라"</strong>고 화살표를 바꿔(Remapping) 버린다.
   - OS는 배드 섹터가 난 줄도 모르고 "아~ 저장 잘 됐다~" 하고 넘어간다. 하드웨어의 눈물겨운 짬처리다. (단, 이 짓을 너무 많이 해서 예비 공간마저 다 떨어지면 그제야 OS에 에러를 뱉고 하드가 진짜로 사망한다).
 
 - **📢 섹션 요약 비유**: 식당 예약을 받았는데 5번 테이블(배드 섹터) 의자가 부러졌습니다. 옛날 지배인(OS)은 손님에게 "자리 없으니 나가세요"라고 쫓아냈지만, 지금의 지배인(디스크 컨트롤러)은 손님(OS) 모르게 예비용 간이 의자(Spare Sector)를 창고에서 꺼내와 슬쩍 세팅해 주고 5번 테이블 손님을 거기로 모십니다. 손님은 의자가 부러진 줄 평생 모릅니다.
@@ -93,21 +92,24 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **512n (과거)** | 512 Bytes | 512 Bytes | 1:1 매칭. 깔끔함. (용량 못 키움) |
 | **512e (에뮬레이션)**| **4096 Bytes** | **512 Bytes (거짓말)** | OS는 512라고 믿고 보내는데, 하드는 4K 단위로만 써짐. 하드가 **4K 읽고 -> 512 바꾸고 -> 4K 덮어쓰는(Read-Modify-Write)** 끔찍한 오버헤드 발생. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범. |
-| **4Kn (최신 대세)** | **4096 Bytes** | **4096 Bytes** | OS도 4KB([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))로 알고, 하드도 4KB임. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 1장 = 하드 1블록**의 완벽한 1:1 매칭 달성. 속도 극강. |
+| **4Kn (최신 대세)** | **4096 Bytes** | **4096 Bytes** | OS도 4KB([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))로 알고, 하드도 4KB임. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 1장 = 하드 1블록</strong>의 완벽한 1:1 매칭 달성. 속도 극강. |
 
 ### LBA와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 조각화 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))
 OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4)이 보기에 1번 LBA와 2번 LBA는 나란히 붙어있는 이웃이다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 연속해서 LBA 1번, 2번에 쓰면 나중에 빨리 읽겠지?"라고 생각한다.
 하지만 하드디스크 내부에서 배드 섹터 리매핑이 터져서, 2번 LBA가 저 멀리 안쪽 예비 섹터로 쫓겨나 있다면? 
 OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 연속되어 있다고 굳게 믿지만, 실제 하드디스크 바늘은 1번을 읽고 2번을 읽기 위해 원판을 가로질러 덜그럭덜그럭 점프(Seek)를 뛰게 된다. 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)와 하드웨어 물리의 간극이 빚어낸 딜레마다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 주소 체계  │ 사용자 (User)│ 운영체제 (OS) │ 디스크 (HW)      │
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ 보는 관점  │ 파일 이름(.txt)│ **LBA (번호)**│ CHS (물리 위치)│
-│ 처리 부서  │ VFS / 앱    │ 블록 I/O 계층 │ 펌웨어 컨트롤러   │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 체계</div><div class="kb-diagram-cell">사용자 (User)</div><div class="kb-diagram-cell">운영체제 (OS)</div><div class="kb-diagram-cell">디스크 (HW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보는 관점</div><div class="kb-diagram-cell">파일 이름(.txt)</div><div class="kb-diagram-cell">LBA (번호)</div><div class="kb-diagram-cell">CHS (물리 위치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 부서</div><div class="kb-diagram-cell">VFS / 앱</div><div class="kb-diagram-cell">블록 I/O 계층</div><div class="kb-diagram-cell">펌웨어 컨트롤러</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터는 거짓말의 연속이다. 유저는 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'이 존재하는 줄 알지만 OS에겐 LBA 숫자일 뿐이다. OS는 '1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)'이 존재하는 줄 알지만 하드웨어에겐 빙글빙글 도는 쇳덩어리일 뿐이다. 각 계층이 서로의 복잡함을 철저히 숨기고 속여 넘기는 이 겹겹의 사기극([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 덕분에 우리는 마우스 딸깍 한 번으로 영화를 다운받을 수 있다.
 
 - **📢 섹션 요약 비유**: 4KB로 묶어 파는 마트(4Kn 하드)에 가서 "나 500그램만 살래(512e OS)"라고 생떼를 씁니다. 알바생은 어쩔 수 없이 4kg짜리 묶음을 뜯어서 500그램만 넣고 다시 포장(Read-Modify-Write)하느라 뒤에 줄 선 사람들이 다 뻗어버립니다. OS도 하드웨어 규격에 맞춰 4kg씩 화끈하게 주문(4Kn)하는 것이 상도덕이자 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 길입니다.
@@ -124,7 +126,7 @@ OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_
    - [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 63번부터 시작하면, OS가 4KB 덩어리를 하드에 밀어 넣을 때 하드의 물리적 4KB 칸막이 2개에 걸쳐서(어정쩡하게) 써지게 된다!
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 쓸 때마다 하드는 2개의 물리 섹터를 읽고 쓰고 난리 치는(Read-Modify-Write) 오버헤드를 100% 두드려 맞는다.
 3. **실무적 철퇴 (1MB Alignment)**:
-   - 최신 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 툴(`parted`, `gdisk`)은 이 끔찍한 오정렬을 막기 위해, 첫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 시작 주소를 무조건 **LBA 2048번 (정확히 1MB 지점)**부터 띄워놓고 시작한다.
+   - 최신 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 툴(`parted`, `gdisk`)은 이 끔찍한 오정렬을 막기 위해, 첫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 시작 주소를 무조건 <strong>LBA 2048번 (정확히 1MB 지점)</strong>부터 띄워놓고 시작한다.
    - 이렇게 하면 OS의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 덩어리와 하드디스크의 4KB 물리 섹터 칸막이가 자로 잰 듯 완벽하게 일치(Align)하여 I/O 페널티가 0이 된다.
    - "SSD나 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 포맷할 때 1MB 공간 남겨두는 건 왜 그런 건가요?"라는 초보자의 질문에 대한 완벽하고도 피 튀기는 시스템 엔지니어링의 답변이다.
 
@@ -142,9 +144,9 @@ SSD는 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/
 
 | 구분 | 내용 |
 |:---|:---|
-| **저장장치 독립성([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/)) 확보** | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 등 물리적 구동 방식이 완전히 다른 장비들을 단일 LBA 체계로 묶어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4) 코드를 100% 재활용 |
+| <strong>저장장치 독립성(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>) 확보</strong> | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 등 물리적 구동 방식이 완전히 다른 장비들을 단일 LBA 체계로 묶어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4) 코드를 100% 재활용 |
 | **대용량 어드레싱 한계 돌파** | 28비트 LBA(137GB)에서 48비트 LBA(144PB)로 확장되며, 인류가 쏟아내는 빅데이터의 바다를 단 하나의 주소 맵으로 커버 |
-| **하드웨어 자체 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 배드 섹터 리매핑과 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 웨어 레벨링 등, OS의 참견 없이 하드웨어가 스스로 수명을 늘리는 자가 치유(Self-healing) 아키텍처의 기반 제공 |
+| <strong>하드웨어 자체 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 배드 섹터 리매핑과 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 웨어 레벨링 등, OS의 참견 없이 하드웨어가 스스로 수명을 늘리는 자가 치유(Self-healing) 아키텍처의 기반 제공 |
 
 ### 결론 및 미래 전망
 
@@ -165,15 +167,19 @@ SSD는 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[하드 디스크 드라이브 (HDD) 구조]
-    │
-    ▼
-[논리적 블록 주소 (LBA, Logical Block Address)]
-    │
-    ├──▶ [디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
-    └──▶ [디스크 스케줄링 (Disk Scheduling) 목적]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

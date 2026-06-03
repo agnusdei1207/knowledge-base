@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 수신 측에서 발생하는 어리석은 윈도우 신드롬(SWS)을 방지하기 위해, 수신 윈도우(Receive Window)의 여유 공간이 충분히 커질 때까지 윈도우 크기를 0으로 광고하여 송신을 억제하는 타이밍 제어 기법.
-- **필요성**: 수신자의 애플리케이션(예: 엄청 느린 워드프로세서)이 수신 버퍼에서 데이터를 1바이트씩 찔끔찔끔 빼간다 치자. OS는 빈 공간이 1바이트 났으니 거짓말을 못 하고 구글 서버에 `Window=1`이라는 엽서를 정직하게 보낸다. 구글은 1바이트를 보내기 위해 40바이트의 포장지(헤더)를 낭비해서 쏜다. **"야 수신자 윈도우야! 너 왜 이렇게 입이 싸! 네가 자꾸 1바이트 비었다고 촐싹대니까 구글이 1바이트짜리 쓰레기를 자꾸 보내잖아! 크게 비워질 때까지 무조건 입 꾹 닫고 있어!!"**라는 강압적인 통제가 필요했다.
+- **필요성**: 수신자의 애플리케이션(예: 엄청 느린 워드프로세서)이 수신 버퍼에서 데이터를 1바이트씩 찔끔찔끔 빼간다 치자. OS는 빈 공간이 1바이트 났으니 거짓말을 못 하고 구글 서버에 `Window=1`이라는 엽서를 정직하게 보낸다. 구글은 1바이트를 보내기 위해 40바이트의 포장지(헤더)를 낭비해서 쏜다. <strong>"야 수신자 윈도우야! 너 왜 이렇게 입이 싸! 네가 자꾸 1바이트 비었다고 촐싹대니까 구글이 1바이트짜리 쓰레기를 자꾸 보내잖아! 크게 비워질 때까지 무조건 입 꾹 닫고 있어!!"</strong>라는 강압적인 통제가 필요했다.
 
-- **💡 비유**: 클라크 해결책은 대형 뷔페의 **"빈 접시 수거 룰"**과 같습니다.
+- **💡 비유**: 클라크 해결책은 대형 뷔페의 <strong>"빈 접시 수거 룰"</strong>과 같습니다.
   - **기존 (멍청한 알바생)**: 손님이 밥풀 하나를 남기고 일어서자마자(1바이트 공간), 알바생이 헐레벌떡 무전기로 "여기 자리 났어요!"라고 주방에 외칩니다. 주방에서 종업원이 달려와 밥풀 하나를 치우고(오버헤드 폭발) 돌아갑니다.
   - **클라크 해결책 (노련한 지배인)**: 손님이 접시 하나를 비워도 꾹 참습니다. 테이블 위에 **빈 접시가 절반 이상(50%) 쌓이거나**, 아예 **손님이 밥을 다 먹고 일어났을 때(MSS 사이즈 확보)** 비로소 "여기 치워주세요!"라고 무전을 칩니다. 종업원은 카트를 끌고 와서 한 번에 깔끔하게 다 치우고 갑니다.
 
-```text
-[네이글 알고리즘]
-    │
-    ▼
-[클라크 해결책]
-    │
-    └──▶ [지연된 ACK]
-```
 
-- **📢 섹션 요약 비유**: ** 클라크 해결책은 세탁 바구니의 **"반 찰 때까지 기다리기"** 법칙입니다. 양말 한 짝(1바이트) 생겼다고 매번 세탁기(네트워크)를 돌리는 전기세 낭비를 막기 위해, 빨랫감이 바구니의 절반(50%)을 채우거나 묵직한 이불 한 채(MSS)가 나올 때까지 **무조건 참는 훌륭한 살림꾼의 마인드**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네이글 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라크 해결책</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지연된 ACK</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** 클라크 해결책은 세탁 바구니의 **"반 찰 때까지 기다리기"<strong> 법칙입니다. 양말 한 짝(1바이트) 생겼다고 매번 세탁기(네트워크)를 돌리는 전기세 낭비를 막기 위해, 빨랫감이 바구니의 절반(50%)을 채우거나 묵직한 이불 한 채(MSS)가 나올 때까지 </strong>무조건 참는 훌륭한 살림꾼의 마인드**입니다.
 
 ---
 
@@ -44,7 +48,7 @@ tags = ["studynote-network"]
 ### 1. 윈도우 업데이트 (Window Update)의 통제
 클라크 해결책은 언제 입을 닫고, 언제 입을 열어(Window Update) 송신자에게 통신 재개를 허락할 것인가가 핵심이다.
 
-**[ 상황 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ]**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/"> 상황 [설정</a> ]</strong>
 - 수신 버퍼 총 크기: `4,000 바이트`
 - 꽉 차서 현재 잔여 공간: `0 바이트` (송신자에게 `Window=0` 상태 통보됨).
 
@@ -55,32 +59,32 @@ tags = ["studynote-network"]
    - 잔여 공간 `1,010 바이트`.
    - OS 판단: "절반(2000) 안 되고, MSS(1460)도 아직 안 되네. 계속 입 다물어!"
 3. 앱이 마침내 500바이트를 더 읽어갔다!
-   - 잔여 공간 **`1,510 바이트`**.
+   - 잔여 공간 <strong><code>1,510 바이트</code></strong>.
    - OS 판단: "오예! 절반(2000)은 안 되지만, **MSS 크기(1460)를 돌파했다!!** 지금이다!!"
-   - OS는 즉시 구글 서버에 **`Window=1510`** 이 적힌 영수증(ACK)을 발사한다.
+   - OS는 즉시 구글 서버에 <strong><code>Window=1510</code></strong> 이 적힌 영수증(ACK)을 발사한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                네이글(Nagle)과 클라크(Clark)의 쌍끌이 방어선          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 미친 송신자 억제 (Nagle) ]                                  │
- │   - 키보드로 1바이트씩 쳐서 데이터가 들어옴.                         │
- │   - Nagle: "야! 택배 상자(MSS) 찰 때까지 쏘지 말고 일단 모아둬!"       │
- │                                                             │
- │   [ 미친 수신자 억제 (Clark) ]                                  │
- │   - 수신 버퍼에서 앱이 1바이트씩 빼서 읽음.                          │
- │   - Clark: "야! 1바이트 비었다고 떠들지 마! 반 찰 때까지 계속 0이라고 뻥쳐!"│
- │                                                             │
- │   ▶ 결과: 양쪽 끝단(End-to-End)에서 쪼잔한 패킷을 보내지도,              │
- │           보내라고 부르지도 않음으로써 인터넷 대역폭이 극강으로 쾌적해짐! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네이글(Nagle)과 클라크(Clark)의 쌍끌이 방어선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미친 송신자 억제 (Nagle)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 키보드로 1바이트씩 쳐서 데이터가 들어옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Nagle: "야! 택배 상자(MSS) 찰 때까지 쏘지 말고 일단 모아둬!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미친 수신자 억제 (Clark)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수신 버퍼에서 앱이 1바이트씩 빼서 읽음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Clark: "야! 1바이트 비었다고 떠들지 마! 반 찰 때까지 계속 0이라고 뻥쳐!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 양쪽 끝단(End-to-End)에서 쪼잔한 패킷을 보내지도,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보내라고 부르지도 않음으로써 인터넷 대역폭이 극강으로 쾌적해짐!</div></div>
+</div>
+</div>
+
+
 
 ### 2. 현대 OS에서의 구현
 오늘날의 Windows나 Linux 커널은 개발자가 별도로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하지 않아도 이 클라크 해결책이 기본 베이스로 하드코딩되어 있다. 따라서 우리가 집에서 와이파이로 웹서핑을 할 때, 우리 노트북은 구글 서버를 향해 끊임없이 "참았다가 한 번에 빈 공간 알려주기" 꼼수를 부리며 보이지 않는 최적화를 수행하고 있는 것이다.
 
-- **📢 섹션 요약 비유**: ** 클라크 해결책은 주유소의 **"가득 채우기 전엔 안 뽑기"** 센서와 같습니다. 주유 건을 차에 꽂았을 때 기름이 10원어치 떨어졌다고 다시 방아쇠를 당겨달라고 주유기(송신자)에 띡띡 신호를 보내지 않고, **최소 1리터(MSS) 이상 빈 공간이 나야만 신호를 보내 한 번에 주욱 쏴주게 만드는 스마트한 센서**입니다.
+- **📢 섹션 요약 비유**: ** 클라크 해결책은 주유소의 **"가득 채우기 전엔 안 뽑기"<strong> 센서와 같습니다. 주유 건을 차에 꽂았을 때 기름이 10원어치 떨어졌다고 다시 방아쇠를 당겨달라고 주유기(송신자)에 띡띡 신호를 보내지 않고, </strong>최소 1리터(MSS) 이상 빈 공간이 나야만 신호를 보내 한 번에 주욱 쏴주게 만드는 스마트한 센서**입니다.
 
 ---
 
@@ -136,15 +140,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네이글 알고리즘]
-    │
-    ▼
-[현재 개념: 클라크 해결책]
-    │
-    ├──▶ [확장 A: 지연된 ACK]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네이글 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라크 해결책</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지연된 ACK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 클라크 해결책는 네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

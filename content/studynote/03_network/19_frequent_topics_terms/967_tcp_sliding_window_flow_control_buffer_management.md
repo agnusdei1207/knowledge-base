@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **딜레마**: 송신자 컴퓨터(최신형 10기가 랜카드)가 수신자 컴퓨터(낡은 구형 폰)로 데이터를 쏠 때 속도(스피드)의 격차가 끔찍하게 납니다.
-- 송신자가 너무 빨리 쏘면 수신자 램(RAM)의 임시 저장소(수신 버퍼)가 꽉 차서 넘쳐흐르고, 결국 패킷이 공중 분해되어 다시 쏴야 하는(재전송 트래픽 폭주) 악순환이 터집니다. **수신자가 감당할 수 있는 속도만큼만 송신자의 목줄을 조이는 기술이 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)**입니다.
+- 송신자가 너무 빨리 쏘면 수신자 램(RAM)의 임시 저장소(수신 버퍼)가 꽉 차서 넘쳐흐르고, 결국 패킷이 공중 분해되어 다시 쏴야 하는(재전송 트래픽 폭주) 악순환이 터집니다. <strong>수신자가 감당할 수 있는 속도만큼만 송신자의 목줄을 조이는 기술이 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong>입니다.
 
-```text
-[멀티캐스트]
-    │
-    ▼
-[TCP 슬라이딩 윈도우]
-    │
-    └──▶ [TCP 쓰리웨이 핸드셰이크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - 949번 문서에서 배웠듯, 택배 박스 1개를 쏘고 수신자가 "잘 받았어(ACK)!" 할 때까지 멍때리며 기다립니다. 
 - 오버헤드나 손실은 전혀 없지만, 1초면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개를 보낼 수 있는 1Gbps 광케이블 고속도로에서 1개씩 찔끔찔끔 보내고 있으니 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율(속도)이 지옥 수준으로 떨어집니다.
 
-```text
-[멀티캐스트]
-    │
-    ▼
-[TCP 슬라이딩 윈도우]
-    │
-    └──▶ [TCP 쓰리웨이 핸드셰이크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,8 +67,8 @@ tags = ["studynote-network"]
 
 ### 1. [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))의 합의 🌟
 - 영희(수신자)가 철수와 처음 연결을 맺을 때 자기 뱃속(수신 버퍼)의 남은 여유 공간을 잽니다. "내 빈 공간이 딱 5개([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/패킷 단위)네!"
-- 영희가 철수에게 보내는 응답 패킷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더) 안에 **`Window Size = 5`**라고 쾅 박아서 알려줍니다.
-- 이 숫자는 철수에게 **"철수야, 나한테 내 답장(ACK) 안 기다리고 그냥 막 연속으로 쏴도 되는 허락된 개수가 5개야!"**라는 절대 명령(송신 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))이 됩니다.
+- 영희가 철수에게 보내는 응답 패킷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더) 안에 <strong><code>Window Size = 5</code></strong>라고 쾅 박아서 알려줍니다.
+- 이 숫자는 철수에게 <strong>"철수야, 나한테 내 답장(ACK) 안 기다리고 그냥 막 연속으로 쏴도 되는 허락된 개수가 5개야!"</strong>라는 절대 명령(송신 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))이 됩니다.
 
 ### 2. 슬라이딩 (Sliding, 창문 밀기) 동작 원리 🌟
 송신자(철수) 앞에 5칸짜리 투명한 네모 창문(Window)이 떠 있다고 상상해 봅니다.
@@ -72,7 +80,7 @@ tags = ["studynote-network"]
 
 ### 3. 영희의 목 조르기 (동적 조절, [Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))
 - 영희 컴퓨터가 CPU 과부하가 걸려 뱃속 소화가 아예 멈췄습니다. 
-- 영희는 긴급하게 철수에게 **`Window Size = 0`** 이라는 끔찍한 패킷을 날립니다.
+- 영희는 긴급하게 철수에게 <strong><code>Window Size = 0</code></strong> 이라는 끔찍한 패킷을 날립니다.
 - 철수의 네모난 창문이 완전히 찌그러져 닫혀버립니다. 철수는 전송을 즉각 멈추고 숨죽이며 엎드립니다. 나중에 영희가 뱃속이 비어서 윈도우를 다시 늘려줄 때까지 절대 쏘지 않아 패킷 드랍을 완벽하게 0%로 통제해 냅니다.
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)가 기반 조건을 만든다면, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 그 위에서 핵심 메커니즘을 구현하고, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -89,8 +97,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) (슬라이딩 윈도우)**: 딱 너(철수)와 나(영희) **둘 사이의 그릇 크기(단말기 수신 버퍼)** 격차를 조율하는 개인적인 1:1 대화.
-- **혼잡 제어 (969번 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/))**: 우리 둘 사이의 문제가 아니라, 중간에 거쳐 가는 **대한민국 고속도로망 전체 라우터의 톨게이트 막힘 상태(네트워크 전체 교통체증)**를 눈치채고 속도를 줄이는 전 지구적 통제.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (슬라이딩 윈도우)</strong>: 딱 너(철수)와 나(영희) **둘 사이의 그릇 크기(단말기 수신 버퍼)** 격차를 조율하는 개인적인 1:1 대화.
+- <strong>혼잡 제어 (969번 <a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a>)</strong>: 우리 둘 사이의 문제가 아니라, 중간에 거쳐 가는 <strong>대한민국 고속도로망 전체 라우터의 톨게이트 막힘 상태(네트워크 전체 교통체증)</strong>를 눈치채고 속도를 줄이는 전 지구적 통제.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티캐스트]
-    │
-    ▼
-[현재 개념: TCP 슬라이딩 윈도우]
-    │
-    ├──▶ [확장 A: TCP 쓰리웨이 핸드셰이크]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 슬라이딩 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 쓰리웨이 핸드셰이크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

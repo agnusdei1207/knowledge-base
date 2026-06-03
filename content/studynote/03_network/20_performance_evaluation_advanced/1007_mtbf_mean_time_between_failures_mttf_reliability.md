@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 네트워크 인프라 장비를 평가할 땐 두 가지를 봅니다.
-1. **얼마나 안 고장 나는가? ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))** ➜ **[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)**가 측정합니다.
-2. **고장 나도 1년 내내 켜져 있는 척(업타임) 할 수 있는가? ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** ➜ 고장 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))와 결합하여 계산합니다.
+1. <strong>얼마나 안 고장 나는가? (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>)</strong> ➜ <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">MTBF</a></strong>가 측정합니다.
+2. <strong>고장 나도 1년 내내 켜져 있는 척(업타임) 할 수 있는가? (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> ➜ 고장 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))와 결합하여 계산합니다.
 
-```text
-[망 신뢰도]
-    │
-    ▼
-[MTBF 통신망 생존성]
-    │
-    └──▶ [MTTR 회선 이중화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,25 +42,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **[평균 무고장 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)**. 장비나 시스템이 정상적으로 가동된 후, **다음 고장(Failure)이 발생하여 멈출 때까지 걸린 '평균적인 정상 작동 시간'**을 의미합니다. 숫자가 클수록 튼튼하고 비싼 장비입니다.
+- **개념**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">평균 무고장 시간</a></strong>. 장비나 시스템이 정상적으로 가동된 후, <strong>다음 고장(Failure)이 발생하여 멈출 때까지 걸린 '평균적인 정상 작동 시간'</strong>을 의미합니다. 숫자가 클수록 튼튼하고 비싼 장비입니다.
 
 ### 고장 사이의 타임라인 쪼개기 🌟 (무조건 암기)
 장비의 수명 주기는 '건강함 ➜ 아픔 ➜ 치료 ➜ 건강함'의 무한 반복입니다.
 
-1. **[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) (Mean Time To Failure)**: 수리(치료)를 딱 끝내고 전원을 켠 순간부터 ➜ **다시 픽 하고 쓰러질(고장) 때까지의 순수하게 '건강하게 달린 시간'**입니다. 
-2. **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To Repair)**: 1008번 문서에서 배울 **순수 고장 나서 멈춰있는(수리하는) 아픈 시간**입니다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a> (Mean Time To Failure)</strong>: 수리(치료)를 딱 끝내고 전원을 켠 순간부터 ➜ <strong>다시 픽 하고 쓰러질(고장) 때까지의 순수하게 '건강하게 달린 시간'</strong>입니다. 
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To Repair)</strong>: 1008번 문서에서 배울 <strong>순수 고장 나서 멈춰있는(수리하는) 아픈 시간</strong>입니다.
 3. **MTBF의 진짜 공식**:
    $$ [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) = [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) (건강한 시간) + [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (아파서 수리받는 시간) $$
    - **해석**: "1번 고장이 터진 순간"부터 "그다음 2번 고장이 터지는 순간"까지의 총 한 사이클 기간입니다. 하지만 현대 통신 장비는 고장 나면 고치는 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/), 1시간)보다 정상 가동 시간([MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/), 10년)이 압도적으로 길기 때문에 실무에선 대충 **"[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) $\approx$ [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) (순수 수명)"**로 퉁쳐서 부르기도 합니다.
 
-```text
-[망 신뢰도]
-    │
-    ▼
-[MTBF 통신망 생존성]
-    │
-    └──▶ [MTTR 회선 이중화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - 우주선에 달아 날려버린 인공위성 안테나나 가정용 형광등은 고장이 나면 뜯어서 고칠([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 수 없습니다. 그냥 버려야 합니다.
-- 이렇게 **수리가 불가능한 시스템**에서는 MTBF라는 단어를 아예 쓰지 않고, 켜서 완전히 죽을 때까지의 1회용 수명인 **[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)(평균 고장 시간)** 지표 하나만 사용합니다.
+- 이렇게 <strong>수리가 불가능한 시스템</strong>에서는 MTBF라는 단어를 아예 쓰지 않고, 켜서 완전히 죽을 때까지의 1회용 수명인 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a>(평균 고장 시간)</strong> 지표 하나만 사용합니다.
 
 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)가 기반 조건을 만든다면, [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성은 그 위에서 핵심 메커니즘을 구현하고, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)([평균 무고장 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))**는 전산실 라우터라는 자동차의 **'잔고장 없이 달린 무사고 주행 기록 평균'**입니다. 새 차를 사서 고속도로를 달립니다. 10만 킬로를 쌩쌩 달리고 나서 펑크가 터졌습니다(첫 번째 [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/): 10만 킬로). 펑크를 카센터에서 1시간 동안 고쳤습니다([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/): 1시간). 차를 다시 받아 달리기 시작해서, 두 번째 엔진이 퍼질 때까지 9만 킬로를 더 달렸습니다(두 번째 [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/): 9만 킬로). **[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)**는 이 차가 첫 고장에서 다음 고장까지 "평균적으로 얼마의 간격을 두고 고장이 났는가?"를 계산하는 맷집 점수입니다. 만약 중국산 짝퉁 스위치를 사면 MTBF가 3달밖에 안 돼서 3달마다 인터넷이 펑펑 터지는 재앙을 겪고, 수백만 원짜리 시스코 코어 라우터를 사면 MTBF가 20년이 넘어 엔지니어가 은퇴할 때까지 평생 잔고장 한 번 안 터지는 우주 방어급 안정성을 보장해 주는 기계의 체력 스탯입니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">MTBF</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">평균 무고장 시간</a>)</strong>는 전산실 라우터라는 자동차의 <strong>'잔고장 없이 달린 무사고 주행 기록 평균'</strong>입니다. 새 차를 사서 고속도로를 달립니다. 10만 킬로를 쌩쌩 달리고 나서 펑크가 터졌습니다(첫 번째 [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/): 10만 킬로). 펑크를 카센터에서 1시간 동안 고쳤습니다([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/): 1시간). 차를 다시 받아 달리기 시작해서, 두 번째 엔진이 퍼질 때까지 9만 킬로를 더 달렸습니다(두 번째 [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/): 9만 킬로). <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">MTBF</a></strong>는 이 차가 첫 고장에서 다음 고장까지 "평균적으로 얼마의 간격을 두고 고장이 났는가?"를 계산하는 맷집 점수입니다. 만약 중국산 짝퉁 스위치를 사면 MTBF가 3달밖에 안 돼서 3달마다 인터넷이 펑펑 터지는 재앙을 겪고, 수백만 원짜리 시스코 코어 라우터를 사면 MTBF가 20년이 넘어 엔지니어가 은퇴할 때까지 평생 잔고장 한 번 안 터지는 우주 방어급 안정성을 보장해 주는 기계의 체력 스탯입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 망 신뢰도]
-    │
-    ▼
-[현재 개념: MTBF 통신망 생존성]
-    │
-    ├──▶ [확장 A: MTTR 회선 이중화]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 망 신뢰도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MTTR 회선 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성는 [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

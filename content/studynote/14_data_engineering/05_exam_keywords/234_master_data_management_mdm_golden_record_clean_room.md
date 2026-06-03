@@ -49,28 +49,29 @@ e-커머스:     홍 길동 / 강남구 서울 / 010.1234.5678
 
 ### 골든 레코드 (Golden Record) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  골든 레코드 생성 파이프라인                         │
-│                                                                 │
-│  소스 시스템      수집         정제          매칭         병합       │
-│                                                                 │
-│  CRM ──────┐                                                    │
-│  ERP ──────┼──→ [프로파일링] → [표준화]  → [중복    → [골든     │
-│  ECM ──────┘    데이터 품질    주소·이름    탐지·     레코드]     │
-│                 분석          정규화]      링킹]                  │
-│                                                                 │
-│         1단계        2단계       3단계       4단계     5단계      │
-│        수집·통합    데이터 정제  표준화    매칭·링킹   병합·게시    │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">골든 레코드 생성 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템 수집 정제 매칭 병합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">프로파일링</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">표준화</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">[중복 → [골든</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECM 데이터 품질 주소·이름 탐지· 레코드]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 정규화] 링킹]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 2단계 3단계 4단계 5단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집·통합 데이터 정제 표준화 매칭·링킹 병합·게시</div></div>
+</div>
+</div>
+
+
 
 #### 각 단계 상세
 
 | 단계 | 활동 | 기술/방법 |
 |:---|:---|:---|
 | **1. 수집** | 다중 소스에서 레코드 수집 | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)([Extract Transform Load](/knowledge-base/studynote/14_data_engineering/01_infrastructure/033_etl/)), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) |
-| **2. [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·완전성 분석 | 통계 분석, 이상값 탐지 |
+| <strong>2. <a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·완전성 분석 | 통계 분석, 이상값 탐지 |
 | **3. 정제** | 결측·오류·불일치 수정 | 규칙 기반 보정, ML 보완 |
 | **4. 표준화** | 주소·이름·전화번호 형식 통일 | 표준 주소 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 정규식 |
 | **5. 매칭·링킹** | 동일 엔터티 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·연결 | 확률적 매칭(Probabilistic Matching), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
@@ -79,26 +80,26 @@ e-커머스:     홍 길동 / 강남구 서울 / 010.1234.5678
 
 ### [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 아키텍처 유형
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 MDM 아키텍처 유형 비교                             │
-├──────────────────┬────────────────────────────────────────────┤
-│  허브형          │          가상형                              │
-│  (Hub Style)     │         (Virtual/Federation Style)          │
-│                  │                                            │
-│  MDM Hub         │  소스시스템1 ──┐                            │
-│  ┌─────────┐     │  소스시스템2 ──┼──→ [가상 레이어]            │
-│  │골든레코드│     │  소스시스템3 ──┘   (실시간 연합)             │
-│  └──┬──┬───┘     │                                            │
-│     │  │         │  원본 유지, 물리적 복사 없음                  │
-│  CRM ERP SCM     │                                            │
-└──────────────────┴────────────────────────────────────────────┘
 
-레지스트리형 (Registry Style):
-  소스시스템 → 각자 원본 유지
-  MDM       → 식별자·링크만 관리 (실제 데이터 미보유)
-  특징: 가볍고 빠르나 통제력 낮음
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM 아키텍처 유형 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허브형</div><div class="kb-diagram-cell">가상형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hub Style)</div><div class="kb-diagram-cell">(Virtual/Federation Style)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM Hub</div><div class="kb-diagram-cell">소스시스템1 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">가상 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">골든레코드</div><div class="kb-diagram-cell">소스시스템3 ── (실시간 연합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 유지, 물리적 복사 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM ERP SCM</div></div>
+<div class="kb-diagram-note">레지스트리형 (Registry Style):</div>
+<div class="kb-diagram-note">소스시스템 → 각자 원본 유지</div>
+<div class="kb-diagram-note">MDM → 식별자·링크만 관리 (실제 데이터 미보유)</div>
+<div class="kb-diagram-note">특징: 가볍고 빠르나 통제력 낮음</div>
+</div>
+</div>
+
+
 
 ### 아키텍처 유형 비교
 
@@ -115,25 +116,25 @@ e-커머스:     홍 길동 / 강남구 서울 / 010.1234.5678
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸 ([Data Clean Room](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/))
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸은 **두 조직이 원시 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 공유하지 않고** 공통 고객 분석을 수행할 수 있는 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 환경이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸은 <strong>두 조직이 원시 <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>를 공유하지 않고</strong> 공통 고객 분석을 수행할 수 있는 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 환경이다.
 
-```
-        광고주 A                   플랫폼 B
-    (구매 이력 보유)            (광고 노출 데이터 보유)
-           │                          │
-           ▼                          ▼
-     ┌─────────────────────────────────┐
-     │         데이터 클린 룸           │
-     │  (Data Clean Room)              │
-     │                                │
-     │  원시 데이터 직접 공유 금지      │
-     │  집계 결과·통계만 반출 허용      │
-     │  개인 식별 불가 보장             │
-     │                                │
-     │  분석: 광고 도달 고객의 구매 전환율│
-     └─────────────────────────────────┘
-           결과: "캠페인 전환율 3.2%"만 공유
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">광고주 A 플랫폼 B</div>
+<div class="kb-diagram-note">(구매 이력 보유) (광고 노출 데이터 보유)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 클린 룸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Clean Room)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 직접 공유 금지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 결과·통계만 반출 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인 식별 불가 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석: 광고 도달 고객의 구매 전환율</div></div>
+<div class="kb-diagram-note">결과: "캠페인 전환율 3.2%"만 공유</div>
+</div>
+</div>
+
+
 
 ### 클린 룸 구현 기술
 
@@ -177,7 +178,7 @@ Phase 4: 운영
 ### 기술사 판단 포인트
 
 1. **아키텍처 선택**: 통합 강도 vs 유연성 트레이드오프 명확히 제시
-2. **매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: 결정적 매칭(완전 일치) + 확률적 매칭(유사도) 조합
+2. <strong>매칭 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 결정적 매칭(완전 일치) + 확률적 매칭(유사도) 조합
 3. **거버넌스**: 기술보다 조직·프로세스 문제가 더 어려움 — [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) 필수
 4. **클린 룸**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공동 활용 시 필수 선택지
 
@@ -219,17 +220,21 @@ MDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-마스터 데이터 사일로 (부서별 중복 · 불일치)
-    │
-    ▼
-MDM: 골든 레코드 생성 · 데이터 통합
-    ├─► 매칭 · 머지 · 서바이버십 규칙
-    └─► Clean Room: 개인정보 보호 합동 분석
-    │
-    ▼
-데이터 거버넌스: 품질 · 보안 · 컴플라이언스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마스터 데이터 사일로 (부서별 중복 · 불일치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MDM: 골든 레코드 생성 · 데이터 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">매칭 · 머지 · 서바이버십 규칙</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Clean Room: 개인정보 보호 합동 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 거버넌스: 품질 · 보안 · 컴플라이언스</div>
+</div>
+</div>
+
+
 2. 골든 레코드는 여러 반의 기록 중 가장 정확한 정보만 골라 만든 "공식 학생 기록부"다.
 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸은 두 학교가 서로의 학생 명단을 공유하지 않고 "두 학교에 모두 다니는 학생이 몇 명인지"만 같이 세어보는 비밀 방이다.
 

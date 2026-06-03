@@ -22,63 +22,66 @@ tags = ["studynote-design-supervision"]
 
 클라이언트(모바일 앱, 웹 브라우저)가 이 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 주소를 알아야 한다면:
 
-- **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경 시 클라이언트도 수정** 필요
-- **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 중복** 구현
-- **CORS (Cross-Origin Resource Sharing) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 개별** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 변경 시 클라이언트도 수정</strong> 필요
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>·로깅이 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>마다 중복</strong> 구현
+- <strong>CORS (Cross-Origin Resource Sharing) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>마다 개별</strong> [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 이 모든 문제를 해결하는 **MSA의 정문**이다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 이 모든 문제를 해결하는 <strong>MSA의 정문</strong>이다.
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청의 진입점이라면, **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 게이트웨이 (Message Gateway)** 는 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 채널([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)에서 동일한 역할을 수행한다—[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 포맷 변환, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 필터링.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청의 진입점이라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 게이트웨이 (Message Gateway)</strong> 는 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 채널([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)에서 동일한 역할을 수행한다—[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 포맷 변환, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 필터링.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 쇼핑몰 백화점의 정문 안내 데스크처럼, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 모든 방문객(요청)을 맞이하고 적절한 매장([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 안내한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                    API Gateway 아키텍처                           │
-│                                                                  │
-│  [클라이언트]                                                     │
-│  Mobile App ─────┐                                               │
-│  Web Browser ────┤                                               │
-│  Partner API ────┤                                               │
-│                  ▼                                               │
-│         ┌────────────────────────────────────────┐               │
-│         │          API Gateway                   │               │
-│         │  ┌─────────────────────────────────┐   │               │
-│         │  │  1. SSL 종료 (TLS Termination)   │   │               │
-│         │  │  2. 인증/인가 (Auth/AuthZ)        │   │               │
-│         │  │  3. 요청 라우팅 (Routing)         │   │               │
-│         │  │  4. 속도 제한 (Rate Limiting)     │   │               │
-│         │  │  5. 요청 집계 (Aggregation)       │   │               │
-│         │  │  6. 로드 밸런싱 (Load Balancing)  │   │               │
-│         │  │  7. 캐싱 (Caching)               │   │               │
-│         │  └─────────────────────────────────┘   │               │
-│         └──────────────────┬───────────────────┘               │
-│                            │                                     │
-│          ┌─────────────────┼──────────────────────┐             │
-│          ▼                 ▼                       ▼             │
-│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐     │
-│  │ User Service │  │ Order Service│  │  Payment Service   │     │
-│  │ :8081        │  │ :8082        │  │  :8083             │     │
-│  └──────────────┘  └──────────────┘  └────────────────────┘     │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mobile App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Browser</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partner API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SSL 종료 (TLS Termination)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인증/인가 (Auth/AuthZ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 요청 라우팅 (Routing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 속도 제한 (Rate Limiting)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 요청 집계 (Aggregation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 로드 밸런싱 (Load Balancing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 캐싱 (Caching)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Service</div><div class="kb-diagram-cell">Order Service</div><div class="kb-diagram-cell">Payment Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">:8081</div><div class="kb-diagram-cell">:8082</div><div class="kb-diagram-cell">:8083</div></div>
+</div>
+</div>
+
+
 
 단일 게이트웨이 대신 클라이언트 유형별로 최적화된 게이트웨이를 두는 패턴:
 
-```
-Mobile App  ──▶  Mobile BFF  ──▶  마이크로서비스들
-Web App     ──▶  Web BFF     ──▶  마이크로서비스들
-Partner     ──▶  Partner GW  ──▶  마이크로서비스들
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Mobile App ──▶ Mobile BFF ──▶ 마이크로서비스들</div>
+<div class="kb-diagram-note">Web App ──▶ Web BFF ──▶ 마이크로서비스들</div>
+<div class="kb-diagram-note">Partner ──▶ Partner GW ──▶ 마이크로서비스들</div>
+</div>
+</div>
+
+
 
 | 기능 | 설명 | 대표 구현 |
 |:---|:---|:---|
@@ -138,11 +141,11 @@ spring:
 게이트웨이 자체가 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)이 되지 않도록:
 
 1. **수평 확장 (Horizontal Scaling)**: 게이트웨이 인스턴스 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)
-2. **Health Check (상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**: 주기적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태 모니터링
-3. **[Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) ([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/))**: 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자동 격리
-4. **[Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 불가 시 기본 응답 반환
+2. <strong>Health Check (상태 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>)</strong>: 주기적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태 모니터링
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a>)</strong>: 장애 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자동 격리
+4. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a></strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 불가 시 기본 응답 반환
 
-"[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입 시 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 왜 필요한가?" — 답은 **캡슐화 + 횡단 관심사 중앙화**다. 클라이언트-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드와 완전히 분리한다.
+"[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입 시 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 왜 필요한가?" — 답은 <strong>캡슐화 + 횡단 관심사 중앙화</strong>다. 클라이언트-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드와 완전히 분리한다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -157,7 +160,7 @@ spring:
 ## Ⅴ. 기대효과 및 결론
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 도입 효과:
 
-- **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소**: 클라이언트가 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조 변경에 영향받지 않음
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 감소</strong>: 클라이언트가 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조 변경에 영향받지 않음
 - **보안 강화**: 외부에 노출되는 진입점을 하나로 제한
 - **운영 가시성**: 게이트웨이에서 전체 트래픽 모니터링 가능
 - **개발 생산성**: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·로깅 코드 제거

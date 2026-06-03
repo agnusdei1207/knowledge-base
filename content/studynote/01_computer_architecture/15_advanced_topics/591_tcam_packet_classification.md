@@ -25,22 +25,22 @@ TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리�
 
 이 그림은 패킷 헤더가 TCAM에 들어갈 때 어떤 식으로 규칙과 맞물리는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                입력 헤더 1개를 수많은 규칙과 동시에 비교하는 구조                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Input Key : 101100... [Destination Address | Source Address | Protocol]   │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Rule 1 : 1011XX... -> Match                                                │
-│ Rule 2 : 0010XX... -> Miss                                                 │
-│ Rule 3 : 101100... -> Match                                                │
-│      │                                                                     │
-│      └─ Match가 여러 개면 우선순위가 가장 높은 규칙을 선택한다              │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-결국 TCAM의 필요성은 "빠른 검색"보다 더 구체적이다. **wildcard가 있는 규칙을 우선순위까지 포함해 결정적 시간 안에 고르는 것**이 핵심이며, 이 특성 때문에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 보안 장비에서 여전히 중요한 위치를 차지한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 헤더 1개를 수많은 규칙과 동시에 비교하는 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Input Key : 101100...</div><div class="kb-diagram-node">Destination Address | Source Address | Protocol</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule 1 : 1011XX... -&gt; Match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule 2 : 0010XX... -&gt; Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule 3 : 101100... -&gt; Match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Match가 여러 개면 우선순위가 가장 높은 규칙을 선택한다</div></div>
+</div>
+</div>
+
+
+
+결국 TCAM의 필요성은 "빠른 검색"보다 더 구체적이다. <strong>wildcard가 있는 규칙을 우선순위까지 포함해 결정적 시간 안에 고르는 것</strong>이 핵심이며, 이 특성 때문에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 보안 장비에서 여전히 중요한 위치를 차지한다.
 
 - **📢 섹션 요약 비유**: 반 친구 이름표를 한 명씩 읽는 대신, 선생님이 특징을 말하면 조건에 맞는 학생들이 동시에 손을 들고 그중 반장부터 먼저 앞으로 나오는 것과 같다. TCAM은 "동시 비교"와 "우선순위 선택"을 한 번에 하는 구조다.
 
@@ -59,24 +59,21 @@ TCAM 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classi
 
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 내부의 흐름을 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   TCAM 기반 패킷 분류 파이프라인의 기본 구조                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Packet Parser -> Classification Key -> TCAM Parallel Match                │
-│                                           │                                │
-│                                           ▼                                │
-│                                   Priority Encoder                         │
-│                                           │                                │
-│                                           ▼                                │
-│                                     Action SRAM                            │
-│                                           │                                │
-│                                           ▼                                │
-│                                Forward / Drop / Mirror / Meter             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이다. 반대로 비싼 이유도 바로 여기에 있다. 셀 수가 많고 폭이 넓을수록 전력과 발열이 커지므로, 실제 장비는 bank 분할, entry [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), exact match의 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 분리 같은 절전 기법을 함께 쓴다. 즉 TCAM의 진짜 설계 포인트는 속도 자체보다 **속도를 얼마의 전력과 용량으로 살 것인가**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCAM 기반 패킷 분류 파이프라인의 기본 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Packet Parser -&gt; Classification Key -&gt; TCAM Parallel Match</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Priority Encoder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action SRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forward / Drop / Mirror / Meter</div></div>
+</div>
+</div>
+
+
+
+TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이다. 반대로 비싼 이유도 바로 여기에 있다. 셀 수가 많고 폭이 넓을수록 전력과 발열이 커지므로, 실제 장비는 bank 분할, entry [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), exact match의 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 분리 같은 절전 기법을 함께 쓴다. 즉 TCAM의 진짜 설계 포인트는 속도 자체보다 <strong>속도를 얼마의 전력과 용량으로 살 것인가</strong>다.
 
 - **📢 섹션 요약 비유**: 시험지를 한 명이 순서대로 채점하면 느리지만 싸고, 모든 학생에게 동시에 자기 답을 확인하라고 시키면 엄청 빠르지만 교실 에너지가 한꺼번에 많이 든다. TCAM은 속도를 위해 전력을 미리 크게 쓰는 방식이다.
 
@@ -94,7 +91,7 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 이 때문에 현대 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [주문형 반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit, [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))는 하나의 기법만 쓰지 않는다. exact match는 SRAM이나 hash로 처리하고, wildcard와 우선순위가 필요한 구간만 TCAM에 맡기는 hybrid pipeline이 일반적이다. [소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) (Software-Defined Networking, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))의 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 매치 테이블도 이런 하드웨어 현실을 배경으로 이해해야 한다.
 
-또한 LPM과 ACL은 모두 "룰이 겹칠 수 있다"는 공통점이 있다. 그래서 TCAM은 단순히 match 여부만 보는 장치가 아니라, **겹치는 규칙 중 무엇이 승자인지까지 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기계**로 봐야 한다. 이것이 일반 내용 주소 지정 메모리 (Content Addressable Memory, CAM)보다 TCAM이 더 가치 있는 이유다.
+또한 LPM과 ACL은 모두 "룰이 겹칠 수 있다"는 공통점이 있다. 그래서 TCAM은 단순히 match 여부만 보는 장치가 아니라, <strong>겹치는 규칙 중 무엇이 승자인지까지 정하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 기계</strong>로 봐야 한다. 이것이 일반 내용 주소 지정 메모리 (Content Addressable Memory, CAM)보다 TCAM이 더 가치 있는 이유다.
 
 - **📢 섹션 요약 비유**: exact match는 주민등록번호처럼 딱 떨어지는 신분 확인에 강하고, trie는 사전 찾기처럼 단계적으로 좁혀가는 방식이며, TCAM은 "빨간 옷을 입고 3학년이면서 달리기 반인 사람"을 한 번에 찾는 조건 검색에 강하다.
 
@@ -104,7 +101,7 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 실무에서 TCAM은 "언제나 최고"가 아니라 "언제 꼭 필요한가"를 가려 써야 하는 자원이다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 라우터, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 wildcard와 우선순위가 섞인 규칙을 line rate로 처리해야 한다면 TCAM이 매우 유리하다. 반대로 대부분이 exact match인 대규모 flow cache를 모두 TCAM에 넣으면, 비싼 자원을 가장 비효율적으로 쓰게 된다.
 
-또 하나의 현실적인 문제는 rule expansion이다. 접두사 규칙은 비교적 잘 들어가지만, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 여러 조건 조합은 ternary entry 여러 개로 분해되어 테이블을 빠르게 소모할 수 있다. 따라서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도만 보지 말고 **엔트리 수, update rate, thermal budget**까지 함께 봐야 진짜 설계 판단이 된다.
+또 하나의 현실적인 문제는 rule expansion이다. 접두사 규칙은 비교적 잘 들어가지만, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 여러 조건 조합은 ternary entry 여러 개로 분해되어 테이블을 빠르게 소모할 수 있다. 따라서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도만 보지 말고 <strong>엔트리 수, update rate, thermal budget</strong>까지 함께 봐야 진짜 설계 판단이 된다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,7 +126,7 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가장 큰 장점은 결정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이다. 규칙이 많아도 lookup 시간이 크게 흔들리지 않으므로, 고속 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 적용을 line rate에 가깝게 유지하기 쉽다. 또한 wildcard와 우선순위가 많은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 단순한 하드웨어 인터페이스로 표현할 수 있어, 상위 제어 소프트웨어가 예측 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 설계하기 좋다.
 
-그러나 이 성능은 높은 전력과 제한된 용량 위에 서 있다. 그래서 앞으로의 방향은 TCAM을 더 크게 만드는 것보다, exact match·prefix·wildcard 규칙을 계층적으로 나누고, 자주 쓰는 hot rule만 TCAM에 두는 hybrid [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 가고 있다. 즉 미래의 핵심은 TCAM 자체의 절대적 확대가 아니라 **TCAM을 가장 비싼 자원으로 보고 영리하게 쓰는 것**이다.
+그러나 이 성능은 높은 전력과 제한된 용량 위에 서 있다. 그래서 앞으로의 방향은 TCAM을 더 크게 만드는 것보다, exact match·prefix·wildcard 규칙을 계층적으로 나누고, 자주 쓰는 hot rule만 TCAM에 두는 hybrid [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 가고 있다. 즉 미래의 핵심은 TCAM 자체의 절대적 확대가 아니라 <strong>TCAM을 가장 비싼 자원으로 보고 영리하게 쓰는 것</strong>이다.
 
 결론적으로 TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알고리즘은 "wildcard와 우선순위가 있는 규칙을 일정 시간에 고르는 하드웨어 검색기"로 기억하면 된다. 일반 메모리보다 빠른 것이 아니라, 일반 메모리로는 비싸게 흉내 내야 할 비교 작업을 물리 회로로 직접 구현한 구조다.
 
@@ -150,21 +147,23 @@ TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-선형 소프트웨어 탐색
-        │
-        ▼
-Trie / Algorithmic LPM
-        │
-        ▼
-TCAM 기반 ACL · LPM 가속
-        │
-        ▼
-ASIC Match-Action Pipeline
-        │
-        ▼
-SRAM + TCAM Hybrid 분류기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">선형 소프트웨어 탐색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trie / Algorithmic LPM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TCAM 기반 ACL · LPM 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASIC Match-Action Pipeline</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRAM + TCAM Hybrid 분류기</div>
+</div>
+</div>
+
+
 
 이 흐름은 네트워크 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 "규칙을 코드로 도는 단계"에서 출발해, 이제는 규칙 성격에 따라 메모리 구조 자체를 달리 쓰는 하드웨어 파이프라인으로 진화했음을 보여 준다.
 

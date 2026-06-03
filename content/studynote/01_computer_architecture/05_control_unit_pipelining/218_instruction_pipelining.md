@@ -23,19 +23,21 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 필요한 이유는 비파이프라인 구조가 하드웨어를 심하게 놀리기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오는 동안 산술논리연산장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))는 쉬고, 연산하는 동안 메모리 접근 회로는 기다린다. 이렇게 자원이 번갈아 놀면 클럭을 높여도 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상승이 제한되므로, 각 하드웨어 블록을 동시에 일하게 만드는 구조적 해법이 필요해졌다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      비파이프라인 vs 파이프라인의 차이: "하나씩" vs "겹쳐서"       │
-├──────────────────────────────┬───────────────────────────────────────┤
-│ 비파이프라인                 │ 파이프라인                            │
-│ 명령어 1: IF→ID→EX→MEM→WB    │ 명령어 1: IF→ID→EX→MEM→WB             │
-│ 명령어 2:           대기      │ 명령어 2:    IF→ID→EX→MEM→WB          │
-│ 명령어 3:                 대기 │ 명령어 3:       IF→ID→EX→MEM→WB       │
-│                              │ 명령어 4:          IF→ID→EX→MEM→WB    │
-├──────────────────────────────┴───────────────────────────────────────┤
-│ 같은 5단계라도 겹쳐 흘려보내면, 파이프가 채워진 뒤에는 매 클럭 결과가 나옴 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파이프라인 vs 파이프라인의 차이: "하나씩" vs "겹쳐서"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파이프라인</div><div class="kb-diagram-cell">파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 1: IF→ID→EX→MEM→WB</div><div class="kb-diagram-cell">명령어 1: IF→ID→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 2: 대기</div><div class="kb-diagram-cell">명령어 2: IF→ID→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 3: 대기</div><div class="kb-diagram-cell">명령어 3: IF→ID→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 4: IF→ID→EX→MEM→WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 5단계라도 겹쳐 흘려보내면, 파이프가 채워진 뒤에는 매 클럭 결과가 나옴</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 포인트는 파이프라이닝이 계산 공식을 바꾸는 기술이 아니라, 유휴 시간을 줄이는 스케줄링 구조라는 점이다. 따라서 파이프라인을 이해할 때는 먼저 "왜 한 부품이 놀고 있었는가"를 봐야 하고, 그 다음 "어떻게 동시에 돌리게 했는가"를 봐야 한다.
 
@@ -57,20 +59,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 시공간 도표는 파이프라인이 차오른 뒤 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 클럭에 서로 다른 단계를 동시에 수행함을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 5단 파이프라인 시공간 중첩 (Space-Time)              │
-├──────────┬────────┬────────┬────────┬────────┬────────┬─────────────┤
-│ 명령어   │ C1     │ C2     │ C3     │ C4     │ C5     │ C6          │
-├──────────┼────────┼────────┼────────┼────────┼────────┼─────────────┤
-│ I1       │ IF     │ ID     │ EX     │ MEM    │ WB     │ 완료        │
-│ I2       │        │ IF     │ ID     │ EX     │ MEM    │ WB          │
-│ I3       │        │        │ IF     │ ID     │ EX     │ MEM         │
-│ I4       │        │        │        │ IF     │ ID     │ EX          │
-├──────────┴────────┴────────┴────────┴────────┴────────┴─────────────┤
-│ C5 시점: 서로 다른 4개 명령어가 각기 다른 단계에서 동시에 흐르고 있음   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5단 파이프라인 시공간 중첩 (Space-Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어</div><div class="kb-diagram-cell">C1</div><div class="kb-diagram-cell">C2</div><div class="kb-diagram-cell">C3</div><div class="kb-diagram-cell">C4</div><div class="kb-diagram-cell">C5</div><div class="kb-diagram-cell">C6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">WB</div><div class="kb-diagram-cell">완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I3</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I4</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C5 시점: 서로 다른 4개 명령어가 각기 다른 단계에서 동시에 흐르고 있음</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 이론적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `총 시간 ≈ 파이프라인 채움 시간 + (명령어 수 - 1) × 클럭 주기`로 이해할 수 있다. 즉 첫 결과는 늦게 나오지만, 파이프가 찬 뒤에는 이상적으로 매 클럭마다 결과가 하나씩 나온다. 다만 실제 클럭 주기는 가장 느린 단계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 오버헤드에 의해 결정되므로, 단계를 잘게 나누기만 해서는 충분하지 않고 각 단계의 균형이 함께 맞아야 한다.
 
@@ -108,10 +111,10 @@ tags = ["studynote-computer-architecture"]
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **단계 균형**: 특정 단계가 지나치게 느리면 전체 클럭이 그 단계에 맞춰져 파이프라인 이점이 사라진다.
-2. **실제 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 측정**: 이상적 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)=1보다, 캐시 미스·분기 실패·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성까지 반영한 실제 CPI가 더 중요하다.
+2. <strong>실제 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> 측정</strong>: 이상적 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)=1보다, 캐시 미스·분기 실패·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성까지 반영한 실제 CPI가 더 중요하다.
 3. **포워딩 범위**: 모든 우회 배선을 넣으면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지지만 배선 복잡도와 전력이 증가한다.
 4. **분기 패널티**: 파이프라인이 깊을수록 잘못 인출한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버리는 비용이 커진다.
-5. **전력·면적·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형**: PPA ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area) 관점에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수 증가와 제어 회로 복잡도까지 함께 봐야 한다.
+5. <strong>전력·면적·<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 균형</strong>: PPA ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area) 관점에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수 증가와 제어 회로 복잡도까지 함께 봐야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -150,23 +153,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 실행 (Sequential Execution)
-        │
-        ▼
-명령어 파이프라이닝 (Instruction Pipelining)
-        │
-        ├─▶ 파이프라인 단계 분할
-        ├─▶ 파이프라인 레지스터
-        └─▶ 해저드 관리
-               │
-               ├─▶ 데이터 포워딩 (Data Forwarding)
-               ├─▶ 스톨 / 버블 / 플러시
-               └─▶ 분기 예측 (Branch Prediction)
-                        │
-                        ▼
-슈퍼스칼라 · 비순차 실행 · 고성능 마이크로아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 실행 (Sequential Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 파이프라인 단계 분할</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 파이프라인 레지스터</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 해저드 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ 데이터 포워딩 (Data Forwarding)</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ 스톨 / 버블 / 플러시</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ 분기 예측 (Branch Prediction)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈퍼스칼라 · 비순차 실행 · 고성능 마이크로아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "분업 구조 도입 → 충돌 문제 발생 → 충돌 완화 기술 추가 → 더 넓고 더 똑똑한 실행 구조로 확장"이라는 발전 맥락을 보여준다.
 

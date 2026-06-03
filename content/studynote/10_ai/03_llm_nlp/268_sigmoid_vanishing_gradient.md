@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시그모이드(Sigmoid) 함수 σ(x)=1/(1+e⁻ˣ)는 출력을 (0,1) 범위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 해석을 가능하게 하지만, 입력이 크거나 작을 때 기울기가 거의 0이 되는 **포화 영역(Saturation Region)**에 진입해 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 유발한다.
+> 1. **본질**: 시그모이드(Sigmoid) 함수 σ(x)=1/(1+e⁻ˣ)는 출력을 (0,1) 범위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 해석을 가능하게 하지만, 입력이 크거나 작을 때 기울기가 거의 0이 되는 <strong>포화 영역(Saturation Region)</strong>에 진입해 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 유발한다.
 > 2. **가치**: 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Binary [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 출력층에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석이 필요할 때 여전히 표준으로 사용되지만, 은닉층에서는 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)로 인해 ReLU로 대체되었다.
 > 3. **판단 포인트**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 깊은 신경망에서 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 층을 거듭할수록 기하급수적으로 감소하여 앞쪽 층이 학습되지 않는 문제이며, 이것이 현대 딥러닝이 ReLU를 표준으로 채택한 핵심 이유다.
 
@@ -39,15 +39,20 @@ tags = ["studynote-ai"]
 
 ### 포화 영역 (Saturation Region)
 
-```
-|x| > 4 이상에서 σ'(x) ≈ 0 (포화)
 
-  x = 0:   σ'(0) = 0.25      ← 최대 기울기
-  x = 2:   σ'(2) ≈ 0.105
-  x = 4:   σ'(4) ≈ 0.018
-  x = 6:   σ'(6) ≈ 0.002     ← 거의 0
-  x = 10:  σ'(10) ≈ 0.00005  ← 사실상 0
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div><div class="kb-diagram-cell">&gt; 4 이상에서 σ'(x) ≈ 0 (포화)</div></div>
+<div class="kb-diagram-note">x = 0: σ'(0) = 0.25 ← 최대 기울기</div>
+<div class="kb-diagram-note">x = 2: σ'(2) ≈ 0.105</div>
+<div class="kb-diagram-note">x = 4: σ'(4) ≈ 0.018</div>
+<div class="kb-diagram-note">x = 6: σ'(6) ≈ 0.002 ← 거의 0</div>
+<div class="kb-diagram-note">x = 10: σ'(10) ≈ 0.00005 ← 사실상 0</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 시그모이드는 물을 S자 관으로 흘리는 것 — 중앙에서는 물이 잘 흐르지만(기울기 0.25), 양쪽 끝으로 갈수록 관이 막혀 물이 거의 흐르지 않는다(기울기 ≈ 0).
 
@@ -57,49 +62,44 @@ tags = ["studynote-ai"]
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제 ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│             역전파에서 기울기 소실 발생 과정                        │
-│                                                                  │
-│  출력층        은닉층3        은닉층2        은닉층1               │
-│    │             │             │             │                   │
-│  ∂L/∂W₄=1.0 → ×σ'(z₃)≈0.1 → ×σ'(z₂)≈0.1 → ×σ'(z₁)≈0.1        │
-│                                                                  │
-│  각 층에서 최대 0.25 곱셈 → 3층 통과 후: 1.0×0.1×0.1×0.1=0.001   │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐ │
-│  │ 10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 ← 사실상 0     │ │
-│  │ → 앞쪽 층의 가중치가 전혀 학습되지 않음!                   │ │
-│  └────────────────────────────────────────────────────────────┘ │
-│                                                                  │
-│  층 수     기울기 크기 (모든 층에서 σ'≈0.25 가정)                 │
-│  ┌──────┬────────────┐                                          │
-│  │  1층 │ 0.25       │                                          │
-│  │  5층 │ 0.001      │ ← 학습 매우 느림                         │
-│  │ 10층 │ 0.000001   │ ← 사실상 소멸                            │
-│  │ 20층 │ 10⁻¹²     │ ← 완전 소멸                              │
-│  └──────┴────────────┘                                          │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파에서 기울기 소실 발생 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력층 은닉층3 은닉층2 은닉층1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂W₄=1.0 → ×σ'(z₃)≈0.1 → ×σ'(z₂)≈0.1 → ×σ'(z₁)≈0.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 층에서 최대 0.25 곱셈 → 3층 통과 후: 1.0×0.1×0.1×0.1=0.001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 ← 사실상 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 앞쪽 층의 가중치가 전혀 학습되지 않음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">층 수 기울기 크기 (모든 층에서 σ'≈0.25 가정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1층</div><div class="kb-diagram-cell">0.25</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5층</div><div class="kb-diagram-cell">0.001</div><div class="kb-diagram-cell">← 학습 매우 느림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10층</div><div class="kb-diagram-cell">0.000001</div><div class="kb-diagram-cell">← 사실상 소멸</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20층</div><div class="kb-diagram-cell">10⁻¹²</div><div class="kb-diagram-cell">← 완전 소멸</div></div>
+</div>
+</div>
+
+
 
 ### 시그모이드 vs [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) vs [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 기울기 비교
 
 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | 최대 기울기 | 포화 여부 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 출력 중심 |
 |:---|:---:|:---:|:---:|:---:|
 | **Sigmoid** | 0.25 | ❌ 양쪽 포화 | 심각 | 비중심 (0~1) |
-| **[Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)** | 1.0 | ❌ 양쪽 포화 | 존재하나 완화 | 중심(−1~1) |
-| **[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)** | 1.0 (양수) | ✅ 없음 (양수) | 없음 | 비중심 (0~∞) |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/">Tanh</a></strong> | 1.0 | ❌ 양쪽 포화 | 존재하나 완화 | 중심(−1~1) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a></strong> | 1.0 (양수) | ✅ 없음 (양수) | 없음 | 비중심 (0~∞) |
 
 ### Sigmoid의 비중심 출력 문제
 
-출력이 항상 양수 (0,1) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신이 **모두 같은 방향**으로만 발생:
+출력이 항상 양수 (0,1) → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신이 <strong>모두 같은 방향</strong>으로만 발생:
 
 ```
 ∂L/∂wⱼ = δ × xⱼ  (xⱼ는 이전 층 Sigmoid 출력 → 항상 양수)
 → 모든 가중치가 동시에 증가 또는 동시에 감소 → 지그재그(zigzag) 학습
 ```
 
-이를 **출력 비중심화 문제(Non-[zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Centered Output Problem)**라 한다. Tanh는 출력이 (-1,1)이므로 이 문제가 없다.
+이를 <strong>출력 비중심화 문제(Non-<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">zero</a> Centered Output Problem)</strong>라 한다. Tanh는 출력이 (-1,1)이므로 이 문제가 없다.
 
 - **📢 섹션 요약 비유**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 "소문 전달 게임" — 10명을 거쳐 귓속말이 전달될 때 처음의 강렬한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 마지막엔 속삭임도 안 되는 것처럼, 기울기도 층을 거칠수록 무음이 된다.
 
@@ -111,11 +111,11 @@ tags = ["studynote-ai"]
 
 | 해결 방법 | 핵심 원리 | 효과 |
 |:---|:---|:---|
-| **[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 사용** | 양수 구간 기울기=1 유지 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 근본 해결 |
-| **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))** | 각 층 출력을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해 포화 방지 | Sigmoid도 사용 가능하게 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a> 사용</strong> | 양수 구간 기울기=1 유지 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 근본 해결 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> | 각 층 출력을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해 포화 방지 | Sigmoid도 사용 가능하게 |
 | **잔차 연결 (Residual Connection)** | 기울기를 skip connection으로 직접 전달 | 100층 이상 학습 가능 |
-| **그래디언트 클리핑 (Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))** | [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)(Explosion) 방지 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)보다 폭발 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)에 유효 |
-| **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)** | 게이트로 기울기 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) | [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/)의 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습 |
+| <strong>그래디언트 클리핑 (Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a>)</strong> | [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)(Explosion) 방지 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)보다 폭발 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)에 유효 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a>/<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a></strong> | 게이트로 기울기 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) | [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/)의 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습 |
 
 ### Sigmoid 현재 사용 영역
 
@@ -133,22 +133,28 @@ tags = ["studynote-ai"]
 
 ### 기술사 시험 핵심 논점
 
-1. **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)의 수학적 원인**: σ'(x) = σ(x)(1-σ(x)) ≤ 0.25 → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 층마다 0.25 이하로 곱해짐 → 기하급수적 감소
+1. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>의 수학적 원인</strong>: σ'(x) = σ(x)(1-σ(x)) ≤ 0.25 → [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 층마다 0.25 이하로 곱해짐 → 기하급수적 감소
 2. **왜 ReLU로 대체되었는가**: ReLU는 양수 구간에서 기울기=1 → 곱해도 기울기가 줄지 않음
 3. **Tanh의 장점과 한계**: 중심화된 출력(-1,1)으로 비중심화 문제 해결, 그러나 최대 기울기=1이지만 여전히 포화 구간 존재
 4. **언제 Sigmoid를 사용하는가**: 출력층의 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (이진 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)와 조합), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 게이트
 
 ### 실무 설계 지침
 
-```
-은닉층 활성화 함수 선택 가이드:
-├── 일반 딥러닝    →  ReLU (기본값)
-├── 배치 정규화와 함께 →  ReLU 또는 Leaky ReLU
-├── 순환 신경망    →  Tanh (게이트는 Sigmoid)
-└── 출력층 이진 분류 → Sigmoid
-    출력층 다중 분류 → Softmax
-    출력층 회귀     → Linear (없음)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">은닉층 활성화 함수 선택 가이드:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">일반 딥러닝 → ReLU (기본값)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">배치 정규화와 함께 → ReLU 또는 Leaky ReLU</div>
+<div class="kb-diagram-tree-item" style="--depth:0">순환 신경망 → Tanh (게이트는 Sigmoid)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">출력층 이진 분류 → Sigmoid</div>
+<div class="kb-diagram-note">출력층 다중 분류 → Softmax</div>
+<div class="kb-diagram-note">출력층 회귀 → Linear (없음)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Sigmoid를 은닉층에 쓰는 것은 마라톤 선수에게 수영복을 입히는 것 — 수영(이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력)에는 최적이지만, 달리기(딥러닝 은닉층)에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 운동복이 훨씬 적합하다.
 
@@ -164,7 +170,7 @@ tags = ["studynote-ai"]
 | **출력 범위** | (0, 1) |
 | **최대 기울기** | 0.25 (x=0에서) |
 | **포화 영역** | |x| > 4 이상 |
-| **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)** | 심각 (층이 깊어질수록 지수적 감소) |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a></strong> | 심각 (층이 깊어질수록 지수적 감소) |
 | **현재 은닉층 사용** | ❌ 비권장 |
 | **현재 출력층 사용** | ✅ 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 표준 |
 

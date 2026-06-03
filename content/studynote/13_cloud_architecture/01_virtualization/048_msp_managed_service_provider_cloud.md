@@ -71,44 +71,43 @@ MSP 핵심 서비스:
 
 ## Ⅱ. 클라우드 파트너 생태계
 
-```
-AWS MSP 파트너 계층:
 
-Premier Consulting Partner:
-  최고 수준 AWS 전문성 인정
-  연간 200개 이상 AWS 자격증 보유
-  고객 성공 사례 다수
-  → AWS의 직접 지원 + 마케팅 협력
 
-Advanced Consulting Partner:
-  기술 역량 + 프로젝트 실적 요구
-  
-Select / Registered: 기본 파트너
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AWS MSP 파트너 계층:</div>
+<div class="kb-diagram-note">Premier Consulting Partner:</div>
+<div class="kb-diagram-note">최고 수준 AWS 전문성 인정</div>
+<div class="kb-diagram-note">연간 200개 이상 AWS 자격증 보유</div>
+<div class="kb-diagram-note">고객 성공 사례 다수</div>
+<div class="kb-diagram-note">→ AWS의 직접 지원 + 마케팅 협력</div>
+<div class="kb-diagram-note">Advanced Consulting Partner:</div>
+<div class="kb-diagram-note">기술 역량 + 프로젝트 실적 요구</div>
+<div class="kb-diagram-note">Select / Registered: 기본 파트너</div>
+<div class="kb-diagram-note">파트너 혜택:</div>
+<div class="kb-diagram-note">AWS 지원 티어 우선 지원</div>
+<div class="kb-diagram-note">파트너 전용 프라이싱 (EC2 할인)</div>
+<div class="kb-diagram-note">AWS Marketplace 판매 채널</div>
+<div class="kb-diagram-note">공동 영업 (Co-selling) 기회</div>
+<div class="kb-diagram-note">Azure와 GCP 유사 계층:</div>
+<div class="kb-diagram-note">Azure: Gold/Silver Competency → Solutions Partner</div>
+<div class="kb-diagram-note">GCP: Premier/Partner 계층</div>
+<div class="kb-diagram-note">국내 주요 클라우드 MSP:</div>
+<div class="kb-diagram-note">메가존 클라우드 (AWS Premier)</div>
+<div class="kb-diagram-note">베스핀 글로벌 (멀티 클라우드)</div>
+<div class="kb-diagram-note">GS네오텍</div>
+<div class="kb-diagram-note">삼성 SDS (대기업 계열)</div>
+<div class="kb-diagram-note">LG CNS</div>
+<div class="kb-diagram-note">MSP 선택 기준:</div>
+<div class="kb-diagram-note">파트너 등급 (AWS/Azure/GCP 공식 인정)</div>
+<div class="kb-diagram-note">업종 전문성 (금융, 제조, 공공)</div>
+<div class="kb-diagram-note">팀 규모 + 자격증 보유 수</div>
+<div class="kb-diagram-note">SLA + 레퍼런스 (고객 사례)</div>
+<div class="kb-diagram-note">가격 투명성 (Pass-through 여부)</div>
+</div>
+</div>
 
-파트너 혜택:
-  AWS 지원 티어 우선 지원
-  파트너 전용 프라이싱 (EC2 할인)
-  AWS Marketplace 판매 채널
-  공동 영업 (Co-selling) 기회
 
-Azure와 GCP 유사 계층:
-  Azure: Gold/Silver Competency → Solutions Partner
-  GCP: Premier/Partner 계층
-
-국내 주요 클라우드 MSP:
-  메가존 클라우드 (AWS Premier)
-  베스핀 글로벌 (멀티 클라우드)
-  GS네오텍
-  삼성 SDS (대기업 계열)
-  LG CNS
-
-MSP 선택 기준:
-  파트너 등급 (AWS/Azure/GCP 공식 인정)
-  업종 전문성 (금융, 제조, 공공)
-  팀 규모 + 자격증 보유 수
-  SLA + 레퍼런스 (고객 사례)
-  가격 투명성 (Pass-through 여부)
-```
 
 > 📢 **섹션 요약 비유**: MSP 파트너 등급 = 건축 면허 등급 — AWS Premier(1급 건축사), Advanced(2급). 등급 높을수록 AWS 지원 강화. 건물(클라우드) 크고 복잡할수록 높은 등급 파트너 필요!
 
@@ -116,41 +115,41 @@ MSP 선택 기준:
 
 ## Ⅲ. RACI 매트릭스
 
-```
-RACI (Responsible, Accountable, Consulted, Informed):
-  MSP-고객 간 역할 분담 명확화
 
-구성:
-  R - Responsible: 실제 수행 책임
-  A - Accountable: 최종 책임 (1명만)
-  C - Consulted: 의견 제공 (양방향)
-  I - Informed: 결과 통보 (단방향)
 
-MSP-고객 RACI 예시:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RACI (Responsible, Accountable, Consulted, Informed):</div>
+<div class="kb-diagram-note">MSP-고객 간 역할 분담 명확화</div>
+<div class="kb-diagram-note">구성:</div>
+<div class="kb-diagram-note">R - Responsible: 실제 수행 책임</div>
+<div class="kb-diagram-note">A - Accountable: 최종 책임 (1명만)</div>
+<div class="kb-diagram-note">C - Consulted: 의견 제공 (양방향)</div>
+<div class="kb-diagram-note">I - Informed: 결과 통보 (단방향)</div>
+<div class="kb-diagram-note">MSP-고객 RACI 예시:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 항목</div><div class="kb-diagram-cell">MSP</div><div class="kb-diagram-cell">고객</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 모니터링</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인시던트 1차 대응</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인시던트 최종 결정</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패치 계획 수립</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패치 실행</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 변경</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 최적화 권고</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 최적화 결정</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR 테스트 수행</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR 발동 결정</div><div class="kb-diagram-cell">I</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 정책 정의</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 정책 구현</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">C</div></div>
+<div class="kb-diagram-note">명확하지 않은 RACI의 결과:</div>
+<div class="kb-diagram-note">인시던트 발생 → "이건 MSP 책임" vs "고객 책임"</div>
+<div class="kb-diagram-note">→ 대응 지연 → 장애 시간 연장 → SLA 위반</div>
+<div class="kb-diagram-note">계약 전 필수 명확화:</div>
+<div class="kb-diagram-note">모든 서비스 항목별 RACI 작성</div>
+<div class="kb-diagram-note">애매한 항목은 계약서에 명시</div>
+</div>
+</div>
 
-작업 항목          | MSP | 고객
-------------------|-----|-----
-인프라 모니터링    |  R  |  I
-인시던트 1차 대응  |  R  |  I
-인시던트 최종 결정 |  C  |  A
-패치 계획 수립     |  R  |  A
-패치 실행          |  R  |  C
-아키텍처 변경      |  C  |  A
-비용 최적화 권고   |  R  |  I
-비용 최적화 결정   |  C  |  A
-DR 테스트 수행     |  R  |  C
-DR 발동 결정       |  I  |  A
-보안 정책 정의     |  C  |  A
-보안 정책 구현     |  R  |  C
 
-명확하지 않은 RACI의 결과:
-  인시던트 발생 → "이건 MSP 책임" vs "고객 책임"
-  → 대응 지연 → 장애 시간 연장 → SLA 위반
-
-계약 전 필수 명확화:
-  모든 서비스 항목별 RACI 작성
-  애매한 항목은 계약서에 명시
-```
 
 > 📢 **섹션 요약 비유**: RACI = 팀 역할표 — 누가 실제 하는지(R), 누가 책임지는지(A), 누가 조언하는지(C), 누가 보고받는지(I). 명확하지 않으면 "그건 니 일이야" 분쟁 발생!
 
@@ -158,47 +157,43 @@ DR 발동 결정       |  I  |  A
 
 ## Ⅳ. MSP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 및 비용 구조
 
-```
-MSP SLA 핵심 항목:
 
-가용성 SLA:
-  관리 중인 인프라 가용성 99.9%+
-  (클라우드 제공자 SLA와 별개)
 
-응답 시간 SLA:
-  P1 (서비스 완전 중단): 15분 내 최초 응답
-  P2 (주요 기능 저하): 30분
-  P3 (부분 영향): 2시간
-  P4 (일반 요청): 8시간(업무 시간)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MSP SLA 핵심 항목:</div>
+<div class="kb-diagram-note">가용성 SLA:</div>
+<div class="kb-diagram-note">관리 중인 인프라 가용성 99.9%+</div>
+<div class="kb-diagram-note">(클라우드 제공자 SLA와 별개)</div>
+<div class="kb-diagram-note">응답 시간 SLA:</div>
+<div class="kb-diagram-note">P1 (서비스 완전 중단): 15분 내 최초 응답</div>
+<div class="kb-diagram-note">P2 (주요 기능 저하): 30분</div>
+<div class="kb-diagram-note">P3 (부분 영향): 2시간</div>
+<div class="kb-diagram-note">P4 (일반 요청): 8시간(업무 시간)</div>
+<div class="kb-diagram-note">비용 최적화 SLA:</div>
+<div class="kb-diagram-note">"월별 클라우드 비용 15% 이상 절감 or 보증 없음"</div>
+<div class="kb-diagram-note">구체적 수치 없는 SLA = 실질적 의미 없음</div>
+<div class="kb-diagram-note">MSP 비용 모델:</div>
+<div class="kb-diagram-note">1. 클라우드 비용 % 모델:</div>
+<div class="kb-diagram-note">AWS 청구 × 15~20% = MSP 수수료</div>
+<div class="kb-diagram-note">장점: 비용 연동 (인프라 줄면 MSP 비용도 감소)</div>
+<div class="kb-diagram-note">단점: MSP가 비용 절감에 소극적일 수 있음</div>
+<div class="kb-diagram-note">2. 고정 월정료:</div>
+<div class="kb-diagram-note">서비스 항목별 단가 × 수량</div>
+<div class="kb-diagram-note">장점: 예산 예측 가능</div>
+<div class="kb-diagram-note">단점: 자원 증감에 유연하지 않음</div>
+<div class="kb-diagram-note">3. 하이브리드:</div>
+<div class="kb-diagram-note">기본 관리 고정료 + 클라우드 비용 % 추가</div>
+<div class="kb-diagram-note">Pass-Through (권장):</div>
+<div class="kb-diagram-note">클라우드 비용은 고객에게 직접 청구 (MSP 마진 없음)</div>
+<div class="kb-diagram-note">→ 비용 투명성 높음</div>
+<div class="kb-diagram-note">vs. Resell (주의):</div>
+<div class="kb-diagram-note">MSP가 클라우드 비용 중간에서 마크업</div>
+<div class="kb-diagram-note">→ 실제 비용 파악 어려움</div>
+</div>
+</div>
 
-비용 최적화 SLA:
-  "월별 클라우드 비용 15% 이상 절감 or 보증 없음"
-  
-  구체적 수치 없는 SLA = 실질적 의미 없음
 
-MSP 비용 모델:
-
-1. 클라우드 비용 % 모델:
-  AWS 청구 × 15~20% = MSP 수수료
-  장점: 비용 연동 (인프라 줄면 MSP 비용도 감소)
-  단점: MSP가 비용 절감에 소극적일 수 있음
-
-2. 고정 월정료:
-  서비스 항목별 단가 × 수량
-  장점: 예산 예측 가능
-  단점: 자원 증감에 유연하지 않음
-
-3. 하이브리드:
-  기본 관리 고정료 + 클라우드 비용 % 추가
-
-Pass-Through (권장):
-  클라우드 비용은 고객에게 직접 청구 (MSP 마진 없음)
-  → 비용 투명성 높음
-
-vs. Resell (주의):
-  MSP가 클라우드 비용 중간에서 마크업
-  → 실제 비용 파악 어려움
-```
 
 > 📢 **섹션 요약 비유**: MSP 비용 모델 = 관리 회사 수수료 — 청구서 ×15%(클라우드 비용 연동) vs 고정 월세(예산 예측). Pass-Through(투명한 세입자): 실제 공과금 직접 내고 관리비만 별도. 투명이 최선!
 
@@ -206,50 +201,46 @@ vs. Resell (주의):
 
 ## Ⅴ. 실무 시나리오 — 중견 기업 MSP 도입
 
-```
-제조 중견기업 AWS MSP 도입:
 
-현황:
-  AWS 마이그레이션 완료 (6개월 전)
-  문제:
-  내부 클라우드 전문가 없음
-  월 AWS 비용: 3천만원 (최적화 안 됨)
-  잦은 P2 인시던트 (야간 대응 인력 없음)
 
-MSP 선택:
-  메가존 클라우드 (AWS Premier)
-  계약: 12개월, Standard 패키지
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제조 중견기업 AWS MSP 도입:</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-note">AWS 마이그레이션 완료 (6개월 전)</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">내부 클라우드 전문가 없음</div>
+<div class="kb-diagram-note">월 AWS 비용: 3천만원 (최적화 안 됨)</div>
+<div class="kb-diagram-note">잦은 P2 인시던트 (야간 대응 인력 없음)</div>
+<div class="kb-diagram-note">MSP 선택:</div>
+<div class="kb-diagram-note">메가존 클라우드 (AWS Premier)</div>
+<div class="kb-diagram-note">계약: 12개월, Standard 패키지</div>
+<div class="kb-diagram-note">RACI 협의:</div>
+<div class="kb-diagram-note">인프라 모니터링: MSP-R</div>
+<div class="kb-diagram-note">인시던트 P1~P3 대응: MSP-R (24×7)</div>
+<div class="kb-diagram-note">아키텍처 변경: 고객-A, MSP-C</div>
+<div class="kb-diagram-note">보안 정책: 고객-A, MSP-R</div>
+<div class="kb-diagram-note">계약 후 3개월:</div>
+<div class="kb-diagram-note">FinOps 최적화:</div>
+<div class="kb-diagram-note">미사용 EC2 17개 식별 → 종료 (월 150만원 절감)</div>
+<div class="kb-diagram-note">Reserved Instance 분석 → 예약 전환 (월 420만원 절감)</div>
+<div class="kb-diagram-note">크기 최적화 33개 인스턴스 (월 280만원 절감)</div>
+<div class="kb-diagram-note">총 3개월 내: 월 850만원 절감 (28%)</div>
+<div class="kb-diagram-note">인시던트 개선:</div>
+<div class="kb-diagram-note">P2 인시던트: 월 8건 → 3건 (전문 모니터링 튜닝)</div>
+<div class="kb-diagram-note">평균 해결 시간: 4.2시간 → 1.1시간</div>
+<div class="kb-diagram-note">보안:</div>
+<div class="kb-diagram-note">취약점 49개 발견 → 38개 즉시 수정</div>
+<div class="kb-diagram-note">IAM 권한 정리: 과잉 권한 64개 제거</div>
+<div class="kb-diagram-note">ROI 계산:</div>
+<div class="kb-diagram-note">MSP 비용: 월 400만원</div>
+<div class="kb-diagram-note">비용 절감: 월 850만원</div>
+<div class="kb-diagram-note">인시던트 비용 절감 추정: 월 200만원</div>
+<div class="kb-diagram-note">순 ROI: (850+200-400) / 400 = 162%</div>
+</div>
+</div>
 
-RACI 협의:
-  인프라 모니터링: MSP-R
-  인시던트 P1~P3 대응: MSP-R (24×7)
-  아키텍처 변경: 고객-A, MSP-C
-  보안 정책: 고객-A, MSP-R
 
-계약 후 3개월:
-
-FinOps 최적화:
-  미사용 EC2 17개 식별 → 종료 (월 150만원 절감)
-  Reserved Instance 분석 → 예약 전환 (월 420만원 절감)
-  크기 최적화 33개 인스턴스 (월 280만원 절감)
-  
-  총 3개월 내: 월 850만원 절감 (28%)
-
-인시던트 개선:
-  P2 인시던트: 월 8건 → 3건 (전문 모니터링 튜닝)
-  평균 해결 시간: 4.2시간 → 1.1시간
-
-보안:
-  취약점 49개 발견 → 38개 즉시 수정
-  IAM 권한 정리: 과잉 권한 64개 제거
-
-ROI 계산:
-  MSP 비용: 월 400만원
-  비용 절감: 월 850만원
-  인시던트 비용 절감 추정: 월 200만원
-  
-  순 ROI: (850+200-400) / 400 = 162%
-```
 
 > 📢 **섹션 요약 비유**: 중견기업 MSP 도입 — 클라우드 전문가 없는 회사가 MSP 고용. 비용 28% 절감(850만원), 인시던트 60% 감소. MSP 비용 400만원에 순 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 162%. 전문가 아웃소싱이 채용보다 효율적!
 

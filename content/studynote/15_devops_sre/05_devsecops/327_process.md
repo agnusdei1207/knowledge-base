@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/))는 소프트웨어 프로젝트가 사용하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 알려진 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))과 라이선스 문제를 자동으로 탐지한다. 현대 소프트웨어의 70~90%가 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성되어, [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 없는 보안은 절반짜리 보안이다.
-> 2. **라이선스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([CVE-2021-44228](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/))처럼 하나의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 취약점이 수천 개 제품에 동시 영향을 준다. GPL 라이선스를 모르고 상업 제품에 포함시키면 법적 분쟁이 발생한다.
+> 2. <strong>라이선스 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([CVE-2021-44228](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/))처럼 하나의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 취약점이 수천 개 제품에 동시 영향을 준다. GPL 라이선스를 모르고 상업 제품에 포함시키면 법적 분쟁이 발생한다.
 > 3. **판단 포인트**: [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 결과의 모든 CVE를 즉시 차단하면 개발이 중단된다. 실제 악용 가능성([CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/) v3 Exploitability), 고정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 존재 여부, 코드 경로에서 실제 사용 여부를 종합해 우선순위를 정해야 한다.
 
 ---
@@ -31,29 +31,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                SCA 스캔 흐름                             │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  package.json / pom.xml / requirements.txt             │
-│          │                                             │
-│          ▼                                             │
-│  ┌────────────────────┐                                │
-│  │  SCA 도구           │  (Trivy, Snyk, OWASP          │
-│  │  의존성 그래프 분석  │   Dependency-Check)           │
-│  └──────────┬─────────┘                                │
-│             │                                          │
-│    ┌────────┴───────────────┐                          │
-│    ▼                        ▼                          │
-│  CVE 취약점 조회         라이선스 분류                   │
-│  (NVD, GitHub Advisory)  (MIT, Apache, GPL, AGPL)      │
-│    │                        │                          │
-│    ▼                        ▼                          │
-│  위험도 점수화           라이선스 컴플라이언스 판단       │
-│  (CVSS v3 + Reachability)  (허용/검토 필요/금지)        │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 스캔 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">package.json / pom.xml / requirements.txt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 도구</div><div class="kb-diagram-cell">(Trivy, Snyk, OWASP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 그래프 분석</div><div class="kb-diagram-cell">Dependency-Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE 취약점 조회 라이선스 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVD, GitHub Advisory) (MIT, Apache, GPL, AGPL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험도 점수화 라이선스 컴플라이언스 판단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CVSS v3 + Reachability) (허용/검토 필요/금지)</div></div>
+</div>
+</div>
+
+
 
 라이선스 위험도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/):
 
@@ -88,7 +81,7 @@ Reachability Analysis (도달 가능성 분석): 취약한 함수가 실제 애�
 
 ### [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 우선순위 결정 기준
 
-1. **[CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/) Score**: 7.0 이상 High/Critical 우선
+1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a> Score</strong>: 7.0 이상 High/Critical 우선
 2. **Fixed Version 존재**: 업그레이드 가능한 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 우선 해결
 3. **Reachability**: 실제 코드 경로에서 취약 함수가 호출되는가
 4. **EPSS Score**: Exploit Prediction Scoring System - 실제 악용 가능성 점수
@@ -108,7 +101,7 @@ Reachability Analysis (도달 가능성 분석): 취약한 함수가 실제 애�
 
 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 도입으로 [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 같은 대형 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점 발표 시 영향 받는 시스템을 수 시간 내에 파악할 수 있다. 라이선스 컴플라이언스 자동화로 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)도 사전 차단된다.
 
-SCA의 본질은 **"내가 사용하는 것을 아는 것"**이다. 직접 작성하지 않은 코드가 전체의 대부분을 차지하는 현실에서, 그 코드의 보안과 라이선스를 자동으로 관리하는 것이 현대 소프트웨어 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)의 출발점이다.
+SCA의 본질은 <strong>"내가 사용하는 것을 아는 것"</strong>이다. 직접 작성하지 않은 코드가 전체의 대부분을 차지하는 현실에서, 그 코드의 보안과 라이선스를 자동으로 관리하는 것이 현대 소프트웨어 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)의 출발점이다.
 
 > 📢 **섹션 요약 비유**: SCA는 냉장고 안의 모든 식재료 유통기한을 자동으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 시스템이다. 직접 사온 재료도, 세트 상품에 포함된 재료도 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해준다.
 
@@ -127,14 +120,19 @@ SCA의 본질은 **"내가 사용하는 것을 아는 것"**이다. 직접 작�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-오픈소스 무관리 시대        SCA 등장                    공급망 보안 시대
-──────────────────   ──────────────────────────   ────────────────────────
-의존성 수동 관리    →  OWASP Dependency-Check   →  SBOM 의무화 (EO 14028)
-CVE 수동 확인           Snyk, Trivy 등장              Reachability 분석
-Log4Shell 대응 혼란      CI 통합 스캔                 AI 기반 취약점 예측
-                          라이선스 컴플라이언스 도구     CNAPP 내 SCA 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오픈소스 무관리 시대 SCA 등장 공급망 보안 시대</div>
+<div class="kb-diagram-note">의존성 수동 관리 → OWASP Dependency-Check → SBOM 의무화 (EO 14028)</div>
+<div class="kb-diagram-note">CVE 수동 확인 Snyk, Trivy 등장 Reachability 분석</div>
+<div class="kb-diagram-note">Log4Shell 대응 혼란 CI 통합 스캔 AI 기반 취약점 예측</div>
+<div class="kb-diagram-note">라이선스 컴플라이언스 도구 CNAPP 내 SCA 통합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

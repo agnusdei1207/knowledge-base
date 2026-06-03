@@ -29,28 +29,25 @@ CSPM은 이런 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_metho
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+----------------------------------------------------------+
-|                    CSPM 동작 흐름                          |
-+----------------------------------------------------------+
-|                                                          |
-|  클라우드 API (AWS/Azure/GCP)                             |
-|       | 설정 수집                                        |
-|       v                                                  |
-|  +--------------------------------------------------+    |
-|  |  CSPM 엔진                                       |    |
-|  |  - CIS Benchmark 비교 평가                       |    |
-|  |  - 드리프트 감지 (기준선 대비 변경 탐지)          |    |
-|  |  - 위험 우선순위화 (심각/높음/중간/낮음)           |    |
-|  +--------------------------------------------------+    |
-|       |                                                  |
-|       v                                                  |
-|  +--------------------------------------------------+    |
-|  |  Auto-Remediation                                |    |
-|  |  알림(Alert) -> 승인 -> 자동 수정 (Terraform/CLI) |    |
-|  +--------------------------------------------------+    |
-+----------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM 동작 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 API (AWS/Azure/GCP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설정 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CIS Benchmark 비교 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 드리프트 감지 (기준선 대비 변경 탐지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위험 우선순위화 (심각/높음/중간/낮음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auto-Remediation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알림(Alert) -&gt; 승인 -&gt; 자동 수정 (Terraform/CLI)</div></div>
+</div>
+</div>
+
+
 
 주요 탐지 항목:
 - S3 버킷 퍼블릭 접근 허용
@@ -88,7 +85,7 @@ CSPM은 이런 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_metho
 ### [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 구현 단계
 
 1. **연결 및 스캔**: CSPM을 클라우드 계정에 연결해 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 전수 스캔
-2. **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: CIS [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/) Level 1/2 기준으로 허용할 예외 항목 정의
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: CIS [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/) Level 1/2 기준으로 허용할 예외 항목 정의
 3. **드리프트 감지 활성화**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 대비 변경 발생 시 즉시 알림
 4. **Auto-Remediation 시범 적용**: 저위험 항목부터 자동 수정 시범 운영
 
@@ -106,7 +103,7 @@ CSPM은 이런 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_metho
 
 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 도입으로 클라우드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 위험이 감소한다. 멀티클라우드 환경에서도 단일 콘솔로 전체 보안 상태를 파악하고, 컴플라이언스 보고서를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
-CSPM의 핵심 가치는 **"알고 있는 것(Known)을 자동으로 검사하는 것"**이다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류는 예측 가능한 위험이기 때문에, 자동화된 검사로 사람의 실수를 보완한다.
+CSPM의 핵심 가치는 <strong>"알고 있는 것(Known)을 자동으로 검사하는 것"</strong>이다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류는 예측 가능한 위험이기 때문에, 자동화된 검사로 사람의 실수를 보완한다.
 
 > 📢 **섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) 없이 수천 개 클라우드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 수동 점검하는 것은 도서관의 모든 책이 제자리에 있는지 매일 수작업으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다. 자동화 없이는 불가능하다.
 
@@ -124,14 +121,19 @@ CSPM의 핵심 가치는 **"알고 있는 것(Known)을 자동으로 검사하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 컴플라이언스 감사         CSPM 등장                  현대 CSPM
-------------------   --------------------------   ------------------------
-분기별 수동 점검     ->  클라우드 설정 자동 스캔    ->  Agentless 실시간 탐지
-스프레드시트 관리        CIS Benchmark 자동화          Risk Graph 연동
-Capital One 같은 사고    Drift Detection               AI 기반 이상 탐지
-                          Auto-Remediation 도입          CNAPP으로 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 컴플라이언스 감사 CSPM 등장 현대 CSPM</div>
+<div class="kb-diagram-note">분기별 수동 점검 -&gt; 클라우드 설정 자동 스캔 -&gt; Agentless 실시간 탐지</div>
+<div class="kb-diagram-note">스프레드시트 관리 CIS Benchmark 자동화 Risk Graph 연동</div>
+<div class="kb-diagram-note">Capital One 같은 사고 Drift Detection AI 기반 이상 탐지</div>
+<div class="kb-diagram-note">Auto-Remediation 도입 CNAPP으로 통합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

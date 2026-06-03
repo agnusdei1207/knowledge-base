@@ -19,24 +19,26 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) (Certificate Transparency)는 웹 공개 키 기반 구조 ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))에서 인증서 발급 과정을 투명하게 드러내기 위한 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 프레임워크다. 핵심 아이디어는 간단하다. 어떤 CA가 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 인증서를 발급했는지 **숨길 수 없게 만드는 것**이다. 이렇게 되면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자, 보안팀, 브라우저가 의심스러운 발급을 더 빨리 발견할 수 있다.
+[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) (Certificate Transparency)는 웹 공개 키 기반 구조 ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/))에서 인증서 발급 과정을 투명하게 드러내기 위한 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 프레임워크다. 핵심 아이디어는 간단하다. 어떤 CA가 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 인증서를 발급했는지 <strong>숨길 수 없게 만드는 것</strong>이다. 이렇게 되면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자, 보안팀, 브라우저가 의심스러운 발급을 더 빨리 발견할 수 있다.
 
 이 기술이 필요해진 배경에는 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 오남용과 침해 사고가 있었다. 대표적으로 DigiNotar 사건처럼, 신뢰받던 CA가 침해되면 공격자는 유명 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 가짜 인증서를 발급받아 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) (MitM, Man-in-the-Middle)이나 피싱에 악용할 수 있다. 기존 PKI에서는 진짜 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 운영자가 이런 사실을 한참 뒤에야 알아차리는 경우가 많았다.
 
 CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가"라는 방식으로 다룬다. 즉 누군가 몰래 가짜 인증서를 만들어도, 브라우저가 요구하는 증빙을 얻으려면 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 흔적을 남겨야 한다. 이 점이 CT의 가장 강력한 설계 철학이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT의 목적: 발급 사실을 숨기지 못하게 함             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Without CT: mis-issued certificate can stay hidden                  │
-│ With CT   : issuance must appear in public log and be monitored     │
-│                                                                  │
-│ Result: CA trust becomes auditable, not blind                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 CT는 "신뢰를 없애는 기술"이 아니라, **신뢰를 감시 가능한 형태로 바꾸는 기술**이라고 보는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT의 목적: 발급 사실을 숨기지 못하게 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without CT: mis-issued certificate can stay hidden</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With CT : issuance must appear in public log and be monitored</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: CA trust becomes auditable, not blind</div></div>
+</div>
+</div>
+
+
+
+따라서 CT는 "신뢰를 없애는 기술"이 아니라, <strong>신뢰를 감시 가능한 형태로 바꾸는 기술</strong>이라고 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: CT는 동사무소가 서류를 떼 줄 때마다 마을 게시판에 바로 공고하게 만들어, 몰래 가짜 서류를 발급해도 숨길 수 없게 하는 제도와 같다.
 
@@ -46,7 +48,7 @@ CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가
 
 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 생태계의 주요 참여자는 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)), 감사자 또는 브라우저 검사기 (Auditor)다. CA는 인증서 또는 사전 인증서 (Precertificate)를 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 제출하고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이를 기록하겠다는 서명된 약속인 SCT를 돌려준다. 서버는 이 SCT를 인증서나 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 핸드셰이크에 포함해 제시하고, 브라우저는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 맞는 SCT가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 보통 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 기반의 **추가 전용 (Append-only)** 구조를 사용한다. 새로운 항목은 끝에만 더해지며, 기존 기록을 수정하거나 삭제하면 루트 해시가 바뀌기 때문에 외부 감시자가 변조를 탐지할 수 있다. 즉 CT는 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 공개한다"에서 끝나지 않고, **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)까지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 형태**로 만든다.
+[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 보통 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 기반의 **추가 전용 (Append-only)** 구조를 사용한다. 새로운 항목은 끝에만 더해지며, 기존 기록을 수정하거나 삭제하면 루트 해시가 바뀌기 때문에 외부 감시자가 변조를 탐지할 수 있다. 즉 CT는 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 공개한다"에서 끝나지 않고, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>까지 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 형태</strong>로 만든다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -58,19 +60,22 @@ CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가
 
 아래 그림은 CT의 대표적인 동작 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      CT의 발급·검증 흐름                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA ── submit cert/precert ──▶ CT Log                                │
-│ CA ◀────── SCT (signed promise) ─────── CT Log                       │
-│ CA ── issue cert with SCT ──▶ Website Server                         │
-│ Browser ── connect ──▶ Server                                        │
-│ Browser ◀─ cert + SCT ── Server                                      │
-│ Browser ── verify SCT / policy / proof ──▶ Trust or Warn             │
-│ Monitor ── watch logs for suspicious domains ──▶ Security Team       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT의 발급·검증 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ── submit cert/precert ──▶ CT Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ◀ SCT (signed promise) CT Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ── issue cert with SCT ──▶ Website Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ── connect ──▶ Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ◀─ cert + SCT ── Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ── verify SCT / policy / proof ──▶ Trust or Warn</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor ── watch logs for suspicious domains ──▶ Security Team</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 두 가지다. 첫째, 인증서가 브라우저에서 신뢰받으려면 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 연결된 흔적이 필요하다는 점이다. 둘째, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 실시간 감시해 자기 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 예상치 못한 발급을 발견할 수 있다는 점이다. 그래서 CT는 발급 이후의 가시성과 대응 속도를 크게 높인다.
 
@@ -80,7 +85,7 @@ CT는 이 문제를 "완벽한 사전 차단"이 아니라 "발급 은닉 불가
 
 ## Ⅲ. 비교 및 연결
 
-CT를 이해할 때 자주 헷갈리는 개념은 인증서 해지 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)), 온라인 인증서 상태 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 그리고 인증기관 허가 ([CAA](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/), [Certification Authority Authorization](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/))다. CT는 **발급 사실의 공개와 감시**에 초점을 두고, [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/OCSP는 **이미 발급된 인증서의 폐기 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**에 초점을 둔다. CAA는 어떤 CA가 내 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 인증서를 발급해도 되는지 미리 선언하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+CT를 이해할 때 자주 헷갈리는 개념은 인증서 해지 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)), 온라인 인증서 상태 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 그리고 인증기관 허가 ([CAA](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/), [Certification Authority Authorization](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/))다. CT는 <strong>발급 사실의 공개와 감시</strong>에 초점을 두고, [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/OCSP는 <strong>이미 발급된 인증서의 폐기 상태 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>에 초점을 둔다. CAA는 어떤 CA가 내 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 인증서를 발급해도 되는지 미리 선언하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 
 | 항목 | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) / [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) | [CAA](/knowledge-base/studynote/09_security/04_endpoint_security/168_caa_certification_authority_authorization/) |
 | :--- | :--- | :--- | :--- |
@@ -127,7 +132,7 @@ CT가 정착되면 웹 PKI의 신뢰는 훨씬 더 [검증](/knowledge-base/stud
 
 물론 CT가 모든 인증서 위험을 없애는 것은 아니다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하지 않으면 공개되어도 못 볼 수 있고, 발견 후 폐기 절차가 느리면 실질적 피해를 막기 어렵다. 또한 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 투명성을 주는 대신 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 정보 노출이라는 trade-off를 만든다.
 
-그럼에도 CT의 의미는 분명하다. 인터넷 신뢰를 소수 CA의 비밀스러운 판단에만 맡기지 않고, **공개 기록과 상호 감시가 가능한 체계**로 바꿨다는 데 있다. 즉 CT는 인증서 보안의 완성품이 아니라, 더 투명한 신뢰 구조를 만드는 핵심 기반이다.
+그럼에도 CT의 의미는 분명하다. 인터넷 신뢰를 소수 CA의 비밀스러운 판단에만 맡기지 않고, <strong>공개 기록과 상호 감시가 가능한 체계</strong>로 바꿨다는 데 있다. 즉 CT는 인증서 보안의 완성품이 아니라, 더 투명한 신뢰 구조를 만드는 핵심 기반이다.
 
 - **📢 섹션 요약 비유**: CT는 모두가 볼 수 있는 회계장부와 같다. 장부를 공개한다고 도둑이 완전히 사라지지는 않지만, 몰래 빼돌리기는 훨씬 어려워진다.
 
@@ -146,19 +151,22 @@ CT가 정착되면 웹 PKI의 신뢰는 훨씬 더 [검증](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CA 중심 신뢰 모델
-    │
-    ▼
-오발급·CA 침해 문제 노출
-    │
-    ▼
-CT (Certificate Transparency)
-    │
-    ├─ SCT 검증
-    ├─ 로그 모니터링
-    └─ CRL / OCSP / CAA와 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CA 중심 신뢰 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오발급·CA 침해 문제 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CT (Certificate Transparency)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SCT 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">로그 모니터링</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CRL / OCSP / CAA와 결합</div>
+</div>
+</div>
+
+
 
 이 흐름은 웹 PKI가 "맹목적 신뢰"에서 "투명성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 신뢰"로 이동한 과정을 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Cycle)은 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 아키텍처 상태에 안전하게 반영한 뒤, 외부 사건이나 내부 예외를 처리하기 위해 정상 흐름에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘기는 **복귀 가능한 우회 절차**다.
+> 1. **본질**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Cycle)은 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 아키텍처 상태에 안전하게 반영한 뒤, 외부 사건이나 내부 예외를 처리하기 위해 정상 흐름에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘기는 <strong>복귀 가능한 우회 절차</strong>다.
 > 2. **가치**: 이 절차 덕분에 CPU (Central Processing Unit)는 느린 입출력 장치의 완료를 계속 감시하지 않아도 되고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 기반으로 선점형 스케줄링과 빠른 이벤트 응답을 구현할 수 있다.
 > 3. **판단 포인트**: 좋은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 설계는 "빨리 반응하는 것"만이 아니라, 문맥 저장 비용·우선순위 충돌·파이프라인 플러시·정밀한 예외 (Precise Exception) 보장을 함께 관리하는 데서 결정된다.
 
@@ -19,24 +19,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Cycle)은 CPU가 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 마친 뒤, 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이어서 가져오기 전에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 필요하면 [인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/), [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))으로 분기하는 제어 단계다. 핵심은 "지금 하던 일을 완전히 버리는 것"이 아니라, **나중에 정확히 돌아올 수 있도록 멈추는 것**이다.
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클 ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Cycle)은 CPU가 현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 마친 뒤, 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 이어서 가져오기 전에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 필요하면 [인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/), [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))으로 분기하는 제어 단계다. 핵심은 "지금 하던 일을 완전히 버리는 것"이 아니라, <strong>나중에 정확히 돌아올 수 있도록 멈추는 것</strong>이다.
 
 이 개념이 필요해진 이유는 CPU와 외부 장치의 속도가 극단적으로 다르기 때문이다. 키보드 입력, 디스크 완료, 네트워크 수신, 타이머 만료 같은 사건은 CPU 클럭과 무관하게 비동기적으로 발생한다. 이런 사건을 매번 CPU가 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식만 쓰면, CPU는 실제 계산보다 "아직 안 끝났니?"를 묻는 데 더 많은 시간을 낭비하게 된다.
 
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 이 비효율을 구조적으로 해결한다. 장치가 준비되었을 때만 CPU를 호출하게 만들고, CPU는 호출 시점에 현재 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 저장한 뒤 필요한 처리만 하고 원래 흐름으로 복귀한다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 단순한 편의 기능이 아니라, 현대 시스템의 반응성·자원 효율·멀티태스킹을 떠받치는 하드웨어 계약이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                왜 인터럽트 사이클이 필요한가: 감시보다 호출                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Polling 방식                                                               │
-│ CPU ──▶ 장치 확인 ──▶ 아직 아님 ──▶ 장치 확인 ──▶ 아직 아님 ──▶ 반복        │
-│                                                                            │
-│ Interrupt 방식                                                             │
-│ CPU ──▶ 본업 수행 ───────────────────────────────▶ 인터럽트 수신 후 대응      │
-│            장치가 준비되면 스스로 신호 전송                                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 인터럽트 사이클이 필요한가: 감시보다 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Polling 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ──▶ 장치 확인 ──▶ 아직 아님 ──▶ 장치 확인 ──▶ 아직 아님 ──▶ 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interrupt 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ──▶ 본업 수행 ▶ 인터럽트 수신 후 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치가 준비되면 스스로 신호 전송</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 차이는 단순한 편의성보다 더 크다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 CPU 시간을 사건 탐지에 쓰고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 CPU 시간을 본업에 쓰다가 **필요할 때만 제어 흐름을 굽힌다**. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클의 존재 이유는 응답성 확보와 유휴 낭비 제거를 동시에 달성하는 데 있다.
 
@@ -46,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클을 구성하는 핵심 요소는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), 프로그램 상태 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) (Program Status [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), PSW) 또는 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer, [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)), [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블 ([Interrupt Vector](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) Table, IVT), 그리고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용 비트다. [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청이 펜딩(Pending) 상태인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 허용 조건이 맞으면 **복귀 주소와 상태를 저장한 뒤 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 주소를 PC에 적재**한다.
+[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클을 구성하는 핵심 요소는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), 프로그램 상태 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) (Program Status [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/), PSW) 또는 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer, [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)), [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블 ([Interrupt Vector](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) Table, IVT), 그리고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 허용 비트다. [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청이 펜딩(Pending) 상태인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 허용 조건이 맞으면 <strong>복귀 주소와 상태를 저장한 뒤 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> 주소를 PC에 적재</strong>한다.
 
 | 구성 요소 | 역할 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클에서 중요한 이유 |
 | :--- | :--- | :--- |
@@ -58,31 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 고전적 단일 코어 관점에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클이 어떻게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 인터럽트 사이클의 전형적 상태 전이                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 정상 명령 실행 완료                                                        │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 인터럽트 요청 검사 ── No ───────────────────────────────▶ 다음 Fetch        │
-│        │                                                                   │
-│       Yes                                                                  │
-│        ▼                                                                   │
-│ 인터럽트 허용 비트 확인 및 우선순위 판정                                   │
-│        │                                                                   │
-│        ▼                                                                   │
-│ SP 갱신 → PC/PSW 저장 → 인터럽트 벡터 조회 → PC ← ISR 시작 주소            │
-│        │                                                                   │
-│        ▼                                                                   │
-│ ISR 실행                                                                   │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 인터럽트 복귀 명령 수행 → PSW/PC 복구 → 원래 프로그램 복귀                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 단순 점프가 아니라 **저장 → 분기 → 처리 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**의 완전한 왕복 구조라는 점이다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클의 비용은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 본문만이 아니라, 문맥 저장과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 필요한 클럭 수까지 함께 봐야 한다. 짧은 ISR이라도 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도가 지나치게 높으면 전체 시스템은 "일보다 갈아타기"에 더 많은 시간을 쓸 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 사이클의 전형적 상태 전이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 명령 실행 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 요청 검사 ── No ▶ 다음 Fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 허용 비트 확인 및 우선순위 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SP 갱신 → PC/PSW 저장 → 인터럽트 벡터 조회 → PC ← ISR 시작 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 복귀 명령 수행 → PSW/PC 복구 → 원래 프로그램 복귀</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 단순 점프가 아니라 <strong>저장 → 분기 → 처리 → <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>의 완전한 왕복 구조라는 점이다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클의 비용은 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 본문만이 아니라, 문맥 저장과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 필요한 클럭 수까지 함께 봐야 한다. 짧은 ISR이라도 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도가 지나치게 높으면 전체 시스템은 "일보다 갈아타기"에 더 많은 시간을 쓸 수 있다.
 
 현대 파이프라인에서는 여기에 한 가지 조건이 더 붙는다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 보통 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경계 또는 retire/commit 지점에서 수용되어야 정밀한 예외 (Precise Exception)를 보장할 수 있다. 즉 앞선 명령은 완전히 끝났고, 뒤 명령은 아직 반영되지 않은 상태를 만들어야 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 일관된 상태를 받는다.
 
@@ -105,21 +100,20 @@ tags = ["studynote-computer-architecture"]
 
 파이프라인과 연결하면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/)) 성격도 가진다. 이미 인출·해독된 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)들은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 수용 시점에 따라 무효화(flush)될 수 있고, 특히 깊은 파이프라인일수록 잘못 가져온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버리는 비용이 커진다. 그래서 현대 CPU는 "가능한 빨리 응답"보다 "정확한 지점에서 응답"을 더 우선시한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           인터럽트 사이클이 다른 계층과 연결되는 방식                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 장치 완료/타이머                                                           │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 인터럽트 요청 ──▶ CPU 인터럽트 사이클 ──▶ ISR                              │
-│                              │                                              │
-│                              ├──▶ 커널 스케줄러 호출                        │
-│                              │      └──▶ Context Switch                    │
-│                              │                                              │
-│                              └──▶ 파이프라인 flush / precise state 보장     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 사이클이 다른 계층과 연결되는 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 완료/타이머</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 요청 ──▶ CPU 인터럽트 사이클 ──▶ ISR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 커널 스케줄러 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Context Switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 파이프라인 flush / precise state 보장</div></div>
+</div>
+</div>
+
+
 
 이 연결 구조가 중요한 이유는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클이 "장치 처리만의 문제"가 아니라는 점을 보여 주기 때문이다. 하드웨어에서는 제어권 전환, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 스케줄링, 마이크로아키텍처에서는 정밀 상태 보장이 한 번에 맞물린다.
 
@@ -131,7 +125,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 "응답을 빠르게 만들자"보다 "어디까지를 즉시 처리하고 어디부터를 뒤로 미룰까"의 문제로 나타난다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 직후의 상반부(Top Half)는 장치 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 원인 제거, 최소한의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보까지만 수행하고, 긴 계산이나 블로킹 작업은 하반부(Bottom Half), 소프트인터럽트 (Software [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), SoftIRQ), 워크큐 같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 메커니즘으로 넘기는 것이 일반적이다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨텍스트에서 오래 머물수록 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 스케줄링이 막히기 때문이다.
 
-대표 사례는 네트워크 패킷 폭주다. 초당 수십만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어오면 CPU는 패킷 처리보다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입/복귀 오버헤드에 더 많은 시간을 쓰게 된다. 이때는 NAPI ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))처럼 일정 부하 이상에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모드로 전환하는 하이브리드 전략이 더 유리하다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 항상 정답이 아니라, **빈도와 비용이 맞을 때 가장 강력한 방식**이다.
+대표 사례는 네트워크 패킷 폭주다. 초당 수십만 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어오면 CPU는 패킷 처리보다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 진입/복귀 오버헤드에 더 많은 시간을 쓰게 된다. 이때는 NAPI ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))처럼 일정 부하 이상에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모드로 전환하는 하이브리드 전략이 더 유리하다. 즉 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 항상 정답이 아니라, <strong>빈도와 비용이 맞을 때 가장 강력한 방식</strong>이다.
 
 ### 설계·운영 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -156,9 +150,9 @@ tags = ["studynote-computer-architecture"]
 
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클의 가장 큰 효과는 CPU 시간을 사건 감시에서 실제 계산으로 돌려놓는 데 있다. 그 결과 시스템은 더 높은 처리 효율, 더 나은 반응성, 더 현실적인 멀티태스킹을 얻는다. 특히 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 선점, 디바이스 완료 통지, 오류 처리 루틴은 현대 범용 컴퓨터가 "동시에 많은 일을 하는 것처럼 보이게" 만드는 토대다.
 
-다만 이 장점은 공짜가 아니다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)마다 문맥 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 들고, 파이프라인 플러시와 캐시 교란이 생기며, 우선순위 역전이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스톰([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm) 같은 운영 문제가 뒤따를 수 있다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 무조건 많이 쓰는 기술이 아니라, **사건의 긴급성·빈도·처리 길이**를 고려해 설계해야 하는 제어 전략이다.
+다만 이 장점은 공짜가 아니다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)마다 문맥 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 들고, 파이프라인 플러시와 캐시 교란이 생기며, 우선순위 역전이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스톰([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm) 같은 운영 문제가 뒤따를 수 있다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 무조건 많이 쓰는 기술이 아니라, <strong>사건의 긴급성·빈도·처리 길이</strong>를 고려해 설계해야 하는 제어 전략이다.
 
-미래 방향도 분명하다. 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/), [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))와 확장형 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) eXtended, [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 코얼레싱, 멀티큐 [네트워크 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 보조 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달처럼 더 세밀하게 "누가 어느 코어를 언제 깨울 것인가"를 조정하는 방향으로 발전한다. 따라서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 단순한 교과서 단계가 아니라, 현대 시스템에서 **정확한 상태 보존 위에 반응성을 얹는 핵심 제어 메커니즘**으로 기억해야 한다.
+미래 방향도 분명하다. 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/), [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/))와 확장형 메시지 기반 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Message Signaled Interrupts](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/) eXtended, [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 코얼레싱, 멀티큐 [네트워크 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 보조 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달처럼 더 세밀하게 "누가 어느 코어를 언제 깨울 것인가"를 조정하는 방향으로 발전한다. 따라서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 단순한 교과서 단계가 아니라, 현대 시스템에서 <strong>정확한 상태 보존 위에 반응성을 얹는 핵심 제어 메커니즘</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 사이클은 회사 대표 번호로 걸려 온 긴급 전화를 적절한 담당자에게 연결하는 교환 시스템과 같다. 전화를 잘 받는 것만큼, 메모를 남기고 정확한 사람에게 넘기고 다시 본업으로 돌아오게 하는 체계가 중요하다.
 
@@ -177,24 +171,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 폴링 기반 장치 감시
-        │
-        ▼
-인터럽트 요청선 + 인터럽트 사이클
-        │
-        ▼
-인터럽트 벡터 (Interrupt Vector) · ISR
-        │
-        ▼
-타이머 인터럽트 기반 선점형 스케줄링
-        │
-        ▼
-정밀한 예외 (Precise Exception) · 파이프라인 플러시 제어
-        │
-        ▼
-MSI/MSI-X · 인터럽트 코얼레싱 · 가상화 보조 전달
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 폴링 기반 장치 감시</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 요청선 + 인터럽트 사이클</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 벡터 (Interrupt Vector) · ISR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타이머 인터럽트 기반 선점형 스케줄링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정밀한 예외 (Precise Exception) · 파이프라인 플러시 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSI/MSI-X · 인터럽트 코얼레싱 · 가상화 보조 전달</div>
+</div>
+</div>
+
+
 
 이 흐름은 "장치를 계속 감시하던 구조"에서 출발해, "벡터 기반 자동 분기"를 거쳐, "멀티코어·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 정교하게 배분하는 구조"로 발전해 온 과정을 보여 준다.
 

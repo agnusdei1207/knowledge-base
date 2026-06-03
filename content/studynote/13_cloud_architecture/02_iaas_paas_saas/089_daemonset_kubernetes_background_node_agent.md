@@ -30,24 +30,24 @@ tags = ["studynote-cloud-architecture"]
 
 | 동작 메커니즘 | 설명 | 핵심 가치 |
 | :--- | :--- | :--- |
-| **자동 노드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** | 노드 추가/삭제 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/제거 | 관리자 개입 제거 (Zero-touch) |
+| <strong>자동 노드 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 노드 추가/삭제 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/제거 | 관리자 개입 제거 (Zero-touch) |
 | **노드 셀렉터 (Node Selector)** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드 등 특정 라벨의 노드에만 선택적 배포 | 특수 하드웨어 에이전트 타겟팅 |
-| **[롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) ([Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/))** | 노드별로 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 종료하고 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 에이전트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 무중단 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/">Rolling Update</a>)</strong> | 노드별로 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 종료하고 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 에이전트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 무중단 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합   │
-├──────────────────────────────────────────────────────────────┤
-│ [K8s Master]                                                 │
-│  DaemonSet Controller ──감지──▶ New Node Added             │
-│        │                                                     │
-│        ▼ (Pod 자동 주입)                                     │
-│ [Node 1]          [Node 2]          [Node 3 (신규)]          │
-│ ┌─────────┐       ┌─────────┐       ┌─────────┐              │
-│ │ Pod (A) │       │ Pod (A) │       │ Pod (A) │              │
-│ └─────────┘       └─────────┘       └─────────┘              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DaemonSet Controller ──감지──▶ New Node Added</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Pod 자동 주입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1</div><div class="kb-diagram-node">Node 2</div><div class="kb-diagram-node">Node 3 (신규)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod (A)</div><div class="kb-diagram-cell">Pod (A)</div><div class="kb-diagram-cell">Pod (A)</div></div>
+</div>
+</div>
+
+
 이 그림은 클러스터에 `Node 3`가 추가될 때, 데몬셋 컨트롤러가 자동으로 동일한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) `(A)`를 할당하는 무인 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 구조를 보여준다.
 
 - **📢 섹션 요약 비유**: 데몬셋은 아파트 단지에 새로운 동이 지어질 때마다 본사에서 알아서 1층 경비실에 경비원 한 명을 무조건 파견해 주는 자동 인력 배치 시스템과 같습니다.
@@ -62,7 +62,7 @@ tags = ["studynote-cloud-architecture"]
 | **배치 기준** | 전체 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 **총개수 (Replicas)** 보장 | 노드당 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 **비율 (1:1)** 보장 |
 | **스케줄링 우선순위** | 자원 여유도에 따라 유동적 분배 | 노드 존재 유무에 따라 강제 할당 |
 | **적합한 워크로드** | 웹 서버, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) App) | 모니터링 에이전트, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기 |
-| **노드 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 시** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다른 정상 노드로 대피 (Eviction) | 노드가 죽으면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 같이 소멸 |
+| <strong>노드 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 시</strong> | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다른 정상 노드로 대피 (Eviction) | 노드가 죽으면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 같이 소멸 |
 
 [디플로이먼트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)가 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)"을 지키기 위해 요리조리 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 옮겨 다닌다면, 데몬셋은 "노드와의 결합성"을 지키기 위해 노드와 운명을 함께한다. 이러한 특성 때문에 데몬셋은 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) ([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/))나 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) ([Container Storage Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/099_csi_container_storage_interface_kubernetes_plugin/)) 같은 시스템 기저의 네트워크/스토리지 플러그인을 배포하는 데 필수적으로 연결된다.
 
@@ -74,7 +74,7 @@ tags = ["studynote-cloud-architecture"]
 실무에서 데몬셋을 운영할 때 가장 치명적인 장애는 에이전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 노드의 자원을 고갈시켜 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들을 멈추게 하는 경우다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 포인트
-1. **자원 제한 (Resource Limits) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 로깅 에이전트(Fluentd 등)가 폭주하여 CPU를 100% 점유하지 못하도록 `resources.limits`를 매우 엄격하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
+1. <strong>자원 제한 (Resource Limits) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 로깅 에이전트(Fluentd 등)가 폭주하여 CPU를 100% 점유하지 못하도록 `resources.limits`를 매우 엄격하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했는가?
 2. **톨러레이션 (Tolerations) 활용**: [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)(Control Plane)나 오염된(Tainted) 노드에도 에이전트를 띄워야 하는가? 그렇다면 데몬셋 매니페스트에 톨러레이션을 명시하여 스케줄링 제약을 우회해야 한다.
 3. **선택적 배포**: 모든 노드가 아닌 특정 목적의 노드 (예: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드)에만 드라이버를 배포해야 할 때 `nodeSelector`나 `nodeAffinity`를 조합하여 데몬셋의 타겟을 한정 지어야 한다.
 
@@ -102,21 +102,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-디플로이먼트 (Deployment)의 무작위 스케줄링 한계
-    │
-    ▼
-노드와의 1:1 강제 결합 필요성 대두
-    │
-    ▼
-데몬셋 (DaemonSet) 등장 · 자동 프로비저닝
-    │
-    ▼
-노드 어피니티 (Node Affinity) 결합 · 조건부 데몬셋
-    │
-    ▼
-관측성 에이전트 및 CNI/CSI 플러그인 표준 배포 모델로 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">디플로이먼트 (Deployment)의 무작위 스케줄링 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노드와의 1:1 강제 결합 필요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데몬셋 (DaemonSet) 등장 · 자동 프로비저닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노드 어피니티 (Node Affinity) 결합 · 조건부 데몬셋</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관측성 에이전트 및 CNI/CSI 플러그인 표준 배포 모델로 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 무작위 배포의 한계에서 출발해, 노드 밀착형 배포(데몬셋)로 발전하고, 이후 세밀한 조건 제어와 인프라 표준 플랫폼으로 확장되는 과정을 보여준다.
 

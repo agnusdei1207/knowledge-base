@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: 스트리밍 처리(Streaming Processing)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되는 즉시 처리하여 밀리초~초 단위의 의사결정을 가능하게 하는 패러다임으로, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))의 수 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 비즈니스 가치를 소멸시키는 영역(사기 탐지, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 이상 감지, 주식 거래)에서 필수적이다.
 - **가치**: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 "1분 뒤"가 아닌 "지금 이 순간" 처리하는 것이 결과의 비즈니스 가치를 결정하는 영역이 있다. 신용카드 사기는 거래 후 수 초 안에 탐지해야 하고, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 이상은 발생 즉시 경보해야 하며, 재고 최적화는 실시간 수요 변동에 즉각 반응해야 한다.
-- **판단 포인트**: 스트리밍과 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 선택의 핵심은 **허용 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))**이다. 수 초 이내가 필요하면 스트리밍, 수십 분~수 시간이 허용되면 마이크로배치, 하루 이상이면 배치가 적합하며 스트리밍은 배치보다 인프라 복잡도와 비용이 높다.
+- **판단 포인트**: 스트리밍과 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 선택의 핵심은 <strong>허용 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>)</strong>이다. 수 초 이내가 필요하면 스트리밍, 수십 분~수 시간이 허용되면 마이크로배치, 하루 이상이면 배치가 적합하며 스트리밍은 배치보다 인프라 복잡도와 비용이 높다.
 
 ---
 
@@ -70,20 +70,23 @@ tags = ["studynote-bigdata"]
 
 ### 1. [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 스펙트럼
 
-```
-지연 시간 스펙트럼
-│
-│ < 1ms   ┤ 초고빈도 거래 (Custom FPGA/ASIC, CEP)
-│ < 100ms ┤ 결제 사기 탐지, 실시간 추천
-│ < 1s    ┤ IoT 이상 감지, 알림
-│ < 10s   ┤ 대시보드 실시간 지표, SIEM
-│ < 1min  ┤ Spark Structured Streaming (마이크로배치)
-│ < 1hr   ┤ Spark 배치 (소규모)
-│ < 1day  ┤ Hadoop MapReduce 야간 배치
-│
-└─────────────────────────────────────────────
-  스트리밍 필수 영역 ←─────────→ 배치 가능 영역
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지연 시간 스펙트럼</div>
+<div class="kb-diagram-note">&lt; 1ms 초고빈도 거래 (Custom FPGA/ASIC, CEP)</div>
+<div class="kb-diagram-note">&lt; 100ms 결제 사기 탐지, 실시간 추천</div>
+<div class="kb-diagram-note">&lt; 1s IoT 이상 감지, 알림</div>
+<div class="kb-diagram-note">&lt; 10s 대시보드 실시간 지표, SIEM</div>
+<div class="kb-diagram-note">&lt; 1min Spark Structured Streaming (마이크로배치)</div>
+<div class="kb-diagram-note">&lt; 1hr Spark 배치 (소규모)</div>
+<div class="kb-diagram-note">&lt; 1day Hadoop MapReduce 야간 배치</div>
+<div class="kb-diagram-note">스트리밍 필수 영역 ← → 배치 가능 영역</div>
+</div>
+</div>
+
+
 
 ### 2. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처
 
@@ -121,9 +124,9 @@ tags = ["studynote-bigdata"]
 
 ### 2. 연결 개념
 
-- **[Event Time vs Processing Time](/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/)**: 스트리밍의 핵심 시간 개념
-- **[Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용 임계값 — 스트리밍 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 핵심
-- **[Exactly-Once Semantics](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/)**: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) 메커니즘
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/084_event_time_vs_processing_time/">Event Time vs Processing Time</a></strong>: 스트리밍의 핵심 시간 개념
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a></strong>: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트 허용 임계값 — 스트리밍 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 핵심
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/083_cross_validation/">Exactly-Once Semantics</a></strong>: 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) 메커니즘
 
 **📢 섹션 요약 비유**
 > 스트리밍 처리 필요성을 판단할 때는 "의사결정의 유통기한"을 따져야 한다. 30일이 지나도 유효한 통계는 배치로 충분하고, 10초 안에 썩는 의사결정 정보는 스트리밍이 필수다.
@@ -134,23 +137,26 @@ tags = ["studynote-bigdata"]
 
 ### 1. 스트리밍 도입 의사결정 프레임워크
 
-```
-Step 1: 비즈니스 요구 지연 시간(Latency SLA) 명확화
-  - "1분 이내에 사기를 탐지해야 한다" → 스트리밍 필요
-  - "매일 아침 전날 매출 리포트" → 배치로 충분
 
-Step 2: 데이터 볼륨과 속도 추정
-  - 초당 수천~수백만 이벤트 → 스트리밍 인프라 필요
-  - 하루 수 GB → 야간 배치로 가능
 
-Step 3: 상태 관리 요구사항 확인
-  - 이전 이벤트와 비교/연관 분석 필요? → 상태 기반 스트리밍 엔진
-  - 단순 필터/변환만 필요? → 간단한 마이크로배치로 가능
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Step 1: 비즈니스 요구 지연 시간(Latency SLA) 명확화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"1분 이내에 사기를 탐지해야 한다" → 스트리밍 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"매일 아침 전날 매출 리포트" → 배치로 충분</div>
+<div class="kb-diagram-note">Step 2: 데이터 볼륨과 속도 추정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">초당 수천~수백만 이벤트 → 스트리밍 인프라 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:1">하루 수 GB → 야간 배치로 가능</div>
+<div class="kb-diagram-note">Step 3: 상태 관리 요구사항 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이전 이벤트와 비교/연관 분석 필요? → 상태 기반 스트리밍 엔진</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단순 필터/변환만 필요? → 간단한 마이크로배치로 가능</div>
+<div class="kb-diagram-note">Step 4: 운영 역량 및 비용 검토</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스트리밍은 배치보다 운영 복잡도 2~5배 높음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Exactly-Once 보장, 장애 복구 전략 수립 필요</div>
+</div>
+</div>
 
-Step 4: 운영 역량 및 비용 검토
-  - 스트리밍은 배치보다 운영 복잡도 2~5배 높음
-  - Exactly-Once 보장, 장애 복구 전략 수립 필요
-```
+
 
 ### 2. 스트리밍 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -179,7 +185,7 @@ Step 4: 운영 역량 및 비용 검토
 
 ### 2. 결론
 
-스트리밍 처리는 "필요한 곳에 선택적으로" 적용해야 하는 고비용 아키텍처다. 기술사 답안에서는 배치-마이크로배치-스트리밍의 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)-비용-복잡도 트레이드오프**를 명확히 설명하고, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처의 장단점과 함께 비즈니스 요구에 따른 기술 선택 근거를 제시하는 것이 핵심이다.
+스트리밍 처리는 "필요한 곳에 선택적으로" 적용해야 하는 고비용 아키텍처다. 기술사 답안에서는 배치-마이크로배치-스트리밍의 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>-비용-복잡도 트레이드오프</strong>를 명확히 설명하고, [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처의 장단점과 함께 비즈니스 요구에 따른 기술 선택 근거를 제시하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
 > 스트리밍 처리 필요성은 "속도 위반 단속 카메라 vs 블랙박스 사후 분석"의 차이다. 사고를 막으려면 실시간 단속(스트리밍)이 필요하고, 사고 원인 분석은 블랙박스(배치)로 충분하다. 목적에 맞는 도구를 선택해야 한다.
@@ -198,21 +204,23 @@ Step 4: 운영 역량 및 비용 검토
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Apache Flink]
-    │
-    ▼
-[Apache Kafka]
-    │
-    ▼
-[Lambda Architecture]
-    │
-    ▼
-[Kappa Architecture]
-    │
-    ▼
-[Watermark]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda Architecture</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kappa Architecture</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Watermark</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 Apache Flink에서 출발해 Watermark까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

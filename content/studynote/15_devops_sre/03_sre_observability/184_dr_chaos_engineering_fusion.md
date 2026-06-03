@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련은 보통 "정해진 날에 정해진 절차를 따라 해 보는 행사"에 머무르기 쉽다. 하지만 실제 장애는 더 지저분하다. 연락망은 늦게 연결되고, 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 예상과 다르게 반응하며, 문서에 적힌 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 달라질 수 있다. 그래서 현대 운영에서는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 읽는 것만으로는 충분하지 않고, **실제 불확실성을 일부러 주입해 보는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**이 필요해졌다.
+전통적인 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련은 보통 "정해진 날에 정해진 절차를 따라 해 보는 행사"에 머무르기 쉽다. 하지만 실제 장애는 더 지저분하다. 연락망은 늦게 연결되고, 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 예상과 다르게 반응하며, 문서에 적힌 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 달라질 수 있다. 그래서 현대 운영에서는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 읽는 것만으로는 충분하지 않고, <strong>실제 불확실성을 일부러 주입해 보는 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이 필요해졌다.
 
 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 바로 그 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 등장했다. 정상 상태를 먼저 정의하고, 통제된 장애를 주입한 뒤, 시스템과 조직이 기대한 대로 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 여기에 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 관점을 결합하면 단순한 장애 주입이 아니라 "지역 장애가 나면 어느 순서로 우회하는가", "기본 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 사라지면 손실 없이 승격되는가", "운영팀은 몇 분 안에 의사결정을 끝내는가" 같은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시나리오 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 확장된다.
 
@@ -35,19 +35,21 @@ tags = ["studynote-devops-sre"]
 
 이 그림은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스 실험의 제어 루프를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ DR + Chaos GameDay control loop                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"       │
-│ 2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인     │
-│ 3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리                  │
-│ 4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격            │
-│ 5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험            │
-│                                                                    │
-│ Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR + Chaos GameDay control loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 시 핵심 질문 |
 | :--- | :--- | :--- |
@@ -115,7 +117,7 @@ DR과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architec
 
 물론 비용과 피로도도 있다. 실험 설계가 미숙하면 훈련이 실사고가 될 수 있고, 너무 자주 반복하면 팀이 형식적 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)만 수행하게 될 위험도 있다. 따라서 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스는 "자극적인 장애 놀이"가 아니라, 사업 영향이 큰 경로를 우선순위화한 정교한 운영 프로그램이어야 한다.
 
-결론적으로 이 융합의 핵심은 분명하다. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계획은 읽는 문서가 아니라 주기적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는 능력이어야 하며, 카오스 실험은 그 능력을 수치와 경험으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 가장 현실적인 방법이다.** 그래서 좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스 문화는 장애를 줄이는 것뿐 아니라, 장애가 와도 조직이 흔들리지 않게 만든다.
+결론적으로 이 융합의 핵심은 분명하다. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 계획은 읽는 문서가 아니라 주기적으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>되는 능력이어야 하며, 카오스 실험은 그 능력을 수치와 경험으로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 가장 현실적인 방법이다.</strong> 그래서 좋은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스 문화는 장애를 줄이는 것뿐 아니라, 장애가 와도 조직이 흔들리지 않게 만든다.
 
 - **📢 섹션 요약 비유**: 좋은 GameDay는 시험 전 모의고사와 같다. 점수를 잘 보이게 꾸미는 행사가 아니라, 어디서 실수하는지 미리 드러내어 본시험에서 무너지지 않게 하는 준비다.
 
@@ -135,21 +137,23 @@ DR과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-탁상형 DR 점검
-    │
-    ▼
-스크립트 기반 복구 훈련
-    │
-    ▼
-관측성 기반 GameDay
-    │
-    ▼
-운영 환경 일부 트래픽 카오스 검증
-    │
-    ▼
-지속적 복원력 검증 · 자동화된 런북 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탁상형 DR 점검</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스크립트 기반 복구 훈련</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관측성 기반 GameDay</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 환경 일부 트래픽 카오스 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 복원력 검증 · 자동화된 런북 개선</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

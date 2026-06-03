@@ -19,20 +19,24 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-자율주행용 고성능 컴퓨터 (HPC)는 차량을 움직이는 수많은 센서와 제어 흐름을 한곳에 모아 **실시간으로 보고, 판단하고, 명령하는 중앙 연산 두뇌**다. 기존 차량은 기능별 ECU가 각각 자신의 센서와 제어기를 관리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조가 많았지만, 자율주행은 카메라·레이더·라이다·초음파·정밀지도·차량 상태를 동시에 엮어야 하므로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조의 복사 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오차가 큰 약점이 된다.
+자율주행용 고성능 컴퓨터 (HPC)는 차량을 움직이는 수많은 센서와 제어 흐름을 한곳에 모아 <strong>실시간으로 보고, 판단하고, 명령하는 중앙 연산 두뇌</strong>다. 기존 차량은 기능별 ECU가 각각 자신의 센서와 제어기를 관리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조가 많았지만, 자율주행은 카메라·레이더·라이다·초음파·정밀지도·차량 상태를 동시에 엮어야 하므로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조의 복사 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오차가 큰 약점이 된다.
 
-특히 자율주행 스택은 단순한 제어기보다 훨씬 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다. 여러 대의 카메라와 레이더, 라이다가 합쳐지면 초당 수GB 수준의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 생길 수 있고, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인지 → 추적 → 판단 → 계획 → 제어 순서로 빠르게 이어져야 한다. 중간 단계마다 ECU 사이를 왕복하면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘고, 서로 다른 시간축 때문에 센서 융합 품질도 떨어진다. 그래서 자율주행용 HPC는 "컴퓨팅 파워 강화"보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동과 시간축을 중앙에서 정렬하는 구조**로 등장했다.
+특히 자율주행 스택은 단순한 제어기보다 훨씬 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다. 여러 대의 카메라와 레이더, 라이다가 합쳐지면 초당 수GB 수준의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 생길 수 있고, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 인지 → 추적 → 판단 → 계획 → 제어 순서로 빠르게 이어져야 한다. 중간 단계마다 ECU 사이를 왕복하면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘고, 서로 다른 시간축 때문에 센서 융합 품질도 떨어진다. 그래서 자율주행용 HPC는 "컴퓨팅 파워 강화"보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동과 시간축을 중앙에서 정렬하는 구조</strong>로 등장했다.
 
 이 그림은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리와 중앙 HPC의 차이를 압축해 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Sensors -> Many ECUs -> Copy / Sync Loss -> Late Fusion                   │
-│ Sensors -> Central HPC -> Shared Timebase -> Fast Fusion -> Plan / Control│
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-결국 자율주행용 HPC의 필요성은 연산량 증가만이 아니라, **센서 융합과 안전 판단을 같은 시간표 위에서 처리해야 한다는 요구**에서 나온다. 이 점이 일반 차량 인포테인먼트 컴퓨터와 가장 큰 차이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors -&gt; Many ECUs -&gt; Copy / Sync Loss -&gt; Late Fusion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors -&gt; Central HPC -&gt; Shared Timebase -&gt; Fast Fusion -&gt; Plan / Control</div></div>
+</div>
+</div>
+
+
+
+결국 자율주행용 HPC의 필요성은 연산량 증가만이 아니라, <strong>센서 융합과 안전 판단을 같은 시간표 위에서 처리해야 한다는 요구</strong>에서 나온다. 이 점이 일반 차량 인포테인먼트 컴퓨터와 가장 큰 차이다.
 
 - **📢 섹션 요약 비유**: 예전 차량이 동네마다 작은 지휘소가 따로 있는 구조라면, 자율주행용 HPC는 모든 CCTV와 무전을 한 건물로 모아 한 번에 판단하는 중앙 관제실과 같다.
 
@@ -53,22 +57,22 @@ tags = ["studynote-computer-architecture"]
 
 액추에이터 경로는 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) Ethernet이나 CAN-FD (Controller Area Network Flexible Data-Rate) 같은 결정론적 버스로 이어지는 경우가 많다. 이 그림은 자율주행용 HPC의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면과 안전면이 어떻게 분리되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Camera / Radar / LiDAR -> ISP / DSP -> Shared Memory -> GPU / NPU         │
-│                                                       │                    │
-│                                                       ▼                    │
-│                                                   Planner CPU              │
-│                                                       │                    │
-│                     Safety MCU <---- Monitor / Vote ---┘                    │
-│                         │                                                   │
-│                         └-> TSN Ethernet / CAN-FD -> Actuator Path         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Camera / Radar / LiDAR -&gt; ISP / DSP -&gt; Shared Memory -&gt; GPU / NPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Planner CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Safety MCU &lt;---- Monitor / Vote ---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; TSN Ethernet / CAN-FD -&gt; Actuator Path</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 연산면과 안전면의 우선순위가 다르다는 것이다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU는 많은 프레임을 빠르게 처리해야 하지만, safety island는 처리량보다 "틀리면 멈추거나 안전하게 강등할 수 있는가"가 중요하다. 그래서 자율주행용 HPC는 하나의 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서도 [hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), memory [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), watchdog, lock-step 같은 수단으로 자원을 격리한다.
 
-또한 자율주행용 HPC의 병목은 종종 연산기보다 메모리와 I/O에 있다. 인지 알고리즘이 아무리 빠른 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 위에 올라가도 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)에서 제때 공급되지 않거나, 여러 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 메모리 버스를 공유하면서 간섭하면 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) latency는 쉽게 무너진다. 그래서 이 플랫폼은 "연산 가속기 모음"이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 전체를 실시간으로 다루는 컴퓨터 구조**로 보는 편이 정확하다.
+또한 자율주행용 HPC의 병목은 종종 연산기보다 메모리와 I/O에 있다. 인지 알고리즘이 아무리 빠른 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 위에 올라가도 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)에서 제때 공급되지 않거나, 여러 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 메모리 버스를 공유하면서 간섭하면 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) latency는 쉽게 무너진다. 그래서 이 플랫폼은 "연산 가속기 모음"이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경로 전체를 실시간으로 다루는 컴퓨터 구조</strong>로 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 자율주행용 HPC는 대형 공항과 같다. 활주로가 넓은 것만으로는 부족하고, 관제탑, 수하물 라인, 비상 활주로, 보안 검색대가 함께 움직여야 비행기가 제때 뜨고 안전하게 착륙한다.
 
@@ -88,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조는 단순 기능에는 유리하지만, 센서 융합과 OTA 중심 차량에는 한계가 뚜렷하다. 반대로 중앙 HPC는 배선과 소프트웨어를 단순화하지만, 메모리 간섭과 단일 실패점 위험이 커진다. 그래서 최근 차량은 완전한 중앙 집중 하나만 쓰기보다, 구역 기반 아키텍처 (zonal [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))로 구역별 센서 집선을 하고 상위에서 HPC가 융합하는 형태를 많이 택한다.
 
-또한 자율주행용 HPC는 클라우드를 대체하지 않는다. 차량 안에서는 밀리초 (millisecond) 단위 판단을 하고, 클라우드는 학습 모델 배포, 군집 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 지도 업데이트를 맡는다. 즉 자율주행용 HPC는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버의 축소판이 아니라, **실시간성과 안전성을 우선하는 엣지 컴퓨터**다. 이 점에서 546번 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 하드웨어, 549번 ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) 가속기와도 자연스럽게 연결된다.
+또한 자율주행용 HPC는 클라우드를 대체하지 않는다. 차량 안에서는 밀리초 (millisecond) 단위 판단을 하고, 클라우드는 학습 모델 배포, 군집 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 지도 업데이트를 맡는다. 즉 자율주행용 HPC는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버의 축소판이 아니라, <strong>실시간성과 안전성을 우선하는 엣지 컴퓨터</strong>다. 이 점에서 546번 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 하드웨어, 549번 ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/139_sensor_fusion_camera_lidar_radar/) 가속기와도 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ECU가 동네별 파출소 체계라면, 자율주행용 HPC는 각 구역 상황을 모아 즉시 판단하는 종합 상황실에 가깝다. 대신 상황실이 멈추면 영향도 더 크므로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 체계가 필수다.
 
@@ -120,7 +124,7 @@ tags = ["studynote-computer-architecture"]
 - **중앙화의 위험**: 단일 실패점, 메모리 간섭, 열 집중
 - **해결 수단**: zonal [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), safety island, [hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 백본, [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 연산계
 
-기술사 관점에서는 "자율주행에는 고성능 컴퓨터가 필요하다"가 아니라, **왜 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ECU로는 안 되고 어떤 구조적 병목을 어떻게 격리하는가**를 써야 설계 답안이 된다.
+기술사 관점에서는 "자율주행에는 고성능 컴퓨터가 필요하다"가 아니라, <strong>왜 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> ECU로는 안 되고 어떤 구조적 병목을 어떻게 격리하는가</strong>를 써야 설계 답안이 된다.
 
 - **📢 섹션 요약 비유**: 자율주행용 HPC 설계는 대형 병원의 수술실 배치와 같다. 수술실, 응급실, 전산실, 비상발전기가 같은 건물에 있어도 서로 간섭하지 않게 설계해야 환자를 안전하게 살릴 수 있다.
 
@@ -128,11 +132,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-자율주행용 HPC가 잘 설계되면 차량은 단순한 기계 장치에서 **소프트웨어로 진화하는 이동 플랫폼**으로 바뀐다. 센서 융합이 빨라지고, 기능 추가와 OTA가 쉬워지며, 구역별 ECU 수를 줄여 배선과 유지보수 복잡도를 낮출 수 있다. 또한 안전 기능과 비안전 기능을 한 플랫폼에서 분리 운영함으로써, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 효율을 함께 끌어올릴 수 있다.
+자율주행용 HPC가 잘 설계되면 차량은 단순한 기계 장치에서 <strong>소프트웨어로 진화하는 이동 플랫폼</strong>으로 바뀐다. 센서 융합이 빨라지고, 기능 추가와 OTA가 쉬워지며, 구역별 ECU 수를 줄여 배선과 유지보수 복잡도를 낮출 수 있다. 또한 안전 기능과 비안전 기능을 한 플랫폼에서 분리 운영함으로써, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 효율을 함께 끌어올릴 수 있다.
 
-그러나 한계도 분명하다. 중앙화는 고열, 높은 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 큰 보안 표면, 단일 실패점 위험을 동반한다. 앞으로는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 중앙 연산계, [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 확장, 에너지 효율형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기, zonal 백본과의 더 강한 결합처럼 **중앙화의 이익은 유지하되 실패 비용은 낮추는 방향**으로 발전할 가능성이 크다.
+그러나 한계도 분명하다. 중앙화는 고열, 높은 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 큰 보안 표면, 단일 실패점 위험을 동반한다. 앞으로는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 중앙 연산계, [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 확장, 에너지 효율형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기, zonal 백본과의 더 강한 결합처럼 <strong>중앙화의 이익은 유지하되 실패 비용은 낮추는 방향</strong>으로 발전할 가능성이 크다.
 
-결론적으로 자율주행용 HPC는 단순히 "차 안의 빠른 컴퓨터"가 아니라, **센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 안전 판단을 같은 시간축 위에서 통합하는 실시간 중앙 플랫폼**으로 기억하는 것이 가장 정확하다.
+결론적으로 자율주행용 HPC는 단순히 "차 안의 빠른 컴퓨터"가 아니라, <strong>센서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 안전 판단을 같은 시간축 위에서 통합하는 실시간 중앙 플랫폼</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 자율주행용 HPC는 자동차의 뇌만 키우는 일이 아니라, 눈·귀·신경·비상반사를 한 몸으로 다시 묶는 일과 같다. 생각만 빠르면 되는 것이 아니라, 위급할 때 안전하게 행동까지 이어져야 한다.
 
@@ -151,21 +155,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기능별 분산 ECU
-        │
-        ▼
-도메인 컨트롤러 기반 통합
-        │
-        ▼
-중앙 HPC + 센서 융합 + hypervisor 격리
-        │
-        ▼
-Zonal architecture + TSN 백본 + OTA 운영
-        │
-        ▼
-이중화 central compute · chiplet · 에너지 효율형 AI 가속
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기능별 분산 ECU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 컨트롤러 기반 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중앙 HPC + 센서 융합 + hypervisor 격리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zonal architecture + TSN 백본 + OTA 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이중화 central compute · chiplet · 에너지 효율형 AI 가속</div>
+</div>
+</div>
+
+
 
 이 흐름은 차량 컴퓨팅이 단순 제어기 묶음에서 출발해, 이제는 중앙 플랫폼과 소프트웨어 운영 체계를 함께 갖춘 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터형 구조로 진화하고 있음을 보여 준다.
 

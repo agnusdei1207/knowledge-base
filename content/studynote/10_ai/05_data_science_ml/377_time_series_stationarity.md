@@ -26,14 +26,17 @@ tags = ["studynote-ai"]
 
 비정상 시계열을 그대로 회귀 모델에 투입하면, 두 시계열이 실제로는 무관해도 높은 R²가 나타나는 허위 회귀 (Spurious Regression) 문제가 발생한다. 정상성 확보는 시계열 모델링의 첫 번째 단계다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정상성은 "파도 높이가 매일 다른 해변(비정상)"과 "잔잔한 호수처럼 항상 일정한 물결(정상)"의 차이다. 예측하려면 일단 잔잔하게 만들어야 한다.
 
@@ -57,19 +60,19 @@ Cov(Xₜ, Xₜ₊h) = γ(h)  (시간 차이 h에만 의존)
 
 ### 비정상 시계열 처리 흐름
 
-```
-┌──────────────────────────────────────────────────────┐
-│  원시 시계열                                          │
-│       ↓                                              │
-│  [추세 제거]  로그변환, 1차 차분                      │
-│       ↓                                              │
-│  [계절성 제거]  계절 차분(lag=s), STL 분해            │
-│       ↓                                              │
-│  [정상성 검정]  ADF / KPSS                           │
-│       ↓                                              │
-│  정상 시계열 → ARMA 모델링                            │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 시계열</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추세 제거</div><div class="kb-diagram-note">로그변환, 1차 차분</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계절성 제거</div><div class="kb-diagram-note">계절 차분(lag=s), STL 분해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상성 검정</div><div class="kb-diagram-note">ADF / KPSS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 시계열 → ARMA 모델링</div></div>
+</div>
+</div>
+
+
 
 ### 차분 (Differencing)
 
@@ -107,7 +110,7 @@ H₁: γ < 0 (정상)
 | 방법 | 1차 차분, 회귀 추세 제거 | 계절 차분, [더미 변수](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, Box-Cox |
 | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) | d 차수 결정 | SARIMA의 D 차수 | 전처리로 선행 |
 
-**[ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p,d,q) 모델과 정상성**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/">ARIMA</a>(p,d,q) 모델과 정상성</strong>:
 - d = 차분 횟수 → 정상화를 위한 통합(Integration) 차수
 - 정상화 후 AR(p) + MA(q) 구조 추정
 
@@ -119,7 +122,7 @@ H₁: γ < 0 (정상)
 
 **주식 가격**: 전형적 비정상 (추세+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가) → [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수익률 = log(Pₜ/Pₜ₋₁) 로 정상화
 **전력 수요**: 추세 + 주별·일별 계절성 → 차분 + 계절 차분 병행
-**[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리**: [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 주파수 성분 분석 후 계절성 분해
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리</strong>: [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 주파수 성분 분석 후 계절성 분해
 
 기술사 판단 포인트:
 1. 차분 횟수(d)는 최소화 → 과차분(Overdifferencing)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 증가

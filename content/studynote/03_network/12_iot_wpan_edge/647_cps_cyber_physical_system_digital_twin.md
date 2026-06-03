@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 물리적인 세계(현실의 기계, 센서, 자동차)와 사이버 세계(클라우드 서버, 소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/))가 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 및 고속 네트워크로 융합되어, **물리적 프로세스를 컴퓨터가 24시간 실시간으로 감시하고 제어하며 상호작용하는 거대한 복합 시스템**입니다.
+- 물리적인 세계(현실의 기계, 센서, 자동차)와 사이버 세계(클라우드 서버, 소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/))가 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 및 고속 네트워크로 융합되어, <strong>물리적 프로세스를 컴퓨터가 24시간 실시간으로 감시하고 제어하며 상호작용하는 거대한 복합 시스템</strong>입니다.
 - **예시**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/), 자율주행 자동차 시스템, 차세대 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 전력망.
 
-```text
-[무전원 통신 환경 적응]
-    │
-    ▼
-[CPS]
-    │
-    └──▶ [양방향 스마트 계량기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CPS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)**: 현실 세계의 사물을 컴퓨터 속에 '쌍둥이(Twin)'처럼 3D 그래픽과 데이터로 똑같이 구현해 놓은 가상 모델입니다.
-- **[CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이 그냥 단순한 "관찰용 거울"을 넘어, 사이버 세계의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 시뮬레이션을 통해 "이렇게 하면 효율이 좋아지겠군!"이라고 깨달은 뒤, **역으로 현실 세계의 기계에 명령을 내려(Feedback 제어) 현실을 바꿔버리는 완벽한 '양방향 상호작용 루프'**를 완성한 더 넓은 개념의 시스템입니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong>: 현실 세계의 사물을 컴퓨터 속에 '쌍둥이(Twin)'처럼 3D 그래픽과 데이터로 똑같이 구현해 놓은 가상 모델입니다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/">CPS</a></strong>: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)이 그냥 단순한 "관찰용 거울"을 넘어, 사이버 세계의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 시뮬레이션을 통해 "이렇게 하면 효율이 좋아지겠군!"이라고 깨달은 뒤, <strong>역으로 현실 세계의 기계에 명령을 내려(Feedback 제어) 현실을 바꿔버리는 완벽한 '양방향 상호작용 루프'</strong>를 완성한 더 넓은 개념의 시스템입니다.
 
-```text
-[무전원 통신 환경 적응]
-    │
-    ▼
-[CPS]
-    │
-    └──▶ [양방향 스마트 계량기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CPS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,10 +67,10 @@ tags = ["studynote-network"]
 
 ### 1. 극단적인 초저지연 (Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 결정성 (Determinism)
 - 자율주행차(현실)가 시속 100km로 달릴 때, 카메라가 본 전방 상황이 0.1초 늦게 사이버 시스템으로 들어가면 트윈 세계의 차는 3m 뒤에 있는 셈이 되어 판단 오류가 납니다. 
-- 따라서 **[MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/)** 기술을 총동원하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 1~5ms 이내로 극한 보장해야 합니다.
+- 따라서 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>), <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>, 유선 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/">TSN</a></strong> 기술을 총동원하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 1~5ms 이내로 극한 보장해야 합니다.
 
 ### 2. 거대한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) (High [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
-- 현실의 로봇 하나를 완벽하게 모방하려면, 모터의 회전수, 온도, 진동, 전류량, 주변 4K 영상 등 수천 개의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(속성값)가 1초에 수백 번씩 통째로 클라우드에 쏟아져 들어가야 합니다. 이 엄청난 파이프를 감당하기 위해 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/), 10Gbps 광랜, [Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/)/7** 급의 인프라가 필수적입니다.
+- 현실의 로봇 하나를 완벽하게 모방하려면, 모터의 회전수, 온도, 진동, 전류량, 주변 4K 영상 등 수천 개의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(속성값)가 1초에 수백 번씩 통째로 클라우드에 쏟아져 들어가야 합니다. 이 엄청난 파이프를 감당하기 위해 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>, 10Gbps 광랜, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/">Wi-Fi 6E</a>/7</strong> 급의 인프라가 필수적입니다.
 
 ### 3. 초고신뢰성 (High [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))
 - 통신이 1초 끊겨서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 풀리는 순간, 현실의 로봇 팔이 작업자를 칠 수 있습니다. 패킷 손실률 0.00001% 미만의 무결점 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(Six Nines, 99.9999%)이 보장되어야 합니다.
@@ -117,15 +125,19 @@ CPS는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무전원 통신 환경 적응]
-    │
-    ▼
-[현재 개념: CPS]
-    │
-    ├──▶ [확장 A: 양방향 스마트 계량기]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무전원 통신 환경 적응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양방향 스마트 계량기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 CPS는 [무전원 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/646_passive_iot_intermittent_computing/) 환경 적응에서 출발해 현재 메커니즘을 정교화하고, 이후 [양방향 스마트 계량기](/knowledge-base/studynote/03_network/12_iot_wpan_edge/648_smart_meter_two_way_communication_ami/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서) 뒤에는 10대의 서버가 있습니다. 1초에 1,000명의 접속 요청이 쏟아질 때, 어떤 서버에 패킷을 꽂아줄지 결정하는 내부의 수학적 규칙(맵 할당 로직)이 필요합니다. 
 - 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 현재 바쁜 정도(부하 상태)를 어떻게 추정하느냐에 따라 알고리즘이 갈립니다.
 
-```text
-[로드 밸런싱]
-    │
-    ▼
-[라운드 로빈 분배]
-    │
-    └──▶ [DSR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,22 +42,26 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (RR, Round Robin) - "기계적인 카드 돌리기"
-- **원리**: 서버 1번 ➜ 2번 ➜ 3번 ➜ 1번 ➜ 2번 ➜ 3번... 이처럼 **단순하게 순서대로 빙글빙글 돌아가며 1개씩 똑같이 요청을 분배**하는 가장 기초적인 방식입니다.
+- **원리**: 서버 1번 ➜ 2번 ➜ 3번 ➜ 1번 ➜ 2번 ➜ 3번... 이처럼 <strong>단순하게 순서대로 빙글빙글 돌아가며 1개씩 똑같이 요청을 분배</strong>하는 가장 기초적인 방식입니다.
 - **특징**: 무식하게 빠릅니다. 서버 3대의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(CPU, RAM)이 완전히 똑같고, 사용자들이 요청하는 작업의 무게(단순 웹페이지 읽기 등)가 똑같을 때 완벽한 효율을 자랑합니다.
-- **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) (Weighted RR)**: 서버 1번은 슈퍼컴퓨터고 2번은 똥컴일 때 씁니다. 관리자가 1번 서버에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) '3'을 주고, 2번 서버에 '1'을 줍니다. (1번, 1번, 1번, 2번, 1번...) 이렇게 1번 서버에 3배의 일감을 밀어주는 응용 방식입니다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a> (Weighted RR)</strong>: 서버 1번은 슈퍼컴퓨터고 2번은 똥컴일 때 씁니다. 관리자가 1번 서버에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) '3'을 주고, 2번 서버에 '1'을 줍니다. (1번, 1번, 1번, 2번, 1번...) 이렇게 1번 서버에 3배의 일감을 밀어주는 응용 방식입니다.
 
 ### 2. 해시 분배 (Hash / Source IP Hash) - "너는 무조건 1번만 가"
 - **원리**: 사용자의 출발지 IP(예: 211.x.x.x)를 뽑아서 수학 해시 함수에 집어넣어, 나온 결괏값(예: 3)에 해당하는 3번 서버로 꽂아줍니다.
-- **특징**: 홍길동(동일 IP)이 접속하면 해시 결괏값이 항상 같으므로, **홍길동은 어제도 3번, 오늘도 3번, 내일도 3번 서버로만 고정적으로 들어갑니다([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)/장바구니 유지 완벽 보장).**
+- **특징**: 홍길동(동일 IP)이 접속하면 해시 결괏값이 항상 같으므로, <strong>홍길동은 어제도 3번, 오늘도 3번, 내일도 3번 서버로만 고정적으로 들어갑니다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>/장바구니 유지 완벽 보장).</strong>
 
-```text
-[로드 밸런싱]
-    │
-    ▼
-[라운드 로빈 분배]
-    │
-    └──▶ [DSR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 - **적용**: 1번 손님은 게시판을 보고(가벼운 작업, 1초 만에 종료), 2번 손님은 영화를 봅니다(무거운 작업, 2시간 유지). [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)으로 돌리면 영화 보는 손님 10명이 운 나쁘게 1번 서버에 몰려 터질 수 있습니다. 최소 연결 방식은 영화 손님이 쌓인 1번 서버를 피해서 2번, 3번 빈 서버로 트래픽을 완벽히 분산해 내는 진정한 스마트 분배기입니다.
 
 ### 2. 최단 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) (Fastest [Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))
-- **원리**: 최소 연결보다 한발 더 나아갑니다. 서버가 "나 지금 로딩 다 됐어!"라고 대답해 주는 **핑(Ping) 응답 속도가 가장 쌩쌩하게 빠른(가장 쾌적한 상태인) 서버**를 골라 최우선으로 일감을 꽂아주는 궁극의 응답 체계입니다.
+- **원리**: 최소 연결보다 한발 더 나아갑니다. 서버가 "나 지금 로딩 다 됐어!"라고 대답해 주는 <strong>핑(Ping) 응답 속도가 가장 쌩쌩하게 빠른(가장 쾌적한 상태인) 서버</strong>를 골라 최우선으로 일감을 꽂아주는 궁극의 응답 체계입니다.
 
 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)이 기반 조건을 만든다면, [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배는 그 위에서 핵심 메커니즘을 구현하고, DSR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 식당 앞에 서서 줄 선 손님들을 3명의 요리사에게 배정해 주는 '주방 홀 매니저(로드밸런서)'가 있습니다. **[라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(RR)** 매니저는 기계입니다. 앞뒤 안 보고 무조건 "1번 요리사, 2번 요리사, 3번 요리사" 순서대로 손님 주문서를 던집니다. 1번 요리사가 앞서 받은 짜장면 10그릇을 볶느라 피똥을 싸고 있어도 무자비하게 1번에게 다음 순서라고 주문을 던져버립니다(서버 터짐). 반면 **최소 연결(Least Connection)** 매니저는 홀을 쓱 스캔하는 베테랑입니다. "어? 1번 요리사는 짜장면 10그릇 볶고 있고, 2번 요리사는 방금 손님이 다 빠져서 불을 껐네? 다음 손님 주문은 무조건 텅 빈 2번 요리사한테 던져!"라며 주방 전체의 밸런스를 기가 막히게 맞춰버리는 천재적인 분배 시스템입니다.
+- **📢 섹션 요약 비유**: 식당 앞에 서서 줄 선 손님들을 3명의 요리사에게 배정해 주는 '주방 홀 매니저(로드밸런서)'가 있습니다. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a>(RR)</strong> 매니저는 기계입니다. 앞뒤 안 보고 무조건 "1번 요리사, 2번 요리사, 3번 요리사" 순서대로 손님 주문서를 던집니다. 1번 요리사가 앞서 받은 짜장면 10그릇을 볶느라 피똥을 싸고 있어도 무자비하게 1번에게 다음 순서라고 주문을 던져버립니다(서버 터짐). 반면 **최소 연결(Least Connection)** 매니저는 홀을 쓱 스캔하는 베테랑입니다. "어? 1번 요리사는 짜장면 10그릇 볶고 있고, 2번 요리사는 방금 손님이 다 빠져서 불을 껐네? 다음 손님 주문은 무조건 텅 빈 2번 요리사한테 던져!"라며 주방 전체의 밸런스를 기가 막히게 맞춰버리는 천재적인 분배 시스템입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 로드 밸런싱]
-    │
-    ▼
-[현재 개념: 라운드 로빈 분배]
-    │
-    ├──▶ [확장 A: DSR]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 로드 밸런싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라운드 로빈 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DSR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배는 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSR와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

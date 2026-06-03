@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 문제는 QA 팀을 만들었는데도 버그가 계속 터진다는 것이었다. "우리 회사 QA 팀이 도대체 일을 잘하고 있는 건가?" 경영진은 답답해했다. 기존에 쓰던 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)(소프트웨어 성숙도 모델)는 개발 프로세스 전체를 평가하다 보니, 테스팅에 대한 평가는 아주 수박 겉핥기였다.
 
-이 갈증을 해소하기 위해 ISTQB(국제 소프트웨어 테스팅 자격 위원회)를 주축으로 하는 TMMi 재단이 나섰다. **"CMMI의 구조를 빌려오되, 오직 '테스팅'에만 미친 듯이 집중한 평가 모델을 만들자!"** 이것이 바로 **TMMi(테스트 성숙도 모델 통합)**의 탄생이다.
+이 갈증을 해소하기 위해 ISTQB(국제 소프트웨어 테스팅 자격 위원회)를 주축으로 하는 TMMi 재단이 나섰다. **"CMMI의 구조를 빌려오되, 오직 '테스팅'에만 미친 듯이 집중한 평가 모델을 만들자!"** 이것이 바로 <strong>TMMi(테스트 성숙도 모델 통합)</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: CMMI가 '종합 병원 평가'라면, TMMi는 오직 '암 센터(테스팅)' 하나만 떼어내서 "이 암 센터가 돌팔이 의원인지, 세계 최고의 명의가 있는지"를 5단계로 현미경처럼 평가하는 전문 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 제도다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 소프트웨어 테스트 성숙도 모델 (TM의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 테스트 성숙도 모델 (TM                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 테스트 성숙도 모델 (TM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 테스트 성숙도 모델 (TM가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ TMMi는 CMMI와 동일하게 1단계(최악)부터 5단계(최고)까지의 성�
 
 | 비교 항목 | TMMi (Test [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) | TPI Next (Test [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Improvement) |
 |:---|:---|:---|
-| **설계 뼈대** | **[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)** 기반 (조직적/단계적) | 독자적 비즈니스 중심 프레임워크 (연속적) |
+| **설계 뼈대** | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a></strong> 기반 (조직적/단계적) | 독자적 비즈니스 중심 프레임워크 (연속적) |
 | **평가 방식** | 1~5단계의 **'단계적(Staged)'** 심사 통과 위주 | 16개 핵심 영역별로 자유롭게 개선점 도출 |
-| **주요 목적** | 공식적인 **조직 성숙도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (대외 홍보용)** | 실질적이고 유연한 **내부 프로세스 개선** |
+| **주요 목적** | 공식적인 <strong>조직 성숙도 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (대외 홍보용)</strong> | 실질적이고 유연한 **내부 프로세스 개선** |
 | **인지도** | 전 세계 테스팅 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 **절대적 표준** | 유럽을 중심으로 사용됨 |
 
 - **📢 섹션 요약 비유**: TMMi가 "우리 학교는 교육부에서 1등급 학교로 공식 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)받았어!"라는 간판이라면, TPI Next는 "국영수는 1등급인데 과학이 3등급이니까 과학 학원에 집중하자"라는 1:1 맞춤형 진단 컨설팅이다.
@@ -130,21 +129,23 @@ TMMi 고레벨을 달성한 은행이나 항공우주 소프트웨어 기업은,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 테스트 성숙도 모델 (TMMi) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 테스트 성숙도 모델 (TMMi) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

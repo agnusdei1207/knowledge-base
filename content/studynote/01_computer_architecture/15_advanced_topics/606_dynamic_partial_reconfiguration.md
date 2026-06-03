@@ -25,20 +25,22 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 이 그림은 전체 재구성과 동적 재구성이 무엇을 멈추고 무엇을 유지하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Full reload vs dynamic partial reconfiguration             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Full reload                                                              │
-│   [entire FPGA offline] -> load full bitstream -> restart all functions  │
-│                                                                          │
-│ Dynamic partial reconfiguration                                          │
-│   [static shell alive] + [reconfigurable area swapped]                   │
-│   external links, control path, memory path keep running                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-결국 이 기술의 필요성은 단순한 "기능 변경 가능"보다 더 구체적이다. **중단 없는 하드웨어 교체**가 가능해야만, FPGA가 단순 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 장치를 넘어 현장 운용형 가속기로 자리 잡을 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Full reload vs dynamic partial reconfiguration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Full reload</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">entire FPGA offline</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">load full bitstream -&gt; restart all functions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic partial reconfiguration</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">static shell alive</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">reconfigurable area swapped</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">external links, control path, memory path keep running</div></div>
+</div>
+</div>
+
+
+
+결국 이 기술의 필요성은 단순한 "기능 변경 가능"보다 더 구체적이다. <strong>중단 없는 하드웨어 교체</strong>가 가능해야만, FPGA가 단순 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 장치를 넘어 현장 운용형 가속기로 자리 잡을 수 있다.
 
 - **📢 섹션 요약 비유**: 건물 전체 영업을 멈추고 리모델링하는 대신, 로비와 엘리베이터는 계속 열어 둔 채 한 층 매장만 밤새 교체하는 방식과 같다. 손님 흐름은 유지하면서 내부 기능만 갈아끼우는 것이 핵심이다.
 
@@ -58,19 +60,21 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 아래 그림은 정적 쉘과 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), 그리고 재구성 시퀀스가 어떻게 연결되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                             FPGA device                                   │
-├──────────────────────────────┬─────────────────────────────────────────────┤
-│ Static region                │ Reconfigurable partition (RP)              │
-│ - clocks / reset             │   [ RM_A ]  <->  [ RM_B ]  <->  [ RM_C ]   │
-│ - host / memory interface    │   same boundary, different hardware        │
-│ - reconfig controller        │                                             │
-├──────────────┬───────────────┴─────────────────────────────────────────────┤
-│ bitstream    │ quiesce -> decouple -> load via ICAP -> local reset        │
-│ storage      │ -> resume traffic                                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FPGA device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static region</div><div class="kb-diagram-cell">Reconfigurable partition (RP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- clocks / reset</div><div class="kb-diagram-node">RM_A</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-node">RM_B</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-node">RM_C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- host / memory interface</div><div class="kb-diagram-cell">same boundary, different hardware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- reconfig controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bitstream</div><div class="kb-diagram-cell">quiesce -&gt; decouple -&gt; load via ICAP -&gt; local reset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">storage</div><div class="kb-diagram-cell">-&gt; resume traffic</div></div>
+</div>
+</div>
+
+
 
 핵심 시퀀스도 정형화되어 있다. 먼저 RP로 들어가는 트래픽을 멈추고 경계 신호를 decouple한 뒤, 부분 비트스트림을 ICAP으로 밀어 넣는다. 이후 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 내부 상태를 local reset으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하고 경계 연결을 다시 열어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 재개한다. 이때 재구성 시간은 대략 `부분 비트스트림 크기 / 구성 대역폭`으로 계산할 수 있으므로, 4메가바이트 비트스트림을 초당 800메가바이트로 쓴다면 이론상 약 5밀리초가 기본 하한이 된다.
 
@@ -90,7 +94,7 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 | 정적 다중 구현 | 재구성 지연이 전혀 없다 | 면적·전력·비용이 가장 크다 | 기능이 항상 동시에 필요할 때 |
 | 동적 부분 재구성 | 공통 기반을 살린 채 특정 기능만 교체한다 | floorplanning, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 상태 이관이 어렵다 | 상호 배타적 가속기, 현장 기능 교체 |
 
-이 기술은 고수준 합성으로 만든 여러 커널을 하나의 RP에 번갈아 올리는 구조와도 잘 맞는다. 또 우주·항공에서는 단일 이벤트 업셋 (Single Event Upset, SEU)로 깨진 구성 비트를 해당 영역만 다시 써서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 scrubbing에도 응용된다. 즉 동적 재구성은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 수단이면서 동시에 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 향상 수단**이기도 하다.
+이 기술은 고수준 합성으로 만든 여러 커널을 하나의 RP에 번갈아 올리는 구조와도 잘 맞는다. 또 우주·항공에서는 단일 이벤트 업셋 (Single Event Upset, SEU)로 깨진 구성 비트를 해당 영역만 다시 써서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 scrubbing에도 응용된다. 즉 동적 재구성은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 수단이면서 동시에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 향상 수단</strong>이기도 하다.
 
 최근 클라우드 FPGA [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 유지하는 "셸 + 사용자 가속기" 구조도 같은 철학 위에 있다. 호스트 연결과 관리 plane은 정적으로 남기고, 사용자 기능만 바꾸면 여러 사용자가 같은 하드웨어 기반을 공유할 수 있다. 이 점에서 동적 재구성은 하드웨어 가상화의 물리적 토대라고 볼 수 있다.
 
@@ -100,7 +104,7 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "재구성 가능" 자체보다 **재구성 빈도와 작업 길이의 비율**이 먼저다. 5밀리초 걸려 회로를 바꿨는데 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 500마이크로초만 일하고 다시 교체되어야 한다면, 면적을 아껴도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 지연시간은 오히려 나빠진다. 반대로 영상 코덱 전환, 무선 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 모드 변경, 장시간 추론 모델 교대처럼 기능 전환 주기가 길다면 동적 재구성의 이득이 커진다.
+실무에서는 "재구성 가능" 자체보다 <strong>재구성 빈도와 작업 길이의 비율</strong>이 먼저다. 5밀리초 걸려 회로를 바꿨는데 그 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 500마이크로초만 일하고 다시 교체되어야 한다면, 면적을 아껴도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 지연시간은 오히려 나빠진다. 반대로 영상 코덱 전환, 무선 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 모드 변경, 장시간 추론 모델 교대처럼 기능 전환 주기가 길다면 동적 재구성의 이득이 커진다.
 
 또한 인터페이스 고정이 매우 중요하다. 각 RM은 같은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 폭, 같은 핸드셰이크 의미, 같은 타이밍 예산을 유지해야 정적 영역이 바뀌지 않는다. 그래서 많은 실패 사례가 "기능은 바뀌는데 인터페이스도 같이 흔들리는 설계"에서 나온다. 이 경우 RP가 아니라 시스템 전체를 다시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하므로 동적 재구성의 장점이 사라진다.
 
@@ -119,7 +123,7 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 - 정적 영역과 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 사이에 넓고 복잡한 버스를 과하게 끌어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 라우팅을 어렵게 만드는 설계
 - 비트스트림 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 현장 업데이트만 강조하는 운영
 
-기술사 답안에서는 동적 재구성을 "FPGA의 장점" 정도로 적으면 약하다. **면적 절감, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성, 재구성 오버헤드, 상태 이관, 보안**을 동시에 논해야 실제 설계 판단으로 보인다.
+기술사 답안에서는 동적 재구성을 "FPGA의 장점" 정도로 적으면 약하다. <strong>면적 절감, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 연속성, 재구성 오버헤드, 상태 이관, 보안</strong>을 동시에 논해야 실제 설계 판단으로 보인다.
 
 - **📢 섹션 요약 비유**: 이동식 무대를 쓰는 공연은 무대판을 빨리 바꿀 수 있다는 장점이 있지만, 조명선과 배우 동선이 정리되어 있지 않으면 막간 전환이 더 큰 사고가 된다. 동적 재구성도 교체 속도보다 경계 설계가 먼저다.
 
@@ -131,7 +135,7 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 그러나 설계 복잡도와 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 비트스트림 보안 부담은 결코 작지 않다. 앞으로는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)러가 하드웨어 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 더 적극적으로 관리하고, 클라우드 환경에서 여러 가속기 이미지를 안전하게 교체하는 오케스트레이션이 더 중요해질 가능성이 크다.
 
-결론적으로 FPGA 동적 재구성은 **고정된 실리콘 면적을 시간축으로 다시 배분하는 기술**로 기억하는 것이 좋다. 핵심은 "칩을 다시 프로그래밍할 수 있다"가 아니라, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살린 채 필요한 하드웨어만 바꿔 쓸 수 있다"는 데 있다.
+결론적으로 FPGA 동적 재구성은 <strong>고정된 실리콘 면적을 시간축으로 다시 배분하는 기술</strong>로 기억하는 것이 좋다. 핵심은 "칩을 다시 프로그래밍할 수 있다"가 아니라, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살린 채 필요한 하드웨어만 바꿔 쓸 수 있다"는 데 있다.
 
 - **📢 섹션 요약 비유**: 같은 공연장을 낮에는 강의장, 밤에는 콘서트홀로 바꾸되 건물 뼈대와 출입구는 그대로 두는 운영 방식과 같다. 건물 전체를 새로 짓는 것이 아니라, 내부 역할만 시간에 따라 바꾸는 것이다.
 
@@ -150,21 +154,23 @@ FPGA 동적 재구성은 하드웨어 자원을 공간이 아니라 시간으로
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전체 FPGA 재프로그램
-        │
-        ▼
-부분 비트스트림 개념 도입
-        │
-        ▼
-정적 쉘 + RP 분할 설계
-        │
-        ▼
-동적 부분 재구성 기반 가속기 교체
-        │
-        ▼
-클라우드 FPGA 셸 · 현장 복구 · 하드웨어 가상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전체 FPGA 재프로그램</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부분 비트스트림 개념 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 쉘 + RP 분할 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 부분 재구성 기반 가속기 교체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 FPGA 셸 · 현장 복구 · 하드웨어 가상화</div>
+</div>
+</div>
+
+
 
 이 흐름은 FPGA 활용이 "개발 시점 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경"에서 출발해, 이제는 운영 중 기능 전환과 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 포괄하는 런타임 인프라로 발전하고 있음을 보여 준다.
 

@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결에서 세그먼트를 송신한 시점부터 해당 세그먼트에 대한 ACK를 수신할 때까지의 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(RTT)을 측정하고, 지수 가중 이동 평균(EWMA)을 적용하여 노이즈를 제거한 동적 추정치(SRTT).
 - **필요성**: TCP는 깐깐한 배달부다. 배달이 안 되면 재전송을 해야 하는데, "도대체 몇 초를 기다렸다가 재전송을 해야 할까?"가 인류 최대의 난제였다. 한국에서 한국 서버로 보낼 땐 0.1초 만에 영수증이 오고, 미국 서버는 0.5초가 걸리며, 와이파이가 끊기면 2초가 걸린다. **"고정된 타이머(예: 3초)를 쓰면 0.1초 만에 오는 망에서는 2.9초나 멍때려야 하잖아! 매번 패킷을 쏠 때마다 초시계를 재서, 그 네트워크의 현재 상태에 딱 맞는 '맞춤형 타이머'를 스스로 계산하게 만들자!"**
 
-- **💡 비유**: SRTT는 직장인의 **"출근 시간 예측법"**과 같습니다.
+- **💡 비유**: SRTT는 직장인의 <strong>"출근 시간 예측법"</strong>과 같습니다.
   - **RTT**: 오늘 아침 출근하는 데 걸린 시간입니다. (예: 오늘은 사고가 나서 1시간 30분 걸림).
   - **고정 타이머**: 매일 아침 "어제 1시간 30분 걸렸으니 내일도 1시간 30분 일찍 나가야지"라고 정하는 바보입니다.
-  - **SRTT**: "내가 지난 1년 동안 다녀본 **평균 시간(과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 87.5%)**은 40분이었어. 오늘 사고가 나서 1시간 30분(최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 12.5%)이 걸리긴 했지만, 내일 당장 1시간 30분 일찍 나갈 필요는 없고, 대충 **45분 정도** 걸릴 거라고 부드럽게 조정해서 나가야지."라며 튀는 변수를 억누르는 현명한 예측법입니다.
+  - **SRTT**: "내가 지난 1년 동안 다녀본 <strong>평균 시간(과거 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 87.5%)</strong>은 40분이었어. 오늘 사고가 나서 1시간 30분(최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 12.5%)이 걸리긴 했지만, 내일 당장 1시간 30분 일찍 나갈 필요는 없고, 대충 **45분 정도** 걸릴 거라고 부드럽게 조정해서 나가야지."라며 튀는 변수를 억누르는 현명한 예측법입니다.
 
-```text
-[RTO 측정 방식]
-    │
-    ▼
-[RTT, SRTT]
-    │
-    └──▶ [칸 알고리즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTO 측정 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTT, SRTT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">칸 알고리즘</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RTT가 롤러코스터처럼 미친 듯이 널뛰는 **"실시간 심박수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)"**라면, SRTT는 그 튀는 값들을 다림질하듯 꾹꾹 눌러 펴서 부드럽게 만든 **"장기적인 체력 평균치 곡선"**입니다. TCP는 이 부드러운 곡선을 믿고 다음번 작전을 짭니다.
 
@@ -46,35 +50,35 @@ tags = ["studynote-network"]
 
 ### 1. SRTT (Smoothed RTT) 갱신 공식
 패킷을 하나 쏘고 ACK가 도착할 때마다 아래 공식을 돌려 내 머릿속의 SRTT를 갱신한다.
-**`새 SRTT = ( 1 - α ) × 기존 SRTT + α × 방금 측정한 RTT`**
+<strong><code>새 SRTT = ( 1 - α ) × 기존 SRTT + α × 방금 측정한 RTT</code></strong>
 
-- **α (알파 값)**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 표준에서는 이 값을 보통 **`1/8 (0.125)`**로 고정해서 쓴다.
+- **α (알파 값)**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 표준에서는 이 값을 보통 <strong><code>1/8 (0.125)</code></strong>로 고정해서 쓴다.
 - **의미 해석**: `기존 평균값에 87.5%`의 무게를 두고, `방금 잰 최신값에 12.5%`의 무게만 둔다는 뜻이다.
 - **결과**: 방금 네트워크에 벼락이 쳐서 핑이 10ms에서 500ms로 튀었더라도, 공식에 넣으면 기존 10ms의 비중이 워낙 커서 새 SRTT는 기껏해야 70ms 정도로 부드럽게 상승한다. (네트워크의 일시적 발작에 호들갑 떨지 않음).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                SRTT (이동 평균)의 노이즈 캔슬링 마법 시각화          │
- ├─────────────────────────────────────────────────────────────┤
- │ 시간(ms)                                                      │
- │ 200 |              *(방금 잰 RTT가 미친듯이 튐!)                    │
- │     |             / \                                       │
- │ 100 |            /   \                                      │
- │     |           /     \    ─ * ─ * ─ (실제 RTT 널뛰기)          │
- │  50 |  * ─ * ─ /       \ /                                  │
- │     |         /                                             │
- │  30 |  * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ (SRTT 곡선)         │
- │     |____________________________________ 시간(RTT)            │
- │                                                             │
- │   ▶ "실제 RTT(*)가 200ms로 치솟아도, SRTT(*)는 과거의 무게감 때문에   │
- │      30ms에서 살짝만 올라가며 차분함을 유지한다."                    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRTT (이동 평균)의 노이즈 캔슬링 마법 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간(ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">200</div><div class="kb-diagram-cell">*(방금 잰 RTT가 미친듯이 튐!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">/ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ ─ * ─ * ─ (실제 RTT 널뛰기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50</div><div class="kb-diagram-cell">* ─ * ─ / \ /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">* ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ (SRTT 곡선)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "실제 RTT(*)가 200ms로 치솟아도, SRTT(*)는 과거의 무게감 때문에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30ms에서 살짝만 올라가며 차분함을 유지한다."</div></div>
+</div>
+</div>
+
+
 
 ### 2. RTTVAR (RTT 편차)의 추가
 SRTT만으로는 부족하다. 평균이 50ms라도, 맨날 50ms로 일정하게 들어오는 안정적인 망과, 10ms와 90ms를 왔다 갔다 하는 미친 망(편차가 큼)은 다르게 대우해야 한다.
 - 편차가 심한 망에서는 조금만 늦게 와도 "아 평소처럼 널뛰는 거네" 하고 좀 더 기다려줘야지, 바로 재전송을 때려버리면 인터넷이 박살 난다.
-- 그래서 **`RTTVAR(RTT Variance)`**라는 편차 값을 구해서, 최종 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)(재전송 타이머)를 정할 때 편차의 4배만큼 넉넉하게 대기 시간을 뻥튀기해 주는 안전장치를 쓴다. (이것이 제이콥슨의 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다).
+- 그래서 <strong><code>RTTVAR(RTT Variance)</code></strong>라는 편차 값을 구해서, 최종 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)(재전송 타이머)를 정할 때 편차의 4배만큼 넉넉하게 대기 시간을 뻥튀기해 주는 안전장치를 쓴다. (이것이 제이콥슨의 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다).
 
 - **📢 섹션 요약 비유**: ** SRTT 공식은 **"자동차의 서스펜션(쇼바)"**과 같습니다. 방지턱(RTT 튐 현상)을 밟았을 때 차체가 하늘로 치솟지 않도록, 스프링과 댐퍼(87.5%의 기존 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 그 충격을 흡수하여 운전자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))가 느끼는 승차감을 부드러운 곡선으로 만들어 줍니다.
 
@@ -132,15 +136,19 @@ RTT, SRTT는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RTO 측정 방식]
-    │
-    ▼
-[현재 개념: RTT, SRTT]
-    │
-    ├──▶ [확장 A: 칸 알고리즘]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RTO 측정 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RTT, SRTT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 칸 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 RTT, SRTT는 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

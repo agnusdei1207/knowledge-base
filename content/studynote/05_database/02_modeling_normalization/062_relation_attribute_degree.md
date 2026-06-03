@@ -28,14 +28,17 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-릴레이션
-┌──────┬──────┬──────┐
-│ 학번 │ 이름 │ 전공 │
-└──────┴──────┴──────┘
-   ↑      ↑      ↑
-  속성   속성   속성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">릴레이션</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">전공</div></div>
+<div class="kb-diagram-note">속성 속성 속성</div>
+</div>
+</div>
+
+
 
 | 용어 | 의미 |
 | :-- | :-- |
@@ -106,31 +109,43 @@ tags = ["database"]
 
 ## 관련 개념 맵
 
-```text
-Attribute
-   ↓
-Domain / Degree
-   ↓
-Tuple / Key
-   ↓
-Normalization
-   ↓
-Relational Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Attribute</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Domain / Degree</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Tuple / Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Normalization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Relational Design</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-열(Column)
-   ↓
-속성(Attribute)
-   ↓
-차수(Degree)
-   ↓
-정규화(Normalization)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">열(Column)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">속성(Attribute)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">차수(Degree)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정규화(Normalization)</div>
+</div>
+</div>
+
+
 
 ---
 

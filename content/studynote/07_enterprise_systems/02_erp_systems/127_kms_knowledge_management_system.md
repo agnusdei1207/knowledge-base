@@ -10,28 +10,30 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: KMS는 **조직 내 암묵지(Tacit Knowledge)를 [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)([Explicit Knowledge](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/))로 변환·저장·공유·활용**하는 시스템으로, 노나카의 SECI 모델(사회화→외부화→결합화→내면화)이 이론적 기반이다.
-> 2. **가치**: 핵심 인력 퇴사 시 **지식 유실**이 발생하고, 같은 문제를 반복 해결하는 **지식 중복**이 생기지만, KMS는 **조직 지식을 자산화**하여 재사용·학습·혁신을 가속한다.
+> 1. **본질**: KMS는 <strong>조직 내 암묵지(Tacit Knowledge)를 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">Explicit Knowledge</a>)로 변환·저장·공유·활용</strong>하는 시스템으로, 노나카의 SECI 모델(사회화→외부화→결합화→내면화)이 이론적 기반이다.
+> 2. **가치**: 핵심 인력 퇴사 시 <strong>지식 유실</strong>이 발생하고, 같은 문제를 반복 해결하는 <strong>지식 중복</strong>이 생기지만, KMS는 <strong>조직 지식을 자산화</strong>하여 재사용·학습·혁신을 가속한다.
 > 3. **판단 포인트**: [CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)(Community of Practice, 실천공동체)가 KMS의 조직적 기반이며, 위키·포럼·전문가 네트워크·문서 관리가 핵심 기능이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    SECI 모델 (노나카)                                 │
-├───────────────────────────────────────────────────────┤
-│   암묵지 → 암묵지: 사회화 (도제, OJT)               │
-│   암묵지 → 형식지: 외부화 (매뉴얼 작성)             │
-│   형식지 → 형식지: 결합화 (DB·보고서 통합)           │
-│   형식지 → 암묵지: 내면화 (학습·체화)               │
-│                                                       │
-│   KMS: 외부화·결합화를 IT로 지원                     │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: 암묵지는 요리사의 **손맛(경험)**이고, [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)는 **레시피(문서)**이다. KMS는 손맛을 레시피로 바꿔서 누구나 참고할 수 있게 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SECI 모델 (노나카)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 → 암묵지: 사회화 (도제, OJT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 → 형식지: 외부화 (매뉴얼 작성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형식지 → 형식지: 결합화 (DB·보고서 통합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형식지 → 암묵지: 내면화 (학습·체화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KMS: 외부화·결합화를 IT로 지원</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 암묵지는 요리사의 <strong>손맛(경험)</strong>이고, [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)는 <strong>레시피(문서)</strong>이다. KMS는 손맛을 레시피로 바꿔서 누구나 참고할 수 있게 한다.
 
 ---
 
@@ -44,10 +46,10 @@ tags = ["studynote-enterprise-systems"]
 | **지식 저장소** | 위키·문서 관리 |
 | **전문가 네트워크** | 인적 지식 맵 |
 | **검색** | 지식 검색·추천 |
-| **[CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)** | 실천공동체 운영 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/">CoP</a></strong> | 실천공동체 운영 |
 | **학습** | e-[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 연계 |
 
-- **📢 섹션 요약 비유**: KMS는 회사의 **위키피디아**이다. 누구나 지식을 등록하고 검색하여 활용할 수 있다.
+- **📢 섹션 요약 비유**: KMS는 회사의 <strong>위키피디아</strong>이다. 누구나 지식을 등록하고 검색하여 활용할 수 있다.
 
 ---
 
@@ -67,13 +69,13 @@ tags = ["studynote-enterprise-systems"]
 - **Confluence**: Atlassian 위키 기반.
 - **Notion**: 올인원 지식 관리.
 - **SharePoint**: MS 기업용 지식 포탈.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 검색**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기반 사내 지식 검색.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 검색</strong>: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기반 사내 지식 검색.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-KMS는 **조직 지식을 자산화**하여 인력 유실 위험을 줄이고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/RAG와 결합하여 **사내 지식 챗봇**으로 진화하고 있다.
+KMS는 <strong>조직 지식을 자산화</strong>하여 인력 유실 위험을 줄이고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/RAG와 결합하여 <strong>사내 지식 챗봇</strong>으로 진화하고 있다.
 
 ---
 
@@ -82,32 +84,34 @@ KMS는 **조직 지식을 자산화**하여 인력 유실 위험을 줄이고, [
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SECI 모델** | 지식 변환 이론 (노나카) |
-| **[CoP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)** | 실천공동체 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/">CoP</a></strong> | 실천공동체 |
 | **암묵지** | 경험·노하우 |
-| **[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)** | 문서·매뉴얼 |
-| **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지식 검색 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a></strong> | 문서·매뉴얼 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지식 검색 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개인 파일 관리 (1990s)]
-    │
-    ▼
-[KMS + CoP (노나카 SECI, 2000s)]
-    │
-    ▼
-[위키 기반 KMS (Confluence, 2010s)]
-    │
-    ▼
-[AI 검색 + 추천 (2020~)]
-    │
-    ▼
-[현재: RAG 기반 사내 지식 챗봇 — LLM + KMS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인 파일 관리 (1990s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMS + CoP (노나카 SECI, 2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위키 기반 KMS (Confluence, 2010s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 검색 + 추천 (2020~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: RAG 기반 사내 지식 챗봇 — LLM + KMS</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. KMS는 회사의 **위키피디아**예요. 모든 사람의 지식을 **한 곳에 모아요**.
-2. 요리사의 **손맛(암묵지)**을 **레시피([형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/))**로 만들어서 다른 사람도 배울 수 있어요.
+1. KMS는 회사의 <strong>위키피디아</strong>예요. 모든 사람의 지식을 **한 곳에 모아요**.
+2. 요리사의 <strong>손맛(암묵지)</strong>을 <strong>레시피(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/">형식지</a>)</strong>로 만들어서 다른 사람도 배울 수 있어요.
 3. 선배가 떠나도 **레시피(KMS)가 남아서** 회사의 지식이 사라지지 않아요!
 
 ---

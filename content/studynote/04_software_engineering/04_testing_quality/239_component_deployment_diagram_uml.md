@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 14종 중 가장 대표적인 **정적(구조) 다이어그램**들입니다. (시간의 흐름이 없습니다.)
+- [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 14종 중 가장 대표적인 <strong>정적(구조) 다이어그램</strong>들입니다. (시간의 흐름이 없습니다.)
 - 클래스 다이어그램이 개발자를 위한 '논리적' 도면이라면, 이 두 다이어그램은 인프라/서버 관리자를 위한 **'물리적 덩어리'** 도면입니다.
 
 - **📢 섹션 요약 비유**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그램 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Diagram) (정적/물리)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컴포넌트 다이어그램 / 배치 다이어그                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴포넌트 다이어그램 / 배치 다이어그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,11 +48,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 자바 클래스 수백 개가 뭉쳐서 만들어진 거대한 배포 단위인 **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(예: `.jar`, `.dll`, `.exe` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))들 간의 관계와 의존성을 큼직하게 보여주는 다이어그램**입니다.
+- **개념**: 자바 클래스 수백 개가 뭉쳐서 만들어진 거대한 배포 단위인 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>(예: <code>.jar</code>, <code>.dll</code>, <code>.exe</code> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)들 간의 관계와 의존성을 큼직하게 보여주는 다이어그램</strong>입니다.
 - **그림 모양**: 
-  - **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)**: 직사각형 상자 안에 `<<component>>` 라고 꺾쇠를 달고 이름을 적습니다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>: 직사각형 상자 안에 `<<component>>` 라고 꺾쇠를 달고 이름을 적습니다.
   - **제공 인터페이스(Provided Interface)**: 막대사탕처럼 생긴 **동그라미 핀(Lollipop)** 기호입니다. "내가 이 결제 기능을 남들에게 제공해 줄게!"
-  - **요구 인터페이스(Required Interface)**: 반원 모양의 **[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))** 기호입니다. "난 외부의 결제 기능이 필요해!"
+  - **요구 인터페이스(Required Interface)**: 반원 모양의 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)</strong> 기호입니다. "난 외부의 결제 기능이 필요해!"
   - **연결**: 한 놈의 막대사탕을 다른 놈의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 '찰칵' 끼워 넣는 그림을 그려 의존성을 기가 막히게 표현합니다.
 
 - **📢 섹션 요약 비유**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그램 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Diagram) (정적/물리)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 전체에서 **유일하게 하드웨어(쇳덩어리 기계)**를 그리는 다이어그램입니다. 시험에 100% 나옵니다.
+[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 전체에서 <strong>유일하게 하드웨어(쇳덩어리 기계)</strong>를 그리는 다이어그램입니다. 시험에 100% 나옵니다.
 - **개념**: 완성된 소프트웨어 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)들이 **실제 어떤 물리적인 컴퓨터 하드웨어(서버, 스마트폰, 라우터) 장비 위에 배포(Deploy)되어 설치되는지**, 그리고 그 하드웨어 기계들끼리 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)으로 어떻게 연결되어 있는지를 3D 상자로 그려내는 아키텍처 최종 조감도입니다.
 
 - **📢 섹션 요약 비유**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그램 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Diagram) (정적/물리)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -86,10 +85,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 소프트웨어 시스템을 조립하는 순서이기 때문입니다.
-- 클래스(부품) 조립 ➜ **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 블록 완성)** ➜ 이 블록들을 **배치(물리 서버 쇳덩어리에 설치 및 랜선 연결)**.
+- 클래스(부품) 조립 ➜ <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 블록 완성)</strong> ➜ 이 블록들을 **배치(물리 서버 쇳덩어리에 설치 및 랜선 연결)**.
 - 이 두 다이어그램을 합치면, 회사의 전체 시스템 아키텍처(소프트웨어+하드웨어) 조감도가 완벽하게 1장으로 끝납니다.
 
-> 📢 **섹션 요약 비유**: **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램**은 조립형 PC를 살 때 **'부품 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 견적서'**입니다. "이 그래픽카드([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 1)의 단자(제공 인터페이스)가 이 메인보드([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 2)의 슬롯(요구 인터페이스)에 딱 맞게 꽂히는가?"를 거대한 블록 단위로 확인하는 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 도면입니다. 부품 조립 견적이 끝났다면, 이제 진짜 물리적인 공간에 컴퓨터를 설치해야 합니다. **배치 다이어그램([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Diagram)**은 이삿짐센터 직원을 위한 **'가구 배치 및 랜선 연결 3D 도면'**입니다. 도면에는 3D 상자(물리적 하드웨어 노드)들이 그려져 있습니다. "자, 1번 3D 상자(DB 서버)는 지하실에 박고, 그 안에 `오라클.exe`([아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 깔아라! 2번 3D 상자(웹 서버)는 1층에 두고 `결제.jar`를 깔아라! 그리고 1번과 2번 상자 사이를 천장을 뚫고 굵은 랜선(통신 경로, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)으로 묶어라!!" 눈에 보이지 않는 허깨비 소프트웨어가 드디어 현실 세계의 쇳덩어리 기계 위에 어떻게 강림(배포)하여 작동하는지를 100% 명확하게 보여주는 인프라 엔지니어의 바이블입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 다이어그램</strong>은 조립형 PC를 살 때 <strong>'부품 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 견적서'</strong>입니다. "이 그래픽카드([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 1)의 단자(제공 인터페이스)가 이 메인보드([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 2)의 슬롯(요구 인터페이스)에 딱 맞게 꽂히는가?"를 거대한 블록 단위로 확인하는 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 도면입니다. 부품 조립 견적이 끝났다면, 이제 진짜 물리적인 공간에 컴퓨터를 설치해야 합니다. <strong>배치 다이어그램(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> Diagram)</strong>은 이삿짐센터 직원을 위한 <strong>'가구 배치 및 랜선 연결 3D 도면'</strong>입니다. 도면에는 3D 상자(물리적 하드웨어 노드)들이 그려져 있습니다. "자, 1번 3D 상자(DB 서버)는 지하실에 박고, 그 안에 `오라클.exe`([아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 깔아라! 2번 3D 상자(웹 서버)는 1층에 두고 `결제.jar`를 깔아라! 그리고 1번과 2번 상자 사이를 천장을 뚫고 굵은 랜선(통신 경로, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)으로 묶어라!!" 눈에 보이지 않는 허깨비 소프트웨어가 드디어 현실 세계의 쇳덩어리 기계 위에 어떻게 강림(배포)하여 작동하는지를 100% 명확하게 보여주는 인프라 엔지니어의 바이블입니다.
 
 - **📢 섹션 요약 비유**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램 / 배치 다이어그램 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Diagram) (정적/물리)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -134,21 +133,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컴포넌트 다이어그램 / 배치 다이어그램 (Deployment Diagram) (정적/물리) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포넌트 다이어그램 / 배치 다이어그램 (Deployment Diagram) (정적/물리) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

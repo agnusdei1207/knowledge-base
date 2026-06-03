@@ -37,19 +37,20 @@ tags = ["ict_convergence"]
 | **분석 (Processing)** | 클라우드 (Cloud), 빅데이터 | 끝없이 밀려오는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고 구조화 |
 | **판단 및 제어 (Action)** | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 통찰을 도출하고 사물에 자율 동작 명령 하달 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             초연결 사회의 데이터 순환 아키텍처               │
-├──────────────────────────────────────────────────────────────┤
-│ [ 현실 세계 (Physical) ]            [ 가상 세계 (Digital) ]  │
-│                                                              │
-│ 자율주행차, 스마트가전 ──▶(IoT/5G)──▶ 거대한 데이터 레이크     │
-│       ▲ (자율 제어)                        │ (빅데이터화)    │
-│       │                                    ▼                 │
-│ 지능형 엣지 노드      ◀──(AI 모델)── 클라우드 AI 분석 엔진  │
-└──────────────────────────────────────────────────────────────┘
-```
-이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 **완전한 자동 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)**를 형성한다는 점이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초연결 사회의 데이터 순환 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현실 세계 (Physical)</div><div class="kb-diagram-node">가상 세계 (Digital)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행차, 스마트가전 ──▶(IoT/5G)──▶ 거대한 데이터 레이크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (자율 제어)</div><div class="kb-diagram-cell">(빅데이터화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지능형 엣지 노드 ◀──(AI 모델)── 클라우드 AI 분석 엔진</div></div>
+</div>
+</div>
+
+
+이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 <strong>완전한 자동 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>를 형성한다는 점이다.
 
 - **📢 섹션 요약 비유**: IoT는 세상의 '눈과 귀'이고, 5G는 가장 빠른 '혈관'이며, 클라우드와 AI는 그 혈관을 타고 온 정보를 처리하는 거대한 '두뇌'다. 이 셋이 합쳐져 지구라는 하나의 뇌를 깨운다.
 
@@ -63,7 +64,7 @@ tags = ["ict_convergence"]
 | :--- | :--- | :--- | :--- |
 | **연결 주체** | 사람 ↔ 컴퓨터 | 사람 ↔ 스마트폰 ↔ 사람 | 사물 ↔ 사물 ([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)), 만물 융합 |
 | **연결 규모** | 수억 대 | 수십억 대 | 수백억 ~ 수천억 대 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격** | 문서, 텍스트 기반 | 사진, 영상, 실시간 스트림 | 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 비정형 패턴 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 성격</strong> | 문서, 텍스트 기반 | 사진, 영상, 실시간 스트림 | 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 비정형 패턴 |
 | **상호 작용** | 인간의 검색(Pull) | 인간의 소셜 상호작용(Push) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율적 판단 및 제어 |
 
 이전 시대가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '공유'에 초점을 맞췄다면, 초연결 사회는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통한 물리적 세계의 '지능적 통제'에 방점이 찍힌다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))과 메타버스는 이러한 연결성을 시각적, 공간적으로 구현한 확장 개념이다.
@@ -76,12 +77,12 @@ tags = ["ict_convergence"]
 
 초연결 아키텍처를 설계하는 실무자나 기술사는 폭발하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 치명적인 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 사이에서 균형을 잡아야 한다.
 
-**[ 아키텍처 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ]**
-1. **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 도입**: 수백억 개의 사물이 중앙 클라우드로만 통신하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 붕괴된다. 지연에 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자율주행 제동 등)는 엣지(단말 근처)에서 즉시 처리하도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계했는가?
-2. **보안 내재화 ([Security by Design](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/))**: 모든 사물이 인터넷에 열려있으므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계를 갖추었는가?
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/"> 아키텍처 설계 [체크리스트</a> ]</strong>
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> 도입</strong>: 수백억 개의 사물이 중앙 클라우드로만 통신하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 붕괴된다. 지연에 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(자율주행 제동 등)는 엣지(단말 근처)에서 즉시 처리하도록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계했는가?
+2. <strong>보안 내재화 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/">Security by Design</a>)</strong>: 모든 사물이 인터넷에 열려있으므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계를 갖추었는가?
 
 **[ 기술사적 의사결정 ]**
-- **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) vs [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 판단**: 스마트 팩토리나 헬스케어 인프라에서는 연결 단절이 곧 물리적 피해(생명, 천문학적 손실)로 이어진다. 따라서 단일 실패점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계가 최우선이며, 그 다음이 경량 암호화를 통한 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 확보다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> vs <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 판단</strong>: 스마트 팩토리나 헬스케어 인프라에서는 연결 단절이 곧 물리적 피해(생명, 천문학적 손실)로 이어진다. 따라서 단일 실패점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계가 최우선이며, 그 다음이 경량 암호화를 통한 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 확보다.
 
 - **📢 섹션 요약 비유**: 100만 대의 차가 다니는 초연결 고속도로를 설계할 때는, 단순히 도로 폭([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))만 넓힐 것이 아니라, 사고 났을 때 연쇄 추돌을 막는 방어벽(보안)과 현장 즉시 구호소([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))를 반드시 같이 지어야 한다.
 
@@ -108,21 +109,23 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사람 간의 제한적 연결 (Web 1.0)
-    │
-    ▼
-모바일 기반 상시 연결 (스마트폰 혁명)
-    │
-    ▼
-사람-사물-공간의 초연결 (IoT, 5G 기반)
-    │
-    ▼
-지능형 초연결 사회 (AI 융합 자율 제어)
-    │
-    ▼
-디지털 트윈 (Digital Twin) · 메타버스 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사람 간의 제한적 연결 (Web 1.0)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모바일 기반 상시 연결 (스마트폰 혁명)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사람-사물-공간의 초연결 (IoT, 5G 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 초연결 사회 (AI 융합 자율 제어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 트윈 (Digital Twin) · 메타버스 융합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 연결의 대상이 사람에서 사물로, 수동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율적 융합 및 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 공간으로 진화하는 과정을 보여준다.
 

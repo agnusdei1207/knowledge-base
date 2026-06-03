@@ -25,21 +25,22 @@ RTO는 "얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secop
 
 아래 그림은 RTO가 단순히 장비 부팅 시간이 아니라, 탐지와 선언, 전환, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함하는 목표라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ RTO timeline                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Incident                                                             │
-│   │                                                                  │
-│   ├─ detection                                                       │
-│   ├─ disaster declaration                                            │
-│   ├─ infrastructure / data / app recovery                            │
-│   ├─ service validation                                              │
-│   ▼                                                                  │
-│ Acceptable service restored                                          │
-│   <------------------- must fit inside RTO ----------------------->  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO timeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ detection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ disaster declaration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ infrastructure / data / app recovery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ service validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acceptable service restored</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------------- must fit inside RTO -----------------------&gt;</div></div>
+</div>
+</div>
+
+
 
 즉 RTO는 기술팀의 편의 숫자가 아니라, "이 업무는 몇 시간 멈추면 안 되는가"를 조직 차원에서 선언한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마감 시각이다.
 
@@ -62,24 +63,23 @@ RTO는 먼저 BIA와 MTPD (Maximum Tolerable Period of Disruption)에서 나온�
 
 아래 그림은 RTO가 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처 결정으로 이어지는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ From business impact to recovery architecture                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ BIA / MTPD                                                           │
-│    │                                                                 │
-│    ▼                                                                 │
-│ RTO target                                                           │
-│    │                                                                 │
-│    ├─ automation level                                               │
-│    ├─ standby infrastructure                                         │
-│    ├─ network / DNS (Domain Name System) failover                    │
-│    ├─ application startup order                                      │
-│    └─ business validation plan                                       │
-│    ▼                                                                 │
-│ feasible recovery strategy                                           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From business impact to recovery architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIA / MTPD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ automation level</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ standby infrastructure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network / DNS (Domain Name System) failover</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ application startup order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ business validation plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feasible recovery strategy</div></div>
+</div>
+</div>
+
+
 
 실무에서 자주 놓치는 점은 RTO가 "기술 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간"과 같지 않다는 것이다. 선언 승인, 인력 호출, 배치 재시작, 외부 연계 점검, 사용자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함해야 실제 목표가 된다. 따라서 좋은 RTO 설계는 시스템만이 아니라 운영 절차와 의사결정 체계를 함께 계산한다.
 
@@ -98,7 +98,7 @@ RTO는 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/1
 | High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | 장애를 얼마나 덜 끊기게 만들 것인가 | 평상시 지속성 | 장애 빈도·영향을 줄이지만 DR을 대체하지는 않음 |
 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) | 실제로 평균 수리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 얼마나 걸렸는가 | 측정 지표 | RTO 달성 여부 평가에 참고 |
 
-이 표에서 중요한 포인트는 RTO가 **목표값**이라는 점이다. 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 매번 목표 안에 들어오는지는 훈련과 장애 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 또한 고가용성 구조가 잘 되어 있어도, 리전 전체 장애나 랜섬웨어처럼 광역 사고가 나면 별도의 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 체계 없이는 RTO를 만족하기 어렵다.
+이 표에서 중요한 포인트는 RTO가 <strong>목표값</strong>이라는 점이다. 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 매번 목표 안에 들어오는지는 훈련과 장애 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 또한 고가용성 구조가 잘 되어 있어도, 리전 전체 장애나 랜섬웨어처럼 광역 사고가 나면 별도의 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 체계 없이는 RTO를 만족하기 어렵다.
 
 반대로 RTO만 짧게 써 놓고 RPO나 외부 연계 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 무시하면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 켰지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 낡았고 업무는 이어지지 않는 상황이 벌어진다. 그래서 RTO는 언제나 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 우선순위와 함께 봐야 한다.
 
@@ -132,7 +132,7 @@ RTO는 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/1
 - 문서상 RTO만 존재하고 실제 훈련 기록이 없는 체계
 - 외부 연계, 승인 절차, 사용자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 RTO 계산에서 제외하는 보고서
 
-기술사 답안에서는 **"RTO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 인프라 사양이 아니라 업무 영향 분석을 기술 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 번역한 목표 시간이며, 실제 훈련을 통해 선언·전환·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전 과정을 충족해야 의미가 있다"**라고 정리하는 것이 핵심이다.
+기술사 답안에서는 <strong>"RTO는 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 인프라 사양이 아니라 업무 영향 분석을 기술 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>으로 번역한 목표 시간이며, 실제 훈련을 통해 선언·전환·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 전 과정을 충족해야 의미가 있다"</strong>라고 정리하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: RTO 설계는 모든 길에 구급차를 대기시키는 일이 아니라, 가장 급한 환자가 있는 곳부터 어떤 순서로 달려갈지 미리 정하는 출동 계획과 같다.
 
@@ -140,9 +140,9 @@ RTO는 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/1
 
 ## Ⅴ. 기대효과 및 결론
 
-RTO를 명확히 정의하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 추상적인 "빨리"에서 구체적인 시간 약속으로 바뀐다. 그 결과 예산 배분, 대기 인프라 규모, 자동화 수준, 훈련 빈도, 공급업체 계약 조건까지 일관되게 설계할 수 있다. 결국 RTO의 효과는 단순히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빠르게 만드는 것이 아니라, **어떤 업무를 언제까지 살려야 하는지 조직 전체가 같은 언어로 합의하게 만드는 것**이다.
+RTO를 명확히 정의하면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표가 추상적인 "빨리"에서 구체적인 시간 약속으로 바뀐다. 그 결과 예산 배분, 대기 인프라 규모, 자동화 수준, 훈련 빈도, 공급업체 계약 조건까지 일관되게 설계할 수 있다. 결국 RTO의 효과는 단순히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빠르게 만드는 것이 아니라, <strong>어떤 업무를 언제까지 살려야 하는지 조직 전체가 같은 언어로 합의하게 만드는 것</strong>이다.
 
-물론 짧은 RTO는 강력하지만 비싸다. 모든 업무에 최고 수준 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를 적용하면 비용과 복잡성이 오히려 지속 가능성을 해칠 수 있다. 그래서 RTO를 기억할 때는 "짧을수록 무조건 좋다"가 아니라 **"업무 가치에 맞게 설계된 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마감 시간"**으로 이해하는 것이 맞다.
+물론 짧은 RTO는 강력하지만 비싸다. 모든 업무에 최고 수준 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계를 적용하면 비용과 복잡성이 오히려 지속 가능성을 해칠 수 있다. 그래서 RTO를 기억할 때는 "짧을수록 무조건 좋다"가 아니라 <strong>"업무 가치에 맞게 설계된 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 마감 시간"</strong>으로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 RTO는 무조건 제일 빠른 택배를 고르는 것이 아니라, 꼭 오늘 받아야 하는 짐과 내일 받아도 되는 짐을 구분해 배송 방법을 다르게 정하는 일과 같다.
 
@@ -161,31 +161,31 @@ RTO를 명확히 정의하면 [복구](/knowledge-base/studynote/09_security/13_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-업무 영향 분석
-    │
-    ▼
-MTPD (Maximum Tolerable Period of Disruption)
-    │
-    ▼
-RTO / RPO 설정
-    │
-    ▼
-복구 전략 선택
-    ├─ Active-Active
-    ├─ Hot Site
-    ├─ Warm Site
-    └─ Cold Site
-    │
-    ▼
-자동화 · 전환 절차 · 검증 기준 수립
-    │
-    ▼
-모의훈련 / failover / failback 측정
-    │
-    ▼
-지속 개선형 업무 연속성 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">업무 영향 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MTPD (Maximum Tolerable Period of Disruption)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTO / RPO 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복구 전략 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Active-Active</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Hot Site</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Warm Site</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Cold Site</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동화 · 전환 절차 · 검증 기준 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모의훈련 / failover / failback 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속 개선형 업무 연속성 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 RTO가 단일 숫자가 아니라, 영향 분석에서 아키텍처 선택과 훈련 체계까지 이어지는 의사결정 축임을 보여 준다.
 

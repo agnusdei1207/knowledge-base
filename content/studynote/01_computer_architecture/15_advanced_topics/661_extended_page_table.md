@@ -23,17 +23,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 EPT가 왜 중요한지, 그리고 어떤 책임을 하드웨어로 넘겼는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                EPT가 해결한 문제: 소프트웨어 개입 없는 2차 변환           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ GVA ──▶ Guest Page Table ──▶ GPA ──▶ EPT ──▶ HPA ──▶ 실제 메모리          │
-│       (게스트 운영체제 관리)        (Hypervisor가 정의, MMU가 실행)       │
-│                                                                            │
-│ 기존 방식: GPA→HPA를 Hypervisor 코드가 계산                               │
-│ EPT 방식 : GPA→HPA를 MMU (Memory Management Unit)가 직접 계산             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPT가 해결한 문제: 소프트웨어 개입 없는 2차 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GVA ──▶ Guest Page Table ──▶ GPA ──▶ EPT ──▶ HPA ──▶ 실제 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(게스트 운영체제 관리) (Hypervisor가 정의, MMU가 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 방식: GPA→HPA를 Hypervisor 코드가 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPT 방식 : GPA→HPA를 MMU (Memory Management Unit)가 직접 계산</div></div>
+</div>
+</div>
+
+
 
 핵심은 역할 분리다. 게스트 운영체제는 원래 하던 대로 자신의 주소 공간만 관리하고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 실제 메모리를 어느 GPA에 연결할지만 정의한다. 그러면 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 두 장의 지도를 이어 읽어 최종 주소를 만든다. 결과적으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 본질은 유지하면서도, 주소 변환을 위해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 매번 호출되는 비효율을 줄일 수 있다.
 
@@ -122,21 +124,24 @@ EPT의 가장 큰 기대효과는 메모리 [가상화](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-그림자 페이지 테이블
-    │  (소프트웨어 합성)
-    ▼
-2차 주소 변환 하드웨어화
-    │
-    ▼
-EPT · NPT
-    │
-    ▼
-TLB 최적화 · 대용량 페이지 · VPID
-    │
-    ▼
-PML · IOMMU · 보안 감시형 메모리 가상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그림자 페이지 테이블</div>
+<div class="kb-diagram-note">(소프트웨어 합성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2차 주소 변환 하드웨어화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EPT · NPT</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB 최적화 · 대용량 페이지 · VPID</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PML · IOMMU · 보안 감시형 메모리 가상화</div>
+</div>
+</div>
+
+
 
 이 흐름은 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 “소프트웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)”에서 “하드웨어 가속과 운영 최적화”로 중심축이 이동한 과정을 보여준다.
 

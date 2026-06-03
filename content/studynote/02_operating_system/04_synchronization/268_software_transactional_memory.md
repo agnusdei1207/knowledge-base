@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: STM은 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 접근할 때 귀찮게 뮤텍스나 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 걸지 않고, 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 **자신만의 로컬 메모리(임시 공간)에서 마음껏 작업을 한 뒤, 나중에 '커밋(Commit)'을 시도하여 충돌이 없으면 반영하고 충돌이 있으면 작업을 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 후 재시도**하는 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) 기법이다.
+> 1. **본질**: STM은 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 접근할 때 귀찮게 뮤텍스나 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 걸지 않고, 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 <strong>자신만의 로컬 메모리(임시 공간)에서 마음껏 작업을 한 뒤, 나중에 '커밋(Commit)'을 시도하여 충돌이 없으면 반영하고 충돌이 있으면 작업을 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 후 재시도</strong>하는 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) 기법이다.
 > 2. **가치**: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잘못 걸어서 시스템이 영원히 멈추는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 공포를 원천적으로 제거하며, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 락을 기다리며 줄 서 있지 않기 때문에 코어가 많은 현대 멀티코어 환경에서 압도적인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 > 3. **융합**: 고전적인 OS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법인 뮤텍스의 한계를 넘어서, Haskell, Clojure 같은 함수형 언어에서 핵심 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델로 채택되었으며, C++이나 Java에도 확장 라이브러리로 도입되며 미래 지향적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 표준으로 자리 잡아가고 있다.
 
@@ -21,14 +21,14 @@ tags = ["studynote-operating-system"]
 
 > ⚠️ 이 문서는 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 프로그래밍에서 개발자를 지옥으로 몰아넣는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 끔찍한 한계(데드락, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하)를 극복하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)' 개념을 메모리 제어에 그대로 가져와 락 없이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 구현한 혁신적 프로그래밍 패러다임인 STM을 다룹니다.
 
-1990년대부터 프로그래머들은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위해 **락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), 뮤텍스)**을 사용했다. 
+1990년대부터 프로그래머들은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위해 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>, 뮤텍스)</strong>을 사용했다. 
 "내가 화장실(공유 변수) 쓸 거니까 문 잠그고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 다 쓰면 열어줄게(Unlock)!"
 하지만 화장실이 수만 개, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수천 개로 늘어나자 대참사가 벌어졌다. 
-- A 스레 해드가 1번 락을 쥐고 2번 락을 기다리는데, B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 2번 락을 쥐고 1번 락을 기다리는 **데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**.
+- A 스레 해드가 1번 락을 쥐고 2번 락을 기다리는데, B [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 2번 락을 쥐고 1번 락을 기다리는 <strong>데드락(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>.
 - 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락 하나를 얻기 위해 줄을 서서 대기하며 CPU 코어가 놀고 있는 병목 현상.
 
-"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 수만 명의 접속자가 동시에 쇼핑몰에 접속해도 락 때문에 멈추는 일이 없잖아? **DB가 쓰는 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))' 기술을 프로그래밍 언어의 메모리 변수에다 쑤셔 넣으면 안 될까?**" 
-이 기발한 아이디어에서 출발한 것이 바로 **STM (Software Transactional Memory)**이다.
+"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 수만 명의 접속자가 동시에 쇼핑몰에 접속해도 락 때문에 멈추는 일이 없잖아? <strong>DB가 쓰는 '<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a>)' 기술을 프로그래밍 언어의 메모리 변수에다 쑤셔 넣으면 안 될까?</strong>" 
+이 기발한 아이디어에서 출발한 것이 바로 <strong>STM (Software Transactional Memory)</strong>이다.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -36,43 +36,40 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-STM의 핵심 철학은 **낙관주의(Optimistic)**다. "아마 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)랑 내가 건드리는 변수가 안 겹칠 거야! 락 걸지 말고 일단 냅다 달려보자!"
+STM의 핵심 철학은 <strong>낙관주의(Optimistic)</strong>다. "아마 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)랑 내가 건드리는 변수가 안 겹칠 거야! 락 걸지 말고 일단 냅다 달려보자!"
 
-1. **읽기와 임시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) (Read & Local Write)**
+1. <strong>읽기와 임시 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (Read &amp; Local Write)</strong>
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `atomic { ... }` 블록([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 영역)에 진입한다.
-   - 락을 걸지 않는다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 값을 읽어와 **자신만의 임시 메모리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Local Log)**에 적어두고, 임시 공간에서만 값을 변경하며 작업을 수행한다.
-2. **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 단계**
+   - 락을 걸지 않는다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 값을 읽어와 <strong>자신만의 임시 메모리 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(Local Log)</strong>에 적어두고, 임시 공간에서만 값을 변경하며 작업을 수행한다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>) 단계</strong>
    - 블록 끝에 도달하면 커밋(Commit)을 시도한다. 이때 묻는다. "내가 이 임시 작업을 하는 동안, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 원래 메모리 값을 몰래 바꿔치기했나?"
-3. **커밋 또는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Commit or [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))**
+3. <strong>커밋 또는 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> (Commit or <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>
    - **성공 (No Conflict)**: 아무도 원래 값을 건드리지 않았다면, 임시 메모리 값을 실제 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 팍! 덮어쓰고(Commit) 종료한다.
    - **실패 (Conflict)**: 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 먼저 값을 바꿔치기(수정) 했다면, 내 임시 작업은 폐기 처분([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)/Abort)되고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 처음으로 돌아가 재시도(Retry)한다. 데드락 없이 혼자 조용히 다시 일할 뿐이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────────┐
-│           STM (소프트웨어 트랜잭셔널 메모리)의 무락(Lock-Free) 실행 흐름         │
-├──────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                  │
-│ [ 공유 메모리: X = 100 ]                                                         │
-│                                                                                  │
-│  🧑‍💻 스레드 A (X에 +50 할 예정)         👩‍💻 스레드 B (X에 -20 할 예정)       │
-│                                                                                  │
-│  1. 락 없이 냅다 읽어옴 (X=100)        1. 락 없이 냅다 읽어옴 (X=100)            │
-│  2. 내 임시 로그에서 +50 계산           2. 내 임시 로그에서 -20 계산             │
-│     (임시 X = 150)                   (임시 X = 80)                               │
-│                                                                                  │
-│  3. B가 A보다 0.1초 빨리 계산 끝냄! "내가 먼저 덮어쓸게!" (Commit)               │
-│     -> [ 공유 메모리: X = 80 으로 변경됨! ]                                      │
-│                                                                                  │
-│  4. A가 뒤늦게 덮어쓰려(Commit) 옴. "아까 나 X=100 읽어왔는데, 지금도 100이야?"  │
-│     -> 시스템: "아니, B가 80으로 바꿨어. 너 지각함."                             │
-│                                                                                  │
-│  5. A의 반응 (롤백 및 재시도)                                                    │
-│     -> "아놔 겹쳤네 ㅠㅠ 내 임시 작업(150) 폐기하고 다시 시작!" (Rollback)       │
-│     -> 80을 새로 읽어와서 +50 하고 130으로 정상 업데이트 성공.                   │
-└──────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 구조의 위대함은 **'그 누구도 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/), 멈춤) 상태에 빠지지 않는다'**는 점이다. 기존 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 시스템에서는 B가 일하는 동안 A는 잠들어 있어야 했다. 하지만 STM에서는 A와 B가 동시에 자신의 CPU 코어를 풀로 써서 계산을 진행한다. 운 나쁘게 충돌하면 A만 다시 계산하면 될 뿐, 전체 시스템이 멈추거나 데드락에 빠지는 재앙은 아예 일어날 수 없는 구조적 면역력을 갖게 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STM (소프트웨어 트랜잭셔널 메모리)의 무락(Lock-Free) 실행 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리: X = 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🧑‍💻 스레드 A (X에 +50 할 예정) 👩‍💻 스레드 B (X에 -20 할 예정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 락 없이 냅다 읽어옴 (X=100) 1. 락 없이 냅다 읽어옴 (X=100)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 내 임시 로그에서 +50 계산 2. 내 임시 로그에서 -20 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임시 X = 150) (임시 X = 80)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. B가 A보다 0.1초 빨리 계산 끝냄! "내가 먼저 덮어쓸게!" (Commit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">공유 메모리: X = 80 으로 변경됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. A가 뒤늦게 덮어쓰려(Commit) 옴. "아까 나 X=100 읽어왔는데, 지금도 100이야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 시스템: "아니, B가 80으로 바꿨어. 너 지각함."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. A의 반응 (롤백 및 재시도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; "아놔 겹쳤네 ㅠㅠ 내 임시 작업(150) 폐기하고 다시 시작!" (Rollback)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 80을 새로 읽어와서 +50 하고 130으로 정상 업데이트 성공.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 구조의 위대함은 <strong>'그 누구도 블로킹(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>, 멈춤) 상태에 빠지지 않는다'</strong>는 점이다. 기존 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 시스템에서는 B가 일하는 동안 A는 잠들어 있어야 했다. 하지만 STM에서는 A와 B가 동시에 자신의 CPU 코어를 풀로 써서 계산을 진행한다. 운 나쁘게 충돌하면 A만 다시 계산하면 될 뿐, 전체 시스템이 멈추거나 데드락에 빠지는 재앙은 아예 일어날 수 없는 구조적 면역력을 갖게 된다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -86,7 +83,7 @@ STM의 핵심 철학은 **낙관주의(Optimistic)**다. "아마 다른 [스레�
 
 #### 현실적인 한계 (오버헤드)
 1. **소프트웨어적 부하 (Overhead)**: 락을 안 거는 대신, 메모리 읽고 쓸 때마다 이게 충돌났는지 검사([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))하고 로컬 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기록하는 관리 비용(소프트웨어 연산)이 크다. 충돌이 거의 없는 환경에선 날아다니지만, 100개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1개의 변수만 미친 듯이 수정하려 드는 최악의 병목 구간에서는 99개가 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)과 재시도를 무한 반복하며 CPU를 낭비하는 현상([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) 유사)이 발생한다.
-2. **I/O 연산의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 불가**: STM은 메모리 값은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킬 수 있지만, 모니터에 "Hello"를 출력하거나 미사일을 이미 발사해 버린(I/O 동작) 행위는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킬 수가 없다. 따라서 `atomic` 블록 안에서는 프린트나 네트워크 전송 같은 부수 효과(Side-Effect) 연산을 절대 넣으면 안 된다.
+2. <strong>I/O 연산의 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 불가</strong>: STM은 메모리 값은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킬 수 있지만, 모니터에 "Hello"를 출력하거나 미사일을 이미 발사해 버린(I/O 동작) 행위는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킬 수가 없다. 따라서 `atomic` 블록 안에서는 프린트나 네트워크 전송 같은 부수 효과(Side-Effect) 연산을 절대 넣으면 안 된다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -120,15 +117,19 @@ STM의 핵심 철학은 **낙관주의(Optimistic)**다. "아마 다른 [스레�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[원자적 트랜잭션 (Atomic Transaction) 개념]
-    │
-    ▼
-[소프트웨어 트랜잭셔널 메모리 (STM)]
-    │
-    ├──▶ [하드웨어 트랜잭셔널 메모리 (HTM]
-    └──▶ [락 엘리전 (Lock Elision)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 트랜잭셔널 메모리 (STM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 엘리전 (Lock Elision)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

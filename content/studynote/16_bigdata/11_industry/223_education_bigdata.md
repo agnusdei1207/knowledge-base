@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 교육 빅데이터의 핵심 가치는 **학습자 개개인의 이해도와 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실시간으로 감지**하여 교사와 학습 시스템이 즉각 반응하게 하는 것이다.
+- 교육 빅데이터의 핵심 가치는 <strong>학습자 개개인의 이해도와 위험 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 실시간으로 감지</strong>하여 교사와 학습 시스템이 즉각 반응하게 하는 것이다.
 - LA ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Analytics, 학습 분석)는 LMS [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 참여 패턴을 추출하여 중도 탈락 위험 학습자를 조기에 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
 - IRT (Item Response Theory, 문항반응이론)는 학습자의 능력 수준에 맞는 문제를 동적으로 선택하는 적응형 평가의 수학적 기반이다.
 
@@ -38,59 +38,50 @@ MOOC (Massive Open Online Course) 플랫폼 하나에 수백만 명의 학습자
 
 ### 학습 분석 플랫폼 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│               교육 빅데이터 플랫폼 아키텍처                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  데이터 수집                                                      │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │ LMS (Moodle/Canvas) 로그                                  │  │
-│  │  - 페이지 조회 시간, 클릭 패턴                             │  │
-│  │  - 퀴즈 응답 시간·정오답 이력                              │  │
-│  │  - 토론 게시판 참여도                                      │  │
-│  │  - 동영상 재생·일시정지·반복 구간                          │  │
-│  └────────────────────────────┬──────────────────────────────┘  │
-│                               │  (xAPI 표준)                     │
-│                               ▼                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ Learning Record Store (LRS) — xAPI 데이터 저장소         │    │
-│  └──────────────────────┬──────────────────────────────────┘    │
-│                         │                                        │
-│            ┌────────────┴───────────────────┐                   │
-│            ▼                                ▼                   │
-│  ┌──────────────────────┐     ┌────────────────────────────┐   │
-│  │ 중도 탈락 예측 모델   │     │ 적응형 학습 경로 엔진       │   │
-│  │ (Logistic Regression │     │ (IRT + 지식 그래프 + BKT)  │   │
-│  │  / Random Forest)    │     │                             │   │
-│  └──────────────────────┘     └────────────────────────────┘   │
-│            │                                │                   │
-│            ▼                                ▼                   │
-│  ┌──────────────────────┐     ┌────────────────────────────┐   │
-│  │ 교사 알림 대시보드    │     │ 개인화 학습 추천 (학습자)   │   │
-│  │ (위험 학습자 목록)    │     │                             │   │
-│  └──────────────────────┘     └────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교육 빅데이터 플랫폼 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LMS (Moodle/Canvas) 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 페이지 조회 시간, 클릭 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 퀴즈 응답 시간·정오답 이력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 토론 게시판 참여도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동영상 재생·일시정지·반복 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(xAPI 표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Learning Record Store (LRS) — xAPI 데이터 저장소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중도 탈락 예측 모델</div><div class="kb-diagram-cell">적응형 학습 경로 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Logistic Regression</div><div class="kb-diagram-cell">(IRT + 지식 그래프 + BKT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Random Forest)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교사 알림 대시보드</div><div class="kb-diagram-cell">개인화 학습 추천 (학습자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위험 학습자 목록)</div></div>
+</div>
+</div>
+
+
 
 ### IRT (Item Response Theory, 문항반응이론) 핵심
 
-```
-문제 난이도 (b)
-학습자 능력 (θ)
-추측 확률 (c)
-━━━━━━━━━━━━━━━
-                    1
-P(정답) = c + ─────────────────
-              1 + exp(−a(θ − b))
 
-  a: 변별도 (기울기)
-  b: 난이도 (θ와 같을 때 50% 정답)
-  c: 추측 계수
 
-→ θ > b: 정답 확률 높음 → 더 어려운 문제 출제
-→ θ < b: 정답 확률 낮음 → 더 쉬운 문제 출제
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제 난이도 (b)</div>
+<div class="kb-diagram-note">학습자 능력 (θ)</div>
+<div class="kb-diagram-note">추측 확률 (c)</div>
+<div class="kb-diagram-note">1</div>
+<div class="kb-diagram-note">P(정답) = c +</div>
+<div class="kb-diagram-note">1 + exp(−a(θ − b))</div>
+<div class="kb-diagram-note">a: 변별도 (기울기)</div>
+<div class="kb-diagram-note">b: 난이도 (θ와 같을 때 50% 정답)</div>
+<div class="kb-diagram-note">c: 추측 계수</div>
+<div class="kb-diagram-note">→ θ &gt; b: 정답 확률 높음 → 더 어려운 문제 출제</div>
+<div class="kb-diagram-note">→ θ &lt; b: 정답 확률 낮음 → 더 쉬운 문제 출제</div>
+</div>
+</div>
+
+
 
 ### BKT (Bayesian Knowledge [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/), 베이지안 지식 추적)
 
@@ -146,7 +137,7 @@ P(정답) = c + ─────────────────
 
 **기술사 핵심 판단**:
 - **윤리적 낙인 위험**: "위험 학생" 라벨이 차별로 이어지지 않도록 개입 절차 비공개 설계.
-- **[FERPA](/knowledge-base/studynote/09_security/17_framework_compliance/867_ferpa/)/COPPA 준수**: 미성년 학습자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자 동의·정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화.
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/867_ferpa/">FERPA</a>/COPPA 준수</strong>: 미성년 학습자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자 동의·정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화.
 - **편향 검사**: 특정 인구 집단이 체계적으로 고위험으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는지 정기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
 
 > 📢 **섹션 요약 비유**: 이탈 예측 시스템은 "학생이 학교를 떠나기 전에 선생님이 먼저 손을 내미는 것"이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 누가 도움이 필요한지 조용히 귀띔해준다.
@@ -180,24 +171,25 @@ P(정답) = c + ─────────────────
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[학습 관리 시스템 (LMS) — 온라인 학습 이력 데이터 수집]
-    │
-    ▼
-[학습 분석학 (Learning Analytics) — 학습 데이터 패턴 분석]
-    │
-    ▼
-[교육 빅데이터 (Education Big Data) — 대규모 학습자 행동 데이터 활용]
-    │
-    ▼
-[적응형 학습 (Adaptive Learning) — 개인별 최적 콘텐츠 맞춤 제공]
-    │
-    ▼
-[조기 경보 시스템 (EWS) — 학습 부진 학생 예측·선제 개입]
-    │
-    ▼
-[AI 튜터 (AI Tutor) — LLM 기반 개인화 교육 대화 서비스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습 관리 시스템 (LMS) — 온라인 학습 이력 데이터 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습 분석학 (Learning Analytics) — 학습 데이터 패턴 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교육 빅데이터 (Education Big Data) — 대규모 학습자 행동 데이터 활용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">적응형 학습 (Adaptive Learning) — 개인별 최적 콘텐츠 맞춤 제공</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조기 경보 시스템 (EWS) — 학습 부진 학생 예측·선제 개입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 튜터 (AI Tutor) — LLM 기반 개인화 교육 대화 서비스</div></div>
+</div>
+</div>
+
+
 교육 빅데이터는 LMS 학습 이력에서 출발해 학습 분석학 → 적응형 학습 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 튜터로 이어지는 개인화 교육의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 형성한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

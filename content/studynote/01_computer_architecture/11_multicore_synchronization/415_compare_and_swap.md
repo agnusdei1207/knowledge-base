@@ -23,19 +23,21 @@ tags = ["studynote-computer-architecture"]
 
 이 명령이 필요한 이유는 일반적인 `load -> add -> store`가 세 단계로 쪼개지기 때문이다. 예를 들어 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 10일 때 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 1씩 증가시키면, 둘 다 10을 읽고 각각 11을 써서 최종 결과가 12가 아니라 11이 되는 [갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))이 발생할 수 있다. 락으로 막을 수도 있지만, 락은 경쟁 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 세우고 OS ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 스케줄링 개입까지 유발해 비용이 커진다.
 
-CAS는 이 문제를 **낙관적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Optimistic [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))** 로 바꾼다. 먼저 계산은 각 코어가 독립적으로 수행하고, 마지막 반영 순간에만 충돌 여부를 판정한다. 충돌이 없으면 한 번에 성공하고, 충돌이 있으면 실패를 반환해 다시 시도하면 된다. 즉, "항상 막아두는 방식"이 아니라 "마지막 순간만 검표하는 방식"이다.
+CAS는 이 문제를 <strong>낙관적 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Optimistic <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong> 로 바꾼다. 먼저 계산은 각 코어가 독립적으로 수행하고, 마지막 반영 순간에만 충돌 여부를 판정한다. 충돌이 없으면 한 번에 성공하고, 충돌이 있으면 실패를 반환해 다시 시도하면 된다. 즉, "항상 막아두는 방식"이 아니라 "마지막 순간만 검표하는 방식"이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│     왜 CAS가 필요한가: 읽기와 쓰기 사이의 틈을 막아야 함      │
-├──────────────────────────────────────────────────────────────┤
-│ 스레드 A: 값 읽기(10) ── 계산(11) ── 쓰기(11)                │
-│ 스레드 B: 값 읽기(10) ── 계산(11) ── 쓰기(11)                │
-│                                                              │
-│ 일반 연산 결과: 10 -> 11  (한 번 증가가 사라짐)              │
-│ CAS 결과    : 한 스레드만 성공, 다른 스레드는 실패 후 재시도  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 CAS가 필요한가: 읽기와 쓰기 사이의 틈을 막아야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A: 값 읽기(10) ── 계산(11) ── 쓰기(11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 B: 값 읽기(10) ── 계산(11) ── 쓰기(11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 연산 결과: 10 -&gt; 11 (한 번 증가가 사라짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAS 결과 : 한 스레드만 성공, 다른 스레드는 실패 후 재시도</div></div>
+</div>
+</div>
+
+
 
 결국 CAS는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 "무조건 순서대로 줄 세우는 문제"에서 "충돌을 빠르게 감지하고 재시도하는 문제"로 바꿔 준다. 그래서 멀티코어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 락프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘의 출발점으로 자주 등장한다.
 
@@ -45,7 +47,7 @@ CAS는 이 문제를 **낙관적 [동기화](/knowledge-base/studynote/02_operat
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계처럼 보이지만, 하드웨어는 이를 하나의 원자 구간으로 실행한다. x86 계열에서는 `CMPXCHG` 같은 명령으로 제공되고, 다른 아키텍처에서는 LL/SC (Load-Linked / Store-Conditional) 조합으로 비슷한 효과를 낸다. 중요한 점은 소프트웨어가 둘로 나눠 볼 수 있어도, 하드웨어 관점에서는 **중간에 다른 코어가 끼어들 수 없도록 보장된다는 것**이다.
+CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계처럼 보이지만, 하드웨어는 이를 하나의 원자 구간으로 실행한다. x86 계열에서는 `CMPXCHG` 같은 명령으로 제공되고, 다른 아키텍처에서는 LL/SC (Load-Linked / Store-Conditional) 조합으로 비슷한 효과를 낸다. 중요한 점은 소프트웨어가 둘로 나눠 볼 수 있어도, 하드웨어 관점에서는 <strong>중간에 다른 코어가 끼어들 수 없도록 보장된다는 것</strong>이다.
 
 | 구성 요소 | 역할 | 설계상 의미 |
 | :-- | :-- | :-- |
@@ -56,25 +58,27 @@ CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계�
 
 아래 그림은 CAS가 메모리 갱신을 어떻게 단일 판정으로 묶는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                CAS의 원자적 판정 흐름                        │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 스레드가 old 값을 읽음                                    │
-│ 2) 코어 내부에서 new 값을 계산                               │
-│ 3) CAS(addr, expected=old, new) 실행                         │
-│                                                              │
-│    현재 메모리 값 == expected ?                              │
-│            ├─ 예  ──> new 기록, 성공 반환                    │
-│            └─ 아니오 ─> 값 유지, 실패 반환                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAS의 원자적 판정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 스레드가 old 값을 읽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 코어 내부에서 new 값을 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) CAS(addr, expected=old, new) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 메모리 값 == expected ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ──&gt; new 기록, 성공 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─&gt; 값 유지, 실패 반환</div></div>
+</div>
+</div>
+
+
 
 실제 칩에서는 이 순간 해당 캐시 라인에 대한 독점권을 확보해야 한다. 현대 멀티코어는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그기보다 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜을 이용해 특정 캐시 라인만 배타적으로 다룬다. 그래서 CAS의 비용은 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개 비용이 아니라, **캐시 라인을 누구 소유로 만들 것인가** 까지 포함한 비용이다.
 
 또 하나의 장점은 실패한 CAS가 보통 값을 바꾸지 않는다는 점이다. `Test-and-Set`처럼 실패할 때마다 무조건 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 발생시키는 방식보다, 불필요한 무효화(Invalidate) 트래픽을 줄일 수 있다. 그래서 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))보다 더 일반적인 락프리 자료구조에 적합하다.
 
-다만 CAS는 원자성만 줄 뿐, 항상 올바른 **메모리 순서(Memory [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))** 까지 자동으로 해결해 주는 것은 아니다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 먼저 쓰고, 그 뒤에 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 공개해야 한다면 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))나 acquire/release 의미론까지 같이 고려해야 한다.
+다만 CAS는 원자성만 줄 뿐, 항상 올바른 <strong>메모리 순서(Memory <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)</strong> 까지 자동으로 해결해 주는 것은 아니다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 먼저 쓰고, 그 뒤에 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 공개해야 한다면 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))나 acquire/release 의미론까지 같이 고려해야 한다.
 
 - **📢 섹션 요약 비유**: CAS는 서류를 창구에 던져 넣는 일이 아니라, 창구 직원이 내 번호표와 현재 전광판 번호를 동시에 확인한 뒤 맞으면 즉시 처리하고 아니면 그대로 돌려보내는 즉석 판정기와 같다.
 
@@ -94,7 +98,7 @@ CAS를 제대로 이해하려면 다른 [동기화](/knowledge-base/studynote/02
 
 CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮고 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)이 짧을 때는 CAS의 낙관적 접근이 유리하다. 반대로 하나의 전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 수십 개 코어가 동시에 몰리면 모두가 같은 캐시 라인을 두드리며 실패-재시도를 반복하므로, 오히려 CPU 시간을 더 태울 수 있다.
 
-여기서 등장하는 대표적 함정이 **ABA 문제**다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값 `A`를 읽은 뒤 잠시 멈춘 사이 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `A -> B -> A`로 바꾸면, CAS는 다시 `A`를 보고 "변화가 없었다"고 오판할 수 있다. 정수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 문제가 없을 수도 있지만, 포인터 기반 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)·큐에서는 노드가 한 번 제거됐다가 재사용되는 순간 심각한 구조 손상이 생길 수 있다.
+여기서 등장하는 대표적 함정이 <strong>ABA 문제</strong>다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값 `A`를 읽은 뒤 잠시 멈춘 사이 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `A -> B -> A`로 바꾸면, CAS는 다시 `A`를 보고 "변화가 없었다"고 오판할 수 있다. 정수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 문제가 없을 수도 있지만, 포인터 기반 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)·큐에서는 노드가 한 번 제거됐다가 재사용되는 순간 심각한 구조 손상이 생길 수 있다.
 
 그래서 CAS는 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그(tag), [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트, 해저드 포인터(Hazard Pointer) 같은 보조 기법과 자주 연결된다. 즉 CAS는 단독 해법이 아니라, **락프리 설계의 중심축** 이다. 주변 안전장치가 함께 붙어야 실제 시스템에서 신뢰성을 얻는다.
 
@@ -106,7 +110,7 @@ CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮
 
 실무에서 CAS는 `AtomicInteger`, `std::atomic`, 락프리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 작업 큐, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)처럼 **갱신 단위가 작고 실패 시 다시 계산해도 부담이 크지 않은 곳** 에서 가장 효과적이다. 예를 들어 조회 수 증가, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 작업 포인터 이동 같은 연산은 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 한 번으로 충분히 해결되는 경우가 많다.
 
-반면 비즈니스 로직이 길거나, 한 번 실패하면 다시 계산하는 비용이 큰 연산에는 CAS가 오히려 부적합하다. 예를 들어 긴 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 수정, 복잡한 메모리 할당/해제, 외부 입출력(I/O)과 결합된 갱신은 재시도 비용이 커서 락 기반 설계가 더 단순하고 안전할 수 있다. 기술사 답안에서는 "CAS가 빠르다"가 아니라 **"짧은 갱신에는 채택, 긴 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에는 회피"** 로 정리해야 한다.
+반면 비즈니스 로직이 길거나, 한 번 실패하면 다시 계산하는 비용이 큰 연산에는 CAS가 오히려 부적합하다. 예를 들어 긴 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 수정, 복잡한 메모리 할당/해제, 외부 입출력(I/O)과 결합된 갱신은 재시도 비용이 커서 락 기반 설계가 더 단순하고 안전할 수 있다. 기술사 답안에서는 "CAS가 빠르다"가 아니라 <strong>"짧은 갱신에는 채택, 긴 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>에는 회피"</strong> 로 정리해야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -152,26 +156,25 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 데이터 경합
-    │
-    ▼
-하드웨어 동기화 (Hardware Synchronization)
-    │
-    ├─ Test-and-Set
-    │
-    └─ Compare-and-Swap (CAS)
-            │
-            ├─ 락프리 (Lock-free) 자료구조
-            │
-            ├─ ABA 문제 대응
-            │     └─ 버전 태그 · 해저드 포인터
-            │
-            └─ 메모리 배리어 · Acquire/Release
-                    │
-                    ▼
-        고성능 동시성 라이브러리 · HTM
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 데이터 경합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 동기화 (Hardware Synchronization)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Test-and-Set</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Compare-and-Swap (CAS)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">락프리 (Lock-free) 자료구조</div>
+<div class="kb-diagram-tree-item" style="--depth:6">ABA 문제 대응</div>
+<div class="kb-diagram-note">─ 버전 태그 · 해저드 포인터</div>
+<div class="kb-diagram-tree-item" style="--depth:6">메모리 배리어 · Acquire/Release</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고성능 동시성 라이브러리 · HTM</div>
+</div>
+</div>
+
+
 
 이 흐름은 "원자 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 등장 -> 조건부 갱신 고도화 -> 안전장치 결합 -> 고성능 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 확장"의 발전 방향을 보여준다.
 

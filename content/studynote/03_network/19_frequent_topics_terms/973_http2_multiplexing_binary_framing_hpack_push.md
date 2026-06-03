@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 - **1 커넥션 = 1 요청 원칙**: 브라우저가 서버와 랜선([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션) 하나를 뚫으면 한 번에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개만 요청하고 받았습니다.
 - 너무 느려서 브라우저는 꼼수로 **동시 커넥션을 6개** 뚫어서 사진 6개를 동시에 받았지만, 컴퓨터 자원이 엄청 깨졌습니다.
-- **파이프라이닝 실패**: 1개의 선에서 사진 10개를 릴레이로 요청했지만, 서버는 무조건 순서대로 응답해야 했습니다. 1번 사진이 용량이 커서 10초가 걸리면, 2~10번 사진은 멀쩡히 준비됐는데도 출발을 못 하고 갇히는 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [HOL Blocking](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/) (971번 문서)** 지옥이 터졌습니다.
+- **파이프라이닝 실패**: 1개의 선에서 사진 10개를 릴레이로 요청했지만, 서버는 무조건 순서대로 응답해야 했습니다. 1번 사진이 용량이 커서 10초가 걸리면, 2~10번 사진은 멀쩡히 준비됐는데도 출발을 못 하고 갇히는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/">HOL Blocking</a> (971번 문서)</strong> 지옥이 터졌습니다.
 
-```text
-[QUIC]
-    │
-    ▼
-[HTTP/2 멀티플렉싱]
-    │
-    └──▶ [RESTful API]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTful API</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,20 +49,24 @@ tags = ["studynote-network"]
 - [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 데이터를 컴퓨터가 제일 빨리 읽는 0과 1의 **바이너리 레고 블록(프레임)** 단위로 무자비하게 쪼개버립니다([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)).
 
 ### 2. 멀티플렉싱 ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "섞어 찌개 전송" 🌟 핵심 🌟
-- **개념**: 단 **1개의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션(1차선 도로)**만 뚫어놓고, 수백 개의 사진과 텍스트를 무작위로 섞어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 한꺼번에 쏟아버리는 기술입니다.
+- **개념**: 단 <strong>1개의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 커넥션(1차선 도로)</strong>만 뚫어놓고, 수백 개의 사진과 텍스트를 무작위로 섞어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 한꺼번에 쏟아버리는 기술입니다.
 - **동작**: 
   - 서버는 1번 사진 조각, 2번 사진 조각, 3번 사진 조각을 뒤죽박죽 섞어서 막 던집니다.
   - 1번 사진을 렌더링하다 딜레이가 걸려도, 2번 3번 사진 조각은 1번을 기다리지 않고 옆으로 추월해서 쌩쌩 날아가 폰 화면에 먼저 뜹니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 완벽 타파).
   - 브라우저는 섞여 들어온 블록에 적힌 '스트림 번호표(ID)'를 보고 자기들끼리 퍼즐처럼 100% 깔끔하게 재조립합니다.
 
-```text
-[QUIC]
-    │
-    ▼
-[HTTP/2 멀티플렉싱]
-    │
-    └──▶ [RESTful API]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTful API</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ tags = ["studynote-network"]
 
 ### 1. 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (HPACK)
 - [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 매번 요청할 때마다 무거운 헤더([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 브라우저 정보 등 1KB)를 똑같이 반복해서 보냈습니다.
-- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 "야! 아까 보낸 헤더랑 똑같지? 그럼 바뀐 글자 하나만 보내!(델타 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))" 라며 중복되는 헤더를 10바이트 수준으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 **HPACK [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 써서 트래픽 낭비를 0%로 만들었습니다.
+- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 "야! 아까 보낸 헤더랑 똑같지? 그럼 바뀐 글자 하나만 보내!(델타 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))" 라며 중복되는 헤더를 10바이트 수준으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 <strong>HPACK <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 써서 트래픽 낭비를 0%로 만들었습니다.
 
 ### 2. 서버 푸시 ([Server Push](/knowledge-base/studynote/03_network/09_application_layer_web_email/469_http2_server_push/))
 - 옛날엔 브라우저가 "HTML 줘" ➜ (받음) ➜ "오 HTML 까보니까 [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 필요하네? [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) 줘!" (왕복 2번)
@@ -88,7 +96,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 웹 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 다 해결했지만, 그 밑에 깔린 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 자체가 가진 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹(패킷 유실 시 전체 대기)**은 극복하지 못했습니다. 결국 이 마지막 한계를 부수기 위해 탄생한 것이 972번 문서의 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))**입니다.
+- [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 웹 계층의 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 다 해결했지만, 그 밑에 깔린 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 자체가 가진 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹(패킷 유실 시 전체 대기)</strong>은 극복하지 못했습니다. 결국 이 마지막 한계를 부수기 위해 탄생한 것이 972번 문서의 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>)</strong>입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -96,7 +104,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 구형 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 '꽉 막힌 은행 창구 1개'입니다. 내 앞사람이 대출 심사(용량 큰 사진)를 받느라 30분을 허비하면, 뒤에서 동전 하나 바꾸려는 사람(용량 작은 텍스트)도 꼼짝없이 30분을 기다려야 합니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹). 그래서 창구를 6개(멀티 커넥션) 열었지만 알바생 인건비가 터졌습니다. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱**은 '천재적인 회전초밥 컨베이어 벨트'입니다. 주방장(서버)은 손님이 주문한 음식 10개를 1개씩 순서대로 내보내지 않습니다. 조리된 순서도 무시하고, 계란초밥 접시, 연어초밥 접시를 컨베이어 벨트 1개(단일 커넥션) 위에 마구잡이로 섞어서 한 번에 미친 듯이 쏟아냅니다. 장어초밥을 굽느라 늦어져도([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 이미 만들어진 계란초밥은 막힘없이 손님 입(브라우저)으로 쌩쌩 굴러갑니다. 손님은 접시에 적힌 자기 이름표(스트림 ID)만 보고 쏙쏙 뽑아 먹어 웹페이지가 1초 만에 풀 로딩되는 혁명적 동시 처리 시스템입니다.
+- **📢 섹션 요약 비유**: 구형 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 '꽉 막힌 은행 창구 1개'입니다. 내 앞사람이 대출 심사(용량 큰 사진)를 받느라 30분을 허비하면, 뒤에서 동전 하나 바꾸려는 사람(용량 작은 텍스트)도 꼼짝없이 30분을 기다려야 합니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹). 그래서 창구를 6개(멀티 커넥션) 열었지만 알바생 인건비가 터졌습니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 멀티플렉싱</strong>은 '천재적인 회전초밥 컨베이어 벨트'입니다. 주방장(서버)은 손님이 주문한 음식 10개를 1개씩 순서대로 내보내지 않습니다. 조리된 순서도 무시하고, 계란초밥 접시, 연어초밥 접시를 컨베이어 벨트 1개(단일 커넥션) 위에 마구잡이로 섞어서 한 번에 미친 듯이 쏟아냅니다. 장어초밥을 굽느라 늦어져도([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 이미 만들어진 계란초밥은 막힘없이 손님 입(브라우저)으로 쌩쌩 굴러갑니다. 손님은 접시에 적힌 자기 이름표(스트림 ID)만 보고 쏙쏙 뽑아 먹어 웹페이지가 1초 만에 풀 로딩되는 혁명적 동시 처리 시스템입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: QUIC]
-    │
-    ▼
-[현재 개념: HTTP/2 멀티플렉싱]
-    │
-    ├──▶ [확장 A: RESTful API]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QUIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 멀티플렉싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RESTful API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱는 QUIC에서 출발해 현재 메커니즘을 정교화하고, 이후 RESTful API와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

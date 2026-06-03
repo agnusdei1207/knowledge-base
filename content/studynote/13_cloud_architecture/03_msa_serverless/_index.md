@@ -23,27 +23,22 @@ tags = ["cloud_architecture"]
 
 이 그림은 모놀리식과 마이크로서비스의 구조적 차이를 보여준다. 하나의 거대한 덩어리에서 작고 독립적인 서비스들의 집합으로 진화하는 과정을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│    모놀리식 vs 마이크로서비스 (Monolithic vs Microservices)  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 모놀리식 ]                [ 마이크로서비스 ]             │
-│   ┌────────────┐        ┌──────────┐  ┌──────────┐          │
-│   │ UI 계층    │        │ UI / API │  │ UI / API │          │
-│   ├────────────┤        ├──────────┤  ├──────────┤          │
-│   │ 비즈니스   │        │ 서비스 A │  │ 서비스 B │          │
-│   │ 로직       │        ├──────────┤  ├──────────┤          │
-│   ├────────────┤        │ DB (A)   │  │ DB (B)   │          │
-│   │ 데이터 접근│        └──────────┘  └──────────┘          │
-│   └─────┬──────┘              ▲             ▲               │
-│         │                     │             │               │
-│   ┌─────▼──────┐        ┌─────┴─────────────┴─────┐         │
-│   │ 공유 DB    │        │ API 게이트웨이 / 메시   │         │
-│   └────────────┘        └─────────────────────────┘         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 vs 마이크로서비스 (Monolithic vs Microservices)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식</div><div class="kb-diagram-node">마이크로서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI 계층</div><div class="kb-diagram-cell">UI / API</div><div class="kb-diagram-cell">UI / API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스</div><div class="kb-diagram-cell">서비스 A</div><div class="kb-diagram-cell">서비스 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB (A)</div><div class="kb-diagram-cell">DB (B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 DB</div><div class="kb-diagram-cell">API 게이트웨이 / 메시</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '데이터베이스의 분리'이다. MSA의 가장 큰 특징은 서비스마다 전용 DB를 가진다는 점이며, 이를 통해 데이터 간의 강한 결합을 끊어내고 각 서비스의 기술 스택을 자유롭게 선택할 수 있게 된다. 실무에서 이를 관리하기 위해 API Gateway가 모든 요청의 단일 진입점 역할을 수행하며, 인증/인가, 라우팅, 부하 분산 등을 통합 처리한다.
 
@@ -68,24 +63,19 @@ MSA는 단순히 서비스를 나누는 것 이상의 복잡한 관리 기술을
 
 이 구조도는 MSA의 운영 환경을 지탱하는 클라우드 네이티브 에코시스템을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                   MSA 클라우드 네이티브 에코시스템                 │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   [Client] ──▶ [API Gateway] ──▶ [Service Mesh / Istio]          │
-│                     │                  │                         │
-│                     ▼                  ▼                         │
-│               ┌───────────┐      ┌───────────┐                   │
-│               │ Service A │◀────▶│ Service B │                   │
-│               └─────┬─────┘      └─────┬─────┘                   │
-│                     │                  │                         │
-│               [Config Server]    [Service Discovery]             │
-│                     │                  │                         │
-│               [Distributed Tracing (Zipkin/Jaeger)]              │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA 클라우드 네이티브 에코시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service Mesh / Istio</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Service B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Config Server</div><div class="kb-diagram-node">Service Discovery</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Distributed Tracing (Zipkin/Jaeger)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '관측 가능성 (Observability)'이다. 분산된 서비스들 사이의 요청 흐름을 추적하기 위해 Distributed Tracing이 필수적이며, 서비스 간 통신을 미세하게 제어하기 위해 Service Mesh가 데이터 평면 (Sidecar)과 제어 평면으로 나누어 관리된다. 실무에서 MSA 도입 시 이러한 인프라 구축 비용이 비즈니스 로직 개발 비용보다 커질 수 있음을 경계해야 한다.
 
@@ -95,20 +85,19 @@ MSA는 단순히 서비스를 나누는 것 이상의 복잡한 관리 기술을
 
 이 도식은 서버리스 함수가 트리거(Trigger)에 의해 깨어나고 실행되는 과정을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Serverless (FaaS) 동작 시퀀스                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [Event Trigger] ──▶ [Cold Start / Warm Start] ──▶ [Execution]│
-│  (HTTP, S3, SQS)           │                        │       │
-│                            ▼                        ▼       │
-│                    [Init Environment]         [Logic Run]    │
-│                            │                        │       │
-│                    [Download Code]            [External DB]  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless (FaaS) 동작 시퀀스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Event Trigger</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cold Start / Warm Start</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HTTP, S3, SQS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Init Environment</div><div class="kb-diagram-node">Logic Run</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Download Code</div><div class="kb-diagram-node">External DB</div></div>
+</div>
+</div>
+
+
 
 이 시퀀스에서 가장 중요한 기술적 쟁점은 **콜드 스타트 (Cold Start)** 지연 시간이다. 함수가 오랫동안 사용되지 않아 메모리에서 내려간 경우, 다시 실행할 때 컨테이너를 띄우고 코드를 로드하는 데 시간이 걸린다. 실무에서는 이를 해결하기 위해 프로비저닝된 동시성 (Provisioned Concurrency)을 사용하거나 함수를 가볍게 유지하는 전략을 사용한다.
 
@@ -150,33 +139,29 @@ MSA는 단순히 서비스를 나누는 것 이상의 복잡한 관리 기술을
 ### MSA 전환 시나리오: 모놀리스에서 마이크로서비스로
 
 **시나리오: 거대 커머스 몰의 MSA 전환**
-- **판단**: 한꺼번에 모든 기능을 나누는 '빅뱅' 방식은 위험하다. **Strangler Fig Pattern**을 사용하여, 신규 기능은 마이크로서비스로 만들고 기존 모놀리스의 기능은 하나씩 떼어내어 점진적으로 교체한다.
-- **데이터 전략**: DB 분리 시 발생하는 데이터 일관성 문제는 **SAGA 패턴**의 오케스트레이션 (Orchestration) 방식을 도입하여 중앙에서 트랜잭션을 제어한다.
+- **판단**: 한꺼번에 모든 기능을 나누는 '빅뱅' 방식은 위험하다. <strong>Strangler Fig Pattern</strong>을 사용하여, 신규 기능은 마이크로서비스로 만들고 기존 모놀리스의 기능은 하나씩 떼어내어 점진적으로 교체한다.
+- **데이터 전략**: DB 분리 시 발생하는 데이터 일관성 문제는 <strong>SAGA 패턴</strong>의 오케스트레이션 (Orchestration) 방식을 도입하여 중앙에서 트랜잭션을 제어한다.
 
 이 도식은 Strangler Fig 패턴을 통한 점진적 전환 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Strangler Fig Pattern 전환 프로세스            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Initial]         [Transition]           [Final]          │
-│   ┌─────────┐       ┌───────┐┌──────┐      ┌─────────┐      │
-│   │ Monolith│ ──▶   │Proxy  ││New MS│ ──▶  │New MS   │      │
-│   └─────────┘       └─┬─────┘└──────┘      └─────────┘      │
-│                       ▼                                     │
-│                     ┌─────────┐                             │
-│                     │ Monolith│                             │
-│                     └─────────┘                             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strangler Fig Pattern 전환 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Initial</div><div class="kb-diagram-node">Transition</div><div class="kb-diagram-node">Final</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolith</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">New MS</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">New MS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolith</div></div>
+</div>
+</div>
+
+
 
 이 패턴의 핵심은 '프록시 (Proxy)'나 '파사드 (Facade)'의 역할이다. 클라이언트는 시스템 내부가 변하는 것을 알 필요가 없으며, 프록시가 요청을 구형 시스템으로 보낼지 신규 마이크로서비스로 보낼지 결정한다. 기술사는 이 과정에서 데이터 동기화 지연과 네트워크 오버헤드를 최소화하는 '동기화 가드레일'을 설계해야 한다.
 
 ### 기술사적 제언: 마이크로서비스의 복잡성 관리
 
-MSA는 만능이 아니다. 마틴 파울러가 주창한 **'MSA 프리미엄 (MSA Premium)'**을 고려해야 한다. 즉, 분산 시스템의 복잡성을 관리할 수 있는 역량과 인프라 자동화 체계가 갖춰지지 않은 상태에서의 MSA 도입은 오히려 생산성을 저하시킨다. 기술사는 비즈니스 복잡도가 임계치를 넘었을 때만 MSA 전환을 권고해야 한다.
+MSA는 만능이 아니다. 마틴 파울러가 주창한 <strong>'MSA 프리미엄 (MSA Premium)'</strong>을 고려해야 한다. 즉, 분산 시스템의 복잡성을 관리할 수 있는 역량과 인프라 자동화 체계가 갖춰지지 않은 상태에서의 MSA 도입은 오히려 생산성을 저하시킨다. 기술사는 비즈니스 복잡도가 임계치를 넘었을 때만 MSA 전환을 권고해야 한다.
 
 📢 **섹션 요약 비유**: MSA 전환은 달리는 차의 엔진을 한 부품씩 새것으로 바꾸는 것과 같아, 정교한 계획과 멈추지 않는 프록시(안전장치)가 필수적입니다.
 
@@ -195,7 +180,7 @@ MSA는 만능이 아니다. 마틴 파울러가 주창한 **'MSA 프리미엄 (M
 
 ### 미래 전망: 플랫폼 엔지니어링과 서버리스 중심
 
-향후 클라우드 아키텍처는 개발자가 인프라 걱정 없이 코드에만 집중할 수 있게 해주는 **플랫폼 엔지니어링 (Platform Engineering)**과 더 고도화된 서버리스 환경으로 진화할 것이다. 또한 에지 컴퓨팅 (Edge Computing)과 서버리스가 결합하여 사용자 가까이에서 초저지연 연산을 수행하는 구조가 확산될 것이다.
+향후 클라우드 아키텍처는 개발자가 인프라 걱정 없이 코드에만 집중할 수 있게 해주는 <strong>플랫폼 엔지니어링 (Platform Engineering)</strong>과 더 고도화된 서버리스 환경으로 진화할 것이다. 또한 에지 컴퓨팅 (Edge Computing)과 서버리스가 결합하여 사용자 가까이에서 초저지연 연산을 수행하는 구조가 확산될 것이다.
 
 📢 **섹션 요약 비유**: 미래의 클라우드는 마치 공기처럼, 우리가 숨 쉬고(코드 실행) 있지만 그 존재(서버)는 의식하지 못하는 완전한 추상화의 단계로 나아갈 것입니다.
 

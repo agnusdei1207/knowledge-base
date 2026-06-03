@@ -33,26 +33,23 @@ OCP와 DIP는 함께 작동할 때 효과가 크다. OCP가 "어디를 확장 �
 
 아래 그림은 결제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저장소 구현을 예로 들어 OCP와 DIP가 동시에 성립하는 구조를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                OCP + DIP structure: stable policy, replaceable details     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Client                                                                     │
-│   │                                                                        │
-│   ▼                                                                        │
-│ OrderService ─────────────▶ PaymentPolicy                                  │
-│      │                         ▲      ▲                                    │
-│      │                         │      └── EasyPayPolicy                    │
-│      │                         └──────── CardPolicy                        │
-│      │                                                                     │
-│      └──────────────────────▶ OrderRepository                              │
-│                                ▲      ▲                                    │
-│                                │      └── JpaOrderRepository               │
-│                                └──────── MemoryOrderRepository             │
-│                                                                            │
-│ Stable core: OrderService / Extension point: interfaces / Details outside  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCP + DIP structure: stable policy, replaceable details</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ▶ PaymentPolicy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── EasyPayPolicy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CardPolicy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OrderRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── JpaOrderRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MemoryOrderRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stable core: OrderService / Extension point: interfaces / Details outside</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 `OrderService`가 구체 결제 방식이나 저장소 구현을 몰라도 된다는 점이다. 결제 수단이 추가되면 새 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 클래스를 만들면 되고, 저장소가 바뀌면 구현체만 교체하면 된다. 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직을 수정하지 않고 기능을 늘릴 수 있으므로 OCP를 만족하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 구체 클래스 대신 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존하므로 DIP도 만족한다.
 
@@ -130,25 +127,26 @@ OCP와 DIP를 패턴과 연결해 적용하면 변경 비용, 테스트 비용, 
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-변경 요구 증가
-    │
-    ▼
-OCP: 수정 대신 확장 포인트 확보
-    │
-    ▼
-추상화 도입
-    │
-    ▼
-DIP: 고수준 정책의 의존 방향 역전
-    │
-    ├─▶ Strategy · Decorator
-    ├─▶ Factory Method · Abstract Factory
-    └─▶ Bridge · DI Container
-    │
-    ▼
-유지보수성 향상 · 테스트 용이성 · 구현체 교체성 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">변경 요구 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCP: 수정 대신 확장 포인트 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상화 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DIP: 고수준 정책의 의존 방향 역전</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Strategy · Decorator</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Factory Method · Abstract Factory</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Bridge · DI Container</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유지보수성 향상 · 테스트 용이성 · 구현체 교체성 확보</div>
+</div>
+</div>
+
+
 
 이 흐름은 변경 압력을 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 패턴으로 흡수해 설계 안정성을 높이는 과정을 요약한다.
 

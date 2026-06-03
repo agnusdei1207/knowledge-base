@@ -42,24 +42,24 @@ tags = ["studynote-ict-convergence"]
 
 ### [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p, d, q) 파라미터 결정 흐름
 
-```
-시계열 데이터
-      │
-      ▼
-ADF 검정 → 비정상? → d회 차분 (I 부분 결정)
-      │                 │
-      ▼                 ▼
-  정상성 달성         d=1 or 2
-      │
-      ├─ PACF 분석 → AR 차수 p 결정
-      │  (절단점 = p)
-      │
-      └─ ACF 분석 → MA 차수 q 결정
-         (절단점 = q)
-      │
-      ▼
-ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시계열 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ADF 검정 → 비정상? → d회 차분 (I 부분 결정)</div>
+<div class="kb-diagram-note">정상성 달성 d=1 or 2</div>
+<div class="kb-diagram-tree-item" style="--depth:3">PACF 분석 → AR 차수 p 결정</div>
+<div class="kb-diagram-note">(절단점 = p)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">ACF 분석 → MA 차수 q 결정</div>
+<div class="kb-diagram-note">(절단점 = q)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택</div>
+</div>
+</div>
+
+
 
 ### ACF vs PACF 패턴 해석
 
@@ -68,7 +68,7 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 | ACF | 지수적 감소 또는 진동 감소 | q 시차 후 절단 |
 | PACF | p 시차 후 절단 | 지수적 감소 또는 진동 감소 |
 
-**[ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 구성 요소**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/">ARIMA</a> 구성 요소</strong>:
 - AR(p): Xₜ = φ₁Xₜ₋₁ + ... + φₚXₜ₋ₚ + εₜ (자기회귀)
 - I(d): d회 차분으로 정상성 달성
 - MA(q): Xₜ = εₜ + θ₁εₜ₋₁ + ... + θqεₜ₋q (이동평균)
@@ -93,8 +93,8 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 
 ### 딥러닝 시계열 모델
 
-- **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))**: RNN의 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ≥ 수천 포인트 권장.
-- **TCN ([Temporal Convolutional Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/))**: 인과 합성곱으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 가능, LSTM보다 빠름.
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">Long Short-Term Memory</a>)</strong>: RNN의 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ≥ 수천 포인트 권장.
+- <strong>TCN (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/157_time_series_deep_learning_tcn_transformer/">Temporal Convolutional Network</a>)</strong>: 인과 합성곱으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 가능, LSTM보다 빠름.
 - **Prophet (Facebook)**: 트렌드 + 계절성 + 휴일 효과 분리 모델, 비전문가도 사용 용이.
 
 - **📢 섹션 요약 비유**: 지수 평활은 최근 기억에 더 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두는 인간의 기억 방식이야. 오래된 기억은 흐릿해지고(작은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), 최근 기억은 선명해(큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)). 어제 있었던 일이 일주일 전보다 더 잘 기억되는 것처럼.
@@ -128,7 +128,7 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 계열 모델과 딥러닝 시계열 모델을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞게 선택하면 재고 관리·에너지 수요 예측·금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 등 다양한 영역에서 예측 정확도를 높일 수 있다.
 
 - **재고 최적화**: 정확한 수요 예측으로 과재고·품절 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소.
-- **[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)**: 예측값과 실제값 차이(잔차) 모니터링으로 시스템 이상 조기 감지.
+- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 예측값과 실제값 차이(잔차) 모니터링으로 시스템 이상 조기 감지.
 - **운영 효율**: 자동화된 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 파라미터 탐색(Auto-[ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/))으로 모델 유지 비용 절감.
 
 - **📢 섹션 요약 비유**: 시계열 분석은 역사책을 읽고 미래를 예측하는 거야. 과거 패턴(AR), 과거 실수(MA), 그리고 계절 반복(S)을 모두 고려해야 좋은 예측이 나와.

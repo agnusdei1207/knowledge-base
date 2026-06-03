@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(연결)을 정상적으로 해제하기 위해, 양 종단 간에 `FIN`과 `ACK` 제어 플래그를 4단계에 걸쳐 교환하여, 상호 간에 송신할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정 (Graceful Teardown).
-- **필요성**: 나쁜 이별(RST 패킷)은 그냥 멱살 잡고 "다 꺼져!" 하고 스위치를 뽑아버리면 끝난다. 하지만 좋은 이별은 준비가 필요하다. 내 PC는 카카오톡 사진 전송을 다 끝내서 끊고 싶은데, 카카오 서버는 나한테 줄 메시지 3개가 큐(대기열)에 남아 있을 수 있다. 만약 내가 3번 악수(3-Way)처럼 `[FIN]` 쏘고 서버가 `[FIN+ACK]` 쏘고 끝내버리면, 서버에 남아있던 메시지 3개는 영원히 증발해 버린다. **"내가 먼저 끊자고 해도, 혹시 상대방이 나한테 덜 준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있으면 그거 다 받을 때까지 얌전히 기다려 주자!"**라는 예의 바른 설계가 4번의 악수를 만들어냈다.
+- **필요성**: 나쁜 이별(RST 패킷)은 그냥 멱살 잡고 "다 꺼져!" 하고 스위치를 뽑아버리면 끝난다. 하지만 좋은 이별은 준비가 필요하다. 내 PC는 카카오톡 사진 전송을 다 끝내서 끊고 싶은데, 카카오 서버는 나한테 줄 메시지 3개가 큐(대기열)에 남아 있을 수 있다. 만약 내가 3번 악수(3-Way)처럼 `[FIN]` 쏘고 서버가 `[FIN+ACK]` 쏘고 끝내버리면, 서버에 남아있던 메시지 3개는 영원히 증발해 버린다. <strong>"내가 먼저 끊자고 해도, 혹시 상대방이 나한테 덜 준 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있으면 그거 다 받을 때까지 얌전히 기다려 주자!"</strong>라는 예의 바른 설계가 4번의 악수를 만들어냈다.
 
-- **💡 비유**: 4-Way Handshake는 예의 바른 사람들의 **"전화 끊기 과정"**과 완벽히 일치합니다.
+- **💡 비유**: 4-Way Handshake는 예의 바른 사람들의 <strong>"전화 끊기 과정"</strong>과 완벽히 일치합니다.
   - A: "나 할 말 다 했어. 이제 전화 끊자~ (FIN)"
   - B: "어 알았어, 끊자! (ACK) ... 근데 잠깐만!! 아까 말 안 한 게 있는데~~ 쏼라쏼라~~ (남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)"
   - A: "아 그래? (가만히 다 들어줌 = Half-Close 상태)"
   - B: "응 이제 나도 진짜 할 말 다 끝났어. 찐으로 끊자~ (FIN)"
   - A: "오케이~ 진짜 끊는다 뚝! (ACK)"
 
-```text
-[ISN 무작위 할당 이유]
-    │
-    ▼
-[TCP 4-Way Handshake]
-    │
-    └──▶ [TIME_WAIT 상태]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISN 무작위 할당 이유</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 4-Way Handshake</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 4단계 종료 과정은 뷔페 식당의 **"영업 종료 안내"**입니다. 지배인이 "영업 끝났습니다(FIN)"라고 안내해도, 손님 입의 음식을 뺏진 않습니다. 손님은 "네 알겠습니다(ACK)"라고 한 뒤, 접시에 남은 고기(남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 천천히 다 먹고 나서야 "잘 먹고 갑니다(FIN)"라고 인사하고, 지배인이 "안녕히 가세요(ACK)" 해야 비로소 문이 닫힙니다.
 
@@ -48,53 +52,49 @@ tags = ["studynote-network"]
 
 ### 1단계: 클라이언트의 이별 통보 (FIN)
 - 클라이언트는 더 보낼 게 없다. 
-- 패킷 헤더에 **`FIN`** 불을 켜서 서버로 날린다.
-- **상태 변화**: 클라이언트는 **`FIN_WAIT_1`** 상태로 진입하여 상대방의 첫 대답을 기다린다.
+- 패킷 헤더에 <strong><code>FIN</code></strong> 불을 켜서 서버로 날린다.
+- **상태 변화**: 클라이언트는 <strong><code>FIN_WAIT_1</code></strong> 상태로 진입하여 상대방의 첫 대답을 기다린다.
 
 ### 2단계: 서버의 일단 수긍 (ACK)
 - 서버가 `FIN`을 받았다. "오케이 네가 끊고 싶은 건 알겠어."
-- 서버는 일단 **`ACK`** 불을 켜서 대답만 먼저 해준다.
+- 서버는 일단 <strong><code>ACK</code></strong> 불을 켜서 대답만 먼저 해준다.
 - **상태 변화**: 
-  - 서버는 **`CLOSE_WAIT`** 상태가 된다. (이게 핵심이다! "어? 나 얘한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 램에 좀 남아있는데? 프로세스(앱)야, 빨리 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 뿜어내서 정리해 줘!"라며 앱의 종료를 기다리는 상태다).
-  - 클라이언트는 ACK를 받고 **`FIN_WAIT_2`** 상태가 되어 서버의 진짜 마지막 인사를 기다린다. (이때 클라이언트의 쏘는 입은 닫혔지만, 서버가 보내는 패킷을 '듣는 귀'는 활짝 열려 있다 = Half-Close).
+  - 서버는 <strong><code>CLOSE_WAIT</code></strong> 상태가 된다. (이게 핵심이다! "어? 나 얘한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 램에 좀 남아있는데? 프로세스(앱)야, 빨리 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다 뿜어내서 정리해 줘!"라며 앱의 종료를 기다리는 상태다).
+  - 클라이언트는 ACK를 받고 <strong><code>FIN_WAIT_2</code></strong> 상태가 되어 서버의 진짜 마지막 인사를 기다린다. (이때 클라이언트의 쏘는 입은 닫혔지만, 서버가 보내는 패킷을 '듣는 귀'는 활짝 열려 있다 = Half-Close).
 
 ### 3단계: 서버의 찐막 인사 (FIN)
 - 서버 측 앱이 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 보냈다. "나도 이제 진짜 끝!"
-- 서버는 자기 패킷 헤더에 **`FIN`** 불을 켜서 클라이언트로 쏜다.
-- **상태 변화**: 서버는 **`LAST_ACK`** 상태가 되어 클라이언트의 마지막 영수증만 기다린다.
+- 서버는 자기 패킷 헤더에 <strong><code>FIN</code></strong> 불을 켜서 클라이언트로 쏜다.
+- **상태 변화**: 서버는 <strong><code>LAST_ACK</code></strong> 상태가 되어 클라이언트의 마지막 영수증만 기다린다.
 
 ### 4단계: 클라이언트의 최종 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (ACK)
 - 클라이언트가 서버의 찐막 `FIN`을 받았다.
-- 클라이언트는 "그래 수고했어!"라며 **`ACK`** 불을 켜서 서버로 쏜다.
+- 클라이언트는 "그래 수고했어!"라며 <strong><code>ACK</code></strong> 불을 켜서 서버로 쏜다.
 - **상태 변화 (매우 중요)**:
-  - 서버는 이 ACK를 받으면 미련 없이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 메모리를 삭제하고 **`CLOSED` (완전 소멸)** 된다.
-  - 클라이언트는 이 ACK를 쏘고 나서 바로 꺼지지 않는다! **`TIME_WAIT`**라는 특수 상태에 빠져서 허공을 멍하니 1분 이상 쳐다보며 대기한다. (왜 대기하는지는 다음 장에서 배운다).
+  - 서버는 이 ACK를 받으면 미련 없이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 메모리를 삭제하고 <strong><code>CLOSED</code> (완전 소멸)</strong> 된다.
+  - 클라이언트는 이 ACK를 쏘고 나서 바로 꺼지지 않는다! <strong><code>TIME_WAIT</code></strong>라는 특수 상태에 빠져서 허공을 멍하니 1분 이상 쳐다보며 대기한다. (왜 대기하는지는 다음 장에서 배운다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 4-Way Handshake 상태 변화 흐름도              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 클라이언트 (Active Close) ]               [ 서버 (Passive Close) ]│
- │      (ESTABLISHED)                            (ESTABLISHED) │
- │           │                                         │       │
- │           │ 1. [FIN] "나 끊을게"                      │       │
- │           ├───────────────────────────────────────▶ │       │
- │    (FIN_WAIT_1)                               (CLOSE_WAIT)  │
- │           │ 2. [ACK] "어 알았어 (근데 남은 거 줌)"       │       │
- │           ◀───────────────────────────────────────┤       │
- │    (FIN_WAIT_2)                                     │       │
- │           │         ... (남은 데이터 찌꺼기 전송) ...   │       │
- │           │                                         │       │
- │           │ 3. [FIN] "나도 다 줬다 찐막 끊자!"         │       │
- │           ◀───────────────────────────────────────┤       │
- │    (TIME_WAIT)                                 (LAST_ACK)   │
- │           │ 4. [ACK] "잘 가~!"                      │       │
- │           ├───────────────────────────────────────▶ │       │
- │           │                                      (CLOSED)   │
- │    (2MSL 대기 후 CLOSED)                                     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 4-Way Handshake 상태 변화 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Active Close)</div><div class="kb-diagram-node">서버 (Passive Close)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ESTABLISHED) (ESTABLISHED)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1.</div><div class="kb-diagram-node">FIN</div><div class="kb-diagram-note">"나 끊을게" │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(FIN_WAIT_1) (CLOSE_WAIT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2.</div><div class="kb-diagram-node">ACK</div><div class="kb-diagram-note">"어 알았어 (근데 남은 거 줌)" │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(FIN_WAIT_2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (남은 데이터 찌꺼기 전송) ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 3.</div><div class="kb-diagram-node">FIN</div><div class="kb-diagram-note">"나도 다 줬다 찐막 끊자!" │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TIME_WAIT) (LAST_ACK)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 4.</div><div class="kb-diagram-node">ACK</div><div class="kb-diagram-note">"잘 가~!" │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CLOSED)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2MSL 대기 후 CLOSED)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 4-Way Handshake는 무전기 통신의 **"오버 앤 아웃"**입니다. 내가 "할 말 다 했음, 오버(FIN)"라고 하면 상대는 "알겠음, 근데 내 할 말은 어쩌고 저쩌고~ 끝, 오버(FIN)"라고 합니다. 마지막으로 내가 "다 잘 들었음, 통신 끝 아웃!(ACK)"이라고 해야 비로소 무전기의 전원이 완전히 꺼집니다.
 
@@ -152,15 +152,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ISN 무작위 할당 이유]
-    │
-    ▼
-[현재 개념: TCP 4-Way Handshake]
-    │
-    ├──▶ [확장 A: TIME_WAIT 상태]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ISN 무작위 할당 이유</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 4-Way Handshake</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TIME_WAIT 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake는 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유에서 출발해 현재 메커니즘을 정교화하고, 이후 TIME_WAIT 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

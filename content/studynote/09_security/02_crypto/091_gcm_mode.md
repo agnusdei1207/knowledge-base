@@ -22,7 +22,7 @@ tags = ["studynote-security"]
 네트워크 통신에서 데이터를 보호할 때 가장 중요한 두 축은 "아무도 못 보게 감추는 것([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))"과 "중간에 내용이 바뀌지 않았음을 증명하는 것([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))"이다. 
 과거에는 블록 암호를 돌려 암호문을 만들고, 그 위에 SHA-256 같은 무거운 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 한 번 더 돌려 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)을 붙이는 방식을 썼다. 이 방식은 보안성은 좋으나 암호화 엔진과 해시 엔진을 두 번 돌려야 하므로 처리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 서버 과부하를 유발했다.
 
-특히 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능해 엄청난 속도를 자랑했지만, 해커가 암호문을 몰라도 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어 내용을 조작하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플리핑(Bit-Flipping) 공격, 즉 연성(Malleability)의 취약점을 갖고 있었다. 이를 방어하면서도 CTR의 속도를 갉아먹지 않을 새로운 수학적 돌파구가 절실했고, 그 해답으로 등장한 것이 두 가지 연산을 한 큐에 끝내는 **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**의 최고봉, [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드다.
+특히 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능해 엄청난 속도를 자랑했지만, 해커가 암호문을 몰라도 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어 내용을 조작하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플리핑(Bit-Flipping) 공격, 즉 연성(Malleability)의 취약점을 갖고 있었다. 이를 방어하면서도 CTR의 속도를 갉아먹지 않을 새로운 수학적 돌파구가 절실했고, 그 해답으로 등장한 것이 두 가지 연산을 한 큐에 끝내는 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> (Authenticated Encryption with Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>의 최고봉, [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드다.
 
 - **📢 섹션 요약 비유**: 과거에는 금고([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))를 잠근 다음, 밖에서 경비원([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사)을 따로 고용해 두 번 지켜야 해서 돈과 시간이 많이 들었다. GCM은 금고 문을 닫는 순간 지문 인식 봉인 테이프가 자동으로 철컥 붙는 일체형 최첨단 스마트 금고다.
 
@@ -34,29 +34,29 @@ tags = ["studynote-security"]
 
 | 핵심 엔진 | 역할 및 동작 원리 | 처리 특징 |
 | :--- | :--- | :--- |
-| **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 엔진 ([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 파트)** | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)+순서)를 AES로 암호화한 난수열과 평문을 XOR(배타적 논리합)하여 암호문을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 앞 블록을 기다릴 필요 없는 완벽한 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리** |
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 엔진 ([GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 파트)** | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 암호문들을 $GF(2^{128})$ 이라는 갈루아 체(Galois Field) 교실로 가져와, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서브키(H)와 누적 곱셈/덧셈 수행 | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 대신 가벼운 **수학적 곱셈**으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag) 128비트를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 추출 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 엔진 (<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 파트)</strong> | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)+순서)를 AES로 암호화한 난수열과 평문을 XOR(배타적 논리합)하여 암호문을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 앞 블록을 기다릴 필요 없는 완벽한 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 엔진 (<a href="/knowledge-base/studynote/09_security/02_crypto/106_gmac/">GMAC</a> 파트)</strong> | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 암호문들을 $GF(2^{128})$ 이라는 갈루아 체(Galois Field) 교실로 가져와, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서브키(H)와 누적 곱셈/덧셈 수행 | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 대신 가벼운 <strong>수학적 곱셈</strong>으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag) 128비트를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 추출 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           GCM (Galois/Counter Mode)의 쌍발 엔진 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 1. CTR 암호화: 병렬로 쏜다 ]                                   │
-│  평문 블록 1 ──(XOR)──▶ [ 암호문 1 ] ─────────┐                   │
-│         (난수)                          │                   │
-│  평문 블록 2 ──(XOR)──▶ [ 암호문 2 ] ─────────┤                   │
-│         (난수)                          │                   │
-│                                         ▼                   │
-│ [ 2. GMAC 인증: 눈덩이처럼 굴린다 ]                               │
-│  (AAD 평문) ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)                    │
-│   암호문 1 ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)                     │
-│   암호문 2 ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적) ──▶ [ 인증 태그 ]    │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
 
-다이어그램의 하단 [GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 파트가 혁신적인 이유는, 무거운 암호학적 해시를 버리고 CPU가 하드웨어 차원(예: 인텔 PCLMULQDQ [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))에서 0.001초 만에 끝낼 수 있는 '유한체 곱셈'을 채택했기 때문이다. 최종적으로 수신자는 **`[ 암호문 + 인증 태그 ]`** 를 받아, 태그를 먼저 검증하여 단 1비트라도 깨졌다면 아예 암호문을 열어보지 않고 통신을 차단(Drop)해버린다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCM (Galois/Counter Mode)의 쌍발 엔진 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. CTR 암호화: 병렬로 쏜다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(난수)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(난수)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. GMAC 인증: 눈덩이처럼 굴린다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AAD 평문) ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호문 1 ──▶ (갈루아 곱셈 ✖) ──▶ (결과 누적)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인증 태그</div></div>
+</div>
+</div>
+
+
+
+다이어그램의 하단 [GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 파트가 혁신적인 이유는, 무거운 암호학적 해시를 버리고 CPU가 하드웨어 차원(예: 인텔 PCLMULQDQ [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))에서 0.001초 만에 끝낼 수 있는 '유한체 곱셈'을 채택했기 때문이다. 최종적으로 수신자는 <strong><code>[ 암호문 + 인증 태그 ]</code></strong> 를 받아, 태그를 먼저 검증하여 단 1비트라도 깨졌다면 아예 암호문을 열어보지 않고 통신을 차단(Drop)해버린다.
 
 - **📢 섹션 요약 비유**: 컨베이어 벨트에서 과자(평문)를 상자에 담는 속도([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/))도 빠른데, 상자가 지나가는 즉시 기계가 특수 형광 스티커(갈루아 태그)를 1초 만에 찍어 출고시킨다. 배달원이 상자를 살짝만 긁어도 스티커 색이 변해서 불량임을 바로 알 수 있다.
 
@@ -70,10 +70,10 @@ GCM은 암호화할 데이터뿐만 아니라, 통신 구조상 암호화하면 
 | :--- | :--- | :--- |
 | **제공 기능** | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) (암호화) | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) + [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)) |
 | **AAD 지원 여부** | 불가능 | **가능** (헤더 정보까지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 계산에 포함) |
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플리핑 공격**| 매우 취약 (수신자 조작 인지 불가) | 완벽 방어 (조작 시 Tag 불일치로 폐기) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 플리핑 공격</strong>| 매우 취약 (수신자 조작 인지 불가) | 완벽 방어 (조작 시 Tag 불일치로 폐기) |
 | **계산 오버헤드** | 매우 낮음 | 낮음 (갈루아 곱셈의 하드웨어 가속 덕분) |
 
-IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평문이어야 한다. GCM은 이 **AAD (Additional Authenticated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**를 [GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 믹서기의 맨 앞단에 함께 집어넣는다. 따라서 해커가 IP 헤더를 변조하면 최종 산출물인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 값이 틀려지게 되어 완벽한 네트워크 캡슐 보호가 완성된다.
+IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평문이어야 한다. GCM은 이 <strong>AAD (Additional Authenticated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>를 [GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) 믹서기의 맨 앞단에 함께 집어넣는다. 따라서 해커가 IP 헤더를 변조하면 최종 산출물인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 값이 틀려지게 되어 완벽한 네트워크 캡슐 보호가 완성된다.
 
 - **📢 섹션 요약 비유**: 편지 봉투(헤더, AAD)와 편지 내용(평문)이 있을 때, 편지 내용만 암호화하는 게 일반 모드라면, GCM은 내용물 암호화는 물론이고 봉투 겉면 글씨를 누가 몰래 고쳐 쓰면 봉투에서 사이렌이 울리도록 봉투와 내용물 전체에 마법(태그)을 거는 것이다.
 
@@ -85,10 +85,10 @@ IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평�
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-1. **[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) (초기화 벡터) 절대 재사용 금지 (Never Reuse)**
+1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> (초기화 벡터) 절대 재사용 금지 (Never Reuse)</strong>
    - **가장 치명적인 급소다.** 만약 똑같은 암호키 하에서 96비트 [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 값을 한 번이라도 중복 사용하면, XOR 연산의 맹점으로 인해 평문이 유출될 뿐만 아니라, 갈루아 곱셈의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 서브키(H)를 수학적으로 역산해 낼 수 있게 된다.
    - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키가 노출되면 해커는 마음대로 가짜 메시지에 완벽하게 들어맞는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag)를 위조하여 서버를 유린할 수 있다.
-2. **순차적 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 설계**
+2. <strong>순차적 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 설계</strong>
    - 개발 시 Nonce를 단순 난수(Random)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 충돌(생일 역설) 위험이 있으므로, 하드웨어가 재부팅되어도 절대 겹치지 않는 순서 번호표(Sequence Number) 방식과 결합하여 철저히 통제해야 한다.
 
 ### 실무 판단 포인트
@@ -113,28 +113,30 @@ IP 패킷의 헤더나 목적지 주소는 라우터가 읽어야 하므로 평�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))** | 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 동시에 수행하며 공개된 헤더(AAD)까지 보호하는 암호 체계 |
-| **[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드 ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)** | GCM의 뼈대가 되는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 블록 운영 모드 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 암호화 담당) |
-| **[GMAC](/knowledge-base/studynote/09_security/02_crypto/106_gmac/) (Galois [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))** | 갈루아 유한체 곱셈을 이용해 고속으로 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | 웹 통신의 절대적 표준 규격으로, 기존 취약한 암호들을 폐기하고 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 등 안전한 AEAD만 허용함 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> (Authenticated Encryption with Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong> | 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 동시에 수행하며 공개된 헤더(AAD)까지 보호하는 암호 체계 |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 모드 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong> | GCM의 뼈대가 되는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 블록 운영 모드 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 암호화 담당) |
+| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/106_gmac/">GMAC</a> (Galois <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">Message Authentication Code</a>)</strong> | 갈루아 유한체 곱셈을 이용해 고속으로 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 (Transport Layer <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | 웹 통신의 절대적 표준 규격으로, 기존 취약한 암호들을 폐기하고 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 등 안전한 AEAD만 허용함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-블록 암호 기본 모드 (ECB, CBC)의 한계와 성능 저하
-    │
-    ▼
-카운터 도입 및 병렬 처리 혁신 (CTR 모드의 등장)
-    │
-    ▼
-비트 플리핑(Bit-Flipping) 공격 등 연성 취약점 발견
-    │
-    ▼
-암호화 + 해시 함수를 이중으로 돌리는 과부하 발생 (MAC-then-Encrypt 등)
-    │
-    ▼
-수학적 곱셈(GMAC)과 CTR을 일체화시킨 GCM (AEAD 표준 완성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블록 암호 기본 모드 (ECB, CBC)의 한계와 성능 저하</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카운터 도입 및 병렬 처리 혁신 (CTR 모드의 등장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 플리핑(Bit-Flipping) 공격 등 연성 취약점 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">암호화 + 해시 함수를 이중으로 돌리는 과부하 발생 (MAC-then-Encrypt 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수학적 곱셈(GMAC)과 CTR을 일체화시킨 GCM (AEAD 표준 완성)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 암호화의 속도 개선에서 시작해 변조 공격을 막기 위한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 추가, 그리고 최종적으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 두 마리 토끼를 잡은 AEAD로의 진화를 보여준다.
 

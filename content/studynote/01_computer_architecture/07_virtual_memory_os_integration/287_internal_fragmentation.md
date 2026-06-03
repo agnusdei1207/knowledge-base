@@ -19,33 +19,31 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 **할당은 되었지만 실제 데이터가 채우지 못한 고정 블록 내부의 빈 공간**을 뜻한다. 가상 메모리에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 단위로 메모리를 나누면, 프로세스는 필요한 크기만큼 정확히 딱 맞춰 받는 것이 아니라 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 배수만큼 받게 된다. 예를 들어 10KB 프로그램을 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 배치하면 3개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하고, 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 2KB는 남더라도 다른 프로세스가 가져다 쓸 수 없다.
+[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 <strong>할당은 되었지만 실제 데이터가 채우지 못한 고정 블록 내부의 빈 공간</strong>을 뜻한다. 가상 메모리에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 단위로 메모리를 나누면, 프로세스는 필요한 크기만큼 정확히 딱 맞춰 받는 것이 아니라 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 배수만큼 받게 된다. 예를 들어 10KB 프로그램을 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 배치하면 3개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 필요하고, 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 2KB는 남더라도 다른 프로세스가 가져다 쓸 수 없다.
 
 이 현상이 중요한 이유는, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 해결한 문제가 원래 매우 치명적이었기 때문이다. [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)에서는 빈 공간 총합이 충분해도 큰 연속 영역이 없으면 새 프로세스를 적재하지 못하는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 생긴다. 반면 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 모든 메모리를 같은 크기 프레임 (Frame)으로 잘라 배치하므로 이런 연속성 문제를 제거하지만, 대신 블록 경계 안쪽에서 자투리 공간이 남는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 받아들인다.
 
 아래 그림은 왜 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 "작지만 구조적으로 필연적인 낭비"인지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        10KB 프로세스를 4KB 페이지로 배치할 때의 내부 단편화 발생          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 요구 크기: 10KB                                                           │
-│ 페이지 크기: 4KB                                                          │
-│                                                                            │
-│ Page 0  4KB ─────────────────────────────▶ Frame A  4KB 사용               │
-│ Page 1  4KB ─────────────────────────────▶ Frame B  4KB 사용               │
-│ Page 2  2KB 실제 데이터 + 2KB 남음 ─────▶ Frame C  전체 4KB 점유           │
-│                                                                            │
-│ Frame C 내부                                                               │
-│ ┌──────────────────────────────┬────────────────────────────────────────┐  │
-│ │ 실제 데이터 2KB              │ 남는 2KB = 내부 단편화                │  │
-│ └──────────────────────────────┴────────────────────────────────────────┘  │
-│                                                                            │
-│ 핵심: 남는 2KB는 "비어 있어도" 다른 페이지에 재할당할 수 없다.            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 설계 실패라기보다, **정렬된 고정 단위 관리가 주는 질서의 비용**이다. 메모리를 규격품처럼 다루기 때문에 배치와 교체는 쉬워지지만, 규격보다 작은 마지막 조각은 어쩔 수 없이 버리게 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10KB 프로세스를 4KB 페이지로 배치할 때의 내부 단편화 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 크기: 10KB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기: 4KB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 0 4KB ▶ Frame A 4KB 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 4KB ▶ Frame B 4KB 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 2 2KB 실제 데이터 + 2KB 남음 ▶ Frame C 전체 4KB 점유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame C 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 데이터 2KB</div><div class="kb-diagram-cell">남는 2KB = 내부 단편화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 남는 2KB는 "비어 있어도" 다른 페이지에 재할당할 수 없다.</div></div>
+</div>
+</div>
+
+
+
+즉 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 설계 실패라기보다, <strong>정렬된 고정 단위 관리가 주는 질서의 비용</strong>이다. 메모리를 규격품처럼 다루기 때문에 배치와 교체는 쉬워지지만, 규격보다 작은 마지막 조각은 어쩔 수 없이 버리게 된다.
 
 - **📢 섹션 요약 비유**: 책장을 모두 같은 크기 서랍으로 만들면 정리는 쉬워지지만, 얇은 공책 하나를 넣어도 서랍 하나를 통째로 차지하게 된다. [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 바로 그 서랍 안의 남는 빈칸이다.
 
@@ -53,9 +51,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 **고정 크기 할당**과 **주소 변환 단순화**가 결합될 때 생긴다. [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 오프셋을 분리해 물리 프레임으로 변환한다. 이때 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 고정되어 있어야 하드웨어가 빠르게 계산할 수 있고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)도 프레임 단위로 배치·교체·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 관리하기 쉽다.
+[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 <strong>고정 크기 할당</strong>과 <strong>주소 변환 단순화</strong>가 결합될 때 생긴다. [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 오프셋을 분리해 물리 프레임으로 변환한다. 이때 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 고정되어 있어야 하드웨어가 빠르게 계산할 수 있고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)도 프레임 단위로 배치·교체·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 관리하기 쉽다.
 
-핵심 계산은 단순하다. 어떤 프로세스 크기를 `S`, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 `P`라고 하면 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수는 `ceil(S / P)`이고, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 크기는 `ceil(S / P) × P - S`다. 따라서 **최대 낭비는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)보다 작고**, 요청 크기가 다양한 환경에서는 평균적으로 마지막 블록 절반 정도가 비는 경향을 보인다.
+핵심 계산은 단순하다. 어떤 프로세스 크기를 `S`, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 `P`라고 하면 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수는 `ceil(S / P)`이고, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 크기는 `ceil(S / P) × P - S`다. 따라서 <strong>최대 낭비는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/">페이지 크기</a>보다 작고</strong>, 요청 크기가 다양한 환경에서는 평균적으로 마지막 블록 절반 정도가 비는 경향을 보인다.
 
 | 항목 | 의미 | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- |
@@ -66,19 +64,21 @@ tags = ["studynote-computer-architecture"]
 
 이 구조의 핵심 트레이드오프는 아래처럼 정리할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    페이지 크기 선택의 상반된 효과                         │
-├───────────────────────────────┬────────────────────────────────────────────┤
-│ 페이지 크기 작음              │ 페이지 크기 큼                            │
-├───────────────────────────────┼────────────────────────────────────────────┤
-│ 내부 단편화 감소              │ 내부 단편화 증가                          │
-│ 세밀한 메모리 활용            │ 마지막 페이지 낭비 확대                   │
-│ 페이지 수 증가                │ 페이지 수 감소                            │
-│ 페이지 테이블 커짐            │ 페이지 테이블 작아짐                      │
-│ TLB 도달 범위 축소            │ TLB 도달 범위 확대                        │
-└───────────────────────────────┴────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기 선택의 상반된 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기 작음</div><div class="kb-diagram-cell">페이지 크기 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 단편화 감소</div><div class="kb-diagram-cell">내부 단편화 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세밀한 메모리 활용</div><div class="kb-diagram-cell">마지막 페이지 낭비 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 수 증가</div><div class="kb-diagram-cell">페이지 수 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블 커짐</div><div class="kb-diagram-cell">페이지 테이블 작아짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB 도달 범위 축소</div><div class="kb-diagram-cell">TLB 도달 범위 확대</div></div>
+</div>
+</div>
+
+
 
 따라서 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 단순히 "아까운 빈칸"이 아니라, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 기반 메모리 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·복잡도·공간 효율이 만나는 접점이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 4KB, 2MB, 1GB 같은 여러 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 병행하는 이유도 이 균형점을 상황별로 다르게 잡기 위해서다.
 
@@ -88,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 정확히 이해하려면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)와 경계를 분명히 해야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 **빈 공간이 메모리 곳곳에 흩어져 있어서 전체 합은 충분하지만 연속 공간이 부족한 상태**다. 반면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 **이미 할당된 블록 안쪽에서만 발생하는 잉여 공간**이며, 메모리 관리자 입장에서는 남아 보여도 다른 요청에 줄 수 없다.
+[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 정확히 이해하려면 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)와 경계를 분명히 해야 한다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 <strong>빈 공간이 메모리 곳곳에 흩어져 있어서 전체 합은 충분하지만 연속 공간이 부족한 상태</strong>다. 반면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 <strong>이미 할당된 블록 안쪽에서만 발생하는 잉여 공간</strong>이며, 메모리 관리자 입장에서는 남아 보여도 다른 요청에 줄 수 없다.
 
 | 비교 항목 | [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) |
 | :--- | :--- | :--- |
@@ -108,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 절대값보다 **워크로드 특성 대비 상대 비용**으로 판단해야 한다. 예를 들어 수백 GB 메모리를 가진 서버에서 일반 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 낭비는 대개 치명적이지 않다. 오히려 지나치게 작은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 써서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메모리와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크를 늘리는 편이 더 비쌀 수 있다.
+실무에서는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 절대값보다 <strong>워크로드 특성 대비 상대 비용</strong>으로 판단해야 한다. 예를 들어 수백 GB 메모리를 가진 서버에서 일반 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 낭비는 대개 치명적이지 않다. 오히려 지나치게 작은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 써서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메모리와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워크를 늘리는 편이 더 비쌀 수 있다.
 
 반대로 메모리가 매우 제한된 환경에서는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 실질 손실이 된다. 예를 들어 수 MB 수준 메모리를 쓰는 임베디드 장비나, 수많은 짧은 프로세스가 동시에 뜨는 고밀도 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 프로세스마다 남는 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 누적된다. 이때는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 객체 풀 크기, 메모리 할당 전략을 함께 조정해야 한다.
 
@@ -121,10 +121,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무조건 큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 선호**: "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수가 줄면 무조건 빠르다"는 생각으로 전체 시스템에 Huge Page를 강제하는 경우다. 작은 프로세스가 많은 환경에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득보다 낭비가 더 커질 수 있다.
+- <strong>무조건 큰 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 선호</strong>: "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수가 줄면 무조건 빠르다"는 생각으로 전체 시스템에 Huge Page를 강제하는 경우다. 작은 프로세스가 많은 환경에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득보다 낭비가 더 커질 수 있다.
 - **낭비 원인 혼동**: [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 문제를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))으로 해결하려는 접근은 방향이 틀렸다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 대응책이지, 이미 할당 블록 내부에 남은 공간을 살려주지 못한다.
 
-결국 기술사 관점의 답은 단순하다. **[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 제거 대상이라기보다 통제 대상**이다. 설계자는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 다중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 워크로드 특성을 함께 보고 "얼마나 버리고 얼마나 단순성을 얻을 것인가"를 수치로 판단해야 한다.
+결국 기술사 관점의 답은 단순하다. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>는 제거 대상이라기보다 통제 대상</strong>이다. 설계자는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/), 다중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 워크로드 특성을 함께 보고 "얼마나 버리고 얼마나 단순성을 얻을 것인가"를 수치로 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 대형 버스를 투입하면 승객 계산은 편하지만, 손님이 두세 명뿐인 노선에서는 좌석 대부분이 빈 채로 달리게 된다. 실무 판단은 버스가 커서 멋져 보이느냐가 아니라, 그 노선에 정말 맞느냐를 보는 일이다.
 
@@ -132,9 +132,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 감수하면 얻는 가장 큰 이점은 **관리 단순성**과 **예측 가능성**이다. 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 같은 크기이므로 메모리 할당, 주소 변환, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 관리가 표준화된다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구현을 단순하게 만들고, 하드웨어도 빠른 주소 계산과 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 전략을 설계하기 쉬워진다.
+[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 감수하면 얻는 가장 큰 이점은 <strong>관리 단순성</strong>과 <strong>예측 가능성</strong>이다. 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 같은 크기이므로 메모리 할당, 주소 변환, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 관리가 표준화된다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구현을 단순하게 만들고, 하드웨어도 빠른 주소 계산과 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 전략을 설계하기 쉬워진다.
 
-물론 한계도 분명하다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 커질수록 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 낭비가 커지고, 메모리 밀도가 중요한 환경에서는 비용이 무시되지 않는다. 그래서 현대 시스템은 단일 해법보다 **기본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) + [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 병행**, **워크로드별 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 분리**, **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 및 캐시 특성까지 고려한 배치** 같은 절충 전략으로 문제를 다룬다.
+물론 한계도 분명하다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 커질수록 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 낭비가 커지고, 메모리 밀도가 중요한 환경에서는 비용이 무시되지 않는다. 그래서 현대 시스템은 단일 해법보다 <strong>기본 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> + <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 병행</strong>, <strong>워크로드별 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/">메모리 풀</a> 분리</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>) 및 캐시 특성까지 고려한 배치</strong> 같은 절충 전략으로 문제를 다룬다.
 
 정리하면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 "메모리를 반듯하게 관리하기 위해 지불하는 구조적 사용료"로 기억하는 것이 좋다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 주소 변환 체계를 얻는 대신, 마지막 조각 몇 개는 포기하는 방식이다. 중요한 것은 낭비 자체를 제로로 만드는 것이 아니라, 그 낭비가 시스템 전체 이익보다 작도록 설계하는 일이다.
 
@@ -155,24 +155,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 할당의 외부 단편화 문제
-    │
-    ▼
-페이징 (Paging) 도입
-    │
-    ▼
-페이지 (Page) / 프레임 (Frame) 기반 고정 크기 관리
-    │
-    ▼
-마지막 페이지 자투리 공간 = 내부 단편화
-    │
-    ▼
-페이지 크기 최적화 · TLB 균형 설계
-    │
-    ▼
-Huge Page · 다중 페이지 크기 정책으로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 할당의 외부 단편화 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 (Page) / 프레임 (Frame) 기반 고정 크기 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마지막 페이지 자투리 공간 = 내부 단편화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 크기 최적화 · TLB 균형 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Huge Page · 다중 페이지 크기 정책으로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "연속성 문제 해결 → 고정 단위 관리 → 자투리 낭비 발생 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 낭비의 균형 최적화"라는 발전 방향을 보여준다.
 

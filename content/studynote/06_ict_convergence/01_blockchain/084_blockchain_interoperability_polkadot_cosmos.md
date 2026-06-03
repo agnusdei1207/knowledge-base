@@ -22,11 +22,16 @@ tags = ["ict_convergence"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 락 앤 민트(lock-and-mint) [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 빠르지만 신뢰 가정이 크다. 그래서 최근에는 폴카닷 (Polkadot)처럼 공유 보안을 내세우는 구조와, 코스모스 (Cosmos)처럼 체인 자율성을 유지하되 IBC (Inter-Blockchain Communication)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조가 대표 축이 되었다.
 
-```text
-체인 A ── 브리지 / 프로토콜 ──> 체인 B
-   │                           │
-   └───── 검증 가능한 메시지 ───┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">체인 A ── 브리지 / 프로토콜 ──&gt; 체인 B</div>
+<div class="kb-diagram-tree-item" style="--depth:1">검증 가능한 메시지</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 서로 다른 학교의 우체국이 편지를 주고받을 때, 봉투만 믿을지 도장까지 확인할지 정하는 문제다.
 
@@ -44,13 +49,18 @@ tags = ["ict_convergence"]
 | 장점 | 보안 재사용, 일관된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 유연성, 이질적 체인 수용 |
 | 주의점 | 공유 체계에 대한 의존 | 연결 품질과 구현 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
-```text
-Polkadot
-Parachain A ──> Relay Chain ──> Parachain B
 
-Cosmos
-Zone A ── IBC ──> Hub ── IBC ──> Zone B
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Polkadot</div>
+<div class="kb-diagram-note">Parachain A ──&gt; Relay Chain ──&gt; Parachain B</div>
+<div class="kb-diagram-note">Cosmos</div>
+<div class="kb-diagram-note">Zone A ── IBC ──&gt; Hub ── IBC ──&gt; Zone B</div>
+</div>
+</div>
+
+
 
 핵심은 '데이터를 전달하는 통로'와 '상태를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 증명'을 함께 설계한다는 점이다. [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)은 단순한 연결선이 아니라, 메시지 순서와 최종성([finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 관리하는 합의 계층이다.
 
@@ -118,18 +128,21 @@ Polkadot과 Cosmos는 서로 다른 답을 제시하지만, 둘 다 [브리지](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-체인 분절
-  │
-  ▼
-브리지 / 메시징 프로토콜
-  │
-  ▼
-검증 가능한 상태 전달
-  │
-  ▼
-멀티체인 애플리케이션 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">체인 분절</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브리지 / 메시징 프로토콜</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증 가능한 상태 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티체인 애플리케이션 결합</div>
+</div>
+</div>
+
+
 
 흐름의 핵심은 '연결'보다 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'이 먼저라는 점이다.
 

@@ -25,18 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 다시 말해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리는 편의성을 희생하고 규모를 얻은 아키텍처다. 프로그래머는 더 이상 전역 변수 하나로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘길 수 없지만, 대신 슈퍼컴퓨터, 클러스터, 클라우드처럼 매우 큰 시스템을 현실적으로 구축할 수 있게 되었다. 그래서 이 구조는 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 빅데이터 처리, 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 백엔드의 기반이 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         왜 분산 메모리가 필요한가: 공유의 편의보다 확장성이 중요     │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ 공유 메모리           │ 분산 메모리                                 │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ CPU 다수 ──▶ 공용 RAM │ Node A ─┐                                   │
-│        └─▶ 같은 버스  │ Node B ─┼─▶ Network ─▶ 필요한 데이터만 교환 │
-│ 병목: 버스·일관성     │ Node C ─┘                                   │
-│ 강점: 프로그래밍 쉬움 │ 강점: 노드 수 확장 쉬움                     │
-└───────────────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 분산 메모리가 필요한가: 공유의 편의보다 확장성이 중요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리</div><div class="kb-diagram-cell">분산 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 다수 ──▶ 공용 RAM</div><div class="kb-diagram-cell">Node A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 같은 버스</div><div class="kb-diagram-cell">Node B ─ ─▶ Network ─▶ 필요한 데이터만 교환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: 버스·일관성</div><div class="kb-diagram-cell">Node C ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점: 프로그래밍 쉬움</div><div class="kb-diagram-cell">강점: 노드 수 확장 쉬움</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 병목 위치가 완전히 다르다는 점이다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 중앙 메모리 쪽이 막히고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리는 노드 간 통신이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계가 된다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리를 이해하는 출발점은 "메모리를 나눠서 확장성을 얻는 대신, 통신 설계를 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 중심 문제로 끌어들였다"는 사실이다.
 
@@ -60,24 +62,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리에서 계산과 통신이 어떻게 번갈아 일어나는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          분산 메모리의 실행 흐름: 계산은 로컬에서, 공유는 메시지로    │
-├──────────────┬───────────────────────────┬───────────────────────────┤
-│ Node A       │ Interconnect              │ Node B                    │
-├──────────────┼───────────────────────────┼───────────────────────────┤
-│ local calc   │                           │                           │
-│ data A' 생성 │                           │                           │
-│     │        │                           │                           │
-│     ├─ MPI_Send(data A') ───────────────▶│ network receive           │
-│     │        │                           │     │                     │
-│ continue     │                           │ merge with local data B   │
-│ local calc   │                           │     │                     │
-│              │◀──────── MPI_Send(result) ┤ next local calc           │
-└──────────────┴───────────────────────────┴───────────────────────────┘
-```
 
-여기서 중요한 것은 원격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 메모리 읽기처럼 투명하지 않다는 점이다. 원격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "값 하나 읽기"가 아니라 "메시지 하나 보내고 응답을 기다리는 작업"이 된다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 알고리즘은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가능한 한 미리 나눠 놓고**, 각 노드가 **오래 로컬에서 계산한 뒤**, 꼭 필요할 때만 **굵직한 메시지**로 결과를 주고받도록 설계해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 메모리의 실행 흐름: 계산은 로컬에서, 공유는 메시지로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A</div><div class="kb-diagram-cell">Interconnect</div><div class="kb-diagram-cell">Node B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local calc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data A' 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ MPI_Send(data A') ▶</div><div class="kb-diagram-cell">network receive</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">continue</div><div class="kb-diagram-cell">merge with local data B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local calc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ MPI_Send(result) next local calc</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 원격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 메모리 읽기처럼 투명하지 않다는 점이다. 원격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "값 하나 읽기"가 아니라 "메시지 하나 보내고 응답을 기다리는 작업"이 된다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 알고리즘은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가능한 한 미리 나눠 놓고</strong>, 각 노드가 **오래 로컬에서 계산한 뒤**, 꼭 필요할 때만 <strong>굵직한 메시지</strong>로 결과를 주고받도록 설계해야 한다.
 
 정량적으로도 차이가 크다. 로컬 메모리 접근은 보통 나노초(ns)에서 수십 나노초 수준이지만, 네트워크 왕복은 마이크로초(µs) 이상으로 커진다. 이 격차 때문에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리에서는 잘못 설계된 잦은 통신이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 거의 항상 지배한다.
 
@@ -112,32 +114,31 @@ tags = ["studynote-computer-architecture"]
 ### 적용이 잘 맞는 경우
 
 1. **독립 작업 비중이 큰 경우**: 이미지 렌더링, 배치 분석, [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) ([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 계열 작업처럼 각 노드가 긴 시간 독립 계산 가능할 때.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)이 명확한 경우**: 사용자 ID, 지역, 시간 구간 등으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자연스럽게 분할할 수 있을 때.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>이 명확한 경우</strong>: 사용자 ID, 지역, 시간 구간 등으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자연스럽게 분할할 수 있을 때.
 3. **부분 장애를 허용해야 하는 경우**: 몇 개 노드가 고장 나도 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 유지해야 할 때.
 
 ### 회피하거나 주의할 경우
 
 1. **강한 공유 상태가 필요한 경우**: 초저지연 거래 엔진처럼 모든 작업이 같은 최신 상태를 즉시 봐야 하는 경우.
-2. **미세한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 빈번한 경우**: 아주 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 단계마다 반복되는 경우.
-3. **[분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 비용이 큰 경우**: 여러 노드를 자주 묶어 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 보장해야 하는 경우.
+2. <strong>미세한 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>가 빈번한 경우</strong>: 아주 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 단계마다 반복되는 경우.
+3. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/">분산 트랜잭션</a> 비용이 큰 경우</strong>: 여러 노드를 자주 묶어 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 보장해야 하는 경우.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              분산 메모리 도입 판단: 계산량이 통신량보다 큰가?        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 작업 분할 가능? ── 아니오 ──▶ 단일 시스템/공유 메모리 우선 검토     │
-│        │                                                             │
-│       예                                                             │
-│        ▼                                                             │
-│ 노드 간 데이터 교환 빈번? ── 예 ──▶ 통신 병목 위험, 재설계 필요      │
-│        │                                                             │
-│       아니오                                                         │
-│        ▼                                                             │
-│ 분산 메모리 적합: Scale-Out, 장애 격리, 총 메모리 확장 이점 큼       │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-기술사 관점의 판단 문장은 분명해야 한다. **통신보다 계산이 훨씬 큰 워크로드면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리를 채택하고, 공유 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 더 중요하면 무리하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하지 않는다.** 또한 도입 후에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치, 네트워크 토폴로지, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 최적화를 함께 설계해야 한다. 하드웨어만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키고 소프트웨어는 계속 전역 락이나 빈번한 원격 호출에 의존하면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리의 장점을 스스로 지워 버리게 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 메모리 도입 판단: 계산량이 통신량보다 큰가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 분할 가능? ── 아니오 ──▶ 단일 시스템/공유 메모리 우선 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 간 데이터 교환 빈번? ── 예 ──▶ 통신 병목 위험, 재설계 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 메모리 적합: Scale-Out, 장애 격리, 총 메모리 확장 이점 큼</div></div>
+</div>
+</div>
+
+
+
+기술사 관점의 판단 문장은 분명해야 한다. <strong>통신보다 계산이 훨씬 큰 워크로드면 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메모리를 채택하고, 공유 상태 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>이 더 중요하면 무리하게 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>하지 않는다.</strong> 또한 도입 후에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치, 네트워크 토폴로지, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 최적화를 함께 설계해야 한다. 하드웨어만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키고 소프트웨어는 계속 전역 락이나 빈번한 원격 호출에 의존하면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리의 장점을 스스로 지워 버리게 된다.
 
 - **📢 섹션 요약 비유**: 재택근무 팀에 일을 나눌 때 각자 하루 종일 자기 파트를 만들고 저녁에 결과만 합치면 효율적이다. 하지만 5분마다 서로 같은 문서를 동시에 고쳐야 하면, 차라리 한 사무실에서 같이 일하는 편이 낫다.
 
@@ -167,20 +168,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 메모리 확장 한계
-    │
-    ▼
-분산 메모리 시스템 (Distributed Memory System)
-    │
-    ├─▶ 메시지 패싱 인터페이스 (MPI, Message Passing Interface)
-    │
-    ├─▶ 클러스터 · 슈퍼컴퓨팅 · 고성능 컴퓨팅 (HPC)
-    │
-    ├─▶ 샤딩 · 맵리듀스 (MapReduce) · 클라우드 Scale-Out
-    │
-    └─▶ RDMA · CXL 기반 저지연 인터커넥트 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 메모리 확장 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 메모리 시스템 (Distributed Memory System)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 메시지 패싱 인터페이스 (MPI, Message Passing Interface)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 클러스터 · 슈퍼컴퓨팅 · 고성능 컴퓨팅 (HPC)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 샤딩 · 맵리듀스 (MapReduce) · 클라우드 Scale-Out</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ RDMA · CXL 기반 저지연 인터커넥트 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공유의 한계 인식 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 채택 → 통신 모델 정립 → 대규모 활용 → 저지연화"로 이어지는 진화를 보여준다.
 

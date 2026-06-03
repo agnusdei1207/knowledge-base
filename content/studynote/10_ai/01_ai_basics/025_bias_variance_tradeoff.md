@@ -18,20 +18,20 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│           편향-분산 분해 (Bias-Variance Decomposition)       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  총 오차  =  편향²      +  분산         +  노이즈           │
-│            (모델의      (데이터 변동에   (줄일 수           │
-│             체계적 오류) 대한 민감도)     없는 본질 오차)    │
-│                                                            │
-│  고편향(High Bias)   → 과소적합 → 훈련/테스트 오차 모두 높음│
-│  고분산(High Variance)→ 과적합  → 훈련 낮고 테스트 높음     │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향-분산 분해 (Bias-Variance Decomposition)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 오차 = 편향² + 분산 + 노이즈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모델의 (데이터 변동에 (줄일 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체계적 오류) 대한 민감도) 없는 본질 오차)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고편향(High Bias) → 과소적합 → 훈련/테스트 오차 모두 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고분산(High Variance)→ 과적합 → 훈련 낮고 테스트 높음</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편향은 양궁에서 활의 정렬이 잘못된 것(항상 같은 방향으로 빗나감)이고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 실력이 불안정한 것(때로는 맞고 때로는 크게 빗나감)이다. 최고의 궁수(모델)는 편향도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)도 낮아야 한다.
 
@@ -41,32 +41,33 @@ tags = ["studynote-ai"]
 
 ### 모델 복잡도와 오차의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-```text
-오차
- │
- │\           /
- │ \         /  ← 총 오차 (U자형 곡선)
- │  \       /
- │   \  ★ /  ← 최적 복잡도
- │    \/
- │─────────────────────── 모델 복잡도
-  단순      ↑         복잡
-         최적점
 
-── 편향²: 복잡도↑ → 감소
-── 분산: 복잡도↑ → 증가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오차</div>
+<div class="kb-diagram-note">\ / ← 총 오차 (U자형 곡선)</div>
+<div class="kb-diagram-note">\ ★ / ← 최적 복잡도</div>
+<div class="kb-diagram-note">모델 복잡도</div>
+<div class="kb-diagram-note">단순 ↑ 복잡</div>
+<div class="kb-diagram-note">최적점</div>
+<div class="kb-diagram-tree-item" style="--depth:0">편향²: 복잡도↑ → 감소</div>
+<div class="kb-diagram-tree-item" style="--depth:0">분산: 복잡도↑ → 증가</div>
+</div>
+</div>
+
+
 
 ### 트레이드오프 관리 기법
 
 | 기법 | 목적 | 효과 |
 |:---|:---|:---|
-| **L1/L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 (복잡도 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기 제한 |
-| **[Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 뉴런 임의 제거로 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과 |
-| **[배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 모델 평균화 ([랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) |
-| **[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))** | 편향 감소 | 오류 집중 순차 학습 (XGBoost) |
-| **더 많은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 모델이 더 일반화 |
-| **특성 선택/[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/), 노이즈 제거 |
+| <strong>L1/L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 (복잡도 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기 제한 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 뉴런 임의 제거로 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">배깅</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">Bagging</a>)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 모델 평균화 ([랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">Boosting</a>)</strong> | 편향 감소 | 오류 집중 순차 학습 (XGBoost) |
+| <strong>더 많은 훈련 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 모델이 더 일반화 |
+| <strong>특성 선택/<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/), 노이즈 제거 |
 
 - **📢 섹션 요약 비유**: L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 선수(모델)에게 과도한 전문화 훈련을 제한하여 다양한 상황에서도 적응할 수 있게 하는 것이다. 한 가지만 완벽하게 하는 대신 전반적인 실력을 균형 있게 유지한다.
 
@@ -82,18 +83,20 @@ tags = ["studynote-ai"]
 
 ### 이중 강하 (Double Descent) 현상
 
-```text
-오차  ┤
-      │\     /
-      │ \   /
-      │  \ /  ← 전통 U자 곡선 (과적합 구간)
-      │   │
-      │   │\    ← 이중 강하: 매우 큰 모델에서
-      │   │ \     다시 오차 감소
-      │   │  \___
-      └──────────── 모델 파라미터 수
-             ↑ 보간점(Interpolation Threshold)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오차</div>
+<div class="kb-diagram-note">\ / ← 전통 U자 곡선 (과적합 구간)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ ← 이중 강하: 매우 큰 모델에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 다시 오차 감소</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">모델 파라미터 수</div>
+<div class="kb-diagram-note">↑ 보간점(Interpolation Threshold)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 이중 강하는 더 많이 공부(모델 크기 증가)할수록 처음엔 과부하로 성적이 떨어지지만, 계속 공부하면 오히려 성적이 더 좋아지는 현상이다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 같은 대형 모델이 이를 보여준다.
 
@@ -145,28 +148,30 @@ for alpha in alphas:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **과적합/과소적합** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/편향의 실제 증상 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (L1/L2)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소의 핵심 수단 |
-| **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) ([배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)/[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))** | 편향·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 선택적 감소 |
-| **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)** | 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최적점 찾기 도구 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (L1/L2)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소의 핵심 수단 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">배깅</a>/<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/">부스팅</a>)</strong> | 편향·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 선택적 감소 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a></strong> | 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최적점 찾기 도구 |
 | **Double Descent** | 현대 딥러닝의 새로운 관점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[편향-분산 트레이드오프 이론 — 통계학 기반]
-    │
-    ▼
-[정규화 (Ridge/Lasso/Dropout) — 분산 통제]
-    │
-    ▼
-[앙상블 (배깅/부스팅) — 편향·분산 동시 개선]
-    │
-    ▼
-[교차 검증 + HPO — 자동 최적점 탐색]
-    │
-    ▼
-[Double Descent — 초대규모 모델의 새 패러다임]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">편향-분산 트레이드오프 이론 — 통계학 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 (Ridge/Lasso/Dropout) — 분산 통제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앙상블 (배깅/부스팅) — 편향·분산 동시 개선</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교차 검증 + HPO — 자동 최적점 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Double Descent — 초대규모 모델의 새 패러다임</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

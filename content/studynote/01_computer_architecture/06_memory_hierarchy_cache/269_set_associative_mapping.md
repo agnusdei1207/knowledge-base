@@ -13,13 +13,13 @@ tags = ["studynote-computer-architecture"]
 
 > 1. **본질**: 집합 연관 사상 (Set Associative [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 캐시를 여러 세트 (Set)로 나누고, 각 세트 안에 여러 웨이 (Way)를 두어 **검색 범위는 좁게 유지하면서 배치 자유도는 넓힌** 절충형 캐시 사상 방식이다.
 > 2. **가치**: [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/) ([Direct Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/))의 짧은 적중 시간 ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Time)은 최대한 살리면서, 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 몰리는 주소가 만드는 충돌 미스 (Conflict Miss)를 크게 줄여 평균 메모리 접근 시간 ([AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/), Average Memory Access Time)을 안정화한다.
-> 3. **판단 포인트**: 웨이를 늘리면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)은 좋아지지만 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/), 배선, 전력, 교체 로직 비용도 함께 커지므로, 설계의 핵심은 “무조건 높은 연관도”가 아니라 **워크로드와 계층별로 적정 연관도**를 고르는 것이다.
+> 3. **판단 포인트**: 웨이를 늘리면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)은 좋아지지만 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/), 배선, 전력, 교체 로직 비용도 함께 커지므로, 설계의 핵심은 “무조건 높은 연관도”가 아니라 <strong>워크로드와 계층별로 적정 연관도</strong>를 고르는 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-집합 연관 사상은 메모리 블록이 주소로 지정된 **하나의 세트**까지만 찾아간 뒤, 그 세트 안의 여러 캐시 라인 (Cache Line) 중 아무 곳에나 들어갈 수 있게 하는 캐시 배치 방식이다. 즉 위치를 완전히 자유롭게 열어 두는 것도 아니고, 한 줄로 강제하는 것도 아니다. 캐시는 “구역은 정하되 좌석은 약간 자유롭게” 운영되는 구조가 된다.
+집합 연관 사상은 메모리 블록이 주소로 지정된 <strong>하나의 세트</strong>까지만 찾아간 뒤, 그 세트 안의 여러 캐시 라인 (Cache Line) 중 아무 곳에나 들어갈 수 있게 하는 캐시 배치 방식이다. 즉 위치를 완전히 자유롭게 열어 두는 것도 아니고, 한 줄로 강제하는 것도 아니다. 캐시는 “구역은 정하되 좌석은 약간 자유롭게” 운영되는 구조가 된다.
 
 이 방식이 필요해진 이유는 [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)과 [완전 연관 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/) ([Fully Associative](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/))이 각각 다른 극단의 약점을 드러냈기 때문이다. [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)은 한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 한 줄만 허용하므로 조회는 빠르지만, 자주 함께 쓰는 블록들이 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 떨어지면 빈 줄이 남아 있어도 서로를 계속 밀어내는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 생긴다. 반대로 [완전 연관 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/)은 어느 줄이든 사용할 수 있어 충돌에는 강하지만, 적중 여부를 확인하려면 전체 라인의 태그를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교해야 해 하드웨어 비용과 전력이 급증한다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-집합 연관 사상에서 주소는 보통 **태그 + 세트 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) + 블록 오프셋 (Block Offset)** 으로 해석된다. 블록 오프셋은 캐시 라인 내부의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 위치를, 세트 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 어느 세트를 열어야 하는지를, 태그는 그 세트 안의 어떤 웨이가 원하는 블록인지를 판정한다. [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)보다 비교 대상은 늘지만, [완전 연관 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/)처럼 전체를 비교하지는 않는다.
+집합 연관 사상에서 주소는 보통 <strong>태그 + 세트 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> + 블록 오프셋 (Block Offset)</strong> 으로 해석된다. 블록 오프셋은 캐시 라인 내부의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 위치를, 세트 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 어느 세트를 열어야 하는지를, 태그는 그 세트 안의 어떤 웨이가 원하는 블록인지를 판정한다. [직접 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/)보다 비교 대상은 늘지만, [완전 연관 사상](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/)처럼 전체를 비교하지는 않는다.
 
 예를 들어 32킬로바이트 캐시, 64바이트 라인, 4-Way 집합 연관 사상을 가정해 보자. 전체 라인 수는 512개이고, 이를 4개씩 묶으면 세트는 128개가 된다. 따라서 세트 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 7비트, 블록 오프셋은 6비트가 필요하며, 나머지 상위 비트가 태그가 된다. 어떤 메모리 블록이든 들어갈 수 있는 위치는 캐시 전체가 아니라 “정해진 세트의 4개 웨이”다.
 
@@ -44,24 +44,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 집합 연관 사상이 왜 “전체 탐색이 아닌 제한된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교”인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 4-Way Set Associative: index narrows the set, tags search the ways  │
-├──────────────────────────────────────────────────────────────────────┤
-│ address = [   Tag   ][ Set Index ][ Block Offset ]                  │
-│                        │              │                              │
-│                        │              └─ line 내부 바이트 선택       │
-│                        └──────────────▶ set 42 선택                  │
-│                                                                      │
-│ set 42                                                               │
-│   ┌──────── way 0 : [valid][tag A][data] ── compare ──┐              │
-│   ├──────── way 1 : [valid][tag B][data] ── compare ──┼──▶ hit/miss  │
-│   ├──────── way 2 : [valid][tag C][data] ── compare ──┤              │
-│   └──────── way 3 : [valid][tag D][data] ── compare ──┘              │
-│                                                                      │
-│ miss and set full ─▶ replacement policy picks one victim in set 42   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Way Set Associative: index narrows the set, tags search the ways</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">address =</div><div class="kb-diagram-node">Tag</div><div class="kb-diagram-node">Set Index</div><div class="kb-diagram-node">Block Offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ line 내부 바이트 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ set 42 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">set 42</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">way 0 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag A</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">way 1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag B</div><div class="kb-diagram-node">data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">hit/miss</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">way 2 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag C</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">way 3 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag D</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss and set full ─▶ replacement policy picks one victim in set 42</div></div>
+</div>
+</div>
+
+
 
 핵심은 교체 판단도 세트 단위로만 이루어진다는 점이다. 4-Way 캐시에서 새 블록이 들어왔을 때 쫓겨나는 후보는 캐시 전체 512줄이 아니라, 같은 세트의 4개 웨이뿐이다. 이 덕분에 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 상태 비트와 비교 회로가 통제 가능한 범위에 머무른다. 실무에서는 정확한 LRU보다 의사 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))처럼 더 가벼운 근사 기법을 많이 쓰는 이유도 여기서 나온다.
 
@@ -108,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 - 대용량 캐시에 무작정 높은 연관도를 적용해 적중 시간과 전력을 악화시키는 설계
 - [stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 접근으로 특정 세트가 과열되는데도 소프트웨어 배치 문제를 하드웨어 탓으로만 돌리는 분석
 
-기술사 답안에서는 집합 연관 사상을 “좋은 절충안”이라고만 쓰면 부족하다. 더 정확한 표현은 **충돌 미스를 줄이기 위해 제한된 범위의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교를 허용한 구조**이며, 최적 웨이는 계층, 워크로드, 전력 예산에 따라 달라진다는 것이다. 결국 설계 판단의 핵심은 연관도 자체가 아니라, 연관도가 만들어 내는 전체 비용 균형이다.
+기술사 답안에서는 집합 연관 사상을 “좋은 절충안”이라고만 쓰면 부족하다. 더 정확한 표현은 <strong>충돌 미스를 줄이기 위해 제한된 범위의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 비교를 허용한 구조</strong>이며, 최적 웨이는 계층, 워크로드, 전력 예산에 따라 달라진다는 것이다. 결국 설계 판단의 핵심은 연관도 자체가 아니라, 연관도가 만들어 내는 전체 비용 균형이다.
 
 - **📢 섹션 요약 비유**: 집합 연관 사상은 주차장을 넓히는 대신 층별로 몇 칸씩 여유를 두는 운영과 같다. 너무 빡빡하면 같은 층에서 차들이 서로 밀어내고, 너무 여유를 많이 두면 관리비와 동선이 커져 오히려 불편해진다.
 
@@ -120,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 집합 연관 사상이 만능은 아니다. 연관도를 높여도 용량 미스는 그대로 남고, 워크로드가 이미 충돌보다 용량 부족에 더 민감하다면 체감 개선은 작을 수 있다. 또한 웨이 수가 늘수록 전력과 설계 복잡도가 증가하므로, 미래 설계는 단순 고연관도보다는 웨이 예측, 적응형 연관도, 캐시 파티셔닝처럼 “필요한 곳에만 비용을 쓰는 방향”으로 진화하고 있다.
 
-결론적으로 집합 연관 사상은 캐시 설계의 표준 해답이지만, 그 이유는 완벽해서가 아니라 **현실 제약 속에서 가장 균형이 좋기 때문**이다. 기억해야 할 핵심은 단순하다. 캐시는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디에 둘지보다, **얼마나 좁게 찾으면서도 얼마나 덜 충돌하게 만들지**를 설계하는 문제이며, 집합 연관 사상은 그 균형점을 가장 잘 보여 주는 대표 구조다.
+결론적으로 집합 연관 사상은 캐시 설계의 표준 해답이지만, 그 이유는 완벽해서가 아니라 <strong>현실 제약 속에서 가장 균형이 좋기 때문</strong>이다. 기억해야 할 핵심은 단순하다. 캐시는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디에 둘지보다, <strong>얼마나 좁게 찾으면서도 얼마나 덜 충돌하게 만들지</strong>를 설계하는 문제이며, 집합 연관 사상은 그 균형점을 가장 잘 보여 주는 대표 구조다.
 
 - **📢 섹션 요약 비유**: 집합 연관 사상은 반마다 사물함 구역은 정해 두되, 그 반 안에서는 빈 칸 몇 개를 함께 쓰게 하는 운영과 같다. 찾을 때는 빨라지고, 한 칸만 고집할 때 생기던 싸움도 크게 줄어든다.
 
@@ -139,29 +139,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 계층 구조 (Memory Hierarchy)
-        │
-        ▼
-캐시 메모리 (Cache Memory)
-        │
-        ▼
-캐시 사상 (Cache Mapping)
-        │
-        ├─▶ 직접 사상 (Direct Mapping)
-        │        │
-        │        └─ 충돌 미스 증가
-        │
-        ▼
-집합 연관 사상 (Set Associative Mapping)
-        │
-        ├─ 세트 인덱스 (Set Index) · 웨이 (Way)
-        ├─ 교체 정책 (Replacement Policy)
-        └─ 의사 LRU · 웨이 예측 · 캐시 파티셔닝
-        │
-        ▼
-완전 연관 사상 (Fully Associative)과의 비용-성능 절충
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 계층 구조 (Memory Hierarchy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 메모리 (Cache Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
+<div class="kb-diagram-note">─ 충돌 미스 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">세트 인덱스 (Set Index) · 웨이 (Way)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">교체 정책 (Replacement Policy)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">의사 LRU · 웨이 예측 · 캐시 파티셔닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완전 연관 사상 (Fully Associative)과의 비용-성능 절충</div>
+</div>
+</div>
+
+
 
 이 흐름은 “단순한 고정 배치 → 충돌 문제 노출 → 제한된 자유도 부여 → 비용 최적화 기법 확장”으로 이어지는 캐시 설계의 발전 방향을 보여준다.
 

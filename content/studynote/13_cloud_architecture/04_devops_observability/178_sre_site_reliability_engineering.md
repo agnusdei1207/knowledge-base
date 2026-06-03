@@ -25,21 +25,20 @@ SRE는 "운영을 더 열심히 한다"가 아니라 "운영을 코드로 바꾼
 
 아래 그림은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장이 수동 운영 체계를 어떻게 압박하는지 보여준다. 핵심은 장애가 많아서만 문제가 생기는 것이 아니라, 변화 속도와 운영 복잡도가 사람의 처리 한계를 넘어설 때 시스템적으로 불안정해진다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 서비스 성장과 수동 운영의 충돌                               │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 증가 ─▶ 배포 빈도 증가 ─▶ 운영 변경 증가              │
-│                            │                                 │
-│                            ├─▶ 수동 점검/승인/복구 증가      │
-│                            │          │                      │
-│                            │          └─▶ 토일(Toil) 누적    │
-│                            │                                 │
-│                            └─▶ 장애 시 사람 의존 대응 증가   │
-│                                       │                      │
-│                                       └─▶ 배포 동결·속도 저하 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 성장과 수동 운영의 충돌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 증가 ─▶ 배포 빈도 증가 ─▶ 운영 변경 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 수동 점검/승인/복구 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 토일(Toil) 누적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 장애 시 사람 의존 대응 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 배포 동결·속도 저하</div></div>
+</div>
+</div>
+
+
 
 SRE는 이 문제를 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)도 기능 요구사항처럼 설계하자"는 관점으로 푼다. 즉 사용자가 체감하는 성공률과 응답시간을 정의하고, 그 목표를 유지하기 위한 운영 절차를 자동화하며, 장애 이후에는 개인 추궁보다 시스템 개선에 집중한다. 그래서 SRE는 단순 직무명이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 제품 설계 항목으로 끌어올린 운영 철학이자 실행 모델이다.
 
@@ -64,23 +63,22 @@ SRE의 핵심 원리는 "측정 가능한 목표 → 운영 [데이터](/knowled
 
 아래 그림은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영을 하나의 제어 루프로 표현한 것이다. 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 SLI를 만들고, SLO와의 차이가 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 상태를 결정하며, 이 결과가 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 플랫폼 개선 우선순위를 바꾼다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ SRE 제어 루프: 측정 → 판단 → 자동화                          │
-├──────────────────────────────────────────────────────────────┤
-│ 사용자 요청 ─▶ 관측성 데이터 ─▶ SLI 계산 ─▶ SLO 비교         │
-│                                      │                      │
-│                                      ├─ 예산 정상           │
-│                                      │    └─ 기능 배포 지속 │
-│                                      │                      │
-│                                      └─ 예산 급속 소진      │
-│                                           └─ 안정화 우선    │
-│                                                              │
-│ 장애 발생 ─▶ On-call 대응 ─▶ Postmortem ─▶ 자동화/플랫폼 개선│
-│                                               │              │
-│                                               └─ Toil 감소   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 제어 루프: 측정 → 판단 → 자동화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 ─▶ 관측성 데이터 ─▶ SLI 계산 ─▶ SLO 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예산 정상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기능 배포 지속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예산 급속 소진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 안정화 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 ─▶ On-call 대응 ─▶ Postmortem ─▶ 자동화/플랫폼 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Toil 감소</div></div>
+</div>
+</div>
+
+
 
 [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리도 SRE에서 매우 중요하다. 흔히 "운영 업무의 50% 이상이 Toil이면 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"라고 말하는데, 이는 절대 법칙이라기보다 사람 시간을 어디에 쓰고 있는지 점검하기 위한 경험적 기준이다. 반복 업무를 줄여야 SRE는 장애 티켓 처리반이 아니라, 배포 안전장치·셀프서비스 플랫폼·자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 만드는 엔지니어링 팀으로 남을 수 있다.
 
@@ -165,24 +163,25 @@ SRE를 제대로 도입하면 운영은 사람의 희생에 의존하는 활동�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 운영 · 영웅형 On-call
-    │
-    ▼
-모니터링 고도화
-    │
-    ▼
-SLI / SLO 기반 신뢰성 측정
-    │
-    ▼
-Error Budget 기반 배포 의사결정
-    │
-    ▼
-Toil 자동화 · Platform Engineering
-    │
-    ▼
-지속적 학습형 SRE 운영 체계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 운영 · 영웅형 On-call</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모니터링 고도화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLI / SLO 기반 신뢰성 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Error Budget 기반 배포 의사결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Toil 자동화 · Platform Engineering</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 학습형 SRE 운영 체계</div>
+</div>
+</div>
+
+
 
 이 흐름은 운영의 중심이 "장애를 나중에 막기"에서 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 미리 설계하고 지속적으로 조정하기"로 이동하는 과정을 보여준다.
 

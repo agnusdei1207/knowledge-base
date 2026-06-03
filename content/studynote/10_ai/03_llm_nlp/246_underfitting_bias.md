@@ -38,14 +38,17 @@ tags = ["studynote-ai"]
 - 과도하게 강한 규제([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/)) 적용
 - 잘못된 특성 전처리(Feature Preprocessing)
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 과소적합은 중학교 2차 방정식 문제를 1차 방정식으로만 풀려는 학생과 같다. 풀이 방법 자체가 문제의 복잡성을 따라가지 못해서 답이 항상 틀린다.
 
@@ -55,26 +58,27 @@ tags = ["studynote-ai"]
 
 ### 2.1 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)) — 편향 관점
 
-```
-┌────────────────────────────────────────────────────┐
-│          과소적합 vs 과대적합 오차 비교               │
-│                                                    │
-│  오차                                               │
-│  ↑                                                 │
-│  │ ╲                    ← 총 오차                   │
-│  │  ╲                                              │
-│  │   ╲      [최적점]                                │
-│  │    ╲        │    ╱  ← 분산(Variance)             │
-│  │     ╲       │   ╱                               │
-│  │      ╲──────┼──╱   ← 편향²(Bias²)               │
-│  │       [과소] │ [과대]                             │
-│  └────────────────────────────→ 모델 복잡도          │
-│                                                    │
-│  ■ 높은 편향 = 과소적합  ■ 높은 분산 = 과대적합        │
-└────────────────────────────────────────────────────┘
-```
 
-- **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 예측값의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)과 실제 정답의 차이 — 모델의 체계적 오류
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과소적합 vs 과대적합 오차 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ ← 총 오차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ╲</div><div class="kb-diagram-node">최적점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱ ← 분산(Variance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ ──╱ ← 편향²(Bias²)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과소</div><div class="kb-diagram-node">과대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델 복잡도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 높은 편향 = 과소적합 ■ 높은 분산 = 과대적합</div></div>
+</div>
+</div>
+
+
+
+- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 예측값의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)과 실제 정답의 차이 — 모델의 체계적 오류
 - 높은 편향은 모델이 "너무 단순한 가정"을 하고 있다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 - 수식: `편향² = (E[ŷ] - y)²`
 
@@ -84,27 +88,28 @@ tags = ["studynote-ai"]
 |:---|:---|:---|
 | **모델 복잡도 증가** | 더 깊은 신경망, 더 많은 트리 | 표현력 향상으로 복잡한 패턴 학습 |
 | **특성 추가(Feature Addition)** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반 파생 특성 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 정보량 증가로 패턴 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 개선 |
-| **다항 특성([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Feature)** | 기존 특성의 거듭제곱 및 교차항 추가 | 비선형 경계 표현 가능 |
+| <strong>다항 특성(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">Polynomial</a> Feature)</strong> | 기존 특성의 거듭제곱 및 교차항 추가 | 비선형 경계 표현 가능 |
 | **규제 완화** | λ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수) 감소 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 자유도 증가 |
 | **에폭 증가** | 학습 반복 횟수 늘림 | 수렴 기회 증가 |
-| **다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택** | 선형→트리 기반→신경망 | 근본적 표현력 향상 |
+| <strong>다른 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 선택</strong> | 선형→트리 기반→신경망 | 근본적 표현력 향상 |
 
 ### 2.3 학습 곡선 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-```
-┌──────────────────────────────────────────────────┐
-│           학습 곡선 - 과소적합 패턴               │
-│                                                  │
-│  오차 ↑                                           │
-│       │ ─────────────────────  ← 검증 오차 (높음)  │
-│       │                                          │
-│       │ ─────────────────────  ← 훈련 오차 (높음)  │
-│       │  (두 선이 가깝지만 모두 높음)               │
-│       └──────────────────────────────→ 데이터 수   │
-│                                                  │
-│    ※ 데이터를 늘려도 오차가 낮아지지 않음            │
-└──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 곡선 - 과소적합 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차 ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 검증 오차 (높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 훈련 오차 (높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(두 선이 가깝지만 모두 높음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 데이터 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 데이터를 늘려도 오차가 낮아지지 않음</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))이 높은 모델은 레이더가 없는 전투기 조종사처럼, 하늘에 뭔가 있다는 것은 알지만 정확히 어디 있는지 체계적으로 틀리는 것이다. 문제는 장비(모델) 자체의 한계다.
 
@@ -144,21 +149,26 @@ tags = ["studynote-ai"]
 
 ### 4.1 모델 선택([Model Selection](/knowledge-base/studynote/12_it_management/02_itsm_itil/084_model_selection/)) 워크플로우
 
-```
-데이터 수집/전처리
-      ↓
-  단순 모델 시작 (선형, 얕은 트리)
-      ↓
-  학습 곡선 분석
-      ↓
- ┌────┴────┐
-훈련 오차   훈련 오차
-  높음       낮음
-  (편향↑)    검증 오차 높음
-    ↓         (분산↑)
-모델 복잡화   규제 강화
-특성 추가     데이터 증강
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 수집/전처리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">단순 모델 시작 (선형, 얕은 트리)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">학습 곡선 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">훈련 오차 훈련 오차</div>
+<div class="kb-diagram-note">높음 낮음</div>
+<div class="kb-diagram-note">(편향↑) 검증 오차 높음</div>
+<div class="kb-diagram-note">↓ (분산↑)</div>
+<div class="kb-diagram-note">모델 복잡화 규제 강화</div>
+<div class="kb-diagram-note">특성 추가 데이터 증강</div>
+</div>
+</div>
+
+
 
 ### 4.2 기술사 핵심 판단 포인트
 - **진단 우선순위**: 모델 복잡도 조정 전 반드시 학습 곡선 분석
@@ -211,7 +221,7 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 과소적합은 **곱셈을 배우기 전에 나눗셈 문제를 풀려는 것**과 같아요.
+1. 과소적합은 <strong>곱셈을 배우기 전에 나눗셈 문제를 풀려는 것</strong>과 같아요.
 2. 모델이 너무 단순해서 문제의 핵심을 아예 못 배우는 상태예요.
 3. 이럴 때는 더 많은 규칙(특성)을 배우거나 더 복잡한 방법(모델)으로 공부하면 해결돼요!
 

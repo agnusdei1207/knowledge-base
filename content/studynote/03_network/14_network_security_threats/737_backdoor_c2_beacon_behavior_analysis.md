@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 정상적인 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 과정이나 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통제를 거치지 않고, 컴퓨터 시스템이나 서버에 몰래 접근하거나 제어할 수 있도록 **해커가 고의로 심어놓은(또는 개발자가 관리 편의를 위해 열어둔) 은밀한 비밀 통로**입니다.
+- **개념**: 정상적인 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 과정이나 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통제를 거치지 않고, 컴퓨터 시스템이나 서버에 몰래 접근하거나 제어할 수 있도록 <strong>해커가 고의로 심어놓은(또는 개발자가 관리 편의를 위해 열어둔) 은밀한 비밀 통로</strong>입니다.
 - **용도**: 해커가 최초 침투(Exploit) 성공 이후, 나중에 편하게 재접속하기 위해 관리자 권한을 탈취해 몰래 설치해 둡니다([트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) 형태).
-- **작동 방식**: 백도어 프로그램은 서버 뒷단에 숨어서 **특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 31337번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 몰래 열어두고 리스닝(Listening) 상태**로 해커의 연결을 하염없이 기다립니다.
+- **작동 방식**: 백도어 프로그램은 서버 뒷단에 숨어서 <strong>특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(예: 31337번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)를 몰래 열어두고 리스닝(Listening) 상태</strong>로 해커의 연결을 하염없이 기다립니다.
 
-```text
-[포트 포워딩]
-    │
-    ▼
-[백도어]
-    │
-    └──▶ [제로 트러스트 보안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 백도어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 요즘 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 외부에서 내부로 치고 들어오는 수상한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(해커의 백도어 접속 시도)를 다 막아버립니다. 그래서 백도어가 진화했습니다. (리버스 커넥션 방식)
-- **원리**: 밖에서 들어오는 게 막히면, **안에 있는 놈(백도어 악성코드)이 문을 열고 밖으로 연락**을 취하는 꼼수입니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 내부에 있는 직원이 바깥(인터넷)으로 웹서핑 나가는 아웃바운드 트래픽은 잘 안 막기 때문입니다.
-- **[Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/) ([비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 전송**: 내부에 심어진 백도어가, 인터넷 어딘가에 숨겨진 해커의 본부 서버(C&C 서버)를 향해 **"해커님, 저 잘 살아있습니다. 혹시 지시할 명령 없나요?"라는 짧은 안부 인사([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 패킷을 정기적으로(예: 1시간에 한 번씩) 똑똑 두드리며 보냅니다.** 해커가 "서버 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지워!"라고 답장을 내리면 그때 악성 행위를 폭발시킵니다.
+- **원리**: 밖에서 들어오는 게 막히면, <strong>안에 있는 놈(백도어 악성코드)이 문을 열고 밖으로 연락</strong>을 취하는 꼼수입니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 내부에 있는 직원이 바깥(인터넷)으로 웹서핑 나가는 아웃바운드 트래픽은 잘 안 막기 때문입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">Beacon</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">비컨</a>) 전송</strong>: 내부에 심어진 백도어가, 인터넷 어딘가에 숨겨진 해커의 본부 서버(C&C 서버)를 향해 <strong>"해커님, 저 잘 살아있습니다. 혹시 지시할 명령 없나요?"라는 짧은 안부 인사(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">Beacon</a>) 패킷을 정기적으로(예: 1시간에 한 번씩) 똑똑 두드리며 보냅니다.</strong> 해커가 "서버 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지워!"라고 답장을 내리면 그때 악성 행위를 폭발시킵니다.
 
-```text
-[포트 포워딩]
-    │
-    ▼
-[백도어]
-    │
-    └──▶ [제로 트러스트 보안]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 백도어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 백도어가 던지는 이 '[비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)' 패킷은 완벽하게 암호화([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))되어 겉보기엔 그냥 직원이 네이버를 서핑하는 패킷과 똑같아 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 절대 안 걸립니다. 어떻게 잡아야 할까요? 
 
-해답은 내용물(Payload)을 안 보고 **'행동 패턴 통계(Behavior Analysis)'**를 AI로 잡는 것입니다.
+해답은 내용물(Payload)을 안 보고 <strong>'행동 패턴 통계(Behavior Analysis)'</strong>를 AI로 잡는 것입니다.
 1. **정주기성 (Periodicity) 탐지 모델**: 사람이 웹서핑을 하면 패킷 발생 시간이 들쭉날쭉합니다. 하지만 백도어 프로그램은 멍청한 기계라서 **정확히 60초마다, 혹은 1시간마다 1바이트 오차도 없는 똑같은 크기의 통신을 규칙적으로** 발생시킵니다. 기계학습(ML) 알고리즘은 패킷들 사이의 이 소름 돋는 시간 간격의 '규칙성'을 수학적 통계(푸리에 변환 등)로 찾아내어 "이건 봇(Bot)의 짓이다!"라고 확신합니다.
 2. **Jitter (지터, 노이즈) 우회와 딥러닝**: 요즘 해커들은 AI를 피하려고 정주기 시간 60초에 1~5초의 랜덤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)을 고의로 섞어서 사람인 척 연기합니다. 보안 팀은 이에 맞서, Jitter가 섞이더라도 패킷 길이의 흐름, 접속하는 도메인의 무작위성(DGA) 등 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수십 개를 딥러닝 모델([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))에 통째로 쏟아부어 백도어 통신의 미세한 떨림을 귀신같이 분류해 내는 차세대 망 분석 장비(NTA/NDR)를 개발하고 있습니다.
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 포트 포워딩]
-    │
-    ▼
-[현재 개념: 백도어]
-    │
-    ├──▶ [확장 A: 제로 트러스트 보안]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 포워딩</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 백도어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 제로 트러스트 보안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 백도어는 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

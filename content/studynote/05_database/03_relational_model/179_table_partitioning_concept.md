@@ -19,31 +19,32 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-파티셔닝은 대용량 테이블을 여러 개의 물리 구간으로 나누어 관리하는 저장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 애플리케이션과 SQL (Structured Query Language) 관점에서는 여전히 하나의 테이블처럼 보이지만, RDBMS (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 내부에서는 월별·분기별·지역별 같은 기준으로 분리된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장된다. 즉 "테이블을 쪼갠다"기보다 **한 테이블의 물리 배치를 계층화한다**는 표현이 더 정확하다.
+파티셔닝은 대용량 테이블을 여러 개의 물리 구간으로 나누어 관리하는 저장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 애플리케이션과 SQL (Structured Query Language) 관점에서는 여전히 하나의 테이블처럼 보이지만, RDBMS (Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 내부에서는 월별·분기별·지역별 같은 기준으로 분리된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장된다. 즉 "테이블을 쪼갠다"기보다 <strong>한 테이블의 물리 배치를 계층화한다</strong>는 표현이 더 정확하다.
 
 이 기법이 필요한 이유는 대용량 테이블의 문제점이 단순 조회 속도 하나로 끝나지 않기 때문이다. 거래 이력, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 시간이 갈수록 누적되는 테이블은 전체 스캔 범위가 커지고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)도 비대해지며, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우는 작업조차 비싼 `DELETE` 가 된다. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)도 테이블 전체를 대상으로 하면 시간이 길어지고, 운영 중 유지보수 작업이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 충돌하기 쉽다.
 
 아래 그림은 왜 파티셔닝이 "검색 최적화"이면서 동시에 "운영 최적화"인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Large order history table                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ 비파티션 테이블                                                     │
-│   [2019 ~ 2026 주문 행이 한 공간에 혼재]                            │
-│   └─ 2026-05 조회라도 넓은 범위를 뒤질 가능성 증가                 │
-│                                                                    │
-│ 파티션 테이블                                                       │
-│   [P2019][P2020][P2021][P2022][P2023][P2024][P2025][P2026_05]      │
-│                                             └─ 조회 시 이 구간 중심 │
-│                                                                    │
-│ 운영 작업                                                           │
-│   오래된 2019 데이터 삭제  →  대량 DELETE                          │
-│   오래된 2019 파티션 삭제  →  DROP PARTITION                       │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 점은 파티셔닝이 무조건 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 빠르게 만드는 만능 약이 아니라는 점이다. 파티셔닝의 진짜 목적은 **읽을 범위를 줄이고, 보관 주기를 분리하며, 운영 단위를 잘게 나누는 것**이다. 그래서 대개 시계열 테이블, 대규모 이력 테이블, 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 분명한 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특히 효과가 크다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Large order history table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파티션 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2019 ~ 2026 주문 행이 한 공간에 혼재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-05 조회라도 넓은 범위를 뒤질 가능성 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2019</div><div class="kb-diagram-node">P2020</div><div class="kb-diagram-node">P2021</div><div class="kb-diagram-node">P2022</div><div class="kb-diagram-node">P2023</div><div class="kb-diagram-node">P2024</div><div class="kb-diagram-node">P2025</div><div class="kb-diagram-node">P2026_05</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조회 시 이 구간 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 작업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오래된 2019 데이터 삭제 → 대량 DELETE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오래된 2019 파티션 삭제 → DROP PARTITION</div></div>
+</div>
+</div>
+
+
+
+중요한 점은 파티셔닝이 무조건 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 빠르게 만드는 만능 약이 아니라는 점이다. 파티셔닝의 진짜 목적은 <strong>읽을 범위를 줄이고, 보관 주기를 분리하며, 운영 단위를 잘게 나누는 것</strong>이다. 그래서 대개 시계열 테이블, 대규모 이력 테이블, 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 분명한 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특히 효과가 크다.
 
 - **📢 섹션 요약 비유**: 파티셔닝은 거대한 서류 창고를 한 칸으로 두는 대신, 연도별 서랍으로 나누는 것과 같다. 찾을 때는 필요한 서랍만 열고, 폐기할 때는 낡은 서랍째 치우면 된다.
 
@@ -53,24 +54,23 @@ tags = ["studynote-database"]
 
 파티셔닝의 핵심은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 함수다. `order_date`, `region_code`, `customer_group` 같은 컬럼을 기준으로 "이 행은 어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장될지"를 정한다. 입력 시에는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 함수가 적절한 저장 구간으로 행을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 조회 시에는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 `WHERE` 조건을 보고 읽지 않아도 되는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 제거한다. 이때 발생하는 최적화가 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Partition routing and pruning                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ INSERT row(order_date = '2026-05-06', customer = 'K01')            │
-│         │                                                          │
-│         ▼                                                          │
-│ partition function(order_date)                                     │
-│   ├─ 2025 이하        ───────────────▶ P_HIST                       │
-│   ├─ 2026-01 ~ 2026-03 ────────────▶ P_2026_Q1                     │
-│   └─ 2026-04 ~ 2026-06 ────────────▶ P_2026_Q2                     │
-│                                              ▲                     │
-│                                              └─ 실제 저장 위치      │
-│                                                                    │
-│ SELECT ... WHERE order_date BETWEEN '2026-05-01' AND '2026-05-31'  │
-│   └─ 옵티마이저가 P_HIST, P_2026_Q1 을 제외하고 P_2026_Q2 중심 탐색 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition routing and pruning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT row(order_date = '2026-05-06', customer = 'K01')</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition function(order_date)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2025 이하 ▶ P_HIST</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-01 ~ 2026-03 ▶ P_2026_Q1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-04 ~ 2026-06 ▶ P_2026_Q2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실제 저장 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT ... WHERE order_date BETWEEN '2026-05-01' AND '2026-05-31'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 옵티마이저가 P_HIST, P_2026_Q1 을 제외하고 P_2026_Q2 중심 탐색</div></div>
+</div>
+</div>
+
+
 
 대표적인 분할 방식은 다음과 같다.
 
@@ -81,7 +81,7 @@ tags = ["studynote-database"]
 | [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) ([Hash Partitioning](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/)) | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 결과 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 비교적 고름 | 범위 조회 프루닝에는 불리함 | 고객번호 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | 복합 파티셔닝 ([Composite Partitioning](/knowledge-base/studynote/05_database/03_relational_model/183_composite_partitioning/)) | 범위 + 해시, 범위 + 목록 | 보관성과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)성을 동시에 고려 가능 | 설계와 운영 복잡도 증가 | 월별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 안 고객 해시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
 
-실무에서는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)도 함께 따라온다. 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 나란히 관리되어 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제·교체에 유리하고, 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Global Index](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/))는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체를 가로지르는 탐색에 유리하지만 유지보수 비용이 더 크다. 따라서 파티셔닝은 테이블만 자르는 일이 아니라 **저장 구조, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조, 유지보수 방식까지 함께 재설계하는 작업**이다.
+실무에서는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)도 함께 따라온다. 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 나란히 관리되어 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제·교체에 유리하고, 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Global Index](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/))는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체를 가로지르는 탐색에 유리하지만 유지보수 비용이 더 크다. 따라서 파티셔닝은 테이블만 자르는 일이 아니라 <strong>저장 구조, <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 구조, 유지보수 방식까지 함께 재설계하는 작업</strong>이다.
 
 또 하나 자주 연결되는 개념이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 와이즈 조인 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)-Wise [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 이다. 두 테이블이 같은 키와 같은 방식으로 분할되어 있으면, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 서로 대응되는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)끼리만 조인해 중간 결과를 크게 줄일 수 있다. 즉 파티셔닝은 단일 테이블 최적화에서 끝나지 않고, 조인 구조까지 바꿀 수 있는 물리 설계 기법이다.
 
@@ -101,7 +101,7 @@ tags = ["studynote-database"]
 
 이 차이가 중요한 이유는 파티셔닝이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 대체하지 않기 때문이다. 예를 들어 `order_date` 기준으로 월별 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 해도, 특정 고객의 주문을 빠르게 찾으려면 여전히 고객번호 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 필요할 수 있다. 반대로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 잘 잡혀 있어도, 3년 지난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 월말마다 정리해야 하는 운영 문제는 파티셔닝이 훨씬 직접적으로 해결한다.
 
-파티셔닝은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생애주기 관리와도 강하게 연결된다. [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) ([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)) 는 빠른 스토리지에, [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)) 는 저비용 스토리지에 두는 정보 수명주기 관리 (ILM, Information [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) 를 설계할 때, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 물리적인 경계선 역할을 한다. 따라서 파티셔닝은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 **보관, 아카이빙, 규제 대응**의 관점에서도 이해해야 한다.
+파티셔닝은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생애주기 관리와도 강하게 연결된다. [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) ([Hot Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)) 는 빠른 스토리지에, [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/) ([Cold Data](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)) 는 저비용 스토리지에 두는 정보 수명주기 관리 (ILM, Information [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) 를 설계할 때, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 물리적인 경계선 역할을 한다. 따라서 파티셔닝은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 <strong>보관, 아카이빙, 규제 대응</strong>의 관점에서도 이해해야 한다.
 
 - **📢 섹션 요약 비유**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 책 뒤의 찾아보기이고, 파티셔닝은 책장을 연도별로 나눠 꽂는 것이며, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 아예 도서관을 여러 지점으로 나누는 것과 같다.
 
@@ -129,7 +129,7 @@ tags = ["studynote-database"]
 - `TO_CHAR(order_date, 'YYYYMM')` 같은 비정규 조건 때문에 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)을 방해하는 경우
 - 파티셔닝만 하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 자동으로 해결된다고 믿고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·통계·SQL 구조를 방치하는 경우
 
-결국 파티셔닝 설계의 핵심은 **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화와 운영 최적화를 같은 키로 묶을 수 있느냐**다. 기술사 답안에서는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"만 쓰지 말고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 관리, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 함께 제시해야 설득력이 높아진다.
+결국 파티셔닝 설계의 핵심은 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 최적화와 운영 최적화를 같은 키로 묶을 수 있느냐</strong>다. 기술사 답안에서는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"만 쓰지 말고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 관리, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 함께 제시해야 설득력이 높아진다.
 
 - **📢 섹션 요약 비유**: 냉장고 정리는 음식 종류와 유통기한을 같이 봐야 한다. 자주 꺼내는 칸과 오래 두는 칸을 같은 기준으로 나눠야 정리도 쉽고 찾기도 빠르다.
 
@@ -141,7 +141,7 @@ tags = ["studynote-database"]
 
 하지만 한계도 분명하다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 무관한 조회는 효과가 작고, 전역 유니크 제약이나 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지비용이 커질 수 있으며, 잘못 설계된 파티셔닝은 오히려 운영 복잡도만 높인다. 또한 이미 비대한 단일 테이블을 뒤늦게 재파티셔닝하는 작업은 [데이터 이동 비용](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)이 크므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성장 패턴을 읽고 설계하는 편이 훨씬 유리하다.
 
-따라서 파티셔닝은 "테이블을 잘게 쪼개는 기술"로 기억하기보다, **대용량 테이블의 검색 범위와 생애주기를 물리 구조에 반영하는 설계 기법**으로 이해하는 것이 맞다. 앞으로는 자동 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 관리, 계층형 스토리지, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 결합해 더 큰 운영 효과를 낼 수 있다.
+따라서 파티셔닝은 "테이블을 잘게 쪼개는 기술"로 기억하기보다, <strong>대용량 테이블의 검색 범위와 생애주기를 물리 구조에 반영하는 설계 기법</strong>으로 이해하는 것이 맞다. 앞으로는 자동 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 관리, 계층형 스토리지, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 결합해 더 큰 운영 효과를 낼 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 서랍장은 물건을 예쁘게 나누는 데서 끝나지 않는다. 자주 쓰는 물건은 손 닿는 곳에 두고, 오래된 물건은 통째로 꺼내기 쉽게 만들어야 진짜 실용적이다.
 
@@ -162,22 +162,23 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대용량 단일 테이블
-        │
-        ▼
-파티션 키 선정
-        │
-        ▼
-범위 · 목록 · 해시 · 복합 파티셔닝
-        │
-        ├──────────────► INSERT 라우팅
-        │
-        └──────────────► WHERE 조건 기반 파티션 프루닝
-                                │
-                                ▼
-                 파티션 단위 백업 · 보관 · 삭제 · 병렬 처리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대용량 단일 테이블</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티션 키 선정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">범위 · 목록 · 해시 · 복합 파티셔닝</div>
+<div class="kb-diagram-tree-item" style="--depth:4">INSERT 라우팅</div>
+<div class="kb-diagram-tree-item" style="--depth:4">WHERE 조건 기반 파티션 프루닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티션 단위 백업 · 보관 · 삭제 · 병렬 처리</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "성장한 단일 테이블 → 분할 기준 선택 → 물리 분할 → 조회·운영 최적화"라는 파티셔닝의 핵심 진화 경로를 보여 준다.
 

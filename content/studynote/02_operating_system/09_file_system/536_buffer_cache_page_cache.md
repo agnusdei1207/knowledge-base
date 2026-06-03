@@ -21,42 +21,38 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **버퍼 캐시 (Buffer Cache 렌더)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 *껍데기([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), i-node, 슈퍼 블록, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 경로 등)* 를 주로 저장하던 디스크 섹터/블록 단위의 하단 캐시.
-  - **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 렌더)**: 사용자가 실제로 열어본 `카톡.txt`, `영화.mp4` 같은 *알맹이(실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))* 를 가상 메모리의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(4KB) 단위로 저장하던 상단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시.
-  - **통합 아키텍처 (Unified Cache 아크 스왑)**: 이 두 개를 분리해 두니, 똑같은 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뷰"로 1번, "블록 뷰"로 1번 총 2번 캐시에 중복 복사하는 미친 램(RAM) 낭비(Double [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 식충이 재앙!)가 생겼다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.4부터 **"야! 어차피 블록(Block) 여러 개 묶으면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 4KB)잖아? 그냥 둘 다 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 하나로 통일 결착 빔!!"** 하고 융합 통치한 역대급 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 마일스톤이다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시 (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache 렌더)</strong>: 사용자가 실제로 열어본 `카톡.txt`, `영화.mp4` 같은 *알맹이(실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))* 를 가상 메모리의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(4KB) 단위로 저장하던 상단 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시.
+  - **통합 아키텍처 (Unified Cache 아크 스왑)**: 이 두 개를 분리해 두니, 똑같은 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뷰"로 1번, "블록 뷰"로 1번 총 2번 캐시에 중복 복사하는 미친 램(RAM) 낭비(Double [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 식충이 재앙!)가 생겼다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.4부터 <strong>"야! 어차피 블록(Block) 여러 개 묶으면 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> 4KB)잖아? 그냥 둘 다 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시 하나로 통일 결착 빔!!"</strong> 하고 융합 통치한 역대급 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 마일스톤이다.
 
 - **필요성**: 디스크 속도는 10ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), RAM은 100ns [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. 속도 차이가 무려 10만 배(100,000x 극단 스로틀) 난다. 만약 디스크 캐시가 없다면 CPU는 하드디스크 모터가 징~ 돌며 카톡.txt를 가져올 때까지 10만 배의 시간을 멍 때리고(I/O Wait 99% 서버 터짐) 대기해야 한다. 미친 클라우드 인프라에서는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 방어하기 위해 남는 빈 시스템 메모리를 전부 캐시(임시 창고)로 쓰는 기전이 무결 통치의 절대 법칙이다 도출.
 
   - (분리된 옛날 방식 늪): 아저씨가 설계도면([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)=버퍼 캐시) 볼 때는 작은 도면 창고 가고, 자동차 실제 부품([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)=[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시) 가질러 갈 땐 큰 부품 창고 갑니다. 똑같은 범퍼([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))인데 창고를 2개나 짓느라 월세(RAM 낭비) 두 배 폭파 멸망!
   - **(통합 버퍼 캐시 Unified 쾌속 스왑 기전!)**: 사장님이 빡쳐서 벽을 허물었습니다!! "야! 어차피 도면이든 타이어든 다 똑같은 '물건([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위)' 이잖아!! 그냥 거대 통합 창고(Unified Cache) 하나로 합치고 박스 크기(4KB)로 통일 배분 수납 마스킹 해!!" 한 창고에서 다 빼 쓰니까([Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 도출) 월세는 반값 통달, 배송 스피드는 $O(1)$ 부스트가 성취된 겁니다 결속!
 
-- **과거 이중 캐시의 빙결과 최신 통합 캐시의 우주 결속 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램**:
+- <strong>과거 이중 캐시의 빙결과 최신 통합 캐시의 우주 결속 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램</strong>:
 운영체제가 RAM을 2배 퍼먹던 낡은 시대와 융합시킨 클라우드 시대를 비교하면 캐시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 렌더가 어떻게 진화했는지 팩트 검증이 쏟아진다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 "왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"    │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  ❌ [ 과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더) ]               │
-  │     가상 메모리 (Page Cache) : `A.txt 데이터(4KB)` [복사본 1 보관]             │
-  │        ↓ 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)                       │
-  │     블록 디바이스 (Buffer Cache): `A.txt 데이터(4KB)` [복사본 2 보관]          │
-  │        ↓                                                                       │
-  │     하드 디스크 원본                                                           │
-  │   => RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)                     │
-  │                                                                                │
-  │  =========================▼===================================                 │
-  │                                                                                │
-  │  ✅ [ 현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백) ]        │
-  │                                                                                │
-  │     [[ 통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!) ]]     │
-  │        - 파일 I/O (read/write 스왑 콜) ───┐                                    │
-  │        - 블록 I/O (디스크 드라이버 콜) ────┼▶ `A.txt (4KB 데이터)` 1개만!      │
-  │        - 메모리 맵 (mmap 페이징 마스킹 콜) ─┘   (포인터로 공유 쉐어링 컷!)     │
-  │                                                                                │
-  │   => 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!      │
-  └────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 메모리 (Page Cache) : <code>A.txt 데이터(4KB)</code></div><div class="kb-diagram-node">복사본 1 보관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">블록 디바이스 (Buffer Cache): <code>A.txt 데이터(4KB)</code></div><div class="kb-diagram-node">복사본 2 보관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크 원본</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 I/O (read/write 스왑 콜)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 I/O (디스크 드라이버 콜) ▶ <code>A.txt (4KB 데이터)</code> 1개만!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리 맵 (mmap 페이징 마스킹 콜) ─ (포인터로 공유 쉐어링 컷!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -69,23 +65,23 @@ tags = ["studynote-operating-system"]
 
 | 캐시 아크 통치 S/W 스펙 렌더뷰 | 낡은 개념 버퍼 캐시 (Buffer Cache) | 낡은 개념 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache) | ✨ 통합 캐시 (Unified [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 스왑 결속) |
 |:---|:---|:---|:---|
-| **관리의 기준 (다루는 단위 스펙 포팅 결착)** | 디스크 물리 기준: **블록(Block, 512B ~ 1KB) 단위** 컷. | 메모리 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기준: **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 4KB) 단위** 록백 빔. | 둘 다 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 구조체(struct [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 4KB** 로 통대관 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 퉁치기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)! |
+| **관리의 기준 (다루는 단위 스펙 포팅 결착)** | 디스크 물리 기준: **블록(Block, 512B ~ 1KB) 단위** 컷. | 메모리 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 기준: <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>, 4KB) 단위</strong> 록백 빔. | 둘 다 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 구조체(struct <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">page</a>) 4KB</strong> 로 통대관 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 퉁치기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)! |
 | **주요 등원 수납 대상 (무엇을 보관하는가)** | 디스크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(i-node, 슈퍼블록 구조체 원본). | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실데이터(동영상 1프레임, 텍스트 문서 스왑). | 메타든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 구분 안 함 무결 통치. எல்ல [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 메모리로 올려버림. |
-| **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 오버헤드 붕괴 깊이 및 폭파율** | "디스크 포맷할 땐 좋은데 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽을 땐 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 또 복사해 줘야 함 쓸데없는 CPU 오버헤드!" | "메모리에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 띄워놨는데 디스크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 안 떼와서 싱크 충돌 버그 데들락!" | 이중 복사(Double Copy) 0% 완전 멸망 종결. 포인터(메모리 맵) 공유 결속 방어 우주 쾌적. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 오버헤드 붕괴 깊이 및 폭파율</strong> | "디스크 포맷할 땐 좋은데 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽을 땐 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 또 복사해 줘야 함 쓸데없는 CPU 오버헤드!" | "메모리에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 띄워놨는데 디스크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 안 떼와서 싱크 충돌 버그 데들락!" | 이중 복사(Double Copy) 0% 완전 멸망 종결. 포인터(메모리 맵) 공유 결속 방어 우주 쾌적. |
 
 ### 2. 치명적 오버헤드 폭발: 메모리 OOM과 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 재난의 도래
-통합 캐시(Unified Cache)의 등장은 메모리 낭비를 줄이고 속도를 10만 배 부스트업했지만, **[지연 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([Delayed Write](/knowledge-base/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/)) 시에 발화하는 전원 꺼짐 크래시 생지옥 늪 데들락]** 이라는 세상에서 가장 무서운 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 초래했다.
+통합 캐시(Unified Cache)의 등장은 메모리 낭비를 줄이고 속도를 10만 배 부스트업했지만, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">지연 [쓰기</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/757_delayed_write_write_behind/">Delayed Write</a>) 시에 발화하는 전원 꺼짐 크래시 생지옥 늪 데들락]</strong> 이라는 세상에서 가장 무서운 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 초래했다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (전기 코드가 뽑혔을 때의 증발 지옥 멸망 랙)**: 
-  - (더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 덫 스왑): 유저가 한글(Hwp) 문서를 10분 동안 미친 듯이 수정했다 쾅쾅! 이 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)(디스크)에 즉시 안 구워진다. 너무 느려서 모터 속도를 못 따라가니까, 일단 **RAM 옥상 (통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시)** 웅덩이에만 슬쩍 적어둔다. (이 상태를 **Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)** 라고 부른다.)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (전기 코드가 뽑혔을 때의 증발 지옥 멸망 랙)</strong>: 
+  - (더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 덫 스왑): 유저가 한글(Hwp) 문서를 10분 동안 미친 듯이 수정했다 쾅쾅! 이 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)(디스크)에 즉시 안 구워진다. 너무 느려서 모터 속도를 못 따라가니까, 일단 <strong>RAM 옥상 (통합 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시)</strong> 웅덩이에만 슬쩍 적어둔다. (이 상태를 <strong>Dirty <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a></strong> 라고 부른다.)
   - (정전 크래시 파괴 폭사!): 근데 빌어먹을 옆집 공사장에서 포크레인으로 전봇대를 쳐서 서버 컴퓨터 전원 코드가 팍! 뽑혀버렸다. 
   - 결과: RAM은 휘발성이다! 캐시 풀장 옥상에 떠 있던(아직 디스크 철판에 못 구운) 10분 치 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수십 MB)가 허공 입자로 완전 공중분해 증발 파괴 멸망 포팅 폭풍! 부팅 다시 해보면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작살나 있어서 10억짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 소송이 걸리는 대재앙 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 시스템 붕괴 원인으로 군림한다 팩트!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 솔루션 극복의 예고 (Flusher 데몬과 Sync 호출 방어선 록백 뷰)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 솔루션 극복의 예고 (Flusher 데몬과 Sync 호출 방어선 록백 뷰)</strong>: 
   - 이 크래시(Crash)를 막으려고 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "pdflush" 나 "flush 봇(데몬)" 을 만들어서 5초에 한 번씩 "야 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 빨리 디스크 철판 바닥으로 전부 찍어 내려!! 방 빼 록백 결착 구워!!(Flush 빔!)" 하고 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 채찍질을 친다. (537/538장 이어지는 핵심 기전 트리)
 
 - **📢 섹션 요약 비유**: 이 캐시의 쾌적함과 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 휘발 증발 멸망 늪 뷰는 카페 알바생의 **"머릿속 암기 주문(RAM) VS 포스기 타이핑(디스크)!"** 이랑 100% 동일 오류 극복률입니다!! 
   - (즉시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 랙의 고통 옛날 포팅): 손님이 "아아 1잔" 부를 때마다 포스기에 꾹꾹 타이핑하고(디스크 모터 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 1초 뒤 또 "아 아이스라테 추가" 하면 또 모터 돌립니다. 너무 느려서 뒷사람 1시간 대기 줄 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목 늪!
-  - **(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 버퍼 암기 쾌속 빔과 정전 재앙 스왑!)**: 숙련된 알바가 포스기([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 안 치고, 자기 뛰어난 **머릿속([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 RAM!)** 에 주문 10명 치를 싹 저장해 둠(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)). 속도 엄청 빠르고 대기 줄 $O(1)$ 레이타임 쾌적 타결! 
+  - <strong>(더티 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 버퍼 암기 쾌속 빔과 정전 재앙 스왑!)</strong>: 숙련된 알바가 포스기([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 안 치고, 자기 뛰어난 <strong>머릿속(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시 RAM!)</strong> 에 주문 10명 치를 싹 저장해 둠(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)). 속도 엄청 빠르고 대기 줄 $O(1)$ 레이타임 쾌적 타결! 
   - **크래시 폭발!**: 근데 갑자기 뇌진탕(서버 정전) 맞고 알바생 기절! 머릿속에 기억(더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))하던 주문 10개가 완전 백지화 증발 멸망! 손님들 돈 내고 음료 못 받아 매장 폭동 붕괴 데들락 셧다운!! 이게 바로 캐시의 양날의 검 트레이드오프 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)랍니다!
 
 ---
@@ -95,11 +91,11 @@ tags = ["studynote-operating-system"]
 ### 빅데이터 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 클라우드의 무기: `mmap()` 과 Unified Cache의 찰떡 융합 통치
 현재 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 실리콘밸리 초대규모 DB 시스템은 이 '통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시' 가 없었으면 아예 탄생조차 불가능했다 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팩트 증명.
 
-- **[mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) ([Memory Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/))의 융합 시너지 (캐시 우주 깡패 스왑 렌더!)**: 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/">Memory Mapped File</a>)의 융합 시너지 (캐시 우주 깡패 스왑 렌더!)</strong>: 
   - 유저(앱)가 하드디스크 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽고 싶어 `read()` 시스템 콜 콜백을 날리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 통상적으로 디스크에서 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 -> 다시 유저 앱 메모리로 한 번 더 복사(Copy)하는 삽질 이중 복사 랙을 건다.
-  - 근데 `mmap()` 빔을 때리면? **"[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시에 올려둔 4KB 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주소(포인터)를 유저 앱 메모리에 그냥 도플갱어처럼 거울 반사([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) 록백)시켜서 보여버려!!"** 
+  - 근데 `mmap()` 빔을 때리면? <strong>"<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시에 올려둔 4KB 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주소(포인터)를 유저 앱 메모리에 그냥 도플갱어처럼 거울 반사(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a> 록백)시켜서 보여버려!!"</strong> 
   - 결과적으로 [Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회 방어 결속)가 타결되며, Kafka가 초당 100만 건 메시지를 디스크에 쓰면서도 CPU 오버헤드는 0%에 수렴하는 말도 안 되는 C10K 처리량을 뽑아낸 우주 마스킹 비밀 병기다 보장.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 ([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 데들락 스위칭 늪 주의사항)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a> 데들락 스위칭 늪 주의사항)</strong>: 
   - [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시가 너무 똑똑하다 보니, 서버에 100GB 메모리가 있으면 98GB를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 혼자 다 쳐먹는다(Cache Bloating 식충 파편 스로틀). 
   - 그러다 정작 자바나 파이썬 프로세스 앱이 메모리를 달라고 하면 "어? RAM 빈 데가 없네?" 하고 멀쩡한 프로세스를 강제 사살([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 발동 총살!!) 시켜버리는 끔찍한 부작용 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 에러를 터트리기도 한다. 엔지니어가 `vm.drop_caches` 로 이 거대 캐시 웅덩이 수위를 조절하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 능력이 클라우드의 생사를 가른다 통치 입증.
 
@@ -136,22 +132,26 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[그룹화 (Grouping) / 계수 (Counting) 기법]
-    │
-    ▼
-[버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
-    │
-    ├──▶ [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
-    └──▶ [동기화 I/O (O_SYNC / fsync)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">그룹화 (Grouping) / 계수 (Counting) 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기화 I/O (O_SYNC / fsync)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터 모터 하드디스크는 너무 느려서 거북이(ms 속도) 같아요. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어오라고 시키면 CPU 천재(ns 속도)가 속 터져서 심장마비 랙이 걸리거든요! 그래서 CPU 바로 옆에 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 임시 선반 창고(캐시 Cache 스왑 부스트!)** 인 메모리 풀장 세계를 만들어두었답니다!
-2. 옛날 바보 컴퓨터는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(영화, 카톡) 놔두는 선반, 디스크 상자 껍데기 놔두는 선반을 따로 만들어서 공간 낭비 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 멸망 늪에 빠졌었어요. 하지만 최신 리눅스 천재들은 벽을 부수고 **"통합 캐시 선반 창고(Unified [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 원팀 록백 결속!)"** 로 융합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 메모리 공간 낭비 식충이 중복 에러를 100% 파괴 멸절시켰답니다! 
+1. 컴퓨터 모터 하드디스크는 너무 느려서 거북이(ms 속도) 같아요. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽어오라고 시키면 CPU 천재(ns 속도)가 속 터져서 심장마비 랙이 걸리거든요! 그래서 CPU 바로 옆에 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 임시 선반 창고(캐시 Cache 스왑 부스트!)</strong> 인 메모리 풀장 세계를 만들어두었답니다!
+2. 옛날 바보 컴퓨터는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(영화, 카톡) 놔두는 선반, 디스크 상자 껍데기 놔두는 선반을 따로 만들어서 공간 낭비 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 멸망 늪에 빠졌었어요. 하지만 최신 리눅스 천재들은 벽을 부수고 <strong>"통합 캐시 선반 창고(Unified <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache 원팀 록백 결속!)"</strong> 로 융합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 메모리 공간 낭비 식충이 중복 에러를 100% 파괴 멸절시켰답니다! 
 3. 치명적 슬픔 발생 데들락 에러! 속도는 광속으로 빨라졌지만, 너무 빨리 처리하려고 바닥 하드디스크에 아직 덜 구워 저장한 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 상태!)이 선반 옥상에 쌓여 있을 때 갑자기! 컴퓨터 코드가 팍 뽑혀 기절(정전 크래시 파생 랙)하면? 옥상에 있던 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기록들이 허공 원자 입자로 싹 다 영구 증발 파괴되어 카톡 기록이 몽땅 날아가는 눈물의 양날의 검 트레이드오프 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 마스킹이 존재한답니다!
 
 ---

@@ -11,39 +11,40 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 사용할 메모리를 할당받는 방식은 일반 유저 프로세스가 겪는 '게으른 가상 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))'과 달리, 할당 즉시 **실제 물리 램(RAM)을 배정받아야 하며 반드시 하드웨어적으로 연속된(Contiguous) 프레임을 보장받아야 하는 극도로 보수적인 특성**을 지닌다.
-> 2. **가치**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(가상 주소 번역기)를 거치지 않고 RAM과 직접 소통하는 네트워크 카드, 디스크 컨트롤러 등 **디바이스 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 장비들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼갈 때 메모리가 찢어져 있어 발생하는 시스템 붕괴([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))를 원천 차단**한다.
-> 3. **융합**: 이 가혹한 '물리적 연속성'의 요구를 충족시키기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 유연함을 버리고 **[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))**을 통한 통짜 블록 할당과 **[슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)([Slab Allocator](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/))**를 통한 정밀한 객체 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))을 융합한 투트랙 전용 엔진을 사용한다.
+> 1. **본질**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 사용할 메모리를 할당받는 방식은 일반 유저 프로세스가 겪는 '게으른 가상 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))'과 달리, 할당 즉시 <strong>실제 물리 램(RAM)을 배정받아야 하며 반드시 하드웨어적으로 연속된(Contiguous) 프레임을 보장받아야 하는 극도로 보수적인 특성</strong>을 지닌다.
+> 2. **가치**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(가상 주소 번역기)를 거치지 않고 RAM과 직접 소통하는 네트워크 카드, 디스크 컨트롤러 등 <strong>디바이스 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>) 장비들이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼갈 때 메모리가 찢어져 있어 발생하는 시스템 붕괴(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)를 원천 차단</strong>한다.
+> 3. **융합**: 이 가혹한 '물리적 연속성'의 요구를 충족시키기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 유연함을 버리고 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">Buddy System</a>)</strong>을 통한 통짜 블록 할당과 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">슬랩 할당기</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">Slab Allocator</a>)</strong>를 통한 정밀한 객체 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))을 융합한 투트랙 전용 엔진을 사용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 사용자 프로그램은 `malloc()`을 호출하면 가짜 주소(Virtual Address)만 받고 실제 램은 나중에 폴트가 날 때 4KB 단위로 찢어져서 받는다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드나 디바이스 드라이버가 메모리를 달라고 `kmalloc()`을 호출하면, OS는 램(RAM)의 빈 공간 중 물리적으로 완벽하게 이어져 있는 거대한 덩어리를 그 자리에서 즉시 잘라준다.
-- **필요성**: 왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저처럼 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑으로 흩어진 램을 쓰면 안 될까? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 하드웨어와 가장 맞닿아 있는 최전선의 지휘관이기 때문이다. 랜카드 칩셋(하드웨어)은 10MB짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 쏠 때, 가상 주소 매핑 테이블 같은 소프트웨어 장부를 읽을 지능이 없다. 시작 주소부터 10MB 끝까지 물리적인 램 칩셋 위를 무식하게 직진하며 전기를 덮어쓴다. 만약 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 버퍼를 찢어져 있는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)로 줬다면? 랜카드는 중간에 껴있는 다른 앱의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 심지어 OS 자신의 핵심 코드까지 모조리 덮어써서 파괴해 버릴 것이다(Memory Corruption). 하드웨어 장치를 다뤄야 하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 **'물리적 연속성'은 선택이 아니라 생존의 문제**다.
+- **필요성**: 왜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저처럼 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑으로 흩어진 램을 쓰면 안 될까? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 하드웨어와 가장 맞닿아 있는 최전선의 지휘관이기 때문이다. 랜카드 칩셋(하드웨어)은 10MB짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램으로 쏠 때, 가상 주소 매핑 테이블 같은 소프트웨어 장부를 읽을 지능이 없다. 시작 주소부터 10MB 끝까지 물리적인 램 칩셋 위를 무식하게 직진하며 전기를 덮어쓴다. 만약 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 버퍼를 찢어져 있는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)로 줬다면? 랜카드는 중간에 껴있는 다른 앱의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 심지어 OS 자신의 핵심 코드까지 모조리 덮어써서 파괴해 버릴 것이다(Memory Corruption). 하드웨어 장치를 다뤄야 하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 <strong>'물리적 연속성'은 선택이 아니라 생존의 문제</strong>다.
 
-- **등장 배경 및 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 예외 구역**:
-  1. **요구 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 부작용**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(4KB)로 찢어버리는 기법이 하드웨어 인터페이스를 박살 냄.
-  2. **가상 주소의 투명화 ([Direct Mapping](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/))**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자기 자신이 사용할 램 공간(상위 1GB)을 물리 램 주소와 1:1로 똑같이 매핑해 버림으로써, 주소 번역 오버헤드를 없애버렸다.
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 예외 구역</strong>:
+  1. <strong>요구 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 부작용</strong>: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(4KB)로 찢어버리는 기법이 하드웨어 인터페이스를 박살 냄.
+  2. <strong>가상 주소의 투명화 (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/">Direct Mapping</a>)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자기 자신이 사용할 램 공간(상위 1GB)을 물리 램 주소와 1:1로 똑같이 매핑해 버림으로써, 주소 번역 오버헤드를 없애버렸다.
   3. **전용 할당기 도입**: 유저의 가변 분할과는 완전히 결이 다른, 철저한 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 감수형 할당기(버디/[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전용으로 탑재함.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        유저 메모리 할당 vs 커널 메모리 할당의 물리적 레이아웃 비교 │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ ▶ 1. 유저 프로그램의 배열 할당 (malloc 12KB)                       │
-│  가상 주소: [0~4K] ─ [4~8K] ─ [8~12K] (연속된 것처럼 보임)         │
-│  물리 RAM: [4K] ...(남의 데이터)... [4K] ... [4K]                  │
-│  ✅ 특징: 물리 램이 갈기갈기 찢어져 있어도 MMU가 이어줌.           │
-│                                                                    │
-│ ▶ 2. 커널 드라이버의 버퍼 할당 (kmalloc 12KB)                      │
-│  가상 주소: [0~4K] ─ [4~8K] ─ [8~12K]                              │
-│  물리 RAM: [4K][4K][4K] ◀ (물리적으로도 완벽하게 이어짐!)          │
-│  ✅ 특징: 가상 주소와 물리 주소의 간격이 사실상 없으며, 하드웨어가 │
-│          직접 12KB를 한 번에 쏴도 안전하게 저장됨.                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 메모리 할당 vs 커널 메모리 할당의 물리적 레이아웃 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 유저 프로그램의 배열 할당 (malloc 12KB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">0~4K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">4~8K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">8~12K</div><div class="kb-diagram-note">(연속된 것처럼 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 RAM:</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-note">...(남의 데이터)...</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">4K</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 물리 램이 갈기갈기 찢어져 있어도 MMU가 이어줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 커널 드라이버의 버퍼 할당 (kmalloc 12KB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">0~4K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">4~8K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">8~12K</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 RAM:</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(물리적으로도 완벽하게 이어짐!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 가상 주소와 물리 주소의 간격이 사실상 없으며, 하드웨어가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 12KB를 한 번에 쏴도 안전하게 저장됨.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템의 혜택(파편화 회피)을 스스로 걷어찼다. 물리적 연속성을 고집하다 보니, 16GB 램 중에 5GB가 텅텅 비어 있어도 그것들이 4KB 단위로 흩어져 있다면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1MB짜리 버퍼 하나조차 할당받지 못해 "[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Allocation Failed" 에러를 내며 터져버릴 수 있다. 이 무서운 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 딜레마를 막기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 극도의 최적화 도구를 쓴다.
 
 - **📢 섹션 요약 비유**: 택배를 보낼 때 솜(유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 여러 개의 작은 박스에 나눠 담아도 도착해서 뭉치면 되지만, 통유리창([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 여러 박스로 쪼개 담으면 다 깨져버립니다. 유리는 무조건 한 개의 거대한 특수 박스(물리적 연속 프레임)에 통째로 담아야 하는 제약이 있습니다.
@@ -55,7 +56,7 @@ tags = ["studynote-operating-system"]
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 1:1 다이렉트 매핑 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Mapped Memory)
 
 리눅스가 처음 부팅될 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 가상 주소 공간의 상단(예: 3GB ~ 4GB 구간)을 차지한다.
-놀라운 점은 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 **가상 주소와 물리 주소를 1:1로 그냥 더하기만 해서 매핑**해 놓는다는 것이다.
+놀라운 점은 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블은 <strong>가상 주소와 물리 주소를 1:1로 그냥 더하기만 해서 매핑</strong>해 놓는다는 것이다.
 - `커널 가상 주소 = 물리 램 주소 + PAGE_OFFSET(예: 0xC0000000)`
 - **의도**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 1번지를 건드리고 싶으면 복잡하게 장부를 뒤질 필요 없이 그냥 가상 주소 0xC0000001을 찌르면 1클럭 만에 다이렉트로 전기 신호가 간다. 
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 램을 할당할 때(kmalloc), 이 다이렉트 매핑 구역에서 연속된 땅을 푹 퍼주기 때문에 가상 주소가 연속이면 물리 주소도 무조건 100% 연속됨이 하드웨어적으로 보장된다.
@@ -66,11 +67,11 @@ tags = ["studynote-operating-system"]
 
 이 깐깐한 연속성을 보장하면서도 속도까지 챙기기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 유저처럼 허접한 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))를 쓰지 않는다.
 
-1. **[버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/) ([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)) - 거시적 토지 분할**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">버디 시스템</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/">Buddy System</a>) - 거시적 토지 분할</strong>
    - 무조건 $2^n$ (4KB, 8KB, 16KB... 4MB) 단위로만 땅을 반으로 쪼개서 판다.
    - 10KB를 달라고 하면 16KB 덩어리를 툭 던져준다 ([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 6KB 발생).
    - 왜 이렇게 낭비하냐고? 나중에 반환될 때 옆에 있는 쌍둥이 블록(Buddy)과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산 한 방에 결합하여 순식간에 32KB 연속된 거대 램으로 복구시키기 위해서다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 방어의 핵심이다.
-2. **[슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/) ([Slab Allocator](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)) - 미시적 객체 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)**
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">슬랩 할당기</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">Slab Allocator</a>) - 미시적 객체 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a></strong>
    - [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)이 버리는 6KB 낭비가 너무 심하니까 그 위에 올라탄 정밀 조각기다.
    - 버디가 준 16KB 통짜 메모리 안에, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자주 쓰는 80바이트짜리 PCB 구조체 전용 방을 200개 파놓는다.
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 구조체를 요구하면, 빈방을 하나 내어준다. 초기화 비용과 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)를 동시에 0으로 만드는 마법이다.
@@ -87,10 +88,10 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 유저 프로세스 메모리 (`malloc`) | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 (`kmalloc`) |
 |:---|:---|:---|
-| **물리적 연속성** | 전혀 보장 안 됨 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault로 땜빵) | **100% 완벽 보장 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 매핑)** |
+| **물리적 연속성** | 전혀 보장 안 됨 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault로 땜빵) | <strong>100% 완벽 보장 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> 매핑)</strong> |
 | **할당 시점** | 뻥카 침 ([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation). 부를 때 줌. | 뻥카 안 침 (Eager). 즉시 물리 램 차감. |
-| **[메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)** | 권한 없으면 SegFault 내고 앱 죽임 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 메모리 잘못 찌르면 **서버가 블루스크린 뜨며 즉사 ([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))** |
-| **[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 여부** | 램 부족하면 스왑 디스크로 쫓겨남 | **절대 스왑되지 않음 (Never Swapped)** |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a></strong> | 권한 없으면 SegFault 내고 앱 죽임 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자기 메모리 잘못 찌르면 <strong>서버가 블루스크린 뜨며 즉사 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 여부</strong> | 램 부족하면 스왑 디스크로 쫓겨남 | **절대 스왑되지 않음 (Never Swapped)** |
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리의 비(비) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(No-Swap) 철학
 
@@ -100,15 +101,18 @@ tags = ["studynote-operating-system"]
 - 근데 퍼오는 코드 자체가 디스크에 쫓겨나 있다! (데드락). 디스크를 읽는 코드가 디스크에 있어서 디스크를 못 읽는다.
 - 그래서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심장부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 `kmalloc`으로 받은 영역은 **영구 결번(Wired/Pinned)** 처리되어 어떤 극한 상황에서도 절대 램에서 방을 빼지 않는다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 할당 방식  │ 램 점유 보장 │ 물리적 형태  │ 사용 주체          │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ malloc   │ 쫓겨날 수 있음│ 조각조각 찢김 │ 유저 (카톡, 엑셀)  │
-│ vmalloc  │ 상주함      │ 조각조각 찢김 │ 커널 내부 대형 모듈  │
-│ kmalloc  │ 상주함      │ 완벽한 한 덩어리│ 커널 DMA, 핵심 장치│
-└──────────┴────────────┴────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당 방식</div><div class="kb-diagram-cell">램 점유 보장</div><div class="kb-diagram-cell">물리적 형태</div><div class="kb-diagram-cell">사용 주체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">malloc</div><div class="kb-diagram-cell">쫓겨날 수 있음</div><div class="kb-diagram-cell">조각조각 찢김</div><div class="kb-diagram-cell">유저 (카톡, 엑셀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vmalloc</div><div class="kb-diagram-cell">상주함</div><div class="kb-diagram-cell">조각조각 찢김</div><div class="kb-diagram-cell">커널 내부 대형 모듈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kmalloc</div><div class="kb-diagram-cell">상주함</div><div class="kb-diagram-cell">완벽한 한 덩어리</div><div class="kb-diagram-cell">커널 DMA, 핵심 장치</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 리눅스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코딩 시에도 `vmalloc`이라는 숨통을 하나 열어두었다. 만약 램이 너무 파편화되어 10MB 연속 램(kmalloc)을 못 구하면, 하드웨어가 직접 안 건드리는 순수 소프트웨어 버퍼에 한해선 유저처럼 찢어진 램을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블로 꼬아서 이어주는 `vmalloc`을 허용한다. 단, TLB를 박살 내므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 지옥으로 간다.
 
 - **📢 섹션 요약 비유**: 유저 메모리가 언제든 방을 빼야 하는 흙수저 세입자라면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 절대 건물을 떠나지 않는 건물주입니다. 특히 `kmalloc`은 건물주 중에서도 문을 부수고 벽을 터서 무조건 넓은 통짜 거실을 만들어 써야만 직성이 풀리는 깐깐한 회장님입니다.
@@ -119,14 +123,14 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)(Leak)와 서버 폭발
 1. **상황**: C언어 백엔드 개발자가 유저 앱에서 `malloc`을 하고 `free`를 안 하면 램이 샌다(Leak). 이때 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 그 앱을 쏴 죽이면 램이 100% 회수되고 서버는 평온을 되찾는다.
-2. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 누수**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>의 누수</strong>:
    - 어떤 서버 개발자가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(.ko)을 C언어로 짜서 리눅스에 로드했다. 
    - 이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 안에서 패킷이 들어올 때마다 `kmalloc()`을 호출하고 반환(`kfree`)을 까먹었다.
 3. **재앙의 도래**:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 암살 대상에서 제외된 VIP다. 절대 죽일 수 없다!
    - 램 16GB가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리로 100% 꽉 찼다. 스왑으로 쫓아낼 수도 없다(No-Swap).
    - [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 더 이상 마우스 커서를 움직일 4KB 램조차 할당받지 못한다.
-   - **[Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) (블루스크린)**이 터지며 굉음과 함께 서버 하드웨어가 멈춰버린다.
+   - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a> (블루스크린)</strong>이 터지며 굉음과 함께 서버 하드웨어가 멈춰버린다.
 4. **결론**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서의 메모리 관리는 유저 모드와 달리 '안전장치가 없는 외줄 타기'다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 코드를 올릴 때는 구글, 레드햇 등 전 세계 천재들의 살벌한 코드 리뷰를 거쳐 메모리 반환을 완벽히 증명해야만 한다. 
 
 ### Slabinfo를 통한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모니터링
@@ -144,7 +148,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **하드웨어 제어 안정성** | [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 등 MMU를 우회하는 물리 디바이스와 완벽한 호환성을 제공하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 0% 달성 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방어**| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss)과 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 지연을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에서 배제하여, 1분 1초가 급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 속도를 극한으로 쥐어짬 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 코어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 방어</strong>| [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss)과 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 지연을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드에서 배제하여, 1분 1초가 급한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 속도를 극한으로 쥐어짬 |
 | **메모리 할당 O(1) 극한 달성**| [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)과 [슬랩 할당기](/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/)의 융합을 통해, 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합과 스캔 오버헤드 없이 나노초 단위로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조체를 붕어빵처럼 찍어냄 |
 
 ### 결론 및 미래 전망
@@ -166,15 +170,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메모리 맵 I/O (Memory-Mapped I/O)]
-    │
-    ▼
-[커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)]
-    │
-    ├──▶ [페이지 고정 (Page Pinning / Locking)]
-    └──▶ [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-Mapped I/O)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 품질을 높이려면 결과물(Product)을 검사하는 것만으로는 부족하다. "좋은 결과물은 좋은 과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))에서 나온다"는 철학 하에, 개발 과정 자체를 평가하려는 시도들이 있었다. 초기에 CMM, ISO 9001, Trillium 등 수많은 프로세스 평가 모델이 난립하자, 이를 국제 표준 하나로 통합하기 위해 등장한 것이 바로 **[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (ISO/IEC 15504)**이다. (현재는 ISO/IEC 33000 시리즈로 개정 중)
+소프트웨어 품질을 높이려면 결과물(Product)을 검사하는 것만으로는 부족하다. "좋은 결과물은 좋은 과정([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))에서 나온다"는 철학 하에, 개발 과정 자체를 평가하려는 시도들이 있었다. 초기에 CMM, ISO 9001, Trillium 등 수많은 프로세스 평가 모델이 난립하자, 이를 국제 표준 하나로 통합하기 위해 등장한 것이 바로 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> (ISO/IEC 15504)</strong>이다. (현재는 ISO/IEC 33000 시리즈로 개정 중)
 
-CMMI가 조직 전체의 성숙도를 하나의 레벨(예: "우리 회사는 레벨 3")로 묶어버리는 바람에, "코딩은 레벨 5인데 요구사항 관리는 레벨 1"인 조직의 현실을 제대로 반영하지 못하는 문제가 있었다. SPICE는 이러한 한계를 극복하기 위해 **어떤 프로세스(What)**를 **얼마나 잘하는지(How well)**를 2차원 매트릭스로 쪼개어 세밀하게 진단할 필요성에서 출발했다.
+CMMI가 조직 전체의 성숙도를 하나의 레벨(예: "우리 회사는 레벨 3")로 묶어버리는 바람에, "코딩은 레벨 5인데 요구사항 관리는 레벨 1"인 조직의 현실을 제대로 반영하지 못하는 문제가 있었다. SPICE는 이러한 한계를 극복하기 위해 <strong>어떤 프로세스(What)</strong>를 <strong>얼마나 잘하는지(How well)</strong>를 2차원 매트릭스로 쪼개어 세밀하게 진단할 필요성에서 출발했다.
 
 - **📢 섹션 요약 비유**: CMMI가 학생의 '평균 내신 등급(3등급)'만 알려준다면, SPICE는 '국어는 1등급, 수학은 5등급, 영어는 2등급'이라고 세부 과목별 성적표를 보여주어 수학을 보충해야 함을 알려준다.
 
@@ -29,18 +29,17 @@ CMMI가 조직 전체의 성숙도를 하나의 레벨(예: "우리 회사는 �
 
 다음은 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 프로세스 역량 평가의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SPICE 프로세스 역량 평가                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPICE 프로세스 역량 평가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 프로세스 역량 평가가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ CMMI가 조직 전체의 성숙도를 하나의 레벨(예: "우리 회사는 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SPICE의 핵심은 **2차원 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)(2D [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))**이다. 평가 대상인 '프로세스 차원'과 평가 기준인 '역량 차원'으로 구성된다.
+SPICE의 핵심은 <strong>2차원 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">참조 모델</a>(2D <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">Reference Model</a>)</strong>이다. 평가 대상인 '프로세스 차원'과 평가 기준인 '역량 차원'으로 구성된다.
 
 - **📢 섹션 요약 비유**: [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 프로세스 역량 평가은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -76,7 +75,7 @@ SPICE와 CMMI는 프로세스 평가의 양대 산맥이지만 뚜렷한 차이�
 |:---|:---|:---|
 | **기본 철학** | 개별 프로세스의 역량 진단 및 개선 (다차원) | 조직 전체의 성숙도 진단 (일원화된 로드맵) |
 | **레벨 구조** | 0 ~ 5 레벨 (총 6단계) | 1 ~ 5 레벨 (총 5단계) |
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단위** | 특정 프로세스별(예: 소프트웨어 설계) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 가능 | 전사적 또는 특정 부서/프로젝트군 일괄 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 단위</strong> | 특정 프로세스별(예: 소프트웨어 설계) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 가능 | 전사적 또는 특정 부서/프로젝트군 일괄 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
 | **파생 모델** | Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)), Medical [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 등 | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) for Development, Services, [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) |
 
 최근 CMMI도 연속적 표현(Continuous Representation)을 통해 SPICE처럼 개별 프로세스 영역별 평가를 지원하지만, 여전히 시장에서는 "A-SPICE는 자동차 부품 납품 필수 조건", "CMMI는 공공/SI 입찰 요건"으로 양분되어 쓰이는 경향이 강하다.
@@ -93,7 +92,7 @@ SPICE와 CMMI는 프로세스 평가의 양대 산맥이지만 뚜렷한 차이�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 전기차, 자율주행차 기술이 급발전하면서, 글로벌 완성차 업체(OEM)들은 부품 공급사(Tier 1, Tier 2)에게 **Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/))** 레벨 2 또는 레벨 3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 의무화하고 있다.
+최근 전기차, 자율주행차 기술이 급발전하면서, 글로벌 완성차 업체(OEM)들은 부품 공급사(Tier 1, Tier 2)에게 <strong>Automotive <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> (A-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a>)</strong> 레벨 2 또는 레벨 3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 의무화하고 있다.
 
 - **📢 섹션 요약 비유**: [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 프로세스 역량 평가은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -105,7 +104,7 @@ SPICE와 CMMI는 프로세스 평가의 양대 산맥이지만 뚜렷한 차이�
 
 ## Ⅴ. 기대효과 및 결론
 
-SPICE를 제대로 내재화하면, 어느 단계에서 결함이 유입되었는지, 누가 어떤 버전의 코드를 수정했는지 완벽한 **[요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/)([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))**을 확보할 수 있다. 특히 사람의 생명을 다루는 자동차, 의료, 항공 도메인에서 SPICE는 단순한 품질 보증을 넘어선 '생존 및 납품 자격' 그 자체다.
+SPICE를 제대로 내재화하면, 어느 단계에서 결함이 유입되었는지, 누가 어떤 버전의 코드를 수정했는지 완벽한 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/">요구사항 추적성</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>을 확보할 수 있다. 특히 사람의 생명을 다루는 자동차, 의료, 항공 도메인에서 SPICE는 단순한 품질 보증을 넘어선 '생존 및 납품 자격' 그 자체다.
 
 결론적으로 SPICE는 획일화된 평가의 폭력을 배제하고, 각 조직이 자신들의 비즈니스 핵심 프로세스에 집중하여 자원을 효율적으로 배분할 수 있게 해주는 가장 실용적인 품질 개선 프레임워크다.
 
@@ -130,21 +129,23 @@ SPICE를 제대로 내재화하면, 어느 단계에서 결함이 유입되었�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SPICE 프로세스 역량 평가 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPICE 프로세스 역량 평가 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

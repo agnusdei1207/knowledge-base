@@ -20,16 +20,19 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-```text
-[ Catalyst Optimization Pipeline ]
 
- (Unresolved)     (Resolved)      (Optimized)      (Physical)
- Logical Plan --> Logical Plan --> Logical Plan -->  Plans  --> [Code Generation]
-      |               |               |               |              |
-  [Analyzer]      [Catalyst]      [Optimizer]    [Cost Model]    [Tungsten]
-      |               |               |               |              |
-  Catalog info    Standard Rules   CBO/RBO        Selection       Java Bytecode
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimization Pipeline</div></div>
+<div class="kb-diagram-note">(Unresolved) (Resolved) (Optimized) (Physical)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Code Generation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Analyzer</div><div class="kb-diagram-node">Catalyst</div><div class="kb-diagram-node">Optimizer</div><div class="kb-diagram-node">Cost Model</div><div class="kb-diagram-node">Tungsten</div></div>
+<div class="kb-diagram-note">Catalog info Standard Rules CBO/RBO Selection Java Bytecode</div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -38,11 +41,11 @@ tags = ["studynote-bigdata"]
 | **Analysis** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)해 테이블/컬럼 존재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 잘못된 컬럼명 체크 및 바인딩 |
 | **Logical Optimization** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) 최적화 (RBO) | Predicate Pushdown (필터링 우선 수행) |
 | **Physical Planning** | 실제 실행 가능한 여러 계획 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 CBO 적용 | Broadcast [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) vs Shuffle [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 선택 |
-| **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Generation** | 런타임에 최적화된 Java [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 전체 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 하나의 함수처럼 실행 (Whole-stage CodeGen) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Generation</strong> | 런타임에 최적화된 Java [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 전체 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 하나의 함수처럼 실행 (Whole-stage CodeGen) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **CBO(Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 활성화**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통계 정보가 최신일 때 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다. `ANALYZE TABLE` 명령을 통해 통계를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 Catalyst가 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 더 지능적으로 결정한다.
-- **디버깅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: `explain(true)` 명령을 사용하면 분석 전(Parsed), 분석 후(Analyzed), 최적화 후(Optimized), 물리적(Physical) 계획을 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 병목 지점을 파악할 수 있다.
+- <strong>CBO(Cost-Based <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a>) 활성화</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통계 정보가 최신일 때 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다. `ANALYZE TABLE` 명령을 통해 통계를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 Catalyst가 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 더 지능적으로 결정한다.
+- <strong>디버깅 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: `explain(true)` 명령을 사용하면 분석 전(Parsed), 분석 후(Analyzed), 최적화 후(Optimized), 물리적(Physical) 계획을 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 병목 지점을 파악할 수 있다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - Catalyst 덕분에 Spark는 언어(Python, Scala, SQL)에 상관없이 동일한 고성능을 보장할 수 있게 되었다. 최근에는 기계 학습 모델을 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화에 도입하거나, 런타임 상황에 따라 계획을 수정하는 AQE(Adaptive Query Execution)와 결합되어 더욱 진화하고 있다.
@@ -54,18 +57,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[논리 계획 (Logical Plan)]
-    │
-    ▼
-[물리 계획 (Physical Plan)]
-    │
-    ▼
-[Catalyst Optimizer (Catalyst Optimizer)]
-    │
-    ▼
-[코드 생성 (Code Generation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 계획 (Logical Plan)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 계획 (Physical Plan)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer (Catalyst Optimizer)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 생성 (Code Generation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획이 물리 계획을 거쳐 Catalyst Optimizer와 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 구체화되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

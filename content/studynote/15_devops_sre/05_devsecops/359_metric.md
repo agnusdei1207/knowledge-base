@@ -31,22 +31,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              3계층 시맨틱 캐시 아키텍처                          │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사용자 질의 → [임베딩 모델] → 질의 벡터                         │
-│                                    │                            │
-│             ┌──────────────────────┼──────────────────────┐    │
-│             ▼                      ▼                      ▼    │
-│        [L1 정확 일치]         [L2 시맨틱 캐시]       [L3 LLM]  │
-│        (Redis GET)          (벡터 유사도 ≥ θ)    (OpenAI/등)   │
-│        히트율: 5~15%         히트율: 40~70%       항상 응답     │
-│        레이턴시: 1ms          레이턴시: 10~50ms   레이턴시: 1~5s│
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3계층 시맨틱 캐시 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">임베딩 모델</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">질의 벡터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1 정확 일치</div><div class="kb-diagram-node">L2 시맨틱 캐시</div><div class="kb-diagram-node">L3 LLM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Redis GET) (벡터 유사도 ≥ θ) (OpenAI/등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">히트율: 5~15% 히트율: 40~70% 항상 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이턴시: 1ms 레이턴시: 10~50ms 레이턴시: 1~5s</div></div>
+</div>
+</div>
+
+
 
 | 계층               | 방식                          | 히트 조건                       | 적합 시나리오              |
 | :----------------- | :---------------------------- | :------------------------------ | :------------------------- |
@@ -54,9 +52,9 @@ tags = ["studynote-devops-sre"]
 | L2 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)      | [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) > 임계값(θ)     | 의미적 유사 질의                | 자연어 대화 시스템          |
 | L3 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출        | 실시간 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)                   | 항상 (캐시 미스 시)             | 새로운 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 질의          |
 
-**[코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) ([Cosine Similarity](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))** 는 두 벡터의 방향 유사성을 -1~1로 표현한다. 실무에서는 θ = 0.85~0.92를 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 히트 임계값으로 사용하며, 이 값이 낮을수록 히트율이 높지만 오응답 위험이 증가한다.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/">코사인 유사도</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/">Cosine Similarity</a>)</strong> 는 두 벡터의 방향 유사성을 -1~1로 표현한다. 실무에서는 θ = 0.85~0.92를 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 히트 임계값으로 사용하며, 이 값이 낮을수록 히트율이 높지만 오응답 위험이 증가한다.
 
-**[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 캐시와 응답 캐시**: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)도 비용이 발생하므로, 질의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 자체를 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 캐시에 저장해 재계산을 줄인다. 응답 캐시는 `(질의 벡터, 컨텍스트 해시)` 복합 키로 저장해 동일 질의라도 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 변경 시 갱신한다.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 캐시와 응답 캐시</strong>: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)도 비용이 발생하므로, 질의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 자체를 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 캐시에 저장해 재계산을 줄인다. 응답 캐시는 `(질의 벡터, 컨텍스트 해시)` 복합 키로 저장해 동일 질의라도 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 변경 시 갱신한다.
 
 - 📢 섹션 요약 비유: [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)는 사서가 책을 반납 받을 때 "비슷한 책이 이미 있어요"라고 알려주는 것과 같다. 같은 주제의 책이 다른 표지로 와도 같은 선반에 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
@@ -80,7 +78,7 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">시맨틱 캐시</a> 설계 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델 선택: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 vs 범용 (BGE-M3, text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-3-large)
 2. 유사도 임계값(θ) A/B 테스트: 0.85~0.95 범위에서 [precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)/[recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 균형 탐색
 3. [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/): 실시간성 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(뉴스, 주가) < 30분, 지식 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(FAQ, 매뉴얼) > 24시간
@@ -92,7 +90,7 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 - [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 히트율 60% 적용 시: 40만 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출 × 500 토큰 × $0.01/1K = $2,000/일
 - 미적용 시: 100만 × $5 = $5,000/일 → 60% 비용 절감
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - 임계값 없이 가장 유사한 응답을 무조건 반환 → 전혀 다른 질의에 오응답 반환
 - 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보(PII)가 포함된 응답을 공유 캐시에 저장 → 프라이버시 침해
 - 캐시 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 없이 무한 보존 → 오래된 응답이 신선한 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답보다 우선 반환
@@ -126,24 +124,25 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-LLM 직접 호출 (고비용, 고레이턴시)
-    │
-    ▼
-정확 일치 캐시 (Exact-Match Redis) — 낮은 히트율
-    │
-    ▼
-임베딩 모델 (text-embedding) — 질의 벡터화
-    │
-    ▼
-시맨틱 캐시 (Semantic Cache) — 코사인 유사도 기반 히트
-    │
-    ▼
-3계층 캐시 (L1 정확/L2 시맨틱/L3 LLM) — 최적 히트율
-    │
-    ▼
-지식 그래프 + 자동 캐시 갱신 (미래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LLM 직접 호출 (고비용, 고레이턴시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정확 일치 캐시 (Exact-Match Redis) — 낮은 히트율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임베딩 모델 (text-embedding) — 질의 벡터화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시맨틱 캐시 (Semantic Cache) — 코사인 유사도 기반 히트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3계층 캐시 (L1 정확/L2 시맨틱/L3 LLM) — 최적 히트율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지식 그래프 + 자동 캐시 갱신 (미래)</div>
+</div>
+</div>
+
+
 
 흐름은 "단순 호출 → 정확 일치 → 의미 기반 → 계층화 → 지식 연계"로 발전한다.
 

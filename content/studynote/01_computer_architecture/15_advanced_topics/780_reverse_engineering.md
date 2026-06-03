@@ -12,35 +12,33 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)·[ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse Engineering이다.
-> 2. **가치**: 목표는 키 한 번 탈취에 그치지 않고 IP (Intellectual Property) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보안 로직 우회, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정, 프로빙 표적화까지 가능한 **후속 공격의 지도**를 얻는 데 있다.
+> 2. **가치**: 목표는 키 한 번 탈취에 그치지 않고 IP (Intellectual Property) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보안 로직 우회, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정, 프로빙 표적화까지 가능한 <strong>후속 공격의 지도</strong>를 얻는 데 있다.
 > 3. **판단 포인트**: 저장된 비밀은 언젠가 사진과 배선 수준에서 읽힐 수 있다는 전제를 두고, [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/), 회로 위장, [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) (Physically Unclonable Function) 기반 키 파생처럼 "열어보면 가치가 사라지는" 구조를 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-물리적 분해 분석은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 패키지를 제거하고 내부 레이어를 하나씩 드러내며 칩의 실제 구조를 재구성하는 파괴적 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 기법이다. 소프트웨어 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 명령 흐름을 대상으로 한다면, 이 방식은 다이 위 금속 배선, 비아(via), [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 패턴, [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)셀, eFuse 상태 같은 **물리적 흔적 자체**를 읽는다. 즉 코드를 해석하는 수준이 아니라 회로도를 다시 그리는 수준의 분석이다.
+물리적 분해 분석은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 패키지를 제거하고 내부 레이어를 하나씩 드러내며 칩의 실제 구조를 재구성하는 파괴적 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 기법이다. 소프트웨어 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)나 명령 흐름을 대상으로 한다면, 이 방식은 다이 위 금속 배선, 비아(via), [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 패턴, [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)셀, eFuse 상태 같은 <strong>물리적 흔적 자체</strong>를 읽는다. 즉 코드를 해석하는 수준이 아니라 회로도를 다시 그리는 수준의 분석이다.
 
 이 분석이 중요한 이유는 강력한 암호 구현도 결국 실리콘 어딘가에 회로와 저장 구조로 남아 있기 때문이다. 제품 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 경쟁사 IP 도난, 군사·금융 장비 분석, 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 타겟형 fault attack 준비까지 모두 이 단계의 정보를 필요로 한다. 한 번 다이 구조가 드러나면 이후의 프로빙, EMA, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 훨씬 정밀해진다.
 
 아래 그림은 물리적 분해 분석이 단순 분해가 아니라 "패키지 제거 → 층별 관찰 → 구조 복원"으로 이어지는 파이프라인임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Physical reverse engineering pipeline                           │
-├──────────────────────────────────────────────────────────────────┤
-│ Package removal                                                 │
-│        │                                                        │
-│        ▼                                                        │
-│ Delayering                                                      │
-│        │                                                        │
-│        ▼                                                        │
-│ Imaging                                                         │
-│        │                                                        │
-│        ├──► ROM / fuse read                                     │
-│        └──► Netlist recovery ───► probe / FIB / copy            │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical reverse engineering pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package removal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delayering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imaging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──► ROM / fuse read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──► Netlist recovery ► probe / FIB / copy</div></div>
+</div>
+</div>
+
+
 
 즉 물리적 분해 분석은 "무엇이 들어 있나"를 넘어서 "어떻게 만들어졌고 어디를 찌르면 되나"까지 알려 주는 상위 단계의 공격 준비 과정이다.
 
@@ -60,23 +58,26 @@ tags = ["studynote-computer-architecture"]
 | 구조 복원 | 셀 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 매칭, 비아 연결 추적 | 회로도, 넷리스트 | IP [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 취약점 탐색 |
 | 정밀 개입 | 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정, fault 실험 | live [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)·회로 변경 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회, 공격 자동화 |
 
-특히 Mask [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), eFuse, anti-[fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/), 테스트 회로는 물리 이미지에서 직접 읽을 수 있는 경우가 많다. 예를 들어 ROM은 접점 유무나 도핑 차이로 0/1이 구분되고, eFuse는 끊어진 링크 구조가 이미지에 남는다. 따라서 "키를 메모리에 저장만 하지 않으면 안전하다"가 아니라, **어떤 형식으로 저장해도 물리 구조가 남으면 언젠가 읽힐 수 있다**는 전제로 설계해야 한다.
+특히 Mask [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), eFuse, anti-[fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/), 테스트 회로는 물리 이미지에서 직접 읽을 수 있는 경우가 많다. 예를 들어 ROM은 접점 유무나 도핑 차이로 0/1이 구분되고, eFuse는 끊어진 링크 구조가 이미지에 남는다. 따라서 "키를 메모리에 저장만 하지 않으면 안전하다"가 아니라, <strong>어떤 형식으로 저장해도 물리 구조가 남으면 언젠가 읽힐 수 있다</strong>는 전제로 설계해야 한다.
 
 아래 단면도는 물리적 분해 분석이 왜 레이어별 작업인지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ Simplified die cross-section                                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Passivation                                                     │
-│ Metal 4                                                         │
-│ Metal 3                                                         │
-│ Metal 2                                                         │
-│ Metal 1                                                         │
-│ Poly / diffusion                                                │
-│ Silicon substrate                                               │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Simplified die cross-section</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Passivation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Poly / diffusion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silicon substrate</div></div>
+</div>
+</div>
+
+
 
 공격자는 위에서부터 한 층씩 벗기며 이미지를 쌓아 올린다. 방어자는 결국 "한 층을 봐도 전체 의미가 드러나지 않게" 만들거나, 레이어에 접근하는 순간 비밀이 사라지게 만들어야 한다.
 
@@ -86,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-물리적 분해 분석은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정과 긴밀히 연결되지만 역할은 서로 다르다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse Engineering은 이들을 가능하게 하는 **구조 이해의 기반**에 가깝다.
+물리적 분해 분석은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정과 긴밀히 연결되지만 역할은 서로 다르다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse Engineering은 이들을 가능하게 하는 <strong>구조 이해의 기반</strong>에 가깝다.
 
 | 기법 | 주된 목적 | 얻는 정보 | 특징 |
 | :--- | :--- | :--- | :--- |
@@ -110,9 +111,9 @@ tags = ["studynote-computer-architecture"]
 ### 기술사 판단 기준
 
 1. **정적 키 최소화**: master key를 Mask ROM이나 eFuse에 평문으로 오래 저장하는 설계는 최후에 사진으로 읽힐 수 있다. 가능하면 [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 기반 파생 키나 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 구조를 우선한다.
-2. **[안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) 전면화**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 광·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도 센서, [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 회로가 키 저장소뿐 아니라 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 디버그 경로까지 덮어야 한다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/">안티 탬퍼</a> 전면화</strong>: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), 광·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·온도 센서, [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) 회로가 키 저장소뿐 아니라 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 디버그 경로까지 덮어야 한다.
 3. **회로 위장 병행**: camouflaged cell, [dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) via, 불투명 배선은 분석 비용을 올리지만, 단독 방어가 아니라 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)·키 파생과 함께 써야 한다.
-4. **제조 후 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 생산 샘플에 대해 실제 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)/이미징 기반 [red team](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/) 평가를 수행해, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조가 문서대로 구현되었는지 확인한다.
+4. <strong>제조 후 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 생산 샘플에 대해 실제 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)/이미징 기반 [red team](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/) 평가를 수행해, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조가 문서대로 구현되었는지 확인한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -127,7 +128,7 @@ tags = ["studynote-computer-architecture"]
 - [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) 없이 회로 배치만 복잡하게 만들고 안심하는 것
 - 생산 편의상 남겨 둔 테스트 모드와 [fuse](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/) override를 최종 제품에서도 유지하는 것
 
-기술사에게 중요한 판단은 분석을 완전히 불가능하게 만드는 것이 아니라, **분해 비용을 올리고, 성공해도 얻는 가치가 작게 만드는 것**이다. 결국 방어는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(delay)과 무효화(invalidate)의 조합이어야 한다.
+기술사에게 중요한 판단은 분석을 완전히 불가능하게 만드는 것이 아니라, <strong>분해 비용을 올리고, 성공해도 얻는 가치가 작게 만드는 것</strong>이다. 결국 방어는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(delay)과 무효화(invalidate)의 조합이어야 한다.
 
 - **📢 섹션 요약 비유**: 보물상자를 아무도 못 열게 만드는 것보다, 억지로 열면 지도는 타 버리고 보석은 모양이 바뀌게 만드는 편이 더 현실적인 방어다. 분해가 성공해도 쓸모가 없게 해야 한다.
 
@@ -157,22 +158,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Package 제거
-    │
-    ▼
-Delayering · Layer Imaging
-    │
-    ▼
-Netlist / ROM / eFuse 복원
-    │
-    ├──► Probing (live signal 관측)
-    ├──► FIB edit (회로 우회)
-    └──► IP cloning (복제)
-    │
-    ▼
-Active Mesh · Zeroization · PUF · Camouflaging
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Package 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Delayering · Layer Imaging</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Netlist / ROM / eFuse 복원</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Probing (live signal 관측)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FIB edit (회로 우회)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">IP cloning (복제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Active Mesh · Zeroization · PUF · Camouflaging</div>
+</div>
+</div>
+
+
 
 이 흐름은 물리적 접근이 구조 복원으로 이어지고, 다시 실시간 관측·회로 수정·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 같은 후속 공격으로 확장되며, 이에 대응해 [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)와 키 무효화 설계가 요구되는 과정을 보여준다.
 

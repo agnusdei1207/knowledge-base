@@ -25,42 +25,29 @@ tags = ["algorithm_stats"]
 
 > 이 도식은 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 관계를 보여준다.
 
-```text
-[알고리즘의 5대 속성 (5 Properties of Algorithm)]
 
-┌──────────────────────────────────────────────────────┐
-│ 알고리즘 (Algorithm) │
-├──────────────────────────────────────────────────────┤
-│ │
-│ ┌─────────────┐ ┌─────────────┐ │
-│ │ 1. 유한성 │ │ 2. 확정성 │ │
-│ │ Finiteness │ │Definiteness │ │
-│ └──────┬──────┘ └──────┬──────┘ │
-│ │ │ │
-│ └────────┬─────────┘ │
-│ ▼ │
-│ ┌───────────────┐ │
-│ │ 입출력 체계 │ │
-│ │ Input/Output │ │
-│ └───────┬───────┘ │
-│ │ │
-│ ┌─────────────┐│ │
-│ │ 3. 입력 ││ ┌─────────────┐ │
-│ │ Input │◄├────│ 4. 출력 │ │
-│ └─────────────┘│ │ Output │ │
-│ │ └─────────────┘ │
-│ │ │
-│ ┌─────────────┐│ │
-│ │ 5. 효율성 │┘ │
-│ │ Effectiveness │
-│ └─────────────┘ │
-└──────────────────────────────────────────────────────┘
 
-[속성 간 관계]
-- 유한성 + 확정성 → 알고리즘의 '정확성' 보장이 가능
-- 입력 → 처리 → 출력: 정보 변환의 기본 흐름
-- 효율성: 실제로 실해 가능하고 실용적인지 여부를 결정
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘의 5대 속성 (5 Properties of Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 (Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 유한성</div><div class="kb-diagram-cell">2. 확정성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Finiteness</div><div class="kb-diagram-cell">Definiteness</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입출력 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/Output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">4. 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 효율성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Effectiveness</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">속성 간 관계</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">유한성 + 확정성 → 알고리즘의 '정확성' 보장이 가능</div>
+<div class="kb-diagram-tree-item" style="--depth:0">입력 → 처리 → 출력: 정보 변환의 기본 흐름</div>
+<div class="kb-diagram-tree-item" style="--depth:0">효율성: 실제로 실해 가능하고 실용적인지 여부를 결정</div>
+</div>
+</div>
+
+
 
 - **관찰**: 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 중 하나라도 결여되면 그것은 알고리즘이 아니라 "잘못된 절차" 또는 "잠재적 버그"가 된다.
 - **원인**: 컴퓨터는 명시적인 명령만 수행할 수 있고, 모호성이나 무한성이 있으면 실행이 불가능하거나 멈추기 때문이다.
@@ -73,45 +60,33 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-알고리즘의 품질을 평가하는 두 축은 **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)([Time Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/))**와 **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/))**이다. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 알고리즘이 작업을 완료하는 데 필요한 기본 연산 횟수의 증가 추이를 의미하며, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)는 동일한 작업을 수행하는 데 필요한 메모리량의 증가 추이를 의미한다. 이 두 가지 척도는 입력 크기 N이 증가할 때알고리즘 성능이 어떻게 변하는지를 예측하게 해준다.
+알고리즘의 품질을 평가하는 두 축은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">Time Complexity</a>)</strong>와 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">Space Complexity</a>)</strong>이다. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 알고리즘이 작업을 완료하는 데 필요한 기본 연산 횟수의 증가 추이를 의미하며, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)는 동일한 작업을 수행하는 데 필요한 메모리량의 증가 추이를 의미한다. 이 두 가지 척도는 입력 크기 N이 증가할 때알고리즘 성능이 어떻게 변하는지를 예측하게 해준다.
 
-알고리즘을 설계할 때 가장 먼저 고려해야 할 것은 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Correctness)**이다. 주어진 모든 입력에 대해 올바른 출력을 produziert하는지 수학적 귀납법이나 불변량(Invariant) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 증명해야 한다. 그 다음이 **효율성(Efficiency)**이며, 같은 문제를 푸는 여러 알고리즘 중 가장 적은 자원을 사용하는 것을 선택해야 한다.
+알고리즘을 설계할 때 가장 먼저 고려해야 할 것은 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(Correctness)</strong>이다. 주어진 모든 입력에 대해 올바른 출력을 produziert하는지 수학적 귀납법이나 불변량(Invariant) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 증명해야 한다. 그 다음이 <strong>효율성(Efficiency)</strong>이며, 같은 문제를 푸는 여러 알고리즘 중 가장 적은 자원을 사용하는 것을 선택해야 한다.
 
 > 이 도식은 알고리즘 분석의 기본 틀을 보여준다.
 
-```text
-[알고리즘 분석의 기본 틀]
 
-┌─────────────────────────────────────────────────────┐
-│ 알고리즘 분석 framework │
-├─────────────────────────────────────────────────────┤
-│ │
-│ [입력 크기: N] │
-│ │ │
-│ ▼ │
-│ ┌─────────────────┐ │
-│ │ 정확성 증명 │ ← 알고리즘의 │
-│ │ (Correctness) │ │
-│ └────────┬────────┘ │
-│ │ │
-│ ▼ │
-│ ┌─────────────────┐ ┌─────────────────┐ │
-│ │ 시간 복잡도 │ │ 공간 복잡도 │ │
-│ │ Time Complexity │ │ Space Complexity│ │
-│ └────────┬────────┘ └────────┬────────┘ │
-│ │ │ │
-│ ▼ ▼ │
-│ ┌─────────────────────────────────────┐ │
-│ │ 자원 사용량 최적화 │ │
-│ │ Resource Optimization │ │
-│ └─────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────┘
 
-[분석 대상: 점근적 증가율]
-- T(N): 입력 크기 N에 따른 실행 시간
-- S(N): 입력 크기 N에 따른 메모리 사용량
-- N → ∞ 일 때의 증가 추이: 점근적 분석 (Asymptotic Analysis)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 분석의 기본 틀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 분석 framework</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 크기: N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확성 증명</div><div class="kb-diagram-cell">← 알고리즘의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Correctness)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">공간 복잡도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time Complexity</div><div class="kb-diagram-cell">Space Complexity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 사용량 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource Optimization</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분석 대상: 점근적 증가율</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">T(N): 입력 크기 N에 따른 실행 시간</div>
+<div class="kb-diagram-tree-item" style="--depth:0">S(N): 입력 크기 N에 따른 메모리 사용량</div>
+<div class="kb-diagram-tree-item" style="--depth:0">N → ∞ 일 때의 증가 추이: 점근적 분석 (Asymptotic Analysis)</div>
+</div>
+</div>
+
+
 
 - **관찰**: 실제 실행 시간(초)보다는 입력 크기 N이 커질 때 연산 횟수가 어떻게 증가하는지가 핵심이다.
 - **원인**: 실제 실행 시간은 CPU 속도, 컴파일러 최적화, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄링 등 다양한 변수에 영향을 받아 알고리즘 자체의 성능을 반영하지 못하기 때문이다.
@@ -124,52 +99,35 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-실무에서 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 충족시키지 못하는 코드는 프로덕션 환경에서 치명적인 버그로 이어진다. 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)들을 살펴보면, **무한 루프(Infinite Loop)**는 유한성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하며, CPU를 100% 점유하며 프로그램을 멈추게 만든다. **모호한 조건문(Ambiguous Condition)**은 확정성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하여 실행 시마다 다른 결과를 산출할 수 있다.
+실무에서 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 충족시키지 못하는 코드는 프로덕션 환경에서 치명적인 버그로 이어진다. 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)들을 살펴보면, <strong>무한 루프(Infinite Loop)</strong>는 유한성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하며, CPU를 100% 점유하며 프로그램을 멈추게 만든다. <strong>모호한 조건문(Ambiguous Condition)</strong>은 확정성 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 위반하여 실행 시마다 다른 결과를 산출할 수 있다.
 
-알고리즘의 기본 구조는 **순차(Sequence)**, **선택([Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))**, **반복(Iteration)**의 3가지로 구성된다. 이 세 가지 구조만으로 모든 계산 가능한 문제(Computable Problem)를 표현할 수 있다는 것이 구조적 프로그래밍(Structured Programming)의 핵심 명제이다. 이를 테면, 순차 실행은 입력 수신 후 각 처리 단계가 차례로 실행되는 흐름이고, 선택 실행은 조건 분기를 통해 서로 다른 경로를 취하는 것이며, 반복 실행은 루프를 통해 동일한 작업을 되풀이 하는 것이다.
+알고리즘의 기본 구조는 **순차(Sequence)**, <strong>선택(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>, <strong>반복(Iteration)</strong>의 3가지로 구성된다. 이 세 가지 구조만으로 모든 계산 가능한 문제(Computable Problem)를 표현할 수 있다는 것이 구조적 프로그래밍(Structured Programming)의 핵심 명제이다. 이를 테면, 순차 실행은 입력 수신 후 각 처리 단계가 차례로 실행되는 흐름이고, 선택 실행은 조건 분기를 통해 서로 다른 경로를 취하는 것이며, 반복 실행은 루프를 통해 동일한 작업을 되풀이 하는 것이다.
 
-```text
-[알고리즘의 3대 기본 구조]
 
-┌─────────────────────────────────────────────────────┐
-│ │
-│ 1. 순차 구조 (Sequence) │
-│ ──────────────────── │
-│ ┌────────┐ │
-│ │ 작업 A │ ───▶ ┌────────┐ ───▶ ┌────────┐ │
-│ └────────┘ │ 작업 B │ ───▶ │ 작업 C │ │
-│ └────────┘ └────────┘ │
-│ │
-│ 2. 선택 구조 (Selection) │
-│ ──────────────────── │
-│ ┌────────┐ │
-│ │ 조건? │ │
-│ └──┬─────┘ │
-│ ┌──────┴──────┐ │
-│ True│ │False │
-│ ▼ ▼ │
-│ ┌────────┐ ┌────────┐ │
-│ │ 작업 X │ │ 작업 Y │ │
-│ └────────┘ └────────┘ │
-│ │
-│ 3. 반복 구조 (Iteration) │
-│ ──────────────────── │
-│ ┌────────┐ │
-│ │ 조건? │◄──────┐ │
-│ └──┬─────┘ │ │
-│ ┌───┴────┐ True │ │
-│ False│ │ │ │
-│ │ ┌────────┐ │ │
-│ └───►│ 작업 Z │───┘ │
-│ └────────┘ │
-│ │
-└─────────────────────────────────────────────────────┘
 
-[구조적 프로그래밍의 정리]
-- 순차 + 선택 + 반복만으로 모든 알고리즘 표현 가능
-- Goto문 남용으로 인한 '스파게티 코드' 회피
-- 모듈화(Modularization): 각 작업을 독립적 단위로 분리
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘의 3대 기본 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 순차 구조 (Sequence)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 A</div><div class="kb-diagram-cell">▶ ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 B</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">작업 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 선택 구조 (Selection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">True</div><div class="kb-diagram-cell">False</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 X</div><div class="kb-diagram-cell">작업 Y</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반복 구조 (Iteration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건?</div><div class="kb-diagram-cell">◄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">True</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">False</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">작업 Z</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 프로그래밍의 정리</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">순차 + 선택 + 반복만으로 모든 알고리즘 표현 가능</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Goto문 남용으로 인한 '스파게티 코드' 회피</div>
+<div class="kb-diagram-tree-item" style="--depth:0">모듈화(Modularization): 각 작업을 독립적 단위로 분리</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 알고리즘의 3대 구조는 레고 블록과 같습니다. 순차 구조는 블록을 왼쪽에서 오른쪽으로 차례로 쌓는 것이고, 선택 구조는 "빨간 블록이 들어 있는가?"에 따라 다른 쌓는 방법을 고르는 것이며, 반복 구조는 "탑이 10개가 될 때까지" 같은 조건으로 되풀이하는 것입니다.
 
@@ -177,9 +135,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-알고리즘의 품질을 관리하는 것은 소프트웨어의 핵심이다. 알고리즘 수준의 품질 관리에서 가장 중요한 것은 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Correctness [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))**이다. 모든 유효한 입력에 대해 올바른 출력을내는지 테스트해야 하며, 특히 **[경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)([Boundary Value Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/))**과 **경우의 수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Exhaustive Testing)**이 중요하다.
+알고리즘의 품질을 관리하는 것은 소프트웨어의 핵심이다. 알고리즘 수준의 품질 관리에서 가장 중요한 것은 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Correctness <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>이다. 모든 유효한 입력에 대해 올바른 출력을내는지 테스트해야 하며, 특히 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">경계값 분석</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">Boundary Value Analysis</a>)</strong>과 <strong>경우의 수 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Exhaustive Testing)</strong>이 중요하다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 점검 사항**은 다음과 같다. 무한 루프 가능성: 루프 종료 조건이 논리적으로 항상 도달 가능한지 검토한다. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 누락: 모든 입력이 유효 범위 내에 있는지 확인한다. 산술 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/): 정수 연산에서 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생할 가능성이 있는지 검토한다. [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 비교에서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 손실을 고려한다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 점검 사항</strong>은 다음과 같다. 무한 루프 가능성: 루프 종료 조건이 논리적으로 항상 도달 가능한지 검토한다. [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/) 누락: 모든 입력이 유효 범위 내에 있는지 확인한다. 산술 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/): 정수 연산에서 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 발생할 가능성이 있는지 검토한다. [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오차: [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 비교에서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 손실을 고려한다.
 
 📢 **섹션 요약 비유**: 알고리즘 품질 관리는 신 안전와 같습니다. 건축물이하지 않는지([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 내진 설계가 되었는지(효율성), 사용 기간이 얼마나 되는지(유한성)를 엄격히 검사해야 비극적 사고를 예방할 수 있습니다.
 
@@ -187,7 +145,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-알고리즘 연구의 최신 트렌드는 **양자 알고리즘([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Algorithm)**의 등장으로 새로운 패러다임이 열리고 있다. 양자 컴퓨터는 기존의 컴퓨터에서근본 해결하는 문제(예: 매우 큰 수의 소인수 분해)를 다항 시간에 해결할 수 있는 가능성을 보여주고 있다. 또한 **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 알고리즘 자동 최적화([AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search)**가 전통적인 알고리즘 설계를 보완하고 있다.
+알고리즘 연구의 최신 트렌드는 <strong>양자 알고리즘(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Algorithm)</strong>의 등장으로 새로운 패러다임이 열리고 있다. 양자 컴퓨터는 기존의 컴퓨터에서근본 해결하는 문제(예: 매우 큰 수의 소인수 분해)를 다항 시간에 해결할 수 있는 가능성을 보여주고 있다. 또한 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 기반 알고리즘 자동 최적화(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a>, Neural <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Search)</strong>가 전통적인 알고리즘 설계를 보완하고 있다.
 
 알고리즘의 5대 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 컴퓨터 과학의 영원한 기초이다. 새로운 하드웨어, 새로운 프로그래밍 언어, 새로운 패러다임이 등장해도알고리즘의 본질—유한하고 확정적이며 입출력이 명확하고 효율적인 계산 절차—은 변하지 않는다. 기술사 시험에서도 이러한 기본 원리의 깊은 이해를 물어보는 것은, 단순한 암기가 아닌 실제 문제 해결 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위함이다.
 
@@ -197,47 +155,36 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[알고리즘(Algorithm) 핵심 개념 맵]
 
-┌──────────────────────┐
-│ 알고리즘 (Algorithm) │
-└──────────┬───────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 5대 속성 │ │ 분석 척도 │ │ 기본 구조 │
-│ Properties │ │ Criteria │ │ Structures │
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ ① 유한성 │ │ 시간 복잡도 │ │ 순차 구조 │
-│ ② 확정성 │ │ Time Comp. │ │ Sequence │
-│ ③ 입력 │ │ 공간 복잡도 │ │ 선택 구조 │
-│ ④ 출력 │ │ Space Comp. │ │ Selection │
-│ ⑤ 효율성 │ │ 정확성 증명 │ │ 반복 구조 │
-│ │ │ Correctness │ │ Iteration │
-└──────────────┘ └──────────────┘ └──────────────┘
-│ │ │
-└───────────────────┴───────────────────┘
-│
-▼
-┌──────────────────────┐
-│ 알고리즘 설계 패러다임 │
-│ Design Paradigms │
-├──────────────────────┤
-│ 분할 정복 (Divide) │
-│ 동적 계획 (DP) │
-│ 탐욕법 (Greedy) │
-│ 백트래킹 (Backtrack) │
-│ 랜덤화 (Randomized) │
-└──────────────────────┘
 
-[알고리즘 품질의 3대 요소]
-정확성 (Correctness) ──▶ 모든 입력에 올바른 출력
-효율성 (Efficiency) ───▶ 시간 + 공간 자원 최소화
-유한성 (Finiteness) ───▶ 반드시 종료 보장
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘(Algorithm) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 (Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5대 속성</div><div class="kb-diagram-cell">분석 척도</div><div class="kb-diagram-cell">기본 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Properties</div><div class="kb-diagram-cell">Criteria</div><div class="kb-diagram-cell">Structures</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 유한성</div><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">순차 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 확정성</div><div class="kb-diagram-cell">Time Comp.</div><div class="kb-diagram-cell">Sequence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 입력</div><div class="kb-diagram-cell">공간 복잡도</div><div class="kb-diagram-cell">선택 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 출력</div><div class="kb-diagram-cell">Space Comp.</div><div class="kb-diagram-cell">Selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 효율성</div><div class="kb-diagram-cell">정확성 증명</div><div class="kb-diagram-cell">반복 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Correctness</div><div class="kb-diagram-cell">Iteration</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 설계 패러다임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design Paradigms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할 정복 (Divide)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 계획 (DP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐욕법 (Greedy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백트래킹 (Backtrack)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤화 (Randomized)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 품질의 3대 요소</div></div>
+<div class="kb-diagram-note">정확성 (Correctness) ──▶ 모든 입력에 올바른 출력</div>
+<div class="kb-diagram-note">효율성 (Efficiency) ▶ 시간 + 공간 자원 최소화</div>
+<div class="kb-diagram-note">유한성 (Finiteness) ▶ 반드시 종료 보장</div>
+</div>
+</div>
+
+
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
@@ -248,18 +195,21 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[문제 정의]
-│
-▼
-[의사코드]
-│
-▼
-[시간·공간 복잡도]
-│
-▼
-[정당성 증명]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">의사코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간·공간 복잡도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정당성 증명</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

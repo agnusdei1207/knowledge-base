@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 구글이 2016년에 발표한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 알고리즘으로, 패킷 유실(Packet Loss)이 아닌 네트워크의 실제 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(BDP, [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product)을 실시간으로 모델링하여 최적의 전송 속도를 결정하는 기법.
-- **필요성**: 현대 사람들은 핸드폰 와이파이나 5G로 유튜브를 본다. 무선망은 장애물이 많아 패킷 손실률이 기본 1~2%다. 기존의 CUBIC(레노 포함)은 패킷이 죽으면 무조건 "라우터가 꽉 찼네!" 하고 속도를 절반으로 깎아버리는 낡은 사상을 가졌다. (길이 텅텅 비어있는데 단순 무선 노이즈로 죽은 건데도!). **"야! 1980년대 낡은 사상(Drop 기반) 다 갖다 버려! 진짜 길이 막히면 패킷이 버려지기 전에 '핑 타임([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 늘어나는 징후'가 먼저 나타난다! 핑 속도를 재고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 재서, 톨게이트 큐(버퍼)가 부풀어 오르기 직전까지만 딱 예쁘게 쏴!!"** 이 천재적 발상이 세상을 바꿨다.
+- **필요성**: 현대 사람들은 핸드폰 와이파이나 5G로 유튜브를 본다. 무선망은 장애물이 많아 패킷 손실률이 기본 1~2%다. 기존의 CUBIC(레노 포함)은 패킷이 죽으면 무조건 "라우터가 꽉 찼네!" 하고 속도를 절반으로 깎아버리는 낡은 사상을 가졌다. (길이 텅텅 비어있는데 단순 무선 노이즈로 죽은 건데도!). <strong>"야! 1980년대 낡은 사상(Drop 기반) 다 갖다 버려! 진짜 길이 막히면 패킷이 버려지기 전에 '핑 타임(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)이 늘어나는 징후'가 먼저 나타난다! 핑 속도를 재고 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 재서, 톨게이트 큐(버퍼)가 부풀어 오르기 직전까지만 딱 예쁘게 쏴!!"</strong> 이 천재적 발상이 세상을 바꿨다.
 
-- **💡 비유**: BBR은 막히는 고속도로를 달리는 **"테슬라 오토파일럿"**과 같습니다.
+- **💡 비유**: BBR은 막히는 고속도로를 달리는 <strong>"테슬라 오토파일럿"</strong>과 같습니다.
   - **기존 (CUBIC)**: 앞차와 꽝 부딪혀서 범퍼가 부서져야만(Packet Drop) "아, 차가 막히는구나!" 하고 브레이크를 밟습니다. (앞 유리에 새똥이 맞아서 시야가 가려져도 범퍼가 부서진 줄 알고 급브레이크를 밟는 바보입니다).
-  - **BBR**: 앞차와의 거리가 좁아지는 속도([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가)와 내 차가 달리는 속도([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 카메라와 센서로 실시간 계산해서, 부딪히기 한참 전부터 **"스무스하게 앞차와 똑같은 속도로 정속 주행"**을 맞춰 사고(Drop) 자체를 내지 않습니다.
+  - **BBR**: 앞차와의 거리가 좁아지는 속도([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가)와 내 차가 달리는 속도([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 카메라와 센서로 실시간 계산해서, 부딪히기 한참 전부터 <strong>"스무스하게 앞차와 똑같은 속도로 정속 주행"</strong>을 맞춰 사고(Drop) 자체를 내지 않습니다.
 
-```text
-[TCP BIC / CUBIC]
-    │
-    ▼
-[BBR]
-    │
-    └──▶ [RTO 측정 방식]
-```
 
-- **📢 섹션 요약 비유**: ** CUBIC은 물통에 물이 꽉 차서 **바닥으로 물이 철철 넘쳐흘러야(Drop)** 비로소 수도꼭지를 잠그는 미련한 짓이라면, BBR은 물통 안에 **초음파 센서([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정)**를 달아 수위가 차오르는 속도를 계산하여, 넘치기 1cm 직전에 수도꼭지 밸브를 유동적으로 싹 조절해 물을 한 방울도 안 버리는 최첨단 밸브 시스템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP BIC / CUBIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BBR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RTO 측정 방식</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> CUBIC은 물통에 물이 꽉 차서 </strong>바닥으로 물이 철철 넘쳐흘러야(Drop)<strong> 비로소 수도꼭지를 잠그는 미련한 짓이라면, BBR은 물통 안에 </strong>초음파 센서([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정)**를 달아 수위가 차오르는 속도를 계산하여, 넘치기 1cm 직전에 수도꼭지 밸브를 유동적으로 싹 조절해 물을 한 방울도 안 버리는 최첨단 밸브 시스템입니다.
 
 ---
 
@@ -43,9 +47,9 @@ tags = ["studynote-network"]
 
 ### 1. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 크기: BDP ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product) 측정
 BBR 라우터의 뇌구조는 오직 이 공식 하나로 돌아간다.
-**`최적의 전송량(물) = 가장 좁은 파이프 굵기(BtlBw) × 파이프 길이(RTprop)`**
+<strong><code>최적의 전송량(물) = 가장 좁은 파이프 굵기(BtlBw) × 파이프 길이(RTprop)</code></strong>
 
-- **BtlBw ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 내가 10번 패킷을 쏘면서 영수증이 도착하는 속도를 재보니, 최대로 뽑아본 속도가 `100Mbps`였다. "아, 중간에 가장 좁은 병목 구간이 100Mbps짜리구나!"
+- <strong>BtlBw (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 내가 10번 패킷을 쏘면서 영수증이 도착하는 속도를 재보니, 최대로 뽑아본 속도가 `100Mbps`였다. "아, 중간에 가장 좁은 병목 구간이 100Mbps짜리구나!"
 - **RTprop (Round-Trip Propagation Time)**: 영수증이 도착하는 데 걸린 시간 중, 차가 1대도 안 막히고 빛의 속도로 쓩 갔다 온 순수 물리적 왕복 시간. "최소 핑 타임이 `10ms`구나!"
 - **BBR의 결정**: "오케이. 병목 100Mbps × 핑 10ms = [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에 딱 `1MB`의 물을 채워 넣으면 넘치지도, 모자라지도 않는 100% 갓벽한 속도다! 무조건 1MB씩만 들이부어라!"
 
@@ -54,26 +58,25 @@ CUBIC은 라우터 버퍼가 꽉 찰 때까지 밀어 넣는다. 라우터 버�
 - **BBR의 우아함**: BBR은 버퍼(큐)에 물이 차오르기 시작하면(RTT가 10ms에서 12ms로 늘어나면) "앗, 버퍼에 대기 줄이 생기려 하네?" 하고 즉시 물 붓는 속도를 늦춘다. 
 - 결과적으로 라우터의 대기 줄(버퍼)은 항상 텅텅 빈 쾌적한 상태로 유지되며, 유튜브를 다운받으면서 동시에 롤 게임을 해도 핑이 튀지 않는 쾌적함을 선사한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                패킷 유실(Loss) 상황에서의 BBR vs CUBIC 속도 차이   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: 무선 와이파이에서 패킷 1%가 공중 분해됨 (Loss 1%) ]        │
- │                                                             │
- │   * 구형 CUBIC의 뇌구조:                                        │
- │     "헐! 1%나 유실됐네? 톨게이트 꽉 차서 터졌구나!                  │
- │      속도 당장 반 토막 내서 10Mbps로 확 줄여!!" (바보짓)            │
- │                                                             │
- │   * 최신 BBR의 뇌구조:                                        │
- │     "패킷이 1% 날아갔지만, 핑 타임 재보니까 아까랑 똑같이 10ms 네?     │
- │      이건 톨게이트 막힌 게 아니라 그냥 와이파이 혼선 찌꺼기네 ㅋㅋ      │
- │      야 무시하고 원래 쏘던 대로 1Gbps 풀악셀 계속 밟아라!!"         │
- │                                                             │
- │   ▶ 결과: BBR을 켜면 무선 환경이나 장거리 해외 서버 연결 시 다운로드 │
- │           속도가 수십 배에서 수백 배까지 경이롭게 폭등한다!          │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 유실(Loss) 상황에서의 BBR vs CUBIC 속도 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 무선 와이파이에서 패킷 1%가 공중 분해됨 (Loss 1%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 구형 CUBIC의 뇌구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"헐! 1%나 유실됐네? 톨게이트 꽉 차서 터졌구나!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도 당장 반 토막 내서 10Mbps로 확 줄여!!" (바보짓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 최신 BBR의 뇌구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"패킷이 1% 날아갔지만, 핑 타임 재보니까 아까랑 똑같이 10ms 네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이건 톨게이트 막힌 게 아니라 그냥 와이파이 혼선 찌꺼기네 ㅋㅋ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">야 무시하고 원래 쏘던 대로 1Gbps 풀악셀 계속 밟아라!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: BBR을 켜면 무선 환경이나 장거리 해외 서버 연결 시 다운로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도가 수십 배에서 수백 배까지 경이롭게 폭등한다!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BBR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,15 +129,19 @@ BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TCP BIC / CUBIC]
-    │
-    ▼
-[현재 개념: BBR]
-    │
-    ├──▶ [확장 A: RTO 측정 방식]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP BIC / CUBIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BBR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RTO 측정 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 BBR는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

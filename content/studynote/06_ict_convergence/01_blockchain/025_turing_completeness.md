@@ -20,24 +20,25 @@ tags = ["studynote-ict-convergence"]
 
 앨런 튜링(Alan Turing)은 1936년 "어떤 계산이 기계적으로 수행 가능한가?"를 연구하며 튜링 기계 개념을 제시했다. 튜링 완전 시스템은 이 이론적 기계가 할 수 있는 모든 계산을 수행할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│        튜링 완전 vs 불완전: 블록체인 비교                   │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  이더리움 EVM (튜링 완전)                                  │
-│  ├─ 조건 분기: if/else ✅                                 │
-│  ├─ 반복 루프: for/while ✅                               │
-│  ├─ 임의 저장소 접근 ✅                                    │
-│  └─ Halting 불확실 → Gas Limit으로 해결                   │
-│                                                          │
-│  비트코인 Script (튜링 불완전)                              │
-│  ├─ 조건 분기: 제한적 ✅                                   │
-│  ├─ 반복 루프: ❌ (의도적 제거)                            │
-│  ├─ 임의 저장소 접근: ❌                                   │
-│  └─ Halting 보장 → 보안성 ↑, 표현력 ↓                     │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜링 완전 vs 불완전: 블록체인 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더리움 EVM (튜링 완전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조건 분기: if/else ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 반복 루프: for/while ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임의 저장소 접근 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Halting 불확실 → Gas Limit으로 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트코인 Script (튜링 불완전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조건 분기: 제한적 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 반복 루프: ❌ (의도적 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임의 저장소 접근: ❌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Halting 보장 → 보안성 ↑, 표현력 ↓</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 튜링 완전 시스템은 만능 계산기(어떤 수식도 풀 수 있음)이고, 튜링 불완전 시스템은 사칙연산 전용 계산기(제한적이지만 안전하고 예측 가능)이다.
 
@@ -125,7 +126,7 @@ function withdraw() public {
 |:---|:---|
 | **표현력** | [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/), [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), NFT 등 복잡한 로직 구현 가능 |
 | **보안 복잡성** | 튜링 완전성 = 더 많은 취약점 가능성 |
-| **[Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화** | 튜링 완전성 활용 시 [Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 효율이 핵심 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a> 최적화</strong> | 튜링 완전성 활용 시 [Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 효율이 핵심 |
 
 이더리움 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 튜링 완전성이 허용하는 복잡한 상태 공간을 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Formal Verification](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/)) 도구(Certora, [Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) SMTChecker)로 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방향으로 발전하고 있다.
 
@@ -138,28 +139,30 @@ function withdraw() public {
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Halting Problem** | 튜링 완전 시스템에서 프로그램 종료 불보장 |
-| **[Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit** | 이더리움의 Halting Problem 실용적 해결책 |
-| **[Reentrancy Attack](/knowledge-base/studynote/09_security/19_ai_advanced_security/990_reentrancy_attack/)** | 튜링 완전 EVM의 보안 취약점 사례 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a> Limit</strong> | 이더리움의 Halting Problem 실용적 해결책 |
+| <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/990_reentrancy_attack/">Reentrancy Attack</a></strong> | 튜링 완전 EVM의 보안 취약점 사례 |
 | **비트코인 Script** | 의도적 튜링 불완전; [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 우선 |
-| **형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 튜링 완전 컨트랙트의 보안 자동 증명 |
+| <strong>형식 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 튜링 완전 컨트랙트의 보안 자동 증명 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비트코인 Script — 의도적 튜링 불완전, 단순 거래 검증]
-    │
-    ▼
-[이더리움 EVM — 튜링 완전, 스마트 컨트랙트]
-    │
-    ▼
-[Solidity/DeFi — 복잡한 금융 로직 구현]
-    │
-    ▼
-[보안 감사 (CEI, Formal Verification) — 취약점 탐지]
-    │
-    ▼
-[차세대 스마트 컨트랙트 언어 — 안전성 중심 설계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트코인 Script — 의도적 튜링 불완전, 단순 거래 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 EVM — 튜링 완전, 스마트 컨트랙트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Solidity/DeFi — 복잡한 금융 로직 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 감사 (CEI, Formal Verification) — 취약점 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차세대 스마트 컨트랙트 언어 — 안전성 중심 설계</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

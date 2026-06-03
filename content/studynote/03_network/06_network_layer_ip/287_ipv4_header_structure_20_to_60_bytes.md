@@ -11,9 +11,9 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷은 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))를 감싸는 껍질로, 라우터가 목적지를 찾아 배달할 수 있도록 이정표 역할을 하는 **'최소 20바이트에서 최대 60바이트' 크기의 헤더(Header)**를 가진다.
-> 2. **가치**: 현대 네트워크에서 추가 옵션(Options) 필드는 보안 및 성능상의 이유로 거의 쓰이지 않기 때문에, 사실상 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 길이는 **20바이트 고정**이라고 봐도 무방하다.
-> 3. **판단 포인트**: 20바이트의 공간은 크게 **[경로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Source/Dest IP)], [단편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 조립 정보], [수명([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 식별]**의 세 가지 핵심 구역으로 알차게 나뉘어 있다.
+> 1. **본질**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷은 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))를 감싸는 껍질로, 라우터가 목적지를 찾아 배달할 수 있도록 이정표 역할을 하는 <strong>'최소 20바이트에서 최대 60바이트' 크기의 헤더(Header)</strong>를 가진다.
+> 2. **가치**: 현대 네트워크에서 추가 옵션(Options) 필드는 보안 및 성능상의 이유로 거의 쓰이지 않기 때문에, 사실상 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 길이는 <strong>20바이트 고정</strong>이라고 봐도 무방하다.
+> 3. **판단 포인트**: 20바이트의 공간은 크게 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">경로 [설정</a>(Source/Dest IP)], <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화([Fragmentation</a>) 조립 정보], <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">수명([TTL</a>) 및 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 식별]</strong>의 세 가지 핵심 구역으로 알차게 나뉘어 있다.
 
 ---
 
@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: OSI 3계층에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포장하는 규격서. IP 패킷의 맨 앞에 붙어서 전 세계 인터넷 망을 항해하기 위한 온갖 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 담은 20바이트짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표다.
 - **필요성**: 우체국에서 편지를 보낼 때, 맹목적으로 목적지 주소만 적는다고 능사가 아니다. "받는 사람 주소, 보내는 사람 주소, 우표(수명), 등기 여부, 편지봉투 크기"를 양식에 맞춰 빼곡히 적어야 우편집중국(라우터)의 기계가 스캔해서 착착 분류할 수 있다. IP 헤더는 라우터가 0.0001초 만에 뜯어보고 버릴지 보낼지 판단하는 전 세계 공통의 규격서다.
 
-- **💡 비유**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더는 택배 박스 겉면에 붙어있는 **"종합 송장 스티커"**와 같습니다. 스티커에는 보내는 사람(Source IP)과 받는 사람(Dest IP)은 물론이고, 박스 무게(Total Length), 내용물이 옷인지 책인지([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 그리고 유통기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))까지 박스를 배달하는 데 필요한 모든 정보가 암호 같은 숫자로 빼곡히 적혀 있습니다.
+- **💡 비유**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더는 택배 박스 겉면에 붙어있는 <strong>"종합 송장 스티커"</strong>와 같습니다. 스티커에는 보내는 사람(Source IP)과 받는 사람(Dest IP)은 물론이고, 박스 무게(Total Length), 내용물이 옷인지 책인지([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 그리고 유통기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))까지 박스를 배달하는 데 필요한 모든 정보가 암호 같은 숫자로 빼곡히 적혀 있습니다.
 
-```text
-[IPv4]
-    │
-    ▼
-[IPv4 헤더 구조]
-    │
-    └──▶ [버전, 헤더 길이, 서비스 타입, 전체 길이]
-```
 
-- **📢 섹션 요약 비유**: ** [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더는 20바이트라는 극도로 좁은 **"여권(Passport) 앞장"**에 이름, 국적, 생년월일, 만료일 등 라우터(출입국 심사관)가 요구하는 모든 필수 정보를 우겨 넣은 완벽한 디자인의 결정체입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4 헤더 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더는 20바이트라는 극도로 좁은 </strong>"여권(Passport) 앞장"**에 이름, 국적, 생년월일, 만료일 등 라우터(출입국 심사관)가 요구하는 모든 필수 정보를 우겨 넣은 완벽한 디자인의 결정체입니다.
 
 ---
 
@@ -49,39 +53,40 @@ tags = ["studynote-network"]
 
 ### 2. 두 번째 줄 (4 Bytes) - [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 퍼즐 정보
 패킷이 뚱뚱해서 여러 조각으로 찢어졌을 때([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)), 목적지에서 다시 조립하기 위한 번호표다.
-- **[Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 2바이트)**: "우리는 원래 같은 100번 박스에서 찢어진 형제들이야!"라는 고유 번호.
-- **Flags ([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 3비트)**: "나 찢어질 거야(DF)", "내 뒤에 찢어진 조각 더 있어(MF)"를 알리는 신호탄.
-- **Fragment Offset ([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋, 13비트)**: "나는 원래 박스의 300바이트째부터 시작하는 조각이야!"라는 조립 위치 번호.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">Identification</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>, 2바이트)</strong>: "우리는 원래 같은 100번 박스에서 찢어진 형제들이야!"라는 고유 번호.
+- <strong>Flags (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>, 3비트)</strong>: "나 찢어질 거야(DF)", "내 뒤에 찢어진 조각 더 있어(MF)"를 알리는 신호탄.
+- <strong>Fragment Offset (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 오프셋, 13비트)</strong>: "나는 원래 박스의 300바이트째부터 시작하는 조각이야!"라는 조립 위치 번호.
 
 ### 3. 세 번째 줄 (4 Bytes) - 생존과 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
-- **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) ([Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), 1바이트)**: 패킷의 수명. 라우터를 하나 지날 때마다 1씩 깎이며, 0이 되면 우주 미아([Looping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)) 방지를 위해 즉시 폐기(Drop)된다.
-- **[Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (1바이트)**: 내 뱃속(페이로드)에 들어있는 내용물이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(6)인지, [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(17)인지, [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)(1)인지 상위 4계층 모듈을 알려주는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)표.
-- **[Header Checksum](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/) (2바이트)**: 이동 중에 20바이트 헤더가 깨졌는지 검사하는 에러 검출 코드.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">Time To Live</a>, 1바이트)</strong>: 패킷의 수명. 라우터를 하나 지날 때마다 1씩 깎이며, 0이 되면 우주 미아([Looping](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)) 방지를 위해 즉시 폐기(Drop)된다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> (1바이트)</strong>: 내 뱃속(페이로드)에 들어있는 내용물이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(6)인지, [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(17)인지, [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)(1)인지 상위 4계층 모듈을 알려주는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)표.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/">Header Checksum</a> (2바이트)</strong>: 이동 중에 20바이트 헤더가 깨졌는지 검사하는 에러 검출 코드.
 
 ### 4. 네 번째 & 다섯 번째 줄 (8 Bytes) - 주소
 - **Source IP Address (4바이트)**: 보내는 놈의 32비트 IP 주소.
 - **Destination IP Address (4바이트)**: 받는 놈의 32비트 IP 주소.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv4 헤더 (20 Bytes 고정부) 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0                   15                  31 (Bits)         │
- │   ┌────┬────┬────────┬──────────────────────┐ (4B)          │
- │   │VER │IHL │  TOS   │     Total Length     │               │
- │   ├────┴────┴────────┼────┬─────────────────┤ (4B)          │
- │   │  Identification  │Flag│ Fragment Offset │               │
- │   ├────────┬─────────┼────┴─────────────────┤ (4B)          │
- │   │  TTL   │ Protocol│   Header Checksum    │               │
- │   ├────────┴─────────┴──────────────────────┤ (4B)          │
- │   │         Source IP Address (32bit)       │               │
- │   ├─────────────────────────────────────────┤ (4B)          │
- │   │      Destination IP Address (32bit)     │               │
- │   └─────────────────────────────────────────┘               │
- │        ... [ Options (0~40B) - 거의 안 씀 ] ...               │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv4 헤더 (20 Bytes 고정부) 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 15 31 (Bits)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VER</div><div class="kb-diagram-cell">IHL</div><div class="kb-diagram-cell">TOS</div><div class="kb-diagram-cell">Total Length</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identification</div><div class="kb-diagram-cell">Flag</div><div class="kb-diagram-cell">Fragment Offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL</div><div class="kb-diagram-cell">Protocol</div><div class="kb-diagram-cell">Header Checksum</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source IP Address (32bit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Destination IP Address (32bit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Options (0~40B) - 거의 안 씀</div><div class="kb-diagram-note">...</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 라우터는 우체국 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스캐너입니다. 패킷이 날아오면 1행에서 박스 크기를 재고, 2행에서 박스가 찢어졌는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 3행에서 유통기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 살핀 뒤, 4/5행의 도착지 주소(IP)를 보고 컨베이어 벨트를 튕겨냅니다. 이 완벽한 5줄의 조합이 전 세계 인터넷을 돌아가게 합니다.
 
@@ -139,15 +144,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv4]
-    │
-    ▼
-[현재 개념: IPv4 헤더 구조]
-    │
-    ├──▶ [확장 A: 버전, 헤더 길이, 서비스 타입, 전체 길이]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv4</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv4 헤더 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 구조는 IPv4에서 출발해 현재 메커니즘을 정교화하고, 이후 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 헤더 길이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입, 전체 길이와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

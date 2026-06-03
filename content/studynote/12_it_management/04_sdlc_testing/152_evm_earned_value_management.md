@@ -10,9 +10,9 @@ tags = ["studynote-it-management"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: EVM([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))은 "사장님 통장에 돈 50% 썼으니 일도 50% 끝났겠지 ㅋ" 라는 멍청한 뇌피셜 희망 회로(Hope)를 도끼로 찢어발기고 ➔ **계획한 예산([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)), 실제로 쓴 돈([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)), 그리고 진짜 삽질해서 완성해 낸 쇳덩이 가치([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))** 3차원 십자 융합 지표로 프로젝트의 피 터지는 생존 건강 상태를 실시간 스캔 치는 엑스레이 레이더다.
-> 2. **가치**: 대형 차세대 100억 프로젝트가 런칭일 3달 앞두고 터지는 적자 폭사 셧다운([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 파국) 멸망을 막기 위해 ➔ 시작 20% 극초반 시점부터 **비용 효율([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))과 일정 효율([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 인바디 성적표**를 0.1초 컷 소수점 단위로 까발려 조기 경보 사이렌(Early Warning) 록온 쉴드를 터뜨려 주는 PM(아키텍트)의 절대 권력 생명줄이다.
-> 3. **판단 포인트**: 수학적 심판대 1법칙!! **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 나 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 가 1.0(100% 본전) 보다 숫자가 작으면(0.8 떡락 꽂히면) ➔ 100% 빼박 비용 초과 적자 빵꾸 터졌거나, 런칭 지각 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 뻗음 파산 상태로 타죽고 있다는 치명적 블러드(Blood) 사형 선고 팩폭 징후**이므로, 당장 크래싱(Crashing 야근 돈 폭격) 수술 메스를 들어야 한다 🚀.
+> 1. **본질**: EVM([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))은 "사장님 통장에 돈 50% 썼으니 일도 50% 끝났겠지 ㅋ" 라는 멍청한 뇌피셜 희망 회로(Hope)를 도끼로 찢어발기고 ➔ <strong>계획한 예산(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>), 실제로 쓴 돈(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">AC</a>), 그리고 진짜 삽질해서 완성해 낸 쇳덩이 가치(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>)</strong> 3차원 십자 융합 지표로 프로젝트의 피 터지는 생존 건강 상태를 실시간 스캔 치는 엑스레이 레이더다.
+> 2. **가치**: 대형 차세대 100억 프로젝트가 런칭일 3달 앞두고 터지는 적자 폭사 셧다운([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 파국) 멸망을 막기 위해 ➔ 시작 20% 극초반 시점부터 <strong>비용 효율(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a>)과 일정 효율(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a>) 인바디 성적표</strong>를 0.1초 컷 소수점 단위로 까발려 조기 경보 사이렌(Early Warning) 록온 쉴드를 터뜨려 주는 PM(아키텍트)의 절대 권력 생명줄이다.
+> 3. **판단 포인트**: 수학적 심판대 1법칙!! <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> 나 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a> 가 1.0(100% 본전) 보다 숫자가 작으면(0.8 떡락 꽂히면) ➔ 100% 빼박 비용 초과 적자 빵꾸 터졌거나, 런칭 지각 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 뻗음 파산 상태로 타죽고 있다는 치명적 블러드(Blood) 사형 선고 팩폭 징후</strong>이므로, 당장 크래싱(Crashing 야근 돈 폭격) 수술 메스를 들어야 한다 🚀.
 
 ---
 
@@ -25,11 +25,11 @@ tags = ["studynote-it-management"]
 막상 런칭 날 뚜껑 까보니 ➔ 코더 놈들이 매일 야식 비싼 거 쳐먹고 유흥비로 돈만 미친 듯이 소각 분쇄([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 폭파 💀) 쳤고 ➔ 정작 로켓 쇳덩이 코드(완성품 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%밖에 못 짜고 놀았던 거다 쾅!! 
 돈은 100% 오링 탕진 증발 났는데 로켓 코딩은 20%밖에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 안 돼 미사일 터지지도 않고 1조 원 국방 예산 통째 폭사 수장 파산 사형 선고 대참사 멸망이 터짐 💀.
 
-**아키텍트 펜타곤 제독의 철퇴 🪓**: "야 이 미친 좆소 뇌피셜 타자기 새끼들아!! 하늘이 두 쪽 나도 **[내가 계좌에서 쓴 돈 지출([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/): [Actual Cost](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))] 이랑 ➔ [니가 진짜 땀 흘려서 깎아 만들어온 쇳덩이 결과물 가치([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/): Earned Value 획득 가치)] 는 완전히 다른 평행 우주 별개 세상 팩트야 도끼로 100% 찢어 이혼시켜 분리 계산 스캔 록온 쳐라 쾅 🚀!!!** 
+**아키텍트 펜타곤 제독의 철퇴 🪓**: "야 이 미친 좆소 뇌피셜 타자기 새끼들아!! 하늘이 두 쪽 나도 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">내가 계좌에서 쓴 돈 지출([AC</a>: <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">Actual Cost</a>)] 이랑 ➔ <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">니가 진짜 땀 흘려서 깎아 만들어온 쇳덩이 결과물 가치([EV</a>: Earned Value 획득 가치)] 는 완전히 다른 평행 우주 별개 세상 팩트야 도끼로 100% 찢어 이혼시켜 분리 계산 스캔 록온 쳐라 쾅 🚀!!!</strong> 
 어제 통장에서 500억 타서 썼어도([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)), 니가 삽질해서 캐온 로켓 부품 쇳덩어리가 고작 100억어치 쓰레기([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))면 ➔ 넌 400억 적자 허공에 불태운 사기꾼 병신 횡령범 타살 뻗음 팩폭 상태인 거다 쾅!! 당장 이 3개의 축([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))으로 프로젝트 인바디 혈당 수치 엑스레이 레이더(EVM) 띄워 실시간 감시 방폭문 쉴드 텐트 올려 🚀!!" 
 이것이 인류가 "돈 쓰는 속도 뽕"의 맹신에서 벗어나 "진짜 완성된 쇳덩이 가치([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))" 중심의 통계 과학(Data-driven) 제국으로 도약하게 된 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 일정/원가 통합 아키텍처의 위대한 개국 선언이다.
 
-- **📢 섹션 요약 비유**: 옛날 전통 깡통 예산 관리가 **'엄마 통장 체크카드 문자 알림'**과 100% 똑같습니다. 학원 가라고 50만 원 줬는데 카드 문자로 50만 원 다 썼다고 뜹니다. "오 우리 아들 학원 진도 50%나 나갔네 ㅋ" 자위 침 💥 (근데 아들 놈이 그 돈으로 피시방 가서 롤 현질 다 탕진함 💀). **EVM(획득 가치 통치 텐트 🚀)**은 다릅니다!! 통장 문자([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 실제 쓴 돈) 따위 알 바 좆까고!! 당장 방 문 부수고 쳐들어가서 **'아들 새끼가 1달 동안 펜으로 진짜 풀어낸 수학 문제집 똥종이 장수([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 진짜 획득한 가치 증거물 쇳덩이)'** 매수를 직접 내 두 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 현미경 스캔 쳐서 ➔ "어 이 새끼 돈 50 다 썼는데 문제집 1장 풀었네 사기꾼 개새끼 엎드려뻗쳐 쾅🪓!!" 0.1초 컷 적자 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 팩트 검열 척살 때려버리는 잔혹 무결점 감시망입니다.
+- **📢 섹션 요약 비유**: 옛날 전통 깡통 예산 관리가 <strong>'엄마 통장 체크카드 문자 알림'</strong>과 100% 똑같습니다. 학원 가라고 50만 원 줬는데 카드 문자로 50만 원 다 썼다고 뜹니다. "오 우리 아들 학원 진도 50%나 나갔네 ㅋ" 자위 침 💥 (근데 아들 놈이 그 돈으로 피시방 가서 롤 현질 다 탕진함 💀). <strong>EVM(획득 가치 통치 텐트 🚀)</strong>은 다릅니다!! 통장 문자([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 실제 쓴 돈) 따위 알 바 좆까고!! 당장 방 문 부수고 쳐들어가서 <strong>'아들 새끼가 1달 동안 펜으로 진짜 풀어낸 수학 문제집 똥종이 장수(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> 진짜 획득한 가치 증거물 쇳덩이)'</strong> 매수를 직접 내 두 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 현미경 스캔 쳐서 ➔ "어 이 새끼 돈 50 다 썼는데 문제집 1장 풀었네 사기꾼 개새끼 엎드려뻗쳐 쾅🪓!!" 0.1초 컷 적자 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 팩트 검열 척살 때려버리는 잔혹 무결점 감시망입니다.
 
 ---
 
@@ -37,44 +37,42 @@ tags = ["studynote-it-management"]
 
 "아 공식 씨발 알파벳 존나 헷갈리네 뇌 터짐 ㅠ" 주니어 뇌 정지를 박살 내는 3대 코어 쇳덩이 지표 십자 융합 맵이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          EVM 3차원 엑스레이 (PV, EV, AC) 심장 박동 팩트 록온 도해 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 🎯 [ 0순위 베이스캠프: BAC (Budget at Completion) 총예산 ]           │
-│   - 사장님이 처음에 결재 승인 도장 찍어준 프로젝트 1통 전체 총 쩐당 100억.    │
-│                                                             │
-│        ======= [ 🌟 현재 시점 (3개월 차) 엑스레이 레이더 스캔 ✨ ] ========│
-│                                                             │
-│ 📝 1. PV (Planned Value 계획 가치) ➔ "나의 뇌피셜 행복 회로 스케줄" │
-│   - 원래 스케줄 엑셀 계획표상 3달 차인 오늘까지 50억어치 건물을 다 올렸어야 함 ㅋ.│
-│   - (팩트: 걍 벽에 걸어둔 계획표일 뿐 아직 아무 일도 안 일어남).             │
-│                                                             │
-│ 💸 2. AC (Actual Cost 실제 투입 원가) ➔ "내 피 같은 통장 잔고 피눈물" │
-│   - 인건비, 피자값 야식값, 서버 AWS 요금 다 영수증 긁어모아 합쳐보니      │
-│     통장에서 실제로 60억 현금이 허공에 타서 털려 증발해 나감 💀.          │
-│                                                             │
-│ 🏆 3. EV (Earned Value 진짜 획득 가치 쇳덩이) ➔ "진실의 심판대 팩폭 🪓"│
-│   - 현장 공사판 내려가서 진짜 콘크리트 부어진 빌딩 층수 각 재고 채점 쳐봄!! │
-│     "어 시발? 건물 40억어치밖에 못 올렸네 좆망 ㅋ 뼈대 다 부실해 무너짐 💥!" │
-│   - (핵심: 60억을 썼든 말든 알 바 아님 ㅋ 내 눈앞에 서 있는 쇳덩이 가치는 오직 40억어치뿐!)│
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[아키텍트의 피 터지는 심판 믹서기: [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 십자 융합 수술 ✨]**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM 3차원 엑스레이 (PV, EV, AC) 심장 박동 팩트 록온 도해 🚀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">0순위 베이스캠프: BAC (Budget at Completion) 총예산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사장님이 처음에 결재 승인 도장 찍어준 프로젝트 1통 전체 총 쩐당 100억.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 현재 시점 (3개월 차) 엑스레이 레이더 스캔 ✨</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📝 1. PV (Planned Value 계획 가치) ➔ "나의 뇌피셜 행복 회로 스케줄"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원래 스케줄 엑셀 계획표상 3달 차인 오늘까지 50억어치 건물을 다 올렸어야 함 ㅋ.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (팩트: 걍 벽에 걸어둔 계획표일 뿐 아직 아무 일도 안 일어남).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💸 2. AC (Actual Cost 실제 투입 원가) ➔ "내 피 같은 통장 잔고 피눈물"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인건비, 피자값 야식값, 서버 AWS 요금 다 영수증 긁어모아 합쳐보니</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통장에서 실제로 60억 현금이 허공에 타서 털려 증발해 나감 💀.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🏆 3. EV (Earned Value 진짜 획득 가치 쇳덩이) ➔ "진실의 심판대 팩폭 🪓"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현장 공사판 내려가서 진짜 콘크리트 부어진 빌딩 층수 각 재고 채점 쳐봄!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어 시발? 건물 40억어치밖에 못 올렸네 좆망 ㅋ 뼈대 다 부실해 무너짐 💥!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (핵심: 60억을 썼든 말든 알 바 아님 ㅋ 내 눈앞에 서 있는 쇳덩이 가치는 오직 40억어치뿐!)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/">아키텍트의 피 터지는 심판 믹서기: [CV</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/">SV</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a> 십자 융합 수술 ✨]</strong>
 위에 뽑은 3개 팩트 숫자([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 50억, [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 60억, [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 40억)를 곱하고 빼서 ➔ 프로젝트 사형 선고 엑스레이 성적표를 1초 컷으로 도출해 낸다 쾅!!
 
-1. **차이([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 뺄셈 수학) 분석 - 얼마 빵꾸남?**
-   - **[CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) (비용 편차 [Cost Variance](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))** = **`EV - AC`** = 40억 - 60억 = **-20억 (마이너스 음수 💀!!)** ➔ "아 씨발 40억짜리 허접 건물 짓는데 통장 돈 60억이나 꼴아박았네!! **20억 적자 폭파 멸망 쾅!!!**"
-   - **[SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/) (일정 편차 Schedule [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))** = **`EV - PV`** = 40억 - 50억 = **-10억 (마이너스 음수 💀!!)** ➔ "아 미친 오늘 50억어치 목표 엑셀 찍었어야 하는데 40억 진도밖에 못 나갔네!! **10억어치 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 지각 런칭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 쾅!!!**"
+1. <strong>차이(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> 뺄셈 수학) 분석 - 얼마 빵꾸남?</strong>
+   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/">CV</a> (비용 편차 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/">Cost Variance</a>)</strong> = <strong><code>EV - AC</code></strong> = 40억 - 60억 = **-20억 (마이너스 음수 💀!!)** ➔ "아 씨발 40억짜리 허접 건물 짓는데 통장 돈 60억이나 꼴아박았네!! **20억 적자 폭파 멸망 쾅!!!**"
+   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/">SV</a> (일정 편차 Schedule <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> = <strong><code>EV - PV</code></strong> = 40억 - 50억 = **-10억 (마이너스 음수 💀!!)** ➔ "아 미친 오늘 50억어치 목표 엑셀 찍었어야 하는데 40억 진도밖에 못 나갔네!! <strong>10억어치 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a> 지각 런칭 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 뻗음 쾅!!!</strong>"
 
-2. **효율([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 나눗셈 엑스레이) 분석 - 우리 팀 가성비 병신임?**
-   - **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (비용 성과 지수 Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))** = **`EV / AC`** = 40 / 60 = **★ 0.67 ★** ➔ "야 이 좆소 타자기야!! 니들 돈 1원 통장에서 빼 쓸 때마다, 진짜 만들어오는 쇳덩이 가치는 0.67원어치밖에 안 되네 ㅋ 나머지 0.33원은 걍 유흥비로 술 쳐먹고 불태워 탕진 버렸지 사기꾼 횡령범 새끼들아 대가리 박아 쾅 🪓!!!" **(1.0 이하 떡락 ➔ 초거대 씹적자 재앙 상태 💀)**.
-   - **[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (일정 성과 지수 Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))** = **`EV / PV`** = 40 / 50 = **★ 0.8 ★** ➔ "야 원래 하루에 10장 코딩 쳐야 되는데 니들 속도가 시속 0.8 속도밖에 안 나와서 빌빌 기고 질질 짜고 있네 ㅋ 런칭일 오픈 백퍼 100% 밀림 셧다운 뻗음 보장 쾅 🚀!!!" **(1.0 이하 떡락 ➔ 런칭 데드라인 폭파 지각 확정 💀)**.
+2. <strong>효율(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> 나눗셈 엑스레이) 분석 - 우리 팀 가성비 병신임?</strong>
+   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> (비용 성과 지수 Cost <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong> = <strong><code>EV / AC</code></strong> = 40 / 60 = **★ 0.67 ★** ➔ "야 이 좆소 타자기야!! 니들 돈 1원 통장에서 빼 쓸 때마다, 진짜 만들어오는 쇳덩이 가치는 0.67원어치밖에 안 되네 ㅋ 나머지 0.33원은 걍 유흥비로 술 쳐먹고 불태워 탕진 버렸지 사기꾼 횡령범 새끼들아 대가리 박아 쾅 🪓!!!" **(1.0 이하 떡락 ➔ 초거대 씹적자 재앙 상태 💀)**.
+   - <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a> (일정 성과 지수 Schedule <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong> = <strong><code>EV / PV</code></strong> = 40 / 50 = **★ 0.8 ★** ➔ "야 원래 하루에 10장 코딩 쳐야 되는데 니들 속도가 시속 0.8 속도밖에 안 나와서 빌빌 기고 질질 짜고 있네 ㅋ 런칭일 오픈 백퍼 100% 밀림 셧다운 뻗음 보장 쾅 🚀!!!" **(1.0 이하 떡락 ➔ 런칭 데드라인 폭파 지각 확정 💀)**.
 
-- **📢 섹션 요약 비유**: 이 EVM 4대 엑스레이([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 심판대는, **'학교 기말고사 성적표 십자 팩폭'**과 완벽히 100% 똑같습니다. 
-공식 외울 때 머리 터지지 마세요! **무조건 앞 대가리 분자(기준)는 내가 진짜 땀 흘려 따낸 시험 점수 성적 EV (Earned Value 내 진짜 가치)]**가 최우선 절대 코어 주인공입니다 🚀! 
+- **📢 섹션 요약 비유**: 이 EVM 4대 엑스레이([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), [SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)) 심판대는, <strong>'학교 기말고사 성적표 십자 팩폭'</strong>과 완벽히 100% 똑같습니다. 
+공식 외울 때 머리 터지지 마세요! <strong>무조건 앞 대가리 분자(기준)는 내가 진짜 땀 흘려 따낸 시험 점수 성적 EV (Earned Value 내 진짜 가치)]</strong>가 최우선 절대 코어 주인공입니다 🚀! 
 `EV(내 찐 실력) - PV(엄마 기대치)` 뺐는데 음수면? 엄마 기대보다 멍청해서 쳐맞는 거고(일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 지각 💥). 
 `EV(내 찐 실력) - AC(학원비 투자금)` 뺐는데 음수면? 학원비 수천만 원 쳐부었는데 성적 똥이라 돈 허공에 날린 사기꾼 등골 브레이커 가성비 병신(비용 초과 파국 💀) 판결 록온 떨어지는 우주 최강 직관적 통계 쉴드입니다.
 
@@ -86,18 +84,18 @@ tags = ["studynote-it-management"]
 
 | 미래 예측 지표 (Forecasting) | 팩폭 아키텍트의 수학 믹서기 계산 록온 도면 ✨ | 비즈니스 멸망 사형 선고 해석 🪓 |
 |:---|:---|:---|
-| **EAC** <br>(Estimate at Completion 완료 시 예측 총비용) | **`BAC / CPI`** (현재 멍청한 가성비 속도 평생 똑같이 간다고 치면 ㅋ) <br> ➔ 100억 / 0.67 = **★ 150억 ★ 떡상 폭발 💥** | "사장님 좆됐습니다 ㅠ 원래 100억짜리 예산인데, 지금 애들 코딩 속도 0.67 좆버러지 상태로 냅두고 계속 이대로 가면 ➔ **오픈 날 최종 정산 영수증 150억 찍혀서 50억 은행 빚지고 부도 파산 멸망 터집니다 💀!!** 당장 엎어 수술해 쾅!" |
-| **ETC** <br>(Estimate to Complete 잔여 투입 예산) | **`EAC - AC`** <br> ➔ 150억 - 60억(이미 불태워 쓴 돈) = **★ 90억 ★** | "야 시발 지금 우리 통장 잔고 40억 남았는데, 앞으로 런칭 때까지 밑 빠진 독에 90억이나 더 부어야 완공 됨 ㅋ 사장님 집 팔아 돈 더 꿔오세요 타죽음 뻗음 💀." |
-| **VAC** <br>([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) at Completion 최종 완료 적자 차이) | **`BAC - EAC`** <br> ➔ 100억 - 150억 = **★ -50억 (마이너스) ★** | "최종 예산 결산 시말서 50억 적자 타죽음 영구 빵꾸 도장 쾅 확정 팩트 🚀." |
+| **EAC** <br>(Estimate at Completion 완료 시 예측 총비용) | <strong><code>BAC / CPI</code></strong> (현재 멍청한 가성비 속도 평생 똑같이 간다고 치면 ㅋ) <br> ➔ 100억 / 0.67 = **★ 150억 ★ 떡상 폭발 💥** | "사장님 좆됐습니다 ㅠ 원래 100억짜리 예산인데, 지금 애들 코딩 속도 0.67 좆버러지 상태로 냅두고 계속 이대로 가면 ➔ **오픈 날 최종 정산 영수증 150억 찍혀서 50억 은행 빚지고 부도 파산 멸망 터집니다 💀!!** 당장 엎어 수술해 쾅!" |
+| **ETC** <br>(Estimate to Complete 잔여 투입 예산) | <strong><code>EAC - AC</code></strong> <br> ➔ 150억 - 60억(이미 불태워 쓴 돈) = **★ 90억 ★** | "야 시발 지금 우리 통장 잔고 40억 남았는데, 앞으로 런칭 때까지 밑 빠진 독에 90억이나 더 부어야 완공 됨 ㅋ 사장님 집 팔아 돈 더 꿔오세요 타죽음 뻗음 💀." |
+| **VAC** <br>([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) at Completion 최종 완료 적자 차이) | <strong><code>BAC - EAC</code></strong> <br> ➔ 100억 - 150억 = **★ -50억 (마이너스) ★** | "최종 예산 결산 시말서 50억 적자 타죽음 영구 빵꾸 도장 쾅 확정 팩트 🚀." |
 
-**[아키텍트의 최후의 영혼 쥐어짜기: TCPI (To-Complete [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 남은 효율 목표치 ✨)]**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">아키텍트의 최후의 영혼 쥐어짜기: TCPI (To-Complete [Performance</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> 남은 효율 목표치 ✨)]</strong>
 사장님 극대노: "야 이 씨발롬아 누가 150억 결재 해준대?! 하늘이 두 쪽 나도 처음 약속한 100억(BAC) 예산 안에 쇼핑몰 런칭 무조건 쑤셔 넣어 뚫어 박아 통과시켜 살려내 쾅 🪓!!!"
 - **아키텍트 TCPI 기적 융합 메스 🚀**: "오케이 사장님 잔여 작업 방폭문 텐트 계산기 윙 돌립니다 쾅!! 
 `TCPI = (남은 쇳덩이 일거리 BAC - EV) / (통장에 남은 돈 BAC - AC)` 
 ➔ (100억 - 40억) / (100억 - 60억) = 60억 / 40억 = **★ 1.5 ★ 극강 텐션 목표치 도출 록온 쾅!!!** 
-야 이 개새끼 타자기 코더 놈들아 집합해 대가리 박아 쾅!! 니들이 전반전에 0.67 속도 똥 가성비로 돈 다 까먹고 뻗었지 💀!! 후반전 런칭 남은 기간 동안엔 돈 1원 받을 때마다 1.5원어치 쇳덩이 코드를 입에 거품 물고 토해내는 **[150% 가성비 효율 1.5배 광속 초인 펌핑 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(TCPI 1.5 달성)]**을 미친 듯이 미라클 런타임으로 이뤄내야만!! 간신히 사장님 예산 100억 안 뚫리고 무혈 런칭 목숨 턱걸이 구원 생존 패스(Pass) 할 수 있다 핏줄 쥐어짜 압살 돌격 시작 쳐 쾅🚀!!!"
+야 이 개새끼 타자기 코더 놈들아 집합해 대가리 박아 쾅!! 니들이 전반전에 0.67 속도 똥 가성비로 돈 다 까먹고 뻗었지 💀!! 후반전 런칭 남은 기간 동안엔 돈 1원 받을 때마다 1.5원어치 쇳덩이 코드를 입에 거품 물고 토해내는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">150% 가성비 효율 1.5배 광속 초인 펌핑 [스케일 업</a>(TCPI 1.5 달성)]</strong>을 미친 듯이 미라클 런타임으로 이뤄내야만!! 간신히 사장님 예산 100억 안 뚫리고 무혈 런칭 목숨 턱걸이 구원 생존 패스(Pass) 할 수 있다 핏줄 쥐어짜 압살 돌격 시작 쳐 쾅🚀!!!"
 
-- **📢 섹션 요약 비유**: 이 TCPI 1.5 달성 팩폭은 **'대학생의 학점 메우기 피눈물 똥꼬쇼'**와 100% 똑같습니다. 1학년 때 술 쳐먹고 매일 놀아서 평점 1.0([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.67 똥 가성비) 맞고 쓰레기 바닥 긁었습니다 💥. 졸업(런칭) 때 삼성 취업 컷인 평균 학점 3.0(BAC 100억 사장님 목표)을 어떻게든 맞춰야 합니다. 그럼 4학년 남은 학기(잔여 작업) 동안 걍 평소처럼 열심히 3.0 맞으면 될까요? 좆까 절대 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 타죽습니다 💀!! 앞서 싸지른 똥 빵꾸를 메우려면 남은 학기 동안 무.조.건 올 A+ 4.5 만점(TCPI 1.5 150% 미친 초인 가성비)을 입에 피 토하며 계속 꽂아 쳐 박아야만 간신히 평균 3.0 턱걸이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스위칭 생명 연장이 달성되는 피 말리는 지옥의 남은 텐션(Efficiency) 요구치 통계학입니다.
+- **📢 섹션 요약 비유**: 이 TCPI 1.5 달성 팩폭은 <strong>'대학생의 학점 메우기 피눈물 똥꼬쇼'</strong>와 100% 똑같습니다. 1학년 때 술 쳐먹고 매일 놀아서 평점 1.0([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.67 똥 가성비) 맞고 쓰레기 바닥 긁었습니다 💥. 졸업(런칭) 때 삼성 취업 컷인 평균 학점 3.0(BAC 100억 사장님 목표)을 어떻게든 맞춰야 합니다. 그럼 4학년 남은 학기(잔여 작업) 동안 걍 평소처럼 열심히 3.0 맞으면 될까요? 좆까 절대 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 타죽습니다 💀!! 앞서 싸지른 똥 빵꾸를 메우려면 남은 학기 동안 무.조.건 올 A+ 4.5 만점(TCPI 1.5 150% 미친 초인 가성비)을 입에 피 토하며 계속 꽂아 쳐 박아야만 간신히 평균 3.0 턱걸이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 스위칭 생명 연장이 달성되는 피 말리는 지옥의 남은 텐션(Efficiency) 요구치 통계학입니다.
 
 ---
 
@@ -108,23 +106,23 @@ tags = ["studynote-it-management"]
 ### 실무 판단 시나리오
 1. **EVM 20% 조기 경보 룰 (Early Warning 텐트 쉴드 🛡️)**: 
    "아직 프로젝트 초반([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 진도)인데 CPI가 0.8로 좀 떡락했네요 ㅋ 담달에 야근해서 메우면 금방 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)됨여 걱정 마 데헷 ㅋ" 주니어 PM의 뇌피셜 헛소리.
-   - **아키텍트 팩폭 통계 메스 🪓**: "야 이 미친 사기꾼 놈아 아가리 묵비권 락 걸어 쾅!!! 미 국방부 수천 개 프로젝트 50년 통계 빅데이터 팩트 진리 헌법에 의하면!! **[프로젝트 쇳덩이 진도 20% 지점을 통과(Crossing) 하는 0.001초 찰나에 찍힌 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(비용 성과 지수) 성적표는 ➔ 우주가 멸망할 때까지 죽었다 깨어나도 다시 1.0 정상 수치 이상으로 100% 절대 자연 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 오토 힐링 회복될 수 없다 쾅💀!!!]** 
+   - **아키텍트 팩폭 통계 메스 🪓**: "야 이 미친 사기꾼 놈아 아가리 묵비권 락 걸어 쾅!!! 미 국방부 수천 개 프로젝트 50년 통계 빅데이터 팩트 진리 헌법에 의하면!! <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">프로젝트 쇳덩이 진도 20% 지점을 통과(Crossing) 하는 0.001초 찰나에 찍힌 [CPI</a>(비용 성과 지수) 성적표는 ➔ 우주가 멸망할 때까지 죽었다 깨어나도 다시 1.0 정상 수치 이상으로 100% 절대 자연 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 오토 힐링 회복될 수 없다 쾅💀!!!]</strong> 
    이 초반에 뚫린 0.8 적자 누수 스노우볼은 후반 갈수록 스파게티 얽히며 0.6, 0.5로 더 나락 지옥 폭파 팽창 뻗을 뿐이야 미친아!! 초반 20% 진도에 CPI가 1.0 밑으로 빨간불 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 터진 순간 ➔ 인간의 헛된 야근 희망 회로(Hope) 싹 다 불태워 버리고! 당장 경영진 소집해서 런칭 범위 스펙([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 가위로 도끼 절단 축소 칼질 치거나, 크래싱(Crashing 돈 수십억 갈아 넣어 외주 인력 펌핑 투하) 긴급 수술 메스 들이대지 않으면 니들 다 런칭 날 소송 파산 징역 엔딩 수장 타 죽는다 무결점 선제 타격 방어 쳐라 쾅 🚀!!!"
-2. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) EVM의 스위칭 융합 진화 ✨ (AgileEVM 대관식)**: 
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) EVM의 스위칭 융합 진화 ✨ (AgileEVM 대관식)</strong>: 
    "아 엑셀에 돈(Cost) 일일이 계산 쳐 넣는 EVM 그거 존나 폭포수(Waterfall) 꼰대 구닥다리 쇳덩이 노가다잖아 ㅋ 우린 JIRA 쓰면서 2주 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 치니까 저딴 거 찢어 버릴게 ㅋ"
    - **판단 (아키텍트 지라 Jira 백엔드 오토 융합 🚀)**: "야 이 좆소 힙스터 눈먼 장님 새끼야 본질 DNA 뼈대를 읽어 쾅!! [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 쓴다고 EVM이 멸망한 게 아냐!! **[돈(Dollar $)] 이라는 낡은 화폐 척도가 ➔ [스토리 포인트([Story Point](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) / [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/))] 라는 모던 클라우드 개발 텐션 척도로 껍데기 포장지만 완벽히 100% 스위칭 환생 둔갑 빙의 변태된 거다 쾅!!!** 
    [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작할 때 백로그 티켓 합계 100SP 꽂은 게 PV (계획 가치)] 고! 2주 뒤 금요일에 런타임 데모 통과해서 다 끝낸 티켓 40SP가 EV (획득 가치 찐 실력)] 야!! 그리고 너희가 2주 동안 밥 먹으며 소비한 실제 맨먼스 일수(M/M Time)가 AC (투입 원가 비용)] 이다 미친아!! 
    지라(JIRA) 대시보드 [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)(Burn-down) 꺾이는 속도 엑스레이 스캔 쳐서 ➔ 벨로시티(Velocity 속도) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 튕기는 게 결국 EVM의 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)/[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 수학 믹서기를 백그라운드 봇이 지 혼자 무지성 오토 자동 계산 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-load) 짬처리 쳐주는 것뿐이야 🚀!! 인류 소프트웨어 통제 공학에서 '계획' 대비 '완료된 가치'를 스캔 치는 EVM 영혼은 영원 불멸 우주 통일 절대 성배 헌법이다 쾅!!"
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **50-50 룰 (진척도 측정) 쓰레기 뇌피셜 기만술 붕괴 💀 (The Milestone Weighting Death [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))**: 
+- <strong>50-50 룰 (진척도 측정) 쓰레기 뇌피셜 기만술 붕괴 💀 (The Milestone Weighting Death <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)</strong>: 
   EVM의 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(찐 실력 가치)를 엑셀에 적을 때 코더 왈 "음.. 로그인 화면 코드 100줄 짜야 되는데, 오늘 30줄 쳤으니까 진척도 30% 네 ㅋ [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 30% 먹어 데헷 ㅋ"
   **대재앙 발동 💥**: 코더 새끼들이 지 맘대로 % 퍼센트 주관적 뇌피셜로 때려 적어 뻥튀기 펌핑 자위 치니까 ➔ [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 대시보드엔 맨날 EVM 100% 초록불 무결점 쾌속 순항이라 떴음. 근데 오픈 D-1 날 서버 띄워 데모 까보니까 에러 404 엑스박스 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 올스탑 로그인 1번도 안 됨 💀!! 1년 치 가짜 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 구라 장부에 속아 전사 100억 소송 파산 멸망 폭사 터짐 쾅!!!
   - **아키텍트 0-100 절대 진리 방폭문 🪓**: "야 이 미친 놈들아!! 코딩 줄 수나 인간의 감정 뇌피셜로 진척도 % 채점 치는 짓거리 당장 사형 폐지 컷 쳐 찢어발겨 쾅!!! 
   하늘이 두 쪽 나도 진척도 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 채점은 **[0-100 룰 (0-100 Rule 무자비 록온 텐트)]** 단 1개 헌법만 인정한다!! 코딩 99.9% 짜고 화면 다 예쁘게 나와도 테스트 서버 데모 도장([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 통과 못 했으면? ➔ 씨발 걍 쓰레기 고철 덩어리야 진척도 [0% 팩트 타격 쾅!!] 
   오직 유저가 마우스 눌러서 결제 성공 100% 무결점 통과 승인(Sign-off) 패스 떴을 그 찰나의 0.001초 순간에만 ➔ 비로소 진척도 게이지를 **[100% 만점 쾌속 수직 상승 스위칭]** 시켜 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 점수를 인정해 줘라!! 중간 과정 찌끄레기 30% 50% 꼼수 퍼센트는 절대 악마의 늪 파국이다 우주 쉴드 차단 쳐 🚀!!!"
 
-- **📢 섹션 요약 비유**: 이 50-50 룰 뇌피셜 뻥튀기 멸망은, 마라톤 42km 뛰는데 **'내 느낌상 반쯤 온 거 같음 ㅋ 50% 통과(가짜 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 획득)'** 구라 치는 짓과 똑같습니다. 실제론 10km 뛰고 체력 뻗어서 탈진 뒤질 거 같은데 장부엔 50% [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)이라고 사기 치며 달리는 겁니다(스노우볼 파국 💥). 아키텍트의 0-100 무자비 룰은 **'전자 칩 인식 결승선 통과(센서 록온 쉴드)'**입니다! 트랙 중간에 아무리 피 토하고 기어 와도 점수 1도 안 줍니다(0%). 오직 진짜 결승선 센서 바닥을 내 발로 쾅 밟고 지나가서 서버에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도장 찰칵 찍혔을 때만(100% 완료) 기록을 점수([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))로 쳐주기 때문에, 코더들이 엑셀 장부로 거짓말 기만술 치는 헛짓거리를 완벽 투명하게 차단 색출 도륙 내는 무결점 통제 방어 텐트입니다 🚀.
+- **📢 섹션 요약 비유**: 이 50-50 룰 뇌피셜 뻥튀기 멸망은, 마라톤 42km 뛰는데 <strong>'내 느낌상 반쯤 온 거 같음 ㅋ 50% 통과(가짜 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> 획득)'</strong> 구라 치는 짓과 똑같습니다. 실제론 10km 뛰고 체력 뻗어서 탈진 뒤질 거 같은데 장부엔 50% [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)이라고 사기 치며 달리는 겁니다(스노우볼 파국 💥). 아키텍트의 0-100 무자비 룰은 <strong>'전자 칩 인식 결승선 통과(센서 록온 쉴드)'</strong>입니다! 트랙 중간에 아무리 피 토하고 기어 와도 점수 1도 안 줍니다(0%). 오직 진짜 결승선 센서 바닥을 내 발로 쾅 밟고 지나가서 서버에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도장 찰칵 찍혔을 때만(100% 완료) 기록을 점수([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))로 쳐주기 때문에, 코더들이 엑셀 장부로 거짓말 기만술 치는 헛짓거리를 완벽 투명하게 차단 색출 도륙 내는 무결점 통제 방어 텐트입니다 🚀.
 
 ---
 
@@ -134,7 +132,7 @@ EVM([Earned Value Management](/knowledge-base/studynote/04_software_engineering/
 이것은 "개발자가 며칠 밤새워 야근하며 갈아 넣은 고통([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 투입 시간/돈)"과 ➔ "그 결과로 고객의 돈벌이에 진짜로 기여한 빛나는 쇳덩이 결과물([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 비즈니스 산출 가치)"을 냉혹하고 무자비하게 도끼로 찢어 분리해버리는(Decoupling 이혼 절단) 인류 소프트웨어 관리 공학 역사상 가장 피도 눈물도 없는 이과적 진리 스캐너다.
 
 과거 "우리 애들 주말 풀 출근 철야 떡칠 뺑뺑이 도니까 일 존나 100% 잘 돌아가는 중임 ㅋ" 라며 팀원들의 피(야근비)를 진척도로 착각 오해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 망상([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 치던 무지몽매한 PM의 뇌피셜 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 우물 늪을 박살 도륙 내버리고 ➔ 
-**"야!! 니들 팀원 100명이 코피 쏟고 디스크 터지며 1달 내내 야근 떡칠 밤샜어도!! 내 눈앞에 데모 테스트 1초 컷 통과(Sign-off) 하는 살아 숨 쉬는 화면 코드 쇳덩이 1장을 못 뱉어냈으면 ➔ 니들의 진짜 진척도([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))는 0원 0% 폐기 쓰레기 병신이고, 회사 예산 1억([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))만 불태워 허공에 날린 우주 최악의 적자 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 멸망 팩트 스코어 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.0 병목 쓰레기 팀이다 대가리 박아 쾅 🪓!!!"**
+<strong>"야!! 니들 팀원 100명이 코피 쏟고 디스크 터지며 1달 내내 야근 떡칠 밤샜어도!! 내 눈앞에 데모 테스트 1초 컷 통과(Sign-off) 하는 살아 숨 쉬는 화면 코드 쇳덩이 1장을 못 뱉어냈으면 ➔ 니들의 진짜 진척도(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>)는 0원 0% 폐기 쓰레기 병신이고, 회사 예산 1억(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/">AC</a>)만 불태워 허공에 날린 우주 최악의 적자 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 뻗음 멸망 팩트 스코어 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> 0.0 병목 쓰레기 팀이다 대가리 박아 쾅 🪓!!!"</strong>
 이 차가운 숫자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Data-driven) 폭격 팩폭 1방으로 팀의 진짜 맷집 생존력을 까발려 적발 색출 통제해 내는 궁극의 심판대 대관식이 열려 젖힌 것이다.
 
 비록 K8s [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 클라우드 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 2주 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 시대가 와서, EVM 3차원 공식 계산기 두드리는 모습이 낡은 폭포수(Waterfall) 꼰대 구닥다리로 비웃음 조롱을 당할지언정!! 
@@ -146,35 +144,37 @@ EVM([Earned Value Management](/knowledge-base/studynote/04_software_engineering/
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| **[EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value 획득 가치 심장 ✨)** | EVM 엑스레이 제국의 절대 1타 무결점 코어 중심축 주인공. 돈 쓴 거([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 알 바 좆까고!! 걍 내 두 눈앞에 살아 숨 쉬며 100% 통과(Pass) 도장 찍힌 찐 결과물 쇳덩이를 예산 돈 가치로 수치 환산 쳐버린 진실의 거울 팩폭 잣대. |
-| **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 비용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엑스레이 💰)** | `EV / AC` 나눗셈 수학 포격. "야 내 통장 1만 원 썼는데 코딩은 8천 원어치밖에 못 짰네 ㅋ [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.8 좆망 떡락 타죽음 뻗음 💥!" 1.0 밑으로 무너지면 즉시 프로젝트 예산 빵꾸 사형 선고 록온 스캔 레이더. |
-| **[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 일정 스피드 레이더 ⏳)** | `EV / PV` 나눗셈 타임어택 텐트. "야 오늘까지 10개 만들어야 되는데 8개 만들었네 ㅋ [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 0.8 지각 파국 💥!" 이 역시 1.0 뚫리는 찰나에 오픈 데드라인 런칭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 올스탑 셧다운 경고 사이렌 1초 컷 울림 무기. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> (Earned Value 획득 가치 심장 ✨)</strong> | EVM 엑스레이 제국의 절대 1타 무결점 코어 중심축 주인공. 돈 쓴 거([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 알 바 좆까고!! 걍 내 두 눈앞에 살아 숨 쉬며 100% 통과(Pass) 도장 찍힌 찐 결과물 쇳덩이를 예산 돈 가치로 수치 환산 쳐버린 진실의 거울 팩폭 잣대. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> (Cost <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> 비용 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 엑스레이 💰)</strong> | `EV / AC` 나눗셈 수학 포격. "야 내 통장 1만 원 썼는데 코딩은 8천 원어치밖에 못 짰네 ㅋ [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.8 좆망 떡락 타죽음 뻗음 💥!" 1.0 밑으로 무너지면 즉시 프로젝트 예산 빵꾸 사형 선고 록온 스캔 레이더. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a> (Schedule <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> 일정 스피드 레이더 ⏳)</strong> | `EV / PV` 나눗셈 타임어택 텐트. "야 오늘까지 10개 만들어야 되는데 8개 만들었네 ㅋ [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 0.8 지각 파국 💥!" 이 역시 1.0 뚫리는 찰나에 오픈 데드라인 런칭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 올스탑 셧다운 경고 사이렌 1초 컷 울림 무기. |
 | **EAC (Estimate at Completion 완료 시 적자 예측 🔮)** | 사장님이 "그래서 다 끝나면 최종 영수증 총비용 돈 얼마 청구되는데 쾅?!" 물을 때 ➔ 뇌피셜 아가리 털지 말고 걍 엑셀 공식 `BAC / CPI` 윙 갈아서 ➔ "네 사장님 100억짜린데 150억 파산 빵꾸 확정 팩트 록온 쾅 🚀" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증명 방폭문 치는 마스터키. |
-| **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) (작업 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 도끼 찢기 도면 🪓)** | EVM의 밥줄이자 근본 뼈대 베이스캠프. 프로젝트를 나노 조각 잎사귀(Work Package)로 다 갈기갈기 찢어 찢어발겨 놓지 않으면 ➔ [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(가치) 측정을 %로 할 기준 쇳덩이 타점 자체가 소멸 증발해 EVM 시스템 전체가 도미노 붕괴 파산 뻗음. 무.조.건 100% 선행 필수 결합 융합 전제 조건. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (작업 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계 도끼 찢기 도면 🪓)</strong> | EVM의 밥줄이자 근본 뼈대 베이스캠프. 프로젝트를 나노 조각 잎사귀(Work Package)로 다 갈기갈기 찢어 찢어발겨 놓지 않으면 ➔ [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)(가치) 측정을 %로 할 기준 쇳덩이 타점 자체가 소멸 증발해 EVM 시스템 전체가 도미노 붕괴 파산 뻗음. 무.조.건 100% 선행 필수 결합 융합 전제 조건. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무지성 주먹구구 예산 통장 뇌피셜 관리 시대 💀 / 걍 100억 통장에서 50억 빼 썼으니 진도 50% 절반 왔겠거니 자위 치다 ➔ 런칭 데모 날 까보니 코딩 10% 치고 돈 다 날려 유흥 탕진한 사기 횡령 팩트 적발 발가벗겨져 1조 원 국방 프로젝트 동반 셧다운 타죽음 폭파 💥
-    │
-    ▼
-EVM (미 국방부 C/SCSC) 3차원 엑스레이 대관식 강림 🚀 / 펜타곤 팩폭 철퇴 🪓 "야 씨발 돈 쓴 거(AC)랑 진짜 만들어온 가치(EV) 도끼로 찢어 분리 이혼 절단 쳐 쾅!! 3개 축(PV, EV, AC)으로 인바디 성적표 수치화 락킹 쳐서 조기 경보 쉴드 텐트 올려라!!"
-    │
-    ▼
-EAC / TCPI 미래 파국 타임어택 통계 예측 진화 ✨ / 단순히 "오늘 빵꾸 났다" 끝이 아니라 ➔ 통계 수학 믹서기 갈아서 "사장님 최종 영수증 150억 멸망 확정 팩트 도출 쾅! 남은 기간 150% 가성비 초인 펌핑 쳐야 간신히 수장 면합니다 록온!" 생존 레이더 오토 스캔 방어막 구축 🚀
-    │
-    ▼
-0-100 진척도 채점 룰 절대 헌법 록온 🛡️ / "코더 새끼들 30% 50% 대충 주관적 뇌피셜 뻥튀기 펌핑 퍼센트 인정해 주니까 구라 핑퐁 터지네 ㅋ ➔ 야!! 기계 테스트 무결점 통과 서명(Sign-off) 안 떨어지면 진척도 무조건 0점 폐기 쓰레기 컷 쳐버려 쾅!!" 100% 엄격 팩트 보장 쉴드 달성
-    │
-    ▼
-Agile 애자일 번다운 차트(Burndown Chart) JIRA 대통일 (현재) / 무거운 EVM 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔ [돈 $]을 [스토리 포인트 SP 텐션]으로 껍데기만 살짝 치환 포장 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 심장 코어로 완벽 빙의 융합 안착 우주 무결점 쾌속 생존 🚀
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무지성 주먹구구 예산 통장 뇌피셜 관리 시대 💀 / 걍 100억 통장에서 50억 빼 썼으니 진도 50% 절반 왔겠거니 자위 치다 ➔ 런칭 데모 날 까보니 코딩 10% 치고 돈 다 날려 유흥 탕진한 사기 횡령 팩트 적발 발가벗겨져 1조 원 국방 프로젝트 동반 셧다운 타죽음 폭파 💥</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EVM (미 국방부 C/SCSC) 3차원 엑스레이 대관식 강림 🚀 / 펜타곤 팩폭 철퇴 🪓 "야 씨발 돈 쓴 거(AC)랑 진짜 만들어온 가치(EV) 도끼로 찢어 분리 이혼 절단 쳐 쾅!! 3개 축(PV, EV, AC)으로 인바디 성적표 수치화 락킹 쳐서 조기 경보 쉴드 텐트 올려라!!"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EAC / TCPI 미래 파국 타임어택 통계 예측 진화 ✨ / 단순히 "오늘 빵꾸 났다" 끝이 아니라 ➔ 통계 수학 믹서기 갈아서 "사장님 최종 영수증 150억 멸망 확정 팩트 도출 쾅! 남은 기간 150% 가성비 초인 펌핑 쳐야 간신히 수장 면합니다 록온!" 생존 레이더 오토 스캔 방어막 구축 🚀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">0-100 진척도 채점 룰 절대 헌법 록온 🛡️ / "코더 새끼들 30% 50% 대충 주관적 뇌피셜 뻥튀기 펌핑 퍼센트 인정해 주니까 구라 핑퐁 터지네 ㅋ ➔ 야!! 기계 테스트 무결점 통과 서명(Sign-off) 안 떨어지면 진척도 무조건 0점 폐기 쓰레기 컷 쳐버려 쾅!!" 100% 엄격 팩트 보장 쉴드 달성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Agile 애자일 번다운 차트(Burndown Chart) JIRA 대통일 (현재) / 무거운 EVM 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔</div><div class="kb-diagram-node">돈 $</div><div class="kb-diagram-note">을</div><div class="kb-diagram-node">스토리 포인트 SP 텐션</div><div class="kb-diagram-note">으로 껍데기만 살짝 치환 포장 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 심장 코어로 완벽 빙의 융합 안착 우주 무결점 쾌속 생존 🚀</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 엄마가 내게 "용돈 10만 원 줄 테니 한 달 동안 수학 문제집 100장 풀어(계획 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))"라고 미션을 줬어요. 
-2. 보름(15일) 지났을 때, 내가 피시방 가서 용돈 8만 원이나 써버렸어요(진짜 쓴 돈 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 💀). 엄마는 "돈을 80% 썼으니 문제집도 80장 풀었겠지?" 뇌피셜 기대(Hope)를 하지만 ➔ 내 방에 쳐들어와 직접 눈으로 **'진짜 푼 문제집 장수(진짜 획득한 가치 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) ✨)'**를 세어보니 고작 20장 풀고 게임만 한 팩트가 적발 딱 걸렸어요 쾅 💥!!
-3. **EVM 엑스레이 마법**은 이렇게 "내가 기대한 거([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) / 진짜 쓴 돈([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) / 그리고 팩트 진짜 땀 흘려 해낸 결과물([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))" 3가지를 도끼로 찢어 분리해서 잔혹하게 냉정 비교 채점 치는 거예요! 돈만 펑펑 쓰고 숙제([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))가 엉망진창 똥 0.2 성적표([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 떡락)가 뜬 걸 ➔ 엄마가 15일 차 초반에 1초 컷 엑스레이 스캔 조기 발견(Early Warning 쉴드)해서 내 등짝 스매싱 팩폭 수술을 때려 남은 15일 벼락치기 펌핑을 강제 통제하는 우주 최강 무적 생존 감시 레이더랍니다 🚀!
+2. 보름(15일) 지났을 때, 내가 피시방 가서 용돈 8만 원이나 써버렸어요(진짜 쓴 돈 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 💀). 엄마는 "돈을 80% 썼으니 문제집도 80장 풀었겠지?" 뇌피셜 기대(Hope)를 하지만 ➔ 내 방에 쳐들어와 직접 눈으로 <strong>'진짜 푼 문제집 장수(진짜 획득한 가치 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> ✨)'</strong>를 세어보니 고작 20장 풀고 게임만 한 팩트가 적발 딱 걸렸어요 쾅 💥!!
+3. <strong>EVM 엑스레이 마법</strong>은 이렇게 "내가 기대한 거([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) / 진짜 쓴 돈([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) / 그리고 팩트 진짜 땀 흘려 해낸 결과물([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))" 3가지를 도끼로 찢어 분리해서 잔혹하게 냉정 비교 채점 치는 거예요! 돈만 펑펑 쓰고 숙제([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))가 엉망진창 똥 0.2 성적표([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 떡락)가 뜬 걸 ➔ 엄마가 15일 차 초반에 1초 컷 엑스레이 스캔 조기 발견(Early Warning 쉴드)해서 내 등짝 스매싱 팩폭 수술을 때려 남은 15일 벼락치기 펌핑을 강제 통제하는 우주 최강 무적 생존 감시 레이더랍니다 🚀!
 
 ---
 

@@ -58,23 +58,24 @@ RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 행 지향 vs 컬럼 지향 저장 레이아웃
 
-```
-  행 지향 저장 (Row-based: CSV, JSON)
-  ┌────────────────────────────────────────────────────────────┐
-  │ Row1: [id=1, name="Kim", age=30, city="Seoul", sal=5000]  │
-  │ Row2: [id=2, name="Lee", age=25, city="Busan", sal=4500]  │
-  │ Row3: [id=3, name="Park",age=35, city="Seoul", sal=6000]  │
-  └────────────────────────────────────────────────────────────┘
-  → "age 평균" 쿼리 시 불필요한 name, city, salary도 모두 읽음
 
-  컬럼 지향 저장 (Parquet / ORC)
-  ┌─────────┬────────────────┬───────────┬──────────┬──────────┐
-  │ id 컬럼 │   name 컬럼    │ age 컬럼  │city 컬럼 │ sal 컬럼 │
-  │ [1,2,3] │["Kim","Lee",..]│[30,25,35] │[S,B,S]   │[5000,...] │
-  │ RLE/Dict│ Dict Encoding  │ Delta     │ RLE      │ Delta    │
-  └─────────┴────────────────┴───────────┴──────────┴──────────┘
-  → "age 평균" 쿼리 시 age 컬럼만 읽음 (I/O 80% 절감)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">행 지향 저장 (Row-based: CSV, JSON)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Row1:</div><div class="kb-diagram-node">id=1, name="Kim", age=30, city="Seoul", sal=5000</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Row2:</div><div class="kb-diagram-node">id=2, name="Lee", age=25, city="Busan", sal=4500</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Row3:</div><div class="kb-diagram-node">id=3, name="Park",age=35, city="Seoul", sal=6000</div></div>
+<div class="kb-diagram-note">→ "age 평균" 쿼리 시 불필요한 name, city, salary도 모두 읽음</div>
+<div class="kb-diagram-note">컬럼 지향 저장 (Parquet / ORC)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id 컬럼</div><div class="kb-diagram-cell">name 컬럼</div><div class="kb-diagram-cell">age 컬럼</div><div class="kb-diagram-cell">city 컬럼</div><div class="kb-diagram-cell">sal 컬럼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1,2,3</div><div class="kb-diagram-node">"Kim","Lee",..</div><div class="kb-diagram-node">30,25,35</div><div class="kb-diagram-node">S,B,S</div><div class="kb-diagram-node">5000,...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLE/Dict</div><div class="kb-diagram-cell">Dict Encoding</div><div class="kb-diagram-cell">Delta</div><div class="kb-diagram-cell">RLE</div><div class="kb-diagram-cell">Delta</div></div>
+<div class="kb-diagram-note">→ "age 평균" 쿼리 시 age 컬럼만 읽음 (I/O 80% 절감)</div>
+</div>
+</div>
+
+
 
 ### [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) Row Group vs ORC Stripe
 
@@ -140,21 +141,23 @@ RLE:  [(A,4), (B,2), (C,5)]              (3 pairs → 73% 압축)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-행 기반 저장 (CSV, JSON) - 분석 쿼리 불필요 I/O
-    │
-    ▼
-컬럼 기반 저장 (Parquet, ORC) - 컬럼 선택 I/O 최소화
-    │
-    ▼
-RLE (Run-Length Encoding) + Dictionary 압축
-    │
-    ▼
-Predicate Pushdown + Column Pruning 쿼리 최적화
-    │
-    ▼
-Delta Lake/Iceberg - 오픈 테이블 포맷으로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">행 기반 저장 (CSV, JSON) - 분석 쿼리 불필요 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컬럼 기반 저장 (Parquet, ORC) - 컬럼 선택 I/O 최소화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RLE (Run-Length Encoding) + Dictionary 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Predicate Pushdown + Column Pruning 쿼리 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Delta Lake/Iceberg - 오픈 테이블 포맷으로 진화</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC, [RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/), [Columnar Storage](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/), Predicate Pushdown, Snappy, Zstandard, [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)
 

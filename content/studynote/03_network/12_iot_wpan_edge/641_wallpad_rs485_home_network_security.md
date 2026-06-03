@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **월패드 (Wall-pad)**: 거실 벽에 붙어있는 터치스크린 기기입니다. 집안의 난방, 조명, 도어락(단지망)을 통제하는 동시에, 외부 인터넷망(스마트폰 앱)과 연결해 주는 **게이트웨이(Gateway)** 역할을 합니다.
-- **구조적 맹점 (단지망 공용 사용)**: 아파트 건설사들은 원가 절감을 위해, 101호부터 1502호까지 모든 세대의 월패드를 **메인 서버(MDF실)까지 개별적으로 연결하지 않고, 하나의 공용 통신선으로 꼬리에 꼬리를 무는 [데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/) 방식**으로 엮어버렸습니다.
+- **구조적 맹점 (단지망 공용 사용)**: 아파트 건설사들은 원가 절감을 위해, 101호부터 1502호까지 모든 세대의 월패드를 <strong>메인 서버(MDF실)까지 개별적으로 연결하지 않고, 하나의 공용 통신선으로 꼬리에 꼬리를 무는 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/">데이지 체인</a> 방식</strong>으로 엮어버렸습니다.
 
-```text
-[AIoT 모델 및 클라우드 AI 연결 지연…]
-    │
-    ▼
-[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    └──▶ [망분리 및 제로 트러스트 연결형 논리망 보안…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-수백 세대를 하나로 엮는 데 사용된 통신 방식이 바로 **RS-485**라는 1980년대에 만들어진 시리얼([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
+수백 세대를 하나로 엮는 데 사용된 통신 방식이 바로 <strong>RS-485</strong>라는 1980년대에 만들어진 시리얼([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 1. **암호화 부재**: 40년 전 공장 기계들을 위해 만든 규격이라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 개념 자체가 없습니다. 통신선을 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))하면 `[101호, 현관문, 열림]`이라는 평문 텍스트가 그대로 노출됩니다.
-2. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 부재**: "네가 진짜 메인 서버 맞냐?"라고 묻는 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차가 없습니다. 해커가 101호 빈집의 월패드를 뜯어내고 노트북을 연결해 "나 메인 서버인데 1502호 문 열어"라고 가짜 패킷([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 쏘면, 1502호 문이 철컥 열립니다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 부재</strong>: "네가 진짜 메인 서버 맞냐?"라고 묻는 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차가 없습니다. 해커가 101호 빈집의 월패드를 뜯어내고 노트북을 연결해 "나 메인 서버인데 1502호 문 열어"라고 가짜 패킷([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 쏘면, 1502호 문이 철컥 열립니다.
 
-```text
-[AIoT 모델 및 클라우드 AI 연결 지연…]
-    │
-    ▼
-[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    └──▶ [망분리 및 제로 트러스트 연결형 논리망 보안…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-2021년, 전국 수백 개 아파트 단지의 월패드 카메라가 뚫려 거실 사생활 영상이 다크웹에 유출되는 대참사가 터졌습니다. 이를 막기 위해 정부는 **지능형 홈네트워크 설비 설치 및 기술기준**을 개정하여 물리적/논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)를 의무화했습니다.
+2021년, 전국 수백 개 아파트 단지의 월패드 카메라가 뚫려 거실 사생활 영상이 다크웹에 유출되는 대참사가 터졌습니다. 이를 막기 위해 정부는 <strong>지능형 홈네트워크 설비 설치 및 기술기준</strong>을 개정하여 물리적/논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)를 의무화했습니다.
 
 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/) 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…가 기반 조건을 만든다면, 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…는 그 위에서 핵심 메커니즘을 구현하고, [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -72,9 +80,9 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-해킹 피해가 다른 세대로 번지는 것을 막기 위해 **세대 간 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)**를 법으로 강제했습니다.
-1. **물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)**: 아예 처음 아파트를 지을 때부터, 101호 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/), 102호 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 메인 서버까지 완전히 따로(Star 토폴로지) 깔아버리는 가장 확실한 방식입니다. (비용이 많이 듦)
-2. **논리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) ([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 도입)**: 선은 하나만 깔되(비용 절감), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에서 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))을 나누거나 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 암호화를 걸어서, 101호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 102호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 논리적으로 서로 쳐다보지도 못하게 격리하는 기술입니다.
+해킹 피해가 다른 세대로 번지는 것을 막기 위해 <strong>세대 간 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a></strong>를 법으로 강제했습니다.
+1. <strong>물리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a></strong>: 아예 처음 아파트를 지을 때부터, 101호 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/), 102호 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 메인 서버까지 완전히 따로(Star 토폴로지) 깔아버리는 가장 확실한 방식입니다. (비용이 많이 듦)
+2. <strong>논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>, <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 도입)</strong>: 선은 하나만 깔되(비용 절감), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에서 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))을 나누거나 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 암호화를 걸어서, 101호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 102호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 논리적으로 서로 쳐다보지도 못하게 격리하는 기술입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -105,15 +113,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: AIoT 모델 및 클라우드 AI 연결 지연…]
-    │
-    ▼
-[현재 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    ├──▶ [확장 A: 망분리 및 제로 트러스트 연결형 논리망 보안…]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…는 [AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/) 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

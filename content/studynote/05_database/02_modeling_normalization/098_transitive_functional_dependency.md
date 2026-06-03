@@ -30,28 +30,24 @@ tags = ["database"]
 
 이행적 종속은 $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때 (단, $Y$는 $X$에 종속되지만 $X$는 $Y$에 종속되지 않음), 논리적으로 $X \rightarrow Z$ 가 성립하는 구조다. 이 구조를 타파하기 위해 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([Third Normal Form](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)) 분해가 일어난다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           이행적 함수적 종속의 구조와 3NF 분해 원리          │
-├──────────────────────────────────────────────────────────────┤
-│ [분해 전: 이상 현상 발생]                                      │
-│                                                              │
-│       ┌─────────결정─────────┐                               │
-│       ▼                      │                               │
-│ [사번(X, PK)] ──▶ [부서코드(Y)] ──▶ [부서명(Z)]               │
-│       └──────────이행적 종속─────────▲                       │
-│                                                              │
-│ ──────────────────────────────────────────────────────────── │
-│ [분해 후: 3NF 적용 (테이블 분리)]                              │
-│                                                              │
-│  사원 테이블 (Emp)                 부서 테이블 (Dept)        │
-│ ┌───────────┬────────────┐      ┌────────────┬───────────┐ │
-│ │ 사번(PK)  │ 부서코드(FK)│  조인 │ 부서코드(PK) │ 부서명    │ │
-│ │ 1001      │ HR         ├──────┤ HR         │ 인사팀    │ │
-│ │ 1002      │ IT         │      │ IT         │ 전산팀    │ │
-│ └───────────┴────────────┘      └────────────┴───────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행적 함수적 종속의 구조와 3NF 분해 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분해 전: 이상 현상 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사번(X, PK)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부서코드(Y)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부서명(Z)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행적 종속 ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분해 후: 3NF 적용 (테이블 분리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사원 테이블 (Emp) 부서 테이블 (Dept)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사번(PK)</div><div class="kb-diagram-cell">부서코드(FK)</div><div class="kb-diagram-cell">조인</div><div class="kb-diagram-cell">부서코드(PK)</div><div class="kb-diagram-cell">부서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1001</div><div class="kb-diagram-cell">HR HR</div><div class="kb-diagram-cell">인사팀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1002</div><div class="kb-diagram-cell">IT</div><div class="kb-diagram-cell">IT</div><div class="kb-diagram-cell">전산팀</div></div>
+</div>
+</div>
+
+
 
 다이어그램에서 보듯, `부서명(Z)`은 오직 `부서코드(Y)`에만 종속되지만, 분해 전에는 하나의 테이블에 묶여 있어 중복 저장된다. [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 분해는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)를 새로운 테이블의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)로 삼고 종속자(Z)를 데려가 독립시키는 과정이다. 원래 테이블에는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)만 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)(FK)로 남겨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 일관성을 확보한다.
 
@@ -80,8 +76,8 @@ tags = ["database"]
 실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 이행적 종속은 매우 흔하게 발생하며, 코드화(Coding) 설계 시 반드시 마주치는 문제다.
 
 ### 판단 포인트
-- **언제 분리 ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 해야 하는가?**: 부서, 직급, 우편번호, 상품 카테고리 등 '공통 코드' 성격을 띠는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 테이블에 중복 저장되고 있다면 반드시 별도 테이블로 분리해야 한다.
-- **언제 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) (De-normalization)를 고려하는가?**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다 빈번하게 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이 발생하여 I/O 병목이 심각하다면, 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 3NF를 포기하고 다시 이행적 종속을 허용(부서명을 사원 테이블에 중복 저장)할 수 있다. 
+- <strong>언제 분리 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>) 해야 하는가?</strong>: 부서, 직급, 우편번호, 상품 카테고리 등 '공통 코드' 성격을 띠는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 테이블에 중복 저장되고 있다면 반드시 별도 테이블로 분리해야 한다.
+- <strong>언제 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a> (De-normalization)를 고려하는가?</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때마다 빈번하게 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이 발생하여 I/O 병목이 심각하다면, 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 3NF를 포기하고 다시 이행적 종속을 허용(부서명을 사원 테이블에 중복 저장)할 수 있다. 
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 성격의 히스토리 테이블에 3NF를 억지로 적용하는 경우. 과거 시점의 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(그 당시의 부서명 등)는 원본 코드가 바뀌어도 유지되어야 하므로 이행적 종속을 허용해야 한다.
@@ -104,28 +100,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | 이행적 종속으로 인해 발생하는 삽입, 갱신, 삭제 시의 오류 현상 |
-| **[제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))** | 이행적 종속을 제거한 상태의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정규형 |
-| **[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) ([Boyce-Codd Normal Form](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/))** | 3NF를 만족하면서도 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키가 아닌 경우를 해결하는 더 엄격한 정규형 |
-| **[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) (De-normalization)** | 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 회피)을 위해 의도적으로 이행적 종속을 허용하는 실무적 기법 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 이행적 종속으로 인해 발생하는 삽입, 갱신, 삭제 시의 오류 현상 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">제3정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>)</strong> | 이행적 종속을 제거한 상태의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정규형 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/">Boyce-Codd Normal Form</a>)</strong> | 3NF를 만족하면서도 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키가 아닌 경우를 해결하는 더 엄격한 정규형 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a> (De-normalization)</strong> | 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 회피)을 위해 의도적으로 이행적 종속을 허용하는 실무적 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-제1정규형 (1NF)
-    │
-    ▼
-제2정규형 (2NF) : 부분 함수적 종속 제거
-    │
-    ▼
-이행적 함수적 종속 (Transitive Dependency) 진단
-    │
-    ▼
-제3정규형 (3NF) : 이행적 함수적 종속 제거 (테이블 분리)
-    │
-    ▼
-BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제1정규형 (1NF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제2정규형 (2NF) : 부분 함수적 종속 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이행적 함수적 종속 (Transitive Dependency) 진단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제3정규형 (3NF) : 이행적 함수적 종속 제거 (테이블 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

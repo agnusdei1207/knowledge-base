@@ -25,30 +25,31 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 2000년대 초반, W^X(Write XOR Execute) 원칙에 기반한 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) ([Data Execution Prevention](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/))와 [NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/) 하드웨어 기술이 도입되면서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이나 힙에 주입한 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)가 실행(x) 권한 거부로 무력화되었다. 초기에는 이를 우회하기 위해 `libc` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 `system()` 함수 주소로 단 한 번 점프하여 셸을 띄우는 "Return-to-libc" 공격이 성행했다. 그러나 방어자들이 함수 인자를 전달하는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 규약을 변경하거나 ASLR을 적용하면서 단일 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)만으로는 한계에 부딪혔다. 이에 해커들은 단일 함수 통째 호출이 아니라, 함수 내부에 흩어져 있는 `pop rdi; ret;` 같은 미세한 코드 조각들을 모아 프랑켄슈타인처럼 조립하여 DEP를 완벽히 뚫고 원하는 시스템 콜을 마음대로 조작할 수 있는 ROP 기술을 발명하게 되었다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│      전통적 셸코드 인젝션 vs ROP(코드 재사용) 패러다임 비교    │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [과거: Code Injection (DEP 도입 전)]                          │
-│  스택 영역 (RWX)                                               │
-│  [ 변조된 RET ] ──────────┐                                    │
-│       ...                 ▼                                    │
-│  [ 공격자의 셸코드 ] ◀── CPU가 셸코드를 순차적으로 실행!       │
-│  (직접 작성한 악성 코드)   (현재는 DEP 때문에 💥 예외 발생)    │
-│                                                                │
-│  [현대: Return-Oriented Programming (DEP 도입 후)]             │
-│  스택 영역 (RW-)           .text / 라이브러리 영역 (R-X)       │
-│  [ 가젯 1의 주소 ] ──(ret)─▶ [ pop rdi ; ret; ] (가젯 1)       │
-│  [ "/bin/sh" 주소]          (rdi에 "/bin/sh" 주소 세팅됨)      │
-│  [ 가젯 2의 주소 ] ◀(ret)─┐                                    │
-│                     (ret)─▶ [ pop rax ; ret; ] (가젯 2)        │
-│  [ 59 (execve)   ]          (rax에 시스템 콜 번호 59 세팅)     │
-│  [ 가젯 3의 주소 ] ◀(ret)─┐                                    │
-│                     (ret)─▶ [ syscall ; ret; ] (가젯 3)        │
-│                              => 커널이 execve("/bin/sh") 실행!
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 셸코드 인젝션 vs ROP(코드 재사용) 패러다임 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Code Injection (DEP 도입 전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 영역 (RWX)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변조된 RET</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공격자의 셸코드</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── CPU가 셸코드를 순차적으로 실행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(직접 작성한 악성 코드) (현재는 DEP 때문에 💥 예외 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대: Return-Oriented Programming (DEP 도입 후)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 영역 (RW-) .text / 라이브러리 영역 (R-X)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가젯 1의 주소</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">pop rdi ; ret;</div><div class="kb-diagram-note">(가젯 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">"/bin/sh" 주소</div><div class="kb-diagram-note">(rdi에 "/bin/sh" 주소 세팅됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가젯 2의 주소</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(ret)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">pop rax ; ret;</div><div class="kb-diagram-note">(가젯 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">59 (execve)</div><div class="kb-diagram-note">(rax에 시스템 콜 번호 59 세팅)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가젯 3의 주소</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(ret)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">syscall ; ret;</div><div class="kb-diagram-note">(가젯 3)</div></div>
+<div class="kb-diagram-note">=&gt; 커널이 execve("/bin/sh") 실행!</div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 도식은 ROP 공격의 놀라운 발상을 잘 보여준다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 실행 권한이 없으므로 공격자는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 어떤 코드도 쓰지 않는다. 대신, 이미 메모리 상에 실행 권한(RX)을 가지고 존재하는 합법적인 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(.text 영역) 내부의 조각 코드([가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/))들의 '주소(Address)'와, 그 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)들이 소비할 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'만을 순서대로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 차곡차곡 쌓아놓는다. [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)를 통해 현재 함수의 진짜 리턴 주소를 '[가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 1의 주소'로 덮어쓰면, CPU는 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 1을 실행한다. [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 1의 끝에 있는 `ret` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 다음 주소('[가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 2의 주소')를 팝([pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/))하여 거기로 다시 점프한다. 이처럼 `ret` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 징검다리 역할을 하여 합법적인 파편 코드들을 연쇄적으로 실행시키고, 결국 공격자가 원하는 시스템 콜(예: `execve`)을 조립해 내는 것이 ROP의 정수다.
 
@@ -62,41 +63,42 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **[가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) (Gadget)** | ROP 체인의 기본 실행 단위 | `pop 레지스터`, `mov`, `add` 등 짧은 연산 후 반드시 `ret`으로 끝나는 어셈블리 조각 | 레고 블록 한 칸 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/">가젯</a> (Gadget)</strong> | ROP 체인의 기본 실행 단위 | `pop 레지스터`, `mov`, `add` 등 짧은 연산 후 반드시 `ret`으로 끝나는 어셈블리 조각 | 레고 블록 한 칸 |
 | **ROP 체인 (ROP Chain)** | 완성된 악성 기능 흐름 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리에 순차적으로 쌓인 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)의 주소와 값들의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 완성된 레고 구조물 |
-| **[스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) (RSP / [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))** | 체인의 실행 흐름을 통제하는 나침반 | `ret` 명령이 호출될 때마다 RSP가 증가하며 다음 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)의 주소를 EIP/RIP에 공급 | 악보를 읽어 나가는 지휘봉 |
-| **[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 규약 (Calling Convention)** | 시스템 콜이나 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 위한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 셋업 가이드 | x86-64 리눅스 기준: 인자를 rdi, rsi, rdx, rcx, r8, r9 순으로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 세팅 후 호출 | 부품 조립 설명서 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">스택 포인터</a> (RSP / <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a>)</strong> | 체인의 실행 흐름을 통제하는 나침반 | `ret` 명령이 호출될 때마다 RSP가 증가하며 다음 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)의 주소를 EIP/RIP에 공급 | 악보를 읽어 나가는 지휘봉 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/">함수 호출</a> 규약 (Calling Convention)</strong> | 시스템 콜이나 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 위한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 셋업 가이드 | x86-64 리눅스 기준: 인자를 rdi, rsi, rdx, rcx, r8, r9 순으로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 세팅 후 호출 | 부품 조립 설명서 |
 
 ### 심층 동작 원리 및 ROP 페이로드 구성
 
 64비트 아키텍처(x86-64)에서는 함수에 인자를 전달할 때 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 아닌 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(`RDI`, `RSI`, `RDX` 등)를 사용한다. 따라서 시스템 콜(`execve` 등)을 실행하려면, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 주입한 공격자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: `/bin/sh` 문자열의 주소)를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 옮겨 담는 작업이 필수적이다. 이때 주로 사용되는 것이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 값을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 빼내는 `pop` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      64비트 환경에서의 execve("/bin/sh") ROP 체인 동작 흐름          │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  [초기 스택 (버퍼 오버플로우로 페이로드 덮어쓰기 완료)]              │
-│   RSP ─▶ [ 0x00007ffff7a12345 ] ← 가젯1: pop rdi; ret                │
-│          [ 0x00007fffffffe888 ] ← 문자열 "/bin/sh"의 주소            │
-│          [ 0x00007ffff7a23456 ] ← 가젯2: pop rsi; ret                │
-│          [ 0x0000000000000000 ] ← NULL 값 (0)                        │
-│          [ 0x00007ffff7a34567 ] ← 가젯3: pop rdx; ret                │
-│          [ 0x0000000000000000 ] ← NULL 값 (0)                        │
-│          [ 0x00007ffff7b11111 ] ← 가젯4: pop rax; ret                │
-│          [ 0x000000000000003b ] ← 59 (execve 시스템 콜 번호)         │
-│          [ 0x00007ffff7c22222 ] ← 가젯5: syscall; ret                │
-│                                                                      │
-│  [실행 흐름 (The "Return" Sequence)]                                 │
-│  1. 원래 함수 종료 (ret 실행) → RSP에서 가젯1 주소 Pop 및 점프       │
-│  2. 가젯1(pop rdi) 실행: 스택의 다음 값("/bin/sh" 주소)을 RDI에 넣음 │
-│  3. 가젯1 끝(ret) 실행: 스택의 다음 값(가젯2 주소)을 Pop 및 점프     │
-│  4. 가젯2(pop rsi) 실행: 스택의 다음 값(NULL)을 RSI에 넣음           │
-│  5. 가젯2 끝(ret) 실행: 스택의 다음 값(가젯3 주소)을 Pop 및 점프     │
-│  6. ... (rdx, rax 동일하게 세팅) ...                                 │
-│  7. 최종 가젯5(syscall) 실행: 커널 모드 진입, execve 호출 성공!      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64비트 환경에서의 execve("/bin/sh") ROP 체인 동작 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">초기 스택 (버퍼 오버플로우로 페이로드 덮어쓰기 완료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0x00007ffff7a12345</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가젯1: pop rdi; ret</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x00007fffffffe888</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">문자열 "/bin/sh"의 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x00007ffff7a23456</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가젯2: pop rsi; ret</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x0000000000000000</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">NULL 값 (0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x00007ffff7a34567</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가젯3: pop rdx; ret</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x0000000000000000</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">NULL 값 (0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x00007ffff7b11111</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가젯4: pop rax; ret</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x000000000000003b</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">59 (execve 시스템 콜 번호)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0x00007ffff7c22222</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가젯5: syscall; ret</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 흐름 (The "Return" Sequence)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 원래 함수 종료 (ret 실행) → RSP에서 가젯1 주소 Pop 및 점프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가젯1(pop rdi) 실행: 스택의 다음 값("/bin/sh" 주소)을 RDI에 넣음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가젯1 끝(ret) 실행: 스택의 다음 값(가젯2 주소)을 Pop 및 점프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 가젯2(pop rsi) 실행: 스택의 다음 값(NULL)을 RSI에 넣음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 가젯2 끝(ret) 실행: 스택의 다음 값(가젯3 주소)을 Pop 및 점프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. ... (rdx, rax 동일하게 세팅) ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 최종 가젯5(syscall) 실행: 커널 모드 진입, execve 호출 성공!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 상태도는 ROP가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 이용하여 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 어떻게 통제하는지 수학적 톱니바퀴처럼 보여준다. 공격자는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 취약점을 이용해 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 위와 같은 "주소+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)" [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 장악한다. 공격의 핵심 원동력은 `ret` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 동작 원리인 `pop rip`에 있다. 정상적인 상황이라면 리턴 주소 하나만 꺼내고 원래 호출자로 돌아가야 하지만, 여기서는 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)의 끝마다 나타나는 `ret`이 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)(RSP)를 계속 증가시키며 미리 깔아둔 다음 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)의 주소를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))로 밀어 올린다. 즉, [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)가 마치 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 역할을 대신하며, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 적어둔 대본대로 코드 조각들을 순차적으로 실행하게 만드는 기막힌 재사용 매커니즘이다.
 
@@ -114,38 +116,38 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **Return-to-libc (RTL)** | 1세대 ROP / 함수 단위 재사용 | [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)이 아닌 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 함수 시작 주소(`system`)로 직접 점프. 32비트 환경에 국한되며 64비트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 규약에 막힘. |
 | **ROP (Return-Oriented Programming)** | 2세대 / [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 체이닝 | 함수 전체가 아닌 끝단의 `ret` 기반 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 조각들을 엮어 시스템 콜 튜링 구조 완성. [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) 완벽 우회. |
-| **[JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/) ([Jump-Oriented Programming](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/))** | [JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/) / 간접 점프 기반 | `ret` 대신 `jmp eax`나 `call rbx` 같은 간접 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 징검다리로 사용. `ret`을 모니터링하는 탐지 솔루션 우회. |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/">JOP</a> (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/">Jump-Oriented Programming</a>)</strong> | [JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/) / 간접 점프 기반 | `ret` 대신 `jmp eax`나 `call rbx` 같은 간접 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 징검다리로 사용. `ret`을 모니터링하는 탐지 솔루션 우회. |
 | **BROP (Blind ROP)** | BROP / 무차별 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 탐색 | 대상 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.text)조차 확보하지 못한 상태에서, 서버 응답(Crash 여부)만으로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 주소를 찾아내어 ROP 체인 동적 구성. |
 | **SROP (Sigreturn-Oriented)** | SROP / 유닉스 시그널 악용 | 리눅스의 시그널 처리 복귀 시스템 콜(`sigreturn`)을 호출하여, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장된 거대한 시그널 프레임을 한 번에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 전체로 복원시켜 버리는 초효율적 ROP. |
 
 특히 [JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/)([Jump-Oriented Programming](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/))는 ROP와 달리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 실행 흐름의 나침반으로 쓰지 않고, [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)) 테이블과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반 점프를 이용하기 때문에, 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 같은 최신 방어 체계를 무력화하기 위한 대체재로 쓰인다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│      전통적 ROP 체인 vs SROP (Sigreturn) 체인 구조 비교       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [일반 ROP: 가젯을 하나씩 모아 레지스터 셋업]                 │
-│  스택: [가젯1] [RDI값] [가젯2] [RSI값] [가젯3] [RDX값] ...    │
-│  단점: 필요한 레지스터 가젯(pop rdx 등)을 라이브러리에서      │
-│        모두 찾기 힘들 때 체인 구성이 불가능해짐.              │
-│                                                               │
-│  [SROP: 커널의 Context Restore 기능을 역이용]                 │
-│  스택: [ pop rax; ret; ]                                      │
-│        [ 15 (sigreturn 시스템 콜 번호) ]                      │
-│        [ syscall; ret; ]                                      │
-│        [ SigContext 구조체 (가짜 시그널 프레임) ]             │
-│          ├── RDI = "/bin/sh" 주소                             │
-│          ├── RSI = 0                                          │
-│          ├── RDX = 0                                          │
-│          ├── RAX = 59 (execve)                                │
-│          └── RIP = syscall 주소                               │
-│                                                               │
-│  원리: 커널이 "아, 시그널 처리가 끝났구나!" 착각하고 스택에   │
-│        해커가 조작해둔 구조체를 읽어 CPU 레지스터 전체를      │
-│        한방에 일괄 덮어씌움 (Context Restore 발생)            │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 ROP 체인 vs SROP (Sigreturn) 체인 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 ROP: 가젯을 하나씩 모아 레지스터 셋업</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">가젯1</div><div class="kb-diagram-node">RDI값</div><div class="kb-diagram-node">가젯2</div><div class="kb-diagram-node">RSI값</div><div class="kb-diagram-node">가젯3</div><div class="kb-diagram-node">RDX값</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 필요한 레지스터 가젯(pop rdx 등)을 라이브러리에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모두 찾기 힘들 때 체인 구성이 불가능해짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SROP: 커널의 Context Restore 기능을 역이용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">pop rax; ret;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">15 (sigreturn 시스템 콜 번호)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">syscall; ret;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SigContext 구조체 (가짜 시그널 프레임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RDI = "/bin/sh" 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RSI = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RDX = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RAX = 59 (execve)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RIP = syscall 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원리: 커널이 "아, 시그널 처리가 끝났구나!" 착각하고 스택에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 조작해둔 구조체를 읽어 CPU 레지스터 전체를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한방에 일괄 덮어씌움 (Context Restore 발생)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조도는 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)이 부족한 열악한 환경에서 해커가 어떻게 돌파구를 찾는지(SROP)를 보여준다. 일반적인 ROP는 각 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)마다 알맞은 `pop; ret` [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)을 찾아내야 하는데, 바이너리 크기가 작거나 정적 링크(Static Link)가 안 된 경우 필수 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)을 찾지 못해 공격이 실패할 수 있다. 반면 SROP는 리눅스 커널이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)(시그널) 처리 후 원래 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 복원하기 위해 `rt_sigreturn` 시스템 콜을 사용한다는 점을 악용한다. 공격자는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 `pop rax (값 15)`와 `syscall` 단 두 개의 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)만 두고, 그 아래에 300바이트가 넘는 거대한 가짜 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 블록(SigContext)을 만들어 둔다. 커널은 시그널 복귀로 착각하고 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 가짜 값들을 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 한꺼번에 부어버린다. 단 2개의 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)만으로 완벽한 제어권 장악이 가능한 파괴적인 기법이다.
 
@@ -158,19 +160,19 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 환경에서 ROP를 이용한 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) 해제 공격
 
 1. **상황**: 최신 리눅스 서버에서 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 발견되었다. 서버는 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)(주소 무작위화)과 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 방지)가 모두 활성화되어 있다.
-2. **공격자의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Leak & ROP)**:
+2. <strong>공격자의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Leak &amp; ROP)</strong>:
    - 1단계 ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)): 공격자는 또 다른 취약점(Info Leak)을 이용해 현재 메모리에 무작위로 로드된 `libc.so` 내부의 `printf` 함수의 주소를 획득한다.
    - 2단계 (Base Offset 계산): `printf` 주소에서 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 상대적 오프셋을 빼서 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 전체의 '시작 주소(Base Address)'를 구한다. (이로써 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 방어막 무력화 완료).
    - 3단계 (ROP Payload 조립): 계산된 주소를 바탕으로 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부의 ROP [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) 주소들을 도출한다.
-   - 4단계 (mprotect 호출 ROP): 해커는 `system("/bin/sh")`를 호출하는 대신, `mprotect` 시스템 콜을 호출하는 ROP 체인을 구성한다. 인자로 ([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역 시작 주소, 크기, `PROT_READ | PROT_WRITE | PROT_EXEC`)를 전달하여 **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역의 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)(실행 불가) 속성을 실행 가능(RWX)으로 강제 해제**해 버린다.
+   - 4단계 (mprotect 호출 ROP): 해커는 `system("/bin/sh")`를 호출하는 대신, `mprotect` 시스템 콜을 호출하는 ROP 체인을 구성한다. 인자로 ([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역 시작 주소, 크기, `PROT_READ | PROT_WRITE | PROT_EXEC`)를 전달하여 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 영역의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/">DEP</a>(실행 불가) 속성을 실행 가능(RWX)으로 강제 해제</strong>해 버린다.
    - 5단계 ([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) Execution): DEP가 해제된 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 점프하여, 미리 심어둔 전통적인 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)를 실행한다. (이를 ROP Stager 기법이라 부름).
 3. **방어자의 의사결정**: ASLR의 우회를 막는 것이 가장 중요하므로, 포인터 주소가 메모리에 노출되는 것을 철저히 차단하는 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)(포맷 스트링 방지, 바운드 체킹)이 1순위다. 아울러 컴파일러 차원에서 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/)(위치 독립 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 강제 적용하여 바이너리의 .text 영역 [가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/)까지 난수화해야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (CFI: 제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방어)
-소프트웨어(OS) 기반의 방어가 한계에 다다르면서, 실무에서는 하드웨어 아키텍처 수준의 방어 기술을 도입해야 한다. 이를 **제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (CFI, Control-Flow [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** 기술군이라 한다.
+소프트웨어(OS) 기반의 방어가 한계에 다다르면서, 실무에서는 하드웨어 아키텍처 수준의 방어 기술을 도입해야 한다. 이를 <strong>제어 흐름 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (CFI, Control-Flow <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong> 기술군이라 한다.
 
 - **인텔 CET (Control-flow Enforcement Technology)**: 차세대 서버/클라이언트 CPU가 지원하는 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 기능 활성화 검토.
-- **ARM PAC ([Pointer Authentication](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: 모바일/M1 이상 [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 환경에서 컴파일 시 포인터 암호화 옵션(`-msign-return-address` 등) 적용 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+- <strong>ARM PAC (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/">Pointer Authentication</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 모바일/M1 이상 [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 환경에서 컴파일 시 포인터 암호화 옵션(`-msign-return-address` 등) 적용 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 - **소프트웨어 CFI (Clang CFI, Microsoft CFG)**: 간접 분기([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)/Jump) 시 유효한 타겟 목록을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 컴파일러 기반의 [Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Guard 적용 여부 점검.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -191,12 +193,12 @@ tags = ["studynote-operating-system"]
 | **운영** | 소프트웨어 CFI 추가 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 (3~8%) | CPU 칩 레벨에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 처리로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 **1% 미만** 달성 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없는 궁극의 제어 흐름 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계 |
 
 ### 미래 전망
-과거 20년이 "[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 어떻게 일으킬 것인가(공격) vs 어떻게 주소를 덮어쓰지 못하게 할 것인가(방어)"의 시대였다면, 현재와 미래는 **"실행 흐름을 어떻게 교란할 것인가(ROP/[JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/)/[COP](/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/)) vs 비정상적 흐름을 어떻게 물리적으로 끊어낼 것인가(CFI/Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))"**의 시대다. 특히 하드웨어 지원 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 기존 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 완전히 격리된 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구역에 리턴 주소만을 이중 보관하고, 함수 복귀(`ret`) 시 두 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 값이 일치하지 않으면 즉각 CPU 예외를 던지는 방식으로 ROP를 종식시키고 있다. 이에 해커들은 `ret`을 쓰지 않는 순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 공격 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Oriented Programming, DOP)이나 로직 자체의 결함을 악용하는 방향으로 우회로를 찾고 있다.
+과거 20년이 "[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 어떻게 일으킬 것인가(공격) vs 어떻게 주소를 덮어쓰지 못하게 할 것인가(방어)"의 시대였다면, 현재와 미래는 <strong>"실행 흐름을 어떻게 교란할 것인가(ROP/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/">JOP</a>/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/347_cop/">COP</a>) vs 비정상적 흐름을 어떻게 물리적으로 끊어낼 것인가(CFI/Shadow <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)"</strong>의 시대다. 특히 하드웨어 지원 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 기존 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 완전히 격리된 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구역에 리턴 주소만을 이중 보관하고, 함수 복귀(`ret`) 시 두 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 값이 일치하지 않으면 즉각 CPU 예외를 던지는 방식으로 ROP를 종식시키고 있다. 이에 해커들은 `ret`을 쓰지 않는 순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 공격 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Oriented Programming, DOP)이나 로직 자체의 결함을 악용하는 방향으로 우회로를 찾고 있다.
 
 ### 참고 표준
 - **Intel SDM Vol 1. Chapter 18**: Control-flow Enforcement Technology (CET) 규격
 - **CWE-693**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘의 우회 가능성 ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Mechanism Failure)
-- **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-190**: 애플리케이션 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 가이드 ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 권고)
+- <strong>NIST <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a> 800-190</strong>: 애플리케이션 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/) 가이드 ([메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 권고)
 
 - **📢 섹션 요약 비유**: 해커가 조작한 위조 신분증(변조된 RET)으로 문을 열려 해도, 경비실에 보관된 진짜 명부(하드웨어 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))와 이중으로 대조하여 불일치 시 즉각 사이렌을 울리는 궁극의 출입 통제 시스템이 구축되는 중입니다.
 
@@ -213,15 +215,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)]
-    │
-    ▼
-[ROP (Return-Oriented Programming) 기법]
-    │
-    ├──▶ [제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)]
-    └──▶ [스푸핑 (Spoofing)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ROP (Return-Oriented Programming) 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스푸핑 (Spoofing)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

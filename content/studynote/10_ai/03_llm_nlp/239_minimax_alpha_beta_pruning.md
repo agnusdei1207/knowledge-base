@@ -11,31 +11,34 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 미니맥스(Minimax) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 체스나 오목 같은 1:1 대결 게임에서, **"나는 내 점수를 무조건 최대(Max)로 올리려 하고, 상대방은 내 점수를 무조건 최하(Min)로 깎아내리려 한다"**는 완벽하게 이기적인 적대적(Adversarial) 심리를 수학적 트리로 엮어 필승의 한 수를 계산해 내는 고전 AI의 절대 규칙이다.
-> 2. **가치**: 미니맥스로 몇 수 앞을 내다보면 컴퓨터는 절대 지지 않는 무적의 플레이어가 되지만, 트리가 깊어질수록 경우의 수가 지수 함수로 폭발(바둑은 우주 원자 수 초과)하여 서버가 뻗는다. 이때 **[알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)([Alpha-Beta Pruning](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/))**라는 꼼수를 붙여서, "어차피 내가 안 고를 쓰레기 루트"를 계산도 안 하고 싹둑 잘라버림으로써 메모리 탐색 속도를 2배 이상 폭발적으로 끌어올렸다.
-> 3. **판단 포인트**: [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))의 핵심은 **"상대방이 나에게 최악의 수(Min)를 강요할 것이 뻔히 보이는 방이 발견되면, 그 방의 나머지 문은 열어보지도 않고 버린다(Prune)"**는 데 있다. 이 인간적인 눈치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 덕분에 1997년 IBM 딥블루가 세계 체스 챔피언 가리 카스파로프를 꺾을 수 있었다.
+> 1. **본질**: 미니맥스(Minimax) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 체스나 오목 같은 1:1 대결 게임에서, <strong>"나는 내 점수를 무조건 최대(Max)로 올리려 하고, 상대방은 내 점수를 무조건 최하(Min)로 깎아내리려 한다"</strong>는 완벽하게 이기적인 적대적(Adversarial) 심리를 수학적 트리로 엮어 필승의 한 수를 계산해 내는 고전 AI의 절대 규칙이다.
+> 2. **가치**: 미니맥스로 몇 수 앞을 내다보면 컴퓨터는 절대 지지 않는 무적의 플레이어가 되지만, 트리가 깊어질수록 경우의 수가 지수 함수로 폭발(바둑은 우주 원자 수 초과)하여 서버가 뻗는다. 이때 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">알파-베타 가지치기</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">Alpha-Beta Pruning</a>)</strong>라는 꼼수를 붙여서, "어차피 내가 안 고를 쓰레기 루트"를 계산도 안 하고 싹둑 잘라버림으로써 메모리 탐색 속도를 2배 이상 폭발적으로 끌어올렸다.
+> 3. **판단 포인트**: [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))의 핵심은 <strong>"상대방이 나에게 최악의 수(Min)를 강요할 것이 뻔히 보이는 방이 발견되면, 그 방의 나머지 문은 열어보지도 않고 버린다(Prune)"</strong>는 데 있다. 이 인간적인 눈치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 덕분에 1997년 IBM 딥블루가 세계 체스 챔피언 가리 카스파로프를 꺾을 수 있었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-혼자 길을 찾는 A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 맵이 멈춰있다고 가정한다. 하지만 체스나 오목은 다르다. 내가 한 발짝 전진하면, 상대방은 나를 죽이려고 미친 듯이 판을 뒤엎는다. 이렇게 상대방과 턴을 주고받는 제로섬([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Sum) 게임에서는 **적대적 탐색 (Adversarial Search)**이라는 새로운 무기가 필요했다.
+혼자 길을 찾는 A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 맵이 멈춰있다고 가정한다. 하지만 체스나 오목은 다르다. 내가 한 발짝 전진하면, 상대방은 나를 죽이려고 미친 듯이 판을 뒤엎는다. 이렇게 상대방과 턴을 주고받는 제로섬([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Sum) 게임에서는 <strong>적대적 탐색 (Adversarial Search)</strong>이라는 새로운 무기가 필요했다.
 
 "내가 이 수를 두면, 상대는 나를 제일 열받게 하는 저 수를 두겠지? 그럼 나는 또 이걸 두고..."
 인간이 장기를 둘 때 머릿속에서 수읽기를 하는 이 꼬리에 꼬리를 무는 사고방식을 컴퓨터의 트리(Tree) 코드로 번역한 것이 바로 **미니맥스 (Minimax)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 
 
 그런데 문제가 터졌다. 체스에서 고작 3턴(나-상대-나) 앞을 내다보는 데도 경우의 수가 수십만 개로 뻗어나갔다. 컴퓨터의 CPU가 폭발하기 직전, 공학자들은 기가 막힌 아이디어를 냈다. "야, 내가 A방이랑 B방 중에 고를 건데, A방에 가면 무조건 100점을 따. 근데 B방 문을 살짝 열어보니, 첫 번째 서랍에 벌써 -10점짜리 폭탄이 들어있네? 그럼 **상대방은 무조건 나한테 -10점이나 그보다 더 나쁜 걸 먹이려고 들 테니, B방의 나머지 서랍은 뒤져보지도 말고 그냥 A방으로 가자!**" 
 
-이것이 불필요한 노드를 통째로 베어버리는 **[알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/) ([Alpha-Beta Pruning](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/))**의 위대한 탄생이다.
+이것이 불필요한 노드를 통째로 베어버리는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">알파-베타 가지치기</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">Alpha-Beta Pruning</a>)</strong>의 위대한 탄생이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 미니맥스는 '최악을 피하는 비관주의자'다. 내가 오른쪽 길로 가면 사자 아니면 호랑이가 나오고, 왼쪽 길로 가면 모기 아니면 파리가 나온다 치자. 상대방은 무조건 나를 제일 아프게 하는 놈을 고를 테니, 나는 오른쪽 길(호랑이한테 물어뜯김)을 과감히 버리고 차라리 왼쪽 길(기껏해야 파리한테 물림)을 골라 최악 중 그나마 나은 최선을 선택하는 생존법이다.
 
@@ -45,31 +48,30 @@ tags = ["studynote-ai"]
 
 미니맥스 트리는 나와 상대방의 턴이 번갈아 나타나며, 밑바닥에서 위로 점수를 끌어올리는 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 아키텍처를 따른다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           미니맥스 (Minimax)와 알파-베타 가지치기 작동 아키텍처 도해        │
-├──────────────────────────────────────────────────────────────┤
-│  [상황]: 내 턴(Max) ─▶ 상대 턴(Min) ─▶ 잎 노드 점수 판별              │
-│                                                              │
-│  [1. 미니맥스 기본 트리 (무식하게 다 계산하기)]                       │
-│           [나의 최종 선택: Max(?)]                               │
-│            /                 \                               │
-│      [상대방 턴: Min(3)]    [상대방 턴: Min(2)]                  │
-│       /      \               /      \                         │
-│     (3점)   (5점)          (2점)   (9점)  ─▶ (바닥 노드 점수들)    │
-│   * 상대방 로직: 3과 5 중 나쁜 거(3점) 선택 / 2와 9 중 나쁜 거(2점) 선택!│
-│   * 나의 로직: 상대방이 남겨준 3점과 2점 중 좋은 거(3점) 선택! ─▶ 왼쪽 길!│
-│                                                              │
-│  [2. ★ 알파-베타 가지치기 (알파: 내가 쥔 최소 확보 점수)]             │
-│   * 왼쪽을 다 팠더니 "아! 왼쪽 길로 가면 상대가 어떻게 발악해도 최소 3점은   │
-│     무조건 먹는구나!(알파=3)" 라고 깨달음.                          │
-│   * 이제 오른쪽 길을 파봄. 오른쪽의 첫 번째 바닥 점수를 까보니 (2점)이 나옴! │
-│   * ─▶ "잠깐! 상대방(Min)은 오른쪽 길에서 무조건 2점이나 그 이하의 최악의   │
-│     폭탄을 나한테 던지겠네? 근데 난 이미 왼쪽 길에서 최소 3점(알파)을 확보    │
-│     해뒀잖아? 그럼 오른쪽 방에 남은 (9점)이든 (100점)이든 의미가 없어!"     │
-│   * [가지치기 발동 ✂️]: 오른쪽 방의 나머지 길(9점)은 아예 쳐다보지도 않고 자름!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미니맥스 (Minimax)와 알파-베타 가지치기 작동 아키텍처 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">상대 턴(Min) ─▶ 잎 노드 점수 판별</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 미니맥스 기본 트리 (무식하게 다 계산하기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">나의 최종 선택: Max(?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상대방 턴: Min(3)</div><div class="kb-diagram-node">상대방 턴: Min(2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3점) (5점) (2점) (9점) ─▶ (바닥 노드 점수들)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상대방 로직: 3과 5 중 나쁜 거(3점) 선택 / 2와 9 중 나쁜 거(2점) 선택!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 나의 로직: 상대방이 남겨준 3점과 2점 중 좋은 거(3점) 선택! ─▶ 왼쪽 길!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. ★ 알파-베타 가지치기 (알파: 내가 쥔 최소 확보 점수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왼쪽을 다 팠더니 "아! 왼쪽 길로 가면 상대가 어떻게 발악해도 최소 3점은</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 먹는구나!(알파=3)" 라고 깨달음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이제 오른쪽 길을 파봄. 오른쪽의 첫 번째 바닥 점수를 까보니 (2점)이 나옴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ "잠깐! 상대방(Min)은 오른쪽 길에서 무조건 2점이나 그 이하의 최악의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭탄을 나한테 던지겠네? 근데 난 이미 왼쪽 길에서 최소 3점(알파)을 확보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해뒀잖아? 그럼 오른쪽 방에 남은 (9점)이든 (100점)이든 의미가 없어!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">*</div><div class="kb-diagram-node">가지치기 발동 ✂️</div><div class="kb-diagram-note">: 오른쪽 방의 나머지 길(9점)은 아예 쳐다보지도 않고 자름!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (Alpha와 Beta의 조건부 폭파)**:
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 두 개의 메모리 칩표가 돌아다닌다. 
@@ -95,10 +97,10 @@ tags = ["studynote-ai"]
 | 게임 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 탐색 방식 및 뼈대 | 연산 폭발([시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)) 제어 능력 | 한계점 및 치명적 단점 |
 |:---|:---|:---|:---|
 | **순수 미니맥스 (Minimax)** | 우주 끝까지 내려가서 모든 경우의 수를 싹 다 훑고 올라옴. | 제어 불가. 뎁스(Depth)가 1 깊어질 때마다 $b^d$ (분기 계수의 제곱)로 폭주. | 틱택토(오목) 같은 유치한 게임은 풀지만, 체스는 5턴 앞도 못 내다보고 서버가 뻗음. |
-| **알파-베타 ([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)-Beta)** | 미니맥스랑 똑같지만, **"어차피 안 고를 길"을 싹둑싹둑 썰어버림.** | 완벽한 상황에서 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 터지면 탐색 공간을 $b^{d/2}$ 로 박살 냄 (속도 수백 배 증가). | 무조건 왼쪽 길부터 순서대로 파고들기 때문에, 우연히 좋은 길이 오른쪽에 있으면 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 하나도 안 터지는 **노드 정렬 의존성 버그**가 있음. |
-| **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 미니맥스** | [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 해도 끝이 없으니, **딱 5턴까지만 계산하고 탐색을 강제 종료!** | 중간에 멈췄을 때 "이 체스판이 누가 더 유리한가?"를 눈치껏 점수 매기는 평가 함수(Evaluation Function) 사용. | 5턴까지만 봤을 땐 내가 이긴 줄 알았는데, 6턴째에 내 왕이 죽는 끔찍한 사각지대(Horizon Effect)가 발생. |
+| <strong>알파-베타 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/">Alpha</a>-Beta)</strong> | 미니맥스랑 똑같지만, **"어차피 안 고를 길"을 싹둑싹둑 썰어버림.** | 완벽한 상황에서 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 터지면 탐색 공간을 $b^{d/2}$ 로 박살 냄 (속도 수백 배 증가). | 무조건 왼쪽 길부터 순서대로 파고들기 때문에, 우연히 좋은 길이 오른쪽에 있으면 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 하나도 안 터지는 <strong>노드 정렬 의존성 버그</strong>가 있음. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 미니맥스</strong> | [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 해도 끝이 없으니, **딱 5턴까지만 계산하고 탐색을 강제 종료!** | 중간에 멈췄을 때 "이 체스판이 누가 더 유리한가?"를 눈치껏 점수 매기는 평가 함수(Evaluation Function) 사용. | 5턴까지만 봤을 땐 내가 이긴 줄 알았는데, 6턴째에 내 왕이 죽는 끔찍한 사각지대(Horizon Effect)가 발생. |
 
-[알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)의 성공 여부는 사실 **"어떤 노드부터 먼저 열어볼 것인가(Move [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))?"**에 100% 달려있다. 제일 좋은 길(가장 큰 점수)을 운 좋게 맨 처음에 파서 $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$(알파) 값을 빵빵하게 채워두면, 나머지 길들은 까보는 족족 알파보다 구려서 전부 다 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 컷(Cut) 당하기 때문이다.
+[알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)의 성공 여부는 사실 <strong>"어떤 노드부터 먼저 열어볼 것인가(Move <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)?"</strong>에 100% 달려있다. 제일 좋은 길(가장 큰 점수)을 운 좋게 맨 처음에 파서 $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$(알파) 값을 빵빵하게 채워두면, 나머지 길들은 까보는 족족 알파보다 구려서 전부 다 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 컷(Cut) 당하기 때문이다.
 
 - **📢 섹션 요약 비유**: 순수 미니맥스는 '도서관 책 다 읽기'다. 1번부터 1만 번까지 다 읽고 제일 재밌는 책을 고른다. 알파-베타는 '목차 보고 책 버리기'다. 1번 책이 너무 재밌으면, 2번 책 목차를 딱 봤는데 재미없어 보일 때 본문을 아예 안 읽고 책을 쓰레기통에 던져버린다. 단, 이 기술은 1번 책(탐색 순서)이 진짜 재밌는 놈이었을 때만 효과가 폭발한다. 처음에 더럽게 재미없는 책만 골라 읽으면, 뒤에 있는 책들을 버릴 수가 없어서 결국 미니맥스처럼 다 읽어야 하는 생고생을 한다.
 
@@ -109,11 +111,11 @@ tags = ["studynote-ai"]
 체스 AI나 보드게임 엔진 백엔드를 짤 때, 알파-베타 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기초 코드만 덜컥 박아넣으면 플레이어가 1턴을 둘 때마다 CPU가 1분 동안 멈춰버린다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **Move [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) (탐색 순서 강제 정렬) 인프라 구축**: [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)가 빛의 속도를 내려면 "제일 쎈 수(베스트 수)"를 가장 먼저 검사하도록 노드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 튜닝해야 한다. 실무 아키텍트는 체스에서 `왕 잡기(Check) -> 상대 말 먹기 -> 보행병 전진` 같은 **인간의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 기반 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**을 탐색 트리의 맨 윗단에 하드코딩해 두어, 무조건 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 효율이 극대화되는 1번 서랍부터 열어보도록 유도해야 한다.
+1. <strong>Move <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a> (탐색 순서 강제 정렬) 인프라 구축</strong>: [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)가 빛의 속도를 내려면 "제일 쎈 수(베스트 수)"를 가장 먼저 검사하도록 노드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 튜닝해야 한다. 실무 아키텍트는 체스에서 `왕 잡기(Check) -> 상대 말 먹기 -> 보행병 전진` 같은 <strong>인간의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 지식(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>) 기반 정렬 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 탐색 트리의 맨 윗단에 하드코딩해 두어, 무조건 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 효율이 극대화되는 1번 서랍부터 열어보도록 유도해야 한다.
 2. **Iterative Deepening (반복적 깊이 심화) 융합**: 사용자와 실시간으로 게임을 하는데 "AI가 생각 중입니다..."라며 10분 동안 연산하면 사용자는 빡쳐서 게임을 끈다. 아키텍트는 반드시 타이머를 걸고 **Iterative Deepening** 기법을 적용해야 한다. 1초 동안 뎁스 2까지만 돌려보고 킵! 시간이 남으면 뎁스 3까지 파보고 킵! 그러다 5초(제한 시간)가 땡 치면 "여기까지만 파고 계산된 가장 좋은 답을 그냥 뱉어라(Anytime [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))!"라고 강제 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 거는 아키텍처가 실시간 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임의 생명줄이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Horizon Effect (수평선 효과) 방치 버그**: 뎁스를 딱 5턴까지만 내다보고 멈추도록([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Minimax) 제한을 걸었을 때 발생하는 끔찍한 착각. 5턴째 판을 보니 내 퀸(Queen)이 안전해서 "나의 승리다!" 하고 높은 점수를 때렸다. 하지만 6턴째에 상대 폰(Pawn)에게 퀸이 먹혀서 게임이 지는 상황이었다. AI는 시야 밖(6턴)의 죽음을 보지 못하고 스스로 절벽으로 뛰어드는 멍청한 수를 둔다. 이 한계를 극복하기 위해, 바둑이 끝날 때까지 수만 번 대충 시뮬레이션으로 막 둬보고 승률을 통계 내는 **[몬테카를로 트리 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/)([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))**이라는 패러다임 파괴자가 등장하며 고전 미니맥스는 왕좌에서 물러나게 되었다.
+- **Horizon Effect (수평선 효과) 방치 버그**: 뎁스를 딱 5턴까지만 내다보고 멈추도록([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Minimax) 제한을 걸었을 때 발생하는 끔찍한 착각. 5턴째 판을 보니 내 퀸(Queen)이 안전해서 "나의 승리다!" 하고 높은 점수를 때렸다. 하지만 6턴째에 상대 폰(Pawn)에게 퀸이 먹혀서 게임이 지는 상황이었다. AI는 시야 밖(6턴)의 죽음을 보지 못하고 스스로 절벽으로 뛰어드는 멍청한 수를 둔다. 이 한계를 극복하기 위해, 바둑이 끝날 때까지 수만 번 대충 시뮬레이션으로 막 둬보고 승률을 통계 내는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/">몬테카를로 트리 탐색</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/">MCTS</a>)</strong>이라는 패러다임 파괴자가 등장하며 고전 미니맥스는 왕좌에서 물러나게 되었다.
 
 - **📢 섹션 요약 비유**: 수평선 효과(Horizon Effect) 버그는 '눈앞에 떨어진 만원 줍기'다. 시력이 5m밖에 안 되는 AI가 길을 걷다 5m 앞에 떨어진 만 원짜리(높은 점수)를 보고 "오예! 내 인생 최고의 이득이다!"라며 좋다고 주우러 간다. 하지만 6m 앞에 깊이 100m짜리 낭떠러지가 숨어있었다. AI는 5m까지만 보고 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 매겼기 때문에, 만 원을 줍자마자 낭떠러지로 떨어져 죽어버리는 근시안적 비극을 맞이한다.
 
@@ -135,9 +137,9 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[상태 공간 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) / [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))** | 미니맥스가 체스판을 분석할 때 기본적으로 깔고 들어가는 길 찾기 엔진. 미니맥스는 뎁스(깊이)를 정해두고 DFS로 깊게 파고들어 점수를 가져오는 방식을 채택한다 |
-| **[몬테카를로 트리 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) ([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/))** | 미니맥스와 알파-베타가 바둑에서 뻗어버리자, 딥마인드가 알파고에 심어버린 현대 적대적 게임의 1인자. 모든 길을 계산하지 않고 '대충 막 둬보고 이긴 놈을 고르는' [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 깡패 |
-| **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 평가 함수** | 미니맥스가 바닥까지 내려가지 못하고 5턴 만에 끊었을 때, "지금 판때기가 나한테 80점 정도 유리하네"라고 대충 눈치껏 점수를 매겨주는 인간의 직감 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/236_state_space_search_dfs_bfs/">상태 공간 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> / <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong> | 미니맥스가 체스판을 분석할 때 기본적으로 깔고 들어가는 길 찾기 엔진. 미니맥스는 뎁스(깊이)를 정해두고 DFS로 깊게 파고들어 점수를 가져오는 방식을 채택한다 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/">몬테카를로 트리 탐색</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/">MCTS</a>)</strong> | 미니맥스와 알파-베타가 바둑에서 뻗어버리자, 딥마인드가 알파고에 심어버린 현대 적대적 게임의 1인자. 모든 길을 계산하지 않고 '대충 막 둬보고 이긴 놈을 고르는' [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 깡패 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>) 평가 함수</strong> | 미니맥스가 바닥까지 내려가지 못하고 5턴 만에 끊었을 때, "지금 판때기가 나한테 80점 정도 유리하네"라고 대충 눈치껏 점수를 매겨주는 인간의 직감 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | **내시 균형 (Nash Equilibrium)** | 상대가 최선을 다할 때 나도 최선을 다해서, 서로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 바꾸지 않는 게임 이론의 끝판왕. 미니맥스는 이 완벽한 적대적 균형 상태를 컴퓨터 코드로 흉내 낸 제로섬 게임의 결정체다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,9 +150,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 내가 가위바위보를 할 때, **"내가 보를 내면 친구는 무조건 가위를 내서 나를 지게 만들겠지?"**라고 친구의 얄미운 마음을 완벽하게 계산해서 내 작전을 짜는 게 **미니맥스** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이에요.
-2. 근데 10번 앞을 다 생각하려면 머리가 너무 아프잖아요? 그래서 **[알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)**라는 가위를 들고 왔어요.
-3. "어차피 저쪽 길로 가면 친구가 나한테 꿀밤을 때릴 게 뻔하네? 그럼 저 길 뒤에 과자가 있든 없든 **아예 쳐다보지도 말고 잘라버려([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))!**" 이렇게 쓸데없는 생각을 싹 버려서 번개처럼 빠르게 필승법을 찾는 마법이랍니다!
+1. 내가 가위바위보를 할 때, <strong>"내가 보를 내면 친구는 무조건 가위를 내서 나를 지게 만들겠지?"</strong>라고 친구의 얄미운 마음을 완벽하게 계산해서 내 작전을 짜는 게 **미니맥스** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이에요.
+2. 근데 10번 앞을 다 생각하려면 머리가 너무 아프잖아요? 그래서 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">알파-베타 가지치기</a></strong>라는 가위를 들고 왔어요.
+3. "어차피 저쪽 길로 가면 친구가 나한테 꿀밤을 때릴 게 뻔하네? 그럼 저 길 뒤에 과자가 있든 없든 <strong>아예 쳐다보지도 말고 잘라버려(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)!</strong>" 이렇게 쓸데없는 생각을 싹 버려서 번개처럼 빠르게 필승법을 찾는 마법이랍니다!
 
 ---
 

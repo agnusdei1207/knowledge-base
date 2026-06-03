@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 라우터 내부의 아키텍처는 제어 평면(경로 계산)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면(실제 패킷 전달)으로 논리적/물리적으로 분리되어 동작한다.
-- **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 라우터는 CPU 하나가 OSPF로 길도 찾고, 들어오는 패킷 IP도 읽고 포워딩도 했다. 그런데 인터넷이 커지면서 초당 100만 개의 패킷이 쏟아져 들어오자 CPU가 폭발해버렸다. "경로를 찾는 똑똑한 뇌(CPU)와, 들어오는 족족 튕겨내는 단순무식한 근육(하드웨어 칩셋)을 완전히 분리하자! 근육은 뇌가 미리 계산해 둔 **가이드라인([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))**만 보고 생각 없이 몸만 움직이게 하자!" 이것이 기가비트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 시작이다.
+- **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 라우터는 CPU 하나가 OSPF로 길도 찾고, 들어오는 패킷 IP도 읽고 포워딩도 했다. 그런데 인터넷이 커지면서 초당 100만 개의 패킷이 쏟아져 들어오자 CPU가 폭발해버렸다. "경로를 찾는 똑똑한 뇌(CPU)와, 들어오는 족족 튕겨내는 단순무식한 근육(하드웨어 칩셋)을 완전히 분리하자! 근육은 뇌가 미리 계산해 둔 <strong>가이드라인(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>)</strong>만 보고 생각 없이 몸만 움직이게 하자!" 이것이 기가비트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 시작이다.
 
 - **💡 비유**: 
-  - **제어 평면 (RIB)**: 물류 회사의 **"본사 작전 회의실"**입니다. 내비게이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 "강남구는 3번 고속도로가 제일 빠름"이라는 최적의 루트 지도를 짭니다. 머리를 많이 써야 해서 느립니다.
-  - **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))**: 물류 센터의 **"단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 로봇(컨베이어 벨트)"**입니다. 박스에 적힌 '강남구'란 글자를 스캐너로 찍자마자, 본사에서 미리 내려준 지침([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))대로 0.1초 만에 3번 트럭으로 박스를 확 던져버립니다. 로봇은 절대 스스로 길을 계산하지 않습니다.
+  - **제어 평면 (RIB)**: 물류 회사의 <strong>"본사 작전 회의실"</strong>입니다. 내비게이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 "강남구는 3번 고속도로가 제일 빠름"이라는 최적의 루트 지도를 짭니다. 머리를 많이 써야 해서 느립니다.
+  - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>)</strong>: 물류 센터의 <strong>"단순 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 로봇(컨베이어 벨트)"</strong>입니다. 박스에 적힌 '강남구'란 글자를 스캐너로 찍자마자, 본사에서 미리 내려준 지침([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))대로 0.1초 만에 3번 트럭으로 박스를 확 던져버립니다. 로봇은 절대 스스로 길을 계산하지 않습니다.
 
-```text
-[NDP]
-    │
-    ▼
-[라우터 구조 판단]
-    │
-    └──▶ [CEF 물리적 포워딩 / 하드웨어 스위칭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NDP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 구조 판단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** RIB가 모든 철학과 논리가 담긴 두꺼운 **"수학의 정석(원본)"**이라면, FIB는 내일 수능을 치기 위해 꼭 필요한 공식만 형광펜으로 칠해 얇게 압축해 놓은 **"비법 요약 노트(복사본)"**입니다. 실제 시험(포워딩)장에선 비법 노트만 봅니다.
 
@@ -43,43 +47,42 @@ tags = ["studynote-network"]
 
 ### 1. 제어 평면 (Control Plane)과 RIB
 - **주체**: 메인 CPU, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)) 프로세스 프로세스.
-- **역할**: 전 세계 라우터들과 대화를 나누어 토폴로지(지형)를 파악한다. 선로가 끊어지면 우회로를 찾고, **RIB ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Information Base, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)**를 갱신한다. 
+- **역할**: 전 세계 라우터들과 대화를 나누어 토폴로지(지형)를 파악한다. 선로가 끊어지면 우회로를 찾고, <strong>RIB (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Information Base, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)</strong>를 갱신한다. 
 - **한계**: RIB는 트리 구조 등으로 되어 있어 특정 IP를 찾으려면 CPU가 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 탐색(Recursive Lookup)을 해야 하므로 패킷을 넘기는 속도가 밀리초(ms) 단위로 매우 느리다.
 
 ### 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)과 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)
 - **주체**: 스위칭 패브릭(고속 백플레인), 라인 카드([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)), 하드웨어 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩셋.
 - **역할**: 오직 사용자의 패킷(IP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램)을 입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 넘겨주는(Forwarding) 육체노동만 전담한다.
 - **동작 방식**: 
-  1. 제어 평면의 CPU가 RIB 지도를 완성하면, 이를 기계어로 번역해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 고속 하드웨어 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))로 쏴준다. 이것이 **[FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) (Forwarding Information Base)**다.
+  1. 제어 평면의 CPU가 RIB 지도를 완성하면, 이를 기계어로 번역해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 고속 하드웨어 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))로 쏴준다. 이것이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a> (Forwarding Information Base)</strong>다.
   2. 라인 카드로 패킷이 훅 들어오면, 라인 카드에 달린 칩셋은 중앙 CPU를 괴롭히지 않고, 자기 라인 카드에 있는 [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 메모리만 쓱 보고 즉시 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 패킷을 쏴버린다. (CPU 개입 0%)
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                라우터의 평면 분리 아키텍처 도식                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 제어 평면 (Control Plane) - CPU ]                         │
- │     [ OSPF ] [ BGP ] [ Static ]                             │
- │         ↘      ↓      ↙                                   │
- │      [ RIB (라우팅 테이블) 작성 ] ──▶ (초당 수십 번 느리게 갱신)    │
- │                │                                            │
- │ ───────────────┼──── (고속 다운로드) ────────────────────────── │
- │                ▼                                            │
- │   [ 데이터 평면 (Data Plane) - 라인 카드 하드웨어 ]                │
- │         [ FIB (고속 포워딩 테이블) ]                             │
- │                ▲                                            │
- │                │ (CPU 거치지 않고 직접 통신!)                    │
- │    패킷 In ────┴──────────────────────▶ 패킷 Out             │
- │   (초당 수백만 개)                                              │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터의 평면 분리 아키텍처 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어 평면 (Control Plane) - CPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF</div><div class="kb-diagram-node">BGP</div><div class="kb-diagram-node">Static</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↓ ↙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIB (라우팅 테이블) 작성</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(초당 수십 번 느리게 갱신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고속 다운로드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 평면 (Data Plane) - 라인 카드 하드웨어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FIB (고속 포워딩 테이블)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 거치지 않고 직접 통신!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 In ▶ 패킷 Out</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초당 수백만 개)</div></div>
+</div>
+</div>
+
+
 
 ### 3. 스위칭 발전의 3단계 역사
 1. **프로세스 스위칭 (구석기)**: 패킷 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개가 들어오면 CPU가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 모두 RIB를 뒤져서 길을 찾는다. (CPU 터짐, 매우 느림)
 2. **패스트 스위칭 (중세)**: 첫 1번째 패킷만 CPU가 고생해서 길을 찾고 그 결과를 임시 메모리(캐시)에 적어둔다. 나머지 9,999개는 캐시만 보고 냅다 쏜다. (캐시에 없으면 또 CPU가 고생함)
-3. **토폴로지 기반 스위칭 (현대, [CEF](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/))**: 패킷이 들어오기도 전에, 아예 부팅할 때부터 라우터가 미리 RIB의 모든 경우의 수를 몽땅 계산해서 **FIB라는 완벽한 정답지**를 만들어 하드웨어 칩에 박아둔다. 첫 번째 패킷부터 CPU를 절대 거치지 않는 궁극의 최적화 상태다.
+3. <strong>토폴로지 기반 스위칭 (현대, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/">CEF</a>)</strong>: 패킷이 들어오기도 전에, 아예 부팅할 때부터 라우터가 미리 RIB의 모든 경우의 수를 몽땅 계산해서 <strong>FIB라는 완벽한 정답지</strong>를 만들어 하드웨어 칩에 박아둔다. 첫 번째 패킷부터 CPU를 절대 거치지 않는 궁극의 최적화 상태다.
 
-- **📢 섹션 요약 비유**: ** 프로세스 스위칭이 **"매번 손님(패킷)이 길을 물어볼 때마다 지도를 펴서 찾아주는 경찰관(CPU)"**이라면, 현대의 라우터 구조([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))는 **"아예 손님이 오기 전에 교차로 모든 방향에 이정표([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))를 못 박아 설치해두어, 경찰관은 사무실에서 자고 있고 손님들은 이정표만 보고 각자 갈 길 가는 자동화된 도로망"**입니다.
+- **📢 섹션 요약 비유**: ** 프로세스 스위칭이 **"매번 손님(패킷)이 길을 물어볼 때마다 지도를 펴서 찾아주는 경찰관(CPU)"<strong>이라면, 현대의 라우터 구조(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>)는 </strong>"아예 손님이 오기 전에 교차로 모든 방향에 이정표([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))를 못 박아 설치해두어, 경찰관은 사무실에서 자고 있고 손님들은 이정표만 보고 각자 갈 길 가는 자동화된 도로망"**입니다.
 
 ---
 
@@ -135,15 +138,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NDP]
-    │
-    ▼
-[현재 개념: 라우터 구조 판단]
-    │
-    ├──▶ [확장 A: CEF 물리적 포워딩 / 하드웨어 스위칭]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NDP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라우터 구조 판단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 라우터 구조 판단는 NDP에서 출발해 현재 메커니즘을 정교화하고, 이후 [CEF](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) 물리적 포워딩 / 하드웨어 스위칭와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

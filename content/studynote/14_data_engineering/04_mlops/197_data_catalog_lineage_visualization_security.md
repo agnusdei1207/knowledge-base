@@ -22,17 +22,21 @@ tags = ["studynote-data-engineering"]
 
 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산이 증가할수록 "어디에 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는지" 파악이 어려워진다.
 
-```
-데이터 카탈로그가 없는 현실
 
-분석가: "고객 이탈률 분석하려면 어떤 테이블 써야 하나?"
-         → Slack에 질문 → 2시간 기다림
-         → "customer_v2 쓰세요, customer는 deprecated"
-         → "근데 PII가 포함되어 있어서 권한 신청 필요해요"
-         → 권한 신청 → 승인 3일 소요
-         
-총 소요 시간: 데이터 찾기에만 3일 낭비
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 카탈로그가 없는 현실</div>
+<div class="kb-diagram-note">분석가: "고객 이탈률 분석하려면 어떤 테이블 써야 하나?"</div>
+<div class="kb-diagram-note">→ Slack에 질문 → 2시간 기다림</div>
+<div class="kb-diagram-note">→ "customer_v2 쓰세요, customer는 deprecated"</div>
+<div class="kb-diagram-note">→ "근데 PII가 포함되어 있어서 권한 신청 필요해요"</div>
+<div class="kb-diagram-note">→ 권한 신청 → 승인 3일 소요</div>
+<div class="kb-diagram-note">총 소요 시간: 데이터 찾기에만 3일 낭비</div>
+</div>
+</div>
+
+
 
 | 문제 | [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 해결책 |
 |:---|:---|
@@ -44,27 +48,26 @@ tags = ["studynote-data-engineering"]
 
 ### 1.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 ([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 정의
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 원천(Source)부터 최종 소비(Consumption)까지 흐름**을 추적하는 기능이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 원천(Source)부터 최종 소비(Consumption)까지 흐름</strong>을 추적하는 기능이다.
 
-```
-데이터 계보 예시
 
-[원천 시스템]         [처리]              [소비]
-PostgreSQL(주문DB)
-    │ 원시 데이터
-    ▼
-S3 Bronze Layer   → Spark 변환 →  Silver Layer
-    │                                 │
-    │                        dbt 집계 모델
-    │                                 │
-    │                                 ▼
-    └─────────────────────→ Gold Layer (KPI)
-                                      │
-                           ┌──────────┼──────────┐
-                           ▼          ▼           ▼
-                        Tableau   ML 모델     REST API
-                       (대시보드) (이탈 예측)  (앱 서빙)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 계보 예시</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원천 시스템</div><div class="kb-diagram-node">처리</div><div class="kb-diagram-node">소비</div></div>
+<div class="kb-diagram-note">PostgreSQL(주문DB)</div>
+<div class="kb-diagram-note">원시 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S3 Bronze Layer → Spark 변환 → Silver Layer</div>
+<div class="kb-diagram-note">dbt 집계 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">→ Gold Layer (KPI)</div>
+<div class="kb-diagram-note">Tableau ML 모델 REST API</div>
+<div class="kb-diagram-note">(대시보드) (이탈 예측) (앱 서빙)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관의 도서 목록 시스템이다. 책 제목(테이블명), [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(카테고리), 저자([데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)), 내용 요약(컬럼 설명), 대출 가능 여부(접근 권한)를 한눈에 볼 수 있다.
 
@@ -74,40 +77,32 @@ S3 Bronze Layer   → Spark 변환 →  Silver Layer
 
 ### 2.1 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 핵심 구성요소
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                  데이터 카탈로그 아키텍처                   │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │              메타데이터 수집 레이어                   │  │
-│  │                                                    │  │
-│  │  커넥터 기반 자동 크롤링:                            │  │
-│  │  ├─ JDBC (Oracle, PostgreSQL, MySQL)               │  │
-│  │  ├─ Hive Metastore / AWS Glue Catalog              │  │
-│  │  ├─ dbt Artifacts (manifest.json)                  │  │
-│  │  ├─ Kafka Schema Registry                          │  │
-│  │  └─ REST API / OpenLineage                         │  │
-│  └──────────────────────────┬─────────────────────────┘  │
-│                             │                            │
-│  ┌──────────────────────────▼─────────────────────────┐  │
-│  │              메타데이터 저장 레이어                   │  │
-│  │                                                    │  │
-│  │  ├─ 기술적 메타데이터: 스키마, 타입, 통계           │  │
-│  │  ├─ 비즈니스 메타데이터: 정의, 소유자, 용어집       │  │
-│  │  ├─ 운영 메타데이터: 접근 로그, 업데이트 이력       │  │
-│  │  └─ 계보 메타데이터: 소스→변환→소비 흐름            │  │
-│  └──────────────────────────┬─────────────────────────┘  │
-│                             │                            │
-│  ┌──────────────────────────▼─────────────────────────┐  │
-│  │                서빙 레이어                           │  │
-│  │                                                    │  │
-│  │  ├─ 검색 엔진 (Elasticsearch)                      │  │
-│  │  ├─ 계보 시각화 (그래프 DB)                         │  │
-│  │  ├─ 보안 정책 엔진 (태그 기반 ABAC)                 │  │
-│  │  └─ REST API / GraphQL                             │  │
-│  └────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 수집 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커넥터 기반 자동 크롤링:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ JDBC (Oracle, PostgreSQL, MySQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hive Metastore / AWS Glue Catalog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt Artifacts (manifest.json)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Kafka Schema Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ REST API / OpenLineage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 저장 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기술적 메타데이터: 스키마, 타입, 통계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비즈니스 메타데이터: 정의, 소유자, 용어집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 운영 메타데이터: 접근 로그, 업데이트 이력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계보 메타데이터: 소스→변환→소비 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 검색 엔진 (Elasticsearch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계보 시각화 (그래프 DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 정책 엔진 (태그 기반 ABAC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ REST API / GraphQL</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 주요 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 제품 비교
 
@@ -122,26 +117,26 @@ S3 Bronze Layer   → Spark 변환 →  Silver Layer
 
 ### 2.3 OpenLineage 표준
 
-```
-OpenLineage: 계보 메타데이터 수집 오픈 표준
 
-┌──────────────────────────────────────────────────────────┐
-│  OpenLineage 이벤트 흐름                                  │
-│                                                          │
-│  Airflow/Spark/dbt/Flink                                 │
-│  (파이프라인 실행 엔진)                                   │
-│         │ OpenLineage 이벤트 발생                         │
-│         │ { "run": {...}, "job": {...},                  │
-│         │   "inputs": [...], "outputs": [...] }          │
-│         ▼                                                │
-│  OpenLineage API 서버                                    │
-│  (Marquez 또는 플랫폼별 구현)                             │
-│         │ 계보 정보 저장                                  │
-│         ▼                                                │
-│  데이터 카탈로그 (DataHub / OpenMetadata)                 │
-│  → 시각적 계보 그래프 표시                                │
-└──────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OpenLineage: 계보 메타데이터 수집 오픈 표준</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenLineage 이벤트 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow/Spark/dbt/Flink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파이프라인 실행 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenLineage 이벤트 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ "run": {...}, "job": {...},</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ "inputs":</div><div class="kb-diagram-node">...</div><div class="kb-diagram-note">, "outputs":</div><div class="kb-diagram-node">...</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenLineage API 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Marquez 또는 플랫폼별 구현)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계보 정보 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그 (DataHub / OpenMetadata)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시각적 계보 그래프 표시</div></div>
+</div>
+</div>
+
+
 
 ### 2.4 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 연계: 태그 기반 접근 제어 ([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))
 
@@ -161,29 +156,30 @@ OpenLineage: 계보 메타데이터 수집 오픈 표준
 
 ### 3.1 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/CCPA와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 연계
 
-```
-GDPR 삭제권(Right to be Forgotten) 이행 시나리오
 
-사용자: "내 모든 데이터 삭제 요청"
-    │
-    ▼
-데이터 카탈로그 조회
-    │ user_id로 태그된 모든 데이터셋 검색
-    ▼
-┌───────────────────────────────────────────────┐
-│  영향받는 데이터 자산 목록 (계보로 자동 추적)    │
-│                                               │
-│  ① PostgreSQL.users 테이블  → 직접 삭제        │
-│  ② S3/bronze/user_events   → 덮어쓰기/삭제    │
-│  ③ Silver.user_profile     → 재처리 필요      │
-│  ④ Gold.customer_360       → 재집계 필요      │
-│  ⑤ ML Feature Store        → 피처 삭제        │
-│  ⑥ Elasticsearch 인덱스    → 인덱스 업데이트   │
-└───────────────────────────────────────────────┘
-    │ 자동화된 삭제 워크플로우 실행
-    ▼
-완료 증명 리포트 생성 (규정 준수 감사용)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GDPR 삭제권(Right to be Forgotten) 이행 시나리오</div>
+<div class="kb-diagram-note">사용자: "내 모든 데이터 삭제 요청"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 카탈로그 조회</div>
+<div class="kb-diagram-note">user_id로 태그된 모든 데이터셋 검색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향받는 데이터 자산 목록 (계보로 자동 추적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① PostgreSQL.users 테이블 → 직접 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② S3/bronze/user_events → 덮어쓰기/삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Silver.user_profile → 재처리 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Gold.customer_360 → 재집계 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ ML Feature Store → 피처 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ Elasticsearch 인덱스 → 인덱스 업데이트</div></div>
+<div class="kb-diagram-note">자동화된 삭제 워크플로우 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완료 증명 리포트 생성 (규정 준수 감사용)</div>
+</div>
+</div>
+
+
 
 ### 3.2 컬럼 레벨 보안 (Column-Level [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 
@@ -223,31 +219,27 @@ SELECT email FROM customers;
 
 ### 4.1 DataHub 실시간 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 아키텍처
 
-```
-DataHub 아키텍처 (LinkedIn 오픈소스)
 
-┌──────────────────────────────────────────────────────┐
-│                                                      │
-│  데이터 소스 (Kafka, Snowflake, dbt, Airflow, ...)   │
-│         │ OpenLineage / DataHub Ingestion Framework  │
-│         ▼                                            │
-│  Kafka Topic: MetadataChangeEvent (MCE)              │
-│         │ 실시간 메타데이터 이벤트 스트림              │
-│         ▼                                            │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  DataHub GMS (Generalized Metadata Service)  │   │
-│  │  ├─ 메타데이터 저장 (Apache Cassandra)        │   │
-│  │  ├─ 그래프 저장 (Neo4j / MySQL)               │   │
-│  │  └─ 검색 인덱스 (Elasticsearch)               │   │
-│  └──────────────────────────────────────────────┘   │
-│         │                                            │
-│         ▼                                            │
-│  DataHub Frontend (React UI)                         │
-│  ├─ 데이터 검색                                      │
-│  ├─ 계보 시각화                                      │
-│  └─ 정책 관리                                        │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DataHub 아키텍처 (LinkedIn 오픈소스)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 (Kafka, Snowflake, dbt, Airflow, ...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenLineage / DataHub Ingestion Framework</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka Topic: MetadataChangeEvent (MCE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 메타데이터 이벤트 스트림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataHub GMS (Generalized Metadata Service)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터 저장 (Apache Cassandra)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 그래프 저장 (Neo4j / MySQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 검색 인덱스 (Elasticsearch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataHub Frontend (React UI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 검색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계보 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정책 관리</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 기술사 관점: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 프레임워크
 
@@ -262,21 +254,23 @@ DataHub 아키텍처 (LinkedIn 오픈소스)
 
 ### 4.3 도입 성숙도 모델
 
-```
-데이터 카탈로그 성숙도 4단계
 
-Level 1: 기술적 메타데이터
-  └─ 스키마, 컬럼 타입, 통계 자동 수집
 
-Level 2: 비즈니스 메타데이터
-  └─ 비즈니스 용어, 소유자, 설명 추가
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 카탈로그 성숙도 4단계</div>
+<div class="kb-diagram-note">Level 1: 기술적 메타데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스키마, 컬럼 타입, 통계 자동 수집</div>
+<div class="kb-diagram-note">Level 2: 비즈니스 메타데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">비즈니스 용어, 소유자, 설명 추가</div>
+<div class="kb-diagram-note">Level 3: 데이터 계보 + 품질</div>
+<div class="kb-diagram-tree-item" style="--depth:1">흐름 추적, 이상 감지 연계</div>
+<div class="kb-diagram-note">Level 4: 능동적 거버넌스</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AI 추천, 자동 태깅, 정책 자동 집행</div>
+</div>
+</div>
 
-Level 3: 데이터 계보 + 품질
-  └─ 흐름 추적, 이상 감지 연계
 
-Level 4: 능동적 거버넌스
-  └─ AI 추천, 자동 태깅, 정책 자동 집행
-```
 
 ### 4.4 OpenMetadata [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시
 
@@ -323,25 +317,27 @@ columns:
 
 ### 5.2 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 연계
 
-```
-AI 강화 데이터 카탈로그 기능
 
-1. 자동 태깅 (Auto Tagging)
-   NLP로 컬럼명/설명 분석 → PII 자동 감지
 
-2. 유사 데이터셋 추천 (Similar Assets)
-   "이 테이블과 유사한 데이터 3개 추천"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AI 강화 데이터 카탈로그 기능</div>
+<div class="kb-diagram-note">1. 자동 태깅 (Auto Tagging)</div>
+<div class="kb-diagram-note">NLP로 컬럼명/설명 분석 → PII 자동 감지</div>
+<div class="kb-diagram-note">2. 유사 데이터셋 추천 (Similar Assets)</div>
+<div class="kb-diagram-note">"이 테이블과 유사한 데이터 3개 추천"</div>
+<div class="kb-diagram-note">3. 이상 설명 (Anomaly Explanation)</div>
+<div class="kb-diagram-note">"주문량이 30% 급감한 이유: 결제 서버 장애"</div>
+<div class="kb-diagram-note">4. 자연어 쿼리 (NL to SQL)</div>
+<div class="kb-diagram-note">"지난달 APAC 지역 상위 10 고객" → SQL 자동 생성</div>
+</div>
+</div>
 
-3. 이상 설명 (Anomaly Explanation)
-   "주문량이 30% 급감한 이유: 결제 서버 장애"
 
-4. 자연어 쿼리 (NL to SQL)
-   "지난달 APAC 지역 상위 10 고객" → SQL 자동 생성
-```
 
 ### 5.3 결론 요약
 
-[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 계보는 현대 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 인프라이며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 위한 필수 요소다. 기술사 관점에서는 **OpenLineage 표준 기반 자동 계보 수집, 태그 기반 [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제권 이행과 계보의 연계 방법**을 명확히 설명할 수 있어야 한다.
+[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 계보는 현대 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 인프라이며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 규정 준수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보를 위한 필수 요소다. 기술사 관점에서는 <strong>OpenLineage 표준 기반 자동 계보 수집, 태그 기반 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a>, <a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 삭제권 이행과 계보의 연계 방법</strong>을 명확히 설명할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "GPS + 사용설명서 + 출입 카드 시스템"이다. 어디에 있는지(GPS), 어떻게 사용하는지(사용설명서), 누가 접근할 수 있는지(출입 카드)를 통합 관리한다.
 
@@ -367,23 +363,26 @@ AI 강화 데이터 카탈로그 기능
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 사일로 · 메타데이터 부재
-    │
-    ▼
-데이터 카탈로그
-    ├─► 메타데이터 수집: 스키마 · 통계 · 태그 · 오너
-    ├─► 검색 · 디스커버리: "고객 테이블 어디?"
-    └─► 접근 제어: RBAC · 태그 기반 정책
-    │
-    ▼
-데이터 계보 (Lineage) 시각화
-    ├─► 업스트림/다운스트림 영향 분석
-    └─► 변경 전 임팩트 평가
-    │
-    ▼
-도구: DataHub (LinkedIn) · Amundsen (Lyft) · Unity Catalog
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 사일로 · 메타데이터 부재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 카탈로그</div>
+<div class="kb-diagram-tree-item" style="--depth:2">메타데이터 수집: 스키마 · 통계 · 태그 · 오너</div>
+<div class="kb-diagram-tree-item" style="--depth:2">검색 · 디스커버리: "고객 테이블 어디?"</div>
+<div class="kb-diagram-tree-item" style="--depth:2">접근 제어: RBAC · 태그 기반 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 계보 (Lineage) 시각화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">업스트림/다운스트림 영향 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">변경 전 임팩트 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도구: DataHub (LinkedIn) · Amundsen (Lyft) · Unity Catalog</div>
+</div>
+</div>
+
+
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 음식 원산지 추적이에요. 내 접시에 올라온 음식이 어느 농장 재료로, 어느 공장에서 만들어졌는지 역방향으로 따라갈 수 있죠.
 3. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제권에 계보를 연계하면, 한 사람의 정보를 삭제할 때 그 정보가 복사된 모든 곳(10개 창고)을 자동으로 찾아 동시에 지울 수 있어요.
 

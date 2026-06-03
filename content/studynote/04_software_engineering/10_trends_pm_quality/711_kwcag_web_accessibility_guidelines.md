@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 팀 버너스 리([Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Berners-Lee)가 월드 와이드 웹(WWW)을 발명할 때 내세운 가장 중요한 철학은 "웹은 모든 사람에게 열려 있어야 한다"는 것이었다. 하지만 웹 기술이 화려해지면서 이미지만 떡칠된 쇼핑몰, 마우스로만 눌러야 하는 플래시 버튼들이 등장했다. 이로 인해 눈이 보이지 않거나 마우스를 쥘 수 없는 사람들은 인터넷이라는 정보의 바다에서 완벽하게 소외되었다.
 
-이러한 정보 격차(Digital Divide)를 해소하기 위해 국제 표준인 WCAG(Web Content [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) Guidelines)가 만들어졌고, 이를 한국의 실정에 맞게 수정하여 국가 표준(KICS)으로 제정한 것이 **[KWCAG](/knowledge-base/studynote/12_it_management/05_security_compliance/334_kwcag/) (한국형 웹 콘텐츠 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침)**이다. 한국에서는 장애인차별금지법에 따라 공공기관은 물론 일정 규모 이상의 민간 기업도 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 의무적으로 준수해야 하며, 위반 시 징벌적 손해배상의 대상이 된다.
+이러한 정보 격차(Digital Divide)를 해소하기 위해 국제 표준인 WCAG(Web Content [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) Guidelines)가 만들어졌고, 이를 한국의 실정에 맞게 수정하여 국가 표준(KICS)으로 제정한 것이 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/334_kwcag/">KWCAG</a> (한국형 웹 콘텐츠 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a> 지침)</strong>이다. 한국에서는 장애인차별금지법에 따라 공공기관은 물론 일정 규모 이상의 민간 기업도 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 의무적으로 준수해야 하며, 위반 시 징벌적 손해배상의 대상이 된다.
 
 - **📢 섹션 요약 비유**: 건물을 지을 때 계단만 만들면 휠체어를 탄 사람은 들어갈 수 없다. 건물 입구에 경사로를 만들고 엘리베이터에 점자를 넣는 것처럼, 누구나 웹사이트에 편하게 들어와서 놀 수 있게 디지털 경사로를 설치하는 규칙이 KWCAG다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [KWCAG](/knowledge-base/studynote/12_it_management/05_security_compliance/334_kwcag/) 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  KWCAG 웹 접근성 지침                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KWCAG 웹 접근성 지침</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [KWCAG](/knowledge-base/studynote/12_it_management/05_security_compliance/334_kwcag/) 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 지침가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -75,11 +74,11 @@ tags = ["studynote-software-engineering"]
 | 개념 | 영문 | 핵심 목표 |
 |:---|:---|:---|
 | **웹 표준** | Web Standards | 어떤 브라우저(크롬, 사파리, 엣지)에서도 화면이 똑같이 보이게 코드를 문법(W3C)에 맞게 짜는 것. |
-| **웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)** | Cross Browsing | 구형 브라우저나 특정 모바일 OS 환경에서도 기능이 깨지지 않고 정상 동작하게 만드는 것. |
-| **웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)** | Web [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)| **어떤 신체적 제약(장애)을 가진 사용자라도** 정보를 100% 동등하게 이용할 수 있게 만드는 것. |
-| **웹 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)** | Web [Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) | 일반 사용자가 웹사이트를 얼마나 직관적이고 편하게, 헤매지 않고 사용할 수 있는가. |
+| <strong>웹 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | Cross Browsing | 구형 브라우저나 특정 모바일 OS 환경에서도 기능이 깨지지 않고 정상 동작하게 만드는 것. |
+| <strong>웹 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | Web [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)| **어떤 신체적 제약(장애)을 가진 사용자라도** 정보를 100% 동등하게 이용할 수 있게 만드는 것. |
+| <strong>웹 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/">사용성</a></strong> | Web [Usability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) | 일반 사용자가 웹사이트를 얼마나 직관적이고 편하게, 헤매지 않고 사용할 수 있는가. |
 
-**웹 표준을 100% 지킨다고 해서 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이 달성되는 것은 아니다.** (문법이 맞아도 `alt` 속성을 비워두면 표준은 통과하지만 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 빵점이다.) 단, 웹 표준을 지키면 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 확보하기가 훨씬 쉬워지는 튼튼한 토대가 된다.
+<strong>웹 표준을 100% 지킨다고 해서 웹 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a>이 달성되는 것은 아니다.</strong> (문법이 맞아도 `alt` 속성을 비워두면 표준은 통과하지만 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 빵점이다.) 단, 웹 표준을 지키면 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 확보하기가 훨씬 쉬워지는 튼튼한 토대가 된다.
 
 - **📢 섹션 요약 비유**: 웹 표준이 건물을 '규칙대로 튼튼하게' 짓는 것이라면, 웹 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 '비가 오나 눈이 오나' 건물이 멀쩡하게 버티게 하는 것이고, 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 '휠체어를 탄 사람도' 건물 꼭대기 층에 쉽게 올라가게 엘리베이터를 달아주는 것이다.
 
@@ -105,7 +104,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 지키기 위해 추가된 시맨틱 태그와 대체 텍스트(`alt`)는, 눈이 보이지 않는 시각 장애인뿐만 아니라 **검색 엔진의 크롤러 로봇(Googlebot)**에게도 사이트의 내용을 완벽하게 설명해 준다. 결과적으로 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 잘 지킨 사이트는 검색 결과 상단에 노출되는 강력한 SEO(검색 엔진 최적화) 효과를 부수적으로 얻게 된다.
+웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 지키기 위해 추가된 시맨틱 태그와 대체 텍스트(`alt`)는, 눈이 보이지 않는 시각 장애인뿐만 아니라 <strong>검색 엔진의 크롤러 로봇(Googlebot)</strong>에게도 사이트의 내용을 완벽하게 설명해 준다. 결과적으로 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 잘 지킨 사이트는 검색 결과 상단에 노출되는 강력한 SEO(검색 엔진 최적화) 효과를 부수적으로 얻게 된다.
 
 결론적으로 기술 리더는 "[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 귀찮은 법적 규제"라는 편견을 깨야 한다. [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 노안이 온 60대 부모님, 팔에 깁스를 해서 마우스를 못 쥐는 내 친구, 그리고 미래의 나 자신을 위한 보편적 기술 설계다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-KWCAG 웹 접근성 지침 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KWCAG 웹 접근성 지침 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

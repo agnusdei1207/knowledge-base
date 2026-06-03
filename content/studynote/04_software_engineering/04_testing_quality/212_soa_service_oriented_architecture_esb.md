@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), Se의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 지향 아키텍처 (SOA, Se                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 지향 아키텍처 (SOA, Se</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), Se가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 소프트웨어 시스템을 무식한 통짜 덩어리로 짜지 않고, **독립적으로 수행할 수 있는 업무 단위의 '[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))'라는 작은 기능 조각들로 쪼갠 뒤, 표준화된 인터페이스(웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 통해 이 조각들을 레고 블록처럼 유연하게 조립하고 재사용(Reuse)하여 거대한 시스템을 구축하는 아키텍처 설계 철학**입니다.
+- **개념**: 소프트웨어 시스템을 무식한 통짜 덩어리로 짜지 않고, <strong>독립적으로 수행할 수 있는 업무 단위의 '<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)'라는 작은 기능 조각들로 쪼갠 뒤, 표준화된 인터페이스(웹 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)를 통해 이 조각들을 레고 블록처럼 유연하게 조립하고 재사용(Reuse)하여 거대한 시스템을 구축하는 아키텍처 설계 철학</strong>입니다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service Oriented Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -73,8 +72,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 수백 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 거미줄처럼 얽히는 걸 막기 위해, 회사 정중앙에 **[ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)(기업 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))**라는 굵고 거대한 통신 미들웨어 파이프를 딱 1개 깝니다.
-- 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 남의 서버로 직접 가지 않고, 이 [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 데이터를 던집니다. ESB는 중간에서 XML을 번역해 주고, 목적지로 배달해 주는 **중앙 우체국 역할**을 완벽하게 해내어 시스템 간의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 바닥으로 부숴버립니다.
+- 수백 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 거미줄처럼 얽히는 걸 막기 위해, 회사 정중앙에 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>(기업 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>)</strong>라는 굵고 거대한 통신 미들웨어 파이프를 딱 1개 깝니다.
+- 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 남의 서버로 직접 가지 않고, 이 [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 데이터를 던집니다. ESB는 중간에서 XML을 번역해 주고, 목적지로 배달해 주는 <strong>중앙 우체국 역할</strong>을 완벽하게 해내어 시스템 간의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 바닥으로 부숴버립니다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service Oriented Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -86,9 +85,9 @@ tags = ["studynote-software-engineering"]
 
 - 이 아름다운 철학([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))은 **치명적인 단점** 때문에 몰락했습니다. 
 - XML([SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/)) 포장지가 미치도록 무거워서 성능이 떡락했고, 중앙 통제 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/)) 1대가 뻗으면 회사 전체가 마비([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))되었으며, 너무 거창한 사상이라 개발자들이 지쳐버렸습니다. 
-- 결국 ESB와 뚱뚱한 XML을 다 쓰레기통에 찢어버리고, **"그냥 가벼운 JSON이랑 쌩 인터넷([REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))으로 쪼개진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)끼리 다이렉트로 통신하자!"**며 등장한 가벼운 닌자 버전이 바로 현대 클라우드를 제패한 **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/))**입니다.
+- 결국 ESB와 뚱뚱한 XML을 다 쓰레기통에 찢어버리고, <strong>"그냥 가벼운 JSON이랑 쌩 인터넷(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a>)으로 쪼개진 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>끼리 다이렉트로 통신하자!"</strong>며 등장한 가벼운 닌자 버전이 바로 현대 클라우드를 제패한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>)</strong>입니다.
 
-> 📢 **섹션 요약 비유**: 기존의 기업용 시스템은 각 부서가 언어가 전혀 다른 **'폐쇄적인 외딴 섬([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))'**들이어서, 서로 소통하려면 바다에 배를 띄워 매번 힘겹게 맞춤형 통역사를 대동해야 했습니다(포인트-투-포인트). 이를 부수기 위해 도입된 **[SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처)**는, 모든 부서의 기능을 **'어디서나 규격이 똑같은 콘센트 플러그(웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/))'** 형태로 깎아내어 표준화시킨 것입니다. 그리고 회사 복도 한가운데에 거대한 **'멀티탭 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))'**를 하나 쫙 깔아버렸습니다. 영업부든 회계부든 상관없이 자기가 쓰던 언어를 버리고, 이 표준 콘센트 플러그만 멀티탭([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))에 딱 꽂으면 회사 전체의 모든 기능([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 레고 조립하듯 마음대로 가져다 붙일 수 있게 된 융합의 혁명입니다. 하지만 이 거대 멀티탭이 너무 무겁고(XML 병목) 멀티탭 하나 고장 나면 전 회사가 뻗는 단점 때문에, 결국 훗날 더 가볍고 날렵한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))라는 위대한 손자에게 왕위를 물려주고 역사 속으로 사라진 비운의 개척자입니다.
+> 📢 **섹션 요약 비유**: 기존의 기업용 시스템은 각 부서가 언어가 전혀 다른 <strong>'폐쇄적인 외딴 섬(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)'</strong>들이어서, 서로 소통하려면 바다에 배를 띄워 매번 힘겹게 맞춤형 통역사를 대동해야 했습니다(포인트-투-포인트). 이를 부수기 위해 도입된 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 지향 아키텍처)</strong>는, 모든 부서의 기능을 <strong>'어디서나 규격이 똑같은 콘센트 플러그(웹 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>, <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/">SOAP</a>)'</strong> 형태로 깎아내어 표준화시킨 것입니다. 그리고 회사 복도 한가운데에 거대한 <strong>'멀티탭 공용 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>)'</strong>를 하나 쫙 깔아버렸습니다. 영업부든 회계부든 상관없이 자기가 쓰던 언어를 버리고, 이 표준 콘센트 플러그만 멀티탭([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))에 딱 꽂으면 회사 전체의 모든 기능([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 레고 조립하듯 마음대로 가져다 붙일 수 있게 된 융합의 혁명입니다. 하지만 이 거대 멀티탭이 너무 무겁고(XML 병목) 멀티탭 하나 고장 나면 전 회사가 뻗는 단점 때문에, 결국 훗날 더 가볍고 날렵한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))라는 위대한 손자에게 왕위를 물려주고 역사 속으로 사라진 비운의 개척자입니다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향 아키텍처 ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service Oriented Architecture](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -107,21 +106,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 지향 아키텍처 (SOA, Service Oriented Architecture) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 지향 아키텍처 (SOA, Service Oriented Architecture) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

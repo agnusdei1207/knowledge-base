@@ -22,13 +22,13 @@ tags = ["studynote-ai"]
 "두 명의 평범한 의사보다 열 명의 의사 집단 진단이 더 정확하다" — [앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)의 직관적 원리다.
 
 단일 모델의 한계:
-- **과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))**: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 지나치게 특화
+- <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong>: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 지나치게 특화
 - **단일 시각**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특정 패턴만 학습
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 불안정**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라도 결과가 크게 변함
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>) 불안정</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라도 결과가 크게 변함
 
 앙상블이 이를 극복하는 방법:
-- 다양한 모델들의 예측을 집계하면 개별 모델의 오류가 **통계적으로 상쇄**된다.
-- 조건: 각 모델의 오류가 **독립적**이어야 효과가 극대화된다.
+- 다양한 모델들의 예측을 집계하면 개별 모델의 오류가 <strong>통계적으로 상쇄</strong>된다.
+- 조건: 각 모델의 오류가 <strong>독립적</strong>이어야 효과가 극대화된다.
 
 | 앙상블 유형 | 학습 방식 | 주 효과 |
 |:---|:---|:---|
@@ -37,14 +37,17 @@ tags = ["studynote-ai"]
 | [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)) | 동종 모델 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/), 오차 집중 | 편향 감소 |
 | 스태킹 (Stacking) | 메타 학습기가 결합 학습 | 복잡한 패턴 포착 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 앙상블은 "혼자 결정하지 말고 팀원들에게 물어보라"는 원칙이다. 팀원들의 의견이 서로 다를수록(다양성) 집단 지성의 힘이 강해진다.
 
@@ -54,41 +57,41 @@ tags = ["studynote-ai"]
 
 ### [앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)의 전체 구조
 
-```
-  훈련 데이터 (Training Data)
-         │
-  ┌──────┴───────────────────────────────────┐
-  │              앙상블 전략                  │
-  ├──────────────┬──────────────┬────────────┤
-  │   Bagging    │   Boosting   │  Stacking  │
-  │  (병렬)      │  (직렬)      │  (2단계)   │
-  │              │              │            │
-  │ Bootstrap    │ 오차 가중치  │ Level-0    │
-  │ 샘플링 →     │ → 다음 모델  │ 모델들 →   │
-  │ 병렬 학습    │ 순차 학습    │ Meta Model │
-  └──────┬───────┴──────┬───────┴─────┬──────┘
-         │              │             │
-  ┌──────▼──────────────▼─────────────▼──────┐
-  │              예측 집계 (Aggregation)       │
-  │  분류: 다수결 투표 / 확률 평균             │
-  │  회귀: 평균 / 가중 평균                   │
-  └───────────────────────────────────────────┘
-                     │
-              최종 예측 (Final Prediction)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">훈련 데이터 (Training Data)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앙상블 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bagging</div><div class="kb-diagram-cell">Boosting</div><div class="kb-diagram-cell">Stacking</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병렬)</div><div class="kb-diagram-cell">(직렬)</div><div class="kb-diagram-cell">(2단계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bootstrap</div><div class="kb-diagram-cell">오차 가중치</div><div class="kb-diagram-cell">Level-0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플링 →</div><div class="kb-diagram-cell">→ 다음 모델</div><div class="kb-diagram-cell">모델들 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 학습</div><div class="kb-diagram-cell">순차 학습</div><div class="kb-diagram-cell">Meta Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 집계 (Aggregation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: 다수결 투표 / 확률 평균</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀: 평균 / 가중 평균</div></div>
+<div class="kb-diagram-note">최종 예측 (Final Prediction)</div>
+</div>
+</div>
+
+
 
 ### [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)와 앙상블
 
-```
-  총 오류(MSE) = 편향² + 분산 + 노이즈
-  ┌─────────────────────────────────────────────┐
-  │  고분산 모델(예: 깊은 결정트리)             │
-  │  → Bagging → 분산 ↓ (편향은 유지)          │
-  │                                             │
-  │  고편향 모델(예: 얕은 결정트리)             │
-  │  → Boosting → 편향 ↓ (분산은 증가 가능)    │
-  └─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">총 오류(MSE) = 편향² + 분산 + 노이즈</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고분산 모델(예: 깊은 결정트리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Bagging → 분산 ↓ (편향은 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고편향 모델(예: 얕은 결정트리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Boosting → 편향 ↓ (분산은 증가 가능)</div></div>
+</div>
+</div>
+
+
 
 ### 다양성(Diversity) 확보 방법
 
@@ -120,20 +123,20 @@ tags = ["studynote-ai"]
 
 스태킹(Stacking)은 1레벨 모델들의 예측값을 특성으로 사용하여 2레벨 메타 학습기(Meta Learner)가 최종 예측을 내리는 방식이다.
 
-```
-  훈련 데이터
-       │
-  ┌────┴──────────────────────┐
-  │     Level-0 모델들        │
-  │  RF    SVM    LR    KNN   │
-  └────┬───────────────────────┘
-       │ 각 모델의 예측값
-  ┌────▼─────────────────────┐
-  │   Meta Learner (LR 등)  │
-  └────┬─────────────────────┘
-       │
-  최종 예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">훈련 데이터</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level-0 모델들</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RF SVM LR KNN</div></div>
+<div class="kb-diagram-note">각 모델의 예측값</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Meta Learner (LR 등)</div></div>
+<div class="kb-diagram-note">최종 예측</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Bagging은 "같은 회사 직원들이 각자 다른 프로젝트 경험으로 의견을 내는 것"이고, Boosting은 "이전 사람 실수를 다음 사람이 집중 보완"하는 것이다. Stacking은 "모든 팀장의 의견을 CEO가 종합"하는 것이다.
 
@@ -143,8 +146,8 @@ tags = ["studynote-ai"]
 
 ### 앙상블 선택 기준
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 크고 과적합이 문제**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
-2. **단순 모델이지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 필요**: [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) (XGBoost) → 편향 감소
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 크고 과적합이 문제</strong>: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
+2. <strong>단순 모델이지만 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 개선 필요</strong>: [Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) (XGBoost) → 편향 감소
 3. **완전히 다른 모델들을 결합**: [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) 또는 Stacking
 4. **계산 비용이 중요**: [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능)
 
@@ -158,7 +161,7 @@ tags = ["studynote-ai"]
 
 - **"앙상블이 단일 모델보다 좋은 수학적 이유"**: 독립 모델들의 평균 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) = 개별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/n, 편향은 유지됨
 - **"다양성이 왜 중요한가"**: 모든 모델이 상관관계가 높으면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과 없음
-- **"[Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) vs XGBoost 선택"**: 해석 가능성이 필요하고 과적합 위험이 크면 RF, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화가 목표면 XGBoost
+- <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> vs XGBoost 선택"</strong>: 해석 가능성이 필요하고 과적합 위험이 크면 RF, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화가 목표면 XGBoost
 
 - **📢 섹션 요약 비유**: 앙상블 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택은 "어느 분야에서 전문가를 모을 것인가"의 문제다. 편향(기본 실수)을 줄이려면 한 분야 전문가를 깊게 쌓고([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(변동성)을 줄이려면 다양한 배경의 전문가를 모아야([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)) 한다.
 

@@ -29,19 +29,25 @@ EDA는 그 전에 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-데이터 수집
-  ↓
-프로파일링
-  ↓
-시각화
-  ↓
-결측치/이상치 점검
-  ↓
-가설 생성
-  ↓
-모델링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 수집</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프로파일링</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">시각화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">결측치/이상치 점검</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">가설 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">모델링</div>
+</div>
+</div>
+
+
 
 | 분석 유형 | 질문 | 대표 도구 |
 | :-- | :-- | :-- |
@@ -115,33 +121,45 @@ EDA가 잘 되면 모델링 시간은 줄고, 엉뚱한 결론은 줄어든다. 
 
 ## 관련 개념 맵
 
-```text
-Raw Data
-  ↓
-EDA
-  ↓
-Hypothesis
-  ↓
-Feature Engineering
-  ↓
-Modeling
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Raw Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">EDA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hypothesis</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Feature Engineering</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Modeling</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Summary Stats
-  ↓
-Visualization
-  ↓
-Exploration
-  ↓
-Automated Profiling
-  ↓
-Data Observability
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Summary Stats</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Visualization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Exploration</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Automated Profiling</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Observability</div>
+</div>
+</div>
+
+
 
 ---
 

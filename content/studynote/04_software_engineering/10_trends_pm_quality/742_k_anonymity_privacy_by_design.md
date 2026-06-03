@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 빅데이터 시대에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 돈이다. 병원이나 통신사는 자신들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부 연구 기관에 팔거나 공유하고 싶어 한다. 물론 이름과 주민등록번호 같은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 정보는 마스킹(`홍*동`, `900101-*******`)해서 넘겨준다.
 
-과거에는 이것만으로 안전하다고 믿었다. 하지만 1990년대 말 매사추세츠주에서 '가명 처리된 익명 의료 기록'과 '유권자 투표 명부(공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'의 3가지 항목(**우편번호, 생년월일, 성별**)을 교차 대조했더니, 주지사의 병원 기록이 100% 털려버리는 대사건이 일어났다. 즉, 이름이 없어도 다른 특징들을 조합하면 넷플릭스 영화의 누구인지 특정할 수 있다는 **재식별화(Re-identification)**의 공포가 입증된 것이다.
+과거에는 이것만으로 안전하다고 믿었다. 하지만 1990년대 말 매사추세츠주에서 '가명 처리된 익명 의료 기록'과 '유권자 투표 명부(공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'의 3가지 항목(**우편번호, 생년월일, 성별**)을 교차 대조했더니, 주지사의 병원 기록이 100% 털려버리는 대사건이 일어났다. 즉, 이름이 없어도 다른 특징들을 조합하면 넷플릭스 영화의 누구인지 특정할 수 있다는 <strong>재식별화(Re-identification)</strong>의 공포가 입증된 것이다.
 
-이를 막기 위해 래티냐 스위니(Latanya Sweeney) 박사가 제안한 것이 **K-익명성**이다. **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶을 때, 나랑 똑같은 우편번호+생년월일+성별을 가진 사람이 최소 K명은 존재하게 만들어라"**는 엄격한 수학적 방어막이다.
+이를 막기 위해 래티냐 스위니(Latanya Sweeney) 박사가 제안한 것이 <strong>K-익명성</strong>이다. <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 묶을 때, 나랑 똑같은 우편번호+생년월일+성별을 가진 사람이 최소 K명은 존재하게 만들어라"</strong>는 엄격한 수학적 방어막이다.
 
 - **📢 섹션 요약 비유**: 범인이 검은 모자와 선글라스를 쓰고(이름 지우기) 숨어들었다. 하지만 그 키와 체형을 가진 사람은 이 동네에 범인 1명뿐이면 금방 잡힌다. K-익명성은 범인과 똑같은 키와 체형의 마네킹을 최소 K-1개 만들어 주변에 같이 세워두어 경찰이 100% 확신하지 못하게 만드는 속임수다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 K-익명성 프라이버시 디자인([PbD](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  K-익명성 프라이버시 디자인(PbD)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-익명성 프라이버시 디자인(PbD)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 K-익명성 프라이버시 디자인([PbD](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ K-익명성의 한계(동질성 공격 등)를 보완하기 위해 L-다양성, 
 | 기법 | 핵심 방어 원리 | 취약점 (한계) |
 |:---|:---|:---|
 | **K-익명성** ([K-Anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)) | 동일한 조건의 레코드가 최소 **K개 이상** 존재하게 만듦 | 민감 정보(병명 등)가 K개 모두 똑같으면 다 털림 (**동질성 공격**) |
-| **L-다양성** ([L-Diversity](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/)) | K개의 그룹 안에 민감 정보가 최소 **L개 이상의 '서로 다른 종류'**로 존재하게 섞어버림 | "위암 1개, 위염 99개"처럼 민감 정보의 분포([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))가 쏠려 있으면 유추 가능 (**쏠림 공격**) |
+| **L-다양성** ([L-Diversity](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/)) | K개의 그룹 안에 민감 정보가 최소 <strong>L개 이상의 '서로 다른 종류'</strong>로 존재하게 섞어버림 | "위암 1개, 위염 99개"처럼 민감 정보의 분포([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))가 쏠려 있으면 유추 가능 (**쏠림 공격**) |
 | **T-근접성** ([T-Closeness](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/)) | 특정 그룹의 민감 정보 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를, 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포와 **T만큼 비슷하게(가깝게)** 맞춰서 쏠림 현상 방어 | 수치 계산이 엄청나게 복잡하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많이 뭉개져 분석 가치가 박살 남 |
 
 이 세 가지 기법은 차례대로 보완재 역할을 하며, 프라이버시 보호의 'K-L-T 마스터피스'로 불린다.
@@ -108,7 +107,7 @@ K-익명성의 한계(동질성 공격 등)를 보완하기 위해 L-다양성, 
 
 K-익명성과 [Privacy by Design](/knowledge-base/studynote/09_security/01_intro_principles/060_privacy_by_design/) 철학을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처에 적용하면, 기업은 "[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 시 징벌적 과징금(매출의 4% 등)"이라는 파멸적 리스크를 제거하면서도, 빅데이터와 머신러닝의 혜택을 온전히 누릴 수 있다.
 
-결론적으로 기술 리더는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 잘 모을 것인가"를 넘어, **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 법적으로 안전하게 뭉개서 제공할 것인가"**를 설계하는 프라이버시 아키텍트(Privacy Architect)가 되어야 한다. K-익명성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자본주의 시대에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 활용(Utility)과 인권(Privacy)의 아슬아슬한 줄타기를 지탱해 주는 가장 든튼한 수학적 동아줄이다.
+결론적으로 기술 리더는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 잘 모을 것인가"를 넘어, <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 어떻게 법적으로 안전하게 뭉개서 제공할 것인가"</strong>를 설계하는 프라이버시 아키텍트(Privacy Architect)가 되어야 한다. K-익명성은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자본주의 시대에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 활용(Utility)과 인권(Privacy)의 아슬아슬한 줄타기를 지탱해 주는 가장 든튼한 수학적 동아줄이다.
 
 - **📢 섹션 요약 비유**: 모자이크 없는 원본 사진([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/))을 인터넷에 올리면 감옥에 간다. K-익명성은 사진의 핵심(풍경)은 보이게 놔두고, 사람들의 얼굴에 딱 법에 안 걸릴 만큼만 아주 정교하게 모자이크 처리(일반화)를 해주는 자동 블러(Blur) 카메라다.
 
@@ -131,21 +130,23 @@ K-익명성과 [Privacy by Design](/knowledge-base/studynote/09_security/01_intr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-K-익명성 프라이버시 디자인(PbD) 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K-익명성 프라이버시 디자인(PbD) 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

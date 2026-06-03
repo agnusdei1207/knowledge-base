@@ -11,15 +11,15 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 비용 절감 기술은 단순 절약이 아니라, **사용량을 줄이고 단가를 낮추도록 아키텍처를 재설계하는 작업**이다.
+> 1. **본질**: 클라우드 비용 절감 기술은 단순 절약이 아니라, <strong>사용량을 줄이고 단가를 낮추도록 아키텍처를 재설계하는 작업</strong>이다.
 > 2. **가치**: 라이트사이징 (Rightsizing), [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) (Spot Instances), 시작/중지 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 스토리지 계층화는 같은 업무를 더 작은 비용 곡선 위에서 돌리게 만든다.
-> 3. **판단 포인트**: 워크로드의 **예측 가능성, 상태 보유 여부, 중단 허용성**을 먼저 구분해야 어떤 절감 기법이 안전한지 결정할 수 있다.
+> 3. **판단 포인트**: 워크로드의 <strong>예측 가능성, 상태 보유 여부, 중단 허용성</strong>을 먼저 구분해야 어떤 절감 기법이 안전한지 결정할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 비용 절감 기술 방안은 클라우드 자원을 필요한 순간에만 쓰고, 과도한 사양과 유휴 시간을 없애며, 더 저렴한 요금 모델과 더 싼 저장 계층으로 옮겨 **동일한 비즈니스 결과를 더 낮은 총비용으로 달성**하는 엔지니어링 기법 묶음이다. 핵심은 할인 쿠폰을 찾는 것이 아니라, 시스템이 애초에 낭비를 만들지 않도록 구조를 바꾸는 데 있다.
+클라우드 비용 절감 기술 방안은 클라우드 자원을 필요한 순간에만 쓰고, 과도한 사양과 유휴 시간을 없애며, 더 저렴한 요금 모델과 더 싼 저장 계층으로 옮겨 <strong>동일한 비즈니스 결과를 더 낮은 총비용으로 달성</strong>하는 엔지니어링 기법 묶음이다. 핵심은 할인 쿠폰을 찾는 것이 아니라, 시스템이 애초에 낭비를 만들지 않도록 구조를 바꾸는 데 있다.
 
 이 개념이 중요해진 배경은 많은 기업이 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 사고방식 그대로 클라우드에 들어왔기 때문이다. 최대 부하를 가정한 고정 할당, 24시간 켜 두는 개발 서버, 분리되지 않은 상태 저장 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 방치된 볼륨과 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) (Elasticity)을 살리지 못한다. 그 결과 사용량 기반 과금 환경에서 낭비가 곧바로 청구서에 반영되는 빌 쇼크 (Bill Shock)가 발생한다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 비용은 크게 **사용량(Usage)**과 **단가(Unit Cost)**의 곱으로 결정된다. 그래서 기술적 절감 레버도 두 축으로 나뉜다. 하나는 불필요한 자원 자체를 줄이는 것이고, 다른 하나는 같은 자원을 더 싼 요금 모델과 더 싼 저장 계층으로 이동시키는 것이다.
+클라우드 비용은 크게 <strong>사용량(Usage)</strong>과 <strong>단가(Unit Cost)</strong>의 곱으로 결정된다. 그래서 기술적 절감 레버도 두 축으로 나뉜다. 하나는 불필요한 자원 자체를 줄이는 것이고, 다른 하나는 같은 자원을 더 싼 요금 모델과 더 싼 저장 계층으로 이동시키는 것이다.
 
 | 절감 레버 | 핵심 메커니즘 | 적합한 워크로드 | 주의점 |
 | :-- | :-- | :-- | :-- |
@@ -44,24 +44,25 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 비용 절감 기술이 "워크로드 특성"을 기준으로 어떻게 분기되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Cost optimization by workload profile                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Compute                                                              │
-│   Steady + stateful        -> RI/SP + rightsizing                    │
-│   Variable + stateless     -> autoscaling + spot                     │
-│   Office-hour only         -> start/stop scheduling                  │
-│   Rare event driven        -> serverless                             │
-│                                                                      │
-│ Storage                                                              │
-│   Hot data                 -> standard / SSD tier                    │
-│   Warm data                -> infrequent access tier                 │
-│   Cold archive             -> deep archive                           │
-│                                                                      │
-│ Core rule: choose by interruption tolerance and response target      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost optimization by workload profile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Steady + stateful -&gt; RI/SP + rightsizing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variable + stateless -&gt; autoscaling + spot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Office-hour only -&gt; start/stop scheduling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rare event driven -&gt; serverless</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot data -&gt; standard / SSD tier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm data -&gt; infrequent access tier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold archive -&gt; deep archive</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core rule: choose by interruption tolerance and response target</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 모든 기술이 모든 워크로드에 맞지 않는다는 점이다. 예를 들어 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)는 70~90% 수준의 비용 절감 여지가 있지만, 중단 허용성과 재시도 설계가 없으면 오히려 장애를 만든다. 반대로 야간 정지 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링은 가장 쉬운 전술이지만 24시간 고객 트래픽이 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에는 적용할 수 없다.
 
@@ -93,7 +94,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 **쉬운 절감부터, 구조 개편은 나중에**라는 순서를 지키는 것이 중요하다. 첫 단계는 고아 리소스 삭제, 개발계 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 명확한 기저 부하에 대한 RI/[SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 적용처럼 위험이 낮은 조치다. 두 번째는 사용률 기반 라이트사이징과 스토리지 수명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이며, 세 번째가 스팟·오토스케일링·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 전환 같은 구조적 최적화다.
+실무에서는 <strong>쉬운 절감부터, 구조 개편은 나중에</strong>라는 순서를 지키는 것이 중요하다. 첫 단계는 고아 리소스 삭제, 개발계 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 명확한 기저 부하에 대한 RI/[SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 적용처럼 위험이 낮은 조치다. 두 번째는 사용률 기반 라이트사이징과 스토리지 수명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이며, 세 번째가 스팟·오토스케일링·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 전환 같은 구조적 최적화다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,7 +111,7 @@ tags = ["studynote-enterprise"]
 - 평균 사용률만 보고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 과도하게 축소해 피크 시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사고를 내는 판단
 - [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 없이 수동으로 자원을 만들고 삭제를 잊어버리는 방식
 
-기술사 관점에서는 절감률 자체보다 **적용 전제조건**을 함께 말해야 점수가 높다. 예를 들어 "스팟 적용"만 적는 것보다 "무상태, 재시도, 다중 풀 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 갖춰질 때 적용"이라고 적어야 실제 설계 판단이 된다.
+기술사 관점에서는 절감률 자체보다 <strong>적용 전제조건</strong>을 함께 말해야 점수가 높다. 예를 들어 "스팟 적용"만 적는 것보다 "무상태, 재시도, 다중 풀 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 갖춰질 때 적용"이라고 적어야 실제 설계 판단이 된다.
 
 - **📢 섹션 요약 비유**: 다이어트를 할 때도 먼저 야식을 끊고, 다음에 식단을 조정하고, 마지막에 운동 강도를 올리는 식으로 단계적으로 접근해야 몸이 버티는 것과 같다.
 
@@ -120,9 +121,9 @@ tags = ["studynote-enterprise"]
 
 클라우드 비용 절감 기술을 제대로 적용하면 단순히 청구액만 낮아지는 것이 아니다. 낭비 자원이 줄어 아키텍처가 가벼워지고, 사용 패턴이 명확해져 용량 계획이 쉬워지며, 비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상관관계를 팀이 학습하게 된다. 특히 개발/테스트 환경 정리, 스토리지 수명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 스팟·오토스케일링 조합만으로도 20~70% 수준의 절감 효과를 보는 사례가 흔하다.
 
-다만 절감은 항상 제약과 맞바꾼다. 스토리지 아카이브는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘고, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 플랫폼 제약이 생기며, 스팟은 중단 위험을 품는다. 따라서 최적화의 목적은 "최저 비용"이 아니라 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 깨지 않는 범위에서 가장 경제적인 구조**를 찾는 것이다.
+다만 절감은 항상 제약과 맞바꾼다. 스토리지 아카이브는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘고, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 플랫폼 제약이 생기며, 스팟은 중단 위험을 품는다. 따라서 최적화의 목적은 "최저 비용"이 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 협약 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a>, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)을 깨지 않는 범위에서 가장 경제적인 구조</strong>를 찾는 것이다.
 
-결론적으로 이 주제는 "싸게 쓰는 요령"이 아니라, **워크로드 성격에 맞는 비용 구조를 선택하는 아키텍처 판단 문제**로 기억하는 것이 정확하다.
+결론적으로 이 주제는 "싸게 쓰는 요령"이 아니라, <strong>워크로드 성격에 맞는 비용 구조를 선택하는 아키텍처 판단 문제</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 절감은 자동차 연비를 높이기 위해 엔진을 꺼 버리는 것이 아니라, 같은 목적지에 가장 맞는 속도와 기어를 선택하는 운전 습관에 가깝다.
 
@@ -141,21 +142,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Lift-and-shift migration
-        │
-        ▼
-Idle resource discovery
-        │
-        ▼
-Rightsizing + scheduling
-        │
-        ▼
-Autoscaling + RI/SP + storage tiering
-        │
-        ▼
-Spot-aware / serverless cloud-native optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Lift-and-shift migration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Idle resource discovery</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rightsizing + scheduling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Autoscaling + RI/SP + storage tiering</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spot-aware / serverless cloud-native optimization</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 청소 수준의 절감에서, 워크로드 특성에 맞춘 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 최적화로 발전하는 과정을 보여준다.
 

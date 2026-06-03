@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 여러 프로세스에게 한정된 물리 램(RAM, 프레임)을 배분할 때, 앱의 크기나 특성을 무시하고 **무조건 N분의 1로 쪼개 주는 방식이 균등 할당**이며, 프로그램의 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 덩치(Size)에 비례해서 프레임을 많이 퍼주는 방식이 비례 할당**이다.
+> 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 여러 프로세스에게 한정된 물리 램(RAM, 프레임)을 배분할 때, 앱의 크기나 특성을 무시하고 <strong>무조건 N분의 1로 쪼개 주는 방식이 균등 할당</strong>이며, 프로그램의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 덩치(Size)에 비례해서 프레임을 많이 퍼주는 방식이 비례 할당</strong>이다.
 > 2. **가치**: 두 방식 모두 프로세스가 실행되기 전(Static)이나 실행 중에 고정된 수식으로 메모리를 배분하여, OS의 복잡한 스케줄링 오버헤드 없이 직관적이고 빠르게 자원을 쪼개줄 수 있는 가장 기초적인 기준점을 제시한다.
-> 3. **융합**: 하지만 거대한 덩치(10GB)라도 실제로는 숨만 쉬는 앱이 있고, 작은 덩치(10MB)라도 미친 듯이 연산을 하는 앱이 있는 런타임의 동적 역동성(Dynamic Locality)을 전혀 반영하지 못하므로, 현대 OS에서는 단독으로 쓰이지 않고 **우선순위(Priority) 할당 및 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))와 융합**하여 그 한계를 넘어섰다.
+> 3. **융합**: 하지만 거대한 덩치(10GB)라도 실제로는 숨만 쉬는 앱이 있고, 작은 덩치(10MB)라도 미친 듯이 연산을 하는 앱이 있는 런타임의 동적 역동성(Dynamic Locality)을 전혀 반영하지 못하므로, 현대 OS에서는 단독으로 쓰이지 않고 <strong>우선순위(Priority) 할당 및 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)와 융합</strong>하여 그 한계를 넘어섰다.
 
 ---
 
@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 고정 분배의 딜레마**:
   1. **요구 페이징의 무정부 상태**: 누구든 폴트를 내면 램을 주다 보니, 공격적인 앱 하나가 램을 싹 쓸어가는 마피아 현상 발생.
-  2. **쿼터제([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))의 도입**: "앱마다 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)의 한도를 정해주자." 그 한도를 정하는 기준으로 균등, 비례 방식이 고안됨.
+  2. <strong>쿼터제(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">Quota</a>)의 도입</strong>: "앱마다 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)의 한도를 정해주자." 그 한도를 정하는 기준으로 균등, 비례 방식이 고안됨.
   3. **런타임의 배신**: 하지만 프로그램은 살아 움직이는 유기체다. 덩치가 크다고 램을 항상 많이 쓰는 게 아니라는 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성(Locality)'의 진리가 밝혀지며 두 방식 모두 치명상을 입었다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        균등(Equal) vs 비례(Proportional) 할당의 수학적 배분 시각화    │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 상황 조건 ]                                                         │
-│ - 가용 물리 램 프레임 총 개수: 62장                                   │
-│ - 1번 프로세스 (메모장): 크기 10장                                    │
-│ - 2번 프로세스 (포토샵): 크기 127장                                   │
-│   (총 요구 크기 $S$ = 137장)                                          │
-│                                                                       │
-│ ▶ 1. 균등 할당 (공산주의 배분)                                        │
-│   - 메모장 = 31장 할당 / 포토샵 = 31장 할당                           │
-│   💥 문제: 메모장은 10장만 있으면 되는데 21장이 썩어 들어감(낭비).    │
-│          포토샵은 127장 필요한데 31장뿐이라 1초마다 폴트 지옥 발생.   │
-│                                                                       │
-│ ▶ 2. 비례 할당 (덩치 비례 배분)                                       │
-│   - 메모장 몫 = (10 / 137) * 62 = 4.5장 ──> 약 4장 할당               │
-│   - 포토샵 몫 = (127 / 137) * 62 = 57.4장 ─> 약 57장 할당             │
-│   ✅ 장점: 덩치에 맞게 램을 줘서 균등 할당의 멍청함을 완벽히 해결함.  │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">균등(Equal) vs 비례(Proportional) 할당의 수학적 배분 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 조건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용 물리 램 프레임 총 개수: 62장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1번 프로세스 (메모장): 크기 10장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2번 프로세스 (포토샵): 크기 127장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(총 요구 크기 $S$ = 137장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 균등 할당 (공산주의 배분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모장 = 31장 할당 / 포토샵 = 31장 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 문제: 메모장은 10장만 있으면 되는데 21장이 썩어 들어감(낭비).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포토샵은 127장 필요한데 31장뿐이라 1초마다 폴트 지옥 발생.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 비례 할당 (덩치 비례 배분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모장 몫 = (10 / 137) * 62 = 4.5장 ──&gt; 약 4장 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포토샵 몫 = (127 / 137) * 62 = 57.4장 ─&gt; 약 57장 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: 덩치에 맞게 램을 줘서 균등 할당의 멍청함을 완벽히 해결함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 수식으로만 보면 비례 할당(Proportional)이 압도적으로 합리적이다. 메모장 같은 가벼운 앱의 쓸데없는 독점을 막고, 램이 고픈 포토샵에 자원을 밀어준다. 하지만 비례 할당의 이 수식($a_i = s_i / S \times m$)은 오직 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 정도(프로세스 개수)가 변하지 않을 때만 성립한다. 누군가 새 앱을 켜면 분모($S$)가 바뀌어 전체 배분율을 다시 처음부터 다 뜯어고쳐야 하는 재앙이 도사리고 있다.
 
 - **📢 섹션 요약 비유**: 4인 가족 피자 1판(프레임) 나누기입니다. 아빠, 엄마, 아기 둘이 무조건 2조각씩 평등하게 먹는 게 균등 할당(아기는 다 못 먹고 버림), 아빠 4조각, 아기들 1조각씩 몸집에 맞게 잘라주는 게 비례 할당입니다. 훨씬 이성적이어 보입니다.
@@ -64,8 +64,8 @@ tags = ["studynote-operating-system"]
 이 정적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 가변하는 시스템 환경에서 뼈아픈 재조정 오버헤드를 맞는다.
 
 - 카카오톡, 크롬, 엑셀이 비례 할당으로 평화롭게 램을 쪼개 쓰고 있다.
-- 갑자기 사용자가 엄청나게 무거운 **'배틀그라운드(30GB)'**를 더블클릭해서 켰다!
-- **[할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 붕괴**: 전체 가상 공간 합($S$)이 미친 듯이 폭증해 버렸다. 수식에 의해 기존에 쾌적하게 램을 1GB씩 점유하고 있던 카톡, 크롬, 엑셀의 할당 지분율이 `1%` 수준으로 폭락해 버린다.
+- 갑자기 사용자가 엄청나게 무거운 <strong>'배틀그라운드(30GB)'</strong>를 더블클릭해서 켰다!
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">할당량</a> 붕괴</strong>: 전체 가상 공간 합($S$)이 미친 듯이 폭증해 버렸다. 수식에 의해 기존에 쾌적하게 램을 1GB씩 점유하고 있던 카톡, 크롬, 엑셀의 할당 지분율이 `1%` 수준으로 폭락해 버린다.
 - **OS의 강제 철거**: OS는 켜지지도 않은 배틀그라운드에게 램을 상납하기 위해, 잘 돌고 있던 카톡과 크롬의 램 프레임 수백만 장을 억지로 빼앗아 디스크 스왑으로 던져버린다 (Swap-out 폭풍).
 - **결과**: 배그를 켜는 순간, 백그라운드 앱들이 다 죽어버리고 컴퓨터 전체가 몇 초간 프리즈(Freeze)되는 어이없는 사태가 발생한다. 이것이 정적(Static) 비례 할당이 가진 가장 치명적인 태생적 한계다.
 
@@ -76,7 +76,7 @@ tags = ["studynote-operating-system"]
 비례 할당은 "[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 크면, 물리 램도 많이 필요할 것이다"라는 대전제를 깐다. 이 전제는 거짓이다.
 - 10GB짜리 거대 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 프로세스를 켰다. 가상 주소는 10GB다.
 - 하지만 밤 12시라서 접속자가 없어, DB는 그냥 `while(1) { sleep(1); }` 같은 100바이트짜리 유휴 루프([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) loop)만 계속 돌고 있다.
-- 이 10GB짜리 거인은 **지금 당장 필요한 물리 램([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))이 단 1장(4KB)**에 불과하다. 
+- 이 10GB짜리 거인은 <strong>지금 당장 필요한 물리 램(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>)이 단 1장(4KB)</strong>에 불과하다. 
 - 그런데 비례 할당 OS는 "우와 10GB 덩치 형님 오셨네!" 하며 남의 램을 다 뺏어서 이 DB에게 프레임 10만 장을 강제로 바친다. 정작 램을 미친 듯이 쓰는 10MB짜리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 프로그램은 램을 못 받아 헐떡인다. ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기 $\neq$ 실제 활성 램 요구량)
 
 - **📢 섹션 요약 비유**: 회사에서 100평짜리 저택에 사는 부장(가상메모리 거대)에게는 야근 식대를 10만 원 주고, 5평 고시원에 사는 신입사원(가상메모리 작음)에겐 식대를 1천 원만 주는 식입니다. 정작 야근하며 피 터지게 밥이 필요한 건 신입사원인데, 집이 크다는 이유만으로 부장에게 식대가 낭비되는 오류입니다.
@@ -102,17 +102,20 @@ tags = ["studynote-operating-system"]
 2. 디스크를 읽느라 CPU가 할 일이 없어져 CPU 이용률(Utilization)이 바닥을 친다.
 3. 바보 같은 OS([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))는 "어? CPU가 팽팽 노네? 앱을 더 실행해야지!" 하고 램에 다른 앱을 억지로 더 구겨 넣는다.
 4. 새로 들어온 앱이 기존 앱의 프레임을 뺏어 먹어 폴트가 더 극단적으로 터지며 서버가 사망한다([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)).
-이 악순환의 굴레를 끊으려면, 정적인 '비례/균등' 할당을 버리고 런타임에 폴트율을 모니터링하며 램을 유동적으로 조절하는 **동적 할당(Dynamic Allocation)**으로 진화해야만 했다.
+이 악순환의 굴레를 끊으려면, 정적인 '비례/균등' 할당을 버리고 런타임에 폴트율을 모니터링하며 램을 유동적으로 조절하는 <strong>동적 할당(Dynamic Allocation)</strong>으로 진화해야만 했다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 할당 정책  │ 파이(프레임) 파악│ 런타임 변화 반영│ 단편화 / 독점 방어│
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ 정적 할당  │ 부팅 시 픽스 │ 반영 못함 ☠️ │ 램 낭비 심함             │
-│ 우선순위  │ 권력자 위주  │ 반영함      │ 하위 앱 굶어죽음           │
-│ 동적 할당  │ 폴트율에 따라 │ 완벽히 추적 🟢│ 워킹셋으로 최적화      │
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당 정책</div><div class="kb-diagram-cell">파이(프레임) 파악</div><div class="kb-diagram-cell">런타임 변화 반영</div><div class="kb-diagram-cell">단편화 / 독점 방어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 할당</div><div class="kb-diagram-cell">부팅 시 픽스</div><div class="kb-diagram-cell">반영 못함 ☠️</div><div class="kb-diagram-cell">램 낭비 심함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위</div><div class="kb-diagram-cell">권력자 위주</div><div class="kb-diagram-cell">반영함</div><div class="kb-diagram-cell">하위 앱 굶어죽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 할당</div><div class="kb-diagram-cell">폴트율에 따라</div><div class="kb-diagram-cell">완벽히 추적 🟢</div><div class="kb-diagram-cell">워킹셋으로 최적화</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 균등/비례 할당은 너무 융통성이 없어서 현대 범용 리눅스/윈도우 커널에서는 메인 로직으로 쓰이지 않는다. 현재는 "네가 지금 얼마나 바쁜지([Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/))"를 실시간으로 측정해서, 바쁘면 램을 들이붓고 한가하면 램을 뺏어버리는 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 동적 튜닝 모델이 완전히 왕좌를 차지했다.
 
 - **📢 섹션 요약 비유**: 아이들 용돈을 줄 때 "너네 3명이니까 무조건 1만 원씩 줘(균등)"라거나 "고등학생은 3만 원, 초등생은 1만 원 줘(비례)"라는 정해진 룰을 버리고, "오늘 학원비가 급하게 필요한 애한테 지갑에 있는 돈 다 몰아줘!(동적/우선순위)"로 바뀌어야 가정이 평화롭게 돌아가는 이치입니다.
@@ -126,13 +129,13 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 1. **상황**: 한 서버에 DB [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 같이 돈다. OS에 맡겨두면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기가 디스크를 미친 듯이 긁으며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(램)를 독식해 DB의 램을 다 뺏어버린다([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 저주).
 2. **cgroups의 하드 리밋(Hard Limit)**:
    - 엔지니어는 도커를 띄울 때 `docker run -m 16g db_app` (DB는 16GB 한도), `docker run -m 1g log_app` ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 앱은 1GB 한도)으로 강제 철창을 쳐버린다.
-   - 이것이 현대 백엔드 인프라가 구현한 **'아키텍처 레벨의 강제 비례 할당'**이다. 
+   - 이것이 현대 백엔드 인프라가 구현한 <strong>'아키텍처 레벨의 강제 비례 할당'</strong>이다. 
 3. **결과**:
    - [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 앱이 1GB를 다 쓰면, DB의 램을 뺏지 못하고 자기 안에서만 헐떡이며 지지고 볶는다([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)).
    - "중요한 앱에 파이를 미리 거대하게 잘라준다"는 비례 할당/우선순위 할당의 고전적 철학은 이렇게 쿠버네티스의 `Request / Limit` 설정이라는 모습으로 실무 서버의 가장 중요한 생명선으로 부활했다.
 
 ### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 점수 튜닝 (oom_score_adj)
-리눅스 서버 램이 바닥나면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 총을 든다. 이때 "누구를 쏴 죽일까?" 고르는 타겟 1순위가 바로 **"가장 램을 뚱뚱하게 쳐먹고 있는 놈(비례 할당의 승자)"**이다. (보통 DB 엔진).
+리눅스 서버 램이 바닥나면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 총을 든다. 이때 "누구를 쏴 죽일까?" 고르는 타겟 1순위가 바로 <strong>"가장 램을 뚱뚱하게 쳐먹고 있는 놈(비례 할당의 승자)"</strong>이다. (보통 DB 엔진).
 엔지니어는 하늘이 무너져도 DB가 총에 맞는 걸 막기 위해, DB 프로세스의 `oom_score_adj` 값을 `-1000` (면책 특권)으로 세팅하여 방탄조끼를 입힌다. 우선순위 할당의 극단적 개입이다.
 
 - **📢 섹션 요약 비유**: 회사 자금(RAM)이 말라붙어 부도 위기([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))가 오면, 사장님은 보통 돈을 제일 많이 축내는 적자 부서(뚱뚱한 앱)부터 날려버립니다. 하지만 그 부서가 회사의 심장(DB)이라면, 엔지니어는 사장님 귀에 대고 "얘는 건드리면 우리 다 죽어요(oom_score_adj)"라고 속삭여서 옆에 있는 잉여 인력([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기)을 대신 해고하게 만드는 실무 정치술입니다.
@@ -146,8 +149,8 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 | 구분 | 내용 |
 |:---|:---|
 | **메모리 독점 마피아 통제** | 아무 기준 없이 램을 휩쓰는 무법지대에서, 최소한의 수리적 공식을 바탕으로 자원을 배분하는 스케줄링의 기초 제공 |
-| **[Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 지표**| 비례/균등 할당 하에서 프로세스가 폴트의 늪에 빠져 허우적대는 것을 관찰함으로써, 후대의 동적 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 연구를 폭발시킴 |
-| **클라우드 쿼터([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 모델 정립**| 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 고객에게 돈을 받고 "16GB RAM 보장"이라는 자원을 쪼개어 파는 현대 상업 인프라의 철학적 뼈대 완성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>) 지표</strong>| 비례/균등 할당 하에서 프로세스가 폴트의 늪에 빠져 허우적대는 것을 관찰함으로써, 후대의 동적 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 연구를 폭발시킴 |
+| <strong>클라우드 쿼터(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">Quota</a>) 모델 정립</strong>| 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 고객에게 돈을 받고 "16GB RAM 보장"이라는 자원을 쪼개어 파는 현대 상업 인프라의 철학적 뼈대 완성 |
 
 ### 결론 및 미래 전망
 
@@ -168,15 +171,19 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[프레임 할당 (Frame Allocation) 알고리즘]
-    │
-    ▼
-[균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
-    │
-    ├──▶ [전역 교체 (Global Replacement)]
-    └──▶ [지역 교체 (Local Replacement)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

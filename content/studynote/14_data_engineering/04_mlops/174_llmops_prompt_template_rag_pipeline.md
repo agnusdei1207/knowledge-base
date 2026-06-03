@@ -11,33 +11,35 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Operations)의 핵심은 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 운영하는 것이 아니라, **프롬프트·외부 지식·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·평가 체계**를 각각 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고 연결하는 것이다.
+> 1. **본질**: [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Operations)의 핵심은 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 운영하는 것이 아니라, <strong>프롬프트·외부 지식·<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>·평가 체계</strong>를 각각 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하고 연결하는 것이다.
 > 2. **가치**: Prompt Template, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)), [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) ([Parameter-Efficient Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/))를 분리해 운영하면 최신 지식 반영은 빠르게, 모델 행동 조정은 싸게, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)은 안전하게 수행할 수 있다.
-> 3. **판단 포인트**: 요구사항이 바뀌었을 때 바꿔야 할 계층이 무엇인지 먼저 구분해야 한다. **말투와 형식 문제는 프롬프트**, **최신 지식 문제는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**, **안정적 행동 변화는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/)**가 우선이다.
+> 3. **판단 포인트**: 요구사항이 바뀌었을 때 바꿔야 할 계층이 무엇인지 먼저 구분해야 한다. **말투와 형식 문제는 프롬프트**, <strong>최신 지식 문제는 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>, <strong>안정적 행동 변화는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">PEFT</a></strong>가 우선이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 서비스로 운영할 때 필요한 배포·관측·거버넌스 체계다. 전통적인 MLOps가 데이터셋, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 모델 바이너리, 배치 재학습 중심이었다면, LLMOps는 여기에 프롬프트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 검색 문맥, 토큰 비용, 안전성 가드레일, 사용자 피드백 루프가 추가된다. 즉 "모델 파일을 배포했다"로 끝나지 않고, **모델이 어떤 지시를 받고 어떤 외부 지식을 참조하며 어떤 품질로 응답하는가**까지 운영 대상이 된다.
+LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 서비스로 운영할 때 필요한 배포·관측·거버넌스 체계다. 전통적인 MLOps가 데이터셋, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 모델 바이너리, 배치 재학습 중심이었다면, LLMOps는 여기에 프롬프트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 검색 문맥, 토큰 비용, 안전성 가드레일, 사용자 피드백 루프가 추가된다. 즉 "모델 파일을 배포했다"로 끝나지 않고, <strong>모델이 어떤 지시를 받고 어떤 외부 지식을 참조하며 어떤 품질로 응답하는가</strong>까지 운영 대상이 된다.
 
 왜 별도 체계가 필요할까? [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서비스의 품질은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 하나로만 결정되지 않기 때문이다. 고객 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 바뀌면 프롬프트를 수정해야 하고, 사내 문서가 바뀌면 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))를 재동기화해야 하며, 특정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 문체나 응답 형식이 요구되면 [Low-Rank Adaptation](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/) ([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)) 같은 경량 적응이 필요해진다. 이 셋을 구분하지 않으면 "모든 문제를 파인튜닝으로 해결"하거나, 반대로 "프롬프트만 고치다가 한계에 부딪히는" 비효율이 발생한다.
 
 아래 그림은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답 품질을 좌우하는 세 개의 가변 계층을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Three mutable layers in LLMOps                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Prompt layer   : instruction, format, role, guardrail             │
-│ Knowledge layer: retrieved context from vector DB                 │
-│ Model layer    : base model + PEFT adapter                        │
-│                                                                    │
-│ Quality issue = first identify which layer changed                 │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조가 중요한 이유는 변경 속도가 서로 다르기 때문이다. 프롬프트는 분 단위로 바꿀 수 있고, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 문서 변경 이벤트에 따라 재구성할 수 있으며, PEFT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원을 잡아 학습·평가·배포까지 가야 하므로 훨씬 무겁다. 따라서 LLMOps는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 이전에 **변경 비용이 다른 계층을 분리해 운영하는 설계**에서 출발한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Three mutable layers in LLMOps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prompt layer : instruction, format, role, guardrail</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge layer: retrieved context from vector DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model layer : base model + PEFT adapter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quality issue = first identify which layer changed</div></div>
+</div>
+</div>
+
+
+
+이 구조가 중요한 이유는 변경 속도가 서로 다르기 때문이다. 프롬프트는 분 단위로 바꿀 수 있고, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 문서 변경 이벤트에 따라 재구성할 수 있으며, PEFT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원을 잡아 학습·평가·배포까지 가야 하므로 훨씬 무겁다. 따라서 LLMOps는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 이전에 <strong>변경 비용이 다른 계층을 분리해 운영하는 설계</strong>에서 출발한다.
 
 - **📢 섹션 요약 비유**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서비스는 요리사 한 명만 관리하는 식당이 아니라, 메뉴판(프롬프트), 재료 창고([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)), 요리사 추가 교육([PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/))을 함께 운영하는 식당과 같다. 손님 불만이 생겼을 때 무엇을 바꿔야 하는지 구분해야 낭비가 줄어든다.
 
@@ -47,22 +49,21 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 아키텍처는 보통 세 갈래의 제어면(Control Plane)으로 나뉜다. 첫째는 프롬프트 템플릿 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), 둘째는 문서 인입과 벡터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 셋째는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 학습 잡 스케줄러다. 온라인 요청은 이 세 결과물을 조합해 응답을 만들고, 오프라인 평가는 다시 각 계층으로 피드백된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                         LLMOps operating mesh                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Source docs / DB / wiki                                              │
-│        │                                                             │
-│        ├─ chunk + embed + version ---> Vector DB ----------------┐   │
-│        │                                                         │   │
-│ Prompt repo ---> template registry ---> prompt gateway ----------┼───┤
-│                                                                  │   │
-│ Training set ---> PEFT scheduler ---> adapter registry ----------┘   │
-│                                                                      │
-│ Online request: user query -> retrieve context -> assemble prompt    │
-│                -> base model + adapter -> answer + trace             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLMOps operating mesh</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source docs / DB / wiki</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ chunk + embed + version ---&gt; Vector DB ----------------</div></div>
+<div class="kb-diagram-note">Prompt repo ---&gt; template registry ---&gt; prompt gateway ----------</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training set ---&gt; PEFT scheduler ---&gt; adapter registry ----------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Online request: user query -&gt; retrieve context -&gt; assemble prompt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; base model + adapter -&gt; answer + trace</div></div>
+</div>
+</div>
+
+
 
 ### 1) 프롬프트 템플릿 관리
 
@@ -70,7 +71,7 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 ### 2) [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
-[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 안정성은 검색 품질보다 먼저 **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**에서 갈린다. 문서 원본이 바뀌었는데 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)이 갱신되지 않으면 오래된 답변이 나오고, 삭제된 문서가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 남아 있으면 금지된 지식이 계속 참조된다. 따라서 문서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 청크 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 해시(hash), [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 삭제 표식([tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))을 함께 관리해야 한다.
+[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 안정성은 검색 품질보다 먼저 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>에서 갈린다. 문서 원본이 바뀌었는데 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)이 갱신되지 않으면 오래된 답변이 나오고, 삭제된 문서가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 남아 있으면 금지된 지식이 계속 참조된다. 따라서 문서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 청크 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 해시(hash), [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 삭제 표식([tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))을 함께 관리해야 한다.
 
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요소 | 왜 필요한가 | 빠지면 생기는 문제 |
 | :--- | :--- | :--- |
@@ -82,17 +83,20 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 ### 3) [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 잡 스케줄링
 
-PEFT는 전체 파인튜닝보다 가볍지만, 그래도 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 자원과 평가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필요하다. 그래서 스케줄러는 모델 크기, 예상 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리, 우선순위, 야간/주간 슬롯, 실험 예산을 고려해 잡을 배치해야 한다. 특히 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)), [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 방식은 "같은 베이스 모델에 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 꽂는" 운영이 가능하므로, 학습 성공률뿐 아니라 **[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 등록·승격·폐기 수명주기**가 중요하다.
+PEFT는 전체 파인튜닝보다 가볍지만, 그래도 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 자원과 평가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필요하다. 그래서 스케줄러는 모델 크기, 예상 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리, 우선순위, 야간/주간 슬롯, 실험 예산을 고려해 잡을 배치해야 한다. 특히 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)), [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 방식은 "같은 베이스 모델에 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 꽂는" 운영이 가능하므로, 학습 성공률뿐 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 등록·승격·폐기 수명주기</strong>가 중요하다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   PEFT job scheduling checkpoints                  │
-├────────────────────────────────────────────────────────────────────┤
-│ request -> estimate GPU / VRAM -> queue by priority               │
-│         -> train adapter -> offline eval -> canary deploy         │
-│         -> promote or rollback                                    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEFT job scheduling checkpoints</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request -&gt; estimate GPU / VRAM -&gt; queue by priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; train adapter -&gt; offline eval -&gt; canary deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; promote or rollback</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 간단하다. 프롬프트는 가장 싸게 바꾸고, 지식 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 자주 갱신하며, PEFT는 정말 모델 행동을 바꿔야 할 때만 신중하게 학습한다. 이 분리가 잘 되어야 비용, 품질, 변경 속도를 동시에 잡을 수 있다.
 
@@ -121,7 +125,7 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 또 하나의 연결 고리는 평가다. Prompt 변경은 오프라인 테스트셋으로 검증하고, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 변경은 검색 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)·Faithfulness(충실도)로 측정하며, [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 변경은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 정확도와 안전성, 비용을 함께 본다. 같은 "품질 개선"이라도 측정 축이 다르므로, 평가 없는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리는 결국 감각에 의존한 운영이 된다.
 
-즉 LLMOps는 단일 모델 운영이 아니라, **지시 계층·지식 계층·적응 계층을 서로 다른 속도로 개선하는 다층 운영**으로 이해해야 한다.
+즉 LLMOps는 단일 모델 운영이 아니라, <strong>지시 계층·지식 계층·적응 계층을 서로 다른 속도로 개선하는 다층 운영</strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 오픈북 시험에서 문제 읽는 방법을 바꾸는 것(프롬프트), 참고서를 최신판으로 바꾸는 것([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)), 학생의 사고 습관 자체를 훈련하는 것([PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/))은 전혀 다른 공부 방법이다.
 
@@ -131,27 +135,30 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 실무에서는 먼저 "무엇이 변했는가"를 묻는 의사결정 체계가 필요하다. 사내 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서가 갱신됐으면 벡터 DB [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 우선이고, 응답이 장황하거나 형식이 어긋나면 프롬프트 실험이 먼저다. 특정 산업 용어를 꾸준히 틀리거나 의도한 화법을 지속적으로 유지하지 못하면 그때 PEFT를 검토한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Change-driven operating decision                  │
-├────────────────────────────────────────────────────────────────────┤
-│ issue type?                                                        │
-│   ├─ format / role / instruction drift -> prompt version update    │
-│   ├─ stale enterprise knowledge        -> RAG sync / re-embed      │
-│   ├─ stable domain behavior needed     -> PEFT experiment          │
-│   └─ mixed issue                       -> combine and re-evaluate   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Change-driven operating decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue type?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ format / role / instruction drift -&gt; prompt version update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stale enterprise knowledge -&gt; RAG sync / re-embed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stable domain behavior needed -&gt; PEFT experiment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mixed issue -&gt; combine and re-evaluate</div></div>
+</div>
+</div>
+
+
 
 운영 체크포인트는 다음과 같다.
 
-1. **프롬프트 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)**: 템플릿과 연결된 모델, 평가셋, A/B 비율, 비용 상한을 같이 기록한다.
-2. **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)**: 문서 추가·수정·삭제 이벤트가 모두 벡터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 반영되는지 검증하고, 재임베딩 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 본다.
-3. **[PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 스케줄링**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용률, 큐 대기 시간, 학습 실패율, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 승격 비율을 운영 지표로 둔다.
+1. <strong>프롬프트 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a></strong>: 템플릿과 연결된 모델, 평가셋, A/B 비율, 비용 상한을 같이 기록한다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong>: 문서 추가·수정·삭제 이벤트가 모두 벡터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 반영되는지 검증하고, 재임베딩 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)으로 본다.
+3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/">PEFT</a> 스케줄링</strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용률, 큐 대기 시간, 학습 실패율, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 승격 비율을 운영 지표로 둔다.
 4. **온라인 품질 모니터링**: Retrieval [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) rate, Faithfulness, Time To First Token (TTFT), 비용/질의, 사용자 재질문율을 함께 본다.
-5. **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: Prompt는 즉시 되돌리고, RAG는 이전 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스냅샷으로 복구하며, PEFT는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 비활성화로 분리 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
+5. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: Prompt는 즉시 되돌리고, RAG는 이전 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스냅샷으로 복구하며, PEFT는 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 비활성화로 분리 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)한다.
 
-기술사 답안에서는 RAG를 "벡터 DB 붙이는 기술" 정도로만 쓰면 부족하다. **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 권한, 증분 업데이트, 재색인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**까지 들어가야 실무성이 드러난다. 마찬가지로 PEFT는 단순히 "가볍다"가 아니라, 어떤 기준으로 잡을 스케줄링하고 어떤 평가를 거쳐 승격하는지까지 설명해야 한다.
+기술사 답안에서는 RAG를 "벡터 DB 붙이는 기술" 정도로만 쓰면 부족하다. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>, <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 권한, 증분 업데이트, 재색인 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>까지 들어가야 실무성이 드러난다. 마찬가지로 PEFT는 단순히 "가볍다"가 아니라, 어떤 기준으로 잡을 스케줄링하고 어떤 평가를 거쳐 승격하는지까지 설명해야 한다.
 
 실전 판단은 다음처럼 요약할 수 있다. 빠른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수정과 실험은 Prompt, 빠른 지식 반영은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 반복되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 행동 학습은 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/). 셋을 섞어도 되지만, 섞을수록 추적성과 평가 설계를 더 엄격하게 해야 한다.
 
@@ -165,7 +172,7 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 하지만 함정도 있다. 프롬프트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 무분별하게 늘어나면 추적성이 무너지고, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 오래되면 최신성 문제가 생기며, [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 많아지면 어떤 조합이 어떤 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는지 관리가 어려워진다. 또한 검색 품질이 나쁜데 모델만 탓하거나, 사실은 프롬프트 문제인데 재학습부터 하는 식의 계층 혼동이 자주 발생한다.
 
-따라서 이 주제는 "[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 운영 자동화"보다, **변경 비용이 다른 세 계층을 분리하고 다시 결합하는 운영 공학**으로 기억해야 한다. 좋은 LLMOps는 모델을 자주 갈아엎는 체계가 아니라, 프롬프트·지식·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 목적에 맞게 다뤄 전체 시스템을 안정적으로 진화시키는 체계다.
+따라서 이 주제는 "[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 운영 자동화"보다, <strong>변경 비용이 다른 세 계층을 분리하고 다시 결합하는 운영 공학</strong>으로 기억해야 한다. 좋은 LLMOps는 모델을 자주 갈아엎는 체계가 아니라, 프롬프트·지식·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 목적에 맞게 다뤄 전체 시스템을 안정적으로 진화시키는 체계다.
 
 - **📢 섹션 요약 비유**: 좋은 출판사는 책 전체를 매번 다시 쓰지 않는다. 오탈자는 교정쇄로 고치고, 참고자료는 최신판으로 바꾸고, 정말 필요할 때만 저자에게 개정판을 부탁한다.
 
@@ -185,21 +192,23 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Model-only operation
-    │
-    ▼
-Prompt versioning and evaluation
-    │
-    ▼
-RAG pipeline with vector DB synchronization
-    │
-    ▼
-PEFT adapter scheduling and controlled promotion
-    │
-    ▼
-Unified LLMOps: prompt + knowledge + adapter + observability
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Model-only operation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Prompt versioning and evaluation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAG pipeline with vector DB synchronization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PEFT adapter scheduling and controlled promotion</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unified LLMOps: prompt + knowledge + adapter + observability</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

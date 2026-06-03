@@ -44,27 +44,21 @@ MSA 트래픽 하드웨어의 중심은 [서비스](/knowledge-base/studynote/13
 
 이 그림은 MSA 트래픽이 왜 단순 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 "노드 안쪽 + 네트워크 패브릭 + [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 장치"의 협업 문제인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                MSA 트래픽 처리: 작은 호출을 짧은 경로로 보내는 구조        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Pod / Service A                                                            │
-│      │                                                                     │
-│      ▼                                                                     │
-│ eBPF / Sidecar / Host Queue                                                │
-│      │                                                                     │
-│      ▼                                                                     │
-│ [NIC / SmartNIC / DPU] ── mTLS · LB · Policy ──▶ [Leaf-Spine Fabric]       │
-│                                                      │                     │
-│                                                      ▼                     │
-│                                      [Remote NIC / DPU / Host Queue]       │
-│                                                      │                     │
-│                                                      ▼                     │
-│                                                Pod / Service B             │
-│                                                                            │
-│ 병목 포인트: pps 증가 · sidecar CPU tax · queue imbalance · retry storm    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA 트래픽 처리: 작은 호출을 짧은 경로로 보내는 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod / Service A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF / Sidecar / Host Queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIC / SmartNIC / DPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Leaf-Spine Fabric</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Remote NIC / DPU / Host Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod / Service B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: pps 증가 · sidecar CPU tax · queue imbalance · retry storm</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 MSA 트래픽이 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송보다 "작고 잦은 호출"에 가깝다는 것이다. 그래서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 숫자만 높아도 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 좋다는 뜻은 아니다. 오히려 작은 요청이 몰릴 때 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 큐 불균형, 재시도 증폭, 암호화 비용이 더 치명적으로 드러난다.
 
@@ -86,7 +80,7 @@ MSA 트래픽 경로를 이해하려면 소프트웨어 중심 [서비스 메시
 
 또한 618번의 SOA와 비교하면, SOA는 중앙 ESB와 L7 장비가 병목 중심이 되기 쉽고, MSA는 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)보다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 동서 트래픽 자체가 더 큰 과제가 된다. 즉 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 하드웨어가 통합 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 강하게 만드는 방향이라면, MSA 하드웨어는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 없이도 모든 노드가 끊기지 않게 대화하도록 네트워크 평면을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최적화하는 방향이라고 볼 수 있다.
 
-결국 MSA 트래픽 하드웨어는 "네트워크를 빠르게" 만드는 문제가 아니라, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 만들어 내는 작은 호출의 홍수를 제어 가능한 비용으로 처리하는 문제**다.
+결국 MSA 트래픽 하드웨어는 "네트워크를 빠르게" 만드는 문제가 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 만들어 내는 작은 호출의 홍수를 제어 가능한 비용으로 처리하는 문제</strong>다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 sidecar가 골목마다 교통경찰을 세우는 방식이라면, [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/)는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등과 차선을 똑똑하게 바꿔 경찰이 꼭 필요한 곳에만 서게 만드는 방식이다.
 
@@ -143,24 +137,25 @@ MSA 트래픽 처리 하드웨어가 잘 갖춰지면, [마이크로서비스](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 내부 호출
-        │
-        ▼
-컨테이너 오버레이 네트워크
-        │
-        ▼
-서비스 메시 + sidecar 데이터 평면
-        │
-        ▼
-eBPF / XDP 기반 fast path 최적화
-        │
-        ▼
-SmartNIC / DPU 오프로딩
-        │
-        ▼
-프로그래머블 패브릭 · 인네트워크 telemetry
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 내부 호출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 오버레이 네트워크</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 메시 + sidecar 데이터 평면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eBPF / XDP 기반 fast path 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SmartNIC / DPU 오프로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로그래머블 패브릭 · 인네트워크 telemetry</div>
+</div>
+</div>
+
+
 
 이 흐름은 단일 프로세스 내부 호출에서 출발한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통신이, 점차 더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고 더 짧은 하드웨어 경로를 요구하는 방향으로 발전했음을 보여 준다.
 

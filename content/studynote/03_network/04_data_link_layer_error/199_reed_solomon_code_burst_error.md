@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)의 비극**: 1비트 깨진 건 잘 고치지만, CD 겉면에 흠집이 쭉 나서 100비트가 연속으로 깨져버리면([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 바보가 되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 버려야 합니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a>의 비극</strong>: 1비트 깨진 건 잘 고치지만, CD 겉면에 흠집이 쭉 나서 100비트가 연속으로 깨져버리면([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 바보가 되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 버려야 합니다.
 - **리드-솔로몬(RS)의 발상**: 1960년대 어빙 리드(Irving Reed)와 구스타브 솔로몬은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 보지 말고, 8비트(1바이트)를 하나의 덩어리(심볼)로 묶자. 그리고 이 덩어리들을 지나는 복잡한 2차, 3차 방정식의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 선을 그려서 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 덧붙이자!"라고 생각했습니다.
 
-```text
-[해밍 코드]
-    │
-    ▼
-[리드-솔로몬 코드]
-    │
-    └──▶ [BCH 코드 / 골레이 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 리드-솔로몬 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,22 +43,26 @@ tags = ["studynote-network"]
 
 (수학은 극도로 복잡한 '갈루아 유한체(Galois Field)' 연산을 쓰지만 개념은 직관적입니다.)
 
-1. **송신 ([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곡선 그리기)**:
+1. <strong>송신 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a> 곡선 그리기)</strong>:
    - 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각(점들)을 지나는 하나의 부드러운 수학적 곡선([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))을 그립니다.
-   - 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10개라면, 그 곡선을 따라 여분의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 점(패리티 심볼) 4개를 더 찍어서 **총 14개의 점**을 수신기로 날려 보냅니다. (이것이 잉여 비트입니다.)
+   - 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 10개라면, 그 곡선을 따라 여분의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 점(패리티 심볼) 4개를 더 찍어서 <strong>총 14개의 점</strong>을 수신기로 날려 보냅니다. (이것이 잉여 비트입니다.)
 2. **수신과 에러 복원**:
    - 우주 공간을 날아가다 운석(노이즈)에 맞아 중간에 있는 점 2개가 통째로 날아갔습니다. 
    - 수신기는 14개 중 무사히 도착한 12개의 점을 모읍니다. 그리고 **이 12개의 점을 지나는 유일한 곡선을 수학적으로 다시 그려봅니다(방정식 풀기).**
    - 곡선을 다시 그려보니, 앗! 아까 날아갔던 빈 공간에 원래 어떤 점이 있었어야 했는지 그 위치와 값이 수학적으로 100% 완벽하게 유추(복원)됩니다!
 
-```text
-[해밍 코드]
-    │
-    ▼
-[리드-솔로몬 코드]
-    │
-    └──▶ [BCH 코드 / 골레이 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 리드-솔로몬 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 이 거대한 뭉텅이 에러([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 복원력 때문에, 리드-솔로몬 코드는 인류의 핵심 디지털 저장/통신 매체에 숨 쉬듯 쓰입니다.
 
 1. **CD, DVD, 블루레이 디스크**: 디스크 표면이 칼로 쭉 긁혀서 수만 비트가 통째로 손상되어도 음악이 끊기지 않고 정상 재생되는 이유는, 렌즈가 RS 코드를 역산하여 긁힌 부분을 실시간으로 메워주기 때문입니다.
-2. **QR 코드 (QR [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: 큐알 코드의 일부가 찢어지거나 내 손가락으로 모서리를 가려도 카메라가 귀신같이 스캔해 내는 이유는, 그 네모난 그림 안에 RS 오류 복원 코드가 잔뜩 섞여 있기 때문입니다.
+2. <strong>QR 코드 (QR <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 큐알 코드의 일부가 찢어지거나 내 손가락으로 모서리를 가려도 카메라가 귀신같이 스캔해 내는 이유는, 그 네모난 그림 안에 RS 오류 복원 코드가 잔뜩 섞여 있기 때문입니다.
 3. **심우주 통신 (보이저호)**: 태양풍에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뭉텅이로 날아가도 재전송(수 시간 소요)을 받을 수 없기 때문에 RS 코드를 입혀 쏩니다.
 
 리드-솔로몬 코드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)가 기반 조건을 만든다면, 리드-솔로몬 코드는 그 위에서 핵심 메커니즘을 구현하고, BCH 코드 / 골레이 코드는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -76,7 +84,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)가 퍼즐 조각 1개를 잃어버렸을 때 옆 조각을 보고 그림을 맞춰 끼우는 수준이라면, 리드-솔로몬 코드는 **얼굴 사진의 절반이 불에 타서 날아갔어도([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)), 남은 반쪽 얼굴의 뼈대와 눈코입의 수학적 대칭 비율([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))을 AI처럼 분석하여 날아간 나머지 얼굴을 100% 완벽하게 몽타주로 그려내어 복원하는 궁극의 화가**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a>가 퍼즐 조각 1개를 잃어버렸을 때 옆 조각을 보고 그림을 맞춰 끼우는 수준이라면, 리드-솔로몬 코드는 </strong>얼굴 사진의 절반이 불에 타서 날아갔어도([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)), 남은 반쪽 얼굴의 뼈대와 눈코입의 수학적 대칭 비율([다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/))을 AI처럼 분석하여 날아간 나머지 얼굴을 100% 완벽하게 몽타주로 그려내어 복원하는 궁극의 화가**입니다.
 
 ---
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 해밍 코드]
-    │
-    ▼
-[현재 개념: 리드-솔로몬 코드]
-    │
-    ├──▶ [확장 A: BCH 코드 / 골레이 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해밍 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 리드-솔로몬 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 리드-솔로몬 코드는 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)에서 출발해 현재 메커니즘을 정교화하고, 이후 BCH 코드 / 골레이 코드와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

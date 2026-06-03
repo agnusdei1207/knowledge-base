@@ -39,7 +39,7 @@ tags = ["studynote-operating-system"]
 ```
 **[다이어그램 해설]** 고정 우선순위의 가장 큰 특징은 "비정함"이다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 피도 눈물도 없이 오직 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설정값만 믿고 밀어붙인다. 이 비정함이 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 유저에겐 마우스가 얼어붙는 끔찍한 경험을 주지만, 무기 체계에서는 "핵심 부품이 절대 멈추지 않는다"는 완벽한 신뢰의 보증수표가 된다.
 
-- **📢 섹션 요약 비유**: 왕족은 태어날 때부터 평생 왕족이고 노비는 평생 노비인 철저한 **신분제 사회**입니다. 노비 입장에선 숨이 막히지만, 국가(시스템) 전체가 흔들림 없이 설계된 기계처럼 굴러가게 만드는 가장 강력하고 값싼 통치 수단입니다.
+- **📢 섹션 요약 비유**: 왕족은 태어날 때부터 평생 왕족이고 노비는 평생 노비인 철저한 <strong>신분제 사회</strong>입니다. 노비 입장에선 숨이 막히지만, 국가(시스템) 전체가 흔들림 없이 설계된 기계처럼 굴러가게 만드는 가장 강력하고 값싼 통치 수단입니다.
 
 ---
 
@@ -53,26 +53,25 @@ tags = ["studynote-operating-system"]
 3. 256비트(32바이트)짜리 비트맵(Bitmap) 변수를 두고, 큐에 프로세스가 하나라도 있으면 해당 비트를 1로 켠다.
 4. **스케줄링**: 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`clz` 등)로 256비트 중 가장 앞쪽에 1이 켜진 위치를 1클럭 만에 찾는다. 그 큐에서 무조건 첫 번째 놈을 빼서 CPU를 준다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────┐
-  │         고정 우선순위 스케줄러의 O(1) 비트맵 매핑 아키텍처              │
-  ├─────────────────────────────────────────────────────────────────────────┤
-  │                                                                         │
-  │  [ 256 비트맵 (0은 빈 큐, 1은 대기 중인 큐) ]                           │
-  │  비트 위치: 0 1 2 3 4 5 6 ... 255                                       │
-  │  값(상태):  0 0 1 0 1 0 0 ... 1                                         │
-  │              │   │         │                                            │
-  │              ▼   ▼         ▼                                            │
-  │  [ 배열 큐 ]                                                            │
-  │  Queue[2] ──▶ [ P_A ] ──▶ [ P_B ]                                       │
-  │  Queue[4] ──▶ [ P_C ]                                                   │
-  │  Queue[255] ─▶ [ P_Z ] (가장 낮은 찌끄러기)                             │
-  │                                                                         │
-  │  🚨 스케줄러의 기계적 반복 로직:                                        │
-  │  매 틱마다 비트맵 스캔 ─▶ "2번 비트가 제일 높네!" ─▶ Queue[2]의 P_A 실행│
-  │  (P_A나 P_B가 큐에 존재하는 한 P_C는 절대 영원히 실행 불가)             │
-  └─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 우선순위 스케줄러의 O(1) 비트맵 매핑 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">256 비트맵 (0은 빈 큐, 1은 대기 중인 큐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트 위치: 0 1 2 3 4 5 6 ... 255</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값(상태): 0 0 1 0 1 0 0 ... 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열 큐</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">255</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_Z</div><div class="kb-diagram-note">(가장 낮은 찌끄러기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 스케줄러의 기계적 반복 로직:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">의 P_A 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P_A나 P_B가 큐에 존재하는 한 P_C는 절대 영원히 실행 불가)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 고정 우선순위 시스템에서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 역할은 계산이 아니라 그냥 '지정된 서랍 열기'에 불과하다. CPU 사이클을 낭비하는 복잡한 수식이나 트리 정렬(O(log N))이 전혀 없기 때문에, 이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 인터럽트가 발생한 직후 1마이크로초도 안 되는 찰나에 다음 타깃을 찾아내는 궁극의 디스패치 속도를 자랑한다.
 
 - **📢 섹션 요약 비유**: 우편물을 256개의 서랍에 꽂아놓고, 무조건 1번 서랍부터 열어봐서 편지가 있으면 꺼내고, 없으면 2번 서랍을 여는 극도로 단순한 로봇 팔과 같습니다.
@@ -87,12 +86,12 @@ tags = ["studynote-operating-system"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 순위 결정 기준 ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 설명 및 특징 |
 |:---|:---|:---|
-| **[RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))** | **주기 (Period)** | "얼마나 자주 오는가?" 주기가 가장 짧은 놈에게 1등 번호표를 줌. (주기와 데드라인이 같을 때 가장 완벽한 수학적 최적 모델) |
-| **DM ([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) Monotonic)** | **마감 시간 ([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))** | 주기가 길어도 "상대적 데드라인이 짧은 놈"에게 1등 번호표를 줌. (주기보다 데드라인이 더 짧은 특수 환경에서 RM보다 우수함) |
-| **[EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) (비교군, 동적)** | 매 순간 남은 시간 (Absolute) | 런타임에 순위가 휙휙 바뀌므로 '고정 우선순위' 가문에 끼지 못함. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">Rate Monotonic</a>)</strong> | **주기 (Period)** | "얼마나 자주 오는가?" 주기가 가장 짧은 놈에게 1등 번호표를 줌. (주기와 데드라인이 같을 때 가장 완벽한 수학적 최적 모델) |
+| <strong>DM (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a> Monotonic)</strong> | <strong>마감 시간 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>)</strong> | 주기가 길어도 "상대적 데드라인이 짧은 놈"에게 1등 번호표를 줌. (주기보다 데드라인이 더 짧은 특수 환경에서 RM보다 우수함) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/">EDF</a> (비교군, 동적)</strong> | 매 순간 남은 시간 (Absolute) | 런타임에 순위가 휙휙 바뀌므로 '고정 우선순위' 가문에 끼지 못함. |
 
 ### 치명적 한계: [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 방치
-고정 우선순위는 시스템 전체에 **"너희는 굶어 죽어라"**라고 공식적으로 선고하는 것과 같다.
+고정 우선순위는 시스템 전체에 <strong>"너희는 굶어 죽어라"</strong>라고 공식적으로 선고하는 것과 같다.
 일반 범용 OS(Windows)에서는 이 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 막기 위해 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))을 써서 우선순위를 올려준다(동적 변화). 하지만 하드 실시간 OS에서는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)을 **절대 허용하지 않는다**. 10등짜리 쩌리 태스크가 오래 굶었다고 1등석으로 쳐들어오면, 원래 1등석에 앉아서 미사일 궤도를 맞춰야 할 VIP 태스크가 쩌리 때문에 밀려나서 미사일이 오폭되는 초대형 사고가 터지기 때문이다.
 즉, RTOS 환경에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 "버그"가 아니라 "시스템의 안전을 위해 하위 태스크를 합법적으로 꼬리 자르기 하는 방어 기제"로 쓰인다.
 
@@ -103,34 +102,32 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리눅스 SCHED_FIFO [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 튜닝 (실무 고정 우선순위)**: 리눅스 서버에서 네트워크 패킷 유실을 막기 위해 튜닝할 때, 범용 `SCHED_OTHER`가 아닌 `SCHED_FIFO`에 우선순위 99(최고치)를 줘서 프로세스를 띄운다.
+1. <strong>리눅스 SCHED_FIFO <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 튜닝 (실무 고정 우선순위)</strong>: 리눅스 서버에서 네트워크 패킷 유실을 막기 위해 튜닝할 때, 범용 `SCHED_OTHER`가 아닌 `SCHED_FIFO`에 우선순위 99(최고치)를 줘서 프로세스를 띄운다.
    - **실무의 공포**: `SCHED_FIFO`는 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)(퀀텀)의 개념조차 없는 가장 무식한 고정 우선순위다. 이 프로세스 안에 `while(true) {}` 버그가 하나라도 섞여 있다면? 이 녀석의 우선순위는 영원히 99로 '고정'되어 있으므로 다른 어떤 프로세스(심지어 [ssh](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속 쉘이나 리부팅 데몬마저도)도 실행되지 못해 서버가 완전히 벽돌(Hang)이 된다.
    - **아키텍트 조치**: 개발자가 `SCHED_FIFO`를 쓴다고 하면 무조건 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시 `sleep()` 이나 I/O 대기(블로킹) 구간이 확실히 존재하는지 악착같이 검증해야만 서버 폭파를 막을 수 있다.
-2. **우선순위 할당 규칙 (RMA, [Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) Analysis)**: 임베디드 장비(드론)를 짤 때, 5개의 센서 읽기 스레드를 띄웠다. 개발자 맘대로 우선순위 1~5를 대충 부여하면 10분쯤 비행하다가 타이밍이 꼬여 추락한다.
-   - **실무 조치**: 반드시 엑셀을 켜고 각 스레드의 호출 주기(Period)를 적은 뒤, **"주기가 짧은 순서대로 1등부터 5등까지 우선순위를 고정(하드코딩)"**해야 한다. 이것이 RMA 기법이며, 이 순서를 지켰을 때 전체 CPU 점유율이 69% 이하라면 이 드론은 수학적으로 평생 추락하지 않음이 보장된다.
+2. <strong>우선순위 할당 규칙 (RMA, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">Rate Monotonic</a> Analysis)</strong>: 임베디드 장비(드론)를 짤 때, 5개의 센서 읽기 스레드를 띄웠다. 개발자 맘대로 우선순위 1~5를 대충 부여하면 10분쯤 비행하다가 타이밍이 꼬여 추락한다.
+   - **실무 조치**: 반드시 엑셀을 켜고 각 스레드의 호출 주기(Period)를 적은 뒤, <strong>"주기가 짧은 순서대로 1등부터 5등까지 우선순위를 고정(하드코딩)"</strong>해야 한다. 이것이 RMA 기법이며, 이 순서를 지켰을 때 전체 CPU 점유율이 69% 이하라면 이 드론은 수학적으로 평생 추락하지 않음이 보장된다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     개발자의 고정 우선순위 (SCHED_FIFO/RR) 남용 방지 검증 트리    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [코드 리뷰: 신규 백그라운드 스레드에 Priority 90 셋팅 발견]     │
-  │                │                                                  │
-  │                ▼ 스레드의 본질적 성격 검증                        │
-  │   이 스레드가 CPU를 100% 갉아먹는 연산(CPU Bound)인가?            │
-  │          ├─ [예 (이미지 렌더링, 암호화 등)]                       │
-  │          │      │                                                 │
-  │          │      ▼ 🚨 시스템 사형 선고                             │
-  │          │  고정 90순위가 안 비키면 시스템 전체가 마비됨.         │
-  │          │  ▶ 조치: 일반 CFS 큐(Nice 조절)로 즉각 강등 지시.      │
-  │          │                                                        │
-  │          └─ [아니오 (I/O Bound, 센서 폴링 등)]                    │
-  │                 │                                                 │
-  │                 ▼ ✅ 허가 및 조건부 배포                          │
-  │             1ms만 일하고 바로 Sleep() 하는 구조가 명확하므로,     │
-  │             고정 우선순위를 줘서 빠른 응답성을 챙기는 게 이득임.  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 고정 우선순위 (SCHED_FIFO/RR) 남용 방지 검증 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 리뷰: 신규 백그라운드 스레드에 Priority 90 셋팅 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 스레드의 본질적 성격 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 스레드가 CPU를 100% 갉아먹는 연산(CPU Bound)인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (이미지 렌더링, 암호화 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 시스템 사형 선고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 90순위가 안 비키면 시스템 전체가 마비됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조치: 일반 CFS 큐(Nice 조절)로 즉각 강등 지시.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (I/O Bound, 센서 폴링 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ✅ 허가 및 조건부 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms만 일하고 바로 Sleep() 하는 구조가 명확하므로,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 우선순위를 줘서 빠른 응답성을 챙기는 게 이득임.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 고정 우선순위는 양날의 검이다. 찌르면 적(렉)이 1초 만에 죽지만, 잘못 쓰면 내가 죽는다. 이 절대 권력을 부여할 때는 반드시 해당 코드가 "자발적으로 권력을 내려놓는가(Yield, Sleep, I/O)"에 대한 물리적 확신이 있어야만 한다.
 
 - **📢 섹션 요약 비유**: 운전 초보(버그가 많은 코드)에게 속도 제한 장치가 풀린 포르쉐(고정 우선순위 권한)를 주면 100% 벽에 박습니다. 포르쉐는 앞만 보고 달리게 만들어진 기계(O(1) 속도)이므로, 오직 브레이크를 언제 밟을지 아는 베테랑 드라이버(검증된 실시간 코드)에게만 키를 줘야 합니다.
@@ -140,11 +137,11 @@ tags = ["studynote-operating-system"]
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-고정 우선순위 스케줄링을 채택하면 운영체제의 디스패치 로직을 어셈블리어 몇 줄로 끝낼 수 있을 만큼 극도로 경량화할 수 있으며, 시스템 동작의 **'100% 수학적 예측(Deterministic Analysis)'**이 가능해져 항공, 우주, 의료 기기의 필수 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(ISO 26262 등)을 통과할 수 있는 논리적 기반을 마련한다.
+고정 우선순위 스케줄링을 채택하면 운영체제의 디스패치 로직을 어셈블리어 몇 줄로 끝낼 수 있을 만큼 극도로 경량화할 수 있으며, 시스템 동작의 <strong>'100% 수학적 예측(Deterministic Analysis)'</strong>이 가능해져 항공, 우주, 의료 기기의 필수 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(ISO 26262 등)을 통과할 수 있는 논리적 기반을 마련한다.
 
 ### 결론 및 미래 전망
 순수한 의미의 "고정 우선순위" [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 일반 데스크톱(Windows/[Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이나 모바일 환경에서는 동적 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))과 융합된 형태([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/), CFS)로 흡수되어 흔적만 남아있다. 
-그러나 사람의 목숨이 달린 **임베디드 하드 리얼타임 OS (FreeRTOS, VxWorks) 생태계에서는 여전히, 그리고 앞으로도 영원히 이 '고정 우선순위([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)/DM)'가 유일무이한 표준**으로 군림할 것이다. 복잡한 계산([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))을 런타임에 하는 것은 리스크가 너무 크기 때문에, 컴파일러와 분석 도구가 배포 전에 미리 오프라인에서 수학적 증명을 끝내고, 기계는 멍청하지만 확실하게 고정된 순서대로만 움직이는 보수적 아키텍처가 실시간 시스템의 절대 진리이기 때문이다.
+그러나 사람의 목숨이 달린 <strong>임베디드 하드 리얼타임 OS (FreeRTOS, VxWorks) 생태계에서는 여전히, 그리고 앞으로도 영원히 이 '고정 우선순위(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a>/DM)'가 유일무이한 표준</strong>으로 군림할 것이다. 복잡한 계산([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))을 런타임에 하는 것은 리스크가 너무 크기 때문에, 컴파일러와 분석 도구가 배포 전에 미리 오프라인에서 수학적 증명을 끝내고, 기계는 멍청하지만 확실하게 고정된 순서대로만 움직이는 보수적 아키텍처가 실시간 시스템의 절대 진리이기 때문이다.
 
 - **📢 섹션 요약 비유**: 똑똑한 로봇(동적 스케줄링)은 상황에 맞춰 유연하게 대처하지만 가끔 예상치 못한 오류를 냅니다. 하지만 톱니바퀴로 짜인 아날로그시계(고정 우선순위)는 멍청해 보여도 100년 동안 단 1초도 틀리지 않고 똑같은 속도로 돕니다. 목숨을 걸어야 할 땐 화려한 인공지능보다 투박한 톱니바퀴가 정답입니다.
 
@@ -161,21 +158,25 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[EDF (Earliest Deadline First) 스케줄링]
-    │
-    ▼
-[비례 배분 스케줄링 (Proportionate Share Scheduling)]
-    │
-    ├──▶ [POSIX 스케줄링 API]
-    └──▶ [리눅스 O(1) 스케줄러]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EDF (Earliest Deadline First) 스케줄링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비례 배분 스케줄링 (Proportionate Share Scheduling)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POSIX 스케줄링 API</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 O(1) 스케줄러</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 게임방에서 "1번 컴퓨터는 무조건 회장님(VIP) 전용이야!"라고 딱 못을 박아놓고 절대 안 바꿔주는 규칙이 **고정 우선순위**예요.
+1. 게임방에서 "1번 컴퓨터는 무조건 회장님(VIP) 전용이야!"라고 딱 못을 박아놓고 절대 안 바꿔주는 규칙이 <strong>고정 우선순위</strong>예요.
 2. 회장님이 1년 내내 컴퓨터를 쓰면, 다른 친구들은 1년 내내 옆에서 구경만 하다 굶어 죽는 슬픈 일([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))이 무조건 생겨요.
 3. 하지만 이렇게 무식하고 꽉 막힌 규칙을 쓰는 이유는, 우주선이나 로봇을 조종할 때 "진짜 중요한 명령은 다른 자잘한 일에 절대 방해받지 않고 0.001초 만에 실행된다"는 100% 믿음을 주니까요!
 

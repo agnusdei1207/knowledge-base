@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 1957년 Rosenblatt이 제안한 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 뇌의 뉴런을 수학적으로 모델링한 최초의 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. "입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 가중합이 임계값을 넘으면 발화(1), 아니면 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(0)"라는 단순한 규칙이 학습 가능한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 구현된다. AND, OR 같은 선형 분리 가능 문제는 완벽히 해결했지만, 1969년 Minsky와 Papert가 XOR 문제의 한계를 지적하며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울이 시작됐다. 이 한계 극복이 딥러닝 탄생의 직접적 동기다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 사탕과 초콜릿을 나누는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기"다. 테이블 위에 사탕과 초콜릿이 섞여있을 때, 직선 한 줄로 왼쪽엔 사탕, 오른쪽엔 초콜릿이 완벽히 갈리면 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 해결한다. 하지만 체커보드 패턴처럼 섞여있으면(XOR) 직선 하나론 절대 불가능하다.
 
@@ -36,25 +39,25 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────┐
-│           단층 퍼셉트론 (Single-Layer Perceptron)     │
-├──────────────────────────────────────────────────────┤
-│   x₁ ──w₁──┐                                        │
-│   x₂ ──w₂──┼──► [Σ wᵢxᵢ + b] ──► [Step fn] ──► ŷ  │
-│   x₃ ──w₃──┘                                        │
-│                                                      │
-│  출력: ŷ = 1 if w·x + b ≥ 0                         │
-│            0 otherwise                               │
-│                                                      │
-│  학습 규칙 (Perceptron Learning Rule):               │
-│  오차 δ = y - ŷ  (y: 실제, ŷ: 예측)                │
-│  wᵢ ← wᵢ + η·δ·xᵢ                                  │
-│  b  ← b  + η·δ                                      │
-│                                                      │
-│  결정 경계: w·x + b = 0 (초평면, Hyperplane)        │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단층 퍼셉트론 (Single-Layer Perceptron)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₁ ──w₁──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₂ ──w₂── ──►</div><div class="kb-diagram-node">Σ wᵢxᵢ + b</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">Step fn</div><div class="kb-diagram-note">──► ŷ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₃ ──w₃──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: ŷ = 1 if w·x + b ≥ 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 otherwise</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 규칙 (Perceptron Learning Rule):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차 δ = y - ŷ (y: 실제, ŷ: 예측)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wᵢ ← wᵢ + η·δ·xᵢ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b ← b + η·δ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 경계: w·x + b = 0 (초평면, Hyperplane)</div></div>
+</div>
+</div>
+
+
 
 | 문제 유형 | 선형 분리 가능 | [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 해결 |
 |:---|:---|:---|

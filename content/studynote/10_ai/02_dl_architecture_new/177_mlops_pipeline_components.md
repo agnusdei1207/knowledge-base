@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 모델 하나를 잘 학습시키는 기술이 아니라, **모델이 만들어지고 배포되고 교체되고 폐기되는 전체 생명주기를 운영 가능한 공정으로 바꾸는 구조**다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 Jupyter Notebook에서 높은 정확도를 얻었다고 해도, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 학습했는지, 어떤 전처리를 썼는지, 어떤 모델이 지금 운영 중인지 추적할 수 없으면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 유지되지 않는다.
+[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 모델 하나를 잘 학습시키는 기술이 아니라, <strong>모델이 만들어지고 배포되고 교체되고 폐기되는 전체 생명주기를 운영 가능한 공정으로 바꾸는 구조</strong>다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자가 Jupyter Notebook에서 높은 정확도를 얻었다고 해도, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 학습했는지, 어떤 전처리를 썼는지, 어떤 모델이 지금 운영 중인지 추적할 수 없으면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 유지되지 않는다.
 
 이 문제가 커지는 이유는 소프트웨어와 달리 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시스템은 코드만 배포하지 않기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의, 모델 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/), 서빙 환경, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 라벨, 드리프트 경고까지 함께 관리해야 한다. 즉 MLOps는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) ([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보(Lineage), 모델 관측성을 결합한 운영 체계다.
 
-결국 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 필요성은 "모델을 한 번 만드는 법"이 아니라, **같은 품질로 반복 생산하고 문제 시 안전하게 되돌리는 법**에 있다. 이 관점이 빠지면 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 높아도 운영은 불안정한 실험 시스템에 머문다.
+결국 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 필요성은 "모델을 한 번 만드는 법"이 아니라, <strong>같은 품질로 반복 생산하고 문제 시 안전하게 되돌리는 법</strong>에 있다. 이 관점이 빠지면 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 높아도 운영은 불안정한 실험 시스템에 머문다.
 
 - **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 천재 연구자가 혼자 요리하는 주방이 아니라, 재료 입고부터 조리·포장·배송·고객 반응 수집까지 표준화된 공장 라인과 같다.
 
@@ -44,24 +44,23 @@ tags = ["studynote-ai"]
 
 아래 그림은 핵심 구성 요소가 어떻게 하나의 폐루프를 이루는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MLOps closed loop                                                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Raw data ──▶ Feature / data pipeline ──▶ Training / validation       │
-│                 │                                │                   │
-│                 │                                ▼                   │
-│                 │                         Model registry             │
-│                 │                                │ approved          │
-│                 ▼                                ▼                   │
-│          Feature store ◀──────────────── Deployment / Serving API    │
-│                 ▲                                │                   │
-│                 └──── labels / feedback ◀─ Monitoring dashboard ────┘
-│                                  drift, latency, business KPI        │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 서빙이 끝이 아니라는 점이다. 운영 중 수집된 예측 결과와 실제 라벨, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율, 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))가 다시 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 계층으로 돌아오고, 이상 징후가 감지되면 재학습·재배포·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 중 하나가 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)된다. 그래서 MLOps는 선형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 아니라 **피드백 기반 제어 시스템**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps closed loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw data ──▶ Feature / data pipeline ──▶ Training / validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">approved</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature store ◀ Deployment / Serving API</div></div>
+<div class="kb-diagram-note">labels / feedback ◀─ Monitoring dashboard</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">drift, latency, business KPI</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 서빙이 끝이 아니라는 점이다. 운영 중 수집된 예측 결과와 실제 라벨, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율, 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))가 다시 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 계층으로 돌아오고, 이상 징후가 감지되면 재학습·재배포·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 중 하나가 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)된다. 그래서 MLOps는 선형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 아니라 <strong>피드백 기반 제어 시스템</strong>에 가깝다.
 
 또한 이 구성 요소들을 연결하는 진짜 핵심은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)다. 어떤 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 학습했는지, 어떤 실험이 승격되었는지, 어떤 모델이 어느 엔드포인트에 배포되었는지, 어떤 경고가 발생했는지 추적되지 않으면 자동화는 오히려 사고를 빠르게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 장치가 된다.
 
@@ -91,7 +90,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 것은 "모든 구성 요소를 한 번에 갖출 것인가"가 아니라, **어떤 실패를 막기 위해 어떤 구성 요소를 우선 도입할 것인가**다. 모든 팀이 거대한 플랫폼을 바로 구축할 필요는 없지만, 운영 위험이 큰 구간은 먼저 표준화해야 한다.
+실무에서 중요한 것은 "모든 구성 요소를 한 번에 갖출 것인가"가 아니라, <strong>어떤 실패를 막기 위해 어떤 구성 요소를 우선 도입할 것인가</strong>다. 모든 팀이 거대한 플랫폼을 바로 구축할 필요는 없지만, 운영 위험이 큰 구간은 먼저 표준화해야 한다.
 
 | 설계 쟁점 | 우선 판단 | 이유 |
 | :--- | :--- | :--- |
@@ -117,7 +116,7 @@ tags = ["studynote-ai"]
 - 재학습은 자동화했지만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·승인·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 경로는 없는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 - [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 없이 학습 코드와 서빙 코드가 각자 전처리를 구현하는 구조
 
-기술사 답안에서는 **"[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 모델을 배포하는 선형 절차가 아니라, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)·모델·운영 지표를 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)로 연결한 지속적 제어 루프"**라고 정리하면 구조적 이해가 살아난다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인은 모델을 배포하는 선형 절차가 아니라, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>·모델·운영 지표를 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>로 연결한 지속적 제어 루프"</strong>라고 정리하면 구조적 이해가 살아난다.
 
 - **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 설계는 기계를 많이 들여놓는 일이 아니라, 어느 센서가 불량을 감지하면 어느 라인을 멈추고 어느 제품을 회수할지까지 정해 두는 공장 운영 규칙 만들기와 같다.
 
@@ -127,7 +126,7 @@ tags = ["studynote-ai"]
 
 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 제대로 갖춰지면 모델 운영은 "사람 기억과 수작업"에서 "기록과 자동화"로 전환된다. 그 결과 배포 속도는 빨라지고, 재현성과 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능성은 높아지며, 운영 중 품질 저하를 더 빨리 잡아낼 수 있다. 특히 여러 팀이 동시에 모델을 운영하는 조직에서는 플랫폼화 효과가 커진다.
 
-반대로 구성 요소만 이름으로 도입하고 연결 원칙을 정하지 않으면, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 복잡성만 늘리고 책임은 흐려진다. 그래서 MLOps를 기억할 때는 "툴 모음"이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 모델을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 기준으로 통제하는 운영 아키텍처**로 이해하는 것이 맞다. 최근 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Large Language Model Operations](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/))로 확장되더라도, 평가·배포·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·[피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)라는 뼈대는 그대로 유지된다.
+반대로 구성 요소만 이름으로 도입하고 연결 원칙을 정하지 않으면, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 복잡성만 늘리고 책임은 흐려진다. 그래서 MLOps를 기억할 때는 "툴 모음"이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 모델을 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질 기준으로 통제하는 운영 아키텍처</strong>로 이해하는 것이 맞다. 최근 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) ([Large Language Model Operations](/knowledge-base/studynote/14_data_engineering/04_mlops/174_llmops_prompt_template_rag_pipeline/))로 확장되더라도, 평가·배포·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·[피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)라는 뼈대는 그대로 유지된다.
 
 - **📢 섹션 요약 비유**: MLOps는 똑똑한 로봇 한 대를 만드는 일이 아니라, 로봇이 고장 나면 바로 교체하고 더 나은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 계속 찍어낼 수 있는 정비소까지 함께 갖춘 체계와 같다.
 
@@ -146,27 +145,27 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Notebook 실험
-    │
-    ▼
-반복 가능한 데이터 / 학습 파이프라인
-    │
-    ▼
-Feature Store · Model Registry 도입
-    │
-    ▼
-Serving API · Monitoring Dashboard 운영
-    │
-    ▼
-CI/CD/CT 기반 자동 승격 · 롤백
-    │
-    ▼
-드리프트 대응형 폐루프 MLOps
-    │
-    ▼
-LLMOps · 평가 자동화 · 거버넌스 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Notebook 실험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반복 가능한 데이터 / 학습 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Feature Store · Model Registry 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Serving API · Monitoring Dashboard 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI/CD/CT 기반 자동 승격 · 롤백</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">드리프트 대응형 폐루프 MLOps</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLMOps · 평가 자동화 · 거버넌스 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시스템이 일회성 실험에서 출발해, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 관측성을 갖춘 운영 플랫폼으로 성숙해 가는 과정을 보여 준다.
 

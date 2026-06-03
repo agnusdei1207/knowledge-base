@@ -23,18 +23,20 @@ tags = ["studynote-computer-architecture"]
 
 이 구조가 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 실제 수요가 서버 사양표처럼 고정돼 있지 않기 때문이다. 어떤 시간대에는 메모리가 남아돌고, 다른 시간대에는 특정 노드만 메모리 부족에 걸린다. 기존 방식에서는 각 서버를 최악의 순간에 맞춰 크게 사야 했지만, 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)에서는 남는 용량을 한곳에 모아 필요한 워크로드에 다시 배분할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Fixed servers create stranded capacity across the rack      │
-├──────────────────────────────────────────────────────────────┤
-│ Host A : CPU busy, memory idle                              │
-│ Host B : memory hungry, slot already full                   │
-│ Host C : accelerator idle                                   │
-│                │                                            │
-│                ▼ CXL fabric                                 │
-│        Shared pool : memory · accelerator · storage         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fixed servers create stranded capacity across the rack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host A : CPU busy, memory idle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host B : memory hungry, slot already full</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host C : accelerator idle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ CXL fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared pool : memory · accelerator · storage</div></div>
+</div>
+</div>
+
+
 
 이 그림은 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 목적이 단순 증설이 아니라는 점을 보여준다. 목표는 더 많이 꽂는 것이 아니라, 이미 사 둔 자원을 덜 놀게 만드는 것이다. 그래서 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 장비 구매 전략과 운영 자동화를 동시에 바꾸는 아키텍처다.
 
@@ -55,15 +57,19 @@ CXL은 주변장치 상호연결 익스프레스 ([Peripheral Component Intercon
 | Fabric Manager | 탐색, 할당, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 관리 | 멀티테넌시, 자동화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) | 풀 자원을 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드나 메모리 티어로 노출 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 배치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 가시성 |
 
-```text
-┌──────────┐   CXL.io / cache / mem   ┌────────────┐   ┌─────────────┐
-│ Host CPU │─────────────────────────▶│ CXL Switch │──▶│ Memory Pool  │
-└──────────┘                          └────────────┘   └─────────────┘
-      │                                      │
-      └── OS / Hypervisor maps memory tiers ◀┘
-```
 
-[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 2.0은 스위칭과 메모리 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 실질적 기반을 만들었고, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.x는 더 큰 패브릭과 장치 간 공유 모델로 범위를 넓히고 있다. 하지만 어느 세대든 중요한 사실은 같다. **자원 풀은 로컬 DRAM보다 느리므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어느 티어에 둘지 알아야 한다**는 점이다. 일반적으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성은 `로컬 DRAM < 직접 연결 CXL 확장 < 스위치 뒤 CXL 풀 < 네트워크 원격 자원` 순으로 이해하면 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CXL.io / cache / mem</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host CPU</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CXL Switch</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Memory Pool</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">OS / Hypervisor maps memory tiers ◀</div>
+</div>
+</div>
+
+
+
+[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 2.0은 스위칭과 메모리 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 실질적 기반을 만들었고, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.x는 더 큰 패브릭과 장치 간 공유 모델로 범위를 넓히고 있다. 하지만 어느 세대든 중요한 사실은 같다. <strong>자원 풀은 로컬 DRAM보다 느리므로, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 어느 티어에 둘지 알아야 한다</strong>는 점이다. 일반적으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성은 `로컬 DRAM < 직접 연결 CXL 확장 < 스위치 뒤 CXL 풀 < 네트워크 원격 자원` 순으로 이해하면 된다.
 
 - **📢 섹션 요약 비유**: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 자원 풀은 본사 창고와 같다. 매장 창고보다 조금 멀지만, 물류망이 잘 갖춰져 있으면 필요할 때 빠르게 채울 수 있다. 다만 계산대 바로 옆 선반처럼 아무 물건이나 거기에 두면 불편해진다.
 
@@ -80,7 +86,7 @@ CXL은 주변장치 상호연결 익스프레스 ([Peripheral Component Intercon
 | 확장성 | 슬롯 수에 묶임 | 랙·패브릭 단위 확장 | 네트워크 범위까지 확장 |
 | 잘 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 가장 뜨거운 작업 집합 | 따뜻한 확장 용량, 탄력 수요 | 차가운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 공유 |
 
-이 차이가 중요한 이유는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 로컬 메모리의 완전한 대체가 아니라, **로컬과 네트워크 사이를 메우는 중간 계층**이기 때문이다. 그래서 메모리 주도 컴퓨팅, [랙 스케일 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/639_rack_scale_architecture/), 컴포저블 인프라와 자연스럽게 연결된다. 특히 메모리 수요 변동이 큰 분석 워크로드에서는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀이 슬롯 기반 증설보다 훨씬 유연하고, 네트워크 원격 메모리보다 훨씬 단순한 소프트웨어 모델을 제공한다.
+이 차이가 중요한 이유는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 로컬 메모리의 완전한 대체가 아니라, <strong>로컬과 네트워크 사이를 메우는 중간 계층</strong>이기 때문이다. 그래서 메모리 주도 컴퓨팅, [랙 스케일 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/639_rack_scale_architecture/), 컴포저블 인프라와 자연스럽게 연결된다. 특히 메모리 수요 변동이 큰 분석 워크로드에서는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀이 슬롯 기반 증설보다 훨씬 유연하고, 네트워크 원격 메모리보다 훨씬 단순한 소프트웨어 모델을 제공한다.
 
 - **📢 섹션 요약 비유**: 로컬 DRAM이 책상 서랍이라면, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 자원 풀은 같은 사무실의 공용 캐비닛이고, 네트워크 원격 자원은 다른 층 창고다. 무엇을 어디에 둘지는 꺼내는 빈도와 속도를 보고 정해야 한다.
 
@@ -90,7 +96,7 @@ CXL은 주변장치 상호연결 익스프레스 ([Peripheral Component Intercon
 
 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 메모리 수요가 시간대마다 크게 흔들리는 환경에서 특히 빛난다. 예를 들어 주간에는 온라인 트랜잭션이 많고, 야간에는 분석 배치가 몰리는 금융 시스템에서는 특정 시간대에만 메모리 수요가 급증한다. 이런 환경에서는 각 서버에 최대 메모리를 상시 장착하는 것보다, 야간 배치 노드에만 풀 자원을 더 붙였다가 다시 회수하는 편이 훨씬 효율적이다.
 
-반대로 가장 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 모두 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀에 올리는 것은 위험하다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 캐시의 핵심 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 초저지연 매칭 엔진처럼 수십 나노초 차이가 중요한 영역에서는 로컬 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 우선 원칙이 여전히 강하다. 따라서 기술사 관점의 판단은 CXL을 도입할지보다 **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 로컬에 남기고 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 풀로 밀어낼지**를 결정하는 데 있다.
+반대로 가장 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 모두 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀에 올리는 것은 위험하다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 캐시의 핵심 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 초저지연 매칭 엔진처럼 수십 나노초 차이가 중요한 영역에서는 로컬 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 우선 원칙이 여전히 강하다. 따라서 기술사 관점의 판단은 CXL을 도입할지보다 <strong>어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 로컬에 남기고 어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 풀로 밀어낼지</strong>를 결정하는 데 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,7 +119,7 @@ CXL은 주변장치 상호연결 익스프레스 ([Peripheral Component Intercon
 
 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 탄력성과 자산 활용률을 동시에 제공한다. 메모리나 가속기를 서버별로 묶어 두지 않으므로 증설 속도가 빨라지고, 동일한 하드웨어로 더 많은 수요 변동을 받아낼 수 있다. 하드웨어 교체 주기도 CPU·메모리·가속기별로 분리할 수 있어, 전체 장비를 한 번에 폐기하지 않아도 되는 이점이 생긴다.
 
-하지만 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 곧 단순함을 뜻하지는 않는다. 패브릭 관리, 장애 격리, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관측, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 뒤따르지 않으면 오히려 더 복잡한 시스템이 된다. 앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.x 패브릭과 랙 스케일 구성이 결합되면서 메모리뿐 아니라 가속기까지 유연하게 묶는 방향으로 확장되겠지만, 기억해야 할 핵심은 하나다. **자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 하드웨어를 더 사기 위한 기술이 아니라, 이미 가진 자원을 더 유연하게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 기술**이라는 점이다.
+하지만 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 곧 단순함을 뜻하지는 않는다. 패브릭 관리, 장애 격리, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관측, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 뒤따르지 않으면 오히려 더 복잡한 시스템이 된다. 앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 3.x 패브릭과 랙 스케일 구성이 결합되면서 메모리뿐 아니라 가속기까지 유연하게 묶는 방향으로 확장되겠지만, 기억해야 할 핵심은 하나다. <strong>자원 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>은 하드웨어를 더 사기 위한 기술이 아니라, 이미 가진 자원을 더 유연하게 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 위한 기술</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 자원 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 큰 도서관의 대출 시스템과 같다. 책을 사람마다 영구 소유하게 두는 대신, 읽는 동안만 빌려주면 훨씬 적은 책으로 더 많은 독자를 만족시킬 수 있다.
 
@@ -131,21 +137,23 @@ CXL은 주변장치 상호연결 익스프레스 ([Peripheral Component Intercon
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서버별 고정 증설
-    │
-    ▼
-메모리 확장 카드
-    │
-    ▼
-CXL 2.0 스위칭 · 메모리 풀링
-    │
-    ▼
-CXL 3.x 패브릭 · 장치 간 공유
-    │
-    ▼
-컴포저블 랙 스케일 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서버별 고정 증설</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 확장 카드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL 2.0 스위칭 · 메모리 풀링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL 3.x 패브릭 · 장치 간 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴포저블 랙 스케일 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 슬롯 기반 확장에서 패브릭 기반 조합형 인프라로 이동하는 방향을 보여준다.
 

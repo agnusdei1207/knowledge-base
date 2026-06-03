@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **Design Pattern ([디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/))**: 소프트웨어 설계에서 자주 발생하는 문제(Problem)들에 대해, 예전 천재 선배들이 피눈물 흘리며 검증해 둔 "재사용 가능한 정답 해결책 도면(Solution Blueprint)".
+  - <strong>Design Pattern (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>)</strong>: 소프트웨어 설계에서 자주 발생하는 문제(Problem)들에 대해, 예전 천재 선배들이 피눈물 흘리며 검증해 둔 "재사용 가능한 정답 해결책 도면(Solution Blueprint)".
   - 100% 완성된 코드가 아니다! (Ctrl+V 복붙 불가). 개념적인 '설계도(템플릿)'일 뿐이라서, 내 프로젝트의 자바(Java), 파이썬 언어 입맛에 맞게 빈칸을 채워 내 손으로 직접 깎아내야 하는 논리적 아키텍처다.
 
-- **필요성 (스파게티 코드의 붕괴와 소통 지옥 탈출)**: 신입 개발자 3명이 쇼핑몰을 짰다. 1) DB 찌르는 객체를 1만 번 `new` 쳐서 메모리(RAM)가 1초 만에 터져 뻗음. 2) 쿠폰 할인 로직 추가할 때마다 기존 `if-else` 코드를 계속 고치다 괄호 꼬여서 전체 결제 셧다운 됨([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 파괴). 3) 3명 각자 자기 맘대로 스파게티로 짜놔서 다른 놈 코드를 도저히 이해 못 해 디버깅하다 다 퇴사함. **"아 ㅆㅂ! 매번 바퀴를 새로 발명(Reinventing the wheel)하지 마!! 옛날 선배님들이 이런 지옥 터질 때마다 깔끔하게 막아낼 '정석 방어막 도면' 23개를 책으로 찍어놨으니까, 우린 걍 이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 보면서 '여기선 A 패턴 써!' 1초 만에 찍어 누르고 레고처럼 조립만 치자!!"** 이 피맺힌 타임어택 생존 본능이 GoF의 패턴을 개발자들의 성경으로 만들었다.
+- **필요성 (스파게티 코드의 붕괴와 소통 지옥 탈출)**: 신입 개발자 3명이 쇼핑몰을 짰다. 1) DB 찌르는 객체를 1만 번 `new` 쳐서 메모리(RAM)가 1초 만에 터져 뻗음. 2) 쿠폰 할인 로직 추가할 때마다 기존 `if-else` 코드를 계속 고치다 괄호 꼬여서 전체 결제 셧다운 됨([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 파괴). 3) 3명 각자 자기 맘대로 스파게티로 짜놔서 다른 놈 코드를 도저히 이해 못 해 디버깅하다 다 퇴사함. <strong>"아 ㅆㅂ! 매번 바퀴를 새로 발명(Reinventing the wheel)하지 마!! 옛날 선배님들이 이런 지옥 터질 때마다 깔끔하게 막아낼 '정석 방어막 도면' 23개를 책으로 찍어놨으니까, 우린 걍 이 <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 보면서 '여기선 A 패턴 써!' 1초 만에 찍어 누르고 레고처럼 조립만 치자!!"</strong> 이 피맺힌 타임어택 생존 본능이 GoF의 패턴을 개발자들의 성경으로 만들었다.
 
-- **💡 비유**: [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 **'건축 공학의 뼈대 시공법(철근 콘크리트 공법 등)'**과 완벽히 똑같습니다. 무식한 초보자는 땅 파고 흙(if-else 떡칠) 대충 부어서 집을 짓다가 비 오면 다 무너집니다(버그 터짐). 고인물 건축가(아키텍트)는 100년 된 건축 규격책(GoF 패턴)을 엽니다. "야 여기 지진 많이 나니까 걍 <내진 설계 H빔 23호 공법([전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/))> 써!" 한마디 딱 지시하면, 인부들(개발자)은 군말 없이 그 도면 그대로 철근을 엮어 절대로 안 무너지는 튼튼한 100층 건물을 1초의 논쟁 없이 순식간에 올리는 궁극의 시공 규격화입니다.
+- **💡 비유**: [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)은 <strong>'건축 공학의 뼈대 시공법(철근 콘크리트 공법 등)'</strong>과 완벽히 똑같습니다. 무식한 초보자는 땅 파고 흙(if-else 떡칠) 대충 부어서 집을 짓다가 비 오면 다 무너집니다(버그 터짐). 고인물 건축가(아키텍트)는 100년 된 건축 규격책(GoF 패턴)을 엽니다. "야 여기 지진 많이 나니까 걍 <내진 설계 H빔 23호 공법([전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/))> 써!" 한마디 딱 지시하면, 인부들(개발자)은 군말 없이 그 도면 그대로 철근을 엮어 절대로 안 무너지는 튼튼한 100층 건물을 1초의 논쟁 없이 순식간에 올리는 궁극의 시공 규격화입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **건축가 알렉산더의 '패턴 언어' (1970)**: 뜬금없이 건축학계에서 "야 도시 건물 지을 때 겹치는 문제들 패턴으로 정리하자" 책이 나옴.
-  2. **GoF (Gang of Four) 4인방의 등장 (1994)**: 켄트 벡 동네의 4명의 C++ 천재들이 건축학 책을 보고 무릎을 탁 쳤다! "와 이거 객체 지향 소프트웨어 코드에도 100% 똑같이 족보 만들 수 있겠네!" ➡ 전설의 마스터피스 도서 **《[Design Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/): Elements of Reusable Object-Oriented Software》** 집필. C++/자바 생태계 천하 통일.
+  2. **GoF (Gang of Four) 4인방의 등장 (1994)**: 켄트 벡 동네의 4명의 C++ 천재들이 건축학 책을 보고 무릎을 탁 쳤다! "와 이거 객체 지향 소프트웨어 코드에도 100% 똑같이 족보 만들 수 있겠네!" ➡ 전설의 마스터피스 도서 <strong>《<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">Design Patterns</a>: Elements of Reusable Object-Oriented Software》</strong> 집필. C++/자바 생태계 천하 통일.
   3. **Spring 등 현대 프레임워크 뱃속으로 흡수 (현재)**: 지금 개발자들은 팩토리 패턴 쌩코딩 안 친다. 왜? Spring 프레임워크가 아예 지 뱃속 깊은 곳에 `BeanFactory`, `Observer` 엔진으로 이 23개 패턴을 모조리 융합해 숨겨놔서, 개발자는 걍 어노테이션(`@Autowired`) 딸깍 1번만 치면 0.1초 만에 1티어 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이 공짜로 동작하는 마술의 시대 꿀을 빨게 되었다.
 
-- **📢 섹션 요약 비유**: 이 패턴 규격화는 요리계의 **'백종원 황금 레시피 북'**입니다. 김치찌개(결제 로직) 끓일 때 간장 몇 스푼 넣고 끓여야 맛있는지 주니어들이 매일 요리 망치며 싸울 필요가 없습니다(재발명 낭비). 황금 족보 책(GoF) 펼쳐서 "야! 여기선 15번 레시피([옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)) 그대로 끓여!" 지시하면, 1년 차 주방장(신입)이 끓이든 10년 차(시니어)가 끓이든 100점 만점의 100% 완벽히 똑같은 꿀맛 찌개가 안정적으로 보장되는 절대 매뉴얼입니다.
+- **📢 섹션 요약 비유**: 이 패턴 규격화는 요리계의 <strong>'백종원 황금 레시피 북'</strong>입니다. 김치찌개(결제 로직) 끓일 때 간장 몇 스푼 넣고 끓여야 맛있는지 주니어들이 매일 요리 망치며 싸울 필요가 없습니다(재발명 낭비). 황금 족보 책(GoF) 펼쳐서 "야! 여기선 15번 레시피([옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)) 그대로 끓여!" 지시하면, 1년 차 주방장(신입)이 끓이든 10년 차(시니어)가 끓이든 100점 만점의 100% 완벽히 똑같은 꿀맛 찌개가 안정적으로 보장되는 절대 매뉴얼입니다.
 
 ---
 
 다음은 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 23가지 구조적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  디자인 패턴 23가지 구조적 분류                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 패턴 23가지 구조적 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 23가지 구조적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 23가지 구조적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 23가지 구조적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 23가지 구조적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-디자인 패턴 23가지 구조적 분류 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디자인 패턴 23가지 구조적 분류 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

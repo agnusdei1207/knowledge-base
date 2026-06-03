@@ -33,28 +33,25 @@ tags = ["studynote-computer-architecture"]
 
 대부분의 예측기는 로드 명령의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 키로 삼아 과거 충돌 이력을 저장한다. 대표적인 Store Sets 계열에서는 SSIT (Store Set ID Table)가 어떤 로드와 스토어가 같은 충돌 집합에 속하는지 관리하고, LFST (Last Fetched Store Table)가 그 집합에서 가장 최근의 미해결 스토어를 가리킨다. 로드가 디코드되면 예측기는 "이 로드가 기다려야 할 스토어가 있나?"를 먼저 묻고, 있으면 잠시 보류하고 없으면 투기적으로 실행시킨다.
 
-이 구조는 일회성 판단이 아니라 **예측 → 실행 → 위반 감지 → 학습 → [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)**라는 폐루프로 동작한다. 로드가 먼저 나갔다가 나중에 LSQ (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 같은 주소의 오래된 스토어와 충돌한 사실이 확인되면, 예측기는 두 명령의 관계를 더 강하게 기록한다. 반대로 한동안 충돌이 없으면 오래된 관계를 약화시켜 워크로드 단계가 바뀌어도 과거 이력에 과하게 묶이지 않도록 한다.
+이 구조는 일회성 판단이 아니라 <strong>예측 → 실행 → 위반 감지 → 학습 → <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a></strong>라는 폐루프로 동작한다. 로드가 먼저 나갔다가 나중에 LSQ (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 같은 주소의 오래된 스토어와 충돌한 사실이 확인되면, 예측기는 두 명령의 관계를 더 강하게 기록한다. 반대로 한동안 충돌이 없으면 오래된 관계를 약화시켜 워크로드 단계가 바뀌어도 과거 이력에 과하게 묶이지 않도록 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Memory dependence prediction feedback loop                               │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Decode Load PC                                                           │
-│      │                                                                   │
-│      ▼                                                                   │
-│   [SSIT] ---- set id ----> [LFST] ---- unresolved store? ---- yes ----┐ │
-│      │                                             │                    │ │
-│      └---------------- no ------------------------>│ issue load         │ │
-│                                                    ▼                    │ │
-│                                                wait / release           │ │
-│                                                                         │ │
-│ LSQ detects late conflict --------------------------------------------┐ │ │
-│                                                                       ▼ ▼ │
-│                    update relation, raise confidence, age old entries    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 예측기가 "주소 자체"를 맞히는 것이 아니라, **어떤 로드가 어떤 종류의 스토어와 자주 엮였는지**를 학습한다는 점이다. 그래서 완벽한 정답기가 아니라, 대기 비용과 재실행 비용 중 더 작은 쪽을 고르는 의사결정기라고 보는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory dependence prediction feedback loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode Load PC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSIT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LFST</div><div class="kb-diagram-note">---- unresolved store? ---- yes ----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---------------- no ------------------------&gt;</div><div class="kb-diagram-cell">issue load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait / release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSQ detects late conflict --------------------------------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update relation, raise confidence, age old entries</div></div>
+</div>
+</div>
+
+
+
+핵심은 예측기가 "주소 자체"를 맞히는 것이 아니라, <strong>어떤 로드가 어떤 종류의 스토어와 자주 엮였는지</strong>를 학습한다는 점이다. 그래서 완벽한 정답기가 아니라, 대기 비용과 재실행 비용 중 더 작은 쪽을 고르는 의사결정기라고 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 이 예측기는 학교 급식실의 자리 배치 기록과 같다. 자꾸 부딪히는 친구들끼리는 떨어뜨려 앉히고, 문제 없던 친구들은 그냥 먼저 지나가게 해 줄 때 줄이 가장 빨리 줄어든다.
 
@@ -70,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 | 맹목적 추측 | 기다림 최소화 | 위반 시 플러시 비용 큼 | 충돌이 극히 드문 경우 |
 | 예측 기반 실행 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성의 균형 | 예측 테이블 비용 필요 | 현대 고성능 코어 |
 
-분기 예측기와의 비교도 중요하다. 분기 예측기는 **어느 명령을 가져올지**를 맞히고, 메모리 의존성 예측기는 **가져온 로드를 지금 실행해도 될지**를 맞힌다. 즉 하나는 제어 흐름의 투기이고, 다른 하나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성의 투기다. 두 장치가 모두 잘 동작해야 넓은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우가 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어진다.
+분기 예측기와의 비교도 중요하다. 분기 예측기는 <strong>어느 명령을 가져올지</strong>를 맞히고, 메모리 의존성 예측기는 <strong>가져온 로드를 지금 실행해도 될지</strong>를 맞힌다. 즉 하나는 제어 흐름의 투기이고, 다른 하나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성의 투기다. 두 장치가 모두 잘 동작해야 넓은 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우가 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 이어진다.
 
 - **📢 섹션 요약 비유**: 분기 예측기가 "어느 길로 갈까?"를 정하는 내비게이션이라면, 메모리 의존성 예측기는 "지금 차를 보내도 앞차와 안 부딪힐까?"를 보는 교차로 센서와 같다.
 
@@ -83,8 +80,8 @@ tags = ["studynote-computer-architecture"]
 1. **위반률**: 로드 재실행이 얼마나 자주 일어나는가?
 2. **대기 손실**: 예측 때문에 불필요하게 묶인 로드가 얼마나 많은가?
 3. **단계 변화 대응**: 루프가 바뀌거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 바뀔 때 예측기가 빨리 적응하는가?
-4. **[에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) 완화**: 서로 다른 로드가 같은 테이블 엔트리를 공유해 거짓 충돌을 만들지는 않는가?
-5. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용**: 파이프라인 폭과 리오더 버퍼가 클수록 위반 한 번의 비용이 얼마나 커지는가?
+4. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/">에일리어싱</a> 완화</strong>: 서로 다른 로드가 같은 테이블 엔트리를 공유해 거짓 충돌을 만들지는 않는가?
+5. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용</strong>: 파이프라인 폭과 리오더 버퍼가 클수록 위반 한 번의 비용이 얼마나 커지는가?
 
 특히 포인터 기반 자료구조, 가상 함수 테이블, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색처럼 패턴이 일정하지 않은 코드에서는 예측기의 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 매우 중요하다. 오래된 충돌 이력을 계속 붙잡고 있으면 현재는 독립적인 로드까지 묶이기 쉽다. 반대로 너무 빨리 잊으면 반복 루프에서 같은 실수를 계속하게 된다.
 
@@ -98,7 +95,7 @@ tags = ["studynote-computer-architecture"]
 
 물론 한계도 있다. 충돌 관계가 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 따라 급변하면 예측이 흔들리고, 큰 테이블은 전력과 면적 비용을 만든다. 그래서 최근 연구는 PC만 보지 않고 경로 이력, 주소 패턴, 신뢰도까지 함께 보는 하이브리드 예측기와 경량 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 예측기로 확장되고 있다.
 
-결론적으로 메모리 의존성 예측기는 "로드를 먼저 보내도 되나?"라는 질문에 대한 하드웨어의 경험 기반 답변이다. 기억해야 할 핵심은, 이 장치가 정답을 미리 아는 것이 아니라 **기다림과 재실행 중 어느 쪽이 덜 비싼지**를 계속 학습한다는 점이다.
+결론적으로 메모리 의존성 예측기는 "로드를 먼저 보내도 되나?"라는 질문에 대한 하드웨어의 경험 기반 답변이다. 기억해야 할 핵심은, 이 장치가 정답을 미리 아는 것이 아니라 <strong>기다림과 재실행 중 어느 쪽이 덜 비싼지</strong>를 계속 학습한다는 점이다.
 
 - **📢 섹션 요약 비유**: 이 예측기는 팀장의 감과 비슷하다. 누가 누구와 일하면 자꾸 충돌하는지 기억해 두었다가, 다음 일정표를 짤 때는 그 경험을 이용해 일을 더 매끄럽게 배분한다.
 
@@ -117,24 +114,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모든 로드 보수적 대기
-    │
-    ▼
-맹목적 투기 실행
-    │
-    ▼
-충돌 비트 기반 예측
-    │
-    ▼
-스토어 세트 기반 학습
-    │
-    ▼
-신뢰도·노화 결합 예측
-    │
-    ▼
-하이브리드·ML 기반 예측
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모든 로드 보수적 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">맹목적 투기 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">충돌 비트 기반 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토어 세트 기반 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">신뢰도·노화 결합 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드·ML 기반 예측</div>
+</div>
+</div>
+
+
 
 이 흐름은 "무조건 기다리기 → 무조건 내보내기 → 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반영한 선택적 판단"으로 메모리 투기가 정교해지는 과정을 보여준다.
 

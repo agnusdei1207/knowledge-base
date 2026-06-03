@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 개발자 10명이 각자 10개의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 만들었다. 이제 이 100개의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 하나로 합쳐서 완제품을 만들어야 한다.
 가장 무식하고 직관적인 방법은 무엇일까? "야, 각자 만든 거 깃허브 메인 브랜치에 다 올려. 빌드 버튼 누르고 실행해 보자!"
-이것이 우주가 한 점에서 폭발하여 한순간에 생겨났다는 이론에서 이름을 따온 **빅뱅 통합(Big Bang Integration)**이다.
+이것이 우주가 한 점에서 폭발하여 한순간에 생겨났다는 이론에서 이름을 따온 <strong>빅뱅 통합(Big Bang Integration)</strong>이다.
 
 * **왜 이런 짓을 할까?**
   점진적으로(하나씩) 조립하려면, 아직 안 만들어진 부품을 흉내 내는 가짜 로봇([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 드라이버)을 만드는 데 엄청난 시간과 코딩이 들어간다. 규모가 작거나 일정이 쪼들리는 팀은 "가짜 객체 짤 시간 어딨어! 그냥 다 만들 때까지 각자 코딩하고 마감일에 한 번에 합치자!"라는 유혹에 빠지게 된다.
@@ -34,18 +34,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 빅뱅 통합 (Big Bang Inte의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  빅뱅 통합 (Big Bang Inte                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅뱅 통합 (Big Bang Inte</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 빅뱅 통합 (Big Bang Inte가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -57,7 +56,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-작은 졸업 작품 프로젝트에서는 잘 먹히지만, 상용 소프트웨어에서 빅뱅 통합을 시도하면 **'[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 격리(Fault [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 실패'**라는 파멸을 맞이한다.
+작은 졸업 작품 프로젝트에서는 잘 먹히지만, 상용 소프트웨어에서 빅뱅 통합을 시도하면 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 격리(Fault <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>) 실패'</strong>라는 파멸을 맞이한다.
 
 1. **원인 추적 불가 (버그의 은닉)**
    - 시스템을 실행했더니 `NullPointerException`이 뜨며 서버가 죽었다.
@@ -67,23 +66,22 @@ tags = ["studynote-software-engineering"]
 3. **후반부 일정 폭발**
    - 개발 기간 내내 평화롭다가, 마감일(통합일)에 수백 개의 결합 오류가 한꺼번에 쏟아져 나온다. 오류를 고치면 다른 곳이 또 터지는 연쇄 폭발이 일어나 프로젝트 납기일이 무한정 밀리게 된다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│           점진적 통합 vs 빅뱅 통합의 디버깅 난이도 시각화             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ 🛡️ [ 점진적 통합 (Incremental) ]                                      │
-│   A + B 결합 = 성공! 🟢                                               │
-│   (A+B) + C 결합 = 에러! 🔴  ▶ 범인은 방금 붙인 [ C ] 다! 즉각 수정!  │
-│                                                                       │
-│                                                                       │
-│ 💣 [ 빅뱅 통합 (Big Bang) ]                                           │
-│   (A+B+C+D+E+F+G+H+I+J) 한 번에 결합 = 에러! 🔴                       │
-│                                                                       │
-│   ▶ 개발자: "잠깐만.. A가 뱉은 데이터가 E를 거쳐서 J에서 터진건가?    │
-│             아니면 B랑 H가 충돌한건가? 아예 모르겠어 살려줘 ㅠㅠ"     │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점진적 통합 vs 빅뱅 통합의 디버깅 난이도 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">점진적 통합 (Incremental)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A + B 결합 = 성공! 🟢</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">다! 즉각 수정!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">빅뱅 통합 (Big Bang)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A+B+C+D+E+F+G+H+I+J) 한 번에 결합 = 에러! 🔴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 개발자: "잠깐만.. A가 뱉은 데이터가 E를 거쳐서 J에서 터진건가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니면 B랑 H가 충돌한건가? 아예 모르겠어 살려줘 ㅠㅠ"</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -169,21 +167,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-빅뱅 통합 (Big Bang Integration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빅뱅 통합 (Big Bang Integration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

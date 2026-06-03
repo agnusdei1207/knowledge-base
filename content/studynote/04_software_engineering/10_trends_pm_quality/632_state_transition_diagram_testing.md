@@ -21,10 +21,10 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 시스템은 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)), 이벤트(Event), 전이(Transition), 조치(Action) 4가지 요소로 움직이는 유한 상태 기계(Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)로 모델링될 수 있다. 상태 전이 테스팅은 이 상태 머신이 설계된 다이어그램을 바탕으로, 가능한 모든 '상태 전이 경로'를 통과해 보는 테스트 스크립트를 도출하는 기법이다.
 
-- **필요성**: 웹사이트에서 '결제하기' 버튼을 누른다. 장바구니에 물건이 없으면([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Empty) 아무 일도 안 일어나고, 물건이 있으면([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Filled) 결제창으로 넘어간다. 똑같이 '결제 버튼 클릭(Event)'을 했는데 시스템의 반응이 다르다. 즉, 소프트웨어는 **과거의 상태를 기억하고 있기 때문**이다. 만약 개발자가 상태 관리를 잘못해서 결제 완료 후([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Paid)에 뒤로가기를 눌러 다시 결제 버튼을 누르는 걸 막지 않았다면? 이중 결제가 터진다. 이처럼 순서(Sequence)가 꼬였을 때 발생하는 최악의 버그를 막으려면 상태 간의 모든 이동 경로를 지도로 그려놓고 밟아보는 수밖에 없다.
+- **필요성**: 웹사이트에서 '결제하기' 버튼을 누른다. 장바구니에 물건이 없으면([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Empty) 아무 일도 안 일어나고, 물건이 있으면([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Filled) 결제창으로 넘어간다. 똑같이 '결제 버튼 클릭(Event)'을 했는데 시스템의 반응이 다르다. 즉, 소프트웨어는 <strong>과거의 상태를 기억하고 있기 때문</strong>이다. 만약 개발자가 상태 관리를 잘못해서 결제 완료 후([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/): Paid)에 뒤로가기를 눌러 다시 결제 버튼을 누르는 걸 막지 않았다면? 이중 결제가 터진다. 이처럼 순서(Sequence)가 꼬였을 때 발생하는 최악의 버그를 막으려면 상태 간의 모든 이동 경로를 지도로 그려놓고 밟아보는 수밖에 없다.
 
 - **💡 비유**: 지하철 개찰구(Turnstile)를 상상해 봅시다.
-  - **상태 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**: 개찰구는 '잠김(Locked)' 또는 '열림(Unlocked)' 두 가지 상태만 있습니다.
+  - <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 개찰구는 '잠김(Locked)' 또는 '열림(Unlocked)' 두 가지 상태만 있습니다.
   - **이벤트 (Event)**: '교통카드 찍기' 또는 '사람이 밀고 들어가기'라는 사건이 일어납니다.
   - **정상 전이 (Positive)**: '잠김' 상태에서 카드를 찍으면, 삑 소리가 나고 '열림' 상태로 바뀝니다.
   - **비정상 전이 (Negative)**: '잠김' 상태에서 카드를 안 찍고 몸으로 밀고 들어가려 하면, 삐빅! 경고음(Action)이 울리고 개찰구는 여전히 '잠김' 상태를 유지해야 합니다. 
@@ -32,7 +32,7 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **순서 의존적 버그의 폭발**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) GUI 시스템과 웹이 발전하면서 사용자가 뒤로가기, 새로고침, 창 닫기를 마음대로 누름에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬임 현상이 속출했다.
-  2. **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 상태 다이어그램의 차용**: 객체지향 설계([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 Statechart Diagram이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계 도구로 차용되며 블랙박스 기법으로 정립되었다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> 상태 다이어그램의 차용</strong>: 객체지향 설계([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 Statechart Diagram이 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 설계 도구로 차용되며 블랙박스 기법으로 정립되었다.
   3. **N-Switch 커버리지로의 진화**: 단순히 A에서 B로 가는 것(0-Switch)을 넘어, "A→B→C로 갔다가 다시 A로 돌아오는" N번 연속된 상태 변화(N-Switch Coverage)까지 수학적으로 커버하는 고급 기법으로 고도화되었다.
 
 - **📢 섹션 요약 비유**: 상태 전이 다이어그램은 롤플레잉 게임(RPG)에서 퀘스트 지도를 그리는 것과 같습니다. 유저가 "검을 먼저 줍고(상태 1), 마을 촌장에게 말을 걸어야만(이벤트)" 숨겨진 던전 문이 열리는데, 순서를 어기거나 엉뚱한 행동을 했을 때 게임이 튕기지 않고 안전하게 안내 메시지를 주는지 모든 갈림길을 걸어가 보는 꼼꼼한 모험입니다.
@@ -41,18 +41,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transit의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  상태 전이 (State Transit                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 전이 (State Transit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transit가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -73,7 +72,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transition) 다이어그램의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transition) 다이어그램의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 상태 전이 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Transition) 다이어그램의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -149,21 +148,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-상태 전이 (State Transition) 다이어그램 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 전이 (State Transition) 다이어그램 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

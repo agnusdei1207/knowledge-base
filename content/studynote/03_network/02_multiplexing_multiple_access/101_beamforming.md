@@ -31,25 +31,24 @@ tags = ["network"]
 
 빔포밍의 심장부는 **위상 천이기(Phase Shifter)** 와 **파동의 보강/상쇄 간섭** 원리다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리    │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [기저대역 신호] ───────▶ 분배 (위상 지연 계산)                  │
-│                                                              │
-│        [PS 1]      [PS 2]      [PS 3]      [PS 4]            │
-│         │ (0초)     │ (0.1초 지연)│ (0.2초 지연)│ (0.3초 지연)       │
-│        [Ant 1]     [Ant 2]     [Ant 3]     [Ant 4]           │
-│         │           │           │           │                │
-│         ))))        │           │           │                │
-│             ))))    )           │           │    기울어진 파면    │
-│                 ))))│  )        )           │   (Wavefront)  │
-│                     ││    ))))  │)          )  ============▶ │
-│                     ││        ││   ))))     │   원하는 타겟 각도  │
-│                     ││        ││         ││                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 신호</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분배 (위상 지연 계산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PS 1</div><div class="kb-diagram-node">PS 2</div><div class="kb-diagram-node">PS 3</div><div class="kb-diagram-node">PS 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0초)</div><div class="kb-diagram-cell">(0.1초 지연)</div><div class="kb-diagram-cell">(0.2초 지연)</div><div class="kb-diagram-cell">(0.3초 지연)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ant 1</div><div class="kb-diagram-node">Ant 2</div><div class="kb-diagram-node">Ant 3</div><div class="kb-diagram-node">Ant 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">)))) )</div><div class="kb-diagram-cell">기울어진 파면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">) )</div><div class="kb-diagram-cell">(Wavefront)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">) ) ============▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">원하는 타겟 각도</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 어떻게 꺾이는지를 보여준다. 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자(Ant 1~4)에서 전파가 뿜어져 나올 때, 위상 천이기(PS)가 신호의 출발 타이밍을 인위적으로 미세하게 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다. Ant 1이 가장 먼저 쏘고 Ant 4가 가장 늦게 쏘면 공간에서 퍼져나가는 파동의 파면(Wavefront)이 대각선으로 형성된다. 이 계산된 각도에서 보강 간섭이 일어나 에너지가 극대화되고, 나머지 각도에서는 파동이 찌그러지며 상쇄된다. [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) 프로세서는 단말로부터 채널 상태 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))를 피드백받아 이 정밀한 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Vector)을 밀리초 단위로 실시간 연산해 낸다.
 
@@ -65,11 +64,11 @@ tags = ["network"]
 |:---|:---|:---|:---|
 | **위상 제어 위치** | RF (Radio Frequency) 계층 | [Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) ([기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) 계층 | [Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) + RF 계층 결합 |
 | **RF 체인(Chain) 수** | 1개 (전체 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 공유) | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자 수와 동일 (매우 많음) | 서브 어레이 묶음 개수만큼 |
-| **동시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 빔 수** | 1개 (단일 방향 조향) | 다수 (독립적인 여러 방향 동시 조향) | RF 체인 수에 비례 (효율적 타협) |
+| <strong>동시 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 빔 수</strong> | 1개 (단일 방향 조향) | 다수 (독립적인 여러 방향 동시 조향) | RF 체인 수에 비례 (효율적 타협) |
 | **설계 복잡도 및 전력** | 낮음 / 저전력 | 매우 높음 / 고비용 및 대규모 발열 | 중간 (실무 최적화) |
-| **적용 환경** | 과거 레이더, 단순 단일 링크 | Sub-6GHz 대역 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 | **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 대역 기지국 표준** |
+| **적용 환경** | 과거 레이더, 단순 단일 링크 | Sub-6GHz 대역 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a> 대역 기지국 표준</strong> |
 
-아날로그 방식은 전력 소모가 적지만 한 번에 한 방향으로만 빔을 쏠 수 있다. 반면 디지털 방식은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 개수만큼 각각 DAC/ADC와 증폭기를 달아 무한한 방향의 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))를 이루지만, 수십~수백 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쓰는 [mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경에서는 발열과 비용이 감당 불가능한 수준으로 치솟는다. 따라서 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 하나의 묶음(Sub-[array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))으로 단위화하여 아날로그로 묶고, 그 묶음들 사이를 디지털로 개별 제어하는 **하이브리드 빔포밍**이 28GHz 이상 초고주파 통신의 결정적 해답이 되었다.
+아날로그 방식은 전력 소모가 적지만 한 번에 한 방향으로만 빔을 쏠 수 있다. 반면 디지털 방식은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 개수만큼 각각 DAC/ADC와 증폭기를 달아 무한한 방향의 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))를 이루지만, 수십~수백 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쓰는 [mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경에서는 발열과 비용이 감당 불가능한 수준으로 치솟는다. 따라서 여러 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 하나의 묶음(Sub-[array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))으로 단위화하여 아날로그로 묶고, 그 묶음들 사이를 디지털로 개별 제어하는 <strong>하이브리드 빔포밍</strong>이 28GHz 이상 초고주파 통신의 결정적 해답이 되었다.
 
 - **📢 섹션 요약 비유**: 아날로그가 건물 옥상의 거대한 서치라이트 한 개를 돌려 한 명씩 비추는 것이고, 디지털이 수천 명에게 각각 개인용 레이저를 쏴주는 비싼 방식이라면, 하이브리드는 서치라이트를 10개만 달아서 가성비와 다중 처리 효율의 균형을 맞춘 현명한 타협안이다.
 
@@ -80,7 +79,7 @@ tags = ["network"]
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 설계 및 기지국 파라미터 튜닝 시, 엔지니어는 빔포밍의 빛과 그림자를 모두 통제해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **빔 관리 (Beam [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 및 추적 로직 최적화**: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경의 도심지에서는 가로수나 트럭 한 대만 지나가도 직접파(LOS)가 끊겨 통신 품질이 급락한다. 설계자는 단말이 기지국과 통신할 때 하나의 메인 빔(Serving Beam)만 믿지 말고, 주변 건물에 반사되는 간접파 경로를 예비 빔(Candidate Beam)으로 백그라운드 탐색하도록 빔 스위칭 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드를 튜닝해야 한다.
+1. <strong>빔 관리 (Beam <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>) 및 추적 로직 최적화</strong>: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 환경의 도심지에서는 가로수나 트럭 한 대만 지나가도 직접파(LOS)가 끊겨 통신 품질이 급락한다. 설계자는 단말이 기지국과 통신할 때 하나의 메인 빔(Serving Beam)만 믿지 말고, 주변 건물에 반사되는 간접파 경로를 예비 빔(Candidate Beam)으로 백그라운드 탐색하도록 빔 스위칭 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드를 튜닝해야 한다.
 2. **널 스티어링 (Null Steering) 기반 간섭 제어**: 빔을 원하는 사용자에게 조준하는 것만큼이나, 다른 사용자에게 '상쇄 간섭(Null)'을 유도하여 전파가 아예 도달하지 못하게 깎아내는 기술이 핵심이다. 셀(Cell) 경계 지역에서 인접 기지국과 협력하여 타겟 단말을 방해하는 파동의 역위상을 쏘아 간섭을 0으로 만드는 빔포밍 협력 기법을 적용해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -92,7 +91,7 @@ tags = ["network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-빔포밍(Beamforming) 기술은 무선 통신의 에너지를 360도 무작위 살포에서 **타겟 지향적 공간 집중**으로 진화시킨 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 혁명의 마스터키다. 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 일으키던 필연적인 셀 간 간섭을 상쇄하고, 신호대잡음비([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 극대화함으로써 한정된 주파수 자원을 여러 사용자에게 동시에 분할 재사용([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))할 수 있는 SDMA의 길을 열었다.
+빔포밍(Beamforming) 기술은 무선 통신의 에너지를 360도 무작위 살포에서 <strong>타겟 지향적 공간 집중</strong>으로 진화시킨 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 혁명의 마스터키다. 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 일으키던 필연적인 셀 간 간섭을 상쇄하고, 신호대잡음비([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))를 극대화함으로써 한정된 주파수 자원을 여러 사용자에게 동시에 분할 재사용([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/))할 수 있는 SDMA의 길을 열었다.
 
 미래의 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 네트워크에서는 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)) 대역의 도입으로 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자가 마이크로미터 단위로 작아져 수만 개의 소자를 집적하는 Ultra-[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 아키텍처로 확장될 것이다. 더 나아가, 환경 자체가 전파를 반사하고 굴절시켜 빔을 전달해 주는 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)(RIS, Reconfigurable Intelligent Surface) 기술과 융합하여, 능동 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 사각지대마저 무전원 패시브 방식으로 메워버리는 3차원 입체 빔포밍 통신망으로 사상을 완성해 나갈 것이다.
 
@@ -104,31 +103,32 @@ tags = ["network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) (대규모 다중 입력 다중 출력)** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자를 수십~수백 개로 대폭 늘려, 빔을 더 가늘고 뾰족하게 만들어 빔포밍의 지향성과 다중 사용자 처리(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 성능을 극대화하는 물리적 기반 |
-| **[CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)** | 단말이 기지국으로 피드백하는 현재 전파 채널 환경 정보로, 기지국이 위상 천이기의 정확한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 계산하는 필수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **SDMA (Space [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** | 빔포밍을 이용해 서로 다른 공간(방향)에 있는 여러 사용자가 동일한 주파수를 동시에 사용할 수 있게 하는 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> (대규모 다중 입력 다중 출력)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자를 수십~수백 개로 대폭 늘려, 빔을 더 가늘고 뾰족하게 만들어 빔포밍의 지향성과 다중 사용자 처리(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 성능을 극대화하는 물리적 기반 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a> (Channel <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Information)</strong> | 단말이 기지국으로 피드백하는 현재 전파 채널 환경 정보로, 기지국이 위상 천이기의 정확한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 계산하는 필수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| <strong>SDMA (Space <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a>)</strong> | 빔포밍을 이용해 서로 다른 공간(방향)에 있는 여러 사용자가 동일한 주파수를 동시에 사용할 수 있게 하는 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 기술 |
 | **RIS (Reconfigurable Intelligent Surface)** | 기지국이 쏜 빔이 건물에 막힐 때, 벽면의 메타물질이 전파의 반사 각도를 인위적으로 조작하여 사각지대로 굴절시켜 주는 차세대 무선 보조 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무지향성 (Omni) 및 섹터 (Sector) 안테나
-    │
-    ▼
-신호 에너지 낭비 및 셀 간 전파 간섭 한계 직면
-    │
-    ▼
-빔포밍 (Beamforming) 및 위상 제어 기술 도입
-    │
-    ▼
-공간 분할 다중 접속 (SDMA) 구현 및 용량 극대화
-    │
-    ▼
-아날로그/디지털 결합: 하이브리드 (Hybrid) 빔포밍 표준화
-    │
-    ▼
-Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무지향성 (Omni) 및 섹터 (Sector) 안테나</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">신호 에너지 낭비 및 셀 간 전파 간섭 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빔포밍 (Beamforming) 및 위상 제어 기술 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간 분할 다중 접속 (SDMA) 구현 및 용량 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아날로그/디지털 결합: 하이브리드 (Hybrid) 빔포밍 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 어두운 방에서 친구를 찾을 때 방 전체를 밝히는 큰 전등을 켜면 전기를 많이 먹고 다른 친구들 눈까지 부시게 만들어요.

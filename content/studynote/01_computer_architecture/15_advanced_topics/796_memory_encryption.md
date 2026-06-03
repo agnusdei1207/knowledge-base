@@ -21,15 +21,17 @@ tags = ["studynote-computer-architecture"]
 
 운영체제가 아무리 메모리 접근을 제어해도, 공격자가 물리적으로 DRAM을 읽거나 더 높은 권한에서 메모리를 덤프하면 평문이 노출될 수 있다. 메모리 암호화는 이 문제를 해결하기 위해, CPU 패키지 안에서만 평문을 두고 외부 메모리에는 암호문 형태로 저장하게 만든다. 즉 "메모리는 넓지만 믿지 못한다"는 전제에서 출발한 기술이다. 특히 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드에서 이 기능은 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 기본 토대가 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Plain inside package, cipher outside           │
-├──────────────────────────────────────────────────────────────┤
-│ Core / cache -> memory controller + crypto -> DRAM          │
-│                                                              │
-│ Attacker sees encrypted lines on bus / in DIMM              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plain inside package, cipher outside</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core / cache -&gt; memory controller + crypto -&gt; DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker sees encrypted lines on bus / in DIMM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 중요한 편지를 방 안에서만 읽고, 밖으로 나갈 때는 자동으로 암호 편지로 바뀌게 하는 우편함과 같다.
 
@@ -46,15 +48,17 @@ tags = ["studynote-computer-architecture"]
 | Intel 다중 키 계열 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)/키 그룹별 | 세밀한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능 |
 | MEE | 암호 엔진 일반 개념 | 메모리 컨트롤러 근처 실시간 처리 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Typical memory-encryption data path            │
-├──────────────────────────────────────────────────────────────┤
-│ CPU core -> cache -> MEE -> memory bus -> encrypted DRAM    │
-│                         ▲                                    │
-│                         └─ key managed in secure hardware    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical memory-encryption data path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU core -&gt; cache -&gt; MEE -&gt; memory bus -&gt; encrypted DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ key managed in secure hardware</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 택배 상자에 자동 봉인 기계가 붙어 있어서, 창고 밖으로 나가는 순간부터 내용물이 봉인되는 구조와 같다.
 
@@ -101,18 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CPU Plaintext Domain]
-    │
-    ▼
-[Memory Encryption Engine]
-    │
-    ▼
-[Encrypted DRAM / Bus]
-    │
-    ├──▶ [Physical Theft Resistance]
-    └──▶ [Confidential VM Foundation]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Plaintext Domain</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory Encryption Engine</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Encrypted DRAM / Bus</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Physical Theft Resistance</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Confidential VM Foundation</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 평문이 CPU 패키지 안에서만 유지되고, 외부 메모리로 나가는 순간 암호화되어 더 큰 기밀 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 구조의 기반이 되는 과정을 보여준다. 즉 메모리 암호화는 상위 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 하부 인프라다.
 

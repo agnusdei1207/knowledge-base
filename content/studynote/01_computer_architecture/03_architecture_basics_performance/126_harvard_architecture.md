@@ -19,33 +19,31 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-하버드 아키텍처는 **프로그램 코드와 연산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음부터 다른 통로로 다루는 컴퓨터 구조**다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메모리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리를 물리적으로 분리하고, 각각에 독립된 주소/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 둠으로써 CPU (Central Processing Unit)가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽는 일과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 일을 겹쳐 수행할 수 있게 한다.
+하버드 아키텍처는 <strong>프로그램 코드와 연산 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 처음부터 다른 통로로 다루는 컴퓨터 구조</strong>다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메모리와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리를 물리적으로 분리하고, 각각에 독립된 주소/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 둠으로써 CPU (Central Processing Unit)가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽는 일과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 일을 겹쳐 수행할 수 있게 한다.
 
 이 구조가 필요한 이유는 폰 노이만 구조에서 하나의 메모리와 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 함께 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문이다. CPU가 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 인출하는 순간에 현재 명령의 피연산자까지 같은 길로 가져오려 하면 충돌이 생기고, 그 결과 파이프라인은 잠깐씩 멈춘다. 이런 구조적 충돌은 범용 컴퓨팅에서는 감당 가능해도, 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기인 DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)나 마이크로컨트롤러인 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)처럼 일정한 시간 안에 반드시 반응해야 하는 환경에서는 치명적이다.
 
-특히 제어 시스템은 평균 속도보다 **최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간의 예측 가능성**이 더 중요하다. 모터 제어, 센서 샘플링, 오디오 스트리밍처럼 매 주기마다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 반복되는 작업에서는, 메모리 경합이 적을수록 타이밍 계산이 쉬워지고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답도 안정된다. 하버드 아키텍처는 바로 그 예측 가능성을 하드웨어 수준에서 확보하려는 선택이다.
+특히 제어 시스템은 평균 속도보다 <strong>최악 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 예측 가능성</strong>이 더 중요하다. 모터 제어, 센서 샘플링, 오디오 스트리밍처럼 매 주기마다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 반복되는 작업에서는, 메모리 경합이 적을수록 타이밍 계산이 쉬워지고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 응답도 안정된다. 하버드 아키텍처는 바로 그 예측 가능성을 하드웨어 수준에서 확보하려는 선택이다.
 
-이 그림은 왜 분리가 필요한지를 보여준다. 핵심은 메모리 용량의 크기가 아니라 **길을 몇 개로 나누었는가**다.
+이 그림은 왜 분리가 필요한지를 보여준다. 핵심은 메모리 용량의 크기가 아니라 <strong>길을 몇 개로 나누었는가</strong>다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        같은 CPU라도 "길 하나"와 "길 둘"은 동작 감각이 다르다        │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 폰 노이만 구조                │ 하버드 아키텍처                     │
-│                               │                                      │
-│ [코드+데이터 공용 메모리]     │ [명령어 메모리]   [데이터 메모리]   │
-│            │                  │        │                 │           │
-│            ▼                  │        ▼                 ▼           │
-│          [단일 버스]           │   [명령어 버스]     [데이터 버스]   │
-│            │                  │        │                 │           │
-│            ▼                  │        └──────┬──────────┘           │
-│           CPU                 │               ▼                      │
-│                               │              CPU                     │
-│ 명령어 인출과 데이터 접근 충돌 │ 명령어 인출과 데이터 접근 병행 가능 │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
 
-즉, 하버드 아키텍처는 단순히 "메모리를 둘로 나눈 설계"가 아니라, **시간에 민감한 계산에서 충돌을 줄이기 위한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 CPU라도 "길 하나"와 "길 둘"은 동작 감각이 다르다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 노이만 구조</div><div class="kb-diagram-cell">하버드 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드+데이터 공용 메모리</div><div class="kb-diagram-node">명령어 메모리</div><div class="kb-diagram-node">데이터 메모리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 버스</div><div class="kb-diagram-node">명령어 버스</div><div class="kb-diagram-node">데이터 버스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 인출과 데이터 접근 충돌</div><div class="kb-diagram-cell">명령어 인출과 데이터 접근 병행 가능</div></div>
+</div>
+</div>
+
+
+
+즉, 하버드 아키텍처는 단순히 "메모리를 둘로 나눈 설계"가 아니라, <strong>시간에 민감한 계산에서 충돌을 줄이기 위한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 분리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 좁은 부엌에서 요리책과 재료를 같은 선반에서 번갈아 꺼내면 손이 꼬인다. 하버드 구조는 요리책 선반과 재료 선반을 따로 둬서, 한 손은 읽고 다른 손은 바로 조리하게 만드는 주방 배치다.
 
@@ -53,7 +51,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하버드 아키텍처의 핵심 원리는 간단하다. **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 분리해 CPU 내부 단계가 서로 다른 메모리 자원을 동시에 사용하게 만드는 것**이다. 이때 분리 대상은 메모리 칩 자체일 수도 있고, 내부 캐시 계층일 수도 있다. 중요한 것은 저장 위치보다도 CPU가 보는 인터페이스가 독립적이라는 점이다.
+하버드 아키텍처의 핵심 원리는 간단하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 분리해 CPU 내부 단계가 서로 다른 메모리 자원을 동시에 사용하게 만드는 것</strong>이다. 이때 분리 대상은 메모리 칩 자체일 수도 있고, 내부 캐시 계층일 수도 있다. 중요한 것은 저장 위치보다도 CPU가 보는 인터페이스가 독립적이라는 점이다.
 
 전형적인 구조에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory)이나 플래시 메모리에서 읽고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 RAM (Random Access Memory)이나 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory)에서 읽고 쓴다. MCU에서는 이 구성이 특히 자연스럽다. 펌웨어는 자주 바뀌지 않으므로 비휘발성 메모리에 두고, 실행 중 바뀌는 변수와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리에 둔다.
 
@@ -67,24 +65,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 파이프라인 관점에서 왜 하버드 아키텍처가 유리한지 보여준다. 폰 노이만 구조에서는 IF ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch)와 MEM (Memory Access)이 같은 자원을 두고 경쟁하지만, 하버드 구조에서는 그 경쟁이 처음부터 줄어든다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            파이프라인에서 보는 하버드 아키텍처의 이점               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Cycle      1      2      3      4      5      6                     │
-│                                                                      │
-│ 명령 A    [IF]   [ID]   [EX]   [MEM]  [WB]                           │
-│ 명령 B           [IF]   [ID]   [EX]   [MEM]  [WB]                    │
-│ 명령 C                  [IF]   [ID]   [EX]   [MEM]  [WB]             │
-│                                                                      │
-│ 폰 노이만 구조 : Cycle 4에서 A의 [MEM] 과 D의 [IF] 가 자원 충돌      │
-│ 하버드 구조  : A의 [MEM] 은 데이터 버스, D의 [IF] 는 명령어 버스 사용 │
-│                                                                      │
-│ 결과: Fetch와 Load/Store가 겹쳐도 구조적 해저드가 크게 줄어든다      │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-다만 하버드 구조가 모든 병목을 없애는 것은 아니다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성, 캐시 미스처럼 다른 원인의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 여전히 남는다. 즉 하버드 아키텍처는 "CPU를 무조건 빠르게 만드는 마법"이 아니라, **메모리 통로 하나 때문에 생기는 불필요한 대기를 줄이는 구조적 개선**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인에서 보는 하버드 아키텍처의 이점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">명령 A</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">명령 B</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">명령 C</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">폰 노이만 구조 : Cycle 4에서 A의</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">과 D의</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">가 자원 충돌</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">하버드 구조 : A의</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">은 데이터 버스, D의</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">는 명령어 버스 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: Fetch와 Load/Store가 겹쳐도 구조적 해저드가 크게 줄어든다</div></div>
+</div>
+</div>
+
+
+
+다만 하버드 구조가 모든 병목을 없애는 것은 아니다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성, 캐시 미스처럼 다른 원인의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 여전히 남는다. 즉 하버드 아키텍처는 "CPU를 무조건 빠르게 만드는 마법"이 아니라, <strong>메모리 통로 하나 때문에 생기는 불필요한 대기를 줄이는 구조적 개선</strong>이다.
 
 또 하나의 특징은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 폭을 다르게 설계할 수 있다는 점이다. 어떤 MCU는 16비트 또는 24비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 효율적으로 읽기 위해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경로를 넓게 잡고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 8비트나 16비트로 유지한다. 이는 코드 표현과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현의 성격이 다르다는 점을 하드웨어가 직접 인정한 설계다.
 
@@ -94,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-하버드 아키텍처를 제대로 이해하려면 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ([Von Neumann Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))와의 차이를 "메모리 개수가 다르다" 수준에서 끝내면 안 된다. 더 중요한 차이는 **자원 공유 방식과 그로 인한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·유연성의 방향성**이다. 폰 노이만 구조는 공간을 통합하므로 메모리 활용이 유연하고 설계가 단순하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 길을 쓰므로 병목에 취약하다. 반대로 하버드 구조는 빠르고 예측 가능하지만, 메모리 공간을 필요에 따라 자유롭게 섞어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
+하버드 아키텍처를 제대로 이해하려면 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) ([Von Neumann Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/))와의 차이를 "메모리 개수가 다르다" 수준에서 끝내면 안 된다. 더 중요한 차이는 <strong>자원 공유 방식과 그로 인한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>·유연성의 방향성</strong>이다. 폰 노이만 구조는 공간을 통합하므로 메모리 활용이 유연하고 설계가 단순하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 길을 쓰므로 병목에 취약하다. 반대로 하버드 구조는 빠르고 예측 가능하지만, 메모리 공간을 필요에 따라 자유롭게 섞어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
 
 | 비교 항목 | [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) | 하버드 아키텍처 |
 | :-- | :-- | :-- |
@@ -106,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 
 현대 CPU는 이 둘 중 하나만 고집하지 않는다. 대개 외부 주기억장치 관점에서는 폰 노이만처럼 동작하지만, 코어 내부의 L1 캐시는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시인 L1I (Level 1 [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Cache)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시인 L1D (Level 1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Cache)로 나뉜다. 이것이 바로 모디파이드 하버드 아키텍처다. 즉 현대 프로세서는 "멀리서는 통합, 가까이서는 분리"라는 절충안을 택한다.
 
-이 연결은 운영체제와 컴파일러 관점에서도 의미가 있다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 지역성은 코드 배치와 함수 인라인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 영향을 주고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 지역성은 자료구조 배치와 메모리 접근 패턴에 영향을 준다. 결국 하버드적 분리는 하드웨어 설계의 문제가 아니라, 소프트웨어가 **코드 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 따로 최적화해야 한다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**이기도 하다.
+이 연결은 운영체제와 컴파일러 관점에서도 의미가 있다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 지역성은 코드 배치와 함수 인라인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 영향을 주고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시 지역성은 자료구조 배치와 메모리 접근 패턴에 영향을 준다. 결국 하버드적 분리는 하드웨어 설계의 문제가 아니라, 소프트웨어가 <strong>코드 흐름과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 따로 최적화해야 한다는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>이기도 하다.
 
 보안 측면에서도 차이가 드러난다. 순수 하버드 MCU에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 올린 값을 그대로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)처럼 실행하기 어렵기 때문에, 코드 주입 공격의 표면이 작아진다. 물론 현대 시스템에서는 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), NX (No-eXecute) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 같은 별도 메커니즘이 더 중요하지만, 하버드 구조의 분리는 하드웨어 차원의 기본 방어선이 될 수 있다.
 
@@ -116,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 하버드 아키텍처를 선택할지 여부는 "이론적으로 더 빠른가"보다 **어떤 종류의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 얼마나 싫어하는가**로 판단해야 한다. 제어 주기가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) μs 단위로 고정된 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 오디오 필터링처럼 샘플 누락이 곧 품질 저하로 이어지는 DSP, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 계산 가능해야 하는 펌웨어는 하버드 구조의 이점을 크게 본다.
+실무에서 하버드 아키텍처를 선택할지 여부는 "이론적으로 더 빠른가"보다 <strong>어떤 종류의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 얼마나 싫어하는가</strong>로 판단해야 한다. 제어 주기가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) μs 단위로 고정된 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 오디오 필터링처럼 샘플 누락이 곧 품질 저하로 이어지는 DSP, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 계산 가능해야 하는 펌웨어는 하버드 구조의 이점을 크게 본다.
 
 예를 들어 자동차 제동 제어 MCU는 센서 입력을 읽고, 제어식을 계산하고, 출력 포트를 갱신하는 일을 반복한다. 여기서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 매번 충돌하면 최악 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 길어지고 안전 여유가 줄어든다. 반면 하버드 기반 MCU는 플래시의 코드 읽기와 SRAM의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 분리하므로 주기 계산이 더 단순해진다.
 
@@ -141,11 +139,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-하버드 아키텍처의 가장 큰 효과는 **[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 확보를 통한 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 분리하면 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/)가 줄고, 특히 반복적이고 주기적인 작업에서 안정적인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻기 쉽다. 이는 단순 벤치마크 점수보다 제어 안정성, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 보장, 파이프라인 공급 안정성에서 더 큰 의미를 가진다.
+하버드 아키텍처의 가장 큰 효과는 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 확보를 통한 예측 가능한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 분리하면 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/)가 줄고, 특히 반복적이고 주기적인 작업에서 안정적인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻기 쉽다. 이는 단순 벤치마크 점수보다 제어 안정성, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 보장, 파이프라인 공급 안정성에서 더 큰 의미를 가진다.
 
 하지만 한계도 분명하다. 메모리와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 분리할수록 하드웨어 자원은 더 들어가고, 주소 공간 관리도 복잡해질 수 있다. 또한 현대 고성능 시스템의 병목은 단순 메모리 경합을 넘어 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 등으로 확장되어 있으므로, 하버드 구조만으로 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 설명할 수는 없다.
 
-그래서 오늘날의 핵심 결론은 "순수 하버드냐, 순수 폰 노이만이냐"의 이분법이 아니다. 더 실무적인 관점은 **어느 계층까지 분리하고, 어느 계층부터 통합할 것인가**다. 이 관점에서 보면 하버드 아키텍처는 과거의 역사적 구조가 아니라, 지금도 CPU 내부 설계와 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)에서 계속 살아 있는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계 원칙이다.
+그래서 오늘날의 핵심 결론은 "순수 하버드냐, 순수 폰 노이만이냐"의 이분법이 아니다. 더 실무적인 관점은 <strong>어느 계층까지 분리하고, 어느 계층부터 통합할 것인가</strong>다. 이 관점에서 보면 하버드 아키텍처는 과거의 역사적 구조가 아니라, 지금도 CPU 내부 설계와 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)에서 계속 살아 있는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계 원칙이다.
 
 앞으로는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기나 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 프로세서에서도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 활성값처럼 성격이 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 별도 경로로 다루는 방식이 더욱 늘어날 수 있다. 즉 하버드 아키텍처의 본질은 "길을 나누어 충돌을 줄인다"는 사고방식으로 기억하는 것이 가장 정확하다.
 
@@ -165,23 +163,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폰 노이만 아키텍처
-        │
-        ▼
-폰 노이만 병목 (Von Neumann Bottleneck)
-        │
-        ▼
-하버드 아키텍처 (Harvard Architecture)
-        │
-        ├──────────────► DSP · MCU 중심 실시간 설계 강화
-        │
-        ▼
-모디파이드 하버드 아키텍처 (Modified Harvard Architecture)
-        │
-        ▼
-L1I / L1D 분리 캐시 · 도메인 특화 가속기 내부 다중 경로 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폰 노이만 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폰 노이만 병목 (Von Neumann Bottleneck)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하버드 아키텍처 (Harvard Architecture)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">DSP · MCU 중심 실시간 설계 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모디파이드 하버드 아키텍처 (Modified Harvard Architecture)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L1I / L1D 분리 캐시 · 도메인 특화 가속기 내부 다중 경로 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "통합 구조의 병목 인식 → 경로 분리 → 현대적 절충 → 계층별 최적화"로 이어지는 진화를 보여준다.
 

@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 - **송신자 (최신형 서버)**: CPU가 빵빵해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 초당 1GB씩 랜선으로 밀어냅니다.
 - **수신자 (구형 스마트폰)**: CPU가 구려서 랜선으로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 하드디스크에 저장하는 데 하루 종일 걸립니다.
-- **병목 발생 ([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))**: 수신기의 랜카드에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠시 쌓아두는 '버퍼(Buffer, 양동이)'가 있습니다. 스마트폰이 양동이에서 물을 한 바가지 푸기도 전에 서버가 폭포수처럼 물을 쏟아부으면, **양동이가 넘쳐흐르면서([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 아까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공중으로 증발(Drop)해 버립니다.**
+- <strong>병목 발생 (<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a>)</strong>: 수신기의 랜카드에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠시 쌓아두는 '버퍼(Buffer, 양동이)'가 있습니다. 스마트폰이 양동이에서 물을 한 바가지 푸기도 전에 서버가 폭포수처럼 물을 쏟아부으면, <strong>양동이가 넘쳐흐르면서(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a>) 아까운 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 공중으로 증발(Drop)해 버립니다.</strong>
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실되면 재전송을 해야 하고, 재전송하면 양동이는 더 넘치는 지옥의 악순환이 시작됩니다.
 
-```text
-[피기배킹]
-    │
-    ▼
-[흐름 제어]
-    │
-    └──▶ [슬라이딩 윈도우 프로토콜 개념]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 흐름 제어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,21 +51,25 @@ tags = ["studynote-network"]
 
 ### 2. 슬라이딩 윈도우 (Sliding Window) - "내 양동이 남은 공간만큼만 쏴!"
 - **방식**: 현대 통신([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 지배적인 흐름 제어 방식입니다.
-- 송신기는 ACK를 안 기다리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 막 쏠 수 있습니다. 하지만 **수신기가 정해준 '[윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/), 양동이의 빈 공간 크기)' 한도 내에서만 쏠 수 있습니다.**
+- 송신기는 ACK를 안 기다리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 막 쏠 수 있습니다. 하지만 <strong>수신기가 정해준 '<a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>, 양동이의 빈 공간 크기)' 한도 내에서만 쏠 수 있습니다.</strong>
 - **동작**: 
   - 수신기: "야, 내 양동이에 지금 박스 5개(윈도우 사이즈=5) 더 들어갈 수 있어."
   - 송신기: "오케이, 다다다닥 5개 쏠게." (이 이상은 쏘고 싶어도 멈춤).
   - 수신기: (박스 2개를 소화함) "어! 방금 2개 치워서 이제 빈 공간 7개(윈도우 7로 팽창)로 늘어났어! 더 쏴!"
 - 이처럼 수신기의 현재 남은 체력(버퍼 용량)을 송신기에 실시간으로 알려주어, 송신기가 그 빈 공간만큼만 유연하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣는 스마트한 속도 조절 방식입니다.
 
-```text
-[피기배킹]
-    │
-    ▼
-[흐름 제어]
-    │
-    └──▶ [슬라이딩 윈도우 프로토콜 개념]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 흐름 제어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,8 +78,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 시험에서 이 둘을 헷갈리면 100% 틀립니다.
-- **흐름 제어 ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))**: 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는 **'수신기([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))'** 1대의 양동이가 터질까 봐 속도를 줄여주는 것입니다. (1:1 배려).
-- **혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/))**: 수신기는 쌩쌩한데, 중간에 있는 인터넷 **'고속도로(Router, 통신망 전체)'**에 차가 너무 막혀서(트래픽 잼) 도로가 터질까 봐 송신기가 스스로 속도를 줄여주는 것입니다. (도로 상황 배려).
+- <strong>흐름 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>: 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는 <strong>'수신기(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>)'</strong> 1대의 양동이가 터질까 봐 속도를 줄여주는 것입니다. (1:1 배려).
+- <strong>혼잡 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a>)</strong>: 수신기는 쌩쌩한데, 중간에 있는 인터넷 <strong>'고속도로(Router, 통신망 전체)'</strong>에 차가 너무 막혀서(트래픽 잼) 도로가 터질까 봐 송신기가 스스로 속도를 줄여주는 것입니다. (도로 상황 배려).
 
 흐름 제어를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)이 기반 조건을 만든다면, 흐름 제어는 그 위에서 핵심 메커니즘을 구현하고, [슬라이딩 윈도우 프로토콜](/knowledge-base/studynote/03_network/04_data_link_layer_error/214_sliding_window_protocol/) 개념은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 피기배킹]
-    │
-    ▼
-[현재 개념: 흐름 제어]
-    │
-    ├──▶ [확장 A: 슬라이딩 윈도우 프로토콜 개념]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 피기배킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 흐름 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 흐름 제어는 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [슬라이딩 윈도우 프로토콜](/knowledge-base/studynote/03_network/04_data_link_layer_error/214_sliding_window_protocol/) 개념와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

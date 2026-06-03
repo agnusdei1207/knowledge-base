@@ -30,20 +30,23 @@ tags = ["study"]
 
 ## 🏷️ 왜 이름이 "tarball"이냐
 
-옛날 옛적에 (1970년대쯤) 컴퓨터는 데이터를 **테이프**에 저장했어요.
+옛날 옛적에 (1970년대쯤) 컴퓨터는 데이터를 <strong>테이프</strong>에 저장했어요.
 
-```
-┌──────────────────────────┐
-│  [□□□□□□□□□□]            │  ← 자기 테이프
-│   ↑                      │
-│  데이터가 이렇게 줄줄    │
-│  저장됨                  │
-└──────────────────────────┘
-```
 
-그때 "테이프에 데이터 저장" = **T**ape **Ar**chive = **`tar`**
 
-나중에 디스크로 옮겨와도 이름이 그대로 살아남음. 그리고 묶인 파일이 "공처럼 둥글다" 해서 **`tarball`**이라고 부르게 됨.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">□□□□□□□□□□</div><div class="kb-diagram-connector">←</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 이렇게 줄줄</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장됨</div></div>
+</div>
+</div>
+
+
+
+그때 "테이프에 데이터 저장" = **T**ape **Ar**chive = <strong><code>tar</code></strong>
+
+나중에 디스크로 옮겨와도 이름이 그대로 살아남음. 그리고 묶인 파일이 "공처럼 둥글다" 해서 <strong><code>tarball</code></strong>이라고 부르게 됨.
 
 > 📼 **tar** = Tape Archive의 줄임말
 > ⚽ **tarball** = tar로 묶인 "공"
@@ -143,18 +146,18 @@ curl -L https://github.com/.../archive/refs/heads/main.tar.gz | tar -xz
 
 ## ❓ 자주 헷갈리는 것
 
-**Q. `.tar`, `.tar.gz`, `.tgz` 다 뭐가 달라?**
+<strong>Q. <code>.tar</code>, <code>.tar.gz</code>, <code>.tgz</code> 다 뭐가 달라?</strong>
 > - `.tar` = 묶기만 함 (압축 X)
 > - `.tar.gz` = 묶고 gzip으로 압축
 > - `.tgz` = `.tar.gz`의 줄임말. **같은 거.**
 
 **Q. ZIP이 더 좋은 거 아냐?**
-> 기능은 비슷. **리눅스/서버 세계에선 tar.gz가 표준**이라 자연스럽게 많이 보게 됨.
+> 기능은 비슷. <strong>리눅스/서버 세계에선 tar.gz가 표준</strong>이라 자연스럽게 많이 보게 됨.
 
 **Q. tarball 열려면 뭘 깔아야 해?**
 > 리눅스/맥 = 기본으로 깔려 있음. 윈도우 = `7-Zip`이나 `tar` (Windows 10 이후 기본).
 
-**Q. `tar.gz` 파일 더블클릭하면?**
+<strong>Q. <code>tar.gz</code> 파일 더블클릭하면?</strong>
 > - 맥: 자동 압축 해제
 > - 윈도우 10/11: `tar -xzf` 또는 7-Zip으로 열기
 > - 리눅스: `tar -xzf 파일.tar.gz`

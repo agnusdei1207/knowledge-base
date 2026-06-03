@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 시스코가 개발한 동적 멀티포인트 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/). [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke 토폴로지를 기본으로 하면서, Spoke 간 동적(Dynamic) 터널 생성을 지원하여 확장성과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 극대화한 아키텍처.
-- **필요성**: 전국에 지사(Spoke)가 1,000개 있는 농협이 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))와 연결하려 한다. 옛날 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 방식으로는 본사 방화벽에 들어가서 "부산 지사는 이 IP고 암호는 이거야, 제주 지사는..." 이 짓을 1,000번 타이핑해야 했다(개노가다). 게다가 부산에서 제주로 데이터를 보낼 때도 무조건 서울 본사를 찍고 다시 내려가야 해서(트래픽 V자 낭비) 서울 본사 라우터가 터져나갔다. **"본사는 세팅 한 번만 쳐두면 지사 1,000개가 알아서 갖다 붙게 만들고, 지사끼리 통신할 땐 본사 귀찮게 하지 말고 지들끼리 알아서 다이렉트로 터널 뚫어서 해결하게 하자!"**라는 구원투수로 등장했다.
+- **필요성**: 전국에 지사(Spoke)가 1,000개 있는 농협이 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))와 연결하려 한다. 옛날 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 방식으로는 본사 방화벽에 들어가서 "부산 지사는 이 IP고 암호는 이거야, 제주 지사는..." 이 짓을 1,000번 타이핑해야 했다(개노가다). 게다가 부산에서 제주로 데이터를 보낼 때도 무조건 서울 본사를 찍고 다시 내려가야 해서(트래픽 V자 낭비) 서울 본사 라우터가 터져나갔다. <strong>"본사는 세팅 한 번만 쳐두면 지사 1,000개가 알아서 갖다 붙게 만들고, 지사끼리 통신할 땐 본사 귀찮게 하지 말고 지들끼리 알아서 다이렉트로 터널 뚫어서 해결하게 하자!"</strong>라는 구원투수로 등장했다.
 
-- **💡 비유**: DMVPN은 택시 회사의 **"카카오 T 자동 배차 콜 시스템"**과 같습니다.
-  - **기존 ([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)-and-Spoke)**: 승객(부산 지사)이 택시를 타려면 무조건 서울 본사 정류장([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))으로 와서 갈아타고 제주도로 가야 했습니다.
+- **💡 비유**: DMVPN은 택시 회사의 <strong>"카카오 T 자동 배차 콜 시스템"</strong>과 같습니다.
+  - <strong>기존 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>-and-Spoke)</strong>: 승객(부산 지사)이 택시를 타려면 무조건 서울 본사 정류장([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))으로 와서 갈아타고 제주도로 가야 했습니다.
   - **DMVPN (NHRP)**: 부산 지사가 카카오 T 앱(NHRP 서버, [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 "제주 지사(목적지) 공인 IP 좀 알려줘!"라고 콜을 칩니다. 앱이 제주 지사의 번호를 알려주면, 부산 택시가 서울 본사를 거치지 않고 제주도로 **다이렉트로 날아가서(동적 터널)** 승객을 내려주고 콜을 종료합니다.
 
-```text
-[SSL VPN / TLS VPN]
-    │
-    ▼
-[DMVPN]
-    │
-    └──▶ [WireGuard]
-```
 
-- **📢 섹션 요약 비유**: ** DMVPN은 1,000명의 지사장이 사장님([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에게 일일이 결재를 올리던 수직적 관료제를 부수고, 지사장들끼리 사내 연락처 앱(NHRP)에서 번호를 찾아 **"다이렉트 화상 회의(Spoke-to-Spoke 터널)"**를 열고 일 처리를 끝내게 만든 혁신적인 수평적 조직도입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WireGuard</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> DMVPN은 1,000명의 지사장이 사장님(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)에게 일일이 결재를 올리던 수직적 관료제를 부수고, 지사장들끼리 사내 연락처 앱(NHRP)에서 번호를 찾아 </strong>"다이렉트 화상 회의(Spoke-to-Spoke 터널)"**를 열고 일 처리를 끝내게 만든 혁신적인 수평적 조직도입니다.
 
 ---
 
@@ -43,14 +47,14 @@ tags = ["studynote-network"]
 
 ### 1. DMVPN을 지탱하는 3개의 톱니바퀴
 이 세 가지가 완벽하게 조립되어야 DMVPN이 돌아간다.
-1. **mGRE (Multipoint [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/))**: 기존 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널은 1:1 이었다. mGRE는 하나의 가상 터널 인터페이스에 목적지 주소를 비워둔다. 1개의 포트로 1,000개의 지사를 다 상대할 수 있는 '문어발' 가상 인터페이스다.
-2. **NHRP (Next Hop Resolution [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: DMVPN의 가장 핵심인 "공인 IP 전화번호부"다. 본사 라우터([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))가 NHS(서버) 역할을 하고, 지사 라우터(Spoke)가 NHC(클라이언트)가 된다.
-3. **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)**: mGRE는 암호화가 없으므로 그 겉면에 튼튼한 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 방탄복을 입혀 데이터를 보호한다.
+1. <strong>mGRE (Multipoint <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a>)</strong>: 기존 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널은 1:1 이었다. mGRE는 하나의 가상 터널 인터페이스에 목적지 주소를 비워둔다. 1개의 포트로 1,000개의 지사를 다 상대할 수 있는 '문어발' 가상 인터페이스다.
+2. <strong>NHRP (Next Hop Resolution <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: DMVPN의 가장 핵심인 "공인 IP 전화번호부"다. 본사 라우터([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))가 NHS(서버) 역할을 하고, 지사 라우터(Spoke)가 NHC(클라이언트)가 된다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a></strong>: mGRE는 암호화가 없으므로 그 겉면에 튼튼한 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 방탄복을 입혀 데이터를 보호한다.
 
 ### 2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 셋업 (지사들의 출근 도장)
 전국의 지사(Spoke) 라우터들이 아침에 전원이 켜진다.
 - 지사 라우터는 유동 IP([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))를 받아 공인 IP가 매일 바뀐다.
-- 전원이 켜지자마자, 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))의 고정된 IP(`1.1.1.1`)를 향해 **NHRP Registration(등록 엽서)**를 쏜다.
+- 전원이 켜지자마자, 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))의 고정된 IP(`1.1.1.1`)를 향해 <strong>NHRP Registration(등록 엽서)</strong>를 쏜다.
 - "본사님! 저 부산 지사인데 오늘 제 공인 IP는 `211.x.x.x` 구요, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 안에서 쓸 사설 IP는 `10.1.1.2` 예요!"
 - 본사 라우터는 수첩(NHRP 매핑 테이블)에 1,000개 지사의 '오늘 자 전화번호부'를 쫙 업데이트한다. ([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 노가다 끝!).
 
@@ -59,24 +63,23 @@ tags = ["studynote-network"]
 
 1. **조회 요청**: 부산 지사는 자기 수첩에 제주도 공인 IP가 없으니 일단 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 NHRP Resolution 엽서를 던진다. "본사님, `10.1.1.3` 쓰려면 어느 공인 IP로 던져야 해요?"
 2. **번호 전달**: 본사가 수첩을 찾아보고 답장을 준다. "제주도 오늘 공인 IP는 `222.x.x.x` 야!"
-3. **다이렉트 터널 개통**: 부산 지사는 본사를 거치지 않고, 제주도 공인 IP(`222.x.x.x`)를 향해 즉시 **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)/mGRE 터널을 1:1로 뚫어버린다**.
+3. **다이렉트 터널 개통**: 부산 지사는 본사를 거치지 않고, 제주도 공인 IP(`222.x.x.x`)를 향해 즉시 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>/mGRE 터널을 1:1로 뚫어버린다</strong>.
 4. **통신 및 해제**: 기가바이트급 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 광속으로 끝난다. 몇 분 동안 통신이 없으면, 부산 라우터는 뚫어놨던 임시 터널을 스스로 닫아버리고 리소스를 회수한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DMVPN 동적 터널 생성 (Spoke-to-Spoke) 도식         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │                          [ 본사 Hub (NHRP 서버) ]              │
- │                            ▲              │                 │
- │            1. 제주도 IP 묻기 │              │ 2. "제주도 IP는 이거야!"│
- │                            │              ▼                 │
- │   [ 부산 Spoke (나) ] ━━━━━━(3. 임시 터널 뻥!!)━━━━━━▶ [ 제주 Spoke ]  │
- │                                                             │
- │   ▶ 결과: 본사 라우터는 그저 전화번호만 알려주는 114 역할만 할 뿐,      │
- │           무거운 실제 트래픽은 본사를 통과하지 않고 지사끼리 직통으로 간다!│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMVPN 동적 터널 생성 (Spoke-to-Spoke) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">본사 Hub (NHRP 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 제주도 IP 묻기</div><div class="kb-diagram-cell">2. "제주도 IP는 이거야!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부산 Spoke (나)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제주 Spoke</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 본사 라우터는 그저 전화번호만 알려주는 114 역할만 할 뿐,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무거운 실제 트래픽은 본사를 통과하지 않고 지사끼리 직통으로 간다!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** NHRP 서버(본사)는 114 전화번호 안내소입니다. 부산 지사가 114에 전화를 걸어 "제주도 전화번호 알려주세요"라고 하면 번호만 딱 알려줍니다. 그 후 부산과 제주도가 직접 전화를 걸어(다이렉트 터널) 수다를 떨기 때문에, 114 안내소의 전화선([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))은 전혀 막히지 않습니다.
 
@@ -134,15 +137,19 @@ DMVPN는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SSL VPN / TLS VPN]
-    │
-    ▼
-[현재 개념: DMVPN]
-    │
-    ├──▶ [확장 A: WireGuard]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SSL VPN / TLS VPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DMVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WireGuard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 DMVPN는 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 WireGuard와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

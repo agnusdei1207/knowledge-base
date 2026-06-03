@@ -32,26 +32,28 @@ tags = ["studynote-security"]
 단순히 [평문:해시값] 쌍을 1조 개 저장하면 수천 테라바이트의 저장 공간이 필요하여 비현실적이다. 레인보우 테이블은 **환원 함수 (Reduction Function, $R$)**와 **체인 (Chain)** 구조를 사용해 이 용량을 극한으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 1. **환원 함수 ($R$)**: 긴 해시값을 대충 뭉개고 잘라서 다시 유효한 '짧은 평문 문자열' 포맷으로 강제 축소시키는 함수다. (역산이 아니다)
-2. **체인(Chain) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: [평문 $\rightarrow$ $H$(해시) $\rightarrow$ $R$(환원) $\rightarrow$ $H$ $\rightarrow$ $R$ ...] 과정을 수만 번 반복하여 긴 쇠사슬을 만든다.
-3. **[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장**: 해커는 하드디스크에 중간의 1만 개 징검다리 데이터를 모두 버리고, **[시작 평문]**과 **[최종 해시]** 단 두 개의 값만 쌍으로 묶어 저장한다.
+2. <strong>체인(Chain) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: [평문 $\rightarrow$ $H$(해시) $\rightarrow$ $R$(환원) $\rightarrow$ $H$ $\rightarrow$ $R$ ...] 과정을 수만 번 반복하여 긴 쇠사슬을 만든다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장</strong>: 해커는 하드디스크에 중간의 1만 개 징검다리 데이터를 모두 버리고, <strong>[시작 평문]</strong>과 **[최종 해시]** 단 두 개의 값만 쌍으로 묶어 저장한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       레인보우 테이블의 체인 압축 및 역산 검색 메커니즘      │
-├──────────────────────────────────────────────────────────────┤
-│ [ 1. 테이블 생성 (오프라인 압축) ]                           │
-│ 시작 평문          (H와 R을 수만 번 교차 반복)           최종 해시 │
-│ "admin" ──▶(H)──▶(R)──▶(H)──▶ ... ──▶(H)──▶ "F9X3"            │
-│  => 저장장치에는 오직 [ "admin" : "F9X3" ] 쌍만 기록!        │
-│                                                              │
-│ [ 2. 해킹 단계 (실시간 복원) ]                               │
-│ 타겟 해시 "K#1P" 획득!                                       │
-│  => R과 H를 번갈아 굴려보니 최종 해시 "F9X3"에 도착.         │
-│  => "아하! 이 타겟 해시는 'admin'으로 시작하는 체인에 있군!" │
-│  => 'admin'부터 다시 체인을 타면서 진짜 평문 추출 성공!      │
-└──────────────────────────────────────────────────────────────┘
-```
-이 그림의 핵심은 **'시간-메모리 트레이드오프(Time-Memory Trade-off)'**다. 해커는 중간 계산값을 버려 메모리 공간을 극도로 아끼는 대신, 실전에서 타겟 해시를 복원할 때 약간의 재계산(시간)을 투자하여 최적의 효율을 뽑아낸다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레인보우 테이블의 체인 압축 및 역산 검색 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 테이블 생성 (오프라인 압축)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작 평문 (H와 R을 수만 번 교차 반복) 최종 해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"admin" ──▶(H)──▶(R)──▶(H)──▶ ... ──▶(H)──▶ "F9X3"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 저장장치에는 오직</div><div class="kb-diagram-node">"admin" : "F9X3"</div><div class="kb-diagram-note">쌍만 기록!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 해킹 단계 (실시간 복원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 해시 "K#1P" 획득!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; R과 H를 번갈아 굴려보니 최종 해시 "F9X3"에 도착.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "아하! 이 타겟 해시는 'admin'으로 시작하는 체인에 있군!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 'admin'부터 다시 체인을 타면서 진짜 평문 추출 성공!</div></div>
+</div>
+</div>
+
+
+이 그림의 핵심은 <strong>'시간-메모리 트레이드오프(Time-Memory Trade-off)'</strong>다. 해커는 중간 계산값을 버려 메모리 공간을 극도로 아끼는 대신, 실전에서 타겟 해시를 복원할 때 약간의 재계산(시간)을 투자하여 최적의 효율을 뽑아낸다.
 
 - **📢 섹션 요약 비유**: 지하철 모든 역을 수첩에 다 적는 대신, 출발역과 종착역만 적어둡니다(용량 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)). 나중에 중간에 훔친 역 표지판을 따라 몇 정거장 가보니 내가 아는 종착역이 나오면, "아! 이건 그 출발역 라인에 있구나!" 하고 노선을 다시 타보며 정확한 역 이름을 맞추는 꼼수입니다.
 
@@ -63,7 +65,7 @@ tags = ["studynote-security"]
 
 | 공격 기법 | 동작 방식 | 소요 시간 | 필요 메모리 | 특징 |
 | :--- | :--- | :--- | :--- | :--- |
-| **[Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/) (무차별 대입)** | 매번 a부터 z까지 실시간 해시 연산 | 매우 느림 | 매우 적음 | 가장 무식하지만 경우의 수가 적으면 통함 |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/">Brute Force</a> (무차별 대입)</strong> | 매번 a부터 z까지 실시간 해시 연산 | 매우 느림 | 매우 적음 | 가장 무식하지만 경우의 수가 적으면 통함 |
 | **Dictionary (사전 공격)** | 미리 등록된 단어장만 실시간 해시 연산 | 보통 | 적음 | 사용자가 복잡한 비밀번호 쓰면 실패함 |
 | **Rainbow Table** | 모든 조합을 체인 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 저장해둔 사전 검색 | **매우 빠름** | 큼 (수백 GB) | **시/공간 트레이드오프의 궁극적 결정체** |
 
@@ -78,8 +80,8 @@ tags = ["studynote-security"]
 레인보우 테이블 공격은 강력하지만, 방어하는 방법은 이미 명확히 확립되어 있다. 해커가 우리 시스템만을 위한 맞춤형 레인보우 테이블을 만드는 데 천 년이 걸리게 만들면 된다.
 
 **[ 필수 방어 아키텍처 (기술사 판단) ]**
-1. **[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) ([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)) 적용**: 사용자 비밀번호를 해싱하기 전, 사용자마다 다른 16바이트 이상의 난수 문자열([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 덧붙인다. `Hash(Password + Salt)`. 해커의 범용 테이블은 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 섞인 조합이 없으므로 무용지물이 되며, 사용자 1명마다 테이블을 새로 만들어야 하므로 공격을 포기하게 된다.
-2. **[키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) ([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))**: 해시를 1번만 구워내는 것이 아니라, `Bcrypt`나 `PBKDF2` 같은 알고리즘을 사용해 해싱을 1만 번 이상 수없이 반복한다. 이렇게 되면 해커가 악의적으로 테이블 1개를 계산하는 데 걸리는 시간 자체가 천문학적으로 늘어나 역산 의지가 꺾인다.
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">솔트</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>) 적용</strong>: 사용자 비밀번호를 해싱하기 전, 사용자마다 다른 16바이트 이상의 난수 문자열([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 덧붙인다. `Hash(Password + Salt)`. 해커의 범용 테이블은 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 섞인 조합이 없으므로 무용지물이 되며, 사용자 1명마다 테이블을 새로 만들어야 하므로 공격을 포기하게 된다.
+2. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a>)</strong>: 해시를 1번만 구워내는 것이 아니라, `Bcrypt`나 `PBKDF2` 같은 알고리즘을 사용해 해싱을 1만 번 이상 수없이 반복한다. 이렇게 되면 해커가 악의적으로 테이블 1개를 계산하는 데 걸리는 시간 자체가 천문학적으로 늘어나 역산 의지가 꺾인다.
 
 - **📢 섹션 요약 비유**: 해커가 준비해 온 번호표(레인보우 테이블)를 무용지물로 만들려면, 사용자마다 자물쇠에 무작위 '짠맛([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))'을 뿌리고, 열쇠 구멍을 1만 번 꼬아버리면(스트레칭) 됩니다. 해커는 번호표가 안 맞아서 홧병이 나 도망갑니다.
 
@@ -89,7 +91,7 @@ tags = ["studynote-security"]
 
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 데이터의 무결성을 증명하기엔 좋지만, 그 빠른 속도로 인해 비밀번호 보호용으로는 본질적인 취약점(역산의 먹잇감)을 지니고 있었다. 레인보우 테이블은 "[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 함수는 무조건 안전하다"는 환상을 깬 암호학적 혁신(?)이자 위협이다.
 
-결론적으로, 이 공격 기법의 등장으로 인해 전 세계 모든 백엔드 엔지니어들은 비밀번호 저장 시 단일 해시 대신 **Salt와 [Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)**을 필수 표준으로 채택하게 되었다. 오늘날 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 없이 단순 MD5나 SHA-256만으로 비밀번호를 저장하는 시스템은 해커의 엑셀 검색 한 번에 고객의 모든 정보를 헌납하는 범죄 행위나 다름없다.
+결론적으로, 이 공격 기법의 등장으로 인해 전 세계 모든 백엔드 엔지니어들은 비밀번호 저장 시 단일 해시 대신 <strong>Salt와 <a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">Key Stretching</a></strong>을 필수 표준으로 채택하게 되었다. 오늘날 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 없이 단순 MD5나 SHA-256만으로 비밀번호를 저장하는 시스템은 해커의 엑셀 검색 한 번에 고객의 모든 정보를 헌납하는 범죄 행위나 다름없다.
 
 - **📢 섹션 요약 비유**: 레인보우 테이블은 튼튼해 보였던 '해시 자물쇠'를 단숨에 부수어 버린 무서운 만능키입니다. 덕분에 보안 전문가들은 정신을 차리고 절대 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 불가능한 '[솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)+스트레칭'이라는 새로운 철문으로 세상을 방어하게 되었습니다.
 
@@ -106,21 +108,23 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무차별 대입 공격 (Brute Force)의 비효율성
-    │
-    ▼
-사전 공격 (Dictionary Attack) 및 용량 한계
-    │
-    ▼
-레인보우 테이블 (체인 기반 시공간 압축 오프라인 사전 공격)
-    │
-    ▼
-단순 해시 함수의 치명적 붕괴 (MD5, SHA-1 뚫림)
-    │
-    ▼
-Salt + Key Stretching 필수화 (Bcrypt, PBKDF2 등 방어 기술 표준)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무차별 대입 공격 (Brute Force)의 비효율성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사전 공격 (Dictionary Attack) 및 용량 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레인보우 테이블 (체인 기반 시공간 압축 오프라인 사전 공격)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단순 해시 함수의 치명적 붕괴 (MD5, SHA-1 뚫림)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Salt + Key Stretching 필수화 (Bcrypt, PBKDF2 등 방어 기술 표준)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 계산 공격이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 검색 공격으로 진화하며 해시의 약점을 찔렀고, 이에 맞서 현대 보안이 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 스트레칭으로 대응하는 창과 방패의 역사를 보여준다.
 

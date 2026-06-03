@@ -31,18 +31,19 @@ tags = ["studynote-computer-architecture"]
 
 32비트는 크기(스케일)와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(디테일)를 동시에 잡기 위해 3개의 구역으로 분할된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            단정밀도 (FP32)의 비트 분할 황금비율 레이아웃           │
-├──────────────────────────────────────────────────────────────┤
-│  [31]    [30 <--- 8 bits ---> 23]    [22 <--- 23 bits ---> 0]│
-│  ┌───┐   ┌──────────────────────┐    ┌──────────────────────┐│
-│  │ S │   │   지수부 (Exponent)  │    │   가수부 (Mantissa)  ││
-│  └───┘   └──────────────────────┘    └──────────────────────┘│
-│  부호          스케일(배율) 결정           실제 유효 숫자(디테일)  │
-│ (+/-)     (우주의 크기인가, 먼지인가)       (얼마나 촘촘하게 쪼개는가) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단정밀도 (FP32)의 비트 분할 황금비율 레이아웃</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">31</div><div class="kb-diagram-node">30 &lt;--- 8 bits ---&gt; 23</div><div class="kb-diagram-node">22 &lt;--- 23 bits ---&gt; 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">지수부 (Exponent)</div><div class="kb-diagram-cell">가수부 (Mantissa)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 스케일(배율) 결정 실제 유효 숫자(디테일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+/-) (우주의 크기인가, 먼지인가) (얼마나 촘촘하게 쪼개는가)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 32개의 비트가 역할별로 어떻게 나뉘는지 보여준다. 지수부 8비트는 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) 127)을 빼서 원자 크기부터 태양계 크기까지의 스케일을 지원한다. 핵심은 23비트 가수부인데, 숨겨진 1비트 (Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 합쳐 24비트의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(10진수 약 1,677만)를 갖는다. 즉, FP32는 아무리 큰 숫자라도 앞 7자리까지만 완벽하게 기억하고 나머지 자잘한 숫자는 과감하게 0으로 뭉개버리거나 반올림해버리는 구조를 가진다.
 
@@ -71,7 +72,7 @@ FP32의 가장 큰 약점은 흡수 오차 (Absorption Error)다. 단정밀도�
 시스템 엔지니어와 개발자는 FP32의 가벼움을 살리되, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 붕괴의 함정을 피하는 줄타기를 해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
-1. **오픈 소스 엔진 좌표계 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)**: 광원 위치 계산에 무심코 `double`을 썼다가 FPS가 급락하지 않았는가? 픽셀의 오차 한계를 고려하여 코드 베이스의 상수 뒤에 `1.5f`처럼 FP32 꼬리표를 달아 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) L1 캐시 미스를 막아야 한다.
+1. <strong>오픈 소스 엔진 좌표계 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong>: 광원 위치 계산에 무심코 `double`을 썼다가 FPS가 급락하지 않았는가? 픽셀의 오차 한계를 고려하여 코드 베이스의 상수 뒤에 `1.5f`처럼 FP32 꼬리표를 달아 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) L1 캐시 미스를 막아야 한다.
 2. **누적 계수기 분리**: 물리 엔진의 시간 누적기에서 `deltaTime`이 증발하는 것을 막기 위해, 누적용 그릇만 핀포인트로 FP64로 격상시키거나 정수형(Integer)으로 틱을 관리해야 충돌 버그를 차단할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -95,27 +96,29 @@ FP32의 가장 큰 약점은 흡수 오차 (Absorption Error)다. 단정밀도�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **FP64 ([Double Precision](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/))** | 오차가 생기면 치명적인 금융 계산이나 정밀 우주 시뮬레이션에서 FP32를 대체하는 64비트 괴물 |
-| **[IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/)** | 부호 1비트, 지수 8비트, 가수 23비트라는 FP32의 완벽한 3단 쪼개기 비율을 세계 표준으로 강제한 규격 |
-| **[bfloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) (Brain Float)** | FP32의 23비트 가수부를 7비트로 싹둑 잘라내 VRAM 다이어트에 성공한 16비트 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 포맷 |
+| <strong>FP64 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/">Double Precision</a>)</strong> | 오차가 생기면 치명적인 금융 계산이나 정밀 우주 시뮬레이션에서 FP32를 대체하는 64비트 괴물 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/">IEEE 754</a></strong> | 부호 1비트, 지수 8비트, 가수 23비트라는 FP32의 완벽한 3단 쪼개기 비율을 세계 표준으로 강제한 규격 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/">bfloat16</a> (Brain Float)</strong> | FP32의 23비트 가수부를 7비트로 싹둑 잘라내 VRAM 다이어트에 성공한 16비트 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 포맷 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부동소수점 표준화 필요성
-    │
-    ▼
-IEEE 754 제정 · FP32 (단정밀도) 탄생
-    │
-    ▼
-GPU 그래픽스 및 연산 최적화 (CUDA)
-    │
-    ▼
-메모리 대역폭 한계 및 흡수 오차 (Absorption Error) 부각
-    │
-    ▼
-AI 시대를 위한 경량화: FP16 · bfloat16 · INT8 양자화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부동소수점 표준화 필요성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IEEE 754 제정 · FP32 (단정밀도) 탄생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU 그래픽스 및 연산 최적화 (CUDA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 대역폭 한계 및 흡수 오차 (Absorption Error) 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 시대를 위한 경량화: FP16 · bfloat16 · INT8 양자화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 실수 표현의 기원부터 그래픽 최적화를 거쳐, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 경량화 포맷으로 진화하는 과정을 보여준다.
 

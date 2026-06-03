@@ -105,21 +105,23 @@ tags = ["it_management"]
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-build
-  │
-  ▼
-choose interval
-  │
-  ▼
-descend tree
-  │
-  ▼
-merge answers
-  │
-  ▼
-return result
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">build</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">choose interval</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">descend tree</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">merge answers</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">return result</div>
+</div>
+</div>
+
+
 
 ### 어린이를 위한 3줄 비유 설명
 

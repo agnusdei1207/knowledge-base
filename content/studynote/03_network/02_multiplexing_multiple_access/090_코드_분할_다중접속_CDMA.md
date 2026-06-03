@@ -34,30 +34,30 @@ CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_syst
 
 | 핵심 요소 | 역할 및 동작 원리 |
 | :--- | :--- |
-| **왈시 코드 (Walsh [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 사용자 간 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 직교하게 만들어 섞여도 상호 간섭이 0이 되도록 분리하는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드 |
+| <strong>왈시 코드 (Walsh <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 사용자 간 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 직교하게 만들어 섞여도 상호 간섭이 0이 되도록 분리하는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드 |
 | **PN 시퀀스 (의사 난수)** | 원래의 좁은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 아주 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 잘게 쪼개어(Spread) 흩뿌리는 역할 |
-| **[레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/) (Rake)** | 튕겨서 늦게 도착하는 다중 경로 반사파들을 갈퀴처럼 긁어모아 위상을 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 증폭 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/">레이크 수신기</a> (Rake)</strong> | 튕겨서 늦게 도착하는 다중 경로 반사파들을 갈퀴처럼 긁어모아 위상을 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 증폭 |
 
 송신측에서는 느린 속도의 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 매우 빠른 속도의 암호 코드(Chip)를 곱(XOR)하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체로 넓게 확산시킨다. 이 확산된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 대기 중의 다른 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들과 섞여 노이즈처럼 보인다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CDMA 확산 및 역확산 (Spread / Despread) 원리       │
-├──────────────────────────────────────────────────────────────┤
-│ [송신부: 대역 확산]                                            │
-│ 협대역 데이터 (Data)                                           │
-│       │                                                      │
-│       ▼ (XOR 내적)       무선 공간 (섞임)                       │
-│ 직교 코드 (Code) ──────▶ [퍼진 신호 + 타인 신호 + 잡음] ──────┐│
-│                                                              ││
-│ [수신부: 역확산 및 복원]                                         ││
-│ 원본 복원 데이터 ◀────── (XOR 내적) ◀────────────────────────┘│
-│                         정확히 같은 직교 코드 (Code) 적용         │
-│                                                              │
-│ * 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,             │
-│         남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDMA 확산 및 역확산 (Spread / Despread) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신부: 대역 확산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협대역 데이터 (Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (XOR 내적) 무선 공간 (섞임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼진 신호 + 타인 신호 + 잡음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신부: 역확산 및 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 복원 데이터 ◀ (XOR 내적) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 같은 직교 코드 (Code) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.</div></div>
+</div>
+</div>
+
+
 
 수신부는 자신과 약속된 정확한 코드를 다시 곱해 역확산(Despread)을 수행한다. 이때 직교성의 수학적 마법에 의해 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 적분 시 0에 수렴하여 배경 잡음(Noise Floor)으로 가라앉고, 나의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 원래 에너지로 증폭되어 깨끗하게 분리된다.
 
@@ -72,9 +72,9 @@ CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_syst
 | 비교 항목 | [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) / [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (1G/2G) | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (2G/3G) | 판단 및 차별점 |
 | :--- | :--- | :--- | :--- |
 | **자원 분할** | 주파수나 시간 슬롯 쪼개기 | 동일 대역, 동일 시간 전체 공유 | 낭비되는 빈 방이 사라짐 |
-| **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)** | [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) (끊고 연결) | [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (동시 연결 후 떼기)| 통화 중 끊김 방지, 품질 극상 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a></strong> | [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) (끊고 연결) | [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (동시 연결 후 떼기)| 통화 중 끊김 방지, 품질 극상 |
 | **수용 용량** | 방 개수만큼 (Hard Capacity) | 간섭 감내 수준까지 (Soft Capacity) | 기지국 증설 없이 가입자 추가 |
-| **[주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)** | 셀마다 다른 주파수 배정 (패턴 7) | 모든 셀이 동일 주파수 사용 (계수 1) | 주파수 효율성의 혁명적 증가 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/">주파수 재사용</a></strong> | 셀마다 다른 주파수 배정 (패턴 7) | 모든 셀이 동일 주파수 사용 (계수 1) | 주파수 효율성의 혁명적 증가 |
 
 TDMA는 옆 기지국으로 넘어갈 때 주파수를 바꿔야 하므로 잠깐 연결이 끊기는 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)(Hard [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))를 겪는다. 반면 CDMA는 모든 기지국이 같은 주파수를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/)가 양쪽 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 잡아 부드럽게 넘겨받는 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))가 가능하다.
 
@@ -87,8 +87,8 @@ TDMA는 옆 기지국으로 넘어갈 때 주파수를 바꿔야 하므로 잠�
 CDMA망의 실무 설계는 완벽한 이상과 척박한 물리 법칙 사이의 줄다리기다. 가장 치명적인 약점은 전력 간섭이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단 포인트
-1. **[근거리-원거리 문제](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/) ([Near-Far Problem](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/))**: 기지국 바로 밑에 있는 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 너무 강해, 멀리 있는 단말기의 미약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완전히 덮어버리는 현상이다. 수신부에서 모든 단말의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 동일하게 들어와야만 직교성이 유지되므로, 기지국은 1.25ms (초당 800회)마다 단말기에게 전력을 올리거나 내리라는 정밀한 **폐루프 전력 제어 (Closed-Loop [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Control)** 명령을 내려야 한다. 전력 제어가 실패하면 셀 전체가 마비된다.
-2. **[셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/) ([Cell Breathing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)) 현상**: 가입자가 몰려 통신량이 급증하면 시스템의 전체 간섭(노이즈) 바닥이 높아진다. 이때 멀리 있는 단말기는 최대 출력으로도 이 노이즈를 뚫지 못해 통신이 끊긴다. 즉, 트래픽에 따라 기지국의 물리적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어들고 늘어나는 호흡 현상을 고려하여 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 틸팅과 기지국 배치를 조밀하게 설계해야 한다.
+1. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">근거리-원거리 문제</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">Near-Far Problem</a>)</strong>: 기지국 바로 밑에 있는 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 너무 강해, 멀리 있는 단말기의 미약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 완전히 덮어버리는 현상이다. 수신부에서 모든 단말의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 동일하게 들어와야만 직교성이 유지되므로, 기지국은 1.25ms (초당 800회)마다 단말기에게 전력을 올리거나 내리라는 정밀한 <strong>폐루프 전력 제어 (Closed-Loop <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Control)</strong> 명령을 내려야 한다. 전력 제어가 실패하면 셀 전체가 마비된다.
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">셀 호흡</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/">Cell Breathing</a>) 현상</strong>: 가입자가 몰려 통신량이 급증하면 시스템의 전체 간섭(노이즈) 바닥이 높아진다. 이때 멀리 있는 단말기는 최대 출력으로도 이 노이즈를 뚫지 못해 통신이 끊긴다. 즉, 트래픽에 따라 기지국의 물리적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경이 줄어들고 늘어나는 호흡 현상을 고려하여 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 틸팅과 기지국 배치를 조밀하게 설계해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 전력 제어 피드백 루프의 지연시간을 방치하는 것. 타이밍 지터가 발생해 특정 단말이 불필요하게 출력을 높이면, 주변 모든 단말의 통신 품질이 연쇄적으로 폭락한다.
@@ -111,28 +111,30 @@ CDMA는 주파수라는 한정된 부동산을 물리적으로 쪼개야 한다�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[스펙트럼 확산](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/) ([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))** | 좁은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 넓게 펴서 재밍(방해 전파)과 잡음을 회피하는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 물리 계층의 핵심 뼈대 |
-| **[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))** | 동일 주파수를 사용함으로써 양쪽 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 잡아 끊김 없이 이동하는 기술 |
-| **[레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/) ([Rake Receiver](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/))** | 여러 건물에 튕겨서 시간차를 두고 들어오는 반사파들을 버리지 않고 모아서 증폭시키는 수신기 |
-| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수 분할)** | CDMA의 코드 고갈과 다중경로 연산 복잡도를 극복하기 위해 직교 부반송파를 쓰는 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 방식 |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">스펙트럼 확산</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>)</strong> | 좁은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 넓게 펴서 재밍(방해 전파)과 잡음을 회피하는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 물리 계층의 핵심 뼈대 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/">소프트 핸드오버</a> (Soft <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong> | 동일 주파수를 사용함으로써 양쪽 기지국의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 동시에 잡아 끊김 없이 이동하는 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/">레이크 수신기</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/">Rake Receiver</a>)</strong> | 여러 건물에 튕겨서 시간차를 두고 들어오는 반사파들을 버리지 않고 모아서 증폭시키는 수신기 |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> (직교 주파수 분할)</strong> | CDMA의 코드 고갈과 다중경로 연산 복잡도를 극복하기 위해 직교 부반송파를 쓰는 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-자원의 물리적 분할 (FDMA / TDMA)
-    │
-    ▼
-DSSS (직접 대역 확산) 기반의 항재밍 군사 기술
-    │
-    ▼
-CDMA 상용화 · 자원 공유 및 왈시 코드 직교성 부여
-    │
-    ▼
-W-CDMA / CDMA2000 (3G 초고속 동기/비동기 진화)
-    │
-    ▼
-OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자원의 물리적 분할 (FDMA / TDMA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DSSS (직접 대역 확산) 기반의 항재밍 군사 기술</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDMA 상용화 · 자원 공유 및 왈시 코드 직교성 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">W-CDMA / CDMA2000 (3G 초고속 동기/비동기 진화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 통신 패러다임이 공간 쪼개기에서 코드 공유로 갔다가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증으로 인해 다시 직교 주파수 분할로 회귀하되 직교성을 극대화하는 방향으로 발전했음을 나타낸다.
 

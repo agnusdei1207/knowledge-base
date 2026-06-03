@@ -18,19 +18,19 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────┐
-│ 상관관계 vs. 인과관계 비교 │
-├────────────────────────────────────────────────────────┤
-│ │
-│ 상관관계: X ↔ Y (함께 변한다, 방향 불명) │
-│ │
-│ 인과관계: X → Y (X가 Y를 변화시킨다) │
-│ 단, Z(혼동변수)를 통제해야 함 │
-│ │
-│ 예: 광고비(X) → 매출(Y)? vs. 계절(Z) → X, Y 동시 영향? │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상관관계 vs. 인과관계 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상관관계: X ↔ Y (함께 변한다, 방향 불명)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인과관계: X → Y (X가 Y를 변화시킨다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단, Z(혼동변수)를 통제해야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 광고비(X) → 매출(Y)? vs. 계절(Z) → X, Y 동시 영향?</div></div>
+</div>
+</div>
+
+
 
 - **�� 섹션 요약 비유**: 상관관계는 "아침에 닭이 울면 해가 뜬다"이다. 함께 발생하지만 닭이 해를 뜨게 하는 것은 아니다. 인과 추론은 닭의 울음이 없어도 해가 뜨는지 실험해보는 것이다.
 
@@ -43,21 +43,26 @@ tags = ["studynote-bigdata"]
 | 방법 | 핵심 아이디어 | 활용 예 |
 |:---|:---|:---|
 | **RCT** | 무작위 처치·통제 집단 분리 | A/B 테스트, 임상 실험 |
-| **[DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (이중차분법)** | 처치 전후 + 통제 집단 비교 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과 평가 |
-| **[RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) (회귀 불연속)** | 임계값 집단 비교 | 장학금 vs. 학업 성취도 |
-| **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (도구 변수)** | 외생 변수로 내생성 제거 | 군복무 → 임금 효과 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DiD</a> (이중차분법)</strong> | 처치 전후 + 통제 집단 비교 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과 평가 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a> (회귀 불연속)</strong> | 임계값 집단 비교 | 장학금 vs. 학업 성취도 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (도구 변수)</strong> | 외생 변수로 내생성 제거 | 군복무 → 임금 효과 |
 | **PSM (성향점수 매칭)** | 비슷한 통제·처치 집단 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 관찰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준실험 |
 
 ### 반사실적 추론 (Counterfactual)
 
-```text
-인과효과 추정 = (실제 관찰값) - (처치를 받지 않았다면의 값)
-↑
-이것이 관찰 불가능 → 추정 필요
 
-RCT: 무작위 배정으로 통제 집단이 반사실적 값의 최선 추정치
-DiD: 처치 전 트렌드로 반사실적 값 외삽
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인과효과 추정 = (실제 관찰값) - (처치를 받지 않았다면의 값)</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">이것이 관찰 불가능 → 추정 필요</div>
+<div class="kb-diagram-note">RCT: 무작위 배정으로 통제 집단이 반사실적 값의 최선 추정치</div>
+<div class="kb-diagram-note">DiD: 처치 전 트렌드로 반사실적 값 외삽</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 인과효과는 "내가 이 약을 안 먹었다면 어땠을까?"이다. 같은 사람이 동시에 약을 먹고 안 먹을 수 없으므로, 비슷한 사람(통제 집단)이 약을 안 먹은 결과를 대신 관찰한다.
 
@@ -99,8 +104,8 @@ Before/After 비교 → 고용 변화가 최저임금 인상 효과인지 분리
 | 기대효과 | 내용 |
 |:---|:---|
 | **의사결정 개선** | 상관관계 함정 회피, 실제 효과 기반 투자 |
-| **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 평가** | 개입(Intervention) 효과의 객관적 측정 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명가능성** | 인과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))로 모델 의사결정 해석 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 평가</strong> | 개입(Intervention) 효과의 객관적 측정 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 설명가능성</strong> | 인과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))로 모델 의사결정 해석 |
 
 인과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Causal ML)은 전통 인과 추론과 ML을 결합하여 대규모 관찰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 이질적 처치 효과(CATE)를 추정하고, 개인화 의사결정([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에 활용하는 방향으로 발전하고 있다.
 
@@ -114,27 +119,29 @@ Before/After 비교 → 고용 변화가 최저임금 인상 효과인지 분리
 |:---|:---|
 | **혼동변수** | 처치와 결과 모두에 영향을 주는 제3 변수 |
 | **RCT** | 인과 추론의 황금 기준 (A/B 테스트) |
-| **[DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과 평가의 준실험 설계 |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) (구조적 인과 모델)** | 인과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 모델링 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DiD</a></strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 효과 평가의 준실험 설계 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (구조적 인과 모델)</strong> | 인과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 모델링 |
 | **Causal ML** | 인과 추론 + ML 결합 방법론 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상관관계 분석 — 패턴 발견, 인과 미규명]
-│
-▼
-[인과 추론 (RCT, DiD, IV, RDD) — 혼동변수 통제]
-│
-▼
-[인과 그래프 (DAG, SCM) — 인과 구조 시각화]
-│
-▼
-[Causal ML — 대규모 관찰 데이터 인과 효과 추정]
-│
-▼
-[개인화 정책 학습 — CATE 기반 최적 처치 결정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상관관계 분석 — 패턴 발견, 인과 미규명</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인과 추론 (RCT, DiD, IV, RDD) — 혼동변수 통제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인과 그래프 (DAG, SCM) — 인과 구조 시각화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Causal ML — 대규모 관찰 데이터 인과 효과 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인화 정책 학습 — CATE 기반 최적 처치 결정</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

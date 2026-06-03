@@ -10,9 +10,9 @@ tags = ["studynote-operating-system"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 **정적(Static) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(쇳덩어리 조각)**이라면, 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 **동적(Dynamic) 실행 주체**다.
+> 1. **본질**: 프로그램(Program)이 하드디스크에 저장된 차갑고 수동적인 0과 1의 <strong>정적(Static) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(쇳덩어리 조각)</strong>이라면, 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))는 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메인 메모리(RAM)에 올라가 CPU의 심장 박동([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))을 받으며 펄떡이는 <strong>동적(Dynamic) 실행 주체</strong>다.
 > 2. **가치**: 이 분리를 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 하나의 '카카오톡 프로그램'을 두 번 더블클릭하면, 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정하지 않고도 메모리 위에 완전히 독립된 밥그릇(메모리 공간, PID)을 가진 '두 개의 카카오톡 프로세스'를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 멀티태스킹을 지원할 수 있다.
-> 3. **판단 포인트**: 프로그램이 프로세스로 부화(Instantiate)하는 순간, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스를 관리하기 위해 주민등록증 격인 **PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)**를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 이 순간부터 프로세스는 OS의 가혹한 스케줄링 통제를 받는 노예가 된다.
+> 3. **판단 포인트**: 프로그램이 프로세스로 부화(Instantiate)하는 순간, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로세스를 관리하기 위해 주민등록증 격인 <strong>PCB(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong>를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 이 순간부터 프로세스는 OS의 가혹한 스케줄링 통제를 받는 노예가 된다.
 
 ---
 
@@ -31,30 +31,28 @@ tags = ["studynote-operating-system"]
 ### 로딩(Loading)과 메모리 공간의 4대 구역 창조
 프로그램이 프로세스가 되는 물리적 아키텍처는 메모리 할당(Allocation)으로 시작된다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           프로그램 ➔ 프로세스 변환의 물리적 메모리 아키텍처       │
-├────────────────────────────────────────────────────────┤
-│   [ 하드 디스크 (HDD/SSD) ]                             │
-│      죽은 파일: `game.exe` (100MB)                       │
-│        │                                               │
-│        ▼ (더블클릭! ──▶ OS의 Loader 작동)                 │
-│ ═══════════════════════════════════════════════════════│
-│   [ 메인 메모리 (RAM) - 살아있는 프로세스 공간 생성 ]           │
-│                                                        │
-│     [ 프로세스 제어 블록 (PCB) ] ──▶ 커널 영역에 주민등록증 생성 │
-│      - PID: 4092, 상태: Running                         │
-│     ---------------------------------------------------│
-│     [ Stack 영역 ] ──▶ 지역 변수, 함수 호출 기록 (위에서 ⬇) │
-│          ( 빈 공간 - 동적 확장/축소)                      │
-│     [ Heap 영역 ]  ──▶ 동적 메모리 할당 (malloc) (아래서 ⬆) │
-│     ---------------------------------------------------│
-│     [ Data 영역 ]  ──▶ 전역 변수, 정적(Static) 변수        │
-│     [ Text (Code) 영역 ] ──▶ 기계어 명령어(`game.exe` 본체) │
-└────────────────────────────────────────────────────────┘
-```
 
-디스크에 있던 코드는 그대로 메모리의 Text 구역에 복사된다. 하지만 프로세스가 되면서 새로 생기는 가장 중요한 공간은 **Stack과 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)**이다. 이 공간이 있어야 비로소 데이터를 저장하고 함수를 호출하며 생명 활동(실행)을 할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 ➔ 프로세스 변환의 물리적 메모리 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 (HDD/SSD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽은 파일: <code>game.exe</code> (100MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (더블클릭! ──▶ OS의 Loader 작동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리 (RAM) - 살아있는 프로세스 공간 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 제어 블록 (PCB)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">커널 영역에 주민등록증 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PID: 4092, 상태: Running</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stack 영역</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">지역 변수, 함수 호출 기록 (위에서 ⬇)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 빈 공간 - 동적 확장/축소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Heap 영역</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">동적 메모리 할당 (malloc) (아래서 ⬆)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data 영역</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전역 변수, 정적(Static) 변수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Text (Code) 영역</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">기계어 명령어(<code>game.exe</code> 본체)</div></div>
+</div>
+</div>
+
+
+
+디스크에 있던 코드는 그대로 메모리의 Text 구역에 복사된다. 하지만 프로세스가 되면서 새로 생기는 가장 중요한 공간은 <strong>Stack과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a></strong>이다. 이 공간이 있어야 비로소 데이터를 저장하고 함수를 호출하며 생명 활동(실행)을 할 수 있다.
 
 - **📢 섹션 요약 비유**: 프로그램은 '요리책(레시피)'이고 프로세스는 '요리사가 부엌에서 요리하는 행위'다. 레시피(Text 영역)를 부엌 벽에 붙이고, 도마 위에 재료([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역)를 올리고, 요리 중 생기는 쓰레기를 임시 봉투([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))에 버려가며 완성된 볶음밥(결과물)을 만들어내는 동적인 전체 주방의 상태가 프로세스다.
 
@@ -67,11 +65,11 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 프로그램 (Program) | 프로세스 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) |
 |:---|:---|:---|
-| **상태 / 본질** | **정적(Static) / [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))** | **동적(Dynamic) / 실행 중인 프로그램** |
+| **상태 / 본질** | <strong>정적(Static) / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>)</strong> | **동적(Dynamic) / 실행 중인 프로그램** |
 | **저장 위치** | 보조기억장치 ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) | **메인 메모리 (RAM)** |
-| **[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) (OS)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 디스크 용량만 차지 | **CPU 시간, 메모리 공간([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), PID 등** |
-| **라이프사이클** | 지우지 않는 한 영원히 존재 | **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) ➔ 실행(Running) ➔ 종료(Terminated)** |
-| **개수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | 1개 (예: [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)프로세서 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개) | **N개 ([워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 창을 3개 띄우면 프로세스는 3개)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> (OS)</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 디스크 용량만 차지 | <strong>CPU 시간, 메모리 공간(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>), PID 등</strong> |
+| **라이프사이클** | 지우지 않는 한 영원히 존재 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a>) ➔ 실행(Running) ➔ 종료(Terminated)</strong> |
+| <strong>개수 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 1개 (예: [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)프로세서 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개) | <strong>N개 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 창을 3개 띄우면 프로세스는 3개)</strong> |
 
 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입장에서 디스크에 있는 프로그램은 단순히 관리해야 할 '짐(Block [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'에 불과하다. 그러나 더블클릭으로 프로세스가 되는 순간, OS는 [프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/)(PCB)이라는 서류를 만들어 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 큐에 줄을 세우고, 메모리를 감시하고, 죽으면 시체([좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/))를 치워야 하는 피곤한 '상전'으로 모시게 된다.
 
@@ -82,8 +80,8 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러의 프로세스 처형**: 리눅스 서버에서 자바 프로그램(`java -jar app.jar`)을 실행했다. 디스크의 `app.jar`는 겨우 50MB지만, 이놈이 램(RAM)에 올라가 프로세스가 된 후 트래픽을 받아 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역에 객체를 미친 듯이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))하여 8GB를 집어삼켰다. 시스템 전체가 멈추려 하자, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 디스크의 프로그램을 건드리지 않고, 메모리 위에서 가장 뚱뚱해진 이 Java '프로세스'의 멱살을 잡아 즉각 처형(SIGKILL)하여 서버의 생명을 연장한다.
-2. **[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 기반의 포크(Fork) 최적화**: 웹 서버(Nginx)는 들어오는 요청을 처리하기 위해 자신(프로세스)과 똑같이 생긴 자식 프로세스를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(`fork()`)하여 띄운다. 만약 크기가 100MB인 프로세스 10개를 띄울 때마다 메모리를 100MB씩 새로 복사(통째로 로딩)한다면 메모리가 남아나지 않는다. 천재 아키텍트들은 부모와 자식 프로세스가 `Text(코드)`와 `Data` 영역을 공유(Sharing)하게 놔두고, 누군가 값을 수정하려고 할 때만(Write) 메모리를 복사(Copy)해 주는 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 기법을 도입해 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 속도를 빛의 속도로 올렸다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) 킬러의 프로세스 처형</strong>: 리눅스 서버에서 자바 프로그램(`java -jar app.jar`)을 실행했다. 디스크의 `app.jar`는 겨우 50MB지만, 이놈이 램(RAM)에 올라가 프로세스가 된 후 트래픽을 받아 [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역에 객체를 미친 듯이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))하여 8GB를 집어삼켰다. 시스템 전체가 멈추려 하자, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 디스크의 프로그램을 건드리지 않고, 메모리 위에서 가장 뚱뚱해진 이 Java '프로세스'의 멱살을 잡아 즉각 처형(SIGKILL)하여 서버의 생명을 연장한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>) 기반의 포크(Fork) 최적화</strong>: 웹 서버(Nginx)는 들어오는 요청을 처리하기 위해 자신(프로세스)과 똑같이 생긴 자식 프로세스를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(`fork()`)하여 띄운다. 만약 크기가 100MB인 프로세스 10개를 띄울 때마다 메모리를 100MB씩 새로 복사(통째로 로딩)한다면 메모리가 남아나지 않는다. 천재 아키텍트들은 부모와 자식 프로세스가 `Text(코드)`와 `Data` 영역을 공유(Sharing)하게 놔두고, 누군가 값을 수정하려고 할 때만(Write) 메모리를 복사(Copy)해 주는 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 기법을 도입해 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 속도를 빛의 속도로 올렸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **좀비(Zombie) 프로세스와 고아(Orphan) 프로세스 방치 (거버넌스 붕괴)**: 개발자가 짠 C 프로그램이 자식 프로세스를 무수히 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(`fork`)한 뒤, 자식이 임무를 다하고 죽었을 때(exit) 부모가 자식의 사망 신고(`wait()`)를 거두지 않고 무시해 버리는 C코드 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 메모리는 반환되었지만, OS의 PCB(프로세스 관리 장부)에는 이 죽은 자식들의 시체([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)) 기록이 삭제되지 않고 수만 개씩 쌓이게 된다. 결국 OS는 더 이상 새로운 프로세스(PID)를 발급할 빈칸이 없어져 시스템 전체가 셧다운되는 치명적 파국을 맞는다.
@@ -106,27 +104,29 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | 프로세스라는 무거운 밥그릇(메모리 공간) 안에서, 밥은 같이 먹으면서 숟가락만 여러 개 얹어 동시에 일하는 프로세스 내부의 '더 가벼운 실행 단위' |
-| **PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)** | 프로그램이 프로세스가 될 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 발급하는 주민등록증. 프로세스 ID(PID), [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/), CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 등을 모두 꼼꼼하게 기록해 두는 쇳덩어리 장부 |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | CPU가 A 프로세스를 실행하다 멈추고 B 프로세스로 넘어갈 때, A의 하던 일([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 PCB에 백업하고 B의 일을 복원하는 무겁고 피곤한 OS의 쇳덩어리 전환 작업 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | 프로세스라는 무거운 밥그릇(메모리 공간) 안에서, 밥은 같이 먹으면서 숟가락만 여러 개 얹어 동시에 일하는 프로세스 내부의 '더 가벼운 실행 단위' |
+| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong> | 프로그램이 프로세스가 될 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 발급하는 주민등록증. 프로세스 ID(PID), [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/), CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값 등을 모두 꼼꼼하게 기록해 두는 쇳덩어리 장부 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | CPU가 A 프로세스를 실행하다 멈추고 B 프로세스로 넘어갈 때, A의 하던 일([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))을 PCB에 백업하고 B의 일을 복원하는 무겁고 피곤한 OS의 쇳덩어리 전환 작업 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초창기 일괄 처리 시스템 (Batch Processing) ──▶ 한 번에 하나의 프로그램만 순차 실행
-    │
-    ▼
-다중 프로그래밍 (Multiprogramming) 필요성 대두 (CPU가 노는 시간을 줄이자!)
-    │
-    ▼
-디스크의 프로그램과 메모리 위의 실행 상태를 분리 ──▶ '프로세스(Process)' 개념 탄생
-    │
-    ▼
-프로세스 관리를 위한 PCB 도입 및 시분할(Time-Sharing) 스케줄링 알고리즘 발전
-    │
-    ▼
-프로세스 생성의 무거움 극복 ──▶ 메모리를 공유하는 경량 프로세스인 '스레드(Thread)'로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초창기 일괄 처리 시스템 (Batch Processing) ──▶ 한 번에 하나의 프로그램만 순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 프로그래밍 (Multiprogramming) 필요성 대두 (CPU가 노는 시간을 줄이자!)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디스크의 프로그램과 메모리 위의 실행 상태를 분리 ──▶ '프로세스(Process)' 개념 탄생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 관리를 위한 PCB 도입 및 시분할(Time-Sharing) 스케줄링 알고리즘 발전</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 생성의 무거움 극복 ──▶ 메모리를 공유하는 경량 프로세스인 '스레드(Thread)'로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "정적 코드의 순차 실행 → 동적 생명체(프로세스)로의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 및 다중 제어 → 시스템 자원 절약을 위한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 분할"이라는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 실행 단위의 역사적 진화를 보여준다.
 

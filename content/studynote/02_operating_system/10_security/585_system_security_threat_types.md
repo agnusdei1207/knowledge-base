@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정보 보안의 3대 목표는 **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))**, **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**, **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**이며, 이에 **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**을 더하여 4가지 보안 위협 유형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
-> 2. **가치**: 이 **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계(CIA+Auth)**를 통해 다양한 해킹 공격을 체계적으로 분석하고, 각 위협 유형에 대응하는 보안 기술을 적용할 수 있다.
+> 1. **본질**: 정보 보안의 3대 목표는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)</strong>, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong>이며, 이에 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>을 더하여 4가지 보안 위협 유형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
+> 2. **가치**: 이 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계(CIA+Auth)</strong>를 통해 다양한 해킹 공격을 체계적으로 분석하고, 각 위협 유형에 대응하는 보안 기술을 적용할 수 있다.
 > 3. **한계**: 실제 공격은 여러 위협 유형을 조합하여 발생하므로,(단일) 기술만으로는 완벽한 보안을 달성할 수 없다.
 
 ---
@@ -71,12 +71,18 @@ Sender ----(데이터)----> Receiver
 
 ### 2.2 변조 (Modification): [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해
 
-```
-[ 통신 흐름 ]
-Sender ----(정상 데이터)---> Receiver
-【해커가 데이터 변조】
-----(변조된 데이터)---> Receiver
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신 흐름</div></div>
+<div class="kb-diagram-note">Sender ----(정상 데이터)---&gt; Receiver</div>
+<div class="kb-diagram-note">【해커가 데이터 변조】</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(변조된 데이터)---&gt; Receiver</div>
+</div>
+</div>
+
+
 
 **예시**:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 공격
@@ -143,11 +149,17 @@ Sender -X-(데이터)-X-> Receiver
 
 세 가지 목표는 상호 Trade-off [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있다:
 
-```text
-[ 예시 ]
-기밀성을 높이면 -> 복잡한 암호화 -> 가용성 저하
-무결성을 높이면 -> 많은 검증 -> 성능 저하
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">예시</div></div>
+<div class="kb-diagram-note">기밀성을 높이면 -&gt; 복잡한 암호화 -&gt; 가용성 저하</div>
+<div class="kb-diagram-note">무결성을 높이면 -&gt; 많은 검증 -&gt; 성능 저하</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -182,27 +194,31 @@ Sender -X-(데이터)-X-> Receiver
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[AppArmor]
-│
-▼
-[시스템 보안 위협 유형 (System Security Threat Types)]
-│
-├──▶ [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
-└──▶ [트랩 도어 (Trap Door / Backdoor)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 보안 위협 유형 (System Security Threat Types)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 도어 (Trap Door / Backdoor)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)**은 놀이공원에서 **"비밀번호 없이는 입장 불가"**와 같다. 비밀번호를 모르는 사람은 놀이시설을 탈 수 없다.
+1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a></strong>은 놀이공원에서 <strong>"비밀번호 없이는 입장 불가"</strong>와 같다. 비밀번호를 모르는 사람은 놀이시설을 탈 수 없다.
 
-2. **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**은 놀이공원에서 **"표시가 있는 표찰"**과 같다.표찰에 표시된 내용을에(승강장에) 변경할 수 없어야 한다.
+2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>은 놀이공원에서 <strong>"표시가 있는 표찰"</strong>과 같다.표찰에 표시된 내용을에(승강장에) 변경할 수 없어야 한다.
 
-3. **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)**은 놀이공원에서 **"언제든 입장 가능"**과 같다. 놀이시설이 고장나면 아무도 놀지 못한다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong>은 놀이공원에서 <strong>"언제든 입장 가능"</strong>과 같다. 놀이시설이 고장나면 아무도 놀지 못한다.
 
-4. **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**은 놀이공원에서 **"본인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"**과 같다. 신분증을 제시하여 "진짜 Alice 맞구나"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다.
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>은 놀이공원에서 <strong>"본인 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>"</strong>과 같다. 신분증을 제시하여 "진짜 Alice 맞구나"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것과 같다.
 
 ---
 

@@ -19,24 +19,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-ChatGPT, Claude와 같은 **[대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))** 을 활용하여, 고객과의 인터뷰 스크립트나 모호한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항 텍스트를 입력받아 정형화된 **[소프트웨어 요구사항 명세서](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/)(SRS, Software Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))** 나 **유스케이스(Use Case) 초안을 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**하는 차세대 요구공학 기법입니다.
+ChatGPT, Claude와 같은 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/">대규모 언어 모델</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>, <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">Large Language Model</a>)</strong> 을 활용하여, 고객과의 인터뷰 스크립트나 모호한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항 텍스트를 입력받아 정형화된 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/">소프트웨어 요구사항 명세서</a>(SRS, Software Requirements <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong> 나 <strong>유스케이스(Use Case) 초안을 자동으로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하는 차세대 요구공학 기법입니다.
 
 - **📢 섹션 요약 비유**: AI([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 요구사항 명세서 초안 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 AI([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 요구사항 명세서 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  AI(LLM) 기반 요구사항 명세서                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI(LLM) 기반 요구사항 명세서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 AI([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 요구사항 명세서 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -48,8 +47,8 @@ ChatGPT, Claude와 같은 **[대규모 언어 모델](/knowledge-base/studynote/
 |:---|:---|:---|
 | **1. 도출 (Elicitation)** | 회의록을 들으며 수기로 요구사항 정리 | 회의 [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)(음성 ➔ 텍스트) 데이터를 분석해 **숨겨진 핵심 요구사항(Actor, Action, Goal) 자동 추출** |
 | **2. 분석 (Analysis)** | 수백 개의 요구사항 간 충돌(모순) 여부 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 수백 개의 문장을 벡터 유사도로 비교하여 **기능적 충돌 및 누락된 엣지 케이스(예외 상황) 자동 경고** |
-| **3. 명세 ([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))**| [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)/엑셀 템플릿에 맞추어 하루 종일 타이핑 | 지시한 템플릿(예: BDD의 Given-When-Then, IEEE 830)에 맞춰 **완벽한 형식의 초안 문서 즉시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** |
-| **4. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))** | 리뷰 회의를 열어 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반 수동 검사 | "ISO 27001 보안 표준에 위배되는 요구사항을 찾아라" 지시로 **보안/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제약 사항 자동 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)** |
+| <strong>3. 명세 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong>| [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)/엑셀 템플릿에 맞추어 하루 종일 타이핑 | 지시한 템플릿(예: BDD의 Given-When-Then, IEEE 830)에 맞춰 <strong>완벽한 형식의 초안 문서 즉시 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> |
+| <strong>4. <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong> | 리뷰 회의를 열어 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반 수동 검사 | "ISO 27001 보안 표준에 위배되는 요구사항을 찾아라" 지시로 <strong>보안/<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 제약 사항 자동 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a></strong> |
 
 - **📢 섹션 요약 비유**: AI([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 요구사항 명세서 초안 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지원은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -66,7 +65,7 @@ AI가 제대로 된 명세서를 뽑아내게 하려면, 기획자나 분석가(
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) ([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))**: AI가 그럴듯한 거짓 기능(고객이 말하지도 않은 기능)을 멋대로 추가해 버릴 수 있어, **반드시 인간(Human-in-the-Loop)의 최종 리뷰와 승인이 필수**입니다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>)</strong>: AI가 그럴듯한 거짓 기능(고객이 말하지도 않은 기능)을 멋대로 추가해 버릴 수 있어, <strong>반드시 인간(Human-in-the-Loop)의 최종 리뷰와 승인이 필수</strong>입니다.
 - **보안/기밀 유출**: 기업의 핵심 비즈니스 로직이나 민감한 고객 정보가 퍼블릭 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(오픈AI 서버 등)으로 넘어가는 것을 막기 위해, 사내 전용 구축형 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) sLLM) 도입이 동반되어야 합니다.
 
 > 📢 **섹션 요약 비유**: 엉망진창으로 녹음된 "고객의 하소연 테이프"를 숙련된 타이피스트이자 법무사인 AI 비서에게 건네주면, 비서가 하소연 속에서 '계약 조건', '위약금', '면책 조항'을 완벽한 법률 문서(요구사항 명세서) 포맷으로 찍어내어 결재를 올리는 환상적인 업무 자동화입니다.
@@ -106,21 +105,23 @@ AI([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-AI(LLM) 기반 요구사항 명세서 초안 자동 생성 지원 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI(LLM) 기반 요구사항 명세서 초안 자동 생성 지원 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,19 +25,22 @@ MVC가 필요한 이유는 "변화의 종류"가 서로 다르기 때문이다. 
 
 아래 그림은 MVC가 해결하려는 문제를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Before MVC vs After MVC                                              │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ One event handler             │ Model / View / Controller            │
-│ - reads user input            │ - Model: state + business rule       │
-│ - updates domain state        │ - View : rendering                   │
-│ - queries DB                  │ - Controller: input coordination     │
-│ - renders screen              │ - changes isolated by responsibility  │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
 
-즉 MVC는 미학적 분리보다 **변화의 지역화(Locality of Change)**를 목적으로 한다. 역할을 나누는 이유는 코드가 예뻐 보여서가 아니라, 화면 변경이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 흔들지 않게 하고 입력 흐름 수정이 렌더링 로직 전체를 오염시키지 않게 하려는 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before MVC vs After MVC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One event handler</div><div class="kb-diagram-cell">Model / View / Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- reads user input</div><div class="kb-diagram-cell">- Model: state + business rule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- updates domain state</div><div class="kb-diagram-cell">- View : rendering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- queries DB</div><div class="kb-diagram-cell">- Controller: input coordination</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- renders screen</div><div class="kb-diagram-cell">- changes isolated by responsibility</div></div>
+</div>
+</div>
+
+
+
+즉 MVC는 미학적 분리보다 <strong>변화의 지역화(Locality of Change)</strong>를 목적으로 한다. 역할을 나누는 이유는 코드가 예뻐 보여서가 아니라, 화면 변경이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 흔들지 않게 하고 입력 흐름 수정이 렌더링 로직 전체를 오염시키지 않게 하려는 것이다.
 
 - **📢 섹션 요약 비유**: 식당에서 주문받는 사람, 요리하는 사람, 진열하는 사람이 한 명이면 바쁠 때 실수가 커진다. MVC는 주문, 조리, 진열을 나눠서 일이 꼬일 범위를 줄이는 운영 방식이다.
 
@@ -55,26 +58,24 @@ MVC의 핵심은 세 역할의 경계를 만드는 것이다. Model은 상태와
 
 아래 그림은 MVC를 "복합 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)"으로 보는 관점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MVC as a composite of patterns                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ User input                                                           │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Controller ── Strategy / Command ──> Model                           │
-│    │                                   │                             │
-│    │                                   └─ Observer notify ───────┐   │
-│    ▼                                                            ▼   │
-│ View selection                                            View update │
-│                                                                  │    │
-│                                                          Composite UI │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVC as a composite of patterns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User input</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller ── Strategy / Command ──&gt; Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Observer notify</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View selection View update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Composite UI</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 Model이 View를 "예쁘게 그리는 법"을 몰라야 하고, View가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 스스로 바꾸지 말아야 하며, Controller가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 세부 구현을 다 떠안지 않아야 한다는 것이다. 특히 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 트리는 버튼, 패널, 리스트, 폼 같은 구성요소가 중첩되므로 GoF의 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴이 자연스럽게 녹아든다.
 
-또한 데스크톱 MVC와 웹 MVC는 같은 이름을 쓰더라도 결합 방향이 조금 다르다. 데스크톱 환경에서는 View가 Model 상태를 직접 관찰하는 전통적 MVC가 많고, 서버사이드 웹 MVC는 Controller가 요청마다 Model [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 준비해 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 템플릿에 전달하는 형태가 많다. 즉 MVC는 고정 공식이 아니라, **실행 환경에 맞게 패턴 조합을 바꾸는 설계 프레임**이다.
+또한 데스크톱 MVC와 웹 MVC는 같은 이름을 쓰더라도 결합 방향이 조금 다르다. 데스크톱 환경에서는 View가 Model 상태를 직접 관찰하는 전통적 MVC가 많고, 서버사이드 웹 MVC는 Controller가 요청마다 Model [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 준비해 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 템플릿에 전달하는 형태가 많다. 즉 MVC는 고정 공식이 아니라, <strong>실행 환경에 맞게 패턴 조합을 바꾸는 설계 프레임</strong>이다.
 
 - **📢 섹션 요약 비유**: MVC는 레고 3조각만 맞추는 장난감이 아니라, 기본 뼈대 위에 힌지, 기어, 바퀴를 상황에 맞게 끼우는 조립 세트다. 이름은 같아도 어떤 부품을 같이 쓰느냐에 따라 움직임이 달라진다.
 
@@ -92,7 +93,7 @@ MVC를 정확히 말하려면 [MVP](/knowledge-base/studynote/12_it_management/0
 
 MVC는 특히 웹 프레임워크에서 Front Controller 패턴과 자주 연결된다. 예를 들어 Spring MVC에서는 `DispatcherServlet`이 모든 요청을 받고, 실제 Controller 메서드에 위임한 뒤, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Resolver가 템플릿이나 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation) 응답을 선택한다. 이때 Model은 꼭 UI 모델만이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 엔티티, DTO ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object) 계층과 연결된다.
 
-또 하나 자주 헷갈리는 지점은 제목의 "복합"이 GoF의 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴만을 뜻하지 않는다는 점이다. MVC에는 실제로 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 트리에서 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴이 들어가지만, 더 큰 의미에서는 **여러 패턴이 조합된 [composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)**라는 뜻으로 읽는 것이 맞다. 즉 MVC를 단일 GoF 패턴으로 외우면 반쪽 이해가 된다.
+또 하나 자주 헷갈리는 지점은 제목의 "복합"이 GoF의 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴만을 뜻하지 않는다는 점이다. MVC에는 실제로 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 트리에서 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 패턴이 들어가지만, 더 큰 의미에서는 <strong>여러 패턴이 조합된 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">composite</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">architecture</a></strong>라는 뜻으로 읽는 것이 맞다. 즉 MVC를 단일 GoF 패턴으로 외우면 반쪽 이해가 된다.
 
 - **📢 섹션 요약 비유**: MVC는 기본형 세단이고, MVP는 운전석과 조수석 역할을 더 엄격히 나눈 차량, MVVM은 자동변속과 센서 보조가 들어간 차량에 가깝다. 모두 자동차지만 조작 방식과 부품 배치가 다르다.
 
@@ -104,21 +105,19 @@ MVC는 특히 웹 프레임워크에서 Front Controller 패턴과 자주 연결
 
 아래 그림은 서버사이드 웹에서 자주 보는 MVC 흐름이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Typical Web MVC request flow                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ HTTP Request                                                         │
-│      │                                                               │
-│      ▼                                                               │
-│ Front Controller -> Controller -> Service / Domain Model             │
-│      │                                   │                           │
-│      └────────────── Model data <────────┘                           │
-│                              │                                       │
-│                              ▼                                       │
-│                     View template / JSON response                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical Web MVC request flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP Request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller -&gt; Controller -&gt; Service / Domain Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model data &lt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View template / JSON response</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -145,9 +144,9 @@ MVC는 특히 웹 프레임워크에서 Front Controller 패턴과 자주 연결
 
 MVC의 가장 큰 효과는 변경 가능성을 구조 안에 미리 접어 넣는다는 데 있다. 화면 스킨이 바뀌어도 핵심 규칙은 유지되고, 입력 방식이 웹에서 모바일로 바뀌어도 Model은 재사용될 수 있다. 또한 같은 Model을 여러 View에서 공유할 수 있어 관리 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답, 사용자 화면을 비교적 일관되게 설계할 수 있다.
 
-물론 MVC가 항상 정답은 아니다. 화면 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 매우 복잡하면 MVVM이 더 자연스럽고, 단순 CRUD [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 과도한 추상화로 느껴질 수 있다. 중요한 것은 MVC를 교조적으로 따르는 것이 아니라, **변화의 방향과 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 맞게 패턴 조합을 고르는 것**이다.
+물론 MVC가 항상 정답은 아니다. 화면 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 매우 복잡하면 MVVM이 더 자연스럽고, 단순 CRUD [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 과도한 추상화로 느껴질 수 있다. 중요한 것은 MVC를 교조적으로 따르는 것이 아니라, <strong>변화의 방향과 테스트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>에 맞게 패턴 조합을 고르는 것</strong>이다.
 
-결론적으로 MVC는 "Model·[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)·Controller 세 단어"보다, **여러 패턴을 조합해 변화의 영향을 역할별로 가두는 복합 설계 원리**로 기억하는 것이 정확하다. 이 관점을 잡으면 왜 현대 웹 프레임워크와 UI 프레임워크가 서로 다른 변형을 택하는지도 자연스럽게 이해된다.
+결론적으로 MVC는 "Model·[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)·Controller 세 단어"보다, <strong>여러 패턴을 조합해 변화의 영향을 역할별로 가두는 복합 설계 원리</strong>로 기억하는 것이 정확하다. 이 관점을 잡으면 왜 현대 웹 프레임워크와 UI 프레임워크가 서로 다른 변형을 택하는지도 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: 좋은 공연은 배우, 무대, 연출이 서로 맡은 일을 지킬 때 완성된다. MVC도 마찬가지로, 각 파트가 자신의 역할에 집중할수록 전체 시스템이 더 안정적으로 돌아간다.
 
@@ -166,22 +165,24 @@ MVC의 가장 큰 효과는 변경 가능성을 구조 안에 미리 접어 넣�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Monolithic UI code
-        │
-        ▼
-MVC separation
-        │
-        ├─ Observer for state update
-        ├─ Composite for view tree
-        └─ Strategy / Command for input flow
-        │
-        ▼
-Web MVC + Front Controller
-        │
-        ▼
-MVP / MVVM / reactive UI architectures
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Monolithic UI code</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVC separation</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Observer for state update</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Composite for view tree</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Strategy / Command for input flow</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Web MVC + Front Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP / MVVM / reactive UI architectures</div>
+</div>
+</div>
+
+
 
 이 흐름은 화면 코드의 분리 요구가 MVC를 낳았고, 이후 실행 환경과 테스트 요구에 따라 다양한 패턴 조합으로 확장됐음을 보여 준다.
 

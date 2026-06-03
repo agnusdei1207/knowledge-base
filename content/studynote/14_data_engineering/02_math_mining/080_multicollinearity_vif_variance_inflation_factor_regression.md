@@ -17,7 +17,7 @@ tags = ["studynote-data-engineering"]
 ---
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))은 독립변수(X)가 종속변수(Y)에 미치는 영향을 추정하는 통계 기법입니다. 이 모델이 정상적으로 작동하려면 "독립변수들은 서로 독립적이어야 한다"는 기본 가정이 충족되어야 합니다. 그러나 실제 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 특히 빅데이터 환경에서는 변수들끼리 얽혀 있는 경우가 많습니다. 예를 들어, 집값을 예측할 때 '방의 개수'와 '집의 평수'는 서로 매우 강한 양의 상관관계를 가집니다. 이렇게 X 변수들 간의 상관성이 너무 높아 회귀 모델의 계수 추정이 불안정해지고 해석이 불가능해지는 현상을 **다중 공선성(Multicollinearity)**이라고 합니다. 다중 공선성이 발생하면 모델의 R-squared(설명력)는 높게 나오지만, 정작 각 변수의 P-value는 유의미하지 않게 나오는 모순적인 결과가 도출되어 분석가를 혼란에 빠뜨립니다.
+[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))은 독립변수(X)가 종속변수(Y)에 미치는 영향을 추정하는 통계 기법입니다. 이 모델이 정상적으로 작동하려면 "독립변수들은 서로 독립적이어야 한다"는 기본 가정이 충족되어야 합니다. 그러나 실제 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 특히 빅데이터 환경에서는 변수들끼리 얽혀 있는 경우가 많습니다. 예를 들어, 집값을 예측할 때 '방의 개수'와 '집의 평수'는 서로 매우 강한 양의 상관관계를 가집니다. 이렇게 X 변수들 간의 상관성이 너무 높아 회귀 모델의 계수 추정이 불안정해지고 해석이 불가능해지는 현상을 <strong>다중 공선성(Multicollinearity)</strong>이라고 합니다. 다중 공선성이 발생하면 모델의 R-squared(설명력)는 높게 나오지만, 정작 각 변수의 P-value는 유의미하지 않게 나오는 모순적인 결과가 도출되어 분석가를 혼란에 빠뜨립니다.
 
 ---
 
@@ -29,26 +29,28 @@ $$ VIF_i = \frac{1}{1 - R^2_i} $$
 
 $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될수록) 분모가 0에 가까워져 VIF는 무한대로 폭발하게 됩니다.
 
-```text
-+---------------------------------------------------------------+
-|         Multicollinearity & VIF Diagnostic Mechanism          |
-+---------------------------------------------------------------+
-| [Independent Variables X]                                     |
-|   X1: House Area (평수)  ------\  Strong Correlation (r > 0.9)|
-|                                 x-----------------------\     |
-|   X2: Num of Rooms (방수) -----/                         \    |
-|                                                           \   |
-| [VIF Calculation for X1]                                   |  |
-|   1. Regress X1 on X2, X3...                               v  |
-|   2. Calculate R-squared for X1 (e.g., R^2 = 0.95)   [Model]  |
-|   3. VIF_1 = 1 / (1 - 0.95) = 20 (Danger!)          Regression|
-|                                                      Weights  |
-| [Resolution Strategies]                                (B1, B2|
-|   A. Feature Selection: Drop X1 or X2 (변수 제거)             |
-|   B. Dimensionality Reduction: PCA (주성분 분석)              |
-|   C. Regularization: Ridge/Lasso Penalty (정규화)             |
-+---------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multicollinearity &amp; VIF Diagnostic Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Independent Variables X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X1: House Area (평수) ------\ Strong Correlation (r &gt; 0.9)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x-----------------------\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X2: Num of Rooms (방수) -----/ \</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VIF Calculation for X1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Regress X1 on X2, X3... v</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. Calculate R-squared for X1 (e.g., R^2 = 0.95)</div><div class="kb-diagram-node">Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. VIF_1 = 1 / (1 - 0.95) = 20 (Danger!) Regression</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weights</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Resolution Strategies</div><div class="kb-diagram-note">(B1, B2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. Feature Selection: Drop X1 or X2 (변수 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. Dimensionality Reduction: PCA (주성분 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C. Regularization: Ridge/Lasso Penalty (정규화)</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -66,9 +68,9 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어와 분석가는 수백 개의 컬럼(Feature)을 다루게 됩니다. 이 때 VIF를 통한 다중 공선성 검증은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 파이프라인의 필수 전처리 단계([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Preprocessing)입니다.
-1. **상관 계수 행렬(Correlation Matrix)**을 먼저 확인하여 [피어슨 상관 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)가 0.8~0.9 이상인 변수 쌍을 일차적으로 필터링합니다.
-2. 이후 **VIF 검정**을 통해 VIF가 10을 넘는 변수들을 식별합니다. (엄격한 기준에서는 5를 기준으로 삼기도 합니다.)
-3. 기술사적 관점에서는 단순히 VIF가 높다고 기계적으로 변수를 삭제해서는 안 됩니다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Knowledge)을 바탕으로 해당 변수가 비즈니스적으로 핵심적인 원인 변수인지 확인해야 합니다. 만약 핵심 변수라면 삭제 대신 **Ridge 회귀(L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))**를 적용하여 모델의 안정성과 예측력을 동시에 확보하는 전략적 결정이 필요합니다.
+1. <strong>상관 계수 행렬(Correlation Matrix)</strong>을 먼저 확인하여 [피어슨 상관 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/065_pearson_correlation_coefficient_multicollinearity/)가 0.8~0.9 이상인 변수 쌍을 일차적으로 필터링합니다.
+2. 이후 <strong>VIF 검정</strong>을 통해 VIF가 10을 넘는 변수들을 식별합니다. (엄격한 기준에서는 5를 기준으로 삼기도 합니다.)
+3. 기술사적 관점에서는 단순히 VIF가 높다고 기계적으로 변수를 삭제해서는 안 됩니다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Knowledge)을 바탕으로 해당 변수가 비즈니스적으로 핵심적인 원인 변수인지 확인해야 합니다. 만약 핵심 변수라면 삭제 대신 <strong>Ridge 회귀(L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)</strong>를 적용하여 모델의 안정성과 예측력을 동시에 확보하는 전략적 결정이 필요합니다.
 
 ---
 
@@ -92,27 +94,29 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다중 회귀 분석 (Multiple Regression)
-    │
-    ▼
-독립변수 간 상관관계 발견 (Pearson r > 0.8)
-    │
-    ▼
-다중 공선성 진단
-    ├─► 상관계수 행렬 (Correlation Matrix) — 1차 필터링
-    └─► VIF (Variance Inflation Factor) — 정밀 진단
-         VIF > 10 → 위험 / VIF > 5 → 주의
-    │
-    ▼
-해결 전략
-    ├─► 변수 제거 (Feature Selection) — 도메인 판단 기반
-    ├─► Ridge (L2) / Lasso (L1) 정규화 — 계수 억제
-    └─► PCA (주성분 분석) — 직교 변환으로 상관성 제거
-    │
-    ▼
-XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다중 회귀 분석 (Multiple Regression)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">독립변수 간 상관관계 발견 (Pearson r &gt; 0.8)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 공선성 진단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">상관계수 행렬 (Correlation Matrix) — 1차 필터링</div>
+<div class="kb-diagram-tree-item" style="--depth:2">VIF (Variance Inflation Factor) — 정밀 진단</div>
+<div class="kb-diagram-note">VIF &gt; 10 → 위험 / VIF &gt; 5 → 주의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해결 전략</div>
+<div class="kb-diagram-tree-item" style="--depth:2">변수 제거 (Feature Selection) — 도메인 판단 기반</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Ridge (L2) / Lasso (L1) 정규화 — 계수 억제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">PCA (주성분 분석) — 직교 변환으로 상관성 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅</div>
+</div>
+</div>
+
+
 
 ---
 

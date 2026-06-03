@@ -35,22 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 여러 경로가 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치로 수렴하는 모습을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Multipath I/O Stack View                    │
-├──────────────────────────────────────────────────────────────┤
-│ Application / File System                                   │
-│            │                                                 │
-│ Logical Block Device (single disk view)                     │
-│            │                                                 │
-│ Multipath Layer                                              │
-│    ├─ Path 1 : HBA-A -> Fabric-A -> Target Port-A           │
-│    ├─ Path 2 : HBA-B -> Fabric-B -> Target Port-B           │
-│    └─ Path 3 : HBA-C -> Fabric-A -> Target Port-C           │
-│            │                                                 │
-│         Same LUN / same WWID                                │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multipath I/O Stack View</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application / File System</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical Block Device (single disk view)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multipath Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Path 1 : HBA-A -&gt; Fabric-A -&gt; Target Port-A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Path 2 : HBA-B -&gt; Fabric-B -&gt; Target Port-B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Path 3 : HBA-C -&gt; Fabric-A -&gt; Target Port-C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same LUN / same WWID</div></div>
+</div>
+</div>
+
+
 
 멀티패스 소프트웨어는 먼저 각 경로의 WWID (World Wide [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 읽어 동일 장치 여부를 판단한다. 그다음 경로별 응답 상태를 점검하고, 살아 있는 경로들을 하나의 경로 집합으로 묶는다. 이후 입출력 요청이 오면 정책에 따라 특정 경로를 선택하고, 실패가 감지되면 다른 경로로 즉시 우회한다.
 
@@ -133,21 +133,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single-path storage access
-        │
-        ▼
-Dual HBA + dual fabric design
-        │
-        ▼
-Multipath software with failover
-        │
-        ▼
-ALUA-based optimized path selection
-        │
-        ▼
-NVMe-oF ANA / telemetry-driven path control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single-path storage access</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dual HBA + dual fabric design</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multipath software with failover</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ALUA-based optimized path selection</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe-oF ANA / telemetry-driven path control</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)에서 시작해, 경로 품질을 인지하는 지능형 선택으로 멀티패스가 발전하는 방향을 보여준다.
 

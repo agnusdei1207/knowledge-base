@@ -21,21 +21,25 @@ tags = ["studynote-network"]
 
 - **개념**: Cisco의 독자 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 EIGRP가 경쟁 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)) 대비 기술적 우위를 점하게 해주는 핵심 최적화 기능들.
 - **필요성**: 
-  - (업데이트 문제) RIP는 30초마다 전체 지도를 쏴서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹었다. OSPF는 부분 업데이트를 하긴 하지만, 변화가 생기면 무조건 같은 Area 내의 '모든 라우터'에게 싹 다(Flooding) 뿌려야 해서 여전히 CPU 낭비가 심했다. **"딱 필요한 놈한테, 딱 필요한 정보만 주자!"**라는 극한의 실용주의가 필요했다.
-  - ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제) OSPF는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 1Gbps인 길과 500Mbps인 길이 있으면 무조건 1Gbps 길로만 패킷을 몰아넣고 500Mbps 길은 1Gbps 길이 끊어질 때까지 그냥 놀린다. **"아니, 둘 다 합치면 1.5Gbps인데 왜 하나를 놀려? 점수가 달라도 2:1 비율로 나눠 쏘면 되잖아!"**라는 경제적 발상이 EIGRP를 특별하게 만들었다.
+  - (업데이트 문제) RIP는 30초마다 전체 지도를 쏴서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹었다. OSPF는 부분 업데이트를 하긴 하지만, 변화가 생기면 무조건 같은 Area 내의 '모든 라우터'에게 싹 다(Flooding) 뿌려야 해서 여전히 CPU 낭비가 심했다. <strong>"딱 필요한 놈한테, 딱 필요한 정보만 주자!"</strong>라는 극한의 실용주의가 필요했다.
+  - ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 문제) OSPF는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 1Gbps인 길과 500Mbps인 길이 있으면 무조건 1Gbps 길로만 패킷을 몰아넣고 500Mbps 길은 1Gbps 길이 끊어질 때까지 그냥 놀린다. <strong>"아니, 둘 다 합치면 1.5Gbps인데 왜 하나를 놀려? 점수가 달라도 2:1 비율로 나눠 쏘면 되잖아!"</strong>라는 경제적 발상이 EIGRP를 특별하게 만들었다.
 
 - **💡 비유**: 
-  - **부분/제한적 업데이트**: 사내 게시판에 "오늘 점심 메뉴 바뀜"이라고 전체 공지(Flooding)를 때리지 않고, **점심 메뉴가 바뀐 부서 사람들에게만 조용히 사내 메신저(Bounded)로 "제육볶음 대신 돈까스 나옴(Partial)"이라고 콕 집어 알려주는 세련된 사내 통신망**입니다.
-  - **Unequal Cost 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**: 짐 100개를 옮겨야 할 때, 10톤 트럭(1등 경로) 한 대만 혹사하고 5톤 트럭(2등 경로)은 주차장에 놀리는 게 아니라, **"너는 2번 왕복할 때 얘는 1번 왕복하게 맞춰서, 둘이 동시에 짐을 나르자!"**라고 기막히게 분배하는 물류 반장입니다.
+  - **부분/제한적 업데이트**: 사내 게시판에 "오늘 점심 메뉴 바뀜"이라고 전체 공지(Flooding)를 때리지 않고, <strong>점심 메뉴가 바뀐 부서 사람들에게만 조용히 사내 메신저(Bounded)로 "제육볶음 대신 돈까스 나옴(Partial)"이라고 콕 집어 알려주는 세련된 사내 통신망</strong>입니다.
+  - <strong>Unequal Cost 부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>: 짐 100개를 옮겨야 할 때, 10톤 트럭(1등 경로) 한 대만 혹사하고 5톤 트럭(2등 경로)은 주차장에 놀리는 게 아니라, <strong>"너는 2번 왕복할 때 얘는 1번 왕복하게 맞춰서, 둘이 동시에 짐을 나르자!"</strong>라고 기막히게 분배하는 물류 반장입니다.
 
-```text
-[EIGRP]
-    │
-    ▼
-[EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    └──▶ [OSPF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** EIGRP의 이러한 특징들은 낭비를 극도로 혐오하는 **"짠돌이 구두쇠"**의 철학과 같습니다. 내 입([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 아프게 쓸데없는 말을 하지 않고, 놀고 있는 뒷방 늙은이(2등 경로)까지 알뜰하게 부려 먹어 트래픽 처리량을 한계치까지 쥐어짜 냅니다.
 
@@ -45,7 +49,7 @@ tags = ["studynote-network"]
 
 ### 1. 부분 및 제한적 업데이트 (Partial & Bounded Update)
 이 기능 덕분에 EIGRP는 "Hello" 패킷(5초 주기) 외에는 평소에 아예 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 소모하지 않는다.
-- **Partial (부분)**: 수천 개의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 중 딱 **'변화가 생긴 한 줄'**만 보낸다.
+- **Partial (부분)**: 수천 개의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 중 딱 <strong>'변화가 생긴 한 줄'</strong>만 보낸다.
 - **Bounded (제한적)**: 이 소문이 연쇄적으로 퍼져나갈 때, **그 정보를 몰라도 되는 라우터(경로상 상관없는 놈)에게는 아예 엽서를 보내지 않는다**. (OSPF는 Area 내의 모든 놈이 무조건 다 알아야 하는 것과 대조적이다).
 
 ### 2. 불균등 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) (Unequal-Cost [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))
@@ -56,28 +60,29 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
   - 경로 1 (Successor): [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) **10점** (1등)
   - 경로 2 (Feasible Successor): [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) **25점** (2등)
 - 평소([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) = 1, 기본값)에는 무조건 1등 경로(10점)로만 패킷을 몰아 쏜다.
-- 관리자가 얍삽하게 **`variance 3`**이라고 명령어를 친다.
+- 관리자가 얍삽하게 <strong><code>variance 3</code></strong>이라고 명령어를 친다.
 - **마법 발동**: 1등 점수(10점)에 3을 곱한다. -> **기준 점수 30점** [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)!
 - 라우터 왈: "이제부터 내 수첩에 적힌 2등 경로들 중에서, 점수가 30점보다 싼(좋은) 놈들은 전부 다 1등이랑 같이 패킷을 쏠 자격을 주마!"
-- 경로 2는 25점이므로 기준 점수 30점 안에 들어와서 **[로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)에 합류**하게 된다!
+- 경로 2는 25점이므로 기준 점수 30점 안에 들어와서 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>에 합류</strong>하게 된다!
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Variance를 이용한 Unequal Cost 분산 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ]                                     [ 목적지 ] │
- │        │ ── (경로 A: 10점, 1등) ──▶ (패킷 5개 보냄) ──▶         │
- │        │ ── (경로 B: 20점, 2등) ──▶ (패킷 2개 보냄) ──▶         │
- │        └── (경로 C: 40점, 3등) ──▶ (탈락, 안 보냄)   ──▶         │
- │                                                             │
- │   * 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)            │
- │   * 결과: 20점 이하인 A길과 B길을 모두 사용한다!                    │
- │   * 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 명령어는 사장님의 **"성과급 융통성(커트라인 완화)"**입니다. 원래는 90점 맞은 1등 직원(Successor)에게만 보너스를 몰아주다가, 사장님이 `variance 1.5`를 때리면 "1등 점수(90점)의 1.5배 이내로 들어온 직원들(Feasible Successor)에게도 성적에 비례해서 보너스를 나눠줘라!"라며 놀고 있던 직원들을 열일하게 만듭니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variance를 이용한 Unequal Cost 분산 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-node">목적지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 A: 10점, 1등) ──▶ (패킷 5개 보냄) ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 B: 20점, 2등) ──▶ (패킷 2개 보냄) ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 C: 40점, 3등) ──▶ (탈락, 안 보냄) ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 20점 이하인 A길과 B길을 모두 사용한다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> 명령어는 사장님의 </strong>"성과급 융통성(커트라인 완화)"**입니다. 원래는 90점 맞은 1등 직원(Successor)에게만 보너스를 몰아주다가, 사장님이 `variance 1.5`를 때리면 "1등 점수(90점)의 1.5배 이내로 들어온 직원들(Feasible Successor)에게도 성적에 비례해서 보너스를 나눠줘라!"라며 놀고 있던 직원들을 열일하게 만듭니다.
 
 ---
 
@@ -133,15 +138,19 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EIGRP]
-    │
-    ▼
-[현재 개념: EIGRP 특징: 부분/바운디드 업데이트,…]
-    │
-    ├──▶ [확장 A: OSPF]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EIGRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…는 EIGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPF와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

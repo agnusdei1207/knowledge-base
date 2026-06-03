@@ -21,11 +21,16 @@ tags = ["studynote-ai"]
 
 신경망은 앞으로 예측하고 뒤로 오차를 전파해야 학습할 수 있다. BP ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))는 이 역방향 계산을 빠르게 수행해 깊은 모델도 실용적으로 만든다.
 오차를 뒤로 돌리지 못하면 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 얼마나 결과에 영향을 줬는지 알 수 없고, 결국 깊이가 깊을수록 학습이 막힌다.
-```text
-입력 ─▶ 은닉층 ─▶ 출력 ─▶ Loss
-  ▲                     │
-  └──── gradient ◀──────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 ─▶ 은닉층 ─▶ 출력 ─▶ Loss</div>
+<div class="kb-diagram-tree-item" style="--depth:1">gradient ◀</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 뒤로 돌려 봐야 어떤 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 문제였는지 알 수 있다.
 
@@ -103,24 +108,25 @@ Autodiff (Automatic Differentiation)는 체인 룰을 자동화한 구현층이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터
-  │
-  ▼
-Forward pass
-  │
-  ▼
-Loss 계산
-  │
-  ▼
-Backward pass (BP)
-  │
-  ▼
-Optimizer update
-  │
-  ▼
-가중치 갱신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Forward pass</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Loss 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Backward pass (BP)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Optimizer update</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가중치 갱신</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

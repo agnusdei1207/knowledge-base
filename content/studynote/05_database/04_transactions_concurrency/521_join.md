@@ -21,13 +21,16 @@ tags = ["studynote-database"]
 
 동적 SQL 조립 런타임 질의 파서은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 실행 계획에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ SQL text -> Planner -> Current concept -> Latency            │
-├──────────────────────────────────────────────────────────────┤
-│ Predicate -> path choice -> I/O cost                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL text -&gt; Planner -&gt; Current concept -&gt; Latency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate -&gt; path choice -&gt; I/O cost</div></div>
+</div>
+</div>
+
+
 
 이 그림은 동적 SQL 조립 런타임 질의 파서를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -46,13 +49,16 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 동적 SQL 조립 런타임 질의 파서는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `PACELC 분산 DB 장애 평시 트레이드 오프 이론`·`데이터 거버넌스 3요소`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Parse -> estimate -> current concept -> execute              │
-├──────────────────────────────────────────────────────────────┤
-│ Plan quality -> CPU/I/O balance -> response                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parse -&gt; estimate -&gt; current concept -&gt; execute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan quality -&gt; CPU/I/O balance -&gt; response</div></div>
+</div>
+</div>
+
+
 
 핵심은 동적 SQL 조립 런타임 질의 파서를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -113,15 +119,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[PACELC 분산 DB 장애 평시 트레이드 오프 이론]
-    │
-    ▼
-[동적 SQL 조립 런타임 질의 파서]
-    │
-    ├──▶ [데이터 거버넌스 3요소]
-    └──▶ [정보 공학 방법론 데이터 주도적 생명 주기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PACELC 분산 DB 장애 평시 트레이드 오프 이론</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 SQL 조립 런타임 질의 파서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 거버넌스 3요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보 공학 방법론 데이터 주도적 생명 주기</div></div>
+</div>
+</div>
+
+
 
 [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 장애 평시 트레이드 오프 이론에서 출발한 논점이 동적 SQL 조립 런타임 질의 파서에서 핵심 판단으로 모이고, 이후 [데이터 거버넌스 3요소](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)·정보 공학 방법론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도적 생명 주기 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

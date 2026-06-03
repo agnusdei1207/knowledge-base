@@ -30,27 +30,23 @@ AEAD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 
 ### 두 가지 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 역할
 1. **평문 (Plaintext)**: 남에게 보이면 안 되는 실제 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). 암호문으로 변환된다.
-2. **연관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (AAD, Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: IP 주소, 패킷 헤더처럼 암호화할 필요는 없지만(라우팅을 위해 공개되어야 함), 해커가 중간에서 조작하면 안 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
+2. <strong>연관 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (AAD, Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: IP 주소, 패킷 헤더처럼 암호화할 필요는 없지만(라우팅을 위해 공개되어야 함), 해커가 중간에서 조작하면 안 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          AEAD 알고리즘 (AES-GCM 등)의 통합 처리 구조        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 1. [ AAD (헤더 정보) ] ────────▶ (그대로 공개 통과) ─────┐       │
-│                                            │        │       │
-│ 2. [ 평문 (비밀 데이터) ] ────▶ (암호화) ─────┼─┐      │       │
-│                                            │  │      │       │
-│ 3. [ 암호화 키 & IV ]   ──────▶ (수학적 결합 연산) ─┴─┴─┐      │
-│                                                      │      │
-│ =====================================================│=     │
-│                                                      ▼      │
-│ [최종 출력물]: { AAD (평문) + 암호문(비밀) + 128비트 인증 태그(MAC) } │
-│                                                             │
-│ * 방어 원리: 해커가 포장지(AAD)의 IP를 1비트라도 고치면,      │
-│   수신자가 인증 태그를 검증할 때 즉시 에러가 나고 폐기됨!   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AEAD 알고리즘 (AES-GCM 등)의 통합 처리 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">AAD (헤더 정보)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(그대로 공개 통과)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">평문 (비밀 데이터)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(암호화) ─ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">암호화 키 &amp; IV</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(수학적 결합 연산) ─ ─ ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 출력물</div><div class="kb-diagram-note">: { AAD (평문) + 암호문(비밀) + 128비트 인증 태그(MAC) }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방어 원리: 해커가 포장지(AAD)의 IP를 1비트라도 고치면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신자가 인증 태그를 검증할 때 즉시 에러가 나고 폐기됨!</div></div>
+</div>
+</div>
+
+
 이 구조의 핵심은 암호화되지 않은 껍데기(AAD)까지도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 연산에 참여시킨다는 점이다. 알맹이(암호문)를 못 건드린 해커가 껍데기의 배송지 주소를 조작하려 해도, 전체를 묶은 봉인 태그가 깨지므로 수신자는 포장을 뜯기도 전에 조작을 감지할 수 있다.
 
 - **📢 섹션 요약 비유**: 택배를 보낼 때 상자 안의 물건(평문)만 특수 끈으로 묶는 게 아니라, 상자 겉에 붙은 송장 스티커(AAD)까지 하나의 끈([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그)으로 한 번에 돌돌 묶어버리는 원리다.
@@ -67,7 +63,7 @@ AEAD가 등장하기 전의 조합 방식(분리형 구조)과 AEAD(통합형 �
 | **보안 취약점** | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 등에 노출될 위험 큼 | 설계상 조합 오류가 원천적으로 차단됨 ([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) |
 | **대표 기술** | 과거 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이하의 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 | 현재 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3, [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/), JWE 등 |
 
-가장 널리 쓰이는 AEAD 구현체는 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)** (빠른 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 장점)과 **ChaCha20-Poly1305** (소프트웨어/모바일 환경 최적화)이다. 이 둘은 최신 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 양분하고 있다.
+가장 널리 쓰이는 AEAD 구현체는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a></strong> (빠른 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 장점)과 **ChaCha20-Poly1305** (소프트웨어/모바일 환경 최적화)이다. 이 둘은 최신 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 양분하고 있다.
 
 - **📢 섹션 요약 비유**: 분리형은 조립식 가구처럼 사용자가 나사를 잘못 끼우면 무너질 위험이 높은 반면, AEAD는 공장에서 통짜로 용접되어 나와 절대 무너지지 않는 완제품 가구다.
 
@@ -77,9 +73,9 @@ AEAD가 등장하기 전의 조합 방식(분리형 구조)과 AEAD(통합형 �
 실무에서 네트워크 인프라나 보안 시스템을 설계할 때, 더 이상 "어떤 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 모드를 쓸까?" 고민할 필요가 없다. 현대 보안의 정답은 무조건 AEAD를 강제하는 것이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
-1. **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준화**: 웹 서버나 로드밸런서(L4/L7) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, 취약한 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 암호 군(Cipher Suite)을 비활성화하고 AEAD 계열([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/), ChaCha20)만 협상하도록 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 구성을 튜닝했는가? ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3은 AEAD만 강제함)
-2. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 JWE([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) Web Encryption)를 사용할 때, 헤더(AAD) 조작 방지를 위해 AEAD 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하도록 명시했는가?
-3. **[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) / [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용 주의**: AEAD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(특히 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))은 같은 암호화 키에서 동일한 초기화 벡터([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)/[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 두 번 사용하면 치명적인 키 유출로 이어지므로, IV의 고유성 관리가 철저한지 점검해야 한다.
+1. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 표준화</strong>: 웹 서버나 로드밸런서(L4/L7) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, 취약한 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 암호 군(Cipher Suite)을 비활성화하고 AEAD 계열([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/), ChaCha20)만 협상하도록 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 구성을 튜닝했는가? ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3은 AEAD만 강제함)
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>)</strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 JWE([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) Web Encryption)를 사용할 때, 헤더(AAD) 조작 방지를 위해 AEAD 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하도록 명시했는가?
+3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> / <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> 재사용 주의</strong>: AEAD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(특히 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))은 같은 암호화 키에서 동일한 초기화 벡터([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)/[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 두 번 사용하면 치명적인 키 유출로 이어지므로, IV의 고유성 관리가 철저한지 점검해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 직접 암호화 로직을 짜겠다며 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-CBC와 SHA-256을 조합하여 커스텀 보안 모듈을 개발하는 행위. (바퀴를 다시 발명하다 치명적 결함을 낳는 전형적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.)
@@ -100,27 +96,29 @@ AEAD의 도입은 개발자의 부담을 줄이고 시스템의 안전성을 비
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))** | 메시지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확인하는 태그로, AEAD에서는 암호화와 동시에 생성됨 |
-| **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) / ChaCha20-Poly1305** | AEAD를 실제로 구현한 대표적인 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 쌍 |
-| **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))** | 이전 분리형 설계([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 등)의 취약점을 파고들던 대표적 해킹 기법 |
-| **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3** | 과거의 취약한 암호 모드를 전면 폐기하고 AEAD만을 표준으로 채택한 차세대 통신 규약 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">Message Authentication Code</a>)</strong> | 메시지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확인하는 태그로, AEAD에서는 암호화와 동시에 생성됨 |
+| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> / ChaCha20-Poly1305</strong> | AEAD를 실제로 구현한 대표적인 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 쌍 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 공격 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong> | 이전 분리형 설계([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 등)의 취약점을 파고들던 대표적 해킹 기법 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3</strong> | 과거의 취약한 암호 모드를 전면 폐기하고 AEAD만을 표준으로 채택한 차세대 통신 규약 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-모듈형 암호화 시대 (AES와 SHA를 각각 따로 사용)
-    │
-    ▼
-조합 방식의 취약점 발현 (MAC-then-Encrypt 등 조립 오류)
-    │
-    ▼
-패딩 오라클 공격 (Padding Oracle Attack) 발생
-    │
-    ▼
-AEAD의 탄생 (암호화와 무결성 검증을 융합한 단일 알고리즘 제공)
-    │
-    ▼
-TLS 1.3 표준 채택 (AES-GCM 등 AEAD 구조 강제화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모듈형 암호화 시대 (AES와 SHA를 각각 따로 사용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조합 방식의 취약점 발현 (MAC-then-Encrypt 등 조립 오류)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">패딩 오라클 공격 (Padding Oracle Attack) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AEAD의 탄생 (암호화와 무결성 검증을 융합한 단일 알고리즘 제공)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLS 1.3 표준 채택 (AES-GCM 등 AEAD 구조 강제화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날엔 비밀 편지를 자물쇠로 잠그는 일과, 누가 편지 봉투에 장난치지 못하게 도장을 찍는 일을 따로 해서 실수가 잦았어요.

@@ -19,9 +19,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 Shor 알고리즘으로 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 2048비트 키를 단시간에 해독 가능하다는 사실이 확인되면서 현행 공개 키 인프라([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 전체가 위협 대상이 됐다. 특히 국가·기업 수준의 공격자가 지금 암호화된 트래픽을 저장했다가 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 완성 시점에 복호화하는 **Harvest Now, Decrypt Later([HNDL](/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/))** 공격은 이미 현실적 위협으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
+[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 Shor 알고리즘으로 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 2048비트 키를 단시간에 해독 가능하다는 사실이 확인되면서 현행 공개 키 인프라([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 전체가 위협 대상이 됐다. 특히 국가·기업 수준의 공격자가 지금 암호화된 트래픽을 저장했다가 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 완성 시점에 복호화하는 <strong>Harvest Now, Decrypt Later(<a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a>)</strong> 공격은 이미 현실적 위협으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
-동시에 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확대로 "제3자 서버에서 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산"하는 패턴이 늘면서, 복호화 없이 연산이 가능한 **[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)(HE)**의 실용성이 부각된다.
+동시에 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확대로 "제3자 서버에서 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산"하는 패턴이 늘면서, 복호화 없이 연산이 가능한 <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a>(HE)</strong>의 실용성이 부각된다.
 
 - **📢 섹션 요약 비유**: 의사가 봉투를 열지 않고도 봉투 안의 숫자를 더하는 마법 봉투(HE)와, 양자 잠금장치가 생겨도 끄떡없는 새로운 자물쇠([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))—두 기술이 함께 미래 보안 창고를 지킨다.
 
@@ -31,17 +31,19 @@ tags = ["studynote-ict-convergence"]
 
 ### [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)(HE) 동작 구조
 
-```
-평문 m ──[HE 암호화]──> 암호문 c
-                              │
-                         ┌────▼────────────────────────┐
-                         │   클라우드 연산 서버          │
-                         │   Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂) │
-                         │   (원문 비노출)               │
-                         └────────────┬────────────────┘
-                                      │
-암호문 결과 ──[HE 복호화]──> 평문 결과
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">평문 m ──</div><div class="kb-diagram-node">HE 암호화</div><div class="kb-diagram-note">──&gt; 암호문 c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 연산 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원문 비노출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">암호문 결과 ──</div><div class="kb-diagram-node">HE 복호화</div><div class="kb-diagram-note">──&gt; 평문 결과</div></div>
+</div>
+</div>
+
+
 
 | 방식 | 특징 | 표준 구현 |
 |:---:|:---|:---|
@@ -54,8 +56,8 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 ### NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준 (2024 확정)
 
 - **CRYSTALS-Kyber**: 격자(Lattice) 기반 키 캡슐화 메커니즘([KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 키 교환 대체
-- **[CRYSTALS-Dilithium](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)**: 격자 기반 디지털 서명, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 대체
-- **[SPHINCS](/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/)+**: 해시 기반 서명, 스테이트리스([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 안전성 증명 용이
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/">CRYSTALS-Dilithium</a></strong>: 격자 기반 디지털 서명, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 대체
+- <strong><a href="/knowledge-base/studynote/09_security/03_network_security/149_sphincs_slh_dsa/">SPHINCS</a>+</strong>: 해시 기반 서명, 스테이트리스([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 안전성 증명 용이
 
 - **📢 섹션 요약 비유**: HE는 요리사에게 재료를 보여주지 않고 맛있는 요리를 주문하는 것, PQC는 미래의 더 강한 열쇠 기계에도 열리지 않는 새 자물쇠를 미리 달아두는 것이다.
 
@@ -71,7 +73,7 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 | 성숙도 | 연구→PoC 단계 | NIST 표준 확정, 상용화 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) |
 | 주요 위협 | 구현 복잡도, 처리 속도 | 마이그레이션 비용, 키 크기 |
 
-두 기술은 계층이 다르므로 **동시 적용**이 필요하다. 예: PQC로 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서, 서버 측 추론은 HE로 수행.
+두 기술은 계층이 다르므로 <strong>동시 적용</strong>이 필요하다. 예: PQC로 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서, 서버 측 추론은 HE로 수행.
 
 - **📢 섹션 요약 비유**: PQC가 금고 문을 바꾸는 것이라면, HE는 금고를 열지 않고도 안에서 계산을 수행하는 마법이다—둘 다 있어야 완전한 보안이다.
 
@@ -79,16 +81,16 @@ CKKS는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) + HE**: 여러 금융사의 암호화된 거래 내역을 서버가 복호화 없이 신용 점수 모델에 투입 → [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수.
+<strong>금융 <a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a> + HE</strong>: 여러 금융사의 암호화된 거래 내역을 서버가 복호화 없이 신용 점수 모델에 투입 → [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수.
 
-**[PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 마이그레이션 로드맵**:
+<strong><a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 마이그레이션 로드맵</strong>:
 1. 2024: NIST [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준 확정
 2. 2025~2026: 하이브리드 모드(기존 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) + Kyber [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운영)
 3. 2027~: 순수 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환, 레거시 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 폐기
 
-**[HNDL](/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리**: 기밀 유지 기간이 10년 이상인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(국가 기밀, 의료 기록)는 즉시 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 우선순위 최상위로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
+<strong><a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong>: 기밀 유지 기간이 10년 이상인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(국가 기밀, 의료 기록)는 즉시 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환 우선순위 최상위로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 
-기술사 논술에서는 **"현재 위협([HNDL](/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/)) → 기술 원리(격자/해시 문제) → 마이그레이션 비용 → 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"** 흐름으로 논거를 구성한다.
+기술사 논술에서는 <strong>"현재 위협(<a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a>) → 기술 원리(격자/해시 문제) → 마이그레이션 비용 → 하이브리드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>"</strong> 흐름으로 논거를 구성한다.
 
 - **📢 섹션 요약 비유**: 오래된 자물쇠를 당장 바꾸기 어려우면 새 자물쇠를 기존 자물쇠 옆에 함께 달아 이중 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(하이브리드)하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 

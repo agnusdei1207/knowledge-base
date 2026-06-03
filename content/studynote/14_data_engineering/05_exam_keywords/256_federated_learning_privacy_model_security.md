@@ -41,38 +41,26 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 연합 학습 기본 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│               연합 학습 (Federated Learning) 아키텍처            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│              ┌─────────────────────┐                            │
-│              │   중앙 서버 (Server) │                            │
-│              │  - 전역 모델 관리   │                             │
-│              │  - 그래디언트 집계  │                             │
-│              └──────────┬──────────┘                            │
-│                         │                                       │
-│              ① 전역 모델 배포 (Global Model Broadcast)           │
-│                         │                                       │
-│         ┌───────────────┼───────────────┐                       │
-│         ▼               ▼               ▼                       │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │
-│  │ 클라이언트1  │ │ 클라이언트2  │ │ 클라이언트3  │               │
-│  │ (병원 A)    │ │ (병원 B)    │ │ (병원 C)    │               │
-│  │             │ │             │ │             │               │
-│  │ ② 로컬 데이터│ │ ② 로컬 데이터│ │ ② 로컬 데이터│               │
-│  │   로컬 훈련  │ │   로컬 훈련  │ │   로컬 훈련  │               │
-│  └──────┬──────┘ └──────┬──────┘ └──────┬──────┘               │
-│         │               │               │                       │
-│         └───────────────┼───────────────┘                       │
-│                         │                                       │
-│              ③ 로컬 그래디언트 업로드                             │
-│                         │                                       │
-│              ④ FedAvg 집계 → 전역 모델 갱신                      │
-│                                                                  │
-│  ① ~ ④ 반복 (Round)                                             │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연합 학습 (Federated Learning) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 서버 (Server)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전역 모델 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그래디언트 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 전역 모델 배포 (Global Model Broadcast)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트1</div><div class="kb-diagram-cell">클라이언트2</div><div class="kb-diagram-cell">클라이언트3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병원 A)</div><div class="kb-diagram-cell">(병원 B)</div><div class="kb-diagram-cell">(병원 C)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 로컬 데이터</div><div class="kb-diagram-cell">② 로컬 데이터</div><div class="kb-diagram-cell">② 로컬 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 훈련</div><div class="kb-diagram-cell">로컬 훈련</div><div class="kb-diagram-cell">로컬 훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 로컬 그래디언트 업로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ FedAvg 집계 → 전역 모델 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① ~ ④ 반복 (Round)</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 FedAvg(Federated Averaging) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -108,38 +96,42 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 
 ### 3.1 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법 계층
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              연합 학습 프라이버시 방어 계층                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  Layer 1: 로컬 차등 프라이버시 (Local DP)                        │
-│    → 각 클라이언트가 그래디언트에 가우시안 노이즈 추가            │
-│    → ε-DP 보장: Pr[M(x)∈S] ≤ eᵉ × Pr[M(x')∈S]                │
-│                                                                  │
-│  Layer 2: 안전 집계 (Secure Aggregation)                         │
-│    → 비밀 분산 (Secret Sharing) 기반 암호화                      │
-│    → 서버는 개별 클라이언트 그래디언트를 볼 수 없음              │
-│                                                                  │
-│  Layer 3: 동형 암호화 (Homomorphic Encryption)                   │
-│    → 암호화된 상태에서 그래디언트 집계 연산                      │
-│    → 가장 강력하지만 계산 비용 매우 높음                         │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연합 학습 프라이버시 방어 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1: 로컬 차등 프라이버시 (Local DP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 클라이언트가 그래디언트에 가우시안 노이즈 추가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">M(x)∈S</div><div class="kb-diagram-note">≤ eᵉ × Pr</div><div class="kb-diagram-node">M(x')∈S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 2: 안전 집계 (Secure Aggregation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 비밀 분산 (Secret Sharing) 기반 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 서버는 개별 클라이언트 그래디언트를 볼 수 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 3: 동형 암호화 (Homomorphic Encryption)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 암호화된 상태에서 그래디언트 집계 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 가장 강력하지만 계산 비용 매우 높음</div></div>
+</div>
+</div>
+
+
 
 ### 3.2 그래디언트 역전(Gradient Inversion) 공격
 
-```
-공격 원리:
-클라이언트 그래디언트 ∇W → 역최적화 → 원본 입력 데이터 복원
 
-방어 수단:
-1. 배치 크기 증가 (배치 클수록 복원 어려움)
-2. 그래디언트 클리핑(Gradient Clipping)
-3. 차등 프라이버시 노이즈 추가 (ε ≤ 8 권장)
-4. 안전 집계로 개별 그래디언트 서버 노출 방지
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공격 원리:</div>
+<div class="kb-diagram-note">클라이언트 그래디언트 ∇W → 역최적화 → 원본 입력 데이터 복원</div>
+<div class="kb-diagram-note">방어 수단:</div>
+<div class="kb-diagram-note">1. 배치 크기 증가 (배치 클수록 복원 어려움)</div>
+<div class="kb-diagram-note">2. 그래디언트 클리핑(Gradient Clipping)</div>
+<div class="kb-diagram-note">3. 차등 프라이버시 노이즈 추가 (ε ≤ 8 권장)</div>
+<div class="kb-diagram-note">4. 안전 집계로 개별 그래디언트 서버 노출 방지</div>
+</div>
+</div>
+
+
 
 ### 3.3 연합 학습 유형 비교
 
@@ -147,7 +139,7 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 |:---|:---|:---|
 | **수평 연합 학습(Horizontal FL)** | 동일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 다른 샘플 (클라이언트 다수) | 스마트폰 여러 대 |
 | **수직 연합 학습(Vertical FL)** | 다른 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/), 동일 샘플 (소수 기관 협업) | 은행+보험사 동일 고객 |
-| **연합 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)(Federated [Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))** | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)·샘플 모두 다를 때 사전학습 활용 | 글로벌 기업 간 협업 |
+| <strong>연합 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a>(Federated <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>)</strong> | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)·샘플 모두 다를 때 사전학습 활용 | 글로벌 기업 간 협업 |
 
 📢 **섹션 요약 비유**: 수평 연합 학습은 전국 각 학교가 같은 수업 내용을 다른 학생들에게 가르치는 것이고, 수직 연합 학습은 한 학생을 국어 선생님·수학 선생님·영어 선생님이 각자 다른 과목 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갖고 협력 평가하는 것이다.
 
@@ -193,11 +185,11 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 
 | 기대효과 | 세부 내용 |
 |:---|:---|
-| **프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확장성** | 단일 기관 불가능한 희귀 사례 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 학습 |
+| <strong>프라이버시 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없음, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/) 준수 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확장성</strong> | 단일 기관 불가능한 희귀 사례 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 학습 |
 | **통신 비용 절감** | 모델 파라미터만 전송 (원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대비 수십~수백배 감소) |
 | **온디바이스 개인화** | 각 클라이언트 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 개인화 모델 미세조정 |
-| **지적 재산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 유지하면서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 협력 가능 |
+| <strong>지적 재산 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권 유지하면서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 협력 가능 |
 
 ### 5.2 결론
 
@@ -225,17 +217,21 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 집중 학습 (데이터 이동 필요)
-    │
-    ▼
-연방 학습: 데이터는 로컬 유지 + 모델 업데이트만 교환
-    ├─► FedAvg: 글로벌 모델 평균 집계
-    └─► 차분 프라이버시 + 보안 집계
-    │
-    ▼
-모델 포이즈닝 방어 · 비IID 데이터 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 집중 학습 (데이터 이동 필요)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연방 학습: 데이터는 로컬 유지 + 모델 업데이트만 교환</div>
+<div class="kb-diagram-tree-item" style="--depth:2">FedAvg: 글로벌 모델 평균 집계</div>
+<div class="kb-diagram-tree-item" style="--depth:2">차분 프라이버시 + 보안 집계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 포이즈닝 방어 · 비IID 데이터 대응</div>
+</div>
+</div>
+
+
 2. [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)는 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)을 말할 때 일부러 약간 틀리게 말해서 원래 일기 내용을 알 수 없게 만드는 방법이에요.
 3. 그래디언트 역전 공격은 "[교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)만 들어도 원래 일기 내용을 알아낼 수 있다"는 해킹 방법인데, [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)가 이걸 막아줘요.
 

@@ -20,19 +20,23 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았을 때 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 검사를 해보고 에러가 났습니다. 이때 수신기의 행동 패턴은 두 가지입니다.
-1. **소극적 무시 (암묵적 거절)**: 에러가 났으니 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 휴지통에 버리고 **아무 말도 안 하고 가만히 있는 방식**입니다. (송신기는 답장(ACK)이 안 오면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 될 때까지 한참을 기다렸다가 재전송합니다. 시간이 매우 오래 걸림).
-2. **적극적 항의 (NAK 방식)**: 에러를 발견한 즉시([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 기다리지 않고), 송신기를 향해 **"방금 온 3번 프레임 에러 났어! NAK 3!"**이라는 비상벨을 날립니다. 송신기는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시계가 다 돌아가기 전에 NAK를 맞고 즉각 3번 프레임을 재전송합니다. 
+1. **소극적 무시 (암묵적 거절)**: 에러가 났으니 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 휴지통에 버리고 <strong>아무 말도 안 하고 가만히 있는 방식</strong>입니다. (송신기는 답장(ACK)이 안 오면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 될 때까지 한참을 기다렸다가 재전송합니다. 시간이 매우 오래 걸림).
+2. **적극적 항의 (NAK 방식)**: 에러를 발견한 즉시([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 기다리지 않고), 송신기를 향해 <strong>"방금 온 3번 프레임 에러 났어! NAK 3!"</strong>이라는 비상벨을 날립니다. 송신기는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 시계가 다 돌아가기 전에 NAK를 맞고 즉각 3번 프레임을 재전송합니다. 
 
 이처럼 NAK는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이라는 긴 대기 시간을 획기적으로 줄여주어 재전송의 민첩성을 극대화하는 촉매제 역할을 합니다.
 
-```text
-[SR ARQ]
-    │
-    ▼
-[NAK]
-    │
-    └──▶ [피기배킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피기배킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NAK는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,20 +46,24 @@ tags = ["studynote-network"]
 
 NAK [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 던져졌을 때, 송신기가 어떻게 반응하느냐는 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 종류에 따라 극명하게 달라집니다.
 
-- **Go-Back-N 에서의 `NAK N`**:
+- <strong>Go-Back-N 에서의 <code>NAK N</code></strong>:
   - 수신기가 "N번 프레임이 깨졌어!"라고 NAK N을 보냅니다.
   - 송신기: "아, N번이 깨졌구나. 그럼 **N번부터 시작해서 그 뒤에 보냈던 모든 프레임을 무식하게 싹 다 다시 보낼게!**" (연대 책임 재전송).
-- **Selective Repeat 에서의 `NAK N`**:
+- <strong>Selective Repeat 에서의 <code>NAK N</code></strong>:
   - 송신기: "아, 딴 건 다 괜찮은데 N번 하나만 깨졌구나? 오케이, 딱 **그 N번 프레임 하나만 핀셋으로 집어서 다시 보내줄게!**" (선택적 재전송).
 
-```text
-[SR ARQ]
-    │
-    ▼
-[NAK]
-    │
-    └──▶ [피기배킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피기배킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NAK의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,10 +71,10 @@ NAK [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130
 
 ## Ⅲ. 비교 및 연결
 
-이론적으로 완벽해 보이는 NAK지만, 현대의 인터넷 근간인 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**에서는 놀랍게도 이 NAK라는 명시적인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 **아예 쓰지 않습니다.**
+이론적으로 완벽해 보이는 NAK지만, 현대의 인터넷 근간인 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>(전송 제어 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>에서는 놀랍게도 이 NAK라는 명시적인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 **아예 쓰지 않습니다.**
 
 - **이유 (NAK의 분실)**: 만약 수신기가 NAK를 쐈는데, 그 NAK [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 자체가 날아가다가 번개를 맞아 깨지면 어떻게 될까요? 송신기는 NAK가 안 오니까 에러가 난 줄도 모르고 계속 뒤의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 와다다다 쏘게 되어 통신망이 완전한 교착 상태에 빠집니다.
-- **TCP의 우회책**: TCP는 NAK라는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 따로 만드는 대신, **"같은 ACK 번호가 3번 연속 중복해서 도착하면(3 Dup ACK), 그게 빵꾸가 났다는 NAK의 의미인 줄 알아라([빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/))!"**라는 영리한 편법을 사용하여 NAK의 부작용을 원천 차단했습니다.
+- **TCP의 우회책**: TCP는 NAK라는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 따로 만드는 대신, <strong>"같은 ACK 번호가 3번 연속 중복해서 도착하면(3 Dup ACK), 그게 빵꾸가 났다는 NAK의 의미인 줄 알아라(<a href="/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/">빠른 재전송</a>)!"</strong>라는 영리한 편법을 사용하여 NAK의 부작용을 원천 차단했습니다.
 
 NAK를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SR ARQ가 기반 조건을 만든다면, NAK는 그 위에서 핵심 메커니즘을 구현하고, [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ NAK는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SR ARQ]
-    │
-    ▼
-[현재 개념: NAK]
-    │
-    ├──▶ [확장 A: 피기배킹]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SR ARQ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAK</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 피기배킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 NAK는 SR ARQ에서 출발해 현재 메커니즘을 정교화하고, 이후 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

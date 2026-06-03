@@ -46,22 +46,31 @@ return getUser(id)
 
 **개선**: null 체크가 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(Optional) 안에 숨고, 비즈니스 변환 로직만 선명하게 드러난다.
 
-```
-Monad (모나드):
-  1. 값을 컨텍스트에 포장(wrap)하는 구조체
-  2. 컨텍스트 안의 값을 변환하는 map() / fmap() 연산
-  3. 중첩 컨텍스트를 평탄화하는 flatMap() / bind() 연산
 
-수학적 표현:
-  M<A>.flatMap(A → M<B>) → M<B>
-  (컨텍스트 안의 값 A를 받아 새 컨텍스트 M<B>를 반환하는 함수를 적용하면 중첩 없이 M<B> 반환)
-```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Monad (모나드):</div>
+<div class="kb-diagram-note">1. 값을 컨텍스트에 포장(wrap)하는 구조체</div>
+<div class="kb-diagram-note">2. 컨텍스트 안의 값을 변환하는 map() / fmap() 연산</div>
+<div class="kb-diagram-note">3. 중첩 컨텍스트를 평탄화하는 flatMap() / bind() 연산</div>
+<div class="kb-diagram-note">수학적 표현:</div>
+<div class="kb-diagram-note">M&lt;A&gt;.flatMap(A → M&lt;B&gt;) → M&lt;B&gt;</div>
+<div class="kb-diagram-note">(컨텍스트 안의 값 A를 받아 새 컨텍스트 M&lt;B&gt;를 반환하는 함수를 적용하면 중첩 없이 M&lt;B&gt; 반환)</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 모나드는 "선물 상자 공장" — 상자 안의 내용물을 바꾸려면 직접 상자를 열지 않고, 공장(map/flatMap)에 요청하면 공장이 안전하게 내용물을 교체한 새 상자를 돌려준다.
 
@@ -74,41 +83,47 @@ Monad (모나드):
 | Right Identity (우 항등) | `m.flatMap(unit) == m` | flatMap에 포장 함수를 넣으면 원래 모나드와 동일 |
 | Associativity (결합 법칙) | `(m.flatMap(f)).flatMap(g) == m.flatMap(x -> f(x).flatMap(g))` | flatMap 체이닝 순서가 바뀌어도 결과는 동일 |
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Java Monad Implementations                     │
-│                                                                 │
-│  Optional<T>          — 값의 존재 여부 컨텍스트 (null 안전)      │
-│    wrap:    Optional.of(value)                                  │
-│    map:     .map(f)     → Optional<U>                           │
-│    flatMap: .flatMap(f) → Optional<U>  (중첩 Optional 방지)     │
-│    unwrap:  .orElse()                                           │
-│                                                                 │
-│  Stream<T>            — 반복 연산 컨텍스트 (0..N개 값)           │
-│    wrap:    Stream.of(a, b, c)                                  │
-│    map:     .map(f)     → Stream<U>                             │
-│    flatMap: .flatMap(f) → Stream<U>  (중첩 스트림 평탄화)        │
-│    unwrap:  .collect(), .forEach(), .reduce()                   │
-│                                                                 │
-│  CompletableFuture<T> — 비동기 컨텍스트 (미래 값)               │
-│    wrap:    CompletableFuture.completedFuture(value)            │
-│    map:     .thenApply(f)  → CF<U>                              │
-│    flatMap: .thenCompose(f)→ CF<U>  (중첩 Future 방지)          │
-│    unwrap:  .get(), .join()                                     │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-```
-map():
-  Optional<String> name = Optional.of("Alice");
-  Optional<Integer> len = name.map(s -> s.length()); // Optional<Integer>
-  // f: T → U  →  결과: M<U>
 
-flatMap():
-  Optional<String> name = Optional.of("Alice");
-  Optional<User> user = name.flatMap(n -> findUser(n));
-  // f: T → M<U>  →  결과: M<U> (중첩 Optional<Optional<User>> 방지)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java Monad Implementations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optional&lt;T&gt; — 값의 존재 여부 컨텍스트 (null 안전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrap: Optional.of(value)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map: .map(f) → Optional&lt;U&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flatMap: .flatMap(f) → Optional&lt;U&gt; (중첩 Optional 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unwrap: .orElse()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream&lt;T&gt; — 반복 연산 컨텍스트 (0..N개 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrap: Stream.of(a, b, c)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map: .map(f) → Stream&lt;U&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flatMap: .flatMap(f) → Stream&lt;U&gt; (중첩 스트림 평탄화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unwrap: .collect(), .forEach(), .reduce()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CompletableFuture&lt;T&gt; — 비동기 컨텍스트 (미래 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrap: CompletableFuture.completedFuture(value)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map: .thenApply(f) → CF&lt;U&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flatMap: .thenCompose(f)→ CF&lt;U&gt; (중첩 Future 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unwrap: .get(), .join()</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">map():</div>
+<div class="kb-diagram-note">Optional&lt;String&gt; name = Optional.of("Alice");</div>
+<div class="kb-diagram-note">Optional&lt;Integer&gt; len = name.map(s -&gt; s.length()); // Optional&lt;Integer&gt;</div>
+<div class="kb-diagram-note">// f: T → U → 결과: M&lt;U&gt;</div>
+<div class="kb-diagram-note">flatMap():</div>
+<div class="kb-diagram-note">Optional&lt;String&gt; name = Optional.of("Alice");</div>
+<div class="kb-diagram-note">Optional&lt;User&gt; user = name.flatMap(n -&gt; findUser(n));</div>
+<div class="kb-diagram-note">// f: T → M&lt;U&gt; → 결과: M&lt;U&gt; (중첩 Optional&lt;Optional&lt;User&gt;&gt; 방지)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: map()은 상자 안의 사과를 주스로 바꾸는 것, flatMap()은 상자 안에 또 상자가 들어있을 때 안쪽 상자를 꺼내 하나의 상자로 합치는 것이다.
 

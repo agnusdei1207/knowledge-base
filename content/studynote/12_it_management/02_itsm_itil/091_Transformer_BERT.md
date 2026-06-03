@@ -30,34 +30,32 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델은 입력을 분석하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))와 결과를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 나뉜다. 이 아키텍처의 핵심 심장부는 **[멀티 헤드 어텐션](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/) ([Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/))**이다.
+[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델은 입력을 분석하는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))와 결과를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 나뉜다. 이 아키텍처의 핵심 심장부는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/">멀티 헤드 어텐션</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/">Multi-Head Attention</a>)</strong>이다.
 
 | 구성 요소 | 역할 | 핵심 특징 |
 | :--- | :--- | :--- |
-| **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))** | 문장 내 단어 간의 연관성([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 계산 | Query, [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value 벡터의 내적으로 중요도 점수 산출 |
-| **[멀티 헤드 어텐션](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/)** | 어텐션을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 여러 개 수행 | 문법적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의미적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 등 다양한 관점의 문맥 포착 |
-| **위치 인코딩 ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))** | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 입력으로 잃어버린 단어의 순서 정보 주입 | 사인/코사인 함수를 사용해 위치마다 고유한 값 부여 |
+| <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong> | 문장 내 단어 간의 연관성([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 계산 | Query, [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value 벡터의 내적으로 중요도 점수 산출 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/">멀티 헤드 어텐션</a></strong> | 어텐션을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 여러 개 수행 | 문법적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의미적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 등 다양한 관점의 문맥 포착 |
+| <strong>위치 인코딩 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a>)</strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 입력으로 잃어버린 단어의 순서 정보 주입 | 사인/코사인 함수를 사용해 위치마다 고유한 값 부여 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Self-Attention의 Q, K, V 계산 흐름             │
-├──────────────────────────────────────────────────────────────┤
-│ "The", "cat", "sat" (모든 단어 동시 입력)                  │
-│        │                                                   │
-│        ▼ (선형 변환)                                       │
-│    [ Query(Q) ] : "나는 어떤 정보가 필요한가?"             │
-│    [ Key(K) ]   : "나는 이런 정보를 가지고 있다"           │
-│    [ Value(V) ] : "나의 실제 의미 값은 이것이다"           │
-│        │                                                   │
-│        ▼                                                   │
-│  Attention Score = Softmax( (Q × K^T) / √d ) × V          │
-│        │                                                   │
-│        ▼                                                   │
-│   "cat"과 "sat"의 연관성이 높음을 수학적으로 도출          │
-└──────────────────────────────────────────────────────────────┘
-```
 
-[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 이 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 구조 중에서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)를 버리고 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)만**을 차용한 모델이다. BERT의 가장 큰 원리는 문장의 일부 단어를 빈칸([MASK])으로 뚫어놓고, 주변의 양방향 문맥을 모두 고려해 빈칸을 맞추도록 대규모 사전 학습(Pre-training)을 수행한다는 점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Attention의 Q, K, V 계산 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"The", "cat", "sat" (모든 단어 동시 입력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (선형 변환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Query(Q)</div><div class="kb-diagram-note">: "나는 어떤 정보가 필요한가?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Key(K)</div><div class="kb-diagram-note">: "나는 이런 정보를 가지고 있다"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Value(V)</div><div class="kb-diagram-note">: "나의 실제 의미 값은 이것이다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention Score = Softmax( (Q × K^T) / √d ) × V</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"cat"과 "sat"의 연관성이 높음을 수학적으로 도출</div></div>
+</div>
+</div>
+
+
+
+[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 이 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 구조 중에서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)를 버리고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>만</strong>을 차용한 모델이다. BERT의 가장 큰 원리는 문장의 일부 단어를 빈칸([MASK])으로 뚫어놓고, 주변의 양방향 문맥을 모두 고려해 빈칸을 맞추도록 대규모 사전 학습(Pre-training)을 수행한다는 점이다.
 
 - **📢 섹션 요약 비유**: 셀프 어텐션은 소개팅 자리와 같다. Query(내 이상형)와 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(상대방 프로필)를 대조해 매칭 점수(Attention Score)를 내고, 점수가 높은 사람의 Value(실제 성격)에 가장 큰 비중을 두고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맺는 수학적 연관도 측정법이다.
 
@@ -69,8 +67,8 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 
 | 항목 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) |
 | :--- | :--- | :--- |
-| **차용 아키텍처** | Transformer의 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))** | Transformer의 **[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))** |
-| **문맥 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 방향** | **양방향 (Bidirectional)** | **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) (Unidirectional, 좌→우)** |
+| **차용 아키텍처** | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>)</strong> | Transformer의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">Decoder</a>)</strong> |
+| <strong>문맥 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 방향</strong> | **양방향 (Bidirectional)** | <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> (Unidirectional, 좌→우)</strong> |
 | **학습 방식** | 문장 중간의 빈칸([MASK]) 단어 예측 | 주어진 단어들 다음으로 올 단어 예측 |
 | **강점 분야** | 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/), [기계 독해](/knowledge-base/studynote/10_ai/03_llm_nlp/208_mrc_machine_reading_comprehension/)(QA) | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 대화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 요약 |
 
@@ -85,9 +83,9 @@ BERT는 문장의 처음과 끝을 동시에 파악하므로 문맥의 의미를
 실무 현장에서 NLP 프로젝트를 시작할 때 무작정 모델을 처음부터 학습시키는 것은 시간과 비용의 낭비다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 모델을 활용한 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)) 전략이 필수적이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **문제의 성격이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)인가, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)인가?** 고객의 리뷰가 긍정인지 부정인지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 문제라면 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(또는 RoBERTa, ALBERT) 계열을, 챗봇처럼 자연스러운 답변을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다면 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열을 선택한다.
+1. <strong>문제의 성격이 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>인가, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>인가?</strong> 고객의 리뷰가 긍정인지 부정인지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 문제라면 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(또는 RoBERTa, ALBERT) 계열을, 챗봇처럼 자연스러운 답변을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 한다면 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열을 선택한다.
 2. **사전 학습된 모델이 도메인에 맞는가?** 의료, 법률 등 특수 도메인일 경우 일반 텍스트로 학습된 기본 BERT보다는 BioBERT, LegalBERT 등 특화된 코퍼스로 사전 학습된 모델을 베이스로 가져와 파인튜닝해야 한다.
-3. **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리와 연산 한계가 존재하는가?** Transformer는 시퀀스 길이의 제곱(O(N²))에 비례하여 메모리를 소모한다. 모바일이나 엣지 디바이스 환경이라면 파라미터를 경량화한 DistilBERT나 TinyBERT 채택을 검토한다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 메모리와 연산 한계가 존재하는가?</strong> Transformer는 시퀀스 길이의 제곱(O(N²))에 비례하여 메모리를 소모한다. 모바일이나 엣지 디바이스 환경이라면 파라미터를 경량화한 DistilBERT나 TinyBERT 채택을 검토한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수만 건에 불과한 소규모 자체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋만으로 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델을 바닥부터(From Scratch) 학습시키려는 설계. (반드시 거대 코퍼스로 사전 학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 불러와야 한다.)
@@ -111,32 +109,30 @@ Transformer와 BERT의 등장은 자연어 처리 역사상 가장 거대한 도
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) / [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 이전에 시계열 및 자연어 처리를 담당하던 순차 처리 기반 모델 |
-| **[어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/) (Attention)** | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 특정 단어에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두어 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에 전달하던 기존 기법을, Transformer가 Self-Attention으로 승화시킴 |
-| **사전 학습 (Pre-training) & 파인튜닝 ([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))** | 거대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 언어의 보편적 규칙을 배운 뒤, 소량의 정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 특정 태스크에 맞추는 학습 패러다임 |
-| **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))** | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 아키텍처를 기반으로 파라미터 수를 수천억 개로 확장한 거대 언어 모델 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a> / <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 이전에 시계열 및 자연어 처리를 담당하던 순차 처리 기반 모델 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/">어텐션 메커니즘</a> (Attention)</strong> | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 특정 단어에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 두어 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에 전달하던 기존 기법을, Transformer가 Self-Attention으로 승화시킴 |
+| <strong>사전 학습 (Pre-training) &amp; 파인튜닝 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a>)</strong> | 거대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 언어의 보편적 규칙을 배운 뒤, 소량의 정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 특정 태스크에 맞추는 학습 패러다임 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">Large Language Model</a>)</strong> | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 아키텍처를 기반으로 파라미터 수를 수천억 개로 확장한 거대 언어 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RNN / LSTM (순차 처리, 장기 의존성 한계)
-    │
-    ▼
-Attention Mechanism 도입 (Seq2Seq 성능 개선)
-    │
-    ▼
-Transformer (RNN 제거, 100% 병렬 Self-Attention)
-    │
-    ├──────────────┬──────────────┐
-    ▼              ▼              ▼
-  인코더 활용    디코더 활용  인코더-디코더 모두 활용
- (BERT 계열)    (GPT 계열)      (T5, BART 계열)
-    │              │
- 문맥 이해 최적화 텍스트 생성 최적화
-    │              │
-    ▼              ▼
- 다양한 도메인 파인튜닝 및 초거대 LLM(GPT-4 등) 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RNN / LSTM (순차 처리, 장기 의존성 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Attention Mechanism 도입 (Seq2Seq 성능 개선)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transformer (RNN 제거, 100% 병렬 Self-Attention)</div>
+<div class="kb-diagram-note">인코더 활용 디코더 활용 인코더-디코더 모두 활용</div>
+<div class="kb-diagram-note">(BERT 계열) (GPT 계열) (T5, BART 계열)</div>
+<div class="kb-diagram-note">문맥 이해 최적화 텍스트 생성 최적화</div>
+<div class="kb-diagram-note">다양한 도메인 파인튜닝 및 초거대 LLM(GPT-4 등) 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

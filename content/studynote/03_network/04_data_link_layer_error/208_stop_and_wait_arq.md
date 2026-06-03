@@ -25,24 +25,28 @@ tags = ["studynote-network"]
    - 송신기가 프레임 0번을 쏘고 타이머를 켭니다. ➔ (대기)
    - 수신기가 0번을 무사히 받고 `ACK 1` (다음엔 1번 보내줘)을 보냅니다.
    - 송신기가 ACK를 받고 나서야 비로소 프레임 1번을 쏩니다.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 에러 발생 시**:
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 에러 발생 시</strong>:
    - 송신기가 프레임 1번을 쐈는데, 가는 길에 번개 맞아 깨졌습니다.
    - 수신기가 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 검사를 해보고 에러를 발견하면 가차 없이 버리고 `NAK 1` (1번 깨졌어, 다시 줘)을 보냅니다.
    - NAK를 받은 송신기는 보관 중이던 1번 프레임을 다시 쏩니다.
-3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발 (분실) 시**:
+3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 아예 증발 (분실) 시</strong>:
    - 송신기가 0번을 쐈는데, 라우터가 뻗어서 0번이 공중 분해됐습니다.
    - 수신기는 아무것도 안 왔으니 ACK도 안 보냅니다. 
-   - 송신기의 **초시계([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 타이머)**가 다 돌아가 버립니다(Time Out). 
+   - 송신기의 <strong>초시계(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 타이머)</strong>가 다 돌아가 버립니다(Time Out). 
    - 송신기는 "아, 가다가 죽었나 보네"라며 혼자 판단하고 0번 프레임을 무조건 재전송합니다.
 
-```text
-[ARQ 프로토콜 종류]
-    │
-    ▼
-[정지-대기 ARQ]
-    │
-    └──▶ [GBN ARQ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GBN ARQ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정지-대기 ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,19 +58,23 @@ tags = ["studynote-network"]
 
 - **전송 효율(Utilization) 지옥**:
   태평양을 건너는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광케이블 100Gbps 망을 깔아놓았다고 칩시다. 
-  송신기가 눈곱만 한 1바이트짜리 패킷 하나를 쏘고, 그 패킷이 미국을 찍고 ACK로 돌아올 때까지 **수백 밀리초(ms) 동안 그 어마어마한 광케이블 고속도로에는 단 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 날아가지 않고 텅텅 빈 상태로 방치**됩니다.
+  송신기가 눈곱만 한 1바이트짜리 패킷 하나를 쏘고, 그 패킷이 미국을 찍고 ACK로 돌아올 때까지 <strong>수백 밀리초(ms) 동안 그 어마어마한 광케이블 고속도로에는 단 하나의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>도 날아가지 않고 텅텅 빈 상태로 방치</strong>됩니다.
 - 송신기가 초당 100만 개를 쏠 수 있는 엔진을 가졌어도, 핑퐁을 기다리느라 하루 종일 1만 개도 못 쏘는 끔찍한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생합니다.
 
 이 바보 같은 효율성을 타파하기 위해, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK)을 안 받고도 수만 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파이프에 와다다다 밀어 넣을 수 있는 '슬라이딩 윈도우(Go-Back-N 등)' 기술이 탄생하게 됩니다.
 
-```text
-[ARQ 프로토콜 종류]
-    │
-    ▼
-[정지-대기 ARQ]
-    │
-    └──▶ [GBN ARQ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GBN ARQ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 정지-대기 ARQ는 **'도르래 바구니로 벽돌 나르기'**입니다. 내가 2층에 있는 인부에게 바구니로 벽돌을 1장 올려주면(송신), 인부가 그 벽돌을 빼고 "빈 바구니 내려보냈다(ACK)!"라고 소리칠 때까지 나는 빈둥거리며 놀아야 합니다. 내 손에 벽돌 1만 장이 있어도 한 번에 1장씩만 올려야 하므로, 공사(통신) 속도가 우주 최악으로 느린 답답한 시스템입니다.
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARQ 프로토콜 종류]
-    │
-    ▼
-[현재 개념: 정지-대기 ARQ]
-    │
-    ├──▶ [확장 A: GBN ARQ]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정지-대기 ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GBN ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 정지-대기 ARQ는 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 GBN ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

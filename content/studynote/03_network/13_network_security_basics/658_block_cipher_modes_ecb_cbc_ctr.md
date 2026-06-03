@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 128비트(16바이트) 단위로만 데이터를 먹습니다. 실제 기가바이트 단위의 파일을 암호화하려면 128비트로 수없이 토막 내어 각각 암호화해야 합니다. 이때 **이 여러 개의 블록들을 서로 어떻게 연결하여 암호화할지 결정하는 절차**가 운영 모드입니다.
+[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 128비트(16바이트) 단위로만 데이터를 먹습니다. 실제 기가바이트 단위의 파일을 암호화하려면 128비트로 수없이 토막 내어 각각 암호화해야 합니다. 이때 <strong>이 여러 개의 블록들을 서로 어떻게 연결하여 암호화할지 결정하는 절차</strong>가 운영 모드입니다.
 
-```text
-[SEED, ARIA, LEA]
-    │
-    ▼
-[블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    └──▶ [GCM 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GCM 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,31 +41,35 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. ECB 모드 (Electronic CodeBook) - "절대 쓰면 안 되는 최악의 기본 모드"
-- **원리**: 100개의 조각난 평문 블록을 각각 **완전히 독립적으로 똑같은 열쇠를 써서 암호화**합니다.
+- **원리**: 100개의 조각난 평문 블록을 각각 <strong>완전히 독립적으로 똑같은 열쇠를 써서 암호화</strong>합니다.
 - **치명적 문제**: 만약 1번 블록 평문이 "안녕"이고 3번 블록 평문도 "안녕"이라면, 1번 암호문과 3번 암호문의 결과값이 **완전히 똑같이(복붙처럼)** 나옵니다.
 - **결과**: 펭귄 사진을 ECB 모드로 암호화하면, 암호문 픽셀 덩어리를 봤을 때 펭귄의 테두리 윤곽선이 그대로 노출되어 버립니다. 보안 등급 0점입니다.
 
 ### 2. [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) - "가장 널리 쓰이는 표준 모드"
-- **원리**: 이전 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화의 결과물이 다음 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화에 영향을 미치도록 **쇠사슬(Chain)처럼 엮어버리는 방식**입니다.
+- **원리**: 이전 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화의 결과물이 다음 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)화에 영향을 미치도록 <strong>쇠사슬(Chain)처럼 엮어버리는 방식</strong>입니다.
 - **동작**: 2번 평문을 암호화할 때, 아까 만든 1번 암호문을 가져와 평문과 XOR(섞기)를 한 뒤 자물쇠를 돌립니다. 평문이 똑같은 "안녕"이어도 앞 블록의 모양에 따라 암호문이 완전히 다르게 나옵니다. 펭귄 사진은 완벽한 TV 노이즈 화면으로 바뀝니다.
-- **초기화 벡터 ([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))**: 맨 처음 1번 블록은 앞에 엮을 게 없으므로 가상의 쓰레기 데이터인 **[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)**를 주입해서 시작합니다. ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 등에 가장 보편적으로 쓰임)
+- <strong>초기화 벡터 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>)</strong>: 맨 처음 1번 블록은 앞에 엮을 게 없으므로 가상의 쓰레기 데이터인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>(초기화 벡터)</strong>를 주입해서 시작합니다. ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 등에 가장 보편적으로 쓰임)
 
 ### 3. CFB (Cipher FeedBack) & OFB (Output FeedBack) 모드
 - **특징**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))를 쓰면서도, 마치 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/), 1비트씩 졸졸 처리)처럼 동작하도록 꼼수를 부린 방식입니다. 암호화 기계를 헛돌려서 만든 난수열에 평문을 씌우는 방식입니다.
 - CFB는 통신 에러가 나면 뒤 패킷들이 연달아 박살 나지만, OFB는 오류 전파가 안 되어 위성 통신처럼 에러가 잦은 곳에 씁니다.
 
 ### 4. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드 ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) - "현대 인터넷 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)의 제왕"
-- **원리**: 1씩 증가하는 **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 숫자 (1, 2, 3...)**를 암호화 기계에 집어넣어 난수를 뽑아낸 뒤, 그걸 평문에 덮어씌웁니다.
-- **압도적 장점 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)**: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 1번이 암호화가 끝날 때까지 2번이 기다려야 합니다(체인 구조). 하지만 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 1, 2, 3번 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 독립적이므로, **CPU 코어 8개를 동원해 8개 블록을 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 암호화/복호화해 버립니다.** 미친듯한 고속 처리가 가능해 현대 인터넷([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)에서 가장 사랑받는 모드입니다.
+- **원리**: 1씩 증가하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 숫자 (1, 2, 3...)</strong>를 암호화 기계에 집어넣어 난수를 뽑아낸 뒤, 그걸 평문에 덮어씌웁니다.
+- <strong>압도적 장점 (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리)</strong>: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 1번이 암호화가 끝날 때까지 2번이 기다려야 합니다(체인 구조). 하지만 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 1, 2, 3번 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 독립적이므로, <strong>CPU 코어 8개를 동원해 8개 블록을 동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 암호화/복호화해 버립니다.</strong> 미친듯한 고속 처리가 가능해 현대 인터넷([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)에서 가장 사랑받는 모드입니다.
 
-```text
-[SEED, ARIA, LEA]
-    │
-    ▼
-[블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    └──▶ [GCM 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GCM 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ECB는 매번 똑같은 물감(열쇠)으로 캔버스에 도장을 찍는 것입니다. 도장이 쌓이면 원래 무슨 그림(펭귄)이었는지 테두리가 드러납니다. CBC는 첫 번째 도장을 찍고, 그 찍힌 모양에 맞춰 두 번째 도장 모양을 비틀고(사슬 연결), 세 번째 도장을 또 비틀어 찍어 완벽한 무작위 패턴을 만듭니다. 하지만 앞사람이 찍을 때까지 뒷사람이 기다려야 합니다. CTR은 직원 100명이 각자 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 100군데에서 한꺼번에 제각각의 패턴을 동시에 찍어내어 1초 만에 그림을 완벽히 은폐해버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템입니다.
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SEED, ARIA, LEA]
-    │
-    ▼
-[현재 개념: 블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ├──▶ [확장 A: GCM 모드]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SEED, ARIA, LEA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GCM 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 SEED, ARIA, LEA에서 출발해 현재 메커니즘을 정교화하고, 이후 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

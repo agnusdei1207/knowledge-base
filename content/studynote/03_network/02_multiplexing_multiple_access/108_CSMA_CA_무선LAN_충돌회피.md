@@ -37,23 +37,24 @@ tags = ["studynote-network"]
 | **CW (백오프 윈도우)** | DIFS 대기 후 추가로 뽑는 무작위 난수 대기 시간 | 임의의 번호표 뽑고 세기 |
 | **ACK 프레임** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 후 SIFS 대기 후 즉시 송신자에게 응답하는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 | 등기 우편 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CSMA/CA 경쟁 기반 매체 접근 타이밍 흐름도              │
-├──────────────────────────────────────────────────────────────┤
-│ 채널 상태 : ▒▒▒▒▒(누군가 사용 중)▒▒▒▒▒ | (유휴 상태 시작)         │
-│                                   │                          │
-│ [Node A] (데이터 전송 희망)       │                          │
-│  └──> 1. 감시 ──────────────> 2. [DIFS 대기] -> 3. [난수 5 카운트]
-│                                            5..4..3..2..1..0! │
-│                                             [데이터 송신 시작] <─┘
-│                                                     │        │
-│ [Node B] (데이터 전송 희망)                         │        │
-│  └──> 1. 감시 ──────────────> 2. [DIFS 대기] -> 3. [난수 8 카운트]
-│                                            8..7..6..(A 송신!)│
-│                                [카운트 중단 및 감시로 복귀] <──┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA/CA 경쟁 기반 매체 접근 타이밍 흐름도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 상태 : ▒▒▒▒▒(누군가 사용 중)▒▒▒▒▒</div><div class="kb-diagram-cell">(유휴 상태 시작)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node A</div><div class="kb-diagram-note">(데이터 전송 희망) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 1. 감시 &gt; 2.</div><div class="kb-diagram-node">DIFS 대기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">난수 5 카운트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5..4..3..2..1..0!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 송신 시작</div><div class="kb-diagram-note">&lt;─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node B</div><div class="kb-diagram-note">(데이터 전송 희망) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 1. 감시 &gt; 2.</div><div class="kb-diagram-node">DIFS 대기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">난수 8 카운트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8..7..6..(A 송신!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카운트 중단 및 감시로 복귀</div><div class="kb-diagram-note">&lt;──</div></div>
+</div>
+</div>
+
+
 
 이 흐름도의 핵심은 백오프 타이머가 '전송 후(충돌 수습)'가 아니라 '전송 전(충돌 예방)'에 가동된다는 점이다. 노드 A와 B가 주사위를 굴려 각각 5와 8을 뽑았을 때, A의 카운트다운이 먼저 0에 도달하여 송신을 시작하면 B는 카운트를 5에서 멈추고 다음 턴에 5부터 다시 센다. 이 절묘한 난수 차이 덕분에 두 노드가 동시에 전송을 시작하는 최악의 충돌 확률을 극적으로 낮춘다.
 
@@ -69,7 +70,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|
 | **충돌 처리 사상** | 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (충돌 나면 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) 쏘고 중단) | 사전 예방 (쏘기 전 무조건 랜덤 대기) |
 | **백오프 발생 시점** | 오직 '충돌'이 발생했을 때만 작동 | 채널이 비어 있어도 '항상' 작동 |
-| **전송 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)** | 충돌 없었으면 전송 성공으로 '간주' | 수신 측의 'ACK 프레임' 필수 수신 |
+| <strong>전송 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong> | 충돌 없었으면 전송 성공으로 '간주' | 수신 측의 'ACK 프레임' 필수 수신 |
 | **은닉 노드 대응** | 고려하지 않음 (케이블은 모두 연결됨) | RTS/CTS 메커니즘 옵션 지원 |
 
 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA가 단순히 충돌을 회피하는 것을 넘어 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 수준에서 자체적인 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직(ACK)을 내장하고 있다는 점은 매우 중요하다. 구리선의 품질이 뛰어난 유선은 충돌만 나지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 훼손될 확률이 0에 가깝지만, 무선 환경은 간섭과 잡음으로 인해 충돌이 안 나도 패킷이 증발할 확률이 매우 높다. 따라서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA는 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 의존하기 전에 가장 짧은 대기시간(SIFS)으로 즉각적인 ACK를 요구하는 강박적인 절차를 갖게 되었다.
@@ -85,8 +86,8 @@ tags = ["studynote-network"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **채널 혼잡도 분석**: 채널 활용률(Channel Utilization)이 80% 이상 치솟았을 때, 실제 대용량 전송 중인지 아니면 다수의 단말이 붙어 [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)/Control 프레임(ACK 등) 오버헤드만 폭발하고 있는지 패킷 분석기로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
-2. **ACK [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝**: 장거리 무선 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)(수 km)를 구축할 때 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))으로 인해 ACK가 늦게 도착하여 재전송이 폭주하는 것을 막기 위해, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설정에서 거리(Distance) 파라미터를 늘려 ACK [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 조절을 했는가?
-3. **[Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) ([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)) 전환 고려**: 사용자가 밀집한 스타벅스나 경기장 환경에서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 극심하다면, 채널을 물리적으로 쪼개어 동시 전송을 허용하는 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)) 인프라로의 전환을 기획했는가?
+2. <strong>ACK <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 튜닝</strong>: 장거리 무선 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)(수 km)를 구축할 때 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))으로 인해 ACK가 늦게 도착하여 재전송이 폭주하는 것을 막기 위해, [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설정에서 거리(Distance) 파라미터를 늘려 ACK [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 조절을 했는가?
+3. <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">Wi-Fi 6</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a>) 전환 고려</strong>: 사용자가 밀집한 스타벅스나 경기장 환경에서 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 극심하다면, 채널을 물리적으로 쪼개어 동시 전송을 허용하는 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)(802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)) 인프라로의 전환을 기획했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -110,31 +111,32 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD** | 유선에서 쓰인 충돌 감지 프로토콜로, 무선 적용이 불가해 CA를 탄생시킨 반면교사. |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD</strong> | 유선에서 쓰인 충돌 감지 프로토콜로, 무선 적용이 불가해 CA를 탄생시킨 반면교사. |
 | **Half-Duplex (반이중)** | 무선 통신 시 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 켜지면 수신 기능이 마비되어 충돌 감지를 불가능하게 한 물리적 원인. |
 | **RTS/CTS** | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA만으로는 서로 보이지 않는 단말 간의 충돌(은닉 노드 문제)을 막지 못할 때 도입하는 사전 통신 예약 프레임. |
-| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)** | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 극심한 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(오버헤드)을 해결하기 위해 Wi-Fi 6부터 도입된 주파수 쪼개기 동시 전송 기술. |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> | [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CA의 극심한 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(오버헤드)을 해결하기 위해 Wi-Fi 6부터 도입된 주파수 쪼개기 동시 전송 기술. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-유선 CSMA/CD (충돌 감지 및 사후 복구)
-    │
-    ▼
-무선 환경의 한계 (Half-Duplex 특성상 충돌 감지 불가능)
-    │
-    ▼
-CSMA/CA 도입 (사전 무작위 대기 및 ACK를 통한 충돌 회피)
-    │
-    ▼
-은닉 노드 문제 발생 (서로 안 보이는 무선 단말 간 충돌)
-    │
-    ▼
-RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)
-    │
-    ▼
-고밀도 환경의 한계 극복을 위한 중앙 제어식 OFDMA (Wi-Fi 6) 발전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">유선 CSMA/CD (충돌 감지 및 사후 복구)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무선 환경의 한계 (Half-Duplex 특성상 충돌 감지 불가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSMA/CA 도입 (사전 무작위 대기 및 ACK를 통한 충돌 회피)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">은닉 노드 문제 발생 (서로 안 보이는 무선 단말 간 충돌)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고밀도 환경의 한계 극복을 위한 중앙 제어식 OFDMA (Wi-Fi 6) 발전</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

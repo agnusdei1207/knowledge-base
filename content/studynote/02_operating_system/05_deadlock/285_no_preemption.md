@@ -21,29 +21,30 @@ tags = ["studynote-operating-system"]
 
 강제 탈취(Preemption)가 가능하다면 경찰(OS)이 파워를 행사해 교통 체증 속에서 차량 하나를 크레인으로 치워버리고 얽힘을 뚫어줄 수 있다. 즉 데드락은 발생할 수 없다.
 
-하지만, **비선점(No Preemption)**이 존재하기 때문에 데드락이 치명적 파괴력을 지닌다. 프로세스가 "내가 자발적으로 자원을 내려놓을(Release) 때까지" 건드릴 수 없으므로, 프로세스가 무한루프나 교착의 꼬리물기에 빠지는 순간 누구도 그 자원을 빼앗지 못하고 영구 마비가 찾아온다.
+하지만, <strong>비선점(No Preemption)</strong>이 존재하기 때문에 데드락이 치명적 파괴력을 지닌다. 프로세스가 "내가 자발적으로 자원을 내려놓을(Release) 때까지" 건드릴 수 없으므로, 프로세스가 무한루프나 교착의 꼬리물기에 빠지는 순간 누구도 그 자원을 빼앗지 못하고 영구 마비가 찾아온다.
 
 **💡 비유**: 운전 중인 자동차 핸들. 주행 중에 강제로 핸들을 뺏으면 차가 전복된다. 그래서 운전자가 차를 세우고 안전하게 내리기 전까지는 그 자리(운전대 자원)를 강제 선점할 수 없도록 강제된 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         선점 가능(Preemptible) vs 비선점(Non-preemptible) 자원│
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [선점 가능 자원 (Preemptible Resource)]                      │
-│  ● 상태(Context) 저장 및 롤백이 쉬운 자원.                    │
-│  ● CPU 시간 할당량 (타이머 인터럽트로 강제 스위칭).           │
-│  ● 메인 메모리 프레임 (스왑 아웃 시키고 디스크 복원).         │
-│  → OS가 강제 박탈(선점)해도 상관없음! 교착상태 유발 안 함.    │
-│                                                               │
-│  [비선점 자원 (Non-preemptible Resource) ★]                   │
-│  ● 작업 도중 중단하면 복원할 수 없거나 오염되는 자원.         │
-│  ● CD 레코더 (중간에 뺏으면 CD 에러남).                       │
-│  ● 프린터 (절반만 출력 중 뺏으면 텍스트 뒤섞임).              │
-│  ● 트랜잭션 진행 중인 DB Row Lock (갱신 무결성 파괴).         │
-│  → 작업 종료(완성)까지 절대로 뺏을 수 없음! (교착상태 주적)   │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선점 가능(Preemptible) vs 비선점(Non-preemptible) 자원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">선점 가능 자원 (Preemptible Resource)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 상태(Context) 저장 및 롤백이 쉬운 자원.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● CPU 시간 할당량 (타이머 인터럽트로 강제 스위칭).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 메인 메모리 프레임 (스왑 아웃 시키고 디스크 복원).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ OS가 강제 박탈(선점)해도 상관없음! 교착상태 유발 안 함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 자원 (Non-preemptible Resource) ★</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 작업 도중 중단하면 복원할 수 없거나 오염되는 자원.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● CD 레코더 (중간에 뺏으면 CD 에러남).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 프린터 (절반만 출력 중 뺏으면 텍스트 뒤섞임).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 트랜잭션 진행 중인 DB Row Lock (갱신 무결성 파괴).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 작업 종료(완성)까지 절대로 뺏을 수 없음! (교착상태 주적)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 비선점 자원은 그림을 그리고 있는 도화지 — 중간에 억지로 빼앗아버리면 그림이 엉망진창이 되기 때문에, 친구가 그림을 다 이룰 때까지 기다려야만 합니다. 그 기다림이 무한정 이어질 때 데드락 늪에 빠집니다.
 
@@ -55,25 +56,25 @@ tags = ["studynote-operating-system"]
 
 데드락을 막으려고 세 번째 조건인 비선점을 파괴(강제 박탈 도입)한다면 어떤 로직일까?
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         비선점 부정 (Deadlock Prevention: Preemption 허용)    │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  요청 프로세스 A가 자원 R2를 원하는데,                        │
-│  R2를 현재 점유하고 대기 중인 프로세스 B가 존재한다면?        │
-│                                                               │
-│  ■ 강탈 정책:                                                 │
-│  "B! 너 아무것도 못하고 서 있을 거면 그 자원(R2) 당장 뱉어!"  │
-│  → OS가 B로부터 강제로 R2 자원 수거 처리.                     │
-│  → A에게 R2 할당 (스루풋 진행).                               │
-│                                                               │
-│  ■ 상태 보존의 지옥:                                          │
-│  강제로 빼앗긴 B의 상태 복원은 누구 책임인가?                 │
-│  B가 프린트 스풀을 절반 썼거나 DB 행을 업데이트 중이었으면?   │
-│  → 강제 복원(Rollback/Restore) 캡슐화 비용 기하급수적 상승!   │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비선점 부정 (Deadlock Prevention: Preemption 허용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 프로세스 A가 자원 R2를 원하는데,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2를 현재 점유하고 대기 중인 프로세스 B가 존재한다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 강탈 정책:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"B! 너 아무것도 못하고 서 있을 거면 그 자원(R2) 당장 뱉어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ OS가 B로부터 강제로 R2 자원 수거 처리.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ A에게 R2 할당 (스루풋 진행).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 상태 보존의 지옥:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강제로 빼앗긴 B의 상태 복원은 누구 책임인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B가 프린트 스풀을 절반 썼거나 DB 행을 업데이트 중이었으면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 강제 복원(Rollback/Restore) 캡슐화 비용 기하급수적 상승!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 강제 뺏기([비선점 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/))는 요리 중인 냄비 압수하기 — 경찰이 와서 빈불을 뺏어가면 다음에 요리를 다시 시작해야 하는데, 이전에 넣은 소금 간(상태)이 다 깨져버려서 처음부터 다시 끓이는 게 더 골치 아파집니다.
 
@@ -95,11 +96,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))을 통한 반(Semi)-선점 시뮬레이션**: 개발자가 `Lock.tryLock(5초)` 메서드를 써서, 5초 안에 락을 못 얻으면 자기 함수 내부 로직(나머지 점유 자원)을 싹 초기화하고 Exception을 던진다. 남이 강제로 내 걸 뺏지는 않지만(비선점 보장), 스스로 락을 포기(자발적 Release)하게 유도하여 데드락 순환고리를 깬다. 자율적 백오프(Backoff) 패턴.
-2. **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim 강제 선정 (RDBMS)**: RDBMS [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저는 데드락 트리 탐지 시 가장 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 비용(이전 변경 레코드 수)이 적은 후보를 단숨에 쳐내어 `Deadlock found when trying to get lock` 에러를 주입, 희생양(Victim)을 만든다. [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 단의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 능력이 있기에 과감히 비선점 조건을 찢어버릴 수단.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)을 통한 반(Semi)-선점 시뮬레이션</strong>: 개발자가 `Lock.tryLock(5초)` 메서드를 써서, 5초 안에 락을 못 얻으면 자기 함수 내부 로직(나머지 점유 자원)을 싹 초기화하고 Exception을 던진다. 남이 강제로 내 걸 뺏지는 않지만(비선점 보장), 스스로 락을 포기(자발적 Release)하게 유도하여 데드락 순환고리를 깬다. 자율적 백오프(Backoff) 패턴.
+2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> Victim 강제 선정 (RDBMS)</strong>: RDBMS [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저는 데드락 트리 탐지 시 가장 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 비용(이전 변경 레코드 수)이 적은 후보를 단숨에 쳐내어 `Deadlock found when trying to get lock` 에러를 주입, 희생양(Victim)을 만든다. [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 단의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 능력이 있기에 과감히 비선점 조건을 찢어버릴 수단.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **사용자 입력 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O)을 내포한 뮤텍스 구간**: 유저가 키보드 입력을 줄 때까지 블로킹된 함수 호출은 다른 스레드가 뮤텍스 자원을 쓸어가지 못하게 비선점 락과 중대하게 스매싱되어 영원한 동면을 유발한다. "절대, 유저 응답을 락 안에서 대기하지 말라."
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>사용자 입력 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> I/O)을 내포한 뮤텍스 구간</strong>: 유저가 키보드 입력을 줄 때까지 블로킹된 함수 호출은 다른 스레드가 뮤텍스 자원을 쓸어가지 못하게 비선점 락과 중대하게 스매싱되어 영원한 동면을 유발한다. "절대, 유저 응답을 락 안에서 대기하지 말라."
 
 **📢 섹션 요약 비유**: 혼자 5분이나 요리할 때 자발적 포기([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))는 스스로 요리 세트 포기하고 뒷주방 가는 착한 규칙 — 아무도 내 냄비를 강제로 안 밀치니 기분 안 상하고 고착 상태만 없애줍니다.
 
@@ -130,15 +131,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[점유하며 대기 (Hold-and-Wait)]
-    │
-    ▼
-[비선점 (No Preemption)]
-    │
-    ├──▶ [순환 대기 (Circular Wait)]
-    └──▶ [자원 할당 그래프 (Resource-Allocation Graph)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

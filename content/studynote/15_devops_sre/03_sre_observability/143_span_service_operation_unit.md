@@ -10,8 +10,8 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Span은 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트레이스의 기본 단위**로, 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 **특정 오퍼레이션([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청·DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 처리)**의 시작·종료·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 기록하며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 트리를 형성한다.
-> 2. **가치**: Span에 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명·오퍼레이션명·상태코드·에러·태그·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 이벤트**가 포함되어, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간의 **소요 시간·에러 여부를 정확히** 파악할 수 있다.
+> 1. **본질**: Span은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 트레이스의 기본 단위</strong>로, 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 <strong>특정 오퍼레이션(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 요청·DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>·<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 처리)</strong>의 시작·종료·[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 기록하며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 트리를 형성한다.
+> 2. **가치**: Span에 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>명·오퍼레이션명·상태코드·에러·태그·<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 이벤트</strong>가 포함되어, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구간의 **소요 시간·에러 여부를 정확히** 파악할 수 있다.
 > 3. **판단 포인트**: Root Span(최초 진입점)·Child Span(하위 호출)의 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 트레이스 트리를 형성하며, Span [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)(태그)로 커스텀 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 추가한다.
 
 ---
@@ -29,13 +29,13 @@ Span 구성:
   attributes: {http.method: POST, db.type: postgres}
 ```
 
-- **📢 섹션 요약 비유**: Span은 **택배 추적의 각 물류센터 기록**이다. 각 센터에서 **언제 도착·출발·처리**했는지 기록한다.
+- **📢 섹션 요약 비유**: Span은 <strong>택배 추적의 각 물류센터 기록</strong>이다. 각 센터에서 <strong>언제 도착·출발·처리</strong>했는지 기록한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Span은 **[분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)의 기본 단위**이며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)·Status로 상세 추적을 제공한다.
+Span은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/">분산 트레이싱</a>의 기본 단위</strong>이며, 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)·[Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)·Status로 상세 추적을 제공한다.
 
 ---
 
@@ -46,20 +46,26 @@ Span은 **[분산 트레이싱](/knowledge-base/studynote/04_software_engineerin
 | **Span** | 오퍼레이션 단위 |
 | **Root Span** | 최초 진입점 |
 | **Child Span** | 하위 호출 |
-| **[Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/)** | 커스텀 태그 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/">Attributes</a></strong> | 커스텀 태그 |
 | **Span Events** | Span 내 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Dapper Span (Google, 2010)] → [Zipkin Span (2012)]
-    → [OpenTracing Span (2016)]
-    → [OTel Span (2019, 표준 통합)]
-    → [현재: Span Links — 비동기 Span 연결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dapper Span (Google, 2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Zipkin Span (2012)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTracing Span (2016)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Span (2019, 표준 통합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Span Links — 비동기 Span 연결</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Span은 택배 추적의 **각 물류센터 기록**이에요.
+1. Span은 택배 추적의 <strong>각 물류센터 기록</strong>이에요.
 2. "서울 센터에서 **2시간 머물렀고**, 부산 센터로 보냈다"를 기록해요.
 3. 어디서 **오래 걸렸는지** 한눈에 알 수 있어요!
 

@@ -20,25 +20,24 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 초보 개발자들은 "오! 부모 클래스에 함수 10개 있네? 나 이거 복사하기 귀찮으니까 그냥 `extends` [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아서 10개 공짜로 써야지~"라고 생각합니다.
-- **비극의 시작**: 10개 중 1개가 내(자식) 입맛에 안 맞습니다. 그래서 그 함수 1개를 **'에러를 뿜게 덮어쓰거나(오버라이딩), 아예 비워두거나, 부모와 완전히 다른 짓을 하게 개조'**해버립니다. 
+- **비극의 시작**: 10개 중 1개가 내(자식) 입맛에 안 맞습니다. 그래서 그 함수 1개를 <strong>'에러를 뿜게 덮어쓰거나(오버라이딩), 아예 비워두거나, 부모와 완전히 다른 짓을 하게 개조'</strong>해버립니다. 
 - 시스템(클라이언트 코드)은 부모인 줄 믿고 그 1번 함수를 호출했다가, 자식이 튀어나와서 딴짓을 하거나 에러를 뿜어 프로그램이 대폭발합니다.
 
 - **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 LSP (Liskov Substitu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  LSP (Liskov Substitu                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSP (Liskov Substitu</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 LSP (Liskov Substitu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 1988년 컴퓨터 과학자 바바라 리스코프(Barbara Liskov) 교수가 발표한 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 절대 헌법.
-- **개념**: 컴퓨터 프로그램에서 부모 클래스의 인스턴스(객체)를 사용하는 곳에, **그 부모를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 '자식 클래스의 인스턴스'를 대신 교체(치환 Substitution)해서 집어넣더라도, 프로그램의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(부모가 맺어둔 계약)을 단 1%도 깨뜨리지 않고 완벽하게 똑같이 정상 동작해야만 올바른 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**라는 원칙입니다.
+- **개념**: 컴퓨터 프로그램에서 부모 클래스의 인스턴스(객체)를 사용하는 곳에, <strong>그 부모를 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>받은 '자식 클래스의 인스턴스'를 대신 교체(치환 Substitution)해서 집어넣더라도, 프로그램의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>(부모가 맺어둔 계약)을 단 1%도 깨뜨리지 않고 완벽하게 똑같이 정상 동작해야만 올바른 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>라는 원칙입니다.
 
 - **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -82,9 +81,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 해결책은 간단합니다. 펭귄은 새를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받으면 안 됩니다.
-- 펭귄과 독수리의 진짜 공통점은 '새'가 아니라 **'동물(Animal)'**입니다. 둘을 공통의 부모(인터페이스)인 `동물`로 묶고, 독수리에게만 `Flyable(날 수 있는)` 인터페이스를 따로 붙여줘야([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 분리) LSP가 완벽히 지켜지고 시스템이 평화로워집니다.
+- 펭귄과 독수리의 진짜 공통점은 '새'가 아니라 <strong>'동물(Animal)'</strong>입니다. 둘을 공통의 부모(인터페이스)인 `동물`로 묶고, 독수리에게만 `Flyable(날 수 있는)` 인터페이스를 따로 붙여줘야([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 분리) LSP가 완벽히 지켜지고 시스템이 평화로워집니다.
 
-> 📢 **섹션 요약 비유**: **[리스코프 치환 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/)(LSP)**은 패스트푸드점 주방의 **'가짜 아르바이트생 대타 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(치환) 금지법'**입니다. 주방에 원래 **'감자튀김 튀기는 달인(부모 클래스)'**이 있었습니다. 이 달인의 계약(기능)은 "감자를 주면 3분 뒤에 튀김을 내놓는다"입니다. 어느 날 달인이 아파서, 그의 **'아들(자식 클래스)'**을 대타로 주방에 세웠습니다(치환 Substitution). 점장(시스템)은 당연히 아들이 아버지의 피를 물려받았으니([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 똑같은 계약을 지킬 줄 알고 감자를 줬습니다. 그런데 이 미친 아들이 감자를 받더니 튀김기가 아니라 믹서기에 넣고 **'감자 주스'**를 갈아버렸습니다!(자식의 함수 오버라이딩 깽판). 점장이 튀김인 줄 알고 손님에게 나갔다가 식당이 문을 닫습니다. 바바라 리스코프 교수는 소리칩니다. **"야! 아버지 자리에 아들을 대타(치환)로 세울 거면, 아들이 아버지보다 감자튀김을 더 바삭하게(기능 추가) 튀기는 건 합법이지만, 감자로 주스를 갈아버리거나(부모의 계약 위반) '저 튀길 줄 모르는데요?(에러 예외 발생)'라고 배째라 시전하는 놈은 절대 아버지를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 자식으로 호적에 올리지 마라!!"** 다형성이라는 이름으로 부모의 믿음을 배신하는 가짜 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 자식들을 호적 파버려, 프로그램이 예기치 않게 터지는 나비효과를 원천 봉쇄하는 객체지향 족보의 가장 날카로운 판별법입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/357_process/">리스코프 치환 원칙</a>(LSP)</strong>은 패스트푸드점 주방의 <strong>'가짜 아르바이트생 대타 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(치환) 금지법'</strong>입니다. 주방에 원래 <strong>'감자튀김 튀기는 달인(부모 클래스)'</strong>이 있었습니다. 이 달인의 계약(기능)은 "감자를 주면 3분 뒤에 튀김을 내놓는다"입니다. 어느 날 달인이 아파서, 그의 <strong>'아들(자식 클래스)'</strong>을 대타로 주방에 세웠습니다(치환 Substitution). 점장(시스템)은 당연히 아들이 아버지의 피를 물려받았으니([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 똑같은 계약을 지킬 줄 알고 감자를 줬습니다. 그런데 이 미친 아들이 감자를 받더니 튀김기가 아니라 믹서기에 넣고 <strong>'감자 주스'</strong>를 갈아버렸습니다!(자식의 함수 오버라이딩 깽판). 점장이 튀김인 줄 알고 손님에게 나갔다가 식당이 문을 닫습니다. 바바라 리스코프 교수는 소리칩니다. <strong>"야! 아버지 자리에 아들을 대타(치환)로 세울 거면, 아들이 아버지보다 감자튀김을 더 바삭하게(기능 추가) 튀기는 건 합법이지만, 감자로 주스를 갈아버리거나(부모의 계약 위반) '저 튀길 줄 모르는데요?(에러 예외 발생)'라고 배째라 시전하는 놈은 절대 아버지를 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>받은 자식으로 호적에 올리지 마라!!"</strong> 다형성이라는 이름으로 부모의 믿음을 배신하는 가짜 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 자식들을 호적 파버려, 프로그램이 예기치 않게 터지는 나비효과를 원천 봉쇄하는 객체지향 족보의 가장 날카로운 판별법입니다.
 
 - **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,21 +128,23 @@ LSP (Liskov Substitution Principle)은 '어떻게 빠르게 짜는가'가 아니
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-LSP (Liskov Substitution Principle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSP (Liskov Substitution Principle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

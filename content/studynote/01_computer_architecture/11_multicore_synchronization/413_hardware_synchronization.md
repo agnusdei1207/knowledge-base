@@ -35,27 +35,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 두 코어가 같은 락 변수를 두고 경쟁할 때, 현대 하드웨어가 어떻게 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장하는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 공유 주소 L(lock) 가 같은 캐시 라인에 존재                                 │
-│                                                                            │
-│ Core A                    Coherence Fabric                 Core B          │
-│ ┌──────────────┐         ┌──────────────────┐         ┌──────────────┐    │
-│ │ atomic op(L) │ ──────▶ │ L line 독점 요청 │ ──────▶ │ line 무효화   │    │
-│ └──────┬───────┘         └────────┬─────────┘         └──────┬───────┘    │
-│        │                           │                          │            │
-│        ▼                           ▼                          ▼            │
-│  L line = M/E 상태           다른 코어 사본 폐기          읽기만 가능     │
-│        │                                                                │
-│        ▼                                                                │
-│  Read → Modify → Write 를 하나의 원자적 단위로 완료                      │
-│        │                                                                │
-│        ▼                                                                │
-│  결과 공개 후 다른 코어가 최신 값 재획득                                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 주소 L(lock) 가 같은 캐시 라인에 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A Coherence Fabric Core B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">atomic op(L)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">L line 독점 요청</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">line 무효화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L line = M/E 상태 다른 코어 사본 폐기 읽기만 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read → Modify → Write 를 하나의 원자적 단위로 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 공개 후 다른 코어가 최신 값 재획득</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 전체 시스템을 멈추지 않고도 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 조각만 안전하게 갱신할 수 있다. 다만 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)만으로 모든 문제가 끝나는 것은 아니다. 값 하나를 바꾸는 행위는 원자적이어도, 그 앞뒤 메모리 접근 순서까지 자동으로 정리되지는 않으므로 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 아키텍처의 [메모리 일관성 모델](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/))이 함께 중요해진다.
 
@@ -99,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 1. **임계구역 길이**: 수십 나노초(ns) 수준의 짧은 구간이면 스핀 기반 접근이 가능하지만, 마이크로초(μs) 이상 길어지면 블로킹 락이 더 낫다.
 2. **경합 빈도**: 충돌이 드물면 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 낙관적 접근이 유리하지만, 항상 몰리면 재시도 루프가 CPU 시간을 태운다.
-3. **공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치**: 락 변수와 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 캐시 라인에 있으면 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어진다.
+3. <strong>공유 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치</strong>: 락 변수와 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 같은 캐시 라인에 있으면 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 떨어진다.
 4. **메모리 순서 요구**: 값 교체만 맞으면 되는지, 게시(Publish)-관측(Observe) 순서까지 맞아야 하는지에 따라 배리어 강도가 달라진다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -116,7 +110,7 @@ tags = ["studynote-computer-architecture"]
 - 락 변수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 한 캐시 라인에 몰아넣는 설계
 - 긴 임계구역에 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 적용해 CPU를 공회전시키는 설계
 
-기술사 답안 관점에서는 "하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) = 고성능"이라고 단정하지 말고, **짧은 구간·낮은 충돌·정확한 메모리 순서 설계**일 때 강점을 발휘한다고 쓰는 것이 정확하다. 또한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 락, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)와 함께 설명해야 입체적인 답안이 된다.
+기술사 답안 관점에서는 "하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) = 고성능"이라고 단정하지 말고, <strong>짧은 구간·낮은 충돌·정확한 메모리 순서 설계</strong>일 때 강점을 발휘한다고 쓰는 것이 정확하다. 또한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 락, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)와 함께 설명해야 입체적인 답안이 된다.
 
 - **📢 섹션 요약 비유**: 하드웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 신호등 없는 회전교차로와 비슷하다. 차가 적고 모두 규칙을 알면 매우 빠르지만, 차가 몰리거나 진입 순서를 헷갈리면 오히려 정체와 사고가 커진다.
 
@@ -147,26 +141,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 메모리 경쟁
-    │
-    ▼
-원자성 (Atomicity) 필요
-    │
-    ├─▶ Test-and-Set · Fetch-and-Add
-    │
-    ▼
-Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)
-    │
-    ▼
-캐시 일관성 (Cache Coherence) · 메모리 배리어 (Memory Barrier)
-    │
-    ▼
-스핀락 · 뮤텍스 · 락프리 자료구조
-    │
-    ▼
-하드웨어 트랜잭셔널 메모리 (HTM)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 메모리 경쟁</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원자성 (Atomicity) 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Test-and-Set · Fetch-and-Add</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) · 메모리 배리어 (Memory Barrier)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스핀락 · 뮤텍스 · 락프리 자료구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 트랜잭셔널 메모리 (HTM)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "충돌 인식 → 원자 명령 → 가시성 보강 → 상위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조 → 더 큰 범위의 하드웨어 지원"으로 발전하는 방향을 보여준다.
 

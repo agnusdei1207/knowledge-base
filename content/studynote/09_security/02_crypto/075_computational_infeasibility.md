@@ -24,11 +24,16 @@ tags = ["studynote-software-engineering"]
 
 이 관점이 중요한 이유는 공격 비용이 기술 발전에 따라 바뀌기 때문이다. 어제는 infeasible했던 것이 내일은 feasible해질 수 있으므로, 보안은 정적인 진리가 아니라 시간에 따라 다시 평가해야 하는 가정이다.
 
-```text
-secret -> algorithm -> attacker search cost -> infeasible -> security
-│
-└─ 2^n growth
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">secret -&gt; algorithm -&gt; attacker search cost -&gt; infeasible -&gt; security</div>
+<div class="kb-diagram-tree-item" style="--depth:0">2^n growth</div>
+</div>
+</div>
+
+
 
 핵심은 공격자가 포기하는 것이 아니라, 끝내지 못하게 만드는 데 있다.
 
@@ -106,21 +111,23 @@ computational infeasibility는 암호학의 현실주의를 보여 준다. 보�
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-secret
-│
-▼
-algorithm
-│
-▼
-search cost
-│
-▼
-infeasible
-│
-▼
-security
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">secret</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">algorithm</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">search cost</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">infeasible</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">security</div>
+</div>
+</div>
+
+
 
 ### 어린이를 위한 3줄 비유 설명
 

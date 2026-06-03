@@ -21,9 +21,9 @@ tags = ["studynote-cloud-architecture"]
 
 블루-그린 배포는 1990년대 Daniel Terhorst-North와 Jez Humble이 『[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)』에서 정립한 패턴이다. 이름의 유래는 두 환경을 Blue(구버전)와 Green(신버전)으로 색으로 구분하는 데서 왔다.
 
-핵심 아이디어는 단순하다: 언제든지 즉시 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 돌아갈 수 있는 **완전한 환경을 항상 유지**하는 것이다. 신버전(Green)이 완전히 준비되고 테스트가 완료된 이후에야 로드밸런서가 트래픽을 Green으로 전환한다. 문제가 발생하면 로드밸런서를 다시 Blue로 돌리면 된다.
+핵심 아이디어는 단순하다: 언제든지 즉시 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 돌아갈 수 있는 <strong>완전한 환경을 항상 유지</strong>하는 것이다. 신버전(Green)이 완전히 준비되고 테스트가 완료된 이후에야 로드밸런서가 트래픽을 Green으로 전환한다. 문제가 발생하면 로드밸런서를 다시 Blue로 돌리면 된다.
 
-이 방식이 특히 강력한 상황은 **DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 동반되는 배포**다. 신버전용 DB를 별도로 마이그레이션하고 Green 환경에서 완전히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 전환하면, 구버전 코드와 신버전 DB가 섞이는 상황을 원천적으로 방지할 수 있다.
+이 방식이 특히 강력한 상황은 <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경이 동반되는 배포</strong>다. 신버전용 DB를 별도로 마이그레이션하고 Green 환경에서 완전히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 전환하면, 구버전 코드와 신버전 DB가 섞이는 상황을 원천적으로 방지할 수 있다.
 
 📢 **섹션 요약 비유**: 블루-그린 배포는 공연 무대를 교체하는 것과 같다. 한 무대(Blue)에서 공연 중인 동안 백스테이지에서 새 무대 세트(Green)를 완전히 준비하고, 막간에 한 번에 전환한다. 문제 생기면 다시 블루 무대로 돌아가면 된다.
 
@@ -33,23 +33,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 블루-그린 배포 구조
 
-```
-  ┌─────────────────────────────────────────────────────────────┐
-  │                     Load Balancer / DNS                      │
-  └──────────────────────────┬──────────────────────────────────┘
-                             │
-           ┌─────────────────┼─────────────────┐
-           ▼                                   ▼
-  ┌─────────────────┐                ┌─────────────────┐
-  │  Blue 환경 (v1) │  ←── 현재 운영 │  Green 환경(v2) │ ←── 준비 중
-  │  [App v1 x4]    │                │  [App v2 x4]    │
-  │  [DB: Schema A] │                │  [DB: Schema B] │
-  └─────────────────┘                └─────────────────┘
-           │
-           ▼
-  [트래픽 전환 후]
-  LB → Green 100% / Blue 대기 (즉시 롤백 대기)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load Balancer / DNS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blue 환경 (v1)</div><div class="kb-diagram-cell">←── 현재 운영</div><div class="kb-diagram-cell">Green 환경(v2)</div><div class="kb-diagram-cell">←── 준비 중</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App v1 x4</div><div class="kb-diagram-node">App v2 x4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB: Schema A</div><div class="kb-diagram-node">DB: Schema B</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 전환 후</div></div>
+<div class="kb-diagram-note">LB → Green 100% / Blue 대기 (즉시 롤백 대기)</div>
+</div>
+</div>
+
+
 
 ### 배포 절차
 
@@ -151,12 +149,12 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**비용 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong>비용 최적화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 1. 클라우드 환경에서는 Green 환경을 배포 직전에 자동 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하고, 안정화 후 Blue를 즉시 삭제하여 비용 절감
 2. [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)/Pulumi로 환경을 코드화하면 Green 환경 생성에 5분 미만 소요
 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 공유 DB + [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 통해 DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용 절약 가능
 
-**상태 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Stateful) 주의**:
+<strong>상태 있는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(Stateful) 주의</strong>:
 - [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버 로컬에 저장하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 전환 시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유실
 - 해결책: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 외부 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 저장소 사용 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 아키텍처 선행 필요)
 
@@ -201,18 +199,21 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Blue (현재 운영) ↔ Green (대기 환경)
-    │
-    ▼
-배포: Green에 신버전 → 검증 → 라우터 전환
-    │
-    ▼
-롤백: 라우터를 Blue로 되돌림 (즉시)
-    │
-    ▼
-비용 절감: 클라우드 Auto-Provision Green 환경
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Blue (현재 운영) ↔ Green (대기 환경)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배포: Green에 신버전 → 검증 → 라우터 전환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">롤백: 라우터를 Blue로 되돌림 (즉시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비용 절감: 클라우드 Auto-Provision Green 환경</div>
+</div>
+</div>
+
+
 2. 새 무대에 문제가 생기면 5초 만에 다시 옛날 무대로 돌아갈 수 있어서 관객은 거의 눈치채지 못해.
 3. 대신 무대 두 개를 동시에 준비해야 하니까, 잠깐 비용이 2배가 돼. 하지만 그게 안전을 보장하는 값어치야.
 

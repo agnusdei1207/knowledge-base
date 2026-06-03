@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거 기업들은 "전사의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모아라!"라는 목표 아래 거대한 **[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))**나 **[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))**를 만들었다. 그리고 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 팀 한 곳에 수십 개의 부서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 달라고 요청했다.
+과거 기업들은 "전사의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모아라!"라는 목표 아래 거대한 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/">Data Warehouse</a>)</strong>나 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a>)</strong>를 만들었다. 그리고 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 팀 한 곳에 수십 개의 부서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 달라고 요청했다.
 
 하지만 이 중앙 집중식 모델은 곧 한계에 부딪혔다. 결제팀에서 DB 컬럼을 하나 바꾸면 중앙 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))이 멈춰 섰다. 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀은 결제 로직의 의미([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)를 몰랐기 때문에 파이프라인을 고치는 데 수 주일이 걸렸고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 늘 지연되고 오류투성이가 되었다.
 
-이 병목을 해결하기 위해 자막크 데가니(Zhamak Dehghani)가 제안한 개념이 **[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))**다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으지 말고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 잘 아는 현업 부서([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공해서 API처럼 다른 부서에 제공하게 만들자!"는 역발상이다.
+이 병목을 해결하기 위해 자막크 데가니(Zhamak Dehghani)가 제안한 개념이 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a>)</strong>다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으지 말고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 잘 아는 현업 부서([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공해서 API처럼 다른 부서에 제공하게 만들자!"는 역발상이다.
 
 - **📢 섹션 요약 비유**: 회사 도서관 한 곳([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))에 모든 책을 모아두고 사서 1명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀)이 찾아주는 방식에서, 각 부서가 자기 부서 앞에 책상을 놓고 지나가는 사람들에게 자기가 쓴 책을 직접 빌려주는 벼룩시장([데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)) 방식으로 바꾼 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 탈중앙 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 오너십의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 메시 탈중앙 도메인 오너십                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 메시 탈중앙 도메인 오너십</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 탈중앙 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 오너십가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 구분 | 1세대: [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/) | 2세대: [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) | 3세대: [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) |
 |:---|:---|:---|:---|
-| **저장 형태** | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) (테이블) | 정형/비정형 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 ([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 독립)** |
-| **소유권 (Ownership)**| 중앙 BI 팀 | 중앙 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering 팀 | **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (현업 비즈니스 팀)** |
+| **저장 형태** | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) (테이블) | 정형/비정형 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별로 독립)</strong> |
+| **소유권 (Ownership)**| 중앙 BI 팀 | 중앙 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering 팀 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (현업 비즈니스 팀)</strong> |
 | **병목 지점** | [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 및 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 설계 | [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)) 현상 | **조직 문화 변경 및 교육** |
-| **철학적 기반** | 모놀리식 (Monolithic) | 모놀리식 (Monolithic) | **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** |
+| **철학적 기반** | 모놀리식 (Monolithic) | 모놀리식 (Monolithic) | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> |
 
-[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 한마디로 **"[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))를 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 세계에 그대로 적용한 것"**이다. 
+[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 한마디로 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)를 분석용 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a>) 세계에 그대로 적용한 것"</strong>이다. 
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 회사 식당을 여러 개의 푸드트럭으로 쪼갰다면, [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 그 푸드트럭들이 각자의 장부([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 중앙에 내지 않고, 알아서 세무서(다른 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에 깔끔한 엑셀([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))로 제출하게 만든 것이다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데이터 메시 탈중앙 도메인 오너십 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 탈중앙 도메인 오너십 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

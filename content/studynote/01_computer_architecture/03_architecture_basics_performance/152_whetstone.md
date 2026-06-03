@@ -10,9 +10,9 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 웻스톤(Whetstone)은 단순 정수 덧셈을 벗어나, **삼각함수, 지수 연산, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱싱 등 고난도 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 실수 연산**을 컴퓨터가 초당 얼마나 폭발적으로 씹어 넘기는지를 측정하기 위해 1972년 발명된 역사상 최초의 합성 벤치마크(Synthetic [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.
-> 2. **가치**: 이 벤치마크는 당시 "CPU 클럭 속도"만으로 우열을 가리던 기만적인 시장에 철퇴를 내리며, 칩 내부에 박혀 있는 특수 수학 천재 부품인 **'FPU([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 유닛)'의 실전 기하학/수치해석 연산 파워를 MWIPS라는 절대 지표로 정량화**시킨 위대한 선구자다.
-> 3. **판단 포인트**: 현대의 초거대 3D 렌더링 엔진이나 딥러닝 텐서 수학 코어를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기에는 코드 덩치가 너무 작고 구식이라 유물로 밀려났으나, 과거 **과학/기상 예측 시뮬레이션 장비가 수학적 한계치를 얼마나 0.1초 만에 찢어버릴 수 있는지 측정**했던 컴퓨터 아키텍처 수학 역사의 살아있는 근본 나침반이다.
+> 1. **본질**: 웻스톤(Whetstone)은 단순 정수 덧셈을 벗어나, <strong>삼각함수, 지수 연산, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 인덱싱 등 고난도 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">Floating Point</a>) 실수 연산</strong>을 컴퓨터가 초당 얼마나 폭발적으로 씹어 넘기는지를 측정하기 위해 1972년 발명된 역사상 최초의 합성 벤치마크(Synthetic [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.
+> 2. **가치**: 이 벤치마크는 당시 "CPU 클럭 속도"만으로 우열을 가리던 기만적인 시장에 철퇴를 내리며, 칩 내부에 박혀 있는 특수 수학 천재 부품인 <strong>'FPU(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a> 유닛)'의 실전 기하학/수치해석 연산 파워를 MWIPS라는 절대 지표로 정량화</strong>시킨 위대한 선구자다.
+> 3. **판단 포인트**: 현대의 초거대 3D 렌더링 엔진이나 딥러닝 텐서 수학 코어를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기에는 코드 덩치가 너무 작고 구식이라 유물로 밀려났으나, 과거 <strong>과학/기상 예측 시뮬레이션 장비가 수학적 한계치를 얼마나 0.1초 만에 찢어버릴 수 있는지 측정</strong>했던 컴퓨터 아키텍처 수학 역사의 살아있는 근본 나침반이다.
 
 ---
 
@@ -20,9 +20,9 @@ tags = ["studynote-computer-architecture"]
 
 웻스톤(Whetstone) 벤치마크는 영국 국립물리연구소(NPL)에서 해럴드 커넌(Harold Curnow)이 ALGOL 60 언어로 짜낸, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수학 연산에 100% 몰빵한 [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) 코드 묶음이다.
 
-1970년대, 컴퓨터가 우주선의 궤도를 시뮬레이션하고 미사일 탄도를 계산하기 위해 투입되면서 인류는 전례 없는 수학적 늪에 빠졌다. 10진수 $3.141592$와 $0.000123$을 수만 번 곱하고 사인(Sin), 코사인(Cos) 삼각함수 트랙을 돌리려면 엄청난 소수점 계산([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산)이 필요한데, 기존의 정수 덧셈기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))로 이걸 억지로 돌리면 컴퓨터가 피를 토하며 몇 시간씩 뻗어버렸다. "과학자들이 쓸 수 있는, 진짜 수학 공식을 미친 듯이 빠르게 쳐내는 최고의 칩이 무엇인가?"를 가려내기 위해, 오직 수치 해석과 무거운 방정식 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 처리로만 도배된 **'가장 잔인한 수학 시험지'**가 절실히 요구되었고 그것이 바로 웻스톤의 탄생이다.
+1970년대, 컴퓨터가 우주선의 궤도를 시뮬레이션하고 미사일 탄도를 계산하기 위해 투입되면서 인류는 전례 없는 수학적 늪에 빠졌다. 10진수 $3.141592$와 $0.000123$을 수만 번 곱하고 사인(Sin), 코사인(Cos) 삼각함수 트랙을 돌리려면 엄청난 소수점 계산([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산)이 필요한데, 기존의 정수 덧셈기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))로 이걸 억지로 돌리면 컴퓨터가 피를 토하며 몇 시간씩 뻗어버렸다. "과학자들이 쓸 수 있는, 진짜 수학 공식을 미친 듯이 빠르게 쳐내는 최고의 칩이 무엇인가?"를 가려내기 위해, 오직 수치 해석과 무거운 방정식 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 처리로만 도배된 <strong>'가장 잔인한 수학 시험지'</strong>가 절실히 요구되었고 그것이 바로 웻스톤의 탄생이다.
 
-- **📢 섹션 요약 비유**: 웻스톤은 동네 헬스장의 벤치프레스(단순 정수 덧셈) 무게를 재는 게 아닙니다. 양궁 선수가 100미터 밖에서 날아가는 표적을 맞추기 위해 **바람의 속도, 중력, 각도 미적분학(복잡한 소수점 실수 연산)을 머릿속으로 1초 안에 몇 번이나 정확하게 암산해서 활을 쏠 수 있는지(FPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))**를 측정하는 특수 요원 전용 고등수학 시험지입니다.
+- **📢 섹션 요약 비유**: 웻스톤은 동네 헬스장의 벤치프레스(단순 정수 덧셈) 무게를 재는 게 아닙니다. 양궁 선수가 100미터 밖에서 날아가는 표적을 맞추기 위해 <strong>바람의 속도, 중력, 각도 미적분학(복잡한 소수점 실수 연산)을 머릿속으로 1초 안에 몇 번이나 정확하게 암산해서 활을 쏠 수 있는지(FPU <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)</strong>를 측정하는 특수 요원 전용 고등수학 시험지입니다.
 
 ---
 
@@ -30,34 +30,32 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터의 뇌를 한계까지 몰아붙이는 정밀한 '[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 스트레스 믹스(Mix)' 구조를 해부한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│         웻스톤(Whetstone) 벤치마크의 무자비한 '수학적 스트레스' 융합 레이아웃    │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  [ 웻스톤이 CPU 코어에 던져버리는 고문(Workload) 리스트 ]                     │
-│                                                                        │
-│   1. 기본 부동소수점 연산 (Floating Point Math) - 25% 지분                  │
-│      ──▶ X = (Y * Z) + (A / B) 같은 실수 덧셈/곱셈의 연속 폭격.               │
-│      ──▶ CPU 안의 FPU(부동소수점 유닛) 파이프라인 정규화 병목 딜레이를 사정없이 팸. │
-│                                                                        │
-│   2. 초월 함수 (Transcendental Functions) - 15% 지분                      │
-│      ──▶ SIN(X), COS(Y), EXP(Z), LOG(W) 같은 극악의 수학 공식 무한 호출.     │
-│      ──▶ 일반 칩은 이 부분에서 계산이 수백 클럭 스톨(Stall)되며 지옥을 맛봄.     │
-│                                                                        │
-│   3. 거대 배열 및 포인터 인덱싱 (Array Addressing) - 20% 지분                 │
-│      ──▶ ARRAY[ I * 2 + 1 ] = X 처럼 공간 메모리 주소를 마구잡이로 들쑤심.        │
-│      ──▶ 수학을 풀면서 메모리에서 데이터를 긁어오는 '주소 연산력'을 동시에 쥐어짬. │
-│                                                                        │
-│  [ 점수 산출 로직 ]                                                       │
-│   저 미친 루프들을 1초 동안 얼마나 많이 완벽하게 한 바퀴 다 끝냈는가?               │
-│   ──▶ 결과 단위: "MWIPS (Millions of Whetstone Instructions Per Second)" │
-└────────────────────────────────────────────────────────────────────────┘
-```
 
-웻스톤 벤치마크는 '편식 없는 정밀 연산'의 지옥이다. 이 테스트는 칩셋 설계자가 "더하기 모듈만 뚱뚱하게 만들고 함수 모듈은 대충 빼놓는" 편법을 부리는 걸 원천 차단한다. $sin(x)$ 같은 초월 함수는 하드웨어 내부에 특수 수학 가속 게이트(SFU)가 내장되어 있지 않으면 소프트웨어 매크로로 수백 번 빙빙 돌며 에뮬레이션 해야 하므로 속도가 $1/100$로 박살 난다. 웻스톤을 돌린다는 것은 칩 내부의 **실수 연산기(FPU)와 수학 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Math Lib)의 하드웨어-소프트웨어 융합 최적화 수준을 영혼까지 발가벗겨 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**하겠다는 선전포고다.
 
-- **📢 섹션 요약 비유**: 이 테스트 코드는 **'고급 레스토랑의 코스 요리 시험'**과 같습니다. 감자(정수) 껍질 깎는 속도 하나만 보는 게 아니라, 온도를 0.1도 맞추는 수비드 조리(소수점 덧셈), 복잡한 소스 배합 비율 암기(삼각 함수), 그리고 넓은 냉장고에서 재료를 동시에 끄집어내는 동선([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 메모리 탐색)까지 한꺼번에 완벽히 소화해 내야만 미슐랭(MWIPS 고득점) 별을 달아주는 종합 수학 예술 평가입니다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웻스톤(Whetstone) 벤치마크의 무자비한 '수학적 스트레스' 융합 레이아웃</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웻스톤이 CPU 코어에 던져버리는 고문(Workload) 리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기본 부동소수점 연산 (Floating Point Math) - 25% 지분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ X = (Y * Z) + (A / B) 같은 실수 덧셈/곱셈의 연속 폭격.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 안의 FPU(부동소수점 유닛) 파이프라인 정규화 병목 딜레이를 사정없이 팸.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 초월 함수 (Transcendental Functions) - 15% 지분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ SIN(X), COS(Y), EXP(Z), LOG(W) 같은 극악의 수학 공식 무한 호출.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 일반 칩은 이 부분에서 계산이 수백 클럭 스톨(Stall)되며 지옥을 맛봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 거대 배열 및 포인터 인덱싱 (Array Addressing) - 20% 지분</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I * 2 + 1</div><div class="kb-diagram-note">= X 처럼 공간 메모리 주소를 마구잡이로 들쑤심.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 수학을 풀면서 메모리에서 데이터를 긁어오는 '주소 연산력'을 동시에 쥐어짬.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점수 산출 로직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저 미친 루프들을 1초 동안 얼마나 많이 완벽하게 한 바퀴 다 끝냈는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과 단위: "MWIPS (Millions of Whetstone Instructions Per Second)"</div></div>
+</div>
+</div>
+
+
+
+웻스톤 벤치마크는 '편식 없는 정밀 연산'의 지옥이다. 이 테스트는 칩셋 설계자가 "더하기 모듈만 뚱뚱하게 만들고 함수 모듈은 대충 빼놓는" 편법을 부리는 걸 원천 차단한다. $sin(x)$ 같은 초월 함수는 하드웨어 내부에 특수 수학 가속 게이트(SFU)가 내장되어 있지 않으면 소프트웨어 매크로로 수백 번 빙빙 돌며 에뮬레이션 해야 하므로 속도가 $1/100$로 박살 난다. 웻스톤을 돌린다는 것은 칩 내부의 <strong>실수 연산기(FPU)와 수학 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(Math Lib)의 하드웨어-소프트웨어 융합 최적화 수준을 영혼까지 발가벗겨 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하겠다는 선전포고다.
+
+- **📢 섹션 요약 비유**: 이 테스트 코드는 <strong>'고급 레스토랑의 코스 요리 시험'</strong>과 같습니다. 감자(정수) 껍질 깎는 속도 하나만 보는 게 아니라, 온도를 0.1도 맞추는 수비드 조리(소수점 덧셈), 복잡한 소스 배합 비율 암기(삼각 함수), 그리고 넓은 냉장고에서 재료를 동시에 끄집어내는 동선([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 메모리 탐색)까지 한꺼번에 완벽히 소화해 내야만 미슐랭(MWIPS 고득점) 별을 달아주는 종합 수학 예술 평가입니다.
 
 ---
 
@@ -67,16 +65,16 @@ tags = ["studynote-computer-architecture"]
 
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 척도 분석 | [Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) (드라이스톤) | Whetstone (웻스톤) | 아키텍처 세계관의 충돌 |
 |:---|:---|:---|:---|
-| **절대적 숭배 대상** | **정수(Integer) 및 제어 흐름(Branch)** | **[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)(Float) 수학 및 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** | 내가 칩을 파는 고객의 정체성 |
-| **코어 내부 스트레스 존**| [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) (정수 연산기), 분기 예측기, L1 캐시 | **FPU (실수 연산기), 복합 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 세트([CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/))**| 파이프라인 어느 곳에 돈을 발랐는가 |
+| **절대적 숭배 대상** | **정수(Integer) 및 제어 흐름(Branch)** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>(Float) 수학 및 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | 내가 칩을 파는 고객의 정체성 |
+| **코어 내부 스트레스 존**| [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) (정수 연산기), 분기 예측기, L1 캐시 | <strong>FPU (실수 연산기), 복합 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 세트(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/">CISC</a>)</strong>| 파이프라인 어느 곳에 돈을 발랐는가 |
 | **코드의 성격 (Workload)**| 짧고 자잘한 `If/Else` 이동 점프의 파도 | 묵직하고 긴 소수점 루프 행렬 펀치의 연속 | 민첩성(Agility) vs 타격감(Punch) |
-| **타겟 산업 군([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))**| 임베디드, 스마트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터 (OS 뼈대) | **기상청 슈퍼컴, 전투기 레이더, 3D 캐드(CAD)** | 일상 제어망 vs 하드코어 물리 시뮬 |
+| <strong>타겟 산업 군(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong>| 임베디드, 스마트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터 (OS 뼈대) | **기상청 슈퍼컴, 전투기 레이더, 3D 캐드(CAD)** | 일상 제어망 vs 하드코어 물리 시뮬 |
 | **최종 결과 훈장 (단위)**| **DMIPS** (정수 초당 백만 회) | **MWIPS** (실수 수학 초당 백만 회) | 칩셋의 마케팅 팜플렛 카테고리 |
 
-가장 아이러니한 이름의 역사는 여기서 출발한다. 사실 **Whetstone**은 영국에 있는 동네 지명(알골 60 컴파일러를 만든 곳)에서 따온 이름이다. 1972년에 웻스톤이 나와 실수 연산을 평가하며 10년간 시장을 지배했다. 
-그러자 1984년, 정수 연산의 중요성을 깨달은 프로그래머들이 "웻스톤(Whetstone, 젖은 돌)이 소수점이 섞인 질척거리고 무거운 물 같은 코드라면, 우리는 아주 건조하고 바삭바삭한 정수들만 있는 메마른 코드를 만들자!"라며 언어유희 농담을 섞어 창조해 낸 반대말이 바로 **'드라이스톤([Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/), 마른 돌)'**이다. IT 역사상 가장 위트 있고 상징적인 네이밍 융합의 밈(Meme)이 탄생한 것이다.
+가장 아이러니한 이름의 역사는 여기서 출발한다. 사실 <strong>Whetstone</strong>은 영국에 있는 동네 지명(알골 60 컴파일러를 만든 곳)에서 따온 이름이다. 1972년에 웻스톤이 나와 실수 연산을 평가하며 10년간 시장을 지배했다. 
+그러자 1984년, 정수 연산의 중요성을 깨달은 프로그래머들이 "웻스톤(Whetstone, 젖은 돌)이 소수점이 섞인 질척거리고 무거운 물 같은 코드라면, 우리는 아주 건조하고 바삭바삭한 정수들만 있는 메마른 코드를 만들자!"라며 언어유희 농담을 섞어 창조해 낸 반대말이 바로 <strong>'드라이스톤(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/">Dhrystone</a>, 마른 돌)'</strong>이다. IT 역사상 가장 위트 있고 상징적인 네이밍 융합의 밈(Meme)이 탄생한 것이다.
 
-- **📢 단점 요약 비유**: 이 두 시험은 **'택배 배달원의 체력 테스트'** 차이입니다. 드라이스톤이 '1kg짜리 가벼운 상자를 오토바이로 좁은 골목길을 요리조리 빠르게 피하며 하루에 몇 개 배달하냐(민첩성)'를 잰다면, 웻스톤은 **'100kg짜리 거대한 냉장고(소수점 숫자)를 짊어지고 오르막길 계단을 흔들림 없이 얼마나 묵직하게 빨리 올라가느냐(근력과 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))'**를 잔인하게 평가하는 특수 종목입니다.
+- **📢 단점 요약 비유**: 이 두 시험은 **'택배 배달원의 체력 테스트'** 차이입니다. 드라이스톤이 '1kg짜리 가벼운 상자를 오토바이로 좁은 골목길을 요리조리 빠르게 피하며 하루에 몇 개 배달하냐(민첩성)'를 잰다면, 웻스톤은 <strong>'100kg짜리 거대한 냉장고(소수점 숫자)를 짊어지고 오르막길 계단을 흔들림 없이 얼마나 묵직하게 빨리 올라가느냐(근력과 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>)'</strong>를 잔인하게 평가하는 특수 종목입니다.
 
 ---
 
@@ -85,25 +83,25 @@ tags = ["studynote-computer-architecture"]
 이제는 유물이 되었지만, 과거 웻스톤 지표가 하드웨어 아키텍처에 강제했던 잔인한 설계 트렌드다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **과거 x86 메인보드 '수치 연산 보조 프로세서(FPU Coprocessor)' 구매의 절대 지표**: 1980년대 80386 CPU 시절엔, CPU 칩 안에 소수점을 계산하는 뇌(FPU) 자체가 아예 안 들어있었다! 소수점이 들어오면 멍청한 CPU가 덧셈기로 수백 클럭을 돌려 소프트웨어적으로 흉내(에뮬레이션) 내야 해서 웻스톤 점수가 거의 쓰레기 급으로 0에 수렴했다. 도면(CAD)을 그려야 하는 건축가들은 속이 터졌다. 이때 인텔은 메인보드 옆 빈 슬롯에 꽂을 수 있는 **'80387 코프로세서(수학 전용 특수 칩)'**를 십몇만 원에 따로 팔았다. 이걸 꽂는 순간 웻스톤 점수가 100배로 수직 폭발([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/))하며 3D 캐드 화면이 빛의 속도로 돌아갔다. 웻스톤 벤치마크는 이 "수학 전용 하드웨어를 따로 사서 꽂아야만 하는가?"라는 투자 결정([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 수치로 승인해 주는 절대 권력의 인증서였다. (현재는 모든 FPU가 CPU 실리콘 다이 안에 강제 융합 내장되어 있다.)
-2. **C/C++ 컴파일러 삼각함수 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Math.h) 링킹 튜닝 방어**: 웻스톤 벤치마크 소스를 리눅스 머신에서 쌩으로 컴파일(`gcc -O2 whetstone.c`)하면 점수가 끔찍하게 낮게 뜬다. 왜? 웻스톤 점수의 30%를 잡아먹는 `Sin`, `Cos` 삼각 함수들을 처리할 때, 컴파일러가 CPU 안에 있는 '하드웨어 초월 함수 가속 게이트(x87 FPU의 `FSIN` 등 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'를 직접 다이렉트로 때리지 못하고, OS가 주는 느려터진 소프트웨어 수학 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 빙빙 돌며 끌어다 썼기 때문이다. 기술사 엔지니어는 반드시 아키텍처 타겟 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`-mfpmath=sse`, `-ffast-math`)를 융합 주입하여, 컴파일러가 소수점 공식 코드를 CPU 하드웨어 유닛에 최단 거리로 직결 맵핑시키도록 강제해야만 웻스톤 점수가 3배로 펌핑된다. 
+1. **과거 x86 메인보드 '수치 연산 보조 프로세서(FPU Coprocessor)' 구매의 절대 지표**: 1980년대 80386 CPU 시절엔, CPU 칩 안에 소수점을 계산하는 뇌(FPU) 자체가 아예 안 들어있었다! 소수점이 들어오면 멍청한 CPU가 덧셈기로 수백 클럭을 돌려 소프트웨어적으로 흉내(에뮬레이션) 내야 해서 웻스톤 점수가 거의 쓰레기 급으로 0에 수렴했다. 도면(CAD)을 그려야 하는 건축가들은 속이 터졌다. 이때 인텔은 메인보드 옆 빈 슬롯에 꽂을 수 있는 <strong>'80387 코프로세서(수학 전용 특수 칩)'</strong>를 십몇만 원에 따로 팔았다. 이걸 꽂는 순간 웻스톤 점수가 100배로 수직 폭발([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/))하며 3D 캐드 화면이 빛의 속도로 돌아갔다. 웻스톤 벤치마크는 이 "수학 전용 하드웨어를 따로 사서 꽂아야만 하는가?"라는 투자 결정([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 수치로 승인해 주는 절대 권력의 인증서였다. (현재는 모든 FPU가 CPU 실리콘 다이 안에 강제 융합 내장되어 있다.)
+2. <strong>C/C++ 컴파일러 삼각함수 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(Math.h) 링킹 튜닝 방어</strong>: 웻스톤 벤치마크 소스를 리눅스 머신에서 쌩으로 컴파일(`gcc -O2 whetstone.c`)하면 점수가 끔찍하게 낮게 뜬다. 왜? 웻스톤 점수의 30%를 잡아먹는 `Sin`, `Cos` 삼각 함수들을 처리할 때, 컴파일러가 CPU 안에 있는 '하드웨어 초월 함수 가속 게이트(x87 FPU의 `FSIN` 등 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))'를 직접 다이렉트로 때리지 못하고, OS가 주는 느려터진 소프트웨어 수학 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 빙빙 돌며 끌어다 썼기 때문이다. 기술사 엔지니어는 반드시 아키텍처 타겟 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`-mfpmath=sse`, `-ffast-math`)를 융합 주입하여, 컴파일러가 소수점 공식 코드를 CPU 하드웨어 유닛에 최단 거리로 직결 맵핑시키도록 강제해야만 웻스톤 점수가 3배로 펌핑된다. 
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **현대 딥러닝 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) / [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가에 웻스톤(Whetstone) 지표를 들이미는 빙하기식 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: "AI도 실수(Float) 연산을 밥 먹듯 하니까, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 1대장인 웻스톤 점수 높은 CPU 사면 딥러닝 짱짱맨이겠네?"라고 호언장담하는 멸망의 지름길. 웻스톤 벤치마크는 1970년대에 만들어져서, 오직 **'싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'**로 무거운 64비트 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 수학을 순차적으로 끄적이는 올드한 아키텍처다. 
-현대의 인공지능이나 3D 게임 그래픽 연산은 수학의 깊이가 얕아도 되니(16비트, 8비트) 한 방에 수천 개의 숫자를 행렬로 부어버리는 **거대 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 텐서 연산(Parallel Tensor Math)**이 심장이다. 웻스톤은 이 수천 코어의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 차선을 1%도 테스트하지 못하고 단일 코어 1개만 혹사시킨다. 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 서버의 실력은 무조건 [Linpack](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/)(슈퍼컴용 행렬 벤치)이나 SPECfp 로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계까지 모조리 긁어모아 평가할 수 있다.
+- <strong>현대 딥러닝 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> / <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 서버 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가에 웻스톤(Whetstone) 지표를 들이미는 빙하기식 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: "AI도 실수(Float) 연산을 밥 먹듯 하니까, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 1대장인 웻스톤 점수 높은 CPU 사면 딥러닝 짱짱맨이겠네?"라고 호언장담하는 멸망의 지름길. 웻스톤 벤치마크는 1970년대에 만들어져서, 오직 <strong>'싱글 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>'</strong>로 무거운 64비트 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 수학을 순차적으로 끄적이는 올드한 아키텍처다. 
+현대의 인공지능이나 3D 게임 그래픽 연산은 수학의 깊이가 얕아도 되니(16비트, 8비트) 한 방에 수천 개의 숫자를 행렬로 부어버리는 <strong>거대 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 텐서 연산(Parallel Tensor Math)</strong>이 심장이다. 웻스톤은 이 수천 코어의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 차선을 1%도 테스트하지 못하고 단일 코어 1개만 혹사시킨다. 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 서버의 실력은 무조건 [Linpack](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/)(슈퍼컴용 행렬 벤치)이나 SPECfp 로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계까지 모조리 긁어모아 평가할 수 있다.
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩에 웻스톤을 돌리는 것은, 군대에서 **'특등사수 저격수(웻스톤 1등 CPU)' 1명을 데려와 놓고, 1만 명의 좀비 떼([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝 행렬 빅데이터)를 상대하라고 던져주는 꼴**입니다. 저격수는 총 한 발([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))은 우주 최고로 잘 쏘지만, 좀비 떼가 몰려올 때는 대충 쏘더라도 1초에 1,000발을 난사하는 '다연장 기관총 부대([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))'가 수백 배 위력적입니다. 무기의 결이 완전히 어긋난 벤치마크 남용입니다.
+- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩에 웻스톤을 돌리는 것은, 군대에서 <strong>'특등사수 저격수(웻스톤 1등 CPU)' 1명을 데려와 놓고, 1만 명의 좀비 떼(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 딥러닝 행렬 빅데이터)를 상대하라고 던져주는 꼴</strong>입니다. 저격수는 총 한 발([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))은 우주 최고로 잘 쏘지만, 좀비 떼가 몰려올 때는 대충 쏘더라도 1초에 1,000발을 난사하는 '다연장 기관총 부대([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))'가 수백 배 위력적입니다. 무기의 결이 완전히 어긋난 벤치마크 남용입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-웻스톤(Whetstone)은 컴퓨터가 단순히 덧셈기(계산기)를 넘어 미분방정식과 삼각함수의 궤도를 시뮬레이션할 수 있는 **'초정밀 과학 기계'**로 인정받기 위해 인류가 던졌던 가장 가혹하고 수학적인 최초의 등용문 테스트다.
+웻스톤(Whetstone)은 컴퓨터가 단순히 덧셈기(계산기)를 넘어 미분방정식과 삼각함수의 궤도를 시뮬레이션할 수 있는 <strong>'초정밀 과학 기계'</strong>로 인정받기 위해 인류가 던졌던 가장 가혹하고 수학적인 최초의 등용문 테스트다.
 
 "이 칩은 복잡한 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 소수들의 바다에서 익사하지 않고 얼마나 빨리 수영할 수 있는가?"라는 물음에, 웻스톤은 MWIPS라는 우아하고 직관적인 점수 체계로 응답하며 전 세계 슈퍼컴퓨터와 워크스테이션 아키텍처 설계자들을 FPU([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 유닛) 고도화 전쟁으로 몰아넣었다. 
 비록 오늘날에는 칩 내부의 거대한 L3 캐시에 코드 전체가 쏙 빨려 들어가 메모리 병목 현상을 1도 반영하지 못하는 '가벼운 장난감 코드' 취급을 받으며 화석으로 물러났지만, 이 웻스톤이 정립한 "연산의 종류(정수/실수/초월함수)를 혼합(Mix)하여 종합 평가한다"는 숭고한 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 방법론의 뼈대는, 오늘날 인류의 칩을 지배하는 SPECfp 와 같은 초대형 벤치마크들의 심장부 DNA로 완벽히 융합 계승되어 펄떡이고 있다.
 
-- **📢 섹션 요약 비유**: 웻스톤은 컴퓨터 역사 박물관에 전시된 **'최초의 달 착륙선 조종사 훈련 시험지'**와 같습니다. 지금 보면 스마트폰 앱 하나 돌리는 것보다 작은 크기(수 KB)의 초라한 코드일지 모르지만, 그 시험지 덕분에 인류는 칩셋 내부에 강력한 수학 전담 요원(FPU)을 따로 탑재해야 한다는 설계의 진리를 깨달았고, 결국 그 진리가 지금의 우주 로켓과 화려한 3D 게임 그래픽 세상을 폭발시킨 마법의 씨앗이 된 위대한 고전입니다.
+- **📢 섹션 요약 비유**: 웻스톤은 컴퓨터 역사 박물관에 전시된 <strong>'최초의 달 착륙선 조종사 훈련 시험지'</strong>와 같습니다. 지금 보면 스마트폰 앱 하나 돌리는 것보다 작은 크기(수 KB)의 초라한 코드일지 모르지만, 그 시험지 덕분에 인류는 칩셋 내부에 강력한 수학 전담 요원(FPU)을 따로 탑재해야 한다는 설계의 진리를 깨달았고, 결국 그 진리가 지금의 우주 로켓과 화려한 3D 게임 그래픽 세상을 폭발시킨 마법의 씨앗이 된 위대한 고전입니다.
 
 ---
 
@@ -111,32 +109,34 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) (드라이스톤)** | 웻스톤(젖은 돌)의 질척한 소수점 계산에 반발하여, "야 우리는 깔끔하게 딱 떨어지는 덧셈과 문자열 정수(Dry)만 치자!"라며 이름까지 장난쳐 만든 영혼의 문과 라이벌 벤치마크 |
-| **FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)** | 웻스톤 벤치마크 점수가 바닥을 기던 CPU들이 점수를 뻥튀기하기 위해 칩셋 옆에 다급하게 달아주었던 특수 수학 연산 전용 하드웨어 심장. 현대엔 전부 CPU 안에 빨려 들어가 기본 내장됨 |
-| **SPECfp (SPEC [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))** | 웻스톤 코드가 현대 컴퓨터 캐시에 통째로 빨려 들어가 테스트 변별력을 잃어버리자, 기상 예측, 핵물리 등 수 기가바이트의 메모리 덩어리를 쏟아부어 수학 능력을 극한 테스트하는 현대판 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 벤치마크 절대 바이블 |
-| **MWIPS (Millions of Whetstone [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))** | 웻스톤 벤치마크 코드를 1초 동안 무려 100만 번이나 루프 뺑뺑이 돈 횟수를 세어 기계의 수학력을 포장하던, 당시엔 훈장이었으나 지금은 유물이 된 마케팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 척도 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/">Dhrystone</a> (드라이스톤)</strong> | 웻스톤(젖은 돌)의 질척한 소수점 계산에 반발하여, "야 우리는 깔끔하게 딱 떨어지는 덧셈과 문자열 정수(Dry)만 치자!"라며 이름까지 장난쳐 만든 영혼의 문과 라이벌 벤치마크 |
+| <strong>FPU (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">Floating Point</a> Unit)</strong> | 웻스톤 벤치마크 점수가 바닥을 기던 CPU들이 점수를 뻥튀기하기 위해 칩셋 옆에 다급하게 달아주었던 특수 수학 연산 전용 하드웨어 심장. 현대엔 전부 CPU 안에 빨려 들어가 기본 내장됨 |
+| <strong>SPECfp (SPEC <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">Floating Point</a>)</strong> | 웻스톤 코드가 현대 컴퓨터 캐시에 통째로 빨려 들어가 테스트 변별력을 잃어버리자, 기상 예측, 핵물리 등 수 기가바이트의 메모리 덩어리를 쏟아부어 수학 능력을 극한 테스트하는 현대판 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 벤치마크 절대 바이블 |
+| <strong>MWIPS (Millions of Whetstone <a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>)</strong> | 웻스톤 벤치마크 코드를 1초 동안 무려 100만 번이나 루프 뺑뺑이 돈 횟수를 세어 기계의 수학력을 포장하던, 당시엔 훈장이었으나 지금은 유물이 된 마케팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 척도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초창기 덧셈 계산기 시대 / 정수 연산만 하다가 과학 발전으로 소수점 미적분 시뮬레이션(FPU) 요구 떡상 🚀
-    │
-    ▼
-Whetstone 벤치마크의 탄생 / "실수 연산과 삼각함수, 배열 수학을 1초에 몇 번 푸는지 MWIPS로 채점해 쾅!"
-    │
-    ▼
-FPU 보조 프로세서 전성시대 / 웻스톤 점수 올리려고 80387 같은 특수 수학 칩을 메인보드에 용접 떡칠 박아 넣음 ✨
-    │
-    ▼
-L1 캐시 메모리 팽창 / 웻스톤 코드가 캐시에 다 빨려 들어가 메모리 병목 랙을 전혀 측정하지 못하는 장난감으로 전락 💀
-    │
-    ▼
-SPECfp 및 Linpack 병렬 벤치마크 진화 / 거대 슈퍼컴과 AI 텐서 코어는 무거운 행렬 병렬 테스트(Linpack)로 벤치마크 생태계 완벽히 권력 이양 완료
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초창기 덧셈 계산기 시대 / 정수 연산만 하다가 과학 발전으로 소수점 미적분 시뮬레이션(FPU) 요구 떡상 🚀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Whetstone 벤치마크의 탄생 / "실수 연산과 삼각함수, 배열 수학을 1초에 몇 번 푸는지 MWIPS로 채점해 쾅!"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FPU 보조 프로세서 전성시대 / 웻스톤 점수 올리려고 80387 같은 특수 수학 칩을 메인보드에 용접 떡칠 박아 넣음 ✨</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L1 캐시 메모리 팽창 / 웻스톤 코드가 캐시에 다 빨려 들어가 메모리 병목 랙을 전혀 측정하지 못하는 장난감으로 전락 💀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPECfp 및 Linpack 병렬 벤치마크 진화 / 거대 슈퍼컴과 AI 텐서 코어는 무거운 행렬 병렬 테스트(Linpack)로 벤치마크 생태계 완벽히 권력 이양 완료</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 웻스톤은 로봇들에게 엄청 어렵고 귀찮은 **'소수점이 빽빽한 미적분 수학 경시 대회 문제지'**를 수백 장 던져주고 누가 제일 빨리 푸는지 1초마다 점수를 매기는 시험이에요!
+1. 웻스톤은 로봇들에게 엄청 어렵고 귀찮은 <strong>'소수점이 빽빽한 미적분 수학 경시 대회 문제지'</strong>를 수백 장 던져주고 누가 제일 빨리 푸는지 1초마다 점수를 매기는 시험이에요!
 2. 단순한 더하기만 잘하는 로봇(드라이스톤)은 이 시험을 치면 머리에 쥐가 나서 빵점을 맞기 때문에, 반드시 칩 안에 '수학 전담 천재 요정(FPU)'을 몰래 데리고 있어야만 우등생 점수(MWIPS)를 받을 수 있답니다.
 3. 이 시험지 덕분에 옛날 과학자들은 "어떤 컴퓨터를 사야 우주선의 날아가는 궤도를 완벽하고 빠르게 계산할 수 있을까?"라는 고민을 속 시원하게 해결하고 최고의 로봇을 뽑을 수 있었던 전설의 성적표랍니다!
 

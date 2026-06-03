@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 과거의 소프트웨어 평가는 코드를 다 짜고 나서 테스트 돌려보는 것뿐이었습니다.
-- **SAAM([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)**은 1994년 SEI([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)에서 개발한 **최초의 체계화된 '시나리오 기반' [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 평가 기법**입니다.
+- <strong>SAAM(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/">Software Architecture</a> Analysis Method)</strong>은 1994년 SEI([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)에서 개발한 <strong>최초의 체계화된 '시나리오 기반' <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/">소프트웨어 아키텍처</a> 평가 기법</strong>입니다.
 
 - **📢 섹션 요약 비유**: SAAM ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 SAAM (Software Archi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SAAM (Software Archi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAAM (Software Archi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 SAAM (Software Archi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -67,7 +66,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-SAAM이 위대한 이유는 바로 **'시나리오(Scenario)'**라는 개념을 처음 창시했기 때문입니다.
+SAAM이 위대한 이유는 바로 <strong>'시나리오(Scenario)'</strong>라는 개념을 처음 창시했기 때문입니다.
 1. **시나리오 개발**: "동시 접속자가 1만 명 증가한다", "보안 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)을 바꾼다" 같은 구체적인 가상 상황 퀴즈를 여러 개 만듭니다.
 2. **아키텍처 설명**: 설계자가 도면을 펴놓고 뼈대를 설명합니다.
 3. **시나리오 평가**: 만들어둔 퀴즈를 도면에 던져보고, 이 도면이 퀴즈(변경)를 감당하려면 어떤 모듈을 얼마나 뜯어고쳐야 하는지 파악(채점)합니다.
@@ -86,10 +85,10 @@ SAAM이 위대한 이유는 바로 **'시나리오(Scenario)'**라는 개념을 
 - SAAM은 퀴즈(시나리오)를 던져서 하나씩 채점하는 데는 천재였지만, 가장 중요한 것을 놓쳤습니다.
 - **한계: "트레이드오프(Trade-off)를 모른다!"**
   - SAAM: "어? [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(속도) 점수 좋네! 합격! 어? 보안 점수 좋네! 합격!"
-  - 현실: **보안 점수를 높이려고 암호화를 떡칠하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 점수가 무조건 박살 납니다.** 두 개의 품질 속성은 시소처럼 하나가 오르면 하나가 떨어집니다(상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)).
-- SAAM은 이 **'품질 간의 충돌 현상'**을 1%도 고려하지 않고 개별 점수만 맹목적으로 채점하는 바보였습니다. 결국 이 치명적 단점을 고치기 위해, 품질 간의 피 터지는 트레이드오프만 집요하게 파고드는 궁극의 진화형 **'[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)(229번)'**이 등장하여 SAAM의 목을 치고 왕좌에 오르게 됩니다.
+  - 현실: <strong>보안 점수를 높이려고 암호화를 떡칠하면 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 점수가 무조건 박살 납니다.</strong> 두 개의 품질 속성은 시소처럼 하나가 오르면 하나가 떨어집니다(상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)).
+- SAAM은 이 <strong>'품질 간의 충돌 현상'</strong>을 1%도 고려하지 않고 개별 점수만 맹목적으로 채점하는 바보였습니다. 결국 이 치명적 단점을 고치기 위해, 품질 간의 피 터지는 트레이드오프만 집요하게 파고드는 궁극의 진화형 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a>(229번)'</strong>이 등장하여 SAAM의 목을 치고 왕좌에 오르게 됩니다.
 
-> 📢 **섹션 요약 비유**: **SAAM([소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 분석 방법)**은 건축계에 처음 도입된 **'단순한 모의재난 종이 퀴즈 테스트'**입니다. 옛날엔 도면만 보고 "음 튼튼해 보이네" 하고 시멘트를 부었습니다. SAAM은 도면을 펴놓고 퀴즈를 냅니다. "만약 1층을 카페에서 헬스장으로 용도 변경하면(시나리오), 이 기둥을 며칠 만에 뽑고 다시 세울 수 있나?(변경 용이성)" 기둥 1개만 뽑으면 되면 100점, 기둥 10개를 다 뽑아야 하면 0점입니다. 변경 대응 능력을 파악하는 덴 최고였지만, SAAM은 **'장점 뒤의 단점(트레이드오프)'을 보는 눈이 없었습니다.** "창문을 통유리로 크게 내면 뷰가 좋네(100점)! 기둥을 철골로 떡칠하면 지진에 강하네(100점)!"라며 각자 채점만 하고 넘어갔습니다. 하지만 현실은 통유리로 크게 내면 철골 기둥을 세울 자리가 없어져 지진에 박살이 나는 모순(상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))이 터집니다. 이 모순을 파악하지 못하는 순진함 때문에 결국 트레이드오프의 달인인 후배 '[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)'에게 자리를 물려주고 은퇴한 1세대 채점표입니다.
+> 📢 **섹션 요약 비유**: <strong>SAAM(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/">소프트웨어 아키텍처</a> 분석 방법)</strong>은 건축계에 처음 도입된 <strong>'단순한 모의재난 종이 퀴즈 테스트'</strong>입니다. 옛날엔 도면만 보고 "음 튼튼해 보이네" 하고 시멘트를 부었습니다. SAAM은 도면을 펴놓고 퀴즈를 냅니다. "만약 1층을 카페에서 헬스장으로 용도 변경하면(시나리오), 이 기둥을 며칠 만에 뽑고 다시 세울 수 있나?(변경 용이성)" 기둥 1개만 뽑으면 되면 100점, 기둥 10개를 다 뽑아야 하면 0점입니다. 변경 대응 능력을 파악하는 덴 최고였지만, SAAM은 **'장점 뒤의 단점(트레이드오프)'을 보는 눈이 없었습니다.** "창문을 통유리로 크게 내면 뷰가 좋네(100점)! 기둥을 철골로 떡칠하면 지진에 강하네(100점)!"라며 각자 채점만 하고 넘어갔습니다. 하지만 현실은 통유리로 크게 내면 철골 기둥을 세울 자리가 없어져 지진에 박살이 나는 모순(상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))이 터집니다. 이 모순을 파악하지 못하는 순진함 때문에 결국 트레이드오프의 달인인 후배 '[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)'에게 자리를 물려주고 은퇴한 1세대 채점표입니다.
 
 - **📢 섹션 요약 비유**: SAAM ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -134,21 +133,23 @@ SAAM ([Software Architecture](/knowledge-base/studynote/04_software_engineering/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SAAM (Software Architecture Analysis Method) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAAM (Software Architecture Analysis Method) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

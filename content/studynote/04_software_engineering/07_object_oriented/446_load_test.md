@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 시스템이 단위 테스트에서는 완벽하게 동작하더라도, 실제 환경에서수의 사용자가 동시에 접속하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하될 수 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리가 느리거나, (Conexion Pool)이 고갈되거나, 메모리가 부족해지는 등의 문제가 발생할 수 있다. 부하 테스트는 이러한 병목 현상을 사전에 발견하여 프로덕션 환경에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 예방하는 데 필수적이다.
 
-- **💡 비유**: 부하 테스트는 **'축구 경기 전 응원단 점검'**과 같다. 경기 전stadion의 출입구, 편의점, 화장실 등이 동시에 활용될 때가 발생하는지를 미리 검사한다. 제한된 출구로 많은 사람들이 동시에 출입하면이/가하다듯이, 소프트웨어도 제한된 시스템 자원으로 동시에 많은 사용자의 요청을 처리할 때성능문제가 발생할 수 있다. 부하 테스트는 이러한"응원단 밀집 상황"을 미리 시뮬레이션하여문제을 파악하는 과정이다.
+- **💡 비유**: 부하 테스트는 <strong>'축구 경기 전 응원단 점검'</strong>과 같다. 경기 전stadion의 출입구, 편의점, 화장실 등이 동시에 활용될 때가 발생하는지를 미리 검사한다. 제한된 출구로 많은 사람들이 동시에 출입하면이/가하다듯이, 소프트웨어도 제한된 시스템 자원으로 동시에 많은 사용자의 요청을 처리할 때성능문제가 발생할 수 있다. 부하 테스트는 이러한"응원단 밀집 상황"을 미리 시뮬레이션하여문제을 파악하는 과정이다.
 
 - **등장 배경 및 발전 과정**:
 1. **1990년대 초**: 웹 애플리케이션의 등장으로 웹 서버 부하 테스트 도구 필요성 부각
@@ -31,24 +31,23 @@ tags = ["studynote-software-engineering"]
 3. **2000년대**: Mercury Interactive LoadRunner 등 상용 도구 기업 시장에서 지배적 위치
 4. **현재**: 클라우드 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 부하 테스트(Gatling, k6, Locust), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경의 부하 테스트
 
-- **📢 섹션 요약 비유**: 부하 테스트는 **'교실의 좌석 수 검사'**와 같다. 40명의 학생이 수강하는 강의실에 40개의 좌석이 있으면， 50명이 입실하려고 하면석이 필요하거나 입실이 제한된다. 소프트웨어도 시스템이 처리할 수 있는"좌석 수(처리 용량)"를 파악하고, 그 범위 내의"학생 수(사용자 부하)"에서는 원활하게 서비스하고, 그 이상에서는 대어을 취해야 한다. 부하 테스트는 바로의"좌석 수(시스템 용량)"를 하는 검사이다.
+- **📢 섹션 요약 비유**: 부하 테스트는 <strong>'교실의 좌석 수 검사'</strong>와 같다. 40명의 학생이 수강하는 강의실에 40개의 좌석이 있으면， 50명이 입실하려고 하면석이 필요하거나 입실이 제한된다. 소프트웨어도 시스템이 처리할 수 있는"좌석 수(처리 용량)"를 파악하고, 그 범위 내의"학생 수(사용자 부하)"에서는 원활하게 서비스하고, 그 이상에서는 대어을 취해야 한다. 부하 테스트는 바로의"좌석 수(시스템 용량)"를 하는 검사이다.
 
 ---
 
 다음은 부하 테스트 (Load Test)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 부하 테스트 (Load Test) │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 테스트 (Load Test)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 부하 테스트 (Load Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-부하 테스트 (Load Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+부하 테스트 (Load Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 부하 테스트 (Load Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-부하 테스트 (Load Test) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부하 테스트 (Load Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 스팸 필터를 훈련할 때 "비아그라"라는 단어가 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정상 메일에 한 번도 없었다고 가정하자. P("비아그라"|정상) = 0이 된다. 테스트 시 정상 메일이라도 "비아그라"가 포함되면 P(정상|메일) ∝ 0이 되어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 완전히 망가진다. 이 제로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 붕괴는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 곱([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/) 가정)에서 하나의 0이 전체를 0으로 만들기 때문이다. 라플라스 스무딩은 모든 단어에 α만큼의 가상 관찰 횟수를 더해 어떤 단어도 0이 되지 않도록 방어한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 제로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 "체인의 가장 약한 고리"다. 체인 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0개 링크 중 하나가 끊어지면([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)=0) 전체 체인이 무너진다. 라플라스 스무딩은 모든 링크에 "최소 두께(α)"를 보장해 절대 0이 되지 않도록 하는 안전 처리다.
 
@@ -36,26 +39,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────────┐
-│         라플라스 스무딩 (Laplace Smoothing) 수식        │
-├────────────────────────────────────────────────────────┤
-│  기본 MLE 추정:                                        │
-│  P(w|c) = count(w,c) / N_c                            │
-│  → 미등장 단어: count=0 → P=0 → 전체 확률 붕괴!       │
-│                                                        │
-│  라플라스 스무딩 (α=1, Add-one):                       │
-│  P(w|c) = (count(w,c) + 1) / (N_c + |V|)             │
-│                                                        │
-│  일반화 (Add-α):                                       │
-│  P(w|c) = (count(w,c) + α) / (N_c + α·|V|)           │
-│                                                        │
-│  where:  count(w,c) = 클래스 c에서 단어 w 등장 횟수   │
-│          N_c        = 클래스 c의 총 단어 수            │
-│          |V|        = 어휘 사전 크기 (Vocabulary Size) │
-│          α          = 스무딩 파라미터 (0 < α ≤ 1)     │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라플라스 스무딩 (Laplace Smoothing) 수식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 MLE 추정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(w</div><div class="kb-diagram-cell">c) = count(w,c) / N_c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 미등장 단어: count=0 → P=0 → 전체 확률 붕괴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라플라스 스무딩 (α=1, Add-one):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(w</div><div class="kb-diagram-cell">c) = (count(w,c) + 1) / (N_c +</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반화 (Add-α):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(w</div><div class="kb-diagram-cell">c) = (count(w,c) + α) / (N_c + α·</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">where: count(w,c) = 클래스 c에서 단어 w 등장 횟수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N_c = 클래스 c의 총 단어 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">= 어휘 사전 크기 (Vocabulary Size)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α = 스무딩 파라미터 (0 &lt; α ≤ 1)</div></div>
+</div>
+</div>
+
+
 
 | α 값 | 명칭 | 효과 |
 |:---|:---|:---|

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 통신망 구조를 바꾸거나 새로운 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넣을 때, 똑같은 테스트망(Staging)을 꾸리는 건 수십억 원이 들어 불가능에 가깝습니다.
 - GNS3나 EVE-NG 같은 구형 가상 에뮬레이터가 있었지만, 이놈들은 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 '현재 CPU 부하량'이나 '실시간 폭증하는 트래픽' 같은 진짜 라이브 상황을 반영하지 못하는 죽어있는 장난감이라 테스트 신뢰도가 바닥이었습니다.
 
-```text
-[트래픽 텔레메트리]
-    │
-    ▼
-[디지털 트윈 및 관제 시스템 연동]
-    │
-    └──▶ [양자 암호 키 분배]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 현실 세계(Physical)에 존재하는 물리적 네트워크 인프라([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 케이블, 트래픽 환경)를 컴퓨터 사이버 공간(Cyber)에 **실시간(Real-time)으로 똑같이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한 '가상 쌍둥이(Twin)' 모델**을 만들고, 현실과 가상을 끊임없이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 시뮬레이션, 장애 예측, 관제를 수행하는 차세대 네트워크 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술입니다.
+- **개념**: 현실 세계(Physical)에 존재하는 물리적 네트워크 인프라([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 케이블, 트래픽 환경)를 컴퓨터 사이버 공간(Cyber)에 <strong>실시간(Real-time)으로 똑같이 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>한 '가상 쌍둥이(Twin)' 모델</strong>을 만들고, 현실과 가상을 끊임없이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 시뮬레이션, 장애 예측, 관제를 수행하는 차세대 네트워크 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술입니다.
 
-```text
-[트래픽 텔레메트리]
-    │
-    ▼
-[디지털 트윈 및 관제 시스템 연동]
-    │
-    └──▶ [양자 암호 키 분배]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,8 +66,8 @@ tags = ["studynote-network"]
 
 ### 1. [스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (탯줄)
 - 쌍둥이가 살아 움직이려면 탯줄이 필요합니다.
-- 1058번에서 배운 **[스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/)(초당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 푸시)**가 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 심장 박동(CPU, 온도, 큐 패킷 양, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 상태)을 0.1초마다 뽑아내 가상 세계의 쌍둥이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 쏟아붓습니다. 
-- 이로 인해 쌍둥이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 오차 1초 이내로 **100% 똑같은 고통(과부하)과 트래픽을 경험하는 살아있는 아바타**가 됩니다.
+- 1058번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/">스트리밍 텔레메트리</a>(초당 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 푸시)</strong>가 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 심장 박동(CPU, 온도, 큐 패킷 양, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 상태)을 0.1초마다 뽑아내 가상 세계의 쌍둥이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 쏟아붓습니다. 
+- 이로 인해 쌍둥이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 오차 1초 이내로 <strong>100% 똑같은 고통(과부하)과 트래픽을 경험하는 살아있는 아바타</strong>가 됩니다.
 
 ### 2. 예지 보전 (Predictive Maintenance)과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시뮬레이션 🌟
 - 쌍둥이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔진을 물립니다. AI는 과거 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 현재 상태를 학습하여 **타임머신을 돌려 미래를 시뮬레이션(What-If 분석)합니다.**
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 삼성전자의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)(가상 망 쪼개기), 테슬라 자율주행차 통신 관제 등 **'단 1초의 장애도 허용하지 않는 절대 무결점 인프라'**를 운영할 때, 미리 사고를 가상에서 맞고 맷집을 키우는 용도로 글로벌 통신사와 빅테크의 관제 시스템(NMS)에 필수적으로 융합되고 있습니다.
+- 삼성전자의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)(가상 망 쪼개기), 테슬라 자율주행차 통신 관제 등 <strong>'단 1초의 장애도 허용하지 않는 절대 무결점 인프라'</strong>를 운영할 때, 미리 사고를 가상에서 맞고 맷집을 키우는 용도로 글로벌 통신사와 빅테크의 관제 시스템(NMS)에 필수적으로 융합되고 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존의 네트워크 관리가 환자(현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 배를 무작정 갈라서 심장 수술([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경)을 하는 **'목숨을 건 생체 실험'**이었다면, **네트워크 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)**은 슈퍼컴퓨터 안에 환자와 DNA, 키, 혈압, 심장 박동수까지 **1초의 오차 없이 똑같이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되는 '아바타(가상 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간)'**를 만들어 둔 것입니다. 의사(엔지니어)는 진짜 환자의 배를 가르기 전에, 아바타의 배를 먼저 갈라 새로운 약([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 코드)을 투여해 봅니다. 가상 세계에서 약의 부작용(네트워크 마비)이 생겨 아바타가 죽으면, 약 성분을 고쳐서 아바타가 살 때까지 계속 시뮬레이션(What-If 분석)을 돌립니다. 아바타가 완벽히 건강해지는 약을 찾아냈을 때, 비로소 진짜 환자에게 그 약을 투여하는 100% 안전 보장 아키텍처입니다. 또한 아바타의 심장 소리(텔레메트리)를 빨리 감기하여 "이 환자 3년 뒤에 심장마비 옴!"이라고 미리 찾아내서 살려내는(예지 보전) 궁극의 사이버-물리 융합 관제탑입니다.
+- **📢 섹션 요약 비유**: 기존의 네트워크 관리가 환자(현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 배를 무작정 갈라서 심장 수술([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경)을 하는 <strong>'목숨을 건 생체 실험'</strong>이었다면, <strong>네트워크 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong>은 슈퍼컴퓨터 안에 환자와 DNA, 키, 혈압, 심장 박동수까지 <strong>1초의 오차 없이 똑같이 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>되는 '아바타(가상 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 인간)'</strong>를 만들어 둔 것입니다. 의사(엔지니어)는 진짜 환자의 배를 가르기 전에, 아바타의 배를 먼저 갈라 새로운 약([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 코드)을 투여해 봅니다. 가상 세계에서 약의 부작용(네트워크 마비)이 생겨 아바타가 죽으면, 약 성분을 고쳐서 아바타가 살 때까지 계속 시뮬레이션(What-If 분석)을 돌립니다. 아바타가 완벽히 건강해지는 약을 찾아냈을 때, 비로소 진짜 환자에게 그 약을 투여하는 100% 안전 보장 아키텍처입니다. 또한 아바타의 심장 소리(텔레메트리)를 빨리 감기하여 "이 환자 3년 뒤에 심장마비 옴!"이라고 미리 찾아내서 살려내는(예지 보전) 궁극의 사이버-물리 융합 관제탑입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 트래픽 텔레메트리]
-    │
-    ▼
-[현재 개념: 디지털 트윈 및 관제 시스템 연동]
-    │
-    ├──▶ [확장 A: 양자 암호 키 분배]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 텔레메트리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 암호 키 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동는 트래픽 텔레메트리에서 출발해 현재 메커니즘을 정교화하고, 이후 양자 암호 키 분배와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

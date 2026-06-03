@@ -19,30 +19,29 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 OSI (Open Systems Interconnection) 7계층의 2계층으로, **바로 이웃한 장치끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 넘기기 위한 지역 규칙**을 담당한다. 물리 계층은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 흐르게 할 뿐, 어디서부터 어디까지가 한 덩어리인지, 중간에 깨졌는지, 상대가 지금 받을 수 있는지까지는 알지 못한다. 이 공백을 메우는 층이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 OSI (Open Systems Interconnection) 7계층의 2계층으로, <strong>바로 이웃한 장치끼리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 안전하게 넘기기 위한 지역 규칙</strong>을 담당한다. 물리 계층은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 흐르게 할 뿐, 어디서부터 어디까지가 한 덩어리인지, 중간에 깨졌는지, 상대가 지금 받을 수 있는지까지는 알지 못한다. 이 공백을 메우는 층이 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이다.
 
-이 계층이 필요한 이유는 네트워크 통신이 항상 깨끗한 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 위에서만 일어나지 않기 때문이다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 잡음으로 뒤틀릴 수 있고, 송신자는 너무 빨리 보낼 수 있으며, 공유 회선에서는 누가 먼저 보낼지도 정해야 한다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 단순 전달이 아니라 **인접 링크의 질서를 만드는 계층**이라고 보는 편이 정확하다.
+이 계층이 필요한 이유는 네트워크 통신이 항상 깨끗한 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 위에서만 일어나지 않기 때문이다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 잡음으로 뒤틀릴 수 있고, 송신자는 너무 빨리 보낼 수 있으며, 공유 회선에서는 누가 먼저 보낼지도 정해야 한다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 단순 전달이 아니라 <strong>인접 링크의 질서를 만드는 계층</strong>이라고 보는 편이 정확하다.
 
 아래 그림은 물리 계층의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 흐름 위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 어떤 질서를 덧입히는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ What the data link layer adds                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ network packet                                                     │
-│      │                                                             │
-│      ▼                                                             │
-│ frame = [header | payload | trailer/FCS]                           │
-│      │       │            │                 │                       │
-│      │       │            │                 └-> error check        │
-│      │       │            └--------------------> data unit         │
-│      │       └--------------------------------> control info       │
-│      ▼                                                             │
-│ physical bits on one link                                          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 포인트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 단지 헤더를 붙이는 수준이 아니라, **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림에 경계·제어·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 의미를 부여한다**는 점이다. 덕분에 상위 계층은 매번 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 상태를 직접 걱정하지 않고도, 이웃 노드까지의 전달을 비교적 안정된 단위로 다룰 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What the data link layer adds</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">network packet</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">frame =</div><div class="kb-diagram-node">header | payload | trailer/FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; error check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------&gt; data unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------------------&gt; control info</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">physical bits on one link</div></div>
+</div>
+</div>
+
+
+
+이 그림의 포인트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 단지 헤더를 붙이는 수준이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스트림에 경계·제어·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 의미를 부여한다</strong>는 점이다. 덕분에 상위 계층은 매번 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 상태를 직접 걱정하지 않고도, 이웃 노드까지의 전달을 비교적 안정된 단위로 다룰 수 있다.
 
 - **📢 섹션 요약 비유**: 물리 계층이 그냥 흘러가는 벨트라면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 그 벨트 위 물건을 박스로 포장하고 차례표를 붙여 사고 없이 옆 창고로 보내는 반장과 같다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 핵심 역할은 흔히 **[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/), 회선 제어, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/), [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)**의 네 가지로 정리된다. 이 네 기능은 서로 별개가 아니라, "한 링크에서 누가 언제 얼마나 정확하게 보낼 수 있는가"를 분담해 해결하는 구조다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 핵심 역할은 흔히 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/">프레이밍</a>, 회선 제어, <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>, <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a></strong>의 네 가지로 정리된다. 이 네 기능은 서로 별개가 아니라, "한 링크에서 누가 언제 얼마나 정확하게 보낼 수 있는가"를 분담해 해결하는 구조다.
 
 | 역할 | 답하는 질문 | 대표 메커니즘 | 대표 예시 |
 | :--- | :--- | :--- | :--- |
@@ -61,11 +60,11 @@ tags = ["studynote-network"]
 
 ### 1) [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)
 
-[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)은 끝없이 이어지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림에서 **프레임 경계**를 만드는 작업이다. 길이 필드를 두거나, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 바이트와 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ([Bit Stuffing](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)) 같은 기법으로 "여기서 시작, 여기서 종료"를 구분한다. 프레임 경계가 없으면 수신자는 어떤 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 어느 상위 패킷에 속하는지 해석할 수 없다.
+[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)은 끝없이 이어지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림에서 <strong>프레임 경계</strong>를 만드는 작업이다. 길이 필드를 두거나, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 바이트와 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) ([Bit Stuffing](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)) 같은 기법으로 "여기서 시작, 여기서 종료"를 구분한다. 프레임 경계가 없으면 수신자는 어떤 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 어느 상위 패킷에 속하는지 해석할 수 없다.
 
 ### 2) 회선 제어
 
-회선 제어는 **링크를 어떤 규칙으로 운영할지**를 정한다. 전용 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크에서는 연결을 열고 닫는 절차, 송신 주체의 역할, 반이중/전이중 같은 동작 모드가 중요하다. 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서는 누가 먼저 전송권을 가질지, 충돌을 어떻게 피할지가 회선 제어의 핵심이 된다. 즉 회선 제어는 "선로가 존재한다"를 넘어서, **선로를 어떻게 질서 있게 사용할 것인가**를 다룬다.
+회선 제어는 <strong>링크를 어떤 규칙으로 운영할지</strong>를 정한다. 전용 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크에서는 연결을 열고 닫는 절차, 송신 주체의 역할, 반이중/전이중 같은 동작 모드가 중요하다. 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서는 누가 먼저 전송권을 가질지, 충돌을 어떻게 피할지가 회선 제어의 핵심이 된다. 즉 회선 제어는 "선로가 존재한다"를 넘어서, <strong>선로를 어떻게 질서 있게 사용할 것인가</strong>를 다룬다.
 
 ### 3) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
 
@@ -77,24 +76,24 @@ tags = ["studynote-network"]
 
 다음 그림은 네 역할이 실제 프레임 전달 과정에 어떻게 겹쳐 들어가는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Link-level delivery on one hop                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ Sender                                      Receiver                │
-│   packet                                                         │
-│    │                                                              │
-│    ▼                                                              │
-│ [framing] -> [line control grants send] -> transmit bits          │
-│    │                                         │                     │
-│    └-> add header/trailer/FCS                ▼                     │
-│                                      [error check by CRC]         │
-│                                      [flow check by window/buffer]│
-│                                      [ACK/NAK if needed]          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 단일 기능이 아니라, **경계 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + 사용 순서 + 속도 조절 + 신뢰 보정**의 묶음이다. 이 네 축을 한 번에 이해해야 뒤이어 등장하는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)), [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/), [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 등의 세부 주제가 자연스럽게 이어진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Link-level delivery on one hop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender Receiver</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">packet</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">framing</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">line control grants send</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">transmit bits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; add header/trailer/FCS ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">error check by CRC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">flow check by window/buffer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACK/NAK if needed</div></div>
+</div>
+</div>
+
+
+
+즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 단일 기능이 아니라, <strong>경계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> + 사용 순서 + 속도 조절 + 신뢰 보정</strong>의 묶음이다. 이 네 축을 한 번에 이해해야 뒤이어 등장하는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)), [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/), [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 등의 세부 주제가 자연스럽게 이어진다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 택배 상자를 만드는 팀, 배송 순서를 정하는 팀, 창고 속도를 맞추는 팀, 파손 여부를 검사하는 팀이 한 조로 움직이는 물류 센터와 같다.
 
@@ -102,7 +101,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 역할을 정확히 이해하려면, 이 계층의 기능이 **어디까지가 링크 책임이고 어디서부터가 다른 계층 책임인지**를 구분해야 한다. 물리 계층은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 실어 나르고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 한 홉 (Hop) 전달을 다듬으며, 전송 계층 (Transport Layer)은 종단 간 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 혼잡 제어를 담당한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 역할을 정확히 이해하려면, 이 계층의 기능이 <strong>어디까지가 링크 책임이고 어디서부터가 다른 계층 책임인지</strong>를 구분해야 한다. 물리 계층은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 실어 나르고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 한 홉 (Hop) 전달을 다듬으며, 전송 계층 (Transport Layer)은 종단 간 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 혼잡 제어를 담당한다.
 
 | 계층 | 관점 | 주된 책임 | 실패 시 대응 |
 | :--- | :--- | :--- | :--- |
@@ -110,9 +109,9 @@ tags = ["studynote-network"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 | 한 링크 | 프레임, 회선 제어, 로컬 오류·[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) | 재전송, 윈도우 조절, 링크 절차 |
 | 전송 계층 (Transport Layer) | 종단 간 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 단위 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 혼잡 제어 | 재전송, 혼잡 창 조절, 순서 복원 |
 
-이 구분이 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)가 **끝까지의 완전한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**을 뜻하지 않기 때문이다. 링크 하나에서 CRC와 재전송을 잘 해도, 라우터 여러 개를 지나가는 전체 경로에서는 여전히 패킷 손실이 생길 수 있다. 반대로 무선 구간처럼 국소 오류가 잦은 환경에서는 전송 계층까지 올라가기 전에 링크 수준에서 빠르게 복구하는 편이 훨씬 효율적이다.
+이 구분이 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)가 <strong>끝까지의 완전한 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>을 뜻하지 않기 때문이다. 링크 하나에서 CRC와 재전송을 잘 해도, 라우터 여러 개를 지나가는 전체 경로에서는 여전히 패킷 손실이 생길 수 있다. 반대로 무선 구간처럼 국소 오류가 잦은 환경에서는 전송 계층까지 올라가기 전에 링크 수준에서 빠르게 복구하는 편이 훨씬 효율적이다.
 
-또한 회선 제어의 비중은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 종류에 따라 다르다. 전용 유선 이더넷에서는 충돌과 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제가 크게 줄어 상대적으로 얇은 링크 계층이 가능하지만, 무선 LAN (Wireless Local Area Network)이나 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크 프로토콜에서는 전송권 조정과 재시도 제어가 훨씬 중요하다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 고정 기능 집합이 아니라, **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 따라 두께가 달라지는 적응형 계층**이다.
+또한 회선 제어의 비중은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 종류에 따라 다르다. 전용 유선 이더넷에서는 충돌과 연결 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제가 크게 줄어 상대적으로 얇은 링크 계층이 가능하지만, 무선 LAN (Wireless Local Area Network)이나 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크 프로토콜에서는 전송권 조정과 재시도 제어가 훨씬 중요하다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 고정 기능 집합이 아니라, <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 특성에 따라 두께가 달라지는 적응형 계층</strong>이다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 우리 동네 배송 규칙이고, 전송 계층은 전국 택배 시스템 전체 규칙에 가깝다. 동네에서 포장을 잘해도 전국 경로 전체가 자동으로 완벽해지는 것은 아니다.
 
@@ -120,29 +119,32 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 "무조건 신뢰적으로 만들 것인가"가 아니라, **링크 환경에 맞는 제어 강도를 어디까지 둘 것인가**로 판단한다. 예를 들어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 유선 이더넷처럼 오류율이 낮고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감한 환경에서는 링크 계층을 가볍게 유지하는 편이 유리하다. 반면 무선 링크나 잡음이 심한 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 회선에서는 로컬 재전송과 세밀한 회선 제어가 전체 성능을 오히려 높인다.
+실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 "무조건 신뢰적으로 만들 것인가"가 아니라, <strong>링크 환경에 맞는 제어 강도를 어디까지 둘 것인가</strong>로 판단한다. 예를 들어 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 유선 이더넷처럼 오류율이 낮고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감한 환경에서는 링크 계층을 가볍게 유지하는 편이 유리하다. 반면 무선 링크나 잡음이 심한 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 회선에서는 로컬 재전송과 세밀한 회선 제어가 전체 성능을 오히려 높인다.
 
 ### 실무 판단 기준
 
-1. **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 공유형인가, 점대점인가?** 공유형이면 회선 제어와 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 규칙이 더 중요하다.
+1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>가 공유형인가, 점대점인가?</strong> 공유형이면 회선 제어와 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 접근 규칙이 더 중요하다.
 2. **링크 오류율이 높은가?** 높다면 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) + 재전송의 가치가 커진다.
 3. **수신 버퍼가 제한적인가?** 그렇다면 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)가 없으면 손실이 급증한다.
-4. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감도가 큰가?** 로컬 재전송이 오히려 지터와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키울 수도 있다.
+4. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 민감도가 큰가?</strong> 로컬 재전송이 오히려 지터와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 키울 수도 있다.
 
 아래 결정 흐름은 링크 특성에 따라 어떤 역할을 더 두껍게 설계할지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing link-layer emphasis                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ medium is shared?                                                 │
-│   ├─ yes -> strong line control / MAC arbitration                 │
-│   └─ no                                                           │
-│       ├─ error rate is high? -> stronger error control / retries  │
-│       ├─ receiver buffer small? -> tighter flow control           │
-│       └─ latency critical and clean link? -> keep link thin       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing link-layer emphasis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">medium is shared?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; strong line control / MAC arbitration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ error rate is high? -&gt; stronger error control / retries</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ receiver buffer small? -&gt; tighter flow control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ latency critical and clean link? -&gt; keep link thin</div></div>
+</div>
+</div>
+
+
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -150,7 +152,7 @@ tags = ["studynote-network"]
 - 버퍼 상황을 무시하고 송신 속도만 높여 수신 측 드롭을 유발하는 설계
 - 공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 회선 제어 없이 모두 동시에 보내게 해 충돌과 재전송 폭주를 만드는 설계
 
-시험 답안에서는 이 계층을 단순히 "오류 검사하는 층"이라고만 쓰면 부족하다. **[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)으로 경계를 만들고, 회선 제어로 질서를 만들고, [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)로 속도를 맞추고, [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)로 신뢰를 보정한다**는 네 역할을 함께 설명해야 전체 그림이 완성된다.
+시험 답안에서는 이 계층을 단순히 "오류 검사하는 층"이라고만 쓰면 부족하다. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/">프레이밍</a>으로 경계를 만들고, 회선 제어로 질서를 만들고, <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>로 속도를 맞추고, <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a>로 신뢰를 보정한다</strong>는 네 역할을 함께 설명해야 전체 그림이 완성된다.
 
 - **📢 섹션 요약 비유**: 좁은 다리를 건널 때는 누가 먼저 건널지 정하고, 앞사람 속도에 맞추고, 발판이 부서졌는지 확인해야 안전하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 바로 그 다리 건너기 규칙이다.
 
@@ -158,11 +160,11 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 잘 설계되면 상위 계층은 매번 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질과 충돌 여부를 직접 걱정하지 않고도, **인접 노드 간 전달을 안정된 프레임 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 사용할 수 있다**. 이 덕분에 네트워크 계층은 라우팅과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소에 집중하고, 전송 계층은 종단 간 품질 제어에 집중할 수 있다. 즉 2계층은 전체 네트워크 스택의 분업을 가능하게 만드는 기초 안정화 층이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 잘 설계되면 상위 계층은 매번 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질과 충돌 여부를 직접 걱정하지 않고도, <strong>인접 노드 간 전달을 안정된 프레임 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 사용할 수 있다</strong>. 이 덕분에 네트워크 계층은 라우팅과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소에 집중하고, 전송 계층은 종단 간 품질 제어에 집중할 수 있다. 즉 2계층은 전체 네트워크 스택의 분업을 가능하게 만드는 기초 안정화 층이다.
 
-물론 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 어디까지나 한 링크를 다루므로, 종단 간 순서 보장이나 혼잡 제어까지 대신하지는 못한다. 또한 링크를 지나치게 두껍게 만들면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 복잡도가 늘고, 너무 얇게 만들면 상위 계층 부담이 커진다. 그래서 좋은 설계는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 맞춰 **어느 정도의 링크 책임을 질 것인지**를 정교하게 정하는 일이다.
+물론 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 어디까지나 한 링크를 다루므로, 종단 간 순서 보장이나 혼잡 제어까지 대신하지는 못한다. 또한 링크를 지나치게 두껍게 만들면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 복잡도가 늘고, 너무 얇게 만들면 상위 계층 부담이 커진다. 그래서 좋은 설계는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 맞춰 <strong>어느 정도의 링크 책임을 질 것인지</strong>를 정교하게 정하는 일이다.
 
-정리하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 프레임으로, 전송을 질서로, 오류 가능성을 관리 가능한 위험으로 바꾸는 계층**이다. 네 역할을 따로 외우기보다, "이웃한 두 장치가 믿고 대화하기 위한 지역 규칙"으로 묶어 기억하면 훨씬 오래 남는다.
+정리하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 프레임으로, 전송을 질서로, 오류 가능성을 관리 가능한 위험으로 바꾸는 계층</strong>이다. 네 역할을 따로 외우기보다, "이웃한 두 장치가 믿고 대화하기 위한 지역 규칙"으로 묶어 기억하면 훨씬 오래 남는다.
 
 - **📢 섹션 요약 비유**: 좋은 우체국은 편지를 봉투에 넣고, 창구 순서를 정하고, 너무 많이 몰리면 줄을 조절하고, 훼손된 편지는 다시 보내게 만든다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층도 바로 그런 동네 우체국 역할을 한다.
 
@@ -182,24 +184,25 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비트 스트림만으로는 해석 불가
-        │
-        ▼
-프레이밍으로 경계 설정
-        │
-        ▼
-회선 제어로 전송 질서 부여
-        │
-        ▼
-흐름 제어로 송수신 속도 조정
-        │
-        ▼
-오류 제어로 로컬 신뢰성 보강
-        │
-        ▼
-LLC · MAC · HDLC · PPP 등 세부 프로토콜로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비트 스트림만으로는 해석 불가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프레이밍으로 경계 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회선 제어로 전송 질서 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">흐름 제어로 송수신 속도 조정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오류 제어로 로컬 신뢰성 보강</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLC · MAC · HDLC · PPP 등 세부 프로토콜로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 네 역할이 각각 따로 존재하는 것이 아니라, 링크 단위 통신 품질을 단계적으로 완성해 가는 구조임을 보여 준다.
 

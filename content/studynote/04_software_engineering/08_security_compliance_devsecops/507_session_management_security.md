@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: HTTP는 기억 상실증([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 환자다. 내가 1초 전에 로그인했어도, 1초 뒤에 "마이페이지 보여줘" 하면 서버는 "너 누구야?" 라고 묻는다. 매번 비밀번호를 물어볼 순 없으니, 서버가 로그인 성공 시 `JSESSIONID=A1B2C3...` 이라는 '출입증([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID)'을 발급해 준다. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리는 이 출입증이 1) 쉽게 예측 가능하게 번호가 매겨지지 않았나(난해성), 2) 수명이 너무 길어서 1년 내내 접속되는 건 아닌가(만료 시간), 3) 해커가 훔쳐서 복제해 쓸 수 있나(재사용 방지)를 깐깐하게 통제하는 수문장 기술이다.
 
-- **필요성**: 해커 입장에서 남의 집 문을 딸 때(해킹), 제일 미친 짓이 티타늄 도어록(비밀번호 암호화)을 빠루로 뜯어내는 것이다. 제일 똑똑한 도둑은 **"집주인이 화장실 간 사이에 책상 위에 올려둔 열쇠([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))를 몰래 복사해서 주머니에 넣고 당당하게 문을 열고 들어가는 것"**이다. 이 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))은 방화벽도 못 막고 백도어도 필요 없다. 내가 합법적인 유저로 인증되는 순간이기 때문이다. 이 무혈입성의 대재앙을 막으려면, 열쇠([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 자체가 10분 만에 녹아 없어지거나 복사(재사용)가 불가능하게 물리적 제약을 걸어버려야 한다.
+- **필요성**: 해커 입장에서 남의 집 문을 딸 때(해킹), 제일 미친 짓이 티타늄 도어록(비밀번호 암호화)을 빠루로 뜯어내는 것이다. 제일 똑똑한 도둑은 <strong>"집주인이 화장실 간 사이에 책상 위에 올려둔 열쇠(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>)를 몰래 복사해서 주머니에 넣고 당당하게 문을 열고 들어가는 것"</strong>이다. 이 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))은 방화벽도 못 막고 백도어도 필요 없다. 내가 합법적인 유저로 인증되는 순간이기 때문이다. 이 무혈입성의 대재앙을 막으려면, 열쇠([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 자체가 10분 만에 녹아 없어지거나 복사(재사용)가 불가능하게 물리적 제약을 걸어버려야 한다.
 
-- **💡 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리는 은행의 **'1회용 방문객 명찰(출입증)'**과 같습니다. 은행장(서버)이 손님(유저)에게 "방문객 1번"이라는 명찰을 줬습니다. 해커가 밖에서 그걸 보고 "어? 1번 다음엔 2번이겠네?"라고 유추(추측 난해성 실패)해서 가짜 "방문객 2번" 명찰을 만들어 매고 들어옵니다. 혹은 손님이 화장실 갈 때 명찰을 훔쳐서 해커가 목에 걸고 은행장 방으로 들어갑니다. 은행장은 얼굴(비밀번호)을 안 보고 명찰([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))만 보고 금고를 열어줍니다. 이를 막으려면 명찰은 **"X$9a! 복잡한 글씨(난수)"**로 적혀야 하고, **"10분 뒤엔 글씨가 저절로 지워져야(만료 시간)"** 완벽한 출입 통제가 성립합니다.
+- **💡 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리는 은행의 <strong>'1회용 방문객 명찰(출입증)'</strong>과 같습니다. 은행장(서버)이 손님(유저)에게 "방문객 1번"이라는 명찰을 줬습니다. 해커가 밖에서 그걸 보고 "어? 1번 다음엔 2번이겠네?"라고 유추(추측 난해성 실패)해서 가짜 "방문객 2번" 명찰을 만들어 매고 들어옵니다. 혹은 손님이 화장실 갈 때 명찰을 훔쳐서 해커가 목에 걸고 은행장 방으로 들어갑니다. 은행장은 얼굴(비밀번호)을 안 보고 명찰([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))만 보고 금고를 열어줍니다. 이를 막으려면 명찰은 **"X$9a! 복잡한 글씨(난수)"**로 적혀야 하고, **"10분 뒤엔 글씨가 저절로 지워져야(만료 시간)"** 완벽한 출입 통제가 성립합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **순진한 일련번호의 시대**: 90년대 웹사이트들은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 `user_id=1`, `user_id=2` 식으로 대충 숫자로 줬다. 해커가 URL에서 숫자만 `3`으로 쓱 바꾸면 3번 유저의 권한으로 둔갑하는 코미디([IDOR](/knowledge-base/studynote/09_security/05_web_app_security/418_idor/))가 벌어졌다.
-  2. **[세션 고정](/knowledge-base/studynote/09_security/05_web_app_security/460_session_fixation/)([Session Fixation](/knowledge-base/studynote/09_security/03_network_security/273_session_fixation/))의 비극**: 해커가 피시방에서 미리 발급받은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))를 그대로 둔 채 자리를 피했다. 다음 사람이 와서 로그인하면, 그 사람은 해커의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID에 '합법적 권한'을 불어넣어 주는 꼴이 되었다. (해커와 피해자가 1개의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)로 동시 접속)
+  2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/460_session_fixation/">세션 고정</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/273_session_fixation/">Session Fixation</a>)의 비극</strong>: 해커가 피시방에서 미리 발급받은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))를 그대로 둔 채 자리를 피했다. 다음 사람이 와서 로그인하면, 그 사람은 해커의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID에 '합법적 권한'을 불어넣어 주는 꼴이 되었다. (해커와 피해자가 1개의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)로 동시 접속)
   3. **보안 속성과 생명주기 통제 (현재)**: 브라우저가 각성했다. [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)에 `HttpOnly`, `Secure` 옵션을 박아 자바스크립트가 아예 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 훔쳐 가지 못하게 막고, 프레임워크(Spring)는 로그인하는 찰나의 순간 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 갈기갈기 찢어발기고 무조건 새 ID로 교체(Rotation)해버리는 철통 방어를 디폴트로 장착했다.
 
-- **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리가 안 되는 시스템은 **'놀이공원 종이 팔찌를 테이프로 뗐다 붙였다 할 수 있는 구조'**입니다. 내가 놀고 집에 갈 때 다른 애한테 팔찌([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 주고 가면 걔도 공짜로 놉니다. 진짜 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리는 **'한 번 뜯으면 찢어지고(재사용 불가), 1시간 지나면 야광 불빛이 꺼지는 특수 팔찌'**를 채우는 깐깐한 놀이공원 운영술입니다.
+- **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리가 안 되는 시스템은 <strong>'놀이공원 종이 팔찌를 테이프로 뗐다 붙였다 할 수 있는 구조'</strong>입니다. 내가 놀고 집에 갈 때 다른 애한테 팔찌([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 주고 가면 걔도 공짜로 놉니다. 진짜 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리는 <strong>'한 번 뜯으면 찢어지고(재사용 불가), 1시간 지나면 야광 불빛이 꺼지는 특수 팔찌'</strong>를 채우는 깐깐한 놀이공원 운영술입니다.
 
 ---
 
 다음은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Manag의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  세션 관리 (Session Manag                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세션 관리 (Session Manag</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Manag가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 보완의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 보완의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 관리 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 보완의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-세션 관리 (Session Management) 보완 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세션 관리 (Session Management) 보완 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

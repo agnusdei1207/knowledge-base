@@ -28,21 +28,22 @@ JIT는 이러한 전통적 낭비를 박살 내기 위해 등장했다. 땅도 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 시스템의 뼈대는 **풀(Pull) 생산 시스템**과 이를 통신하게 해주는 **[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/), 간판) 시스템**이다. 주문이 발생한 하류 공정이 상류 공정에게 필요한 부품을 요구하는 역방향 정보 흐름을 가진다.
+[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 시스템의 뼈대는 <strong>풀(Pull) 생산 시스템</strong>과 이를 통신하게 해주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>, 간판) 시스템</strong>이다. 주문이 발생한 하류 공정이 상류 공정에게 필요한 부품을 요구하는 역방향 정보 흐름을 가진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            JIT와 칸반 시스템의 Pull 방식 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│ [원자재/상류 공정] ◀──요청── [조립/하류 공정] ◀──요청── [고객 주문]│
-│       │                         │                         │    │
-│       │ "바퀴 4개 필요해"       │ "자동차 1대 조립 시작"  │    │
-│       ▼      (칸반 티켓 전달)   ▼      (칸반 티켓 전달)  ▼    │
-│  [바퀴 4개 생산] ──제공──▶ [조립 완료] ───────출하───────▶│
-│                                                              │
-│ ※ 칸반 티켓이 없으면 절대 먼저 기계를 돌리지 않는다. (재고 = 0) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JIT와 칸반 시스템의 Pull 방식 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원자재/상류 공정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">조립/하류 공정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">고객 주문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"바퀴 4개 필요해"</div><div class="kb-diagram-cell">"자동차 1대 조립 시작"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (칸반 티켓 전달) ▼ (칸반 티켓 전달) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">바퀴 4개 생산</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조립 완료</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 칸반 티켓이 없으면 절대 먼저 기계를 돌리지 않는다. (재고 = 0)</div></div>
+</div>
+</div>
+
+
 
 도요타는 공정 간 통신을 위해 부품 상자에 종이 명찰인 '[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)'을 달았다. 하류 공정이 부품을 꺼내 쓰고 빈 상자와 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 상류로 돌려보내면, 상류는 딱 그 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)에 적힌 수량만큼만 생산하여 채운다. 즉, [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 작업 지시서이자 생산을 통제하는 물리적 토큰이다.
 
@@ -71,7 +72,7 @@ JIT는 이러한 전통적 낭비를 박살 내기 위해 등장했다. 땅도 �
 
 JIT가 성공하려면 전제조건이 극도로 가혹하다. 하청업체가 공장 바로 옆에 붙어 있어야 하고, 납품되는 부품의 불량률이 0%여야 하며, 운송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없어야 한다.
 
-기술사는 이 시스템의 **치명적인 취약점([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))**을 꿰뚫어 보아야 한다. JIT는 예비 부품이 없으므로, 천재지변, 전염병(코로나19), 파업 등으로 부품 하나만 납품이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어도 수조 원 규모의 전체 공장 라인이 셧다운된다. 따라서 현대적 판단으로는 맹목적인 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)(재고 0) 추구보다는, 크리티컬 패스에 있는 핵심 부품은 안전 재고를 유지하는 **JIC (Just In Case)** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 혼합하여 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성(Resilience)을 확보하는 하이브리드 설계가 필수다.
+기술사는 이 시스템의 <strong>치명적인 취약점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)</strong>을 꿰뚫어 보아야 한다. JIT는 예비 부품이 없으므로, 천재지변, 전염병(코로나19), 파업 등으로 부품 하나만 납품이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어도 수조 원 규모의 전체 공장 라인이 셧다운된다. 따라서 현대적 판단으로는 맹목적인 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)(재고 0) 추구보다는, 크리티컬 패스에 있는 핵심 부품은 안전 재고를 유지하는 **JIC (Just In Case)** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 혼합하여 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성(Resilience)을 확보하는 하이브리드 설계가 필수다.
 
 - **📢 섹션 요약 비유**: 체지방을 0%로 만든 극한의 보디빌더([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))와 같다. 겉보기엔 근육(효율)이 완벽하지만, 감기 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(부품 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 하나만 들어와도 면역력(안전 재고)이 없어 쓰러지고 만다.
 
@@ -92,27 +93,29 @@ JIT를 완벽히 정착시키면 창고와 재고 관리 비용이 소멸하고 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **풀 (Pull) 시스템** | 고객의 수요에 이끌려 뒤에서부터 작업이 시작되는 JIT의 핵심 엔진 |
-| **[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) 보드** | 도요타의 생산 지시표가 SW 개발의 시각적 작업 관리 도구로 진화한 형태 |
-| **WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) 제한** | 공정 내 미완성품([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업)의 개수를 제한하여 병목을 막는 규칙 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>) 보드</strong> | 도요타의 생산 지시표가 SW 개발의 시각적 작업 관리 도구로 진화한 형태 |
+| <strong>WIP (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/">Work In Progress</a>) 제한</strong> | 공정 내 미완성품([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업)의 개수를 제한하여 병목을 막는 규칙 |
 | **JIC (Just In Case)** | JIT의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 극복하기 위해 다시 최소한의 안전 재고를 두는 현대 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-푸시 생산 (Push System) 및 대량 과잉 재고
-    │
-    ▼
-풀 생산 (Pull System) 전환으로 발상 변경
-    │
-    ▼
-JIT (Just In Time) 및 칸반 (Kanban) 도입
-    │
-    ▼
-애자일 (Agile) 방법론 및 소프트웨어 칸반 보드로 진화
-    │
-    ▼
-글로벌 공급망 위기 이후 JIT와 JIC(Just-In-Case)의 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">푸시 생산 (Push System) 및 대량 과잉 재고</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">풀 생산 (Pull System) 전환으로 발상 변경</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">JIT (Just In Time) 및 칸반 (Kanban) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 (Agile) 방법론 및 소프트웨어 칸반 보드로 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">글로벌 공급망 위기 이후 JIT와 JIC(Just-In-Case)의 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

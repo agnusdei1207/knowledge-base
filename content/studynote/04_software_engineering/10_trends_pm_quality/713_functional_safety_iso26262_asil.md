@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 만약 이 소프트웨어에 버그가 생기거나 무한 루프(While)에 빠져서 "멈춰!"라는 명령이 0.1초 늦게 전달되면 어떻게 될까? 대형 참사가 일어난다. 일반적인 웹사이트는 서버가 죽으면 새로고침을 하면 되지만, 자동차 소프트웨어는 새로고침할 기회가 없다.
 
-이처럼 **시스템(전기/전자)이 비정상적으로 동작했을 때 발생하는 위험을 수용 가능한 수준(Acceptable Level)으로 낮추는 설계 원칙**을 '기능 안전'이라 부르며, 이를 자동차 산업에 맞게 표준화한 것이 **ISO 26262**다.
+이처럼 <strong>시스템(전기/전자)이 비정상적으로 동작했을 때 발생하는 위험을 수용 가능한 수준(Acceptable Level)으로 낮추는 설계 원칙</strong>을 '기능 안전'이라 부르며, 이를 자동차 산업에 맞게 표준화한 것이 <strong>ISO 26262</strong>다.
 
 - **📢 섹션 요약 비유**: 스마트폰 앱이 멈추면 짜증이 나지만, 100km로 달리는 자동차의 브레이크 앱이 멈추면 목숨이 날아간다. ISO 26262는 자동차용 앱을 만들 때는 절대 멈추지 않는 2중, 3중의 브레이크 방어 코드를 짜라고 전 세계가 맺은 약속이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 기능 안전 ISO 26262 ASIL의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  기능 안전 ISO 26262 ASIL                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 안전 ISO 26262 ASIL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 기능 안전 ISO 26262 ASIL가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등급을 매기는 **ASIL(자동차 안전 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 수준)**이다.
+ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등급을 매기는 <strong>ASIL(자동차 안전 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 수준)</strong>이다.
 
 - **📢 섹션 요약 비유**: 기능 안전 ISO 26262 ASIL 등급은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -96,7 +95,7 @@ ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-ASIL D 등급을 받은 컴포넌트를 개발하는 것은 일반 소프트웨어 개발보다 비용과 시간이 10배 이상 든다. 따라서 실무 설계의 핵심은 **ASIL 분해(ASIL Decomposition)**다.
+ASIL D 등급을 받은 컴포넌트를 개발하는 것은 일반 소프트웨어 개발보다 비용과 시간이 10배 이상 든다. 따라서 실무 설계의 핵심은 <strong>ASIL 분해(ASIL Decomposition)</strong>다.
 
 - **📢 섹션 요약 비유**: 기능 안전 ISO 26262 ASIL 등급은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -108,7 +107,7 @@ ASIL D 등급을 받은 컴포넌트를 개발하는 것은 일반 소프트웨�
 
 ## Ⅴ. 기대효과 및 결론
 
-ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거나(하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 코드에 나누기 0 오류(소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))가 발생해도, 자동차가 급발진하지 않고 비상등을 켠 채 안전하게 갓길에 멈춰 서는 **[페일 세이프](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))**를 보장한다.
+ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거나(하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 코드에 나누기 0 오류(소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))가 발생해도, 자동차가 급발진하지 않고 비상등을 켠 채 안전하게 갓길에 멈춰 서는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">페일 세이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a>)</strong>를 보장한다.
 
 결론적으로 자율주행(레벨 4 이상)과 SDV(Software Defined Vehicle) 시대로 진입하면서, 소프트웨어가 곧 자동차의 뇌와 심장이 되었다. 기능 안전(ISO 26262)은 단순한 납품 스펙을 넘어, 승객의 생명을 담보로 코드를 짜는 소프트웨어 엔지니어들이 지켜야 할 가장 무겁고 숭고한 윤리적 책임이다.
 
@@ -133,21 +132,23 @@ ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-기능 안전 ISO 26262 ASIL 등급 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기능 안전 ISO 26262 ASIL 등급 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

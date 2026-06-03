@@ -11,8 +11,8 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시리얼([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/), 직렬) 통신은 컴퓨터나 산업용 장비 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 가닥의 선을 통해 1비트씩 기차처럼 순서대로 보내는 가장 고전적이고 안정적인 물리 계층(Physical Layer) 통신 규격이다.
-> 2. **가치**: 통신 거리와 외부 노이즈 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)력, 그리고 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))에 연결 가능한 장비의 수(네트워크 토폴로지)에 따라 **RS-232(단거리 1:1) ➔ RS-422(장거리 1:N) ➔ RS-485(장거리 N:N 멀티드롭)**로 산업 자동화 환경에 맞춰 진화했다.
-> 3. **판단 포인트**: RS-232는 단일 종단(Single-ended) 방식으로 노이즈에 취약해 15m의 족쇄가 있지만, RS-422/485는 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 재는 **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** 흑마법을 써서 공장의 거친 노이즈를 찢어버리고 1.2km 장거리 융합 통신망을 지배하는 표준이 되었다.
+> 2. **가치**: 통신 거리와 외부 노이즈 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)력, 그리고 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))에 연결 가능한 장비의 수(네트워크 토폴로지)에 따라 <strong>RS-232(단거리 1:1) ➔ RS-422(장거리 1:N) ➔ RS-485(장거리 N:N 멀티드롭)</strong>로 산업 자동화 환경에 맞춰 진화했다.
+> 3. **판단 포인트**: RS-232는 단일 종단(Single-ended) 방식으로 노이즈에 취약해 15m의 족쇄가 있지만, RS-422/485는 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 차이를 재는 <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> 흑마법을 써서 공장의 거친 노이즈를 찢어버리고 1.2km 장거리 융합 통신망을 지배하는 표준이 되었다.
 
 ---
 
@@ -30,26 +30,27 @@ tags = ["studynote-network"]
 
 RS 규격의 진화는 결국 '노이즈(Noise)'와의 전쟁이며, 이를 극복하기 위한 물리적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 아키텍처의 변태 과정이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          RS-232 vs RS-422/485의 노이즈 극복 아키텍처 (차동 신호)         │
-├─────────────────────────────────────────────────────────────┤
-│ [ 1. RS-232의 단일 종단 (Single-ended) 방식 - 15m 붕괴 ]         │
-│   - Tx (데이터선) : +10V (1) 전송 중 ───[⚡노이즈 쿵!]───▶ +3V 수신 (0으로 에러!)│
-│   - GND (접지선) : 0V 기준                                    │
-│   💥 뼈아픈 약점: 기준점(0V)은 가만히 있는데 데이터선 전압만 노이즈에 꺾여 파국.│
-│                                                             │
-│ [ 2. RS-422/485의 차동 신호 (Differential) 흑마법 - 1.2km 무적 ] │
-│   - 두 가닥의 선(Tx+, Tx-)에 정확히 반대 위상 전압을 쏜다!            │
-│   - Tx+ 선 : +5V 전송 중 ───[⚡노이즈 +2V]───▶ +7V 수신           │
-│   - Tx- 선 : -5V 전송 중 ───[⚡노이즈 +2V]───▶ -3V 수신           │
-│                                                             │
-│   🌟 목적지 계산(차이): (Tx+ 수신) - (Tx- 수신) = (+7V) - (-3V) = +10V │
-│   ──▶ 결과: 노이즈 값(+2V)은 수학적으로 완벽히 상쇄 소멸! 순수 신호만 남음! │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))의 기적**: RS-422와 RS-485는 그라운드(0V) 기준을 버렸다. 대신 플러스(+) 선과 마이너스(-) 선 꼬임선(Twisted Pair) 두 가닥에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반대 위상으로 실어 보낸다. 외부에서 번개가 쳐 노이즈가 유입되어도 꼬여있는 두 선에 똑같은 양의 노이즈(+2V)가 더해진다. 수신 측 칩셋은 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 빼버리므로(Difference), 유입된 노이즈는 수학적으로 완전히 상쇄(Cancellation)되어 0이 되고 순수한 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이 값만 살아남는다. 이 흑마법 덕분에 노이즈 밭인 공장 한가운데를 1.2km나 관통할 수 있게 되었다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RS-232 vs RS-422/485의 노이즈 극복 아키텍처 (차동 신호)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. RS-232의 단일 종단 (Single-ended) 방식 - 15m 붕괴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx (데이터선) : +10V (1) 전송 중</div><div class="kb-diagram-node">⚡노이즈 쿵!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">+3V 수신 (0으로 에러!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GND (접지선) : 0V 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 뼈아픈 약점: 기준점(0V)은 가만히 있는데 데이터선 전압만 노이즈에 꺾여 파국.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. RS-422/485의 차동 신호 (Differential) 흑마법 - 1.2km 무적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 두 가닥의 선(Tx+, Tx-)에 정확히 반대 위상 전압을 쏜다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx+ 선 : +5V 전송 중</div><div class="kb-diagram-node">⚡노이즈 +2V</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">+7V 수신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx- 선 : -5V 전송 중</div><div class="kb-diagram-node">⚡노이즈 +2V</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">-3V 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 목적지 계산(차이): (Tx+ 수신) - (Tx- 수신) = (+7V) - (-3V) = +10V</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: 노이즈 값(+2V)은 수학적으로 완벽히 상쇄 소멸! 순수 신호만 남음!</div></div>
+</div>
+</div>
+
+
+
+<strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)의 기적</strong>: RS-422와 RS-485는 그라운드(0V) 기준을 버렸다. 대신 플러스(+) 선과 마이너스(-) 선 꼬임선(Twisted Pair) 두 가닥에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반대 위상으로 실어 보낸다. 외부에서 번개가 쳐 노이즈가 유입되어도 꼬여있는 두 선에 똑같은 양의 노이즈(+2V)가 더해진다. 수신 측 칩셋은 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 빼버리므로(Difference), 유입된 노이즈는 수학적으로 완전히 상쇄(Cancellation)되어 0이 되고 순수한 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이 값만 살아남는다. 이 흑마법 덕분에 노이즈 밭인 공장 한가운데를 1.2km나 관통할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: RS-232는 시끄러운 공사장에서 혼자 소리치는 것과 같아 거리가 멀어지면 소리([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 주변 소음(노이즈)에 묻혀 왜곡됩니다. RS-422/485는 두 명의 가수가 완벽한 '화음(차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))'을 맞춰 부르는 것입니다. 수신자는 오직 두 가수의 화음 차이만 듣기 때문에, 주변에서 포크레인이 부서지는 굉음(노이즈)이 나도 노이즈는 쏙 빼고 아름다운 노랫말만 정확히 알아들을 수 있습니다.
 
@@ -62,14 +63,14 @@ RS 규격의 진화는 결국 '노이즈(Noise)'와의 전쟁이며, 이를 극�
 | 비교 잣대 | RS-232C | RS-422 | RS-485 (산업 현장의 제왕) |
 | :--- | :--- | :--- | :--- |
 | **통신 방식** | 1 : 1 전용 (단거리) | 1 : N (마스터 1대, 슬레이브 여러 대) | **N : N (멀티 드롭, 누구나 마스터 가능)** |
-| **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 잣대** | 단일 종단 (Single-ended) | **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential)** | **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 잣대</strong> | 단일 종단 (Single-ended) | <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential)</strong> | <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential)</strong> |
 | **통신 거리** | 최대 15m 이내 (매우 짧음) | **최대 1.2km (장거리)** | **최대 1.2km (장거리)** |
 | **통신 방향** | 전이중 (Full-Duplex) - 4가닥 | 전이중 (Full-Duplex) - 4가닥 | **반이중 (Half-Duplex) - 2가닥** |
 | **네트워크 구조**| 책상 위 개인 장비 연결 | 공장 중앙 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ➔ 다수 센서(일방적 지시) | 공장 전체 센서, 모터 32대가 하나의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 자유롭게 양방향 핑퐁 |
 
-RS-422의 단점은 완벽한 양방향 다중 통신이 안 된다는 점이었다. 마스터([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 1대가 10대의 슬레이브(센서)에게 명령을 내릴 순 있지만, 슬레이브들끼리 떠들거나 슬레이브가 마스터로 치고 올라갈 수 없는 '일방통행' 구조였다. 이를 극복한 **RS-485**는 단 두 가닥의 선에 최대 32대(최근 칩셋은 256대)의 장비가 빨랫줄처럼 매달려, 마스터/슬레이브 구분 없이 서로 반이중(Half-Duplex)으로 치고받을 수 있는 공장 자동화([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))의 궁극적 네트워크 표준으로 천하통일을 이루었다.
+RS-422의 단점은 완벽한 양방향 다중 통신이 안 된다는 점이었다. 마스터([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 1대가 10대의 슬레이브(센서)에게 명령을 내릴 순 있지만, 슬레이브들끼리 떠들거나 슬레이브가 마스터로 치고 올라갈 수 없는 '일방통행' 구조였다. 이를 극복한 <strong>RS-485</strong>는 단 두 가닥의 선에 최대 32대(최근 칩셋은 256대)의 장비가 빨랫줄처럼 매달려, 마스터/슬레이브 구분 없이 서로 반이중(Half-Duplex)으로 치고받을 수 있는 공장 자동화([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))의 궁극적 네트워크 표준으로 천하통일을 이루었다.
 
-- **📢 섹션 요약 비유**: RS-232는 두 사람이 실 전화기로 연결된 **'1:1 귓속말'**입니다. RS-422는 교장 선생님 1명이 스피커로 수백 명의 학생에게 일방적으로 지시를 내리는 **'교내 방송망(1:N)'**입니다. RS-485는 마을 사람 32명이 거대한 원탁에 모여 앉아, 무전기로 칙! 버튼을 누르면 누구든 마스터가 되어 모두에게 말을 할 수 있는 **'다자간 무전 회의 시스템(N:N)'**입니다.
+- **📢 섹션 요약 비유**: RS-232는 두 사람이 실 전화기로 연결된 <strong>'1:1 귓속말'</strong>입니다. RS-422는 교장 선생님 1명이 스피커로 수백 명의 학생에게 일방적으로 지시를 내리는 <strong>'교내 방송망(1:N)'</strong>입니다. RS-485는 마을 사람 32명이 거대한 원탁에 모여 앉아, 무전기로 칙! 버튼을 누르면 누구든 마스터가 되어 모두에게 말을 할 수 있는 <strong>'다자간 무전 회의 시스템(N:N)'</strong>입니다.
 
 ---
 
@@ -78,10 +79,10 @@ RS-422의 단점은 완벽한 양방향 다중 통신이 안 된다는 점이었
 산업용 통신 설비나 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지(Edge) 인프라 설계 시 RS-485 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 잘못 엮으면 공장 라인이 멈춘다.
 
 ### 실무 판단 시나리오
-1. **[데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/) ([Daisy Chain](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/)) 결선 강제**: RS-485 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망을 설계할 때, 32대의 공장 센서를 연결하라고 하니 전기 기사가 아무렇게나 선을 따서 별 모양(Star) 토폴로지나 나무 모양(Tree)으로 배선해 버렸다. 
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/">데이지 체인</a> (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/">Daisy Chain</a>) 결선 강제</strong>: RS-485 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망을 설계할 때, 32대의 공장 센서를 연결하라고 하니 전기 기사가 아무렇게나 선을 따서 별 모양(Star) 토폴로지나 나무 모양(Tree)으로 배선해 버렸다. 
    - **판단 (아키텍트 팩폭)**: "당장 선 다 뜯고 일렬로 직렬연결([데이지 체인](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/354_daisy_chain/))해!! 스타망으로 연결하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 끝에서 반사되어(Reflection) 돌아오면서 서로 충돌(Echo)해 통신 에러가 100% 터진다! 무조건 장비 1번에서 2번, 2번에서 3번으로 기차 꼬리잡기처럼 1자형 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망으로 묶어야만 RS-485 1.2km 스펙이 나온다!"
-2. **종단 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) (Terminating Resistor) 융합 필수**: RS-485 선로를 1km 깔았더니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 깨져 들어온다.
-   - **판단**: 선로 끝부분에서 차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 튕겨 나오는 반사파(Reflection) 파국 현상이다. 무조건 케이블의 맨 처음 장비(시작점)와 맨 마지막 장비(끝점)의 Tx+/Tx- 두 선 사이에 **120옴(Ω)짜리 종단 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)**을 콱 납땜해 달아야 한다. 이 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 끝까지 도달한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지를 불태워 없애(소모), 반사파가 거꾸로 돌아와 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 부수지 못하도록 막는 핵심 안전장치다.
+2. <strong>종단 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a> (Terminating Resistor) 융합 필수</strong>: RS-485 선로를 1km 깔았더니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 깨져 들어온다.
+   - **판단**: 선로 끝부분에서 차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 튕겨 나오는 반사파(Reflection) 파국 현상이다. 무조건 케이블의 맨 처음 장비(시작점)와 맨 마지막 장비(끝점)의 Tx+/Tx- 두 선 사이에 <strong>120옴(Ω)짜리 종단 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong>을 콱 납땜해 달아야 한다. 이 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 끝까지 도달한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지를 불태워 없애(소모), 반사파가 거꾸로 돌아와 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 부수지 못하도록 막는 핵심 안전장치다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **단거리 환경에 무지성 RS-485/422 오버엔지니어링 도입**: 아두이노(Arduino)와 바로 옆 10cm 거리에 붙어있는 온습도 센서를 연결하는데, 노이즈에 강하다며 굳이 비싼 RS-485 변환 칩셋(MAX485)을 양쪽에 달고 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 짜는 만행. 15m 이내의 짧고 깨끗한 환경에서는 원시적인 RS-232 칩이나 I2C, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 통신이면 족하다. 좁은 곳에서 억지로 RS-485 반이중(Half-Duplex) 턴어라운드 타이밍 코드를 짜다 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 버그만 유발하는 헛짓거리다.
@@ -94,11 +95,11 @@ RS-422의 단점은 완벽한 양방향 다중 통신이 안 된다는 점이었
 
 RS-232, 422, 485로 이어지는 시리얼 인터페이스의 진화는 IT 인프라가 쾌적한 사무실 책상 위를 벗어나, 먼지와 쇳가루, 고전압이 난무하는 산업 현장 팩토리(Factory)로 뻗어 나가기 위한 처절한 물리 계층(Physical Layer) 공학의 승리다. 
 
-특히 RS-485가 완성해 낸 **'차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 기반의 N:N 멀티드롭 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망'** 철학은 현재까지도 절대 대체 불가능한 권력이다. 모드버스(Modbus), 백넷([BACnet](/knowledge-base/studynote/09_security/18_iot_ot_physical/922_bacnet/)), 프로피버스(Profibus) 등 공장 제어와 스마트 빌딩, 엘리베이터 시스템을 움직이는 거의 모든 상위 산업용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 이 RS-485 쇳덩이 케이블 위에서 피를 돌게 하고 있다. 
+특히 RS-485가 완성해 낸 <strong>'차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 기반의 N:N 멀티드롭 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>망'</strong> 철학은 현재까지도 절대 대체 불가능한 권력이다. 모드버스(Modbus), 백넷([BACnet](/knowledge-base/studynote/09_security/18_iot_ot_physical/922_bacnet/)), 프로피버스(Profibus) 등 공장 제어와 스마트 빌딩, 엘리베이터 시스템을 움직이는 거의 모든 상위 산업용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 이 RS-485 쇳덩이 케이블 위에서 피를 돌게 하고 있다. 
 
 비록 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신이 허공을 날아다니는 시대지만, 단 두 가닥의 구리선만으로 1.2km 밖의 극한 노이즈 환경을 맨몸으로 뚫어내고 정확한 1바이트 제어 명령을 꽂아 넣는 RS-485의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))과 원초적 강인함은 향후 수십 년간 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 끝단에서 영원한 현장 반장으로 군림할 것이다.
 
-- **📢 섹션 요약 비유**: 최신 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이나 Wi-Fi가 화려하고 빠른 '고속철도'나 '비행기'라면, RS-485 시리얼 통신은 군인들이 정글 속에서 끌고 다니는 투박한 **'야전 지프차'**입니다. 화려하진 않지만 진흙탕(노이즈)과 산길(장거리) 속에서도 절대로 퍼지지 않고 반드시 폭탄과 무기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 목적지 끝까지 확실하게 배달해 내는 절대적인 신뢰도를 갖춘 무기입니다.
+- **📢 섹션 요약 비유**: 최신 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이나 Wi-Fi가 화려하고 빠른 '고속철도'나 '비행기'라면, RS-485 시리얼 통신은 군인들이 정글 속에서 끌고 다니는 투박한 <strong>'야전 지프차'</strong>입니다. 화려하진 않지만 진흙탕(노이즈)과 산길(장거리) 속에서도 절대로 퍼지지 않고 반드시 폭탄과 무기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 목적지 끝까지 확실하게 배달해 내는 절대적인 신뢰도를 갖춘 무기입니다.
 
 ---
 
@@ -106,34 +107,36 @@ RS-232, 422, 485로 이어지는 시리얼 인터페이스의 진화는 IT 인�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | RS-232의 취약점을 박살 낸 RS-422/485의 핵심 흑마법. 두 선에 반대 위상 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 실어 목적지에서 빼버림으로써 외부 유입 노이즈를 100% 상쇄하는 기술. |
-| **종단 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) (Terminating Resistor)** | RS-485의 1km 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 케이블 양 끝에 달아주는 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/). 끝부분에서 튕겨 나오는 전기적 반사파(Echo)를 흡수해 통신 에러를 막는 필수 안전벨트. |
+| <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | RS-232의 취약점을 박살 낸 RS-422/485의 핵심 흑마법. 두 선에 반대 위상 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 실어 목적지에서 빼버림으로써 외부 유입 노이즈를 100% 상쇄하는 기술. |
+| <strong>종단 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a> (Terminating Resistor)</strong> | RS-485의 1km 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 케이블 양 끝에 달아주는 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/). 끝부분에서 튕겨 나오는 전기적 반사파(Echo)를 흡수해 통신 에러를 막는 필수 안전벨트. |
 | **멀티 드롭 (Multi-drop)** | RS-485 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)망의 최고 강점. 빨랫줄 하나에 여러 개의 빨래집게(센서 32대)를 주렁주렁 매달아 N:N으로 통신하게 만드는 네트워크 토폴로지. |
 | **Modbus (모드버스)** | RS-485 물리 계층 위에서 가장 많이 굴러다니는 산업용 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 소프트웨어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). "1번 모터 돌아라"라는 메시지 규칙을 정의함. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-병렬 통신 (Parallel) / 여러 선으로 빠르지만, 간섭 랙과 케이블 비용으로 장거리 전송 실패 💥
-    │
-    ▼
-RS-232C 직렬(Serial) 통신 / 단일 종단(Single-ended) 방식으로 1:1 연결. 하지만 노이즈에 취약해 15m 족쇄
-    │
-    ▼
-RS-422 탄생 / 꼬임선과 차동 신호(Differential) 융합. 노이즈를 상쇄시켜 1.2km 통신 거리를 확보 (1:N 단방향)
-    │
-    ▼
-RS-485 대혁명 / 차동 신호 + 멀티 드롭(Multi-drop) 장착. 단 2가닥으로 32대가 핑퐁 하는 N:N 반이중 네트워크 버스 구축 🚀
-    │
-    ▼
-Modbus, BACnet 등 산업용 IoT(IIoT) 상위 프로토콜의 표준 하단 뼈대로 영구 지배 안착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">병렬 통신 (Parallel) / 여러 선으로 빠르지만, 간섭 랙과 케이블 비용으로 장거리 전송 실패 💥</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RS-232C 직렬(Serial) 통신 / 단일 종단(Single-ended) 방식으로 1:1 연결. 하지만 노이즈에 취약해 15m 족쇄</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RS-422 탄생 / 꼬임선과 차동 신호(Differential) 융합. 노이즈를 상쇄시켜 1.2km 통신 거리를 확보 (1:N 단방향)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RS-485 대혁명 / 차동 신호 + 멀티 드롭(Multi-drop) 장착. 단 2가닥으로 32대가 핑퐁 하는 N:N 반이중 네트워크 버스 구축 🚀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Modbus, BACnet 등 산업용 IoT(IIoT) 상위 프로토콜의 표준 하단 뼈대로 영구 지배 안착</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **RS-232**는 조용한 도서관에서 친구와 실 전화기로 귓속말을 하는 거예요. 멀어지거나 주변이 시끄러우면 소리가 안 들려요.
-2. **RS-422**는 마이크를 들고 멀리 있는 친구 여러 명에게 방송을 하는 거예요. 소리가 커서 멀리 가지만, 친구들이 나한테 대답을 할 수는 없어요.
-3. 가장 똑똑한 **RS-485**는 마법의 무전기예요! 커다란 공사장에서 포크레인 소리가 시끄러워도, 친구 32명이 빙 둘러서서 버튼만 누르면 노이즈를 뚫고 서로 자유롭게 떠들고 대답할 수 있답니다!
+1. <strong>RS-232</strong>는 조용한 도서관에서 친구와 실 전화기로 귓속말을 하는 거예요. 멀어지거나 주변이 시끄러우면 소리가 안 들려요.
+2. <strong>RS-422</strong>는 마이크를 들고 멀리 있는 친구 여러 명에게 방송을 하는 거예요. 소리가 커서 멀리 가지만, 친구들이 나한테 대답을 할 수는 없어요.
+3. 가장 똑똑한 <strong>RS-485</strong>는 마법의 무전기예요! 커다란 공사장에서 포크레인 소리가 시끄러워도, 친구 32명이 빙 둘러서서 버튼만 누르면 노이즈를 뚫고 서로 자유롭게 떠들고 대답할 수 있답니다!
 
 ---
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 스위치의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로, 컨트롤러로부터 하달받은 패킷 처리 규칙(Rule)들을 저장해 두는 **'[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 스위칭 전용 규칙 장부([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))'**입니다.
+- **개념**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 스위치의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조로, 컨트롤러로부터 하달받은 패킷 처리 규칙(Rule)들을 저장해 두는 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 및 스위칭 전용 규칙 장부(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>)'</strong>입니다.
 - 스위치로 패킷이 들어오면, 이 테이블의 첫 번째 줄(Entry)부터 순서대로 내려가며 조건이 맞는지 1초 만에 스캔(Parsing)합니다.
 
-```text
-[OpenFlow SDN 1세대 표준 규격]
-│
-▼
-[OpenFlow 플로우 테이블]
-│
-└──▶ [인텐트 기반 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow 플로우 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,23 +51,27 @@ tags = ["studynote-network"]
 ### 2. 액션 (Actions) - "이렇게 때려버려라!" 🌟
 - 매치 필드 조건에 딱 걸린 패킷에게 무자비하게 가할 조치 명령입니다.
 - **핵심 액션 3가지**:
-1. **[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) (전달)**: "스위치의 3번 물리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(구멍)로 광속으로 던져라!" (기본 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> (전달)</strong>: "스위치의 3번 물리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(구멍)로 광속으로 던져라!" (기본 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
 2. **Drop (폐기)**: "해커 패킷이다! 바닥에 던져서 찢어버려라!" ([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 역할)
-3. **Modify / [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) (변조)**: "패킷 목적지 IP를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.5로 바꿔치기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))해서 던져라!" 또는 "[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 꼬리표를 뜯어내라!" (로드밸런서/L2 조작 역할)
+3. <strong>Modify / <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> (변조)</strong>: "패킷 목적지 IP를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.5로 바꿔치기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))해서 던져라!" 또는 "[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 꼬리표를 뜯어내라!" (로드밸런서/L2 조작 역할)
 
 ### 3. 통계 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) (Counters / Stats) - "기록 장부"
 - 조건에 맞아서 액션을 때릴 때마다, 그 패킷들의 흔적을 몰래 엑셀에 '+1'씩 기록해 둡니다.
 - "지금까지 이 규칙에 걸린 패킷 개수: 15,302개, 용량: 2.3GB"
 - 이 통계 기록은 위층에 있는 컨트롤러가 쏙 빼가서([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)), 트래픽 모니터링 그래프를 그리거나 요금을 청구(과금)할 때 요긴하게 써먹습니다.
 
-```text
-[OpenFlow SDN 1세대 표준 규격]
-│
-▼
-[OpenFlow 플로우 테이블]
-│
-└──▶ [인텐트 기반 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow 플로우 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +81,7 @@ tags = ["studynote-network"]
 
 패킷이 들어와서 장부를 1번 줄부터 100번 줄까지 쫙 다 뒤졌는데, 조건(Match)에 맞는 놈이 하나도 없으면 스위치는 멘붕에 빠집니다(Table Miss). 이때 어떻게 할까요?
 
-- 보통 장부의 맨 밑바닥 마지막 줄에 꼼수로 **'Table-Miss Entry(기본 조치 규칙)'**을 딱 하나 박아둡니다.
+- 보통 장부의 맨 밑바닥 마지막 줄에 꼼수로 <strong>'Table-Miss Entry(기본 조치 규칙)'</strong>을 딱 하나 박아둡니다.
 - **행동 1 (Packet-In 보고)**: "모르는 놈이네! 위에 있는 뇌(컨트롤러)한테 무전 쳐서 '형님 이거 어떡할까요?' 하고 물어봐라(Packet-In, 855번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))."
 - **행동 2 (가차 없는 Drop)**: 뇌를 귀찮게 하기 싫으면 아예 "모르는 놈은 다 해커다! 무조건 찢어버려(Drop)!"라고 세팅할 수도 있습니다.
 
@@ -100,7 +108,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 플로우 테이블은 스위치라는 깡통 경비원이 가슴에 품고 있는 '출입 통제 행동 수칙 장부'입니다. 이 장부는 아주 무식하고 직관적입니다. 택배기사(패킷)가 문 앞에 오면, 경비원은 첫째로 **'매치 필드(조건)'**를 봅니다. "모자 썼고([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80), 가슴에 192번(IP) 적혀있네?" 조건에 맞으면 두 번째로 옆 칸에 적힌 **'액션(행동)'**을 수행합니다. "오른쪽 3번 방으로 발로 차 넣어라!([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))" 행동이 끝나면 세 번째로 뒷장 **'[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(통계)'**에 "오늘 3번 방으로 넣은 택배 1건 추가"라고 바를 정()자를 긋습니다. 만약 수칙 장부를 끝까지 뒤졌는데도 조건에 맞는 놈이 없다면(Table-Miss), 경비원은 무전기를 들어 관리실(컨트롤러)에 "대장님! 처음 보는 택배인데 어떡합니까?"라고 묻고 지시를 기다리는 완벽하고 단순한 순서도([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 시스템입니다.
+- **📢 섹션 요약 비유**: 플로우 테이블은 스위치라는 깡통 경비원이 가슴에 품고 있는 '출입 통제 행동 수칙 장부'입니다. 이 장부는 아주 무식하고 직관적입니다. 택배기사(패킷)가 문 앞에 오면, 경비원은 첫째로 <strong>'매치 필드(조건)'</strong>를 봅니다. "모자 썼고([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 80), 가슴에 192번(IP) 적혀있네?" 조건에 맞으면 두 번째로 옆 칸에 적힌 <strong>'액션(행동)'</strong>을 수행합니다. "오른쪽 3번 방으로 발로 차 넣어라!([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))" 행동이 끝나면 세 번째로 뒷장 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>(통계)'</strong>에 "오늘 3번 방으로 넣은 택배 1건 추가"라고 바를 정()자를 긋습니다. 만약 수칙 장부를 끝까지 뒤졌는데도 조건에 맞는 놈이 없다면(Table-Miss), 경비원은 무전기를 들어 관리실(컨트롤러)에 "대장님! 처음 보는 택배인데 어떡합니까?"라고 묻고 지시를 기다리는 완벽하고 단순한 순서도([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 시스템입니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OpenFlow SDN 1세대 표준 규격]
-│
-▼
-[현재 개념: OpenFlow 플로우 테이블]
-│
-├──▶ [확장 A: 인텐트 기반 네트워킹]
-└──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OpenFlow SDN 1세대 표준 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OpenFlow 플로우 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 인텐트 기반 네트워킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 플로우 테이블는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 1세대 표준 규격에서 출발해 현재 메커니즘을 정교화하고, 이후 [인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

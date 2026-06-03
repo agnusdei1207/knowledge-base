@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 비동기 통신은 '카카오톡'이나 '이메일'이다. 내가 친구한테 "돈 보내줘"라고 카톡(Message)을 남겼다. 나는 핸드폰을 끄고 내 할 일(다른 로직)을 하러 간다. 친구(B서버)는 자다가 3시간 뒤에 일어나서 내 카톡을 보고 돈을 보낸다. **내가 메시지를 보낸 시점과 상대방이 처리하는 시점, 그리고 대답이 오는 시점이 100% 분리(Decoupling)되어 시간의 족쇄에서 해방된 통신 마술**이다.
+- **개념**: 비동기 통신은 '카카오톡'이나 '이메일'이다. 내가 친구한테 "돈 보내줘"라고 카톡(Message)을 남겼다. 나는 핸드폰을 끄고 내 할 일(다른 로직)을 하러 간다. 친구(B서버)는 자다가 3시간 뒤에 일어나서 내 카톡을 보고 돈을 보낸다. <strong>내가 메시지를 보낸 시점과 상대방이 처리하는 시점, 그리고 대답이 오는 시점이 100% 분리(Decoupling)되어 시간의 족쇄에서 해방된 통신 마술</strong>이다.
 
-- **필요성**: 쿠팡에서 '주문 완료' 버튼을 눌렀다. 주문 서버가 ➡ 결제 서버 ➡ 재고 서버 ➡ 쿠폰 서버 ➡ 배송 서버 ➡ 이메일 알림 서버까지 연달아 통신을 쏜다. 이걸 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(동기)로 쏘면? 이메일 발송 서버가 3초 렉이 걸리면 고객 스마트폰 화면도 "주문 중..." 이라며 3초 동안 하얗게 멈춰있다(사용자 경험 파멸). 더 최악은 결제는 됐는데 3초 뒤에 쿠폰 서버가 뻗어서 500 에러를 뿜으면 전체가 에러([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))가 나버린다. **"핵심(주문/결제)이 아닌 쩌리 기능(알림, 메일)들 때문에 회사의 돈통이 멈추는 이 미친 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(Tight [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 부수려면, 중간에 허공(큐)에 편지만 툭 던지고 0.1초 만에 고객에게 '주문 완료!' 화면을 띄워주는 쿨거래 시스템"**이 반드시 필요했다.
+- **필요성**: 쿠팡에서 '주문 완료' 버튼을 눌렀다. 주문 서버가 ➡ 결제 서버 ➡ 재고 서버 ➡ 쿠폰 서버 ➡ 배송 서버 ➡ 이메일 알림 서버까지 연달아 통신을 쏜다. 이걸 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(동기)로 쏘면? 이메일 발송 서버가 3초 렉이 걸리면 고객 스마트폰 화면도 "주문 중..." 이라며 3초 동안 하얗게 멈춰있다(사용자 경험 파멸). 더 최악은 결제는 됐는데 3초 뒤에 쿠폰 서버가 뻗어서 500 에러를 뿜으면 전체가 에러([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))가 나버린다. <strong>"핵심(주문/결제)이 아닌 쩌리 기능(알림, 메일)들 때문에 회사의 돈통이 멈추는 이 미친 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(Tight <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)을 부수려면, 중간에 허공(큐)에 편지만 툭 던지고 0.1초 만에 고객에게 '주문 완료!' 화면을 띄워주는 쿨거래 시스템"</strong>이 반드시 필요했다.
 
-- **💡 비유**: 비동기 통신([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/RabbitMQ)은 식당의 **'돌림판 주문서 걸이(우체국)'**와 같습니다. 동기 통신([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))은 홀 서빙 알바생이 주방장에게 직접 가서 "짜장면 하나요!" 외치고, 짜장면이 완성되어 그릇에 나올 때까지 주방장 옆에 우두커니 10분 동안 서 있는 멍청한 짓입니다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 낭비). 비동기 통신은 알바생이 주문서를 돌림판([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 탁! 꽂고 바로 뒤돌아서 다음 손님을 받으러 달려갑니다(Fire and Forget). 주방장(Consumer)은 자기가 한가할 때 돌림판에서 주문서를 쓱 빼서 요리합니다. 요리사가 뻗든, 알바생이 바쁘든 서로의 속도 차이(트래픽 병목)가 완벽하게 상쇄되는 마법의 완충지대입니다.
+- **💡 비유**: 비동기 통신([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)/RabbitMQ)은 식당의 <strong>'돌림판 주문서 걸이(우체국)'</strong>와 같습니다. 동기 통신([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))은 홀 서빙 알바생이 주방장에게 직접 가서 "짜장면 하나요!" 외치고, 짜장면이 완성되어 그릇에 나올 때까지 주방장 옆에 우두커니 10분 동안 서 있는 멍청한 짓입니다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 낭비). 비동기 통신은 알바생이 주문서를 돌림판([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 탁! 꽂고 바로 뒤돌아서 다음 손님을 받으러 달려갑니다(Fire and Forget). 주방장(Consumer)은 자기가 한가할 때 돌림판에서 주문서를 쓱 빼서 요리합니다. 요리사가 뻗든, 알바생이 바쁘든 서로의 속도 차이(트래픽 병목)가 완벽하게 상쇄되는 마법의 완충지대입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **EAI와 전통적 AMQP 큐 (과거)**: 2000년대 은행에서 `RabbitMQ`, `ActiveMQ` 등을 썼다. "편지가 도착했는지 확실하게 보장해 줄게!"라며 깐깐하고 우아하게 우체국 역할을 했다(AMQP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙).
-  2. **빅데이터 폭발과 Kafka의 강림 (2010s)**: 링크드인(LinkedIn)이 빡쳤다. "우체국이 너무 깐깐해서 초당 100만 개 편지([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 처리 못 하고 터지네! 야, 택배 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장 다 빼고 무식하게 일렬로 하드디스크에 줄 세워 박아버려!" 라며 극강의 무지성 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스트리밍 큐 **`Kafka`**를 발명해 세상의 판도를 엎었다.
-  3. **이벤트 주도([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)) MSA의 천하통일 (현재)**: MSA로 갈가리 찢긴 50개의 서버가 서로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))하다가 다 같이 폭사하자, "서버들끼리 IP도 모르게 하고 오직 Kafka에 이벤트(Event)만 던지고 줏어먹어라!"는 Event-Driven 패러다임이 클라우드의 제1 헌법으로 등극했다.
+  2. **빅데이터 폭발과 Kafka의 강림 (2010s)**: 링크드인(LinkedIn)이 빡쳤다. "우체국이 너무 깐깐해서 초당 100만 개 편지([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 처리 못 하고 터지네! 야, 택배 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장 다 빼고 무식하게 일렬로 하드디스크에 줄 세워 박아버려!" 라며 극강의 무지성 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스트리밍 큐 <strong><code>Kafka</code></strong>를 발명해 세상의 판도를 엎었다.
+  3. <strong>이벤트 주도(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>) MSA의 천하통일 (현재)</strong>: MSA로 갈가리 찢긴 50개의 서버가 서로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))하다가 다 같이 폭사하자, "서버들끼리 IP도 모르게 하고 오직 Kafka에 이벤트(Event)만 던지고 줏어먹어라!"는 Event-Driven 패러다임이 클라우드의 제1 헌법으로 등극했다.
 
-- **📢 섹션 요약 비유**: 동기([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))가 **'양손에 땀을 쥐게 하는 바통 이어달리기'**라면(앞사람이 넘어지면 뒷사람도 평생 못 달림), 비동기(메시지 큐)는 **'우체통에 편지 몰아넣기'**입니다. 우체통에 편지 100통을 쑤셔 넣고 1초 만에 집에 가면 됩니다. 우체부(Consumer)가 비 오는 날 배달하든, 3일 뒤에 배달하든 나는 알 바 아닙니다. 내 역할과 시간의 사슬을 끊어내는 자유의 기술입니다.
+- **📢 섹션 요약 비유**: 동기([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))가 <strong>'양손에 땀을 쥐게 하는 바통 이어달리기'</strong>라면(앞사람이 넘어지면 뒷사람도 평생 못 달림), 비동기(메시지 큐)는 <strong>'우체통에 편지 몰아넣기'</strong>입니다. 우체통에 편지 100통을 쑤셔 넣고 1초 만에 집에 가면 됩니다. 우체부(Consumer)가 비 오는 날 배달하든, 3일 뒤에 배달하든 나는 알 바 아닙니다. 내 역할과 시간의 사슬을 끊어내는 자유의 기술입니다.
 
 ---
 
 다음은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 간 비동기 통신                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 간 비동기 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 비동기 통신의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 간 비동기 통신 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 간 비동기 통신 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

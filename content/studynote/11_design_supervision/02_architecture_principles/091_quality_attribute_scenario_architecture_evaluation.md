@@ -35,29 +35,29 @@ tags = ["studynote-design"]
 | :--- | :--- | :--- |
 | **자극원 (Source)** | 시스템에 자극을 가하는 주체 | 일반 온라인 쇼핑몰 고객들 |
 | **자극 (Stimulus)** | 시스템에 도달한 조건이나 이벤트 | 이벤트 상품 결제 버튼을 동시에 클릭함 |
-| **환경 ([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))** | 자극이 발생했을 때 시스템의 상태 | 블랙프라이데이 트래픽 10배 폭주 상태 |
-| **대상 ([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))** | 자극의 영향을 받는 시스템 범위 | 결제 처리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 및 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) |
+| <strong>환경 (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong> | 자극이 발생했을 때 시스템의 상태 | 블랙프라이데이 트래픽 10배 폭주 상태 |
+| <strong>대상 (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a>)</strong> | 자극의 영향을 받는 시스템 범위 | 결제 처리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 및 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) |
 | **응답 (Response)** | 자극에 대한 시스템의 대처 행동 | 요청을 버리지 않고 순차적으로 처리 승인함 |
-| **응답 척도 (Measure)** | 응답이 달성해야 할 정량적 기준 | 99%의 결제 처리가 **1.5초 이내**에 완료될 것 |
+| **응답 척도 (Measure)** | 응답이 달성해야 할 정량적 기준 | 99%의 결제 처리가 <strong>1.5초 이내</strong>에 완료될 것 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  품질 속성 시나리오 6요소 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│ [자극원] ────────▶ [자극] ────────▶ [대상 시스템]          │
-│ (누가)            (무엇을)          (어디에)                 │
-│                                      │                       │
-│  ▲                                   ▼                       │
-│  │                                [응답]                     │
-│ [환경]                            (어떻게 대처하는가)        │
-│ (어떤 상황에서)                      │                       │
-│                                      ▼                       │
-│                                   [응답 척도]                │
-│                                   (정확히 몇 초/몇 %인가)    │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 뼈대에서 가장 중요한 것은 **응답 척도(Response Measure)**다. 시스템이 살아남았다는 것만으로는 부족하며, 그 생존의 성적표가 숫자로 증명되어야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 속성 시나리오 6요소 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자극원</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자극</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대상 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(누가) (무엇을) (어디에)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응답</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">환경</div><div class="kb-diagram-note">(어떻게 대처하는가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어떤 상황에서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응답 척도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정확히 몇 초/몇 %인가)</div></div>
+</div>
+</div>
+
+
+
+이 뼈대에서 가장 중요한 것은 <strong>응답 척도(Response Measure)</strong>다. 시스템이 살아남았다는 것만으로는 부족하며, 그 생존의 성적표가 숫자로 증명되어야 한다.
 
 - **📢 섹션 요약 비유**: 복싱 선수의 맷집 테스트와 같다. "헤비급 챔피언(자극원)이 1라운드(환경)에 턱(대상)을 풀 파워로 때릴 때(자극), 쓰러지지 않고 버티며(응답) 카운트 5초 이내에 자세를 고쳐 잡는다(응답 척도)"라는 6단계 해부학적 내구성 측정표다.
 
@@ -69,9 +69,9 @@ tags = ["studynote-design"]
 
 | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 주요 자극 (Stimulus) | 핵심 응답 척도 (Response Measure) | 트레이드오프 연결 |
 | :--- | :--- | :--- | :--- |
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | 하드웨어 고장, 네트워크 단절 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 가동률(99.99%) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 유발 ([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 대규모 동시 접속, 과부하 트래픽 | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 약화 유발 (복잡한 암호화 생략) |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | 비인가 접근, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 0 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/), 100% 공격 차단 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 유발 (패킷 검사 오버헤드) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | 하드웨어 고장, 네트워크 단절 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 가동률(99.99%) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 유발 ([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong> | 대규모 동시 접속, 과부하 트래픽 | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 약화 유발 (복잡한 암호화 생략) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | 비인가 접근, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 0 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/), 100% 공격 차단 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 유발 (패킷 검사 오버헤드) |
 
 이처럼 각 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 독립적으로 존재하지 않는다. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 시나리오를 엄격하게 잡으면(예: 모든 패킷의 3중 암호화), 필연적으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 시나리오의 응답 척도([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 악영향을 미친다. 아키텍트는 시나리오 간의 충돌을 발견하고 우선순위를 조정하는 설계의 저울질(Trade-off Analysis)을 수행해야 한다.
 
@@ -86,7 +86,7 @@ tags = ["studynote-design"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **응답 척도가 정량적으로 측정 가능한가?** "빨리 처리된다", "안전하게 보호된다" 같은 모호한 표현이 단 하나라도 남아있으면 안 된다. 무조건 시간, 퍼센트, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 등의 숫자로 변환해야 한다.
 2. **비현실적인 환경 가정이 없는가?** "초당 10억 건의 공격이 들어올 때 0.001초 만에 방어한다"는 식의 예산을 무시한 과도한 시나리오는 폐기하거나 예산 제약을 환경 조건에 명시해야 한다.
-3. **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 전원이 동의했는가?** 시나리오는 개발팀만 보는 것이 아니라 비즈니스 담당자, 인프라 운영자가 모두 동의하고 서명해야 하는 계약서다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 전원이 동의했는가?</strong> 시나리오는 개발팀만 보는 것이 아니라 비즈니스 담당자, 인프라 운영자가 모두 동의하고 서명해야 하는 계약서다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 6가지 뼈대 중 '환경'과 '자극원'을 빼고 대충 "트래픽이 오면 1초 내에 처리한다"고 뭉뚱그려 작성하는 행위. (평소 트래픽인지 명절 폭주 트래픽인지 기준이 없어 평가 불능에 빠진다.)
@@ -110,30 +110,29 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **비기능적 요구사항 ([NFR](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/))** | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)가 구체화하고자 하는 대상의 원형 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등) |
-| **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) (아키텍처 평가)** | 작성된 시나리오들을 기반으로 아키텍처의 트레이드오프와 위험 요소를 평가하는 감리 기법 |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** | 시나리오의 응답 척도가 실제 비즈니스 계약으로 발전한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 |
-| **[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))** | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 시나리오(장애 유발)를 실제 운영 환경에 주입하여 응답 척도를 실증하는 테스트 기법 |
+| <strong>비기능적 요구사항 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">NFR</a>)</strong> | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)가 구체화하고자 하는 대상의 원형 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (아키텍처 평가)</strong> | 작성된 시나리오들을 기반으로 아키텍처의 트레이드오프와 위험 요소를 평가하는 감리 기법 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | 시나리오의 응답 척도가 실제 비즈니스 계약으로 발전한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 시나리오(장애 유발)를 실제 운영 환경에 주입하여 응답 척도를 실증하는 테스트 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비기능적 요구사항 (모호한 형용사)
-    │
-    ▼
-품질 속성 시나리오 (6요소 구체화 및 정량화)
-    │
-    ├─────────┬─────────┐
-    ▼         ▼         ▼
- 가용성 시나리오 성능 시나리오 보안성 시나리오
-(MTTR/장애복구) (TPS/응답시간) (침입차단율)
-    │         │         │
-    ▼         ▼         ▼
-ATAM 아키텍처 평가 (트레이드오프 분석)
-    │
-    ▼
-카오스 엔지니어링 및 자동화된 인프라 테스트 (Code화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비기능적 요구사항 (모호한 형용사)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">품질 속성 시나리오 (6요소 구체화 및 정량화)</div>
+<div class="kb-diagram-note">가용성 시나리오 성능 시나리오 보안성 시나리오</div>
+<div class="kb-diagram-note">(MTTR/장애복구) (TPS/응답시간) (침입차단율)</div>
+<div class="kb-diagram-note">ATAM 아키텍처 평가 (트레이드오프 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카오스 엔지니어링 및 자동화된 인프라 테스트 (Code화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

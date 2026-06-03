@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 앞선 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 치명적 단점인 "이빨 빠진 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 낭비" 를 박살 내기 위해, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 4KB 블록 단위로 산산조각 내어 디스크의 **비어있는 아무 구석에나 일단 쑤셔 박고, 블록 끝자락에 다음 블록의 주소(포인터)를 적어 기차놀이처럼 꼬리를 무는 방식** 이다.
-> 2. **가치**: 디스크에 연속된 넓은 공터가 없어도, 10기가짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자투리 1칸짜리 빈 공간 수백만 개에 알뜰하게 욱여넣을 수 있어 **"[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 0% 로 완전 종결"** 시켰고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 나중에 커져도 꼬리만 덧붙이면 되니 무한한 동적 팽창(Grow)의 유연성을 안겨주었다.
+> 2. **가치**: 디스크에 연속된 넓은 공터가 없어도, 10기가짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자투리 1칸짜리 빈 공간 수백만 개에 알뜰하게 욱여넣을 수 있어 <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>를 0% 로 완전 종결"</strong> 시켰고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 나중에 커져도 꼬리만 덧붙이면 되니 무한한 동적 팽창(Grow)의 유연성을 안겨주었다.
 > 3. **한계**: 영화의 중간 1시간째 장면(예: 10만 번째 블록)으로 바로 건너뛰기(랜덤 액세스)를 하려면, 1번 블록부터 주소를 묻고 물어 10만 개 블록을 전부 다 읽어봐야 하는 끔찍한 O(N) 순차 탐색 스로틀에 걸린다. 또한 블록마다 포인터 변수를 적느라 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량 공간 일부가 오버헤드로 날아가는 부작용을 낳았다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: **연결 할당 (Linked Allocation)** 은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 논리적 블록으로 분해한 뒤, 각 블록을 하드디스크 물리적 섹터의 임의의 위치(흩어진 빈 공간)에 자유롭게 격리 배치하는 저장 구조다. [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부(FCB)에는 **"첫 번째 블록 주소"** 와 **"마지막 블록 주소"** 딱 2개만 기록하며, 각 물리 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 맨 끝 4바이트 꼬리마다 "다음 블록은 OOO번지에 가봐!" 라는 C언어 식 체인 링크 포인터(Pointer 록백)를 심어 논리적 순서를 유지한다.
-- **필요성**: 디스크를 쓰다 지우다 보면 1TB 공간이 남아도는데도, "[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)(523장)" 방식은 50GB 통짜 빈 공간 연속 덩어리가 없어서 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하지 못하고 용량 꽉참 에러를 뿜어냈다(아까운 폐기 공간). "야 이 무식한 놈들아, 파편처럼 찢어진 빈 블록 1개짜리 자투리 공간 1,000만 개를 왜 못 쓰고 버리냐? **그냥 찢어진 구멍마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 박아 넣고, 줄을 묶어서([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 징검다리처럼 밟고 건너가게 시스템을 개조해 무결점 렌더!!**" 이게 바로 컴퓨터 공간 재활용의 끝판왕이자 연결 할당 매커니즘이 태동한 절대 철학이다.
+- **필요성**: 디스크를 쓰다 지우다 보면 1TB 공간이 남아도는데도, "[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)(523장)" 방식은 50GB 통짜 빈 공간 연속 덩어리가 없어서 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장하지 못하고 용량 꽉참 에러를 뿜어냈다(아까운 폐기 공간). "야 이 무식한 놈들아, 파편처럼 찢어진 빈 블록 1개짜리 자투리 공간 1,000만 개를 왜 못 쓰고 버리냐? <strong>그냥 찢어진 구멍마다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 박아 넣고, 줄을 묶어서(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a>) 징검다리처럼 밟고 건너가게 시스템을 개조해 무결점 렌더!!</strong>" 이게 바로 컴퓨터 공간 재활용의 끝판왕이자 연결 할당 매커니즘이 태동한 절대 철학이다.
 
   - 1번 섬 빈 공터에 쪽지가 있습니다: "보물 1번째 내용! 다음 조각은 88번 섬에 가봐!"
   - 88번 섬 공터에 파인 곳을 파보면: "보물 2번째 내용! 다음 조각은 3번 섬에 있다 메롱 포팅!"
@@ -30,29 +30,26 @@ tags = ["studynote-operating-system"]
 - **포인터 체인 꼬리표 기전과 O(N) 디스크 암 순차 탐색 렌더 다이어그램**:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부의 `시작=9번` 이란 정보 하나만 들고 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각을 징검다리 밟듯 다 캐내어 조립하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 맵으로 보면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 외부 단편화 제로(0%)에 빛나는 기차놀이 꼬리 블록 포팅 렌더     │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │  1️⃣ [ 디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐) ]                      │
-  │   - 파일 이름 : `jeju.mp4`                                                     │
-  │   - 시작 블록 : `9번` ◀──── (모터 핀을 9번 트랙 타격 출발)                     │
-  │   - 끝 블록   : `25번` ──┐                                                     │
-  │                                                                                │
-  │  =============================================================                 │
-  │                                                                                │
-  │  2️⃣ [ 실제 하드디스크 철판 찢어진 물리 섹터 깡통 (0번 ~ 31번 방) ]            │
-  │                                                                                │
-  │     [9] ──────포인터────▶ [16] ─────포인터────▶ [1]                            │
-  │    (jeju 조각 1)           (jeju 조각 2)         (jeju 조각 3)                 │
-  │    (다음=16)               (다음=1)              (다음=25)                     │
-  │                                                      │                         │
-  │     [25] ◀──────────포인터────────────────────────┘                            │
-  │    (jeju 조각 4 끝)                                                            │
-  │    (다음=-1 EOF 종결 부호!)                                                    │
-  └────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 단편화 제로(0%)에 빛나는 기차놀이 꼬리 블록 포팅 렌더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 이름 : <code>jeju.mp4</code></div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시작 블록 : <code>9번</code> ◀ (모터 핀을 9번 트랙 타격 출발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 끝 블록 : <code>25번</code> ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 하드디스크 철판 찢어진 물리 섹터 깡통 (0번 ~ 31번 방)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">16</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(jeju 조각 1) (jeju 조각 2) (jeju 조각 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다음=16) (다음=1) (다음=25)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">25</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">포인터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(jeju 조각 4 끝)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다음=-1 EOF 종결 부호!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 디스크 모터 암(Arm)은 9번 블록으로 내려가 1번 조각을 읽는다. 읽은 블록 끝부분 4바이트에 적힌 `16` 이란 숫자를 보고 "아 다음은 16번지로 바늘(헤드) 점프 돌격([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 타격)!" 을 때린다. 그렇게 디스크 원판을 미친 듯이 이리저리 점핑하며 철판을 박박 긁어대다(랜덤 스로틀 파괴 물리 부하) 마지막 25번에 도달하여 `-1 (End of File)` 신호탄 표지를 맞고 읽기를 종료한다. 빈 공간을 기막히게 알뜰 재활용했지만, 모터가 여기저기 왔다 갔다 탐욕스럽게 춤을 춰야(Seek 물리 레이턴시 병목) 하므로 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 페이로드) 측면에서는 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)보다 엄청나게 뒤처진 S/W 크래시 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 늪에 빠질 수 있는 비극적 결론이 도출된다.
 
@@ -67,16 +64,16 @@ tags = ["studynote-operating-system"]
 
 | 시스템 S/W 튜닝 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 기전 매커니즘 및 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 대비 압도적 장점 스펙 뷰 (공간 렌더) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 레이턴시 탐색 스로틀 및 한계 파탄 (속도 포팅) |
 |:---|:---|:---|
-| **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 완전 멸절 (No [External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 타결** | 디스크 이빨이 10만 군데 빠져 있어도 1칸짜리 조각들을 실처럼 엮어 **"전체 빈 공간 합계만큼 100% 한 방울도 남김없이 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 욱여넣기 수용"** 우주 기적! | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 조각 모음을 돌릴 필요가 없어 CPU를 놀리지 않음. 저장 생태 절대 안심 락백. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 완전 멸절 (No <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>) 타결</strong> | 디스크 이빨이 10만 군데 빠져 있어도 1칸짜리 조각들을 실처럼 엮어 <strong>"전체 빈 공간 합계만큼 100% 한 방울도 남김없이 거대 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 욱여넣기 수용"</strong> 우주 기적! | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 조각 모음을 돌릴 필요가 없어 CPU를 놀리지 않음. 저장 생태 절대 안심 락백. |
 | **Random Access 불가 록 (다이렉트 점프 금지 탐욕의 피로도 랙)** | 10MB짜리 긴 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간 5MB 지점으로 바로 읽고 싶다 점프 콜! **[연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)은 시작+offset 덧셈 한 방($O(1)$)으로 날아갔는데 여긴 실패!** | 포인터를 묻고 물어 앞에서부터 징검다리를 수만 개 다 밟아야 목적지에 도달하는 **최악의 $O(N)$ 순차 읽기(Sequential Only) 지옥 멸망 늪 모터 암 크래시** 발동. |
 | **생명 포인터 (Pointer Overhead) 공간 희생의 제물 컷** | 블록이 512바이트면, 4바이트를 다음 주소 가리키는 포인터 공간으로 "빼앗김(오버헤드 낭비 세금)". 유저 알맹이는 508바이트밖에 못 담음 에러! | 더 미친 공포는, 가운데 **3번째 블록(1번) 섹터가 배드 섹터로 깨지면?** 가리키는 다음 꼬리가 끊어져서 4번째부터 10만 번째 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 영원한 우주 미아 증발 파탄([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) 박살). |
 
 ### 2. 치명적 단점을 찢는 절반의 하이브리드 진화 : "클러스터 묶음 (Cluster 렌더 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 패치)"
 위의 3번 단점 "배드 섹터 하나로 꼬리가 끊어져 우주 미아가 된다!" 와 "512바이트마다 모터 암이 점프 미쳐 날뛴다!" 는 병목을 막기 위해 리눅스는 또다시 기교 융합 트릭 스로틀을 적용 결착했다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 폭파 (모터 춤추기와 꼬리 잡기 공간 낭비)**: 블록 단위(512B)를 너무 작게 찢어 흩뿌려 버리니까 디스크가 미친 듯이 끼릭끼릭 소음을 내며(Seek 부하) 느려진다. 포인터 공간 4바이트마저 100만 개면 결코 작은 오버헤드가 아니다 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 폭증 방호 솔루션 뷰 (Cluster 블록 뭉치 다중 결속 컷)**: 
-  - 엔지니어들은 "야!! 블록 1개마다 짜잘짜잘하게 포인터 달아서 찢어 놓지 마! **블록 16개를 하나로 묶은 거대한 1개의 뭉탱이 클러스터(Cluster / [Extent](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/) 확장 연속)** 단위로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 찢어 꼬리표를 달자!" 고 시스템을 개조 포팅했다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 폭파 (모터 춤추기와 꼬리 잡기 공간 낭비)</strong>: 블록 단위(512B)를 너무 작게 찢어 흩뿌려 버리니까 디스크가 미친 듯이 끼릭끼릭 소음을 내며(Seek 부하) 느려진다. 포인터 공간 4바이트마저 100만 개면 결코 작은 오버헤드가 아니다 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)!
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 폭증 방호 솔루션 뷰 (Cluster 블록 뭉치 다중 결속 컷)</strong>: 
+  - 엔지니어들은 "야!! 블록 1개마다 짜잘짜잘하게 포인터 달아서 찢어 놓지 마! <strong>블록 16개를 하나로 묶은 거대한 1개의 뭉탱이 클러스터(Cluster / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/">Extent</a> 확장 연속)</strong> 단위로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 찢어 꼬리표를 달자!" 고 시스템을 개조 포팅했다.
   - 이 융합 통치로 인해 디스크 헤드는 16블록 동안만큼은 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)처럼 주~~~욱 한 번에 읽고 달리는(순차 I/O 오버헤드 부스트 타격) 쾌적 렌더에 안착한다! 꼬리표 포인터가 차지하는 공간 낭비(세금) 비용도 16분의 1로 확 스로틀 감소하며, 링크가 뚝 끊어지는 배드 섹터 위험성도 극단적으로 낮춘 가장 우아한 실무 징검다리 트레이드오프 방패가 마련 달성된 것이다 증명 결론.
 
 - **📢 섹션 요약 비유**: 이 클러스터 뭉치 꼬리잡기 융합 구조는 지하철 **"8량 전동차 1대 단위 배치 통치 록"** 이랑 100% 부합 뷰입니다!! 사람이 수천 명(수천 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 조각)인데, 1번 사람 엉덩이에 '다음 2번 사람은 강남역!' 쪽지 1,000개를 다 붙여(포인터 낭비 병목) 점프하면 숨넘어갑니다! 그래서 OS는 사람 500명을 아예 **'지하철 전동차 1대(거대 클러스터 연속 묶음 깡통)'** 에 쑤셔 공구리 구동 박아 버리죠! 그리고 전동차 뒷칸에 딱 하나 쪽지표를 답니다 "다음 전동차는 양재역!" 쪽지 낭비도 500분의 1로 줄고 이동 속도는 초 고속 통달로 록백 포팅되는 기막힌 마스킹 설계 룰이랍니다!
@@ -88,22 +85,22 @@ tags = ["studynote-operating-system"]
 ### 신성불가침 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 포인터 붕괴: "이빨 깨진 징검다리(Bad Sector) 사망 선고"
 하드웨어 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어가 Linked Allocation의 가장 두려운 환멸 포인트로 꼽는 것은 바로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 늪이다. 
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 폭파 미스터리 (우주 고아 파편 고립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Orphan 멸절)**:
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 폭파 미스터리 (우주 고아 파편 고립 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> Orphan 멸절)</strong>:
   - 10만 개의 징검다리가 포인터로 연결되어 있다. 그런데 하필 100번째 블록 섹터에 담배꽁초 먼지가 껴서 디스크 '배드 섹터(Bad Sector)' 로 읽기 불가 뻗음 크래시 물리 에러 터짐이 발생했다!
   - 1, 2, ... 99번까진 잘 읽어왔다. 하지만 100번이 깨져서 다음 `101번을 가리키는 다음 주소 좌표 포인터` 가 완전히 증발해 멸망 소멸(Loss)되었다!
   - 이제 101번부터 10만 번에 흩어진 9만 9천 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들은 디스크에 100% 멀쩡히 남겨져 살아있지만? 아무도 이들의 시작 위치 꼬리를 모르기 때문에 접근이 불가능한 미아 상태! 영원한 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 쓰레기 가비지 구름 깡통이 되어 영영 못 끄집어내는 우주 낙오 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 참사가 렌더되는 극한 스로틀 파괴다.
-- **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보강 듀얼 포인터 솔루션 (Doubly [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 마스킹 오버헤드 타결 무리수)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 보강 듀얼 포인터 솔루션 (Doubly <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a> 마스킹 오버헤드 타결 무리수)</strong>: 
   이를 방지하려고 이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(양방향 포인터 앞주소/뒤주소 동시 기록 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))를 적용해 본다. 앞 링크가 끊어져도 뒤에서 역추적 부활 복원(Self-Healing)을 발동시키기 위해서다. 하지만 이건 포인터가 잡아먹는 낭비 공간 세금(Overhead 늪)을 배로 뻥튀기시켜 또 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량 제약 파이프의 분열을 띠는 삽질이 되어 결국 현대 스펙계에선 포기 도축 당한다.
 
 | 포인터 연결 파괴 생존 뷰 ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 이빨 하나 부러졌을 때의 1차선 멸망 구조 (Singly Linked) | RAM에 포인터만 싹 모아 통치 시스템 록백 ([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 체제 525번 결착) |
 |:---|:---|:---|
-| **정량 (물리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)율 Rate 에러 폭탄)** | 중간 고리 1개 끊어지면 후속 99% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **통째로 미아 영구 손실 멸절 크래시!!** | 어? 장부 블록 끊어질까 무서워? **포인터 꼬리표만 죄다 떼어다가 1개의 독립된 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 장부([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 맵)에 다 모아놓고 쌍둥이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 안전 보장!!** |
-| **정성 (자원 탐색 직접 점프 랜덤 스로틀 해방)** | 10만 번 프레임 점프 하려면 디스크 핀 모터를 10만 번 쾅쾅 이동하며 **최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발동 포팅.** | RAM 가벼운 캐시([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))에 꼬리표가 다 있으니 메모리 연산 $O(N)$ 으로 0.1초 만에 타고 결속 도달 압살 튜닝!! |
+| <strong>정량 (물리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>율 Rate 에러 폭탄)</strong> | 중간 고리 1개 끊어지면 후속 99% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **통째로 미아 영구 손실 멸절 크래시!!** | 어? 장부 블록 끊어질까 무서워? <strong>포인터 꼬리표만 죄다 떼어다가 1개의 독립된 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/">메모리 보호</a> 장부(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">FAT</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 맵)에 다 모아놓고 쌍둥이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 안전 보장!!</strong> |
+| **정성 (자원 탐색 직접 점프 랜덤 스로틀 해방)** | 10만 번 프레임 점프 하려면 디스크 핀 모터를 10만 번 쾅쾅 이동하며 <strong>최악 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발동 포팅.</strong> | RAM 가벼운 캐시([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))에 꼬리표가 다 있으니 메모리 연산 $O(N)$ 으로 0.1초 만에 타고 결속 도달 압살 튜닝!! |
 
 ### Ⅳ. 기대효과 및 결론
 - '연결 할당 (Linked Allocation 기차 꼬리잡기 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 장부)' 아키텍처는 과거 무식한 '시작-끝' [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)(523장)이 낳은 "빈 공터가 남아도는데 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 못 쓰는 극악의 이빨 빠짐 현상(외부 공간 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 수용 불능 늪 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 에러)" 을 이 세상에서 두 번 다시 못 보게 영원히 씨를 말려 척살 박살 내버린 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 공간 재활용 설계의 마일스톤 혁명 기반이다. 
 - 디스크 조각이 아무리 모래알처럼 찢겨 흩뿌려져도 C언어 링크드 리스트 방식 꼬리표만 하나 달아주면 영화 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 100만 조각으로 어거지 쑤셔 박아 빈틈없이 디스크 용량을 풀 부스트(100% 수용 마스킹) 가동할 수 있다는 기적 통제를 증명했다 록백. 
-- 비록 "배드 섹터 1방에 뒷 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 줄초상 나는 멸망 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)" 와 "목표 프레임으로 바로 점프(랜덤 컷) 불가능한 극심한 모터 순차 탐색 오버헤드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목" 이라는 족쇄를 찼지만, 이 포인터 꼬리물기 아이디어 자체는 곧바로 이어질 MS-DOS 윈도우의 가장 위대한 대작 **[FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 테이블 525장 결선)** 의 핵심 밑거름 씨앗이 되어 램(RAM)과 하드디스크가 협업 융합하는 2차 시스템 고도 확장 뼈대의 강력한 토대 결착을 안착 완성시켰음에 이견이 없는 전제 결론이 렌더된다.
+- 비록 "배드 섹터 1방에 뒷 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 줄초상 나는 멸망 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)" 와 "목표 프레임으로 바로 점프(랜덤 컷) 불가능한 극심한 모터 순차 탐색 오버헤드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목" 이라는 족쇄를 찼지만, 이 포인터 꼬리물기 아이디어 자체는 곧바로 이어질 MS-DOS 윈도우의 가장 위대한 대작 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">FAT</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 할당 테이블 525장 결선)</strong> 의 핵심 밑거름 씨앗이 되어 램(RAM)과 하드디스크가 협업 융합하는 2차 시스템 고도 확장 뼈대의 강력한 토대 결착을 안착 완성시켰음에 이견이 없는 전제 결론이 렌더된다.
 
 - **📢 섹션 요약 비유**: 요약하자면, 이 연결 할당 꼬리물기 징검다리 스펙 통치 뷰는 거대 쇼핑몰 지하의 **"동전 코인 보관함 물품 연결 쪽지 이어 달리기 편법 록"** 랑 정확히 동일 폭파 억제율입니다!! 쇼핑백 100개를 넣어야 하는데 거대한 100칸짜리 특대형 텅 빈 보관함(연속 빈 공간 덩어리)이 없어요! 빈자리는 여전히 많은데 군데군데 1칸짜리 구멍들([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 파편 공간) 뿐이죠. 그럼 포기합니까? 아뇨! OS 알바생([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모터)은 아무 작은 1칸 1번 락커에 짐 1개를 박고, 거기에 포스트잇(포인터 링크 꼬리)을 딱! 붙입니다 "다음 짐은 345번 락커에 넣었다!" 또 345번엔 "다음 짐은 99번 점프!!" 이렇게 꼬리를 묶어 짐 100개를 1조각도 버리지 않고 알뜰하게 수납하는 우주 기막힌 편법 공간 부스트 연금술이 자원 활용의 본질이랍니다!
 
@@ -141,15 +138,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[연속 할당 (Contiguous Allocation)]
-    │
-    ▼
-[연결 할당 (Linked Allocation)]
-    │
-    ├──▶ [FAT (File Allocation Table)]
-    └──▶ [색인 할당 (Indexed Allocation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 할당 (Indexed Allocation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

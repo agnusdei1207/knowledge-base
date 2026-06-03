@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: ONF(Open Networking Foundation) 재단에서 제정한, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 환경에서 **중앙의 제어 컨트롤러(Controller)와 밑바닥의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 장비 간에 패킷 전달 룰(Flow Table)을 주고받기 위한 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준 규격(사우스바운드 인터페이스의 대명사)**입니다.
+- **개념**: ONF(Open Networking Foundation) 재단에서 제정한, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 환경에서 <strong>중앙의 제어 컨트롤러(Controller)와 밑바닥의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 장비 간에 패킷 전달 룰(Flow Table)을 주고받기 위한 통신 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 표준 규격(사우스바운드 인터페이스의 대명사)</strong>입니다.
 - **의의**: 특정 벤더(시스코 등)에 종속된 기계어(CLI)를 박살 내고, 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 깡통으로 만들어 소프트웨어로 마음대로 지배할 수 있게 길을 터준 1세대 혁명의 주인공입니다.
 
-```text
-[노스바운드 인터페이스]
-    │
-    ▼
-[OpenFlow]
-    │
-    └──▶ [OpenFlow Flow Table]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OpenFlow는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 물리적인 통신은 3가지 덩어리로 이루어집니다.
 1. **OpenFlow Controller (뇌)**: 중앙 서버에 떠서 전체 네트워크 지도를 그리고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 플로우 테이블로 짜서 밑으로 내려보냅니다.
-2. **OpenFlow [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (깡통 근육)**: 플로우 테이블을 저장할 빈 장부를 들고 있다가, 컨트롤러가 적어준 룰대로 패킷이 오면 빛의 속도로 쳐내는 역할을 합니다.
-3. **[OpenFlow Protocol](/knowledge-base/studynote/03_network/17_sdn_nfv/998_openflow_protocol/) (신경망)**: 뇌와 근육 사이의 통신 규약입니다. 보안을 위해 **보안 채널(Secure Channel, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 적용)** 위에서 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 6653번(구 6633번)을 타고 대화합니다. (해커가 중간에 명령을 훔쳐보지 못하게 막습니다.)
+2. <strong>OpenFlow <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> (깡통 근육)</strong>: 플로우 테이블을 저장할 빈 장부를 들고 있다가, 컨트롤러가 적어준 룰대로 패킷이 오면 빛의 속도로 쳐내는 역할을 합니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/998_openflow_protocol/">OpenFlow Protocol</a> (신경망)</strong>: 뇌와 근육 사이의 통신 규약입니다. 보안을 위해 <strong>보안 채널(Secure Channel, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화 적용)</strong> 위에서 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 6653번(구 6633번)을 타고 대화합니다. (해커가 중간에 명령을 훔쳐보지 못하게 막습니다.)
 
-```text
-[노스바운드 인터페이스]
-    │
-    ▼
-[OpenFlow]
-    │
-    └──▶ [OpenFlow Flow Table]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: OpenFlow의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,14 +67,14 @@ tags = ["studynote-network"]
 
 컨트롤러와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 3가지 종류의 카톡(메시지)을 주고받으며 살아 숨 쉽니다.
 
-1. **Controller-to-[Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (컨트롤러 ➜ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 메시지**
+1. <strong>Controller-to-<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> (컨트롤러 ➜ <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>) 메시지</strong>
    - **하달**: "야 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)야, 내가 짜준 새 플로우 룰 장부(FlowMod) 지금 다운로드해서 칩셋에 적용해!" 
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태를 검사하거나, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 수정할 때 뇌가 일방적으로 지시하는 하향식 메시지입니다.
-2. **Asynchronous ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ 컨트롤러) 비동기 메시지**
-   - **보고 (Packet-In) 🌟 핵심 🌟**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 처음 보는 낯선 패킷이 들어왔습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 장부(플로우 테이블)를 뒤져봤는데 어떻게 하라는 룰이 없습니다(Miss). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷을 버리지 않고 냅다 컨트롤러에게 **"형님! 처음 보는 놈인데 이거 어떻게 할까요?(Packet-In)"**라고 무전을 쳐서 올려보냅니다.
+2. <strong>Asynchronous (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> ➜ 컨트롤러) 비동기 메시지</strong>
+   - **보고 (Packet-In) 🌟 핵심 🌟**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 처음 보는 낯선 패킷이 들어왔습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 장부(플로우 테이블)를 뒤져봤는데 어떻게 하라는 룰이 없습니다(Miss). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷을 버리지 않고 냅다 컨트롤러에게 <strong>"형님! 처음 보는 놈인데 이거 어떻게 할까요?(Packet-In)"</strong>라고 무전을 쳐서 올려보냅니다.
    - [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 뽑히거나 장비가 고장 났을 때 긴급 보고(Port-Status)하는 것도 이 메시지입니다.
 3. **Symmetric (쌍방향 동기) 메시지**
-   - **생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 둘이서 주기적으로 `Hello`, `Echo(Ping/Pong)`를 던지며 "나 살아있어! 너 살아있냐?" 하고 심장 박동을 서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 끊어지면 바로 우회로를 찾습니다.
+   - <strong>생존 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 둘이서 주기적으로 `Hello`, `Echo(Ping/Pong)`를 던지며 "나 살아있어! 너 살아있냐?" 하고 심장 박동을 서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 끊어지면 바로 우회로를 찾습니다.
 
 OpenFlow를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)가 기반 조건을 만든다면, OpenFlow는 그 위에서 핵심 메커니즘을 구현하고, OpenFlow Flow Table는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ OpenFlow를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름
 
 - 1세대 SDN을 화려하게 장식했지만, 치명적인 단점이 있었습니다. 
 - 패킷의 껍데기(IP, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등) 수십 가지를 일일이 대조(Match)하려다 보니, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계의 비싼 메모리([TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/))가 꽉 차서 수만 개의 룰을 심기 어려웠습니다(오버헤드). 
-- 이를 타개하기 위해, 지금은 하드웨어 칩 자체의 프로그래밍을 뜯어고치는 **[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/)(874번 문서)**나, 장비의 껍데기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일만 가볍게 휙 던져주는 **NETCONF(875번)** 규약이 오픈플로우의 자리를 대신 위협하며 다음 세대로 진화 중입니다.
+- 이를 타개하기 위해, 지금은 하드웨어 칩 자체의 프로그래밍을 뜯어고치는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a>(874번 문서)</strong>나, 장비의 껍데기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일만 가볍게 휙 던져주는 **NETCONF(875번)** 규약이 오픈플로우의 자리를 대신 위협하며 다음 세대로 진화 중입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,15 +123,19 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 노스바운드 인터페이스]
-    │
-    ▼
-[현재 개념: OpenFlow]
-    │
-    ├──▶ [확장 A: OpenFlow Flow Table]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 노스바운드 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OpenFlow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenFlow Flow Table</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 OpenFlow는 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)에서 출발해 현재 메커니즘을 정교화하고, 이후 OpenFlow Flow Table와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

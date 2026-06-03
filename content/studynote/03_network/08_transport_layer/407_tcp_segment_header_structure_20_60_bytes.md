@@ -22,22 +22,26 @@ tags = ["studynote-network"]
 - **개념**: 전송 계층에서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 통신을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 청크(Chunk) 앞에 부착하는 제어 정보 블록. 기본 크기는 20바이트이고 옵션에 따라 최대 60바이트까지 증가한다.
 - **필요성**: 8바이트짜리 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더는 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 말고는 들어있는 게 없었다. 그걸로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 날아갔는지, 1번보다 2번이 먼저 도착했는지(순서 섞임), 상대방 컴퓨터 메모리가 꽉 찼는지 도저히 알 길이 없었다. **"이 모든 악조건을 통제하려면, 택배 겉면에 '이건 1번 박스다', '난 2번 박스까지 잘 받았다', '내 창고 여유 공간은 10개 남았다'라는 세세한 상태 정보를 적어 보낼 촘촘한 기입란(헤더)이 필수적이다!"**
 
-- **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더는 대기업 간의 **"물품 인수 인계증(송장)"**과 같습니다.
+- **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더는 대기업 간의 <strong>"물품 인수 인계증(송장)"</strong>과 같습니다.
   - 박스가 몇 번째 박스인지 일련번호가 적혀 있습니다 (Sequence Number).
   - 지난번에 몇 번 박스까지 무사히 받았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 서명을 해줍니다 (ACK Number).
   - 우리 창고에 빈자리가 몇 평 남았으니 다음번엔 몇 박스까지만 보내라고 적어줍니다 ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)).
   - 이 깐깐한 송장 덕분에 수만 개의 박스가 태평양을 건너도 단 하나의 분실이나 뒤섞임 없이 완벽하게 조립됩니다.
 
-```text
-[UDP]
-    │
-    ▼
-[TCP 세그먼트 헤더]
-    │
-    └──▶ [소스/목적지 포트 번호, 일련번호]
-```
 
-- **📢 섹션 요약 비유**: ** [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더는 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 묶어두는 단순한 끈이 아니라, 짐의 순서, 온도, 파손 여부, 배송 기사의 스케줄까지 몽땅 통제하고 관리하는 **"디지털 스마트 블랙박스 센서"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UDP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 세그먼트 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소스/목적지 포트 번호, 일련번호</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더는 짐(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 묶어두는 단순한 끈이 아니라, 짐의 순서, 온도, 파손 여부, 배송 기사의 스케줄까지 몽땅 통제하고 관리하는 </strong>"디지털 스마트 블랙박스 센서"**입니다.
 
 ---
 
@@ -46,49 +50,43 @@ tags = ["studynote-network"]
 이 구조를 머릿속에 그릴 수 있어야 와이어샤크(Wireshark) 패킷 분석이 가능하다.
 
 ### 1. [ 0 ~ 4 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) ]: [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) (가장 기본)
-- **Source [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (16비트)**: 보내는 놈의 방 번호 (내 크롬 브라우저 탭 번호 `50123`).
-- **Destination [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (16비트)**: 받는 놈의 방 번호 (네이버 웹서버 `80` 또는 `443`).
+- <strong>Source <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (16비트)</strong>: 보내는 놈의 방 번호 (내 크롬 브라우저 탭 번호 `50123`).
+- <strong>Destination <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (16비트)</strong>: 받는 놈의 방 번호 (네이버 웹서버 `80` 또는 `443`).
 
 ### 2. [ 4 ~ 12 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) ]: 시퀀스 번호와 ACK 번호 ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 코어)
 TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
-- **Sequence Number (32비트)**: 내가 지금 쏘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리의 **첫 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 고유 번호**다. (예: 1000). 패킷 덩어리 개수가 아니라 '[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)' 단위로 숫자가 올라간다.
-- **Acknowledgment Number (32비트)**: "나 방금 네가 보낸 거 1000번까지 완벽하게 잘 받았어! **이제 다음으로 1001번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)부터 보내주면 돼!**"라고 요구하는 누적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 번호다.
+- **Sequence Number (32비트)**: 내가 지금 쏘는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리의 <strong>첫 번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 고유 번호</strong>다. (예: 1000). 패킷 덩어리 개수가 아니라 '[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)' 단위로 숫자가 올라간다.
+- **Acknowledgment Number (32비트)**: "나 방금 네가 보낸 거 1000번까지 완벽하게 잘 받았어! <strong>이제 다음으로 1001번 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>부터 보내주면 돼!</strong>"라고 요구하는 누적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 번호다.
 
 ### 3. [ 12 ~ 16 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) ]: 오프셋, [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 윈도우 사이즈
-- **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Offset (4비트)**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 길이가 20바이트인지 옵션이 붙어 60바이트인지 알려준다. (그래야 수신자가 어디서부터가 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시작인지 칼로 자를 수 있다).
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Offset (4비트)</strong>: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더 길이가 20바이트인지 옵션이 붙어 60바이트인지 알려준다. (그래야 수신자가 어디서부터가 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시작인지 칼로 자를 수 있다).
 - **Reserved (3비트)**: 나중에 쓸려고 남겨둔 빈칸 (000).
 - **Control Flags (9비트)**: 통신의 성격을 결정하는 스위치들. (가장 중요한 건 `URG, ACK, PSH, RST, SYN, FIN` 6개다).
-- **[Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) (16비트)**: **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)의 핵심**. "내 램 버퍼에 빈 공간이 64,000바이트 남았으니까 한 번에 그만큼만 쏴!"라고 상대방에게 브레이크를 거는 수치다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a> (16비트)</strong>: <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>의 핵심</strong>. "내 램 버퍼에 빈 공간이 64,000바이트 남았으니까 한 번에 그만큼만 쏴!"라고 상대방에게 브레이크를 거는 수치다.
 
 ### 4. [ 16 ~ 20 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) ]: 체크섬과 긴급 포인트
-- **[Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) (16비트)**: 가다가 비트가 0에서 1로 깨졌는지 수학적으로 검사하는 도장.
-- **[Urgent Pointer](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/) (16비트)**: Control Flag에 `URG` 불이 켜져 있을 때만 쓴다. "이 패킷 안에 폭탄 해체 암호(긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어있는데, 그 암호가 정확히 어디쯤(포인터) 박혀있는지 알려줄게!"라는 핀셋 지시자다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> (16비트)</strong>: 가다가 비트가 0에서 1로 깨졌는지 수학적으로 검사하는 도장.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/">Urgent Pointer</a> (16비트)</strong>: Control Flag에 `URG` 불이 켜져 있을 때만 쓴다. "이 패킷 안에 폭탄 해체 암호(긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어있는데, 그 암호가 정확히 어디쯤(포인터) 박혀있는지 알려줄게!"라는 핀셋 지시자다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 세그먼트 헤더 구조 (그림 암기)                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0                   15 16                 31 (Bits)       │
- │   +-----------------------+-----------------------+         │
- │   | Source Port (16)      | Destination Port (16) |         │
- │   +-----------------------+-----------------------+         │
- │   | Sequence Number (32)                          |         │
- │   +-----------------------------------------------+         │
- │   | Acknowledgment Number (32)                    |         │
- │   +-------+---+-----------+-----------------------+         │
- │   | Offset|Res| Flags(9)  | Window Size (16)      |         │
- │   +-------+---+-----------+-----------------------+         │
- │   | Checksum (16)         | Urgent Pointer (16)   |         │
- │   +-----------------------+-----------------------+         │
- │   | Options (가변 0 ~ 40 Bytes)                     |         │
- │   +-----------------------------------------------+         │
- │                                                             │
- │   ▶ "이 20바이트 뼈대를 완벽히 이해해야 보안 방화벽 룰을 짤 수 있다!"    │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더는 종합병원의 **"환자 차트(Chart)"**입니다. 차트 안에는 환자의 인적 사항([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)), 오늘 맞아야 할 주사의 순서(Seq), 지난번 진료 기록 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK), 현재 환자의 남은 체력([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))이 빼곡히 적혀 있어, 의사([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 단 한 치의 오차도 없이 처방을 내릴 수 있게 돕습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 세그먼트 헤더 구조 (그림 암기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 15 16 31 (Bits)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Port (16)</div><div class="kb-diagram-cell">Destination Port (16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequence Number (32)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acknowledgment Number (32)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offset</div><div class="kb-diagram-cell">Res</div><div class="kb-diagram-cell">Flags(9)</div><div class="kb-diagram-cell">Window Size (16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Checksum (16)</div><div class="kb-diagram-cell">Urgent Pointer (16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Options (가변 0 ~ 40 Bytes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 20바이트 뼈대를 완벽히 이해해야 보안 방화벽 룰을 짤 수 있다!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더는 종합병원의 </strong>"환자 차트(Chart)"**입니다. 차트 안에는 환자의 인적 사항([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)), 오늘 맞아야 할 주사의 순서(Seq), 지난번 진료 기록 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK), 현재 환자의 남은 체력([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))이 빼곡히 적혀 있어, 의사([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 단 한 치의 오차도 없이 처방을 내릴 수 있게 돕습니다.
 
 ---
 
@@ -144,15 +142,19 @@ TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: UDP]
-    │
-    ▼
-[현재 개념: TCP 세그먼트 헤더]
-    │
-    ├──▶ [확장 A: 소스/목적지 포트 번호, 일련번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UDP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 세그먼트 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 소스/목적지 포트 번호, 일련번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더는 UDP에서 출발해 현재 메커니즘을 정교화하고, 이후 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,15 +21,20 @@ tags = ["design_supervision"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) ([Information System Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/))는 발주자와 사업자 간의 정보 비대칭을 해소하고 사업의 품질을 보증하기 위해 도입된 제도이다. 과거 2단계(설계, 종료) 위주의 감리는 요구사항 확정 전 설계가 진행되면서 발생하는 요구사항 추적성의 단절과 빈번한 설계 변경이라는 치명적 한계를 안고 있었다. 이를 극복하기 위해 등장한 것이 **[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) (3-Stage [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))** 이다. [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)는 요구정의(Requirements Definition), 설계(Design), 종료(Close/Implementation) 단계로 감리를 세분화하여, 사업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 요구사항 모호성이라는 근본 원인을 선제적으로 타격한다. 이는 폭포수 모델에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 후기 단계로 갈수록 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 기하급수적으로 증가하는 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 증폭 현상'을 방지하는 가장 효과적인 방어선이다.
+[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) ([Information System Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/))는 발주자와 사업자 간의 정보 비대칭을 해소하고 사업의 품질을 보증하기 위해 도입된 제도이다. 과거 2단계(설계, 종료) 위주의 감리는 요구사항 확정 전 설계가 진행되면서 발생하는 요구사항 추적성의 단절과 빈번한 설계 변경이라는 치명적 한계를 안고 있었다. 이를 극복하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/">3단계 감리</a> (3-Stage <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>)</strong> 이다. [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)는 요구정의(Requirements Definition), 설계(Design), 종료(Close/Implementation) 단계로 감리를 세분화하여, 사업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 요구사항 모호성이라는 근본 원인을 선제적으로 타격한다. 이는 폭포수 모델에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 후기 단계로 갈수록 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용이 기하급수적으로 증가하는 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 증폭 현상'을 방지하는 가장 효과적인 방어선이다.
 
 이 도식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항의 불명확성이 프로젝트 후반부에 미치는 파괴적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 효과와 병목을 보여준다.
 
-```text
-[요구사항 불명확] => [설계 왜곡] => [개발/테스트 지연 Queue >>>] => [오픈 실패 병목]
-      ▲                 ▲                      ▲
-  (요구정의 감리 부재) (설계 감리만으로 한계)   (종료 감리 시점엔 복구 불능)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 불명확</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">설계 왜곡</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">개발/테스트 지연 Queue &gt;&gt;&gt;</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">오픈 실패 병목</div></div>
+<div class="kb-diagram-note">(요구정의 감리 부재) (설계 감리만으로 한계) (종료 감리 시점엔 복구 불능)</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계가 선행되지 않은 실행(설계/개발)은 필연적으로 백엔드(테스트/오픈)에서 막대한 큐 적체(재작업)를 유발한다는 점이다. 따라서 요구사항 자체를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 요구정의 단계 감리가 없다면, 시스템 전체의 성공률은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항의 운에 맡겨지게 된다. 실무에서는 이러한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 통제하기 위해 의무적으로 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)를 적용하여 프로젝트의 불확실성을 통제한다.
 
@@ -51,26 +56,25 @@ tags = ["design_supervision"]
 
 이 구조도는 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 내에서 요구사항이 어떻게 각 단계를 거치며 구체화되고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는지를 보여주는 순차 및 계층 아키텍처이다.
 
-```text
-┌───────────────── Business Requirements ─────────────────┐
-│ [과업지시서] / [제안서]                                │
-└─────────────────────────┬─────────────────────────────┘
-                          │ (추적성 Base)
-┌─────────────────────────▼─────────────────────────────┐
-│ 1단계: 요구정의 감리 (Requirements Definition Audit)   │
-│ - 요구사항 명세서, RTM 검증 (완전성, 일관성)            │
-└─────────────────────────┬─────────────────────────────┘
-                          │ (RTM Baseline 확장)
-┌─────────────────────────▼─────────────────────────────┐
-│ 2단계: 설계 감리 (Design Audit)                        │
-│ - 시스템 아키텍처, ERD, 인터페이스 설계 검증            │
-└─────────────────────────┬─────────────────────────────┘
-                          │ (Test Scenario 연계)
-┌─────────────────────────▼─────────────────────────────┐
-│ 3단계: 종료 감리 (Close/Implementation Audit)          │
-│ - 통합/시스템 테스트, 마이그레이션, 성능/보안 검증        │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business Requirements</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과업지시서</div><div class="kb-diagram-note">/</div><div class="kb-diagram-node">제안서</div></div>
+<div class="kb-diagram-note">(추적성 Base)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 요구정의 감리 (Requirements Definition Audit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 요구사항 명세서, RTM 검증 (완전성, 일관성)</div></div>
+<div class="kb-diagram-note">(RTM Baseline 확장)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 설계 감리 (Design Audit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 아키텍처, ERD, 인터페이스 설계 검증</div></div>
+<div class="kb-diagram-note">(Test Scenario 연계)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 종료 감리 (Close/Implementation Audit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통합/시스템 테스트, 마이그레이션, 성능/보안 검증</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 모든 감리 단계가 이전 단계의 산출물([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/))을 입력으로 받아 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 깊이를 심화시킨다는 점이다. 즉, 요구정의 감리에서 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))이 부실하면 설계 및 종료 감리에서의 추적성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 근본적으로 붕괴된다. 따라서 1단계 감리는 전체 감리 품질의 중추를 담당한다. 실무에서는 이 단계 간의 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 전이(Transition) 과정에서 무단 형상 변경이 발생하지 않는지 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 병행해야 한다.
 
@@ -87,27 +91,30 @@ tags = ["design_supervision"]
 | 항목 | [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) (3-Stage [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 2단계 감리 (2-Stage [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 판단 포인트 (실무 기준) |
 |:---|:---|:---|:---|
 | **적용 대상** | 20억 이상 대형 개발 사업, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 높은 신규 구축 | 상용 SW 단순 도입, 20억 미만 소규모 사업 | 시스템 복잡도 및 개발 비중 |
-| **요구정의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 독립적인 감리 단계로 심층 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 확정) | 설계 감리에 통합하여 병행 수행 (시간 촉박) | 요구사항 변경 빈도와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
+| <strong>요구정의 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 독립적인 감리 단계로 심층 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 확정) | 설계 감리에 통합하여 병행 수행 (시간 촉박) | 요구사항 변경 빈도와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) |
 | **오류 수정 비용** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 식별로 수정 비용 최소화 (비용 곡선 완만) | 설계 이후 발견되어 재설계 오버헤드 급증 | 프로젝트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방어선 위치 |
 | **산출물 추적성** | 제안서 → [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) → 아키텍처 설계의 완벽한 맵핑 | 제안서 → 설계 산출물로 압축되어 추적 단절 우려 | 품질 보증(QA)의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 요구 수준 |
 
 이 비교 매트릭스는 프로젝트 위험도에 따른 감리 모드(3단계 vs 2단계)의 아키텍처 트레이드오프를 보여준다.
 
-```text
-┌──────────┬───────────────────────┬───────────────────────┬──────────────────────┐
-│ 관점     │ 3단계 감리 (3-Stage)  │ 2단계 감리 (2-Stage)  │ 품질/비용 트레이드오프│
-├──────────┼───────────────────────┼───────────────────────┼──────────────────────┤
-│ 시간/비용│ 감리 비용 및 기간 증가 │ 비용 절감, 기간 단축  │ 예산 제약 vs 품질 보증│
-│ 리스크   │ 초기 리스크 강력 통제 │ 잠복 리스크 후기 폭발 │ 장애 격리(Isolation)  │
-│ 일관성   │ RTM 기반 강한 일관성  │ 느슨한 일관성(추적 약화)│ 운영 복잡도 통제력    │
-└──────────┴───────────────────────┴───────────────────────┴──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관점</div><div class="kb-diagram-cell">3단계 감리 (3-Stage)</div><div class="kb-diagram-cell">2단계 감리 (2-Stage)</div><div class="kb-diagram-cell">품질/비용 트레이드오프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간/비용</div><div class="kb-diagram-cell">감리 비용 및 기간 증가</div><div class="kb-diagram-cell">비용 절감, 기간 단축</div><div class="kb-diagram-cell">예산 제약 vs 품질 보증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크</div><div class="kb-diagram-cell">초기 리스크 강력 통제</div><div class="kb-diagram-cell">잠복 리스크 후기 폭발</div><div class="kb-diagram-cell">장애 격리(Isolation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성</div><div class="kb-diagram-cell">RTM 기반 강한 일관성</div><div class="kb-diagram-cell">느슨한 일관성(추적 약화)</div><div class="kb-diagram-cell">운영 복잡도 통제력</div></div>
+</div>
+</div>
+
+
 
 A 방식([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/))은 단일 감리 일정(레이턴시)은 길어지지만, 요구사항의 상태 공유 오류를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡아내어 후속 공정의 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)(병목)을 방지한다. 반면 B 방식(2단계 감리)은 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 기간은 짧지만, 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 설계 감리에 묻히기 때문에 요구사항 변경이 빈번한 환경에서는 오히려 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(성공적인 개발 완료율)을 심각하게 떨어뜨린다.
 
 **융합 관점 분석**:
-- **SW 공학 ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) 연계**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 요구정의 단계는 SW 공학의 요구사항 추출, 분석, 명세, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 단계를 완벽히 투영한다. IEEE 830 명세 표준 준수 여부가 핵심 감리 지표가 된다.
-- **아키텍처 ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)) 연계**: 설계 감리 단계는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)의 민감도 점과 상충 점을 평가하는 과정과 유사하다. 시스템이 요구하는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 등의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 설계 산출물이 만족하는지 정량적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+- <strong>SW 공학 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">Requirements Engineering</a>) 연계</strong>: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 요구정의 단계는 SW 공학의 요구사항 추출, 분석, 명세, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 단계를 완벽히 투영한다. IEEE 830 명세 표준 준수 여부가 핵심 감리 지표가 된다.
+- <strong>아키텍처 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/">Software Architecture</a>) 연계</strong>: 설계 감리 단계는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)의 민감도 점과 상충 점을 평가하는 과정과 유사하다. 시스템이 요구하는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 등의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 설계 산출물이 만족하는지 정량적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 📢 **섹션 요약 비유**: 고속도로를 달릴 때 톨게이트를 3번 거치며(3단계) 차량을 꼼꼼히 점검하면 시간은 걸려도 사고율이 0%에 수렴하지만, 톨게이트를 2번만 거치면(2단계) 정체는 줄어도 후반부 대형 추돌 사고(프로젝트 실패) 위험을 안고 달리는 것과 같습니다.
 
@@ -125,19 +132,25 @@ A 방식([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exa
    - **상황**: 사업자가 설계 산출물로 껍데기뿐인 클래스 다이어그램과 물리 테이블 구조만 제출했다.
    - **판단**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 아키텍처와 프로세스 흐름([시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))이 생략된 설계는 개발자 간의 해석 오류를 낳는다. 특히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보상([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 설계가 누락된 경우 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 판단하여, 설계도 보완 전에는 개발 단계 진입을 차단해야 한다.
 
-3. **시나리오 3: 종료 감리 시 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 미흡**
+3. <strong>시나리오 3: 종료 감리 시 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>) 미흡</strong>
    - **상황**: UAT는 통과했으나, 동시 접속자 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS) 테스트가 생략되었다.
    - **판단**: 리틀의 법칙(Little's Law)에 기반한 적정 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 및 커넥션 풀 튜닝 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 누락된 상태다. 오픈 후 즉각적인 장애(병목)가 예상되므로, [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) 툴을 활용한 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([Stress Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))를 필수 시정 조치(Major)로 권고하고 오픈 일정을 통제해야 한다.
 
 이 의사결정 트리는 실무에서 감리인이 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 판별하고 조치 강도를 결정하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름을 보여준다.
 
-```text
-[산출물 검토] ──(기준 미달)──> [결함의 성격 분류]
-                                  ├─> (기능 누락/보안 취약) => 필수 시정조치 (Major) 
-                                  │                             ↓ (오픈 불가)
-                                  └─> (문서 오타/단순 사용성) => 권고 사항 (Minor)
-                                                                ↓ (운영 중 개선)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">산출물 검토</div><div class="kb-diagram-note">──(기준 미달)──&gt;</div><div class="kb-diagram-node">결함의 성격 분류</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">(기능 누락/보안 취약) =&gt; 필수 시정조치 (Major)</div>
+<div class="kb-diagram-note">↓ (오픈 불가)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">(문서 오타/단순 사용성) =&gt; 권고 사항 (Minor)</div>
+<div class="kb-diagram-note">↓ (운영 중 개선)</div>
+</div>
+</div>
+
+
 
 이 결정 흐름의 핵심은 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 성격'에 따라 조치 강도(Major vs Minor)를 엄격히 분리하는 것이다. 모든 지적 사항을 Major로 잡으면 프로젝트가 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지고, 반대로 치명적 보안 취약점(예: [SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/))을 Minor로 타협하면 시스템 보안이 붕괴된다. 실무에서는 이 트레이드오프를 조율하는 감리 총괄(총괄 감리원)의 기술적 권위와 중재력이 감리의 성패를 결정한다.
 
@@ -151,41 +164,43 @@ A 방식([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exa
 
 | 구분 | 도입 전 (감리 부재 / 2단계) | 도입 후 ([3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 정착) | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 및 정량적 효과 |
 |:---|:---|:---|:---|
-| **프로젝트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 빈번한 재설계로 30% 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 요구사항 조기 확정으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 5% 미만 | 예산 초과(Overrun) 90% 이상 차단 |
+| <strong>프로젝트 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 빈번한 재설계로 30% 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 요구사항 조기 확정으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율 5% 미만 | 예산 초과(Overrun) 90% 이상 차단 |
 | **시스템 보안/안전성** | 오픈 후 치명적 해킹 사고 발생 | [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 및 취약점 100% 사전 조치 | 침해 사고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 수십억 원 절감 |
 | **법적 분쟁** | 발주자-사업자 간 지체상금 소송 빈발 | 과업대비표 기반 객관적 완료 승인 | 분쟁 조정 및 소송 비용 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 
 **미래 전망 (Future Standard)**: 
-전통적인 폭포수 방식에 최적화된 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)는 현재 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 및 클라우드(Cloud), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경으로의 패러다임 전환을 맞이하고 있다. 향후 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/)는 3단계의 정적 분할을 넘어, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 내에 자동화 진단 도구를 임베딩하여 매 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 단위로 코드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 **연속적 통제 (Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))** 기반의 '상시/자동화 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 3.0)'로 진화할 것이다. 이는 행정안전부 [정보시스템 감리기준](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/) 및 ISACA의 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 최신 통제 지침과 맥을 같이 한다.
+전통적인 폭포수 방식에 최적화된 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)는 현재 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 및 클라우드(Cloud), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경으로의 패러다임 전환을 맞이하고 있다. 향후 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/)는 3단계의 정적 분할을 넘어, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 내에 자동화 진단 도구를 임베딩하여 매 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)) 단위로 코드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 <strong>연속적 통제 (Continuous <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">Auditing</a>)</strong> 기반의 '상시/자동화 [감리 프레임워크](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 3.0)'로 진화할 것이다. 이는 행정안전부 [정보시스템 감리기준](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/) 및 ISACA의 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 최신 통제 지침과 맥을 같이 한다.
 
 📢 **섹션 요약 비유**: 수동으로 도장을 찍어주던 구형 품질 검사소(전통 감리)가, 이제는 공장 컨베이어 벨트 위에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 카메라가 24시간 불량품을 실시간으로 솎아내는 스마트 품질 관제소(연속적/자동화 감리)로 진화하는 것과 같습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[정보시스템 감리기준](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/) ([행정안전부 고시](/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/))** : [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)를 비롯한 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 법적/제도적 근거를 제공하는 최상위 규정.
-- **[요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/) ([RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))** : 1단계부터 3단계까지 요구사항의 구현 여부를 양방향으로 증명하는 품질 추적의 백본(Backbone).
-- **소프트웨어 개발보안 ([시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/))** : 종료 감리에서 소스코드의 47개 보안 약점을 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))으로 차단하는 핵심 보안 통제 수단.
-- **[CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) (공인 정보시스템 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)사)** : ISACA에서 주관하며, 제3자적 관점의 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프로세스와 거버넌스를 설계하는 감리인의 국제 표준 자격.
-- **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)** : 설계 감리 시 아키텍처의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등)이 상충점을 극복했는지 평가하는 과학적 잣대.
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/">정보시스템 감리기준</a> (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/005_audit_standards/">행정안전부 고시</a>)</strong> : [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)를 비롯한 [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)의 법적/제도적 근거를 제공하는 최상위 규정.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/">요구사항 추적 매트릭스</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a>)</strong> : 1단계부터 3단계까지 요구사항의 구현 여부를 양방향으로 증명하는 품질 추적의 백본(Backbone).
+- <strong>소프트웨어 개발보안 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">시큐어 코딩</a>)</strong> : 종료 감리에서 소스코드의 47개 보안 약점을 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))으로 차단하는 핵심 보안 통제 수단.
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/">CISA</a> (공인 정보시스템 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>사)</strong> : ISACA에서 주관하며, 제3자적 관점의 IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프로세스와 거버넌스를 설계하는 감리인의 국제 표준 자격.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> : 설계 감리 시 아키텍처의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등)이 상충점을 극복했는지 평가하는 과학적 잣대.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[감리 계획 (Audit Planning) — 범위·일정·기준·체크리스트 확정]
-    │
-    ▼
-[현장 감리 (On-site Audit) — 산출물 검토·인터뷰·시연 수행]
-    │
-    ▼
-[감리 결과 보고 (Audit Report) — 문제점·시정 권고사항 제출]
-    │
-    ▼
-[시정 조치 확인 (Follow-up) — 권고사항 이행 여부 재점검]
-    │
-    ▼
-[품질 보증 체계 (QA Framework) — 지속적 감리 활동으로 프로젝트 리스크 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 (Audit Planning) — 범위·일정·기준·체크리스트 확정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현장 감리 (On-site Audit) — 산출물 검토·인터뷰·시연 수행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 결과 보고 (Audit Report) — 문제점·시정 권고사항 제출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 확인 (Follow-up) — 권고사항 이행 여부 재점검</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">품질 보증 체계 (QA Framework) — 지속적 감리 활동으로 프로젝트 리스크 관리</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 감리 계획 수립부터 시정 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)까지 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 사이클이 품질 보증 체계로 이어지는 과정을 나타낸다.
 

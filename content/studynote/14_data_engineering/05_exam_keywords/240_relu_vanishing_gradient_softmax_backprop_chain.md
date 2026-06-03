@@ -20,7 +20,7 @@ tags = ["studynote-data-engineering"]
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제 (Vanishing Gradient Problem)
 
-깊은 신경망에서 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기(Gradient)가 출력층에서 입력층으로 전달되면서 **지수적으로 작아지는 현상**이다.
+깊은 신경망에서 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기(Gradient)가 출력층에서 입력층으로 전달되면서 <strong>지수적으로 작아지는 현상</strong>이다.
 
 **원인:**
 - [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 함수의 최대 미분값 = 0.25 (입력이 ±2 이상이면 거의 0)
@@ -37,9 +37,9 @@ tags = ["studynote-data-engineering"]
 반대로 기울기가 지수적으로 커지는 현상:
 - [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))에서 자주 발생
 - [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트가 너무 커서 학습 발산
-- **그래디언트 클리핑(Gradient [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))**으로 해결
+- <strong>그래디언트 클리핑(Gradient <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a>)</strong>으로 해결
 
-📢 **섹션 요약 비유**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 **깊은 우물에 메시지를 전달하는 것**과 같다. 30명이 손에서 손으로 전달하면, 마지막에는 속삭임도 안 들릴 만큼 신호가 사라진다.
+📢 **섹션 요약 비유**: [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 <strong>깊은 우물에 메시지를 전달하는 것</strong>과 같다. 30명이 손에서 손으로 전달하면, 마지막에는 속삭임도 안 들릴 만큼 신호가 사라진다.
 
 ---
 
@@ -47,41 +47,49 @@ tags = ["studynote-data-engineering"]
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
 
-```
-활성화 함수 특성 비교
-┌──────────────┬────────────┬──────────────┬───────────────────┐
-│  함수         │  수식       │  출력 범위   │  특징             │
-├──────────────┼────────────┼──────────────┼───────────────────┤
-│ Sigmoid      │ 1/(1+e^-x) │  (0, 1)      │ 기울기 소실 심각  │
-│ Tanh         │ (e^x-e^-x) │  (-1, 1)     │ 기울기 소실 존재  │
-│              │ /(e^x+e^-x)│              │                   │
-│ ReLU         │ max(0, x)  │  [0, ∞)      │ 빠름, Dead ReLU   │
-│ Leaky ReLU   │ max(0.01x,x│  (-∞, ∞)    │ Dead ReLU 개선    │
-│ ELU          │ x if x>0   │  (-1, ∞)    │ 음수 포화 개선    │
-│              │ α(e^x-1) else│            │                   │
-│ GELU         │ x·Φ(x)     │  (-∞, ∞)    │ Transformer 표준  │
-│ Softmax      │ e^xi/Σe^xj │  (0, 1), Σ=1│ 다중 클래스 출력  │
-└──────────────┴────────────┴──────────────┴───────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">활성화 함수 특성 비교</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수</div><div class="kb-diagram-cell">수식</div><div class="kb-diagram-cell">출력 범위</div><div class="kb-diagram-cell">특징</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sigmoid</div><div class="kb-diagram-cell">1/(1+e^-x)</div><div class="kb-diagram-cell">(0, 1)</div><div class="kb-diagram-cell">기울기 소실 심각</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tanh</div><div class="kb-diagram-cell">(e^x-e^-x)</div><div class="kb-diagram-cell">(-1, 1)</div><div class="kb-diagram-cell">기울기 소실 존재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/(e^x+e^-x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReLU</div><div class="kb-diagram-cell">max(0, x)</div><div class="kb-diagram-cell">[0, ∞)</div><div class="kb-diagram-cell">빠름, Dead ReLU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaky ReLU</div><div class="kb-diagram-cell">max(0.01x,x</div><div class="kb-diagram-cell">(-∞, ∞)</div><div class="kb-diagram-cell">Dead ReLU 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELU</div><div class="kb-diagram-cell">x if x&gt;0</div><div class="kb-diagram-cell">(-1, ∞)</div><div class="kb-diagram-cell">음수 포화 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α(e^x-1) else</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GELU</div><div class="kb-diagram-cell">x·Φ(x)</div><div class="kb-diagram-cell">(-∞, ∞)</div><div class="kb-diagram-cell">Transformer 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Softmax</div><div class="kb-diagram-cell">e^xi/Σe^xj</div><div class="kb-diagram-cell">(0, 1), Σ=1</div><div class="kb-diagram-cell">다중 클래스 출력</div></div>
+</div>
+</div>
+
+
 
 ### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))와 연쇄 법칙(Chain Rule)
 
-```
-순전파 (Forward Pass):
-Input → [Layer1] → [Layer2] → [Layer3] → Output
-  x      a1=f(W1·x)  a2=f(W2·a1)  ŷ=f(W3·a2)
 
-역전파 (Backward Pass):
-Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
-연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1
-```
 
-**[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 역할:**
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순전파 (Forward Pass):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Output</div></div>
+<div class="kb-diagram-note">x a1=f(W1·x) a2=f(W2·a1) ŷ=f(W3·a2)</div>
+<div class="kb-diagram-note">역전파 (Backward Pass):</div>
+<div class="kb-diagram-note">Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1</div>
+<div class="kb-diagram-note">연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)의 역할:</strong>
 - 각 층의 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 완화
 - 더 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 사용 가능
 - [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 효과를 부분 대체
 
-📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 **성적표 피드백**이다. 선생님(출력층)이 틀렸다고 알려주면, 그 오류 신호가 거꾸로 전달되어 각 학생(레이어)이 자신의 실수를 고친다.
+📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>성적표 피드백</strong>이다. 선생님(출력층)이 틀렸다고 알려주면, 그 오류 신호가 거꾸로 전달되어 각 학생(레이어)이 자신의 실수를 고친다.
 
 ---
 
@@ -91,11 +99,11 @@ Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
 
 | 함수 | Dead Neuron | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 수렴 속도 | 주요 사용 환경 |
 |:---|:---|:---|:---|:---|
-| **[Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)** | 없음 | 심각 | 느림 | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 |
-| **[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)** | 있음(x<0) | 거의 없음 | 빠름 | 일반 은닉층 |
-| **Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)** | 없음 | 없음 | 빠름 | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), 깊은 네트워크 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a></strong> | 없음 | 심각 | 느림 | 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a></strong> | 있음(x<0) | 거의 없음 | 빠름 | 일반 은닉층 |
+| <strong>Leaky <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a></strong> | 없음 | 없음 | 빠름 | [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), 깊은 네트워크 |
 | **GELU** | 없음 | 없음 | 빠름 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
-| **[Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)** | - | - | - | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층만 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/">Softmax</a></strong> | - | - | - | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층만 |
 
 ### Dead [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 문제와 해결
 
@@ -107,7 +115,7 @@ ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
 3. 적절한 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)(He Initialization)
 4. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정으로 뉴런 죽음 예방
 
-📢 **섹션 요약 비유**: Dead ReLU는 **전구가 타버린 것**과 같다. 한번 꺼지면 신호가 통과를 못 한다. Leaky ReLU는 타지 않도록 최소한의 전류를 흘려준다.
+📢 **섹션 요약 비유**: Dead ReLU는 <strong>전구가 타버린 것</strong>과 같다. 한번 꺼지면 신호가 통과를 못 한다. Leaky ReLU는 타지 않도록 최소한의 전류를 흘려준다.
 
 ---
 
@@ -118,8 +126,8 @@ ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
 | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 출력층 활성화 | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) |
 |:---|:---|:---|
 | **회귀** | 없음(Linear) | [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) ([Mean Squared Error](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)) |
-| **이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | BCE (Binary [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) |
-| **다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | CCE (Categorical [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) |
+| <strong>이진 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | BCE (Binary [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) |
+| <strong>다중 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | CCE (Categorical [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) |
 | **다중 레이블** | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) (각 출력) | BCE (각 레이블 독립) |
 | **언어 모델** | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) (어휘 크기) | CCE |
 
@@ -138,7 +146,7 @@ Softmax(xi) = exp(xi) / Σ exp(xj)
 - 합이 1이므로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 해석 가능
 - 온도 파라미터([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)): T>1 → 분포 평탄화, T<1 → 분포 첨예화
 
-📢 **섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 **득표율 계산**이다. 세 후보가 7표, 2표, 1표를 받으면 득표율이 70%, 20%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%가 되고, 이 비율의 합은 100%다.
+📢 **섹션 요약 비유**: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 <strong>득표율 계산</strong>이다. 세 후보가 7표, 2표, 1표를 받으면 득표율이 70%, 20%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%가 되고, 이 비율의 합은 100%다.
 
 ---
 
@@ -156,9 +164,9 @@ Softmax(xi) = exp(xi) / Σ exp(xj)
 
 ### 결론
 
-ReLU와 그 변형들은 딥러닝의 **깊이 문제를 해결**한 핵심 혁신이다. [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), 잔차 연결(Residual Connection), 그리고 GELU 같은 부드러운 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)가 결합되어 수백 층의 신경망도 안정적으로 학습할 수 있게 되었다. 기술사 논술에서는 각 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 수학적 특성과 사용 맥락을 함께 설명해야 한다.
+ReLU와 그 변형들은 딥러닝의 <strong>깊이 문제를 해결</strong>한 핵심 혁신이다. [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), 잔차 연결(Residual Connection), 그리고 GELU 같은 부드러운 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)가 결합되어 수백 층의 신경망도 안정적으로 학습할 수 있게 되었다. 기술사 논술에서는 각 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 수학적 특성과 사용 맥락을 함께 설명해야 한다.
 
-📢 **섹션 요약 비유**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 **뇌의 뉴런 발화 규칙**이다. 어떤 자극에 어떻게 반응할지 결정하는 규칙이고, 이 규칙의 선택이 뇌(신경망)의 학습 능력을 결정한다.
+📢 **섹션 요약 비유**: [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 <strong>뇌의 뉴런 발화 규칙</strong>이다. 어떤 자극에 어떻게 반응할지 결정하는 규칙이고, 이 규칙의 선택이 뇌(신경망)의 학습 능력을 결정한다.
 
 ---
 
@@ -176,25 +184,28 @@ ReLU와 그 변형들은 딥러닝의 **깊이 문제를 해결**한 핵심 혁�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 **속삭임 전화 게임**이야. 30명이 순서대로 전달하면 마지막엔 아무 소리도 안 들려.
+1. [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)은 <strong>속삭임 전화 게임</strong>이야. 30명이 순서대로 전달하면 마지막엔 아무 소리도 안 들려.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Sigmoid/Tanh → 기울기 소실 (깊은 네트워크 학습 불가)
-    │
-    ▼
-ReLU: max(0,x) → 기울기 소실 해결 · Dying ReLU 문제
-    ├─► Leaky ReLU · PReLU · ELU · Swish · GELU
-    │
-    ▼
-Softmax (출력층): 다중 클래스 확률 분포
-    │
-    ▼
-역전파 + Chain Rule → Autograd (자동 미분)
-```
-2. ReLU는 **양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙**이야. 이 덕분에 신호가 소리치듯 전달돼.
-3. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 **시험 점수를 퍼센트로 바꾸는 것**이야. 모든 답의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 더하면 100%가 되니까 "이게 고양이일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 70%야"라고 말할 수 있어.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Sigmoid/Tanh → 기울기 소실 (깊은 네트워크 학습 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ReLU: max(0,x) → 기울기 소실 해결 · Dying ReLU 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Leaky ReLU · PReLU · ELU · Swish · GELU</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Softmax (출력층): 다중 클래스 확률 분포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역전파 + Chain Rule → Autograd (자동 미분)</div>
+</div>
+</div>
+
+
+2. ReLU는 <strong>양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙</strong>이야. 이 덕분에 신호가 소리치듯 전달돼.
+3. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 <strong>시험 점수를 퍼센트로 바꾸는 것</strong>이야. 모든 답의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 더하면 100%가 되니까 "이게 고양이일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 70%야"라고 말할 수 있어.
 
 ---
 

@@ -40,20 +40,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 factor 4 언롤링이 무엇을 줄이고 무엇을 늘리는지 직관적으로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ factor = 4 언롤링의 효과                                                   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 원본 루프                                                                  │
-│   [LD][ADD][ST][BR]  × 4 iterations                                        │
-│                                                                            │
-│ 언롤링 후                                                                  │
-│   [LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][BR]                │
-│                                                                            │
-│ 이익: branch 4회 → 1회, independent ops 증가                               │
-│ 비용: live value 증가 → register pressure, code size 증가                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">factor = 4 언롤링의 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-note">× 4 iterations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언롤링 후</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">BR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이익: branch 4회 → 1회, independent ops 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: live value 증가 → register pressure, code size 증가</div></div>
+</div>
+</div>
+
+
 
 언롤링이 특히 강한 경우는 누산 루프다. 예를 들어 `sum += a[i]` 형태는 `sum` 하나에 모든 iteration이 매달려 있어 파이프라인이 기다리기 쉽다. 언롤링 후 `sum0, sum1, sum2, sum3`처럼 여러 부분 합으로 나누면, 하드웨어는 각각을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 진행하고 마지막에만 합칠 수 있다. 즉 언롤링은 단순한 "코드 복사"가 아니라, 분기 감소와 의존성 완화를 함께 노리는 변환이다.
 
@@ -95,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 - 남는 iteration 처리를 빼먹어 경계 조건에서 오동작하는 구현
 - 최신 컴파일러가 더 잘할 수 있는 루프를 수동 언롤링으로 오히려 분석하기 어렵게 만드는 코드
 
-기술사 답안에서는 루프 언롤링을 "반복문을 펴서 빠르게 한다"에서 멈추지 말고, **분기 감소 + ILP 확대 + [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)/코드 크기 트레이드오프**까지 함께 적는 것이 좋다. 그래야 왜 어떤 루프는 2배 언롤링만으로 충분하고, 어떤 루프는 8배 언롤링이 오히려 역효과인지 설명할 수 있다.
+기술사 답안에서는 루프 언롤링을 "반복문을 펴서 빠르게 한다"에서 멈추지 말고, <strong>분기 감소 + ILP 확대 + <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>/코드 크기 트레이드오프</strong>까지 함께 적는 것이 좋다. 그래야 왜 어떤 루프는 2배 언롤링만으로 충분하고, 어떤 루프는 8배 언롤링이 오히려 역효과인지 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 버스를 더 빨리 돌리려면 정류장 수를 줄일 수는 있지만, 승객을 너무 많이 한 번에 태우면 차 안이 복잡해져 오히려 느려질 수 있다.
 
@@ -105,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 루프 언롤링이 잘 맞으면 분기 빈도가 줄고, 산술 연산기와 load/store 유닛이 더 꾸준히 일하게 된다. 특히 누산, 복사, 필터 커널처럼 짧고 반복적인 코드에서는 실행 시간이 눈에 띄게 줄어든다. 컴파일러가 프로파일 유도 최적화 (PGO, Profile-Guided Optimization)와 결합하면, 자주 실행되는 루프에만 적절한 팩터를 적용해 장점은 키우고 코드 팽창은 줄일 수도 있다.
 
-하지만 언롤링은 만능이 아니다. 메모리 병목이 지배적인 코드에서는 분기를 줄여도 전체 시간의 대부분이 여전히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대기에 쓰일 수 있다. 따라서 이 기법은 캐시 친화성, 벡터화 가능성, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 구조와 함께 봐야 한다. 기억할 핵심은 루프 언롤링이 **제어 비용을 줄이고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 기회를 드러내는 변환**이라는 점이다.
+하지만 언롤링은 만능이 아니다. 메모리 병목이 지배적인 코드에서는 분기를 줄여도 전체 시간의 대부분이 여전히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대기에 쓰일 수 있다. 따라서 이 기법은 캐시 친화성, 벡터화 가능성, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 구조와 함께 봐야 한다. 기억할 핵심은 루프 언롤링이 <strong>제어 비용을 줄이고 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행 기회를 드러내는 변환</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 루프 언롤링은 짧은 심부름을 여러 번 왔다 갔다 하지 않고 한 번에 묶어서 처리하는 습관과 같다. 다만 한 번에 너무 많이 들면 손이 모자라듯, 적당한 묶음 크기가 중요하다.
 
@@ -124,24 +125,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 반복문 최적화
-        │
-        ▼
-루프 제어 오버헤드 감소 요구
-        │
-        ▼
-루프 언롤링 (Loop Unrolling)
-        │
-        ├─▶ 다중 누산기 · latency hiding
-        ├─▶ 분기 감소 · issue window 확대
-        │
-        ▼
-오토 벡터라이제이션 · 소프트웨어 파이프라이닝
-        │
-        ▼
-프로파일 유도 언롤링 · 타깃별 자동 팩터 선택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 반복문 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">루프 제어 오버헤드 감소 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">루프 언롤링 (Loop Unrolling)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 다중 누산기 · latency hiding</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 분기 감소 · issue window 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오토 벡터라이제이션 · 소프트웨어 파이프라이닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로파일 유도 언롤링 · 타깃별 자동 팩터 선택</div>
+</div>
+</div>
+
+
 
 이 흐름은 "분기를 줄이는 고전 기법"에서 출발해, 현대 컴파일러가 다른 최적화와 결합해 더 정교하게 적용하는 방향으로 발전하는 과정을 보여 준다.
 

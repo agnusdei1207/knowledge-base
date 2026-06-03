@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 옛날 은행 전산망을 생각해 봅시다. 거대한 메인프레임 서버(본점) 1대가 있고, 각 지점에는 모니터와 키보드만 달린 깡통 터미널 100대가 선으로 물려 있었습니다.
-이 터미널 100대가 지들 맘대로 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본점으로 쏘아버리면 메인 서버가 뻗어버릴 것입니다. 그래서 HDLC는 **'누가 먼저 입을 열 것인가?'**를 통제하기 위해 신분(Station) 제도를 만들었습니다.
+이 터미널 100대가 지들 맘대로 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본점으로 쏘아버리면 메인 서버가 뻗어버릴 것입니다. 그래서 HDLC는 <strong>'누가 먼저 입을 열 것인가?'</strong>를 통제하기 위해 신분(Station) 제도를 만들었습니다.
 
-```text
-[HDLC 프레임 구조]
-    │
-    ▼
-[HDLC 국 종류]
-    │
-    └──▶ [NRM / ARM / ABM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,7 +44,7 @@ tags = ["studynote-network"]
 ### 1. 주국 (Primary Station) - "통제실의 왕"
 - **역할**: 네트워크 전체의 통신 링크를 지배하고 관리하는 대장 서버입니다.
 - **권한**: 
-  - 통신망에 문제가 생기면 연결을 끊거나 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 지시하는 모든 **명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))** 프레임을 발행할 수 있는 유일한 권한자입니다.
+  - 통신망에 문제가 생기면 연결을 끊거나 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 지시하는 모든 <strong>명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)</strong> 프레임을 발행할 수 있는 유일한 권한자입니다.
   - "부산지점 터미널아, 지금 나한테 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있어? 있으면 쏴 봐([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/), [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))"라고 지시합니다.
 
 ### 2. 종국 (Secondary Station) - "수동적인 신하"
@@ -50,19 +54,23 @@ tags = ["studynote-network"]
   - 오직 주국이 "말해봐"라고 명령을 내렸을 때만 억눌려 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **응답(Response)** 프레임 형태로 굽신거리며 쏘아 올릴 수 있습니다.
 
 ### 3. 혼성국 (Combined Station) - "현대의 평등한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)"
-- **역할**: 주국과 종국의 능력을 모두 몸속에 때려 박은, **스스로 왕이면서 신하인 하이브리드 개체**입니다.
+- **역할**: 주국과 종국의 능력을 모두 몸속에 때려 박은, <strong>스스로 왕이면서 신하인 하이브리드 개체</strong>입니다.
 - **권한**: 
   - 내 맘대로 상대방에게 먼저 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 프레임을 쏠 수도 있고, 상대방이 물어보면 응답(Response) 프레임을 보낼 수도 있는 100% 자율적인 노드입니다.
-  - **현대 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)에 물려있는 우리들의 노트북, 스마트폰이 전부 이 '혼성국'에 해당**합니다.
+  - <strong>현대 인터넷(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP)에 물려있는 우리들의 노트북, 스마트폰이 전부 이 '혼성국'에 해당</strong>합니다.
 
-```text
-[HDLC 프레임 구조]
-    │
-    ▼
-[HDLC 국 종류]
-    │
-    └──▶ [NRM / ARM / ABM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HDLC 프레임 구조]
-    │
-    ▼
-[현재 개념: HDLC 국 종류]
-    │
-    ├──▶ [확장 A: NRM / ARM / ABM]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC 프레임 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HDLC 국 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NRM / ARM / ABM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

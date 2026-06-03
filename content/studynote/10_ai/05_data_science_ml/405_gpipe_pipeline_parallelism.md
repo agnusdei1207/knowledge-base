@@ -26,14 +26,17 @@ tags = ["studynote-ai"]
 - **학습 효율화**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallelism)와 결합하여 대규모 클러스터에서의 학습 속도 향상
 - **재연 가능성**: 복잡한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 속에서도 수학적으로 동일한 그래디언트 계산 결과 보장
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: GPipe는 혼자서 자동차 한 대를 다 만드는 대신, 프레임을 만드는 사람, 엔진을 얹는 사람, 문을 다는 사람으로 나누어 여러 대의 차를 동시에 조립해 나가는 공장 시스템과 같다.
 
@@ -45,30 +48,30 @@ GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하�
 
 | 기술 요소 | 설명 | 특징 |
 |:---|:---|:---|
-| **[Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)** | 모델 레이어를 연속적인 묶음으로 나누어 각 GPU에 할당 | 네트워크 통신 오버헤드 고려 필요 |
-| **Micro-[batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)** | 하나의 배치(Mini-batch)를 더 작은 단위(Micro-batch)로 분할 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 가동률 향상의 핵심 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a></strong> | 모델 레이어를 연속적인 묶음으로 나누어 각 GPU에 할당 | 네트워크 통신 오버헤드 고려 필요 |
+| <strong>Micro-<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">batching</a></strong> | 하나의 배치(Mini-batch)를 더 작은 단위(Micro-batch)로 분할 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 가동률 향상의 핵심 |
 | **Re-materialization** | 메모리 절약을 위해 중간 활성 값을 저장하지 않고 필요 시 재계산 | 메모리 사용량과 연산 시간의 트레이드오프 |
 
-```text
-[ GPipe 파이프라인 실행 흐름 ]
 
-   Time ──▶
-         ┌──────┬──────┬──────┬──────┐
-   GPU 3 │  M3  │  M2  │  M1  │  M0  │ (Backward)
-         ├──────┼──────┼──────┼──────┤
-   GPU 2 │      │      │      │      │ ...
-         ├──────┼──────┼──────┼──────┤
-   GPU 1 │  M0  │  M1  │  M2  │  M3  │ (Forward)
-         └──────┴──────┴──────┴──────┘
-           Micro-batches (M0, M1, M2, M3)
 
-   * Bubble (유휴 시간): 파이프라인이 가득 차기 전후의 빈 공간
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GPipe 파이프라인 실행 흐름</div></div>
+<div class="kb-diagram-note">Time ──▶</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 3</div><div class="kb-diagram-cell">M3</div><div class="kb-diagram-cell">M2</div><div class="kb-diagram-cell">M1</div><div class="kb-diagram-cell">M0</div><div class="kb-diagram-cell">(Backward)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 2</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 1</div><div class="kb-diagram-cell">M0</div><div class="kb-diagram-cell">M1</div><div class="kb-diagram-cell">M2</div><div class="kb-diagram-cell">M3</div><div class="kb-diagram-cell">(Forward)</div></div>
+<div class="kb-diagram-note">Micro-batches (M0, M1, M2, M3)</div>
+<div class="kb-diagram-note">* Bubble (유휴 시간): 파이프라인이 가득 차기 전후의 빈 공간</div>
+</div>
+</div>
+
+
 
 **동작 메커니즘**:
-1. **[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Pass**: 첫 번째 GPU가 첫 마이크로 배치를 연산하여 다음 GPU로 넘기고, 바로 두 번째 마이크로 배치를 연산하기 시작한다.
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Pass</strong>: 첫 번째 GPU가 첫 마이크로 배치를 연산하여 다음 GPU로 넘기고, 바로 두 번째 마이크로 배치를 연산하기 시작한다.
 2. **Backward Pass**: 모든 마이크로 배치의 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)가 끝나면 역순으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 수행하며 그래디언트를 누적한다.
-3. **[Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Update**: 한 주기가 끝나면 누적된 그래디언트로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 한 번에 업데이트한다.
+3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Update</strong>: 한 주기가 끝나면 누적된 그래디언트로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 한 번에 업데이트한다.
 
 - **📢 섹션 요약 비유**: 앞 사람이 작업을 끝내야 뒷 사람이 시작할 수 있지만, 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 작게 쪼개서 계속 넘겨주면(Micro-batch) 모두가 쉴 틈 없이 계속 일하게 되는 원리다.
 
@@ -82,7 +85,7 @@ GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하�
 | 통신 시점 | 그래디언트 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시 | 모든 레이어 연산 시 | 레이어 경계 통과 시 |
 | 주요 장점 | 구현이 매우 쉬움 | 메모리 절약 극대화 | 큰 모델을 효율적으로 처리 |
 
-GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 프레임워크의 기초가 된다.
+GPipe는 이후 405번의 <strong>DeepSpeed</strong>나 **Megatron-LM** 같은 고도화된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 프레임워크의 기초가 된다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 같은 요리를 여러 명이 각자 만드는 것이라면, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화는 코스 요리를 각 파트별로 나누어 전문적으로 조리하는 분업 시스템이다.
 
@@ -92,11 +95,11 @@ GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 [
 
 ### 실무 고려 사항
 1. **Bubble Overhead**: 마이크로 배치의 수가 적으면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 시작과 끝에서 GPU가 노는 '버블' 시간이 길어진다. (보통 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 개수의 4배 이상 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 권장)
-2. **통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) Communication) 속도가 전체 학습 속도를 좌우하므로 NVLink 같은 고속 인터커넥트 활용이 필수적이다.
+2. <strong>통신 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) Communication) 속도가 전체 학습 속도를 좌우하므로 NVLink 같은 고속 인터커넥트 활용이 필수적이다.
 3. **레이어 균형**: 각 GPU에 할당된 레이어들의 연산 시간이 비슷해야 특정 GPU에서 정체가 발생하는 '병목 현상'을 막을 수 있다.
 
 ### 기술사 판단 포인트
-- GPipe는 메모리 효율성을 위해 **[체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)([Checkpointing](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/))** 기술을 필수적으로 사용한다. 이는 모든 중간 값을 저장하는 대신 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시점에 다시 계산함으로써 메모리를 1/N로 줄이는 대신 연산량을 약 33% 증가시키는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택임을 명시해야 한다.
+- GPipe는 메모리 효율성을 위해 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">체크포인팅</a>(<a href="/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/">Checkpointing</a>)</strong> 기술을 필수적으로 사용한다. 이는 모든 중간 값을 저장하는 대신 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시점에 다시 계산함으로써 메모리를 1/N로 줄이는 대신 연산량을 약 33% 증가시키는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 선택임을 명시해야 한다.
 
 - **📢 섹션 요약 비유**: 공장 라인에서 한 사람이 너무 느리면 전체 라인이 멈춘다. 모두가 비슷한 속도로 일할 수 있게 업무(레이어)를 공평하게 나눠주는 것이 관리자의 능력이다.
 
@@ -106,7 +109,7 @@ GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 [
 
 GPipe는 초거대 언어 모델 학습의 기술적 한계를 극복하고 모델의 크기를 무한정 확장할 수 있는 토대를 마련했다.
 
-최근에는 순차적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 넘어 양방향으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흘려보내는 **PipeDream**이나 효율적인 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 지원하는 **FlashAttention** 등과 결합하여 더욱 진화하고 있다. 결국 AI의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 '얼마나 효율적으로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원을 쥐어짜느냐'에 달려 있으며, GPipe는 그 최전선에 있는 기술이다.
+최근에는 순차적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 넘어 양방향으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흘려보내는 <strong>PipeDream</strong>이나 효율적인 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 지원하는 **FlashAttention** 등과 결합하여 더욱 진화하고 있다. 결국 AI의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 '얼마나 효율적으로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원을 쥐어짜느냐'에 달려 있으며, GPipe는 그 최전선에 있는 기술이다.
 
 - **📢 섹션 요약 비유**: GPipe는 인류가 피라미드를 쌓을 때처럼, 거대한 작업을 작은 조각으로 나누어 수많은 일꾼이 함께 완성해 나가는 장대한 협업의 미학이다.
 

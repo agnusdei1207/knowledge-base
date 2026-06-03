@@ -20,31 +20,34 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-```text
-[ AQE Runtime Optimization Cycle ]
 
-  (Query Stage 1) --> [Write Shuffle Map Data]
-                            |
-                            V
-               [ Collect Runtime Statistics ]
-                            |
-                            V
-  (Query Stage 2) <-- [ Re-optimize Plan ]
-      - Merge small partitions
-      - Handle skewed data
-      - Switch to Broadcast Join
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AQE Runtime Optimization Cycle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Write Shuffle Map Data</div></div>
+<div class="kb-diagram-note">V</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Collect Runtime Statistics</div></div>
+<div class="kb-diagram-note">V</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">Re-optimize Plan</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">Merge small partitions</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Handle skewed data</div>
+<div class="kb-diagram-tree-item" style="--depth:3">Switch to Broadcast Join</div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
 | AQE 핵심 기능 | 상세 내용 | 해결하는 문제 |
 | :--- | :--- | :--- |
 | **Coalescing Shuffle Partitions** | 너무 작은 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 하나의 적절한 크기로 합침 | 작은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 너무 많아 발생하는 오버헤드 감소 |
-| **Switching [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Strategies** | 조인 대상 테이블이 작아진 것을 감지하면 Broadcast Join으로 변경 | 불필요한 네트워크 셔플 방지 |
-| **Optimizing [Skew Join](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/)** | 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏠린 경우(Skew) 이를 쪼개서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 | 일부 Task만 오래 걸리는 '꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)' 현상 해결 |
+| <strong>Switching <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a> Strategies</strong> | 조인 대상 테이블이 작아진 것을 감지하면 Broadcast Join으로 변경 | 불필요한 네트워크 셔플 방지 |
+| <strong>Optimizing <a href="/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/">Skew Join</a></strong> | 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏠린 경우(Skew) 이를 쪼개서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 | 일부 Task만 오래 걸리는 '꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)' 현상 해결 |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 활성화**: Spark 3.2 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)부터 기본 활성화되어 있으나, `spark.sql.adaptive.enabled=true` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 명시적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 활성화</strong>: Spark 3.2 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)부터 기본 활성화되어 있으나, `spark.sql.adaptive.enabled=true` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 명시적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 - **스큐 조인 처리**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상이 심한 대규모 테이블 조인 시, [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 주지 않아도 AQE가 `spark.sql.adaptive.skewJoin.enabled`를 통해 자동으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 방어해주므로 운영 안정성이 크게 향상된다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
@@ -57,21 +60,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정적 쿼리 계획 (Static Query Plan) — CBO]
-    │
-    ▼
-[런타임 통계 수집 (Runtime Statistics)]
-    │
-    ▼
-[적응형 쿼리 실행 (AQE, Adaptive Query Execution)]
-    │
-    ▼
-[파티션 병합 / 스큐 조인 최적화 (Skew Join)]
-    │
-    ▼
-[ML 기반 자동 튜닝 엔진 (Auto-tuning)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 쿼리 계획 (Static Query Plan) — CBO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">런타임 통계 수집 (Runtime Statistics)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">적응형 쿼리 실행 (AQE, Adaptive Query Execution)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 병합 / 스큐 조인 최적화 (Skew Join)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ML 기반 자동 튜닝 엔진 (Auto-tuning)</div></div>
+</div>
+</div>
+
+
 
 Spark [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화가 컴파일 시점 정적 계획에서 런타임 통계 기반 동적 최적화로 발전한 흐름이다.
 

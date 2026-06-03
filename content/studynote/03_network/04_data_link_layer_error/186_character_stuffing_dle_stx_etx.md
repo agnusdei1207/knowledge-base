@@ -19,24 +19,26 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-문자 삽입은 연속된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 속에서 프레임의 시작과 끝을 **특수 제어 문자 시퀀스**로 표시하는 방식이다. 송신기는 보통 `DLE STX`로 프레임 시작을, `DLE ETX`로 프레임 종료를 알린다. 수신기는 이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 조합을 찾아 프레임 경계를 판정한다.
+문자 삽입은 연속된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 속에서 프레임의 시작과 끝을 <strong>특수 제어 문자 시퀀스</strong>로 표시하는 방식이다. 송신기는 보통 `DLE STX`로 프레임 시작을, `DLE ETX`로 프레임 종료를 알린다. 수신기는 이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 조합을 찾아 프레임 경계를 판정한다.
 
 이 방식이 필요했던 이유는 길이 기반 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)만으로는 오류 전파를 막기 어렵기 때문이다. [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/) 방식은 길이 필드 하나가 깨지면 다음 프레임까지 경계가 무너질 수 있다. 반면 문자 삽입은 스트림 중간에서 다시 `DLE STX`를 찾으면 어느 정도 재동기화할 수 있어, 문자 중심 통신 환경에서 더 실용적인 선택이 되었다.
 
 아래 그림은 문자 삽입이 프레임 경계를 어떻게 표시하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Byte-oriented framing with control chars          │
-├──────────────────────────────────────────────────────────────┤
-│ DLE STX | payload byte ... payload byte ... | DLE ETX       │
-│                                                              │
-│ receiver state                                               │
-│   HUNT ──(DLE STX)──▶ IN-FRAME ──(DLE ETX)──▶ DONE           │
-└──────────────────────────────────────────────────────────────┘
-```
 
-핵심은 수신기가 길이를 세지 않고도 "경계 문자를 만날 때까지 읽는다"는 점이다. 따라서 프레임의 본질이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수보다 **특정 기호의 출현**으로 정의된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Byte-oriented framing with control chars</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLE STX</div><div class="kb-diagram-cell">payload byte ... payload byte ...</div><div class="kb-diagram-cell">DLE ETX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">receiver state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HUNT ──(DLE STX)──▶ IN-FRAME ──(DLE ETX)──▶ DONE</div></div>
+</div>
+</div>
+
+
+
+핵심은 수신기가 길이를 세지 않고도 "경계 문자를 만날 때까지 읽는다"는 점이다. 따라서 프레임의 본질이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수보다 <strong>특정 기호의 출현</strong>으로 정의된다.
 
 - **📢 섹션 요약 비유**: 문자 삽입은 편지 봉투의 "여기서부터 본문 시작", "여기서 끝" 표식을 붙이는 것과 같다. 길이를 재지 않아도 표식만 찾으면 어디까지 읽어야 할지 알 수 있다.
 
@@ -54,19 +56,21 @@ tags = ["studynote-network"]
 
 이 과정을 상태 기계로 보면 더 명확하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               수신기의 해석 상태 전이                       │
-├──────────────────────────────────────────────────────────────┤
-│ HUNT                                                        │
-│   └─ DLE STX 수신 → frame buffer 시작                       │
-│                                                              │
-│ IN-FRAME                                                     │
-│   ├─ 일반 바이트  → 그대로 저장                             │
-│   ├─ DLE DLE     → DLE 한 바이트 저장                       │
-│   └─ DLE ETX     → 프레임 종료                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신기의 해석 상태 전이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HUNT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DLE STX 수신 → frame buffer 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IN-FRAME</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 바이트 → 그대로 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DLE DLE → DLE 한 바이트 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DLE ETX → 프레임 종료</div></div>
+</div>
+</div>
+
+
 
 이 방식의 장점은 경계 인식 규칙이 단순하다는 데 있다. 하지만 payload에 `DLE`가 많이 들어가면 stuffing 오버헤드가 커지고, 모든 문자를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 검사해야 하므로 처리 비용도 증가한다. 그래서 문자 삽입은 "단순하지만 항상 효율적인" 방식은 아니다.
 
@@ -76,7 +80,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법은 경계를 어디에 두느냐에 따라 성격이 갈린다. [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)는 길이를 세고, 문자 삽입은 제어 문자를 찾고, [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 찾는다. 문자 삽입은 그중 **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향과 재동기화 가능성의 절충안**에 해당한다.
+[프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법은 경계를 어디에 두느냐에 따라 성격이 갈린다. [바이트 카운트](/knowledge-base/studynote/03_network/04_data_link_layer_error/185_byte_counting_framing/)는 길이를 세고, 문자 삽입은 제어 문자를 찾고, [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 찾는다. 문자 삽입은 그중 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 지향과 재동기화 가능성의 절충안</strong>에 해당한다.
 
 | 방식 | 경계 기준 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- |
@@ -94,7 +98,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 문자 삽입을 **저속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신, 제어 문자 체계가 명확한 장비 간 통신, 텍스트 성격이 강한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**에 적용하기 쉽다. 구현이 단순하고 디버깅 시 사람이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림을 해석하기도 쉽기 때문이다. 하지만 payload가 임의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심이면 DLE가 자주 등장할 수 있어 오버헤드가 커지고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 경계에 묶인 처리 특성 때문에 고속 링크에는 비효율적일 수 있다.
+실무에서는 문자 삽입을 <strong>저속 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 통신, 제어 문자 체계가 명확한 장비 간 통신, 텍스트 성격이 강한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>에 적용하기 쉽다. 구현이 단순하고 디버깅 시 사람이 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림을 해석하기도 쉽기 때문이다. 하지만 payload가 임의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심이면 DLE가 자주 등장할 수 있어 오버헤드가 커지고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 경계에 묶인 처리 특성 때문에 고속 링크에는 비효율적일 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -121,7 +125,7 @@ tags = ["studynote-network"]
 
 그러나 이 방식은 문자 집합과 escape 규칙에 묶여 있어 임의 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 현대 고속 네트워크에는 한계가 있다. 결국 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기술은 "무엇을 구분자로 삼을 것인가"의 역사이며, 문자 삽입은 그중에서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 지향 통신 시대를 대표하는 해법이다.
 
-따라서 이 개념은 단순히 `DLE STX ... DLE ETX`를 외우는 것이 아니라, **제어 기호가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안에 섞이면 escape가 필요하다**는 일반 원리로 기억해야 한다. 그 원리는 오늘날의 문자열 인코딩, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 전반에 여전히 살아 있다.
+따라서 이 개념은 단순히 `DLE STX ... DLE ETX`를 외우는 것이 아니라, <strong>제어 기호가 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 안에 섞이면 escape가 필요하다</strong>는 일반 원리로 기억해야 한다. 그 원리는 오늘날의 문자열 인코딩, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 전반에 여전히 살아 있다.
 
 - **📢 섹션 요약 비유**: 문자 삽입은 중요한 단어에 따옴표를 치되, 내용 속 따옴표에는 다시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 표식을 붙이는 글쓰기 규칙과 같다. 경계를 만들고, 그 경계가 본문과 충돌하지 않게 지켜 주는 기술이다.
 
@@ -139,21 +143,23 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 바이트 스트림의 경계 문제
-    │
-    ▼
-바이트 카운트 (Byte Counting)
-    │
-    ▼
-제어 문자 프레이밍 (STX / ETX)
-    │
-    ▼
-DLE 기반 문자 삽입 (Character Stuffing)
-    │
-    ▼
-비트 스터핑 · HDLC 같은 비트 지향 프로토콜
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 바이트 스트림의 경계 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">바이트 카운트 (Byte Counting)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 문자 프레이밍 (STX / ETX)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DLE 기반 문자 삽입 (Character Stuffing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 스터핑 · HDLC 같은 비트 지향 프로토콜</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 길이 표기에서 출발해, 제어 문자 기반 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)과 escape 규칙을 거쳐 보다 일반적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 지향 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)으로 발전하는 과정을 요약한다.
 

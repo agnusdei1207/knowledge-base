@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-구글은 2004년 발표한 논문 "[MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/): Simplified [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processing on Large Clusters"에서 수천 대 서버에서 페타바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 방법을 제시했다. 핵심 아이디어는 단순하다: **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼개어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하고, 결과를 한 곳에 모아 합산한다.**
+구글은 2004년 발표한 논문 "[MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/): Simplified [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Processing on Large Clusters"에서 수천 대 서버에서 페타바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 방법을 제시했다. 핵심 아이디어는 단순하다: <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 잘게 쪼개어 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 처리하고, 결과를 한 곳에 모아 합산한다.</strong>
 
-MapReduce의 이름은 두 핵심 연산에서 왔다. **Map**은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하여 키-값(Key-Value) 쌍으로 변환하는 과정이고, **Reduce**는 같은 키를 가진 모든 값을 모아서 집계(합산, 카운트 등)하는 과정이다. 이 두 연산의 조합으로 필터링, 정렬, 집계, 조인 같은 대부분의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리가 가능하다.
+MapReduce의 이름은 두 핵심 연산에서 왔다. <strong>Map</strong>은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하여 키-값(Key-Value) 쌍으로 변환하는 과정이고, <strong>Reduce</strong>는 같은 키를 가진 모든 값을 모아서 집계(합산, 카운트 등)하는 과정이다. 이 두 연산의 조합으로 필터링, 정렬, 집계, 조인 같은 대부분의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리가 가능하다.
 
 MapReduce는 함수형 프로그래밍의 map()과 reduce() 개념을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에 적용한 것이다. Python의 `map()`이 리스트의 각 원소에 함수를 적용하는 것처럼, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Map은 수천 노드의 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파티션에 함수를 적용한다.
 
@@ -33,39 +33,32 @@ MapReduce는 함수형 프로그래밍의 map()과 reduce() 개념을 [분산](/
 
 ### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 처리 단계
 
-```
-  입력 데이터 (HDFS 블록)
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │                   Map 단계                               │
-  │                                                          │
-  │  Split 1: [hello world] → (hello,1) (world,1)           │
-  │  Split 2: [hello hadoop] → (hello,1) (hadoop,1)          │
-  │  Split 3: [world hello] → (world,1) (hello,1)            │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼ Shuffle & Sort (같은 키끼리 모으기)
-  ┌─────────────────────────────────────────────────────────┐
-  │                 Shuffle & Sort 단계                      │
-  │                                                          │
-  │  hadoop: [(hadoop,1)]                                    │
-  │  hello:  [(hello,1), (hello,1), (hello,1)]              │
-  │  world:  [(world,1), (world,1)]                         │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼
-  ┌─────────────────────────────────────────────────────────┐
-  │                  Reduce 단계                             │
-  │                                                          │
-  │  hadoop: sum([1]) = 1                                    │
-  │  hello:  sum([1,1,1]) = 3                               │
-  │  world:  sum([1,1]) = 2                                 │
-  └────────────────────────────────────────────────────────┘
-       │
-       ▼
-  출력: hadoop=1, hello=3, world=2 (HDFS에 저장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 데이터 (HDFS 블록)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Map 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Split 1:</div><div class="kb-diagram-node">hello world</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(hello,1) (world,1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Split 2:</div><div class="kb-diagram-node">hello hadoop</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(hello,1) (hadoop,1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Split 3:</div><div class="kb-diagram-node">world hello</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(world,1) (hello,1)</div></div>
+<div class="kb-diagram-note">▼ Shuffle &amp; Sort (같은 키끼리 모으기)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shuffle &amp; Sort 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">hadoop:</div><div class="kb-diagram-node">(hadoop,1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">hello:</div><div class="kb-diagram-node">(hello,1), (hello,1), (hello,1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">world:</div><div class="kb-diagram-node">(world,1), (world,1)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reduce 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">hadoop: sum(</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">) = 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">hello: sum(</div><div class="kb-diagram-node">1,1,1</div><div class="kb-diagram-note">) = 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">world: sum(</div><div class="kb-diagram-node">1,1</div><div class="kb-diagram-note">) = 2</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">출력: hadoop=1, hello=3, world=2 (HDFS에 저장)</div>
+</div>
+</div>
+
+
 
 ### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 처리 흐름
 
@@ -144,23 +137,27 @@ public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritab
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 실행 최적화**:
-```
-1. Combiner 활용:
-   Reducer에 보내기 전 로컬에서 사전 집계
-   예: Map 결과 (hello,1)(hello,1)(hello,1) → Combiner → (hello,3)
-   → 네트워크 트래픽 대폭 감소
+<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> 실행 최적화</strong>:
 
-2. 적절한 Reducer 수 설정:
-   - 너무 적으면: 일부 Reducer에 부하 집중 (Skew)
-   - 너무 많으면: 작은 파일 다수 생성, NameNode 부하
 
-3. 입력 포맷 최적화:
-   - ORC, Parquet 같은 컬럼형 저장 포맷 사용
-   - 압축 코덱 적용 (Snappy, LZO)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. Combiner 활용:</div>
+<div class="kb-diagram-note">Reducer에 보내기 전 로컬에서 사전 집계</div>
+<div class="kb-diagram-note">예: Map 결과 (hello,1)(hello,1)(hello,1) → Combiner → (hello,3)</div>
+<div class="kb-diagram-note">→ 네트워크 트래픽 대폭 감소</div>
+<div class="kb-diagram-note">2. 적절한 Reducer 수 설정:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">너무 적으면: 일부 Reducer에 부하 집중 (Skew)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">너무 많으면: 작은 파일 다수 생성, NameNode 부하</div>
+<div class="kb-diagram-note">3. 입력 포맷 최적화:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ORC, Parquet 같은 컬럼형 저장 포맷 사용</div>
+<div class="kb-diagram-tree-item" style="--depth:1">압축 코덱 적용 (Snappy, LZO)</div>
+</div>
+</div>
 
-**AWS EMR에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 실행**:
+
+
+<strong>AWS EMR에서 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> 실행</strong>:
 ```bash
 aws emr add-steps \
   --cluster-id j-XXXXX \
@@ -212,15 +209,20 @@ MapReduce는 빅데이터 처리의 첫 번째 민주화였다. 구글만 할 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MapReduce 처리 흐름
-    ├─► Map: 데이터 분할 → 키-값 쌍 추출
-    ├─► Shuffle & Sort: 같은 키끼리 모으기
-    └─► Reduce: 집계 · 요약
-    │
-    ▼
-한계: 디스크 I/O 병목 → Spark (In-Memory) 대체
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MapReduce 처리 흐름</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Map: 데이터 분할 → 키-값 쌍 추출</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Shuffle &amp; Sort: 같은 키끼리 모으기</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Reduce: 집계 · 요약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">한계: 디스크 I/O 병목 → Spark (In-Memory) 대체</div>
+</div>
+</div>
+
+
 2. Shuffle은 같은 시대의 책 목록을 한 사람에게 모아주는 것, Reduce는 그 사람이 최종적으로 합산하는 거야.
 3. 혼자서 모든 책을 찾는 것보다 여러 명이 나눠서 동시에 찾으니([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) 훨씬 빠른 거야!
 

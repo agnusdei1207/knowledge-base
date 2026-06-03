@@ -38,31 +38,28 @@ tags = ["studynote-devops-sre"]
 ### 1. 피드백 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처 ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 무한 루프)
 피드백은 단순한 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)이 아니라, 개발(Plan) 단계로 돌아가는 화살표입니다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          [ 데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback) ]│
-│                                                             │
-│   ┌────────┐          ┌────────┐          ┌────────┐        │
-│ ─▶│ Plan   │─────────▶│ Code   │─────────▶│ Build  │─ ─ ┐   │
-│ │ └────────┘          └────────┘          └────────┘    │   │
-│ │(피드백 반영 백로그)                                        ▼   │
-│ │                                               ┌────────┐  │
-│ │   [ 지속적 피드백 (Continuous Feedback) ] <---│ Test   │  │
-│ │            (Telemetry & APM 융합)             └────────┘  │
-│ │                                                   │       │
-│ │ ┌────────┐          ┌────────┐          ┌────────┐▼       │
-│ └─│ Monitor│◀─────────│ Operate│◀─────────│ Deploy │        │
-│   └────────┘          └────────┘          └────────┘        │
-│  (A/B 지표, 에러 로그)      (라이브 서비스)                        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Plan</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Build</div><div class="kb-diagram-cell">─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(피드백 반영 백로그) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 피드백 (Continuous Feedback)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-│ Test │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Telemetry &amp; APM 융합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">Monitor</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Operate</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A/B 지표, 에러 로그) (라이브 서비스)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 그림 하단의 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)/Operate 영역에서 추출된 방대한 텔레메트리(Telemetry: 원격 측정) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가공되어, 다시 상단의 Plan 영역(기획자/개발자의 Jira 티켓)으로 꽂히는 이 상승 기류(화살표)가 바로 피드백 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 본질입니다.
 
 ### 2. 피드백의 3대 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (What to Measure?)
 지속적 피드백은 인프라 담당자만의 몫이 아닙니다. 3가지 차원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 융합되어야 합니다.
 1. **시스템 텔레메트리 (Ops/Infra)**: "새벽 2시에 CPU와 메모리가 튀었는가? 응답 레이턴시([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 2초를 넘어가는가?" (Datadog, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 활용)
-2. **애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) & Error)**: "새로 배포한 추천 로직에서 NullPointerException이 몇 건 발생했는가? 어떤 함수 구간에서 병목이 생겼는가?" (Sentry, [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Relic 활용)
+2. <strong>애플리케이션 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a> &amp; Error)</strong>: "새로 배포한 추천 로직에서 NullPointerException이 몇 건 발생했는가? 어떤 함수 구간에서 병목이 생겼는가?" (Sentry, [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Relic 활용)
 3. **비즈니스 사용자 지표 (Biz/Product)**: "장바구니 버튼의 색상을 파란색에서 빨간색으로 바꾼 배포본(A/B 테스트)에서 실제 결제 전환율(Conversion Rate)이 상승했는가?" (Google Analytics, Amplitude 활용)
 
 ---
@@ -74,12 +71,12 @@ tags = ["studynote-devops-sre"]
 | 수집 방식 | 아키텍처 매커니즘 | 장점 | 단점 (Trade-offs) |
 | :--- | :--- | :--- | :--- |
 | **Pull 방식 (Scraping)** | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 서버(예: [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/))가 주기적으로 각 앱의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))를 찔러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어감 | **수집 서버 부하 발생 시 앱에 영향 없음 (느슨한 결합)**, 중앙 통제 용이 | 매우 짧은 찰나의 에러 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 놓칠 수 있음. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 안쪽 찌르기 복잡. |
-| **Push 방식 (Agent/SDK)** | 애플리케이션에 심어진 에이전트(Agent)가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 발생 시 수집 서버로 직접 쏘아 보냄 (예: Datadog) | 단기적인 이벤트와 상세한 [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)) 즉시 포착 가능 | **수집 서버 장애 시 앱 내부 버퍼가 터져 연쇄 장애 유발 위험 ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))**, 오버헤드 증가 |
+| **Push 방식 (Agent/SDK)** | 애플리케이션에 심어진 에이전트(Agent)가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 발생 시 수집 서버로 직접 쏘아 보냄 (예: Datadog) | 단기적인 이벤트와 상세한 [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)) 즉시 포착 가능 | <strong>수집 서버 장애 시 앱 내부 버퍼가 터져 연쇄 장애 유발 위험 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong>, 오버헤드 증가 |
 
 ### 정보 과부하(Alert Fatigue)의 트레이드오프
-모든 것을 측정(Feedback)하겠다는 과도한 욕심은 **최악의 트레이드오프인 '경보 피로(Alert Fatigue)'**를 유발합니다. 
+모든 것을 측정(Feedback)하겠다는 과도한 욕심은 <strong>최악의 트레이드오프인 '경보 피로(Alert Fatigue)'</strong>를 유발합니다. 
 - CPU 70% 초과, 1초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 등 별로 중요하지 않은 일에도 슬랙 알람이 하루 수천 통씩 쏟아지면, 개발자는 결국 알람 채널을 무음(Mute)으로 돌려버리게 됩니다.
-- **해결책**: 측정은 많이 하되, 피드백(알람)은 인간의 개입이 즉시 필요한 '고객 가치 훼손(예: 결제 실패율 1% 상승)'에만 선별적으로 집중시키는 SRE의 **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표) 기반 알람 설계**가 필수입니다.
+- **해결책**: 측정은 많이 하되, 피드백(알람)은 인간의 개입이 즉시 필요한 '고객 가치 훼손(예: 결제 실패율 1% 상승)'에만 선별적으로 집중시키는 SRE의 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 목표) 기반 알람 설계</strong>가 필수입니다.
 
 - **📢 섹션 요약 비유**: 지속적 피드백 환경에서 알람 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 "양치기 소년"과 같습니다. 늑대(진짜 서버 장애)가 오지도 않았는데 바람 소리(단순 CPU [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))만 들려도 마을 사람(개발자)들을 밤마다 깨운다면, 진짜 늑대가 왔을 때 아무도 침대에서 일어나지 않는 재앙을 맞이하게 됩니다.
 
@@ -90,12 +87,12 @@ tags = ["studynote-devops-sre"]
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
 | **도입 환경** | 기존 레거시 시스템과의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 분석 | 마이그레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 및 단계별 전환 계획 수립 |
-| **비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 비용(CAPEX) 및 운영 비용(OPEX) | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 관점의 장기적 효율성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)) 아키텍처 도입)*
 - [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 환경에서 1번의 사용자 클릭은 백엔드의 10개 API를 순차적으로 통과합니다. 5번째 결제 서버에서 에러가 났는데 어느 앞단에서 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겼는지 알 길이 없습니다.
-- **실무 아키텍처 의사결정**: 완벽한 피드백을 얻으려면 단순히 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 텍스트로 남겨서는 안 됩니다. 최초 사용자 요청(Request)에 고유한 지문([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 부여하고, 모든 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 이 지문을 넘겨받으며([Context Propagation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/570_trace_id_span_id_context_propagation/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기도록 **[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 기반의 [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)(Zipkin, Jaeger)** 아키텍처를 소스 코드 레벨(SDK)에 강제 주입해야만 완벽한 원인 분석(Root Cause Analysis) 피드백이 가능합니다.
+- **실무 아키텍처 의사결정**: 완벽한 피드백을 얻으려면 단순히 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 텍스트로 남겨서는 안 됩니다. 최초 사용자 요청(Request)에 고유한 지문([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 부여하고, 모든 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 이 지문을 넘겨받으며([Context Propagation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/570_trace_id_span_id_context_propagation/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기도록 <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a> 기반의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/">분산 트레이싱</a>(Zipkin, Jaeger)</strong> 아키텍처를 소스 코드 레벨(SDK)에 강제 주입해야만 완벽한 원인 분석(Root Cause Analysis) 피드백이 가능합니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 아무리 좋은 보안 카메라([APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/))를 설치해도, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)라는 10개의 어두운 방을 지나는 도둑(에러)에게 처음부터 "형광 페인트([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))"를 묻혀두지 않으면 그가 어떤 경로로 침입했는지 절대 추적(피드백)할 수 없습니다.
 
@@ -104,9 +101,9 @@ tags = ["studynote-devops-sre"]
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
 1. **AIOps를 통한 지능형 피드백(Intelligent Feedback)의 진화**
-   수만 대의 서버에서 초당 수백만 줄의 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 쏟아지는 시대에, 이를 눈으로 읽고 인사이트를 얻는 것은 불가능합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)독(Datadog), 다이나트레이스(Dynatrace) 등 현대 APM은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML)을 탑재하여, "평소 금요일 오후 트래픽 패턴과 달리 현재 장바구니 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레이턴시가 미세하게 튀고 있다. 방금 배포된 v1.5의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)가 원인일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 95%"라고 AI가 원인 분석 리포트까지 스스로 작성하여 던져주는 **[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) for IT Operations)** 패러다임으로 진화하고 있습니다.
+   수만 대의 서버에서 초당 수백만 줄의 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 쏟아지는 시대에, 이를 눈으로 읽고 인사이트를 얻는 것은 불가능합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)독(Datadog), 다이나트레이스(Dynatrace) 등 현대 APM은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML)을 탑재하여, "평소 금요일 오후 트래픽 패턴과 달리 현재 장바구니 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레이턴시가 미세하게 튀고 있다. 방금 배포된 v1.5의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)가 원인일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 95%"라고 AI가 원인 분석 리포트까지 스스로 작성하여 던져주는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> for IT Operations)</strong> 패러다임으로 진화하고 있습니다.
 
-2. **[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))과의 융합**
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)과의 융합</strong>
    기존 피드백이 장애가 터진 '이후(After)'에 수집되는 방어적 개념이었다면, 넷플릭스(Netflix)가 주도하는 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 운영 환경에 의도적으로 서버를 죽이는 원숭이([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))를 풀어놓고, 시스템이 이를 어떻게 버티고 복원하는지에 대한 텔레메트리 지표를 강제로 뽑아내는 '능동적이고 공격적인 피드백' 아키텍처로 진화하고 있습니다.
 
 - **📢 섹션 요약 비유**: 미래의 피드백은 "사고가 난 뒤에 원인을 찾는 블랙박스"가 아니라, "심장 박동의 미세한 변화만 감지하고도 3일 뒤에 올 심장마비를 예측하여 의사에게 경고하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 주치의" 시스템으로 완전히 탈바꿈하고 있습니다.
@@ -115,11 +112,11 @@ tags = ["studynote-devops-sre"]
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-*   **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 3대 핵심 기둥 ([CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크 기반)**
+*   <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> 3대 핵심 기둥 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/">CALMS</a> 프레임워크 기반)</strong>
     *   [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)): 잦은 병합과 빌드 자동화
     *   [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) (CD): 안전하고 빠른 프로덕션 배포
-    *   **Continuous Feedback (CF): 가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 텔레메트리 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링**
-*   **텔레메트리(Telemetry) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 3대 필라 (Three Pillars of [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))**
+    *   <strong>Continuous Feedback (CF): 가치 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 및 텔레메트리 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>
+*   <strong>텔레메트리(Telemetry) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 3대 필라 (Three Pillars of <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>
     *   [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) ([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)): CPU, Memory 등 시계열 정량 수치
     *   [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)): 시스템에서 발생한 구체적 텍스트 이벤트 기록
     *   Traces (트레이스): [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 간의 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 병목 구간 추적
@@ -134,28 +131,30 @@ tags = ["studynote-devops-sre"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Telemetry (원격 측정)** | 프로덕션 시스템에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·트레이스를 자동 수집하는 지속적 피드백의 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| **[APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) (Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/))** | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)·오류율·[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 실시간 추적하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이상을 즉각 감지하는 피드백 계기판 |
-| **[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 지표/목표)** | SRE가 합의한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기준 — 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 SLO를 위반하면 자동 경보 및 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스** | 구글이 정의한 4대 성과 지표(배포 빈도·리드타임·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간·장애율) — [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 효율을 측정 |
-| **[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)** | ML 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 수천 개 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 근본 원인을 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 지능형 피드백 증폭 시스템 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a> (Application <a href="/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/">Performance Monitoring</a>)</strong> | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)·오류율·[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 실시간 추적하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이상을 즉각 감지하는 피드백 계기판 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> / <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 지표/목표)</strong> | SRE가 합의한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기준 — 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 SLO를 위반하면 자동 경보 및 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스</strong> | 구글이 정의한 4대 성과 지표(배포 빈도·리드타임·장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간·장애율) — [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 효율을 측정 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a></strong> | ML 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)로 수천 개 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 근본 원인을 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 지능형 피드백 증폭 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CD (지속적 배포) — 프로덕션 릴리스]
-    │
-    ▼
-[Telemetry 수집 — 로그·메트릭·트레이스 (Observability)]
-    │
-    ▼
-[APM / SLI 측정 — 성능·신뢰성 실시간 모니터링]
-    │
-    ▼
-[피드백 알람 — 슬랙·PagerDuty → 개발팀 즉각 통지]
-    │
-    ▼
-[백로그 반영 (Plan 단계 귀환) — DORA 개선 루프 완성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CD (지속적 배포) — 프로덕션 릴리스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Telemetry 수집 — 로그·메트릭·트레이스 (Observability)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">APM / SLI 측정 — 성능·신뢰성 실시간 모니터링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 알람 — 슬랙·PagerDuty → 개발팀 즉각 통지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">백로그 반영 (Plan 단계 귀환) — DORA 개선 루프 완성</div></div>
+</div>
+</div>
+
+
 배포 후 Telemetry가 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·SLI로 분석되고, 피드백 알람이 개발 백로그로 귀환하여 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 개선하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 무한 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 완성 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -165,7 +164,7 @@ tags = ["studynote-devops-sre"]
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
+> <strong>🛡️ 3.1 Pro Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
 
 ---
 

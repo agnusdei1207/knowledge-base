@@ -25,19 +25,21 @@ tags = ["studynote-bigdata"]
 
 아래 비교는 왜 통합 플랫폼이 등장했는지를 잘 보여 준다. 핵심은 배치와 스트리밍을 같은 인프라에서 돌리는 것보다, 같은 의미 체계와 같은 로직으로 유지하는 데 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Lambda 구조 vs 통합 구조                                      │
-├──────────────────────────────────────────────────────────────┤
-│ Lambda: Raw Data ─▶ Batch Code ─▶ Batch View                 │
-│            └──────▶ Stream Code ─▶ Realtime View             │
-│            => 같은 규칙을 두 번 구현                         │
-│                                                              │
-│ Unified: Bounded / Unbounded Source                          │
-│              └────────▶ One Engine / One Logic ─▶ Result     │
-│              => 재처리와 실시간 계산의 간격 축소             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda 구조 vs 통합 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda: Raw Data ─▶ Batch Code ─▶ Batch View</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Stream Code ─▶ Realtime View</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 같은 규칙을 두 번 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified: Bounded / Unbounded Source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ One Engine / One Logic ─▶ Result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 재처리와 실시간 계산의 간격 축소</div></div>
+</div>
+</div>
+
+
 
 그래서 현대 플랫폼은 "모든 것은 스트림이다" 혹은 "스트리밍도 작은 배치들의 연속이다"라는 두 방향으로 수렴해 왔다. Apache Flink는 전자를, Spark Structured Streaming은 후자를 더 강하게 대표한다. 둘 다 목표는 같지만, 시간 처리 방식과 상태 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 차이를 보인다.
 
@@ -56,21 +58,20 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 통합 엔진이 입력 종류와 상관없이 하나의 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 유지하는 방식을 보여준다. 여기서 핵심 구성요소는 소스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 상태 저장소, 체크포인트, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)도 추적([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 또는 오프셋), 그리고 여러 싱크로의 일관된 결과 반영이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Unified Execution Model                                       │
-├──────────────────────────────────────────────────────────────┤
-│ File / Object Store (bounded) ─┐                             │
-│ Kafka / Pulsar (unbounded) ────┼─▶ Parse / Join / Aggregate  │
-│ CDC Stream (unbounded) ────────┘             │               │
-│                                               ▼               │
-│                                   State Store / Checkpoint    │
-│                                               │               │
-│                            ┌──────────────────┴─────────────┐ │
-│                            ▼                                ▼ │
-│                     Realtime Serving                  Lakehouse │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Execution Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File / Object Store (bounded) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka / Pulsar (unbounded) ─▶ Parse / Join / Aggregate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDC Stream (unbounded)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State Store / Checkpoint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Realtime Serving Lakehouse</div></div>
+</div>
+</div>
+
+
 
 이 모델이 성립하려면 세 가지가 필요하다. 첫째, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)도를 추적해야 한다. 스트리밍에서는 [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/), 배치에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 끝 또는 입력 종료가 그 역할을 한다. 둘째, 상태를 일관되게 보존해야 한다. 조인과 집계가 많아질수록 상태 저장소와 체크포인트가 엔진의 핵심이 된다. 셋째, 실패 후 재시작 시 같은 입력에 대해 같은 의미를 재현할 수 있어야 한다.
 
@@ -151,21 +152,23 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 [레이크하우스]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분리된 Batch / Stream 코드
-    │
-    ▼
-Replay 가능한 로그 · Checkpoint
-    │
-    ▼
-Unified API (Bounded + Unbounded)
-    │
-    ▼
-One Logic / One State Model
-    │
-    ▼
-Backfill + Realtime Serving + Lakehouse 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분리된 Batch / Stream 코드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Replay 가능한 로그 · Checkpoint</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unified API (Bounded + Unbounded)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">One Logic / One State Model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Backfill + Realtime Serving + Lakehouse 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 배치와 단순 스트리밍의 병행 운영에서, 같은 의미 체계 위의 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼으로 진화하는 방향을 보여준다.
 

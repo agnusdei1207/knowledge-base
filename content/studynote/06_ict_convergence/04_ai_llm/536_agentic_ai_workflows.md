@@ -29,30 +29,27 @@ tags = ["studynote-ict-convergence"]
 
 에이전틱 워크플로우는 순환적 루프(ReAct: Reasoning + Acting) 구조를 기반으로 한다.
 
-```text
-[ Agentic AI Workflow Cycle ]
 
-      +---------------------------+
-      |  User Goal / Objective    |
-      +------------+--------------+
-                   |
-      +------------v--------------+
-      | 1. Planning (Task Deco)   | <-------+
-      +------------+--------------+         |
-                   |                        |
-      +------------v--------------+         |
-      | 2. Tool Use / Execution   |         | 4. Iteration &
-      | (Search, Code, API, DB)   |         |    Reflection
-      +------------+--------------+         | (Self-Correction)
-                   |                        |
-      +------------v--------------+         |
-      | 3. Observation / Analysis | --------+
-      +------------+--------------+
-                   | (Goal Reached)
-      +------------v--------------+
-      |     Final Result          |
-      +---------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agentic AI Workflow Cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Goal / Objective</div></div>
+<div class="kb-diagram-note">+------------v--------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Planning (Task Deco)</div><div class="kb-diagram-cell">&lt;-------+</div></div>
+<div class="kb-diagram-note">+------------v--------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Tool Use / Execution</div><div class="kb-diagram-cell">4. Iteration &amp;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Search, Code, API, DB)</div><div class="kb-diagram-cell">Reflection</div></div>
+<div class="kb-diagram-note">+------------+--------------+ | (Self-Correction)</div>
+<div class="kb-diagram-note">+------------v--------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Observation / Analysis</div><div class="kb-diagram-cell">--------+</div></div>
+<div class="kb-diagram-note">(Goal Reached)</div>
+<div class="kb-diagram-note">+------------v--------------+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final Result</div></div>
+</div>
+</div>
+
+
 
 1. **Reflection**: 자신이 생성한 결과물을 스스로 비판하고 개선안을 도출한다. (Self-Correction)
 2. **Tool Use**: 외부 지식 검색, 계산기, 코드 실행기 등을 직접 호출하여 부족한 능력을 보완한다.
@@ -68,7 +65,7 @@ tags = ["studynote-ict-convergence"]
 | 비교 항목 | 전통적 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) (Prompt-based) | 에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Workflow-based) |
 | :--- | :--- | :--- |
 | **작동 방식** | 입력 -> 출력 ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)) | 계획 -> 실행 -> 반추 (루프) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 결정** | 모델의 파라미터 규모 | 워크플로우 설계 및 반복 횟수 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 결정</strong> | 모델의 파라미터 규모 | 워크플로우 설계 및 반복 횟수 |
 | **추론 비용** | 낮음 (1회 실행) | 높음 (다회 실행 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
 | **정확도** | 중간 ([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 취약) | 높음 (스스로 오류 수정) |
 | **적합 사례** | 번역, 요약, 단순 질의 | 소프트웨어 개발, 리서치, 마케팅 자동화 |
@@ -79,7 +76,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사로서의 판단으로는, 에이전틱 AI는 **'모델의 한계를 아키텍처로 극복'**하는 기술이다.
+기술사로서의 판단으로는, 에이전틱 AI는 <strong>'모델의 한계를 아키텍처로 극복'</strong>하는 기술이다.
 1. **거버넌스**: AI가 자율적으로 도구를 사용하고 결제나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 등의 액션을 취할 때를 대비해 **Human-in-the-loop (중간 승인)** 설계가 필수적이다.
 2. **안정성**: 무한 루프(Infinite Loop)에 빠져 비용이 폭증하는 것을 방지하기 위해 최대 반복 횟수(Max Iterations)와 비용 한도를 설정해야 한다.
 3. **평가**: 정적인 벤치마크보다는 실제 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 성공률([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Success Rate)을 지표로 관리해야 한다.
@@ -90,7 +87,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-에이전틱 AI는 기업의 업무 방식 자체를 완전히 바꿀 것이다. 단순히 답변을 주는 수준을 넘어, 스스로 업무를 완결 짓는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사원'의 등장을 의미한다. 향후에는 에이전트 간의 소통 표준 프로토콜이 정립될 것이며, 이는 서로 다른 회사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트들이 협력하여 복잡한 비즈니스 거래를 수행하는 **Agentic Economy**의 토대가 될 것이다.
+에이전틱 AI는 기업의 업무 방식 자체를 완전히 바꿀 것이다. 단순히 답변을 주는 수준을 넘어, 스스로 업무를 완결 짓는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사원'의 등장을 의미한다. 향후에는 에이전트 간의 소통 표준 프로토콜이 정립될 것이며, 이는 서로 다른 회사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트들이 협력하여 복잡한 비즈니스 거래를 수행하는 <strong>Agentic Economy</strong>의 토대가 될 것이다.
 
 - **📢 섹션 요약 비유**: 결산표를 보듯 효과와 한계를 함께 정리해야 다음 확장 방향이 선명해진다.
 

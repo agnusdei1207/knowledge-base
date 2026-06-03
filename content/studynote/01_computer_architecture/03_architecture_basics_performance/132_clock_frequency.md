@@ -23,18 +23,18 @@ tags = ["studynote-computer-architecture"]
 
 클럭 주파수가 중요해진 이유는 회로가 커질수록 "얼마나 빨리 계산할 수 있는가"와 "언제 안전하게 읽을 수 있는가"를 함께 맞춰야 하기 때문이다. 예를 들어 1 기가헤르츠 (Gigahertz, GHz)는 1초에 10억 번, 4 기가헤르츠는 40억 번의 타이밍 기회를 뜻한다. 겉으로는 숫자가 클수록 무조건 빠를 것 같지만, 실제로는 그 짧아진 시간 안에 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 경로가 계산을 끝내야만 의미가 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      클럭 주파수의 역할: "언제 다음 단계로 넘어갈지" 통일    │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 변화        조합 논리 계산        값 안정화      저장    │
-│    │                  │                  │            │      │
-│    ▼                  ▼                  ▼            ▼      │
-│ [Input] ───────▶ [Propagation] ───────▶ [Stable] ─▶ [Edge]  │
-│                                                         │    │
-│                                                         └─▶ FF│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 주파수의 역할: "언제 다음 단계로 넘어갈지" 통일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 변화 조합 논리 계산 값 안정화 저장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Propagation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Stable</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Edge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ FF</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 클럭이 계산 자체를 만드는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 아니라, 계산 결과를 받아들이는 시점을 정하는 기준이라는 점이다. 그래서 클럭 주파수는 단순한 속도 숫자가 아니라 시스템 전체의 합의된 템포라고 이해해야 한다.
 
@@ -55,21 +55,22 @@ tags = ["studynote-computer-architecture"]
 | 클럭 트리 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Tree) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전 칩에 분배 | 스큐가 커지면 고주파에서 취약 |
 | [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) ([Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)) | 에지에서 상태 저장 | 셋업/홀드 위반 여부를 좌우 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          주파수를 올릴수록 허용 시간이 줄어드는 구조         │
-├──────────────────────────────────────────────────────────────┤
-│ 낮은 주파수                                                  │
-│ Edge A ─────────────────────────────── Edge B                │
-│        <--------- 넉넉한 계산 시간 --------->                │
-│                                                              │
-│ 높은 주파수                                                  │
-│ Edge A ───────────── Edge B                                  │
-│        <- 짧아진 계산 시간 ->                                │
-│                                                              │
-│ 조건: Clock Period >= Logic Delay + Setup Time + Margin     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수를 올릴수록 허용 시간이 줄어드는 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 주파수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge A Edge B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;--------- 넉넉한 계산 시간 ---------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 주파수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge A Edge B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- 짧아진 계산 시간 -&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건: Clock Period &gt;= Logic Delay + Setup Time + Margin</div></div>
+</div>
+</div>
+
+
 
 따라서 주파수 상승은 곧 타이밍 마진 축소를 의미한다. 같은 회로라도 배선이 길어지거나 캐시 접근 경로가 복잡해지면 목표 주파수 달성이 어려워지고, 이를 해결하기 위해 파이프라이닝 (Pipelining), 경로 분할, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 보강, 물리 배치 최적화가 동원된다.
 
@@ -139,21 +140,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기준 클럭 생성
-    │
-    ▼
-클럭 주파수 · 클럭 주기
-    │
-    ▼
-타이밍 제약 · 임계 경로
-    │
-    ▼
-IPC · CPI 기반 성능 해석
-    │
-    ▼
-DVFS · 부스트 클럭 · 멀티클럭 도메인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기준 클럭 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클럭 주파수 · 클럭 주기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타이밍 제약 · 임계 경로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IPC · CPI 기반 성능 해석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS · 부스트 클럭 · 멀티클럭 도메인</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 반복 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 개념에서 출발해, 타이밍 제약과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석을 거쳐 전력 최적화와 복수 클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 운영으로 확장되는 학습 경로를 보여준다.
 

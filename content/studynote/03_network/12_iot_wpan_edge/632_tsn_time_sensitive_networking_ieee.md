@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)을 기반으로 하되, **마이크로초(µs) 혹은 나노초(ns) 단위의 엄격한 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도달 시간(Determinism, 결정성)을 100% 보장하도록 IEEE 802.1 워킹그룹에서 만든 차세대 통신 표준 세트**입니다.
+- **개념**: 표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)을 기반으로 하되, <strong>마이크로초(µs) 혹은 나노초(ns) 단위의 엄격한 시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 도달 시간(Determinism, 결정성)을 100% 보장하도록 IEEE 802.1 워킹그룹에서 만든 차세대 통신 표준 세트</strong>입니다.
 - **배경**: 기존 공장들은 [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/), EtherCAT 등 각자 다른 전용 케이블을 깔아 썼습니다. 유지보수가 너무 힘들자, "표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선 하나만 깔고, 그 안에 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)랑 로봇 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞어 쓰되, 로봇 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만큼은 KTX처럼 절대 안 밀리게 길을 터주자!"는 아이디어로 탄생했습니다.
 
-```text
-[OPC UA]
-    │
-    ▼
-[TSN]
-    │
-    └──▶ [자율주행 차량 통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율주행 차량 통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TSN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,25 +42,29 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 초정밀 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Time [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), IEEE 802.1AS-Rev)
-- 네트워크에 물린 수천 대의 로봇 팔과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 **모두 똑같은 시계(나노초 단위의 오차 없는 시간)**를 공유합니다. (앞서 537번 문서에서 배운 **PTP, IEEE 1588** 기술을 기반으로 함)
+- 네트워크에 물린 수천 대의 로봇 팔과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 <strong>모두 똑같은 시계(나노초 단위의 오차 없는 시간)</strong>를 공유합니다. (앞서 537번 문서에서 배운 **PTP, IEEE 1588** 기술을 기반으로 함)
 - 시계가 똑같아야 "정확히 12시 5분 0.001초에 다 같이 멈춰!"라는 명령을 일제히 수행할 수 있습니다.
 
 ### 2. 타임 어웨어 셰이퍼 (TAS: Time-Aware Shaper, IEEE 802.1Qbv)
 - TSN의 심장입니다. 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에는 큐(대기열)가 있습니다.
-- TAS는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 물리적인 시간표([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)) 셔터를 만듭니다. **미리 정해진 시간이 되면 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(유튜브, 이메일)가 지나는 대기열 문을 쾅 닫아버리고, VIP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(로봇 제어명령)가 지나는 대기열 문만 활짝 열어** 다른 잡다한 트래픽의 간섭을 원천 차단합니다. 
+- TAS는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 물리적인 시간표([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)) 셔터를 만듭니다. <strong>미리 정해진 시간이 되면 일반 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(유튜브, 이메일)가 지나는 대기열 문을 쾅 닫아버리고, VIP <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(로봇 제어명령)가 지나는 대기열 문만 활짝 열어</strong> 다른 잡다한 트래픽의 간섭을 원천 차단합니다. 
 
 ### 3. 프레임 선점 (Frame Preemption, IEEE 802.1Qbu)
 - 만약 셔터가 닫히기 직전에 거대한 덩치의 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트럭(1500바이트 패킷)이 톨게이트를 진입해 버리면 VIP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 밀리게 됩니다.
-- 프레임 선점 기술은 거대한 일반 패킷이 지나가고 있더라도, **VIP 패킷이 도착하면 가차 없이 일반 패킷을 반으로 토막 내어 전송을 일시 중단시키고 VIP 패킷을 먼저 통과시키는 무자비한 새치기 기술**입니다.
+- 프레임 선점 기술은 거대한 일반 패킷이 지나가고 있더라도, <strong>VIP 패킷이 도착하면 가차 없이 일반 패킷을 반으로 토막 내어 전송을 일시 중단시키고 VIP 패킷을 먼저 통과시키는 무자비한 새치기 기술</strong>입니다.
 
-```text
-[OPC UA]
-    │
-    ▼
-[TSN]
-    │
-    └──▶ [자율주행 차량 통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율주행 차량 통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TSN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-유선망의 최고봉이 TSN이라면, 무선망의 최고봉은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연)입니다. 스마트 팩토리나 자율주행 자동차 내부는 이 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 핏줄로 묶이고, 외부 인터넷이나 클라우드와는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선으로 연결되는 **유무선 통합 초저지연 생태계**가 미래 산업망의 최종 종착지입니다.
+유선망의 최고봉이 TSN이라면, 무선망의 최고봉은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연)입니다. 스마트 팩토리나 자율주행 자동차 내부는 이 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 핏줄로 묶이고, 외부 인터넷이나 클라우드와는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선으로 연결되는 <strong>유무선 통합 초저지연 생태계</strong>가 미래 산업망의 최종 종착지입니다.
 
 TSN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. OPC UA가 기반 조건을 만든다면, TSN는 그 위에서 핵심 메커니즘을 구현하고, [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ TSN는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OPC UA]
-    │
-    ▼
-[현재 개념: TSN]
-    │
-    ├──▶ [확장 A: 자율주행 차량 통신]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OPC UA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TSN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율주행 차량 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 TSN는 OPC UA에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,46 +18,41 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. CSB 개요와 역할
 
-```
-NIST 클라우드 참조 모델:
 
-클라우드 소비자 (Consumer)
-     ↕
-[CSB - Cloud Service Broker]
-     ↕
-클라우드 제공자 (Provider: AWS, Azure, GCP)
 
-CSB 3대 역할 (Gartner):
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NIST 클라우드 참조 모델:</div>
+<div class="kb-diagram-note">클라우드 소비자 (Consumer)</div>
+<div class="kb-diagram-note">↕</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSB - Cloud Service Broker</div></div>
+<div class="kb-diagram-note">↕</div>
+<div class="kb-diagram-note">클라우드 제공자 (Provider: AWS, Azure, GCP)</div>
+<div class="kb-diagram-note">CSB 3대 역할 (Gartner):</div>
+<div class="kb-diagram-note">1. 중개 (Intermediation):</div>
+<div class="kb-diagram-note">클라우드 서비스에 부가가치 추가</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">AWS S3 + 암호화 + 접근 통제 + DLP</div>
+<div class="kb-diagram-note">→ 기업 규정 준수 스토리지 서비스</div>
+<div class="kb-diagram-note">보안 CSB: 클라우드에 보안 레이어 추가</div>
+<div class="kb-diagram-note">2. 집계 (Aggregation):</div>
+<div class="kb-diagram-note">여러 클라우드 서비스를 단일 인터페이스로</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">AWS + Azure + GCP + SaaS 앱들</div>
+<div class="kb-diagram-note">→ 단일 대시보드, 단일 청구, 단일 정책</div>
+<div class="kb-diagram-note">멀티 클라우드 관리 플랫폼</div>
+<div class="kb-diagram-note">3. 차익거래 (Arbitrage):</div>
+<div class="kb-diagram-note">여러 클라우드 간 가격/성능 비교 후 자동 선택</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">컴퓨팅 작업 시작 → CSB가 현재 스팟 가격 비교</div>
+<div class="kb-diagram-note">AWS: $0.10/시간, GCP: $0.08/시간</div>
+<div class="kb-diagram-note">→ GCP 자동 선택</div>
+<div class="kb-diagram-note">한계: 이식성(Portability) 이슈</div>
+<div class="kb-diagram-note">클라우드별 API 차이 → 이동 어려움</div>
+</div>
+</div>
 
-1. 중개 (Intermediation):
-  클라우드 서비스에 부가가치 추가
-  
-  예:
-  AWS S3 + 암호화 + 접근 통제 + DLP
-  → 기업 규정 준수 스토리지 서비스
-  
-  보안 CSB: 클라우드에 보안 레이어 추가
 
-2. 집계 (Aggregation):
-  여러 클라우드 서비스를 단일 인터페이스로
-  
-  예:
-  AWS + Azure + GCP + SaaS 앱들
-  → 단일 대시보드, 단일 청구, 단일 정책
-  
-  멀티 클라우드 관리 플랫폼
-
-3. 차익거래 (Arbitrage):
-  여러 클라우드 간 가격/성능 비교 후 자동 선택
-  
-  예:
-  컴퓨팅 작업 시작 → CSB가 현재 스팟 가격 비교
-  AWS: $0.10/시간, GCP: $0.08/시간
-  → GCP 자동 선택
-  
-  한계: 이식성(Portability) 이슈
-  클라우드별 API 차이 → 이동 어려움
-```
 
 > 📢 **섹션 요약 비유**: CSB는 여행사 — 여러 항공사(클라우드)를 비교해서 좋은 것 골라주고(차익거래), 패키지로 묶어주고(집계), 여행 보험 추가(중개). 소비자는 여행사만 상대!
 
@@ -169,49 +164,46 @@ CASB 배포 방식:
 
 ## Ⅳ. FinOps와 클라우드 최적화
 
-```
-FinOps (Financial Operations):
-  클라우드 비용 문화적 접근
-  "비즈니스 팀+엔지니어+재무팀 협업으로 클라우드 비용 최적화"
 
-FinOps 3단계 (사이클):
 
-1. 알림 (Inform):
-  누가 얼마 쓰는지 가시성
-  태그 기반 비용 배분
-  예산 초과 알림
-  
-  도구: AWS Cost Explorer, CloudHealth
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FinOps (Financial Operations):</div>
+<div class="kb-diagram-note">클라우드 비용 문화적 접근</div>
+<div class="kb-diagram-note">"비즈니스 팀+엔지니어+재무팀 협업으로 클라우드 비용 최적화"</div>
+<div class="kb-diagram-note">FinOps 3단계 (사이클):</div>
+<div class="kb-diagram-note">1. 알림 (Inform):</div>
+<div class="kb-diagram-note">누가 얼마 쓰는지 가시성</div>
+<div class="kb-diagram-note">태그 기반 비용 배분</div>
+<div class="kb-diagram-note">예산 초과 알림</div>
+<div class="kb-diagram-note">도구: AWS Cost Explorer, CloudHealth</div>
+<div class="kb-diagram-note">2. 최적화 (Optimize):</div>
+<div class="kb-diagram-note">낭비 제거:</div>
+<div class="kb-diagram-note">사용 안 하는 리소스 정리</div>
+<div class="kb-diagram-note">올바른 사이즈 (Right Sizing)</div>
+<div class="kb-diagram-note">예약 인스턴스:</div>
+<div class="kb-diagram-note">On-Demand 대비 40~60% 절감</div>
+<div class="kb-diagram-note">1년 또는 3년 약정</div>
+<div class="kb-diagram-note">스팟 인스턴스:</div>
+<div class="kb-diagram-note">여분 용량 사용 → 70~90% 절감</div>
+<div class="kb-diagram-note">중단 내성 워크로드 (ML 학습, 배치)</div>
+<div class="kb-diagram-note">3. 운영 (Operate):</div>
+<div class="kb-diagram-note">지속적 비용 최적화 문화</div>
+<div class="kb-diagram-note">엔지니어가 비용 인식</div>
+<div class="kb-diagram-note">비용 이상 자동 알림</div>
+<div class="kb-diagram-note">클라우드 비용 낭비 패턴:</div>
+<div class="kb-diagram-note">좀비 리소스: 사용 안 하는 VM (업계 30~40%)</div>
+<div class="kb-diagram-note">과도한 사이즈: m5.4xlarge → m5.xlarge</div>
+<div class="kb-diagram-note">미사용 예약: 예약하고 안 씀</div>
+<div class="kb-diagram-note">데이터 이전 비용: 클라우드 내 네트워크 비용 간과</div>
+<div class="kb-diagram-note">개발/테스트 환경: 24×7 실행 (업무 시간만 필요)</div>
+<div class="kb-diagram-note">ROI:</div>
+<div class="kb-diagram-note">FinOps 도입 기업: 평균 28% 클라우드 비용 절감</div>
+<div class="kb-diagram-note">(Flexera 2024 State of the Cloud)</div>
+</div>
+</div>
 
-2. 최적화 (Optimize):
-  낭비 제거:
-  사용 안 하는 리소스 정리
-  올바른 사이즈 (Right Sizing)
-  
-  예약 인스턴스:
-  On-Demand 대비 40~60% 절감
-  1년 또는 3년 약정
-  
-  스팟 인스턴스:
-  여분 용량 사용 → 70~90% 절감
-  중단 내성 워크로드 (ML 학습, 배치)
 
-3. 운영 (Operate):
-  지속적 비용 최적화 문화
-  엔지니어가 비용 인식
-  비용 이상 자동 알림
-
-클라우드 비용 낭비 패턴:
-  좀비 리소스: 사용 안 하는 VM (업계 30~40%)
-  과도한 사이즈: m5.4xlarge → m5.xlarge
-  미사용 예약: 예약하고 안 씀
-  데이터 이전 비용: 클라우드 내 네트워크 비용 간과
-  개발/테스트 환경: 24×7 실행 (업무 시간만 필요)
-
-ROI:
-  FinOps 도입 기업: 평균 28% 클라우드 비용 절감
-  (Flexera 2024 State of the Cloud)
-```
 
 > 📢 **섹션 요약 비유**: FinOps는 클라우드 가계부 — "누가 얼마 썼나(알림)" + "불필요한 것 끄기(최적화)" + "비용 의식 문화(운영)". 평균 28% 절감 = 1억 쓰면 2,800만원 아끼기!
 
@@ -219,55 +211,51 @@ ROI:
 
 ## Ⅴ. 실무 시나리오 — 중견기업 CSB 구축
 
-```
-중견 제조사 (직원 2,000명) CSB 도입:
 
-현황:
-  AWS 70%, Azure 30% 혼용
-  클라우드 월 청구: 5억원
-  
-  문제:
-  멀티 클라우드 비용 통합 뷰 없음
-  각 클라우드 별도 거버넌스 → 정책 불일치
-  사용 안 하는 리소스 파악 불가
-  보안팀: Shadow IT 우려
 
-CSB 솔루션 설계:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중견 제조사 (직원 2,000명) CSB 도입:</div>
+<div class="kb-diagram-note">현황:</div>
+<div class="kb-diagram-note">AWS 70%, Azure 30% 혼용</div>
+<div class="kb-diagram-note">클라우드 월 청구: 5억원</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">멀티 클라우드 비용 통합 뷰 없음</div>
+<div class="kb-diagram-note">각 클라우드 별도 거버넌스 → 정책 불일치</div>
+<div class="kb-diagram-note">사용 안 하는 리소스 파악 불가</div>
+<div class="kb-diagram-note">보안팀: Shadow IT 우려</div>
+<div class="kb-diagram-note">CSB 솔루션 설계:</div>
+<div class="kb-diagram-note">계층 구조:</div>
+<div class="kb-diagram-note">기업 사용자/팀</div>
+<div class="kb-diagram-note">↕</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CSB 레이어: CloudHealth + CASB</div></div>
+<div class="kb-diagram-note">↕</div>
+<div class="kb-diagram-note">AWS + Azure 멀티 클라우드</div>
+<div class="kb-diagram-note">CloudHealth (CMP) 도입:</div>
+<div class="kb-diagram-note">1. 비용 통합 대시보드:</div>
+<div class="kb-diagram-note">AWS + Azure 단일 뷰</div>
+<div class="kb-diagram-note">팀별 태그 비용 배분 (부서별 차지백)</div>
+<div class="kb-diagram-note">2. 최적화 추천:</div>
+<div class="kb-diagram-note">발견: 좀비 EC2 42개 (월 1,200만원 낭비)</div>
+<div class="kb-diagram-note">미사용 RDS 8개 (월 400만원)</div>
+<div class="kb-diagram-note">사이즈 초과 60개 (월 800만원)</div>
+<div class="kb-diagram-note">→ 즉시 조치: 월 2,400만원 절감</div>
+<div class="kb-diagram-note">CASB (Netskope) 도입:</div>
+<div class="kb-diagram-note">Shadow IT 탐지:</div>
+<div class="kb-diagram-note">직원들이 사용 중인 미승인 서비스 발견:</div>
+<div class="kb-diagram-note">개인 Dropbox/Google Drive → 업무 파일 공유</div>
+<div class="kb-diagram-note">정책:</div>
+<div class="kb-diagram-note">기밀 문서(DLP 분류) → 미승인 클라우드 차단</div>
+<div class="kb-diagram-note">승인 서비스(SharePoint, Box): 허용</div>
+<div class="kb-diagram-note">결과 (6개월):</div>
+<div class="kb-diagram-note">클라우드 비용: 5억원 → 3.3억원 (34% 절감)</div>
+<div class="kb-diagram-note">정책 일관성: AWS+Azure 동일 보안 정책</div>
+<div class="kb-diagram-note">Shadow IT: 직원 인식 제고 + 공식 채널 사용</div>
+<div class="kb-diagram-note">ROI: 솔루션 비용 6개월 내 회수</div>
+</div>
+</div>
 
-계층 구조:
-  기업 사용자/팀
-       ↕
-  [CSB 레이어: CloudHealth + CASB]
-       ↕
-  AWS + Azure 멀티 클라우드
 
-CloudHealth (CMP) 도입:
-  1. 비용 통합 대시보드:
-  AWS + Azure 단일 뷰
-  팀별 태그 비용 배분 (부서별 차지백)
-  
-  2. 최적화 추천:
-  발견: 좀비 EC2 42개 (월 1,200만원 낭비)
-  미사용 RDS 8개 (월 400만원)
-  사이즈 초과 60개 (월 800만원)
-  
-  → 즉시 조치: 월 2,400만원 절감
-
-CASB (Netskope) 도입:
-  Shadow IT 탐지:
-  직원들이 사용 중인 미승인 서비스 발견:
-  개인 Dropbox/Google Drive → 업무 파일 공유
-  
-  정책:
-  기밀 문서(DLP 분류) → 미승인 클라우드 차단
-  승인 서비스(SharePoint, Box): 허용
-
-결과 (6개월):
-  클라우드 비용: 5억원 → 3.3억원 (34% 절감)
-  정책 일관성: AWS+Azure 동일 보안 정책
-  Shadow IT: 직원 인식 제고 + 공식 채널 사용
-  ROI: 솔루션 비용 6개월 내 회수
-```
 
 > 📢 **섹션 요약 비유**: 중견사 CSB 구축 결과 — [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 가계부([CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)) 열어보니 2,400만원 낭비 발견! 경비원([CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)) 배치하니 직원 개인 클라우드 사용 차단. 6개월에 솔루션 비용 회수!
 

@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) ([Bridge Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/153_bridge_pattern/))은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 구현을 분리해 **두 축이 독립적으로 확장**되게 만들고, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 캡슐화해 **행동을 교체 가능**하게 만든다.
+> 1. **본질**: [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/) ([Bridge Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/153_bridge_pattern/))은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 구현을 분리해 <strong>두 축이 독립적으로 확장</strong>되게 만들고, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) ([Strategy Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 캡슐화해 <strong>행동을 교체 가능</strong>하게 만든다.
 > 2. **가치**: 두 패턴 모두 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 합성 (Composition)을 택하지만, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 구조 복잡도를 줄이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 조건 분기와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결합도를 낮춘다.
 > 3. **판단 포인트**: 문제의 핵심이 "추상 계층과 구현 계층의 2차원 확장"이면 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), "동일 문맥에서 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택"이면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 보는 것이 가장 실무적이다.
 
@@ -31,35 +31,36 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-두 패턴의 차이는 연결 구조보다 **확장 방향**에서 가장 선명하게 드러난다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 `Abstraction ↔ Implementor`의 두 계층을 만들고, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 `Context → Strategy`의 한 방향 교체 지점을 만든다.
+두 패턴의 차이는 연결 구조보다 <strong>확장 방향</strong>에서 가장 선명하게 드러난다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 `Abstraction ↔ Implementor`의 두 계층을 만들고, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 `Context → Strategy`의 한 방향 교체 지점을 만든다.
 
 아래 그림은 왜 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)가 2차원 확장이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 1차원 교체인지 보여준다.
 
-```text
-┌──────────────────────────── Bridge ────────────────────────────┐
-│ Abstraction                                                    │
-│   ├── RemoteControl                                            │
-│   └── AdvancedRemoteControl                                    │
-│            │ has-a                                              │
-│            ▼                                                    │
-│ Implementor                                                    │
-│   ├── TV                                                        │
-│   └── Radio                                                     │
-│ Result: Remote 종류와 Device 종류가 독립 확장                  │
-└────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────── Strategy ───────────────────────────┐
-│ Context                                                        │
-│   └── PaymentService                                           │
-│            │ uses                                               │
-│            ▼                                                    │
-│ Strategy                                                       │
-│   ├── CardPaymentStrategy                                      │
-│   ├── AccountTransferStrategy                                  │
-│   └── SimplePayStrategy                                        │
-│ Result: 동일 문맥에서 결제 알고리즘만 교체                     │
-└────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bridge</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstraction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RemoteControl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AdvancedRemoteControl</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">has-a</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Implementor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TV</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Radio</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: Remote 종류와 Device 종류가 독립 확장</div></div>
+<div class="kb-diagram-note">Strategy</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PaymentService</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">uses</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CardPaymentStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AccountTransferStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── SimplePayStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: 동일 문맥에서 결제 알고리즘만 교체</div></div>
+</div>
+</div>
+
+
 
 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 구현 세부사항을 직접 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)하지 않고 구현자 인터페이스에 위임한다. 그래서 `RemoteControl` 계열이 늘어나도 `TV`, `Radio` 계열과 곱셈으로 증가하지 않는다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 품고 있다가 상황에 따라 다른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 교체한다. 핵심은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 책임은 유지하고, 변하는 계산 방식만 외부 객체로 분리한다는 점이다.
 
@@ -125,7 +126,7 @@ tags = ["studynote-design-supervision"]
 
 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 잘 쓰면 코드가 읽히고 테스트되기 쉬워진다. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 안정적으로 유지되고, 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 독립 클래스에서 실험·교체·확장할 수 있다. 이는 기능 확장 속도와 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 품질을 동시에 높인다.
 
-결론적으로 두 패턴은 "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신 합성"이라는 공통 철학을 공유하지만, 기억해야 할 핵심은 의도다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 **구조의 두 축을 분리하는 패턴**, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 **행동의 선택지를 교체하는 패턴**으로 이해하면 실전 구분이 훨씬 쉬워진다.
+결론적으로 두 패턴은 "[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신 합성"이라는 공통 철학을 공유하지만, 기억해야 할 핵심은 의도다. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)는 **구조의 두 축을 분리하는 패턴**, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong>행동의 선택지를 교체하는 패턴</strong>으로 이해하면 실전 구분이 훨씬 쉬워진다.
 
 - **📢 섹션 요약 비유**: 좋은 설계자는 부품 창고를 나누어야 할지, 오늘 사용할 공구만 갈아끼우면 될지를 먼저 판단한다. 그 판단이 맞아야 패턴도 맞게 쓴다.
 
@@ -143,19 +144,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-상속 중심 설계
-    │
-    ▼
-조합 폭발 · 조건 분기 증가
-    │
-    ├── 구조 분리 필요 ──▶ 브리지 패턴 (Bridge Pattern)
-    │
-    └── 알고리즘 교체 필요 ──▶ 전략 패턴 (Strategy Pattern)
-                                  │
-                                  ▼
-합성 우선 설계 · OCP · DIP 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상속 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조합 폭발 · 조건 분기 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:2">구조 분리 필요 ──▶ 브리지 패턴 (Bridge Pattern)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">알고리즘 교체 필요 ──▶ 전략 패턴 (Strategy Pattern)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">합성 우선 설계 · OCP · DIP 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 같은 합성 기반 설계라도 문제의 초점이 구조 분리인지, 행위 교체인지에 따라 서로 다른 패턴으로 갈라짐을 보여준다.
 

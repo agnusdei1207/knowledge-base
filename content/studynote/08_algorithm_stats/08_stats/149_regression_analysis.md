@@ -29,7 +29,7 @@ y = β₀ + β₁x + ε
 ε ~ N(0, σ²): 오차항 (Error Term)
 ```
 
-**OLS(Ordinary Least Squares, [최소 제곱법](/knowledge-base/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/)) 추정량**:
+<strong>OLS(Ordinary Least Squares, <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/">최소 제곱법</a>) 추정량</strong>:
 
 ```
 최소화: Σᵢ εᵢ² = Σᵢ (yᵢ - β₀ - β₁xᵢ)²
@@ -38,22 +38,28 @@ y = β₀ + β₁x + ε
 β̂₀ = ȳ - β̂₁x̄
 ```
 
-**회귀선과 잔차 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**:
+<strong>회귀선과 잔차 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-```
-   y
-    ▲         ★
-    │       ╱  ↑ 잔차 (Residual) = y - ŷ
-    │     ★╱
-    │   ╱★ ↓
-    │ ╱★
-    │╱
-    └─────────────────▶ x
-     회귀선 ŷ = β̂₀ + β̂₁x
-     OLS = 모든 잔차 제곱합 최소화
-```
 
-**[결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) (R², [Coefficient of Determination](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/))**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">y</div>
+<div class="kb-diagram-note">▲ ★</div>
+<div class="kb-diagram-note">╱ ↑ 잔차 (Residual) = y - ŷ</div>
+<div class="kb-diagram-note">★╱</div>
+<div class="kb-diagram-note">╱★ ↓</div>
+<div class="kb-diagram-note">╱★</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ x</div>
+<div class="kb-diagram-note">회귀선 ŷ = β̂₀ + β̂₁x</div>
+<div class="kb-diagram-note">OLS = 모든 잔차 제곱합 최소화</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/">결정 계수</a> (R², <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/">Coefficient of Determination</a>)</strong>:
 
 ```
 R² = 1 - SS_Res / SS_Tot = SS_Reg / SS_Tot
@@ -81,9 +87,9 @@ OLS: β̂ = (XᵀX)⁻¹Xᵀy   (XᵀX 역행렬 존재 시)
 - R²은 변수를 추가할수록 단조 증가 (과적합 위험)
 - 수정 R² = 1 - [(1-R²)(n-1)/(n-p-1)]: 불필요한 변수 추가 시 감소
 
-**다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))**: 독립 변수들 간 높은 상관관계
+<strong>다중공선성 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong>: 독립 변수들 간 높은 상관관계
 
-**VIF ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 팽창 인수)**:
+<strong>VIF (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> Inflation Factor, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 팽창 인수)</strong>:
 
 ```
 VIF_j = 1 / (1 - R²_j)
@@ -104,7 +110,7 @@ R²_j: j번째 변수를 나머지 변수들로 회귀했을 때의 R²
 
 ## Ⅲ. [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)
 
-**[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))**: 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 위한 선형 모델
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/">로지스틱 회귀</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/">Logistic Regression</a>)</strong>: 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 위한 선형 모델
 
 ```
 log-odds = logit(p) = log(p/(1-p)) = β₀ + β₁x₁ + ... + βₚxₚ = Xβ
@@ -112,7 +118,7 @@ log-odds = logit(p) = log(p/(1-p)) = β₀ + β₁x₁ + ... + βₚxₚ = Xβ
 확률로 변환: p = σ(Xβ) = 1 / (1 + e^(-Xβ))
 ```
 
-**[시그모이드 함수](/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) Function)**: σ(z) = 1/(1+e^(-z))
+<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/">시그모이드 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a> Function)</strong>: σ(z) = 1/(1+e^(-z))
 - 출력 범위: (0, 1) → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 해석 가능
 - 결정 경계 (Decision Boundary): p = 0.5 일 때, Xβ = 0
 
@@ -125,7 +131,7 @@ log-odds = logit(p) = log(p/(1-p)) = β₀ + β₁x₁ + ... + βₚxₚ = Xβ
 
 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))으로 최적화 (닫힌 형식 해 없음).
 
-**다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**: [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 함수로 확장
+<strong>다중 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 함수로 확장
 
 ```
 P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
@@ -139,7 +145,7 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 
 **과적합 문제**: 변수가 많으면 학습 데이터에 과도하게 맞아 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하.
 
-**Ridge 회귀 (L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))**:
+<strong>Ridge 회귀 (L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)</strong>:
 
 ```
 최소화: Σ(yᵢ - ŷᵢ)² + λ Σ βⱼ²
@@ -151,31 +157,33 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 - 계수를 0에 가깝게 수축(Shrinkage)하지만 완전히 0이 되지는 않음
 - 다중공선성 해결에 효과적
 
-**[Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) 회귀 (L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), Least Absolute Shrinkage and [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a> 회귀 (L1 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>, Least Absolute Shrinkage and <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a>)</strong>:
 
 ```
 최소화: Σ(yᵢ - ŷᵢ)² + λ Σ |βⱼ|
                           ↑ L1 페널티
 ```
 
-- 일부 계수를 정확히 0으로 만듦 → **자동 변수 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))**
+- 일부 계수를 정확히 0으로 만듦 → <strong>자동 변수 선택(Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>
 - 희소 모델(Sparse Model) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
-```
-┌────────────────────────────────────────────────────┐
-│           Ridge vs Lasso 비교                       │
-├──────────────────────┬─────────────────────────────┤
-│        Ridge          │          Lasso              │
-├──────────────────────┼─────────────────────────────┤
-│ L2 페널티 ||β||₂²    │ L1 페널티 ||β||₁            │
-│ 계수 수축, 0 미도달  │ 계수 정확히 0 (변수 선택)   │
-│ 다중공선성 해결      │ 희소 모델 (Sparse)           │
-│ 가우시안 사전 MAP    │ 라플라스 사전 MAP            │
-│ 닫힌 형식 해 존재    │ 수치 최적화 필요             │
-└──────────────────────┴─────────────────────────────┘
-```
 
-**[Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/)**: Ridge + [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) 결합: λ₁||β||₁ + λ₂||β||₂²  
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ridge vs Lasso 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ridge</div><div class="kb-diagram-cell">Lasso</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 페널티</div><div class="kb-diagram-cell">β</div><div class="kb-diagram-cell">₂²</div><div class="kb-diagram-cell">L1 페널티</div><div class="kb-diagram-cell">β</div><div class="kb-diagram-cell">₁</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계수 수축, 0 미도달</div><div class="kb-diagram-cell">계수 정확히 0 (변수 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중공선성 해결</div><div class="kb-diagram-cell">희소 모델 (Sparse)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가우시안 사전 MAP</div><div class="kb-diagram-cell">라플라스 사전 MAP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">닫힌 형식 해 존재</div><div class="kb-diagram-cell">수치 최적화 필요</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a></strong>: Ridge + [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) 결합: λ₁||β||₁ + λ₂||β||₂²  
 변수 선택 + 상관 변수 함께 선택(Group [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)).
 
 📢 **섹션 요약 비유**: Ridge는 "모든 직원 급여를 조금씩 삭감", Lasso는 "성과 없는 직원은 해고"와 같다. Ridge는 모든 변수를 유지하며 작게 만들고, Lasso는 중요하지 않은 변수를 완전히 제거한다.
@@ -186,7 +194,7 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 
 **선형 회귀의 4가지 가정 (LINE)**:
 1. **선형성 (Linearity)**: E[y|X] = Xβ — 비선형 패턴 시 변수 변환 필요
-2. **독립성 ([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))**: 잔차들이 서로 독립 — 시계열 데이터에서 자기상관(Autocorrelation) 위반 주의
+2. <strong>독립성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>: 잔차들이 서로 독립 — 시계열 데이터에서 자기상관(Autocorrelation) 위반 주의
 3. **등분산성 (Homoscedasticity)**: 잔차 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 X에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 일정 — 위반 시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 안정화 변환(log, √) 필요
 4. **정규성 (Normality)**: 잔차 ~ N(0, σ²) — 소표본에서 추론(검정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에 필요
 
@@ -201,18 +209,20 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 
 **회귀 분석 전체 흐름**:
 
-```
-┌─────────────────────────────────────────────────────┐
-│              회귀 분석 워크플로우                     │
-├───────────┬──────────┬──────────┬────────────────────┤
-│  EDA       │  모델    │  가정    │   해석              │
-│  탐색      │  적합    │  검진    │                    │
-├───────────┼──────────┼──────────┼────────────────────┤
-│ 산점도    │ OLS/MLE  │ 잔차 플롯│ β 해석             │
-│ 상관 행렬 │ Ridge    │ VIF 확인 │ R² 확인            │
-│ 이상값    │ Lasso    │ 정규성   │ 예측 구간          │
-└───────────┴──────────┴──────────┴────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀 분석 워크플로우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDA</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">가정</div><div class="kb-diagram-cell">해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색</div><div class="kb-diagram-cell">적합</div><div class="kb-diagram-cell">검진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산점도</div><div class="kb-diagram-cell">OLS/MLE</div><div class="kb-diagram-cell">잔차 플롯</div><div class="kb-diagram-cell">β 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상관 행렬</div><div class="kb-diagram-cell">Ridge</div><div class="kb-diagram-cell">VIF 확인</div><div class="kb-diagram-cell">R² 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상값</div><div class="kb-diagram-cell">Lasso</div><div class="kb-diagram-cell">정규성</div><div class="kb-diagram-cell">예측 구간</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 회귀 진단 플롯은 "자동차 계기판"과 같다. 엔진이 잘 돌아가도(모델 적합) 계기판(진단 플롯)을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 "등분산성 경고등(깔때기 패턴)", "정규성 경고등(Q-Q 이탈)"을 발견할 수 있다.
 
@@ -234,21 +244,23 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 수집 및 탐색 (EDA)]
-    │
-    ▼
-[단순 선형 회귀 — 독립변수 1개, OLS(최소제곱법) 추정]
-    │
-    ▼
-[다중 회귀 — 독립변수 복수, 다중공선성·VIF 진단]
-    │
-    ▼
-[정규화 회귀 (Ridge / Lasso / ElasticNet) — 과적합 방어]
-    │
-    ▼
-[비선형·ML 회귀 (GBM / SVR / DNN) — 복잡 패턴 학습]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집 및 탐색 (EDA)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 선형 회귀 — 독립변수 1개, OLS(최소제곱법) 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 회귀 — 독립변수 복수, 다중공선성·VIF 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 회귀 (Ridge / Lasso / ElasticNet) — 과적합 방어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선형·ML 회귀 (GBM / SVR / DNN) — 복잡 패턴 학습</div></div>
+</div>
+</div>
+
+
 단순 선형 회귀에서 다중 회귀로 확장하고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 기법으로 과적합을 방어한 뒤 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 회귀 모델로 진화하는 것이 실무 분석의 표준 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -44,34 +44,28 @@ tags = ["studynote-it-management"]
 
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 배치, 인터페이스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 망연계를 통과할 때의 공통 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Network linkage reference flow                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Source zone                                                         │
-│   files / records / API events                                      │
-│        │                                                            │
-│        ▼                                                            │
-│ [Collector / Staging]                                               │
-│        │ metadata extraction                                        │
-│        ▼                                                            │
-│ [Inspection] Antivirus + CDR + DLP + schema validation              │
-│        │                                                            │
-│        ├─ reject / quarantine -> audit                              │
-│        └─ pass                                                      │
-│             ▼                                                       │
-│      [Approval / Policy Engine]                                     │
-│             │                                                       │
-│             ▼                                                       │
-│      [Transfer Broker / Relay]                                      │
-│             │                                                       │
-│        one-way or controlled bi-direction                           │
-│             ▼                                                       │
-│ Target zone + SIEM / immutable logs                                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 핵심은 "연결"보다 "중개"다. 보안 수준이 가장 높은 환경에서는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Diode로 물리적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하고, 일반 업무망에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 게이트웨이나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 릴레이가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 양방향 흐름을 제한적으로 제공한다. 즉 망연계는 단일 제품명이 아니라, **분리된 경계 위에 어떤 형태의 안전한 흐름을 설계할지에 대한 아키텍처 패턴**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network linkage reference flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">files / records / API events</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Collector / Staging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata extraction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Inspection</div><div class="kb-diagram-note">Antivirus + CDR + DLP + schema validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reject / quarantine -&gt; audit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pass</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Approval / Policy Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transfer Broker / Relay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one-way or controlled bi-direction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target zone + SIEM / immutable logs</div></div>
+</div>
+</div>
+
+
+
+여기서 핵심은 "연결"보다 "중개"다. 보안 수준이 가장 높은 환경에서는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Diode로 물리적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하고, 일반 업무망에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 게이트웨이나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 릴레이가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 양방향 흐름을 제한적으로 제공한다. 즉 망연계는 단일 제품명이 아니라, <strong>분리된 경계 위에 어떤 형태의 안전한 흐름을 설계할지에 대한 아키텍처 패턴</strong>이다.
 
 - **📢 섹션 요약 비유**: 망연계는 문을 활짝 여는 것이 아니라, 짐을 검수하고 봉인해 전달하는 택배 교환소를 두는 것과 같다.
 
@@ -132,7 +126,7 @@ tags = ["studynote-it-management"]
 
 잘 설계된 망연계 시스템은 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)의 보안 강도를 유지하면서도 현실 업무가 요구하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 설명 가능하게 만든다. 사용자는 비인가 우회 경로를 찾지 않아도 되고, 보안팀은 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 검사와 승인을 거쳐 이동했는지 추적할 수 있다. 이는 단순 편의 개선이 아니라, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 사고 대응의 근거를 확보한다는 뜻이다.
 
-다만 망연계가 만능은 아니다. 검사 엔진 성능이 부족하면 병목이 되고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 느슨하면 악성 콘텐츠가 통과하며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 과도하면 조직이 다시 우회 경로를 찾는다. 따라서 망연계의 성패는 장비 이름보다 **[데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/), 승인 책임, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 예외 통제, [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 연동**을 얼마나 함께 설계했는지에 달려 있다.
+다만 망연계가 만능은 아니다. 검사 엔진 성능이 부족하면 병목이 되고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 느슨하면 악성 콘텐츠가 통과하며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 과도하면 조직이 다시 우회 경로를 찾는다. 따라서 망연계의 성패는 장비 이름보다 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/">데이터 분류</a>, 승인 책임, <a href="/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a>, 예외 통제, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> 연동</strong>을 얼마나 함께 설계했는지에 달려 있다.
 
 결론적으로 망연계 시스템은 "분리된 망을 연결하는 터널"이 아니라 "분리 원칙을 유지하면서 필요한 흐름만 조절하는 밸브"로 기억하는 것이 정확하다. 좋은 망연계는 연결을 늘리는 기술이 아니라, 연결을 설명 가능하게 만드는 기술이다.
 
@@ -153,25 +147,26 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-망분리 도입
-    │
-    ▼
-업무상 데이터 교환 필요 발생
-    │
-    ▼
-Staging + Inspection + Approval
-    │
-    ├─ 단방향 고보안 -> Data Diode
-    ├─ 파일 교환     -> Transfer Gateway + CDR
-    └─ 시스템 연계   -> API / Message Relay
-    │
-    ▼
-Audit + SIEM + DR 연계
-    │
-    ▼
-Zero Trust와 결합한 현대적 경계 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">망분리 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">업무상 데이터 교환 필요 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Staging + Inspection + Approval</div>
+<div class="kb-diagram-tree-item" style="--depth:2">단방향 고보안 -&gt; Data Diode</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파일 교환 -&gt; Transfer Gateway + CDR</div>
+<div class="kb-diagram-tree-item" style="--depth:2">시스템 연계 -&gt; API / Message Relay</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Audit + SIEM + DR 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Trust와 결합한 현대적 경계 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 망연계가 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사가 아니라, 분리된 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 이동시키기 위한 통제 체계로 진화했음을 보여 준다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 서버(컴퓨팅), 스토리지, 네트워크, 보안 등 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 구성하는 **모든 물리적 하드웨어 인프라 자원을 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여 거대한 자원 풀(Pool)로 만들고, 이를 사람의 손이 아닌 100% 소프트웨어의 프로그래밍([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 통제, 할당, 관리하는 차세대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 아키텍처**입니다.
+- **개념**: 서버(컴퓨팅), 스토리지, 네트워크, 보안 등 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 구성하는 <strong>모든 물리적 하드웨어 인프라 자원을 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술로 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>하여 거대한 자원 풀(Pool)로 만들고, 이를 사람의 손이 아닌 100% 소프트웨어의 프로그래밍(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)으로 통제, 할당, 관리하는 차세대 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 아키텍처</strong>입니다.
 - 아마존 AWS나 구글 클라우드의 뼈대를 이루는 근본 철학이자, 기업 프라이빗 클라우드의 궁극적 최종 목표(VMWare Cloud Foundation 등)입니다.
 
-```text
-[인텐트 기반 네트워킹]
-    │
-    ▼
-[소프트웨어 정의 데이터센터]
-    │
-    └──▶ [화이트박스 스위치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 데이터센터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 스위치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,26 +44,30 @@ tags = ["studynote-network"]
 SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨어 혁명이 하나로 융합(결합)된 결과물입니다.
 
 ### 1. SDC (Software Defined Computing) - "컴퓨터의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"
-- **역할**: 가장 먼저 완성된 분야입니다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware ESXi, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등)를 이용해 물리적 서버(CPU, RAM)를 쪼개어 수많은 **가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))**이나 **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)**를 1초 만에 찍어냅니다. 물리 서버의 경계를 허물었습니다.
+- **역할**: 가장 먼저 완성된 분야입니다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMware ESXi, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등)를 이용해 물리적 서버(CPU, RAM)를 쪼개어 수많은 <strong>가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)</strong>이나 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>를 1초 만에 찍어냅니다. 물리 서버의 경계를 허물었습니다.
 
 ### 2. [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) ([Software Defined Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) - "하드디스크의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"
-- **역할**: 과거엔 비싼 스토리지 장비(EMC, NetApp)를 따로 샀습니다. SDS는 범용 x86 서버에 싸구려 하드디스크를 잔뜩 꽂아놓고, vSAN이나 Ceph 같은 **소프트웨어가 이 디스크들을 논리적으로 묶어 하나의 거대한 초고성능 스토리지인 것처럼 속여서([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**합니다.
+- **역할**: 과거엔 비싼 스토리지 장비(EMC, NetApp)를 따로 샀습니다. SDS는 범용 x86 서버에 싸구려 하드디스크를 잔뜩 꽂아놓고, vSAN이나 Ceph 같은 <strong>소프트웨어가 이 디스크들을 논리적으로 묶어 하나의 거대한 초고성능 스토리지인 것처럼 속여서(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>합니다.
 
 ### 3. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([Software Defined Networking](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/)) - "통신망의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)" 🌟
 - **역할**: 850번 문서에서 배운 핵심입니다. 복잡한 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 중앙 컨트롤러(NSX 등)가 소프트웨어로 100% 장악하여, VM이 생성될 때마다 가상의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 터널([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/))을 빛의 속도로 뚫어줍니다.
 
 ### 4. [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) (Cloud [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform) - "지배자 플랫폼"
-- 위 세 가지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 하나로 묶어 지휘하는 **통합 오케스트레이터(총사령부)**입니다. (예: OpenStack, vRealize)
+- 위 세 가지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 하나로 묶어 지휘하는 <strong>통합 오케스트레이터(총사령부)</strong>입니다. (예: OpenStack, vRealize)
 - 사용자가 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) 웹 포털(대시보드)에 접속해 "웹서버 2대, DB 1대, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 1개 세트로 만들어 줘"라고 요청하면, SDC, [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/), [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러들에게 동시에 명령을 내려 1분 만에 세팅을 끝내버립니다(자동화 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)).
 
-```text
-[인텐트 기반 네트워킹]
-    │
-    ▼
-[소프트웨어 정의 데이터센터]
-    │
-    └──▶ [화이트박스 스위치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 데이터센터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 스위치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨
 ## Ⅲ. 비교 및 연결
 
 - **유연성과 민첩성 극대화**: 크리스마스 이브에 쇼핑몰 접속자가 100배 폭증하면, 시스템이 10초 만에 스스로 가상 서버 1,000대, 가상 라우터, 스토리지를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 증설(Auto-scaling)하여 트래픽을 막아내고 이벤트가 끝나면 다시 지워버립니다.
-- **하드웨어 종속 탈피 ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/) 극복)**: 비싼 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 EMC 스토리지가 필요 없습니다. 껍데기는 가장 싼 대만제 x86 서버(화이트박스)를 잔뜩 깔고, 지능은 전부 100% 소프트웨어로 덮어씌워 굴리기 때문에 인프라 원가(CAPEX)가 극적으로 떡락합니다.
+- <strong>하드웨어 종속 탈피 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/">Vendor Lock-in</a> 극복)</strong>: 비싼 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 EMC 스토리지가 필요 없습니다. 껍데기는 가장 싼 대만제 x86 서버(화이트박스)를 잔뜩 깔고, 지능은 전부 100% 소프트웨어로 덮어씌워 굴리기 때문에 인프라 원가(CAPEX)가 극적으로 떡락합니다.
 
 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/)이 기반 조건을 만든다면, 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 그 위에서 핵심 메커니즘을 구현하고, [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -78,7 +86,7 @@ SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 옛날 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 건물을 지을 때마다 벽돌공, 배관공, 전기공을 일일이 불러서 콘크리트를 붓고 전선을 깔아야 하는 '수작업 건설 현장(하드웨어 종속)'이었습니다. 너무 느리고 비쌉니다. **[SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/)(소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))**는 마인크래프트나 심즈 같은 '3D 가상 건설 게임'입니다. 물리적인 서버, 하드디스크, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들을 '나무, 흙, 돌' 같은 무한한 기본 블록(자원 풀)으로 다 갈아버렸습니다. 사용자는 마우스를 들고 "여긴 컴퓨터 블록 놓고, 저긴 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 블록 놓고, 이렇게 선으로 이어!"라고 쓱쓱 드래그(소프트웨어 코딩)만 하면 완벽한 전산실 건물 한 채가 1분 만에 뚝딱 소환되는, 인프라의 마법 공간입니다.
+- **📢 섹션 요약 비유**: 옛날 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 건물을 지을 때마다 벽돌공, 배관공, 전기공을 일일이 불러서 콘크리트를 붓고 전선을 깔아야 하는 '수작업 건설 현장(하드웨어 종속)'이었습니다. 너무 느리고 비쌉니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a>(소프트웨어 정의 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>)</strong>는 마인크래프트나 심즈 같은 '3D 가상 건설 게임'입니다. 물리적인 서버, 하드디스크, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비들을 '나무, 흙, 돌' 같은 무한한 기본 블록(자원 풀)으로 다 갈아버렸습니다. 사용자는 마우스를 들고 "여긴 컴퓨터 블록 놓고, 저긴 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 블록 놓고, 이렇게 선으로 이어!"라고 쓱쓱 드래그(소프트웨어 코딩)만 하면 완벽한 전산실 건물 한 채가 1분 만에 뚝딱 소환되는, 인프라의 마법 공간입니다.
 
 ---
 
@@ -120,15 +128,19 @@ SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 인텐트 기반 네트워킹]
-    │
-    ▼
-[현재 개념: 소프트웨어 정의 데이터센터]
-    │
-    ├──▶ [확장 A: 화이트박스 스위치]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 인텐트 기반 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소프트웨어 정의 데이터센터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 화이트박스 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 [인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

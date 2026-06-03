@@ -25,16 +25,20 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 영화의 "암구호"와 같습니다. 문지기(서버)가 매일 바뀌는 질문(Challenge, 예: "오늘 점심은?")을 던지면, [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(클라이언트)는 머릿속에 있는 비밀번호(예: "사과")를 조합하여 정해진 규칙(해시)에 따라 암호화된 대답("사과가 들어간 샐러드")을 합니다. 해커가 대답을 엿듣고 다음 날 "사과가 들어간 샐러드"라고 말해도, 그날의 질문(Challenge)이 달라서 틀린 대답이 되므로 쫓겨나게 됩니다.
 
-```text
-[PAP]
-    │
-    ▼
-[CHAP]
-    │
-    └──▶ [EAP]
-```
 
-- **📢 섹션 요약 비유**: ** CHAP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 비밀번호를 그대로 말하지 않고, 매번 바뀌는 **"1회용 난수 퍼즐 조각"**에 비밀번호를 끼워 맞춘 결과물(해시)만 검사관에게 보여주어 정답을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 고도의 보안 검문소입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CHAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EAP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> CHAP <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>은 비밀번호를 그대로 말하지 않고, 매번 바뀌는 </strong>"1회용 난수 퍼즐 조각"**에 비밀번호를 끼워 맞춘 결과물(해시)만 검사관에게 보여주어 정답을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 고도의 보안 검문소입니다.
 
 ---
 
@@ -44,35 +48,31 @@ tags = ["studynote-network"]
 CHAP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정을 서버(Authenticator)가 주도(Server-driven)한다. 
 
 1. **Challenge (질의)**: 서버가 클라이언트에게 임의의 무작위 값([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/), Challenge)과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID를 전송한다.
-2. **Response (응답)**: 클라이언트는 받은 난수, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 그리고 자신이 알고 있는 '비밀번호'를 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)(Message-Digest [algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 5) 같은 해시 함수에 넣고 돌려 **해시값(Response)**을 생성해 서버로 보낸다. *(이때 비밀번호는 전송되지 않음)*
+2. **Response (응답)**: 클라이언트는 받은 난수, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 그리고 자신이 알고 있는 '비밀번호'를 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)(Message-Digest [algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 5) 같은 해시 함수에 넣고 돌려 <strong>해시값(Response)</strong>을 생성해 서버로 보낸다. *(이때 비밀번호는 전송되지 않음)*
 3. **Success / Failure (결과)**: 서버도 자신이 보낸 난수와 DB에 저장된 클라이언트의 비밀번호를 똑같이 해시 함수에 넣어 결과값을 계산한다. 서버가 계산한 값과 클라이언트가 보낸 응답값(Response)이 정확히 일치하면 승인(Success)한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    CHAP 동작 방식 (3-Way)                   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [클라이언트 (Peer)]                       [서버 (Authenticator)]│
- │     (PW = "sec123")                          (DB: PW = "sec123")│
- │           │                                         │       │
- │           │      1. Challenge (난수값 X 전송)         │       │
- │           │◀────────────────────────────────────────┤       │
- │           │                                         │       │
- │ MD5(X + "sec123")                                   │       │
- │ = 해시값 Y 도출     2. Response (해시값 Y 전송)         │       │
- │           ├────────────────────────────────────────▶│ 서버도 자체적으로  │
- │           │                                         │ MD5(X + "sec123") │
- │           │                                         │ = 해시값 Y' 계산  │
- │           │                                         │                   │
- │           │      3. Success/Failure (Y == Y' 비교)  │                   │
- │           │◀────────────────────────────────────────┤       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CHAP 동작 방식 (3-Way)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Peer)</div><div class="kb-diagram-node">서버 (Authenticator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PW = "sec123") (DB: PW = "sec123")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Challenge (난수값 X 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MD5(X + "sec123")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 해시값 Y 도출 2. Response (해시값 Y 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">서버도 자체적으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MD5(X + "sec123")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 해시값 Y' 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Success/Failure (Y == Y' 비교)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 해시 함수의 일방향성(One-way)과 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) 방어
 - **스니핑 방어**: 네트워크로 전송되는 값은 난수 X와 해시값 Y뿐이다. 해시 함수는 일방향 함수이므로 해커가 Y를 가로채도 원래의 비밀번호("sec123")를 역산하여 알아낼 수 없다.
-- **[재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/)) 방어**: 서버는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시도마다 매번 다른 난수 X(Challenge)를 생성한다. 해커가 어제 캡처한 해시 응답값 Y를 오늘 다시 서버에 전송해 봐야, 오늘 서버가 요구한 난수 Z에 대한 정답(해시값 W)과는 일치하지 않으므로 즉시 차단된다.
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/">재생 공격</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/">Replay Attack</a>) 방어</strong>: 서버는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시도마다 매번 다른 난수 X(Challenge)를 생성한다. 해커가 어제 캡처한 해시 응답값 Y를 오늘 다시 서버에 전송해 봐야, 오늘 서버가 요구한 난수 Z에 대한 정답(해시값 W)과는 일치하지 않으므로 즉시 차단된다.
 - **주기적 재인증**: 통신 중에도 서버가 랜덤한 주기로 다시 Challenge를 보내 재인증을 요구하여 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹을 방어한다.
 
 - **📢 섹션 요약 비유**: ** CHAP는 **"수학적 믹서기(해시)"**입니다. 과일(난수)과 설탕(비밀번호)을 넣고 갈아버린 주스(응답)만 전송하므로, 해커가 주스를 훔쳐 가도 원래 설탕의 결정 모양(비밀번호 문자열)을 절대 복원할 수 없습니다.
@@ -131,15 +131,19 @@ CHAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PAP]
-    │
-    ▼
-[현재 개념: CHAP]
-    │
-    ├──▶ [확장 A: EAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CHAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 CHAP는 PAP에서 출발해 현재 메커니즘을 정교화하고, 이후 EAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

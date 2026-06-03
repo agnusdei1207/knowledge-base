@@ -30,36 +30,32 @@ tags = ["studynote-bigdata"]
 
 ### 시계열 분해 (Time Series Decomposition)
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    시계열 성분 분해                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)              │
-│                                                                      │
-│  ┌─────────────────────────────────────────────────────────────────┐ │
-│  │ T(t): 장기 추세        /──────────────────                     │ │
-│  │                      /                                         │ │
-│  │ S(t): 계절성   /\/\/\/\/\/\/\/\/\/\/\/\/\/\                     │ │
-│  │                                                                │ │
-│  │ R(t): 잔차    ⌇⌇⌇⌇ (예측 불가능한 노이즈)                       │ │
-│  └─────────────────────────────────────────────────────────────────┘ │
-│                                                                      │
-│  ADF 검정 (Augmented Dickey-Fuller Test) → 정상성 (Stationarity) 확인│
-│  비정상 → d차 차분 (Differencing) → 정상 시계열로 변환              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 성분 분해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T(t): 장기 추세 /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S(t): 계절성 /\/\/\/\/\/\/\/\/\/\/\/\/\/\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R(t): 잔차 ⌇⌇⌇⌇ (예측 불가능한 노이즈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADF 검정 (Augmented Dickey-Fuller Test) → 정상성 (Stationarity) 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비정상 → d차 차분 (Differencing) → 정상 시계열로 변환</div></div>
+</div>
+</div>
+
+
 
 ### 주요 모델 비교
 
 | 모델 | 원리 | 장점 | 단점 | 적합 상황 |
 |:---|:---|:---|:---|:---|
-| **[ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p,d,q)** | AR+차분+MA 결합 | 수학적 명료함, 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 비선형·장기 패턴 약함 | 단변량, 단기 예측 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/">ARIMA</a>(p,d,q)</strong> | AR+차분+MA 결합 | 수학적 명료함, 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 비선형·장기 패턴 약함 | 단변량, 단기 예측 |
 | **SARIMA** | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) + 계절 파라미터(P,D,Q,m) | 계절성 명시적 처리 | 파라미터 튜닝 복잡 | 계절성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Holt-Winters** | 지수 평활 + 추세 + 계절 | 직관적, 빠름 | 비선형 패턴 약 | 소규모 계절 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Facebook Prophet** | 가산 모델, 휴일 효과 자동 | 강건함, 결측 처리, 자동화 | 복잡한 비선형 약함 | 비즈니스 수요 예측 |
-| **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** | 게이트 기반 [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/) | 비선형 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) | 학습 비용, 과적합 | 복잡한 패턴, 다변량 |
-| **Temporal Fusion [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)** | 어텐션 + 공변량 통합 | 다변량, 설명 가능 | 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 | 고해상도 다변량 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | 게이트 기반 [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/) | 비선형 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) | 학습 비용, 과적합 | 복잡한 패턴, 다변량 |
+| <strong>Temporal Fusion <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong> | 어텐션 + 공변량 통합 | 다변량, 설명 가능 | 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 | 고해상도 다변량 |
 
 - **📢 섹션 요약 비유**: ARIMA는 수학 공식으로 내일을 예측하는 통계학자이고, LSTM은 수천 일의 역사를 공부해서 패턴을 체득한 학자다. Prophet은 "매주 월요일은 이렇다, 여름에는 저렇다"는 상식을 자동으로 반영하는 비즈니스 분석가다.
 
@@ -69,7 +65,7 @@ tags = ["studynote-bigdata"]
 
 | 항목 | 전통 통계 ([ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)/SARIMA) | 딥러닝 ([LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)/[Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요구량** | 수십~수백 포인트 | 수천~수만 포인트 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 요구량</strong> | 수십~수백 포인트 | 수천~수만 포인트 |
 | **해석 가능성** | 높음 (파라미터 명시적) | 낮음 (블랙박스) |
 | **비선형 처리** | 제한적 | 우수 |
 | **다변량 처리** | VAR 필요 | 자연스러운 통합 |
@@ -89,7 +85,7 @@ tags = ["studynote-bigdata"]
 1. **리테일 수요 예측**: 주별·월별 SKU 단위 수요 → SARIMA/Prophet으로 재고 최적화
 2. **서버 용량 계획**: 시간당 트래픽 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 예측 → 오토스케일링 사전 준비
 3. **에너지 수요 예측**: 기온·요일·계절 고려 → Temporal Fusion Transformer로 발전소 가동 계획
-4. **금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 주가 변동성 (Volatility) 예측 → GARCH 모델 ([ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 확장)
+4. <strong>금융 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 주가 변동성 (Volatility) 예측 → GARCH 모델 ([ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 확장)
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -133,21 +129,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[시계열 데이터 (Time Series Data) — 시간 순서로 기록된 연속적 관측값]
-    │
-    ▼
-[정상성 (Stationarity) — 평균·분산이 시간에 무관한 통계적 특성, 분석 전제 조건]
-    │
-    ▼
-[ARIMA (AutoRegressive Integrated Moving Average) — 전통적 선형 시계열 예측 모델]
-    │
-    ▼
-[LSTM / Transformer — 딥러닝 기반 비선형 장기 의존성 포착]
-    │
-    ▼
-[Prophet / NeuralProphet — 추세·계절성 분해 기반 실무 시계열 예측 프레임워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 데이터 (Time Series Data) — 시간 순서로 기록된 연속적 관측값</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상성 (Stationarity) — 평균·분산이 시간에 무관한 통계적 특성, 분석 전제 조건</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARIMA (AutoRegressive Integrated Moving Average) — 전통적 선형 시계열 예측 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM / Transformer — 딥러닝 기반 비선형 장기 의존성 포착</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prophet / NeuralProphet — 추세·계절성 분해 기반 실무 시계열 예측 프레임워크</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정상성 확보에서 출발하여 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 등 전통 모델을 거쳐 딥러닝 기반 예측 모델과 실용적 프레임워크로 발전하는 [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/)의 진화 과정을 보여준다.
 

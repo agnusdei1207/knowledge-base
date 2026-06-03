@@ -12,24 +12,24 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 기존 x86 아키텍처의 링(Ring) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델(Ring 0~3)은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 고려하지 않고 설계되어, 게스트 OS가 자신이 하드웨어를 독점한다고 착각하게 만드는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Paravirtualization](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/))나 이진 변환(Binary Translation)이라는 복잡한 소프트웨어적 우회(Trap-and-Emulate)를 강제했다.
-> 2. **혁신**: 인텔 VT-x와 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) 등 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)([Hardware-Assisted Virtualization](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/))는 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드(Ring 0)보다 더 높은 권한인 **VMX Root 모드 (속칭 Ring -1)**를 신설하여, 게스트 OS가 Ring 0에서 원래대로 돌면서도 위험한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때만 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권을 넘기게 만들었다.
+> 2. **혁신**: 인텔 VT-x와 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) 등 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)([Hardware-Assisted Virtualization](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/))는 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드(Ring 0)보다 더 높은 권한인 <strong>VMX Root 모드 (속칭 Ring -1)</strong>를 신설하여, 게스트 OS가 Ring 0에서 원래대로 돌면서도 위험한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때만 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권을 넘기게 만들었다.
 > 3. **가치**: 이 아키텍처 확장을 통해 게스트 OS를 단 한 줄도 수정하지 않고 네이티브(Native)에 가까운 속도로 안전하게 가상머신을 구동하는 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)([Full Virtualization](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))가 완벽하게 실현되었으며, 이는 현대 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)) 인프라의 근간이 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: x86 CPU는 보안을 위해 권한 레벨을 Ring 0(가장 높음, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))부터 Ring 3(가장 낮음, 유저)까지 나눈다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 링 레벨(Ring -1)은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMM)가 게스트 OS([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))보다 더 높은 권한을 가지도록 물리적 CPU에 추가된 **새로운 실행 모드(VMX Root / Non-Root)**를 의미한다.
+- **개념**: x86 CPU는 보안을 위해 권한 레벨을 Ring 0(가장 높음, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))부터 Ring 3(가장 낮음, 유저)까지 나눈다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 링 레벨(Ring -1)은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMM)가 게스트 OS([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))보다 더 높은 권한을 가지도록 물리적 CPU에 추가된 <strong>새로운 실행 모드(VMX Root / Non-Root)</strong>를 의미한다.
 
-- **필요성 (Popek과 Goldberg의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 요건 위배 극복)**: 
-  - 과거 x86 CPU는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 요건인 **Trap-and-Emulate([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 후 에뮬레이션)**를 완벽히 지원하지 못했다. 특정 민감한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Sensitive [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 예: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화 `cli`)를 유저 모드(Ring 1~3)에서 실행하면, [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)(예외)을 발생시켜 OS(Ring 0)가 이를 제어하게 해야 하는데, 일부 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시키지 않고 그냥 무시되거나 조용히 실패(Silent Failure)했다.
-  - 이를 해결하기 위해 게스트 OS의 코드를 실시간으로 뜯어고치는 **이진 변환 (Binary Translation, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) VMware)**이나, 게스트 OS의 소스 코드를 직접 수정해 하이퍼콜(Hypercall)로 바꾸는 **[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) ([Paravirtualization](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Xen)**를 썼으나, 둘 다 오버헤드가 크고 이식성이 떨어졌다.
+- <strong>필요성 (Popek과 Goldberg의 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 요건 위배 극복)</strong>: 
+  - 과거 x86 CPU는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 핵심 요건인 <strong>Trap-and-Emulate(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> 후 에뮬레이션)</strong>를 완벽히 지원하지 못했다. 특정 민감한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Sensitive [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), 예: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화 `cli`)를 유저 모드(Ring 1~3)에서 실행하면, [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)(예외)을 발생시켜 OS(Ring 0)가 이를 제어하게 해야 하는데, 일부 x86 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시키지 않고 그냥 무시되거나 조용히 실패(Silent Failure)했다.
+  - 이를 해결하기 위해 게스트 OS의 코드를 실시간으로 뜯어고치는 <strong>이진 변환 (Binary Translation, <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> VMware)</strong>이나, 게스트 OS의 소스 코드를 직접 수정해 하이퍼콜(Hypercall)로 바꾸는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">Paravirtualization</a>, <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> Xen)</strong>를 썼으나, 둘 다 오버헤드가 크고 이식성이 떨어졌다.
   - 결국 하드웨어 제조사(Intel, AMD)가 CPU 자체에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 모드를 만들어 소프트웨어의 짐을 하드웨어로 떠넘길 필요성이 대두되었다.
 
 - **발전 과정**:
-  1. **소프트웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (1990~2000년대)**: 이진 변환 (VMware) 및 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) (Xen). x86 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우회.
-  2. **[하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) (2005년~)**: [Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) (VMX) 및 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) ([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 출시. Ring -1 (Root 모드) 도입.
-  3. **메모리/IO [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 추가 (2008년~)**: EPT([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)) / NPT 및 VT-d ([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/)) 도입으로 하드웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 완성.
+  1. <strong>소프트웨어 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (1990~2000년대)</strong>: 이진 변환 (VMware) 및 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) (Xen). x86 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우회.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/">하드웨어 보조 가상화</a> (2005년~)</strong>: [Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) (VMX) 및 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) ([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 출시. Ring -1 (Root 모드) 도입.
+  3. <strong>메모리/IO <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 추가 (2008년~)</strong>: EPT([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/)) / NPT 및 VT-d ([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/)) 도입으로 하드웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 완성.
 
 - **📢 섹션 요약 비유**: 건물(CPU)의 꼭대기 층(Ring 0)에 세입자(게스트 OS)를 입주시키기 위해, 건물주([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 옥상 위에 보이지 않는 펜트하우스(Ring -1)를 새로 지어 올린 건축적 혁신입니다.
 
@@ -41,11 +41,11 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 특징 | 비유 |
 |:---|:---|:---|:---|
-| **[VMX Root Mode](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/) (Ring -1)** | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMM) 실행 모드 | 물리 하드웨어에 대한 절대적 통제권 보유 | 신계 (건물주의 펜트하우스) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/">VMX Root Mode</a> (Ring -1)</strong> | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMM) 실행 모드 | 물리 하드웨어에 대한 절대적 통제권 보유 | 신계 (건물주의 펜트하우스) |
 | **VMX Non-Root Mode** | 게스트 OS 및 앱 실행 모드 | 내부적으로 다시 Ring 0(게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) ~ Ring 3(게스트 앱) 보유 | 인간계 (세입자의 방) |
-| **[VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure)** | 가상 머신의 상태를 저장하는 메모리 구조체 | VMM과 게스트 간 전환 시 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 등 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 보관 | 빙의(전환) 전 기억을 저장하는 마법의 두루마리 |
-| **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry** | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) $\rightarrow$ 게스트 OS로 진입 | `VMLAUNCH` 또는 `VMRESUME` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용 | 인간계로 빙의하여 내려가기 |
-| **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit** | 게스트 OS $\rightarrow$ [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권 반환 | 민감한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 시 하드웨어가 강제로 Root 모드로 복귀시킴 | 빙의가 풀려 신계로 튕겨 올라오기 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/">VMCS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Control Structure)</strong> | 가상 머신의 상태를 저장하는 메모리 구조체 | VMM과 게스트 간 전환 시 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 등 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 보관 | 빙의(전환) 전 기억을 저장하는 마법의 두루마리 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Entry</strong> | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) $\rightarrow$ 게스트 OS로 진입 | `VMLAUNCH` 또는 `VMRESUME` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용 | 인간계로 빙의하여 내려가기 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit</strong> | 게스트 OS $\rightarrow$ [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 제어권 반환 | 민감한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 시 하드웨어가 강제로 Root 모드로 복귀시킴 | 빙의가 풀려 신계로 튕겨 올라오기 |
 
 ---
 
@@ -53,36 +53,34 @@ tags = ["studynote-operating-system"]
 
 [Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology)는 기존 Ring 0~3 모델을 수평적으로 복제하여, 특권(Privilege)의 축을 하나 더 만들었다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │                 Intel VT-x (VMX) 하드웨어 보조 가상화 구조               │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │     [VMX Root Mode (속칭 Ring -1)]          [VMX Non-Root Mode]       │
-  │     (하이퍼바이저 / VMM 영역)                   (가상머신 영역)             │
-  │                                                                       │
-  │  ┌───────────────┐                       ┌───────────────┐            │
-  │  │  Hypervisor   │      VM Entry         │ Guest Apps    │            │
-  │  │  (KVM, ESXi)  │ ──────────────────▶   │ (Ring 3)      │            │
-  │  │               │    (VMLAUNCH/RESUME)  ├───────────────┤            │
-  │  │               │                       │ Guest OS      │            │
-  │  │  (Ring 0)     │ ◀──────────────────   │ (Ring 0)      │            │
-  │  └───────────────┘      VM Exit          └───────────────┘            │
-  │          │               (Trap!)                 ▲                    │
-  │          │                                       │                    │
-  │          │         [ VMCS 구조체 ]               │                    │
-  │          └──────── (상태 백업/복원) ──────────────┘                    │
-  │                                                                       │
-  │   ※ 동작 원리:                                                          │
-  │   1. Guest OS(Ring 0)가 민감한 명령어(예: CPU 제어 레지스터 CR3 변경) 실행  │
-  │   2. CPU가 이를 감지하고 H/W 차원에서 즉시 'VM Exit' 발생                │
-  │   3. Guest 상태는 VMCS에 자동 저장, CPU는 Root Mode(VMM)로 전환          │
-  │   4. VMM이 해당 명령어를 소프트웨어적으로 에뮬레이션(Emulation)           │
-  │   5. 'VM Entry'를 통해 Guest 상태 복원 후 다음 명령어부터 실행 재개         │
-  └───────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** VMX 아키텍처의 핵심은 **"게스트 OS가 자신이 Ring 0에서 돈다고 믿게 해주는 것"**이다. 게스트 OS는 소스 코드 수정 없이 그냥 부팅된다. 그런데 게스트 OS가 하드웨어 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 주소를 바꾸기 위해 `MOV CR3, EAX` 같은 민감한 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하는 순간, CPU는 VMX Non-Root 모드임을 인지하고 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 물리 하드웨어를 망가뜨리지 못하게 막은 뒤 **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit**라는 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시킨다. 제어권은 즉시 VMX Root 모드의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 넘어간다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 이 명령을 가로채서 가짜 가상 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Virtual CR3) 값을 갱신해주는 흉내(에뮬레이션)를 낸 뒤, 다시 **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry** [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해 게스트 OS로 제어권을 돌려준다. 게스트 OS는 "아, 내 명령이 잘 수행되었구나"라고 착각하며 계속 실행된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intel VT-x (VMX) 하드웨어 보조 가상화 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VMX Root Mode (속칭 Ring -1)</div><div class="kb-diagram-node">VMX Non-Root Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(하이퍼바이저 / VMM 영역) (가상머신 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor</div><div class="kb-diagram-cell">VM Entry</div><div class="kb-diagram-cell">Guest Apps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KVM, ESXi)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(Ring 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VMLAUNCH/RESUME)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ring 0)</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">(Ring 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM Exit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trap!) ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VMCS 구조체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상태 백업/복원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 동작 원리:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Guest OS(Ring 0)가 민감한 명령어(예: CPU 제어 레지스터 CR3 변경) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CPU가 이를 감지하고 H/W 차원에서 즉시 'VM Exit' 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Guest 상태는 VMCS에 자동 저장, CPU는 Root Mode(VMM)로 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. VMM이 해당 명령어를 소프트웨어적으로 에뮬레이션(Emulation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 'VM Entry'를 통해 Guest 상태 복원 후 다음 명령어부터 실행 재개</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** VMX 아키텍처의 핵심은 <strong>"게스트 OS가 자신이 Ring 0에서 돈다고 믿게 해주는 것"</strong>이다. 게스트 OS는 소스 코드 수정 없이 그냥 부팅된다. 그런데 게스트 OS가 하드웨어 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 주소를 바꾸기 위해 `MOV CR3, EAX` 같은 민감한 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하는 순간, CPU는 VMX Non-Root 모드임을 인지하고 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 물리 하드웨어를 망가뜨리지 못하게 막은 뒤 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit</strong>라는 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시킨다. 제어권은 즉시 VMX Root 모드의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 넘어간다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 이 명령을 가로채서 가짜 가상 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Virtual CR3) 값을 갱신해주는 흉내(에뮬레이션)를 낸 뒤, 다시 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Entry</strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해 게스트 OS로 제어권을 돌려준다. 게스트 OS는 "아, 내 명령이 잘 수행되었구나"라고 착각하며 계속 실행된다.
 
 ---
 
@@ -90,30 +88,28 @@ tags = ["studynote-operating-system"]
 
 이진 변환이나 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)와 비교할 때 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)가 왜 클라우드의 표준이 되었는지 파악하는 것이 중요하다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 가상화 구현 방식에 따른 명령어 처리 흐름 비교              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  1. 반가상화 (Paravirtualization - Xen)                           │
-  │     Guest OS: "나 파일 읽을게" ──(Hypercall)──▶ Hypervisor 처리       │
-  │     * 조건: Guest OS 커널 소스 코드를 뜯어고쳐야 함 (Windows는 불가능)  │
-  │                                                                   │
-  │  2. 이진 변환 (Binary Translation - 초기 VMware)                    │
-  │     Guest OS: "물리 디스크 읽어!" (기계어)                              │
-  │       │                                                           │
-  │       ▼ (Hypervisor가 메모리 상의 Guest 기계어를 실시간 스캔)           │
-  │     Hypervisor: (위험한 명령을 안전한 코드로 실시간 번역 후 실행)          │
-  │     * 한계: 극도로 복잡한 소프트웨어 설계, 번역 오버헤드로 인한 성능 저하    │
-  │                                                                   │
-  │  3. 하드웨어 보조 (VMX Root/Non-Root - KVM, ESXi)                  │
-  │     Guest OS: "물리 디스크 읽어!" (Ring 0에서 당당하게 실행)              │
-  │       │                                                           │
-  │       ▼ (CPU H/W가 가로챔 -> VM Exit)                              │
-  │     Hypervisor: (인터럽트 받듯이 가로채서 에뮬레이션 후 복귀)               │
-  │     * 결과: 수정 없는 완전한 전가상화(Full Virt) + 네이티브에 근접한 속도  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화 구현 방식에 따른 명령어 처리 흐름 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 반가상화 (Paravirtualization - Xen)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS: "나 파일 읽을게" ──(Hypercall)──▶ Hypervisor 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조건: Guest OS 커널 소스 코드를 뜯어고쳐야 함 (Windows는 불가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 이진 변환 (Binary Translation - 초기 VMware)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS: "물리 디스크 읽어!" (기계어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Hypervisor가 메모리 상의 Guest 기계어를 실시간 스캔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor: (위험한 명령을 안전한 코드로 실시간 번역 후 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 한계: 극도로 복잡한 소프트웨어 설계, 번역 오버헤드로 인한 성능 저하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하드웨어 보조 (VMX Root/Non-Root - KVM, ESXi)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS: "물리 디스크 읽어!" (Ring 0에서 당당하게 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (CPU H/W가 가로챔 -&gt; VM Exit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor: (인터럽트 받듯이 가로채서 에뮬레이션 후 복귀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 수정 없는 완전한 전가상화(Full Virt) + 네이티브에 근접한 속도</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 외국인(게스트)이 주문을 할 때, [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)는 한국어를 가르치는 것이고, 이진 변환은 동시통역가가 계속 따라다니는 것이며, VMX 모드는 식당 메뉴판과 주문 벨(하드웨어) 자체를 외국어와 연동되게 개조해버린 것입니다.
 
@@ -125,7 +121,7 @@ tags = ["studynote-operating-system"]
 
 | Ring 레벨 | 권한 (Privilege) | 주 사용자 (주체) | VMX 모드 매핑 |
 |:---|:---|:---|:---|
-| **Ring -1** (비공식 명칭) | **최상위 통제 ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))** | [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), VMware ESXi, Hyper-V | [VMX Root Mode](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/) (Ring 0) |
+| **Ring -1** (비공식 명칭) | <strong>최상위 통제 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">Hypervisor</a>)</strong> | [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), VMware ESXi, Hyper-V | [VMX Root Mode](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/657_vmx_root_mode/) (Ring 0) |
 | **Ring 0** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 (OS 핵심) | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), Windows [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 내부) | VMX Non-Root Mode (Ring 0) |
 | **Ring 1, 2** | 디바이스 드라이버 등 | (현대 OS에서는 거의 사용 안 함) | VMX Non-Root Mode (Ring 1,2) |
 | **Ring 3** | 유저 모드 (응용 프로그램) | 일반 애플리케이션, 프로세스 | VMX Non-Root Mode (Ring 3) |
@@ -134,7 +130,7 @@ tags = ["studynote-operating-system"]
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: VMX 모드의 등장은 단순히 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋의 확장이 아니라, 메모리 관리([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))의 확장인 EPT([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/), 2차원 주소 변환)와 디바이스 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 격리([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/))로 이어지는 **[가상화 아키텍처](/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/) 트라이앵글(CPU, Memory, I/O)**의 출발점이다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: VMX 모드의 등장은 단순히 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋의 확장이 아니라, 메모리 관리([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))의 확장인 EPT([Extended Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/), 2차원 주소 변환)와 디바이스 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 격리([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/))로 이어지는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/053_virtualization_architecture/">가상화 아키텍처</a> 트라이앵글(CPU, Memory, I/O)</strong>의 출발점이다.
 - **클라우드 (Cloud)**: AWS EC2, GCP 등의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)는 모두 KVM이나 Nitro [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 사용한다. 이들이 다양한 고객의 윈도우, 리눅스 VM을 거대한 물리 서버 한 대에서 동시에 안전하게 돌릴 수 있는 근본적 하드웨어 보증수표가 바로 이 VMX Root 모드다.
 
 - **📢 섹션 요약 비유**: 하나의 무대(물리 서버)에서 여러 개의 연극([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 동시에 진행되는데, 감독([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))이 무대 위가 아닌 천장(Ring -1)에서 조명과 세트를 제어하여 배우들(OS)이 서로 방해받지 않게 하는 구조입니다.
@@ -145,7 +141,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — 클라우드 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(가상머신) 안에서 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 구동 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하**: 개발자가 AWS EC2 인스턴스([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 내부에 K8s를 띄우고 워크로드를 돌리는데, 잦은 I/O 발생 시 CPU 사용률(특히 `%st` 혹은 `%sys`)이 비정상적으로 치솟는 현상 발생.
+1. <strong>시나리오 — 클라우드 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>(가상머신) 안에서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 구동 시 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하</strong>: 개발자가 AWS EC2 인스턴스([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 내부에 K8s를 띄우고 워크로드를 돌리는데, 잦은 I/O 발생 시 CPU 사용률(특히 `%st` 혹은 `%sys`)이 비정상적으로 치솟는 현상 발생.
    - **원인 분석**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 시스템 콜을 유발하면 Guest [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring 0, Non-Root)로 진입한다. 이때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 특정 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건드리면 CPU가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 발생시켜 물리 Host의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(Ring -1, Root)로 제어권이 넘어갔다 돌아오는 오버헤드([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 폭증하기 때문이다.
    - **대응 (기술사적 가이드)**: [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 중첩(Nested [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))을 피하기 위해 클라우드 베어메탈(Bare-metal) 인스턴스를 도입하거나, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 파라미터 튜닝을 통해 불필요한 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 줄이는 APIC [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(APICv) 기능이 활성화되어 있는지 확인해야 한다.
 
@@ -154,30 +150,26 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │              가상화 오버헤드(VM Exit) 병목 분석 및 튜닝 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [VM(Guest OS) 내부 CPU 사용률 모니터링 중 %steal 시간 비정상 증가]   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Host(하이퍼바이저)에서 perf / kvm_stat 명령어로 VM Exit 비율 확인│
-  │                │                                                  │
-  │                ▼                                                  │
-  │      VM Exit의 주 원인이 무엇인가?                                    │
-  │          ├─ 메모리 관리 (CR3 / Page Fault) ──▶ EPT (하드웨어 중첩    │
-  │          │                                  페이지 테이블) 활성화 확인 │
-  │          │                                                        │
-  │          ├─ I/O 디바이스 인터럽트 대기 ─────▶ 반가상화 드라이버 (Virtio)│
-  │          │                                  및 SR-IOV 패스스루 적용  │
-  │          │                                                        │
-  │          └─ 타이머 및 스케줄링 ────────────▶ vCPU Pinning (Core 할당) │
-  │                                           및 Tickless Kernel 적용   │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** VMX 아키텍처 튜닝의 핵심은 **"[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 횟수를 어떻게든 줄이는 것"**이다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 한 번에 최소 수백~수천 클럭 사이클이 소모된다. 소프트웨어 드라이버 대신 Virtio를 쓰고, 메모리는 EPT 하드웨어에 맡기며, 네트워크 카드는 SR-IOV로 가상머신에 직접 꽂아주어 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 개입할 일 자체를 없애는 방향이 최신 클라우드 인프라 설계의 정석이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화 오버헤드(VM Exit) 병목 분석 및 튜닝 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM(Guest OS) 내부 CPU 사용률 모니터링 중 %steal 시간 비정상 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host(하이퍼바이저)에서 perf / kvm_stat 명령어로 VM Exit 비율 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM Exit의 주 원인이 무엇인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 관리 (CR3 / Page Fault) ──▶ EPT (하드웨어 중첩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블) 활성화 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I/O 디바이스 인터럽트 대기 ▶ 반가상화 드라이버 (Virtio)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">및 SR-IOV 패스스루 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타이머 및 스케줄링 ▶ vCPU Pinning (Core 할당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">및 Tickless Kernel 적용</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** VMX 아키텍처 튜닝의 핵심은 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Exit 횟수를 어떻게든 줄이는 것"</strong>이다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 한 번에 최소 수백~수천 클럭 사이클이 소모된다. 소프트웨어 드라이버 대신 Virtio를 쓰고, 메모리는 EPT 하드웨어에 맡기며, 네트워크 카드는 SR-IOV로 가상머신에 직접 꽂아주어 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 개입할 일 자체를 없애는 방향이 최신 클라우드 인프라 설계의 정석이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **인프라 관점**: 서버 BIOS([UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)) 설정에서 `Intel Virtualization Technology (VT-x)`와 `VT-d (IOMMU)`가 명시적으로 Enable 되어 있는가? (이것이 꺼져 있으면 VMX Root 모드 진입 자체가 불가하여 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 부팅 시 에러가 난다.)
@@ -198,8 +190,8 @@ tags = ["studynote-operating-system"]
 | **정성** | 복잡한 에뮬레이션 코드로 인한 버그 | CPU 하드웨어 단의 명확한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행 | [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라의 안정성 및 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 극대화 |
 
 ### 미래 전망
-- **중첩 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Nested [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) 가속**: 클라우드([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 안에서 또 다른 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 돌려야 하는 요구(예: [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 클라우드 인스턴스 위에서 Android Emulator 구동)가 증가함에 따라, Intel [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) Shadowing과 같은 2중/3중 VMX 모드 하드웨어 가속 기술이 표준화되고 있다.
-- **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)에서 마이크로VM으로**: VMX 모드의 혜택을 받으면서도 부팅 속도를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준으로 끌어올린 경량 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(AWS Firecracker 등)가 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 컴퓨팅의 핵심 기반이 되어, Ring -1 보안 격리와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 속도를 결합하고 있다.
+- <strong>중첩 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> (Nested <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>) 가속</strong>: 클라우드([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 안에서 또 다른 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 돌려야 하는 요구(예: [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 클라우드 인스턴스 위에서 Android Emulator 구동)가 증가함에 따라, Intel [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) Shadowing과 같은 2중/3중 VMX 모드 하드웨어 가속 기술이 표준화되고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>에서 마이크로VM으로</strong>: VMX 모드의 혜택을 받으면서도 부팅 속도를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수준으로 끌어올린 경량 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(AWS Firecracker 등)가 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 컴퓨팅의 핵심 기반이 되어, Ring -1 보안 격리와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 속도를 결합하고 있다.
 
 ### 결론
 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 링 레벨(VMX Root/Non-Root)의 도입은 소프트웨어가 억지로 메우던 아키텍처의 구멍을 하드웨어(CPU) 제조사가 근본적으로 해결해 준 역사적 전환점이다. 이 작지만 거대한 '모드' 하나가 추가됨으로써, 오늘날 우리가 누리는 수백만 대 규모의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 데이터센터와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 생태계가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 탄생할 수 있었다.
@@ -219,15 +211,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
-    │
-    ▼
-[하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
-    │
-    ├──▶ [쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]
-    └──▶ [IOMMU (Input/Output MMU) 역할]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IOMMU (Input/Output MMU) 역할</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

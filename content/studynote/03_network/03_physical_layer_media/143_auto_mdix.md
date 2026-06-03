@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 과거 네트워크 엔지니어들은 출장을 갈 때 항상 두 종류의 랜선(다이렉트 케이블, 크로스 케이블)을 챙겨야 했습니다. PC를 스위치에 꽂을 때는 다이렉트를 쓰고, 스위치끼리 연결할 때는 크로스를 찾아 써야 했기 때문입니다. 실수로 잘못 꽂으면 아예 링크에 불이 들어오지 않았습니다.
 
-이런 물리적인 번거로움을 해결하기 위해 HP(Hewlett-Packard)가 개발하고 표준화된 기술이 **Auto-MDIX (Automatic Medium-Dependent Interface Crossover)**입니다.
+이런 물리적인 번거로움을 해결하기 위해 HP(Hewlett-Packard)가 개발하고 표준화된 기술이 <strong>Auto-MDIX (Automatic Medium-Dependent Interface Crossover)</strong>입니다.
 
-```text
-[MDI/MDI-X]
-    │
-    ▼
-[Auto-MDIX]
-    │
-    └──▶ [케이블 배선: 다이렉트 케이블 vs 크로스오…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MDI/MDI-X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auto-MDIX</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Auto-MDIX는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,19 +44,25 @@ tags = ["studynote-network"]
 
 Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 랜카드)에 랜선을 꽂으면 다음과 같은 프로세스가 일어납니다.
 
-1. **테스트 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 발송**: 포트가 1,2번 핀과 3,6번 핀으로 무작위 패턴의 탐색 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보냅니다.
-2. **반사 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 분석**: 상대방 장비에서 어떤 핀을 통해 송신(Tx) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 날아오는지 귀를 기울여 감지합니다.
-3. **내부 핀 역할 스위칭**: 만약 1,2번 핀으로 상대방의 송신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어오는 것을 감지하면, 내 포트의 1,2번 핀을 즉시 **수신(Rx)**으로 설정하고, 나머지 3,6번을 **송신(Tx)**으로 내부 릴레이를 통해 자동 변경합니다.
+1. <strong>테스트 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 발송</strong>: 포트가 1,2번 핀과 3,6번 핀으로 무작위 패턴의 탐색 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보냅니다.
+2. <strong>반사 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 분석</strong>: 상대방 장비에서 어떤 핀을 통해 송신(Tx) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 날아오는지 귀를 기울여 감지합니다.
+3. **내부 핀 역할 스위칭**: 만약 1,2번 핀으로 상대방의 송신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어오는 것을 감지하면, 내 포트의 1,2번 핀을 즉시 <strong>수신(Rx)</strong>으로 설정하고, 나머지 3,6번을 <strong>송신(Tx)</strong>으로 내부 릴레이를 통해 자동 변경합니다.
 
-```text
-[ 스위치 (Auto-MDIX 켬) ]                  [ 스위치 (MDI-X) ]
-  (앗, 상대가 3,6번으로 쏘네?)
-  1,2번 핀 (송신 Tx 로 자동변환) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)
-  3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
-```
 
-이처럼 물리적인 케이블의 결선을 바꾸는 대신, **[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 내부에서 논리적으로 회로를 교차**시켜버립니다. 
-단, 이 기능이 작동하려면 일반적으로 포트의 속도와 이중 방식(Duplex) 설정이 **'자동 협상(Auto-Negotiation)' 모드**로 켜져 있어야 합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 (Auto-MDIX 켬)</div><div class="kb-diagram-node">스위치 (MDI-X)</div></div>
+<div class="kb-diagram-note">(앗, 상대가 3,6번으로 쏘네?)</div>
+<div class="kb-diagram-note">1,2번 핀 (송신 Tx 로 자동변환) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)</div>
+<div class="kb-diagram-note">3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)</div>
+</div>
+</div>
+
+
+
+이처럼 물리적인 케이블의 결선을 바꾸는 대신, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩 내부에서 논리적으로 회로를 교차</strong>시켜버립니다. 
+단, 이 기능이 작동하려면 일반적으로 포트의 속도와 이중 방식(Duplex) 설정이 <strong>'자동 협상(Auto-Negotiation)' 모드</strong>로 켜져 있어야 합니다.
 
 - **📢 섹션 요약 비유**: Auto-MDIX의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,7 +72,7 @@ Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/study
 
 [1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)(기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) 표준부터는 4쌍(8가닥)의 선을 모두 양방향 송수신으로 사용합니다. 즉, 애초에 Tx 전용 핀이나 Rx 전용 핀의 구분이 사라졌습니다. 
 
-따라서 **[1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/) 규격에는 Auto-MDIX 기능이 표준의 일부로 기본 탑재**되어 있습니다. 기가비트를 지원하는 랜카드나 스위치라면 다이렉트 케이블이든 크로스 케이블이든, 상대 장비가 무엇이든 아무렇게나 꽂아도 100% 정상 작동합니다.
+따라서 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/">1000BASE-T</a> 규격에는 Auto-MDIX 기능이 표준의 일부로 기본 탑재</strong>되어 있습니다. 기가비트를 지원하는 랜카드나 스위치라면 다이렉트 케이블이든 크로스 케이블이든, 상대 장비가 무엇이든 아무렇게나 꽂아도 100% 정상 작동합니다.
 
 Auto-MDIX를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. MDI/MDI-X가 기반 조건을 만든다면, Auto-MDIX는 그 위에서 핵심 메커니즘을 구현하고, 케이블 배선: 다이렉트 케이블 vs 크로스오…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -114,15 +124,19 @@ Auto-MDIX는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MDI/MDI-X]
-    │
-    ▼
-[현재 개념: Auto-MDIX]
-    │
-    ├──▶ [확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MDI/MDI-X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Auto-MDIX</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 Auto-MDIX는 MDI/MDI-X에서 출발해 현재 메커니즘을 정교화하고, 이후 케이블 배선: 다이렉트 케이블 vs 크로스오…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

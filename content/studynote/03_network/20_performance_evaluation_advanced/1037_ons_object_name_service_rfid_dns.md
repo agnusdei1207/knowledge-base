@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 - 마트 리더기가 펩시콜라 캔에서 `01.0000000.1111111`이라는 [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 코드를 읽었습니다.
 - 리더기는 생각합니다. "이 숫자가 펩시 서버의 정보인지, 코카콜라 서버의 정보인지 내가 어떻게 알지? 전 세계 모든 회사의 DB 주소를 내 기계 안에 다 다운받아 놓을 수도 없잖아?"
-- 중앙에서 이 숫자만 보고 "아~ 펩시 서버(URL)로 가세요~"라고 방향을 꺾어줄 **주소록 안내원**이 절대적으로 필요했습니다.
+- 중앙에서 이 숫자만 보고 "아~ 펩시 서버(URL)로 가세요~"라고 방향을 꺾어줄 <strong>주소록 안내원</strong>이 절대적으로 필요했습니다.
 
-```text
-[EPCglobal 망 아키텍처]
-    │
-    ▼
-[ONS]
-    │
-    └──▶ [MQTT 퍼블리시 서브스크라이브 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ONS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: EPCglobal 네트워크 안에서, **물품의 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 코드)를 입력받아 그 물품의 상세 정보가 보관되어 있는 해당 기업의 정보 서버(EPCIS)의 인터넷 주소(URL 또는 IP 주소)로 변환(Resolution)해 주는 디렉토리 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
-- **아키텍처**: 새로 개발한 게 아닙니다! 인터넷 초창기부터 30년간 굴러가며 완벽하게 검증된 511번의 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 인프라를 그대로 재활용**하여 만들었습니다. 트래픽이 폭주해도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리(Root ➜ Local)가 완벽하게 됩니다.
+- **개념**: EPCglobal 네트워크 안에서, <strong>물품의 고유 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 번호(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a> 코드)를 입력받아 그 물품의 상세 정보가 보관되어 있는 해당 기업의 정보 서버(EPCIS)의 인터넷 주소(URL 또는 IP 주소)로 변환(Resolution)해 주는 디렉토리 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>입니다.
+- **아키텍처**: 새로 개발한 게 아닙니다! 인터넷 초창기부터 30년간 굴러가며 완벽하게 검증된 511번의 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">Domain Name System</a>) 인프라를 그대로 재활용</strong>하여 만들었습니다. 트래픽이 폭주해도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리(Root ➜ Local)가 완벽하게 됩니다.
 
-```text
-[EPCglobal 망 아키텍처]
-    │
-    ▼
-[ONS]
-    │
-    └──▶ [MQTT 퍼블리시 서브스크라이브 모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ONS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 
 ### 2단계: ONS ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버) 질의와 NAPTR 레코드
 - 리더기가 저 뒤집힌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주소를 들고 전 세계 중앙 ONS 서버([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버)로 접속해 질문을 쏩니다. "이 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주소록에 등록되어 있어?"
-- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에는 A 레코드(IP 주소) 대신 **NAPTR(Naming Authority Pointer) 레코드**라는 특수한 서랍장이 있습니다. 이 서랍을 엽니다.
+- [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에는 A 레코드(IP 주소) 대신 <strong>NAPTR(Naming Authority Pointer) 레코드</strong>라는 특수한 서랍장이 있습니다. 이 서랍을 엽니다.
 - "아! 그 앞자리 숫자 대역은 펩시콜라 제조사 번호네. 펩시의 물류 서버 주소는 여기야!" 
 - ➜ `http://epcis.pepsico.com/product_info` (진짜 서버 URL 발급!)
 
@@ -97,7 +105,7 @@ ONS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ONS(Object Name [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 세상의 모든 물건을 전화번호부로 찾아주는 **'114 글로벌 전화 교환수'**입니다. 마트 계산대(리더기)가 물건 스티커에서 `1234-5678`이라는 알 수 없는 주민등록번호([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 코드)를 발견했습니다. 계산대는 이 번호의 주인이 누구인지 모르니까, 인터넷 114 교환수(ONS 서버)에게 전화를 걸어 번호를 불러줍니다. 114 교환수는 거대한 전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 인프라)를 촤르륵 넘겨봅니다. "아하! 앞자리 `1234`로 시작하는 건 나이키 본사 물류 팀 번호네요. 나이키 물류 팀 직통 웹사이트 주소(URL) 불러드릴 테니 받아 적으세요!" 계산대는 교환수가 불러준 나이키의 진짜 서버 주소로 접속해, 그 번호의 신발이 진짜인지 짝퉁인지 제조일자를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 아무 의미 없는 쇳덩어리 바코드 숫자를, 살아있는 글로벌 인터넷 클라우드 서버망으로 인도하는 위대한 길잡이 나침반입니다.
+- **📢 섹션 요약 비유**: ONS(Object Name [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 세상의 모든 물건을 전화번호부로 찾아주는 <strong>'114 글로벌 전화 교환수'</strong>입니다. 마트 계산대(리더기)가 물건 스티커에서 `1234-5678`이라는 알 수 없는 주민등록번호([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 코드)를 발견했습니다. 계산대는 이 번호의 주인이 누구인지 모르니까, 인터넷 114 교환수(ONS 서버)에게 전화를 걸어 번호를 불러줍니다. 114 교환수는 거대한 전화번호부([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반 인프라)를 촤르륵 넘겨봅니다. "아하! 앞자리 `1234`로 시작하는 건 나이키 본사 물류 팀 번호네요. 나이키 물류 팀 직통 웹사이트 주소(URL) 불러드릴 테니 받아 적으세요!" 계산대는 교환수가 불러준 나이키의 진짜 서버 주소로 접속해, 그 번호의 신발이 진짜인지 짝퉁인지 제조일자를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다. 아무 의미 없는 쇳덩어리 바코드 숫자를, 살아있는 글로벌 인터넷 클라우드 서버망으로 인도하는 위대한 길잡이 나침반입니다.
 
 ---
 
@@ -120,15 +128,19 @@ ONS는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EPCglobal 망 아키텍처]
-    │
-    ▼
-[현재 개념: ONS]
-    │
-    ├──▶ [확장 A: MQTT 퍼블리시 서브스크라이브 모드]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EPCglobal 망 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ONS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MQTT 퍼블리시 서브스크라이브 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 ONS는 EPCglobal 망 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 퍼블리시 서브스크라이브 모드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

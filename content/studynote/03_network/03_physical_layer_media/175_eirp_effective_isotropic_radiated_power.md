@@ -24,15 +24,18 @@ EIRP는 "무선 장비가 실제로 얼마나 멀리 세게 쏘느냐"를 비교
 
 아래 그림은 왜 EIRP가 송신기 출력 하나로 대체될 수 없는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One common yardstick for wireless emission                         │
-├────────────────────────────────────────────────────────────────────┤
-│ radio output -> feeder loss -> antenna gain -> main-lobe power    │
-│   20 dBm        -2 dB          +12 dBi        = 30 dBm EIRP       │
-│ same radio + different antenna => different legal/coverage result │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One common yardstick for wireless emission</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radio output -&gt; feeder loss -&gt; antenna gain -&gt; main-lobe power</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20 dBm -2 dB +12 dBi = 30 dBm EIRP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same radio + different antenna =&gt; different legal/coverage result</div></div>
+</div>
+</div>
+
+
 
 즉 EIRP는 "장비 안에서 얼마나 만들었는가"가 아니라 "공간으로 얼마나 내보냈는가"를 말해 준다. 무선 설계, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 현장 튜닝에서 모두 EIRP를 보는 이유가 여기에 있다.
 
@@ -59,18 +62,20 @@ EIRP 계산은 데시벨 합산으로 표현하면 가장 단순하다.
 
 아래 그림은 EIRP가 계산되는 경로를 단계별로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ EIRP calculation chain                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ radio output  23 dBm                                               │
-│ minus losses   1 dB                                                │
-│ plus gain     15 dBi                                               │
-│ --------------------                                               │
-│ EIRP          37 dBm  ≈ 5 W                                        │
-│ note: this is a directional equivalent, not created energy         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EIRP calculation chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radio output 23 dBm</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">minus losses 1 dB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plus gain 15 dBi</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EIRP 37 dBm ≈ 5 W</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">note: this is a directional equivalent, not created energy</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 표현은 "등가"다. EIRP는 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 main lobe 방향으로 만들어 낸 전력 밀도와 같은 효과를 내려면, [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/)가 몇 dBm으로 방사해야 하는지를 나타낸다. 그래서 EIRP는 최종 방사 세기의 공통 번역 단위이지, 장비 내부 어딘가에서 직접 측정되는 단일 부품 값은 아니다.
 
@@ -104,26 +109,29 @@ EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[�
 
 아래 판단 흐름은 EIRP를 설계 변수로 쓸 때의 기본 순서를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Practical EIRP design check                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ required path margin known?                                        │
-│   ├─ no  -> do link budget first                                   │
-│   └─ yes                                                           │
-│        -> choose antenna pattern                                   │
-│        -> subtract feeder losses                                   │
-│        -> verify legal EIRP cap and interference footprint         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical EIRP design check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">required path margin known?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; do link budget first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; choose antenna pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; subtract feeder losses</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; verify legal EIRP cap and interference footprint</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **단위 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**: dBm, dB, dBi를 같은 데시벨 체계로 맞춘 뒤 계산한다.
+1. <strong>단위 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>: dBm, dB, dBi를 같은 데시벨 체계로 맞춘 뒤 계산한다.
 2. **손실 누락 금지**: 케이블, 커넥터, duplexer, filter 손실을 빼지 않으면 EIRP를 과대평가한다.
-3. **패턴 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: EIRP 수치와 함께 beamwidth, tilt, polarization을 같이 봐야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역이 맞는다.
-4. **규제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 국가와 대역에 따라 허용 EIRP가 다르므로 지역 규정을 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-5. **시스템 기준 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템은 per chain 기준인지, 합성 기준인지 규정 해석이 달라질 수 있다.
+3. <strong>패턴 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: EIRP 수치와 함께 beamwidth, tilt, polarization을 같이 봐야 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역이 맞는다.
+4. <strong>규제 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 국가와 대역에 따라 허용 EIRP가 다르므로 지역 규정을 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+5. <strong>시스템 기준 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템은 per chain 기준인지, 합성 기준인지 규정 해석이 달라질 수 있다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -132,7 +140,7 @@ EIRP를 이해할 때 가장 많이 헷갈리는 비교는 "송신 전력", "[�
 - 고이득 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 EIRP를 올리면서 빔 폭 축소와 간섭 방향 변화를 무시하는 것
 - EIRP를 높이면 수신기 감도 문제나 장애물 문제까지 모두 해결된다고 믿는 것
 
-기술사 답안에서는 EIRP를 단순 공식으로만 쓰지 말고, **왜 규제에 필요한지**, **왜 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)과 같은 방향성 개념을 포함하는지**, **같은 EIRP라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 형태가 달라질 수 있는지**까지 설명해야 실무성이 살아난다.
+기술사 답안에서는 EIRP를 단순 공식으로만 쓰지 말고, **왜 규제에 필요한지**, <strong>왜 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/">안테나 이득</a>과 같은 방향성 개념을 포함하는지</strong>, <strong>같은 EIRP라도 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 형태가 달라질 수 있는지</strong>까지 설명해야 실무성이 살아난다.
 
 - **📢 섹션 요약 비유**: EIRP를 맞추는 일은 엔진 마력만 올리는 것이 아니라, 타이어 마찰·기어비·차량 방향까지 함께 고려해 실제 도로에 전달되는 힘을 맞추는 것과 같다.
 
@@ -144,7 +152,7 @@ EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고
 
 다만 EIRP는 만능 수치가 아니다. 동일 EIRP라도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 패턴이 다르면 커버리지와 설치 조건이 달라지고, 높은 EIRP도 경로 차폐, 다중경로, 수신기 노이즈 바닥을 이기지 못할 수 있다. 즉 EIRP는 무선 품질의 전부가 아니라, 송신 측 방사 세기를 읽는 핵심 축이다.
 
-정리하면 EIRP는 "무선 장비가 실제로 밖으로 얼마나 쏘는가"를 판단하는 공통 화폐다. 기억할 핵심은 분명하다. **송신기 출력만이 아니라 손실과 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)까지 합쳐야 진짜 방사 세기가 보이고, 그때 비로소 규제와 링크 버짓을 제대로 판단할 수 있다.**
+정리하면 EIRP는 "무선 장비가 실제로 밖으로 얼마나 쏘는가"를 판단하는 공통 화폐다. 기억할 핵심은 분명하다. <strong>송신기 출력만이 아니라 손실과 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/">안테나 이득</a>까지 합쳐야 진짜 방사 세기가 보이고, 그때 비로소 규제와 링크 버짓을 제대로 판단할 수 있다.</strong>
 
 - **📢 섹션 요약 비유**: EIRP는 손전등의 전구 밝기만 보는 값이 아니라, 렌즈 손실과 초점까지 포함해 벽에 실제로 얼마나 밝게 비추는지를 보는 값과 같다.
 
@@ -163,24 +171,25 @@ EIRP를 정확히 이해하면 무선 설계를 같은 기준으로 비교하고
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-conducted transmit power
-    │
-    ▼
-feeder / connector losses
-    │
-    ▼
-antenna gain (dBi)
-    │
-    ▼
-EIRP
-    │
-    ▼
-path loss and link budget
-    │
-    ▼
-received power / coverage / legal compliance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">conducted transmit power</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">feeder / connector losses</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">antenna gain (dBi)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EIRP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">path loss and link budget</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">received power / coverage / legal compliance</div>
+</div>
+</div>
+
+
 
 이 흐름도는 EIRP가 단독 숫자가 아니라, 송신기 출력에서 출발해 손실과 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 특성을 거쳐 실제 커버리지와 규제 판단으로 이어지는 중간 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념임을 보여 준다.
 

@@ -25,16 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 첫 패킷과 이후 패킷의 역할 분담이 어떻게 달라지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ First Packet:  VM -> Host vSwitch Classifier -> Rule Install -> NIC       │
-│ Later Packets: VM -> NIC/DPU eSwitch Flow Table -> Peer VM / Uplink       │
-│                                                                            │
-│ 핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다. │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First Packet: VM -&gt; Host vSwitch Classifier -&gt; Rule Install -&gt; NIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Later Packets: VM -&gt; NIC/DPU eSwitch Flow Table -&gt; Peer VM / Uplink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다.</div></div>
+</div>
+</div>
+
+
 
 즉 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 SR-IOV처럼 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 완전히 우회해 버리는 개념과 다르다. 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가상 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 모델은 유지하되, 자주 반복되는 전달 규칙만 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 안쪽으로 밀어 넣는 것이 본질이다.
 
@@ -58,20 +60,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 miss와 hit가 갈리는 실제 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   vSwitch 오프로드의 slow path / fast path                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [VM / VF] ---- miss ----> [Host OVS Classifier] ---- install ----┐        │
-│     │                                                            │        │
-│     └--------------------------- hit ---------------------------->│        │
-│                                                                  ▼        │
-│                                                        [NIC eSwitch]      │
-│                                                          │        │        │
-│                                                          ▼        ▼        │
-│                                                     Peer VF    Uplink      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vSwitch 오프로드의 slow path / fast path</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM / VF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Host OVS Classifier</div><div class="kb-diagram-note">---- install ----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------------- hit ----------------------------&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIC eSwitch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peer VF Uplink</div></div>
+</div>
+</div>
+
+
 
 결국 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "오프로드를 켰는가"보다 "얼마나 많은 패킷이 fast path에 머무는가"에 달려 있다. 규칙 설치가 느리거나, 지원하지 않는 action이 많아 miss가 자주 나면 하드웨어는 있어도 CPU 부하는 다시 올라간다.
 
@@ -92,7 +93,7 @@ tags = ["studynote-computer-architecture"]
 
 이 비교에서 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드의 위치는 명확하다. SR-IOV처럼 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층을 지워 버리지는 않지만, 순수 소프트웨어처럼 모든 패킷을 CPU에 태우지도 않는다. 그래서 overlay 네트워크, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체인을 유지하면서도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 요구하는 클라우드에 특히 잘 맞는다.
 
-또한 이 구조는 591번 [TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/) 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 직접 연결된다. [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드가 빠르게 동작하려면 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 내부에서 많은 규칙을 짧은 시간에 매칭해야 하고, 그때 wildcard와 우선순위가 있는 하드웨어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 필요하기 때문이다. 결국 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제는 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 문제가 아니라, **어떤 매치 테이블을 어떤 계층에 둘 것인가의 문제**로 이어진다.
+또한 이 구조는 591번 [TCAM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/591_tcam_packet_classification/) 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 직접 연결된다. [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드가 빠르게 동작하려면 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 내부에서 많은 규칙을 짧은 시간에 매칭해야 하고, 그때 wildcard와 우선순위가 있는 하드웨어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 필요하기 때문이다. 결국 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제는 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 문제가 아니라, <strong>어떤 매치 테이블을 어떤 계층에 둘 것인가의 문제</strong>로 이어진다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 vSwitch는 모든 교차로에 경찰을 세워 수신호로 보내는 방식이고, SR-IOV는 아예 전용 도로를 뚫어 버리는 방식이며, [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 중앙 교통 규칙은 유지한 채 신호등만 자동화하는 방식에 가깝다.
 
@@ -102,7 +103,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 멀티 tenant 클라우드, 통신사 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 노드, 보안 기능이 많은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버에서 특히 큰 가치를 낸다. 하지만 이 기술은 "기능 지원 범위"와 "flow churn"에 매우 민감하다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 변경, live migration이 잦으면 규칙 설치와 삭제가 빈번해지고, 하드웨어 테이블이 충분히 넓지 않으면 fast path 이득이 줄어든다.
 
-가장 흔한 실패 패턴은 OVS에 있는 기능이 당연히 하드웨어에도 다 있을 것이라고 가정하는 일이다. 실제로는 특정 header rewrite, meter, 복잡한 상태 기반 필터가 미지원인 경우가 많고, 이때 패킷이 조용히 slow path로 되돌아간다. 그래서 설계자는 평균 대역폭보다 **오프로드 miss 비율, representor 통계, [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 시 CPU 상승폭**을 먼저 봐야 한다.
+가장 흔한 실패 패턴은 OVS에 있는 기능이 당연히 하드웨어에도 다 있을 것이라고 가정하는 일이다. 실제로는 특정 header rewrite, meter, 복잡한 상태 기반 필터가 미지원인 경우가 많고, 이때 패킷이 조용히 slow path로 되돌아간다. 그래서 설계자는 평균 대역폭보다 <strong>오프로드 miss 비율, representor 통계, <a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">fallback</a> 시 CPU 상승폭</strong>을 먼저 봐야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 반면 한계도 분명하다. 하드웨어가 지원하지 않는 기능은 결국 slow path에 남고, 디버깅은 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)보다 어렵고, 벤더별 구현 차이도 크다. 앞으로는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming Protocol-Independent Packet Processors) 같은 프로그래머블 파이프라인과 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 삽입이 확대되면서, [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 단순 포워딩을 넘어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실행 플랫폼으로 넓어질 가능성이 높다.
 
-결론적으로 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 **소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 의미를 유지한 채, 반복 전달만 하드웨어로 내려 CPU를 해방하는 구조적 절충안**으로 기억하면 된다. 본질은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크를 없애는 것이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 비용이 항상 CPU에만 쌓이지 않게 만드는 데 있다.
+결론적으로 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 <strong>소프트웨어 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 의미를 유지한 채, 반복 전달만 하드웨어로 내려 CPU를 해방하는 구조적 절충안</strong>으로 기억하면 된다. 본질은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크를 없애는 것이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 비용이 항상 CPU에만 쌓이지 않게 만드는 데 있다.
 
 - **📢 섹션 요약 비유**: 좋은 물류센터는 규칙과 통제는 중앙에서 잡되, 자주 반복되는 이동은 컨베이어가 맡는다. [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드도 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 규칙은 남기고, 패킷 운반만 컨베이어화하는 기술이다.
 
@@ -148,21 +149,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Linux Bridge / 순수 소프트웨어 스위칭
-            │
-            ▼
-OVS 기반 가상 스위치
-            │
-            ▼
-DPDK 기반 소프트웨어 fast path
-            │
-            ▼
-NIC eSwitch 기반 vSwitch Offload
-            │
-            ▼
-DPU 기반 정책·서비스 통합 데이터 평면
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Linux Bridge / 순수 소프트웨어 스위칭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OVS 기반 가상 스위치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPDK 기반 소프트웨어 fast path</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NIC eSwitch 기반 vSwitch Offload</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPU 기반 정책·서비스 통합 데이터 평면</div>
+</div>
+</div>
+
+
 
 이 흐름은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크가 "호스트 CPU가 전부 처리하는 구조"에서 출발해, 이제는 제어는 호스트에 남기고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면만 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/DPU로 이동하는 방향으로 진화하고 있음을 보여 준다.
 

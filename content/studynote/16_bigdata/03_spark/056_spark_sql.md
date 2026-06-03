@@ -22,13 +22,13 @@ tags = ["studynote-bigdata"]
 ### 1. [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 시대의 한계
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Spark의 RDD는 강력했지만 근본적인 약점이 있었다.
-- **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 부재**: `RDD[Row]`는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내부 컬럼 타입을 알 수 없어 스파크가 블랙박스처럼 취급
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 부재</strong>: `RDD[Row]`는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내부 컬럼 타입을 알 수 없어 스파크가 블랙박스처럼 취급
 - **최적화 불가**: 사용자가 `map → filter → join` 순서로 작성해도 스파크는 더 나은 순서를 알아도 재배열 불가
-- **다양한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 통합 어려움**: 각 포맷마다 별도 파싱 코드가 필요
+- <strong>다양한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 통합 어려움</strong>: 각 포맷마다 별도 파싱 코드가 필요
 
 ### 2. Spark SQL의 해결책
 
-Spark SQL ([Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 1.3, 2014)은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 부여**함으로써 이 문제를 근본적으로 해결한다.
+Spark SQL ([Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 1.3, 2014)은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>를 부여</strong>함으로써 이 문제를 근본적으로 해결한다.
 
 ```python
 # RDD 방식 (최적화 불가)
@@ -48,44 +48,32 @@ df.filter(df.amount > 1000).select("user_id", "amount")
 
 ### 1. Spark SQL 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-┌───────────────────────────────────────────────────────────────┐
-│  SQL 문자열 / DataFrame API / Dataset API                      │
-└──────────────────────┬────────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  파서 (Parser) — SQL → 비해석 논리 계획 (Unresolved LP)        │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Analyzer — 카탈로그 참조 → 해석된 논리 계획 (Resolved LP)    │
-│  (테이블명, 컬럼명, 타입 검증)                                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화             │
-│  · 술어 푸시다운 (Predicate Pushdown)                         │
-│  · 컬럼 프루닝 (Column Pruning)                               │
-│  · 상수 폴딩, 조인 순서 최적화                                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택      │
-│  (SortMergeJoin vs BroadcastHashJoin 결정 등)                 │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────────┐
-│  코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성      │
-└──────────────────────┬───────────────────────────────────────┘
-                       │
-                       ▼
-             분산 RDD 실행 (Spark Core)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 문자열 / DataFrame API / Dataset API</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파서 (Parser) — SQL → 비해석 논리 계획 (Unresolved LP)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Analyzer — 카탈로그 참조 → 해석된 논리 계획 (Resolved LP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(테이블명, 컬럼명, 타입 검증)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 술어 푸시다운 (Predicate Pushdown)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 컬럼 프루닝 (Column Pruning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 상수 폴딩, 조인 순서 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SortMergeJoin vs BroadcastHashJoin 결정 등)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 RDD 실행 (Spark Core)</div>
+</div>
+</div>
+
+
 
 ### 2. [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 메타스토어 연동
 
@@ -131,10 +119,10 @@ result = spark.sql("SELECT * FROM hive_db.sales WHERE year = 2024")
 
 ### 2. 연결 개념
 
-- **[Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/)**: Spark SQL의 최적화 핵심 엔진 (별도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
-- **[Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/)**: 물리적 실행 최적화, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리, Codegen
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/">Catalyst Optimizer</a></strong>: Spark SQL의 최적화 핵심 엔진 (별도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/">Tungsten Engine</a></strong>: 물리적 실행 최적화, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리, Codegen
 - **AQE (Adaptive Query Execution)**: 런타임 통계 기반 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 동적 재최적화
-- **[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: Spark SQL 위에서 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 TIME TRAVEL 제공
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: Spark SQL 위에서 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 TIME TRAVEL 제공
 
 **📢 섹션 요약 비유**
 > Spark SQL은 Hive와 비교하면 "디젤 기관차에서 고속 전철로 업그레이드"이다. 선로(메타스토어)는 그대로 사용하면서 엔진과 동력계통만 바꿔 속도를 10배 높였다.
@@ -145,12 +133,12 @@ result = spark.sql("SELECT * FROM hive_db.sales WHERE year = 2024")
 
 ### 1. Spark SQL [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] **[파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 컬럼으로 필터링하여 스캔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화
+- [ ] <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/">파티션 프루닝</a></strong>: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 컬럼으로 필터링하여 스캔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화
 - [ ] **컬럼형 포맷 사용**: [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC 포맷으로 컬럼 프루닝 효과 극대화
-- [ ] **BroadcastJoin [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)**: 소규모 테이블(< 10MB, 기본값) 조인 시 명시적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용
+- [ ] <strong>BroadcastJoin <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a></strong>: 소규모 테이블(< 10MB, 기본값) 조인 시 명시적 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 사용
 - [ ] **AQE 활성화**: `spark.sql.adaptive.enabled=true` (Spark 3.0+ 기본 활성화)
-- [ ] **셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 조정**: `spark.sql.shuffle.partitions` 기본 200 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정
-- [ ] **[캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 반복 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) DataFrame은 `df.cache()` 또는 `CACHE TABLE`
+- [ ] <strong>셔플 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 조정</strong>: `spark.sql.shuffle.partitions` 기본 200 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정
+- [ ] <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 반복 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) DataFrame은 `df.cache()` 또는 `CACHE TABLE`
 
 ### 2. Spark SQL 3.x ANSI SQL 강화
 
@@ -200,27 +188,29 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [설정](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Catalyst Optimizer]
-    │
-    ▼
-[Tungsten Engine]
-    │
-    ▼
-[AQE (Adaptive Query Execution)]
-    │
-    ▼
-[Hive Metastore]
-    │
-    ▼
-[Delta Lake]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tungsten Engine</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hive Metastore</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 Catalyst Optimizer에서 출발해 Delta Lake까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-Spark SQL은 도서관([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 원하는 책을 찾아주는 **스마트 사서**예요. 사서한테 "2020년 이후 출판된 과학책 제목 알려줘" 라고 말(SQL)만 하면, 사서가 가장 빠른 방법으로 책장을 뒤져서 목록을 만들어줘요. 직접 책장을 하나하나 뒤질([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)) 필요가 없답니다!
+Spark SQL은 도서관([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에서 원하는 책을 찾아주는 <strong>스마트 사서</strong>예요. 사서한테 "2020년 이후 출판된 과학책 제목 알려줘" 라고 말(SQL)만 하면, 사서가 가장 빠른 방법으로 책장을 뒤져서 목록을 만들어줘요. 직접 책장을 하나하나 뒤질([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)) 필요가 없답니다!
 
 ---
 

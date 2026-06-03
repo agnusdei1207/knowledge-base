@@ -26,37 +26,34 @@ tags = ["studynote-network"]
 - **💡 비유**: 한정된 좌석을 가진 인기 레스토랑에 악의적인 무리(공격 트래픽)가 가짜 예약을 대량으로 걸어두거나 입구에 진을 치고 주문을 하지 않으면서 자리만 차지하게 만들어, 진짜 식사를 하려는 손님(정상 사용자)들이 식당에 들어가지 못하고 발길을 돌리게 만드는 상황과 같습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 취약점 악용**: 1990년대 후반 Ping of Death, Smurf Attack 등 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 구조적 취약점을 이용해 단일 패킷이나 적은 트래픽으로도 시스템을 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠뜨리거나 자원을 고갈시키는 공격이 주를 이루었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 취약점 악용</strong>: 1990년대 후반 Ping of Death, Smurf Attack 등 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 구조적 취약점을 이용해 단일 패킷이나 적은 트래픽으로도 시스템을 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠뜨리거나 자원을 고갈시키는 공격이 주를 이루었다.
   2. **DDoS의 출현**: 단일 공격자의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계를 극복하기 위해, 악성코드에 감염된 수많은 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Zombie [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))로 구성된 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) ([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))을 활용하여 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전송하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격 (DDoS, Distributed [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))으로 진화했다.
   3. **L7 애플리케이션 공격의 부상**: 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 방어 기술이 발전함에 따라, 공격자들은 L3/L4 볼륨 공격 대신 적은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로도 서버의 CPU와 DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 커넥션을 고갈시키는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) GET Flooding, [Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 같은 정교한 L7 공격으로 타겟을 전환하였다.
 
 다음은 기존 네트워크 구조에서 단일 공격자의 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격이 서버의 한정된 큐를 고갈시키는 문제 발생 배경을 보여주는 다이어그램이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│        DoS 공격의 근본 원인: 자원 비대칭성과 큐 고갈 구조           │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [정상 사용자]                                [타겟 서버]         │
-│     │   1. 정상 요청 (SYN)                      │             │
-│     ├───────────────────────────▶ ┌─────────┐│             │
-│     │   2. 응답 (SYN-ACK)         │ 연결 대기││  처리 완료   │
-│     ◀───────────────────────────┤ 큐(Queue)├┼──────────▶ │
-│     │   3. 확인 (ACK)             └─────────┘│  (정상)     │
-│     ├───────────────────────────▶           │             │
-│                                                               │
-│ [공격자 (Attacker)]                                           │
-│     │   1. 위조된 요청 (Spoofed SYN) 대량 발생                    │
-│     ├───────────────────────────▶ ┌─────────┐             │
-│     ├───────────────────────────▶ │ 꽉 찬 큐│ ──▶ 시스템 마비 │
-│     ├───────────────────────────▶ │ (Queue) │     (정상 사용자│
-│     │   (ACK를 보내지 않음)         └─────────┘      접속 불가) │
-│                                                               │
-│ ⚠ 문제점: 서버는 연결이 완료될 때까지 메모리를 할당하고 기다려야 함.   │
-│ 공격자는 자신의 자원(스푸핑 패킷 생성) 소모 대비 서버의 자원(메모리,  │
-│ 타임아웃 대기)을 비대칭적으로 크게 고갈시킬 수 있음.                 │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DoS 공격의 근본 원인: 자원 비대칭성과 큐 고갈 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 사용자</div><div class="kb-diagram-node">타겟 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정상 요청 (SYN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 응답 (SYN-ACK)</div><div class="kb-diagram-cell">연결 대기</div><div class="kb-diagram-cell">처리 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 큐(Queue) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 확인 (ACK)</div><div class="kb-diagram-cell">(정상)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공격자 (Attacker)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 위조된 요청 (Spoofed SYN) 대량 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">꽉 찬 큐</div><div class="kb-diagram-cell">──▶ 시스템 마비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(Queue)</div><div class="kb-diagram-cell">(정상 사용자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ACK를 보내지 않음) 접속 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제점: 서버는 연결이 완료될 때까지 메모리를 할당하고 기다려야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자는 자신의 자원(스푸핑 패킷 생성) 소모 대비 서버의 자원(메모리,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃 대기)을 비대칭적으로 크게 고갈시킬 수 있음.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 그림은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN Flooding 공격의 원리를 통해 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격의 핵심인 '자원 비대칭성'을 보여준다. 서버는 [TCP 3-Way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/) 과정에서 클라이언트의 SYN 요청을 받으면 커넥션 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 위한 메모리(Backlog [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 할당하고 SYN-ACK를 보낸 뒤 일정 시간([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 대기한다. 공격자는 출발지 IP를 위조([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))하여 SYN 패킷만 무수히 보내고 최종 ACK를 응답하지 않는다. 이로 인해 서버의 연결 대기 큐는 순식간에 가득 차게 되고, 정작 정상 사용자의 SYN 요청은 큐에 들어갈 자리가 없어 Drop(폐기)된다. 결과적으로 공격자는 아주 적은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)만으로도 서버의 핵심 자원을 소진시켜 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 파괴할 수 있다.
 
@@ -74,48 +71,40 @@ tags = ["studynote-network"]
 | **증폭기 / 반사체 (Amplifier / Reflector)** | DRDoS 공격 시 트래픽을 증폭시켜 서버로 반사 | 위조된 IP로 요청을 받아 거대한 응답을 타겟으로 전송 | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) ([Network Time Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)) | 확성기 및 반사 거울 |
 | **타겟 (Target / Victim)** | 공격의 최종 목표 지점 | 대량의 트래픽/요청을 처리하다가 시스템 자원 고갈 | 웹 서버, 라우터, DB | 표적이 된 성 |
 | **L3/L4 네트워크 장비** | 1차 방어선 (라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 필터링, [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) 수행 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) Blackholing | 성벽과 외곽 경비대 |
-| **[스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) ([Scrubbing Center](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/))** | 대규모 클라우드 기반 트래픽 정제소 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 우회로 트래픽을 흡수하여 정상 패킷만 타겟으로 전달 | Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), DPI (Deep Packet Inspection) | 대규모 오폐수 정화장 |
+| <strong><a href="/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/">스크러빙 센터</a> (<a href="/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/">Scrubbing Center</a>)</strong> | 대규모 클라우드 기반 트래픽 정제소 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 우회로 트래픽을 흡수하여 정상 패킷만 타겟으로 전달 | Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), DPI (Deep Packet Inspection) | 대규모 오폐수 정화장 |
 
 ### [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격의 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 공격 매커니즘
 
 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격은 OSI 7계층 기준 타겟팅하는 계층과 고갈시키려는 자원의 종류에 따라 크게 세 가지 범주로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
 1. **볼륨 기반 공격 (Volumetric Attacks)**: 공격 목표의 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 완전히 포화시키는 것이 목적이다. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Flooding, [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Flooding이 대표적이며, 대량의 트래픽(Gbps ~ Tbps 단위)을 쏟아부어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 막아버린다.
-2. **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 공격 ([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Attacks)**: 서버나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드 밸런서 등 L3/L4 네트워크 인프라 장비의 실제 처리 능력([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) 용량 등)을 소모시킨다. SYN Flooding, Ping of Death, Smurf Attack 등이 속한다.
+2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 공격 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Attacks)</strong>: 서버나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드 밸런서 등 L3/L4 네트워크 인프라 장비의 실제 처리 능력([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) 용량 등)을 소모시킨다. SYN Flooding, Ping of Death, Smurf Attack 등이 속한다.
 3. **애플리케이션 계층 공격 (Application Layer Attacks)**: L7 계층에서 웹 서버, 애플리케이션 로직, DB의 CPU/메모리 자원을 고갈시킨다. 패킷 크기는 작지만 처리 비용이 높은 요청(예: 복잡한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 검색, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드)을 반복 전송하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET Flooding, [Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/), [RUDY](/knowledge-base/studynote/03_network/14_network_security_threats/723_rudy_slow_http_post_attack/) 공격이 있다.
 
 다음은 현대 DDoS 방어의 핵심 아키텍처인 [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) ([Scrubbing Center](/knowledge-base/studynote/03_network/14_network_security_threats/721_drdos_scrubbing_center_mitigation/))를 통한 트래픽 정제 흐름도이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│             클라우드 기반 DDoS 스크러빙 센터 (Scrubbing Center) 동작       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [인터넷 트래픽]  (정상 요청 + DDoS 볼륨 공격 트래픽 혼재)                  │
-│       │                                                          │
-│       │  ◀ BGP Anycast 라우팅 변경 (트래픽 우회)                     │
-│       ▼                                                          │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │ DDoS 방어 클라우드 (Cloud Scrubbing Center)                    │  │
-│  │                                                            │  │
-│  │  1. L3/L4 필터링 (ACL, Rate Limit)                         │  │
-│  │     ├─ 볼륨 공격 차단 (UDP/ICMP Flood 폐기)                   │  │
-│  │     ▼                                                      │  │
-│  │  2. 프로토콜 분석 (TCP State 검증, SYN Cookie)                 │  │
-│  │     ├─ 비정상 연결 시도 차단 (SYN Flood 방어)                  │  │
-│  │     ▼                                                      │  │
-│  │  3. L7 DPI (Deep Packet Inspection) & 행위 기반 분석          │  │
-│  │     ├─ 봇 탐지 (JS 챌린지, CAPTCHA, HTTP 헤더 검증)            │  │
-│  │     └─ 악성 L7 페이로드 차단 (Slowloris, GET Flood)            │  │
-│  └────────────────┬───────────────────────────────────────────┘  │
-│                   │                                              │
-│                   ▼ 정제된 정상 트래픽 (Clean Traffic) 만 통과           │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │ 타겟 데이터센터 (Victim Data Center) / 웹 서버                    │  │
-│  │  ▶ 정상적인 서비스 제공 가능 (가용성 유지)                          │  │
-│  └────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 기반 DDoS 스크러빙 센터 (Scrubbing Center) 동작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 트래픽</div><div class="kb-diagram-note">(정상 요청 + DDoS 볼륨 공격 트래픽 혼재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ BGP Anycast 라우팅 변경 (트래픽 우회)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDoS 방어 클라우드 (Cloud Scrubbing Center)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. L3/L4 필터링 (ACL, Rate Limit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 볼륨 공격 차단 (UDP/ICMP Flood 폐기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로토콜 분석 (TCP State 검증, SYN Cookie)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비정상 연결 시도 차단 (SYN Flood 방어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. L7 DPI (Deep Packet Inspection) &amp; 행위 기반 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 봇 탐지 (JS 챌린지, CAPTCHA, HTTP 헤더 검증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 악성 L7 페이로드 차단 (Slowloris, GET Flood)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 정제된 정상 트래픽 (Clean Traffic) 만 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 데이터센터 (Victim Data Center) / 웹 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 정상적인 서비스 제공 가능 (가용성 유지)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 타겟 서버가 직접 대규모 트래픽을 감당하는 대신, 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 네트워크를 갖춘 클라우드 기반 [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)가 중간에서 트래픽을 흡수([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 우회)하여 계층적으로 필터링한다는 점이다. 트래픽이 유입되면 먼저 방대한 클라우드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 볼륨 공격을 흡수하고, L3/L4 방어 장비를 통해 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변조 공격([SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 등)을 차단한다. 이후 가장 걸러내기 까다로운 L7 공격은 DPI (Deep Packet Inspection) 엔진과 브라우저 챌린지(JavaScript 렌더링 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 등)를 통해 사람의 정상 요청과 봇(Bot)의 악성 요청을 구분해낸다. 최종적으로 정제된(Clean) 트래픽만이 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) ([Generic Routing Encapsulation](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/)) 터널이나 프록시를 통해 실제 타겟 서버로 전달된다. 이 다단계 필터링 구조는 단일 기업이 물리적으로 감당할 수 없는 테라비트(Tbps) 단위의 대규모 반사 증폭 공격을 막아내는 유일한 현실적 대안이다.
 
@@ -132,26 +121,29 @@ DRDoS 공격은 공격자가 직접 타겟에게 트래픽을 보내는 대신, 
 | 비교 항목 | 전통적 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) | DDoS ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) | DRDoS ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 반사 증폭 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
 | **공격 출발지** | 단일 공격자 IP | 수천~수십만 대의 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)) | 정상적인 공공 서버 ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 등) | 방어선(IP 차단) 구축 난이도 |
-| **IP 위조 ([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))** | 선택적 | 주로 봇 자체 IP 사용 | **필수** (응답을 타겟으로 유도) | 네트워크 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 필터링 중요성 |
-| **트래픽 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 효율** | 1:1 (공격자 자원 대비) | N:1 ([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 규모에 비례) | 1:N (수십~수만 배 **증폭 비율**) | 볼륨 공격의 파괴력 차이 |
+| <strong>IP 위조 (<a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">Spoofing</a>)</strong> | 선택적 | 주로 봇 자체 IP 사용 | **필수** (응답을 타겟으로 유도) | 네트워크 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 필터링 중요성 |
+| <strong>트래픽 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 효율</strong> | 1:1 (공격자 자원 대비) | N:1 ([봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 규모에 비례) | 1:N (수십~수만 배 **증폭 비율**) | 볼륨 공격의 파괴력 차이 |
 | **방어 및 역추적** | 단일 IP 차단으로 용이 | IP [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 차단 어려움, C&C 추적 | 정상 서버의 응답이므로 차단 시 부작용 우려 | [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 및 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 필터링 필요 |
 
 전통적인 DoS는 단일 소스에서 발생하므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 IP 차단 룰셋으로 쉽게 방어할 수 있다. 하지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 환경에서 들어오는 DDoS는 정상 트래픽과 구분이 어려우며, 특히 DRDoS의 경우 공격 트래픽의 출발지가 구글 8.8.8.8과 같은 정상적인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버일 수 있어 IP 기반 무조건 차단 시 정상적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 해상 등)까지 마비되는 트레이드오프가 발생한다.
 
 네트워크 계층별 공격의 특성을 비교하면, 방어 전략이 트래픽의 '양'을 통제하는 것에서 요청의 '질(행위)'을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방향으로 어떻게 달라져야 하는지 명확해진다.
 
-```text
-┌─────────────────┬────────────────────────────────┬────────────────────────────────┐
-│ 기준            │ L3/L4 프로토콜/볼륨 공격       │ L7 애플리케이션 공격           │
-├─────────────────┼────────────────────────────────┼────────────────────────────────┤
-│ 주요 공격 기법  │ SYN Flood, UDP Flood, Ping     │ HTTP GET/POST Flood, Slowloris │
-│ 타겟 자원       │ 네트워크 대역폭, TCP State Table│ 웹 서버 CPU, DB 커넥션 큐        │
-│ 트래픽 규모     │ Gbps ~ Tbps 단위 (초대형)      │ Mbps 단위 (매우 작음)            │
-│ 공격 탐지 지표  │ BPS (Bits Per Sec), PPS (Packets)│ RPS (Requests Per Sec), 지연시간 │
-│ 방어 메커니즘   │ Rate Limiting, SYN Cookie, ACL │ WAF (Web App Firewall), CAPTCHA│
-│ 융합 보안 관점  │ 클라우드 ISP 연동 방어 필수    │ AI 기반 행위(Behavior) 분석 중요 │
-└─────────────────┴────────────────────────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">L3/L4 프로토콜/볼륨 공격</div><div class="kb-diagram-cell">L7 애플리케이션 공격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 공격 기법</div><div class="kb-diagram-cell">SYN Flood, UDP Flood, Ping</div><div class="kb-diagram-cell">HTTP GET/POST Flood, Slowloris</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 자원</div><div class="kb-diagram-cell">네트워크 대역폭, TCP State Table</div><div class="kb-diagram-cell">웹 서버 CPU, DB 커넥션 큐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 규모</div><div class="kb-diagram-cell">Gbps ~ Tbps 단위 (초대형)</div><div class="kb-diagram-cell">Mbps 단위 (매우 작음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 탐지 지표</div><div class="kb-diagram-cell">BPS (Bits Per Sec), PPS (Packets)</div><div class="kb-diagram-cell">RPS (Requests Per Sec), 지연시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 메커니즘</div><div class="kb-diagram-cell">Rate Limiting, SYN Cookie, ACL</div><div class="kb-diagram-cell">WAF (Web App Firewall), CAPTCHA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">융합 보안 관점</div><div class="kb-diagram-cell">클라우드 ISP 연동 방어 필수</div><div class="kb-diagram-cell">AI 기반 행위(Behavior) 분석 중요</div></div>
+</div>
+</div>
+
+
 
 **[매트릭스 해설]** 이 비교 매트릭스에서 가장 주목할 부분은 "트래픽 규모"와 "타겟 자원"의 차이다. L3/L4 볼륨 공격은 수도관을 파열시킬 만큼 엄청난 양의 물(트래픽)을 밀어 넣어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 자체를 막아버린다. 이를 막기 위해서는 타겟 앞에 거대한 댐(클라우드 [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/))을 세우는 무식하지만 물리적인 방어력([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확보)이 필수적이다. 반면 L7 공격은 적은 양의 물로도 독을 타는(고비용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 요청) 정교한 암살과 같다. 트래픽 볼륨은 작아 네트워크 장비를 우회하지만, 서버의 CPU를 점유율 100%로 치솟게 한다. 이 경우 댐을 세우는 것이 아니라, 수질 검사기([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 행위 분석)를 도입하여 문맥을 파악하고 정상 요청을 위장한 악성 요청을 식별해야 한다.
 
@@ -162,45 +154,38 @@ DRDoS 공격은 공격자가 직접 타겟에게 트래픽을 보내는 대신, 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 대규모 게임 출시일, 로그인 서버 대상 SYN Flooding 공격 발생**: 동시 접속자가 몰리는 런칭 타임에 초당 수백만 건의 위조된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN 패킷이 유입되어 로그인 서버의 Backlog Queue가 가득 차고 서버가 응답 불능([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))에 빠지는 상황.
-   - **의사결정**: 네트워크 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 방어 기능을 활성화하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터를 튜닝하여 **SYN [Cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) (`net.ipv4.tcp_syncookies = 1`)**를 적용한다. 서버는 연결 큐에 메모리를 할당하지 않고, 연결 정보를 암호화하여 SYN-ACK 패킷의 시퀀스 번호로 클라이언트에게 되돌려 보낸다. 정상 클라이언트는 이 쿠키를 다시 ACK에 담아 보내므로 그때 커넥션을 맺고, 위조 IP를 쓴 공격자는 ACK를 못 보내므로 메모리 낭비를 원천 차단한다.
+   - **의사결정**: 네트워크 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 방어 기능을 활성화하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터를 튜닝하여 <strong>SYN <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a> (<code>net.ipv4.tcp_syncookies = 1</code>)</strong>를 적용한다. 서버는 연결 큐에 메모리를 할당하지 않고, 연결 정보를 암호화하여 SYN-ACK 패킷의 시퀀스 번호로 클라이언트에게 되돌려 보낸다. 정상 클라이언트는 이 쿠키를 다시 ACK에 담아 보내므로 그때 커넥션을 맺고, 위조 IP를 쓴 공격자는 ACK를 못 보내므로 메모리 낭비를 원천 차단한다.
 
-2. **시나리오 — [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 공격에 의한 웹 서버 커넥션 고갈**: 트래픽 볼륨은 지극히 정상 수준(수십 Kbps)이나, 웹 서버(Apache)의 최대 커넥션 수(MaxClients)가 계속 꽉 차 있어 정상 사용자의 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속이 안 되는 상황. 분석 결과, 수백 개의 봇이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더의 끝을 알리는 개행문자(`\r\n\r\n`)를 보내지 않고, 10초마다 의미 없는 헤더 필드를 한 줄씩 보내 커넥션을 끊지 않고 유지(Hold)하고 있음이 식별되었다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/09_security/03_network_security/258_slowloris/">Slowloris</a> 공격에 의한 웹 서버 커넥션 고갈</strong>: 트래픽 볼륨은 지극히 정상 수준(수십 Kbps)이나, 웹 서버(Apache)의 최대 커넥션 수(MaxClients)가 계속 꽉 차 있어 정상 사용자의 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속이 안 되는 상황. 분석 결과, 수백 개의 봇이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더의 끝을 알리는 개행문자(`\r\n\r\n`)를 보내지 않고, 10초마다 의미 없는 헤더 필드를 한 줄씩 보내 커넥션을 끊지 않고 유지(Hold)하고 있음이 식별되었다.
    - **의사결정**: 요청 헤더를 모두 수신해야 워커 프로세스로 넘기는 Nginx와 같은 Event-Driven 아키텍처 기반의 리버스 프록시를 전면에 배치한다. 또한, [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 `client_header_timeout` 및 `client_body_timeout` 값을 매우 짧게(예: 5초) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 동일 IP에서의 동시 커넥션 수를 제한([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))하여 유휴 상태의 비정상 커넥션을 강제로 끊어버린다.
 
 의사결정 과정에서, 장애 발생 시 이것이 단순한 트래픽 폭증(Slashdot Effect)인지 실제 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격인지를 빠르게 판별하고 대응하는 트리가 필요하다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│           실무 서비스 장애 발생 시 DoS 인지 및 방어 의사결정 트리          │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│   [서비스 접속 지연 / Timeout 알람 발생]                             │
-│                │                                                  │
-│                ▼                                                  │
-│      [모니터링] 네트워크 인입 트래픽(BPS)이 평소의 10배 이상인가?         │
-│          ├─ 예 ─────▶ L3/L4 볼륨 공격(UDP/ICMP Flood) 의심            │
-│          │                     │                                  │
-│          │                     └─▶ [조치] BGP 기반 클라우드 스크러빙     │
-│          │                               센터로 트래픽 우회 전환 (가동)   │
-│          └─ 아니오                                                │
-│                │                                                  │
-│                ▼                                                  │
-│      [서버 로그] 인입 패킷 수(PPS)는 폭증했으나 트래픽(BPS)은 낮은가?     │
-│          ├─ 예 ─────▶ TCP SYN Flooding 등 프로토콜 공격 의심          │
-│          │                     │                                  │
-│          │                     └─▶ [조치] L4 장비 SYN Cookie 활성화,   │
-│          │                                방화벽 임계치(Threshold) 조정 │
-│          └─ 아니오                                                │
-│                │                                                  │
-│                ▼                                                  │
-│      [APM] 특정 API 엔드포인트에 대한 HTTP 503/Timeout이 집중되는가?    │
-│          ├─ 예 ─────▶ L7 HTTP GET Flood / Slowloris 의심            │
-│          │                     │                                  │
-│          │                     └─▶ [조치] WAF 룰셋 업데이트(IP 차단),   │
-│          │                                CAPTCHA/JS 챌린지 강제 적용   │
-│          └─ 아니오 ──▶ 백엔드 DB Lock, 내부 로직 병목 등 비보안 장애 원인 분석│
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 서비스 장애 발생 시 DoS 인지 및 방어 의사결정 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 접속 지연 / Timeout 알람 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터링</div><div class="kb-diagram-note">네트워크 인입 트래픽(BPS)이 평소의 10배 이상인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ L3/L4 볼륨 공격(UDP/ICMP Flood) 의심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">BGP 기반 클라우드 스크러빙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센터로 트래픽 우회 전환 (가동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버 로그</div><div class="kb-diagram-note">인입 패킷 수(PPS)는 폭증했으나 트래픽(BPS)은 낮은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ TCP SYN Flooding 등 프로토콜 공격 의심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">L4 장비 SYN Cookie 활성화,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽 임계치(Threshold) 조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">APM</div><div class="kb-diagram-note">특정 API 엔드포인트에 대한 HTTP 503/Timeout이 집중되는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ L7 HTTP GET Flood / Slowloris 의심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">WAF 룰셋 업데이트(IP 차단),</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAPTCHA/JS 챌린지 강제 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 백엔드 DB Lock, 내부 로직 병목 등 비보안 장애 원인 분석</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 실무에서 시스템이 다운되었을 때 가장 치명적인 실수는, 내부 애플리케이션 버그나 DB 병목([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 인한 지연을 DDoS 공격으로 오인하여 엉뚱한 네트워크 장비만 튜닝하며 골든타임을 허비하는 것이다. 이 의사결정 트리는 장애의 양상을 인프라 지표(BPS, PPS)와 애플리케이션 지표([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))로 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 공격 계층을 정확히 핀포인트하는 과정을 보여준다. 트래픽 볼륨 자체가 회선의 한계를 초과했다면 즉각 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 우회로 클라우드 방어를 켜야 하고(가장 비용이 큼), 네트워크 계층은 정상이나 서버의 큐만 찬다면 L4 방어를, 트래픽도 큐도 정상이지만 특정 무거운 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 유발하는 API만 호출된다면 WAF를 통해 애플리케이션 계층 차단을 수행해야 한다. 각각의 공격 벡터는 전혀 다른 방어 무기를 요구한다.
 
@@ -219,17 +204,17 @@ DRDoS 공격은 공격자가 직접 타겟에게 트래픽을 보내는 대신, 
 
 | 구분 | 방어 체계 미비 | 하이브리드 DDoS 방어 아키텍처 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | Gbps급 볼륨 공격 시 IDC 회선 포화 | Tbps급 클라우드 스크러빙으로 볼륨 흡수 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화에 따른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) **Downtime [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)** |
+| **정량** | Gbps급 볼륨 공격 시 IDC 회선 포화 | Tbps급 클라우드 스크러빙으로 볼륨 흡수 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화에 따른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) <strong>Downtime <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a></strong> |
 | **정량** | L7 공격 방어 실패로 서버 자원 100% 점유 | [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/Bot Management로 악성 요청 차단 | 서버 CPU/메모리 유휴 자원 **80% 이상 확보** |
 | **정성** | 공격 발생 후 수동 분석 및 IP 차단 (수 시간 소요) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 트래픽 학습 및 자동 차단 룰 적용 | 대응 시간 단축 (초 단위 방어) 및 브랜드 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 유지 |
 
 ### 미래 전망
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반 동적 공격 탐지 (Behavioral Analysis)**: 공격자들이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)의 IP를 초 단위로 변경하고 정상 사용자와 똑같은 브라우징 패턴(마우스 이동 모사 등)을 흉내 내는 지능형 L7 공격이 증가하고 기승을 부리고 있다. 이에 대응하여, 시그니처나 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 기반 차단을 넘어 머신러닝으로 정상적인 비즈니스 트래픽 베이스라인을 학습하고 미세한 이상 징후를 실시간 차단하는 행동 기반 WAF의 도입이 가속화될 것이다.
-- **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 및 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 발전에 따른 초거대 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 위협**: 5G의 초고속망에 연결된 수십억 대의 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(인터넷 공유기, IP 카메라 등) 기기들이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)으로 편입되면서, 공격 규모가 수 Tbps를 쉽게 상회하는 시대가 열리고 있다. [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 환경에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 협력하여 공격 트래픽을 발생지 근처에서 차단하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방어 체계가 필수 표준이 될 것이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 기반 동적 공격 탐지 (Behavioral Analysis)</strong>: 공격자들이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)의 IP를 초 단위로 변경하고 정상 사용자와 똑같은 브라우징 패턴(마우스 이동 모사 등)을 흉내 내는 지능형 L7 공격이 증가하고 기승을 부리고 있다. 이에 대응하여, 시그니처나 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 기반 차단을 넘어 머신러닝으로 정상적인 비즈니스 트래픽 베이스라인을 학습하고 미세한 이상 징후를 실시간 차단하는 행동 기반 WAF의 도입이 가속화될 것이다.
+- <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 및 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기 발전에 따른 초거대 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a> 위협</strong>: 5G의 초고속망에 연결된 수십억 대의 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(인터넷 공유기, IP 카메라 등) 기기들이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)으로 편입되면서, 공격 규모가 수 Tbps를 쉽게 상회하는 시대가 열리고 있다. [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 환경에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 협력하여 공격 트래픽을 발생지 근처에서 차단하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방어 체계가 필수 표준이 될 것이다.
 
 ### 참고 표준
 - **RFC 2827 (BCP 38)**: 네트워크 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 필터링 표준 (IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 방지하기 위한 라우터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드).
-- **[NIST SP 800-53](/knowledge-base/studynote/09_security/17_framework_compliance/848_nist_sp_800_53/)**: 연방 정보 시스템 및 조직을 위한 보안 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 및 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 규정).
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/848_nist_sp_800_53/">NIST SP 800-53</a></strong>: 연방 정보 시스템 및 조직을 위한 보안 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 통제 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 및 [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) 규정).
 
 클라우드와 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 발전으로 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)/DDoS 방어 전략은 단일 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 경계 방어에서 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 네트워크 기반의 상시 스크러빙 체계로 패러다임이 전환되었다. 방어자는 공격자보다 더 큰 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))와 더 스마트한 두뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 전진 배치해야 하며, 이는 보안 아키텍처가 비즈니스 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 유지의 핵심 투자처임을 시사한다.
 
@@ -248,15 +233,19 @@ DRDoS 공격은 공격자가 직접 타겟에게 트래픽을 보내는 대신, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 전자 서명]
-    │
-    ▼
-[현재 개념: 서비스 거부 공격]
-    │
-    ├──▶ [확장 A: 봇넷 C&C]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 전자 서명</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서비스 거부 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 봇넷 C&amp;C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격는 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) C&C와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

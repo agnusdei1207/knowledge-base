@@ -25,18 +25,20 @@ RLHF는 거대 언어 모델 ([Large Language Model](/knowledge-base/studynote/0
 
 아래 그림은 왜 랭킹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요한지를 직관적으로 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Preference appears between good answers             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Prompt: "상사에게 일정 지연 사과 메일 초안을 써줘"                 │
-│ A: 장황하고 책임 회피가 섞인 답변                                  │
-│ B: 사유, 영향, 보완 계획이 짧게 정리된 답변                        │
-│                                                                      │
-│ Language model likelihood: A and B can both look fluent             │
-│ Human preference: B > A                                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preference appears between good answers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prompt: "상사에게 일정 지연 사과 메일 초안을 써줘"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: 장황하고 책임 회피가 섞인 답변</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: 사유, 영향, 보완 계획이 짧게 정리된 답변</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Language model likelihood: A and B can both look fluent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Human preference: B &gt; A</div></div>
+</div>
+</div>
+
+
 
 즉 RLHF의 필요성은 모델이 틀린 문장을 고치는 데 있지 않다. 이미 맞는 문장들 사이에서 "어느 답이 더 사람다운가"를 고르게 하는 데 있다.
 
@@ -50,23 +52,21 @@ RLHF는 거대 언어 모델 ([Large Language Model](/knowledge-base/studynote/0
 
 아래 그림은 선호 랭킹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트로 이어지는 루프를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    RLHF preference-learning loop                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ prompt sample                                                        │
-│     │                                                                │
-│     ├─> policy generates N responses                                 │
-│     │                                                                │
-│     ├─> human labeler ranks / picks better answer                    │
-│     │                                                                │
-│     ├─> (chosen, rejected) pairs                                     │
-│     │                                                                │
-│     ├─> reward model r(x, y)  or  direct preference optimization     │
-│     │                                                                │
-│     └─> updated policy -> new responses -> re-evaluation             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF preference-learning loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">prompt sample</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; policy generates N responses</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; human labeler ranks / picks better answer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; (chosen, rejected) pairs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; reward model r(x, y) or direct preference optimization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; updated policy -&gt; new responses -&gt; re-evaluation</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -79,7 +79,7 @@ RLHF는 거대 언어 모델 ([Large Language Model](/knowledge-base/studynote/0
 
 쌍대 비교가 자주 쓰이는 이유도 여기 있다. 인간은 "5점 만점에 몇 점인가"보다 "A와 B 중 무엇이 더 나은가"를 더 일관되게 판단하는 편이다. 보상 모델은 이를 바탕으로 `P(A ≻ B | x) = σ(r(x,A) - r(x,B))` 같은 Bradley-Terry 계열 구조로 학습할 수 있다. 이때 라벨링 지침이 모호하면 보상 모델은 사람 선호가 아니라 라벨러의 습관을 학습하게 된다.
 
-전통 RLHF에서 PPO를 쓰는 이유는 탐색을 허용하기 위해서다. 다만 보상만 무작정 높이면 모델이 지나치게 장황해지거나 보상 모델의 허점을 파고드는 Reward Hacking이 생길 수 있으므로, 기준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 너무 멀어지지 않도록 KL 패널티를 둔다. 즉 RLHF는 강화학습이라기보다 **인간 선호를 안전하게 증폭하는 제약된 최적화**에 가깝다.
+전통 RLHF에서 PPO를 쓰는 이유는 탐색을 허용하기 위해서다. 다만 보상만 무작정 높이면 모델이 지나치게 장황해지거나 보상 모델의 허점을 파고드는 Reward Hacking이 생길 수 있으므로, 기준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 너무 멀어지지 않도록 KL 패널티를 둔다. 즉 RLHF는 강화학습이라기보다 <strong>인간 선호를 안전하게 증폭하는 제약된 최적화</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: RLHF는 학생에게 모범답안 한 장만 주는 교육이 아니라, 답안 여러 개를 보여 주고 선생님이 무엇을 더 좋아하는지 반복해서 알려 주는 교육이다. 학생은 그 선호를 배우며 점점 더 "좋은 답" 쪽으로 습관을 바꾼다.
 
@@ -96,7 +96,7 @@ RLHF를 정확히 이해하려면 SFT, [DPO](/knowledge-base/studynote/06_ict_co
 | [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) | 선호 쌍에서 직접 최적화 | 단순하고 안정적 | 탐색/온라인 적응은 제한적 | 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분한 후속 튜닝 |
 | [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판정 기반 선호 | 확장성 좋음, 비용 절감 | 모델 편향 전이 위험 | 인간 평가 보강, 대규모 재평가 |
 
-또 하나의 비교 축은 **평가 방식**이다. 절대 점수형 레이블은 기준 편차가 크고 라벨러마다 3점·4점 사용 습관이 달라질 수 있다. 반면 [Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Ranking은 판단 기준을 상대화해 일관성을 높인다. 대신 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 단조로우면 의미 있는 선호 정보가 적어지므로, 후보 다양성을 확보하는 샘플링 전략이 같이 필요하다.
+또 하나의 비교 축은 <strong>평가 방식</strong>이다. 절대 점수형 레이블은 기준 편차가 크고 라벨러마다 3점·4점 사용 습관이 달라질 수 있다. 반면 [Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Ranking은 판단 기준을 상대화해 일관성을 높인다. 대신 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 단조로우면 의미 있는 선호 정보가 적어지므로, 후보 다양성을 확보하는 샘플링 전략이 같이 필요하다.
 
 이 구조는 추천 시스템의 [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) to Rank와도 닮아 있다. 다만 RLHF는 클릭률만 보는 것이 아니라, 안전성·사실성·협조성처럼 다차원적 인간 가치를 함께 다뤄야 한다는 점이 더 어렵다. 그래서 보상 모델 하나가 모든 가치를 완벽히 대변한다고 보기보다, 정렬 파이프라인의 중간 근사치로 이해해야 한다.
 
@@ -118,21 +118,24 @@ RLHF를 정확히 이해하려면 SFT, [DPO](/knowledge-base/studynote/06_ict_co
 
 아래 흐름은 어떤 선호 학습 방식을 선택할지 실무적으로 판단하는 기준이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Preference optimization decision                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ enough human preference pairs?                                       │
-│   ├─ no  -> collect / bootstrap with SFT or RLAIF                    │
-│   ├─ yes + simple pipeline wanted -> DPO first                       │
-│   ├─ yes + reward shaping / exploration needed -> RLHF with PPO      │
-│   └─ label budget too small -> AI assist + human audit               │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-판단 포인트는 세 가지로 요약된다. 첫째, **라벨링 기준의 명확성**이 모델 구조보다 우선이다. "좋은 답"의 정의가 모호하면 RLHF는 편향만 증폭한다. 둘째, **DPO와 RLHF를 구분해야 한다**. 선호 쌍이 이미 충분하고 안정적이면 DPO가 더 단순할 수 있지만, 탐색과 복합 보상 설계가 필요하면 RLHF가 여전히 유리하다. 셋째, **라벨러 운영 비용과 심리 부담**을 설계 안에 포함해야 한다. 유해 콘텐츠 평가를 대규모로 다루는 조직은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치 없이는 지속 가능하지 않다.
 
-기술사 답안에서는 RLHF를 "인간 피드백으로 강화학습한다" 수준에서 멈추지 말고, **프롬프트 샘플링, 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Ranking, [Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/), KL 제약, 보상 해킹, 라벨러 품질 관리**까지 연결해 설명해야 깊이가 생긴다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preference optimization decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">enough human preference pairs?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; collect / bootstrap with SFT or RLAIF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes + simple pipeline wanted -&gt; DPO first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes + reward shaping / exploration needed -&gt; RLHF with PPO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ label budget too small -&gt; AI assist + human audit</div></div>
+</div>
+</div>
+
+
+
+판단 포인트는 세 가지로 요약된다. 첫째, <strong>라벨링 기준의 명확성</strong>이 모델 구조보다 우선이다. "좋은 답"의 정의가 모호하면 RLHF는 편향만 증폭한다. 둘째, **DPO와 RLHF를 구분해야 한다**. 선호 쌍이 이미 충분하고 안정적이면 DPO가 더 단순할 수 있지만, 탐색과 복합 보상 설계가 필요하면 RLHF가 여전히 유리하다. 셋째, <strong>라벨러 운영 비용과 심리 부담</strong>을 설계 안에 포함해야 한다. 유해 콘텐츠 평가를 대규모로 다루는 조직은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치 없이는 지속 가능하지 않다.
+
+기술사 답안에서는 RLHF를 "인간 피드백으로 강화학습한다" 수준에서 멈추지 말고, <strong>프롬프트 샘플링, 후보 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> Ranking, <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a>, KL 제약, 보상 해킹, 라벨러 품질 관리</strong>까지 연결해 설명해야 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 학원을 운영할 때도 문제집만 좋다고 끝나지 않는다. 어떤 문제를 뽑고, 선생님이 어떻게 채점하고, 학생이 꼼수를 쓰지 못하게 어떤 규칙을 둘지가 성적을 좌우한다. RLHF도 바로 그런 운영 설계의 문제다.
 
@@ -164,21 +167,23 @@ RLHF가 잘 작동하면 모델은 단순히 자연스러운 문장을 넘어서
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Supervised fine-tuning
-    │
-    ▼
-Candidate response sampling
-    │
-    ▼
-Human preference ranking and gold-set validation
-    │
-    ▼
-Reward model or direct preference optimization
-    │
-    ▼
-Aligned LLM with continuous feedback loop
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Supervised fine-tuning</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Candidate response sampling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Human preference ranking and gold-set validation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Reward model or direct preference optimization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Aligned LLM with continuous feedback loop</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

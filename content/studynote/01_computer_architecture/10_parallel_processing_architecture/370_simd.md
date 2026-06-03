@@ -19,25 +19,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-SIMD (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법 (Flynn's Taxonomy)에서 **하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름으로 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 동시에 처리하는 구조**를 뜻한다. 핵심은 연산기 수를 늘리는 것 자체가 아니라, 같은 연산을 반복하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합을 한 번에 묶어 처리하는 데 있다. 즉 SIMD는 "명령을 여러 번 읽지 말고, 한 번 읽은 명령을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 여러 개에 퍼뜨리자"는 발상에서 출발한다.
+SIMD (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법 (Flynn's Taxonomy)에서 <strong>하나의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름으로 여러 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 동시에 처리하는 구조</strong>를 뜻한다. 핵심은 연산기 수를 늘리는 것 자체가 아니라, 같은 연산을 반복하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합을 한 번에 묶어 처리하는 데 있다. 즉 SIMD는 "명령을 여러 번 읽지 말고, 한 번 읽은 명령을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 여러 개에 퍼뜨리자"는 발상에서 출발한다.
 
-이 구조가 필요해진 이유는 멀티미디어와 과학 계산이 공통적으로 **반복적이고 규칙적인 수치 연산**을 대량 요구하기 때문이다. 예를 들어 밝기 보정은 수백만 개 픽셀에 같은 덧셈이나 곱셈을 적용하고, 선형대수 계산은 긴 벡터와 행렬에 같은 연산 패턴을 반복한다. 이런 작업을 단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([SISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/), Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Single [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 방식으로 처리하면 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 계속 다시 가져오고 해독해야 하므로, 프론트엔드 오버헤드가 커지고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 제한된다.
+이 구조가 필요해진 이유는 멀티미디어와 과학 계산이 공통적으로 <strong>반복적이고 규칙적인 수치 연산</strong>을 대량 요구하기 때문이다. 예를 들어 밝기 보정은 수백만 개 픽셀에 같은 덧셈이나 곱셈을 적용하고, 선형대수 계산은 긴 벡터와 행렬에 같은 연산 패턴을 반복한다. 이런 작업을 단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([SISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/369_sisd/), Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Single [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 방식으로 처리하면 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 계속 다시 가져오고 해독해야 하므로, 프론트엔드 오버헤드가 커지고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 제한된다.
 
 아래 그림은 왜 SIMD가 필요한지, SISD와 비교해 직관적으로 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          같은 덧셈 4회를 처리하는 방식의 차이                │
-├──────────────────────────────┬───────────────────────────────┤
-│ SISD                         │ SIMD                          │
-│ Add A0,B0                    │ Vector Add A0~A3, B0~B3      │
-│ Add A1,B1                    │ ├─ Lane0: A0+B0              │
-│ Add A2,B2                    │ ├─ Lane1: A1+B1              │
-│ Add A3,B3                    │ ├─ Lane2: A2+B2              │
-│ 명령 4회 인출·해독           │ └─ Lane3: A3+B3              │
-│ 데이터 4개 순차 처리         │ 명령 1회 인출·해독           │
-└──────────────────────────────┴───────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 덧셈 4회를 처리하는 방식의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SISD</div><div class="kb-diagram-cell">SIMD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add A0,B0</div><div class="kb-diagram-cell">Vector Add A0~A3, B0~B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add A1,B1</div><div class="kb-diagram-cell">─ Lane0: A0+B0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add A2,B2</div><div class="kb-diagram-cell">─ Lane1: A1+B1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add A3,B3</div><div class="kb-diagram-cell">─ Lane2: A2+B2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 4회 인출·해독</div><div class="kb-diagram-cell">─ Lane3: A3+B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 4개 순차 처리</div><div class="kb-diagram-cell">명령 1회 인출·해독</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 SIMD가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))보다 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 개선하는 데 강하다는 것이다. 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 응답 시간을 극단적으로 줄이는 구조라기보다, 같은 계산을 묶어서 전체 작업 완료 시간을 줄이는 구조에 가깝다. 그래서 SIMD는 범용 제어 로직이 복잡한 프로그램 전체를 대체하기보다, 반복 연산이 몰린 구간을 가속하는 용도로 가장 큰 효과를 낸다.
 
@@ -59,29 +62,25 @@ SIMD를 구현하려면 하나의 [제어 유닛](/knowledge-base/studynote/01_c
 
 이 그림은 SIMD 내부에서 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 퍼지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SIMD 데이터 경로와 실행 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│                 Vector Instruction Decode                    │
-│                            │                                 │
-│                            ▼                                 │
-│                    [ Control Unit ]                          │
-│                            │ broadcast                       │
-│        ┌──────────────┬────┴────┬──────────────┐             │
-│        ▼              ▼         ▼              ▼             │
-│    [ Lane 0 ]     [ Lane 1 ] [ Lane 2 ]     [ Lane 3 ]      │
-│      A0,B0          A1,B1      A2,B2          A3,B3          │
-│        │              │         │              │             │
-│        └──────┬───────┴────┬────┴───────┬──────┘             │
-│               ▼            ▼            ▼                    │
-│            Result0      Result1      Result2 ...            │
-└──────────────────────────────────────────────────────────────┘
-```
 
-SIMD 효율을 결정하는 첫 번째 조건은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치**다. 같은 속성끼리 연속적으로 모여 있으면 한 번의 로드로 여러 값을 가져올 수 있지만, 구조체가 뒤섞인 메모리 배치에서는 필요한 값만 골라 모으느라 추가 셔플과 로드가 늘어난다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화에서는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 구조체 (AoS, [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures)보다 구조체의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), Structure of Arrays)이 더 유리한 경우가 많다.
 
-두 번째 조건은 **분기 발산**이다. SIMD는 한 명령으로 모두를 움직이기 때문에 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 `if` 경로, 일부는 `else` 경로로 가야 하면 두 경로를 사실상 순차적으로 처리하게 된다. 이때 마스크로 일부 레인을 끄고 실행하므로 결과는 맞지만, 동시에 놀고 있는 레인이 많아져 하드웨어 활용률이 떨어진다. 즉 SIMD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 레인 수보다 "레인들이 얼마나 같은 길로 움직이느냐"에 더 크게 좌우된다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 데이터 경로와 실행 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector Instruction Decode</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Control Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">broadcast</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lane 0</div><div class="kb-diagram-node">Lane 1</div><div class="kb-diagram-node">Lane 2</div><div class="kb-diagram-node">Lane 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A0,B0 A1,B1 A2,B2 A3,B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result0 Result1 Result2 ...</div></div>
+</div>
+</div>
+
+
+
+SIMD 효율을 결정하는 첫 번째 조건은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치</strong>다. 같은 속성끼리 연속적으로 모여 있으면 한 번의 로드로 여러 값을 가져올 수 있지만, 구조체가 뒤섞인 메모리 배치에서는 필요한 값만 골라 모으느라 추가 셔플과 로드가 늘어난다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화에서는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 구조체 (AoS, [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures)보다 구조체의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), Structure of Arrays)이 더 유리한 경우가 많다.
+
+두 번째 조건은 <strong>분기 발산</strong>이다. SIMD는 한 명령으로 모두를 움직이기 때문에 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 `if` 경로, 일부는 `else` 경로로 가야 하면 두 경로를 사실상 순차적으로 처리하게 된다. 이때 마스크로 일부 레인을 끄고 실행하므로 결과는 맞지만, 동시에 놀고 있는 레인이 많아져 하드웨어 활용률이 떨어진다. 즉 SIMD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 레인 수보다 "레인들이 얼마나 같은 길로 움직이느냐"에 더 크게 좌우된다.
 
 - **📢 섹션 요약 비유**: SIMD는 8칸짜리 토스터와 같다. 빵 8장을 한 번에 굽는 데는 뛰어나지만, 절반은 식빵이고 절반은 냉동피자라면 같은 설정으로 처리하기 어려워 효율이 떨어진다.
 
@@ -98,9 +97,9 @@ SIMD의 경계를 이해하려면 [SISD](/knowledge-base/studynote/01_computer_a
 | 약한 작업 | 대량 반복 계산 | 분기 많은 코드, 불규칙 접근 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·[캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용 |
 | 대표 구현 | 전통적 단일 코어 | [SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) (Streaming SIMD Extensions), AVX (Advanced Vector Extensions), NEON | 멀티코어 CPU, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드 |
 
-현대 중앙처리장치 (CPU, Central Processing Unit)는 큰 틀에서 MIMD처럼 여러 코어가 독립적으로 움직이지만, 각 코어 내부에는 SIMD 확장 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어 있다. 즉 시스템 수준에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 일을 수행하고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내부에서는 같은 연산을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 동시에 적용하는 식으로 **작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성**이 결합된다. 이 때문에 SIMD는 독립된 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 항목이면서도, 실제 시스템에서는 [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) 내부의 가속 단위로 함께 쓰인다.
+현대 중앙처리장치 (CPU, Central Processing Unit)는 큰 틀에서 MIMD처럼 여러 코어가 독립적으로 움직이지만, 각 코어 내부에는 SIMD 확장 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어 있다. 즉 시스템 수준에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 일을 수행하고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내부에서는 같은 연산을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 동시에 적용하는 식으로 <strong>작업 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성</strong>이 결합된다. 이 때문에 SIMD는 독립된 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 항목이면서도, 실제 시스템에서는 [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) 내부의 가속 단위로 함께 쓰인다.
 
-그래픽처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에서 흔히 말하는 SIMT는 프로그래머에게는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 각자 실행되는 것처럼 보이지만, 하드웨어는 유사한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 묶어 SIMD와 비슷하게 실행한다는 점에서 연결된다. 따라서 SIMD를 이해하면 왜 GPU가 행렬 곱셈에는 강하고, 분기가 많은 알고리즘에는 기대보다 덜 효율적인지도 자연스럽게 설명된다. 결국 비교의 핵심은 "몇 개의 코어가 있는가"보다 **명령을 어떻게 공유하는가**에 있다.
+그래픽처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에서 흔히 말하는 SIMT는 프로그래머에게는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 각자 실행되는 것처럼 보이지만, 하드웨어는 유사한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 묶어 SIMD와 비슷하게 실행한다는 점에서 연결된다. 따라서 SIMD를 이해하면 왜 GPU가 행렬 곱셈에는 강하고, 분기가 많은 알고리즘에는 기대보다 덜 효율적인지도 자연스럽게 설명된다. 결국 비교의 핵심은 "몇 개의 코어가 있는가"보다 <strong>명령을 어떻게 공유하는가</strong>에 있다.
 
 - **📢 섹션 요약 비유**: SISD는 기사 한 명이 승객 한 명을 태우는 택시이고, SIMD는 같은 목적지로 가는 사람들을 태우는 셔틀버스이며, MIMD는 여러 기사가 각자 다른 승객과 다른 길을 가는 택시 fleet와 같다.
 
@@ -108,7 +107,7 @@ SIMD의 경계를 이해하려면 [SISD](/knowledge-base/studynote/01_computer_a
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 SIMD 도입 여부는 "루프가 존재하는가"가 아니라 **같은 연산이 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복되는가**로 판단해야 한다. 영상 필터, 오디오 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론의 선형대수 구간은 SIMD 친화적이다. 반대로 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 복잡한 상태기계, 요청마다 경로가 달라지는 비즈니스 로직은 분기와 랜덤 접근이 많아 SIMD 효과가 제한적이다.
+실무에서 SIMD 도입 여부는 "루프가 존재하는가"가 아니라 <strong>같은 연산이 연속 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 반복되는가</strong>로 판단해야 한다. 영상 필터, 오디오 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론의 선형대수 구간은 SIMD 친화적이다. 반대로 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 복잡한 상태기계, 요청마다 경로가 달라지는 비즈니스 로직은 분기와 랜덤 접근이 많아 SIMD 효과가 제한적이다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -130,7 +129,7 @@ SIMD의 경계를 이해하려면 [SISD](/knowledge-base/studynote/01_computer_a
 - 루프 내부 `if`, `break`, 예외 경로가 많아 레인 발산이 심한 경우
 - 연산보다 메모리 로드가 느려 넓은 연산기를 채우지 못하는 경우
 
-기술사 관점에서는 "SIMD는 빠르다"가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조·분기 패턴·메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)까지 함께 설계해야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다**고 답해야 한다. 예를 들어 벡터 폭이 8개라 해도 8개를 꾸준히 공급하지 못하면 이론 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 의미가 없다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 SoA로 바꾸고 분기를 마스크 처리로 단순화하면, 같은 CPU에서도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라질 수 있다.
+기술사 관점에서는 "SIMD는 빠르다"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조·분기 패턴·메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>까지 함께 설계해야 진짜 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 나온다</strong>고 답해야 한다. 예를 들어 벡터 폭이 8개라 해도 8개를 꾸준히 공급하지 못하면 이론 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 의미가 없다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 SoA로 바꾸고 분기를 마스크 처리로 단순화하면, 같은 CPU에서도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라질 수 있다.
 
 - **📢 섹션 요약 비유**: SIMD 최적화는 넓은 고속도로를 까는 일과 비슷하다. 차선만 넓혀 놓고 진입로가 엉키거나 차량 종류가 제각각이면 정체는 그대로지만, 차종과 진입 흐름을 맞추면 한꺼번에 많은 차가 빠르게 지나간다.
 
@@ -140,7 +139,7 @@ SIMD의 경계를 이해하려면 [SISD](/knowledge-base/studynote/01_computer_a
 
 SIMD의 가장 큰 효과는 제어 오버헤드를 줄이면서 같은 시간에 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하게 만드는 데 있다. 그 결과 멀티미디어, 과학 계산, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 높은 분야에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 전력 효율 개선을 동시에 기대할 수 있다. 특히 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 반복 해독하지 않고 벡터 단위로 계산하기 때문에, 같은 실리콘 면적에서도 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻기 쉽다.
 
-하지만 SIMD는 만능이 아니다. 분기와 불규칙 접근이 많은 문제에서는 유휴 레인이 늘어나고, 벡터 폭이 커질수록 메모리 정렬과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구도 더 커진다. 따라서 SIMD의 성공 조건은 "넓은 연산기 보유"가 아니라 **규칙적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 확보**다.
+하지만 SIMD는 만능이 아니다. 분기와 불규칙 접근이 많은 문제에서는 유휴 레인이 늘어나고, 벡터 폭이 커질수록 메모리 정렬과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구도 더 커진다. 따라서 SIMD의 성공 조건은 "넓은 연산기 보유"가 아니라 <strong>규칙적인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 확보</strong>다.
 
 앞으로의 확장은 단순 벡터 폭 증가만이 아니라, 스케일러블 벡터 확장 (SVE, Scalable Vector Extension), 행렬 확장, 텐서 코어처럼 더 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 직접 다루는 방향으로 이어진다. 그럼에도 기억해야 할 본질은 같다. SIMD는 결국 "같은 일을 많이 해야 할 때, 제어를 공유해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조"라는 점이다.
 
@@ -161,22 +160,28 @@ SIMD의 가장 큰 효과는 제어 오버헤드를 줄이면서 같은 시간�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SISD (Single Instruction Single Data)
-    │  순차 처리의 기본 모델
-    ▼
-SIMD (Single Instruction Multiple Data)
-    │  반복 계산의 데이터 병렬화
-    ▼
-벡터 확장 명령어
-SSE → AVX → AVX-512
-    │  범용 CPU 내부 가속
-    ▼
-GPU · SIMT (Single Instruction Multiple Threads)
-    │  대규모 데이터 병렬 실행
-    ▼
-SVE · 텐서/행렬 가속기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SISD (Single Instruction Single Data)</div>
+<div class="kb-diagram-note">순차 처리의 기본 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data)</div>
+<div class="kb-diagram-note">반복 계산의 데이터 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벡터 확장 명령어</div>
+<div class="kb-diagram-note">SSE → AVX → AVX-512</div>
+<div class="kb-diagram-note">범용 CPU 내부 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU · SIMT (Single Instruction Multiple Threads)</div>
+<div class="kb-diagram-note">대규모 데이터 병렬 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SVE · 텐서/행렬 가속기</div>
+</div>
+</div>
+
+
 
 이 흐름은 "순차 처리 → 벡터 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 범용 CPU 확장 → 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 → 행렬 중심 확장"으로 SIMD 계열 기술이 넓어지는 방향을 보여준다.
 

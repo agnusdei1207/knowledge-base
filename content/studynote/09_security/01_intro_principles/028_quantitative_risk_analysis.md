@@ -18,23 +18,23 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│         정량적 위험 분석 핵심 공식                    │
-├──────────────────────────────────────────────────────┤
-│                                                       │
-│  SLE (단일 예상 손실)                                 │
-│    = 자산 가치 (AV) × 노출 계수 (EF)                  │
-│                                                       │
-│  ALE (연간 기대 손실)                                 │
-│    = SLE × ARO (연간 발생 빈도)                       │
-│                                                       │
-│  예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)     │
-│    SLE = 10억 × 0.5 = 5억                            │
-│    ALE = 5억 × 0.1 = 5천만 원/년                      │
-│    → 5천만 원 이하 통제 비용이면 투자 가치 있음        │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정량적 위험 분석 핵심 공식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLE (단일 예상 손실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 자산 가치 (AV) × 노출 계수 (EF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALE (연간 기대 손실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= SLE × ARO (연간 발생 빈도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLE = 10억 × 0.5 = 5억</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALE = 5억 × 0.1 = 5천만 원/년</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 5천만 원 이하 통제 비용이면 투자 가치 있음</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 정량적 위험 분석은 보험 계리(Actuarial) 방법이다. 보험사가 "화재 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 예상 피해액 = 연간 기대 손실"로 보험료를 계산하듯, 기업은 보안 위협의 연간 기대 손실을 계산해서 적정 보안 투자액을 결정한다.
 
@@ -46,11 +46,11 @@ tags = ["studynote-security"]
 
 | 용어 | 영문 | 의미 |
 |:---|:---|:---|
-| **[AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)** | Asset Value | 자산 가치 (원화) |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">AV</a></strong> | Asset Value | 자산 가치 (원화) |
 | **EF** | Exposure Factor | 위협 발생 시 자산 손실 비율 (%) |
 | **SLE** | Single Loss Expectancy | 단일 사고 예상 손실액 |
 | **ARO** | Annual Rate of Occurrence | 연간 위협 발생 빈도 |
-| **[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)** | Annual Loss Expectancy | 연간 기대 손실액 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | Annual Loss Expectancy | 연간 기대 손실액 |
 | **ROSI** | Return on [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Investment | 보안 투자 수익률 |
 
 ### ROSI 계산
@@ -86,7 +86,7 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 - **EF**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 40% → EF = 0.4.
 - **ARO**: 업종 통계상 연 0.2회 (5년에 1번).
 - **SLE** = 50억 × 0.4 = 20억.
-- **[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)** = 20억 × 0.2 = 4억 원/년.
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> = 20억 × 0.2 = 4억 원/년.
 - **통제**: [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) + 오프라인 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 비용 1억/년 → ROSI = (4억 - 0.5억 - 1억) / 1억 = 250%.
 
 - **📢 섹션 요약 비유**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산은 화재 보험 가입 여부 결정과 같다. "연간 4억 원 손실 위험이 있다면 1억짜리 방어 솔루션은 반드시 투자해야 한다"는 경영진 설득 논거가 된다.
@@ -111,29 +111,31 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)** | 정량 위험 분석의 핵심 지표 |
-| **[정성적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/)** | 정량 분석의 보완 수단 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | 정량 위험 분석의 핵심 지표 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/">정성적 위험 분석</a></strong> | 정량 분석의 보완 수단 |
 | **ROSI** | 보안 투자의 재무적 효과 측정 |
 | **몬테카를로 시뮬레이션** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 정량 분석 |
 | **위험 처리 (AAMT)** | 수용·회피·완화·전가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정성적 위험 분석 — High/Med/Low 분류]
-    │
-    ▼
-[정량적 위험 분석 — ALE = SLE × ARO]
-    │
-    ▼
-[ROSI 계산 — 보안 투자 수익률 산정]
-    │
-    ▼
-[몬테카를로 시뮬레이션 — 확률 분포 기반 분석]
-    │
-    ▼
-[AI 동적 위험 계량화 — 실시간 위협 인텔리전스 기반]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정성적 위험 분석 — High/Med/Low 분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정량적 위험 분석 — ALE = SLE × ARO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ROSI 계산 — 보안 투자 수익률 산정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬테카를로 시뮬레이션 — 확률 분포 기반 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 동적 위험 계량화 — 실시간 위협 인텔리전스 기반</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,12 +22,17 @@ tags = ["database"]
 
 카디널리티를 이해해야 하는 이유는 단순히 도식이 예뻐지기 때문이 아니라, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 물리적 구현이 바로 결정되기 때문이다. [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 어디에 둘지, 유니크 제약을 어디에 둘지, 조인 경로가 어떻게 되는지가 여기서 갈린다.
 
-```text
-Customer 1 ─────────< Order N
-PK customer_id       FK customer_id
 
-한 고객은 여러 주문을 가질 수 있지만, 각 주문은 한 고객에 속한다.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Customer 1 &lt; Order N</div>
+<div class="kb-diagram-note">PK customer_id FK customer_id</div>
+<div class="kb-diagram-note">한 고객은 여러 주문을 가질 수 있지만, 각 주문은 한 고객에 속한다.</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 한 반 선생님은 여러 학생을 담당할 수 있지만, 학생 한 명은 보통 한 반에만 소속된다.
 
@@ -43,18 +48,20 @@ PK customer_id       FK customer_id
 | 1:N | 한쪽이 여러 개 연결 | N쪽에 FK 배치 |
 | M:N | 양쪽이 여러 개 연결 | 교차 / 연결 테이블 필요 |
 
-```text
-부모 테이블
-┌──────────────┐
-│ parent_id PK │
-└──────┬───────┘
-       │ 1:N
-       ▼
-┌────────────────────┐
-│ child_id PK        │
-│ parent_id FK       │
-└────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부모 테이블</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parent_id PK</div></div>
+<div class="kb-diagram-note">1:N</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">child_id PK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parent_id FK</div></div>
+</div>
+</div>
+
+
 
 1:N 설계에서는 FK를 가진 자식 쪽에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두는 것이 일반적이다. 그래야 부모 기준 조회와 자식 그룹 조회가 모두 안정적으로 빠르다. 카디널리티는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델의 개념이지만, 실제 성능과 제약은 물리 설계와 바로 연결된다.
 
@@ -121,18 +128,21 @@ PK customer_id       FK customer_id
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 규칙
-  │
-  ▼
-카디널리티 판정
-  │
-  ▼
-PK / FK / 연결 테이블 결정
-  │
-  ▼
-무결성 제약과 인덱스 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 규칙</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카디널리티 판정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PK / FK / 연결 테이블 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무결성 제약과 인덱스 적용</div>
+</div>
+</div>
+
+
 
 흐름의 핵심은 문장으로 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 확인한 뒤 구조로 옮기는 것이다.
 

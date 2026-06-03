@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IP 통신의 단점인 보안 부재를 해결하기 위해 네트워크 계층(L3)에서 패킷 단위로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))을 제공하는 개방형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 슈트(Suite).
-- **필요성**: 본사에서 지사로 기밀 도면 파일을 던지려 한다. 인터넷망(KT, SKT)은 투명한 유리관과 같아서 해커가 지나가는 선에 빨대만 꽂으면(스니핑) 그 도면을 고화질로 다 훔쳐볼 수 있다. "야! 패킷 하나하나를 무적의 금고에 집어넣어서, **중간에 도둑이 금고를 훔쳐 가더라도 100년 동안 암호를 못 풀게 만들고, 혹시 금고 문을 억지로 땄더라도 안에 폭탄이 터져서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조작됐음을 즉시 알게 만들자!**" 이것이 기업용 VPN을 먹여 살리는 IPsec의 탄생 이유다.
+- **필요성**: 본사에서 지사로 기밀 도면 파일을 던지려 한다. 인터넷망(KT, SKT)은 투명한 유리관과 같아서 해커가 지나가는 선에 빨대만 꽂으면(스니핑) 그 도면을 고화질로 다 훔쳐볼 수 있다. "야! 패킷 하나하나를 무적의 금고에 집어넣어서, <strong>중간에 도둑이 금고를 훔쳐 가더라도 100년 동안 암호를 못 풀게 만들고, 혹시 금고 문을 억지로 땄더라도 안에 폭탄이 터져서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 조작됐음을 즉시 알게 만들자!</strong>" 이것이 기업용 VPN을 먹여 살리는 IPsec의 탄생 이유다.
 
-- **💡 비유**: IPsec은 국가 기밀문서를 배달하는 **"특수 방탄 가방(Framework)"**입니다.
-  - 문서 내용이 안 보이게 난수표로 섞어버립니다 **([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) - Encryption)**.
-  - 가방 손잡이에 뜯으면 색깔이 변하는 특수 봉인 씰을 붙여, 중간에 스파이가 열어봤는지 흔적을 봅니다 **([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) - Hash)**.
-  - 가방 겉면에 사전에 약속한 암구호 코드를 적어 가짜 스파이가 보낸 가방을 컷트합니다 **([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) - [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))**.
+- **💡 비유**: IPsec은 국가 기밀문서를 배달하는 <strong>"특수 방탄 가방(Framework)"</strong>입니다.
+  - 문서 내용이 안 보이게 난수표로 섞어버립니다 <strong>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> - Encryption)</strong>.
+  - 가방 손잡이에 뜯으면 색깔이 변하는 특수 봉인 씰을 붙여, 중간에 스파이가 열어봤는지 흔적을 봅니다 <strong>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> - Hash)</strong>.
+  - 가방 겉면에 사전에 약속한 암구호 코드를 적어 가짜 스파이가 보낸 가방을 컷트합니다 <strong>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> - <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>.
 
-```text
-[L2TP]
-    │
-    ▼
-[IPSec 메커니즘]
-    │
-    └──▶ [AH]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2TP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AH</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IPsec은 단일 무기가 아니라 **"종합 방어 전술 조끼"**입니다. 방탄판([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)), 통신기 암호기([IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)), 신원 인식표(해시) 등 여러 가지 모듈을 임무(터널 모드 vs 전송 모드)에 맞게 뗐다 붙였다 하며 적진(인터넷)을 돌파하는 궁극의 생존 장비입니다.
 
@@ -46,46 +50,46 @@ tags = ["studynote-network"]
 
 ### 1. 보안을 세팅하는 3대 뼈대 ([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Suite)
 IPsec은 이 세 가지 톱니바퀴가 물려 돌아간다.
-1. **[IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) ([Internet Key Exchange](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)) - 협상가**: 
-   - [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 포트를 쓴다. 통신하기 전에 먼저 서울 라우터와 부산 라우터가 몰래 만나서 **"야 우리 AES-256으로 암호화하고, SHA-2로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사하자. 그리고 비밀번호 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 이거 쓸 테니까 받아!"**라며 룰을 조율([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 맺기)하는 사전 협상용 통신 규약이다.
-2. **[ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) ([Encapsulating Security Payload](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 50번) - 티타늄 금고**:
-   - IKE가 정해준 룰에 따라 실질적으로 **"암호화"**와 "[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사"를 동시에 수행하여 패킷을 방탄 금고로 싸매는 대세 포장지다.
-3. **[AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) ([Authentication Header](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 51번) - 투명 랩 (사망함)**:
+1. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/">IKE</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/">Internet Key Exchange</a>) - 협상가</strong>: 
+   - [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 포트를 쓴다. 통신하기 전에 먼저 서울 라우터와 부산 라우터가 몰래 만나서 <strong>"야 우리 AES-256으로 암호화하고, SHA-2로 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 검사하자. 그리고 비밀번호 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)는 이거 쓸 테니까 받아!"</strong>라며 룰을 조율([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 맺기)하는 사전 협상용 통신 규약이다.
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">Encapsulating Security Payload</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 50번) - 티타늄 금고</strong>:
+   - IKE가 정해준 룰에 따라 실질적으로 <strong>"암호화"</strong>와 "[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사"를 동시에 수행하여 패킷을 방탄 금고로 싸매는 대세 포장지다.
+3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/">AH</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/">Authentication Header</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 51번) - 투명 랩 (사망함)</strong>:
    - [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(조작 안 됨)과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(내가 보냄)만 검증하고 **"암호화" 기능이 없다**. 즉, 알맹이가 다 보인다. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 공유기를 통과하면 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사가 깨져서 에러가 나는 치명적 찐빠 구조라서, 현재 실무에서는 0.1%도 안 쓰는 폐기 처분된 기술이다.
 
 ### 2. 터널 모드 vs 전송 모드 (어디서부터 포장할 것인가)
 
 **[ A. 전송 모드 (Transport Mode) - 알맹이만 감싸기 ]**
 - **방식**: 3계층 IP 헤더는 내버려 두고, 그 뒤에 있는 4계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(알맹이)만 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고로 싹 감싸는 방식.
-- **특징**: IP 헤더가 살아있으니 라우터들이 목적지를 찾아가는 데 문제없다. 하지만 **출발지와 목적지 IP(누가 누구에게 통신하는가)가 해커에게 적나라하게 까발려지는 단점**이 있다.
+- **특징**: IP 헤더가 살아있으니 라우터들이 목적지를 찾아가는 데 문제없다. 하지만 <strong>출발지와 목적지 IP(누가 누구에게 통신하는가)가 해커에게 적나라하게 까발려지는 단점</strong>이 있다.
 - **용도**: [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) (노트북 대 노트북) 구간에서 가볍게 쓸 때나 쓴다.
 
 **[ B. 터널 모드 (Tunnel Mode) - 원본 전체를 감옥에 가두기 ★실무 표준 ]**
 - **방식**: 3계층 IP 헤더(원본 출발지/목적지)까지 포함해서 패킷 전체(통째로)를 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고에 다 쑤셔 넣어버린다.
-- **문제와 해결**: 원본 IP 헤더가 암호화되어 사라졌으니 라우터가 길을 못 찾는다! 그래서 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고 바깥에 **새로운 "가짜 IP 헤더([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP Header)"**를 딱지처럼 하나 더 붙여서 인터넷으로 던진다.
+- **문제와 해결**: 원본 IP 헤더가 암호화되어 사라졌으니 라우터가 길을 못 찾는다! 그래서 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고 바깥에 <strong>새로운 "가짜 IP 헤더(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP Header)"</strong>를 딱지처럼 하나 더 붙여서 인터넷으로 던진다.
 - **용도**: Site-to-Site (서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ~ 부산 지사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) VPN을 뚫을 때 무조건 쓴다. 해커는 중간에서 가로채도 "아, 서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이랑 부산 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 통신하네?"만 알 뿐, 그 속에 숨겨진 사내 PC의 진짜 IP 대역(`192.168...`)은 절대 유추조차 할 수 없다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPsec 터널 모드 (Tunnel Mode)의 무적 포장 구조      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 패킷 ]                                               │
- │   [ 원본 IP 헤더 (10.x.x.x) ] ──▶ [ TCP/Data (비밀문서) ]         │
- │                                                             │
- │   [ IPsec 터널 모드가 적용된 패킷 ]                             │
- │   [ New IP 헤더 (방화벽 공인 IP) ] ◀─ 인터넷 통과용 껍데기            │
- │     [ ESP 헤더 ] ◀─ 여기서부터 암호화 시작! (열쇠 없음 못 염)          │
- │         [ 원본 IP 헤더 (10.x.x.x) ]  ◀─ (안 보임)            │
- │         [ TCP/Data (비밀문서) ]       ◀─ (안 보임)            │
- │     [ ESP 트레일러 / ESP 인증(MAC) ] ◀─ 암호화 끝! (봉인 씰)      │
- │                                                             │
- │   ▶ "인터넷 세상의 모든 해커에게서 내 사내망 아키텍처와 데이터를       │
- │      100% 완벽하게 숨겨버리는 진정한 가상 사설망(VPN)의 완성이다!"  │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 전송 모드가 자동차의 창문에 **"시트지([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"**를 발라 안의 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 안 보이게 하는 것이라면, 터널 모드는 아예 그 자동차(원본 패킷) 전체를 **"거대한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 트럭([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP + [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"** 안에 통째로 실어버려서 트럭 밖에서는 안에 차가 들었는지 코끼리가 들었는지조차 모르게 완벽히 숨겨서 이동하는 것입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPsec 터널 모드 (Tunnel Mode)의 무적 포장 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 IP 헤더 (10.x.x.x)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP/Data (비밀문서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec 터널 모드가 적용된 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New IP 헤더 (방화벽 공인 IP)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 인터넷 통과용 껍데기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 여기서부터 암호화 시작! (열쇠 없음 못 염)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 IP 헤더 (10.x.x.x)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (안 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP/Data (비밀문서)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (안 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESP 트레일러 / ESP 인증(MAC)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 암호화 끝! (봉인 씰)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "인터넷 세상의 모든 해커에게서 내 사내망 아키텍처와 데이터를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 완벽하게 숨겨버리는 진정한 가상 사설망(VPN)의 완성이다!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** 전송 모드가 자동차의 창문에 **"시트지([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"<strong>를 발라 안의 사람(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)만 안 보이게 하는 것이라면, 터널 모드는 아예 그 자동차(원본 패킷) 전체를 </strong>"거대한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 트럭([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP + [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"** 안에 통째로 실어버려서 트럭 밖에서는 안에 차가 들었는지 코끼리가 들었는지조차 모르게 완벽히 숨겨서 이동하는 것입니다.
 
 ---
 
@@ -141,15 +145,19 @@ IPsec은 이 세 가지 톱니바퀴가 물려 돌아간다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: L2TP]
-    │
-    ▼
-[현재 개념: IPSec 메커니즘]
-    │
-    ├──▶ [확장 A: AH]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: L2TP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPSec 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AH</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 메커니즘는 L2TP에서 출발해 현재 메커니즘을 정교화하고, 이후 AH와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

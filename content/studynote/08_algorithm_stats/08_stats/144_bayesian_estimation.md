@@ -32,18 +32,21 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
 - **P(θ|X)**: 사후 분포(Posterior) — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측 후 갱신된 θ 믿음
 - **P(X)**: 주변 우도(Marginal Likelihood) = Σ P(X|θ)P(θ) — [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 상수
 
-**Prior × Likelihood → Posterior [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**:
+<strong>Prior × Likelihood → Posterior <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-```
-확률                사전 분포       우도 함수       사후 분포
-밀도  ▲             ___              ___            ___
-      │           /   \           /   \          /   \
-      │          /     \     ×   /     \   =    /     \
-      │         /       \       /       \       /       \
-      │─────────          ─────           ─────
-      └────────────────────────────────────────────▶  θ
-                 (넓고 평탄)     (좁고 뾰족)    (중간 절충)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">확률 사전 분포 우도 함수 사후 분포</div>
+<div class="kb-diagram-note">밀도 ▲ ___ ___ ___</div>
+<div class="kb-diagram-note">/ \ × / \ = / \</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ θ</div>
+<div class="kb-diagram-note">(넓고 평탄) (좁고 뾰족) (중간 절충)</div>
+</div>
+</div>
+
+
 
 베이즈 추정의 핵심: 사전 분포가 넓을수록(불확실) 사후는 우도에 가깝고, 사전 분포가 좁을수록(확신) 사후는 사전에 가깝다.
 
@@ -60,7 +63,7 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
                               =        MLE항    +   정규화항
 ```
 
-**완전 베이즈(Full Bayesian)**: 사후 분포 전체를 유지하고, 예측 시 **사후 예측 분포(Posterior Predictive Distribution)**를 사용:
+**완전 베이즈(Full Bayesian)**: 사후 분포 전체를 유지하고, 예측 시 <strong>사후 예측 분포(Posterior Predictive Distribution)</strong>를 사용:
 
 ```
 P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
@@ -74,8 +77,8 @@ P(x_new | X) = ∫ P(x_new | θ) · P(θ|X) dθ
 | MLE와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | MLE의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | MLE를 포함하는 상위 개념 |
 | 적용 | 딥러닝 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 추정 | 베이즈 신경망, 의사 결정 |
 
-**빈도주의 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/) vs 베이즈 [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)(Credible Interval)**:
-- **빈도주의 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)**: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
+<strong>빈도주의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a> vs 베이즈 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/">신뢰 구간</a>(Credible Interval)</strong>:
+- <strong>빈도주의 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>: "이 방법을 반복하면 95%의 구간이 모수를 포함" (모수는 고정값)
 - **베이즈 95% Credible Interval**: "사후 분포에서 θ가 이 구간 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%" (θ를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수로 취급)
 
 📢 **섹션 요약 비유**: MAP vs 완전 베이즈는 "일기예보"의 차이다. MAP는 "내일 기온은 22℃"라는 단일 예측, 완전 베이즈는 "20~24℃ 범위의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포"를 제공한다 — 불확실성을 얼마나 솔직하게 표현하느냐의 차이다.
@@ -111,40 +114,47 @@ n번 시도에서 k번 성공 후:
 
 ## Ⅳ. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로서의 MAP
 
-**MAP = [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) + 사전 분포 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))**:
+<strong>MAP = <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a> + 사전 분포 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)</strong>:
 
-```
-θ_MAP = argmax [ Σ log P(xᵢ|θ) + log P(θ) ]
-                  ─────────────   ──────────
-                    MLE 항          정규화 항
-```
 
-**L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Ridge Regression) = 가우시안 사전**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">θ_MAP = argmax</div><div class="kb-diagram-node">Σ log P(xᵢ|θ) + log P(θ)</div></div>
+<div class="kb-diagram-note">MLE 항 정규화 항</div>
+</div>
+</div>
+
+
+
+<strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (Ridge Regression) = 가우시안 사전</strong>:
 
 ```
 P(θ) ∝ exp(-λ||θ||₂²/2)   →   log P(θ) = -λ||θ||₂²/2
 MAP 목적함수: ℓ(θ) - λ||θ||₂² = MLE - Ridge 페널티
 ```
 
-**L1 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) Regression) = 라플라스 사전**:
+<strong>L1 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/">Lasso</a> Regression) = 라플라스 사전</strong>:
 
 ```
 P(θ) ∝ exp(-λ||θ||₁)   →   log P(θ) = -λ||θ||₁
 MAP 목적함수: ℓ(θ) - λ||θ||₁ = MLE - Lasso 페널티
 ```
 
-```
-┌────────────────────────────────────────────────┐
-│          정규화와 사전 분포의 대응               │
-├──────────────────┬─────────────────────────────┤
-│  정규화 방법      │     베이즈 해석             │
-├──────────────────┼─────────────────────────────┤
-│ Ridge (L2)       │ 가우시안 사전 N(0, 1/λ)    │
-│ Lasso (L1)       │ 라플라스 사전 Laplace(0,1/λ)│
-│ Elastic Net      │ 가우시안+라플라스 혼합 사전  │
-│ Dropout          │ 베르누이 사전 (근사)         │
-└──────────────────┴─────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화와 사전 분포의 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 방법</div><div class="kb-diagram-cell">베이즈 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ridge (L2)</div><div class="kb-diagram-cell">가우시안 사전 N(0, 1/λ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lasso (L1)</div><div class="kb-diagram-cell">라플라스 사전 Laplace(0,1/λ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elastic Net</div><div class="kb-diagram-cell">가우시안+라플라스 혼합 사전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dropout</div><div class="kb-diagram-cell">베르누이 사전 (근사)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 딥러닝의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 "베이즈 추정의 공학적 구현"이다. Ridge [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항을 추가하는 것은 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작을 것이라는 가우시안 사전 믿음"을 코드로 표현하는 것과 완전히 동일하다.
 
@@ -152,7 +162,7 @@ MAP 목적함수: ℓ(θ) - λ||θ||₁ = MLE - Lasso 페널티
 
 ## Ⅴ. 응용 분야
 
-**스팸 필터 ([나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/))**:
+<strong>스팸 필터 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/">나이브 베이즈</a>)</strong>:
 ```
 P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 ```
@@ -164,14 +174,19 @@ P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 
 **베이즈 추정 갱신 예시 (스팸 필터)**:
 
-```
-초기 사전    첫 번째 이메일   두 번째 이메일    수렴
-P(스팸)=0.5  →  0.7         →    0.85       → 0.95
- ↑                                              ↑
- 중립          "돈 벌기"         "클릭 지금!"    강한 스팸 신호
-```
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼수록 사후 분포가 **순차적 갱신(Sequential Updating)**으로 점점 정확해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 사전 첫 번째 이메일 두 번째 이메일 수렴</div>
+<div class="kb-diagram-note">P(스팸)=0.5 → 0.7 → 0.85 → 0.95</div>
+<div class="kb-diagram-note">중립 "돈 벌기" "클릭 지금!" 강한 스팸 신호</div>
+</div>
+</div>
+
+
+
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼수록 사후 분포가 <strong>순차적 갱신(Sequential Updating)</strong>으로 점점 정확해진다.
 
 📢 **섹션 요약 비유**: 베이즈 갱신은 "명탐정 추리"와 같다. 처음엔 모든 용의자가 평등하게 의심스럽다(사전 분포). 새로운 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 나올 때마다 특정 용의자의 의심도를 올리고(갱신), 결국 범인(MAP)을 좁혀간다.
 
@@ -193,21 +208,23 @@ P(스팸)=0.5  →  0.7         →    0.85       → 0.95
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[빈도주의 추정 (MLE, Frequentist) — 관측 데이터만으로 모수를 점 추정, 사전 지식 미반영]
-    │
-    ▼
-[MAP (Maximum A Posteriori) — MLE + 사전 분포, 과적합 방지 정규화 효과]
-    │
-    ▼
-[완전 베이즈 추정 (Full Bayesian) — 사후 분포 전체를 추론, 불확실성 정량화]
-    │
-    ▼
-[켤레 사전 분포 (Conjugate Prior) — 사후 분포가 사전과 같은 족, 닫힌 형식 계산 가능]
-    │
-    ▼
-[MCMC (Markov Chain Monte Carlo) — 고차원 사후 분포 샘플링, 베이즈 딥러닝·확률적 프로그래밍 기반]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">빈도주의 추정 (MLE, Frequentist) — 관측 데이터만으로 모수를 점 추정, 사전 지식 미반영</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAP (Maximum A Posteriori) — MLE + 사전 분포, 과적합 방지 정규화 효과</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완전 베이즈 추정 (Full Bayesian) — 사후 분포 전체를 추론, 불확실성 정량화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">켤레 사전 분포 (Conjugate Prior) — 사후 분포가 사전과 같은 족, 닫힌 형식 계산 가능</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MCMC (Markov Chain Monte Carlo) — 고차원 사후 분포 샘플링, 베이즈 딥러닝·확률적 프로그래밍 기반</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 점 추정에서 사전 지식을 결합한 MAP로, 분포 전체를 추론하는 완전 베이즈 추정으로 확장되고, 고차원 적분을 가능하게 하는 MCMC로 귀결되는 베이즈 통계 추론 체계의 발전 계보를 보여준다.
 

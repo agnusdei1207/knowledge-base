@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 기반 스토리지 엔진은 랜덤 I/O(Input/Output)로 인한 높은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 피할 수 없다. 디스크 헤드가 임의의 위치로 이동하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신해야 하기 때문이다. LSM 트리(Log-Structured Merge-Tree)는 1996년 Patrick O'Neil이 제안한 구조로, **"[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 항상 순차적으로, 병합은 나중에"** 라는 철학으로 이 문제를 해결한다.
+전통적인 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 기반 스토리지 엔진은 랜덤 I/O(Input/Output)로 인한 높은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 피할 수 없다. 디스크 헤드가 임의의 위치로 이동하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갱신해야 하기 때문이다. LSM 트리(Log-Structured Merge-Tree)는 1996년 Patrick O'Neil이 제안한 구조로, <strong>"<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>는 항상 순차적으로, 병합은 나중에"</strong> 라는 철학으로 이 문제를 해결한다.
 
 ### 등장 배경
 
@@ -38,41 +38,37 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. 전체 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로
 
-```
-클라이언트 쓰기 요청
-        │
-        ▼
-┌──────────────────────┐
-│   WAL (Write-Ahead   │  ← 내구성 보장 (crash recovery)
-│   Log, 선행 기록 로그) │
-└──────────────────────┘
-        │
-        ▼
-┌──────────────────────┐
-│     Memtable         │  ← 인메모리 정렬 구조 (Red-Black Tree 또는 SkipList)
-│  (메모리 쓰기 버퍼)   │
-└──────────────────────┘
-   임계 크기 초과 시
-        │ flush
-        ▼
-┌──────────────────────┐
-│   Level 0 SSTable    │  ← 불변(Immutable), 순차 정렬 파일
-│ (Sorted String Table)│
-└──────────────────────┘
-        │ Compaction
-        ▼
-┌──────────────────────┐
-│   Level 1 ~ Level N  │  ← 레벨 올라갈수록 파일 크기 10× 증가
-│     SSTables         │
-└──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 쓰기 요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAL (Write-Ahead</div><div class="kb-diagram-cell">← 내구성 보장 (crash recovery)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log, 선행 기록 로그)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memtable</div><div class="kb-diagram-cell">← 인메모리 정렬 구조 (Red-Black Tree 또는 SkipList)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리 쓰기 버퍼)</div></div>
+<div class="kb-diagram-note">임계 크기 초과 시</div>
+<div class="kb-diagram-note">flush</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 SSTable</div><div class="kb-diagram-cell">← 불변(Immutable), 순차 정렬 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sorted String Table)</div></div>
+<div class="kb-diagram-note">Compaction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1 ~ Level N</div><div class="kb-diagram-cell">← 레벨 올라갈수록 파일 크기 10× 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTables</div></div>
+</div>
+</div>
+
+
 
 ### 2-2. 구성 요소 상세
 
-**WAL (Write-Ahead Log, 선행 기록 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))**
+<strong>WAL (Write-Ahead Log, 선행 기록 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong>
 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 디스크 순차 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 먼저 기록한다. 시스템 장애 시 [Memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) 복구에 사용된다.
 
-**[Memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/) (메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼)**
+<strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/">Memtable</a> (메모리 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 버퍼)</strong>
 정렬 상태를 유지하는 인메모리 자료구조([레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) 또는 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)). 임계 크기(보통 64~256 MB) 초과 시 [Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) Memtable로 전환되고, 백그라운드 스레드가 SSTable로 플러시한다.
 
 **SSTable (Sorted String Table, 정렬 문자열 테이블)**
@@ -80,17 +76,22 @@ tags = ["studynote-data-engineering"]
 
 ### 2-3. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (병합·정렬) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-Leveled Compaction                  Size-Tiered Compaction
-────────────────────               ──────────────────────
-L0: [f1][f2][f3][f4]               Tier1: [s1][s2][s3][s4]
-       │ overlap 검사                        │ 유사 크기끼리 병합
-L1: [   merged_file   ]            Tier2: [   larger_file   ]
-       │ 크기 10× 증가              Tier3: [      huge_file     ]
-L2: [ ─────────────── ]
-(각 레벨 총 크기 제한 있음)          쓰기 증폭 낮음 / 읽기 증폭 높음
-읽기 증폭 낮음 / 쓰기 증폭 높음
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Leveled Compaction Size-Tiered Compaction</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">L0:</div><div class="kb-diagram-node">f1</div><div class="kb-diagram-node">f2</div><div class="kb-diagram-node">f3</div><div class="kb-diagram-node">f4</div><div class="kb-diagram-note">Tier1:</div><div class="kb-diagram-node">s1</div><div class="kb-diagram-node">s2</div><div class="kb-diagram-node">s3</div><div class="kb-diagram-node">s4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">overlap 검사</div><div class="kb-diagram-cell">유사 크기끼리 병합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">L1:</div><div class="kb-diagram-node">merged_file</div><div class="kb-diagram-note">Tier2:</div><div class="kb-diagram-node">larger_file</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">크기 10× 증가 Tier3:</div><div class="kb-diagram-node">huge_file</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">L2:</div><div class="kb-diagram-node">───────────────</div></div>
+<div class="kb-diagram-note">(각 레벨 총 크기 제한 있음) 쓰기 증폭 낮음 / 읽기 증폭 높음</div>
+<div class="kb-diagram-note">읽기 증폭 낮음 / 쓰기 증폭 높음</div>
+</div>
+</div>
+
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) (WA) | 읽기 증폭 ([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)) | 공간 증폭 ([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) | 적합 워크로드 |
 |:---|:---:|:---:|:---:|:---|
@@ -108,8 +109,8 @@ L2: [ ─────────────── ]
 
 읽기 요청이 오면 최신 Memtable부터 L0 → L1 → ... → Ln 순으로 조회해야 한다. 이 비용을 줄이기 위해 다음 구조를 사용한다.
 
-- **[Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) ([블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))**: 특정 키가 SSTable에 없음을 확률적으로 빠르게 판별. False Negative 없음, False Positive 가능.
-- **Block [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (블록 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))**: SSTable 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 시작 키와 오프셋을 기록하여 탐색 범위를 좁힘.
+- <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/">Bloom Filter</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/">블룸 필터</a>)</strong>: 특정 키가 SSTable에 없음을 확률적으로 빠르게 판별. False Negative 없음, False Positive 가능.
+- <strong>Block <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> (블록 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>)</strong>: SSTable 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 시작 키와 오프셋을 기록하여 탐색 범위를 좁힘.
 - **Block Cache (블록 캐시)**: 자주 읽히는 블록을 메모리에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/).
 
 ### 3-2. 주요 시스템별 LSM 구현 특징
@@ -130,11 +131,11 @@ L2: [ ─────────────── ]
 
 ### 4-1. 설계 트레이드오프 시나리오
 
-**시나리오 A – 이커머스 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) (초당 100만 건 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))**
+<strong>시나리오 A – 이커머스 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/">로그 수집</a> (초당 100만 건 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>)</strong>
 - RocksDB + Size-Tiered [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 선택
 - 이유: [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)을 최소화해야 하며, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위주로 읽히므로 L0 히트율 높음
 
-**시나리오 B – [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 30일)**
+<strong>시나리오 B – <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 센서 시계열 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> 30일)</strong>
 - [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) + TWCS (Time Window [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 시간 창 컴팩션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
 - 이유: 같은 시간 창 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)끼리 병합되므로 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료 시 SSTable 통째로 삭제 가능 → 공간 증폭 최소화
 
@@ -144,15 +145,20 @@ L2: [ ─────────────── ]
 
 ### 4-2. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 튜닝 핵심 파라미터
 
-```
-RocksDB Leveled Compaction 주요 설정
-────────────────────────────────────
-max_bytes_for_level_base = 256MB   (L1 최대 크기)
-max_bytes_for_level_multiplier = 10 (레벨별 10× 증가)
-level0_file_num_compaction_trigger = 4 (L0 파일 4개 쌓이면 compaction)
-write_buffer_size = 64MB           (Memtable 크기)
-max_write_buffer_number = 3        (동시 Memtable 수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RocksDB Leveled Compaction 주요 설정</div>
+<div class="kb-diagram-note">max_bytes_for_level_base = 256MB (L1 최대 크기)</div>
+<div class="kb-diagram-note">max_bytes_for_level_multiplier = 10 (레벨별 10× 증가)</div>
+<div class="kb-diagram-note">level0_file_num_compaction_trigger = 4 (L0 파일 4개 쌓이면 compaction)</div>
+<div class="kb-diagram-note">write_buffer_size = 64MB (Memtable 크기)</div>
+<div class="kb-diagram-note">max_write_buffer_number = 3 (동시 Memtable 수)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 파라미터 튜닝은 "쓰레기통 크기([Memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/))와 청소 주기([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) trigger)를 조절하는 것"이다. 통이 작으면 자주 비워야 하고, 너무 크면 넘친다.
 
@@ -171,7 +177,7 @@ LSM 트리가 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_st
 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명 | 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 감소로 낸드 수명 연장 |
 | 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Read [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) 없이는 2~5× 증가 가능 |
 
-기술사 시험에서 LSM 트리는 **"[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 고성능 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 근간"** 으로, [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교와 읽기/[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 트레이드오프를 설명할 수 있어야 한다.
+기술사 시험에서 LSM 트리는 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> 고성능 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>의 근간"</strong> 으로, [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교와 읽기/[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 트레이드오프를 설명할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: LSM 트리는 "선불카드처럼 나중에 정산하는" 방식이다. 지금 당장 정확히 정리하지 않아도 되지만, Compaction이라는 정기 정산 작업이 반드시 필요하다.
 
@@ -200,18 +206,22 @@ LSM 트리가 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-B-Tree (읽기 최적화, 랜덤 I/O)
-    │
-    ▼
-LSM-Tree (쓰기 최적화, 순차 I/O)
-    ├─► MemTable (인메모리 정렬)
-    ├─► Flush → SSTable (디스크 정렬 파일)
-    └─► Compaction: Size-Tiered · Leveled
-    │
-    ▼
-적용: Cassandra · HBase · RocksDB · LevelDB
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B-Tree (읽기 최적화, 랜덤 I/O)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSM-Tree (쓰기 최적화, 순차 I/O)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">MemTable (인메모리 정렬)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Flush → SSTable (디스크 정렬 파일)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Compaction: Size-Tiered · Leveled</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적용: Cassandra · HBase · RocksDB · LevelDB</div>
+</div>
+</div>
+
+
 2. 메모장이 꽉 차면 한꺼번에 깔끔하게 묶어서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛에 넣는데, 이것이 SSTable 플러시이다.
 3. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛에 쌓인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 주기적으로 합쳐서 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 정리하는 작업이 Compaction이고, 이 덕분에 나중에 찾을 때도 빠르다.
 

@@ -27,7 +27,7 @@ tags = ["studynote-ict-convergence"]
 - **네트워크(Network)**: 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 무선 계층. 토폴로지(스타/[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)/클러스터)와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 에너지 소비를 좌우함.
 - **플랫폼(Platform)**: 클라우드·엣지에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집·[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)·분석. AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) Core, Azure [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 등이 대표 사례.
 
-**[WSN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) 핵심 구조 개념**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/">WSN</a> 핵심 구조 개념</strong>
 
 - **싱크 노드(Sink Node)**: 센서 노드들이 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집결시켜 상위 네트워크로 전달하는 게이트웨이 역할. 보통 전원 제약 없이 상시 동작.
 - **클러스터 헤드(Cluster Head)**: 인근 노드들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집계·압축하여 싱크로 전달. 에너지 균형을 위해 순환 선출(LEACH [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등).
@@ -38,24 +38,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│            IoT 3계층 아키텍처 및 무선 기술 분류             │
-├─────────────────────────────────────────────────────────┤
-│  [디바이스 계층]  센서 노드 (MCU + 센서 + 무선 모듈)         │
-│      │  WPAN(ZigBee/BLE, ~10m)                         │
-│      │  WLAN(Wi-Fi, ~100m, 고속)                        │
-│      │  LPWAN(LoRa/NB-IoT, ~수km, 저전력)               │
-│      ▼                                                  │
-│  [네트워크 계층]  게이트웨이 / 싱크 노드                     │
-│      │  인터넷(IP 백홀)                                   │
-│      ▼                                                  │
-│  [플랫폼 계층]   IoT 플랫폼 (수집·저장·분석·API)             │
-│      │  대시보드 / 응용 서비스                              │
-│      ▼                                                  │
-│  [응용 계층]    스마트팩토리 / 스마트시티 / 헬스케어            │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 3계층 아키텍처 및 무선 기술 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 계층</div><div class="kb-diagram-note">센서 노드 (MCU + 센서 + 무선 모듈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPAN(ZigBee/BLE, ~10m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WLAN(Wi-Fi, ~100m, 고속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPWAN(LoRa/NB-IoT, ~수km, 저전력)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층</div><div class="kb-diagram-note">게이트웨이 / 싱크 노드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷(IP 백홀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 계층</div><div class="kb-diagram-note">IoT 플랫폼 (수집·저장·분석·API)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 / 응용 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용 계층</div><div class="kb-diagram-note">스마트팩토리 / 스마트시티 / 헬스케어</div></div>
+</div>
+</div>
+
+
 
 ### 무선 기술 비교표
 
@@ -81,7 +81,7 @@ tags = ["studynote-ict-convergence"]
 **토폴로지 비교**
 
 - **스타(Star)**: 단순·저비용, 싱크 노드 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
-- **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))**: 자가 치유, 다중 경로. [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)·[Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 사용, 홉 증가 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>)</strong>: 자가 치유, 다중 경로. [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)·[Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 사용, 홉 증가 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적.
 - **클러스터 트리(Cluster-Tree)**: 에너지 균형, LEACH 기반 동적 클러스터링.
 
 - **📢 섹션 요약 비유**: [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) 토폴로지는 학교 연락망이다. 반장(클러스터 헤드)이 모아서 선생님(싱크)에게 전달하면 효율적이지만, 반장 한 명이 빠지면 그 반 연락이 끊긴다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 학생 모두가 서로 전달하니 안전하지만 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 경로가 복잡해진다.
@@ -111,9 +111,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 제조·농업·도시 인프라에서 **실시간 가시성(Visibility)**을 제공함으로써 예방적 유지보수와 자원 최적화를 실현한다. 무선 기술의 발전([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 정확도 향상, 에너지 하베스팅)과 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결합으로 자율적 의사결정 능력이 확대되고 있다.
+[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 제조·농업·도시 인프라에서 <strong>실시간 가시성(Visibility)</strong>을 제공함으로써 예방적 유지보수와 자원 최적화를 실현한다. 무선 기술의 발전([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 정확도 향상, 에너지 하베스팅)과 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 결합으로 자율적 의사결정 능력이 확대되고 있다.
 
-핵심 결론: **디바이스 제약 → 통신 기술 선택 → 아키텍처 설계**의 논리적 흐름을 시험 답안에서 반드시 전개해야 한다.
+핵심 결론: <strong>디바이스 제약 → 통신 기술 선택 → 아키텍처 설계</strong>의 논리적 흐름을 시험 답안에서 반드시 전개해야 한다.
 
 - **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)는 도시에 깔리는 신경계다. 뇌(플랫폼)가 아무리 뛰어나도 말초 신경(센서 노드)이 배터리 방전으로 죽어버리면 도시는 눈이 멀게 된다.
 

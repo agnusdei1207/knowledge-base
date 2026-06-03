@@ -11,57 +11,50 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 해커가 안드로이드 폰을 루팅(Rooting)해서 시스템 OS [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1KB를 몰래 심었다. 예전엔 부팅이 잘 됐지만, 요즘 폰은 켜질 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디바이스 매퍼(Device Mapper) 층에 박혀 있는 **`dm-verity (기기 무결성 검증 렌더)` 가 출동하여, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 읽을 때마다 해당 블록의 SHA-256 해시를 번개처럼 떠서 순정 삼성/애플에서 제조한 오리지널 해시값과 1:1 대조하는 미친 감시망** 을 돌린다.
+> 1. **본질**: 해커가 안드로이드 폰을 루팅(Rooting)해서 시스템 OS [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1KB를 몰래 심었다. 예전엔 부팅이 잘 됐지만, 요즘 폰은 켜질 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디바이스 매퍼(Device Mapper) 층에 박혀 있는 <strong><code>dm-verity (기기 무결성 검증 렌더)</code> 가 출동하여, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템을 읽을 때마다 해당 블록의 SHA-256 해시를 번개처럼 떠서 순정 삼성/애플에서 제조한 오리지널 해시값과 1:1 대조하는 미친 감시망</strong> 을 돌린다.
 > 2. **가치**: 이 무지막지한 해시 트리([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 록백) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 덕분에, "오프라인에서 전원 꺼진 폰의 플래시 메모리를 납땜으로 뜯은 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변조" 하거나 "해커가 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 1바이트를 심는" 모든 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) 침탈([Advanced Persistent Threat](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 시도가 원천 차단($O(1)$ 비율 부팅 거부 스왑) 되어 스마트폰의 군사급 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)(Verified Boot) 생태계를 이륙 시켰다 포팅.
-> 3. **한계**: 가장 끔찍한 오버헤드 딜레마. 유저나 OS가 `시스템.apk` 를 1개 수정하려면 해시 크기 때문에 전체 트리의 해시값을 뿌리(Root)까지 타고 올라가며 싹 다 다시 계산해야 한다(재생산 연산 폭발!). 그래서 `dm-verity` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 아예 처음부터 **"절대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 수 없는, 공장 초기화 무결점 읽기 전용(Read-Only 족쇄 데들락 랙!)"** 볼륨으로만 묶여서 업데이트 시 통째로 교체해야 하는 파편화 늪을 낳았다 결착.
+> 3. **한계**: 가장 끔찍한 오버헤드 딜레마. 유저나 OS가 `시스템.apk` 를 1개 수정하려면 해시 크기 때문에 전체 트리의 해시값을 뿌리(Root)까지 타고 올라가며 싹 다 다시 계산해야 한다(재생산 연산 폭발!). 그래서 `dm-verity` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 아예 처음부터 <strong>"절대 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쓸 수 없는, 공장 초기화 무결점 읽기 전용(Read-Only 족쇄 데들락 랙!)"</strong> 볼륨으로만 묶여서 업데이트 시 통째로 교체해야 하는 파편화 늪을 낳았다 결착.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **오프라인 어택 늪 (루팅을 통한 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 은닉 파단)**: 하드 폴더에 암호화(561장)를 걸면 뭐하나? 해커가 OS 뼈대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 `libc.so` (시스템 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 배를 가르고, 거기에 악성코드를 몰래 심은 평문 상태로 저장해두면 폰이 켜질 때 무사히 통과되어 좀비 폰이 되는 맹점이 뚫렸다.
-  - **dm-verity [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 해시 도축 빔!)**: 구글이 안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 적용한 철퇴. 디스크를 4KB 블록 단위로 썰고, 각 블록마다 지문(Hash)을 딴다. 그리고 두 개씩 묶어서 부모 해시를 만들고, 결국 꼭대기에 [단 1개의 궁극의 루트 해시(Root Hash 타격!)] 를 만든다. 폰이 부팅될 때 롬([ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/))에 구워진 이 1개의 진짜 해시랑 계산값이 1바이트라도 다르면 "기기가 변조됨! 부팅 정지!" 라며 레드 스크린을 띄워버리는 결속 기전이다.
+  - <strong>오프라인 어택 늪 (루팅을 통한 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/">백도어</a> 은닉 파단)</strong>: 하드 폴더에 암호화(561장)를 걸면 뭐하나? 해커가 OS 뼈대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인 `libc.so` (시스템 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 배를 가르고, 거기에 악성코드를 몰래 심은 평문 상태로 저장해두면 폰이 켜질 때 무사히 통과되어 좀비 폰이 되는 맹점이 뚫렸다.
+  - <strong>dm-verity <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a> 해시 도축 빔!)</strong>: 구글이 안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 적용한 철퇴. 디스크를 4KB 블록 단위로 썰고, 각 블록마다 지문(Hash)을 딴다. 그리고 두 개씩 묶어서 부모 해시를 만들고, 결국 꼭대기에 [단 1개의 궁극의 루트 해시(Root Hash 타격!)] 를 만든다. 폰이 부팅될 때 롬([ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/))에 구워진 이 1개의 진짜 해시랑 계산값이 1바이트라도 다르면 "기기가 변조됨! 부팅 정지!" 라며 레드 스크린을 띄워버리는 결속 기전이다.
 - **필요성**: 은행 앱 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 생체 인식 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 도는 최신 스마트폰/태블릿은 "OS 자체가 변조되지 않은 100% 순정품" 이라는 신뢰 사슬(Chain of Trust)이 깨지면 페이(Pay) 경제망이 붕괴한다. 어떠한 물리적 탈취-변형 꼼수도 블록 단위 밑바닥에서 실시간으로 걸러낼 수 있는 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 하부의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 수학적 장막이 21세기 모바일 OS의 필연적 멱살로 증명 요구되었다 록.
 
   - (일반 윈도우 OS 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 늪): 택배 박스 겉에 "안내문: 만지지 마시오" 스티커만 있습니다. 배달부가 몰래 스티커를 뜯고 안에 찰흙(악성코드 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 랙!) 1알을 섞어 넣은 뒤 교묘하게 다시 붙여놓으면 사용자는 모르고 그냥 써버립니다(부팅 성공 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) 에러!).
-  - **(dm-verity [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 기전!)**: 똑똑한 구글 회사 공장장님은 상자 안의 구슬 100만 개를 10개씩 묶어서 무게(Hash 지문 빔!)를 달고, 그 묶음을 또 묶어서 무게를 달아 최고 꼭대기에 **[최종 황금 왕인장 (Root Hash 록백!)]** 도장을 찍습니다. 배달부가 찰흙 1알 바꿨다? 내가 상자를 열 때 구슬 무게 1만 개가 도미노로 틀어지면서 맨 꼭대기 황금 인장의 무게가 달라져 딱 소리가 납니다! "앗! 이거 구글 공장 원본 아니잖아 쓰레기통 처박아!" 스마트폰 켜짐 방지(부팅 차단 방검복!) 기믹입니다 결속!
+  - <strong>(dm-verity <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">머클 트리</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 기전!)</strong>: 똑똑한 구글 회사 공장장님은 상자 안의 구슬 100만 개를 10개씩 묶어서 무게(Hash 지문 빔!)를 달고, 그 묶음을 또 묶어서 무게를 달아 최고 꼭대기에 **[최종 황금 왕인장 (Root Hash 록백!)]** 도장을 찍습니다. 배달부가 찰흙 1알 바꿨다? 내가 상자를 열 때 구슬 무게 1만 개가 도미노로 틀어지면서 맨 꼭대기 황금 인장의 무게가 달라져 딱 소리가 납니다! "앗! 이거 구글 공장 원본 아니잖아 쓰레기통 처박아!" 스마트폰 켜짐 방지(부팅 차단 방검복!) 기믹입니다 결속!
 
-- **dm-verity [Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) (해시 트리) 실시간 어택 차단 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭쇄 뷰**:
+- <strong>dm-verity <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a> (해시 트리) 실시간 어택 차단 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 해커가 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 블록 하나를 수정했을 때, 그 밑바닥 단 1바이트의 꼬투리가 어떻게 하늘 꼭대기의 서명을 박살 내는지 그 렌더 체계를 까보면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────────┐
-  │                 "바닥의 1바이트 먼지가 변하면 꼭대기의 우주가 뒤틀린다!"          │
-  ├───────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                   │
-  │  🚨 [ 해커의 침투 (Offline 칩섹 떼기 공격 스왑!) ]                                │
-  │     => "안드로이드 OS 파티션 3번 데이터 블록에 해킹 코드 몰래 덮어씀 얍!"         │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  🔥 [ 디바이스 매퍼 (dm-verity : Merkle Tree 해시 도밍고 렌더!) ]                 │
-  │                                                                                   │
-  │     [ Level 0 : Root Hash (구글이 ROM에 절대 변조 불가로 박아둠) ]                │
-  │            (Hash 0: 0xABCD...) == (기대값 다름 파단 쾅!!!)                        │
-  │                     ▲                                                             │
-  │     [ Level 1 : 중간 해시들 ]                                                     │
-  │          [Hash 1]                      [Hash 2]                                   │
-  │             ▲                              ▲                                      │
-  │  ===========▼=============================▼===================                    │
-  │                                                                                   │
-  │  ✅ [ Level 2 : 실제 Data Blocks (안드로이드 시스템 찌꺼기들) ]                   │
-  │     [블록 1]      [블록 2]            [블록 3] ❗(해커가 변조한 블록!)            │
-  │     (정상)        (정상)              (해시값 0x99 다르게 튀어나옴!)              │
-  │                                                                                   │
-  │  ✅ [ 부팅 단계 VFS 호출 결과 록백 ]                                              │
-  │     - 커널: "야 3번 블록 읽어와!"                                                 │
-  │     - dm-verity: "잠깐! 3번 해시 돌려보니 Hash 2 바뀌고, Root Hash가 틀림!        │
-  │                  이 파티션 오염됐어. 접근 차단 (I/O Error 던지고 부팅 정지)!"     │
-  └───────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 디바이스 매퍼 레이어(Device Mapper Layer: VFS와 물리 디스크 사이의 샌드위치 계층)에 기생하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 치트키 아키텍처다. 만약 블록 1개마다 개별 해시를 디스크에 저장하면 "해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 바꾸고 해시까지 같이 조작해버리면(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 조작 늪)" 말짱 도루묵이다. 하지만 해시를 엮고 엮어 피라미드 맨 꼭대기(Root Hash) 하나로 모은 다음 그 1줄짜리 문자를 **하드웨어 칩 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구역(예: 안드로이드 TrustZone 또는 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))** 안전 구역에 넣어버리면 해커는 절대 저 뿌리 해시를 수정할 수 없다. 오프라인 공격 시도 전체를 $O(1)$ 비율의 수학적 단절로 분쇄해 내는 도출점.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"바닥의 1바이트 먼지가 변하면 꼭대기의 우주가 뒤틀린다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">해커의 침투 (Offline 칩섹 떼기 공격 스왑!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "안드로이드 OS 파티션 3번 데이터 블록에 해킹 코드 몰래 덮어씀 얍!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">디바이스 매퍼 (dm-verity : Merkle Tree 해시 도밍고 렌더!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 0 : Root Hash (구글이 ROM에 절대 변조 불가로 박아둠)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hash 0: 0xABCD...) == (기대값 다름 파단 쾅!!!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1 : 중간 해시들</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hash 1</div><div class="kb-diagram-node">Hash 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">Level 2 : 실제 Data Blocks (안드로이드 시스템 찌꺼기들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-node">블록 2</div><div class="kb-diagram-node">블록 3</div><div class="kb-diagram-note">❗(해커가 변조한 블록!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정상) (정상) (해시값 0x99 다르게 튀어나옴!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">부팅 단계 VFS 호출 결과 록백</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "야 3번 블록 읽어와!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- dm-verity: "잠깐! 3번 해시 돌려보니 Hash 2 바뀌고, Root Hash가 틀림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 파티션 오염됐어. 접근 차단 (I/O Error 던지고 부팅 정지)!"</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 디바이스 매퍼 레이어(Device Mapper Layer: VFS와 물리 디스크 사이의 샌드위치 계층)에 기생하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 치트키 아키텍처다. 만약 블록 1개마다 개별 해시를 디스크에 저장하면 "해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 바꾸고 해시까지 같이 조작해버리면(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 조작 늪)" 말짱 도루묵이다. 하지만 해시를 엮고 엮어 피라미드 맨 꼭대기(Root Hash) 하나로 모은 다음 그 1줄짜리 문자를 <strong>하드웨어 칩 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구역(예: 안드로이드 TrustZone 또는 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">TPM</a>)</strong> 안전 구역에 넣어버리면 해커는 절대 저 뿌리 해시를 수정할 수 없다. 오프라인 공격 시도 전체를 $O(1)$ 비율의 수학적 단절로 분쇄해 내는 도출점.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -74,18 +67,18 @@ tags = ["studynote-operating-system"]
 
 | 스토리지 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 뷰 | 암호화 `eCryptfs/BitLocker` ([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 방어막 늪) | ✨ `dm-verity` ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/오리지널 록백 빔) |
 |:---|:---|:---|
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방파제 달성 목적** | 랩탑 도난 시 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "열람(Read) 하지 못하게" **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보존 ([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장).** | 폰 도난/루팅 시 OS 뼈대를 **"조작/변조(Write) 하지 못하게" 오리지널 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통치).** |
-| **디스크 I/O [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 연산 랙** | 읽을 때도 복호화 암시, **쓸 때도 CPU 100% 써서 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 수학 매트릭스 압살 폭파.** | 읽을 때만 해시 체크! **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 연산 자체가 불가능한(Read-Only [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)) 일방통행 스텝 강제.** |
-| **적용 대상 계층([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 빔** | `/data`, `/home` 등 **사용자 사진, 비밀번호가 들어간 프라이빗 유동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨.** | `/system`, `/vendor` 등 **안드로이드 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뼈대와 공장 출시 순정 앱 구역 철판 마스킹.** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 방파제 달성 목적</strong> | 랩탑 도난 시 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "열람(Read) 하지 못하게" <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a> 보존 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a> 보장).</strong> | 폰 도난/루팅 시 OS 뼈대를 <strong>"조작/변조(Write) 하지 못하게" 오리지널 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> 통치).</strong> |
+| <strong>디스크 I/O <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 연산 랙</strong> | 읽을 때도 복호화 암시, <strong>쓸 때도 CPU 100% 써서 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 수학 매트릭스 압살 폭파.</strong> | 읽을 때만 해시 체크! <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Write) 연산 자체가 불가능한(Read-Only <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a>) 일방통행 스텝 강제.</strong> |
+| <strong>적용 대상 계층(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>) 빔</strong> | `/data`, `/home` 등 <strong>사용자 사진, 비밀번호가 들어간 프라이빗 유동 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 볼륨.</strong> | `/system`, `/vendor` 등 <strong>안드로이드 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 뼈대와 공장 출시 순정 앱 구역 철판 마스킹.</strong> |
 
 ### 2. 치명적 오버헤드 폭발: OTA(Over The Air) 업데이트 지옥과 Read-Only 족쇄
 안드로이드는 왜 앱 업데이트할 때는 멀쩡한데, OS 업데이트만 하면 "최적화 중입니다" 라며 10분 넘게 공장 셧다운 랙에 빠지는 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (블록 1개 수정 시 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 재생성 연산 폭발 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (블록 1개 수정 시 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">머클 트리</a> 재생성 연산 폭발 데들락 랙)</strong>: 
   - (순정 단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 늪 스왑): 삼성 안드로이드가 카메라 앱 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 패치를 위해 `camera.so` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (10KB) 1개만 바꿔 치기 하려 했다. 
   - ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 도미노 폭파 빔 발동!): 10KB면 디스크 블록 3개다. 블록 3개가 바뀌니까 해시가 바뀐다. 하부 해시 3개가 바뀌니 중간 해시 100개가 다 바뀌고, 중간 해시가 바뀌니 **결국 꼭대기의 Root Hash 까지 도미노로 값이 싹 다 틀어진다!** 
   - 파멸 결과: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개만 수정해도 10GB짜리 `/system` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체 블록 해시 트리를 바닥 1번부터 싹 다 끌어올려 처음부터 다시 계산(Re-calculate Overhead [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 지옥) 해야 한다. 즉 10KB 땜빵 치려다 서버 CPU가 정지하는 I/O 배보다 배꼽이 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴에 빠진다 입증 증명 록.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (Read-Only 통째 교체 A/B [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 록백!!) / 스마트 방패**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (Read-Only 통째 교체 A/B <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 록백!!) / 스마트 방패</strong>: 
   - 구글의 극단적 타협 1방!: `dm-verity` 가 걸린 OS [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 아예 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 금지 시켰다(Read-Only [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 데들락)! 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 포팅 로직 (A/B Seamless Update 빔): 안드로이드 폰 뱃속엔 OS [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 무식하게 2개(A와 B)가 들어있다. 유저가 A로 폰을 만지고 노는 동안, 백그라운드에선 삼성이 내려준 "미리 [Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 해시가 다 계산 완료된 완제품 B [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통째 이미지(Full Block Dump 스왑)" 를 다운로드 받아 다른 B 구역에 붓는다. 그리고 재부팅 1초 만에 화살표를 B로 스위칭해 버리고 끝! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 패치를 포기하고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Image) 통째 교체 렌더링으로 돌파해 냈다 보장 록.
 
@@ -98,10 +91,10 @@ tags = ["studynote-operating-system"]
 ### 불법 해커들과 유저의 영원한 "루팅(Rooting)" 싸움, 장벽을 부수지 않고 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 주입하는 기적
 dm-verity 가 철갑을 두르자, 해커들은 벽을 안 깨고 시야를 가리는 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) Overlay 튜닝 렌더의 극의를 뚫어냈다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (dm-verity 파쇄 시도 시 무한 사과 로고 부팅 랙 멸망 파단)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (dm-verity 파쇄 시도 시 무한 사과 로고 부팅 랙 멸망 파단)</strong>: 
   - 안드로이드 고수가 커스텀 테마를 씌우려 시스템 폰트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/system/fonts/Roboto.ttf`)을 억지로 덮어썼다(OS 락 해제 후 강제 쑤셔 넣기). 
   - 재앙 터짐: 다음 날 폰을 재부팅 하니 `dm-verity` 가 "블록 해시 다름! 조작 폰임!" 탐지하고 전원을 끊어버림. 무한 재부팅 루프(Bootloop 셧다운 빔)벽돌 폰으로 전락. 
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 해커 도축 시스템 솔루션 (Magisk 툴의 Systemless [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 렌더 방어 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 해커 도축 시스템 솔루션 (Magisk 툴의 Systemless <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> 렌더 방어 빔!)</strong>: 
   - 해커의 천재적 우회 1방!: "야! `dm-verity` 가 감시하는 불침번 구역(`/system`) 철판은 1바이트도 건드리지 마라 걸린다!" 
   - 갓기능 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 스왑: 해커 툴(Magisk)은 내 맘대로 수정할 수 있는 허벌 창구인 부팅 램 디스크(`boot 파티션`) 쪽에 먼저 기생한다. 그리고 안드로이드가 `/system/fonts` 폴더를 읽어오기 0.001초 전에! [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 계층에 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 폴더 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(Bind [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 또는 OverlayFS 스왑)를 친다.
   - 결국 dm-verity 검사기는 자기가 깨끗한 오리지널 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 검사했다고 100% 통과 도장을 찍지만, OS 화면에 뿌려질 땐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 오버라이딩 덕분에 해커의 커스텀 폰트가 투명하게 위장되어 출력(Systemless Rooting [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 우회 스루풋) 되는 전설의 고양이 쥐 싸움 통달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
@@ -139,22 +132,26 @@ dm-verity 가 철갑을 두르자, 해커들은 벽을 안 깨고 시야를 가�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[암호화 파일 시스템 (eCryptfs / Windows EFS)]
-    │
-    ▼
-[무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
-    │
-    ├──▶ [플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
-    └──▶ [데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화 파일 시스템 (eCryptfs / Windows EFS)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 멍청한 엄마(구식 안드로이드 늪!)는 스마트폰 전원이 켜질 때 부품 폴더 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 옛날 삼성에서 만든 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지, 아니면 나쁜 해커가 좀비 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)([루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 멸망 파단 랙!) 부품으로 몰래 갈아끼웠는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 방법이 없어 맨날 폰이 해킹당해 돈이 털렸어요 탈탈 에러!
-2. 그래서 똑똑한 구글 로봇 경찰청장이 **"dm-verity 블록 지문 검사대! 레고 조각 무게 달기 빔!([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 해시 록백!)"** 기계를 공장에 설치했어요! OS 부품 10만 개를 묶어서 전체의 '절대 황금 무게(Root Hash 부스트!)' 기준표를 폰의 가장 깊은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구역에 박아놨어요. 만약 나쁜 놈이 부품 하나를 가짜 자재로 갈아 끼우면, 폰이 켜질 때 전체 무게가 0.1 그램 틀어지면서 빨간불 윙윙(부팅 완전 정지 샷다운 기전!) 울리며 절대 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 시작 못 하게 막아내는 무적 방어([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 안전 스피드!)를 달성해요 도출!
+2. 그래서 똑똑한 구글 로봇 경찰청장이 <strong>"dm-verity 블록 지문 검사대! 레고 조각 무게 달기 빔!(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a> 해시 록백!)"</strong> 기계를 공장에 설치했어요! OS 부품 10만 개를 묶어서 전체의 '절대 황금 무게(Root Hash 부스트!)' 기준표를 폰의 가장 깊은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구역에 박아놨어요. 만약 나쁜 놈이 부품 하나를 가짜 자재로 갈아 끼우면, 폰이 켜질 때 전체 무게가 0.1 그램 틀어지면서 빨간불 윙윙(부팅 완전 정지 샷다운 기전!) 울리며 절대 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 시작 못 하게 막아내는 무적 방어([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 안전 스피드!)를 달성해요 도출!
 3. 치명적 슬픔 피곤한 100% 통째 교체 발생! 근데 이 황금 방패에도 미치도록 귀찮은 단점이 커요. 만약 삼성이 정말 착한 업데이트 패치([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 패치 스왑!) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 딱 보내주려고 해도, 1개가 바뀌면 전체 무게 구조탑 해시가 전부 다 뒤틀려 버려서(도미노 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 금지 데들락 랙!) 폰이 고장 나버려요! 즉 패치 1개를 고치기 위해 무조건 10GB 짜리 거대 폰 OS 전체 덩어리 박스를 새로 내려받아 통째로 다 부수고 갈아 끼우는 모바일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비(OTA 덮어씌우기 오버헤드 늪 모순!)를 영원히 감내하며 진화 랙이 생겼답니다 암막 진화 랙!
 
 ---

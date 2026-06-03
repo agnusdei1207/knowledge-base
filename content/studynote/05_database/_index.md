@@ -26,30 +26,30 @@ tags = ["studynote-database"]
 | **Durability (영속성)** | 성공적으로 완료된 트랜잭션의 결과는 영구적으로 반영되어야 함. | Redo Log, WAL (Write-Ahead Logging) |
 
 #### 2. 데이터베이스 아키텍처 및 쿼리 처리 흐름 (ASCII)
-```text
-    [ Database Architecture & Query Processing / 데이터베이스 아키텍처 및 쿼리 처리 ]
-    
-    [ Client / 클라이언트 (SQL Query) ]
-             |
-             v
-    +-----------------------------------------------------------------+
-    | Query Processor (질의 처리기)                                   |
-    |  1. Parser (파서): SQL 문법 검사 및 파싱 트리 생성              |
-    |  2. Optimizer (최적화기): 실행 계획(Execution Plan) 수립 (비용) |
-    |  3. Execution Engine (실행 엔진): 계획에 따라 데이터 요청       |
-    +-----------------------------------------------------------------+
-             | (데이터 요청)
-             v
-    +-----------------------------------------------------------------+
-    | Storage Engine (저장 엔진)                                      |
-    |  - Transaction Manager (트랜잭션 관리): ACID 보장, 락(Lock)     |
-    |  - Buffer Manager (버퍼 관리): 메모리(RAM) 캐싱 및 플러시(Flush)|
-    |  - Recovery Manager (회복 관리): WAL, Undo/Redo 로깅            |
-    +-----------------------------------------------------------------+
-             | (디스크 I/O)
-             v
-    [ Physical Storage / 물리적 저장소 (Data Files, B-Tree Index, Logs) ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Database Architecture &amp; Query Processing / 데이터베이스 아키텍처 및 쿼리 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client / 클라이언트 (SQL Query)</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Processor (질의 처리기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Parser (파서): SQL 문법 검사 및 파싱 트리 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Optimizer (최적화기): 실행 계획(Execution Plan) 수립 (비용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Execution Engine (실행 엔진): 계획에 따라 데이터 요청</div></div>
+<div class="kb-diagram-note">(데이터 요청)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage Engine (저장 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Transaction Manager (트랜잭션 관리): ACID 보장, 락(Lock)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Buffer Manager (버퍼 관리): 메모리(RAM) 캐싱 및 플러시(Flush)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Recovery Manager (회복 관리): WAL, Undo/Redo 로깅</div></div>
+<div class="kb-diagram-note">(디스크 I/O)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Storage / 물리적 저장소 (Data Files, B-Tree Index, Logs)</div></div>
+</div>
+</div>
+
+
 
 #### 3. B-Tree 인덱스 알고리즘
 데이터베이스에서 B-Tree(Balanced Tree) 인덱스는 데이터 검색 속도를 $O(\log N)$으로 획기적으로 낮추는 핵심 구조다. 모든 리프(Leaf) 노드가 같은 깊이를 가지도록 밸런스를 유지하여, 최악의 경우에도 예측 가능한 디스크 I/O 횟수를 보장한다. 이는 단순한 선형 탐색(Full Table Scan)의 막대한 성능 저하를 방어하는 가장 근본적인 자료구조다.
@@ -76,11 +76,11 @@ tags = ["studynote-database"]
 
 **시나리오 1: 대규모 이커머스 플랫폼의 블랙프라이데이 트래픽 방어**
 - **문제 상황**: 이벤트 시작 시점에 상품 조회(Read) 트래픽이 폭증하여 단일 RDBMS의 커넥션이 고갈되고 DB 서버가 다운됨.
-- **기술사적 결단**: RDBMS 앞단에 인메모리 키-값 저장소인 **Redis**를 캐시(Cache)로 배치(Look-aside Cache 패턴)하여 단순 조회 트래픽을 DB에 도달하기 전에 방어한다. 또한, RDBMS는 Master(쓰기)와 Slave(읽기) 노드로 분리하는 **리드 레플리카(Read Replica)** 구조로 전환하여 CQRS(Command and Query Responsibility Segregation) 패턴을 통해 읽기와 쓰기의 병목을 분리해 낸다.
+- **기술사적 결단**: RDBMS 앞단에 인메모리 키-값 저장소인 <strong>Redis</strong>를 캐시(Cache)로 배치(Look-aside Cache 패턴)하여 단순 조회 트래픽을 DB에 도달하기 전에 방어한다. 또한, RDBMS는 Master(쓰기)와 Slave(읽기) 노드로 분리하는 **리드 레플리카(Read Replica)** 구조로 전환하여 CQRS(Command and Query Responsibility Segregation) 패턴을 통해 읽기와 쓰기의 병목을 분리해 낸다.
 
 **시나리오 2: 글로벌 소셜 네트워크의 사용자 피드 데이터 저장소 설계**
 - **문제 상황**: 전 세계 사용자가 생성하는 막대한 양의 비정형 데이터(텍스트, 이미지 링크, 메타데이터)를 기존 관계형 스키마에 담으려니 잦은 스키마 변경(ALTER TABLE)이 발생하여 시스템 안정성이 크게 훼손됨.
-- **기술사적 결단**: 스키마리스(Schemaless) 구조를 지원하는 **문서 지향(Document-oriented) NoSQL인 MongoDB**를 도입한다. 유연한 JSON 형태의 저장을 통해 빠른 기능 추가가 가능하도록 하며, 샤딩(Sharding) 기법을 적극 활용하여 늘어나는 데이터 용량에 맞추어 서버를 무한히 수평 확장(Scale-out)할 수 있는 인프라를 구축한다.
+- **기술사적 결단**: 스키마리스(Schemaless) 구조를 지원하는 <strong>문서 지향(Document-oriented) NoSQL인 MongoDB</strong>를 도입한다. 유연한 JSON 형태의 저장을 통해 빠른 기능 추가가 가능하도록 하며, 샤딩(Sharding) 기법을 적극 활용하여 늘어나는 데이터 용량에 맞추어 서버를 무한히 수평 확장(Scale-out)할 수 있는 인프라를 구축한다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
@@ -92,7 +92,7 @@ tags = ["studynote-database"]
 | **NoSQL 수평 확장(Sharding)**| 빅데이터 수집 플랫폼 | 스토리지 용량 부족 문제 해결 및 트래픽 선형 처리량 증가 |
 
 **미래 전망 및 진화 방향**:
-데이터베이스는 단순한 정보 저장을 넘어선다. 글로벌 확장에 따른 CAP 정리의 한계를 극복하기 위해, NoSQL의 수평 확장성과 RDBMS의 강력한 트랜잭션(ACID)을 동시에 지원하는 **NewSQL (Google Spanner, CockroachDB)** 모델이 부상하고 있다. 또한, AI 모델의 학습과 추론을 가속화하기 위해 벡터(Vector) 임베딩을 직접 저장하고 검색하는 **벡터 데이터베이스(Vector DB)**가 새로운 패러다임의 핵심 인프라로 자리 잡게 될 것이다.
+데이터베이스는 단순한 정보 저장을 넘어선다. 글로벌 확장에 따른 CAP 정리의 한계를 극복하기 위해, NoSQL의 수평 확장성과 RDBMS의 강력한 트랜잭션(ACID)을 동시에 지원하는 **NewSQL (Google Spanner, CockroachDB)** 모델이 부상하고 있다. 또한, AI 모델의 학습과 추론을 가속화하기 위해 벡터(Vector) 임베딩을 직접 저장하고 검색하는 <strong>벡터 데이터베이스(Vector DB)</strong>가 새로운 패러다임의 핵심 인프라로 자리 잡게 될 것이다.
 
 ### 📌 관련 개념 맵 (Knowledge Graph)
 - `[트랜잭션과 ACID]`: 데이터베이스의 심장, 장애와 동시 접근 속에서도 데이터의 무결성을 지켜내는 논리적 장치.

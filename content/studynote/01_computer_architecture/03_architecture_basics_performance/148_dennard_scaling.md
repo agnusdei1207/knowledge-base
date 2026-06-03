@@ -30,20 +30,21 @@ tags = ["studynote-computer-architecture"]
 
 동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 공식은 $P = C \times V^2 \times f$ (전력 = [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) $\times$ [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제곱 $\times$ [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))이다. 소자가 작아지면 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)($V$)을 낮출 수 있어, 주파수($f$)를 비약적으로 높여도 총 전력($P$)은 통제되었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│           데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)           │
-├────────────────────────────────────────────────────────────────────────┤
-│ [ 황금기 (~2005년): 스케일링 정상 작동 ]                               │
-│ 트랜지스터 축소 ─▶ 전압(V) 감소 ─▶ 주파수(f) 펌핑 ─▶ 발열(온도) 유지  │
-│                                                                        │
-│ [ 붕괴기 (2005년~현재): 물리학의 악마 등장 ]                           │
-│ 미세 공정(90nm 이하) ─▶ 산화막(문짝) 원자 두께 도달 ─▶ 양자 터널링 폭발│
-│                                                                        │
-│ 스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)       │
-│ ─▶ 전압 감소 불가 ─▶ 주파수 상승 시 칩 용융 ─▶ 전력의 벽(Power Wall)  │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">황금기 (~2005년): 스케일링 정상 작동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜지스터 축소 ─▶ 전압(V) 감소 ─▶ 주파수(f) 펌핑 ─▶ 발열(온도) 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">붕괴기 (2005년~현재): 물리학의 악마 등장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미세 공정(90nm 이하) ─▶ 산화막(문짝) 원자 두께 도달 ─▶ 양자 터널링 폭발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전압 감소 불가 ─▶ 주파수 상승 시 칩 용융 ─▶ 전력의 벽(Power Wall)</div></div>
+</div>
+</div>
+
+
 
 하지만 90nm(나노미터) 공정 이하로 진입하면서 산화막 두께가 원자 몇 개 수준으로 얇아졌다. 결국 스위치를 차단해도 전자가 벽을 뚫고 지나가는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 현상이 발생했다. 칩이 연산을 하지 않아도 전기가 줄줄 새는 정적 누설 전력 ([Static Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/))이 폭증하면서 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 완벽히 붕괴했다.
 
@@ -57,9 +58,9 @@ tags = ["studynote-computer-architecture"]
 
 | 시대적 아키텍처 | 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 황금기 (1980~2004) | 포스트 데나드 시대 (2005~현재) |
 | :--- | :--- | :--- |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 축** | **[클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 펌핑 (MHz → GHz)** | **코어 개수 증가 (Single → Multi-Core)** |
-| **[전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 주범** | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) (스위칭 작동 시 발생) | **정적 누설 전력 (가만히 있어도 새는 열)** |
-| **S/W 개발 패러다임**| 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 유지 (자동 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상) | **멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 필수화** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상 축</strong> | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/">클럭 주파수</a> 펌핑 (MHz → GHz)</strong> | **코어 개수 증가 (Single → Multi-Core)** |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a> 주범</strong> | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) (스위칭 작동 시 발생) | **정적 누설 전력 (가만히 있어도 새는 열)** |
+| **S/W 개발 패러다임**| 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 유지 (자동 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상) | <strong>멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 프로그래밍 필수화</strong> |
 | **H/W 해결책** | 쿨링 시스템 강화 | 3D [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) ([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)) 및 파워 게이팅 도입 |
 
 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)를 2배 올리면 전력은 8배로 폭증해 칩이 타버린다. 따라서 아키텍트들은 주파수를 살짝 낮춰 전력을 확보한 뒤, 그 여유분으로 여러 개의 코어를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 배치하는 멀티 코어 (Multi-Core) 전략을 선택해 한계를 우회했다.
@@ -72,8 +73,8 @@ tags = ["studynote-computer-architecture"]
 
 데나드의 저주를 피하기 위해 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러는 극한의 전력 관리 기법을 적용한다.
 
-1. **차세대 3D 공정 ([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) / [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 도입**: 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 막기 위해 기존의 2D 평면(Planar) 구조를 버리고, 채널을 상어 지느러미처럼 입체로 세운 [핀펫](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) ([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/))과 게이트가 4면을 모두 감싸는 [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 공정을 도입해 나노 단위의 전력 누수를 물리적으로 틀어막았다.
-2. **[다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/) ([Dark Silicon](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/)) 회피**: 코어가 많아져도 열 제약 때문에 모든 코어를 동시에 켤 수 없는 잉여 면적([다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/))이 생겼다. 이를 해결하기 위해 사용하지 않는 코어의 전원을 차단하는 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))과 상황에 맞게 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 클럭 조절하는 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)가 필수 기술로 자리 잡았다.
+1. <strong>차세대 3D 공정 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/">FinFET</a> / <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">GAA</a>) 도입</strong>: 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 막기 위해 기존의 2D 평면(Planar) 구조를 버리고, 채널을 상어 지느러미처럼 입체로 세운 [핀펫](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) ([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/))과 게이트가 4면을 모두 감싸는 [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 공정을 도입해 나노 단위의 전력 누수를 물리적으로 틀어막았다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/">다크 실리콘</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/">Dark Silicon</a>) 회피</strong>: 코어가 많아져도 열 제약 때문에 모든 코어를 동시에 켤 수 없는 잉여 면적([다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/))이 생겼다. 이를 해결하기 위해 사용하지 않는 코어의 전원을 차단하는 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))과 상황에 맞게 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 클럭 조절하는 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)가 필수 기술로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 고성능 스포츠카(멀티 코어)를 만들었지만 엔진 16개를 동시에 켜면 폭발([다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/))하므로, 주행 상황에 따라 4개만 켜고 나머지는 연료 밸브를 완전히 잠가(파워 게이팅) 열을 식히는 지능형 엔진 제어 기술입니다.
 
@@ -94,27 +95,29 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **무어의 법칙 (Moore's Law)** | 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)과 쌍둥이 법칙. [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 집적도 증가를 보장하는 원리 |
-| **[다크 실리콘](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/) ([Dark Silicon](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/))** | 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 붕괴로 칩의 온도를 제어하지 못해, 전원을 켤 수 없는 비활성 코어 영역 |
-| **[FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) & [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)** | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 해결하기 위해 도입된 3차원 입체 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 게이트 공정 기술 |
-| **[DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)** | 발열을 제어하기 위해 칩의 작업량에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 클럭을 동적으로 조절하는 전력 관리 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/">다크 실리콘</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/155_dark_silicon/">Dark Silicon</a>)</strong> | 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 붕괴로 칩의 온도를 제어하지 못해, 전원을 켤 수 없는 비활성 코어 영역 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/">FinFET</a> &amp; <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">GAA</a></strong> | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 해결하기 위해 도입된 3차원 입체 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 게이트 공정 기술 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/">DVFS</a> (Dynamic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a> and Frequency Scaling)</strong> | 발열을 제어하기 위해 칩의 작업량에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 클럭을 동적으로 조절하는 전력 관리 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무어의 법칙 (Moore's Law) / 집적도 양적 팽창
-    │
-    ▼
-데나드 스케일링 (Dennard Scaling) / 전력 밀도 유지 및 클럭 상승
-    │
-    ▼
-미세 공정 한계 도달 · 양자 터널링 (Quantum Tunneling)
-    │
-    ▼
-누설 전류 (Leakage Current) 폭증 · 전력의 벽 (Power Wall)
-    │
-    ▼
-멀티 코어 (Multi-Core) · FinFET 공정 · 다크 실리콘 (Dark Silicon) 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무어의 법칙 (Moore's Law) / 집적도 양적 팽창</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데나드 스케일링 (Dennard Scaling) / 전력 밀도 유지 및 클럭 상승</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">미세 공정 한계 도달 · 양자 터널링 (Quantum Tunneling)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">누설 전류 (Leakage Current) 폭증 · 전력의 벽 (Power Wall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 코어 (Multi-Core) · FinFET 공정 · 다크 실리콘 (Dark Silicon) 제어</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

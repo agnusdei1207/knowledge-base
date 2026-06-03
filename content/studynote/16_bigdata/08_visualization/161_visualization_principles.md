@@ -21,7 +21,7 @@ tags = ["studynote-bigdata"]
 
 ### 왜 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙이 필요한가
 
-[데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 단순히 "예쁜 차트 만들기"가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전달하는 **사실과 이야기를 독자가 정확하고 빠르게 이해**할 수 있도록 시각적으로 인코딩하는 커뮤니케이션 행위다.
+[데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 단순히 "예쁜 차트 만들기"가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전달하는 <strong>사실과 이야기를 독자가 정확하고 빠르게 이해</strong>할 수 있도록 시각적으로 인코딩하는 커뮤니케이션 행위다.
 
 잘못된 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 폐해:
 - **절단된 Y축**: 0에서 시작하지 않는 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) → 변화 폭 과장
@@ -29,7 +29,7 @@ tags = ["studynote-bigdata"]
 - **과도한 색상**: 12가지 색상의 파이 차트 → 색상 구분 불가
 - **차트 정크(Chartjunk)**: 의미 없는 격자선, 그림자, 배경 이미지 → 시선 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
 
-**📢 섹션 요약 비유**: [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 **건축 설계도**와 같다. 아름다운 외관(미적 요소)도 중요하지만, 구조([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 정확하게 전달하는 것이 본질이다. 장식이 구조 정보를 가리면 건물을 지을 수 없다.
+**📢 섹션 요약 비유**: [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)는 <strong>건축 설계도</strong>와 같다. 아름다운 외관(미적 요소)도 중요하지만, 구조([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 정확하게 전달하는 것이 본질이다. 장식이 구조 정보를 가리면 건물을 지을 수 없다.
 
 ---
 
@@ -37,32 +37,30 @@ tags = ["studynote-bigdata"]
 
 ### Tufte의 5대 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│              Edward Tufte 시각화 5대 원칙                    │
-├──────────────┬──────────────────────────────────────────────┤
-│ 원칙         │  내용                                        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 1. 명확성    │ 독자가 즉각적으로 메시지를 파악할 수 있어야 │
-│  (Clarity)   │ 함. 제목·레이블·범례가 자명해야 한다.        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 2. 정확성    │ 데이터를 왜곡하지 않는다. Y축은 0에서 시작,  │
-│  (Accuracy)  │ 원 면적은 데이터 값에 비례해야 한다.         │
-├──────────────┼──────────────────────────────────────────────┤
-│ 3. 효율성    │ Data-Ink Ratio 최대화. 필요 없는 요소는 모두 │
-│  (Efficiency)│ 제거. 격자선을 최소화, 3D 효과 금지.         │
-├──────────────┼──────────────────────────────────────────────┤
-│ 4. 심미성    │ 기능적 아름다움. 불필요한 장식 없이도 보기   │
-│  (Aesthetics)│ 좋은 차트가 가능하다.                        │
-├──────────────┼──────────────────────────────────────────────┤
-│ 5. 접근성    │ 색맹(Color Blindness) 고려. WCAG 명도 대비   │
-│ (Accessibility│ 4.5:1 이상. 색+패턴 이중 인코딩.           │
-└──────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edward Tufte 시각화 5대 원칙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙</div><div class="kb-diagram-cell">내용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명확성</div><div class="kb-diagram-cell">독자가 즉각적으로 메시지를 파악할 수 있어야</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Clarity)</div><div class="kb-diagram-cell">함. 제목·레이블·범례가 자명해야 한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 정확성</div><div class="kb-diagram-cell">데이터를 왜곡하지 않는다. Y축은 0에서 시작,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Accuracy)</div><div class="kb-diagram-cell">원 면적은 데이터 값에 비례해야 한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 효율성</div><div class="kb-diagram-cell">Data-Ink Ratio 최대화. 필요 없는 요소는 모두</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Efficiency)</div><div class="kb-diagram-cell">제거. 격자선을 최소화, 3D 효과 금지.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 심미성</div><div class="kb-diagram-cell">기능적 아름다움. 불필요한 장식 없이도 보기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Aesthetics)</div><div class="kb-diagram-cell">좋은 차트가 가능하다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 접근성</div><div class="kb-diagram-cell">색맹(Color Blindness) 고려. WCAG 명도 대비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Accessibility</div><div class="kb-diagram-cell">4.5:1 이상. 색+패턴 이중 인코딩.</div></div>
+</div>
+</div>
+
+
 
 ### 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Pre-attentive [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))
 
-시각 시스템이 의식적 처리 없이 **즉각적으로(< 200ms) 감지**하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들:
+시각 시스템이 의식적 처리 없이 <strong>즉각적으로(< 200ms) 감지</strong>하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들:
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 활용 예 | 인식 속도 |
 |:---|:---|:---|
@@ -83,7 +81,7 @@ tags = ["studynote-bigdata"]
 | **폐쇄성(Enclosure)** | 박스로 그룹 표시 |
 | **연결성(Connection)** | 선으로 관련 요소 연결 |
 
-**📢 섹션 요약 비유**: 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 **도로 표지판 색상 규칙**과 같다. 빨간색(정지), 파란색(정보), 노란색(경고)을 보는 순간 뇌가 자동으로 의미를 해석하듯, 잘 설계된 차트는 설명 없이도 즉각 이해된다.
+**📢 섹션 요약 비유**: 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 <strong>도로 표지판 색상 규칙</strong>과 같다. 빨간색(정지), 파란색(정보), 노란색(경고)을 보는 순간 뇌가 자동으로 의미를 해석하듯, 잘 설계된 차트는 설명 없이도 즉각 이해된다.
 
 ---
 
@@ -103,17 +101,23 @@ tags = ["studynote-bigdata"]
 
 ### 차트 선택 시작점: What Story Am I Telling?
 
-```
-비교 → Bar Chart / Column Chart
-추세 → Line Chart / Area Chart
-비율 → Pie (≤5개) / Treemap (계층적)
-분포 → Histogram / Box Plot / Violin
-상관 → Scatter Plot / Bubble Chart
-흐름 → Sankey / Chord Diagram
-지리 → Choropleth / Bubble Map
-```
 
-**📢 섹션 요약 비유**: 차트 선택은 **옷 선택**과 같다. 결혼식(비율 이야기)에 정장(파이 차트), 운동(분포 이야기)에 운동복(히스토그램) — 상황에 맞는 옷(차트)을 입어야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비교 → Bar Chart / Column Chart</div>
+<div class="kb-diagram-note">추세 → Line Chart / Area Chart</div>
+<div class="kb-diagram-note">비율 → Pie (≤5개) / Treemap (계층적)</div>
+<div class="kb-diagram-note">분포 → Histogram / Box Plot / Violin</div>
+<div class="kb-diagram-note">상관 → Scatter Plot / Bubble Chart</div>
+<div class="kb-diagram-note">흐름 → Sankey / Chord Diagram</div>
+<div class="kb-diagram-note">지리 → Choropleth / Bubble Map</div>
+</div>
+</div>
+
+
+
+**📢 섹션 요약 비유**: 차트 선택은 <strong>옷 선택</strong>과 같다. 결혼식(비율 이야기)에 정장(파이 차트), 운동(분포 이야기)에 운동복(히스토그램) — 상황에 맞는 옷(차트)을 입어야 한다.
 
 ---
 
@@ -140,10 +144,10 @@ tags = ["studynote-bigdata"]
 ### 거짓 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 회피
 
 - **절단된 Y축(Truncated Y-axis)**: 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 반드시 0에서 시작 (꺾은선 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 예외 가능)
-- **면적 왜곡**: 버블 차트는 반지름이 아닌 **면적**이 값에 비례해야 함 (반지름 비례 시 2배 값 → 면적 4배)
-- **선택적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표시**: 불리한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기거나 기간을 조작하는 행위
+- **면적 왜곡**: 버블 차트는 반지름이 아닌 <strong>면적</strong>이 값에 비례해야 함 (반지름 비례 시 2배 값 → 면적 4배)
+- <strong>선택적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표시</strong>: 불리한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기거나 기간을 조작하는 행위
 
-**📢 섹션 요약 비유**: 절단된 Y축으로 만든 차트는 **키를 발꿈치 들고 재는 것**과 같다. 실제보다 키가 커 보이지만, 사실은 왜곡된 측정이다.
+**📢 섹션 요약 비유**: 절단된 Y축으로 만든 차트는 <strong>키를 발꿈치 들고 재는 것</strong>과 같다. 실제보다 키가 커 보이지만, 사실은 왜곡된 측정이다.
 
 ---
 
@@ -155,14 +159,14 @@ tags = ["studynote-bigdata"]
 |:---|:---|
 | **의사결정 속도** | 핵심 인사이트 파악 시간 단축 |
 | **이해도** | 명확한 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 오해 감소 |
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 왜곡 없는 정확한 표현으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰 향상 |
-| **[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)** | 색맹 포함 모든 사용자가 동등하게 정보 접근 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 왜곡 없는 정확한 표현으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰 향상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a></strong> | 색맹 포함 모든 사용자가 동등하게 정보 접근 |
 
 ### 결론
 
-[데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 커뮤니케이션의 문법**이다. 언어에 문법이 있듯, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)에도 독자가 올바르게 이해할 수 있도록 따라야 할 규칙이 있다. Tufte의 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio, 게슈탈트 원칙, 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 색맹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 좋은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 기초이며, 이를 내재화한 설계자는 어떤 도구를 쓰더라도 효과적인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 만들 수 있다.
+[데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 커뮤니케이션의 문법</strong>이다. 언어에 문법이 있듯, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)에도 독자가 올바르게 이해할 수 있도록 따라야 할 규칙이 있다. Tufte의 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio, 게슈탈트 원칙, 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 색맹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)은 좋은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 기초이며, 이를 내재화한 설계자는 어떤 도구를 쓰더라도 효과적인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 만들 수 있다.
 
-**📢 섹션 요약 비유**: [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙을 따른 차트는 **잘 쓰인 기사**와 같다. 군더더기 없는 문장([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조(게슈탈트), 독자를 고려한 언어([접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 쓰인 기사는 어떤 독자도 쉽게 이해한다.
+**📢 섹션 요약 비유**: [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙을 따른 차트는 <strong>잘 쓰인 기사</strong>와 같다. 군더더기 없는 문장([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Ink Ratio), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조(게슈탈트), 독자를 고려한 언어([접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 쓰인 기사는 어떤 독자도 쉽게 이해한다.
 
 ---
 
@@ -180,24 +184,27 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Data-Ink Ratio]
-    │
-    ▼
-[Chartjunk]
-    │
-    ▼
-[전주의적 속성]
-    │
-    ▼
-[게슈탈트 원칙]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data-Ink Ratio</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chartjunk</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전주의적 속성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게슈탈트 원칙</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 **지도 그리는 규칙**이에요: 지도가 예쁘게 꾸며져도 실제 거리나 방향이 잘못되면 길을 잃듯, 차트도 예쁘지만 잘못된 것보다 덜 예쁘더라도 정확한 것이 훨씬 가치 있어요.
+- [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/) 원칙은 <strong>지도 그리는 규칙</strong>이에요: 지도가 예쁘게 꾸며져도 실제 거리나 방향이 잘못되면 길을 잃듯, 차트도 예쁘지만 잘못된 것보다 덜 예쁘더라도 정확한 것이 훨씬 가치 있어요.
 - "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잉크 비율"은 "차트의 모든 선과 색은 정보를 전달해야 한다"는 원칙이에요 — 의미 없는 장식은 오히려 중요한 정보를 방해해요.
 - 색맹인 친구도 차트를 이해할 수 있도록 색깔만이 아닌 모양이나 패턴도 함께 쓰는 것이 착한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)예요.
 

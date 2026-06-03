@@ -11,44 +11,45 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Hierarchical [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))은 32비트/64비트 시스템에서 기하급수적으로 거대해지는 단일 1차원 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 용량을 줄이기 위해, **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 자체를 또 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 쪼개어 트리(Tree) 구조의 목차를 만드는 아키텍처**다.
-> 2. **가치**: 실제로 사용하지 않는 허공의 주소 공간에 대해서는 하위 레벨의 테이블을 아예 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 않음으로써(Null Pointer), **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 차지하는 물리적 램(RAM) 낭비를 극적으로 최소화**한다.
-> 3. **융합**: 단점인 "메모리 접근 횟수 증가(3단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 장부를 3번 읽어야 함)"라는 치명적인 오버헤드를, **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))**라는 하드웨어 캐시의 99% [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)과 결합하여 완벽하게 상쇄시킨다.
+> 1. **본질**: 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Hierarchical [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))은 32비트/64비트 시스템에서 기하급수적으로 거대해지는 단일 1차원 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 용량을 줄이기 위해, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 자체를 또 다른 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 쪼개어 트리(Tree) 구조의 목차를 만드는 아키텍처</strong>다.
+> 2. **가치**: 실제로 사용하지 않는 허공의 주소 공간에 대해서는 하위 레벨의 테이블을 아예 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 않음으로써(Null Pointer), <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>이 차지하는 물리적 램(RAM) 낭비를 극적으로 최소화</strong>한다.
+> 3. **융합**: 단점인 "메모리 접근 횟수 증가(3단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 장부를 3번 읽어야 함)"라는 치명적인 오버헤드를, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">Translation Look-aside Buffer</a>)</strong>라는 하드웨어 캐시의 99% [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)과 결합하여 완벽하게 상쇄시킨다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 위한 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)'을 두는 방식이다. 책의 맨 앞에 있는 대주제 목차(Outer [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 보고 중간 목차를 찾은 뒤, 중간 목차(Inner [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 보고 실제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아가는 2단계 이상의 계층적 검색 구조다.
-- **필요성**: 32비트 시스템에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면 프로세스당 4MB의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 필요하다. 100개 프로세스가 뜨면 장부 크기만 400MB다. 64비트 시스템이라면? 이론상 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 하나가 **수십 페타바이트(PB)**라는 지구상에 존재할 수 없는 크기가 된다. 하지만 실제 프로그램은 64비트 주소 공간 중 극히 일부(수십 MB)만 사용한다. "안 쓰는 주소의 빈칸 장부까지 메모리에 올려두는 미친 짓을 그만두자"는 절박함에서 탄생했다.
+- **필요성**: 32비트 시스템에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면 프로세스당 4MB의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 필요하다. 100개 프로세스가 뜨면 장부 크기만 400MB다. 64비트 시스템이라면? 이론상 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 하나가 <strong>수십 페타바이트(PB)</strong>라는 지구상에 존재할 수 없는 크기가 된다. 하지만 실제 프로그램은 64비트 주소 공간 중 극히 일부(수십 MB)만 사용한다. "안 쓰는 주소의 빈칸 장부까지 메모리에 올려두는 미친 짓을 그만두자"는 절박함에서 탄생했다.
 
 - **등장 배경 및 64비트의 공포**:
-  1. **1단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 한계**: 16비트 시절에는 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 장부 하나면 충분했다.
+  1. <strong>1단계 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 한계</strong>: 16비트 시절에는 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 장부 하나면 충분했다.
   2. **성긴 주소 공간(Sparse Address Space)**: 32/64비트 시대에는 메모리의 양 끝단(코드와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))만 쓰고 중간 수 GB~TB는 텅텅 비어있는 구조가 흔해졌다.
   3. **목차의 계층화**: 빈 공간을 표현하기 위해 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 빈칸을 유지하지 말고, 아예 최상위 목차에서 "여기부터 저기까지는 아무것도 없음(Null)"이라고 표시한 뒤, 그 하위 테이블 자체를 메모리에 만들지 않는(동적 할당) 다단계 트리 구조가 채택되었다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        1단계 페이징 vs 2단계(다단계) 페이징의 메모리 낭비 비교       │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 1차원 배열 페이징: 안 쓰는 공간도 장부를 다 만들어야 함! ]         │
-│  인덱스 0: [ 프레임 5 ] (사용 중)                                    │
-│  인덱스 1: [ 프레임 8 ] (사용 중)                                    │
-│  인덱스 2: [   NULL   ] (안 씀. 그래도 칸은 차지함)                  │
-│  ... (수십만 개의 텅 빈 NULL 칸들)                                   │
-│  인덱스 999,999: [ 프레임 2 ] (사용 중)                              │
-│  ▶ 결과: 실제로 3칸만 쓰는데 장부는 100만 칸(4MB) 램 차지.           │
-│                                                                      │
-│ [ 2단계 페이징: 안 쓰는 공간은 가지치기! ]                           │
-│       [ 1단계 목차 테이블 ]                                          │
-│  0번 줄 ──포인터──▶ [ 2단계 테이블 A 생성! ] ──▶ (Fr 5, 8)           │
-│  1번 줄 ── NULL ──▶ (2단계 테이블 아예 안 만듦! 램 절약!)            │
-│  ...                                                                 │
-│  1023번 줄 ──포인터─▶ [ 2단계 테이블 B 생성! ] ──▶ (Fr 2)            │
-│  ▶ 결과: 1단계 목차(4KB) + 2단계 테이블 2개(8KB) = 12KB만 소모!      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 페이징 vs 2단계(다단계) 페이징의 메모리 낭비 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차원 배열 페이징: 안 쓰는 공간도 장부를 다 만들어야 함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">인덱스 0:</div><div class="kb-diagram-node">프레임 5</div><div class="kb-diagram-note">(사용 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">인덱스 1:</div><div class="kb-diagram-node">프레임 8</div><div class="kb-diagram-note">(사용 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">인덱스 2:</div><div class="kb-diagram-node">NULL</div><div class="kb-diagram-note">(안 씀. 그래도 칸은 차지함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (수십만 개의 텅 빈 NULL 칸들)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">인덱스 999,999:</div><div class="kb-diagram-node">프레임 2</div><div class="kb-diagram-note">(사용 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 실제로 3칸만 쓰는데 장부는 100만 칸(4MB) 램 차지.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 페이징: 안 쓰는 공간은 가지치기!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 목차 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 테이블 A 생성!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Fr 5, 8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 줄 ── NULL ──▶ (2단계 테이블 아예 안 만듦! 램 절약!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 테이블 B 생성!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Fr 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 1단계 목차(4KB) + 2단계 테이블 2개(8KB) = 12KB만 소모!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 구조는 메모리 절약의 극치를 보여준다. 프로그램은 보통 코드 영역(앞쪽)과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역(뒤쪽)만 쓰고 중간을 엄청나게 비워둔다. 2단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서는 이 거대한 중간 영역에 해당하는 1단계 목차가 그저 `NULL`을 가리키게 된다. 따라서 그 거대한 공간을 커버할 수천 개의 2단계 장부들은 아예 램(RAM)에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Allocate)되지도 않는다. 4MB가 12KB로 줄어드는 마법이다.
 
 - **📢 섹션 요약 비유**: 호텔에서 방명록을 관리할 때, 1호부터 10만 호까지 빈 줄이 빽빽한 거대한 방명록을 두는 대신, "1층 장부"만 놔두고, 손님이 1층에 투숙할 때만 "101호~110호 상세 장부"를 새로 꺼내어 책상에 놓는 유연한 관리법입니다.
@@ -65,41 +66,36 @@ tags = ["studynote-operating-system"]
 - **$p_2$ (Inner [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset, 10비트)**: 2단계 상세 테이블의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/). ($2^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)} = 1024$칸)
 - **$d$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset, 12비트)**: 물리 4KB 안에서의 최종 위치. ($2^{12} = 4096$[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│              2단계 페이징(Two-Level Paging) 주소 번역의 여정        │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ CPU 가상 주소 발출 ]                                              │
-│ ┌───────┬───────┬────────────┐                                      │
-│ │ P1(5) │ P2(8) │ d (1050)   │                                      │
-│ └───────┴───────┴────────────┘                                      │
-│     │       │        │ (Offset은 그냥 끝까지 패스)                  │
-│     │       ▼        │                                              │
-│     │   ┌────────────────────┐                                      │
-│     │   │ [ 2단계 테이블 ]    │                                     │
-│     │   │ 8번째 칸 -> Fr 12 ─┼──────────────┐                       │
-│     ▼   └────────────────────┘              │                       │
-│ ┌──────────────────────┐  ▲                  │                      │
-│ │ [ 1단계 테이블 ]      │  │                  ▼                     │
-│ │ 5번째 칸 -> 2단계 주소 │──┘         ┌────────┬────────────┐       │
-│ └──────────────────────┘            │ Fr 12  │ d (1050)   │         │
-│                                     └────────┴────────────┘         │
-│                             [ 변환된 최종 물리 주소 (RAM 접근) ]    │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 페이징(Two-Level Paging) 주소 번역의 여정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 가상 주소 발출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1(5)</div><div class="kb-diagram-cell">P2(8)</div><div class="kb-diagram-cell">d (1050)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Offset은 그냥 끝까지 패스)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">2단계 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8번째 칸 -&gt; Fr 12 ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 테이블</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번째 칸 -&gt; 2단계 주소</div><div class="kb-diagram-cell">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fr 12</div><div class="kb-diagram-cell">d (1050)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">변환된 최종 물리 주소 (RAM 접근)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 다이어그램은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 아름다움이자 끔찍함을 동시에 보여준다. CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 읽기 위해, 1) `P1`을 들고 1단계 장부를 읽어 2단계 장부 위치를 찾고, 2) 그곳으로 가서 `P2`를 들고 2단계 장부를 읽어 실제 프레임 번호를 찾고, 3) 마지막으로 알아낸 프레임 주소로 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어온다. 
-**총 메모리 접근이 3번(장부 2번 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1번) 발생**하여, 시스템 속도는 이론상 1/3 토막이 난다.
+<strong>총 메모리 접근이 3번(장부 2번 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 1번) 발생</strong>하여, 시스템 속도는 이론상 1/3 토막이 난다.
 
 ---
 
 ### 현대 64비트 시스템의 4단계 / 5단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)
 
 32비트에서는 2단계면 충분했지만, 64비트는 너무나 넓어 2단계로도 장부가 감당이 안 된다.
-- **인텔 x86_64 아키텍처**: 64비트 중 하위 48비트만 사용하며, 이를 무려 **4단계(4-Level [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))**로 쪼갰다.
+- **인텔 x86_64 아키텍처**: 64비트 중 하위 48비트만 사용하며, 이를 무려 <strong>4단계(4-Level <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>로 쪼갰다.
   - [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Global [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) -> PUD (Upper Dir) -> PMD (Middle Dir) -> PTE ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry) 순서로 램을 4번이나 뒤진다.
-- **최신 5단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)**: 서버 램 용량이 수백 TB로 늘어나자, 인텔은 5단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(5-Level [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 하드웨어에 추가했다. (램을 5번 뒤짐)
+- <strong>최신 5단계 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 서버 램 용량이 수백 TB로 늘어나자, 인텔은 5단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(5-Level [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 하드웨어에 추가했다. (램을 5번 뒤짐)
 
 - **📢 섹션 요약 비유**: 우주(64비트)에서 내 방을 찾으려면 은하계 지도(1단계) -> 태양계 지도(2단계) -> 지구 지도(3단계) -> 한국 지도(4단계)를 차례대로 뒤져야 비로소 내 집 주소를 알 수 있는 끝없는 꼬리물기 탐색전입니다.
 
@@ -118,18 +114,21 @@ tags = ["studynote-operating-system"]
 ### TLB라는 완벽한 방패 (오버헤드의 상쇄)
 
 - 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 "메모리 4번 접근"이라는 끔찍한 오버헤드를 들으면 "이걸 컴퓨터라고 쓸 수 있나?" 싶다.
-- 하지만 **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 번역 캐시)**가 이 모든 절망을 구원한다.
-- TLB에 한 번 주소 매핑(`P1+P2+P3+P4 -> Frame`)이 등록([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))되면, 그 뒤로는 **장부 탐색 4단계를 모조리 생략(Bypass)**하고 1클럭 만에 곧바로 물리 램으로 직행한다.
+- 하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(주소 번역 캐시)</strong>가 이 모든 절망을 구원한다.
+- TLB에 한 번 주소 매핑(`P1+P2+P3+P4 -> Frame`)이 등록([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))되면, 그 뒤로는 <strong>장부 탐색 4단계를 모조리 생략(Bypass)</strong>하고 1클럭 만에 곧바로 물리 램으로 직행한다.
 - [TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/) Ratio가 99%에 달하기 때문에, 1%의 Miss 상황에서만 4번의 페널티([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk)를 맞을 뿐, 평상시 체감 속도는 1단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 완벽하게 똑같다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 아키텍처   │ 장부 크기 절약│ 번역 페널티   │ TLB 적중 시 지연│
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ 1단계 페이징│ 전혀 안 됨   │ RAM 1번 읽음 │ 없음 (0)         │
-│ 4단계 페이징│ 완벽한 절약  │ RAM 4번 읽음 │ 없음 (0)         │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">장부 크기 절약</div><div class="kb-diagram-cell">번역 페널티</div><div class="kb-diagram-cell">TLB 적중 시 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 페이징</div><div class="kb-diagram-cell">전혀 안 됨</div><div class="kb-diagram-cell">RAM 1번 읽음</div><div class="kb-diagram-cell">없음 (0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계 페이징</div><div class="kb-diagram-cell">완벽한 절약</div><div class="kb-diagram-cell">RAM 4번 읽음</div><div class="kb-diagram-cell">없음 (0)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 컴퓨터 공학자들의 배짱을 볼 수 있다. "어차피 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 99% 막아주니까, Miss 났을 때 장부 4번 뒤져서 엄청 느려지는 건 눈 딱 감고 무시하자. 대신 그 1%의 느림을 감수하고 시스템의 가용 램(RAM)을 수백 MB 확보하는 것이 훨씬 이득이다"라는 극한의 트레이드오프 전술이다.
 
 - **📢 섹션 요약 비유**: 목적지를 찾을 때 지도를 4번(4단계) 갈아타며 보는 건 끔찍하지만, 내비게이션([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에 한 번 즐겨찾기 해두면 다음부턴 지도를 아예 안 보고 1초 만에 찾아가기 때문에 지도 찾는 복잡함은 큰 문제가 안 되는 원리입니다.
@@ -140,13 +139,13 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치와 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 충돌
 1. **문제 상황**: 인텔 CPU의 보안 버그([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))를 막기 위해 리눅스는 유저 테이블과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 테이블을 찢어버리는 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치를 적용했다.
-2. **4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 워크(Walk)의 악몽**:
+2. <strong>4단계 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 워크(Walk)의 악몽</strong>:
    - [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치가 일어날 때마다 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 다 날아간다.
    - 캐시가 없으니 CPU는 어쩔 수 없이 램에 있는 4단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/)->PUD->PMD->PTE)을 4번 연속으로 덜그럭거리며 읽어와야 한다 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk).
    - 이 무거운 4단계 램 접근이 초당 수만 번 터지자, AWS 클라우드 서버의 CPU iowait(대기 시간)가 폭발하여 서버가 다운되는 현상이 벌어졌다.
 3. **실무적 타협**:
    - 이 거대한 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 페널티를 줄이는 유일한 해법은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 자체를 줄이는 것뿐이다.
-   - 따라서 서버 관리자들은 DB나 캐시 시스템에 **[Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)([거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))**를 강제로 켜서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 99.9%로 높여 4단계 워크(Walk)가 아예 발생하지 않게 멱살 잡고 하드캐리하는 식으로 시스템을 연명시킨다.
+   - 따라서 서버 관리자들은 DB나 캐시 시스템에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>)</strong>를 강제로 켜서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 99.9%로 높여 4단계 워크(Walk)가 아예 발생하지 않게 멱살 잡고 하드캐리하는 식으로 시스템을 연명시킨다.
 
 ### 임베디드([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 시스템에서의 선택
 라즈베리파이나 작은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기들은 메모리가 적어서 다단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 깊게 할 필요가 없다. 그래서 ARM 아키텍처 중 가벼운 버전은 2단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)만 지원하여 하드웨어 회로를 단순화하고, [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk 시 발생하는 전력 소모를 극적으로 줄인다.
@@ -184,15 +183,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ASID (Address-Space Identifier)]
-    │
-    ▼
-[다단계 페이징 (Hierarchical Paging)]
-    │
-    ├──▶ [해시 페이지 테이블 (Hashed Page Table)]
-    └──▶ [역 페이지 테이블 (Inverted Page Table)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASID (Address-Space Identifier)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다단계 페이징 (Hierarchical Paging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 페이지 테이블 (Hashed Page Table)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

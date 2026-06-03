@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 내 스마트폰이 A 기지국과 통신할 때, B 기지국의 전파는 오직 훼방을 놓는 '적군의 노이즈(간섭)'일 뿐이었습니다.
-- **발상의 전환**: "저 밉상인 B 기지국 전파를 노이즈로 놔두지 말고, **A 기지국과 똑같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘게 만들어서 우리 편(유효 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))으로 써먹어 버리자!**"
+- **발상의 전환**: "저 밉상인 B 기지국 전파를 노이즈로 놔두지 말고, <strong>A 기지국과 똑같은 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 쏘게 만들어서 우리 편(유효 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)으로 써먹어 버리자!</strong>"
 
-```text
-[셀 엣지 수율]
-    │
-    ▼
-[CoMP]
-    │
-    └──▶ [캐리어 어그리게이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CoMP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 4G LTE-Advanced와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시스템의 핵심 기술로, 인접해 있는 **여러 개의 기지국(Multi-Point)들이 서로 통신(X2 인터페이스)을 조율(Coordinated)하여, 셀 경계(사각지대)에 있는 단 하나의 스마트폰에게 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하거나 수신받는 기지국 간 협력 통신 아키텍처**입니다.
+- **개념**: 4G LTE-Advanced와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시스템의 핵심 기술로, 인접해 있는 <strong>여러 개의 기지국(Multi-Point)들이 서로 통신(X2 인터페이스)을 조율(Coordinated)하여, 셀 경계(사각지대)에 있는 단 하나의 스마트폰에게 동시에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전송하거나 수신받는 기지국 간 협력 통신 아키텍처</strong>입니다.
 
-```text
-[셀 엣지 수율]
-    │
-    ▼
-[CoMP]
-    │
-    └──▶ [캐리어 어그리게이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CoMP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,14 +64,14 @@ tags = ["studynote-network"]
 
 ### 1. 조인트 전송 (JT, Joint Transmission) - "쌍포 동시 사격" 🌟
 가장 강력하고 유명한 CoMP 기술입니다.
-- A 기지국과 B 기지국이 철수의 폰에 띄울 유튜브 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절반씩 나눠 가지는 게 아닙니다. **둘 다 100% 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 장전합니다.
+- A 기지국과 B 기지국이 철수의 폰에 띄울 유튜브 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절반씩 나눠 가지는 게 아닙니다. <strong>둘 다 100% 똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 장전합니다.
 - 기지국 간에 완벽한 시계(클럭) 동기화를 마친 뒤, **정확히 같은 마이크로초 단위의 타이밍에, 같은 주파수 자원을 써서 철수의 폰을 향해 레이저 빔을 동시에 빵! 하고 쏩니다.**
 - **파동의 중첩 마법**: 허공에서 A의 전파와 B의 전파가 완벽히 포개져 파동의 높이(에너지 진폭)가 2배로 확 치솟습니다(건설적 간섭). 철수 폰은 노이즈 없이 빵빵한 속도로 영상을 다운받습니다.
 
 ### 2. 동적 포인트 선택 (DPS, Dynamic Point [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) - "눈치 빠른 릴레이"
 - 폰은 가만히 있는데 주변의 트럭, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 때문에 A 기지국 전파가 갑자기 돌에 가로막힙니다.
 - 폰이 0.1초 만에 비명을 지릅니다. "A 막혔어!"
-- 즉시 대기하고 있던 **B 기지국이 1초의 끊김([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))도 없이 "내가 쏠게!" 하고 바통을 쓱 이어받아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴줍니다.** 기지국들이 서로 눈치를 보며 가장 상태가 좋은 놈 딱 한 놈이 번갈아 가며 쏴주는 스무스한 태그팀 매치입니다.
+- 즉시 대기하고 있던 <strong>B 기지국이 1초의 끊김(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>)도 없이 "내가 쏠게!" 하고 바통을 쓱 이어받아 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쏴줍니다.</strong> 기지국들이 서로 눈치를 보며 가장 상태가 좋은 놈 딱 한 놈이 번갈아 가며 쏴주는 스무스한 태그팀 매치입니다.
 
 ### 3. 협력적 스케줄링 / [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) (CS/CB) - "비켜주기 매너"
 - 1012번의 ICIC와 비슷합니다. A 기지국이 철수에게 전파 빔(Beam)을 쏠 때, B 기지국이 자기 손님에게 쏘는 빔의 각도를 살짝 비틀어서(Nulling) 철수 폰에 방해 전파가 1도 들어가지 않게 완벽한 사각지대를 만들어 깎아주는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 협력 기술입니다.
@@ -84,7 +92,7 @@ CoMP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 - 조인트 전송(JT)을 하려면 A 기지국과 B 기지국이 타이밍을 0.0001초 단위로 똑같이 맞추고, 막대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받아야 합니다.
 - 옛날처럼 기지국이 산꼭대기에 멀리 떨어져 있으면 딜레이 때문에 협력(CoMP)이 아예 불가능합니다.
-- **999번 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 구조의 승리**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 뇌(DU/CU) 수천 개가 **클라우드 중앙 전산실 한방에 서버 랙으로 오밀조밀 모여있습니다.** 뇌들이 1미터 옆에 붙어있으니, 1번 뇌(A 기지국)와 2번 뇌(B 기지국)가 광속으로 텔레파시(협력)를 맞춰 밖으로 전파를 쏠 수 있게 된 현대 인프라의 승리입니다.
+- <strong>999번 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a> 구조의 승리</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국의 뇌(DU/CU) 수천 개가 **클라우드 중앙 전산실 한방에 서버 랙으로 오밀조밀 모여있습니다.** 뇌들이 1미터 옆에 붙어있으니, 1번 뇌(A 기지국)와 2번 뇌(B 기지국)가 광속으로 텔레파시(협력)를 맞춰 밖으로 전파를 쏠 수 있게 된 현대 인프라의 승리입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ CoMP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: CoMP(협력 통신)는 사각지대(셀 엣지)에 빠진 조난자를 구출하는 '두 대의 헬기 합동 서치라이트' 작전입니다. A 헬기(기지국)와 B 헬기가 조난자 위를 돕니다. 조난자가 두 헬기의 정중앙 경계에 서 있어서, A 헬기의 불빛도 약하고 B 헬기의 불빛도 약해서 앞이 보이지 않습니다. 게다가 양쪽 불빛이 그림자를 엉망으로 만들어 시야를 방해(간섭 노이즈)합니다. **조인트 전송(JT CoMP)**은 A와 B 헬기 조종사가 무전으로 카운트다운을 하는 것입니다. "셋, 둘, 하나, 쏴!" 두 헬기가 오차 1도 없이 **조난자의 정수리 한 점에 똑같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000촉광의 서치라이트를 동시에 겹쳐서 비춥니다.** 희미하고 방해만 되던 두 불빛이 허공에서 하나로 합쳐지며 태양 폭발처럼 엄청난 빛([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지 뻥튀기)을 뿜어내어, 최악의 사각지대에서도 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 다운로드 속도를 기적처럼 부활시켜 내는 궁극의 기지국 태그팀 전술입니다.
+- **📢 섹션 요약 비유**: CoMP(협력 통신)는 사각지대(셀 엣지)에 빠진 조난자를 구출하는 '두 대의 헬기 합동 서치라이트' 작전입니다. A 헬기(기지국)와 B 헬기가 조난자 위를 돕니다. 조난자가 두 헬기의 정중앙 경계에 서 있어서, A 헬기의 불빛도 약하고 B 헬기의 불빛도 약해서 앞이 보이지 않습니다. 게다가 양쪽 불빛이 그림자를 엉망으로 만들어 시야를 방해(간섭 노이즈)합니다. <strong>조인트 전송(JT CoMP)</strong>은 A와 B 헬기 조종사가 무전으로 카운트다운을 하는 것입니다. "셋, 둘, 하나, 쏴!" 두 헬기가 오차 1도 없이 <strong>조난자의 정수리 한 점에 똑같은 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000촉광의 서치라이트를 동시에 겹쳐서 비춥니다.</strong> 희미하고 방해만 되던 두 불빛이 허공에서 하나로 합쳐지며 태양 폭발처럼 엄청난 빛([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지 뻥튀기)을 뿜어내어, 최악의 사각지대에서도 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 다운로드 속도를 기적처럼 부활시켜 내는 궁극의 기지국 태그팀 전술입니다.
 
 ---
 
@@ -115,15 +123,19 @@ CoMP는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 셀 엣지 수율]
-    │
-    ▼
-[현재 개념: CoMP]
-    │
-    ├──▶ [확장 A: 캐리어 어그리게이션]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 셀 엣지 수율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CoMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 캐리어 어그리게이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 CoMP는 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

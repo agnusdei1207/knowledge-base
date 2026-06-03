@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: iOS(및 macOS)의 핵심인 XNU (X is Not Unix)는 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(Mach)의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성 및 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)(BSD)의 높은 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결합한 **[하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) ([Hybrid Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/))** 아키텍처다.
+> 1. **본질**: iOS(및 macOS)의 핵심인 XNU (X is Not Unix)는 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(Mach)의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성 및 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)(BSD)의 높은 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결합한 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/">하이브리드 커널</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/">Hybrid Kernel</a>)</strong> 아키텍처다.
 > 2. **격리**: iOS 보안의 핵심인 **앱 샌드박스 (App Sandbox)** 모형은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 프레임워크인 TrustedBSD를 기반으로 구현되며, 각 앱은 고유한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에 갇혀 명시적 권한(Entitlement) 없이는 다른 앱이나 시스템 자원에 접근할 수 없다.
 > 3. **가치**: XNU의 하이브리드 구조는 Mach [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 기반의 강력한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 통신/제어를 제공하면서도 BSD 층을 통해 POSIX [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 유지하여, 높은 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)(샌드박스)과 뛰어난 모바일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(실시간 스케줄링)을 동시에 달성한 실무적 타협의 산물이다.
 
@@ -22,11 +22,11 @@ tags = ["studynote-operating-system"]
 - **개념**: XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 Apple의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(macOS, iOS, iPadOS 등)의 기반 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이다. 내부적으로 Mach([마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 요소 - 스케줄링, [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), 메모리 관리)와 BSD(모놀리식 요소 - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 단일 주소 공간에 결합되어 있다. 앱 샌드박스는 XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 강제되는 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)으로, 프로세스의 권한을 최소화하여 시스템 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보호한다.
 
 - **필요성**: 
-  - **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조적 측면**: 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)은 메시지 패싱([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 오버헤드가 커서 상용 OS에 부적합했고, 순수 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)은 서브시스템 간 의존성이 커서 버그나 보안 취약점에 시스템 전체가 노출되는 단점이 있었다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 확장성/[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 모두 잡기 위해 두 구조를 결합한 하이브리드 방식이 필요했다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 구조적 측면</strong>: 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)은 메시지 패싱([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 오버헤드가 커서 상용 OS에 부적합했고, 순수 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)은 서브시스템 간 의존성이 커서 버그나 보안 취약점에 시스템 전체가 노출되는 단점이 있었다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 확장성/[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 모두 잡기 위해 두 구조를 결합한 하이브리드 방식이 필요했다.
   - **보안적 측면 (샌드박스)**: 모바일 환경은 검증되지 않은 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 앱이 대량으로 설치된다. 기존의 DAC(Discretionary [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/), [임의적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/)) 기반 사용자 권한 분리만으로는 악성 앱이 주소록, 카메라, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 탈취하는 것을 막을 수 없었다. 따라서 앱을 철저히 고립시키는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 샌드박스가 필수 불가결했다.
 
 - **발전 과정**:
-  1. **Mach [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (CMU 설계)**: 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)로 설계되어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성은 훌륭했으나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 빈발) 직면.
+  1. <strong>Mach <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (CMU 설계)</strong>: 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)로 설계되어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성은 훌륭했으나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 빈발) 직면.
   2. **NeXTSTEP / XNU 탄생**: Apple이 Mach와 BSD를 결합하여 XNU 개발. 둘을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 단일 공간에 올려 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 오버헤드를 극복.
   3. **iOS 샌드박스 도입 (TrustedBSD)**: 악성 코드 방어를 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내에 TrustedBSD [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 프레임워크를 도입하고, 프로파일(Entitlements) 기반의 강제적 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)(Sandbox)를 모바일 OS 전체에 강제 적용.
 
@@ -40,50 +40,39 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 특징 / 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **Mach ([마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))** | 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, 메모리 관리, [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | 기본 실행 단위 관리, 메시지 기반 통신 (빠른 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 사용) | 병원의 중앙 통제실 및 생명 유지 장치 |
+| <strong>Mach (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">마이크로커널</a>)</strong> | 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링, 메모리 관리, [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | 기본 실행 단위 관리, 메시지 기반 통신 (빠른 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 사용) | 병원의 중앙 통제실 및 생명 유지 장치 |
 | **BSD (모놀리식)** | POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (APFS), 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | Mach 위에 구현되어 사용자 프로그램에 익숙한 인터페이스 제공 | 병원의 접수처 및 전문 진료과 |
 | **I/O Kit** | 디바이스 드라이버 프레임워크 | 객체 지향 (C++) 기반 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 의료 기기 연결 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) |
-| **TrustedBSD ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 강제 접근 제어 프레임워크 | [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)마다 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 검사 수행 | 병동의 보안 검색대 및 출입증 검사 |
+| <strong>TrustedBSD (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 강제 접근 제어 프레임워크 | [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)마다 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 검사 수행 | 병동의 보안 검색대 및 출입증 검사 |
 | **Sandbox (Seatbelt)** | 프로세스의 행위를 제약하는 규칙 모음 | Entitlements(.plist)를 읽어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/네트워크/하드웨어 접근 차단 | 환자 전용 무균 격리실 |
 
 ---
 
 ### XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) 아키텍처
 
-XNU의 가장 큰 특징은 논리적으로 분리된 Mach와 BSD가 **동일한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 공간(Ring 0)**에서 동작한다는 점이다.
+XNU의 가장 큰 특징은 논리적으로 분리된 Mach와 BSD가 <strong>동일한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 공간(Ring 0)</strong>에서 동작한다는 점이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 XNU 하이브리드 커널 아키텍처 (iOS / macOS)               │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [유저 모드 (User Space - Ring 3)]                                │
-  │  ┌────────────┐   ┌────────────┐   ┌───────────────┐              │
-  │  │ iOS App A  │   │ iOS App B  │   │ System Daemon │              │
-  │  └─────┬──────┘   └─────┬──────┘   └───────┬───────┘              │
-  │        │(시스템 호출: POSIX 또는 Mach Trap) │                       │
-  │ ───────┼────────────────┼──────────────────┼───────────────────── │
-  │        ▼                ▼                  ▼                      │
-  │  [커널 모드 (Kernel Space - Ring 0) - 단일 주소 공간]             │
-  │  ┌──────────────────────────────────────────────────────────┐     │
-  │  │  BSD (Berkeley Software Distribution) 계층                 │     │
-  │  │  - POSIX 호환 API, 파일 시스템 (APFS), 네트워크 스택 (TCP/IP)  │     │
-  │  │  - 프로세스 (PID, signal) 관리                             │     │
-  │  │                                                          │     │
-  │  │   ↕ (내부 커널 함수 호출, IPC 오버헤드 없음!)                │     │
-  │  │                                                          │     │
-  │  │  Mach (마이크로커널 핵심)                                     │     │
-  │  │  - 스레드 스케줄링, 가상 메모리 관리 (VM), Mach Port (IPC)   │     │
-  │  └───────────────────────────┬──────────────────────────────┘     │
-  │                              │                                    │
-  │  ┌───────────────────────────▼──────────────────────────────┐     │
-  │  │  I/O Kit (디바이스 드라이버)                                    │     │
-  │  └───────────────────────────┬──────────────────────────────┘     │
-  │ ─────────────────────────────┼─────────────────────────────────── │
-  │                              ▼                                    │
-  │                        [ 하드웨어 ]                               │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XNU 하이브리드 커널 아키텍처 (iOS / macOS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 모드 (User Space - Ring 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iOS App A</div><div class="kb-diagram-cell">iOS App B</div><div class="kb-diagram-cell">System Daemon</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템 호출: POSIX 또는 Mach Trap)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 (Kernel Space - Ring 0) - 단일 주소 공간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSD (Berkeley Software Distribution) 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- POSIX 호환 API, 파일 시스템 (APFS), 네트워크 스택 (TCP/IP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 (PID, signal) 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (내부 커널 함수 호출, IPC 오버헤드 없음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mach (마이크로커널 핵심)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 스케줄링, 가상 메모리 관리 (VM), Mach Port (IPC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Kit (디바이스 드라이버)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 전통적인 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(예: Minix)에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 유저 모드 서버로 존재하여, 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽으려면 `앱 -> 커널 -> 파일 서버 -> 커널 -> 앱` 형태의 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 여러 번 발생한다. 반면 XNU는 Mach와 BSD, I/O Kit을 모두 링 0 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드)로 끌어내려 단일 주소 공간에 묶었다. 따라서 BSD가 Mach의 메모리 관리 기능을 호출할 때 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이 단순 함수 호출만으로 처리가 가능하여 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) 수준의 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다. 동시에 Mach [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반의 강력한 IPC와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 아키텍처는 그대로 유지하여 macOS/iOS 특유의 부드러운 멀티태스킹의 기반이 된다.
 
@@ -91,40 +80,34 @@ XNU의 가장 큰 특징은 논리적으로 분리된 Mach와 BSD가 **동일한
 
 ### iOS 샌드박스 (App Sandbox)와 TrustedBSD [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)
 
-iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 격리하는 것을 넘어, **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 훅(Hook)**을 통해 앱의 모든 행위를 감시하고 차단하는 메커니즘이다.
+iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 격리하는 것을 넘어, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">시스템 호출</a> 훅(Hook)</strong>을 통해 앱의 모든 행위를 감시하고 차단하는 메커니즘이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 iOS 샌드박스 보안 검사 파이프라인 (MAC 기반)              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [iOS App (Sandboxed)]                                            │
-  │   - 고유 컨테이너 (Data, Library, tmp)에 갇힘                       │
-  │   - Entitlements (카메라 접근 권한, 위치 정보 권한 등) 소유           │
-  │          │                                                        │
-  │          │ 1. 시스템 호출 (예: open("/etc/passwd"))                 │
-  │          ▼                                                        │
-  │  ┌─────────────────────────────────────────────────────────────┐  │
-  │  │ [XNU 커널]                                                  │  │
-  │  │                                                             │  │
-  │  │  (BSD 계층)                                                 │  │
-  │  │  2. DAC 검사 (파일 소유자, rwx 권한) - 전통적 유닉스 보안         │  │
-  │  │      │ (통과 시)                                            │  │
-  │  │      ▼                                                      │  │
-  │  │  (TrustedBSD MAC 계층)                                      │  │
-  │  │  3. MAC Policy Hook (mac_vnode_check_open) 발생             │  │
-  │  │      │                                                      │  │
-  │  │      ├──▶ [Sandbox Kext (Seatbelt)] 가 개입                   │  │
-  │  │      │     - 앱의 Entitlements 프로필 확인                    │  │
-  │  │      │     - 요청된 경로가 앱의 컨테이너 내부인가?              │  │
-  │  │      │     - 아니라면 명시적 허용 권한이 있는가?                │  │
-  │  │      │                                                      │  │
-  │  │  4. 결과 반환                                               │  │
-  │  │      ├─ 허용 (Allow) ──▶ 파일 시스템(APFS) 접근 진행         │  │
-  │  │      └─ 거부 (Deny)  ──▶ EPERM 에러 반환 및 앱 크래시/로그     │  │
-  │  └─────────────────────────────────────────────────────────────┘  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iOS 샌드박스 보안 검사 파이프라인 (MAC 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iOS App (Sandboxed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고유 컨테이너 (Data, Library, tmp)에 갇힘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Entitlements (카메라 접근 권한, 위치 정보 권한 등) 소유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 시스템 호출 (예: open("/etc/passwd"))</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XNU 커널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BSD 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DAC 검사 (파일 소유자, rwx 권한) - 전통적 유닉스 보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통과 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TrustedBSD MAC 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. MAC Policy Hook (mac_vnode_check_open) 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sandbox Kext (Seatbelt)</div><div class="kb-diagram-note">가 개입 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱의 Entitlements 프로필 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 요청된 경로가 앱의 컨테이너 내부인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아니라면 명시적 허용 권한이 있는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 결과 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 허용 (Allow) ──▶ 파일 시스템(APFS) 접근 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 거부 (Deny) ──▶ EPERM 에러 반환 및 앱 크래시/로그</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** iOS 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 자원에 접근하기 위해 시스템 콜을 호출하면, XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 BSD 계층에서 먼저 기본 유닉스 권한(DAC)을 검사한다. 이를 통과하더라도 TrustedBSD 프레임워크에 설정된 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 훅이 발동하여 Sandbox [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장(Seatbelt [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 제어권을 넘긴다. 샌드박스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 프로세스의 자격 증명(Entitlements)을 확인하여, 접근하려는 자원이 자신의 격리된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부인지, 혹은 사용자가 명시적으로 허용한 자원(예: 사진첩 접근 권한)인지를 검사한다. 권한이 없으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 즉각 `Operation not permitted (EPERM)`을 반환하여 원천 차단한다. 앱이 루트(Root) 권한을 얻더라도 샌드박스 룰은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 강제되므로 함부로 우회할 수 없다.
 
@@ -138,8 +121,8 @@ iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operat
 
 | 비교 항목 | XNU (iOS/macOS) | Linux (Android 등) |
 |:---|:---|:---|
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처** | 하이브리드 (Mach + BSD) | [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) |
-| **스케줄링/[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 기반** | Mach 기반 (Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | POSIX [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)), [System V IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 아키텍처</strong> | 하이브리드 (Mach + BSD) | [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) |
+| <strong>스케줄링/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 기반</strong> | Mach 기반 (Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) | POSIX [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/)), [System V IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/132_system_v_ipc/) |
 | **보안 프레임워크** | TrustedBSD ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) / Sandbox | LSM (Linux [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Modules) / [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) |
 | **장점** | Mach의 강력한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), BSD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 구조의 단순함, 단일 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 압도적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 | **단점** | 복잡한 내부 구조, Mach와 BSD 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환(포장) 오버헤드 간혹 존재 | [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 시 전체 시스템 마비 가능성 상대적 높음 |
@@ -150,14 +133,14 @@ iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operat
 |:---|:---|:---|
 | **격리 기반 기술** | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 기반의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 강제 적용 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨 Sandbox) | DAC 기반의 고유 UID (User ID) 할당 방식 |
 | **권한 관리** | Entitlements (서명 시 고정, 런타임 프롬프트 결합) | AndroidManifest.xml (설치 시 권한, 런타임 권한) |
-| **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손 시** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점이 아니면 샌드박스 탈출(Jailbreak) 불가 | Root 권한 획득(루팅) 시 다른 앱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 용이 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 훼손 시</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점이 아니면 샌드박스 탈출(Jailbreak) 불가 | Root 권한 획득(루팅) 시 다른 앱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 용이 |
 
 (참고: Android도 5.0 이후 SELinux를 Enforcing 모드로 도입하여 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 기반 방어를 수행하므로 현재는 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 비슷해짐)
 
 ### 과목 융합 관점
 
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: XNU의 샌드박스는 보안 과목의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/))와 Biba/[Bell-LaPadula](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) 모델과 같은 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 실제 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 어떻게 구현(TrustedBSD)되는지를 보여주는 핵심 사례다.
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)의 이상([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성)과 모놀리식의 현실([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 타협한 [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) 설계 철학은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처 진화의 실용적 해답을 제시한다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: XNU의 샌드박스는 보안 과목의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([강제적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/579_mac_mandatory_access_control/))와 Biba/[Bell-LaPadula](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) 모델과 같은 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 실제 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 어떻게 구현(TrustedBSD)되는지를 보여주는 핵심 사례다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)의 이상([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)성)과 모놀리식의 현실([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 타협한 [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) 설계 철학은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처 진화의 실용적 해답을 제시한다.
 
 - **📢 섹션 요약 비유**: 순수 이론가([마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))와 행동파(모놀리식)가 짝을 이뤄 만든 최강의 경찰([하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/))이, 범죄자(악성코드)가 아예 칼(권한)을 쥘 수 없도록 수갑(샌드박스)을 채우는 시스템입니다.
 
@@ -175,33 +158,29 @@ iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operat
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │              iOS 샌드박스 권한 및 IPC 병목 대응 플로우                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [앱 충돌 (Crash) 발생 - EPERM (Operation not permitted) 로그]       │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      접근하려는 리소스가 앱의 컨테이너 내부인가?                       │
-  │          ├─ 예 ─────▶ 파일 경로 구성 오류 (NSHomeDirectory() 사용 확인) │
-  │          │                                                        │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Entitlements (.plist) 에 명시된 권한인가?                        │
-  │          ├─ 예 ─────▶ 사용자 최초 프롬프트(권한 요청 대화상자)에서      │
-  │          │            '거부' 했는지 상태 체크 로직 추가             │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ Xcode에서 Capability 추가 및 재서명 (Signing)  │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iOS 샌드박스 권한 및 IPC 병목 대응 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱 충돌 (Crash) 발생 - EPERM (Operation not permitted) 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근하려는 리소스가 앱의 컨테이너 내부인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 파일 경로 구성 오류 (NSHomeDirectory() 사용 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entitlements (.plist) 에 명시된 권한인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 사용자 최초 프롬프트(권한 요청 대화상자)에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'거부' 했는지 상태 체크 로직 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ Xcode에서 Capability 추가 및 재서명 (Signing)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** iOS 환경에서 앱이 갑자기 크래시되면서 `EXC_BAD_ACCESS` 또는 콘솔에 `deny file-read-data` 같은 Seatbelt 로그가 남는다면 100% 샌드박스 위반이다. 개발자는 절대 하드코딩된 [절대 경로](/knowledge-base/studynote/02_operating_system/09_file_system/509_absolute_relative_path/)(`/var/mobile/...`)를 쓰지 말고, OS가 제공하는 샌드박스 상대 경로 API를 사용해야 하며, 외부 자원(카메라, 사진, 건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 반드시 Entitlement 명시와 사용자 동의 런타임 체크 로직의 이중 검증을 거쳐야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **보안/개발적 관점**: 샌드박스 프로필(Entitlement)에 꼭 필요한 권한만 최소 권한의 원칙([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))에 따라 부여했는가?
-- **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 관점**: iOS 앱 확장(App Extension, 예: 위젯)과 본 앱 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유를 위해 App Group을 올바르게 설정하고, 안전한 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)(XPC / Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반) 메커니즘을 사용하고 있는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 관점</strong>: iOS 앱 확장(App Extension, 예: 위젯)과 본 앱 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유를 위해 App Group을 올바르게 설정하고, 안전한 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)(XPC / Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반) 메커니즘을 사용하고 있는가?
 
 - **📢 섹션 요약 비유**: 깐깐한 경비원(샌드박스)에게 쫓겨나지 않으려면, 외출증(Entitlement)을 미리 신청하고, 방문하려는 방 번호(상대 경로)를 정확히 말해야 하는 원칙을 준수하는 과정입니다.
 
@@ -218,8 +197,8 @@ iOS 샌드박스는 단순히 [디렉터리](/knowledge-base/studynote/02_operat
 | **정성** | 악성 앱 설치 시 사용자 프라이버시 침해 | 권한 팝업을 통한 투명한 제어 | 생태계 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 상승 및 엔터프라이즈 보안 충족 |
 
 ### 미래 전망
-- **[포인터 인증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/)(PAC) 및 하드웨어 보안 융합**: 최신 Apple Silicon(A12 이상)은 하드웨어 수준의 [포인터 인증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) 코드([Pointer Authentication](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PAC)를 도입하여, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스를 뚫기 위한 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)/[JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/) (Return/[Jump-Oriented Programming](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/)) 공격을 실리콘 단에서 차단하며 XNU의 방어력을 극대화하고 있다.
-- **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 확장(Kext)의 종말과 System Extensions**: 과거 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 돌던 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 보안/네트워크 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Kext)들을 유저 공간(System Extensions)으로 완전히 밀어내어, [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 방지하고 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 본연의 이상으로 회귀하는 방향으로 macOS/iOS 아키텍처가 진화 중이다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/">포인터 인증</a>(PAC) 및 하드웨어 보안 융합</strong>: 최신 Apple Silicon(A12 이상)은 하드웨어 수준의 [포인터 인증](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) 코드([Pointer Authentication](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PAC)를 도입하여, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스를 뚫기 위한 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)/[JOP](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/) (Return/[Jump-Oriented Programming](/knowledge-base/studynote/09_security/04_endpoint_security/346_jop/)) 공격을 실리콘 단에서 차단하며 XNU의 방어력을 극대화하고 있다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 확장(Kext)의 종말과 System Extensions</strong>: 과거 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 돌던 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 보안/네트워크 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Kext)들을 유저 공간(System Extensions)으로 완전히 밀어내어, [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)을 방지하고 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 본연의 이상으로 회귀하는 방향으로 macOS/iOS 아키텍처가 진화 중이다.
 
 ### 결론
 XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)과 앱 샌드박스 모형은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 타협(단일 주소 공간)"과 "보안을 위한 강제([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 기반 격리)"라는 상반된 목표를 가장 성공적으로 융합한 사례다. 이는 모바일 기기가 데스크탑 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내면서도 금융/군사 수준의 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 유지할 수 있게 한 기술적 토대로, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계의 표준적 벤치마크가 되었다.
@@ -239,15 +218,19 @@ XNU [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_ov
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경]
-    │
-    ▼
-[iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)]
-    │
-    ├──▶ [임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
-    └──▶ [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ART (Android Runtime) AOT/JIT 컴파일러 혼합 실행 환경</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

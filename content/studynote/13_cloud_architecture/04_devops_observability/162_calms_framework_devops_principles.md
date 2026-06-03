@@ -10,7 +10,7 @@ tags = ["studynote-cloud"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **[데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 5대 기둥**: Culture(문화), Automation(자동화), [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)(린 사상), Measurement(측정), Sharing(공유)의 약자로, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 평가하는 핵심 지표임.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>의 5대 기둥</strong>: Culture(문화), Automation(자동화), [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)(린 사상), Measurement(측정), Sharing(공유)의 약자로, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도를 평가하는 핵심 지표임.
 2. **기술 이상의 철학**: 단순히 자동화 도구만 도입하는 것이 아니라, 조직의 일하는 방식 전반을 혁신하는 다각적 프레임워크임.
 3. **지속적 개선 도구**: 조직 내 부족한 영역을 식별하고, 각 영역의 균형 잡힌 성장을 통해 비즈니스 가치를 극대화함.
 
@@ -23,31 +23,30 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 5가지 영역이 상호 유기적으로 연결되어 선순환 구조를 형성함.
 
-```text
-[ CALMS Framework Structure ]
 
-      +-----------------------------------------+
-      |               SHARING (S)               | <---+
-      | (Knowledge, Success, Failure Sharing)   |     |
-      +-----------------------------------------+     |
-            ^                                         |
-      +-----+-----+      +-----------+      +---------+
-      | CULTURE (C)|      |LEAN (L)   |      | MEASUREMENT (M) |
-      | (Trust,    |      | (Waste    |      | (KPI, Metrics,  |
-      |  Blameless)| <--->|  Removal) |<--->|  Data-driven)   |
-      +-----+-----+      +-----------+      +---------+
-            |                                         ^
-            v                                         |
-      +-----------------------------------------+     |
-      |             AUTOMATION (A)              |-----+
-      | (CI/CD, IaC, Test Automation)           |
-      +-----------------------------------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS Framework Structure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHARING (S)</div><div class="kb-diagram-cell">&lt;---+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Knowledge, Success, Failure Sharing)</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CULTURE (C)</div><div class="kb-diagram-cell">LEAN (L)</div><div class="kb-diagram-cell">MEASUREMENT (M)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trust,</div><div class="kb-diagram-cell">(Waste</div><div class="kb-diagram-cell">(KPI, Metrics,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless)</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">Removal)</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">Data-driven)</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUTOMATION (A)</div><div class="kb-diagram-cell">-----+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CI/CD, IaC, Test Automation)</div></div>
+</div>
+</div>
+
+
 
 - **5대 핵심 요소**:
     1. **Culture (문화)**: 사람과 프로세스 중심. 팀 간의 신뢰와 공동 책임을 중시.
     2. **Automation (자동화)**: 휴먼 에러 제거 및 효율성 향상. 빌드, 테스트, 배포, 인프라의 자동화.
-    3. **[Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) (린)**: 낭비 제거. 가치 흐름(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 최적화와 작은 단위의 반복 배포.
+    3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> (린)</strong>: 낭비 제거. 가치 흐름(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 최적화와 작은 단위의 반복 배포.
     4. **Measurement (측정)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정. [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 장애율 등 객관적 지표 관리.
     5. **Sharing (공유)**: 성공과 실패의 경험을 조직 전체가 나누어 동반 성장 유도.
 
@@ -57,7 +56,7 @@ tags = ["studynote-cloud"]
 | :--- | :--- | :--- |
 | **Culture** | 팀 간의 심리적 안전감이 있는가? | [Blameless Post-mortem](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/206_postmortem_blameless_devops_culture/) (비난 없는 회고) |
 | **Automation** | 반복적 작업을 기계가 수행하는가? | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 활용 |
-| **[Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)** | 불필요한 절차나 대기 시간이 없는가? | 승인 절차 간소화, 배치 크기([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)) 축소 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a></strong> | 불필요한 절차나 대기 시간이 없는가? | 승인 절차 간소화, 배치 크기([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)) 축소 |
 | **Measurement** | 무엇을 기준으로 개선을 판단하는가? | [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) (배포 빈도, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 등) |
 | **Sharing** | 지식이 특정 개인에게만 머물러 있지 않은가? | 기술 세미나, 사내 위키(Wiki) 활성화 |
 
@@ -79,15 +78,19 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DevOps 도입 (도구만 도입, 문화 부재)
-    │
-    ▼
-CALMS: Culture · Automation · Lean · Measurement · Sharing
-    │
-    ▼
-성숙도 평가: DORA Metrics · SPACE Framework
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DevOps 도입 (도구만 도입, 문화 부재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CALMS: Culture · Automation · Lean · Measurement · Sharing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성숙도 평가: DORA Metrics · SPACE Framework</div>
+</div>
+</div>
+
+
 
 2. 경기가 끝나고 우리가 몇 골을 넣었는지 기록(측정)해서 부족한 점을 찾아요.
 3. 불필요한 행동을 줄이고(린) 다 같이 힘을 합쳐야 최고의 팀이 될 수 있다는 약속이에요!

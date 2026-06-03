@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 수많은 수험생이 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 800개의 토픽을 개별적으로 암기([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))하다가 시험장에서 무너진다. "[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 구축 시 아키텍처를 설계하시오"라는 문제가 나오면 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 3D 그래픽 기술만 쓰다가 점수를 깎인다.
 
-기술사 시험의 출제 의도는 **"당신이 100억짜리 프로젝트의 총괄 아키텍트(CTO)라면, 이 신기술을 도입할 때 발생할 수 있는 품질 저하와 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원리로 어떻게 통제할 것인가?"**를 묻는 것이다.
+기술사 시험의 출제 의도는 <strong>"당신이 100억짜리 프로젝트의 총괄 아키텍트(CTO)라면, 이 신기술을 도입할 때 발생할 수 있는 품질 저하와 일정 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)을 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 원리로 어떻게 통제할 것인가?"</strong>를 묻는 것이다.
 
-따라서 파편화된 지식들을 연결하는 **메타 인지(Meta-cognition)**가 필수적이다. 지난 10년간 가장 빈출 된 융합 토픽들의 패턴을 분석하고, 결론(4단락)에 쓸 수 있는 강력한 '기술사적 제언'의 템플릿을 정리하는 것이 학습의 최종 종착지다.
+따라서 파편화된 지식들을 연결하는 <strong>메타 인지(Meta-cognition)</strong>가 필수적이다. 지난 10년간 가장 빈출 된 융합 토픽들의 패턴을 분석하고, 결론(4단락)에 쓸 수 있는 강력한 '기술사적 제언'의 템플릿을 정리하는 것이 학습의 최종 종착지다.
 
 - **📢 섹션 요약 비유**: 기술사 시험은 '냉장고 파먹기 요리 대회'다. 냉장고에 있는 수백 가지 재료(개별 토픽)의 이름을 다 외우는 건 의미가 없다. 주어진 주제(문제)에 맞춰, 고기와 채소를 완벽한 밸런스(융합)로 볶아내어 심사위원(채점관)을 감동하게 만드는 요리법을 깨우쳐야 한다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 기술사 10개년 기출의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 공학 기술사 10개년 기출                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 공학 기술사 10개년 기출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 기술사 10개년 기출가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 비교 대조군 | 융합적 결론 (기술사의 시각) |
 |:---|:---|
-| **폭포수 vs [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)** | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 무조건 좋은 것이 아니다. 생명과 직결된 코어 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(의료, 항공)은 폭포수(또는 나선형)의 엄격한 V-모델 검증이 필수이며, 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)로 돌리는 **'바이모달(Bimodal) IT'** 전략이 현실적이다. |
-| **모놀리식 vs [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)** | MSA는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트랜잭션이라는 엄청난 기술 부채를 요구한다. 트래픽이 적은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업은 '모듈러 모놀리식(Modular Monolithic)'으로 뼈대만 잘 잡아두고, 트래픽이 폭발하는 임계점에서 MSA로 찢어내는 **'점진적 진화'**가 정답이다. |
-| **강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) vs [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)**| 돈과 관련된 코어는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), 락)으로 시스템을 멈춰서라도 지키고, 조회나 알림 등 변두리 기능은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))으로 속도를 확보하는 **'하이브리드 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)'**가 필요하다. |
+| <strong>폭포수 vs <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a></strong> | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 무조건 좋은 것이 아니다. 생명과 직결된 코어 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(의료, 항공)은 폭포수(또는 나선형)의 엄격한 V-모델 검증이 필수이며, 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)로 돌리는 **'바이모달(Bimodal) IT'** 전략이 현실적이다. |
+| <strong>모놀리식 vs <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong> | MSA는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 트랜잭션이라는 엄청난 기술 부채를 요구한다. 트래픽이 적은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업은 '모듈러 모놀리식(Modular Monolithic)'으로 뼈대만 잘 잡아두고, 트래픽이 폭발하는 임계점에서 MSA로 찢어내는 <strong>'점진적 진화'</strong>가 정답이다. |
+| <strong>강한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> vs <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">결과적 일관성</a></strong>| 돈과 관련된 코어는 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/), 락)으로 시스템을 멈춰서라도 지키고, 조회나 알림 등 변두리 기능은 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))으로 속도를 확보하는 <strong>'하이브리드 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a>'</strong>가 필요하다. |
 
 - **📢 섹션 요약 비유**: 양자택일의 객관식 문제가 아니다. "짬뽕 먹을래, 짜장면 먹을래?"라는 질문에 "스트레스받을 땐 매운 짬뽕, 달콤한 게 당길 땐 짜장면을 먹되, 둘 다 먹고 싶을 땐 짬짜면 그릇(하이브리드 아키텍처)을 특수 제작해야 한다"라고 상황에 맞는 최적해를 제시하는 훈련이다.
 
@@ -92,7 +91,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-10개년 기출을 관통하는 가장 중요한 실무 적용 포인트는 **"인간(개발자)을 믿지 말고 기계(파이프라인)를 믿어라"**는 시스템화 철학이다.
+10개년 기출을 관통하는 가장 중요한 실무 적용 포인트는 <strong>"인간(개발자)을 믿지 말고 기계(파이프라인)를 믿어라"</strong>는 시스템화 철학이다.
 
 - **📢 섹션 요약 비유**: [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 기술사 10개년 기출 핵심 융합 토픽 결론 정리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -104,9 +103,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-이 800개의 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 지식은 단순한 기술 사전이 아니다. 개발자, 기획자, 테스터, 인프라 엔지니어들이 서로의 언어를 이해하고 하나의 거대한 시스템을 충돌 없이 지어 올리기 위한 **'거대한 의사소통 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'**이다.
+이 800개의 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 지식은 단순한 기술 사전이 아니다. 개발자, 기획자, 테스터, 인프라 엔지니어들이 서로의 언어를 이해하고 하나의 거대한 시스템을 충돌 없이 지어 올리기 위한 <strong>'거대한 의사소통 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>'</strong>이다.
 
-결론적으로, 다가오는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시대에 코드를 타이핑하는 일은 코파일럿(Copilot)이 대신할 것이다. 인간 아키텍트에게 남겨진 궁극의 과제는 **"AI가 뱉어낸 조각들을 어떻게 결합도를 낮추고 응집도를 높여 조립할 것인가?"**, **"이 시스템이 무너졌을 때 어떻게 우아하게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Resilience)할 것인가?"**를 설계하는 일이다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 고전적 가치는 기술이 발전할수록 오히려 더욱 찬란하게 빛날 것이다.
+결론적으로, 다가오는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시대에 코드를 타이핑하는 일은 코파일럿(Copilot)이 대신할 것이다. 인간 아키텍트에게 남겨진 궁극의 과제는 **"AI가 뱉어낸 조각들을 어떻게 결합도를 낮추고 응집도를 높여 조립할 것인가?"**, <strong>"이 시스템이 무너졌을 때 어떻게 우아하게 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Resilience)할 것인가?"</strong>를 설계하는 일이다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 고전적 가치는 기술이 발전할수록 오히려 더욱 찬란하게 빛날 것이다.
 
 - **📢 섹션 요약 비유**: 800개의 토픽은 마블 영화의 슈퍼히어로 800명과 같다. 각자의 능력(개별 토픽)을 아는 것도 중요하지만, 우주 최강의 악당(대형 프로젝트 실패)이 쳐들어왔을 때 이 영웅들을 어떻게 적재적소에 배치하고 협력시킬지 작전을 짜는 '닉 퓨리 국장(어벤져스 총괄)'의 시야를 갖추는 것, 그것이 이 공부의 마침표다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 공학 기술사 10개년 기출 핵심 융합 토픽 결론 정리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 공학 기술사 10개년 기출 핵심 융합 토픽 결론 정리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

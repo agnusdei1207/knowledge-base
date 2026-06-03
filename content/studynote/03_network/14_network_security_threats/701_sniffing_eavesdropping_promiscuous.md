@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **개념**: 컴퓨터 네트워크상에 흘러 다니는 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷들을 몰래 가로채어(Capture) 내용을 들여다보는 행위입니다. 수동적 공격(Passive Attack)에 해당하여, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하거나 파괴하지 않으므로 사용자는 자신이 도청당하고 있다는 사실을 전혀 눈치채지 못합니다.
 - **도구**: 주로 Wireshark, Tcpdump 같은 패킷 분석 도구를 사용하여 이루어집니다.
 
-```text
-[NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
-[도청 네트워크 토폴로지 취약]
-    │
-    └──▶ [스푸핑 기만 위장 공격 종류 및 특성 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도청 네트워크 토폴로지 취약은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,24 +45,28 @@ tags = ["studynote-network"]
 
 ### 1. 프론미스큐어스 모드 (Promiscuous Mode)
 - **원리**: 정상적인 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 공기 중이나 전선에 수많은 패킷이 날아다녀도, 겉면([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 보고 "내 주소가 아니네?" 하면 가차 없이 쓰레기통에 버립니다.
-- **해커의 조작**: 해커는 해킹 툴을 써서 랜카드의 설정을 **'프론미스큐어스 모드(무차별 수신 모드)'**로 바꿔버립니다. 이렇게 되면 랜카드는 자기 주소가 아닌 남의 패킷이 지나가도 "일단 다 내놔!" 하고 싹 다 빨아들여 컴퓨터에 저장하게 됩니다.
+- **해커의 조작**: 해커는 해킹 툴을 써서 랜카드의 설정을 <strong>'프론미스큐어스 모드(무차별 수신 모드)'</strong>로 바꿔버립니다. 이렇게 되면 랜카드는 자기 주소가 아닌 남의 패킷이 지나가도 "일단 다 내놔!" 하고 싹 다 빨아들여 컴퓨터에 저장하게 됩니다.
 
 ### 2. [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 환경의 절대적 취약점
 - 옛날에 쓰던 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 환경에서는, A가 B에게 패킷을 보내면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 멍청하게 C, D, E 모든 포트로 패킷을 복사해서 뿌려버렸습니다(브로드캐스트). 이때 해커 C가 프론미스큐어스 모드를 켜두기만 하면 A와 B의 대화를 100% 공짜로 도청할 수 있었습니다.
 
 ### 3. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 환경과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 잼([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) Jamming) 공격
-- **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 방어**: 요즘 쓰는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2 [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 똘똘해서 A가 B에게 보내면 딱 B가 꽂힌 포트로만(유니캐스트) 패킷을 쏴줍니다. 해커 C가 아무리 기다려도 남의 패킷이 오지 않습니다.
-- **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 잼 ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) Jamming / [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flooding)**: 해커가 포기하지 않습니다. 해커는 1초에 수십만 개의 '가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소'를 만들어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 폭격을 날립니다([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flooding). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에 있는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 기억 장부(CAM Table)가 가짜 주소들로 꽉 차서 용량이 터져버립니다(Jamming).
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 방어</strong>: 요즘 쓰는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2 [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 똘똘해서 A가 B에게 보내면 딱 B가 꽂힌 포트로만(유니캐스트) 패킷을 쏴줍니다. 해커 C가 아무리 기다려도 남의 패킷이 오지 않습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 잼 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> Jamming / <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> Flooding)</strong>: 해커가 포기하지 않습니다. 해커는 1초에 수십만 개의 '가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소'를 만들어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 폭격을 날립니다([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flooding). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에 있는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 기억 장부(CAM Table)가 가짜 주소들로 꽉 차서 용량이 터져버립니다(Jamming).
 - **결과**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 장부가 터지면 멘붕에 빠져서 똑똑한 기능을 상실하고, 옛날 멍청한 '[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))'처럼 동작하여 모든 포트로 패킷을 마구잡이로 뿌려버리게 됩니다(Fail-Open). 이 순간 해커는 다시 남의 패킷을 꿀꺽꿀꺽 도청할 수 있게 됩니다.
 
-```text
-[NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
-[도청 네트워크 토폴로지 취약]
-    │
-    └──▶ [스푸핑 기만 위장 공격 종류 및 특성 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도청 네트워크 토폴로지 취약의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 가장 근본적인 해결책은 **'암호화(Encryption)'**입니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 대신 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))를, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 대신 SFTP를, Telnet 대신 SSH를 써야 합니다. 해커가 스니핑으로 패킷을 가로채더라도, 내용물이 암호화되어 있으면 의미를 알 수 없는 쓰레기 글자만 보게 되므로 공격이 무력화됩니다.
+- 가장 근본적인 해결책은 <strong>'암호화(Encryption)'</strong>입니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 대신 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))를, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 대신 SFTP를, Telnet 대신 SSH를 써야 합니다. 해커가 스니핑으로 패킷을 가로채더라도, 내용물이 암호화되어 있으면 의미를 알 수 없는 쓰레기 글자만 보게 되므로 공격이 무력화됩니다.
 
 도청 네트워크 토폴로지 취약을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단이 기반 조건을 만든다면, 도청 네트워크 토폴로지 취약은 그 위에서 핵심 메커니즘을 구현하고, [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ▼
-[현재 개념: 도청 네트워크 토폴로지 취약]
-    │
-    ├──▶ [확장 A: 스푸핑 기만 위장 공격 종류 및 특성 분석]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 도청 네트워크 토폴로지 취약는 [NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/) 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단에서 출발해 현재 메커니즘을 정교화하고, 이후 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

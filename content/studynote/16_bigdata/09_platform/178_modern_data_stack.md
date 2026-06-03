@@ -25,18 +25,20 @@ Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 아래 그림은 전통 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack의 차이를 보여준다. 핵심은 변환 위치와 구축 속도, 그리고 각 계층의 책임 분리가 달라졌다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 전통 ETL vs Modern Data Stack                               │
-├──────────────────────────────────────────────────────────────┤
-│ 전통: Source ─▶ ETL Server ─▶ On-prem Warehouse ─▶ BI       │
-│        변환이 앞단에 몰려 변경 비용이 큼                    │
-│                                                              │
-│ MDS : Source ─▶ Managed EL/CDC ─▶ Cloud Warehouse            │
-│                                └─▶ dbt ─▶ BI / Reverse ETL   │
-│        먼저 적재하고 나중에 변환해 민첩성을 높임            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 ETL vs Modern Data Stack</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통: Source ─▶ ETL Server ─▶ On-prem Warehouse ─▶ BI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환이 앞단에 몰려 변경 비용이 큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDS : Source ─▶ Managed EL/CDC ─▶ Cloud Warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ dbt ─▶ BI / Reverse ETL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">먼저 적재하고 나중에 변환해 민첩성을 높임</div></div>
+</div>
+</div>
+
+
 
 그래서 MDS는 특정 제품 묶음의 이름이라기보다, "[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 분석 시스템을 어떻게 더 빨리 조립할 것인가"에 대한 설계 철학으로 보는 편이 맞다. Fivetran, Airbyte, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), dbt, [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/), Tableau는 그 철학을 구현하는 대표 도구들일 뿐, 핵심은 ELT와 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 계층화에 있다.
 
@@ -58,26 +60,21 @@ Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 아래 구조는 MDS의 전형적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 보여준다. Raw에서 Mart로 갈수록 비즈니스 의미가 강해지고, dbt 테스트와 계보가 중간 통제 장치 역할을 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Modern Data Stack 파이프라인                                 │
-├──────────────────────────────────────────────────────────────┤
-│ SaaS / DB / Event Source                                     │
-│          │                                                   │
-│          ▼                                                   │
-│   Managed EL/CDC Connector                                   │
-│          │                                                   │
-│          ▼                                                   │
-│   Cloud Warehouse / Lakehouse                                │
-│   ┌──────────┬────────────┬──────────┐                       │
-│   │ Raw      │ Staging    │ Mart     │                       │
-│   └──────────┴────────────┴──────────┘                       │
-│          │            ▲                                      │
-│          └──── dbt models · tests · lineage ─────┐           │
-│                                                   ▼           │
-│                         BI / Semantic Layer / Reverse ETL     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Data Stack 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SaaS / DB / Event Source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Managed EL/CDC Connector</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Warehouse / Lakehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw</div><div class="kb-diagram-cell">Staging</div><div class="kb-diagram-cell">Mart</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt models · tests · lineage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI / Semantic Layer / Reverse ETL</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 dbt가 중요한 이유는 변환 로직을 SQL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 테스트, 문서, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꿔 주기 때문이다. 예전에는 변환이 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 도구 안의 블랙박스 작업이거나 BI 화면 속 계산식에 흩어져 있었지만, MDS에서는 분석 로직을 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 대상으로 끌어올린다. 그래서 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack의 성장은 단순 도구 교체라기보다 "Analytics Engineering"이라는 역할의 등장과도 연결된다.
 
@@ -162,21 +159,23 @@ Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스 ETL / EDW
-    │
-    ▼
-클라우드 데이터 웨어하우스
-    │
-    ▼
-ELT + dbt 기반 Analytics Engineering
-    │
-    ▼
-Semantic Layer · Reverse ETL
-    │
-    ▼
-Streaming / Open Format Hybrid MDS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 ETL / EDW</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 데이터 웨어하우스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ELT + dbt 기반 Analytics Engineering</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Semantic Layer · Reverse ETL</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Streaming / Open Format Hybrid MDS</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 중심이 "무거운 적재 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"에서 "클라우드 창고 중심의 민첩한 조립형 운영"으로 이동하는 과정을 보여준다.
 

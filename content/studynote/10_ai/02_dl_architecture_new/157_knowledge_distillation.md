@@ -23,7 +23,7 @@ tags = ["studynote-ai"]
 
 단순히 모델을 줄이는 것만으로는 문제가 해결되지 않는다. 작은 모델을 처음부터 독립 학습시키면 표현력이 부족해 정확도가 크게 떨어지기 쉽고, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))나 프루닝 ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))은 이미 만들어진 모델을 깎는 방식이라 구조적 한계가 남는다. [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "큰 모델이 어떻게 고민했는가"를 함께 넘겨주기 때문에, 작은 모델이 적은 자원으로도 더 나은 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내도록 돕는다.
 
-따라서 이 개념의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 그 자체보다 **판단의 분포를 전수하는 것**에 있다. 정답 한 칸만 맞추게 하는 학습이 아니라, 비슷한 클래스끼리 얼마나 헷갈렸는지까지 전달해야 작은 모델도 문제의 구조를 더 깊게 이해한다.
+따라서 이 개념의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 그 자체보다 <strong>판단의 분포를 전수하는 것</strong>에 있다. 정답 한 칸만 맞추게 하는 학습이 아니라, 비슷한 클래스끼리 얼마나 헷갈렸는지까지 전달해야 작은 모델도 문제의 구조를 더 깊게 이해한다.
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 두꺼운 전공서 전체를 들고 다니는 대신, 교수의 핵심 해설이 적힌 요약 노트를 받아 시험장에 들어가는 것과 같다.
 
@@ -35,19 +35,20 @@ tags = ["studynote-ai"]
 
 아래 그림은 같은 입력을 교사와 학생이 동시에 보고, 학생이 두 종류의 목표를 함께 학습하는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Distillation pipeline: one input, two learning signals              │
-├──────────────────────────────────────────────────────────────────────┤
-│ input x ─┬─▶ Teacher ─▶ logits z_t ─▶ Softmax(T) ─▶ q_t             │
-│          │                                                           │
-│          └─▶ Student ─▶ logits z_s ─▶ Softmax(T) ─▶ q_s             │
-│                                   └─▶ Softmax(1) ─▶ y_hat           │
-│                                                                      │
-│ Loss = α·CE(y, y_hat) + (1-α)·KL(q_t || q_s)                         │
-│        hard label fitting      teacher distribution matching         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distillation pipeline: one input, two learning signals</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">input x ─ ─▶ Teacher ─▶ logits z_t ─▶ Softmax(T) ─▶ q_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Student ─▶ logits z_s ─▶ Softmax(T) ─▶ q_s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Softmax(1) ─▶ y_hat</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss = α·CE(y, y_hat) + (1-α)·KL(q_t</div><div class="kb-diagram-cell">q_s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hard label fitting teacher distribution matching</div></div>
+</div>
+</div>
+
+
 
 여기서 온도는 매우 중요하다. [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 함수의 온도 T를 높이면 정답 이외의 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)도 더 평평하게 드러나서, 학생이 교사의 "헷갈림 구조"를 볼 수 있다. 이 정보는 흔히 다크 지식 (Dark Knowledge)이라 부르며, 예를 들어 고양이 사진에서 "개와는 조금 비슷하지만 자동차와는 거의 무관하다"는 식의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전달한다.
 
@@ -67,7 +68,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)를 이해하려면 다른 경량화 기법과의 경계를 분명히 봐야 한다. 프루닝은 기존 모델에서 덜 중요한 연결을 제거하는 방식이고, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 수치 표현 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 줄여 메모리와 연산량을 낮춘다. 반면 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 **작은 모델을 새로 훈련해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 넘겨받게 한다**는 점에서 접근법이 다르다.
+[지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)를 이해하려면 다른 경량화 기법과의 경계를 분명히 봐야 한다. 프루닝은 기존 모델에서 덜 중요한 연결을 제거하는 방식이고, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 수치 표현 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 줄여 메모리와 연산량을 낮춘다. 반면 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 <strong>작은 모델을 새로 훈련해 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 넘겨받게 한다</strong>는 점에서 접근법이 다르다.
 
 | 구분 | [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) | 프루닝 | [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) |
 | :--- | :--- | :--- | :--- |
@@ -76,7 +77,7 @@ tags = ["studynote-ai"]
 | 장점 | 구조 자유도 높음, 정확도 보존 우수 | 모델 크기 감소 | 추론 속도·메모리 절감 큼 |
 | 한계 | 추가 학습 비용 필요 | 과도하면 정확도 급락 | 하드웨어 지원 영향 큼 |
 
-또한 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))과도 연결된다. [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)이 사전학습된 표현을 새로운 과제에 옮기는 개념이라면, [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 **모델의 출력 분포 자체를 다른 모델로 전달**하는 쪽에 더 가깝다. 그래서 둘은 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라, 사전학습 교사를 만든 뒤 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)로 배포형 학생을 얻는 순차 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 자주 결합된다.
+또한 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))과도 연결된다. [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)이 사전학습된 표현을 새로운 과제에 옮기는 개념이라면, [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 <strong>모델의 출력 분포 자체를 다른 모델로 전달</strong>하는 쪽에 더 가깝다. 그래서 둘은 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라, 사전학습 교사를 만든 뒤 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)로 배포형 학생을 얻는 순차 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 자주 결합된다.
 
 결국 비교의 핵심은 "무엇을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는가"다. 프루닝과 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 모델 자체를 깎고, [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 모델이 학습한 판단 방식을 옮긴다. 이 차이 때문에 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 정확도 보존에 강하고, 다른 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법과 함께 쓸 때 효과가 더 커진다.
 
@@ -115,7 +116,7 @@ tags = ["studynote-ai"]
 
 다만 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)가 만능은 아니다. 교사가 잘못 배운 편향, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형, 학생의 표현력 부족이 있으면 품질 저하가 발생할 수 있고, 경우에 따라서는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)나 프루닝을 추가로 결합해야 목표 자원 수준에 도달한다. 앞으로는 셀프 디스틸레이션, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 교사, 하드웨어 인지형 증류처럼 "배포 환경까지 포함해 설계하는 증류"가 더 중요해질 가능성이 높다.
 
-따라서 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "큰 모델을 작게 줄이는 기술"로만 기억하면 부족하다. 더 정확하게는 **큰 모델의 판단 구조를 작은 모델로 이식해, 배포 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는 전달 기술**로 기억하는 것이 맞다.
+따라서 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "큰 모델을 작게 줄이는 기술"로만 기억하면 부족하다. 더 정확하게는 <strong>큰 모델의 판단 구조를 작은 모델로 이식해, 배포 가능한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 바꾸는 전달 기술</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 큰 나무를 화분에 옮겨 심을 수는 없지만, 좋은 씨앗을 받아 작은 화분에서도 같은 품종을 키우는 것이 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)다.
 
@@ -134,22 +135,24 @@ tags = ["studynote-ai"]
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-Large Teacher Model
-       │
-       ▼
-Soft Target + Dark Knowledge
-       │
-       ▼
-Knowledge Distillation
-       │
-       ├──▶ Self-Distillation
-       ├──▶ Feature Distillation
-       └──▶ Multi-Teacher Distillation
-       │
-       ▼
-Edge AI / On-device Inference / Low-latency Service
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Large Teacher Model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Soft Target + Dark Knowledge</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Knowledge Distillation</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Self-Distillation</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Feature Distillation</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Multi-Teacher Distillation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Edge AI / On-device Inference / Low-latency Service</div>
+</div>
+</div>
+
+
 
 이 흐름은 "대형 모델의 지식 확보 → 분포 전달 → 경량 학생 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 배포 최적화"로 이어지는 확장 경로를 보여준다.
 

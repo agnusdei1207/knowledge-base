@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거의 개발자들은 새로운 기능(피쳐)을 개발하면 별도의 피쳐 브랜치(Feature Branch)에서 몇 주씩 코드를 짰다. 그리고 오픈 전날 밤, 수만 줄의 코드를 메인(Main) 브랜치에 합치려다(Merge) 엄청난 충돌(Conflict)이 발생해 밤을 새우는 일이 비일비재했다.
 
-이를 해결하기 위해 "코드는 무조건 매일매일 메인 브랜치에 합치자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)"는 철학이 대두되었다. 하지만 미완성된 코드를 서버에 올리면 유저가 에러를 겪게 된다. 이 딜레마를 깨기 위해 **"코드는 매일 합쳐서 서버에 올리되, 유저 눈에는 보이지 않게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(If문)로 숨겨두자"**는 아이디어가 나왔고, 이것이 바로 **피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/))** 또는 **피쳐 토글(Feature Toggle)**이다.
+이를 해결하기 위해 "코드는 무조건 매일매일 메인 브랜치에 합치자([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)"는 철학이 대두되었다. 하지만 미완성된 코드를 서버에 올리면 유저가 에러를 겪게 된다. 이 딜레마를 깨기 위해 <strong>"코드는 매일 합쳐서 서버에 올리되, 유저 눈에는 보이지 않게 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(If문)로 숨겨두자"</strong>는 아이디어가 나왔고, 이것이 바로 <strong>피쳐 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a>)</strong> 또는 <strong>피쳐 토글(Feature Toggle)</strong>이다.
 
 - **📢 섹션 요약 비유**: 아직 내부 공사가 안 끝난 식당 방이 있을 때, 방을 아예 부숴놓는 것(피쳐 브랜치)이 아니라, 방은 다 만들어두되 문을 잠그고 '공사 중' 팻말(피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))을 걸어두어 손님들이 못 들어가게 막아놓는 것이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 런타임 기능 토글의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  피쳐 플래그 런타임 기능 토글                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피쳐 플래그 런타임 기능 토글</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 런타임 기능 토글가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -107,7 +106,7 @@ tags = ["studynote-software-engineering"]
 
 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 도입하면 '개발팀의 배포(Deploy)'와 '사업팀의 출시(Release)'가 완벽하게 분리된다. 개발팀은 금요일 퇴근 전에도 부담 없이 서버에 코드를 배포할 수 있고, 사업팀은 월요일 아침 9시 정각에 마케팅 버튼을 눌러 신규 이벤트를 대중에게 공개할 수 있다.
 
-결론적으로 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 단순한 `if`문이 아니다. [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)([Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))을 가능하게 하고, A/B 테스트로 비즈니스를 검증하며, 장애 발생 시 1초 만에 기능을 꺼버리는(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) **현대적 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 SRE의 핵심 인프라**다. 
+결론적으로 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 단순한 `if`문이 아니다. [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)([Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/))을 가능하게 하고, A/B 테스트로 비즈니스를 검증하며, 장애 발생 시 1초 만에 기능을 꺼버리는(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) <strong>현대적 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)과 SRE의 핵심 인프라</strong>다. 
 
 - **📢 섹션 요약 비유**: 옛날엔 연극 무대(서버)를 바꿀 때마다 커튼을 내리고 관객(유저)들을 밖으로 쫓아내야 했다. 피쳐 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 관객들이 연극을 보는 와중에도 무대 뒤에서 몰래 다음 세트를 조립하고, 조명 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 순식간에 배경을 바꾸는 마법의 연출 기법이다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-피쳐 플래그 런타임 기능 토글 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피쳐 플래그 런타임 기능 토글 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

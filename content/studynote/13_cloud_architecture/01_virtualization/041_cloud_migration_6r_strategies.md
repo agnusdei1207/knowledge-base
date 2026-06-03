@@ -18,36 +18,36 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 개요
 
-```
-Cloud Migration 6R 전략:
 
-[Retire] 폐기
-  더 이상 사용하지 않는 시스템 종료
-  클라우드 이전 없이 제거
-  비율: 포트폴리오의 10~20%
-  
-[Retain] 유지 (보류)
-  현재는 클라우드 이전 불필요 또는 불가
-  레거시 의존성, 규제, 라이선스 문제
-  
-[Rehost] 리호스트 (Lift & Shift)
-  수정 없이 그대로 클라우드 VM으로 이전
-  빠르고 낮은 위험
-  클라우드 최적화 없음 (비용 절감 제한)
-  
-[Replatform] 리플랫폼 (Lift, Tinker & Shift)
-  핵심 아키텍처 유지, 일부 클라우드 서비스 활용
-  예: DB → RDS 이관, 앱서버 → 관리형 컨테이너
-  
-[Repurchase] 재구매 (Drop & Shop)
-  기존 솔루션 폐기 후 SaaS 전환
-  예: 온프레미스 CRM → Salesforce
-  
-[Refactor] 재설계 (Re-architect)
-  클라우드 네이티브로 완전 재설계
-  마이크로서비스, 서버리스, 컨테이너
-  최고 비용·시간, 최대 클라우드 효과
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cloud Migration 6R 전략:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Retire</div><div class="kb-diagram-note">폐기</div></div>
+<div class="kb-diagram-note">더 이상 사용하지 않는 시스템 종료</div>
+<div class="kb-diagram-note">클라우드 이전 없이 제거</div>
+<div class="kb-diagram-note">비율: 포트폴리오의 10~20%</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Retain</div><div class="kb-diagram-note">유지 (보류)</div></div>
+<div class="kb-diagram-note">현재는 클라우드 이전 불필요 또는 불가</div>
+<div class="kb-diagram-note">레거시 의존성, 규제, 라이선스 문제</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rehost</div><div class="kb-diagram-note">리호스트 (Lift &amp; Shift)</div></div>
+<div class="kb-diagram-note">수정 없이 그대로 클라우드 VM으로 이전</div>
+<div class="kb-diagram-note">빠르고 낮은 위험</div>
+<div class="kb-diagram-note">클라우드 최적화 없음 (비용 절감 제한)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Replatform</div><div class="kb-diagram-note">리플랫폼 (Lift, Tinker &amp; Shift)</div></div>
+<div class="kb-diagram-note">핵심 아키텍처 유지, 일부 클라우드 서비스 활용</div>
+<div class="kb-diagram-note">예: DB → RDS 이관, 앱서버 → 관리형 컨테이너</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repurchase</div><div class="kb-diagram-note">재구매 (Drop &amp; Shop)</div></div>
+<div class="kb-diagram-note">기존 솔루션 폐기 후 SaaS 전환</div>
+<div class="kb-diagram-note">예: 온프레미스 CRM → Salesforce</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Refactor</div><div class="kb-diagram-note">재설계 (Re-architect)</div></div>
+<div class="kb-diagram-note">클라우드 네이티브로 완전 재설계</div>
+<div class="kb-diagram-note">마이크로서비스, 서버리스, 컨테이너</div>
+<div class="kb-diagram-note">최고 비용·시간, 최대 클라우드 효과</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 6R은 이사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 버리기(Retire), 냅두기(Retain), 그대로 옮기기(Rehost), 일부 업그레이드(Replatform), 새로 구입(Repurchase), 완전 리모델링([Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)).
 
@@ -90,39 +90,37 @@ Refactor 특징:
 
 ## Ⅲ. 포트폴리오 분석 방법
 
-```
-애플리케이션 포트폴리오 분석:
 
-1. 인벤토리 수집:
-   모든 앱, 서버, DB, 의존성 파악
-   7R 질문: 주요 기능, 사용 빈도, 기술 부채
 
-2. 평가 기준:
-   비즈니스 가치 (높음/중간/낮음)
-   기술 복잡도 (높음/중간/낮음)
-   클라우드 이전 용이성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애플리케이션 포트폴리오 분석:</div>
+<div class="kb-diagram-note">1. 인벤토리 수집:</div>
+<div class="kb-diagram-note">모든 앱, 서버, DB, 의존성 파악</div>
+<div class="kb-diagram-note">7R 질문: 주요 기능, 사용 빈도, 기술 부채</div>
+<div class="kb-diagram-note">2. 평가 기준:</div>
+<div class="kb-diagram-note">비즈니스 가치 (높음/중간/낮음)</div>
+<div class="kb-diagram-note">기술 복잡도 (높음/중간/낮음)</div>
+<div class="kb-diagram-note">클라우드 이전 용이성</div>
+<div class="kb-diagram-note">3. 분류 매트릭스:</div>
+<div class="kb-diagram-note">비즈니스 가치</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 높음</div><div class="kb-diagram-cell">Replatform</div><div class="kb-diagram-cell">Refactor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">Rehost</div><div class="kb-diagram-cell">Replatform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">Retire</div><div class="kb-diagram-cell">Retain</div></div>
+<div class="kb-diagram-note">낮음 높음</div>
+<div class="kb-diagram-note">기술 복잡도</div>
+<div class="kb-diagram-note">4. 마이그레이션 파동 (Wave) 계획:</div>
+<div class="kb-diagram-note">Wave 1 (3~6개월): 간단한 Rehost 앱</div>
+<div class="kb-diagram-note">Wave 2 (6~12개월): Replatform 앱</div>
+<div class="kb-diagram-note">Wave 3 (12~24개월): Refactor 핵심 앱</div>
+<div class="kb-diagram-note">5. 의존성 분석:</div>
+<div class="kb-diagram-note">앱 간 의존성 맵 → 이전 순서 결정</div>
+<div class="kb-diagram-note">사이클릭 의존성 해소 후 이전</div>
+</div>
+</div>
 
-3. 분류 매트릭스:
 
-  비즈니스 가치
-  ↑ 높음  | Replatform | Refactor    |
-           | 또는       |             |
-  중간     | Rehost     | Replatform  |
-           |            |             |
-  낮음     | Retire     | Retain      |
-           +------------+-------------→
-                낮음         높음
-                  기술 복잡도
-
-4. 마이그레이션 파동 (Wave) 계획:
-   Wave 1 (3~6개월): 간단한 Rehost 앱
-   Wave 2 (6~12개월): Replatform 앱
-   Wave 3 (12~24개월): Refactor 핵심 앱
-
-5. 의존성 분석:
-   앱 간 의존성 맵 → 이전 순서 결정
-   사이클릭 의존성 해소 후 이전
-```
 
 > 📢 **섹션 요약 비유**: 포트폴리오 분석은 이사 짐 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 자주 쓰는 것(가치 높음)은 먼저, 무거운 것(복잡한 것)은 나중에, 쓸모없는 것(폐기)은 버리기.
 
@@ -172,44 +170,41 @@ Refactor:
 
 ## Ⅴ. 실무 시나리오 — 금융기관 클라우드 전환
 
-```
-금융기관 B사 클라우드 전환 사례:
 
-배경:
-  온프레미스 220개 애플리케이션
-  데이터센터 계약 만료 18개월
-  
-포트폴리오 분석 결과:
 
-Retire (15개, 6.8%):
-  사용 없는 레거시 시스템
-  즉시 폐기, 비용 절감
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융기관 B사 클라우드 전환 사례:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">온프레미스 220개 애플리케이션</div>
+<div class="kb-diagram-note">데이터센터 계약 만료 18개월</div>
+<div class="kb-diagram-note">포트폴리오 분석 결과:</div>
+<div class="kb-diagram-note">Retire (15개, 6.8%):</div>
+<div class="kb-diagram-note">사용 없는 레거시 시스템</div>
+<div class="kb-diagram-note">즉시 폐기, 비용 절감</div>
+<div class="kb-diagram-note">Retain (25개, 11.4%):</div>
+<div class="kb-diagram-note">규제/컴플라이언스 제약 시스템</div>
+<div class="kb-diagram-note">온프레미스 유지 (하이브리드)</div>
+<div class="kb-diagram-note">Rehost (120개, 54.5%):</div>
+<div class="kb-diagram-note">Wave 1~2에서 빠른 이전</div>
+<div class="kb-diagram-note">평균 이전 기간: 4.2주/앱</div>
+<div class="kb-diagram-note">비용 절감: 18%</div>
+<div class="kb-diagram-note">Replatform (35개, 15.9%):</div>
+<div class="kb-diagram-note">DB → RDS, 앱서버 → ECS 이관</div>
+<div class="kb-diagram-note">관리 부담 40% 감소</div>
+<div class="kb-diagram-note">Repurchase (10개, 4.5%):</div>
+<div class="kb-diagram-note">HR, 이메일 → SaaS 전환</div>
+<div class="kb-diagram-note">Refactor (15개, 6.8%):</div>
+<div class="kb-diagram-note">핵심 거래 시스템 MSA 재설계</div>
+<div class="kb-diagram-note">Wave 3 (12~24개월)</div>
+<div class="kb-diagram-note">결과 (18개월 완료):</div>
+<div class="kb-diagram-note">인프라 비용: 35% 절감</div>
+<div class="kb-diagram-note">장애 복구 시간(RTO): 4시간 → 15분</div>
+<div class="kb-diagram-note">배포 빈도: 월 2회 → 주 3회</div>
+</div>
+</div>
 
-Retain (25개, 11.4%):
-  규제/컴플라이언스 제약 시스템
-  온프레미스 유지 (하이브리드)
 
-Rehost (120개, 54.5%):
-  Wave 1~2에서 빠른 이전
-  평균 이전 기간: 4.2주/앱
-  비용 절감: 18%
-
-Replatform (35개, 15.9%):
-  DB → RDS, 앱서버 → ECS 이관
-  관리 부담 40% 감소
-
-Repurchase (10개, 4.5%):
-  HR, 이메일 → SaaS 전환
-
-Refactor (15개, 6.8%):
-  핵심 거래 시스템 MSA 재설계
-  Wave 3 (12~24개월)
-
-결과 (18개월 완료):
-  인프라 비용: 35% 절감
-  장애 복구 시간(RTO): 4시간 → 15분
-  배포 빈도: 월 2회 → 주 3회
-```
 
 > 📢 **섹션 요약 비유**: 금융기관 6R 전환은 대형 병원 이전 — ICU(핵심 거래)는 정밀 [Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/), 일반 병실(일반 앱)은 빠른 Rehost, 쓰지 않는 장비는 폐기.
 

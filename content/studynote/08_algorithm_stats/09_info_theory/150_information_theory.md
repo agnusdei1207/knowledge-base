@@ -41,7 +41,7 @@ I(x) = -log₂ P(x)   [단위: bit]
 - P(x) = 0.5 (동전 앞면) → I = 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
 - P(x) = 1/8 → I = 3 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (드문 사건, 높은 정보량)
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 밑이 2이면 **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**, e이면 **나트 ([nat](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))**, 10이면 **하틀리 (hartley)** 단위가 된다.
+[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 밑이 2이면 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">bit</a>)</strong>, e이면 <strong>나트 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">nat</a>)</strong>, 10이면 **하틀리 (hartley)** 단위가 된다.
 
 📢 **섹션 요약 비유**: 정보량은 "깜짝 상자"와 같다 — 열어봤을 때 놀랄수록 ([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 낮을수록) 상자 안 선물이 크다(정보량이 많다).
 
@@ -51,47 +51,62 @@ I(x) = -log₂ P(x)   [단위: bit]
 
 ### 섀넌 통신 모델
 
-```
-┌──────────┐   메시지   ┌──────────┐   신호   ┌──────────┐
-│  정보원   │──────────>│  송신기   │─────────>│  채널    │
-│ (Source) │           │(Encoder) │          │(+ 잡음)  │
-└──────────┘           └──────────┘          └────┬─────┘
-                                                   │ 수신 신호
-                                              ┌────▼─────┐   메시지   ┌──────────┐
-                                              │  수신기   │──────────>│  수신자  │
-                                              │(Decoder) │           │  (Sink)  │
-                                              └──────────┘           └──────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메시지 신호</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보원</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">송신기</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">채널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source)</div><div class="kb-diagram-cell">(Encoder)</div><div class="kb-diagram-cell">(+ 잡음)</div></div>
+<div class="kb-diagram-note">수신 신호</div>
+<div class="kb-diagram-note">▼ 메시지</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신기</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Decoder)</div><div class="kb-diagram-cell">(Sink)</div></div>
+</div>
+</div>
+
+
 
 ### 섀넌의 핵심 업적 연대표
 
-```
-1948년 ─────────────────────────────────────────────────────────────►
-   │
-   ├─► 자기정보 I(x) = -log₂P(x) 정의
-   ├─► 섀넌 엔트로피 H(X) = -Σ p·log₂p 정의
-   ├─► 소스 부호화 정리 (압축 한계 = 엔트로피)
-   ├─► 채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)
-   ├─► 상호 정보량 I(X;Y) 정의
-   └─► 연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1948년 ►</div>
+<div class="kb-diagram-tree-item" style="--depth:1">자기정보 I(x) = -log₂P(x) 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:1">섀넌 엔트로피 H(X) = -Σ p·log₂p 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:1">소스 부호화 정리 (압축 한계 = 엔트로피)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">상호 정보량 I(X;Y) 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:1">연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)</div>
+</div>
+</div>
+
+
 
 ### 이진 채널 (Binary Channel)
 
-가장 단순한 형태로, 입력 0 또는 1, 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p인 **이진 대칭 채널 ([BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/), Binary Symmetric Channel)**:
+가장 단순한 형태로, 입력 0 또는 1, 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p인 <strong>이진 대칭 채널 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a>, Binary Symmetric Channel)</strong>:
 
-```
-  0 ─────(1-p)────► 0
-    ╲                  
-     (p)              
-       ╲              
-        ► 1          
-  1 ─────(1-p)────► 1
-    ╲                  
-     (p)              
-       ╲              
-        ► 0          
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">0 (1-p) ► 0</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">(p)</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-tree-item" style="--depth:4">1</div>
+<div class="kb-diagram-note">1 (1-p) ► 1</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-note">(p)</div>
+<div class="kb-diagram-note">╲</div>
+<div class="kb-diagram-tree-item" style="--depth:4">0</div>
+</div>
+</div>
+
+
 
 BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/): C = 1 - H(p) = 1 + p·log₂p + (1-p)·log₂(1-p)
 
@@ -114,7 +129,7 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 - **열역학**: 볼츠만 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) S = k_B·ln(W) — 섀넌 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 수학적으로 동일한 구조
 - **통계학**: 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원리 → 사전 지식이 없을 때 균등분포가 최선
-- **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)**: [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실, KL (Kullback-Leibler) 다이버전스, [상호 정보량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/) 기반 특성 선택
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a></strong>: [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실, KL (Kullback-Leibler) 다이버전스, [상호 정보량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/152_mutual_information/) 기반 특성 선택
 
 📢 **섹션 요약 비유**: 정보이론과 열역학 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 관계는 "쌍둥이 형제"와 같다 — 얼굴(수식)이 똑같이 생겼지만 사는 세계(물리학 vs 수학)가 다르다.
 
@@ -134,9 +149,9 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ### 기술사 판단 포인트
 
-1. **"[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 한계는?"** → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X)가 평균 부호 길이 하한
+1. <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>률 한계는?"</strong> → [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(X)가 평균 부호 길이 하한
 2. **"오류 없는 전송 조건은?"** → 전송률 R < [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/) C
-3. **"[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)로 왜 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)?"** → 최대우도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/))과 동치이기 때문
+3. <strong>"<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>로 왜 <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>?"</strong> → 최대우도 추정([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/))과 동치이기 때문
 
 📢 **섹션 요약 비유**: 섀넌의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)은 "도로 용량"과 같다 — 차선 수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))와 도로 상태(S/N비)가 교통 처리량을 결정하고, 이를 초과하면 교통 체증(오류)이 반드시 발생한다.
 
@@ -144,7 +159,7 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ## Ⅴ. 기대효과 및 결론
 
-정보이론은 **디지털 문명의 수학적 토대**다. 섀넌의 두 부호화 정리는 각각:
+정보이론은 <strong>디지털 문명의 수학적 토대</strong>다. 섀넌의 두 부호화 정리는 각각:
 - **소스 부호화**: 저장/전송 용량의 한계를 알려준다 ([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능 최대치)
 - **채널 부호화**: [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 통신의 가능/불가능 경계를 그어준다
 
@@ -168,26 +183,29 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자기정보]
-    │
-    ▼
-[엔트로피]
-    │
-    ▼
-[채널 용량]
-    │
-    ▼
-[소스 부호화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자기정보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 용량</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스 부호화</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **정보량은 "깜짝 상자"**: 열었을 때 예상 못 한 것이 나올수록 상자가 크다 (희귀할수록 정보가 많다).
-2. **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "상자 크기의 평균"**: 여러 상자를 매일 열면, 평균적으로 얼마나 놀라는지를 나타낸다.
-3. **[채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/)은 "도로의 차선 수"**: 차선이 많고 도로가 좋을수록 동시에 많은 차(정보)를 보낼 수 있다.
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a>는 "상자 크기의 평균"</strong>: 여러 상자를 매일 열면, 평균적으로 얼마나 놀라는지를 나타낸다.
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a>은 "도로의 차선 수"</strong>: 차선이 많고 도로가 좋을수록 동시에 많은 차(정보)를 보낼 수 있다.
 
 ---
 

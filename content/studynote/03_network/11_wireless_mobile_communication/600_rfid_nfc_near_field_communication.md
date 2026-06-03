@@ -19,33 +19,32 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **RFID (Radio Frequency [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))**는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 달린 태그(Tag)와 리더기(Reader)를 무선 전파로 연결해 사물의 ID 정보를 읽는 기술이다. **NFC**는 RFID의 하위 규격 중 하나로, 양방향 통신 기능과 고도의 암호화를 결합해 스마트폰을 교통카드, 신용카드, 도어락 키로 만들어준 10cm 미만의 단거리 자기장 통신 규격이다.
+- **개념**: <strong>RFID (Radio Frequency <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">Identification</a>)</strong>는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 달린 태그(Tag)와 리더기(Reader)를 무선 전파로 연결해 사물의 ID 정보를 읽는 기술이다. <strong>NFC</strong>는 RFID의 하위 규격 중 하나로, 양방향 통신 기능과 고도의 암호화를 결합해 스마트폰을 교통카드, 신용카드, 도어락 키로 만들어준 10cm 미만의 단거리 자기장 통신 규격이다.
 - **필요성**: 슈퍼마켓의 1차원 바코드는 싼 맛에 쓰지만, 직원이 박스 1,000개를 뒤집어가며 하나씩 레이저를 쏴야 하니 인건비가 박살 났다. 바코드 대신 **"지게차가 지나가기만 해도 박스 1,000개의 정보가 전파로 0.1초 만에 한꺼번에 촤르륵 읽히는 무선 태그"**(RFID)가 물류 혁명을 위해 절실했다. 한편, 이 기술을 스마트폰에 넣어 모바일 지갑을 만들려니 전파가 5미터씩 날아가면 옆 사람 폰에서 돈이 결제되는 미친 사고가 터진다. 그래서 **"오직 단말기에 찰싹 댈 때(10cm)만 반응하여, 해커의 엿듣기를 원천 봉쇄하는 초근접 보안 통신망"**(NFC)으로 아키텍처가 갈라져 나오게 되었다.
 - **등장 배경**: ① 군사 레이더의 피아 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(IFF) 기술에서 파생되어 유통/물류(월마트, 국방부)의 바코드 대체용 수동형 태그(RFID) 시장 폭발 → ② 교통카드(Mifare, FeliCa)의 비접촉 IC 카드 13.56MHz 주파수 통일 요구 → ③ NXP, 소니 주도로 이 기술을 스마트폰 칩셋으로 빨아들여 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신까지 구현한 NFC 포럼 결성.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             RFID (물류 광역) vs NFC (결제 초근접) 아키텍처 비교 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1. UHF RFID (극초단파 무선 인식) - "멀리서 한 방에 싹쓸이!"]         │
-│   * 주파수: 900MHz 대역 / 통신 거리: 최대 5~10미터                  │
-│                                                             │
-│   [하이패스 톨게이트 / 창고 리더기] ──(강력한 빔 발사 ⚡️)──▶ 📦 박스 1 │
-│             └──────(반사파로 바코드 번호 1, 2, 3 다 읽어옴!) 📦 박스 2 │
-│   => 결과: 박스가 박스 안에 숨어 있어도 전파가 뚫고 들어가 1,000개를 한 번에 스캔!│
-│                                                             │
-│   [2. NFC (Near Field Communication) - "닿을 듯 말 듯 은밀한 1:1 뽀뽀"] │
-│   * 주파수: 13.56MHz (HF 대역) / 통신 거리: 고작 10cm 이내 (물리적 차단) │
-│                                                             │
-│   [지하철 개찰구 패드] =====(10cm 찰싹!)====▶ [내 📱 스마트폰 교통카드]   │
-│   해커 💻 (1미터 밖에서 도청 시도): "전파가 너무 짧아서 내 기계까지 안 와 ㅠㅠ" │
-│   => 결과: 거리가 극단적으로 짧은 것 자체가 '최고의 물리적 방화벽'이 되어     │
-│            금융 결제(애플페이), 도어락 보안 통신을 위한 유일무이한 표준 등극!  │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** RFID와 NFC는 근본 뿌리는 같으나 쓰임새(아키텍처)가 정반대다. 물류 창고에서 쓰는 900MHz 대역의 **UHF RFID**는 전파의 직진성이 강하고 거리가 멀어 한 번에 다량의 태그를 읽어내는(Anti-collision) '빠른 재고 파악'에 쓰인다. 반면 **NFC**는 13.56MHz의 짧은 자기장 파동을 쓴다. 전파가 10cm만 벗어나면 아예 소멸해버린다. 통신 공학에서 거리가 짧은 것은 보통 약점(단점)이지만, NFC에서는 이 '짧은 통신 거리(Short Range)'가 해커의 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing)과 릴레이 어택을 원천 차단하는 가장 위대한 **'보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 장점'**으로 승화하여 전 세계 모바일 페이(결제) 시장을 100% 집어삼키는 기적이 일어났다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RFID (물류 광역) vs NFC (결제 초근접) 아키텍처 비교 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. UHF RFID (극초단파 무선 인식) - "멀리서 한 방에 싹쓸이!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주파수: 900MHz 대역 / 통신 거리: 최대 5~10미터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이패스 톨게이트 / 창고 리더기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">📦 박스 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(반사파로 바코드 번호 1, 2, 3 다 읽어옴!) 📦 박스 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 박스가 박스 안에 숨어 있어도 전파가 뚫고 들어가 1,000개를 한 번에 스캔!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. NFC (Near Field Communication) - "닿을 듯 말 듯 은밀한 1:1 뽀뽀"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주파수: 13.56MHz (HF 대역) / 통신 거리: 고작 10cm 이내 (물리적 차단)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지하철 개찰구 패드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">내 📱 스마트폰 교통카드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 💻 (1미터 밖에서 도청 시도): "전파가 너무 짧아서 내 기계까지 안 와 ㅠㅠ"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 거리가 극단적으로 짧은 것 자체가 '최고의 물리적 방화벽'이 되어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금융 결제(애플페이), 도어락 보안 통신을 위한 유일무이한 표준 등극!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** RFID와 NFC는 근본 뿌리는 같으나 쓰임새(아키텍처)가 정반대다. 물류 창고에서 쓰는 900MHz 대역의 <strong>UHF RFID</strong>는 전파의 직진성이 강하고 거리가 멀어 한 번에 다량의 태그를 읽어내는(Anti-collision) '빠른 재고 파악'에 쓰인다. 반면 <strong>NFC</strong>는 13.56MHz의 짧은 자기장 파동을 쓴다. 전파가 10cm만 벗어나면 아예 소멸해버린다. 통신 공학에서 거리가 짧은 것은 보통 약점(단점)이지만, NFC에서는 이 '짧은 통신 거리(Short Range)'가 해커의 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing)과 릴레이 어택을 원천 차단하는 가장 위대한 <strong>'보안(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 장점'</strong>으로 승화하여 전 세계 모바일 페이(결제) 시장을 100% 집어삼키는 기적이 일어났다.
 
 - **📢 섹션 요약 비유**: RFID는 학교 운동장 조회 시간에 교장 선생님이 확성기로 "1학년 1반부터 10반까지 다 모였지?!" 하고 한 방에 출석을 부르는 겁니다(넓고 빠름). NFC는 시험을 볼 때 짝꿍이랑 책상 밑으로 10cm 거리에서 몰래 쪽지(비밀번호)를 건네주는 겁니다. 거리가 너무 가까워서 저 멀리 있는 선생님(해커)은 쪽지를 건네는 사실조차 눈치챌 수 없는 극강의 비밀 통신입니다.
 
@@ -55,7 +54,7 @@ tags = ["studynote-network"]
 
 ### 1. 배터리 없이 영원히 사는 마법: 수동형(Passive) 태그의 후방 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)(Backscatter)
 
-100원짜리 스티커 바코드(RFID 태그) 안에는 배터리가 1도 없다. 그런데 리더기가 빔을 쏘면 이 스티커가 자신의 ID 번호를 뿜어내며 응답한다. 이 기적의 원리가 바로 **전자기 유도(NFC)**와 **후방 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)(UHF RFID)** 아키텍처다.
+100원짜리 스티커 바코드(RFID 태그) 안에는 배터리가 1도 없다. 그런데 리더기가 빔을 쏘면 이 스티커가 자신의 ID 번호를 뿜어내며 응답한다. 이 기적의 원리가 바로 <strong>전자기 유도(NFC)</strong>와 <strong>후방 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">산란</a>(UHF RFID)</strong> 아키텍처다.
 
 1. **리더기의 레이저 발사**: 편의점 결제기(리더기)가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 강한 자기장 빔을 계속 뿜어댄다.
 2. **에너지 흡혈귀 (Energy Harvesting)**: 배터리가 없는 100원짜리 태그 스티커가 리더기 근처 10cm 안에 들어오는 순간! 스티커 안에 동글동글 감겨있는 미세한 구리선([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 코일)이 허공의 자기장 에너지를 빨아들여 미세한 직류 전기(DC)를 만들어낸다. 
@@ -65,41 +64,38 @@ tags = ["studynote-network"]
 
 | 작동 모드 (NFC Mode) | 스마트폰의 역할 (Role) | 비즈니스 융합 시나리오 및 기능 |
 |:---|:---|:---|
-| **1. Card Emulation (카드 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 모드)** | 폰이 플라스틱 **신용카드/교통카드로 둔갑**함. | 폰 배터리가 0% 꺼져있어도, 지하철 개찰구(리더기)가 쏘는 자기장 전기만으로 폰 안의 교통카드 칩이 깨어나 요금을 지불하고 문이 열리는 기적. (애플페이, 삼성페이 탑재). |
-| **2. Reader / Writer 모드** | 폰이 직접 **정보를 읽는 리더기(스캐너)**로 변신함. | 박물관 미술 작품 앞에 붙은 100원짜리 NFC 스티커에 폰을 가져다 대면, 폰이 리더기로 작동해 그 스티커의 URL 정보를 읽어 화면에 도슨트 유튜브를 띄워줌. |
-| **3. [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) ([Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/) to [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)) 모드** | 두 폰이 똑같이 **1:1로 양방향 통신**을 맺음. | (과거 안드로이드 빔) 폰 두 개의 등짝을 찰싹 맞대면, 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링 없이 0.1초 만에 서로 명함이나 사진을 전송함. (최근엔 UWB로 대체 중). |
+| <strong>1. Card Emulation (카드 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 모드)</strong> | 폰이 플라스틱 <strong>신용카드/교통카드로 둔갑</strong>함. | 폰 배터리가 0% 꺼져있어도, 지하철 개찰구(리더기)가 쏘는 자기장 전기만으로 폰 안의 교통카드 칩이 깨어나 요금을 지불하고 문이 열리는 기적. (애플페이, 삼성페이 탑재). |
+| **2. Reader / Writer 모드** | 폰이 직접 <strong>정보를 읽는 리더기(스캐너)</strong>로 변신함. | 박물관 미술 작품 앞에 붙은 100원짜리 NFC 스티커에 폰을 가져다 대면, 폰이 리더기로 작동해 그 스티커의 URL 정보를 읽어 화면에 도슨트 유튜브를 띄워줌. |
+| <strong>3. <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/">Peer</a> to <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/">Peer</a>) 모드</strong> | 두 폰이 똑같이 <strong>1:1로 양방향 통신</strong>을 맺음. | (과거 안드로이드 빔) 폰 두 개의 등짝을 찰싹 맞대면, 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링 없이 0.1초 만에 서로 명함이나 사진을 전송함. (최근엔 UWB로 대체 중). |
 
-삼성페이와 애플페이가 절대 해킹당하지 않는 이유다. NFC 통신 칩(라디오)만 달았다고 결제가 되는 게 아니다. 신용카드 번호라는 초특급 기밀을 안드로이드 OS(앱)가 마음대로 읽게 놔두면 100% [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)에 털린다. 이 딜레마를 찢어발긴 것이 **H/W 보안 금고인 SE(Secure Element)**의 융합이다.
+삼성페이와 애플페이가 절대 해킹당하지 않는 이유다. NFC 통신 칩(라디오)만 달았다고 결제가 되는 게 아니다. 신용카드 번호라는 초특급 기밀을 안드로이드 OS(앱)가 마음대로 읽게 놔두면 100% [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)에 털린다. 이 딜레마를 찢어발긴 것이 <strong>H/W 보안 금고인 SE(Secure Element)</strong>의 융합이다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               Apple Pay / 삼성페이의 하드웨어 보안(SE) 아키텍처 시각화 │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [스마트폰 내부 기판 (거대한 방화벽 빗장)]                            │
-│                                                               │
-│   💀 (일반 Android / iOS 앱 구역)                               │
-│       - 카카오톡, 게임, 해킹 바이러스가 득실거리는 위험 구역.              │
-│       - 앱들이 아무리 발악해도 아래 'SE 금고'로는 절대 접근 불가! (물리적 차단)│
-│               ❌ ❌ (방화벽 철벽) ❌ ❌                          │
-│   =========================================================== │
-│                                                               │
-│   🛡️ [SE (Secure Element) 특수 보안 칩 - "오직 하드웨어 직통"]      │
-│       - 내 진짜 신용카드 번호를 암호화 토큰으로 바꿔서 평생 가둬두는 티타늄 금고!│
-│       - 오직 지문 인식기(Face ID)와 NFC 안테나 회로하고만 다이렉트 통신함. │
-│                                                               │
-│   [결제 발생의 찰나]                                              │
-│   (결제 단말기 찰싹!) ====(NFC 13.56MHz 빔)====▶ [폰 안의 SE 금고 칩] │
-│   SE 금고: "어? 단말기가 돈 내라네? 주인님 지문 들어오면 바로 내 안에 있는 │
-│            암호화된 1회용 카드 결제 토큰 단말기로 쏴버려!!"               │
-│                                                               │
-│   => 결과: 폰이 해킹으로 좀비 폰이 되어 있어도 결제 정보는 완벽히 안전함.      │
-│            일반 앱 OS를 거치지 않고 SE 칩과 NFC 안테나가 하드웨어 레벨에서  │
-│            다이렉트로 결제를 쏴버리는 제로 트러스트(Zero Trust) 결제망 완성!│
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이것이 바로 NFC의 **Card Emulation 모드**가 1,000조 원짜리 글로벌 금융 생태계를 제패한 위대한 아키텍처다. 스마트폰 메인보드에는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(스냅드래곤/애플실리콘) 옆에 아주 조그마한 물리적 칩인 **SE(Secure Element, 또는 eSE)**가 별도로 땜질되어 있다. 일반 폰 앱(카카오페이 앱 등)은 이 SE 금고를 열쇠가 없어 열지 못하고, 카드사에 "나 결제 토큰 좀 주세요"라고 인터넷으로 대신 심부름만 해주는 껍데기에 불과하다(HCE 방식도 존재함). 우리가 편의점 단말기에 폰을 대는 순간, 폰의 메인 CPU(OS)는 기절해 있어도 상관없다. 10cm 거리의 NFC 자기장이 직접 SE 금고 칩을 깨우고, SE 칩 안에서 하드웨어적으로 1회용 결제 토큰을 암호화해 뱉어낸다. OS의 붕괴조차 무시해 버리는 궁극의 하드웨어 격리 방벽이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apple Pay / 삼성페이의 하드웨어 보안(SE) 아키텍처 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 내부 기판 (거대한 방화벽 빗장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💀 (일반 Android / iOS 앱 구역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 카카오톡, 게임, 해킹 바이러스가 득실거리는 위험 구역.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱들이 아무리 발악해도 아래 'SE 금고'로는 절대 접근 불가! (물리적 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ ❌ (방화벽 철벽) ❌ ❌</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">SE (Secure Element) 특수 보안 칩 - "오직 하드웨어 직통"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내 진짜 신용카드 번호를 암호화 토큰으로 바꿔서 평생 가둬두는 티타늄 금고!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오직 지문 인식기(Face ID)와 NFC 안테나 회로하고만 다이렉트 통신함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결제 발생의 찰나</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폰 안의 SE 금고 칩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SE 금고: "어? 단말기가 돈 내라네? 주인님 지문 들어오면 바로 내 안에 있는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호화된 1회용 카드 결제 토큰 단말기로 쏴버려!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 폰이 해킹으로 좀비 폰이 되어 있어도 결제 정보는 완벽히 안전함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 앱 OS를 거치지 않고 SE 칩과 NFC 안테나가 하드웨어 레벨에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다이렉트로 결제를 쏴버리는 제로 트러스트(Zero Trust) 결제망 완성!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이것이 바로 NFC의 <strong>Card Emulation 모드</strong>가 1,000조 원짜리 글로벌 금융 생태계를 제패한 위대한 아키텍처다. 스마트폰 메인보드에는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(스냅드래곤/애플실리콘) 옆에 아주 조그마한 물리적 칩인 <strong>SE(Secure Element, 또는 eSE)</strong>가 별도로 땜질되어 있다. 일반 폰 앱(카카오페이 앱 등)은 이 SE 금고를 열쇠가 없어 열지 못하고, 카드사에 "나 결제 토큰 좀 주세요"라고 인터넷으로 대신 심부름만 해주는 껍데기에 불과하다(HCE 방식도 존재함). 우리가 편의점 단말기에 폰을 대는 순간, 폰의 메인 CPU(OS)는 기절해 있어도 상관없다. 10cm 거리의 NFC 자기장이 직접 SE 금고 칩을 깨우고, SE 칩 안에서 하드웨어적으로 1회용 결제 토큰을 암호화해 뱉어낸다. OS의 붕괴조차 무시해 버리는 궁극의 하드웨어 격리 방벽이다.
 
 - **📢 섹션 요약 비유**: 스마트폰의 겉모습(OS와 앱)은 누구나 들락거리는 시끄러운 백화점입니다. 해커가 들어와서 물건을 훔쳐 갈 수 있죠. 하지만 폰 속 깊은 곳의 SE(보안 칩)는 백화점 지하 3층에 숨겨진 비밀 스위스 금고입니다. 백화점이 정전(배터리 0%)이 되거나 좀도둑([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 들어와도, 밖에서 단말기(NFC)를 들이대고 주인 지문이 일치하는 순간에만 비밀 금고 문이 아주 살짝 열려 현금(결제 토큰)만 쏙 던져주고 다시 닫히는 무적의 금고입니다.
 
@@ -122,16 +118,16 @@ RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **상황**: 삼성이 2015년 삼성페이를 내놓으며 전 세계를 휩쓸었다. 당시 애플페이는 전 세계에 도입되고 있었지만, 유독 한국에서는 8년이 넘게 애플페이를 쓸 수가 없어 사용자들이 통곡했다. 한국 편의점에서는 삼성페이만 결제가 됐다.
-2. **원인 (삼성의 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 인프라 해킹 꼼수)**: 당시 식당이나 편의점 결제기 99%는 마그네틱 신용카드(까만 줄)를 긁어서 긁는 소리로 결제하는 구형 기계였다. 애플은 "보안이 완벽한 새로운 NFC 단말기로만 결제해!"라는 완고한 아키텍처를 고집했다(식당 사장님들이 비싼 NFC 기계 20만 원을 사야 함). 
-   - 반면 삼성페이는 폰 뒷면에 **[MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) (Magnetic Secure Transmission)**라는 코일을 박아 넣었다. 삼페를 켜고 구형 카드 결제기에 폰을 갖다 대면, 폰 뒷면이 찌르르 떨리며 **"마치 진짜 플라스틱 카드가 기계 안에서 쓰윽 긁히는 것과 완벽히 똑같은 자기장 전파"**를 뿜어냈다. 기계는 진짜 카드가 긁힌 줄 알고 구형 기계에서도 100% 결제가 뚫려버린 것이다.
+2. <strong>원인 (삼성의 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> 인프라 해킹 꼼수)</strong>: 당시 식당이나 편의점 결제기 99%는 마그네틱 신용카드(까만 줄)를 긁어서 긁는 소리로 결제하는 구형 기계였다. 애플은 "보안이 완벽한 새로운 NFC 단말기로만 결제해!"라는 완고한 아키텍처를 고집했다(식당 사장님들이 비싼 NFC 기계 20만 원을 사야 함). 
+   - 반면 삼성페이는 폰 뒷면에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/">MST</a> (Magnetic Secure Transmission)</strong>라는 코일을 박아 넣었다. 삼페를 켜고 구형 카드 결제기에 폰을 갖다 대면, 폰 뒷면이 찌르르 떨리며 <strong>"마치 진짜 플라스틱 카드가 기계 안에서 쓰윽 긁히는 것과 완벽히 똑같은 자기장 전파"</strong>를 뿜어냈다. 기계는 진짜 카드가 긁힌 줄 알고 구형 기계에서도 100% 결제가 뚫려버린 것이다.
 3. **의사결정 및 결과 (결국 표준 NFC로의 글로벌 천하통일)**:
    - 한국에서 삼성페이는 이 꼼수([MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 역호환성) 덕분에 99%의 점유율을 독식했다.
    - 하지만 마그네틱 결제는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 쉬워 글로벌 금융 보안의 적패였다. 결국 VISA/Master 등 글로벌 카드 연합(EMV)은 "마그네틱 결제를 멸종시키고 100% 무결점 보안인 NFC 탭(Tap) 결제만 허용한다"고 선언했다.
-   - 한국도 애플페이 상륙(현대카드)과 함께 편의점 10만 곳이 거금을 들여 NFC 단말기로 전면 교체(Hardware Upgrade)를 단행했고, 삼성조차 최신 갤럭시폰에서 결국 꼼수였던 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 모듈을 뜯어내 버리며 **NFC가 10년 전쟁 끝에 모바일 페이 인프라의 절대 표준으로 천하통일**을 이루게 되었다.
+   - 한국도 애플페이 상륙(현대카드)과 함께 편의점 10만 곳이 거금을 들여 NFC 단말기로 전면 교체(Hardware Upgrade)를 단행했고, 삼성조차 최신 갤럭시폰에서 결국 꼼수였던 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 모듈을 뜯어내 버리며 <strong>NFC가 10년 전쟁 끝에 모바일 페이 인프라의 절대 표준으로 천하통일</strong>을 이루게 되었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **NFC 태그 금속 표면 부착 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 회사 자재 관리를 위해 1개 500원짜리 얇은 NFC 스티커 태그 1만 장을 사서, 사무실의 철제 캐비닛과 알루미늄 노트북 뒤판에 몽땅 붙여버린 주니어 관리자의 재앙. NFC는 전파(RF)가 아니라 13.56MHz의 **자기장(Magnetic Field)** 렌츠의 법칙으로 충전된다. 얇은 스티커를 쇳덩이(금속 표면) 위에 바로 붙이면, 스마트폰을 대는 순간 폰에서 뿜어진 자기장이 금속판에 모조리 흡수되어 에디 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(와전류)로 소멸해 버린다. 결과? 태그가 전기를 1도 먹지 못하고 완전히 먹통이 된다. 금속 쇠붙이에 태그를 붙이려면 반드시 태그와 금속 사이에 **전파 흡수 방지재(페라이트 시트, Anti-Metal Tag)**가 두껍게 덧대어진 전용 태그 5,000원짜리를 사야만 하는 거대한 물리적 매몰 비용 한계를 명심해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (Mifare Classic 암호화 깨짐 맹신)**: 건물 출입문 도어락을 스마트폰 NFC나 사원증으로 열고 들어갈 때, 20년 전에 나온 싸구려 **Mifare Classic (NFC Type A 칩셋)** 카드를 그대로 쓰는 행위. 이 구형 규격의 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Crypto-1)은 10년 전에 이미 완전히 박살이 나버렸다. 알리익스프레스에서 2만 원짜리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)기(Proxmark3)를 사서 남의 사원증에 1초만 스윽 가져다 대면(NFC 스니핑), 똑같이 복사된 마스터키 카드를 찍어내어 새벽에 회사 출입문을 마음대로 따고 들어올 수 있다. 엔터프라이즈 도어락 인프라 설계자는 반드시 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 수학적으로 불가능한 **Mifare DESFire EV3** 이상의 AES-128급 최신 암호 칩셋 시스템으로 물리 방화벽을 싹 다 업그레이드해야 회사 보안 붕괴를 막을 수 있다.
+- <strong>NFC 태그 금속 표면 부착 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 회사 자재 관리를 위해 1개 500원짜리 얇은 NFC 스티커 태그 1만 장을 사서, 사무실의 철제 캐비닛과 알루미늄 노트북 뒤판에 몽땅 붙여버린 주니어 관리자의 재앙. NFC는 전파(RF)가 아니라 13.56MHz의 **자기장(Magnetic Field)** 렌츠의 법칙으로 충전된다. 얇은 스티커를 쇳덩이(금속 표면) 위에 바로 붙이면, 스마트폰을 대는 순간 폰에서 뿜어진 자기장이 금속판에 모조리 흡수되어 에디 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(와전류)로 소멸해 버린다. 결과? 태그가 전기를 1도 먹지 못하고 완전히 먹통이 된다. 금속 쇠붙이에 태그를 붙이려면 반드시 태그와 금속 사이에 <strong>전파 흡수 방지재(페라이트 시트, Anti-Metal Tag)</strong>가 두껍게 덧대어진 전용 태그 5,000원짜리를 사야만 하는 거대한 물리적 매몰 비용 한계를 명심해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (Mifare Classic 암호화 깨짐 맹신)</strong>: 건물 출입문 도어락을 스마트폰 NFC나 사원증으로 열고 들어갈 때, 20년 전에 나온 싸구려 **Mifare Classic (NFC Type A 칩셋)** 카드를 그대로 쓰는 행위. 이 구형 규격의 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Crypto-1)은 10년 전에 이미 완전히 박살이 나버렸다. 알리익스프레스에서 2만 원짜리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)기(Proxmark3)를 사서 남의 사원증에 1초만 스윽 가져다 대면(NFC 스니핑), 똑같이 복사된 마스터키 카드를 찍어내어 새벽에 회사 출입문을 마음대로 따고 들어올 수 있다. 엔터프라이즈 도어락 인프라 설계자는 반드시 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 수학적으로 불가능한 **Mifare DESFire EV3** 이상의 AES-128급 최신 암호 칩셋 시스템으로 물리 방화벽을 싹 다 업그레이드해야 회사 보안 붕괴를 막을 수 있다.
 
 - **📢 섹션 요약 비유**: 삼성페이의 구형 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 결제는 카세트테이프 플레이어입니다. 폰이 직접 테이프 소리(마그네틱 긁히는 소리)를 내서 옛날 기계를 완벽하게 속여 넘긴 천재적인 꼼수죠([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 최고). 애플페이의 NFC 결제는 최신 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리 꽂기입니다. 옛날 구형 컴퓨터(식당 리더기)에는 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 구멍이 아예 없어서 못 썼지만, 보안이 완벽하고 빠르기 때문에 결국 모든 식당 사장님들이 비싼 돈을 주고 NFC 단말기(최신 컴퓨터)로 다 바꿔야만 했던 기술 독재의 승리입니다.
 
@@ -142,8 +138,8 @@ RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_
 | 구분 | 바코드 / QR 코드 스캔 (광학식) | RFID / NFC 터치 (자기장 방식) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (인식 속도 및 일괄 처리)** | 빛 반사라 1초에 1개씩 직원이 손으로 찍음 | 상자 안 100개 태그를 허공 전파로 1초 컷 | 의류 매장 무인 결제, 창고 재고 파악의 **인건비 90% 소멸 (Bulk 스캔 마법).** |
-| **정량 (보안 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 처리 핑)** | 앱 켜고 바코드 화면 로딩에 5초 딜레이 소요 | 화면 꺼진 상태에서 터치 즉시 0.1초 반응 | 교통카드 개찰구 프리패스와 같은 **마찰 제로(0.1s 컷) 극강의 UX 결제 속도 달성.** |
-| **정성 (보안 및 물리적 방어)** | 사진 찍어 복사(캡처)하면 100% 도용/[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 됨 | SE 금고 칩셋 내장으로 암호화 토큰 발사 | 카카오페이 QR [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 털림을 비웃는, **무단 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 자체가 불가능한 금융권 최고 하드웨어 보안벽.** |
+| <strong>정량 (보안 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 처리 핑)</strong> | 앱 켜고 바코드 화면 로딩에 5초 딜레이 소요 | 화면 꺼진 상태에서 터치 즉시 0.1초 반응 | 교통카드 개찰구 프리패스와 같은 **마찰 제로(0.1s 컷) 극강의 UX 결제 속도 달성.** |
+| **정성 (보안 및 물리적 방어)** | 사진 찍어 복사(캡처)하면 100% 도용/[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 됨 | SE 금고 칩셋 내장으로 암호화 토큰 발사 | 카카오페이 QR [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 털림을 비웃는, <strong>무단 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 자체가 불가능한 금융권 최고 하드웨어 보안벽.</strong> |
 
 ### 미래 전망 및 진화 방향
 - **NFC 포럼의 진화: 배터리 충전 (WLC) 기능의 추가**: 폰을 충전하는 Qi(599번 문서)는 패드가 거대해야 한다. 하지만 무선 이어폰 케이스나 스마트 반지처럼 코딱지만 한 기기에 무거운 충전 코일을 박을 공간이 없다. 최신 NFC 규격(Wireless Charging, WLC)은 폰이 뿜어내는 13.56MHz 자기장을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신뿐만 아니라 아예 "1와트(1W)짜리 미니 충전 빔"으로 마개조했다. 이제 내 폰 뒷면에 방전된 애플 펜슬이나 무선 이어폰을 찰싹 붙이기만 하면(Reverse Charging), NFC [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 작은 배터리를 쏠쏠하게 채워주는 궁극의 하이브리드 만능 칩셋으로 진화했다.
@@ -170,15 +166,19 @@ RFID가 "저 멀리 쌓인 수만 개의 사물을 한눈에 꿰뚫어 보는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무선 충전 전송 원리]
-    │
-    ▼
-[현재 개념: RFID / NFC 프로토콜 기본 구상]
-    │
-    ├──▶ [확장 A: 사물인터넷의 3대 요소]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 충전 전송 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RFID / NFC 프로토콜 기본 구상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사물인터넷의 3대 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기본 구상는 무선 충전 전송 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 사물인터넷의 3대 요소와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

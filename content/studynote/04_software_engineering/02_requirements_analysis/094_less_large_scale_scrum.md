@@ -29,39 +29,34 @@ LeSS (Large-Scale [Scrum](/knowledge-base/studynote/04_software_engineering/unca
 
 LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처'에 있다. 수백 명의 개발자가 팀으로 찢어져 일하더라도 제품은 무조건 하나여야 한다.
 
-1. **단 하나의 [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (One Product Owner, PO)**
+1. <strong>단 하나의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a> (One Product Owner, PO)</strong>
    - 8개 팀에 8명의 가짜 PO([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) PO)를 두는 것을 엄격히 금지한다.
    - 전체 팀을 통틀어 오직 1명의 진짜 PO만이 전체 제품의 비전과 투자 수익률([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)), 일감의 최상위 우선순위를 결정한다.
-2. **단 하나의 [제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) (One [Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))**
+2. <strong>단 하나의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">제품 백로그</a> (One <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/">Product Backlog</a>)</strong>
    - 팀별로 To-Do 리스트를 따로 관리하지 않는다. 8개 팀 전체가 쳐다보는 거대한 마스터 '[제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/)'는 오직 1개뿐이다.
    - [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 시작할 때, 모든 팀이 이 하나의 게시판 앞에 모여 자기가 이번 2주 동안 소화할 일감을 각자의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog)로 가져간다.
-3. **단 하나의 공통 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) (One [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))**
+3. <strong>단 하나의 공통 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> (One <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">Sprint</a>)</strong>
    - 팀마다 시작 날짜를 중구난방으로 운영하지 않는다. 1초의 오차도 없이 8개 팀이 동시에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 출발 총성을 듣는다.
    - 끝나면 다 같이 멈추고 하나의 거대한 '통합된 제품 증가분 (Increment)'을 함께 시연하고 검토(리뷰)한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조               │
-├──────────────────────────────────────────────────────────────┤
-│               [ 1 Product Owner (PO) ]                       │
-│                         │ (전체 우선순위 결정)                     │
-│                         ▼                                    │
-│             [ 1 Product Backlog (마스터) ]                     │
-│                         │ (일감을 팀별로 배분)                     │
-│         ┌───────────────┼───────────────┐                  │
-│         ▼               ▼               ▼                  │
-│   [Team 1 Backlog] [Team 2 Backlog] [Team 8 Backlog]         │
-│         │               │               │                  │
-│         └───────────────┼───────────────┘                  │
-│                         ▼                                    │
-│                [ 1 Common Sprint ]                           │
-│              (모든 팀이 동시에 시작하고 종료)                       │
-│                         │                                    │
-│                         ▼                                    │
-│             [ 1 Integrated Increment ]                       │
-│              (통합된 단 하나의 거대한 제품 완성)                     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 Product Owner (PO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 우선순위 결정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 Product Backlog (마스터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일감을 팀별로 배분)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Team 1 Backlog</div><div class="kb-diagram-node">Team 2 Backlog</div><div class="kb-diagram-node">Team 8 Backlog</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 Common Sprint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 팀이 동시에 시작하고 종료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1 Integrated Increment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합된 단 하나의 거대한 제품 완성)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 각 팀이 물리적으로 찢어져 코드를 짜더라도, 지시를 내리는 뇌(PO)와 통합되어 나오는 결과물(Increment)은 철저하게 한 몸처럼 맞물려 돌아가는 LeSS의 이상적인 뼈대를 보여준다.
 
@@ -77,8 +72,8 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
 |:---|:---|:---|
 | **철학과 방향성** | 룰을 최소화하여 민첩성 극대화 (미니멀리즘) | 기존 엔터프라이즈 구조 포용을 위한 계층 추가 |
 | **적용 규모의 한계** | 2~8개 팀 (약 50~100명 내외) 최적 | 수백~수천 명의 거대 조직도 가능 |
-| **PO ([제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/))** | 수개 팀을 1명의 진짜 PO가 통제 | 팀별 PO와 그 위를 덮는 PM, [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) Owner 등 계층화 |
-| **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 계획 구조** | 단일 백로그를 기반으로 대표자 분업 기반 회의 | [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) (Program Increment) Planning이라는 거대 기차 탑승 |
+| <strong>PO (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/">제품 책임자</a>)</strong> | 수개 팀을 1명의 진짜 PO가 통제 | 팀별 PO와 그 위를 덮는 PM, [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) Owner 등 계층화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 계획 구조</strong> | 단일 백로그를 기반으로 대표자 분업 기반 회의 | [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) (Program Increment) Planning이라는 거대 기차 탑승 |
 
 조직이 유연한 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 문화를 이미 뼛속까지 이해하고 있다면 LeSS가 압도적인 속도를 내지만, 기존 대기업의 계층과 예산 승인 절차를 무시하기 어렵다면 관리의 안정감을 주는 SAFe를 선택할 수밖에 없다. LeSS는 개발자 중심적이고 본질 지향적인 반면 도입의 허들이 높다.
 
@@ -90,12 +85,12 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
 
 수십 명이 한 방에서 백로그를 나누면 시장통이 된다. LeSS는 이 [스프린트 계획 회의](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/)([Sprint Planning](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/068_sprint_planning/))를 2단계 분업으로 영리하게 쪼개어 병목을 뚫는다.
 
-- **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 플래닝 1부 (거시적 분배)**: 8개 팀의 '대표자(대사)' 1~2명씩만 PO와 만난다. PO가 "이번 주엔 이 20개 기능을 쳐냅시다" 하면, 각 팀 대표들이 "우린 1번, 2번", "우린 3번" 하며 큼직한 일감을 굵직하게 팀으로 가져온다. 수백 명이 동시에 논쟁하는 오버헤드를 원천 차단한다.
-- **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 플래닝 2부 (미시적 쪼개기)**: 대표가 자기 팀원(개발자 7명)들에게 돌아와 텐트를 친다. 방금 받아온 일감을 어떻게 코딩 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 분배할지 디테일하게 작전을 짠다. 이때 옆 텐트에서 연관된 코드를 짜는 타 팀과 즉석에서 대화하며 크로스 팀 의존성을 현장에서 바로 풀어버린다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 플래닝 1부 (거시적 분배)</strong>: 8개 팀의 '대표자(대사)' 1~2명씩만 PO와 만난다. PO가 "이번 주엔 이 20개 기능을 쳐냅시다" 하면, 각 팀 대표들이 "우린 1번, 2번", "우린 3번" 하며 큼직한 일감을 굵직하게 팀으로 가져온다. 수백 명이 동시에 논쟁하는 오버헤드를 원천 차단한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 플래닝 2부 (미시적 쪼개기)</strong>: 대표가 자기 팀원(개발자 7명)들에게 돌아와 텐트를 친다. 방금 받아온 일감을 어떻게 코딩 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 분배할지 디테일하게 작전을 짠다. 이때 옆 텐트에서 연관된 코드를 짜는 타 팀과 즉석에서 대화하며 크로스 팀 의존성을 현장에서 바로 풀어버린다.
 
-**기술사 판단 (도입 주의사항 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**
-1. **가짜 PO ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) PO) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: PO 1명이 8개 팀을 상대하려니 벅차서, 비공식적인 팀장이나 분석가를 가짜 PO로 세운다. 이 순간 1-1-1 구조는 무너지고 각자 다른 방향으로 배가 산으로 간다.
-2. **독립된 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 팀 구성 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 팀 1은 DB만, 팀 2는 프론트엔드만 짜는 식의 기능 중심 조직은 LeSS에서 악몽이다. 한 기능(스토리)을 완성하기 위해 두 팀이 끝나기를 무한정 기다려야 하므로, 반드시 모든 팀을 [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 개발이 가능한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 팀 (Feature Team)으로 구성해야 한다.
+<strong>기술사 판단 (도입 주의사항 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>
+1. <strong>가짜 PO (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> PO) <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: PO 1명이 8개 팀을 상대하려니 벅차서, 비공식적인 팀장이나 분석가를 가짜 PO로 세운다. 이 순간 1-1-1 구조는 무너지고 각자 다른 방향으로 배가 산으로 간다.
+2. <strong>독립된 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 팀 구성 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 팀 1은 DB만, 팀 2는 프론트엔드만 짜는 식의 기능 중심 조직은 LeSS에서 악몽이다. 한 기능(스토리)을 완성하기 위해 두 팀이 끝나기를 무한정 기다려야 하므로, 반드시 모든 팀을 [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 개발이 가능한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 팀 (Feature Team)으로 구성해야 한다.
 
 - **📢 섹션 요약 비유**: 1부는 부족의 추장들만 모여 "우리는 사슴을 잡고, 너희는 멧돼지를 잡자"고 큰 사냥감을 결정하는 회의고, 2부는 각 부족의 사냥꾼들이 모여 "내가 창을 들게, 넌 그물을 던져"라며 실제 사냥 전술을 짜고 다른 부족과 협력하는 현장 작전 회의다.
 
@@ -115,35 +110,37 @@ LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))** | LeSS와 쌍벽을 이루는 경쟁 체제, 철저하게 상위 계층과 포트폴리오를 관리하려 드는 무거운 엔터프라이즈 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) |
-| **가짜 PO ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Product Owner)** | LeSS가 가장 혐오하는 직책. PO의 권한을 대리하려는 순간 방향성이 쪼개지는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) |
-| **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 팀 (Feature Team)** | UI부터 DB까지 기능의 처음과 끝을 혼자 다 짤 수 있는 독립적 팀. LeSS가 원활히 작동하기 위한 필수 전제조건 |
-| **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 ([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) Backlog)** | 공통 마스터 백로그에서 떼어와 2주 동안 우리 팀이 박살 내기로 약속한 현장 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 리스트 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>)</strong> | LeSS와 쌍벽을 이루는 경쟁 체제, 철저하게 상위 계층과 포트폴리오를 관리하려 드는 무거운 엔터프라이즈 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) |
+| <strong>가짜 PO (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> Product Owner)</strong> | LeSS가 가장 혐오하는 직책. PO의 권한을 대리하려는 순간 방향성이 쪼개지는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 팀 (Feature Team)</strong> | UI부터 DB까지 기능의 처음과 끝을 혼자 다 짤 수 있는 독립적 팀. LeSS가 원활히 작동하기 위한 필수 전제조건 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 백로그 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">Sprint</a> Backlog)</strong> | 공통 마스터 백로그에서 떼어와 2주 동안 우리 팀이 박살 내기로 약속한 현장 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 리스트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 애자일 (Scrum 1개 팀, 10명 내외)
-    │
-    ▼
-대형 프로젝트 확장 요구 (50명 이상) 및 팀 간 의존성 문제 발생
-    │
-    ▼
-대규모 확장 체제 분기: 관료적 통제 강화 (SAFe) vs 룰 단순화 극대화 (LeSS)
-    │
-    ▼
-1-1-1 구조 확립 (1 PO, 1 Backlog, 1 Sprint)
-    │
-    ▼
-스프린트 계획 1부/2부 분업 체계 (Sprint Planning 1 & 2) 및 동기화 구현
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 애자일 (Scrum 1개 팀, 10명 내외)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대형 프로젝트 확장 요구 (50명 이상) 및 팀 간 의존성 문제 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 확장 체제 분기: 관료적 통제 강화 (SAFe) vs 룰 단순화 극대화 (LeSS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1-1-1 구조 확립 (1 PO, 1 Backlog, 1 Sprint)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스프린트 계획 1부/2부 분업 체계 (Sprint Planning 1 &amp; 2) 및 동기화 구현</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 규모를 키워야 할 때 통제를 늘릴 것인가 룰을 깎아낼 것인가의 기로에서 미니멀리즘으로 뻗어나간 LeSS의 방향성을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 친구들 50명이 다 같이 하나의 커다란 레고 성을 만들려면, 조장이 여러 명이면 싸움만 나고 성이 이상해져요 (복잡성 폭발).
-2. **LeSS**는 50명 중에 **딱 1명만 설계도(백로그)를 들고 대장(PO) 역할**을 하게 만들어서 헷갈림을 없애는 완벽한 규칙이에요.
+2. <strong>LeSS</strong>는 50명 중에 <strong>딱 1명만 설계도(백로그)를 들고 대장(PO) 역할</strong>을 하게 만들어서 헷갈림을 없애는 완벽한 규칙이에요.
 3. 그리고 대장이 큰 덩어리를 나눠주면, 작은 팀들끼리는 알아서 오순도순 상의하며 끼워 맞추기 때문에 멋진 성이 순식간에 완성된답니다!
 
 ---

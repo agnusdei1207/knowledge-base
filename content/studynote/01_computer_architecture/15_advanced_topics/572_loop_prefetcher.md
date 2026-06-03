@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 단순 next-line prefetch만으로는 이런 상황을 충분히 잡기 어렵다. 루프 안에는 `A[i]`, `B[i]`, `C[i+1]`처럼 서로 다른 stride를 가진 여러 stream이 섞일 수 있고, load를 누가 만들었는지에 따라 다음 주소가 달라지기 때문이다. 루프 프리패처는 바로 이 load 명령의 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))를 기준으로 패턴을 따로 추적하여, 루프가 반복될수록 더 정확하게 앞질러 간다.
 
-즉 이 장치는 "메모리가 느리다"는 사실을 바꾸지 않는다. 대신 **필요한 시점보다 먼저 요청을 보내는 방식으로 느린 시간을 미리 써 버리는 것**이 핵심이다.
+즉 이 장치는 "메모리가 느리다"는 사실을 바꾸지 않는다. 대신 <strong>필요한 시점보다 먼저 요청을 보내는 방식으로 느린 시간을 미리 써 버리는 것</strong>이 핵심이다.
 
 - **📢 섹션 요약 비유**: 루프 프리패처는 반복해서 같은 재료를 쓰는 요리사를 보고, 다음에 필요한 재료를 먼저 꺼내 놓는 보조 요리사와 같다. 부탁받고 움직이면 늦지만, 패턴을 읽고 움직이면 주방이 훨씬 빨라진다.
 
@@ -33,7 +33,7 @@ tags = ["studynote-computer-architecture"]
 
 루프 프리패처의 기본 재료는 간단하다. 특정 load 명령의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 직전 접근 주소, 직전 [stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/), [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/), 그리고 얼마나 앞서서 가져올지에 대한 distance를 기록한다. 보통 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 예측 테이블 ([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Prediction Table, RPT) 같은 구조가 이를 맡고, 같은 stride가 반복되면 해당 load를 "예측 가능한 loop [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)"으로 승격한다.
 
-핵심은 학습과 발행이 분리된다는 점이다. 처음 두세 번은 패턴을 관찰하고, 그다음부터는 현재 demand보다 몇 반복 앞선 주소에 prefetch를 건다. 이 선행 거리는 대략 **메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) / 루프의 반복 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 속도**에 맞춰야 한다. 너무 가까우면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늦게 도착하고, 너무 멀면 필요하기 전에 캐시에서 밀려난다.
+핵심은 학습과 발행이 분리된다는 점이다. 처음 두세 번은 패턴을 관찰하고, 그다음부터는 현재 demand보다 몇 반복 앞선 주소에 prefetch를 건다. 이 선행 거리는 대략 <strong>메모리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> / 루프의 반복 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 속도</strong>에 맞춰야 한다. 너무 가까우면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늦게 도착하고, 너무 멀면 필요하기 전에 캐시에서 밀려난다.
 
 | 필드 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -45,18 +45,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 루프 프리패처가 패턴을 배우고 앞질러 가는 과정을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Load PC = L1 : A[0] -> A[1] -> A[2] -> A[3]                                │
-│                  Δ=+64B   Δ=+64B   Δ=+64B                                  │
-│                         confidence up                                        │
-│                                                                            │
-│ Demand   : A[i] ------ A[i+1] ------ A[i+2] ------ A[i+3]                 │
-│ Prefetch :        A[i+2] ------ A[i+3] ------ A[i+4] ------ A[i+5]        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Load PC = L1 : A</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δ=+64B Δ=+64B Δ=+64B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">confidence up</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Demand : A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+1</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+2</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Prefetch : A</div><div class="kb-diagram-node">i+2</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+3</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+4</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+5</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 친구가 계단을 두 칸씩 오르는 걸 몇 번 보면, 다음에도 같은 간격으로 올라갈 거라 짐작할 수 있다. 루프 프리패처는 그 짐작을 메모리 요청으로 바꾸는 친구다.
 
@@ -64,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-루프 프리패처는 [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) prefetcher와 닮았지만 추적 단위가 다르다. [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) prefetcher가 주소 흐름 전체를 보며 "대체로 앞으로 간다"를 잡는다면, 루프 프리패처는 **특정 load 명령마다 별도 패턴을 학습**한다. 그래서 하나의 루프 안에 여러 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 접근이 섞여 있어도 각각을 따로 다룰 수 있다.
+루프 프리패처는 [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) prefetcher와 닮았지만 추적 단위가 다르다. [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) prefetcher가 주소 흐름 전체를 보며 "대체로 앞으로 간다"를 잡는다면, 루프 프리패처는 <strong>특정 load 명령마다 별도 패턴을 학습</strong>한다. 그래서 하나의 루프 안에 여러 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 접근이 섞여 있어도 각각을 따로 다룰 수 있다.
 
 또한 소프트웨어 프리패칭과의 경계도 중요하다. 하드웨어 루프 프리패처는 실행 중 패턴이 바뀌면 바로 적응할 수 있지만, 복잡한 pointer chasing이나 간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)는 잘 못한다. 반대로 컴파일러가 넣는 software prefetch는 개발자가 의도를 직접 반영할 수 있지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 증가와 코드 유지 비용이 따른다. 따라서 현대 시스템은 둘을 경쟁 관계보다 보완 관계로 보는 편이 맞다.
 
@@ -112,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 모든 루프에 만능은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 복잡해질수록 [stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 가정이 깨지고, 멀티코어 환경에서는 다른 코어의 demand traffic과 충돌해 부작용이 커질 수 있다. 앞으로는 adaptive distance, [confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)-aware throttling, software [hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 결합처럼 **규칙적인 루프에서는 공격적으로, 불규칙 루프에서는 조심스럽게** 움직이는 방향으로 진화할 가능성이 높다.
 
-결론적으로 루프 프리패처는 반복문의 규칙성을 이용해 **메모리 요청 시점을 앞당기는 시간 번역기**로 기억하면 된다. 핵심은 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 것이 아니라, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 이른 시간축으로 옮기는 데 있다.
+결론적으로 루프 프리패처는 반복문의 규칙성을 이용해 <strong>메모리 요청 시점을 앞당기는 시간 번역기</strong>로 기억하면 된다. 핵심은 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 것이 아니라, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 더 이른 시간축으로 옮기는 데 있다.
 
 - **📢 섹션 요약 비유**: 좋은 여행 가이드는 목적지를 바꾸지 않지만, 줄 서는 시간을 피해 미리 표를 끊어 둔다. 루프 프리패처도 같은 일을 메모리 세계에서 한다.
 
@@ -131,24 +133,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Next-Line Prefetch
-        │
-        ▼
-Stream Prefetch
-        │
-        ▼
-PC-Based Stride / Loop Prefetch
-        │
-        ▼
-Adaptive Degree · Distance Control
-        │
-        ▼
-Software Hint + Hardware Hybrid
-        │
-        ▼
-Irregular Pattern 대응 Adaptive Prefetch
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Next-Line Prefetch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Stream Prefetch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PC-Based Stride / Loop Prefetch</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adaptive Degree · Distance Control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Software Hint + Hardware Hybrid</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Irregular Pattern 대응 Adaptive Prefetch</div>
+</div>
+</div>
+
+
 
 이 흐름은 프리패칭이 단순 인접 블록 읽기에서 시작해, 이제는 loop 구조와 workload 특성에 따라 공격성과 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 조절하는 방향으로 발전하고 있음을 보여 준다.
 

@@ -23,25 +23,28 @@ AVL 트리는 1962년 G.M. Adelson-Velsky와 E.M. Landis가 발표한 최초의 
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-```text
-      [Unbalanced: BF=2]           [Balanced: BF=0]
-          [ 30 ]                       [ 20 ]
-          /    \                       /    \
-        [ 20 ] (Leaf)  --[Rotation]-->[ 10 ] [ 30 ]
-        /                                (Balanced AVL)
-      [ 10 ] (New)
-     (LL Case)
 
-   [Rotation Patterns: 4 Actions]
-   1. LL (Left-Left): Right Rotation (우회전 1회)
-   2. RR (Right-Right): Left Rotation (좌회전 1회)
-   3. LR (Left-Right): Left Rot -> Right Rot (좌-우회전 2회)
-   4. RL (Right-Left): Right Rot -> Left Rot (우-좌회전 2회)
 
-   [Balance Factor (BF) Calculation]
-   BF = Height(Left Subtree) - Height(Right Subtree)
-   Condition: |BF| <= 1
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unbalanced: BF=2</div><div class="kb-diagram-node">Balanced: BF=0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">30</div><div class="kb-diagram-node">20</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20</div><div class="kb-diagram-note">(Leaf) --</div><div class="kb-diagram-node">Rotation</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">10</div><div class="kb-diagram-node">30</div></div>
+<div class="kb-diagram-note">/ (Balanced AVL)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-note">(New)</div></div>
+<div class="kb-diagram-note">(LL Case)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rotation Patterns: 4 Actions</div></div>
+<div class="kb-diagram-note">1. LL (Left-Left): Right Rotation (우회전 1회)</div>
+<div class="kb-diagram-note">2. RR (Right-Right): Left Rotation (좌회전 1회)</div>
+<div class="kb-diagram-note">3. LR (Left-Right): Left Rot -&gt; Right Rot (좌-우회전 2회)</div>
+<div class="kb-diagram-note">4. RL (Right-Left): Right Rot -&gt; Left Rot (우-좌회전 2회)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Balance Factor (BF) Calculation</div></div>
+<div class="kb-diagram-note">BF = Height(Left Subtree) - Height(Right Subtree)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Condition:</div><div class="kb-diagram-cell">BF</div><div class="kb-diagram-cell">&lt;= 1</div></div>
+</div>
+</div>
+
+
 
 **핵심 메커니즘:**
 1. **균형 감시:** 삽입이나 삭제 후, 루트 방향으로 거슬러 올라가며 모든 조상 노드의 BF를 체크한다.
@@ -55,9 +58,9 @@ AVL 트리는 1962년 G.M. Adelson-Velsky와 E.M. Landis가 발표한 최초의 
 | 구분 | [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/) (BST) | AVL 트리 | [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) (RB-Tree) |
 |:---|:---|:---|:---|
 | **균형 정도** | 없음 (Unbalanced) | **매우 엄격 (Strict)** | 적당한 균형 (Relaxed) |
-| **탐색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | O(n) 최악 / O(log n) 평균 | **O(log n)** (가장 안정적) | O(log n) |
+| <strong>탐색 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | O(n) 최악 / O(log n) 평균 | **O(log n)** (가장 안정적) | O(log n) |
 | **삽입/삭제 비용** | O(1) ~ O(log n) | **상대적으로 높음** (잦은 회전) | 상대적으로 낮음 |
-| **적합한 환경** | 소규모, 무작위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | **탐색 위주의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | 삽입/삭제가 빈번한 범용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| **적합한 환경** | 소규모, 무작위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | <strong>탐색 위주의 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong> | 삽입/삭제가 빈번한 범용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
 
 ---
 
@@ -80,28 +83,29 @@ AVL 트리는 자가 균형 알고리즘의 표준 모델로서, [데이터](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이진 탐색 트리 (BST) — 편향 시 O(n)]
-    │
-    ▼
-[균형 인수 (Balance Factor) — 높이 차이 감시]
-    │
-    ▼
-[AVL 트리 — 엄격한 자가 균형 BST]
-    │
-    ▼
-[회전 (Rotation) — LL/RR/LR/RL 구조 복구]
-    │
-    ▼
-[레드-블랙 트리 — 삽입·삭제 빈번한 범용 대안]
-    │
-    ▼
-[정렬 인덱스 / 사전형 자료구조 — 탐색 중심 실무 활용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST) — 편향 시 O(n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">균형 인수 (Balance Factor) — 높이 차이 감시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AVL 트리 — 엄격한 자가 균형 BST</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">회전 (Rotation) — LL/RR/LR/RL 구조 복구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레드-블랙 트리 — 삽입·삭제 빈번한 범용 대안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정렬 인덱스 / 사전형 자료구조 — 탐색 중심 실무 활용</div></div>
+</div>
+</div>
+
+
 AVL 트리는 BST의 편향 문제를 엄격한 회전 규칙으로 해결한 자가 균형 구조이며, 이후 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)와 검색 중심 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계의 기준점이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. AVL 트리는 양팔 저울의 수평을 맞추는 **똑똑한 요술 상자**예요.
+1. AVL 트리는 양팔 저울의 수평을 맞추는 <strong>똑똑한 요술 상자</strong>예요.
 2. 한쪽으로 장난감이 너무 많이 쌓이면, 상자가 스스로 "빙글" 돌아서 무게 중심을 맞춰요.
 3. 수평이 늘 잘 맞아서 어떤 장난감이든 아주 빨리 찾아낼 수 있답니다!
 

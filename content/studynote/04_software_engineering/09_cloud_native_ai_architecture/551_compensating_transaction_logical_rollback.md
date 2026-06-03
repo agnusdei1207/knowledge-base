@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **전진 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) TX)**: 정상적인 릴레이. (ex. `계좌에서 -1만 원 출금` Commit 완료).
-  - **보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Compensating TX)**: 다음 단계(배송)가 실패했다는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 편지를 받고, **어쩔 수 없이 뒤로 백(Back) 돌며 수습하는 연산. (ex. `계좌에 +1만 원 입금` Commit).**
-  - 주의: DB 엔진의 `Rollback` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(마법)가 아니다. 개발자가 스프링(Spring) 코드 열어서 환불 API를 한땀 한땀 새로 짠 **순도 100%의 비즈니스 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(Logical) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)**다.
+  - <strong>전진 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> TX)</strong>: 정상적인 릴레이. (ex. `계좌에서 -1만 원 출금` Commit 완료).
+  - <strong>보상 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>(Compensating TX)</strong>: 다음 단계(배송)가 실패했다는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 편지를 받고, <strong>어쩔 수 없이 뒤로 백(Back) 돌며 수습하는 연산. (ex. <code>계좌에 +1만 원 입금</code> Commit).</strong>
+  - 주의: DB 엔진의 `Rollback` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(마법)가 아니다. 개발자가 스프링(Spring) 코드 열어서 환불 API를 한땀 한땀 새로 짠 <strong>순도 100%의 비즈니스 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>(Logical) <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>다.
 
-- **필요성**: 548, 550장에서 보았듯 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)(자물쇠)를 버리고 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 택한 순간, 각 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 자기 일 끝나면 10ms 만에 쿨하게 `Commit`을 때려버린다. Commit이 쳐진 데이터는 DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 화석처럼 굳어버려서 오라클 할아버지가 와도 `Rollback` 1줄로 시간을 되돌릴 수 없다. 그런데 뒤늦게 1분 뒤에 배송 서버가 "야! 물건 없어 ㅠㅠ"라고 소리친다. **시간을 되돌릴 수 없다면? 현재 상태에서 정반대의 행동(환불)을 해서 장부의 총합을 0으로 맞추는, 유일하고도 강제적인 우회 생존법**이 필요해진 것이다.
+- **필요성**: 548, 550장에서 보았듯 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)(자물쇠)를 버리고 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 택한 순간, 각 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 자기 일 끝나면 10ms 만에 쿨하게 `Commit`을 때려버린다. Commit이 쳐진 데이터는 DB [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 화석처럼 굳어버려서 오라클 할아버지가 와도 `Rollback` 1줄로 시간을 되돌릴 수 없다. 그런데 뒤늦게 1분 뒤에 배송 서버가 "야! 물건 없어 ㅠㅠ"라고 소리친다. <strong>시간을 되돌릴 수 없다면? 현재 상태에서 정반대의 행동(환불)을 해서 장부의 총합을 0으로 맞추는, 유일하고도 강제적인 우회 생존법</strong>이 필요해진 것이다.
 
-- **💡 비유**: 물리적 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이 **'연필로 글씨를 쓰다가 틀려서 지우개로 싹 지워버려 종이를 새하얗게(원상태) 만드는 마법'**이라면, 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 **'지워지지 않는 만년필(Commit 완료)로 글씨를 써버린 뒤, 그 위에 빨간색 펜으로 쫙쫙 두 줄 긋고(취소 선), 옆에 올바른 글씨를 덧대는 것'**입니다. 흔적([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))은 영원히 남지만, 장부의 결과적([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적) 합계는 똑같이 원상 복구되는 눈물겨운 뒷수습입니다.
+- **💡 비유**: 물리적 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이 <strong>'연필로 글씨를 쓰다가 틀려서 지우개로 싹 지워버려 종이를 새하얗게(원상태) 만드는 마법'</strong>이라면, 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 <strong>'지워지지 않는 만년필(Commit 완료)로 글씨를 써버린 뒤, 그 위에 빨간색 펜으로 쫙쫙 두 줄 긋고(취소 선), 옆에 올바른 글씨를 덧대는 것'</strong>입니다. 흔적([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))은 영원히 남지만, 장부의 결과적([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적) 합계는 똑같이 원상 복구되는 눈물겨운 뒷수습입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **물리적 Rollback의 시대 (DB 독재)**: 모놀리식 시절 DB 1대일 때는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)가 다 알아서 해줬다. 개발자는 환불 코드 짤 필요 없이 `throw new Exception()`만 던지면 퇴근했다.
   2. **MSA의 대분열 (DB N개 찢어짐)**: DB가 50개로 찢어지자 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log 공유가 불가능해졌다. "아씨, 이미 내 DB 저장 끝났는데 배송팀이 안 보냈대! 어쩌지? 내가 환불 로직 새로 짜야겠네 ㅠㅠ"
-  3. **[Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/) 기반의 보상 표준화**: "어차피 100% 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 못 하잖아? 비동기로 에러 이벤트 떨어지면 알아서 역방향(-) 코드 실행해서 맞추자!" 이것이 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 디자인 패턴의 가장 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)(개발자 노가다)이자 절대 진리로 굳어졌다.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a> 기반의 보상 표준화</strong>: "어차피 100% 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 못 하잖아? 비동기로 에러 이벤트 떨어지면 알아서 역방향(-) 코드 실행해서 맞추자!" 이것이 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 디자인 패턴의 가장 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)(개발자 노가다)이자 절대 진리로 굳어졌다.
 
-- **📢 섹션 요약 비유**: 인터넷 쇼핑몰 결제를 생각해 보세요. 결제 버튼 누르고 1분 뒤에 "죄송합니다 재고 소진" 카톡이 오며 **'카드 승인 취소(-1만 원)'** 문자가 날아옵니다. 은행 시스템이 타임머신을 타고 과거로 돌아가 결제 자체를 지워버린 것([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이 아닙니다! 이미 결제 승인 장부(Commit)는 쾅 찍혔지만, 기계가 즉시 **'카드 취소 전표(마이너스 영수증, 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))'**를 한 장 더 발급해서 퉁 친 겁니다. 현실 세계의 모든 돈거래는 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)입니다.
+- **📢 섹션 요약 비유**: 인터넷 쇼핑몰 결제를 생각해 보세요. 결제 버튼 누르고 1분 뒤에 "죄송합니다 재고 소진" 카톡이 오며 **'카드 승인 취소(-1만 원)'** 문자가 날아옵니다. 은행 시스템이 타임머신을 타고 과거로 돌아가 결제 자체를 지워버린 것([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이 아닙니다! 이미 결제 승인 장부(Commit)는 쾅 찍혔지만, 기계가 즉시 <strong>'카드 취소 전표(마이너스 영수증, 보상 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>)'</strong>를 한 장 더 발급해서 퉁 친 겁니다. 현실 세계의 모든 돈거래는 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)입니다.
 
 ---
 
 다음은 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensatin의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보상 트랜잭션 (Compensatin                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 트랜잭션 (Compensatin</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensatin가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensating [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensating [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) (Compensating [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보상 트랜잭션 (Compensating Transaction) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보상 트랜잭션 (Compensating Transaction) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

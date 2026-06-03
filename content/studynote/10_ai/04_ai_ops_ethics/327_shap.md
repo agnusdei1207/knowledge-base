@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 **샤플리 값(Shapley Value)**을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론이다.
+> 1. **본질**: SHAP (SHapley Additive exPlanations)은 협력 게임 이론의 <strong>샤플리 값(Shapley Value)</strong>을 ML 예측 설명에 적용하여, 각 특징이 예측에 기여한 양을 공정하게 분배하는 수학적으로 엄격한 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 방법론이다.
 > 2. **가치**: 국소(개별 예측) 설명과 전역(모델 전체 특징 중요도) 설명을 동시에 제공하고, "효율성·대칭성·[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)·가산성"의 4가지 공정성 공리를 만족하는 유일한 특징 기여도 분배 방법이다.
-> 3. **판단 포인트**: SHAP 값의 핵심 해석은 "이 특징이 기준값([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/), 평균 예측)에서 실제 예측까지의 차이를 얼마나 설명하는가"이며, SHAP 값의 합이 예측값과 기준값의 차이와 정확히 일치하는 **가산성(Additivity)**이 LIME과 구별되는 핵심 특성이다.
+> 3. **판단 포인트**: SHAP 값의 핵심 해석은 "이 특징이 기준값([베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/), 평균 예측)에서 실제 예측까지의 차이를 얼마나 설명하는가"이며, SHAP 값의 합이 예측값과 기준값의 차이와 정확히 일치하는 <strong>가산성(Additivity)</strong>이 LIME과 구별되는 핵심 특성이다.
 
 ---
 
@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 f(x)를 만들었을 때, 각 특징이 기준 예측값(평균)에서 f(x)까지의 차이를 얼마나 설명하는지 공정하게 분배한다. 모든 특징 부분집합에서의 평균 기여도를 계산하여 과도한 기여나 과소 기여 없이 공정한 값을 부여한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SHAP은 올림픽 릴레이 팀 금메달 기여도 분석이다. 4명 선수가 금메달을 땄을 때 각자 얼마나 기여했는지를, "1번만 뛸 때", "1+2번이 뛸 때", "1+3번이 뛸 때" 등 모든 조합의 평균 기여를 계산해서 공정한 기여도를 산출한다. 특정 한 선수가 혼자 빛나거나 묻히는 불공정이 없다.
 
@@ -38,35 +41,30 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         SHAP 값 계산 원리 (섀플리 값 수식)                           │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  섀플리 값 수식:                                                    │
-│  φᵢ(f) = Σ_{S⊆F\{i}} [|S|! × (|F|-|S|-1)! / |F|!] × [f(S∪{i}) - f(S)]│
-│                                                                  │
-│  해석:                                                             │
-│  - S: 특징 i를 제외한 부분집합                                       │
-│  - f(S∪{i}) - f(S): 특징 i를 추가했을 때 예측값의 변화              │
-│  - 모든 부분집합에서의 가중 평균 → 공정한 기여도 φᵢ                 │
-│                                                                  │
-│  SHAP 가산성 (핵심 성질):                                           │
-│  f(x) = E[f(x)] + Σᵢ φᵢ  (예측값 = 기준값 + 모든 SHAP값의 합)     │
-│                                                                  │
-│  SHAP 시각화 종류:                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  1. Waterfall Plot: 개별 예측 단계별 SHAP 기여 시각화      │    │
-│  │     기준값(2.3) ─▶ 나이(+0.8) ─▶ 소득(+1.2) ─▶ 예측(4.3) │    │
-│  │                                                         │    │
-│  │  2. Summary Plot: 모든 샘플의 각 특징별 SHAP 분포         │    │
-│  │     → 어떤 특징이 전역적으로 가장 중요한가(Feature Importance)│    │
-│  │                                                         │    │
-│  │  3. Dependence Plot: 특징값 vs SHAP값 산점도              │    │
-│  │     → 특징이 예측에 어떤 방식으로 영향 주는지 비선형 관계 파악│    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 값 계산 원리 (섀플리 값 수식)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섀플리 값 수식:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">φᵢ(f) = Σ_{S⊆F\{i}}</div><div class="kb-diagram-node">|S|! × (|F|-|S|-1)! / |F|!</div><div class="kb-diagram-note">×</div><div class="kb-diagram-node">f(S∪{i}) - f(S)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- S: 특징 i를 제외한 부분집합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- f(S∪{i}) - f(S): 특징 i를 추가했을 때 예측값의 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 부분집합에서의 가중 평균 → 공정한 기여도 φᵢ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 가산성 (핵심 성질):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">f(x) = E</div><div class="kb-diagram-node">f(x)</div><div class="kb-diagram-note">+ Σᵢ φᵢ (예측값 = 기준값 + 모든 SHAP값의 합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 시각화 종류:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Waterfall Plot: 개별 예측 단계별 SHAP 기여 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준값(2.3) ─▶ 나이(+0.8) ─▶ 소득(+1.2) ─▶ 예측(4.3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Summary Plot: 모든 샘플의 각 특징별 SHAP 분포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 어떤 특징이 전역적으로 가장 중요한가(Feature Importance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Dependence Plot: 특징값 vs SHAP값 산점도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 특징이 예측에 어떤 방식으로 영향 주는지 비선형 관계 파악</div></div>
+</div>
+</div>
+
+
 
 | SHAP 공리 | 의미 | ML 설명 의미 |
 |:---|:---|:---|
@@ -100,7 +98,7 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 
 **SHAP 활용 패턴**:
 1. **모델 디버깅**: [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) Plot으로 "이 특징은 왜 높은 중요도인가" 검토
-2. **공정성 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징(성별·인종·나이)의 SHAP 값을 분석하여 차별적 의사결정 탐지
+2. <strong>공정성 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 특징(성별·인종·나이)의 SHAP 값을 분석하여 차별적 의사결정 탐지
 3. **비즈니스 인사이트**: Dependence Plot으로 "소득이 몇 백만 원 이상이면 예측이 급상승" 같은 임계값 발견
 4. **고객 설명**: Waterfall Plot을 자연어로 변환하여 "당신의 신용 평가는 소득(+20점), 연체 이력(-15점)에 의해 결정됐습니다" 제공
 
@@ -136,9 +134,9 @@ SHAP은 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **SHAP**은 팀이 같이 일해서 성과를 냈을 때, **각 팀원이 얼마나 기여했는지 공정하게 계산**하는 수학 방법을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명에 쓴 거예요!
-2. "당신의 신용 점수는 소득(+20점), 연체 이력(-15점), 직업(+5점)"처럼 **각 요소의 기여도 합이 전체 점수 변화와 정확히 일치**해요(가산성).
-3. 이 엄격한 수학적 공정성 덕분에 **금융·의료 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)**에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명의 국제 표준으로 자리잡고 있어요!
+1. <strong>SHAP</strong>은 팀이 같이 일해서 성과를 냈을 때, <strong>각 팀원이 얼마나 기여했는지 공정하게 계산</strong>하는 수학 방법을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명에 쓴 거예요!
+2. "당신의 신용 점수는 소득(+20점), 연체 이력(-15점), 직업(+5점)"처럼 <strong>각 요소의 기여도 합이 전체 점수 변화와 정확히 일치</strong>해요(가산성).
+3. 이 엄격한 수학적 공정성 덕분에 <strong>금융·의료 규제 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a></strong>에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명의 국제 표준으로 자리잡고 있어요!
 
 ---
 

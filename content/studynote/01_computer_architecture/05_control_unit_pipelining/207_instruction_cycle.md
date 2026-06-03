@@ -25,20 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 중요한 이유는 CPU 내부 자원이 동시에 같은 일을 할 수 없기 때문이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 산술논리장치, 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 모두 특정 시점에 어떤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아야 하는데, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 없으면 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 분기와 순차 실행, 정상 실행과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 뒤섞인다. 결국 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 "무엇을 할까"보다 먼저 "언제 어떤 순서로 할까"를 정하는 통제 프레임이다.
 
-또 하나 자주 놓치는 점은, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 곧 한 번의 클럭과 같지는 않다는 사실이다. 간단한 명령은 몇 개의 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/))으로 끝날 수 있지만, 메모리 접근이나 분기 판정이 들어가면 여러 클럭에 걸쳐 진행된다. 즉 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 생명주기**이고, 클럭은 그 생명주기를 잘게 나누는 시간 눈금이다.
+또 하나 자주 놓치는 점은, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 곧 한 번의 클럭과 같지는 않다는 사실이다. 간단한 명령은 몇 개의 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/))으로 끝날 수 있지만, 메모리 접근이나 분기 판정이 들어가면 여러 클럭에 걸쳐 진행된다. 즉 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 생명주기</strong>이고, 클럭은 그 생명주기를 잘게 나누는 시간 눈금이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Why the instruction cycle exists: order before speed           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Program in memory                                                         │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Fetch the next instruction  →  Understand meaning  →  Change state         │
-│      │                               │                    │                 │
-│      └────────────── without this order, hardware conflicts ──────────────┘ │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why the instruction cycle exists: order before speed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program in memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch the next instruction → Understand meaning → Change state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">without this order, hardware conflicts</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클이 단순히 단계 이름의 나열이 아니라, 프로그램의 추상적 지시를 하드웨어의 실제 상태 변화로 연결하는 최소한의 질서임을 보여준다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기법은 이 질서를 더 빨리 처리하는 방법이지, 질서 자체를 제거하는 방법이 아니다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전통적 관점에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 인출 (Fetch), 해독 (Decode), 필요 시 간접 주소 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Address Resolution), 실행 (Execute), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로 설명된다. 현대 관점에서는 여기에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, 메모리 접근, 결과 기록, 커밋 (Commit) 같은 표현이 덧붙지만, 본질은 변하지 않는다. **현재 상태를 읽고, 명령의 의미를 해석하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스를 움직여, 아키텍처 상태를 안전하게 갱신한다**는 흐름이 핵심이다.
+전통적 관점에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 인출 (Fetch), 해독 (Decode), 필요 시 간접 주소 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Address Resolution), 실행 (Execute), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로 설명된다. 현대 관점에서는 여기에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, 메모리 접근, 결과 기록, 커밋 (Commit) 같은 표현이 덧붙지만, 본질은 변하지 않는다. <strong>현재 상태를 읽고, 명령의 의미를 해석하고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>패스를 움직여, 아키텍처 상태를 안전하게 갱신한다</strong>는 흐름이 핵심이다.
 
 | 단계 | 주로 쓰이는 자원 | 상태 변화 | 병목 포인트 |
 | :--- | :--- | :--- | :--- |
@@ -60,27 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 고전적 설명과 현대적 구현을 함께 읽을 수 있도록, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클의 핵심 분기점을 한 장에 정리한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         Instruction Cycle: state update order and decision points         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PC → Fetch → Decode ──┬─ direct operand path ───────────────┐             │
-│                       │                                      │             │
-│                       └─ indirect address read ────────────▶ │             │
-│                                                              ▼             │
-│                                                     Execute / Memory       │
-│                                                              │             │
-│                                                   Register write / PC up   │
-│                                                              │             │
-│                                      pending interrupt? ─ Yes ─▶ ISR jump  │
-│                                                              │             │
-│                                                              No            │
-│                                                              ▼             │
-│                                                          Next Fetch        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 설계 포인트는 두 가지다. 첫째, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독 이후에 모든 명령이 같은 경로를 가는 것은 아니다. 메모리 간접 주소 지정은 한 번 더 읽기가 필요하고, 분기 명령은 실행 단계에서 다음 PC를 바꾸며, 예외나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있으면 정상 흐름 대신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 넘어간다. 둘째, 이 분기들이 있어도 **아키텍처 상태는 일관된 순서로만 반영**되어야 한다. 그래야 운영체제와 디버거가 "어디까지 실행되었는지"를 정확히 이해할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instruction Cycle: state update order and decision points</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC → Fetch → Decode ── ─ direct operand path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ indirect address read ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execute / Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register write / PC up</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pending interrupt? ─ Yes ─▶ ISR jump</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Next Fetch</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 설계 포인트는 두 가지다. 첫째, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독 이후에 모든 명령이 같은 경로를 가는 것은 아니다. 메모리 간접 주소 지정은 한 번 더 읽기가 필요하고, 분기 명령은 실행 단계에서 다음 PC를 바꾸며, 예외나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 있으면 정상 흐름 대신 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 넘어간다. 둘째, 이 분기들이 있어도 <strong>아키텍처 상태는 일관된 순서로만 반영</strong>되어야 한다. 그래야 운영체제와 디버거가 "어디까지 실행되었는지"를 정확히 이해할 수 있다.
 
 즉 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 단순한 학습용 3단계 도식이 아니라, [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 상태 머신처럼 움직이는 설계 원리다. 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))를 채택하든, 결국 [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)은 이 흐름 위에서 각 클럭마다 [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)을 배치한다.
 
@@ -90,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클을 정확히 이해하려면 비슷한 용어와 경계를 구분해야 한다. 먼저 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 전체 과정**이고, [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)은 그 내부를 이루는 더 작은 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 단위다. 또한 [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클을 하드웨어적으로 쪼개 병렬화한 구현 단위이지, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클 자체를 부정하는 개념이 아니다.
+[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클을 정확히 이해하려면 비슷한 용어와 경계를 구분해야 한다. 먼저 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 하나의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 전체 과정</strong>이고, [마이크로 오퍼레이션](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)은 그 내부를 이루는 더 작은 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 단위다. 또한 [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클을 하드웨어적으로 쪼개 병렬화한 구현 단위이지, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클 자체를 부정하는 개념이 아니다.
 
 | 비교 대상 | 무엇을 뜻하는가 | 왜 구분이 중요한가 |
 | :--- | :--- | :--- |
@@ -99,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 | [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/) | 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 겹쳐 처리하기 위한 물리적 분할 | 처리량을 높이지만 해저드와 플러시 비용이 생김 |
 | 기계 사이클 (Machine Cycle) | 메모리 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 같은 하드웨어 동작 단위로 쓰이기도 함 | 교재마다 용어 범위가 달라 혼동 주의 필요 |
 
-특히 시험과 실무에서 자주 나오는 오해는 "파이프라인이 되면 Fetch-Decode-Execute 순서가 사라진다"는 생각이다. 실제로는 순서가 사라지는 것이 아니라, **서로 다른 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 그 순서를 겹쳐서 밟는 것**이다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 여전히 개별 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 의미를 설명하는 기본 틀이고, 파이프라인은 그 틀을 시간축 위에서 중첩시키는 고성능 구현 방식이다.
+특히 시험과 실무에서 자주 나오는 오해는 "파이프라인이 되면 Fetch-Decode-Execute 순서가 사라진다"는 생각이다. 실제로는 순서가 사라지는 것이 아니라, <strong>서로 다른 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 그 순서를 겹쳐서 밟는 것</strong>이다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 여전히 개별 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 의미를 설명하는 기본 틀이고, 파이프라인은 그 틀을 시간축 위에서 중첩시키는 고성능 구현 방식이다.
 
 ```text
 Clock     1         2         3         4         5
@@ -147,7 +144,7 @@ Inst C                       [Fetch]   [Decode]    [Execute]   [Writeback]
 
 기대효과도 분명하다. 설계자는 단계별 병목을 분리해서 개선할 수 있고, 운영자는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 카운터를 해석할 때 프론트엔드와 백엔드 문제를 구분할 수 있으며, 학습자는 Fetch-Decode-Execute라는 고전적 틀에서 출발해 파이프라인, 초스칼라, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)까지 자연스럽게 연결할 수 있다. 특히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 완료되기까지 어떤 상태 전이가 필요한가"를 이해하면 새로운 프로세서 구조를 접해도 낯설지 않다.
 
-다만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클의 추상화만으로 모든 세부 구현을 설명할 수는 없다. 현대 프로세서는 마이크로 연산 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 재정렬 버퍼, 투기 실행 같은 장치를 통해 이 흐름을 매우 복잡하게 감춘다. 그래서 결론적으로는 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클을 '고정된 3단계 그림'이 아니라, 정확한 상태 전이를 보장하면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 얹어 가는 설계의 기본 뼈대**로 기억하는 것이 가장 좋다.
+다만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클의 추상화만으로 모든 세부 구현을 설명할 수는 없다. 현대 프로세서는 마이크로 연산 캐시, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 재정렬 버퍼, 투기 실행 같은 장치를 통해 이 흐름을 매우 복잡하게 감춘다. 그래서 결론적으로는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 사이클을 '고정된 3단계 그림'이 아니라, 정확한 상태 전이를 보장하면서 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화를 얹어 가는 설계의 기본 뼈대</strong>로 기억하는 것이 가장 좋다.
 
 - **📢 섹션 요약 비유**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이클은 오케스트라의 기본 악보다. 실제 무대에서는 조명, 음향, 리허설, 대기실 운영이 훨씬 복잡해도, 결국 합주가 무너지지 않으려면 모든 연주가 악보의 순서를 중심으로 정리되어야 한다.
 
@@ -166,24 +163,25 @@ Inst C                       [Fetch]   [Decode]    [Execute]   [Writeback]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Stored-program concept
-        │
-        ▼
-Instruction Cycle
-(Fetch → Decode → Execute)
-        │
-        ├──► Indirect addressing / Interrupt handling
-        │
-        ▼
-Multi-cycle control + Micro-operation sequencing
-        │
-        ▼
-Pipeline stages + Hazard control
-        │
-        ▼
-Superscalar / Out-of-Order / Precise exception
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Stored-program concept</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Instruction Cycle</div>
+<div class="kb-diagram-note">(Fetch → Decode → Execute)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Indirect addressing / Interrupt handling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-cycle control + Micro-operation sequencing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pipeline stages + Hazard control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Superscalar / Out-of-Order / Precise exception</div>
+</div>
+</div>
+
+
 
 이 흐름은 "순차 실행의 기본 절차"에서 출발해 "겹쳐 실행하되 정확한 상태 반영을 유지하는 현대 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)"로 발전하는 방향을 보여준다.
 

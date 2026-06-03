@@ -10,7 +10,7 @@ tags = ["studynote-algorithm"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산을 이용한 구간 합 최적화**: 2진수의 마지막 1비트(`i & -i`)가 관리하는 구간의 길이를 결정하는 원리를 이용하여 구간 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$에 처리함.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 연산을 이용한 구간 합 최적화</strong>: 2진수의 마지막 1비트(`i & -i`)가 관리하는 구간의 길이를 결정하는 원리를 이용하여 구간 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 값 업데이트를 모두 $O(\log n)$에 처리함.
 - **메모리 효율성 극대화**: [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)가 약 $4n$의 공간을 필요로 하는 것과 달리, 원본 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 동일한 $n$의 공간만 사용하여 매우 경제적임.
 - **역연산 가능 연산에 특화**: 구간 합(Sum)과 같이 역연산이 존재하는 경우에 가장 효율적이며, 구현이 매우 단순하여 실무 적용이 용이함.
 
@@ -37,15 +37,15 @@ Operation:
 1. Update i: i += (i & -i) while i <= n
 2. Prefix Sum i: i -= (i & -i) while i > 0
 ```
-- **핵심 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산:** `i & -i`는 $i$를 2진수로 나타냈을 때 가장 오른쪽에 있는 1의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)값([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))을 반환함 (예: $6(0110) \rightarrow 2(0010)$).
+- <strong>핵심 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 연산:</strong> `i & -i`는 $i$를 2진수로 나타냈을 때 가장 오른쪽에 있는 1의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)값([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))을 반환함 (예: $6(0110) \rightarrow 2(0010)$).
 - **업데이트:** [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) $i$의 값을 $X$만큼 늘릴 때, $i$를 포함하는 모든 상위 관리 노드들의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 $i$에 LSB를 계속 더해가며 찾음.
-- **[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/):** $1$부터 $i$까지의 합(Prefix Sum)은 $i$에서 LSB를 계속 빼가며 만나는 노드들의 값을 합산함.
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>:</strong> $1$부터 $i$까지의 합(Prefix Sum)은 $i$에서 LSB를 계속 빼가며 만나는 노드들의 값을 합산함.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | 비교 항목 | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) ([Segment Tree](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)) | [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ([Fenwick Tree](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) |
 | :--- | :--- | :--- |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(\log n)$ | $O(\log n)$ |
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)** | $4n$ | $n$ (원본 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(\log n)$ | $O(\log n)$ |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a></strong> | $4n$ | $n$ (원본 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기) |
 | **구현 난이도** | 높음 ([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)/복잡) | 매우 낮음 (반복문/[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)연산) |
 | **범용성** | 매우 높음 (Min/Max/Sum/[GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)) | 중간 (역연산 존재 시 유리) |
 | **상수 시간** | 상대적으로 느림 | 매우 빠름 |
@@ -64,21 +64,23 @@ Operation:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선형 누적합 (Prefix Sum Array) — O(N) 전처리, O(1) 구간 조회]
-    │
-    ▼
-[세그먼트 트리 (Segment Tree) — O(log N) 구간 갱신/조회, O(N) 공간]
-    │
-    ▼
-[펜윅 트리 / BIT (Binary Indexed Tree) — LSB 기반, O(log N) 갱신+조회, 절반 공간]
-    │
-    ▼
-[2D 펜윅 트리 — 행렬 구간 합/업데이트로 확장]
-    │
-    ▼
-[Range Update Fenwick Tree — 구간 업데이트·포인트 쿼리로 변형 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 누적합 (Prefix Sum Array) — O(N) 전처리, O(1) 구간 조회</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 (Segment Tree) — O(log N) 구간 갱신/조회, O(N) 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리 / BIT (Binary Indexed Tree) — LSB 기반, O(log N) 갱신+조회, 절반 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2D 펜윅 트리 — 행렬 구간 합/업데이트로 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Range Update Fenwick Tree — 구간 업데이트·포인트 쿼리로 변형 응용</div></div>
+</div>
+</div>
+
+
 누적합 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(N) 갱신 한계를 극복하고자 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)가 등장했고, 더 적은 공간에 [LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) 트릭을 활용한 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 실무 표준으로 자리 잡았다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

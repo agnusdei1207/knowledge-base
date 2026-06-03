@@ -21,23 +21,24 @@ tags = ["studynote-computer-architecture"]
 
 SISD (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Single [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))는 플린의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법 (Flynn's Taxonomy)에서 가장 단순한 컴퓨터 구조로, 하나의 제어 흐름이 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 항목을 차례대로 처리하는 방식이다. 저장 프로그램 방식의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터와 전통적인 단일 코어 실행 모델은 대부분 이 관점으로 이해할 수 있다. 즉, 프로세서는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나를 읽고, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오고, 연산하고, 결과를 저장한다"는 순서를 반복하며 동작한다.
 
-이 구조가 오래 살아남은 이유는 빠르기보다 **이해 가능성**과 **예측 가능성**이 높기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 의존성이 강한 계산, 분기문이 많은 제어 로직, 순서를 바꾸면 의미가 깨지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에서는 여러 연산기를 억지로 동시에 돌리는 것보다 순차 실행 모델이 오히려 안정적이다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 강력한 시대에도 SISD가 기준 모델로 남는 이유는, 다른 모든 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조가 결국 "무엇을 순서대로 남겨야 하는가"를 SISD와 비교해 설명되기 때문이다.
+이 구조가 오래 살아남은 이유는 빠르기보다 <strong>이해 가능성</strong>과 <strong>예측 가능성</strong>이 높기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 의존성이 강한 계산, 분기문이 많은 제어 로직, 순서를 바꾸면 의미가 깨지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에서는 여러 연산기를 억지로 동시에 돌리는 것보다 순차 실행 모델이 오히려 안정적이다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 강력한 시대에도 SISD가 기준 모델로 남는 이유는, 다른 모든 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조가 결국 "무엇을 순서대로 남겨야 하는가"를 SISD와 비교해 설명되기 때문이다.
 
-아래 그림은 SISD가 본질적으로 **한 줄짜리 실행 흐름**이라는 점을 보여준다.
+아래 그림은 SISD가 본질적으로 <strong>한 줄짜리 실행 흐름</strong>이라는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              SISD의 기본 실행 흐름: 한 번에 한 단계씩        │
-├──────────────────────────────────────────────────────────────┤
-│ Program Counter ─▶ Fetch ─▶ Decode ─▶ Execute ─▶ Write Back │
-│                         │                    │               │
-│                         └───── 명령어 1개 ───┘               │
-│                                              │               │
-│ Data Memory/Register ───────── 데이터 1개 ───┘               │
-└──────────────────────────────────────────────────────────────┘
-```
 
-핵심은 연산 장치가 아예 하나뿐이라는 뜻이 아니라, **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름이 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 책임진다**는 점이다. 그래서 SISD는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 반대말이라기보다, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 필요성과 한계를 판단하는 출발점이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SISD의 기본 실행 흐름: 한 번에 한 단계씩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program Counter ─▶ Fetch ─▶ Decode ─▶ Execute ─▶ Write Back</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 1개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Memory/Register 데이터 1개</div></div>
+</div>
+</div>
+
+
+
+핵심은 연산 장치가 아예 하나뿐이라는 뜻이 아니라, <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름이 한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 책임진다</strong>는 점이다. 그래서 SISD는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 반대말이라기보다, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 필요성과 한계를 판단하는 출발점이다.
 
 - **📢 섹션 요약 비유**: SISD는 계산대 직원 한 명이 손님을 번호표 순서대로 받는 방식과 같다. 한 번에 한 사람만 처리하니 줄은 길어질 수 있지만, 누가 먼저 왔고 어떤 주문을 받았는지 헷갈릴 일은 거의 없다.
 
@@ -57,18 +58,19 @@ SISD를 구성하는 핵심 요소는 [프로그램 카운터](/knowledge-base/s
 
 이 그림은 SISD에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 어디서 생기는지 압축해 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 SISD의 병목: 순서는 단순하지만 대기는 길다   │
-├──────────────────────────────────────────────────────────────┤
-│ [Instruction Cache] ─▶ [Decode] ─▶ [ALU] ─▶ [Register]       │
-│        │                                 │                   │
-│        └─ 명령어 미스 발생 시 대기       └─ 결과 의존성 대기  │
-│                                                              │
-│ [Data Cache / Memory] ───────────────▶ [Load / Store]        │
-│        └─ 메모리 지연 발생 시 전체 흐름 정체                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SISD의 병목: 순서는 단순하지만 대기는 길다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Instruction Cache</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Decode</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 명령어 미스 발생 시 대기 ─ 결과 의존성 대기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Cache / Memory</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load / Store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 지연 발생 시 전체 흐름 정체</div></div>
+</div>
+</div>
+
+
 
 SISD의 약점은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄의 흐름에 묶인다는 점이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사이에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 생기거나 메모리 접근이 느려지면 뒤따르는 작업이 함께 멈춘다. 그래서 현대 중앙처리장치 (CPU, Central Processing Unit)는 파이프라이닝 (Pipelining), 슈퍼스칼라 ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)), [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution) 같은 기법으로 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 끌어오지만, 프로그래머에게는 여전히 **순차 프로그램처럼 보이도록** 설계한다. 즉 현대 CPU는 "외부적으로는 SISD 친화적 인터페이스"를 유지하면서 내부에서만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (ILP, [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Level Parallelism)을 숨겨 활용하는 셈이다.
 
@@ -78,7 +80,7 @@ SISD의 약점은 [처리량](/knowledge-base/studynote/01_computer_architecture
 
 ## Ⅲ. 비교 및 연결
 
-SISD를 제대로 이해하려면 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)), [MISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/371_misd/) (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Single [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)), [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))와의 경계를 봐야 한다. SISD는 제어 흐름도 하나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름도 하나이므로 **순서 보장**과 **단순 제어**에 강하다. 반면 SIMD는 같은 연산을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 동시에 적용해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키우고, MIMD는 여러 코어가 서로 다른 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리해 범용성을 확장한다.
+SISD를 제대로 이해하려면 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)), [MISD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/371_misd/) (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Single [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)), [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))와의 경계를 봐야 한다. SISD는 제어 흐름도 하나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름도 하나이므로 <strong>순서 보장</strong>과 <strong>단순 제어</strong>에 강하다. 반면 SIMD는 같은 연산을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 동시에 적용해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키우고, MIMD는 여러 코어가 서로 다른 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리해 범용성을 확장한다.
 
 | 비교 축 | SISD | [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) | [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) |
 | :--- | :--- | :--- | :--- |
@@ -88,7 +90,7 @@ SISD를 제대로 이해하려면 [SIMD](/knowledge-base/studynote/01_computer_a
 | 약한 영역 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장 | 분기 발산 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비용 |
 | 대표 관점 | 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기준 모델 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속 | 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 |
 
-여기서 중요한 연결 고리는 암달의 법칙 (Amdahl's Law)이다. 전체 프로그램 중 순차 구간이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 남아 있어도, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화로 얻을 수 있는 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 결국 그 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에 묶인다. 즉 SISD는 낡은 구조가 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 천장을 정하는 **기준 병목 구간**으로 계속 남아 있다. 또한 운영체제의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 직렬화 구간, 실시간 제어 루프는 여전히 SISD적 사고로 설계해야 예측 가능한 동작을 얻을 수 있다.
+여기서 중요한 연결 고리는 암달의 법칙 (Amdahl's Law)이다. 전체 프로그램 중 순차 구간이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 남아 있어도, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화로 얻을 수 있는 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 결국 그 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에 묶인다. 즉 SISD는 낡은 구조가 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 천장을 정하는 <strong>기준 병목 구간</strong>으로 계속 남아 있다. 또한 운영체제의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 직렬화 구간, 실시간 제어 루프는 여전히 SISD적 사고로 설계해야 예측 가능한 동작을 얻을 수 있다.
 
 - **📢 섹션 요약 비유**: SISD는 한 권의 책을 처음부터 끝까지 읽는 방식이고, SIMD는 같은 페이지를 여러 권에서 동시에 읽는 방식이며, MIMD는 여러 사람이 각자 다른 책을 읽는 방식이다. 어떤 방식이 좋은지는 책의 종류가 아니라 읽어야 할 일의 성격이 결정한다.
 
@@ -96,9 +98,9 @@ SISD를 제대로 이해하려면 [SIMD](/knowledge-base/studynote/01_computer_a
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 SISD를 선택해야 하는 대표 상황은 **상태 의존성이 강한 로직**이다. 예를 들어 계좌 잔액 갱신, 재고 차감, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 기반 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 하드 실시간 제어 루프는 앞선 결과가 다음 계산의 입력이 된다. 이런 구간은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 자체보다 순서 보장과 재현 가능성이 훨씬 중요하므로, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 또는 강한 직렬화 큐 기반 SISD형 처리 모델이 더 적합하다.
+실무에서 SISD를 선택해야 하는 대표 상황은 <strong>상태 의존성이 강한 로직</strong>이다. 예를 들어 계좌 잔액 갱신, 재고 차감, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 기반 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 하드 실시간 제어 루프는 앞선 결과가 다음 계산의 입력이 된다. 이런 구간은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 자체보다 순서 보장과 재현 가능성이 훨씬 중요하므로, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 또는 강한 직렬화 큐 기반 SISD형 처리 모델이 더 적합하다.
 
-반대로 대규모 이미지 필터, 행렬 곱셈, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 배치 분석처럼 동일 연산을 독립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음에 반복하는 작업은 SISD로 밀어붙이면 비효율이 커진다. 이 경우는 SIMD나 MIMD로 넘겨야 하며, SISD는 오히려 병목이 된다. 따라서 기술사 관점의 핵심은 "SISD가 단순해서 좋다"가 아니라, **의존성·지연시간·디버깅 비용을 함께 보고 어디까지 순차로 남길지 판단하는 것**이다.
+반대로 대규모 이미지 필터, 행렬 곱셈, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 배치 분석처럼 동일 연산을 독립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음에 반복하는 작업은 SISD로 밀어붙이면 비효율이 커진다. 이 경우는 SIMD나 MIMD로 넘겨야 하며, SISD는 오히려 병목이 된다. 따라서 기술사 관점의 핵심은 "SISD가 단순해서 좋다"가 아니라, <strong>의존성·지연시간·디버깅 비용을 함께 보고 어디까지 순차로 남길지 판단하는 것</strong>이다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,9 +121,9 @@ SISD를 제대로 이해하려면 [SIMD](/knowledge-base/studynote/01_computer_a
 
 ## Ⅴ. 기대효과 및 결론
 
-SISD의 가장 큰 효과는 **단순성에서 오는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**이다. 프로그램 흐름이 명확하므로 디버깅이 쉽고, 특정 입력에서 어떤 결과가 나오는지 추적하기 쉽다. 또한 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 같은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템의 부가 복잡도가 작아, 작은 시스템이나 제어 중심 시스템에서는 오히려 총비용이 낮다.
+SISD의 가장 큰 효과는 <strong>단순성에서 오는 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>이다. 프로그램 흐름이 명확하므로 디버깅이 쉽고, 특정 입력에서 어떤 결과가 나오는지 추적하기 쉽다. 또한 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 같은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템의 부가 복잡도가 작아, 작은 시스템이나 제어 중심 시스템에서는 오히려 총비용이 낮다.
 
-물론 SISD만으로는 현대 서비스의 대규모 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 요구를 감당할 수 없다. 그래서 현실의 시스템은 제어가 복잡한 핵심 경로는 SISD적으로 유지하고, 대량 반복 계산이나 독립 작업만 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)·[MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/)·가속기로 분리하는 하이브리드 구성을 택한다. 결국 SISD는 "옛날 방식"이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 시대에도 반드시 남겨야 할 **순차 실행의 계약**으로 기억하는 것이 정확하다.
+물론 SISD만으로는 현대 서비스의 대규모 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 요구를 감당할 수 없다. 그래서 현실의 시스템은 제어가 복잡한 핵심 경로는 SISD적으로 유지하고, 대량 반복 계산이나 독립 작업만 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)·[MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/)·가속기로 분리하는 하이브리드 구성을 택한다. 결국 SISD는 "옛날 방식"이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 시대에도 반드시 남겨야 할 <strong>순차 실행의 계약</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 도시 교통도 모든 길을 고속도로로 만들지 않는다. 골목길은 천천히지만 안전하게 두고, 멀리 가는 차들만 큰 도로로 보내야 도시 전체가 잘 굴러간다.
 
@@ -140,24 +142,29 @@ SISD의 가장 큰 효과는 **단순성에서 오는 [신뢰성](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 프로그램 방식의 순차 실행
-    │
-    ▼
-SISD (Single Instruction stream, Single Data stream)
-    │  단일 제어 흐름 기반
-    ▼
-파이프라이닝 (Pipelining) · 슈퍼스칼라 (Superscalar)
-    │  SISD 외형 유지 + 내부 병렬화
-    ▼
-SIMD (Single Instruction stream, Multiple Data stream)
-    │  데이터 병렬 구간 분리
-    ▼
-MIMD (Multiple Instruction stream, Multiple Data stream)
-    │  작업 병렬 확장
-    ▼
-멀티코어 · 가속기 · 이종 병렬 컴퓨팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 프로그램 방식의 순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SISD (Single Instruction stream, Single Data stream)</div>
+<div class="kb-diagram-note">단일 제어 흐름 기반</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라이닝 (Pipelining) · 슈퍼스칼라 (Superscalar)</div>
+<div class="kb-diagram-note">SISD 외형 유지 + 내부 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction stream, Multiple Data stream)</div>
+<div class="kb-diagram-note">데이터 병렬 구간 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIMD (Multiple Instruction stream, Multiple Data stream)</div>
+<div class="kb-diagram-note">작업 병렬 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 · 가속기 · 이종 병렬 컴퓨팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 컴퓨터 구조가 SISD를 버리고 대체했다기보다, SISD를 기준축으로 두고 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화와 외부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 단계적으로 확장해 왔음을 보여준다.
 

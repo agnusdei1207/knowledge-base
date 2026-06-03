@@ -31,27 +31,21 @@ tags = ["studynote-operating-system"]
 
 일대일 모델의 핵심 원리는 스케줄링의 주도권이 전적으로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 있다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           일대일 (One-to-One) 스레드 모델 아키텍처           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [사용자 공간 (User Space)]                                  │
-│   ┌───────┐      ┌───────┐      ┌───────┐                    │
-│   │ ULT 1 │      │ ULT 2 │      │ ULT 3 │                    │
-│   └───┬───┘      └───┬───┘      └───┬───┘                    │
-│       │ 1:1 매핑     │              │                        │
-│ ──────┼──────────────┼──────────────┼─────────────────────── │
-│       ▼              ▼              ▼                        │
-│   ┌───────┐      ┌───────┐      ┌───────┐                    │
-│   │ KLT 1 │      │ KLT 2 │      │ KLT 3 │                    │
-│   └───┬───┘      └───┬───┘      └───┬───┘                    │
-│  [커널 공간 (Kernel Space)]                                  │
-│       │              │              │                        │
-│       ▼              ▼              ▼                        │
-│  [ Core 0 ]     [ Core 1 ]     [ Core 2 ]                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일대일 (One-to-One) 스레드 모델 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간 (User Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 1</div><div class="kb-diagram-cell">ULT 2</div><div class="kb-diagram-cell">ULT 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1:1 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KLT 1</div><div class="kb-diagram-cell">KLT 2</div><div class="kb-diagram-cell">KLT 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0</div><div class="kb-diagram-node">Core 1</div><div class="kb-diagram-node">Core 2</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [사용자 수준 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT, [User-Level Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/))는 공유 라이브러리의 개입 없이 즉시 독립적인 KLT와 직결된다. 각 KLT는 자신만의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 블록 (TCB, [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 유지하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러에 의해 개별적으로 코어에 할당된다. 
 문제는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 라이프사이클이다. 사용자 공간에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 제거할 때마다 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간으로 진입(Mode [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))해야 하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당과 큐 등록 등 값비싼 오버헤드가 발생한다.
@@ -69,7 +63,7 @@ tags = ["studynote-operating-system"]
 | **매핑 방식** | 여러 ULT : 1 KLT | 1 ULT : 1 KLT |
 | **블로킹 영향** | [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 중단 (치명적) | 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 중단 (격리됨) |
 | **멀티코어 활용** | 불가능 (1개 코어만 사용) | 완벽 지원 (N개 코어 동시 사용) |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/스위칭 오버헤드**| 낮음 (사용자 공간에서 처리) | **높음 (시스템 콜 수반)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>/스위칭 오버헤드</strong>| 낮음 (사용자 공간에서 처리) | **높음 (시스템 콜 수반)** |
 | **동시 접속 한계** | 수만 개 이상 가벼운 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 한계로 무한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가 |
 
 일대일 모델은 멀티코어 환경에서 잦은 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 야기한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 코어 수를 초과하여 경쟁하게 되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 공평한 분배를 위해 KLT를 이 코어, 저 코어로 계속 옮겨야 한다. 이 과정에서 CPU의 L1/L2 캐시가 무효화되는 캐시 미스(Cache Miss)가 급증하여 시스템 전체 성능이 하락할 위험이 있다.
@@ -83,11 +77,11 @@ tags = ["studynote-operating-system"]
 일대일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델은 강력하지만, "요청 1건당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"이라는 순진한 아키텍처는 C10K (1만 개 동시 접속) 문제를 유발하며 시스템을 마비시킨다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 기준
-1. **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))의 필수 적용**: KLT의 무거운 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용과 메모리 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 방지하기 위해, 프로세스 시작 시점에 고정된 개수의 KLT를 미리 만들어두는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 기법이 반드시 동반되어야 한다. 서버 최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 물리 코어 수와 부하 특성에 맞게 적절히 제한(Bounded)되었는지 확인한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)의 필수 적용</strong>: KLT의 무거운 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용과 메모리 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 방지하기 위해, 프로세스 시작 시점에 고정된 개수의 KLT를 미리 만들어두는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 기법이 반드시 동반되어야 한다. 서버 최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 물리 코어 수와 부하 특성에 맞게 적절히 제한(Bounded)되었는지 확인한다.
 2. **부하 특성에 따른 아키텍처 전환**: CPU 연산이 많은 작업([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 등)은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기를 코어 수에 맞추는 일대일 최적화가 유리하다. 그러나 수만 개의 가벼운 I/O 커넥션(채팅, [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 등)을 맺어야 한다면 일대일 모델을 버리고 이벤트 기반(Event-driven) 논블로킹 아키텍처(예: Nginx, Node.js)로 전환을 판단해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **무제한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 없이 웹 서버에 들어오는 모든 사용자 요청마다 `new Thread()`를 호출하는 설계. 트래 트래픽 피크 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모 고갈과 CPU [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))으로 인해 시스템 전체가 응답 불능 상태에 빠진다.
+- <strong>무제한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 동적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 없이 웹 서버에 들어오는 모든 사용자 요청마다 `new Thread()`를 호출하는 설계. 트래 트래픽 피크 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모 고갈과 CPU [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))으로 인해 시스템 전체가 응답 불능 상태에 빠진다.
 
 - **📢 섹션 요약 비유**: 일대일 모델의 단점을 막으려면, 손님이 올 때마다 정규직 직원을 새로 뽑는([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 대신, 미리 10명의 숙련된 직원을 채용해두고([스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 대기표에 맞춰 차례대로 응대하게 하는 시스템을 구축해야 한다.
 
@@ -107,27 +101,29 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) 모델 ([Many-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/))** | 일대일 모델 이전에 사용되던 방식으로, 사용자 수준에서만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리하여 병렬성 확보가 불가능했던 레거시 모델 |
-| **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))** | 일대일 모델의 치명적 단점인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 소멸 오버헤드를 우회하기 위해 도입된 필수 아키텍처 패턴 |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | 일대일 모델에서 다수의 KLT가 CPU 코어를 경합할 때 발생하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환의 핵심 병목 구간 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/">다대일</a> 모델 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/">Many-to-One</a>)</strong> | 일대일 모델 이전에 사용되던 방식으로, 사용자 수준에서만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리하여 병렬성 확보가 불가능했던 레거시 모델 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> | 일대일 모델의 치명적 단점인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 소멸 오버헤드를 우회하기 위해 도입된 필수 아키텍처 패턴 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | 일대일 모델에서 다수의 KLT가 CPU 코어를 경합할 때 발생하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환의 핵심 병목 구간 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 스레드 프로세스 (동시성 없음)
-    │
-    ▼
-다대일 모델 (Many-to-One) · 사용자 수준 동시성 (블로킹 시 정지)
-    │
-    ▼
-일대일 모델 (One-to-One) · 커널 수준 병렬성 (완벽 격리, 무거운 오버헤드)
-    │
-    ▼
-스레드 풀 (Thread Pool) · KLT 재사용을 통한 생성 오버헤드 회피
-    │
-    ▼
-이벤트 구동 & 코루틴 (Goroutine 등) · C10K 극복을 위한 현대적 비동기 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 스레드 프로세스 (동시성 없음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다대일 모델 (Many-to-One) · 사용자 수준 동시성 (블로킹 시 정지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일대일 모델 (One-to-One) · 커널 수준 병렬성 (완벽 격리, 무거운 오버헤드)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스레드 풀 (Thread Pool) · KLT 재사용을 통한 생성 오버헤드 회피</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 구동 &amp; 코루틴 (Goroutine 등) · C10K 극복을 위한 현대적 비동기 진화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

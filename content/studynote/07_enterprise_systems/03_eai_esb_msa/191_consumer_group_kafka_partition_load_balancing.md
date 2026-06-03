@@ -33,18 +33,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 기본적인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Kafka consumer group assignment                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Topic: orders                                                        │
-│   P0 -----------------------------> Consumer A                       │
-│   P1 -----------------------------> Consumer B                       │
-│   P2 -----------------------------> Consumer C                       │
-│                                                                      │
-│ If Consumer B fails -> rebalance -> P1 moves to A or C              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka consumer group assignment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: orders</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 -----------------------------&gt; Consumer A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 -----------------------------&gt; Consumer B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2 -----------------------------&gt; Consumer C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If Consumer B fails -&gt; rebalance -&gt; P1 moves to A or C</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -105,7 +107,7 @@ tags = ["studynote-enterprise"]
 
 컨슈머 그룹은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 시스템에서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장과 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 동시에 가능하게 하는 핵심 메커니즘이다. 같은 업무를 수행하는 인스턴스를 수평 확장하면서도 그룹 내부 중복 처리를 피할 수 있고, 장애가 나도 남은 인스턴스로 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 재배치해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이어 갈 수 있다. 따라서 대규모 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 컨슈머 그룹은 운영 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)의 중심이 된다.
 
-그러나 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수, 키 분포, 리밸런싱 비용, 오프셋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 잘못 잡으면 기대한 효과가 나오지 않는다. 결국 기억해야 할 핵심은 "컨슈머를 늘리면 빨라진다"가 아니라, **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 단위이고 컨슈머 그룹은 그 단위를 안전하게 배분하는 구조**라는 점이다. 이 관점을 잡아야 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 튜닝과 장애 분석이 선명해진다.
+그러나 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수, 키 분포, 리밸런싱 비용, 오프셋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 잘못 잡으면 기대한 효과가 나오지 않는다. 결국 기억해야 할 핵심은 "컨슈머를 늘리면 빨라진다"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>이 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성의 단위이고 컨슈머 그룹은 그 단위를 안전하게 배분하는 구조</strong>라는 점이다. 이 관점을 잡아야 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 튜닝과 장애 분석이 선명해진다.
 
 - **📢 섹션 요약 비유**: 여러 명이 책을 읽어 주더라도 책이 장별로 잘 나뉘어 있고 어디까지 읽었는지 책갈피가 있어야 끊김 없이 이어 읽을 수 있는 것과 같다.
 
@@ -124,21 +126,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 컨슈머 병목과 Lag 증가
-        │
-        ▼
-토픽 파티션 분할
-        │
-        ▼
-Consumer Group 기반 병렬 소비
-        │
-        ▼
-Offset 관리 · Rebalancing · Lag 모니터링
-        │
-        ▼
-멱등성 · Exactly-Once Semantics 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 컨슈머 병목과 Lag 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">토픽 파티션 분할</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Consumer Group 기반 병렬 소비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Offset 관리 · Rebalancing · Lag 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멱등성 · Exactly-Once Semantics 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 소비에서 시작해, 점차 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 정교해지는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영 성숙도를 보여 준다.
 

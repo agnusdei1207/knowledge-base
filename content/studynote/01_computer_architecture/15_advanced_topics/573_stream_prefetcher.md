@@ -42,22 +42,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 스트림 학습이 어떻게 진행되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Stream Prefetcher: detect -> train -> prefetch                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Demand miss #1 : 0x1000                                                   │
-│ Demand miss #2 : 0x1040    (stride = +64B)                                │
-│ Demand miss #3 : 0x1080    (same stride confirmed)                        │
-│        │                                                                   │
-│        ├─ Stream table entry: {next=0x10C0, stride=+64, degree=2}         │
-│        │                                                                   │
-│        ├─ Prefetch req #1 ───────────────▶ 0x10C0                          │
-│        └─ Prefetch req #2 ───────────────▶ 0x1100                          │
-│                                                                            │
-│ CPU later requests 0x10C0 / 0x1100 -> ideally L2 or LLC hit               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream Prefetcher: detect -&gt; train -&gt; prefetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand miss #1 : 0x1000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand miss #2 : 0x1040 (stride = +64B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand miss #3 : 0x1080 (same stride confirmed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Stream table entry: {next=0x10C0, stride=+64, degree=2}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Prefetch req #1 ▶ 0x10C0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Prefetch req #2 ▶ 0x1100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU later requests 0x10C0 / 0x1100 -&gt; ideally L2 or LLC hit</div></div>
+</div>
+</div>
+
+
 
 보통 프리패처는 한두 번의 미스로 바로 확신하지 않는다. 먼저 훈련 단계에서 방향성과 보폭을 확인하고, 일정 횟수 이상 일치해야 "이 스트림은 믿을 만하다"라고 판단한다. 이후에는 프리패치 거리 (Prefetch Distance)와 프리패치 개수 (Degree)를 조절해 수요보다 너무 늦지도, 너무 빠르지도 않게 맞춘다. 또한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 경계, 권한 경계, 미결 요청 수, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 포화도 같은 조건을 보고 보수적으로 멈추는 장치도 함께 둔다.
 
@@ -133,21 +133,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인접 라인 프리패치
-        │
-        ▼
-스트림 버퍼 · 스트림 프리패처
-        │
-        ▼
-스트라이드 감지 · 루프 프리패처
-        │
-        ▼
-피드백 기반 적응형 프리패처
-        │
-        ▼
-소프트웨어 힌트 결합 · 하이브리드 프리패칭
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인접 라인 프리패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트림 버퍼 · 스트림 프리패처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트라이드 감지 · 루프 프리패처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피드백 기반 적응형 프리패처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 힌트 결합 · 하이브리드 프리패칭</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순히 다음 라인을 읽는 단계"에서 출발해, 점차 패턴 학습과 적응 제어를 결합하는 방향으로 프리패칭이 진화했음을 보여 준다.
 

@@ -22,11 +22,17 @@ tags = ["studynote-software-engineering"]
 
 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)는 빠르지만 키를 안전하게 공유하기 어렵고, [비대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/077_asymmetric_encryption/)는 공유는 쉽지만 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 암호화하기에는 느리다.
 그래서 실제 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 역할과 키를 전달하는 역할을 분리한다. 이 조합이 바로 하이브리드 암호다.
-```text
-송신자: 데이터 ─▶ AES로 암호화 ─▶ 암호문
-        └▶ 공개키로 세션키 암호화
-수신자: 개인키로 세션키 복호화 ─▶ 데이터 복호화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">송신자: 데이터 ─▶ AES로 암호화 ─▶ 암호문</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 공개키로 세션키 암호화</div>
+<div class="kb-diagram-note">수신자: 개인키로 세션키 복호화 ─▶ 데이터 복호화</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 빠른 암호와 안전한 키 교환을 따로 설계해야 한다.
 
@@ -104,21 +110,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-세션키 생성
-  │
-  ▼
-공개키로 세션키 보호
-  │
-  ▼
-세션키로 데이터 암호화
-  │
-  ▼
-무결성 태그 부착
-  │
-  ▼
-전송 → 복호화 → 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">세션키 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공개키로 세션키 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세션키로 데이터 암호화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무결성 태그 부착</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전송 → 복호화 → 검증</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리눅스 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 수십 개의 유저 앱들이 하드디스크나 SSD에 읽고 쓰겠다고 마구잡이로 던진 1차원적인 요청([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))들을 가로채, **하드웨어의 물리적 한계([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))를 덮어주고 프로세스 간의 공평성을 보장하도록 순서와 타이밍을 재배치(Sorting & Merging)하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 관제탑**이다.
-> 2. **가치**: 쇳덩어리 모터([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 동선을 아껴주는 **CFQ(엘리베이터)**, 1초 안에 무조건 응답을 빼주는 **[Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)(실시간 보장)**, 그리고 바늘이 없는 최신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 환경에서 오버헤드 0으로 직진하는 **NOOP(None)** 등 하드웨어 맞춤형 튜닝을 통해 디스크 스루풋을 극대화한다.
-> 3. **융합(진화)**: 단일 큐(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 시절의 병목을 부수고 멀티코어 64만 개의 큐를 뚫어버린 `blk-mq` 아키텍처 위에서, 모바일/데스크탑의 체감 반응성을 극한으로 끌어올린 **BFQ(예산 공평 큐잉)로 융합 진화**하며 현대 블록 I/O 생태계를 완벽하게 평정했다.
+> 1. **본질**: 리눅스 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 수십 개의 유저 앱들이 하드디스크나 SSD에 읽고 쓰겠다고 마구잡이로 던진 1차원적인 요청([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))들을 가로채, <strong>하드웨어의 물리적 한계(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)를 덮어주고 프로세스 간의 공평성을 보장하도록 순서와 타이밍을 재배치(Sorting &amp; Merging)하는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부의 관제탑</strong>이다.
+> 2. **가치**: 쇳덩어리 모터([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 동선을 아껴주는 **CFQ(엘리베이터)**, 1초 안에 무조건 응답을 빼주는 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>(실시간 보장)</strong>, 그리고 바늘이 없는 최신 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 환경에서 오버헤드 0으로 직진하는 **NOOP(None)** 등 하드웨어 맞춤형 튜닝을 통해 디스크 스루풋을 극대화한다.
+> 3. **융합(진화)**: 단일 큐(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 시절의 병목을 부수고 멀티코어 64만 개의 큐를 뚫어버린 `blk-mq` 아키텍처 위에서, 모바일/데스크탑의 체감 반응성을 극한으로 끌어올린 <strong>BFQ(예산 공평 큐잉)로 융합 진화</strong>하며 현대 블록 I/O 생태계를 완벽하게 평정했다.
 
 ---
 
@@ -24,40 +24,39 @@ tags = ["studynote-operating-system"]
 
   - **NOOP (없음)**: "나 알 바 아님. 온 순서대로 막 타!([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))" (손님이 순간 이동하는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 포탈 환경에서만 가능).
   - **CFQ (완전 공평)**: "A 학교, B 학교, C 학교 학생 1명씩 번갈아 가며 한 줄로 예쁘게 타세요!" (서버 전체의 앱들이 골고루 디스크를 쪼개 쓰는 낭만).
-  - **[Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) (시간제한)**: "VIP 손님은 무조건 0.5초 안에 태워줘야 하니까, 일반 줄 무시하고 VIP부터 냅다 꽂아!" (구석에 처박힌 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 렉 방지).
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a> (시간제한)</strong>: "VIP 손님은 무조건 0.5초 안에 태워줘야 하니까, 일반 줄 무시하고 VIP부터 냅다 꽂아!" (구석에 처박힌 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 렉 방지).
   - **BFQ (예산 할당)**: "너네 학교 덩치 제일 크니까 이번 턴에 10명 태워주고, 저 학교는 2명 태워줄게([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분배)." (현대 스마트폰의 렉 없는 터치감의 비밀).
 
 - **등장 배경 및 저장매체의 진화에 따른 멸망과 부활**:
   1. **HDD의 암흑기**: [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 8ms를 줄이기 위해 영혼을 갈아 넣은 CFQ(엘리베이터)가 리눅스 천하를 지배함.
   2. **SSD의 파괴적 등장**: 바늘이 없어져 정렬(Sorting)이 오히려 렉이 됨. CPU만 처먹는 CFQ가 버려지고 NOOP(무지성)이 왕좌에 오름.
-  3. **Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (`blk-mq`)의 혁명**: 코어 64개가 SSD에 100만 IOPS를 쏠 때 큐 1개(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸리자, 큐를 수만 개로 찢어버리며 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 생태계를 완전히 물갈이함.
+  3. <strong>Multi-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (<code>blk-mq</code>)의 혁명</strong>: 코어 64개가 SSD에 100만 IOPS를 쏠 때 큐 1개(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸리자, 큐를 수만 개로 찢어버리며 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 생태계를 완전히 물갈이함.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        리눅스 4대 I/O 스케줄러의 아키텍처 및 철학 비교 시각화           │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ ▶ 1. NOOP (No Operation / none) - SSD의 영원한 단짝                     │
-│   [앱 요청] ─▶ [단순 FIFO 큐] ─(정렬 없이 즉시)─▶ [SSD/NVMe]            │
-│   🚀 장점: CPU 오버헤드 0%. 순간 이동하는 SSD에 가장 미친 속도 뿜어냄.  │
-│                                                                         │
-│ ▶ 2. Deadline (데드라인) - 기아(Starvation) 박멸자                      │
-│   [읽기 큐: 500ms 제한] + [쓰기 큐: 5초 제한] ──▶ [엘리베이터 큐]       │
-│   ⏱️ 장점: 500ms 다 된 똥줄 타는 요청이 생기면 엘리베이터 동선 다       │
-│           무시하고 즉시 그쪽으로 바늘 꺾어버림. (DB 서버의 구원자)      │
-│                                                                         │
-│ ▶ 3. CFQ (Completely Fair Queuing) - 옛날 HDD의 제왕                    │
-│   [크롬 큐] [엑셀 큐] [카톡 큐] -> 각자 100ms씩 공평하게 디스크 줌      │
-│   ⚖️ 장점: 한 앱이 디스크 100% 독점해 서버 뻗는 걸 완벽 차단.           │
-│                                                                         │
-│ ▶ 4. BFQ (Budget Fair Queuing) - 현대 모바일/데스크탑의 패자            │
-│   CFQ 진화형. "디스크 시간"이 아닌 "데이터 예산(Byte)" 단위로 공평 배분.│
-│   📱 장점: 뒤에서 10GB 다운받아도 내 마우스 커서와 영상은 절대 안 끊김! │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 4대 I/O 스케줄러의 아키텍처 및 철학 비교 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. NOOP (No Operation / none) - SSD의 영원한 단짝</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단순 FIFO 큐</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSD/NVMe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 장점: CPU 오버헤드 0%. 순간 이동하는 SSD에 가장 미친 속도 뿜어냄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Deadline (데드라인) - 기아(Starvation) 박멸자</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">읽기 큐: 500ms 제한</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">쓰기 큐: 5초 제한</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엘리베이터 큐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⏱️ 장점: 500ms 다 된 똥줄 타는 요청이 생기면 엘리베이터 동선 다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무시하고 즉시 그쪽으로 바늘 꺾어버림. (DB 서버의 구원자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. CFQ (Completely Fair Queuing) - 옛날 HDD의 제왕</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">크롬 큐</div><div class="kb-diagram-node">엑셀 큐</div><div class="kb-diagram-node">카톡 큐</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">각자 100ms씩 공평하게 디스크 줌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚖️ 장점: 한 앱이 디스크 100% 독점해 서버 뻗는 걸 완벽 차단.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4. BFQ (Budget Fair Queuing) - 현대 모바일/데스크탑의 패자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CFQ 진화형. "디스크 시간"이 아닌 "데이터 예산(Byte)" 단위로 공평 배분.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 장점: 뒤에서 10GB 다운받아도 내 마우스 커서와 영상은 절대 안 끊김!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 리눅스 서버를 깔고 아무 세팅도 안 하면 서버의 잠재력을 50%도 못 쓴다. 하드디스크가 달린 옛날 서버에 `NOOP`을 주면 바늘이 널뛰다 모터가 타버리고, 최신 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 꽂힌 AWS 클라우드에 `CFQ`를 켜두면 CPU 코어가 정렬 헛수고를 하느라 IOPS가 1/10로 박살 난다. 하드웨어의 물리적 쌩얼을 정확히 파악하고 `echo none > /sys/block/sda/queue/scheduler`를 때려 넣는 자가 진정한 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 엔지니어다.
 
-- **📢 섹션 요약 비유**: 식당(서버)에서 주문을 쳐내는 4명의 매니저입니다. **NOOP**은 "들어온 대로 당장 주방에 찔러([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 최적)!" **CFQ**는 "1번 테이블 한 개, 2번 테이블 한 개 공평하게 나가!(하드디스크 최적)" **[Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)**은 "효율이고 뭐고 30분 넘게 화난 손님 1순위로 빼!(DB 최적)" **BFQ**는 "비싼 코스 요리 시킨 VIP석 팍팍 밀어줘(체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적)!"입니다. 식당의 메뉴판(하드웨어)에 따라 매니저를 갈아 끼워야 안 망합니다.
+- **📢 섹션 요약 비유**: 식당(서버)에서 주문을 쳐내는 4명의 매니저입니다. <strong>NOOP</strong>은 "들어온 대로 당장 주방에 찔러([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 최적)!" <strong>CFQ</strong>는 "1번 테이블 한 개, 2번 테이블 한 개 공평하게 나가!(하드디스크 최적)" <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a></strong>은 "효율이고 뭐고 30분 넘게 화난 손님 1순위로 빼!(DB 최적)" <strong>BFQ</strong>는 "비싼 코스 요리 시킨 VIP석 팍팍 밀어줘(체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적)!"입니다. 식당의 메뉴판(하드웨어)에 따라 매니저를 갈아 끼워야 안 망합니다.
 
 ---
 
@@ -65,12 +64,12 @@ tags = ["studynote-operating-system"]
 
 ### 1. [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 흑마술
 
-디스크는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)'보다 **'읽기(Read)'**가 수만 배 더 시급하다.
+디스크는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)'보다 <strong>'읽기(Read)'</strong>가 수만 배 더 시급하다.
 - 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 값을 덮어쓰는(Write) 건, 램 버퍼에 대충 던져놓고 딴일 하러 가면 된다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)).
 - 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을(Read) 때는? 디스크에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 올라올 때까지 앱 스레드가 꼼짝없이 기절(Blocked)해서 기다려야 한다.
 - **Deadline의 철학**: 
   1. 엘리베이터(C-LOOK)처럼 거리를 계산해 큐를 정렬한다.
-  2. 근데 큐 옆에 **'타이머 큐'**를 두 개 더 판다. (Read 큐 = 500ms 제한, Write 큐 = 5초 제한). 읽기에 극단적 특혜를 줬다.
+  2. 근데 큐 옆에 <strong>'타이머 큐'</strong>를 두 개 더 판다. (Read 큐 = 500ms 제한, Write 큐 = 5초 제한). 읽기에 극단적 특혜를 줬다.
   3. 평소엔 엘리베이터 큐대로 예쁘게 긁다가, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 500ms가 임박한 Read 요청이 터지면?
   4. 엘리베이터 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 박살 내고, 바늘을 휙 꺾어서 그 불쌍한 Read [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 구출해 온다.
   5. **결과**: 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크 구석에 박혀 영원히 굶어 죽는([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 것을 막아내며, DB 서버의 응답 기복([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 환상적으로 플랫하게 잡아준다. (오라클 DB의 추천 1순위 튜닝).
@@ -80,11 +79,11 @@ tags = ["studynote-operating-system"]
 ### 2. CFQ (Completely Fair Queuing)의 낭만과 멸망
 
 CFQ는 리눅스 2.6 시절을 씹어 먹던 제왕이었다.
-- **동작 원리**: 64개의 프로세스가 돌고 있으면, OS 안에 **64개의 내부 I/O 큐**를 따로 판다. 
+- **동작 원리**: 64개의 프로세스가 돌고 있으면, OS 안에 <strong>64개의 내부 I/O 큐</strong>를 따로 판다. 
 - 그리고 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))라는 거대한 피자를 64개의 프로세스에게 돌아가면서 '시간 조각(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/))'으로 떼어준다.
 - "크롬아, 네가 100ms 동안 디스크 혼자 독점해서 다 긁어! 그다음은 엑셀, 네가 100ms 독점해!"
 - **장점**: 어떤 미친 프로세스([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))가 1초에 1억 번 디스크를 긁어대도, 걔한테 허락된 시간은 100ms뿐이라 다른 프로세스들이 절대 렉이 안 걸린다. 궁극의 공평성(Fairness)이다.
-- **멸망의 이유 ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오자 이 100ms 시간 배분이 최악의 족쇄가 되었다. SSD는 동시에 10만 개를 꽂아도 다 처리하는 괴물인데, CFQ가 "잠깐! 엑셀 1명만 들어가서 100ms 써라!" 하고 입구 컷을 해버리니 SSD의 스피드가 1%도 발휘되지 못했다. 결국 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 레이어에서 불명예 퇴출당했다.
+- <strong>멸망의 이유 (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>)</strong>: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오자 이 100ms 시간 배분이 최악의 족쇄가 되었다. SSD는 동시에 10만 개를 꽂아도 다 처리하는 괴물인데, CFQ가 "잠깐! 엑셀 1명만 들어가서 100ms 써라!" 하고 입구 컷을 해버리니 SSD의 스피드가 1%도 발휘되지 못했다. 결국 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 레이어에서 불명예 퇴출당했다.
 
 - **📢 섹션 요약 비유**: 놀이공원 화장실(디스크) 앞입니다. [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 매니저는 배가 너무 아파서 쓰러지기 일보 직전인 사람(500ms 임박)을 줄 다 무시하고 무조건 1순위로 화장실에 밀어 넣습니다. CFQ 매니저는 배가 아프든 말든, 어른/아이/할아버지(프로세스별) 줄을 따로 세워놓고 "어른 1명 싸고, 그다음 아이 1명 싸라"며 평등에 목숨을 걸다가 화장실 칸([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 다중 처리) 100개가 비어있는데도 줄을 안 풀어줘서 폭동이 나는 꼴입니다.
 
@@ -98,27 +97,30 @@ CFQ는 리눅스 2.6 시절을 씹어 먹던 제왕이었다.
 
 | 척도 | 구형 블록 레이어 (Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 최신 blk-mq (Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) |
 |:---|:---|:---|
-| **큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 개수** | 시스템 전체에 딱 **1개**의 디스크 큐 | **CPU 코어 개수**만큼 큐를 뚫음 (예: 128개) |
-| **멀티코어 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**| 64코어가 1개 큐에 쑤셔 넣느라 **[Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 경합 터짐** | 각자 자기 코어 큐에 넣으면 끝 **([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Free 🚀)**|
-| **대응 스토리지** | 느린 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (1개 큐로도 충분함) | **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (초당 수백만 IOPS 감당)** |
-| **사라진 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | CFQ, 낡은 [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 영원히 폐기 처분됨 | `mq-deadline`, `bfq`, `none` 으로 완전 물갈이 |
+| <strong>큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>) 개수</strong> | 시스템 전체에 딱 <strong>1개</strong>의 디스크 큐 | <strong>CPU 코어 개수</strong>만큼 큐를 뚫음 (예: 128개) |
+| <strong>멀티코어 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>| 64코어가 1개 큐에 쑤셔 넣느라 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a> 경합 터짐</strong> | 각자 자기 코어 큐에 넣으면 끝 <strong>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Free 🚀)</strong>|
+| **대응 스토리지** | 느린 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (1개 큐로도 충분함) | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> (초당 수백만 IOPS 감당)</strong> |
+| <strong>사라진 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | CFQ, 낡은 [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 영원히 폐기 처분됨 | `mq-deadline`, `bfq`, `none` 으로 완전 물갈이 |
 
 ### BFQ (Budget Fair Queuing)의 스마트폰 혁명
-CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 **BFQ**라는 걸그룹 같은 이름의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 이식했다.
+CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 <strong>BFQ</strong>라는 걸그룹 같은 이름의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 이식했다.
 - CFQ의 문제점: "엑셀 너 디스크 100ms(시간) 동안 써!"라고 했더니, 빠른 SSD에서 엑셀 혼자 100ms 동안 10GB를 긁어버렸다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 독식).
 - **BFQ의 흑마술**: "시간이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예산(Budget)을 쏜다! 엑셀 너는 딱 50MB(섹터 개수)만 긁고 나와!" 
-- **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))**: BFQ는 유저가 화면에서 **터치(Touch)**하거나 마우스를 움직이는 액티브한 프로세스(GUI)를 귀신같이 알아채고 걔한테 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 몰아준다.
-- **결과**: 안드로이드 폰 뒤에서 10GB짜리 원신(Genshin) 게임을 다운받는 중(디스크 100% 혹사)이라도, 유저가 카카오톡 창을 스크롤하면 **1프레임의 버벅거림(Jitter)도 없이 부드럽게 내려가는 솜털 같은 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(UX 극대화)**을 달성하며 모바일 OS 천하를 통일했다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)</strong>: BFQ는 유저가 화면에서 <strong>터치(Touch)</strong>하거나 마우스를 움직이는 액티브한 프로세스(GUI)를 귀신같이 알아채고 걔한테 I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 몰아준다.
+- **결과**: 안드로이드 폰 뒤에서 10GB짜리 원신(Genshin) 게임을 다운받는 중(디스크 100% 혹사)이라도, 유저가 카카오톡 창을 스크롤하면 <strong>1프레임의 버벅거림(Jitter)도 없이 부드럽게 내려가는 솜털 같은 체감 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(UX 극대화)</strong>을 달성하며 모바일 OS 천하를 통일했다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 스토리지   │ 최적의 튜닝 │ 피해야 할 독약 │ 시스템 체감 효과     │
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ NVMe SSD │ `none`     │ `bfq`, `cfq`│ CPU 연산 0, 대역폭 폭발    │
-│ SATA HDD │ `mq-deadline`│ `none`      │ 드르륵 소리 줄고 수명연장│
-│ 스마트폰 │ `bfq`      │ `none`      │ 렉 없는 부드러운 터치감    │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지</div><div class="kb-diagram-cell">최적의 튜닝</div><div class="kb-diagram-cell">피해야 할 독약</div><div class="kb-diagram-cell">시스템 체감 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe SSD</div><div class="kb-diagram-cell"><code>none</code></div><div class="kb-diagram-cell"><code>bfq</code>, <code>cfq</code></div><div class="kb-diagram-cell">CPU 연산 0, 대역폭 폭발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA HDD</div><div class="kb-diagram-cell"><code>mq-deadline</code></div><div class="kb-diagram-cell"><code>none</code></div><div class="kb-diagram-cell">드르륵 소리 줄고 수명연장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰</div><div class="kb-diagram-cell"><code>bfq</code></div><div class="kb-diagram-cell"><code>none</code></div><div class="kb-diagram-cell">렉 없는 부드러운 터치감</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** "[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 샀으니 무조건 none(NOOP) 쓰면 되는 거 아냐?" 반은 맞고 반은 틀렸다. AWS 서버에서 DB 돌릴 땐 `none`이 신(God)이지만, 데스크탑이나 리눅스 노트북에서 `none`을 쓰면 백그라운드 윈도우 업데이트 돌 때 내 마우스 커서가 툭툭 끊기는 지옥을 맛본다. 용도(서버 스루풋 vs 유저 UX 체감)에 따라 무기를 갈아 끼우는 것이 아키텍트의 실력이다.
 
 - **📢 섹션 요약 비유**: 톨게이트(블록 레이어)입니다. 옛날엔 표 뽑는 아저씨가 1명(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))이라 차가 수만 대 밀리면 다 박살 났습니다. 하이패스 차로를 128개(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 뚫어버리니 차가 날아다닙니다. 여기서 빈 화물차 100대 뒤에 서 있는 구급차(사용자 터치 GUI)를 하이패스 1순위로 확 빼주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 바로 BFQ입니다. 체감 속도가 우주를 뚫죠.
@@ -141,7 +143,7 @@ CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 **BFQ*
 ### [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 2중 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링의 참사
 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 안의 우분투(Guest)가 `mq-deadline`으로 I/O를 정렬해서 밑으로 보냈다. 호스트(AWS 서버)에 있는 진짜 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그걸 받아서 또 `mq-deadline`으로 2차 정렬을 한다.
 정렬을 2번이나 하느라 CPU만 낭비되고 시간은 두 배로 늦어진다(Double Scheduling).
-**결론**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(가상 머신) 내부의 게스트 OS는 하드웨어의 물리적 쌩얼을 어차피 모른다(가짜 디스크). 따라서 가상 머신 안의 리눅스는 묻지도 따지지도 않고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 무조건 **`none (NOOP)`**으로 밀어버리고, 실제 물리 하드디스크가 달린 가장 밑바닥 호스트 OS 딱 1명만 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 돌려야 서버가 타지 않는다.
+**결론**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(가상 머신) 내부의 게스트 OS는 하드웨어의 물리적 쌩얼을 어차피 모른다(가짜 디스크). 따라서 가상 머신 안의 리눅스는 묻지도 따지지도 않고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 무조건 <strong><code>none (NOOP)</code></strong>으로 밀어버리고, 실제 물리 하드디스크가 달린 가장 밑바닥 호스트 OS 딱 1명만 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 돌려야 서버가 타지 않는다.
 
 - **📢 섹션 요약 비유**: 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보낼 때, 서울 지점([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에서 우편번호순으로 예쁘게 박스를 정렬([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링)해서 본사(호스트 OS)로 보냈는데, 본사에서 그걸 뜯어서 다시 박스 크기순으로 또 정렬(2중 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링)하고 앉아있습니다. 시간만 버리는 멍청한 짓이죠. 지점은 그냥 막 박스에 던져 넣고(none), 본사 한 곳에서만 딱 한 번 정렬해야 퇴근을 빨리 할 수 있습니다.
 
@@ -155,7 +157,7 @@ CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 **BFQ*
 |:---|:---|
 | **CPU-디바이스 매칭 최적화** | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)(바늘 이동 최소화), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)(CPU 락 프리 직통), 모바일(UI 반응성 우선) 등 하드웨어의 물리적 민낯에 완벽히 동기화된 맞춤형 스루풋 달성 |
 | **블록 레이어 병목 분쇄 (blk-mq)**| 싱글 큐의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 지옥을 다중 큐로 찢어버려, 코어가 128개인 매니코어 서버에서도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감소 없는 선형적 I/O 확장성(Scalability) 제공 |
-| **꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 방어** | [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 큐와 BFQ 예산 분배를 통해, 디스크 과부하 상태에서도 특정 프로세스가 무한 응답 대기에 빠지는 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 100% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| <strong>꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Tail <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 방어</strong> | [Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) 큐와 BFQ 예산 분배를 통해, 디스크 과부하 상태에서도 특정 프로세스가 무한 응답 대기에 빠지는 기아 현상([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 100% [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 
 ### 결론 및 미래 전망
 
@@ -176,15 +178,19 @@ CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 **BFQ*
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[LOOK 및 C-LOOK]
-    │
-    ▼
-[리눅스 I/O 스케줄러]
-    │
-    ├──▶ [솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
-    └──▶ [플래시 메모리 한계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LOOK 및 C-LOOK</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 I/O 스케줄러</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 메모리 한계</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

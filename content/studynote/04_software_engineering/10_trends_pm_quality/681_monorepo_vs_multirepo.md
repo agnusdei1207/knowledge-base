@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/))가 유행하면서 백엔드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 수십 개로 쪼개졌다. 자연스럽게 코드 저장소(Repository)도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 개수만큼 수십 개로 쪼개지는 **멀티레포(Multirepo)** 방식이 표준처럼 자리 잡았다.
 
-그러나 멀티레포 환경에서는 심각한 부작용이 발생했다. A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 공통으로 사용하는 '로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)'에 버그가 생기면, 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 저장소를 수정하고, npm에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올려 배포한 뒤, A와 B 저장소로 각각 찾아가 package.json의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리고 다시 빌드해야 하는 **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 지옥(Dependency Hell)**이 펼쳐졌다. 
+그러나 멀티레포 환경에서는 심각한 부작용이 발생했다. A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 공통으로 사용하는 '로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)'에 버그가 생기면, 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 저장소를 수정하고, npm에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올려 배포한 뒤, A와 B 저장소로 각각 찾아가 package.json의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리고 다시 빌드해야 하는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리 지옥(Dependency Hell)</strong>이 펼쳐졌다. 
 
-이를 해결하기 위해 "코드는 쪼개서 배포하되, 보관은 한 바구니에서 하자"는 역발상으로 돌아간 것이 바로 **모노레포(Monorepo)**이다.
+이를 해결하기 위해 "코드는 쪼개서 배포하되, 보관은 한 바구니에서 하자"는 역발상으로 돌아간 것이 바로 <strong>모노레포(Monorepo)</strong>이다.
 
 - **📢 섹션 요약 비유**: 멀티레포가 부서마다 각자의 캐비닛(저장소)을 쓰는 거라면, 모노레포는 회사 중앙 거실에 거대한 마스터 캐비닛 1개를 두고 모든 부서가 함께 쓰는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 모노레포 vs 멀티레포의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  모노레포 vs 멀티레포                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모노레포 vs 멀티레포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 모노레포 vs 멀티레포가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -60,29 +59,29 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **저장소 구조** | 1개의 Repository에 N개의 프로젝트 | N개의 Repository에 N개의 프로젝트 |
 | **의존성(패키지) 공유** | 로컬 경로를 참조하여 즉각적으로 공유 | 패키지 매니저(npm, Maven)를 통해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별로 다운로드 |
-| **코드 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)** | 전사 코드를 한 번의 커밋으로 전면 수정 가능 | 여러 저장소를 돌며 수차례 커밋 및 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 필요 |
+| <strong>코드 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong> | 전사 코드를 한 번의 커밋으로 전면 수정 가능 | 여러 저장소를 돌며 수차례 커밋 및 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 필요 |
 | **권한 관리** | 저장소 1개이므로 세밀한 권한 제어 까다로움 | 저장소 단위로 완벽한 접근 권한([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 분리 가능 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  모노레포의 의존성 해결 원리                 │
-├──────────────────────────────────────────────────────────────┤
-│ [단일 Git Repository: "My-Company-Repo"]                     │
-│                                                              │
-│ ├── apps/                                                    │
-│ │   ├── web-client/ (의존성: libs/ui-components)             │
-│ │   └── admin-page/ (의존성: libs/ui-components)             │
-│ │                                                            │
-│ └── libs/                                                    │
-│     ├── ui-components/  ◀─ (수정 후 커밋 1번이면 끝!)        │
-│     └── auth-utils/                                          │
-│                                                              │
-│ * web-client와 admin-page는 ui-components를 npm에서 받지 않고 │
-│   로컬 폴더를 직접 참조하므로, 버전 불일치 문제가 원천 차단됨. │
-└──────────────────────────────────────────────────────────────┘
-```
 
-모노레포의 핵심 원리는 **의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Dependency [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))** 분석이다. `ui-components`가 수정되면 빌드 시스템은 전체 코드를 다 빌드하는 것이 아니라, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 분석해 영향을 받는 `web-client`와 `admin-page`만 똑똑하게 부분 빌드(Incremental Build)하고 캐싱한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모노레포의 의존성 해결 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 Git Repository: "My-Company-Repo"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── apps/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── web-client/ (의존성: libs/ui-components)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── admin-page/ (의존성: libs/ui-components)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── libs/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ui-components/ ◀─ (수정 후 커밋 1번이면 끝!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── auth-utils/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* web-client와 admin-page는 ui-components를 npm에서 받지 않고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 폴더를 직접 참조하므로, 버전 불일치 문제가 원천 차단됨.</div></div>
+</div>
+</div>
+
+
+
+모노레포의 핵심 원리는 <strong>의존성 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Dependency <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong> 분석이다. `ui-components`가 수정되면 빌드 시스템은 전체 코드를 다 빌드하는 것이 아니라, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 분석해 영향을 받는 `web-client`와 `admin-page`만 똑똑하게 부분 빌드(Incremental Build)하고 캐싱한다.
 
 - **📢 섹션 요약 비유**: 멀티레포는 공통 부품을 수정할 때마다 포장해서 택배로 각 공장에 보내야 하지만, 모노레포는 한 지붕 아래에 부품 창고와 공장이 다 있어서 필요한 부품을 바로 옆방에서 꺼내 쓰면 된다.
 
@@ -104,7 +103,7 @@ tags = ["studynote-software-engineering"]
 | **결과물** | 하나의 거대한 단일 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Single Binary) | 독립적으로 배포되는 N개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 가능) |
 | **목적** | 아키텍처의 단순화 | 소스코드 의존성 및 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리의 단순화 |
 
-즉, **"저장소는 모노레포(1개)로 쓰면서, 배포는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(100개)로 하는 것"**이 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기업들의 표준적인 엔지니어링 조합이다.
+즉, <strong>"저장소는 모노레포(1개)로 쓰면서, 배포는 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>(100개)로 하는 것"</strong>이 최신 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기업들의 표준적인 엔지니어링 조합이다.
 
 - **📢 섹션 요약 비유**: 모놀리스는 모든 음식을 큰 솥 하나에 다 끓이는 '부대찌개'이고, 모노레포는 냉장고 하나(저장소)를 같이 쓰지만 요리(배포)는 스테이크, 파스타로 따로따로 예쁘게 접시에 담아내는 '파인다이닝'이다.
 
@@ -155,21 +154,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-모노레포 vs 멀티레포 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모노레포 vs 멀티레포 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

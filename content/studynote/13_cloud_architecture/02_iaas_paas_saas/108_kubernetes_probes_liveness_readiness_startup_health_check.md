@@ -36,27 +36,25 @@ tags = ["studynote-cloud-architecture"]
 | **Readiness Probe** | "이제 손님 받아도 돼?" [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 엔드포인트에 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) IP를 넣을지 뺄지 결정하는 신호등. | **(격리)** 실패 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이지 않고, 로드밸런서에서 제외하여 트래픽만 차단함. |
 | **Liveness Probe** | "너 아직 안 죽고 숨 쉬어?" 운영 중인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 데드락, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)로 멈췄는지 감시하는 좀비 암살자. | **(사살)** 실패 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 가차 없이 죽여버리고(Kill) 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 띄움(Restart). |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           K8s Probes 생명주기 및 트래픽 제어 흐름도               │
-├──────────────────────────────────────────────────────────────┤
-│ 1. [파드 생성] 컨테이너 시작 (Status: Running)                    │
-│        ▼                                                     │
-│ 2. [Startup Probe 작동] (최대 300초 대기 방어막)                  │
-│    - 무거운 Spring Boot 초기화 중...                           │
-│    - "성공(200 OK)!" -> 바리케이드 해제 및 방패 소멸              │
-│        ▼                                                     │
-│ 3. [Readiness & Liveness 동시 감시 시작]                        │
-│    ┌──────────────────────────┐  ┌──────────────────────────┐│
-│    │ Readiness: 2초마다 찌름    │  │ Liveness: 5초마다 찌름     ││
-│    │ (손님 받을 준비 됨?)       │  │ (안 죽고 살아있음?)        ││
-│    └─────────┬────────────────┘  └──────────┬───────────────┘│
-│              │                              │                │
-│    [성공 시] 로드밸런서(Service)에       [실패 시] 좀비 상태 확인!    │
-│    파드 IP 등록 -> 트래픽(손님) 유입      즉시 파드 사살(Kill) 및    │
-│    (무중단 배포 완성)                  새 파드로 재시작(Restart)   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s Probes 생명주기 및 트래픽 제어 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">파드 생성</div><div class="kb-diagram-note">컨테이너 시작 (Status: Running)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Startup Probe 작동</div><div class="kb-diagram-note">(최대 300초 대기 방어막)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무거운 Spring Boot 초기화 중...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "성공(200 OK)!" -&gt; 바리케이드 해제 및 방패 소멸</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Readiness &amp; Liveness 동시 감시 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Readiness: 2초마다 찌름</div><div class="kb-diagram-cell">Liveness: 5초마다 찌름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(손님 받을 준비 됨?)</div><div class="kb-diagram-cell">(안 죽고 살아있음?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">성공 시</div><div class="kb-diagram-note">로드밸런서(Service)에</div><div class="kb-diagram-node">실패 시</div><div class="kb-diagram-note">좀비 상태 확인!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파드 IP 등록 -&gt; 트래픽(손님) 유입 즉시 파드 사살(Kill) 및</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무중단 배포 완성) 새 파드로 재시작(Restart)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '역할의 분리'다. 손님을 막는 역할(Readiness)과 뇌사 상태의 직원을 잘라버리는 역할(Liveness)이 분리되어야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 안전하게 굴러간다.
 
@@ -91,7 +89,7 @@ K8s 아키텍처 설계 시 프로브 설정은 선택이 아닌 필수 감리 �
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성 찌르기**: Liveness Probe가 우리 앱이 아니라 '외부 결제사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'가 살아있는지를 체크하게 짜놓은 경우. 결제사 서버가 5분 점검을 시작하면, K8s는 우리 서버가 고장 난 줄 알고 멀쩡한 우리 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수백 개를 모조리 전기톱으로 썰어버리는 대학살이 벌어진다. Liveness는 절대 외부 의존성을 찌르면 안 된다.
+- <strong>외부 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 의존성 찌르기</strong>: Liveness Probe가 우리 앱이 아니라 '외부 결제사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'가 살아있는지를 체크하게 짜놓은 경우. 결제사 서버가 5분 점검을 시작하면, K8s는 우리 서버가 고장 난 줄 알고 멀쩡한 우리 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수백 개를 모조리 전기톱으로 썰어버리는 대학살이 벌어진다. Liveness는 절대 외부 의존성을 찌르면 안 된다.
 
 - **📢 섹션 요약 비유**: 우리 직원([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))의 옆구리를 찔러야 하는데, 실수로 옆집 사장님(외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 건강 상태를 찔러보도록 설정해 놓으면 옆집이 문을 닫았을 때 우리 직원들을 몽땅 해고해 버리는 황당한 팀킬 참사가 벌어집니다.
 
@@ -111,34 +109,36 @@ K8s 아키텍처 설계 시 프로브 설정은 선택이 아닌 필수 감리 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)** | K8s의 각 워커 노드에 찰싹 붙어서, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하고 프로브로 찔러보며 감시하는 현장 소장(Agent). |
-| **[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (로드밸런서)** | Readiness Probe가 "합격(200 OK)" 판정을 내린 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 IP만 쏙쏙 골라 Endpoints 리스트에 넣고 트래픽을 분산해 주는 접수원. |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a></strong> | K8s의 각 워커 노드에 찰싹 붙어서, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하고 프로브로 찔러보며 감시하는 현장 소장(Agent). |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (로드밸런서)</strong> | Readiness Probe가 "합격(200 OK)" 판정을 내린 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 IP만 쏙쏙 골라 Endpoints 리스트에 넣고 트래픽을 분산해 주는 접수원. |
 | **CrashLoopBackOff** | Liveness Probe에 찔려 죽고 재시작하기를 끝없이 반복하는 지옥의 굴레. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 기동 실패의 가장 흔한 에러 메시지. |
-| **[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime ([무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/))** | [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) 시 구버전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 끄기 전에, 신버전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 Readiness Probe가 성공할 때까지 기다려 단 1건의 고객 트래픽도 유실되지 않게 하는 배포 기법. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Downtime (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">무중단 배포</a>)</strong> | [롤링 업데이트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) 시 구버전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 끄기 전에, 신버전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 Readiness Probe가 성공할 때까지 기다려 단 1건의 고객 트래픽도 유실되지 않게 하는 배포 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-물리 서버 수동 감시 시대 (사람이 로그 보고 L4 스위치 수동 연결)
-    │
-    ▼
-Docker 컨테이너 시대 (프로세스 생사만 알 수 있고 뱃속은 모름)
-    │
-    ▼
-K8s Liveness / Readiness 도입 (앱 내부의 비즈니스 로직 헬스체크 및 트래픽 자동 격리/사살 분리)
-    │
-    ▼
-무거운 레거시 앱의 K8s 이주 가속화 (무한 재부팅 팀킬 부작용 발생)
-    │
-    ▼
-Startup Probe 탄생 (초기 부팅 시 방어막 제공으로 모든 앱의 완벽한 생명주기 통제 완성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물리 서버 수동 감시 시대 (사람이 로그 보고 L4 스위치 수동 연결)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Docker 컨테이너 시대 (프로세스 생사만 알 수 있고 뱃속은 모름)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s Liveness / Readiness 도입 (앱 내부의 비즈니스 로직 헬스체크 및 트래픽 자동 격리/사살 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무거운 레거시 앱의 K8s 이주 가속화 (무한 재부팅 팀킬 부작용 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Startup Probe 탄생 (초기 부팅 시 방어막 제공으로 모든 앱의 완벽한 생명주기 통제 완성)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **Startup Probe**는 "나 밥 먹는 중이니까 건들지 마!" 하고 방문에 걸어두는 방해 금지 팻말이에요.
-2. **Readiness Probe**는 숙제를 다 끝마친 아이에게만 밖으로 나가서 친구들(트래픽)과 놀게 허락해 주는 깐깐한 엄마예요.
-3. **Liveness Probe**는 일하다가 눈 뜨고 잠든(좀비 상태) 직원을 발견하면 즉시 번쩍 들어서 병원에 눕히고 쌩쌩한 새 직원을 데려오는 감독관이에요!
+1. <strong>Startup Probe</strong>는 "나 밥 먹는 중이니까 건들지 마!" 하고 방문에 걸어두는 방해 금지 팻말이에요.
+2. <strong>Readiness Probe</strong>는 숙제를 다 끝마친 아이에게만 밖으로 나가서 친구들(트래픽)과 놀게 허락해 주는 깐깐한 엄마예요.
+3. <strong>Liveness Probe</strong>는 일하다가 눈 뜨고 잠든(좀비 상태) 직원을 발견하면 즉시 번쩍 들어서 병원에 눕히고 쌩쌩한 새 직원을 데려오는 감독관이에요!
 
 ---
 

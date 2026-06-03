@@ -17,35 +17,29 @@ tags = ["security"]
 
 ### 네트워크의 끝이자 보안의 시작: 엔드포인트
 
-아무리 강력한 방화벽을 세워도, 직원의 노트북이 카페 Wi-Fi에서 해킹당하거나 USB를 통해 기밀 자료가 빠져나간다면 보안은 무의미하다. **엔드포인트**는 사용자가 직접 데이터를 다루는 최종 접점으로, 공격자가 가장 쉽게 침투할 수 있는 '가장 약한 고리 (Weakest Link)'이자 최후의 보루이다.
+아무리 강력한 방화벽을 세워도, 직원의 노트북이 카페 Wi-Fi에서 해킹당하거나 USB를 통해 기밀 자료가 빠져나간다면 보안은 무의미하다. <strong>엔드포인트</strong>는 사용자가 직접 데이터를 다루는 최종 접점으로, 공격자가 가장 쉽게 침투할 수 있는 '가장 약한 고리 (Weakest Link)'이자 최후의 보루이다.
 
-엔드포인트 보안이 필요한 이유는 세 가지이다. 첫째, **악성코드 감염의 차단**을 위해서이다. 이메일 첨부파일이나 웹 다운로드를 통한 감염은 단말에서 즉시 잡아야 한다. 둘째, **내부 정보 유출 방지**를 위해서이며 (DLP, USB 제어), 셋째, 스마트폰과 태블릿을 이용한 **모바일 오피스 환경**의 안전한 접속을 보장하기 위함이다.
+엔드포인트 보안이 필요한 이유는 세 가지이다. 첫째, <strong>악성코드 감염의 차단</strong>을 위해서이다. 이메일 첨부파일이나 웹 다운로드를 통한 감염은 단말에서 즉시 잡아야 한다. 둘째, <strong>내부 정보 유출 방지</strong>를 위해서이며 (DLP, USB 제어), 셋째, 스마트폰과 태블릿을 이용한 <strong>모바일 오피스 환경</strong>의 안전한 접속을 보장하기 위함이다.
 
 이 그림은 엔드포인트에서 작동하는 다중 보안 모듈의 계층 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Endpoint Security Architecture              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User / Application ]                                    │
-│          │                                                  │
-│   ┌──────▼──────┐                                           │
-│   │ DLP / DRM   │ ──▶ 콘텐츠 암호화 및 유출 차단            │
-│   ├─────────────┤                                           │
-│   │ EDR / AV    │ ──▶ 실시간 행위 감시 및 백신              │
-│   ├─────────────┤                                           │
-│   │ Patch Mgmt  │ ──▶ OS 및 앱 보안 취약점 자동 업데이트    │
-│   ├─────────────┤                                           │
-│   │ Media Ctrl  │ ──▶ USB, 카메라, 블루투스 제어            │
-│   └──────┬──────┘                                           │
-│          │                                                  │
-│   [ Operating System (Kernel) ] ◀──▶ [ Hardware / TPM ]     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '통합 에이전트'의 효율성이다. 너무 많은 보안 프로그램이 돌면 단말 속도가 느려지므로, 하나의 가벼운 에이전트가 여러 기능을 동시에 수행하는 **EPP (Endpoint Protection Platform)** 아키텍처가 선호된다. 실무에서는 이러한 에이전트들의 정상 작동 여부를 중앙에서 감시하는 **무결성 점검**이 필수적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint Security Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User / Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP / DRM</div><div class="kb-diagram-cell">──▶ 콘텐츠 암호화 및 유출 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDR / AV</div><div class="kb-diagram-cell">──▶ 실시간 행위 감시 및 백신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch Mgmt</div><div class="kb-diagram-cell">──▶ OS 및 앱 보안 취약점 자동 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Media Ctrl</div><div class="kb-diagram-cell">──▶ USB, 카메라, 블루투스 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System (Kernel)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Hardware / TPM</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '통합 에이전트'의 효율성이다. 너무 많은 보안 프로그램이 돌면 단말 속도가 느려지므로, 하나의 가벼운 에이전트가 여러 기능을 동시에 수행하는 **EPP (Endpoint Protection Platform)** 아키텍처가 선호된다. 실무에서는 이러한 에이전트들의 정상 작동 여부를 중앙에서 감시하는 <strong>무결성 점검</strong>이 필수적이다.
 
 ### 엔드포인트 보안의 핵심 구성 요소
 
@@ -72,25 +66,22 @@ tags = ["security"]
 - **탐지 방식**: 키워드 매칭, 정규 표현식 (주민번호 등), 지문 인식 (Fingerprinting).
 - **통제 지점**: USB 복사, 이메일 첨부, 메신저 전송, 클라우드 업로드, 프린터 출력.
 
-이 구조도는 기업용 단말 관리 플랫폼인 **UEM (Unified Endpoint Management)**의 통합 관리 체계를 보여준다.
+이 구조도는 기업용 단말 관리 플랫폼인 <strong>UEM (Unified Endpoint Management)</strong>의 통합 관리 체계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 UEM: Unified Management Center              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Central Admin Console ]                                 │
-│          │                                                  │
-│   ┌──────┴───────────────┬───────────────────┐              │
-│   ▼                      ▼                   ▼              │
-│ [ Windows PC ]        [ macOS ]           [ Mobile ]        │
-│ - OS Patching         - Inventory         - Container (BYOD)│
-│ - Soft Install        - Policy Enforce    - Remote Wipe     │
-│                                                             │
-│   * 핵심: 서로 다른 기종의 단말을 단일 정책으로 조율       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEM: Unified Management Center</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Central Admin Console</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Windows PC</div><div class="kb-diagram-node">macOS</div><div class="kb-diagram-node">Mobile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS Patching - Inventory - Container (BYOD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Soft Install - Policy Enforce - Remote Wipe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 서로 다른 기종의 단말을 단일 정책으로 조율</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '가시성 (Inventory)'이다. 우리 회사에 어떤 기기가 몇 대 있는지, 어떤 소프트웨어가 깔려 있는지 모르면 보안은 불가능하다. 실무에서는 특히 개인 기기를 업무에 쓰는 **BYOD (Bring Your Own Device)** 환경에서 개인 영역과 업무 영역을 논리적으로 분리하는 **컨테이너화** 기술이 핵심이다.
 
@@ -115,7 +106,7 @@ tags = ["security"]
 
 | 항목 | DLP (Data Loss Prevention) | DRM (Digital Rights Mgmt) |
 |:---:|:---|:---|
-| **중점** | **유출 경로** 통제 | **데이터 자체**를 암호화 |
+| **중점** | **유출 경로** 통제 | <strong>데이터 자체</strong>를 암호화 |
 | **핵심** | "못 나가게 막는다" | "나가도 못 읽게 한다" |
 | **장점** | 다양한 유출 차단 (USB 등) | 데이터 생명주기 전체 보호 |
 | **단점** | 암호화 기능 없음 | 모든 앱에 적용하기 무거움 |
@@ -129,29 +120,27 @@ tags = ["security"]
 ### 기술사적 판단: 단말 관리 및 유출 방지 전략
 
 **시나리오 1: 재택근무용 개인 노트북의 사내 망 접속 허용**
-- **판단**: 단말의 신뢰도를 믿을 수 없다. **NAC (Network Access Control)**와 연동하여 필수 보안 소프트웨어 설치 여부와 OS 최신 패치 상태를 검증한 후에만 VPN 접속을 허용한다. 기기 내부 데이터 유출을 막기 위해 **VDI (데스크탑 가상화)** 환경을 구축하여 데이터가 아예 개인 노트북에 저장되지 않고 중앙 서버에서만 돌도록 아키텍처를 설계한다.
+- **판단**: 단말의 신뢰도를 믿을 수 없다. <strong>NAC (Network Access Control)</strong>와 연동하여 필수 보안 소프트웨어 설치 여부와 OS 최신 패치 상태를 검증한 후에만 VPN 접속을 허용한다. 기기 내부 데이터 유출을 막기 위해 **VDI (데스크탑 가상화)** 환경을 구축하여 데이터가 아예 개인 노트북에 저장되지 않고 중앙 서버에서만 돌도록 아키텍처를 설계한다.
 
 **시나리오 2: 설계 도면 등 핵심 기술 유출 징후 포착**
 - **판단**: 단순 패턴 매칭으로는 지능형 유출을 막기 힘들다. 사용자의 평소 행동 패턴을 학습하는 **UEBA (User and Entity Behavior Analytics)** 기술을 도입한다. 퇴사 예정자가 평소보다 대량의 데이터를 다운로드하거나 비업무 시간에 접속하는 등의 '이상 행위'를 점수로 수치화하여 보안팀에 즉각 경고를 보내는 지능형 감시 체계를 구축한다.
 
 이 도식은 데이터 유출 사고 발생 시 기술사가 지휘해야 할 'DLP 대응 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               DLP Incident Response Workflow                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Data Movement Detected ] ──▶ [ Policy Matching ]        │
-│                                           │                 │
-│          ┌────────────────────────────────┴──────┐          │
-│          ▼ (Violation)                           ▼ (Normal) │
-│   [ Block & Log ] ──▶ [ Evidence Collection ] ──▶ [ Pass ]  │
-│          │                   (캡처, 파일복사)               │
-│          ▼                                                  │
-│   [ Admin Alert ] ──▶ [ User Feedback / Disciplinary ]      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP Incident Response Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Movement Detected</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Matching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Violation) ▼ (Normal)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Block &amp; Log</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Evidence Collection</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pass</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캡처, 파일복사)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Admin Alert</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">User Feedback / Disciplinary</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 엔드포인트 설계는 '개인용 스마트 금고'를 나누어 주는 것과 같습니다. 쓰기 편해야 하지만(사용성), 금고가 낡으면(패치 관리) 즉시 교체해주고, 주인이 엉뚱한 마음을 먹지 않는지(내부자 관리)를 세심하게 살피는 전문가입니다.
 
@@ -166,7 +155,7 @@ tags = ["security"]
 
 ### 미래 전망: 클라우드 기반 XDR과 AI 에이전트
 
-향후 엔드포인트 보안은 단말 단독 관리를 넘어 네트워크, 클라우드 로그를 통합 분석하는 **XDR (Extended Detection and Response)**로 진화할 것이다. 또한 단말 내에서 AI가 직접 공격을 판단하고 자동으로 치료하는 **Autonomous Endpoint AI**가 보편화될 것이다. 기술사는 개별 단말의 백신 설정을 넘어, 전사적 데이터 흐름과 사용자의 신뢰 점수를 실시간으로 조율하는 '트러스트 오케스트레이터'로 거듭나야 한다.
+향후 엔드포인트 보안은 단말 단독 관리를 넘어 네트워크, 클라우드 로그를 통합 분석하는 <strong>XDR (Extended Detection and Response)</strong>로 진화할 것이다. 또한 단말 내에서 AI가 직접 공격을 판단하고 자동으로 치료하는 <strong>Autonomous Endpoint AI</strong>가 보편화될 것이다. 기술사는 개별 단말의 백신 설정을 넘어, 전사적 데이터 흐름과 사용자의 신뢰 점수를 실시간으로 조율하는 '트러스트 오케스트레이터'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 엔드포인트 보안은 '스마트 워치'와 같아질 것입니다. 내 몸의 건강 상태(단말 무결성)를 24시간 체크하고, 병이 나기 전(공격 징후)에 미리 알려주며, 아프면 스스로 치료를 시작하는 지능형 건강 관리사가 될 것입니다.
 

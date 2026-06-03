@@ -29,15 +29,21 @@ tags = ["studynote-devops"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Branch A + Branch B
-  ↓
-Merge Conflict
-  ↓
-Manual Resolution
-  ↓
-Merge / Rebase
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Branch A + Branch B</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge Conflict</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Manual Resolution</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge / Rebase</div>
+</div>
+</div>
+
+
 
 | 방식 | 특징 |
 | :-- | :-- |
@@ -103,29 +109,41 @@ Merge와 Rebase는 도구가 아니라 [전략](/knowledge-base/studynote/04_sof
 
 ## 관련 개념 맵
 
-```text
-Branch
-  ↓
-Merge Conflict
-  ↓
-Merge / Rebase
-  ↓
-Collaboration
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Branch</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge Conflict</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge / Rebase</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Collaboration</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Git Branch
-  ↓
-Conflict
-  ↓
-Merge / Rebase
-  ↓
-Branch Policy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Git Branch</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Conflict</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Merge / Rebase</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Branch Policy</div>
+</div>
+</div>
+
+
 
 ---
 

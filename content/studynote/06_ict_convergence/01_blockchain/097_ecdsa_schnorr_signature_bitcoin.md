@@ -33,24 +33,26 @@ tags = ["ict_convergence"]
 | 요소 | ECDSA 아키텍처 | 슈노르 서명 아키텍처 |
 | :--- | :--- | :--- |
 | **서명 기록 방식** | 서명자 수(N)만큼 N개의 서명 기록 | 서명자 수에 상관없이 단 1개의 서명 기록 |
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식** | N번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산 수행 | 1번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산으로 묶어서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 방식</strong> | N번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산 수행 | 1번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산으로 묶어서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **수학적 특성** | 비선형적 (합치기 불가) | 선형적 (덧셈을 통한 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Aggregation 가능) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           슈노르 서명의 다중 서명 병합(Aggregation) 시각화   │
-├──────────────────────────────────────────────────────────────┤
-│ [ ECDSA 방식: 3명 서명 시 ]                                  │
-│ 서명1(Alice) + 서명2(Bob) + 서명3(Carol) ─▶ 블록에 3개 다 저장│
-│ (공간 낭비 심함, 누가 참여했는지 다 보임)                    │
-│                                                              │
-│ [ 슈노르 서명 방식: 3명 서명 시 ]                            │
-│ 서명1(Alice) ┐                                              │
-│ 서명2(Bob)   ├─(수학적 덧셈 융합)─▶ 슈퍼 서명 1개로 압축   │
-│ 서명3(Carol) ┘                       블록에 1개만 저장      │
-│ (공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슈노르 서명의 다중 서명 병합(Aggregation) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA 방식: 3명 서명 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명1(Alice) + 서명2(Bob) + 서명3(Carol) ─▶ 블록에 3개 다 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 낭비 심함, 누가 참여했는지 다 보임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슈노르 서명 방식: 3명 서명 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명1(Alice)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명2(Bob) ─(수학적 덧셈 융합)─▶ 슈퍼 서명 1개로 압축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명3(Carol) 블록에 1개만 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)</div></div>
+</div>
+</div>
+
+
 
 슈노르 서명은 단순히 크기를 줄이는 것을 넘어, 연산 로직을 선형 방정식 구조로 단순화하여 보안 증명이 ECDSA보다 훨씬 명확하고 깔끔하다.
 
@@ -66,7 +68,7 @@ tags = ["ict_convergence"]
 | :--- | :--- | :--- |
 | **서명 크기 (멀티시그)** | 서명자 수에 비례하여 선형 증가 | 서명자가 몇 명이든 고정된 크기 (64바이트) |
 | **프라이버시** | 멀티시그 거래임이 장부에 노출됨 | 단일 서명 거래와 형태가 같아 완벽히 숨겨짐 |
-| **배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Batch [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))**| 불가능 (일일이 하나씩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 가능 (수천 개의 서명을 한 번의 연산으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
+| <strong>배치 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Batch <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>| 불가능 (일일이 하나씩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) | 가능 (수천 개의 서명을 한 번의 연산으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) |
 | **특허 문제** | 처음부터 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) | 과거에 특허에 묶여 있다가 2008년 만료됨 |
 
 이러한 차이는 네트워크 노드들이 블록을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 CPU 부하를 극적으로 낮추어, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 최대 난제인 확장성 (Scalability) 문제를 완화하는 핵심 연결고리가 된다.
@@ -80,9 +82,9 @@ tags = ["ict_convergence"]
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 코어 개발 및 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 실무에서 슈노르 서명의 도입은 혁명적인 아키텍처 변화를 요구한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 복잡도**: 복잡한 다중 서명 조건(Threshold Signature)을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스크립트 단이 아니라 오프체인(Off-chain)에서 서명 병합으로 처리할 수 있는가?
-2. **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수수료 최적화**: 거래 크기([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))당 수수료를 지불하는 구조에서, 서명 크기를 줄여 고객의 가스비([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Fee)를 절감할 수 있는가?
-3. **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (MuSig)**: 여러 명이 서명을 합칠 때, 악의적인 참여자가 가짜 키를 섞어 남의 자산을 탈취하려는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 키 공격 (Rogue [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Attack)을 방어하기 위해 MuSig [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 올바르게 구현했는가?
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> 복잡도</strong>: 복잡한 다중 서명 조건(Threshold Signature)을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 스크립트 단이 아니라 오프체인(Off-chain)에서 서명 병합으로 처리할 수 있는가?
+2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 수수료 최적화</strong>: 거래 크기([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))당 수수료를 지불하는 구조에서, 서명 크기를 줄여 고객의 가스비([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Fee)를 절감할 수 있는가?
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (MuSig)</strong>: 여러 명이 서명을 합칠 때, 악의적인 참여자가 가짜 키를 섞어 남의 자산을 탈취하려는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 키 공격 (Rogue [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Attack)을 방어하기 위해 MuSig [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 올바르게 구현했는가?
 
 단순히 서명을 바꾸는 것이 아니라 키를 조립하고 서명 세션을 조율하는 지갑(Wallet) 소프트웨어의 구조 자체가 완전히 재설계되어야 한다.
 
@@ -104,28 +106,30 @@ tags = ["ict_convergence"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 암호 ([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))** | ECDSA와 슈노르 서명이 기반으로 하는 비대칭키 수학 구조 |
+| <strong><a href="/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/">타원곡선</a> 암호 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>)</strong> | ECDSA와 슈노르 서명이 기반으로 하는 비대칭키 수학 구조 |
 | **다중 서명 (Multi-Sig)** | 여러 주체의 승인이 필요한 거래로, 슈노르 서명을 통해 1개로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)됨 |
 | **탭루트 (Taproot)** | 슈노르 서명을 비트코인 네트워크에 적용하기 위한 대규모 소프트포크 업그레이드 |
-| **MuSig [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)** | 슈노르 서명 병합 시 발생할 수 있는 보안 취약점을 막기 위한 다자간 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong>MuSig <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong> | 슈노르 서명 병합 시 발생할 수 있는 보안 취약점을 막기 위한 다자간 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비트코인 탄생 및 ECDSA 채택 (안정성 중시)
-    │
-    ▼
-다중 서명(Multi-Sig) 및 스마트 컨트랙트 수요 증가
-    │
-    ▼
-블록 용량 고갈 및 트랜잭션 지연/수수료 폭등 문제 직면
-    │
-    ▼
-슈노르 서명 (Schnorr Signature) 알고리즘 도입
-    │
-    ▼
-서명 병합(Key Aggregation)을 통한 프라이버시 및 확장성 동시 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비트코인 탄생 및 ECDSA 채택 (안정성 중시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 서명(Multi-Sig) 및 스마트 컨트랙트 수요 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록 용량 고갈 및 트랜잭션 지연/수수료 폭등 문제 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슈노르 서명 (Schnorr Signature) 알고리즘 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서명 병합(Key Aggregation)을 통한 프라이버시 및 확장성 동시 확보</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

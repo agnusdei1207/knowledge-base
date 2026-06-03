@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 916번의 냅스터, 당나귀 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) P2P는 착한 사람들(Seed)이 자기 컴퓨터를 켜놓고 1GB 영화를 남들에게 희생하며 업로드해 줬습니다.
-- 하지만 **프리라이더(Free-Rider, 무임승차자)**들이 다운로드만 100% 빨아먹고 업로드 끄기를 시전하자, 결국 줄 사람이 없어져 다운로드 속도가 10kbps로 지옥을 쳤습니다.
+- 하지만 <strong>프리라이더(Free-Rider, 무임승차자)</strong>들이 다운로드만 100% 빨아먹고 업로드 끄기를 시전하자, 결국 줄 사람이 없어져 다운로드 속도가 10kbps로 지옥을 쳤습니다.
 
-```text
-[P2P]
-    │
-    ▼
-[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    └──▶ [블록체인 네트워크 계층 가십 프로토콜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 
 - **개념**: 1개의 거대한 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 256KB짜리 아주 작은 **퍼즐 조각(Piece)** 수천 개로 갈기갈기 찢은 뒤, 다운로드를 받고 있는 수십 명의 사람들(Leecher)끼리 자신들이 방금 다운받은 '퍼즐 조각'들을 서로 실시간으로 교환(물물교환)하게 만들어, 다운로더가 곧 업로더가 되는 기적의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
-```text
-[P2P]
-    │
-    ▼
-[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    └──▶ [블록체인 네트워크 계층 가십 프로토콜]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,7 +66,7 @@ tags = ["studynote-network"]
 
 ### 1. 팃포탯 (Tit-for-Tat, 눈에는 눈 이에는 이) 원리
 - 내 컴퓨터(클라이언트)는 다른 50명의 사람들과 연결되어 있습니다.
-- 폰 노이만 게임 이론에 따라, 내 컴퓨터는 나에게 퍼즐 조각([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 **가장 빨리, 많이 던져주는 상위 4명의 착한 놈들**을 10초마다 줄 세워 평가합니다.
+- 폰 노이만 게임 이론에 따라, 내 컴퓨터는 나에게 퍼즐 조각([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 <strong>가장 빨리, 많이 던져주는 상위 4명의 착한 놈들</strong>을 10초마다 줄 세워 평가합니다.
 - **언초크 (Unchoke, 숨통 열어주기)**: 상위 4명에게는 "오, 너 나한테 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 빵빵하게 쏘네? 고마워! 나도 내가 가진 조각 너한테 무제한으로 쏠게!" 하며 업로드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 밸브를 활짝 열어줍니다. 서로 윈윈하며 속도가 100Mbps로 폭발합니다.
 - **초크 (Choke, 목 조르기)**: 나에게 다운로드만 받고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 안 주는 얌체(먹튀) 놈들에게는 얄짤없습니다. 즉시 밸브를 잠가버리고(목 조르기) 단 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 던져주지 않습니다. 
 - **결과**: 결국 토렌트 망에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 빨리 다운받으려면, 내 업로드 속도를 최대로 열어서 남에게 많이 바쳐야만 나도 언초크 대우를 받아 다운로드 속도가 튀어 오르는 완벽한 자본주의 선순환(인센티브)이 완성됩니다.
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 퍼즐 조각 중 9,999개는 동네에 널려 있는데, 마지막 1번 조각(희귀템)을 가진 사람이 방을 나가면 영원히 99%에서 다운로드가 멈춥니다.
-- 토렌트는 동네 컴퓨터들을 쫙 스캔해서 **가장 희귀한 조각(남들이 안 가진 조각)**을 발견하면, 그 흔해 빠진 조각은 나중에 받고 무조건 그 희귀 조각부터 1순위로 낚아채서 내 하드에 복사해 둡니다(희귀성 보존). 이 덕분에 망 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 절대 멸종되지 않습니다.
+- 토렌트는 동네 컴퓨터들을 쫙 스캔해서 <strong>가장 희귀한 조각(남들이 안 가진 조각)</strong>을 발견하면, 그 흔해 빠진 조각은 나중에 받고 무조건 그 희귀 조각부터 1순위로 낚아채서 내 하드에 복사해 둡니다(희귀성 보존). 이 덕분에 망 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 절대 멸종되지 않습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)(당나귀)는 '자율 배식 무료 급식소'입니다. 착한 천사(시더) 1명이 밥(영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 1,000인분 해오면 얌체 거지들(리처) 1,000명이 한입씩 쏙쏙 뺏어 먹고 집으로 도망가 버립니다. 결국 천사가 밥솥을 닫아버리고 망이 멸망했습니다. **비트토렌트(BitTorrent)**는 피도 눈물도 없는 '물물교환 철창 투기장(초크/언초크 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'입니다. 투기장에 들어오면 밥을 공짜로 주는 놈은 없습니다. 내 하드디스크에 있는 밥 1숟가락을 앞사람 입에 강제로 떠먹여 준(업로드) 만큼만, 나도 남의 밥을 한 숟가락 퍼먹을 수 있는(다운로드) 자격(언초크)이 열립니다. 밥을 안 주고 얌체 짓을 하면 입마개가 씌워져(초크) 영원히 굶어 죽습니다. 이 이기적인 거래 시스템 덕분에 전 세계 모든 사람이 살기 위해 미친 듯이 자기 밥을 남에게 퍼먹여 주게 되고, 다운로드 속도가 우주 폭발하듯 솟구치는 인류 최고의 극한 생존 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망입니다.
+- **📢 섹션 요약 비유**: 기존 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)(당나귀)는 '자율 배식 무료 급식소'입니다. 착한 천사(시더) 1명이 밥(영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 1,000인분 해오면 얌체 거지들(리처) 1,000명이 한입씩 쏙쏙 뺏어 먹고 집으로 도망가 버립니다. 결국 천사가 밥솥을 닫아버리고 망이 멸망했습니다. <strong>비트토렌트(BitTorrent)</strong>는 피도 눈물도 없는 '물물교환 철창 투기장(초크/언초크 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'입니다. 투기장에 들어오면 밥을 공짜로 주는 놈은 없습니다. 내 하드디스크에 있는 밥 1숟가락을 앞사람 입에 강제로 떠먹여 준(업로드) 만큼만, 나도 남의 밥을 한 숟가락 퍼먹을 수 있는(다운로드) 자격(언초크)이 열립니다. 밥을 안 주고 얌체 짓을 하면 입마개가 씌워져(초크) 영원히 굶어 죽습니다. 이 이기적인 거래 시스템 덕분에 전 세계 모든 사람이 살기 위해 미친 듯이 자기 밥을 남에게 퍼먹여 주게 되고, 다운로드 속도가 우주 폭발하듯 솟구치는 인류 최고의 극한 생존 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: P2P]
-    │
-    ▼
-[현재 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
-    │
-    ├──▶ [확장 A: 블록체인 네트워크 계층 가십 프로토콜]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: P2P</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록체인 네트워크 계층 가십 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 P2P에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

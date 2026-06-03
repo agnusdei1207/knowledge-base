@@ -22,22 +22,21 @@ tags = ["studynote-computer-architecture"]
 
 과거 컴퓨터의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)였던 진공관과 릴레이는 크고 뜨거우며 마모되어 끊어지는 한계가 명확했다. 마찰 없는 영구적인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 없다면 초당 수십억 번을 계산하는 CPU는 존재할 수 없다. 트랜지스터는 물리적인 기계 부품의 움직임 없이, 기판 내부에 양자역학적 전기장만으로 전자의 길을 놓았다 끊었다를 반복하는 마법을 부려 전자공학의 역사를 새로 썼다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           트랜지스터(MOSFET)가 0과 1 논리를 만드는 근본 원리      │
-├──────────────────────────────────────────────────────────────┤
-│  [스위치 OFF (논리 0)]              [스위치 ON (논리 1)]       │
-│                                                              │
-│  게이트 전압 = 0V                   게이트 전압 = 1V (임계 전압) │
-│       │                                  │                   │
-│       ▼                                  ▼                   │
-│  ---     ---  ◀ 전류 차단           ---===---  ◀ 전자의 다리(채널) 연결 │
-│  소스    드레인                       소스    드레인               │
-│                                                              │
-│ * 게이트에 전압을 가하면 절연막 너머로 전기장이 작용해 기판 아래에 │
-│   전자의 길(채널)을 순식간에 형성하여 전기를 통과시킨다.           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜지스터(MOSFET)가 0과 1 논리를 만드는 근본 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 OFF (논리 0)</div><div class="kb-diagram-node">스위치 ON (논리 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게이트 전압 = 0V 게이트 전압 = 1V (임계 전압)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- --- ◀ 전류 차단 ---===--- ◀ 전자의 다리(채널) 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 드레인 소스 드레인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 게이트에 전압을 가하면 절연막 너머로 전기장이 작용해 기판 아래에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자의 길(채널)을 순식간에 형성하여 전기를 통과시킨다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 댐의 무거운 수문을 열기 위해 수십 명이 도르래를 돌려야 했던 진공관 시대와 달리, 트랜지스터는 아이의 가벼운 버튼 터치 한 번(게이트 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))으로 전자동 수문이 마찰 없이 0.0001초 만에 척척 열리고 닫히는 시스템과 같다.
 
@@ -62,12 +61,12 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로의 폭발적 집적을 가능하게 한 것은 단일 트랜지스터가 아닌, 이들을 상보적으로 엮은 **[CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) ([Complementary MOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/))** 아키텍처 덕분이다.
+디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로의 폭발적 집적을 가능하게 한 것은 단일 트랜지스터가 아닌, 이들을 상보적으로 엮은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">CMOS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">Complementary MOS</a>)</strong> 아키텍처 덕분이다.
 
 | 비교 항목 | PMOS (P채널) | NMOS (N채널) | [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (두 개의 결합) |
 |:---|:---|:---|:---|
 | **켜짐 조건** | 입력 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 낮을 때(0) 열림 | 입력 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 높을 때(1) 열림 | 1이든 0이든 둘 중 하나만 열림 |
-| **[전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)** | 통전 시 지속적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 통전 시 지속적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | **대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 사실상 0 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))** |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a></strong> | 통전 시 지속적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 통전 시 지속적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | <strong>대기 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>가 사실상 0 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)</strong> |
 
 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) 인버터 구조는 위쪽엔 0일 때 열리는 PMOS를, 아래쪽엔 1일 때 열리는 NMOS를 직렬로 묶어둔다. 그 결과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 상태가 유지되는 동안 위아래 통로가 동시에 뻥 뚫려 전기가 허공으로 새어나가는 직통 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)(Short Circuit)를 원천 차단한다. 이 구조 덕에 스마트폰이 대기 상태에서 배터리를 며칠 씩 보존할 수 있다.
 
@@ -81,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. 크리티컬 패스(Critical Path) 타이밍을 맞추기 위해 트랜지스터 크기(Width)를 키웠을 때, 늘어나는 누설 전력(Leakage)이 TDP(열 설계 전력) 여유분 내에 존재하는가?
-2. 초미세 노드 진입 시 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 통제력을 회복하기 위해 3면을 덮는 **[FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)**이나 4면을 모두 덮는 **[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))** 3D 아키텍처 공정이 수율을 달성했는가?
+2. 초미세 노드 진입 시 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 통제력을 회복하기 위해 3면을 덮는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/">FinFET</a></strong>이나 4면을 모두 덮는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">GAA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">Gate-All-Around</a>)</strong> 3D 아키텍처 공정이 수율을 달성했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 속도([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))만 고려하여 전체 칩에 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(Vth)이 낮은 고속 트랜지스터를 무지성으로 도배하는 아키텍처. 연산을 하지 않는 블록마저 엄청난 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 발생시켜 발열로 칩이 셧다운된다. 타이밍 여유가 있는 곳은 느리지만 전기를 아끼는 High-Vth 소자를 적절히 섞어 배치하는 Multi-Vth 설계가 필수다.
@@ -104,28 +103,30 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) ([Complementary MOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/))** | PMOS와 NMOS를 상보적으로 결합해 대기 전력을 0으로 수렴시킨 회로 구조 |
-| **[FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) & [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)** | 짧아진 채널의 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 막기 위해 게이트 접촉면을 3D 입체로 확대한 차세대 칩 아키텍처 |
-| **문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) (Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), Vth)** | 트랜지스터의 채널을 열기 위해 가해져야 하는 최소 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) (낮을수록 빠르지만 누수가 큼) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">CMOS</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/">Complementary MOS</a>)</strong> | PMOS와 NMOS를 상보적으로 결합해 대기 전력을 0으로 수렴시킨 회로 구조 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/">FinFET</a> &amp; <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/">GAA</a></strong> | 짧아진 채널의 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 막기 위해 게이트 접촉면을 3D 입체로 확대한 차세대 칩 아키텍처 |
+| <strong>문턱 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> (Threshold <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a>, Vth)</strong> | 트랜지스터의 채널을 열기 위해 가해져야 하는 최소 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) (낮을수록 빠르지만 누수가 큼) |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[반도체 (Semiconductor) — P형/N형 도핑으로 전기 전도성 조절]
-    │
-    ▼
-[BJT (Bipolar Junction Transistor) — 전류 기반 증폭/스위칭]
-    │
-    ▼
-[MOSFET (Metal-Oxide-Semiconductor FET) — 전압 기반 고집적 디지털 스위치]
-    │
-    ▼
-[FinFET — 3차원 핀 구조로 누설 전류 억제, 10nm 이하 공정]
-    │
-    ▼
-[GAA (Gate-All-Around) — 4면 게이트로 채널 완전 통제, 3nm 이하 차세대]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반도체 (Semiconductor) — P형/N형 도핑으로 전기 전도성 조절</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BJT (Bipolar Junction Transistor) — 전류 기반 증폭/스위칭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MOSFET (Metal-Oxide-Semiconductor FET) — 전압 기반 고집적 디지털 스위치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FinFET — 3차원 핀 구조로 누설 전류 억제, 10nm 이하 공정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GAA (Gate-All-Around) — 4면 게이트로 채널 완전 통제, 3nm 이하 차세대</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 트랜지스터가 단순한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 증폭 소자([BJT](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/015_bjt/))에서 디지털 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))로 진화하고, 채널 축소에 따른 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 문제를 극복하기 위해 2D 평면에서 3D 입체 구조([FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)→[GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/))로 발전하는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정 혁신의 핵심 계보를 보여준다.
 

@@ -23,13 +23,18 @@ tags = ["studynote-ai"]
 
 선형 변환 A 에 의해 방향이 바뀌지 않고 크기만 바뀌는 특별한 벡터를 **고유벡터 (Eigenvector)**, 그 배율을 **고유값 (Eigenvalue)** 이라 한다.
 
-```
-  Av = λv
-  ─────────────────────────────
-  A : n×n 정방 행렬
-  v : 고유벡터 (방향 불변)
-  λ : 고유값 (스케일 배율)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Av = λv</div>
+<div class="kb-diagram-note">A : n×n 정방 행렬</div>
+<div class="kb-diagram-note">v : 고유벡터 (방향 불변)</div>
+<div class="kb-diagram-note">λ : 고유값 (스케일 배율)</div>
+</div>
+</div>
+
+
 
 | 특성 | 설명 | 활용 |
 |:---|:---|:---|
@@ -46,23 +51,22 @@ tags = ["studynote-ai"]
 
 ### 고유값 분해 (EVD) 전체 흐름
 
-```
-  대칭 행렬 A (n×n) 의 EVD:
-  ┌──────────────────────────────────────────────────────┐
-  │                                                      │
-  │   A  =  Q  ·  Λ  ·  Qᵀ                             │
-  │  ─── ──────  ─────  ──────                           │
-  │  n×n   n×n   n×n    n×n                             │
-  │                                                      │
-  │  Q = [v₁ | v₂ | ... | vₙ]  고유벡터 열 행렬         │
-  │      └── 직교 정규 행렬: QQᵀ = I ──┘                 │
-  │                                                      │
-  │       ┌λ₁  0   0 ┐                                  │
-  │  Λ =  │ 0  λ₂  0 │  대각 고유값 행렬                 │
-  │       └ 0   0  λ₃┘  (λ₁ ≥ λ₂ ≥ ... ≥ λₙ 정렬)     │
-  │                                                      │
-  └──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대칭 행렬 A (n×n) 의 EVD:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A = Q · Λ · Qᵀ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n×n n×n n×n n×n</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Q =</div><div class="kb-diagram-node">v₁ | v₂ | ... | vₙ</div><div class="kb-diagram-note">고유벡터 열 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 직교 정규 행렬: QQᵀ = I ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ₁ 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Λ =</div><div class="kb-diagram-cell">0 λ₂ 0</div><div class="kb-diagram-cell">대각 고유값 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 λ₃ (λ₁ ≥ λ₂ ≥ ... ≥ λₙ 정렬)</div></div>
+</div>
+</div>
+
+
 
 ### 스펙트럼 정리 (Spectral Theorem)
 
@@ -73,16 +77,20 @@ tags = ["studynote-ai"]
 
 ### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 와의 연결
 
-```
-  PCA (Principal Component Analysis) 절차:
-  ┌─────────────────────────────────────────────────────────┐
-  │  1. 데이터 X (m×n) 중심화: X' = X - mean(X)            │
-  │  2. 공분산 행렬: C = (1/m) X'ᵀX'  (n×n 대칭 행렬)     │
-  │  3. EVD: C = QΛQᵀ                                      │
-  │  4. 상위 k개 고유벡터 선택 (λ₁ ≥ λ₂ ≥ ... ≥ λₖ)      │
-  │  5. 투영: Z = X' · Q[:, :k]  (m×k 저차원 표현)        │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCA (Principal Component Analysis) 절차:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 X (m×n) 중심화: X' = X - mean(X)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 공분산 행렬: C = (1/m) X'ᵀX' (n×n 대칭 행렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. EVD: C = QΛQᵀ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 상위 k개 고유벡터 선택 (λ₁ ≥ λ₂ ≥ ... ≥ λₖ)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5. 투영: Z = X' · Q</div><div class="kb-diagram-node">:, :k</div><div class="kb-diagram-note">(m×k 저차원 표현)</div></div>
+</div>
+</div>
+
+
 
 | EVD 결과 | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 해석 |
 |:---|:---|
@@ -155,7 +163,7 @@ top_k_eigvec = eigenvectors[:, idx[:k]]
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 로 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 손실 최소화하며 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/">차원 축소</a></strong>: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 로 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 손실 최소화하며 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)
 - **이해 가능성**: 주성분별 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설명 비율로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 파악
 - **계산 효율**: 대칭 행렬 EVD 는 O(n³) 이지만 수치적으로 안정적
 - **활용 범위**: 스펙트럼 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론, [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) 수렴 분석, 양자 역학까지 확장

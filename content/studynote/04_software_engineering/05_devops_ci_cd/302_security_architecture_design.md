@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 보안 아키텍처는 비즈니스 요구사항과 위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 분석을 바탕으로, 시스템의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))을 보장하기 위한 하드웨어/소프트웨어적 통제 요소를 어떻게 배치하고 연결할 것인가를 그리는 설계도다.
 
-- **필요성**: 웹 서버를 만들고 프론트엔드 로그인 화면에 최신 암호화 라이브러리를 달았다 치자. 하지만 뒷단의 DB 서버가 인터넷에 퍼블릭(Public)으로 열려있고 DB 패스워드가 `1234`라면, 해커는 웹 서버를 거치지 않고 DB를 직접 털어간다. 보안은 '점'이 아니라 '면'이다. 개별 개발자가 비밀번호를 암호화하는 수준을 넘어, 아키텍트가 네트워크망을 분리하고, 권한을 쪼개고, 모든 통로에 감시 카메라([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))를 다는 **전체적인(Holistic) 구조 설계**가 없으면 시스템은 반드시 뚫린다.
+- **필요성**: 웹 서버를 만들고 프론트엔드 로그인 화면에 최신 암호화 라이브러리를 달았다 치자. 하지만 뒷단의 DB 서버가 인터넷에 퍼블릭(Public)으로 열려있고 DB 패스워드가 `1234`라면, 해커는 웹 서버를 거치지 않고 DB를 직접 털어간다. 보안은 '점'이 아니라 '면'이다. 개별 개발자가 비밀번호를 암호화하는 수준을 넘어, 아키텍트가 네트워크망을 분리하고, 권한을 쪼개고, 모든 통로에 감시 카메라([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))를 다는 <strong>전체적인(Holistic) 구조 설계</strong>가 없으면 시스템은 반드시 뚫린다.
 
-- **💡 비유**: 박물관에 다이아몬드를 전시할 때, 다이아몬드 상자에만 자물쇠를 채우는 것은 바보 같은 짓입니다. 박물관 주변에 **울타리(네트워크 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))**를 치고, 입구에서 **신분증 검사([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))**를 하고, 전시실 문마다 **출입 권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))**을 다르게 주며, 곳곳에 **[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 로깅)**를 달고, 마지막으로 다이아몬드를 **방탄유리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화)** 안에 넣는 이 전체 설계도가 바로 '보안 아키텍처'입니다.
+- **💡 비유**: 박물관에 다이아몬드를 전시할 때, 다이아몬드 상자에만 자물쇠를 채우는 것은 바보 같은 짓입니다. 박물관 주변에 <strong>울타리(네트워크 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)</strong>를 치고, 입구에서 <strong>신분증 검사(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>를 하고, 전시실 문마다 <strong>출입 권한(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>)</strong>을 다르게 주며, 곳곳에 <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 로깅)</strong>를 달고, 마지막으로 다이아몬드를 <strong>방탄유리(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화)</strong> 안에 넣는 이 전체 설계도가 바로 '보안 아키텍처'입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **경계 기반 보안 ([Perimeter Security](/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/))**: 90년대, 인터넷과 사내망을 구분하는 성곽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))만 잘 치면 내부는 안전하다는 철학이었다.
-  2. **심층 방어 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))**: 내부 직원에 의한 해킹이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회 공격이 늘자, 네트워크(L3)뿐만 아니라 애플리케이션(L7), OS, DB 등 모든 계층에 다중으로 보안을 거는 철학이 도입되었다.
-  3. **[제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))**: 모바일과 클라우드 확산으로 '내부망'이라는 개념 자체가 사라졌다. "네트워크 위치와 상관없이, 모든 요청은 항상 검증하고 최소 권한만 부여한다"는 현대 보안 아키텍처의 패러다임으로 진화했다.
+  1. <strong>경계 기반 보안 (<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/936_perimeter_security/">Perimeter Security</a>)</strong>: 90년대, 인터넷과 사내망을 구분하는 성곽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))만 잘 치면 내부는 안전하다는 철학이었다.
+  2. <strong>심층 방어 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a>)</strong>: 내부 직원에 의한 해킹이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회 공격이 늘자, 네트워크(L3)뿐만 아니라 애플리케이션(L7), OS, DB 등 모든 계층에 다중으로 보안을 거는 철학이 도입되었다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/">제로 트러스트 아키텍처</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)</strong>: 모바일과 클라우드 확산으로 '내부망'이라는 개념 자체가 사라졌다. "네트워크 위치와 상관없이, 모든 요청은 항상 검증하고 최소 권한만 부여한다"는 현대 보안 아키텍처의 패러다임으로 진화했다.
 
 - **📢 섹션 요약 비유**: 보안 아키텍처는 집의 현관문 자물쇠만 좋은 걸로 바꾸는 게 아니라, 창문 방범창, 거실 동작 센서, 금고 다이얼까지 도둑이 포기할 때까지 끝없는 장애물을 겹겹이 설계하는 인테리어 도면입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 보안 아키텍처 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Ar의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안 아키텍처 (Security Ar                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 아키텍처 (Security Ar</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보안 아키텍처 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Ar가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보안 아키텍처 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보안 아키텍처 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보안 아키텍처 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보안 아키텍처 (Security Architecture) 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 아키텍처 (Security Architecture) 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

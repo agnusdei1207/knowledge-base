@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 로드-스토어 큐 (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 코어에서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 메모리 명령만 따로 관리하는 전용 버퍼다. 일반 명령은 ROB ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/))만으로도 순서를 추적할 수 있지만, 메모리 명령은 "실제 주소가 언제 계산되는가", "같은 주소의 오래된 스토어가 있는가", "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 언제 보여 줄 것인가"라는 추가 문제가 있다. 이 때문에 일반 리오더 구조만으로는 로드와 스토어를 안전하게 다루기 어렵다.
 
-특히 로드는 앞선 스토어와 충돌하지만 않으면 먼저 실행하고 싶고, 스토어는 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비되어도 예외 가능성이 사라질 때까지 외부 반영을 미루고 싶다. 즉 메모리 명령은 산술 명령보다 **부분 완료 상태**가 길고 복잡하다. LSQ는 이 중간 상태를 저장해 두는 장소이자, 주소 충돌과 포워딩 여부를 판단하는 관제탑이다.
+특히 로드는 앞선 스토어와 충돌하지만 않으면 먼저 실행하고 싶고, 스토어는 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 준비되어도 예외 가능성이 사라질 때까지 외부 반영을 미루고 싶다. 즉 메모리 명령은 산술 명령보다 <strong>부분 완료 상태</strong>가 길고 복잡하다. LSQ는 이 중간 상태를 저장해 두는 장소이자, 주소 충돌과 포워딩 여부를 판단하는 관제탑이다.
 
 만약 LSQ가 없다면 하드웨어는 두 극단 중 하나를 택해야 한다. 모든 메모리 명령을 순서대로만 처리해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하거나, 충분한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 없이 먼저 내보내 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 위험에 빠뜨리는 것이다. 고성능 코어가 두 가지를 동시에 피하려면 LSQ가 필수다.
 
@@ -35,24 +35,25 @@ LSQ는 보통 Load [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datas
 
 아래 그림은 로드와 스토어가 LSQ 안에서 어떻게 서로 다른 생애주기를 가지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ LSQ lifecycle for in-flight memory operations                           │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Dispatch                                                                 │
-│   ├─ Load  -> allocate LQ entry (age, addr?, size, done)                 │
-│   └─ Store -> allocate SQ entry (age, addr?, data?, commit=0)            │
-│                                                                          │
-│ Address ready                                                             │
-│   ├─ Load  -> search older SQ entries                                     │
-│   │            ├─ exact match + data ready -> forward                     │
-│   │            └─ no match              -> issue to cache                 │
-│   └─ Store -> keep addr/data in SQ until commit                           │
-│                                                                          │
-│ Commit                                                                    │
-│   └─ oldest ready store writes to L1 / memory in program order            │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSQ lifecycle for in-flight memory operations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Load -&gt; allocate LQ entry (age, addr?, size, done)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Store -&gt; allocate SQ entry (age, addr?, data?, commit=0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address ready</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Load -&gt; search older SQ entries</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exact match + data ready -&gt; forward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no match -&gt; issue to cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Store -&gt; keep addr/data in SQ until commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ oldest ready store writes to L1 / memory in program order</div></div>
+</div>
+</div>
+
+
 
 | 큐 | 핵심 필드 | 왜 필요한가 |
 | :-- | :-- | :-- |
@@ -76,7 +77,7 @@ LSQ 안에서도 Load Queue와 Store Queue의 역할은 분명히 다르다. Loa
 | 주 검색 대상 | 오래된 스토어 엔트리 | 젊은 로드에 대한 포워딩 후보 |
 | 실패 시 문제 | 로드 재실행과 플러시 | 메모리 상태 오염 위험 |
 
-LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/), 캐시 계층과도 밀접하게 연결된다. ROB가 최종 커밋 순서를 보장하고, [메모리 의존성 예측기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/)가 "검색 전에 기다릴지"를 가르쳐 주며, 캐시는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급한다. 즉 LSQ는 메모리 실행 경로에서 이들 구성 요소를 만나는 **접점**이라고 볼 수 있다.
+LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/), 캐시 계층과도 밀접하게 연결된다. ROB가 최종 커밋 순서를 보장하고, [메모리 의존성 예측기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/507_memory_dependence_predictor/)가 "검색 전에 기다릴지"를 가르쳐 주며, 캐시는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공급한다. 즉 LSQ는 메모리 실행 경로에서 이들 구성 요소를 만나는 <strong>접점</strong>이라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: Load Queue는 주문 접수 창구이고 Store Queue는 출고 대기 창고와 같다. 접수는 빨리 처리해야 하지만, 출고는 송장과 결제가 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)된 뒤에야 밖으로 내보낼 수 있다.
 
@@ -106,7 +107,7 @@ LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_compute
 
 그러나 LSQ는 확장성이 항상 쉬운 구조는 아니다. 코어 폭이 넓어질수록 검색 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 수, 포워딩 경로가 급증하고, 추측 실행 보안 이슈도 더 민감해진다. 그래서 최근 설계는 단순 확장보다 **분할된 LSQ, 계층형 검색, 선택적 포워딩** 같은 방향으로 진화하고 있다.
 
-결론적으로 로드-스토어 큐는 "메모리 명령이 잠깐 머무는 장소"가 아니라 **메모리 명령의 실행 질서를 실시간으로 편성하는 핵심 제어 구조**다. 이 개념을 기억할 때는 단순 큐가 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 사이의 교차로를 관리하는 관제 시스템으로 이해하는 것이 맞다.
+결론적으로 로드-스토어 큐는 "메모리 명령이 잠깐 머무는 장소"가 아니라 <strong>메모리 명령의 실행 질서를 실시간으로 편성하는 핵심 제어 구조</strong>다. 이 개념을 기억할 때는 단순 큐가 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 사이의 교차로를 관리하는 관제 시스템으로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: LSQ는 기차역의 종합 관제실과 같다. 열차가 역에 잠시 서는 것보다 중요한 것은 어느 선로로 보내고 언제 출발시키며 어떤 열차끼리 충돌하지 않게 할지를 계속 조정하는 일이다.
 
@@ -125,24 +126,25 @@ LSQ는 ROB, [메모리 의존성 예측기](/knowledge-base/studynote/01_compute
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 write buffer
-    │
-    ▼
-분리된 load/store buffer
-    │
-    ▼
-주소 비교 기반 LSQ
-    │
-    ▼
-스토어 포워딩과 위반 복구
-    │
-    ▼
-대형·고대역 LSQ
-    │
-    ▼
-분산형·계층형 LSQ
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 write buffer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분리된 load/store buffer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주소 비교 기반 LSQ</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토어 포워딩과 위반 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대형·고대역 LSQ</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산형·계층형 LSQ</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 버퍼 → 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동시 관리 → 적극적 포워딩과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 확장성 최적화"로 LSQ가 발전하는 방향을 보여준다.
 

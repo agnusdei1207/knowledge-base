@@ -19,26 +19,28 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 **자원이 없는 것이 아니라, 선택 순서가 편향되어 있어서 특정 작업이 차례를 영원히 못 받는 문제**다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 CPU 스케줄링에서는 보통 우선순위가 낮은 프로세스나 실행 시간이 긴 작업이 계속 뒤로 밀릴 때 나타난다. 따라서 이 개념의 핵심은 "대기" 자체가 아니라, **대기 시간이 유한하다는 보장([bounded waiting](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))이 깨졌는가**에 있다.
+[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 <strong>자원이 없는 것이 아니라, 선택 순서가 편향되어 있어서 특정 작업이 차례를 영원히 못 받는 문제</strong>다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 CPU 스케줄링에서는 보통 우선순위가 낮은 프로세스나 실행 시간이 긴 작업이 계속 뒤로 밀릴 때 나타난다. 따라서 이 개념의 핵심은 "대기" 자체가 아니라, <strong>대기 시간이 유한하다는 보장(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">bounded waiting</a>)이 깨졌는가</strong>에 있다.
 
-이 문제가 중요한 이유는 시스템이 겉보기에는 잘 돌아갈 수 있기 때문이다. 높은 우선순위 작업이 계속 처리되면 CPU 이용률과 평균 응답 시간은 오히려 좋아 보일 수 있다. 하지만 낮은 우선순위의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 정리, 배치 계산, 메모리 청소 같은 작업이 계속 굶으면 시간이 지나며 시스템 건전성이 무너진다. 즉 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라 **공정성과 지속 가능성의 문제**다.
+이 문제가 중요한 이유는 시스템이 겉보기에는 잘 돌아갈 수 있기 때문이다. 높은 우선순위 작업이 계속 처리되면 CPU 이용률과 평균 응답 시간은 오히려 좋아 보일 수 있다. 하지만 낮은 우선순위의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 정리, 배치 계산, 메모리 청소 같은 작업이 계속 굶으면 시간이 지나며 시스템 건전성이 무너진다. 즉 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라 <strong>공정성과 지속 가능성의 문제</strong>다.
 
 아래 그림은 가장 단순한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)에서 낮은 우선순위 작업이 어떻게 무기한 밀릴 수 있는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Strict priority queue and starvation                              │
-├────────────────────────────────────────────────────────────────────┤
-│ High queue : [H1][H2][H3][new H4][new H5][new H6] ...            │
-│ Low queue  : [L_waiting]                                          │
-│                                                                    │
-│ scheduler rule : always pick from the highest non-empty queue     │
-│ result         : high queue never becomes empty -> L_waiting stays │
-│                   ready but never runs                            │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 `L_waiting`은 막혀 있지 않다. 준비 상태이며, 규칙상 실행될 자격도 있다. 문제는 상위 큐가 비는 순간이 오지 않아서 **규칙 자체가 하위 작업의 생존을 보장하지 못한다**는 점이다. 그래서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 단순 버그가 아니라, 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계의 결함으로 봐야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strict priority queue and starvation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">High queue :</div><div class="kb-diagram-node">H1</div><div class="kb-diagram-node">H2</div><div class="kb-diagram-node">H3</div><div class="kb-diagram-node">new H4</div><div class="kb-diagram-node">new H5</div><div class="kb-diagram-node">new H6</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Low queue :</div><div class="kb-diagram-node">L_waiting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scheduler rule : always pick from the highest non-empty queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : high queue never becomes empty -&gt; L_waiting stays</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready but never runs</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 `L_waiting`은 막혀 있지 않다. 준비 상태이며, 규칙상 실행될 자격도 있다. 문제는 상위 큐가 비는 순간이 오지 않아서 <strong>규칙 자체가 하위 작업의 생존을 보장하지 못한다</strong>는 점이다. 그래서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 단순 버그가 아니라, 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계의 결함으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 식당 문이 잠긴 것이 아니라, VIP 손님만 계속 먼저 들여보내는 바람에 일반 손님이 줄 안에서 그대로 늙어 가는 상황과 같다.
 
@@ -46,7 +48,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 생기려면 보통 세 가지 조건이 겹친다. 첫째, 스케줄러가 어떤 작업을 다른 작업보다 **지속적으로 선호하는 규칙**을 갖고 있어야 한다. 둘째, 그 선호 대상이 계속 유입되거나 반복해서 우선권을 획득해야 한다. 셋째, 오래 기다린 작업을 구제하는 **시간 기반 보정 장치**가 없어야 한다. 이 세 조건이 갖춰지면 대기 시간의 상한을 증명할 수 없게 된다.
+[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 생기려면 보통 세 가지 조건이 겹친다. 첫째, 스케줄러가 어떤 작업을 다른 작업보다 <strong>지속적으로 선호하는 규칙</strong>을 갖고 있어야 한다. 둘째, 그 선호 대상이 계속 유입되거나 반복해서 우선권을 획득해야 한다. 셋째, 오래 기다린 작업을 구제하는 <strong>시간 기반 보정 장치</strong>가 없어야 한다. 이 세 조건이 갖춰지면 대기 시간의 상한을 증명할 수 없게 된다.
 
 | 발생 조건 | 설명 | 대표 사례 |
 | :--- | :--- | :--- |
@@ -55,25 +57,27 @@ tags = ["studynote-operating-system"]
 | 기다림 보정 부재 | 오래 기다려도 우선순위가 안 올라감 | [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 없는 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) |
 | 자원 공유 집중 | 같은 풀을 무거운 작업이 독점 | 단일 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), DB 커넥션 풀 |
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 보통 Ready 큐에서 관찰되지만, 본질은 더 일반적이다. 세마포어나 읽기-쓰기 락에서 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First In First Out) 보장이 없으면 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 계속 못 잡을 수 있고, 워커 풀에서 느린 작업이 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 잡고 있으면 짧은 작업이 요청조차 처리되지 못할 수 있다. 즉 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 **CPU 스케줄링의 용어이면서 동시에 자원 배분 전반의 공정성 실패**를 설명하는 개념이다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 보통 Ready 큐에서 관찰되지만, 본질은 더 일반적이다. 세마포어나 읽기-쓰기 락에서 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (First In First Out) 보장이 없으면 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 계속 못 잡을 수 있고, 워커 풀에서 느린 작업이 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 잡고 있으면 짧은 작업이 요청조차 처리되지 못할 수 있다. 즉 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 <strong>CPU 스케줄링의 용어이면서 동시에 자원 배분 전반의 공정성 실패</strong>를 설명하는 개념이다.
 
 다음 그림은 상위 큐 우선 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 왜 하위 큐의 대기 시간이 무한대로 커질 수 있는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why waiting time becomes unbounded                                │
-├────────────────────────────────────────────────────────────────────┤
-│ dispatch 1 -> choose H1                                           │
-│ dispatch 2 -> choose H2                                           │
-│ dispatch 3 -> new H3 arrives before low queue is examined         │
-│ dispatch 4 -> choose H3                                           │
-│ dispatch 5 -> new H4 arrives                                      │
-│                                                                    │
-│ if preferred work keeps arriving, low-priority wait has no bound  │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 "무한히 기다렸다"는 결과보다, **유한 시간 안에 반드시 실행된다는 증명이 불가능해졌는가**다. 그래서 좋은 스케줄러는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 최악의 대기 시간, 클래스별 기회 보장, 장기 공정성까지 함께 고려한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why waiting time becomes unbounded</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 1 -&gt; choose H1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 2 -&gt; choose H2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 3 -&gt; new H3 arrives before low queue is examined</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 4 -&gt; choose H3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 5 -&gt; new H4 arrives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if preferred work keeps arriving, low-priority wait has no bound</div></div>
+</div>
+</div>
+
+
+
+핵심은 "무한히 기다렸다"는 결과보다, <strong>유한 시간 안에 반드시 실행된다는 증명이 불가능해졌는가</strong>다. 그래서 좋은 스케줄러는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 최악의 대기 시간, 클래스별 기회 보장, 장기 공정성까지 함께 고려한다.
 
 - **📢 섹션 요약 비유**: 놀이기구 줄에서 키가 큰 아이를 계속 먼저 태우면 운영은 빨라 보여도, 작은 아이는 언제 탈지 약속을 못 받는 순간 이미 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 시작된 셈이다.
 
@@ -81,7 +85,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 자주 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)과 혼동된다. 하지만 세 현상은 **시스템이 왜 멈추거나 늦어지는가**에서 분명히 다르다.
+[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 자주 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)과 혼동된다. 하지만 세 현상은 <strong>시스템이 왜 멈추거나 늦어지는가</strong>에서 분명히 다르다.
 
 | 현상 | 시스템 전체 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) | 직접 원인 | 대표 대응 |
 | :--- | :--- | :--- | :--- |
@@ -91,7 +95,7 @@ tags = ["studynote-operating-system"]
 
 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)별로 보면 기아 위험도도 다르다. [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served)와 RR은 느릴 수는 있어도 보통 실행 기회 자체를 박탈하지는 않는다. 반대로 SJF나 엄격한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)는 평균 응답 시간을 줄이는 대신 긴 작업이나 낮은 우선순위 작업에 매우 가혹해질 수 있다. 현대의 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))나 CFS (Completely Fair Scheduler)는 바로 이 지점을 보완하려고 등장한 발전형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 
-또한 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 "효율 vs 공정성"의 전형적 트레이드오프를 보여 준다. 짧은 일만 계속 처리하면 평균 지표는 좋아지지만, 긴 일 하나가 영원히 끝나지 않을 수 있다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계에서 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이란 무조건 가장 빠른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, **누구도 영원히 잊히지 않는 선에서 빠른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다.
+또한 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 "효율 vs 공정성"의 전형적 트레이드오프를 보여 준다. 짧은 일만 계속 처리하면 평균 지표는 좋아지지만, 긴 일 하나가 영원히 끝나지 않을 수 있다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계에서 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이란 무조건 가장 빠른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, <strong>누구도 영원히 잊히지 않는 선에서 빠른 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.
 
 - **📢 섹션 요약 비유**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 서로 문고리를 잡고 아무도 못 나가는 상황이라면, [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 문은 열려 있는데 문지기가 특정 사람만 끝없이 안 들여보내는 상황에 가깝다.
 
@@ -99,7 +103,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러보다 **[서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 지표 악화**로 먼저 발견되는 경우가 많다. 예를 들어 저우선 배치 잡이 며칠째 끝나지 않거나, 웹 서버에서 느린 외부 호출이 워커 풀을 꽉 채워 가벼운 요청이 무한 대기한다면 그것도 실질적인 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)다. 따라서 문제를 "CPU가 바쁜가?"로만 보지 말고, **특정 클래스의 작업이 장시간 기회를 못 얻는가**로 봐야 한다.
+실무에서는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러보다 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/">서비스 운영</a> 지표 악화</strong>로 먼저 발견되는 경우가 많다. 예를 들어 저우선 배치 잡이 며칠째 끝나지 않거나, 웹 서버에서 느린 외부 호출이 워커 풀을 꽉 채워 가벼운 요청이 무한 대기한다면 그것도 실질적인 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)다. 따라서 문제를 "CPU가 바쁜가?"로만 보지 말고, <strong>특정 클래스의 작업이 장시간 기회를 못 얻는가</strong>로 봐야 한다.
 
 ### 실무 판단 기준
 
@@ -110,18 +114,21 @@ tags = ["studynote-operating-system"]
 
 아래 결정 흐름은 실무에서 관측된 무한 대기를 어떤 원인으로 분류할지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Diagnosing indefinite waiting                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ task wait time keeps growing?                                     │
-│   ├─ yes                                                          │
-│   │   ├─ higher-priority queue always non-empty? -> starvation    │
-│   │   ├─ all workers blocked on slow I/O? -> pool starvation      │
-│   │   └─ cyclic lock dependency exists? -> deadlock/inversion     │
-│   └─ no -> ordinary backlog or temporary congestion               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diagnosing indefinite waiting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">task wait time keeps growing?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ higher-priority queue always non-empty? -&gt; starvation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all workers blocked on slow I/O? -&gt; pool starvation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cyclic lock dependency exists? -&gt; deadlock/inversion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; ordinary backlog or temporary congestion</div></div>
+</div>
+</div>
+
+
 
 ### 실무 대응 패턴
 
@@ -136,7 +143,7 @@ tags = ["studynote-operating-system"]
 - 높은 우선순위 클래스를 너무 많이 만들어 사실상 모두가 VIP가 되는 설계
 - [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 하나에 무거운 작업과 가벼운 작업을 모두 넣어 서로 굶기게 하는 설계
 
-결국 기술사 관점의 답안 포인트는 분명하다. **[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 자원 부족이 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실패**이며, 해결은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라 **공정성 메커니즘 설계**에서 찾아야 한다.
+결국 기술사 관점의 답안 포인트는 분명하다. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>는 자원 부족이 아니라 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 실패</strong>이며, 해결은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝이 아니라 <strong>공정성 메커니즘 설계</strong>에서 찾아야 한다.
 
 - **📢 섹션 요약 비유**: 식당에 문이 하나뿐인데 단체 손님과 혼밥 손님을 같은 줄에 세우면 작은 손님이 계속 밀린다. 그래서 줄을 나누거나 오래 기다린 손님을 앞으로 올리는 규칙이 필요하다.
 
@@ -144,11 +151,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 통제하면 시스템은 단순히 "빠른" 수준을 넘어 **예측 가능한 완료 보장**을 갖게 된다. 배치 작업, 청소 작업, 백그라운드 유지 작업도 일정 시간 안에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되므로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 안정되고, 운영자는 장기 적체나 숨은 장애를 줄일 수 있다. 즉 공정성은 착한 철학이 아니라, 결국 운영 신뢰성을 높이는 실용적 장치다.
+[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 통제하면 시스템은 단순히 "빠른" 수준을 넘어 <strong>예측 가능한 완료 보장</strong>을 갖게 된다. 배치 작업, 청소 작업, 백그라운드 유지 작업도 일정 시간 안에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되므로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질이 안정되고, 운영자는 장기 적체나 숨은 장애를 줄일 수 있다. 즉 공정성은 착한 철학이 아니라, 결국 운영 신뢰성을 높이는 실용적 장치다.
 
-반대로 모든 상황에서 절대 공정성만 추구할 수도 없다. 실시간 제어, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리, 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)처럼 정말 먼저 처리해야 하는 작업은 분명 존재한다. 그래서 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 순수한 평등보다 **필요한 우선권은 주되, 장기적으로는 누구도 영원히 배제하지 않는 방향**으로 진화해 왔다. CFS가 [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) `vruntime`을 이용해 덜 실행된 태스크를 먼저 고르는 이유도 여기에 있다.
+반대로 모든 상황에서 절대 공정성만 추구할 수도 없다. 실시간 제어, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리, 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)처럼 정말 먼저 처리해야 하는 작업은 분명 존재한다. 그래서 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 순수한 평등보다 <strong>필요한 우선권은 주되, 장기적으로는 누구도 영원히 배제하지 않는 방향</strong>으로 진화해 왔다. CFS가 [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) `vruntime`을 이용해 덜 실행된 태스크를 먼저 고르는 이유도 여기에 있다.
 
-정리하면 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 **"시스템은 움직이지만 누군가는 영원히 못 움직이는" 불공정의 징후**다. 시험과 실무 모두에서 기억할 문장은 같다. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이라도 유한 대기 보장이 없으면 완성된 스케줄러가 아니다.**
+정리하면 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 <strong>"시스템은 움직이지만 누군가는 영원히 못 움직이는" 불공정의 징후</strong>다. 시험과 실무 모두에서 기억할 문장은 같다. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 좋은 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이라도 유한 대기 보장이 없으면 완성된 스케줄러가 아니다.</strong>
 
 - **📢 섹션 요약 비유**: 좋은 체육 선생님은 잘하는 학생에게 먼저 공을 줄 수는 있어도, 운동장이 끝날 때까지 다른 학생이 한 번도 공을 못 만지게 두지는 않는다.
 
@@ -168,19 +175,22 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-엄격한 우선순위 또는 짧은 작업 선호
-        │
-        ▼
-하위 작업의 무기한 대기
-        │
-        ▼
-기아 상태 (Starvation / Indefinite Blocking)
-        │
-        ├──────────────▶ 에이징과 bounded waiting 보장
-        ├──────────────▶ RR · 큐 승급 · 최소 지분 보장
-        └──────────────▶ CFS · 공정 스케줄링으로 발전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">엄격한 우선순위 또는 짧은 작업 선호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하위 작업의 무기한 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기아 상태 (Starvation / Indefinite Blocking)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 에이징과 bounded waiting 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ RR · 큐 승급 · 최소 지분 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ CFS · 공정 스케줄링으로 발전</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 불공정 문제를 낳고, 이를 보정하기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러가 점점 더 정교한 공정성 메커니즘을 도입해 왔음을 보여 준다.
 

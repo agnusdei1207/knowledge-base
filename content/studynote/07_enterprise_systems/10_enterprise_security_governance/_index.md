@@ -17,31 +17,26 @@ tags = ["enterprise_systems"]
 
 ### 보안은 기술이 아닌 생존의 전략
 
-과거의 보안은 IT 부서의 '비용'으로 취급되었다. 하지만 데이터가 기업의 핵심 자산이 된 지금, 보안 실패는 곧 기업의 파산을 의미한다. **엔터프라이즈 보안 거버넌스**는 보안을 서버 설정의 영역에서 이사회의 '의사결정 영역'으로 격상시킨다. 무엇을 지킬 것인지, 얼마를 투자할 것인지를 비즈니스 우선순위에 따라 결정하는 경영의 지혜이다.
+과거의 보안은 IT 부서의 '비용'으로 취급되었다. 하지만 데이터가 기업의 핵심 자산이 된 지금, 보안 실패는 곧 기업의 파산을 의미한다. <strong>엔터프라이즈 보안 거버넌스</strong>는 보안을 서버 설정의 영역에서 이사회의 '의사결정 영역'으로 격상시킨다. 무엇을 지킬 것인지, 얼마를 투자할 것인지를 비즈니스 우선순위에 따라 결정하는 경영의 지혜이다.
 
-보안 거버넌스가 필요한 이유는 세 가지이다. 첫째, **책임 소재의 명확화**를 위해서이다. 사고 발생 시 책임 전가를 막고 경영진이 직접 리스크를 관리하게 한다. 둘째, **글로벌 컴플라이언스 대응**을 위해서이며 (ISMS-P, GDPR), 셋째, 보안 투자가 낭비가 아닌 **비즈니스 연속성 (BCP)** 확보를 위한 필수 투자임을 입증하기 위함이다.
+보안 거버넌스가 필요한 이유는 세 가지이다. 첫째, <strong>책임 소재의 명확화</strong>를 위해서이다. 사고 발생 시 책임 전가를 막고 경영진이 직접 리스크를 관리하게 한다. 둘째, <strong>글로벌 컴플라이언스 대응</strong>을 위해서이며 (ISMS-P, GDPR), 셋째, 보안 투자가 낭비가 아닌 **비즈니스 연속성 (BCP)** 확보를 위한 필수 투자임을 입증하기 위함이다.
 
 이 그림은 전사적 보안 거버넌스의 수직적/수평적 통합 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Enterprise Security Governance Model        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Board / CEO ] ──▶ (전략 승인, 자원 배분, 책임)          │
-│          │                                                  │
-│          ▼                                                  │
-│   [ CISO / Security Council ] ──▶ (정책 수립, 리스크 평가)  │
-│          │                                                  │
-│   ┌──────┴───────────────┬───────────────────┐              │
-│   ▼                      ▼                   ▼              │
-│ [ IT Ops ]            [ Legal ]           [ HR / Biz ]      │
-│ (기술적 방어)         (법적 규제 준수)    (인적/문화적 보안)│
-│                                                             │
-│   * 핵심: 보안은 IT만의 일이 아닌 전 부서의 공동 책임       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Security Governance Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Board / CEO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(전략 승인, 자원 배분, 책임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CISO / Security Council</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(정책 수립, 리스크 평가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT Ops</div><div class="kb-diagram-node">Legal</div><div class="kb-diagram-node">HR / Biz</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기술적 방어) (법적 규제 준수) (인적/문화적 보안)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안은 IT만의 일이 아닌 전 부서의 공동 책임</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '전사적 협업'이다. 보안 장비가 아무리 좋아도 직원의 보안 의식이 낮거나 법무팀의 계약 검토가 부실하면 보안은 뚫린다. 실무에서는 CISO가 비즈니스 부서와 소통하며 보안 정책이 업무 효율을 저해하지 않도록 조율하는 능력이 거버넌스 성패의 열쇠가 된다.
 
@@ -78,22 +73,20 @@ tags = ["enterprise_systems"]
 
 이 구조도는 **제로 트러스트 (Zero Trust)** 기반의 현대적 접근 제어 거버넌스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Modern Trust Governance Flow                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ User / Device ] ──▶ [ Identity Engine ] ──▶ [ Verify ]  │
-│                                │ (Context 분석)      │      │
-│          ┌─────────────────────┴─────────────────────┘      │
-│          ▼                                                  │
-│   [ Policy Engine ] ──▶ [ Dynamic Permission ] ──▶ [ Asset ]│
-│                                                             │
-│   * 철학: "안과 밖의 경계는 없다. 모든 접속을 의심하라"     │
-│   * 가치: 고정된 권한이 아닌 상황에 따른 가변적 보안 구현   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Trust Governance Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User / Device</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Identity Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Verify</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Context 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Policy Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dynamic Permission</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Asset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "안과 밖의 경계는 없다. 모든 접속을 의심하라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가치: 고정된 권한이 아닌 상황에 따른 가변적 보안 구현</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '지속적 검증 (Continuous Verification)'이다. 한 번 로그인했다고 끝이 아니라, 사용자의 행동이나 기기 상태가 변하면 즉시 권한을 회수한다. 실무에서는 이러한 동적 통제가 클라우드와 원격 근무 환경에서의 정보 유출을 막는 결정적 수단이 된다.
 
@@ -107,7 +100,7 @@ tags = ["enterprise_systems"]
 
 | 항목 | ISMS-P (국내) | ISO 27001 (국제) |
 |:---:|:---|:---|
-| **중점** | **개인정보 보호**와 관리 체계의 결합 | 전사 정보보호 관리의 표준화 |
+| **중점** | <strong>개인정보 보호</strong>와 관리 체계의 결합 | 전사 정보보호 관리의 표준화 |
 | **강제성** | 일정 규모 이상 기업 의무 (강력함) | 글로벌 파트너십을 위한 자율 인증 |
 | **구성** | 102개 항목 (국내 규제 최적화) | 114개 통제 항목 (Annex A) |
 | **비유** | **국내 시장의 필수 면허증** | **글로벌 비즈니스의 여권** |
@@ -127,29 +120,27 @@ tags = ["enterprise_systems"]
 ### 기술사적 판단: 전사 보안 로드맵 수립 및 리스크 의사결정
 
 **시나리오 1: 보안 예산 삭감 압박에 따른 우선순위 재조정**
-- **판단**: 감성적 호소가 아닌 **'데이터 기반의 리스크 평가'**로 대응한다. 각 보안 통제 항목이 미비할 때 발생할 수 있는 연간 예상 손실액 (**ALE**)과 법적 과징금 규모를 산출하여 이사회에 보고한다. "예산을 깎는 것은 위험을 수용 (Acceptance)하겠다는 경영진의 결단"임을 명시하고, 비즈니스 영향도가 낮은 하부 인프라 보안부터 단계적으로 효율화하는 대안을 제시한다.
+- **판단**: 감성적 호소가 아닌 <strong>'데이터 기반의 리스크 평가'</strong>로 대응한다. 각 보안 통제 항목이 미비할 때 발생할 수 있는 연간 예상 손실액 (**ALE**)과 법적 과징금 규모를 산출하여 이사회에 보고한다. "예산을 깎는 것은 위험을 수용 (Acceptance)하겠다는 경영진의 결단"임을 명시하고, 비즈니스 영향도가 낮은 하부 인프라 보안부터 단계적으로 효율화하는 대안을 제시한다.
 
 **시나리오 2: 하이브리드 클라우드 환경에서의 통합 보안 거버넌스 부재**
-- **판단**: 온프레미스와 클라우드의 보안 수준을 단일하게 관리하는 **'통합 거버넌스 대시보드 (CSPM)'** 도입을 제안한다. 각기 다른 보안 정책을 **Policy as Code (PaC)**로 표준화하여, 어떤 인프라 환경에서도 동일한 보안 가드레일이 자동으로 적용되게 설계한다. 또한 클라우드 사업자와의 **책임 공유 모델**을 재정립하여 관리 사각지대를 원천 배제한다.
+- **판단**: 온프레미스와 클라우드의 보안 수준을 단일하게 관리하는 **'통합 거버넌스 대시보드 (CSPM)'** 도입을 제안한다. 각기 다른 보안 정책을 <strong>Policy as Code (PaC)</strong>로 표준화하여, 어떤 인프라 환경에서도 동일한 보안 가드레일이 자동으로 적용되게 설계한다. 또한 클라우드 사업자와의 <strong>책임 공유 모델</strong>을 재정립하여 관리 사각지대를 원천 배제한다.
 
 이 도식은 보안 사고 발생 시 기술사가 지휘해야 할 '거버넌스 기반 대응 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Incident Response & Crisis Mgmt Flow          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Trigger ] ──▶ [ Technical Containment ] (기술적 격리)   │
-│          │                                                  │
-│          ├──▶ [ Legal / PR Response ] (법적/대외 대응)      │
-│          │                                                  │
-│          └──▶ [ Exec Reporting ] (경영진 신속 보고)         │
-│                                                             │
-│   * 핵심: 기술적 복구와 동시에 '법적 신고 의무'를 준수하는  │
-│     통합적 지휘가 기술사의 핵심 역량임 (골든타임 사수)      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident Response &amp; Crisis Mgmt Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Trigger</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Technical Containment</div><div class="kb-diagram-note">(기술적 격리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Legal / PR Response</div><div class="kb-diagram-note">(법적/대외 대응)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Exec Reporting</div><div class="kb-diagram-note">(경영진 신속 보고)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 기술적 복구와 동시에 '법적 신고 의무'를 준수하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합적 지휘가 기술사의 핵심 역량임 (골든타임 사수)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 거버넌스 판단은 '도시의 방역 본부장'과 같습니다. 감염병(보안 사고)이 터졌을 때 단순히 환자를 치료하는 것을 넘어, 도시를 폐쇄할지(격리), 시민들에게 어떻게 알릴지(공시), 그리고 법적으로 문제는 없는지를 종합하여 피해를 최소화하는 최종 책임자입니다.
 
@@ -164,7 +155,7 @@ tags = ["enterprise_systems"]
 
 ### 미래 전망: ESG 보안과 투명 거버넌스
 
-향후 보안 거버넌스는 기업의 사회적 책임 (Social)을 판단하는 핵심 지표인 **ESG**와 통합될 것이다. 우리 기업이 사용자 데이터를 얼마나 투명하고 공정하게 다루는지가 기업 가치의 척도가 될 것이다. 또한 AI가 스스로 규제 변화를 학습하여 보안 정책을 실시간 보정하는 **'자율 거버넌스'**가 등장할 것이다. 기술사는 특정 장비의 설정을 넘어, 디지털 세상의 '윤리적 기준'을 기술로 구현하는 '디지털 법학자'이자 '철학적 아키텍트'로 거듭나야 한다.
+향후 보안 거버넌스는 기업의 사회적 책임 (Social)을 판단하는 핵심 지표인 <strong>ESG</strong>와 통합될 것이다. 우리 기업이 사용자 데이터를 얼마나 투명하고 공정하게 다루는지가 기업 가치의 척도가 될 것이다. 또한 AI가 스스로 규제 변화를 학습하여 보안 정책을 실시간 보정하는 <strong>'자율 거버넌스'</strong>가 등장할 것이다. 기술사는 특정 장비의 설정을 넘어, 디지털 세상의 '윤리적 기준'을 기술로 구현하는 '디지털 법학자'이자 '철학적 아키텍트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 보안 거버넌스는 '지구의 대기권'과 같아질 것입니다. 평소에는 그 존재를 잊고 살 만큼 투명하고 자연스럽지만, 우리를 우주의 혹독한 환경(사이버 위협)으로부터 완벽하게 보호하여 생태계(비즈니스)를 지탱하는 거대한 보호막이 될 것입니다.
 

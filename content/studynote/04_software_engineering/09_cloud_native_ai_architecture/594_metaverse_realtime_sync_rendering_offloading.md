@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Metaverse (초월 우주)**: 단순한 RPG 게임이 아니다. 수백만 명의 아바타가 동시에 접속해 콘서트 보고 쇼핑(결제)하며 경제 활동을 굴리는 거대한 영속적 3D 가상 세계.
-  - **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Sync) & [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) ([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))**: 1만 명이 점프하면 1만 명 화면에 다 점프하는 게 보여야 한다([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 근데 폰 성능이 딸리니까, 그래픽 굽는 노가다는 폰 대신 클라우드 짱센 컴퓨터가 대신 짊어져([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 주는 극한의 클라이언트-서버 융합 기술이다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (Sync) &amp; <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>)</strong>: 1만 명이 점프하면 1만 명 화면에 다 점프하는 게 보여야 한다([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 근데 폰 성능이 딸리니까, 그래픽 굽는 노가다는 폰 대신 클라우드 짱센 컴퓨터가 대신 짊어져([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 주는 극한의 클라이언트-서버 융합 기술이다.
 
-- **필요성 (10만 명 동접자 폭발이 부른 서버 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 셧다운의 공포)**: 제페토(Zepeto)에 블랙핑크 3D 콘서트를 열었다. 유저 10만 명이 광장에 모였다. A 유저가 춤추며 팔을 흔든다. 이 X, Y 좌표값을 서버가 받아서 나머지 99,999명한테 1초에 60번씩 쏴줘야(Broadcast) 한다! 1명당 초당 600만 건의 패킷, 10만 명이면 **초당 6,000억 건의 패킷 융단폭격이 중앙 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 1초 만에 흔적도 없이 폭파해 버린다 ($O(N^2)$ [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Broadcast 폭발 지옥).** "아 씨발! 10만 명을 한 방에 가두고 핑퐁 치면 다 죽어! 공간을 100명씩 보이지 않는 유리벽으로 찢고, 그래픽 굽는 건 구린 폰 대신 클라우드에서 다 짬처리 때려!!" 이 무자비한 네트워크/CPU 병목 돌파에 대한 절규가 메타버스 아키텍처를 탄생시켰다.
+- <strong>필요성 (10만 명 동접자 폭발이 부른 서버 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 셧다운의 공포)</strong>: 제페토(Zepeto)에 블랙핑크 3D 콘서트를 열었다. 유저 10만 명이 광장에 모였다. A 유저가 춤추며 팔을 흔든다. 이 X, Y 좌표값을 서버가 받아서 나머지 99,999명한테 1초에 60번씩 쏴줘야(Broadcast) 한다! 1명당 초당 600만 건의 패킷, 10만 명이면 **초당 6,000억 건의 패킷 융단폭격이 중앙 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 서버를 1초 만에 흔적도 없이 폭파해 버린다 ($O(N^2)$ [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Broadcast 폭발 지옥).** "아 씨발! 10만 명을 한 방에 가두고 핑퐁 치면 다 죽어! 공간을 100명씩 보이지 않는 유리벽으로 찢고, 그래픽 굽는 건 구린 폰 대신 클라우드에서 다 짬처리 때려!!" 이 무자비한 네트워크/CPU 병목 돌파에 대한 절규가 메타버스 아키텍처를 탄생시켰다.
 
-- **💡 비유**: 일반 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 통신이 **'우체부가 편지를 1장씩 오토바이로 1만 명 집을 며칠 걸려 배달하는 짓'**이라면, 메타버스 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))는 **'거대한 월드컵 경기장에 모인 10만 명 한가운데서 방송국 스피커로 "골인!"을 외치자마자 10만 명 귀에 0.01초 만에 동시에 꽂혀 다 같이 일제히 소리 지르는 짓'**입니다. 단 1초의 딜레이([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))라도 생기면 옆 사람과 내 동작이 어긋나 가상 현실의 환상(몰입감)이 산산조각 나는 극한의 실시간 마술입니다.
+- **💡 비유**: 일반 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 통신이 <strong>'우체부가 편지를 1장씩 오토바이로 1만 명 집을 며칠 걸려 배달하는 짓'</strong>이라면, 메타버스 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))는 <strong>'거대한 월드컵 경기장에 모인 10만 명 한가운데서 방송국 스피커로 "골인!"을 외치자마자 10만 명 귀에 0.01초 만에 동시에 꽂혀 다 같이 일제히 소리 지르는 짓'</strong>입니다. 단 1초의 딜레이([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))라도 생기면 옆 사람과 내 동작이 어긋나 가상 현실의 환상(몰입감)이 산산조각 나는 극한의 실시간 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **MMORPG (WoW) 서버 (과거)**: 1채널 5천 명 한계. 채널 1, 2, 3으로 물리적 서버를 찢어서([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) 유저들을 만나지 못하게 갈라놓는 꼼수 시대.
   2. **SpatialOS / Agones 등 공간 분할 K8s 시대 (과도기)**: "야 채널로 찢지 마! 다 같은 1채널(Single Shard) 우주에 둬! 대신 서버 뒷단에서 유저 눈치채지 못하게 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 100개 띄워서 맵을 깍두기 썰듯 뒤에서 찢어!"(심리스 오픈월드 매직).
   3. **Pixel Streaming의 강림 (현재)**: "근데 폰 똥컴이라 3D 끊겨서 튕김 ㅠㅠ" ➡ [Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/) Games(언리얼)가 무친 흑마법 공개. "그래픽 카드 연산 클라우드에서 다 하고 폰으로는 넷플릭스 영상처럼 화면만 쏴!! 폰 렉 제로 시대 ㅋ" 메타버스의 모바일 한계가 완전히 소멸함.
 
-- **📢 섹션 요약 비유**: 렌더링 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Pixel Streaming)은 **'영화 세트장 특수분장'**과 완벽히 똑같습니다. 옛날(On-Device 렌더링)엔 좀비 영화를 찍으려면 배우 100명(유저 폰) 얼굴에 일일이 1시간씩 무거운 좀비 분장(3D 렌더링)을 칠해줘야 했습니다. [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 배우 얼굴 분장 1도 안 합니다. 그냥 빈 무대에서 뛰게 하고, 감독이 저 멀리 **최첨단 컴퓨터(클라우드 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))로 모니터에서 1초 컷으로 좀비 CG를 합성해 입혀버린 완성된 영상(Pixel)**만 실시간 관객 눈에 쏴주는 짓입니다. 배우(폰)는 가벼워서 쌩쌩 날아다니는데, 관객 눈엔 블록버스터가 보이는 압도적 눈속임입니다.
+- **📢 섹션 요약 비유**: 렌더링 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Pixel Streaming)은 <strong>'영화 세트장 특수분장'</strong>과 완벽히 똑같습니다. 옛날(On-Device 렌더링)엔 좀비 영화를 찍으려면 배우 100명(유저 폰) 얼굴에 일일이 1시간씩 무거운 좀비 분장(3D 렌더링)을 칠해줘야 했습니다. [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 배우 얼굴 분장 1도 안 합니다. 그냥 빈 무대에서 뛰게 하고, 감독이 저 멀리 <strong>최첨단 컴퓨터(클라우드 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>)로 모니터에서 1초 컷으로 좀비 CG를 합성해 입혀버린 완성된 영상(Pixel)</strong>만 실시간 관객 눈에 쏴주는 짓입니다. 배우(폰)는 가벼워서 쌩쌩 날아다니는데, 관객 눈엔 블록버스터가 보이는 압도적 눈속임입니다.
 
 ---
 
 다음은 메타버스 (Metaverse) 실시간의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메타버스 (Metaverse) 실시간                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타버스 (Metaverse) 실시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 메타버스 (Metaverse) 실시간가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-메타버스 (Metaverse) 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 아키텍처 및 렌더링 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+메타버스 (Metaverse) 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 아키텍처 및 렌더링 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 메타버스 (Metaverse) 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 아키텍처 및 렌더링 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-메타버스 (Metaverse) 실시간 동기화 아키텍처 및 렌더링 오프로딩 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메타버스 (Metaverse) 실시간 동기화 아키텍처 및 렌더링 오프로딩 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

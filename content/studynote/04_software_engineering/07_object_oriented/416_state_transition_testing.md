@@ -23,18 +23,18 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 온라인 쇼핑몰의 주문 처리 시스템을 생각해보면, 주문은 "장바구니"에서 "결제 대기", "결제 완료", "배송 중", "배송 완료", "구매 완료" 등의 상태를 거친다. 사용자가 결제를 완료했는데 "장바구니" 상태로 돌아가는 버그나, "배송 중" 상태에서 취소 버튼이 여전히 활성화되어 있는 문제는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트를 통해 발견할 수 있다.
 
-- **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**: 시스템이 특정 시점에서 갖는 조건이나 상황이다. 예를 들어 문(stauts 열림/닫힘), 세탁기(빈/세탁 중/탈수 중/끄김), 온라인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(로그아웃/로그인/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료) 등이 있다.
+- <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 시스템이 특정 시점에서 갖는 조건이나 상황이다. 예를 들어 문(stauts 열림/닫힘), 세탁기(빈/세탁 중/탈수 중/끄김), 온라인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(로그아웃/로그인/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료) 등이 있다.
 
 - **전이(Transition)**: 특정 이벤트나 조건에 의해 한 상태에서 다른 상태로 이동하는 것이다. 예를 들어 "문 열기" 이벤트는 닫힘 상태의 문을 열림 상태로 전이시킨다.
 
-- **비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 **'수명'**와 같다. 나비는 알->()->(번데기)->성체(나비)라는 수명 주기를 거친다. 각 단계(상태)에서 나비는 특정 행동만 가능하고, 환경 조건(이벤트)에 따라 다음 단계로 전이된다. 만약 번데기 단계에서 나비처럼 날개를 접지 않는다면 이는 버그이다. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트도 마찬가지로 각 상태에서 시스템이 올바르게 동작하는지 검증한다.
+- **비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 <strong>'수명'</strong>와 같다. 나비는 알->()->(번데기)->성체(나비)라는 수명 주기를 거친다. 각 단계(상태)에서 나비는 특정 행동만 가능하고, 환경 조건(이벤트)에 따라 다음 단계로 전이된다. 만약 번데기 단계에서 나비처럼 날개를 접지 않는다면 이는 버그이다. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트도 마찬가지로 각 상태에서 시스템이 올바르게 동작하는지 검증한다.
 
 - **등장 배경 및 발전 과정**:
 1. **1960년대**: 통신 시스템과 임베디드 시스템의 상태 기계([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine) 이론에서 기원
 2. **1980년대**: 소프트웨어 테스트 학계에서 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트를 체계화
 3. **현재**: [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 상태 다이어그램과 통합되어 모델 기반 테스트의 핵심 기법으로 활용
 
-- **섹션 요약 비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 **'교통 신호등'**과 같다. 신호등은 빨강-노랑-초록(상태)의 주기적 전이를 거친다. 만약 빨강에서 초록으로 바로 전이된다면(노랑을 건너뛰면) 사고가 발생할 수 있다. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 이러한 "잘못된 전이"나 "누락된 전이"를 검증하는 것이다.
+- **섹션 요약 비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 <strong>'교통 신호등'</strong>과 같다. 신호등은 빨강-노랑-초록(상태)의 주기적 전이를 거친다. 만약 빨강에서 초록으로 바로 전이된다면(노랑을 건너뛰면) 사고가 발생할 수 있다. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트는 이러한 "잘못된 전이"나 "누락된 전이"를 검증하는 것이다.
 
 ---
 
@@ -42,18 +42,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Tra의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 상태 전이 테스트 (State Tra │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 전이 테스트 (State Tra</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Tra가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-상태 전이 테스트 (State Transition Testing) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 전이 테스트 (State Transition Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

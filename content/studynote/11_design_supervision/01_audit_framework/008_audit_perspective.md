@@ -29,53 +29,39 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 세 가지 감리 관점의와 각 관점에서에 점검하는 항목을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [감리 3관점 체계 도식] │
-│ │
-│ "시스템을 보는 세 가지 렌즈" │
-│ │
-│ ┌────────────────────────────────────────────┐ │
-│ │ │ │
-│ │ [절차 관점 (Procedure)] │ │
-│ │ "과정이 올바른가?" │ │
-│ │ - 방법론 충실성 │ │
-│ │ - 표준 준수 여부 │ │
-│ │ - 프로세스 실행 적절성 │ │
-│ │ │ │
-│ └────────────────────────────────────────────┘ │
-│ │ │
-│ │ 전체 시스템 │
-│ │ (정보시스템) │
-│ │ │
-│ ┌────────────────────────────────────────────┐ │
-│ │ │ │
-│ │ [성과 관점 (Performance)] │ │
-│ │ "가치가 창출되었는가?" │ │
-│ │ - 시스템 가용성 │ │
-│ │ - 사용자 만족도 │ │
-│ │ - 비즈니스 목표 달성도 │ │
-│ │ │ │
-│ └────────────────────────────────────────────┘ │
-│ │ │
-│ │ 전체 시스템 │
-│ │ (정보시스템) │
-│ │ │
-│ ┌────────────────────────────────────────────┐ │
-│ │ │ │
-│ │ [산출물 관점 (Product)] │ │
-│ │ "결과물이 올바른가?" │ │
-│ │ - 요구사항 충족 여부 │ │
-│ │ - 문서 완결성 │ │
-│ │ - 코드/설계 품질 │ │
-│ │ │ │
-│ └────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 3관점 체계 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"시스템을 보는 세 가지 렌즈"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">절차 관점 (Procedure)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"과정이 올바른가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방법론 충실성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 표준 준수 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 실행 적절성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정보시스템)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">성과 관점 (Performance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"가치가 창출되었는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 가용성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용자 만족도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 목표 달성도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정보시스템)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산출물 관점 (Product)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"결과물이 올바른가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 요구사항 충족 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문서 완결성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드/설계 품질</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 세 관점이동일한 시스템에 대해 서로 다른 를 제공하지만, 모두 동일한 시스템의 다른 측면을 본다는 점이다., 감리에서는 반드시 관점을 모두 적용하여종합적인를 내려야 한다.
 
-📢 **섹션 요약 비유**: 감리 세 관점은 **'같은 건물에 대한 건축기사, 실내 Designer,주민의 시각'**과 같습니다. 건축기사(절차)는구조의함을, 실내 Designer(산출물)는 공간의 설정와을,주민(성과)은 실제의함과 을/를에하며, 시선이통합되어야 비로소 좋은 건물로 인정받을 수 있습니다.
+📢 **섹션 요약 비유**: 감리 세 관점은 <strong>'같은 건물에 대한 건축기사, 실내 Designer,주민의 시각'</strong>과 같습니다. 건축기사(절차)는구조의함을, 실내 Designer(산출물)는 공간의 설정와을,주민(성과)은 실제의함과 을/를에하며, 시선이통합되어야 비로소 좋은 건물로 인정받을 수 있습니다.
 
 ---
 
@@ -93,34 +79,34 @@ tags = ["design_supervision"]
 
 감리 관점별문제의적인 원인-결과 체인을 분석하면 다음과 같다.
 
-```text
-[감리 관점별 원인-결과 분석]
 
-■ 절차 관점에서 문제 발견 시
-원인: 표준화된 프로세스 미준수 (예: 설계 검토 미실시)
-│
-▼
-결과: 산출물 관점의 문제로 이어짐
-(예: 설계 산출물 결함 미발견 → 구현 단계에서 재작업 발생)
 
-■ 산출물 관점에서 문제 발견 시
-원인: 요구사항과 다른 결과물 생성 (예: 화면 항목 누락)
-│
-▼
-결과: 성과 관점의 문제로 이어짐
-(예: 사용자 기능 미 충족 → 업무 처리 시간 증가 → 만족도 저하)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 관점별 원인-결과 분석</div></div>
+<div class="kb-diagram-note">■ 절차 관점에서 문제 발견 시</div>
+<div class="kb-diagram-note">원인: 표준화된 프로세스 미준수 (예: 설계 검토 미실시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결과: 산출물 관점의 문제로 이어짐</div>
+<div class="kb-diagram-note">(예: 설계 산출물 결함 미발견 → 구현 단계에서 재작업 발생)</div>
+<div class="kb-diagram-note">■ 산출물 관점에서 문제 발견 시</div>
+<div class="kb-diagram-note">원인: 요구사항과 다른 결과물 생성 (예: 화면 항목 누락)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결과: 성과 관점의 문제로 이어짐</div>
+<div class="kb-diagram-note">(예: 사용자 기능 미 충족 → 업무 처리 시간 증가 → 만족도 저하)</div>
+<div class="kb-diagram-note">■ 성과 관점에서 문제 발견 시</div>
+<div class="kb-diagram-note">원인: 결과물의 가치가 실제 사용자에게 전달되지 못함 (예: 시스템 응답 지연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역추적: 절차 및 산출물 관점에서 근본 원인 탐색</div>
+<div class="kb-diagram-note">(예: 성능 테스트 미흡 → 시스템 아키텍처 문제로 판단)</div>
+</div>
+</div>
 
-■ 성과 관점에서 문제 발견 시
-원인: 결과물의 가치가 실제 사용자에게 전달되지 못함 (예: 시스템 응답 지연)
-│
-▼
-역추적: 절차 및 산출물 관점에서 근본 원인 탐색
-(예: 성능 테스트 미흡 → 시스템 아키텍처 문제로 판단)
-```
+
 
 이 분석의 핵심은 세 관점의문제가이지 않고 연결되어 있다는 점이다. 절차 관점의 문제가 산출물 관점의 부실로, 산출물 관점의 부실이 성과 관점의 저하로 이어지는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)을 따라가면, 문제의 근본 원인(Root Cause)에 도달할 수 있다.
 
-📢 **섹션 요약 비유**: 감리 관점의연결고리는 **'물고기 먹 연쇄'**와 같습니다. 바닷물 오염(절차 문제)이 해조류(산출물)에되고, 해조류문제을/를한 물고기(성과 문제)가(고객 피해)에까지 이어지듯이, 감리에서도 작은 문제가 큰 재앙으로 확대되는프로세스을/를분석합니다.
+📢 **섹션 요약 비유**: 감리 관점의연결고리는 <strong>'물고기 먹 연쇄'</strong>와 같습니다. 바닷물 오염(절차 문제)이 해조류(산출물)에되고, 해조류문제을/를한 물고기(성과 문제)가(고객 피해)에까지 이어지듯이, 감리에서도 작은 문제가 큰 재앙으로 확대되는프로세스을/를분석합니다.
 
 ---
 
@@ -138,30 +124,34 @@ tags = ["design_supervision"]
 
 세 관점의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 3중 방어선 구조로 시각화하면 다음과 같다.
 
-```text
-[감리 관점 3중 방어선 구조]
 
-[제1방어선: 절차 관점]
-│ - 사전 통제 (Process 기반)
-│ - 표준/방법론 준수 점검
-│ - 문제 예방에 초점
-▼
-[제2방어선: 산출물 관점]
-│ - 통제 (Product 기반)
-│ - 결과물 완결성/품질 점검
-│ - 문제탐지에 초점
-▼
-[제3방어선: 성과 관점]
-│ - 통제 (Performance 기반)
-│ - 실제 가치 창출 여부 점검
-│ - 결과 검증에 초점
 
-※ 3중 방어선이 모두 작동해야 시스템 전체의 확보
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 관점 3중 방어선 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제1방어선: 절차 관점</div></div>
+<div class="kb-diagram-note">- 사전 통제 (Process 기반)</div>
+<div class="kb-diagram-note">- 표준/방법론 준수 점검</div>
+<div class="kb-diagram-note">- 문제 예방에 초점</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제2방어선: 산출물 관점</div></div>
+<div class="kb-diagram-note">- 통제 (Product 기반)</div>
+<div class="kb-diagram-note">- 결과물 완결성/품질 점검</div>
+<div class="kb-diagram-note">- 문제탐지에 초점</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제3방어선: 성과 관점</div></div>
+<div class="kb-diagram-note">- 통제 (Performance 기반)</div>
+<div class="kb-diagram-note">- 실제 가치 창출 여부 점검</div>
+<div class="kb-diagram-note">- 결과 검증에 초점</div>
+<div class="kb-diagram-note">※ 3중 방어선이 모두 작동해야 시스템 전체의 확보</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 세 관점이 순차적으로 방어선 역할을 한다는 점이다. 절차 관점에서 놓친 문제를 산출물 관점에서 발견하고, 산출물 관점에서도 놓친 문제가 성과 관점에서 최종적으로 포착된다. 보안을 통해 시스템 전체의 문제 발생 가능성을화하는 구조다.
 
-📢 **섹션 요약 비유**: 감리 관점의 3중 방어선 구조는 **'방역 시스템'**과 같습니다. 1차 방어선인 예방접종(절차)으로 병을 막고, 2차 방어선인 건강검진(산출물)으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 질환을 발견하며, 3차 방어선인 응급실 치료(성과)로 이미 진행된 질병을 치료하는 것처럼, 의를 통해 시스템 전체의을합니다.
+📢 **섹션 요약 비유**: 감리 관점의 3중 방어선 구조는 <strong>'방역 시스템'</strong>과 같습니다. 1차 방어선인 예방접종(절차)으로 병을 막고, 2차 방어선인 건강검진(산출물)으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 질환을 발견하며, 3차 방어선인 응급실 치료(성과)로 이미 진행된 질병을 치료하는 것처럼, 의를 통해 시스템 전체의을합니다.
 
 ---
 
@@ -181,21 +171,26 @@ tags = ["design_supervision"]
 * **상황**: 시스템의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 5초로,RFP에 명시된 2초 이내의 요구사항을 충족하지 못했다. 그러나 코드는 잘 작성되었고, 개발 프로세스도 표준을 따랐다.
 * **기술사적 판단**: 이 결함은 성과 관점에서 반드시 지적해야 한다. [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 미달은 산출물(코드)인 문제는 아닐 수 있지만(코드는 잘 작성되어 있음), 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(성과) 관점에서는 문제다. 또한 이러한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 근본 원인을 분석하면, 절차 관점([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 미실시)이나 산출물 관점(효율적 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에서의 문제로 했을 가능성도 배제할 수 없다. 따라서 감리인은 세 관점을 모두 적용하여 복합적인 분석을 실시해야 한다.
 
-```text
-[응답 시간 초과 결함에 대한 3관점 분석]
-1. 성과 관점: 응답 시간 5초 (요구사항 2초 초과) → Major 지적
-2. 산출물 관점: 코드 구조, DB 설계 검증
-├─ SQL 쿼리 비효율 발견 → 산출물 지적 (주요 원인)
-└─ 인덱스 미사용 → 산출물 지적 (보조 원인)
-3. 절차 관점: 성능 테스트 시나리오 미실시 or 미흡
-└─ 절차 지적 (간접 원인)
 
-→ 종합: 산출물(Major) + 절차(Minor) 동시 지적
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">응답 시간 초과 결함에 대한 3관점 분석</div></div>
+<div class="kb-diagram-note">1. 성과 관점: 응답 시간 5초 (요구사항 2초 초과) → Major 지적</div>
+<div class="kb-diagram-note">2. 산출물 관점: 코드 구조, DB 설계 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:0">SQL 쿼리 비효율 발견 → 산출물 지적 (주요 원인)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">인덱스 미사용 → 산출물 지적 (보조 원인)</div>
+<div class="kb-diagram-note">3. 절차 관점: 성능 테스트 시나리오 미실시 or 미흡</div>
+<div class="kb-diagram-tree-item" style="--depth:0">절차 지적 (간접 원인)</div>
+<div class="kb-diagram-note">→ 종합: 산출물(Major) + 절차(Minor) 동시 지적</div>
+</div>
+</div>
+
+
 
 이 분석의 핵심은동일한 결함도 세 관점에서 각각 다른 관점에서 평가될 수 있으며, 관점에 따라 지적 등급( Major/Minor)도 달라질 수 있다는 점이다. 감리인은 이러한 면적 분석을 통해 문제의을파악해야 한다.
 
-📢 **섹션 요약 비유**: 복합 결함에 대한 다관점 분석은 **'의료에서의 다학제 진료'**와 같습니다. 심장내과(절차), 소화기내과(산출물), 재활의학과(성과) 의사가의 분야에서 환자를 진료하고, 종합적인 진단과 치료 계획을 세우는 것처럼, 감리에서도 세 관점이하여 문제의을 파악합니다.
+📢 **섹션 요약 비유**: 복합 결함에 대한 다관점 분석은 <strong>'의료에서의 다학제 진료'</strong>와 같습니다. 심장내과(절차), 소화기내과(산출물), 재활의학과(성과) 의사가의 분야에서 환자를 진료하고, 종합적인 진단과 치료 계획을 세우는 것처럼, 감리에서도 세 관점이하여 문제의을 파악합니다.
 
 ---
 
@@ -213,7 +208,7 @@ tags = ["design_supervision"]
 **미래 전망:**
 미래에는 성과 관점의 중요성이 더욱 커질 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론의 확산과 함께 '동작하는 소프트웨어(Working Software)' 중심의 인식이 확산되면서, 산출물보다성과(실제 가치)를 중시하는이 강화되고 있다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/빅데이터 기술의 발전으로 사용자의행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(성과 지표)를으로 수집하고 분석하는 것이 가능해짐에 따라, 성과 관점의 측정 정확도와 즉시성이 크게 향상될 것으로 기대된다.
 
-📢 **섹션 요약 비유**: 미래의 성과 관점 강화는 **'스포츠 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학의 발전'**과 같습니다. 예전에는 경기 녹화본(산출물)과 경기 기록지(절차)만 있었지만, 이제는 GPS 추적, 심박수 측정, 플레이스루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 선수 성과를으로 수집분석하여 코칭에 활용하듯이, 감리에서도 성과 관점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집분석이/가 크게 발전할 것입니다.
+📢 **섹션 요약 비유**: 미래의 성과 관점 강화는 <strong>'스포츠 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학의 발전'</strong>과 같습니다. 예전에는 경기 녹화본(산출물)과 경기 기록지(절차)만 있었지만, 이제는 GPS 추적, 심박수 측정, 플레이스루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 선수 성과를으로 수집분석하여 코칭에 활용하듯이, 감리에서도 성과 관점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집분석이/가 크게 발전할 것입니다.
 
 ---
 
@@ -226,21 +221,23 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[절차 관점 (Procedure Perspective) — 방법론 준수]
-│
-▼
-[산출물 관점 (Product Perspective) — 결과물 품질]
-│
-▼
-[성과 관점 (Performance Perspective) — 실제 가치]
-│
-▼
-[근본 원인 분석 (Root Cause Analysis)]
-│
-▼
-[UAT (User Acceptance Test) — 사용자 인수 테스트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">절차 관점 (Procedure Perspective) — 방법론 준수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">산출물 관점 (Product Perspective) — 결과물 품질</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">성과 관점 (Performance Perspective) — 실제 가치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">근본 원인 분석 (Root Cause Analysis)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UAT (User Acceptance Test) — 사용자 인수 테스트</div></div>
+</div>
+</div>
+
+
 
 IT 감리 관점이 절차 중심에서 산출물·성과 중심으로 다원화하여 실질적 가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 발전한 흐름이다.
 

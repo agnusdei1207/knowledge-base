@@ -23,18 +23,20 @@ tags = ["studynote-ai"]
 
 핵심 아이디어는 단순하다. 액터는 "지금 무엇을 할까"를 결정하고, 크리틱은 "방금 그 선택이 장기적으로 얼마나 좋았나"를 빠르게 평가한다. 이 평가가 즉시 돌아오면, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 에피소드 전체가 끝날 때까지 기다리지 않고도 조금씩 방향을 수정할 수 있다. 그래서 로봇 제어, 게임 에이전트, 추천 최적화, [인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) ([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 같은 영역에서 널리 쓰인다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why Actor-Critic emerged                                             │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Value-based only              │ Policy-based only                    │
-│ - action scoring strong       │ - direct policy output               │
-│ - awkward for continuous act  │ - high variance                      │
-│ - argmax-centered             │ - episode-end feedback often slow    │
-├───────────────────────────────┴──────────────────────────────────────┤
-│ Actor-Critic = direct action + learned evaluation                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Actor-Critic emerged</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value-based only</div><div class="kb-diagram-cell">Policy-based only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- action scoring strong</div><div class="kb-diagram-cell">- direct policy output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- awkward for continuous act</div><div class="kb-diagram-cell">- high variance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- argmax-centered</div><div class="kb-diagram-cell">- episode-end feedback often slow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic = direct action + learned evaluation</div></div>
+</div>
+</div>
+
+
 
 즉 액터-크리틱은 "행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "행동 평가"를 분리해, 감각과 채점 기능을 동시에 갖춘 구조라고 볼 수 있다.
 
@@ -56,21 +58,19 @@ tags = ["studynote-ai"]
 
 아래 그림은 전형적인 학습 루프를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Actor-Critic training loop                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ state s_t                                                            │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Actor πθ(a|s) ──> action a_t ──> environment ──> reward r_t          │
-│    ▲                                 │                │              │
-│    │                                 ▼                ▼              │
-│    │                          next state s_{t+1}   Critic Vw / Qw    │
-│    │                                                  │              │
-│    └──────── update with Â_t ◀──── TD error δ_t ◀─────┘              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic training loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state s_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor πθ(a</div><div class="kb-diagram-cell">s) ──&gt; action a_t ──&gt; environment ──&gt; reward r_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next state s_{t+1} Critic Vw / Qw</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update with Â_t ◀ TD error δ_t ◀</div></div>
+</div>
+</div>
+
+
 
 이 구조가 중요한 이유는 크리틱이 "[부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)"을 하기 때문이다. 즉 한참 뒤 보상을 기다리지 않고, 현재 관측 가능한 정보와 다음 상태 가치 추정을 함께 써서 빠르게 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만든다. 다만 그만큼 크리틱 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전염될 수 있으므로, 안정화 장치가 함께 필요하다.
 
@@ -125,7 +125,7 @@ tags = ["studynote-ai"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용이 중요하고 연속 제어 | DDPG, TD3, SAC 계열 |
 | 사람 선호를 반영한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 기반 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 계열 |
 
-기술사 관점에서는 액터-크리틱을 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 평가를 분리한 강화학습 제어구조"로 서술하면 좋다. 그리고 장점만 말하지 말고, 크리틱의 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 오염시킬 수 있으므로 **안정화 메커니즘과 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 체계**가 반드시 따라야 한다고 적어야 완성도가 높다.
+기술사 관점에서는 액터-크리틱을 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 평가를 분리한 강화학습 제어구조"로 서술하면 좋다. 그리고 장점만 말하지 말고, 크리틱의 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 오염시킬 수 있으므로 <strong>안정화 메커니즘과 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 체계</strong>가 반드시 따라야 한다고 적어야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 가수가 노래를 부르고, 프로듀서가 즉석에서 음정과 박자를 피드백하는 스튜디오 녹음과 같다. 다만 프로듀서 귀가 부정확하면 가수도 잘못된 습관을 배우므로, 평가자 품질 관리가 함께 필요하다.
 
@@ -135,7 +135,7 @@ tags = ["studynote-ai"]
 
 액터-크리틱의 가장 큰 효과는 강화학습을 "행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "평가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"의 협업 구조로 바꿨다는 점이다. 덕분에 순수 [정책 경사법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)보다 학습이 안정되고, 가치 기반 방법보다 연속 제어와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 자연스럽게 다룰 수 있게 됐다. 현대 강화학습의 주류 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상당수가 이 뼈대 위에서 변형된 이유도 여기에 있다.
 
-물론 만능은 아니다. 크리틱이 불안정하면 액터도 함께 흔들리고, 액터가 너무 빠르면 크리틱이 따라가지 못한다. 그래서 기억해야 할 핵심은 "액터-크리틱은 두 모델을 붙였다는 사실"이 아니라, **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습과 가치 추정을 서로 보정하게 만든 설계 원리**라는 점이다.
+물론 만능은 아니다. 크리틱이 불안정하면 액터도 함께 흔들리고, 액터가 너무 빠르면 크리틱이 따라가지 못한다. 그래서 기억해야 할 핵심은 "액터-크리틱은 두 모델을 붙였다는 사실"이 아니라, <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 학습과 가치 추정을 서로 보정하게 만든 설계 원리</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 운동선수는 몸만 좋은 것이 아니라, 자신의 동작을 바로 점검해 주는 거울과 코치를 함께 갖고 있다. 액터-크리틱도 행동하는 몸과 평가하는 눈이 함께 있을 때 진짜 힘을 낸다.
 
@@ -155,22 +155,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MDP (Markov Decision Process)
-        │
-        ▼
-Policy Gradient
-        │
-        ▼
-Baseline / Advantage
-        │
-        ▼
-Actor-Critic
-        │
-        ├─ A2C / A3C / PPO
-        ├─ DDPG / TD3 / SAC
-        └─ RLHF policy optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MDP (Markov Decision Process)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy Gradient</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Baseline / Advantage</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Actor-Critic</div>
+<div class="kb-diagram-tree-item" style="--depth:4">A2C / A3C / PPO</div>
+<div class="kb-diagram-tree-item" style="--depth:4">DDPG / TD3 / SAC</div>
+<div class="kb-diagram-tree-item" style="--depth:4">RLHF policy optimization</div>
+</div>
+</div>
+
+
 
 이 흐름은 순수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저감 기법과 가치 추정을 흡수하며, 현대 강화학습의 주류 계열로 확장되는 과정을 보여 준다.
 

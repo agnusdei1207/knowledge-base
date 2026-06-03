@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 앞서 817번 문서에서 VXLAN이 1,600만 개의 가상망(오버레이 터널)을 뚫어준다고 배웠습니다. 
 - 하지만 VXLAN은 짐을 싸는 '택배 박스([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)'일 뿐, '주소(Control Plane)'를 어떻게 찾을지는 정해주지 않았습니다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) VXLAN은 목적지 주소를 찾기 위해 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(Multicast)로 온 동네방네 택배 송장을 복사해서 뿌리며 물어보는 멍청한 짓(Flood-and-Learn)을 했습니다. 스파인-리프 망이 뻗어버렸습니다.
 
-```text
-[ONIE (Open Network Insta…]
-    │
-    ▼
-[BGP-EVPN 스파인-리프 오버레이]
-    │
-    └──▶ [엣지 가상화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE (Open Network Insta…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 스파인-리프 오버레이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지 가상화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **인터넷 라우팅의 절대 강자인 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), 특히 MP-[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))를 확장하여, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP 주소를 동적으로 학습하고 전파하는 '오버레이 가상망의 중앙 제어 평면(Control Plane)' 표준 기술**입니다. (RFC 7432 제정)
-- **완벽한 조화**: 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 **"택배 박스([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), 내비게이션(Control Plane)은 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)"**이라는 찰떡궁합 공식으로 전 세계 기술이 100% 천하통일 되었습니다.
+- **개념**: <strong>인터넷 라우팅의 절대 강자인 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>, 특히 MP-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)를 확장하여, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소와 IP 주소를 동적으로 학습하고 전파하는 '오버레이 가상망의 중앙 제어 평면(Control Plane)' 표준 기술</strong>입니다. (RFC 7432 제정)
+- **완벽한 조화**: 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 <strong>"택배 박스(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)는 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a>, 내비게이션(Control Plane)은 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>-<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a>"</strong>이라는 찰떡궁합 공식으로 전 세계 기술이 100% 천하통일 되었습니다.
 
-```text
-[ONIE (Open Network Insta…]
-    │
-    ▼
-[BGP-EVPN 스파인-리프 오버레이]
-    │
-    └──▶ [엣지 가상화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE (Open Network Insta…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 스파인-리프 오버레이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지 가상화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 ### 1. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 및 IP 주소의 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 장부화 (Route Type 2/5)
 - **과거**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 멍청한 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 수동으로 배웠습니다.
-- **[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)**: 1번 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(바닥)에 새로운 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 켜지면, Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜을 써서 저 위에 있는 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector 역할)에게 "형님! 제 밑에 `IP: 1.1.1.1, MAC: aa:bb` 인 놈 태어났습니다!"라고 **엑셀 장부(Update 메시지)**를 올려 보냅니다.
+- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a></strong>: 1번 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(바닥)에 새로운 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 켜지면, Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜을 써서 저 위에 있는 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector 역할)에게 "형님! 제 밑에 `IP: 1.1.1.1, MAC: aa:bb` 인 놈 태어났습니다!"라고 <strong>엑셀 장부(Update 메시지)</strong>를 올려 보냅니다.
 - Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 장부를 전국의 모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 0.1초 만에 쫙 복사해서 뿌립니다. 전국의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 소리(브로드캐스트) 한 번 안 지르고 서로의 주소를 완벽히 알게 됩니다.
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Suppression (브로드캐스트 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) 🌟
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 
 ### 3. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 애니캐스트 게이트웨이 (Distributed Anycast Gateway)
 - VM이 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 랙에서 5층 랙으로 이사를 갑니다(vMotion). 옛날엔 5층으로 가면 기본 게이트웨이(Gateway) IP를 바꿔야 해서 인터넷이 끊겼습니다.
-- [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 망에서는 전국의 모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 **"내가 192.168.1.254(게이트웨이)야!"**라고 똑같은 가짜 얼굴(Anycast IP/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 하고 서 있습니다. 
+- [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 망에서는 전국의 모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 <strong>"내가 192.168.1.254(게이트웨이)야!"</strong>라고 똑같은 가짜 얼굴(Anycast IP/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 하고 서 있습니다. 
 - VM이 5층으로 훌쩍 날아가도, 5층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 똑같은 게이트웨이 얼굴로 받아주기 때문에 VM은 자기가 이사 온 줄도 모른 채 단 1초의 통신 끊김 없이 넷플릭스를 봅니다. (완벽한 L2/L3 심리스 마이그레이션)
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Insta…가 기반 조건을 만든다면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 그 위에서 핵심 메커니즘을 구현하고, [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 구형 클라우드망은 동네방네 소리치는 '확성기 심부름센터'였습니다. 부산의 철수를 찾으려면 확성기를 켜고 "철수 어딨어!!"라고 소리쳐서([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 전국의 고막을 터뜨렸습니다. **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)**은 전 국민의 주소와 전화번호를 1초 단위로 업데이트하는 '스마트폰 초정밀 주소록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 앱(Control Plane)'입니다. 확성기를 켤 필요가 없습니다. 철수가 이사를 가면, 즉시 주소록 서버(Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 그 사실을 전국의 모든 스미트폰(Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 무음 푸시 알림으로 업데이트해 줍니다. 영희가 철수에게 택배를 보낼 땐 자기 폰([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 주소록만 쓱 열어보고 부산으로 조용히 다이렉트로 쏴버리는([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), 쓰레기 소음(BUM 트래픽)이 0%인 궁극의 조용한 물류망입니다.
+- **📢 섹션 요약 비유**: 구형 클라우드망은 동네방네 소리치는 '확성기 심부름센터'였습니다. 부산의 철수를 찾으려면 확성기를 켜고 "철수 어딨어!!"라고 소리쳐서([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 전국의 고막을 터뜨렸습니다. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>-<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a></strong>은 전 국민의 주소와 전화번호를 1초 단위로 업데이트하는 '스마트폰 초정밀 주소록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 앱(Control Plane)'입니다. 확성기를 켤 필요가 없습니다. 철수가 이사를 가면, 즉시 주소록 서버(Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 그 사실을 전국의 모든 스미트폰(Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 무음 푸시 알림으로 업데이트해 줍니다. 영희가 철수에게 택배를 보낼 땐 자기 폰([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 주소록만 쓱 열어보고 부산으로 조용히 다이렉트로 쏴버리는([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), 쓰레기 소음(BUM 트래픽)이 0%인 궁극의 조용한 물류망입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ONIE (Open Network Insta…]
-    │
-    ▼
-[현재 개념: BGP-EVPN 스파인-리프 오버레이]
-    │
-    ├──▶ [확장 A: 엣지 가상화]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ONIE (Open Network Insta…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP-EVPN 스파인-리프 오버레이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 엣지 가상화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)-[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 스파인-리프 오버레이는 [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Insta…에서 출발해 현재 메커니즘을 정교화하고, 이후 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

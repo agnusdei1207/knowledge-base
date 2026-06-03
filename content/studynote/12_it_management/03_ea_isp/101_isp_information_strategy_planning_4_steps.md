@@ -31,20 +31,21 @@ tags = ["studynote-it-management"]
 
 ISP 수행은 철저하게 논리적인 인과관계를 가진 4단계 폭포수 방법론을 따른다. 환경, 현재, 미래, 실행이라는 4개의 축이 톱니바퀴처럼 맞물려 진행된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [ISP 수행 4단계 핵심 프로세스]                  │
-├──────────────────────────────────────────────────────────────┤
-│ [1. 환경 분석] ───────────▶ [2. AS-IS 분석]                    │
-│ 경영 비전 파악 (Business)      현황 진단 (BA, DA, AA, TA)     │
-│ IT 트렌드 분석 (IT Trend)      문제점(Pain Point) 도출         │
-│          │                           │                       │
-│          ▼                           ▼                       │
-│ [4. 이행 계획 수립] ◀───────── [3. TO-BE 모델 수립]            │
-│ 프로젝트 우선순위 평가         목표 모델 설계 (목표 아키텍처)       │
-│ 연도별 로드맵 및 예산 산정      도입 과제 및 솔루션 도출         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 수행 4단계 핵심 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 환경 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. AS-IS 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영 비전 파악 (Business) 현황 진단 (BA, DA, AA, TA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 트렌드 분석 (IT Trend) 문제점(Pain Point) 도출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 이행 계획 수립</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">3. TO-BE 모델 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 우선순위 평가 목표 모델 설계 (목표 아키텍처)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연도별 로드맵 및 예산 산정 도입 과제 및 솔루션 도출</div></div>
+</div>
+</div>
+
+
 
 1단계([환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/))에서 "우리는 어디로 가야 하는가"를 묻고, 2단계([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석)에서 "우리의 현재 꼬라지는 어떠한가"를 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 프레임워크에 맞춰 비즈니스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 기술 관점으로 진단한다. 3단계(TO-BE 수립)는 갭(Gap)을 메우기 위한 이상적인 목표 시스템을 그리고 추진 과제를 도출하며, 마지막 4단계(이행 계획)에서 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))를 따져 "무엇부터 예산을 투입해 개발할지" 투자 우선순위와 로드맵을 완성한다.
 
@@ -60,9 +61,9 @@ ISP는 단독으로 존재하지 않으며, 조직의 거대한 뼈대인 [EA](/
 | :--- | :--- | :--- | :--- |
 | **핵심 목적** | 업무 절차 자체의 근본적 혁신 | 비즈니스 지원을 위한 IT 마스터플랜 | 결정된 시스템의 실제 개발 및 테스트 |
 | **주요 산출물** | 신규 업무 매뉴얼 및 조직도 | IT 아키텍처(TO-BE) 및 투자 로드맵 | 소스 코드 및 시스템 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
-| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | ISP 수립 전/후에 업무 효율화를 위해 병행 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 결과를 반영하여 IT 청사진 제시 | ISP에서 도출된 개별 과제를 실현 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | ISP 수립 전/후에 업무 효율화를 위해 병행 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 결과를 반영하여 IT 청사진 제시 | ISP에서 도출된 개별 과제를 실현 |
 
-특히, 최근에는 업무를 혁신하면서 동시에 IT 밑그림을 그리는 **ISP/[BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 통합 방법론**이 널리 쓰인다. 업무 프로세스는 옛날 방식 그대로인데 IT 시스템만 최신으로 바꾸는 모순을 막기 위해서다.
+특히, 최근에는 업무를 혁신하면서 동시에 IT 밑그림을 그리는 <strong>ISP/<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/">BPR</a> 통합 방법론</strong>이 널리 쓰인다. 업무 프로세스는 옛날 방식 그대로인데 IT 시스템만 최신으로 바꾸는 모순을 막기 위해서다.
 
 - **📢 섹션 요약 비유**: BPR이 회사의 결재 문서를 수기로 할지 태블릿으로 할지 업무 규칙 자체를 뜯어고치는 것이라면, ISP는 그 태블릿을 언제 수백 대 사고 클라우드는 어떻게 연결할지 예산과 일정을 짜는 기획이며, SDLC는 그 태블릿 안에 들어갈 앱을 실제로 코딩하는 작업이다.
 
@@ -74,7 +75,7 @@ ISP는 문서 작업으로 끝날 위험이 크다. 실무와 시험에서 성�
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **Biz-IT Alignment**: 도출된 IT 과제(TO-BE)가 1단계의 경영 비전과 명확히 연결되어 있는가? (단순 최신 기술 도입은 탈락 사유다.)
-2. **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 분석**: [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 진단 시 감에 의존하지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))와 프로세스([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)) 아키텍처를 교차 분석하여 근본 원인을 찾았는가?
+2. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 기반 분석</strong>: [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 진단 시 감에 의존하지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))와 프로세스([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)) 아키텍처를 교차 분석하여 근본 원인을 찾았는가?
 3. **현실적 우선순위 평가**: 4단계 이행 계획에서 비즈니스 기여도와 기술적 실현 가능성을 매트릭스로 분석해, ROI가 가장 높은 퀵 윈 (Quick-Win) 과제를 전진 배치했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -106,18 +107,21 @@ ISP는 문서 작업으로 끝날 위험이 크다. 실무와 시험에서 성�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 전산화 (Legacy IT) · 부서별 개별 시스템 구축 (사일로)
-    │
-    ▼
-정보화 전략 계획 (ISP) · 경영 목표와 IT 전략의 4단계 정렬(Align)
-    │
-    ▼
-EA 기반 ISP / BPR 통합 · 아키텍처 관점의 자산 관리 및 업무 절차 동시 혁신
-    │
-    ▼
-디지털 전략 수립 (DSP) · DX 시대의 애자일 기반 신속한 마스터플랜 수립
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 전산화 (Legacy IT) · 부서별 개별 시스템 구축 (사일로)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보화 전략 계획 (ISP) · 경영 목표와 IT 전략의 4단계 정렬(Align)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EA 기반 ISP / BPR 통합 · 아키텍처 관점의 자산 관리 및 업무 절차 동시 혁신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 전략 수립 (DSP) · DX 시대의 애자일 기반 신속한 마스터플랜 수립</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

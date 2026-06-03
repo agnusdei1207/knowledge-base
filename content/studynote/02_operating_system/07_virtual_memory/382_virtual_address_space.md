@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가상 주소 공간(Virtual Address Space)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개별 프로세스에게 부여하는 **"네가 메모리의 0번지부터 끝까지 전부 혼자서 다 쓰고 있다"는 완벽하게 독립되고 선형적인 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 형태의 환상(Illusion)의 우주**다.
-> 2. **가치**: 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 컴파일러가 아주 예쁘고 일관된 규칙으로 차곡차곡 배치할 수 있게 해주어, 물리적 램(RAM)의 더러운 파편화 상태나 타 프로세스의 존재를 완벽하게 숨겨버리는 **소프트웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 끝판왕**이다.
-> 3. **융합**: 가상 주소 공간은 프로세스가 `fork()`로 복제될 때 1초 만에 독립된 우주를 생성해 내며, 물리 메모리와 디스크(Swap) 사이를 잇는 **MMU의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 결합**하여 현대 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 샌드박스의 물리적/논리적 기반을 형성한다.
+> 1. **본질**: 가상 주소 공간(Virtual Address Space)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개별 프로세스에게 부여하는 <strong>"네가 메모리의 0번지부터 끝까지 전부 혼자서 다 쓰고 있다"는 완벽하게 독립되고 선형적인 1차원 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 형태의 환상(Illusion)의 우주</strong>다.
+> 2. **가치**: 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 컴파일러가 아주 예쁘고 일관된 규칙으로 차곡차곡 배치할 수 있게 해주어, 물리적 램(RAM)의 더러운 파편화 상태나 타 프로세스의 존재를 완벽하게 숨겨버리는 <strong>소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>의 끝판왕</strong>이다.
+> 3. **융합**: 가상 주소 공간은 프로세스가 `fork()`로 복제될 때 1초 만에 독립된 우주를 생성해 내며, 물리 메모리와 디스크(Swap) 사이를 잇는 <strong>MMU의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 테이블과 결합</strong>하여 현대 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 샌드박스의 물리적/논리적 기반을 형성한다.
 
 ---
 
@@ -27,30 +27,26 @@ tags = ["studynote-operating-system"]
   2. **독립된 우주의 제공**: 프로세스마다 0부터 시작하는 자신만의 공간을 부여. 해커가 1000번지를 찔러도 그건 자기 우주의 1000번지일 뿐, 남의 우주(타 프로세스)와는 철저히 격리됨.
   3. **메모리 구조의 표준화**: 모든 프로그램이 바닥엔 코드, 위에는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 두는 동일한 '표준 레이아웃'을 가지게 되어 컴파일러와 링커의 설계가 비약적으로 쉬워졌다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        표준적인 가상 주소 공간(Virtual Address Space)의 지형도     │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ 0xFFFFFFFF (최상단)                                                │
-│ ┌───────────────────────────┐ ◀ 커널 스페이스 (OS 전용 구역)       │
-│ │ 운영체제 커널 (Kernel)      │ (유저가 침범 시 즉시 사살!)        │
-│ ├───────────────────────────┤                                      │
-│ │ 스택 (Stack) ↓ (아래로 자람) │ ◀ 지역 변수, 함수 호출 기록       │
-│ │                           │                                      │
-│ │       ▒ 빈 공 간 ▒        │ ◀ 이 거대한 빈 공간 덕분에           │
-│ │       (성긴 주소 공간)      │    Stack과 Heap이 맘껏 자람        │
-│ │                           │                                      │
-│ │ 힙 (Heap) ↑ (위로 자람)    │ ◀ 동적 메모리 할당 (malloc)         │
-│ ├───────────────────────────┤                                      │
-│ │ BSS (초기화 안 된 전역변수)  │                                   │
-│ │ Data (초기화된 전역변수)     │                                   │
-│ ├───────────────────────────┤                                      │
-│ │ Code / Text (명령어)      │ ◀ 프로그램 실행 코드 (Read-Only)     │
-│ └───────────────────────────┘                                      │
-│ 0x00000000 (최하단)                                                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준적인 가상 주소 공간(Virtual Address Space)의 지형도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFFFFFF (최상단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 커널 스페이스 (OS 전용 구역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 커널 (Kernel)</div><div class="kb-diagram-cell">(유저가 침범 시 즉시 사살!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 (Stack) ↓ (아래로 자람)</div><div class="kb-diagram-cell">◀ 지역 변수, 함수 호출 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▒ 빈 공 간 ▒</div><div class="kb-diagram-cell">◀ 이 거대한 빈 공간 덕분에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성긴 주소 공간)</div><div class="kb-diagram-cell">Stack과 Heap이 맘껏 자람</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 (Heap) ↑ (위로 자람)</div><div class="kb-diagram-cell">◀ 동적 메모리 할당 (malloc)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSS (초기화 안 된 전역변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data (초기화된 전역변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code / Text (명령어)</div><div class="kb-diagram-cell">◀ 프로그램 실행 코드 (Read-Only)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 (최하단)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 C언어를 배우면 귀에 못이 박이게 듣는 메모리 레이아웃이다. 이 아름답고 텅 빈 정렬 구조는 물리 메모리(RAM)에서는 절대 볼 수 없다. 램은 조각난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들로 쓰레기장처럼 섞여 있기 때문이다. 오직 가상 주소 공간 안에서만, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 위에서 아래로 마음껏 자라나고 힙이 아래서 위로 무한히 자라나는 '연속성의 환상'이 성립한다.
 
 - **📢 섹션 요약 비유**: 가상 주소 공간은 집 없는 달팽이(프로세스)에게 "넌 엄청나게 큰 4GB짜리 껍질을 가지고 있어!"라고 최면을 걸어 안심시키는 기술입니다. 달팽이가 껍질 안쪽([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙)을 아무리 헤집고 다녀도, 실제로는 바깥의 투명한 요정([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 그 행동을 실제 흙바닥(물리 램) 요리조리로 번역해 주고 있는 것입니다.
@@ -61,7 +57,7 @@ tags = ["studynote-operating-system"]
 
 ### 성긴 주소 공간 (Sparse Address Space)
 
-가상 주소 공간의 그림을 보면, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙 사이의 중간에 엄청나게 거대한 **'빈 공간(Hole)'**이 존재한다. 이를 성긴(Sparse) 주소 공간이라 부른다.
+가상 주소 공간의 그림을 보면, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙 사이의 중간에 엄청나게 거대한 <strong>'빈 공간(Hole)'</strong>이 존재한다. 이를 성긴(Sparse) 주소 공간이라 부른다.
 - **왜 띄워놓는가?**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 함수가 호출될수록 크기가 커지고, 힙은 동적 할당을 할수록 크기가 커진다. 만약 둘을 붙여놓으면 금방 충돌할 것이다. 그래서 4GB라는 가상 세계의 양 끝단에 둘을 멀리 떨어뜨려 놓고 서로 마주 보며 자라게 설계했다.
 - **물리 램의 절약**: 이 광활한 중간의 빈 공간은 "가상"일뿐이다. 실제로 이 허공을 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 물리 램을 1바이트도 할당하지 않는다. ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 연결조차 안 해둔다). 이 텅 빈 사막 덕분에 프로그램은 메모리 부족 걱정 없이 동적 성장을 마음껏 누릴 수 있다.
 
@@ -70,29 +66,25 @@ tags = ["studynote-operating-system"]
 ### [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))의 가상 주소 공간 공유
 
 하나의 프로세스 안에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 3개 파생([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Create)되면, 이 가상 주소 공간 안에서는 무슨 일이 벌어질까?
-- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 이 **하나의 가상 우주를 100% 통째로 공유**한다. (코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙을 같이 쓴다).
-- 단, 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 자신이 실행 중인 함수와 지역 변수를 기억해야 하므로, **'자신만의 독립적인 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))'** 영역을 거대한 빈 공간(Sparse 구역) 안에서 뚝뚝 떼어내어 할당받는다.
+- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 이 <strong>하나의 가상 우주를 100% 통째로 공유</strong>한다. (코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙을 같이 쓴다).
+- 단, 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 자신이 실행 중인 함수와 지역 변수를 기억해야 하므로, <strong>'자신만의 독립적인 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)'</strong> 영역을 거대한 빈 공간(Sparse 구역) 안에서 뚝뚝 떼어내어 할당받는다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│              멀티 스레드 환경의 가상 주소 공간 레이아웃                   │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ ┌───────────────────────────┐                                             │
-│ │ 메인 스레드 스택 (Thread 0)   │                                         │
-│ ├───────────────────────────┤                                             │
-│ │ 서브 스레드 스택 (Thread 1)   │ ◀ 스레드가 늘어날수록 빈 공간에         │
-│ ├───────────────────────────┤    각자의 스택을 차곡차곡 쌓아나감          │
-│ │ 서브 스레드 스택 (Thread 2)   │                                         │
-│ │                           │                                             │
-│ │         (빈 공간)           │                                           │
-│ │                           │                                             │
-│ │ 힙 (Heap - 모든 스레드 공유!)  │ ◀ 여기서 공유 변수를 건드리다 락이 걸림│
-│ ├───────────────────────────┤                                             │
-│ │ Code / Data (모두 공유)     │                                           │
-│ └───────────────────────────┘                                             │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티 스레드 환경의 가상 주소 공간 레이아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 스레드 스택 (Thread 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브 스레드 스택 (Thread 1)</div><div class="kb-diagram-cell">◀ 스레드가 늘어날수록 빈 공간에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각자의 스택을 차곡차곡 쌓아나감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브 스레드 스택 (Thread 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈 공간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 (Heap - 모든 스레드 공유!)</div><div class="kb-diagram-cell">◀ 여기서 공유 변수를 건드리다 락이 걸림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code / Data (모두 공유)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 왜 '가벼운 프로세스'인지 완벽하게 증명하는 구조다. 프로세스를 새로 띄우면 이 4GB짜리 가상 우주를 통째로 하나 더([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블까지) 만들어야 하지만, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 그냥 기존 우주의 빈 공간 한구석에 작은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 텐트 하나만 더 치고 기존 집기류(코드/힙)를 같이 쓰는 극강의 가성비를 자랑한다.
 
@@ -109,24 +101,27 @@ tags = ["studynote-operating-system"]
 | 항목 | 32비트 (x86) | 64비트 (x86_64) |
 |:---|:---|:---|
 | **가상 공간 최대 크기** | **4GB** ($2^{32}$) | **16 Exabytes (EB)** ($2^{48}$, 현재 하드웨어 제한) |
-| **User / [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 분할**| 3GB (User) / 1GB ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 쪼갬 | 하위 128TB (User) / 상위 128TB ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))로 극단적 양분 |
-| **메모리 고갈 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))** | 게임 하나 키면 3GB 금방 차서 터짐 | 가상 주소가 꽉 차서 터질 확률은 **우주 멸망 전엔 없음** |
+| <strong>User / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> 분할</strong>| 3GB (User) / 1GB ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 쪼갬 | 하위 128TB (User) / 상위 128TB ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))로 극단적 양분 |
+| <strong>메모리 고갈 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>)</strong> | 게임 하나 키면 3GB 금방 차서 터짐 | 가상 주소가 꽉 차서 터질 확률은 **우주 멸망 전엔 없음** |
 | **장부(Table) 크기** | 1~2단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 램 낭비 적음 | 4~5단계 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/) 없이는 장부가 램을 다 파먹음 |
 
 ### 공간 분할의 미학: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space) 은닉
 
 모든 프로세스의 가상 주소 공간 상단(보통 3GB~4GB 구간)에는 '[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))'이 매핑되어 있다.
 - **왜 내 방에 OS가 들어와 있나?**: 유저 프로그램이 하드디스크를 읽어달라고 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 보낼 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 내 가상 주소 바깥에 있으면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 하고 주소록을 엎어야 해서 너무 느리다. 그래서 아예 내 방 천장에 OS를 매핑해 둔 것이다.
-- **보안 방어 (U/S [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))**: 내 방에 있긴 하지만, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 `Supervisor(특권)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 걸려 있어서, 일반 유저 권한으로 천장([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구역)을 쳐다보려 하면 MMU가 즉시 눈을 찔러버린다([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault). 오직 `인터럽트`를 통해 특권 모드로 승격됐을 때만 이 구역이 허락된다.
+- <strong>보안 방어 (U/S <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong>: 내 방에 있긴 하지만, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 `Supervisor(특권)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 걸려 있어서, 일반 유저 권한으로 천장([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구역)을 쳐다보려 하면 MMU가 즉시 눈을 찔러버린다([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault). 오직 `인터럽트`를 통해 특권 모드로 승격됐을 때만 이 구역이 허락된다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 구역       │ 권한 비트    │ 누가 접근하나  │ 매핑된 물리 램          │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ 유저 공간  │ User (U)   │ 카카오톡 등 앱 │ 각 앱마다 다 다름         │
-│ 커널 공간  │ Super (S)  │ OS 커널 코드 │ **모든 앱이 똑같은 램 공유**│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구역</div><div class="kb-diagram-cell">권한 비트</div><div class="kb-diagram-cell">누가 접근하나</div><div class="kb-diagram-cell">매핑된 물리 램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 공간</div><div class="kb-diagram-cell">User (U)</div><div class="kb-diagram-cell">카카오톡 등 앱</div><div class="kb-diagram-cell">각 앱마다 다 다름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 공간</div><div class="kb-diagram-cell">Super (S)</div><div class="kb-diagram-cell">OS 커널 코드</div><div class="kb-diagram-cell">모든 앱이 똑같은 램 공유</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 유저 공간은 100개의 앱이 띄워지면 100개의 서로 다른 우주가 만들어지지만, 상단의 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간'만큼은 100개의 가상 우주 모두가 물리적으로 '단 하나의 램([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램)'을 똑같이 공유한다. 이를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 전 세계(모든 프로세스)를 전지전능하게 통제할 수 있다.
 
 - **📢 섹션 요약 비유**: 내가 월세로 빌린 아파트(유저 공간) 지붕 위에는 보이지 않는 투명한 펜트하우스([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간)가 얹혀 있습니다. 평소엔 그곳에 올라갈 수 없지만, 집에 불이 났을 때 비상벨(시스템 콜)을 누르면 그곳에서 경찰과 소방관([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 순식간에 내려와 불을 꺼주는 구조입니다.
@@ -139,14 +134,14 @@ tags = ["studynote-operating-system"]
 1. **과거의 절망**: 32비트 리눅스/윈도우 시절, 서버에 램을 16GB나 빵빵하게 꽂았는데 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 프로세스가 3GB 메모리를 쓴 순간 `Out Of Memory` 에러를 뿜으며 사망했다.
 2. **원인 분석**: 
    - 32비트 가상 주소 공간의 총합은 4GB다. 여기서 상단 1GB는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 선점한다.
-   - 유저 프로세스가 뻗어나갈 수 있는(malloc) 최대 한계치([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)+힙+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 논리적으로 **3GB**의 벽에 막혀버린 것이다. 물리 램이 100GB가 남아돌아도 가상 우주의 크기가 작아서 질식사한 셈이다.
+   - 유저 프로세스가 뻗어나갈 수 있는(malloc) 최대 한계치([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)+힙+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 논리적으로 <strong>3GB</strong>의 벽에 막혀버린 것이다. 물리 램이 100GB가 남아돌아도 가상 우주의 크기가 작아서 질식사한 셈이다.
 3. **땜질 처방 (PAE와 4GT)**:
    - 인텔은 급하게 PAE([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) Extension)를 만들어 물리 주소를 36비트(64GB)로 넓혀주었지만, 단일 프로세스의 가상 주소 우주 4GB 한계는 절대 깰 수 없었다.
    - 윈도우는 `/3GB` 부트 스위치를 켜서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역을 1GB로 쥐어짜고 유저에게 3GB를 주는 눈물겨운 꼼수를 썼다.
 4. **결단**: 결국 소프트웨어 생태계 전체가 이 "가상 공간의 좁음"을 도저히 참지 못하고 64비트(x86_64) 아키텍처로 엑소더스(대이동)를 단행하는 역사적 계기가 되었다.
 
 ### [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) ([Memory-Mapped File](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/308_memory_mapped_file/))을 통한 가상 공간의 예술
-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다룰 때 램으로 퍼오는 `read()` 대신, 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 **가상 주소 공간의 '빈 공간(Sparse Hole)'에 통째로 꽂아버리는 마법이 `mmap()`이다.**
+[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다룰 때 램으로 퍼오는 `read()` 대신, 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 <strong>가상 주소 공간의 '빈 공간(Sparse Hole)'에 통째로 꽂아버리는 마법이 <code>mmap()</code>이다.</strong>
 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 꽂아도 램은 1바이트도 소모되지 않는다. 가짜 주소만 만들어질 뿐이다. 나중에 앱이 영화의 1시간째 장면(특정 가상 주소)을 재생하면, 그 순간 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터져 디스크에서 딱 그 장면 4KB만 램으로 로드된다. 가상 주소 공간이 넓어졌기에 가능한 현대 OS 최고의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 최적화 기술이다.
 
 - **📢 섹션 요약 비유**: 내 통장(가상 주소)의 한도액이 400만 원(4GB)으로 고정되어 있어서, 실제 금고(물리 램)에 1억 원이 있어도 내가 쓸 수 있는 돈이 없어 파산하던 시절에서 벗어나, 이제는 무한대의 한도액(64비트)을 가진 블랙 카드를 발급받아 메모리의 자유를 얻은 사건입니다.
@@ -159,9 +154,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **메모리 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 완전 은닉**| 물리 램이 아무리 찢어지고 더러워져도, 프로그래머는 0번지부터 시작하는 깨끗하고 연속된 1차원 도화지 위에서 코딩 가능 |
+| <strong>메모리 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 완전 은닉</strong>| 물리 램이 아무리 찢어지고 더러워져도, 프로그래머는 0번지부터 시작하는 깨끗하고 연속된 1차원 도화지 위에서 코딩 가능 |
 | **보안 샌드박스 완결** | 내 우주(가상 공간)에는 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 존재하지 않으므로, C언어 포인터로 아무리 난리를 쳐도 타 앱의 오염이 물리적으로 불가 |
-| **[Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation (게으른 할당) 기반**| 수백 기가의 가상 공간만 줘놓고, 실제 물리 램은 당장 필요한 순간([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))에만 떼어주는 궁극의 램 구두쇠 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실현 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Allocation (게으른 할당) 기반</strong>| 수백 기가의 가상 공간만 줘놓고, 실제 물리 램은 당장 필요한 순간([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))에만 떼어주는 궁극의 램 구두쇠 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실현 |
 
 ### 결론 및 미래 전망
 
@@ -182,15 +177,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[가상 메모리 (Virtual Memory) 개념]
-    │
-    ▼
-[가상 주소 공간 (Virtual Address Space)]
-    │
-    ├──▶ [요구 페이징 (Demand Paging)]
-    └──▶ [순수 요구 페이징 (Pure Demand Paging)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 메모리 (Virtual Memory) 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 주소 공간 (Virtual Address Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">요구 페이징 (Demand Paging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순수 요구 페이징 (Pure Demand Paging)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

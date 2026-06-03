@@ -25,22 +25,21 @@ tags = ["studynote-software-engineering"]
 
 이 그림은 왜 선형 사고만으로는 요구사항을 설명할 수 없는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           기능 충족도와 만족도는 항상 직선으로 움직이지 않는다  │
-├──────────────────────────────────────────────────────────────┤
-│ 만족도 ▲                                                     │
-│       │                    /  일원적 품질                    │
-│       │                   /                                  │
-│       │          ________/   매력적 품질                     │
-│       │         /                                           │
-│       │________/__________________________________▶ 충족도   │
-│       │      \                                            │
-│       │       \____ 당연적 품질                           │
-│       ▼                                                     │
-│ 불만                                                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 충족도와 만족도는 항상 직선으로 움직이지 않는다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만족도 ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 일원적 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">________/ 매력적 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">________/__________________________________▶ 충족도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\____ 당연적 품질</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불만</div></div>
+</div>
+</div>
+
+
 
 즉 카노 모델은 기능 목록 정리표가 아니라, 고객 기대와 투자 우선순위를 연결하는 해석 프레임이다. 같은 1주 개발 effort라도 어느 곡선 위에 올리느냐에 따라 사업 효과가 달라진다.
 
@@ -64,16 +63,18 @@ tags = ["studynote-software-engineering"]
 
 이 그림은 카노 설문에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 만들어지는 과정을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             카노 분류의 입력: 있는 경우와 없는 경우를 함께 묻기 │
-├──────────────────────────────────────────────────────────────┤
-│ 기능 A가 있을 때?   ──▶ 좋다 / 당연하다 / 무관심 / 참는다       │
-│ 기능 A가 없을 때?   ──▶ 불만 / 당연하다 / 무관심 / 오히려 좋다   │
-│                                                              │
-│ 두 답변의 조합 ──▶ 당연적 / 일원적 / 매력적 / 무관심 / 역품질    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카노 분류의 입력: 있는 경우와 없는 경우를 함께 묻기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 A가 있을 때? ──▶ 좋다 / 당연하다 / 무관심 / 참는다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 A가 없을 때? ──▶ 불만 / 당연하다 / 무관심 / 오히려 좋다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 답변의 조합 ──▶ 당연적 / 일원적 / 매력적 / 무관심 / 역품질</div></div>
+</div>
+</div>
+
+
 
 따라서 카노 모델은 단순 브레인스토밍보다 고객 인식 구조를 더 잘 드러낸다. "좋은 기능"을 고르는 것이 아니라, "기대의 기준선을 어떻게 넘어설 것인가"를 설계하게 해 주기 때문이다.
 
@@ -109,7 +110,7 @@ tags = ["studynote-software-engineering"]
    - 당연적 품질: 로그인 성공, 이체 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
    - 일원적 품질: 화면 응답속도, 고객센터 연결 시간
    - 매력적 품질: 자동 지출 분석, 맞춤형 절약 알림
-2. **전자상거래 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**
+2. <strong>전자상거래 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>
    - 당연적 품질: 결제 안정성, 주문 이력 조회
    - 일원적 품질: 배송 속도, 검색 정확도
    - 매력적 품질: 개인 취향 기반 선물 추천, 예상 가격 변동 알림
@@ -131,22 +132,21 @@ tags = ["studynote-software-engineering"]
 
 이 그림은 카노 모델이 백로그 의사결정으로 이어지는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         카노 모델의 실무 흐름: 고객 기대를 릴리스 계획으로 번역 │
-├──────────────────────────────────────────────────────────────┤
-│ 고객 인터뷰/설문                                             │
-│        │                                                     │
-│        ▼                                                     │
-│ 카노 분류: 당연적 / 일원적 / 매력적 / 기타                   │
-│        │                                                     │
-│        ├─ 당연적: 최소 기준 미달 항목 우선 보강              │
-│        ├─ 일원적: 경쟁력 높은 지표 집중 개선                 │
-│        └─ 매력적: 차별화 포인트 소수 선택                    │
-│        ▼                                                     │
-│ MVP · 분기 로드맵 · 실험(A/B 테스트)                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카노 모델의 실무 흐름: 고객 기대를 릴리스 계획으로 번역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 인터뷰/설문</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카노 분류: 당연적 / 일원적 / 매력적 / 기타</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 당연적: 최소 기준 미달 항목 우선 보강</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일원적: 경쟁력 높은 지표 집중 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 매력적: 차별화 포인트 소수 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVP · 분기 로드맵 · 실험(A/B 테스트)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 카노 모델로 일을 정리하는 것은 집들이 준비와 같다. 수도와 전기는 당연히 먼저 고쳐야 하고, 가구는 좋을수록 만족이 오르며, 손님이 놀랄 작은 장식 하나가 집의 인상을 오래 남긴다.
 
@@ -176,25 +176,25 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고객의 소리 (Voice of Customer)
-    │
-    ▼
-카노 설문 · 기대 분석
-    │
-    ▼
-당연적 · 일원적 · 매력적 품질 분류
-    │
-    ├──────────────▶ MoSCoW 기반 릴리스 범위 결정
-    │
-    ├──────────────▶ QFD 기반 기술 요구사항 변환
-    │
-    ▼
-MVP · 실험 · 반복 개선
-    │
-    ▼
-시간 경과에 따른 품질 속성 재분류
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객의 소리 (Voice of Customer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카노 설문 · 기대 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">당연적 · 일원적 · 매력적 품질 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ MoSCoW 기반 릴리스 범위 결정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ QFD 기반 기술 요구사항 변환</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP · 실험 · 반복 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시간 경과에 따른 품질 속성 재분류</div>
+</div>
+</div>
+
+
 
 이 흐름도는 고객 기대를 분석한 뒤, 우선순위와 설계·실험으로 연결하고 다시 재평가하는 제품 기획의 순환 구조를 보여준다.
 

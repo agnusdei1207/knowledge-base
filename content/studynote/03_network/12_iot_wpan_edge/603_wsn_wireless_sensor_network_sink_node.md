@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-수십~수만 개의 초소형 무선 센서 노드(Sensor Node)들이 사람의 접근이 어려운 환경(산속, 깊은 바다, 거대한 공장, 적진 등)에 흩어져, **온도, 압력, 진동 등의 환경 정보를 수집한 뒤, 스스로 임시 그물망(Ad-hoc [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))을 형성하여 목적지(기지국)까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이로 무선 전송하는 네트워크 시스템**입니다.
+수십~수만 개의 초소형 무선 센서 노드(Sensor Node)들이 사람의 접근이 어려운 환경(산속, 깊은 바다, 거대한 공장, 적진 등)에 흩어져, <strong>온도, 압력, 진동 등의 환경 정보를 수집한 뒤, 스스로 임시 그물망(Ad-hoc <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>)을 형성하여 목적지(기지국)까지 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 릴레이로 무선 전송하는 네트워크 시스템</strong>입니다.
 
-```text
-[사물 통신]
-    │
-    ▼
-[센서 네트워크 / 싱크 노드 구성]
-    │
-    └──▶ [WPAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WPAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,14 +49,18 @@ tags = ["studynote-network"]
 - 산 정상이나 입구에 세워진 거대한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수집소입니다. 일벌(센서)들이 릴레이로 전달해 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **최종적으로 모두 모아 블랙홀처럼 빨아들이는(Sink)** 종착지입니다.
 - 이 싱크 노드는 전기 플러그나 대형 태양광 패널이 달려 있어 전력 걱정이 없으며, 수집한 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 LTE망이나 위성망을 통해 서울 본사 클라우드 서버로 빵빵하게 쏴주는 게이트웨이 역할을 합니다.
 
-```text
-[사물 통신]
-    │
-    ▼
-[센서 네트워크 / 싱크 노드 구성]
-    │
-    └──▶ [WPAN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WPAN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,7 +68,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- 앞서 배운 [MANET](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)(588번)은 전쟁터의 병사들처럼 **단말기들 스스로가 마구 이동(Mobility)하면서 통신**하는 것이 목적입니다.
+- 앞서 배운 [MANET](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/588_manet_mobile_ad_hoc_network/)(588번)은 전쟁터의 병사들처럼 <strong>단말기들 스스로가 마구 이동(Mobility)하면서 통신</strong>하는 것이 목적입니다.
 - 반면 WSN의 센서 노드들은 한 번 땅에 뿌려지면 **거의 움직이지 않습니다(고정형).** 
 - WSN의 목표는 오직 "어떻게 하면 전기를 아끼면서, 모든 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 잃어버리고 무사히 싱크 노드 한 곳으로 다 퍼부어줄 수 있을까?"입니다. 따라서 특정 노드 하나만 계속 중계(릴레이) 역할을 하다 배터리가 죽어버리지 않게, 번갈아 가며 중계 역할을 하는 똑똑한 배터리 절약 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(예: LEACH 등)이 핵심입니다.
 
@@ -109,15 +117,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 사물 통신]
-    │
-    ▼
-[현재 개념: 센서 네트워크 / 싱크 노드 구성]
-    │
-    ├──▶ [확장 A: WPAN]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사물 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성는 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)에서 출발해 현재 메커니즘을 정교화하고, 이후 WPAN와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

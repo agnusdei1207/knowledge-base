@@ -108,18 +108,21 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 신호
-    │
-    ▼
-표본화
-    │
-    ▼
-양자화
-    │
-    ▼
-부호화 / 디지털 신호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 신호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표본화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">양자화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호화 / 디지털 신호</div>
+</div>
+</div>
+
+
 
 이 흐름은 아날로그 신호가 디지털 신호로 바뀌는 기본 절차를 보여준다.
 

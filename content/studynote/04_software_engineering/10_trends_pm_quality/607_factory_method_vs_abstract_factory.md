@@ -21,37 +21,36 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Factory (공장)**: 제품(객체)을 `new` 키워드로 찍어내는 역할을 전담하는 놈. 나([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))는 공장한테 "A 제품 줘!" 텍스트만 던지고, 그게 안에서 어떻게 뚝딱뚝딱 복잡하게 조립되는지 1도 모름(캡슐화).
-  - **[Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)**: 부모 클래스가 껍데기만 뚫어놓고, "진짜 어떤 놈을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할지는 내 밑에 있는 **자식 클래스(공장장)**들이 지 맘대로 결정해서 나한테 줘 ㅋ" 라며 책임을 아래로 짬때리는 마술 ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 템플릿 기반).
-  - **[Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)**: "야 부품 1개 찍어내는 거 말고, **(운전대+바퀴+엔진) 풀세트 덩어리**를 1방에 일괄로 생산하는 거대 공장 단지(공장들의 껍데기)를 만들어봐!" 
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">Factory Method</a></strong>: 부모 클래스가 껍데기만 뚫어놓고, "진짜 어떤 놈을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할지는 내 밑에 있는 <strong>자식 클래스(공장장)</strong>들이 지 맘대로 결정해서 나한테 줘 ㅋ" 라며 책임을 아래로 짬때리는 마술 ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 템플릿 기반).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">Abstract Factory</a></strong>: "야 부품 1개 찍어내는 거 말고, <strong>(운전대+바퀴+엔진) 풀세트 덩어리</strong>를 1방에 일괄로 생산하는 거대 공장 단지(공장들의 껍데기)를 만들어봐!" 
 
-- **필요성 (`new` 무지성 남발이 낳은 끔찍한 강결합 파국)**: 신입 개발자가 메인 결제 로직에 `new KakaoPay()` 를 천만 번 복붙해놨다. 사장님이 "내일부터 카카오페이 버리고 네이버페이 써라 ㅋ" 지시했다. 주니어는 1만 줄 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100개를 다 열어서 `new NaverPay()` 로 수작업 문자열 덮어쓰기 검색 교체(Find & Replace)를 하다가 손가락이 부러지고 오타가 나서 서버가 폭파됐다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 폐쇄 원칙 박살). **"아 ㅆㅂ!! 왜 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 내 비즈니스 로직(결제) 뱃속에다 쳐박았지?! [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 행위([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))만 딱 '공장 텐트' 1곳으로 분리해서 짱박아뒀으면, 그냥 공장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 1줄만 카카오 ➡ 네이버로 바꾸면 1초 컷으로 전사 시스템 싹 다 바뀌었을 거 아냐!!"** 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 사용의 처절한 분리(Separation of Use from Creation) 갈망이 팩토리를 낳았다.
+- <strong>필요성 (<code>new</code> 무지성 남발이 낳은 끔찍한 강결합 파국)</strong>: 신입 개발자가 메인 결제 로직에 `new KakaoPay()` 를 천만 번 복붙해놨다. 사장님이 "내일부터 카카오페이 버리고 네이버페이 써라 ㅋ" 지시했다. 주니어는 1만 줄 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100개를 다 열어서 `new NaverPay()` 로 수작업 문자열 덮어쓰기 검색 교체(Find & Replace)를 하다가 손가락이 부러지고 오타가 나서 서버가 폭파됐다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 폐쇄 원칙 박살). <strong>"아 ㅆㅂ!! 왜 객체 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 코드를 내 비즈니스 로직(결제) 뱃속에다 쳐박았지?! <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하는 행위(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">new</a>)만 딱 '공장 텐트' 1곳으로 분리해서 짱박아뒀으면, 그냥 공장 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 1줄만 카카오 ➡ 네이버로 바꾸면 1초 컷으로 전사 시스템 싹 다 바뀌었을 거 아냐!!"</strong> 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 사용의 처절한 분리(Separation of Use from Creation) 갈망이 팩토리를 낳았다.
 
-- **💡 비유**: 쌩 코딩(`new`)은 **'내가 직접 망치로 쇠를 깎고 나사를 조여서(복잡한 세팅) 자동차(객체)를 1시간 동안 낑낑대며 만들어 타는 짓'**입니다. 자동차 부품 1개 바뀌면 1시간 또 개고생이죠. 팩토리(Factory)는 **'현대자동차 대리점(공장)'**에 가는 겁니다. 딜러(Factory)한테 "그랜저 1대 줘요" 말 한마디(파라미터) 툭 던지면, 공장에서 어떻게 쇠를 깎았는지 난 1도 알 필요 없이 완벽히 세팅 완료된 차 키를 1초 만에 툭 던져줍니다. 공장 로봇(내부 조립 로직)을 지들 맘대로 100번 갈아엎어도, 나는 평생 "그랜저 줘!" 1마디로 꿀을 빠는 압도적 은폐(Hiding) 마술입니다.
+- **💡 비유**: 쌩 코딩(`new`)은 <strong>'내가 직접 망치로 쇠를 깎고 나사를 조여서(복잡한 세팅) 자동차(객체)를 1시간 동안 낑낑대며 만들어 타는 짓'</strong>입니다. 자동차 부품 1개 바뀌면 1시간 또 개고생이죠. 팩토리(Factory)는 <strong>'현대자동차 대리점(공장)'</strong>에 가는 겁니다. 딜러(Factory)한테 "그랜저 1대 줘요" 말 한마디(파라미터) 툭 던지면, 공장에서 어떻게 쇠를 깎았는지 난 1도 알 필요 없이 완벽히 세팅 완료된 차 키를 1초 만에 툭 던져줍니다. 공장 로봇(내부 조립 로직)을 지들 맘대로 100번 갈아엎어도, 나는 평생 "그랜저 줘!" 1마디로 꿀을 빠는 압도적 은폐(Hiding) 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **단순 Factory (Simple Factory - 구석기)**: `if(A) new A(); else new B();` 팩토리 클래스 1개 뱃속에 if문 떡칠. 새로운 C 추가할 때마다 이 팩토리 클래스를 또 뜯어고쳐야 해서 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 살짝 어김.
-  2. **[Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) (GoF 진화)**: "야 팩토리 본체도 if문 수정하지 마! 그냥 A 찍어내는 팩토리 자식, B 찍어내는 팩토리 자식 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10개로 찢어발겨! 확장만 치고 수정은 0으로 만들어!" 
-  3. **[Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) (거대 스케일)**: GUI 버튼, 스크롤, 윈도우 창 100개 세트를 맥OS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) ➡ 윈도우 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 통째로 한 번에 찰칵 스위칭해야 하는 대규모 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 엔진 개발자들의 궁극의 필요성 땜에 탄생.
-  4. **Spring IoC/[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) (현재의 천하통일)**: "야 니들 팩토리 클래스 100개 파느라 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 늘어나서 빡치지? 걍 팩토리 내가 뱃속에 하나(`BeanFactory`) 파둘게. 넌 걍 `@Autowired` 어노테이션 도장 1방 찍어. 내가 공장 돌려서 1초 만에 의존성 꽂아줌 ㅋ" 스프링 프레임워크의 압도적 대관식.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">Factory Method</a> (GoF 진화)</strong>: "야 팩토리 본체도 if문 수정하지 마! 그냥 A 찍어내는 팩토리 자식, B 찍어내는 팩토리 자식 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10개로 찢어발겨! 확장만 치고 수정은 0으로 만들어!" 
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">Abstract Factory</a> (거대 스케일)</strong>: GUI 버튼, 스크롤, 윈도우 창 100개 세트를 맥OS [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) ➡ 윈도우 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 통째로 한 번에 찰칵 스위칭해야 하는 대규모 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 엔진 개발자들의 궁극의 필요성 땜에 탄생.
+  4. <strong>Spring IoC/<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a> (현재의 천하통일)</strong>: "야 니들 팩토리 클래스 100개 파느라 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 늘어나서 빡치지? 걍 팩토리 내가 뱃속에 하나(`BeanFactory`) 파둘게. 넌 걍 `@Autowired` 어노테이션 도장 1방 찍어. 내가 공장 돌려서 1초 만에 의존성 꽂아줌 ㅋ" 스프링 프레임워크의 압도적 대관식.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'맞춤 양복점([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))'**에서 **'대형 백화점 코디 세트([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))'**로의 진화입니다. 양복점([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))은 내가 상의(객체) 하나를 "여름용(A자식)으로 만들어줘, 겨울용(B자식)으로 만들어줘" 1개씩 부탁해서 완벽한 핏의 옷 하나를 뽑는 짓입니다. [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 1개에 딱입니다. 백화점 세트([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))는 마네킹에 묶인 **[모자+선글라스+신발 풀코디 세트 덩어리]**를 다루는 겁니다. "여름 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 세트 줘!" 하면 여름용 부품 3개가 한 번에 딸려옵니다. 서로 어울리는 부품들끼리 절.대.로 삑사리 나지 않고 한 덩어리로 찰칵! 묶어주는 거대 스케일의 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 스위칭 장비입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'맞춤 양복점(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">Factory Method</a>)'</strong>에서 <strong>'대형 백화점 코디 세트(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">Abstract Factory</a>)'</strong>로의 진화입니다. 양복점([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))은 내가 상의(객체) 하나를 "여름용(A자식)으로 만들어줘, 겨울용(B자식)으로 만들어줘" 1개씩 부탁해서 완벽한 핏의 옷 하나를 뽑는 짓입니다. [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 1개에 딱입니다. 백화점 세트([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))는 마네킹에 묶인 <strong>[모자+선글라스+신발 풀코디 세트 덩어리]</strong>를 다루는 겁니다. "여름 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 세트 줘!" 하면 여름용 부품 3개가 한 번에 딸려옵니다. 서로 어울리는 부품들끼리 절.대.로 삑사리 나지 않고 한 덩어리로 찰칵! 묶어주는 거대 스케일의 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 스위칭 장비입니다.
 
 ---
 
 다음은 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  팩토리 메서드 vs 추상 팩토리                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩토리 메서드 vs 추상 팩토리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) vs [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-팩토리 메서드 vs 추상 팩토리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팩토리 메서드 vs 추상 팩토리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

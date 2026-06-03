@@ -31,23 +31,24 @@ tags = ["studynote-operating-system"]
 
 다대다 모델의 아키텍처는 사용자 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 이어주는 가상의 매개체인 경량 프로세스 (LWP, Lightweight [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))와, 두 공간 사이의 통신 메커니즘으로 완성된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          다대다 모델의 스케줄러 촉발 및 다중화 아키텍처      │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 공간]          [스레드 라이브러리 (로비 매니저)]       │
-│  ULT 1 ─┐                │                                   │
-│  ULT 2 ─┼──▶ 동적 매핑 ──▶ [ LWP 1 ] ──▶ (KLT 1로 연결)       │
-│  ULT 3 ─┘                │   (I/O 블로킹 발생!)              │
-│                          │                                   │
-│ [스케줄러 촉발 발동]     │                                   │
-│ 커널 ──(Upcall)──▶ "LWP 1 멈췄어! 대신 새 LWP 2 줄게!"       │
-│                          │                                   │
-│  ULT 4 ─┐                │                                   │
-│  ULT 5 ─┼──▶ 즉시 재배정 ─▶ [ LWP 2 ] ──▶ (KLT 2로 연결)       │
-│  ULT 6 ─┘                │   (지연 없이 계속 실행됨)         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다대다 모델의 스케줄러 촉발 및 다중화 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간</div><div class="kb-diagram-node">스레드 라이브러리 (로비 매니저)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 1 ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LWP 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(KLT 1로 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 3 ─</div><div class="kb-diagram-cell">(I/O 블로킹 발생!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 촉발 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 ──(Upcall)──▶ "LWP 1 멈췄어! 대신 새 LWP 2 줄게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 4 ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LWP 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(KLT 2로 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 6 ─</div><div class="kb-diagram-cell">(지연 없이 계속 실행됨)</div></div>
+</div>
+</div>
+
+
 
 이 모델이 블로킹 문제를 극복하는 핵심 원리는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 촉발 ([Scheduler Activation](/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/))과 업콜 ([Upcall](/knowledge-base/studynote/02_operating_system/02_process_thread/115_upcall/))이다. ULT 1이 I/O를 호출해 KLT 1이 멈추게 되면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 사실을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 업콜(콜백)로 알려주고 새로운 LWP를 임시로 제공 단서한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 멈춘 ULT 1의 상태를 저장한 뒤, 대기 중이던 다른 ULT 4를 새로 받은 LWP 2에 신속하게 배정한다. 이 메커니즘 덕분에 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹되어도 프로세스 전체가 멈추지 않고 남은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 계속 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행된다.
 
@@ -62,8 +63,8 @@ tags = ["studynote-operating-system"]
 | 비교 지표 | [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) ([Many-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/)) | [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) ([One-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)) | 다대다 (Many-to-Many) |
 | :--- | :--- | :--- | :--- |
 | **블로킹 전파** | 1개 블로킹 시 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 중단 | 독립적. 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 영향 없음 | 업콜을 통해 새 자원을 받아 영향 없음 |
-| **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (멀티코어)** | 불가능 (단일 코어에 종속) | 가능 (하드웨어 코어 수만큼 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) | 가능 (동적 할당된 KLT 수만큼 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 개수 한계** | 무한대 (가벼운 메모리 소모) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 한계에 종속 (수천 개 즈음 붕괴) | 무한대 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능, 스위칭 부하 없음 |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 (멀티코어)</strong> | 불가능 (단일 코어에 종속) | 가능 (하드웨어 코어 수만큼 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) | 가능 (동적 할당된 KLT 수만큼 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 개수 한계</strong> | 무한대 (가벼운 메모리 소모) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 한계에 종속 (수천 개 즈음 붕괴) | 무한대 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능, 스위칭 부하 없음 |
 | **구조적 복잡성** | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 수준의 단순 구현 | OS 차원의 지원 필요 (구현 쉬움) | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 OS 간의 고도의 통신 필요 |
 
 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 모델은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1만 개를 넘어서면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체 관리 비용과 L1 캐시 미스로 인해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 그래프가 급전직하([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))한다. 반면 다대다 모델은 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 수십만 개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하더라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 스위칭되는 KLT의 수는 하드웨어 코어 수(예: 8개)로 엄격히 통제되므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 그래프가 고점에서 꺾이지 않고 평탄하게 유지된다.
@@ -97,27 +98,29 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **경량 프로세스 (LWP, Lightweight [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))** | 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 사이의 인터페이스 역할을 하며, 스케줄링의 징검다리가 되는 자료 구조 |
-| **[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 촉발 ([Scheduler Activation](/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/))** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹되었을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스를 중단하지 않고 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 대체 자원(새 LWP)을 통지해 주는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-사용자 통신 규약 |
-| **[고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/) ([Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/))** | 다대다 모델의 철학을 OS 레벨에서 언어 런타임 레벨로 끌어올려 구현한 Go 언어의 초경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) |
+| <strong>경량 프로세스 (LWP, Lightweight <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong> | 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 사이의 인터페이스 역할을 하며, 스케줄링의 징검다리가 되는 자료 구조 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 촉발 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/">Scheduler Activation</a>)</strong> | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹되었을 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스를 중단하지 않고 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 대체 자원(새 LWP)을 통지해 주는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-사용자 통신 규약 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/">고루틴</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/">Goroutine</a>)</strong> | 다대다 모델의 철학을 OS 레벨에서 언어 런타임 레벨로 끌어올려 구현한 Go 언어의 초경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다대일 (Many-to-One) 모델 · 빠른 스위칭, 블로킹 마비
-    │
-    ▼
-일대일 (One-to-One) 모델 · 병렬성 확보, 컨텍스트 스위칭 오버헤드
-    │
-    ▼
-다대다 (Many-to-Many) 모델 · 스케줄러 촉발 (Scheduler Activation) 도입
-    │
-    ▼
-OS 레벨 다대다 사장 · Linux NPTL(1:1) 표준화 및 스레드 풀(Thread Pool) 활용
-    │
-    ▼
-런타임 레벨 다대다 부활 · Go 고루틴(Goroutine), Java 가상 스레드(Virtual Thread)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다대일 (Many-to-One) 모델 · 빠른 스위칭, 블로킹 마비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일대일 (One-to-One) 모델 · 병렬성 확보, 컨텍스트 스위칭 오버헤드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다대다 (Many-to-Many) 모델 · 스케줄러 촉발 (Scheduler Activation) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OS 레벨 다대다 사장 · Linux NPTL(1:1) 표준화 및 스레드 풀(Thread Pool) 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">런타임 레벨 다대다 부활 · Go 고루틴(Goroutine), Java 가상 스레드(Virtual Thread)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

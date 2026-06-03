@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **스파크 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)엑스 (Spark GraphX)**는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 컬렉션(Collection) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합하여 처리하는 스파크의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 엔진이다.
-2. 정점(Vertex)과 간선(Edge) 정보를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 **'프로퍼티 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))'** 모델을 사용하며, 대규모 소셜 네트워크나 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 분석에 최적화되어 있다.
+1. <strong>스파크 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>엑스 (Spark GraphX)</strong>는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 컬렉션(Collection) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합하여 처리하는 스파크의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 엔진이다.
+2. 정점(Vertex)과 간선(Edge) 정보를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 <strong>'프로퍼티 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Property <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)'</strong> 모델을 사용하며, 대규모 소셜 네트워크나 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 분석에 최적화되어 있다.
 3. 구글의 **Pregel** 아키텍처를 스파크 상에 구현하여, 복잡한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 반복적(Iterative)으로 수행할 때 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
 ---
@@ -37,11 +37,11 @@ tags = ["studynote-bigdata"]
 ```
 
 #### 2. 핵심 연산 및 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
-- **Triplet [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)**: 정점-간선-정점을 하나의 단위로 묶어 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반 연산을 수행한다.
+- <strong>Triplet <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a></strong>: 정점-간선-정점을 하나의 단위로 묶어 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 기반 연산을 수행한다.
 - **PageRank**: 특정 노드의 중요도를 측정하여 순위를 매긴다 (검색 엔진의 핵심).
 - **Connected Components**: 서로 연결된 정점들의 그룹(클러스터)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
 - **Triangle Counting**: [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 내의 삼각형 구조 개수를 세어 커뮤니티의 밀집도를 측정한다.
-- **Pregel [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 방식을 통해 정점들이 상태를 주고받으며 전역 해를 찾아가는 반복적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크를 제공한다.
+- <strong>Pregel <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 방식을 통해 정점들이 상태를 주고받으며 전역 해를 찾아가는 반복적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크를 제공한다.
 
 ---
 
@@ -50,16 +50,16 @@ tags = ["studynote-bigdata"]
 | 비교 항목 | 전용 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB (Neo4j) | Spark GraphX |
 | :--- | :--- | :--- |
 | **목적** | 실시간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 및 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) | 대규모 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 배치 분석 및 학습 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모** | 단일 노드 중심 (클러스터 확장성 제한) | TB/PB급 초대형 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모</strong> | 단일 노드 중심 (클러스터 확장성 제한) | TB/PB급 초대형 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 |
 | **유연성** | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 전용 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Cypher) 중심 | SQL 및 DataFrame과의 강력한 결합 |
 | **속도** | 소수 정점 간의 탐색(Traversing) 우세 | 전체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 대상 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(PageRank) 우세 |
-| **실무 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트 저장소로 활용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 통찰 도출용으로 활용 |
+| <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트 저장소로 활용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 통찰 도출용으로 활용 |
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합(Unified)의 강점**: GraphX의 최대 장점은 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 결과물(DataFrame)을 즉시 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 변환하고, 분석 결과를 다시 SQL로 조회할 수 있다는 점이다.
-- **셔플링과 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 연결성 때문에 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동(Shuffle)이 매우 잦다. `PartitionStrategy`를 적절히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 네트워크 비용을 최소화하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합(Unified)의 강점</strong>: GraphX의 최대 장점은 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 결과물(DataFrame)을 즉시 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 변환하고, 분석 결과를 다시 SQL로 조회할 수 있다는 점이다.
+- <strong>셔플링과 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a></strong>: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 연결성 때문에 노드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동(Shuffle)이 매우 잦다. `PartitionStrategy`를 적절히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 네트워크 비용을 최소화하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
 - **GraphFrames로의 진화**: 최근에는 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 기반의 GraphX보다 DataFrame 기반의 `GraphFrames` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 더 널리 쓰이며, Spark SQL과의 연동성이 더 뛰어나므로 프로젝트 시작 시 고려해야 한다.
 
 ---
@@ -79,21 +79,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[그래프 이론 (Graph Theory) — 정점/엣지 모델]
-    │
-    ▼
-[스파크 GraphX (Apache Spark GraphX) — 분산 그래프 처리]
-    │
-    ▼
-[Pregel API (Pregel Computation Model) — 정점 중심 반복]
-    │
-    ▼
-[PageRank / 연결 요소 (PageRank / Connected Components) — 대표 알고리즘]
-    │
-    ▼
-[그래프프레임즈 (GraphFrames) — 데이터프레임 기반 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 이론 (Graph Theory) — 정점/엣지 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스파크 GraphX (Apache Spark GraphX) — 분산 그래프 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pregel API (Pregel Computation Model) — 정점 중심 반복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PageRank / 연결 요소 (PageRank / Connected Components) — 대표 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">그래프프레임즈 (GraphFrames) — 데이터프레임 기반 확장</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론을 Spark 위에 올려 GraphX와 Pregel로 반복 계산을 수행하고, PageRank와 GraphFrames로 분석 범위를 넓히는 발전을 보여준다.
 

@@ -21,9 +21,9 @@ tags = ["studynote-operating-system"]
 
 병행 프로그래밍에서 발생하는 문제들은 놀랍도록 반복적인 구조를 가진다. E.W. [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) (Edsger W. [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))와 C.A.R. 호어 (C.A.R. Hoare)가 정립한 고전적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 세 가지는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 어디서나 나타나는 패턴을 추상화한 것이다.
 
-- **[유한 버퍼 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)**: 생산 속도와 소비 속도가 다를 때 버퍼가 가득 차거나 비워질 때 어떻게 대기하고 깨울 것인가?
-- **[독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)**: 여러 독자는 동시 읽기 가능, 단 한 명의 저자는 단독 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요구 — 기아 없이 해결할 수 있는가?
-- **[식사하는 철학자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/)**: 여러 프로세스가 여러 자원을 집기 위해 경쟁할 때 교착과 기아를 동시에 예방할 수 있는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/">유한 버퍼 문제</a></strong>: 생산 속도와 소비 속도가 다를 때 버퍼가 가득 차거나 비워질 때 어떻게 대기하고 깨울 것인가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/">독자-저자 문제</a></strong>: 여러 독자는 동시 읽기 가능, 단 한 명의 저자는 단독 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요구 — 기아 없이 해결할 수 있는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/">식사하는 철학자 문제</a></strong>: 여러 프로세스가 여러 자원을 집기 위해 경쟁할 때 교착과 기아를 동시에 예방할 수 있는가?
 
 **💡 비유**: 이 세 문제는 마치 의대생이 수술 전 반드시 통과해야 하는 표준 시뮬레이션과 같다. 이 상황을 해결할 수 없으면, 실제 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 코드는 더 복잡한 버전의 같은 버그를 만든다.
 
@@ -35,29 +35,27 @@ tags = ["studynote-operating-system"]
 
 ### [유한 버퍼 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/) ([Bounded-Buffer Problem](/knowledge-base/studynote/02_operating_system/04_synchronization/246_bounded_buffer_producer_consumer/)) — Producer-Consumer
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│            유한 버퍼 구조 및 세마포어 제어              │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  Producer                  Consumer                     │
-│     │                          │                        │
-│     ▼                          ▼                        │
-│  wait(empty) ── n칸 중 빈 칸 확인                       │
-│  wait(mutex) ── 버퍼 접근 상호 배제                     │
-│  → 버퍼에 항목 삽입                                     │
-│  signal(mutex)                                          │
-│  signal(full) ── 소비자에게 항목 있음 알림              │
-│                                                         │
-│  세마포어:                                              │
-│  - mutex  = 1   (버퍼 접근 상호 배제)                   │
-│  - empty  = N   (빈 슬롯 수, 초기 = 버퍼 크기)          │
-│  - full   = 0   (채워진 슬롯 수, 초기 = 0)              │
-│                                                         │
-│  ⚠ wait 순서: 반드시 empty/full → mutex 순서            │
-│     반대로 하면 데드락!                                 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유한 버퍼 구조 및 세마포어 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Consumer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(empty) ── n칸 중 빈 칸 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(mutex) ── 버퍼 접근 상호 배제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 버퍼에 항목 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(full) ── 소비자에게 항목 있음 알림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세마포어:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mutex = 1 (버퍼 접근 상호 배제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- empty = N (빈 슬롯 수, 초기 = 버퍼 크기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- full = 0 (채워진 슬롯 수, 초기 = 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ wait 순서: 반드시 empty/full → mutex 순서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반대로 하면 데드락!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 핵심은 `wait(mutex)`보다 `wait(empty)`를 먼저 수행하는 순서다. 만약 mutex를 먼저 잡고 empty를 기다리면, 소비자가 mutex를 획득하지 못해 영원히 대기하는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다. 이 순서 실수가 실무에서 매우 흔한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
@@ -69,25 +67,27 @@ tags = ["studynote-operating-system"]
 | **제2유형 (저자 우선)** | 저자 대기 중이면 새 독자 진입 차단 | 독자 기아 (Reader [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) |
 | **공정 해결 (Fair)** | 대기 순서 기반 큐로 기아 방지 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 감소 |
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│        독자-저자 제1유형 세마포어 구조                   │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [독자]                     [저자]                       │
-│  wait(mutex_r)              wait(rw_mutex) ← 단독 접근   │
-│  read_count++               // 쓰기 작업                 │
-│  if (read_count == 1)       signal(rw_mutex)             │
-│    wait(rw_mutex)  ←┐                                    │
-│  signal(mutex_r)    │ 첫 번째 독자만 저자 잠금           │
-│  // 읽기 작업       │                                    │
-│  wait(mutex_r)      │                                    │
-│  read_count--       │                                    │
-│  if (read_count == 0)                                    │
-│    signal(rw_mutex) ─┘ 마지막 독자가 저자 잠금 해제      │
-│  signal(mutex_r)                                         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자-저자 제1유형 세마포어 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">독자</div><div class="kb-diagram-node">저자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(mutex_r) wait(rw_mutex) ← 단독 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read_count++ // 쓰기 작업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (read_count == 1) signal(rw_mutex)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(rw_mutex) ←</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex_r)</div><div class="kb-diagram-cell">첫 번째 독자만 저자 잠금</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 읽기 작업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(mutex_r)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read_count--</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (read_count == 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(rw_mutex) ─ 마지막 독자가 저자 잠금 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal(mutex_r)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** read_count 변수를 mutex_r로 보호하면서 첫 번째 독자만 rw_mutex를 획득하고 마지막 독자가 반납하는 구조다. 독자가 연속으로 들어오면 저자는 영원히 기다리는 저자 기아가 발생한다. 실무([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 읽기 잠금 등)에서는 타임아웃이나 우선순위 카운터로 기아를 방지한다.
 
@@ -95,30 +95,26 @@ tags = ["studynote-operating-system"]
 
 5명의 철학자가 원형 테이블에 앉아 있고, 각자 양쪽에 젓가락 1개씩 공유한다. 식사하려면 양쪽 젓가락을 모두 집어야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│            식사하는 철학자 — 교착 상태 발생 조건         │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│         P0                                               │
-│        /  \                                              │
-│      C[4]  C[0]                                          │
-│      /        \                                          │
-│    P4          P1                                        │
-│      \        /                                          │
-│      C[3]  C[1]                                          │
-│        \  /                                              │
-│         P3---C[2]---P2                                   │
-│                                                          │
-│  ⚠ 모든 철학자가 동시에 왼쪽 젓가락만 잡으면 교착!       │
-│  P0→C[4], P1→C[0], P2→C[1], P3→C[2], P4→C[3]             │
-│  → 아무도 오른쪽을 집지 못해 영구 대기                   │
-│                                                          │
-│  해결책 1: 최대 4명만 동시 착석 (세마포어 초기값=4)      │
-│  해결책 2: 홀수 철학자는 왼쪽 우선, 짝수는 오른쪽 우선   │
-│  해결책 3: 모니터로 두 젓가락 동시 확인 후 집기          │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식사하는 철학자 — 교착 상태 발생 조건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">C</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">C</div><div class="kb-diagram-node">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 P1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">C</div><div class="kb-diagram-node">1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P3---C</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">---P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 모든 철학자가 동시에 왼쪽 젓가락만 잡으면 교착!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 아무도 오른쪽을 집지 못해 영구 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책 1: 최대 4명만 동시 착석 (세마포어 초기값=4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책 2: 홀수 철학자는 왼쪽 우선, 짝수는 오른쪽 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책 3: 모니터로 두 젓가락 동시 확인 후 집기</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 조건은 4가지 필요 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))을 모두 충족한다. 해결책 2(비대칭 집기)는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)를 깨뜨린다. 해결책 3([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 방식)은 두 젓가락이 모두 사용 가능할 때만 집으므로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 방지한다.
 
@@ -130,16 +126,19 @@ tags = ["studynote-operating-system"]
 
 ### 세 문제 비교 매트릭스
 
-```text
-┌──────────────────┬──────────────┬──────────────┬───────────────┐
-│ 항목             │ 유한 버퍼    │ 독자-저자    │ 식사 철학자   │
-├──────────────────┼──────────────┼──────────────┼───────────────┤
-│ 핵심 위험        │ 버퍼 가득/빔 │ 저자 기아    │ 교착+기아     │
-│ 주요 동기화 도구 │ 세마포어 3개 │ 세마포어 2개 │ 모니터/세마   │
-│ 실무 유사 사례   │ 메시지 큐    │ DB 읽기 잠금 │ 자원 배분     │
-│ 기아 가능성      │ 없음         │ 유형별 상이  │ 있음(단순구현)│
-└──────────────────┴──────────────┴──────────────┴───────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">유한 버퍼</div><div class="kb-diagram-cell">독자-저자</div><div class="kb-diagram-cell">식사 철학자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 위험</div><div class="kb-diagram-cell">버퍼 가득/빔</div><div class="kb-diagram-cell">저자 기아</div><div class="kb-diagram-cell">교착+기아</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 동기화 도구</div><div class="kb-diagram-cell">세마포어 3개</div><div class="kb-diagram-cell">세마포어 2개</div><div class="kb-diagram-cell">모니터/세마</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 유사 사례</div><div class="kb-diagram-cell">메시지 큐</div><div class="kb-diagram-cell">DB 읽기 잠금</div><div class="kb-diagram-cell">자원 배분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기아 가능성</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">유형별 상이</div><div class="kb-diagram-cell">있음(단순구현)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 유한 버퍼는 '흐름 조절', 독자-저자는 '접근 권한 관리', 식사 철학자는 '교착 예방' — 실무에서 마주치는 병행 문제의 90%가 이 세 패턴의 변형입니다.
 
@@ -150,7 +149,7 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오
 
 1. **메시지 큐 시스템**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ는 유한 버퍼 패턴의 직접 구현. 프로듀서가 너무 빠르면 backpressure(배압) 메커니즘이 empty [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 역할을 한다.
-2. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/)**: PostgreSQL의 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) (Multi-Version [Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))는 [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)에서 독자가 저자를 차단하지 않도록 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 읽기를 제공하는 산업적 해법이다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/">MVCC</a></strong>: PostgreSQL의 [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) (Multi-Version [Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/508_concurrency_control/))는 [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)에서 독자가 저자를 차단하지 않도록 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 읽기를 제공하는 산업적 해법이다.
 3. **리소스 풀**: 커넥션 풀, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에서 최대 동시 사용자를 제한하는 것은 식사 철학자 문제의 '최대 4명 착석' 해결책과 동일한 패턴이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -180,15 +179,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[우선순위 올림 (Priority Ceiling Protocol)]
-    │
-    ▼
-[고전적 동기화 문제들 (Classic Synchronization Problems)]
-    │
-    ├──▶ [유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
-    └──▶ [독자-저자 문제 (Readers-Writers Problem)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 올림 (Priority Ceiling Protocol)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고전적 동기화 문제들 (Classic Synchronization Problems)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">독자-저자 문제 (Readers-Writers Problem)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -20,21 +20,23 @@ tags = ["studynote-bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 성숙도 단계는 "무슨 일이 있었나(기술) → 왜 그랬나(진단) → 무슨 일이 일어날 것인가(예측) → 어떻게 해야 하나(처방)"로 발전한다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│            데이터 분석 성숙도 모델                            │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  Level 4: 처방 분석 (Prescriptive) — "어떻게 해야 하나?"     │
-│           ↑ 최적화·시뮬레이션, 고난이도                       │
-│  Level 3: ★예측 분석 (Predictive) — "무슨 일이 생길까?"       │
-│           ↑ ML·통계 모델, 미래 확률 추정                     │
-│  Level 2: 진단 분석 (Diagnostic) — "왜 그랬나?"              │
-│           ↑ 원인 분석, 상관관계 탐색                          │
-│  Level 1: 기술 분석 (Descriptive) — "무슨 일이 있었나?"       │
-│           ↑ BI 리포트, 대시보드                              │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 분석 성숙도 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4: 처방 분석 (Prescriptive) — "어떻게 해야 하나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 최적화·시뮬레이션, 고난이도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: ★예측 분석 (Predictive) — "무슨 일이 생길까?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ ML·통계 모델, 미래 확률 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: 진단 분석 (Diagnostic) — "왜 그랬나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 원인 분석, 상관관계 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 기술 분석 (Descriptive) — "무슨 일이 있었나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ BI 리포트, 대시보드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기술 분석은 어제의 날씨를 보는 것, 진단 분석은 왜 비가 왔는지 분석, 예측 분석은 내일의 날씨 예보, [처방 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/)은 "내일 비가 오니 우산을 가져가라"는 자동화 조언이다.
 
@@ -47,21 +49,25 @@ tags = ["studynote-bigdata"]
 | 유형 | 목적 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 예시 |
 |:---|:---|:---|
 | **회귀 (Regression)** | 연속값 예측 | 선형 회귀, XGBoost, [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) |
-| **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))** | 범주 예측 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a>)</strong> | 범주 예측 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) |
 | **시계열 (Time Series)** | 시간 패턴 기반 예측 | [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/), Prophet, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 | **서바이벌 분석** | 사건 발생 시점 예측 | Cox PH, Weibull |
 
 ### 예측 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```text
-[데이터 수집] → [EDA·전처리] → [특성 공학(Feature Engineering)]
-     │
-     ▼
-[모델 학습] → [검증 (Cross-validation)] → [배포]
-     │
-     ▼
-[예측 서빙] → [모니터링(Drift 탐지)] → [재학습]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EDA·전처리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">특성 공학(Feature Engineering)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 학습</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">검증 (Cross-validation)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예측 서빙</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">모니터링(Drift 탐지)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">재학습</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 예측 모델 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 날씨 예보 시스템과 같다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집(기상 센서) → 전처리(이상값 제거) → 모델 학습(수치 예보) → 예보 서빙 → 정확도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) → 모델 업데이트(재학습).
 
@@ -73,7 +79,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|:---|
 | **기술 분석** | 과거 | 무슨 일이? | 월별 매출 대시보드 |
 | **예측 분석** | 미래 | 무슨 일이 생길까? | 수요 예측, 이탈 예측 |
-| **[처방 분석](/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/)** | 미래+행동 | 어떻게 해야? | 최적 가격, 재고 최적화 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/02_hadoop/047_prescriptive_analytics/">처방 분석</a></strong> | 미래+행동 | 어떻게 해야? | 최적 가격, 재고 최적화 |
 
 [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) ([Automated Machine Learning](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)) 도구(AutoSklearn, H2O, Google [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))가 특성 공학·하이퍼파라미터 최적화를 자동화하여 예측 분석의 진입 장벽을 낮추고 있다.
 
@@ -86,7 +92,7 @@ tags = ["studynote-bigdata"]
 ### 실무 시나리오: 제조업 예지 보전 (Predictive Maintenance)
 생산 장비 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 장비 고장 24시간 전 예측.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: 진동·온도·압력 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (초당 100Hz 수집).
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 진동·온도·압력 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (초당 100Hz 수집).
 2. **특성 공학**: 24시간 롤링 윈도우 통계(평균, 표준편차, 최대값).
 3. **레이블**: 고장 24시간 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Positive(1), 정상 운행 Negative(0).
 4. **모델**: XGBoost [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델 ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 92%, [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 87%).
@@ -105,7 +111,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | **비용 절감** | 예지 보전, 재고 최적화 | 다운타임 60% 감소 |
 | **수익 향상** | 수요 예측 → 기회 포착 | 재고 부족 30% 감소 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소** | 신용 위험 사전 탐지 | 부실 대출 40% 감소 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 감소</strong> | 신용 위험 사전 탐지 | 부실 대출 40% 감소 |
 
 예측 분석은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 결합하여 예측 결과를 자연어로 설명하는 "설명 가능한 예측 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Explainable Predictive [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))"로 발전하고 있으며, 규제 산업(금융·의료)에서 모델 해석 가능성 요건이 강화되고 있다.
 
@@ -117,29 +123,31 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **특성 공학 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))** | 예측 모델 정확도를 결정하는 핵심 단계 |
-| **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))** | 모델 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
-| **[Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 탐지** | 배포 후 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 조기 탐지 |
-| **[AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)** | 모델 탐색·하이퍼파라미터 자동화 |
-| **[XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) (설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))** | 규제 산업 예측 모델의 의사결정 설명 |
+| <strong>특성 공학 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature Engineering</a>)</strong> | 예측 모델 정확도를 결정하는 핵심 단계 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">Cross-validation</a>)</strong> | 모델 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a> 탐지</strong> | 배포 후 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 조기 탐지 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a></strong> | 모델 탐색·하이퍼파라미터 자동화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> (설명 가능한 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | 규제 산업 예측 모델의 의사결정 설명 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기술 분석 — 과거 데이터 집계, BI 대시보드]
-    │
-    ▼
-[예측 분석 — ML/통계 모델, 미래 확률 추정]
-    │
-    ▼
-[처방 분석 — 최적 행동 추천, 자동화 의사결정]
-    │
-    ▼
-[AutoML — 모델 자동 탐색, 특성 자동 선택]
-    │
-    ▼
-[XAI + 예측 분석 — 규제 대응 설명 가능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기술 분석 — 과거 데이터 집계, BI 대시보드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예측 분석 — ML/통계 모델, 미래 확률 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">처방 분석 — 최적 행동 추천, 자동화 의사결정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AutoML — 모델 자동 탐색, 특성 자동 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">XAI + 예측 분석 — 규제 대응 설명 가능 예측</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

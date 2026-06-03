@@ -32,27 +32,22 @@ LSP의 핵심은 계약에 의한 설계 ([Design by Contract](/knowledge-base/s
 
 대표적인 위반 사례가 '새(Bird)'와 '펭귄(Penguin)'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  LSP 위반과 준수의 아키텍처 비교             │
-├──────────────────────────────────────────────────────────────┤
-│ [LSP 위반 구조: 행위 불일치]      [LSP 준수 구조: 인터페이스 분리] │
-│                                                              │
-│       << Bird >>                     << Bird >>              │
-│       + fly()                        + eat()                 │
-│          ▲                              ▲                    │
-│          │                              ├───┐                │
-│    ┌─────┴─────┐                  ┌─────┴─────┐              │
-│    │           │                  │           │              │
-│ Sparrow     Penguin(위반!)    << Flyable >>  Penguin         │
-│ + fly()     + fly() -> 예외!    + fly()      + eat()         │
-│                                   ▲                          │
-│                                   │                          │
-│                                Sparrow                       │
-│                                + fly()                       │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSP 위반과 준수의 아키텍처 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSP 위반 구조: 행위 불일치</div><div class="kb-diagram-node">LSP 준수 구조: 인터페이스 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt; Bird &gt;&gt; &lt;&lt; Bird &gt;&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly() + eat()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparrow Penguin(위반!) &lt;&lt; Flyable &gt;&gt; Penguin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly() + fly() -&gt; 예외! + fly() + eat()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparrow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly()</div></div>
+</div>
+</div>
+
+
 
 왼쪽 구조에서 클라이언트는 `Bird` 타입의 객체 리스트를 순회하며 `fly()`를 호출할 때, `Penguin` 객체를 만나면 프로그램이 크래시(Crash)된다. 자식이 부모의 '날 수 있다'는 행위 계약을 위반했기 때문이다. 오른쪽 구조처럼 비행 가능성(Flyable)을 분리하여 재설계하면, 치환 과정에서 발생하는 논리적 모순을 원천적으로 차단할 수 있다.
 
@@ -69,7 +64,7 @@ LSP는 SOLID의 다른 원칙들, 특히 [개방-폐쇄 원칙](/knowledge-base/
 | **핵심 목적** | 다형성의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 보장 (올바른 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 구조) | 시스템의 유연한 확장 보장 (수정 없는 확장) |
 | **초점** | 하위 클래스가 상위 클래스의 계약을 완벽히 대체하는가? | 기존 코드의 수정 없이 새로운 기능 추가가 가능한가? |
 | **위반 시 결과** | 런타임 에러 발생, 클라이언트의 타입 체크(instanceof) 남발 | 기능 추가 시마다 기존 로직(if-else)을 계속 뜯어고쳐야 함 |
-| **상호 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | OCP를 성립시키기 위한 구조적 전제 조건 | LSP가 완벽히 지켜질 때 비로소 완성되는 아키텍처의 목표 |
+| <strong>상호 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | OCP를 성립시키기 위한 구조적 전제 조건 | LSP가 완벽히 지켜질 때 비로소 완성되는 아키텍처의 목표 |
 
 결국 자식 클래스가 부모를 안전하게 대체([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))할 수 있어야만, 기존 코드를 수정하지 않고도 새로운 자식 클래스를 추가([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))하여 기능을 확장할 수 있다. 두 원칙은 다형성이라는 같은 동전의 양면과 같다.
 
@@ -83,7 +78,7 @@ LSP는 SOLID의 다른 원칙들, 특히 [개방-폐쇄 원칙](/knowledge-base/
 
 1. **타입 체크의 제거**: 코드 내부에 `if (obj instanceof Penguin)`처럼 특정 하위 타입을 런타임에 확인하고 분기하는 코드가 있다면, 이는 LSP가 깨졌다는 강력한 경고(Smell)다. 다형성으로 해결하도록 구조를 개편해야 한다.
 2. **NotImplementedException 회피**: [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 메서드 내부에 "지원하지 않는 기능입니다"라며 예외를 던지거나 빈 블록으로 방치한다면 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 잘못 쓴 것이다. 이 경우 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(IS-A)을 포기하고 합성 (HAS-A, Composition)을 사용하거나 인터페이스를 분리([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))해야 한다.
-3. **[계약 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/) (Contract Testing)**: 부모 클래스를 기준으로 작성된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 하위 클래스에 그대로 적용했을 때 모두 통과해야 한다. 하나라도 실패하면 치환 불가능한 설계다.
+3. <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/266_contract_testing_pact_msa_api/">계약 테스트</a> (Contract Testing)</strong>: 부모 클래스를 기준으로 작성된 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) ([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 하위 클래스에 그대로 적용했을 때 모두 통과해야 한다. 하나라도 실패하면 치환 불가능한 설계다.
 
 - **📢 섹션 요약 비유**: 건전지 장난감 차에 '[AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 건전지'를 넣으라고 적혀 있다면, 듀라셀이든 에너자이저든 차는 똑같이 잘 움직여야 합니다(테스트 통과). 건전지 브랜드를 가려서 고장 난다면 장난감이나 건전지 중 하나가 불량인 것입니다.
 
@@ -104,27 +99,29 @@ LSP는 SOLID의 다른 원칙들, 특히 [개방-폐쇄 원칙](/knowledge-base/
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **다형성 (Polymorphism)** | 하나의 인터페이스로 다양한 하위 객체를 일관되게 다루는 객체지향의 특성 |
-| **계약에 의한 설계 ([Design by Contract](/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/))** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간의 권리와 책임을 명확한 규약(사전/사후/불변 조건)으로 정의하는 기법 |
-| **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/))** | 확장에 열려있고 수정에 닫혀있는 원칙으로, [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 준수 시 실현 가능함 |
-| **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (Inheritance) vs 합성 (Composition)** | LSP를 위반하는 무리한 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신, 유연하게 기능을 조합하는 대안적 설계 방식 |
+| <strong>계약에 의한 설계 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/388_design_by_contract/">Design by Contract</a>)</strong> | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간의 권리와 책임을 명확한 규약(사전/사후/불변 조건)으로 정의하는 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/">Open-Closed Principle</a>)</strong> | 확장에 열려있고 수정에 닫혀있는 원칙으로, [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 준수 시 실현 가능함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> (Inheritance) vs 합성 (Composition)</strong> | LSP를 위반하는 무리한 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 대신, 유연하게 기능을 조합하는 대안적 설계 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-객체지향 프로그래밍 (OOP) · 다형성 개념의 등장
-    │
-    ▼
-상속의 오남용 발생 (행위 불일치 및 런타임 에러)
-    │
-    ▼
-계약에 의한 설계 (Design by Contract) · 규약의 중요성 대두
-    │
-    ▼
-LSP (Liskov Substitution Principle) · 치환 가능성 정의
-    │
-    ▼
-SOLID 원칙 정립 · OCP, ISP와의 결합을 통한 유연한 아키텍처 완성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">객체지향 프로그래밍 (OOP) · 다형성 개념의 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상속의 오남용 발생 (행위 불일치 및 런타임 에러)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계약에 의한 설계 (Design by Contract) · 규약의 중요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSP (Liskov Substitution Principle) · 치환 가능성 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SOLID 원칙 정립 · OCP, ISP와의 결합을 통한 유연한 아키텍처 완성</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

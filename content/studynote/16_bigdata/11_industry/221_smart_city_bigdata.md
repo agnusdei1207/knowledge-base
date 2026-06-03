@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 스마트시티 빅데이터는 **도시 전체를 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼**으로 통합하여 교통·안전·에너지를 실시간으로 최적화한다.
+- 스마트시티 빅데이터는 <strong>도시 전체를 하나의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플랫폼</strong>으로 통합하여 교통·안전·에너지를 실시간으로 최적화한다.
 - [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 처리와 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어에서 클라우드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 실시간 반응을 가능하게 하는 핵심 기술이다.
 - 한국 스마트시티 국가시범도시(세종 5-1생활권, 부산 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)델타시티)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 도시 운영의 실증 사례다.
 
@@ -23,26 +23,22 @@ tags = ["studynote-bigdata"]
 
 ### 스마트시티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 스마트시티 데이터 레이어                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  물리 레이어          디지털 레이어          서비스 레이어         │
-│  ┌──────────┐        ┌──────────────┐      ┌──────────────┐    │
-│  │ 도로·건물 │ ─────▶ │ IoT 센서     │ ───▶ │ 교통 최적화  │    │
-│  │ 전력망   │        │ CCTV 영상    │      │ 에너지 절감  │    │
-│  │ 상하수도  │        │ 스마트미터   │      │ 안전 관제    │    │
-│  │ 공원·광장 │        │ 환경 센서    │      │ 시민 앱 서비스│   │
-│  └──────────┘        └──────────────┘      └──────────────┘    │
-│                               │                                 │
-│                               ▼                                 │
-│                  ┌─────────────────────────┐                   │
-│                  │  도시 데이터 허브 (CDH)   │                   │
-│                  │  통합 플랫폼·API 게이트웨이│                   │
-│                  └─────────────────────────┘                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트시티 데이터 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 레이어 디지털 레이어 서비스 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도로·건물</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">IoT 센서</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">교통 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력망</div><div class="kb-diagram-cell">CCTV 영상</div><div class="kb-diagram-cell">에너지 절감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상하수도</div><div class="kb-diagram-cell">스마트미터</div><div class="kb-diagram-cell">안전 관제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공원·광장</div><div class="kb-diagram-cell">환경 센서</div><div class="kb-diagram-cell">시민 앱 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도시 데이터 허브 (CDH)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 플랫폼·API 게이트웨이</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 스마트시티는 "도시 전체에 신경망이 뻗어 있어서, 어디서 무슨 일이 생기든 즉각 반응하는 살아있는 도시"다.
 
@@ -52,33 +48,28 @@ tags = ["studynote-bigdata"]
 
 ### [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 분석 엣지-클라우드 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              CCTV 영상 분석 아키텍처                              │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [엣지 레이어 — 실시간 처리]                                      │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ CCTV 카메라 (4K/30fps)                                   │   │
-│  │      │                                                   │   │
-│  │      ▼                                                   │   │
-│  │ 엣지 AI 박스 (GPU 내장)                                   │   │
-│  │  ├── 군중 밀집도 측정 (실시간)                             │   │
-│  │  ├── 이상 행동 탐지 (넘어짐, 배회, 싸움)                   │   │
-│  │  ├── 번호판 인식 (LPR)                                    │   │
-│  │  └── 개인정보 보호 처리 (얼굴 블러링)                      │   │
-│  └──────────────────────────┬───────────────────────────────┘   │
-│                             │ (이벤트 데이터만 전송, 원본 비전송)  │
-│                             ▼                                   │
-│  [클라우드 레이어 — 통합 분석]                                    │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 통합 관제 플랫폼                                          │   │
-│  │  - 도시 전체 이상 이벤트 집계                             │   │
-│  │  - 패턴 분석·예측 모델 학습                               │   │
-│  │  - 긴급 대응 자원 배분                                    │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCTV 영상 분석 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 레이어 — 실시간 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCTV 카메라 (4K/30fps)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 AI 박스 (GPU 내장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 군중 밀집도 측정 (실시간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 이상 행동 탐지 (넘어짐, 배회, 싸움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 번호판 인식 (LPR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 개인정보 보호 처리 (얼굴 블러링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이벤트 데이터만 전송, 원본 비전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 레이어 — 통합 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 관제 플랫폼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 도시 전체 이상 이벤트 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패턴 분석·예측 모델 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 긴급 대응 자원 배분</div></div>
+</div>
+</div>
+
+
 
 ### 적응형 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어 (ATSC, Adaptive Traffic [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Control)
 
@@ -93,21 +84,23 @@ tags = ["studynote-bigdata"]
 
 ### 스마트 에너지 그리드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름
 
-```
-태양광·풍력 발전량 예측 (날씨 데이터)
-        │
-        ▼
-  ┌──────────────────────────────────┐
-  │  에너지 관리 시스템 (EMS)         │
-  │  - 스마트미터 15분 간격 수집      │
-  │  - 전력 수요 30분 선행 예측       │
-  │  - 수요 반응 (DR) 프로그램 실행   │
-  │  - ESS (에너지저장장치) 충방전 제어│
-  └──────────────────────────────────┘
-        │
-        ▼
-  피크 부하 감소 + 재생에너지 연계 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">태양광·풍력 발전량 예측 (날씨 데이터)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 관리 시스템 (EMS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트미터 15분 간격 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전력 수요 30분 선행 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수요 반응 (DR) 프로그램 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ESS (에너지저장장치) 충방전 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피크 부하 감소 + 재생에너지 연계 최적화</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 적응형 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어는 "교차로가 스스로 어느 방향에 차가 많은지 보고, 그쪽 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 길게 주는 지능형 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등"이다. 사람이 버튼을 누르지 않아도 길이 자동으로 열린다.
 
@@ -126,14 +119,18 @@ tags = ["studynote-bigdata"]
 
 ### [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 감시 사회의 경계
 
-```
-안전·효율 극대화 ◄─────────────────────────────► 개인정보·자유
-     │                                                  │
-     ▼                                                  ▼
-CCTV 전수 분석               익명화·최소 수집 원칙
-번호판 인식 DB 구축           열굴 인식 금지 조례 (EU)
-위치 추적 최적화             프라이버시 바이 디자인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">안전·효율 극대화 ◄ ► 개인정보·자유</div>
+<div class="kb-diagram-note">CCTV 전수 분석 익명화·최소 수집 원칙</div>
+<div class="kb-diagram-note">번호판 인식 DB 구축 열굴 인식 금지 조례 (EU)</div>
+<div class="kb-diagram-note">위치 추적 최적화 프라이버시 바이 디자인</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 스마트시티의 딜레마는 "안전을 위해 모든 것을 감시하면, 자유롭게 살 수 없는 도시가 된다"는 것이다. 기술사는 이 경계선을 설계 단계에서 명확히 그어야 한다.
 
@@ -153,7 +150,7 @@ CCTV 전수 분석               익명화·최소 수집 원칙
 | 시민 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 엣지에서 익명화 + 최소 수집 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 준수 |
 
 **기술사 핵심 판단**:
-- **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)**: 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권(시민 vs. 시 vs. 기업)을 명확히 정의.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong>: 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 소유권(시민 vs. 시 vs. 기업)을 명확히 정의.
 - **보안**: 도시 인프라 제어 시스템은 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안 ([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)/[SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/) 보안 표준) 별도 적용.
 - **디지털 포용**: 앱 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 디지털 취약계층을 배제하지 않도록 대안 채널 유지.
 
@@ -188,21 +185,23 @@ CCTV 전수 분석               익명화·최소 수집 원칙
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[도시 센서 인프라 (IoT / CCTV / 스마트미터)]
-    │
-    ▼
-[도시 데이터 허브 (CDH, City Data Hub)]
-    │
-    ▼
-[지능형 교통 (ATSC) / 스마트 에너지 (EMS)]
-    │
-    ▼
-[디지털 트윈 (Digital Twin) — 가상 도시 시뮬레이션]
-    │
-    ▼
-[AI 기반 스마트시티 — 자율주행 + 예측 행정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도시 센서 인프라 (IoT / CCTV / 스마트미터)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">도시 데이터 허브 (CDH, City Data Hub)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 교통 (ATSC) / 스마트 에너지 (EMS)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 (Digital Twin) — 가상 도시 시뮬레이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 스마트시티 — 자율주행 + 예측 행정</div></div>
+</div>
+</div>
+
+
 
 스마트시티가 개별 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 수집에서 통합 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)와 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자율 도시 관리로 발전하는 흐름이다.
 

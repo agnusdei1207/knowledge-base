@@ -37,21 +37,22 @@ Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/knowledge
 | **Values.yaml** | 값 주입 | 템플릿의 빈칸(변수)에 들어갈 실제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값들을 정의한 사용자 구성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
 | **Release (릴리스)** | 배포 인스턴스 | 차트와 값이 결합되어 K8s 클러스터 내에 실제 구동 중인 패키지의 상태 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Helm 렌더링 메커니즘: Template + Values             │
-├──────────────────────────────────────────────────────────────┤
-│ [templates/deployment.yaml]                                  │
-│   image: {{ .Values.image.repository }}:{{ .Values.image.tag }}│
-│                           │                                  │
-│                           ▼ (Helm Client 엔진 결합)           │
-│                           │                                  │
-│ [values.yaml]             │                                  │
-│   image:                  │                                  │
-│     repository: nginx     │ ──▶ [최종 렌더링된 YAML K8s 전송]  │
-│     tag: 1.25.0           │      image: nginx:1.25.0         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Helm 렌더링 메커니즘: Template + Values</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">templates/deployment.yaml</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Helm Client 엔진 결합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">values.yaml</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">image:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최종 렌더링된 YAML K8s 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tag: 1.25.0</div><div class="kb-diagram-cell">image: nginx:1.25.0</div></div>
+</div>
+</div>
+
+
 
 Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 K8s [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))에 저장한다. 이를 통해 `helm upgrade`로 안전하게 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리거나, 실패 시 `helm rollback`으로 이전 릴리스 상태의 전체 YAML 묶음을 즉시 원복([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))할 수 있다.
 
@@ -81,7 +82,7 @@ Helm은 "남이 만든 훌륭한 패키지를 가져다 쓸 때"와 "조건문(I
 실무에서는 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 관리인 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))를 달성하고, 배포 자동화인 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) [깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(ArgoCD, Flux 등)을 구축할 때 Helm이 필수 표준 기술로 자리 잡았다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (의사결정 기준)
-1. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 솔루션을 K8s에 배포하는가?** [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등을 설치할 때는 묻지도 따지지도 않고 [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Hub에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 공식 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Chart를 가져와 `values.yaml`만 수정해서 배포해야 한다. 맨바닥에서 YAML을 작성하는 것은 바퀴를 재발명하는 위험한 행위다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 솔루션을 K8s에 배포하는가?</strong> [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등을 설치할 때는 묻지도 따지지도 않고 [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Hub에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 공식 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Chart를 가져와 `values.yaml`만 수정해서 배포해야 한다. 맨바닥에서 YAML을 작성하는 것은 바퀴를 재발명하는 위험한 행위다.
 2. **배포 시 조건 분기가 필요한가?** "운영 환경(Prod)일 때만 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) 리소스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 개발 환경(Dev)일 때는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 마라" 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 처리가 필요하다면 템플릿 내부에 `{{- if eq .Values.env "prod" }}`를 사용할 수 있는 Helm을 채택해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -107,27 +108,29 @@ Helm을 도입하면 [쿠버네티스](/knowledge-base/studynote/06_ict_converge
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **Go Template** | Helm이 차트 내부의 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 변수와 제어문(if, for)을 주입하기 위해 사용하는 렌더링 엔진 |
-| **[Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)** | 전 세계 개발자들이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 등록하고 검색할 수 있는 글로벌 패키지 저장소 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) (ArgoCD)** | [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트와 `values.yaml`을 Git 저장소에 올리면 클러스터 상태를 자동으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해 주는 릴리스 배포 패턴 |
-| **[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/)** | Helm과 대비되는 K8s 내장 도구로, 템플릿 변수가 아닌 원본 YAML 패치(Overlay) 방식을 사용 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a></strong> | 전 세계 개발자들이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 등록하고 검색할 수 있는 글로벌 패키지 저장소 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> (ArgoCD)</strong> | [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트와 `values.yaml`을 Git 저장소에 올리면 클러스터 상태를 자동으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해 주는 릴리스 배포 패턴 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a></strong> | Helm과 대비되는 K8s 내장 도구로, 템플릿 변수가 아닌 원본 YAML 패치(Overlay) 방식을 사용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Static YAML Manifests (수동 작성 및 kubectl 배포)
-    │
-    ▼
-Helm Chart (패키지 묶음 및 Go Template 기반 변수 렌더링)
-    │
-    ▼
-Artifact Hub (공개 차트 공유 생태계 및 앱스토어화)
-    │
-    ▼
-Helm v3 Architecture (서버리스 클라이언트 렌더링 구조로 보안 강화)
-    │
-    ▼
-GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Static YAML Manifests (수동 작성 및 kubectl 배포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Helm Chart (패키지 묶음 및 Go Template 기반 변수 렌더링)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Artifact Hub (공개 차트 공유 생태계 및 앱스토어화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Helm v3 Architecture (서버리스 클라이언트 렌더링 구조로 보안 강화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

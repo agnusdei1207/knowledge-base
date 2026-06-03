@@ -29,20 +29,22 @@ tags = ["studynote-cloud"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-[ Guest VM A ]      [ Guest VM B ]
-      \                  /
-       \  1. 취약점 악용 /
-        ▼               ▼
-          [ Hypervisor / KVM ]
-                 │
-                 │ 2. Ring -1 권한 획득
-                 ▼
-              [ Host OS ]
-                 │
-                 ▼
-           [ Hardware / Memory ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guest VM A</div><div class="kb-diagram-node">Guest VM B</div></div>
+<div class="kb-diagram-note">\ 1. 취약점 악용 /</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hypervisor / KVM</div></div>
+<div class="kb-diagram-note">2. Ring -1 권한 획득</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host OS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware / Memory</div></div>
+</div>
+</div>
+
+
 
 | 공격 표면 | 예 | 위험 |
 | :-- | :-- | :-- |
@@ -107,33 +109,45 @@ Cloud [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_con
 
 ## 관련 개념 맵
 
-```text
-Multi-tenancy
-   ↓
-Hypervisor
-   ↓
-VM Escape
-   ↓
-Nitro / Firecracker
-   ↓
-Confidential Computing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Multi-tenancy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hypervisor</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">VM Escape</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Nitro / Firecracker</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Confidential Computing</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-가상화 확산
-   ↓
-하이퍼바이저 취약점
-   ↓
-VENOM / Cloudburst
-   ↓
-MicroVM / Nitro
-   ↓
-Confidential Computing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가상화 확산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">하이퍼바이저 취약점</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">VENOM / Cloudburst</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MicroVM / Nitro</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Confidential Computing</div>
+</div>
+</div>
+
+
 
 ---
 

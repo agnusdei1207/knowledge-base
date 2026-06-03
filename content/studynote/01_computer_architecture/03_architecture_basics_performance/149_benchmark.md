@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 벤치마크 (Benchmark)는 컴퓨터 하드웨어나 소프트웨어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 객관적이고 동일한 조건에서 비교 평가하기 위해, 의도적으로 설계된 표준화된 테스트용 프로그램이자 작업 부하(Workload)의 집합체다.
 > 2. **가치**: 제조사가 주장하는 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)나 코어 개수 같은 뻥튀기 스펙의 허상을 벗겨내고, 아키텍처의 파이프라인 효율과 메모리 병목을 실전 테스트하여 "실제 현실 업무에서 얼마나 빠른가"를 숫자로 증명한다.
-> 3. **판단 포인트**: 특정 부품만 테스트하는 마이크로 벤치마크와 현실의 소프트웨어를 복제한 응용 벤치마크(SPEC)를 융합 활용해야 하며, 테스트 항목 편향을 막기 위해 산술 평균이 아닌 **기하 평균 (Geometric Mean)**을 사용하여 종합 점수의 공정성을 확보한다.
+> 3. **판단 포인트**: 특정 부품만 테스트하는 마이크로 벤치마크와 현실의 소프트웨어를 복제한 응용 벤치마크(SPEC)를 융합 활용해야 하며, 테스트 항목 편향을 막기 위해 산술 평균이 아닌 <strong>기하 평균 (Geometric Mean)</strong>을 사용하여 종합 점수의 공정성을 확보한다.
 
 ---
 
@@ -30,29 +30,28 @@ tags = ["studynote-computer-architecture"]
 
 수많은 테스트 결과가 특정 꼼수에 왜곡되지 않도록 '기하 평균'으로 점수를 도출해 내는 수학적 공정성 방어 원리가 핵심이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│         벤치마크 종합 점수 요약의 아키텍처: 편식 방지 채점 로직 (SPEC)          │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  [ 시험 항목 3가지: 정수 연산, 소수점 연산, 메모리 탐색 ]                       │
-│                                                                        │
-│  ❌ 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!              │
-│     * 컴퓨터 A: 정수 100점, 소수점 100점, 메모리 10점 ──▶ 평균 70점           │
-│     * 컴퓨터 B: 정수 10점,  소수점 10점,  메모리 190점 ──▶ 평균 70점           │
-│     ──▶ 결과: B 컴퓨터는 연산은 깡통인데 메모리 하나 꼼수로 올려 70점 동점!       │
-│                                                                        │
-│  ✅ 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕                │
-│     * 공식: (점수1 × 점수2 × 점수3)^(1/3)                                │
-│     * 컴퓨터 A 기하평균: (100 × 100 × 10)^(1/3) = 약 46.4점              │
-│     * 컴퓨터 B 기하평균: (10 × 10 × 190)^(1/3) = 약 26.6점               │
-│                                                                        │
-│     ──▶ 결과: 밸런스가 박살 난 꼼수 칩 B의 점수를 지옥으로 쳐박아버리고,            │
-│         모든 부품이 골고루 우수한 진짜 명품 칩 A가 압도적 우승을 차지함!           │
-└────────────────────────────────────────────────────────────────────────┘
-```
 
-어떤 제조사가 [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/) 코드 중 덧셈 하나만 미친 듯이 잘하게 회로를 기형적으로 짰을 때, 산술 평균을 쓰면 그 과목 하나로 전체 점수를 하드캐리하게 된다. 아키텍트들은 이를 막기 위해 **기하 평균 (Geometric Mean)**을 표준으로 도입했다. 단 하나의 테스트 과목이라도 바닥을 기면 최종 점수가 통째로 박살 나게 되므로, 모든 파이프라인에서 골고루 우수한 칩만이 벤치마크 1위를 차지할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벤치마크 종합 점수 요약의 아키텍처: 편식 방지 채점 로직 (SPEC)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시험 항목 3가지: 정수 연산, 소수점 연산, 메모리 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 A: 정수 100점, 소수점 100점, 메모리 10점 ──▶ 평균 70점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 B: 정수 10점, 소수점 10점, 메모리 190점 ──▶ 평균 70점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: B 컴퓨터는 연산은 깡통인데 메모리 하나 꼼수로 올려 70점 동점!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공식: (점수1 × 점수2 × 점수3)^(1/3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 A 기하평균: (100 × 100 × 10)^(1/3) = 약 46.4점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 B 기하평균: (10 × 10 × 190)^(1/3) = 약 26.6점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: 밸런스가 박살 난 꼼수 칩 B의 점수를 지옥으로 쳐박아버리고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 부품이 골고루 우수한 진짜 명품 칩 A가 압도적 우승을 차지함!</div></div>
+</div>
+</div>
+
+
+
+어떤 제조사가 [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/) 코드 중 덧셈 하나만 미친 듯이 잘하게 회로를 기형적으로 짰을 때, 산술 평균을 쓰면 그 과목 하나로 전체 점수를 하드캐리하게 된다. 아키텍트들은 이를 막기 위해 <strong>기하 평균 (Geometric Mean)</strong>을 표준으로 도입했다. 단 하나의 테스트 과목이라도 바닥을 기면 최종 점수가 통째로 박살 나게 되므로, 모든 파이프라인에서 골고루 우수한 칩만이 벤치마크 1위를 차지할 수 있다.
 
 - **📢 섹션 요약 비유**: 이 채점 방식은 '아이돌 그룹 데뷔조 뽑기'와 같습니다. 춤 100점인데 노래 0점, 인성 0점인 연습생은 기하 평균이라는 칼날로 썰어 탈락시킵니다. 모든 항목에서 골고루 무난하게 70점 이상은 해주는 올라운더 밸런스 사기캐만을 선발하기 위한 가장 잔인하고 공정한 점수 필터링입니다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-computer-architecture"]
 | **응용 벤치마크 (Application)** | 실제 쓰이는 렌더링, 브라우저 스크립트 파싱 코드를 가져와 굴림 | **SPEC CPU, PCMark**. 소비자 체감 속도와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 궁합 입증 |
 | **매크로 벤치마크 (Macro)** | 대용량 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(TPS) 처리나 가상 유저 1만 명 동시 접속 주입 | **TPC-C, Sysbench**. 클라우드 서버의 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 및 방어력 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-아키텍처계의 바이블은 단연 **SPEC (Standard [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corporation)** 벤치마크다. SPEC은 진짜 C/C++ 컴파일러 소스, 체스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 트리 탐색 등 가장 현실적인 애플리케이션 코드를 묶어 제공한다. 칩 제조사들은 이 점수를 올리기 위해 분기 예측과 캐시 구조를 튜닝하는 진짜 올바른 하드웨어 진화를 강제당했다.
+아키텍처계의 바이블은 단연 <strong>SPEC (Standard <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corporation)</strong> 벤치마크다. SPEC은 진짜 C/C++ 컴파일러 소스, 체스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 트리 탐색 등 가장 현실적인 애플리케이션 코드를 묶어 제공한다. 칩 제조사들은 이 점수를 올리기 위해 분기 예측과 캐시 구조를 튜닝하는 진짜 올바른 하드웨어 진화를 강제당했다.
 
 - **📢 섹션 요약 비유**: 마이크로 벤치마크가 복싱 선수의 '펀치 기계 점수 치기'라면, 실전 애플리케이션 벤치마크(SPEC)는 '진짜 링 위에 올려서 12라운드 동안 스파링 시키기'입니다. 펀치 점수가 높아도 링 위에서 뻗어버릴 수 있기에, 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 링 위 성적표(SPEC)를 믿어야 합니다.
 
@@ -80,8 +79,8 @@ tags = ["studynote-computer-architecture"]
 제조사의 화려한 벤치마크 마케팅을 간파하고 내 서비스에 맞는 장비를 골라내는 능력이 필수다.
 
 ### 실무 판단 시나리오
-1. **RDBMS 스토리지 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 도입 시 워크로드 매칭**: "초당 7GB/s 연속 읽기 스피드 1등!"이라는 벤치마크 스펙(Sequential Read)에 현혹되면 안 된다. RDBMS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 여기저기를 4KB 크기로 콕콕 찌르는 랜덤 엑세스(Random I/O)를 난사한다. 아키텍트는 `Fio`나 `Sysbench`를 돌려 4K **랜덤 IOPS (초당 입출력 횟수)** 점수만 핀포인트로 비교하여 진짜 DB 응답 지연이 없는 칩셋을 골라내야 한다.
-2. **모바일 게임 서버 스트레스 벤치마크**: 짧은 5분간의 피크 벤치마크 점수에 낚이면 오픈 날 서버가 터진다. 서버를 최소 3시간 이상 굴리는 **'지속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Sustained [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))'** 테스트를 돌려야 발열 스로틀링(Throttling)이나 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 병목으로 인해 TPS가 무너지는 붕괴 지점을 사전에 도출할 수 있다.
+1. <strong>RDBMS 스토리지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> 도입 시 워크로드 매칭</strong>: "초당 7GB/s 연속 읽기 스피드 1등!"이라는 벤치마크 스펙(Sequential Read)에 현혹되면 안 된다. RDBMS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 여기저기를 4KB 크기로 콕콕 찌르는 랜덤 엑세스(Random I/O)를 난사한다. 아키텍트는 `Fio`나 `Sysbench`를 돌려 4K **랜덤 IOPS (초당 입출력 횟수)** 점수만 핀포인트로 비교하여 진짜 DB 응답 지연이 없는 칩셋을 골라내야 한다.
+2. **모바일 게임 서버 스트레스 벤치마크**: 짧은 5분간의 피크 벤치마크 점수에 낚이면 오픈 날 서버가 터진다. 서버를 최소 3시간 이상 굴리는 <strong>'지속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Sustained <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)'</strong> 테스트를 돌려야 발열 스로틀링(Throttling)이나 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 병목으로 인해 TPS가 무너지는 붕괴 지점을 사전에 도출할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **제조사의 벤치마크 앱 감지 후 치팅(Cheating)**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `Geekbench` 같은 벤치마크 앱이 실행되는 것을 감지하면, 평소 묶어두었던 CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 해제하고 전압을 쏟아부어 점수 뻥튀기를 돌리는 꼼수다. 소비자는 이 점수만 보고 샀다가 실제 게임을 돌리면 발열 제어 족쇄가 걸려 끊기는 대형 사기극에 휘말리게 된다.
@@ -104,32 +103,34 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **SPEC (Standard [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corp.)** | 제조사들의 꼼수 벤치마크에 대항해 학계와 업계가 만든 세계 공인 표준 실전 벤치마크의 바이블. |
-| **[컴퓨터 성능 방정식](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/) ([Performance Equation](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/))** | $[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 \times [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) \times 사이클 타임$. 벤치마크 점수를 올리려면 결국 이 방정식 3요소의 파이프라인 다이어트가 필수. |
+| <strong>SPEC (Standard <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corp.)</strong> | 제조사들의 꼼수 벤치마크에 대항해 학계와 업계가 만든 세계 공인 표준 실전 벤치마크의 바이블. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong> | $[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 \times [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) \times 사이클 타임$. 벤치마크 점수를 올리려면 결국 이 방정식 3요소의 파이프라인 다이어트가 필수. |
 | **기하 평균 (Geometric Mean)** | 단 하나의 테스트 항목이라도 0점에 수렴하면 전체 점수가 박살 나게 만들어, 하드웨어의 특정 편식 어뷰징을 막는 절대 공식. |
-| **스로틀링 ([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))** | 벤치마크 앱을 무한대로 돌리면 CPU가 녹는 걸 막으려고 기계 스스로 클럭을 강제로 반 토막 내어 점수를 추락시키는 방어 기제. |
+| <strong>스로틀링 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/">Thermal Throttling</a>)</strong> | 벤치마크 앱을 무한대로 돌리면 CPU가 녹는 걸 막으려고 기계 스스로 클럭을 강제로 반 토막 내어 점수를 추락시키는 방어 기제. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)
-    │
-    ▼
-MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함
-    │
-    ▼
-SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정
-    │
-    ▼
-기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제
-    │
-    ▼
-모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 벤치마크는 컴퓨터 로봇들끼리 "누가 진짜 제일 센지" 가려내기 위해 치르는 **엄청나게 깐깐한 전과목 종합 모의고사 시험지**예요!
+1. 벤치마크는 컴퓨터 로봇들끼리 "누가 진짜 제일 센지" 가려내기 위해 치르는 <strong>엄청나게 깐깐한 전과목 종합 모의고사 시험지</strong>예요!
 2. 옛날엔 로봇들이 자기 팔뚝 굵기(스펙)만 보여주면서 제일 세다고 뻥을 쳤는데, 벤치마크 시험지에 어려운 실제 숙제들을 던져주고 진짜 몇 초 만에 푸는지 시간을 재어버렸죠.
 3. 이 시험 덕분에 우리는 겉보기만 번지르르한 가짜 로봇들을 걸러내고, 진짜로 게임을 쌩쌩 잘 돌리는 일등 로봇을 안전하게 고를 수 있게 된 거랍니다!
 

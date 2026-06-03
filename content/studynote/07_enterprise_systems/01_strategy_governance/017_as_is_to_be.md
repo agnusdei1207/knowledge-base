@@ -21,32 +21,32 @@ tags = ["enterprise_systems"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-**[AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석**은 현재 기업이 어떻게 업무를 수행하고 있으며 시스템 구조는 어떠한지를 있는 그대로 투명하게 진단하는 과정이다. 반면 **TO-BE 모델링**은 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)(업무 재설계)이나 새로운 IT 시스템 도입을 통해 달성하고자 하는 미래의 최적화된 업무 프로세스와 시스템 청사진을 그리는 과정이다. 이 두 가지는 동전의 양면처럼 항상 함께 쓰이며, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))의 가장 뼈대가 되는 단계다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> 분석</strong>은 현재 기업이 어떻게 업무를 수행하고 있으며 시스템 구조는 어떠한지를 있는 그대로 투명하게 진단하는 과정이다. 반면 <strong>TO-BE 모델링</strong>은 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)(업무 재설계)이나 새로운 IT 시스템 도입을 통해 달성하고자 하는 미래의 최적화된 업무 프로세스와 시스템 청사진을 그리는 과정이다. 이 두 가지는 동전의 양면처럼 항상 함께 쓰이며, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))의 가장 뼈대가 되는 단계다.
 
 이러한 접근법이 필요한 이유는, 내비게이션 시스템과 동일하다. 우리가 목적지(TO-BE)에 도달하기 위해서는, 현재 내 위치([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))를 정확히 알아야만 최적의 경로(Transition [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 이행 계획)를 그릴 수 있다. 현재의 병목, 비효율, 중복된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있는지 모른 채 신기술만 도입하면, 최신 IT 인프라 위에서 구시대적인 쓰레기 프로세스가 돌아가는 'Garbage In, Garbage Out' 현상을 면치 못한다.
 
 다음 도식은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 나아가는 전반적인 갭 분석([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)) 프레임워크의 흐름을 보여준다. 
 
-```text
-[ 갭 분석 (Gap Analysis) 기반 전환 메커니즘 ]
 
-┌──────────────────┐               ┌──────────────────┐
-│   AS-IS (현재)   │   GAP 도출    │  TO-BE (미래)    │
-│                  │  ──────────>  │                  │
-│ • 수작업 결재    │ [문제점/원인] │ • 모바일 결재    │
-│ • 파편화된 DB    │   ▼           │ • 중앙 통합 DW   │
-│ • 리드타임 5일   │   ▼           │ • 리드타임 1일   │
-└──────────────────┘   ▼           └──────────────────┘
-                       ▼
-             ┌────────────────────────┐
-             │ 이행 전략 (Transition) │
-             │ - 시스템 구축 로드맵   │
-             │ - 데이터 마이그레이션  │
-             │ - 조직/인력 재배치     │
-             └────────────────────────┘
-```
 
-이 도식의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE가 단순히 그림을 두 장 그리는 작업으로 끝나서는 안 되며, 반드시 두 상태 간의 물리적, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 차이를 수치화한 **'Gap(차이)'** 을 추출하여 이를 해결하는 구체적인 **이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(로드맵)** 으로 수렴되어야 한다는 점이다. 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 빠진 TO-BE 모델은 실현 불가능한 공상과학에 불과하다. 실무에서는 Gap 분석 결과를 바탕으로 어떤 시스템을 먼저 개발할지 우선순위(Quick Win)를 결정하게 된다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">갭 분석 (Gap Analysis) 기반 전환 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AS-IS (현재)</div><div class="kb-diagram-cell">GAP 도출</div><div class="kb-diagram-cell">TO-BE (미래)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">• 수작업 결재</div><div class="kb-diagram-node">문제점/원인</div><div class="kb-diagram-note">• 모바일 결재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 파편화된 DB</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">• 중앙 통합 DW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 리드타임 5일</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">• 리드타임 1일</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행 전략 (Transition)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 구축 로드맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 마이그레이션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조직/인력 재배치</div></div>
+</div>
+</div>
+
+
+
+이 도식의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE가 단순히 그림을 두 장 그리는 작업으로 끝나서는 안 되며, 반드시 두 상태 간의 물리적, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 차이를 수치화한 **'Gap(차이)'** 을 추출하여 이를 해결하는 구체적인 <strong>이행 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(로드맵)</strong> 으로 수렴되어야 한다는 점이다. 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 빠진 TO-BE 모델은 실현 불가능한 공상과학에 불과하다. 실무에서는 Gap 분석 결과를 바탕으로 어떤 시스템을 먼저 개발할지 우선순위(Quick Win)를 결정하게 된다.
 
 📢 **섹션 요약 비유**: [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석이 병원에 가서 현재 건강 상태와 질병(병목)을 진단받는 것이라면, TO-BE 모델링은 건강해진 미래의 몸 상태를 목표로 잡고 다이어트 식단과 운동 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)(이행 계획)을 처방받는 과정과 같습니다.
 
@@ -60,35 +60,34 @@ tags = ["enterprise_systems"]
 
 | 아키텍처 계층 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석 (현재 파악) | TO-BE 모델링 (미래 설계) | 주요 산출물 기법 |
 |:---|:---|:---|:---|
-| **비즈니스 ([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))** | 부서 간 중복 업무, 결재 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파악 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 기반 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화, 권한 위임 체계 설계 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/), 워크플로우 맵 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상 파악 | 전사 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)([MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 통합 설계 | ERD (Entity-[Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) |
-| **애플리케이션 ([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))** | 노후화 레거시, 강결합 모놀리식 파악 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동 설계 | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 도해 |
-| **기술/인프라 ([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))** | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 서버 노후화, 보안 취약점 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) | 물리/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 네트워크 구성도 |
+| <strong>비즈니스 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/">BA</a>)</strong> | 부서 간 중복 업무, 결재 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파악 | [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) 기반 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화, 권한 위임 체계 설계 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/), 워크플로우 맵 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상 파악 | 전사 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)([MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 통합 설계 | ERD (Entity-[Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) |
+| <strong>애플리케이션 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/">AA</a>)</strong> | 노후화 레거시, 강결합 모놀리식 파악 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동 설계 | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 도해 |
+| <strong>기술/인프라 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/">TA</a>)</strong> | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 서버 노후화, 보안 취약점 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) | 물리/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 네트워크 구성도 |
 
 아래의 도식은 복잡한 엔터프라이즈 환경에서 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS를 진단할 때 적용하는 다계층(Multi-tier) 분석 구조도이다.
 
-```text
-[ 전사 아키텍처(EA) 기반 AS-IS 분석 계층도 ]
 
-┌────────────────────────────────────────────────────────┐
-│ [Business] 프로세스 병목 탐지                          │
-│ 부서 A (기안) ──지연──> 부서 B (승인) ──반려──> 부서 A│
-├────────────────────────────────────────────────────────┤
-│ [Application] 시스템 스파게티 연동 파악                │
-│ ERP_1.0 ────(EAI/수동연계)──── CRM_Legacy            │
-│    ▲                              ▲                   │
-├────┼──────────────────────────────┼──────────────────┤
-│ [Data] 데이터 사일로(Silo) 및 불일치 진단              │
-│ Oracle DB (고객)           MS SQL (회원) - 불일치 발생 │
-├────────────────────────────────────────────────────────┤
-│ [Tech] 물리적 인프라 한계                              │
-│ On-Premise IDC (확장성 부족, 장애 시 SPOF 위험)        │
-└────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전사 아키텍처(EA) 기반 AS-IS 분석 계층도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Business</div><div class="kb-diagram-note">프로세스 병목 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부서 A (기안) ──지연──&gt; 부서 B (승인) ──반려──&gt; 부서 A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Application</div><div class="kb-diagram-note">시스템 스파게티 연동 파악</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP_1.0 (EAI/수동연계) CRM_Legacy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">데이터 사일로(Silo) 및 불일치 진단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle DB (고객) MS SQL (회원) - 불일치 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tech</div><div class="kb-diagram-note">물리적 인프라 한계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Premise IDC (확장성 부족, 장애 시 SPOF 위험)</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 표면적으로 드러나는 '프로세스의 병목(비즈니스 계층)'이 실은 그 아래 깔려 있는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치'나 '노후화된 애플리케이션 연동'이라는 깊은 뿌리에서 기인한다는 점이다. 따라서 유능한 IT 컨설턴트는 단순히 업무 담당자 인터뷰만으로 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS를 끝내지 않고, 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 서버 부하율까지 파헤쳐 근본 원인(Root Cause)을 찾아낸다. TO-BE 설계 시에는 이 밑바닥 인프라(Tech/[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터 클라우드나 통합 DB로 뜯어고친 뒤 그 위에 스마트한 프로세스를 얹는 상향식/하향식 양방향 재설계가 일어난다.
 
-이 과정에서 널리 쓰이는 모델링 표준은 **[BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/)([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/))** 이다. 이벤트(Event), 활동(Activity), 게이트웨이(Gateway - 분기점) 기호를 통해 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS의 불필요한 분기점을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고, TO-BE에서 이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 게이트웨이나 통합 활동으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
+이 과정에서 널리 쓰이는 모델링 표준은 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/">BPMN</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/">Business Process Model and Notation</a>)</strong> 이다. 이벤트(Event), 활동(Activity), 게이트웨이(Gateway - 분기점) 기호를 통해 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS의 불필요한 분기점을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고, TO-BE에서 이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 게이트웨이나 통합 활동으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 📢 **섹션 요약 비유**: 건물(기업)을 리모델링할 때, 눈에 보이는 벽지 얼룩(비즈니스 병목)만 조사하는 것이 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS가 아닙니다. 엑스레이를 찍어 벽 속의 녹슨 수도관([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))과 낡은 배선(레거시 앱)을 모두 찾아내어, 최신 스마트 빌딩(TO-BE) 도면을 그리는 완벽한 단층 촬영 과정입니다.
 
@@ -98,30 +97,33 @@ tags = ["enterprise_systems"]
 
 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transition) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 크게 시스템의 성격과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수용도에 따라 다양한 방식으로 선택된다. 
 
-**전환(Transition) 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교 매트릭스**
+<strong>전환(Transition) 아키텍처 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 비교 매트릭스</strong>
 
 | 항목 | 빅뱅 (Big Bang) 전환 | 점진적 (Phased / Strangler) 전환 | 진화형 (Evolutionary) 병행 | 판단 포인트 |
 |:---|:---|:---|:---|:---|
 | **개념** | 어느 날 한순간에 전사 시스템을 TO-BE로 전면 오픈 | 기능별, 부서별로 나누어 순차적으로 TO-BE 오픈 | 구 시스템과 신 시스템을 양방향 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하며 병행 운영 | 비즈니스 연속성 요구 수준 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수준** | 매우 높음 (실패 시 전사 마비) | 중간 (이행 기간 중 복잡도 증가) | 낮음 (안전하나 높은 비용) | 다운타임 허용치 |
-| **[AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) → TO-BE 간극** | 단기간 내 해소 | 장기간에 걸쳐 해소 | 단계적 튜닝으로 점차 흡수 | 프로젝트 기간 제약 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 수준</strong> | 매우 높음 (실패 시 전사 마비) | 중간 (이행 기간 중 복잡도 증가) | 낮음 (안전하나 높은 비용) | 다운타임 허용치 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> → TO-BE 간극</strong> | 단기간 내 해소 | 장기간에 걸쳐 해소 | 단계적 튜닝으로 점차 흡수 | 프로젝트 기간 제약 |
 | **적합한 상황** | 구/신 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 호환이 완전히 불가능할 때 | 거대한 모놀리식 레거시를 MSA로 쪼개어 이관할 때 | 금융권 핵심 코어 뱅킹 등 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 최우선일 때 | 예산과 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 차이 |
 
 아래의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도는 가장 실무적으로 권장되는 '점진적 전환([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))' 과정을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
-```text
-[ 점진적 TO-BE 이행 모델 (MSA 전환 시나리오) ]
 
-[ 1단계 : AS-IS ]      [ 2단계 : 과도기 (Transition) ]    [ 3단계 : TO-BE ]
-                      API Gateway (라우터 도입)           API Gateway
-┌───────────┐         /                    \               |
-│ Monolithic│       ┌──────┐             ┌───────┐       ┌───────┐
-│ (AS-IS)   │   =>  │신규  │ (가로채기)  │노후   │  =>   │신규 MSA│ (100%)
-│ 100% 트래픽│       │MSA_A │             │AS-IS  │       │A, B, C │
-└───────────┘       └──────┘             └───────┘       └───────┘
-```
 
-이 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 넘어갈 때 중간 단계인 **'과도기(Transition [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'** 아키텍처를 설계하는 것이다. 한 번에 TO-BE로 바꾸는 것은 위험하므로, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 앞단에 두어 특정 기능(예: 결제) 트래픽만 새로 만든 TO-BE [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 나머지는 기존 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 레거시로 보내는 방식이다. 시간이 지남에 따라 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 점차 숨통이 끊어져(Strangler) 사라지고, 마침내 완전한 TO-BE 상태에 도달한다. 실무에서는 이러한 과도기 아키텍처 설계 역량이 수석 아키텍트의 가장 중요한 자질이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">점진적 TO-BE 이행 모델 (MSA 전환 시나리오)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 : AS-IS</div><div class="kb-diagram-node">2단계 : 과도기 (Transition)</div><div class="kb-diagram-node">3단계 : TO-BE</div></div>
+<div class="kb-diagram-note">API Gateway (라우터 도입) API Gateway</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolithic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AS-IS)</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">신규</div><div class="kb-diagram-cell">(가로채기)</div><div class="kb-diagram-cell">노후</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">신규 MSA</div><div class="kb-diagram-cell">(100%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 트래픽</div><div class="kb-diagram-cell">MSA_A</div><div class="kb-diagram-cell">AS-IS</div><div class="kb-diagram-cell">A, B, C</div></div>
+</div>
+</div>
+
+
+
+이 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 넘어갈 때 중간 단계인 <strong>'과도기(Transition <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)'</strong> 아키텍처를 설계하는 것이다. 한 번에 TO-BE로 바꾸는 것은 위험하므로, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 앞단에 두어 특정 기능(예: 결제) 트래픽만 새로 만든 TO-BE [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 나머지는 기존 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 레거시로 보내는 방식이다. 시간이 지남에 따라 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 점차 숨통이 끊어져(Strangler) 사라지고, 마침내 완전한 TO-BE 상태에 도달한다. 실무에서는 이러한 과도기 아키텍처 설계 역량이 수석 아키텍트의 가장 중요한 자질이다.
 
 📢 **섹션 요약 비유**: 달리는 기차의 바퀴를 한 번에 빼고 새 바퀴를 끼우는 것(빅뱅)은 탈선의 위험이 큽니다. 가장 이상적인 TO-BE 이행은, 기차가 달리는 중에 보조 바퀴를 먼저 달고(과도기), 기존 바퀴를 서서히 해체하는 방식(점진적 전환)입니다.
 
@@ -133,7 +135,7 @@ tags = ["enterprise_systems"]
 
 **실무 시나리오 및 의사결정**
 
-1. **지나친 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 묘사에 매몰되는 분석 마비 (Analysis Paralysis)**
+1. <strong>지나친 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">AS-IS</a> 묘사에 매몰되는 분석 마비 (Analysis Paralysis)</strong>
    - **상황**: 컨설턴트가 3개월 내내 현업 부서를 인터뷰하며 수천 장의 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 프로세스 맵만 그리고 있음. TO-BE 설계는 시작도 못함.
    - **판단**: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS는 '목적'이 아니라 '도구'다. TO-BE를 그리기 위해 필요한 병목 지점만 파악되면 과감히 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 상세화를 멈춰야 한다. 실무에서는 "[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS는 버려질 문서다"라는 마인드로 거시적 수준(Level 2~3)까지만 도출하고 민첩하게 TO-BE 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 넘어가야 한다.
 
@@ -141,11 +143,11 @@ tags = ["enterprise_systems"]
    - **상황**: TO-BE 모델에 "실시간 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 통합 및 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 1초 결재"라는 화려한 청사진이 그려졌으나, 예산은 10억에 불과함.
    - **판단**: TO-BE 모델은 소설이 되어서는 안 된다. 현재 조직의 IT 성숙도, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/), 가용 예산을 고려하여 '현실적으로 도달 가능한(Achievable) TO-BE'와 '장기적 비전(Visionary) TO-BE'를 Phase 1, Phase 2로 분리하여 설계해야 한다.
 
-3. **기존 현업의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)으로 TO-BE가 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 똑같아지는 현상**
+3. <strong>기존 현업의 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a>으로 TO-BE가 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-IS와 똑같아지는 현상</strong>
    - **상황**: "우린 원래 이렇게 해왔다"는 현업의 강력한 반발에 부딪혀, TO-BE 시스템에 구시대적 결재 라인과 엑셀 다운로드 버튼이 부활함.
    - **판단**: 혁신의 본질이 훼손된 전형적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 경영진의 스폰서십을 통해 C-레벨(CxO) 위원회를 구성하고, 표준화된 베스트 프랙티스([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 수용을 원칙으로 하여 커스터마이징을 철저히 차단해야 한다.
 
-**성공적인 모델링 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong>성공적인 모델링 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS의 문제점(Pain Point)과 TO-BE의 해결책(Solution)이 1:1로 매핑되는가?
 - [ ] 도출된 갭(Gap)을 해소하는 데 필요한 예상 비용과 시간이 산정되었는가?
 - [ ] 변화된 TO-BE 프로세스를 수용할 임직원 교육 및 평가 보상 계획이 동반되었는가?
@@ -165,39 +167,40 @@ tags = ["enterprise_systems"]
 | **프로세스 통제** | 레거시 업무의 무비판적 전산화 (비효율 유지) | 베스트 프랙티스 내재화로 글로벌 표준 업무 장착 |
 
 **미래 전망**: 
-전통적으로 화이트보드와 인터뷰에 의존하던 수동적 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석은, 기업 내 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빨아들여 AI가 프로세스를 자동으로 그려주는 **[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))** 솔루션(Celonis, ProM 등)으로 완벽하게 대체되고 있다. 또한, TO-BE 모델 역시 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 공간에서 시뮬레이션을 돌려 병목이 해소되는지 미리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(What-If Analysis)해 볼 수 있는 '지능형 모델링' 시대로 나아가고 있다.
+전통적으로 화이트보드와 인터뷰에 의존하던 수동적 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석은, 기업 내 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빨아들여 AI가 프로세스를 자동으로 그려주는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>)</strong> 솔루션(Celonis, ProM 등)으로 완벽하게 대체되고 있다. 또한, TO-BE 모델 역시 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 공간에서 시뮬레이션을 돌려 병목이 해소되는지 미리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(What-If Analysis)해 볼 수 있는 '지능형 모델링' 시대로 나아가고 있다.
 
 📢 **섹션 요약 비유**: [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)/TO-BE 모델링은 짙은 안개 속에서 항해하는 기업이라는 배에, 현재 좌표를 찍어주는 GPS([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 목적지를 향한 최적의 항로를 계산해 주는 자동 항법 장치(TO-BE)를 달아주는 핵심 나침반입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)** | 기업 경영 목표 달성을 위해 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석과 TO-BE 모델링을 수행하여 도출하는 전사 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜
-* **[BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))** | TO-BE 모델링 시 기존 방식을 버리고 획기적으로 업무를 재설계하기 위해 적용하는 혁신 기법
-* **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))** | [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 그릴 때, 비즈니스/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/애플리케이션/기술을 층층이 나누어 구조화하는 큰 틀의 설계도
-* **[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 사람이 숨기고 싶어 하거나 모르는 실제 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 프로세스를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 기술
-* **[BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/))** | 분석가와 개발자가 서로 다른 프로세스 그림을 보며 헷갈리지 않도록 통일한 국제 표준 도식화 언어
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> (Information <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Planning)</strong> | 기업 경영 목표 달성을 위해 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석과 TO-BE 모델링을 수행하여 도출하는 전사 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/">BPR</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/">Business Process Reengineering</a>)</strong> | TO-BE 모델링 시 기존 방식을 버리고 획기적으로 업무를 재설계하기 위해 적용하는 혁신 기법
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/">Enterprise Architecture</a>)</strong> | [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 그릴 때, 비즈니스/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/애플리케이션/기술을 층층이 나누어 구조화하는 큰 틀의 설계도
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>)</strong> | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 사람이 숨기고 싶어 하거나 모르는 실제 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 프로세스를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 기술
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/">BPMN</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/">Business Process Model and Notation</a>)</strong> | 분석가와 개발자가 서로 다른 프로세스 그림을 보며 헷갈리지 않도록 통일한 국제 표준 도식화 언어
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[현황 진단 없는 시스템 도입 — 요구 사항 불명확, 프로젝트 실패율 높음]
-    │
-    ▼
-[AS-IS 분석 (현재 상태 모델링) — 업무 프로세스·데이터·시스템 현황 가시화]
-    │
-    ▼
-[GAP 분석 (Gap Analysis) — AS-IS와 TO-BE 차이 식별, 우선순위 도출]
-    │
-    ▼
-[TO-BE 모델링 (미래 상태 설계) — 개선 목표 프로세스·아키텍처 정의]
-    │
-    ▼
-[전환 계획 (Transition Plan / Roadmap) — 단계별 이행 일정, 위험 관리]
-    │
-    ▼
-[지속적 개선 (Continuous Improvement) — 운영 피드백 → AS-IS 갱신 → 반복 사이클]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현황 진단 없는 시스템 도입 — 요구 사항 불명확, 프로젝트 실패율 높음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AS-IS 분석 (현재 상태 모델링) — 업무 프로세스·데이터·시스템 현황 가시화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GAP 분석 (Gap Analysis) — AS-IS와 TO-BE 차이 식별, 우선순위 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TO-BE 모델링 (미래 상태 설계) — 개선 목표 프로세스·아키텍처 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전환 계획 (Transition Plan / Roadmap) — 단계별 이행 일정, 위험 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 개선 (Continuous Improvement) — 운영 피드백 → AS-IS 갱신 → 반복 사이클</div></div>
+</div>
+</div>
+
+
 이 흐름은 현황 분석 없이 추진되던 시스템 도입 실패 경험을 바탕으로 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)→GAP→TO-BE 체계가 정립되고, 이를 지속적 개선 사이클로 내재화하는 엔터프라이즈 변환 관리 방법론의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

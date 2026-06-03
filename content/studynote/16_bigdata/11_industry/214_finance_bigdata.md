@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 금융 빅데이터는 **신용·사기·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)·거래** 4대 영역에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 의사결정을 자동화"하는 핵심 인프라다.
+- 금융 빅데이터는 <strong>신용·사기·<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>·거래</strong> 4대 영역에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 의사결정을 자동화"하는 핵심 인프라다.
 - [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) (Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) System, 이상거래탐지시스템)는 실시간 스트리밍 + [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/)의 결합으로 사기 링을 밀리초 단위에 포착한다.
 - 알고트레이딩(Algorithmic Trading)은 틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 감성분석을 결합하여 인간보다 빠르게 시장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실행으로 연결한다.
 
@@ -38,38 +38,28 @@ tags = ["studynote-bigdata"]
 
 ### [FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/) (Fraud [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) System) 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     금융 빅데이터 아키텍처                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  거래 발생                                                        │
-│  (POS/앱/ATM)                                                    │
-│      │                                                           │
-│      ▼                                                           │
-│  ┌──────────┐    ┌─────────────────────────────────────────┐    │
-│  │  Kafka   │───▶│       Flink (실시간 스트리밍)             │    │
-│  │ (수집)   │    │  ┌──────────┐  ┌──────────────────────┐ │    │
-│  └──────────┘    │  │ 룰 엔진  │  │  ML 이상탐지 모델    │ │    │
-│                  │  │(임계 차단)│  │ (Isolation Forest / │ │    │
-│                  │  └──────────┘  │  GBM / LSTM)         │ │    │
-│                  │                └──────────────────────┘ │    │
-│                  └──────────────┬──────────────────────────┘    │
-│                                 │ 이상 신호                      │
-│                                 ▼                               │
-│                  ┌──────────────────────────┐                   │
-│                  │   그래프 DB (Neo4j)        │                   │
-│                  │  사기 링 (Fraud Ring) 탐지 │                   │
-│                  │  공유 계좌·기기·IP 분석    │                   │
-│                  └──────────────┬────────────┘                  │
-│                                 │                               │
-│                                 ▼                               │
-│                  ┌──────────────────────────┐                   │
-│                  │   거래 차단 / 알림 발송   │                   │
-│                  │   (< 200ms 응답 목표)     │                   │
-│                  └──────────────────────────┘                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금융 빅데이터 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(POS/앱/ATM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Flink (실시간 스트리밍)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">룰 엔진</div><div class="kb-diagram-cell">ML 이상탐지 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임계 차단)</div><div class="kb-diagram-cell">(Isolation Forest /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GBM / LSTM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 신호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프 DB (Neo4j)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사기 링 (Fraud Ring) 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 계좌·기기·IP 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 차단 / 알림 발송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(&lt; 200ms 응답 목표)</div></div>
+</div>
+</div>
+
+
 
 ### 대안 신용평가 (Alternative Credit Scoring)
 
@@ -82,36 +72,25 @@ tags = ["studynote-bigdata"]
 
 ### 알고트레이딩 (Algorithmic Trading) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   알고트레이딩 파이프라인                          │
-├─────────────────────────────────────────────────────────────────┤
-│  틱 데이터          뉴스/SNS              거시 지표              │
-│  (1ms 단위)         (Reuters/Bloomberg)   (금리/환율)            │
-│      │                    │                    │                 │
-│      └────────────────────┴────────────────────┘                │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   시그널 생성 엔진     │                         │
-│               │ - 기술적 지표 계산     │                         │
-│               │ - 감성 점수 산출       │                         │
-│               │ - 통계적 차익 포착     │                         │
-│               └───────────┬───────────┘                         │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   리스크 관리 레이어   │                         │
-│               │ VaR 한도 · 포지션 조정 │                         │
-│               └───────────┬───────────┘                         │
-│                           │                                      │
-│                           ▼                                      │
-│               ┌───────────────────────┐                         │
-│               │   주문 집행 (OMS)      │                         │
-│               │  거래소 직접 연결 (ns) │                         │
-│               └───────────────────────┘                         │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고트레이딩 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">틱 데이터 뉴스/SNS 거시 지표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1ms 단위) (Reuters/Bloomberg) (금리/환율)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시그널 생성 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술적 지표 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 감성 점수 산출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통계적 차익 포착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 관리 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VaR 한도 · 포지션 조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 집행 (OMS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래소 직접 연결 (ns)</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: FDS는 "은행 입구에 서 있는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경비원"이다. 얼굴(거래 패턴)을 보는 동시에, 그 경비원과 이전에 같이 다녔던 사람들([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 연결)까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -130,21 +109,23 @@ tags = ["studynote-bigdata"]
 
 ### 연관 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
-```
-규제 환경  ──── GDPR, 개인정보보호법, 금융소비자보호법
-      │
-      ▼
-데이터 수집 ─── Kafka (이벤트 스트리밍)
-      │
-      ▼
-처리 엔진  ─── Flink (실시간) / Spark (배치)
-      │
-      ▼
-모델 레이어 ── XGBoost (신용) / Isolation Forest (FDS)
-      │
-      ▼
-서빙      ─── REST API (신용) / 저지연 소켓 (FDS·거래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">규제 환경 GDPR, 개인정보보호법, 금융소비자보호법</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 수집 Kafka (이벤트 스트리밍)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">처리 엔진 Flink (실시간) / Spark (배치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모델 레이어 ── XGBoost (신용) / Isolation Forest (FDS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서빙 REST API (신용) / 저지연 소켓 (FDS·거래)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 신용평가는 "입사 지원서를 꼼꼼히 검토하는 인사팀", FDS는 "공항 실시간 보안검색대", 알고트레이딩은 "1000분의 1초 반응속도를 가진 단타 선수"다.
 
@@ -165,14 +146,14 @@ tags = ["studynote-bigdata"]
 | 사기 집단 탐지 | Neo4j [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB | 계좌 공유·기기 공유 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 분석 |
 | [모델 드리프트](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 대응 | [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 + 주기적 재학습 | 사기 패턴 진화 대응 |
 
-**핵심 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)**:
+<strong>핵심 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a></strong>:
 - 사기 탐지율 (TPR): > 95%
 - 오탐율 (FPR): < 0.1% (정상 거래 차단 최소화)
 - 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/): P99 < 200ms
 
 ### 기술사 관점의 판단 기준
 
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 대안 신용평가에서 특정 계층이 불리해지는 차별 방지 필요.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 편향 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 대안 신용평가에서 특정 계층이 불리해지는 차별 방지 필요.
 - **설명가능성 (Explainability)**: 신용 거절 시 고객에게 사유 설명 의무 → [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값 활용.
 - **규제 준수**: 신용정보법, 금융소비자보호법 상 자동화 결정에 대한 이의제기 권리 보장.
 
@@ -207,18 +188,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[FDS (이상거래탐지시스템)]
-    │
-    ▼
-[ACS (대안 신용평가)]
-    │
-    ▼
-[VaR (Value at Risk)]
-    │
-    ▼
-[알고트레이딩]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FDS (이상거래탐지시스템)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACS (대안 신용평가)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VaR (Value at Risk)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알고트레이딩</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

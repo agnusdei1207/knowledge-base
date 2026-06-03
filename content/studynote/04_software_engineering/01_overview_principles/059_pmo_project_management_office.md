@@ -31,17 +31,23 @@ PMO는 이런 편차를 줄이기 위해 등장했다. 표준 템플릿, 방법�
 
 PMO는 직접 개발하는 조직이 아니라, 프로젝트가 흔들리지 않게 기준을 세우고 도와주는 조직이다.
 
-```text
-경영 전략
-   ↓
-PMO
- ├─ 표준 템플릿
- ├─ 일정/리스크 관리
- ├─ 자원 배분
- └─ PM 교육/멘토링
-   ↓
-프로젝트 팀들
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경영 전략</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PMO</div>
+<div class="kb-diagram-tree-item" style="--depth:0">표준 템플릿</div>
+<div class="kb-diagram-tree-item" style="--depth:0">일정/리스크 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">자원 배분</div>
+<div class="kb-diagram-tree-item" style="--depth:0">PM 교육/멘토링</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프로젝트 팀들</div>
+</div>
+</div>
+
+
 
 | 기능 | 설명 |
 | :-- | :-- |
@@ -111,31 +117,43 @@ PMO가 잘 작동하면 프로젝트 성공률, 재사용성, 의사결정 속�
 
 ## 관련 개념 맵
 
-```text
-프로젝트 혼선
-   ↓
-PMO
-   ↓
-표준화 / 포트폴리오 / 리스크 관리
-   ↓
-프로젝트 성공률 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로젝트 혼선</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PMO</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표준화 / 포트폴리오 / 리스크 관리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">프로젝트 성공률 향상</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-개인 역량 의존
-   ↓
-공통 템플릿과 방법론
-   ↓
-포트폴리오 관리
-   ↓
-EPMO / 거버넌스 강화
-   ↓
-조직 학습과 재사용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개인 역량 의존</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">공통 템플릿과 방법론</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">포트폴리오 관리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">EPMO / 거버넌스 강화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">조직 학습과 재사용</div>
+</div>
+</div>
+
+
 
 ---
 

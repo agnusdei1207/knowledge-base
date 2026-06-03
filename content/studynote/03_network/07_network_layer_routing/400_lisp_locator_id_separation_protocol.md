@@ -21,21 +21,25 @@ tags = ["studynote-network"]
 
 - **개념**: IP 주소의 과부하된 의미(식별자와 위치 지정자)를 Endpoint [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)(EID)와 [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Locator(RLOC)로 분리하고, [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(캡슐화)을 통해 패킷을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 (RFC 6830).
 - **필요성**: 기존 인터넷([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))에서는 IP `211.1.1.10`이 두 가지 의미를 가졌다. (1) 나라는 놈 자체([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 맺는 주체). (2) KT망 강남구에 붙어있다는 위치 정보.
-  만약 내 서버를 통째로 들고 강원도 SKT 망으로 이사 가면? IP 주소가 `223.x.x.x`로 강제로 바뀌어야 한다(위치가 바뀌었으니). **IP가 바뀌면 기존에 맺고 있던 10만 개의 은행 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통신이 일제히 끊어진다.**
+  만약 내 서버를 통째로 들고 강원도 SKT 망으로 이사 가면? IP 주소가 `223.x.x.x`로 강제로 바뀌어야 한다(위치가 바뀌었으니). <strong>IP가 바뀌면 기존에 맺고 있던 10만 개의 은행 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통신이 일제히 끊어진다.</strong>
   "아니, 핸드폰 번호(ID)는 통신사(위치)를 바꿔도 번호 이동으로 그대로 쓰잖아? **인터넷 서버 IP도 장소를 옮겨도 안 바뀌는(고정된 ID) 체계로 뜯어고쳐 보자!**"
 
-- **💡 비유**: LISP는 **"주민번호(ID)와 이사 후 전입신고(Locator)"**의 분리와 완벽하게 똑같습니다.
+- **💡 비유**: LISP는 <strong>"주민번호(ID)와 이사 후 전입신고(Locator)"</strong>의 분리와 완벽하게 똑같습니다.
   - **기존 IP**: 당신의 이름표가 아예 "서울시-강남구-테헤란로-길동" 입니다. 부산으로 이사 가면 법원에 가서 이름을 "부산시-해운대구-우동-길동"으로 개명해야 합니다. 친구들이 날 못 찾습니다.
-  - **LISP 체계**: 내 이름표(EID)는 평생 안 바뀌는 "홍길동"입니다. 내가 부산으로 이사를 하면 동사무소(매핑 서버)에 전입신고만 합니다. 친구가 편지 봉투에 "홍길동(EID)"만 적어서 우체통에 넣으면, 우체국이 동사무소에 검색해 보고 **"아, 얘 지금 부산에 있네!"**라며 겉봉투에 "부산시 해운대구(RLOC)"라는 딱지를 하나 더 덮어씌워 배달해 줍니다.
+  - **LISP 체계**: 내 이름표(EID)는 평생 안 바뀌는 "홍길동"입니다. 내가 부산으로 이사를 하면 동사무소(매핑 서버)에 전입신고만 합니다. 친구가 편지 봉투에 "홍길동(EID)"만 적어서 우체통에 넣으면, 우체국이 동사무소에 검색해 보고 <strong>"아, 얘 지금 부산에 있네!"</strong>라며 겉봉투에 "부산시 해운대구(RLOC)"라는 딱지를 하나 더 덮어씌워 배달해 줍니다.
 
-```text
-[Anycast 라우팅 (BGP Anycast]
-    │
-    ▼
-[로케이터/ID 분리 구조 (LISP]
-    │
-    └──▶ [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로케이터/ID 분리 구조 (LISP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** LISP는 철저한 **"대포차([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 변장술"**입니다. 자동차의 원래 엔진에 새겨진 차대번호(EID)는 평생 안 바뀝니다. 하지만 톨게이트를 무사통과하기 위해, 그때그때 내가 속한 도로 관할 구역에 맞는 가짜 렌터카 번호판(RLOC)을 범퍼 겉에 달고 주행하는 기술입니다.
 
@@ -51,7 +55,7 @@ tags = ["studynote-network"]
 ### 2. LISP의 편지 배달 3단계 (ITR, ETR, Map-Server)
 가장 중요한 컴포넌트들의 역할이다. (결국 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)과 똑같은 구조다).
 
-1. **ITR ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Tunnel Router, 입구 톨게이트)**:
+1. <strong>ITR (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Tunnel Router, 입구 톨게이트)</strong>:
    - 내 회사 앞단 방화벽이다. 
    - 사내 서버가 `목적지 EID = 10.2.2.2(부산 지사)`로 편지를 쏜다.
    - ITR이 잡는다. "어? 이건 EID네? 이대로 인터넷(RLOC 망)에 쏘면 버려지는데? 얘 진짜 위치(RLOC)가 어디야?"
@@ -61,29 +65,27 @@ tags = ["studynote-network"]
 3. **캡슐화 및 ETR (출구 톨게이트) 전송**:
    - ITR은 패킷 겉면에 `[출발지 RLOC: 211.x, 목적지 RLOC: 222.x]` 라는 바깥 포장지([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4341 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사용)를 씌워서 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 냅다 쏜다.
    - 겉 포장지만 보고 부산에 도착한다.
-   - 출구 톨게이트인 **ETR([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Tunnel Router)**이 패킷을 받아 겉포장지(RLOC)를 좍 찢어버린다.
+   - 출구 톨게이트인 <strong>ETR(<a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> Tunnel Router)</strong>이 패킷을 받아 겉포장지(RLOC)를 좍 찢어버린다.
    - 속에 있던 뽀송뽀송한 진짜 편지 `[목적지 EID = 10.2.2.2]`를 부산 지사 서버로 쓱 넣어준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                LISP에 의한 완벽한 가상 머신 이동(VMotion) 도식      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 어제: 서울 KT망 (RLOC 1.1.1.1) ]                          │
- │      서버 VM (EID: 10.10.10.10) 가 구동 중!                    │
- │                                                             │
- │   * LISP Map-Server 장부: "10.10.10.10 ──▶ RLOC 1.1.1.1 로 배달해라"│
- │                                                             │
- │   [ 오늘 새벽: 부산 SKT망 (RLOC 2.2.2.2) 로 라이브 마이그레이션(이사) 됨! ]│
- │      서버 VM (EID: 10.10.10.10) 가 전원 안 꺼지고 부산으로 이동!      │
- │                                                             │
- │   * 이사 완료 즉시 서버가 Map-Server에 "전입신고"를 때림.             │
- │   * LISP Map-Server 장부 갱신: "10.10.10.10 ──▶ RLOC 2.2.2.2 로 줘!"│
- │                                                             │
- │   ▶ 결과: 클라이언트(PC)들은 서버 IP가 10.10.10.10 그대로인 줄 알고 계속 │
- │           통신을 던지며(단절 없음), 중간 인터넷 포장지(RLOC)만 알아서 바뀜! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LISP에 의한 완벽한 가상 머신 이동(VMotion) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">어제: 서울 KT망 (RLOC 1.1.1.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 VM (EID: 10.10.10.10) 가 구동 중!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LISP Map-Server 장부: "10.10.10.10 ──▶ RLOC 1.1.1.1 로 배달해라"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오늘 새벽: 부산 SKT망 (RLOC 2.2.2.2) 로 라이브 마이그레이션(이사) 됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 VM (EID: 10.10.10.10) 가 전원 안 꺼지고 부산으로 이동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이사 완료 즉시 서버가 Map-Server에 "전입신고"를 때림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LISP Map-Server 장부 갱신: "10.10.10.10 ──▶ RLOC 2.2.2.2 로 줘!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 클라이언트(PC)들은 서버 IP가 10.10.10.10 그대로인 줄 알고 계속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신을 던지며(단절 없음), 중간 인터넷 포장지(RLOC)만 알아서 바뀜!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** LISP는 핸드폰의 **"010 번호 이동(Mobile IP)"** 기술을 인터넷 서버망(클라우드)에 그대로 이식한 것입니다. 통신사(SKT->KT, RLOC 변화)를 마음대로 바꿔도 내 010 번호(EID)는 평생 죽을 때까지 바뀌지 않게 보장하여 완벽한 통신 연속성을 선물합니다.
 
@@ -141,15 +143,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Anycast 라우팅 (BGP Anycast]
-    │
-    ▼
-[현재 개념: 로케이터/ID 분리 구조 (LISP]
-    │
-    ├──▶ [확장 A: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Anycast 라우팅 (BGP Anycast</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로케이터/ID 분리 구조 (LISP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 로케이터/ID 분리 구조 (LISP는 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast에서 출발해 현재 메커니즘을 정교화하고, 이후 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -42,23 +42,23 @@ OOM은 단순히 “메모리가 가득 찼다”는 숫자 하나로 발생하�
 
 아래 그림은 OOM 발생 경로를 단계별로 요약한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    memory allocation failure path                         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ alloc request                                                             │
-│      │                                                                     │
-│      ├── reclaim page cache / shrink slabs                                │
-│      ├── compact memory / swap out pages                                  │
-│      └── still cannot satisfy request                                     │
-│              ▼                                                            │
-│      OOM context decided                                                  │
-│      ├── global OOM  : system-wide victim selection                       │
-│      └── memcg OOM   : action inside one memory cgroup                    │
-│              ▼                                                            │
-│ badness heuristic + oom_score_adj  ──▶  SIGKILL  ──▶  memory released │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory allocation failure path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alloc request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── reclaim page cache / shrink slabs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── compact memory / swap out pages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── still cannot satisfy request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM context decided</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── global OOM : system-wide victim selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── memcg OOM : action inside one memory cgroup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">badness heuristic + oom_score_adj ──▶ SIGKILL ──▶ memory released</div></div>
+</div>
+</div>
+
+
 
 희생자 선정에는 메모리 사용량, 프로세스 특성, `oom_score_adj` 값 등이 반영된다. 사용자 공간에서는 `/proc/<pid>/oom_score`로 현재 위험도를 확인할 수 있고, `/proc/<pid>/oom_score_adj`로 중요도를 조정할 수 있다. 여기서 `-1000`은 사실상 면제에 가깝고, `+1000`은 가장 먼저 종료될 가능성을 크게 높인다.
 
@@ -68,7 +68,7 @@ OOM은 단순히 “메모리가 가득 찼다”는 숫자 하나로 발생하�
 
 ## Ⅲ. 비교 및 연결
 
-OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 이해할 때 가장 중요한 경계는 **전역 OOM**과 **메모리 cgroup OOM**의 차이다.
+OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 이해할 때 가장 중요한 경계는 <strong>전역 OOM</strong>과 <strong>메모리 cgroup OOM</strong>의 차이다.
 
 | 구분 | 전역 OOM | 메모리 cgroup OOM |
 | :--- | :--- | :--- |
@@ -77,7 +77,7 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 | 운영 의미 | 노드 생존 자체가 위협받는 상태 | 격리된 워크로드만 정리 가능 |
 | 주 사용 환경 | 일반 서버, 심각한 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 환경 |
 
-또한 `oom_score`와 `oom_score_adj`도 역할이 다르다. `oom_score`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 계산한 현재 위험도이고, `oom_score_adj`는 관리자가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 중요도를 가감하는 손잡이다. 여기에 PSI (Pressure Stall Information), `systemd-oomd`, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 클래스까지 연결되면, 현대 운영체제의 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 단순 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능을 넘어 **예방형 제어**로 확장된다.
+또한 `oom_score`와 `oom_score_adj`도 역할이 다르다. `oom_score`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 계산한 현재 위험도이고, `oom_score_adj`는 관리자가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 중요도를 가감하는 손잡이다. 여기에 PSI (Pressure Stall Information), `systemd-oomd`, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 클래스까지 연결되면, 현대 운영체제의 메모리 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 단순 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능을 넘어 <strong>예방형 제어</strong>로 확장된다.
 
 즉 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) OOM Killer는 마지막 단계이고, 실제 운영 품질은 그 이전에 cgroup 제한, 애플리케이션 메모리 상한, 재시작 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 관측성 체계를 얼마나 잘 갖췄는지에 달려 있다.
 
@@ -91,10 +91,10 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: sshd, systemd, [kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소는 낮은 OOM 점수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 부여했는가?
+1. <strong>핵심 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: sshd, systemd, [kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/), 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소는 낮은 OOM 점수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 부여했는가?
 2. **워크로드 격리**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 메모리 상한과 cgroup 제한이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되어 있는가?
 3. **사전 탐지**: PSI, RSS (Resident Set Size), [page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/), swap in/out을 모니터링하고 있는가?
-4. **사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)**: 종료된 프로세스를 자동 재시작하고 원인을 추적할 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·알림 체계가 있는가?
+4. <strong>사후 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>: 종료된 프로세스를 자동 재시작하고 원인을 추적할 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·알림 체계가 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -108,9 +108,9 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 ## Ⅴ. 기대효과 및 결론
 
-잘 설계된 OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 장애를 완전히 없애 주지 않지만, 장애의 **폭발 반경**을 크게 줄여 준다. 즉 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)나 순간 폭주가 발생해도 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 노드 전체를 지키고, 피해를 특정 프로세스나 특정 cgroup 안에 가두는 효과가 있다. 반대로 OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 용량만 늘리면 비용은 커지는데 장애 양상은 여전히 예측하기 어렵다.
+잘 설계된 OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 장애를 완전히 없애 주지 않지만, 장애의 <strong>폭발 반경</strong>을 크게 줄여 준다. 즉 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)나 순간 폭주가 발생해도 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 노드 전체를 지키고, 피해를 특정 프로세스나 특정 cgroup 안에 가두는 효과가 있다. 반대로 OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 용량만 늘리면 비용은 커지는데 장애 양상은 여전히 예측하기 어렵다.
 
-다만 OOM Killer는 어디까지나 최후 수단이다. 장기적으로는 메모리 사용량 예측, 상한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), `systemd-oomd` 같은 사용자 공간 조정자, 그리고 애플리케이션 수준의 누수 제거가 함께 가야 한다. 결국 OOM은 “죽이는 기능”이 아니라 **시스템이 끝까지 살아남도록 손실을 통제하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 이해해야 한다.
+다만 OOM Killer는 어디까지나 최후 수단이다. 장기적으로는 메모리 사용량 예측, 상한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), `systemd-oomd` 같은 사용자 공간 조정자, 그리고 애플리케이션 수준의 누수 제거가 함께 가야 한다. 결국 OOM은 “죽이는 기능”이 아니라 <strong>시스템이 끝까지 살아남도록 손실을 통제하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 자동차의 에어백과 같다. 에어백은 사고를 없애 주지 않지만, 충돌이 일어났을 때 사람이 치명상을 입지 않도록 피해를 줄여 준다.
 
@@ -129,21 +129,23 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 압박
-    │
-    ▼
-페이지 회수 · 스왑 · 압축
-    │
-    ▼
-전역 OOM / 메모리 cgroup OOM
-    │
-    ▼
-oom_score · oom_score_adj
-    │
-    ▼
-SIGKILL · 자동 재시작 · PSI 기반 선제 대응
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 압박</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 회수 · 스왑 · 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전역 OOM / 메모리 cgroup OOM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">oom_score · oom_score_adj</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIGKILL · 자동 재시작 · PSI 기반 선제 대응</div>
+</div>
+</div>
+
+
 
 이 흐름은 OOM이 단발성 종료 이벤트가 아니라, 메모리 압박 감지에서 격리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·예방으로 이어지는 운영 체계임을 보여준다.
 

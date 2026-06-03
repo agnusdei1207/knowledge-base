@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 인터넷은 구름에 있는 게 아닙니다. 한국에서 접속한 아마존 미국 서버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 태평양 바닥에 깔린 이 해저 광케이블(Backbone)의 코어 망을 통해 들어옵니다. (한국은 부산 송정, 거제도, 충남에 세계망과 연결되는 육양국 케이블 랜딩 스테이션이 있습니다.)
-- **용량의 마법**: 구리선([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))이 아니라 81번 문서에서 배운 **DWDM(고밀도 파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))** 기술을 적용한 무지개 빛깔의 광섬유입니다. 케이블 한 가닥이 **100~200 Tbps(테라비트)**의 트래픽을 처리하여 국가 전체의 인터넷을 책임집니다.
+- **용량의 마법**: 구리선([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))이 아니라 81번 문서에서 배운 <strong>DWDM(고밀도 파장 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>)</strong> 기술을 적용한 무지개 빛깔의 광섬유입니다. 케이블 한 가닥이 <strong>100~200 Tbps(테라비트)</strong>의 트래픽을 처리하여 국가 전체의 인터넷을 책임집니다.
 
-```text
-[광통신 네트워크 이더넷]
-    │
-    ▼
-[해저 광케이블 아키텍처]
-    │
-    └──▶ [ASON (Automatically Swit…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해저 광케이블 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해저 광케이블 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,16 +51,20 @@ tags = ["studynote-network"]
 
 ### 2. 고전압 전력 공급 장치 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Feed Equipment, PFE)
 - 바닷속에 줄줄이 달린 수백 개의 저 증폭기(EDFA) 기계 덩어리들도 결국 전기를 먹어야 레이저 불빛을 증폭시킵니다. 바다 밑에는 콘센트가 없죠.
-- 그래서 한국 육지 끝(육양국)에서 **1만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000V)**가 넘는 엄청난 직류 고압 전기를, 빛이 통과하는 광섬유 겉면을 싼 구리 튜브관(케이블 외피)을 통해 태평양 건너 미국까지 통째로 쏴줍니다. 이 전기로 중간에 있는 증폭기들이 살아 숨 쉽니다.
+- 그래서 한국 육지 끝(육양국)에서 <strong>1만 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/">볼트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000V)</strong>가 넘는 엄청난 직류 고압 전기를, 빛이 통과하는 광섬유 겉면을 싼 구리 튜브관(케이블 외피)을 통해 태평양 건너 미국까지 통째로 쏴줍니다. 이 전기로 중간에 있는 증폭기들이 살아 숨 쉽니다.
 
-```text
-[광통신 네트워크 이더넷]
-    │
-    ▼
-[해저 광케이블 아키텍처]
-    │
-    └──▶ [ASON (Automatically Swit…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해저 광케이블 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해저 광케이블 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 해저 광케이블 통신망은 태평양 밑바닥을 가로지르는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km짜리 '어두운 파이프라인 속의 손전등 달리기'입니다. 한국에서 미국으로 손전등 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 강하게 쏘면, 100km쯤 가다가 불빛이 흐릿해져 죽어갑니다. **광 증폭기(EDFA 중계기)**는 100km 구간마다 서 있는 '마법의 볼록 렌즈맨'입니다. 불빛이 꺼질락 말락 할 때쯤 이 렌즈맨이 거대한 돋보기를 들이대면, 어떤 복잡한 건전지 조작(전기 변환)도 없이 닿자마자 빛이 100배로 펑! 하고 눈부시게 폭발하며(무변환 광증폭) 다음 100km를 단숨에 날아갑니다. 육지(육양국) 발전소가 렌즈맨들에게 1만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 밥줄(전기)을 계속 대주며, 전 세계를 하나로 묶는 인류 최고의 빛의 릴레이 시스템입니다.
+- **📢 섹션 요약 비유**: 해저 광케이블 통신망은 태평양 밑바닥을 가로지르는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km짜리 '어두운 파이프라인 속의 손전등 달리기'입니다. 한국에서 미국으로 손전등 불빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 강하게 쏘면, 100km쯤 가다가 불빛이 흐릿해져 죽어갑니다. <strong>광 증폭기(EDFA 중계기)</strong>는 100km 구간마다 서 있는 '마법의 볼록 렌즈맨'입니다. 불빛이 꺼질락 말락 할 때쯤 이 렌즈맨이 거대한 돋보기를 들이대면, 어떤 복잡한 건전지 조작(전기 변환)도 없이 닿자마자 빛이 100배로 펑! 하고 눈부시게 폭발하며(무변환 광증폭) 다음 100km를 단숨에 날아갑니다. 육지(육양국) 발전소가 렌즈맨들에게 1만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 밥줄(전기)을 계속 대주며, 전 세계를 하나로 묶는 인류 최고의 빛의 릴레이 시스템입니다.
 
 ---
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 광통신 네트워크 이더넷]
-    │
-    ▼
-[현재 개념: 해저 광케이블 아키텍처]
-    │
-    ├──▶ [확장 A: ASON (Automatically Swit…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해저 광케이블 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ASON (Automatically Swit…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 해저 광케이블 아키텍처는 [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ASON](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/892_ason_automatically_switched_optical_network_gmpls/) (Automatically Swit…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

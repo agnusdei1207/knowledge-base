@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 BDD의 Given-When-Then의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  BDD의 Given-When-Then                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BDD의 Given-When-Then</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 BDD의 Given-When-Then가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -81,8 +80,8 @@ Feature: 장바구니 결제 (최상위 기능 명세)
 
 | 구분 | 설명 |
 |:---|:---|
-| **명확한 소통 (Living [Documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/))** | 기획자가 쓴 요구사항 자체가 살아있는 문서가 됩니다. "버튼 누르면 안 넘어감" 같은 모호한 표현이 GWT 문법을 통해 명확한 인과관계로 정리됩니다. |
-| **자동화 테스트 연동** | Cucumber(큐컴버)나 짓(JBehave) 같은 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 도구를 사용하면, **저 한글(또는 영어)로 적힌 텍스트 파일을 읽어 들여서 실제 코드로 자동 변환하여 테스트를 수행**해 줍니다! |
+| <strong>명확한 소통 (Living <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/">Documentation</a>)</strong> | 기획자가 쓴 요구사항 자체가 살아있는 문서가 됩니다. "버튼 누르면 안 넘어감" 같은 모호한 표현이 GWT 문법을 통해 명확한 인과관계로 정리됩니다. |
+| **자동화 테스트 연동** | Cucumber(큐컴버)나 짓(JBehave) 같은 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 도구를 사용하면, <strong>저 한글(또는 영어)로 적힌 텍스트 파일을 읽어 들여서 실제 코드로 자동 변환하여 테스트를 수행</strong>해 줍니다! |
 | **엣지 케이스 도출** | "만약 계좌 정지 상태라면?(Given)", "결제 중에 뒤로 가기를 누르면?(When)" 등 다양한 예외 시나리오를 퍼즐 맞추듯 쉽게 찾아낼 수 있습니다. |
 
 - **📢 섹션 요약 비유**: BDD의 Given-When-Then 문법을 이용한 명세은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -91,8 +90,8 @@ Feature: 장바구니 결제 (최상위 기능 명세)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) (개발자 중심)**: "함수 `add(1, 2)`를 넣으면 `3`이 리턴되는가?" (단위 로직 중심, 코드로 작성)
-- **[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) (비즈니스 중심)**: "고객이 상품 1개와 2개를 담으면 장바구니에 3개가 보이는가?" (사용자 행위 중심, 자연어로 작성)
+- <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> (개발자 중심)</strong>: "함수 `add(1, 2)`를 넣으면 `3`이 리턴되는가?" (단위 로직 중심, 코드로 작성)
+- <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a> (비즈니스 중심)</strong>: "고객이 상품 1개와 2개를 담으면 장바구니에 3개가 보이는가?" (사용자 행위 중심, 자연어로 작성)
 
 > 📢 **섹션 요약 비유**: 보험 약관을 변호사(개발자)만 아는 어려운 법률 용어(코드)로 쓰는 것이 아니라, "고객이 병원에 입원한 상태에서(Given), 수술을 받으면(When), 수술비 전액을 보장받는다(Then)"라고 초등학생도 알아듣게 쓴 쉬운 약관입니다. 이 약관(문서) 자체가 재판(테스트)에서 100% 증거로 인정되는 완벽한 시스템입니다.
 
@@ -131,21 +130,23 @@ BDD의 Given-When-Then 문법을 이용한 명세은 '어떻게 빠르게 짜는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-BDD의 Given-When-Then 문법을 이용한 명세 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BDD의 Given-When-Then 문법을 이용한 명세 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

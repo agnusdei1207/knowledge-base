@@ -31,17 +31,19 @@ tags = ["studynote-ai"]
 
 CNN은 크게 특징 추출(Feature Extraction) 영역과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 영역으로 나뉜다. 특징 추출은 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)([Convolution Layer](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/))과 [풀링 층](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))의 반복으로 이루어지며, 최종 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/)(Fully Connected Layer)이 담당한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CNN 파이프라인: 훑어보기와 압축의 반복           │
-├──────────────────────────────────────────────────────────────┤
-│ [Input Image] ─▶ [Convolution Layer] ─▶ [Pooling Layer]    │
-│  2차원 배열      (특징 추출/필터 적용)  (공간 차원 축소) │
-│                                                              │
-│  ─▶ [Convolution] ─▶ [Pooling] ─▶ [Flatten] ─▶ [FC Layer] │
-│      (고차원 특징)    (추가 압축)   (1차원 변환)  (최종 분류)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNN 파이프라인: 훑어보기와 압축의 반복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input Image</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Convolution Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pooling Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2차원 배열 (특징 추출/필터 적용) (공간 차원 축소)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Convolution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pooling</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Flatten</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FC Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고차원 특징) (추가 압축) (1차원 변환) (최종 분류)</div></div>
+</div>
+</div>
+
+
 
 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 슬라이딩 윈도우(Sliding Window) 방식으로 필터를 이동시키며 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 내적([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)하여 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 단위로 서브샘플링(Subsampling)을 수행하여 특징 맵의 해상도를 낮추고 핵심 정보만 유지한다. 이때 채택된 필터 하나는 전체 이미지 영역에서 동일하게 재사용(Parameter Sharing)되므로 학습 파라미터를 크게 줄인다.
 
@@ -56,7 +58,7 @@ CNN은 크게 특징 추출(Feature Extraction) 영역과 [분류](/knowledge-ba
 | 항목 | [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) | [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) |
 | :--- | :--- | :--- |
 | **입력 형태** | 1차원 벡터 (공간 정보 소실) | 다차원 텐서 (공간 정보 보존) |
-| **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 연결** | 전역적 (Fully Connected) | 국소적 (Local Connectivity) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 연결</strong> | 전역적 (Fully Connected) | 국소적 (Local Connectivity) |
 | **파라미터 수** | 노드 수에 비례하여 기하급수적 증가 | 파라미터 공유로 극히 적음 |
 | **주요 강점** | 범용적인 패턴 학습 가능 | 이미지 및 패턴 인식, 공간 위치 불변성 |
 
@@ -72,8 +74,8 @@ CNN은 크게 특징 추출(Feature Extraction) 영역과 [분류](/knowledge-ba
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **필터 크기와 깊이**: 필터 크기([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Size)가 크면 넓은 영역을 보지만 연산량이 급증한다. 최근에는 $3 \times 3$ 크기의 작은 필터를 깊게 쌓아(VGGNet 방식) 비선형성을 높이고 연산량을 줄이는 것이 권장된다.
-2. **과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 방지**: 파라미터가 적다 해도 층이 깊어지면 과적합이 발생한다. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 적용이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation) 기법을 필수로 병행해야 한다.
-3. **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)) 검토**: 바닥부터 훈련하는 것은 비용이 낭비다. 이미 ImageNet 등으로 사전 학습된(Pre-trained) [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet 등의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 가져와 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 최우선으로 판단한다.
+2. <strong>과적합(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>) 방지</strong>: 파라미터가 적다 해도 층이 깊어지면 과적합이 발생한다. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 적용이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation) 기법을 필수로 병행해야 한다.
+3. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>) 검토</strong>: 바닥부터 훈련하는 것은 비용이 낭비다. 이미 ImageNet 등으로 사전 학습된(Pre-trained) [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet 등의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 가져와 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 최우선으로 판단한다.
 
 - **📢 섹션 요약 비유**: 기성복 수트를 살 때 처음부터 실을 짜서 원단을 만들지 않고(Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) 회피), 이미 잘 만들어진 명품 수트를 가져와 소매와 기장만 내 몸에 맞게 수선([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))해서 입는 것이 실무적 효율이다.
 
@@ -93,28 +95,30 @@ CNN은 이미지 처리에서 압도적인 연산 효율성과 높은 인식 정
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))** | 연산량을 줄이고 특징의 위치 이동에 대한 내성을 부여하는 서브샘플링 |
-| **[스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))** | 필터가 한 번에 이동하는 간격으로, 보폭이 클수록 출력 크기가 작아짐 |
-| **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))** | 가장자리 정보 손실을 막기 위해 이미지 테두리에 0을 덧대는 기법 |
-| **[완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) ([FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/))** | 추출된 특징 맵을 1차원으로 펴서 최종 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산하는 마지막 층 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>)</strong> | 연산량을 줄이고 특징의 위치 이동에 대한 내성을 부여하는 서브샘플링 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>)</strong> | 필터가 한 번에 이동하는 간격으로, 보폭이 클수록 출력 크기가 작아짐 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 가장자리 정보 손실을 막기 위해 이미지 테두리에 0을 덧대는 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/">완전 연결 층</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/">FC Layer</a>)</strong> | 추출된 특징 맵을 1차원으로 펴서 최종 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산하는 마지막 층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 이미지 인식 (Hand-crafted Feature)
-    │
-    ▼
-다층 퍼셉트론 (MLP) · 1차원 평탄화의 한계
-    │
-    ▼
-합성곱 신경망 (CNN) · 공간 정보 보존 및 파라미터 공유
-    │
-    ▼
-심층 합성곱망 (ResNet, VGGNet) · 기울기 소실 극복
-    │
-    ▼
-객체 탐지 및 분할 (YOLO, Mask R-CNN)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 이미지 인식 (Hand-crafted Feature)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다층 퍼셉트론 (MLP) · 1차원 평탄화의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">합성곱 신경망 (CNN) · 공간 정보 보존 및 파라미터 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">심층 합성곱망 (ResNet, VGGNet) · 기울기 소실 극복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 탐지 및 분할 (YOLO, Mask R-CNN)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 사람이 직접 특징을 찾던 시대에서, 인공신경망이 공간 구조를 이해하는 CNN으로 진화하고, 이를 바탕으로 더 깊고 정밀한 시각 지능 시스템으로 발전하는 과정을 보여준다.
 

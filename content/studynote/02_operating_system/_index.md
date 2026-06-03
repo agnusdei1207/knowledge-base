@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-**운영체제(OS)**는 컴퓨터 자원을 지배하고 분배하는 절대 권력의 통제자(Arbitrator)다. 하드웨어의 복잡성은 인간이 직접 제어하기에 불가능한 영역(Entropy)에 도달했으나, OS는 이를 프로세스(Process), 주소 공간(Address Space), 파일(File)이라는 단순하고 우아한 논리적 객체로 치환하여 개발자에게 구원의 추상화를 제공한다.
+<strong>운영체제(OS)</strong>는 컴퓨터 자원을 지배하고 분배하는 절대 권력의 통제자(Arbitrator)다. 하드웨어의 복잡성은 인간이 직접 제어하기에 불가능한 영역(Entropy)에 도달했으나, OS는 이를 프로세스(Process), 주소 공간(Address Space), 파일(File)이라는 단순하고 우아한 논리적 객체로 치환하여 개발자에게 구원의 추상화를 제공한다.
 초기 일괄 처리 시스템(Batch System)의 치명적인 CPU 유휴 시간(I/O Bound 병목)을 타파하기 위해 '다중 프로그래밍(Multiprogramming)'이 탄생했으며, 인간의 실시간 개입을 요구하는 비즈니스 환경은 '시분할(Time-sharing)' 아키텍처를 강제했다. 오늘날의 운영체제는 단일 하드웨어를 넘어, 네트워크로 묶인 거대한 분산 자원을 단일 논리 노드로 관리하는 클라우드 하이퍼바이저(Hypervisor) 및 분산 OS 체계로 진화하며 컴퓨팅 역사의 패러다임을 견인하고 있다.
 
 ---
@@ -40,33 +40,28 @@ tags = ["studynote-operating-system"]
 
 #### 2. OS 커널 아키텍처 및 시스템 콜 흐름 (ASCII)
 #### 2. OS Kernel Architecture & System Call Flow (ASCII)
-```text
-    [ Linux Kernel Architecture & User/Kernel Transition ]
-    [ 리눅스 커널 아키텍처 및 유저/커널 모드 전환 ]
-    
-    (유저 공간 / User Space - Ring 3)
-    +-------------------------------------------------------+
-    |  App 1 (Node.js)  |  App 2 (Python)  |  App 3 (Bash)  |
-    +-------------------+------------------+----------------+
-    |           표준 C 라이브러리 / Standard C Library      |
-    +-------------------------------------------------------+
-           | (소프트웨어 인터럽트 / Software Interrupt: int 0x80 / syscall)
-    =======|======================================================
-    (커널 공간 / Kernel Space - Ring 0) Trap!
-           v
-    +-------------------------------------------------------+
-    |           시스템 콜 인터페이스 / System Call Interface|
-    +-----------+----------------+---------------+----------+
-    | 프로세스  | 메모리 관리    | 가상 파일     | 네트워크 |
-    | 스케줄러  | (Memory)       | 시스템 (VFS)  | 스택     |
-    +-----------+----------------+---------------+----------+
-    |            장치 드라이버 / Device Drivers (Block, Char) |
-    +-------------------------------------------------------+
-    ==============================================================
-    (하드웨어 / Hardware)
-    |    CPU    |     RAM (MMU)    |   NVMe SSD  |   NIC    |
-    +-------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Linux Kernel Architecture &amp; User/Kernel Transition</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 아키텍처 및 유저/커널 모드 전환</div></div>
+<div class="kb-diagram-note">(유저 공간 / User Space - Ring 3)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App 1 (Node.js)</div><div class="kb-diagram-cell">App 2 (Python)</div><div class="kb-diagram-cell">App 3 (Bash)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 C 라이브러리 / Standard C Library</div></div>
+<div class="kb-diagram-note">(소프트웨어 인터럽트 / Software Interrupt: int 0x80 / syscall)</div>
+<div class="kb-diagram-note">(커널 공간 / Kernel Space - Ring 0) Trap!</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 인터페이스 / System Call Interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스</div><div class="kb-diagram-cell">메모리 관리</div><div class="kb-diagram-cell">가상 파일</div><div class="kb-diagram-cell">네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">(Memory)</div><div class="kb-diagram-cell">시스템 (VFS)</div><div class="kb-diagram-cell">스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 드라이버 / Device Drivers (Block, Char)</div></div>
+<div class="kb-diagram-note">(하드웨어 / Hardware)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">RAM (MMU)</div><div class="kb-diagram-cell">NVMe SSD</div><div class="kb-diagram-cell">NIC</div></div>
+</div>
+</div>
+
+
 
 #### 3. 핵심 알고리즘 메커니즘 (가상 메모리 요구 페이징)
 ① **주소 발생**: CPU가 가상 주소(VA)를 발생시킴.
@@ -101,7 +96,7 @@ tags = ["studynote-operating-system"]
 
 **시나리오 1: 대규모 분산 마이크로서비스(MSA)의 데드락(Deadlock) 타파**
 - **문제 상황**: 여러 서비스가 결제 락(Lock)과 재고 락(Lock)을 서로 쥐고 순환 대기(Circular Wait) 상태에 빠져, 전체 클러스터가 OOM(Out of Memory)으로 연쇄 다운되는 현상 발생.
-- **기술사적 결단**: OS의 교착 상태 회피 알고리즘(Banker's Algorithm)은 실시간 웹 서비스에서 오버헤드가 커 적용이 불가하다. 대신, 분산 트랜잭션 환경에서 **Timeout 기반의 강제 선점(Preemption)**과 **재시도(Exponential Backoff)** 로직을 구현하고, DB 접근 순서를 정규화(Ordered Locking)하여 순환 대기 조건 자체를 원천 구조적으로 파단한다.
+- **기술사적 결단**: OS의 교착 상태 회피 알고리즘(Banker's Algorithm)은 실시간 웹 서비스에서 오버헤드가 커 적용이 불가하다. 대신, 분산 트랜잭션 환경에서 <strong>Timeout 기반의 강제 선점(Preemption)</strong>과 **재시도(Exponential Backoff)** 로직을 구현하고, DB 접근 순서를 정규화(Ordered Locking)하여 순환 대기 조건 자체를 원천 구조적으로 파단한다.
 
 **시나리오 2: 초고속 I/O 패킷 처리를 위한 커널 우회(Kernel Bypass)**
 - **문제 상황**: 5G 통신망의 코어 장비에서 리눅스 커널의 네트워크 스택(Interrupt $\rightarrow$ Socket Buffer 복사)을 거치는 과정의 Context Switch 지연이 한계에 봉착.
@@ -122,7 +117,7 @@ tags = ["studynote-operating-system"]
 | **AIO (비동기 I/O)** | NodeJS, Nginx 웹 서버 | 동시 접속자 수(C10K 문제) 한계 돌파, Throughput 극대화 |
 
 **미래 전망 및 진화 방향**:
-전통적인 운영체제의 경계는 사라지고 있다. 단일 노드의 OS를 넘어, 수만 대의 물리 서버를 하나의 논리적 자원으로 추상화하는 **쿠버네티스(Kubernetes)**가 사실상의 '클라우드 분산 운영체제(Cloud Data Center OS)'로 군림하고 있다. 또한 런타임에 커널을 동적으로 프로그래밍할 수 있는 **eBPF(Extended Berkeley Packet Filter)** 기술은 커널의 수정 없이도 보안과 관측성(Observability)의 혁명을 일으키고 있다.
+전통적인 운영체제의 경계는 사라지고 있다. 단일 노드의 OS를 넘어, 수만 대의 물리 서버를 하나의 논리적 자원으로 추상화하는 <strong>쿠버네티스(Kubernetes)</strong>가 사실상의 '클라우드 분산 운영체제(Cloud Data Center OS)'로 군림하고 있다. 또한 런타임에 커널을 동적으로 프로그래밍할 수 있는 **eBPF(Extended Berkeley Packet Filter)** 기술은 커널의 수정 없이도 보안과 관측성(Observability)의 혁명을 일으키고 있다.
 
 **※ 참고 표준/가이드**:
 - POSIX (IEEE 1003): 유닉스/리눅스 계열 운영체제의 API 표준 규격.
@@ -140,6 +135,6 @@ tags = ["studynote-operating-system"]
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 운영체제는 수만 명의 직원이 일하는 거대한 공장의 **'슈퍼 인공지능 공장장'**이에요.
+1. 운영체제는 수만 명의 직원이 일하는 거대한 공장의 <strong>'슈퍼 인공지능 공장장'</strong>이에요.
 2. 어떤 직원이 어떤 기계를 먼저 쓸지(스케줄링), 누가 어느 창고를 쓸지(메모리 관리)를 빛보다 빠른 속도로 아주 공평하게 정해준답니다.
 3. 이 공장장 덕분에 우리는 음악을 들으면서, 숙제도 하고, 게임도 동시에 끊기지 않고 재미있게 할 수 있는 거예요!

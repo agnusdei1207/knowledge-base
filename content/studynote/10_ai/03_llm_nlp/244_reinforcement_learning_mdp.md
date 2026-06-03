@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL, [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며 보상(Reward)을 최대화하는 **행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 학습**하는 패러다임이다.
+> 1. **본질**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)(RL, [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))은 에이전트(Agent)가 환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))과 상호작용하며 보상(Reward)을 최대화하는 <strong>행동 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)을 스스로 학습</strong>하는 패러다임이다.
 > 2. **가치**: 정답 레이블 없이도 시행착오를 통해 복잡한 순차 의사결정 문제(게임, 로봇 제어, 자율주행)를 해결할 수 있다.
 > 3. **판단 포인트**: [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/), [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/))는 RL의 수학적 토대이며, [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 균형이 학습 수렴의 핵심이다.
 
@@ -32,20 +32,23 @@ tags = ["studynote-ai"]
 
 ### 1.3 핵심 구성 요소
 - **에이전트(Agent)**: 행동을 결정하는 주체
-- **환경([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**: 에이전트가 상호작용하는 외부 세계
-- **상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), S)**: 현재 환경의 관찰 정보
+- <strong>환경(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>: 에이전트가 상호작용하는 외부 세계
+- <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, S)</strong>: 현재 환경의 관찰 정보
 - **행동(Action, A)**: 에이전트가 선택하는 행동
 - **보상(Reward, R)**: 행동 결과에 따른 즉각적 피드백
-- **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), π)**: 상태에서 행동으로의 매핑 함수
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>, π)</strong>: 상태에서 행동으로의 매핑 함수
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 RPG 게임에서 캐릭터를 조작하는 것과 같다. 몬스터를 물리치면 경험치(보상)를 얻고, 죽으면 벌점을 받으면서 최적의 전투 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 터득한다.
 
@@ -57,25 +60,25 @@ tags = ["studynote-ai"]
 
 MDP는 RL을 수학적으로 정형화한 프레임워크로, [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) `(S, A, P, R, γ)`로 정의된다.
 
-```
-┌─────────────────────────────────────────────────┐
-│           MDP (Markov Decision Process)          │
-│                                                  │
-│  ┌──────────┐  행동 a_t  ┌──────────────────┐   │
-│  │          │──────────▶│                  │   │
-│  │  에이전트  │           │     환경          │   │
-│  │ (Agent)  │◀──────────│  (Environment)   │   │
-│  │          │ 보상 r_t   │                  │   │
-│  │  정책 π   │◀──────────│ 상태 s_{t+1}     │   │
-│  └──────────┘           └──────────────────┘   │
-│                                                  │
-│  마르코프 특성: P(s_{t+1} | s_t, a_t) 만으로 결정  │
-└─────────────────────────────────────────────────┘
-```
 
-- **S ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space)**: 모든 가능한 상태 집합
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDP (Markov Decision Process)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 a_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트</div><div class="kb-diagram-cell">환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Agent)</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">(Environment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 r_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 π</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">상태 s_{t+1}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 특성: P(s_{t+1}</div><div class="kb-diagram-cell">s_t, a_t) 만으로 결정</div></div>
+</div>
+</div>
+
+
+
+- <strong>S (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space)</strong>: 모든 가능한 상태 집합
 - **A (Action Space)**: 모든 가능한 행동 집합
-- **P (Transition [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))**: `P(s'|s,a)` — [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+- <strong>P (Transition <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: `P(s'|s,a)` — [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
 - **R (Reward Function)**: `R(s,a,s')` — 보상 함수
 - **γ (Discount Factor, 할인 인자)**: 미래 보상의 현재 가치 감소율 (0 ≤ γ < 1)
 
@@ -91,14 +94,14 @@ V*(s) = max_a [ R(s,a) + γ · Σ P(s'|s,a) · V*(s') ]
 
 | 방법 | 특징 | 장단점 |
 |:---|:---|:---|
-| **[Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)** | Q-테이블로 최적 행동-[가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) 학습 | 이산 상태에 적합, 고차원 불가 |
-| **[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))** | 딥러닝으로 Q-함수 근사 | 고차원 상태 처리, 불안정 가능 |
-| **[Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수 직접 최적화 | 연속 행동 공간 적합 |
-| **[Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) + [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) 동시 학습 | 안정적, 현대 RL 표준 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a></strong> | Q-테이블로 최적 행동-[가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) 학습 | 이산 상태에 적합, 고차원 불가 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">Deep Q-Network</a>)</strong> | 딥러닝으로 Q-함수 근사 | 고차원 상태 처리, 불안정 가능 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/">Policy Gradient</a></strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수 직접 최적화 | 연속 행동 공간 적합 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/">Actor-Critic</a></strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) + [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) 동시 학습 | 안정적, 현대 RL 표준 |
 
 ### 2.4 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) vs 활용 ([Exploration vs Exploitation](/knowledge-base/studynote/10_ai/02_dl_architecture_new/165_exploration_vs_exploitation/))
 
-- **[탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))**: 미지의 행동을 시도하여 새 정보 수집 (ε-greedy에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ε로 무작위 행동)
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">Exploration</a>)</strong>: 미지의 행동을 시도하여 새 정보 수집 (ε-greedy에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ε로 무작위 행동)
 - **활용(Exploitation)**: 현재까지 학습된 최선의 행동 선택
 
 - **📢 섹션 요약 비유**: MDP는 지하철 노선도와 같다. 현재 역(상태)에서 어떤 방향(행동)을 선택하느냐에 따라 다음 역(다음 상태)과 얻는 편의(보상)가 달라진다. [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)은 "가장 빠른 환승 경로"를 계산하는 수식이다.
@@ -142,7 +145,7 @@ V*(s) = max_a [ R(s,a) + γ · Σ P(s'|s,a) · V*(s') ]
 | 금융 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 트레이딩 | 수익률 |
 
 ### 4.2 기술사 핵심 판단 포인트
-- **[MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) 성립 조건**: 마르코프 특성([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만으로 미래 결정) 충족 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> 성립 조건</strong>: 마르코프 특성([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만으로 미래 결정) 충족 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 - **보상 설계(Reward Shaping)**: 잘못된 보상 설계는 의도치 않은 행동 학습 유발
 - **표본 효율성(Sample Efficiency)**: 실제 환경에서 충분한 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 비용 vs 시뮬레이션 학습
 - **안전성(Safety)**: 의료/자율주행 등 고위험 환경에서 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)으로 인한 위험 제어
@@ -190,7 +193,7 @@ V*(s) = max_a [ R(s,a) + γ · Σ P(s'|s,a) · V*(s') ]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 **미로 찾기 게임**을 하는 것과 같아요.
+1. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 <strong>미로 찾기 게임</strong>을 하는 것과 같아요.
 2. 처음에는 아무것도 모르고 헤매지만, 출구에 가까워질수록 사탕(보상)을 받으면서 점점 빠른 길을 기억하게 돼요.
 3. 여러 번 게임을 반복하다 보면 언제나 가장 빠른 길을 찾아가는 챔피언이 되는 거예요!
 

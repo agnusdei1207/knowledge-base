@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-모뎀은 **Mo**dulator(변조기)와 **[Dem](/knowledge-base/studynote/09_security/03_network_security/135_dem_data_encapsulation/)**odulator(복조기)의 합성어입니다.
+모뎀은 **Mo**dulator(변조기)와 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/135_dem_data_encapsulation/">Dem</a></strong>odulator(복조기)의 합성어입니다.
 컴퓨터 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 직류 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(예: +5V는 1, 0V는 0) 형태의 펄스파입니다. 이 각진 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 공기나 아날로그 구리선을 만나면 얼마 못 가 모양이 찌그러지고 사라집니다. 이를 멀리 보내기 위해 일정한 파동(아날로그 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣는 작업을 변조, 반대로 파동에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출하는 작업을 복조라고 합니다.
 
-```text
-[DSU / CSU]
-    │
-    ▼
-[모뎀]
-    │
-    └──▶ [케이블 모뎀 / DOCSIS 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모뎀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 모뎀 / DOCSIS 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 모뎀은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,20 +43,24 @@ tags = ["studynote-network"]
 
 1990년대 PC통신 시절 널리 쓰였던 전화선 모뎀은 기존의 음성 전용 아날로그 전화망(PSTN)을 그대로 이용했습니다.
 
-1. **송신 (Modulation)**: 컴퓨터가 내뱉는 0과 1을 모뎀이 받아, 이를 "삐익-, 찌르르-" 하는 **아날로그 소리 파동(Audio Frequency)**으로 바꿉니다. 이 소리가 전화선을 타고 전화국으로 전송됩니다.
+1. **송신 (Modulation)**: 컴퓨터가 내뱉는 0과 1을 모뎀이 받아, 이를 "삐익-, 찌르르-" 하는 <strong>아날로그 소리 파동(Audio Frequency)</strong>으로 바꿉니다. 이 소리가 전화선을 타고 전화국으로 전송됩니다.
 2. **수신 (Demodulation)**: 반대편 컴퓨터의 모뎀은 전화선을 타고 들려오는 "삐익-" 소리의 주파수, 진폭, 위상을 분석하여 다시 0과 1의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 조립하여 PC로 넘깁니다.
 
 ### 통신 속도의 한계
 음성 전화선이 통과시킬 수 있는 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 300Hz ~ 3,400Hz (약 3.1kHz [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 매우 좁게 제한되어 있습니다. 나이퀴스트와 샤논의 정리에 따라, 이렇게 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에서는 아무리 정교한 모뎀 기술(V.90 표준 등)을 써도 물리적으로 **최대 56 Kbps** 이상의 속도를 낼 수 없었습니다. (사진 한 장 받는 데 수 분이 걸림)
 
-```text
-[DSU / CSU]
-    │
-    ▼
-[모뎀]
-    │
-    └──▶ [케이블 모뎀 / DOCSIS 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모뎀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 모뎀 / DOCSIS 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 모뎀의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,8 +70,8 @@ tags = ["studynote-network"]
 
 전화선 모뎀의 56Kbps 속도로는 인터넷의 화려한 이미지와 영상을 감당할 수 없어, 사람의 음성 대역 밖의 넓은 주파수 대역(Broadband)을 활용하는 새로운 모뎀들이 등장했습니다.
 
-1. **ADSL 모뎀**: 똑같은 전화선을 쓰지만, 사람의 목소리가 사용하는 저주파(4kHz 이하) 영역은 건드리지 않고, **비어있는 고주파 영역(수십 kHz ~ 수백 kHz)**을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 전용으로 사용하여 수 Mbps급의 속도를 냈습니다. 
-2. **[케이블 모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/) ([Cable Modem](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/))**: [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 기반의 유선 방송망(CATV)의 남는 채널을 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변조하여 송수신합니다.
+1. **ADSL 모뎀**: 똑같은 전화선을 쓰지만, 사람의 목소리가 사용하는 저주파(4kHz 이하) 영역은 건드리지 않고, <strong>비어있는 고주파 영역(수십 kHz ~ 수백 kHz)</strong>을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 전용으로 사용하여 수 Mbps급의 속도를 냈습니다. 
+2. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/">케이블 모뎀</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/">Cable Modem</a>)</strong>: [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 기반의 유선 방송망(CATV)의 남는 채널을 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변조하여 송수신합니다.
 3. **광 모뎀 (ONT/ONU)**: 현대 FTTH(댁내 광랜) 환경에서, 밖에서 들어오는 '빛(광)' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 집 안의 공유기가 이해할 수 있는 '전기([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환해 주는 장비입니다. (엄밀히 말해 아날로그 변환이 아니지만 편의상 광 모뎀이라 부릅니다.)
 
 모뎀을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU가 기반 조건을 만든다면, 모뎀은 그 위에서 핵심 메커니즘을 구현하고, [케이블 모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/) / DOCSIS 표준은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 감쇠과 전송 거리에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DSU / CSU]
-    │
-    ▼
-[현재 개념: 모뎀]
-    │
-    ├──▶ [확장 A: 케이블 모뎀 / DOCSIS 표준]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DSU / CSU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 모뎀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 케이블 모뎀 / DOCSIS 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 모뎀는 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU에서 출발해 현재 메커니즘을 정교화하고, 이후 [케이블 모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/) / DOCSIS 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

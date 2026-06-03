@@ -28,17 +28,23 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Policies
-  ↓
-Roles / Stewardship
-  ↓
-Data Quality / Security
-  ↓
-Metadata / Lineage
-  ↓
-Governed Data
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Policies</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Roles / Stewardship</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Quality / Security</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Metadata / Lineage</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Governed Data</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -109,29 +115,41 @@ Governed Data
 
 ## 관련 개념 맵
 
-```text
-Policy
-  ↓
-Data Governance
-  ↓
-Quality / Security / Privacy
-  ↓
-Trusted Data
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Policy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Governance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Quality / Security / Privacy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Trusted Data</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Data Management
-  ↓
-Data Governance
-  ↓
-Metadata / Lineage
-  ↓
-Data Trust
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Management</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Governance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Metadata / Lineage</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Trust</div>
+</div>
+</div>
+
+
 
 ---
 

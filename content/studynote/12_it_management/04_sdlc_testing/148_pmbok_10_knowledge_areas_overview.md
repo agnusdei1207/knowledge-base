@@ -28,36 +28,31 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-10대 지식 영역은 단순히 병렬로 나열된 것이 아니다. **통합관리(Integration)**라는 중앙 대뇌가 나머지 9개 신경망을 완벽하게 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 지휘하는 종속적 구조를 갖는다.
+10대 지식 영역은 단순히 병렬로 나열된 것이 아니다. <strong>통합관리(Integration)</strong>라는 중앙 대뇌가 나머지 9개 신경망을 완벽하게 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 지휘하는 종속적 구조를 갖는다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│              PMBOK 10대 지식 영역의 중앙집권 오케스트레이션 도해            │
-├─────────────────────────────────────────────────────────────────────┤
-│          ┌──────────────────────────────────┐                      │
-│          │   1. 통합관리 (Integration)       │ ← 대뇌 허브, 모든 영역 조율 │
-│          └──────────────┬───────────────────┘                      │
-│                         │                                           │
-│   ┌────────┬────────────┼────────────┬──────────┐                  │
-│   ▼        ▼            ▼            ▼          ▼                  │
-│  [2.범위] [3.일정]    [4.비용]    [5.품질]  [6.자원]               │
-│  (Scope) (Schedule)   (Cost)      (Quality) (Resource)              │
-│   WBS    CPM/간트차트   EVM 예산     QA/QC     팀/RACI              │
-│                                                                     │
-│   ┌────────┬────────────┬────────────┬──────────┐                  │
-│   ▼        ▼            ▼            ▼          ▼                  │
-│  [7.소통] [8.리스크]  [9.조달]   [10.이해관계자]                   │
-│ (Comms)  (Risk)       (Procure)  (Stakeholder)                      │
-│ 채널/보고 리스크 등록부   RFP/계약     권력관심 격자                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMBOK 10대 지식 영역의 중앙집권 오케스트레이션 도해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 통합관리 (Integration)</div><div class="kb-diagram-cell">← 대뇌 허브, 모든 영역 조율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2.범위</div><div class="kb-diagram-node">3.일정</div><div class="kb-diagram-node">4.비용</div><div class="kb-diagram-node">5.품질</div><div class="kb-diagram-node">6.자원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scope) (Schedule) (Cost) (Quality) (Resource)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WBS CPM/간트차트 EVM 예산 QA/QC 팀/RACI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7.소통</div><div class="kb-diagram-node">8.리스크</div><div class="kb-diagram-node">9.조달</div><div class="kb-diagram-node">10.이해관계자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Comms) (Risk) (Procure) (Stakeholder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널/보고 리스크 등록부 RFP/계약 권력관심 격자</div></div>
+</div>
+</div>
+
+
 
 **[핵심 산출물 및 특징 요약]**
 1. **통합관리**: [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) 승인, 전체 변경 통제([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)), 최종 종료 수행.
 2. **범위관리**: [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)(작업 분할 구조도)를 통해 해야 할 일과 안 할 일을 100% 명확히 선 긋기.
 3. **일정관리**: [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)(주공정법)을 통해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 끝장나는 크리티컬 패스(Critical Path) 락킹.
 4. **원가관리**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득가치관리) 잣대로 돈을 계획대로 쓰고 있는지 수치로 추적 감시.
-5. **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)관리**: 터질 수 있는 모든 재앙을 엑셀([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부)에 적고 터지기 전 선제 대응 준비.
+5. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>관리</strong>: 터질 수 있는 모든 재앙을 엑셀([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부)에 적고 터지기 전 선제 대응 준비.
 6. **이해관계자관리**: 사장님, 고객, 진상 부서장들의 불만을 권력/관심 격자로 파악해 구워삶기.
 
 - **📢 섹션 요약 비유**: 10대 지식 영역은 오케스트라 교향악단과 같습니다. 현악기(범위·일정), 관악기(비용·품질), 타악기([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 각 파트가 독립된 악보를 보며 연주하지만, 최종적으로 중앙의 지휘자(통합관리)가 박자를 맞춰 통제해야만 불협화음이 아닌 하나의 완벽 교향곡(프로젝트 성공)이 연주됩니다.
@@ -70,7 +65,7 @@ tags = ["studynote-it-management"]
 
 | 비교 항목 | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) (미국 PMI 표준) | PRINCE2 (영국 정부 표준) | PMI-ACP ([애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/)) |
 | :--- | :--- | :--- | :--- |
-| **관점 및 철학** | **지식 영역(What) 기반의 백과사전**. 방대한 도구와 기법의 집대성 | **프로세스 및 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)(How) 기반**. 명확한 단계별 책임과 통제 위주 | **가치(Value)와 적응성 중심**. 변화를 환영하며 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 반복 |
+| **관점 및 철학** | **지식 영역(What) 기반의 백과사전**. 방대한 도구와 기법의 집대성 | <strong>프로세스 및 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>(How) 기반</strong>. 명확한 단계별 책임과 통제 위주 | **가치(Value)와 적응성 중심**. 변화를 환영하며 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 반복 |
 | **적용의 유연성**| 무거워서 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) 가위질) 필수 | 철저한 승인 위원회 통제로 유연성 낮음 | 극도의 유연성과 빠른 변화 대응 |
 | **주요 활용 분야**| 건설, 대형 SI, 방위산업 등 폭포수(Waterfall) 거대 프로젝트 | 유럽 및 공공기관 등 프로세스 거버넌스 엄격 프로젝트 | 스타트업, 웹/앱 개발, 요구사항이 미친 듯이 변하는 IT 프로젝트 |
 
@@ -85,10 +80,10 @@ tags = ["studynote-it-management"]
 실무에서 대규모 차세대 SI 프로젝트가 실패하는 가장 큰 이유는 10대 지식 영역 간의 '통합 연결고리'가 끊어지기 때문이다.
 
 ### 실무 판단 시나리오
-1. **범위 확산([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))의 악몽과 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)) 융합 쉴드**: 현업 부서장이 술자리에서 개발자에게 "김 대리, 결제 버튼 색깔 바꾸면서 카카오페이 기능 하나만 몰래 쓱 추가해 줘~"라고 요구했다. 개발자가 무심코 승낙하고 코드를 고쳤다. 
+1. <strong>범위 확산(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)의 악몽과 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>) 융합 쉴드</strong>: 현업 부서장이 술자리에서 개발자에게 "김 대리, 결제 버튼 색깔 바꾸면서 카카오페이 기능 하나만 몰래 쓱 추가해 줘~"라고 요구했다. 개발자가 무심코 승낙하고 코드를 고쳤다. 
    **파국 발동 💥**: 그 기능 하나 추가하느라 테스트 일정이 3일 밀렸고, 카카오 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동비 1,000만 원 예산이 펑크 났다(범위가 변하자 일정과 비용이 터짐).
    **아키텍트(PM)의 팩폭 락킹**: "하늘이 두 쪽 나도 요구사항 하나를 추가하려면 무.조.건. **[통합관리 - 통합 변경 통제 수행]** 프로세스 결재를 태워라 쾅!! [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))를 소집해서 그 기능이 일정(Schedule)과 비용(Cost)에 미칠 임팩트를 계산한 뒤, 예산을 더 받든지 일정을 늘려주든지 보상을 확정받아야만 도장을 찍어 통과시킨다!!" 변경을 공식 파이프라인 안으로 멱살 잡아 끌고 들어오는 철저한 방어막이다.
-2. **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/)) 기반의 피도 눈물도 없는 원가/일정 감시**: "우리 지금 프로젝트 절반쯤 왔어. 잘 되고 있지?"라는 임원의 질문에 PM이 "느낌상 잘 되고 있습니다"라고 보고하면 기술사가 아니다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>) 기반의 피도 눈물도 없는 원가/일정 감시</strong>: "우리 지금 프로젝트 절반쯤 왔어. 잘 되고 있지?"라는 임원의 질문에 PM이 "느낌상 잘 되고 있습니다"라고 보고하면 기술사가 아니다.
    - **판단**: 지표로 박아라! 아키텍트는 **[원가 관리]** 지식 영역의 궁극기인 EVM을 켠다. "현재 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(비용 성과 지수)가 0.85로 예산 초과 상태이며, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)(일정 성과 지수)가 0.9로 일정이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중입니다! 당장 야근을 때리거나(크래싱), 자원을 더 투입(패스트 트래킹)하는 **[일정 관리]** 단축 기법을 융합 발동해야 살 수 있습니다!" 느낌이 아닌 숫자로 프로젝트 목숨줄을 진단하는 냉혹한 기법이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -114,29 +109,31 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))** | 범위 관리의 꽃. 할 일을 다 쪼개서 트리(Tree)로 만든 도면. 이 WBS에 없는 일은 무조건 안 한다는 100% 락킹 규칙의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/). |
-| **[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))** | 비용과 일정 관리를 동시에 엮어서 프로젝트 성과를 진단하는 궁극의 척도. [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 세 가지 지표로 돈이 새는지 랙이 걸렸는지 수치로 뽑아냄. |
-| **[CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))** | 일정 관리의 핵심 뼈대. 100개 작업 중 이것만은 하루라도 밀리면 프로젝트 전체 일정이 폭파되는 지뢰밭 경로(주공정)를 빨간펜으로 긋는 튜닝 기법. |
-| **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))** | 통합 관리의 대법원. 스펙 변경, 예산 증액을 요구하는 진상 고객들의 폭주를 틀어막고 공식 결재 도장을 받아내는 권력 기구. |
-| **테일러링 ([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) 가위질)** | 10대 지식 영역의 수백 개 규칙을 다 쓰면 무거워 죽으니까, 우리 회사 프로젝트 사이즈에 맞게 뺄 건 빼고 다이어트시키는 융통성 스킬. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> | 범위 관리의 꽃. 할 일을 다 쪼개서 트리(Tree)로 만든 도면. 이 WBS에 없는 일은 무조건 안 한다는 100% 락킹 규칙의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/). |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>)</strong> | 비용과 일정 관리를 동시에 엮어서 프로젝트 성과를 진단하는 궁극의 척도. [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 세 가지 지표로 돈이 새는지 랙이 걸렸는지 수치로 뽑아냄. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong> | 일정 관리의 핵심 뼈대. 100개 작업 중 이것만은 하루라도 밀리면 프로젝트 전체 일정이 폭파되는 지뢰밭 경로(주공정)를 빨간펜으로 긋는 튜닝 기법. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>)</strong> | 통합 관리의 대법원. 스펙 변경, 예산 증액을 요구하는 진상 고객들의 폭주를 틀어막고 공식 결재 도장을 받아내는 권력 기구. |
+| <strong>테일러링 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a> 가위질)</strong> | 10대 지식 영역의 수백 개 규칙을 다 쓰면 무거워 죽으니까, 우리 회사 프로젝트 사이즈에 맞게 뺄 건 빼고 다이어트시키는 융통성 스킬. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초기 프로젝트 주먹구구 관리 / "감으로 일정 짜고, 문제 터지면 밤새서 막자" (영웅주의 코딩, 파국 잦음)
-    │
-    ▼
-PMI 협회의 PMBOK 제정 / 체계적인 5대 프로세스 그룹과 10대 지식 영역(Knowledge Area) 헌법 정립
-    │
-    ▼
-폭포수(Waterfall)의 극한 발전 / 요구사항 분석 후 WBS, CPM, EVM 등 완벽한 계획 수립 및 문서화 떡칠
-    │
-    ▼
-소프트웨어 산업 속도 변화 랙 발생 / 1년짜리 문서 계획 다 짜놨더니 세상이 바뀜 (Agile 애자일의 역습)
-    │
-    ▼
-PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Principle)과 가치(Value) 인도 중심으로 애자일 100% 융합 선언
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 프로젝트 주먹구구 관리 / "감으로 일정 짜고, 문제 터지면 밤새서 막자" (영웅주의 코딩, 파국 잦음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMI 협회의 PMBOK 제정 / 체계적인 5대 프로세스 그룹과 10대 지식 영역(Knowledge Area) 헌법 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폭포수(Waterfall)의 극한 발전 / 요구사항 분석 후 WBS, CPM, EVM 등 완벽한 계획 수립 및 문서화 떡칠</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 산업 속도 변화 랙 발생 / 1년짜리 문서 계획 다 짜놨더니 세상이 바뀜 (Agile 애자일의 역습)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Principle)과 가치(Value) 인도 중심으로 애자일 100% 융합 선언</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

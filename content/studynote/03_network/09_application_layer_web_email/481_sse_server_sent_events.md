@@ -19,45 +19,41 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: SSE(Server-Sent Events)는 웹 브라우저의 자바스크립트 API인 `EventSource` 객체를 이용하여 서버로부터 발생한 이벤트를 스트리밍 형태로 받아오는 기술이다. 통신이 양방향(Full-Duplex)인 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)과 달리, 방향이 철저하게 서버에서 클라이언트로 향하는 **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(Half-Duplex, Push)**으로 제한된다.
+- **개념**: SSE(Server-Sent Events)는 웹 브라우저의 자바스크립트 API인 `EventSource` 객체를 이용하여 서버로부터 발생한 이벤트를 스트리밍 형태로 받아오는 기술이다. 통신이 양방향(Full-Duplex)인 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)과 달리, 방향이 철저하게 서버에서 클라이언트로 향하는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a>(Half-Duplex, Push)</strong>으로 제한된다.
 
 - **필요성**: 웹에서 "실시간"이 필요하다고 무조건 고가도로([웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/))를 뚫을 필요는 없다. 트위터 새 글 알림, 페이스북 좋아요 푸시, 넷플릭스 영화 인코딩 진행률 막대 같은 기능들은 클라이언트가 서버로 딱히 쏠 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없고, 오직 "서버가 언제 나한테 변경사항을 내려줄지"만 얌전히 기다리는 구조다. 이를 위해 복잡한 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 핸드셰이크를 거치거나 무식하게 1초마다 찌르는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))을 쓰는 것은 소 잡는 칼로 닭을 잡는 낭비였다. HTTP라는 친숙한 길 위에서 일방통행으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아내는 가벼운 수도관이 필요했다.
 
-- **💡 비유**: [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)이 서로 말을 주고받을 수 있는 양방향 무전기라면, SSE는 라디오 방송국(서버)이 주파수만 맞춰둔 수많은 청취자(클라이언트) 라디오를 향해 계속해서 음악과 뉴스를 일방적으로 송출하는 **'[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 라디오 생방송'**과 같습니다. 청취자는 방송국에 말을 걸 순 없지만, 새로운 뉴스는 0.1초 만에 즉각 들을 수 있습니다.
+- **💡 비유**: [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)이 서로 말을 주고받을 수 있는 양방향 무전기라면, SSE는 라디오 방송국(서버)이 주파수만 맞춰둔 수많은 청취자(클라이언트) 라디오를 향해 계속해서 음악과 뉴스를 일방적으로 송출하는 <strong>'<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 라디오 생방송'</strong>과 같습니다. 청취자는 방송국에 말을 걸 순 없지만, 새로운 뉴스는 0.1초 만에 즉각 들을 수 있습니다.
 
 - **등장 배경**:
   1. **Comet 꼼수의 한계**: 과거 개발자들은 숨겨진 <iframe>이나 끊기지 않는 Long-[Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 등 갖가지 꼼수를 동원해 서버 푸시를 모방했지만, 표준이 없어 브라우저 파편화와 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))가 심했다.
   2. **가벼운 대안의 필요성**: 2011년 HTML5 스펙과 함께 양방향 통신의 제왕으로 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)이 등장했으나, 인프라 세팅(L4/L7 로드밸런서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 방어 로직)이 너무 까다로웠다.
   3. **W3C의 표준 제정**: 별도의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 없이 순수 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET 요청만으로도 텍스트 이벤트를 완벽히 스트리밍할 수 있는 가벼운 스펙, Server-Sent Events가 W3C HTML5 표준에 편입되었다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 SSE (Server-Sent Events) 통신 흐름도            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Client (EventSource API)]                   [Origin Server]│
-│         │                                         │         │
-│         │ 1. GET /news-stream (최초 1회 HTTP 연결)  │         │
-│         │    Accept: text/event-stream            │         │
-│         │────────────────────────────────────────▶│         │
-│         │                                         │         │
-│         │ 2. HTTP/1.1 200 OK                      │         │
-│         │    Content-Type: text/event-stream      │         │
-│   ┌─────│    Transfer-Encoding: chunked           │         │
-│   │     │◀────────────────────────────────────────│         │
-│ 연결유지 │                                         │         │
-│ (파이프) │ 3. (10초 뒤) 데이터 밀어 넣기                │         │
-│   │     │◀── data: {"title": "속보입니다!"} \n\n ──│         │
-│   │     │                                         │         │
-│   │     │ 4. (5초 뒤) 데이터 밀어 넣기                 │         │
-│   └─────│◀── id: 99 \n data: "주식 급등!" \n\n ────│         │
-│                                                             │
-│ 🌟 결과: 연결을 한 번만 맺고 끊지 않은 상태에서, 서버가 \n\n 으로       │
-│ 구분된 텍스트 덩어리를 무제한으로 일방통행(Push) 밀어 넣는다!          │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 클라이언트 자바스크립트는 단순하게 `new EventSource('/news-stream')`를 호출한다. 서버는 일반적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답을 내리되, `Content-Type`을 `text/event-stream`으로, 응답을 잘게 쪼개 보내겠다는 `Transfer-Encoding: chunked`로 명시한다. 가장 중요한 점은 2번 응답을 보낸 직후 서버가 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 닫지 않고 계속 열어둔다**는 것이다. 이후 서버 백엔드 로직에 새로운 뉴스가 뜰 때마다, 열려있는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 `data: 메세지 \n\n` 형태의 특수 규격 텍스트를 던져 넣는다. 브라우저는 `\n\n` (개행 2번)을 만날 때마다 하나의 이벤트 블록이 끝난 것으로 파악하고 자바스크립트의 `onmessage` 콜백 함수를 즉시 터뜨려 화면에 실시간으로 뉴스를 그려낸다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSE (Server-Sent Events) 통신 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client (EventSource API)</div><div class="kb-diagram-node">Origin Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. GET /news-stream (최초 1회 HTTP 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Accept: text/event-stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. HTTP/1.1 200 OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Content-Type: text/event-stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transfer-Encoding: chunked</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파이프)</div><div class="kb-diagram-cell">3. (10초 뒤) 데이터 밀어 넣기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── data: {"title": "속보입니다!"} \n\n ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. (5초 뒤) 데이터 밀어 넣기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── id: 99 \n data: "주식 급등!" \n\n</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 연결을 한 번만 맺고 끊지 않은 상태에서, 서버가 \n\n 으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구분된 텍스트 덩어리를 무제한으로 일방통행(Push) 밀어 넣는다!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 클라이언트 자바스크립트는 단순하게 `new EventSource('/news-stream')`를 호출한다. 서버는 일반적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답을 내리되, `Content-Type`을 `text/event-stream`으로, 응답을 잘게 쪼개 보내겠다는 `Transfer-Encoding: chunked`로 명시한다. 가장 중요한 점은 2번 응답을 보낸 직후 서버가 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>을 닫지 않고 계속 열어둔다</strong>는 것이다. 이후 서버 백엔드 로직에 새로운 뉴스가 뜰 때마다, 열려있는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 `data: 메세지 \n\n` 형태의 특수 규격 텍스트를 던져 넣는다. 브라우저는 `\n\n` (개행 2번)을 만날 때마다 하나의 이벤트 블록이 끝난 것으로 파악하고 자바스크립트의 `onmessage` 콜백 함수를 즉시 터뜨려 화면에 실시간으로 뉴스를 그려낸다.
 
 - **📢 섹션 요약 비유**: 호스([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))를 한 번 수도꼭지에 연결해두면 물을 잠그지 않고 놔둡니다. 서버(수도꼭지) 쪽에 새로운 물(알림)이 찰 때마다 호스를 타고 클라이언트의 양동이에 콸콸콸 일방적으로 쏟아지는 구조입니다.
 
@@ -71,46 +67,42 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 
 | 필드명 (접두어) | 역할 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예시 | 비유 |
 |:---|:---|:---|:---|
-| **`data:`** | 실제 클라이언트에 전달될 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). (주로 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열을 텍스트로 넣음) | `data: {"price": 5000}` | 편지의 본문 |
-| **`id:`** | 해당 이벤트 스트림의 고유 번호. 나중에 연결 끊김 시 재개(Resume)의 핵심 키. | `id: 12345` | 편지 봉투의 일련번호 |
-| **`event:`** | 브라우저가 이벤트를 구분해서 받을 수 있도록 이벤트 이름 지정. (미지정시 'message' 큐) | `event: stock_update` | 편지의 제목 (카테고리) |
-| **`retry:`** | 연결이 비정상적으로 끊겼을 때 브라우저가 몇 밀리초(ms) 뒤에 재접속 시도할지 지시. | `retry: 5000` | "끊기면 5초 뒤에 다시 전화해" |
-| **`: (콜론)`** | 텍스트 줄 맨 앞에 콜론을 쓰면 주석(Comment). 브라우저가 무시함. (Ping 용도) | `: heartbeat` | 뼈대 유지를 위한 헛기침(Ping) |
+| <strong><code>data:</code></strong> | 실제 클라이언트에 전달될 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). (주로 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열을 텍스트로 넣음) | `data: {"price": 5000}` | 편지의 본문 |
+| <strong><code>id:</code></strong> | 해당 이벤트 스트림의 고유 번호. 나중에 연결 끊김 시 재개(Resume)의 핵심 키. | `id: 12345` | 편지 봉투의 일련번호 |
+| <strong><code>event:</code></strong> | 브라우저가 이벤트를 구분해서 받을 수 있도록 이벤트 이름 지정. (미지정시 'message' 큐) | `event: stock_update` | 편지의 제목 (카테고리) |
+| <strong><code>retry:</code></strong> | 연결이 비정상적으로 끊겼을 때 브라우저가 몇 밀리초(ms) 뒤에 재접속 시도할지 지시. | `retry: 5000` | "끊기면 5초 뒤에 다시 전화해" |
+| <strong><code>: (콜론)</code></strong> | 텍스트 줄 맨 앞에 콜론을 쓰면 주석(Comment). 브라우저가 무시함. (Ping 용도) | `: heartbeat` | 뼈대 유지를 위한 헛기침(Ping) |
 
 ### SSE의 압도적 무기: 자동 재접속(Auto Reconnect)과 유실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
-[웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)) 생태계에서 개발자들을 가장 미치게 만드는 것은 터널을 지나갈 때 모바일 네트워크가 끊겨 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 죽었을 때, 직접 `setInterval` 로직을 짜서 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 살려내고 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재요청해야 한다는 점이다. SSE는 이 지긋지긋한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직을 **브라우저 엔진(C++) 레벨에서 자동으로, 100% 무료로 제공**한다.
+[웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/)) 생태계에서 개발자들을 가장 미치게 만드는 것은 터널을 지나갈 때 모바일 네트워크가 끊겨 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 죽었을 때, 직접 `setInterval` 로직을 짜서 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 살려내고 잃어버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재요청해야 한다는 점이다. SSE는 이 지긋지긋한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직을 <strong>브라우저 엔진(C++) 레벨에서 자동으로, 100% 무료로 제공</strong>한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│        SSE의 경이로운 [네트워크 단절 및 유실 복구] 메커니즘         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [정상 스트리밍 상태]                                             │
-│ 서  버 ───( id: 100 \n data: "뉴스A" \n\n )───▶ 클라이언트        │
-│ 서  버 ───( id: 101 \n data: "뉴스B" \n\n )───▶ 클라이언트        │
-│                                                               │
-│ 💥 [터널 진입! 네트워크 강제 단절 💥]                              │
-│                                                               │
-│ 서  버 (클라이언트 죽은 줄 모르고 허공에 쏨)                        │
-│ 서  버 ───( id: 102 \n data: "뉴스C" \n\n )───▶ [ 💥 허공에 유실] │
-│ 서  버 ───( id: 103 \n data: "뉴스D" \n\n )───▶ [ 💥 허공에 유실] │
-│                                                               │
-│ 📶 [터널 탈출! 네트워크 복구 및 자동 재접속]                       │
-│ 클라이언트의 EventSource 객체가 알아서 3초 뒤 재접속을 시도함!         │
-│ (내가 마지막으로 잘 받았던 번호표(101)를 헤더에 당당히 꽂아 넣음)        │
-│                                                               │
-│ 클라이언트                                            서  버      │
-│   │ ── GET /news-stream                           │           │
-│   │    Last-Event-ID: 101   ◀─ "나 101번까진 받았어"  │           │
-│   │──────────────────────────────────────────────▶│           │
-│   │                                               │           │
-│   │          서버는 DB나 큐에서 101번 이후의 내역을 꺼내옴!│           │
-│   │◀──( id: 102 \n data: "뉴스C" \n\n )───────────│           │
-│   │◀──( id: 103 \n data: "뉴스D" \n\n )───────────│           │
-│ 🌟 결과: 자바스크립트 1줄 안 짰는데, 유실된 뉴스C와 D가 완벽 복원됨!    │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">SSE의 경이로운</div><div class="kb-diagram-node">네트워크 단절 및 유실 복구</div><div class="kb-diagram-note">메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 스트리밍 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서 버 ( id: 100 \n data: "뉴스A" \n\n ) ▶ 클라이언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서 버 ( id: 101 \n data: "뉴스B" \n\n ) ▶ 클라이언트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">터널 진입! 네트워크 강제 단절 💥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서 버 (클라이언트 죽은 줄 모르고 허공에 쏨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">💥 허공에 유실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">💥 허공에 유실</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">📶</div><div class="kb-diagram-node">터널 탈출! 네트워크 복구 및 자동 재접속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트의 EventSource 객체가 알아서 3초 뒤 재접속을 시도함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내가 마지막으로 잘 받았던 번호표(101)를 헤더에 당당히 꽂아 넣음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 서 버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GET /news-stream</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Last-Event-ID: 101 ◀─ "나 101번까진 받았어"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 DB나 큐에서 101번 이후의 내역을 꺼내옴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀──( id: 102 \n data: "뉴스C" \n\n )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀──( id: 103 \n data: "뉴스D" \n\n )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 자바스크립트 1줄 안 짰는데, 유실된 뉴스C와 D가 완벽 복원됨!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 브라우저는 서버가 내려주는 `id:` 필드를 항상 내부 캐시에 기억해 둔다. 만약 지하철 문이 닫혀 Wi-Fi가 끊기면 브라우저는 에러를 내뿜지 않고 `retry:` 시간에 맞춰 백그라운드에서 다시 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) GET 요청을 날린다. 이때 브라우저는 기특하게도 헤더에 `Last-Event-ID: 101`이라는 값을 알아서 박아 넣는다. 백엔드 개발자는 이 헤더가 들어오면 101번 이후로 생성된 메시지(102, 103번)를 Redis나 DB에서 찾아 다시 밀어주기만 하면, 클라이언트 화면에는 빈틈없이 실시간 알림이 이어지는 우아한 견고함(Resilience)을 자랑한다.
 
@@ -127,15 +119,15 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 | **통신 방향** | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) (서버 ➔ 클라이언트) | 양방향 (클라이언트 ⟷ 서버) | 채팅인가? 단순 알림인가? |
 | **전송 포맷** | [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/) 텍스트 전용 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등) | 텍스트 + 이진 바이너리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가능 | 영상/음성 스트리밍 필요 여부 |
 | **자동 재접속** | **브라우저 네이티브 기본 지원 (초강점)** | 미지원. JS [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/).io 등) 의존 | 모바일망 단절 대처의 편의성 |
-| **인프라 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)**| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 및 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 완벽 동작 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 파괴 및 전용 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰/L7 로드밸런서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 개조 필요 | 기존 인프라 수정 없이 얹을 수 있는가 |
+| <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong>| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 및 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서 완벽 동작 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 파괴 및 전용 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰/L7 로드밸런서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 등 개조 필요 | 기존 인프라 수정 없이 얹을 수 있는가 |
 | **최대 동시 연결**| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 환경에선 브라우저당 6개 제한 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2에선 수백 개) | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개수 한도 내 사실상 무제한 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 적용된 백엔드인가 |
 
 알림(Notification), 피드 업데이트, 주식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 등 클라이언트가 굳이 서버에 쉴 새 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올릴 필요가 없는 아키텍처의 80%는 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)이 아니라 SSE가 압도적인 정답([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/))이다. 
 
 ### 과목 융합 관점
 
-- **클라우드 (Cloud) & [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)**: 넷플릭스 헥사고날(Hexagonal) 아키텍처에서는 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 수백 개의 백엔드 마이크로서비스에서 발생하는 이벤트를 모아(Aggregation), 모바일 클라이언트에게 SSE [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 하나로 묶어서([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏴주는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴이 널리 쓰인다. HTTP의 범용성을 유지하면서 실시간성을 획득하는 가성비 끝판왕이다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 ([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Pub/Sub)**: SSE 역기 서버를 여러 대 띄울 때 로드밸런싱이 이루어지면(A가 1번 서버에, B가 2번 서버에 붙음), 시스템에서 알림이 발생했을 때 어느 서버에 쏴야 할지 모른다. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)과 동일하게 백엔드 서버들끼리는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Pub/Sub 메시지 브로커로 이벤트를 브로드캐스팅하는 뒷단 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조가 필수적으로 융합되어야 한다.
+- <strong>클라우드 (Cloud) &amp; <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a></strong>: 넷플릭스 헥사고날(Hexagonal) 아키텍처에서는 앞단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 수백 개의 백엔드 마이크로서비스에서 발생하는 이벤트를 모아(Aggregation), 모바일 클라이언트에게 SSE [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 하나로 묶어서([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏴주는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 패턴이 널리 쓰인다. HTTP의 범용성을 유지하면서 실시간성을 획득하는 가성비 끝판왕이다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Pub/Sub)</strong>: SSE 역기 서버를 여러 대 띄울 때 로드밸런싱이 이루어지면(A가 1번 서버에, B가 2번 서버에 붙음), 시스템에서 알림이 발생했을 때 어느 서버에 쏴야 할지 모른다. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)과 동일하게 백엔드 서버들끼리는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Pub/Sub 메시지 브로커로 이벤트를 브로드캐스팅하는 뒷단 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조가 필수적으로 융합되어야 한다.
 
 - **📢 섹션 요약 비유**: 비싼 돈을 주고 양방향 마이크와 스피커를 전국에 설치하는 것([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/))보다, 각 마을에 저렴하고 고장 나면 알아서 고쳐지는 라디오 스피커(SSE)만 하나 달아두고 방송국에서 일방적으로 소리치는 것이 알림 전달의 가장 현명한 가성비입니다.
 
@@ -143,38 +135,37 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 환경에서의 브라우저 동시 연결 제한(6개 한도) 병목**: 대규모 주식 거래소 앱을 만들며, 코스피 지수, 관심종목 A, B, C, 내 자산 변동 등을 각각 다른 SSE 엔드포인트(`/sse/kospi`, `/sse/stockA` 등) 7개로 쪼개어 브라우저에 띄웠다. 그러자 7번째 SSE 연결부터 무한 로딩이 걸리며 사이트의 모든 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 통신까지 완전히 먹통이 되는 참사가 터졌다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1 환경에서의 브라우저 동시 연결 제한(6개 한도) 병목</strong>: 대규모 주식 거래소 앱을 만들며, 코스피 지수, 관심종목 A, B, C, 내 자산 변동 등을 각각 다른 SSE 엔드포인트(`/sse/kospi`, `/sse/stockA` 등) 7개로 쪼개어 브라우저에 띄웠다. 그러자 7번째 SSE 연결부터 무한 로딩이 걸리며 사이트의 모든 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 통신까지 완전히 먹통이 되는 참사가 터졌다.
    - **판단**: 구형 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 스펙 브라우저는 동일 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Origin)에 대해 최대 동시 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션을 6개로 빡빡하게 제한한다. SSE는 연결을 끊지 않고 영구적으로 점유하므로 6개를 다 물고 있으면 다른 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신이 큐에서 블로킹된다. 아키텍트는 7개의 SSE를 1개의 엔드포인트(`/sse/dashboard`)로 합치고 `event: kospi`, `event: stockA` 형태로 이벤트 이름을 분기해서 내려주도록 백엔드를 재설계하거나, 백엔드 전체를 멀티플렉싱이 무제한으로 지원되는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 인프라 위로 올려야 완벽하게 해결된다.
 
-2. **시나리오 — [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Nginx, AWS ALB)의 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)으로 인한 실시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**: 백엔드(Spring)에서 분명히 초당 1개씩 뉴스 알림을 SSE로 밀어내고 있는데, 프론트엔드 브라우저 화면에는 10초 동안 잠잠하다가 한방에 10개의 알림이 우르르 쏟아져 나오는 현상이 발생했다. 실시간(Real-time)이 무너진 것이다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(Nginx, AWS ALB)의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>으로 인한 실시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>: 백엔드(Spring)에서 분명히 초당 1개씩 뉴스 알림을 SSE로 밀어내고 있는데, 프론트엔드 브라우저 화면에는 10초 동안 잠잠하다가 한방에 10개의 알림이 우르르 쏟아져 나오는 현상이 발생했다. 실시간(Real-time)이 무너진 것이다.
    - **판단**: 중간에 껴있는 L7 로드밸런서(Nginx)가 범인이다. Nginx는 기본적으로 백엔드 서버의 응답 조각들을 램(Buffer)에 모아두었다가 일정 덩어리가 차야만 클라이언트로 한 번에 내보내는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전송([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) 정책을 쓴다. SSE [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 블록에서는 반드시 `proxy_buffering off;`와 `X-Accel-Buffering: no` 헤더 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 강제 주입하여, Nginx가 패킷을 가로채지 않고 즉각 통과시키도록 바이패스(Bypass) 밸브를 열어두어야 한다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: SSE Nginx 프록시 버퍼링 파괴 (Bypass) 설정      │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [문제의 Buffering 아키텍처]                                   │
-  │ 백엔드 서버 (알림 1건 방출!) ──▶ [ Nginx Buffer 대기 💥 ]          │
-  │ 백엔드 서버 (알림 2건 방출!) ──▶ [ Nginx Buffer 대기 💥 ]          │
-  │ 백엔드 서버 (알림 3건 방출!) ──▶ [ Nginx 꽉 참! 한방에 발사! ] ───▶ 유저 │
-  │ ➔ 실시간이 아니라 3초 뒤에 알림이 뭉쳐서 도착함.                      │
-  │                                                             │
-  │ [해결된 Bypass 아키텍처 (Nginx 설정 고도화)]                    │
-  │ 1. Spring 백엔드 응답 헤더 추가:                              │
-  │    HttpHeaders.set("X-Accel-Buffering", "no");              │
-  │                                                             │
-  │ 2. Nginx 설정 파일 (.conf):                                 │
-  │    location /stream/ {                                      │
-  │       proxy_buffering off;             ◀─ 버퍼링 강제 차단!  │
-  │       proxy_cache off;                 ◀─ 캐싱 강제 차단!    │
-  │       proxy_read_timeout 86400s;       ◀─ 소켓 끊김 타임아웃 연장│
-  │       proxy_set_header Connection '';                       │
-  │    }                                                        │
-  │                                                             │
-  │ 백엔드 서버 (알림 1건 방출!) ──▶ [ Nginx 무사통과 🚀 ] ───▶ 유저 0.1초 도착│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: SSE Nginx 프록시 버퍼링 파괴 (Bypass) 설정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제의 Buffering 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Nginx Buffer 대기 💥</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Nginx Buffer 대기 💥</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Nginx 꽉 참! 한방에 발사!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">유저</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 실시간이 아니라 3초 뒤에 알림이 뭉쳐서 도착함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해결된 Bypass 아키텍처 (Nginx 설정 고도화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Spring 백엔드 응답 헤더 추가:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HttpHeaders.set("X-Accel-Buffering", "no");</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Nginx 설정 파일 (.conf):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">location /stream/ {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy_buffering off; ◀─ 버퍼링 강제 차단!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy_cache off; ◀─ 캐싱 강제 차단!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy_read_timeout 86400s; ◀─ 소켓 끊김 타임아웃 연장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy_set_header Connection '';</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Nginx 무사통과 🚀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">유저 0.1초 도착</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** SSE 개발자들이 인프라 배포 첫날 겪는 1순위 장애의 원인과 해답이다. 백엔드 코드를 완벽히 짰더라도 인프라(Nginx, ALB)의 기본 정책은 실시간 스트리밍이 아니라 '조각난 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답 뭉쳐서 효율적으로 보내기'에 맞춰져 있다. 따라서 특정 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로(`/stream`)에 대해서는 모든 캐시와 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 족쇄를 풀어버려야 한다. 추가로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 경우 `Connection: keep-alive` 상태를 오래 유지해야 하므로 `proxy_read_timeout` 같은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 컷오프 한계치도 24시간급으로 대폭 연장해야 네트워크 인프라가 맘대로 사용자의 알림 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 잘라먹지 않는다.
 
@@ -183,7 +174,7 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 - **운영·보안적**: 50초가량 서버에서 알림 이벤트가 없을 때, 일부 통신사 중간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 '아 죽은 연결이구나' 하고 강제로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 끊어버리는 것을 막기 위해 백엔드에서 의미 없는 주석 텍스트(`: heartbeat \n\n`)를 30초마다 한 번씩 허공에 쏘아대어(Ping) 인프라를 속이고 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **SSE [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 밀어 넣기**: 알림 메시지를 보내는 용도의 얇은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(텍스트 전용)에 1MB가 넘는 이미지를 Base64 텍스트로 인코딩해서 무식하게 쑤셔 넣는 행위. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 꽉 막혀버리며 브라우저의 렌더링 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(JS) 전체가 파싱 부하로 마비된다. SSE로는 `id`나 텍스트 힌트만 넘기고, 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 별도의 일반 `GET` AJAX로 받아오는 이원화 룰을 지켜야 한다.
+- <strong>SSE <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에 거대한 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 밀어 넣기</strong>: 알림 메시지를 보내는 용도의 얇은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(텍스트 전용)에 1MB가 넘는 이미지를 Base64 텍스트로 인코딩해서 무식하게 쑤셔 넣는 행위. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 꽉 막혀버리며 브라우저의 렌더링 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(JS) 전체가 파싱 부하로 마비된다. SSE로는 `id`나 텍스트 힌트만 넘기고, 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 별도의 일반 `GET` AJAX로 받아오는 이원화 룰을 지켜야 한다.
 
 - **📢 섹션 요약 비유**: 알림(SSE)은 우체부 아저씨가 초인종을 눌러 "택배 왔어요"라고 짧게 알려주는 용도입니다. 우체부 아저씨에게 세탁기나 냉장고(대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 직접 짊어지고 들고 들어와 달라고 우기면 우체부가 쓰러져 다음 사람들의 우편까지 다 밀리게 됩니다.
 
@@ -198,11 +189,11 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 | **정성** | 복잡한 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 핸드셰이크/보안 룰셋 적용 | 기존 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 80/443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 그대로 즉시 활용 | 개발/인프라 공수(Time-To-Market) 대폭 감소 |
 
 ### 미래 전망
-- **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 위에서의 대통합**: 과거 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 브라우저당 6개 연결 제한이라는 치명적 아킬레스건이 있었으나, 전 세계 웹이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2로 넘어가며 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션 안에서 수십 개의 독립 스트림이 흐를 수 있게([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 되어, SSE의 약점이 완벽하게 소멸했다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 위에서의 대통합</strong>: 과거 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 브라우저당 6개 연결 제한이라는 치명적 아킬레스건이 있었으나, 전 세계 웹이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2로 넘어가며 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 커넥션 안에서 수십 개의 독립 스트림이 흐를 수 있게([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 되어, SSE의 약점이 완벽하게 소멸했다.
 - **ChatGPT 등 생성형 AI의 전송 표준**: 최근 ChatGPT나 Claude 같은 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 문장을 한 글자씩 타자 치듯(Streaming) 화면에 뿌려주는 기술의 핵심 밑바탕 아키텍처가 바로 이 SSE 기술이다. 딥러닝 연산이 끝나는 대로 토큰(Token) 하나씩을 서버가 `data:` 조각으로 밀어 넣으면 프론트가 즉각 화면에 그린다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스트리밍 시대에 가장 완벽하게 들어맞는 기술로 제2의 전성기를 맞고 있다.
 
 ### 참고 표준
-- **W3C HTML5 [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)**: Server-Sent Events ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙 및 재접속 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 명세)
+- <strong>W3C HTML5 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a></strong>: Server-Sent Events ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙 및 재접속 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 명세)
 - **RFC 8895**: Server-Sent Events Event Source ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 초안 검토)
 
 "가장 단순한 것이 가장 훌륭한 아키텍처다." [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)이라는 무겁고 거창한 장비가 모든 실시간 통신을 집어삼킬 줄 알았으나, 인프라의 복잡성과 유지보수의 피로도에 지친 아키텍트들은 "서버가 일방적으로 밀어내기만 하면 충분한" 영역의 80%를 SSE로 걷어냈다. 텍스트 몇 줄(\n\n)로 쪼개 보내는 이 원시적이고 투박한 설계가, 브라우저의 끈질긴 자동 재접속 철학과 만나 가장 우아하고 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 푸시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 현대 웹 공간에 완성해 낸 것이다.
@@ -222,22 +213,26 @@ SSE는 복잡한 이진 바이너리를 지원하지 않고, 오직 사람도 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WebSocket]
-    │
-    ▼
-[현재 개념: SSE]
-    │
-    ├──▶ [확장 A: FTP]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WebSocket</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SSE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 SSE는 WebSocket에서 출발해 현재 메커니즘을 정교화하고, 이후 FTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 내가 말할 필요는 없고 뉴스 아나운서(서버)가 알려주는 속보만 들으면 될 때, 굳이 아나운서랑 양방향 통화([웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/))를 연결해서 통화료를 낭비할 필요는 없어요.
-2. SSE는 내 방에 라디오 방송국과 연결된 **'스피커([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 알림)'**만 딱 하나 켜두는 거예요. 방송국에서 긴급 뉴스가 터지면 스피커로 즉시 술술 흘러나옵니다!
+2. SSE는 내 방에 라디오 방송국과 연결된 <strong>'스피커(<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 알림)'</strong>만 딱 하나 켜두는 거예요. 방송국에서 긴급 뉴스가 터지면 스피커로 즉시 술술 흘러나옵니다!
 3. 심지어 터널에 들어가서 전파가 끊겨도, 브라우저라는 똑똑한 비서가 "우리 아까 뉴스 3번까지 들었지? 다시 붙으면 서버한테 4번부터 달라고 해야지!" 하고 알아서 놓친 부분을 챙겨준답니다!
 
 ---

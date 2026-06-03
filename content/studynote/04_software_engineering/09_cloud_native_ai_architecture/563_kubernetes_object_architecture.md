@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: `Kubernetes`는 그리스어로 '조타수(배의 방향키를 잡는 선장)'를 뜻한다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))가 무거운 앱을 가벼운 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스로 꽁꽁 얼려주는 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장꾼'이라면, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 그 수만 개의 찰흙 박스들을 커다란 화물선(서버 클러스터) 100척 위에 알아서 빈틈없이 예쁘게 테트리스로 적재하고, 바다에 빠진 박스는 1초 만에 스페어로 다시 채워 넣는 '최고 관리 선장님([Container Orchestration](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/122_container_orchestration_kubernetes_k8s/))'이다.
 
-- **필요성 ([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Swarm의 몰락과 수동 배포의 끔찍함)**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 써서 가벼워지니 신나서 서버 5대에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 50개를 마구잡이로 띄웠다. 며칠 뒤 서버 3번이 갑자기 불타서 뻗었다! 그 안에 있던 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개가 몰살당했다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 김 대리가 새벽 2시에 불려 나와서 수동으로 서버 4번에 접속해 `docker run`을 10번 타이핑하며 피눈물로 손 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Manual [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 쳤다. **"아 ㅆㅂ! [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10만 개를 언제 사람이 일일이 감시하고 수동으로 껐다 켜?! 내가 도면을 줄 테니까 로봇이 24시간 쳐다보고 있다가 1개 뻗으면 다른 빈 서버에 1초 만에 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 좀 해줘!"** 이 무한의 좀비 복원 욕망이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 천하통일을 불렀다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> Swarm의 몰락과 수동 배포의 끔찍함)</strong>: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 써서 가벼워지니 신나서 서버 5대에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 50개를 마구잡이로 띄웠다. 며칠 뒤 서버 3번이 갑자기 불타서 뻗었다! 그 안에 있던 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개가 몰살당했다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 김 대리가 새벽 2시에 불려 나와서 수동으로 서버 4번에 접속해 `docker run`을 10번 타이핑하며 피눈물로 손 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Manual [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 쳤다. <strong>"아 ㅆㅂ! <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 10만 개를 언제 사람이 일일이 감시하고 수동으로 껐다 켜?! 내가 도면을 줄 테니까 로봇이 24시간 쳐다보고 있다가 1개 뻗으면 다른 빈 서버에 1초 만에 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 좀 해줘!"</strong> 이 무한의 좀비 복원 욕망이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 천하통일을 불렀다.
 
-- **💡 비유**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 깡통이 **'장난감 태엽 자동차'**라면, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 거대한 **'자율 주행 서킷 도로'**입니다. 옛날엔 자동차가 뒤집어지면 사람이 뛰어가서(수동 디버깅) 똑바로 세워줘야 했죠. K8s 서킷에는 거대한 기계 팔(Controller)이 천장에 수백 개 달려있습니다. "이 도로엔 무조건 빨간 차 3대가 항상 달려야 해(선언적 도면)!"라고 로봇한테 지시를 내려둡니다. 차 1대가 뒤집어져 뻗으면, 기계 팔이 0.1초 만에 번개처럼 튀어나와 뻗은 차를 쓰레기통에 쳐버리고 새 빨간 차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 꺼내서 트랙에 던져버립니다. 나는 그냥 팝콘 먹으면서 놀면 됩니다.
+- **💡 비유**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 깡통이 <strong>'장난감 태엽 자동차'</strong>라면, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 거대한 <strong>'자율 주행 서킷 도로'</strong>입니다. 옛날엔 자동차가 뒤집어지면 사람이 뛰어가서(수동 디버깅) 똑바로 세워줘야 했죠. K8s 서킷에는 거대한 기계 팔(Controller)이 천장에 수백 개 달려있습니다. "이 도로엔 무조건 빨간 차 3대가 항상 달려야 해(선언적 도면)!"라고 로봇한테 지시를 내려둡니다. 차 1대가 뒤집어져 뻗으면, 기계 팔이 0.1초 만에 번개처럼 튀어나와 뻗은 차를 쓰레기통에 쳐버리고 새 빨간 차([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 꺼내서 트랙에 던져버립니다. 나는 그냥 팝콘 먹으면서 놀면 됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **수동 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 런 ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Run)**: 서버 접속해서 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 라인 복붙 치던 노가다 원시 시대.
-  2. **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Swarm / Mesos (과도기)**: [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 춘추전국시대. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 스웜은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 개꿀로 쉬웠으나, 1,000대 스케일 넘어가면 뻗어버리는 한계가 터졌다.
-  3. **Borg ➡ [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 천하 통일 (2015~)**: 구글이 "야 니들 장난하냐? 우린 구글 검색 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1주일에 20억 개씩 띄우면서 'Borg(보그)'라는 괴물 엔진으로 자동 통제하고 있었음 ㅋ 이거 오븐소스(K8s)로 풀어줄게 써라!" 압도적인 외계인 기술력이 투하되며 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 스웜의 뚝배기를 깨고 전 우주 클라우드의 절대 헌법으로 군림했다.
+  1. <strong>수동 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 런 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Run)</strong>: 서버 접속해서 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 라인 복붙 치던 노가다 원시 시대.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Swarm / Mesos (과도기)</strong>: [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 춘추전국시대. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 스웜은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 개꿀로 쉬웠으나, 1,000대 스케일 넘어가면 뻗어버리는 한계가 터졌다.
+  3. <strong>Borg ➡ <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> 천하 통일 (2015~)</strong>: 구글이 "야 니들 장난하냐? 우린 구글 검색 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1주일에 20억 개씩 띄우면서 'Borg(보그)'라는 괴물 엔진으로 자동 통제하고 있었음 ㅋ 이거 오븐소스(K8s)로 풀어줄게 써라!" 압도적인 외계인 기술력이 투하되며 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 스웜의 뚝배기를 깨고 전 우주 클라우드의 절대 헌법으로 군림했다.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'에어컨 온도 조절기(선언적 통제)'**와 완벽히 똑같습니다. 옛날(명령적 방식, Imperative)엔 "지금 더우니까 찬바람 5단으로 틀어! (명령) ➡ 어 추워! 2단으로 줄여! (명령)" 사람이 계속 스위치를 눌렀습니다(수동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)). K8s(선언적 방식, [Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))는 "내 방은 무조건 24도([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))로 유지해!" 도면(YAML) 하나 벽에 붙이고 잡니다. 밤에 온도가 30도로 치솟든 얼어 죽든, 에어컨 AI가 알아서 팬을 미친 듯이 돌려 기어코 24도로 멱살 잡아 맞춰놓는 압도적 통치 철학입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'에어컨 온도 조절기(선언적 통제)'</strong>와 완벽히 똑같습니다. 옛날(명령적 방식, Imperative)엔 "지금 더우니까 찬바람 5단으로 틀어! (명령) ➡ 어 추워! 2단으로 줄여! (명령)" 사람이 계속 스위치를 눌렀습니다(수동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)). K8s(선언적 방식, [Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/))는 "내 방은 무조건 24도([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))로 유지해!" 도면(YAML) 하나 벽에 붙이고 잡니다. 밤에 온도가 30도로 치솟든 얼어 죽든, 에어컨 AI가 알아서 팬을 미친 듯이 돌려 기어코 24도로 멱살 잡아 맞춰놓는 압도적 통치 철학입니다.
 
 ---
 
 다음은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 오의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  쿠버네티스 (Kubernetes) 오                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠버네티스 (Kubernetes) 오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 오가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 오브젝트 아키텍처 ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/), [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 오브젝트 아키텍처 ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/), [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 오브젝트 아키텍처 ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/), [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-쿠버네티스 (Kubernetes) 오브젝트 아키텍처 (Pod, Service, Deployment, Ingress) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쿠버네티스 (Kubernetes) 오브젝트 아키텍처 (Pod, Service, Deployment, Ingress) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

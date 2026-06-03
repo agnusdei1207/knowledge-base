@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 현대 CPU는 짧은 순간에 수십에서 수백 암페어 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 요구한다. 단일상 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Regulator [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 하나로 이 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 모두 공급하면 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)와 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))에 흐르는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 지나치게 커지고, I²R 손실과 스위칭 손실이 빠르게 증가한다. 결과적으로 발열이 커지고, 출력 리플과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하도 심해져 고성능 코어를 안정적으로 유지하기 어렵다.
 
-이 문제를 해결하기 위해 등장한 것이 다상 전원부다. 여러 개의 작은 전원 단을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 두고, 각 전원 단이 서로 다른 시점에 조금씩 에너지를 공급하게 만들면, 한 개가 혼자 큰 짐을 지지 않아도 된다. 즉 다상 전원부는 "더 큰 부품 하나"를 쓰는 방식이 아니라, **여러 전원 단이 시간과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 나눠 가지는 방식**으로 고전류 문제를 푼다.
+이 문제를 해결하기 위해 등장한 것이 다상 전원부다. 여러 개의 작은 전원 단을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 두고, 각 전원 단이 서로 다른 시점에 조금씩 에너지를 공급하게 만들면, 한 개가 혼자 큰 짐을 지지 않아도 된다. 즉 다상 전원부는 "더 큰 부품 하나"를 쓰는 방식이 아니라, <strong>여러 전원 단이 시간과 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a>를 나눠 가지는 방식</strong>으로 고전류 문제를 푼다.
 
 그래서 다상 전원부의 필요성은 단순한 마케팅 숫자가 아니라, 고클럭·고코어·고전력 CPU 시대가 만든 전기적 한계를 넘기 위한 구조적 해법에서 나온다.
 - **📢 섹션 요약 비유**: 무거운 피아노를 한 사람이 들면 허리가 나가지만, 여러 사람이 타이밍을 맞춰 함께 들면 같은 무게도 훨씬 안정적으로 옮길 수 있다.
@@ -44,18 +44,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 다상 구조가 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이 아니라, 시간차를 둔 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이라는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           4-phase interleaving: split current, stagger switching          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 12V -> Phase A -> L_A --\                                                 │
-│ 12V -> Phase B -> L_B ---+--> Output capacitors --> CPU Vcore             │
-│ 12V -> Phase C -> L_C ---+                                                │
-│ 12V -> Phase D -> L_D --/                                                 │
-│                                                                            │
-│ PWM timing:   0°        90°        180°        270°                        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-phase interleaving: split current, stagger switching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase A -&gt; L_A --\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase B -&gt; L_B ---+--&gt; Output capacitors --&gt; CPU Vcore</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase C -&gt; L_C ---+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase D -&gt; L_D --/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PWM timing: 0° 90° 180° 270°</div></div>
+</div>
+</div>
+
+
 
 실무적으로는 저부하 효율도 중요하다. 페이즈를 많이 두면 고부하에는 유리하지만, 유휴 상태에서는 스위칭 손실이 오히려 늘 수 있다. 그래서 고급 컨트롤러는 낮은 부하에서 일부 페이즈를 끄는 페이즈 셰딩 기능을 사용해 효율을 유지한다.
 - **📢 섹션 요약 비유**: 물통을 한 사람이 한 번에 왕창 붓는 대신, 여러 사람이 순서를 정해 조금씩 이어 붓는 방식이다. 그러면 힘도 덜 들고 수면도 덜 흔들린다.
@@ -74,7 +76,7 @@ tags = ["studynote-computer-architecture"]
 
 다상 전원부는 VRM의 진화형이며, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Load-Line [Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)), 터보 부스트, 오버클러킹과 직접 연결된다. CPU가 큰 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 스텝을 요구해도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 덜 흔들리게 만들기 때문에, 더 높은 클럭과 더 긴 부스트 유지 시간을 지원할 수 있다. 반대로 다상 구조가 약하거나 냉각이 부족하면, CPU는 스펙상 고성능이어도 실제로는 전원부 온도나 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 불안정 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 유지하지 못한다.
 
-즉 다상 전원부는 단순한 "페이즈 개수 경쟁"이 아니라, **고전류 연산 시대의 전기적 품질 관리 기술**이다.
+즉 다상 전원부는 단순한 "페이즈 개수 경쟁"이 아니라, <strong>고전류 연산 시대의 전기적 품질 관리 기술</strong>이다.
 - **📢 섹션 요약 비유**: 합창에서 마이크를 한 명에게만 맡기면 소리가 쉽게 찢어지지만, 여러 사람이 파트를 나눠 불러 주면 더 크고 안정적인 소리를 낼 수 있다.
 
 ---
@@ -108,9 +110,9 @@ tags = ["studynote-computer-architecture"]
 
 다상 전원부의 기대효과는 분명하다. 고전류 CPU와 GPU를 더 안정적으로 구동하고, 출력 리플을 줄이며, 전원부 열을 넓게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 부품 신뢰성과 부스트 유지력을 높인다. 특히 부하가 급격히 변하는 현대 프로세서에서는 이러한 이점이 단순 수치보다 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정성으로 크게 나타난다.
 
-하지만 모든 시스템에 무조건 많은 페이즈가 정답은 아니다. 비용, 보드 면적, 제어 복잡도, 저부하 효율이라는 대가가 있으며, 잘못 설계된 다상 구조는 오히려 마케팅 수치만 높고 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 부족할 수 있다. 따라서 다상 전원부는 "많을수록 좋다"보다 **필요한 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)와 응답성을 얼마나 균형 있게 충족하는가**로 평가해야 한다.
+하지만 모든 시스템에 무조건 많은 페이즈가 정답은 아니다. 비용, 보드 면적, 제어 복잡도, 저부하 효율이라는 대가가 있으며, 잘못 설계된 다상 구조는 오히려 마케팅 수치만 높고 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 부족할 수 있다. 따라서 다상 전원부는 "많을수록 좋다"보다 <strong>필요한 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a>와 응답성을 얼마나 균형 있게 충족하는가</strong>로 평가해야 한다.
 
-앞으로는 스마트 파워 스테이지, 디지털 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 밸런싱, 48V 전원 분배, 고밀도 패키지 전원 통합이 더욱 확대될 것이다. 결론적으로 다상 전원부는 VRM의 옵션 기능이 아니라, **현대 고성능 프로세서를 현실적으로 떠받치는 전원 구조의 표준 해법**으로 기억하면 된다.
+앞으로는 스마트 파워 스테이지, 디지털 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 밸런싱, 48V 전원 분배, 고밀도 패키지 전원 통합이 더욱 확대될 것이다. 결론적으로 다상 전원부는 VRM의 옵션 기능이 아니라, <strong>현대 고성능 프로세서를 현실적으로 떠받치는 전원 구조의 표준 해법</strong>으로 기억하면 된다.
 - **📢 섹션 요약 비유**: 튼튼한 다리는 굵은 케이블 한 가닥보다, 여러 케이블이 하중을 나눠 들도록 설계할 때 더 오래 버틴다.
 
 ---
@@ -128,21 +130,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일상 벅 VRM
-        │
-        ▼
-인터리브드 다상 VRM
-        │
-        ▼
-페이즈 더블러 · 팀드 전원부
-        │
-        ▼
-페이즈 셰딩 · 디지털 전류 밸런싱
-        │
-        ▼
-고밀도 스마트 파워 스테이지 기반 전원 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일상 벅 VRM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터리브드 다상 VRM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이즈 더블러 · 팀드 전원부</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이즈 셰딩 · 디지털 전류 밸런싱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고밀도 스마트 파워 스테이지 기반 전원 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 전원부가 단순 강압 회로에서 출발해, 이제는 고전류와 저리플을 함께 관리하는 정교한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 제어 시스템으로 발전했음을 보여 준다.
 

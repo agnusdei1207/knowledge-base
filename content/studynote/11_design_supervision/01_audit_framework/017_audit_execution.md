@@ -29,14 +29,19 @@ tags = ["design_supervision"]
 
 이 도식은 감리 수행 중 증거가 어떻게 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)([Cross-validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))되는지 그 문제 해결 구조를 보여줍니다.
 
-```text
- [주장(Assertion)]            [감리 수행 3각 검증망]             [결론(Conclusion)]
-                   /--> (1) 문서 검토 (요구사항 명세서) --\
-사업자: "보안이   |                                        |--> 발견 사항(Finding)
-완벽합니다."  -----|--> (2) 인터뷰/시연 (담당자 질의)     |    : "XSS 취약점 미조치"
-                   |                                        |
-                   \--> (3) 도구 진단 (정적 분석 SAST) ---/
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주장(Assertion)</div><div class="kb-diagram-node">감리 수행 3각 검증망</div><div class="kb-diagram-node">결론(Conclusion)</div></div>
+<div class="kb-diagram-note">/--&gt; (1) 문서 검토 (요구사항 명세서) --\</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사업자: "보안이</div><div class="kb-diagram-cell">--&gt; 발견 사항(Finding)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽합니다." -----</div><div class="kb-diagram-cell">--&gt; (2) 인터뷰/시연 (담당자 질의)</div><div class="kb-diagram-cell">: "XSS 취약점 미조치"</div></div>
+<div class="kb-diagram-note">\--&gt; (3) 도구 진단 (정적 분석 SAST) ---/</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 사업자의 단일한 주장을 최소 2가지 이상의 서로 다른 경로(문서+도구, 인터뷰+도구)로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 데 있습니다. 따라서 특정 담당자의 거짓말이나 문서의 오류에 속지 않고 독립된 감리 결과를 보장할 수 있습니다.
 
@@ -50,24 +55,26 @@ tags = ["design_supervision"]
 
 | 수집 기법 | 핵심 역할 | 내부 동작 메커니즘 / 대상 | 한계 및 극복 방안 |
 |:---|:---|:---|:---|
-| **문서 검토 ([Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))** | 기준점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | RFP, 산출물(설계서), 테스트 결과서 대조 | [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 미흡 가능성 → 도구/시연 교차검증 |
+| <strong>문서 검토 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a>)</strong> | 기준점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | RFP, 산출물(설계서), 테스트 결과서 대조 | [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 미흡 가능성 → 도구/시연 교차검증 |
 | **면담 (Interview)** | 맥락 및 의도 파악 | PM, PL, 아키텍트 대상 개방/폐쇄형 질의 | 주관적 편향 → 객관적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | **관찰/시연 (Observation)** | 실제 작동 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 사용자 UI 흐름, [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/) 실행 참관 | 시연용 조작([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)) → 직접 임의 테스트 요구 |
 | **도구 진단 (Tooling)** | 정량적/전수 검사 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(시큐어코딩), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 부하 툴, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 툴 | 오탐(False Positive) 존재 → 수동 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) |
 
 이 다이어그램은 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기간(보통 1주~2주) 동안 감리원의 일일 작업 흐름을 나타냅니다.
 
-```text
-[Day N: 실지 감사 흐름도]
 
-(오전) [문서/산출물 분석] ───> 식별된 의문점/결함 후보 도출 (Finding Candidates)
-                                 │
-(오후) [도구 진단/직접 테스트] ──> 후보 검증 (실제 결함 여부 확인)
-                                 │
-(오후) [관련 담당자 인터뷰] ─────> 왜 발생했는가? 조치 방안은 무엇인가? (원인 파악)
-                                 │
-(저녁) [일일 점검(Daily Wrap-up)] > 수집 증거 취합 및 사업자 이견 1차 조율
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Day N: 실지 감사 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(오전)</div><div class="kb-diagram-node">문서/산출물 분석</div><div class="kb-diagram-note">&gt; 식별된 의문점/결함 후보 도출 (Finding Candidates)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(오후)</div><div class="kb-diagram-node">도구 진단/직접 테스트</div><div class="kb-diagram-note">──&gt; 후보 검증 (실제 결함 여부 확인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(오후)</div><div class="kb-diagram-node">관련 담당자 인터뷰</div><div class="kb-diagram-note">&gt; 왜 발생했는가? 조치 방안은 무엇인가? (원인 파악)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(저녁)</div><div class="kb-diagram-node">일일 점검(Daily Wrap-up)</div><div class="kb-diagram-note">&gt; 수집 증거 취합 및 사업자 이견 1차 조율</div></div>
+</div>
+</div>
+
+
 
 이 흐름에서 중요한 것은 매일(Daily) 수집된 증거를 기반으로 점진적으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 확정해 나간다는 점입니다. 저녁에 진행되는 일일 점검(Daily Wrap-up)은 감리원이 일방적으로 지적하는 시간이 아니라, "우리가 발견한 현상이 이것인데, 사업자 측의 다른 근거(예외 조항 등)가 있습니까?"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 오진을 방지하는 필수 절차입니다. 
 
@@ -85,7 +92,7 @@ tags = ["design_supervision"]
 |:---|:---|:---|:---|
 | **적용 대상** | 소스코드(보안), 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 네트워크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/), 인터페이스 화면, 복잡한 비즈니스 로직 | **자동화 가능 여부** |
 | **비용/시간** | 툴 세팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용 높으나 실행 시간 짧음 | 한 건당 깊은 통찰력, 많은 시간 소요 | **감리 리소스 분배** |
-| **정확도 성격** | 기계적 규칙 위반은 100% 탐지 (그러나 오탐 존재) | 문맥적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견에 탁월함 | **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 종류** |
+| **정확도 성격** | 기계적 규칙 위반은 100% 탐지 (그러나 오탐 존재) | 문맥적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견에 탁월함 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>의 종류</strong> |
 
 정보 보안 영역과의 융합 관점에서, 최근 감리 수행은 단순 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 점검을 넘어 [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)([Penetration Testing](/knowledge-base/studynote/09_security/13_secops_ir_forensics/676_penetration_testing/)) 수준의 동적 진단([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))을 요구하기도 합니다.
 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 관점에서는, 감리원이 코드를 100% 읽는 것이 불가능하므로 순환 복잡도(Cyclomatic Complexity) 측정 도구를 통해 유지보수성이 극도로 떨어지는 '갓 클래스(God Class)'나 '스파게티 코드' 부분만 샘플링하여 집중 타격하는 아키텍처적 접근법을 사용합니다.
@@ -98,7 +105,7 @@ tags = ["design_supervision"]
 
 실무에서 감리원은 종종 "이것은 버그가 아니라 스펙입니다"라는 사업자의 저항에 직면합니다. 이러한 상황에서의 의사결정 전략은 감리인의 역량을 결정짓습니다.
 
-1. **시나리오: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 지표 미달**
+1. <strong>시나리오: <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/">부하 테스트</a> 지표 미달</strong>
    - **상황**: 제안서에는 TPS 1,000으로 명시되어 있으나, 도구 진단 결과 TPS 600 지점에서 CPU 병목과 함께 에러율이 치솟음. 사업자는 "현실적으로 발생 불가능한 부하 상황"이라며 테스트 무효를 주장.
    - **판단**: 감리인은 Little's Law(L = λW) 등 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이론에 근거하여 테스트 환경의 정합성을 먼저 입증해야 합니다. 병목이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 커넥션 풀(Connection Pool) 부족인지, 어플리케이션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))인지 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 툴의 쓰레드 덤프([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Dump)를 통해 근거를 제시해야 합니다. "안된다"가 아니라 "여기(DB 락) 때문에 안된다"라고 짚어주어야 진정한 감리입니다.
 
@@ -106,21 +113,27 @@ tags = ["design_supervision"]
    - **상황**: 과업에는 포함되지 않은 기존 레거시 시스템 영역과 연동되는 부분에서 심각한 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점을 도구를 통해 식별함.
    - **판단**: 감리의 제1원칙인 '안전성'이 위협받으므로, 과업 범위를 벗어났더라도(Out of [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) '권고사항' 또는 '주요 위험'으로 감리 보고서에 적시하여 발주자에게 공식 경고해야 합니다. 단, 이로 인한 사업자의 페널티를 막기 위해 사업자의 책임이 아님을 선을 그어주는 정치적 판단도 필요합니다.
 
-```text
-[객관적 증거 채택 의사결정 트리]
-발견된 문제점(Finding)
-   ├─ 요구사항/제안서/법적기준 위반인가?
-   │     ├─ Yes ──> 충분한 증거(로그, 캡처)가 있는가?
-   │     │             ├─ Yes ──> 필수 [시정 조치] 채택
-   │     │             └─ No  ──> 추가 증거 수집 또는 기각
-   │     └─ No ───> 시스템의 성능/안전성에 중대한 위협인가?
-   │                   ├─ Yes ──> [권고 사항] 또는 [개선 사항] 채택
-   │                   └─ No  ──> 단순 의견 교환 후 종결
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">객관적 증거 채택 의사결정 트리</div></div>
+<div class="kb-diagram-note">발견된 문제점(Finding)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">요구사항/제안서/법적기준 위반인가?</div>
+<div class="kb-diagram-note">─ Yes ──&gt; 충분한 증거(로그, 캡처)가 있는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ Yes ──&gt; 필수</div><div class="kb-diagram-node">시정 조치</div><div class="kb-diagram-note">채택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ──&gt; 추가 증거 수집 또는 기각</div></div>
+<div class="kb-diagram-note">─ No &gt; 시스템의 성능/안전성에 중대한 위협인가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">권고 사항</div><div class="kb-diagram-note">또는</div><div class="kb-diagram-node">개선 사항</div><div class="kb-diagram-note">채택</div></div>
+<div class="kb-diagram-note">─ No ──&gt; 단순 의견 교환 후 종결</div>
+</div>
+</div>
+
+
 
 이 의사결정 트리는 감리원이 '개인적인 취향'으로 설계나 코드를 지적하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(오버엔지니어링 요구)을 막아줍니다. 모든 지적은 명확한 '[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)'에 근거해야 합니다.
 
-**실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong>실지 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구의 탐지 결과 중 오탐(False Positive)을 사업자와 함께 필터링했는가?
 - [ ] 중요한 인터뷰 내용은 반드시 회의록으로 남기고 서명을 받았는가?
 
@@ -134,11 +147,11 @@ tags = ["design_supervision"]
 
 | 기대 효과 구분 | 상세 내용 |
 |:---|:---|
-| **효과성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 시스템이 본래 요구된 비즈니스 목적([기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/), 과업)을 100% 충족했는지 실증 |
+| <strong>효과성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 시스템이 본래 요구된 비즈니스 목적([기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/), 과업)을 100% 충족했는지 실증 |
 | **안전성 확보** | 운영 환경 이관 전 시큐어코딩 및 접근통제 취약점을 도출하여 해킹 침해 사전 방지 |
 | **품질 내재화** | 감리원의 전문적 도구 진단을 통해 사업자 내부의 QA/테스트 프로세스 동반 상승 효과 |
 
-미래의 감리 수행은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 도입으로 큰 전환점을 맞이할 것입니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 봇과 자율 테스트 에이전트(Autonomous Test Agent)가 감리원을 대신하여 24시간 백그라운드에서 증거를 수집하고, 감리원은 식별된 고위험 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분석에만 집중하는 **[초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/) 감리(Hyper-automated [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))** 체계로 발전할 것입니다.
+미래의 감리 수행은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 도입으로 큰 전환점을 맞이할 것입니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 봇과 자율 테스트 에이전트(Autonomous Test Agent)가 감리원을 대신하여 24시간 백그라운드에서 증거를 수집하고, 감리원은 식별된 고위험 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분석에만 집중하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">초자동화</a> 감리(Hyper-automated <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>)</strong> 체계로 발전할 것입니다.
 
 > 📢 **섹션 요약 비유**: 철저한 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 출시 전 자동차를 가혹한 풍동 실험실과 충돌 테스트장에 밀어 넣는 것과 같아, 겉보기에만 번지르르한 차가 도로 위에서 멈춰서는 비극을 완벽히 차단합니다.
 
@@ -152,24 +165,25 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[감리 계획 (Audit Planning) — 감리 범위·일정·방법론 수립, 체크리스트 준비]
-    │
-    ▼
-[감리 수행 (Audit Execution) — 실지 감사, 인터뷰·문서 검토·자동화 도구 진단]
-    │
-    ▼
-[증거 수집 (Evidence Collection) — 산출물·로그·인터뷰 기록 체계적 수집]
-    │
-    ▼
-[감리 보고서 (Audit Report) — 지적 사항·권고 사항 문서화, 시정 조치 요구]
-    │
-    ▼
-[시정 조치 확인 (Follow-up Audit) — 지적 사항 이행 여부 재검증]
-    │
-    ▼
-[지속적 감리 (Continuous Auditing) — 실시간 모니터링·자동화 도구 상시 감리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 (Audit Planning) — 감리 범위·일정·방법론 수립, 체크리스트 준비</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 수행 (Audit Execution) — 실지 감사, 인터뷰·문서 검토·자동화 도구 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">증거 수집 (Evidence Collection) — 산출물·로그·인터뷰 기록 체계적 수집</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 (Audit Report) — 지적 사항·권고 사항 문서화, 시정 조치 요구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 확인 (Follow-up Audit) — 지적 사항 이행 여부 재검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 감리 (Continuous Auditing) — 실시간 모니터링·자동화 도구 상시 감리</div></div>
+</div>
+</div>
+
+
 이 흐름은 일회성 감리 계획과 수행에서 증거 기반 보고·시정 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)으로 발전하고, 자동화 도구를 활용한 상시 지속적 감리 체계로 진화하는 IT 감리 방법론의 성숙도를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -22,38 +22,46 @@ tags = ["studynote-network"]
 - **개념**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 토폴로지를 논리적인 그룹(Area)으로 분할하여, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)의 크기를 줄이고 LSA Flooding(정보 폭풍)의 범위를 제한하는 2계층 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 디자인.
 - **필요성**: 만약 삼성전자 사내망에 라우터가 500대 있다 치자. 이걸 Area를 안 쪼개고(단일 Area 0) 통짜로 돌리면, 저 구석에 있는 라우터의 1번 선이 깜빡거릴 때마다 500대의 라우터가 "비상!! 지도 업데이트해라!!"라며 미친 듯이 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 알고리즘을 팽팽 돌리며 뻗어버린다(CPU 100%). "야, 부산에서 일어난 일을 왜 서울 라우터가 계산하고 앉아있어? **부산 일은 부산(Area 1) 안에서만 쑥덕거리게 가둬놓고, 서울(Area 0)에는 그냥 '부산 가는 길 1줄'만 통보해!!**" 이것이 OSPF를 대기업 망의 제왕으로 만든 핵심 아이디어다.
 
-- **💡 비유**: Area 계층화는 대한민국의 **"행정 구역 시스템(시/도)"**과 같습니다.
+- **💡 비유**: Area 계층화는 대한민국의 <strong>"행정 구역 시스템(시/도)"</strong>과 같습니다.
   - 구청장(일반 라우터)은 자기가 관리하는 구(Area 1) 안의 모든 골목길과 가로등(세부 [LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/)) 위치를 완벽히 외웁니다.
   - 하지만 서울시장(Area 0)은 부산(Area 2)의 골목길까지 외우지 않습니다. 그저 "부산 가려면 경부고속도로 타라"라는 굵직한 요약본 1줄만 외우면 끝입니다.
 
-```text
-[OSPF 인접성, Hello 패킷, LSA,…]
-    │
-    ▼
-[OSPF Area 계층적 구조]
-    │
-    └──▶ [DR, BDR]
-```
 
-- **📢 섹션 요약 비유**: ** [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 분할은 거대한 도서관의 **"십진분류법(섹션 쪼개기)"**입니다. 책 10만 권을 한 방(단일 Area)에 다 때려 넣고 찾으려면 사서(라우터)가 미쳐버리지만, 문학방, 과학방(Area 1, 2)으로 쪼개면 사서는 자기 방의 책만 꼼꼼히 정리하고, 남의 방 책은 "저쪽 방에 있다"는 팻말 하나만 걸어두면 됩니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 인접성, Hello 패킷, LSA,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF Area 계층적 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DR, BDR</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> Area 분할은 거대한 도서관의 </strong>"십진분류법(섹션 쪼개기)"**입니다. 책 10만 권을 한 방(단일 Area)에 다 때려 넣고 찾으려면 사서(라우터)가 미쳐버리지만, 문학방, 과학방(Area 1, 2)으로 쪼개면 사서는 자기 방의 책만 꼼꼼히 정리하고, 남의 방 책은 "저쪽 방에 있다"는 팻말 하나만 걸어두면 됩니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 절대 규칙: 백본 에어리어 (Area 0)
-OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 **`Area 0`**부터 만들어야 한다.
-- Area 0는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke) 구조의 **중심([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))**이다.
+OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 <strong><code>Area 0</code></strong>부터 만들어야 한다.
+- Area 0는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 앤 스포크([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) & Spoke) 구조의 <strong>중심(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)</strong>이다.
 - Area 1에서 Area 2로 가려면, 1 -> 2로 직통으로 갈 수 없고 무조건 `Area 1 -> Area 0 -> Area 2`의 순서로 백본을 거쳐야만 한다. (이 규칙 덕분에 경로가 빙빙 도는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프가 태생적으로 차단된다).
 
-```text
-[OSPF 인접성, Hello 패킷, LSA,…]
-    │
-    ▼
-[OSPF Area 계층적 구조]
-    │
-    └──▶ [DR, BDR]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 인접성, Hello 패킷, LSA,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF Area 계층적 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DR, BDR</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층적 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -77,37 +85,32 @@ OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 **`Area 0`**부�
 
 라우터가 어느 구역에 발을 걸치고 있느냐에 따라 직급(이름)이 달라진다.
 
-1. **Internal Router ([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), 내부 라우터)**: 라우터의 모든 팔다리(인터페이스)가 오직 Area 1 안쪽에만 꽂혀있는 놈. (자기 동네 일만 안다).
+1. <strong>Internal Router (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a>, 내부 라우터)</strong>: 라우터의 모든 팔다리(인터페이스)가 오직 Area 1 안쪽에만 꽂혀있는 놈. (자기 동네 일만 안다).
 2. **Backbone Router (BR, 백본 라우터)**: 라우터의 팔다리 중 하나라도 Area 0(백본)에 꽂혀있는 놈. (중앙 광장에 발을 담근 놈).
 3. **ABR (Area Border Router, 에어리어 경계 라우터) ★핵심**: 
    - 한쪽 팔은 Area 0에, 다른 쪽 팔은 Area 1에 걸치고 있는 양다리 라우터.
-   - **가장 중요한 역할**: Area 1에서 일어난 잡다한 골목길 정보들(LSA)이 Area 0로 넘어가지 못하게 방화벽처럼 막아버리고, 싹 다 뭉뚱그려서 **"야! Area 1로 오려면 나한테로 와!"라고 한 줄로 요약(경로 요약, Summarization)**해서 던져주는 핵심 일꾼이다.
-4. **ASBR ([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Boundary Router, 자율 시스템 경계 라우터) ★핵심**:
+   - **가장 중요한 역할**: Area 1에서 일어난 잡다한 골목길 정보들(LSA)이 Area 0로 넘어가지 못하게 방화벽처럼 막아버리고, 싹 다 뭉뚱그려서 <strong>"야! Area 1로 오려면 나한테로 와!"라고 한 줄로 요약(경로 요약, Summarization)</strong>해서 던져주는 핵심 일꾼이다.
+4. <strong>ASBR (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> Boundary Router, 자율 시스템 경계 라우터) ★핵심</strong>:
    - 한쪽 팔은 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(우리 회사) 망에, 다른 쪽 팔은 아예 생판 남인 [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)(인터넷) 망에 꽂혀 있는 외교관 라우터.
    - **가장 중요한 역할**: 바깥 세상([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))에서 온 족보 없는 지도 정보를 OSPF가 알아들을 수 있는 말(LSA Type 5)로 통역해서 우리 동네로 쫙 뿌려준다. (이를 재분배, Redistribution이라 한다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                OSPF Area 계층 구조와 라우터 직급 도식            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ (RIP) 타 회사망 ]   [ 우리 회사망 (OSPF 구역) ]                  │
- │        │                                                     │
- │        │(재분배)    ┌─── Area 0 (중앙 광장) ───┐                 │
- │        ▼          │                        │                 │
- │     [ ASBR ] ─── [ BR ]      [ BR ] ─── [ ABR ]               │
- │                   │          │           │                 │
- │                   └──────────┴───────────┘                 │
- │                                            │  (동네 정보 요약!)  │
- │                                            ▼                 │
- │                                      ┌── Area 1 ──┐          │
- │                                      │   [ IR ]   │          │
- │                                      └────────────┘          │
- │                                                             │
- │   * ASBR: 외국(RIP) 정보를 OSPF 마을로 끌고 들어오는 출입국 관리소. │
- │   * ABR : 1번 동네의 찌라시를 0번 광장으로 요약해서 보고하는 동사무소장.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPF Area 계층 구조와 라우터 직급 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(RIP) 타 회사망</div><div class="kb-diagram-node">우리 회사망 (OSPF 구역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재분배) Area 0 (중앙 광장)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ASBR</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-node">ABR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동네 정보 요약!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Area 1 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ASBR: 외국(RIP) 정보를 OSPF 마을로 끌고 들어오는 출입국 관리소.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ABR : 1번 동네의 찌라시를 0번 광장으로 요약해서 보고하는 동사무소장.</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,7 +118,7 @@ OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 **`Area 0`**부�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** ABR은 **"시청 대변인"**입니다. 강남구(Area 1) 안에서 수도관이 터지고 공사를 하는 복잡한 일들을 강남구청장([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))은 다 알지만, 대변인(ABR)은 그 자잘한 일들을 서울시장(Area 0)에게 보고하지 않고, **"강남구 이상 무!"**라는 한 줄짜리 요약 보고서만 올려서 서울시청의 업무 마비를 막아냅니다.
+- **📢 섹션 요약 비유**: ** ABR은 **"시청 대변인"<strong>입니다. 강남구(Area 1) 안에서 수도관이 터지고 공사를 하는 복잡한 일들을 강남구청장(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a>)은 다 알지만, 대변인(ABR)은 그 자잘한 일들을 서울시장(Area 0)에게 보고하지 않고, </strong>"강남구 이상 무!"**라는 한 줄짜리 요약 보고서만 올려서 서울시청의 업무 마비를 막아냅니다.
 
 ---
 
@@ -138,15 +141,19 @@ OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 **`Area 0`**부�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OSPF 인접성, Hello 패킷, LSA,…]
-    │
-    ▼
-[현재 개념: OSPF Area 계층적 구조]
-    │
-    ├──▶ [확장 A: DR, BDR]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF 인접성, Hello 패킷, LSA,…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF Area 계층적 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DR, BDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층적 구조는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 인접성, Hello 패킷, LSA,…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), BDR와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

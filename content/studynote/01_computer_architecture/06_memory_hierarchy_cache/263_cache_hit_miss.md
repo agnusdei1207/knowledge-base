@@ -35,25 +35,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 번의 메모리 요청이 히트 또는 미스로 갈라지는 경로를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Cache request path: hit vs miss                                         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ CPU request                                                              │
-│    │                                                                     │
-│    ▼                                                                     │
-│ Set index select -> Tag compare -> match? -- yes --> Hit: 1~4 cycles    │
-│                                  │                                       │
-│                                  └-- no ---> Miss detected               │
-│                                                  │                       │
-│                                                  ▼                       │
-│                                     Lower level access                   │
-│                                     L2 -> L3 -> DRAM                    │
-│                                                  │                       │
-│                                                  ▼                       │
-│                                     Fill cache line, retry               │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache request path: hit vs miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Set index select -&gt; Tag compare -&gt; match? -- yes --&gt; Hit: 1~4 cycles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- no ---&gt; Miss detected</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lower level access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 -&gt; L3 -&gt; DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fill cache line, retry</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은 캐시가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계산하는 장치"가 아니라, "가장 먼저 조회되는 저장 계층"이라는 점이다. 따라서 히트 시간을 줄이려면 캐시 탐색이 짧아야 하고, 미스 피해를 줄이려면 하위 계층 접근과 재적재 과정을 효율화해야 한다.
 
@@ -139,23 +135,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조의 지역성 (Locality)
-    │
-    ▼
-캐시 라인 (Cache Line) · 캐시 매핑 (Cache Mapping)
-    │
-    ▼
-캐시 히트 (Cache Hit) / 캐시 미스 (Cache Miss)
-    │
-    ├───────────────┬────────────────┐
-    ▼               ▼                ▼
-적중률 (Hit Ratio)  3C Miss Model    캐시 일관성 (Coherence)
-    │               │                │
-    └───────────────┴────────────────┘
-                    ▼
-AMAT (Average Memory Access Time) 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조의 지역성 (Locality)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 라인 (Cache Line) · 캐시 매핑 (Cache Mapping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 히트 (Cache Hit) / 캐시 미스 (Cache Miss)</div>
+<div class="kb-diagram-note">적중률 (Hit Ratio) 3C Miss Model 캐시 일관성 (Coherence)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AMAT (Average Memory Access Time) 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "지역성을 이용해 캐시에 담고, 그 결과가 히트/미스로 나타나며, 이를 정량화하고 최적화하는 과정"을 보여준다.
 

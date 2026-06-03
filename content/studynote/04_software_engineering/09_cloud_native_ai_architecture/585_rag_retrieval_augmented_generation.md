@@ -22,35 +22,34 @@ tags = ["studynote-software-engineering"]
 - **개념**: 
   - **Retrieval (검색/가져오기)**: 유저가 "우리 회사 환불 규정 뭐야?" 물어보면, AI한테 바로 묻지 않고 1차로 사내 위키(DB)를 검색해서 '환불 규정 PDF 텍스트 덩어리'를 긁어오는 단계.
   - **Augmented (증강/덧붙이기)**: 긁어온 PDF 텍스트를 유저의 원래 질문과 합체(프롬프트에 쑤셔 박음)시켜서 "질문을 뚱뚱하고 빵빵하게(증강)" 만드는 단계.
-  - **Generation ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/답변하기)**: 이 뚱뚱해진 팩트 프롬프트를 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(ChatGPT)에 던져서 "여기 적힌 팩트대로만 예쁘게 요약해서 대답해!"라고 정답을 찍어내는 단계.
+  - <strong>Generation (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>/답변하기)</strong>: 이 뚱뚱해진 팩트 프롬프트를 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(ChatGPT)에 던져서 "여기 적힌 팩트대로만 예쁘게 요약해서 대답해!"라고 정답을 찍어내는 단계.
 
-- **필요성 (파인튜닝의 절망과 LLM의 숨 쉬는 거짓말)**: 대기업 사장님이 "우리 회사 내부 규정 알려주는 사내 챗GPT 만들어!" 지시했다. 개발자는 GPT-3 모델에 사내 규정집 100만 장을 1주일 동안 피똥 싸며 재학습(파인튜닝) 시켰다. 오픈 날, 사장님이 "11월 특가 쿠폰 규정 뭐야?" 물었다. 챗GPT는 "그런 거 없음 ㅋ" 했다. 왜? **특가 쿠폰 규정은 어제 밤(파인튜닝 이후)에 새로 올라온 공지사항이라 챗GPT의 뇌([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))에 업데이트가 안 되어 있었기 때문이다! 게다가 모르면 모른다고 할 것이지, 엉뚱한 작년 쿠폰 규정을 가져와 거짓말([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 쳤다.** "아 ㅆㅂ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바뀔 때마다 1주일씩 재학습시킬 수도 없고, 거짓말 치는 건 어떻게 막아?!" 이 분노의 해결책이 바로 RAG다.
+- **필요성 (파인튜닝의 절망과 LLM의 숨 쉬는 거짓말)**: 대기업 사장님이 "우리 회사 내부 규정 알려주는 사내 챗GPT 만들어!" 지시했다. 개발자는 GPT-3 모델에 사내 규정집 100만 장을 1주일 동안 피똥 싸며 재학습(파인튜닝) 시켰다. 오픈 날, 사장님이 "11월 특가 쿠폰 규정 뭐야?" 물었다. 챗GPT는 "그런 거 없음 ㅋ" 했다. 왜? <strong>특가 쿠폰 규정은 어제 밤(파인튜닝 이후)에 새로 올라온 공지사항이라 챗GPT의 뇌(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)에 업데이트가 안 되어 있었기 때문이다! 게다가 모르면 모른다고 할 것이지, 엉뚱한 작년 쿠폰 규정을 가져와 거짓말(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>)을 쳤다.</strong> "아 ㅆㅂ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바뀔 때마다 1주일씩 재학습시킬 수도 없고, 거짓말 치는 건 어떻게 막아?!" 이 분노의 해결책이 바로 RAG다.
 
-- **💡 비유**: 파인튜닝(재학습)이 **'직원([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))한테 회사 매뉴얼 1만 장을 1주일 동안 통째로 달달 암기(학습)시켜서 시험 보기'**라면, RAG는 **'직원한테 오픈북(Open Book) 시험을 보게 하는 짓'**입니다. 억지로 외우게 할 필요 없습니다. 직원은 백지상태지만, 손님이 질문하면 즉시 **'회사 매뉴얼 책자([Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/))'**를 실시간으로 검색(Retrieval)해서 정답이 있는 페이지를 쫙 폅니다(Augmented). 그리고 그 페이지에 적힌 내용만 앵무새처럼 요약해서(Generation) 읽어줍니다. 매뉴얼이 오늘 아침에 바뀌었어도 책자만 갈아 끼우면 되니 100% 최신 팩트만 대답하는 궁극의 치트키입니다.
+- **💡 비유**: 파인튜닝(재학습)이 <strong>'직원(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)한테 회사 매뉴얼 1만 장을 1주일 동안 통째로 달달 암기(학습)시켜서 시험 보기'</strong>라면, RAG는 <strong>'직원한테 오픈북(Open Book) 시험을 보게 하는 짓'</strong>입니다. 억지로 외우게 할 필요 없습니다. 직원은 백지상태지만, 손님이 질문하면 즉시 <strong>'회사 매뉴얼 책자(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)'</strong>를 실시간으로 검색(Retrieval)해서 정답이 있는 페이지를 쫙 폅니다(Augmented). 그리고 그 페이지에 적힌 내용만 앵무새처럼 요약해서(Generation) 읽어줍니다. 매뉴얼이 오늘 아침에 바뀌었어도 책자만 갈아 끼우면 되니 100% 최신 팩트만 대답하는 궁극의 치트키입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/) 쌩노가다 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))**: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
-  2. **파인튜닝([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))의 삽질 (과도기)**: 기업들이 수억을 들여 LLM을 자체 튜닝했다. 하지만 돈만 오지게 깨지고, 보안 통제(권한별 답변 분리)도 안 되고, 실시간 업데이트도 불가능해서 죄다 폭망했다.
-  3. **Facebook(Meta)의 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 논문 (현재)**: 2020년 페이스북이 "야 모델 학습시키지 마! 그냥 밖에서 텍스트 검색해서 입에 떠먹여 줘!"라는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 논문을 발표, 이 사상이 [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) 프레임워크와 결합되며 전 세계 기업 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구축의 99%를 차지하는 절대 왕좌에 올랐다.
+  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a> 쌩노가다 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
+  2. <strong>파인튜닝(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a>)의 삽질 (과도기)</strong>: 기업들이 수억을 들여 LLM을 자체 튜닝했다. 하지만 돈만 오지게 깨지고, 보안 통제(권한별 답변 분리)도 안 되고, 실시간 업데이트도 불가능해서 죄다 폭망했다.
+  3. <strong>Facebook(Meta)의 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 논문 (현재)</strong>: 2020년 페이스북이 "야 모델 학습시키지 마! 그냥 밖에서 텍스트 검색해서 입에 떠먹여 줘!"라는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 논문을 발표, 이 사상이 [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) 프레임워크와 결합되며 전 세계 기업 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구축의 99%를 차지하는 절대 왕좌에 올랐다.
 
-- **📢 섹션 요약 비유**: RAG는 **'판사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))와 변호사(검색기)'**의 협업입니다. 판사는 법전(사내 지식)을 다 외우고 있지 않습니다. 변호사(Retrieval)가 수만 장의 판례를 뒤져서 딱 맞는 핵심 증거 자료 3장([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 1초 만에 판사 책상에 올려둡니다. 판사는 그 증거 자료만 보고 훌륭한 판결문(Generation)을 뚝딱 써 내려갑니다. 판사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))를 똑똑하게 만들 필요 없이, 변호사(검색 DB)만 잘 키우면 100점짜리 재판이 가능해집니다.
+- **📢 섹션 요약 비유**: RAG는 <strong>'판사(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>)와 변호사(검색기)'</strong>의 협업입니다. 판사는 법전(사내 지식)을 다 외우고 있지 않습니다. 변호사(Retrieval)가 수만 장의 판례를 뒤져서 딱 맞는 핵심 증거 자료 3장([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 1초 만에 판사 책상에 올려둡니다. 판사는 그 증거 자료만 보고 훌륭한 판결문(Generation)을 뚝딱 써 내려갑니다. 판사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))를 똑똑하게 만들 필요 없이, 변호사(검색 DB)만 잘 키우면 100점짜리 재판이 가능해집니다.
 
 ---
 
 다음은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augme의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  RAG (Retrieval-Augme                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG (Retrieval-Augme</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augme가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

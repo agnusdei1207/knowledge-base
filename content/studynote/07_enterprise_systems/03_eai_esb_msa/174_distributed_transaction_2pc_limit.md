@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))는 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에 걸친 변경을 하나의 원자적 커밋처럼 보이게 만들기 위해, 참여자 전원에게 **준비(Prepare)와 최종 결정(Commit/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))** 을 강제하는 동기식 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 커밋 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
+> 1. **본질**: [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))는 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소에 걸친 변경을 하나의 원자적 커밋처럼 보이게 만들기 위해, 참여자 전원에게 <strong>준비(Prepare)와 최종 결정(Commit/<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong> 을 강제하는 동기식 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 커밋 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 > 2. **가치**: 참여 자원이 동일하고 네트워크가 안정적이며 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 짧다면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 넘는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업에도 강한 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 부여할 수 있다.
 > 3. **판단 포인트**: [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 와 클라우드 환경에서는 락 점유, 블로킹, 조정자 의존성, 이기종 자원 비호환 때문에 비용이 너무 커서, [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))·아웃박스·[보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)이 더 현실적인 대안이 된다.
 
@@ -23,7 +23,7 @@ tags = ["studynote-enterprise"]
 
 단일 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 안에서는 ACID ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 이 문제를 다룰 수 있다. 하지만 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 자기 저장소를 가지는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 에서는 "모두 성공하거나 모두 취소"를 자연스럽게 보장해 주는 전역 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계가 사라진다. 여기서 등장한 고전적 해법이 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 다.
 
-[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 출발점은 명확하다. **참여자 전원이 확실히 준비되었는지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤, 그 다음에만 최종 커밋을 허용하자**는 것이다. 이 사고는 이론적으로 깔끔하지만, 준비 후 최종 결정 전까지 모두가 기다려야 한다는 대가를 함께 안고 들어온다.
+[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 출발점은 명확하다. <strong>참여자 전원이 확실히 준비되었는지 먼저 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>한 뒤, 그 다음에만 최종 커밋을 허용하자</strong>는 것이다. 이 사고는 이론적으로 깔끔하지만, 준비 후 최종 결정 전까지 모두가 기다려야 한다는 대가를 함께 안고 들어온다.
 
 - **📢 섹션 요약 비유**: 친구 셋이 카드로 공동 결제할 때 "모두 결제 준비됐지? 한 명이라도 안 되면 전부 취소!"라고 외치는 방식과 같다. 깔끔해 보이지만, 한 명이 휴대폰을 떨어뜨리는 순간 나머지 둘도 계산대 앞에서 꼼짝없이 기다려야 한다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 보통 **조정자 ([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)) + 참여자 (Participant)** 구조로 동작한다. 조정자는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 참여자들에게 먼저 준비 여부를 묻고, 전원이 준비 완료라고 응답해야만 최종 커밋을 명령한다. 참여자는 Prepare 단계에서 로컬 변경을 디스크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남기고, 관련 자원을 잠근 채 최종 명령을 기다린다.
+[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 보통 <strong>조정자 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>) + 참여자 (Participant)</strong> 구조로 동작한다. 조정자는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 참여자들에게 먼저 준비 여부를 묻고, 전원이 준비 완료라고 응답해야만 최종 커밋을 명령한다. 참여자는 Prepare 단계에서 로컬 변경을 디스크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남기고, 관련 자원을 잠근 채 최종 명령을 기다린다.
 
 | 단계 | 조정자 동작 | 참여자 동작 | 시스템 대가 |
 | :--- | :--- | :--- | :--- |
@@ -39,26 +39,27 @@ tags = ["studynote-enterprise"]
 | Decision | 전원 Yes 면 Commit, 하나라도 No 면 [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 결정 | 결정 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 수신 대기 | 조정자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 전파 |
 | Completion | 최종 결과 통보 및 종료 | Commit/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) 후 락 해제 | 네트워크 실패 시 재전송·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요 |
 
-아래 그림은 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 핵심 문제를 보여 준다. Prepare 이후에는 참여자가 스스로 결정을 내릴 수 없기 때문에, 조정자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 장애가 곧 **블로킹 구간**이 된다.
+아래 그림은 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 핵심 문제를 보여 준다. Prepare 이후에는 참여자가 스스로 결정을 내릴 수 없기 때문에, 조정자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 장애가 곧 <strong>블로킹 구간</strong>이 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Two-Phase Commit blocking window                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Coordinator : prepare? ---> wait votes ---> COMMIT / ABORT        │
-│                     │                    ▲                         │
-│ Order DB    : lock row + YES ============┘                         │
-│ Payment DB  : lock row + YES ============┘                         │
-│ Inventory DB: lock row + YES ============┘                         │
-│                                                                    │
-│ If coordinator fails after all YES:                                │
-│ participants stay in uncertain state and keep waiting              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-Phase Commit blocking window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Coordinator : prepare? ---&gt; wait votes ---&gt; COMMIT / ABORT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order DB : lock row + YES ============</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payment DB : lock row + YES ============</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inventory DB: lock row + YES ============</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If coordinator fails after all YES:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">participants stay in uncertain state and keep waiting</div></div>
+</div>
+</div>
+
+
 
 핵심은 Prepare 단계가 "검사"가 아니라 거의 커밋 직전 상태라는 점이다. 참여자는 이미 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 가능한 최소 단위를 넘어 로컬 자원을 잡아 두고, 최종 명령을 기다린다. 따라서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 길어질수록 락 경쟁, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하, 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 함께 커진다.
 
-이 때문에 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 짧고 통제된 내부 시스템에서는 성립할 수 있지만, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)과 자원 다양성이 큰 환경에서는 급격히 부담스러워진다. 다시 말해 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 본질은 "전역 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)"이 아니라, **전역 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 위해 모두를 잠시 세워 두는 메커니즘**이다.
+이 때문에 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 짧고 통제된 내부 시스템에서는 성립할 수 있지만, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)과 자원 다양성이 큰 환경에서는 급격히 부담스러워진다. 다시 말해 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 본질은 "전역 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)"이 아니라, <strong>전역 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>을 위해 모두를 잠시 세워 두는 메커니즘</strong>이다.
 
 - **📢 섹션 요약 비유**: 출발선에서 심판 총소리를 기다리는 육상 경기와 같다. 모두가 자세를 잡고 멈춰 서 있는 동안에는 질서가 유지되지만, 총이 늦게 울리면 선수들은 그만큼 오래 긴장한 채 서 있어야 한다.
 
@@ -78,7 +79,7 @@ tags = ["studynote-enterprise"]
 
 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 가 기피되는 이유는 단순히 느려서가 아니다. 첫째, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 네트워크 홉이 늘수록 Prepare/Commit 왕복 비용이 누적된다. 둘째, [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), 캐시, [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 저장소처럼 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 친화적이지 않은 자원이 섞이면 전체 설계가 제한된다. 셋째, 조정자가 병목이 되거나 장애 지점이 되면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 독립성 자체가 흔들린다.
 
-반면 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)을 먼저 확정하고, 실패 시 보상 작업으로 되돌리는 방식을 택한다. 이 구조는 중간에 잠깐 불일치 상태가 생길 수 있지만, 블로킹 없이 더 높은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 확장성을 얻는다. 따라서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 에서는 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 "정합성의 정답"이 아니라, **강한 정합성을 얻는 대신 독립성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 희생하는 선택지**로 봐야 한다.
+반면 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)을 먼저 확정하고, 실패 시 보상 작업으로 되돌리는 방식을 택한다. 이 구조는 중간에 잠깐 불일치 상태가 생길 수 있지만, 블로킹 없이 더 높은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 확장성을 얻는다. 따라서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 에서는 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 "정합성의 정답"이 아니라, <strong>강한 정합성을 얻는 대신 독립성과 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>을 희생하는 선택지</strong>로 봐야 한다.
 
 - **📢 섹션 요약 비유**: [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 모두 손을 꼭 잡고 함께 다니는 행진이고, [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 각자 먼저 움직이되 문제가 생기면 다시 제자리로 돌아오는 약속이다. 전자는 질서가 강하지만 느리고, 후자는 유연하지만 사후 정리가 필요하다.
 
@@ -106,7 +107,7 @@ tags = ["studynote-enterprise"]
 - 교차 리전, 교차 클라우드 환경에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 로 저지연을 기대하는 경우
 - 보상 설계를 회피하려고 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 "만능 해결책"처럼 도입하는 경우
 
-기술사 관점에서 중요한 판단은 이것이다. **[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 불가능해서 버리는 기술이 아니라, 클라우드형 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 요구하는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·독립성·[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 너무 자주 충돌하기 때문에 의식적으로 배제되는 기술**이다.
+기술사 관점에서 중요한 판단은 이것이다. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">2PC</a> 는 불가능해서 버리는 기술이 아니라, 클라우드형 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템이 요구하는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>·독립성·<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>과 너무 자주 충돌하기 때문에 의식적으로 배제되는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 중요한 서류에 모두가 동시에 도장을 찍는 절차는 엄격하고 안전하지만, 사람 수가 많아질수록 회의실 예약과 대기 시간이 더 큰 문제가 된다. 그래서 현대 조직은 꼭 필요한 문서에만 전원 서명을 요구하고, 나머지는 책임자별 승인으로 나눠 처리한다.
 
@@ -116,9 +117,9 @@ tags = ["studynote-enterprise"]
 
 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 의 가장 큰 장점은 분명하다. 여러 저장소에 걸친 변경을 하나의 원자적 결정처럼 보이게 만들어, 회계나 재무처럼 강한 정합성이 핵심인 업무에서 설계 설명이 단순해진다. 이 점에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 여전히 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 이론의 기준점이다.
 
-하지만 현대 엔터프라이즈 시스템에서는 그 대가가 너무 자주 크게 나타난다. 락 유지 시간 증가, 조정자 병목, 장애 시 불확실 상태, 이기종 자원 비지원이 대표적이다. 그래서 실제 아키텍처는 전역 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)보다 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 로컬 정합성과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 업무 흐름** 쪽으로 이동해 왔다.
+하지만 현대 엔터프라이즈 시스템에서는 그 대가가 너무 자주 크게 나타난다. 락 유지 시간 증가, 조정자 병목, 장애 시 불확실 상태, 이기종 자원 비지원이 대표적이다. 그래서 실제 아키텍처는 전역 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별 로컬 정합성과 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능한 업무 흐름</strong> 쪽으로 이동해 왔다.
 
-결론적으로 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 기억하는 가장 정확한 관점은 "완벽한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, **강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 얻기 위해 시스템 전체를 동기식으로 묶는 비용 구조**다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 핵심 질문은 "[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 쓸 수 있는가?"보다 "정말 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 가 필요한가?"다.
+결론적으로 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 기억하는 가장 정확한 관점은 "완벽한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라, <strong>강한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 얻기 위해 시스템 전체를 동기식으로 묶는 비용 구조</strong>다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 핵심 질문은 "[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 를 쓸 수 있는가?"보다 "정말 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 가 필요한가?"다.
 
 - **📢 섹션 요약 비유**: [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 는 모두가 동시에 문을 잠그고 열쇠를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 출발할 수 있는 규율 강한 여행이다. 절대 흩어지지 않는 대신, 한 명만 늦어도 모두가 그 자리에서 멈춘다.
 
@@ -138,21 +139,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single database local transaction
-              │
-              ▼
-Database per service and distributed write problem
-              │
-              ▼
-2PC for atomic commit across participants
-              │
-              ▼
-Blocking, coordinator dependency, heterogeneous limits
-              │
-              ▼
-Saga / outbox / idempotent recovery patterns
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single database local transaction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Database per service and distributed write problem</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2PC for atomic commit across participants</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Blocking, coordinator dependency, heterogeneous limits</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Saga / outbox / idempotent recovery patterns</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단일 저장소 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 → 전역 커밋 필요 → [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 도입 → 블로킹 한계 → 비동기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 패턴"으로 이어지는 아키텍처 진화를 보여 준다.
 

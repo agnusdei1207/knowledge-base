@@ -30,36 +30,33 @@ tags = ["studynote-bigdata"]
 
 ### 클릭스트림 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│              클릭스트림 실시간 분석 파이프라인                      │
-├────────────────────────────────────────────────────────────────────┤
-│  [이벤트 수집]                                                     │
-│   브라우저 JavaScript SDK / 모바일 SDK                             │
-│   클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료                       │
-│       │                                                            │
-│       ▼                                                            │
-│  [이벤트 스트림]                                                   │
-│   Apache Kafka (초당 수백만 이벤트 버퍼링)                         │
-│       │                                                            │
-│       ▼                                                            │
-│  [스트림 처리 (실시간)]       [배치 처리 (일/주/월)]               │
-│   Apache Spark Streaming      Apache Spark SQL                     │
-│   Apache Flink                데이터 웨어하우스 (BigQuery/Redshift) │
-│       │                              │                             │
-│       ▼                              ▼                             │
-│  [실시간 대시보드]            [분석 리포트]                         │
-│  A/B 테스트 모니터링         퍼널 분석, 코호트 분석                 │
-│  이상 트래픽 감지             경로 분석, 세그먼트 분석              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭스트림 실시간 분석 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브라우저 JavaScript SDK / 모바일 SDK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 스트림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka (초당 수백만 이벤트 버퍼링)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 처리 (실시간)</div><div class="kb-diagram-node">배치 처리 (일/주/월)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark Streaming Apache Spark SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Flink 데이터 웨어하우스 (BigQuery/Redshift)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 대시보드</div><div class="kb-diagram-node">분석 리포트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A/B 테스트 모니터링 퍼널 분석, 코호트 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 트래픽 감지 경로 분석, 세그먼트 분석</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 분석 유형
 
 | 분석 유형 | 목적 | 핵심 질문 |
 |:---|:---|:---|
 | **퍼널 분석 (Funnel Analysis)** | 구매까지 각 단계 전환율 측정 | "어느 단계에서 가장 많이 이탈하는가?" |
-| **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 분석 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Analysis)** | 방문당 행동 패턴 파악 | "[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)당 평균 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰·체류 시간?" |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 분석 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Analysis)</strong> | 방문당 행동 패턴 파악 | "[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)당 평균 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰·체류 시간?" |
 | **경로 분석 (Path Analysis)** | 사용자 탐색 순서 분석 | "다음에 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 이동하는가?" |
 | **코호트 분석 (Cohort Analysis)** | 그룹별 시간 경과 행동 비교 | "1월 가입자 vs 2월 가입자의 리텐션?" |
 | **A/B 테스트** | 변형 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 | "버튼 색상이 CTR에 영향을 미치는가?" |
@@ -90,7 +87,7 @@ tags = ["studynote-bigdata"]
 
 | 항목 | 클릭스트림 분석 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재생 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Replay) | 히트맵 분석 |
 |:---|:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태** | 이벤트 시퀀스 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 전체 화면 재생 영상 | 클릭 밀도 히트맵 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태</strong> | 이벤트 시퀀스 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 전체 화면 재생 영상 | 클릭 밀도 히트맵 |
 | **분석 깊이** | 통계적 패턴 발굴 | 개별 사용자 경험 직접 관찰 | 시각적 UX 문제 발견 |
 | **규모** | 전체 사용자 | 샘플 (프라이버시·용량 제한) | 전체 사용자 |
 | **도구** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Spark, Amplitude | Hotjar, FullStory | Hotjar, Crazy Egg |
@@ -108,14 +105,14 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 1. **이커머스 퍼널 최적화**: 상품 조회→장바구니→결제 각 단계 이탈율 분석 → 이탈 원인 제거
 2. **콘텐츠 플랫폼 추천**: 시청/클릭 이력 실시간 분석 → 다음 추천 콘텐츠 개인화
-3. **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 제품 개선**: 기능별 사용 빈도 분석 → 낮은 사용 기능 UX 재설계 또는 제거
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 → 낮은 사용 기능 UX 재설계 또는 제거
 4. **광고 효율화**: 광고 클릭 → 전환까지의 경로 분석 → 어트리뷰션 모델 최적화
 
 ### [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **동의 (Consent) 관리**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 기준 사전 동의 수집 후에만 추적 시작
 2. **익명화**: 사용자 ID는 해시 처리, 정확한 IP 저장 금지 (지역 코드만 보관)
-3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화**: 분석에 필요한 이벤트만 수집 (불필요한 클릭 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 미수집)
+3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소화</strong>: 분석에 필요한 이벤트만 수집 (불필요한 클릭 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 미수집)
 4. **삭제 요청**: 사용자 삭제 요청 시 모든 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 해당 ID 퍼지
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -159,21 +156,23 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사용자 행동 이벤트 수집 (클릭·스크롤·페이지뷰)]
-    │
-    ▼
-[Apache Kafka (실시간 이벤트 스트리밍 수집)]
-    │
-    ▼
-[Apache Spark Streaming (실시간 집계 및 세션화)]
-    │
-    ▼
-[퍼널 분석 / 코호트 분석 (전환율·이탈 패턴 도출)]
-    │
-    ▼
-[A/B 테스트 → 제품 개선 (First-Party 데이터 전략)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 행동 이벤트 수집 (클릭·스크롤·페이지뷰)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka (실시간 이벤트 스트리밍 수집)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark Streaming (실시간 집계 및 세션화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼널 분석 / 코호트 분석 (전환율·이탈 패턴 도출)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A/B 테스트 → 제품 개선 (First-Party 데이터 전략)</div></div>
+</div>
+</div>
+
+
 클릭스트림은 Kafka로 수집·Spark로 집계하여 퍼널/코호트 분석으로 전환율 패턴을 도출하고, A/B 테스트를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 제품 개선 사이클로 완결된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

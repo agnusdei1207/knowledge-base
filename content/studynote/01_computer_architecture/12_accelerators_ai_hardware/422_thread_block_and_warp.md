@@ -27,22 +27,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 어떻게 계층적으로 묶여 실행과 협업의 단위로 바뀌는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        GPU 스레드 조직: 실행 단위와 협업 단위의 분리         │
-├──────────────────────────────────────────────────────────────┤
-│ Grid                                                        │
-│  ├─ Block 0  ─┬─ Warp 0  ─ Thread 0  ... Thread 31          │
-│  │            ├─ Warp 1  ─ Thread 32 ... Thread 63          │
-│  │            └─ Shared Memory + __syncthreads() 가능       │
-│  ├─ Block 1  ─┬─ Warp 0  ─ Thread 0  ... Thread 31          │
-│  │            └─ 다른 SM에 배치될 수 있으며 Block 0과 분리   │
-│  └─ ...                                                    │
-├──────────────────────────────────────────────────────────────┤
-│ Warp  = 실행 스케줄링 최소 단위                             │
-│ Block = 협업·동기화·자원 할당 최소 단위                     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 스레드 조직: 실행 단위와 협업 단위의 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Block 0 ─ ─ Warp 0 ─ Thread 0 ... Thread 31</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warp 1 ─ Thread 32 ... Thread 63</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shared Memory + __syncthreads() 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Block 1 ─ ─ Warp 0 ─ Thread 0 ... Thread 31</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 다른 SM에 배치될 수 있으며 Block 0과 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp = 실행 스케줄링 최소 단위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block = 협업·동기화·자원 할당 최소 단위</div></div>
+</div>
+</div>
+
+
 
 핵심은 블록과 워프가 같은 계층을 다른 말로 부르는 것이 아니라는 점이다. 워프는 "같이 달리는 묶음"이고, 블록은 "같은 작업실을 쓰는 묶음"이다. 따라서 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 설계할 때는 항상 "이 코드는 워프 관점에서 잘 실행되는가"와 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 블록 관점에서 잘 협업되는가"를 동시에 봐야 한다.
 
@@ -64,25 +66,27 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 블록이 [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 안에 배치될 때 실제로 어떤 자원 제약을 받는지 압축해서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              Block 배치와 Warp 실행의 실제 모습              │
-├──────────────────────────────────────────────────────────────┤
-│ SM                                                          │
-│  ├─ 자원 한도: Registers / Shared Memory / Max Threads      │
-│  ├─ Block A (256 threads)                                   │
-│  │   ├─ Warp 0                                               │
-│  │   ├─ Warp 1                                               │
-│  │   ├─ ...                                                  │
-│  │   └─ Warp 7                                               │
-│  ├─ Block B (256 threads)                                   │
-│  │   └─ 동일 방식으로 분해                                   │
-│  └─ Warp Scheduler: 준비된 Warp를 번갈아 실행                │
-├──────────────────────────────────────────────────────────────┤
-│ Block이 너무 크면  : 동시에 올라갈 Block 수 감소             │
-│ Block이 너무 작으면: Warp 수 부족 또는 자원 단편화 발생      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block 배치와 Warp 실행의 실제 모습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자원 한도: Registers / Shared Memory / Max Threads</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Block A (256 threads)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warp 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warp 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warp 7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Block B (256 threads)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 동일 방식으로 분해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Warp Scheduler: 준비된 Warp를 번갈아 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block이 너무 크면 : 동시에 올라갈 Block 수 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block이 너무 작으면: Warp 수 부족 또는 자원 단편화 발생</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 정량 감각은 다음과 같다. 블록 크기가 48이면 하드웨어는 이를 1.5 워프로 처리할 수 없으므로 실제로는 2개 워프로 본다. 즉 48개 중 32개는 첫 번째 워프를 채우지만, 나머지 16개는 두 번째 워프에 들어가고 16개 슬롯은 비어 있는 셈이다. 그래서 블록 크기를 32의 배수로 잡는 것이 기본 원칙이 된다.
 
@@ -131,7 +135,7 @@ tags = ["studynote-computer-architecture"]
 - 분기 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 워프에 섞어 넣어 발산 비용을 키우는 경우
 - [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 과하게 써서 오히려 점유율을 무너뜨리는 경우
 
-기술사 관점에서 중요한 판단 문장은 이것이다. **블록은 크게 잡을수록 좋은 것이 아니라, 워프 효율·점유율·협업 이득의 균형이 맞을 때만 좋은 선택**이다. 따라서 튜닝은 "최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수"가 아니라 "병목이 어디서 생기는가"를 기준으로 해야 한다. 메모리 병목이면 코얼레싱과 타일링을 먼저 보고, 제어 병목이면 워프 발산을 먼저 줄이는 식으로 접근해야 한다.
+기술사 관점에서 중요한 판단 문장은 이것이다. <strong>블록은 크게 잡을수록 좋은 것이 아니라, 워프 효율·점유율·협업 이득의 균형이 맞을 때만 좋은 선택</strong>이다. 따라서 튜닝은 "최대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수"가 아니라 "병목이 어디서 생기는가"를 기준으로 해야 한다. 메모리 병목이면 코얼레싱과 타일링을 먼저 보고, 제어 병목이면 워프 발산을 먼저 줄이는 식으로 접근해야 한다.
 
 - **📢 섹션 요약 비유**: 요리 주방에서 한 조를 너무 크게 만들면 재료는 많이 나르지만 조리대가 비좁아지고, 너무 작게 만들면 손은 남아도는데 교대 인원이 부족해진다. 적정 인원 배치가 곧 성능이다.
 
@@ -143,7 +147,7 @@ tags = ["studynote-computer-architecture"]
 
 이 구조의 기대효과는 분명하다. 워프 단위 스케줄링은 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기고, 블록 단위 협업은 글로벌 메모리 왕복을 줄이며, 둘의 조합은 대규모 행렬 연산·이미지 처리·딥러닝 추론 같은 작업에서 높은 처리량을 만든다. 반면 한계도 분명하다. 워프 내부 분기 불균형이 심하거나, 블록 자원 사용이 지나치게 크거나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 하드웨어와 맞지 않으면 이론적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성은 실제 성능으로 이어지지 않는다.
 
-앞으로는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블록 클러스터 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Block Cluster)처럼 블록보다 큰 협업 단위가 늘어나더라도, 기본 철학은 바뀌지 않는다. 실행은 작은 규격으로 묶고, 협업은 통제 가능한 범위로 제한하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치는 하드웨어 친화적으로 설계한다는 원칙이다. 따라서 이 개념은 "GPU의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음"이 아니라 **실행 단위와 협업 단위를 분리해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 관리하는 방법**으로 기억하는 것이 가장 정확하다.
+앞으로는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블록 클러스터 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Block Cluster)처럼 블록보다 큰 협업 단위가 늘어나더라도, 기본 철학은 바뀌지 않는다. 실행은 작은 규격으로 묶고, 협업은 통제 가능한 범위로 제한하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치는 하드웨어 친화적으로 설계한다는 원칙이다. 따라서 이 개념은 "GPU의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음"이 아니라 <strong>실행 단위와 협업 단위를 분리해 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 관리하는 방법</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 잘 훈련된 공장은 작업자를 그냥 많이 넣는 곳이 아니라, 같이 움직일 팀과 같이 도구를 쓸 팀을 다르게 설계하는 곳이다. 워프와 블록은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 공장의 그 설계도다.
 
@@ -162,20 +166,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CUDA (Compute Unified Device Architecture)
-    │
-    ▼
-SM (Streaming Multiprocessor) 기반 실행 모델
-    │
-    ├─▶ Warp : SIMT (Single Instruction Multiple Threads) 실행
-    │          │
-    │          └─▶ Warp Divergence · Memory Coalescing
-    │
-    └─▶ Thread Block : Shared Memory · Barrier 동기화
-               │
-               └─▶ Occupancy 최적화 · Thread Block Cluster 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CUDA (Compute Unified Device Architecture)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SM (Streaming Multiprocessor) 기반 실행 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Warp : SIMT (Single Instruction Multiple Threads) 실행</div>
+<div class="kb-diagram-note">─▶ Warp Divergence · Memory Coalescing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Thread Block : Shared Memory · Barrier 동기화</div>
+<div class="kb-diagram-tree-item" style="--depth:7">▶ Occupancy 최적화 · Thread Block Cluster 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 실행 모델이 SM을 중심으로 갈라져, 한쪽은 워프 기반 실행 효율로, 다른 한쪽은 블록 기반 협업 효율로 발전하는 구조를 보여준다.
 

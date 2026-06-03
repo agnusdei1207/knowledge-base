@@ -38,24 +38,21 @@ S&OP는 일회성 행사가 아니라 보통 월 단위로 반복되는 5단계 
 | **4단계** | 사전 S&OP (Pre-S&OP) | 수요와 공급 간의 차이(Gap)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 부서장급에서 실무적 대안(외주 등) 협의 | 부서장 (팀장급) |
 | **5단계** | 임원 S&OP (Executive S&OP) | 미해결 이슈에 대해 재무적 영향을 고려하여 CEO가 최종 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜(숫자) 승인 | CEO, 재무 임원 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                S&OP 의사결정 깔때기 구조 (Funnel)            │
-├──────────────────────────────────────────────────────────────┤
-│ [영업의 희망수요 10만 개]       [생산의 가용능력 7만 개]     │
-│             │                               │                │
-│             ▼                               ▼                │
-│         [Pre-S&OP: 수요/공급 1차 충돌 및 대안 모색]          │
-│          (외주 1만 개 추가 가능, 나머지 2만 개는 불가)       │
-│                             │                                │
-│                             ▼                                │
-│             [Executive S&OP: 재무 기반 최종 결정]            │
-│  "외주 단가 상승으로 이익 감소! 최종 7.5만 개만 생산 승인!"  │
-│                             │                                │
-│                             ▼                                │
-│        ★ [One Number 확정] SCM 및 ERP 마스터 데이터 반영 ★ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S&amp;OP 의사결정 깔때기 구조 (Funnel)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영업의 희망수요 10만 개</div><div class="kb-diagram-node">생산의 가용능력 7만 개</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pre-S&amp;OP: 수요/공급 1차 충돌 및 대안 모색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외주 1만 개 추가 가능, 나머지 2만 개는 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executive S&amp;OP: 재무 기반 최종 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"외주 단가 상승으로 이익 감소! 최종 7.5만 개만 생산 승인!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">One Number 확정</div><div class="kb-diagram-note">SCM 및 ERP 마스터 데이터 반영 ★</div></div>
+</div>
+</div>
+
+
 
 이 프로세스의 핵심은 단순히 수량을 맞추는 물리적 조정을 넘어, 최종 결정 기준이 '수익성(Profitability)'이라는 재무적 원칙에 뿌리를 두고 있다는 점이다. 
 
@@ -85,8 +82,8 @@ S&OP는 기업의 정보 시스템과 어떻게 결합하느냐에 따라 그 �
 IT 컨설턴트나 기술사로서 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 구축 프로젝트에 투입될 때, 시스템 오류보다 부서 간 핑계 대기가 문제의 핵심인 경우가 많다. S&OP 프로세스 정립 없이 시스템만 도입하면 100% 실패한다.
 
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **경영진의 후원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: S&OP 회의에 CEO나 실질적 권한을 가진 임원이 참석하는가? 실무자들만 모여서는 결코 타협된 단일 숫자를 만들어낼 수 없다.
-2. **단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) 확보 여부**: 영업과 생산이 회의실에 들어올 때 각자 엑셀 장부를 들고 오는가? 반드시 통합된 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/DW에서 추출된 공통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기준으로 논의해야 한다.
+1. <strong>경영진의 후원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: S&OP 회의에 CEO나 실질적 권한을 가진 임원이 참석하는가? 실무자들만 모여서는 결코 타협된 단일 숫자를 만들어낼 수 없다.
+2. <strong>단일 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">Single Source of Truth</a>) 확보 여부</strong>: 영업과 생산이 회의실에 들어올 때 각자 엑셀 장부를 들고 오는가? 반드시 통합된 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/DW에서 추출된 공통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기준으로 논의해야 한다.
 3. **무조건적인 수요 충족 회피**: 영업의 요구(수요)를 생산이 맹목적으로 따라가는 것은 올바른 S&OP가 아니다. 원가가 안 맞으면 차라리 덜 팔아서 이익률을 방어하는 '재무적 거절'이 일어나는지가 S&OP 성숙도의 척도다.
 
 - **📢 섹션 요약 비유**: 훌륭한 재판(S&OP)을 하려면 각자 조작된 증거를 가져오면 안 된다. 판사(CEO) 앞에서 모두가 똑같은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보고 판결해야 승복이 일어난다.
@@ -107,25 +104,28 @@ S&OP는 단순히 회의를 하는 절차가 아니라, 기업의 문화를 '개
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | S&OP에서 결정된 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜을 바탕으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 물동량을 통제하는 시스템 |
-| **채찍 효과 ([Bullwhip Effect](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/))** | 정보가 공유되지 않을 때 수요 예측의 오차가 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 위로 갈수록 증폭되는 현상 (S&OP가 해결 목표) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | S&OP에서 결정된 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜을 바탕으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 물동량을 통제하는 시스템 |
+| <strong>채찍 효과 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/">Bullwhip Effect</a>)</strong> | 정보가 공유되지 않을 때 수요 예측의 오차가 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 위로 갈수록 증폭되는 현상 (S&OP가 해결 목표) |
 | **IBP (Integrated Business Planning)** | S&OP에 재무적 예측 및 시뮬레이션을 더욱 강력하게 결합한 차세대 경영 계획 모델 |
-| **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))** | S&OP의 합의된 결과를 실물 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리하는 기반 전사 시스템 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">Enterprise Resource Planning</a>)</strong> | S&OP의 합의된 결과를 실물 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리하는 기반 전사 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부서 이기주의 (Silo Effect) 및 채찍 효과 발생
-    │
-    ▼ (운영 통합의 필요성 대두)
-MRP / MRPII · 자재 및 생산 자원의 물리적 계획 수립
-    │
-    ▼ (영업 수요와 생산 공급의 전사적 조율)
-S&OP (Sales and Operations Planning) · 물량 기반의 단일 마스터플랜 합의
-    │
-    ▼ (재무 목표와의 완벽한 동기화)
-IBP (Integrated Business Planning) · 가치(Value)와 이익(Profit) 중심의 시나리오 경영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부서 이기주의 (Silo Effect) 및 채찍 효과 발생</div>
+<div class="kb-diagram-note">▼ (운영 통합의 필요성 대두)</div>
+<div class="kb-diagram-note">MRP / MRPII · 자재 및 생산 자원의 물리적 계획 수립</div>
+<div class="kb-diagram-note">▼ (영업 수요와 생산 공급의 전사적 조율)</div>
+<div class="kb-diagram-note">S&amp;OP (Sales and Operations Planning) · 물량 기반의 단일 마스터플랜 합의</div>
+<div class="kb-diagram-note">▼ (재무 목표와의 완벽한 동기화)</div>
+<div class="kb-diagram-note">IBP (Integrated Business Planning) · 가치(Value)와 이익(Profit) 중심의 시나리오 경영</div>
+</div>
+</div>
+
+
 
 이 흐름도는 기업의 계획 수립 방식이 단순 자재 관리에서 부서 간 조정을 거쳐, 최종적으로 재무적 가치를 최적화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 프로세스로 진화함을 보여준다.
 

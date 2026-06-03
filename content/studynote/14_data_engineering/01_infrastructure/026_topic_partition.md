@@ -18,22 +18,21 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             Kafka Topic Partition 구조                  │
-├────────────────────────────────────────────────────────┤
-│                                                         │
-│  Topic: user-events                                     │
-│  ┌─────────────────────────────────────────┐            │
-│  │ Partition 0: [msg0] → [msg3] → [msg6]  │            │
-│  │ Partition 1: [msg1] → [msg4] → [msg7]  │            │
-│  │ Partition 2: [msg2] → [msg5] → [msg8]  │            │
-│  └─────────────────────────────────────────┘            │
-│                                                         │
-│  Producer → 파티션별 분배 (라운드로빈 or 키 해시)          │
-│  Consumer Group → 파티션당 1 컨슈머 할당                  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka Topic Partition 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: user-events</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ Partition 0:</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg6</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ Partition 1:</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg7</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ Partition 2:</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer → 파티션별 분배 (라운드로빈 or 키 해시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group → 파티션당 1 컨슈머 할당</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 고속도로 다차선이다. 1차선이면 차가 한 줄로 줄 서야 하지만, 3차선이면 3배 많은 차량이 동시에 달릴 수 있다. 단, 같은 목적지(키)의 차량은 항상 같은 차선([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))을 이용한다.
 
@@ -43,22 +42,27 @@ tags = ["studynote-data-engineering"]
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내부 구조
 
-```text
-파티션 0 (Offset 기반 순서 로그):
-  Offset: 0        1        2        3
-          [msg_A] → [msg_B] → [msg_C] → [msg_D]
-                                              ↑ LEO (Log End Offset)
 
-Leader Partition: 읽기/쓰기 처리
-Follower Partition: ISR (In-Sync Replicas) — 복제본
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파티션 0 (Offset 기반 순서 로그):</div>
+<div class="kb-diagram-note">Offset: 0 1 2 3</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">msg_A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg_B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg_C</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg_D</div></div>
+<div class="kb-diagram-note">↑ LEO (Log End Offset)</div>
+<div class="kb-diagram-note">Leader Partition: 읽기/쓰기 처리</div>
+<div class="kb-diagram-note">Follower Partition: ISR (In-Sync Replicas) — 복제본</div>
+</div>
+</div>
+
+
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 동작 | 사용 케이스 |
 |:---|:---|:---|
 | **Round-Robin** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 순서대로 분배 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 |
-| **[Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Hash** | hash([key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) % partitions | 동일 키 순서 보장 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Hash</strong> | hash([key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) % partitions | 동일 키 순서 보장 |
 | **Custom Partitioner** | 커스텀 로직 | 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 집중 |
 
 - **📢 섹션 요약 비유**: 라운드로빈은 은행 대기 번호표 시스템이다. 번호 순서대로 창구에 배정한다. 키 해시는 "홍길동은 항상 3번 창구"처럼 특정 고객이 항상 같은 창구로 가도록 한다.
@@ -80,17 +84,22 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계 기준
-```text
-요구사항:
-  - 초당 100만 메시지 처리 (Producer)
-  - 파티션당 최대 3만 TPS (브로커 디스크 순차 쓰기 한계)
-  - 컨슈머 처리량: 파티션당 5만 TPS
 
-설계:
-  min partitions = ceil(1,000,000 / 30,000) = 34 파티션
-  → 여유 포함 40 파티션으로 설정
-  → replication-factor = 3 (내구성)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">초당 100만 메시지 처리 (Producer)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파티션당 최대 3만 TPS (브로커 디스크 순차 쓰기 한계)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컨슈머 처리량: 파티션당 5만 TPS</div>
+<div class="kb-diagram-note">설계:</div>
+<div class="kb-diagram-note">min partitions = ceil(1,000,000 / 30,000) = 34 파티션</div>
+<div class="kb-diagram-note">→ 여유 포함 40 파티션으로 설정</div>
+<div class="kb-diagram-note">→ replication-factor = 3 (내구성)</div>
+</div>
+</div>
+
+
 
 ### [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (In-Sync Replicas) 관리
 - [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/): 리더 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 상태를 유지하는 팔로워 집합.
@@ -119,28 +128,30 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Offset** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지 순서의 논리적 주소 |
-| **[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 분담하는 컨슈머 집합 |
-| **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)** | 리더와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 팔로워 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 집합 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a></strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 분담하는 컨슈머 집합 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a></strong> | 리더와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 팔로워 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 집합 |
 | **Broker** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 물리적 저장 노드 |
-| **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기반 DB 변경 스트림 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong> | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기반 DB 변경 스트림 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 큐 메시징 — 순서 보장, 확장 한계]
-    │
-    ▼
-[Kafka 토픽 파티션 — 병렬 분산 로그 스트림]
-    │
-    ▼
-[Consumer Group — 파티션별 병렬 소비]
-    │
-    ▼
-[Kafka Streams / Flink — 파티션 기반 상태 연산]
-    │
-    ▼
-[실시간 AI 파이프라인 — 스트리밍 ML 추론 백본]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 큐 메시징 — 순서 보장, 확장 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka 토픽 파티션 — 병렬 분산 로그 스트림</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer Group — 파티션별 병렬 소비</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka Streams / Flink — 파티션 기반 상태 연산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 AI 파이프라인 — 스트리밍 ML 추론 백본</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

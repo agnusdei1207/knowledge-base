@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 검색 엔진에서 "기계 학습"이라는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 가장 유사한 문서를 찾을 때, 짧은 문서([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0단어)와 긴 문서(1,000단어)를 유클리드 거리로 비교하면 긴 문서의 단어 빈도가 절대적으로 크므로 불공평하다. [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 벡터의 방향만 비교하므로 문서 길이(크기)에 무관하게 의미적 유사도를 측정한다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 모델의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간에서 의미론적 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)(Semantic [Similarity Search](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/))의 핵심 지표다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 "나침반 방향 비교"다. 두 사람이 걷는 거리(벡터 크기)는 달라도, 같은 방향(북쪽)을 향하면 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) = 1(동일 방향)이다. AI는 문서의 "방향성(주제)"만 보고 유사도를 결정한다.
 
@@ -36,25 +39,24 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│           코사인 유사도 수식 및 기하학적 의미            │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  cos(θ) = (A·B) / (|A|·|B|)                           │
-│         = ΣᵢAᵢBᵢ / √(ΣᵢAᵢ²) · √(ΣᵢBᵢ²)             │
-│                                                         │
-│  θ=0°  → cos=1.0  → 완전 동일 방향 (최고 유사)        │
-│  θ=90° → cos=0.0  → 직교 (무관)                       │
-│  θ=180°→ cos=-1.0 → 반대 방향 (최저 유사)             │
-│                                                         │
-│  L2 정규화 후 내적:                                    │
-│  â = A/|A|,  b̂ = B/|B|   (단위 벡터)                  │
-│  cos(θ) = â · b̂          (정규화된 내적)              │
-│                                                         │
-│  ANN 검색: FAISS/Milvus에서 코사인 거리 =1-cos(θ)     │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 수식 및 기하학적 의미</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos(θ) = (A·B) / (</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">·</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= ΣᵢAᵢBᵢ / √(ΣᵢAᵢ²) · √(ΣᵢBᵢ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ=0° → cos=1.0 → 완전 동일 방향 (최고 유사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ=90° → cos=0.0 → 직교 (무관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ=180°→ cos=-1.0 → 반대 방향 (최저 유사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 정규화 후 내적:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">â = A/</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">, b̂ = B/</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">(단위 벡터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos(θ) = â · b̂ (정규화된 내적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ANN 검색: FAISS/Milvus에서 코사인 거리 =1-cos(θ)</div></div>
+</div>
+</div>
+
+
 
 | 유사도/거리 | 수식 | 크기 영향 | 주요 용도 |
 |:---|:---|:---|:---|

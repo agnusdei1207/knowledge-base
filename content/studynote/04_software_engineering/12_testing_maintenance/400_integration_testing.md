@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 - `B 개발자`: "제가 만든 `카드사_API()` 함수도 완벽해요! ([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 완료)"
 - **결합 결과 (폭발 💥)**: A는 날짜를 `YY/MM/DD` 포맷으로 던졌는데, B의 함수는 `YYYY-MM-DD` 포맷을 기대하고 있었다. 파라미터 규격 불일치로 에러가 터진다.
 
-[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 '격리된 공간([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))'에서 나 혼자 잘하는지 보는 것이라면, **통합 테스트(Integration Test)**는 진짜 DB, 진짜 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 진짜 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 엮어서 **"[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 대화(Interface)가 잘 통하는가?"**를 검증하는 협동 테스트다.
+[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 '격리된 공간([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))'에서 나 혼자 잘하는지 보는 것이라면, <strong>통합 테스트(Integration Test)</strong>는 진짜 DB, 진짜 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 진짜 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 엮어서 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간의 대화(Interface)가 잘 통하는가?"</strong>를 검증하는 협동 테스트다.
 
 > 📢 **섹션 요약 비유**: 이케아(Lego) 블록을 조립할 때, 개별 블록의 모양이 예쁜지 보는 건 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)입니다. 통합 테스트는 블록의 '튀어나온 동그라미(인터페이스)'와 다른 블록의 '파인 구멍'이 헐겁지 않고 딱 맞물려 들어가는지를 껴맞춰 보는 과정입니다.
 
@@ -37,18 +37,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 통합 테스트 (Integration 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  통합 테스트 (Integration                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 테스트 (Integration</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 통합 테스트 (Integration 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -61,8 +60,8 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 통합 테스트에서 주로 발견되는 '조립 불량' 버그들은 다음과 같다.
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식 불일치 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Format Mismatch)**: 위에서 언급한 날짜 포맷이나, 한쪽은 String을 주는데 한쪽은 Integer를 받는 경우.
-2. **타이밍 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류 (Timing Issue)**: A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던졌는데, B가 처리하는 데 3초가 걸려서 A가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))으로 뻗어버리는 경우. ([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 객체는 0.1초 만에 응답했기 때문에 이 버그를 잡지 못한다.)
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형식 불일치 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Format Mismatch)</strong>: 위에서 언급한 날짜 포맷이나, 한쪽은 String을 주는데 한쪽은 Integer를 받는 경우.
+2. <strong>타이밍 및 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 오류 (Timing Issue)</strong>: A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던졌는데, B가 처리하는 데 3초가 걸려서 A가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))으로 뻗어버리는 경우. ([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 객체는 0.1초 만에 응답했기 때문에 이 버그를 잡지 못한다.)
 3. **전역 변수 충돌 (Global Variable Conflict)**: A와 B가 우연히 같은 이름의 전역 변수 메모리를 건드리면서 값이 오염되는 현상.
 
 ---
@@ -143,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-통합 테스트 (Integration Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통합 테스트 (Integration Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

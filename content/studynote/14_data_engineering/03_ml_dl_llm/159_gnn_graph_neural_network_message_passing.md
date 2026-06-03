@@ -34,33 +34,33 @@ tags = ["studynote-data-engineering"]
 | 반복 (K 회) | K 레이어 = K-hop 이웃 정보 통합 |
 | 읽기 (Readout) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 수준: hG = Readout({h'ᵥ}) |
 
-```
-[GNN 메시지 패싱 과정]
 
-초기 그래프:
-    A───B
-    │   │
-    C───D
 
-Layer 1 (1-hop 이웃 집계):
-  h'A = Update(hA, Agg({hB, hC}))
-  h'B = Update(hB, Agg({hA, hD}))
-  h'C = Update(hC, Agg({hA, hD}))
-  h'D = Update(hD, Agg({hB, hC}))
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GNN 메시지 패싱 과정</div></div>
+<div class="kb-diagram-note">초기 그래프:</div>
+<div class="kb-diagram-note">A B</div>
+<div class="kb-diagram-note">C D</div>
+<div class="kb-diagram-note">Layer 1 (1-hop 이웃 집계):</div>
+<div class="kb-diagram-note">h'A = Update(hA, Agg({hB, hC}))</div>
+<div class="kb-diagram-note">h'B = Update(hB, Agg({hA, hD}))</div>
+<div class="kb-diagram-note">h'C = Update(hC, Agg({hA, hD}))</div>
+<div class="kb-diagram-note">h'D = Update(hD, Agg({hB, hC}))</div>
+<div class="kb-diagram-note">Layer 2 (2-hop 이웃 정보까지):</div>
+<div class="kb-diagram-note">h''A는 이제 B,C를 통해 D의 정보까지 반영</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GCN - Graph Convolutional Network</div></div>
+<div class="kb-diagram-note">h'ᵥ = σ(Σᵤ∈N(v)∪{v} (1/√(dᵤdᵥ)) · Wh_u)</div>
+<div class="kb-diagram-note">dᵥ: 노드 v의 차수 (연결 수)</div>
+<div class="kb-diagram-note">→ 정규화된 스펙트럼 합성곱</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GAT - Graph Attention Network</div></div>
+<div class="kb-diagram-note">이웃 중요도에 어텐션 가중치 α_uv 부여:</div>
+<div class="kb-diagram-note">h'ᵥ = σ(Σᵤ∈N(v) α_uv · Wh_u)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">α_uv = softmax(LeakyReLU(a^T</div><div class="kb-diagram-node">Wh_v || Wh_u</div><div class="kb-diagram-note">))</div></div>
+</div>
+</div>
 
-Layer 2 (2-hop 이웃 정보까지):
-  h''A는 이제 B,C를 통해 D의 정보까지 반영
 
-[GCN - Graph Convolutional Network]
-h'ᵥ = σ(Σᵤ∈N(v)∪{v} (1/√(dᵤdᵥ)) · Wh_u)
-dᵥ: 노드 v의 차수 (연결 수)
-→ 정규화된 스펙트럼 합성곱
-
-[GAT - Graph Attention Network]
-이웃 중요도에 어텐션 가중치 α_uv 부여:
-h'ᵥ = σ(Σᵤ∈N(v) α_uv · Wh_u)
-α_uv = softmax(LeakyReLU(a^T[Wh_v || Wh_u]))
-```
 
 **주요 GNN 아키텍처**
 
@@ -94,12 +94,12 @@ h'ᵥ = σ(Σᵤ∈N(v) α_uv · Wh_u)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**대규모 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong>대규모 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 처리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 - Mini-batch 샘플링 (GraphSAGE): 전체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 대신 이웃 샘플링
 - 클러스터 GCN: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 부분 클러스터로 나눠 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)
 - GraphSAINT: 중요도 샘플링 기반
 
-**이기종 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))**
+<strong>이기종 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>)</strong>
 - 노드 타입, 엣지 타입이 다양한 현실 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
 - HGT ([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)): 타입별 독립 파라미터
 
@@ -132,25 +132,27 @@ GNN은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-그래프 구조 데이터 (노드 + 엣지)
-    │
-    ▼
-메시지 패싱 (Message Passing)
-    노드가 이웃 노드의 특성을 집계 → 자기 표현 업데이트
-    │
-    ▼
-GNN 변형
-    ├─► GCN (Graph Convolutional Network)
-    ├─► GAT (Graph Attention Network) — Attention 가중치
-    └─► GraphSAGE — 이웃 샘플링, 인덕티브 학습
-    │
-    ▼
-응용: 분자 속성 예측 · 소셜 커뮤니티 · 추천 시스템
-    │
-    ▼
-GraphRAG — 지식 그래프 + LLM 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">그래프 구조 데이터 (노드 + 엣지)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메시지 패싱 (Message Passing)</div>
+<div class="kb-diagram-note">노드가 이웃 노드의 특성을 집계 → 자기 표현 업데이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GNN 변형</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GCN (Graph Convolutional Network)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GAT (Graph Attention Network) — Attention 가중치</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GraphSAGE — 이웃 샘플링, 인덕티브 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응용: 분자 속성 예측 · 소셜 커뮤니티 · 추천 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GraphRAG — 지식 그래프 + LLM 결합</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 시스템이 복잡해질수록 개발자의 머릿속 직관만으로는 모든 고장 시나리오를 예측할 수 없다. "만약 결제 API가 3초간 응답하지 않으면 어떻게 될까?", "만약 DB 디스크가 꽉 차면 어떻게 될까?" 같은 무수히 많은 '만약(What-if)'의 상황을 누락 없이 체계적으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 문서화할 필요성이 대두되었다.
 
-미국 국방부와 항공우주국(NASA)에서 미사일과 우주선이 폭발하는 것을 막기 위해 고안해 낸 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 기법이 바로 **[FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)(Failure Mode and Effects Analysis)**와 **[FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/)([Fault Tree Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/))**다. 이 기법들은 오늘날 고신뢰성 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 설계의 필수 도구가 되었다.
+미국 국방부와 항공우주국(NASA)에서 미사일과 우주선이 폭발하는 것을 막기 위해 고안해 낸 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 기법이 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a>(Failure Mode and Effects Analysis)</strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/">FTA</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/">Fault Tree Analysis</a>)</strong>다. 이 기법들은 오늘날 고신뢰성 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 설계의 필수 도구가 되었다.
 
 - **📢 섹션 요약 비유**: FMEA는 "이 나사가 빠지면 비행기가 어떻게 될까?"를 바닥에서부터 고민하는 것이고, FTA는 "비행기가 추락했다면 무슨 나사가 빠졌기 때문일까?"를 거꾸로 추적해보는 탐정의 수사 기법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) / [FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 분석망의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  FMEA / FTA 결함 분석망                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FMEA / FTA 결함 분석망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) / [FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 분석망가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ FMEA와 FTA는 각각 장단점이 뚜렷하여 실무에서는 상호 보완적
 
 | 비교 항목 | [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) (Failure Mode and Effects Analysis) | [FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) ([Fault Tree Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/)) |
 |:---|:---|:---|
-| **분석 방향** | 원인 $\rightarrow$ 결과 (**[Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)**, 귀납적) | 결과 $\rightarrow$ 원인 (**[Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)**, 연역적) |
+| **분석 방향** | 원인 $\rightarrow$ 결과 (<strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-up</a></strong>, 귀납적) | 결과 $\rightarrow$ 원인 (<strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/">Top-down</a></strong>, 연역적) |
 | **포맷** | 스프레드시트(엑셀) 형태 표 | 시각적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 트리(Tree) 도해도 |
 | **주요 목적** | **"무엇이 고장 날 수 있는가?"** 모든 고장을 샅샅이 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | **"어떻게 고장 나는가?"** 복합적 고장 메커니즘 분석 |
 | **강점** | 빼먹는 부품 없이 꼼꼼한 전수 조사 가능 | 여러 부품이 동시에 고장(AND)나는 복합 원인 파악에 탁월 |
@@ -108,7 +107,7 @@ FMEA와 FTA는 각각 장단점이 뚜렷하여 실무에서는 상호 보완적
 
 FMEA와 FTA를 설계 단계에 내재화하면, 개발자들은 코드를 짜기 전부터 "이 API가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 나면 어떻게 우아하게 저하(Graceful Degradation)시킬 것인가?"를 강제적으로 고민하게 된다. 이는 장애 발생 후 허둥지둥 패치하는 사후 약방문식 운영을 근본적으로 타파한다.
 
-결론적으로, 뛰어난 소프트웨어 아키텍트는 "시스템이 어떻게 100% 정상 작동할 것인가"를 그리는 사람이 아니다. 오히려 **"시스템이 어떻게 100가지 방식으로 처참하게 고장 날 것인가"**를 가장 어둡고 비관적인 시선([FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)/[FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/))으로 상상해 내고, 그 모든 죽음의 경로에 방어막을 세우는 사람이다.
+결론적으로, 뛰어난 소프트웨어 아키텍트는 "시스템이 어떻게 100% 정상 작동할 것인가"를 그리는 사람이 아니다. 오히려 <strong>"시스템이 어떻게 100가지 방식으로 처참하게 고장 날 것인가"</strong>를 가장 어둡고 비관적인 시선([FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)/[FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/))으로 상상해 내고, 그 모든 죽음의 경로에 방어막을 세우는 사람이다.
 
 - **📢 섹션 요약 비유**: 최고의 항해사는 맑은 날의 순항 경로를 짜는 사람이 아니라, 폭풍우, 암초, 해적, 식량 고갈 등 바다에서 일어날 수 있는 모든 끔찍한 일들([FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))을 노트에 적어놓고, 그에 대한 대피 매뉴얼([FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/))을 머릿속에 완벽히 외우고 있는 사람이다.
 
@@ -131,21 +130,23 @@ FMEA와 FTA를 설계 단계에 내재화하면, 개발자들은 코드를 짜�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-FMEA / FTA 결함 분석망 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FMEA / FTA 결함 분석망 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

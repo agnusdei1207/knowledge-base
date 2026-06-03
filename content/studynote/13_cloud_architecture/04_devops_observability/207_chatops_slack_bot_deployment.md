@@ -23,7 +23,7 @@ ChatOps는 2013년 GitHub이 Hubot을 오픈소스로 공개하면서 주목받�
 
 전통적 운영 방식에서는 엔지니어 A가 터미널에서 배포를 실행하고, 결과를 Slack에 복사하여 붙여넣는다. 나머지 팀원은 A가 무엇을 했는지 사후에야 안다. ChatOps에서는 A가 채팅 창에서 `/deploy payment-service v2.1.3 production`을 입력하면, 배포 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황이 실시간으로 채팅 채널에 나타나고 모든 팀원이 동시에 본다.
 
-이 방식은 세 가지 근본적 문제를 해결한다: 1) **운영 행동의 불투명성** (무엇이 언제 실행됐는지 모름), 2) **협업의 분절** (도구와 소통이 분리됨), 3) **지식의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)** (숙련 엔지니어만 복잡한 명령을 아는 상황).
+이 방식은 세 가지 근본적 문제를 해결한다: 1) **운영 행동의 불투명성** (무엇이 언제 실행됐는지 모름), 2) **협업의 분절** (도구와 소통이 분리됨), 3) <strong>지식의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a></strong> (숙련 엔지니어만 복잡한 명령을 아는 상황).
 
 📢 **섹션 요약 비유**: ChatOps는 팀 카카오톡방에서 배달 주문하는 것과 같다. 각자 따로 전화해서 주문하면 누가 뭘 시켰는지 모르지만, 방에서 봇에게 주문하면 모두가 실시간으로 주문 내역을 보고 공동 결정을 내릴 수 있다.
 
@@ -33,53 +33,52 @@ ChatOps는 2013년 GitHub이 Hubot을 오픈소스로 공개하면서 주목받�
 
 ### ChatOps 아키텍처
 
-```
-  ┌──────────────────────────────────────────────────────┐
-  │                  Slack / MS Teams                     │
-  │                                                       │
-  │  #ops-channel:                                        │
-  │  @john: /deploy auth-service v3.2 staging             │
-  │  🤖 deploy-bot: ✅ 스테이징 배포 시작...               │
-  │  🤖 deploy-bot: 📊 Build #1234 진행중 (1/3 완료)       │
-  │  🤖 deploy-bot: ✅ 배포 완료! /healthcheck로 확인하세요 │
-  └──────────────────────────┬───────────────────────────┘
-                             │ Webhook / API
-                             ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                    ChatBot 서버                        │
-  │             (Hubot / BoltApp / AWS Chatbot)           │
-  │                                                       │
-  │  명령 파싱 → 권한 확인 → 액션 실행                    │
-  └─────────────────────────┬────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────────┐
-        ▼                   ▼                        ▼
-  [CI/CD 시스템]    [모니터링 시스템]        [인프라 자동화]
-  (Jenkins/GitHub   (Datadog/PagerDuty)     (Terraform/
-   Actions)                                  AWS CLI)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slack / MS Teams</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#ops-channel:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@john: /deploy auth-service v3.2 staging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🤖 deploy-bot: ✅ 스테이징 배포 시작...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🤖 deploy-bot: 📊 Build #1234 진행중 (1/3 완료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🤖 deploy-bot: ✅ 배포 완료! /healthcheck로 확인하세요</div></div>
+<div class="kb-diagram-note">Webhook / API</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ChatBot 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hubot / BoltApp / AWS Chatbot)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 파싱 → 권한 확인 → 액션 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 시스템</div><div class="kb-diagram-node">모니터링 시스템</div><div class="kb-diagram-node">인프라 자동화</div></div>
+<div class="kb-diagram-note">(Jenkins/GitHub (Datadog/PagerDuty) (Terraform/</div>
+<div class="kb-diagram-note">Actions) AWS CLI)</div>
+</div>
+</div>
+
+
 
 ### ChatOps 주요 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 예시
 
-```
-# 배포 명령
-/deploy payment-service v2.1.3 production
 
-# 장애 조회
-/oncall who           → 현재 온콜 담당자 확인
-/incidents list       → 활성 인시던트 목록
-/pd ack INC-123       → PagerDuty 인시던트 승인
 
-# 스케일 조정
-/scale web-server 10  → 인스턴스 10개로 스케일
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note"># 배포 명령</div>
+<div class="kb-diagram-note">/deploy payment-service v2.1.3 production</div>
+<div class="kb-diagram-note"># 장애 조회</div>
+<div class="kb-diagram-note">/oncall who → 현재 온콜 담당자 확인</div>
+<div class="kb-diagram-note">/incidents list → 활성 인시던트 목록</div>
+<div class="kb-diagram-note">/pd ack INC-123 → PagerDuty 인시던트 승인</div>
+<div class="kb-diagram-note"># 스케일 조정</div>
+<div class="kb-diagram-note">/scale web-server 10 → 인스턴스 10개로 스케일</div>
+<div class="kb-diagram-note"># 롤백</div>
+<div class="kb-diagram-note">/rollback payment-service → 이전 버전으로 롤백</div>
+<div class="kb-diagram-note"># 모니터링</div>
+<div class="kb-diagram-note">/grafana dashboard payment → 대시보드 링크 반환</div>
+<div class="kb-diagram-note">/logs payment-service ERROR 30m → 최근 30분 에러 로그</div>
+</div>
+</div>
 
-# 롤백
-/rollback payment-service → 이전 버전으로 롤백
 
-# 모니터링
-/grafana dashboard payment → 대시보드 링크 반환
-/logs payment-service ERROR 30m → 최근 30분 에러 로그
-```
 
 ### Slack Bolt 봇 구현 예시 (Python)
 
@@ -146,25 +145,27 @@ def handle_deploy(ack, say, command, client):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) ChatOps 플로우**:
-```
-1. PagerDuty 알림 → #incidents 채널 자동 게시
-   🚨 INCIDENT: payment-service p99 > 2000ms (PD-789)
+<strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/">인시던트 대응</a> ChatOps 플로우</strong>:
 
-2. 온콜 엔지니어가 채널에서 확인 및 승인
-   @oncall-engineer: /pd ack PD-789
 
-3. 채팅에서 진단 명령 실행
-   /logs payment-service ERROR 15m
-   /grafana payment-service last-1h
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. PagerDuty 알림 → #incidents 채널 자동 게시</div>
+<div class="kb-diagram-note">🚨 INCIDENT: payment-service p99 &gt; 2000ms (PD-789)</div>
+<div class="kb-diagram-note">2. 온콜 엔지니어가 채널에서 확인 및 승인</div>
+<div class="kb-diagram-note">@oncall-engineer: /pd ack PD-789</div>
+<div class="kb-diagram-note">3. 채팅에서 진단 명령 실행</div>
+<div class="kb-diagram-note">/logs payment-service ERROR 15m</div>
+<div class="kb-diagram-note">/grafana payment-service last-1h</div>
+<div class="kb-diagram-note">4. 롤백 결정 및 실행</div>
+<div class="kb-diagram-note">/rollback payment-service</div>
+<div class="kb-diagram-note">5. 복구 확인 후 인시던트 종료</div>
+<div class="kb-diagram-note">/pd resolve PD-789</div>
+<div class="kb-diagram-note">→ 자동으로 포스트모템 템플릿 생성</div>
+</div>
+</div>
 
-4. 롤백 결정 및 실행
-   /rollback payment-service
 
-5. 복구 확인 후 인시던트 종료
-   /pd resolve PD-789
-   → 자동으로 포스트모템 템플릿 생성
-```
 
 **보안 고려사항**:
 ```
@@ -181,7 +182,7 @@ def handle_deploy(ack, say, command, client):
 ```
 
 **기술사 판단 포인트**:
-- ChatOps의 가장 중요한 원칙: 채팅 채널이 **운영의 유일한 진실 공간(Single Source of Truth)**이 되도록 모든 행동이 채널에 기록되어야 한다.
+- ChatOps의 가장 중요한 원칙: 채팅 채널이 <strong>운영의 유일한 진실 공간(Single Source of Truth)</strong>이 되도록 모든 행동이 채널에 기록되어야 한다.
 - 봇이 너무 많아지면 "봇 지옥"이 발생한다. 기능별로 봇을 나누지 말고 하나의 통합 봇으로 관리한다.
 - AWS Chatbot은 CloudWatch 알람을 Slack에 직접 전달하고 채팅에서 AWS CLI 명령을 실행할 수 있어 클라우드 환경에서 빠른 시작점이다.
 
@@ -221,15 +222,20 @@ ChatOps는 DevOps의 "협업" 가치를 가장 가시적으로 구현하는 도�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SSH · 콘솔 접속 → 개별 작업 (감사 추적 어려움)
-    │
-    ▼
-ChatOps: Slack/Teams 봇으로 운영 명령 실행
-    ├─► 배포: /deploy production
-    ├─► 인시던트: PagerDuty → 채널 자동 게시
-    └─► 모든 명령 = 채팅 로그 (감사 추적)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SSH · 콘솔 접속 → 개별 작업 (감사 추적 어려움)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ChatOps: Slack/Teams 봇으로 운영 명령 실행</div>
+<div class="kb-diagram-tree-item" style="--depth:2">배포: /deploy production</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인시던트: PagerDuty → 채널 자동 게시</div>
+<div class="kb-diagram-tree-item" style="--depth:2">모든 명령 = 채팅 로그 (감사 추적)</div>
+</div>
+</div>
+
+
 2. "/deploy 게임서버 v3"라고 입력하면 봇이 서버를 업데이트하고 결과를 채팅방에 알려줘. 모든 팀원이 동시에 볼 수 있어.
 3. 나중에 "우리가 언제 무슨 명령을 했는지" 채팅 기록만 보면 다 나와. 자동으로 일지가 쓰이는 거야.
 

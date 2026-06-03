@@ -40,54 +40,66 @@ tags = ["studynote-algorithm"]
 
 ### 단일 연결 리스트 (Singly Linked List)
 
-```
-HEAD
-  │
-  ▼
-┌──────┬────┐   ┌──────┬────┐   ┌──────┬──────┐
-│  10  │ ●──┼──▶│  20  │ ●──┼──▶│  30  │ NULL │
-└──────┴────┘   └──────┴────┘   └──────┴──────┘
-  Node(data=10)   Node(data=20)   Node(data=30)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HEAD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-note">Node(data=10) Node(data=20) Node(data=30)</div>
+</div>
+</div>
+
+
 
 각 노드: `{data, next}` — 한 방향 탐색만 가능
 
 ### 이중 연결 리스트 (Doubly Linked List)
 
-```
-HEAD                                           TAIL
-  │                                              │
-  ▼                                              ▼
-┌────┬────┬────┐   ┌────┬────┬────┐   ┌────┬────┬────┐
-│NULL│ 10 │ ●──┼──▶│ ●──│ 20 │ ●──┼──▶│ ●──│ 30 │NULL│
-└────┴────┴────┘◀──┼────┘    └────┘◀──┼────┘    └────┘
-  prev  data next    prev  data next    prev  data next
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HEAD TAIL</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">●──</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">●──</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-note">prev data next prev data next prev data next</div>
+</div>
+</div>
+
+
 
 각 노드: `{prev, data, next}` — 양방향 탐색 가능, 삭제 시 이전 노드를 O(1)에 찾음
 
 ### 순환 연결 리스트 (Circular Linked List)
 
-```
-┌──────┬────┐   ┌──────┬────┐   ┌──────┬────┐
-│  10  │ ●──┼──▶│  20  │ ●──┼──▶│  30  │ ●──┼──┐
-└──────┴────┘   └──────┴────┘   └──────┴────┘  │
-        ▲                                        │
-        └────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">●── ──▶</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">●── ──</div></div>
+</div>
+</div>
+
+
 
 마지막 노드의 `next`가 첫 번째 노드를 가리킴. 라운드-로빈 스케줄링, 순환 버퍼에 활용.
 
 ### 삽입 예시: 노드 B를 A와 C 사이에 삽입 (단일)
 
-```
-Before:  A → C
-After:   A → B → C
 
-코드:
-  B.next = A.next  // B가 C를 가리킴
-  A.next = B       // A가 B를 가리킴
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Before: A → C</div>
+<div class="kb-diagram-note">After: A → B → C</div>
+<div class="kb-diagram-note">코드:</div>
+<div class="kb-diagram-note">B.next = A.next // B가 C를 가리킴</div>
+<div class="kb-diagram-note">A.next = B // A가 B를 가리킴</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 이중 연결 리스트는 양쪽 손을 잡고 서 있는 사람들의 줄—앞뒤 모두 잡을 수 있어 빠진 사람을 채우거나 빼기가 더 쉽다.
 
@@ -108,15 +120,21 @@ After:   A → B → C
 
 ### 실제 응용: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) Cache)
 
-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 **이중 연결 리스트 + 해시맵**으로 O(1) get/put을 구현한다.
+[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 <strong>이중 연결 리스트 + 해시맵</strong>으로 O(1) get/put을 구현한다.
 - 해시맵: [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) → 노드 포인터 (O(1) 검색)
 - 이중 연결 리스트: 접근 순서 유지, 헤드에 최신, 테일에 최오래 (O(1) 이동·삭제)
 
-```
-해시맵: {A→node_A, B→node_B, C→node_C}
-연결리스트: [최신]C ↔ A ↔ B[최오래]
-용량 초과 시 테일(B) 제거
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">해시맵: {A→node_A, B→node_B, C→node_C}</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">연결리스트:</div><div class="kb-diagram-node">최신</div><div class="kb-diagram-note">C ↔ A ↔ B</div><div class="kb-diagram-node">최오래</div></div>
+<div class="kb-diagram-note">용량 초과 시 테일(B) 제거</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시는 최근에 쓴 물건을 책상 위에 두고, 가장 오래된 물건을 서랍 맨 뒤로 넣는 정리 습관이다.
 
@@ -126,20 +144,26 @@ After:   A → B → C
 
 ### 주요 활용 사례
 
-- **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) / [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 제거 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
-- **[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)**: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 → 이중 연결)
-- **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템**: inode 블록 체인, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> / <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 캐시</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 제거 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a></strong>: 텍스트 편집기의 변경 이력 (양방향 탐색 필요 → 이중 연결)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템</strong>: inode 블록 체인, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 엔트리
 - **Java LinkedList**: `java.util.LinkedList`는 이중 연결 리스트로 [Deque](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/084_deque/) 인터페이스 구현
 - **메모리 할당자**: Free list (가용 블록 연결 리스트)
 
 ### 기술사 판단 기준
 
-```
-캐시 히트율 중요 + 인덱스 접근 필요  →  배열 / ArrayList
-삽입/삭제 O(1) + 순서 유지 필요       →  이중 연결 리스트
-스택/큐 구현 (헤드만 조작)             →  단일 연결 리스트
-순환 처리 (라운드-로빈)                →  순환 연결 리스트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">캐시 히트율 중요 + 인덱스 접근 필요 → 배열 / ArrayList</div>
+<div class="kb-diagram-note">삽입/삭제 O(1) + 순서 유지 필요 → 이중 연결 리스트</div>
+<div class="kb-diagram-note">스택/큐 구현 (헤드만 조작) → 단일 연결 리스트</div>
+<div class="kb-diagram-note">순환 처리 (라운드-로빈) → 순환 연결 리스트</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 연결 리스트는 유연하지만 원하는 항목을 찾으려면 처음부터 따라가야 한다—색인 없는 소설책처럼 특정 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾으려면 앞에서 넘겨야 한다.
 
@@ -168,21 +192,23 @@ After:   A → B → C
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배열 (Array)]
-    │
-    ▼
-[스택 (Stack)]
-    │
-    ▼
-[큐 (Queue)]
-    │
-    ▼
-[LRU 캐시]
-    │
-    ▼
-[해시 테이블 (Hash Table)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열 (Array)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스택 (Stack)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">큐 (Queue)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 캐시</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 테이블 (Hash Table)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))에서 출발해 건너뜀 리스트 ([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

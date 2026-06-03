@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **이산대수 문제(Discrete Logarithm Problem)**를 씁니다.
+RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>이산대수 문제(Discrete Logarithm Problem)</strong>를 씁니다.
 - $y = g^x \mod p$ 라는 공식에서 $g, x, p$를 알면 $y$는 구하기 쉽지만, 결과값 $y$와 밑 $g$, 모듈로 $p$를 알아도 지수(Exponent)인 $x$를 알아내는 것은 숫자가 커지면 물리적으로 불가능하다는 수학적 원리입니다.
 
-```text
-[RSA 알고리즘]
-    │
-    ▼
-[ElGamal 및 DSA 시스템]
-    │
-    └──▶ [ECC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ElGamal 및 DSA 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,21 +44,25 @@ RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 
 1985년 이집트의 암호학자 타헤르 엘가말(Taher Elgamal)이 이산대수 원리를 이용해 발표한 공개키 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
 
 ### 1. ElGamal의 특징 (랜덤성)
-- RSA와 달리 엘가말은 암호화를 할 때마다 **난수(Random Number)**를 공식 안에 끼워 넣습니다.
+- RSA와 달리 엘가말은 암호화를 할 때마다 <strong>난수(Random Number)</strong>를 공식 안에 끼워 넣습니다.
 - **효과 (의미론적 안전성)**: "안녕하세요"라는 평문을 100번 암호화해도, 난수가 계속 바뀌기 때문에 나오는 **암호문 100개가 매번 완전히 다르게 튀어나옵니다.** 해커가 암호문들을 훔쳐보고 패턴을 분석하는 무차별 대입 통계 공격이 원천 차단되는 강력한 장점을 지닙니다.
 
 ### 2. 치명적인 단점 (Ciphertext Expansion)
 - 난수를 섞는 부작용으로 인해, 평문을 암호화하고 나면 **암호문의 크기가 원본 데이터의 딱 2배로 뚱뚱하게 부풀어 오릅니다(메시지 확장 현상).**
 - 통신 대역폭을 2배로 갉아먹기 때문에, 네트워크 트래픽 환경에서 메인으로 쓰기에는 RSA보다 불리하여 널리 대중화되지는 못했습니다. (대신 나중에 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 기술의 뼈대가 됨)
 
-```text
-[RSA 알고리즘]
-    │
-    ▼
-[ElGamal 및 DSA 시스템]
-    │
-    └──▶ [ECC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ElGamal 및 DSA 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,11 +74,11 @@ RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 
 
 ### 1. 오직 '도장(서명)'만을 위한 설계
 - **핵심 차이**: RSA는 앨리스에게 비밀 편지를 암호화해서 보낼 때([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))도 쓸 수 있고, 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))을 찍을 때도 쓸 수 있는 양방향 만능입니다.
-- **DSA**: 오직 "내가 썼다"는 것을 증명하는 **[전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 오직 단 하나의 기능만 수행하도록 설계**되었습니다. 메시지 내용을 암호화해서 숨기는 기능은 아예 지원하지 않습니다.
+- **DSA**: 오직 "내가 썼다"는 것을 증명하는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 오직 단 하나의 기능만 수행하도록 설계</strong>되었습니다. 메시지 내용을 암호화해서 숨기는 기능은 아예 지원하지 않습니다.
 
 ### 2. DSA의 장점
 - 전용 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)답게, [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)을 '[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)'하는 속도가 RSA보다 훨씬 빠릅니다. 
-- 이 뛰어난 효율성 덕분에, 훗날 모바일 스마트폰에 맞게 용량을 다이어트시킨 **[ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)([타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))**로 업그레이드되어 전 세계 비트코인 송금의 도장과 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 표준으로 군림하게 됩니다.
+- 이 뛰어난 효율성 덕분에, 훗날 모바일 스마트폰에 맞게 용량을 다이어트시킨 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/">타원곡선</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>)</strong>로 업그레이드되어 전 세계 비트코인 송금의 도장과 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 표준으로 군림하게 됩니다.
 
 ElGamal 및 DSA 시스템을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기반 조건을 만든다면, ElGamal 및 DSA 시스템은 그 위에서 핵심 메커니즘을 구현하고, ECC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -122,15 +130,19 @@ ElGamal 및 DSA 시스템은 [네트워크 보안](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RSA 알고리즘]
-    │
-    ▼
-[현재 개념: ElGamal 및 DSA 시스템]
-    │
-    ├──▶ [확장 A: ECC]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RSA 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ElGamal 및 DSA 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 ElGamal 및 DSA 시스템는 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ECC와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

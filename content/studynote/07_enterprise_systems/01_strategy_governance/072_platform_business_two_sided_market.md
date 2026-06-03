@@ -112,13 +112,19 @@ Demand Side
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Two-sided Market
-  ↓
-Platform Business
-  ↓
-Network Effect
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Two-sided Market</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Platform Business</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Network Effect</div>
+</div>
+</div>
+
+
 
 ---
 

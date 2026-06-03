@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 전역 교체(Global Replacement)는 물리 램(RAM)에 빈 공간이 없어 누군가의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내야(Swap-out) 할 때, **나(자신)의 메모리 영역뿐만 아니라 시스템에 떠 있는 다른 모든 프로세스의 메모리 영역까지 무자비하게 뺏어올 수 있는 거시적 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)**이다.
-> 2. **가치**: 램이 필요한 활성 프로세스(바쁜 놈)가 유휴 프로세스(노는 놈)의 램을 강제로 수탈하여 자신의 워킹 셋을 채우므로, **물리 램 전체의 놀고 있는 찌꺼기 공간을 0%에 가깝게 쥐어짜 내어 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 우주 끝까지 극대화**시킨다.
-> 3. **융합**: 이 뺏고 뺏기는 무법지대 시스템은 필연적으로 억울하게 램을 뺏긴 남의 프로세스를 버벅대게(Jitter) 만들지만, 그 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 이득 때문에 현대 리눅스와 윈도우 커널에서 **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템의 절대적인 디폴트(Default) 스탠다드로 융합**되었다.
+> 1. **본질**: 전역 교체(Global Replacement)는 물리 램(RAM)에 빈 공간이 없어 누군가의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내야(Swap-out) 할 때, <strong>나(자신)의 메모리 영역뿐만 아니라 시스템에 떠 있는 다른 모든 프로세스의 메모리 영역까지 무자비하게 뺏어올 수 있는 거시적 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/">페이지 교체 알고리즘</a></strong>이다.
+> 2. **가치**: 램이 필요한 활성 프로세스(바쁜 놈)가 유휴 프로세스(노는 놈)의 램을 강제로 수탈하여 자신의 워킹 셋을 채우므로, <strong>물리 램 전체의 놀고 있는 찌꺼기 공간을 0%에 가깝게 쥐어짜 내어 시스템 전체의 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)을 우주 끝까지 극대화</strong>시킨다.
+> 3. **융합**: 이 뺏고 뺏기는 무법지대 시스템은 필연적으로 억울하게 램을 뺏긴 남의 프로세스를 버벅대게(Jitter) 만들지만, 그 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 이득 때문에 현대 리눅스와 윈도우 커널에서 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 시스템의 절대적인 디폴트(Default) 스탠다드로 융합</strong>되었다.
 
 ---
 
@@ -23,36 +23,32 @@ tags = ["studynote-operating-system"]
 - **필요성**: 카카오톡, 크롬, 엑셀 3개를 띄워놨는데, 나는 지금 크롬으로 4K 유튜브만 본다 치자. 카톡과 엑셀은 1시간째 배경에서 숨만 쉬고 있다. 만약 "자기 방(Local) 안에서만 메모리를 쫓아내라!"는 룰을 강제하면, 크롬은 자기가 가진 1GB 램 안에서만 유튜브 데이터를 계속 돌려막기([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 하느라 영상이 뚝뚝 끊긴다. 옆에 있는 엑셀은 3GB 램을 쥐고 아무것도 안 하며 쿨쿨 자고 있는데 말이다. "놀고 있는 엑셀의 램을 크롬이 빼앗아 쓰면 영상이 팽팽 돌 텐데!" 이 지극히 상식적인 자원 펌핑의 필요성이 '전역 교체'라는 약육강식 아키텍처를 탄생시켰다.
 
 - **등장 배경 및 고정 할당의 죽음**:
-  1. **[지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)(Local)의 낭비**: 초기엔 100프레임씩 주고 니들 안에서 알아서 살아 남으라고 방치했다. 안 쓰는 램이 썩어 넘치는 끔찍한 비효율이 발생했다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">지역 교체</a>(Local)의 낭비</strong>: 초기엔 100프레임씩 주고 니들 안에서 알아서 살아 남으라고 방치했다. 안 쓰는 램이 썩어 넘치는 끔찍한 비효율이 발생했다.
   2. **동적 램 재배분의 욕구**: "메모리(RAM)라는 건 고정된 땅이 아니라, 숨을 쉬는 유기체다." 바쁜 놈에게 램을 유동적으로 몰아주는 것이 시스템 가동률 100%를 달성하는 길임을 깨달았다.
   3. **표준의 정착**: 리눅스 데몬 `kswapd`가 밤낮없이 백그라운드를 순회하며 남의 램을 쓸어다 빈 통장(Free list)에 넣는 전역적(Global) 징수 시스템이 확립되었다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        전역 교체 (Global Replacement)의 무자비한 램 약탈 시각화         │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 상황: 물리 RAM이 100% 꽉 찬 상태 ]                                    │
-│ ┌──────────────┬──────────────┬──────────────┐                          │
-│ │ 크롬 (바쁘게 돎) │ 엑셀 (쉬는 중) │ 카톡 (잠자는 중)│                 │
-│ └──────────────┴──────────────┴──────────────┘                          │
-│                                                                         │
-│ ▶ 위기: 크롬이 4K 영상을 보느라 "새로운 램 1장 더 줘!" 폴트 발생!       │
-│ ▶ 램 잔고 = 0. 누군가를 쫓아내서 빈방을 만들어야 함.                    │
-│                                                                         │
-│ [ OS의 매의 눈 (Global LRU 스캔) ]                                      │
-│ "크롬, 엑셀, 카톡의 모든 페이지를 1열로 쫙 세워봐. 누가 젤 잉여야?"     │
-│ "오, 카톡이 들고 있는 '배너 광고 이미지'가 1시간째 터치 안 됐네?"       │
-│                                                                         │
-│ [ 약탈 실행 (Swap-out) ]                                                │
-│ OS가 카톡의 배너 이미지를 무자비하게 디스크(스왑)로 걷어차버림.         │
-│ ──▶ [ 카톡의 램 1장 탈취 완료 ]                                         │
-│                                                                         │
-│ [ 수여 (Swap-in) ]                                                      │
-│ OS가 빼앗은 그 램 1장을 크롬의 유튜브 영상 버퍼로 채워줌!               │
-│ ✅ 결과: 크롬의 램 점유율 상승 🚀 / 카톡의 램 점유율 하락 📉            │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 교체 (Global Replacement)의 무자비한 램 약탈 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리 RAM이 100% 꽉 찬 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크롬 (바쁘게 돎)</div><div class="kb-diagram-cell">엑셀 (쉬는 중)</div><div class="kb-diagram-cell">카톡 (잠자는 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기: 크롬이 4K 영상을 보느라 "새로운 램 1장 더 줘!" 폴트 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 램 잔고 = 0. 누군가를 쫓아내서 빈방을 만들어야 함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 매의 눈 (Global LRU 스캔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"크롬, 엑셀, 카톡의 모든 페이지를 1열로 쫙 세워봐. 누가 젤 잉여야?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오, 카톡이 들고 있는 '배너 광고 이미지'가 1시간째 터치 안 됐네?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">약탈 실행 (Swap-out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 카톡의 배너 이미지를 무자비하게 디스크(스왑)로 걷어차버림.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카톡의 램 1장 탈취 완료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수여 (Swap-in)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 빼앗은 그 램 1장을 크롬의 유튜브 영상 버퍼로 채워줌!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 크롬의 램 점유율 상승 🚀 / 카톡의 램 점유율 하락 📉</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 내가 크롬 탭을 100개 띄우면 옆에 켜둔 게임이 렉이 걸리는 근본적인 하드웨어적 이유다. 크롬이 폴트를 미친 듯이 뿜어내며 시스템 전역(Global)의 램 프레임들을 닥치는 대로 훔쳐 가서 자기 배를 불렸기 때문이다. 공산주의적 [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)을 완전히 박살 낸 승자 독식의 철학이다.
 
 - **📢 섹션 요약 비유**: 회사에서 프로젝트를 할 때, 내 팀(자신의 앱) 예산이 다 떨어졌다고 우리 팀원 월급을 깎는 게 아니라, 사장님(OS)한테 가서 "저기 맨날 유튜브만 보는 영업팀(남의 앱) 예산 확 뺏어서 우리 팀 서버비로 꽂아주세요!"라고 읍소하여 회사 전체 자금을 융통하는 공격적인 예산(전역 램) 운영 방식입니다.
@@ -63,11 +59,11 @@ tags = ["studynote-operating-system"]
 
 ### 프레임 강탈로 인한 '[할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 고무줄 현상'
 
-전역 교체의 가장 큰 특징은 **"프로세스에 할당된 프레임 개수 자체가 시시각각 미친 듯이 변한다"**는 것이다.
+전역 교체의 가장 큰 특징은 <strong>"프로세스에 할당된 프레임 개수 자체가 시시각각 미친 듯이 변한다"</strong>는 것이다.
 - `Time 1`: 크롬(100장), 카톡(100장) 평화롭게 시작.
 - `Time 2`: 크롬 탭 10개 오프닝. 크롬이 폴트를 마구 뿜으며 카톡의 방을 강탈함.
 - `Time 3`: 크롬(180장), 카톡(20장)으로 램 영토가 완전히 뒤바뀜.
-- 즉, **내 프로그램의 메모리 점유율이 내 의지가 아니라 "남(타 프로세스)의 실행 패턴"에 의해 수동적으로 결정**되는 무서운 부작용(Dependency)이 발생한다.
+- 즉, <strong>내 프로그램의 메모리 점유율이 내 의지가 아니라 "남(타 프로세스)의 실행 패턴"에 의해 수동적으로 결정</strong>되는 무서운 부작용(Dependency)이 발생한다.
 
 ---
 
@@ -77,7 +73,7 @@ tags = ["studynote-operating-system"]
 - 내 C++ 코드가 어제는 0.1초 만에 돌았다.
 - 오늘 똑같이 돌렸는데, 하필 백그라운드에서 백신 프로그램이 돌면서 내 램 프레임을 전역 교체로 싹 다 훔쳐 가 스왑으로 날려버렸다.
 - 내 코드가 램을 다시 찾느라 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 10만 번 터뜨려 10초가 걸린다.
-- **결론**: 전역 교체 환경에서는 내 프로세스의 **[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 발생 횟수가 나 혼자만의 행동이 아니라 외부 환경(External Noise)에 의해 요동치므로**, [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)(RTOS)이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 민감한 HFT(초고빈도 매매) 환경에서는 최악의 독약(Jitter)으로 작용한다.
+- **결론**: 전역 교체 환경에서는 내 프로세스의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> 발생 횟수가 나 혼자만의 행동이 아니라 외부 환경(External Noise)에 의해 요동치므로</strong>, [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)(RTOS)이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))에 민감한 HFT(초고빈도 매매) 환경에서는 최악의 독약(Jitter)으로 작용한다.
 
 - **📢 섹션 요약 비유**: 내 아파트 전세(램 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))가 고정된 게 아니라, 매일 아침 집주인(OS)이 와서 "오늘 앞집에 손님이 많이 오니 네 방 2칸만 뺏어서 앞집 주자"라고 마음대로 집 평수를 늘렸다 줄였다(고무줄 할당) 하는 어지러운 세입자의 삶입니다.
 
@@ -93,26 +89,29 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **희생양 탐색 범위** | **메모리에 있는 모든 프로세스** 전체 방 | **오직 자기 자신에게 할당된** 100개의 방 |
 | **램(RAM) 활용률** | **극도로 높음 (99%)**. 노는 램을 즉시 빼앗아 씀 | 나쁨. 할당받고 쉬고 있으면 램이 썩어 들어감 |
-| **프로세스 렉(Jitter)**| 외부 요인에 의해 남의 램 뺏기다 훅 갈 수 있음 | 자기 방 안에서만 놀므로 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100% 일정하게 예측 가능함** |
-| **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))**| 한 놈이 미치면 서버 전체의 램을 뺏어 쑥대밭 만듦 | 한 놈이 미쳐도 자기 방 안에서만 렉 걸리고 끝 (피해 안 줌) |
+| **프로세스 렉(Jitter)**| 외부 요인에 의해 남의 램 뺏기다 훅 갈 수 있음 | 자기 방 안에서만 놀므로 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 100% 일정하게 예측 가능함</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>| 한 놈이 미치면 서버 전체의 램을 뺏어 쑥대밭 만듦 | 한 놈이 미쳐도 자기 방 안에서만 렉 걸리고 끝 (피해 안 줌) |
 | **현대 OS 채택** | 🟢 **Windows, Linux의 압도적 기본값** | ❌ 거의 폐기됨 (수동 제한 등 특수 경우만 사용) |
 
 ### [Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/) ([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/), [페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)) 제어
 
 전역 교체 하에서, 미친 프로세스 하나가 램을 100% 싹쓸이하여 남들을 다 죽이는 마피아 짓([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 어떻게 막을까?
-- OS는 **[PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) ([페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/))** 상/하한선을 정해둔다.
+- OS는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/">PFF</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/">페이지 부재 빈도</a>)</strong> 상/하한선을 정해둔다.
 - 어떤 앱이 폴트를 1초에 1,000번씩 빵빵 터뜨린다? "아 이놈 지금 방이 너무 좁구나! 남의 램 뺏어서 얘한테 더 몰아줘!(전역 교체의 정당성)"
 - 반대로 어떤 앱이 10분 동안 폴트가 단 1번도 안 났다? "이놈 방이 너무 널널해서 램을 낭비하고 있네! 얘 프레임을 당장 압수(Trim)해서 프리 리스트(Free list)로 회수해!"
 - 이 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 조절 로직이 백그라운드에서 실시간으로 돌면서, 전역 교체의 야생성에 '최소한의 공권력'을 부여하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막아낸다. (상세 내용은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 챕터에서 다룸)
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 스케줄러 철학│ 할당량 조절   │ 노는 램의 운명 │ OOM 방어력     │
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ 전역(Global)│ 실시간 변동   │ 즉시 남이 뺏어감│ 끝까지 쥐어짬  │
-│ 지역(Local) │ 영구 고정     │ 영원히 썩어감  │ 램 남는데 터짐  │
-└──────────┴────────────┴────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 철학</div><div class="kb-diagram-cell">할당량 조절</div><div class="kb-diagram-cell">노는 램의 운명</div><div class="kb-diagram-cell">OOM 방어력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역(Global)</div><div class="kb-diagram-cell">실시간 변동</div><div class="kb-diagram-cell">즉시 남이 뺏어감</div><div class="kb-diagram-cell">끝까지 쥐어짬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역(Local)</div><div class="kb-diagram-cell">영구 고정</div><div class="kb-diagram-cell">영원히 썩어감</div><div class="kb-diagram-cell">램 남는데 터짐</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 이 표를 보면 리눅스가 왜 전역(Global)을 택했는지 알 수 있다. 서버 관리자 입장에서 램이 10GB나 비어있는데 [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) 룰([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))에 묶여서 1개 앱이 뻗어버리는 꼴은 절대 용납할 수 없다. "누가 렉 걸리든 알 바 아니고, 물리 램 16GB의 마지막 한 톨까지 100% 쥐어 짜내서 시스템 전체의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 우주 끝까지 높이겠다"는 것이 현대 OS의 서늘한 가치관이다.
 
 - **📢 섹션 요약 비유**: [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)가 각 부서에 무조건 예산 1억씩 고정으로 주고 맘대로 쓰라는 공무원 행정이라면, 전역 교체는 월말마다 실적(폴트 빈도)을 평가해서 실적 안 나오는 부서 예산을 싹 뺏어다가 일 잘하는 부서에 팍팍 몰아주는 피도 눈물도 없는 성과주의 대기업의 살벌한 생존 경쟁입니다.
@@ -123,11 +122,11 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) OOM과 cgroups의 로컬 락(Local [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))
 1. **클라우드의 악몽**: 클라우드 서버 1대에 고객사 앱([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 10개 띄웠다. A 회사 앱이 메모리 릭(Leak) 버그를 내서 미친 듯이 램을 요구했다. 리눅스의 전역 교체(Global) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 아무 죄 없는 B~J 회사의 램을 몽땅 빼앗아 스왑으로 날려버리고 A 회사에 몰아줬다. B~J 회사의 서비스가 모조리 정지(STW)되었다. (최악의 Noisy Neighbor 문제)
-2. **[지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)(Local)의 멱살 부활**:
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">지역 교체</a>(Local)의 멱살 부활</strong>:
    - [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시대에는 이 "전역 깡패 짓"이 치명적 독이 되었다. 남의 서비스에 피해를 주면 안 되기 때문이다.
-   - 구글 엔지니어들은 리눅스 커널에 **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))**라는 감옥을 설계했다.
+   - 구글 엔지니어들은 리눅스 커널에 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>)</strong>라는 감옥을 설계했다.
    - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄울 때 `memory limit = 2GB` 라는 절대 족쇄를 채운다.
-   - 이 족쇄를 찬 앱이 2GB를 넘게 쓰려고 하면, 리눅스 전역 램이 100GB가 남아 돌아도 **절대 남의 램을 뺏지(Global) 못하고, 오직 자기 2GB 안에서만 울며 겨자 먹기로 돌려막기([Local Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/))를 강제당한다.** 돌려막다 못 버티면 자기 혼자만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러에게 사살당한다.
+   - 이 족쇄를 찬 앱이 2GB를 넘게 쓰려고 하면, 리눅스 전역 램이 100GB가 남아 돌아도 <strong>절대 남의 램을 뺏지(Global) 못하고, 오직 자기 2GB 안에서만 울며 겨자 먹기로 돌려막기(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">Local Replacement</a>)를 강제당한다.</strong> 돌려막다 못 버티면 자기 혼자만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러에게 사살당한다.
 3. **실무적 결단**: 현대 인프라(k8s)는 리눅스의 폭주하는 전역 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위에, cgroups라는 튼튼한 '[지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) 철창'을 덮어씌워서 속도와 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 완벽한 하이브리드 경제를 구축했다.
 
 ### [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Score Adjust (oom_score_adj)와 면책 특권
@@ -145,7 +144,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **물리 램 활용률(Utilization) 극대화**| 가만히 쉬고 있는 프로세스의 프레임을 단 1초도 놀리지 않고 즉각 회수하여 활성 프로세스에 몰아줌으로써 램 투자 가성비 최고치 달성 |
-| **다중 프로그래밍의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 상승**| 바쁜 앱이 메모리 부족으로 멈추는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Stall)을 남의 램을 뺏어서라도 해결해 주므로 전체 시스템 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 |
+| <strong>다중 프로그래밍의 스루풋(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) 상승</strong>| 바쁜 앱이 메모리 부족으로 멈추는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Stall)을 남의 램을 뺏어서라도 해결해 주므로 전체 시스템 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 |
 | **스케줄러의 부하 경감** | "누구에게 몇 개를 줘야 하나?"라는 복잡한 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 계산을 포기하고, 그냥 폴트 나는 놈한테 막 퍼주는 단순 무식한 로직으로 OS 오버헤드 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
 
 ### 결론 및 미래 전망
@@ -167,15 +166,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
-    │
-    ▼
-[전역 교체 (Global Replacement)]
-    │
-    ├──▶ [지역 교체 (Local Replacement)]
-    └──▶ [페이지 교체 알고리즘 (Page Replacement Algorithms)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

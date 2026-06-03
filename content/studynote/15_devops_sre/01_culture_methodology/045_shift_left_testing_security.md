@@ -18,44 +18,43 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 개념
 
-```
-결함 수정 비용 곡선:
 
-비용
-↑
-100× |                              ×
-     |                        ×
-10×  |                  ×
-     |           ×
-1×   |     ×
-─────┼────────────────────────────→
-    요구   설계   구현   테스트  운영
-    분석
 
-IBM 연구 (1970s, 여전히 통용):
-  요구사항 단계: 1×
-  설계 단계: 5×
-  구현 단계: 10×
-  테스트 단계: 20×
-  운영 단계: 100×
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">결함 수정 비용 곡선:</div>
+<div class="kb-diagram-note">비용</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">100× | ×</div>
+<div class="kb-diagram-note">×</div>
+<div class="kb-diagram-note">10× | ×</div>
+<div class="kb-diagram-note">×</div>
+<div class="kb-diagram-note">1× | ×</div>
+<div class="kb-diagram-note">요구 설계 구현 테스트 운영</div>
+<div class="kb-diagram-note">분석</div>
+<div class="kb-diagram-note">IBM 연구 (1970s, 여전히 통용):</div>
+<div class="kb-diagram-note">요구사항 단계: 1×</div>
+<div class="kb-diagram-note">설계 단계: 5×</div>
+<div class="kb-diagram-note">구현 단계: 10×</div>
+<div class="kb-diagram-note">테스트 단계: 20×</div>
+<div class="kb-diagram-note">운영 단계: 100×</div>
+<div class="kb-diagram-note">시프트 레프트 전략:</div>
+<div class="kb-diagram-note">전통 워터폴:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">운영</div></div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-note">테스트만 마지막에</div>
+<div class="kb-diagram-note">시프트 레프트:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테스트·보안</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트·보안</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트·보안</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">운영</div></div>
+<div class="kb-diagram-note">요구 설계 구현</div>
+<div class="kb-diagram-note">각 단계에서 테스트·보안 활동 수행</div>
+<div class="kb-diagram-note">세 가지 시프트 레프트:</div>
+<div class="kb-diagram-note">1. 테스팅 (Shift Left Testing)</div>
+<div class="kb-diagram-note">2. 보안 (DevSecOps / Shift Left Security)</div>
+<div class="kb-diagram-note">3. 성능 (Shift Left Performance)</div>
+</div>
+</div>
 
-시프트 레프트 전략:
-  전통 워터폴:
-  요구 → 설계 → 구현 → [테스트] → 운영
-                              ^
-                          테스트만 마지막에
 
-  시프트 레프트:
-  [테스트·보안]→[테스트·보안]→[테스트·보안] → 운영
-  요구          설계          구현
-  
-  각 단계에서 테스트·보안 활동 수행
-
-세 가지 시프트 레프트:
-  1. 테스팅 (Shift Left Testing)
-  2. 보안 (DevSecOps / Shift Left Security)
-  3. 성능 (Shift Left Performance)
-```
 
 > 📢 **섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 요리할 때 식재료 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 완성 후 맛 없으면(운영 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 다 버려야. 재료 살 때(요구사항) 신선한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 훨씬 저렴!
 
@@ -63,49 +62,48 @@ IBM 연구 (1970s, 여전히 통용):
 
 ## Ⅱ. [시프트 레프트 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)
 
-```
-테스트 피라미드 (Test Pyramid):
 
-        /       /  \  E2E 테스트 (10%)
-      /────\  Selenium, Cypress
-     /          /──────────\ 통합 테스트 (20%)
-   /            \  API 테스트, DB 테스트
-  /──────────────── \ 단위 테스트 (70%)
- /                    \  JUnit, pytest, Jest
 
-단위 테스트 (Unit Test):
-  개별 함수/메서드 독립 검증
-  Mock/Stub으로 의존성 격리
-  실행: 밀리초 단위 (빠름)
-  피드백: 즉시
-  
-통합 테스트 (Integration Test):
-  컴포넌트 간 상호작용 검증
-  실제 DB, 외부 서비스 연동
-  실행: 초~분 단위
-  
-E2E 테스트 (End-to-End):
-  사용자 시나리오 전체 검증
-  브라우저 자동화 (Selenium, Cypress)
-  실행: 분~시간 단위 (느림)
-  취약: 외부 의존성, 유지보수 비용
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">테스트 피라미드 (Test Pyramid):</div>
+<div class="kb-diagram-note">/ / \ E2E 테스트 (10%)</div>
+<div class="kb-diagram-note">/ \ Selenium, Cypress</div>
+<div class="kb-diagram-note">/ / \ 통합 테스트 (20%)</div>
+<div class="kb-diagram-note">/ \ API 테스트, DB 테스트</div>
+<div class="kb-diagram-note">/ \ 단위 테스트 (70%)</div>
+<div class="kb-diagram-note">/ \ JUnit, pytest, Jest</div>
+<div class="kb-diagram-note">단위 테스트 (Unit Test):</div>
+<div class="kb-diagram-note">개별 함수/메서드 독립 검증</div>
+<div class="kb-diagram-note">Mock/Stub으로 의존성 격리</div>
+<div class="kb-diagram-note">실행: 밀리초 단위 (빠름)</div>
+<div class="kb-diagram-note">피드백: 즉시</div>
+<div class="kb-diagram-note">통합 테스트 (Integration Test):</div>
+<div class="kb-diagram-note">컴포넌트 간 상호작용 검증</div>
+<div class="kb-diagram-note">실제 DB, 외부 서비스 연동</div>
+<div class="kb-diagram-note">실행: 초~분 단위</div>
+<div class="kb-diagram-note">E2E 테스트 (End-to-End):</div>
+<div class="kb-diagram-note">사용자 시나리오 전체 검증</div>
+<div class="kb-diagram-note">브라우저 자동화 (Selenium, Cypress)</div>
+<div class="kb-diagram-note">실행: 분~시간 단위 (느림)</div>
+<div class="kb-diagram-note">취약: 외부 의존성, 유지보수 비용</div>
+<div class="kb-diagram-note">TDD (Test-Driven Development):</div>
+<div class="kb-diagram-note">Red-Green-Refactor 사이클:</div>
+<div class="kb-diagram-note">Red: 실패하는 테스트 먼저 작성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Green: 테스트 통과하는 최소 코드 작성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Refactor: 코드 정리 (테스트는 통과 유지)</div>
+<div class="kb-diagram-note">↓ (다시 Red)</div>
+<div class="kb-diagram-note">CI 파이프라인 통합:</div>
+<div class="kb-diagram-note">커밋 → 단위 테스트 자동 실행 (&lt;5분)</div>
+<div class="kb-diagram-note">PR → 통합 테스트 (&lt;30분)</div>
+<div class="kb-diagram-note">main 브랜치 → E2E 테스트 (&lt;60분)</div>
+<div class="kb-diagram-note">실패 시 즉시 알림</div>
+</div>
+</div>
 
-TDD (Test-Driven Development):
-  Red-Green-Refactor 사이클:
-  
-  Red: 실패하는 테스트 먼저 작성
-  ↓
-  Green: 테스트 통과하는 최소 코드 작성
-  ↓
-  Refactor: 코드 정리 (테스트는 통과 유지)
-  ↓ (다시 Red)
 
-CI 파이프라인 통합:
-  커밋 → 단위 테스트 자동 실행 (<5분)
-  PR → 통합 테스트 (<30분)
-  main 브랜치 → E2E 테스트 (<60분)
-  실패 시 즉시 알림
-```
 
 > 📢 **섹션 요약 비유**: 테스트 피라미드는 건물 기초 — [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(넓은 기초), [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)(벽), [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/)(지붕). 기초가 탄탄해야 지붕이 올라가요. TDD는 청사진 먼저!
 
@@ -113,59 +111,49 @@ CI 파이프라인 통합:
 
 ## Ⅲ. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 보안 ([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))
 
-```
-DevSecOps 파이프라인:
 
-코드 작성 → SAST → 빌드 → SCA → 테스트 → DAST → 배포
 
-1. SAST (Static Application Security Testing):
-   코드를 실행 없이 정적 분석
-   
-   탐지: 인젝션, 버퍼 오버플로우, 하드코딩 비밀
-   
-   도구:
-   SonarQube: 멀티 언어, 코드 품질+보안
-   Semgrep: 커스텀 규칙, 빠름
-   Checkmarx, Veracode: 엔터프라이즈
-   
-   실행 위치: 커밋 또는 PR 단계
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DevSecOps 파이프라인:</div>
+<div class="kb-diagram-note">코드 작성 → SAST → 빌드 → SCA → 테스트 → DAST → 배포</div>
+<div class="kb-diagram-note">1. SAST (Static Application Security Testing):</div>
+<div class="kb-diagram-note">코드를 실행 없이 정적 분석</div>
+<div class="kb-diagram-note">탐지: 인젝션, 버퍼 오버플로우, 하드코딩 비밀</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">SonarQube: 멀티 언어, 코드 품질+보안</div>
+<div class="kb-diagram-note">Semgrep: 커스텀 규칙, 빠름</div>
+<div class="kb-diagram-note">Checkmarx, Veracode: 엔터프라이즈</div>
+<div class="kb-diagram-note">실행 위치: 커밋 또는 PR 단계</div>
+<div class="kb-diagram-note">2. SCA (Software Composition Analysis):</div>
+<div class="kb-diagram-note">오픈소스 의존성 취약점 스캔</div>
+<div class="kb-diagram-note">탐지: CVE(Common Vulnerabilities and Exposures)</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">Snyk: 개발자 친화적</div>
+<div class="kb-diagram-note">OWASP Dependency-Check</div>
+<div class="kb-diagram-note">Dependabot (GitHub 내장)</div>
+<div class="kb-diagram-note">예: Log4j 취약점 (2021) → SCA로 즉시 탐지</div>
+<div class="kb-diagram-note">3. DAST (Dynamic Application Security Testing):</div>
+<div class="kb-diagram-note">실행 중인 앱을 외부에서 공격 시뮬레이션</div>
+<div class="kb-diagram-note">탐지: XSS, SQL 인젝션, CSRF</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">OWASP ZAP: 오픈소스 표준</div>
+<div class="kb-diagram-note">Burp Suite: 전문가용</div>
+<div class="kb-diagram-note">실행 위치: 테스트/스테이징 환경 배포 후</div>
+<div class="kb-diagram-note">4. 컨테이너 보안:</div>
+<div class="kb-diagram-note">Trivy: 컨테이너 이미지 취약점 스캔</div>
+<div class="kb-diagram-note">Grype</div>
+<div class="kb-diagram-note">CI 통합:</div>
+<div class="kb-diagram-note">docker build → trivy image scan</div>
+<div class="kb-diagram-note">High/Critical CVE → 배포 차단</div>
+<div class="kb-diagram-note">5. IaC 보안:</div>
+<div class="kb-diagram-note">Terraform, CloudFormation 코드 스캔</div>
+<div class="kb-diagram-note">Checkov, TFSec: 잘못된 보안 설정 탐지</div>
+<div class="kb-diagram-note">S3 버킷 public → 차단</div>
+</div>
+</div>
 
-2. SCA (Software Composition Analysis):
-   오픈소스 의존성 취약점 스캔
-   
-   탐지: CVE(Common Vulnerabilities and Exposures)
-   
-   도구:
-   Snyk: 개발자 친화적
-   OWASP Dependency-Check
-   Dependabot (GitHub 내장)
-   
-   예: Log4j 취약점 (2021) → SCA로 즉시 탐지
 
-3. DAST (Dynamic Application Security Testing):
-   실행 중인 앱을 외부에서 공격 시뮬레이션
-   
-   탐지: XSS, SQL 인젝션, CSRF
-   
-   도구:
-   OWASP ZAP: 오픈소스 표준
-   Burp Suite: 전문가용
-   
-   실행 위치: 테스트/스테이징 환경 배포 후
-
-4. 컨테이너 보안:
-   Trivy: 컨테이너 이미지 취약점 스캔
-   Grype
-   
-   CI 통합:
-   docker build → trivy image scan
-   High/Critical CVE → 배포 차단
-
-5. IaC 보안:
-   Terraform, CloudFormation 코드 스캔
-   Checkov, TFSec: 잘못된 보안 설정 탐지
-   S3 버킷 public → 차단
-```
 
 > 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)(코드 검사기), [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)(부품 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검사), [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)(완성품 충격 테스트), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(포장 검사). 각 단계마다 검사!
 
@@ -223,51 +211,47 @@ Stage 5 (CD - 프로덕션):
 
 ## Ⅴ. 실무 시나리오 — 핀테크 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)
 
-```
-핀테크 스타트업 DevSecOps 도입:
 
-배경:
-  빠른 기능 출시 + 금융 보안 규제
-  PCI DSS (결제 카드 산업 보안 표준) 준수 필요
-  현황: 수동 보안 검토 → 출시 지연 2주
 
-문제:
-  보안팀: "배포 전 보안 검토 필요"
-  개발팀: "일정 촉박한데 왜 항상 보안이..."
-  → 갈등, 지연
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">핀테크 스타트업 DevSecOps 도입:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">빠른 기능 출시 + 금융 보안 규제</div>
+<div class="kb-diagram-note">PCI DSS (결제 카드 산업 보안 표준) 준수 필요</div>
+<div class="kb-diagram-note">현황: 수동 보안 검토 → 출시 지연 2주</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">보안팀: "배포 전 보안 검토 필요"</div>
+<div class="kb-diagram-note">개발팀: "일정 촉박한데 왜 항상 보안이..."</div>
+<div class="kb-diagram-note">→ 갈등, 지연</div>
+<div class="kb-diagram-note">DevSecOps 도입:</div>
+<div class="kb-diagram-note">1. 파이프라인 보안 자동화:</div>
+<div class="kb-diagram-note">GitHub Actions:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">pr_check.yml:</div>
+<div class="kb-diagram-note">Semgrep SAST, Snyk SCA, Trivy</div>
+<div class="kb-diagram-note">Critical → PR 머지 차단</div>
+<div class="kb-diagram-tree-item" style="--depth:1">staging_deploy.yml:</div>
+<div class="kb-diagram-note">OWASP ZAP DAST (API 엔드포인트)</div>
+<div class="kb-diagram-note">고위험 발견 → 알림 + 수동 검토</div>
+<div class="kb-diagram-note">2. 개발자 보안 교육:</div>
+<div class="kb-diagram-note">시큐어 코딩 가이드라인 내부 위키</div>
+<div class="kb-diagram-note">"왜 이 취약점이 위험한지" 컨텍스트 제공</div>
+<div class="kb-diagram-note">3. 보안 챔피언 제도:</div>
+<div class="kb-diagram-note">각 스쿼드(팀)에 보안 담당자 1명 지정</div>
+<div class="kb-diagram-note">→ 보안 주도 (보안팀 병목 제거)</div>
+<div class="kb-diagram-note">결과 (6개월):</div>
+<div class="kb-diagram-note">Critical 취약점: 배포 전 평균 99% 탐지</div>
+<div class="kb-diagram-note">출시 지연 (보안 이슈): 2주 → 0.5일</div>
+<div class="kb-diagram-note">PCI DSS 감사: 자동화 증거로 준비 시간 70% 절감</div>
+<div class="kb-diagram-note">개발팀 보안 이슈 인지율: 30% → 85%</div>
+<div class="kb-diagram-note">ROI:</div>
+<div class="kb-diagram-note">보안 침해 방지 비용 (추정): 수십억</div>
+<div class="kb-diagram-note">DevSecOps 구축 비용: 5천만원</div>
+<div class="kb-diagram-note">보안팀 코드 리뷰 시간: 주 40시간 → 5시간</div>
+</div>
+</div>
 
-DevSecOps 도입:
 
-1. 파이프라인 보안 자동화:
-  GitHub Actions:
-  
-  - pr_check.yml:
-    Semgrep SAST, Snyk SCA, Trivy
-    Critical → PR 머지 차단
-    
-  - staging_deploy.yml:
-    OWASP ZAP DAST (API 엔드포인트)
-    고위험 발견 → 알림 + 수동 검토
-
-2. 개발자 보안 교육:
-  시큐어 코딩 가이드라인 내부 위키
-  "왜 이 취약점이 위험한지" 컨텍스트 제공
-  
-3. 보안 챔피언 제도:
-  각 스쿼드(팀)에 보안 담당자 1명 지정
-  → 보안 주도 (보안팀 병목 제거)
-
-결과 (6개월):
-  Critical 취약점: 배포 전 평균 99% 탐지
-  출시 지연 (보안 이슈): 2주 → 0.5일
-  PCI DSS 감사: 자동화 증거로 준비 시간 70% 절감
-  개발팀 보안 이슈 인지율: 30% → 85%
-
-ROI:
-  보안 침해 방지 비용 (추정): 수십억
-  DevSecOps 구축 비용: 5천만원
-  보안팀 코드 리뷰 시간: 주 40시간 → 5시간
-```
 
 > 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡기!
 

@@ -42,22 +42,19 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)가 "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자율성"과 "공통 플랫폼"을 동시에 요구한다는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Domain-owned data products on shared platform            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Sales Domain      Payment Domain      Logistics Domain                     │
-│      │                 │                    │                              │
-│      ▼                 ▼                    ▼                              │
-│ [Data Product]    [Data Product]       [Data Product]                     │
-│      └───────────────┬────────────────────┬───────────────┘               │
-│                      ▼                    ▼                               │
-│   Catalog · Access Control · Observability · Storage · Pipeline Runtime   │
-│                              │                                             │
-│                              ▼                                             │
-│                Cross-domain analytics / reports / apps                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain-owned data products on shared platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sales Domain Payment Domain Logistics Domain</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Product</div><div class="kb-diagram-node">Data Product</div><div class="kb-diagram-node">Data Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog · Access Control · Observability · Storage · Pipeline Runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross-domain analytics / reports / apps</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 플랫폼 팀은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 대신 만들지 않는다. 대신 표준 템플릿, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집, [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) ([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)), 접근 제어, 품질 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 같은 기반 기능을 제공해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 빠르게 제품을 만들게 돕는다. 즉 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "모두가 각자 알아서 하라"가 아니라, "공통 기반 위에서 책임만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하라"는 모델이다.
 
@@ -115,7 +112,7 @@ tags = ["studynote-enterprise"]
 
 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)를 잘 설계하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공 리드타임이 줄고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 책임이 명확해지며, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 분석 재사용성이 높아진다. 중앙팀은 개별 요청 처리보다 플랫폼과 표준 고도화에 집중할 수 있어, 전체 조직의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산성이 단계적으로 좋아진다. 또한 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 단위로 품질과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 측정하면, "누가 왜 잘못했는가"가 아니라 "어떤 계약이 깨졌는가"로 문제를 다루기 쉬워진다.
 
-다만 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)가 모든 조직의 정답은 아니다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 엔지니어링 역량, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 문화, 공통 플랫폼 투자 없이는 운영 비용만 늘 수 있다. 따라서 이 개념은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하자"가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 책임처럼 제품화하자**는 관점으로 기억하는 것이 핵심이다.
+다만 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)가 모든 조직의 정답은 아니다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 엔지니어링 역량, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 문화, 공통 플랫폼 투자 없이는 운영 비용만 늘 수 있다. 따라서 이 개념은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하자"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 책임을 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 책임처럼 제품화하자</strong>는 관점으로 기억하는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 목표는 창고를 여러 개 만드는 것이 아니라, 각 창고가 자기 물건을 책임 있게 관리하면서도 전체 물류망은 한 몸처럼 움직이게 만드는 데 있다.
 
@@ -133,24 +130,25 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 데이터 웨어하우스
-    │
-    ▼
-데이터 레이크 · 레이크하우스
-    │
-    ▼
-중앙 병목과 의미 왜곡 인식
-    │
-    ▼
-도메인 소유 데이터 제품
-    │
-    ▼
-셀프서비스 플랫폼 + 연합 거버넌스
-    │
-    ▼
-데이터 메시 운영 모델
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 데이터 웨어하우스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 레이크 · 레이크하우스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중앙 병목과 의미 왜곡 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 소유 데이터 제품</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셀프서비스 플랫폼 + 연합 거버넌스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 운영 모델</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장소 통합 중심 사고에서, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임과 제품 운영 중심 사고로 무게가 이동한 과정을 보여준다.
 

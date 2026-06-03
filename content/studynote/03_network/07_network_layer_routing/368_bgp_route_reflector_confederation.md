@@ -24,17 +24,21 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 
   - **Full-Mesh의 지옥**: 100명의 회사원이 서로 한 번씩 인사를 나누려면 악수를 **4,950번** 해야 합니다. 손이 다 부르틉니다.
-  - **루트 리플렉터([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))**: 사장님([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 단상에 올라옵니다. 99명의 직원은 사장님에게만 **1번씩 악수([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))**를 합니다. 사장님이 마이크를 잡고 "다들 인사했음!" 하고 공지하면 끝납니다. 악수가 총 **99번**으로 줄어듭니다.
-  - **컨페더레이션**: 100명이 너무 많으니 30명, 30명, 40명짜리 **3개의 부서(Sub-[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))**로 쪼갭니다. 부서 안에서는 악수를 다 돌리고, 부서 사이에는 부장님들끼리만 악수(eBGP 룰 적용)하게 하여 악수 횟수를 획기적으로 줄입니다.
+  - <strong>루트 리플렉터(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a>)</strong>: 사장님([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 단상에 올라옵니다. 99명의 직원은 사장님에게만 <strong>1번씩 악수(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)</strong>를 합니다. 사장님이 마이크를 잡고 "다들 인사했음!" 하고 공지하면 끝납니다. 악수가 총 <strong>99번</strong>으로 줄어듭니다.
+  - **컨페더레이션**: 100명이 너무 많으니 30명, 30명, 40명짜리 <strong>3개의 부서(Sub-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>)</strong>로 쪼갭니다. 부서 안에서는 악수를 다 돌리고, 부서 사이에는 부장님들끼리만 악수(eBGP 룰 적용)하게 하여 악수 횟수를 획기적으로 줄입니다.
 
-```text
-[BGP 속성]
-    │
-    ▼
-[BGP Route Reflector / Co…]
-    │
-    └──▶ [멀티캐스트 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP Route Reflector / Co…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 이 두 가지 꼼수는 거미줄처럼 미친 듯이 엉킨 전화 교환기 선을 가위로 다 잘라버리고, **"중앙 교환수([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))"를 두거나 "지역별 소형 교환국(Confederation)"을 두어 선의 개수를 1/100로 다이어트시키는 획기적인 배선 정리 기술**입니다.
 
@@ -46,39 +50,39 @@ tags = ["studynote-network"]
 통신사 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 99% 쓴다. (가장 대중적이다).
 망 안에 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))을 지정하고, 나머지를 쫄따구([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)), 반장과 친구인 다른 반장을 비쫄따구(Non-[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))라 부른다. 
 
-1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 **쫄따구**한테 받은 엽서 ──▶ 다른 **쫄따구** + **비쫄따구**에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).
+1. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 <strong>쫄따구</strong>한테 받은 엽서 ──▶ 다른 **쫄따구** + <strong>비쫄따구</strong>에게 전부 다 반사(Reflect)해 준다! (원래 iBGP에선 금지된 짓이지만 RR의 권력으로 가능).
 2. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 외부 통신사(**eBGP**)에서 받은 엽서 ──▶ 쫄따구 + 비쫄따구에게 전부 다 반사해 준다!
 3. 반장([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 **비쫄따구**(다른 반장)한테 받은 엽서 ──▶ 쫄따구들한테만 반사하고, **또 다른 비쫄따구한테는 절대 주지 않는다.** (반장들끼리 무한 반사하다가 루프 도는 걸 막기 위한 최후의 안전장치다).
 
 **RR의 루프 방지**: "어? 스플릿 호라이즌(침묵)을 무시하고 남한테 엽서를 복사해 주면 무한 루프 도는 거 아니야?" 
-맞다. 그래서 RR은 엽서를 반사할 때 엽서 겉면에 **`Originator_ID`(최초 작성자 IP)**와 **`Cluster_List`(자기가 거쳐 온 반장들 ID 목록)**라는 특수 도장을 쾅쾅 찍어서 쏜다. 자기가 쓴 글이 도장 찍혀 다시 돌아오면 쓰레기통에 폐기하여 완벽히 루프를 억제한다.
+맞다. 그래서 RR은 엽서를 반사할 때 엽서 겉면에 <strong><code>Originator_ID</code>(최초 작성자 IP)</strong>와 <strong><code>Cluster_List</code>(자기가 거쳐 온 반장들 ID 목록)</strong>라는 특수 도장을 쾅쾅 찍어서 쏜다. 자기가 쓴 글이 도장 찍혀 다시 돌아오면 쓰레기통에 폐기하여 완벽히 루프를 억제한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Route Reflector 도입 시 연결선의 혁명             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 Full-Mesh (라우터 10대) ]                            │
- │   - 각 라우터당 맺어야 할 iBGP TCP 세션: 9개                     │
- │   - 네트워크 전체 세션: (10 * 9) / 2 = 45개 연결선 필요.          │
- │                                                             │
- │   [ 신형 RR 체제 (반장 1대 + 쫄따구 9대) ]                      │
- │   - 쫄따구당 맺어야 할 세션: 오직 반장하고만 "1개"!                   │
- │   - 반장이 맺어야 할 세션: 쫄따구 9명하고 "9개"!                    │
- │   - 네트워크 전체 세션: 단 9개의 연결선으로 평화 달성!               │
- │                                                             │
- │   ▶ "반장(RR)의 라우터 스펙(CPU/RAM)만 빵빵하면 통신사가 평화로워진다!" │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Route Reflector 도입 시 연결선의 혁명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구형 Full-Mesh (라우터 10대)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 각 라우터당 맺어야 할 iBGP TCP 세션: 9개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 네트워크 전체 세션: (10 * 9) / 2 = 45개 연결선 필요.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신형 RR 체제 (반장 1대 + 쫄따구 9대)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쫄따구당 맺어야 할 세션: 오직 반장하고만 "1개"!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 반장이 맺어야 할 세션: 쫄따구 9명하고 "9개"!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 네트워크 전체 세션: 단 9개의 연결선으로 평화 달성!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "반장(RR)의 라우터 스펙(CPU/RAM)만 빵빵하면 통신사가 평화로워진다!"</div></div>
+</div>
+</div>
+
+
 
 ### 2. Confederation (연방제)
 망 전체 설계를 다 갈아엎어야 해서 설정이 드럽게 복잡하다. (요즘은 잘 안 쓴다).
-- KT라는 거대한 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100을, `AS 65001`, `AS 65002`, `AS 65003` 이라는 **가짜 사설 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호**를 부여하여 3개의 소국가로 찢는다.
+- KT라는 거대한 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100을, `AS 65001`, `AS 65002`, `AS 65003` 이라는 <strong>가짜 사설 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 번호</strong>를 부여하여 3개의 소국가로 찢는다.
 - 같은 소국가 안에서는 여전히 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) 스플릿 호라이즌 룰(Full-Mesh)이 적용된다.
-- 소국가와 소국가 사이에는 **eBGP 룰**이 적용되어, 지도를 서로 자연스럽게 넘겨줄(토스할) 수 있다! (이게 핵심).
+- 소국가와 소국가 사이에는 <strong>eBGP 룰</strong>이 적용되어, 지도를 서로 자연스럽게 넘겨줄(토스할) 수 있다! (이게 핵심).
 - 외부(미국 구글)에서 볼 때: "어? 너네 안에서 65001로 쪼개졌든 말든 내 알 바 아님. 내 눈엔 넌 그냥 통일된 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100 이야!"라며 완벽한 통일 국가로 보인다.
 
-- **📢 섹션 요약 비유**: ** Route Reflector는 스승([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))이 제자들([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))의 질문을 취합해 방송으로 답해주는 **"일타 강사의 대형 강의실"**이고, Confederation은 학교 전체([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))를 관리하기 힘들어 1반, 2반, 3반(Sub-[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/))으로 쪼개고 반장들끼리만 교무회의(eBGP)를 시키는 **"반(Class) 분할 운영 체제"**입니다.
+- **📢 섹션 요약 비유**: <strong> Route Reflector는 스승(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a>)이 제자들(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)의 질문을 취합해 방송으로 답해주는 </strong>"일타 강사의 대형 강의실"<strong>이고, Confederation은 학교 전체(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>)를 관리하기 힘들어 1반, 2반, 3반(Sub-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>)으로 쪼개고 반장들끼리만 교무회의(eBGP)를 시키는 </strong>"반(Class) 분할 운영 체제"**입니다.
 
 ---
 
@@ -134,15 +138,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BGP 속성]
-    │
-    ▼
-[현재 개념: BGP Route Reflector / Co…]
-    │
-    ├──▶ [확장 A: 멀티캐스트 라우팅]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP 속성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP Route Reflector / Co…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/369_multicast_routing_pim_dense_vs_sparse/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

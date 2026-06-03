@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어가 커지면 코드를 여러 개의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))로 쪼개야 한다. 그런데 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 아무렇게나 쪼개면, A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 코드를 한 줄 고쳤는데 전혀 상관없어 보이는 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 C [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 갑자기 에러가 터진다. 이를 **산탄총 수술(Shotgun Surgery)**이라 부른다.
+소프트웨어가 커지면 코드를 여러 개의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))로 쪼개야 한다. 그런데 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 아무렇게나 쪼개면, A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 코드를 한 줄 고쳤는데 전혀 상관없어 보이는 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 C [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 갑자기 에러가 터진다. 이를 <strong>산탄총 수술(Shotgun Surgery)</strong>이라 부른다.
 
-이 재앙의 원인이 바로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 끈끈한 연결고리, 즉 **[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))**다. 좋은 소프트웨어 아키텍처의 가장 위대한 1원칙은 **"[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)는 높게(High [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 낮게(Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))"**다. 
+이 재앙의 원인이 바로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 끈끈한 연결고리, 즉 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong>다. 좋은 소프트웨어 아키텍처의 가장 위대한 1원칙은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>는 높게(High <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>), <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>는 낮게(Loose <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)"</strong>다. 
 
 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들은 서로가 내부적으로 어떻게 생겼는지(How) 절대 몰라야 하며, 오직 잘 정의된 인터페이스(What)로만 소통해야 한다. 이를 달성하기 위해 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)의 5가지 단계를 이해하고, 코드를 가장 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 낮은 상태로 설계하는 것이 객체지향의 핵심이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  객체지향 결합도 (내용, 공통, 제어                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 결합도 (내용, 공통, 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 객체지향 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (내용, 공통, 제어가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 |:---|:---|:---|
-| **대상** | **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) '사이'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | **[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) '내부' 요소들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** |
+| **대상** | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>과 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> '사이'의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> '내부' 요소들 간의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> |
 | **목표 지향점** | **낮을수록 (Loose) 좋음** | **높을수록 (High) 좋음** |
 | **측정 기준** | 얼마나 서로 안 엮여 있는가? | 내부 함수들이 얼마나 하나의 목적을 향해 뭉쳐있는가? |
 | **나쁜 예** | 샴쌍둥이처럼 피를 공유함 (공통 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | 잡동사니를 다 모아둔 만물상 서랍 (우연적 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 
-[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 너무 잘게 쪼개면 오히려 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 통신이 늘어나 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 올라가는 역설이 발생한다. 따라서 **'하나의 책임을 지는 수준(높은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))'**까지만 쪼개는 밸런스가 중요하다.
+[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 너무 잘게 쪼개면 오히려 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 통신이 늘어나 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 올라가는 역설이 발생한다. 따라서 <strong>'하나의 책임을 지는 수준(높은 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>)'</strong>까지만 쪼개는 밸런스가 중요하다.
 
 - **📢 섹션 요약 비유**: [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮추기는 이웃집과의 담장을 높여 사생활을 지키는 것이고, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높이기는 우리 집 식구들끼리 거실에 모여 화목하게 지내는 것이다. 둘 다 잘 되어야 좋은 아파트 단지(아키텍처)다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 '자료 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)' 수준으로 낮추는 데 성공하면, 시스템은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 언제든지 분리해 낼 수 있는 완벽한 유연성을 얻게 된다. A [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발자는 B [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발자가 파업을 하든 코드를 어떻게 짜든 신경 쓰지 않고 자기 일만 하면 된다.
 
-결론적으로 소프트웨어 아키텍처의 설계란 본질적으로 **'[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 자르는 칼질'**이다. 기술사는 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등)과 인터페이스(Interface)를 무기로 삼아, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 사이를 칭칭 감고 있는 악성 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)의 사슬을 끊어내고 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자율성을 갖도록 지휘해야 한다.
+결론적으로 소프트웨어 아키텍처의 설계란 본질적으로 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>를 자르는 칼질'</strong>이다. 기술사는 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등)과 인터페이스(Interface)를 무기로 삼아, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 사이를 칭칭 감고 있는 악성 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)의 사슬을 끊어내고 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 자율성을 갖도록 지휘해야 한다.
 
 - **📢 섹션 요약 비유**: [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 낮추기는 엉킨 이어폰 줄을 푸는 것과 같다. 억지로 잡아당기면 끊어진다. 인내심을 가지고 함수 하나, 변수 하나가 어디로 연결되었는지 살피며 살살 풀어내야만 깨끗한 두 개의 선([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))으로 나눌 수 있다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

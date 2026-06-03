@@ -29,7 +29,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하드웨어 방어의 핵심은 두 축이다. 첫째는 **복귀 주소 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**이다. Intel CET는 shadow stack에 리턴 주소를 별도로 저장하고, 함수 복귀 시 일반 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 값과 비교해 다르면 예외를 발생시킨다. ARM 계열은 PAC로 리턴 주소에 서명을 붙여, 변조된 주소가 유효한 포인터처럼 보이지 못하게 만든다. 둘째는 **간접 분기 목적지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**이다. CET의 IBT와 ARM의 BTI는 간접 분기가 지정된 landing pad로만 들어가게 만들어, 코드 중간의 gadget으로 뛰어드는 공격을 어렵게 한다.
+하드웨어 방어의 핵심은 두 축이다. 첫째는 <strong>복귀 주소 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>이다. Intel CET는 shadow stack에 리턴 주소를 별도로 저장하고, 함수 복귀 시 일반 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 값과 비교해 다르면 예외를 발생시킨다. ARM 계열은 PAC로 리턴 주소에 서명을 붙여, 변조된 주소가 유효한 포인터처럼 보이지 못하게 만든다. 둘째는 <strong>간접 분기 목적지 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이다. CET의 IBT와 ARM의 BTI는 간접 분기가 지정된 landing pad로만 들어가게 만들어, 코드 중간의 gadget으로 뛰어드는 공격을 어렵게 한다.
 
 | 방어 축 | 대표 기술 | 막으려는 공격 | 시스템 요구 사항 |
 | :--- | :--- | :--- | :--- |
@@ -39,25 +39,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 이후에도 제어권 탈취를 막는 하드웨어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 하드웨어 버퍼 오버플로우 방어의 이중 검증                                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CALL foo                                                                   │
-│   │                                                                        │
-│   ├─ 일반 스택          : return address 저장                              │
-│   └─ 보호 영역          : shadow stack 저장 또는 PAC 서명 부착            │
-│                                                                            │
-│ RET / indirect JMP                                                         │
-│   │                                                                        │
-│   ├─ 주소 불일치 · 서명 불일치 ───────────────▶ fault                      │
-│   └─ ENDBR / BTI landing pad 확인 ────────▶ 정상 target만 실행            │
-│                                                                            │
-│ 결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-실제로는 프로세서만으로 끝나지 않는다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환 때 shadow [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) pointer나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 상태를 저장·복원해야 하고, 컴파일러는 함수 진입점과 간접 분기 대상에 필요한 표식을 삽입해야 한다. 즉 이 기술은 "하드웨어 기능 하나 추가"가 아니라 **[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) + [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) + toolchain이 묶인 제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 체계**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 버퍼 오버플로우 방어의 이중 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALL foo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 스택 : return address 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 영역 : shadow stack 저장 또는 PAC 서명 부착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RET / indirect JMP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주소 불일치 · 서명 불일치 ▶ fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ENDBR / BTI landing pad 확인 ▶ 정상 target만 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움</div></div>
+</div>
+</div>
+
+
+
+실제로는 프로세서만으로 끝나지 않는다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환 때 shadow [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) pointer나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 상태를 저장·복원해야 하고, 컴파일러는 함수 진입점과 간접 분기 대상에 필요한 표식을 삽입해야 한다. 즉 이 기술은 "하드웨어 기능 하나 추가"가 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>) + <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> + toolchain이 묶인 제어 흐름 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 체계</strong>다.
 
 - **📢 섹션 요약 비유**: 이 구조는 놀이공원 자유이용권과 출입 게이트를 함께 쓰는 것과 같다. 표가 진짜인지 확인하는 장치와, 아무 문으로나 못 들어가게 하는 게이트가 같이 있어야 안전하다.
 
@@ -100,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 - CET/PAC [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제를 피하려고 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 전면 비활성화하는 운영
 - 제어 흐름 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/) 전체와 동일시해 use-after-free나 logic bug를 방치하는 판단
 
-기술사 답안에서는 "Intel CET가 ROP를 막는다" 수준에서 끝내지 말고, **shadow [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) + 간접 분기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) + [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)/컴파일러 연동 + 남는 공격면**까지 함께 적는 것이 좋다. 그래야 왜 이 기술이 강력하면서도, 동시에 완전한 만능 방패는 아닌지가 균형 있게 드러난다.
+기술사 답안에서는 "Intel CET가 ROP를 막는다" 수준에서 끝내지 말고, <strong>shadow <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">stack</a> + 간접 분기 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> + <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>/컴파일러 연동 + 남는 공격면</strong>까지 함께 적는 것이 좋다. 그래야 왜 이 기술이 강력하면서도, 동시에 완전한 만능 방패는 아닌지가 균형 있게 드러난다.
 
 - **📢 섹션 요약 비유**: 최신 전자도어락을 달아도 건물 관리 시스템이 문 열림 기록을 못 따라가면 혼란이 생기듯, 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 도구 체인이 함께 맞물려야 제대로 작동한다.
 
@@ -112,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 
 그러나 한계도 분명하다. 제어 흐름만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위조, 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락, 객체 수명 오류 같은 문제는 여전히 남는다. 앞으로는 shadow stack과 pointer authentication에 더해 MTE (Memory Tagging Extension), capability 기반 주소 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 기술이 결합되며 "제어 흐름 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에서 "메모리 접근 자체 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로 범위가 넓어질 가능성이 크다.
 
-결국 이 주제는 **[버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)를 없애는 기술**이 아니라, **[버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 나더라도 제어권을 빼앗기지 않게 만드는 하드웨어 안전벨트**로 기억하는 것이 정확하다. Intel CET는 그 대표 사례이고, PAC/BTI는 같은 방향의 다른 구현이다.
+결국 이 주제는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a>를 없애는 기술</strong>이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">버퍼 오버플로우</a>가 나더라도 제어권을 빼앗기지 않게 만드는 하드웨어 안전벨트</strong>로 기억하는 것이 정확하다. Intel CET는 그 대표 사례이고, PAC/BTI는 같은 방향의 다른 구현이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 사고를 완전히 없애는 마법이 아니라, 사고가 나더라도 운전대를 빼앗기지 않게 해 주는 안전벨트와 에어백의 조합에 가깝다.
 
@@ -131,24 +130,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스택 overwrite 기반 코드 실행 공격
-        │
-        ▼
-스택 카나리 · DEP · ASLR
-        │
-        ▼
-ROP (Return-Oriented Programming) · JOP (Jump-Oriented Programming) 등장
-        │
-        ▼
-소프트웨어 CFI (Control-Flow Integrity)
-        │
-        ▼
-Intel CET · ARM PAC/BTI
-        │
-        ▼
-Memory Tagging · capability 기반 메모리 보호 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스택 overwrite 기반 코드 실행 공격</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스택 카나리 · DEP · ASLR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ROP (Return-Oriented Programming) · JOP (Jump-Oriented Programming) 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 CFI (Control-Flow Integrity)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Intel CET · ARM PAC/BTI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Memory Tagging · capability 기반 메모리 보호 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 overwrite 탐지에서 출발해, 점차 제어 흐름과 메모리 접근 자체를 하드웨어 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방향으로 방어가 진화하는 모습을 보여 준다.
 

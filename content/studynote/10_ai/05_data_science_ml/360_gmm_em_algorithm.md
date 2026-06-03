@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 키 분포를 보면 남성(평균 175cm)과 여성(평균 162cm)이 섞여있어 이중 봉우리(bimodal) 분포를 보인다. 단일 가우시안으로는 이 분포를 표현 못한다. GMM은 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 2개의 가우시안 분포가 혼합된 것"으로 모델링하여, 남성 분포와 여성 분포를 동시에 추정한다. 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트는 "80% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 남성 분포, 20% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 여성 분포"처럼 소프트하게 배정된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: GMM은 "두 종류의 물감이 섞인 그림"을 분리하는 AI다. 파란색과 노란색이 섞인 그림([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 보고, "이 부분은 70% 파랑, 30% 노랑"으로 분리 추정하는 것이 GMM이고, 이를 반복적으로 정확히 추정하는 과정이 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -36,28 +39,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           GMM + EM 알고리즘 반복 구조                    │
-├──────────────────────────────────────────────────────────┤
-│  GMM 모델:  p(x) = Σₖ πₖ · N(x | μₖ, Σₖ)             │
-│  πₖ: 혼합 가중치, Σπₖ=1                                │
-│  μₖ: k번째 분포의 평균                                  │
-│  Σₖ: k번째 분포의 공분산 행렬                           │
-│                                                          │
-│  E-step (Expectation):                                   │
-│  γ(zₙₖ) = πₖN(xₙ|μₖ,Σₖ) / Σⱼπⱼ N(xₙ|μⱼ,Σⱼ)         │
-│  → 각 포인트 xₙ이 군집 k에 속할 사후 확률(책임감)      │
-│                                                          │
-│  M-step (Maximization):                                  │
-│  Nₖ = Σₙ γ(zₙₖ)                                       │
-│  μₖ = (1/Nₖ) Σₙ γ(zₙₖ) xₙ                            │
-│  Σₖ = (1/Nₖ) Σₙ γ(zₙₖ)(xₙ-μₖ)(xₙ-μₖ)ᵀ               │
-│  πₖ = Nₖ/N                                              │
-│                                                          │
-│  반복: E→M→E→M→... 로그 우도 수렴까지                  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GMM + EM 알고리즘 반복 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GMM 모델: p(x) = Σₖ πₖ · N(x</div><div class="kb-diagram-cell">μₖ, Σₖ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">πₖ: 혼합 가중치, Σπₖ=1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μₖ: k번째 분포의 평균</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σₖ: k번째 분포의 공분산 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-step (Expectation):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ(zₙₖ) = πₖN(xₙ</div><div class="kb-diagram-cell">μₖ,Σₖ) / Σⱼπⱼ N(xₙ</div><div class="kb-diagram-cell">μⱼ,Σⱼ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 포인트 xₙ이 군집 k에 속할 사후 확률(책임감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M-step (Maximization):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nₖ = Σₙ γ(zₙₖ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μₖ = (1/Nₖ) Σₙ γ(zₙₖ) xₙ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σₖ = (1/Nₖ) Σₙ γ(zₙₖ)(xₙ-μₖ)(xₙ-μₖ)ᵀ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">πₖ = Nₖ/N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복: E→M→E→M→... 로그 우도 수렴까지</div></div>
+</div>
+</div>
+
+
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 배정 방식 | 군집 형태 | 겹침 허용 |
 |:---|:---|:---|:---|

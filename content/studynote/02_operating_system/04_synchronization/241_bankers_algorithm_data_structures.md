@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 데드락 회피 시뮬레이션을 돌리기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 내부에 실시간으로 유지하는 **4가지 핵심 행렬(Matrix) 및 벡터(Vector)** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조다.
 > 2. **가치**: `Available(가용량)`과 `Need(추가 필요량)`를 비교하여 시스템이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))인지 판별하는 수리적 근간이 되며, 이 4개의 엑셀 표(장부)가 있어야만 다중 인스턴스(Multi-instance) 환경에서 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 완벽히 예측할 수 있다.
-> 3. **융합**: 각 프로세스가 태어날 때 신고하는 `Max` 값에서, 현재 빌려간 `Allocation` 값을 빼면 앞으로 더 필요한 `Need` 값이 도출되는 **유기적인 연동 구조**를 가지며, 이 장부들은 자원이 할당/반납될 때마다 실시간으로 갱신(Update)되어야 한다.
+> 3. **융합**: 각 프로세스가 태어날 때 신고하는 `Max` 값에서, 현재 빌려간 `Allocation` 값을 빼면 앞으로 더 필요한 `Need` 값이 도출되는 <strong>유기적인 연동 구조</strong>를 가지며, 이 장부들은 자원이 할당/반납될 때마다 실시간으로 갱신(Update)되어야 한다.
 
 ---
 
@@ -65,7 +65,7 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 #### 2. Max (최대 자원 요구 행렬)
 - **타입**: `int Max[n][m]` (2차원 행렬)
 - **의미**: 각 프로세스 $i$가 자원 $j$를 평생 동안 최대 몇 개까지 요구할 것인지 나타낸다.
-- **특징**: 이 값은 **프로세스가 시작할 때(Creation) 무조건 시스템에 제출**해야 하며, 런타임에 이 값을 초과하여 요구하면 즉시 에러(Abortion)가 난다.
+- **특징**: 이 값은 <strong>프로세스가 시작할 때(Creation) 무조건 시스템에 제출</strong>해야 하며, 런타임에 이 값을 초과하여 요구하면 즉시 에러(Abortion)가 난다.
 
 #### 3. Allocation (할당 행렬)
 - **타입**: `int Allocation[n][m]` (2차원 행렬)
@@ -77,27 +77,26 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 - **의미**: 프로세스 $i$가 작업을 끝내기 위해 미래에 추가로 요구할 수 있는 자원 $j$의 개수.
 - **핵심 공식**: `Need[i][j] = Max[i][j] - Allocation[i][j]`
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산       │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [ 시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함 ]          │
-  │                                                                        │
-  │   1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:                    │
-  │      Available = Available - Request;                                  │
-  │      Allocation[i] = Allocation[i] + Request;                          │
-  │      Need[i] = Need[i] - Request;                                      │
-  │      (※ Max 행렬은 변하지 않음. 불변의 계약서임)                       │
-  │                                                                        │
-  │   2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:                    │
-  │      Available = Available + Allocation[i];                            │
-  │      Allocation[i] = 0;                                                │
-  │      Need[i] = 0;                                                      │
-  │                                                                        │
-  │   ✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계! │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Available = Available - Request;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">+ Request;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">- Request;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ Max 행렬은 변하지 않음. 불변의 계약서임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Available = Available + Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= 0;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= 0;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 이 4개의 구조체는 기업의 '대차대조표'입니다. 돈이 나가고 들어올 때마다 자산(Available), 부채(Allocation), 자본(Need)이 톱니바퀴처럼 한 번에 맞물려 돌아가야 장부에 빵꾸가 나지 않습니다.
 
@@ -115,14 +114,14 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 | **`Need <= Available`** | "지금 은행 잔고로 쟤가 땡깡 부리는(Max) 걸 다 막을 수 있네!" ─▶ **합격**. 얘를 살려주면 나중에 갖고 있던 돈(Allocation)까지 뱉어내므로 잔고가 더 풍족해짐. |
 | **`Need > Available`** | "은행 잔고가 부족해서 쟤가 돈 내놓으라 하면 파산이네!" ─▶ **불합격**. 얘는 일단 제쳐두고, 잔고가 적어도 살릴 수 있는 다른 만만한 놈부터 찾아야 함. |
 
-만약 1,000명의 고객(N)이 있는데 단 한 명도 `Need <= Available`을 만족하지 못한다면? 그 순간 시스템은 **[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))**로 확정되며, 아까 시뮬레이션용으로 빌려줬던 자원을 취소([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하고 대출을 거절하게 된다.
+만약 1,000명의 고객(N)이 있는데 단 한 명도 `Need <= Available`을 만족하지 못한다면? 그 순간 시스템은 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>로 확정되며, 아까 시뮬레이션용으로 빌려줬던 자원을 취소([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하고 대출을 거절하게 된다.
 
 ### 자료구조의 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 오버헤드
 자원 종류(M)가 10개, 프로세스(N)가 1,000개일 때:
 - `Max`: 1,000 x [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 int (40KB)
 - `Allocation`: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 int (40KB)
 - `Need`: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 int (40KB)
-- 메모리 용량 자체는 120KB 수준으로 깃털처럼 가볍다. 하지만 이 $1,000 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$ 행렬을 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 요청할 때마다 이중 `for`문($O(N^2 \times M)$)으로 덧셈 뺄셈하며 스캔해야 하는 **CPU 연산 오버헤드**가 범용 OS를 미치게 만든다.
+- 메모리 용량 자체는 120KB 수준으로 깃털처럼 가볍다. 하지만 이 $1,000 \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$ 행렬을 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 요청할 때마다 이중 `for`문($O(N^2 \times M)$)으로 덧셈 뺄셈하며 스캔해야 하는 <strong>CPU 연산 오버헤드</strong>가 범용 OS를 미치게 만든다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 공간(행렬 메모리)은 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 용량이라 문제 될 게 없습니다. 하지만 락을 달라고 할 때마다 OS가 "잠깐만!" 하고 엑셀을 켜서 함수를 수백만 번 갱신하고 검증하는 시간(CPU 오버헤드)이 너무 오래 걸려서 뒤에 줄 선 사람들이 화병이 나는 것입니다.
 
@@ -131,35 +130,35 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 행렬의 K8s 클라우드 매핑**: 이 4대 자료구조는 단일 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서는 버려졌지만, 놀랍게도 현대 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 핵심 철학에 100% 매핑되어 그대로 살아남았다.
-   - **`Max[i]`** = K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 `Resources.Limits` (나 이거 넘게 쓰면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러로 날 죽여도 좋다는 계약서)
-   - **`Allocation[i]`** = K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 `Resources.Requests` (내가 최소한 무조건 점유하고 시작해야 하는 고정 자원)
-   - **`Available`** = K8s 노드(Node)의 `Allocatable` 자원 (전체 자원에서 [시스템 데몬](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/) 몫을 뺀 잉여 자원)
+1. <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 행렬의 K8s 클라우드 매핑</strong>: 이 4대 자료구조는 단일 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서는 버려졌지만, 놀랍게도 현대 클라우드 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))의 핵심 철학에 100% 매핑되어 그대로 살아남았다.
+   - <strong><code>Max[i]</code></strong> = K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 `Resources.Limits` (나 이거 넘게 쓰면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러로 날 죽여도 좋다는 계약서)
+   - <strong><code>Allocation[i]</code></strong> = K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))의 `Resources.Requests` (내가 최소한 무조건 점유하고 시작해야 하는 고정 자원)
+   - <strong><code>Available</code></strong> = K8s 노드(Node)의 `Allocatable` 자원 (전체 자원에서 [시스템 데몬](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/) 몫을 뺀 잉여 자원)
    - **아키텍트 설계**: K8s [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Kube-scheduler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))는 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 뜰 때 `Requests(Alloc)` 값이 `Available`을 초과하는지 필터링(Filtering)하여 배치를 거부한다. 이것이 바로 데이크스트라의 4대 자료구조를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 적용한 현대판 클라우드 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 2. **사전 지식(A Priori Knowledge)의 불가능성과 한계**: 왜 일반 자바/C++ 애플리케이션 개발자는 이 4대 장부를 쓰지 않을까?
    - **원인**: `Max` 행렬 때문이다. 어떤 스레드가 `new Object()`를 몇 번 할지, 커넥션을 몇 개 맺을지 코드를 짜는 개발자 본인조차 알 수 없다. 트래픽에 따라 동적으로 변하기 때문이다.
    - **실무 결단**: 애초에 `Max`를 모르니 `Need`를 계산할 수 없고, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 시작도 못 한다. 따라서 개발자는 이 완벽한 예방 공식을 포기하고, `tryLock` 타임아웃이나 `Circuit Breaker(서킷 브레이커)` 같은 런타임 방어막(Reactive)에 의존하는 아키텍처를 짤 수밖에 없다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │     K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정   │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │   [ 워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB ]        │
-  │                                                                  │
-  │   [ 1. 신규 파드 A 배포 요청 ]                                   │
-  │     ▶ Request(Alloc) = CPU 2, Mem 4G                             │
-  │     ▶ Limit(Max) = CPU 4, Mem 8G                                 │
-  │     ▶ 검증: Alloc(2,4) <= Available(4,8) 이므로 ✅ 배포 승인!    │
-  │     ▶ 갱신 후 Available = CPU 2, Mem 4G 남음.                    │
-  │                                                                  │
-  │   [ 2. 신규 파드 B 배포 요청 ]                                   │
-  │     ▶ Request(Alloc) = CPU 3, Mem 2G                             │
-  │     ▶ Limit(Max) = CPU 3, Mem 4G                                 │
-  │     ▶ 검증: Alloc의 CPU(3) > Available의 CPU(2) 🚨 초과!         │
-  │     ▶ 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.       │
-  └──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 신규 파드 A 배포 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Request(Alloc) = CPU 2, Mem 4G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Limit(Max) = CPU 4, Mem 8G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 검증: Alloc(2,4) &lt;= Available(4,8) 이므로 ✅ 배포 승인!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 갱신 후 Available = CPU 2, Mem 4G 남음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 신규 파드 B 배포 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Request(Alloc) = CPU 3, Mem 2G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Limit(Max) = CPU 3, Mem 4G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 검증: Alloc의 CPU(3) &gt; Available의 CPU(2) 🚨 초과!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 클라우드 엔지니어가 밥 먹듯이 짜는 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 `Request`와 `Limit`가 바로 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 `Allocation`과 `Max` 행렬의 클라우드 버전이다. 이 수치를 대충 "에라 모르겠다" 하고 빼놓고 배포하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 장부(행렬)를 못 써서 데드락(Node [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 터져버리므로, 이 값을 정교하게 산정하는 것이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 핵심 역량이다.
 
 - **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장부는 완벽하지만 "미래에 돈을 얼마나 쓸지 완벽한 사업계획서(Max)를 가져와라"고 요구합니다. 스타트업(일반 프로그램)은 미래를 몰라서 이 대출을 못 받습니다. 하지만 이미 규모가 확정된 대기업 부서(K8s [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))는 예산안(Limit)을 정확히 가져올 수 있으므로 이 장부 시스템이 완벽하게 들어맞습니다.
@@ -169,11 +168,11 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-이 4가지 자료구조를 시스템 자원 관리 테이블로 채택하면, 어떠한 다중 자원 경합 상태에서도 시스템이 안전 지대([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))를 이탈하려 할 때 100%의 확률로 미리 브레이크를 걸어 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨의 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 영구적으로 회피**할 수 있다.
+이 4가지 자료구조를 시스템 자원 관리 테이블로 채택하면, 어떠한 다중 자원 경합 상태에서도 시스템이 안전 지대([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))를 이탈하려 할 때 100%의 확률로 미리 브레이크를 걸어 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 레벨의 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)를 영구적으로 회피</strong>할 수 있다.
 
 ### 결론 및 미래 전망
-`Max`, `Allocation`, `Need`, `Available` 이 4개의 엑셀 표는 컴퓨터 과학 역사상 "시스템의 자원 상태를 가장 수학적으로 우아하게 추상화한 모델"이다. 비록 단일 코어 OS에서는 미래 예측 불가능성(`Max`) 때문에 사장되었지만, 이 개념은 죽지 않고 **클러스터 자원 스케줄링(Mesos, [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/), K8s)**으로 웅장하게 부활했다.
-미래의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 사용자가 `Max` 값을 수동으로 하드코딩하지 않고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모듈이 과거의 트래픽 패턴을 분석하여 프로세스의 `Max`와 `Need` 행렬을 실시간으로 자동 예측 및 동적 갱신(Auto-prediction)해주는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 스마트 회피 시스템**으로 진화하여 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 태생적 한계를 완벽히 부숴버릴 것이다.
+`Max`, `Allocation`, `Need`, `Available` 이 4개의 엑셀 표는 컴퓨터 과학 역사상 "시스템의 자원 상태를 가장 수학적으로 우아하게 추상화한 모델"이다. 비록 단일 코어 OS에서는 미래 예측 불가능성(`Max`) 때문에 사장되었지만, 이 개념은 죽지 않고 <strong>클러스터 자원 스케줄링(Mesos, <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a>, K8s)</strong>으로 웅장하게 부활했다.
+미래의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 사용자가 `Max` 값을 수동으로 하드코딩하지 않고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모듈이 과거의 트래픽 패턴을 분석하여 프로세스의 `Max`와 `Need` 행렬을 실시간으로 자동 예측 및 동적 갱신(Auto-prediction)해주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 스마트 회피 시스템</strong>으로 진화하여 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 태생적 한계를 완벽히 부숴버릴 것이다.
 
 - **📢 섹션 요약 비유**: 이 4개의 장부는 1965년에 만들어진 낡은 가계부지만, 그 "자산과 부채의 논리적 뼈대"가 너무나 완벽하여 60년이 지난 지금도 클라우드라는 거대한 글로벌 은행의 회계 시스템 근간을 그대로 지탱하고 있는 위대한 발명품입니다.
 
@@ -190,15 +189,19 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모니터 시그널 의미론]
-    │
-    ▼
-[은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)]
-    │
-    ├──▶ [우선순위 역전 (Priority Inversion)]
-    └──▶ [우선순위 상속 (Priority Inheritance Protocol)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 시그널 의미론</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 역전 (Priority Inversion)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 상속 (Priority Inheritance Protocol)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -206,7 +209,7 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 1. 은행원 아저씨가 데드락(파산)을 막으려면 4개의 비밀 장부가 필요해요.
 2. 첫 번째는 "은행 금고에 남은 돈(`Available`)", 두 번째는 "손님이 평생 최대로 빌릴 돈(`Max`)", 세 번째는 "지금 당장 빌려준 돈(`Allocation`)"이에요.
-3. 가장 중요한 마지막 장부는 바로 **"앞으로 더 빌려줘야 할 돈(`Need`)"**이에요! 이걸 알아야 은행 금고에 남은 돈으로 막을 수 있을지 없을지 계산할 수 있답니다!
+3. 가장 중요한 마지막 장부는 바로 <strong>"앞으로 더 빌려줘야 할 돈(<code>Need</code>)"</strong>이에요! 이걸 알아야 은행 금고에 남은 돈으로 막을 수 있을지 없을지 계산할 수 있답니다!
 
 ---
 

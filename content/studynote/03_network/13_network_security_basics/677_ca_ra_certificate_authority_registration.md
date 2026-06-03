@@ -21,20 +21,24 @@ tags = ["studynote-network"]
 
 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)) 피라미드의 정점에 있는 최고 권력자이자 신뢰의 원천입니다.
 - **주요 역할**: 
-  - 하위 기관([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))이 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 마친 사용자의 '공개키'에다가, 자신의 무소불위 **'[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 개인키'로 강력한 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) 도장을 쾅 찍어 진짜 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(X.509)를 찍어내는 발급소**입니다.
-  - 또한 만료되거나 해킹당한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 **폐기 목록([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))을 발행하고 관리**하는 핵심 책임을 집니다.
-- **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) vs Sub [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**:
-  - **Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (최상위 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국)**: 전 세계에서 아무도 보증을 안 서주고, 자기 자신 스스로 보증(Self-Signed)하는 신의 직장입니다. (예: DigiCert, GlobalSign 등). 이들의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 여러분의 윈도우/스마트폰 OS에 태어날 때부터 내장되어 있습니다.
-  - **Sub [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국)**: Root CA에게 도장을 받아 권한을 위임받은 중간 보스들입니다. 만약 해커에게 공격당하면 Root까지 피해가 안 가게 중간에서 잘라버리기 위한 방파제 역할을 합니다. 실제 일반 사이트 발급은 얘네가 합니다.
+  - 하위 기관([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))이 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 마친 사용자의 '공개키'에다가, 자신의 무소불위 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 개인키'로 강력한 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> 도장을 쾅 찍어 진짜 디지털 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(X.509)를 찍어내는 발급소</strong>입니다.
+  - 또한 만료되거나 해킹당한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 <strong>폐기 목록(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/">CRL</a>)을 발행하고 관리</strong>하는 핵심 책임을 집니다.
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> (Root <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> vs Sub <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>:
+  - <strong>Root <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (최상위 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>국)</strong>: 전 세계에서 아무도 보증을 안 서주고, 자기 자신 스스로 보증(Self-Signed)하는 신의 직장입니다. (예: DigiCert, GlobalSign 등). 이들의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 여러분의 윈도우/스마트폰 OS에 태어날 때부터 내장되어 있습니다.
+  - <strong>Sub <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (중간 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>국)</strong>: Root CA에게 도장을 받아 권한을 위임받은 중간 보스들입니다. 만약 해커에게 공격당하면 Root까지 피해가 안 가게 중간에서 잘라버리기 위한 방파제 역할을 합니다. 실제 일반 사이트 발급은 얘네가 합니다.
 
-```text
-[공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
-[인증국, 등록기관, 저장소 체계]
-    │
-    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +48,22 @@ tags = ["studynote-network"]
 
 CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면하는 프론트 데스크입니다.
 - **주요 역할 (신분 검사기)**: 
-  - 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 달라고 찾아오면(인터넷이든 방문이든), 주민등록증, 사업자등록증, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 등을 깐깐하게 심사하여 **"이 사람이 진짜 홍길동(또는 진짜 네이버)이 맞는지" 신원을 철저히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Identity [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))**합니다.
+  - 사용자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 달라고 찾아오면(인터넷이든 방문이든), 주민등록증, 사업자등록증, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권 등을 깐깐하게 심사하여 <strong>"이 사람이 진짜 홍길동(또는 진짜 네이버)이 맞는지" 신원을 철저히 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(Identity <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>합니다.
   - [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나면 승인 도장을 찍어 CA로 서류를 올려보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 요청). 
-- **권한의 한계**: RA는 신분 검사만 할 뿐, **절대 자신의 도장으로 최종 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 직접 발급하지 못합니다.** 발급 권한은 오직 CA에게만 있습니다. (은행에서 공인인증서 만들 때 은행 창구 직원이 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 역할입니다.)
+- **권한의 한계**: RA는 신분 검사만 할 뿐, <strong>절대 자신의 도장으로 최종 '<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서'를 직접 발급하지 못합니다.</strong> 발급 권한은 오직 CA에게만 있습니다. (은행에서 공인인증서 만들 때 은행 창구 직원이 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 역할입니다.)
 
-```text
-[공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
-[인증국, 등록기관, 저장소 체계]
-    │
-    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,8 +72,8 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 ## Ⅲ. 비교 및 연결
 
 발급된 수많은 데이터가 안전하게 쌓여있고 누구나 24시간 조회할 수 있는 대국민 열람 게시판입니다.
-- **주요 역할**: 발행된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 원본, 사용자의 공개키 목록, 그리고 가장 중요한 **[CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐기 블랙리스트)** 파일을 저장해 둡니다.
-- **동작 방식**: 보통 아주 가볍고 읽기 속도가 미친 듯이 빠른 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 검색 표준 프로토콜인 **[LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 389, 636 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**을 사용하여 전 세계 컴퓨터들의 실시간 조회 요청을 딜레이 없이 쳐냅니다.
+- **주요 역할**: 발행된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 원본, 사용자의 공개키 목록, 그리고 가장 중요한 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/">CRL</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 폐기 블랙리스트)</strong> 파일을 저장해 둡니다.
+- **동작 방식**: 보통 아주 가볍고 읽기 속도가 미친 듯이 빠른 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 검색 표준 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">LDAP</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 389, 636 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>을 사용하여 전 세계 컴퓨터들의 실시간 조회 요청을 딜레이 없이 쳐냅니다.
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템이 기반 조건을 만든다면, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 그 위에서 핵심 메커니즘을 구현하고, [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,9 +90,9 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. 내 웹서버에서 1쌍의 키(개인키, 공개키)를 직접 만듭니다. (개인키는 절대 밖으로 안 보냅니다.)
-2. 내 공개키와 내 회사 정보(naver.com)를 묶어서 **[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)**에게 보냅니다 (이걸 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) 파일이라 부릅니다).
-3. **[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)** 직원이 내 회사 법인등기를 까보고 "진짜 네이버 맞네" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)**로 패스합니다.
-4. **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)**가 서버에 앉아 자기 개인키로 도장을 꽝 찍어 '네이버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 뚝딱 만들어 나에게 보내줍니다.
+2. 내 공개키와 내 회사 정보(naver.com)를 묶어서 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a></strong>에게 보냅니다 (이걸 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) 파일이라 부릅니다).
+3. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/">RA</a></strong> 직원이 내 회사 법인등기를 까보고 "진짜 네이버 맞네" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong>로 패스합니다.
+4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong>가 서버에 앉아 자기 개인키로 도장을 꽝 찍어 '네이버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 뚝딱 만들어 나에게 보내줍니다.
 5. 나는 이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 받아 내 웹서버(Nginx, Apache)에 세팅하고 장사를 시작합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -116,15 +124,19 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템]
-    │
-    ▼
-[현재 개념: 인증국, 등록기관, 저장소 체계]
-    │
-    ├──▶ [확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 인증국, 등록기관, 저장소 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

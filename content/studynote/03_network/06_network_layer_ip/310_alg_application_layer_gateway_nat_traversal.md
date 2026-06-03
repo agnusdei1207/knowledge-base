@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 라우터나 방화벽이 특정 애플리케이션 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/), [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), H.323 등)의 구조를 깊숙이 이해(Deep Packet Inspection)하여, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경에서도 정상적으로 통신 세션이 맺어지도록 패킷 페이로드의 IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 정보를 동적으로 변조해 주는 기능이다.
-- **필요성**: 웹서핑([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 단순하다. 내가 요청하면 서버가 나에게 응답한다. NAT가 봉투 겉면만 잘 갈아 끼우면 문제가 없다. 하지만 구형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 **[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 능동 모드([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Mode)**는 내가 서버에 "내 주소 192.168.x.x의 3000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 좀 쏴줘!"라고 편지지에 적어 보낸다. 서버는 겉 봉투의 공인 IP가 아니라 편지지 속의 192 주소로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘려다 실패한다. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 기술의 근본적인 "내용물은 건드리지 않는다"는 철학이 부른 참사를 해결할 특수 요원이 필요했다.
+- **필요성**: 웹서핑([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 단순하다. 내가 요청하면 서버가 나에게 응답한다. NAT가 봉투 겉면만 잘 갈아 끼우면 문제가 없다. 하지만 구형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 능동 모드(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> Mode)</strong>는 내가 서버에 "내 주소 192.168.x.x의 3000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 좀 쏴줘!"라고 편지지에 적어 보낸다. 서버는 겉 봉투의 공인 IP가 아니라 편지지 속의 192 주소로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘려다 실패한다. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 기술의 근본적인 "내용물은 건드리지 않는다"는 철학이 부른 참사를 해결할 특수 요원이 필요했다.
 
-- **💡 비유**: 미국 유학생이 부모님께 편지를 씁니다. 겉 봉투(IP 헤더)에는 미국 배대지([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 주소가 적혀있어 문제가 없는데, 편지 내용물(페이로드) 안에 **"답장은 한국 우리 집(192.168...)으로 보내주세요"**라고 적어버렸습니다. 부모님이 그 주소로 답장을 쓰면 편지가 우주 미아가 됩니다. **ALG**는 배대지 직원이 몰래 편지를 뜯어보고 내용물 안의 주소마저 **"미국 배대지 주소"**로 화이트를 칠해 고쳐 적어주는 불법(오지랖) 서비스입니다.
+- **💡 비유**: 미국 유학생이 부모님께 편지를 씁니다. 겉 봉투(IP 헤더)에는 미국 배대지([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 주소가 적혀있어 문제가 없는데, 편지 내용물(페이로드) 안에 <strong>"답장은 한국 우리 집(192.168...)으로 보내주세요"</strong>라고 적어버렸습니다. 부모님이 그 주소로 답장을 쓰면 편지가 우주 미아가 됩니다. <strong>ALG</strong>는 배대지 직원이 몰래 편지를 뜯어보고 내용물 안의 주소마저 <strong>"미국 배대지 주소"</strong>로 화이트를 칠해 고쳐 적어주는 불법(오지랖) 서비스입니다.
 
-```text
-[헤어핀 NAT]
-    │
-    ▼
-[ALG]
-    │
-    └──▶ [STUN, TURN, ICE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">헤어핀 NAT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ALG</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STUN, TURN, ICE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ALG는 택배 상자 겉면(헤더)만 스캔하는 게 아니라 상자를 뜯어서 내용물에 적힌 보증서 주소(L7 페이로드)까지 일일이 수정 테이프로 지우고 **"공인 IP"로 새로 적어 넣는 극한의 스캔 검수반**입니다.
 
@@ -51,34 +55,32 @@ tags = ["studynote-network"]
 1. 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))는 패킷의 3계층 IP 헤더만 192.x에서 `211.200.x.x(공인 IP)`로 바꾼다.
 2. 하지만 페이로드 안의 텍스트 `PORT 192,168,0,5...`는 남의 일급기밀이므로 건드리지 않고 그대로 보낸다.
 3. [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버가 이 편지를 받고 "오케이, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보낸다!" 하며 `192.168.0.5:5000`으로 20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 냅다 쏜다.
-4. 이 주소는 사설 IP이므로 인터넷상에서 라우팅되지 못하고 쓰레기통에 폐기된다. **사용자는 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록은 보이는데 다운로드가 안 눌려요!"라며 절규한다.**
+4. 이 주소는 사설 IP이므로 인터넷상에서 라우팅되지 못하고 쓰레기통에 폐기된다. <strong>사용자는 "<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 목록은 보이는데 다운로드가 안 눌려요!"라며 절규한다.</strong>
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ALG 모듈의 FTP 패킷 내용물(L7) 조작 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC (사설) ]  ────▶  [ 공유기 (ALG 작동 중!) ] ────▶ [ FTP 서버 ] │
- │                                                             │
- │   [ IP 헤더 (Src: 192.168.0.5) ]  │ (1) 헤더를 211.x 공인IP로 변환 │
- │   [ 페이로드 (PORT 192.168.0.5) ]   │ (2) 앗! 내용물도 192네? 변환!   │
- │                                                             │
- │                            ▼ 공유기 통과 후 변조된 패킷           │
- │                                                             │
- │   [ IP 헤더 (Src: 211.x.x.x 공인) ] ── (정상 변환)               │
- │   [ 페이로드 (PORT 211.x.x.x) ]      ── (ALG가 개입하여 화이트 칠함) │
- │                                                             │
- │   ▶ 결과: FTP 서버는 아무것도 모른 채 211.x.x.x로 데이터를 잘 쏴준다! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALG 모듈의 FTP 패킷 내용물(L7) 조작 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC (사설)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유기 (ALG 작동 중!)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FTP 서버</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 헤더 (Src: 192.168.0.5)</div><div class="kb-diagram-note">(1) 헤더를 211.x 공인IP로 변환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이로드 (PORT 192.168.0.5)</div><div class="kb-diagram-note">(2) 앗! 내용물도 192네? 변환!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 공유기 통과 후 변조된 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 헤더 (Src: 211.x.x.x 공인)</div><div class="kb-diagram-note">── (정상 변환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이로드 (PORT 211.x.x.x)</div><div class="kb-diagram-note">── (ALG가 개입하여 화이트 칠함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: FTP 서버는 아무것도 모른 채 211.x.x.x로 데이터를 잘 쏴준다!</div></div>
+</div>
+</div>
+
+
 
 ### 3. ALG의 부하와 수동 모드(Passive Mode)의 등장
 ALG는 라우터가 3계층 헤더만 만지는 게 아니라, 엄청나게 무거운 7계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일일이 까서 정규식(문자열 검색)으로 IP 주소를 찾아 고쳐야 하므로 라우터의 CPU를 폭발시킨다 (Deep Packet Inspection 오버헤드).
 또한 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)/[FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))일 경우 ALG는 암호를 풀지 못해 내용물을 고칠 수가 없다.
-- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 **'네가 열어둔 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 내가 알아서 찾아갈게(Passive Mode)'**라고 하면 되잖아!" 
-- 이것이 바로 클라이언트가 서버로 길을 먼저 치고 들어가는 **[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 수동 모드(Passive Mode)**의 탄생 배경이며, 이 방식은 NAT나 방화벽의 제약을 전혀 받지 않아 현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 통신의 99%를 장악했다.
+- **해결책**: "아잇 귀찮게 공유기가 고치게 하지 말고, 클라이언트가 서버한테 <strong>'네가 열어둔 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 내가 알아서 찾아갈게(Passive Mode)'</strong>라고 하면 되잖아!" 
+- 이것이 바로 클라이언트가 서버로 길을 먼저 치고 들어가는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 수동 모드(Passive Mode)</strong>의 탄생 배경이며, 이 방식은 NAT나 방화벽의 제약을 전혀 받지 않아 현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 통신의 99%를 장악했다.
 
-- **📢 섹션 요약 비유**: ** ALG는 공유기가 택배 상자 안에 든 편지 내용을 몰래 읽어보고 **오타를 고쳐주는 무거운 스팸 검사기**입니다. 라우터가 너무 힘들어서 쓰러지기 때문에, 현대 네트워크는 라우터가 이런 오지랖을 부릴 필요가 없게 애초에 편지를 잘 쓰는 방식(Passive 모드)으로 완전히 진화했습니다.
+- **📢 섹션 요약 비유**: <strong> ALG는 공유기가 택배 상자 안에 든 편지 내용을 몰래 읽어보고 </strong>오타를 고쳐주는 무거운 스팸 검사기**입니다. 라우터가 너무 힘들어서 쓰러지기 때문에, 현대 네트워크는 라우터가 이런 오지랖을 부릴 필요가 없게 애초에 편지를 잘 쓰는 방식(Passive 모드)으로 완전히 진화했습니다.
 
 ---
 
@@ -134,15 +136,19 @@ ALG는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 헤어핀 NAT]
-    │
-    ▼
-[현재 개념: ALG]
-    │
-    ├──▶ [확장 A: STUN, TURN, ICE]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 헤어핀 NAT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ALG</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: STUN, TURN, ICE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 ALG는 헤어핀 NAT에서 출발해 현재 메커니즘을 정교화하고, 이후 STUN, TURN, ICE와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

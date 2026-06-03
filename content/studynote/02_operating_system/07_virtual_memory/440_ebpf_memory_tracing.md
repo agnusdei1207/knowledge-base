@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(Extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 기반 메모리 할당 트레이싱은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소스코드를 한 줄도 수정하지 않고 모듈을 다시 빌드할 필요 없이, **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 램(RAM)을 나눠주고 뺏는 가장 깊숙하고 은밀한 함수(kmalloc, [page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 등)에 런타임으로 탐지기(Probe)를 꽂아 넣어 실시간으로 감시하는 혁명적인 관측 기술([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))**이다.
-> 2. **가치**: 기존의 무거운 프로파일러(Valgrind 등)가 유발하던 수백 퍼센트의 서버 렉(Overhead) 없이, 단 1~2%의 극미한 부하만으로 프로덕션(Live) 서버에서 돌아가는 **메모리 릭(Leak), [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), OOM의 진짜 원인 코드를 C언어 함수 단위까지 현미경처럼 완벽하게 추적해 내는 트러블슈팅의 마스터키**다.
-> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간의 안전한 가상 머신([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 소프트웨어적으로 **융합**되어, 하드웨어가 내지르는 비명([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))을 상위 개발자가 이해할 수 있는 아름다운 통계 대시보드(BCC, bpftrace)로 실시간 번역해 준다.
+> 1. **본질**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(Extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 기반 메모리 할당 트레이싱은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 소스코드를 한 줄도 수정하지 않고 모듈을 다시 빌드할 필요 없이, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 램(RAM)을 나눠주고 뺏는 가장 깊숙하고 은밀한 함수(kmalloc, <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">page fault</a> 등)에 런타임으로 탐지기(Probe)를 꽂아 넣어 실시간으로 감시하는 혁명적인 관측 기술(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>이다.
+> 2. **가치**: 기존의 무거운 프로파일러(Valgrind 등)가 유발하던 수백 퍼센트의 서버 렉(Overhead) 없이, 단 1~2%의 극미한 부하만으로 프로덕션(Live) 서버에서 돌아가는 <strong>메모리 릭(Leak), <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>, OOM의 진짜 원인 코드를 C언어 함수 단위까지 현미경처럼 완벽하게 추적해 내는 트러블슈팅의 마스터키</strong>다.
+> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간의 안전한 가상 머신([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 소프트웨어적으로 <strong>융합</strong>되어, 하드웨어가 내지르는 비명([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))을 상위 개발자가 이해할 수 있는 아름다운 통계 대시보드(BCC, bpftrace)로 실시간 번역해 준다.
 
 ---
 
@@ -23,36 +23,34 @@ tags = ["studynote-operating-system"]
 - **필요성**: 실 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중인 128GB 램 서버가 하루에 1GB씩 램이 어디선가 줄줄 새서([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)) 3달 뒤에 터질 위기다. 옛날에는 이걸 잡으려면 서버를 내리고 디버거 툴을 덕지덕지 붙여서 다시 띄워야 했다. 이러면 속도가 10배 느려져 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비된다. 게다가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 스왑(Swap) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 렉은 유저 단의 툴로는 아예 보이지도 않는 깜깜이 영역이었다. "서버 재부팅 없이, 앱 속도 저하 없이, 램이 어디서 새는지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부에서 직접 생중계로 볼 수 없을까?"라는 엔지니어들의 뼈저린 절망이 eBPF라는 기적의 현미경을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 도입하게 만들었다.
 
 - **등장 배경 및 블랙박스의 파괴**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 복잡성**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/), THP 등 OS의 사기극([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))이 너무 완벽해져서, 개발자는 내 램이 왜 꽉 찼는지 도저히 알 수 없는 블랙박스에 빠졌다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 복잡성</strong>: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/), THP 등 OS의 사기극([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))이 너무 완벽해져서, 개발자는 내 램이 왜 꽉 찼는지 도저히 알 수 없는 블랙박스에 빠졌다.
   2. **SystemTap/Perf의 한계**: 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 추적 툴들은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 잘못 찌르면 서버가 블루스크린([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))을 띄우고 즉사하는 위험성이 컸다.
-  3. **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 샌드박스의 도입**: [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러와 안전 검증기(Verifier)를 갖춘 eBPF가 도입되며, "절대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 죽이지 않으면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 행동을 엿듣는" 궁극의 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 빌드가 완성되었다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 샌드박스의 도입</strong>: [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러와 안전 검증기(Verifier)를 갖춘 eBPF가 도입되며, "절대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 죽이지 않으면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 행동을 엿듣는" 궁극의 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 빌드가 완성되었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        eBPF를 활용한 무중단 메모리 릭(Leak) 추적 파이프라인 시각화     │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: Live 서버에서 'memleak' eBPF 툴을 실행하는 순간 ]              │
-│                                                                        │
-│ 1. [ 유저 공간 ] BPF 스크립트 작성 및 커널로 전송 (컴파일 후 주입)     │
-│        │                                                               │
-│        ▼ (커널 진입)                                                   │
-│ 2. [ 커널 공간 - BPF Verifier ]                                        │
-│    OS: "이 추적 코드가 무한루프 돌거나 커널 부수지 않는지 안전 검사!"  │
-│    (통과! JIT 컴파일러가 기계어로 번역하여 커널 심장부에 부착)         │
-│                                                                        │
-│ 3. [ 런타임 추적 (Kprobe 꽂힘) ]                                       │
-│    앱이 `malloc()` 또는 커널이 `kmalloc()`을 호출할 때마다:            │
-│    -> BPF 코드가 0.0001ms 만에 [할당된 주소]와 [크기]를 쓱 낚아챔.     │
-│    앱이 `free()`를 호출할 때마다:                                      │
-│    -> BPF 코드가 아까 기록한 주소를 명단에서 싹 지움.                  │
-│                                                                        │
-│ 4. [ 결과 출력 ]                                                       │
-│    10분 뒤, 명단에 아직 남아있는(free 안 된) 주소의 Call Stack(함수    │
-│    호출 역추적)을 개발자 화면에 예쁘게 쫙 뿌려줌.                      │
-│    ✅ 결과: "아! User.cpp의 54번째 줄에서 10MB가 새고 있구나!"         │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF를 활용한 무중단 메모리 릭(Leak) 추적 파이프라인 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: Live 서버에서 'memleak' eBPF 툴을 실행하는 순간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">유저 공간</div><div class="kb-diagram-note">BPF 스크립트 작성 및 커널로 전송 (컴파일 후 주입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (커널 진입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">커널 공간 - BPF Verifier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "이 추적 코드가 무한루프 돌거나 커널 부수지 않는지 안전 검사!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통과! JIT 컴파일러가 기계어로 번역하여 커널 심장부에 부착)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">런타임 추적 (Kprobe 꽂힘)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 <code>malloc()</code> 또는 커널이 <code>kmalloc()</code>을 호출할 때마다:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">할당된 주소</div><div class="kb-diagram-note">와</div><div class="kb-diagram-node">크기</div><div class="kb-diagram-note">를 쓱 낚아챔.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 <code>free()</code>를 호출할 때마다:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; BPF 코드가 아까 기록한 주소를 명단에서 싹 지움.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">결과 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10분 뒤, 명단에 아직 남아있는(free 안 된) 주소의 Call Stack(함수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출 역추적)을 개발자 화면에 예쁘게 쫙 뿌려줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: "아! User.cpp의 54번째 줄에서 10MB가 새고 있구나!"</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** eBPF의 사기성은 바로 저 '안전 검사(Verifier)'와 'Kprobe([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동적 훅)'에 있다. 과거엔 소스코드에 `printf`를 덕지덕지 발라서 다시 빌드해야 찾던 버그를, 지금은 100만 명의 유저가 접속해 있는 팽팽 도는 서버의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 동맥(kmalloc)에 주삿바늘을 살짝 꽂아 피를 한 방울씩 빼서 검사하면서도 환자(서버)는 바늘이 꽂힌 줄도 모르게 돌아가는 극한의 관측([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 예술이다.
 
 - **📢 섹션 요약 비유**: 수도관(메모리)에서 물이 새는데 어디서 새는지 몰라 땅을 다 파뒤집는(서버 재부팅/무거운 디버깅) 대신, 작은 내시경 카메라([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))를 수도관 입구로 스르륵 밀어 넣어서 물이 새는 미세한 구멍(C언어 함수 라인)을 태블릿 화면으로 즉각 찾아내는 초정밀 배관 공사 혁명입니다.
@@ -69,7 +67,7 @@ tags = ["studynote-operating-system"]
    - 유저 애플리케이션의 바이너리(`libc.so` 등)에 꽂는 바늘.
    - 찌르는 타겟: `malloc()`, `free()`, `mmap()` 함수.
    - 역할: C/C++ 개발자가 얼마나 게으르게 코드를 짰는지, 힙 메모리를 달라고 징징대는 빈도와 해제하지 않고 도망간 놈(Leak)을 색출한다.
-2. **Kprobe ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-space Probe)**: 
+2. <strong>Kprobe (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-space Probe)</strong>: 
    - [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 코어 함수에 꽂는 바늘.
    - 찌르는 타겟: `handle_mm_fault()`([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 해결사), `kswapd`(디스크 스왑 빗자루), `shrink_page_list`(램 뺏기).
    - 역할: "유저가 100MB 달라고 했는데, OS가 진짜 물리 램 100MB를 주느라 디스크를 얼마나 긁어댔는가?", "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)이 터져서 남의 램을 뺏느라 몇 밀리초의 렉([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 걸렸는가?" 같은 하드웨어와 OS 간의 핏빛 전쟁터를 생중계한다.
@@ -80,7 +78,7 @@ tags = ["studynote-operating-system"]
 
 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수집한 램 도둑질 정보(예: 폴트가 터진 주소 1만 개)를 유저 화면(터미널)으로 어떻게 보낼까? 
 `printf`로 찍으면 디스크 I/O가 터져서 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 자체가 시스템을 마비시키는 짐덩어리가 된다.
-- **해결책**: eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) Maps ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인메모리 해시/[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)/히스토그램 테이블)**라는 바구니를 만들어둔다.
+- **해결책**: eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Maps (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 인메모리 해시/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>/히스토그램 테이블)</strong>라는 바구니를 만들어둔다.
 - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 폴트가 터질 때마다 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 코드가 1클럭 만에 바구니에 "폴트 1 추가요" 하고 숫자만 쓱 증가시키고(Update) 사라진다.
 - 터미널에 띄워둔 파이썬(Python) 모니터링 앱이 1초에 한 번씩 이 바구니(Map)를 조용히 들여다보고(Read) 막대그래프를 그려준다.
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해서 넘기지 않고, 메모리 맵(Map)을 공유하는 이 비동기 아키텍처 덕분에 eBPF의 오버헤드가 기적적인 1% 미만으로 방어되는 것이다.
@@ -107,19 +105,22 @@ C/C++ 메모리 누수를 잡는 양대 산맥의 철학적 차이다.
 기존 리눅스 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`top`, `sar`)는 단순히 "초당 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 1000번 터졌네"라는 1차원적인 숫자의 결과만 보여준다.
 엔지니어가 "그럼 어느 함수의 어떤 변수 때문에 폴트가 1000번 터졌는데?"라고 물으면 OS는 대답하지 못한다.
 - **eBPF의 융합 파괴력 (bpftrace)**:
-  - [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 툴인 `faults`나 `syscount`를 꽂으면, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터진 순간의 **콜스택([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))**을 그대로 백업해서 보여준다.
+  - [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 툴인 `faults`나 `syscount`를 꽂으면, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터진 순간의 <strong>콜스택(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong>을 그대로 백업해서 보여준다.
   - 화면에 "당신이 짠 `Java Spring`의 `ImageUploader` 클래스 내부의 `readBuffer` 함수가 0.1초 만에 800번의 메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)(디스크 긁기)를 유발했습니다."라고 범인의 멱살을 잡고 c언어/자바 코드 라인 수까지 정확히 지목해 준다.
   - [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 모순(느린 폴트)을 응용 프로그램 소스 코드 레벨로 직통 번역해 주는 가장 위대한 매개체다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 모니터링 툴 │ 보여주는 정보 │ 문제의 원인 제공│ 성능 페널티          │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ top / sar│ 폴트 1000번 남│ 알 수 없음 (추측)│ 거의 없음              │
-│ Valgrind │ 범인 함수 찾음│ 코드 추적 완벽함│ 서버 다운 수준 ☠️       │
-│ **eBPF** │ **범인 함수 찾음**│ **콜스택 100% 추적**│ **거의 없음 🚀**│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링 툴</div><div class="kb-diagram-cell">보여주는 정보</div><div class="kb-diagram-cell">문제의 원인 제공</div><div class="kb-diagram-cell">성능 페널티</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">top / sar</div><div class="kb-diagram-cell">폴트 1000번 남</div><div class="kb-diagram-cell">알 수 없음 (추측)</div><div class="kb-diagram-cell">거의 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Valgrind</div><div class="kb-diagram-cell">범인 함수 찾음</div><div class="kb-diagram-cell">코드 추적 완벽함</div><div class="kb-diagram-cell">서버 다운 수준 ☠️</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF</div><div class="kb-diagram-cell">범인 함수 찾음</div><div class="kb-diagram-cell">콜스택 100% 추적</div><div class="kb-diagram-cell">거의 없음 🚀</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** eBPF는 가볍다(top)와 깊다(Valgrind)는 영원히 만날 수 없을 것 같던 두 평행선의 교집합을 기적처럼 찾아낸 하드웨어-소프트웨어 융합 기술이다. 넷플릭스나 메타(Facebook) 같은 빅테크가 서버 수만 대를 굴리면서 메모리 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 뻗지 않는 진짜 이유가 바로 엔지니어들이 이 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 대시보드를 보며 폴트가 터지는 병목을 실시간으로 꿰매고 있기 때문이다.
 
 - **📢 섹션 요약 비유**: 과거에는 산에서 불([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 나면 멀리서 연기(top [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))만 보고 "불났네" 하고 끝이거나, 산에 소방관 1만 명을 밀어 넣어(Valgrind) 산 생태계를 다 짓밟으며 원인을 찾았습니다. eBPF는 산 곳곳에 초소형 연기 감지 드론을 띄워서, "동쪽 3번 텐트에서 누가 담배를 피우다 불을 냈다(코드 콜스택)"고 1초 만에 핀포인트로 알려주는 최첨단 산불 방재 시스템입니다.
@@ -131,8 +132,8 @@ C/C++ 메모리 누수를 잡는 양대 산맥의 철학적 차이다.
 ### 실무 시나리오: Kswapd [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 렉(Jitter)의 범인 검거
 1. **서버의 침묵**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 워커 노드가 주기적으로 1초씩 멈칫멈칫(Stall) 렉이 걸려 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 응답 속도가 튄다. 램(RAM) 잔고는 20%나 남아있는데 OOM도 안 터지고 묘하게 버벅댄다.
 2. **블랙박스**: 기존 `vmstat`으로 보면 просто 디스크 I/O가 좀 튀는 것 말고는 원인을 알 수 없다.
-3. **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) `swapin` 툴의 투입**:
-   - 실력 있는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 넷플릭스의 브렌든 그레그(Brendan Gregg)가 만든 bcc-tools 중 하나인 **`swapin` [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 스크립트**를 가동한다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> <code>swapin</code> 툴의 투입</strong>:
+   - 실력 있는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 넷플릭스의 브렌든 그레그(Brendan Gregg)가 만든 bcc-tools 중 하나인 <strong><code>swapin</code> <a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 스크립트</strong>를 가동한다.
    - 이 툴은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 디스크에서 램으로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽어오는(Swap In) 순간을 정확히 스나이핑하여, "어떤 프로세스가, 몇 밀리초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 맞으며 디스크를 긁어오고 있는지"를 히스토그램으로 쫙 그려준다.
 4. **범인 검거**:
    - 그래프를 보니, 램이 20%나 남았는데도 불구하고 `ElasticSearch` 앱이 투명한 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)(THP) 2MB를 만들기 위해 백그라운드에서 강제 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 돌리느라 Kswapd 데몬과 싸우면서 미친 듯이 스왑인을 일으켜 1.5초짜리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)을 뿜어내는 것을 생포했다.
@@ -152,9 +153,9 @@ eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [OOM](/knowledge-base/studynote
 
 | 구분 | 내용 |
 |:---|:---|
-| **라이브(Prod) 환경 관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))**| 1% 미만의 극소 오버헤드로, 상용 서버를 내리거나 재컴파일할 필요 없이 동작 중인 앱의 메모리 누수를 나노초 단위로 적발 |
+| <strong>라이브(Prod) 환경 관측성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>| 1% 미만의 극소 오버헤드로, 상용 서버를 내리거나 재컴파일할 필요 없이 동작 중인 앱의 메모리 누수를 나노초 단위로 적발 |
 | **블랙박스의 화이트박스화** | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 등 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 덮여있던 OS의 맹점을 애플리케이션 코드 뎁스로 번역하여 가시화 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 프로그래머블(Programmable) 진화**| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 고치지 않고 유저가 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 스크립트만으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당기 동작에 깊숙이 개입할 수 있는 차세대 OS 패러다임 제시 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 프로그래머블(Programmable) 진화</strong>| [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 고치지 않고 유저가 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 스크립트만으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당기 동작에 깊숙이 개입할 수 있는 차세대 OS 패러다임 제시 |
 
 ### 결론 및 미래 전망
 
@@ -175,15 +176,19 @@ eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [OOM](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
-    │
-    ▼
-[eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)]
-    │
-    ├──▶ [I/O 장치의 분류]
-    └──▶ [블록 장치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 장치의 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 장치</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -19,9 +19,9 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하는 것은 빠르지만 **메모리는 휘발성**이라 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라진다. 2) 기존 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템은 세밀한 업데이트를 지원하지만 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 내결함성 구현이 복잡**하다.
+Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하는 것은 빠르지만 <strong>메모리는 휘발성</strong>이라 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라진다. 2) 기존 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템은 세밀한 업데이트를 지원하지만 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경에서 내결함성 구현이 복잡</strong>하다.
 
-RDD는 이 두 문제에 대한 우아한 해결책이다: **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 대신 변환 과정을 기록한다.** [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 map() 연산으로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐다면, 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Lineage)를 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 기록한다. 노드 장애로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B의 일부가 유실되면, Lineage를 따라 원본 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산한다.
+RDD는 이 두 문제에 대한 우아한 해결책이다: <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 대신 변환 과정을 기록한다.</strong> [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 map() 연산으로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐다면, 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Lineage)를 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 기록한다. 노드 장애로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B의 일부가 유실되면, Lineage를 따라 원본 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산한다.
 
 RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장애 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), **Distributed**([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): 클러스터 전체에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), **Dataset**([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 컬렉션).
 
@@ -35,55 +35,58 @@ RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장
 
 | 특성 | 설명 |
 |:---|:---|
-| **[Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)** (불변) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 수정 불가, 변환 시 새 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a></strong> (불변) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 수정 불가, 변환 시 새 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **Distributed** ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 클러스터 여러 노드에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **[Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)** | 액션 호출 전까지 변환 연산 실행 안 됨 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a></strong> | 액션 호출 전까지 변환 연산 실행 안 됨 |
 | **Fault Tolerant** | Lineage DAG로 장애 시 자동 재계산 |
 | **In-Memory** | 기본적으로 메모리에 유지 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 핵심) |
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 유형
 
-```
-RDD 연산 두 가지:
 
-1. 트랜스포메이션 (Transformation) - 새 RDD 반환, 지연 실행
-   ┌─────────────────────────────────────────────────────┐
-   │ map(f)      : 각 원소에 함수 f 적용                  │
-   │ filter(f)   : 조건 f를 만족하는 원소만 선택           │
-   │ flatMap(f)  : map + 중첩 해제                        │
-   │ groupByKey(): 같은 키로 그룹화                       │
-   │ reduceByKey(): 같은 키의 값들을 집계                  │
-   │ join()      : 두 RDD를 키로 조인                     │
-   │ distinct()  : 중복 제거                              │
-   └─────────────────────────────────────────────────────┘
 
-2. 액션 (Action) - 즉시 실행, 결과 반환
-   ┌─────────────────────────────────────────────────────┐
-   │ count()     : 원소 수 반환                           │
-   │ collect()   : 모든 원소를 드라이버로 수집             │
-   │ first()     : 첫 번째 원소 반환                      │
-   │ take(n)     : 처음 n개 원소 반환                     │
-   │ reduce(f)   : 모든 원소를 f로 집계                   │
-   │ saveAsTextFile(): 파일로 저장                        │
-   └─────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDD 연산 두 가지:</div>
+<div class="kb-diagram-note">1. 트랜스포메이션 (Transformation) - 새 RDD 반환, 지연 실행</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map(f) : 각 원소에 함수 f 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">filter(f) : 조건 f를 만족하는 원소만 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flatMap(f) : map + 중첩 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">groupByKey(): 같은 키로 그룹화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reduceByKey(): 같은 키의 값들을 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">join() : 두 RDD를 키로 조인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">distinct() : 중복 제거</div></div>
+<div class="kb-diagram-note">2. 액션 (Action) - 즉시 실행, 결과 반환</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count() : 원소 수 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">collect() : 모든 원소를 드라이버로 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first() : 첫 번째 원소 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">take(n) : 처음 n개 원소 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reduce(f) : 모든 원소를 f로 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">saveAsTextFile(): 파일로 저장</div></div>
+</div>
+</div>
+
+
 
 ### Lineage [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
 
-```
-  textFile("input.txt")     ← RDD[String] (원본)
-         │ map(split)
-         ▼
-  flatMap(words)             ← RDD[String] (단어 리스트)
-         │
-         ▼ map(word → (word,1))
-  pairRDD                   ← RDD[(String, Int)]
-         │
-         ▼ reduceByKey(_+_)
-  wordCount                 ← RDD[(String, Int)] (결과)
-         │
-         ▼ saveAsTextFile()  ← 액션! 이 시점에 전체 DAG 실행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">String</div><div class="kb-diagram-note">(원본)</div></div>
+<div class="kb-diagram-note">map(split)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">String</div><div class="kb-diagram-note">(단어 리스트)</div></div>
+<div class="kb-diagram-note">▼ map(word → (word,1))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">(String, Int)</div></div>
+<div class="kb-diagram-note">▼ reduceByKey(_+_)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">(String, Int)</div><div class="kb-diagram-note">(결과)</div></div>
+<div class="kb-diagram-note">▼ saveAsTextFile() ← 액션! 이 시점에 전체 DAG 실행</div>
+</div>
+</div>
+
+
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) Python 코드 예시
 
@@ -132,7 +135,7 @@ counts.count()  # 두 번째 호출은 캐시에서 즉시 반환
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 직접 사용이 필요한 상황**:
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a> 직접 사용이 필요한 상황</strong>:
 ```python
 # 1. 비구조화 데이터 처리
 rdd = sc.textFile("s3://raw-logs/*.log")
@@ -150,7 +153,7 @@ rdd.mapPartitions(lambda records:
 rdd.checkpoint()  # Lineage가 너무 길어질 때 중간 저장
 ```
 
-**DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선 사용 권장**:
+<strong>DataFrame <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 우선 사용 권장</strong>:
 ```python
 # DataFrame API: Catalyst 옵티마이저가 자동 최적화
 df = spark.read.parquet("s3://mybucket/data/")
@@ -202,15 +205,19 @@ RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RDD: 불변 · 분산 · 지연 평가 · Lineage 기반 복구
-    │
-    ▼
-DataFrame / Dataset: 스키마 기반 · Catalyst 최적화
-    │
-    ▼
-Spark SQL: SQL 인터페이스 + Predicate Pushdown
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDD: 불변 · 분산 · 지연 평가 · Lineage 기반 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DataFrame / Dataset: 스키마 기반 · Catalyst 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spark SQL: SQL 인터페이스 + Predicate Pushdown</div>
+</div>
+</div>
+
+
 2. 트랜스포메이션은 레시피 적기(아직 안 만들었어), 액션은 실제 요리 시작이야. 손님 주문이 와야(액션) 요리를 시작해.
 3. 자주 쓰는 결과는 cache()로 저장해두면, 매번 처음부터 만들 필요 없이 이미 만들어진 것을 바로 꺼내 쓸 수 있어.
 

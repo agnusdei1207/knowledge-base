@@ -29,17 +29,23 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Source Code
-  ↓
-Dependencies
-  ↓
-License Scan
-  ↓
-Obligation Check
-  ↓
-Approval / Notice / Distribution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Source Code</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Dependencies</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">License Scan</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Obligation Check</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Approval / Notice / Distribution</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 | 관리 포인트 |
 | :-- | :-- | :-- |
@@ -111,29 +117,41 @@ GPL과 MIT를 단순히 "엄격/느슨"으로만 보면 안 된다. 배포 모�
 
 ## 관련 개념 맵
 
-```text
-Dependencies
-  ↓
-License Compliance
-  ↓
-SBOM / SCA
-  ↓
-Release Approval
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Dependencies</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">License Compliance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SBOM / SCA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Release Approval</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-오픈소스 사용
-  ↓
-라이선스 검토
-  ↓
-SBOM
-  ↓
-공급망 컴플라이언스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오픈소스 사용</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">라이선스 검토</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SBOM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">공급망 컴플라이언스</div>
+</div>
+</div>
+
+
 
 ---
 

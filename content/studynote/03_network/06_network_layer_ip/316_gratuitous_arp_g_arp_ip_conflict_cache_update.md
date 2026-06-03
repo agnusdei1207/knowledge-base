@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: Target IP(목적지)와 Sender IP(출발지)가 완벽히 똑같은 특수한 구조의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Request 패킷이다. 수신을 바라고 보내는 게 아니라 일방적인 '통보' 목적이다.
 - **필요성**: 정상적인 ARP는 통신을 하기 전 길을 묻기 위해 쓴다. 그런데 내가 길을 물을 필요도 없이 그냥 '내 존재'를 동네 전체에 강제로 알리고 싶을 때가 있다. 내가 막 이사(부팅) 왔는데 이 번지수(IP)에 먼저 살고 있는 놈이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하거나, 내 얼굴(랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이 방금 성형 수술로 바뀌었으니 동네 이웃들에게 내 바뀐 얼굴을 싹 다 업데이트하라고 외칠 필요성이 있었다.
 
-- **💡 비유**: 일반 ARP가 **"101호 사는 분, 얼굴 좀 보여주세요!"**라고 남을 찾는 것이라면, G-ARP는 101호로 이사 온 사람이 동네 한가운데 서서 확성기로 **"제가 오늘부로 101호에 살게 된 홍길동([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))입니다! 다들 수첩([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시)에 적으세요!"**라고 무작정 자기소개를 외치는 것과 같습니다. 만약 기존 101호 거주자가 이 소리를 듣는다면 "뭐야, 101호 내 집인데?"라며 싸움(IP 충돌 경고)이 벌어집니다.
+- **💡 비유**: 일반 ARP가 <strong>"101호 사는 분, 얼굴 좀 보여주세요!"</strong>라고 남을 찾는 것이라면, G-ARP는 101호로 이사 온 사람이 동네 한가운데 서서 확성기로 <strong>"제가 오늘부로 101호에 살게 된 홍길동(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)입니다! 다들 수첩(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 캐시)에 적으세요!"</strong>라고 무작정 자기소개를 외치는 것과 같습니다. 만약 기존 101호 거주자가 이 소리를 듣는다면 "뭐야, 101호 내 집인데?"라며 싸움(IP 충돌 경고)이 벌어집니다.
 
-```text
-[Proxy ARP]
-    │
-    ▼
-[Gratuitous ARP]
-    │
-    └──▶ [ARP 캐시 오염]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Proxy ARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gratuitous ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 캐시 오염</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** G-ARP는 길거리에서 지나가는 사람들에게 무작정 찔러주는 **"홍보용 전단지"**입니다. 물어보지 않았지만 받으면 무조건 읽고 내 머릿속([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블)의 가게 전화번호를 최신으로 업데이트하게 만드는 강제 주입식 마케팅입니다.
 
@@ -48,7 +52,7 @@ G-[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address
 ### 2. 시나리오 A: IP 충돌 감지 (Duplicate IP [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))
 당신이 윈도우 PC에서 IP 주소를 수동으로 `192.168.0.10`이라고 입력하고 '[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'을 누르는 즉시, 윈도우는 저 기이한 G-[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 방송을 3번 정도 연속해서 날린다.
 - **대답이 없으면**: "오, 이 동네에 192.168.0.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 쓰는 놈 아무도 없네. 안전하게 내가 써야지!"
-- **누군가 "나다!"라고 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply를 쏘면**: "헉! 이미 쓰고 있는 놈이 있네!"라며 윈도우 우측 하단에 그 유명한 **"IP 주소 충돌이 감지되었습니다"**라는 노란색 에러 팝업을 띄우고 네트워크를 즉각 단절시켜 버린다.
+- <strong>누군가 "나다!"라고 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> Reply를 쏘면</strong>: "헉! 이미 쓰고 있는 놈이 있네!"라며 윈도우 우측 하단에 그 유명한 <strong>"IP 주소 충돌이 감지되었습니다"</strong>라는 노란색 에러 팝업을 띄우고 네트워크를 즉각 단절시켜 버린다.
 
 ### 3. 시나리오 B: [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 절체 시의 캐시 강제 갱신 (HA [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))
 기업망에서 라우터 A(메인)와 라우터 B(예비)가 게이트웨이 IP `192.168.0.1`을 공유하는 [VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/)/[HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) 환경을 생각해 보자.
@@ -56,19 +60,23 @@ G-[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address
 2. 어느 날 라우터 A의 전원이 퍽 하고 나갔다(장애 발생).
 3. 대기하던 라우터 B가 1초 만에 깨어나며 "내가 이제부터 `192.168.0.1`이다!"라고 게이트웨이 역할을 승계한다.
 4. **문제 발생**: 동네 PC들의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 수첩에는 여전히 죽어버린 라우터 A의 MAC이 적혀 있다. PC들은 죽은 라우터 쪽으로 계속 인터넷 데이터를 던진다 (블랙홀 발생).
-5. **G-ARP의 구원**: 라우터 B가 깨어나자마자 **G-[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷을 뻥! 하고 폭탄처럼 터뜨린다.**
+5. **G-ARP의 구원**: 라우터 B가 깨어나자마자 <strong>G-<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 패킷을 뻥! 하고 폭탄처럼 터뜨린다.</strong>
 6. 동네 PC들은 이 전단지를 받고 "어? 192.168.0.1 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 라우터 B 껄로 바뀌었네?" 하며 즉각 수첩([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Table)을 덮어써서 갱신한다. 1초 만에 인터넷이 다시 정상적으로 이어지는 마법이다.
 
-```text
-[Proxy ARP]
-    │
-    ▼
-[Gratuitous ARP]
-    │
-    └──▶ [ARP 캐시 오염]
-```
 
-- **📢 섹션 요약 비유**: ** [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 망에서의 G-ARP는, 메인 식당이 불타서 예비 식당으로 이사한 직후, 사장님이 동네방네 뛰어다니며 **"우리 식당 원래 주소(IP)는 그대로인데, 오늘부터 간판([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 새 걸로 바뀌었으니 제발 새 식당으로 찾아와 주세요!"**라고 멱살 잡고 수첩을 고쳐주는 눈물겨운 이사 공지입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Proxy ARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gratuitous ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 캐시 오염</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 망에서의 G-ARP는, 메인 식당이 불타서 예비 식당으로 이사한 직후, 사장님이 동네방네 뛰어다니며 </strong>"우리 식당 원래 주소(IP)는 그대로인데, 오늘부터 간판([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 새 걸로 바뀌었으니 제발 새 식당으로 찾아와 주세요!"**라고 멱살 잡고 수첩을 고쳐주는 눈물겨운 이사 공지입니다.
 
 ---
 
@@ -124,15 +132,19 @@ Gratuitous ARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Proxy ARP]
-    │
-    ▼
-[현재 개념: Gratuitous ARP]
-    │
-    ├──▶ [확장 A: ARP 캐시 오염]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Proxy ARP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Gratuitous ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 캐시 오염</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Gratuitous ARP는 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

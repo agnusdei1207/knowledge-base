@@ -11,7 +11,7 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DTP와 VTP는 수십~수백 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 엮인 거대한 기업망에서, 관리자가 일일이 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 뚫고 VLAN을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 **"수작업 노가다"를 없애기 위해 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 독자 개발한 자동화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**이다.
+> 1. **본질**: DTP와 VTP는 수십~수백 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 엮인 거대한 기업망에서, 관리자가 일일이 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 뚫고 VLAN을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 <strong>"수작업 노가다"를 없애기 위해 시스코(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a>)가 독자 개발한 자동화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.
 > 2. **가치**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)끼리 선을 꽂기만 하면 양쪽 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 알아서 대화를 나누고 "우리 서로 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 합시다!"라고 동적으로 협상해 주는(Negotiation) 편리하지만 보안에 취약한 링크 자동화 기술이다.
 > 3. **판단 포인트**: 중앙의 마스터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Server)에 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 20을 만들어 두면, 연결된 나머지 하급 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))들에게 그 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 목록(DB)이 자동으로 동기화되어 복사되는 중앙 집중식 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 관리 기술이다.
 
@@ -20,24 +20,28 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **DTP (Dynamic Trunking [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 상대방 장비를 감지해 Access로 동작할지 Trunk로 동작할지 자동으로 결정하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
-  - **VTP ([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) Trunking [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제/수정된 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([vlan](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/).dat)를 트렁크 링크를 통해 네트워크 내 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들과 자동 동기화하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
+  - <strong>DTP (Dynamic Trunking <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 상대방 장비를 감지해 Access로 동작할지 Trunk로 동작할지 자동으로 결정하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
+  - <strong>VTP (<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> Trunking <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제/수정된 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([vlan](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/).dat)를 트렁크 링크를 통해 네트워크 내 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들과 자동 동기화하는 시스코 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
 - **필요성**: 만약 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 50대 있는 대학교 네트워크에 '컴퓨터공학과([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 30)'를 새로 추가한다고 가정해 보자. VTP가 없다면 관리자는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 50대에 일일이 원격 접속해 `vlan 30` 명령어를 50번 쳐야 한다. 또한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 연결하는 수십 개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 일일이 `switchport mode trunk`로 세팅해야 한다. 이 극악의 비효율성을 버튼 하나(자동화)로 끝내기 위해 발명되었다.
 
 - **💡 비유**: 
   - **DTP**: 소개팅 자리에서 "우리 오늘부터 1일 할까요?(Trunk)"라고 물어보고 상대가 "네!" 하면 자동으로 사귀는(자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 기능입니다.
   - **VTP**: 본사 프랜차이즈(Server)에서 "내일부터 마라탕([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 30) 신메뉴 출시해!"라고 공지를 띄우면, 전국 모든 가맹점([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))의 메뉴판에 마라탕이 자동으로 똑같이 등록되는 시스템입니다.
 
-```text
-[접근 포트 / 트렁크 포트]
-    │
-    ▼
-[DTP / VTP]
-    │
-    └──▶ [ISL]
-```
 
-- **📢 섹션 요약 비유**: ** DTP와 VTP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크를 구성할 때 관리자의 야근을 줄여주는 **"자동 연결(DTP)" 및 "자동 복사(VTP)"** 치트키입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">접근 포트 / 트렁크 포트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTP / VTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISL</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> DTP와 VTP는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 네트워크를 구성할 때 관리자의 야근을 줄여주는 </strong>"자동 연결(DTP)" 및 "자동 복사(VTP)"** 치트키입니다.
 
 ---
 
@@ -48,36 +52,35 @@ tags = ["studynote-network"]
 - **Dynamic Desirable (적극적)**: "나랑 트렁크 맺자!"라고 먼저 들이대는 모드. 상대방이 Auto이거나 Desirable이면 트렁크가 맺어진다.
 - **Dynamic Auto (수동적)**: 가만히 있다가 상대가 트렁크 맺자고(Desirable) 오면 "그래~" 하고 트렁크로 변하는 모드. (Auto끼리 만나면 둘 다 가만히 있으므로 Access [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 됨)
 
-**⚠️ DTP 보안 취약점**: 해커가 노트북에 칼리리눅스(Kali)를 깔고 랜선을 빈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂은 뒤 "나랑 트렁크 맺자!"(DTP Desirable 패킷 발송)라고 쏘면, 멍청한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 노트북과 트렁크를 맺어버린다. 해커는 트렁크 라인을 타고 흐르는 회사의 모든 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 데이터를 다 엿볼 수 있게 된다. 따라서 실무에서는 반드시 **DTP 기능을 강제로 끄고 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Static Trunk)**을 권장한다 (`switchport nonegotiate`).
+**⚠️ DTP 보안 취약점**: 해커가 노트북에 칼리리눅스(Kali)를 깔고 랜선을 빈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂은 뒤 "나랑 트렁크 맺자!"(DTP Desirable 패킷 발송)라고 쏘면, 멍청한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 노트북과 트렁크를 맺어버린다. 해커는 트렁크 라인을 타고 흐르는 회사의 모든 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 데이터를 다 엿볼 수 있게 된다. 따라서 실무에서는 반드시 <strong>DTP 기능을 강제로 끄고 수동 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>(Static Trunk)</strong>을 권장한다 (`switchport nonegotiate`).
 
 ### 2. VTP의 3가지 모드와 리비전 번호 (Revision Number)
 VTP 영역([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))으로 묶인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 3가지 모드 중 하나를 갖는다.
 1. **Server 모드**: 대장. VLAN을 직접 만들고 지울 수 있으며, 부하들에게 전파한다.
-2. **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) 모드**: 부하. VLAN을 스스로 만들지 못하고, 서버가 하라는 대로 자신의 메뉴판을 똑같이 덮어쓴다.
+2. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> 모드</strong>: 부하. VLAN을 스스로 만들지 못하고, 서버가 하라는 대로 자신의 메뉴판을 똑같이 덮어쓴다.
 3. **Transparent 모드**: 방관자. VTP 메시지가 들어오면 남에게 전달(Bypass)은 해주지만, 자기 자신은 동기화하지 않고 독자적인 VLAN을 갖는다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                VTP 리비전 번호 폭탄(Bomb) 사고                │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ Main Switch (Server) ] ──── 트렁크 ──── [ Switch B (Client) ] │
- │    VLAN 10, 20, 30 존재                       (정상 동기화 중)  │
- │    Revision Number: 15                                      │
- │                                                             │
- │   ⚠️ 사고 발생 시나리오:                                        │
- │   다른 테스트망에서 막 쓰다가 'Revision Number가 50'까지 올라가 버린 │
- │   고물 스위치(Server 모드)를 실수로 회사 메인망에 꽂음!              │
- │                                                             │
- │   [ 고물 스위치 ] "야! 내 리비전이 50이야! 내 걸로 다 덮어써!"       │
- │   [ Main Switch ] "헉 50이 최신이네! 내 거 15짜리 다 지우고 덮어쓸게!"│
- │                                                             │
- │   ▶ 결과: 회사의 전사 VLAN(10, 20, 30)이 순식간에 다 삭제되고      │
- │          인터넷 전면 마비 (네트워크 셧다운).                        │
- └─────────────────────────────────────────────────────────────┘
-```
 
-**⚠️ VTP 보안 취약점**: VTP는 누가 보냈든 무조건 **수정 횟수(Revision Number)가 자기보다 더 높은 놈의 말을 무조건 최신 정보로 믿고 덮어쓰는(Overwrite) 멍청한 특징**이 있다. 테스트용 장비를 잘못 꽂았다가 회사 전체 네트워크가 날아가는 사고(VTP Bomb)가 잦아, 현대 실무에서는 VTP 역시 잘 쓰지 않고 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 같은 외부 자동화 툴을 사용한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VTP 리비전 번호 폭탄(Bomb) 사고</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Switch (Server)</div><div class="kb-diagram-note">트렁크</div><div class="kb-diagram-node">Switch B (Client)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN 10, 20, 30 존재 (정상 동기화 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Revision Number: 15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 사고 발생 시나리오:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 테스트망에서 막 쓰다가 'Revision Number가 50'까지 올라가 버린</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고물 스위치(Server 모드)를 실수로 회사 메인망에 꽂음!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고물 스위치</div><div class="kb-diagram-note">"야! 내 리비전이 50이야! 내 걸로 다 덮어써!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Switch</div><div class="kb-diagram-note">"헉 50이 최신이네! 내 거 15짜리 다 지우고 덮어쓸게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 회사의 전사 VLAN(10, 20, 30)이 순식간에 다 삭제되고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 전면 마비 (네트워크 셧다운).</div></div>
+</div>
+</div>
+
+
+
+**⚠️ VTP 보안 취약점**: VTP는 누가 보냈든 무조건 <strong>수정 횟수(Revision Number)가 자기보다 더 높은 놈의 말을 무조건 최신 정보로 믿고 덮어쓰는(Overwrite) 멍청한 특징</strong>이 있다. 테스트용 장비를 잘못 꽂았다가 회사 전체 네트워크가 날아가는 사고(VTP Bomb)가 잦아, 현대 실무에서는 VTP 역시 잘 쓰지 않고 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 같은 외부 자동화 툴을 사용한다.
 
 - **📢 섹션 요약 비유**: ** DTP와 VTP는 묻지도 따지지도 않고 자동으로 세팅해 주는 **"편리한 마법 지팡이"**지만, 해커나 초보 관리자의 실수 한 번에 회사 전체 네트워크를 날려버릴 수 있는 **"시한폭탄"**과도 같아서 실무에서는 봉인해 두는 기술입니다.
 
@@ -135,15 +138,19 @@ DTP / VTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 접근 포트 / 트렁크 포트]
-    │
-    ▼
-[현재 개념: DTP / VTP]
-    │
-    ├──▶ [확장 A: ISL]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 접근 포트 / 트렁크 포트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DTP / VTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 DTP / VTP는 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ISL와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

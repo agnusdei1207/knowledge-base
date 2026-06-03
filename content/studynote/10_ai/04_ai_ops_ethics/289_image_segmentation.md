@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 자율주행 자동차의 카메라 센서가 도로 위 화면을 본다고 가정하자. 단순히 "사람이 있다"는 사각형 박스([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))로는 차가 어느 방향으로 핸들을 돌려야 할지 계산할 수 없다. 차량 컴퓨터는 "이 픽셀 구역은 아스팔트 도로", "저 픽셀 구역은 사람의 발", "이쪽은 하늘"이라고 모든 픽셀 한 장 한 장에 클래스 도장을 찍어야만 정확한 조향각을 계산할 수 있다.
 
-이 발상에서 탄생한 것이 **이미지 분할 (Image [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))**이다. [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 기반의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)망이 이미지 전체를 픽셀 단위로 쪼개어 각각 어느 클래스에 속하는지 예측한다. 기존 CNN이 "이 사진 전체는 고양이"라고 하나의 레이블만 뱉는 것과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 망은 입력 이미지와 동일한 크기의 **[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 맵([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Map)**을 출력으로 돌려준다.
+이 발상에서 탄생한 것이 <strong>이미지 분할 (Image <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>이다. [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 기반의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)망이 이미지 전체를 픽셀 단위로 쪼개어 각각 어느 클래스에 속하는지 예측한다. 기존 CNN이 "이 사진 전체는 고양이"라고 하나의 레이블만 뱉는 것과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 망은 입력 이미지와 동일한 크기의 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> 맵(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Map)</strong>을 출력으로 돌려준다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 물체 탐지는 "방 안에 고양이 한 마리 있어요"라고 전보를 보내는 것이고, 이미지 분할은 방 도면 위에 "이 타일이 고양이, 저 타일이 소파, 이 타일이 바닥"이라고 타일 하나하나에 색칠하는 것이다. 전보는 빠르지만 거친 정보고, 색칠은 느리지만 완전한 정보다.
 
@@ -38,31 +41,30 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이미지 분할의 핵심 아키텍처는 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) ([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))** 구조다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 이미지를 점점 작은 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 고수준 의미를 추출하고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 특징 맵을 다시 원본 이미지 크기로 업샘플링(Upsampling)하며 픽셀별 클래스를 복원한다.
+이미지 분할의 핵심 아키텍처는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">Decoder</a>)</strong> 구조다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 이미지를 점점 작은 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 고수준 의미를 추출하고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 특징 맵을 다시 원본 이미지 크기로 업샘플링(Upsampling)하며 픽셀별 클래스를 복원한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│          이미지 분할 (Image Segmentation) 아키텍처                   │
-├─────────────────────────────────────────────────────────────────┤
-│  입력 이미지 (224×224×3 RGB)                                       │
-│       │                                                         │
-│  ┌────▼──────────────────┐   인코더 (Encoder)                    │
-│  │  Conv + Pool Layer 1  │──▶ 112×112×64  (공간 압축, 의미 추출)   │
-│  │  Conv + Pool Layer 2  │──▶  56× 56×128                       │
-│  │  Conv + Pool Layer 3  │──▶  28× 28×256                       │
-│  │  Conv + Pool Layer 4  │──▶  14× 14×512  (병목: Bottleneck)    │
-│  └───────────────────────┘                                      │
-│       │  (Skip Connection ──────────────────────────┐)         │
-│  ┌────▼──────────────────┐   디코더 (Decoder)        │           │
-│  │  Upsample + Conv 1    │──▶  28× 28×256  ◀────────┘           │
-│  │  Upsample + Conv 2    │──▶  56× 56×128                       │
-│  │  Upsample + Conv 3    │──▶ 112×112× 64                       │
-│  │  1×1 Conv (분류 헤드)   │──▶ 224×224×C  (C: 클래스 수)          │
-│  └───────────────────────┘                                      │
-│       │                                                         │
-│  출력: 세그멘테이션 맵 (224×224, 픽셀별 클래스 ID)                     │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 분할 (Image Segmentation) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 이미지 (224×224×3 RGB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 인코더 (Encoder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 1</div><div class="kb-diagram-cell">──▶ 112×112×64 (공간 압축, 의미 추출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 2</div><div class="kb-diagram-cell">──▶ 56× 56×128</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 3</div><div class="kb-diagram-cell">──▶ 28× 28×256</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 4</div><div class="kb-diagram-cell">──▶ 14× 14×512 (병목: Bottleneck)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Skip Connection )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 디코더 (Decoder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 1</div><div class="kb-diagram-cell">──▶ 28× 28×256 ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 2</div><div class="kb-diagram-cell">──▶ 56× 56×128</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 3</div><div class="kb-diagram-cell">──▶ 112×112× 64</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv (분류 헤드)</div><div class="kb-diagram-cell">──▶ 224×224×C (C: 클래스 수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: 세그멘테이션 맵 (224×224, 픽셀별 클래스 ID)</div></div>
+</div>
+</div>
+
+
 
 | 모델 | 특징 | 주요 혁신 |
 |:---|:---|:---|
@@ -90,7 +92,7 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**자율주행 시스템**에서 이미지 분할은 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 포인트 클라우드와 융합하여 3D 공간에서 주행 가능 영역을 실시간 계산하는 데 쓰인다. 추론 속도(Inference Speed)가 30fps 이상이어야 실시간 처리가 가능하므로, 경량화된 **MobileNet + DeepLab** 조합이나 **TensorRT** 최적화가 필수다.
+<strong>자율주행 시스템</strong>에서 이미지 분할은 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 포인트 클라우드와 융합하여 3D 공간에서 주행 가능 영역을 실시간 계산하는 데 쓰인다. 추론 속도(Inference Speed)가 30fps 이상이어야 실시간 처리가 가능하므로, 경량화된 **MobileNet + DeepLab** 조합이나 **TensorRT** 최적화가 필수다.
 
 **의료 영상** 분야에서는 U-Net이 소량의 라벨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(의사가 직접 그린 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크)만으로도 높은 정확도를 보여 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)/MRI 종양 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에 광범위하게 사용된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Augmentation, 회전·반전·탄성 변형)으로 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족 문제를 극복한다.
 
@@ -102,7 +104,7 @@ tags = ["studynote-ai"]
 
 이미지 분할 (Image [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비전(Computer Vision) 기술의 정점에 서 있는 픽셀 수준의 완전한 장면 이해 기술이다. 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))나 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))와는 달리 장면 속 모든 영역의 의미를 동시에 파악하므로, 자율주행·의료·위성 영상·증강현실(AR) 등 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 생사를 가르는 분야에서 대체 불가능한 핵심 기술로 자리매김하고 있다.
 
-[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 기반의 **SegFormer**, **SAM ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model)** 등 최신 모델은 사전 훈련된 대규모 비전 지식을 활용해 심지어 새로운 클래스도 프롬프트 하나로 즉시 분할하는 제로샷([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot) [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 시대를 열고 있다.
+[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 기반의 **SegFormer**, <strong>SAM (<a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a> Anything Model)</strong> 등 최신 모델은 사전 훈련된 대규모 비전 지식을 활용해 심지어 새로운 클래스도 프롬프트 하나로 즉시 분할하는 제로샷([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot) [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 시대를 열고 있다.
 
 - **📢 섹션 요약 비유**: 이미지 분할의 미래는 "신이 창조한 세계를 완전히 해독하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 지도 제작자"다. 과거 AI는 사진 한 장을 보고 "고양이다"라고만 외쳤지만, 이제 AI는 "이 픽셀은 고양이의 왼쪽 귀, 저 픽셀은 오른쪽 발톱"이라고 전지전능하게 세계 지도를 그려내고 있다. 이 지도 위에 자율주행, 의료, 우주 탐사 등 인류의 미래가 새겨지고 있다.
 
@@ -126,9 +128,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 사진을 보고 "고양이 있어요!"라고만 하는 건 **물체 탐지([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))**인데, 이미지 분할은 그림 속 모든 점 하나하나에 **"이 점은 고양이 귀, 저 점은 하늘, 이 점은 나무"** 라고 색깔 스티커를 붙이는 거예요!
+1. 사진을 보고 "고양이 있어요!"라고만 하는 건 <strong>물체 탐지(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">Object Detection</a>)</strong>인데, 이미지 분할은 그림 속 모든 점 하나하나에 **"이 점은 고양이 귀, 저 점은 하늘, 이 점은 나무"** 라고 색깔 스티커를 붙이는 거예요!
 2. 마치 색칠공부 책에서 **고양이 그림 안쪽만 노란색으로, 하늘은 파란색으로** 색칠하는 것처럼, 컴퓨터가 사진 전체를 색깔별로 칸칸이 나눠 칠하는 거랍니다.
-3. 자동차가 스스로 운전할 때 "어디가 도로고 어디가 사람인지" **픽셀마다 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**해야 사고 없이 달릴 수 있어서, 이 기술이 정말 중요해요!
+3. 자동차가 스스로 운전할 때 "어디가 도로고 어디가 사람인지" <strong>픽셀마다 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>해야 사고 없이 달릴 수 있어서, 이 기술이 정말 중요해요!
 
 ---
 

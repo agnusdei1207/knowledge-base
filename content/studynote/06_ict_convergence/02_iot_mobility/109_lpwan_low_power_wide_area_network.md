@@ -10,7 +10,7 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LPWAN([Low-Power Wide-Area Network](/knowledge-base/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 **배터리 5~10년, 커버리지 15~30km, 속도 수백 bps~수십 kbps**라는 극한 트레이드오프를 수용한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 전용 무선 통신 기술이다.
+> 1. **본질**: LPWAN([Low-Power Wide-Area Network](/knowledge-base/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 <strong>배터리 5~10년, 커버리지 15~30km, 속도 수백 bps~수십 kbps</strong>라는 극한 트레이드오프를 수용한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 전용 무선 통신 기술이다.
 > 2. **가치**: Wi-Fi(100m 한계)와 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(전력 과다)가 커버하지 못하는 원격·무전원 환경에 유일하게 적용 가능한 궁극의 다이어트 통신이다.
 > 3. **판단 포인트**: 비면허 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)·[Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)(자체 GW, 낮은 비용)와 면허 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)·[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)(통신사 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장) 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빈도·이동성·QoS에 따라 선택이 갈린다.
 
@@ -20,20 +20,23 @@ tags = ["studynote-ict-convergence"]
 
 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스의 80% 이상은 하루 수 바이트의 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송하는 저빈도 센서다. Wi-Fi는 전파가 100m밖에 못 가고, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/5G는 칩셋 전력이 과다하여 산속 센서 배터리를 매일 교체해야 한다. **"멀리 + 배터리 10년"** 두 마리 토끼를 잡기 위해 속도를 극단적으로 희생한 LPWAN이 탄생했다.
 
-```text
-┌───────────────────────────────────────────────────────────┐
-│       무선 기술별 거리-전력-속도 트레이드오프 지도          │
-├───────────────────────────────────────────────────────────┤
-│  커버리지 ▲                                               │
-│  30km │              ★ LPWAN (LoRa, NB-IoT)              │
-│   5km │        ● Cellular (4G/5G)                         │
-│ 200m  │   ▲ Wi-Fi                                         │
-│  50m  │ ■ BLE/Zigbee                                      │
-│       └──────────────────────────────→ 전송속도            │
-│       10bps  1kbps  100kbps  1Gbps                        │
-│  배터리: ■수시간 ▲수일 ●수개월 ★수년~10년               │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무선 기술별 거리-전력-속도 트레이드오프 지도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커버리지 ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30km</div><div class="kb-diagram-cell">★ LPWAN (LoRa, NB-IoT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5km</div><div class="kb-diagram-cell">● Cellular (4G/5G)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">200m</div><div class="kb-diagram-cell">▲ Wi-Fi</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50m</div><div class="kb-diagram-cell">■ BLE/Zigbee</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전송속도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10bps 1kbps 100kbps 1Gbps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배터리: ■수시간 ▲수일 ●수개월 ★수년~10년</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LPWAN은 전서구(비둘기 통신)다. 편지 한 장을 발목에 묶어 수백 km 날리고, 모이 한 줌으로 수년을 버틴다.
 
@@ -53,7 +56,7 @@ tags = ["studynote-ict-convergence"]
 | **커버리지** | 15~30km | 30~50km | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15km | 10km |
 | **속도** | 0.3~50 kbps | 100~600 bps | 200 kbps | 1 Mbps |
 | **이동성** | 제한적 | 없음 | 지원 | 우수 |
-| **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)** | Best Effort | Best Effort | 보장 | 보장 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong> | Best Effort | Best Effort | 보장 | 보장 |
 
 - **📢 섹션 요약 비유**: LoRa는 자가용(자유롭지만 직접 관리), NB-IoT는 택시(통신사가 운영, 품질 보장)다.
 
@@ -66,17 +69,17 @@ tags = ["studynote-ict-convergence"]
 | **거리** | ~50m | ~200m | ~10km | **15~50km** |
 | **전력** | 저전력 | 고전력 | 매우 높음 | **극저전력** |
 | **속도** | 1~2M | ~Gbps | ~Gbps | **수백 bps** |
-| **용도** | 웨어러블 | 실내 인터넷 | 스마트폰 | **원격 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)** |
+| **용도** | 웨어러블 | 실내 인터넷 | 스마트폰 | <strong>원격 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a></strong> |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빈도**: 하루 1~수회 → [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/[Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) / 실시간 → [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빈도</strong>: 하루 1~수회 → [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)/[Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) / 실시간 → [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)/[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)
 2. **이동성**: 고정 → [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / 이동 자산 → [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)
-3. **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)**: Best Effort 허용 → 비면허 / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 필요 → 면허
+3. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a></strong>: Best Effort 허용 → 비면허 / [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 필요 → 면허
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 LPWAN으로 전송 → 수 Mbps 필요한 영상을 수백 bps에 싣는 설계 오류.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 LPWAN으로 전송 → 수 Mbps 필요한 영상을 수백 bps에 싣는 설계 오류.
 
 ---
 
@@ -96,30 +99,33 @@ LPWAN은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transfo
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)** | LPWAN이 연결하려는 수십억 센서 디바이스 생태계 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a></strong> | LPWAN이 연결하려는 수십억 센서 디바이스 생태계 |
 | **LoRaWAN** | 비면허 대역 LPWAN 대표, Chirp [Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/) 변조 |
-| **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)** | [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 면허 대역 LPWAN, 통신사 인프라 활용 |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a></strong> | [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 면허 대역 LPWAN, 통신사 인프라 활용 |
 | **PSM** | 극저전력의 핵심, Deep Sleep 상태 |
-| **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/)** | LPWAN의 차세대 진화 경로 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a></strong> | LPWAN의 차세대 진화 경로 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[M2M (2000s) — GSM/GPRS 원격 계량]
-    │
-    ▼
-[LPWAN 1세대 (2012~) — Sigfox·LoRa 비면허 대역]
-    │
-    ▼
-[3GPP 표준화 (2016~) — NB-IoT·LTE-M 면허 대역]
-    │
-    ▼
-[현재: 5G mMTC + 위성 LPWAN — 전지구 IoT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">M2M (2000s) — GSM/GPRS 원격 계량</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 1세대 (2012~) — Sigfox·LoRa 비면허 대역</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준화 (2016~) — NB-IoT·LTE-M 면허 대역</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 5G mMTC + 위성 LPWAN — 전지구 IoT</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LPWAN은 산꼭대기 센서가 편지 한 장(작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 비둘기에 묶어 수십 km 날려보내는 통신이에요.
-2. 비둘기는 모이 한 줌(배터리)으로 **5~10년**이나 살 수 있어서 전기 없는 곳에서도 써요!
+2. 비둘기는 모이 한 줌(배터리)으로 <strong>5~10년</strong>이나 살 수 있어서 전기 없는 곳에서도 써요!
 3. 대신 영상 통화는 못 하고, "온도 20도"처럼 아주 짧은 메시지만 보낼 수 있답니다.
 
 ---

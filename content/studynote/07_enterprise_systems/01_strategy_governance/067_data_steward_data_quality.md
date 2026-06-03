@@ -28,15 +28,21 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Business Data
-  ↓
-Data Steward
-  ↓
-Quality Rules
-  ↓
-Trusted Data
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Steward</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Quality Rules</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Trusted Data</div>
+</div>
+</div>
+
+
 
 | 역할 | 의미 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ Trusted Data
 
 ## 관련 개념 맵
 
-```text
-Data Owner
-  ↓
-Data Steward
-  ↓
-Data Quality
-  ↓
-Data Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Owner</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Steward</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Quality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Governance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Data Governance
-  ↓
-Data Steward
-  ↓
-Quality Rules
-  ↓
-Trusted Data
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Governance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Steward</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Quality Rules</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Trusted Data</div>
+</div>
+</div>
+
+
 
 ---
 

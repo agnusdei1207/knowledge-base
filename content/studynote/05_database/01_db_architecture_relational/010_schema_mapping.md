@@ -13,7 +13,7 @@ tags = ["database"]
 # [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑 ([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Mapping)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ANSI/SPARC [3단계 스키마 아키텍처](/knowledge-base/studynote/05_database/01_db_architecture_relational/006_three_level_schema_architecture/)에서 외부-개념, 개념-[내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 계층을 서로 연결하여 상호 변환해 주는 '규칙(Rule)'이자 '인터페이스'입니다.
-> 2. **가치**: 한 계층의 구조가 변경되더라도 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)만 수정함으로써 다른 계층에 영향을 주지 않도록 격리하는 **[데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)([Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/))**의 실질적인 구현체입니다.
+> 2. **가치**: 한 계층의 구조가 변경되더라도 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)만 수정함으로써 다른 계층에 영향을 주지 않도록 격리하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/">Data Independence</a>)</strong>의 실질적인 구현체입니다.
 > 3. **융합**: [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)의 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 패턴, ORM(Object-Relational Mapping)의 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 해결 원리와 기술적 철학을 완벽히 공유합니다.
 
 ---
@@ -23,17 +23,19 @@ tags = ["database"]
 만약 매핑 계층이 없다면, 테이블에 컬럼이 하나 추가되거나 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로가 바뀌었을 때 응용 프로그램의 소스코드를 모두 뒤져서 수정해야 합니다. 매핑은 계층 간의 완충 지대(Buffer Zone)를 형성하여 하위 계층의 변경이 상위 계층으로 전파되는 것을 차단합니다. 현대 시스템에서 비즈니스 로직(응용 프로그램)과 스토리지(물리 DB)가 수명 주기를 달리하며 발전할 수 있는 이유는 전적으로 이 매핑 매커니즘 덕분입니다.
 
 다음 그림은 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 구조 사이에서 두 가지 매핑이 어떻게 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 형성하는지 보여줍니다.
-```text
-[ 외부 스키마 ] (User View 1) [ 외부 스키마 ] (User View 2)
-│ │
-└──> 외부/개념 매핑 (논리적 데이터 독립성 보장) <──┘
-│
-[ 개념 스키마 ] (Global Logical Structure)
-│
-개념/내부 매핑 (물리적 데이터 독립성 보장)
-│
-[ 내부 스키마 ] (Physical Storage & Index)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 스키마</div><div class="kb-diagram-note">(User View 1)</div><div class="kb-diagram-node">외부 스키마</div><div class="kb-diagram-note">(User View 2)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">외부/개념 매핑 (논리적 데이터 독립성 보장) &lt;──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마</div><div class="kb-diagram-note">(Global Logical Structure)</div></div>
+<div class="kb-diagram-note">개념/내부 매핑 (물리적 데이터 독립성 보장)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부 스키마</div><div class="kb-diagram-note">(Physical Storage &amp; Index)</div></div>
+</div>
+</div>
+
+
 이 도식에서 핵심은 매핑이 단순한 선이 아니라, 변화를 흡수하는 '변환기(Translator)'라는 점입니다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 위쪽 매핑을 통해 보장되고, 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 아래쪽 매핑을 통해 보장됩니다. 실무에서 시스템 유지보수 비용을 낮추는 핵심 비결은 바로 이 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 내부에 안전하게 캡슐화해 두는 것입니다.
 
 📢 **섹션 요약 비유**: 서로 다른 언어를 쓰는 세 나라의 대통령(외부, 개념, 내부)이 회담할 때, 중간에서 완벽하게 뜻을 통역해 주어 오해를 막고 대화를 이어주는 두 명의 동시통역사(매핑)와 같습니다.
@@ -43,23 +45,29 @@ tags = ["database"]
 
 | 매핑 종류 | 연결 대상 | 보장하는 독립성 | 실무적 구현 사례 | 비유 |
 |:---|:---|:---|:---|:---|
-| **외부/개념 사상** ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 매핑) | [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/) ↔ [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) | **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)** | [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (CREATE [VIEW](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), INSTEAD OF [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 외화 번역기 |
-| **개념/내부 사상** (물리적 매핑) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) ↔ [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) | **물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)** | [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), Tablespace 변경, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 물류 라우터 |
+| **외부/개념 사상** ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 매핑) | [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/) ↔ [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a></strong> | [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (CREATE [VIEW](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), INSTEAD OF [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 외화 번역기 |
+| **개념/내부 사상** (물리적 매핑) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) ↔ [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) | <strong>물리적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a></strong> | [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), Tablespace 변경, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 물류 라우터 |
 
 사용자의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 두 단계의 매핑을 거쳐 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 도달하는 심층 동작 흐름은 다음과 같습니다.
-```text
-1. [User Query] SELECT name FROM Employee_View;
-↓
-2. [외부/개념 매핑 동작]
-- 딕셔너리 조회: Employee_View는 'EMP' 테이블의 'emp_name' 컬럼과 매핑됨.
-- 쿼리 변환: SELECT emp_name FROM EMP;
-↓
-3. [개념/내부 매핑 동작]
-- 딕셔너리 조회: 'EMP' 테이블은 'DATA_TBS_01' 파일의 14번 블록에 있음.
-- 접근 경로 산출: 'EMP_NAME_IDX' B-Tree 인덱스를 거쳐 Heap 데이터로 접근.
-↓
-4. [Storage Engine] 디스크 I/O 실행 및 역방향 매핑을 거쳐 결과 반환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">User Query</div><div class="kb-diagram-note">SELECT name FROM Employee_View;</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">외부/개념 매핑 동작</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">딕셔너리 조회: Employee_View는 'EMP' 테이블의 'emp_name' 컬럼과 매핑됨.</div>
+<div class="kb-diagram-tree-item" style="--depth:0">쿼리 변환: SELECT emp_name FROM EMP;</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">개념/내부 매핑 동작</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">딕셔너리 조회: 'EMP' 테이블은 'DATA_TBS_01' 파일의 14번 블록에 있음.</div>
+<div class="kb-diagram-tree-item" style="--depth:0">접근 경로 산출: 'EMP_NAME_IDX' B-Tree 인덱스를 거쳐 Heap 데이터로 접근.</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">Storage Engine</div><div class="kb-diagram-note">디스크 I/O 실행 및 역방향 매핑을 거쳐 결과 반환</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 매핑이 런타임에 동적으로 일어난다는 점입니다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 파서가 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)([데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/))에 저장된 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 읽어와서 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 계속해서 재작성(Rewriting)합니다. 하지만 이 동적 변환 과정에는 CPU 연산 비용이 듭니다. 따라서 매핑이 너무 복잡해지면(예: 수십 개의 뷰 중첩), 매핑 해석에만 수 초가 걸리는 오버헤드가 발생할 수 있으므로 딕셔너리 캐시(Dictionary Cache)를 통해 [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)을 메모리에 올려두는 최적화가 필수적입니다.
 
 📢 **섹션 요약 비유**: 웹사이트 주소창에 `www.google.com`을 치면 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(외부/개념 매핑)가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 IP를 찾아주고, 공유기의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(개념/내부 매핑)이 실제 랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 찾아주는 완벽한 중계 시스템입니다.
@@ -70,7 +78,7 @@ tags = ["database"]
 | 비교 항목 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) (외부/개념 매핑) | 물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) (개념/내부 매핑) |
 |:---|:---|:---|
 | **발생 원인** | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조 변경 (테이블 분할, 병합, 컬럼 추가) | [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/)의 물리적 변경 (디스크 교체, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치 이동) |
-| **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상** | 사용자 뷰, 응용 프로그램(코드) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 규칙 및 전체 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 사용자 뷰, 응용 프로그램(코드) | [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 규칙 및 전체 아키텍처 |
 | **대처 방법** | 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 수정하여 이전 구조 모사 | 시스템 내부 테이블스페이스 포인터 갱신 |
 | **달성 난이도**| **어려움** (비즈니스 로직과 강하게 결합됨) | **쉬움** ([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 엔진이 자동 처리하는 부분 많음) |
 
@@ -86,24 +94,30 @@ tags = ["database"]
 - [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 물리적 테이블은 2개로 분할하되, [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)에 `Order`라는 이름의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 두 테이블을 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))하여 매핑해 둠.
 - 결과: 기존 레거시 앱은 여전히 `Order`라는 1개의 뷰를 찌르므로 앱 소스 코드는 한 줄도 수정할 필요가 없음. (외부/개념 매핑 활용)
 
-2. **물리 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 적용 시나리오**:
+2. <strong>물리 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> 적용 시나리오</strong>:
 - 상황: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 커져서 I/O 병목 발생.
 - [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 테이블 구조는 그대로 둔 채, [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 매핑만 변경하여 월별 [Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 디스크를 분리.
 - 결과: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 응답 속도는 개선되지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조([개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/))는 동일하므로 상위의 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)문은 유지됨. (개념/내부 매핑 활용)
 
 다음은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조 변경 시 매핑을 통해 장애를 격리하는 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)입니다.
-```text
-[개념 스키마 변경 필요성 발생: 컬럼명 변경]
-↓
-[응용 프로그램 영향도 평가]
-├─> (직접 참조 중) ──> 매핑(View) 부재로 즉각 장애 발생 (안티패턴)
-└─> (View를 통한 간접 참조 중)
-↓
-[외부/개념 매핑 규칙 수정]
-=> ALTER VIEW User_View AS SELECT new_col_name AS old_col_name FROM Table;
-↓
-[격리 성공] 응용 프로그램은 과거 컬럼명으로 지속 접근 가능 (장애 제로)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마 변경 필요성 발생: 컬럼명 변경</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용 프로그램 영향도 평가</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(직접 참조 중) ──&gt; 매핑(View) 부재로 즉각 장애 발생 (안티패턴)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(View를 통한 간접 참조 중)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부/개념 매핑 규칙 수정</div></div>
+<div class="kb-diagram-note">=&gt; ALTER VIEW User_View AS SELECT new_col_name AS old_col_name FROM Table;</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">격리 성공</div><div class="kb-diagram-note">응용 프로그램은 과거 컬럼명으로 지속 접근 가능 (장애 제로)</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 "인터페이스와 구현의 분리"라는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 대원칙이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 매핑 계층에도 정확히 적용된다는 점입니다. 실무에서는 이러한 매핑 기술 덕분에 24시간 365일 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능합니다.
 
 📢 **섹션 요약 비유**: 충격이 발생했을 때 자동차 본체와 탑승자 사이에서 진동을 완벽하게 흡수하여 승차감을 유지해 주는 자동차의 서스펜션(쇼크 업소버) 시스템과 같습니다.
@@ -130,24 +144,25 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개념적 스키마 (Conceptual Schema) — 비즈니스 엔티티·관계 모델링]
-│
-▼
-[논리적 스키마 (Logical Schema) — 관계형 테이블·키 정규화]
-│
-▼
-[물리적 스키마 (Physical Schema) — 저장 구조·인덱스·파티셔닝]
-│
-▼
-[스키마 매핑 (Schema Mapping) — 계층 간 변환 규칙 정의]
-│
-▼
-[ETL / 데이터 통합 — 이기종 스키마 간 데이터 이동]
-│
-▼
-[스키마 레지스트리 (Schema Registry) — 이벤트 기반 스키마 버전 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념적 스키마 (Conceptual Schema) — 비즈니스 엔티티·관계 모델링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 스키마 (Logical Schema) — 관계형 테이블·키 정규화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 스키마 (Physical Schema) — 저장 구조·인덱스·파티셔닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키마 매핑 (Schema Mapping) — 계층 간 변환 규칙 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ETL / 데이터 통합 — 이기종 스키마 간 데이터 이동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스키마 레지스트리 (Schema Registry) — 이벤트 기반 스키마 버전 관리</div></div>
+</div>
+</div>
+
+
 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 매핑은 추상적 개념 모델을 물리 저장소로 변환하는 다리 역할을 하며, ETL과 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합의 핵심 기반이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

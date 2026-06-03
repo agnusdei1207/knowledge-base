@@ -18,7 +18,7 @@ tags = ["studynote-database"]
 
 ## Ⅰ. TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 정의와 역할
 
-TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 **클라이언트-서버 환경에서 다수의 동시 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 관리·조율하는 미들웨어**다.
+TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 <strong>클라이언트-서버 환경에서 다수의 동시 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>을 관리·조율하는 미들웨어</strong>다.
 
 ```
 클라이언트 ──→ TP 모니터 ──→ 애플리케이션 서버 ──→ DBMS
@@ -41,15 +41,20 @@ TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/
 
 ### [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 동작 과정
 
-```
-Phase 1 - Prepare:
-  코디네이터 → 참여자들: "커밋 준비됐어?" (PREPARE)
-  참여자 → 코디네이터: "예" (VOTE-COMMIT) / "아니오" (VOTE-ABORT)
 
-Phase 2 - Commit:
-  모두 "예" → 코디네이터: "커밋해!" (COMMIT)
-  하나라도 "아니오" → 코디네이터: "롤백해!" (ABORT)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Phase 1 - Prepare:</div>
+<div class="kb-diagram-note">코디네이터 → 참여자들: "커밋 준비됐어?" (PREPARE)</div>
+<div class="kb-diagram-note">참여자 → 코디네이터: "예" (VOTE-COMMIT) / "아니오" (VOTE-ABORT)</div>
+<div class="kb-diagram-note">Phase 2 - Commit:</div>
+<div class="kb-diagram-note">모두 "예" → 코디네이터: "커밋해!" (COMMIT)</div>
+<div class="kb-diagram-note">하나라도 "아니오" → 코디네이터: "롤백해!" (ABORT)</div>
+</div>
+</div>
+
+
 
 ### [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) 문제점
 
@@ -69,17 +74,22 @@ Phase 2 - Commit:
 
 ### XA (X/Open [DTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
-XA는 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)에서 **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 매니저(TM)와 리소스 매니저([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 사이의 표준 인터페이스**다.
+XA는 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)에서 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 매니저(TM)와 리소스 매니저(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a>) 사이의 표준 인터페이스</strong>다.
 
-```
-애플리케이션 ─→ 트랜잭션 매니저 (TM)
-                    │ XA
-               ┌────┴────┐
-              RM1        RM2
-             (DB1)      (MQ1)
-```
 
-**JTA (Java [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))**: Java EE에서 XA를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) → Atomikos·Bitronix가 구현
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애플리케이션 ─→ 트랜잭션 매니저 (TM)</div>
+<div class="kb-diagram-note">XA</div>
+<div class="kb-diagram-note">RM1 RM2</div>
+<div class="kb-diagram-note">(DB1) (MQ1)</div>
+</div>
+</div>
+
+
+
+<strong>JTA (Java <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>: Java EE에서 XA를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) → Atomikos·Bitronix가 구현
 
 ### 대표 TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 제품
 
@@ -111,11 +121,16 @@ TPS = 동시 사용자 수 × (1 / 응답 시간)
 
 ### 병목 포인트
 
-```
-클라이언트 → 네트워크 → TP 모니터 → DB 커넥션 풀 → DBMS → I/O
-           ↑            ↑            ↑                ↑
-         지연          스레드 풀    커넥션 부족        락 경합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 → 네트워크 → TP 모니터 → DB 커넥션 풀 → DBMS → I/O</div>
+<div class="kb-diagram-note">지연 스레드 풀 커넥션 부족 락 경합</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: TPS는 공장 생산량이다 — 라인([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 수를 늘리거나 각 공정([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 빠르게 해야 하지만, 부품 창고(DB 커넥션)가 부족하면 라인이 아무리 많아도 멈춘다.
 
@@ -125,9 +140,9 @@ TPS = 동시 사용자 수 × (1 / 응답 시간)
 
 ### [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)에서의 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)
 
-TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·2PC는 **강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**을 제공하지만, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 높인다.
+TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)·2PC는 <strong>강한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>을 제공하지만, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 높인다.
 
-**[사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">사가 패턴</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/">Saga Pattern</a>)</strong>
 
 ```
 주문 생성 → 결제 → 재고 차감 → 배송
@@ -145,48 +160,55 @@ TP [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/
 
 ## 📌 관련 개념 맵
 
-```
-TP 모니터 (Transaction Processing Monitor)
-├── 핵심 기능
-│   ├── 분산 트랜잭션 관리 (2PC, 3PC)
-│   ├── 커넥션 풀링 (Connection Pooling)
-│   └── 로드 밸런싱 (Load Balancing)
-├── 표준 프로토콜
-│   ├── XA (X/Open DTP)
-│   └── JTA (Java Transaction API)
-├── 제품
-│   ├── CICS (IBM)
-│   ├── Tuxedo (Oracle)
-│   └── IMS TM (IBM)
-└── 현대적 대안
-    ├── 사가 패턴 (Saga Pattern)
-    ├── 이벤트 소싱 (Event Sourcing)
-    └── CQRS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">TP 모니터 (Transaction Processing Monitor)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 기능</div>
+<div class="kb-diagram-note">── 분산 트랜잭션 관리 (2PC, 3PC)</div>
+<div class="kb-diagram-note">── 커넥션 풀링 (Connection Pooling)</div>
+<div class="kb-diagram-note">── 로드 밸런싱 (Load Balancing)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">표준 프로토콜</div>
+<div class="kb-diagram-note">── XA (X/Open DTP)</div>
+<div class="kb-diagram-note">── JTA (Java Transaction API)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">제품</div>
+<div class="kb-diagram-note">── CICS (IBM)</div>
+<div class="kb-diagram-note">── Tuxedo (Oracle)</div>
+<div class="kb-diagram-note">── IMS TM (IBM)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">현대적 대안</div>
+<div class="kb-diagram-tree-item" style="--depth:2">사가 패턴 (Saga Pattern)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이벤트 소싱 (Event Sourcing)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CQRS</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  TP 모니터 발전 흐름                             │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1970년대     │ IMS·CICS 등장      │ 메인프레임 OLTP 기반         │
-│ 1980년대     │ X/Open DTP·XA 표준 │ 이기종 분산 트랜잭션 표준화  │
-│ 1990년대     │ Tuxedo·BEA 성장    │ UNIX 기반 고성능 TP 모니터   │
-│ 2000년대     │ J2EE·JTA 표준화    │ Java EE 트랜잭션 추상화      │
-│ 2010년대     │ MSA 전환 시작      │ 사가 패턴, BASE 일관성       │
-│ 2020년대     │ 이벤트 드리븐      │ Kafka + 사가 오케스트레이션  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-OLTP → TP 모니터 → 2PC → XA → JTA
-  ↓        ↓         ↓
-TPS     커넥션 풀  분산 ACID
-  ↓
-사가 패턴 → 이벤트 소싱 → CQRS
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TP 모니터 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">IMS·CICS 등장</div><div class="kb-diagram-cell">메인프레임 OLTP 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">X/Open DTP·XA 표준</div><div class="kb-diagram-cell">이기종 분산 트랜잭션 표준화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">Tuxedo·BEA 성장</div><div class="kb-diagram-cell">UNIX 기반 고성능 TP 모니터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">J2EE·JTA 표준화</div><div class="kb-diagram-cell">Java EE 트랜잭션 추상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">MSA 전환 시작</div><div class="kb-diagram-cell">사가 패턴, BASE 일관성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">이벤트 드리븐</div><div class="kb-diagram-cell">Kafka + 사가 오케스트레이션</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">OLTP → TP 모니터 → 2PC → XA → JTA</div>
+<div class="kb-diagram-note">TPS 커넥션 풀 분산 ACID</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">사가 패턴 → 이벤트 소싱 → CQRS</div>
+</div>
+</div>
+
+
 
 ---
 

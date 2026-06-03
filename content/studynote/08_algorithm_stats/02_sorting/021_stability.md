@@ -18,7 +18,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 평가할 때 속도만큼 중요한 속성이 **안정성 (Stability)**이다. 이는 **동일한 정렬 키를 가진 원소들이 정렬 후에도 입력 순서를 유지하는가**를 의미한다.
+정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 평가할 때 속도만큼 중요한 속성이 <strong>안정성 (Stability)</strong>이다. 이는 <strong>동일한 정렬 키를 가진 원소들이 정렬 후에도 입력 순서를 유지하는가</strong>를 의미한다.
 
 ### 안정/불안정 정렬 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
@@ -39,36 +39,44 @@ tags = ["studynote-algorithm"]
 
 ### 안정성 차이 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램
 
-```
-입력 레코드: [(Bob, 3등급), (Alice, 3등급), (Charlie, 1등급)]
-          (이름, 성적 등급)  정렬 기준: 성적 등급
 
-── 안정 정렬 결과 ─────────────────────────────────
-입력 인덱스 순서 유지:
-[(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)]
-                      ↑ Bob이 Alice보다 먼저 → 입력 순서 보존 ✅
 
-── 불안정 정렬 결과 ───────────────────────────────
-임의 순서 가능:
-[(Charlie, 1등급), (Alice, 3등급), (Bob, 3등급)]
-                      ↑ Alice가 Bob보다 먼저 → 순서 역전 ⚠️
-  또는
-[(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)]
-  → 운 좋게 맞을 수도 있지만 보장 없음
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력 레코드:</div><div class="kb-diagram-node">(Bob, 3등급), (Alice, 3등급), (Charlie, 1등급)</div></div>
+<div class="kb-diagram-note">(이름, 성적 등급) 정렬 기준: 성적 등급</div>
+<div class="kb-diagram-tree-item" style="--depth:0">안정 정렬 결과</div>
+<div class="kb-diagram-note">입력 인덱스 순서 유지:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)</div></div>
+<div class="kb-diagram-note">↑ Bob이 Alice보다 먼저 → 입력 순서 보존 ✅</div>
+<div class="kb-diagram-tree-item" style="--depth:0">불안정 정렬 결과</div>
+<div class="kb-diagram-note">임의 순서 가능:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(Charlie, 1등급), (Alice, 3등급), (Bob, 3등급)</div></div>
+<div class="kb-diagram-note">↑ Alice가 Bob보다 먼저 → 순서 역전 ⚠️</div>
+<div class="kb-diagram-note">또는</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(Charlie, 1등급), (Bob, 3등급), (Alice, 3등급)</div></div>
+<div class="kb-diagram-note">→ 운 좋게 맞을 수도 있지만 보장 없음</div>
+</div>
+</div>
+
+
 
 ### 왜 불안정 정렬이 발생하나? ([선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) 예시)
 
-```
-입력: [B₁, A, B₂]  (B₁, B₂는 동일 키 B)
 
-선택 정렬 1단계:
-최솟값 A를 찾아 B₁과 교환:
-  [A, B₁, B₂] → [A, B₂, B₁] ← B₁, B₂ 순서 역전!
-     ↑ B₂가 B₁보다 앞으로
 
-선택 정렬은 교환(Swap) 연산이 키 외 순서를 파괴함 → 불안정
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">B₁, A, B₂</div><div class="kb-diagram-note">(B₁, B₂는 동일 키 B)</div></div>
+<div class="kb-diagram-note">선택 정렬 1단계:</div>
+<div class="kb-diagram-note">최솟값 A를 찾아 B₁과 교환:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A, B₁, B₂</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A, B₂, B₁</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">B₁, B₂ 순서 역전!</div></div>
+<div class="kb-diagram-note">↑ B₂가 B₁보다 앞으로</div>
+<div class="kb-diagram-note">선택 정렬은 교환(Swap) 연산이 키 외 순서를 파괴함 → 불안정</div>
+</div>
+</div>
+
+
 
 ### 안정 정렬이 보장되는 이유 ([삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) 예시)
 
@@ -134,29 +142,31 @@ tags = ["studynote-algorithm"]
 → 가격으로 먼저 정렬(안정 정렬) → 카테고리로 정렬  
 → 같은 카테고리 내 가격 순서 보존 ✅
 
-**시나리오 2 — [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY 다중 컬럼**: `ORDER BY grade ASC, name ASC`  
+<strong>시나리오 2 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> ORDER BY 다중 컬럼</strong>: `ORDER BY grade ASC, name ASC`  
 → name으로 먼저 안정 정렬 → grade로 안정 정렬  
 → 최종: grade 순 정렬, 같은 grade는 name 순 ✅
 
-**시나리오 3 — [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/) 내부**: 십의 자리 정렬 후 백의 자리 정렬 시  
+<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/">기수 정렬</a> 내부</strong>: 십의 자리 정렬 후 백의 자리 정렬 시  
 → 반드시 안정 정렬이어야 십의 자리 결과가 보존됨
 
 ### 기술사 선택 가이드
 
-```
-┌──────────────────────────────────────────────────────┐
-│  정렬 알고리즘 선택 의사결정 트리                     │
-│                                                      │
-│  동일 키 원소의 순서가 중요한가?                     │
-│    │ Yes → 안정 정렬 필수                            │
-│    │       → 병합 정렬, Timsort, 삽입 정렬 선택      │
-│    │ No  → 불안정 정렬도 가능                        │
-│             → Introsort, 힙 정렬 검토                │
-│                                                      │
-│  다중 키 정렬인가?                                   │
-│    → 반드시 안정 정렬 사용할 것                      │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 알고리즘 선택 의사결정 트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 키 원소의 순서가 중요한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 안정 정렬 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 병합 정렬, Timsort, 삽입 정렬 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No → 불안정 정렬도 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Introsort, 힙 정렬 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 키 정렬인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 반드시 안정 정렬 사용할 것</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 정렬 안정성은 법정 증거 보전과 같다. 원본 증거(입력 순서)가 정렬 과정에서 훼손되면, 법정(다중 키 정렬, [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))에서 판결이 잘못된다.
 
@@ -164,7 +174,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅴ. 기대효과 및 결론
 
-정렬 안정성은 단순한 구현 세부사항이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미론적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**을 보장하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 속성이다. 실무에서 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 처리, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 조합([기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))에서 안정성 여부는 결과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 직접 결정한다.
+정렬 안정성은 단순한 구현 세부사항이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 의미론적 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>을 보장하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 속성이다. 실무에서 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 처리, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 조합([기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/))에서 안정성 여부는 결과 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 직접 결정한다.
 
 ### 효과 정리
 
@@ -192,21 +202,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정렬 안정성 (Sort Stability) — 동일 키를 가진 요소의 원본 순서 보존]
-    │
-    ▼
-[안정 정렬 — 버블·삽입·병합 정렬 (Stable Sort), 원본 순서 유지 보장]
-    │
-    ▼
-[불안정 정렬 — 퀵·힙·선택 정렬 (Unstable Sort), 원본 순서 미보장]
-    │
-    ▼
-[다중 키 정렬 — 우선순위 낮은 키 먼저 안정 정렬로 복합 키 정렬 구현]
-    │
-    ▼
-[Tim Sort — 안정 정렬 + 실세계 데이터 최적화, Python·Java 기본 정렬]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정렬 안정성 (Sort Stability) — 동일 키를 가진 요소의 원본 순서 보존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">안정 정렬 — 버블·삽입·병합 정렬 (Stable Sort), 원본 순서 유지 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">불안정 정렬 — 퀵·힙·선택 정렬 (Unstable Sort), 원본 순서 미보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 키 정렬 — 우선순위 낮은 키 먼저 안정 정렬로 복합 키 정렬 구현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tim Sort — 안정 정렬 + 실세계 데이터 최적화, Python·Java 기본 정렬</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 안정성의 개념에서 안정/불안정 정렬의 트레이드오프를 거쳐, 다중 키 정렬 실무 응용과 최신 [Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Sort로 이어지는 정렬 안정성의 실용적 발전 과정을 보여준다.
 

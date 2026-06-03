@@ -29,17 +29,23 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Data Sources
-  ↓
-Cloud Storage / SaaS
-  ↓
-Discovery / Classification
-  ↓
-Access Control / Encryption
-  ↓
-Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Sources</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cloud Storage / SaaS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Discovery / Classification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Access Control / Encryption</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Governance</div>
+</div>
+</div>
+
+
 
 | 위험 요인 | 설명 |
 | :-- | :-- |
@@ -110,29 +116,41 @@ Governance
 
 ## 관련 개념 맵
 
-```text
-Cloud Data
-  ↓
-Shadow Data
-  ↓
-Discovery / Classification
-  ↓
-Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cloud Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Shadow Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Discovery / Classification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Governance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Shadow IT
-  ↓
-Shadow Data
-  ↓
-Data Discovery
-  ↓
-Cloud Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Shadow IT</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Shadow Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Discovery</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cloud Governance</div>
+</div>
+</div>
+
+
 
 ---
 

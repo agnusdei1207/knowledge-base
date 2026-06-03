@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 분포 가설(Distributional Hypothesis): "비슷한 문맥에서 사용되는 단어는 비슷한 의미를 가진다"(John Firth, 1957). 이 가설을 수치화한 것이 동시 등장 행렬이다. "은행"이라는 단어 주변에 "돈", "이자", "대출"이 자주 등장한다면, 이 공동 등장 패턴(동시 등장 벡터)이 "은행"의 의미를 담는다. [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [GloVe](/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모두 이 원리를 기반으로 한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 동시 등장 행렬은 "단어의 친구 목록"이다. "은행"의 친구가 "돈, 이자, [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)"이고, "강둑"의 친구가 "물, 낚시, 물고기"라면 두 단어는 다른 의미를 가진다. 친구 목록(동시 등장 패턴)이 단어의 신분증이다.
 
@@ -36,28 +39,27 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│         동시 등장 행렬 구성 및 PPMI 변환                 │
-├──────────────────────────────────────────────────────────┤
-│  윈도우 크기 k=2 예시:                                  │
-│  "나는 오늘 맛있는 밥을 먹었다"                         │
-│  오늘 기준: {나는(2), 맛있는(1)} 윈도우 내 등장        │
-│                                                          │
-│  X_ij: 단어 i 기준 단어 j의 동시 등장 횟수             │
-│                                                          │
-│  PMI (Pointwise Mutual Information):                    │
-│  PMI(i,j) = log[P(i,j) / (P(i)·P(j))]                 │
-│  = log[X_ij·N / (Σⱼ X_ij · Σᵢ X_ij)]                 │
-│                                                          │
-│  PPMI (Positive PMI):                                   │
-│  PPMI(i,j) = max(0, PMI(i,j))                          │
-│  → 음수 PMI 제거 (음수 = 이 조합이 우연보다 드문 경우) │
-│                                                          │
-│  차원 축소: Truncated SVD                               │
-│  X ≈ U_k · Σ_k · V_kᵀ  (k 차원 근사)                 │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 등장 행렬 구성 및 PPMI 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우 크기 k=2 예시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나는 오늘 맛있는 밥을 먹었다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오늘 기준: {나는(2), 맛있는(1)} 윈도우 내 등장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X_ij: 단어 i 기준 단어 j의 동시 등장 횟수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMI (Pointwise Mutual Information):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">PMI(i,j) = log</div><div class="kb-diagram-node">P(i,j) / (P(i)·P(j))</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">= log</div><div class="kb-diagram-node">X_ij·N / (Σⱼ X_ij · Σᵢ X_ij)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPMI (Positive PMI):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPMI(i,j) = max(0, PMI(i,j))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 음수 PMI 제거 (음수 = 이 조합이 우연보다 드문 경우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차원 축소: Truncated SVD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X ≈ U_k · Σ_k · V_kᵀ (k 차원 근사)</div></div>
+</div>
+</div>
+
+
 
 | 변환 방법 | 수식 | 특성 | 주요 문제 |
 |:---|:---|:---|:---|

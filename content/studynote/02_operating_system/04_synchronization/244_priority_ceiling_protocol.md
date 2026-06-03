@@ -25,24 +25,24 @@ PIP ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu
 
 **💡 비유**: 도서관 개인열람실 규칙을 상상하라. 일반 학생이 실을 예약하는 순간 '교수 수준'의 우선권을 부여하여, 더 높은 지위의 사람도 "이미 사용 중"이라면 기다리지 않고 다른 방을 즉시 쓸 수 있도록 보장한다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│        PCP vs PIP 비교: 우선순위 역전 발생 흐름          │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│ [PIP - 사후 처리]                                        │
-│  T_H(prio=3) → 차단됨 → T_L에게 우선순위 상속 시작       │
-│  T_M(prio=2) → T_L이 상속받기 전까지 선점 가능 ⚠         │
-│                                                          │
-│ [PCP - 사전 예방]                                        │
-│  T_L(prio=1) → Lock(뮤텍스) 획득                         │
-│            → 즉시 Ceiling(3)으로 승격                    │
-│  T_M(prio=2) → T_L보다 낮으므로 선점 불가 ✅             │
-│  T_H(prio=3) → T_L이 반납하면 즉시 실행 ✅               │
-│                                                          │
-│  결론: PCP는 T_M의 개입을 원천 차단한다                  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCP vs PIP 비교: 우선순위 역전 발생 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PIP - 사후 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_H(prio=3) → 차단됨 → T_L에게 우선순위 상속 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_M(prio=2) → T_L이 상속받기 전까지 선점 가능 ⚠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCP - 사전 예방</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_L(prio=1) → Lock(뮤텍스) 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 즉시 Ceiling(3)으로 승격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_M(prio=2) → T_L보다 낮으므로 선점 불가 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_H(prio=3) → T_L이 반납하면 즉시 실행 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: PCP는 T_M의 개입을 원천 차단한다</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 비교의 핵심은 T_M (중간 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))의 개입 여부다. PIP에서는 T_L이 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받기 전 짧은 순간에 T_M이 선점할 수 있어 체인 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이 여전히 발생한다. PCP는 T_L이 락을 잡는 즉시 Ceiling(3)으로 승격되므로 T_M(prio=2)은 T_L보다 낮아져 절대 선점하지 못한다. 따라서 T_H의 차단 시간은 T_L의 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 실행 시간 하나로 상한이 결정되고, 이것이 RTOS 마감 분석의 핵심 입력값이 된다.
 
@@ -57,37 +57,31 @@ PIP ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu
 | 요소 | 역할 | 동작 |
 |:---|:---|:---|
 | **Ceiling Priority** | 각 뮤텍스에 부여된 최고 우선순위값 | 설계 시점에 정적 결정 |
-| **[Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) Priority** | 프로세스가 락 보유 중 실행되는 우선순위 | 락 획득 시 Ceiling으로 승격 |
-| **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Check** | 락 획득 가능 여부 판단 | 현재 시스템의 Ceiling Threshold와 비교 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> Priority</strong> | 프로세스가 락 보유 중 실행되는 우선순위 | 락 획득 시 Ceiling으로 승격 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Check</strong> | 락 획득 가능 여부 판단 | 현재 시스템의 Ceiling Threshold와 비교 |
 | **Release** | 락 반납 시 원래 우선순위 복원 | 중첩 락의 경우 단계별 복원 |
 
 ### 동작 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Ceiling Priority [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              PCP 락 획득/반납 플로우                     │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  [태스크 T가 뮤텍스 M 획득 시도]                         │
-│        │                                                 │
-│        ▼                                                 │
-│  M이 이미 잠겼는가?                                      │
-│    ├─ 예 → T를 대기 큐에 삽입 (차단)                     │
-│    └─ 아니오                                             │
-│          │                                               │
-│          ▼                                               │
-│  T.current_priority = max(T.base_priority, M.ceiling)    │
-│  M.locked = true                                         │
-│          │                                               │
-│  [임계 구역 실행]                                        │
-│          │                                               │
-│  [뮤텍스 M 반납]                                         │
-│          │                                               │
-│  T.current_priority = T.base_priority  // 원래값 복원    │
-│  대기 중인 태스크 중 최고 우선순위 태스크 깨움           │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCP 락 획득/반납 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">태스크 T가 뮤텍스 M 획득 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M이 이미 잠겼는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 → T를 대기 큐에 삽입 (차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T.current_priority = max(T.base_priority, M.ceiling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M.locked = true</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 실행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스 M 반납</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T.current_priority = T.base_priority // 원래값 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 중인 태스크 중 최고 우선순위 태스크 깨움</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** PCP의 핵심 연산은 `T.current_priority = max(T.base_priority, M.ceiling)` 한 줄로 요약된다. 이 연산이 락 획득과 동시에 수행되므로 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이 시작될 여지가 없다. 반납 시에는 원래 기준 우선순위 (Base Priority)로 즉시 복원되며, 중첩된 락의 경우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 방식으로 단계별 복원이 이뤄진다.
 
@@ -103,20 +97,23 @@ PCP는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock
 
 ### PIP vs PCP 비교
 
-```text
-┌─────────────────┬──────────────────┬────────────────────────┐
-│ 비교 항목       │ PIP              │ PCP                    │
-├─────────────────┼──────────────────┼────────────────────────┤
-│ 우선순위 결정   │ 역전 후 동적     │ 락 획득 시 즉시 정적   │
-│ 교착 상태 예방  │ 불가             │ 보장                   │
-│ 체인 차단       │ 가능             │ 불가                   │
-│ 구현 복잡도     │ 중간             │ 높음(Ceiling 사전 분석)│
-│ 차단 상한       │ 비결정적         │ 결정적(임계구역 시간)  │
-│ RTOS 적합성     │ 부분적           │ 우수                   │
-└─────────────────┴──────────────────┴────────────────────────┘
-```
 
-**[비교 해설]** PCP가 RTOS에서 선호되는 이유는 **최악 응답시간 (Worst-Case [Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**을 분석 가능하게 만들기 때문이다. 차단 상한이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 실행 시간 하나로 결정되므로, [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))나 [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate-Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) 스케줄링의 스케줄링 분석에 직접 대입할 수 있다. PIP는 체인 차단이 발생하면 분석이 복잡해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">PIP</div><div class="kb-diagram-cell">PCP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 결정</div><div class="kb-diagram-cell">역전 후 동적</div><div class="kb-diagram-cell">락 획득 시 즉시 정적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 예방</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체인 차단</div><div class="kb-diagram-cell">가능</div><div class="kb-diagram-cell">불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 복잡도</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">높음(Ceiling 사전 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차단 상한</div><div class="kb-diagram-cell">비결정적</div><div class="kb-diagram-cell">결정적(임계구역 시간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTOS 적합성</div><div class="kb-diagram-cell">부분적</div><div class="kb-diagram-cell">우수</div></div>
+</div>
+</div>
+
+
+
+**[비교 해설]** PCP가 RTOS에서 선호되는 이유는 <strong>최악 응답시간 (Worst-Case <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>을 분석 가능하게 만들기 때문이다. 차단 상한이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 실행 시간 하나로 결정되므로, [EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))나 [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([Rate-Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) 스케줄링의 스케줄링 분석에 직접 대입할 수 있다. PIP는 체인 차단이 발생하면 분석이 복잡해진다.
 
 ### 실무 융합 관점
 
@@ -139,7 +136,7 @@ PCP는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock
 - **운영적**: 동적으로 생성되는 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)나 런타임에 변경되는 우선순위가 있다면 PCP 정적 분석이 무효화되므로 사전에 확인해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Ceiling 과소 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 새로운 고우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 추가되었을 때 Ceiling 재분석을 하지 않으면 PCP 예방 효과가 사라진다.
+- <strong>Ceiling 과소 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 새로운 고우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 추가되었을 때 Ceiling 재분석을 하지 않으면 PCP 예방 효과가 사라진다.
 - **동적 우선순위 시스템에 PCP 적용**: PCP는 정적 설계를 전제하므로, 동적 우선순위가 빈번한 환경에서는 오히려 PIP가 더 적합하다.
 
 **📢 섹션 요약 비유**: Ceiling 값은 마치 건물의 비상구처럼 — 잘못 설계하면 비상 상황에서도 열리지 않아 더 큰 재앙을 초래할 수 있습니다.
@@ -153,15 +150,15 @@ PCP는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock
 | 구분 | 도입 전 | 도입 후 | 개선 효과 |
 |:---|:---|:---|:---|
 | **차단 상한** | 비결정적 | [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 시간 × 1 | 최악 응답시간 보장 |
-| **[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)** | 설계 결함으로 발생 가능 | 구조적 예방 | 안전-임계 시스템 요구 충족 |
-| **RTOS [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)** | 별도 분석 복잡 | 스케줄링 분석 직접 대입 가능 | ISO 26262, DO-178C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 지원 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a></strong> | 설계 결함으로 발생 가능 | 구조적 예방 | 안전-임계 시스템 요구 충족 |
+| <strong>RTOS <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> | 별도 분석 복잡 | 스케줄링 분석 직접 대입 가능 | ISO 26262, DO-178C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 지원 |
 
 ### 미래 전망
 혼합 임계성 시스템 (Mixed-Criticality System)에서 PCP는 서로 다른 안전 수준의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 자원 공유 문제의 핵심 해결책으로 더 중요해질 전망이다.
 
 ### 참고 표준
 - **POSIX 1003.1b**: `PTHREAD_PRIO_PROTECT` 옵션
-- **AUTOSAR OS [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)**: 내부 자원(Internal Resource) 관리에 PCP 채택
+- <strong>AUTOSAR OS <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a></strong>: 내부 자원(Internal Resource) 관리에 PCP 채택
 - **ISO 26262**: 차량 기능 안전 표준에서 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요구
 
 **📢 섹션 요약 비유**: PCP는 마치 도시 교통 시스템의 우선신호등(긴급차량 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 우선)처럼 — 설계 시점에 올바르게 구성하면 전체 시스템이 예측 가능하게 흐릅니다.
@@ -179,15 +176,19 @@ PCP는 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[우선순위 상속 (Priority Inheritance Protocol)]
-    │
-    ▼
-[우선순위 올림 (Priority Ceiling Protocol)]
-    │
-    ├──▶ [고전적 동기화 문제들]
-    └──▶ [유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 상속 (Priority Inheritance Protocol)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 올림 (Priority Ceiling Protocol)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고전적 동기화 문제들</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

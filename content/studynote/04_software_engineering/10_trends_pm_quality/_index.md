@@ -23,20 +23,20 @@ tags = ["software_engineering"]
 
 이 그림은 소프트웨어 공학의 진화 로드맵을 보여준다. 프로세스 중심에서 문화 중심을 거쳐, 이제는 지능형 자동화 중심의 'AI-Augmented Engineering'으로 나아가는 흐름을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              소프트웨어 공학 패러다임 진화 로드맵            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 기법 중심] ──▶ [현재: 문화/융합] ──▶ [미래: 지능형] │
-│   - Waterfall          - Agile / Scrum      - AI Copilot    │
-│   - CMMI               - DevOps / SRE       - Platform Eng  │
-│   - 정적 품질          - DevSecOps          - Autonomous QA │
-│                                                             │
-│   (규격화된 프로세스)    (지속적 가치 전달)    (자율적 최적화)  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 공학 패러다임 진화 로드맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 기법 중심</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">현재: 문화/융합</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미래: 지능형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Waterfall - Agile / Scrum - AI Copilot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CMMI - DevOps / SRE - Platform Eng</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정적 품질 - DevSecOps - Autonomous QA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(규격화된 프로세스) (지속적 가치 전달) (자율적 최적화)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '속도와 품질의 동기화'이다. 과거에는 속도를 높이면 품질이 떨어지는 트레이드오프 관계였으나, 현대의 공학은 자동화와 AI를 통해 두 마리 토끼를 동시에 잡는 방향으로 진화하고 있다. 기술사는 이러한 트렌드를 읽고 조직에 가장 적합한 '테일러링 (Tailoring)' 전략을 제시해야 한다.
 
@@ -70,22 +70,23 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 
 이 구조도는 ISO/IEC 25010의 8대 품질 주특성을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 ISO/IEC 25010 품질 모델 (8대 특성)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. 기능 적합성 (Functional Suitability)                   │
-│   2. 성능 효율성 (Performance Efficiency)                   │
-│   3. 호환성 (Compatibility)                                 │
-│   4. 사용성 (Usability)                                     │
-│   5. 신뢰성 (Reliability)                                   │
-│   6. 보안성 (Security)                                      │
-│   7. 유지보수성 (Maintainability)                           │
-│   8. 이식성 (Portability)                                   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 25010 품질 모델 (8대 특성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기능 적합성 (Functional Suitability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 성능 효율성 (Performance Efficiency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 호환성 (Compatibility)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 사용성 (Usability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 신뢰성 (Reliability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 보안성 (Security)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 유지보수성 (Maintainability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. 이식성 (Portability)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '품질의 다차원성'이다. 속도가 아무리 빨라도(성능 효율성) 보안이 뚫리면(보안성) 나쁜 소프트웨어이며, 기능이 완벽해도(기능 적합성) 고치기 힘들면(유지보수성) 생명력이 짧다. 실무에서는 프로젝트의 특성에 따라 우선순위를 두어 품질 목표 (Quality Target)를 설정해야 한다.
 
@@ -122,28 +123,27 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 ### 기술사적 판단: 프로젝트 위기 대응 시나리오
 
 **시나리오 1: 마감 임박 시점에서 터져 나온 대규모 요구사항 변경**
-- **판단**: 무조건적인 수용이나 거절은 금물이다. **변경 관리 위원회 (CCB)**를 소집하여 변경이 일정, 비용, 품질에 미치는 영향을 정량적으로 분석한다. 비즈니스 가치가 높은 항목은 이번 릴리즈에 포함하되, 낮은 항목은 백로그로 돌려 다음 단계로 미루는 '우선순위 재조정'을 수행한다.
+- **판단**: 무조건적인 수용이나 거절은 금물이다. <strong>변경 관리 위원회 (CCB)</strong>를 소집하여 변경이 일정, 비용, 품질에 미치는 영향을 정량적으로 분석한다. 비즈니스 가치가 높은 항목은 이번 릴리즈에 포함하되, 낮은 항목은 백로그로 돌려 다음 단계로 미루는 '우선순위 재조정'을 수행한다.
 
 **시나리오 2: 신기술 도입 후 발생한 성능 및 품질 이슈**
 - **판단**: 기술의 화려함보다 시스템 안정성을 우선한다. ISO/IEC 25010의 지표를 기준으로 현재 시스템의 성능 효율성과 신뢰성을 측정한다. 임계치를 넘지 못할 경우 기술 도입을 철회하거나, 해당 기술을 잘 다루는 전문가의 기술 자문 (Technical Consulting)을 즉시 투입한다.
 
 이 도식은 프로젝트 리스크 발생 시의 기술사적 판단 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Risk Response Decision Process                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Risk Identified] ──▶ [Qualitative Analysis]              │
-│                                │ (Probability/Impact)       │
-│   [Strategy Choice] ◀── [Quantitative Analysis]             │
-│          │                     (EMV, Sensitivity)           │
-│   ┌──────┴──────┬─────────────┬─────────────┐               │
-│   ▼             ▼             ▼             ▼               │
-│ [Avoid]      [Transfer]    [Mitigate]    [Accept]           │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk Response Decision Process</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Risk Identified</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Qualitative Analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Probability/Impact)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy Choice</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Quantitative Analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EMV, Sensitivity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Avoid</div><div class="kb-diagram-node">Transfer</div><div class="kb-diagram-node">Mitigate</div><div class="kb-diagram-node">Accept</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 리스크 관리는 태풍을 맞이하는 선장의 판단과 같습니다. 돛을 내릴지(Avoid), 배를 튼튼히 보강할지(Mitigate), 아니면 아예 다른 항로로 우회할지(Transfer)를 데이터와 경험을 바탕으로 결정해야 합니다.
 

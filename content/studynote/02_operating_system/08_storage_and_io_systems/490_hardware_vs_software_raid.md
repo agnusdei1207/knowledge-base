@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 시스템을 통제하고 패리티 수학 공식(XOR 등)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 짐을 **어떤 두뇌(물리 칩인가 vs [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)인가)가 짊어질 것인가**를 결정하는 시스템 인프라 아키텍처의 패러다임 선택 기로다.
+> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 시스템을 통제하고 패리티 수학 공식(XOR 등)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 짐을 <strong>어떤 두뇌(물리 칩인가 vs <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>인가)가 짊어질 것인가</strong>를 결정하는 시스템 인프라 아키텍처의 패러다임 선택 기로다.
 > 2. **가치**: `하드웨어 RAID(H/W RAID)`는 고가의 분리형 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩셋과 정전 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 베터리를 끼워 서버 메인 CPU 부하 0%의 무결점 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방호벽 전성기를 누렸으며, `소프트웨어 RAID(S/W RAID)`는 현대 서버 CPU의 무지막지한 잉여 코어 발달과 클라우드 확장성에 힘입어 라이센스 종속(Vendor TIE) 찌꺼기 없는 유연한 범용 클러스터의 새 시대를 개막했다.
 > 3. **융합**: 거대 비용의 외주 하청 칩을 쓰던 과거 하드웨어 신앙 시대에서 탈피해, 현대에는 리눅스 `mdadm` [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), `ZFS` 차세대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 융합 등 소프트웨어 정의 스토리지([Software Defined Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 레벨로 유전자가 진화하며 스토리지 산업 체계를 하드웨어 카드 공장 중심에서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 통괄 관리 지대로 거대 개편 합병시켰다.
 
@@ -24,45 +24,34 @@ tags = ["studynote-operating-system"]
 
 소프트웨어 RAID는, 세월이 흘러 셰프 본인(현대 다중 64코어 슈퍼 CPU)의 칼질 속도와 두뇌 체력이 미친 듯이 에너지가 철철 남아돌게 되니까 "야, 돈 아깝게 보조기계 칩 기계 갖다 버려. 내가 그냥 틈나는 대로 양손 잡이로 소스 계산(S/W [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 연산) 하면서 요리(스토리지 분배)까지 마법처럼 직접 다 때울게. 심지어 공짜야!" 하고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자신이 직접 전담 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 관리 소화해 내 버리는 진화된 장인 마스터 구조 체계입니다.
 
-- **H/W RAID와 S/W [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 의 I/O [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조 아키텍처 비교도**:
+- <strong>H/W RAID와 S/W <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 의 I/O <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 구조 아키텍처 비교도</strong>:
 디스크 입출력이 메인 메모리와 호스트(Host) CPU 를 거치는 척추 락킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))과 오프로드 경로 패스(Bypass)를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 대조 시각화하면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────┐
-  │                 H/W RAID vs S/W RAID 구조 데이터 하청 루트 다이어그램            │
-  ├──────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                  │
-  │   [ Hardware RAID (비싼 RAID 컨트롤러 확장/전용 카드 장착형) ]                   │
-  │                                                                                  │
-  │      [ 앱 어플리케이션 DB ]                                                      │
-  │               │      (OS는 그냥 무식하게 I/O /dev/sda 던지면 끝. 알 바 아님)     │
-  │      [ 메인 보드 CPU & RAM ] (평온 0% 잉여)                                      │
-  │               │                                                                  │
-  │      ┌────────▼────────────────────────────────────────┐                         │
-  │      │ RAID Controller (HBA 기판 슬롯 장착, 자기장 열 발생기) │                  │
-  │      │   - [ 패리티 수학 연산 전담 ASIC 커스텀 칩 ]          │ ◀─ "여기서        │
-  │      │   - [ 수 기가바이트(GB) 대형 고속 D램 자체 캐시 ]       │    다해줌"      │
-  │      │   - [ BBU (Battery Back-up Unit) 비상 베터리 전원 ]   │                   │
-  │      └────────┬────────────────────────┬───────────────┬─┘                       │
-  │               ▼                        ▼               ▼                         │
-  │         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               │
-  │                                                                                  │
-  │                                                                                  │
-  │   [ Software RAID (OS 커널 내장 모듈 드라이버 : 리눅스 mdadm / LVM ) ]           │
-  │                                                                                  │
-  │      [ 앱 어플리케이션 DB ]                                                      │
-  │               │                                                                  │
-  │      ┌────────▼────────────────────────────────────────┐                         │
-  │      │ 메인 보드 호스트 CPU !! (OS 커널 스케줄러 자체 가동)     │                │
-  │      │   - 패리티 연산을 위해 CPU 코어 자원 차출 강탈 계산 작렬  │ ◀─ "본체가    │
-  │      │   - 메인 호스트 RAM 일정 부분 캐시 버퍼링(Page Cache)로 점거 │   고생함"  │
-  │      └────────┬────────────────────────┬───────────────┬─┘                       │
-  │               ▼                        ▼               ▼                         │
-  │        [일반 메인 덤어댑터 인터페이스 Sata/PCIe 그냥 바이패스 생짜 전달 꽂음]    │
-  │               │                        │               │                         │
-  │         [ 디스크 1 ]               [ 디스크 2 ]       [ 디스크 3 ]               │
-  └──────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H/W RAID vs S/W RAID 구조 데이터 하청 루트 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware RAID (비싼 RAID 컨트롤러 확장/전용 카드 장착형)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱 어플리케이션 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS는 그냥 무식하게 I/O /dev/sda 던지면 끝. 알 바 아님)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메인 보드 CPU &amp; RAM</div><div class="kb-diagram-note">(평온 0% 잉여)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID Controller (HBA 기판 슬롯 장착, 자기장 열 발생기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ -</div><div class="kb-diagram-node">패리티 수학 연산 전담 ASIC 커스텀 칩</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ "여기서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ -</div><div class="kb-diagram-node">수 기가바이트(GB) 대형 고속 D램 자체 캐시</div><div class="kb-diagram-note">다해줌"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ -</div><div class="kb-diagram-node">BBU (Battery Back-up Unit) 비상 베터리 전원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Software RAID (OS 커널 내장 모듈 드라이버 : 리눅스 mdadm / LVM )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">앱 어플리케이션 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 보드 호스트 CPU !! (OS 커널 스케줄러 자체 가동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패리티 연산을 위해 CPU 코어 자원 차출 강탈 계산 작렬</div><div class="kb-diagram-cell">◀─ "본체가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메인 호스트 RAM 일정 부분 캐시 버퍼링(Page Cache)로 점거</div><div class="kb-diagram-cell">고생함"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 메인 덤어댑터 인터페이스 Sata/PCIe 그냥 바이패스 생짜 전달 꽂음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 3</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** H/W 방식은 메인 컴퓨터의 뇌(CPU)와 완전히 독립된 소규모 컴퓨터(칩, 램, OS 커스텀 탑재 등 HBA)가 하나 더 샷시에 끼어있는 셈이다. 이 전담 녀석이 모든 XOR 고통과 디스크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 해결해 주고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게는 아주 깨끗하게 포장된 큰 박스만 눈속임으로 내어주므로 서버는 아무 짐(오버헤드 락)도 고통 느끼지 않는 이상적인 계층 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 이룬다. 하지만 전지가 고장 나거나 카드가 고장나면 저 보드에 독점 종속(벤더 락인)되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전부 매장 사망된다. 반면 S/W 방식은 장비 제조사(아답텍 등)에 휘둘리지 않고 순수 리눅스 OS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버(`mdadm`)가 그냥 물리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하드들을 날 것으로 가져와 직접 소프트웨어 파머 끈으로 가상 묶음을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 하여 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 셔플 묶는 것이다. 기계만 고장 안 나면 어떤 리눅스 컴퓨터에 다 뽑아 꼽아도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 살아 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 복원 이식되는 초절정 천국 마이그레이션 자유를 누리지만 CPU 멀티 로드가 조금 손상 희생 차출 될 뿐이다.
 
@@ -76,7 +65,7 @@ tags = ["studynote-operating-system"]
 
 ### 1. 강력하고 방대한 온보드 캐시 RAM (HW Cache)의 마법
 - 디스크 (특히 느려 터진 스핀들 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/ 저가형 플래시)에 쓸데없이 매번 찾아가 I/O 대기(병목 락)를 맞지 않도록, 컨트롤러 카드 기판에 보통 1GB~8GB 급 고성능 초 광속 DDR4/5 램을 그냥 생 통째로 박아 둬 버린다.
-- **[Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))**: 앱 DB에서 "야 나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보냈어 받아!" 하면 컨트롤러 캐시가 "응 잘 받았어!(커밋 가짜 응답 콜백)" 쳐놓고 일단 메모리에 우수수 머금어 들고 있는다. DB 서버 앱은 "와 디스크 진짜 겁나게 빠르네! IOPS 쩌네!" 하고 혼자 다음 쿼리로 넘어가 찢고 착각한다 (거짓 통보의 기적적인 서버 스루풋 점프 해방 효과 달성). 그리고 컨트롤러는 한참 뒤에 룰루랄라 밤에 모아서 물리 디스크에 나중에 짬짬이 부어 버려 병목을 사르르 녹여 찢어발긴다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-Back</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>)</strong>: 앱 DB에서 "야 나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보냈어 받아!" 하면 컨트롤러 캐시가 "응 잘 받았어!(커밋 가짜 응답 콜백)" 쳐놓고 일단 메모리에 우수수 머금어 들고 있는다. DB 서버 앱은 "와 디스크 진짜 겁나게 빠르네! IOPS 쩌네!" 하고 혼자 다음 쿼리로 넘어가 찢고 착각한다 (거짓 통보의 기적적인 서버 스루풋 점프 해방 효과 달성). 그리고 컨트롤러는 한참 뒤에 룰루랄라 밤에 모아서 물리 디스크에 나중에 짬짬이 부어 버려 병목을 사르르 녹여 찢어발긴다.
 
 ### 2. [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) (Battery [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) Unit) 배터리 유닛 결합 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 성역
 - 하지만 위의 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)(느슨한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 캐시 보간)을 하다가 만약 번개가 쳐서 건물 IDC 정전이 싹 부셔 터지는 "돌연 다운 사망재난 현상"이 터진다면? 디스크에 써지지도 않은 채 캐시 RAM에 잠복해 있던 메인 DB 기업 결제 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정보 수천만 건이 램 증발과 함께 공중 100% 분해 소거 증발하는 대우주 파생 폭발 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 사태를 초래한다! 
@@ -93,9 +82,9 @@ tags = ["studynote-operating-system"]
 
 | 패러다임 변곡점 임계 이유 분석 | H/W [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 환경의 갑작스러운 한계와 단점 | S/W [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 환경의 초월적 역습 기조 |
 |:---|:---|:---|
-| **[벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 라이센스 락인 ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))** | 10년 묵은 고물 스토리지 서버가 메인보드 카드 칩이 고장 났는데, 제조사가 파산해서 호환 카드를 구할 수가 없다? **하드 디스크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 멀쩡한데 절대 못 풀고 영구 멸종!** 볼륨 인질극 인프라 위험. | 오로지 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 표준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 레이어 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) `mdadm/lv/ZFS`. 디스크 뽑아서 전 세계 아무 x86 머신 PC에 슬롯만 맞게 끼워 쳐도 즉각 `mdadm assemble` 마법 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 부활 생환 쾌거! (100배 미친 이식 자유성 찢음) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a> 라이센스 락인 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/">Vendor Lock-in</a>)</strong> | 10년 묵은 고물 스토리지 서버가 메인보드 카드 칩이 고장 났는데, 제조사가 파산해서 호환 카드를 구할 수가 없다? <strong>하드 디스크 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 멀쩡한데 절대 못 풀고 영구 멸종!</strong> 볼륨 인질극 인프라 위험. | 오로지 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 표준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 레이어 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) `mdadm/lv/ZFS`. 디스크 뽑아서 전 세계 아무 x86 머신 PC에 슬롯만 맞게 끼워 쳐도 즉각 `mdadm assemble` 마법 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 부활 생환 쾌거! (100배 미친 이식 자유성 찢음) |
 | **CPU 코어 폭발의 역설 (잉여 자원)** | 예전엔 CPU가 가난했지만, 요즘은 서버 한 대에 기본 64~128코어 AMD 에픽이나 XEON 수백스레드가 펑펑 남아도는데, 고작 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 수식 연산 따위에 그 코어 몇 개 뺏긴다고 전혀 문제 안 됨 간에 기별도 안 감 0.1% 남짓! | "OS야 연산 그냥 너가 해" ➔ 쓸데없이 천만 원짜리 발열 카드 기판 안 사도 원가 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 대폭 축소 실현 완성. 그냥 메인보드 [Sata](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 남는 데 직빵 쌩 연결 (HBA [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/)) 결제 쫑. |
-| **순수 플래시 매직([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 초광대역 대폭발** | 카드에 달린 캐시 램(8기가) 쪼가리 효율보다, 그냥 NVMe가 내뿜는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 꽂아버리는 게 더 빨라서 의미 퇴색 상실증가 | 디스크 자체가 수만 IOPS를 쳐내주므로 복잡한 RMW 캐시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방패 버건을 댈 명분조차 휘발 |
+| <strong>순수 플래시 매직(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a>) 초광대역 대폭발</strong> | 카드에 달린 캐시 램(8기가) 쪼가리 효율보다, 그냥 NVMe가 내뿜는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 꽂아버리는 게 더 빨라서 의미 퇴색 상실증가 | 디스크 자체가 수만 IOPS를 쳐내주므로 복잡한 RMW 캐시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방패 버건을 댈 명분조차 휘발 |
 
 **결론 결착**: 결국 초고급의 레거시 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 엔터프라이즈 박스형 스토리지가 아닌 이상, 아마존 AWS/Google 백엔드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 노드나, 사내 Ceph, [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 깡통 메인보드 샷시를 사 와서 HBA 카드는 빼버리고 S/W 레이드와 ZFS, Btrfs 를 범접 버무린 유연성 확장 노드로 아키텍처 세계를 평정 이끌어 재패 마이그레이션 중이다. 
 
@@ -145,15 +134,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
-    │
-    ▼
-[소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)]
-    │
-    ├──▶ [핫 스페어 (Hot Spare) 디스크 자동 재구성]
-    └──▶ [NAS (Network Attached Storage)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAS (Network Attached Storage)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

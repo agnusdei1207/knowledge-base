@@ -11,39 +11,36 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로의 기능을 바로 읽거나 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 못하도록, **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 숨기거나 비밀 키 없이는 정상 동작하지 않게 만드는 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 기술**이다.
+> 1. **본질**: 하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로의 기능을 바로 읽거나 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 못하도록, <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 구조를 숨기거나 비밀 키 없이는 정상 동작하지 않게 만드는 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a> 기술</strong>이다.
 > 2. **가치**: 설계 자산, 즉 지적 재산 (Intellectual Property, IP) 탈취·과잉 생산·[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)·악성 회로 삽입의 비용을 크게 높여, 신뢰하기 어려운 제조·검사·유통 환경에서도 칩의 가치를 지킬 수 있다.
-> 3. **판단 포인트**: [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 완벽한 은폐가 아니라 **공격 비용 증폭 장치**이므로, 키 주입·테스트 구조·타이밍 여유·물리 분석 저항성까지 함께 설계해야 실효성이 생긴다.
+> 3. **판단 포인트**: [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 완벽한 은폐가 아니라 <strong>공격 비용 증폭 장치</strong>이므로, 키 주입·테스트 구조·타이밍 여유·물리 분석 저항성까지 함께 설계해야 실효성이 생긴다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 칩의 기능을 외부에서 쉽게 읽지 못하게 하거나, 정당한 활성화 키 없이는 의도한 결과가 나오지 않게 만드는 기술이다. 소프트웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 바이너리 분석을 어렵게 만드는 것이라면, 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 **회로 그 자체가 무엇을 하는지 드러나지 않게 만드는 일**에 가깝다. 즉 실행 중 숨김이 아니라, 제조·[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 단계에서의 숨김이 핵심이다.
+하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 칩의 기능을 외부에서 쉽게 읽지 못하게 하거나, 정당한 활성화 키 없이는 의도한 결과가 나오지 않게 만드는 기술이다. 소프트웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 바이너리 분석을 어렵게 만드는 것이라면, 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 <strong>회로 그 자체가 무엇을 하는지 드러나지 않게 만드는 일</strong>에 가깝다. 즉 실행 중 숨김이 아니라, 제조·[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 단계에서의 숨김이 핵심이다.
 
 이 기술이 필요해진 배경은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 분업화다. 팹리스 기업은 설계를 만들고, 외부 파운드리가 생산하며, 다른 업체가 패키징과 검사를 맡는다. 이 과정에서 순수한 넷리스트와 레이아웃이 그대로 노출되면, 제조사는 설계 의도를 추론해 유사 칩을 만들거나, 허가받지 않은 추가 생산을 하거나, 특정 위치에 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/)를 심을 유인을 갖게 된다. 그래서 설계자는 "보여 주되, 이해하거나 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하기 어렵게" 만들어야 한다.
 
-중요한 점은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 기술이 아니라는 사실이다. 오히려 면적, 지연시간, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도를 조금 희생해 보안 이익을 얻는 선택이다. 따라서 이 주제는 단순히 회로를 복잡하게 만드는 기교가 아니라, **신뢰할 수 없는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에서 동작 가능한 신뢰 구조를 세우는 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 봐야 한다.
+중요한 점은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 기술이 아니라는 사실이다. 오히려 면적, 지연시간, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도를 조금 희생해 보안 이익을 얻는 선택이다. 따라서 이 주제는 단순히 회로를 복잡하게 만드는 기교가 아니라, <strong>신뢰할 수 없는 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a>에서 동작 가능한 신뢰 구조를 세우는 설계 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 봐야 한다.
 
 이 그림은 제조 단계와 활성화 단계가 어떻게 분리되는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Locked hardware across an untrusted supply chain                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Design owner inserts locking / camouflage                                 │
-│        │                                                                   │
-│        ▼                                                                   │
-│ Foundry sees locked netlist and builds chip                               │
-│        │                                                                   │
-│        ├─ no key      -> wrong output / limited function                  │
-│        │                                                                   │
-│        └─ trusted activation -> correct key / device-unique secret        │
-│                                   │                                        │
-│                                   ▼                                        │
-│                             full intended behavior                         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Locked hardware across an untrusted supply chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design owner inserts locking / camouflage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Foundry sees locked netlist and builds chip</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no key -&gt; wrong output / limited function</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ trusted activation -&gt; correct key / device-unique secret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full intended behavior</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 비밀 요리책을 남에게 맡겨 인쇄하되, 핵심 양념 비율은 암호로 적어 둬서 정답을 모르면 요리 모양은 비슷해도 맛은 절대 같아지지 않게 만드는 방식과 같다.
 
@@ -64,22 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)된 칩이 왜 키와 함께 설계되어야 하는지 구조적으로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Obfuscated chip = locked logic + hidden key path                          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Inputs -> locked combinational / sequential logic -> outputs              │
-│                ▲                                                          │
-│                │                                                           │
-│         secret key source                                                 │
-│     (PUF or trusted provisioning)                                         │
-│                │                                                           │
-│                ├─ wrong key -> corrupted outputs / dead modes             │
-│                └─ correct key -> intended function                        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, **기능 숨김 + 분석 난도 증가 + 테스트 경로 통제**를 동시에 노린다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Obfuscated chip = locked logic + hidden key path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inputs -&gt; locked combinational / sequential logic -&gt; outputs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret key source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PUF or trusted provisioning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wrong key -&gt; corrupted outputs / dead modes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ correct key -&gt; intended function</div></div>
+</div>
+</div>
+
+
+
+다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, <strong>기능 숨김 + 분석 난도 증가 + 테스트 경로 통제</strong>를 동시에 노린다.
 
 - **📢 섹션 요약 비유**: 이 구조는 금고를 자물쇠 하나로만 잠그는 게 아니라, 겉모양도 일반 서랍처럼 꾸미고, 내부 칸막이도 복잡하게 만들어 도둑이 열쇠를 구해도 바로 보물을 찾기 어렵게 하는 다층 잠금 장치와 같다.
 
@@ -98,7 +95,7 @@ tags = ["studynote-computer-architecture"]
 
 이 주제는 하드웨어 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/), [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/), [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/), 설계 검사용 구조 (Design for Test, DFT)와도 밀접하게 연결된다. 예를 들어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) 삽입 위치를 숨겨 주지만, DFT가 너무 열려 있으면 내부 상태가 그대로 노출돼 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 효과가 약해진다. 또한 PUF는 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 키를 칩마다 다르게 만드는 데 유용해, 동일 키 재사용이라는 약점을 줄여 준다.
 
-결국 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 단독 기술이라기보다, **[공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 패키지의 한 층**으로 보는 편이 맞다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만 넣고 키 관리가 없으면 약하고, 레이아웃 위장만 하고 활성화 통제가 없으면 과잉 생산을 막기 어렵다. 비교와 연결을 함께 봐야 실무 판단이 선다.
+결국 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 단독 기술이라기보다, <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a> 패키지의 한 층</strong>으로 보는 편이 맞다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만 넣고 키 관리가 없으면 약하고, 레이아웃 위장만 하고 활성화 통제가 없으면 과잉 생산을 막기 어렵다. 비교와 연결을 함께 봐야 실무 판단이 선다.
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금은 비밀번호 자물쇠, 레이아웃 위장은 위장 페인트, 분할 제조는 설계도를 반쪽씩 다른 공장에 나눠 맡기는 일과 같다. 모두 "숨김"이지만 막는 침입 방식이 서로 다르다.
 
@@ -108,7 +105,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 보안 요구가 높은 자동차 제어 칩, 국방용 장치, 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 가속기, 산업 제어용 [주문형 반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 같은 영역에서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) 채택 가치가 크다. 반면 수익 구조가 얇고 마진이 낮은 범용 저가 칩은 오버헤드 때문에 전면 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 부담스러울 수 있다. 그래서 대부분의 실무 설계는 모든 블록을 잠그기보다, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 핵심부와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가치가 높은 제어 경로에 선택적으로 적용한다.
 
-또 하나의 실무 난제는 테스트와 활성화의 충돌이다. 생산 검사를 하려면 내부 상태를 어느 정도 들여다봐야 하는데, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 바로 그 관찰성을 줄인다. 따라서 신뢰된 검사 모드, 임시 테스트 키, 출하 후 재잠금 절차를 포함한 생애주기 설계가 필요하다. 즉 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로 삽입 기술이면서 동시에 **제조 운영 프로세스 설계**이기도 하다.
+또 하나의 실무 난제는 테스트와 활성화의 충돌이다. 생산 검사를 하려면 내부 상태를 어느 정도 들여다봐야 하는데, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 바로 그 관찰성을 줄인다. 따라서 신뢰된 검사 모드, 임시 테스트 키, 출하 후 재잠금 절차를 포함한 생애주기 설계가 필요하다. 즉 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로 삽입 기술이면서 동시에 <strong>제조 운영 프로세스 설계</strong>이기도 하다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 절대 보안이 아니다. 충분한 시간과 장비를 가진 공격자는 물리 분석, 전력 측정, 오라클 기반 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/) 공격, 고급 현미경 분석을 시도할 수 있다. 그래서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 "아무도 못 푼다"가 아니라 "상업적으로 안 맞을 만큼 비싸게 만든다"는 목표로 이해해야 한다. 이 현실 인식이 있어야 면적과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실을 과도하게 감수하지 않게 된다.
 
-앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 재구성 가능한 가속기, 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계와 결합한 동적 활성화 모델에서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)의 중요성이 더 커질 수 있다. 결론적으로 하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로를 복잡하게 꾸미는 장식이 아니라, **신뢰가 분산된 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에서 칩의 진짜 기능과 가치를 끝까지 붙잡는 보안 설계 철학**이다.
+앞으로는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 재구성 가능한 가속기, 장치 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계와 결합한 동적 활성화 모델에서 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)의 중요성이 더 커질 수 있다. 결론적으로 하드웨어 기반 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 회로를 복잡하게 꾸미는 장식이 아니라, <strong>신뢰가 분산된 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a>에서 칩의 진짜 기능과 가치를 끝까지 붙잡는 보안 설계 철학</strong>이다.
 
 - **📢 섹션 요약 비유**: 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 보물을 땅에 묻는 것이 아니라, 보물 지도 자체를 여러 조각으로 나누고 암호까지 걸어 두어 찾는 비용을 보물값보다 비싸게 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같다.
 
@@ -155,24 +152,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-글로벌 분업형 반도체 공급망
-        │
-        ▼
-IP 유출 · 과잉 생산 · 역공학 우려
-        │
-        ▼
-논리 잠금 · 레이아웃 위장 도입
-        │
-        ▼
-SAT 저항 구조 · 스캔 보호 결합
-        │
-        ▼
-PUF 기반 칩별 활성화
-        │
-        ▼
-생애주기 인증 · 공급망 추적 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 분업형 반도체 공급망</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IP 유출 · 과잉 생산 · 역공학 우려</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">논리 잠금 · 레이아웃 위장 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SAT 저항 구조 · 스캔 보호 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PUF 기반 칩별 활성화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">생애주기 인증 · 공급망 추적 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 단순 회로 꼬기가 아니라, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체에서 "누가 설계를 이해하고 활성화할 수 있는가"를 통제하는 방향으로 발전했음을 보여 준다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 기존 어선들은 바다에 나갈 때 단파 무전기(VHF/SSB)를 썼습니다.
 - **재앙적 문제**: 오직 '음성 통화'만 가능할 뿐, 날씨 데이터나 주변 선박의 위치를 나타내는 지도(내비게이션)를 다운로드할 대역폭이 아예 없었습니다. 안개 낀 날 두 배가 부딪혀 침몰하는 해상 사고의 주원인이었습니다.
 
-```text
-[철도 통신망 LTE-R]
-    │
-    ▼
-[해상 통신망]
-    │
-    └──▶ [P2P]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2P</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해상 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **e-Navigation (이내비게이션)**: 국제해사기구(IMO)가 도입한 개념으로, 배 안의 종이 지도를 없애고 자동차 내비게이션처럼 육지 관제소와 배가 실시간으로 지도, 날씨, 충돌 위험 데이터를 주고받는 스마트 선박 시스템입니다.
-- **[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) (해상 통신망)**: 이 무거운 내비게이션 3D 지도 데이터를 바다 위로 쏴주기 위해, 한국이 세계 최초로 육지의 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 바다 환경에 맞게 마개조하여 **해안가에서 최대 100km 떨어진 바다까지 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 데이터를 전송하는 해양 전용 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 무선망**입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a> (해상 통신망)</strong>: 이 무거운 내비게이션 3D 지도 데이터를 바다 위로 쏴주기 위해, 한국이 세계 최초로 육지의 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 바다 환경에 맞게 마개조하여 <strong>해안가에서 최대 100km 떨어진 바다까지 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 데이터를 전송하는 해양 전용 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 무선망</strong>입니다.
 
-```text
-[철도 통신망 LTE-R]
-    │
-    ▼
-[해상 통신망]
-    │
-    └──▶ [P2P]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2P</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 해상 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,12 +66,12 @@ tags = ["studynote-network"]
 바다는 육지보다 전파를 쏘기 100배 더 더러운 환경입니다. [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M은 이를 뼈를 깎는 기술로 극복했습니다.
 
 ### 1. 해수면 반사 (다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), [Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) 🌟
-- **문제**: 육지 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 쏜 전파 1가닥이 바다로 날아갑니다. 그런데 이 전파가 찰랑거리는 **바닷물 표면(해수면)에 거울처럼 튕겨서 반사**됩니다. 결국 배에 있는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에는 '직선으로 날아온 진짜 전파'와 '바닷물에 튕겨서 0.001초 늦게 온 가짜 전파' 수백 개가 섞여서(다중경로) 잡음([페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))으로 뭉개집니다.
+- **문제**: 육지 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 쏜 전파 1가닥이 바다로 날아갑니다. 그런데 이 전파가 찰랑거리는 <strong>바닷물 표면(해수면)에 거울처럼 튕겨서 반사</strong>됩니다. 결국 배에 있는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에는 '직선으로 날아온 진짜 전파'와 '바닷물에 튕겨서 0.001초 늦게 온 가짜 전파' 수백 개가 섞여서(다중경로) 잡음([페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))으로 뭉개집니다.
 - **대응 (MIMO와 OFDM 적용)**: 배에 달린 수신기에 808번 문서의 OFDM(직교 주파수) 기술과 다이버시티([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 여러 개 달기) 기술을 덕지덕지 발라서, 바닷물에 튕겨서 늦게 온 쓰레기 전파들을 싹 걸러내고 오직 원본 전파만 뜰채로 건져냅니다.
 
 ### 2. 라인 오브 사이트(LoS)와 지구의 곡률
 - 지구가 둥글기 때문에 100km쯤 밖으로 나가면 바다의 수평선 너머로 배가 숨어버려 육지 전파가 닿지 않습니다.
-- **대응**: 육지 해안선에 있는 **가장 높은 산꼭대기(한라산, 지리산)에 초거대 고출력 기지국(슈퍼셀, Super-cell) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)**를 설치하여 전파를 하늘 위에서 아래로 내리꽂듯이 쏴서 둥근 지구의 한계를 100km까지 밀어냅니다.
+- **대응**: 육지 해안선에 있는 <strong>가장 높은 산꼭대기(한라산, 지리산)에 초거대 고출력 기지국(슈퍼셀, Super-cell) <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>를 설치하여 전파를 하늘 위에서 아래로 내리꽂듯이 쏴서 둥근 지구의 한계를 100km까지 밀어냅니다.
 
 ### 3. 초고주파 간섭과 선박의 흔들림 ([도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))
 - 배가 파도에 미친 듯이 롤링(흔들림)하면 주파수가 찌그러지는 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)가 납니다. 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 선박 통신은 깜깜한 망망대해에서 두 눈을 가린 채 '종이컵 실 전화기(구형 무전기)' 하나에만 의지해 배를 모는 도박이었습니다. 빙산이 나타나도 알 길이 없었습니다. **[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)(해상 통신망)** 혁명은 해안가 가장 높은 절벽 위에 **'초대형 영화관 빔 프로젝터(고출력 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국)'**를 설치해 바다 한가운데로 풀HD 영화(빅데이터)를 쏴버린 것입니다. 바닷물이 출렁거리며 빔프로젝터 빛을 난반사(해수면 다중경로 간섭)시켜 화면이 찌그러질 위기가 닥치지만, 배 위에 달린 최첨단 '스마트 편광 안경(OFDM 수신기)'이 찌그러진 빛은 다 걸러내고 오직 선명한 영화 자막(전자 내비게이션 지도)만 선장 눈앞에 1초 만에 띄워줍니다. 장님이었던 선장의 눈을 뜨게 만들어 해양 생존율을 극대화한 바다 위의 빛의 길입니다.
+- **📢 섹션 요약 비유**: 기존 선박 통신은 깜깜한 망망대해에서 두 눈을 가린 채 '종이컵 실 전화기(구형 무전기)' 하나에만 의지해 배를 모는 도박이었습니다. 빙산이 나타나도 알 길이 없었습니다. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a>(해상 통신망)</strong> 혁명은 해안가 가장 높은 절벽 위에 <strong>'초대형 영화관 빔 프로젝터(고출력 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 기지국)'</strong>를 설치해 바다 한가운데로 풀HD 영화(빅데이터)를 쏴버린 것입니다. 바닷물이 출렁거리며 빔프로젝터 빛을 난반사(해수면 다중경로 간섭)시켜 화면이 찌그러질 위기가 닥치지만, 배 위에 달린 최첨단 '스마트 편광 안경(OFDM 수신기)'이 찌그러진 빛은 다 걸러내고 오직 선명한 영화 자막(전자 내비게이션 지도)만 선장 눈앞에 1초 만에 띄워줍니다. 장님이었던 선장의 눈을 뜨게 만들어 해양 생존율을 극대화한 바다 위의 빛의 길입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 철도 통신망 LTE-R]
-    │
-    ▼
-[현재 개념: 해상 통신망]
-    │
-    ├──▶ [확장 A: P2P]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 철도 통신망 LTE-R</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해상 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: P2P</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 해상 통신망는 [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R에서 출발해 현재 메커니즘을 정교화하고, 이후 P2P와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,24 +19,26 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건너뛰기 로직은 "결과가 이미 뻔한 값은 끝까지 보내지 말자"는 발상에서 출발한다. 수학적으로 0은 다른 값과 곱하면 항상 0이지만, 전통적인 하드웨어는 이 단순한 사실을 몰라서 0도 일반 값처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 싣고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 파일에 넣고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)까지 통과시킨다. 즉 **의미는 없지만 비용은 그대로 드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**가 시스템 안을 계속 돌아다니는 셈이다.
+영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건너뛰기 로직은 "결과가 이미 뻔한 값은 끝까지 보내지 말자"는 발상에서 출발한다. 수학적으로 0은 다른 값과 곱하면 항상 0이지만, 전통적인 하드웨어는 이 단순한 사실을 몰라서 0도 일반 값처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 싣고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 파일에 넣고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)까지 통과시킨다. 즉 <strong>의미는 없지만 비용은 그대로 드는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>가 시스템 안을 계속 돌아다니는 셈이다.
 
 이 문제가 특히 커지는 곳이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기와 희소 행렬 처리다. [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 이후 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) ([Rectified Linear Unit](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)) 이후 활성값, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 전 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반 텐서에는 0이 대량으로 섞여 있다. 이런 환경에서 0을 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 다루면 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 동적 스위칭 전력이 먼저 바닥난다.
 
 이 그림은 왜 0도 "공짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아닌지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│  0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Memory -> Interconnect -> Register File -> MAC Array -> Writeback         │
-│   0            0                0               0              0           │
-│                                                                            │
-│ 수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 zero-skipping의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률을 높이는 데만 있지 않다. 더 중요한 목표는 **유효하지 않은 값이 하드웨어 자원을 점유하는 시간 자체를 줄이는 것**이다. 이 관점이 있어야 왜 메모리와 연산 파이프라인 양쪽에서 동시에 zero-skipping을 고민하는지 이해할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory -&gt; Interconnect -&gt; Register File -&gt; MAC Array -&gt; Writeback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 0 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.</div></div>
+</div>
+</div>
+
+
+
+따라서 zero-skipping의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률을 높이는 데만 있지 않다. 더 중요한 목표는 <strong>유효하지 않은 값이 하드웨어 자원을 점유하는 시간 자체를 줄이는 것</strong>이다. 이 관점이 있어야 왜 메모리와 연산 파이프라인 양쪽에서 동시에 zero-skipping을 고민하는지 이해할 수 있다.
 
 - **📢 섹션 요약 비유**: 빈 좌석이 가득한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 만원 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)처럼 몰고 다니면 연료와 도로는 똑같이 든다. zero-skipping은 애초에 빈 좌석 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 덜 움직이게 하는 교통 통제와 같다.
 
@@ -44,7 +46,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-zero-skipping은 보통 두 지점에서 구현된다. 첫째는 **저장·이동 경로**다. 캐시나 온칩 버퍼는 전부 0인 블록을 감지하면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 대신 영 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Zero [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), Z-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))나 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마스크만 남기고, 읽을 때는 메모리 셀을 다시 켜지 않고 0을 합성해서 내보낼 수 있다. 둘째는 **연산 경로**다. 입력 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 0이면 곱셈기 lane을 깨우지 않거나, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/))으로 해당 회로의 스위칭을 막고 결과를 곧바로 0 또는 누산 생략으로 처리한다.
+zero-skipping은 보통 두 지점에서 구현된다. 첫째는 <strong>저장·이동 경로</strong>다. 캐시나 온칩 버퍼는 전부 0인 블록을 감지하면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 대신 영 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Zero [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/), Z-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))나 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마스크만 남기고, 읽을 때는 메모리 셀을 다시 켜지 않고 0을 합성해서 내보낼 수 있다. 둘째는 <strong>연산 경로</strong>다. 입력 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 0이면 곱셈기 lane을 깨우지 않거나, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/))으로 해당 회로의 스위칭을 막고 결과를 곧바로 0 또는 누산 생략으로 처리한다.
 
 | 적용 위치 | 핵심 동작 | 기대 이득 | 설계 시 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -53,24 +55,22 @@ zero-skipping은 보통 두 지점에서 구현된다. 첫째는 **저장·이�
 | 곱셈기 / [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 0 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) lane을 스킵 | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) 감소, 실행 슬롯 확보 | 감지기 지연이 임계 경로를 늘리면 안 됨 |
 | 구조적 희소성 엔진 | 정해진 마스크 규칙만 발행 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스케줄링이 단순해짐 | 형식 변환 비용과 정확도 제약 존재 |
 
-아래 그림은 zero-skipping이 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 하나가 아니라, **감지 → 표시 → 스케줄링 → 회로 비활성화**의 연속 구조임을 보여 준다.
+아래 그림은 zero-skipping이 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 하나가 아니라, <strong>감지 → 표시 → 스케줄링 → 회로 비활성화</strong>의 연속 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            Zero-skipping data path: detect -> mark -> schedule            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Input Value / Cache Line]                                                │
-│          │                                                                │
-│          ▼                                                                │
-│ [Zero Detector] ---> [Z-bit / Mask] ---> [Sparse Scheduler]              │
-│      │                               │                    │               │
-│      ├─ all-zero block --------------┘                    ├─ lane gate    │
-│      └─ non-zero data ----------------------------------->└─ real issue   │
-│                                                             │             │
-│                                                             ▼             │
-│                                                   [Accumulator / Writeback]│
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero-skipping data path: detect -&gt; mark -&gt; schedule</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input Value / Cache Line</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Detector</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Z-bit / Mask</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sparse Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all-zero block -------------- ─ lane gate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ non-zero data -----------------------------------&gt; ─ real issue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Accumulator / Writeback</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 감지 입도다. 원소 단위로 건너뛰면 가장 공격적이지만, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)와 선택기 수가 많아진다. 반대로 블록 단위로만 건너뛰면 회로는 단순하지만, 블록 안에 0이 아닌 값이 조금만 섞여 있어도 전체 블록을 그대로 처리해야 한다. 그래서 실제 설계는 원소·벡터 lane·타일 중 어디까지를 "한 번에 0으로 볼 것인가"를 워크로드에 맞춰 정한다.
 
@@ -91,7 +91,7 @@ zero-skipping은 [압축](/knowledge-base/studynote/02_operating_system/06_memor
 
 이 연결에서 중요한 사실은 zero-skipping 단독으로는 성능이 잘 안 나올 수 있다는 점이다. 예를 들어 0이 많이 생겨도 위치가 너무 불규칙하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 해석 비용이 커져 이득이 줄어든다. 그래서 상용 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기는 `2:4` 같은 구조적 희소성 규칙을 선호하고, 컴파일러도 0이 예측 가능하게 배치되도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃을 맞춘다.
 
-결국 zero-skipping은 584번 텐서 희소성과도 직결된다. 희소성이 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태"라면, zero-skipping은 그 상태를 보고 **연산기와 메모리 시스템이 실제로 행동을 바꾸는 메커니즘**이다. 이 둘을 분리해서 생각하면 왜 어떤 모델은 희소해도 빨라지지 않는지 설명할 수 있다.
+결국 zero-skipping은 584번 텐서 희소성과도 직결된다. 희소성이 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태"라면, zero-skipping은 그 상태를 보고 <strong>연산기와 메모리 시스템이 실제로 행동을 바꾸는 메커니즘</strong>이다. 이 둘을 분리해서 생각하면 왜 어떤 모델은 희소해도 빨라지지 않는지 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 창고에서 불필요한 상자를 빼는 일이라면, zero-skipping은 창고 직원이 빈 칸은 아예 들여다보지 않고 바로 지나가는 동선 설계다. 상자를 빼는 것과, 빼 놓은 자리를 실제로 활용하는 것은 다른 문제다.
 
@@ -116,7 +116,7 @@ zero-skipping은 [압축](/knowledge-base/studynote/02_operating_system/06_memor
 - 암호 연산처럼 상수 시간 (Constant Time)이 중요한 경로에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존적 skipping을 넣는 판단
 - 메모리 형식과 실행기 형식이 달라 복원 비용이 skip 이득을 잡아먹는 소프트웨어-하드웨어 불일치
 
-기술사 답안에서는 "0이면 빨라진다" 수준으로 쓰면 약하다. **어디에서 0을 감지하고, 그 결과로 무엇을 끄며, 어떤 조건에서 그 비용이 오히려 더 커지는지**까지 적어야 설계 관점이 살아난다.
+기술사 답안에서는 "0이면 빨라진다" 수준으로 쓰면 약하다. <strong>어디에서 0을 감지하고, 그 결과로 무엇을 끄며, 어떤 조건에서 그 비용이 오히려 더 커지는지</strong>까지 적어야 설계 관점이 살아난다.
 
 - **📢 섹션 요약 비유**: 창고에 빈 박스가 많다고 해서 무조건 로봇을 들여놓으면 안 된다. 빈 박스가 규칙적으로 쌓여 있고 로봇이 그 규칙을 잘 이해할 때만 자동화가 진짜 이득이 된다.
 
@@ -126,9 +126,9 @@ zero-skipping은 [압축](/knowledge-base/studynote/02_operating_system/06_memor
 
 zero-skipping이 잘 맞아떨어지면 얻는 이득은 분명하다. 첫째, 0 때문에 낭비되던 메모리 읽기와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 활동이 줄어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율이 좋아진다. 둘째, 연산 lane 일부를 계속 깨우지 않아도 되므로 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)이 감소한다. 셋째, 같은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서도 실제로 의미 있는 값만 처리하게 되어 유효 처리량이 올라간다.
 
-하지만 이 기술은 만능 해법이 아니다. 희소성이 흔들리면 발행기가 오히려 복잡해지고, 너무 공격적으로 건너뛰면 부하 불균형이 커질 수 있으며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 지연이 새 병목이 되기도 한다. 앞으로는 구조적 희소성 규칙, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷, 컴파일러 스케줄링, adaptive throttling이 함께 맞물리는 **sparsity-aware [pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)** 방향으로 진화할 가능성이 높다.
+하지만 이 기술은 만능 해법이 아니다. 희소성이 흔들리면 발행기가 오히려 복잡해지고, 너무 공격적으로 건너뛰면 부하 불균형이 커질 수 있으며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 지연이 새 병목이 되기도 한다. 앞으로는 구조적 희소성 규칙, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷, 컴파일러 스케줄링, adaptive throttling이 함께 맞물리는 <strong>sparsity-aware <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">pipeline</a></strong> 방향으로 진화할 가능성이 높다.
 
-결론적으로 zero-skipping은 "0을 빠르게 계산하는 기술"이 아니라 **0을 계산하지 않기로 결정하는 기술**이다. 이 차이를 이해해야 zero-skipping을 단순 절전 회로가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미를 읽는 실행 최적화로 볼 수 있다.
+결론적으로 zero-skipping은 "0을 빠르게 계산하는 기술"이 아니라 <strong>0을 계산하지 않기로 결정하는 기술</strong>이다. 이 차이를 이해해야 zero-skipping을 단순 절전 회로가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의미를 읽는 실행 최적화로 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 편집자는 쓸모없는 문장을 더 빨리 읽는 사람이 아니라, 애초에 그 문장을 본문에서 빼 버리는 사람이다. zero-skipping도 하드웨어에게 그런 편집 능력을 주는 셈이다.
 
@@ -147,24 +147,25 @@ zero-skipping이 잘 맞아떨어지면 얻는 이득은 분명하다. 첫째, 0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-밀집 데이터 실행
-    │
-    ▼
-가지치기 · ReLU로 zero 증가
-    │
-    ▼
-압축 포맷 · 마스크 메타데이터
-    │
-    ▼
-Zero Detector · Z-bit · lane skipping
-    │
-    ▼
-구조적 희소성 기반 가속기
-    │
-    ▼
-적응형 sparsity-aware 메모리/연산 공동 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">밀집 데이터 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가지치기 · ReLU로 zero 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">압축 포맷 · 마스크 메타데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Detector · Z-bit · lane skipping</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조적 희소성 기반 가속기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 sparsity-aware 메모리/연산 공동 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 출발해, 이제는 메모리와 실행기 모두가 zero를 이해하고 행동을 바꾸는 방향으로 최적화가 확장되고 있음을 보여 준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 더블 체크드 락킹([DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/))은 객체가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는지 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 1차로 확인하고, 안 되어 있을 때만 락을 걸고 2차로 확인하여 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는, **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드를 줄이려는 목적의 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)**이다.
-> 2. **가치 (문제점)**: 완벽해 보이는 이 논리는, 최신 컴파일러와 CPU 코어가 속도를 높이기 위해 메모리에 값을 쓰는 순서(메모리 가시성)를 뒤죽박죽으로 바꿔버리는 **'[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재배치([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Reordering)' 현상** 때문에 완전히 붕괴되며, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 '속이 텅 빈 껍데기 객체'를 리턴해버리는 치명적 버그([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))를 낳는다.
-> 3. **융합**: 이 문제를 해결하려면 자바(Java)나 C++ 등에서 변수에 **`volatile` 키워드를 반드시 붙여**, 컴파일러와 CPU에게 "이 변수와 관련된 작업 순서는 절대로 네 맘대로 섞지 마라!([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))"라고 강제명령을 내려야 한다.
+> 1. **본질**: 더블 체크드 락킹([DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/))은 객체가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는지 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 1차로 확인하고, 안 되어 있을 때만 락을 걸고 2차로 확인하여 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 오버헤드를 줄이려는 목적의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a></strong>이다.
+> 2. **가치 (문제점)**: 완벽해 보이는 이 논리는, 최신 컴파일러와 CPU 코어가 속도를 높이기 위해 메모리에 값을 쓰는 순서(메모리 가시성)를 뒤죽박죽으로 바꿔버리는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 재배치(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">Instruction</a> Reordering)' 현상</strong> 때문에 완전히 붕괴되며, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 '속이 텅 빈 껍데기 객체'를 리턴해버리는 치명적 버그([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))를 낳는다.
+> 3. **융합**: 이 문제를 해결하려면 자바(Java)나 C++ 등에서 변수에 <strong><code>volatile</code> 키워드를 반드시 붙여</strong>, 컴파일러와 CPU에게 "이 변수와 관련된 작업 순서는 절대로 네 맘대로 섞지 마라!([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))"라고 강제명령을 내려야 한다.
 
 ---
 
@@ -24,9 +24,9 @@ tags = ["studynote-operating-system"]
 애플리케이션 전역에서 단 1개만 존재해야 하는 객체를 만드는 '[싱글톤 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/382_singleton_summary/)'을 작성할 때, [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서는 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 `if (instance == null)`을 통과하여 객체를 2개 만들어버리는 불상사가 생긴다.
 
 * **초보자의 해결책**: 메서드 전체에 무식하게 락(Synchronized)을 건다.
-  - 문제점: 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 건 맨 처음 1번뿐인데, 이후 100만 번 동안 객체를 가져다 쓸 때마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 락을 기다리며 줄을 서게 되어 엄청난 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(병목)**가 발생한다.
+  - 문제점: 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 건 맨 처음 1번뿐인데, 이후 100만 번 동안 객체를 가져다 쓸 때마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 락을 기다리며 줄을 서게 되어 엄청난 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하(병목)</strong>가 발생한다.
 
-* **똑똑한 척하는 개발자의 해결책 (Double-Checked [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) 도입)**
+* <strong>똑똑한 척하는 개발자의 해결책 (Double-Checked <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/">Locking</a> 도입)</strong>
   - "락을 안 걸고 일단 인스턴스가 `null`인지 1차로 검사하자. `null`일 때만 락을 걸고, 혹시 그 찰나에 다른 놈이 만들었을 수 있으니 락 안에서 2차로 또 검사하자!"
   - 이렇게 하면 객체가 이미 만들어진 후에는 락을 거치지 않으므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 날아다닐 것이라고 믿었다. (그리고 이것은 악몽의 시작이었다.)
 
@@ -53,18 +53,18 @@ public static Singleton getInstance() {
 위의 [DCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/022_dcl/) 코드가 왜 완벽한 쓰레기([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))일까? 문제는 `instance = new Singleton();` 이 한 줄의 코드에 숨어 있다.
 개발자 눈에는 저 코드가 한 줄이지만, 컴파일러와 CPU(기계)의 눈에는 다음 3단계 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 번역된다.
 
-* (1) 객체를 담을 텅 빈 **메모리 공간을 할당**한다.
-* (2) 그 메모리 공간에 초기값([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)을 채워 넣어 **객체를 완성**시킨다.
-* (3) 완성된 공간의 주소를 `instance`라는 **변수 이름표에 연결(할당)**한다.
+* (1) 객체를 담을 텅 빈 <strong>메모리 공간을 할당</strong>한다.
+* (2) 그 메모리 공간에 초기값([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)을 채워 넣어 <strong>객체를 완성</strong>시킨다.
+* (3) 완성된 공간의 주소를 `instance`라는 <strong>변수 이름표에 연결(할당)</strong>한다.
 
 **🔥 컴파일러의 반란 (최적화)**
 컴파일러나 CPU는 속도를 높이기 위해 실행 결과만 똑같다면 자기 맘대로 실행 순서를 (1) $\rightarrow$ **(3)** $\rightarrow$ (2) 로 뒤섞어 버린다! ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Reordering)
 
 **[ 대형 사고의 시나리오 ]**
-1. **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A**가 락 안으로 들어와서 객체를 만든다. CPU가 순서를 섞어서 (1)빈 공간을 만들고, (3)`instance` 이름표를 딱 붙였다! (아직 (2)[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 실행을 안 해서 속이 텅 빈 껍데기 객체다.)
-2. 이 찰나의 순간, **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B**가 1차 체크 `if (instance == null)` 구문에 도달한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> A</strong>가 락 안으로 들어와서 객체를 만든다. CPU가 순서를 섞어서 (1)빈 공간을 만들고, (3)`instance` 이름표를 딱 붙였다! (아직 (2)[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 실행을 안 해서 속이 텅 빈 껍데기 객체다.)
+2. 이 찰나의 순간, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> B</strong>가 1차 체크 `if (instance == null)` 구문에 도달한다.
 3. B의 눈에 `instance`는 `null`이 아니다! (A가 방금 껍데기에 이름표를 붙였으니까). 
-4. B는 신나서 락을 패스하고 그 **미완성된 껍데기 객체를 그대로 리턴받아** 사용하려고 메서드를 호출한다. $\rightarrow$ **`NullPointerException` 쾅! 시스템 붕괴.**
+4. B는 신나서 락을 패스하고 그 **미완성된 껍데기 객체를 그대로 리턴받아** 사용하려고 메서드를 호출한다. $\rightarrow$ <strong><code>NullPointerException</code> 쾅! 시스템 붕괴.</strong>
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -73,7 +73,7 @@ public static Singleton getInstance() {
 ## Ⅲ. 비교 및 연결
 
 이 황당한 기계의 최적화 반란을 억누르려면 어떻게 해야 할까?
-자바(Java) 1.5 이후부터는 변수 선언 앞에 **`volatile`** 키워드를 하나 딱 붙여주면 모든 문제가 해결된다.
+자바(Java) 1.5 이후부터는 변수 선언 앞에 <strong><code>volatile</code></strong> 키워드를 하나 딱 붙여주면 모든 문제가 해결된다.
 
 ```java
 // 완벽하게 고쳐진 DCL 패턴
@@ -81,12 +81,12 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 ```
 
 #### `volatile` 의 위대한 2가지 마법
-1. **[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) / Fence) 발동**: 
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">Memory Barrier</a> / Fence) 발동</strong>: 
    컴파일러와 CPU에게 **"이 변수를 읽고 쓰는 작업 앞뒤로는 절대 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 섞지(Reordering) 마라! 무조건 (1)->(2)->(3) 정석대로 실행해라!"**라고 채찍질을 가한다. 이제 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B는 완벽히 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(2)이 끝난 객체만 볼 수 있게 된다.
 2. **캐시 무효화 (가시성 보장)**: 
    각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자기 CPU 캐시에 값을 숨겨두지 못하게 하고, 변수를 변경하는 즉시 메인 메모리에 쏴버려서 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 가장 최신의 똑같은 값을 보게(Visibility) 만든다.
 
-*(※ 팁: 자바에서는 이보다 더 완벽하고 안전한 **"Initialization-on-demand holder idiom (내부 정적 클래스 활용)"**이나 **"Enum [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)"**을 쓰는 것이 현대적 표준이다. DCL은 면접 단골 질문이자 과거의 흑역사로 기억된다.)*
+*(※ 팁: 자바에서는 이보다 더 완벽하고 안전한 <strong>"Initialization-on-demand holder idiom (내부 정적 클래스 활용)"</strong>이나 <strong>"Enum <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a>"</strong>을 쓰는 것이 현대적 표준이다. DCL은 면접 단골 질문이자 과거의 흑역사로 기억된다.)*
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -120,15 +120,19 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스레드 풀 스케줄링 락 경합 (Work Stealing)]
-    │
-    ▼
-[더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
-    │
-    ├──▶ [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
-    └──▶ [임계 구역 크기 최소화 기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 풀 스케줄링 락 경합 (Work Stealing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 크기 최소화 기법</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

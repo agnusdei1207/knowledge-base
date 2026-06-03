@@ -23,17 +23,19 @@ tags = ["studynote-bigdata"]
 
 Plotly는 Python 객체를 브라우저에서 동작하는 인터랙티브 Figure 명세로 바꾸고, Dash는 그 Figure를 버튼, 드롭다운, 슬라이더, 테이블과 연결해 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 애플리케이션으로 묶는다. 즉 Plotly가 "차트를 그리는 도구"라면 Dash는 "그 차트를 사용하는 화면과 흐름을 설계하는 도구"다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│         분석 결과를 "공유 가능한 앱"으로 바꾸는 두 단계            │
-├────────────────────────────────────────────────────────────────────┤
-│ Python DataFrame / Query Result                                  │
-│      │                                                            │
-│      ├─ Plotly → 인터랙티브 Figure (줌 · 호버 · 선택)             │
-│      └─ Dash   → Figure + 입력 위젯 + 상태 흐름                   │
-│                         = 브라우저에서 쓰는 데이터 앱             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 결과를 "공유 가능한 앱"으로 바꾸는 두 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Python DataFrame / Query Result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plotly → 인터랙티브 Figure (줌 · 호버 · 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dash → Figure + 입력 위젯 + 상태 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 브라우저에서 쓰는 데이터 앱</div></div>
+</div>
+</div>
+
+
 
 이 조합이 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 속도와 전달력을 동시에 높이기 때문이다. 분석가는 기존 Python 생태계의 Pandas, NumPy, scikit-learn 결과를 바로 화면으로 연결할 수 있고, 사용자는 정적 보고서가 아니라 직접 탐색 가능한 시각적 인터페이스를 얻게 된다.
 
@@ -45,25 +47,25 @@ Plotly는 Python 객체를 브라우저에서 동작하는 인터랙티브 Figur
 
 Plotly/Dash의 핵심은 "차트 렌더링"과 "상태 변화"를 분리하는 데 있다. Plotly는 Figure를 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (JavaScript Object Notation) 형태의 선언으로 표현하고, 브라우저 쪽 Plotly.js가 이를 실제 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링한다. Dash는 레이아웃 트리와 콜백 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 정의해, 어떤 입력 변화가 어떤 출력 갱신으로 이어지는지를 Python 함수로 연결한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Dash Reactive Loop                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Browser                                                           │
-│  React Component + Plotly.js Renderer                             │
-│  Dropdown / Slider / Graph / Table                                │
-│          │                                                        │
-│          ▼ input props                                            │
-│ Dash Callback Graph (Python)                                      │
-│  Input ─▶ function ─▶ Output                                      │
-│          │         └▶ State                                       │
-│          │                                                        │
-│          ├─ query / Pandas transform / cache                      │
-│          └─ figure JSON / rows / text 반환                        │
-│          ▼                                                        │
-│ Browser Re-render                                                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dash Reactive Loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">React Component + Plotly.js Renderer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dropdown / Slider / Graph / Table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ input props</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dash Callback Graph (Python)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input ─▶ function ─▶ Output</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ query / Pandas transform / cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ figure JSON / rows / text 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser Re-render</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -73,7 +75,7 @@ Plotly/Dash의 핵심은 "차트 렌더링"과 "상태 변화"를 분리하는 �
 | Callback | 입력 변화 시 출력 갱신 | 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 복잡해질수록 [Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/) ([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)) 구조 관리 필요 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 값을 읽되 재실행 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 하지 않음 | 폼 제출형 화면에 유용 |
 
-Dash의 장점은 React를 직접 다루지 않아도 반응형 사용자 인터페이스를 만들 수 있다는 점이지만, 내부적으로는 명확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 있어야 한다. 드롭다운이 바뀌면 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 다시 실행되고, 어떤 캐시를 재활용하며, 어떤 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)만 부분 갱신할지 설계해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다. 따라서 Dash는 "Python으로 만드는 웹앱"이지만, 실제로는 **상태 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 설계하는 일**에 가깝다.
+Dash의 장점은 React를 직접 다루지 않아도 반응형 사용자 인터페이스를 만들 수 있다는 점이지만, 내부적으로는 명확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 있어야 한다. 드롭다운이 바뀌면 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 다시 실행되고, 어떤 캐시를 재활용하며, 어떤 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)만 부분 갱신할지 설계해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다. 따라서 Dash는 "Python으로 만드는 웹앱"이지만, 실제로는 <strong>상태 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>를 설계하는 일</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: [Dash](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/) 콜백은 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 배선도와 같다. 어느 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 누르면 어느 등이 켜질지 미리 연결해 두면, 사용자는 버튼만 눌러도 화면이 자연스럽게 반응한다.
 
@@ -132,7 +134,7 @@ Plotly/Dash를 이해하려면 "Plotly만 쓸 때"와 "Dash까지 붙일 때"를
 - 비밀 값이나 권한 정보를 클라이언트 저장소에 직접 노출
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 큰데도 Scalable Vector Graphics (SVG)만 고집하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 방치
 
-기술사 답안에서는 **도구 선택 기준, 콜백 구조, 대용량 최적화, 배포 아키텍처**를 함께 써야 균형이 맞다. Plotly/Dash는 "파이썬으로 웹을 만든다"는 편의성만 보는 도구가 아니라, 분석 결과를 운영 화면으로 연결하는 응용 계층이다.
+기술사 답안에서는 <strong>도구 선택 기준, 콜백 구조, 대용량 최적화, 배포 아키텍처</strong>를 함께 써야 균형이 맞다. Plotly/Dash는 "파이썬으로 웹을 만든다"는 편의성만 보는 도구가 아니라, 분석 결과를 운영 화면으로 연결하는 응용 계층이다.
 
 - **📢 섹션 요약 비유**: Plotly/[Dash](/knowledge-base/studynote/03_network/09_application_layer_web_email/510_dash_dynamic_adaptive_streaming_over_http/) 실무 적용은 전시장에 그림만 걸어 두는 일이 아니라, 입구 안내판·동선·조명·안내 직원을 함께 배치하는 일과 같다. 작품이 좋아도 흐름 설계가 나쁘면 관람객은 금방 지친다.
 
@@ -144,7 +146,7 @@ Plotly/Dash를 잘 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 한계도 있다. Dash는 일반적인 웹 프레임워크보다 쉽지만, 사용자가 늘고 콜백이 복잡해지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구조 관리 문제가 곧 나타난다. 또한 정형화된 BI 리포팅이 주 목적이라면 굳이 모든 것을 Dash로 만들 필요는 없다. 도구의 가치는 "무엇이든 가능"에 있는 것이 아니라, Python 분석 로직과 인터랙티브 사용 경험을 얼마나 자연스럽게 붙일 수 있는가에 있다.
 
-결론적으로 Plotly/Dash는 **정적 차트와 풀스택 프런트엔드 사이를 잇는 실용적 중간지대**로 기억하는 것이 좋다. 빠른 분석과 맞춤형 상호작용을 동시에 원할 때 특히 강력하며, 그 힘은 차트 한 장보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 전체를 앱으로 엮어 낼 수 있다는 데 있다.
+결론적으로 Plotly/Dash는 <strong>정적 차트와 풀스택 프런트엔드 사이를 잇는 실용적 중간지대</strong>로 기억하는 것이 좋다. 빠른 분석과 맞춤형 상호작용을 동시에 원할 때 특히 강력하며, 그 힘은 차트 한 장보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 전체를 앱으로 엮어 낼 수 있다는 데 있다.
 
 - **📢 섹션 요약 비유**: Plotly/Dash는 종이 지도와 내비게이션의 중간쯤 되는 도구다. 그림만 보여 주는 데서 끝나지 않고, 사용자가 길을 바꿀 때마다 바로 다음 화면을 다시 안내해 준다.
 
@@ -163,21 +165,24 @@ Plotly/Dash를 잘 도입하면 [데이터](/knowledge-base/studynote/05_databas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Python 분석 결과
-    │
-    ▼
-Plotly Figure 생성
-    │
-    ▼
-Dash Layout + Callback 연결
-    │
-    ├─ 필터 · 드릴다운 · 상태 관리
-    ├─ 캐시 · 백그라운드 작업
-    └─ 인증 · 배포
-    ▼
-운영 가능한 인터랙티브 데이터 앱
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Python 분석 결과</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Plotly Figure 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dash Layout + Callback 연결</div>
+<div class="kb-diagram-tree-item" style="--depth:2">필터 · 드릴다운 · 상태 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">캐시 · 백그라운드 작업</div>
+<div class="kb-diagram-tree-item" style="--depth:2">인증 · 배포</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 가능한 인터랙티브 데이터 앱</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)가 정적 차트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 반응형 의사결정 도구로 확장되는 과정을 보여 준다.
 

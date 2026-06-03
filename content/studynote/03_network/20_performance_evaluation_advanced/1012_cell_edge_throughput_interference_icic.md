@@ -19,20 +19,24 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **셀룰러 네트워크 ([Cellular Network](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/))**: 통신망은 벌집(육각형 Cell) 모양으로 동네마다 기지국을 박아 전 국토를 덮습니다.
+- <strong>셀룰러 네트워크 (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/">Cellular Network</a>)</strong>: 통신망은 벌집(육각형 Cell) 모양으로 동네마다 기지국을 박아 전 국토를 덮습니다.
 - **셀 엣지 (Cell Edge, 기지국 경계) 🌟**: 육각형 벌집과 벌집이 맞닿는 선(경계 구역)입니다. 기지국에서 가장 멀리 떨어져 있습니다.
 - **두 가지 끔찍한 저주**:
-  1. **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 (Path Loss)**: 거리가 멀어 전파 힘([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 바닥을 칩니다.
-  2. **인접 셀 간섭 (ICI, Inter-Cell Interference)**: 옆 동네(B 기지국)에서 쏘는 똑같은 주파수 전파가 내 귀로 흘러들어와 굉음(잡음 노이즈)을 냅니다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(S)는 약한데 잡음(N)이 커서 941번의 **[샤논-하틀리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/) 속도 공식**에 의해 다운로드 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 0으로 수직 낙하합니다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 감쇠 (Path Loss)</strong>: 거리가 멀어 전파 힘([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 바닥을 칩니다.
+  2. **인접 셀 간섭 (ICI, Inter-Cell Interference)**: 옆 동네(B 기지국)에서 쏘는 똑같은 주파수 전파가 내 귀로 흘러들어와 굉음(잡음 노이즈)을 냅니다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(S)는 약한데 잡음(N)이 커서 941번의 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/">샤논-하틀리</a> 속도 공식</strong>에 의해 다운로드 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 0으로 수직 낙하합니다.
 
-```text
-[프론트홀]
-    │
-    ▼
-[셀 엣지 수율]
-    │
-    └──▶ [CoMP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoMP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,17 +44,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 약하고 간섭이 제일 심한 **악조건의 경계 지역(Cell Edge)에 위치한 단말기(스마트폰)가 얻어낼 수 있는 '실질적인 최소 보장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))'**입니다.
+- **개념**: 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 약하고 간섭이 제일 심한 <strong>악조건의 경계 지역(Cell Edge)에 위치한 단말기(스마트폰)가 얻어낼 수 있는 '실질적인 최소 보장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)'</strong>입니다.
 - 통신사 간 품질(QoE) 경쟁의 핵심 지표입니다. 기지국 밑에서 2Gbps가 나오는 것보다, 산골짜기 경계선에서 10Mbps가 안 끊기고 나오는 것이 고객 만족도를 100배 올립니다.
 
-```text
-[프론트홀]
-    │
-    ▼
-[셀 엣지 수율]
-    │
-    └──▶ [CoMP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoMP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,12 +70,12 @@ tags = ["studynote-network"]
 
 ### 1. ICIC (인접 셀 간 간섭 조정, Inter-Cell Interference Coordination) 🌟
 - **원리**: A 기지국과 B 기지국이 무전기(X2 인터페이스)로 서로 짬짜미(협상)를 합니다.
-- **주파수 양보 (Fractional [Frequency Reuse](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/))**: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**" 
+- <strong>주파수 양보 (Fractional <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/">Frequency Reuse</a>)</strong>: "야 B기지국! 우리 경계선(셀 엣지)에 있는 철수한테 내가 100MHz 주파수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠 거니까, **너는 그 시간에 100MHz 주파수 대역 절대 쓰지 말고 비워둬!**" 
 - B 기지국이 양보해서 그 주파수를 비워주면, 철수 입장에서는 간섭(노이즈)이 0이 되어 약한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라도 깨끗하게 들을 수 있어 다운로드 속도가 부활합니다. (주파수 쪼개기 마법)
 
 ### 2. [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) ([협력 통신](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/), Coordinated Multi-Point) (913번 심화 / 1013번 문서)
 - 기지국끼리 싸우지 말고 아예 힘을 합칩니다.
-- A 기지국과 B 기지국이 철수에게 **동시에 100% 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전파를 정밀한 타이밍으로 조준해서 쏴버립니다(Joint Transmission).** 두 전파가 공중에서 파동 겹침으로 더해져서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(에너지)가 2배로 뻥튀기되며 엣지 수율이 폭발합니다.
+- A 기지국과 B 기지국이 철수에게 <strong>동시에 100% 똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전파를 정밀한 타이밍으로 조준해서 쏴버립니다(Joint Transmission).</strong> 두 전파가 공중에서 파동 겹침으로 더해져서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기(에너지)가 2배로 뻥튀기되며 엣지 수율이 폭발합니다.
 
 ### 3. [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 및 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)
 - 기지국 안테나가 360도로 둥글게 전파를 퍼뜨리지 않습니다. 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 프론트홀]
-    │
-    ▼
-[현재 개념: 셀 엣지 수율]
-    │
-    ├──▶ [확장 A: CoMP]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프론트홀</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 셀 엣지 수율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CoMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 셀 엣지 수율는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CoMP와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

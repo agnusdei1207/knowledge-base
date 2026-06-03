@@ -18,19 +18,19 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│         위험 3요소 관계도                                 │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  [위협] ───────► [취약점] ───────► [자산 피해]            │
-│  (Threat)       (Vulnerability)   (Asset Impact)        │
-│                                                         │
-│  위험 = 위협 발생 가능성 × 취약점 × 자산 가치             │
-│                                                         │
-│  예: 랜섬웨어(위협) + 패치 미적용(취약점) → 데이터 암호화  │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 3요소 관계도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위협</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">취약점</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">자산 피해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Threat) (Vulnerability) (Asset Impact)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 = 위협 발생 가능성 × 취약점 × 자산 가치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 랜섬웨어(위협) + 패치 미적용(취약점) → 데이터 암호화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 집 안전 점검이다. 도둑(위협)이 침입할 수 있는 열린 창문(취약점)을 찾아내고, 그 창문 근처에 귀중품(자산)이 있는지 확인하는 것이다.
 
@@ -45,7 +45,7 @@ tags = ["studynote-security"]
 | **1. 자산 목록화** | 정보자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·가치 평가 | 자산 목록 |
 | **2. 위협 목록화** | 해킹, 자연재해, 내부자 위협 등 | 위협 목록 |
 | **3. 취약점 목록화** | 기술·관리·물리적 취약점 | 취약점 목록 |
-| **4. 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)** | 위협-취약점-자산 연결 | 위험 목록 |
+| <strong>4. 위험 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong> | 위협-취약점-자산 연결 | 위험 목록 |
 
 ### 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 모델)
 
@@ -77,7 +77,7 @@ E - Elevation of Privilege (권한 상승)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기법
-- **[체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 산업 표준([OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/), [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 기반 취약점 목록 점검.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 산업 표준([OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/), [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 기반 취약점 목록 점검.
 - **인터뷰**: 업무 담당자·개발자 대상 위협 시나리오 청취.
 - **브레인스토밍**: 팀 기반 창의적 위협 발굴.
 - **취약점 스캐너**: Nessus, OpenVAS 자동화 스캔.
@@ -111,26 +111,28 @@ E - Elevation of Privilege (권한 상승)
 | **자산** | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상 |
 | **위협** | 자산에 피해를 줄 수 있는 외부 요소 |
 | **취약점** | 위협이 자산에 도달하는 경로 |
-| **[STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)** | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 6종 모델 |
-| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 의무화 정보보호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">STRIDE</a></strong> | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 6종 모델 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 의무화 정보보호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자산·위협·취약점 목록화 — 위험 식별 기본 활동]
-    │
-    ▼
-[STRIDE / OWASP — 체계적 위협 분류 모델]
-    │
-    ▼
-[자동화 스캔 (Nessus, OpenVAS) — 기술적 취약점 자동 탐지]
-    │
-    ▼
-[ISMS-P / ISO 27001 — 위험 관리 체계 인증]
-    │
-    ▼
-[AI 위협 인텔리전스 — 실시간 신규 위협 자동 식별]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자산·위협·취약점 목록화 — 위험 식별 기본 활동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STRIDE / OWASP — 체계적 위협 분류 모델</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 스캔 (Nessus, OpenVAS) — 기술적 취약점 자동 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISMS-P / ISO 27001 — 위험 관리 체계 인증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 위협 인텔리전스 — 실시간 신규 위협 자동 식별</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

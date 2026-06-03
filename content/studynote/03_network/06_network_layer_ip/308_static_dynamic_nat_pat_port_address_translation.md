@@ -20,24 +20,28 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 테이블을 구성하는 3가지 세부 방식이다.
-  - **Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)**: 1 대 1 정적 맵핑
-  - **Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)**: 다 대 다(M:N) 동적 맵핑 (먼저 온 놈이 쓴다)
-  - **PAT (NAPT - Network Address [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Translation)**: 1 대 다(1:N) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 변환
+  - <strong>Static <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 1 대 1 정적 맵핑
+  - <strong>Dynamic <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 다 대 다(M:N) 동적 맵핑 (먼저 온 놈이 쓴다)
+  - <strong>PAT (NAPT - Network Address <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Translation)</strong>: 1 대 다(1:N) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 변환
 - **필요성**: 상황마다 필요한 변환 방식이 다르다. 사내 웹서버를 돌린다면 누군가 외부에서 `211.x.x.5`를 쳤을 때 무조건 그 서버(사설 IP `192.168.0.50`)로 꽂아줘야 하니 Static이 필요하다. 반면 직원 100명이 네이버 웹서핑만 할 거라면, 공인 IP 100개를 사는 건 미친 짓이므로 공인 IP 딱 1개에 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 100개를 붙여서 쪼개 쓰는 PAT가 압도적으로 경제적이다.
 
 - **💡 비유**: 
-  - **Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)**: 사장님 전용 **"고정 주차 구역(1:1)"**. 사장님 차 번호와 주차 칸 번호가 영구 매칭되어 있습니다.
-  - **Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)**: 회사 공용 주차장 **"자율 주차(M:N)"**. 주차 칸(공인 IP)이 5개면, 출근 빨리한 직원 5명만 주차하고, 6번째 직원은 퇴근차가 나올 때까지 빙빙 돌아야 합니다.
+  - <strong>Static <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 사장님 전용 **"고정 주차 구역(1:1)"**. 사장님 차 번호와 주차 칸 번호가 영구 매칭되어 있습니다.
+  - <strong>Dynamic <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong>: 회사 공용 주차장 **"자율 주차(M:N)"**. 주차 칸(공인 IP)이 5개면, 출근 빨리한 직원 5명만 주차하고, 6번째 직원은 퇴근차가 나올 때까지 빙빙 돌아야 합니다.
   - **PAT**: 놀이공원의 **"거대한 공용 사물함(1:N)"**. 사물함(공인 IP)은 1개지만, 안에 열쇠 번호([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))가 수만 개 달려 있어서, 열쇠 번호만 다르면 수천 명이 동시에 한 사물함을 나누어 쓸 수 있습니다.
 
-```text
-[NAT]
-    │
-    ▼
-[Static NAT / Dynamic NAT…]
-    │
-    └──▶ [헤어핀 NAT]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Static NAT / Dynamic NAT…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤어핀 NAT</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 우리가 집에서 쓰는 'ipTime 공유기'는 사실 공유기가 아니라 **"PAT([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소 변환기)"**라고 부르는 것이 기술적으로 가장 정확한 명칭입니다. IP 하나를 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)로 썰어서 가족 모두에게 나눠주는 기계이기 때문입니다.
 
@@ -48,12 +52,12 @@ tags = ["studynote-network"]
 ### 1. Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) (1:1 매핑)
 - 관리자가 라우터에 `ip nat inside source static 192.168.0.100 211.1.1.100`이라고 박아버린다.
 - 그러면 외부 해커가 `211.1.1.100`으로 핑을 때리면, 라우터는 묻지도 따지지도 않고 무조건 내부의 `192.168.0.100` 서버로 전달해 버린다.
-- **[포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Forwarding)**: Static NAT의 변형으로, "211.1.1.100의 **80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**로 오면 192.168.0.100 서버로 주고, **21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**로 오면 192.168.0.101 서버로 줘!"라고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 단위로 정밀하게 꺾어버리는 기술이다. 홈 네트워크에서 CCTV나 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 서버를 외부에서 접속할 때 필수로 쓴다.
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/">포트 포워딩</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Forwarding)</strong>: Static NAT의 변형으로, "211.1.1.100의 <strong>80번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 오면 192.168.0.100 서버로 주고, <strong>21번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 오면 192.168.0.101 서버로 줘!"라고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 단위로 정밀하게 꺾어버리는 기술이다. 홈 네트워크에서 CCTV나 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 서버를 외부에서 접속할 때 필수로 쓴다.
 
 ### 2. Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) (M:N 매핑)
 - 회사가 공인 IP를 10개(Pool) 샀고, 직원이 50명이다.
 - 직원이 웹서핑을 시도할 때마다 라우터가 남는 공인 IP 하나를 빌려준다.
-- 만약 직원 10명이 동시에 다운로드를 걸어 공인 IP 10개를 꽉 채웠다면? **11번째 직원은 공인 IP가 반납될 때까지 인터넷 접속이 완전히 멈춰버리는 끔찍한 현상**이 발생한다. IP 절약 효과가 거의 없어서 요즘엔 안 쓴다.
+- 만약 직원 10명이 동시에 다운로드를 걸어 공인 IP 10개를 꽉 채웠다면? <strong>11번째 직원은 공인 IP가 반납될 때까지 인터넷 접속이 완전히 멈춰버리는 끔찍한 현상</strong>이 발생한다. IP 절약 효과가 거의 없어서 요즘엔 안 쓴다.
 
 ### 3. PAT ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Address Translation / NAPT) - 인터넷의 구원자
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더에 있는 '출발지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)(16비트)'는 약 6만 개다. 라우터는 이걸 악용(응용)한다.
@@ -66,21 +70,22 @@ tags = ["studynote-network"]
   - 구글이 `공유기IP:5000`으로 답장을 쏜다.
   - 공유기는 장부를 뒤져보고 "아 5000번은 아까 내 폰(`192.168.0.2`)이 보낸 거네!" 하고 정확하게 내 폰으로만 패킷을 돌려준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 PAT (NAPT)의 1:N 포트 변환 마법 도식              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 집안 식구들 ]                 [ 공유기 (211.x.x.x) ]         │
- │                                     (NAT 장부)                │
- │   아빠 폰 (192.168.0.10) ───▶ [ 211.x.x.x : 포트 10001 ] ───▶ │
- │   엄마 폰 (192.168.0.11) ───▶ [ 211.x.x.x : 포트 10002 ] ───▶ │
- │   내 PC  (192.168.0.12) ───▶ [ 211.x.x.x : 포트 10003 ] ───▶ │
- │                                                             │
- │   ▶ 결과: 공유기 밖(인터넷)에서 보면 그냥 211.x.x.x 라는 놈 혼자서  │
- │          포트 번호만 바꿔가며 수만 개의 인터넷 창을 띄운 것처럼 보임! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PAT (NAPT)의 1:N 포트 변환 마법 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">집안 식구들</div><div class="kb-diagram-node">공유기 (211.x.x.x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NAT 장부)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">211.x.x.x : 포트 10001</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">211.x.x.x : 포트 10002</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">211.x.x.x : 포트 10003</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 공유기 밖(인터넷)에서 보면 그냥 211.x.x.x 라는 놈 혼자서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 번호만 바꿔가며 수만 개의 인터넷 창을 띄운 것처럼 보임!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** PAT는 우체국 사서함과 같습니다. 우체국 건물 주소(공인 IP)는 단 1개지만, 건물 벽면에 뚫린 수만 개의 **"작은 사서함 칸([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))"** 덕분에 수만 명의 사람이 절대 우편물을 헷갈리지 않고 안전하게 받아볼 수 있습니다.
 
@@ -138,15 +143,19 @@ Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NAT]
-    │
-    ▼
-[현재 개념: Static NAT / Dynamic NAT…]
-    │
-    ├──▶ [확장 A: 헤어핀 NAT]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Static NAT / Dynamic NAT…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 헤어핀 NAT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 Static [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) / Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)…는 NAT에서 출발해 현재 메커니즘을 정교화하고, 이후 헤어핀 NAT와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

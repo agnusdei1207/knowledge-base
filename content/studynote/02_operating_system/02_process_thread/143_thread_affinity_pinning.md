@@ -25,54 +25,51 @@ tags = ["studynote-operating-system"]
 
 > **비유:** 한 직원에게 항상 같은 작업대를 배정하면, 도구 위치를 기억해 작업 속도가 빨라지는 것과 같다.
 
-```
-┌───────────── 스레드 고정 (Pinning) ─────────────┐
-│                                                   │
-│   스레드-1  ───────  코어-0 (고정)               │
-│   스레드-2  ───────  코어-1 (고정)               │
-│   스레드-3  ───────  코어-2 (고정)               │
-│                                                   │
-│   OS 스케줄러 마이그레이션 불가 (Hard)            │
-│                                                   │
-└───────────────────────────────────────────────────┘
 
-┌─────────── 스레드 자유 이동 (기본) ──────────────┐
-│                                                   │
-│   스레드-1  ──> 코어-0 ──> 코어-2 ──> 코어-1    │
-│   스레드-2  ──> 코어-1 ──> 코어-0 ──> 코어-3    │
-│                                                   │
-│   OS 스케줤러가 임의로 이동                       │
-│   캐시 미스 증가 가능                              │
-│                                                   │
-└───────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스레드 고정 (Pinning)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-1 코어-0 (고정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-2 코어-1 (고정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-3 코어-2 (고정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 스케줄러 마이그레이션 불가 (Hard)</div></div>
+<div class="kb-diagram-note">스레드 자유 이동 (기본)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-1 ──&gt; 코어-0 ──&gt; 코어-2 ──&gt; 코어-1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-2 ──&gt; 코어-1 ──&gt; 코어-0 ──&gt; 코어-3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 스케줤러가 임의로 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 미스 증가 가능</div></div>
+</div>
+</div>
+
+
 
 ### 2. 소프트 어피니티 vs 하드 어피니티
 
 | 구분 | 정의 | 강제성 |
 |------|------|--------|
-| **Soft [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | OS가 이전 코어를 선호하도록 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 제공 | 권장, 강제 아님 |
-| **Hard [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | 특정 코어에 강제 바인딩 | 강제, 다른 코어 이동 불가 |
+| <strong>Soft <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a></strong> | OS가 이전 코어를 선호하도록 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 제공 | 권장, 강제 아님 |
+| <strong>Hard <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a></strong> | 특정 코어에 강제 바인딩 | 강제, 다른 코어 이동 불가 |
 
-```
-┌─────────────── Soft vs Hard Affinity ───────────────┐
-│                                                      │
-│  Soft Affinity:                                      │
-│  ┌─────────┐    (선호)    ┌──────────┐              │
-│  │ Thread 1 │ ─────────> │  Core 0  │              │
-│  └─────────┘              └──────────┘              │
-│       │           (가능하면 다른 코어도 사용)          │
-│       └──────────────> Core 2 (부하 시)              │
-│                                                      │
-│  Hard Affinity:                                      │
-│  ┌─────────┐    (강제)    ┌──────────┐              │
-│  │ Thread 1 │ ══════════ │  Core 0  │              │
-│  └─────────┘              └──────────┘              │
-│       │           (다른 코어 사용 불가)               │
-│       ╳──────> Core 2 (금지)                         │
-│                                                      │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Soft vs Hard Affinity</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Soft Affinity:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선호)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread 1</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">Core 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가능하면 다른 코어도 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; Core 2 (부하 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hard Affinity:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(강제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread 1</div><div class="kb-diagram-cell">Core 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다른 코어 사용 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╳ &gt; Core 2 (금지)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -82,20 +79,22 @@ tags = ["studynote-operating-system"]
 
 ### 1. 리눅스 시스템 콜
 
-**`sched_setaffinity()`**: 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU 어피니티 마스크를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
+<strong><code>sched_setaffinity()</code></strong>: 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU 어피니티 마스크를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
 
-```
-┌────────── CPU Affinity Mask (4-Core) ───────────┐
-│                                                    │
-│  Bit:    [3]  [2]  [1]  [0]                      │
-│  Core:    3    2    1    0                        │
-│                                                    │
-│  Mask = 0x03 (0000 0011) -> Core 0, 1만 허용      │
-│  Mask = 0x05 (0000 0101) -> Core 0, 2만 허용      │
-│  Mask = 0x0F (0000 1111) -> 모든 코어 허용        │
-│                                                    │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU Affinity Mask (4-Core)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Bit:</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core: 3 2 1 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x03 (0000 0011) -&gt; Core 0, 1만 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x05 (0000 0101) -&gt; Core 0, 2만 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x0F (0000 1111) -&gt; 모든 코어 허용</div></div>
+</div>
+</div>
+
+
 
 ```c
 #define _GNU_SOURCE
@@ -118,28 +117,31 @@ void set_thread_affinity(int core_id) {
 | 도구 | 용도 | 예시 |
 |------|------|------|
 | **taskset** | 프로세스 CPU 마스크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | `taskset -c 0,1 ./app` |
-| **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/그룹 CPU 할당 | `cgcreate -g cpuset:/mygroup` |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> cpuset</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/그룹 CPU 할당 | `cgcreate -g cpuset:/mygroup` |
 | **numactl** | [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 + CPU 바인딩 | `numactl --cpunodebind=0 ./app` |
 | **pthread_setaffinity_np** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 단위 바인딩 (C [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) | `CPU_SET(0, &cpuset)` |
 
 ### 3. [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset
 
-```
-┌──────── cgroups cpuset 계층 구조 ────────┐
-│                                            │
-│  /sys/fs/cgroup/cpuset/                    │
-│  ├── root/                                 │
-│  │   ├── cpuset.cpus = "0-7"              │
-│  │   └── cpuset.mems = "0-1"              │
-│  ├── realtime/                             │
-│  │   ├── cpuset.cpus = "0-3"              │
-│  │   └── cpuset.mems = "0"                │
-│  └── batch/                                │
-│      ├── cpuset.cpus = "4-7"              │
-│      └── cpuset.mems = "1"                │
-│                                            │
-└────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">cgroups cpuset 계층 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/sys/fs/cgroup/cpuset/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── root/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.cpus = "0-7"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.mems = "0-1"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── realtime/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.cpus = "0-3"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.mems = "0"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── batch/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.cpus = "4-7"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cpuset.mems = "1"</div></div>
+</div>
+</div>
+
+
 
 > **비유:** [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpuset은 공장의 작업 구역을 나누어, 실시간 작업은 정밀 기계 구역에, 일반 작업은 대량 생산 구역에 배정하는 것과 같다.
 
@@ -153,22 +155,20 @@ void set_thread_affinity(int core_id) {
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동일 코어에서 실행되면 L1/L2 캐시 데이터가 유효하여 캐시 히트율이 향상된다.
 
-```
-┌─────────── Cache Warmth Effect ───────────┐
-│                                             │
-│  코어 0에서 연속 실행:                      │
-│  ┌──────────┐                              │
-│  │ L1 Cache │ HIT HIT HIT HIT HIT (90%+)   │
-│  └──────────┘                              │
-│                                             │
-│  코어 마이그레이션 후:                       │
-│  ┌──────────┐                              │
-│  │ L1 Cache │ MISS MISS HIT HIT HIT (50%)  │
-│  └──────────┘                              │
-│  (새 코어의 캐시는 비어있음)                │
-│                                             │
-└─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cache Warmth Effect</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 0에서 연속 실행:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Cache</div><div class="kb-diagram-cell">HIT HIT HIT HIT HIT (90%+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 마이그레이션 후:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Cache</div><div class="kb-diagram-cell">MISS MISS HIT HIT HIT (50%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새 코어의 캐시는 비어있음)</div></div>
+</div>
+</div>
+
+
 
 ### 2. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시 감소
 
@@ -177,7 +177,7 @@ void set_thread_affinity(int core_id) {
 | 효과 | 설명 | 기대 효과 |
 |------|------|-----------|
 | **캐시 히트율 향상** | L1/L2 캐시 재사용 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 |
-| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 감소** | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 캐시 유지 | 5~15% 메모리 접근 향상 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 미스 감소</strong> | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 캐시 유지 | 5~15% 메모리 접근 향상 |
 | **브랜치 예측 향상** | 분기 예측기 유지 | 2~5% 연산 향상 |
 | **파이프라인 효율** | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 유지 | 일관된 실행 속도 |
 
@@ -189,23 +189,23 @@ void set_thread_affinity(int core_id) {
 
 ### 1. [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) (Real-time Systems)
 
-```
-┌───────── Real-time CPU Isolation ──────────┐
-│                                              │
-│  Core 0-1: [Real-time Tasks] (Hard Pinned)  │
-│              │                                 │
-│              ├── 타이머 인터럽트 최소화        │
-│              ├── 인터럽트 핸들러 제외          │
-│              └── 결정적 응답 시간 보장        │
-│                                              │
-│  Core 2-7: [General Purpose Tasks]           │
-│              │                                 │
-│              ├── OS 서비스                     │
-│              ├── 네트워크 I/O                  │
-│              └── 로깅, 모니터링               │
-│                                              │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Real-time CPU Isolation</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 0-1:</div><div class="kb-diagram-node">Real-time Tasks</div><div class="kb-diagram-note">(Hard Pinned)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 타이머 인터럽트 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 인터럽트 핸들러 제외</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 결정적 응답 시간 보장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 2-7:</div><div class="kb-diagram-node">General Purpose Tasks</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── OS 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 네트워크 I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 로깅, 모니터링</div></div>
+</div>
+</div>
+
+
 
 ### 2. 고빈도 트레이딩 (HFT, High-Frequency Trading)
 
@@ -213,19 +213,21 @@ void set_thread_affinity(int core_id) {
 
 ### 3. [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)
 
-```
-┌─────────────── DPDK Poll Mode ───────────────┐
-│                                                │
-│  Core 0:  RX Poll ──> [Pkt Process] ──> TX    │
-│  Core 1:  RX Poll ──> [Pkt Process] ──> TX    │
-│  Core 2:  RX Poll ──> [Pkt Process] ──> TX    │
-│                                                │
-│  - 인터럽트 없이 폴링 (Busy-wait)             │
-│  - 각 코어가 독립적인 큐 처리                  │
-│  - 캐시 라인 밀림 방지 (RSS + Pinning)        │
-│                                                │
-└────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DPDK Poll Mode</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 0: RX Poll ──&gt;</div><div class="kb-diagram-node">Pkt Process</div><div class="kb-diagram-note">──&gt; TX</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 1: RX Poll ──&gt;</div><div class="kb-diagram-node">Pkt Process</div><div class="kb-diagram-note">──&gt; TX</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Core 2: RX Poll ──&gt;</div><div class="kb-diagram-node">Pkt Process</div><div class="kb-diagram-note">──&gt; TX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인터럽트 없이 폴링 (Busy-wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 각 코어가 독립적인 큐 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 캐시 라인 밀림 방지 (RSS + Pinning)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -233,43 +235,49 @@ void set_thread_affinity(int core_id) {
 
 ## Ⅴ. 기대효과 및 결론
 
-```
-스레드 고정 Thread Affinity/Pinning
-├── 핵심 개념
-│   ├── 스레드를 특정 CPU 코어에 바인딩
-│   ├── 소프트 어피니티 (OS 힌트)
-│   └── 하드 어피니티 (강제 바인딩)
-├── 구현 방법
-│   ├── sched_setaffinity() 시스템 콜
-│   ├── taskset (프로세스 단위)
-│   ├── cgroups cpuset (그룹 단위)
-│   ├── numactl (NUMA 노드 단위)
-│   └── pthread_setaffinity_np (스레드 단위)
-├── 성능 이점
-│   ├── 캐시 웜스 (L1/L2 히트율 향상)
-│   ├── TLB 플러시 감소
-│   ├── 브랜치 예측기 유지
-│   └── 결정적 실행 시간 보장
-├── 활용 분야
-│   ├── 실시간 시스템 (CPU 격리)
-│   ├── 고빈도 트레이딩 (지연 최소화)
-│   ├── DPDK (데이터 플레인 폴링)
-│   └── 데이터베이스 (쿼리 처리 스레드)
-└── 주의사항
-    ├── 로드 불균형 가능성
-    ├── 오버커밋 시 성능 저하
-    └── 코어 수보다 많은 스레드 시 문제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스레드 고정 Thread Affinity/Pinning</div>
+<div class="kb-diagram-tree-item" style="--depth:0">핵심 개념</div>
+<div class="kb-diagram-note">── 스레드를 특정 CPU 코어에 바인딩</div>
+<div class="kb-diagram-note">── 소프트 어피니티 (OS 힌트)</div>
+<div class="kb-diagram-note">── 하드 어피니티 (강제 바인딩)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구현 방법</div>
+<div class="kb-diagram-note">── sched_setaffinity() 시스템 콜</div>
+<div class="kb-diagram-note">── taskset (프로세스 단위)</div>
+<div class="kb-diagram-note">── cgroups cpuset (그룹 단위)</div>
+<div class="kb-diagram-note">── numactl (NUMA 노드 단위)</div>
+<div class="kb-diagram-note">── pthread_setaffinity_np (스레드 단위)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">성능 이점</div>
+<div class="kb-diagram-note">── 캐시 웜스 (L1/L2 히트율 향상)</div>
+<div class="kb-diagram-note">── TLB 플러시 감소</div>
+<div class="kb-diagram-note">── 브랜치 예측기 유지</div>
+<div class="kb-diagram-note">── 결정적 실행 시간 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용 분야</div>
+<div class="kb-diagram-note">── 실시간 시스템 (CPU 격리)</div>
+<div class="kb-diagram-note">── 고빈도 트레이딩 (지연 최소화)</div>
+<div class="kb-diagram-note">── DPDK (데이터 플레인 폴링)</div>
+<div class="kb-diagram-note">── 데이터베이스 (쿼리 처리 스레드)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">주의사항</div>
+<div class="kb-diagram-tree-item" style="--depth:2">로드 불균형 가능성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">오버커밋 시 성능 저하</div>
+<div class="kb-diagram-tree-item" style="--depth:2">코어 수보다 많은 스레드 시 문제</div>
+</div>
+</div>
+
+
 
 ---
 
 | 약어 | Full Name |
 |------|-----------|
-| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)** | [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a></strong> | [Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/) |
 | **HFT** | High-Frequency Trading |
-| **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)** | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong> | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit |
 | **RSS** | Receive Side Scaling |
-| **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)** | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a></strong> | [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) |
 
 ---
 
@@ -292,15 +300,19 @@ void set_thread_affinity(int core_id) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
-    │
-    ▼
-[컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
-    │
-    ├──▶ [CPU 친화성 (CPU Affinity)]
-    └──▶ [NUMA-인식 스레드 스케줄링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 친화성 (CPU Affinity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA-인식 스레드 스케줄링</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

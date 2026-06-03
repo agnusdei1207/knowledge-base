@@ -18,7 +18,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 공공 빅데이터의 정의와 특성
 
-공공 빅데이터(Public Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 **정부·지자체·공공기관이 행정·사업 과정에서 생산·수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디지털 형태로 공개한 것**이다.
+공공 빅데이터(Public Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 <strong>정부·지자체·공공기관이 행정·사업 과정에서 생산·수집한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 디지털 형태로 공개한 것</strong>이다.
 
 ### 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형
 
@@ -33,7 +33,7 @@ tags = ["studynote-bigdata"]
 
 ### 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성
 
-- **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)**: 공공기관의 공식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong>: 공공기관의 공식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 - **규모**: 국가 단위 대규모 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 - **희소성**: 민간이 수집 불가능한 정보
 - **공공성**: 사회 전체의 이익을 위한 개방
@@ -95,28 +95,40 @@ tags = ["studynote-bigdata"]
 
 ### 교통 빅데이터 분석
 
-```
-공공 교통 데이터 파이프라인:
-  버스 GPS → 실시간 수집 → Apache Kafka
-                                ↓
-                         실시간 처리 (Flink)
-                                ↓
-                     배차 최적화·혼잡 예측 알림
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공공 교통 데이터 파이프라인:</div>
+<div class="kb-diagram-note">버스 GPS → 실시간 수집 → Apache Kafka</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">실시간 처리 (Flink)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">배차 최적화·혼잡 예측 알림</div>
+</div>
+</div>
+
+
 
 ### 의료 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용
 
 - **건강보험공단 빅데이터**: 2억 건 이상 진료 내역 → 질병 예측 모델
-- **DUR (Drug Utilization [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))**: 처방 안전성 실시간 점검
+- <strong>DUR (Drug Utilization <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/">Review</a>)</strong>: 처방 안전성 실시간 점검
 - **국가암데이터**: 암 발생·생존율 분석, 조기 발견 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발
 
 ### 사회복지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매칭
 
-```
-복지 사각지대 발굴:
-  전기·수도 단수 데이터 + 건강보험 미납 + 복지 수급 여부
-  → AI 고위험군 예측 → 담당자 선제 방문
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">복지 사각지대 발굴:</div>
+<div class="kb-diagram-note">전기·수도 단수 데이터 + 건강보험 미납 + 복지 수급 여부</div>
+<div class="kb-diagram-note">→ AI 고위험군 예측 → 담당자 선제 방문</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 복지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매칭은 동네 이장이 어려운 이웃을 찾는 것이다 — 전기가 끊기고 연락이 안 되면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 먼저 찾아가는 능동적 복지를 AI로 구현한다.
 
@@ -149,47 +161,54 @@ tags = ["studynote-bigdata"]
 
 ## 📌 관련 개념 맵
 
-```
-공공 빅데이터 (Public Big Data)
-├── 개방 플랫폼
-│   ├── 공공데이터포털 (data.go.kr)
-│   ├── 국가통계포털 (KOSIS)
-│   └── 건강보험공단 빅데이터
-├── 국제 표준
-│   ├── FAIR 원칙 (Findable·Accessible·Interoperable·Reusable)
-│   └── 5성급 공공 데이터 (Tim Berners-Lee)
-├── 활용 분야
-│   ├── 스마트시티 (교통·환경)
-│   ├── 의료·복지 혁신
-│   └── 창업·상권 분석
-└── 품질·보호
-    ├── 데이터 품질 5대 기준
-    └── 개인정보 비식별화 (k-익명성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공공 빅데이터 (Public Big Data)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">개방 플랫폼</div>
+<div class="kb-diagram-note">── 공공데이터포털 (data.go.kr)</div>
+<div class="kb-diagram-note">── 국가통계포털 (KOSIS)</div>
+<div class="kb-diagram-note">── 건강보험공단 빅데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:0">국제 표준</div>
+<div class="kb-diagram-note">── FAIR 원칙 (Findable·Accessible·Interoperable·Reusable)</div>
+<div class="kb-diagram-note">── 5성급 공공 데이터 (Tim Berners-Lee)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용 분야</div>
+<div class="kb-diagram-note">── 스마트시티 (교통·환경)</div>
+<div class="kb-diagram-note">── 의료·복지 혁신</div>
+<div class="kb-diagram-note">── 창업·상권 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:0">품질·보호</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 품질 5대 기준</div>
+<div class="kb-diagram-tree-item" style="--depth:2">개인정보 비식별화 (k-익명성)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│               공공 빅데이터 발전 흐름                            │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 2010년       │ 공공데이터법 제정  │ 미국 Data.gov 등장, 오픈 데이터│
-│ 2013년       │ 공공데이터법 (한국) │ data.go.kr 공식 운영         │
-│ 2016년       │ 데이터 경제 선언   │ EU 데이터 전략, 마이데이터 연계│
-│ 2020년       │ 데이터 3법 개정   │ 가명정보 처리·결합 허용       │
-│ 2022년       │ 디지털플랫폼정부  │ 공공데이터 API 고도화         │
-│ 2024~현재    │ AI 공공 데이터    │ AI 학습 공개 데이터 구축 확대  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-공공 데이터 → data.go.kr → FAIR 원칙 → 민간 서비스
-    ↓              ↓            ↓           ↓
-행정·의료·교통  API 개방     메타데이터    카카오맵·호갱노노
-    ↓
-비식별화 → 개인정보 보호 → 데이터 품질 → 신뢰성 확보
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공공 빅데이터 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년</div><div class="kb-diagram-cell">공공데이터법 제정</div><div class="kb-diagram-cell">미국 Data.gov 등장, 오픈 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2013년</div><div class="kb-diagram-cell">공공데이터법 (한국)</div><div class="kb-diagram-cell">data.go.kr 공식 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2016년</div><div class="kb-diagram-cell">데이터 경제 선언</div><div class="kb-diagram-cell">EU 데이터 전략, 마이데이터 연계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">데이터 3법 개정</div><div class="kb-diagram-cell">가명정보 처리·결합 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">디지털플랫폼정부</div><div class="kb-diagram-cell">공공데이터 API 고도화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024~현재</div><div class="kb-diagram-cell">AI 공공 데이터</div><div class="kb-diagram-cell">AI 학습 공개 데이터 구축 확대</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">공공 데이터 → data.go.kr → FAIR 원칙 → 민간 서비스</div>
+<div class="kb-diagram-note">행정·의료·교통 API 개방 메타데이터 카카오맵·호갱노노</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">비식별화 → 개인정보 보호 → 데이터 품질 → 신뢰성 확보</div>
+</div>
+</div>
+
+
 
 ---
 

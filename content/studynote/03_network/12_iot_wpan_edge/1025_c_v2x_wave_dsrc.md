@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 자동차가 서로 통신하기([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 위해서는 두 자동차가 같은 주파수와 같은 규칙(언어)으로 대화해야 한다. 이를 위해 5.9GHz 대역폭이 차량용 통신 전용 주파수로 할당되었다. 하지만 이 주파수를 어떤 '방식'으로 사용할 것인가를 두고 업계는 오랫동안 두 개의 진영으로 나뉘어 싸워왔다.
 
-하나는 우리가 집에서 쓰는 Wi-Fi 기술을 자동차용으로 조금 개조한 **[WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)(DSRC)** 진영이고, 다른 하나는 스마트폰에 쓰는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 자동차에 맞게 진화시킨 **[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)** 진영이다. 통신 방식이 다르면 두 자동차는 서로 대화할 수 없으므로, 국가 차원에서 단일 표준을 정하는 것은 자율주행 산업의 생사를 가르는 결정이었다.
+하나는 우리가 집에서 쓰는 Wi-Fi 기술을 자동차용으로 조금 개조한 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">WAVE</a>(DSRC)</strong> 진영이고, 다른 하나는 스마트폰에 쓰는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 자동차에 맞게 진화시킨 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a></strong> 진영이다. 통신 방식이 다르면 두 자동차는 서로 대화할 수 없으므로, 국가 차원에서 단일 표준을 정하는 것은 자율주행 산업의 생사를 가르는 결정이었다.
 
-```text
-[V2X]
-    │
-    ▼
-[C-V2X / WAVE 매체 제어]
-    │
-    └──▶ [스마트 그리드 통신 인프라망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드 통신 인프라망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도로 위에서 자동차들이 서로 대화할 때 무전기(Wi-Fi 기반 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))를 쓸 것인가, 아니면 스마트폰([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기반 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))을 쓸 것인가를 두고 벌어진 거대한 국가 단위의 기술 전쟁이다.
 
@@ -42,22 +46,26 @@ tags = ["studynote-network"]
 
 ### 1. [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) / DSRC (Wi-Fi 기반)
 * **표준**: IEEE 802.11p
-* **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 ([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: 기존 Wi-Fi처럼 데이터를 보내기 전에 주파수 채널이 비어있는지 먼저 들어보고(Carrier Sense), 비어있으면 쏜다. 
+* <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 기존 Wi-Fi처럼 데이터를 보내기 전에 주파수 채널이 비어있는지 먼저 들어보고(Carrier Sense), 비어있으면 쏜다. 
 * **특징**: 복잡한 기지국(망) 없이 노변 기지국([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/))과 차량 단말(OBU)만 있으면 즉시 통신이 가능한 단순한 구조다. 하지만 차가 너무 많아지면 서로 눈치를 보느라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생한다.
 
 ### 2. [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) (이동통신 기반)
 * **표준**: [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel.14 ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-[V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) ~ Rel.16+ ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-[V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))
-* **[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 (SPS, Semi-Persistent Scheduling)**: 이동통신 기지국이 차량들에게 서로 겹치지 않게 통신 시간과 주파수 자원(Resource Block)을 미리 딱딱 스케줄링해 주어 충돌을 원천 차단한다.
-* **[직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) (PC5 Sidelink)**: 기지국 음영 지역에서도 차량끼리 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)할 수 있도록, 기지국 없이 단말기들이 스스로 자원을 분배하는 모드(Mode 4)를 특별히 추가했다.
+* <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어 (SPS, Semi-Persistent Scheduling)</strong>: 이동통신 기지국이 차량들에게 서로 겹치지 않게 통신 시간과 주파수 자원(Resource Block)을 미리 딱딱 스케줄링해 주어 충돌을 원천 차단한다.
+* <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a> (PC5 Sidelink)</strong>: 기지국 음영 지역에서도 차량끼리 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)할 수 있도록, 기지국 없이 단말기들이 스스로 자원을 분배하는 모드(Mode 4)를 특별히 추가했다.
 
-```text
-[V2X]
-    │
-    ▼
-[C-V2X / WAVE 매체 제어]
-    │
-    └──▶ [스마트 그리드 통신 인프라망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드 통신 인프라망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WAVE가 눈치껏 빈 타이밍에 말하는 '자유 토론(Wi-Fi)'이라면, C-V2X는 사회자(기지국)가 발언권을 분 초 단위로 정확히 나눠주는 '규칙적인 회의(이동통신)'다.
 
@@ -85,10 +93,10 @@ WAVE는 오직 V2V(차량 간)와 V2I(노변 기지국 간) 근거리 통신에�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-C-V2X의 핵심은 자율주행 4단계(레벨 4) 이상에서 요구되는 **'센서 셰어링(Sensor Sharing)'**이다. 내 차의 카메라 사각지대를, 앞차의 카메라가 찍은 초고화질(4K) 영상 데이터로 실시간 스트리밍 받아 내비게이션 화면에 합성한다. WAVE의 좁은 대역폭으로는 불가능하지만, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X의 광대역([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)) 특성 덕분에 가능해졌다.
+C-V2X의 핵심은 자율주행 4단계(레벨 4) 이상에서 요구되는 <strong>'센서 셰어링(Sensor Sharing)'</strong>이다. 내 차의 카메라 사각지대를, 앞차의 카메라가 찍은 초고화질(4K) 영상 데이터로 실시간 스트리밍 받아 내비게이션 화면에 합성한다. WAVE의 좁은 대역폭으로는 불가능하지만, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) C-V2X의 광대역([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)) 특성 덕분에 가능해졌다.
 
 **기술사 판단 포인트 (Trade-off):**
-과거 한국 정부는 두 표준을 병행하는 듀얼 모드나 WAVE를 고집하려 했으나, 최종적으로 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 단일 표준**으로 정책을 확정(2023년)했다.
+과거 한국 정부는 두 표준을 병행하는 듀얼 모드나 WAVE를 고집하려 했으나, 최종적으로 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a> 단일 표준</strong>으로 정책을 확정(2023년)했다.
 1. 기술사는 통신 인프라 설계 시 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 표준이 C-V2X로 수렴되었음을 인지하고, 기존에 WAVE로 구축된 [C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/) 실증 사업 구간의 장비들을 C-V2X나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)) 기반으로 마이그레이션하는 전환(Transition) 전략을 세워야 한다.
 2. [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 채택 시, 통신사의 Uu 망(기지국) 의존도가 높아지므로 사이버 공격(재밍, [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))이나 통신사 코어망 장애 시에도 자동차가 최소한의 안전 정지를 수행할 수 있는 로컬 PC5 페일세이프([Fail-safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) 설계가 필수다.
 
@@ -123,15 +131,19 @@ C-V2X의 승리는 이동통신 생태계(퀄컴, 화웨이, 에릭슨)의 규�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: V2X]
-    │
-    ▼
-[현재 개념: C-V2X / WAVE 매체 제어]
-    │
-    ├──▶ [확장 A: 스마트 그리드 통신 인프라망]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: C-V2X / WAVE 매체 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 그리드 통신 인프라망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어는 V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,36 +27,31 @@ ISP가 필요한 이유는 세 가지로 요약된다. 첫째, 비즈니스 환�
 
 특히 금융권에서는 금융 당국이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립을 의무화하고 있으며, 공공부문에서는 기획재정부의「정보시스템 통합관리지침」을 통해 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립을 요구하고 있다. 이러한 규제적 요구와 함께, 기업 내부적으로도 ISP는 IT 거버넌스의 핵심 산출물로 기능한다.
 
-```text
-이 도식은 ISP가 비즈니스 전략과 IT 실행 사이에서 역할을 보여준다.
 
-[비즈니스 환경 분석]
-│
-│ (시장, 경쟁, 규제, 기술)
-▼
-[비즈니스 전략 수립]
-│
-│ (비즈니스 목표, 핵심 성공 요인)
-▼
-┌─────────────────────┐
-│ ISP (정보화 전략 계획) │
-│ │
-│ - IT 비지니스 정렬 │
-│ - IT 현황 평가 │
-│ - Gap 분석 │
-│ - IT 로드맵 수립 │
-│ - 투자 우선순위 결정 │
-└──────────┬──────────┘
-│
-┌────────┴────────┐
-▼ ▼
-[단기 IT 투자] [중장기 IT 투자]
-(1-2년) (3-5년)
-│ │
-└────────┬────────┘
-▼
-[비즈니스 가치 실현]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 ISP가 비즈니스 전략과 IT 실행 사이에서 역할을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 환경 분석</div></div>
+<div class="kb-diagram-note">(시장, 경쟁, 규제, 기술)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 수립</div></div>
+<div class="kb-diagram-note">(비즈니스 목표, 핵심 성공 요인)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP (정보화 전략 계획)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IT 비지니스 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IT 현황 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Gap 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IT 로드맵 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 투자 우선순위 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단기 IT 투자</div><div class="kb-diagram-node">중장기 IT 투자</div></div>
+<div class="kb-diagram-note">(1-2년) (3-5년)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 가치 실현</div></div>
+</div>
+</div>
+
+
 
 이 도식에서 보는 바와 같이, ISP는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT 투자를 연결하는 핵심 메커니즘이다. [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 없이 IT 투자가 이루어지면, 기술 트렌드에 휘둘리거나 일회성 프로젝트로 끝나는 문제가 발생한다. 반면 체계적인 ISP가 있으면, 장기적인 관점에서 필요한 기술을 순차적으로 도입하여 비즈니스 가치를 극대화할 수 있다.
 
@@ -73,10 +68,10 @@ ISP는 체계적인 방법론에 따라 수립되며, 일반적으로 다음의 
 | 단계 | 활동 | 주요 산출물 |
 |:---|:---|:---|
 | **1단계: 준비 및 계획** | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 추진 팀 구성, 일정 계획, 방법론 정의 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 추진 계획서 |
-| **2단계: 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석** | business model 분석, [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/) 도출 | 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
+| <strong>2단계: 비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 분석</strong> | business model 분석, [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/) 도출 | 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
 | **3단계: IT 현황 평가** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 분석, 애플리케이션-portfolio 평가, 인프라 현황 | [As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진 |
 | **4단계: Gap 분석** | 비즈니스 요구와 IT 현황 간 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/) | Gap 분석 보고서 |
-| **5단계: IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립** | 목표 아키텍처(To-Be) 설계, IT 투자 계획 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
+| <strong>5단계: IT <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong> | 목표 아키텍처(To-Be) 설계, IT 투자 계획 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
 | **6단계: 로드맵 수립** | 우선순위 기반 [이행 계획 수립](/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/) | IT 로드맵 |
 | **7단계: 승인 및 관리** | 경영진 승인, 이행 관리 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 최종 보고서 |
 
@@ -84,35 +79,24 @@ ISP는 체계적인 방법론에 따라 수립되며, 일반적으로 다음의 
 
 ISP의 핵심은 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 정렬(Alignment)을하는 것이다. 이 정렬을 위해 다음과 같은 프레임워크를 활용한다.
 
-```text
-이 도식은 비즈니스-IT 정렬을 위한 다층 프레임워크를 보여준다.
 
-┌─────────────────────────────────────────────────────────────┐
-│ [경영진 / 이사회] │
-│ (전략적 방향 설정) │
-└───────────────────────────┬─────────────────────────────────┘
-│
-┌───────────────────────────┼─────────────────────────────────┐
-│ [비즈니스 전략 레이어] │
-│ │
-│ Business Model ──> 핵심 성공 요인(CSF) ──> 비즈니스 KPI │
-│ │
-└───────────────────────────┬─────────────────────────────────┘
-│ 정렬
-┌───────────────────────────┼─────────────────────────────────┐
-│ [IT 전략 레이어] │
-│ │
-│ IT 비지니스 모델 ──> IT 핵심 Initiative ──> IT KPI │
-│ │
-└───────────────────────────┬─────────────────────────────────┘
-│
-┌───────────────────────────┼─────────────────────────────────┐
-│ [IT 실행 레이어] │
-│ │
-│ 프로젝트 포트폴리오 ──> 프로젝트 실행 ──> 서비스 운영 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 비즈니스-IT 정렬을 위한 다층 프레임워크를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경영진 / 이사회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전략적 방향 설정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Model ──&gt; 핵심 성공 요인(CSF) ──&gt; 비즈니스 KPI</div></div>
+<div class="kb-diagram-note">정렬</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 전략 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 비지니스 모델 ──&gt; IT 핵심 Initiative ──&gt; IT KPI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 실행 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 포트폴리오 ──&gt; 프로젝트 실행 ──&gt; 서비스 운영</div></div>
+</div>
+</div>
+
+
 
 이 다층 프레임워크에서 각 레이어는 상위 레이어의 요구를 충족시키기 위해 설계된다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어에서 도출된 [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/)([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))이 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어의 IT 핵심 Initiative로 변환되고, 이는 다시 프로젝트 포트폴리오와 연결된다. 만약 이러한 연결 고리가 단절되면, IT 투자가 비즈니스 가치에 기여하지 않는 '기술 중심' 투자가 되어버린다.
 
@@ -129,12 +113,12 @@ ISP의 핵심 산출물과 각 산출물의 의미 및 상호관계를 분석한
 | Deliverable | 설명 | 활용 주체 |
 |:---|:---|:---|
 | ** бизне스가 분석서** | 비즈니스 모델, 경쟁 환경, [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf_critical_success_factor/), 목표 mercado share 등 | 이사회, CIO, 사업부서 |
-| **[As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진** | 현재 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, 기술 현황 | IT 아키텍처팀, 프로젝트팀 |
-| **To-Be [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진** | 목표 아키텍처 (3-5년 후 목표 상태) | CIO, IT팀 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 현재 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, 기술 현황 | IT 아키텍처팀, 프로젝트팀 |
+| <strong>To-Be <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 목표 아키텍처 (3-5년 후 목표 상태) | CIO, IT팀 |
 | **Gap 분석 보고서** | As-Is와 To-Be 간 차이, Gap 우선순위 | CIO, [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) |
-| **IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서** | IT 비지니스 모델, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향, 원칙 | CIO, IT 경영진 |
+| <strong>IT <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 문서</strong> | IT 비지니스 모델, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향, 원칙 | CIO, IT 경영진 |
 | **IT 로드맵** | Initiative 우선순위, 일정, 예산 요약 | CIO, CFO, 프로젝트팀 |
-| **[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 최종 보고서** | 경영진 승인용 요약 보고서 | 이사회, 경영진 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> 최종 보고서</strong> | 경영진 승인용 요약 보고서 | 이사회, 경영진 |
 
 #### ISP와 ISMP의 차이
 
@@ -174,7 +158,7 @@ ISP가 "어디로 가야 하는가(방향)"에 초점을 맞춘다면, ISMP는 "
 
 #### 주요 문제 시나리오
 
-**시나리오 1: 경영진의 관심 부족으로 인한 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 실효성 저하**
+<strong>시나리오 1: 경영진의 관심 부족으로 인한 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> 실효성 저하</strong>
 * **상황**: ISP가 수립되었지만, 경영진이 수립 과정에하지 않아 수립된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 business 실제와 괴리됨.
 * **해결**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 추진 단계에서부터 경영진의 참여를 의무화하고, 각 단계별 Milestone에서 경영진 검토를 실시
 
@@ -182,35 +166,33 @@ ISP가 "어디로 가야 하는가(방향)"에 초점을 맞춘다면, ISMP는 "
 * **상황**: ISP는 잘 수립되었지만, 실제 프로젝트는 ISP와 무관하게 사업부서의요구로 추진됨.
 * **해결**: ISP의 Initiative를 프로젝트 포트폴리오 관리(PPM)에 обяза적으로 연계하고, 거버넌스를 통해 프로세스 강화
 
-**시나리오 3: 빈번한 환경 변화로 인한 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 불용**
+<strong>시나리오 3: 빈번한 환경 변화로 인한 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> 불용</strong>
 * **상황**: 수립된 ISP가 시장 환경 변화로 인해 불과 1년 만에 obsolete화됨.
 * **해결**: ISP를 annually 검토하고 업데이트하는process를제도화하고, major 환경 변화 시 부분적update를 실시
 
-```text
-이 도식은 ISP 이행 관리 프로세스를 보여준다.
 
-[ISP 승인 및]
-│
-│ 3개월 단위
-▼
-[ISP 이행 상황 검토]
-│
-┌────┴────┐
-│ │
-(양호) (미흡)
-│ │
-│ ▼
-│ [이행 강화 조치]
-│ - 원인 분석
-│ - 보완 계획 수립
-│ - 경영진 보고
-▼
-[분기별 ISP 모니터링 보고서]
-│
-│ 매년
-▼
-[ISP 갱신 또는 업데이트]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 ISP 이행 관리 프로세스를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 승인 및</div></div>
+<div class="kb-diagram-note">3개월 단위</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 이행 상황 검토</div></div>
+<div class="kb-diagram-note">(양호) (미흡)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이행 강화 조치</div></div>
+<div class="kb-diagram-note">- 원인 분석</div>
+<div class="kb-diagram-note">- 보완 계획 수립</div>
+<div class="kb-diagram-note">- 경영진 보고</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분기별 ISP 모니터링 보고서</div></div>
+<div class="kb-diagram-note">매년</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 갱신 또는 업데이트</div></div>
+</div>
+</div>
+
+
 
 ISP의 실효성을 확보하기 위해서는 수립보다 이행 관리가하다. 많은 기업이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립에는 많은 resource를하지만, 수립된 후의 관리는 게을리하는 경향이 있다. 이를 방지하기 위해quarterly 또는monthly 기반의 이행 상황 검토가 필요하다.
 
@@ -231,9 +213,9 @@ ISP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기�
 
 #### ISP의 미래 방향
 
-* **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)**: 전통적인 1년 단위 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 갱신 주기를하고,Quarterly 또는 더 빈번한 업데이트를 통해 변화에 민첩하게 대응
-* **[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)과의 통합**: [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 ISP를하여, 트랜스포메이션을 ISP의 핵심 요소로 포함
-* **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)**: Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통해 의사결정의성 강화
+* <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a></strong>: 전통적인 1년 단위 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 갱신 주기를하고,Quarterly 또는 더 빈번한 업데이트를 통해 변화에 민첩하게 대응
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>과의 통합</strong>: [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 ISP를하여, 트랜스포메이션을 ISP의 핵심 요소로 포함
+* <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a></strong>: Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통해 의사결정의성 강화
 
 📢 **섹션 요약 비유**: ISP는 기업의 '시스템(네비게이션)'과 같습니다.시스템 없이는에 도착할 수 없지만, 교통 상황(환경 변화)이 변하면시스템도 실시간으로업데이트되어야 합니다. 마찬가지로 ISP도 일회성 문서가 아니라 지속적인업데이트과 관리가 필요한 living document입니다。
 
@@ -248,18 +230,21 @@ ISP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[현황 분석 (As-Is Analysis)]
-│
-▼
-[정보화 전략 계획 (ISP, Information Strategy Plan)]
-│
-▼
-[로드맵 (Roadmap)]
-│
-▼
-[아키텍처 설계 (Architecture Design)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현황 분석 (As-Is Analysis)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 전략 계획 (ISP, Information Strategy Plan)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드맵 (Roadmap)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 설계 (Architecture Design)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 현황 분석에서 ISP와 로드맵을 거쳐 아키텍처 설계로 이어지는 계획 과정을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

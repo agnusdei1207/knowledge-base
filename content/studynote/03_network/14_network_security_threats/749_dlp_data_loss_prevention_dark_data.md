@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 회사가 일상적인 비즈니스 활동 중에 수집, 처리, 저장해 두었으나, 정작 **분석이나 업무에 활용되지 않고 창고([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), 클라우드, 직원들 노트북 구석)에 방치되어 쌓여있는 쓸모없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 말합니다.
+- **개념**: 회사가 일상적인 비즈니스 활동 중에 수집, 처리, 저장해 두었으나, 정작 <strong>분석이나 업무에 활용되지 않고 창고(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a>, 클라우드, 직원들 노트북 구석)에 방치되어 쌓여있는 쓸모없는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 말합니다.
 - **위협**: 직원 노트북 D드라이브 구석에 처박힌 5년 전 '고객 DB 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'이 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)의 전형입니다. 관리자도 이런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는지 모르기 때문에, 해커에게 털리거나 직원이 퇴사할 때 통째로 복사해서 나가도 전혀 눈치채지 못하는 치명적 뇌관이 됩니다.
 
-```text
-[양자 난수 생성기]
-    │
-    ▼
-[다크 데이터 / Data Loss Preve…]
-    │
-    └──▶ [ISO 27001 네트워크 통제 및 개인정보…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 앞서 말한 내부 직원의 고의적/실수적 기밀 유출이나, 숨겨진 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)가 외부로 빠져나가는 것을 감시하고 물리적으로 차단하기 위한 **기업용 [데이터 유출 방지](/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/) 통합 보안 시스템**입니다.
+- **개념**: 앞서 말한 내부 직원의 고의적/실수적 기밀 유출이나, 숨겨진 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)가 외부로 빠져나가는 것을 감시하고 물리적으로 차단하기 위한 <strong>기업용 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/">데이터 유출 방지</a> 통합 보안 시스템</strong>입니다.
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부(해커)에서 내부로 들어오는 문을 막는다면, DLP는 내부(직원)에서 외부(인터넷, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))로 나가는 것을 샅샅이 뒤지는 내부 보안 요원입니다.
 
-```text
-[양자 난수 생성기]
-    │
-    ▼
-[다크 데이터 / Data Loss Preve…]
-    │
-    └──▶ [ISO 27001 네트워크 통제 및 개인정보…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 단말(Endpoint) [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) - "직원 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/노트북 감시"
-- 회사 직원들의 모든 노트북, PC에 백신처럼 **에이전트(프로그램)**를 몰래 깔아둡니다.
+- 회사 직원들의 모든 노트북, PC에 백신처럼 <strong>에이전트(프로그램)</strong>를 몰래 깔아둡니다.
 - **차단 모델**: 직원이 '특급 기밀' 워터마크가 찍힌 PDF [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 프린터로 인쇄하려고 누르거나, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리를 꽂아 복사하려고 드래그하는 순간! 마우스가 딱 멈추며 "사내 기밀은 복사할 수 없습니다"라는 새빨간 창이 뜹니다. (화면 캡처 차단, 클립보드 복사 차단 기능 포함)
 
 ### 2. 네트워크(Network) [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) - "회사 인터넷 길목 감시"
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)(패턴) 매칭**: 문서 속 텍스트를 읽어서 `\d{6}-\d{7}` 같은 주민등록번호 패턴, 신용카드 번호가 50개 이상 포함되어 있으면 무조건 기밀로 차단.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">정규 표현식</a>(패턴) 매칭</strong>: 문서 속 텍스트를 읽어서 `\d{6}-\d{7}` 같은 주민등록번호 패턴, 신용카드 번호가 50개 이상 포함되어 있으면 무조건 기밀로 차단.
 - **디지털 지문 (Fingerprinting)**: 회사 기밀문서 수만 장을 미리 믹서기에 돌려 지문(해시값)을 떠놓습니다. 나중에 이 지문과 똑같은 내용의 문서가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명을 `휴가계획서.doc`로 속여서 밖으로 나가려 해도 지문이 일치하므로 귀신같이 멱살을 잡아냅니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: DLP는 회사의 '출입국 심사대이자 보안 요원'입니다. 직원이 회사 기밀(금괴)을 가방에 쑤셔 넣고 밖으로 나가려 합니다. **단말 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)**는 직원이 사무실 책상에서 가방에 금괴를 넣으려는 순간 손목을 확 낚아채는 요원입니다. **네트워크 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)**는 직원이 어떻게든 금괴를 숨겨서 회사 정문(인터넷) 밖으로 나갈 때, 공항 엑스레이 검색대가 삑! 울리며 금괴를 압수하는 장치입니다. **스토리지 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)**는 새벽에 요원들이 회사 창고(서버)를 순찰하며, 아무도 모르게 버려진 금괴 뭉치([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))를 찾아내 안전한 금고로 다시 옮겨놓는 완벽한 내부 감시망입니다.
+- **📢 섹션 요약 비유**: DLP는 회사의 '출입국 심사대이자 보안 요원'입니다. 직원이 회사 기밀(금괴)을 가방에 쑤셔 넣고 밖으로 나가려 합니다. <strong>단말 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/">DLP</a></strong>는 직원이 사무실 책상에서 가방에 금괴를 넣으려는 순간 손목을 확 낚아채는 요원입니다. <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/">DLP</a></strong>는 직원이 어떻게든 금괴를 숨겨서 회사 정문(인터넷) 밖으로 나갈 때, 공항 엑스레이 검색대가 삑! 울리며 금괴를 압수하는 장치입니다. <strong>스토리지 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/">DLP</a></strong>는 새벽에 요원들이 회사 창고(서버)를 순찰하며, 아무도 모르게 버려진 금괴 뭉치([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))를 찾아내 안전한 금고로 다시 옮겨놓는 완벽한 내부 감시망입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양자 난수 생성기]
-    │
-    ▼
-[현재 개념: 다크 데이터 / Data Loss Preve…]
-    │
-    ├──▶ [확장 A: ISO 27001 네트워크 통제 및 개인정보…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 난수 생성기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다크 데이터 / Data Loss Preve…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ISO 27001 네트워크 통제 및 개인정보…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…는 [양자 난수 생성기](/knowledge-base/studynote/03_network/14_network_security_threats/748_qrng_quantum_random_number_generator/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

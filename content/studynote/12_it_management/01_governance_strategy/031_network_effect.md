@@ -18,21 +18,24 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-메트칼프 법칙:
 
-사용자 수  가능한 연결 수
-  N=1    → 0
-  N=2    → 1
-  N=5    → 10
-  N=10   → 45
-  N=100  → 4,950
-  N=N    → N(N-1)/2 ≈ N²/2
 
-→ 사용자 10배 증가 → 네트워크 가치 100배 증가!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메트칼프 법칙:</div>
+<div class="kb-diagram-note">사용자 수 가능한 연결 수</div>
+<div class="kb-diagram-note">N=1 → 0</div>
+<div class="kb-diagram-note">N=2 → 1</div>
+<div class="kb-diagram-note">N=5 → 10</div>
+<div class="kb-diagram-note">N=10 → 45</div>
+<div class="kb-diagram-note">N=100 → 4,950</div>
+<div class="kb-diagram-note">N=N → N(N-1)/2 ≈ N²/2</div>
+<div class="kb-diagram-note">→ 사용자 10배 증가 → 네트워크 가치 100배 증가!</div>
+<div class="kb-diagram-note">예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결</div>
+</div>
+</div>
 
-예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결
-```
+
 
 - **📢 섹션 요약 비유**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 팩스기 가치다. 팩스가 세상에 1대만 있으면 가치 없음. 2대면 1개 연결, 100대면 4,950개 연결 가능. 사용자가 늘수록 가치가 기하급수적으로 커진다.
 
@@ -46,27 +49,31 @@ tags = ["studynote-it-management"]
 |:---|:---|:---|
 | **직접 (동일면)** | 같은 사용자 간 가치 증대 | 카카오톡, 링크드인 |
 | **간접 (양면)** | 한쪽 증가 → 반대편 가치↑ | 카카오택시, 앱스토어 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피드백** | 사용자↑ → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)↑ → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)↑ → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)↑ | 유튜브 추천, 네이버 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 피드백</strong> | 사용자↑ → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)↑ → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)↑ → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)↑ | 유튜브 추천, 네이버 |
 | **사회적** | 커뮤니티 규범·신뢰 형성 | 레딧, 나무위키 |
 
 ### 임계 질량과 팁핑 포인트
 
-```text
-성장 곡선:
 
-사용자  가치
-  │         ╭──────── 자기 강화 성장
-  │        ╱
-  │  임계  ╱
-  │  질량 ╱
-  │─────/───────────→ 사용자 수
-        ↑
-     팁핑 포인트
-     (이후 기하급수 성장)
 
-임계 질량 이전: 닭-달걀 문제 (공급자·소비자 모두 적음)
-임계 질량 이후: 네트워크 효과 자기 강화
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성장 곡선:</div>
+<div class="kb-diagram-note">사용자 가치</div>
+<div class="kb-diagram-note">자기 강화 성장</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-note">임계 ╱</div>
+<div class="kb-diagram-note">질량 ╱</div>
+<div class="kb-diagram-note">/ → 사용자 수</div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">팁핑 포인트</div>
+<div class="kb-diagram-note">(이후 기하급수 성장)</div>
+<div class="kb-diagram-note">임계 질량 이전: 닭-달걀 문제 (공급자·소비자 모두 적음)</div>
+<div class="kb-diagram-note">임계 질량 이후: 네트워크 효과 자기 강화</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 임계 질량은 나무 불 지피기다. 처음에는 불씨(임계 질량)를 만드는 게 어렵지만, 불이 붙으면 스스로 퍼져나간다(자기 강화 성장). 플랫폼도 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사용자 확보가 가장 어렵다.
 
@@ -131,29 +138,31 @@ NPS (Net Promoter Score): 추천 의향
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[메트칼프](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 법칙** | 네트워크 가치 N² 이론 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/">메트칼프</a> 법칙</strong> | 네트워크 가치 N² 이론 |
 | **임계 질량** | 자기 강화 성장의 전환점 |
 | **양면 플랫폼** | 간접 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 비즈니스 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플라이휠** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 플라이휠</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) |
 | **Winner-take-all** | [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/) 경쟁 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[통신 네트워크 — 팩스·전화 직접 네트워크 효과]
-    │
-    ▼
-[인터넷 플랫폼 — SNS·마켓플레이스 양면 네트워크]
-    │
-    ▼
-[임계 질량 — 팁핑 포인트 이후 자기 강화 성장]
-    │
-    ▼
-[데이터 피드백 루프 — 사용자↑→데이터↑→AI↑]
-    │
-    ▼
-[AI 플라이휠 — 지속적 AI 개선 경쟁 우위]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신 네트워크 — 팩스·전화 직접 네트워크 효과</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 플랫폼 — SNS·마켓플레이스 양면 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계 질량 — 팁핑 포인트 이후 자기 강화 성장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 피드백 루프 — 사용자↑→데이터↑→AI↑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 플라이휠 — 지속적 AI 개선 경쟁 우위</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

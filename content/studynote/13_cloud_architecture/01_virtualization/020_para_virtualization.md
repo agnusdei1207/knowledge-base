@@ -23,25 +23,26 @@ tags = ["cloud_architecture"]
 
 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 여명기, [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)([Full Virtualization](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)) 방식은 어떤 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)든 수정 없이(Unmodified) 띄울 수 있다는 엄청난 호환성을 자랑했다. 그러나 이 마법의 대가는 가혹했다. Guest OS를 완벽히 속이기 위해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 모든 기계어 명령을 중간에서 가로채고 가짜 하드웨어를 모방([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) & Emulate)하느라 CPU 리소스의 상당 부분을 허공에 날려버렸기 때문이다. особенно [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 네트워크 장비처럼 I/O(입출력)가 빈번한 시스템에서는 그 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 속도가 실무 운영 환경에서 도저히 써먹을 수 없는 처참한 수준이었다.
 
-이러한 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 한계와 병목을 타파하기 위해 발상의 전환을 시도한 것이 바로 '[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Para-virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/))'** 기술이다. [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 핵심 철학은 "Guest OS를 더 이상 속이지 말고, 사실대로 말하자"는 것이다. Guest OS의 소스코드를 뜯어고쳐, "너는 지금 진짜 컴퓨터가 아니라 내([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 밑에 있는 가상 세계에 살고 있어. 그러니까 복잡한 명령이 필요하면 억지로 혼자 하려다 에러 내지 말고 나에게 직접 전화(Hypercall)를 걸어!"라고 가르치는 방식이다. 영국의 케임브리지 대학에서 시작된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트 **Xen(젠)**이 이 방식을 주도하며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아마존 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(AWS)의 폭발적 성장을 견인한 근간 인프라로 자리 잡았다.
+이러한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>적 한계와 병목을 타파하기 위해 발상의 전환을 시도한 것이 바로 '<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/">Para-virtualization</a>)'</strong> 기술이다. [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 핵심 철학은 "Guest OS를 더 이상 속이지 말고, 사실대로 말하자"는 것이다. Guest OS의 소스코드를 뜯어고쳐, "너는 지금 진짜 컴퓨터가 아니라 내([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 밑에 있는 가상 세계에 살고 있어. 그러니까 복잡한 명령이 필요하면 억지로 혼자 하려다 에러 내지 말고 나에게 직접 전화(Hypercall)를 걸어!"라고 가르치는 방식이다. 영국의 케임브리지 대학에서 시작된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트 <strong>Xen(젠)</strong>이 이 방식을 주도하며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아마존 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(AWS)의 폭발적 성장을 견인한 근간 인프라로 자리 잡았다.
 
 다음 도식은 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 몰래 가로채기([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 방식과 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 자발적 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(Hypercall) 방식의 경로 차이를 명확히 보여준다.
 
-```text
-[전가상화의 우회적 경로 (속임수)]        [반가상화의 직접 경로 (협력)]
-┌───────────────────────────┐         ┌───────────────────────────┐
-│ Guest OS (수정 불가능, 무지함) │         │ Modified Guest OS (수정됨) │
-│ - CPU 특권 명령 무작정 실행     │         │ - 스스로 가상 환경임을 인지    │
-└───────────┬───────────────┘         └───────────┬───────────────┘
-            │ Trap (에러 발생/강제 압수)              │ Hypercall (하이퍼바이저 호출 API)
-┌───────────▼───────────────┐         ┌───────────▼───────────────┐
-│ 하이퍼바이저                 │         │ 하이퍼바이저                 │
-│ - 에러 분석 및 가짜 장치 에뮬레이트│         │ - 요청 즉시 접수 및 다이렉트 처리│
-│ - 이진 번역 등 복잡한 계산 연산 │         │ (복잡한 에뮬레이션 과정 100% 생략)│
-└───────────┬───────────────┘         └───────────┬───────────────┘
-            ▼                                     ▼
-[ 물리적 하드웨어 (CPU / 디스크) ]          [ 물리적 하드웨어 (CPU / 디스크) ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전가상화의 우회적 경로 (속임수)</div><div class="kb-diagram-node">반가상화의 직접 경로 (협력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS (수정 불가능, 무지함)</div><div class="kb-diagram-cell">Modified Guest OS (수정됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 특권 명령 무작정 실행</div><div class="kb-diagram-cell">- 스스로 가상 환경임을 인지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trap (에러 발생/강제 압수)</div><div class="kb-diagram-cell">Hypercall (하이퍼바이저 호출 API)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저</div><div class="kb-diagram-cell">하이퍼바이저</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 에러 분석 및 가짜 장치 에뮬레이트</div><div class="kb-diagram-cell">- 요청 즉시 접수 및 다이렉트 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이진 번역 등 복잡한 계산 연산</div><div class="kb-diagram-cell">(복잡한 에뮬레이션 과정 100% 생략)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 하드웨어 (CPU / 디스크)</div><div class="kb-diagram-node">물리적 하드웨어 (CPU / 디스크)</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 환경에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 '해석과 번역'이라는 가장 무거운 짐이 통째로 증발했다는 점이다. Guest OS가 스스로 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 알아듣기 편한 규격화된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Hypercall)로 정갈하게 요청을 보내기 때문에, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 마치 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 처리하듯 가볍게 하드웨어 자원을 할당해 줄 수 있다. 이로 인해 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)는 CPU와 I/O 오버헤드를 극적으로 낮춰 베어메탈 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 95% 수준을 내는 기적을 보여주었다.
 
@@ -51,7 +52,7 @@ tags = ["cloud_architecture"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 아키텍처의 심장부에는 일반 OS의 System Call에 대응되는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 통신 규약인 **Hypercall(하이퍼콜)**이 존재한다.
+[반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 아키텍처의 심장부에는 일반 OS의 System Call에 대응되는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 통신 규약인 <strong>Hypercall(하이퍼콜)</strong>이 존재한다.
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 비교 대조 (전통 OS) | 비유 |
 |:---|:---|:---|:---|:---|
@@ -63,26 +64,25 @@ tags = ["cloud_architecture"]
 
 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 등) 처리는 에뮬레이션이라는 가짜 연극을 완전히 걷어내고, 메모리 공유를 통한 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 릴레이 방식을 채택한다. 다음 상태 흐름도는 Xen 아키텍처에서 일반 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(DomU)이 디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 분할 드라이버(Split Driver) 메커니즘을 나타낸다.
 
-```text
-[반가상화 고속 I/O 처리 (Split Driver Architecture)]
 
-┌────────────────────────────────┐       ┌────────────────────────────────┐
-│      DomU (일반 Guest OS)      │       │      Dom0 (특권 제어 OS)       │
-│                                │       │                                │
-│ 1. 사용자 앱: 쓰기 명령 발생       │       │ 4. Back-end Driver 작동        │
-│ 2. Front-end Driver (가상 블록)  │       │    - 링 버퍼에서 명령 읽기        │
-│    - I/O 명령을 링 버퍼에 적재    │       │    - 메모리에서 데이터 직접 인계   │
-│ 3. 하이퍼콜: "Event Channel 전송!"│───────▶│ 5. 실제 물리 디스크 컨트롤러로 전송│
-│                                │       │                                │
-└──────────────┬─────────────────┘       └────────────────┬───────────────┘
-               │ 메모리 매핑 데이터 직접 접근 (Grant Table)   │ 물리 I/O
-┌──────────────▼──────────────────────────────────────────▼───────────────┐
-│                    Type 1 하이퍼바이저 (Xen 등)                            │
-│           (단지 이벤트 알람(인터럽트) 라우팅과 권한 체크만 중계)                  │
-└─────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조도의 핵심은 **프론트엔드(Front-end)와 백엔드(Back-end) 드라이버 분리 모델**이다. Guest OS 안에는 물리 하드웨어를 흉내 내는 가짜 디스크 드라이버가 없다. 오직 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리 버퍼 공간에 올려두었으니 가져가라"고 외치는 아주 가벼운 프론트엔드 통신 드라이버만 존재한다. 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Event)를 받은 특권 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Dom0)의 백엔드 드라이버가 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)(Grant Table)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 슥 꺼내가 진짜 디스크에 꽂아버린다. 에뮬레이션(번역과 계산)이 1바이트도 존재하지 않으므로, [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 횟수가 줄고 대량의 네트워크 트래픽이나 DB 처리를 물리 서버와 구별할 수 없는 속도로 치러낼 수 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">반가상화 고속 I/O 처리 (Split Driver Architecture)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DomU (일반 Guest OS)</div><div class="kb-diagram-cell">Dom0 (특권 제어 OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사용자 앱: 쓰기 명령 발생</div><div class="kb-diagram-cell">4. Back-end Driver 작동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Front-end Driver (가상 블록)</div><div class="kb-diagram-cell">- 링 버퍼에서 명령 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- I/O 명령을 링 버퍼에 적재</div><div class="kb-diagram-cell">- 메모리에서 데이터 직접 인계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하이퍼콜: "Event Channel 전송!"</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">5. 실제 물리 디스크 컨트롤러로 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 매핑 데이터 직접 접근 (Grant Table)</div><div class="kb-diagram-cell">물리 I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 1 하이퍼바이저 (Xen 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단지 이벤트 알람(인터럽트) 라우팅과 권한 체크만 중계)</div></div>
+</div>
+</div>
+
+
+
+이 구조도의 핵심은 <strong>프론트엔드(Front-end)와 백엔드(Back-end) 드라이버 분리 모델</strong>이다. Guest OS 안에는 물리 하드웨어를 흉내 내는 가짜 디스크 드라이버가 없다. 오직 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리 버퍼 공간에 올려두었으니 가져가라"고 외치는 아주 가벼운 프론트엔드 통신 드라이버만 존재한다. 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Event)를 받은 특권 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Dom0)의 백엔드 드라이버가 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)(Grant Table)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 슥 꺼내가 진짜 디스크에 꽂아버린다. 에뮬레이션(번역과 계산)이 1바이트도 존재하지 않으므로, [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 횟수가 줄고 대량의 네트워크 트래픽이나 DB 처리를 물리 서버와 구별할 수 없는 속도로 치러낼 수 있다.
 
 📢 **섹션 요약 비유**: 택배를 보낼 때 가짜 우체국 직원(가상 에뮬레이터)과 실랑이하며 서류를 다 번역하는 것이 아니라, 창고(메모리)에 물건을 던져놓고 벨(하이퍼콜)만 누르면 진짜 트럭기사(Dom0)가 알아서 바로 실어가는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 화물 직거래 시스템입니다.
 
@@ -96,30 +96,32 @@ tags = ["cloud_architecture"]
 
 | 비교 항목 | [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) & Emulate) | [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) (Hypercall) | 승패를 가른 결정적 요인 |
 |:---|:---|:---|:---|
-| **OS 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)** | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 없음 (모든 OS 사용 가능) | **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Linux 등)만 가능** | 윈도우(Windows) 서버 수용 불가 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 이식성** | CD 넣고 부팅하면 끝 (쉬움) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치 후 컴파일 등 작업 난해 | 클라우드 마이그레이션 편의성 |
-| **CPU [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 초창기: S/W 번역으로 매우 느림 | 초창기: 하드웨어 직접 제어급으로 빠름 | **Intel VT-x의 등장으로 역전됨** |
-| **I/O 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 가짜 장치 에뮬레이션 부하로 터짐 | 분할 드라이버 공유로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극소화 | 현대 클라우드에서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술의 생존 구역 |
+| <strong>OS 벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 없음 (모든 OS 사용 가능) | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Linux 등)만 가능</strong> | 윈도우(Windows) 서버 수용 불가 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 이식성</strong> | CD 넣고 부팅하면 끝 (쉬움) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치 후 컴파일 등 작업 난해 | 클라우드 마이그레이션 편의성 |
+| <strong>CPU <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 초창기: S/W 번역으로 매우 느림 | 초창기: 하드웨어 직접 제어급으로 빠름 | **Intel VT-x의 등장으로 역전됨** |
+| <strong>I/O 통신 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 가짜 장치 에뮬레이션 부하로 터짐 | 분할 드라이버 공유로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 극소화 | 현대 클라우드에서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술의 생존 구역 |
 
-**결정적 패착: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수정의 덫과 하드웨어의 반격**
+<strong>결정적 패착: <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 수정의 덫과 하드웨어의 반격</strong>
 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 가장 치명적인 아킬레스건은 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 반드시 수정해야 한다"는 조건이었다. 마이크로소프트(MS)가 자기들만의 폐쇄적인 윈도우 소스코드를 클라우드 벤더 마음대로 뜯어고치게 놔둘 리 만무했다. 결과적으로 전 세계 엔터프라이즈 시장의 절반을 차지하는 윈도우 서버를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)로 돌릴 수 없다는 것은 엄청난 비즈니스 제약이었다. 게다가 Intel과 AMD가 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 치명적 속도 문제를 해결하기 위해 CPU 내부에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 칩셋([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/))을 탑재해 버리자, CPU 자원을 처리하는 데 있어서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 우위는 완전히 소멸해 버렸다. 순수 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 기술은 결국 역사 속으로 사라지는 듯했다. 
 
 하지만 반전이 일어났다.
 
-```text
-[현재 클라우드 시장의 대통합: 하이브리드 가상화 아키텍처 (HVM + PV Drivers)]
 
-┌────────────────────────────────────────────────────────┐
-│               현대적 Guest OS (Windows / Linux)        │
-│ 1. CPU / 메모리 코어 연산 ──▶ [전가상화(HVM) 방식 채택]   │ ◀ 수정 불가한 OS도 Intel VT-x 
-│                         (Trap 없이 하드웨어 다이렉트 처리)  │    하드웨어 빨로 베어메탈급 고속 처리
-│                                                        │
-│ 2. 디스크 / 네트워크 통신 ──▶ [반가상화(PV) 방식 채택]    │ ◀ 부팅 후 Add-on 형태의 반가상화
-│                         (VirtIO 등 프론트엔드 드라이버 설치)│    드라이버를 끼워 넣어 I/O 병목 완전 제거
-└────────────────────────────────────────────────────────┘
-```
 
-현대의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 인프라는 두 방식의 앙숙 관계를 **'하이브리드 융합'**으로 완벽히 종결지었다. OS 코어(CPU/RAM)의 권한 통제는 칩셋의 힘을 빌려 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)(Hardware [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), HVM)로 돌려 윈도우든 뭐든 가리지 않고 다 수용한다. 반면 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)가 아무리 발버둥 쳐도 하드웨어로 극복 안 되는 지저분한 디스크 I/O 처리는, OS 부팅 후 추가 드라이버를 설치하는 방식(VirtIO)으로 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Para-Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/), [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))의 핵심 뼈대를 이식해 버린 것이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 클라우드 시장의 대통합: 하이브리드 가상화 아키텍처 (HVM + PV Drivers)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대적 Guest OS (Windows / Linux)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전가상화(HVM) 방식 채택</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">수정 불가한 OS도 Intel VT-x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trap 없이 하드웨어 다이렉트 처리)</div><div class="kb-diagram-cell">하드웨어 빨로 베어메탈급 고속 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">반가상화(PV) 방식 채택</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">부팅 후 Add-on 형태의 반가상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VirtIO 등 프론트엔드 드라이버 설치)</div><div class="kb-diagram-cell">드라이버를 끼워 넣어 I/O 병목 완전 제거</div></div>
+</div>
+</div>
+
+
+
+현대의 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 인프라는 두 방식의 앙숙 관계를 <strong>'하이브리드 융합'</strong>으로 완벽히 종결지었다. OS 코어(CPU/RAM)의 권한 통제는 칩셋의 힘을 빌려 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)(Hardware [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), HVM)로 돌려 윈도우든 뭐든 가리지 않고 다 수용한다. 반면 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)가 아무리 발버둥 쳐도 하드웨어로 극복 안 되는 지저분한 디스크 I/O 처리는, OS 부팅 후 추가 드라이버를 설치하는 방식(VirtIO)으로 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)([Para-Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/192_full_virtualization_vs_para_virtualization/), [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))의 핵심 뼈대를 이식해 버린 것이다.
 
 📢 **섹션 요약 비유**: 순수 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)라는 '수동 변속기' 스포츠카는 운전([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수정)이 어려워 대중에게 외면받았지만, 결국 그 스포츠카의 강력한 '디스크 브레이크 시스템([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 드라이버)' 기술만 떼어내어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)라는 누구나 타는 '자동 변속기' 세단에 이식함으로써 완벽한 자동차가 탄생한 것과 같습니다.
 
@@ -131,30 +133,31 @@ tags = ["cloud_architecture"]
 
 #### 1. AWS EC2 인스턴스 마이그레이션 최적화 시나리오
 - **상황**: 기업이 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 장비의 가상 머신 이미지를 떠서 AWS로 가져왔는데(EC2 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 턱없이 안 나오고 핑(Ping) 레이턴시가 튀는 현상 발생.
-- **판단**: 가져온 이미지가 순수 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)(HVM) 껍데기만 쓰고 내부 통신 장치를 에뮬레이트 모드(예: e1000 랜카드)로 잡고 있기 때문이다. 즉시 인스턴스에 접속하여 **AWS ENA(Elastic Network [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 드라이버** (이것이 바로 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 네트워크 드라이버의 최신 형태다)를 설치하고 활성화해야 한다. 이를 통해 Hypercall을 통한 고속 I/O 패스를 뚫어주어 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수십 Gbps 단위로 폭발시킬 수 있다.
+- **판단**: 가져온 이미지가 순수 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)(HVM) 껍데기만 쓰고 내부 통신 장치를 에뮬레이트 모드(예: e1000 랜카드)로 잡고 있기 때문이다. 즉시 인스턴스에 접속하여 <strong>AWS ENA(Elastic Network <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>) 드라이버</strong> (이것이 바로 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 네트워크 드라이버의 최신 형태다)를 설치하고 활성화해야 한다. 이를 통해 Hypercall을 통한 고속 I/O 패스를 뚫어주어 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수십 Gbps 단위로 폭발시킬 수 있다.
 
 #### 2. [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경의 VirtIO 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝
 - **상황**: 프라이빗 오픈스택(OpenStack/[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)) 클라우드 환경에 고도화된 I/O가 발생하는 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)) 클러스터를 구축해야 함.
-- **판단**: [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경에서 Guest OS [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 디스크 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 유형을 낡은 'IDE'나 '[SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)'로 두면 치명적인 안티패턴이다. 반드시 디스크 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 **'VirtIO'**로 지정해야 한다. VirtIO는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 표준에 등재된 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O 프레임워크로, 프론트엔드와 백엔드 분할 링 버퍼를 통해 막대한 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목을 우회하여 스토리지 IOPS(초당 입출력 횟수)를 극한으로 뽑아낼 수 있다.
+- **판단**: [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경에서 Guest OS [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 디스크 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 유형을 낡은 'IDE'나 '[SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)'로 두면 치명적인 안티패턴이다. 반드시 디스크 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 <strong>'VirtIO'</strong>로 지정해야 한다. VirtIO는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 표준에 등재된 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) I/O 프레임워크로, 프론트엔드와 백엔드 분할 링 버퍼를 통해 막대한 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 병목을 우회하여 스토리지 IOPS(초당 입출력 횟수)를 극한으로 뽑아낼 수 있다.
 
 이 의사결정 트리는 가상 머신의 디바이스 최적화를 위한 단계별 진단 흐름이다.
 
-```text
-[VM 네트워크/스토리지 병목 해결 판단 플로우]
-            │
-            ├─ (확인) ──▶ 현재 사용 중인 디바이스 드라이버가 에뮬레이터(Realtek/IDE)인가?
-            │               │
-            │               ├─ (Yes) ──▶ 성능 병목의 절대적 원인 (실시간 모방 부하 발생)
-            │               │               │
-            │               │               └─▶ [조치] VirtIO 기반 PV(반가상화) 드라이버 설치
-            │               │
-            │               ├─ (No) ───▶ 이미 VirtIO 등 반가상화 드라이버를 쓰는가?
-            │                               │
-            │                               └─▶ [추가 튜닝] 호스트 레벨의 DPDK(Data Plane 
-            │                                   Development Kit)나 SR-IOV 물리 매핑 검토
-```
 
-이 판단의 핵심은 **"[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 I/O는 가짜 장치를 버리고 무조건 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)) 인터페이스로 통과시켜야 한다"**는 대원칙이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "나는 진짜 디스크를 갖고 있어"라고 착각하게 두는 것은 낭만적이지만 서버가 타들어 가는 지름길이다. 
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM 네트워크/스토리지 병목 해결 판단 플로우</div></div>
+<div class="kb-diagram-tree-item" style="--depth:6">(확인) ──▶ 현재 사용 중인 디바이스 드라이버가 에뮬레이터(Realtek/IDE)인가?</div>
+<div class="kb-diagram-note">─ (Yes) ──▶ 성능 병목의 절대적 원인 (실시간 모방 부하 발생)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">VirtIO 기반 PV(반가상화) 드라이버 설치</div></div>
+<div class="kb-diagram-note">─ (No) ▶ 이미 VirtIO 등 반가상화 드라이버를 쓰는가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">추가 튜닝</div><div class="kb-diagram-note">호스트 레벨의 DPDK(Data Plane</div></div>
+<div class="kb-diagram-note">Development Kit)나 SR-IOV 물리 매핑 검토</div>
+</div>
+</div>
+
+
+
+이 판단의 핵심은 <strong>"<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경의 I/O는 가짜 장치를 버리고 무조건 <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/">PV</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a>) 인터페이스로 통과시켜야 한다"</strong>는 대원칙이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "나는 진짜 디스크를 갖고 있어"라고 착각하게 두는 것은 낭만적이지만 서버가 타들어 가는 지름길이다. 
 
 📢 **섹션 요약 비유**: 오토바이를 탈 때 바람막이(에뮬레이터)를 달고 달리면 편안하긴 하지만 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(오버헤드) 때문에 속도가 나지 않으니, 바람막이를 떼어내고 몸을 납작 엎드려([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버 세팅) 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 뚫고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 달리는 레이서의 세팅과 같습니다.
 
@@ -166,11 +169,11 @@ tags = ["cloud_architecture"]
 
 | 구분 | [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) I/O 단독 사용 시 | [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 프레임워크 융합 시 (VirtIO 도입) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 개선율 |
 |:---|:---|:---|:---|
-| **네트워크 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 가짜 칩 에뮬레이션으로 수백 Mbps 한계 | 링 버퍼 직접 전송으로 수십 Gbps 달성 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 10배 이상 향상 |
+| <strong>네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 가짜 칩 에뮬레이션으로 수백 Mbps 한계 | 링 버퍼 직접 전송으로 수십 Gbps 달성 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 10배 이상 향상 |
 | **디스크 I/O (IOPS)** | SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 번역 부하로 디스크 병목 | Grant Table 메모리 맵핑으로 즉시 처리 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 80% 감소 |
 | **CPU 효율성** | I/O 처리를 위해 CPU [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 남발 | 하이퍼콜 호출 한 번으로 배치(Batch) 처리 | 호스트 CPU 오버헤드 대폭 절감 |
 
-미래의 클라우드 아키텍처는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 개념을 더욱 확장하여, 이마저도 호스트 서버의 CPU 자원을 쓰지 않게 만들고 있다. 서버에 꽂힌 스마트 네트워크 카드(SmartNIC, AWS Nitro)가 하이퍼콜 요청을 CPU 대신 받아 I/O 연산을 전담해 버리는 **'[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))'**이 바로 그것이다. 소프트웨어적으로 시작된 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 통신 규약이 이제는 거대한 하드웨어 통제 칩셋으로 진화하며 제로([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 레이턴시 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 시대를 열어가고 있다.
+미래의 클라우드 아키텍처는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 개념을 더욱 확장하여, 이마저도 호스트 서버의 CPU 자원을 쓰지 않게 만들고 있다. 서버에 꽂힌 스마트 네트워크 카드(SmartNIC, AWS Nitro)가 하이퍼콜 요청을 CPU 대신 받아 I/O 연산을 전담해 버리는 <strong>'<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>)'</strong>이 바로 그것이다. 소프트웨어적으로 시작된 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 통신 규약이 이제는 거대한 하드웨어 통제 칩셋으로 진화하며 제로([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 레이턴시 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 시대를 열어가고 있다.
 
 📢 **섹션 요약 비유**: 예전에는 복잡한 결재판을 들고 이리저리 뛰며 소통하던 조직(에뮬레이션)이, 인트라넷 메신저([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 하이퍼콜)를 도입해 즉각적인 결재를 이뤄냈고, 이제는 아예 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서(SmartNIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))가 단순 결재를 모두 자동 처리해 주는 최첨단 기업으로 진화한 것과 같습니다.
 
@@ -179,27 +182,29 @@ tags = ["cloud_architecture"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 * **VirtIO (Virtual I/O Device)** | [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 철학을 이어받아 리눅스/[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경의 가상 머신 I/O 속도를 극대화하는 프론트/백엔드 통신 표준 인터페이스 프레임워크
 * **Hypercall (하이퍼콜)** | Guest OS가 가상 하드웨어를 다루려 발버둥 치지 않고 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 다이렉트로 협조를 구하는 특권 통신 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
-* **[전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) ([Full Virtualization](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/))** | Guest [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전혀 수정하지 않고 모든 것을 흉내 내어 완벽한 호환성을 확보하는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 영원한 라이벌이자 최종 승자(하드웨어 결합 후)
+* <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">Full Virtualization</a>)</strong> | Guest [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전혀 수정하지 않고 모든 것을 흉내 내어 완벽한 호환성을 확보하는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)의 영원한 라이벌이자 최종 승자(하드웨어 결합 후)
 * **AWS ENA / Nitro System** | 아마존 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)에서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 네트워크의 한계를 뛰어넘기 위해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 전용 하드웨어 카드를 융합시킨 최신 I/O 아키텍처
-* **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))** | [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)(VirtIO) 통신마저 생략하고, 물리적 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 카드를 논리적으로 쪼개어 VM에 다이렉트로 꽂아버리는 끝판왕 물리 레벨 통신 우회 기술
+* <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> (Single Root I/O <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)</strong> | [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)(VirtIO) 통신마저 생략하고, 물리적 [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 카드를 논리적으로 쪼개어 VM에 다이렉트로 꽂아버리는 끝판왕 물리 레벨 통신 우회 기술
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전가상화 (Full Virtualization) — 바이너리 변환, Guest OS 무수정]
-    │
-    ▼
-[반가상화 (Para-Virtualization) — Guest OS 커널 수정, Hypercall로 성능 향상]
-    │
-    ▼
-[하드웨어 지원 가상화 (HVM: Intel VT-x / AMD-V) — OS 무수정 + 고성능 병립]
-    │
-    ▼
-[VirtIO — 반가상화 I/O 표준 인터페이스, KVM 환경 사실상 표준]
-    │
-    ▼
-[컨테이너 (Docker / LXC) — OS 커널 공유, 하이퍼바이저 없이 격리 실현]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전가상화 (Full Virtualization) — 바이너리 변환, Guest OS 무수정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반가상화 (Para-Virtualization) — Guest OS 커널 수정, Hypercall로 성능 향상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 지원 가상화 (HVM: Intel VT-x / AMD-V) — OS 무수정 + 고성능 병립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VirtIO — 반가상화 I/O 표준 인터페이스, KVM 환경 사실상 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Docker / LXC) — OS 커널 공유, 하이퍼바이저 없이 격리 실현</div></div>
+</div>
+</div>
+
+
 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)(Hypercall)와 하드웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(HVM)가 극복했으며, VirtIO로 I/O 효율을 표준화하고 컨테이너로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

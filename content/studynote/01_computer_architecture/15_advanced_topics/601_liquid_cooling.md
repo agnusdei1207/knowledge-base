@@ -25,18 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 공랭의 우회 경로와 액체 냉각의 직통 경로 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           Air path vs Liquid path: 열을 방에 풀지, 바로 운반할지의 차이    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Air cooling    : Chip -> Heat Sink -> Air -> Room -> Facility Cooler      │
-│ Liquid cooling : Chip -> Cold Plate -> Coolant -> Heat Exchanger -> Loop  │
-│                                                                            │
-│ 핵심 차이점은 냉매가 '칩 근처'까지 들어오느냐에 있다.                       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 액체 냉각은 단순히 "더 차가운 냉각"이 아니라, **열이 실내 전체로 확산되기 전에 전용 경로로 회수하는 시스템 설계**다. 이 관점이 있어야 왜 액체 냉각이 서버 부품 문제를 넘어 랙, 배관, 설비, 전력 정책까지 묶는 아키텍처 주제인지 이해할 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Air path vs Liquid path: 열을 방에 풀지, 바로 운반할지의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Air cooling : Chip -&gt; Heat Sink -&gt; Air -&gt; Room -&gt; Facility Cooler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Liquid cooling : Chip -&gt; Cold Plate -&gt; Coolant -&gt; Heat Exchanger -&gt; Loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 차이점은 냉매가 '칩 근처'까지 들어오느냐에 있다.</div></div>
+</div>
+</div>
+
+
+
+따라서 액체 냉각은 단순히 "더 차가운 냉각"이 아니라, <strong>열이 실내 전체로 확산되기 전에 전용 경로로 회수하는 시스템 설계</strong>다. 이 관점이 있어야 왜 액체 냉각이 서버 부품 문제를 넘어 랙, 배관, 설비, 전력 정책까지 묶는 아키텍처 주제인지 이해할 수 있다.
 
 - **📢 섹션 요약 비유**: 액체 냉각은 불이 난 방에 선풍기를 세게 트는 대신, 불길 바로 옆에 소방 호스를 가져다 대는 방식과 같다. 중요한 것은 "바람을 더 세게"가 아니라 "열원에 더 가까운 냉각 경로"다.
 
@@ -56,17 +58,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 전형적인 D2C 랙 루프가 열을 어떻게 이동시키는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                Rack-level D2C loop: chip hot spot -> rack -> facility     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [CPU/GPU] -> [Cold Plate] -> [Rack Manifold] -> [CDU] -> [Heat Exchanger] │
-│     ^                                                                  │  │
-│     └----------------------- cooled fluid return ----------------------┘  │
-│                                                                            │
-│ 메모리 모듈, 저장장치, 전원부 등은 보조 공랭이 함께 남는 경우가 많다.      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack-level D2C loop: chip hot spot -&gt; rack -&gt; facility</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU/GPU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Cold Plate</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Rack Manifold</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CDU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Heat Exchanger</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">----------------------- cooled fluid return ----------------------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 모듈, 저장장치, 전원부 등은 보조 공랭이 함께 남는 경우가 많다.</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 포인트는 액체 냉각이 항상 "완전한 무팬 시스템"을 뜻하지는 않는다는 점이다. D2C는 가장 뜨거운 칩을 직접 식히지만, 메모리나 전원부처럼 상대적으로 덜 뜨거운 부품은 저속 공기 흐름이 계속 필요할 수 있다. 반대로 RDHx는 서버 내부는 기존 공랭 구조를 유지하되, 랙 후면에서 뜨거운 배기 공기를 물로 식혀 실내 부하를 줄이는 절충형 접근이다.
 
@@ -76,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-액체 냉각을 이해하려면 공랭과 [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/) ([Immersion Cooling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)) 사이에서 어디쯤 위치하는지 봐야 한다. 공랭은 설치와 정비가 쉽지만 고밀도 한계가 빠르게 오고, [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)은 냉각 범위가 가장 넓지만 운영 방식 자체가 달라진다. 액체 냉각은 이 둘 사이에서 **기존 서버 운영 습관을 상당 부분 유지하면서도 열 밀도 한계를 크게 끌어올리는 중간 해법**에 가깝다.
+액체 냉각을 이해하려면 공랭과 [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/) ([Immersion Cooling](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)) 사이에서 어디쯤 위치하는지 봐야 한다. 공랭은 설치와 정비가 쉽지만 고밀도 한계가 빠르게 오고, [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)은 냉각 범위가 가장 넓지만 운영 방식 자체가 달라진다. 액체 냉각은 이 둘 사이에서 <strong>기존 서버 운영 습관을 상당 부분 유지하면서도 열 밀도 한계를 크게 끌어올리는 중간 해법</strong>에 가깝다.
 
 | 항목 | 공랭 | 액체 냉각 | [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/) |
 | :--- | :--- | :--- | :--- |
@@ -88,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 
 액체 냉각은 전력사용효율 ([Power Usage Effectiveness](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/623_datacenter_pue/), [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/))과도 직접 연결된다. 공랭은 결국 방 전체를 차갑게 유지해야 하지만, 액체 냉각은 열을 더 높은 온도의 물로 회수할 수 있어 외기 냉각이나 폐열 재사용에 유리하다. 특히 따뜻한 물로도 충분히 냉각되는 설계는 건물 난방, 온수, 흡수식 냉동기로의 열 재활용 가능성을 연다.
 
-결국 설계자는 "무조건 더 강한 냉각"보다 **어느 지점에서 열을 회수해야 전체 시스템 비용이 최소가 되는지**를 봐야 한다. 칩만 매우 뜨겁고 서버 교체가 잦다면 액체 냉각이 가장 현실적이고, 보드 전체 발열과 극단적 고밀도가 문제라면 [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)이 더 맞을 수 있다.
+결국 설계자는 "무조건 더 강한 냉각"보다 <strong>어느 지점에서 열을 회수해야 전체 시스템 비용이 최소가 되는지</strong>를 봐야 한다. 칩만 매우 뜨겁고 서버 교체가 잦다면 액체 냉각이 가장 현실적이고, 보드 전체 발열과 극단적 고밀도가 문제라면 [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)이 더 맞을 수 있다.
 
 - **📢 섹션 요약 비유**: 공랭이 선풍기, 액체 냉각이 얼음물 순환 조끼, [이머전 쿨링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/602_immersion_cooling/)이 아예 물속에 들어가는 잠수복이라면, 액체 냉각은 일상 운영을 크게 바꾸지 않으면서도 가장 더운 부위를 정확히 식히는 절충안이다.
 
@@ -113,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 - 설비 팀과 서버 팀을 분리해 두고, 실제 장애 시 누가 밸브를 잠그고 누가 서버를 내려야 하는지 정하지 않은 운영
 - "액체 냉각이면 무조건 팬이 필요 없다"는 단순화된 기대
 
-기술사 답안에서는 액체 냉각을 단순히 "시원한 물을 쓰는 방식"으로 쓰면 약하다. **열원 위치, 냉각 루프 분리, 보조 공랭, 누수 대응, 폐열 활용**까지 함께 써야 설계 관점이 살아난다.
+기술사 답안에서는 액체 냉각을 단순히 "시원한 물을 쓰는 방식"으로 쓰면 약하다. <strong>열원 위치, 냉각 루프 분리, 보조 공랭, 누수 대응, 폐열 활용</strong>까지 함께 써야 설계 관점이 살아난다.
 
 - **📢 섹션 요약 비유**: 액체 냉각 도입은 좋은 정수기 한 대 사는 일이 아니라 건물 배관을 새로 설계하는 일에 가깝다. 물길은 강력하지만, 밸브와 배수 계획이 없으면 작은 누수도 큰 사고가 된다.
 
@@ -125,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 대가도 있다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설비 투자, 배관과 센서의 복잡성, 냉매 품질 관리, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 절차 교육이 함께 따라온다. 또한 모든 서버가 즉시 liquid-ready인 것도 아니어서, 서버 벤더의 부품 호환성과 랙 단위 표준화가 성숙해야 운영 부담이 줄어든다.
 
-결론적으로 액체 냉각 시스템은 "더 차가운 냉각기"가 아니라 **열을 공기에서 액체로 운반 매체를 바꿔, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 병목을 다시 배치하는 아키텍처**다. 기억해야 할 핵심은 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 그 자체보다, 열을 어디서 잡고 어디로 보내며 어떤 운영 절차로 안전하게 돌릴 것인가다.
+결론적으로 액체 냉각 시스템은 "더 차가운 냉각기"가 아니라 <strong>열을 공기에서 액체로 운반 매체를 바꿔, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>의 병목을 다시 배치하는 아키텍처</strong>다. 기억해야 할 핵심은 냉각 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 그 자체보다, 열을 어디서 잡고 어디로 보내며 어떤 운영 절차로 안전하게 돌릴 것인가다.
 
 - **📢 섹션 요약 비유**: 액체 냉각은 더 센 선풍기를 고르는 일이 아니라, 열 전용 물류망을 새로 까는 일이다. 길만 잘 뚫리면 더운 짐은 빠르게 빠져나가고, 길이 엉키면 좋은 냉각기여도 소용이 없다.
 
@@ -144,24 +148,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공랭 기반 서버 냉각
-    │
-    ▼
-Hot spot 증가 · AI/GPU 전력 밀도 상승
-    │
-    ▼
-Direct-to-Chip 콜드 플레이트
-    │
-    ▼
-랙 매니폴드 · CDU · 시설 냉각수 연계
-    │
-    ▼
-Warm-water cooling · 폐열 재사용
-    │
-    ▼
-Immersion Cooling · 초고밀도 랙 냉각
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공랭 기반 서버 냉각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hot spot 증가 · AI/GPU 전력 밀도 상승</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Direct-to-Chip 콜드 플레이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랙 매니폴드 · CDU · 시설 냉각수 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Warm-water cooling · 폐열 재사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Immersion Cooling · 초고밀도 랙 냉각</div>
+</div>
+</div>
+
+
 
 이 흐름은 냉각 기술이 "방 전체를 식히는 단계"에서 출발해, 이제는 열원 근처에서 직접 회수하고 재활용까지 고려하는 방향으로 진화하고 있음을 보여 준다.
 

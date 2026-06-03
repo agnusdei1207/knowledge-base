@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Stub은 '나무의 밑동, 토막'을 뜻한다. 잘라내서 무언가를 임시로 받쳐놓는다는 뉘앙스다. 테스트를 돌리려면 `getUserAge()`라는 남의 함수를 불러야 하는데, 그 함수가 완성 안 됐다면? 내가 그냥 `getUserAge()`라는 껍데기를 만들고, 무조건 `25`라는 숫자를 뱉어내도록(Return) 조작해 놓은 나무토막(가짜 객체)을 만들어 쑤셔 넣는 것이다.
 
-- **필요성**: 회원가입 함수를 짠다. 중복 회원인지 확인하려고 진짜 DB를 붙여서 테스트를 돌리면 2가지 재앙이 온다. 첫째, DB 네트워크를 타느라 테스트 하나당 2초가 걸려 1만 개를 돌리면 하루가 다 간다. 둘째, 어제는 가입에 성공했는데 오늘은 누가 진짜 DB에 똑같은 이름("Kim")을 박아놔서 내 테스트가 억울하게 실패(Fail)한다. **외부 환경(DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 오염 때문에 내 완벽한 로직(회원가입 코드)이 틀렸다고 오해받는 '결정론적 실패'를 막으려면**, 무조건 정해진 대답만 기계처럼 뱉어주는 격리된(Isolated) 거짓말쟁이(Stub)가 절대적으로 필요하다.
+- **필요성**: 회원가입 함수를 짠다. 중복 회원인지 확인하려고 진짜 DB를 붙여서 테스트를 돌리면 2가지 재앙이 온다. 첫째, DB 네트워크를 타느라 테스트 하나당 2초가 걸려 1만 개를 돌리면 하루가 다 간다. 둘째, 어제는 가입에 성공했는데 오늘은 누가 진짜 DB에 똑같은 이름("Kim")을 박아놔서 내 테스트가 억울하게 실패(Fail)한다. <strong>외부 환경(DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)의 오염 때문에 내 완벽한 로직(회원가입 코드)이 틀렸다고 오해받는 '결정론적 실패'를 막으려면</strong>, 무조건 정해진 대답만 기계처럼 뱉어주는 격리된(Isolated) 거짓말쟁이(Stub)가 절대적으로 필요하다.
 
-- **💡 비유**: Stub은 연극 연습용 **'자동 대사 재생기'**와 같습니다. 주인공(내 로직)이 상대방 배우(DB)와 합을 맞춰야 하는데, 상대 배우가 지각을 했습니다. 연습을 멈출 순 없으니, 버튼을 누르면 상대방의 대사("네, 알겠습니다")가 녹음기에서 똑같이 흘러나오게 조작해 둔 기계가 바로 Stub입니다. 상대 배우가 진짜 사람이든 녹음기든 주인공은 자기 대사 연습을 100% 완벽하게 할 수 있습니다.
+- **💡 비유**: Stub은 연극 연습용 <strong>'자동 대사 재생기'</strong>와 같습니다. 주인공(내 로직)이 상대방 배우(DB)와 합을 맞춰야 하는데, 상대 배우가 지각을 했습니다. 연습을 멈출 순 없으니, 버튼을 누르면 상대방의 대사("네, 알겠습니다")가 녹음기에서 똑같이 흘러나오게 조작해 둔 기계가 바로 Stub입니다. 상대 배우가 진짜 사람이든 녹음기든 주인공은 자기 대사 연습을 100% 완벽하게 할 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **통합 테스트의 피로도**: 과거엔 무조건 진짜 DB를 띄우고(Setup), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1만 건을 밀어 넣은 뒤, 테스트 끝나면 다 지워야(Teardown) 하는 극한의 노가다를 했다.
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 Stub (스텁)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Stub (스텁)                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stub (스텁)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Stub (스텁)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ Stub (스텁) - 호출 시 준비된 답변만 반환 (상태 검증용)의 핵�
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Stub (스텁)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Stub (스텁)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Stub (스텁)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ Stub (스텁)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Stub (스텁) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Stub (스텁) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

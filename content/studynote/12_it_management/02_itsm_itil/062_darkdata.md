@@ -29,13 +29,19 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Dark Data
-├─ Technical Dark Data
-├─ Organizational Dark Data
-├─ Regulatory Dark Data
-└─ Temporary Dark Data
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Dark Data</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Technical Dark Data</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Organizational Dark Data</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Regulatory Dark Data</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Temporary Dark Data</div>
+</div>
+</div>
+
+
 
 | 유형 | 특징 | 예시 | 처리 방향 |
 | :-- | :-- | :-- | :-- |
@@ -69,17 +75,23 @@ Dark Data
 
 ### 처리 절차
 
-```text
-자산 인벤토리
-  ↓
-접근 빈도·최종 수정일 확인
-  ↓
-민감도·보존기한 판단
-  ↓
-활용 / 보존 / 삭제 / 익명화
-  ↓
-주기적 재평가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자산 인벤토리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">접근 빈도·최종 수정일 확인</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">민감도·보존기한 판단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">활용 / 보존 / 삭제 / 익명화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">주기적 재평가</div>
+</div>
+</div>
+
+
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,33 +126,45 @@ Dark Data
 
 ## 관련 개념 맵
 
-```text
-데이터 수집
-  ↓
-미사용 데이터
-  ↓
-다크 데이터
-  ↓
-분류 · 보존 · 삭제
-  ↓
-데이터 거버넌스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 수집</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">미사용 데이터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다크 데이터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분류 · 보존 · 삭제</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 거버넌스</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-로그/백업/이메일
-  ↓
-방치된 저장소
-  ↓
-다크 데이터 탐지
-  ↓
-정책 기반 분류
-  ↓
-데이터 최소화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">로그/백업/이메일</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">방치된 저장소</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다크 데이터 탐지</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정책 기반 분류</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 최소화</div>
+</div>
+</div>
+
+
 
 ---
 

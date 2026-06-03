@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IP 주소를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 변환(Resolution, 풀이)해 주는 네트워크 인프라의 핵심 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 826). 
-- **필요성**: 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`192.168.0.10`)가 옆자리 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`192.168.0.20`)로 엑셀 파일을 보내려 한다. 3계층 IP 패킷 포장은 끝났다. 이제 2계층 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임(택배 박스)에 넣고 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(내 랜카드)과 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(김대리 랜카드)을 적어야 하는데, **김대리의 IP는 알아도 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 번호는 모른다.** 박스에 목적지 MAC을 안 적으면 랜카드가 전송 버튼을 눌러주지 않는다. "야!! 192.168.0.20 IP 쓰는 놈, 네 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 좀 빨리 불러줘!"라고 소리칠 방법이 절실했다.
+- **필요성**: 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`192.168.0.10`)가 옆자리 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`192.168.0.20`)로 엑셀 파일을 보내려 한다. 3계층 IP 패킷 포장은 끝났다. 이제 2계층 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임(택배 박스)에 넣고 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(내 랜카드)과 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(김대리 랜카드)을 적어야 하는데, <strong>김대리의 IP는 알아도 랜카드 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 번호는 모른다.</strong> 박스에 목적지 MAC을 안 적으면 랜카드가 전송 버튼을 눌러주지 않는다. "야!! 192.168.0.20 IP 쓰는 놈, 네 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 좀 빨리 불러줘!"라고 소리칠 방법이 절실했다.
 
-- **💡 비유**: ARP는 교실에서 일어나는 **"이름 부르기"**와 같습니다. 선생님이 "출석 번호 15번(IP 주소)인 사람, 자기 주민번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 좀 알려줘!"라고 교실 전체에 소리칩니다(Broadcast). 15번이 아닌 학생들은 듣고 무시하고, 15번 학생만 벌떡 일어나 "저요! 제 주민번호는 123456([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)입니다!"라고 선생님 귀에 대고 조용히 대답(Unicast)합니다.
+- **💡 비유**: ARP는 교실에서 일어나는 <strong>"이름 부르기"</strong>와 같습니다. 선생님이 "출석 번호 15번(IP 주소)인 사람, 자기 주민번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 좀 알려줘!"라고 교실 전체에 소리칩니다(Broadcast). 15번이 아닌 학생들은 듣고 무시하고, 15번 학생만 벌떡 일어나 "저요! 제 주민번호는 123456([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)입니다!"라고 선생님 귀에 대고 조용히 대답(Unicast)합니다.
 
-```text
-[STUN, TURN, ICE]
-    │
-    ▼
-[ARP]
-    │
-    └──▶ [ARP 프레임]
-```
 
-- **📢 섹션 요약 비유**: ** ARP는 친구 집 주소(IP)는 아는데 **현관문 비밀번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))**를 모를 때, 아파트 복도에 서서 "101호 사는 사람 비밀번호 좀 알려줘!"라고 확성기를 켜는 무식하지만 가장 확실한 통신 조회 방식입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">STUN, TURN, ICE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 프레임</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> ARP는 친구 집 주소(IP)는 아는데 </strong>현관문 비밀번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))**를 모를 때, 아파트 복도에 서서 "101호 사는 사람 비밀번호 좀 알려줘!"라고 확성기를 켜는 무식하지만 가장 확실한 통신 조회 방식입니다.
 
 ---
 
@@ -41,14 +45,14 @@ tags = ["studynote-network"]
 
 ### 1. ARP Request (요청) - "누구냐 넌!"
 내 PC가 김대리 PC의 MAC을 알아내기 위해 **ARP Request** 패킷을 만든다.
-- 이 패킷의 **목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 무조건 브로드캐스트(`FF:FF:FF:FF:FF:FF`)**로 세팅된다. 
+- 이 패킷의 <strong>목적지 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소는 무조건 브로드캐스트(<code>FF:FF:FF:FF:FF:FF</code>)</strong>로 세팅된다. 
 - 스위치는 이 프레임을 받으면 동네에 있는 모든 100대의 PC에 복사해서 뿌려버린다.
 - 99대의 PC는 패킷을 열어보고 "어? 찾는 IP가 내 IP랑 다르네?" 하고 쓰레기통에 버린다.
 
 ### 2. ARP Reply (응답) - "나다!"
 김대리 PC는 패킷을 열어보고 "어? 내 IP(`192.168.0.20`)를 찾네!"라고 인식한다.
 - 김대리 PC는 자신의 진짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(`AA:BB:CC...`)를 담은 **ARP Reply** 패킷을 만든다.
-- 이때는 굳이 동네방네 소리칠 필요가 없으므로, 아까 물어본 내 PC의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 목적지로 삼아 **유니캐스트(1:1)로 조용히 대답**한다.
+- 이때는 굳이 동네방네 소리칠 필요가 없으므로, 아까 물어본 내 PC의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 목적지로 삼아 <strong>유니캐스트(1:1)로 조용히 대답</strong>한다.
 
 ### 3. 통신 대상이 다른 동네(다른 서브넷)에 있다면?
 이게 제일 중요하다. 만약 내가 네이버(`223.130.x.x`)로 접속하려 한다. 내 PC는 네이버의 IP가 나랑 다른 동네임을 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(AND 연산)로 즉시 눈치챈다.
@@ -56,26 +60,25 @@ tags = ["studynote-network"]
 - 이때 내 PC는 네이버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 묻는 ARP를 날리는 것이 아니라, **내부망 라우터(공유기)의 IP에 대한 ARP Request를 날린다.** 
 - 즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 겉면(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 라우터 MAC이 적히고, 알맹이(IP 패킷)의 목적지 IP는 네이버 IP가 적혀 날아간다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ARP Cache Table (ARP 테이블) 확인              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   C:\Users\Admin> arp -a                                    │
- │                                                             │
- │   인터페이스: 192.168.0.10 --- 0x2                            │
- │     인터넷 주소         물리적 주소           유형                │
- │     192.168.0.1       00-11-22-33-44-55     동적 (Dynamic)      │
- │     192.168.0.20      AA-BB-CC-DD-EE-FF     동적 (Dynamic)      │
- │                                                             │
- │   * 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)│
- │   * 정적(Static)  : 관리자가 영구적으로 하드코딩해 둔 정보           │
- │                                                             │
- │   ▶ "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!" │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 통신을 시작하기 전 무조건 거쳐야 하는 ARP 과정은, 배달 기사님이 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 싣고 출발하기 전, 수첩(ARP 테이블)을 뒤져보고 번호가 없으면 **114(ARP 브로드캐스트)에 전화해서 정확한 번지를 물어보는 필수 사전 조사 작업**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP Cache Table (ARP 테이블) 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C:\Users\Admin&gt; arp -a</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터페이스: 192.168.0.10 --- 0x2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 주소 물리적 주소 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.1 00-11-22-33-44-55 동적 (Dynamic)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.20 AA-BB-CC-DD-EE-FF 동적 (Dynamic)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 정적(Static) : 관리자가 영구적으로 하드코딩해 둔 정보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 통신을 시작하기 전 무조건 거쳐야 하는 ARP 과정은, 배달 기사님이 택배(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 싣고 출발하기 전, 수첩(ARP 테이블)을 뒤져보고 번호가 없으면 </strong>114(ARP 브로드캐스트)에 전화해서 정확한 번지를 물어보는 필수 사전 조사 작업**입니다.
 
 ---
 
@@ -131,15 +134,19 @@ ARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: STUN, TURN, ICE]
-    │
-    ▼
-[현재 개념: ARP]
-    │
-    ├──▶ [확장 A: ARP 프레임]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STUN, TURN, ICE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 프레임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 ARP는 STUN, TURN, ICE에서 출발해 현재 메커니즘을 정교화하고, 이후 ARP 프레임와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

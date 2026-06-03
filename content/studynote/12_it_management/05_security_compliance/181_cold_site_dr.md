@@ -23,7 +23,7 @@ tags = ["studynote-it-management"]
 
 이 방식이 필요한 이유는 모든 시스템이 [Hot Site](/knowledge-base/studynote/12_it_management/05_security_compliance/179_hot_site_dr/) 수준의 연속성을 요구하지 않기 때문이다. 예를 들어 경영 보고, 기록 보존, 일부 내부 행정 시스템은 수분 내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)보다 비용 절감이 우선일 수 있다. [Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ([BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/))를 수행해 업무별 허용 중단 시간을 구분하면, 콜드 사이트는 낮은 우선순위 업무를 위한 현실적 선택지가 된다.
 
-하지만 "빈 공간만 있으면 된다"고 오해하면 실패한다. 장비가 없어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 남아 있어야 하고, 어디서 장비를 얼마나 빨리 조달할지 계약되어 있어야 하며, 누가 어떤 순서로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할지 Runbook이 있어야 한다. 즉 콜드 사이트의 필요성은 단순한 공간 확보가 아니라, **낮은 비용으로도 재해 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 남겨 두는 것**에 있다.
+하지만 "빈 공간만 있으면 된다"고 오해하면 실패한다. 장비가 없어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 남아 있어야 하고, 어디서 장비를 얼마나 빨리 조달할지 계약되어 있어야 하며, 누가 어떤 순서로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할지 Runbook이 있어야 한다. 즉 콜드 사이트의 필요성은 단순한 공간 확보가 아니라, <strong>낮은 비용으로도 재해 후 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능성을 남겨 두는 것</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 콜드 사이트는 비상시 들어갈 수 있는 빈 사무실을 미리 계약해 두는 것과 같다. 월세는 싸지만, 책상과 컴퓨터를 채우고 다시 일하기까지는 시간이 걸린다.
 
@@ -43,31 +43,29 @@ tags = ["studynote-it-management"]
 
 아래 그림은 콜드 사이트에서 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 어디에서 소비되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Cold site recovery chain                                            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Primary site                                                        │
-│   App / DB / Files                                                  │
-│      │ backup                                                       │
-│      ▼                                                              │
-│ Off-site backup vault                                               │
-│   tape / object storage / immutable copy                            │
-│      │                                                              │
-│      ▼                                                              │
-│ Cold site facility                                                  │
-│   racks + power + cooling + network only                            │
-│                                                                      │
-│ Disaster declared                                                   │
-│   -> procure hardware                                               │
-│   -> install OS / middleware                                        │
-│   -> restore data                                                   │
-│   -> validate security / DNS / VPN                                  │
-│   -> resume service                                                 │
-│                                                                      │
-│ Bottlenecks: supplier SLA / restore bandwidth / runbook quality     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold site recovery chain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary site</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Files</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Off-site backup vault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tape / object storage / immutable copy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold site facility</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">racks + power + cooling + network only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; procure hardware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; install OS / middleware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; restore data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; validate security / DNS / VPN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; resume service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bottlenecks: supplier SLA / restore bandwidth / runbook quality</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 마지막 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시점에 의해 결정되고, [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))는 조달·설치·복원 시간이 합쳐져 결정된다. 그래서 콜드 사이트는 같은 시설이라도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기와 공급 계약 조건에 따라 품질이 크게 달라진다. 시설은 같아 보여도 준비 수준은 전혀 다를 수 있다.
 
@@ -124,7 +122,7 @@ tags = ["studynote-it-management"]
 - 같은 지역에만 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 둬 광역 재해 시 함께 영향을 받는 구성
 - [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)를 고려하지 않고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만 보관하는 설계
 
-기술사 답안에서는 **"콜드 사이트는 최소 비용으로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 거점을 확보하는 대신 긴 RTO를 감수하는 방식이며, 핵심 통제 포인트는 오프사이트 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 조달 계약, Runbook, 정기 복원 훈련"**이라고 정리하면 좋다.
+기술사 답안에서는 <strong>"콜드 사이트는 최소 비용으로 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a> 거점을 확보하는 대신 긴 RTO를 감수하는 방식이며, 핵심 통제 포인트는 오프사이트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>, 조달 계약, Runbook, 정기 복원 훈련"</strong>이라고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 콜드 사이트 운영은 비상약 상자를 사 두는 것만으로 끝나지 않는다. 약이 아직 유효한지, 어디 있는지, 누가 어떻게 쓰는지까지 알아야 실제 위급할 때 도움이 된다.
 
@@ -134,7 +132,7 @@ tags = ["studynote-it-management"]
 
 콜드 사이트의 장점은 분명하다. 운영비를 최소화하면서도 재해 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 거점을 확보할 수 있고, 비핵심 시스템에 과도한 투자를 하지 않게 해 준다. 조직 전체 관점에서는 모든 업무를 동일한 등급으로 보호하는 대신, 업무 중요도에 따라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 차등화할 수 있게 된다.
 
-그러나 콜드 사이트는 "싸지만 느린" 것만으로 기억하면 부족하다. 준비되지 않은 콜드 사이트는 실제 재해 시 아무 쓸모가 없고, 잘 준비된 콜드 사이트만이 비용 효율적인 DR이 된다. 결국 콜드 사이트의 품질은 공간이 아니라 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 증명하는 문서·계약·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·훈련**으로 평가해야 한다.
+그러나 콜드 사이트는 "싸지만 느린" 것만으로 기억하면 부족하다. 준비되지 않은 콜드 사이트는 실제 재해 시 아무 쓸모가 없고, 잘 준비된 콜드 사이트만이 비용 효율적인 DR이 된다. 결국 콜드 사이트의 품질은 공간이 아니라 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능성을 증명하는 문서·계약·<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>·훈련</strong>으로 평가해야 한다.
 
 결론적으로 콜드 사이트는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 스펙트럼의 끝점에 있는 여전히 유효한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 다만 오늘날에는 클라우드 [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) & Restore, Pilot Light와 항상 비교해야 하며, 선택 후에는 "언제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있는가"를 실제 훈련으로 입증해야 한다.
 
@@ -155,21 +153,23 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business Impact Analysis
-    │
-    ▼
-RTO / RPO 등급화
-    │
-    ├─ 짧은 복구 필요 -> Hot / Warm Site
-    └─ 긴 복구 허용 -> Cold Site
-    │
-    ▼
-Off-site backup + supplier contract + runbook
-    │
-    ▼
-Restore drill and cloud backup-restore evolution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business Impact Analysis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RTO / RPO 등급화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">짧은 복구 필요 -&gt; Hot / Warm Site</div>
+<div class="kb-diagram-tree-item" style="--depth:2">긴 복구 허용 -&gt; Cold Site</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Off-site backup + supplier contract + runbook</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Restore drill and cloud backup-restore evolution</div>
+</div>
+</div>
+
+
 
 이 흐름은 콜드 사이트가 단독 기술이 아니라, 업무 영향 분석과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위에서 선택되는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)임을 보여 준다.
 

@@ -20,10 +20,10 @@ tags = ["studynote-ict-convergence"]
 ## Ⅰ. 개요 및 필요성
 
 강아지에게 "앉아"라고 훈련을 시킨다. 강아지가 앉으면 간식(보상)을 주고, 서 있으면 아무것도 안 준다(벌). 강아지는 과거에 자기가 했던 행동의 결과를 바탕으로 "아, 주인이 이 표정(상태)일 때, 내가 앉으면(행동) 맛있는 걸(보상) 주는구나!"라는 법칙을 깨닫게 된다. 
-이것이 인간과 동물이 세상을 살아가는 방식, **강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))**이다.
+이것이 인간과 동물이 세상을 살아가는 방식, <strong>강화학습(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Reinforcement Learning</a>)</strong>이다.
 
-"그럼 이 **[상황 -> 행동 -> 결과]**라는 연속된 인생의 과정을 컴퓨터가 계산할 수 있게 수학 공식으로 바꿀 순 없을까?" 
-수학자 마르코프(Markov)가 고안한 "과거는 잊고 현재만 봐라"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에, 어떤 행동을 할지 선택(Decision)하는 과정을 결합하여 만든 5가지 변수의 완벽한 수학 모형이 바로 **MDP**다.
+"그럼 이 <strong>[상황 -> 행동 -> 결과]</strong>라는 연속된 인생의 과정을 컴퓨터가 계산할 수 있게 수학 공식으로 바꿀 순 없을까?" 
+수학자 마르코프(Markov)가 고안한 "과거는 잊고 현재만 봐라"라는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에, 어떤 행동을 할지 선택(Decision)하는 과정을 결합하여 만든 5가지 변수의 완벽한 수학 모형이 바로 <strong>MDP</strong>다.
 
 - **📢 섹션 요약 비유**: 인생은 B(Birth)와 D(Death) 사이의 C(Choice)라고 한다. MDP는 이 수많은 인생의 갈림길(상태)에서 어떤 선택(행동)을 해야 나중에 벼락부자(보상)가 될 수 있는지를 계산해 주는 인생 시뮬레이션 게임의 룰북이다.
 
@@ -33,31 +33,30 @@ tags = ["studynote-ict-convergence"]
 
 MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이 끝없이 핑퐁을 치는 아키텍처다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             [ 마르코프 결정 과정 (MDP)의 5대 수학적 요소 ]      │
-├────────────────────────────────────────────────────────┤
-│ 1. S (State, 상태) : "지금 내가 어디 있지?"                │
-│    - 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)       │
-│                                                        │
-│ 2. A (Action, 행동) : "이제 뭘 할까?"                   │
-│    - 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)  │
-│                                                        │
-│ 3. R (Reward, 보상) : "잘했어! 100점!"                  │
-│    - 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)│
-│    - 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!      │
-│                                                        │
-│ 4. P (Transition Probability, 전이 확률) : "세상의 억까"   │
-│    - 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)│
-│    - 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함     │
-│                                                        │
-│ 5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"    │
-│    - 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는   │
-│      얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념     │
-└────────────────────────────────────────────────────────┘
-```
 
-1. **마르코프성 ([Markov Property](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/))**: $P[S_{t+1} | S_t] = P[S_{t+1} | S_1, S_2, \dots, S_t]$. 내일 날씨(상태)를 맞출 때, 오늘 날씨 하나만 보나 어제, 그제 날씨 100일 치를 다 보나 똑같이 정확하다는 뜻이다. 오직 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)" 안에 과거의 모든 정보가 다 농축되어 있다고 믿는 극한의 쿨가이 마인드다. 이 룰이 없으면 로봇은 1보 걸을 때마다 자기가 태어난 날부터의 모든 기록을 다 계산해야 해서 메모리가 터진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP)의 5대 수학적 요소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. S (State, 상태) : "지금 내가 어디 있지?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. A (Action, 행동) : "이제 뭘 할까?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. R (Reward, 보상) : "잘했어! 100점!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P (Transition Probability, 전이 확률) : "세상의 억까"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념</div></div>
+</div>
+</div>
+
+
+
+1. <strong>마르코프성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>: $P[S_{t+1} | S_t] = P[S_{t+1} | S_1, S_2, \dots, S_t]$. 내일 날씨(상태)를 맞출 때, 오늘 날씨 하나만 보나 어제, 그제 날씨 100일 치를 다 보나 똑같이 정확하다는 뜻이다. 오직 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)" 안에 과거의 모든 정보가 다 농축되어 있다고 믿는 극한의 쿨가이 마인드다. 이 룰이 없으면 로봇은 1보 걸을 때마다 자기가 태어난 날부터의 모든 기록을 다 계산해야 해서 메모리가 터진다.
 2. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$)**: MDP를 푸는 최종 목적지다. "어느 상태(S)에서는 무조건 이 행동(A)을 해라!"라고 기계의 뇌 속에 콱 박아주는 완벽한 지침서(매뉴얼)다.
 
 - **📢 섹션 요약 비유**: 게임 <슈퍼 마리오>를 할 때, 마리오가 지금 서 있는 위치(S), 마리오가 누르는 점프 버튼(A), 동전을 먹었을 때 오르는 점수(R), 점프했는데 미끄러질 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(P), 그리고 게임이 끝나기 전에 빨리 동전을 먹어야 하는 조급함($\gamma$)을 합친 완벽한 게임 엔진이다.
@@ -74,7 +73,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 | **변수 개수** | 오직 상태(S) 1개만 봄 | **상태(S)와 행동(A) 2개를 봄** |
 | **활용법** | 체스판을 보고 "유리하네, 불리하네" 판단할 때 | "여기에 폰을 둘까, 나이트를 둘까?" 구체적 행동 고를 때 |
 | **알파고 적용** | 판세를 읽는 가치망 (Value Network) | 다음 수를 결정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Network) |
-| **발전된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**| 상태 점수만 갱신하는 [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 구조로 발전 | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), **[DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))**의 절대 뼈대 |
+| <strong>발전된 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>| 상태 점수만 갱신하는 [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 구조로 발전 | [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/), <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">DQN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/">Deep Q-Network</a>)</strong>의 절대 뼈대 |
 
 로봇은 이 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 계산할 때 '[벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))'이라는 미친 수식을 쓴다. "내 자리의 점수 = 방금 받은 간식(보상) + 내일 받게 될 간식의 점수($\gamma \times V(s_{t+1})$)"라는 수식을 무한 루프로 돌려, 먼 미래의 보상을 현재의 점수로 끌어와 계산하는 타임머신 연산법이다.
 
@@ -86,7 +85,7 @@ MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops
 
 **실무 적용 시나리오:**
 쇼핑몰 추천 AI를 짠다. 고객이 들어온다([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)). AI가 A상품, B상품 중 하나를 추천한다(Action). 고객이 사면 +100점, 안 사면 0점을 받는다(Reward). 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 고객의 클릭 로그를 바탕으로 이 MDP 환경을 구성하고 **[Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 띄운다. 처음엔 엉뚱한 물건을 추천하던 AI가, "이 옷을 본 고객(S)에게 저 신발을 추천(A)했더니 +100점을 주네!"라는 사실을 깨닫고 Q-Table(수첩)에 점수를 적는다. 수만 번의 고객 트래픽을 거친 AI는 어떤 고객 상태(S)가 주어지든 가장 돈을 많이 버는 추천(A)을 뽑아내는 최고의 세일즈맨으로 진화한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 고객의 클릭 로그를 바탕으로 이 MDP 환경을 구성하고 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/">Q-Learning</a></strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 띄운다. 처음엔 엉뚱한 물건을 추천하던 AI가, "이 옷을 본 고객(S)에게 저 신발을 추천(A)했더니 +100점을 주네!"라는 사실을 깨닫고 Q-Table(수첩)에 점수를 적는다. 수만 번의 고객 트래픽을 거친 AI는 어떤 고객 상태(S)가 주어지든 가장 돈을 많이 버는 추천(A)을 뽑아내는 최고의 세일즈맨으로 진화한다.
 
 **기술사 판단 포인트 (Trade-off):**
 강화학습 환경(MDP) 설계 시 기술사는 **'할인율($\gamma$)'과 '보상(Reward) 셰이핑'**의 밸런스를 목숨 걸고 통제해야 한다.

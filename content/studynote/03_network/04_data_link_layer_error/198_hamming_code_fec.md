@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 에러를 수정하려면 먼저 '단어 사이의 거리'를 알아야 합니다.
-- **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)**: 두 개의 2진수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있을 때, **서로 값이 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 개수**입니다.
-  - `000`과 `011`을 비교하면? 2번째와 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 다르므로 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 **2**입니다.
-- **에러 수정의 법칙**: 어떤 시스템에서 에러를 1개 발견(검출)하려면 유효한 단어들 사이의 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 2여야 하고, 에러를 1개 **직접 고치려면(교정) 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 3**이어야 한다는 수학적 법칙이 있습니다. (정보처리기사 단골 문제).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a></strong>: 두 개의 2진수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있을 때, <strong>서로 값이 다른 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>의 개수</strong>입니다.
+  - `000`과 `011`을 비교하면? 2번째와 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 다르므로 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 <strong>2</strong>입니다.
+- **에러 수정의 법칙**: 어떤 시스템에서 에러를 1개 발견(검출)하려면 유효한 단어들 사이의 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 2여야 하고, 에러를 1개 <strong>직접 고치려면(교정) 최소 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>가 3</strong>이어야 한다는 수학적 법칙이 있습니다. (정보처리기사 단골 문제).
 
-```text
-[버스트 에러 검출 능력 유지]
-    │
-    ▼
-[해밍 코드]
-    │
-    └──▶ [리드-솔로몬 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,7 +43,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 4비트의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`1011`)를 보내기 위해, 무려 3비트의 쓰레기 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) $P_1, P_2, P_3$)를 섞어서 총 7비트를 보냅니다. 이를 **(7, 4) [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)**라고 부릅니다.
+[해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 4비트의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`1011`)를 보내기 위해, 무려 3비트의 쓰레기 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) $P_1, P_2, P_3$)를 섞어서 총 7비트를 보냅니다. 이를 <strong>(7, 4) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a></strong>라고 부릅니다.
 
 ### [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(패리티) 심는 자리의 규칙
 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)들은 아무 데나 끼어들지 않고, 반드시 **$2^n$ 번째 자리(1번, 2번, 4번, 8번...)**에만 배치됩니다.
@@ -52,17 +56,21 @@ tags = ["studynote-network"]
 - $P_1$ 영역 검사: "어? 에러 났어!" (1)
 - $P_2$ 영역 검사: "어? 여기도 에러 났어!" (1)
 - $P_3$ 영역 검사: "여긴 정상이야." (0)
-결과로 `011`(십진수로 3)이라는 신호가 나옵니다. 이 숫자의 의미는 기가 막힙니다. **"아하, 1번과 2번이 겹치는 구역인 '3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'가 번개 맞고 깨졌구나!"** 
+결과로 `011`(십진수로 3)이라는 신호가 나옵니다. 이 숫자의 의미는 기가 막힙니다. <strong>"아하, 1번과 2번이 겹치는 구역인 '3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'가 번개 맞고 깨졌구나!"</strong> 
 수신기는 송신기에 다시 보내달라고 하지 않고, 그 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 스스로 반대로 뒤집어(1➔0) 완벽히 복원해 냅니다.
 
-```text
-[버스트 에러 검출 능력 유지]
-    │
-    ▼
-[해밍 코드]
-    │
-    └──▶ [리드-솔로몬 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,8 +78,8 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **1비트 수정, 2비트 검출의 룰**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 1비트가 깨지면 그 위치를 귀신같이 찾아 고치지만, **재수 없게 2비트가 동시에 깨져버리면 엉뚱한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깨진 것으로 착각(오진)하여 멀쩡한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어버리는 치명적 약점**이 있습니다.
-- 그래서 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송보다는 컴퓨터 내부의 **메모리(RAM) 에러 보정용([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리)**으로 주로 쓰입니다.
+- **1비트 수정, 2비트 검출의 룰**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 1비트가 깨지면 그 위치를 귀신같이 찾아 고치지만, <strong>재수 없게 2비트가 동시에 깨져버리면 엉뚱한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 깨진 것으로 착각(오진)하여 멀쩡한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 뒤집어버리는 치명적 약점</strong>이 있습니다.
+- 그래서 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송보다는 컴퓨터 내부의 <strong>메모리(RAM) 에러 보정용(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 메모리)</strong>으로 주로 쓰입니다.
 
 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지가 기반 조건을 만든다면, [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 그 위에서 핵심 메커니즘을 구현하고, [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 거짓말쟁이를 잡는 **'3개의 겹치는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 사각지대 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)법'**입니다. 카메라 1대만 있으면 도둑(에러)이 왔다는 건 알아도 어디 있는지 모릅니다. 하지만 거실, 안방, 현관을 교묘하게 비추는 카메라 3대의 녹화본(패리티 1, 2, 3)을 겹쳐서 보면, "1번 카메라와 2번 카메라에만 찍히고 3번엔 안 찍힌 그곳! 바로 화장실 문 앞이다!"라고 **에러의 정확한 좌표를 유추하여 범인을 때려잡는 기법**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a>는 거짓말쟁이를 잡는 </strong>'3개의 겹치는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 사각지대 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)법'<strong>입니다. 카메라 1대만 있으면 도둑(에러)이 왔다는 건 알아도 어디 있는지 모릅니다. 하지만 거실, 안방, 현관을 교묘하게 비추는 카메라 3대의 녹화본(패리티 1, 2, 3)을 겹쳐서 보면, "1번 카메라와 2번 카메라에만 찍히고 3번엔 안 찍힌 그곳! 바로 화장실 문 앞이다!"라고 </strong>에러의 정확한 좌표를 유추하여 범인을 때려잡는 기법**입니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 버스트 에러 검출 능력 유지]
-    │
-    ▼
-[현재 개념: 해밍 코드]
-    │
-    ├──▶ [확장 A: 리드-솔로몬 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해밍 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 리드-솔로몬 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지에서 출발해 현재 메커니즘을 정교화하고, 이후 [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

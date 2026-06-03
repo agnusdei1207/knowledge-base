@@ -18,22 +18,20 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ 3C 분석 삼각 구도 │
-├─────────────────────────────────────────────────────────┤
-│ │
-│ [Customer (고객·시장)] │
-│ 누가 무엇을 원하는가? │
-│ /\ │
-│ / \ │
-│ / \ │
-│ [Company]──────[Competitor] │
-│ (자사 강·약점) (경쟁자 전략·강약점) │
-│ │
-│ 전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점│
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3C 분석 삼각 구도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Customer (고객·시장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누가 무엇을 원하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Company</div><div class="kb-diagram-node">Competitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자사 강·약점) (경쟁자 전략·강약점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략 포인트: 고객이 원하지만 경쟁자가 못하는 것 + 자사 강점</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 3C 분석은 레스토랑 창업 전 조사다. 손님이 뭘 먹고 싶은지([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 주변 레스토랑이 무엇을 잘하고 못하는지(Competitor), 우리 셰프의 전문 요리가 무엇인지(Company)를 삼각 검토한다.
 
@@ -45,28 +43,31 @@ tags = ["studynote-it-management"]
 
 | 관점 | 핵심 질문 | 분석 도구 |
 |:---|:---|:---|
-| **[Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)** | 시장 규모는? 고객 세분화는? 니즈 변화는? | 시장 조사, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/), 페르소나 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a></strong> | 시장 규모는? 고객 세분화는? 니즈 변화는? | 시장 조사, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/), 페르소나 |
 | **Competitor** | 누가 경쟁자인가? 그들의 강약점은? | 경쟁사 [벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/), Porter 5 Forces |
 | **Company** | 우리의 핵심 역량(Core Competency)은? | SWOT S·W, [가치 사슬 분석](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/026_value_chain_analysis/) |
 
 ### IT 기업 3C 분석 예시 (클라우드 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업)
 
-```text
-Customer:
-- 타깃: 중소기업 IT 담당자
-- 니즈: 저비용, 쉬운 사용, 빠른 온보딩
-- 변화: 원격 근무 증가 → 협업 툴 수요 급증
 
-Competitor:
-- Microsoft 365: 강(기업 신뢰도, 통합), 약(가격, 복잡성)
-- Google Workspace: 강(사용성), 약(엔터프라이즈 기능)
 
-Company:
-- 강: 빠른 온보딩 (5분), 저가 구독 모델
-- 약: 브랜드 인지도 낮음, 엔터프라이즈 기능 부족
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Customer:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">타깃: 중소기업 IT 담당자</div>
+<div class="kb-diagram-tree-item" style="--depth:0">니즈: 저비용, 쉬운 사용, 빠른 온보딩</div>
+<div class="kb-diagram-tree-item" style="--depth:0">변화: 원격 근무 증가 → 협업 툴 수요 급증</div>
+<div class="kb-diagram-note">Competitor:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Microsoft 365: 강(기업 신뢰도, 통합), 약(가격, 복잡성)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Google Workspace: 강(사용성), 약(엔터프라이즈 기능)</div>
+<div class="kb-diagram-note">Company:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">강: 빠른 온보딩 (5분), 저가 구독 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:0">약: 브랜드 인지도 낮음, 엔터프라이즈 기능 부족</div>
+<div class="kb-diagram-note">→ 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝</div>
+</div>
+</div>
 
-→ 전략: 경쟁자가 놓친 "중소기업 특화 저가+쉬운 사용" 포지셔닝
-```
+
 
 - **📢 섹션 요약 비유**: 3C 분석으로 찾은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 포인트는 틈새시장이다. 큰 경쟁자(Microsoft, Google)가 대기업에 집중하는 동안, 중소기업([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 니즈)을 공략하는 것이 우리(Company)의 기회다.
 
@@ -103,7 +104,7 @@ Company:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기회 발굴** | 고객 니즈·경쟁 공백·자사 강점 교점 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 기회 발굴</strong> | 고객 니즈·경쟁 공백·자사 강점 교점 |
 | **포지셔닝** | 경쟁자 대비 차별화 포인트 명확화 |
 | **자원 배분** | 자사 강점에 집중 투자 근거 |
 
@@ -118,28 +119,30 @@ Company:
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SWOT** | 3C 분석 결과를 S·W·O·T로 통합 |
-| **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)** | [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 분석의 구체화 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a></strong> | [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 분석의 구체화 프레임워크 |
 | **Porter 5 Forces** | Competitor 분석의 구조적 확장 |
-| **[가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)** | Company 강약점 분석 도구 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/">가치 사슬</a></strong> | Company 강약점 분석 도구 |
 | **핵심 역량** | Company 분석의 차별화 원천 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[3C 분석 — 고객·경쟁자·자사 삼각 분석]
-│
-▼
-[STP 연계 — 고객 세분화·타기팅·포지셔닝]
-│
-▼
-[SWOT 통합 — 내외부 종합 전략 도출]
-│
-▼
-[데이터 기반 3C — 실시간 시장 인텔리전스]
-│
-▼
-[AI 전략 분석 — 동적 경쟁 환경 자동 감지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">3C 분석 — 고객·경쟁자·자사 삼각 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STP 연계 — 고객 세분화·타기팅·포지셔닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SWOT 통합 — 내외부 종합 전략 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 기반 3C — 실시간 시장 인텔리전스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 전략 분석 — 동적 경쟁 환경 자동 감지</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

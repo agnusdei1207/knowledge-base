@@ -21,16 +21,16 @@ tags = ["studynote-ict-convergence"]
 
 GPT-3(2048 토큰) → GPT-4(8K/32K) → Claude 3.5(200K) → Gemini 1.5 Pro(1M) 토큰으로 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 윈도우가 급격히 확장됐다. 이 확장의 배경:
 
-**왜 긴 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 필요한가?**
+<strong>왜 긴 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>가 필요한가?</strong>
 - 긴 PDF 문서 분석: 법률 계약서(수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)), 학술 논문 다수
 - 장기 대화 기억: 수백 턴의 대화 맥락 유지
 - 코드 리포지토리: 전체 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 맥락 이해
 - 비디오/[멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/): 수시간 영상의 프레임 시퀀스
 
-**[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션의 O(n²) 장벽**
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a> 어텐션의 O(n²) 장벽</strong>
 
 시퀀스 길이 n에서 어텐션 연산은 O(n²) 메모리와 시간이 필요:
-- 1K 토큰: 1 단위, 10K 토큰: 100 단위, 100K 토큰: **[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 단위**
+- 1K 토큰: 1 단위, 10K 토큰: 100 단위, 100K 토큰: <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000 단위</strong>
 
 - **📢 섹션 요약 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 윈도우 확장은 AI의 단기 기억력 한계를 늘리는 것 — 메모장 크기가 커질수록 더 많은 내용을 동시에 참조할 수 있다.
 
@@ -38,28 +38,28 @@ GPT-3(2048 토큰) → GPT-4(8K/32K) → Claude 3.5(200K) → Gemini 1.5 Pro(1M)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│          Long Context 해결 기법 비교                       │
-│                                                          │
-│  RoPE 외삽              Sliding Window           Mamba   │
-│  ┌────────────┐         ┌────────────────┐    ┌────────┐ │
-│  │위치 인코딩 │         │ 국소 윈도우     │    │ SSM    │ │
-│  │스케일링    │         │ (w 토큰)       │    │선형복잡│ │
-│  │NTK, YaRN  │         │+글로벌 토큰     │    │O(n)    │ │
-│  │학습 없이  │         │                │    │        │ │
-│  │외삽 가능  │         │ [tok][tok]...  │    │상태벡터│ │
-│  └────────────┘         └────────────────┘    └────────┘ │
-│                                                          │
-│  복잡도: O(n log n)       O(n·w)              O(n)       │
-└──────────────────────────────────────────────────────────┘
-```
 
-**위치 인코딩 외삽([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) Extrapolation)**
 
-**RoPE(Rotary Positional [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))**: 위치를 회전 행렬로 인코딩. 원래 학습 범위 이상의 위치도 외삽 가능.
-- **NTK-aware [Interpolation](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/)**: 고주파 성분 유지하며 위치 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실 최소화
-- **[YaRN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)(Yet another RoPE extensioN method)**: 다이나믹 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 학습 없이 2~4배 확장
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long Context 해결 기법 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoPE 외삽 Sliding Window Mamba</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치 인코딩</div><div class="kb-diagram-cell">국소 윈도우</div><div class="kb-diagram-cell">SSM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링</div><div class="kb-diagram-cell">(w 토큰)</div><div class="kb-diagram-cell">선형복잡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NTK, YaRN</div><div class="kb-diagram-cell">+글로벌 토큰</div><div class="kb-diagram-cell">O(n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 없이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│외삽 가능 │</div><div class="kb-diagram-node">tok</div><div class="kb-diagram-node">tok</div><div class="kb-diagram-note">... │ │상태벡터│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(n log n) O(n·w) O(n)</div></div>
+</div>
+</div>
+
+
+
+<strong>위치 인코딩 외삽(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a> Extrapolation)</strong>
+
+<strong>RoPE(Rotary Positional <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>)</strong>: 위치를 회전 행렬로 인코딩. 원래 학습 범위 이상의 위치도 외삽 가능.
+- <strong>NTK-aware <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/">Interpolation</a></strong>: 고주파 성분 유지하며 위치 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실 최소화
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YaRN</a>(Yet another RoPE extensioN method)</strong>: 다이나믹 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 학습 없이 2~4배 확장
 
 **ALiBi(Attention with Linear Biases)**: 상대 거리에 비례하는 음수 편향을 어텐션에 추가 → 학습 길이 이상 자연스러운 외삽.
 
@@ -99,7 +99,7 @@ GPT-3(2048 토큰) → GPT-4(8K/32K) → Claude 3.5(200K) → Gemini 1.5 Pro(1M)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 윈도우 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 윈도우 확장 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
 ```
 # vLLM에서 RoPE 스케일링으로 컨텍스트 확장
@@ -120,7 +120,7 @@ vllm serve Llama-3-8B-Instruct \
 
 1. **Mamba/SSM 한계**: 선형 복잡도지만 In-[Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 능력이 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 대비 약함 → Jamba(혼합 아키텍처)로 보완
 2. **KV 캐시 폭발**: 100K [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) × Llama 3 8B → KV 캐시 ~20GB → [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 계획 필수
-3. **청킹 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 최적화**: Long [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 사용 시에도 중요 정보를 프롬프트 앞뒤에 배치하는 "포지션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)" 병행
+3. <strong>청킹 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 최적화</strong>: Long [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 사용 시에도 중요 정보를 프롬프트 앞뒤에 배치하는 "포지션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)" 병행
 4. **LongBench 평가**: 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 투입 전 장문 이해 벤치마크(LongBench, SCROLLS)로 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
 - **📢 섹션 요약 비유**: 100K [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 모델도 중간 정보는 잊는다 — 중요한 정보는 항상 앞이나 뒤에 두는 "자리 배치" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 엔지니어의 역할이다.

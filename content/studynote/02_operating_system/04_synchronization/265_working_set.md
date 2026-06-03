@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 워킹 셋 (Working Set)은 멀티프로그래밍 환경에서 특정 프로세스가 **현재 시점부터 원활하게 실행되기 위해 메모리(RAM)에 반드시 상주해야만 하는 '가장 자주/최근에 쓰이는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 집합'**을 의미한다.
-> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 각 프로세스의 워킹 셋 크기(Working Set Size, WSS)의 총합을 물리적 메모리 크기 내로 통제함으로써, 프로세스 간에 밥그릇(프레임)을 뺏고 뺏기다 터지는 시스템 붕괴 현상인 **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 사전에 완벽히 예방**한다.
-> 3. **융합**: 이 수학적 모델은 "과거를 보면 미래를 안다"는 [참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)(Locality) 철학과 융합하여, 프로세스가 일시 중단(Swap-out)되었다가 다시 깨어날 때, 워킹 셋 전체를 한 번에 디스크에서 퍼 올리는 **선페이징([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))** 기술의 근간이 되었다.
+> 1. **본질**: 워킹 셋 (Working Set)은 멀티프로그래밍 환경에서 특정 프로세스가 <strong>현재 시점부터 원활하게 실행되기 위해 메모리(RAM)에 반드시 상주해야만 하는 '가장 자주/최근에 쓰이는 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들의 집합'</strong>을 의미한다.
+> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 각 프로세스의 워킹 셋 크기(Working Set Size, WSS)의 총합을 물리적 메모리 크기 내로 통제함으로써, 프로세스 간에 밥그릇(프레임)을 뺏고 뺏기다 터지는 시스템 붕괴 현상인 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)을 사전에 완벽히 예방</strong>한다.
+> 3. **융합**: 이 수학적 모델은 "과거를 보면 미래를 안다"는 [참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)(Locality) 철학과 융합하여, 프로세스가 일시 중단(Swap-out)되었다가 다시 깨어날 때, 워킹 셋 전체를 한 번에 디스크에서 퍼 올리는 <strong>선페이징(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a>)</strong> 기술의 근간이 되었다.
 
 ---
 
@@ -24,21 +24,24 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거에는 프로세스가 커지면 무조건 메모리를 더 주는 멍청한 할당법을 썼다. 하지만 코드 안에서도 "초기화 구간", "메인 루프 구간", "종료 구간"마다 필요한 메모리 양([참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))이 널뛰듯 변한다는 사실이 밝혀지면서, 이 동적인 메모리 수요를 실시간으로 추적하는 워킹 셋 이론이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학계의 마스터피스로 등극했다.
 
-```text
-  [참조의 지역성(Locality)에 따른 워킹 셋(Working Set)의 동적 변화]
 
-  [시간 t1: 초기화 루프 구역] 
-  참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}
-  ▶ 워킹 셋 W(t1) = {1, 2, 3}  (크기 3)
-  ▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"
 
-  (시간이 흘러 다른 함수로 넘어감)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">참조의 지역성(Locality)에 따른 워킹 셋(Working Set)의 동적 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 t1: 초기화 루프 구역</div></div>
+<div class="kb-diagram-note">참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}</div>
+<div class="kb-diagram-note">▶ 워킹 셋 W(t1) = {1, 2, 3} (크기 3)</div>
+<div class="kb-diagram-note">▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"</div>
+<div class="kb-diagram-note">(시간이 흘러 다른 함수로 넘어감)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 t2: 무거운 DB 조회 구역</div></div>
+<div class="kb-diagram-note">참조된 페이지: {7, 8, 9, 7, 10, 8, 11, 7}</div>
+<div class="kb-diagram-note">▶ 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)</div>
+<div class="kb-diagram-note">▶ OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"</div>
+</div>
+</div>
 
-  [시간 t2: 무거운 DB 조회 구역]
-  참조된 페이지: {7, 8, 9, 7, 10, 8, 11, 7}
-  ▶ 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)
-  ▶ OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"
-```
+
 **[다이어그램 해설]** 워킹 셋은 고정되어 있지 않고, 프로그램이 실행되면서 계속 살아 숨 쉰다. 어떤 순간에는 {1,2,3}만 필요하다가 1초 뒤에는 {7,8,9,[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)}로 바뀐다. OS 스케줄러는 이 윈도우 창을 계속 슬라이딩하며 워킹 셋의 크기(WSS)를 추적하고, 프레임 배급량을 늘렸다 줄였다(Dynamic Allocation) 하는 예술적인 튜닝을 수행한다.
 
 - **📢 섹션 요약 비유**: 요리사가 찌개를 끓일 때는 '칼, 도마, 냄비(크기 3)'만 있으면 완벽합니다. 그런데 갑자기 파스타도 만들겠다고 하면 '면 솥, 프라이팬, 집게(크기 3)'가 추가로 필요합니다. 주방장(OS)은 요리사가 지금 무슨 요리를 하는지 실시간으로 관찰해서 싱크대 위 공간(워킹 셋)을 3칸에서 6칸으로 동적으로 조절해 주어야 요리가 끊기지 않습니다.
@@ -49,7 +52,7 @@ tags = ["studynote-operating-system"]
 
 ### 워킹 셋의 수학적 모델링: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ($\Delta$)
 
-워킹 셋을 구하려면 **과거를 얼마나 되돌아볼 것인가**를 정해야 한다. 이를 워킹 셋 윈도우(Working Set Window) $\Delta$ 라고 부른다.
+워킹 셋을 구하려면 <strong>과거를 얼마나 되돌아볼 것인가</strong>를 정해야 한다. 이를 워킹 셋 윈도우(Working Set Window) $\Delta$ 라고 부른다.
 
 - $W(t, \Delta)$ : 시간 $t$로부터 과거 $\Delta$ 만큼의 시간 동안 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 집합.
 - $WSS_i$ (Working Set Size) : 프로세스 $i$의 워킹 셋에 들어있는 유니크한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 개수. (필요한 최소 프레임 수).
@@ -66,7 +69,7 @@ $\Delta$ 값(타이머)을 어떻게 잡느냐에 따라 시스템의 운명이 
 > **$D = \sum WSS_i$**
 
 - 만약 **$D > M$** 이라면? (전체 요구량이 물리 램보다 크다면?)
-  - **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 임계점 돌파!** 이대로 두면 시스템이 멈춘다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> 임계점 돌파!</strong> 이대로 두면 시스템이 멈춘다.
   - **OS의 결단 (Suspend)**: 가장 만만한 프로세스 하나를 골라 아예 램에서 통째로 쫓아낸다(Swap-out). 그리고 그놈이 쓰던 프레임들을 뺏어서 남은 놈들의 워킹 셋을 채워준다. (잔인하지만 시스템 전체를 살리는 살신성인의 결단).
 - 만약 **$D < M$** 이라면?
   - 램 공간이 널널하다. 
@@ -84,12 +87,12 @@ $\Delta$ 값(타이머)을 어떻게 잡느냐에 따라 시스템의 운명이 
 
 | 비교 항목 | 워킹 셋 (Working Set) | [페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/) ([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/)) |
 |:---|:---|:---|
-| **모니터링 대상** | 매 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 마다의 궤적 | **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터졌을 때만** 카운팅 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 오버헤드** | **극악**. 타이머 인터럽트와 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 비트를 엄청나게 꼬아야 흉내 낼 수 있음. | **매우 가벼움**. 폴트가 났을 때만 계산하면 됨. |
+| **모니터링 대상** | 매 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 마다의 궤적 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 폴트가 터졌을 때만</strong> 카운팅 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 오버헤드</strong> | **극악**. 타이머 인터럽트와 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 비트를 엄청나게 꼬아야 흉내 낼 수 있음. | **매우 가벼움**. 폴트가 났을 때만 계산하면 됨. |
 | **제어 메커니즘** | "네 윈도우(WSS) 크기만큼 빈 방을 할당해 줄게" | "폴트 너무 자주 나면(상한선 초과) 방 더 주고, 폴트가 아예 안 나면(하한선 미만) 방을 뺏을게" |
 | **실무 적용도** | 순수 구현은 폐기됨 (개념적 롤모델로만 남음) | [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 철학이 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 동적 밸런싱의 근간이 됨 |
 
-PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는가)"은 묻지도 따지지도 않는다. 오직 **"폴트가 얼마나 자주 터지는가(Rate)"**라는 거시적 지표 하나만 보고 메모리 밥그릇의 파이를 키우고 줄이는 직관적이고 훌륭한 실무적 타협안이다.
+PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰는가)"은 묻지도 따지지도 않는다. 오직 <strong>"폴트가 얼마나 자주 터지는가(Rate)"</strong>라는 거시적 지표 하나만 보고 메모리 밥그릇의 파이를 키우고 줄이는 직관적이고 훌륭한 실무적 타협안이다.
 
 ### [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))의 결정체
 워킹 셋 모델은 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 극한으로 빨아먹는 이론이다. $\Delta$ 라는 창문(과거의 시간)을 통해 바라본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들이 미래에도 쓰일 거라는 맹신(Faith)이 이 모델의 전부다. 만약 코드가 완전한 무작위(Random)이거나, 루프문 없이 10GB 배열을 한 번에 쭉 읽기만 하고 버리는 스트리밍(Streaming) 형태라면 워킹 셋 모델은 완전히 붕괴한다.
@@ -101,7 +104,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **Windows OS의 Working Set 관리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (실무의 현현)**: 
+1. <strong>Windows OS의 Working Set 관리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (실무의 현현)</strong>: 
    - 윈도우즈는 신기하게도 워킹 셋이라는 단어를 OS 아키텍처에 공식 명칭으로 박아 넣었다. 윈도우 작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)를 열면 `작업 집합(Working Set)` 이라는 메모리 열이 존재한다.
    - **실무 작동**: 윈도우 메모리 관리자(Memory Manager)는 1초마다 모든 프로세스의 워킹 셋을 감시(Working Set Trimming)한다. 시스템 램이 널널하면 각 프로세스의 Max Working Set 크기까지 램을 퍼주어 쾌적함을 유지한다. 하지만 램이 쪼들리기 시작하면, 프로세스들이 가지고 있던 워킹 셋 프레임들을 뺏어서 강제로 Min Working Set 크기까지 박살(Trimming) 내버려 디스크 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 지옥([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 유발하며 전체 시스템의 다운을 막아낸다.
    - **아키텍트 조치**: C++ 게임 클라이언트를 짤 때 `SetProcessWorkingSetSize()` API를 써서 "내 게임은 무조건 최소 4GB는 보장해 줘!"라고 OS에 하드코딩 결박을 걸면, 윈도우가 아무리 메모리가 부족해도 내 게임의 워킹 셋을 건드리지 않아 프레임 드랍(Jitter)을 방어할 수 있다.
@@ -109,25 +112,25 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
    - **원인**: JVM이 처음 뜨면 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러가 바이트코드를 기계어로 번역하고 메모리에 객체를 적재하는 초기화 기간이 필요하다. 이때 OS 입장에서는 이 프로세스의 '워킹 셋'이 아직 텅 비어있거나 형성되는 중이다. 이 타이밍에 초당 1만 건의 트래픽을 때리면 워킹 셋이 급격히 팽창하며 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 폭주해 서버가 즉사한다.
    - **아키텍트 결단**: 로드밸런서(LB)에 파드를 연결하기 전, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Request)을 수천 번 쏴서 JVM의 주요 로직과 DB 커넥션 코드들을 **물리적 램 위(Working Set)에 완전히 안착시키는 웜업(Warm-up)** 단계를 강제해야 한다. 워킹 셋이 완성된 후에야 진짜 트래픽을 넣어야 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없는 안정적인 서비스가 가능하다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────┐
-  │     워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계                │
-  ├───────────────────────────────────────────────────────────────────────────────┤
-  │                                                                               │
-  │   [장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤]│
-  │                │                                                              │
-  │                ▼ 운영체제의 백그라운드 메모리 정책 원리                       │
-  │   1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.     │
-  │   2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)    │
-  │   3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄) │
-  │                                                                               │
-  │                ▼ 아키텍트의 해결책 (Prepaging / 메모리 락킹)                  │
-  │   [ ✅ 선페이징 (Prepaging) 도입 ]                                            │
-  │     - 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에            │
-  │       쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에              │
-  │       부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.              │
-  └───────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제의 백그라운드 메모리 정책 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 아키텍트의 해결책 (Prepaging / 메모리 락킹)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 선페이징 (Prepaging) 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 워킹 셋 이론은 "뺏을 때" 보다 "다시 돌려줄 때" 더 빛난다. 잠들었던 프로세스가 깨어날 때 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 1개씩 1개씩 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))으로 가져오면 100번의 디스크 암(Arm) 이동 지연이 발생한다. 하지만 "얘의 과거 워킹 셋은 이거이거였어"라고 기억해 두었다가 100개를 한 번의 디스크 암 움직임으로 뭉텅이로 퍼 올리면(선페이징) 속도는 수백 배 빨라진다.
 
 - **📢 섹션 요약 비유**: 서랍 속에 오랫동안 박아둔 레고를 다시 맞출 때, 부품을 하나씩 서랍에 가서 가져오면 하루 종일 걸립니다([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)). 워킹 셋 이론을 적용하면, "과거에 이 로봇을 만들 때 썼던 부품 박스(Working Set)" 전체를 한 번에 책상 위로 엎어버려서(선페이징) 순식간에 조립을 끝낼 수 있습니다.
@@ -137,7 +140,7 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-워킹 셋 기반의 메모리 할당 정책을 적용하면, 시스템은 메모리 초과 할당(Memory Overcommit) 환경에서도 **각 프로세스의 숨통(최소 프레임)을 보장**하여, CPU 이용률이 0%로 처박히는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽을 수학적으로 100% 회피하고 극한의 시스템 안정성([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))을 획득할 수 있다.
+워킹 셋 기반의 메모리 할당 정책을 적용하면, 시스템은 메모리 초과 할당(Memory Overcommit) 환경에서도 <strong>각 프로세스의 숨통(최소 프레임)을 보장</strong>하여, CPU 이용률이 0%로 처박히는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 절벽을 수학적으로 100% 회피하고 극한의 시스템 안정성([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))을 획득할 수 있다.
 
 ### 결론 및 미래 전망
 워킹 셋(Working Set)은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 낳은 최악의 악마인 '[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)'을 과학적으로 해부하고 막아낸 운영체 메모리 관리의 최고 존엄 이론이다. $\Delta$(델타)라는 시간 창문을 통해 프로세스의 지역성을 수치화한 피터 데닝의 통찰력은 컴퓨터 과학을 한 차원 끌어올렸다.
@@ -158,22 +161,26 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[큐잉 스핀락 (MCS Lock / qspinlock)]
-    │
-    ▼
-[워킹 셋 (Working Set)]
-    │
-    ├──▶ [비관적 병행성 제어 (Pessimistic Concurrency Control)]
-    └──▶ [원자적 트랜잭션 (Atomic Transaction) 개념]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">큐잉 스핀락 (MCS Lock / qspinlock)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워킹 셋 (Working Set)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 넓은 도화지([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 그림을 그릴 때, 100가지 색연필이 다 필요하진 않아요. 
-2. 당장 '바다'를 그릴 때 내 손에 쥐고 있어야 하는 파란색, 하늘색, 흰색 3개의 색연필 무리를 묶어서 **워킹 셋(Working Set)**이라고 불러요.
+2. 당장 '바다'를 그릴 때 내 손에 쥐고 있어야 하는 파란색, 하늘색, 흰색 3개의 색연필 무리를 묶어서 <strong>워킹 셋(Working Set)</strong>이라고 불러요.
 3. 선생님([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))이 내 책상(RAM)에 이 3개의 색연필을 놓을 수 있는 작은 자리(프레임)를 무조건 보장해 주어야만, 내가 색연필을 찾으러 돌아다니지([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 않고 그림을 빨리 그릴 수 있답니다!
 
 ---

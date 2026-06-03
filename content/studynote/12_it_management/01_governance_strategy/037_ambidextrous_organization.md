@@ -133,27 +133,29 @@ Horizon 3 (H3): 미래 옵션 탐색
 
 ## V. 실무 시나리오 — 대형 은행의 디지털 혁신
 
-```
-문제:
-  기존 뱅킹 시스템(H1) 유지 + 디지털 뱅킹 혁신(H3)
-  -> 완전한 분리 or 통합?
 
-구조적 양손잡이 구현:
-  코어뱅킹 팀: ITIL, 변경관리, 안정성 최우선
-    -> 99.99% 가용성, 1년에 2번 릴리스
-    
-  디지털혁신 팀 (별도 자회사 또는 Lab):
-    -> 애자일, 매주 릴리스
-    -> 핀테크 스타트업 수준 스피드
-    
-  통합 레이어:
-    API 게이트웨이로 코어뱅킹과 디지털 채널 연결
-    데이터 플랫폼 공유
 
-결과:
-  카카오뱅크 등 핀테크 위협에 대응
-  동시에 코어뱅킹 안정성 유지
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">기존 뱅킹 시스템(H1) 유지 + 디지털 뱅킹 혁신(H3)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">완전한 분리 or 통합?</div>
+<div class="kb-diagram-note">구조적 양손잡이 구현:</div>
+<div class="kb-diagram-note">코어뱅킹 팀: ITIL, 변경관리, 안정성 최우선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">99.99% 가용성, 1년에 2번 릴리스</div>
+<div class="kb-diagram-note">디지털혁신 팀 (별도 자회사 또는 Lab):</div>
+<div class="kb-diagram-tree-item" style="--depth:2">애자일, 매주 릴리스</div>
+<div class="kb-diagram-tree-item" style="--depth:2">핀테크 스타트업 수준 스피드</div>
+<div class="kb-diagram-note">통합 레이어:</div>
+<div class="kb-diagram-note">API 게이트웨이로 코어뱅킹과 디지털 채널 연결</div>
+<div class="kb-diagram-note">데이터 플랫폼 공유</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">카카오뱅크 등 핀테크 위협에 대응</div>
+<div class="kb-diagram-note">동시에 코어뱅킹 안정성 유지</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 기존 뱅킹 팀은 안전한 금고, 디지털 팀은 빠른 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 앱 — 두 팀이 각자 잘하는 것에 집중하면서 API로 연결.
 

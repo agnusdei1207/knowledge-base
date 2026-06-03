@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 블록 장치(Block Device)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트씩 쪼개지 않고, **512바이트나 4KB 단위의 고정된 크기인 '블록(Block)' 덩어리로만 묶어서 읽고 쓰는 저장장치([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))**를 의미하는 운영체제의 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 고유한 '블록 번호(Address)'가 부여되어 있기 때문에, 테이프처럼 순서대로 감을 필요 없이 1번 블록을 읽다 곧바로 100만 번 블록으로 **건너뛰기(랜덤 액세스, Random Access)가 가능하여 그 위에 웅장한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4, NTFS)을 건축할 수 있는 절대적 기반**이 된다.
-> 3. **융합**: 기계적 지연이 발생하는 디스크의 약점을 덮기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 **[버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)([Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) 및 엘리베이터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(I/O 스케줄링)**와 완벽하게 융합되어, 수만 개의 흩어진 I/O 요청을 한 줄로 모아 쾌속 전송하는 배치(Batch) 처리의 정수를 보여준다.
+> 1. **본질**: 블록 장치(Block Device)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1바이트씩 쪼개지 않고, <strong>512바이트나 4KB 단위의 고정된 크기인 '블록(Block)' 덩어리로만 묶어서 읽고 쓰는 저장장치(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>, <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>)</strong>를 의미하는 운영체제의 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이다.
+> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 고유한 '블록 번호(Address)'가 부여되어 있기 때문에, 테이프처럼 순서대로 감을 필요 없이 1번 블록을 읽다 곧바로 100만 번 블록으로 <strong>건너뛰기(랜덤 액세스, Random Access)가 가능하여 그 위에 웅장한 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템(EXT4, NTFS)을 건축할 수 있는 절대적 기반</strong>이 된다.
+> 3. **융합**: 기계적 지연이 발생하는 디스크의 약점을 덮기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a>) 및 엘리베이터 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>(I/O 스케줄링)</strong>와 완벽하게 융합되어, 수만 개의 흩어진 I/O 요청을 한 줄로 모아 쾌속 전송하는 배치(Batch) 처리의 정수를 보여준다.
 
 ---
 
@@ -25,31 +25,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 저장장치 패러다임의 확립**:
   1. **순차 테이프(Magnetic Tape)의 지옥**: 옛날 테이프 드라이브는 100번째 곡을 들으려면 1번부터 99번 곡을 다 감아야 하는 순차 접근(Sequential)만 가능했다.
   2. **디스크(원판)의 발명**: 레코드판처럼 바늘을 들어 100번째 곡 위치에 툭 떨어뜨리는 랜덤 액세스(Random Access)가 가능해졌다.
-  3. **LBA ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록 주소) 표준화**: 실린더, 헤드, 섹터(CHS)라는 복잡한 물리적 3차원 위치를 OS가 다 계산하다 빡쳐서, 하드웨어 칩셋에 "네가 알아서 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(LBA 0번~끝번)로 매핑해서 나한테 바쳐라!"라며 블록 장치의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 인터페이스를 완성했다.
+  3. <strong>LBA (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 블록 주소) 표준화</strong>: 실린더, 헤드, 섹터(CHS)라는 복잡한 물리적 3차원 위치를 OS가 다 계산하다 빡쳐서, 하드웨어 칩셋에 "네가 알아서 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(LBA 0번~끝번)로 매핑해서 나한테 바쳐라!"라며 블록 장치의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 인터페이스를 완성했다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        블록 장치(Block Device)의 구조와 랜덤 액세스(Seek) 시각화      │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 하드디스크 / SSD 내부 논리 구조 (LBA: Logical Block Address) ]      │
-│ ┌─────┬─────┬─────┬─────┬─────┬─── ... ──┬─────┐                      │
-│ │ Blk │ Blk │ Blk │ Blk │ Blk │        │ Blk │                        │
-│ │  0  │  1  │  2  │  3  │  4  │        │99999│                        │
-│ └─────┴─────┴─────┴─────┴─────┴─── ... ──┴─────┘                      │
-│                                                                       │
-│ ▶ OS의 명령: "블록 2번 가져오고, 바로 블록 99999번 가져와!"           │
-│                                                                       │
-│ [ 기계적 움직임 (Random Access) ]                                     │
-│   1. 디스크 헤드(바늘)가 블록 2번 위치로 쓱 이동 (Seek Time)          │
-│   2. 디스크가 빙글 돌아서 2번 블록을 4KB 통째로 퍽! 떠서 RAM에 줌.    │
-│   3. 바늘을 번쩍 들어 블록 99999번 위치로 휙 날아감! (건너뛰기 성공)  │
-│   4. 99999번 블록 4KB를 퍽! 퍼서 RAM에 줌.                            │
-│                                                                       │
-│ ✅ 핵심: '주소(Block Number)'가 있기 때문에 원하는 곳으로 순간이동    │
-│         (Seek)이 가능하며, 이 덕분에 디렉토리/파일 트리가 만들어짐.   │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 장치(Block Device)의 구조와 랜덤 액세스(Seek) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크 / SSD 내부 논리 구조 (LBA: Logical Block Address)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">99999</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OS의 명령: "블록 2번 가져오고, 바로 블록 99999번 가져와!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기계적 움직임 (Random Access)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 디스크 헤드(바늘)가 블록 2번 위치로 쓱 이동 (Seek Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 디스크가 빙글 돌아서 2번 블록을 4KB 통째로 퍽! 떠서 RAM에 줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 바늘을 번쩍 들어 블록 99999번 위치로 휙 날아감! (건너뛰기 성공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 99999번 블록 4KB를 퍽! 퍼서 RAM에 줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 핵심: '주소(Block Number)'가 있기 때문에 원하는 곳으로 순간이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Seek)이 가능하며, 이 덕분에 디렉토리/파일 트리가 만들어짐.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "주소가 존재한다"는 것은 컴퓨터 공학에서 신의 권력을 뜻한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(Inode)는 "사진.jpg [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 4번 블록, 10번 블록, 15번 블록에 쪼개져 저장되어 있다"는 보물지도를 갖고 있다. OS는 이 지도를 보고 블록 장치의 바늘을 4, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 15번으로 휙휙 점프(Seek)시켜 조각들을 램으로 모은 뒤 하나의 사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 조립해 낸다. [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)(키보드)였다면 절대 불가능한 기적이다.
 
 - **📢 섹션 요약 비유**: 카세트테이프([문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)/순차 접근)로 영어 듣기 평가를 할 때는 "3번 문제 다시 들려주세요" 하면 선생님이 테이프를 지잉지잉 되감느라 속이 터집니다. 하지만 CD 플레이어(블록 장치/랜덤 액세스)는 리모컨으로 트랙 3번 버튼을 딱 누르면 레이저 바늘이 1초 만에 점프해서 재생을 시작하는 압도적인 편의성의 차이입니다.
@@ -63,7 +62,7 @@ tags = ["studynote-operating-system"]
 블록 장치의 치명적 단점은 "1바이트를 고치고 싶어도 무조건 4KB 블록을 통째로 엎어야 한다"는 것이다.
 - `A`라는 글자를 `B`로 바꾸고 싶다. 
 - 디스크에 다이렉트로 쓰면? 디스크는 1바이트 쓰기를 거부한다. 해당 4KB 블록 전체를 램으로 읽어와서(`Read`), 램 안에서 1바이트를 `B`로 고치고, 다시 4KB 통째로 디스크에 덮어써야(`Write`) 한다. (이른바 Read-Modify-Write 폭탄).
-- **OS의 구원 ([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))**: OS는 이 미친 짓을 막기 위해 램에 **'[버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)'**라는 중간 저수지를 크게 파놨다. 앱이 1바이트씩 1만 번을 수정하면, 디스크를 1만 번 긁는 게 아니라 램에 있는 4KB 캐시 블록 1개 안에서만 조용히 1만 번 값을 바꾼다. 나중에 한가할 때(Flush) 변경된 4KB 블록 딱 1개만 디스크에 조용히 내려쓴다. 블록 장치는 이 램 캐시 없이는 아예 실사용이 불가능한 수준의 느린 깡통이다.
+- <strong>OS의 구원 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>)</strong>: OS는 이 미친 짓을 막기 위해 램에 <strong>'<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>'</strong>라는 중간 저수지를 크게 파놨다. 앱이 1바이트씩 1만 번을 수정하면, 디스크를 1만 번 긁는 게 아니라 램에 있는 4KB 캐시 블록 1개 안에서만 조용히 1만 번 값을 바꾼다. 나중에 한가할 때(Flush) 변경된 4KB 블록 딱 1개만 디스크에 조용히 내려쓴다. 블록 장치는 이 램 캐시 없이는 아예 실사용이 불가능한 수준의 느린 깡통이다.
 
 ---
 
@@ -72,7 +71,7 @@ tags = ["studynote-operating-system"]
 수백 개의 프로세스가 동시에 하드디스크의 서로 다른 블록(1번, 9만 번, 50번, 8만 번)을 읽어달라고 I/O 요청을 마구 던진다.
 디스크 바늘(Head)이 요청 들어온 순서대로 `1 -> 90000 -> 50 -> 80000`으로 널뛰기를 하면, 바늘이 왔다 갔다 하느라 시간을 다 허비해 디스크 I/O 속도가 바닥을 뚫고 지하로 간다. (디스크 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)).
 
-- **I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 엘리베이터 정렬**:
+- <strong>I/O <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 엘리베이터 정렬</strong>:
   - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 블록 레이어(Block Layer)에 있는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 요청이 들어오는 대로 바로 디스크에 던지지 않고 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 잠시 모아둔다.
   - 모인 요청들의 '블록 번호'를 오름차순으로 예쁘게 쫙 정렬(Sort)하고, 인접한 블록들은 하나의 거대한 덩어리로 병합(Merge)해버린다.
   - 바늘은 이제 엘리베이터처럼 한 방향으로 쭉 올라가면서 `1 -> 50 -> 80000 -> 90000` 순서로 한 번에 부드럽게 훑고 지나가며(Sweep) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 담는다. 바늘의 동선([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 낭비를 0으로 만드는 극강의 튜닝이다.
@@ -90,24 +89,27 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 하드디스크 ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) | [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) |
 |:---|:---|:---|
 | **물리 구조** | 회전하는 쇠 원판과 움직이는 바늘 (모터) | 낸드 플래시 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) ([트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 칩) |
-| **블록 주소(LBA)**| 바늘이 그 위치까지 **움직여야 함 ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 렉)** | 전기가 해당 셀에 **즉시 꽂힘 ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) = 0)** |
-| **I/O 스케줄링** | 바늘 동선 아끼는 **엘리베이터(CFQ) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 필수** | 바늘이 없으니 동선 무시. **`none/noop` [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 직행** |
-| **덮어쓰기(Write)**| 그 자리(섹터) 원판 위에 바로 자석으로 덮어씀 | 그 자리 덮어쓰기 불가. **다른 빈 블록에 새로 쓰고 옛날 건 버림 (Trim/[Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) 렉 발생)** |
+| **블록 주소(LBA)**| 바늘이 그 위치까지 <strong>움직여야 함 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> 렉)</strong> | 전기가 해당 셀에 <strong>즉시 꽂힘 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> = 0)</strong> |
+| **I/O 스케줄링** | 바늘 동선 아끼는 <strong>엘리베이터(CFQ) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 필수</strong> | 바늘이 없으니 동선 무시. <strong><code>none/noop</code> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>로 직행</strong> |
+| **덮어쓰기(Write)**| 그 자리(섹터) 원판 위에 바로 자석으로 덮어씀 | 그 자리 덮어쓰기 불가. <strong>다른 빈 블록에 새로 쓰고 옛날 건 버림 (Trim/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">Garbage Collection</a> 렉 발생)</strong> |
 
 ### [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) ([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))의 흑마술
 SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다. 
 - OS가 "3번 블록에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어써줘"라고 명령하면, SSD는 3번 칩셋에 덮어쓰지 못한다(플래시 메모리는 덮어쓰기가 물리적으로 불가능하고, 통째로 지우고 새로 써야 하기 때문).
-- [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 있는 초소형 컴퓨터(ARM 컨트롤러)와 펌웨어인 **[FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)**이 씩 웃으며, "응 3번에 쓸게"라고 OS에게 대답해 놓고는, 몰래 텅 빈 **90번 블록**에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 자기 내부 비밀 장부(매핑 테이블)에 "앞으로 OS가 3번 달라고 하면 90번을 줘라"라고 화살표를 슬쩍 꺾어버린다([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)). 
+- [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 있는 초소형 컴퓨터(ARM 컨트롤러)와 펌웨어인 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a></strong>이 씩 웃으며, "응 3번에 쓸게"라고 OS에게 대답해 놓고는, 몰래 텅 빈 <strong>90번 블록</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 자기 내부 비밀 장부(매핑 테이블)에 "앞으로 OS가 3번 달라고 하면 90번을 줘라"라고 화살표를 슬쩍 꺾어버린다([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)). 
 - OS는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서 이런 엽기적인 주소 돌려막기와 블록 짬처리가 벌어지는 줄 1도 모른 채, "역시 내 LBA 지시는 완벽하게 통제되고 있어"라고 착각하며 살아간다. 하드웨어가 스스로 펌웨어를 달고 똑똑해져서 OS의 짐을 덜어준 하극상의 현장이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────────┐
-│ 저장 장치  │ I/O 병목 원인 │ 커널 튜닝 포인트 │ 수명 관리 주체      │
-├──────────┼────────────┼────────────┼────────────────────────────────┤
-│ HDD      │ 바늘의 물리적 이동│ I/O 스케줄러 정렬│ 모터 고장 전 무한 │
-│ SSD      │ 덮어쓰기 지우기 렉│ TRIM 명령어 활성화│ FTL (마모도 분산)│
-└──────────┴────────────┴────────────┴────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 장치</div><div class="kb-diagram-cell">I/O 병목 원인</div><div class="kb-diagram-cell">커널 튜닝 포인트</div><div class="kb-diagram-cell">수명 관리 주체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD</div><div class="kb-diagram-cell">바늘의 물리적 이동</div><div class="kb-diagram-cell">I/O 스케줄러 정렬</div><div class="kb-diagram-cell">모터 고장 전 무한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD</div><div class="kb-diagram-cell">덮어쓰기 지우기 렉</div><div class="kb-diagram-cell">TRIM 명령어 활성화</div><div class="kb-diagram-cell">FTL (마모도 분산)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 리눅스 서버 엔지니어가 랙에 HDD를 꽂았는지 SSD를 꽂았는지에 따라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝의 방향이 180도 달라지는 이유다. HDD에는 바늘 동선을 아끼는 무거운 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 깔아줘야 살고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD에는 바늘이 없으니 무거운 큐를 다 박살 내고 멀티코어로 냅다 전기를 꽂아버리는 다중 큐(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Block Layer) 아키텍처를 세팅해야 100만 IOPS가 터진다.
 
 - **📢 섹션 요약 비유**: HDD가 물건을 찾으러 창고 복도를 일일이 뛰어다니는 지게차 알바생이라면, SSD는 손가락만 까딱하면 텔레포트로 물건이 눈앞에 뚝 떨어지는 초능력자입니다. 알바생에겐 동선을 짜주는 비서(엘리베이터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))가 필수지만, 초능력자에겐 비서를 붙이는 것 자체가 시간을 갉아먹는 방해물(`noop` [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))이 됩니다.
@@ -117,20 +119,20 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술과 리눅스 `blk-mq` (멀티 큐) 혁명
-1. **과거의 병목 (Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**: 
-   - 옛날 리눅스 블록 레이어는 64개의 CPU 코어가 하드디스크에 I/O를 요청할 때, 디스크 입구에 있는 **단 1개의 병목 큐(Single Request [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 줄을 서야 했다. 디스크가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절엔 이 1개 줄로도 충분했다.
+1. <strong>과거의 병목 (Single <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 
+   - 옛날 리눅스 블록 레이어는 64개의 CPU 코어가 하드디스크에 I/O를 요청할 때, 디스크 입구에 있는 <strong>단 1개의 병목 큐(Single Request <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고 줄을 서야 했다. 디스크가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절엔 이 1개 줄로도 충분했다.
 2. **SSD의 반란 (수십만 IOPS)**:
    - 괴물 같은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 등장해 1초에 100만 개의 블록(IOPS)을 쏠 수 있게 되었다.
    - 그런데 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 1개짜리 큐에서 스레드들이 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))을 하느라 CPU가 100% 터져버려, 정작 SSD는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 힘도 못 쓰고 놀고 있는 엽기적인 사태가 벌어졌다.
-3. **`blk-mq` (Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Block IO) 패치**:
+3. <strong><code>blk-mq</code> (Multi-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> Block IO) 패치</strong>:
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들이 분노하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뜯어고쳤다.
    - "코어가 64개야? 그럼 디스크로 가는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))도 코어별로 1개씩 64개를 뚫어!!"
    - 각 코어는 남의 눈치([락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))를 볼 필요 없이 자기 전용 큐에 I/O 요청을 쏟아붓고, 최신 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러는 이 64개의 큐에서 동시다발적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빨아들여 플래시 칩셋에 벼락처럼 꽂아버린다.
    - 이 아키텍처 혁신 덕분에 AWS 클라우드 스토리지(EBS)가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 수백만 쿼리를 딜레이 없이 씹어먹는 전설이 시작되었다.
 
 ### 512B 섹터에서 4K(Advanced Format) 섹터로의 대이동
-과거 모든 하드디스크의 물리적 블록(섹터) 크기는 512바이트였다. 하지만 용량이 테라바이트로 커지자 512바이트 단위로 관리 장부를 쓰려니 장부 용량이 하드를 다 파먹었다. 디스크 벤더들은 물리적 섹터 크기를 아예 **4096바이트 (4KB Advanced Format)**로 키워버렸다. 
-이 4KB는 놀랍게도 가상 메모리의 **'[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 크기(4KB)'**와 완벽하게 1:1로 일치한다. 이 톱니바퀴의 일치 덕분에, 리눅스는 디스크에서 4KB 블록을 긁어오는 즉시 아무 변환이나 쪼개기 없이 램의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임에 블록처럼 딱 끼워 넣을 수 있게 되어([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) I/O), 컴퓨터 시스템 전반의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 비약적으로 상승했다.
+과거 모든 하드디스크의 물리적 블록(섹터) 크기는 512바이트였다. 하지만 용량이 테라바이트로 커지자 512바이트 단위로 관리 장부를 쓰려니 장부 용량이 하드를 다 파먹었다. 디스크 벤더들은 물리적 섹터 크기를 아예 <strong>4096바이트 (4KB Advanced Format)</strong>로 키워버렸다. 
+이 4KB는 놀랍게도 가상 메모리의 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>) 크기(4KB)'</strong>와 완벽하게 1:1로 일치한다. 이 톱니바퀴의 일치 덕분에, 리눅스는 디스크에서 4KB 블록을 긁어오는 즉시 아무 변환이나 쪼개기 없이 램의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임에 블록처럼 딱 끼워 넣을 수 있게 되어([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) I/O), 컴퓨터 시스템 전반의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 비약적으로 상승했다.
 
 - **📢 섹션 요약 비유**: 햄버거집([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 주방장이 1초에 100개를 만들 수 있는 초인이 되었는데, 카운터에 주문받는 알바(Single [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 1명뿐이라 손님들이 주문하다 지쳐 쓰러집니다. 사장님(OS)이 키오스크(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 64대 설치해서 손님들이 동시에 결제하게 만들자, 그제야 주방장의 미친 제작 속도가 100% 뿜어져 나오기 시작한 혁신입니다.
 
@@ -144,7 +146,7 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 |:---|:---|
 | **랜덤 액세스(Random Access) 완성** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 고유 주소(LBA)를 부여함으로써, 1TB 용량 어디든 트리([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)) 탐색으로 수 밀리초 내에 찾아내는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 구축의 토대 마련 |
 | **I/O 병합을 통한 스루풋 극대화**| 자잘한 1바이트 쓰기를 4KB 블록 단위로 램에 뭉쳐놨다가 디스크에 한 번에 때려 박는 배치(Batch) 처리로 I/O 효율 1만 배 이상 향상 |
-| **OS 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 프리 아키텍처 구현**| NVMe와 Multi-Queue의 융합으로 CPU 코어 간 간섭 없이 초당 수백만 IOPS의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 달성 |
+| <strong>OS 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 프리 아키텍처 구현</strong>| NVMe와 Multi-Queue의 융합으로 CPU 코어 간 간섭 없이 초당 수백만 IOPS의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 달성 |
 
 ### 결론 및 미래 전망
 
@@ -165,15 +167,19 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[I/O 장치의 분류]
-    │
-    ▼
-[블록 장치 (Block Device)]
-    │
-    ├──▶ [문자 장치]
-    └──▶ [네트워크 장치 (소켓 인터페이스)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 장치의 분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 장치 (Block Device)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">문자 장치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

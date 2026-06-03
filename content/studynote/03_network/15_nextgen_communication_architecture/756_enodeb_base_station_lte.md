@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 무선 접속망(E-UTRAN)을 구성하는 **유일하고 핵심적인 지능형 무선 기지국 장비**입니다. 스마트폰(UE)과 공기 중의 무선 전파(RF)로 직접 통신하며, 뒤로는 통신사의 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))과 유선 광케이블로 연결됩니다.
+- **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 무선 접속망(E-UTRAN)을 구성하는 <strong>유일하고 핵심적인 지능형 무선 기지국 장비</strong>입니다. 스마트폰(UE)과 공기 중의 무선 전파(RF)로 직접 통신하며, 뒤로는 통신사의 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))과 유선 광케이블로 연결됩니다.
 - **이름의 유래**: 3G 시절의 기지국 이름인 'NodeB'가 진화(Evolved)했다는 뜻입니다. (참고로 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 gNB라 부릅니다.)
 
-```text
-[HSS]
-    │
-    ▼
-[기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    └──▶ [LTE-A]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE-A</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,16 +44,20 @@ tags = ["studynote-network"]
 3G에서 LTE로 넘어오며 기지국 구조에 엄청난 대격변이 일어났습니다.
 
 - **3G의 계층 구조 (NodeB ➜ RNC ➜ 코어망)**: 옛날엔 기지국(NodeB) 여러 개를 묶어서 총괄하는 RNC(무선망 제어기)라는 중앙 중간관리자가 따로 있었습니다. 무선 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 암호화, [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 등 뇌 쓰는 작업은 다 RNC가 했습니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병목이 심했습니다.
-- **LTE의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/플랫 구조 (eNodeB ➜ 코어망)**: LTE는 중간관리자 RNC를 쓰레기통에 버렸습니다! **RNC가 하던 똑똑한 두뇌(제어, 암호화, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 기능을 수천 개의 동네 기지국(eNodeB) 칩셋 안으로 모조리 쪼개서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탑재**해 버렸습니다. 중간 단계를 뺀 '플랫(Flat) 아키텍처' 덕분에 통신 딜레이([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 빛의 속도로 팍 줄어들었습니다.
+- <strong>LTE의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>/플랫 구조 (eNodeB ➜ 코어망)</strong>: LTE는 중간관리자 RNC를 쓰레기통에 버렸습니다! <strong>RNC가 하던 똑똑한 두뇌(제어, 암호화, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>) 기능을 수천 개의 동네 기지국(eNodeB) 칩셋 안으로 모조리 쪼개서 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 탑재</strong>해 버렸습니다. 중간 단계를 뺀 '플랫(Flat) 아키텍처' 덕분에 통신 딜레이([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 빛의 속도로 팍 줄어들었습니다.
 
-```text
-[HSS]
-    │
-    ▼
-[기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    └──▶ [LTE-A]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE-A</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,14 +67,14 @@ tags = ["studynote-network"]
 
 ### 1. 무선 자원 관리 및 암호화 (두뇌 역할)
 - 수백 대의 스마트폰이 동시에 유튜브를 틀 때, 어떤 폰에 1번 주파수 차선을 주고 어떤 폰에 2번 차선을 줄지 1밀리초 단위로 스케줄링([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/))합니다.
-- 공중으로 날아가는 카톡 패킷이 해킹당하지 않게 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 알고리즘으로 무선 구간(Air Interface) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 100% 암호화**하는 보안 엔진 역할도 수행합니다.
+- 공중으로 날아가는 카톡 패킷이 해킹당하지 않게 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 알고리즘으로 무선 구간(Air Interface) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 직접 100% 암호화</strong>하는 보안 엔진 역할도 수행합니다.
 
 ### 2. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 코어망 직결 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)
 - 스마트폰에서 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서, 더 이상 중간 장비를 거치지 않고 바로 코어망의 S-GW(동네 택배 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 직행하는 터널을 스스로 뚫고 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)해 버립니다.
 
 ### 3. 기지국 간 다이렉트 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) (X2 인터페이스) 🌟
 - 고속도로를 달리며 1번 기지국에서 2번 기지국으로 넘어갈 때, 옛날엔 중앙 코어망([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/))까지 결재를 맡으러 가야 해서 통화가 끊기곤 했습니다.
-- eNodeB끼리는 **'X2 인터페이스'라는 전용 직통 고속도로(LAN선)**로 묶여 있습니다. 1번 기지국과 2번 기지국이 코어망 몰래 지들끼리 0.01초 만에 직접 "야, 내 손님 넘어간다 받아라!" 하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겨주어(Seamless [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)), 폰에서 유튜브가 단 1프레임도 끊기지 않게 만듭니다.
+- eNodeB끼리는 <strong>'X2 인터페이스'라는 전용 직통 고속도로(LAN선)</strong>로 묶여 있습니다. 1번 기지국과 2번 기지국이 코어망 몰래 지들끼리 0.01초 만에 직접 "야, 내 손님 넘어간다 받아라!" 하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘겨주어(Seamless [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)), 폰에서 유튜브가 단 1프레임도 끊기지 않게 만듭니다.
 
 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. HSS가 기반 조건을 만든다면, 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…는 그 위에서 핵심 메커니즘을 구현하고, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HSS]
-    │
-    ▼
-[현재 개념: 기지국: eNodeB 분산 데이터 평면 라우…]
-    │
-    ├──▶ [확장 A: LTE-A]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 기지국: eNodeB 분산 데이터 평면 라우…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LTE-A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…는 HSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

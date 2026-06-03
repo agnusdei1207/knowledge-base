@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러 (Single-bit Error)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가다가 어쩌다 딱 1개의 0이 1로 뒤집힌 경우. (패리티 검사로도 쉽게 잡힘).
-- **버스트 에러 (Burst Error)**: 외부의 강력한 노이즈(스파크, 번개, 전파 간섭) 때문에 **2개 이상의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 연속적으로, 혹은 뭉텅이로 훼손되는 현상**입니다.
+- <strong>단일 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 에러 (Single-bit Error)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가다가 어쩌다 딱 1개의 0이 1로 뒤집힌 경우. (패리티 검사로도 쉽게 잡힘).
+- **버스트 에러 (Burst Error)**: 외부의 강력한 노이즈(스파크, 번개, 전파 간섭) 때문에 <strong>2개 이상의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 연속적으로, 혹은 뭉텅이로 훼손되는 현상</strong>입니다.
   - 예: `[1] 0 0 1 1 [0]` ➔ 양 끝에 있는 `[1]`과 `[0]`이 깨지면, 그사이에 있는 멀쩡한 `0 0 1 1`까지 모두 묶어서 '총 6비트 길이의 버스트 에러'가 발생했다고 정의합니다.
 
-```text
-[CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
-[버스트 에러 검출 능력 유지]
-    │
-    └──▶ [해밍 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해밍 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 버스트 에러 검출 능력 유지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,22 +48,26 @@ CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 1. **길이가 32비트 이하인 버스트 에러가 났을 때**
    - 벼락이 쳐서 32비트 이내의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통째로 박살 났습니다.
-   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **100% 무조건 잡아냅니다.** 수학적으로 $r$차 다항식은 길이 $r$ 이하의 버스트 에러를 무조건 나눗셈(나머지 0이 안 나옴)에서 걸러냅니다.
+   - <strong>검출 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: **100% 무조건 잡아냅니다.** 수학적으로 $r$차 다항식은 길이 $r$ 이하의 버스트 에러를 무조건 나눗셈(나머지 0이 안 나옴)에서 걸러냅니다.
 2. **길이가 33비트(r+1)인 버스트 에러가 났을 때**
-   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **99.9999999%** (정확히는 $1 - (1/2)^{r-1}$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
+   - <strong>검출 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: **99.9999999%** (정확히는 $1 - (1/2)^{r-1}$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
 3. **길이가 34비트(r+2 이상)인 초거대 버스트 에러가 났을 때**
-   - **검출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)**: **99.99999997%** (정확히는 $1 - (1/2)^r$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
+   - <strong>검출 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong>: **99.99999997%** (정확히는 $1 - (1/2)^r$ 의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 잡아냅니다.
 
-즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 보낼 때 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32를 쓰면, 아무리 벼락이 크게 쳐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연속으로 쓰레기가 되어도, 그 쓰레기를 제수로 나눴을 때 우연히 나머지가 '0'으로 딱 떨어져 버려서 컴퓨터가 정상으로 착각할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 약 **43억 분의 1**에 불과합니다.
+즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 보낼 때 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32를 쓰면, 아무리 벼락이 크게 쳐서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수백 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연속으로 쓰레기가 되어도, 그 쓰레기를 제수로 나눴을 때 우연히 나머지가 '0'으로 딱 떨어져 버려서 컴퓨터가 정상으로 착각할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 약 <strong>43억 분의 1</strong>에 불과합니다.
 
-```text
-[CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
-[버스트 에러 검출 능력 유지]
-    │
-    └──▶ [해밍 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해밍 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 패리티 검사가 그물코가 너무 커서 멸치 떼(버스트 에러)가 한꺼번에 구멍으로 쑥 빠져나가 버리는 **'엉성한 뜰채'**라면, CRC는 멸치가 수천 마리 몰려와도 절대 빠져나가지 못하게 촘촘하게 엮어놓은 **'초정밀 나노 그물망'**입니다. 길이가 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 꼬리 길이보다 짧은 물고기는 100% 그물에 걸리도록 수학적으로 설계되어 있습니다.
 
@@ -117,15 +125,19 @@ CRC가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CRC-16, CRC-32, CRC-CCIT…]
-    │
-    ▼
-[현재 개념: 버스트 에러 검출 능력 유지]
-    │
-    ├──▶ [확장 A: 해밍 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CRC-16, CRC-32, CRC-CCIT…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 버스트 에러 검출 능력 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 해밍 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 버스트 에러 검출 능력 유지는 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,19 +31,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  현재 상태 VSM 예시 (소프트웨어)                  │
-├──────────────────────────────────────────────────────────────────┤
-│  고객 요청 → [기획] → [설계] → [개발] → [코드 리뷰] → [QA] → 배포│
-│            PT:2h     PT:4h    PT:3d    PT:4h          PT:2d     │
-│            WT:2d     WT:1d    WT:0d    WT:3d           WT:5d     │
-│                                                                  │
-│  총 리드타임: ~15d  │  총 처리시간: ~3.5d  │  PCE: ~23%          │
-│                                                                  │
-│  PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100       │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 VSM 예시 (소프트웨어)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">기획</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">코드 리뷰</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QA</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PT:2h PT:4h PT:3d PT:4h PT:2d</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WT:2d WT:1d WT:0d WT:3d WT:5d</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 리드타임: ~15d</div><div class="kb-diagram-cell">총 처리시간: ~3.5d</div><div class="kb-diagram-cell">PCE: ~23%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소           | 정의                                      | 목표               |
 | :------------------ | :---------------------------------------- | :----------------- |
@@ -53,7 +54,7 @@ tags = ["studynote-devops-sre"]
 | PCE                 | PT / [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) × 100 (%)                  | > 25% 목표         |
 | Kaizen Burst        | 개선 기회 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 마크 (번개 모양)           | WT가 큰 구간에 배치|
 
-**[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵 → 미래 상태 맵 전환 단계**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a> 맵 → 미래 상태 맵 전환 단계</strong>
 1. [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵 작성: 모든 단계의 PT·WT·재고·핸드오프 수 측정
 2. PCE 계산 및 낭비 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 3. 카이젠 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 표시: WT가 가장 큰 2~3개 구간
@@ -84,7 +85,7 @@ VSM은 Platform Engineering과도 연결된다. [개발자 경험](/knowledge-ba
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 워크숍 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/">VSM</a> 워크숍 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 고객 가치 정의: "배포된 기능이 고객에게 전달되는 것"으로 시작점·끝점 명확화
 2. 현장 관찰(Gemba Walk): 실제 작업자와 함께 단계별 PT·WT 직접 측정
 3. 핸드오프 수 계산: 팀 간 전달(핸드오프) 발생 횟수 = 낭비 증가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
@@ -96,7 +97,7 @@ VSM은 Platform Engineering과도 연결된다. [개발자 경험](/knowledge-ba
 - 핸드오프 > 5회: 팀 통합 또는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 자동 전달 도입
 - 재작업(Rework) 루프 발견: 테스트 자동화로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 상류에서 차단
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - PCE 측정 없이 "모든 단계 동시에 개선" → 리소스 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 효과 미미
 - [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 맵만 그리고 미래 상태 맵 없음 → 개선 방향 부재
 - 처리 시간(PT)만 줄이고 대기 시간(WT) 무시 → 진짜 병목 미해결
@@ -130,24 +131,25 @@ VSM은 Platform Engineering과도 연결된다. [개발자 경험](/knowledge-ba
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-린 (Lean) 제조 — Toyota Production System
-    │
-    ▼
-VSM (Value Stream Mapping) — 흐름 시각화·낭비 식별
-    │
-    ▼
-PCE 측정 — 처리시간/리드타임 비율
-    │
-    ▼
-카이젠 버스트 — 우선순위 개선 구간 선정
-    │
-    ▼
-DevOps DORA 지표 — 변경 리드타임·배포 빈도 연결
-    │
-    ▼
-Value Stream Management 플랫폼 — 실시간 자동 측정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">린 (Lean) 제조 — Toyota Production System</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VSM (Value Stream Mapping) — 흐름 시각화·낭비 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCE 측정 — 처리시간/리드타임 비율</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카이젠 버스트 — 우선순위 개선 구간 선정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DevOps DORA 지표 — 변경 리드타임·배포 빈도 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Value Stream Management 플랫폼 — 실시간 자동 측정</div>
+</div>
+</div>
+
+
 
 흐름은 "제조 린 → 소프트웨어 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) → 정량 지표 → 자동화 → 플랫폼 통합"으로 발전한다.
 

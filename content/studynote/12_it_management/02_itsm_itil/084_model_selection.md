@@ -24,15 +24,20 @@ tags = ["it_management"]
 
 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/), 정보 기준을 쓰는 이유는 보이지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추정하기 위해서다. 이 단계가 없으면 가장 복잡한 모델이 '가장 좋아 보이는 모델'로 착각되기 쉽다.
 
-```text
-데이터
-  ├─ train      : 학습
-  ├─ validation : 선택
-  └─ test       : 최종 확인
-      │
-      ▼
-후보 모델과 하이퍼파라미터 비교
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">train : 학습</div>
+<div class="kb-diagram-tree-item" style="--depth:1">validation : 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:1">test : 최종 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">후보 모델과 하이퍼파라미터 비교</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 시험장에서 한 번 푼 모의고사 점수보다, 실제 본시험에서 실수 없이 푸는 능력이 더 중요하다.
 
@@ -122,18 +127,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-후보 모델 생성
-  │
-  ▼
-검증 / 교차 검증
-  │
-  ▼
-최종 후보 선택
-  │
-  ▼
-테스트 확인 → 배포 → 모니터링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">후보 모델 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증 / 교차 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최종 후보 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 확인 → 배포 → 모니터링</div>
+</div>
+</div>
+
+
 
 흐름의 핵심은 '학습'보다 '선택'과 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'을 분리하는 것이다.
 

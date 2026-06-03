@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 개발팀은 패닉에 빠진다. 왜냐하면 기존 DB의 카드 번호 컬럼은 `VARCHAR(16)`으로 잡혀있는데, AES로 암호화하면 `fj392kf...`처럼 100자리가 넘어가는 문자가 나오기 때문이다. DB 컬럼 길이를 다 늘려야 하고, 입력 폼(UI)의 유효성 검사 로직도 다 뜯어고쳐야 하며, 카드사로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때도 포맷 에러가 터진다. 이 공사는 수십억 원이 든다.
 
-이 절망적인 상황을 구원한 마법의 수학이 바로 **[FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/)(형태 보존 암호화)**다. 16자리 숫자를 암호화하면 똑같이 16자리 '숫자'가 나오고, 주민등록번호 형식을 암호화하면 똑같이 `YYMMDD-XXXXXXX` 형식이 유지된다.
+이 절망적인 상황을 구원한 마법의 수학이 바로 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/">FPE</a>(형태 보존 암호화)</strong>다. 16자리 숫자를 암호화하면 똑같이 16자리 '숫자'가 나오고, 주민등록번호 형식을 암호화하면 똑같이 `YYMMDD-XXXXXXX` 형식이 유지된다.
 
 - **📢 섹션 요약 비유**: 뚱뚱한 곰돌이 인형을 샀는데, 집에 있는 인형 상자에 안 들어가면 상자를 다 부수고 큰 상자를 새로 사야 한다(일반 암호화). 그런데 누군가 인형을 상자 크기에 딱 맞게 납작하게 눌러서 포장해 주는 기계([FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/))를 발명해서 상자를 안 바꿔도 되게 만들어 준 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/) [FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/) 암호 유지의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 마스킹 FPE 암호 유지                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 마스킹 FPE 암호 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/) [FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/) 암호 유지가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,7 +77,7 @@ FPE는 단순히 시스템 호환성만 좋은 게 아니다. [토큰화](/knowl
 |:---|:---|:---|
 | **기본 원리** | 수학적 공식을 통한 진짜 '암호화' | 원본은 금고([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/))에 넣고, 가짜 난수(Token)를 발급 |
 | **복호화 방식**| 비밀키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))만 있으면 원본 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능 | 금고([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))를 뒤져서 원래 값을 찾아 매핑 |
-| **시스템 구조**| DB를 따로 구축할 필요 없음 (가벼움) | **거대한 중앙 Token [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 서버가 필수 (무거움)** |
+| **시스템 구조**| DB를 따로 구축할 필요 없음 (가벼움) | <strong>거대한 중앙 Token <a href="/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/">Vault</a> 서버가 필수 (무거움)</strong> |
 | **PCI-DSS 적용**| 신용카드 보안 표준 완벽 대응 | 신용카드 보안 표준 완벽 대응 |
 
 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)는 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전한 중앙 금고에 몰아넣기 때문에 가장 안전하지만, 금고 서버가 죽으면 회사 전체가 마비되는 단점이 있다. 그래서 서버 인프라를 늘리기 부담스러운 기업들은 수학 공식만으로 끝나는 FPE를 선호한다.
@@ -109,7 +108,7 @@ FPE는 편리하지만, 암호학적으로는 [AES](/knowledge-base/studynote/03
 
 FPE를 도입하면, 수십 년 된 레거시 메인프레임이나 C언어로 짠 구형 시스템을 단 1%도 고치지 않고 완벽한 최신 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 암호화 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 달성할 수 있다. 수십억 원의 차세대 마이그레이션 비용을 아껴주는 마법이다.
 
-결론적으로 소프트웨어 아키텍처에서 '최고의 보안'은 해킹을 완벽하게 막는 것이 아니라, **'개발자와 운영자가 기존에 일하던 방식(포맷)을 해치지 않으면서 자연스럽게 스며드는 보안'**이다. FPE는 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))과 유용성(Utility) 사이의 영원한 딜레마를 수학적으로 우아하게 해결해 낸 현대 암호학의 걸작이다.
+결론적으로 소프트웨어 아키텍처에서 '최고의 보안'은 해킹을 완벽하게 막는 것이 아니라, <strong>'개발자와 운영자가 기존에 일하던 방식(포맷)을 해치지 않으면서 자연스럽게 스며드는 보안'</strong>이다. FPE는 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))과 유용성(Utility) 사이의 영원한 딜레마를 수학적으로 우아하게 해결해 낸 현대 암호학의 걸작이다.
 
 - **📢 섹션 요약 비유**: 아무리 튼튼한 방탄복(기존 암호화)이라도 너무 무거워서 병사들이 입기를 거부하면 소용이 없다. FPE는 입은 듯 안 입은 듯 얇은 셔츠(포맷 유지) 같으면서도 총알을 막아주기 때문에, 모든 병사가 불만 없이 입고 싸울 수 있는 최고의 방탄복이다.
 
@@ -132,21 +131,23 @@ FPE를 도입하면, 수십 년 된 레거시 메인프레임이나 C언어로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데이터 마스킹 FPE 암호 유지 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 마스킹 FPE 암호 유지 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

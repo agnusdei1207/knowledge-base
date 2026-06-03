@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  컨텍스트 매핑 (Context Map                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 매핑 (Context Map</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스템 내에 존재하는 **여러 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)(구역)들 간의 물리적/논리적 연동 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와, 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 담당하는 팀들 간의 조직적, 외교적 역학 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(힘의 우위)를 한눈에 볼 수 있도록 도면([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map)으로 정의하는 작업**입니다.
+- **개념**: 시스템 내에 존재하는 <strong>여러 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/">바운디드 컨텍스트</a>(구역)들 간의 물리적/논리적 연동 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>와, 각 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>를 담당하는 팀들 간의 조직적, 외교적 역학 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(힘의 우위)를 한눈에 볼 수 있도록 도면(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Map)으로 정의하는 작업</strong>입니다.
 
 - **📢 섹션 요약 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -81,7 +80,7 @@ tags = ["studynote-software-engineering"]
 
 - 이 맵(Map)을 벽에 붙여놓으면, 개발자들은 "아! 우리가 [결제 팀] 코드 가져다 쓸 때는 쟤네가 '갑'이니까 우리 마음대로 쟤네 코드 수정해달라고 조르면 안 되는구나(Conformist)!"라는 걸 명확히 깨닫고 헛된 회의 시간을 수백 시간 아낄 수 있습니다.
 
-> 📢 **섹션 요약 비유**: **[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))**은 갈기갈기 찢어진 여러 부족([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))들 사이의 **'살벌한 외교 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 국경선 조약 지도'를 그리는 작업**입니다. 강을 따라 위에 사는 늑대 부족(상류 Upstream)과 아래에 사는 곰 부족(하류 Downstream)이 있습니다. 두 부족이 동맹을 맺고 같이 강을 청소하면 **'파트너십'**입니다. 하류에 사는 곰 부족이 윗마을 늑대 족장에게 "물 좀 깨끗이 흘려보내 주십쇼"라고 건의할 수 있으면 **'고객-공급자'** [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)입니다. 반대로 윗마을이 미친 제국(AWS)이라서 강물에 독약을 풀든 똥을 싸든 아랫마을이 닥치고 적응해서 마셔야만 하면 **'준수주의자(Conformist 노예)'**입니다. 만약 아랫마을 족장이 "저 윗마을 똥물을 그대로 마실 순 없어!"라며 국경선에 거대한 최첨단 정수기([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 번역기)를 설치해 깨끗한 물만 걸러 먹으면 **'충돌 방지 계층'** 방어술이 됩니다. 이 지도를 통해 개발팀들은 서로가 어떤 정치적 역학 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있는지 완벽하게 파악하고 시스템 간 통신 인터페이스를 짜게 됩니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 매핑(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>은 갈기갈기 찢어진 여러 부족([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))들 사이의 <strong>'살벌한 외교 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>와 국경선 조약 지도'를 그리는 작업</strong>입니다. 강을 따라 위에 사는 늑대 부족(상류 Upstream)과 아래에 사는 곰 부족(하류 Downstream)이 있습니다. 두 부족이 동맹을 맺고 같이 강을 청소하면 <strong>'파트너십'</strong>입니다. 하류에 사는 곰 부족이 윗마을 늑대 족장에게 "물 좀 깨끗이 흘려보내 주십쇼"라고 건의할 수 있으면 **'고객-공급자'** [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)입니다. 반대로 윗마을이 미친 제국(AWS)이라서 강물에 독약을 풀든 똥을 싸든 아랫마을이 닥치고 적응해서 마셔야만 하면 <strong>'준수주의자(Conformist 노예)'</strong>입니다. 만약 아랫마을 족장이 "저 윗마을 똥물을 그대로 마실 순 없어!"라며 국경선에 거대한 최첨단 정수기([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 번역기)를 설치해 깨끗한 물만 걸러 먹으면 **'충돌 방지 계층'** 방어술이 됩니다. 이 지도를 통해 개발팀들은 서로가 어떤 정치적 역학 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있는지 완벽하게 파악하고 시스템 간 통신 인터페이스를 짜게 됩니다.
 
 - **📢 섹션 요약 비유**: [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 매핑 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -126,21 +125,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-컨텍스트 매핑 (Context Mapping) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨텍스트 매핑 (Context Mapping) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

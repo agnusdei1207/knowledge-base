@@ -21,23 +21,26 @@ tags = ["studynote-enterprise-systems"]
 
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) ([Strategy Map](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/))는 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Balanced Scorecard)의 창시자 로버트 캐플란과 데이비드 노튼이 2001년 제안한 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 프레임워크다. 기존 BSC는 4대 관점의 지표를 단순 나열한 대시보드에 그쳤으나, 현장 직원들은 개별 KPI의 달성에만 매몰되어 지표 간의 유기적 인과관계를 이해하지 못하는 문제가 반복됐다.
 
-**[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)가 등장한 이유**: 조직의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 일련의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 가설이다. "직원 교육 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 향상 → 고객 재구매 증가 → 이익 극대화"라는 인과 사슬을 눈에 보이는 흐름으로 명세화하지 않으면, 부서별 최적화가 전사 목표와 충돌하는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 발생한다. [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 분절된 숫자 나열에서 벗어나 무형자산이 어떻게 유형의 재무 가치로 전환되는지를 증명하는 인과 지도(Causal Map) 역할을 한다.
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">전략 체계도</a>가 등장한 이유</strong>: 조직의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 일련의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 가설이다. "직원 교육 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 향상 → 고객 재구매 증가 → 이익 극대화"라는 인과 사슬을 눈에 보이는 흐름으로 명세화하지 않으면, 부서별 최적화가 전사 목표와 충돌하는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 발생한다. [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 분절된 숫자 나열에서 벗어나 무형자산이 어떻게 유형의 재무 가치로 전환되는지를 증명하는 인과 지도(Causal Map) 역할을 한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│      [과거: 단절된 KPI 목록]  vs  [전략 체계도: 인과 지도]      │
-├──────────────────────────┬──────────────────────────────────────┤
-│  1. IT 시스템 업그레이드  │  [재무]  매출 증대 ◀─── 원가 절감   │
-│  2. 고객 클레임 감소      │            ▲                ▲        │
-│  3. 매출 10% 증가         │  [고객]  재구매율 향상               │
-│  4. 불량률 5% 감소        │            ▲                ▲        │
-│                           │  [과정]  불량률 감소  빠른 응대      │
-│  (우선순위 불명확)        │            ▲                ▲        │
-│                           │  [학습]  직원 교육    IT 고도화      │
-└──────────────────────────┴──────────────────────────────────────┘
-```
 
-이 흐름의 본질은 **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 스토리텔링([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Storytelling)**이다. 두꺼운 기획서를 읽지 않아도 한 장의 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)만으로 기업이 원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지, 고객 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지를 즉각 판단할 수 있다. 신규 IT 프로젝트나 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))을 시작할 때, 해당 이니셔티브가 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) 상의 어떤 화살표를 강화하는지 좌표를 먼저 찍고 출발해야 투자 정당성이 성립된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 단절된 KPI 목록</div><div class="kb-diagram-note">vs</div><div class="kb-diagram-node">전략 체계도: 인과 지도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. IT 시스템 업그레이드</div><div class="kb-diagram-node">재무</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">원가 절감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 고객 클레임 감소</div><div class="kb-diagram-cell">▲ ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 매출 10% 증가</div><div class="kb-diagram-node">고객</div><div class="kb-diagram-note">재구매율 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 불량률 5% 감소</div><div class="kb-diagram-cell">▲ ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과정</div><div class="kb-diagram-note">불량률 감소 빠른 응대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우선순위 불명확)</div><div class="kb-diagram-cell">▲ ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습</div><div class="kb-diagram-note">직원 교육 IT 고도화</div></div>
+</div>
+</div>
+
+
+
+이 흐름의 본질은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 스토리텔링(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Storytelling)</strong>이다. 두꺼운 기획서를 읽지 않아도 한 장의 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)만으로 기업이 원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지, 고객 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 구사하는지를 즉각 판단할 수 있다. 신규 IT 프로젝트나 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/) ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/))을 시작할 때, 해당 이니셔티브가 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/) 상의 어떤 화살표를 강화하는지 좌표를 먼저 찍고 출발해야 투자 정당성이 성립된다.
 
 📢 **섹션 요약 비유**: 복잡한 지하철 노선에서 내가 타는 열차가 어떤 환승역을 거쳐 목적지까지 가는지 한눈에 보여주는 전체 노선도다. 개별 역 정보([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))만 외우는 것보다, 연결 흐름(인과관계)을 아는 것이 훨씬 빠른 이동([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행)을 가능하게 한다.
 
@@ -45,7 +48,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 아키텍처는 **하향식으로 설계되고(Design [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 상향식으로 실행된다(Execute [Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))**. 경영진이 최상단 재무 목표를 먼저 확정한 뒤, 그 목표를 달성하기 위해 필요한 고객 가치 → 핵심 프로세스 → 무형자산(IT/인재)을 역순으로 도출하는 방식이다.
+[전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 아키텍처는 <strong>하향식으로 설계되고(Design <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/">Top-Down</a>) 상향식으로 실행된다(Execute <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>)</strong>. 경영진이 최상단 재무 목표를 먼저 확정한 뒤, 그 목표를 달성하기 위해 필요한 고객 가치 → 핵심 프로세스 → 무형자산(IT/인재)을 역순으로 도출하는 방식이다.
 
 | 관점 (Perspective) | 인과 역할 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 가설 예시 | 비유 |
 |:---|:---|:---|:---|
@@ -54,29 +57,27 @@ tags = ["studynote-enterprise-systems"]
 | **고객** ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 가치 전달 (Value Delivery) | ...불만이 해소되고 재구매와 브랜드 충성도가 올라가... | 피어나는 꽃 |
 | **재무** (Financial) | 최종 보상 (End Result) | ...신규 매출 증가와 유지 비용 감소로 순이익이 극대화된다. | 탐스러운 열매 |
 
-이 4단계를 관통하는 핵심 원리는 **무형자산의 정렬 (Alignment of Intangible Assets)**이다. IT 시스템, 인적 역량, 조직 문화라는 무형자산이 핵심 프로세스와 수직으로 정렬될 때만 재무 성과로 전환된다.
+이 4단계를 관통하는 핵심 원리는 <strong>무형자산의 정렬 (Alignment of Intangible Assets)</strong>이다. IT 시스템, 인적 역량, 조직 문화라는 무형자산이 핵심 프로세스와 수직으로 정렬될 때만 재무 성과로 전환된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│  [ 재무 관점 ]       생산성 전략              매출 성장 전략        │
-│                  ┌─── 원가 절감 ───┐      ┌── 신규 시장 진입 ──┐   │
-│                  │                 ▼      ▼                   │   │
-│                  └──────────▶ [ 기업 가치 극대화 ] ◀───────────┘   │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 고객 관점 ]          ┌──────▶ [ 고객 충성도 ] ◀──────┐          │
-│                         │               ▲               │          │
-│                   (낮은 가격)      (빠른 납기)     (고품질 차별화) │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 프로세스 관점 ]       ▲               ▲               ▲         │
-│                  [공정 혁신/최적화] [SCM 물류 고도화] [R&D/신제품]  │
-│                          ▲               ▲               ▲         │
-├────────────────────────────────────────────────────────────────────┤
-│  [ 학습/성장 관점 ]      │               │               │         │
-│                  [조직 문화/역량]  [IT 정보 자본]    [인적 자본]    │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-다이어그램의 핵심은 **고아 목표(Orphan Objective) 검출**이다. 모든 화살표는 궁극적으로 최상단 '기업 가치 극대화'로 수렴해야 한다. 위로 연결되지 않는 목표가 발견되면, 해당 목표를 위한 투자는 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 무관한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 예산 낭비임을 즉시 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있다. 특히 IT 자본(정보 시스템)이 어떤 프로세스를 지원하는지 명확히 연결되어야 IT 투자 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)의 타당성이 성립된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">재무 관점</div><div class="kb-diagram-note">생산성 전략 매출 성장 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원가 절감 ── 신규 시장 진입 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기업 가치 극대화</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객 관점</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고객 충성도</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(낮은 가격) (빠른 납기) (고품질 차별화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 관점</div><div class="kb-diagram-connector">▲</div><div class="kb-diagram-note">▲ ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공정 혁신/최적화</div><div class="kb-diagram-node">SCM 물류 고도화</div><div class="kb-diagram-node">R&amp;D/신제품</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습/성장 관점</div><div class="kb-diagram-note">│ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조직 문화/역량</div><div class="kb-diagram-node">IT 정보 자본</div><div class="kb-diagram-node">인적 자본</div></div>
+</div>
+</div>
+
+
+
+다이어그램의 핵심은 <strong>고아 목표(Orphan Objective) 검출</strong>이다. 모든 화살표는 궁극적으로 최상단 '기업 가치 극대화'로 수렴해야 한다. 위로 연결되지 않는 목표가 발견되면, 해당 목표를 위한 투자는 전사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 무관한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 예산 낭비임을 즉시 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 있다. 특히 IT 자본(정보 시스템)이 어떤 프로세스를 지원하는지 명확히 연결되어야 IT 투자 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)의 타당성이 성립된다.
 
 📢 **섹션 요약 비유**: 시계 내부의 수많은 톱니바퀴처럼, 가장 밑바닥 태엽(학습/IT)이 중간 톱니(프로세스/고객)를 돌려 결국 초침과 분침(재무 성과)을 정확히 움직이게 하는 설계도다.
 
@@ -95,24 +96,24 @@ tags = ["studynote-enterprise-systems"]
 
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 IT 시스템과 강결합될 때 진정한 위력을 발휘한다. 각 박스(목표)는 뒷단의 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/))와 연결되어, CEO가 대시보드에서 '매출 하락(재무)' 경고등을 클릭하면 시스템이 인과 사슬을 역추적하여 근본 원인인 '물류 시스템 장애(학습/성장)'를 드릴다운(Drill-down)으로 보여주는 BI (Business Intelligence) 아키텍처로 진화한다.
 
-```text
-┌──────────────────────────┐     ┌─────────────────────────────┐
-│  [경영진 Strategy Map UI] │     │     [뒷단 데이터 아키텍처]  │
-├──────────────────────────┤     ├─────────────────────────────┤
-│ 🔴 [재무: 이익 하락]     │◀────│  결산 데이터 (ERP FI)       │
-│         │ 원인 추적      │     │                             │
-│         ▼                │     │                             │
-│ 🟡 [고객: 반품률 증가]   │◀────│  고객 불만 로그 (CRM/CDP)   │
-│         │ 원인 추적      │     │                             │
-│         ▼                │     │                             │
-│ 🔴 [과정: 조립 불량]     │◀────│  공장 센서 로그 (MES/IoT)   │
-│   ★ 근본 원인 식별!      │     │                             │
-│         ▼                │     │                             │
-│ 🟢 [학습: IT 가동률]     │◀────│  서버 모니터링 (ITSM)       │
-└──────────────────────────┘     └─────────────────────────────┘
-```
 
-이 분석의 핵심은 **추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))**이다. 실적 하락 발생 시 부서 간 책임 핑퐁을 막고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 인과 사슬을 역추적하여 루트 코즈 (Root Cause)를 확정한다. 이는 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서를 넘어 지능형 기업 통제 시스템의 뼈대가 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">경영진 Strategy Map UI</div><div class="kb-diagram-node">뒷단 데이터 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔴</div><div class="kb-diagram-node">재무: 이익 하락</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│ 결산 데이터 (ERP FI)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인 추적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🟡</div><div class="kb-diagram-node">고객: 반품률 증가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│ 고객 불만 로그 (CRM/CDP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인 추적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔴</div><div class="kb-diagram-node">과정: 조립 불량</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│ 공장 센서 로그 (MES/IoT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 근본 원인 식별!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🟢</div><div class="kb-diagram-node">학습: IT 가동률</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│ 서버 모니터링 (ITSM)</div></div>
+</div>
+</div>
+
+
+
+이 분석의 핵심은 <strong>추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>)</strong>이다. 실적 하락 발생 시 부서 간 책임 핑퐁을 막고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)의 인과 사슬을 역추적하여 루트 코즈 (Root Cause)를 확정한다. 이는 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서를 넘어 지능형 기업 통제 시스템의 뼈대가 된다.
 
 📢 **섹션 요약 비유**: 건물 전체의 배관 도면([전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/))이 있어야 3층 화장실에서 물이 새는 것(재무 악화)을 보고 지하 1층 밸브 고장(프로세스/IT 문제)을 단번에 찾아 수리할 수 있다.
 
@@ -131,28 +132,31 @@ tags = ["studynote-enterprise-systems"]
 **3. 가설의 경직화**  
 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 '절대 진리'가 아닌 '현 시점의 가설'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 결과 A를 개선해도 B가 오르지 않는다면 화살표(인과관계 가설) 자체가 틀린 것이므로, 과감히 맵을 수정([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)한 접근이 필수다.
 
-```text
-  [1단계: 가치 제안 선택]
-   → 원가 우위인가? 고객 차별화인가?
-   → 기본 화살표 방향 결정
-          │
-          ▼
-  [2단계: 핵심 프로세스 집중]
-   → 선택한 가치 창출을 위해 어떤 20% 프로세스에
-     자원 80%를 집중할 것인가? (파레토 원칙 적용)
-          │
-          ▼
-  [3단계: IT/인적 자원 정렬]
-   → 핵심 프로세스 혁신을 위해 어떤 기술(AI, 클라우드)과
-     교육 프로그램이 필요한가?
-          │
-          ▼
-  [4단계: 고아(Orphan) 목표 검증]
-   → 위쪽 화살표와 연결되지 않는 독자 목표 식별
-   → 해당 목표 예산 삭감 또는 전략 재편
-```
 
-기술사 답안 작성 시 **캐스케이딩 (Cascading)**을 반드시 언급해야 한다. 전사 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)를 부서·팀·개인 수준의 하위 체계도로 세분화하여, 최하위 개인의 목표가 최상위 재무 목표와 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 연결되도록 계층화하는 것이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행력을 담보하는 핵심 운영 기법이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 가치 제안 선택</div></div>
+<div class="kb-diagram-note">→ 원가 우위인가? 고객 차별화인가?</div>
+<div class="kb-diagram-note">→ 기본 화살표 방향 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 핵심 프로세스 집중</div></div>
+<div class="kb-diagram-note">→ 선택한 가치 창출을 위해 어떤 20% 프로세스에</div>
+<div class="kb-diagram-note">자원 80%를 집중할 것인가? (파레토 원칙 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: IT/인적 자원 정렬</div></div>
+<div class="kb-diagram-note">→ 핵심 프로세스 혁신을 위해 어떤 기술(AI, 클라우드)과</div>
+<div class="kb-diagram-note">교육 프로그램이 필요한가?</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4단계: 고아(Orphan) 목표 검증</div></div>
+<div class="kb-diagram-note">→ 위쪽 화살표와 연결되지 않는 독자 목표 식별</div>
+<div class="kb-diagram-note">→ 해당 목표 예산 삭감 또는 전략 재편</div>
+</div>
+</div>
+
+
+
+기술사 답안 작성 시 <strong>캐스케이딩 (Cascading)</strong>을 반드시 언급해야 한다. 전사 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)를 부서·팀·개인 수준의 하위 체계도로 세분화하여, 최하위 개인의 목표가 최상위 재무 목표와 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 연결되도록 계층화하는 것이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행력을 담보하는 핵심 운영 기법이다.
 
 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 항목 | 판단 기준 |
 |:---|:---|
@@ -177,7 +181,7 @@ tags = ["studynote-enterprise-systems"]
 | **문제 추적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 근본 원인 분석 | 지표 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 후 원인 분석 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 단축 |
 | **학습 조직** | 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 진화 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 주기 단축 |
 
-미래의 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 **동적 시뮬레이션 모델**로 진화한다. 기업의 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 및 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 결합하여, 경영진이 파라미터 하나(예: 마케팅 예산 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 증가)를 조작하면 AI가 재무 지표 변화를 사전에 예측하는 'What-if 분석 맵'으로 역할이 확장되고 있다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 활용하면 자연어로 입력한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 의도를 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)로 자동 초안화하는 시대가 열리고 있다.
+미래의 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)는 <strong>동적 시뮬레이션 모델</strong>로 진화한다. 기업의 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 및 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) ([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 결합하여, 경영진이 파라미터 하나(예: 마케팅 예산 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 증가)를 조작하면 AI가 재무 지표 변화를 사전에 예측하는 'What-if 분석 맵'으로 역할이 확장되고 있다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 활용하면 자연어로 입력한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 의도를 [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)로 자동 초안화하는 시대가 열리고 있다.
 
 📢 **섹션 요약 비유**: 종이 지도를 넘어, 앞쪽 교통 체증(프로세스 문제)을 실시간 감지하고 가장 빠른 최적 경로를 동적으로 그려주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내비게이션으로의 진화다.
 
@@ -197,21 +201,23 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BSC 4대 관점 지표 나열 (1992)]
-          │
-          ▼
-[전략 체계도 — 인과관계 시각화 (2001, Kaplan & Norton)]
-          │
-          ▼
-[캐스케이딩 — 부서/개인 수준 분해 실행]
-          │
-          ▼
-[BI/DW 연동 — 실시간 지표 자동 갱신]
-          │
-          ▼
-[디지털 트윈 + AI — What-if 동적 시뮬레이션 전략 맵]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSC 4대 관점 지표 나열 (1992)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략 체계도 — 인과관계 시각화 (2001, Kaplan &amp; Norton)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐스케이딩 — 부서/개인 수준 분해 실행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BI/DW 연동 — 실시간 지표 자동 갱신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 + AI — What-if 동적 시뮬레이션 전략 맵</div></div>
+</div>
+</div>
+
+
 
 BSC의 정적 지표 나열에서 출발하여, [전략 체계도](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/)로 인과관계를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고, IT 시스템과 연동된 실시간 대시보드로 진화한 뒤, 최종적으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시뮬레이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도구로 발전하는 흐름이다.
 

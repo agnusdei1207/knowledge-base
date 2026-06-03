@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(IDC)가 거대해지며 3가지 재앙이 터졌습니다.
-1. **방 개수의 한계**: 802.1Q [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 태그는 12비트라서 네트워크를 최대 **4,096개**까지만 쪼갤 수 있습니다. 고객이 수만 명인 클라우드([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에선 방이 모자랍니다.
+1. **방 개수의 한계**: 802.1Q [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 태그는 12비트라서 네트워크를 최대 <strong>4,096개</strong>까지만 쪼갤 수 있습니다. 고객이 수만 명인 클라우드([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에선 방이 모자랍니다.
 2. **물리적 거리의 제약 (L2 한계)**: VLAN은 라우터(L3)를 넘어가면 태그가 벗겨져 죽습니다. 서울 IDC에 있는 서버 A와 부산 IDC에 있는 서버 B를 같은 랜선 방(L2)으로 묶을 수가 없었습니다.
-3. **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/))의 낭비**: L2 루핑을 막기 위해 길 하나를 일부러 끊어두는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 때문에 비싼 광케이블의 50%를 놀려야 했습니다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/">스패닝 트리</a>)의 낭비</strong>: L2 루핑을 막기 위해 길 하나를 일부러 끊어두는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 때문에 비싼 광케이블의 50%를 놀려야 했습니다.
 
-```text
-[RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
-[VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,20 +43,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 서버나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 뿜어져 나오는 원래의 L2 패킷([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 프레임)을, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)가 낚아채어 그 겉면에 **L3(IP)와 L4([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 껍데기를 한 번 더 둘러씌워([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-in-[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 캡슐화), 거대한 L3 라우터 네트워크 허공을 날아다니는 가상의 터널(Overlay)을 뚫어주는 기술**입니다.
+- **개념**: 서버나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 뿜어져 나오는 원래의 L2 패킷([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 프레임)을, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)가 낚아채어 그 겉면에 <strong>L3(IP)와 L4(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>) 껍데기를 한 번 더 둘러씌워(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-in-<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 캡슐화), 거대한 L3 라우터 네트워크 허공을 날아다니는 가상의 터널(Overlay)을 뚫어주는 기술</strong>입니다.
 
 - 오리지널 패킷 구조: `[내부 MAC]` + `[페이로드]`
-- [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 포장 패킷: `[외부 MAC]` + `[외부 IP]` + `[외부 UDP(포트 4789)]` + **`[VXLAN VNI 태그]`** + `[내부 MAC]` + `[페이로드]`
+- [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 포장 패킷: `[외부 MAC]` + `[외부 IP]` + `[외부 UDP(포트 4789)]` + <strong><code>[VXLAN VNI 태그]</code></strong> + `[내부 MAC]` + `[페이로드]`
 - 이 거대한 포장지(외부 IP/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 덕분에 패킷은 라우터(L3)의 눈을 속이고 미국 뉴욕 IDC까지 고속도로를 타고 날아갈 수 있습니다. 뉴욕의 VTEP이 이 포장지를 쫙 뜯어내면? 오리지널 L2 패킷이 툭 떨어지며, 서울 서버와 뉴욕 서버가 물리적으로 바로 옆(L2)에 붙어있는 것처럼 통신이 되는 완벽한 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(오버레이)가 달성됩니다.
 
-```text
-[RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
-[VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 - **동작**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(가상 머신) 1번이 보낸 L2 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 입구(VTEP)에 도착합니다. VTEP은 패킷을 까만 비닐봉지([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에 담고, 그 위에 1051번 방(VNI)이라는 택배 송장을 붙여서 목적지 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(VTEP)를 향해 터널로 확 던져버립니다.
 
 ### 2. VNI ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) Network [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) - "1,600만 개의 방"
-- 기존 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 12비트(4,096개)를 버리고, **24비트의 광활한 주소 체계**를 도입했습니다.
-- 무려 **16,777,216개**의 독립적인 가상 네트워크 방을 만들 수 있어, 클라우드에 입주한 수백만 개의 기업(테넌트) 트래픽을 완벽하게 서로 안 섞이게 격리시킵니다.
+- 기존 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 12비트(4,096개)를 버리고, <strong>24비트의 광활한 주소 체계</strong>를 도입했습니다.
+- 무려 <strong>16,777,216개</strong>의 독립적인 가상 네트워크 방을 만들 수 있어, 클라우드에 입주한 수백만 개의 기업(테넌트) 트래픽을 완벽하게 서로 안 섞이게 격리시킵니다.
 
 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹이 기반 조건을 만든다면, [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법은 그 위에서 핵심 메커니즘을 구현하고, EVPN-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - VXLAN의 뼈대는 훌륭하지만, 처음에 "어느 서버가 어떤 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 갖고 있는지(길 찾기 정보)"를 알아내기 위해 아날로그 방식인 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)(Flood-and-Learn)를 써서 네트워크를 마비시켰습니다.
-- 이 무식한 묻지마 길 찾기를 고상하고 스마트한 자동 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 체계로 바꿔준 기술이 바로 다음 장(1052번)에서 배울 **EVPN-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)**입니다.
+- 이 무식한 묻지마 길 찾기를 고상하고 스마트한 자동 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 체계로 바꿔준 기술이 바로 다음 장(1052번)에서 배울 <strong>EVPN-<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a></strong>입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)**은 물리적인 아파트 건물 안에 **'4,096개의 방(네트워크)'**을 쪼개놓고 문에 펜스로 선을 그어둔 것입니다. 방 개수도 모자라고, 서울 아파트와 부산 아파트를 같은 방으로 합칠 수도 없습니다(L2 라우터 장벽). **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)**은 이 한계를 깨기 위해 발명된 **'우주 워프 게이트(VTEP)와 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-in-[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 캡슐 캡슐 씌우기'**입니다. 방을 1,600만 개로 뻥튀기한 다음, 서울 아파트 1번 방에 사는 철수가 문을 나설 때 워프 게이트(VTEP)가 철수에게 '커다란 택배 박스([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) L3 캡슐)'를 씌우고 부산 아파트 주소를 적어 우주선으로 쏴버립니다. 이 택배 박스는 서울과 부산 사이의 온갖 산과 강(L3 라우터들)을 다 뛰어넘어 부산 아파트 워프 게이트에 도착합니다. 박스를 뜯고 나온 철수는, 자기가 비행기를 탄 줄도 모른 채 부산 1번 방을 열고 영희와 1초 만에 악수를 합니다. 물리적인 거리와 쇳덩어리 기계의 장벽을 소프트웨어 껍데기로 완전히 우회해 버린 클라우드의 핵심 가상망 기술입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a></strong>은 물리적인 아파트 건물 안에 <strong>'4,096개의 방(네트워크)'</strong>을 쪼개놓고 문에 펜스로 선을 그어둔 것입니다. 방 개수도 모자라고, 서울 아파트와 부산 아파트를 같은 방으로 합칠 수도 없습니다(L2 라우터 장벽). <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a></strong>은 이 한계를 깨기 위해 발명된 <strong>'우주 워프 게이트(VTEP)와 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-in-<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 캡슐 캡슐 씌우기'</strong>입니다. 방을 1,600만 개로 뻥튀기한 다음, 서울 아파트 1번 방에 사는 철수가 문을 나설 때 워프 게이트(VTEP)가 철수에게 '커다란 택배 박스([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) L3 캡슐)'를 씌우고 부산 아파트 주소를 적어 우주선으로 쏴버립니다. 이 택배 박스는 서울과 부산 사이의 온갖 산과 강(L3 라우터들)을 다 뛰어넘어 부산 아파트 워프 게이트에 도착합니다. 박스를 뜯고 나온 철수는, 자기가 비행기를 탄 줄도 모른 채 부산 1번 방을 열고 영희와 1초 만에 악수를 합니다. 물리적인 거리와 쇳덩어리 기계의 장벽을 소프트웨어 껍데기로 완전히 우회해 버린 클라우드의 핵심 가상망 기술입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RDMA / RoCE 스토리지 서버 네트워킹]
-    │
-    ▼
-[현재 개념: VXLAN 오버레이 VTEP 터널링 연결기법]
-    │
-    ├──▶ [확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RDMA / RoCE 스토리지 서버 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹에서 출발해 현재 메커니즘을 정교화하고, 이후 EVPN-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

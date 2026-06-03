@@ -23,12 +23,12 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 쿠팡 결제 DB가 딱 1대 있다. 설날 밤에 이 DB 디스크가 타버렸다. 만약 페일 오버 시스템이 없다면? 관리자가 새벽에 깨서 회사로 달려가고, 새 서버를 랙에 끼운 뒤 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 데이터를 복원하기까지 최소 5시간 동안 전국 쿠팡 결제가 마비된다. 사람은 느리다. 서버가 죽는 찰나에 옆에 똑같이 복사된 서버가 기계의 속도(수 초 내)로 멱살을 잡고 바통을 이어받아야만 돈과 신뢰를 지킬 수 있다.
 
-- **💡 비유**: 육상 릴레이 계주에서 1번 주자가 뛰다가 갑자기 다리에 쥐가 나서 쓰러졌습니다(장애). 만약 페일 오버가 없다면 팀은 그 자리에서 실격(다운타임)입니다. 하지만 **그림자처럼 똑같이 뛰고 있던 그림자 주자(예비 서버)**가 쓰러진 주자의 바통을 즉시 뺏어 들고(Failover) 결승선까지 달린다면 관중은 선수가 바뀐 것도 눈치채지 못합니다.
+- **💡 비유**: 육상 릴레이 계주에서 1번 주자가 뛰다가 갑자기 다리에 쥐가 나서 쓰러졌습니다(장애). 만약 페일 오버가 없다면 팀은 그 자리에서 실격(다운타임)입니다. 하지만 <strong>그림자처럼 똑같이 뛰고 있던 그림자 주자(예비 서버)</strong>가 쓰러진 주자의 바통을 즉시 뺏어 들고(Failover) 결승선까지 달린다면 관중은 선수가 바뀐 것도 눈치채지 못합니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **수동 전환 ([Cold Standby](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/))**: 옛날엔 주 서버가 죽으면 관리자가 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 테이프를 들고 와서 대기 서버에 데이터를 밀어 넣고 수동으로 IP를 바꿨다 (수 시간 소요).
-  2. **하드웨어 클러스터링 ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby)**: 90년대 이후 전용 케이블(Heartbeat)로 두 서버를 묶어두고, 삐~ 삐~ 심장박동이 멈추면 대기 서버가 디스크 소유권과 가상 IP(VIP)를 탈취하는 고가용성 소프트웨어(HA Cluster)가 엔터프라이즈의 표준이 되었다.
-  3. **클라우드 글로벌 페일오버 ([Multi-Region](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/))**: 오늘날은 단일 데이터센터를 넘어, 서울 AWS 데이터센터가 통째로 물에 잠기면 수 초 만에 도쿄 데이터센터로 글로벌 트래픽을 넘기는(Route 53 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Failover) 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 수준으로 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 되었다.
+  1. <strong>수동 전환 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/458_cold_standby/">Cold Standby</a>)</strong>: 옛날엔 주 서버가 죽으면 관리자가 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 테이프를 들고 와서 대기 서버에 데이터를 밀어 넣고 수동으로 IP를 바꿨다 (수 시간 소요).
+  2. <strong>하드웨어 클러스터링 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>-Standby)</strong>: 90년대 이후 전용 케이블(Heartbeat)로 두 서버를 묶어두고, 삐~ 삐~ 심장박동이 멈추면 대기 서버가 디스크 소유권과 가상 IP(VIP)를 탈취하는 고가용성 소프트웨어(HA Cluster)가 엔터프라이즈의 표준이 되었다.
+  3. <strong>클라우드 글로벌 페일오버 (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/">Multi-Region</a>)</strong>: 오늘날은 단일 데이터센터를 넘어, 서울 AWS 데이터센터가 통째로 물에 잠기면 수 초 만에 도쿄 데이터센터로 글로벌 트래픽을 넘기는(Route 53 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Failover) 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 수준으로 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 되었다.
 
 - **📢 섹션 요약 비유**: 페일 오버는 1인극 무대 뒤에 완벽하게 대사를 외운 대역 배우(Standby)를 세워두는 것입니다. 주인공([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))이 목이 쉬어 쓰러지면, 대역이 즉시 똑같은 옷을 입고 무대로 뛰어올라 연극([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 중단되는 참사를 막습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 페일 오버 (Failover)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  페일 오버 (Failover)                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페일 오버 (Failover)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 페일 오버 (Failover)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-페일 오버 (Failover)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+페일 오버 (Failover)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 페일 오버 (Failover)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-페일 오버 (Failover) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페일 오버 (Failover) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 완성하는 4대 필요조건의 마지막 퍼즐로, 여러 프로세스가 자원을 요청하고 대기하는 관계가 **꼬리를 무는 원형(Cycle) 사슬 구조**를 이룰 때 발생하는 치명적 현상이다.
-> 2. **가치**: [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 같은 다른 조건들은 실무에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 때문에 깨기가 매우 어렵지만, [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 조건만큼은 **개발자의 [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/)(락 획득 순서 강제화)**만으로도 오버헤드 없이 데드락을 100% 원천 차단할 수 있는 가장 현실적인 타깃이다.
+> 1. **본질**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 완성하는 4대 필요조건의 마지막 퍼즐로, 여러 프로세스가 자원을 요청하고 대기하는 관계가 <strong>꼬리를 무는 원형(Cycle) 사슬 구조</strong>를 이룰 때 발생하는 치명적 현상이다.
+> 2. **가치**: [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 같은 다른 조건들은 실무에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 때문에 깨기가 매우 어렵지만, [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 조건만큼은 <strong>개발자의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/">코딩 컨벤션</a>(락 획득 순서 강제화)</strong>만으로도 오버헤드 없이 데드락을 100% 원천 차단할 수 있는 가장 현실적인 타깃이다.
 > 3. **융합**: 운영체제나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))나 대기-[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Wait-For Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/))를 그려 사이클(Cycle)의 유무를 탐지하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 내부적으로 가동하여 데드락을 사후에 감지하고 치료한다.
 
 ---
@@ -24,23 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 시스템 자원이 복잡하게 얽히기 시작하면서, 데드락이 발생하는 조건에 대한 수학적 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론이 도입되었다. 자원과 프로세스를 노드(Node)로, 요청과 할당을 간선(Edge)으로 그렸을 때, "사이클(Cycle)이 없다면 데드락은 절대 발생하지 않는다"는 위대한 증명이 탄생하며 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)가 데드락의 핵심 조건으로 격상되었다.
 
-```text
-  [자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait)의 시각화]
 
-  (1) 일직선 대기 (데드락 아님, 언젠간 풀림)
-  [ P1 ] ──(요청)──▶ [ 자원 A ] ◀──(할당됨)── [ P2 ] ──(요청)──▶ [ 자원 B ] ◀──(할당됨)── [ P3 ]
-  ▶ P3가 B를 다 쓰고 나가면, P2가 B를 먹고, P2가 나가면 P1이 A를 먹음. 시스템 정상!
 
-  (2) 순환 대기 (데드락 폭발, 영원히 멈춤)
-  ┌────────────────────────────────────────────────────────┐
-  │                                                        │
-  ▼                                                        │
-  [ P1 ] ──(요청)──▶ [ 자원 A ] ◀──(할당됨)── [ P2 ]       │
-  │                                            │           │
-  └─(할당됨)── [ 자원 B ] ◀──(요청)─────────────┘          │
-  │                                                        │
-  └────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait)의 시각화</div></div>
+<div class="kb-diagram-note">(1) 일직선 대기 (데드락 아님, 언젠간 풀림)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 A</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">P3</div></div>
+<div class="kb-diagram-note">▶ P3가 B를 다 쓰고 나가면, P2가 B를 먹고, P2가 나가면 P1이 A를 먹음. 시스템 정상!</div>
+<div class="kb-diagram-note">(2) 순환 대기 (데드락 폭발, 영원히 멈춤)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 A</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">P2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─(할당됨)──</div><div class="kb-diagram-node">자원 B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──(요청)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 아래 그림이 바로 전산학에서 말하는 '죽음의 링(Ring of Death)'이다. 화살표를 따라가 보면 $P_1 \to A \to P_2 \to B \to P_1$ 으로 완벽하게 닫힌 동그라미(사이클)가 완성된다. 이 사이클이 완성되는 순간, 외부의 신(OS)이 강제로 누군가를 죽이지(Kill) 않는 이상 이 고리는 영원히 풀리지 않는다.
 
 - **📢 섹션 요약 비유**: 회사에서 기획팀은 디자인팀의 시안을 기다리고, 디자인팀은 개발팀의 구조를 기다리고, 개발팀은 다시 기획팀의 기획안을 기다립니다. 3팀 모두 "저 팀이 주면 할게요"라며 영원히 월급만 축내는 환장할 핑퐁 게임이 바로 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)입니다.
@@ -52,33 +50,32 @@ tags = ["studynote-operating-system"]
 ### [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 파괴의 원리: 자원 계층화 ([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) / Hierarchy)
 
 데드락의 4가지 조건 중 상호 배제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호를 위해 건드릴 수 없고, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)과 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)를 깨려면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이나 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 꼼수가 필요하다. 
-하지만 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)만큼은 **"[코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/)(법칙)"** 하나만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 0%로 완벽하게 부술 수 있다.
+하지만 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)만큼은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/">코딩 컨벤션</a>(법칙)"</strong> 하나만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 0%로 완벽하게 부술 수 있다.
 
 #### [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 순서([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 강제화
-1. 시스템 내의 모든 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), DB 테이블 등)에 **고유한 순서 번호([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))**나 등급을 매긴다. (예: $R_1=1, R_2=2, R_3=3$).
-2. 프로세스가 자원을 요청할 때는 **반드시 번호가 오름차순(작은 번호 ─▶ 큰 번호)으로만 요청**해야 한다는 법을 만든다.
+1. 시스템 내의 모든 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), DB 테이블 등)에 <strong>고유한 순서 번호(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>나 등급을 매긴다. (예: $R_1=1, R_2=2, R_3=3$).
+2. 프로세스가 자원을 요청할 때는 <strong>반드시 번호가 오름차순(작은 번호 ─▶ 큰 번호)으로만 요청</strong>해야 한다는 법을 만든다.
 3. 내 손에 2번 락을 쥐고 있다면, 1번 락은 절대 요청할 수 없다. 1번 락이 꼭 필요하면 내가 쥔 2번 락을 버리고, 빈손으로 돌아가 1번부터 다시 잡고 와야 한다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │         자원 계층화(Lock Ordering)에 의한 사이클 형성 원천 차단 증명   │
-  ├────────────────────────────────────────────────────────────────────────┤
-  │                                                                        │
-  │   [ ❌ 데드락이 발생하는 기존 코드 ]                                   │
-  │   스레드 A: lock(R1) ─▶ lock(R2)                                       │
-  │   스레드 B: lock(R2) ─▶ lock(R1)  (서로 엇갈리게 잡아서 사이클 완성)   │
-  │                                                                        │
-  │   [ ✅ 자원 계층화를 강제한 안전한 코드 ]                              │
-  │   (시스템 법률: 무조건 번호가 작은 것부터 잡아라!)                     │
-  │                                                                        │
-  │   스레드 A: lock(R1) ─▶ lock(R2)  (합법)                               │
-  │   스레드 B: lock(R1) ─▶ lock(R2)  (합법으로 교정됨!)                   │
-  │                                                                        │
-  │   ▶ 결과 분석: 스레드 B가 R1을 잡으려 할 때, 스레드 A가 이미 R1을      │
-  │     쥐고 있으므로 B는 진입조차 못 하고 대기한다. 스레드 A는 R2마저     │
-  │     여유롭게 쥐고 연산을 끝낸다. '순환' 자체가 물리학적으로 성립 불가. │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 계층화(Lock Ordering)에 의한 사이클 형성 원천 차단 증명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 데드락이 발생하는 기존 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A: lock(R1) ─▶ lock(R2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 B: lock(R2) ─▶ lock(R1) (서로 엇갈리게 잡아서 사이클 완성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 자원 계층화를 강제한 안전한 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템 법률: 무조건 번호가 작은 것부터 잡아라!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A: lock(R1) ─▶ lock(R2) (합법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 B: lock(R1) ─▶ lock(R2) (합법으로 교정됨!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 분석: 스레드 B가 R1을 잡으려 할 때, 스레드 A가 이미 R1을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쥐고 있으므로 B는 진입조차 못 하고 대기한다. 스레드 A는 R2마저</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여유롭게 쥐고 연산을 끝낸다. '순환' 자체가 물리학적으로 성립 불가.</div></div>
+</div>
+</div>
+
+
 **[수학적 증명]** 사이클이 만들어지려면 $P_1$은 작은 번호를 쥐고 큰 번호를 원하고, $P_n$은 큰 번호를 쥐고 작은 번호를 원해야 꼬리가 물린다. 하지만 모두가 오름차순으로만 요구하면, 가장 큰 번호 자원을 쥔 녀석은 더 큰 자원만 요구할 수 있으므로 절대 자기가 왔던 뒤쪽(작은 번호)을 향해 화살표를 쏠 수 없다. 화살표가 무조건 한 방향으로만 흐르므로 수학적으로 원형 궤도(Cycle)는 100% 생길 수 없다.
 
 - **📢 섹션 요약 비유**: 교차로 꼬리물기(데드락)를 막는 가장 완벽한 방법은, 길 한가운데에 중앙분리대를 쳐서 무조건 차들이 **시계 방향(한 방향)으로만 돌게(회전교차로)** 강제하는 것입니다. 직진이나 유턴(역방향 락 획득)을 법으로 금지하면 막히긴 해도 영원히 멈추는 데드락은 터지지 않습니다.
@@ -94,13 +91,13 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 타파 (`tryLock` / All-or-nothing) | [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 타파 ([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) / Hierarchy) |
 |:---|:---|:---|
 | **설계 철학** | "남의 걸 못 잡으면 내 것도 쿨하게 버린다" | "애초에 꼬이지 않게 순서대로만 잡는다" |
-| **장점** | 구조가 유연함. 순서를 신경 안 써도 됨. | **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 0%**, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 대기 지연조차 없음. |
+| **장점** | 구조가 유연함. 순서를 신경 안 써도 됨. | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하가 0%</strong>, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 대기 지연조차 없음. |
 | **단점 (오버헤드)** | 내가 잡았던 락을 풀고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 로직을 짜야 함 | 동적으로 자원이 계속 추가되는 환경에선 락 번호를 미리 매기기가 매우 어려움 |
 | **실무 적용** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)), [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 튜닝 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락, 단일 프로그램 내부의 Multi-[mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 환경 |
 
 ### 다중 인스턴스 자원(Multi-instance)에서의 사이클의 배신
-[순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(사이클)가 데드락의 필요충분조건이 되는 것은 **'자원의 개수가 1개(Single Instance)'**일 때뿐이다.
-만약 프린터(자원 A)가 3대 있는 다중 인스턴스 환경이라면, 사이클이 존재해도 데드락이 아닐 수 있다. 화살표가 꼬리를 물고 있어도, 3대 중 하나를 쓰고 있는 제3의 녀석(사이클 밖에 있는 놈)이 볼일을 다 보고 1대를 툭 뱉어주면, 그 순간 사이클의 한 축이 자원을 획득하며 꽉 막힌 링이 스르륵 풀려버리기 때문이다. 따라서 자원이 여러 개일 때는 단순한 사이클 검사가 아닌 복잡한 **은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** 계열의 시뮬레이션이 필요하다.
+[순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(사이클)가 데드락의 필요충분조건이 되는 것은 <strong>'자원의 개수가 1개(Single Instance)'</strong>일 때뿐이다.
+만약 프린터(자원 A)가 3대 있는 다중 인스턴스 환경이라면, 사이클이 존재해도 데드락이 아닐 수 있다. 화살표가 꼬리를 물고 있어도, 3대 중 하나를 쓰고 있는 제3의 녀석(사이클 밖에 있는 놈)이 볼일을 다 보고 1대를 툭 뱉어주면, 그 순간 사이클의 한 축이 자원을 획득하며 꽉 막힌 링이 스르륵 풀려버리기 때문이다. 따라서 자원이 여러 개일 때는 단순한 사이클 검사가 아닌 복잡한 <strong>은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Banker's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> 계열의 시뮬레이션이 필요하다.
 
 - **📢 섹션 요약 비유**: 의자 뺏기 게임에서 의자가 1개(Single Instance)일 때 두 명이 동시에 앉으려 하면 완벽한 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)입니다(사이클 = 데드락). 하지만 의자가 10개(Multi-Instance)인데 두 명이 하나의 의자에만 앉겠다고 싸우고 있어도(사이클), 옆에서 놀던 친구가 자기 의자를 하나 양보해 주면 싸움이 풀립니다. 자원이 많으면 숨구멍이 트입니다.
 
@@ -109,7 +106,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **자바(Java) 백엔드에서의 계좌 이체(Transfer) [락 오더링](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)**: 개발자가 A계좌에서 B계좌로 돈을 보내는 코드를 짰다.
+1. <strong>자바(Java) 백엔드에서의 계좌 이체(Transfer) <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">락 오더링</a></strong>: 개발자가 A계좌에서 B계좌로 돈을 보내는 코드를 짰다.
    - **위기**: `transfer(A, B)` 와 `transfer(B, A)` 가 동시에 호출되면 100% 데드락([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))이 터진다.
    - **실무 해결책**: 파라미터로 들어온 A와 B의 계좌 번호(Account ID)를 무조건 비교한다.
      ```java
@@ -121,29 +118,29 @@ tags = ["studynote-operating-system"]
          }
      }
      ```
-     이 간단한 3줄의 코드가 바로 **자원 계층화([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))**를 애플리케이션 레벨에서 구현한 완벽한 튜닝이다.
-2. **[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) / MySQL [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 데드락 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐지**: RDBMS 엔진 내부에는 스레드들이 어떤 테이블/행(Row)의 락을 잡고 기다리는지를 실시간으로 추적하는 [Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) 구조체가 메모리에 떠 있다.
+     이 간단한 3줄의 코드가 바로 <strong>자원 계층화(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)</strong>를 애플리케이션 레벨에서 구현한 완벽한 튜닝이다.
+2. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> / MySQL <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>베이스의 데드락 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 탐지</strong>: RDBMS 엔진 내부에는 스레드들이 어떤 테이블/행(Row)의 락을 잡고 기다리는지를 실시간으로 추적하는 [Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) 구조체가 메모리에 떠 있다.
    - **아키텍트 조치**: DB 데몬은 1초에 한 번씩 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/BFS의 Cycle [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))을 돌려 트리에 '[순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)(Cycle)'가 형성되었는지 찾아낸다. 사이클이 발견되는 순간 즉각적으로 [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 로그가 적은 만만한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 하나를 `KILL` 하여 강제로 연결 고리를 끊어([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 파괴) 시스템을 구출한다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │     백엔드 아키텍트의 데드락(순환 대기) 방지 설계 가이드라인         │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │   [ 1단계: 설계 시점 - Share Nothing 구조 지향 ]                     │
-  │     - 스레드 간 락을 공유하지 않게 Thread-Local 변수나,              │
-  │       메시지 큐(Actor 모델)를 써서 원천적으로 락 획득을 금지함.      │
-  │                                                                      │
-  │   [ 2단계: 코딩 시점 - Lock Ordering 강제 ]                          │
-  │     - 락을 여러 개 잡아야 한다면, 무조건 HashCode나 ID를 비교해      │
-  │       오름차순/내림차순으로만 잡도록 코드 리뷰(PR) 시 칼같이 검증함. │
-  │                                                                      │
-  │   [ 3단계: 런타임 시점 - 타임아웃(TryLock) 적용 ]                    │
-  │     - 아무리 락 오더링을 잘해도 써드파티 라이브러리에서 꼬일 수 있음.│
-  │     - 모든 락 획득에는 무조건 최대 3초의 타임아웃을 걸어, 사이클이   │
-  │       형성되더라도 3초 뒤에 한 놈이 자폭하여 고리를 끊게 만듦.       │
-  └──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 아키텍트의 데드락(순환 대기) 방지 설계 가이드라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 설계 시점 - Share Nothing 구조 지향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 간 락을 공유하지 않게 Thread-Local 변수나,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 큐(Actor 모델)를 써서 원천적으로 락 획득을 금지함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 코딩 시점 - Lock Ordering 강제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 락을 여러 개 잡아야 한다면, 무조건 HashCode나 ID를 비교해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오름차순/내림차순으로만 잡도록 코드 리뷰(PR) 시 칼같이 검증함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 런타임 시점 - 타임아웃(TryLock) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아무리 락 오더링을 잘해도 써드파티 라이브러리에서 꼬일 수 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 락 획득에는 무조건 최대 3초의 타임아웃을 걸어, 사이클이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형성되더라도 3초 뒤에 한 놈이 자폭하여 고리를 끊게 만듦.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "OS가 데드락을 안 잡아주니 개발자가 잡아야 한다." 실무에서 가장 빈번하게 터지는 이 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)의 악몽을 막기 위해, 시니어 아키텍트는 설계-코딩-런타임이라는 3중 방어막을 친다. 특히 ID 순으로 락을 잡는 기법은 거의 모든 C++/Java [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프레임워크 내부에 숨겨진 마법의 공식이다.
 
 - **📢 섹션 요약 비유**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)는 마치 여러 사람이 손을 잡고 원을 만드는 '강강술래'와 같습니다. 원이 완성되면 영원히 빙빙 돌게 됩니다. 이를 막기 위해 "왼손잡이와는 절대 손을 잡지 마라([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))"라고 교육하거나, "5분 돌았으면 무조건 손을 놔라([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))"라고 룰을 세우는 것이 실무적 아키텍처입니다.
@@ -174,15 +171,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[acquire() / release() 함수]
-    │
-    ▼
-[스핀락 (Spinlock)]
-    │
-    ├──▶ [세마포어 (Semaphore)]
-    └──▶ [이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">acquire() / release() 함수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스핀락 (Spinlock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세마포어 (Semaphore)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

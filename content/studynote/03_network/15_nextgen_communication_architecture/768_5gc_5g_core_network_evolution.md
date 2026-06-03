@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 15에서 정의된, 오직 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) ([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/), 단독 모드) 망에서만 진정한 힘을 발휘하는 5세대의 심장부이자 백본(Backbone) 시스템**입니다.
-- 기존 4G 코어망인 EPC를 폐기하고, 아예 처음부터 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)(Cloud-Native), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)/[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리**에 완벽하게 최적화되도록 밑바닥부터 새로 설계한 혁명적인 아키텍처입니다.
+- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 15에서 정의된, 오직 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>, 단독 모드) 망에서만 진정한 힘을 발휘하는 5세대의 심장부이자 백본(Backbone) 시스템</strong>입니다.
+- 기존 4G 코어망인 EPC를 폐기하고, 아예 처음부터 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native), <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>), <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>에 완벽하게 최적화되도록 밑바닥부터 새로 설계한 혁명적인 아키텍처입니다.
 
-```text
-[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
-[5GC]
-    │
-    └──▶ [SBA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SBA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 5GC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,25 +50,29 @@ tags = ["studynote-network"]
 ### 2. 구형 장비의 해체와 새 이름 부여 (레고 블록화)
 4G의 단단한 쇳덩어리 장비들이 5GC에서는 잘게 쪼개진 '소프트웨어 기능 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Function)'로 이름과 역할이 바뀝니다.
 
-- **[4G] [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) (이동성/[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통합 관리) ➜ [5GC] [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) + SMF로 쪼개짐**
-  - **[AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) (Access and [Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) Function)**: 오직 폰의 인증과 '이동성([로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/), [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))'만 전문으로 담당. (770번 문서)
-  - **[SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) ([Session Management Function](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))**: 오직 '[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(인터넷 터널 뚫기) 관리'와 트래픽 경로 통제만 전문으로 담당. (771번 문서)
+- <strong>[4G] <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a> (이동성/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통합 관리) ➜ [5GC] <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/">AMF</a> + SMF로 쪼개짐</strong>
+  - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/">AMF</a> (Access and <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/">Mobility Management</a> Function)</strong>: 오직 폰의 인증과 '이동성([로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/), [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))'만 전문으로 담당. (770번 문서)
+  - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/">SMF</a> (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/">Session Management Function</a>)</strong>: 오직 '[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(인터넷 터널 뚫기) 관리'와 트래픽 경로 통제만 전문으로 담당. (771번 문서)
   - 이유: 자율주행차(이동성 폭주)와 고정된 넷플릭스 TV([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 폭주)에 각각 필요한 자원만 핀셋으로 할당([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하기 위해 뇌를 두 개로 쪼갰습니다.
 
-- **[4G] S-GW & P-GW ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라우터) ➜ [5GC] UPF 로 융합**
+- <strong>[4G] S-GW &amp; P-GW (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 라우터) ➜ [5GC] UPF 로 융합</strong>
   - **UPF (User Plane Function)**: 제어권([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))을 다 뺏기고 오직 멍청하지만 빛의 속도로 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 짐만 나르는 순수 짐꾼(패킷 스위칭)" 역할로 합쳐졌습니다. 이 짐꾼은 소프트웨어라 동네 기지국(엣지)마다 복사해서 심어놓기 최고입니다. (771번 문서)
 
-- **[4G] [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) (가입자 DB) ➜ [5GC] UDM + AUSF 로 분화**
+- <strong>[4G] <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/">HSS</a> (가입자 DB) ➜ [5GC] UDM + AUSF 로 분화</strong>
   - 단순 주민등록부에서, 인증키 발급소(AUSF)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(UDM)로 더 쪼개져 클라우드 DB 관리에 최적화되었습니다.
 
-```text
-[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
-[5GC]
-    │
-    └──▶ [SBA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SBA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 5GC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
-    │
-    ▼
-[현재 개념: 5GC]
-    │
-    ├──▶ [확장 A: SBA]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 5GC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SBA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 5GC는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 SBA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

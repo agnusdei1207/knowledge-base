@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 # 51. 벤더 종속 ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))
 
-> ⚠️ 이 문서는 기업이 특정 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/), 예: AWS, Azure, GCP)의 독자적이고 편리한 기술(예: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 특화 DB)을 깊숙이 채택하여 쓰다가, **나중에 요금이 인상되거나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 불만이 생겨도 다른 클라우드 벤더로 이사(Migration) 가기 위해 지불해야 하는 전환 비용(Switching Cost)이 너무 막대해져 발이 묶여버리는 함정**을 다룹니다.
+> ⚠️ 이 문서는 기업이 특정 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/), 예: AWS, Azure, GCP)의 독자적이고 편리한 기술(예: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 특화 DB)을 깊숙이 채택하여 쓰다가, <strong>나중에 요금이 인상되거나 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 불만이 생겨도 다른 클라우드 벤더로 이사(Migration) 가기 위해 지불해야 하는 전환 비용(Switching Cost)이 너무 막대해져 발이 묶여버리는 함정</strong>을 다룹니다.
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라우드의 편리함은 '[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)'이라는 독을 품고 있다. 단순히 가상 서버([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))만 빌려 쓰면 언제든 다른 곳으로 이사 가기 쉽지만, 클라우드 벤더가 제공하는 고도의 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/), [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))를 쓸수록 그 벤더의 포로가 된다.
@@ -25,9 +25,9 @@ tags = ["studynote-cloud-architecture"]
 
 1. **IaaS의 자유와 불편함**:
    - AWS에서 텅 빈 가상 서버(EC2)만 빌려서 그 위에 직접 MySQL을 깔고 설정하면, 내일 당장 그 DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본을 들고 Azure의 가상 서버로 이사 갈 수 있다 (락인 낮음). 하지만 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)과 패치를 개발자가 직접 해야 하니 귀찮다.
-2. **[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)의 달콤함과 함정**:
-   - AWS가 "DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 우리가 다 알아서 해줄게. 넌 쿼리만 날려!"라며 **[Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) DB**나 **[DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/)**를 제안한다.
-   - 개발자는 더 편하려고 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수인 **AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)**로 비즈니스 로직을 짜기 시작한다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>의 달콤함과 함정</strong>:
+   - AWS가 "DB [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 우리가 다 알아서 해줄게. 넌 쿼리만 날려!"라며 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/">Aurora</a> DB</strong>나 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/">DynamoDB</a></strong>를 제안한다.
+   - 개발자는 더 편하려고 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 함수인 <strong>AWS <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong>로 비즈니스 로직을 짜기 시작한다.
 3. **함정 발동**:
    - 3년 뒤 AWS 요금이 부담되어 GCP로 이사 가려 한다. 하지만 DynamoDB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 Lambda에 쓰인 코드들은 AWS 전용 문법(SDK)으로 떡칠이 되어 있어 GCP에서 전혀 돌아가지 않는다. 코드를 1부터 100까지 새로 짜야 하는 대참사가 벌어지며 결국 이사를 포기하게 된다.
 
@@ -40,9 +40,9 @@ tags = ["studynote-cloud-architecture"]
 
 1. **기술/아키텍처 종속**:
    - AWS Kinesis, GCP BigQuery처럼 해당 클라우드에서만 존재하는 독점적이고 폐쇄적인 API와 아키텍처를 깊게 사용한 경우.
-2. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그래비티 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)**:
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 그래비티 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Gravity)</strong>:
    - 페타바이트(PB) 급의 엄청난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 한 클라우드(예: AWS S3)에 쌓여버렸을 때. 클라우드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 땐 공짜지만 밖으로 뺄 때([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/))는 엄청난 네트워크 트래픽 요금을 물리기 때문에, 물리적 비용 때문에 이사를 포기하게 된다.
-3. **인력 스킬 종속 (Skill [Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))**:
+3. <strong>인력 스킬 종속 (Skill <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)</strong>:
    - 사내 엔지니어들이 5년 동안 AWS만 만지다 보니 AWS 전문가가 되었다. Azure나 GCP로 넘어가려면 사내 인력을 재교육하거나 비싼 돈을 주고 새 엔지니어를 뽑아야 한다.
 
 📢 섹션 요약 비유: 애플 생태계에 갇히는 것과 똑같습니다. 아이폰 전용 앱(기술 종속)을 잔뜩 사놨고, 수만 장의 사진이 아이클라우드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 종속)에 묶여있으며, 내 손가락이 이미 아이폰 제스처(스킬 종속)에 적응해 버려서 갤럭시로 넘어가는 것을 포기하는 심리입니다.
@@ -52,33 +52,36 @@ tags = ["studynote-cloud-architecture"]
 ### Ⅲ. 어떻게 방어할 것인가? (탈출 아키텍처)
 모든 클라우드에서 똑같이 숨 쉴 수 있는 공용 우주복을 입어야 한다.
 
-1. **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) (K8s)**:
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)와 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> (K8s)</strong>:
    - [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 막는 가장 강력하고 완벽한 백신이다.
    - 애플리케이션을 AWS 전용 코드로 짜지 않고 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(표준 규격 상자) 안에 포장한다. 이 상자는 AWS(EKS), Azure(AKS), 심지어 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 서버 위에서도 100% 동일하게 돌아가기 때문에 클릭 한 번에 클라우드를 이사할 수 있다.
-2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) (Open Source) 생태계 고집**:
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> (Open Source) 생태계 고집</strong>:
    - 클라우드 벤더의 독자적인 큐잉 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(AWS SQS) 대신, 어디서나 쓸 수 있는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)([Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))를 설치해 사용한다. 독자적인 [Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) DB 대신 표준 MySQL/PostgreSQL을 고집한다.
-3. **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) ([Multi-Cloud](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">Multi-Cloud</a>) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
    - 처음부터 웹 서버는 AWS에, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석은 GCP에 쪼개어 구성함으로써 특정 벤더가 전체 시스템을 인질로 잡지 못하도록 협상 지렛대(Leverage)를 유지한다.
 
 📢 섹션 요약 비유: 캠핑을 갈 때 펜션(클라우드 벤더)에서 제공하는 냄비와 이불(독점 기술)에 의존하면 다음번엔 다른 펜션으로 놀러 가기 어렵습니다. 아예 내 차에 나만의 튼튼한 텐트와 침낭([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/))을 싣고 다니면, 바다(AWS)든 산(GCP)이든 펜션 시설에 구애받지 않고 어디서나 똑같이 잠을 잘 수 있습니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 클라우드 의존 (Vendor Lock-in)
-    │
-    ▼
-종속 요인: 기술 API · 데이터 그래비티 · 인력 스킬
-    │
-    ▼
-탈출 전략
-    ├─► 컨테이너 + K8s: 이식성 확보
-    ├─► 오픈소스 고집: Kafka · PostgreSQL · Terraform
-    └─► 멀티 클라우드: 워크로드 분산 배치
-    │
-    ▼
-Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 클라우드 의존 (Vendor Lock-in)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">종속 요인: 기술 API · 데이터 그래비티 · 인력 스킬</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">탈출 전략</div>
+<div class="kb-diagram-tree-item" style="--depth:2">컨테이너 + K8s: 이식성 확보</div>
+<div class="kb-diagram-tree-item" style="--depth:2">오픈소스 고집: Kafka · PostgreSQL · Terraform</div>
+<div class="kb-diagram-tree-item" style="--depth:2">멀티 클라우드: 워크로드 분산 배치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환</div>
+</div>
+</div>
+
+
 
 ---
 

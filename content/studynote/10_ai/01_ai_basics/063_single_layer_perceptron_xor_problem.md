@@ -29,17 +29,23 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-x1, x2
-  ↓
-w1, w2, b
-  ↓
-z = w1x1 + w2x2 + b
-  ↓
-Activation
-  ↓
-0 or 1
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">x1, x2</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">w1, w2, b</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">z = w1x1 + w2x2 + b</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Activation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">0 or 1</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -108,29 +114,41 @@ XOR 문제는 "[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_e
 
 ## 관련 개념 맵
 
-```text
-Perceptron
-  ↓
-Linear Decision Boundary
-  ↓
-XOR Problem
-  ↓
-Multi-Layer Neural Network
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Perceptron</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Linear Decision Boundary</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">XOR Problem</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Multi-Layer Neural Network</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-AND / OR
-  ↓
-Perceptron
-  ↓
-XOR Limitation
-  ↓
-MLP / Backpropagation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AND / OR</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Perceptron</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">XOR Limitation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MLP / Backpropagation</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 228번 SAAM은 개별 품질(특히 변경 용이성)만 단편적으로 채점하고, 서로 상충하는 품질 간의 모순을 잡아내지 못했습니다.
-- **ATAM([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)**은 이름에 아예 **'Trade-off(트레이드오프, 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))'**를 대문짝만하게 박아놓고, **"여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등)들이 서로 어떻게 충돌하고 깎아 먹는지를 집중적으로 파헤쳐서 최적의 밸런스를 찾는 것"**을 절대 목적(존재 이유)으로 삼는 현대 아키텍처 평가의 절대 표준입니다.
+- <strong>ATAM(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong>은 이름에 아예 <strong>'Trade-off(트레이드오프, 상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>)'</strong>를 대문짝만하게 박아놓고, <strong>"여러 품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>, 보안, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 등)들이 서로 어떻게 충돌하고 깎아 먹는지를 집중적으로 파헤쳐서 최적의 밸런스를 찾는 것"</strong>을 절대 목적(존재 이유)으로 삼는 현대 아키텍처 평가의 절대 표준입니다.
 
 - **📢 섹션 요약 비유**: ATAM ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 ATAM ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ATAM (Architecture T                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM (Architecture T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 ATAM ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,9 +67,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 1. **유틸리티 트리 (Utility Tree) 작성**: 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 1순위, 보안 2순위 등)의 우선순위를 나무 잔가지 모양으로 예쁘게 그려놓습니다.
-2. 도면을 까놓고, 우선순위가 높은 시나리오부터 차례대로 대입하여, **어디서 민감점과 타협점이 터지는지 현미경으로 분석**합니다.
+2. 도면을 까놓고, 우선순위가 높은 시나리오부터 차례대로 대입하여, <strong>어디서 민감점과 타협점이 터지는지 현미경으로 분석</strong>합니다.
 
-> 📢 **섹션 요약 비유**: **ATAM(아키텍처 트레이드오프 분석 방법)**은 게임 캐릭터의 **'스탯(능력치) 분배 밸런스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'**과 완벽히 똑같습니다. 게임에서 전사를 키우는데 '힘([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))' 스탯을 100 찍으면 '마법 방어력(보안)' 스탯이 0이 되는 시소 게임입니다. 도면(아키텍처 설계)에 **'무거운 판금 갑옷(암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))'**을 입히기로 결정했습니다. 이 갑옷은 방어력([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 극강으로 올려주는 핵심 요인이므로 **'민감점([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))'**입니다. 그런데 이 무거운 갑옷 때문에 캐릭터의 이동 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 거북이가 되었습니다! 즉, 판금 갑옷이라는 결정 하나가 방어력(+)과 속도(-)를 동시에 미친 듯이 쥐고 흔드는 딜레마의 중심이므로 이게 바로 **'타협점([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/))'**입니다. ATAM 평가자(감독관)는 "네가 보스를 잡으려면 속도를 포기하고 판금을 입는 게 득(비위험)이냐 실(위험)이냐?"를 밤새워 논쟁하고, 결국 "판금 갑옷 대신 가죽 갑옷으로 바꿔서 방어력을 살짝 낮추고 속도를 챙기자!"라는 궁극의 밸런스(최적의 아키텍처) 합의점을 찾아내어 도면을 확정 짓는 현대 설계 평가의 최고봉입니다.
+> 📢 **섹션 요약 비유**: <strong>ATAM(아키텍처 트레이드오프 분석 방법)</strong>은 게임 캐릭터의 <strong>'스탯(능력치) 분배 밸런스 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 완벽히 똑같습니다. 게임에서 전사를 키우는데 '힘([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))' 스탯을 100 찍으면 '마법 방어력(보안)' 스탯이 0이 되는 시소 게임입니다. 도면(아키텍처 설계)에 <strong>'무거운 판금 갑옷(암호화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)'</strong>을 입히기로 결정했습니다. 이 갑옷은 방어력([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 극강으로 올려주는 핵심 요인이므로 <strong>'민감점(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/">Sensitivity Point</a>)'</strong>입니다. 그런데 이 무거운 갑옷 때문에 캐릭터의 이동 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 거북이가 되었습니다! 즉, 판금 갑옷이라는 결정 하나가 방어력(+)과 속도(-)를 동시에 미친 듯이 쥐고 흔드는 딜레마의 중심이므로 이게 바로 <strong>'타협점(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/">Trade-off Point</a>)'</strong>입니다. ATAM 평가자(감독관)는 "네가 보스를 잡으려면 속도를 포기하고 판금을 입는 게 득(비위험)이냐 실(위험)이냐?"를 밤새워 논쟁하고, 결국 "판금 갑옷 대신 가죽 갑옷으로 바꿔서 방어력을 살짝 낮추고 속도를 챙기자!"라는 궁극의 밸런스(최적의 아키텍처) 합의점을 찾아내어 도면을 확정 짓는 현대 설계 평가의 최고봉입니다.
 
 - **📢 섹션 요약 비유**: ATAM ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -125,21 +124,23 @@ ATAM ([Architecture](/knowledge-base/studynote/12_it_management/05_security_comp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ATAM (Architecture Trade-off Analysis Method) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM (Architecture Trade-off Analysis Method) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

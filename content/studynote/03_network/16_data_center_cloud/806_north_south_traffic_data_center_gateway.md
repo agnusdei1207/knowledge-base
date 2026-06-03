@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 엔터프라이즈 기업 망이나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 아키텍처에서, **외부 인터넷 사용자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))와 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부의 애플리케이션 서버 간에 발생하는 수직적(상/하)인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름**을 의미합니다.
+- **개념**: 엔터프라이즈 기업 망이나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 아키텍처에서, <strong>외부 인터넷 사용자(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 애플리케이션 서버 간에 발생하는 수직적(상/하)인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>을 의미합니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램을 그릴 때 보통 윗부분(North)에 인터넷 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 그리고 아랫부분(South)에 서버를 그리기 때문에 이런 이름이 붙었습니다.
 
-```text
-[Clos 네트워크]
-    │
-    ▼
-[North-South 트래픽]
-    │
-    └──▶ [East-West 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">East-West 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: North-South 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,26 +41,30 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 '정문 통과소'를 지나가므로, 성능보다는 깐깐한 **보안과 검열**이 1순위 타겟입니다.
+이 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 '정문 통과소'를 지나가므로, 성능보다는 깐깐한 <strong>보안과 검열</strong>이 1순위 타겟입니다.
 
 ### 1. 관문 장비 (Gateway & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 - 밖에서 들어오는 좀비나 도둑을 막아야 합니다. 
-- 트래픽이 쏟아져 들어오면 가장 먼저 **DDoS 방어 장비, 거대한 메인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)/[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)(침입 방지 시스템)**의 엑스레이 검색대를 수직으로 통과해야만 합니다. (740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 등과도 연계됨)
+- 트래픽이 쏟아져 들어오면 가장 먼저 <strong>DDoS 방어 장비, 거대한 메인 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">Firewall</a>), <a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>/<a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a>(침입 방지 시스템)</strong>의 엑스레이 검색대를 수직으로 통과해야만 합니다. (740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 등과도 연계됨)
 
 ### 2. [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/), L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))
-- 검색대를 무사히 통과한 수십만 명의 접속자를, 밑에 있는 100대의 네이버 웹서버(South)에 골고루 찢어 나눠주기 위해 거대한 **L4/L7 로드밸런서(ADC, 833번 문서)**를 반드시 거쳐야 합니다.
+- 검색대를 무사히 통과한 수십만 명의 접속자를, 밑에 있는 100대의 네이버 웹서버(South)에 골고루 찢어 나눠주기 위해 거대한 <strong>L4/L7 로드밸런서(ADC, 833번 문서)</strong>를 반드시 거쳐야 합니다.
 
 - 앞서 801번 문서에서 배운 **3-Tier(Core ➜ Aggregation ➜ Access)** 구조는 철저하게 이 North-South 트래픽 하나만을 쾌속으로 처리하기 위해 만들어진 완벽한 깔때기 모양의 깔맞춤 파이프였습니다.
 - 위(Core)에서 아래(Access 서버)로 폭포수처럼 쏟아져 내려오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 라우팅하기에 최적화되어 있었습니다.
 
-```text
-[Clos 네트워크]
-    │
-    ▼
-[North-South 트래픽]
-    │
-    └──▶ [East-West 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">East-West 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: North-South 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -78,9 +86,9 @@ North-South 트래픽을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **과거 (2010년 이전)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체 트래픽의 **80% 이상**이 North-South였습니다. (단순 웹서핑, 다운로드)
-- **현재 ([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)/[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 시대)**: 이제 North-South 트래픽 비중은 20%로 쪼그라들었습니다. 외부에서 1메가바이트짜리 요청(North-South) 하나가 들어오면, 내부 서버들끼리 100메가바이트어치 핑퐁 대화(East-West 트래픽, 다음 807번 문서)를 하기 때문입니다.
-- **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 핀치**: North-South 입구에 세워둔 수십억짜리 거대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은, 정작 내부 서버들끼리 감염되어 퍼져나가는 '랜섬웨어의 횡적 확산(East-West)'은 막을 수 없는 한계를 맞이하여, 738번에서 배운 제로 트러스트와 마이크로 세그멘테이션의 도입을 촉발했습니다.
+- **과거 (2010년 이전)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체 트래픽의 <strong>80% 이상</strong>이 North-South였습니다. (단순 웹서핑, 다운로드)
+- <strong>현재 (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>/<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 시대)</strong>: 이제 North-South 트래픽 비중은 20%로 쪼그라들었습니다. 외부에서 1메가바이트짜리 요청(North-South) 하나가 들어오면, 내부 서버들끼리 100메가바이트어치 핑퐁 대화(East-West 트래픽, 다음 807번 문서)를 하기 때문입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 핀치</strong>: North-South 입구에 세워둔 수십억짜리 거대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은, 정작 내부 서버들끼리 감염되어 퍼져나가는 '랜섬웨어의 횡적 확산(East-West)'은 막을 수 없는 한계를 맞이하여, 738번에서 배운 제로 트러스트와 마이크로 세그멘테이션의 도입을 촉발했습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,15 +119,19 @@ North-South 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Clos 네트워크]
-    │
-    ▼
-[현재 개념: North-South 트래픽]
-    │
-    ├──▶ [확장 A: East-West 트래픽]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Clos 네트워크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: North-South 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: East-West 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 North-South 트래픽는 Clos 네트워크에서 출발해 현재 메커니즘을 정교화하고, 이후 East-West 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

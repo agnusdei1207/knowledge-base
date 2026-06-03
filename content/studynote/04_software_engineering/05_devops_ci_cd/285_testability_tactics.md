@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. **수동 블랙박스 테스트의 한계**: 과거에는 QA 팀이 배포된 화면을 직접 마우스로 수백 번 클릭하며(블랙박스) 테스트를 했다. 인건비가 폭증하고 사각지대가 발생했다.
   2. **TDD와 단위 테스트의 부상**: Junit, NUnit 등 프레임워크의 등장으로 코드 레벨에서 개발자가 스스로(화이트박스) 자동화 테스트를 작성하게 되면서, "테스트하기 좋은 코드가 좋은 아키텍처다"라는 패러다임 전환이 일어났다.
-  3. **[의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))과 Mocking의 대중화**: 테스트가 어려운 외부 시스템(DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))로 대체하여 오직 내 로직만 고립시켜 테스트하는 제어 가능성 전술이 업계 표준으로 정착했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>(<a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a>)과 Mocking의 대중화</strong>: 테스트가 어려운 외부 시스템(DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/)/[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))로 대체하여 오직 내 로직만 고립시켜 테스트하는 제어 가능성 전술이 업계 표준으로 정착했다.
 
 - **📢 섹션 요약 비유**: 수박이 잘 익었는지 확인하려고 매번 수박을 다 쪼개서 먹어봐야 한다면 수박 장사를 할 수 없습니다. 겉을 통통 두드렸을 때 나는 소리(관찰 가능성)를 들을 수 있어야 팔기 좋은 수박입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 시험 용이성 (Testability)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시험 용이성 (Testability)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시험 용이성 (Testability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 시험 용이성 (Testability)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-시험 용이성 (Testability)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+시험 용이성 (Testability)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 시험 용이성 (Testability)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-시험 용이성 (Testability) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시험 용이성 (Testability) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

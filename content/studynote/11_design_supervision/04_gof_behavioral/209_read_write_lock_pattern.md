@@ -18,62 +18,75 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-```
-  synchronized 블록 (모든 접근 직렬화):
 
-  Thread A (읽기) ─┐
-  Thread B (읽기) ─┤── 모두 순차 실행 (읽기끼리도 차단)
-  Thread C (쓰기) ─┘
 
-  → 읽기끼리는 서로를 차단할 이유가 없음!
-    캐시 조회, 설정 읽기 등 읽기 집중 작업에서 심각한 성능 저하
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">synchronized 블록 (모든 접근 직렬화):</div>
+<div class="kb-diagram-note">Thread A (읽기) ─</div>
+<div class="kb-diagram-note">Thread B (읽기) ─ ── 모두 순차 실행 (읽기끼리도 차단)</div>
+<div class="kb-diagram-note">Thread C (쓰기) ─</div>
+<div class="kb-diagram-note">→ 읽기끼리는 서로를 차단할 이유가 없음!</div>
+<div class="kb-diagram-note">캐시 조회, 설정 읽기 등 읽기 집중 작업에서 심각한 성능 저하</div>
+</div>
+</div>
+
+
 
 | 접근 유형 | 동시 읽기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 존재 시 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 존재 시 |
 |:---|:---|:---|
 | 새 읽기 시도 | ✅ 허용 (Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 공유) | ❌ 차단 |
 | 새 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 | ❌ 차단 | ❌ 차단 |
 
-```
-  Read-Write Lock 접근 규칙:
 
-  상황 1: 읽기만 있을 때
-  Thread A (읽기) ───────────────────
-  Thread B (읽기) ───────────────────  ← 동시 실행 가능
-  Thread C (읽기) ───────────────────
 
-  상황 2: 쓰기 시도
-  Thread A (읽기) ─────┐
-  Thread B (읽기) ─────┤ 쓰기 대기
-  Thread D (쓰기) ─────┘───────────   ← 단독 실행
-  Thread E (읽기)          ─────────  ← 쓰기 완료 후 실행
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Read-Write Lock 접근 규칙:</div>
+<div class="kb-diagram-note">상황 1: 읽기만 있을 때</div>
+<div class="kb-diagram-note">Thread A (읽기)</div>
+<div class="kb-diagram-note">Thread B (읽기) ← 동시 실행 가능</div>
+<div class="kb-diagram-note">Thread C (읽기)</div>
+<div class="kb-diagram-note">상황 2: 쓰기 시도</div>
+<div class="kb-diagram-note">Thread A (읽기)</div>
+<div class="kb-diagram-note">Thread B (읽기) 쓰기 대기</div>
+<div class="kb-diagram-note">Thread D (쓰기) ← 단독 실행</div>
+<div class="kb-diagram-note">Thread E (읽기) ← 쓰기 완료 후 실행</div>
+</div>
+</div>
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도서관 열람실 — 책을 읽는 사람은 여럿이어도 괜찮지만, 누군가 책을 수정([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때는 다른 사람이 읽거나 쓸 수 없게 책을 잠근다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  ReentrantReadWriteLock
-  ┌──────────────────────────────────────────────────┐
-  │  ReadLock (공유 락)                              │
-  │  ─────────────────                               │
-  │  lock()   → 읽기 락 획득 (다른 읽기와 공유 가능) │
-  │  unlock() → 읽기 락 해제                         │
-  │                                                  │
-  │  WriteLock (배타 락)                             │
-  │  ──────────────────                              │
-  │  lock()   → 쓰기 락 획득 (모든 접근 차단)        │
-  │  unlock() → 쓰기 락 해제                         │
-  └──────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ReentrantReadWriteLock</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReadLock (공유 락)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock() → 읽기 락 획득 (다른 읽기와 공유 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock() → 읽기 락 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WriteLock (배타 락)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock() → 쓰기 락 획득 (모든 접근 차단)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock() → 쓰기 락 해제</div></div>
+</div>
+</div>
+
+
 
 ```java
 ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
@@ -101,35 +114,41 @@ public void setData(String key, String value) {
 }
 ```
 
-Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**를 추가:
+Java 8에서 도입된 StampedLock은 <strong>낙관적 읽기(Optimistic Read <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>를 추가:
 
-```
-  StampedLock 낙관적 읽기 흐름:
 
-  (1) tryOptimisticRead() → stamp 반환 (락 획득 없음!)
-  (2) 데이터 읽기
-  (3) validate(stamp) → 쓰기가 없었으면 true
-      → true: 읽은 데이터 유효 → 사용
-      → false: 충돌 발생 → readLock으로 재시도
 
-  일반 ReadLock 대비 성능 향상: 읽기가 매우 빈번하고
-  쓰기 충돌이 거의 없을 때 극대화
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">StampedLock 낙관적 읽기 흐름:</div>
+<div class="kb-diagram-note">(1) tryOptimisticRead() → stamp 반환 (락 획득 없음!)</div>
+<div class="kb-diagram-note">(2) 데이터 읽기</div>
+<div class="kb-diagram-note">(3) validate(stamp) → 쓰기가 없었으면 true</div>
+<div class="kb-diagram-note">→ true: 읽은 데이터 유효 → 사용</div>
+<div class="kb-diagram-note">→ false: 충돌 발생 → readLock으로 재시도</div>
+<div class="kb-diagram-note">일반 ReadLock 대비 성능 향상: 읽기가 매우 빈번하고</div>
+<div class="kb-diagram-note">쓰기 충돌이 거의 없을 때 극대화</div>
+</div>
+</div>
 
-```
-  시나리오: 읽기 90%, 쓰기 10%, 스레드 10개
 
-  synchronized:
-  처리량 = 직렬화 → ~1x 기준
 
-  ReentrantReadWriteLock:
-  처리량 = 읽기 9개 동시 → ~4~6x 향상
 
-  StampedLock (낙관적):
-  처리량 = 락 없이 읽기 → ~6~8x 향상
 
-  ※ 쓰기가 50% 이상이면 오히려 오버헤드 발생
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시나리오: 읽기 90%, 쓰기 10%, 스레드 10개</div>
+<div class="kb-diagram-note">synchronized:</div>
+<div class="kb-diagram-note">처리량 = 직렬화 → ~1x 기준</div>
+<div class="kb-diagram-note">ReentrantReadWriteLock:</div>
+<div class="kb-diagram-note">처리량 = 읽기 9개 동시 → ~4~6x 향상</div>
+<div class="kb-diagram-note">StampedLock (낙관적):</div>
+<div class="kb-diagram-note">처리량 = 락 없이 읽기 → ~6~8x 향상</div>
+<div class="kb-diagram-note">※ 쓰기가 50% 이상이면 오히려 오버헤드 발생</div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -148,21 +167,25 @@ Java 8에서 도입된 StampedLock은 **낙관적 읽기(Optimistic Read [Lock](
 | **ReentrantLock** | ❌ | ❌ | ❌ | java.util.concurrent |
 | **ReadWriteLock** | ✅ | ❌ | ❌ | ReentrantReadWriteLock |
 | **StampedLock** | ✅ (낙관적) | ❌ | ❌ | Java 8+ |
-| **[Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(n)** | n개까지 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | java.util.concurrent |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">Semaphore</a>(n)</strong> | n개까지 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 | java.util.concurrent |
 
-```
-  ReadWriteLock의 쓰기 기아 문제:
 
-  Thread A (읽기) ────────────────────────────────►
-  Thread B (읽기) ────────────────────────────────►
-  Thread C (읽기) ────────────────────────────────►
-  Thread D (쓰기) ─── 대기 대기 대기 ... (기아!) ►
 
-  해결: 공정성 정책 (Fairness Policy)
-  new ReentrantReadWriteLock(true);  // fair=true
-  → 대기 순서대로 락 부여 (FIFO)
-  → 단, 성능 감소 (20~30% 오버헤드)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ReadWriteLock의 쓰기 기아 문제:</div>
+<div class="kb-diagram-note">Thread A (읽기) ►</div>
+<div class="kb-diagram-note">Thread B (읽기) ►</div>
+<div class="kb-diagram-note">Thread C (읽기) ►</div>
+<div class="kb-diagram-note">Thread D (쓰기) 대기 대기 대기 ... (기아!) ►</div>
+<div class="kb-diagram-note">해결: 공정성 정책 (Fairness Policy)</div>
+<div class="kb-diagram-note">new ReentrantReadWriteLock(true); // fair=true</div>
+<div class="kb-diagram-note">→ 대기 순서대로 락 부여 (FIFO)</div>
+<div class="kb-diagram-note">→ 단, 성능 감소 (20~30% 오버헤드)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 우선 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 읽기(일반 차)는 많이 다닐 수 있지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))도 너무 오래 기다리면 안 된다. 공정성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 같다.
 
@@ -189,23 +212,25 @@ public class ReadHeavyCache<K, V> {
 }
 ```
 
-```
-  ReadWriteLock 도입 판단:
-  ┌────────────────────────────────────────────────┐
-  │  읽기 비율이 70% 이상인가?                     │
-  │    YES → ReadWriteLock 적합                    │
-  │                                                │
-  │  쓰기 지연이 허용되는가?                       │
-  │    YES → 공정성 정책 불필요                    │
-  │    NO  → fair=true 또는 StampedLock            │
-  │                                                │
-  │  동일 스레드에서 읽기→쓰기 락 업그레이드 필요? │
-  │    YES → StampedLock.tryConvertToWriteLock()   │
-  └────────────────────────────────────────────────┘
-```
 
-- **Shared [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)([공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/)) vs Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)([배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/))** 용어 명확히 구분
-- **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 기아(Write [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))**와 공정성(Fairness) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언급
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ReadWriteLock 도입 판단:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 비율이 70% 이상인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → ReadWriteLock 적합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 지연이 허용되는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → 공정성 정책 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NO → fair=true 또는 StampedLock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 스레드에서 읽기→쓰기 락 업그레이드 필요?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → StampedLock.tryConvertToWriteLock()</div></div>
+</div>
+</div>
+
+
+
+- <strong>Shared <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/">공유 락</a>) vs Exclusive <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/">배타 락</a>)</strong> 용어 명확히 구분
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 기아(Write <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>)</strong>와 공정성(Fairness) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 언급
 - 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비율에 따른 패턴 선택 기준 제시
 - StampedLock의 낙관적 읽기(Optimistic Read) 고급 최적화 언급
 

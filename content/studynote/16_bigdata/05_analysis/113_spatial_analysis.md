@@ -30,19 +30,20 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### GIS [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                  GIS 데이터 유형                                  │
-├─────────────────────────────┬────────────────────────────────────┤
-│  벡터 (Vector) 데이터        │  래스터 (Raster) 데이터             │
-├─────────────────────────────┼────────────────────────────────────┤
-│  점 (Point):  병원, ATM 위치 │  위성 영상, DEM (수치고도모델)      │
-│  선 (Line):   도로, 강, 철도 │  격자 셀 (Cell) 단위 값 저장        │
-│  면 (Polygon):행정구역, 건물 │  해상도: 픽셀 크기 = 정밀도          │
-│                             │                                    │
-│  속성 테이블과 공간 좌표 연결 │  밴드 (Band): 위성의 채널별 분석    │
-└─────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GIS 데이터 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 (Vector) 데이터</div><div class="kb-diagram-cell">래스터 (Raster) 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점 (Point): 병원, ATM 위치</div><div class="kb-diagram-cell">위성 영상, DEM (수치고도모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선 (Line): 도로, 강, 철도</div><div class="kb-diagram-cell">격자 셀 (Cell) 단위 값 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">면 (Polygon):행정구역, 건물</div><div class="kb-diagram-cell">해상도: 픽셀 크기 = 정밀도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속성 테이블과 공간 좌표 연결</div><div class="kb-diagram-cell">밴드 (Band): 위성의 채널별 분석</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 공간 연산
 
@@ -50,8 +51,8 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 |:---|:---|:---|
 | **버퍼 (Buffer)** | 지형·객체 주변 일정 거리 내 영역 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 학교 반경 300m 내 유해업소 탐지 |
 | **오버레이 (Overlay)** | 두 레이어를 겹쳐 교집합/합집합 분석 | 홍수 침수구역 + 건물 위치 → 피해 건물 산출 |
-| **공간 조인 (Spatial [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))** | 위치 기반 두 테이블 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 범죄 포인트 + 행정구역 → 구별 범죄율 |
-| **보간 ([Interpolation](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/))** | 관측점 사이 미지 지점의 값 추정 | 기상 관측소 → 전국 기온 지도 |
+| <strong>공간 조인 (Spatial <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)</strong> | 위치 기반 두 테이블 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 범죄 포인트 + 행정구역 → 구별 범죄율 |
+| <strong>보간 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/">Interpolation</a>)</strong> | 관측점 사이 미지 지점의 값 추정 | 기상 관측소 → 전국 기온 지도 |
 | **최근린 분석 (Nearest Neighbor)** | 가장 가까운 객체 탐색 | 최근접 병원·소방서 찾기 |
 
 ### Moran's I (공간 자기상관)
@@ -68,7 +69,7 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 | **H3** | Uber | 구면을 정육각형으로 분할 (16단계 해상도) | 균일 면적, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 최적 |
 | **S2** | Google | 구면을 정육면체로 분할 | 연속적 계층 구조 |
 | **GeoHash** | 일반 | 위경도를 Base32 문자열로 인코딩 | 단순, 경계 효과 있음 |
-| **PostGIS [R-Tree](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/289_dw_4characteristics/)** | PostgreSQL | 공간 바운딩 박스 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 통합 |
+| <strong>PostGIS <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/289_dw_4characteristics/">R-Tree</a></strong> | PostgreSQL | 공간 바운딩 박스 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 통합 |
 
 - **📢 섹션 요약 비유**: H3 헥사고날 인덱싱은 지도를 벌집 모양으로 나누는 것이다. 균일한 크기의 육각형 셀로 나누면 어떤 방향으로도 이웃 셀과의 거리가 같아서, 배달 존 설계나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반경 계산이 정확해진다.
 
@@ -78,7 +79,7 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 | 항목 | 전통 GIS (QGIS/ArcGIS) | 빅데이터 공간 분석 (PostGIS/GeoPandas) |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모** | 수백만 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 수십억 포인트 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규모</strong> | 수백만 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 수십억 포인트 |
 | **처리 방식** | 데스크톱 GUI | SQL/Python + [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 |
 | **실시간 처리** | 어려움 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink + PostGIS |
 | **공간 연산** | 완전한 GIS 기능 | 핵심 연산 Python화 |
@@ -93,9 +94,9 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### 적용 시나리오
 
-1. **배달 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 최적화**: H3 헥사고날 그리드로 배달 구역 분할 → 수요 밀도 히트맵 → 기사 배치 최적화
+1. <strong>배달 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 최적화</strong>: H3 헥사고날 그리드로 배달 구역 분할 → 수요 밀도 히트맵 → 기사 배치 최적화
 2. **신규 매장 입지 선정**: 유동인구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 경쟁 매장 위치 + 교통 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) → 공간 다중 기준 분석
-3. **[스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 교통**: 교통 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 집계 → 교통 혼잡 구역 자동 탐지 → [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a> 교통</strong>: 교통 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 집계 → 교통 혼잡 구역 자동 탐지 → [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화
 4. **역학 조사**: 확진자 위치 클러스터링 → 감염 핫스팟 (Hotspot) 지도 → 방역 자원 집중 배치
 
 ### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -140,21 +141,23 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[GIS (Geographic Information System) — 지리 데이터 수집·저장·분석·시각화]
-    │
-    ▼
-[공간 데이터 모델 — 벡터(점·선·면) vs 래스터(픽셀 격자) 표현 방식]
-    │
-    ▼
-[공간 인덱스 — R-Tree / Quad-Tree로 영역 쿼리·인근 탐색 O(logN) 가속]
-    │
-    ▼
-[공간 분석 연산 — 버퍼·오버레이·인터섹션·보로노이 다이어그램]
-    │
-    ▼
-[위치 기반 서비스 (LBS) / 자율주행 — 실시간 공간 분석·HD맵 활용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GIS (Geographic Information System) — 지리 데이터 수집·저장·분석·시각화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 데이터 모델 — 벡터(점·선·면) vs 래스터(픽셀 격자) 표현 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 인덱스 — R-Tree / Quad-Tree로 영역 쿼리·인근 탐색 O(logN) 가속</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공간 분석 연산 — 버퍼·오버레이·인터섹션·보로노이 다이어그램</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위치 기반 서비스 (LBS) / 자율주행 — 실시간 공간 분석·HD맵 활용</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 GIS 기반 지리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 벡터·래스터 모델로 구조화되고, 공간 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상되며 버퍼·오버레이 분석을 거쳐 LBS·자율주행의 실시간 공간 지능으로 진화하는 공간 분석 기술의 발전 과정을 보여준다.
 

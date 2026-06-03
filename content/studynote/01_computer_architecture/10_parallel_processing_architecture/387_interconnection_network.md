@@ -25,20 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 상호 연결망이 필요한지 보여준다. 핵심은 "연결 방식이 달라지면 동시에 가능한 통신 수가 달라진다"는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 공유 버스와 스위치드 연결망의 차이                                  │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ (A) 공유 버스         │ (B) 스위치드 연결망                         │
-│                       │                                              │
-│ CPU0 ─┐               │ CPU0 ─┐        ┌─ Mem0                      │
-│ CPU1 ─┼─ Bus ── Mem   │ CPU1 ─┼─ Switch├─ Mem1                      │
-│ CPU2 ─┤               │ CPU2 ─┼─ Fabric├─ Mem2                      │
-│ CPU3 ─┘               │ CPU3 ─┘        └─ Mem3                      │
-│                       │                                              │
-│ 동시 전송: 사실상 1개 │ 목적지가 다르면 여러 전송을 병렬로 처리     │
-└───────────────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 버스와 스위치드 연결망의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) 공유 버스</div><div class="kb-diagram-cell">(B) 스위치드 연결망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU0 ─</div><div class="kb-diagram-cell">CPU0 ─ ─ Mem0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU1 ─ ─ Bus ── Mem</div><div class="kb-diagram-cell">CPU1 ─ ─ Switch ─ Mem1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU2 ─</div><div class="kb-diagram-cell">CPU2 ─ ─ Fabric ─ Mem2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU3 ─</div><div class="kb-diagram-cell">CPU3 ─ ─ Mem3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 전송: 사실상 1개</div><div class="kb-diagram-cell">목적지가 다르면 여러 전송을 병렬로 처리</div></div>
+</div>
+</div>
+
+
 
 상호 연결망은 단순한 배선 집합이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는 조건이다. 프로세서가 아무리 많아도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 길이 막히면 시스템은 빠른 엔진에 비해 도로가 너무 좁은 도시처럼 움직인다.
 
@@ -62,19 +63,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 직접 연결망과 간접 연결망이 병목을 처리하는 방식 차이를 압축해서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ 상호 연결망의 구조적 선택지                                          │
-├────────────────────────────┬─────────────────────────────────────────┤
-│ 직접 연결망                │ 간접 연결망                            │
-│                            │                                         │
-│ P0 ─ P1 ─ P2 ─ P3          │ P0 ─┐   ┌─ S0 ─┐   ┌─ M0               │
-│ │    │    │    │           │ P1 ─┼──▶│      ├──▶│                    │
-│ P4 ─ P5 ─ P6 ─ P7          │ P2 ─┼──▶│  S1  ├──▶│ M1                 │
-│                            │ P3 ─┘   └──────┘   └─ M2               │
-│ 이웃을 거쳐 목적지로 이동  │ 스위치가 경로를 선택해 전달            │
-└────────────────────────────┴─────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 연결망의 구조적 선택지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 연결망</div><div class="kb-diagram-cell">간접 연결망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 ─ P1 ─ P2 ─ P3</div><div class="kb-diagram-cell">P0 ─ ─ S0 ─ ─ M0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 ─ ──▶</div><div class="kb-diagram-cell">──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 ─ P5 ─ P6 ─ P7</div><div class="kb-diagram-cell">P2 ─ ──▶</div><div class="kb-diagram-cell">S1 ──▶</div><div class="kb-diagram-cell">M1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P3 ─ ─ M2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이웃을 거쳐 목적지로 이동</div><div class="kb-diagram-cell">스위치가 경로를 선택해 전달</div></div>
+</div>
+</div>
+
+
 
 결국 연결망 설계는 "선을 많이 깔아 홉을 줄일 것인가"와 "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 적당히 두고 비용을 통제할 것인가"의 균형이다. 작은 시스템에서는 단순성이 이기고, 큰 시스템에서는 확장성이 이긴다. 이 균형 감각이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처의 핵심 원리다.
 
@@ -156,23 +159,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스 기반 다중 처리
-    │
-    ▼
-크로스바 스위치 (Crossbar Switch)
-    │
-    ├──────────────▶ 다단 연결망 (MIN, Multistage Interconnection Network)
-    │
-    ▼
-메시 (Mesh) · 토러스 (Torus) · 하이퍼큐브 (Hypercube)
-    │
-    ▼
-NoC (Network-on-Chip) · NUMA · 칩렛 패브릭
-    │
-    ▼
-CXL (Compute Express Link) · 광 인터커넥트 · 적응형 라우팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스 기반 다중 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">크로스바 스위치 (Crossbar Switch)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 다단 연결망 (MIN, Multistage Interconnection Network)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메시 (Mesh) · 토러스 (Torus) · 하이퍼큐브 (Hypercube)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NoC (Network-on-Chip) · NUMA · 칩렛 패브릭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL (Compute Express Link) · 광 인터커넥트 · 적응형 라우팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 공유 → [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기반 분리 → 확장형 토폴로지 → 칩 내부 네트워크화 → 차세대 고속 링크"로 상호 연결망이 진화하는 방향을 보여 준다.
 

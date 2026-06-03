@@ -88,7 +88,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 연속 규칙 vs 시퀀스 패턴
 
-- **[연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)**: 순서 무관 — "기저귀와 맥주는 함께 산다."
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/">연관 규칙</a></strong>: 순서 무관 — "기저귀와 맥주는 함께 산다."
 - **순차 패턴(Sequential Pattern)**: 순서 고려 — "상품 A 구매 후 7일 내 상품 B 구매."
 - **활용**: 전자상거래 구매 여정(Journey) 분석, 의료 치료 순서 최적화.
 
@@ -98,7 +98,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 - 슈퍼마켓 [장바구니 분석](/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/)**:
+<strong>시나리오 - 슈퍼마켓 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/107_market_basket_analysis/">장바구니 분석</a></strong>:
 - 100만 건 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 5,000개 아이템.
 - 최소 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) 0.01 (1%), 최소 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 0.3 (30%).
 - FP-Growth 적용 → 스캔 2회, Apriori 대비 8배 빠른 처리.

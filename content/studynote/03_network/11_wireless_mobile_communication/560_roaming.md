@@ -23,16 +23,20 @@ tags = ["studynote-network"]
 원래대로라면 NTT 기지국은 "넌 우리 가입자 명부에 없는 녀석이네? 꺼져!"라고 튕겨내야 정상이다.
 
 하지만 통신사들끼리 미리 맺어둔 **"상호 로밍 협정(Roaming Agreement)"** 덕분에 기적이 일어난다. NTT 기지국은 내 유심(USIM)에 적힌 국가번호(450:한국)와 통신사 번호(05:SKT)를 읽어보고, 한국의 SKT 서버에 해저 케이블을 타고 연락을 취한다. 
-"야 SKT, 너네 손님 여기 왔는데, 내가 인터넷 쓰게 해주고 나중에 너한테 돈 청구하면 되지?" SKT가 "ㅇㅋ 승인!"을 때려주면, 나는 일본에서도 카카오톡을 하고 전화를 받을 수 있다. 이 거대한 프로세스가 바로 **로밍(Roaming)**이다.
+"야 SKT, 너네 손님 여기 왔는데, 내가 인터넷 쓰게 해주고 나중에 너한테 돈 청구하면 되지?" SKT가 "ㅇㅋ 승인!"을 때려주면, 나는 일본에서도 카카오톡을 하고 전화를 받을 수 있다. 이 거대한 프로세스가 바로 <strong>로밍(Roaming)</strong>이다.
 
-```text
-[호 수락 제어]
-    │
-    ▼
-[로밍]
-    │
-    └──▶ [이동성 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">호 수락 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로밍</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이동성 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 로밍은 '해외여행 가서 신용카드(Visa/Master)로 밥 사 먹기'와 똑같습니다. 일본 식당 사장님은 내 한국 은행 계좌를 모르지만, Visa 카드망(로밍 네트워크)을 통해 한국 은행에 내 잔액을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받고 밥을 줍니다. 나중에 일본 식당과 한국 은행이 알아서 돈을 정산하는 시스템입니다.
 
@@ -42,34 +46,32 @@ tags = ["studynote-network"]
 
 로밍이 성립하려면 '나의 진짜 정보가 있는 곳(Home 망)'과 '내가 지금 빌려 쓰는 곳(Visited 망)' 간의 치밀한 대화가 필요하다.
 
-1. **VLR (Visited Location [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))의 발견**
-   - 폰을 켜면 일본의 방문 망(Visited Network)의 기지국이 나를 발견하고, 지역 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 명부인 **VLR**에 내 정보를 임시로 등록한다.
-2. **HLR (Home Location [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 조회 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**
+1. <strong>VLR (Visited Location <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)의 발견</strong>
+   - 폰을 켜면 일본의 방문 망(Visited Network)의 기지국이 나를 발견하고, 지역 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 명부인 <strong>VLR</strong>에 내 정보를 임시로 등록한다.
+2. <strong>HLR (Home Location <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>) 조회 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>
    - 방문 망(일본)은 내 유심의 고유번호(IMSI)를 분석해 내 고향이 한국 SKT임을 알아챈다.
    - 국제 시그널링 망(SS7/Diameter)을 타고 한국 SKT의 **HLR**(가입자 원부 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))에 접속한다. "이 손님 요금제 정상이야? 차단된 폰 아니야?"
    - SKT HLR은 "우리 VIP 손님 맞아. 암호키 줄 테니까 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 통과시켜!"라고 응답한다.
-3. **통신 경로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))의 2가지 방식**
-   - **Home Routed (홈 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**: 일본에서 유튜브를 틀면, 일본 기지국 -> 해저 케이블 -> 한국 SKT 망 -> 다시 일본 구글 서버로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엄청나게 돌아서 간다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Ping)이 매우 느리지만, 한국 IP를 받기 때문에 한국 넷플릭스 등을 그대로 볼 수 있고 요금 통제가 쉽다. (대부분의 로밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰는 방식)
+3. <strong>통신 경로 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)의 2가지 방식</strong>
+   - <strong>Home Routed (홈 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>: 일본에서 유튜브를 틀면, 일본 기지국 -> 해저 케이블 -> 한국 SKT 망 -> 다시 일본 구글 서버로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엄청나게 돌아서 간다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Ping)이 매우 느리지만, 한국 IP를 받기 때문에 한국 넷플릭스 등을 그대로 볼 수 있고 요금 통제가 쉽다. (대부분의 로밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰는 방식)
    - **Local Breakout (로컬 브레이크아웃)**: 일본 기지국에서 한국까지 안 가고 바로 일본 구글 서버로 다이렉트로 쏴버린다. 속도는 엄청나게 빠르지만 과금 정산이 복잡해져서 주로 음성 통화 ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/) 로밍) 등에 제한적으로 쓰인다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────────────────┐
-│           글로벌 데이터 로밍(Home Routed 방식) 작동 흐름 시각화                           │
-├───────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                           │
-│ [ 일본 (Visited Network) ]                 [ 한국 (Home Network) ]                        │
-│                                                                                           │
-│ 📱 내 폰 ──(1. 접속)──▶ 기지국 (VLR) ──(2. 나 얘 누군지 인증 좀!)──▶ HLR (SKT 가입자 DB)  │
-│                        │               (국제망: IPX)                                      │
-│                        │                                                                  │
-│                        └──(3. 인증 성공! 데이터 터널링 뚫어!)──▶ PGW (SKT 코어망)         │
-│                                                                                           │
-│                                                (4. 인터넷 접속!)                          │
-│                                                               ▼                           │
-│                                                        [ YouTube 서버 ]                   │
-│ ★ 특징: 일본에서 유튜브를 봐도 트래픽이 한국을 찍고 나감! (그래서 해외여행 시 핑이 느림)  │
-└───────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">글로벌 데이터 로밍(Home Routed 방식) 작동 흐름 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일본 (Visited Network)</div><div class="kb-diagram-node">한국 (Home Network)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 내 폰 ──(1. 접속)──▶ 기지국 (VLR) ──(2. 나 얘 누군지 인증 좀!)──▶ HLR (SKT 가입자 DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(국제망: IPX)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(3. 인증 성공! 데이터 터널링 뚫어!)──▶ PGW (SKT 코어망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4. 인터넷 접속!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YouTube 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 특징: 일본에서 유튜브를 봐도 트래픽이 한국을 찍고 나감! (그래서 해외여행 시 핑이 느림)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 로밍의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -79,8 +81,8 @@ tags = ["studynote-network"]
 
 초창기 음성 로밍은 3G 망(서킷 망)을 썼기 때문에, 해외에서 한국으로 전화를 걸면 국제전화망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 타면서 요금이 폭탄처럼 터졌다 (분당 2,000원).
 
-하지만 **[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대가 되며 [VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/)(Voice over [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)) 로밍**이 등장했다. 음성도 카카오톡처럼 0과 1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쪼가리(패킷)로 변환되어 전달된다.
-따라서 해외에서 음성 통화를 해도, 일본 기지국과 한국 코어망 사이의 넉넉한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(IP 망)를 통해 공짜나 다름없는 원가로 패킷이 날아간다. 통신사들이 해외 로밍 음성 통화를 "하루 3분 무료" 또는 "T전화 로밍 전면 무료"로 풀어줄 수 있게 된 것도, 과거의 비싼 국제 서킷망 대신 값싼 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷망(로컬 브레이크아웃 및 S8HR 아키텍처) 기반의 로밍 기술 혁신**이 있었기 때문이다.
+하지만 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 시대가 되며 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/">VoLTE</a>(Voice over <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>) 로밍</strong>이 등장했다. 음성도 카카오톡처럼 0과 1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쪼가리(패킷)로 변환되어 전달된다.
+따라서 해외에서 음성 통화를 해도, 일본 기지국과 한국 코어망 사이의 넉넉한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(IP 망)를 통해 공짜나 다름없는 원가로 패킷이 날아간다. 통신사들이 해외 로밍 음성 통화를 "하루 3분 무료" 또는 "T전화 로밍 전면 무료"로 풀어줄 수 있게 된 것도, 과거의 비싼 국제 서킷망 대신 값싼 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 패킷망(로컬 브레이크아웃 및 S8HR 아키텍처) 기반의 로밍 기술 혁신</strong>이 있었기 때문이다.
 
 로밍을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [호 수락 제어](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)가 기반 조건을 만든다면, 로밍은 그 위에서 핵심 메커니즘을 구현하고, [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -128,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 호 수락 제어]
-    │
-    ▼
-[현재 개념: 로밍]
-    │
-    ├──▶ [확장 A: 이동성 관리]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 호 수락 제어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로밍</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이동성 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 로밍는 [호 수락 제어](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

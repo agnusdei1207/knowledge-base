@@ -31,21 +31,27 @@ tags = ["studynote-devops-sre"]
 
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 다음 순서로 움직인다.
 
-```text
-Commit
-  ↓
-Build
-  ↓
-Test
-  ↓
-Security Scan
-  ↓
-Package / Artifact
-  ↓
-Deploy
-  ↓
-Verify / Observe
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Commit</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Build</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Test</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Security Scan</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Package / Artifact</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deploy</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Verify / Observe</div>
+</div>
+</div>
+
+
 
 각 단계는 실패하면 다음 단계로 넘어가지 않는다. 그래서 문제를 뒤늦게 찾지 않고, 작은 구간에서 바로 멈출 수 있다.
 
@@ -59,8 +65,8 @@ Verify / Observe
 
 - **Rolling**: 조금씩 교체해 안정성을 확보한다.
 - **Blue-Green**: 새 환경을 준비하고 한 번에 전환한다.
-- **[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)**: 일부 사용자에게만 먼저 배포해 반응을 본다.
-- **[Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)**: 배포와 기능 공개를 분리한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a></strong>: 일부 사용자에게만 먼저 배포해 반응을 본다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">Feature Flag</a></strong>: 배포와 기능 공개를 분리한다.
 
 또한 `trunk-based development`처럼 짧은 통합 주기를 가져가면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 더 단순하고 안정적이 된다.
 
@@ -106,15 +112,21 @@ Verify / Observe
 
 ## 관련 개념 맵
 
-```text
-코드 커밋
-   ↓
-자동 빌드 / 테스트 / 스캔
-   ↓
-패키징 / 배포
-   ↓
-검증 / 관측 / 롤백
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">코드 커밋</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">자동 빌드 / 테스트 / 스캔</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">패키징 / 배포</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">검증 / 관측 / 롤백</div>
+</div>
+</div>
+
+
 
 ---
 

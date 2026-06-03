@@ -19,37 +19,33 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz ISM 비면허 대역을 사용하는 근거리 무선 통신 기술이다. 기기 간의 케이블(선)을 잘라버리는 것을 목표로 탄생했으며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) **Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)** (음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트리밍)와 후기 **[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)** (초저전력 간헐적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)의 투 트랙으로 발전해 왔다.
-- **필요성**: 1990년대 노트북과 마우스, 키보드, 핸드폰 사이에는 거미줄처럼 USB나 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 케이블이 얽혀있었다. 와이파이(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) 칩셋은 너무 비싸고 크고 배터리를 미친 듯이 갉아먹어서 무선 마우스에 달 수 없었다. **"반경 10m 내에서, 엄청 싸고, 엄청 작고, 전기를 거의 안 먹으면서도 주변의 무선 전화기나 전자레인지(2.4GHz) 간섭을 무시하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안정적으로 주고받을 수 있는 케이블 대체용 무선 뼈대"**가 절실했다. (에릭슨이 최초 개발).
+- **개념**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz ISM 비면허 대역을 사용하는 근거리 무선 통신 기술이다. 기기 간의 케이블(선)을 잘라버리는 것을 목표로 탄생했으며, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) <strong>Classic <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a></strong> (음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트리밍)와 후기 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a></strong> (초저전력 간헐적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)의 투 트랙으로 발전해 왔다.
+- **필요성**: 1990년대 노트북과 마우스, 키보드, 핸드폰 사이에는 거미줄처럼 USB나 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 케이블이 얽혀있었다. 와이파이(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) 칩셋은 너무 비싸고 크고 배터리를 미친 듯이 갉아먹어서 무선 마우스에 달 수 없었다. <strong>"반경 10m 내에서, 엄청 싸고, 엄청 작고, 전기를 거의 안 먹으면서도 주변의 무선 전화기나 전자레인지(2.4GHz) 간섭을 무시하고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 안정적으로 주고받을 수 있는 케이블 대체용 무선 뼈대"</strong>가 절실했다. (에릭슨이 최초 개발).
 - **등장 배경**: ① 책상 위([WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), Wireless Personal Area Network) 디바이스들의 케이블리스(Cable-less) 요구 폭발 → ② 2.4GHz 혼잡 대역에서의 생존을 위한 초당 1,600번의 주파수 호핑([FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/)) 기술 탑재 → ③ 웨어러블(스마트워치)과 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 시장이 열리며 극단적 배터리 절약을 위한 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0) 규격의 극적인 풀체인지 도입.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             와이파이(시장통) vs 블루투스(피코넷 지휘) 아키텍처 시각화     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거 비교: Wi-Fi의 평등주의 (CSMA/CA)]                       │
-│   (공유기, 폰, 노트북이 서로 "나 말할게!" "앗 겹쳤다 쉬자!" 눈치 게임)        │
-│   => 결과: 100명이 모이면 서로 눈치 보느라 아무도 통신 못 하고 멈춰버림 (충돌).│
-│                                                             │
-│   [혁신: 블루투스 '피코넷(Piconet)'의 절대 독재 마스터 구조]           │
-│                                                             │
-│                 ┌── (폴링) ─▶ [슬레이브 1 (마우스)]             │
-│                 │                                           │
-│   [마스터 (노트북)] ┼── (폴링) ─▶ [슬레이브 2 (키보드)]             │
-│                 │                                           │
-│                 └── (폴링) ─▶ [슬레이브 3 (에어팟)]              │
-│                                                             │
-│   * 폴링(Polling) 마법: 마스터(노트북)가 지휘봉을 쥐고 통제함.             │
-│     "야, 마우스! 지금 데이터 있어? 줘봐!" (마우스가 데이터 줌)            │
-│     "키보드 넌 어때?" (키보드가 줌) "에어팟, 넌 듣기만 해!"             │
-│                                                             │
-│   => 결과: 슬레이브들은 절대 마스터 허락 없이 자기들끼리 먼저 떠들지 못함.   │
-│            충돌(Collision)이 0%로 완전히 소멸하는 기적의 교통정리 완성!   │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 아키텍처의 근본 철학은 **마스터-슬레이브(Master-Slave)** 기반의 **피코넷(Piconet)**이다. 피코넷은 마스터 1대당 최대 7대의 슬레이브가 묶이는 하나의 작은 무선 우주다. 와이파이처럼 남의 눈치를 보는([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)) 게 아니다. 노트북(마스터)은 자신이 관리하는 7대의 기기에게 0.001초 단위로 "너 말해, 이제 너 말해"라며 차례를 지시하는([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식) 절대 독재자다. 슬레이브(에어팟)는 마스터가 말을 걸기 전까지는 절대 먼저 전파를 발사할 수 없다. 이 끔찍할 정도로 숨 막히는 통제력 덕분에, 책상 위에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기기 7대가 엉켜있어도 전파가 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 일이 100% 발생하지 않는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이파이(시장통) vs 블루투스(피코넷 지휘) 아키텍처 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거 비교: Wi-Fi의 평등주의 (CSMA/CA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유기, 폰, 노트북이 서로 "나 말할게!" "앗 겹쳤다 쉬자!" 눈치 게임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 100명이 모이면 서로 눈치 보느라 아무도 통신 못 하고 멈춰버림 (충돌).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 블루투스 '피코넷(Piconet)'의 절대 독재 마스터 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 1 (마우스)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 (노트북)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 2 (키보드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 3 (에어팟)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 폴링(Polling) 마법: 마스터(노트북)가 지휘봉을 쥐고 통제함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야, 마우스! 지금 데이터 있어? 줘봐!" (마우스가 데이터 줌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"키보드 넌 어때?" (키보드가 줌) "에어팟, 넌 듣기만 해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 슬레이브들은 절대 마스터 허락 없이 자기들끼리 먼저 떠들지 못함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌(Collision)이 0%로 완전히 소멸하는 기적의 교통정리 완성!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 아키텍처의 근본 철학은 **마스터-슬레이브(Master-Slave)** 기반의 <strong>피코넷(Piconet)</strong>이다. 피코넷은 마스터 1대당 최대 7대의 슬레이브가 묶이는 하나의 작은 무선 우주다. 와이파이처럼 남의 눈치를 보는([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)) 게 아니다. 노트북(마스터)은 자신이 관리하는 7대의 기기에게 0.001초 단위로 "너 말해, 이제 너 말해"라며 차례를 지시하는([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식) 절대 독재자다. 슬레이브(에어팟)는 마스터가 말을 걸기 전까지는 절대 먼저 전파를 발사할 수 없다. 이 끔찍할 정도로 숨 막히는 통제력 덕분에, 책상 위에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기기 7대가 엉켜있어도 전파가 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 일이 100% 발생하지 않는다.
 
 - **📢 섹션 요약 비유**: 와이파이는 시장통입니다. 누구나 눈치껏 소리치며 대화하지만 사람(기기)이 많아지면 시끄러워서 멈춥니다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 교실입니다. 노트북 선생님(마스터)이 지휘봉을 들고 "1번 마우스 발표해! 2번 에어팟 듣기만 해!"라고 지명해야만 말을 할 수 있죠. 학생들(슬레이브)끼리 마음대로 떠드는 게 금지되어서, 절대 목소리(전파)가 엉키고 부딪히는 렉이 발생하지 않습니다.
 
@@ -59,7 +55,7 @@ tags = ["studynote-network"]
 
 ### 1. 전파 간섭의 구원자: [FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) ([주파수 도약](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/))
 
-[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 쓰는 2.4GHz 대역은 전자레인지, 와이파이, 무선 전화기가 뿜어내는 온갖 잡음이 난무하는 전파 쓰레기장이다. 이 지옥에서 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 **[FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) (Frequency Hopping [Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/))**라는 닌자 같은 회피 기동으로 생존한다.
+[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)가 쓰는 2.4GHz 대역은 전자레인지, 와이파이, 무선 전화기가 뿜어내는 온갖 잡음이 난무하는 전파 쓰레기장이다. 이 지옥에서 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a> (Frequency Hopping <a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>)</strong>라는 닌자 같은 회피 기동으로 생존한다.
 
 * **초당 1,600번의 점프**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz 도로를 79개의 좁은 차선(1MHz 폭)으로 쪼갠다. 마스터와 슬레이브는 단 1개의 차선에서 길게 대화하지 않는다. "1번 차선에서 한 글자 쏘고 ─▶ 0.0006초 만에 48번 차선으로 점프해서 한 글자 쏘고 ─▶ 12번 차선으로 점프..." 이 미친듯한 주파수 널뛰기(Hopping)를 1초에 1,600번씩 한다.
 * **생존 효과**: 만약 12번 차선에 거대한 와이파이 다운로드 폭격(간섭)이 일어나고 있어도 상관없다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 12번 차선에서 딱 한 글자만 잃어버리고 바로 다음 차선으로 도망가기 때문이다. 나중에 에러 난 한 글자만 다시 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))하면 그만이다. 특정 주파수 대역의 방해 전파(Jamming)를 완벽하게 씹어먹는 불사조 아키텍처다.
@@ -69,55 +65,54 @@ tags = ["studynote-network"]
 피코넷 하나에는 슬레이브가 딱 7대밖에 못 붙는다. 내 폰에 스마트워치, 이어폰, 심박계, 체중계, 자동차 오디오 등 10대를 묶으려면 어떻게 할까? 피코넷들을 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))로 연결하는 **스캐터넷(Scatternet)** 아키텍처가 발동된다.
 
 1. **역할의 다중성 (Dual Role)**: 기기 A는 피코넷 1번에서는 '마스터' 역할을 하면서, 동시에 피코넷 2번 우주로 넘어가서는 다른 기기 B의 '슬레이브' 역할을 겸직할 수 있다 (브릿지 노드).
-2. **시분할 줄타기 (Time [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))**: 브릿지 기기는 몸이 두 개가 아니다. 0.1초는 피코넷 1에서 선생님(마스터) 노릇을 하고, 다음 0.1초는 피코넷 2로 잽싸게 점프(호핑)해 들어가서 학생(슬레이브) 행세를 하며 두 개의 무선 우주를 징검다리처럼 오가며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이한다.
+2. <strong>시분할 줄타기 (Time <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong>: 브릿지 기기는 몸이 두 개가 아니다. 0.1초는 피코넷 1에서 선생님(마스터) 노릇을 하고, 다음 0.1초는 피코넷 2로 잽싸게 점프(호핑)해 들어가서 학생(슬레이브) 행세를 하며 두 개의 무선 우주를 징검다리처럼 오가며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이한다.
 3. 이 다중 우주(Scatternet) 융합 덕분에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)의 7대 연결 제한(Maximum 7 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Slaves) 물리적 한계가 논리적으로 파괴되어 무한대의 기기를 거미줄처럼 엮을 수 있게 되었다.
 
-2010년 ([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 에어팟이나 스피커로 오디오를 쏘는 **클래식 모드(BR/[EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/))**와, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서를 위한 **[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) (저전력)** 모드로 아키텍처를 완전히 두 개로 쪼개는 (Dual-Mode) 거대한 혁명적 풀체인지를 단행했다. 둘은 이름만 같지 사실상 아예 다른 언어를 쓰는 외계인이다.
+2010년 ([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 에어팟이나 스피커로 오디오를 쏘는 <strong>클래식 모드(BR/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/">EDR</a>)</strong>와, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서를 위한 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a> (저전력)</strong> 모드로 아키텍처를 완전히 두 개로 쪼개는 (Dual-Mode) 거대한 혁명적 풀체인지를 단행했다. 둘은 이름만 같지 사실상 아예 다른 언어를 쓰는 외계인이다.
 
 | 비교 기준 | Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (BR/[EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/)) | [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ([Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)) |
 |:---|:---|:---|
 | **설계 철학 (목적)** | **"배터리 좀 먹어도 되니까 소리를 끊김 없이 계속 쏴라!"** (오디오 스트리밍 전용) | **"통신 속도는 느려도 되니 배터리를 5년 동안 살려놔라!"** (간헐적 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
-| **연결 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Sleep)**| 한 번 페어링 되면 마스터와 슬레이브가 **초당 수천 번씩 계속 핑퐁을 유지함.** 배터리 소모 극심. (폰 배터리 뚝뚝 떨어짐). | 평소엔 **기절(Deep Sleep)해 있음.** 1초나 1분에 한 번 딱 0.003초만 깨서 "나 온도 25도야!" 외치고 즉시 다시 기절함. (동전 배터리로 수년 생존). |
-| **주파수 차선(채널) 수** | 79개의 1MHz 차선을 잘게 쪼개서 호핑 | **40개의 2MHz 굵은 차선**으로 줄여서 전파 충돌 방어력과 전송 효율을 2배 높임. |
-| **페어링(연결) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)**| 폰이 새 이어폰 잡고 연결(Handshake) 맺는 데 **약 1~3초 딜레이 (무거움)** | 근처에 가자마자 **0.003초 (3ms)** 만에 즉각 연결되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 던지고 꺼짐 (가벼움 극한). |
+| <strong>연결 및 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (Sleep)</strong>| 한 번 페어링 되면 마스터와 슬레이브가 **초당 수천 번씩 계속 핑퐁을 유지함.** 배터리 소모 극심. (폰 배터리 뚝뚝 떨어짐). | 평소엔 **기절(Deep Sleep)해 있음.** 1초나 1분에 한 번 딱 0.003초만 깨서 "나 온도 25도야!" 외치고 즉시 다시 기절함. (동전 배터리로 수년 생존). |
+| **주파수 차선(채널) 수** | 79개의 1MHz 차선을 잘게 쪼개서 호핑 | <strong>40개의 2MHz 굵은 차선</strong>으로 줄여서 전파 충돌 방어력과 전송 효율을 2배 높임. |
+| <strong>페어링(연결) <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong>| 폰이 새 이어폰 잡고 연결(Handshake) 맺는 데 **약 1~3초 딜레이 (무거움)** | 근처에 가자마자 **0.003초 (3ms)** 만에 즉각 연결되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 던지고 꺼짐 (가벼움 극한). |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               BLE의 비콘(Beacon) 방송 및 GATT 프로필 아키텍처 시각화   │
-├───────────────────────────────────────────────────────────────┤
-│   * BLE 기기들은 귀찮게 페어링(비밀번호 쳤다 뺐다) 할 필요가 없다!                 │
-│                                                               │
-│   [애플 AirTag / 스타벅스 비콘 센서의 무지성 방송]                       │
-│                                                               │
-│   [스타벅스 입구 비콘]                                               │
-│    "나는 사이렌오더 15번 비콘이다! (내 MAC 주소 찰칵!)"                    │
-│    ====(페어링 없이 그냥 허공에 냅다 Broadcast 광고 때림 📡)====▶         │
-│                                                               │
-│   [내 주머니 속 스마트폰]                                            │
-│   (길 가다가 무심코 비콘의 광고 신호를 귀로 주워 들음)                      │
-│   폰 앱: "어? 스벅 15번 비콘 전파 잡혔네! 고객님 매장 들어오셨군요!"           │
-│          (즉시 스타벅스 팝업 쿠폰 화면에 띄움 ☕️)                      │
-│                                                               │
-│   => 아키텍처 결론: BLE의 'Advertising(광고)' 채널(37, 38, 39번) 3개를 │
-│                   이용하면 기기 연결(Connection) 없이도 불특정 다수에게  │
-│                   자신의 ID와 짤막한 센서값(온도, 위치)을 방송할 수 있다!   │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BLE의 비콘(Beacon) 방송 및 GATT 프로필 아키텍처 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* BLE 기기들은 귀찮게 페어링(비밀번호 쳤다 뺐다) 할 필요가 없다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애플 AirTag / 스타벅스 비콘 센서의 무지성 방송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스타벅스 입구 비콘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나는 사이렌오더 15번 비콘이다! (내 MAC 주소 찰칵!)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====(페어링 없이 그냥 허공에 냅다 Broadcast 광고 때림 📡)====▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 주머니 속 스마트폰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(길 가다가 무심코 비콘의 광고 신호를 귀로 주워 들음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 앱: "어? 스벅 15번 비콘 전파 잡혔네! 고객님 매장 들어오셨군요!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(즉시 스타벅스 팝업 쿠폰 화면에 띄움 ☕️)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 아키텍처 결론: BLE의 'Advertising(광고)' 채널(37, 38, 39번) 3개를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이용하면 기기 연결(Connection) 없이도 불특정 다수에게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신의 ID와 짤막한 센서값(온도, 위치)을 방송할 수 있다!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** BLE가 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 세상을 씹어먹은 궁극의 무기는 **연결(Connection) 없는 Broadcasting(광고)** 기술이다. 과거 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 무조건 내 폰 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 설정에 들어가서 [기기 찾기 -> 핀 번호 0000 입력 -> 연결됨] 이라는 고통스러운 3단계를 거쳐야만 통신이 됐다(Connection-Oriented). [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))은 그냥 전봇대 위에서 "나 여기 있어!"라고 초당 10번씩 3개의 전용 광고 차선으로 무자비하게 방송만 쏜다. 길 가던 모든 사람의 폰이 이 소리를 주워듣고 위치 파악을 한다. 에어팟 뚜껑을 열었을 때 폰 화면에 배터리 잔량 팝업이 0.1초 만에 뜨는 것도 에어팟이 이 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 광고 패킷으로 폰에게 무지성 방송을 때렸기 때문이다. 완벽한 마찰 제로(Frictionless) UX 아키텍처의 승리다.
 
 
 1. **상황**: 필립스(Philips)에서 60평 아파트 거실과 4개의 방에 달린 전구 50개를 스마트폰 하나로 색깔을 바꾸는 스마트 조명 시스템을 만들려 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 Wi-Fi 전구를 썼는데, 전구 50개가 집에 있는 IP타임 공유기 1대에 동시 접속하자 와이파이가 버티지 못하고 터져서(IP 고갈 및 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/) 충돌) 거실 전구가 안 꺼지는 끔찍한 병목이 발생했다.
 2. **원인 (Star 토폴로지의 병목)**: Wi-Fi나 기존 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 피코넷은 중앙의 공유기(또는 폰) 하나가 수십 대의 노드를 1:N으로 다 감당해야 하는 스타(Star) 구조다. 한가운데가 막히면 끝이고, 끝방에 있는 전구는 거실 공유기와 거리가 멀어 전파가 아예 닿지 않는다.
-3. **의사결정 및 아키텍처 조치 ([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 융합 기술 적용)**:
-   - 아키텍트는 2017년 발표된 **[Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)** 펌웨어를 50개의 전구에 입힌다.
+3. <strong>의사결정 및 아키텍처 조치 (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a> <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a> 융합 기술 적용)</strong>:
+   - 아키텍트는 2017년 발표된 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a> <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a></strong> 펌웨어를 50개의 전구에 입힌다.
    - 전구들은 공유기에 붙지 않고(IP 주소 폐기), 자기들끼리 거미줄([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))처럼 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 전파로 다이렉트로 엮여 거대한 50개의 군집망을 만든다 (Managed Flooding 방식).
    - 폰으로 "안방 불 꺼!" 버튼을 누르면, 이 명령([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)이 거실 전구를 때리고 -> 거실 전구가 부엌 전구로 토스하고 -> 부엌이 안방 전구로 빛의 속도로 릴레이 토스하여 안방 불이 꺼진다.
    - **결과**: 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))의 트래픽 병목이 0%로 소멸했다. 인터넷이 끊어져도 전구들끼리의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 릴레이망은 살아있으므로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 제어가 100% 동작한다. 전구 하나가 고장 나도 다른 전구를 거쳐 우회(Self-Healing)하므로 완벽한 무결점 스마트홈 인프라가 구축되었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **GATT (Generic [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) Profile) 특성(Characteristic) 설계 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 장비(예: 심박수 측정 밴드)의 소프트웨어를 짤 때 주니어 개발자가 "초당 100번씩 심박수 숫자를 무조건 폰으로 쏴라!"라고 Notify를 미친 듯이 날리게 코딩하는 짓. BLE의 철학은 '극강의 절전'이다. 초당 100번을 쏘면 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 라디오 칩이 계속 깨어있어야 해서 코인 배터리가 한 달 만에 다 닳아버린다. 올바른 GATT 아키텍처는 "심박수가 100을 넘을 때만(이벤트 발생 시) 폰으로 딱 1번 알림(Indicate)을 쏘고 칩을 다시 기절(Sleep)시켜라"라고 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 기반의 상태 머신을 짜는 것이다. 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (클래식과 BLE의 페어링 혼동)**: 스마트워치를 샀는데, 폰 설정의 '[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링 메뉴'에 들어가서 아무리 검색해도 워치가 안 뜨는 현상. 워치가 고장 난 게 아니다. 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)(이어폰)는 OS의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 메뉴에서 잡는 게 맞지만, **순수 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 기기(워치나 체중계)는 OS 메뉴에서 잡는 게 아니라 그 기기를 만든 '전용 어플(App)'을 켜서 앱 안에서 스캔(Scan)을 눌러야만(GATT 연결)** 폰과 통신이 뚫린다. 이 두 가지 아키텍처를 하나로 뭉뚱그려 UI를 설계하면 소비자는 "연결 안 된다"며 기기를 환불시키는 UX 파괴 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 겪게 된다.
+- <strong>GATT (Generic <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a> Profile) 특성(Characteristic) 설계 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 장비(예: 심박수 측정 밴드)의 소프트웨어를 짤 때 주니어 개발자가 "초당 100번씩 심박수 숫자를 무조건 폰으로 쏴라!"라고 Notify를 미친 듯이 날리게 코딩하는 짓. BLE의 철학은 '극강의 절전'이다. 초당 100번을 쏘면 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 라디오 칩이 계속 깨어있어야 해서 코인 배터리가 한 달 만에 다 닳아버린다. 올바른 GATT 아키텍처는 "심박수가 100을 넘을 때만(이벤트 발생 시) 폰으로 딱 1번 알림(Indicate)을 쏘고 칩을 다시 기절(Sleep)시켜라"라고 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 기반의 상태 머신을 짜는 것이다. 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (클래식과 BLE의 페어링 혼동)</strong>: 스마트워치를 샀는데, 폰 설정의 '[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링 메뉴'에 들어가서 아무리 검색해도 워치가 안 뜨는 현상. 워치가 고장 난 게 아니다. 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)(이어폰)는 OS의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 메뉴에서 잡는 게 맞지만, <strong>순수 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a> 기기(워치나 체중계)는 OS 메뉴에서 잡는 게 아니라 그 기기를 만든 '전용 어플(App)'을 켜서 앱 안에서 스캔(Scan)을 눌러야만(GATT 연결)</strong> 폰과 통신이 뚫린다. 이 두 가지 아키텍처를 하나로 뭉뚱그려 UI를 설계하면 소비자는 "연결 안 된다"며 기기를 환불시키는 UX 파괴 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 겪게 된다.
 
 - **📢 섹션 요약 비유**: 와이파이(Wi-Fi) 전구 50개는 선생님(공유기) 한 명에게 50명의 학생이 다 한꺼번에 질문을 쏟아내는 교실입니다. 선생님 머리가 터지죠(공유기 먹통). [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 전구는 50명이 서로 손을 잡고 둥글게 서 있는 겁니다. 맨 앞사람에게 "뒤에 창문 닫으래"라고 귓속말을 하면, 옆 사람에게 계속 릴레이로 전달해서 끝방 창문이 닫히는, 선생님(공유기)이 없어도 완벽히 굴러가는 학생들만의 비밀 텔레파시 거미줄입니다.
 
@@ -160,17 +155,17 @@ tags = ["studynote-network"]
 
 | 구분 | Classic [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) (BR/[EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/)) | [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) ([Bluetooth Low Energy](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (전력 소모량 / 대기전력)** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50mA 소모 (며칠 쓰면 배터리 방전) | 기절 모드(Sleep)로 **0.015mA 이하 극소모** | 동전 모양 CR2032 배터리 1개로 **1년에서 5년까지 교체 없이 생존 (유지보수비 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)).** |
+| **정량 (전력 소모량 / 대기전력)** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50mA 소모 (며칠 쓰면 배터리 방전) | 기절 모드(Sleep)로 **0.015mA 이하 극소모** | 동전 모양 CR2032 배터리 1개로 <strong>1년에서 5년까지 교체 없이 생존 (유지보수비 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a>).</strong> |
 | **정량 (접속 딜레이 시간)** | 마스터가 핀 번호 묻고 맺는 데 1000ms | 3개의 전용 광고 채널로 **3ms 내 즉각 연결** | 기기 켜고 폰에 가져다 대는 순간 팝업이 뜨는 **애플식 마찰 제로(Frictionless) UX 완성.** |
-| **정성 (통신 패러다임)**| 1:1 오디오/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트리밍 (이어폰 전용) | 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 광고 및 1:N [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 릴레이 통신 | 특정 대상(폰)이 없어도 위치와 온도를 닥치고 방송하여 폰이 줍게 만드는 **진정한 범용 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 도래.** |
+| **정성 (통신 패러다임)**| 1:1 오디오/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트리밍 (이어폰 전용) | 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 광고 및 1:N [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 릴레이 통신 | 특정 대상(폰)이 없어도 위치와 온도를 닥치고 방송하여 폰이 줍게 만드는 <strong>진정한 범용 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 도래.</strong> |
 
 ### 미래 전망 및 진화 방향
-- **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 5.1의 방향 탐지 (AoA / AoD) 정밀 측위 융합**: 과거의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 비콘은 폰이 전파의 '세기(RSSI)'만 측정해서 "스벅 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 근처에 있구나" 정도만 알았다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 5.1(Direction Finding)은 여러 개의 안테나가 달린 칩셋을 써서 전파가 날아오는 **'각도(Angle of Arrival)'**를 1도 오차로 계산해 낸다. 실내에서 내 스마트폰이 어느 방향(왼쪽 45도, 높이 2m)에 떠 있는지 수십 센티미터 오차로 핀포인트 타격하는 실내 내비게이션(Indoor GPS)의 절대 강자로 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(598번 문서)와 피 터지는 시장 쟁탈전을 벌이고 있다.
-- **Auracast (오라캐스트) - [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)의 라디오 방송국화**: 현재 에어팟은 내 폰(마스터) 1대랑 1:1로만 음악을 들을 수 있다. 내 폰 음악을 친구 10명의 에어팟에 동시에 들려줄 수 없다(피코넷 한계). [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE Audio(Auracast) 기술은 이 한계를 부수고, 공항 TV나 헬스장 TV가 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)로 **'무제한 방송(Broadcast)'**을 때리면 그 근처에 있는 100명의 사람이 자기 에어팟으로 그 TV 소리를 다 같이 주워듣는 기적의 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 오디오 공유 아키텍처(Public Audio) 시대를 방금 열어젖혔다.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 5.1의 방향 탐지 (AoA / AoD) 정밀 측위 융합</strong>: 과거의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 비콘은 폰이 전파의 '세기(RSSI)'만 측정해서 "스벅 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 근처에 있구나" 정도만 알았다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 5.1(Direction Finding)은 여러 개의 안테나가 달린 칩셋을 써서 전파가 날아오는 <strong>'각도(Angle of Arrival)'</strong>를 1도 오차로 계산해 낸다. 실내에서 내 스마트폰이 어느 방향(왼쪽 45도, 높이 2m)에 떠 있는지 수십 센티미터 오차로 핀포인트 타격하는 실내 내비게이션(Indoor GPS)의 절대 강자로 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/)(598번 문서)와 피 터지는 시장 쟁탈전을 벌이고 있다.
+- <strong>Auracast (오라캐스트) - <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>의 라디오 방송국화</strong>: 현재 에어팟은 내 폰(마스터) 1대랑 1:1로만 음악을 들을 수 있다. 내 폰 음악을 친구 10명의 에어팟에 동시에 들려줄 수 없다(피코넷 한계). [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE Audio(Auracast) 기술은 이 한계를 부수고, 공항 TV나 헬스장 TV가 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)로 <strong>'무제한 방송(Broadcast)'</strong>을 때리면 그 근처에 있는 100명의 사람이 자기 에어팟으로 그 TV 소리를 다 같이 주워듣는 기적의 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 오디오 공유 아키텍처(Public Audio) 시대를 방금 열어젖혔다.
 
 ### 참고 표준
 - **IEEE 802.15.1**: 태초의 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 1.0/2.0 클래식 버전을 정의한 물리/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 국제 표준 뼈대. (현재는 SIG 단체로 이관).
-- **[Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) SIG Core [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 5.x**: 와이파이(IEEE)와 다르게 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 민간 연합체인 **SIG (Special Interest Group)**가 모든 스펙을 지배한다. 4.0([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 탄생), 5.0(거리/속도 4배 증가), 5.1(방향 찾기), 5.2(오디오 혁명) 등 철저하게 상업적 기기의 배터리와 UX를 쥐어짜는 방향으로 업데이트되는 시장 최적화 표준서.
+- <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a> SIG Core <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a> 5.x</strong>: 와이파이(IEEE)와 다르게 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 민간 연합체인 <strong>SIG (Special Interest Group)</strong>가 모든 스펙을 지배한다. 4.0([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 탄생), 5.0(거리/속도 4배 증가), 5.1(방향 찾기), 5.2(오디오 혁명) 등 철저하게 상업적 기기의 배터리와 UX를 쥐어짜는 방향으로 업데이트되는 시장 최적화 표준서.
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))는 네트워크 공학의 역사에서 "가장 완벽하게 용도(Use-case)를 분리하여 생존한 두 얼굴의 야누스"다. 오디오를 미친 듯이 쏟아내야 하는 이어폰의 세계(Classic)와, 1초에 단 한 글자의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 툭 던지고 동면 상태로 기절해버리는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)의 세계([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))를 하나의 실리콘 칩셋 안에 타협 없이 융합해 냈다. 공유기나 비밀번호라는 복잡한 거추장스러움을 모조리 쓰레기통에 처박고, 뚜껑을 여는 순간 즉시 내 폰과 혼연일체가 되는 이 오만한 마스터-슬레이브 피코넷의 권력 구조는, 인류의 책상 위에서 선(Cable)을 영원히 가위로 잘라버린 진정한 [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)(개인 무선망)의 해방자다.
 
@@ -189,15 +184,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HAPS]
-    │
-    ▼
-[현재 개념: 블루투스와 BLE]
-    │
-    ├──▶ [확장 A: UWB]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HAPS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스와 BLE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UWB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 BLE는 HAPS에서 출발해 현재 메커니즘을 정교화하고, 이후 UWB와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
@@ -205,7 +204,7 @@ tags = ["studynote-network"]
 
 1. 와이파이가 100명이 왁자지껄 떠드는 시장통이라면, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)(피코넷)는 선생님(스마트폰) 1명이 7명의 학생(에어팟, 워치)에게 "너 말해, 이제 너 말해"라고 딱딱 지시를 내리는 아주 질서 정연한 교실이에요. 그래서 전파가 엉키지 않죠.
 2. 예전 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 이어폰으로 노래를 계속 쏘느라 전기를 너무 많이 먹어서 배터리가 빨리 닳았어요.
-3. 그래서 나온 똑똑한 **[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)(저전력 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))**는 딱 0.001초 동안만 "나 온도 25도야!" 하고 쪽지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 휙 던지고선 쿨쿨 깊은 잠에 빠져버려요! 그래서 동전만 한 작은 배터리 하나로 무려 5년 동안이나 죽지 않고 살아있는 거랍니다!
+3. 그래서 나온 똑똑한 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>(저전력 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>)</strong>는 딱 0.001초 동안만 "나 온도 25도야!" 하고 쪽지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 휙 던지고선 쿨쿨 깊은 잠에 빠져버려요! 그래서 동전만 한 작은 배터리 하나로 무려 5년 동안이나 죽지 않고 살아있는 거랍니다!
 
 ---
 

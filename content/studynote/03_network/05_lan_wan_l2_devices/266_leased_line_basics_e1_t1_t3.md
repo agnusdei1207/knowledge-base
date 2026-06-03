@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 퍼블릭 인터넷(Public Internet) 망을 거치지 않고, 출발지부터 목적지까지 전용 케이블을 깔거나 통신사의 인프라를 독점적으로 임대하여 연결하는 방식. [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/) 링크라고도 부른다.
-- **필요성**: 은행이나 정부 기관처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 시 국가적 재난이 발생하거나, 단 1초의 통신 끊김도 허용되지 않는 곳은 누구나 다 쓰는 '인터넷(공용 도로)'을 쓸 수 없다. 비용이 아무리 비싸도 **"나 혼자만 달릴 수 있는 막히지 않는 전용 고속도로(전용선)"**가 반드시 필요했다.
+- **필요성**: 은행이나 정부 기관처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 시 국가적 재난이 발생하거나, 단 1초의 통신 끊김도 허용되지 않는 곳은 누구나 다 쓰는 '인터넷(공용 도로)'을 쓸 수 없다. 비용이 아무리 비싸도 <strong>"나 혼자만 달릴 수 있는 막히지 않는 전용 고속도로(전용선)"</strong>가 반드시 필요했다.
 
-- **💡 비유**: 일반 인터넷이 차가 막힐 수도 있고 옆 차가 끼어들 수도 있는 **"무료 공용 고속도로"**라면, 전용선은 내 돈을 내고 산봉우리를 뚫어 우리 집과 회사만 연결해 놓은 **"나만의 프라이빗 지하 터널"**과 같습니다.
+- **💡 비유**: 일반 인터넷이 차가 막힐 수도 있고 옆 차가 끼어들 수도 있는 <strong>"무료 공용 고속도로"</strong>라면, 전용선은 내 돈을 내고 산봉우리를 뚫어 우리 집과 회사만 연결해 놓은 <strong>"나만의 프라이빗 지하 터널"</strong>과 같습니다.
 
-```text
-[PoE]
-    │
-    ▼
-[전용선 기초]
-    │
-    └──▶ [다이얼업 다중화, X.25]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PoE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전용선 기초</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다이얼업 다중화, X.25</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 전용선은 일반 버스나 지하철(인터넷)을 타지 않고, 매달 엄청난 렌트비를 통신사에 내고 **"기사님이 딸린 고급 리무진(1:1 독점 연결)"**을 24시간 대기시켜 놓는 것과 같습니다.
 
@@ -39,33 +43,32 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-과거 아날로그 전화선 한 가닥으로는 한 번에 한 사람만 통화할 수 있었다. 디지털 시대([PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) 기술)가 열리면서, 여러 사람의 목소리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하나의 굵은 선으로 섞어 보내는 **[시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM)** 기술이 발명되었고, 이것이 전용선 대역폭의 글로벌 기준이 되었다.
+과거 아날로그 전화선 한 가닥으로는 한 번에 한 사람만 통화할 수 있었다. 디지털 시대([PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) 기술)가 열리면서, 여러 사람의 목소리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하나의 굵은 선으로 섞어 보내는 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/">시분할 다중화</a>(TDM)</strong> 기술이 발명되었고, 이것이 전용선 대역폭의 글로벌 기준이 되었다.
 
 ### 1. T1 규격 (북미, 일본, 한국 표준)
 기본적인 음성 전화 1통화에 필요한 디지털 대역폭은 64Kbps(DS0)다.
-- **T1 (DS1)**: 이 64Kbps짜리 회선 **24개**를 [시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM)로 묶어 만든 규격이다. 여기에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)용 8Kbps가 추가되어 총 **1.544 Mbps**의 대역폭을 제공한다. (1980년대 기업용 전용선의 상징과도 같은 속도다)
-- **T3 (DS3)**: T1 회선을 28개 묶은 덩어리로, **44.736 Mbps (약 45Mbps)**의 대역폭을 제공한다. 과거 대학교나 대기업 본사의 메인 백본망으로 쓰였다.
+- **T1 (DS1)**: 이 64Kbps짜리 회선 <strong>24개</strong>를 [시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM)로 묶어 만든 규격이다. 여기에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)용 8Kbps가 추가되어 총 <strong>1.544 Mbps</strong>의 대역폭을 제공한다. (1980년대 기업용 전용선의 상징과도 같은 속도다)
+- **T3 (DS3)**: T1 회선을 28개 묶은 덩어리로, <strong>44.736 Mbps (약 45Mbps)</strong>의 대역폭을 제공한다. 과거 대학교나 대기업 본사의 메인 백본망으로 쓰였다.
 
 ### 2. E1 규격 (유럽, 국제 표준)
 북미와 달리 유럽 연합(ITU-T)은 조금 더 넉넉한 규격을 제정했다.
-- **E1**: 64Kbps 음성 회선 **30개**에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어용 2개를 합쳐 총 32개의 채널을 묶었다. 대역폭은 **2.048 Mbps**다.
+- **E1**: 64Kbps 음성 회선 <strong>30개</strong>에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어용 2개를 합쳐 총 32개의 채널을 묶었다. 대역폭은 <strong>2.048 Mbps</strong>다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                디지털 전용선 (T-Carrier) 속도 계층              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ DS0 (기본 채널) ] ──▶ 64 Kbps (음성 1통화 분량)            │
- │           │                                                 │
- │           ▼ (24개를 묶음)                                    │
- │   [ T1 (DS1) ] ────────▶ 1.544 Mbps (초기 벤처기업/지사 급)    │
- │           │                                                 │
- │           ▼ (T1을 28개 묶음)                                 │
- │   [ T3 (DS3) ] ────────▶ 45 Mbps (대기업 본사/데이터센터 급)    │
- │                                                             │
- │   * 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다. │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 전용선 (T-Carrier) 속도 계층</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DS0 (기본 채널)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">64 Kbps (음성 1통화 분량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (24개를 묶음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T1 (DS1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1.544 Mbps (초기 벤처기업/지사 급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (T1을 28개 묶음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">T3 (DS3)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">45 Mbps (대기업 본사/데이터센터 급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전용선 기초의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +76,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-과거의 T1/E1은 TDM(시분할) 방식이라 비효율적이고 장비(CSU/[DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/), 시리얼 케이블)가 무겁고 복잡했다. 현재는 통신사들이 전용선을 팔 때 물리적인 시리얼 케이블을 깔아주는 것이 아니라, 통신사의 거대한 광통신망([SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)/[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)) 위에 논리적인 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) Leased Line)**을 뚫어서 100Mbps, 1Gbps 단위로 임대해 준다. 장비도 우리가 흔히 아는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선 모양으로 통합되었다.
+과거의 T1/E1은 TDM(시분할) 방식이라 비효율적이고 장비(CSU/[DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/), 시리얼 케이블)가 무겁고 복잡했다. 현재는 통신사들이 전용선을 팔 때 물리적인 시리얼 케이블을 깔아주는 것이 아니라, 통신사의 거대한 광통신망([SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)/[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)) 위에 논리적인 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">가상 사설망</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> Leased Line)</strong>을 뚫어서 100Mbps, 1Gbps 단위로 임대해 준다. 장비도 우리가 흔히 아는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선 모양으로 통합되었다.
 
 전용선 기초를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. PoE가 기반 조건을 만든다면, 전용선 기초는 그 위에서 핵심 메커니즘을 구현하고, 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +86,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** T1과 E1은 과거 통신사가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 팔던 **"정량제 택배 박스 규격"**입니다. 한국(T1)은 사과 24개가 들어가는 박스를 표준으로 썼고, 유럽(E1)은 사과 30개가 들어가는 박스를 썼으며, 회사는 이 박스 단위로 비싼 월정액을 내고 전용 차선을 빌렸습니다.
+- **📢 섹션 요약 비유**: <strong> T1과 E1은 과거 통신사가 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 팔던 </strong>"정량제 택배 박스 규격"**입니다. 한국(T1)은 사과 24개가 들어가는 박스를 표준으로 썼고, 유럽(E1)은 사과 30개가 들어가는 박스를 썼으며, 회사는 이 박스 단위로 비싼 월정액을 내고 전용 차선을 빌렸습니다.
 
 ---
 
@@ -125,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PoE]
-    │
-    ▼
-[현재 개념: 전용선 기초]
-    │
-    ├──▶ [확장 A: 다이얼업 다중화, X.25]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PoE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전용선 기초</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다이얼업 다중화, X.25</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 전용선 기초는 PoE에서 출발해 현재 메커니즘을 정교화하고, 이후 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 플라이웨이트 (Flyweight)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  플라이웨이트 (Flyweight)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플라이웨이트 (Flyweight)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 플라이웨이트 (Flyweight)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Flyweight (경량급, 깃털처럼 가벼운)**
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 수많은 수의 자잘한 객체들을 무식하게 다 생성하지 않고, **객체들 사이에서 '완벽히 똑같이 중복되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(고유 상태)'를 딱 1번만 메모리에 생성해 두고, 수만 개의 다른 객체들이 그 원본을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(공유)하여 돌려쓰게 함으로써 시스템의 메모리 사용량을 비약적으로 줄여주는(다이어트) 메모리 최적화 패턴**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 수많은 수의 자잘한 객체들을 무식하게 다 생성하지 않고, <strong>객체들 사이에서 '완벽히 똑같이 중복되는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(고유 상태)'를 딱 1번만 메모리에 생성해 두고, 수만 개의 다른 객체들이 그 원본을 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>(공유)하여 돌려쓰게 함으로써 시스템의 메모리 사용량을 비약적으로 줄여주는(다이어트) 메모리 최적화 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 플라이웨이트 (Flyweight)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -80,10 +79,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/))**: 어떤 클래스든 우주에서 **"무조건, 오직 딱 1개의 객체"**만 있어야 합니다. (종류 1개)
-- **플라이웨이트**: "빨간 나무 1개", "파란 나무 1개", "노란 나무 1개" 등 **"특정 종류([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))별로 1개씩"** 캐싱해 두고, 수만 명에게 그 주소를 뿌려줍니다. (캐시 풀 Cache Pool 관리의 느낌)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>)</strong>: 어떤 클래스든 우주에서 <strong>"무조건, 오직 딱 1개의 객체"</strong>만 있어야 합니다. (종류 1개)
+- **플라이웨이트**: "빨간 나무 1개", "파란 나무 1개", "노란 나무 1개" 등 <strong>"특정 종류(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)별로 1개씩"</strong> 캐싱해 두고, 수만 명에게 그 주소를 뿌려줍니다. (캐시 풀 Cache Pool 관리의 느낌)
 
-> 📢 **섹션 요약 비유**: **플라이웨이트(Flyweight) 패턴**은 10만 대군이 모인 전쟁터의 **'마법의 돌려입기 투명 갑옷'**입니다. 멍청한 장군(Flyweight 안 쓰는 놈)은 병사 10만 명에게 각자 30kg짜리 무거운 철갑옷(객체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 10만 벌씩 새로 주조해서([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 입힙니다. 군대의 짐차(메모리 RAM)가 갑옷 300만 kg의 무게를 이기지 못하고 무너집니다(메모리 터짐). 똑똑한 제갈량(플라이웨이트 아키텍트)은 다릅니다. 그는 **'철갑옷의 무거운 외형과 질감(내부 상태, Intrinsic)'**을 진짜 철로 10만 벌 만들지 않습니다. 허공([캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))에 거대한 철갑옷 홀로그램 원본 딱 1벌만 띄워놓습니다(Flyweight Factory). 그리고 10만 명의 병사들에게는 그 홀로그램을 몸에 투영시키는 '가벼운 유리구슬([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 포인터)' 딱 1개씩만 쥐여줍니다. 그리고 병사 각자의 이름표와 서 있는 위치(외부 상태, Extrinsic)만 각자 따로 기억하게 합니다. 밖에서 보면 10만 명이 각자 무거운 철갑옷을 입은 것처럼 완벽하게 보이지만, 실제 수레(메모리)에 실린 철갑옷의 무게는 오직 '단 1벌'어치뿐입니다. 수만 개의 겹치는 덩어리들을 무자비하게 추출해 내어 하나로 공유시켜버리는 메모리 다이어트의 절대 기적입니다.
+> 📢 **섹션 요약 비유**: <strong>플라이웨이트(Flyweight) 패턴</strong>은 10만 대군이 모인 전쟁터의 <strong>'마법의 돌려입기 투명 갑옷'</strong>입니다. 멍청한 장군(Flyweight 안 쓰는 놈)은 병사 10만 명에게 각자 30kg짜리 무거운 철갑옷(객체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 10만 벌씩 새로 주조해서([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 입힙니다. 군대의 짐차(메모리 RAM)가 갑옷 300만 kg의 무게를 이기지 못하고 무너집니다(메모리 터짐). 똑똑한 제갈량(플라이웨이트 아키텍트)은 다릅니다. 그는 <strong>'철갑옷의 무거운 외형과 질감(내부 상태, Intrinsic)'</strong>을 진짜 철로 10만 벌 만들지 않습니다. 허공([캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/))에 거대한 철갑옷 홀로그램 원본 딱 1벌만 띄워놓습니다(Flyweight Factory). 그리고 10만 명의 병사들에게는 그 홀로그램을 몸에 투영시키는 '가벼운 유리구슬([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 포인터)' 딱 1개씩만 쥐여줍니다. 그리고 병사 각자의 이름표와 서 있는 위치(외부 상태, Extrinsic)만 각자 따로 기억하게 합니다. 밖에서 보면 10만 명이 각자 무거운 철갑옷을 입은 것처럼 완벽하게 보이지만, 실제 수레(메모리)에 실린 철갑옷의 무게는 오직 '단 1벌'어치뿐입니다. 수만 개의 겹치는 덩어리들을 무자비하게 추출해 내어 하나로 공유시켜버리는 메모리 다이어트의 절대 기적입니다.
 
 - **📢 섹션 요약 비유**: 플라이웨이트 (Flyweight)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -128,21 +127,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-플라이웨이트 (Flyweight) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플라이웨이트 (Flyweight) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

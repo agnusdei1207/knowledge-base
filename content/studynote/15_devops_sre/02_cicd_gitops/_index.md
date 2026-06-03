@@ -17,30 +17,26 @@ tags = ["devops_sre"]
 
 ### '사람의 손'을 거치지 않는 배포의 시대
 
-과거에는 개발자가 코드를 짜서 압축 파일을 운영자에게 넘기면, 운영자가 서버에 접속해 압축을 풀고 명령어를 입력해 배포했다. 이 과정은 느릴 뿐만 아니라 오타 하나로 시스템 전체가 마비될 수 있는 위험한 작업이었다. **CI/CD**는 이 지루하고 위험한 수작업을 기계에게 맡기는 자동화 혁명이다. 여기에 더해 **GitOps**는 "모든 것은 Git에 있다"는 원칙으로 인프라 설정까지 코드화하여 운영의 가시성과 안정성을 극대화한다.
+과거에는 개발자가 코드를 짜서 압축 파일을 운영자에게 넘기면, 운영자가 서버에 접속해 압축을 풀고 명령어를 입력해 배포했다. 이 과정은 느릴 뿐만 아니라 오타 하나로 시스템 전체가 마비될 수 있는 위험한 작업이었다. <strong>CI/CD</strong>는 이 지루하고 위험한 수작업을 기계에게 맡기는 자동화 혁명이다. 여기에 더해 <strong>GitOps</strong>는 "모든 것은 Git에 있다"는 원칙으로 인프라 설정까지 코드화하여 운영의 가시성과 안정성을 극대화한다.
 
-CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, **배포 리드 타임 (Lead Time)의 최소화**를 위해서이다. 코드 한 줄을 고쳤을 때 실제 사용자에게 전달되기까지의 시간을 분 단위로 줄여야 한다. 둘째, **환경의 일관성 (Consistency) 확보**를 위해서이며 (내 컴퓨터에선 되는데 서버에선 안 되는 현상 방지), 셋째, **운영의 투명성**을 높여 누가 언제 무엇을 바꾸었는지 Git 이력만으로 완벽히 파악하기 위함이다.
+CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, <strong>배포 리드 타임 (Lead Time)의 최소화</strong>를 위해서이다. 코드 한 줄을 고쳤을 때 실제 사용자에게 전달되기까지의 시간을 분 단위로 줄여야 한다. 둘째, <strong>환경의 일관성 (Consistency) 확보</strong>를 위해서이며 (내 컴퓨터에선 되는데 서버에선 안 되는 현상 방지), 셋째, <strong>운영의 투명성</strong>을 높여 누가 언제 무엇을 바꾸었는지 Git 이력만으로 완벽히 파악하기 위함이다.
 
 이 그림은 전형적인 CI/CD 파이프라인의 단계별 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 CI/CD Pipeline Flow (Standard)              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Commit ] ──▶ [ Build ] ──▶ [ Test ] ──▶ [ Artifact ]    │
-│       │            │            │            │              │
-│   (Source)     (Compile)    (Unit/Static) (Docker Image)    │
-│                                              │              │
-│   ┌──────────────────────────────────────────┘              │
-│   ▼                                                         │
-│   [ Staging ] ──▶ [ Approval ] ──▶ [ Production ]           │
-│   (Integration)    (Manual/Auto)    (Blue-Green/Canary)     │
-│                                                             │
-│   * 핵심: 각 단계 실패 시 파이프라인이 즉시 중단됨 (Fail-fast)│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD Pipeline Flow (Standard)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Commit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Artifact</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source) (Compile) (Unit/Static) (Docker Image)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Staging</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Approval</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Production</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Integration) (Manual/Auto) (Blue-Green/Canary)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 각 단계 실패 시 파이프라인이 즉시 중단됨 (Fail-fast)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '자동화된 피드백'이다. 개발자가 코드를 올리자마자 서버가 빌드와 테스트를 수행하고, 문제가 있으면 1분 내로 알려준다. 실무에서는 이러한 파이프라인이 정착되어야만 하루에 수백 번의 배포를 수행하는 '초격차 민첩성'을 확보할 수 있다.
 
@@ -74,25 +70,21 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, **배포 리�
 | **Blue-Green** | 전체 환경을 통째로 교체 | **즉시 롤백 가능, 공존 기간 없음** | 자원 소모 2배 |
 | **Canary** | 일부 유저에게만 먼저 배포 | **위험 최소화, 사용자 반응 확인** | 라우팅 설정 복잡 |
 
-이 구조도는 **ArgoCD**를 이용한 Pull 기반 GitOps 아키텍처를 보여준다.
+이 구조도는 <strong>ArgoCD</strong>를 이용한 Pull 기반 GitOps 아키텍처를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Pull-based GitOps with ArgoCD               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Developer ] ──▶ [ Git Repo (Manifests) ] ◀──┐ (Watch)   │
-│                                                 │           │
-│          ┌──────────────────────────────────────┘           │
-│          ▼                                                  │
-│   [ ArgoCD Operator ] ──(Sync)──▶ [ Kubernetes Cluster ]    │
-│          │                               ▲                  │
-│          └──────── (Self-healing) ───────┘                  │
-│                                                             │
-│   * 특징: 서버 상태가 Git과 다르면 로봇이 즉시 원래대로 수정│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull-based GitOps with ArgoCD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Git Repo (Manifests)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (Watch)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ArgoCD Operator</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kubernetes Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Self-healing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 서버 상태가 Git과 다르면 로봇이 즉시 원래대로 수정</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '상태 일치 (State Reconciliation)'이다. 사람이 직접 서버 설정을 건드리는 행위 (Snowflake Server)를 원천 차단한다. 실무에서는 이 구조를 통해 "Git에 있는 코드가 곧 현재 운영 중인 서버의 모습이다"라는 강력한 신뢰를 구축한다.
 
@@ -113,7 +105,7 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, **배포 리�
 
 ### CI/CD 파이프라인의 보안 결합 (DevSecOps)
 
-- **Synergy**: 빌드 단계에 **SAST (정적 보안 검사)**를, 배포 전 이미지 레지스트리에 **컨테이너 스캐닝 (Trivy 등)**을 결합한다.
+- **Synergy**: 빌드 단계에 <strong>SAST (정적 보안 검사)</strong>를, 배포 전 이미지 레지스트리에 <strong>컨테이너 스캐닝 (Trivy 등)</strong>을 결합한다.
 - **가치**: 보안이 배포의 장애물이 아닌 자동화된 프로세스의 일부가 되어, 속도와 안전이라는 두 마리 토끼를 잡는다.
 
 📢 **섹션 요약 비유**: Push 방식이 '배달원이 벨을 누르고 물건을 건네주는 것'이라면, Pull 방식은 '집주인이 현관문을 열고 정기 배송함을 들여놓는 것'과 같습니다. 주인이 직접 챙기니 훨씬 안전하겠죠?
@@ -125,30 +117,28 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, **배포 리�
 ### 기술사적 판단: 무중단 배포 및 자동화 거버넌스 전략
 
 **시나리오 1: 마이크로서비스 간의 호환성 문제로 배포 사고가 잦은 상황**
-- **판단**: 단순 단위 테스트로는 부족하다. **CDC (Consumer-Driven Contract) 테스트**를 파이프라인에 도입한다. 서비스 간의 인터페이스 약속을 코드로 정의하고, 배포 시점에 상대방 서비스와 호환되는지 자동으로 검증한다. 또한 리스크 분산을 위해 **카나리 배포**를 표준으로 정하고, 메트릭 (Error Rate 등)이 나빠지면 자동으로 롤백하는 **Progressive Delivery** 체계를 구축한다.
+- **판단**: 단순 단위 테스트로는 부족하다. <strong>CDC (Consumer-Driven Contract) 테스트</strong>를 파이프라인에 도입한다. 서비스 간의 인터페이스 약속을 코드로 정의하고, 배포 시점에 상대방 서비스와 호환되는지 자동으로 검증한다. 또한 리스크 분산을 위해 <strong>카나리 배포</strong>를 표준으로 정하고, 메트릭 (Error Rate 등)이 나빠지면 자동으로 롤백하는 **Progressive Delivery** 체계를 구축한다.
 
 **시나리오 2: 인프라 설정이 문서와 달라 재해 복구(DR) 시나리오 실행이 불가능한 경우**
-- **판단**: 수동 인프라 관리를 전면 금지하고 **GitOps**로 전환한다. 모든 인프라 자원을 **Terraform**이나 **Helm Chart**로 코드화하여 Git에 저장한다. 재해 발생 시 새 클러스터를 띄우고 GitOps 에이전트만 실행하면, 단 몇 분 내에 운영 환경과 동일한 상태로 인프라가 자동 복제되는 '코드 기반 복구' 체계를 완성한다.
+- **판단**: 수동 인프라 관리를 전면 금지하고 <strong>GitOps</strong>로 전환한다. 모든 인프라 자원을 <strong>Terraform</strong>이나 <strong>Helm Chart</strong>로 코드화하여 Git에 저장한다. 재해 발생 시 새 클러스터를 띄우고 GitOps 에이전트만 실행하면, 단 몇 분 내에 운영 환경과 동일한 상태로 인프라가 자동 복제되는 '코드 기반 복구' 체계를 완성한다.
 
 이 도식은 기술사가 설계하는 '자동화된 배포 승인 및 게이트웨이' 로직을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Automated Deployment Gate Logic               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Build Done ] ──▶ [ Security Scan ] ──▶ [ Test Pass? ]   │
-│                               │               │             │
-│          ┌────────────────────┴───────────────┴────┐        │
-│          ▼ (Fail)                                  ▼ (Pass) │
-│   [ Notification ] ◀── [ Approval Engine ] ──▶ [ Deploy ]   │
-│   (Slack/Teams)          (Policy Check)                     │
-│                                                             │
-│   * 기술사 가이드: 모든 승인 단계는 Git PR 기록으로 남겨    │
-│     변경 이력을 100% 추적 가능하게 해야 함 (Compliance)     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Automated Deployment Gate Logic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Build Done</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Security Scan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test Pass?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Fail) ▼ (Pass)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Notification</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Approval Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Slack/Teams) (Policy Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: 모든 승인 단계는 Git PR 기록으로 남겨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 이력을 100% 추적 가능하게 해야 함 (Compliance)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 배포 설계는 '무인 자율주행 물류 센터'를 짓는 것과 같습니다. 로봇(파이프라인)들이 물건을 나르는 경로를 짜고, 물건이 파손되지 않았는지 센서(테스트)로 검사하며, 문제가 생기면 즉시 경보를 울리고 멈추게 하는 시스템 설계자입니다.
 
@@ -163,7 +153,7 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, **배포 리�
 
 ### 미래 전망: 지능형 파이프라인과 엣지 배포
 
-향후 CI/CD는 사람이 룰을 짜는 수준을 넘어, AI가 과거 배포 성공 패턴을 학습하여 최적의 배포 시점과 전략을 제안하는 **지능형 파이프라인**으로 진화할 것이다. 또한 수만 개의 엣지 기기에 동시에 코드를 배포하는 **Edge-CD** 기술이 스마트 시티의 핵심 인프라가 될 것이다. 기술사는 단순 툴 체인 구성을 넘어, 데이터와 AI가 결합된 '자율 운영 파이프라인'의 신뢰성을 보증하는 '데브옵스 거버너'로 거듭나야 한다.
+향후 CI/CD는 사람이 룰을 짜는 수준을 넘어, AI가 과거 배포 성공 패턴을 학습하여 최적의 배포 시점과 전략을 제안하는 <strong>지능형 파이프라인</strong>으로 진화할 것이다. 또한 수만 개의 엣지 기기에 동시에 코드를 배포하는 **Edge-CD** 기술이 스마트 시티의 핵심 인프라가 될 것이다. 기술사는 단순 툴 체인 구성을 넘어, 데이터와 AI가 결합된 '자율 운영 파이프라인'의 신뢰성을 보증하는 '데브옵스 거버너'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 배포는 '물 흐르듯 자연스러운 공급'이 될 것입니다. 우리가 원할 때마다 필요한 기능이 마치 수도꼭지를 틀면 물이 나오듯, 가장 안전하고 빠르게 우리 폰(단말)으로 흘러 들어오는 완벽한 디지털 배송 세상이 올 것입니다.
 

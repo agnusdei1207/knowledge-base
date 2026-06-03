@@ -105,19 +105,25 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-탐색 공간 정의
-   ↓
-후보 생성
-   ↓
-학습 / 검증
-   ↓
-성능 평가
-   ↓
-다음 후보 선택
-   ↓
-최종 모델 확정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탐색 공간 정의</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">후보 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">학습 / 검증</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">성능 평가</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다음 후보 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">최종 모델 확정</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

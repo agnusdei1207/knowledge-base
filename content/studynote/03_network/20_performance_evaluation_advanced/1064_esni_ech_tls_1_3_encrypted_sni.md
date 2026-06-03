@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 488번에서 배운 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 연결 시, 내 브라우저(클라이언트)는 서버와 암호화 비밀번호를 정하기 위해 첫 번째 악수 패킷인 **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello**를 쏩니다.
-- **[SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) ([Server Name Indication](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/))의 존재 이유**: 클라우드 시대엔 IP 1대짜리 서버 안에 수천 개의 웹사이트(가상 호스팅)가 동시에 돌아갑니다. 내 브라우저는 서버에게 "나 IP 접속하긴 했는데, 네 안의 수천 개 사이트 중 `www.porn.com` 사이트랑 대화하고 싶어"라고 방문 목적지([SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 확장 필드)를 꼭 짚어줘야 합니다.
-- **치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**: 암호 터널이 뚫리기 전 첫인사 단계이므로, 이 **[SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 문자열은 암호화되지 않은 평문(Plaintext)**으로 그냥 날아갑니다.
+- 488번에서 배운 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 연결 시, 내 브라우저(클라이언트)는 서버와 암호화 비밀번호를 정하기 위해 첫 번째 악수 패킷인 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello</strong>를 쏩니다.
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">Server Name Indication</a>)의 존재 이유</strong>: 클라우드 시대엔 IP 1대짜리 서버 안에 수천 개의 웹사이트(가상 호스팅)가 동시에 돌아갑니다. 내 브라우저는 서버에게 "나 IP 접속하긴 했는데, 네 안의 수천 개 사이트 중 `www.porn.com` 사이트랑 대화하고 싶어"라고 방문 목적지([SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 확장 필드)를 꼭 짚어줘야 합니다.
+- <strong>치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: 암호 터널이 뚫리기 전 첫인사 단계이므로, 이 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a> 문자열은 암호화되지 않은 평문(Plaintext)</strong>으로 그냥 날아갑니다.
 
-```text
-[DoH / DoT]
-    │
-    ▼
-[ESNI]
-    │
-    └──▶ [HTTP/3 QUIC 혼잡 윈도우 이식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ESNI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,14 +46,18 @@ tags = ["studynote-network"]
 - 유저가 아무리 HTTPS로 암호화 통신을 하려 해도, 통신사(KT, SKT) 길목에 거대한 심층 패킷 감시(DPI) 장비를 세워두고, 지나가는 패킷의 첫인사([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 껍데기만 쏙쏙 까봅니다.
 - "어? [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 필드에 적힌 글자가 `warning.com`이네? 방통위 불법 블랙리스트다!" 하고 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결(RST 패킷 주입)을 그 자리에서 콱 끊어버려 접속을 100% 막아버린 전설적인 인터넷 검열망입니다.
 
-```text
-[DoH / DoT]
-    │
-    ▼
-[ESNI]
-    │
-    └──▶ [HTTP/3 QUIC 혼잡 윈도우 이식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ESNI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 ### 2단계: ECH (Encrypted [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 핵심) 🌟 완성판 🌟
 ESNI의 실패를 딛고 나온 궁극의 방패입니다. (현재 크롬 브라우저 등에 도입 시작)
-- **개념**: 찌질하게 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/)(이름표) 1개만 암호화하는 게 아니라, **첫인사 패킷([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello)에 담긴 보안에 민감한 모든 정보 전체를 통째로 캡슐화하여 클라우드플레어 같은 앞단 서버의 공개키로 암호화(HPKE)해버리는 미친 스텔스 기술**입니다.
+- **개념**: 찌질하게 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/)(이름표) 1개만 암호화하는 게 아니라, <strong>첫인사 패킷(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello)에 담긴 보안에 민감한 모든 정보 전체를 통째로 캡슐화하여 클라우드플레어 같은 앞단 서버의 공개키로 암호화(HPKE)해버리는 미친 스텔스 기술</strong>입니다.
 - **작동 원리 (가짜 얼굴 내밀기)**:
   - 폰이 `www.porn.com` (진짜 가고 싶은 곳, 숨김)에 가고 싶습니다.
   - 패킷 겉면 SNI에는 가짜로 `www.cloudflare.com` (합법적인 대형 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 얼굴마담)이라고 평문으로 적습니다. (Outer [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello)
@@ -95,7 +103,7 @@ ESNI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2)** 통신은 거대한 **'검은색 방탄 리무진(암호화 터널)'**을 타고 적진을 돌파하는 것과 같습니다. 그런데 차에 타기 전에 길거리에서 운전기사에게 **"아저씨, '야동 사이트' 빌딩으로 갑시다!([SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 평문 노출)"**라고 첫인사를 크게 외치고 타는 멍청한 짓을 했습니다. 길목을 지키던 정부 검열관(방통위 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 필터링)이 이 소리를 엿듣고 출발도 하기 전에 타이어를 터뜨려 버렸습니다. 이를 뚫기 위한 **ECH (Encrypted [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3)**는 아예 택시를 부를 때부터 **'클라우드플레어 대형 쇼핑몰 가주세요(가짜 합법 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/))'**라고 위장해서 크게 소리칩니다. 검열관은 "쇼핑 가네~" 하고 통과시켜 줍니다. 하지만 기사님 손에 쥐여준 암호화된 쪽지(Inner [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 안에는 진짜 목적지인 "쇼핑몰 도착하면 뒷문으로 빠져서 야동 빌딩으로 꺾어주세요"라고 적혀 있습니다. 터널 뚫기 전의 단 1%의 목소리 노출마저 완벽한 이중 암호화와 가짜 얼굴마담 꼼수로 숨겨내어 국가의 감시망을 영원히 장님으로 만들어버린 인터넷 최후의 밀실 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.2)</strong> 통신은 거대한 <strong>'검은색 방탄 리무진(암호화 터널)'</strong>을 타고 적진을 돌파하는 것과 같습니다. 그런데 차에 타기 전에 길거리에서 운전기사에게 <strong>"아저씨, '야동 사이트' 빌딩으로 갑시다!(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a> 평문 노출)"</strong>라고 첫인사를 크게 외치고 타는 멍청한 짓을 했습니다. 길목을 지키던 정부 검열관(방통위 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 필터링)이 이 소리를 엿듣고 출발도 하기 전에 타이어를 터뜨려 버렸습니다. 이를 뚫기 위한 <strong>ECH (Encrypted <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Hello, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3)</strong>는 아예 택시를 부를 때부터 <strong>'클라우드플레어 대형 쇼핑몰 가주세요(가짜 합법 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a>)'</strong>라고 위장해서 크게 소리칩니다. 검열관은 "쇼핑 가네~" 하고 통과시켜 줍니다. 하지만 기사님 손에 쥐여준 암호화된 쪽지(Inner [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 안에는 진짜 목적지인 "쇼핑몰 도착하면 뒷문으로 빠져서 야동 빌딩으로 꺾어주세요"라고 적혀 있습니다. 터널 뚫기 전의 단 1%의 목소리 노출마저 완벽한 이중 암호화와 가짜 얼굴마담 꼼수로 숨겨내어 국가의 감시망을 영원히 장님으로 만들어버린 인터넷 최후의 밀실 아키텍처입니다.
 
 ---
 
@@ -118,15 +126,19 @@ ESNI는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DoH / DoT]
-    │
-    ▼
-[현재 개념: ESNI]
-    │
-    ├──▶ [확장 A: HTTP/3 QUIC 혼잡 윈도우 이식]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoH / DoT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ESNI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 ESNI는 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

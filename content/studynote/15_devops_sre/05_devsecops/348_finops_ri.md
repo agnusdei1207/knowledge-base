@@ -38,17 +38,18 @@ FinOps는 비용을 재무팀만의 문제가 아니라, 엔지니어와 제품�
 | Optimization | 할인·축소·자동 종료 | Spot, RI, autoscaling |
 | Governance | 예산과 경보 | [anomaly detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/), unit economics |
 
-```text
-┌──────────────┐   usage data  ┌──────────────┐   allocate  ┌──────────────┐
-│ Cloud Bills  │ ───────────▶ │ Cost Layer   │ ──────────▶ │ Team / Product│
-└──────────────┘              └──────────────┘             └──────────────┘
-        │                              │                            │
-        │ anomaly                      │ optimize                   │ feedback
-        ▼                              ▼                            ▼
-┌──────────────┐              ┌──────────────┐             ┌──────────────┐
-│ Alerts       │ ◀─────────── │ RI / Spot    │ ──────────▶ │ Budget / KPI │
-└──────────────┘              └──────────────┘             └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">usage data allocate</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Bills</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Cost Layer</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Team / Product</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">anomaly</div><div class="kb-diagram-cell">optimize</div><div class="kb-diagram-cell">feedback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alerts</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">RI / Spot</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Budget / KPI</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 “비용을 기술 선택과 연결해 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 만드는 것”이다. 예를 들어 배치 워크로드는 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)로, 예측 가능한 장기 사용량은 RI나 Savings Plan으로, 개발 환경은 야간 자동 종료로 관리하는 식이다. 이때 비용 최적화는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 운영 부하를 함께 보지 않으면 실패한다.
 
@@ -116,18 +117,21 @@ FinOps가 성숙하면 제품 출시 속도를 해치지 않으면서도 비용 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Cloud Cost Visibility
-   │
-   ▼
-Tagging / Allocation
-   │
-   ▼
-RI / Spot / Rightsizing
-   │
-   ▼
-FinOps Governance + Unit Economics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cloud Cost Visibility</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tagging / Allocation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RI / Spot / Rightsizing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FinOps Governance + Unit Economics</div>
+</div>
+</div>
+
+
 
 이 흐름은 “보이는 비용 → 귀속되는 비용 → 최적화되는 비용 → 가치와 연결된 비용”으로 성숙하는 과정을 보여준다.
 

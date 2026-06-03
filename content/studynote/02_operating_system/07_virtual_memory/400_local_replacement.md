@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 지역 교체(Local Replacement)는 물리 램(RAM)에 빈방이 모자라 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아낼 때, 시스템 전체를 뒤져서 남의 방을 뺏는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)와 달리, **오직 해당 프로세스 자신에게 애초에 할당된 램 프레임 풀(Pool) 안에서만 희생양을 골라 돌려막기(Swap)를 하는 폐쇄적인 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**이다.
-> 2. **가치**: 프로세스 하나가 미쳐서 무한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 뿜어대더라도 그 피해가 절대 다른 프로세스의 램 영역으로 번지지 않는 **완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))와 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(Determinism)**을 보장하여 특정 앱의 폭주로부터 시스템 전체를 보호한다.
-> 3. **융합**: 고전적인 메인프레임 방식이라 범용 OS(Linux/Windows)의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))에서는 멸종했으나, [컨테이너 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/) 시대에 도래하여 **[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)(메모리 하드 리밋)와 결합**하면서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 생존을 지키는 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 철학으로 화려하게 부활했다.
+> 1. **본질**: 지역 교체(Local Replacement)는 물리 램(RAM)에 빈방이 모자라 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아낼 때, 시스템 전체를 뒤져서 남의 방을 뺏는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(Global)와 달리, <strong>오직 해당 프로세스 자신에게 애초에 할당된 램 프레임 풀(Pool) 안에서만 희생양을 골라 돌려막기(Swap)를 하는 폐쇄적인 교체 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>이다.
+> 2. **가치**: 프로세스 하나가 미쳐서 무한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 뿜어대더라도 그 피해가 절대 다른 프로세스의 램 영역으로 번지지 않는 <strong>완벽한 격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)와 예측 가능한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(Determinism)</strong>을 보장하여 특정 앱의 폭주로부터 시스템 전체를 보호한다.
+> 3. **융합**: 고전적인 메인프레임 방식이라 범용 OS(Linux/Windows)의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))에서는 멸종했으나, [컨테이너 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/060_container_virtualization/) 시대에 도래하여 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a>(메모리 하드 리밋)와 결합</strong>하면서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 생존을 지키는 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 철학으로 화려하게 부활했다.
 
 ---
 
@@ -24,34 +24,31 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경 및 고정 할당과의 콤비**:
   1. **정적 할당(Static Allocation)의 필수 짝꿍**: [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)이든 비례 할당이든 "처음에 할당량을 픽스(Fix)해준다"는 전제가 깔려야만 지역 교체가 성립할 수 있다. (내 몫이 정해져 있어야 내 몫 안에서 돌려막으니까).
-  2. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 격리([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))**: 1980년대 대형 컴퓨터 시절, 여러 회사가 비싼 서버 한 대를 쪼개서 임대해 쓸 때 남의 회사 배치 작업 때문에 내 회사 작업이 느려지면 소송이 걸렸다. 이를 막기 위한 철통 격리가 필수였다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 격리(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>: 1980년대 대형 컴퓨터 시절, 여러 회사가 비싼 서버 한 대를 쪼개서 임대해 쓸 때 남의 회사 배치 작업 때문에 내 회사 작업이 느려지면 소송이 걸렸다. 이를 막기 위한 철통 격리가 필수였다.
   3. **효율성의 한계**: 램이 10GB 남아돌아도, 자기 몫(10MB)을 다 쓴 프로세스는 죽어라 디스크만 긁는 끔찍한 비효율 때문에 결국 역사 속으로 잊히게 되었다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        지역 교체 (Local Replacement)의 꽉 막힌 철창 생태계 시각화       │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 상황: 물리 RAM 할당 현황 (할당량 픽스) ]                              │
-│ ┌──────────────────────┬──────────────────────┐                         │
-│ │ 프로세스 A의 철창 (100장)  │ 프로세스 B의 철창 (100장)  │             │
-│ │ 100장 꽉 참 (여유 0)      │ 10장 씀 (90장 텅텅 빔)      │             │
-│ └──────────────────────┴──────────────────────┘                         │
-│                                                                         │
-│ ▶ 위기 발생 (Page Fault)                                                │
-│  프로세스 A: "데이터 하나만 더! 101장째 페이지 램에 올려줘!"            │
-│                                                                         │
-│ [ OS의 냉혹한 판결 (Local Replacement) ]                                │
-│  OS: "야 프로세스 A. 네 철창 안에 빈 공간 0장인 거 보이지?"             │
-│  OS: "B 철창에 90장 남아도는 거 나도 알아. 근데 규칙은 규칙이야."       │
-│  OS: "네 철창(A) 안에서 가장 안 쓴 페이지 1장 골라서 스왑으로 던져."    │
-│  OS: "그리고 그 1장 빈자리에 새 데이터 가져와서 써라."                  │
-│                                                                         │
-│ 💥 결과 (최악의 램 낭비):                                               │
-│  - B의 램 90장은 텅텅 비어서 썩어 들어감 (메모리 낭비 극심).            │
-│  - A는 혼자서 램 쫓아내고 가져오고 쌩고생을 하며 속도가 바닥을 김.      │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 교체 (Local Replacement)의 꽉 막힌 철창 생태계 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리 RAM 할당 현황 (할당량 픽스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A의 철창 (100장)</div><div class="kb-diagram-cell">프로세스 B의 철창 (100장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100장 꽉 참 (여유 0)</div><div class="kb-diagram-cell">10장 씀 (90장 텅텅 빔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기 발생 (Page Fault)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A: "데이터 하나만 더! 101장째 페이지 램에 올려줘!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 냉혹한 판결 (Local Replacement)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 프로세스 A. 네 철창 안에 빈 공간 0장인 거 보이지?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "B 철창에 90장 남아도는 거 나도 알아. 근데 규칙은 규칙이야."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "네 철창(A) 안에서 가장 안 쓴 페이지 1장 골라서 스왑으로 던져."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "그리고 그 1장 빈자리에 새 데이터 가져와서 써라."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과 (최악의 램 낭비):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B의 램 90장은 텅텅 비어서 썩어 들어감 (메모리 낭비 극심).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A는 혼자서 램 쫓아내고 가져오고 쌩고생을 하며 속도가 바닥을 김.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 그림 하나로 왜 데스크톱과 범용 리눅스 서버가 이 훌륭한 격리 기술을 쓰레기통에 처박고 전역(Global) 교체로 도망쳤는지 알 수 있다. 컴퓨터 자원이 수백만 원 하던 시절에, 램 90장을 놀리면서 한 앱을 버벅대게 방치하는 것은 공학적 범죄에 가까웠다. 지역 교체는 '안전함'을 얻기 위해 '전체 파이의 효율'을 처참하게 희생시키는 극단적 아키텍처다.
 
 - **📢 섹션 요약 비유**: 도서관에 내 지정석 1개, 남의 지정석 99개가 있습니다. 남의 자리 99개가 텅텅 비어있어도 지역 교체(Local) 룰 때문에 나는 내 좁은 지정석 1개에 책 수십 권을 쌓아 올리다 무너뜨리며([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 혼자 고통받아야 하는, 지독하게 융통성 없는 자리 배정 시스템입니다.
@@ -62,34 +59,35 @@ tags = ["studynote-operating-system"]
 
 ### 지역 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 내부 탐색 엔진
 
-[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 시 누구를 희생양(Victim)으로 죽일지 고르는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 전역이나 지역이나 똑같이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 등을 쓴다. **단지 검색하는 리스트의 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))가 다를 뿐이다.**
+[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 시 누구를 희생양(Victim)으로 죽일지 고르는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 전역이나 지역이나 똑같이 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 등을 쓴다. <strong>단지 검색하는 리스트의 범위(<a href="/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)가 다를 뿐이다.</strong>
 
 - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 탐색:
   `for(int i=0; i<전체_물리_프레임_400만개; i++) { ... }`
   -> 시스템 전체를 훑어서 가장 늙은 놈 1명 사살.
-- **지역 교체 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 탐색**:
+- <strong>지역 교체 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 탐색</strong>:
   `for(int i=0; i<프로세스A에_할당된_프레임_100개; i++) { ... }`
   -> 자기 몫의 짧은 리스트만 빠르게 훑어서 그 안의 가장 늙은 놈 1명 사살.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│              지역 교체의 숨은 장점: O(1) 수준의 빠른 탐색 오버헤드       │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 1. 교체 대상을 찾는 시간 (Search Overhead) ]                           │
-│ - 전역 교체는 램에 깔린 수백만 장의 페이지 상태를 뒤져야 해서 OS가       │
-│   백그라운드 데몬(kswapd)을 띄우고 CPU를 오지게 갉아먹음.                │
-│ - 지역 교체는 딱 자기한테 할당된 100장 리스트만 순회하면 끝남!           │
-│   탐색 속도 자체가 빛의 속도라 시스템 CPU 연산 낭비가 거의 없음.         │
-│                                                                          │
-│ [ 2. 메모리 기복 (Performance Jitter) 제로 ]                             │
-│ - 전역 교체: 어제는 0.1초, 오늘은 남이 램 뺏어가서 5초 (복불복 심함).    │
-│ - 지역 교체: 항상 나한테 100장이 고정되어 있으므로 1년 365일 내내        │
-│   똑같이 1초 만에 실행이 끝나는 '시간 결정성(Determinism)' 완벽 보장!    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 지역 교체를 그저 융통성 없는 바보라고 치부하면 안 된다. "내 프로그램이 어제는 빨리 돌았는데, 오늘은 왜 이렇게 버벅대지?"라는 스트레스를 원천 차단해 준다. 타인의 간섭(Noisy Neighbor)이 절대 뚫고 들어올 수 없으므로, 금융 거래나 미사일 궤도 계산 같은 **'예측 가능한 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)'이 목숨보다 중요한 특수 분야에서는 오히려 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)보다 수천 배 더 위대한 구원자**가 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 교체의 숨은 장점: O(1) 수준의 빠른 탐색 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 교체 대상을 찾는 시간 (Search Overhead)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전역 교체는 램에 깔린 수백만 장의 페이지 상태를 뒤져야 해서 OS가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백그라운드 데몬(kswapd)을 띄우고 CPU를 오지게 갉아먹음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지역 교체는 딱 자기한테 할당된 100장 리스트만 순회하면 끝남!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 속도 자체가 빛의 속도라 시스템 CPU 연산 낭비가 거의 없음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 메모리 기복 (Performance Jitter) 제로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전역 교체: 어제는 0.1초, 오늘은 남이 램 뺏어가서 5초 (복불복 심함).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지역 교체: 항상 나한테 100장이 고정되어 있으므로 1년 365일 내내</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑같이 1초 만에 실행이 끝나는 '시간 결정성(Determinism)' 완벽 보장!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 지역 교체를 그저 융통성 없는 바보라고 치부하면 안 된다. "내 프로그램이 어제는 빨리 돌았는데, 오늘은 왜 이렇게 버벅대지?"라는 스트레스를 원천 차단해 준다. 타인의 간섭(Noisy Neighbor)이 절대 뚫고 들어올 수 없으므로, 금융 거래나 미사일 궤도 계산 같은 <strong>'예측 가능한 런타임 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>'이 목숨보다 중요한 특수 분야에서는 오히려 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>보다 수천 배 더 위대한 구원자</strong>가 된다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -103,16 +101,16 @@ tags = ["studynote-operating-system"]
 
 | 평가 지표 | [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) ([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)) | 지역 교체 (Local Replacement) |
 |:---|:---|:---|
-| **물리 램 가동률([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**| **99% (빈 곳 싹싹 긁어 씀. 최고)** | 50% (남는 램 썩어 들어감. 최악) |
-| **타 프로세스 간섭도** | 최악 (남의 램 무자비하게 뺏음) | **최상 (완벽한 독립 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 0% 간섭)** |
-| **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 전파** | 한 놈이 터지면 서버 전체로 렉이 전염됨 | 미친 놈 하나 터져도 걔 혼자 멈추고 서버는 평온 |
+| <strong>물리 램 가동률(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>| **99% (빈 곳 싹싹 긁어 씀. 최고)** | 50% (남는 램 썩어 들어감. 최악) |
+| **타 프로세스 간섭도** | 최악 (남의 램 무자비하게 뺏음) | <strong>최상 (완벽한 독립 <a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> 0% 간섭)</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 전파</strong> | 한 놈이 터지면 서버 전체로 렉이 전염됨 | 미친 놈 하나 터져도 걔 혼자 멈추고 서버는 평온 |
 | **할당 베이스** | 동적 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) (수시로 바뀜) | 고정 할당 (균등/비례 등 픽스) |
 | **주 사용처** | 리눅스/윈도우의 일반 데스크탑 & 서버 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 한도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), RTOS |
 
 ### Noisy Neighbor (시끄러운 이웃)의 공포
 
 아파트(서버)에 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 켜두면, 매일 밤 쿵쾅대는 윗집 층간소음(Noisy Neighbor) 때문에 아래층 주민(멀쩡한 앱)들이 불면증([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 렉)에 시달려 단체로 응급실에 실려 간다.
-클라우드 사업자(AWS, Azure)는 이 시끄러운 이웃을 혐오한다. 내가 돈 내고 빌린 클라우드 서버가, 옆에 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 빌린 남의 회사 트래픽 폭주 때문에 내 서버 램을 뺏겨서 렉이 걸린다면 당장 소송이 걸리기 때문이다. **그래서 클라우드 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 층위에서는 이 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 완벽히 박살 내고, 고객사별로 철저하게 램을 물리적으로 쪼개 묶어버리는 '지역 교체(Local)' 철학을 무조건 강제 적용**한다.
+클라우드 사업자(AWS, Azure)는 이 시끄러운 이웃을 혐오한다. 내가 돈 내고 빌린 클라우드 서버가, 옆에 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 빌린 남의 회사 트래픽 폭주 때문에 내 서버 램을 뺏겨서 렉이 걸린다면 당장 소송이 걸리기 때문이다. <strong>그래서 클라우드 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> 층위에서는 이 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>를 완벽히 박살 내고, 고객사별로 철저하게 램을 물리적으로 쪼개 묶어버리는 '지역 교체(Local)' 철학을 무조건 강제 적용</strong>한다.
 
 - **📢 섹션 요약 비유**: [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)가 넓은 도서관 열람실에서 일찍 온 사람이 4인용 책상을 다 독차지하고 뒤에 온 사람이 바닥에 앉는 서바이벌 야생이라면, 지역 교체는 도서관에 칸막이 독서실을 짜놓고 1인 1실로 가둬서 옆방에서 헤비메탈을 틀든 잠을 자든 내 공부에는 1도 영향이 없게 만드는 프리미엄 독서실입니다. 공간 효율은 떨어져도 만족도는 최상이죠.
 
@@ -127,15 +125,15 @@ tags = ["studynote-operating-system"]
    - 리눅스 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 로직이 파이썬을 돕기 위해 29개 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 램을 싹 다 뺏어 파이썬에 부어줬다.
    - 29개 앱의 서비스가 올스톱되는 서버 전체 블랙아웃이 발생했다.
 3. **cgroups를 통한 Local Replacement의 강제 부활**:
-   - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 엔지니어는 이 사태를 막기 위해 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 띄울 때 무조건 **`resources.limits.memory = "2Gi"`** (2기가바이트 제한) 옵션을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(YAML)에 박아버린다.
+   - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 엔지니어는 이 사태를 막기 위해 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 띄울 때 무조건 <strong><code>resources.limits.memory = "2Gi"</code></strong> (2기가바이트 제한) 옵션을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(YAML)에 박아버린다.
    - 이 옵션 하나가 리눅스의 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 심장에 '지역 교체 철창([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))'을 꽂아 넣는다.
-   - 이제 파이썬 앱이 2GB를 넘게 쓰려고 하면, 리눅스 커널이 전역에서 램을 안 뺏어오고 **그 파이썬 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 철창 안에서만 지역 교체(Local Replacement)를 돌린다.**
+   - 이제 파이썬 앱이 2GB를 넘게 쓰려고 하면, 리눅스 커널이 전역에서 램을 안 뺏어오고 <strong>그 파이썬 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 철창 안에서만 지역 교체(Local Replacement)를 돌린다.</strong>
    - 돌려막기 하다가 2GB를 진짜 꽉 채우면? OS가 파이썬 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 딱 1놈만 깔끔하게 총으로 쏴 죽인다([OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/)).
-   - **결과**: 나머지 29개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 옆방 파이썬이 미쳐 날뛰다 죽는 동안 0.001초의 렉도 없이 평온하게 서비스를 이어간다. **고전적인 지역 교체 이론이 현대 클라우드 오케스트레이션의 가장 강력한 방어막으로 부활한 눈부신 실무 현장**이다.
+   - **결과**: 나머지 29개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 옆방 파이썬이 미쳐 날뛰다 죽는 동안 0.001초의 렉도 없이 평온하게 서비스를 이어간다. <strong>고전적인 지역 교체 이론이 현대 클라우드 오케스트레이션의 가장 강력한 방어막으로 부활한 눈부신 실무 현장</strong>이다.
 
 ### JVM 메모리 사이즈 고정의 비밀 (`-Xms`, `-Xmx`)
 자바 백엔드 서버를 띄울 때 `java -Xms4G -Xmx4G` 처럼 시작 램과 최대 램을 4GB로 똑같이 묶어버리는 세팅이 국룰이다. 
-이는 OS가 램을 줬다 뺏었다 하는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 변동성(Jitter)을 거부하고, 아예 부팅할 때 OS로부터 4GB의 프레임을 통짜로 뜯어내 내 뱃속에 박아둔 뒤, 그 안에서 내가 자체적으로 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)을 돌리며 **순수 지역 교체 100% 샌드박스**로 서버를 굴리겠다는 백엔드 개발자들의 거만한(?) 최적화 선언이다. 이 덕분에 자바 서버는 OS의 스왑 렉에 휘둘리지 않고 극강의 안정성을 유지한다.
+이는 OS가 램을 줬다 뺏었다 하는 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 변동성(Jitter)을 거부하고, 아예 부팅할 때 OS로부터 4GB의 프레임을 통짜로 뜯어내 내 뱃속에 박아둔 뒤, 그 안에서 내가 자체적으로 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)을 돌리며 <strong>순수 지역 교체 100% 샌드박스</strong>로 서버를 굴리겠다는 백엔드 개발자들의 거만한(?) 최적화 선언이다. 이 덕분에 자바 서버는 OS의 스왑 렉에 휘둘리지 않고 극강의 안정성을 유지한다.
 
 - **📢 섹션 요약 비유**: 수영장에 애들 30명을 다 풀어놓고 튜브(메모리) 쟁탈전을 벌이게([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)) 두었다가 한 명이 다 뺏어서 사고가 나니, 아예 수영장에 30개의 레인을 치고 "너는 1번 레인에서 네 튜브 하나만 가지고 놀아!"라며 물리적으로 찢어버린([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 지역 할당) 극강의 안전 조치입니다.
 
@@ -147,7 +145,7 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **장애 격리 (Fault [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))** | 1개의 악성 프로세스가 유발한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥이 OS 전체의 CPU 사용률(load average)을 터뜨리는 연쇄 마비 완벽 차단 |
+| <strong>장애 격리 (Fault <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong> | 1개의 악성 프로세스가 유발한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 지옥이 OS 전체의 CPU 사용률(load average)을 터뜨리는 연쇄 마비 완벽 차단 |
 | **예측 가능성 (Predictability)**| [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 시 장부 스캔 시간이 $O(1)$ 수준의 상수 시간으로 떨어져 실시간(RT) 처리에 필요한 타임 바운드 보장 |
 | **클라우드 과금 정합성 확보** | 고객이 지불한 2GB 램 요금에 맞춰, 정확히 2GB 풀(Pool) 안에서만 교체가 돌게 강제하여 컴퓨팅 자원의 자본주의적 분배 실현 |
 
@@ -170,15 +168,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전역 교체 (Global Replacement)]
-    │
-    ▼
-[지역 교체 (Local Replacement)]
-    │
-    ├──▶ [페이지 교체 알고리즘 (Page Replacement Algorithms)]
-    └──▶ [최적 교체 알고리즘 (OPT, Optimal)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 교체 알고리즘 (OPT, Optimal)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

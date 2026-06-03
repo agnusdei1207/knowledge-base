@@ -35,24 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 CPU가 가속기에 작업을 위임할 때의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 병목 위치를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        CPU-가속기 오프로딩 경로: 성능은 연산기 수와 데이터 이동이 함께 결정 │
-├────────────────────────────────────────────────────────────────────────────┤
-│  CPU                  시스템 메모리            인터커넥트         가속기      │
-│  제어/스케줄링        입력 배치 저장           고속 링크          실행 배열   │
-│  ┌────────┐   전송    ┌────────────┐   전송    ┌────────────┐   ┌──────────┐ │
-│  │ Thread │─────────▶│ Input Batch │─────────▶│ Link Queue  │──▶│ PE Array  │ │
-│  │ Runtime│          └────────────┘           └────────────┘   │ SIMD/MAC │ │
-│  └────────┘                    ▲                      │          └────┬─────┘ │
-│        ▲                       │                      │               │       │
-│        │              결과 회수 │                      │               ▼       │
-│  완료 통지/예외 처리 ◀──────────┘                 병목 가능 지점   ┌──────────┐ │
-│                                                           로컬 메모리 │ 재사용  │ │
-│                                                           재사용 버퍼 │ 버퍼    │ │
-│                                                                      └──────────┘ │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU-가속기 오프로딩 경로: 성능은 연산기 수와 데이터 이동이 함께 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 시스템 메모리 인터커넥트 가속기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어/스케줄링 입력 배치 저장 고속 링크 실행 배열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Input Batch</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Link Queue</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">PE Array</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">SIMD/MAC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 회수</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 통지/예외 처리 ◀ 병목 가능 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 메모리</div><div class="kb-diagram-cell">재사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재사용 버퍼</div><div class="kb-diagram-cell">버퍼</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 자주 쓰이는 요소를 정리하면 다음과 같다.
 
@@ -66,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 
 가속기 종류는 구현 방식에 따라 스펙트럼을 이룬다. GPU는 수천 개의 연산 유닛으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 폭을 키우고, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/))는 하드웨어 구조 자체를 다시 짤 수 있어 유연성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이에서 절충한다. [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit) 기반 NPU는 특정 연산 흐름을 실리콘에 더 깊게 고정해 최고 전성비를 노리지만, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 크게 바뀌면 재사용성이 급격히 떨어진다.
 
-결국 가속기의 핵심 원리는 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 확보 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 극대화 + 제어 오버헤드 축소**의 조합이다. 행렬 곱셈을 예로 들면, 같은 가중치와 활성값을 가까운 메모리에 붙잡아 둔 채 [multiply-accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/) 연산을 파이프라인으로 흘리는 구조가 CPU의 캐시 중심 실행보다 훨씬 유리하다.
+결국 가속기의 핵심 원리는 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 확보 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재사용 극대화 + 제어 오버헤드 축소</strong>의 조합이다. 행렬 곱셈을 예로 들면, 같은 가중치와 활성값을 가까운 메모리에 붙잡아 둔 채 [multiply-accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/) 연산을 파이프라인으로 흘리는 구조가 CPU의 캐시 중심 실행보다 훨씬 유리하다.
 
 - **📢 섹션 요약 비유**: 가속기는 넓은 도로에 비슷한 화물을 실은 트럭을 일렬로 흘려보내는 물류센터와 같다. 트럭마다 목적지가 제각각이면 막히지만, 같은 박스를 같은 순서로 계속 보내면 도로와 창고를 가장 효율적으로 쓸 수 있다.
 
@@ -97,32 +97,32 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 현장에서 자주 쓰는 의사결정 틀이다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│                 가속기 도입 판단: 연산보다 이동과 변화 빈도를 먼저 본다 │
-├───────────────────────────────────────────────────────────────────────┤
-│ 1) 반복 연산 비중이 큰가?                                             │
-│    ├─ 아니오 ─▶ CPU 최적화 우선                                       │
-│    └─ 예                                                               │
-│         │                                                              │
-│ 2) 데이터 전송 오버헤드를 상쇄할 만큼 작업 단위가 큰가?               │
-│    ├─ 아니오 ─▶ 캐시/벡터화/멀티코어 개선 우선                         │
-│    └─ 예                                                               │
-│         │                                                              │
-│ 3) 알고리즘과 모델이 자주 바뀌는가?                                   │
-│    ├─ 예 ─▶ GPU/FPGA 쪽이 유리                                         │
-│    └─ 아니오 ─▶ ASIC/NPU 검토                                          │
-│         │                                                              │
-│ 4) 지연시간, 전력, 개발 생태계 중 무엇이 최우선인가?                  │
-│    └─ 요구조건 조합에 맞춰 최종 선택                                   │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가속기 도입 판단: 연산보다 이동과 변화 빈도를 먼저 본다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 반복 연산 비중이 큰가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ CPU 최적화 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 데이터 전송 오버헤드를 상쇄할 만큼 작업 단위가 큰가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 캐시/벡터화/멀티코어 개선 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 알고리즘과 모델이 자주 바뀌는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ GPU/FPGA 쪽이 유리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ ASIC/NPU 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 지연시간, 전력, 개발 생태계 중 무엇이 최우선인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 요구조건 조합에 맞춰 최종 선택</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 분석**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 왕복, 메모리 복사, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용까지 포함해 측정했는가?
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 분석</strong>: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 왕복, 메모리 복사, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용까지 포함해 측정했는가?
 2. **소프트웨어 생태계 검토**: 드라이버, 컴파일러, 프레임워크 지원이 충분한가?
-3. **운영 관점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 장애 시 CPU [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 경로와 모니터링 지표가 준비되어 있는가?
+3. <strong>운영 관점 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 장애 시 CPU [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 경로와 모니터링 지표가 준비되어 있는가?
 4. **비용 구조 검토**: 장비 가격만이 아니라 전력, 냉각, 개발 인력, 코드 이식 비용까지 비교했는가?
 5. **수명 주기 판단**: 모델·[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 주기가 짧다면 과도한 하드웨어 고정은 오히려 리스크가 아닌가?
 
@@ -133,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 - 하드웨어 스펙만 보고 도입하고, 메모리 배치와 배치 전략을 손대지 않는 설계
 - 특정 벤더 런타임에 과도하게 의존해 이식성과 유지보수성을 잃는 설계
 
-기술사 관점에서 기억할 문장은 명확하다. **가속기는 “빠른 계산기”가 아니라 “특정 병목을 구조적으로 제거하는 아키텍처 선택”**이다. 따라서 병목이 계산이 아니라 I/O, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간, 모델 변경 속도에 있다면 가속기보다 소프트웨어 구조 개선이 먼저다.
+기술사 관점에서 기억할 문장은 명확하다. <strong>가속기는 “빠른 계산기”가 아니라 “특정 병목을 구조적으로 제거하는 아키텍처 선택”</strong>이다. 따라서 병목이 계산이 아니라 I/O, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간, 모델 변경 속도에 있다면 가속기보다 소프트웨어 구조 개선이 먼저다.
 
 - **📢 섹션 요약 비유**: 가속기는 고속도로 같다. 장거리 화물을 한꺼번에 실어 나를 때는 엄청 유리하지만, 골목집 한 곳마다 소포를 한 개씩 배달하는 일에는 오히려 국도보다 불편하다.
 
@@ -145,7 +145,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 가속기의 효과는 항상 전제조건을 가진다. 충분한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용률, 안정된 소프트웨어 도구, 예측 가능한 작업 구조가 없으면 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 쉽게 무너진다. 특히 인터커넥트 병목, 메모리 용량 제약, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변화 속도는 가속기 전략의 대표적 한계다.
 
-앞으로의 방향은 단순히 “더 큰 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)”가 아니라, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 이기종 통합, 메모리 근접 연산, 통합 주소 공간, 저지연 인터커넥트로 이어질 가능성이 크다. 따라서 하드웨어 가속기는 개별 칩의 이름으로 외우기보다, **범용성과 효율 사이에서 병목이 큰 구간만 실리콘으로 특화하는 설계 철학**으로 기억하는 것이 가장 정확하다.
+앞으로의 방향은 단순히 “더 큰 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)”가 아니라, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 이기종 통합, 메모리 근접 연산, 통합 주소 공간, 저지연 인터커넥트로 이어질 가능성이 크다. 따라서 하드웨어 가속기는 개별 칩의 이름으로 외우기보다, <strong>범용성과 효율 사이에서 병목이 큰 구간만 실리콘으로 특화하는 설계 철학</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 가속기 전략은 운동장에서 모든 선수를 단거리 주자로 만드는 것이 아니다. 달리기 구간에는 스프린터를, 작전 조율에는 주장 선수를 배치해 팀 전체 기록을 끌어올리는 방식이다.
 
@@ -165,24 +165,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 CPU 중심 처리
-    │
-    ▼
-SIMD · 벡터 프로세서 기반 병렬화
-    │
-    ▼
-GPU (Graphics Processing Unit) 기반 대규모 데이터 병렬 처리
-    │
-    ▼
-FPGA (Field-Programmable Gate Array) · 도메인 특화 가속
-    │
-    ▼
-NPU (Neural Processing Unit) · ASIC (Application-Specific Integrated Circuit)
-    │
-    ▼
-칩렛 · 통합 메모리 · CXL (Compute Express Link) 기반 이기종 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 CPU 중심 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD · 벡터 프로세서 기반 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU (Graphics Processing Unit) 기반 대규모 데이터 병렬 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FPGA (Field-Programmable Gate Array) · 도메인 특화 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NPU (Neural Processing Unit) · ASIC (Application-Specific Integrated Circuit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩렛 · 통합 메모리 · CXL (Compute Express Link) 기반 이기종 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 “범용 실행 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 → 시스템 수준 통합”으로 진화하는 방향을 보여준다.
 

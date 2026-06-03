@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ([NFR](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), Non-Functional Requirements)은 시스템이 제공해야 할 기능적 동작 이외에, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 확장성, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등 시스템의 전체적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))을 규정하는 요구사항이다. 이 중에서 아키텍처 구조의 대대적인 변화나 핵심 솔루션의 선택에 직접적이고 결정적인 영향을 미치는 요구사항을 **[아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))**라고 부른다.
+- **개념**: [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) ([NFR](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), Non-Functional Requirements)은 시스템이 제공해야 할 기능적 동작 이외에, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 확장성, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 등 시스템의 전체적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))을 규정하는 요구사항이다. 이 중에서 아키텍처 구조의 대대적인 변화나 핵심 솔루션의 선택에 직접적이고 결정적인 영향을 미치는 요구사항을 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/">아키텍처 드라이버</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/">Architecture Drivers</a>)</strong>라고 부른다.
 
 - **필요성**: "사용자는 상품을 장바구니에 담을 수 있다"라는 기능적 요구사항은 모노리틱(Monolithic)으로 만들든 MSA로 만들든 구현할 수 있다. 하지만 "블랙 프라이데이 때 초당 10만 건의 장바구니 담기 요청을 100ms 이내에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 처리해야 한다"라는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 확장성)이 추가되는 순간, 단순 DB 조회 구조는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 계층, 비동기 메시지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)), 그리고 수평 확장이 가능한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 구조로 전면 개편되어야만 한다. 즉, 아키텍처의 뼈대를 결정하는 것은 기능이 아니라 비기능(품질) 요소다.
 
@@ -27,37 +27,33 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **기능 중심 설계의 한계**: 과거에는 고객의 비즈니스 규칙(기능) 구현에만 집중하여 개발을 완료했으나, 운영 환경에 배포된 직후 트래픽 폭주나 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 다운으로 시스템이 무너지는 실패 사례가 속출했다.
-  2. **품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 시나리오와 아키텍처 평가의 대두**: SEI ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute) 등에서 아키텍처 중심 설계 방식 ([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/), [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method)을 제안하며, 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계에서 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 식별하고 트레이드오프를 평가하는 것이 공학적 표준으로 자리 잡았다.
+  2. <strong>품질 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 시나리오와 아키텍처 평가의 대두</strong>: SEI ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute) 등에서 아키텍처 중심 설계 방식 ([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/), [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method)을 제안하며, 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계에서 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 식별하고 트레이드오프를 평가하는 것이 공학적 표준으로 자리 잡았다.
 
 기능과 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)이 아키텍처에 미치는 영향력의 차이를 도식화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         기능 요구사항 vs 비기능 요구사항의 아키텍처 영향력           │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │  [기능 요구사항 (Functional Req)]                             │
-  │    "로그인 기능", "결제 기능", "게시물 작성"                        │
-  │        │                                                  │
-  │        ▼ (영향력)                                          │
-  │  ┌────────────┐                                           │
-  │  │ 비즈니스 로직  │ ──▶ 클래스 설계, API 엔드포인트에 국지적 영향   │
-  │  └────────────┘                                           │
-  │                                                           │
-  │  [비기능 요구사항 - 아키텍처 드라이버 (Architecture Drivers)]      │
-  │    "응답시간 < 0.1초", "가용성 99.999%", "동시접속 100만"         │
-  │        │                                                  │
-  │        ▼ (전방위적 강제력)                                    │
-  │  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓            │
-  │  ┃                 시스템 아키텍처 뼈대 결정                 ┃            │
-  │  ┃ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┃            │
-  │  ┃ │분산 캐시│ │로드밸런서│ │비동기 큐│ │다중화 DB│ ┃            │
-  │  ┃ └─────────┘ └─────────┘ └─────────┘ └─────────┘ ┃            │
-  │  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛            │
-  │                                                           │
-  │  결론: 기능은 코드를 채우고, 비기능(드라이버)은 시스템의 그릇을 만든다.│
-  └───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 요구사항 vs 비기능 요구사항의 아키텍처 영향력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기능 요구사항 (Functional Req)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"로그인 기능", "결제 기능", "게시물 작성"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (영향력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 로직</div><div class="kb-diagram-cell">──▶ 클래스 설계, API 엔드포인트에 국지적 영향</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비기능 요구사항 - 아키텍처 드라이버 (Architecture Drivers)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"응답시간 &lt; 0.1초", "가용성 99.999%", "동시접속 100만"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (전방위적 강제력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┏ ┓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 아키텍처 뼈대 결정</div></div>
+<div class="kb-diagram-note">┃ ┃</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 캐시</div><div class="kb-diagram-cell">로드밸런서</div><div class="kb-diagram-cell">비동기 큐</div><div class="kb-diagram-cell">다중화 DB</div></div>
+<div class="kb-diagram-note">┃ ┃</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┗ ┛</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: 기능은 코드를 채우고, 비기능(드라이버)은 시스템의 그릇을 만든다.</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 상단의 기능 요구사항은 모듈이나 클래스 수준의 지역적인 영향을 미치므로 구현 도중에라도 비교적 쉽게 수정하거나 추가할 수 있다. 그러나 하단의 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/), 특히 핵심 드라이버(예: 초당 100만 처리)는 단일 서버 아키텍처로는 물리적으로 달성이 불가능하므로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시, 메시지 큐, 다중화된 데이터베이스와 같은 거시적인 구조 체계를 강제한다. 만약 프로젝트 중반에 이 드라이버가 변경되거나 새롭게 인식된다면 전체 인프라와 설계 사상을 뒤엎어야 하므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 식별이 절대적으로 중요하다.
 
@@ -82,7 +78,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -158,21 +154,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-비기능 요구사항 아키텍처 드라이버 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비기능 요구사항 아키텍처 드라이버 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

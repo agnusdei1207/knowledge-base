@@ -38,20 +38,21 @@ tags = ["studynote-devops"]
 | Assertion | 기대값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 예외, 반환값, 호출 횟수 |
 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) Gate | 머지 차단 | 실패 시 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 정지 |
 
-```text
-코드 변경
-   │
-   ▼
-테스트 러너
-   │
-   ├─▶ Fixture 준비
-   │
-   ├─▶ Mock 주입
-   │
-   ├─▶ AAA (Arrange-Act-Assert)
-   │
-   └─▶ 실패 시 CI 차단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">코드 변경</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 러너</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ Fixture 준비</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ Mock 주입</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ AAA (Arrange-Act-Assert)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ 실패 시 CI 차단</div>
+</div>
+</div>
+
+
 
 JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, Pytest는 fixture와 parametrize로 파이썬스러운 유연함을 준다. Mocking은 "진짜"를 흉내 내는 도구가 아니라, 테스트가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 할 한 가지 행동만 남기기 위한 절연 장치다.
 
@@ -109,21 +110,23 @@ JUnit은 어노테이션 기반으로 테스트 구조를 고정하기 좋고, P
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 확인
-    │
-    ▼
-단위 테스트(Unit Test)
-    │
-    ▼
-Mocking · Fixture · AAA (Arrange-Act-Assert)
-    │
-    ▼
-CI (Continuous Integration) 게이트
-    │
-    ▼
-빠른 회귀 방지와 안전한 리팩토링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 확인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단위 테스트(Unit Test)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Mocking · Fixture · AAA (Arrange-Act-Assert)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CI (Continuous Integration) 게이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빠른 회귀 방지와 안전한 리팩토링</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Address Resolution Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))**: 컴퓨터가 통신할 때, 상대방의 IP 주소를 이용해 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(랜카드 번호)를 찾아내는 프로토콜입니다. 
-- **문제점**: ARP는 "192.168.0.1(공유기 IP) 가진 놈 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 물었을 때, 누군가 "그거 나야! 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB야!"라고 대답하면, **그 대답이 진짜인지 가짜인지 전혀 의심하지 않고 자신의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시(메모리) 장부에 그대로 덮어써 버리는 치명적인 건망증과 순진함**을 가지고 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">Address Resolution Protocol</a>)</strong>: 컴퓨터가 통신할 때, 상대방의 IP 주소를 이용해 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(랜카드 번호)를 찾아내는 프로토콜입니다. 
+- **문제점**: ARP는 "192.168.0.1(공유기 IP) 가진 놈 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 물었을 때, 누군가 "그거 나야! 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB야!"라고 대답하면, <strong>그 대답이 진짜인지 가짜인지 전혀 의심하지 않고 자신의 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 캐시(메모리) 장부에 그대로 덮어써 버리는 치명적인 건망증과 순진함</strong>을 가지고 있습니다.
 
-```text
-[스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
-[ARP 스푸핑]
-    │
-    └──▶ [IP 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,14 +49,18 @@ tags = ["studynote-network"]
 4. 이제 희생자 A가 네이버에 접속하려고 패킷을 날리면, 그 패킷은 진짜 공유기가 아니라 **모조리 해커의 컴퓨터로 쏙쏙 들어옵니다.**
 5. 해커는 패킷 안에 든 평문 비밀번호를 쓱 훔쳐본 뒤(스니핑), 들키지 않게 다시 진짜 공유기로 패킷을 친절하게 토스(Relay)해 줍니다. 희생자 A는 인터넷이 잘 되니까 자기가 해킹당하고 있다는 사실을 영원히 모릅니다.
 
-```text
-[스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
-[ARP 스푸핑]
-    │
-    └──▶ [IP 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ tags = ["studynote-network"]
 - 네트워크 상에서 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷이 너무 비정상적으로 많이(1초에 수백 번씩) 날아다니거나, 2대의 컴퓨터가 서로 똑같은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 쓰겠다고 싸우고 있는 걸 탐지하면 경고를 울려주는 방어 소프트웨어(XArp, ARPWatch 등)를 설치합니다.
 
 ### 3. 암호화 통신 ([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) 사용
-- 만약 내가 공유 식당이나 카페 와이파이에서 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 당했더라도, 내가 네이버에 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화)**로 접속했다면, 해커에게 들어가는 내 아이디와 비밀번호는 온통 쓰레기 문자로 암호화되어 있어 읽을 수 없습니다. 이것이 공용 와이파이에서 절대 암호화되지 않은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 사이트를 쓰면 안 되는 이유입니다.
+- 만약 내가 공유 식당이나 카페 와이파이에서 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 당했더라도, 내가 네이버에 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화)</strong>로 접속했다면, 해커에게 들어가는 내 아이디와 비밀번호는 온통 쓰레기 문자로 암호화되어 있어 읽을 수 없습니다. 이것이 공용 와이파이에서 절대 암호화되지 않은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 사이트를 쓰면 안 되는 이유입니다.
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석이 기반 조건을 만든다면, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 그 위에서 핵심 메커니즘을 구현하고, IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ▼
-[현재 개념: ARP 스푸핑]
-    │
-    ├──▶ [확장 A: IP 스푸핑]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석에서 출발해 현재 메커니즘을 정교화하고, 이후 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

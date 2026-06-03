@@ -31,23 +31,23 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│             K8s QoS 클래스와 OOM Score 우선순위                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [BestEffort] oom_adj=1000 — 가장 먼저 종료                     │
-│  Request=0, Limit=0 (설정 없음)                                  │
-│                                                                  │
-│  [Burstable] oom_adj=1~999 — 중간 우선순위                      │
-│  Request < Limit 또는 일부 컨테이너만 설정                       │
-│                                                                  │
-│  [Guaranteed] oom_adj=-998 — 마지막에 종료                      │
-│  Request == Limit (모든 컨테이너)                                │
-│                                                                  │
-│  cgroup v2 경계                                                  │
-│  memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료     │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s QoS 클래스와 OOM Score 우선순위</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BestEffort</div><div class="kb-diagram-note">oom_adj=1000 — 가장 먼저 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request=0, Limit=0 (설정 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Burstable</div><div class="kb-diagram-note">oom_adj=1~999 — 중간 우선순위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request &lt; Limit 또는 일부 컨테이너만 설정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guaranteed</div><div class="kb-diagram-note">oom_adj=-998 — 마지막에 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request == Limit (모든 컨테이너)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cgroup v2 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료</div></div>
+</div>
+</div>
+
+
 
 | [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스   | 조건                          | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 종료 순서 | oom_adj 범위 |
 | :----------- | :---------------------------- | :------------ | :----------- |
@@ -57,7 +57,7 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 
 **cgroup v2 메모리 제어**: `memory.limit_in_bytes`는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 최대 메모리 경계다. 초과 시 해당 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 강제 종료가 발생한다.
 
-**Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)**: JVM 힙은 `-Xmx` 미설정 시 호스트 전체 메모리의 1/4을 사용하려 시도한다. K8s에서는 `-XX:MaxRAMPercentage=75.0` 옵션으로 cgroup 인식을 강제해야 한다.
+<strong>Java <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>: JVM 힙은 `-Xmx` 미설정 시 호스트 전체 메모리의 1/4을 사용하려 시도한다. K8s에서는 `-XX:MaxRAMPercentage=75.0` 옵션으로 cgroup 인식을 강제해야 한다.
 
 - 📢 섹션 요약 비유: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Guaranteed는 비행기 비즈니스석이다. 경제석(BestEffort) 승객이 먼저 내리고, 비즈니스석(Guaranteed) 승객은 마지막까지 자리를 지킨다.
 
@@ -72,7 +72,7 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 | 우선순위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)     | OS nice/oom_adj 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)  | K8s [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스 자동 매핑     |
 | 자원 최적화       | 수동 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 사이즈 조정        | [VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) ([Vertical Pod Autoscaler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/))|
 
-**[VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) ([Vertical Pod Autoscaler](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/))**: Pod의 과거 메모리·CPU 사용량을 학습해 Request/Limit을 자동 권장하거나 적용한다. [OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 반복 시 VPA가 자동으로 Limit을 높여 재시작 루프를 방지한다.
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/">VPA</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/">Vertical Pod Autoscaler</a>)</strong>: Pod의 과거 메모리·CPU 사용량을 학습해 Request/Limit을 자동 권장하거나 적용한다. [OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 반복 시 VPA가 자동으로 Limit을 높여 재시작 루프를 방지한다.
 
 - 📢 섹션 요약 비유: JVM이 cgroup를 모르면 창고([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 안에 있는데 창고 바깥의 공간도 자기 것으로 착각하고 물건을 쌓다가 강제 종료된다.
 
@@ -80,14 +80,14 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 방어 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/">OOM Killed</a> 방어 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 모든 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 Resource Request/Limit [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (Guaranteed 권장)
 2. [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) `kube_pod_container_status_last_terminated_reason == OOMKilled` 알람 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 3. `container_memory_working_set_bytes` 기반 실제 사용량 측정 후 Limit 조정
 4. Java: `-XX:MaxRAMPercentage=75.0`, Node.js: `--max-old-space-size` 명시
 5. [VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/) 도입 검토: Recommendation 모드로 시작
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - Request 0, Limit 무한대 → BestEffort로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 먼저 종료됨
 - Limit을 Request의 10배 이상 → 노드 메모리 오버커밋
 - Java `-Xmx` 미설정 → cgroup Limit 초과 [OOM Killed](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/110_oom_out_of_memory_killed_kubernetes_limits/) 반복
@@ -118,24 +118,25 @@ Guaranteed QoS와 VPA를 도입하면 [OOM](/knowledge-base/studynote/02_operati
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Linux OOM Killer (커널 기반 프로세스 강제 종료)
-    │
-    ▼
-cgroup v1 — 컨테이너 메모리 격리
-    │
-    ▼
-K8s Resource Request/Limit + QoS 클래스
-    │
-    ▼
-cgroup v2 — 계층적 메모리 제어 강화
-    │
-    ▼
-VPA (Vertical Pod Autoscaler) — 자동 자원 최적화
-    │
-    ▼
-AI 기반 사전 예측적 자원 관리 (Karpenter)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Linux OOM Killer (커널 기반 프로세스 강제 종료)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup v1 — 컨테이너 메모리 격리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s Resource Request/Limit + QoS 클래스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup v2 — 계층적 메모리 제어 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VPA (Vertical Pod Autoscaler) — 자동 자원 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 사전 예측적 자원 관리 (Karpenter)</div>
+</div>
+</div>
+
+
 
 흐름은 "사후 강제 종료 → 격리 경계 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 우선순위 → 자동 최적화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측"으로 진화한다.
 

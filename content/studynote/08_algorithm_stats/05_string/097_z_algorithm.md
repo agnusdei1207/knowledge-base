@@ -34,53 +34,65 @@ Z[0] = |S| (관례적으로 문자열 전체 길이로 정의)
 
 ### Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 계산 예시
 
-```
-S = "aabxaabxca"
-     0123456789
 
-Z[0] = 10 (전체, 관례)
-Z[1] = 1  → S[1..] = "abxaabxca" vs S = "aabxaabxca"
-                       a ≠ a (첫 글자만 일치? "a"="a" O, "b"≠"a" X → 1)
-Z[2] = 0  → S[2..] = "bxaabxca" vs "aabxaabxca" → b≠a → 0
-Z[3] = 0
-Z[4] = 4  → S[4..] = "aabxca" vs "aabxaabxca" → "aabx" 일치 → 4
-Z[5] = 1
-Z[6] = 0  (b vs a)
-Z[7] = 0
-Z[8] = 0
-Z[9] = 1
 
-Z = [10, 1, 0, 0, 4, 1, 0, 0, 0, 1]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">S = "aabxaabxca"</div>
+<div class="kb-diagram-note">0123456789</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= 10 (전체, 관례)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1..</div><div class="kb-diagram-note">= "abxaabxca" vs S = "aabxaabxca"</div></div>
+<div class="kb-diagram-note">a ≠ a (첫 글자만 일치? "a"="a" O, "b"≠"a" X → 1)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2..</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">b≠a → 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">= 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4..</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"aabx" 일치 → 4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">6</div><div class="kb-diagram-note">= 0 (b vs a)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">7</div><div class="kb-diagram-note">= 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">= 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">9</div><div class="kb-diagram-note">= 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z =</div><div class="kb-diagram-node">10, 1, 0, 0, 4, 1, 0, 0, 0, 1</div></div>
+</div>
+</div>
+
+
 
 ### Z [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/): Z-box 활용
 
-```
-Z-box: 현재까지 계산된 가장 오른쪽 [l, r] 구간 (S[l..r]이 접두사와 일치)
 
-i를 왼쪽에서 오른쪽으로 처리:
-  case 1: i > r → 브루트포스로 Z[i] 계산, Z-box 갱신
-  case 2: i ≤ r →
-    k = i - l  (i의 Z-box 내 상대 위치)
-    if Z[k] < r-i+1: Z[i] = Z[k]  (완전히 Z-box 안)
-    else:            i부터 r+1 이후 브루트포스, Z-box 확장
 
-총 문자 비교 횟수: O(n) (각 문자는 Z-box 오른쪽 확장 시 최대 1회)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z-box: 현재까지 계산된 가장 오른쪽</div><div class="kb-diagram-node">l, r</div><div class="kb-diagram-note">구간 (S</div><div class="kb-diagram-node">l..r</div><div class="kb-diagram-note">이 접두사와 일치)</div></div>
+<div class="kb-diagram-note">i를 왼쪽에서 오른쪽으로 처리:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">계산, Z-box 갱신</div></div>
+<div class="kb-diagram-note">case 2: i ≤ r →</div>
+<div class="kb-diagram-note">k = i - l (i의 Z-box 내 상대 위치)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">if Z</div><div class="kb-diagram-node">k</div><div class="kb-diagram-note">&lt; r-i+1: Z</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Z</div><div class="kb-diagram-node">k</div><div class="kb-diagram-note">(완전히 Z-box 안)</div></div>
+<div class="kb-diagram-note">else: i부터 r+1 이후 브루트포스, Z-box 확장</div>
+<div class="kb-diagram-note">총 문자 비교 횟수: O(n) (각 문자는 Z-box 오른쪽 확장 시 최대 1회)</div>
+</div>
+</div>
+
+
 
 ### Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 이용한 패턴 매칭
 
-```
-패턴 P, 텍스트 T에서 P의 모든 등장 위치 찾기:
 
-1. S = P + "$" + T  ($ = P에도 T에도 없는 구분자)
-2. Z 배열 계산: O(|P| + |T|)
-3. Z[i] == |P|인 위치 i → T에서 i - |P| - 1 위치에 P 등장
 
-예시: P="aa", T="aabxaa", S="aa$aabxaa"
-  Z = [9, 1, 0, 2, 1, 0, 0, 2, 1]
-  |P|=2인 Z[3]=2, Z[7]=2 → T의 인덱스 0과 4에 "aa" 등장
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패턴 P, 텍스트 T에서 P의 모든 등장 위치 찾기:</div>
+<div class="kb-diagram-note">1. S = P + "$" + T ($ = P에도 T에도 없는 구분자)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Z 배열 계산: O(</div><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">T</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. Z</div><div class="kb-diagram-node">i</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">T에서 i - |P| - 1 위치에 P 등장</div></div>
+<div class="kb-diagram-note">예시: P="aa", T="aabxaa", S="aa$aabxaa"</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z =</div><div class="kb-diagram-node">9, 1, 0, 2, 1, 0, 0, 2, 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P|=2인 Z</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=2, Z</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">T의 인덱스 0과 4에 "aa" 등장</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 이용한 패턴 매칭은 패턴을 텍스트 앞에 붙여서 "나와 똑같이 시작하는 부분"을 한 번에 찾는 것—구분자($)가 접두사 길이를 자동으로 제한한다.
 
@@ -100,16 +112,20 @@ i를 왼쪽에서 오른쪽으로 처리:
 
 ### 주기 탐색 (Period Finding)
 
-```
-S의 최소 주기 p: S = S[0..p-1]의 반복으로 구성 가능한 최소 p
 
-Z 배열로:
-  p가 주기이면 Z[p] >= n-p 이어야 함
-  → 모든 i에서 Z[i] >= n-i 인 최소 i가 최소 주기
 
-예: "ababab" → Z = [6,0,4,0,2,0]
-  Z[2]=4 >= 6-2=4 ✓ → 최소 주기 p=2 ("ab")
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">S의 최소 주기 p: S = S</div><div class="kb-diagram-node">0..p-1</div><div class="kb-diagram-note">의 반복으로 구성 가능한 최소 p</div></div>
+<div class="kb-diagram-note">Z 배열로:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">p가 주기이면 Z</div><div class="kb-diagram-node">p</div><div class="kb-diagram-note">&gt;= n-p 이어야 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">&gt;= n-i 인 최소 i가 최소 주기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6,0,4,0,2,0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Z</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">최소 주기 p=2 ("ab")</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Z [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 주기를 찾는 것은 타일 패턴에서 가장 작은 반복 단위를 발견하는 것—타일 하나만 보면 전체 패턴을 재현할 수 있는지 확인한다.
 
@@ -121,19 +137,25 @@ Z 배열로:
 
 - **패턴 매칭**: 단일 패턴을 텍스트에서 O(n+m) 탐색
 - **주기 탐색**: DNA 서열의 반복 모티프(Repeat Motif) 탐지
-- **문자열 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**: 최소 반복 단위 기반 표현 (`"abcabc"` → `"(abc)×2"`)
+- <strong>문자열 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>: 최소 반복 단위 기반 표현 (`"abcabc"` → `"(abc)×2"`)
 - **문자열 동치 판별**: S가 T의 회전(Rotation)인지: `Z("T$TT")[m+1] == m`
 - **공통 접두사 최대화**: 여러 문자열 공통 접두사 길이 계산
 
 ### 기술사 판단 기준
 
-```
-단일 패턴 탐색                        →  KMP 또는 Z 알고리즘 (동등)
-구현 단순성 우선                      →  Z 알고리즘 (직관적)
-주기/반복 단위 탐색                   →  Z 알고리즘 직접 활용
-다중 패턴 동시 탐색                   →  아호-코라식 (Aho-Corasick)
-접두사 쿼리 다수                      →  트라이 (Trie)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 패턴 탐색 → KMP 또는 Z 알고리즘 (동등)</div>
+<div class="kb-diagram-note">구현 단순성 우선 → Z 알고리즘 (직관적)</div>
+<div class="kb-diagram-note">주기/반복 단위 탐색 → Z 알고리즘 직접 활용</div>
+<div class="kb-diagram-note">다중 패턴 동시 탐색 → 아호-코라식 (Aho-Corasick)</div>
+<div class="kb-diagram-note">접두사 쿼리 다수 → 트라이 (Trie)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Z [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 KMP는 같은 목적의 두 가지 여행 경로—Z [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 "출발지에서 얼마나 같은가"를 직접 기록하고, [KMP](/knowledge-base/studynote/08_algorithm_stats/05_string/094_kmp_algorithm/) 실패 함수는 "실패했을 때 어디로 돌아가야 하는가"를 기록한다.
 
@@ -162,27 +184,27 @@ Z [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[KMP 알고리즘]
-    │
-    ▼
-[아호-코라식 (Aho-Corasick)]
-    │
-    ▼
-[서픽스 배열 (Suffix Array)]
-    │
-    ▼
-[Z-box]
-    │
-    ▼
-[주기 탐색 (Period Finding)]
-    │
-    ▼
-[트라이 (Trie)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KMP 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아호-코라식 (Aho-Corasick)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서픽스 배열 (Suffix Array)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Z-box</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주기 탐색 (Period Finding)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 주기 탐색 (Period Finding)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -31,11 +31,16 @@ DB 연결은 생각보다 비싸다. 매 요청마다 새 연결을 만들면 [�
 
 풀은 사용 가능한 연결을 보관하고, 요청 시 빌려주고, 반납되면 다시 보관한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 없으면 죽은 연결을 계속 돌릴 수 있다.
 
-```text
-App → Pool → DB Connection → DB
-        ↑          ↓
-     borrow     return/validate
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">App → Pool → DB Connection → DB</div>
+<div class="kb-diagram-note">borrow return/validate</div>
+</div>
+</div>
+
+
 
 | 항목 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -111,18 +116,21 @@ DBCP는 이런 풀 관리의 대표 구현 중 하나다. HikariCP 같은 다른
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 연결
-    │
-    ▼
-커넥션 풀
-    │
-    ▼
-검증/재사용
-    │
-    ▼
-응답성/안정성 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커넥션 풀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검증/재사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응답성/안정성 향상</div>
+</div>
+</div>
+
+
 
 이 흐름은 DB 연결 비용을 줄이기 위한 자원 관리의 발전을 보여준다.
 

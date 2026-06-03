@@ -21,20 +21,23 @@ tags = ["studynote-ai"]
 
 기존 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 한계:
 - **SGD**: 단순하지만 느리고, [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 매우 민감
-- **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)**: 수렴 방향 가속, 그러나 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a></strong>: 수렴 방향 가속, 그러나 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)
 - **AdaGrad(Adaptive Gradient)**: 파라미터별 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정, 그러나 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 단조 감소해 결국 0에 수렴
 - **RMSProp**: AdaGrad의 단조 감소 문제 해결(지수 이동 평균), 그러나 관성 없음
 
-Adam(Adaptive Moment Estimation)은 **Momentum의 관성 효과 + RMSProp의 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)**을 결합하여 두 장점을 모두 취한다.
+Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp의 적응형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a></strong>을 결합하여 두 장점을 모두 취한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Adam은 슈퍼 내비게이션이다. 이전에 자주 다닌 방향(1차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))을 기억하고, 최근 도로 상황(2차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))에 맞게 속도를 자동 조절하며, 처음 출발할 때의 부정확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(편향 보정)도 스스로 교정한다.
 
@@ -70,36 +73,40 @@ Adam(Adaptive Moment Estimation)은 **Momentum의 관성 효과 + RMSProp의 적
 
 ### Adam 내부 동작 흐름
 
-```
-┌───────────────────────────────────────────────────────┐
-│                  Adam 알고리즘 흐름                    │
-│                                                       │
-│  기울기 ∇L(w)                                         │
-│      │                                                │
-│      ├──→ [1차 모멘텀] m_t = β1·m + (1-β1)·∇L       │
-│      │         → 기울기 방향의 이동 평균 (관성)        │
-│      │                                                │
-│      └──→ [2차 모멘텀] v_t = β2·v + (1-β2)·(∇L)²    │
-│                → 기울기 크기의 이동 평균 (RMSProp)     │
-│                                                       │
-│  편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)         │
-│       ↓                                               │
-│  가중치 갱신: w = w - α · m̂ / (√v̂ + ε)             │
-│                                                       │
-│  효과: 자주 등장하는 파라미터 → 작은 학습률          │
-│        드물게 등장하는 파라미터 → 큰 학습률           │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam 알고리즘 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 ∇L(w)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1차 모멘텀</div><div class="kb-diagram-note">m_t = β1·m + (1-β1)·∇L</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 기울기 방향의 이동 평균 (관성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2차 모멘텀</div><div class="kb-diagram-note">v_t = β2·v + (1-β2)·(∇L)²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 기울기 크기의 이동 평균 (RMSProp)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 갱신: w = w - α · m̂ / (√v̂ + ε)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 자주 등장하는 파라미터 → 작은 학습률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드물게 등장하는 파라미터 → 큰 학습률</div></div>
+</div>
+</div>
+
+
 
 ### 편향 보정([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) Correction)의 필요성
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시점(t가 작을 때) m_0 = 0, v_0 = 0으로 시작하므로, **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추정값이 0 방향으로 편향**된다. 편향 보정은 이를 실제 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)에 가깝게 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)하는 과정이다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시점(t가 작을 때) m_0 = 0, v_0 = 0으로 시작하므로, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 추정값이 0 방향으로 편향</strong>된다. 편향 보정은 이를 실제 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)에 가깝게 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)하는 과정이다.
 
-```
-t=1: β1=0.9 → (1-β1^1) = 0.1 → m̂ = m/0.1 = 10배 확대
-t=10: (1-β1^10) ≈ 0.65 → 점점 보정 감소
-t→∞: (1-β1^∞) → 1.0 → 보정 불필요
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">t=1: β1=0.9 → (1-β1^1) = 0.1 → m̂ = m/0.1 = 10배 확대</div>
+<div class="kb-diagram-note">t=10: (1-β1^10) ≈ 0.65 → 점점 보정 감소</div>
+<div class="kb-diagram-note">t→∞: (1-β1^∞) → 1.0 → 보정 불필요</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편향 보정은 새벽에 체온계가 실온 온도에 맞춰져 있을 때 보정하는 것과 같다. 막 시작했을 때는 체온계([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))가 실제보다 낮게 표시되므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 값을 올려서 읽고 시간이 지나면 자연스럽게 정확해진다.
 
@@ -120,9 +127,9 @@ t→∞: (1-β1^∞) → 1.0 → 보정 불필요
 
 ### AdamW와의 차이
 
-Adam의 L2 규제는 **기울기에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 항을 더하는 방식**이지만, 이는 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 상호작용해 규제 효과가 약해진다.
+Adam의 L2 규제는 <strong>기울기에 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 항을 더하는 방식</strong>이지만, 이는 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 상호작용해 규제 효과가 약해진다.
 
-**AdamW(Adam with [Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))**는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))를 그래디언트가 아닌 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 단계에서 직접 적용**한다:
+<strong>AdamW(Adam with <a href="/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/">Weight Decay</a>)</strong>는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))를 그래디언트가 아닌 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 갱신 단계에서 직접 적용</strong>한다:
 
 ```
 Adam:   w = w - α · m̂/(√v̂+ε) - α · λ · w   (불완전한 L2)
@@ -137,7 +144,7 @@ AdamW:  w = w · (1 - α·λ) - α · m̂/(√v̂+ε)   (올바른 Weight Decay)
 
 ### Adam의 한계와 대응
 
-1. **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제**: Adam은 SGD보다 훈련 손실은 빠르게 줄지만, 테스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(일반화)이 낮을 수 있음
+1. <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 문제</strong>: Adam은 SGD보다 훈련 손실은 빠르게 줄지만, 테스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(일반화)이 낮을 수 있음
    - 원인: 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 일부 파라미터에 과도하게 큰 업데이트를 허용
    - 대응: 학습 후반에 SGD로 전환하는 SWATS 기법, 또는 AdamW 사용
 
@@ -154,9 +161,9 @@ AdamW:  w = w · (1 - α·λ) - α · m̂/(√v̂+ε)   (올바른 Weight Decay)
 
 ### 실무 활용
 
-- **[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 사전 학습**: AdamW + 워밍업 + 선형/코사인 감소 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
-- **[ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**: SGD with [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) (최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), Adam (빠른 실험)
-- **[GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 학습**: Adam(β1=0.5, β2=0.999) – 학습 안정화를 위해 β1을 낮춤
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>, <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> 사전 학습</strong>: AdamW + 워밍업 + 선형/코사인 감소 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> 이미지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: SGD with [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) (최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), Adam (빠른 실험)
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a> 학습</strong>: Adam(β1=0.5, β2=0.999) – 학습 안정화를 위해 β1을 낮춤
 
 - **📢 섹션 요약 비유**: Adam은 모든 선수가 자신의 체력(파라미터)에 맞는 페이스([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/))로 달리게 해주는 스마트 코치다. 지칠 것 같은 선수(자주 갱신되는 파라미터)는 천천히, 여유 있는 선수(드물게 갱신되는 파라미터)는 빠르게 달리게 조율한다.
 
@@ -167,7 +174,7 @@ AdamW:  w = w · (1 - α·λ) - α · m̂/(√v̂+ε)   (올바른 Weight Decay)
 Adam이 딥러닝 표준 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)로 자리잡은 이유:
 
 1. **빠른 수렴**: 대부분의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에서 SGD 대비 빠른 수렴
-2. **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 민감도 감소**: α=0.001 기본값이 대부분의 문제에서 잘 작동
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> 민감도 감소</strong>: α=0.001 기본값이 대부분의 문제에서 잘 작동
 3. **희소 기울기 처리**: NLP의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 레이어처럼 드물게 갱신되는 파라미터에 큰 업데이트 적용
 4. **범용성**: 비전, 언어, 음성 등 다양한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 일관된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
 

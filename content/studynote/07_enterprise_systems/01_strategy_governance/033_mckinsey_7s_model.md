@@ -18,7 +18,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. [맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델의 개요
 
-[맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 **Tom Peters와 Robert Waterman([맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/))이 1980년대 제안한 조직 분석·변화 관리 프레임워크**다.
+[맥킨지](/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/) 7S 모델은 <strong>Tom Peters와 Robert Waterman(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/027_seven_s_model/">맥킨지</a>)이 1980년대 제안한 조직 분석·변화 관리 프레임워크</strong>다.
 
 ```
             Strategy (전략)
@@ -71,7 +71,7 @@ tags = ["studynote-enterprise"]
 
 - [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 등 운영 시스템
 - 의사결정 프로세스·보고 체계
-- **[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)에서 가장 먼저 바뀌는 요소**
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>에서 가장 먼저 바뀌는 요소</strong>
 
 📢 **섹션 요약 비유**: 하드 S는 건물의 뼈대다 — [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(설계도), 구조(철골), 시스템(배관·전기)이 모두 잘 갖춰져야 건물이 선다.
 
@@ -145,46 +145,53 @@ M&A 실패의 70%: 문화(Shared Values·Style) 충돌
 
 ## 📌 관련 개념 맵
 
-```
-맥킨지 7S 모델
-├── 하드 S (측정 가능)
-│   ├── Strategy (전략)
-│   ├── Structure (구조)
-│   └── Systems (시스템)
-├── 소프트 S (무형)
-│   ├── Shared Values (공유 가치) ← 중심
-│   ├── Style (리더십 스타일)
-│   ├── Staff (인력)
-│   └── Skills (역량)
-└── 활용 맥락
-    ├── 조직 변화 관리
-    ├── M&A 통합 진단
-    └── 디지털 전환 갭 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">맥킨지 7S 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:0">하드 S (측정 가능)</div>
+<div class="kb-diagram-note">── Strategy (전략)</div>
+<div class="kb-diagram-note">── Structure (구조)</div>
+<div class="kb-diagram-note">── Systems (시스템)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">소프트 S (무형)</div>
+<div class="kb-diagram-note">── Shared Values (공유 가치) ← 중심</div>
+<div class="kb-diagram-note">── Style (리더십 스타일)</div>
+<div class="kb-diagram-note">── Staff (인력)</div>
+<div class="kb-diagram-note">── Skills (역량)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용 맥락</div>
+<div class="kb-diagram-tree-item" style="--depth:2">조직 변화 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">M&amp;A 통합 진단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">디지털 전환 갭 분석</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              맥킨지 7S 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1980년       │ Peters·Waterman    │ "In Search of Excellence"    │
-│ 1982년       │ 7S 프레임워크 발표 │ 조직 우수성 8대 요인 도출    │
-│ 1990년대     │ 변화 관리 도구화   │ M&A·구조조정 진단에 활용     │
-│ 2000년대     │ IT 전략 연계       │ IT 거버넌스·ERP 도입 분석    │
-│ 2010년대     │ 디지털 전환 적용   │ 디지털화 갭 분석 도구로 부활 │
-│ 2020년대     │ ESG·원격근무       │ Shared Values 중요성 재조명  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-7S → Strategy·Structure·Systems(하드) + Value·Style·Staff·Skills(소프트)
-  ↓          ↓                              ↓
-M&A 통합   IT 시스템 전환              조직 문화 변화
-  ↓
-7S 갭 분석 → 변화 관리 계획 → 이해관계자 커뮤니케이션
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥킨지 7S 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년</div><div class="kb-diagram-cell">Peters·Waterman</div><div class="kb-diagram-cell">"In Search of Excellence"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1982년</div><div class="kb-diagram-cell">7S 프레임워크 발표</div><div class="kb-diagram-cell">조직 우수성 8대 요인 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">변화 관리 도구화</div><div class="kb-diagram-cell">M&amp;A·구조조정 진단에 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">IT 전략 연계</div><div class="kb-diagram-cell">IT 거버넌스·ERP 도입 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">디지털 전환 적용</div><div class="kb-diagram-cell">디지털화 갭 분석 도구로 부활</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">ESG·원격근무</div><div class="kb-diagram-cell">Shared Values 중요성 재조명</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">7S → Strategy·Structure·Systems(하드) + Value·Style·Staff·Skills(소프트)</div>
+<div class="kb-diagram-note">M&amp;A 통합 IT 시스템 전환 조직 문화 변화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">7S 갭 분석 → 변화 관리 계획 → 이해관계자 커뮤니케이션</div>
+</div>
+</div>
+
+
 
 ---
 

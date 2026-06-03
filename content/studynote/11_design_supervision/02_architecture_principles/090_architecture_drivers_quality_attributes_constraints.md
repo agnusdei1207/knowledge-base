@@ -31,25 +31,25 @@ tags = ["studynote-design"]
 
 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 크게 핵심 기능, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약 사항의 3대 요소로 구성되며, 이들이 결합하여 최종적인 설계 결정을 이끌어낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             아키텍처 드라이버 (Architecture Drivers)         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 핵심 기능 (Primary Functionality)                         │
-│    - 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)       │
-│                                                              │
-│ 2. 품질 속성 (Quality Attributes)                            │
-│    - 가용성, 성능, 보안성, 확장성, 유지보수성                │
-│    - (상충 관계 발생 -> 트레이드오프 분석 필수)              │
-│                                                              │
-│ 3. 제약 사항 (Constraints)                                   │
-│    - 비즈니스 제약 (예산, 일정, 라이선스)                    │
-│    - 기술적 제약 (레거시 연동, 특정 OS 사용 강제)            │
-└───────────────────────┬──────────────────────────────────────┘
-                        │
-                        ▼
-                 [ 아키텍처 도면 / 구조 결정 ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 드라이버 (Architecture Drivers)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 핵심 기능 (Primary Functionality)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 품질 속성 (Quality Attributes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성, 성능, 보안성, 확장성, 유지보수성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (상충 관계 발생 -&gt; 트레이드오프 분석 필수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 제약 사항 (Constraints)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 제약 (예산, 일정, 라이선스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술적 제약 (레거시 연동, 특정 OS 사용 강제)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 도면 / 구조 결정</div></div>
+</div>
+</div>
+
+
 
 가장 다루기 까다로운 부분은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
 
@@ -63,8 +63,8 @@ tags = ["studynote-design"]
 
 | 드라이버 A (요구) | 드라이버 B (요구) | 충돌 포인트 (Trade-off) | 아키텍처 타협안 예시 |
 | :--- | :--- | :--- | :--- |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))**<br>빠른 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**<br>강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 | 암호화/복호화 연산으로 인한 CPU 부하 및 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 발생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 부분 암호화 적용, 전용 H/W 가속기 도입 |
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**<br>무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | **제약 (Constraints)**<br>인프라 예산 삭감 | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)/삼중화 서버 구성 시 비용 기하급수적 증가 | 클라우드 오토스케일링 및 Active-Standby의 저비용 혼합 구성 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong><br>빠른 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong><br>강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 | 암호화/복호화 연산으로 인한 CPU 부하 및 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 발생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 부분 암호화 적용, 전용 H/W 가속기 도입 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong><br>무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | **제약 (Constraints)**<br>인프라 예산 삭감 | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)/삼중화 서버 구성 시 비용 기하급수적 증가 | 클라우드 오토스케일링 및 Active-Standby의 저비용 혼합 구성 |
 
 이러한 충돌을 해결하기 위해 유틸리티 트리 (Utility Tree) 기법을 사용한다. 추상적인 목표를 구체적 시나리오로 분해한 뒤, 비즈니스 가치(H/M/L)와 아키텍처 난이도(H/M/L)를 투표하여 H-H 등급을 받은 시나리오를 최우선 드라이버로 선정하고 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 양보하는 의사결정을 내린다.
 
@@ -78,8 +78,8 @@ tags = ["studynote-design"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **시나리오 구체성**: 도출된 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 구체적인 자극(Stimulus)과 측정 가능한 응답(Response Measure) 수치를 포함하고 있는가?
-2. **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 합의**: 도출된 최우선 드라이버에 대해 고객, 경영진, 개발팀 등 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) (Stakeholders)가 동의(Trade-off 인정)했는가?
-3. **제약 사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: "우리 회사는 무조건 오라클 DB만 쓴다" 같은 조직 정치적, 레거시적 제약 사항이 빠짐없이 드라이버에 포함되었는가?
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 합의</strong>: 도출된 최우선 드라이버에 대해 고객, 경영진, 개발팀 등 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) (Stakeholders)가 동의(Trade-off 인정)했는가?
+3. <strong>제약 사항 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: "우리 회사는 무조건 오라클 DB만 쓴다" 같은 조직 정치적, 레거시적 제약 사항이 빠짐없이 드라이버에 포함되었는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 비즈니스 중요도 구분 없이 모든 요구사항을 완벽하게 충족하려다 아키텍처가 과도하게 복잡해지는 오버 엔지니어링 (Over-engineering).
@@ -103,28 +103,30 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) (QA Scenario)** | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
 | **유틸리티 트리 (Utility Tree)** | 다수의 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)들의 우선순위를 평가하고 선정하는 프레임워크 |
-| **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)** | 아키텍처가 드라이버를 잘 충족시키고 있는지 평가하는 아키텍처 평가 방법론 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 아키텍처가 드라이버를 잘 충족시키고 있는지 평가하는 아키텍처 평가 방법론 |
 | **전술 (Tactics)** | 특정 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)(예: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))를 달성하기 위해 사용하는 구체적인 설계 기법 (예: Ping/Echo) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 목표 및 제약 사항 발생
-    │
-    ▼
-요구사항 수집 및 분류 (기능 / 비기능)
-    │
-    ▼
-아키텍처 드라이버 식별 (핵심기능, 품질속성, 제약사항)
-    │
-    ▼
-유틸리티 트리 (Utility Tree) 작성 및 우선순위 도출
-    │
-    ▼
-아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 목표 및 제약 사항 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구사항 수집 및 분류 (기능 / 비기능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 드라이버 식별 (핵심기능, 품질속성, 제약사항)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유틸리티 트리 (Utility Tree) 작성 및 우선순위 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 모호한 비즈니스 목표가 구체적인 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)로 정제되고, 최종적으로 아키텍처 설계와 평가로 이어지는 일련의 과정을 보여준다.
 

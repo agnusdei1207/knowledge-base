@@ -18,21 +18,24 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-이 주제는 서로 다른 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법을 한 번에 묶어 물을 때 자주 등장한다. 시험에서 중요한 것은 각 기법의 정의를 따로 외우는 것보다 **무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는가**를 먼저 구분하는 것이다. 델타(Delta)는 변경분만 저장·전송하여 전체 원본 노출과 전송량을 줄이는 차등 처리이고, 암호(Encryption)는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을, 해시(Hash)는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))은 패스워드 대입 공격 저항성을, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))는 코드 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용 증가를 담당한다.
+이 주제는 서로 다른 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법을 한 번에 묶어 물을 때 자주 등장한다. 시험에서 중요한 것은 각 기법의 정의를 따로 외우는 것보다 <strong>무엇을 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>하려는가</strong>를 먼저 구분하는 것이다. 델타(Delta)는 변경분만 저장·전송하여 전체 원본 노출과 전송량을 줄이는 차등 처리이고, 암호(Encryption)는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을, 해시(Hash)는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을, [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)([Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))은 패스워드 대입 공격 저항성을, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))는 코드 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용 증가를 담당한다.
 
 즉 같은 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"라도 대상과 효과가 다르다. 여기서 오류가 나면 패스워드를 복호화 가능한 형태로 저장하거나, [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)만 해 놓고 서버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 생략하는 식의 치명적 오해가 생긴다. 따라서 감리·설계 답안은 항상 **자산 → 위협 → 적합한 기법** 순으로 구성하는 것이 안전하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보호하려는 것 ──▶ 필요한 속성 ──▶ 선택 기법                   │
-├──────────────────────────────────────────────────────────────┤
-│ 변경분 전송      효율·노출 축소      Delta                   │
-│ 비밀 데이터      기밀성 확보         Encryption              │
-│ 데이터 검증      무결성 확인         Hash                    │
-│ 패스워드 저장    대입 공격 저항      Key Stretching          │
-│ 배포 코드        역공학 난이도 상승   Obfuscation            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보호하려는 것 ──▶ 필요한 속성 ──▶ 선택 기법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경분 전송 효율·노출 축소 Delta</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀 데이터 기밀성 확보 Encryption</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 검증 무결성 확인 Hash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패스워드 저장 대입 공격 저항 Key Stretching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 코드 역공학 난이도 상승 Obfuscation</div></div>
+</div>
+</div>
+
+
 
 이 그림은 기술 이름보다 먼저 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 속성을 정해야 올바른 통제 선택이 가능하다는 점을 보여 준다.
 
@@ -42,7 +45,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심 원리는 간단하다. **되돌릴 수 있어야 하는가, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 하면 되는가, 계산 비용을 일부러 높여야 하는가, 코드 분석을 어렵게 해야 하는가**를 먼저 판단하면 된다. 시험 답안에서는 각 기법의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 목적과 한계를 함께 써야 고득점이 나온다.
+핵심 원리는 간단하다. <strong>되돌릴 수 있어야 하는가, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>만 하면 되는가, 계산 비용을 일부러 높여야 하는가, 코드 분석을 어렵게 해야 하는가</strong>를 먼저 판단하면 된다. 시험 답안에서는 각 기법의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 목적과 한계를 함께 써야 고득점이 나온다.
 
 | 기법 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 목적 | 시험 포인트 |
 |:---|:---|:---|
@@ -52,17 +55,20 @@ tags = ["studynote-design-supervision"]
 | [Key Stretching](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/) | 패스워드 해시 계산 비용을 높여 대입 공격 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 함께 써야 하며 PBKDF2, bcrypt, scrypt, Argon2가 대표적 |
 | [Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) | 코드 의미를 읽기 어렵게 만들어 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 비용 증가 | 보안의 보조 수단이지 비밀 저장 수단은 아니다 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Asset / Data / Code                                           │
-├──────────────────────────────────────────────────────────────┤
-│ 1) 변경 배포/백업   ──▶ Delta                                 │
-│ 2) 저장·전송 비밀   ──▶ Encryption                            │
-│ 3) 위변조 검증      ──▶ Hash / MAC                            │
-│ 4) 패스워드 저장    ──▶ Salt + Key Stretching                 │
-│ 5) 클라이언트 코드  ──▶ Obfuscation + 서버측 검증             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Asset / Data / Code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 변경 배포/백업 ──▶ Delta</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 저장·전송 비밀 ──▶ Encryption</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 위변조 검증 ──▶ Hash / MAC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 패스워드 저장 ──▶ Salt + Key Stretching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 클라이언트 코드 ──▶ Obfuscation + 서버측 검증</div></div>
+</div>
+</div>
+
+
 
 실무적으로는 이 기법들이 경쟁 관계가 아니라 **계층적으로 함께 쓰인다**. 예를 들어 모바일 앱은 소스 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)로 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 난도를 높이고, 통신은 TLS로 암호화하며, 패스워드는 서버에서 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)을 적용해 저장한다. 각 층의 역할을 구분해 설명하는 것이 중요하다.
 
@@ -90,7 +96,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 기술 이름보다 먼저 자산과 공격 시나리오를 정의해야 한다. 고객 비밀번호인지, 내부 설정값인지, 모바일 앱 코드인지에 따라 선택이 달라진다. 기술사 답안에서는 **[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)/[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 저항성**을 기준으로 분류하고, 보조 통제와 한계를 함께 적는 것이 좋다.
+실무에서는 기술 이름보다 먼저 자산과 공격 시나리오를 정의해야 한다. 고객 비밀번호인지, 내부 설정값인지, 모바일 앱 코드인지에 따라 선택이 달라진다. 기술사 답안에서는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>/<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>/<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>/<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a> 저항성</strong>을 기준으로 분류하고, 보조 통제와 한계를 함께 적는 것이 좋다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -113,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 이들 기법을 목적별로 올바르게 조합하면 저장·전송·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·배포 전 구간에서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강도를 체계적으로 높일 수 있다. 또한 감리 문서나 설계 답안에서 "왜 이 기술이 여기 들어갔는가"를 명확히 설명할 수 있어 설득력이 커진다.
 
-결론은 단순하다. **암호는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), 해시는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/)은 패스워드 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 델타는 차등 처리 효율**을 담당한다. 이 구분만 정확히 기억해도 시험에서 오답 가능성을 크게 줄일 수 있다.
+결론은 단순하다. <strong>암호는 <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>, 해시는 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>, <a href="/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/">키 스트레칭</a>은 패스워드 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>, <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/">난독화</a>는 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>, 델타는 차등 처리 효율</strong>을 담당한다. 이 구분만 정확히 기억해도 시험에서 오답 가능성을 크게 줄일 수 있다.
 
 - **📢 섹션 요약 비유**: 공구함에서 망치, 드라이버, 줄자, 자물쇠가 모두 필요하듯, 정보보호도 한 도구로 끝나는 것이 아니라 목적별 공구 조합으로 완성된다.
 
@@ -131,15 +137,20 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-자산 식별
-    │
-    ├── 비밀 보호 ─────────▶ Encryption
-    ├── 위변조 검증 ───────▶ Hash / HMAC
-    ├── 패스워드 저장 ─────▶ Salt + Key Stretching
-    ├── 코드 역공학 방어 ─▶ Obfuscation
-    └── 변경분 전송 최적화 ▶ Delta
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자산 식별</div>
+<div class="kb-diagram-tree-item" style="--depth:2">비밀 보호 ▶ Encryption</div>
+<div class="kb-diagram-tree-item" style="--depth:2">위변조 검증 ▶ Hash / HMAC</div>
+<div class="kb-diagram-tree-item" style="--depth:2">패스워드 저장 ▶ Salt + Key Stretching</div>
+<div class="kb-diagram-tree-item" style="--depth:2">코드 역공학 방어 ─▶ Obfuscation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">변경분 전송 최적화 ▶ Delta</div>
+</div>
+</div>
+
+
 
 이 흐름은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상에 따라 통제 수단이 갈라진다는 점을 한눈에 보여 준다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 전통적 중앙 집중식 머신러닝은 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 서버에 수집해 학습한다. 그러나 병원 환자 기록, 은행 거래 내역, 스마트폰 개인 메시지 등은 법적·윤리적으로 외부 전송이 불가능한 경우가 많다.
 
-**[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 등장 배경**
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 등장 배경</strong>
 - [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/): [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 국외 이전 규제
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)): 경쟁 기업 간 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/) 불가
 - [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모바일: 수십억 대 기기에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 필요
@@ -34,25 +34,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-          글로벌 모델 배포
-               │
-         ┌─────▼─────┐
-         │  중앙 서버  │
-         │ (집계 서버) │
-         └─────┬─────┘
-               │ 그래디언트/가중치 수신
-    ┌──────────┼──────────┐
-    │          │          │
-┌───▼──┐  ┌───▼──┐  ┌───▼──┐
-│병원A │  │병원B │  │병원C │
-│로컬  │  │로컬  │  │로컬  │
-│학습  │  │학습  │  │학습  │
-└──────┘  └──────┘  └──────┘
-  데이터 이동 없음 (원시 데이터 로컬 유지)
-```
 
-**FedAvg(Federated Averaging) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** (McMahan et al., 2017)
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 모델 배포</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(집계 서버)</div></div>
+<div class="kb-diagram-note">그래디언트/가중치 수신</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병원A</div><div class="kb-diagram-cell">병원B</div><div class="kb-diagram-cell">병원C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬</div><div class="kb-diagram-cell">로컬</div><div class="kb-diagram-cell">로컬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">학습</div></div>
+<div class="kb-diagram-note">데이터 이동 없음 (원시 데이터 로컬 유지)</div>
+</div>
+</div>
+
+
+
+<strong>FedAvg(Federated Averaging) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> (McMahan et al., 2017)
 1. 서버가 글로벌 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) W_t를 각 클라이언트에 전송
 2. 클라이언트i가 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 E 에포크 SGD 수행 → ΔW_i 계산
 3. 서버가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 평균 집계: W_{t+1} = Σ(n_i/n) × W_i
@@ -98,7 +97,7 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 포인트**
 
-1. **Non-IID [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제**: 각 클라이언트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 불균일 → FedProx, FedNova로 보완
+1. <strong>Non-IID <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 각 클라이언트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 불균일 → FedProx, FedNova로 보완
 2. **통신 비용**: 대형 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 그래디언트 전송 → 그래디언트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 어댑터만 전송
 3. **무임승차(Free Rider) 문제**: 기여 없이 글로벌 모델만 이용 → 기여도 평가(Shapley 기반 보상)
 4. **규제 적합성**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 제17조(잊힐 권리) → [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)에서 특정 클라이언트 탈퇴 메커니즘 설계 필요

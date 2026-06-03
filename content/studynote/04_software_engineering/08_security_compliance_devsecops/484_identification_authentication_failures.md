@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 개발자가 아무리 내부에 튼튼한 금고(DB 암호화)를 만들고, 권한 체크(A01 방어)를 빡세게 발라놔도, 해커가 애초에 '최고 관리자(Admin)'의 아이디와 비밀번호로 정상 로그인을 성공해 버리면? 시스템 입장에서는 해커가 아니라 '진짜 합법적인 사장님'이 들어온 것이므로 모든 권한 방어막이 프리패스로 무장 해제된다. 즉, **집(시스템)이 튼튼함을 증명하기도 전에 집주인의 영혼(Identity) 자체가 도둑맞는 가장 허무하고 완벽한 패배를 막기 위해** 대문 앞의 깐깐한 경비원([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통제)이 절대적으로 필요하다.
 
-- **💡 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패는 클럽의 **'허술한 기도(경비원)와 도장 찍기'**와 같습니다. 손님(해커)이 미성년자인데도 기도가 신분증 검사를 대충 하고 들여보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패). 심지어 한 번 들어온 손님 손등에 야광 도장([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 찍어줬는데, 그 손님이 집에 가면서 자기 동생한테 도장이 찍힌 피부 껍질을 떼어서(?) 넘겨줍니다. 동생이 그 도장(탈취된 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 들이미니 기도는 프리패스로 또 들여보내 줍니다. 신분증과 도장이 털려 클럽 전체가 미성년자 판이 되는 대재앙입니다.
+- **💡 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패는 클럽의 <strong>'허술한 기도(경비원)와 도장 찍기'</strong>와 같습니다. 손님(해커)이 미성년자인데도 기도가 신분증 검사를 대충 하고 들여보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패). 심지어 한 번 들어온 손님 손등에 야광 도장([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 찍어줬는데, 그 손님이 집에 가면서 자기 동생한테 도장이 찍힌 피부 껍질을 떼어서(?) 넘겨줍니다. 동생이 그 도장(탈취된 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 들이미니 기도는 프리패스로 또 들여보내 줍니다. 신분증과 도장이 털려 클럽 전체가 미성년자 판이 되는 대재앙입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **"비밀번호만 맞으면 됨" (과거)**: ID/PW만 맞으면 무조건 문을 열어줬다. 하지만 해커들이 다른 사이트에서 털어온 ID/PW 명부를 자동화 툴에 넣고 초당 1만 번씩 때려 박는([Credential Stuffing](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/)) 기계적 공세를 펼치자 비밀번호라는 방패 자체가 찢겨나갔다.
   2. **모바일과 잦은 로그인의 피로도**: 유저들이 로그인할 때마다 튕기는 걸 혐오하게 되면서, 한 번 로그인하면 1년 동안 안 풀리는 영구 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 부여했다. 해커들은 이 PC방에 남겨진 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐서 무제한으로 털어먹기 시작했다.
-  3. **MFA와 토큰([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 통제 시대 (현재)**: 비밀번호 1개는 이미 죽었다고 가정한다. 무조건 폰으로 2차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)번호([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))를 쏘고, 입장 팔찌(Token)의 수명을 30분으로 토막 낸 뒤, 리프레시 토큰([Refresh Token](/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/))으로 몰래 수명을 연장해 주는 고도의 아키텍처 전쟁으로 돌입했다.
+  3. <strong>MFA와 토큰(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>) 통제 시대 (현재)</strong>: 비밀번호 1개는 이미 죽었다고 가정한다. 무조건 폰으로 2차 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)번호([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))를 쏘고, 입장 팔찌(Token)의 수명을 30분으로 토막 낸 뒤, 리프레시 토큰([Refresh Token](/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/))으로 몰래 수명을 연장해 주는 고도의 아키텍처 전쟁으로 돌입했다.
 
-- **📢 섹션 요약 비유**: 이 취약점은 **'얼굴 인식 없는 낡은 아파트 카드키'**입니다. 내가 카드키(비밀번호)를 잃어버려서 도둑이 주웠습니다. 아파트 현관(서버)은 카드키만 대면 도둑인지 집주인인지 얼굴([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))을 안 보고 그냥 "어서오십시오" 하고 문을 엽니다. 진짜 최첨단 보안은 카드키를 대더라도 지문을 한 번 더 찍어라(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 혹은 3번 틀리면 카드를 먹어버리라([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))는 혹독한 통제가 필수입니다.
+- **📢 섹션 요약 비유**: 이 취약점은 <strong>'얼굴 인식 없는 낡은 아파트 카드키'</strong>입니다. 내가 카드키(비밀번호)를 잃어버려서 도둑이 주웠습니다. 아파트 현관(서버)은 카드키만 대면 도둑인지 집주인인지 얼굴([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))을 안 보고 그냥 "어서오십시오" 하고 문을 엽니다. 진짜 최첨단 보안은 카드키를 대더라도 지문을 한 번 더 찍어라(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 혹은 3번 틀리면 카드를 먹어버리라([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))는 혹독한 통제가 필수입니다.
 
 ---
 
 다음은 [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and A의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Identification and A                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identification and A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and A가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and [Authentication Failures](/knowledge-base/studynote/09_security/05_web_app_security/454_authentication_failures/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and [Authentication Failures](/knowledge-base/studynote/09_security/05_web_app_security/454_authentication_failures/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) and [Authentication Failures](/knowledge-base/studynote/09_security/05_web_app_security/454_authentication_failures/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/) 실패)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Identification and Authentication Failures (인증 및 세션 관리 실패) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Identification and Authentication Failures (인증 및 세션 관리 실패) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

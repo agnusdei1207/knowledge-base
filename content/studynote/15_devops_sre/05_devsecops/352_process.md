@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | [Data Clean Room](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) | 협업 실행 환경 | 접근 제어, 결과 반출 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 | Result Governance | 결과 공개 통제 | 최소 집계 단위, 재식별 방지 |
 
-```text
-┌──────────────┐   encrypt   ┌──────────────┐   compute   ┌──────────────┐
-│ Source Data  │ ──────────▶ │ Ciphertext   │ ──────────▶ │ Secure Query │
-└──────────────┘             └──────────────┘             └──────────────┘
-        │                             │                            │
-        │ key owner                   │ no plaintext               │ approved result
-        ▼                             ▼                            ▼
-┌──────────────┐             ┌──────────────┐             ┌──────────────┐
-│ Key Control  │             │ Clean Room   │ ──────────▶ │ Decryption   │
-└──────────────┘             └──────────────┘             └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">encrypt compute</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Data</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Ciphertext</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Secure Query</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">key owner</div><div class="kb-diagram-cell">no plaintext</div><div class="kb-diagram-cell">approved result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key Control</div><div class="kb-diagram-cell">Clean Room</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Decryption</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 “원문 접근 최소화”다. 모든 계산을 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)로 수행하는 것은 아직 비용이 크므로, 실제 구현에서는 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)와 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)([Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/)), [Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/), [Data Clean Room](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/305_data_clean_room/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 혼합하는 경우가 많다. 즉 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)는 단독 솔루션보다 프라이버시 강화 분석 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 일부로 보는 것이 현실적이다.
 
@@ -116,18 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Data Masking
-   │
-   ▼
-Secure Collaboration Need
-   │
-   ▼
-Data Clean Room + TEE
-   │
-   ▼
-Homomorphic Encryption-assisted Privacy Analytics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Masking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Collaboration Need</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Clean Room + TEE</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Homomorphic Encryption-assisted Privacy Analytics</div>
+</div>
+</div>
+
+
 
 이 흐름은 “단순 비식별 → 협업 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요구 → [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 실행 환경 → 암호문 계산”으로 프라이버시 기술이 강화되는 방향을 보여준다.
 

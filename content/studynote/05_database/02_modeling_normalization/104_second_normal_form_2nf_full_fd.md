@@ -34,26 +34,24 @@ tags = ["database"]
 | **완전 함수 종속** | $X \rightarrow Y$일 때, $X$의 진부분집합 $X'$에 대해 $X' \rightarrow Y$가 성립하지 않는 상태 | 테이블에 잔류 (정상) |
 | **부분 함수 종속** | $X \rightarrow Y$일 때, $X$의 진부분집합 $X'$에 대해서도 $X' \rightarrow Y$가 성립하는 상태 | 새 테이블로 분리 (2NF 대상) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  2NF 무손실 분해 메커니즘 시각화                  │
-├──────────────────────────────────────────────────────────────┤
-│ [ 1NF 상태 (부분 종속 존재) ]                                    │
-│       ┌───────── 복합 기본 키 ─────────┐                      │
-│       │ (학번)           (과목코드)    │                      │
-│       └──┬───┘               └───┬───┘                      │
-│          │                       │                            │
-│          │ ┌───── 부분 종속 ─────┘ ┌───── 완전 종속 ─────┐    │
-│          ▼ ▼                      ▼                     ▼    │
-│      (학생이름)                 (학과)                  (성적)    │
-│                                                              │
-│ ───────────────────── 분해 (Decomposition) ───────────────── │
-│                                                              │
-│ [ 2NF 달성 (두 개의 테이블로 분리) ]                              │
-│  <학생 테이블>                           <수강 테이블>           │
-│  [ (학번) ] ──▶ (학생이름, 학과)        [ (학번, 과목코드) ] ──▶ (성적) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2NF 무손실 분해 메커니즘 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1NF 상태 (부분 종속 존재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복합 기본 키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학번) (과목코드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 종속 완전 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학생이름) (학과) (성적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분해 (Decomposition)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2NF 달성 (두 개의 테이블로 분리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;학생 테이블&gt; &lt;수강 테이블&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">(학번)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">(학번, 과목코드)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(성적)</div></div>
+</div>
+</div>
+
+
 이 다이어그램은 복합 키의 일부인 '학번'에 종속된 '학생이름'과 '학과'를 떼어내어 새로운 학생 테이블을 만들고, 본래 수강 테이블에는 완전 함수 종속된 '성적'만 남기는 과정을 보여준다. 이를 통해 부분 종속이 완전히 제거된다.
 
 - **📢 섹션 요약 비유**: 수술실에서 암세포를 제거하는 것과 같다. 정상 세포(완전 종속 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))는 그대로 두고, 다른 곳에 기생하는 암세포(부분 종속 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))만 정확히 도려내어 배양 접시(새 테이블)에 따로 분리하는 외과 수술이다.
@@ -66,9 +64,9 @@ tags = ["database"]
 
 | 정규형 | 판단 기준 | 제거 대상 |
 | :--- | :--- | :--- |
-| **[1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)** | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값이 원자값 (Atomic value)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? | 다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 반복 그룹 |
-| **2NF** | [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)의 **일부**에 종속되는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 있는가? | **부분 함수 종속** |
-| **[3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)** | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)끼리 종속되는 경우가 있는가? | **이행적 함수 종속** |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/">1NF</a></strong> | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)값이 원자값 (Atomic value)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? | 다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 반복 그룹 |
+| **2NF** | [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)의 <strong>일부</strong>에 종속되는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 있는가? | **부분 함수 종속** |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a></strong> | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)끼리 종속되는 경우가 있는가? | **이행적 함수 종속** |
 
 2NF는 3NF로 가기 위한 필수 전제조건이다. 부분 종속을 먼저 제거하지 않으면 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 종속(이행적 종속)을 식별하고 분리하는 작업이 복잡해지기 때문이다. 또한, [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)가 단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 구성된 테이블이라면 부분 함수 종속 자체가 성립할 수 없으므로 [1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) 만족 시 곧바로 2NF도 만족하게 된다는 점이 중요한 차이다.
 
@@ -82,7 +80,7 @@ tags = ["database"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **복합 키 존재 여부**: 테이블의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)가 단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)인가, 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)인가? (단일 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이면 2NF 검증은 패스한다.)
-2. **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 모니터링**: 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제할 때 연관된 다른 중요 정보까지 함께 삭제되는 '[삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)'이 발생할 여지가 있는가?
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> 모니터링</strong>: 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제할 때 연관된 다른 중요 정보까지 함께 삭제되는 '[삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)'이 발생할 여지가 있는가?
 3. **무손실 조인 가능성**: 테이블을 분리한 후 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (FK, Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 통해 다시 조인했을 때 원래의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 정확히 복원할 수 있는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -105,28 +103,30 @@ tags = ["database"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[함수적 종속성](/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/) (FD)** | $X \rightarrow Y$의 관계로, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정의 핵심 판별 기준 |
-| **[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) (Lossless Decomposition)** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분리된 테이블이 조인 시 정보 유실 없이 복원되는 성질 |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 하지 않았을 때 발생하는 삽입, 갱신, 삭제 시의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 |
-| **복합 키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))** | 2개 이상의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 구성된 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/), 2NF 검토의 주 대상 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/094_functional_dependency_fd/">함수적 종속성</a> (FD)</strong> | $X \rightarrow Y$의 관계로, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 과정의 핵심 판별 기준 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a> (Lossless Decomposition)</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 분리된 테이블이 조인 시 정보 유실 없이 복원되는 성질 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 하지 않았을 때 발생하는 삽입, 갱신, 삭제 시의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 |
+| <strong>복합 키 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong> | 2개 이상의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 구성된 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/), 2NF 검토의 주 대상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규 릴레이션 (중복과 이상 현상 내재)
-    │
-    ▼
-제1정규형 (1NF) · 도메인이 원자값
-    │
-    ▼ (본 문서)
-제2정규형 (2NF) · 부분 함수 종속 제거
-    │
-    ▼
-제3정규형 (3NF) · 이행적 함수 종속 제거
-    │
-    ▼
-BCNF (Boyce-Codd Normal Form) · 모든 결정자가 후보 키
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규 릴레이션 (중복과 이상 현상 내재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제1정규형 (1NF) · 도메인이 원자값</div>
+<div class="kb-diagram-note">▼ (본 문서)</div>
+<div class="kb-diagram-note">제2정규형 (2NF) · 부분 함수 종속 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제3정규형 (3NF) · 이행적 함수 종속 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCNF (Boyce-Codd Normal Form) · 모든 결정자가 후보 키</div>
+</div>
+</div>
+
+
 이 흐름도는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 중복을 제거하며 점점 더 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 갖춰가는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 진화 단계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

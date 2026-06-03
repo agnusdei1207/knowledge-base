@@ -30,20 +30,22 @@ tags = ["studynote-computer-architecture"]
 
 컴퓨터 구조에서 저항은 의도된 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 제어와 극복해야 할 기생 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 두 가지 형태로 나타난다. [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)는 게이트 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 통해 소스와 드레인 사이의 채널 저항을 무한대(OFF)에서 수십 옴(ON)으로 급격히 변화시키는 거대한 가변 저항기다. 이 저항의 극단적인 스위칭이 곧 1과 0의 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 만든다.
 
-반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 **RC (Resistor-Capacitor) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**을 발생시킨다. 
+반면 금속 배선이 가지는 고유 저항($R$)은 주변 배선과의 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 발생시킨다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           RC 지연에 의한 디지털 신호 붕괴 현상             │
-├──────────────────────────────────────────────────────────────┤
-│  [송신단] ──▶ [ 배선 저항 (R) ] ──┬──▶ [수신단 도달 신호]  │
-│  이상적 1 ┌─┐                   │    / 1에 도달하는       │
-│          ┘ └──                  │   /  시간이 지연됨      │
-│                            기생 C ───/                   │
-│                                  │                     │
-│                                 GND                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RC 지연에 의한 디지털 신호 붕괴 현상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신단</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">배선 저항 (R)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신단 도달 신호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상적 1 ─</div><div class="kb-diagram-cell">/ 1에 도달하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">/ 시간이 지연됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기생 C /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GND</div></div>
+</div>
+</div>
+
+
 
 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 배선을 통과할 때 저항이 크면 기생 커패시터를 충전하는 데 시간이 오래 걸려, 사각형의 디지털 펄스가 완만한 곡선으로 눕게 된다. 이 상승 시간 (Rise Time) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 클럭 주기보다 길어지면 수신단에서 1을 0으로 오인하는 타이밍 오류가 발생한다.
 
@@ -75,8 +77,8 @@ tags = ["studynote-computer-architecture"]
 전원 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) (PDN)의 저항이 크면 CPU가 순간적으로 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 끌어당길 때 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 목표치 이하로 떨어져 시스템이 셧다운된다. 또한 좁은 구리 배선에 고밀도 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르면, 전자가 금속 원자를 밀어내어 배선이 끊어지는 물리적 파괴가 발생한다. 이를 막기 위해 설계자는 최상위 글로벌 메탈 레이어에는 두꺼운 구리나 코발트를 배정하고, 수직 연결 비아(Via)는 다중 어레이로 뚫어 저항 병목을 강제로 넓혀야 한다.
 
 ### 판단 포인트 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **PDN [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하**: 최대 부하(Max TDP) 시 전원 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 저항에 의한 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 허용 마진(보통 5% 이내) 안에 들어오는가?
-2. **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 선로 끝단에 종단 저항 (ODT)이 정확히 매칭되어 반사파를 흡수하고 있는가?
+1. <strong>PDN <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하</strong>: 최대 부하(Max TDP) 시 전원 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 저항에 의한 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 허용 마진(보통 5% 이내) 안에 들어오는가?
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 고속 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 선로 끝단에 종단 저항 (ODT)이 정확히 매칭되어 반사파를 흡수하고 있는가?
 3. **타이밍 클로저**: 가장 긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로의 RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 목표 클럭 주기를 초과하지 않도록 리피터(버퍼)가 적절히 삽입되었는가?
 
 - **📢 섹션 요약 비유**: 설계 단계에서 저항을 무시하는 것은 고층 빌딩 꼭대기에 물을 보내면서 수압 펌프와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 굵기를 계산하지 않는 것과 같다. 결국 물이 나오지 않거나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 터진다.
@@ -87,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 저항을 정밀하게 제어하고 기생 저항을 억제하면, 칩은 더 높은 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 도달과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 감소라는 두 마리 토끼를 잡을 수 있다. 
 
-하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 후면에 전력 전용 배선을 따로 두는 **BSPDN (Backside [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Delivery Network)**이나, 아예 저항이 없는 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다. 
+하지만 미세 공정이 3nm 이하로 내려가면서 전자가 구리 배선의 경계면과 충돌하는 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과로 인해 비저항이 폭증하는 한계에 다다랐다. 이를 극복하기 위해 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 후면에 전력 전용 배선을 따로 두는 <strong>BSPDN (Backside <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Delivery Network)</strong>이나, 아예 저항이 없는 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 실리콘 포토닉스 같은 혁신적 아키텍처가 도입되고 있다. 
 
 결론적으로 저항은 제거할 수 없는 물리적 제약이며, 차세대 컴퓨터 구조는 이 마찰을 어떻게 우회하고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킬 것인가에 대한 설계 싸움이다.
 
@@ -99,28 +101,30 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (RC Delay)** | 배선 저항과 기생 커패시터가 만나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 상승/하강을 늦추는 현상 |
-| **[임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) ([Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))** | 교류/고주파 환경에서 저항이 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/), 커패시터와 결합한 복합 저항 |
-| **[IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop ([전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하)** | 칩 내부 전원 배선의 저항 때문에 코어 도달 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 떨어지는 현상 |
+| <strong>RC <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (RC Delay)</strong> | 배선 저항과 기생 커패시터가 만나 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 상승/하강을 늦추는 현상 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a>)</strong> | 교류/고주파 환경에서 저항이 [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/), 커패시터와 결합한 복합 저항 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/">IR</a> Drop (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하)</strong> | 칩 내부 전원 배선의 저항 때문에 코어 도달 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 떨어지는 현상 |
 | **BSPDN** | 전원 배선의 저항 병목을 해결하기 위해 웨이퍼 뒷면으로 전력을 공급하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[RC 지연 (RC Delay)]
-    │
-    ▼
-[임피던스 (Impedance)]
-    │
-    ▼
-[IR Drop (전압 강하)]
-    │
-    ▼
-[BSPDN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RC 지연 (RC Delay)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임피던스 (Impedance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IR Drop (전압 강하)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSPDN</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 BSPDN까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

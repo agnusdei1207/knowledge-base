@@ -24,39 +24,26 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1970년대 CMU의 Mach 마이크로커널이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 기반 간접 통신을 처음으로 대규모로 구현하였다. 이후 Microsoft Windows의 LPC/[RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/), QNX의 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/), 그리고 Java Message [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (JMS) 표준에 이르기까지 간접 통신은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 느슨한 결합 아키텍처의 핵심 전송 모델로 발전하였다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │         간접 통신의 우편함(Mailbox) 기반 동작 원리                  │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │  ┌──────────┐                      ┌──────────┐                     │
-  │  │ Sender 1 │   send(M, msg1)      │ Sender 2 │                     │
-  │  └────┬─────┘─────────────┐        └────┬─────┘                     │
-  │       │                   │              │                          │
-  │       │                   ▼              │                          │
-  │       │         ┌─────────────────┐      │                          │
-  │       │         │   Mailbox M     │      │                          │
-  │       │         │ ┌─────────────┐ │      │                          │
-  │       │         │ │  msg1       │ │      │                          │
-  │       │         │ │  msg2       │ │      │                          │
-  │       │         │ │  msg3       │ │      │                          │
-  │       │         │ └─────────────┘ │      │                          │
-  │       │         └────────┬────────┘      │                          │
-  │       │                  │               │                          │
-  │       │        ┌─────────┼─────────┐     │                          │
-  │       │        ▼         ▼         ▼     │                          │
-  │       │  ┌──────────┐ ┌──────────┐ ┌──────────┐                     │
-  │       │  │Receiver 1│ │Receiver 2│ │Receiver 3│                     │
-  │       │  │recv(M,msg)│ │recv(M,msg)│ │recv(M,msg)│                  │
-  │       │  └──────────┘ └──────────┘ └──────────┘                     │
-  │       │                                                             │
-  │  [1:N 통신] Sender가 Mailbox에 1번 보내면,                          │
-  │            N명의 Receiver가 모두 수신 가능                          │
-  │                                                                     │
-  │  💡 Sender와 Receiver는 서로의 존재를 모름                          │
-  │     오직 Mailbox M이라는 ID만 공유                                  │
-  └─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간접 통신의 우편함(Mailbox) 기반 동작 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender 1</div><div class="kb-diagram-cell">send(M, msg1)</div><div class="kb-diagram-cell">Sender 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mailbox M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver 1</div><div class="kb-diagram-cell">Receiver 2</div><div class="kb-diagram-cell">Receiver 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recv(M,msg)</div><div class="kb-diagram-cell">recv(M,msg)</div><div class="kb-diagram-cell">recv(M,msg)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1:N 통신</div><div class="kb-diagram-note">Sender가 Mailbox에 1번 보내면,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N명의 Receiver가 모두 수신 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 Sender와 Receiver는 서로의 존재를 모름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오직 Mailbox M이라는 ID만 공유</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 다이어그램은 간접 통신이 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)과 근본적으로 다른 점을 명확히 보여준다. 송신자(Sender 1, 2)는 자신의 메시지를 어느 프로세스에게 보내는지 알지 못한다. 단지 우편함 M이라는 식별자에 메시지를 넣을 뿐이다. 반대로 수신자(Receiver 1, 2, 3)도 메시지가 누구로부터 왔는지 알 필요 없이 우편함 M을 확인하기만 한다. 이러한 디커플링(Decoupling) 덕분에 시스템의 각 구성 요소를 독립적으로 개발, 배포, 교체할 수 있다. 예를 들어, 새로운 Receiver 4를 추가하더라도 Sender의 코드는 전혀 변경할 필요가 없다. 이는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추는 핵심 원리와 정확히 일치한다.
 
@@ -73,36 +60,32 @@ tags = ["studynote-operating-system"]
 | 소유권 모델 | 설명 | 장점 | 단점 | 예시 |
 |:---|:---|:---|:---|:---|
 | **프로세스 소유** | 우편함을 생성한 프로세스가 소유. [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 소멸 | 수명 관리가 단순 | 소유자 종료 시 우편함도 사라져 메시지 유실 | Mach [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) |
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소유** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 영구적인 우편함을 관리 | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 후에도 우편함 유지 | 관리 오버헤드, 누적 메시지 정리 필요 | System V Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 소유</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 영구적인 우편함을 관리 | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 후에도 우편함 유지 | 관리 오버헤드, 누적 메시지 정리 필요 | System V Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) |
 | **독립 프로세스 소유** | 전용 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)가 우편함 운영 | 고도의 제어와 모니터링 가능 | 추가 프로세스 유지 비용 | RabbitMQ Broker |
 
 ### 통신 토폴로지: 우편함 조합에 의한 다양한 패턴
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     우편함(Mailbox) 조합으로 구현하는 4가지 통신 토폴로지           │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │  [1:1 전용 우편함]    [1:N 발행 우편함]    [N:1 집중 우편함]        │
-  │                                                                     │
-  │  Sender    Mailbox    Receiver    Publisher   Subscribers           │
-  │    │    ┌──────┐    │        │  ┌──────┐  ┌──┤ ┌──┤                 │
-  │    └───▶│ MB-A │───▶│        └─▶│ MB-B │──┤R1│ │R2│                 │
-  │         └──────┘              └──────┘  └──┘ └──┘                   │
-  │  (개인 사서함)             (게시판/공지사항)                        │
-  │                                                                     │
-  │  [N:N 공유 우편함]                                                  │
-  │                                                                     │
-  │  Sender1 ─┐                                                         │
-  │  Sender2 ─┼─▶ ┌──────┐ ──▶ Receiver1                                │
-  │  Sender3 ─┘   │ MB-C │     Receiver2                                │
-  │               └──────┘     Receiver3                                │
-  │  (그룹 채팅방)                                                      │
-  │                                                                     │
-  │  💡 모든 패턴이 send(Mailbox_ID, msg) / receive(Mailbox_ID, msg)    │
-  │    이라는 동일한 API로 구현됨 (인터페이스 통일성)                   │
-  └─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우편함(Mailbox) 조합으로 구현하는 4가지 통신 토폴로지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1:1 전용 우편함</div><div class="kb-diagram-node">1:N 발행 우편함</div><div class="kb-diagram-node">N:1 집중 우편함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender Mailbox Receiver Publisher Subscribers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">MB-A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">MB-B</div><div class="kb-diagram-cell">── R1</div><div class="kb-diagram-cell">R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인 사서함) (게시판/공지사항)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">N:N 공유 우편함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender1 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender2 ─ ─▶ ──▶ Receiver1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender3 ─</div><div class="kb-diagram-cell">MB-C</div><div class="kb-diagram-cell">Receiver2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(그룹 채팅방)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 모든 패턴이 send(Mailbox_ID, msg) / receive(Mailbox_ID, msg)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이라는 동일한 API로 구현됨 (인터페이스 통일성)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 간접 통신의 가장 강력한 장점은 동일한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(`send/receive`)로 다양한 통신 토폴로지를 구현할 수 있다는 점이다. 1:1 통신은 두 프로세스가 공유하는 전용 우편함(MB-A)을 사용하면 되고, 1:N 통신(발행-구독 패턴)은 하나의 우편함(MB-B)에 여러 수신자가 구독(Subscribe)하도록 설정하면 된다. N:1 통신([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) 패턴)은 여러 송신자가 하나의 우편함(MB-C)에 메시지를 보내고, 수신자 중 하나만 꺼내가도록 구현한다. N:N 통신은 그룹 우편함을 사용하여 다자간 채팅 시스템을 구현할 수 있다. 이러한 유연성은 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)에서는 불가능하며, 우편함(중간 매개체)이라는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 제공하는 근본적인 이점이다.
 
@@ -131,9 +114,9 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 -- [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) 기반 이벤트 스트리밍**: 전자상거래 플랫폼에서 주문 완료 이벤트를 `order-events` 토픽(우편함)에 발행하고, 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 통계 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 여러 구독자가 독립적으로 메시지를 소비하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 서로의 존재를 알 필요 없이 토픽 ID만으로 통신하므로, 새로운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추가 시 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 코드 수정이 전혀 불필요하다.
+1. <strong>시나리오 -- <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/">Apache Kafka</a> 기반 이벤트 스트리밍</strong>: 전자상거래 플랫폼에서 주문 완료 이벤트를 `order-events` 토픽(우편함)에 발행하고, 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 통계 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 여러 구독자가 독립적으로 메시지를 소비하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 서로의 존재를 알 필요 없이 토픽 ID만으로 통신하므로, 새로운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 추가 시 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 코드 수정이 전혀 불필요하다.
 
-2. **시나리오 -- Mach 마이크로커널의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 시스템**: macOS의 XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Mach 기반)에서 모든 IPC는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 간접 통신으로 수행된다. 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))는 고유한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 소유하며, 메시지는 송신자의 아웃박스(Outbox) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 수신자의 인박스(Inbox) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달된다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 권한([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Right)을 통해 수신 권한을 세밀하게 제어할 수 있다.
+2. <strong>시나리오 -- Mach 마이크로커널의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 시스템</strong>: macOS의 XNU [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Mach 기반)에서 모든 IPC는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반 간접 통신으로 수행된다. 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))는 고유한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 소유하며, 메시지는 송신자의 아웃박스(Outbox) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 수신자의 인박스(Inbox) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달된다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 권한([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Right)을 통해 수신 권한을 세밀하게 제어할 수 있다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: 우편함의 소유권 모델(프로세스/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/독립 프로세스)을 시스템 요구사항에 맞게 선택하였는가? 우편함 크기 제한(Capacity)을 초과할 때의 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Full [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 정의하였는가?
@@ -154,16 +137,16 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **정량** | 1:1 통신만 가능 | 1:N, N:1, N:N 모두 지원 | **다자간 통신 유연성** |
 | **정량** | 수신자 변경 시 송신자 수정 필요 | 우편함만 공유하면 무한 확장 | **시스템 확장성** |
-| **정성** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 높은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 느슨한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)** |
-| **정성** | 단순 시나리오에 적합 | 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에 적합 | **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처 적합성** |
+| **정성** | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 높은 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 느슨한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong> |
+| **정성** | 단순 시나리오에 적합 | 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에 적합 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 아키텍처 적합성</strong> |
 
 ### 미래 전망
-- **[이벤트 드리븐 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/214_eda_event_driven_architecture_async/) ([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))**: 간접 통신의 발행-구독 패턴은 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)에서 핵심 패턴으로 자리 잡았다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Pulsar, NATS 등의 이벤트 스트리밍 플랫폼이 간접 통신의 극대화된 형태로 발전하고 있다.
-- **Actor 모델 (Akka, [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/))**: [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/OTP와 Akka Actor 프레임워크는 각 Actor가 자신의 우편함(Mailbox)을 소유하고 메시지를 비동기적으로 처리하는 모델이다. 간접 통신의 개념을 프로그래밍 언어 수준으로 내장한 고도의 구현이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/214_eda_event_driven_architecture_async/">이벤트 드리븐 아키텍처</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/">Event-Driven Architecture</a>)</strong>: 간접 통신의 발행-구독 패턴은 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)에서 핵심 패턴으로 자리 잡았다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Pulsar, NATS 등의 이벤트 스트리밍 플랫폼이 간접 통신의 극대화된 형태로 발전하고 있다.
+- <strong>Actor 모델 (Akka, <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/">Erlang</a>)</strong>: [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/OTP와 Akka Actor 프레임워크는 각 Actor가 자신의 우편함(Mailbox)을 소유하고 메시지를 비동기적으로 처리하는 모델이다. 간접 통신의 개념을 프로그래밍 언어 수준으로 내장한 고도의 구현이다.
 
 ### 참고 표준
 - **POSIX.1**: `mq_open()`, `mq_send()`, `mq_receive()` 기반의 POSIX 메시지 큐(우편함) 표준.
-- **AMQP (Advanced Message Queuing [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: RabbitMQ 등 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)의 개방형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). Exchange(우편함) 기반의 간접 통신을 표준화한다.
+- <strong>AMQP (Advanced Message Queuing <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: RabbitMQ 등 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)의 개방형 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). Exchange(우편함) 기반의 간접 통신을 표준화한다.
 
 간접 통신은 우편함(Mailbox)이라는 중간 매개체를 도입하여 송신자와 수신자를 완전히 디커플링(Decoupling)하는 우아한 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 패턴이다. 동일한 API로 1:1부터 N:N까지 모든 통신 토폴로지를 표현할 수 있으며, 발행-구독(Pub/Sub) 패턴의 기반 기술로서 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시스템의 핵심 통신 인프라다.
 
@@ -182,15 +165,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[직접 통신 (Direct Communication)]
-    │
-    ▼
-[간접 통신 (Indirect Communication)]
-    │
-    ├──▶ [동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]
-    └──▶ [파이프 (Pipe)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">직접 통신 (Direct Communication)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">간접 통신 (Indirect Communication)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파이프 (Pipe)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

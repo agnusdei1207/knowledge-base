@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - **블랙박스(Black-box) 폐쇄성**: 화웨이나 에릭슨 같은 거대 장비 제조사들은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 두뇌가 통신하는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 규격(CPRI)을 자기들 입맛대로 비틀어 암호화해버렸습니다. 
 - **결과**: SKT가 에릭슨의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 샀다면, 두뇌 서버도 눈물을 머금고 10배 비싼 에릭슨 정품만 짝맞춤으로 사야 했습니다. ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/) 현상)
 
-```text
-[C-RAN]
-    │
-    ▼
-[O-RAN]
-    │
-    └──▶ [기지국 DU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-RAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기지국 DU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: O-RAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: O-RAN 얼라이언스(통신사 연합체)가 주도하여, 무선 기지국을 구성하는 장비들(RU, DU, CU) 사이의 **모든 연결 인터페이스 규격을 개방형(Open) 표준 API로 100% 통일하고, 소프트웨어와 하드웨어를 완벽하게 분리하는 차세대 기지국 아키텍처**입니다.
+- **개념**: O-RAN 얼라이언스(통신사 연합체)가 주도하여, 무선 기지국을 구성하는 장비들(RU, DU, CU) 사이의 <strong>모든 연결 인터페이스 규격을 개방형(Open) 표준 API로 100% 통일하고, 소프트웨어와 하드웨어를 완벽하게 분리하는 차세대 기지국 아키텍처</strong>입니다.
 - **목표**: 비싼 통신 장비 회사의 배를 불려주지 않고, 값싼 대만제 깡통 서버(화이트박스)를 사 와서 거기에 미국 벤처기업이 만든 소프트웨어를 깔아 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망을 싸게 짓는 것입니다.
 
-```text
-[C-RAN]
-    │
-    ▼
-[O-RAN]
-    │
-    └──▶ [기지국 DU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">C-RAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기지국 DU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: O-RAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,7 +70,7 @@ tags = ["studynote-network"]
 
 ### 2. 화이트 박스 하드웨어 (White Box)
 - 통신 전용으로 비싸게 찍어낸 '전용 쇳덩어리 장비([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))'를 버립니다.
-- 용산 전자상가에서 살 수 있는 흔한 인텔 CPU가 박힌 **범용 x86 컴퓨터 서버(화이트 박스)**를 사 와서 기지국 하드웨어로 써버리는 극한의 가성비(원가 절감)를 추구합니다.
+- 용산 전자상가에서 살 수 있는 흔한 인텔 CPU가 박힌 <strong>범용 x86 컴퓨터 서버(화이트 박스)</strong>를 사 와서 기지국 하드웨어로 써버리는 극한의 가성비(원가 절감)를 추구합니다.
 
 ### 3. 지능형 뇌의 이식: RIC (RAN Intelligent Controller)
 - O-RAN은 기지국 제어 소프트웨어에 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 이식할 수 있는 'RIC'라는 새로운 플랫폼을 정의했습니다.
@@ -114,15 +122,19 @@ O-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: C-RAN]
-    │
-    ▼
-[현재 개념: O-RAN]
-    │
-    ├──▶ [확장 A: 기지국 DU]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: C-RAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: O-RAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 기지국 DU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 O-RAN는 C-RAN에서 출발해 현재 메커니즘을 정교화하고, 이후 기지국 DU와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

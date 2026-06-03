@@ -19,18 +19,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)의 직관을 도서관 검색 시스템으로 설명하면: 사용자가 "딥러닝 입문서"를 찾는다고 하자(Query). 도서관 각 책에는 "제목·저자·키워드"가 적힌 색인 카드([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 있다. 검색 질의(Q)와 색인 카드(K)를 비교해 유사도를 계산하고, 유사도가 높은 책의 **실제 내용(Value)**을 얼마나 가져올지 결정하는 방식이다.
+[어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)의 직관을 도서관 검색 시스템으로 설명하면: 사용자가 "딥러닝 입문서"를 찾는다고 하자(Query). 도서관 각 책에는 "제목·저자·키워드"가 적힌 색인 카드([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 있다. 검색 질의(Q)와 색인 카드(K)를 비교해 유사도를 계산하고, 유사도가 높은 책의 <strong>실제 내용(Value)</strong>을 얼마나 가져올지 결정하는 방식이다.
 
 Transformer에서 Q, K, V는 같은 입력 벡터를 서로 다른 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬(W_Q, W_K, W_V)로 선형 변환하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이 분리 덕분에 "어디를 주목할지(Q·K)"와 "무엇을 가져올지(V)"가 독립적으로 학습된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure │
-│ New requirement │ Design decision point │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Q는 "나는 딥러닝 책을 찾아"(질문), K는 "이 책의 주제는 딥러닝"(색인 태그), V는 "이 책의 실제 내용"이다. Q·K가 잘 맞을수록(유사도 ) 그 책의 V(내용)를 더 많이 가져온다. 사서(어텐션)는 이 과정을 모든 책에 동시에 수행해 가장 관련 높은 책 내용들을 혼합해 답을 만든다.
 
@@ -38,33 +41,29 @@ Transformer에서 Q, K, V는 같은 입력 벡터를 서로 다른 [가중치](/
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ 스케일드 내적 어텐션 (Scaled Dot-Product Attention) 연산 흐름 │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ 입력 행렬 X (시퀀스 길이 T × 임베딩 차원 d_model) │
-│ │ │
-│ ├──▶ Q = X · W_Q (T × d_k 행렬) │
-│ ├──▶ K = X · W_K (T × d_k 행렬) │
-│ └──▶ V = X · W_V (T × d_v 행렬) │
-│ │
-│ ① Q·Kᵀ: (T×d_k) × (d_k×T) = (T×T) 유사도 행렬 │
-│ 각 위치 쌍의 관련도 점수를 한 번에 계산 (완전 병렬!) │
-│ │
-│ ② 스케일링: (Q·Kᵀ) / √d_k │
-│ 이유: d_k가 크면 내적값이 커서 softmax가 극값 포화 → 기울기 소실 │
-│ √d_k로 나눠서 분산을 1로 정규화 │
-│ │
-│ ③ 소프트맥스: Softmax((Q·Kᵀ)/√d_k) → 어텐션 가중치 행렬 (T×T) │
-│ 각 행의 합 = 1 (확률 분포) │
-│ │
-│ ④ 가중합: Attention(Q,K,V) = Softmax(Q·Kᵀ/√d_k) · V │
-│ → (T×T) · (T×d_v) = (T×d_v) 최종 출력 │
-│ │
-│ 핵심: 전체 연산이 행렬 곱(Matrix Multiplication) 하나로 처리! │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일드 내적 어텐션 (Scaled Dot-Product Attention) 연산 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 행렬 X (시퀀스 길이 T × 임베딩 차원 d_model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Q = X · W_Q (T × d_k 행렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ K = X · W_K (T × d_k 행렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ V = X · W_V (T × d_v 행렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Q·Kᵀ: (T×d_k) × (d_k×T) = (T×T) 유사도 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 위치 쌍의 관련도 점수를 한 번에 계산 (완전 병렬!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 스케일링: (Q·Kᵀ) / √d_k</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: d_k가 크면 내적값이 커서 softmax가 극값 포화 → 기울기 소실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√d_k로 나눠서 분산을 1로 정규화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 소프트맥스: Softmax((Q·Kᵀ)/√d_k) → 어텐션 가중치 행렬 (T×T)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 행의 합 = 1 (확률 분포)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 가중합: Attention(Q,K,V) = Softmax(Q·Kᵀ/√d_k) · V</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ (T×T) · (T×d_v) = (T×d_v) 최종 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 전체 연산이 행렬 곱(Matrix Multiplication) 하나로 처리!</div></div>
+</div>
+</div>
+
+
 
 | 행렬 | 형태 | 역할 |
 |:---|:---|:---|
@@ -80,9 +79,9 @@ Transformer에서 Q, K, V는 같은 입력 벡터를 서로 다른 [가중치](/
 
 ## Ⅲ. 비교 및 연결
 
-- **셀프 어텐션 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/))**: Q, K, V가 **동일한 입력 X**에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 시퀀스 내부의 모든 위치 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 핵심.
-- **크로스 어텐션 (Cross-Attention)**: Q는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 상태, K와 V는 **[인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 출력**에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)↔[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 정보 전달. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 핵심.
-- **[마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크드 어텐션 (Masked Attention)**: [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 학습 시 미래 토큰을 -∞로 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹하여 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 후 0이 되도록 해, "미래를 보지 않는" 자기회귀 학습 보장.
+- <strong>셀프 어텐션 (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/">Self-Attention</a>)</strong>: Q, K, V가 <strong>동일한 입력 X</strong>에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 시퀀스 내부의 모든 위치 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)의 핵심.
+- **크로스 어텐션 (Cross-Attention)**: Q는 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 상태, K와 V는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a> 출력</strong>에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)↔[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 정보 전달. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 핵심.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>크드 어텐션 (Masked Attention)</strong>: [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 학습 시 미래 토큰을 -∞로 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹하여 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 후 0이 되도록 해, "미래를 보지 않는" 자기회귀 학습 보장.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -96,7 +95,7 @@ Transformer에서 Q, K, V는 같은 입력 벡터를 서로 다른 [가중치](/
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **d_k [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 원논문은 d_model=512, h=8 헤드에서 d_k = d_v = 64. 작은 d_k는 연산이 가볍지만 표현력이 제한되고, 큰 d_k는 표현력은 높지만 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 없이 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 포화 위험.
+- <strong>d_k <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 원논문은 d_model=512, h=8 헤드에서 d_k = d_v = 64. 작은 d_k는 연산이 가볍지만 표현력이 제한되고, 큰 d_k는 표현력은 높지만 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 없이 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 포화 위험.
 - **Q,K,V 분리의 이유**: Q와 K가 같은 공간에 있으면 자기 자신과의 유사도가 항상 최대가 되어 어텐션이 자기 자신만 보는 문제가 생길 수 있다. W_Q ≠ W_K 분리로 다양한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 학습이 가능.
 
 - **📢 섹션 요약 비유**: W_Q ≠ W_K 분리는 "질문하는 언어"와 "답변하는 언어"를 다르게 설계하는 것이다. 영어로 질문하고 프랑스어로 답변 색인을 비교하면 더 다양한 매칭 패턴을 학습할 수 있다. 같은 언어(W_Q=W_K)면 "나는 나와 제일 잘 맞아"라는 뻔한 결론만 나온다.
@@ -129,9 +128,9 @@ Q/K/V 구조는 전통적 정보 검색([IR](/knowledge-base/studynote/01_comput
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **Q(쿼리)**는 "나는 딥러닝 책 찾아!", **K(키)**는 각 책의 "이 책 주제는 딥러닝이야!", **V(밸류)**는 "이 책의 실제 내용"이에요.
-2. Q와 K를 비교해서 **가장 잘 맞는 책**을 찾고, 그 책의 V(내용)를 **더 많이 가져와서** 답을 만드는 거예요!
-3. 모든 책을 **동시에 비교**할 수 있어서 엄청 빠르고, 이게 Transformer가 강한 비결이에요!
+1. <strong>Q(쿼리)</strong>는 "나는 딥러닝 책 찾아!", <strong>K(키)</strong>는 각 책의 "이 책 주제는 딥러닝이야!", <strong>V(밸류)</strong>는 "이 책의 실제 내용"이에요.
+2. Q와 K를 비교해서 <strong>가장 잘 맞는 책</strong>을 찾고, 그 책의 V(내용)를 **더 많이 가져와서** 답을 만드는 거예요!
+3. 모든 책을 <strong>동시에 비교</strong>할 수 있어서 엄청 빠르고, 이게 Transformer가 강한 비결이에요!
 
 ---
 

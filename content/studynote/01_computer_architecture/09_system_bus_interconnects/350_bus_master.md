@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Master)는 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 통신을 **개시**할 수 있는 장치다. 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 보내는 장치가 아니라, 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 잡고 "어디에 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행할지"를 먼저 선언할 수 있어야 마스터라고 부른다. 반대로 메모리나 일반 입출력 장치처럼 호출을 받아 응답만 하는 장치는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 슬레이브 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Slave)다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Master)는 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 통신을 <strong>개시</strong>할 수 있는 장치다. 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 보내는 장치가 아니라, 주소 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 잡고 "어디에 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행할지"를 먼저 선언할 수 있어야 마스터라고 부른다. 반대로 메모리나 일반 입출력 장치처럼 호출을 받아 응답만 하는 장치는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 슬레이브 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Slave)다.
 
 이 구분이 필요한 이유는 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 본질적으로 한 번에 한 주체만 질서를 만들 수 있는 공용 자원이기 때문이다. 모두가 동시에 주소와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 내보내면 전기적 충돌이 발생하고, 아무도 먼저 시작하지 못하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체가 멈춘다. 그래서 시스템은 "누가 말을 먼저 시작할 권한을 갖는가"를 하드웨어 수준에서 분리한다.
 
@@ -31,36 +31,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 핵심 원리는 **요청 → 승인 → 주소/명령 제시 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 → 종료 통지**의 흐름이다. 마스터 후보가 여러 개라면 먼저 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)기 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)가 사용권을 정하고, 권한을 얻은 장치만 주소선과 제어선을 구동한다. 슬레이브는 자신에게 해당하는 주소를 감지한 뒤 읽기 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청에 응답한다.
+[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 핵심 원리는 <strong>요청 → 승인 → 주소/명령 제시 → <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 → 종료 통지</strong>의 흐름이다. 마스터 후보가 여러 개라면 먼저 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)기 ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)가 사용권을 정하고, 권한을 얻은 장치만 주소선과 제어선을 구동한다. 슬레이브는 자신에게 해당하는 주소를 감지한 뒤 읽기 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청에 응답한다.
 
 아래 그림은 멀티 마스터 환경에서 한 장치가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 획득해 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 전형적 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                버스 마스터의 전송 흐름: 개시 권한이 핵심                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [CPU]      [DMA]      [NIC]                                                │
-│   │          │          │                                                  │
-│   └────┬─────┴─────┬────┘  Bus Request                                     │
-│        ▼           ▼                                                       │
-│                 [Bus Arbiter]                                              │
-│                      │ Bus Grant                                           │
-│                      ▼                                                     │
-│             [Selected Bus Master]                                          │
-│                      │                                                     │
-│      Address + Read/Write Command on System Bus                            │
-│                      │                                                     │
-│        ┌─────────────┴─────────────┐                                       │
-│        ▼                           ▼                                       │
-│   [Main Memory]              [I/O Device]                                  │
-│        │                           │                                       │
-│        └──────────── Data Bus ─────┘                                       │
-│                                                                            │
-│ 핵심: 데이터가 흐른다고 모두 마스터가 아니라, 주소/명령을 먼저 내는 쪽이 마스터 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)보다 **주소·제어 주도권**이 더 본질적이라는 사실이다. 예를 들어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러가 메모리에 연속 블록을 기록할 때, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 외부 장치에서 들어오더라도 메모리 주소를 증가시키며 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 발행하는 주체는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러다. 그래서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생산자"가 아니라 "전송의 지휘자"라고 이해하는 것이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스 마스터의 전송 흐름: 개시 권한이 핵심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-node">DMA</div><div class="kb-diagram-node">NIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bus Request</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bus Arbiter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bus Grant</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Selected Bus Master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address + Read/Write Command on System Bus</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory</div><div class="kb-diagram-node">I/O Device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 데이터가 흐른다고 모두 마스터가 아니라, 주소/명령을 먼저 내는 쪽이 마스터</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)보다 <strong>주소·제어 주도권</strong>이 더 본질적이라는 사실이다. 예를 들어 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러가 메모리에 연속 블록을 기록할 때, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 외부 장치에서 들어오더라도 메모리 주소를 증가시키며 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 발행하는 주체는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러다. 그래서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생산자"가 아니라 "전송의 지휘자"라고 이해하는 것이 정확하다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -70,7 +64,7 @@ tags = ["studynote-computer-architecture"]
 | [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러 | CPU 대신 대량 블록 전송 수행 | 시작 주소·길이·완료 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | 전송 완료를 CPU에 통지 | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드 감소 |
 
-실제 시스템에서는 한 번 권한을 얻은 마스터가 여러 워드를 연속 전송하는 [버스트 모드](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/) ([Burst Mode](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/))를 자주 사용한다. 이는 중재 횟수를 줄여 대역폭을 높이지만, 너무 길게 독점하면 다른 마스터의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 커진다. 결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터링은 단순 권한 부여가 아니라, **얼마나 오래 점유하게 할 것인가**까지 포함한 자원 관리 문제다.
+실제 시스템에서는 한 번 권한을 얻은 마스터가 여러 워드를 연속 전송하는 [버스트 모드](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/) ([Burst Mode](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/))를 자주 사용한다. 이는 중재 횟수를 줄여 대역폭을 높이지만, 너무 길게 독점하면 다른 마스터의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 커진다. 결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터링은 단순 권한 부여가 아니라, <strong>얼마나 오래 점유하게 할 것인가</strong>까지 포함한 자원 관리 문제다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 도로 위에서 차를 직접 모는 운전기사와 같다. 짐이 많다고 모두 운전기사가 되는 것은 아니고, 실제로 핸들과 방향지시등을 잡는 사람이 운전기사가 된다.
 
@@ -90,7 +84,7 @@ tags = ["studynote-computer-architecture"]
 
 CPU만 마스터인 구조는 제어가 단순하다. 모든 전송이 CPU를 거치므로 디버깅과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 쉽지만, 네트워크 수신·디스크 읽기·영상 스트리밍처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은 작업에서 CPU가 복사 노동에 묶인다. 반면 멀티 마스터 구조는 CPU 부하를 줄이고 병렬성을 높이지만, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), 기아 현상 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))을 함께 관리해야 한다.
 
-현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 계열 인터커넥트에서는 전통적 "공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"의 전기적 형태는 약해졌지만, 개념적으로는 여전히 마스터-슬레이브 역할이 남아 있다. 예를 들어 네트워크 카드나 스토리지 컨트롤러가 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트랜잭션을 스스로 발행하면, 물리적으로는 점대점 링크를 쓰더라도 기능적으로는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터링과 같은 철학을 따른다. 즉 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 특정 배선 구조의 이름이라기보다, **전송 개시 권한의 주체**를 설명하는 개념이다.
+현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/)) 계열 인터커넥트에서는 전통적 "공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"의 전기적 형태는 약해졌지만, 개념적으로는 여전히 마스터-슬레이브 역할이 남아 있다. 예를 들어 네트워크 카드나 스토리지 컨트롤러가 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트랜잭션을 스스로 발행하면, 물리적으로는 점대점 링크를 쓰더라도 기능적으로는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터링과 같은 철학을 따른다. 즉 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 특정 배선 구조의 이름이라기보다, <strong>전송 개시 권한의 주체</strong>를 설명하는 개념이다.
 
 또한 이 개념은 운영체제의 입출력 경로와도 직결된다. PIO (Programmed Input/Output)는 CPU가 직접 장치를 읽고 쓰는 방식이므로 CPU 중심 마스터 구조에 가깝고, DMA는 장치 또는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 엔진이 전송을 주도하므로 마스터 권한이 분산된 구조에 가깝다. 따라서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 하드웨어 개념이면서 동시에 시스템 소프트웨어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모델을 바꾸는 분기점이다.
 
@@ -124,7 +118,7 @@ CPU만 마스터인 구조는 제어가 단순하다. 모든 전송이 CPU를 �
 
 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 가장 큰 효과는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로에서 CPU를 떼어 내는 데 있다. CPU는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 복사보다 스케줄링, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 처리, 애플리케이션 연산에 집중할 수 있고, 저장장치·네트워크·가속기 장치는 자신의 전송 특성에 맞춰 병렬적으로 움직일 수 있다. 이 덕분에 시스템은 같은 클럭에서도 더 높은 체감 처리량을 낼 수 있다.
 
-하지만 한계도 분명하다. 마스터가 많아질수록 공유 자원 경합은 심해지고, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검증은 더 어려워진다. 그래서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 "빠른 장치"의 다른 이름이 아니라, **시스템 자율성을 부여받은 장치**라는 관점으로 기억해야 한다.
+하지만 한계도 분명하다. 마스터가 많아질수록 공유 자원 경합은 심해지고, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 검증은 더 어려워진다. 그래서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터는 "빠른 장치"의 다른 이름이 아니라, <strong>시스템 자율성을 부여받은 장치</strong>라는 관점으로 기억해야 한다.
 
 앞으로는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반 피어 투 피어 ([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 전송, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 같은 메모리 확장 인터커넥트처럼 장치가 더 적극적으로 메모리와 자원을 다루는 방향이 강해질 가능성이 높다. 그럴수록 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 마스터의 의미는 단순한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 제어자를 넘어, 시스템 안에서 독립적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 조직하는 실행 주체로 확대된다.
 
@@ -144,21 +138,23 @@ CPU만 마스터인 구조는 제어가 단순하다. 모든 전송이 CPU를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU 단독 전송 제어
-        │
-        ▼
-버스 마스터 (Bus Master) / 버스 슬레이브 (Bus Slave) 구분
-        │
-        ▼
-DMA (Direct Memory Access) 기반 CPU 오프로드
-        │
-        ▼
-멀티 마스터 + 버스 중재 (Bus Arbitration)
-        │
-        ▼
-PCIe (PCI Express) 장치 주도 전송 · Peer-to-Peer · IOMMU 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 단독 전송 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">버스 마스터 (Bus Master) / 버스 슬레이브 (Bus Slave) 구분</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access) 기반 CPU 오프로드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 마스터 + 버스 중재 (Bus Arbitration)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCIe (PCI Express) 장치 주도 전송 · Peer-to-Peer · IOMMU 보호</div>
+</div>
+</div>
+
+
 
 이 흐름은 시스템 구조가 "CPU가 모두 지시하는 단계"에서 "장치가 스스로 전송을 시작하되, 중재와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 함께 설계하는 단계"로 진화했음을 보여 준다.
 

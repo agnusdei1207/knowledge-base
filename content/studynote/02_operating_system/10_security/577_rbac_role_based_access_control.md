@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 ### 1.1 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)/Capability의 한계: 직접 매핑
 
 기존 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)/Capability는 **사용자-권한 직접 매핑**:
-- 사용자 10만 명 × 권한 100만 개 = **1조 개의 매핑 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**
+- 사용자 10만 명 × 권한 100만 개 = <strong>1조 개의 매핑 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>
 - 신규 직원 입사 시: 100만 개 권한 중 필요한 권한을 직접 할당
 - 직원 퇴사 시: 해당이 가진 모든 권한을 찾아 회수
 
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 | **User (사용자)** | 시스템에 접근하는 주체 |
 | **Role (역할)** | 업무 분장에 따른 권한 묶음 (예: 인사팀, 회계팀) |
 | **Permission (권한)** | 객체에 대한 구체적 연산 (예: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) |
-| **[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))** | 사용자가 역할을 활성화하는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)</strong> | 사용자가 역할을 활성화하는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) |
 
 ### 2.2 사용자-역할 배정 (User-Role Assignment)
 
@@ -77,7 +77,7 @@ tags = ["studynote-operating-system"]
 
 ### 3.1 Static Separation of Duty ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))
 
-역할 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 **상호 배타적 역할**을 정의:
+역할 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 <strong>상호 배타적 역할</strong>을 정의:
 
 ```text
 [ 예시 ]
@@ -86,7 +86,7 @@ tags = ["studynote-operating-system"]
 
 ### 3.2 Dynamic Separation of Duty (DSD)
 
-실행 시점에 **활성화된 역할**을 제한:
+실행 시점에 <strong>활성화된 역할</strong>을 제한:
 
 ```text
 [ 예시 ]
@@ -153,25 +153,29 @@ name: pod-reader
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[자격 증명 리스트 (Capability List / Ticket)]
-│
-▼
-[롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
-│
-├──▶ [임의적 접근 제어 (DAC, Discretionary Access Control)]
-└──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">롤 기반 접근 제어 (RBAC, Role-Based Access Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임의적 접근 제어 (DAC, Discretionary Access Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">강제적 접근 제어 (MAC, Mandatory Access Control)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)**은 놀이공원에서 **"직급증가표"**를 통한 접근 제어와 같다. 직급표(역할)를 가지고 있으면, 해당 직급이 출입 가능한 모든 놀이기구를 자동으로활용(활용)할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong>은 놀이공원에서 <strong>"직급증가표"</strong>를 통한 접근 제어와 같다. 직급표(역할)를 가지고 있으면, 해당 직급이 출입 가능한 모든 놀이기구를 자동으로활용(활용)할 수 있다.
 
-2. **역할 매개**는 각 부서장의 역할(인사팀, 회계팀)을정의(정의)하고, 직원에게 부서 역할을 부여하는 것과 같다. 새로운 직원이 들어오면 역할만 부여하면 되고, 퇴사하면 역할을 회수하면 된다.
+2. <strong>역할 매개</strong>는 각 부서장의 역할(인사팀, 회계팀)을정의(정의)하고, 직원에게 부서 역할을 부여하는 것과 같다. 새로운 직원이 들어오면 역할만 부여하면 되고, 퇴사하면 역할을 회수하면 된다.
 
-3. **권한 분리(SoD)**는 **"요청하는 사람"과 "승인하는 사람"을 분리**하는 것과 같다. 돈을 보내라는 요청을 직접 승인하면 사기(yscams)가 발생할 수 있으므로, 별도의 역할을 통해[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 수행한다.
+3. <strong>권한 분리(SoD)</strong>는 <strong>"요청하는 사람"과 "승인하는 사람"을 분리</strong>하는 것과 같다. 돈을 보내라는 요청을 직접 승인하면 사기(yscams)가 발생할 수 있으므로, 별도의 역할을 통해[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 수행한다.
 
 ---
 

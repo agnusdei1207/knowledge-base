@@ -19,7 +19,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 에이전트가 행동의 결과로 받은 보상과 벌점을 바탕으로 스스로 행동 규칙을 다듬는 학습 방식이다. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))처럼 정답 라벨이 주어지지 않고, [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) ([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))처럼 구조만 찾는 데서 끝나지도 않는다. 핵심은 **지금의 선택이 미래 결과에 어떤 영향을 주는지**를 경험을 통해 배우는 데 있다.
+[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 에이전트가 행동의 결과로 받은 보상과 벌점을 바탕으로 스스로 행동 규칙을 다듬는 학습 방식이다. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))처럼 정답 라벨이 주어지지 않고, [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/) ([Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/))처럼 구조만 찾는 데서 끝나지도 않는다. 핵심은 <strong>지금의 선택이 미래 결과에 어떤 영향을 주는지</strong>를 경험을 통해 배우는 데 있다.
 
 이 방식이 필요한 이유는 현실의 많은 문제가 한 번의 예측으로 끝나지 않기 때문이다. 자율주행은 핸들을 한 번만 돌리는 문제가 아니라 매 순간 관찰하고 판단하는 연속 의사결정이며, 게임 AI도 한 수의 정답보다 전체 승률을 높이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 중요하다. 이런 문제에서는 당장 작은 이익보다 장기 누적 성과가 중요하므로, [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)이 적합한 프레임이 된다.
 
@@ -33,24 +33,23 @@ tags = ["studynote-ai"]
 
 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 핵심 구조는 에이전트와 환경의 반복 루프다. 에이전트는 상태를 보고 행동을 고르고, 환경은 그 결과로 다음 상태와 보상을 돌려준다. 이 반복을 수많은 에피소드 (Episode) 동안 수행하면서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가치 추정이 점차 개선된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 강화 학습의 기본 루프: 관찰 → 행동 → 학습            │
-├──────────────────────────────────────────────────────────────────────┤
-│  환경 (Environment)                                                  │
-│      │ 상태 s_t                                                      │
-│      ▼                                                               │
-│  에이전트 (Agent)                                                    │
-│      │ 정책 π(a|s)에 따라 행동 a_t 선택                              │
-│      ▼                                                               │
-│  환경이 전이 수행                                                    │
-│      │ 다음 상태 s_t+1, 보상 r_t 반환                                │
-│      ▼                                                               │
-│  에이전트가 가치 함수 V(s), Q(s,a) 또는 정책 파라미터를 업데이트     │
-│      │                                                               │
-│      └──── 이 과정을 반복하며 누적 보상 Return을 최대화               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화 학습의 기본 루프: 관찰 → 행동 → 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 (Environment)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 s_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트 (Agent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 π(a</div><div class="kb-diagram-cell">s)에 따라 행동 a_t 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경이 전이 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 상태 s_t+1, 보상 r_t 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트가 가치 함수 V(s), Q(s,a) 또는 정책 파라미터를 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 과정을 반복하며 누적 보상 Return을 최대화</div></div>
+</div>
+</div>
+
+
 
 이 구조를 수학적으로 정리한 틀이 [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), [Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))이다. MDP에서는 상태, 행동, 보상, 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 할인율을 정의하고, 에이전트는 미래 보상까지 고려한 반환값(Return)을 키우도록 학습한다. 할인율 감마 (Gamma, γ)는 미래 보상을 현재 가치로 얼마나 반영할지 정하는 손잡이로, 값이 클수록 장기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 더 중시한다.
 
@@ -62,7 +61,7 @@ tags = ["studynote-ai"]
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 상태별 행동 선택 규칙 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 갈지 결정적으로 갈지 적합한가? |
 | [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) ([Value Function](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)) | 미래 누적 보상 추정 | 장기 이득을 충분히 반영하는가? |
 
-[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 크게 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 직접 학습하거나, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 학습하거나, 둘을 함께 학습하는 방향으로 나뉜다. 공통점은 모두 **당장의 점수보다 미래 보상까지 포함한 기대값**을 높이는 데 집중한다는 점이다. 따라서 보상이 드문 환경일수록 학습이 어렵고, 상태 표현과 보상 설계의 품질이 매우 중요해진다.
+[강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 크게 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 직접 학습하거나, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 학습하거나, 둘을 함께 학습하는 방향으로 나뉜다. 공통점은 모두 <strong>당장의 점수보다 미래 보상까지 포함한 기대값</strong>을 높이는 데 집중한다는 점이다. 따라서 보상이 드문 환경일수록 학습이 어렵고, 상태 표현과 보상 설계의 품질이 매우 중요해진다.
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 미로를 도는 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가가 길을 외우는 과정과 같다. 한 걸음 갈 때마다 바로 보물이 보이지 않아도, 여러 번 다녀 보며 "이 길이 결국 보물로 이어진다"는 감각을 익히는 것이다.
 
@@ -113,7 +112,7 @@ tags = ["studynote-ai"]
 
 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 가장 큰 장점은 정답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 순차 의사결정 문제에서도 스스로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 찾을 수 있다는 점이다. 잘 설계되면 사람이 일일이 규칙을 적기 어려운 문제에서 장기 최적화를 수행하고, 때로는 사람이 예상하지 못한 효율적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 발견한다. 게임, 로보틱스, 광고 최적화, 대화 모델 정렬 등에서 이 장점이 이미 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되고 있다.
 
-반면 한계도 뚜렷하다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라 **상호작용 경험**이 필요하므로 샘플 효율이 낮고, 보상 설계가 어렵고, 학습이 불안정할 수 있다. 또한 얻어진 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 왜 그런 결정을 내렸는지 설명하기 어려운 경우도 많다. 따라서 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 만능 해법이 아니라, 순차 의사결정과 장기 보상이 핵심인 문제에 선택적으로 써야 한다.
+반면 한계도 뚜렷하다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라 <strong>상호작용 경험</strong>이 필요하므로 샘플 효율이 낮고, 보상 설계가 어렵고, 학습이 불안정할 수 있다. 또한 얻어진 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 왜 그런 결정을 내렸는지 설명하기 어려운 경우도 많다. 따라서 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 만능 해법이 아니라, 순차 의사결정과 장기 보상이 핵심인 문제에 선택적으로 써야 한다.
 
 앞으로는 인간 피드백 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))처럼 사람의 선호를 보상으로 바꾸는 응용이 더 중요해질 가능성이 크다. 결국 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 "정답을 맞히는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)"보다 "경험으로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 다듬는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)"으로 기억하는 것이 정확하다.
 
@@ -134,24 +133,25 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-강화 학습 (Reinforcement Learning)
-    │
-    ▼
-마르코프 결정 과정 (MDP) · 상태/행동/보상 구조화
-    │
-    ▼
-가치 함수 (Value Function) · 정책 (Policy)
-    │
-    ▼
-탐험 vs 활용 · 엡실론-그리디 (Epsilon-Greedy)
-    │
-    ▼
-큐러닝 (Q-Learning) · 딥 큐 네트워크 (DQN)
-    │
-    ▼
-경험 재현 (Experience Replay) · RLHF 응용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">강화 학습 (Reinforcement Learning)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마르코프 결정 과정 (MDP) · 상태/행동/보상 구조화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가치 함수 (Value Function) · 정책 (Policy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">탐험 vs 활용 · 엡실론-그리디 (Epsilon-Greedy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">큐러닝 (Q-Learning) · 딥 큐 네트워크 (DQN)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경험 재현 (Experience Replay) · RLHF 응용</div>
+</div>
+</div>
+
+
 
 이 흐름은 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 큰 개념이 수학 모델, 행동 선택 기준, [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 최신 응용으로 확장되는 순서를 보여 준다.
 

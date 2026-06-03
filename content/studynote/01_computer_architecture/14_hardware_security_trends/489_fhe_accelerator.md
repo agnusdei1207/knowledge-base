@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) 가속기 ([FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) Accelerator)는 [완전 동형 암호](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) ([FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/), Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/))의 거대한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산과 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)을 전용 하드웨어로 줄여, 복호화 없는 계산을 실용 구간으로 끌어오는 장치다.
-> 2. **가치**: 저장 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 전송 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐 아니라 **사용 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))** 까지 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 있어, 클라우드가 평문을 보지 못하는 프라이버시 분석과 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론을 가능하게 한다.
+> 2. **가치**: 저장 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 전송 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐 아니라 <strong>사용 중 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/">in Use</a>)</strong> 까지 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 있어, 클라우드가 평문을 보지 못하는 프라이버시 분석과 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론을 가능하게 한다.
 > 3. **판단 포인트**: FHE는 보안은 매우 강하지만 지연시간과 메모리 비용이 크므로, 연산 깊이·[부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) 빈도·메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 감당할 수 있는 워크로드에만 가속기를 붙여야 효과가 난다.
 
 ---
@@ -25,26 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 FHE가 왜 "계산은 맡기되 비밀은 맡기지 않는" 구조로 불리는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ FHE trust boundary: server computes, client keeps the secret key        │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Client                                                                   │
-│   plaintext ──encrypt──▶ ciphertext                                       │
-│                              │                                             │
-│                              ▼                                             │
-│                     Cloud FHE Accelerator                                  │
-│                     ├─ add / multiply / rotate                             │
-│                     └─ bootstrap when noise grows                          │
-│                              │                                             │
-│                              ▼                                             │
-│                 ciphertext result ──decrypt──▶ plaintext result            │
-│                                                                            │
-│ Server never receives the secret key or plaintext                          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 서버가 계산은 수행하지만 비밀키와 평문은 끝까지 클라이언트 쪽에 남는다는 점이다. 즉 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 단순한 암호 연산 카드가 아니라, **평문 노출 없는 클라우드 계산**을 가능하게 만드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계 장치다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE trust boundary: server computes, client keeps the secret key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plaintext ──encrypt──▶ ciphertext</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud FHE Accelerator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ add / multiply / rotate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bootstrap when noise grows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext result ──decrypt──▶ plaintext result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server never receives the secret key or plaintext</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 서버가 계산은 수행하지만 비밀키와 평문은 끝까지 클라이언트 쪽에 남는다는 점이다. 즉 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 단순한 암호 연산 카드가 아니라, <strong>평문 노출 없는 클라우드 계산</strong>을 가능하게 만드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계 장치다.
 
 - **📢 섹션 요약 비유**: [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 속이 보이지 않는 금고 안에서 로봇 팔이 계산을 대신해 주는 것과 같다. 금고를 맡긴 사람만 열쇠를 갖고 있고, 계산을 맡은 사람은 금고 안 내용을 끝내 모른다.
 
@@ -52,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대부분의 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 스킴은 잔여수 체계 (RNS, Residue Number System) 위에서 거대한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 환 연산을 반복한다. 이때 핵심 병목은 수론적 변환 (NTT, Number Theoretic Transform), 역수론적 변환 (INTT, Inverse Number Theoretic Transform), 키 스위칭, 그리고 노이즈를 다시 낮추는 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)이다. 따라서 좋은 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 단순히 곱셈기를 많이 넣는 것이 아니라, **메모리 이동을 줄이며 이 네 단계가 끊기지 않게 파이프라인을 짜는 것**이 핵심이다.
+대부분의 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 스킴은 잔여수 체계 (RNS, Residue Number System) 위에서 거대한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 환 연산을 반복한다. 이때 핵심 병목은 수론적 변환 (NTT, Number Theoretic Transform), 역수론적 변환 (INTT, Inverse Number Theoretic Transform), 키 스위칭, 그리고 노이즈를 다시 낮추는 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)이다. 따라서 좋은 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 단순히 곱셈기를 많이 넣는 것이 아니라, <strong>메모리 이동을 줄이며 이 네 단계가 끊기지 않게 파이프라인을 짜는 것</strong>이 핵심이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -64,25 +62,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기에서 암호문이 어떤 하드웨어 경로를 통과하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ FHE accelerator datapath                                                 │
-├──────────────────────────────────────────────────────────────────────────┤
-│ HBM / DDR                                                                │
-│   │ ciphertext tiles                                                     │
-│   ▼                                                                      │
-│ DMA + on-chip SRAM                                                       │
-│   │                                                                      │
-│   ├─▶ NTT / INTT array ─▶ point-wise MUL/ADD ─▶ rescale / mod-switch     │
-│   │                                                                      │
-│   └──────────────────────────────────────────────▶ key-switch engine      │
-│                                                   │                      │
-│                                                   └──▶ bootstrap engine   │
-│                                                            │             │
-│                                                            ▼             │
-│                                                      ciphertext writeback │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE accelerator datapath</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBM / DDR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext tiles</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA + on-chip SRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ NTT / INTT array ─▶ point-wise MUL/ADD ─▶ rescale / mod-switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ key-switch engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ bootstrap engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext writeback</div></div>
+</div>
+</div>
+
+
 
 이 경로에서 중요한 사실은 연산 순서가 수학적 필요성에 의해 거의 정해져 있다는 점이다. NTT는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 합성곱을 빠른 점별 곱셈으로 바꾸고, 키 스위칭과 리스케일은 스킴이 계속 성립하도록 표현을 바꾸며, [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)은 깊은 회로를 계속 계산할 수 있도록 노이즈를 새로 정돈한다. 결국 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기 설계는 "연산기 수"보다 "중간 암호문을 얼마나 덜 옮기느냐"가 더 큰 승부처가 된다.
 
@@ -92,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 다른 방법과 함께 봐야 경계가 또렷해진다. [신뢰 실행 환경](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), [Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))은 안전한 실행 구역 안에서 **평문**을 처리하므로 지연시간은 상대적으로 작지만 CPU 공급자와 부채널 완화를 어느 정도 신뢰해야 한다. 반면 FHE는 서버가 끝까지 평문을 보지 못하므로 신뢰 가정을 더 줄일 수 있지만, 연산 비용이 훨씬 크다. 다자간 계산 (MPC, Multi-Party Computation)은 여러 참여자가 비밀을 나눠 계산하는 방식이라 네트워크 상호작용 비용이 커지는 대신, 단일 하드웨어 신뢰점에 덜 의존한다.
+[FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 다른 방법과 함께 봐야 경계가 또렷해진다. [신뢰 실행 환경](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) ([TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), [Trusted Execution Environment](/knowledge-base/studynote/09_security/19_ai_advanced_security/972_tee_based_ml/))은 안전한 실행 구역 안에서 <strong>평문</strong>을 처리하므로 지연시간은 상대적으로 작지만 CPU 공급자와 부채널 완화를 어느 정도 신뢰해야 한다. 반면 FHE는 서버가 끝까지 평문을 보지 못하므로 신뢰 가정을 더 줄일 수 있지만, 연산 비용이 훨씬 크다. 다자간 계산 (MPC, Multi-Party Computation)은 여러 참여자가 비밀을 나눠 계산하는 방식이라 네트워크 상호작용 비용이 커지는 대신, 단일 하드웨어 신뢰점에 덜 의존한다.
 
 | 구분 | [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기 | [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) | MPC |
 | :-- | :-- | :-- | :-- |
@@ -101,7 +96,7 @@ tags = ["studynote-computer-architecture"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성 | 가장 무겁지만 가장 강한 비노출 | 상대적으로 빠름 | 네트워크 왕복 비용 큼 |
 | 잘 맞는 용도 | 프라이버시 분석, 비밀 추론 | 저지연 기밀 처리 | 공동 통계, 연합 계산 |
 
-실무에서는 이 셋이 경쟁만 하는 것이 아니라 보완적으로 쓰인다. 예를 들어 키 보관과 인증은 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/))이 맡고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 설정과 제어 평면은 [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/) 같은 TEE가 처리하며, 대량 암호문 연산만 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기에 보내는 식의 혼합 구조가 가능하다. 즉 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 "모든 보안을 대체하는 칩"이 아니라, **평문 노출을 가장 강하게 줄여야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면**에 투입되는 특수 엔진이다.
+실무에서는 이 셋이 경쟁만 하는 것이 아니라 보완적으로 쓰인다. 예를 들어 키 보관과 인증은 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/))이 맡고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 설정과 제어 평면은 [Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/) 같은 TEE가 처리하며, 대량 암호문 연산만 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기에 보내는 식의 혼합 구조가 가능하다. 즉 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 "모든 보안을 대체하는 칩"이 아니라, <strong>평문 노출을 가장 강하게 줄여야 하는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면</strong>에 투입되는 특수 엔진이다.
 
 - **📢 섹션 요약 비유**: TEE가 잠긴 상담실이라면, FHE는 내용이 안 보이는 봉인 문서끼리 계산하는 방식이고, MPC는 여러 사람이 문서 조각을 나눠 들고 함께 퍼즐을 맞추는 방식이다. 같은 보안이라도 믿는 대상과 비용 구조가 다르다.
 
@@ -113,11 +108,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **연산 깊이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 회로 깊이가 깊어 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)이 자주 필요한가, 아니면 얕은 추론이라 키 스위칭 중심으로 끝나는가?
-2. **스킴 선택 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 근사 실수 계산은 CKKS (Cheon-Kim-Kim-Song), 정확한 정수 계산은 BFV/BGV (Brakerski-Fan-Vercauteren / Brakerski-Gentry-Vaikuntanathan), [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 빠른 논리는 TFHE (Fast Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) over the [Torus](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/))가 적합한가?
-3. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 예산 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 암호문 팽창과 키 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재를 감당할 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 또는 고대역 메모리 구성이 있는가?
-4. **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 방식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 단건 지연시간보다 배치 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)으로 사업 모델을 맞출 수 있는가?
-5. **키 보관 경계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 비밀키는 사용자 측 또는 HSM에 남기고, 가속기에는 평가키만 보내는 구조가 설계되었는가?
+1. <strong>연산 깊이 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 회로 깊이가 깊어 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)이 자주 필요한가, 아니면 얕은 추론이라 키 스위칭 중심으로 끝나는가?
+2. <strong>스킴 선택 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 근사 실수 계산은 CKKS (Cheon-Kim-Kim-Song), 정확한 정수 계산은 BFV/BGV (Brakerski-Fan-Vercauteren / Brakerski-Gentry-Vaikuntanathan), [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 빠른 논리는 TFHE (Fast Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) over the [Torus](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/))가 적합한가?
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 예산 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 암호문 팽창과 키 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재를 감당할 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 또는 고대역 메모리 구성이 있는가?
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 방식 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 단건 지연시간보다 배치 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)으로 사업 모델을 맞출 수 있는가?
+5. <strong>키 보관 경계 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 비밀키는 사용자 측 또는 HSM에 남기고, 가속기에는 평가키만 보내는 구조가 설계되었는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -125,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 - "암호문이니까 안전하다"며 키 관리와 테넌트 분리를 소홀히 하는 운영
 - 몇 밀리초 제어가 필요한 자율 제어 루프에 FHE를 직접 넣는 설계
 
-기술사 답안에서는 FHE의 장밋빛 가능성만 쓰면 부족하다. **왜 느린지**, **어디가 병목인지**, **그래서 어떤 워크로드만 가속기 대상인지**를 함께 적어야 설득력이 생긴다. 특히 연산 깊이와 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) 여부를 판단 포인트로 적어 주면 답안의 수준이 올라간다.
+기술사 답안에서는 FHE의 장밋빛 가능성만 쓰면 부족하다. **왜 느린지**, **어디가 병목인지**, <strong>그래서 어떤 워크로드만 가속기 대상인지</strong>를 함께 적어야 설득력이 생긴다. 특히 연산 깊이와 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) 여부를 판단 포인트로 적어 주면 답안의 수준이 올라간다.
 
 - **📢 섹션 요약 비유**: [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기 도입은 냉동창고 물류를 짜는 일과 같다. 상하기 쉬운 물건은 반드시 냉장 상태를 지켜야 하지만, 모든 물건을 그런 방식으로 옮기면 비용이 폭증하므로 정말 차갑게 지켜야 할 물건에만 투입해야 한다.
 
@@ -135,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기의 가장 큰 효과는 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서 계산한다"는 오랜 난제를 현실 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 당겨 온다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유자가 인프라 소유자를 완전히 믿지 않아도, 비밀키를 내놓지 않은 채 분석과 추론을 외부에 맡길 수 있다면 클라우드 보안 모델은 한 단계 더 강해진다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주권을 동시에 만족시키는 방향이라는 점에서 의미가 크다.
 
-물론 한계도 분명하다. 큰 면적과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 높은 메모리 비용, 아직 성숙하지 않은 컴파일러·런타임 생태계는 대중화를 늦추는 요소다. 앞으로는 HBM과 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 결합, 자동 파라미터 튜닝, [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)·HSM과 결합한 하이브리드 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 실용화를 앞당길 가능성이 크다. 따라서 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) 가속기는 "모든 계산의 기본 칩"이 아니라, **가장 민감한 계산을 위해 선택적으로 붙이는 프라이버시 전용 엔진**으로 기억하는 것이 정확하다.
+물론 한계도 분명하다. 큰 면적과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 높은 메모리 비용, 아직 성숙하지 않은 컴파일러·런타임 생태계는 대중화를 늦추는 요소다. 앞으로는 HBM과 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 결합, 자동 파라미터 튜닝, [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)·HSM과 결합한 하이브리드 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 실용화를 앞당길 가능성이 크다. 따라서 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) 가속기는 "모든 계산의 기본 칩"이 아니라, <strong>가장 민감한 계산을 위해 선택적으로 붙이는 프라이버시 전용 엔진</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 비밀 서류 전용 복사 공장과 같다. 일반 서류를 복사하는 데까지 모두 들고 갈 필요는 없지만, 절대 노출되면 안 되는 문서는 느리더라도 전용 공장에서 처리할 가치가 있다.
 
@@ -154,24 +149,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저장 데이터 암호화 · 전송 데이터 암호화
-                │
-                ▼
-부분 동형 암호 (PHE, Partially Homomorphic Encryption)
-                │
-                ▼
-완전 동형 암호 (FHE, Fully Homomorphic Encryption)
-                │
-                ▼
-RNS · NTT · Bootstrapping 최적화
-                │
-                ▼
-FHE Accelerator + HBM
-                │
-                ▼
-프라이버시 보호 인공지능 · 제로트러스트 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저장 데이터 암호화 · 전송 데이터 암호화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부분 동형 암호 (PHE, Partially Homomorphic Encryption)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">완전 동형 암호 (FHE, Fully Homomorphic Encryption)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RNS · NTT · Bootstrapping 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FHE Accelerator + HBM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프라이버시 보호 인공지능 · 제로트러스트 분석</div>
+</div>
+</div>
+
+
 
 이 흐름은 "보관 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에서 "연산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로, 다시 "수학적 가능성"에서 "전용 하드웨어 실용화"로 진화하는 방향을 보여 준다.
 

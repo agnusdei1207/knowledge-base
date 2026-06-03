@@ -41,24 +41,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 컴파일러가 실제로 하나의 벡터 루프를 만들 때 흔히 구성하는 실행 경로를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 오토 벡터라이제이션이 만드는 실행 경로                                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Runtime check: no alias? aligned enough? trip count large enough?         │
-│        │                                                                   │
-│        ├─ No  ───────────────────────────────▶ Scalar Loop                 │
-│        │                                                                   │
-│        └─ Yes ─▶ Prologue ─▶ Vector Loop ─▶ Epilogue                       │
-│                     │          │                   │                        │
-│                     │          ├─ load 8 lanes    │                        │
-│                     │          ├─ SIMD op         │                        │
-│                     │          └─ store 8 lanes   │                        │
-│                     └─ alignment 맞춤        남은 원소 처리                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-또 하나의 축은 루프 벡터화와 SLP (Superword-Level Parallelism)다. 루프 벡터화는 반복 간 독립성을 묶고, SLP는 한 basic block 안에서 비슷한 스칼라 명령들을 한 벡터 명령으로 묶는다. 그래서 오토 벡터라이제이션은 단일 기법이 아니라, **의존성 분석 + 코드 재구성 + 비용 판단**이 합쳐진 종합 최적화 체계다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토 벡터라이제이션이 만드는 실행 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime check: no alias? aligned enough? trip count large enough?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ▶ Scalar Loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Prologue ─▶ Vector Loop ─▶ Epilogue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ load 8 lanes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SIMD op</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ store 8 lanes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alignment 맞춤 남은 원소 처리</div></div>
+</div>
+</div>
+
+
+
+또 하나의 축은 루프 벡터화와 SLP (Superword-Level Parallelism)다. 루프 벡터화는 반복 간 독립성을 묶고, SLP는 한 basic block 안에서 비슷한 스칼라 명령들을 한 벡터 명령으로 묶는다. 그래서 오토 벡터라이제이션은 단일 기법이 아니라, <strong>의존성 분석 + 코드 재구성 + 비용 판단</strong>이 합쳐진 종합 최적화 체계다.
 
 - **📢 섹션 요약 비유**: 이 과정은 단체 사진 찍기 전 줄을 세우는 일과 같다. 서로 부딪히는 사람은 떼어 내고, 키와 위치가 맞는 사람은 같은 줄에 세운 뒤, 줄에 안 맞는 몇 명만 마지막에 따로 배치한다.
 
@@ -101,7 +101,7 @@ tags = ["studynote-computer-architecture"]
 - [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/), 랜덤 인덱싱처럼 lane 재사용이 거의 없는 자료구조
 - tail 처리와 예외 경로를 무시하고 "벡터화되면 무조건 빠르다"고 가정하는 판단
 
-기술사 답안에서는 오토 벡터라이제이션을 단순히 "컴파일러가 SIMD로 바꿔 준다"로 끝내지 말고, **의존성·별칭·정렬·비용 모델**이라는 네 가지 판단축을 적어 주는 것이 좋다. 그래야 왜 어떤 루프는 자동으로 빨라지고, 어떤 루프는 수동 개입이 필요한지가 선명하게 드러난다.
+기술사 답안에서는 오토 벡터라이제이션을 단순히 "컴파일러가 SIMD로 바꿔 준다"로 끝내지 말고, <strong>의존성·별칭·정렬·비용 모델</strong>이라는 네 가지 판단축을 적어 주는 것이 좋다. 그래야 왜 어떤 루프는 자동으로 빨라지고, 어떤 루프는 수동 개입이 필요한지가 선명하게 드러난다.
 
 - **📢 섹션 요약 비유**: 이 최적화는 도로에 스포츠카가 있다는 사실만으로 빨라지지 않는 것과 같다. 차선이 곧고, 교차로가 적고, 길이 막히지 않아야 스포츠카의 힘을 제대로 낼 수 있다.
 
@@ -113,7 +113,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 메모리 병목이 큰 코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 강한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)·상태 기계, 흩어진 접근 패턴에서는 벡터 폭이 넓어도 체감 이득이 작다. 앞으로는 벡터 길이 가변 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), 마스킹, gather/scatter, reduction 인식 고도화 덕분에 자동 벡터화 범위가 넓어지겠지만, 여전히 출발점은 "컴파일러가 증명할 수 있는 형태"다.
 
-결국 오토 벡터라이제이션은 **숨은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 컴파일러가 발견해 하드웨어 lane으로 바꿔 주는 기술**로 기억하면 된다. 개발자가 해야 할 일은 벡터 명령을 외우는 것보다, 컴파일러가 안전하게 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 읽어 낼 수 있는 코드를 쓰는 것이다.
+결국 오토 벡터라이제이션은 <strong>숨은 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 컴파일러가 발견해 하드웨어 lane으로 바꿔 주는 기술</strong>로 기억하면 된다. 개발자가 해야 할 일은 벡터 명령을 외우는 것보다, 컴파일러가 안전하게 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 읽어 낼 수 있는 코드를 쓰는 것이다.
 
 - **📢 섹션 요약 비유**: 오토 벡터라이제이션은 평범한 계산 줄을 고속도로 다차선으로 바꾸는 일이다. 다만 고속도로를 열려면 차들이 같은 방향으로 달리고, 중간에 갑자기 끼어드는 차가 없어야 한다.
 
@@ -132,24 +132,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스칼라 루프 중심 최적화
-        │
-        ▼
-SIMD (Single Instruction Multiple Data) ISA 확산
-        │
-        ▼
-의존성 분석 · 별칭 분석 · 비용 모델
-        │
-        ▼
-루프 벡터화 · SLP (Superword-Level Parallelism)
-        │
-        ▼
-마스킹 · reduction · gather/scatter 고도화
-        │
-        ▼
-SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스칼라 루프 중심 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data) ISA 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">의존성 분석 · 별칭 분석 · 비용 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">루프 벡터화 · SLP (Superword-Level Parallelism)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마스킹 · reduction · gather/scatter 고도화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "벡터 명령 추가"에서 출발해, 컴파일러가 더 복잡한 코드까지 자동으로 벡터화하도록 진화하는 과정을 보여 준다.
 

@@ -43,22 +43,23 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 로직 트리가 단순 트리 모양이 아니라 문제 해결 순서를 강제하는 장치임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Logic Tree problem-solving path                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Root Question: "Why did performance drop?"                       │
-│        │                                                          │
-│        ├─ What Tree : scope and components                        │
-│        │      └─ app / db / network / workload                    │
-│        ├─ Why Tree  : causal analysis                             │
-│        │      └─ bottleneck / defect / policy / demand change     │
-│        └─ How Tree  : response options                            │
-│               └─ tune / redesign / automate / stop                │
-│                                                                  │
-│ Final leaf = evidence + KPI + owner + due date                   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic Tree problem-solving path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Question: "Why did performance drop?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ What Tree : scope and components</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ app / db / network / workload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Why Tree : causal analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bottleneck / defect / policy / demand change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ How Tree : response options</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ tune / redesign / automate / stop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final leaf = evidence + KPI + owner + due date</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 트리의 끝이 반드시 실행 가능한 수준에 도달해야 한다는 점이다. "고객 경험 개선" 같은 추상어로 끝나면 트리는 발표 자료일 뿐이고, "결제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이탈률 18% → 12%"처럼 계량 지표와 책임 주체가 붙어야 진짜 운영 도구가 된다.
 
@@ -127,21 +128,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Problem Structuring
-    │
-    ▼
-MECE-based Decomposition
-    │
-    ▼
-What / Why / How Tree
-    │
-    ▼
-RCA · WBS · Decision Support
-    │
-    ▼
-Data-driven Action Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Problem Structuring</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MECE-based Decomposition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">What / Why / How Tree</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RCA · WBS · Decision Support</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data-driven Action Design</div>
+</div>
+</div>
+
+
 
 이 흐름은 로직 트리가 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구를 넘어, 분석과 실행을 연결하는 엔터프라이즈 의사결정 체계로 확장되는 과정을 보여준다.
 

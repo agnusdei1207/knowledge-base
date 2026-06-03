@@ -25,17 +25,19 @@ tags = ["studynote-network"]
 
 다음은 꼬임선(Twisted Pair)이 어떻게 전자기 간섭을 상쇄하는지 보여주는 원리도이다.
 
-```text
-[외부 전자기파 간섭(EMI)]
-       ↓   ↓   ↓   ↓
-    +--+---+---+---+---+--+  (선 A: + 신호)
-    |   \ /     \ /     \ |
-    |    X       X       X|  => 위상이 반대인 두 신호가 꼬인 지점마다 간섭을 스위칭
-    |   / \     / \     / |
-    +--+---+---+---+---+--+  (선 B: - 신호)
-       ↑   ↑   ↑   ↑
-[인접 선로의 누화(Crosstalk)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 전자기파 간섭(EMI)</div></div>
+<div class="kb-diagram-note">+--+---+---+---+---+--+ (선 A: + 신호)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X X X</div><div class="kb-diagram-cell">=&gt; 위상이 반대인 두 신호가 꼬인 지점마다 간섭을 스위칭</div></div>
+<div class="kb-diagram-note">+--+---+---+---+---+--+ (선 B: - 신호)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인접 선로의 누화(Crosstalk)</div></div>
+</div>
+</div>
+
+
 *이 그림의 핵심은 평행한 두 선 대신 꼬인 선을 사용함으로써, 외부 간섭이 두 선에 동일하게 미치더라도 수신단에서 두 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 차이(Differential Signaling)를 계산할 때 노이즈가 수학적으로 상쇄된다는 점이다. 이러한 배치는 별도의 차폐재 없이도 일정 수준의 노이즈 내성을 제공하며, 꼬임이 촘촘할수록 고주파 간섭을 더 잘 방어한다. 따라서 케이블 등급이 올라갈수록 단위 길이당 꼬임 횟수(Pitch)가 증가하여 제조 단가와 굵기에 영향을 준다.*
 
 - **📢 섹션 요약 비유**: 마치 여러 사람이 떠드는 시끄러운 방에서, 두 귀의 위치 차이를 이용해 잡음을 걸러내고 상대방의 목소리만 명확히 듣는 뇌의 필터링 시스템과 같습니다.
@@ -56,25 +58,27 @@ tags = ["studynote-network"]
 
 다음은 케이블 등급 상향에 따른 내부 물리적 구조의 진화 과정을 나타낸 구조도이다.
 
-```text
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│     Cat 5e      │ │      Cat 6      │ │   Cat 7 / 8     │
-│  (UTP 구조)     │ │  (Cross-web)    │ │   (S/FTP 구조)  │
-├─────────────────┤ ├─────────────────┤ ├─────────────────┤
-│                 │ │                 │ │ +-[외곽 편조 Shield]-+
-│  (쌍 1)  (쌍 2) │ │ (쌍 1) │ (쌍 2) │ │ | [F]│[F] |
-│                 │ │ ─── 십자 개재 ──│ │ | ───┼─── |
-│  (쌍 3)  (쌍 4) │ │ (쌍 3) │ (쌍 4) │ │ | [F]│[F] |
-│                 │ │                 │ │ +---------------+
-└─────────────────┘ └─────────────────┘ └─────────────────┘
- * F = Foil Shield (개별 쌍 호일 차폐)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cat 5e</div><div class="kb-diagram-cell">Cat 6</div><div class="kb-diagram-cell">Cat 7 / 8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UTP 구조)</div><div class="kb-diagram-cell">(Cross-web)</div><div class="kb-diagram-cell">(S/FTP 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ │ │ +-</div><div class="kb-diagram-node">외곽 편조 Shield</div><div class="kb-diagram-note">-+</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(쌍 1) (쌍 2) │ │ (쌍 1) │ (쌍 2) │ │</div><div class="kb-diagram-node">F</div><div class="kb-diagram-node">F</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">십자 개재 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(쌍 3) (쌍 4) │ │ (쌍 3) │ (쌍 4) │ │</div><div class="kb-diagram-node">F</div><div class="kb-diagram-node">F</div></div>
+<div class="kb-diagram-note">* F = Foil Shield (개별 쌍 호일 차폐)</div>
+</div>
+</div>
+
+
 *이 구조도의 핵심은 주파수 대역이 높아질수록 내부 선간의 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT)를 방지하기 위해 십자 개재(Cross-web)를 넣거나(Cat 6), 개별 쌍을 호일로 감싸는(S/[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/), Cat 7/8) 물리적 격리가 추가된다는 점이다. 이런 배치는 전기적 간섭을 물리적으로 차단하기 때문이며, 따라서 케이블의 굵기가 두꺼워지고 유연성이 떨어져 곡률 반경(Bending [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)) 확보가 어려워져 포설 작업의 난이도에 영향을 준다. 실무에서는 제한된 배관 공간 내에 다수의 선을 매설해야 할 때 UTP와 STP의 외경 차이를 반드시 고려해야 한다.*
 
 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전송할 때 발생하는 주요 물리적 감쇠 요인은 다음과 같다:
-1. **NEXT (Near-End [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))**: 송신 측에서 인접한 쌍으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 유도되어 발생하는 근단 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/).
-2. **FEXT (Far-End [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))**: 수신 측에서 측정되는 원단 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/).
-3. **AXT (Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))**: 다발로 묶인 다른 케이블에서 넘어오는 외인성 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) (Cat 6a 이상에서 주요 방어 대상).
+1. <strong>NEXT (Near-End <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>: 송신 측에서 인접한 쌍으로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 유도되어 발생하는 근단 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/).
+2. <strong>FEXT (Far-End <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>: 수신 측에서 측정되는 원단 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/).
+3. <strong>AXT (Alien <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong>: 다발로 묶인 다른 케이블에서 넘어오는 외인성 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) (Cat 6a 이상에서 주요 방어 대상).
 
 - **📢 섹션 요약 비유**: 좁은 차선에서 차들이 빨리 달릴수록 바람(전자기장)이 서로 영향을 미치는데, 이를 막기 위해 중앙분리대(십자 개재)를 세우고 방음 터널(차폐 호일)을 덮는 과정과 같습니다.
 
@@ -87,7 +91,7 @@ tags = ["studynote-network"]
 | 항목 | Cat 5e | Cat 6 | Cat 6a | 판단 포인트 |
 |:---|:---|:---|:---|:---|
 | **최대 속도** | 1 Gbps | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps (단거리) / 1 Gbps | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps | 미래 트래픽 요구량 |
-| **최대 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 100 MHz | 250 MHz | 500 MHz | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 한계 |
+| <strong>최대 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 100 MHz | 250 MHz | 500 MHz | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 한계 |
 | **10G 전송 거리**| 불가 | 최대 37~55m | 최대 100m | 서버룸 vs 사무실 포설 |
 | **차폐 구조** | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) (십자 개재 포함) | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) / F/[UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) | 공사 난이도 및 굵기 |
 | **도입 비용** | 매우 낮음 | 낮음 | 중간 | 전체 인프라 예산 |
@@ -96,7 +100,7 @@ tags = ["studynote-network"]
 | 항목 | Cat 7 | Cat 8 | 판단 포인트 |
 |:---|:---|:---|:---|
 | **최대 속도** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps | 25/40 Gbps | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간 연결 |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 600 MHz | 2000 MHz (2GHz) | 초고주파 감쇠 제어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 600 MHz | 2000 MHz (2GHz) | 초고주파 감쇠 제어 |
 | **최대 거리** | 100m | 30m | 랙(Rack) 간 통신(ToR) 여부 |
 | **커넥터** | GG45 / TERA 권장 | RJ45 하위호환 가능 | [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 규격 일치 |
 
@@ -112,33 +116,31 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 다음은 신규 사무실/[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 구축 시 케이블 등급을 선택하는 실무 의사결정 트리이다.
 
-```text
-[구축 대상 및 용도 확인]
-           │
-           ├─▶ (데이터센터 내 랙(Rack) 간 25G/40G 단거리 연결인가?) ── Yes ──▶ [Cat 8 또는 DAC/광케이블 선택]
-           │
-           No
-           │
-           ▼
-[10Gbps 보장 및 수명 요구사항]
-           │
-           ├─▶ (10년 이상 사용하며 10G 완벽 보장이 필요한가?) ── Yes ──▶ [Cat 6a 선택] (※ 배관 내경 20% 이상 여유 확인)
-           │
-           No
-           │
-           ▼
-[단말기 특성 및 예산]
-           │
-           ├─▶ (AP, CCTV, 일반 PC 위주이며 가성비가 중요한가?) ── Yes ──▶ [Cat 6 선택]
-           │
-           ▼
-[PoE (Power over Ethernet) 고려]
- * 60W 이상 고전력 PoE++ 인가 시, 발열로 인한 저항 증가 방지를 위해 최소 Cat 6 이상 권장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">구축 대상 및 용도 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cat 8 또는 DAC/광케이블 선택</div></div>
+<div class="kb-diagram-note">No</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10Gbps 보장 및 수명 요구사항</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cat 6a 선택</div><div class="kb-diagram-note">(※ 배관 내경 20% 이상 여유 확인)</div></div>
+<div class="kb-diagram-note">No</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단말기 특성 및 예산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cat 6 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PoE (Power over Ethernet) 고려</div></div>
+<div class="kb-diagram-note">* 60W 이상 고전력 PoE++ 인가 시, 발열로 인한 저항 증가 방지를 위해 최소 Cat 6 이상 권장</div>
+</div>
+</div>
+
+
 *이 흐름의 핵심은 케이블 선택이 단순히 속도의 문제가 아니라, 전송 거리(100m vs 30m)와 물리적 배관 크기, 발열([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/))을 종합적으로 고려한 결과물이어야 한다는 점이다. 특히 [PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)++를 사용할 경우 저사양 케이블(Cat 5e)은 발열로 인해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 손실([저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 증가)이라는 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 유발한다. 실무에서는 "무조건 높은 등급"이 정답이 아니며, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 업링크 구간은 광케이블로 분리하고 액세스 구간만 UTP로 구성하는 하이브리드 전략이 자원 효율 측면에서 가장 유리하다.*
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 사례)**
-- **Cat 6a [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블을 좁은 배관에 억지로 쑤셔 넣기**: 케이블 꺾임(Bending) 한계를 초과하여 내부 꼬임이 풀리고 NEXT가 급증, 10Gbps 링크가 1Gbps로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))되는 현상 발생.
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- <strong>Cat 6a <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a> 케이블을 좁은 배관에 억지로 쑤셔 넣기</strong>: 케이블 꺾임(Bending) 한계를 초과하여 내부 꼬임이 풀리고 NEXT가 급증, 10Gbps 링크가 1Gbps로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))되는 현상 발생.
 - **RJ45 플러그 규격 불일치**: Cat 6a 케이블에 Cat 5e용 RJ45 플러그를 집을 경우, 커넥터 접점부에서 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치([Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) Mismatch)가 발생하여 전체 링크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 Cat 5e 수준으로 하향 동기화됨.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -157,9 +159,9 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 | 지표 | 도입 전 (Legacy Cat 5e 위주) | 도입 후 (Cat 6a / Cat 8 활용) |
 |:---|:---|:---|
-| **내부망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 1 Gbps 병목으로 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) | 10G/40G 인프라로 원활한 클라우드 및 스토리지 접근 |
-| **설비 수명 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** | 3~5년 후 케이블 재포설 비용 발생 | 10년 이상 추가 공사 없이 네트워크 장비만 교체하여 업그레이드 |
-| **[PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)** | 고전력 장비(PTZ 카메라, 최신 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 발열 문제 | 굵은 심선을 통한 안정적인 전력 공급([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)++) 및 장애율 감소 |
+| <strong>내부망 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 1 Gbps 병목으로 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) | 10G/40G 인프라로 원활한 클라우드 및 스토리지 접근 |
+| <strong>설비 수명 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | 3~5년 후 케이블 재포설 비용 발생 | 10년 이상 추가 공사 없이 네트워크 장비만 교체하여 업그레이드 |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/">PoE</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | 고전력 장비(PTZ 카메라, 최신 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 발열 문제 | 굵은 심선을 통한 안정적인 전력 공급([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/)++) 및 장애율 감소 |
 
 **미래 전망**
 구리선을 이용한 40Gbps(Cat 8)는 물리적 주파수 한계(2GHz)와 거리 한계(30m)에 도달했다. 향후 더 높은 속도(100Gbps 이상)는 종단간 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)(Fiber-to-the-Desk)로 대체되거나, 단일 랙 내에서는 DAC ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Attach Copper) 케이블이 주류가 될 것이다. 그러나 설치의 편의성과 PoE를 통한 전원 통합 공급 능력 때문에, 말단 액세스망(Access Network)에서 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블(Cat 6/6a)의 지위는 향후 10년 이상 흔들리지 않을 것이다.
@@ -180,15 +182,19 @@ Cat 6 방식은 저렴하게 1Gbps를 구성할 수 있으나, 향후 10Gbps로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: STP / FTP]
-    │
-    ▼
-[현재 개념: UTP 카테고리]
-    │
-    ├──▶ [확장 A: 동축 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STP / FTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTP 카테고리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 동축 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) / FTP에서 출발해 현재 메커니즘을 정교화하고, 이후 동축 케이블와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

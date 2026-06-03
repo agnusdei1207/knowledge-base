@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))**: 하드웨어 디스크가 1개 터지거나([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)), 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽어도, 시스템 밖에서 쳐다보는 고객은 단 1개의 500에러도 보지 못하고 평화롭게 200 OK 화면을 보며 결제를 진행하게 버텨내는(허용) 능력.
-  - **탄력성/[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 탄력성 (Resiliency)**: 고무줄이 튕겼다 제자리로 돌아오듯, 디도스(DDoS) 트래픽이 터지거나 DB가 뻗어서 시스템이 일시적으로 휘청거리며 에러율이 치솟다가도, 트래픽을 차단하고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 치며 1분 뒤에 오뚝이처럼 100% 정상 컨디션([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 튕겨 돌아오는 치유력(Self-Healing).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>: 하드웨어 디스크가 1개 터지거나([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)), 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 죽어도, 시스템 밖에서 쳐다보는 고객은 단 1개의 500에러도 보지 못하고 평화롭게 200 OK 화면을 보며 결제를 진행하게 버텨내는(허용) 능력.
+  - <strong>탄력성/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 탄력성 (Resiliency)</strong>: 고무줄이 튕겼다 제자리로 돌아오듯, 디도스(DDoS) 트래픽이 터지거나 DB가 뻗어서 시스템이 일시적으로 휘청거리며 에러율이 치솟다가도, 트래픽을 차단하고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 치며 1분 뒤에 오뚝이처럼 100% 정상 컨디션([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))으로 튕겨 돌아오는 치유력(Self-Healing).
 
 - **필요성 (도미노 연쇄 폭발의 공포)**: MSA로 예쁘게 찢어놨더니 새로운 지옥이 열렸다. 1통짜리 모놀리스 시절엔 함수 내부 호출([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))이라 1억 번을 찔러도 실패율 0%였다. 하지만 50대의 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(네트워크)로 서로 찌르기 시작하자 수학적 비극이 터진다. A 서버 ➡ B 서버 ➡ C 서버로 찌른다. A, B, C가 각자 성공률이 99%라 쳐도, 3개를 거치면 $0.99 \times 0.99 \times 0.99 = 97\%$ 로 가용성이 추락한다. 10단계를 거치면 성공률은 90%로 박살 난다! 게다가 C 서버가 10초 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 렉에 걸리면? 그걸 기다리던 B와 A 서버의 톰캣(Tomcat) 연결 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Connection) 200개가 1초 만에 꽉 막혀버리며, 전사 K8s 클러스터 50대가 모조리 하얗게 얼어붙는(Cascading Failure) 끔찍한 셧다운이 터진다. **"아 ㅆㅂ 쟤가 렉 걸리면, 우리 팀까지 무한 대기 타다 동반 자살하게 되잖아! 당장 3초 넘으면 통신 선을 싹둑 끊어버리는 도끼(방어 패턴)를 내 서버 뱃속에 탑재해!!"**
 
-- **💡 비유**: 탄력성 아키텍처는 거대한 배(타이타닉)의 **'잠수함 격벽([Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/)) 설계'**와 100% 똑같습니다. 옛날 배는 통짜라서 뱃머리에 구멍이 나서 물이 들어오면 배 전체에 물이 꽉 차서 가라앉았습니다(도미노 폭발). 클라우드의 튼튼한 배는 밑바닥을 50개의 강철 방(격벽)으로 갈라놓습니다. 1번 방(결제 서버)이 빙산에 부딪혀 물이 차오르고 뻗었나요? 즉시 1번 방 강철 문([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/))을 쾅! 닫아 폐쇄해 버립니다. 1번 방은 포기하지만(에러), 배 안의 나머지 49개 방(주문, 검색 등)에는 물 한 방울 안 들어와서 배는 침몰하지 않고 무사히 항구를 향해(무정지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 달려 나갈 수 있는 무자비한 꼬리 자르기 생존술입니다.
+- **💡 비유**: 탄력성 아키텍처는 거대한 배(타이타닉)의 <strong>'잠수함 격벽(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">Bulkhead</a>) 설계'</strong>와 100% 똑같습니다. 옛날 배는 통짜라서 뱃머리에 구멍이 나서 물이 들어오면 배 전체에 물이 꽉 차서 가라앉았습니다(도미노 폭발). 클라우드의 튼튼한 배는 밑바닥을 50개의 강철 방(격벽)으로 갈라놓습니다. 1번 방(결제 서버)이 빙산에 부딪혀 물이 차오르고 뻗었나요? 즉시 1번 방 강철 문([서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/))을 쾅! 닫아 폐쇄해 버립니다. 1번 방은 포기하지만(에러), 배 안의 나머지 49개 방(주문, 검색 등)에는 물 한 방울 안 들어와서 배는 침몰하지 않고 무사히 항구를 향해(무정지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 달려 나갈 수 있는 무자비한 꼬리 자르기 생존술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Monolithic (고가용성 환상)**: DB 이중화만 해놓고 "우리 서버는 완벽해!" 자위하던 99.99% 업타임(Uptime) 사상.
   2. **넷플릭스 Hystrix의 구원 (2012)**: 넷플릭스가 AWS 클라우드로 이사가서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 찢다 다 터져 죽을 뻔했다. "클라우드는 쓰레기장이야! 네트워크는 무조건 끊겨!" 깨달음을 얻고 자바 코드 뱃속에 `Timeout`, `Circuit Breaker` 코드를 덕지덕지 발라내는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Hystrix)를 전 세계에 유행시킴.
-  3. **[Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)) 무혈입성 (현재)**: "개발자한테 일일이 넷플릭스 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 임포트해서 짜라고 하니까 코드 개더러워지네 ㅋ" 빡친 아키텍트들이 K8s 인프라 바닥([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))으로 퓨즈 기능을 100% 뽑아 내려서, 개발자 코드 1바이트 훼손 없이 0.01초 만에 네트워크 목줄을 끊어내는 갓-인프라 시대([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))로 승천함.
+  3. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>) 무혈입성 (현재)</strong>: "개발자한테 일일이 넷플릭스 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 임포트해서 짜라고 하니까 코드 개더러워지네 ㅋ" 빡친 아키텍트들이 K8s 인프라 바닥([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))으로 퓨즈 기능을 100% 뽑아 내려서, 개발자 코드 1바이트 훼손 없이 0.01초 만에 네트워크 목줄을 끊어내는 갓-인프라 시대([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))로 승천함.
 
-- **📢 섹션 요약 비유**: 이 사상적 변화는 운전 습관의 진화입니다. 옛날(모놀리스)엔 **"차가 절대 안 고장 나게 튼튼한 벤츠를 사서 1년마다 엔진오일 갈고 정비(고가용성 관리)"**했습니다. 클라우드 시대(탄력성)엔 **"차는 언제든 도로 한가운데서 뻗고 바퀴가 빠진다([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 인정). 중요한 건 차가 뻗었을 때 1초 만에 뒤에 렉카차(에러 방어)가 와서 빼주고 렌터카(새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)/[폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/))를 쏴줘서 10초 만에 다시 엑셀 밟고 출근할 수 있게 만드는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)력([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"**에 올인하는 것입니다. 실패를 막는 게 아니라, 실패를 부드럽게 감싸는 미학입니다.
+- **📢 섹션 요약 비유**: 이 사상적 변화는 운전 습관의 진화입니다. 옛날(모놀리스)엔 <strong>"차가 절대 안 고장 나게 튼튼한 벤츠를 사서 1년마다 엔진오일 갈고 정비(고가용성 관리)"</strong>했습니다. 클라우드 시대(탄력성)엔 <strong>"차는 언제든 도로 한가운데서 뻗고 바퀴가 빠진다(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 인정). 중요한 건 차가 뻗었을 때 1초 만에 뒤에 렉카차(에러 방어)가 와서 빼주고 렌터카(새 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/">폴백</a>)를 쏴줘서 10초 만에 다시 엑셀 밟고 출근할 수 있게 만드는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>력(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)"</strong>에 올인하는 것입니다. 실패를 막는 게 아니라, 실패를 부드럽게 감싸는 미학입니다.
 
 ---
 
 다음은 탄력성 (Resiliency) 및 결의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  탄력성 (Resiliency) 및 결                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탄력성 (Resiliency) 및 결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 탄력성 (Resiliency) 및 결가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-탄력성 (Resiliency) 및 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+탄력성 (Resiliency) 및 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 탄력성 (Resiliency) 및 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/) ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

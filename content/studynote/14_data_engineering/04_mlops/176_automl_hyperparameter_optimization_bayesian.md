@@ -19,7 +19,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)는 모델 구조는 정해져 있지만 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수, 트리 깊이, 배치 크기처럼 사람이 미리 정해야 하는 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가장 좋은 조합으로 찾는 문제다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 HPO 결과에 따라 정확도, 학습 시간, 추론 비용이 크게 달라지므로, 모델 선택 이후의 부가 작업이 아니라 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 완성하는 핵심 단계**에 가깝다.
+AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)는 모델 구조는 정해져 있지만 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수, 트리 깊이, 배치 크기처럼 사람이 미리 정해야 하는 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가장 좋은 조합으로 찾는 문제다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 HPO 결과에 따라 정확도, 학습 시간, 추론 비용이 크게 달라지므로, 모델 선택 이후의 부가 작업이 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 완성하는 핵심 단계</strong>에 가깝다.
 
 문제는 목적함수 평가가 매우 비싸다는 점이다. 후보 하나를 평가하려면 교차검증을 여러 번 돌리거나 [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에서 수시간 학습해야 할 수 있다. 이 상황에서 Grid Search는 차원이 늘수록 조합 폭발에 빠지고, 숙련자 감에 의존한 수동 튜닝은 재현성과 조직 확장성이 떨어진다.
 
@@ -38,7 +38,7 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-베이지안 최적화(Bayesian Optimization)는 "하이퍼파라미터 조합 x를 넣으면 모델 점수 y가 나온다"는 비싼 함수를 직접 분석하지 못할 때 사용하는 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 핵심은 실제 모델 대신 **대리 모델(Surrogate Model)**을 학습해 현재까지 관측한 결과로 점수 분포를 예측하고, **획득 함수([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Function)**가 다음 실험 지점을 정하는 구조다.
+베이지안 최적화(Bayesian Optimization)는 "하이퍼파라미터 조합 x를 넣으면 모델 점수 y가 나온다"는 비싼 함수를 직접 분석하지 못할 때 사용하는 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 핵심은 실제 모델 대신 <strong>대리 모델(Surrogate Model)</strong>을 학습해 현재까지 관측한 결과로 점수 분포를 예측하고, <strong>획득 함수(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> Function)</strong>가 다음 실험 지점을 정하는 구조다.
 
 | 구성 요소 | 역할 | 대표 선택지 |
 | :--- | :--- | :--- |
@@ -50,37 +50,33 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 아래 그림은 베이지안 HPO의 반복 루프를 보여준다.
 
-```text
-┌────────────────┐
-│ Search Space   │
-│ lr, depth, reg │
-└───────┬────────┘
-        │ 초기 랜덤 샘플
-        ▼
-┌────────────────┐      결과 저장      ┌────────────────────┐
-│ Train / Validate│──────────────────▶ │ Trial History      │
-│ expensive run   │                    │ x, score, runtime  │
-└───────┬────────┘                    └─────────┬──────────┘
-        │                                       │
-        │ 실제 점수                              ▼
-        │                              ┌────────────────────┐
-        │                              │ Surrogate Model    │
-        │                              │ Gaussian Process / │
-        │                              │ TPE posterior      │
-        │                              └─────────┬──────────┘
-        │                                        │
-        │                                        ▼
-        │                              ┌────────────────────┐
-        └───────────────────────────── │ Acquisition Func.  │
-                                       │ EI / UCB           │
-                                       └─────────┬──────────┘
-                                                 │ 다음 후보 x*
-                                                 └──────────────▶ 반복
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Search Space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lr, depth, reg</div></div>
+<div class="kb-diagram-note">초기 랜덤 샘플</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결과 저장</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train / Validate</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Trial History</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expensive run</div><div class="kb-diagram-cell">x, score, runtime</div></div>
+<div class="kb-diagram-note">실제 점수 ▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Surrogate Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gaussian Process /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPE posterior</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquisition Func.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EI / UCB</div></div>
+<div class="kb-diagram-note">다음 후보 x*</div>
+<div class="kb-diagram-tree-item" style="--depth:8">▶ 반복</div>
+</div>
+</div>
+
+
 
 이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
 
-중요한 포인트는 베이지안 최적화가 단순히 "좋아 보이는 점"만 고르지 않는다는 점이다. 이미 좋아 보이는 근처를 더 파는 **활용(exploitation)**과, 아직 정보가 적지만 잠재력이 있을 수 있는 영역을 보는 **탐색([exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))**을 동시에 관리한다. 이 균형이 무너지면 지역 최적해에 갇히거나, 반대로 실험을 너무 흩뿌려 효율을 잃는다.
+중요한 포인트는 베이지안 최적화가 단순히 "좋아 보이는 점"만 고르지 않는다는 점이다. 이미 좋아 보이는 근처를 더 파는 <strong>활용(exploitation)</strong>과, 아직 정보가 적지만 잠재력이 있을 수 있는 영역을 보는 <strong>탐색(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">exploration</a>)</strong>을 동시에 관리한다. 이 균형이 무너지면 지역 최적해에 갇히거나, 반대로 실험을 너무 흩뿌려 효율을 잃는다.
 
 - **📢 섹션 요약 비유**: 대리 모델은 부동산 중개 지도의 시세 예측이고, 획득 함수는 "지금 당장 살 만한 집"과 "아직 안 가봤지만 크게 오를 동네" 사이에서 다음 방문지를 정하는 의사결정자다.
 
@@ -88,7 +84,7 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 ## Ⅲ. 비교 및 연결
 
-베이지안 탐색의 강점은 실험당 비용이 높을수록 더 분명해진다. 반대로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실험을 수백 개 동시에 돌릴 수 있고 각 실험이 매우 싸다면, 단순 Random Search나 Latin [Hypercube](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) Sampling이 운영상 더 편할 수 있다. 따라서 HPO는 "무조건 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이 아니라 **예산 구조와 워크로드 특성에 맞는 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택**이 핵심이다.
+베이지안 탐색의 강점은 실험당 비용이 높을수록 더 분명해진다. 반대로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실험을 수백 개 동시에 돌릴 수 있고 각 실험이 매우 싸다면, 단순 Random Search나 Latin [Hypercube](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) Sampling이 운영상 더 편할 수 있다. 따라서 HPO는 "무조건 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"이 아니라 <strong>예산 구조와 워크로드 특성에 맞는 탐색 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택</strong>이 핵심이다.
 
 | 방법 | 샘플 효율 | 자원 효율 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 친화성 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -144,7 +140,7 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/s
 
 하지만 만능은 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 설계가 잘못된 상황에서는 HPO가 구조적 문제를 덮어 주지 못한다. 또 순차성이 강한 베이지안 탐색은 매우 큰 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 클러스터에서는 효율이 떨어질 수 있고, 노이즈가 큰 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 점수는 잘못된 사후분포를 만들 수 있다.
 
-앞으로는 메타러닝 기반 warm start, 정확도와 비용을 동시에 다루는 다목적 최적화, 제약식이 있는 운영 환경을 반영한 constrained Bayesian Optimization이 더 중요해질 것이다. 따라서 이 주제는 "자동으로 다 해준다"보다 **비싼 실험 예산을 정보량 높은 순서로 배분하는 지능형 탐색**으로 기억하는 편이 정확하다.
+앞으로는 메타러닝 기반 warm start, 정확도와 비용을 동시에 다루는 다목적 최적화, 제약식이 있는 운영 환경을 반영한 constrained Bayesian Optimization이 더 중요해질 것이다. 따라서 이 주제는 "자동으로 다 해준다"보다 <strong>비싼 실험 예산을 정보량 높은 순서로 배분하는 지능형 탐색</strong>으로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 베이지안 HPO는 요리 대회에서 지난 시식 결과를 모두 기억해 다음 레시피를 고르는 심사위원과 같다. 많이 만들어 보는 것보다, 점점 더 그럴듯한 조합으로 좁혀 가는 힘이 핵심이다.
 
@@ -163,24 +159,25 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 튜닝 · Grid Search
-    │
-    ▼
-Random Search 기반 기준선 확보
-    │
-    ▼
-Bayesian Optimization
-    │
-    ├─▶ GP / TPE 대리 모델
-    └─▶ EI / UCB 획득 함수
-    │
-    ▼
-Hyperband · ASHA 결합
-    │
-    ▼
-BOHB · 다목적 AutoML · 메타러닝 Warm Start
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 튜닝 · Grid Search</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Random Search 기반 기준선 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Bayesian Optimization</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ GP / TPE 대리 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ EI / UCB 획득 함수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hyperband · ASHA 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BOHB · 다목적 AutoML · 메타러닝 Warm Start</div>
+</div>
+</div>
+
+
 
 이 흐름은 "조합 나열"에서 출발해 "불확실성을 학습하는 탐색"과 "자원 예산을 함께 최적화하는 AutoML"로 발전하는 방향을 보여준다.
 

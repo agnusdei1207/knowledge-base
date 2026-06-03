@@ -10,30 +10,30 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: K8s [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 Pod의 리소스 요청(requests)·제한(limits) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 **Guaranteed·Burstable·BestEffort** 3등급으로 자동 분류되며, 노드 리소스 부족 시 **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 등급이 낮은 Pod부터 Eviction(퇴거)**된다.
-> 2. **가치**: 노드의 메모리가 부족하면 K8s가 Pod를 강제 종료(OOMKilled)하는데, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class에 따라 **중요 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)(Guaranteed)는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**하고 **비중요 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)(BestEffort)부터 제거**하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 유지한다.
-> 3. **판단 포인트**: `requests == limits`이면 **Guaranteed**, `requests < limits`이면 **Burstable**, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 없으면 **BestEffort**이며, 프로덕션 워크로드는 반드시 **Guaranteed 또는 Burstable(requests 필수)**로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
+> 1. **본질**: K8s [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 Pod의 리소스 요청(requests)·제한(limits) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 **Guaranteed·Burstable·BestEffort** 3등급으로 자동 분류되며, 노드 리소스 부족 시 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 등급이 낮은 Pod부터 Eviction(퇴거)</strong>된다.
+> 2. **가치**: 노드의 메모리가 부족하면 K8s가 Pod를 강제 종료(OOMKilled)하는데, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class에 따라 <strong>중요 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>(Guaranteed)는 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>하고 <strong>비중요 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>(BestEffort)부터 제거</strong>하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 유지한다.
+> 3. **판단 포인트**: `requests == limits`이면 **Guaranteed**, `requests < limits`이면 **Burstable**, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 없으면 <strong>BestEffort</strong>이며, 프로덕션 워크로드는 반드시 <strong>Guaranteed 또는 Burstable(requests 필수)</strong>로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    QoS Class 결정 규칙                                │
-├───────────────────────────────────────────────────────┤
-│  [Guaranteed] requests == limits (CPU + Memory 모두)  │
-│   → 최우선 보호, Eviction 가장 마지막               │
-│                                                       │
-│  [Burstable] requests < limits (일부만 설정도 포함)   │
-│   → 중간 우선순위                                     │
-│                                                       │
-│  [BestEffort] requests·limits 없음                    │
-│   → 최저 우선순위, Eviction 1순위                    │
-│                                                       │
-│  Eviction 순서: BestEffort → Burstable → Guaranteed  │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QoS Class 결정 규칙</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guaranteed</div><div class="kb-diagram-note">requests == limits (CPU + Memory 모두)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최우선 보호, Eviction 가장 마지막</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Burstable</div><div class="kb-diagram-note">requests &lt; limits (일부만 설정도 포함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 중간 우선순위</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BestEffort</div><div class="kb-diagram-note">requests·limits 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최저 우선순위, Eviction 1순위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eviction 순서: BestEffort → Burstable → Guaranteed</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이다. 1등석(Guaranteed)은 오버부킹 시에도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되고, 이코노미(BestEffort)부터 내려야 한다.
 
@@ -104,28 +104,30 @@ resources:
 | **Eviction** | 리소스 부족 시 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 강제 종료 |
 | **OOMKilled** | 메모리 초과 시 커널이 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) |
 | **LimitRange** | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 기본 requests/limits [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
-| **[VPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/)** | requests/limits 자동 조정 도구 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/096_vpa_vertical_pod_autoscaler_kubernetes/">VPA</a></strong> | requests/limits 자동 조정 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[K8s 초기 (리소스 미설정, OOMKill 빈발)]
-    │
-    ▼
-[QoS Class 도입 (2016~) — 3등급 Eviction 우선순위]
-    │
-    ▼
-[LimitRange/ResourceQuota (네임스페이스 관리)]
-    │
-    ▼
-[VPA (2019~) — requests/limits 자동 조정]
-    │
-    ▼
-[현재: Karpenter — 노드 자체를 자동 스케일링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 초기 (리소스 미설정, OOMKill 빈발)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QoS Class 도입 (2016~) — 3등급 Eviction 우선순위</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LimitRange/ResourceQuota (네임스페이스 관리)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VPA (2019~) — requests/limits 자동 조정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Karpenter — 노드 자체를 자동 스케일링</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이에요. **1등석(Guaranteed)**은 가장 안전해요.
+1. [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이에요. <strong>1등석(Guaranteed)</strong>은 가장 안전해요.
 2. 비행기(노드)가 너무 무거우면 **이코노미(BestEffort) 짐부터 내려요** (Eviction).
 3. 중요한 짐(프로덕션 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))은 **1등석에 놓아야** 안전하답니다!
 

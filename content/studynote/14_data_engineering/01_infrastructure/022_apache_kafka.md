@@ -39,39 +39,44 @@ tags = ["studynote-data-engineering"]
 ### 1. 브로커, 토픽, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 아키텍처
 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 스토리지는 토픽(Topic)이라는 메시지 카테고리로 구성된다. 각 토픽은 하나 이상의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 나뉘며, 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 클러스터 내 여러 브로커에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치된다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ [ Apache Kafka 클러스터 아키텍처 ] │
-│ │
-│ [Producer] ──> [Broker 1] ──> [Broker 2] ──> [Broker 3] │
-│ (발신자) │ P0(리더) │ P1(리더) │ P0(리더) │
-│ │ P1(팔로워) │ P0(팔로워) │ P1(팔로워) │
-│ └────────────────────────────────────────┘
-│ ↑ │
-│ │ (컨슈머 그룹 병렬 소비) │
-│ [Consumer Group] │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka 클러스터 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Producer</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Broker 1</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Broker 2</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Broker 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(발신자)</div><div class="kb-diagram-cell">P0(리더)</div><div class="kb-diagram-cell">P1(리더)</div><div class="kb-diagram-cell">P0(리더)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1(팔로워)</div><div class="kb-diagram-cell">P0(팔로워)</div><div class="kb-diagram-cell">P1(팔로워)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(컨슈머 그룹 병렬 소비)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer Group</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]**
 - **토픽(Topic)**: 메시지가 구분되는 채널(예: `user-events`, `payment-transactions`)
-- **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))**: 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하기 위해 물리적으로 분할한 단위. 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 순서가 보장되는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Append-only Log)이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong>: 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하기 위해 물리적으로 분할한 단위. 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 순서가 보장되는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Append-only Log)이다.
 - **브로커(Broker)**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 서버 프로세스. 수십 대로 확장 가능하며, 각각 토픽의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)들을 물리적으로 관리한다.
 - **오프셋(Offset)**: 각 메시지에 붙는 일련번호로, 컨슈머가 "어디까지 읽었는지"를 기억하는 위치 포인터이다.
 
 ### 2. Producer와 Consumer의 Pulitzer와 손잡이
-**Producer**는 토픽의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 메시지를 Publish(발행)한다. 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 보낼지는 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))의 해시값으로 결정(기본)하거나 라운드 로빈으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
+<strong>Producer</strong>는 토픽의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 메시지를 Publish(발행)한다. 어떤 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 보낼지는 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))의 해시값으로 결정(기본)하거나 라운드 로빈으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다.
 
-**Consumer**는 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))을 형성하여 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비한다. 같은 그룹 내 컨슈머들은 각기 다른 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 할당받아 중복 소비 없이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다.
+<strong>Consumer</strong>는 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))을 형성하여 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비한다. 같은 그룹 내 컨슈머들은 각기 다른 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 할당받아 중복 소비 없이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다.
 
-```text
-[ 토픽: user-events (파티션 3개) ]
 
-[Producer] --> [P0] --> [P1] --> [P2]
-↑ ↑ ↑
-[CG: stats-service] [CG: fraud-detection]
-(파티션 0,1 할당) (파티션 2 할당)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">토픽: user-events (파티션 3개)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Producer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CG: stats-service</div><div class="kb-diagram-node">CG: fraud-detection</div></div>
+<div class="kb-diagram-note">(파티션 0,1 할당) (파티션 2 할당)</div>
+</div>
+</div>
+
+
 
 ### 3. 내구성([Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
 메시지는 브로커의 로컬 디스크에 기록되지만, 이는 서버가 장애 나면 유실될 수 있다. 이를 방지하기 위해 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 리더(Leader) 브로커가 팔로워(Follower) 브로커 N개에 동기적으로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. `acks=all` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, 모든 팔로워가 메시지를 받아들인 뒤에야 Producer에게 ACK를 반환한다.
@@ -90,7 +95,7 @@ tags = ["studynote-data-engineering"]
 | **메시지 보존** | 제한 없음 (보존 기간 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) | 컨슈머 ACK 후 삭제 | 최대 14일 |
 | **처리 모델** | Pull (컨슈머가 가져감) | Push (브로커가 밀어냄) | Pull |
 | **순서 보장** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 순서 보장 |Exchange 타입에 따라 다름 | 일부 순서 보장 |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 초당 수백만 MSG (성능) | 초당 수만 MSG | 초당 수천 MSG |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 초당 수백만 MSG (성능) | 초당 수만 MSG | 초당 수천 MSG |
 | **활용** | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파이프라인, 스트리밍 | 작업 큐, 비동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 이벤트 |
 
 ### [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 Pull 모델이 효율적인 이유
@@ -109,7 +114,7 @@ tags = ["studynote-data-engineering"]
 |:---|:---|:---|
 | **도입 환경** | 레거시 동기 호출을 비동기 이벤트 기반으로 전환 | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 강결합 해제 |
 | **내구성 요구** | 메시지 유실이 치명적인 금융/결제 시스템 | `acks=all` + [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)(최소 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 수) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 일 10억 건 이상의 이벤트 스트림 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조정으로 수평 확장 설계 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 일 10억 건 이상의 이벤트 스트림 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조정으로 수평 확장 설계 |
 
 *(추가 실무 적용 가이드 - CDC와 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 결합)*
 - Debezium과 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 결합하면 RDBMS의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Binlog)를 실시간으로 캡처하여 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인을 구축할 수 있다. 운영 DB에한 부하를 주지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경분을 스트림으로 흘려보내 DW나 레이크에 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
@@ -120,9 +125,9 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)와 레이크하우스의 결합**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 통해 유입되는 실시간 스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 Iceberg/Delta Lake에 저장하여 배치와 스트리밍을 단일 파이프라인으로 통합하는 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처가 주목받고 있다.
-2. **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 스트리밍 SQL**: KSQL(현재 [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) SQL)과 Flink SQL의 융합으로, 복잡한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 로직을 SQL로 직관적으로 작성하는 것이 업계 표준이 될 것이다.
-3. **[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) Cloud)**: 클러스터 운영의 부담을 없앤 완전 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확대되며, 개발자는 로직 작성에만 집중할 수 있게 되었다.
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>와 레이크하우스의 결합</strong>: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)를 통해 유입되는 실시간 스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 Iceberg/Delta Lake에 저장하여 배치와 스트리밍을 단일 파이프라인으로 통합하는 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처가 주목받고 있다.
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a> 기반 스트리밍 SQL</strong>: KSQL(현재 [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) SQL)과 Flink SQL의 융합으로, 복잡한 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 로직을 SQL로 직관적으로 작성하는 것이 업계 표준이 될 것이다.
+3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a> <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/">Confluent</a> Cloud)</strong>: 클러스터 운영의 부담을 없앤 완전 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확대되며, 개발자는 로직 작성에만 집중할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 발전은 '전화 교환원(기존 Middleware)'이 '자동 전화 연결 시스템([카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))'으로 진화한 것과 같습니다. 이제는 AI가 전화를 받고 내용을 분석하여 적절한 부서(Consumer)에 자동으로 연결하는 스마트 통신소로 진화하고 있습니다.
 
@@ -130,11 +135,11 @@ tags = ["studynote-data-engineering"]
 
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-* **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메시지 시스템 비교**
+* <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메시지 시스템 비교</strong>
 * [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/): [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 Pub/Sub (이벤트 스트리밍)
 * RabbitMQ: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기반 작업 큐 (비동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))
 * Amazon SQS: 완전 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 큐 (이벤트 드리븐)
-* **[카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 핵심 개념**
+* <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a> 핵심 개념</strong>
 * Topic / [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) / Offset: 메시지 조직화의 구조
 * Producer / Consumer / [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/): 발신자-수신자 패턴
 * Leader / Follower / [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/): 내구성을 위한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
@@ -149,29 +154,31 @@ tags = ["studynote-data-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **토픽 / [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) (Topic / [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))** | 메시지를 분류하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 채널(토픽)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 가능하게 하는 물리 단위([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) |
-| **[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) ([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))** | 여러 컨슈머가 협력하여 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 나눠 소비하는 수평 확장 메커니즘 |
+| <strong>토픽 / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> (Topic / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong> | 메시지를 분류하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 채널(토픽)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 가능하게 하는 물리 단위([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">컨슈머 그룹</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a>)</strong> | 여러 컨슈머가 협력하여 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 나눠 소비하는 수평 확장 메커니즘 |
 | **오프셋 (Offset)** | 각 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지의 고유 순서 번호 — 컨슈머가 어디까지 읽었는지 추적하는 커서 |
-| **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))** | Debezium + Kafka로 운영 DB의 변경 이벤트를 실시간 스트림으로 캡처하는 아키텍처 패턴 |
-| **[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처** | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 배치 레이어를 제거하고 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 스트리밍 단일 파이프라인으로 통합한 단순화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">Change Data Capture</a>)</strong> | Debezium + Kafka로 운영 DB의 변경 이벤트를 실시간 스트림으로 캡처하는 아키텍처 패턴 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/">Kappa</a> 아키텍처</strong> | [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 배치 레이어를 제거하고 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 스트리밍 단일 파이프라인으로 통합한 단순화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Producer (발신자) — 이벤트/메시지 생성]
-│
-▼
-[토픽 → 파티션 분산 저장 (Append-only Log)]
-│
-▼
-[Broker 클러스터 — 복제(Replication)로 내구성 보장]
-│
-▼
-[Consumer Group — 병렬 소비, 오프셋 관리]
-│
-▼
-[Flink / Spark Streaming + CDC → Kappa 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Producer (발신자) — 이벤트/메시지 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">토픽 → 파티션 분산 저장 (Append-only Log)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Broker 클러스터 — 복제(Replication)로 내구성 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer Group — 병렬 소비, 오프셋 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flink / Spark Streaming + CDC → Kappa 아키텍처</div></div>
+</div>
+</div>
+
+
 Producer가 생성한 이벤트가 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장으로 내구성을 확보하고, Consumer Group이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 소비하며, Flink·Spark와 결합해 실시간 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -181,7 +188,7 @@ Producer가 생성한 이벤트가 [파티션](/knowledge-base/studynote/02_oper
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
+> <strong>🛡️ 3.1 Pro Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 작성되었습니다. (Verified at: 2026-04-02)
 
 ---
 

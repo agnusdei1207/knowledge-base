@@ -20,19 +20,23 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 통신 이론의 아버지 클로드 샤논은 1948년에 절대 법칙을 증명했습니다.
-"채널에 노이즈가 아무리 많아도, 송신 속도만 특정 한계선(샤논 한계) 이하로 낮추고 에러 제어 코드를 잘만 짜면 **통신 에러율을 수학적으로 '0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))'으로 만들 수 있다.**"
+"채널에 노이즈가 아무리 많아도, 송신 속도만 특정 한계선(샤논 한계) 이하로 낮추고 에러 제어 코드를 잘만 짜면 <strong>통신 에러율을 수학적으로 '0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)'으로 만들 수 있다.</strong>"
 
 학자들은 50년 동안 이 샤논 한계 근처에 가기 위해 무수히 노력했지만([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/), RS 코드, [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/) 등) 항상 한계치에서 멈췄습니다. 
-그러다 프랑스의 두 교수가 고안한 **터보 코드**가 등장하면서 단숨에 샤논 한계의 코앞(소수점 아래 차이)까지 도달하는 기적을 씁니다.
+그러다 프랑스의 두 교수가 고안한 <strong>터보 코드</strong>가 등장하면서 단숨에 샤논 한계의 코앞(소수점 아래 차이)까지 도달하는 기적을 씁니다.
 
-```text
-[길쌈 코드]
-    │
-    ▼
-[터보 코드]
-    │
-    └──▶ [LDPC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LDPC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 터보 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,17 +55,21 @@ tags = ["studynote-network"]
 - 1번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 에러를 고쳐봅니다. "야, 내가 풀어보니까 3번 비트는 1일 확률이 80%야."
 - 이 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 정보, Soft Decision)를 2번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에게 넘겨줍니다.
 - 2번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 그 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 받고 자기가 풀던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 조합합니다. "네 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 덕에 풀었어! 3번은 1이 확실하고, 4번은 0일 확률이 90%야." 
-- **이 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 다시 1번 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)에게 던져줍니다(피드백).**
-- 이렇게 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 게임을 하며 **수차례 반복(Iteration) 토론을 거치면, 불확실했던 에러들이 마법처럼 100% 확실한 정답으로 수렴(Convergence)**하게 됩니다.
+- <strong>이 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>를 다시 1번 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에게 던져줍니다(피드백).</strong>
+- 이렇게 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 게임을 하며 <strong>수차례 반복(Iteration) 토론을 거치면, 불확실했던 에러들이 마법처럼 100% 확실한 정답으로 수렴(Convergence)</strong>하게 됩니다.
 
-```text
-[길쌈 코드]
-    │
-    ▼
-[터보 코드]
-    │
-    └──▶ [LDPC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LDPC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 터보 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,8 +78,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 이 미친 에러 복원력 덕분에 터보 코드는 노이즈가 난무하는 무선 통신의 구세주가 되었습니다.
-- **3G ([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))**와 **4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)** 모바일 통신, 그리고 화성 탐사선(심우주 통신)의 물리 계층 표준 에러 정정 코드로 채택되어 인류의 스마트폰 시대를 활짝 열어젖혔습니다.
-- **단점**: 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 토론(반복 연산)을 하느라 **수학적 계산 시간이 너무 오래 걸려서 엄청난 딜레마([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))를 유발**합니다. 이 때문에 초저지연을 요구하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에는 결국 왕좌를 LDPC에 넘겨주게 됩니다.
+- <strong>3G (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/">WCDMA</a>)</strong>와 <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a></strong> 모바일 통신, 그리고 화성 탐사선(심우주 통신)의 물리 계층 표준 에러 정정 코드로 채택되어 인류의 스마트폰 시대를 활짝 열어젖혔습니다.
+- **단점**: 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 토론(반복 연산)을 하느라 <strong>수학적 계산 시간이 너무 오래 걸려서 엄청난 딜레마(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)를 유발</strong>합니다. 이 때문에 초저지연을 요구하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에는 결국 왕좌를 LDPC에 넘겨주게 됩니다.
 
 터보 코드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)가 기반 조건을 만든다면, 터보 코드는 그 위에서 핵심 메커니즘을 구현하고, LDPC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 터보 코드는 어려운 수학 문제를 푸는 **'두 명의 천재 학생([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))'**입니다. 둘을 격리해 놓고 풀게 한 뒤, A학생이 "이거 정답 3번 아닐까?"라는 쪽지([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 B학생에게 던집니다. B학생은 그 쪽지를 보고 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 얻어 "맞아! 그럼 이건 5번이네!" 하고 다시 A에게 쪽지를 던집니다. **서로 답안지를 돌려보며 끝없이 의논(반복 연산/터보)한 끝에 절대 틀릴 수 없는 완벽한 100점짜리 답안지**를 제출하는 꼼수이자 혁명입니다.
+- **📢 섹션 요약 비유**: ** 터보 코드는 어려운 수학 문제를 푸는 **'두 명의 천재 학생([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))'<strong>입니다. 둘을 격리해 놓고 풀게 한 뒤, A학생이 "이거 정답 3번 아닐까?"라는 쪽지(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>)를 B학생에게 던집니다. B학생은 그 쪽지를 보고 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>를 얻어 "맞아! 그럼 이건 5번이네!" 하고 다시 A에게 쪽지를 던집니다. </strong>서로 답안지를 돌려보며 끝없이 의논(반복 연산/터보)한 끝에 절대 틀릴 수 없는 완벽한 100점짜리 답안지**를 제출하는 꼼수이자 혁명입니다.
 
 ---
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 길쌈 코드]
-    │
-    ▼
-[현재 개념: 터보 코드]
-    │
-    ├──▶ [확장 A: LDPC]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 길쌈 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 터보 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LDPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 터보 코드는 [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LDPC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

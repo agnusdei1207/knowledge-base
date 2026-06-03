@@ -33,24 +33,23 @@ tags = ["studynote-computer-architecture"]
 
 클럭 주기는 "클럭 에지 간 간격"이면서 동시에 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로에 허용된 최대 계산 시간"이다. 실제 설계에서는 클럭 출발점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 레지스터를 떠나 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 지나 다음 레지스터에 도착하기까지의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 셋업 시간, 배선 오차까지 합쳐서 주기를 정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        클럭 주기가 감당해야 하는 실제 타이밍 예산 (Timing Budget)   │
-├──────────────────────────────────────────────────────────────────────┤
-│  Clock Edge n                                                       │
-│      │                                                              │
-│      ▼                                                              │
-│  [레지스터 1 출력] ──▶ [조합 논리 경로] ──▶ [레지스터 2 입력 안정화] │
-│                                                   ──▶ 저장           │
-│                 <---- 데이터 전파 지연 ---->   <Setup Time>          │
-│                                                                      │
-│  <--------------------- Clock Cycle Time (T) --------------------->  │
-│                                                                      │
-│  T ≥ Clock-to-Q + Logic Delay + Setup Margin + Skew/Jitter Margin    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 클럭 주기가 단순히 파형 하나의 길이가 아니라, 여러 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요소를 모두 합친 **타이밍 예산**이라는 점이다. 여기서 `Clock-to-Q`는 레지스터가 출력을 내보내기까지의 시간이고, `Logic Delay`는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), `Setup Margin`은 다음 레지스터가 안정된 값을 읽기 위해 필요한 최소 여유다. 여기에 클럭 스큐 ([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 지터 (Jitter) 같은 배선·발진 오차도 추가로 고려해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 주기가 감당해야 하는 실제 타이밍 예산 (Timing Budget)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock Edge n</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레지스터 1 출력</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조합 논리 경로</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레지스터 2 입력 안정화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;---- 데이터 전파 지연 ----&gt; &lt;Setup Time&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;--------------------- Clock Cycle Time (T) ---------------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T ≥ Clock-to-Q + Logic Delay + Setup Margin + Skew/Jitter Margin</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 클럭 주기가 단순히 파형 하나의 길이가 아니라, 여러 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요소를 모두 합친 <strong>타이밍 예산</strong>이라는 점이다. 여기서 `Clock-to-Q`는 레지스터가 출력을 내보내기까지의 시간이고, `Logic Delay`는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), `Setup Margin`은 다음 레지스터가 안정된 값을 읽기 위해 필요한 최소 여유다. 여기에 클럭 스큐 ([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 지터 (Jitter) 같은 배선·발진 오차도 추가로 고려해야 한다.
 
 예를 들어 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) ([Clock Frequency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))가 2GHz이면 주기는 0.5ns다. 이 0.5ns 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연산을 끝내고 안전하게 도착해야만 다음 에지에서 정상 저장이 가능하다. 그래서 고성능 프로세서는 주기를 줄이기 위해 파이프라이닝 (Pipelining)으로 긴 경로를 여러 단계로 나누고, 물리 설계 단계에서는 배선 길이와 클럭 분배망까지 세밀하게 조정한다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클럭 신호 (Clock Signal)
-    │
-    ▼
-클럭 주파수 (Clock Frequency) ↔ 클럭 주기 (Clock Cycle Time)
-    │
-    ▼
-임계 경로 (Critical Path) · 셋업 시간 (Setup Time)
-    │
-    ▼
-파이프라이닝 (Pipelining) · 타이밍 클로저 (Timing Closure)
-    │
-    ▼
-성능 방정식 · CPI (Cycles Per Instruction) · DVFS
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭 신호 (Clock Signal)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클럭 주파수 (Clock Frequency) ↔ 클럭 주기 (Clock Cycle Time)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임계 경로 (Critical Path) · 셋업 시간 (Setup Time)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라이닝 (Pipelining) · 타이밍 클로저 (Timing Closure)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 방정식 · CPI (Cycles Per Instruction) · DVFS</div>
+</div>
+</div>
+
+
 
 이 흐름은 "박자 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 시간 환산 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제약 → 구조 최적화 → 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 연결"로 개념이 확장되는 순서를 보여준다.
 

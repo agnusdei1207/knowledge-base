@@ -17,35 +17,29 @@ tags = ["enterprise_systems"]
 
 ### 스파게티 연동의 파괴: 통합 아키텍처의 사명
 
-기업의 시스템이 늘어날수록 시스템 간의 연동 요구는 기하급수적으로 증가한다. 10개의 시스템을 서로 직접 연결하려면 45개의 선이 필요하다 ($N(N-1)/2$). 이 '스파게티 연동'은 시스템 하나를 바꿀 때마다 수십 개의 인터페이스를 수정해야 하는 재앙을 초래한다. **통합 아키텍처**는 이 복잡성을 중앙에서 통제하고 표준화된 대화 방식을 제공한다.
+기업의 시스템이 늘어날수록 시스템 간의 연동 요구는 기하급수적으로 증가한다. 10개의 시스템을 서로 직접 연결하려면 45개의 선이 필요하다 ($N(N-1)/2$). 이 '스파게티 연동'은 시스템 하나를 바꿀 때마다 수십 개의 인터페이스를 수정해야 하는 재앙을 초래한다. <strong>통합 아키텍처</strong>는 이 복잡성을 중앙에서 통제하고 표준화된 대화 방식을 제공한다.
 
-통합 기술이 필요한 이유는 세 가지이다. 첫째, **복잡성 관리**를 위해서이다. 중앙 통로를 통해 연동 선의 개수를 $N$개로 줄인다. 둘째, **데이터 정합성 유지**를 위해서이며 (여러 시스템의 데이터 동기화), 셋째, **비즈니스 프로세스의 가시성 확보**를 통해 업무의 흐름을 실시간으로 추적하기 위함이다.
+통합 기술이 필요한 이유는 세 가지이다. 첫째, <strong>복잡성 관리</strong>를 위해서이다. 중앙 통로를 통해 연동 선의 개수를 $N$개로 줄인다. 둘째, <strong>데이터 정합성 유지</strong>를 위해서이며 (여러 시스템의 데이터 동기화), 셋째, <strong>비즈니스 프로세스의 가시성 확보</strong>를 통해 업무의 흐름을 실시간으로 추적하기 위함이다.
 
 이 그림은 점대점 방식의 혼돈에서 허브 기반의 질서로 변모하는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Point-to-Point vs Hub-and-Spoke             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ P2P: Spaghetti ]              [ Hub: EAI / ESB ]        │
-│                                                             │
-│      A <───▶ B                       A       B              │
-│      │ \   / │                       │       │              │
-│      │  \ /  │                       ▼       ▼              │
-│      ▼   X   ▼                  ┌─────────────────┐         │
-│      C ◀───▶ D                  │   Central Hub   │         │
-│                                 └─────────────────┘         │
-│                                      ▲       ▲              │
-│                                      │       │              │
-│                                      C       D              │
-│                                                             │
-│   * 복잡도: O(N^2)                * 복잡도: O(N)            │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '중앙 집중화'이다. 모든 시스템은 오직 허브하고만 대화하면 된다. 실무에서는 이러한 통합 레이어가 비즈니스 로직의 변경 없이도 시스템을 교체하거나 추가할 수 있는 **유연성 (Flexibility)**의 근간이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Point-to-Point vs Hub-and-Spoke</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2P: Spaghetti</div><div class="kb-diagram-node">Hub: EAI / ESB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A &lt; ▶ B A B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ X ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C ◀ ▶ D</div><div class="kb-diagram-cell">Central Hub</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 복잡도: O(N^2) * 복잡도: O(N)</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '중앙 집중화'이다. 모든 시스템은 오직 허브하고만 대화하면 된다. 실무에서는 이러한 통합 레이어가 비즈니스 로직의 변경 없이도 시스템을 교체하거나 추가할 수 있는 <strong>유연성 (Flexibility)</strong>의 근간이 된다.
 
 ### 엔터프라이즈 통합의 진화 단계
 
@@ -71,28 +65,23 @@ SOA 철학을 실현하는 통합 미들웨어이다.
 - **핵심**: 서비스 지향적이며, 표준 프로토콜 (SOAP, REST)을 사용.
 - **기능**: 콘텐츠 기반 라우팅, 프로토콜 변환, 보안 및 트랜잭션 관리.
 
-이 구조도는 **ESB**가 다양한 시스템을 표준 서비스로 연결하는 모습을 보여준다.
+이 구조도는 <strong>ESB</strong>가 다양한 시스템을 표준 서비스로 연결하는 모습을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Enterprise Service Bus (ESB) Model          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Legacy DB ]   [ ERP System ]   [ External Cloud ]       │
-│          │               │                │                 │
-│   ┌──────▼───────────────▼────────────────▼──────┐          │
-│   │          Messaging & Routing Engine          │          │
-│   ├──────────────────────────────────────────────┤          │
-│   │          Protocol Adaptation Layer           │          │
-│   │          (JDBC, HTTP, AMQP, etc.)            │          │
-│   └──────┬───────────────┬────────────────┬──────┘          │
-│          ▼               ▼                ▼                 │
-│   [ Service A ]   [ Service B ]    [ Mobile App ]           │
-│                                                             │
-│   * 특징: "똑똑한 파이프, 멍청한 엔드포인트"                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Service Bus (ESB) Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy DB</div><div class="kb-diagram-node">ERP System</div><div class="kb-diagram-node">External Cloud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Messaging &amp; Routing Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol Adaptation Layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JDBC, HTTP, AMQP, etc.)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service A</div><div class="kb-diagram-node">Service B</div><div class="kb-diagram-node">Mobile App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: "똑똑한 파이프, 멍청한 엔드포인트"</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '버스 (Bus)'이다. 데이터가 고속도로(버스)를 타고 흐르다가, 자신에게 필요한 데이터가 오면 각 시스템이 낚아채어 처리한다. 실무에서는 이 구조를 통해 대규모 시스템 간의 결합도를 획기적으로 낮춘다.
 
@@ -114,7 +103,7 @@ SOA 철학을 실현하는 통합 미들웨어이다.
 
 ### MSA와 API Gateway의 시너지
 
-현대적인 통합은 미들웨어 장비 대신 **API Gateway**가 주도한다.
+현대적인 통합은 미들웨어 장비 대신 <strong>API Gateway</strong>가 주도한다.
 - **원리**: 클라이언트의 모든 요청을 단일 진입점에서 받아, 뒤에 숨은 수백 개의 마이크로서비스로 라우팅.
 - **가치**: 통합 인증, 유량 제어 (Throttling), 로깅을 한곳에서 처리하여 MSA의 복잡성을 관리한다.
 
@@ -127,30 +116,27 @@ SOA 철학을 실현하는 통합 미들웨어이다.
 ### 기술사적 판단: 통합 솔루션 선정 및 성능 최적화 전략
 
 **시나리오 1: 이기종 시스템 50개 이상을 실시간 연동해야 하는 대규모 금융 차세대 사업**
-- **판단**: 단순 EAI로는 트래픽 병목을 감당할 수 없다. 분산 처리가 강점인 **ESB** 아키텍처를 선정하고, 핵심 트랜잭션 데이터는 **Kafka**와 같은 고성능 메시지 브로커를 통해 비동기로 처리한다. 또한 시스템 간의 커플링을 방지하기 위해 **Canonical Data Model** (표준 데이터 형식)을 수립하여 전사 인터페이스의 일관성을 강제한다.
+- **판단**: 단순 EAI로는 트래픽 병목을 감당할 수 없다. 분산 처리가 강점인 **ESB** 아키텍처를 선정하고, 핵심 트랜잭션 데이터는 <strong>Kafka</strong>와 같은 고성능 메시지 브로커를 통해 비동기로 처리한다. 또한 시스템 간의 커플링을 방지하기 위해 **Canonical Data Model** (표준 데이터 형식)을 수립하여 전사 인터페이스의 일관성을 강제한다.
 
 **시나리오 2: 모놀리식 ERP의 기능을 점진적으로 MSA로 전환하려는 경우**
-- **판단**: **Strangler Fig 패턴**을 적용한다. 신규 기능을 구형 ERP 내부에 만들지 않고 별도 마이크로서비스로 개발한다. 앞단에 **API Gateway**를 배치하여 기존 요청은 ERP로, 신규 요청은 마이크로서비스로 보내는 지능형 라우팅을 수행한다. 두 세계 사이의 데이터 동기화는 **CDC (Change Data Capture)** 기술을 활용한 이벤트 기반 연동으로 구축한다.
+- **판단**: <strong>Strangler Fig 패턴</strong>을 적용한다. 신규 기능을 구형 ERP 내부에 만들지 않고 별도 마이크로서비스로 개발한다. 앞단에 <strong>API Gateway</strong>를 배치하여 기존 요청은 ERP로, 신규 요청은 마이크로서비스로 보내는 지능형 라우팅을 수행한다. 두 세계 사이의 데이터 동기화는 **CDC (Change Data Capture)** 기술을 활용한 이벤트 기반 연동으로 구축한다.
 
 이 도식은 통합 아키텍처에서 발생할 수 있는 '장애 전파'를 막는 **Circuit Breaker** 로직을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Integrated Service Resilience (Circuit)       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Service A ] ──▶ [ ESB / Gateway ] ──▶ [ Service B ]     │
-│                                              │              │
-│   ┌── [ Timeout / Error Count Up ] ◀─────────┘              │
-│   │          │                                              │
-│   ▼          ▼                                              │
-│ [ Open Circuit: Block Request ] ──▶ [ Return Fallback ]     │
-│                                                             │
-│   * 기술사 제언: 연동 시스템이 죽었을 때 내 시스템까지      │
-│     함께 마비되지 않도록 하는 '방어적 통합'이 필수          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integrated Service Resilience (Circuit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Service A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESB / Gateway</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Timeout / Error Count Up</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Open Circuit: Block Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Return Fallback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 제언: 연동 시스템이 죽었을 때 내 시스템까지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함께 마비되지 않도록 하는 '방어적 통합'이 필수</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 통합 판단은 '도시의 전력망 설계'와 같습니다. 전기가 잘 흐르게 선(인터페이스)을 까는 것도 중요하지만, 한 집이 합선(장애)되었을 때 동네 전체가 정전되지 않도록 차단기(서킷 브레이커)를 잘 설치하는 것이 실력입니다.
 
@@ -165,7 +151,7 @@ SOA 철학을 실현하는 통합 미들웨어이다.
 
 ### 미래 전망: 이벤트 중심의 자율 통합 (EDA)
 
-향후 엔터프라이즈 통합은 요청-응답 방식을 넘어, 세상의 변화(이벤트)에 실시간으로 반응하는 **이벤트 주도 아키텍처 (EDA)**로 완전히 전환될 것이다. 클라우드 서비스들이 스스로를 발견하고 연결하는 **Service Mesh** 기술이 통합 미들웨어의 역할을 대체할 것이다. 기술사는 특정 장비의 설정을 넘어, 전사적 데이터 흐름을 코드로 정의하고 관리하는 **'인프라스트럭처로서의 통합 (Integration as Code)'**에 대한 전문성을 갖추어야 한다.
+향후 엔터프라이즈 통합은 요청-응답 방식을 넘어, 세상의 변화(이벤트)에 실시간으로 반응하는 <strong>이벤트 주도 아키텍처 (EDA)</strong>로 완전히 전환될 것이다. 클라우드 서비스들이 스스로를 발견하고 연결하는 **Service Mesh** 기술이 통합 미들웨어의 역할을 대체할 것이다. 기술사는 특정 장비의 설정을 넘어, 전사적 데이터 흐름을 코드로 정의하고 관리하는 <strong>'인프라스트럭처로서의 통합 (Integration as Code)'</strong>에 대한 전문성을 갖추어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 통합은 '공기 중의 대화'와 같아질 것입니다. 실선(인터페이스)이 없어도 수만 개의 서비스가 서로의 존재를 알고(Service Discovery), 필요한 정보를 마법처럼 주고받는 지능형 신경망이 완성될 것입니다.
 

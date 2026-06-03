@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 모놀리식 시절엔 옆 부서 데이터를 원하면 그냥 함수 하나 불렀다(`userService.getUser()`). MSA로 찢어지자 함수 호출이 아니라 '네트워크 통신'이 되었다. A서버가 B서버에게 HTTP로 "유저 정보 내놔!"라고 찌르고, B서버가 JSON을 만들어 뱉어줄 때까지 A서버의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 아무 일도 못 하고 허공을 보며 기다려야(동기/[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 한다.
 
-- **필요성**: 회원가입을 하려는데 유저가 친 '이메일 주소'가 중복인지 아닌지 DB 서버에 물어봤다. 이때 "나중에 시간 나면 알려줘~"라고 비동기([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))로 던질 수 있을까? 절대 안 된다. 지금 당장 중복 여부를 알아야 1초 뒤 유저 화면에 '가입 성공'을 띄워줄 거 아닌가. 이처럼 **"지금 당장 결과값을 받아야만 내 다음 로직을 진행할 수 있는 즉시성(Immediacy)이 생명인 비즈니스"**에서는 무조건 전화를 걸어 대답을 듣는 동기 통신([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)) 뼈대가 100% 필수적이다.
+- **필요성**: 회원가입을 하려는데 유저가 친 '이메일 주소'가 중복인지 아닌지 DB 서버에 물어봤다. 이때 "나중에 시간 나면 알려줘~"라고 비동기([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))로 던질 수 있을까? 절대 안 된다. 지금 당장 중복 여부를 알아야 1초 뒤 유저 화면에 '가입 성공'을 띄워줄 거 아닌가. 이처럼 <strong>"지금 당장 결과값을 받아야만 내 다음 로직을 진행할 수 있는 즉시성(Immediacy)이 생명인 비즈니스"</strong>에서는 무조건 전화를 걸어 대답을 듣는 동기 통신([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/)/[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)) 뼈대가 100% 필수적이다.
 
-- **💡 비유**: 동기 통신은 **'짜장면 배달 전화'**와 똑같습니다. 손님(A서버)이 중국집(B서버)에 전화를 겁니다. "짜장면 하나요!" 손님은 전화를 끊지 않고 수화기를 들고 기다립니다. 주방장(B서버)이 "네~ 출발했습니다!"라고 대답을 해줘야만 손님이 비로소 수화기를 내려놓고(응답 완료) 숟가락을 세팅할 수 있습니다. 가장 확실한 소통법이지만, 주방장이 화장실에 가서 10분 동안 전화를 안 받으면 손님도 10분 동안 수화기를 들고 화장실도 못 가는 멍청한 상태([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 렉)가 유지되는 것이 최대 딜레마다.
+- **💡 비유**: 동기 통신은 <strong>'짜장면 배달 전화'</strong>와 똑같습니다. 손님(A서버)이 중국집(B서버)에 전화를 겁니다. "짜장면 하나요!" 손님은 전화를 끊지 않고 수화기를 들고 기다립니다. 주방장(B서버)이 "네~ 출발했습니다!"라고 대답을 해줘야만 손님이 비로소 수화기를 내려놓고(응답 완료) 숟가락을 세팅할 수 있습니다. 가장 확실한 소통법이지만, 주방장이 화장실에 가서 10분 동안 전화를 안 받으면 손님도 10분 동안 수화기를 들고 화장실도 못 가는 멍청한 상태([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 렉)가 유지되는 것이 최대 딜레마다.
 
 - **등장 배경 및 발전 과정**:
   1. **SOAP과 XML의 무거운 시대 (과거)**: 2000년대엔 SOAP이라는 규격을 썼다. 규칙이 너무 빡빡하고 XML이라는 엄청나게 무겁고 뚱뚱한 텍스트로 데이터를 말아 보내서 서버가 헉헉댔다.
-  2. **[REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API와 JSON의 천하통일 (2010s)**: "다 치워! 그냥 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 주소로 직관적으로 부르고, 텍스트는 가벼운 괄호 덩어리([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))로 주고받자!" 인간이 읽기 편한 REST가 나타나 전 세계 백엔드와 프론트엔드 통신을 완전히 지배했다.
+  2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a> API와 JSON의 천하통일 (2010s)</strong>: "다 치워! 그냥 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 주소로 직관적으로 부르고, 텍스트는 가벼운 괄호 덩어리([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))로 주고받자!" 인간이 읽기 편한 REST가 나타나 전 세계 백엔드와 프론트엔드 통신을 완전히 지배했다.
   3. **gRPC와 Protobuf의 역습 (현재)**: MSA가 50개로 찢어지며 서버끼리 1초에 1만 번씩 통신한다. 인간이 읽기 편한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)(문자열)을 계속 만들어 쏘려니 CPU [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 비용(Overhead)이 너무 커졌다. 구글이 빡쳐서 "인간 눈치 보지 마! 기계끼리 가장 빨리 주고받게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 0과 1의 쇳덩어리(바이너리)로만 쏴!" 라며 gRPC를 내놓아 서버 간 통신(Backend-to-Backend)의 왕좌를 찬탈 중이다.
 
-- **📢 섹션 요약 비유**: [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))가 외국인 두 명이 **'느리지만 누구나 이해하는 쉬운 만국 공통어(영어 텍스트)'**로 대화하는 것이라면, [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)(바이너리)는 쌍둥이 스파이가 **'모스부호(0과 1)로 1초에 100문장을 따다닥 쏘아 올리며 타인은 절대 해독할 수 없는 극강의 암호 통신'**을 하는 것입니다. 상황에 맞춰 편안함([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))과 스피드([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/))를 골라 써야 합니다.
+- **📢 섹션 요약 비유**: [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))가 외국인 두 명이 <strong>'느리지만 누구나 이해하는 쉬운 만국 공통어(영어 텍스트)'</strong>로 대화하는 것이라면, [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)(바이너리)는 쌍둥이 스파이가 <strong>'모스부호(0과 1)로 1초에 100문장을 따다닥 쏘아 올리며 타인은 절대 해독할 수 없는 극강의 암호 통신'</strong>을 하는 것입니다. 상황에 맞춰 편안함([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))과 스피드([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/))를 골라 써야 합니다.
 
 ---
 
 다음은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서비스 간 동기 통신                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 간 동기 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 동기 통신의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서비스 간 동기 통신 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 간 동기 통신 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

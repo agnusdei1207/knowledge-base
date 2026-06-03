@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 과거 화상 회의를 연결할 때는 국제통신연합(ITU-T)이 만든 **H.323**이라는 규격을 썼습니다. 이진수(바이너리) 기반에 문법이 미치도록 복잡해서 장비 개발이 극악이었습니다.
-- **[SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([Session Initiation Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/)) 🌟**: IETF에서 "그냥 462번 HTTP처럼 인간이 읽을 수 있는 텍스트 기반으로 가볍게 만들자!"고 주창하여 대성공을 거둔 멀티미디어 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어(시그널링) 표준입니다.
+- 과거 화상 회의를 연결할 때는 국제통신연합(ITU-T)이 만든 <strong>H.323</strong>이라는 규격을 썼습니다. 이진수(바이너리) 기반에 문법이 미치도록 복잡해서 장비 개발이 극악이었습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/">SIP</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/501_sip_session_initiation_protocol_voip/">Session Initiation Protocol</a>) 🌟</strong>: IETF에서 "그냥 462번 HTTP처럼 인간이 읽을 수 있는 텍스트 기반으로 가볍게 만들자!"고 주창하여 대성공을 거둔 멀티미디어 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어(시그널링) 표준입니다.
 
-```text
-[GSLB 지리적 DNS 라우팅]
-    │
-    ▼
-[SIP INVITE 기반 핸드셰이크]
-    │
-    └──▶ [IP PBX 멀티캐스트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP PBX 멀티캐스트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,23 +43,27 @@ tags = ["studynote-network"]
 
 - **착각 금지**: SIP는 내 목소리나 영상을 나르는 덤프트럭이 아닙니다!
 - **시그널링 (Signaling) 전용**: 전화번호(URI)를 찾아내서 상대방 폰을 따르릉 울리게 하고([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Setup), 코덱을 맞추고([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) 교환), 통화를 끊어주는([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Teardown) **'파티 플래너(중매쟁이)'** 역할만 깔끔하게 하고 빠집니다.
-- 실제 목소리(미디어 트래픽)는 중매가 끝난 후, 폰들끼리 직접 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))로 터널을 뚫고 **[RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) ([Real-time Transport Protocol](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))**라는 별도의 트럭을 이용해 쏟아붓습니다.
+- 실제 목소리(미디어 트래픽)는 중매가 끝난 후, 폰들끼리 직접 다이렉트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/))로 터널을 뚫고 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">Real-time Transport Protocol</a>)</strong>라는 별도의 트럭을 이용해 쏟아붓습니다.
 
 철수가 영희 폰의 현재 IP를 어떻게 알까요? [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 서버들이 찾아줍니다.
 1. **Registrar (등록 서버)**: 영희 폰이 켜지면 "나 영희인데 현재 IP는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x야"라고 위치를 등록해 둡니다.
-2. **[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) Server ([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**: 철수가 `INVITE`를 쏘면, 이 서버가 받아서 Registrar를 조회해 영희의 진짜 IP를 알아낸 뒤, 영희 폰으로 `INVITE` 패킷을 꺾어서 토스해 줍니다([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 대행).
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> Server (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong>: 철수가 `INVITE`를 쏘면, 이 서버가 받아서 Registrar를 조회해 영희의 진짜 IP를 알아낸 뒤, 영희 폰으로 `INVITE` 패킷을 꺾어서 토스해 줍니다([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 대행).
 3. **Redirect Server**: "나 바빠! 영희 진짜 IP 알려줄 테니까 네가 직접 영희한테 다시 `INVITE` 쏴라!" 라며 길만 알려주고 빠집니다.
 
-```text
-[GSLB 지리적 DNS 라우팅]
-    │
-    ▼
-[SIP INVITE 기반 핸드셰이크]
-    │
-    └──▶ [IP PBX 멀티캐스트]
-```
 
-- **📢 섹션 요약 비유**: 과거 **H.323 화상 통화**는 상대방과 통화하기 위해 **'암호문으로 된 두꺼운 계약서 100장'**을 주고받으며 도장을 찍어야 하는 고답적인 팩스 통신이었습니다. **[SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 초기화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**는 이 계약서를 찢어버리고, 우리가 흔히 쓰는 **'카카오톡 텍스트 채팅([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반)'**으로 전화를 걸게 만든 혁명입니다. 철수가 영희에게 `[INVITE: 전화받아!]`라고 문자 한 줄을 띡 날립니다. 영희 폰은 따르릉 울리며 `[180 Ringing: 울리는 중]` 상태를 보여줍니다. 영희가 통화 버튼을 누르면 `[200 OK: 응 받을게]`를 쏘고, 철수가 `[ACK: 오케이 시작!]`을 날리면 끝입니다. এই 복잡한 통화 연결 과정(시그널링)을 사람이 읽어도 이해할 수 있는 단 3줄의 텍스트(INVITE ➜ 200 OK ➜ ACK)로 압축하여, 전 세계의 모든 인터넷 전화(VoIP)와 카카오 보이스톡의 대문을 열어젖힌 궁극의 중매쟁이(파티 플래너) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP PBX 멀티캐스트</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 과거 <strong>H.323 화상 통화</strong>는 상대방과 통화하기 위해 <strong>'암호문으로 된 두꺼운 계약서 100장'</strong>을 주고받으며 도장을 찍어야 하는 고답적인 팩스 통신이었습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/">SIP</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 초기화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>는 이 계약서를 찢어버리고, 우리가 흔히 쓰는 <strong>'카카오톡 텍스트 채팅(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 기반)'</strong>으로 전화를 걸게 만든 혁명입니다. 철수가 영희에게 `[INVITE: 전화받아!]`라고 문자 한 줄을 띡 날립니다. 영희 폰은 따르릉 울리며 `[180 Ringing: 울리는 중]` 상태를 보여줍니다. 영희가 통화 버튼을 누르면 `[200 OK: 응 받을게]`를 쏘고, 철수가 `[ACK: 오케이 시작!]`을 날리면 끝입니다. এই 복잡한 통화 연결 과정(시그널링)을 사람이 읽어도 이해할 수 있는 단 3줄의 텍스트(INVITE ➜ 200 OK ➜ ACK)로 압축하여, 전 세계의 모든 인터넷 전화(VoIP)와 카카오 보이스톡의 대문을 열어젖힌 궁극의 중매쟁이(파티 플래너) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
 ---
 
@@ -66,16 +74,16 @@ HTTP의 `GET`, `200 OK` 구조를 100% 모방했습니다. (면접 단골 질문
 ### 1. `INVITE` (초대장 발송)
 - 철수가 영희에게 보이스톡을 겁니다. ([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 주소는 이메일처럼 생겼습니다: `sip:younghee@naver.com`)
 - 철수 폰이 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 서버를 거쳐 영희 폰에 편지를 던집니다.
-- **"INVITE! 나랑 전화하자. 내 목소리 코덱은 G.711 쓸게([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) 탑재)."**
+- <strong>"INVITE! 나랑 전화하자. 내 목소리 코덱은 G.711 쓸게(<a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 탑재)."</strong>
 
 ### 2. `180 Ringing`과 `200 OK` (따르릉과 수락)
-- 편지를 받은 영희 폰이 진동하며 화면이 켜집니다. 동시에 영희 폰은 철수에게 **`180 Ringing` (전화 울리는 중!)** 이라는 상태 코드를 보냅니다. 철수는 뚜루루루~ 통화 연결음을 듣습니다.
-- 영희가 수락(통화 버튼)을 누릅니다. 영희 폰이 **`200 OK` (콜! 나도 G.711 코덱 쓸게!)** 패킷을 던집니다.
+- 편지를 받은 영희 폰이 진동하며 화면이 켜집니다. 동시에 영희 폰은 철수에게 <strong><code>180 Ringing</code> (전화 울리는 중!)</strong> 이라는 상태 코드를 보냅니다. 철수는 뚜루루루~ 통화 연결음을 듣습니다.
+- 영희가 수락(통화 버튼)을 누릅니다. 영희 폰이 <strong><code>200 OK</code> (콜! 나도 G.711 코덱 쓸게!)</strong> 패킷을 던집니다.
 
 ### 3. `ACK` ([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 완료)와 통화 시작 ([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/))
-- 철수가 `200 OK`를 받고 최종적으로 **`ACK` (알았어, 이제 진짜 말한다!)**를 영희에게 던지면 SIP의 중매(시그널링)가 완벽히 끝납니다. ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-way Handshake와 유사)
-- 이제 철수와 영희 폰이 서로 IP를 알았으니, 중앙 서버를 거치지 않고 **[RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) 패킷(목소리)을 P2P로 직접 교환**하며 신나게 떠듭니다.
-- 통화가 끝나면? 종료 버튼을 누르는 쪽에서 **`BYE` (끊자!)** 패킷을 쏘고, 상대가 `200 OK`를 쏘면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 완벽히 폭파됩니다.
+- 철수가 `200 OK`를 받고 최종적으로 <strong><code>ACK</code> (알았어, 이제 진짜 말한다!)</strong>를 영희에게 던지면 SIP의 중매(시그널링)가 완벽히 끝납니다. ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-way Handshake와 유사)
+- 이제 철수와 영희 폰이 서로 IP를 알았으니, 중앙 서버를 거치지 않고 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a> 패킷(목소리)을 P2P로 직접 교환</strong>하며 신나게 떠듭니다.
+- 통화가 끝나면? 종료 버튼을 누르는 쪽에서 <strong><code>BYE</code> (끊자!)</strong> 패킷을 쏘고, 상대가 `200 OK`를 쏘면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 완벽히 폭파됩니다.
 
 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 기반 조건을 만든다면, [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크는 그 위에서 핵심 메커니즘을 구현하고, [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -127,15 +135,19 @@ HTTP의 `GET`, `200 OK` 구조를 100% 모방했습니다. (면접 단골 질문
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: GSLB 지리적 DNS 라우팅]
-    │
-    ▼
-[현재 개념: SIP INVITE 기반 핸드셰이크]
-    │
-    ├──▶ [확장 A: IP PBX 멀티캐스트]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SIP INVITE 기반 핸드셰이크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP PBX 멀티캐스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크는 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 5G의 3대 핵심 시나리오 중 하나로, 아주 적은 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가끔씩만 보내는 **소형 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 기기들을 좁은 면적 안에 극단적으로 빽빽하게, 수백만 대 단위로 동시에 연결할 수 있도록 지원하는 초고밀도 통신망 기술**입니다.
-- **대체 대상**: 기존 4G 시대에 통신사들이 깔아두었던 저전력 광역망([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/))인 **NB-IoT와 [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)(619~621번 문서)**을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 생태계의 품 안으로 끌어안아 통합 진화시킨 영역입니다.
+- **개념**: 5G의 3대 핵심 시나리오 중 하나로, 아주 적은 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가끔씩만 보내는 <strong>소형 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>) 기기들을 좁은 면적 안에 극단적으로 빽빽하게, 수백만 대 단위로 동시에 연결할 수 있도록 지원하는 초고밀도 통신망 기술</strong>입니다.
+- **대체 대상**: 기존 4G 시대에 통신사들이 깔아두었던 저전력 광역망([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/))인 <strong>NB-IoT와 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a>(619~621번 문서)</strong>을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 생태계의 품 안으로 끌어안아 통합 진화시킨 영역입니다.
 
-```text
-[uRLLC]
-    │
-    ▼
-[mMTC]
-    │
-    └──▶ [5G NR 신무선 표준 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mMTC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 
 mMTC는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G와 미래형 네트워크 구조를 설명하는 축라는 관점에서 이해해야 한다. uRLLC와 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[uRLLC]
-    │
-    ▼
-[mMTC]
-    │
-    └──▶ [5G NR 신무선 표준 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: mMTC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,18 +63,18 @@ mMTC는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transfor
 ## Ⅲ. 비교 및 연결
 
 - 기존 4G LTE는 1제곱킬로미터(km², 사방 1km) 반경에 약 10만 대의 기기만 붙을 수 있었습니다.
-- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) mMTC는 이 수용량을 10배 늘려, **1km²당 무려 100만 대(1,000,000 Devices)**의 기기가 동시에 접속해도 망이 터지지 않고 견뎌냅니다. (강남 한복판의 모든 사람의 스마트폰, 자동차, 도로 센서, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 쓰레기통이 5G망 하나에 다 물려있어도 끄떡없습니다.)
+- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) mMTC는 이 수용량을 10배 늘려, <strong>1km²당 무려 100만 대(1,000,000 Devices)</strong>의 기기가 동시에 접속해도 망이 터지지 않고 견뎌냅니다. (강남 한복판의 모든 사람의 스마트폰, 자동차, 도로 센서, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등, 쓰레기통이 5G망 하나에 다 물려있어도 끄떡없습니다.)
 
 ### 2. 극한의 저전력 제어 (Low [Power Consumption](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))
 - 100만 대의 맨홀 뚜껑 센서를 매달 충전하러 다닐 수는 없습니다.
-- mMTC는 PSM(수면 모드)과 eDRX(간헐적 깨어남) 등 앞서 배운 NB-IoT의 다이어트 기술을 그대로 물려받아, 동전 배터리([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 건전지 2개 용량) 하나만 끼워두면 **아무런 유지보수 없이 10년([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Years) 이상** 수명을 버티게 만듭니다.
+- mMTC는 PSM(수면 모드)과 eDRX(간헐적 깨어남) 등 앞서 배운 NB-IoT의 다이어트 기술을 그대로 물려받아, 동전 배터리([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 건전지 2개 용량) 하나만 끼워두면 <strong>아무런 유지보수 없이 10년(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Years) 이상</strong> 수명을 버티게 만듭니다.
 
 ### 3. 넓은 커버리지와 낮은 비용
 - 지하실이나 두꺼운 콘크리트 벽을 뚫고 들어가기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도(1~100kbps)를 거북이 수준으로 희생하는 대신, 같은 패킷을 수십 번씩 끈질기게 반복 발송하여 도달 거리를 4G 대비 수 배 이상 쫙쫙 늘렸습니다. 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 칩셋 가격도 1달러 이하로 떨어뜨리는 것이 목표입니다.
 
-스피드나 1초 이내의 응답(저지연)은 전혀 중요하지 않은 **대규모 모니터링**에 특화되어 있습니다.
+스피드나 1초 이내의 응답(저지연)은 전혀 중요하지 않은 <strong>대규모 모니터링</strong>에 특화되어 있습니다.
 - **스마트 농업**: 산 하나를 덮는 거대한 농장에 습도 센서 10만 개를 흩뿌려 토양 상태를 1시간에 한 번씩 수집.
-- **[스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 자원 관리**: 런던 시내의 쓰레기통 5만 개가 쓰레기가 90% 이상 찼을 때만 환경부 서버로 '수거 요청' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1바이트를 틱 날림.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a> 자원 관리</strong>: 런던 시내의 쓰레기통 5만 개가 쓰레기가 90% 이상 찼을 때만 환경부 서버로 '수거 요청' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1바이트를 틱 날림.
 - **물류 및 유통**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스와 택배 박스 수백만 개에 부착되어 하루에 한 번 현재 GPS 위치를 본부로 보고.
 
 mMTC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. uRLLC가 기반 조건을 만든다면, mMTC는 그 위에서 핵심 메커니즘을 구현하고, [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -119,15 +127,19 @@ mMTC는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: uRLLC]
-    │
-    ▼
-[현재 개념: mMTC]
-    │
-    ├──▶ [확장 A: 5G NR 신무선 표준 대역]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: uRLLC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mMTC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G NR 신무선 표준 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 mMTC는 uRLLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

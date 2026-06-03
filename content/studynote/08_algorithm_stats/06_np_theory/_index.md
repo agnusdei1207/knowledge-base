@@ -17,32 +17,28 @@ tags = ["algorithm_stats"]
 
 ### 풀 수 있는 문제와 풀 수 없는 문제의 경계
 
-컴퓨터는 만능이 아니다. 어떤 문제는 순식간에 풀리지만, 어떤 문제는 전 세계의 슈퍼컴퓨터를 다 동원해도 우주 수명보다 긴 시간이 걸린다. **계산 복잡도 이론**은 이러한 문제들의 본질적인 난이도를 수학적으로 규명한다. 특히 **P=NP 문제**는 현대 수학과 전산학의 최대 난제로, "답을 검산하기 쉬운 문제는 풀기도 쉬운가?"라는 근본적인 질문을 던진다.
+컴퓨터는 만능이 아니다. 어떤 문제는 순식간에 풀리지만, 어떤 문제는 전 세계의 슈퍼컴퓨터를 다 동원해도 우주 수명보다 긴 시간이 걸린다. <strong>계산 복잡도 이론</strong>은 이러한 문제들의 본질적인 난이도를 수학적으로 규명한다. 특히 <strong>P=NP 문제</strong>는 현대 수학과 전산학의 최대 난제로, "답을 검산하기 쉬운 문제는 풀기도 쉬운가?"라는 근본적인 질문을 던진다.
 
-이 이론이 실무에서 중요한 이유는 세 가지이다. 첫째, **불가능한 도전에 자원을 낭비하지 않기 위해서**이다. 어떤 문제가 NP-완전임을 알면, 완벽한 최적해를 찾으려는 헛된 시도를 멈출 수 있다. 둘째, **보안 시스템의 설계**를 위해서이다. 현대 암호 (RSA 등)는 소인수분해가 '매우 어렵다'는 복잡도 이론의 가정 위에 서 있다. 셋째, **비즈니스 최적화**의 현실적 대안을 마련하기 위함이다 (배송 경로, 자원 할당 등).
+이 이론이 실무에서 중요한 이유는 세 가지이다. 첫째, <strong>불가능한 도전에 자원을 낭비하지 않기 위해서</strong>이다. 어떤 문제가 NP-완전임을 알면, 완벽한 최적해를 찾으려는 헛된 시도를 멈출 수 있다. 둘째, <strong>보안 시스템의 설계</strong>를 위해서이다. 현대 암호 (RSA 등)는 소인수분해가 '매우 어렵다'는 복잡도 이론의 가정 위에 서 있다. 셋째, <strong>비즈니스 최적화</strong>의 현실적 대안을 마련하기 위함이다 (배송 경로, 자원 할당 등).
 
 이 그림은 복잡도 클래스 간의 포함 관계를 시각화한다 (P ≠ NP 가정 시).
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Complexity Class Hierarchy (P vs NP)        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ NP-Hard ] ────────────────────────────────────────┐     │
-│          │                                            │     │
-│          │   [ NP-Complete ] (가장 어려운 NP 문제들)  │     │
-│          │   ┌────────────────────────────────┐       │     │
-│          │   │  TSP, SAT, Knapsack, Clique    │       │     │
-│          │   └────────────────────────────────┘       │     │
-│          ▼                                            │     │
-│   [ NP (Nondeterministic Polynomial) ]                │     │
-│   (답의 검산이 다항 시간 내 가능)                     │     │
-│          ▲                                            │     │
-│   [ P (Polynomial) ]                                  │     │
-│   (해결이 다항 시간 내 가능)                          │     │
-│                                                       │     │
-└───────────────────────────────────────────────────────┘     │
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Complexity Class Hierarchy (P vs NP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NP-Hard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NP-Complete</div><div class="kb-diagram-note">(가장 어려운 NP 문제들) │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSP, SAT, Knapsack, Clique</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NP (Nondeterministic Polynomial)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(답의 검산이 다항 시간 내 가능)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P (Polynomial)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해결이 다항 시간 내 가능)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '환산 (Reduction)'이다. NP-완전 문제 중 단 하나라도 다항 시간 내에 풀 수 있는 알고리즘이 발견된다면, 모든 NP 문제는 P가 된다 (P=NP). 실무에서는 내가 직면한 문제가 이 거대한 원 안에 속해 있는지 판단하는 것이 아키텍처 설계의 첫 단추가 된다.
 
@@ -76,25 +72,23 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 이 구조도는 NP-완전 문제에 대한 기술사적 대응 전략을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Strategies for NP-Complete Problems           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. Approximation (근사 알고리즘)                          │
-│      - 정답은 아니지만 "최적해의 k배 이내"임을 보장         │
-│                                                             │
-│   2. Heuristic (휴리스틱)                                   │
-│      - 경험적으로 빠르게 풀기 (Genetic, Annealing 등)       │
-│                                                             │
-│   3. Special Cases (제약 조건 활용)                         │
-│      - 입력 데이터의 특수성 이용 (Tree 구조 등)             │
-│                                                             │
-│   4. Backtracking with Pruning                              │
-│      - 가지치기를 통해 탐색 공간 획기적 절감                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategies for NP-Complete Problems</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Approximation (근사 알고리즘)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정답은 아니지만 "최적해의 k배 이내"임을 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Heuristic (휴리스틱)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경험적으로 빠르게 풀기 (Genetic, Annealing 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Special Cases (제약 조건 활용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 데이터의 특수성 이용 (Tree 구조 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Backtracking with Pruning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가지치기를 통해 탐색 공간 획기적 절감</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '완벽주의의 포기'이다. 실무에서 TSP 문제를 만났을 때 모든 경우의 수를 따지는 것은 자살 행위다. 기술사는 비즈니스가 허용하는 오차 범위 내에서 가장 빠른 근사 알고리즘을 제안하는 '현실적 타협'의 전문가가 되어야 한다.
 
@@ -128,30 +122,29 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 ### 기술사적 판단: 난제 직면 시 아키텍처링 및 알고리즘 전략
 
 **시나리오 1: 수만 명의 배달 기사에게 최적의 동선을 실시간 배정해야 함**
-- **판단**: 전형적인 TSP (NP-완전) 문제이다. 실시간성이 중요하므로 **그리디 기반의 Nearest Neighbor** 방식을 기본으로 하고, 오프라인에서는 **유전 알고리즘 (GA)**을 돌려 정책을 지속적으로 개선한다. 또한 배달 구역을 섹터별로 나누어 (Divide) 문제의 크기 (N)를 줄임으로써 연산 폭발을 원천 방어한다.
+- **판단**: 전형적인 TSP (NP-완전) 문제이다. 실시간성이 중요하므로 **그리디 기반의 Nearest Neighbor** 방식을 기본으로 하고, 오프라인에서는 <strong>유전 알고리즘 (GA)</strong>을 돌려 정책을 지속적으로 개선한다. 또한 배달 구역을 섹터별로 나누어 (Divide) 문제의 크기 (N)를 줄임으로써 연산 폭발을 원천 방어한다.
 
 **시나리오 2: 새로운 암호 알고리즘의 안전성 검증 요청**
-- **판단**: 해당 암호를 깨는 과정이 기존의 알려진 **NP-Hard 문제로 환산**되는지 수학적으로 증명한다. 만약 다항 시간 내에 풀리는 알고리즘이 존재하는 문제라면 보안성이 없는 것으로 간주하고 도입을 반려한다. 또한 향후 양자 컴퓨터의 쇼어 알고리즘 (Shor's Algorithm)에 대한 내성을 가진 **양자 내성 암호 (PQC)** 인지 여부를 판단 기준으로 삼는다.
+- **판단**: 해당 암호를 깨는 과정이 기존의 알려진 <strong>NP-Hard 문제로 환산</strong>되는지 수학적으로 증명한다. 만약 다항 시간 내에 풀리는 알고리즘이 존재하는 문제라면 보안성이 없는 것으로 간주하고 도입을 반려한다. 또한 향후 양자 컴퓨터의 쇼어 알고리즘 (Shor's Algorithm)에 대한 내성을 가진 **양자 내성 암호 (PQC)** 인지 여부를 판단 기준으로 삼는다.
 
 이 도식은 문제 해결 시 기술사가 거치는 '복잡도 진단 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Complexity Diagnosis Workflow                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ New Problem ] ──▶ [ Search Known NPC Problems ] ──┐     │
-│          │                    │ (Reduction Check)     │     │
-│   ┌──────┴────────────────────▼───────────────────────┴───┐ │
-│   │ Is it NP-Complete?                                    │ │
-│   └──────┬──────────────────────────────┬─────────────────┘ │
-│          ▼ (YES)                        ▼ (NO)              │
-│   [ Strategy: Heuristics ]       [ Strategy: Dynamic Prog ] │
-│   - Genetic Algorithm            - Greedy                   │
-│   - Simulated Annealing          - Optimal Algorithm        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Complexity Diagnosis Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">New Problem</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Search Known NPC Problems</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Reduction Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it NP-Complete?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (YES) ▼ (NO)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy: Heuristics</div><div class="kb-diagram-node">Strategy: Dynamic Prog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Genetic Algorithm - Greedy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Simulated Annealing - Optimal Algorithm</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 복잡도 진단은 '건축 설계 시 지반 검사'와 같습니다. 지반이 암반(P)인지 늪지대(NP)인지 먼저 파악해야, 건물을 지을지(정공법) 아니면 다리(근사해)를 놓을지 결정할 수 있습니다.
 
@@ -166,7 +159,7 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 ### 미래 전망: P=NP의 해결과 양자 컴퓨팅의 위협
 
-만약 **P=NP**임이 증명된다면, 인류의 보안 시스템은 하룻밤 사이에 붕괴할 것이며 모든 최적화 문제는 해결될 것이다. 하지만 현재는 그럴 가능성이 낮다고 보고 **양자 컴퓨팅**이 NP 문제를 얼마나 빠르게 해결할지에 모든 관심이 쏠려 있다. 기술사는 고전적인 튜링 머신 기반의 복잡도를 넘어, 큐비트의 중첩과 얽힘이 만들어내는 새로운 '양자 복잡도 (Quantum Complexity)' 계층에 대한 통찰력을 갖추어야 한다.
+만약 <strong>P=NP</strong>임이 증명된다면, 인류의 보안 시스템은 하룻밤 사이에 붕괴할 것이며 모든 최적화 문제는 해결될 것이다. 하지만 현재는 그럴 가능성이 낮다고 보고 <strong>양자 컴퓨팅</strong>이 NP 문제를 얼마나 빠르게 해결할지에 모든 관심이 쏠려 있다. 기술사는 고전적인 튜링 머신 기반의 복잡도를 넘어, 큐비트의 중첩과 얽힘이 만들어내는 새로운 '양자 복잡도 (Quantum Complexity)' 계층에 대한 통찰력을 갖추어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 복잡도 이론은 '우주의 지도를 그리는 일'과 같아질 것입니다. 우리가 갈 수 있는 곳(P)과 갈 수 없는 곳(NP)의 경계를 명확히 알고, 언젠가 양자라는 로켓을 타고 그 경계를 넘어서는 순간을 준비하는 학문입니다.
 
@@ -187,22 +180,24 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-P 문제 (다항 시간 해결 가능)
-    │
-    ▼
-NP 문제 (다항 시간 검증 가능)
-    │
-    ├─► NP-Hard: P 이상 어려움
-    └─► NP-Complete: NP ∩ NP-Hard
-    │
-    ▼
-NP-Complete 대표 문제
-    ├─► SAT (Boolean Satisfiability)
-    ├─► TSP (Traveling Salesman Problem)
-    ├─► 배낭 문제 (Knapsack)
-    └─► 클리크 문제 (Clique)
-    │
-    ▼
-근사 알고리즘 / 휴리스틱 / 양자 알고리즘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">P 문제 (다항 시간 해결 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NP 문제 (다항 시간 검증 가능)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NP-Hard: P 이상 어려움</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NP-Complete: NP ∩ NP-Hard</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NP-Complete 대표 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SAT (Boolean Satisfiability)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TSP (Traveling Salesman Problem)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">배낭 문제 (Knapsack)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">클리크 문제 (Clique)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">근사 알고리즘 / 휴리스틱 / 양자 알고리즘</div>
+</div>
+</div>
+
+

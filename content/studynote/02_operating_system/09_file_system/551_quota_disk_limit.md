@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 디스크 용량이 100TB라도, 만약 유저 A 혼자 야동을 100TB다운받아 독식(Monopolize 과부하 파단)해버리면 나머지 B~Z 사용자 수천 명은 빈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개조차 못 만들고 서버가 동반 무정지로 뻗어버리는 전산망 코마([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 생지옥)에 빠진다. 이를 OS 가 묵사발 내기 위해 **"각 유저(또는 그룹)마다 '너는 딱 10GB까지만 써 컷!' 이라고 목줄(강제 한계 블록 제한 렌더)을 물리적으로 걸어 잠그는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원 통제 아크"** 가 Quota 다.
+> 1. **본질**: 디스크 용량이 100TB라도, 만약 유저 A 혼자 야동을 100TB다운받아 독식(Monopolize 과부하 파단)해버리면 나머지 B~Z 사용자 수천 명은 빈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개조차 못 만들고 서버가 동반 무정지로 뻗어버리는 전산망 코마([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 생지옥)에 빠진다. 이를 OS 가 묵사발 내기 위해 <strong>"각 유저(또는 그룹)마다 '너는 딱 10GB까지만 써 컷!' 이라고 목줄(강제 한계 블록 제한 렌더)을 물리적으로 걸어 잠그는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 자원 통제 아크"</strong> 가 Quota 다.
 > 2. **가치**: Soft Limit(경고) 과 Hard Limit(물리적 저장 거세 차단!)의 이중 방어막 스왑 모델을 사용한다. 또한 단순히 하드디스크의 크기(용량 Block 록백 제한)뿐 아니라 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안의 내용물이 비었든 말든 알 바 없고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 개수 1만 개 타격 제한(i-node 개수 목줄)!" 이라는 쌍방향 입체 봉쇄망을 펴서, 클라우드 호스팅 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 산업이 고객들에게 1GB씩 매달 요금 결제 월세를 받는 과금($O(1)$ 빌링 체계) 플랫폼의 핵심 공진화 엔진을 완성했다 포팅.
 > 3. **한계**: Quota 데몬 봇이 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1바이트를 쓸 때마다 "이 사용자 남은 용량이 얼마지?" 장부(Quota DB)를 매번 계산하고 업카운트(Sync 계산 랙) 해야 하는 필연적 CPU I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 낳는다. 심지어 정전(Crash) 후에 저널링과 Quota 장부 엇박자가 꼬이면 서버가 재시작 시 100TB 전체를 무식하게 뒤지며 재계산(quotacheck 1시간 데들락 멈춤 폭포!) 해야 하는 서버 프리징 재창조 모순의 트레이드오프 파단을 담보한다 결착.
 
@@ -20,43 +20,38 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **자원 방종 고갈 상태 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) No Space Left 멸망 늪)**: 수만 명이 동시 공유([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/), [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버 등)하는 대형 디스크는 공용 우물과 같다. 1놈이 이기심에 빨대 100개를 꽂아 물을 다 퍼가면 다른 사람들의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데몬(Apache, DB 등)이 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`pid` 찌꺼기 1byte 용량조차)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 못 해 우수수 셧다운 터지는 무정지 파단 상태.
+  - <strong>자원 방종 고갈 상태 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> No Space Left 멸망 늪)</strong>: 수만 명이 동시 공유([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/), [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버 등)하는 대형 디스크는 공용 우물과 같다. 1놈이 이기심에 빨대 100개를 꽂아 물을 다 퍼가면 다른 사람들의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 데몬(Apache, DB 등)이 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`pid` 찌꺼기 1byte 용량조차)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 못 해 우수수 셧다운 터지는 무정지 파단 상태.
   - **Quota 쿼터 할당량 시스템 (강제 스로틀 분배 배급 도살 빔!)**: 공산주의식 자원 분배 칼춤 렌더! OS 호스트 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 영역별로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에 `aquota.user` 라는 블랙리스트 장부를 박아둔다. 유저 A가 글씨를 타이핑(블록 추가 Write 발포)을 때릴 때마다, 방패막이가 실시간으로 1차 경고 옐로카드(Soft)와 2차 강제 디스크 I/O 차단 목썰기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Hard) 패치를 찢어 발동시킨다 스왑.
 - **필요성**: 웹 호스팅(AWS EBS 볼륨 공유나 카페24 등) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 뿌리다. "고객님 10GB 용량 상품 결제하셨으니 10GB 이상 넘어가면 업로드 오류 뿜뿜하게 막아버릴게요 컷!" 이것을 응용 앱(PHP/자바) 단독 코딩 로직으로 잡으려고 하면 해커가 전부 우회(Bypass) 뚫어버린다. 가장 밑바닥 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 OS가 아예 직접 목을 쳐줘야만(Hardware Enforced [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 락백) 전체 클러스터 자원 분배 뼈대 생존이 증명되었다 통치.
 
   - (일반 쿼터 없는 하드디스크 늪): 최고 식탐 먹보 사원 1명(이기적 유저)이 뷔페 산더미 음식(디스크 전체 남은 용량 1TB)을 지 혼자 그릇에 퍼담아 다 먹어버립니다! 뒤늦게 온 100명의 사원(서버 주요 동작 프로세스)은 김치 반쪽 구하지 못하고 배고파 단체 굶어 죽는 서버 전멸 무한 꼬임 에러!
-  - **([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Quota 철권 통치 아줌마 기전!)**: 똑똑한 리눅스 구내식당 메뉴판엔 **[개인별 정량(할당량 Quota 빔!)]** 이 찍혀있습니다! 식당 감시 아줌마([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) Quota 엔진)가 지켜보다 먹보가 고기 3접시(Soft Limit 경고선)를 담자 "야 너 적당히 먹어 눈치 까라!" 경고알림(Warning)을 보냅니다 부스트! 먹보가 무시하고 5접시(Hard Limit 강제 봉쇄선!) 째 담으려 손을 뻗자, 아줌마가 국자로 손등을 팍 치면서 접시를 강제 파괴 "더는 1그램도 못 준다 접근 거부(Write Error 에러 튕김 컷!)" 처리해 버립니다! 덕분에 음식은 남고 나머지 100명이 평화롭게 식사를 하는 기적입니다 결속!
+  - <strong>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> Quota 철권 통치 아줌마 기전!)</strong>: 똑똑한 리눅스 구내식당 메뉴판엔 **[개인별 정량(할당량 Quota 빔!)]** 이 찍혀있습니다! 식당 감시 아줌마([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) Quota 엔진)가 지켜보다 먹보가 고기 3접시(Soft Limit 경고선)를 담자 "야 너 적당히 먹어 눈치 까라!" 경고알림(Warning)을 보냅니다 부스트! 먹보가 무시하고 5접시(Hard Limit 강제 봉쇄선!) 째 담으려 손을 뻗자, 아줌마가 국자로 손등을 팍 치면서 접시를 강제 파괴 "더는 1그램도 못 준다 접근 거부(Write Error 에러 튕김 컷!)" 처리해 버립니다! 덕분에 음식은 남고 나머지 100명이 평화롭게 식사를 하는 기적입니다 결속!
 
-- **Quota 발동 이중 제한망 2 Track(블록 용량 vs i-node 갯수) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 멸망 스로틀 뷰**:
+- <strong>Quota 발동 이중 제한망 2 Track(블록 용량 vs i-node 갯수) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 멸망 스로틀 뷰</strong>:
 유저가 "나는 용량 작게 썼으니 무죄다!" 라고 우기는 꼼수를 Quota가 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수(i-node 발목잡기)로 다시 박살 내는지 체계를 까보면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "용량만 안 넘었다고 안심 마! 1KB 파일 10만 개 만들면 그것도 사형이야!" │
-  ├────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                        │
-  │  [ 유저 John (UID:1000) 에게 부여된 이중 Quota (배급 제약 족쇄 록백) 장부 ]            │
-  │     - 1. Block Quota (크기 뚱보 제한) : 10GB 까지 (Hard Limit 컷)                      │
-  │     - 2. Inode Quota (개수 엄청 많음 제한) : 파일 50,000개 까지 (Hard Limit)           │
-  │                                                                                        │
-  │  =========================▼===================================                         │
-  │                                                                                        │
-  │  ✅ [ 해커 꼼수 1: 무식하게 큰 영화 파일 다이브 빔! ]                                  │
-  │     => John이 12GB 짜리 영화 '블록버스터.mp4' 저장 (I/O 발포!)                         │
-  │     => (Quota 감시봇): "어라? 10GB(블록 용량) 임계점 돌파 목 넘음 스왑!"               │
-  │     [ 결착 사살 ]: 10GB까지만 써지고 `Disk Quota Exceeded` 에러 폭사!                  │
-  │                                                                                        │
-  │  =========================▼===================================                         │
-  │                                                                                        │
-  │  🔥 [ 해커 꼼수 2: "그럼 0 바이트짜리 빈 껍데기 파일 100만 개 만들지 뭐 ㅋ" ]          │
-  │     $ touch 빈파일_1.txt ~ 빈파일_1000000.txt (크기는 0 바이트 파단 렌더!)             │
-  │     => (Quota 감시봇): "용량은 0바이트니까 블록 10GB 조건 통과! 하지만!"               │
-  │     => (Quota 인덱스봇): "야 파일 개수 리미트 5만 개 넘었잖아! Inode 부족 킬!"         │
-  │                                                                                        │
-  │     [ 결착 사살 ]: 용량 한참 남아있어도 5만 1번째 터치(touch) 명령어는                 │
-  │                  `No space left (Inode Quota 초과)` 뜨면서 허공에 참수 랙 지옥         │
-  └────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"용량만 안 넘었다고 안심 마! 1KB 파일 10만 개 만들면 그것도 사형이야!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 John (UID:1000) 에게 부여된 이중 Quota (배급 제약 족쇄 록백) 장부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1. Block Quota (크기 뚱보 제한) : 10GB 까지 (Hard Limit 컷)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2. Inode Quota (개수 엄청 많음 제한) : 파일 50,000개 까지 (Hard Limit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">해커 꼼수 1: 무식하게 큰 영화 파일 다이브 빔!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; John이 12GB 짜리 영화 '블록버스터.mp4' 저장 (I/O 발포!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 감시봇): "어라? 10GB(블록 용량) 임계점 돌파 목 넘음 스왑!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결착 사살</div><div class="kb-diagram-note">: 10GB까지만 써지고 <code>Disk Quota Exceeded</code> 에러 폭사!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">해커 꼼수 2: "그럼 0 바이트짜리 빈 껍데기 파일 100만 개 만들지 뭐 ㅋ"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ touch 빈파일_1.txt ~ 빈파일_1000000.txt (크기는 0 바이트 파단 렌더!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 감시봇): "용량은 0바이트니까 블록 10GB 조건 통과! 하지만!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 인덱스봇): "야 파일 개수 리미트 5만 개 넘었잖아! Inode 부족 킬!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결착 사살</div><div class="kb-diagram-note">: 용량 한참 남아있어도 5만 1번째 터치(touch) 명령어는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>No space left (Inode Quota 초과)</code> 뜨면서 허공에 참수 랙 지옥</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** Quota 방어망은 철저하게 **2x2 매트릭스** 다. 1차 축: 공간 크기냐(Block) vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수냐(i-node 메타 공간 소진 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 도출). 2차 축: Soft(경고 유예 기간 Grace Period 발동, 7일 뒤엔 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 봉쇄) vs Hard(물리적 절대 차단 불가 컷 방패). 해커들이 자주 쓰는 수법 중 압권이 로지 폭탄([Logic Bomb](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/))이다. 용량 제한만 걸어두면 해커는 1바이트짜리 깡통 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1,000만 개를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 서버의 i-node 고유 번호표 테이블 공간을 소진(Inode Exhaustion 데들락)시켜 시스템을 암살시킨다. 이를 방어하는 I-node Quota 족쇄만이 완벽한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 융합 생태계 보호선이 된다 증명.
 
@@ -72,17 +67,17 @@ tags = ["studynote-operating-system"]
 | 쿼터 봉인 단계 뷰 | ⚠️ Soft Limit (가벼운 목조르기 유예 록) | ⛔ Hard Limit (즉시 셧다운 파단 컷) |
 |:---|:---|:---|
 | **설정된 임계값 (100GB 기준 체인)** | 80GB (80% 도달 구간 경계선 발동). | 100GB (100% 절대 천장 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 빔). |
-| **선 밟았을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 동작 렌더 (I/O 권능)** | 80GB를 넘겨 85GB를 씁니다. **안 튕김! 글 써짐.** 대신 경고(Warning 메일 핑) 발생 및 **카운트다운(유예기간 Grace, 기본 7일 시간 폭탄) 바늘 째깍째깍 작동!** | 100GB 닿는 1바이트 그 순간 스로틀 작렬. `Write Call` 완전 권한 모서리 차단 실패 반환 I/O 폭망 데들락. |
-| **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 맹점 늪 (Grace 시간 초과 랙!)** | 만약 7일 뒤에도 80GB 밑으로 짐 안 비우면? **그 순간 Soft Limit 선 자체가 그 자리에서 Hard Limit 으로 변이(돌변!)** 하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전격 봉쇄 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파단 작용. | 시간 뭐 그런 거 없음. 닿으면 즉사 스왑 사형 판결. |
+| <strong>선 밟았을 때 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 동작 렌더 (I/O 권능)</strong> | 80GB를 넘겨 85GB를 씁니다. **안 튕김! 글 써짐.** 대신 경고(Warning 메일 핑) 발생 및 **카운트다운(유예기간 Grace, 기본 7일 시간 폭탄) 바늘 째깍째깍 작동!** | 100GB 닿는 1바이트 그 순간 스로틀 작렬. `Write Call` 완전 권한 모서리 차단 실패 반환 I/O 폭망 데들락. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 맹점 늪 (Grace 시간 초과 랙!)</strong> | 만약 7일 뒤에도 80GB 밑으로 짐 안 비우면? **그 순간 Soft Limit 선 자체가 그 자리에서 Hard Limit 으로 변이(돌변!)** 하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전격 봉쇄 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파단 작용. | 시간 뭐 그런 거 없음. 닿으면 즉사 스왑 사형 판결. |
 
 ### 2. 치명적 오버헤드 폭발: 장부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`aquota.user`) 싱크 꼬임과 지옥의 재계산 `quotacheck` I/O 폭포수
 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변화를 추적해 장부에 적어두는데, 만약 정전으로 이 통계 대장의 앞뒤가 맞지 않으면 참사가 터진다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (장부 OOS Out-Of-Sync 불일치 멸망 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (장부 OOS Out-Of-Sync 불일치 멸망 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)</strong>: 
   - (정전 크래시 늪 스왑): 유저 1만 명이 분당 100만 번의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰고 지운다. Quota 장부는 RAM 캐시 위에 올려두고 (속도 부스트를 위해) 디스크의 `aquota.user` 물리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 가끔씩 덤프 싱크(Sync) 치고 있었다.
   - (정전 Crash 발동!): 쾅! 서버 전원이 뽑혔다 디스크는 멈췄다. 
   - 불안 강림 결과: 부팅할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 깜짝 놀란다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간엔 홍길동 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 물리적으로 남아있는데, Quota 장부([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 전 폭파)엔 그 10GB가 안 더해져 있다!(누락 분열 모순 파단 랙). 만약 이대로 돌리면 홍길동은 꽁짜 10GB 용량을 무단 복제하여 즐기는 버그 지옥 우회가 발생 입증!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (`quotacheck` 강제 부팅 대기와 저널드 쿼터 록백!!) / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 본진 스왑**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>quotacheck</code> 강제 부팅 대기와 저널드 쿼터 록백!!) / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 본진 스왑</strong>: 
   - 과거의 악몽 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 도축 빔: 옛날 리눅스 엔지니어는 이런 꼬임 때, 싱글 맨 부팅 화면에서 `quotacheck -avug` 명령어를 냅다 갈겼다.
   - [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 병목 발현: 와 이걸 쳤더니 시스템이 100TB 철판을 폴더 하나하나 다 뒤지면서(Full [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System Scan) "이거 홍길동 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 저거 1GB 추가요.." 이지랄 하면서 재계산을 전부 새로 도는 수작업(재건 타임만 3시간 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 멈춤 프리징) 서버 마비 장애의 폭포에 무릎을 꿇었다 증명.
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 진화 포팅 (Journaled Quota 539장 결합!): 이제 현대 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(ext4, XFS)는 저널링 공간에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)뿐 아니라 'Quota 장부 변경 내역' 까지 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 원자적 결합(Transactional Atomic 스왑 다운) 빔으로 묶어 기록한다. 정전 시 무식한 전수 스캔 없이, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log 저널)만 초 단위로 빠르게 Replay 역재생하여 10초 만에 쿼터 장부 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 부활시키는 융합의 미학으로 파단을 분쇄해 냈다 선고 보장.
@@ -96,12 +91,12 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 ### 사용자 1마리 제한을 넘어 "해당 팀(Group)" 전체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 목줄을 조이는 엔터프라이즈 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 룰
 그룹 Quota의 기계적 딜레마(누가 용량 다 먹었지?)와 이를 극복하는 XFS [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Quota 생태계를 벗긴다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (Group Quota 기생 독식 파단 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (Group Quota 기생 독식 파단 데들락 랙)</strong>: 
   - 회사 `인공지능팀(AI-Group)` 전체에 Group Quota 1TB (전체 파이)를 걸었다.
   - 10명의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 연구원 중 얌체 신입 1명이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 훈련 딥러닝 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 혼자 0.9TB 공간을 다 처먹어버렸다. 
   - 파단 폭쇄 결과: 팀의 잔여 용량 0.1TB밖에 안 남아 9명의 선배들이 업무 불가 셧다운. 즉, 그룹 단위 봉쇄는 막아주긴 하되, 내부 무법자 색출과 공정 배분에는 거시적 오버헤드 정치 싸움 늪을 유발한다 약점 발견.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 최신 솔루션 (XFS [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Quota 폴더 록백 방어 빔!)**: 
-  - 엔지니어 1방 XFS 투입!: 이제 유저냐 팀이냐(UID/GID 굴레)에 연연하지 않는 초월 락백! **폴더 자체의 용량 배꼽(특정 [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Quota 스로틀)** 에 목줄 제한 폭탄을 뚫어버린다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 최신 솔루션 (XFS <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> Quota 폴더 록백 방어 빔!)</strong>: 
+  - 엔지니어 1방 XFS 투입!: 이제 유저냐 팀이냐(UID/GID 굴레)에 연연하지 않는 초월 락백! <strong>폴더 자체의 용량 배꼽(특정 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a> Quota 스로틀)</strong> 에 목줄 제한 폭탄을 뚫어버린다.
   - 갓기능 발동 렌더: `/data/ai-project-A/` 라는 절대 공간(경로)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100GB 제한 빔! 누가 쓰든 관리자 Root가 와서 구워 포팅하든 상관없이(사용자 무관 공간 방패), 그 폴더 뱃속에 들어가는 모든 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 합이 정량을 넘는 순간 모든 I/O 우주 방어 도축 거부가 발현되는 진화형 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 맵핑([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 폴더 제한 뷰) 통치 체제다 통달 증명.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -137,15 +132,19 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[리눅스 확장 속성 (Extended Attributes, xattr)]
-    │
-    ▼
-[할당량 (Quota) 시스템]
-    │
-    ├──▶ [B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)]
-    └──▶ [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 확장 속성 (Extended Attributes, xattr)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">할당량 (Quota) 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

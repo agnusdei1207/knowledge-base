@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PC와 서버 시장을 지배하는 복잡명령어 기반의 **인텔 [x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/)**와, 모바일과 임베디드 시장을 지배하는 축소명령어 기반의 **ARM 아키텍처**가 물리 메모리와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 매핑([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 번역)하는 하드웨어적 설계 철학의 차이를 비교한다.
-> 2. **가치**: x86이 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)과 4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 억지로 융합한 무겁고 경직된 **CISC형 구조**라면, ARM은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 완전히 쳐내고 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 트리를 기반으로 보안(TrustZone)과 저전력 모바일 최적화에 몰빵한 **RISC형 구조**의 정수를 보여준다.
-> 3. **융합**: 비록 두 칩셋의 하드웨어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(CR3 vs TTBR)와 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 워크(Walk) 방식은 완전히 다르지만, 그 위에 올라가는 리눅스/안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 차이를 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 계층으로 융합**하여 개발자에게는 동일한 환경을 제공한다.
+> 1. **본질**: PC와 서버 시장을 지배하는 복잡명령어 기반의 <strong>인텔 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/">x86 아키텍처</a></strong>와, 모바일과 임베디드 시장을 지배하는 축소명령어 기반의 <strong>ARM 아키텍처</strong>가 물리 메모리와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 매핑([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 번역)하는 하드웨어적 설계 철학의 차이를 비교한다.
+> 2. **가치**: x86이 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 위해 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)과 4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 억지로 융합한 무겁고 경직된 <strong>CISC형 구조</strong>라면, ARM은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 완전히 쳐내고 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 트리를 기반으로 보안(TrustZone)과 저전력 모바일 최적화에 몰빵한 <strong>RISC형 구조</strong>의 정수를 보여준다.
+> 3. **융합**: 비록 두 칩셋의 하드웨어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(CR3 vs TTBR)와 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 워크(Walk) 방식은 완전히 다르지만, 그 위에 올라가는 리눅스/안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 차이를 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>) 계층으로 융합</strong>하여 개발자에게는 동일한 환경을 제공한다.
 
 ---
 
@@ -23,32 +23,32 @@ tags = ["studynote-operating-system"]
 - **필요성**: 시스템 프로그래머나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 개발자가 되면, 단순히 `malloc()`을 호출하는 것을 넘어 "왜 아이폰(ARM)에서는 메모리 락을 걸 때 배터리가 덜 달고, 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(x86)에서는 이런 해킹 기법이 먹히지?"를 바닥부터 이해해야 한다. 이를 위해서는 세상의 99%를 양분하고 있는 두 거대 CPU 진영의 메모리 관리 장치([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 하드웨어 설계 차이를 꿰뚫어 보아야만 병목 추적과 보안 취약점 방어가 가능하다.
 
 - **등장 배경 및 설계 철학의 충돌**:
-  1. **x86의 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 저주**: 16비트 시절의 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 룰을 32비트, 64비트가 되어서도 버리지 못해 하드웨어 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)의 상당 부분을 주소 덧셈 연산(GDT)에 낭비하고 있다.
+  1. <strong>x86의 하위 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 저주</strong>: 16비트 시절의 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 룰을 32비트, 64비트가 되어서도 버리지 못해 하드웨어 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)의 상당 부분을 주소 덧셈 연산(GDT)에 낭비하고 있다.
   2. **ARM의 백지수표**: [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 철학을 바탕으로, "복잡한 세그먼트 따위는 버려! 오직 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 트리와 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))만 남긴다"라며 MMU를 극도로 가볍고 단순하게 설계했다.
   3. **보안의 진화**: ARM은 스마트폰 보안을 위해 하드웨어 레벨에서 메모리를 두 쪽으로 가르는 TrustZone을 MMU에 박아넣었고, x86은 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 등 방어를 위해 PCID와 다단계 권한 분리를 뒤늦게 고도화하며 맞서고 있다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        x86과 ARM의 가상 -> 물리 주소 번역 파이프라인 차이             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ Intel x86_64 번역 회로 (역사의 찌꺼기를 안고 감) ]                  │
-│ CPU 논리 주소 발출                                                    │
-│   ↓ (하드웨어 강제: 세그멘테이션 회로 무조건 거쳐야 함)               │
-│ [ GDT / LDT 장부 거쳐서 덧셈 연산 ]                                   │
-│   ↓ (선형 주소 도출)                                                  │
-│ [ CR3 레지스터 (PTBR 역할) ] 가 4단계 페이지 테이블(PML4) 가리킴      │
-│   ↓                                                                   │
-│ RAM 4번 접근하여 물리 주소 획득!                                      │
-│                                                                       │
-│ [ ARMv8 (AArch64) 번역 회로 (깔끔함의 극치) ]                         │
-│ CPU 가상 주소 발출                                                    │
-│   ↓ (세그멘테이션? 그런 거 없음. 바로 다이렉트 패스!)                 │
-│ [ TTBR0 / TTBR1 레지스터 ] 가 페이지 테이블(Translation Table) 가리킴 │
-│   ↓ (여기서 TTBR이 두 개라 커널/유저 스위칭 속도가 미쳤음!)           │
-│ RAM 4번 접근하여 물리 주소 획득!                                      │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86과 ARM의 가상 -&gt; 물리 주소 번역 파이프라인 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Intel x86_64 번역 회로 (역사의 찌꺼기를 안고 감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 논리 주소 발출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (하드웨어 강제: 세그멘테이션 회로 무조건 거쳐야 함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GDT / LDT 장부 거쳐서 덧셈 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (선형 주소 도출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CR3 레지스터 (PTBR 역할)</div><div class="kb-diagram-note">가 4단계 페이지 테이블(PML4) 가리킴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM 4번 접근하여 물리 주소 획득!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARMv8 (AArch64) 번역 회로 (깔끔함의 극치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 가상 주소 발출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (세그멘테이션? 그런 거 없음. 바로 다이렉트 패스!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TTBR0 / TTBR1 레지스터</div><div class="kb-diagram-note">가 페이지 테이블(Translation Table) 가리킴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (여기서 TTBR이 두 개라 커널/유저 스위칭 속도가 미쳤음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM 4번 접근하여 물리 주소 획득!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 두 아키텍처의 가장 큰 차이점은 '[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 유무'와 '[베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)([PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/))의 개수'다. x86은 구시대의 잔재(GDT)를 억지로 통과하느라 한 번의 지연이 더 발생한다. 반면 ARM은 시작 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 아예 2개(TTBR0, TTBR1) 박아놓았다. 하나는 유저 앱 장부를, 하나는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 장부를 가리킨다. 덕분에 유저에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘어갈 때 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 교체([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))할 필요조차 없이 바로 하드웨어 포인터만 꺾어버려 스위칭 오버헤드를 안드로이드 배터리 수준으로 아껴버리는 기염을 토한다.
 
 - **📢 섹션 요약 비유**: x86은 고속도로 진입 전에 무조건 낡은 요금소([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))를 하나 더 거쳐야 하는 꽉 막힌 길이라면, ARM은 요금소를 아예 다 때려 부수고 하이패스 2차로(TTBR0, 1)를 뚫어놔서 화물차([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))와 승용차(유저)가 쌩쌩 달리는 최신식 아우토반입니다.
@@ -60,11 +60,11 @@ tags = ["studynote-operating-system"]
 ### 1. 루트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)) 아키텍처
 
 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 시작점을 가리키는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 구조가 시스템 성능을 가른다.
-- **x86의 `CR3`**: 인텔은 Control [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) 3 (CR3) 단 하나로 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 뿌리를 잡는다. 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 날리면, 낡은 OS 구조에서는 이 CR3 값을 갈아 끼우느라 그 비싼 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(캐시)가 다 날아가는 끔찍한 오버헤드(Flush)를 겪었다. (현재는 PCID로 보완됨)
-- **ARM의 `TTBR` (Translation Table [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))**: ARM은 아예 하드웨어 칩에 이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 `TTBR0`와 `TTBR1` 두 개를 박았다. 
+- <strong>x86의 <code>CR3</code></strong>: 인텔은 Control [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) 3 (CR3) 단 하나로 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 뿌리를 잡는다. 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 날리면, 낡은 OS 구조에서는 이 CR3 값을 갈아 끼우느라 그 비싼 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(캐시)가 다 날아가는 끔찍한 오버헤드(Flush)를 겪었다. (현재는 PCID로 보완됨)
+- <strong>ARM의 <code>TTBR</code> (Translation Table <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/">Base Register</a>)</strong>: ARM은 아예 하드웨어 칩에 이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 `TTBR0`와 `TTBR1` 두 개를 박았다. 
   - `TTBR0`: 카카오톡 같은 유저 프로세스의 가상 주소 하위 절반 매핑용.
   - `TTBR1`: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가상 주소 상위 절반 매핑용.
-  - 덕분에 시스템 콜이 발생해도 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 덮어쓸 필요 없이 그냥 하드웨어가 TTBR1 쪽 장부를 쳐다보기만 하면 되므로, **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 보존 및 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 속도가 우주 최강**이다. (모바일의 저전력 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 비결)
+  - 덕분에 시스템 콜이 발생해도 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 덮어쓸 필요 없이 그냥 하드웨어가 TTBR1 쪽 장부를 쳐다보기만 하면 되므로, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 캐시 보존 및 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 속도가 우주 최강</strong>이다. (모바일의 저전력 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 비결)
 
 ---
 
@@ -72,7 +72,7 @@ tags = ["studynote-operating-system"]
 
 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 미스(Miss)가 났을 때, 무거운 램(RAM)의 장부를 뒤져서 캐시를 채우는 놈이 누구인가?
 - **x86 (Hardware Walker)**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩셋 안에 순수 실리콘 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)로 만들어진 워커 머신이 들어있다. 묻지도 따지지도 않고 하드웨어가 램을 4번 읽어서 조용히 캐시를 채운다.
-- **ARM (진화된 Hardware Walker)**: 옛날 ARM 칩은 회로를 아끼려고 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 터졌어! OS가 알아서 채워놔!(SW Walker)"라고 인터럽트를 날렸으나, 안드로이드의 덩치가 커지고 64비트로 오면서 결국 x86을 따라 성능을 위해 **하드웨어 워커(HW Walker)**를 칩셋 안에 심었다. 결국 하드웨어의 압도적 속도 앞에 두 진영의 철학이 하나로 통합된 셈이다.
+- **ARM (진화된 Hardware Walker)**: 옛날 ARM 칩은 회로를 아끼려고 "[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 터졌어! OS가 알아서 채워놔!(SW Walker)"라고 인터럽트를 날렸으나, 안드로이드의 덩치가 커지고 64비트로 오면서 결국 x86을 따라 성능을 위해 <strong>하드웨어 워커(HW Walker)</strong>를 칩셋 안에 심었다. 결국 하드웨어의 압도적 속도 앞에 두 진영의 철학이 하나로 통합된 셈이다.
 
 - **📢 섹션 요약 비유**: 예전엔 ARM이 "머리(회로)를 가볍게 비우고 힘든 일은 OS(근육)한테 다 시키자!"라는 가벼운 닌자 스타일이었다면, 앱이 무거워지자 ARM도 결국 인텔처럼 온몸에 중갑(하드웨어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 워커)을 두른 탱커로 진화하여 싸우는 중입니다.
 
@@ -86,8 +86,8 @@ tags = ["studynote-operating-system"]
 
 | 보안 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 인텔 x86_64 체계 | ARMv8 (AArch64) 체계 |
 |:---|:---|:---|
-| **실행 방지([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/))**| **[NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/) (No-eXecute)** - 63번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 락 | **XN (eXecute Never)** / **PXN (Privileged XN)**로 분리하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저의 실행 락을 이중 방어 |
-| **읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락** | R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개로 통제 (0이면 ReadOnly) | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) (Access Permission) 2비트로 유저/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한을 매우 세밀하게 4단계 통제 |
+| <strong>실행 방지(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/">DEP</a>)</strong>| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/">NX Bit</a> (No-eXecute)</strong> - 63번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 락 | **XN (eXecute Never)** / <strong>PXN (Privileged XN)</strong>로 분리하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저의 실행 락을 이중 방어 |
+| <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 락</strong> | R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개로 통제 (0이면 ReadOnly) | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) (Access Permission) 2비트로 유저/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한을 매우 세밀하게 4단계 통제 |
 | **하드웨어 격리** | 일반적인 링(Ring 0 ~ Ring 3) 계층 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **TrustZone (TZ)** 이라는 아예 독립된 물리적 안전 금고(Secure World)를 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 레벨에서 구축 |
 
 ### [ARM TrustZone](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/479_arm_trustzone/) (트러스트존) 의 혁명
@@ -95,14 +95,17 @@ tags = ["studynote-operating-system"]
 - ARM은 스마트폰(지문 인식, 삼성페이 등)의 절대 보안을 위해 **하드웨어 MMU를 두 개의 평행우주(Normal World / Secure World)로 완전히 반으로 쪼갰다.**
 - 해커가 안드로이드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 박살 내고 루트(Root) 권한을 따내도, MMU의 'Non-Secure [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'가 켜져 있으면, 아예 물리적으로 지문 정보가 있는 메모리 프레임 장부 자체를 읽을 수 없는 철통 방어망(TrustZone)을 완성했다. 이는 모바일 생태계가 x86을 꺾고 결제 시스템의 지배자가 된 결정적 무기다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 아키텍처   │ 시작 레지스터 │ 세그멘테이션  │ 보안 철학 극대화 │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ Intel x86│ CR3 (1개)   │ 강제 (잔재)   │ 가상화, PCID 튜닝    │
-│ ARM      │ TTBR0/1 (2개)│ 아예 없음    │ TrustZone 물리 격리  │
-└──────────┴────────────┴────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">시작 레지스터</div><div class="kb-diagram-cell">세그멘테이션</div><div class="kb-diagram-cell">보안 철학 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intel x86</div><div class="kb-diagram-cell">CR3 (1개)</div><div class="kb-diagram-cell">강제 (잔재)</div><div class="kb-diagram-cell">가상화, PCID 튜닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM</div><div class="kb-diagram-cell">TTBR0/1 (2개)</div><div class="kb-diagram-cell">아예 없음</div><div class="kb-diagram-cell">TrustZone 물리 격리</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 인텔은 수많은 클라우드 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들을 빨리 돌리기 위해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 캐시(PCID) 튜닝에 몰빵했다면, ARM은 내 손안의 은행(스마트폰)을 지키고 배터리를 아끼기 위해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 분리하고 하드웨어 금고를 짓는 쪽으로 진화의 방향을 완전히 틀었다.
 
 - **📢 섹션 요약 비유**: x86이 건물 전체 문을 두껍게 만들고 경비원을 늘린 '전통적인 대형 은행'이라면, ARM은 아예 건물 안에 벽을 치고 문이 없는 '숨겨진 비밀 지하 벙커(TrustZone)'를 만들어서 도둑이 들어와도 벙커의 존재조차 모르게 만든 첩보 기지입니다.
@@ -113,7 +116,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 애플 M1 칩(ARM)의 x86 압살 비결
 1. **과거의 관념**: "ARM은 스마트폰에나 쓰는 약한 칩이고, 진짜 성능은 x86(인텔/AMD)이 짱이지."
-2. **애플 M1의 등장**: 애플은 이 관념을 박살 내고 ARM 기반 칩으로 인텔을 벤치마크에서 박살 냈다. 그 엄청난 속도의 비밀 중 하나가 바로 이 **메모리 아키텍처의 차이**에 있다.
+2. **애플 M1의 등장**: 애플은 이 관념을 박살 내고 ARM 기반 칩으로 인텔을 벤치마크에서 박살 냈다. 그 엄청난 속도의 비밀 중 하나가 바로 이 <strong>메모리 아키텍처의 차이</strong>에 있다.
 3. **메모리 아키텍처의 혁신**:
    - x86은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이가 1~15바이트로 제각각(가변)이라 메모리에서 코드를 긁어올 때 정렬(Alignment)이 깨져 매핑 테이블 오버헤드가 크다.
    - ARM은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 무조건 4바이트(고정)다. 
@@ -135,7 +138,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|
 | **저전력 및 고성능 스위칭** | ARM의 TTBR 분리 아키텍처는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 시의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 파괴를 막아 배터리 효율과 응답성([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 극대화 |
 | **강력한 하드웨어 샌드박스**| ARM TrustZone과 x86의 확장된 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(PTE)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뚫는 최상위 권한 해킹마저 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 레벨에서 봉쇄 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 승리** | 하부 매핑 방식이 이렇게 뼈대부터 다름에도 불구하고, 리눅스는 가상 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 모델([HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/)) 하나로 이 모든 차이를 덮어버림 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>의 승리</strong> | 하부 매핑 방식이 이렇게 뼈대부터 다름에도 불구하고, 리눅스는 가상 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 모델([HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/)) 하나로 이 모든 차이를 덮어버림 |
 
 ### 결론 및 미래 전망
 
@@ -156,15 +159,19 @@ ARM과 x86의 메모리 매핑 아키텍처 대결은 "과거의 거대한 유�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[아키텍처 종속적인 MMU 인터페이스]
-    │
-    ▼
-[ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)]
-    │
-    ├──▶ [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
-    └──▶ [메모리 보호 키 (Memory Protection Keys)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 보호 키 (Memory Protection Keys)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

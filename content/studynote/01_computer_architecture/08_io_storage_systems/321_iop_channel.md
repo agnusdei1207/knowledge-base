@@ -23,21 +23,21 @@ IOP는 대규모 시스템에서 입출력 절차를 전담하도록 만든 특�
 
 이 문제를 해결하기 위해 나온 생각이 "I/O 업무를 별도 두뇌에 위임하자"는 채널 구조다. CPU는 시작 주소만 넘기고 본래 계산을 계속하며, IOP는 메모리에 적재된 I/O 명령 묶음을 읽어 장치를 순서대로 제어한다. 즉 IOP는 CPU의 손발이 아니라, CPU가 맡기고 떠날 수 있는 I/O 전담 관리자라는 점에서 의미가 크다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    왜 IOP가 필요했는가: CPU 병목 해소                │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU만 있을 때                                                        │
-│ CPU ── 장치 상태 확인 ── 데이터 준비 대기 ── 전송 지시 ── 완료 확인  │
-│  │                                                                   │
-│  └─ 계산 중단과 재개가 반복됨                                        │
-│                                                                      │
-│ IOP가 있을 때                                                        │
-│ CPU ── SIO(Start I/O) ──▶ IOP ── 장치 제어/전송/완료 확인            │
-│  │                                                                   │
-│  └─ 계산 지속                                                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 IOP가 필요했는가: CPU 병목 해소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU만 있을 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ── 장치 상태 확인 ── 데이터 준비 대기 ── 전송 지시 ── 완료 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계산 중단과 재개가 반복됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOP가 있을 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ── SIO(Start I/O) ──▶ IOP ── 장치 제어/전송/완료 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 계산 지속</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주는 핵심은 CPU가 I/O 세부 절차에서 빠질수록 전체 시스템의 연산 연속성이 커진다는 점이다. 느린 장치를 기다리는 시간을 줄이는 것이 곧 고성능 시스템의 출발점이었다.
 
@@ -68,27 +68,24 @@ IOP의 핵심은 메모리에 저장된 채널 프로그램(Channel Program)을 
 
 아래 구조는 "CPU가 시작하고, IOP가 운영하고, DMA가 옮기고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 끝을 알리는" 분업을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    IOP 기반 I/O 실행 파이프라인                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU                                                                  │
-│  │ 1. SIO                                                            │
-│  ▼                                                                   │
-│ IOP / Channel                                                        │
-│  │ 2. CCW fetch & decode                                             │
-│  ▼                                                                   │
-│ Channel Controller                                                   │
-│  │ 3. 장치 명령 생성                                                 │
-│  ├───────────────────────────────┐                                   │
-│  ▼                               ▼                                   │
-│ Device                        DMA Engine                             │
-│  │                               │                                   │
-│  └──── 상태/데이터 요청 ────────┴──── 메모리 블록 전송 ─────▶ Memory │
-│                                                                      │
-│ 완료/오류 발생 ───────────────────────────────────────────────▶ CPU   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOP 기반 I/O 실행 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SIO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOP / Channel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CCW fetch &amp; decode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Channel Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 장치 명령 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device DMA Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태/데이터 요청 메모리 블록 전송 ▶ Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료/오류 발생 ▶ CPU</div></div>
+</div>
+</div>
+
+
 
 채널은 물리적 운용 방식에 따라 셀렉터 채널(Selector Channel), [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)), 블록 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)(Block [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/))로 나뉜다. 셀렉터 채널은 고속 장치 하나를 오래 붙잡고 처리하는 데 유리하고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)는 느린 장치 여러 개를 잘게 섞어 처리해 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 낭비를 줄인다. 블록 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)는 고속 장치가 많을 때 블록 단위로 번갈아 처리해 동시성을 높인다.
 
@@ -134,9 +131,9 @@ IOP를 이해하려면 [DMA](/knowledge-base/studynote/02_operating_system/11_ex
 
 ### 기술사형 판단 문장
 
-1. **고처리량 중심 시스템**에서는 IOP 계열 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 CPU 사용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 개선할 수 있다.
-2. **저지연 중심 시스템**에서는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 이득보다 장치 왕복 지연과 운영 복잡도가 더 커질 수 있다.
-3. **장애 대응 관점**에서는 IOP가 문제를 숨겨 주는 장점도 있지만, 반대로 장애 원인이 CPU 밖으로 이동해 가시성이 낮아질 수 있다.
+1. <strong>고처리량 중심 시스템</strong>에서는 IOP 계열 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 CPU 사용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 개선할 수 있다.
+2. <strong>저지연 중심 시스템</strong>에서는 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 이득보다 장치 왕복 지연과 운영 복잡도가 더 커질 수 있다.
+3. <strong>장애 대응 관점</strong>에서는 IOP가 문제를 숨겨 주는 장점도 있지만, 반대로 장애 원인이 CPU 밖으로 이동해 가시성이 낮아질 수 있다.
 
 즉 IOP는 무조건 고급 장비가 아니라, "복잡한 I/O 절차를 CPU 밖으로 빼내는 편이 총비용과 성능에서 이득인가"를 따져서 채택해야 하는 아키텍처다.
 
@@ -168,24 +165,25 @@ IOP의 가장 큰 효과는 CPU를 "입출력에 끌려다니는 관리자"에�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로그램 제어 I/O
-        │
-        ▼
-인터럽트 기반 I/O
-        │
-        ▼
-DMA (Direct Memory Access)
-        │
-        ▼
-IOP (Input/Output Processor) / Channel
-        │
-        ▼
-RAID Controller · SmartNIC · HBA (Host Bus Adapter)
-        │
-        ▼
-DPU (Data Processing Unit) · 인프라 오프로딩 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로그램 제어 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 기반 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMA (Direct Memory Access)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IOP (Input/Output Processor) / Channel</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAID Controller · SmartNIC · HBA (Host Bus Adapter)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPU (Data Processing Unit) · 인프라 오프로딩 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 전송 보조에서 시작해, I/O 절차 자체를 전용 처리기가 맡는 방향으로 진화해 온 과정을 보여준다.
 

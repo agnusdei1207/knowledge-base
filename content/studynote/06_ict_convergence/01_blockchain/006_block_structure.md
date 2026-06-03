@@ -45,43 +45,28 @@ tags = ["ict_convergence"]
 
 ### 블록 헤더 구조 상세
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ 블록 헤더 (Block Header) │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌────────────────┐ │
-│ │ 버전 (4B) │ 블록 프로토콜 버전 (예: 1, 2) │
-│ │ Version │ ↑ 노드 간 호환성 판단에 사용 │
-│ └────────────────┘ │
-│ │ │
-│ ┌────────────────┐ │
-│ │ 이전 블록 해시 │ 256비트 (32바이트) SHA-256 해시 │
-│ │ Previous Hash │ 이전 블록의 헤더를 두 번 해시한 값 │
-│ └────────────────┘ (조상 블록으로의 포인터 역할) │
-│ │ │
-│ ┌────────────────┐ │
-│ │ 머클 루트 (32B)│ 해당 블록 내 모든 거래의 해시 트리 루트 │
-│ │ Merkle Root │ 거래 무결성 검증의 핵심 값 │
-│ └────────────────┘ │
-│ │ │
-│ ┌────────────────┐ │
-│ │ 타임스탬프 (4B)│ Unix Epoch Time (블록 생성 시각) │
-│ │ Timestamp │ 1970-01-01 이후 초 단위 경과 시간 │
-│ └────────────────┘ │
-│ │ │
-│ ┌────────────────┐ │
-│ │ 난이도 목표 │ .bits (Compact form, 예: 0x1d00ffff) │
-│ │ Difficulty │ 현재 채굴 목표 값 (PoW의 경우) │
-│ └────────────────┘ │
-│ │ │
-│ ┌────────────────┐ │
-│ │ 논스 (4B) │ 채굴자가 해시 퍼즐을 하기 위해 │
-│ │ Nonce │ 변화시키는 값 (0 ~ 2^32-1) │
-│ └────────────────┘ │
-│ │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더 (Block Header)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전 (4B)</div><div class="kb-diagram-cell">블록 프로토콜 버전 (예: 1, 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Version</div><div class="kb-diagram-cell">↑ 노드 간 호환성 판단에 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 블록 해시</div><div class="kb-diagram-cell">256비트 (32바이트) SHA-256 해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Previous Hash</div><div class="kb-diagram-cell">이전 블록의 헤더를 두 번 해시한 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조상 블록으로의 포인터 역할)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트 (32B)</div><div class="kb-diagram-cell">해당 블록 내 모든 거래의 해시 트리 루트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merkle Root</div><div class="kb-diagram-cell">거래 무결성 검증의 핵심 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프 (4B)</div><div class="kb-diagram-cell">Unix Epoch Time (블록 생성 시각)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timestamp</div><div class="kb-diagram-cell">1970-01-01 이후 초 단위 경과 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난이도 목표</div><div class="kb-diagram-cell">.bits (Compact form, 예: 0x1d00ffff)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Difficulty</div><div class="kb-diagram-cell">현재 채굴 목표 값 (PoW의 경우)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논스 (4B)</div><div class="kb-diagram-cell">채굴자가 해시 퍼즐을 하기 위해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce</div><div class="kb-diagram-cell">변화시키는 값 (0 ~ 2^32-1)</div></div>
+</div>
+</div>
+
+
 
 블록 헤더의 각 필드는 중요한 역할을 수행한다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변경 사항을하는 역할을 하며, 소프트 포크(Soft Fork) 등에서 노드들이 새로운 규칙을 적용할지 판단하는 기준이 된다. 이전 블록 해시 필드는 체인 연결의 핵심으로, 이전 블록의 헤더를 SHA-256으로 두 번 해시(Doublesha-256)한 값이다. 이것이 현재 블록과 이전 블록을적으로 연결한다.
 
@@ -91,24 +76,22 @@ tags = ["ict_convergence"]
 
 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)의구조를 하면이다:
 
-```
-거래 목록:
-TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 
-머클 트리 구조:
 
-[머클 루트 (Merkle Root)]
-│
-┌──────────────┴──────────────┐
-│ │
-[Hash(AB)] [Hash(CD)]
-(TX1+TX2) (TX3+TX4)
-│ │
-┌─────┴─────┐ ┌─────┴─────┐
-│ │ │ │
-[TX1] [TX2] [TX3] [TX4]
-해시 해시 해시 해시
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">거래 목록:</div>
+<div class="kb-diagram-note">TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8</div>
+<div class="kb-diagram-note">머클 트리 구조:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 루트 (Merkle Root)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hash(AB)</div><div class="kb-diagram-node">Hash(CD)</div></div>
+<div class="kb-diagram-note">(TX1+TX2) (TX3+TX4)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TX1</div><div class="kb-diagram-node">TX2</div><div class="kb-diagram-node">TX3</div><div class="kb-diagram-node">TX4</div></div>
+<div class="kb-diagram-note">해시 해시 해시 해시</div>
+</div>
+</div>
+
+
 
 만약 8개의 거래가 있다면, [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)는먼저각 거래를 해시하여 8개의 리프 노드를 만든다.에한 리프 노드를 두 개씩 쌍으로 묶어 해시하여 4개의 중간 노드를 만든다. 에 4개의 중간 노드를 두 개씩 묶어 해시하여 2개의 노드를 만들고, 이를 다시 해시하여 최종 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를얻는다. 만약 어떤 거래 한 건이 바뀌면 그 거래의 해시값이 변하고, [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 값도 변하게 되어 조작이된다.
 
@@ -180,72 +163,59 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```
-+------------------------------------------------------------------+
-| 블록 구조 상세 |
-+------------------------------------------------------------------+
-| |
-│ ┌────────────────────────────────────────────────────────────┐ │
-│ │ 블록 (Block) │ │
-│ │ │ │
-│ │ ┌──────────────────────────────────────────────────────┐ │ │
-│ │ │ 블록 헤더 (Block Header) - 80B │ │ │
-│ │ │ │ │ │
-│ │ │ 버전(4B) │ 이전블록해시(32B) │ 머클루트(32B) │ │ │
-│ │ │ ─────────┼──────────────────┼───────────────── │ │ │
-│ │ │ 타임스탬프(4B) │ 난이도목표(4B) │ 논스(4B) │ │ │
-│ │ └──────────────────────────────────────────────────────┘ │ │
-│ │ │ │ │
-│ │ ▼ │ │
-│ │ ┌──────────────────────────────────────────────────────┐ │ │
-│ │ │ 블록 바디 (Block Body) │ │ │
-│ │ │ │ │ │
-│ │ │ [거래 #1] ─► 해시 ─► [Hash1] │ │ │
-│ │ │ [거래 #2] ─► 해시 ─► [Hash2] │ │ │
-│ │ │ [Hash1] + [Hash2] ─► 해시 ─► [AB] │ │ │
-│ │ │ ... │ │ │
-│ │ │ │ │ │ │
-│ │ │ ▼ 머클 루트 (Merkle Root) │ │ │
-│ │ │ = 32B 해시값 │ │ │
-│ │ └──────────────────────────────────────────────────────┘ │ │
-│ └────────────────────────────────────────────────────────────┘ │
-│ │ │
-│ │ 다음 블록이 참조 │
-│ ▼ │
-│ ┌────────────────────────────────────────────────────────────┐ │
-│ │ 다음 블록의 헤더에는... │ │
-│ │ Previous Block Hash = 지금 이 블록의 해시값 │ │
-│ └────────────────────────────────────────────────────────────┘ │
-+------------------------------------------------------------------+
-| 핵심 특성: |
-| - 블록 헤더 변경 → 머클 루트 변경 → 이후 전체 체인 무효 |
-| - 머클 증명(Proof of Inclusion)으로 특정 거래 포함 여부 검증 |
-| - 라이트 노드는 블록 헤더만으로 거래 검증 가능 (SPV) |
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 구조 상세</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 (Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 헤더 (Block Header) - 80B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전(4B)</div><div class="kb-diagram-cell">이전블록해시(32B)</div><div class="kb-diagram-cell">머클루트(32B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프(4B)</div><div class="kb-diagram-cell">난이도목표(4B)</div><div class="kb-diagram-cell">논스(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 바디 (Block Body)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">거래 #1</div><div class="kb-diagram-note">─► 해시 ─►</div><div class="kb-diagram-node">Hash1</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">거래 #2</div><div class="kb-diagram-note">─► 해시 ─►</div><div class="kb-diagram-node">Hash2</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Hash1</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Hash2</div><div class="kb-diagram-note">─► 해시 ─►</div><div class="kb-diagram-node">AB</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 머클 루트 (Merkle Root)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 32B 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 블록이 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 블록의 헤더에는...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Previous Block Hash = 지금 이 블록의 해시값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 헤더 변경 → 머클 루트 변경 → 이후 전체 체인 무효</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 머클 증명(Proof of Inclusion)으로 특정 거래 포함 여부 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라이트 노드는 블록 헤더만으로 거래 검증 가능 (SPV)</div></div>
+</div>
+</div>
+
+
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** | 블록에 기록될 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 시작점 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a></strong> | 블록에 기록될 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 시작점 |
 | **해시** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 연결 고리 |
 | **블록 헤더** | 블록의 메타정보와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준을 담는 부분 |
-| **[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)** | 여러 거래를 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">머클 트리</a></strong> | 여러 거래를 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조 |
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[트랜잭션 (Transaction)]
-│
-▼
-[해시 (Hash)]
-│
-▼
-[블록 헤더 (Block Header)]
-│
-▼
-[머클 트리 (Merkle Tree)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 (Transaction)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시 (Hash)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 헤더 (Block Header)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리 (Merkle Tree)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 블록과 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)로 조직되는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

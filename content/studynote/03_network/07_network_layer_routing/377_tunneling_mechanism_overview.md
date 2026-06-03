@@ -22,21 +22,25 @@ tags = ["studynote-network"]
 - **개념**: 하나의 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(A)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램을 다른 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(B)의 페이로드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역) 안에 캡슐화(Encapsulation)하여, B의 망을 통해 A의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 은닉 전송하는 네트워킹 기법.
 - **필요성**: 내가 구형 애플 컴퓨터(AppleTalk [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로 한국 본사에서 미국 지사로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려 한다. 그런데 태평양 해저 케이블은 철저하게 IP 패킷만 취급한다. AppleTalk 패킷을 태평양에 던지면 바다 한가운데 라우터들이 "뭐야 이 외계어는!" 하고 다 버린다. "아! 이 AppleTalk 패킷 전체를 **가상의 IP 봉투 안에 통째로 쑤셔 넣고, 봉투 겉면에 미국 지사 IP를 적어서 태평양을 건너게 한 다음, 미국에서 봉투를 뜯게 만들면 되잖아!**" 이것이 인류가 고안해 낸 터널링의 시작이다.
 
-- **💡 비유**: 터널링은 **"러시아 마트료시카 인형 포장법"**과 같습니다.
+- **💡 비유**: 터널링은 <strong>"러시아 마트료시카 인형 포장법"</strong>과 같습니다.
   - 내 물건(작은 인형)은 한국어([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))로 쓰여 있습니다.
   - 태평양 택배 회사는 오직 영어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))로 쓰인 상자(큰 인형)만 취급합니다.
   - 나는 작은 인형을 큰 인형 뱃속에 넣고 뚜껑을 닫습니다. (캡슐화)
   - 택배 회사는 영어로 된 겉모습(큰 인형)만 보고 미국으로 완벽히 배달해 줍니다.
   - 미국 지사 직원이 큰 인형을 열고(디캡슐화), 속에서 작은 인형을 꺼내 읽습니다.
 
-```text
-[MPLS VPN]
-    │
-    ▼
-[터널링 메커니즘 개요]
-    │
-    └──▶ [GRE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS VPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">터널링 메커니즘 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GRE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 터널링은 국경을 넘기 위해 **"마차를 기차 화물칸에 통째로 싣고 달리는 것"**입니다. 마차는 바퀴 한 번 굴리지 않았지만(투명성), 기차 화물칸에 실려 수백 킬로미터를 이동한 뒤 목적지에서 기차 밖으로 나와 다시 마차의 길을 갑니다.
 
@@ -48,41 +52,41 @@ tags = ["studynote-network"]
 
 ### 1. 패킷의 3단 캡슐화 구조
 터널링이 작동 중일 때 와이어샤크(Wireshark)로 패킷을 까보면 봉투가 3겹으로 되어 있다.
-1. **여객 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Passenger [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 
+1. <strong>여객 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Passenger <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
    - 캡슐화되어 "업혀 가는" 불쌍한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다.
    - 예: 사내망에서 돌고 있는 사설 IP(`10.x.x.x`) 패킷, 또는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷.
-2. **캡슐화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Encapsulating [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 
+2. <strong>캡슐화 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Encapsulating <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
    - 여객과 운송수단 사이를 이어주는 "접착제(빈 박스)" 역할이다.
    - 예: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 헤더, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 헤더, [L2TP](/knowledge-base/studynote/03_network/07_network_layer_routing/379_l2tp_layer_2_tunneling_protocol/) 헤더. "내 뱃속에 든 건 원래 이런 종류야~"라고 적혀 있다.
-3. **운반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (Carrier/Delivery [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**: 
+3. <strong>운반 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> (Carrier/Delivery <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 
    - 터널 바깥세상(공중 인터넷망)에서 실제로 패킷을 날라주는 "배달원"이다.
    - 예: 목적지가 공인 IP(`8.8.8.8`)로 적혀 있는 겉면의 새로운 IP 헤더.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                터널링의 전형적인 3단 포장(캡슐화) 구조             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 패킷 ]                                               │
- │   [ 오리지널 IP 헤더 (목적지: 10.x) ] ──▶ [ Data (비밀문서) ]       │
- │           (이대로 인터넷에 나가면 사설 IP라서 버려짐!!)                │
- │                                                             │
- │   [ 터널링 패킷 (VPN 등) ]                                     │
- │   [ 새로운 V4 IP 헤더 (목적지: 211.x) ] ◀─ 3. 운반 (Carrier)    │
- │       └──▶ [ GRE 헤더 (터널링 접착제) ] ◀─ 2. 캡슐화 (Encapsulating)│
- │               └──▶ [ 원본 IP 헤더 ]  ◀─ 1. 여객 (Passenger)  │
- │                       └──▶ [ Data ]                          │
- │                                                             │
- │   ▶ "인터넷 세상은 오직 맨 껍데기(새로운 V4 IP)만 보고 배송해 준다."   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">터널링의 전형적인 3단 포장(캡슐화) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오리지널 IP 헤더 (목적지: 10.x)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data (비밀문서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이대로 인터넷에 나가면 사설 IP라서 버려짐!!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">터널링 패킷 (VPN 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 V4 IP 헤더 (목적지: 211.x)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 3. 운반 (Carrier)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GRE 헤더 (터널링 접착제)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 2. 캡슐화 (Encapsulating)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원본 IP 헤더</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 1. 여객 (Passenger)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "인터넷 세상은 오직 맨 껍데기(새로운 V4 IP)만 보고 배송해 준다."</div></div>
+</div>
+</div>
+
+
 
 ### 2. 터널링의 한계와 트러블슈팅 (MTU 병목)
-터널링은 마법 같지만 치명적인 물리적 약점이 하나 있다. 바로 **MTU([Maximum Transmission Unit](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/))** 문제다.
+터널링은 마법 같지만 치명적인 물리적 약점이 하나 있다. 바로 <strong>MTU(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/">Maximum Transmission Unit</a>)</strong> 문제다.
 - 기본 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망의 패킷 최대 길이는 1500바이트다.
 - 그런데 터널링을 쓰면 원본 패킷(1500) 바깥에 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 헤더(24)와 새 IP 헤더(20)가 **"추가로 덧붙는다"**.
 - 결과적으로 패킷 크기가 1544바이트로 뚱뚱해져서, 다음 라우터를 통과할 때 "야 너 1500 넘었어! DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 켜져 있네? 버려(Drop)!"라는 참사(블랙홀 현상)가 밥 먹듯이 발생한다.
-- **해결책**: 엔지니어가 라우터 인터페이스에 들어가서 **터널 내부의 MTU를 1400 수준으로 강제로 깎아내리거나, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) MSS 값을 낮춰서(Clamp)** 애초에 PC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1400바이트씩 작게 썰어 보내도록 억지로 세팅해 줘야만 터널 통신이 먹통이 되지 않는다.
+- **해결책**: 엔지니어가 라우터 인터페이스에 들어가서 <strong>터널 내부의 MTU를 1400 수준으로 강제로 깎아내리거나, <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> MSS 값을 낮춰서(Clamp)</strong> 애초에 PC가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1400바이트씩 작게 썰어 보내도록 억지로 세팅해 줘야만 터널 통신이 먹통이 되지 않는다.
 
 - **📢 섹션 요약 비유**: ** 터널링의 MTU 문제는 택배 상자 안에 뽁뽁이(터널링 헤더)를 너무 많이 집어넣어서 **"상자가 터질 듯이 부풀어 올라 우체통 입구(1500바이트)에 걸려 들어가지 않는 현상"**과 똑같습니다. 상자 크기를 못 늘리면, 애초에 안에 넣는 물건(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 크기를 강제로 잘라 줄여야 합니다.
 
@@ -140,15 +144,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MPLS VPN]
-    │
-    ▼
-[현재 개념: 터널링 메커니즘 개요]
-    │
-    ├──▶ [확장 A: GRE]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MPLS VPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 터널링 메커니즘 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GRE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 터널링 메커니즘 개요는 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) VPN에서 출발해 현재 메커니즘을 정교화하고, 이후 GRE와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

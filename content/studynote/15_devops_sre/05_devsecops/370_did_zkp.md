@@ -29,23 +29,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              DID/VC/VP 생태계 구조                               │
-├──────────────────────────────────────────────────────────────────┤
-│  [발급기관 (Issuer)] — 대학, 병원, 정부                         │
-│  VC (Verifiable Credential) 발급 + 디지털 서명                  │
-│         │                                                        │
-│  [소유자 (Holder)] — 사용자 디바이스 지갑(Wallet)               │
-│  VC 보관, VP (Verifiable Presentation) 구성                     │
-│         │                                                        │
-│  [검증자 (Verifier)] — 서비스 제공자                            │
-│  VP 서명 검증 + ZKP로 최소 정보 확인                            │
-│         │                                                        │
-│  [DID Registry] — 블록체인 or 분산 네트워크                     │
-│  DID Document (공개키, 서비스 엔드포인트) 저장                  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID/VC/VP 생태계 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발급기관 (Issuer)</div><div class="kb-diagram-note">— 대학, 병원, 정부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VC (Verifiable Credential) 발급 + 디지털 서명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소유자 (Holder)</div><div class="kb-diagram-note">— 사용자 디바이스 지갑(Wallet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VC 보관, VP (Verifiable Presentation) 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증자 (Verifier)</div><div class="kb-diagram-note">— 서비스 제공자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VP 서명 검증 + ZKP로 최소 정보 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DID Registry</div><div class="kb-diagram-note">— 블록체인 or 분산 네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID Document (공개키, 서비스 엔드포인트) 저장</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소                          | 역할                                           | 표준            |
 | :--------------------------------- | :--------------------------------------------- | :-------------- |
@@ -54,7 +54,7 @@ tags = ["studynote-devops-sre"]
 | VP (Verifiable Presentation)       | 필요한 VC만 선택해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 제시             | W3C VC          |
 | [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))         | 정보 공개 없이 진위 증명                        | zk-SNARK, BBS+  |
 
-**[ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 원리**: 증명자(Prover)가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)에게 "명제가 참이다"를 실제 정보 없이 증명. zk-SNARK ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Knowledge Succinct Non-interactive ARgument of Knowledge)와 BBS+ 서명이 대표 구현이다.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a> 원리</strong>: 증명자(Prover)가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)에게 "명제가 참이다"를 실제 정보 없이 증명. zk-SNARK ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Knowledge Succinct Non-interactive ARgument of Knowledge)와 BBS+ 서명이 대표 구현이다.
 
 - 📢 섹션 요약 비유: ZKP는 마술사가 카드를 뒤집지 않고 "이 카드가 에이스다"를 증명하는 것과 같다. 카드(정보)를 보여주지 않고도 사실임을 수학적으로 증명한다.
 
@@ -69,7 +69,7 @@ tags = ["studynote-devops-sre"]
 | [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)    | 있음                         | 없음                         |
 | 표준           | OAuth2, [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)                  | W3C [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), VC                  |
 
-**[MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/) ([마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/))**: 개인이 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(금융·의료·공공)를 제3자에게 능동적으로 제공·이동하는 권리 보장. 한국 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 2022년 시행으로 은행·카드사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 핀테크 앱으로 통합 조회·이동할 수 있다.
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/">MyData</a> (<a href="/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/">마이데이터</a>)</strong>: 개인이 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(금융·의료·공공)를 제3자에게 능동적으로 제공·이동하는 권리 보장. 한국 금융 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)는 2022년 시행으로 은행·카드사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 핀테크 앱으로 통합 조회·이동할 수 있다.
 
 - 📢 섹션 요약 비유: 중앙화 신원은 식당 예약을 레스토랑 서버(중앙 서버)가 관리하는 것이고, DID는 내가 직접 예약 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서(VC)를 들고 다니는 것이다.
 
@@ -77,14 +77,14 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)/SSI 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a>/SSI 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 사용 사례 정의: 교육 자격증 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 의료 기록 공유, 금융 KYC
 2. [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method 선택: [did](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/):web (웹 기반, 간단), [did](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/):ethr (Ethereum), [did](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/):ion ([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인)
 3. VC 발급 시스템 구축: 발급기관 서명 키 관리([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)), VC 취소 목록(Revocation) 관리
 4. [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 적용: BBS+ 서명으로 VC에서 필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)만 선택적 공개
 5. 규제 준수: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) [Right to be Forgotten](/knowledge-base/studynote/09_security/16_data_privacy/794_right_to_be_forgotten/) 대응
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - 모든 VC를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 저장 → [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반
 - [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 없이 VC만 발급 → 신원 소유권 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화 효과 없음
 - [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 없는 VC 제시 → 불필요한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 과잉 공개
@@ -115,24 +115,25 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙화 신원 (구글, 정부 IdP)
-    │
-    ▼
-연합 신원 (SAML, OAuth2, OIDC)
-    │
-    ▼
-DID (W3C 표준, 분산 식별자)
-    │
-    ▼
-VC/VP (검증 가능한 자격증명/발표)
-    │
-    ▼
-ZKP (선택적 공개, BBS+/zk-SNARK)
-    │
-    ▼
-MyData + FIDO2 통합 자기주권 신원 생태계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙화 신원 (구글, 정부 IdP)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연합 신원 (SAML, OAuth2, OIDC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DID (W3C 표준, 분산 식별자)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VC/VP (검증 가능한 자격증명/발표)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZKP (선택적 공개, BBS+/zk-SNARK)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MyData + FIDO2 통합 자기주권 신원 생태계</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

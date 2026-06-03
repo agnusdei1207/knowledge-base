@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-다중 프로세서 (Multiprocessor)는 하나의 컴퓨터 시스템에 둘 이상의 프로세서를 두고, 이들이 공용 메모리와 입출력 자원을 나눠 쓰며 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 작업하는 구조다. 핵심은 "프로세서를 여러 개 둔다"는 사실보다, **하나의 시스템 이미지처럼 동작하게 만든다**는 점에 있다. 사용자는 한 대의 서버를 쓰지만, 내부에서는 여러 프로세서가 동시에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 프로세스를 분담한다.
+다중 프로세서 (Multiprocessor)는 하나의 컴퓨터 시스템에 둘 이상의 프로세서를 두고, 이들이 공용 메모리와 입출력 자원을 나눠 쓰며 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 작업하는 구조다. 핵심은 "프로세서를 여러 개 둔다"는 사실보다, <strong>하나의 시스템 이미지처럼 동작하게 만든다</strong>는 점에 있다. 사용자는 한 대의 서버를 쓰지만, 내부에서는 여러 프로세서가 동시에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 프로세스를 분담한다.
 
 이 구조가 필요해진 이유는 단일 프로세서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 발열, 전력, 배선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 한계에 부딪혔기 때문이다. 클럭만 계속 높이면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간은 줄 수 있어도 소비전력과 냉각 비용이 급격히 늘고, 특정 시점부터는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 대비 효율이 나빠진다. 그래서 시스템 설계는 "더 빠른 한 개"에서 "적절한 여러 개"로 무게중심을 옮겼다.
 
@@ -27,19 +27,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 다중 프로세서가 왜 "작업 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"과 "공유 자원 조정"을 동시에 요구하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        단일 성능 한계 이후의 선택: 더 빠른 1개 → 협력하는 여러 개        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 요청 폭증                                                            │
-│   │                                                                  │
-│   ├─ 단일 프로세서: [CPU] ─────────▶ [공유 작업 처리] ─▶ 대기열 증가     │
-│   │                                                                  │
-│   └─ 다중 프로세서: [CPU0][CPU1][CPU2][CPU3] ─▶ 작업 분산 ─▶ 처리량 향상 │
-│                                     │                                │
-│                                     └─ 단, 메모리/버스 조정 필요      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 성능 한계 이후의 선택: 더 빠른 1개 → 협력하는 여러 개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 폭증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 단일 프로세서:</div><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 작업 처리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">대기열 증가</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 다중 프로세서:</div><div class="kb-diagram-node">CPU0</div><div class="kb-diagram-node">CPU1</div><div class="kb-diagram-node">CPU2</div><div class="kb-diagram-node">CPU3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">작업 분산 ─▶ 처리량 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 단, 메모리/버스 조정 필요</div></div>
+</div>
+</div>
+
+
 
 즉 다중 프로세서는 단순한 하드웨어 증설이 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 확보와 공유 자원 통제라는 두 과제를 함께 해결하기 위해 등장한 구조다.
 
@@ -49,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다중 프로세서의 핵심 원리는 **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) + [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 + [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지**다. 여러 프로세서가 같은 주소 공간을 바라보면 프로세서 간 통신은 빨라지지만, 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 시점에 읽고 쓰는 문제가 생긴다. 그래서 하드웨어는 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 분배를 담당하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 스케줄링과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 담당한다.
+다중 프로세서의 핵심 원리는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> + <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행 + <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 유지</strong>다. 여러 프로세서가 같은 주소 공간을 바라보면 프로세서 간 통신은 빨라지지만, 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 시점에 읽고 쓰는 문제가 생긴다. 그래서 하드웨어는 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 분배를 담당하고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 스케줄링과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 담당한다.
 
 대표 구조는 [비대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/) (Asymmetric Multiprocessing, [ASMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/194_numa_scheduling/))와 [대칭 다중 처리](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing, [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))로 나뉜다. ASMP는 특정 프로세서가 제어를 맡고 나머지가 보조 역할을 수행하는 방식이며, SMP는 모든 프로세서가 대체로 동등한 권한으로 커널과 메모리에 접근한다. 현대 범용 서버는 대부분 SMP를 기본 모델로 삼는다.
 
@@ -61,21 +61,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 계열 다중 프로세서에서 어디서 병목이 생기고 왜 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)이 중요한지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 SMP 다중 프로세서의 기본 데이터 경로                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ [CPU0]   [CPU1]   [CPU2]   [CPU3]                                    │
-│   │        │        │        │                                       │
-│ [L1/L2]  [L1/L2]  [L1/L2]  [L1/L2]                                   │
-│   └──┬─────┴──┬─────┴──┬─────┴──┬─── 공유 인터커넥트 ────────────────│
-│      │        │        │        │                                    │
-│      ├──────────────▶ [Main Memory]                                  │
-│      │                                                                │
-│      └─ 같은 주소를 각자 캐시에 보관하면                              │
-│         한 CPU의 쓰기 결과를 다른 CPU 캐시에도 반영해야 함            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMP 다중 프로세서의 기본 데이터 경로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU0</div><div class="kb-diagram-node">CPU1</div><div class="kb-diagram-node">CPU2</div><div class="kb-diagram-node">CPU3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2</div><div class="kb-diagram-node">L1/L2</div><div class="kb-diagram-node">L1/L2</div><div class="kb-diagram-node">L1/L2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── ── ── 공유 인터커넥트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Main Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 주소를 각자 캐시에 보관하면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 CPU의 쓰기 결과를 다른 CPU 캐시에도 반영해야 함</div></div>
+</div>
+</div>
+
+
 
 프로세서 수가 적을 때는 하나의 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 메모리로도 운영이 가능하지만, 수가 늘수록 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 경쟁이 심해진다. 또한 CPU0이 어떤 값을 수정했는데 CPU1이 자기 캐시에 남아 있는 옛 값을 계속 읽으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류가 발생한다. 이를 막기 위해 메지 (Modified, Exclusive, Shared, Invalid, MESI) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령이 필요하다.
 
@@ -89,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 다중 프로세서를 정확히 이해하려면 단일 프로세서, 멀티코어, [다중 컴퓨터](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/) ([Multicomputer](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/))와의 경계를 구분해야 한다. 단일 프로세서는 제어가 단순하지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 여지가 작고, 다중 프로세서는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반 협업이 쉬운 대신 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비용을 치른다. 멀티코어는 물리 패키지 하나 안에 여러 코어가 있는 형태로 구현될 뿐, 논리적으로는 SMP형 다중 프로세서와 매우 가깝다.
 
-[다중 컴퓨터](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/)는 여러 노드가 네트워크로 연결되고 각자 독립 메모리를 가지는 약결합 구조다. 이 경우 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 대신 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)을 사용하므로 프로그래밍 모델은 더 복잡해지지만, 노드 수를 크게 늘리기 쉽다. 즉 다중 프로세서는 **낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 쉬운 공유**, [다중 컴퓨터](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/)는 **높은 확장성**에 강점이 있다.
+[다중 컴퓨터](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/)는 여러 노드가 네트워크로 연결되고 각자 독립 메모리를 가지는 약결합 구조다. 이 경우 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 대신 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)을 사용하므로 프로그래밍 모델은 더 복잡해지지만, 노드 수를 크게 늘리기 쉽다. 즉 다중 프로세서는 <strong>낮은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간과 쉬운 공유</strong>, [다중 컴퓨터](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/376_multicomputer/)는 <strong>높은 확장성</strong>에 강점이 있다.
 
 | 비교 대상 | 메모리 구조 | 통신 방식 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -126,23 +126,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 프로세서를 늘렸는데 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기대만큼 오르지 않을 때 무엇을 먼저 의심해야 하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              코어 증설 후 성능 정체 시 점검 흐름                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ 코어 수 증가 후 성능 미미                                              │
-│   │                                                                  │
-│   ├─ 락 경쟁 높음? ────── Yes ─▶ 동기화 구조 분해                    │
-│   │                                                                  │
-│   ├─ 메모리 대역폭 포화? ─ Yes ─▶ NUMA/메모리 배치 재설계            │
-│   │                                                                  │
-│   ├─ 캐시 일관성 트래픽 과다? ─ Yes ─▶ 데이터 배치·False Sharing 점검 │
-│   │                                                                  │
-│   └─ 모두 아니면 ─────────────▶ 알고리즘 병렬화 한계 검토             │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-기술사 관점에서는 "프로세서를 늘린다"가 답이 아니라, **어떤 병목이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 병목인지 판별하는 능력**이 중요하다. 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 소프트웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 함께 맞아야 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 증설 후 성능 정체 시 점검 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 수 증가 후 성능 미미</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 락 경쟁 높음? Yes ─▶ 동기화 구조 분해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 대역폭 포화? ─ Yes ─▶ NUMA/메모리 배치 재설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 캐시 일관성 트래픽 과다? ─ Yes ─▶ 데이터 배치·False Sharing 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 모두 아니면 ▶ 알고리즘 병렬화 한계 검토</div></div>
+</div>
+</div>
+
+
+
+기술사 관점에서는 "프로세서를 늘린다"가 답이 아니라, <strong>어떤 병목이 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 병목인지 판별하는 능력</strong>이 중요하다. 하드웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 소프트웨어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 함께 맞아야 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
 
 - **📢 섹션 요약 비유**: 직원을 더 뽑았는데도 일이 안 빨라지면, 사람 수보다 복사기 한 대를 모두가 기다리는 구조인지 먼저 봐야 한다. 다중 프로세서도 결국 병목 자원을 어떻게 나누느냐의 문제다.
 
@@ -154,7 +153,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 다중 프로세서는 만능이 아니다. 프로세서 수가 늘수록 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 경합, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 유지 비용, 인터커넥트 복잡도가 함께 증가한다. 그래서 현대 시스템은 단순 SMP에서 끝나지 않고 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 온칩 네트워크 (Network-on-Chip, [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/))처럼 더 세분화된 연결 구조로 발전하고 있다.
 
-기억해야 할 핵심은 다중 프로세서가 "CPU를 많이 꽂은 컴퓨터"가 아니라, **공유 자원을 관리하며 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 실질 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는 구조**라는 점이다. 결국 좋은 다중 프로세서 설계는 프로세서 개수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 메모리 지역성, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용을 얼마나 잘 통제하느냐로 결정된다.
+기억해야 할 핵심은 다중 프로세서가 "CPU를 많이 꽂은 컴퓨터"가 아니라, <strong>공유 자원을 관리하며 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 실질 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 바꾸는 구조</strong>라는 점이다. 결국 좋은 다중 프로세서 설계는 프로세서 개수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 메모리 지역성, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용을 얼마나 잘 통제하느냐로 결정된다.
 
 - **📢 섹션 요약 비유**: 선수 수를 늘린다고 팀이 강해지는 것이 아니라, 패스 동선과 역할 분담이 맞아야 이기는 경기와 같다. 다중 프로세서도 협업 규칙이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만든다.
 
@@ -172,23 +171,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 프로세서 성능 향상
-    │
-    ▼
-SMP (Symmetric Multiprocessing) 기반 다중 프로세서
-    │
-    ├─ 공유 메모리 확대
-    │      ▼
-    │   캐시 일관성 (Cache Coherence) · 동기화 문제
-    │
-    └─ 프로세서 수 증가
-           ▼
-        NUMA (Non-Uniform Memory Access)
-           │
-           ▼
-칩렛 (Chiplet) · 온칩 네트워크 (Network-on-Chip, NoC)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 프로세서 성능 향상</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SMP (Symmetric Multiprocessing) 기반 다중 프로세서</div>
+<div class="kb-diagram-tree-item" style="--depth:2">공유 메모리 확대</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) · 동기화 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프로세서 수 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NUMA (Non-Uniform Memory Access)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">칩렛 (Chiplet) · 온칩 네트워크 (Network-on-Chip, NoC)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "프로세서 추가 → 공유 비용 증가 → 지역성 기반 확장"으로 진화한 방향을 보여준다.
 

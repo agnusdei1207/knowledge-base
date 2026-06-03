@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Apache Hudi는 Uber가 MySQL → [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 만든 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, **Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행**할 수 있게 한다.
-2. **[COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), 읽기 최적화)**와 **MOR (Merge-on-Read, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화)** 두 가지 테이블 유형을 제공하여 워크로드 특성에 맞는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 선택할 수 있다.
-3. **Timeline (커밋 이력 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))**과 **Incremental Query**를 통해 마지막 체크포인트 이후 변경분만 처리하는 효율적인 증분 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구현이 가능하다.
+1. Apache Hudi는 Uber가 MySQL → [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 만든 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)으로, <strong>Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행</strong>할 수 있게 한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>, 읽기 최적화)</strong>와 <strong>MOR (Merge-on-Read, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 최적화)</strong> 두 가지 테이블 유형을 제공하여 워크로드 특성에 맞는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 선택할 수 있다.
+3. <strong>Timeline (커밋 이력 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong>과 <strong>Incremental Query</strong>를 통해 마지막 체크포인트 이후 변경분만 처리하는 효율적인 증분 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구현이 가능하다.
 
 ---
 
@@ -35,34 +35,31 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Apache Hudi 내부 구조                           │
-├─────────────────────────────────────────────────────────────────┤
-│  .hoodie/  (Timeline)                                           │
-│  ├── 20260421120000.commit    (완료된 커밋)                      │
-│  ├── 20260421120000.clean     (클리너 실행 이력)                 │
-│  └── 20260421120000.compaction (컴팩션 이력)                     │
-│                                                                 │
-│  COW (Copy-on-Write) 테이블:                                    │
-│  ┌───────────┐  Write    ┌─────────────────┐                   │
-│  │ 변경 레코드│ ────────▶ │ 파일 전체 재작성 │ (base Parquet)    │
-│  └───────────┘           └─────────────────┘                   │
-│                                                                 │
-│  MOR (Merge-on-Read) 테이블:                                    │
-│  ┌───────────┐  Write    ┌────────────────┐                    │
-│  │ 변경 레코드│ ────────▶ │ Delta Log 파일  │ (.log, Avro)      │
-│  └───────────┘           └───────┬────────┘                    │
-│                                  │ 읽기 시 병합                  │
-│                         ┌────────▼────────┐                    │
-│                         │ Base Parquet +  │                     │
-│                         │ Delta Log 병합  │                     │
-│                         └─────────────────┘                    │
-│                          (주기적 Compaction으로 병합 고정)        │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-**[COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) vs MOR 비교**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Hudi 내부 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.hoodie/ (Timeline)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.commit (완료된 커밋)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.clean (클리너 실행 이력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.compaction (컴팩션 이력)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW (Copy-on-Write) 테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 레코드</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">파일 전체 재작성</div><div class="kb-diagram-cell">(base Parquet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MOR (Merge-on-Read) 테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 레코드</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Delta Log 파일</div><div class="kb-diagram-cell">(.log, Avro)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 시 병합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Parquet +</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Log 병합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주기적 Compaction으로 병합 고정)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> vs MOR 비교</strong>
 
 | 항목 | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) | MOR (Merge-on-Read) |
 |:---|:---|:---|
@@ -79,7 +76,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 
 ## Ⅲ. 비교 및 연결
 
-**Hudi [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 타입 (3가지)**
+<strong>Hudi <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 타입 (3가지)</strong>
 
 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 타입 | 설명 | 사용 목적 |
 |:---|:---|:---|
@@ -87,7 +84,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 | Incremental Query | 특정 시간 구간의 변경분만 조회 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 증분 처리 |
 | Read-Optimized Query | Base [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 읽기 (MOR에서 Delta 무시) | 높은 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 필요 시 |
 
-**Hudi vs [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) vs Iceberg**
+<strong>Hudi vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a> vs Iceberg</strong>
 
 | 항목 | Hudi | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | Iceberg |
 |:---|:---|:---|:---|
@@ -104,12 +101,12 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 
 **주요 활용 시나리오**
 
-- **[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 삭제**: Hard Delete API로 특정 사용자의 모든 레코드를 레이크에서 물리 삭제
-- **실시간 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)**: Debezium → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) → Hudi MOR 테이블 upsert
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 삭제</strong>: Hard Delete API로 특정 사용자의 모든 레코드를 레이크에서 물리 삭제
+- <strong>실시간 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong>: Debezium → [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) → [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) → Hudi MOR 테이블 upsert
 - **증분 배치**: 매시간 Incremental Query로 변경분만 읽어 하위 집계 테이블 갱신
 - **대용량 upsert**: 수억 건의 MySQL 테이블을 Hudi로 매일 delta [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
-**핵심 운영 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)**
+<strong>핵심 운영 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a></strong>
 
 | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 설명 | Hudi [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
 |:---|:---|:---|
@@ -131,7 +128,7 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 | 규정 준수 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 삭제 요구를 레이크 단계에서 직접 처리 |
 | 증분 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | Incremental Query로 하위 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 컴퓨팅 비용 대폭 감소 |
 
-Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 환경에서 독보적인 강점을 가진다. [Cloudera CDP](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/), AWS EMR, Google Dataproc에서 기본 지원하며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 대응과 실시간 CDC가 요건인 프로젝트에서 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Iceberg와 함께 1순위 후보다. 기술사 시험에서는 **[COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) vs MOR 트레이드오프**, **Timeline 구조**, **Incremental Query 활용**이 핵심 논점이다.
+Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 환경에서 독보적인 강점을 가진다. [Cloudera CDP](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/), AWS EMR, Google Dataproc에서 기본 지원하며, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 대응과 실시간 CDC가 요건인 프로젝트에서 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/), Iceberg와 함께 1순위 후보다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> vs MOR 트레이드오프</strong>, **Timeline 구조**, <strong>Incremental Query 활용</strong>이 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: Hudi는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 외과 수술 능력을 부여한 것이다. 기존에는 환자 전체를 교체(전체 재작성)해야 했다면, Hudi는 아픈 세포(변경 레코드)만 정밀하게 교체할 수 있게 된다.
 
@@ -150,24 +147,25 @@ Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[HDFS]
-    │
-    ▼
-[Delta Lake]
-    │
-    ▼
-[Apache Hudi]
-    │
-    ▼
-[Copy-on-Write]
-    │
-    ▼
-[Merge-on-Read]
-    │
-    ▼
-[Data Lakehouse]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hudi</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Copy-on-Write</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Merge-on-Read</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lakehouse</div></div>
+</div>
+</div>
+
+
 
 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 기반 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에서 ACID와 증분 처리 요구가 더해지며 Hudi와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처로 발전하는 흐름이다.
 

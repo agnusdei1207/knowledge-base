@@ -37,32 +37,25 @@ P(A∩B) = P(A) · P(B)
 - 동전 두 번 던지기: 첫 번째 앞면 여부는 두 번째 결과와 독립
 - 두 서로 다른 컴퓨터의 CPU 고장: (동일 환경이 아니라면) 독립 가정 가능
 
-```
-┌──────────────────────────────────────────────────────┐
-│  독립 vs 상호 배타 — 벤 다이어그램 비교              │
-│                                                      │
-│  [ 독립 사건 ]                                       │
-│  ┌─────────────────────────────────────────┐         │
-│  │  Ω                                      │         │
-│  │   ┌─────┐                               │         │
-│  │   │  A  │         ┌─────┐              │         │
-│  │   │  ┌──┴──┐      │     │              │         │
-│  │   └──┤A∩B  ├──────┘  B  │              │         │
-│  │      └─────┘            │              │         │
-│  │   P(A∩B) = P(A)·P(B) > 0│              │         │
-│  └─────────────────────────────────────────┘         │
-│                                                      │
-│  [ 상호 배타 사건 ]                                  │
-│  ┌─────────────────────────────────────────┐         │
-│  │  Ω                                      │         │
-│  │   ┌─────┐   ┌─────┐                    │         │
-│  │   │  A  │   │  B  │                    │         │
-│  │   │     │   │     │  A∩B = ∅           │         │
-│  │   └─────┘   └─────┘                    │         │
-│  │   P(A∩B) = 0   P(A|B) = 0              │         │
-│  └─────────────────────────────────────────┘         │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립 vs 상호 배타 — 벤 다이어그램 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">독립 사건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ω</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── A∩B B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A∩B) = P(A)·P(B) &gt; 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배타 사건</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ω</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A∩B = ∅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A∩B) = 0 P(A</div><div class="kb-diagram-cell">B) = 0</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 독립은 "내 점심 메뉴가 날씨에 영향받지 않는 것"이고, 상호 배타는 "주사위 한 번에 1과 6이 동시에 나올 수 없는 것"이다 — 전혀 다른 개념이다.
 
@@ -135,23 +128,21 @@ P(A∩B|C) = P(A|C) · P(B|C)
 동치: P(A|B,C) = P(A|C)
 ```
 
-```
-┌─────────────────────────────────────────────────────┐
-│  조건부 독립의 구조                                  │
-│                                                     │
-│  C(공통 원인)                                        │
-│       │                                             │
-│    ┌──┴───┐                                         │
-│    ↓       ↓                                        │
-│    A       B                                        │
-│                                                     │
-│  C를 모를 때: A↔B 상관 있음 (C를 통해 연결)          │
-│  C를 알 때: A⊥B|C (조건부 독립)                     │
-│                                                     │
-│  예: 아이스크림 판매(A)와 수영장 익사(B)는 상관 있음  │
-│     하지만 날씨(C)를 알면 조건부 독립               │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 독립의 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C(공통 원인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C를 모를 때: A↔B 상관 있음 (C를 통해 연결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C를 알 때: A⊥B</div><div class="kb-diagram-cell">C (조건부 독립)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 아이스크림 판매(A)와 수영장 익사(B)는 상관 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 날씨(C)를 알면 조건부 독립</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 조건부 독립은 "공통 원인(날씨)을 알고 나면, 아이스크림 판매량과 익사 사고 수가 서로 무관해지는 것"이다 — 중간 연결고리를 알면 겉보기 상관이 사라진다.
 
@@ -159,7 +150,7 @@ P(A∩B|C) = P(A|C) · P(B|C)
 
 ## Ⅳ. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)에서의 독립 가정
 
-**[나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) ([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))** 분류기는 "모든 특징(Feature)이 클래스 레이블 Y에 대해 조건부 독립"이라는 강한 가정을 사용한다.
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/">나이브 베이즈</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/">Naive Bayes</a>)</strong> 분류기는 "모든 특징(Feature)이 클래스 레이블 Y에 대해 조건부 독립"이라는 강한 가정을 사용한다.
 
 ```
 P(X₁,X₂,...,Xₙ|Y) = Π P(Xᵢ|Y)   (조건부 독립 가정)
@@ -184,7 +175,7 @@ P(X₁,X₂,...,Xₙ|Y) = Π P(Xᵢ|Y)   (조건부 독립 가정)
 
 - 결과가 성공(1) 또는 실패(0)인 단일 실험
 - 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p, 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1-p 로 고정
-- 각 시행은 **독립**이어야 함
+- 각 시행은 <strong>독립</strong>이어야 함
 
 ```
 n번 독립 베르누이 시행에서 k번 성공:
@@ -220,27 +211,27 @@ n번 독립 베르누이 시행에서 k번 성공:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[독립]
-    │
-    ▼
-[상호 배타]
-    │
-    ▼
-[조건부 독립]
-    │
-    ▼
-[베르누이 시행]
-    │
-    ▼
-[쌍별 독립]
-    │
-    ▼
-[비복원 추출]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">독립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배타</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건부 독립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베르누이 시행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">쌍별 독립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비복원 추출</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 쌍별 독립까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

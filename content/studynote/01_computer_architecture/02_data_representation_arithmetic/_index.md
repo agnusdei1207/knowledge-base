@@ -17,33 +17,29 @@ tags = ["computer_architecture"]
 
 ### 컴퓨터의 언어: 비트로 표현되는 세상
 
-컴퓨터는 모든 정보를 0과 1의 조합인 **비트 (Bit)**로 처리한다. 우리가 사용하는 십진수, 문자, 소수점 이하의 실수 등은 컴퓨터 내부에서 특정한 규칙에 따라 이진수로 변환되어야 한다. 이 변환 규칙이 바로 '데이터 표현'이며, 이를 얼마나 효율적으로 설계하느냐에 따라 컴퓨터의 연산 정밀도와 속도가 결정된다.
+컴퓨터는 모든 정보를 0과 1의 조합인 <strong>비트 (Bit)</strong>로 처리한다. 우리가 사용하는 십진수, 문자, 소수점 이하의 실수 등은 컴퓨터 내부에서 특정한 규칙에 따라 이진수로 변환되어야 한다. 이 변환 규칙이 바로 '데이터 표현'이며, 이를 얼마나 효율적으로 설계하느냐에 따라 컴퓨터의 연산 정밀도와 속도가 결정된다.
 
-데이터 표현과 연산 장치가 중요한 이유는 세 가지이다. 첫째, **산술 연산의 하드웨어 효율성**을 높이기 위해서이다 (예: 뺄셈을 덧셈 회로로 처리). 둘째, **실수의 정밀도와 표현 범위** 사이의 트레이드오프를 해결하기 위해서이며, 셋째, 전송이나 저장 중 발생하는 **데이터 오류**를 스스로 탐지하고 수정하기 위함이다.
+데이터 표현과 연산 장치가 중요한 이유는 세 가지이다. 첫째, <strong>산술 연산의 하드웨어 효율성</strong>을 높이기 위해서이다 (예: 뺄셈을 덧셈 회로로 처리). 둘째, **실수의 정밀도와 표현 범위** 사이의 트레이드오프를 해결하기 위해서이며, 셋째, 전송이나 저장 중 발생하는 <strong>데이터 오류</strong>를 스스로 탐지하고 수정하기 위함이다.
 
 이 그림은 데이터가 추상화된 값에서 물리적인 비트 패턴으로 변환되어 ALU에서 처리되는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Data Flow from Representation to ALU           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Real World Value ] : -5, 3.14, 'A'                      │
-│          │                                                  │
-│          ▼ (Encoding)                                       │
-│   [ Bit Pattern ] : 11111011 (2's Comp), 01000000... (IEEE) │
-│          │                                                  │
-│          ▼ (Load to Registers)                              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │          ALU (Arithmetic Logic Unit)                │   │
-│   │  [ Adder ] [ Multiplier ] [ Shifter ] [ Logic ]     │   │
-│   └─────────────────────────────────────────────────────┘   │
-│          │                                                  │
-│          ▼ (Result)                                         │
-│   [ Status Flags ] : Zero, Carry, Overflow, Negative        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Flow from Representation to ALU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Real World Value</div><div class="kb-diagram-note">: -5, 3.14, 'A'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Encoding)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Bit Pattern</div><div class="kb-diagram-note">: 11111011 (2's Comp), 01000000... (IEEE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Load to Registers)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (Arithmetic Logic Unit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Adder</div><div class="kb-diagram-node">Multiplier</div><div class="kb-diagram-node">Shifter</div><div class="kb-diagram-node">Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Result)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Status Flags</div><div class="kb-diagram-note">: Zero, Carry, Overflow, Negative</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '상태 플래그 (Status Flags)'이다. 연산 결과뿐만 아니라, 결과가 0인지, 넘쳤는지 (Overflow) 등의 메타데이터를 함께 생성하여 다음 명령어의 실행 방향(조건 분기)을 결정한다. 실무에서는 이러한 하드웨어 플래그가 운영체제의 스케줄링이나 에러 처리에 직접적인 영향을 미친다.
 
@@ -71,22 +67,22 @@ tags = ["computer_architecture"]
 
 이 구조도는 부동 소수점이 메모리에 저장되는 비트 레이아웃을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 IEEE 754 Single Precision (32-bit)          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ S ] [   Exponent (8 bits)   ] [     Fraction (23 bits) ]│
-│    31    30                   23   22                      0│
-│                                                             │
-│   * Value = (-1)^S * (1.Fraction) * 2^(Exponent - 127)      │
-│   * S: 0 (Positive), 1 (Negative)                           │
-│   * Bias (127): 음수 지수 표현을 위해 사용                  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '정밀도와 범위'의 조절이다. 지수부가 커지면 표현 가능한 숫자의 범위가 넓어지고, 가수부가 커지면 정밀도가 높아진다. 실무에서는 딥러닝 연산 시 속도를 위해 정밀도를 낮춘 **FP16**이나 **BF16** 포맷을 사용하여 하드웨어 자원을 최적화한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 754 Single Precision (32-bit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">S</div><div class="kb-diagram-node">Exponent (8 bits)</div><div class="kb-diagram-node">Fraction (23 bits)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">31 30 23 22 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Value = (-1)^S * (1.Fraction) * 2^(Exponent - 127)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* S: 0 (Positive), 1 (Negative)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Bias (127): 음수 지수 표현을 위해 사용</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '정밀도와 범위'의 조절이다. 지수부가 커지면 표현 가능한 숫자의 범위가 넓어지고, 가수부가 커지면 정밀도가 높아진다. 실무에서는 딥러닝 연산 시 속도를 위해 정밀도를 낮춘 <strong>FP16</strong>이나 **BF16** 포맷을 사용하여 하드웨어 자원을 최적화한다.
 
 ### 고속 연산 장치: 승산기 (Multiplier)
 
@@ -125,30 +121,26 @@ tags = ["computer_architecture"]
 ### 기술사적 판단: 연산 정밀도 및 하드웨어 가속 전략
 
 **시나리오 1: 금융 시스템의 소수점 계산 오차 발생**
-- **판단**: 부동 소수점 (Float/Double)의 이진 변환 과정에서 발생하는 **Rounding Error**를 의심한다. 돈 계산처럼 0.1원 단위가 중요한 시스템에서는 부동 소수점 대신 정수형으로 단위를 올리거나 (Fixed-point), **BCD (Binary Coded Decimal)** 연산 장치를 사용하여 십진수 체계의 정확성을 하드웨어 수준에서 보장해야 한다.
+- **판단**: 부동 소수점 (Float/Double)의 이진 변환 과정에서 발생하는 <strong>Rounding Error</strong>를 의심한다. 돈 계산처럼 0.1원 단위가 중요한 시스템에서는 부동 소수점 대신 정수형으로 단위를 올리거나 (Fixed-point), **BCD (Binary Coded Decimal)** 연산 장치를 사용하여 십진수 체계의 정확성을 하드웨어 수준에서 보장해야 한다.
 
 **시나리오 2: AI 추론 가속기 설계 시 데이터 포맷 선정**
-- **판단**: 32비트 FP32는 연산량과 메모리 대역폭 소모가 너무 크다. 추론 결과에 큰 지장이 없는 범위 내에서 **8비트 정수 (INT8)**로 양자화 (Quantization)하거나, 구글의 **bfloat16** 포맷을 사용하여 지수부 범위는 유지하면서 연산 속도를 2배 이상 높이는 기술적 결단을 내린다.
+- **판단**: 32비트 FP32는 연산량과 메모리 대역폭 소모가 너무 크다. 추론 결과에 큰 지장이 없는 범위 내에서 <strong>8비트 정수 (INT8)</strong>로 양자화 (Quantization)하거나, 구글의 **bfloat16** 포맷을 사용하여 지수부 범위는 유지하면서 연산 속도를 2배 이상 높이는 기술적 결단을 내린다.
 
 이 도식은 오버플로우 (Overflow) 감지 로직과 그 파급 효과를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Overflow Detection and Exception              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ A ] + [ B ] ──▶ [ Result ]                              │
-│     │      │           │                                    │
-│     └──────┼───────────┴──▶ [ Overflow Logic ]              │
-│                                     │                       │
-│   * Case: (+5) + (+4) = (-7) in 4-bit space! (Logic Error)  │
-│                                     │                       │
-│   ┌─────────────────────────────────┴─────────────────┐     │
-│   ▼                                                   ▼     │
-│ [ Hardware Flag ] ──▶ [ OS Trap / Signal ] ──▶ [ App Crash ] │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Overflow Detection and Exception</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Result</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Overflow Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Case: (+5) + (+4) = (-7) in 4-bit space! (Logic Error)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware Flag</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS Trap / Signal</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">App Crash</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 판단은 '측정 도구의 선택'과 같습니다. 거리를 잴 때 자(정수)를 쓸지, 정밀한 레이저(부동 소수점)를 쓸지, 아니면 대충 눈대중(양자화)으로 할지를 용도와 비용에 맞춰 결정하는 일입니다.
 
@@ -163,7 +155,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 가변 정밀도 컴퓨팅과 비정형 연산
 
-앞으로의 연산 장치는 고정된 비트 수를 넘어, 작업의 중요도에 따라 비트 수를 조절하는 **가변 정밀도 (Transprecision) 컴퓨팅**으로 진화할 것이다. 또한 뉴로모픽 (Neuromorphic) 칩처럼 0과 1이 아닌 아날로그 신호의 세기를 연산에 활용하는 새로운 패러다임이 부상하고 있다. 기술사는 IEEE 754와 같은 기존 표준을 넘어, 하드웨어 도메인 특화 아키텍처 (DSA)에서 요구되는 새로운 데이터 포맷들에 대해 선제적인 학습이 필요하다.
+앞으로의 연산 장치는 고정된 비트 수를 넘어, 작업의 중요도에 따라 비트 수를 조절하는 <strong>가변 정밀도 (Transprecision) 컴퓨팅</strong>으로 진화할 것이다. 또한 뉴로모픽 (Neuromorphic) 칩처럼 0과 1이 아닌 아날로그 신호의 세기를 연산에 활용하는 새로운 패러다임이 부상하고 있다. 기술사는 IEEE 754와 같은 기존 표준을 넘어, 하드웨어 도메인 특화 아키텍처 (DSA)에서 요구되는 새로운 데이터 포맷들에 대해 선제적인 학습이 필요하다.
 
 📢 **섹션 요약 비유**: 미래의 숫자는 '딱딱한 고체'가 아니라 '부드러운 액체'와 같아질 것입니다. 상황에 따라 컵(비트 수)의 크기를 마음대로 조절하며 가장 효율적인 연산을 수행하는 유연한 세상이 올 것입니다.
 

@@ -27,20 +27,24 @@ tags = ["devops_sre"]
 
 아래 도식은 과거의 [빅뱅 통합](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/401_big_bang_integration/) 방식과 현대의 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) 방식의 위험도 차이를 시각적으로 보여준다.
 
-```text
-이 도식은 코드 통합 주기와 리스크 누적(결함 수정 비용)의 상관관계를 나타낸다. 오래 고립될수록 폭발력은 기하급수적으로 커진다.
 
-[과거: 빅뱅 통합 (Big Bang Integration)]
-Dev A ──(1달 작업)──────────────────────────┐  (충돌 폭발! Merge Hell)
-Dev B ──(1달 작업)──────────────────────────┼──> 💥 [QA 및 릴리스 지연]
-Main  ──────────────────────────────────────┴──> 시간/비용 막대함
 
-[현대: 지속적 통합 (Continuous Integration)]
-Dev A ─┬──┬──┬──────┬───┐ (매일 병합)
-Dev B ─┼──┼─┬┴──┬───┼───┤
-Main  ─┴──┴─┴───┴───┴───┴──> ✅ [항상 배포 가능한 안정적 상태 유지]
-       (CI) (CI) (CI)  (CI)  ← 병합마다 즉각 자동 빌드/테스트 피드백 (Fail Fast)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 코드 통합 주기와 리스크 누적(결함 수정 비용)의 상관관계를 나타낸다. 오래 고립될수록 폭발력은 기하급수적으로 커진다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 빅뱅 통합 (Big Bang Integration)</div></div>
+<div class="kb-diagram-note">Dev A ──(1달 작업) (충돌 폭발! Merge Hell)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Dev B ──(1달 작업) ──&gt; 💥</div><div class="kb-diagram-node">QA 및 릴리스 지연</div></div>
+<div class="kb-diagram-note">Main ──&gt; 시간/비용 막대함</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대: 지속적 통합 (Continuous Integration)</div></div>
+<div class="kb-diagram-note">Dev A ─ ── ── (매일 병합)</div>
+<div class="kb-diagram-note">Dev B ─ ── ─ ──</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Main ─ ── ─ ──&gt; ✅</div><div class="kb-diagram-node">항상 배포 가능한 안정적 상태 유지</div></div>
+<div class="kb-diagram-note">(CI) (CI) (CI) (CI) ← 병합마다 즉각 자동 빌드/테스트 피드백 (Fail Fast)</div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 잦은 병합(Frequent Merge)이 가져오는 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 단축이다. 개발자는 코드를 올린 지 수 분 내에 슬랙(Slack) 등을 통해 "네가 방금 짠 코드가 기존 기능 A의 테스트를 실패하게 만들었다"는 알람을 받는다. [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 머리에 생생히 남아 있는 시점이므로 단 몇 분 만에 버그를 수정할 수 있다. 이는 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)(문제를 개발 주기 초반으로 당겨 해결함) 사상의 완벽한 실현이다.
 
@@ -54,40 +58,41 @@ Main  ─┴──┴─┴───┴───┴───┴──> ✅ [항�
 
 | 핵심 단계 | 역할 및 동작 | 통과 기준 (Quality Gate) | 도구 예시 | 비유 |
 |:---|:---|:---|:---|:---|
-| **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Trigger)** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 기동 | Git 푸시 또는 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 이벤트 발생 | GitHub, GitLab | 공장 컨베이어 작동 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
-| **[정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) (Lint & [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))** | 코드 품질 및 보안 | 포맷팅 준수, [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 탐지, 하드코딩된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 키나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점 사전 스캔 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint | 엑스레이 금속 탐지기 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> (Trigger)</strong> | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 기동 | Git 푸시 또는 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 이벤트 발생 | GitHub, GitLab | 공장 컨베이어 작동 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a> (Lint &amp; <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a>)</strong> | 코드 품질 및 보안 | 포맷팅 준수, [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 탐지, 하드코딩된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 키나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점 사전 스캔 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/), ESLint | 엑스레이 금속 탐지기 |
 | **빌드 (Build)** | 컴파일 및 의존성 다운 | 소스코드를 기계어로 컴파일하고 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(npm, maven) 다운로드 | Gradle, Webpack | 원재료 융합 및 가공 |
 | **자동화 테스트 (Test)** | 비즈니스 로직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [유닛 테스트](/knowledge-base/studynote/15_devops_sre/05_devsecops/263_unit_test_mocking_stubbing/) 및 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 기반 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 실행. [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)(%) 충족 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | JUnit, Jest, PyTest | 품질 검사(QA) 로봇 |
 | **패키징 (Packaging)** | 배포 가능 형태 변환 | 통과된 코드를 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))로 굽고 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 푸시 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), Jib | 최종 상품 진공 포장 |
 
 아래 순차 흐름도는 개발자가 코드를 푸시(Push)한 순간부터 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 어떻게 각 단계를 제어하고 실패 시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 차단(Fail-fast)하는지를 보여준다.
 
-```text
-이 도식은 일반적인 CI 파이프라인의 파드(Pod) 기반 단계별 실행 구조와 의존성을 나타낸다. 한 단계라도 실패하면 다음 단계는 실행되지 않는다.
 
-[ Developer Push (PR 생성) ]
-       │ (Webhook)
-       ↓
-┌── CI Orchestrator (Jenkins / GitHub Actions) ─────────┐
-│                                                       │
-│ 1. [Checkout] 소스 코드 내려받기                      │
-│       ↓                                               │
-│ 2. [Lint / SAST] 코드 냄새 및 보안 스캔 (병렬)        │
-│       ├─ (에러 발견 시) ──> ❌ 파이프라인 중단 (Fail) │
-│       ↓ (통과)                                        │
-│ 3. [Build & Unit Test] 컴파일 및 JUnit 실행           │
-│       ├─ (테스트 깨짐) ──> ❌ 파이프라인 중단 (Fail)  │
-│       ↓ (통과)                                        │
-│ 4. [Image Build] 도커 이미지 생성 (docker build)      │
-│       ↓                                               │
-│ 5. [Push Registry] ECR, DockerHub 등에 업로드         │
-└───────┬───────────────────────────────────────────────┘
-        │ (성공 알림 및 PR Merge 승인 허가)
-        ↓
-[ Ready for CD (Continuous Delivery) ]
-```
 
-이 흐름의 핵심은 **[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 단절성(Fail-Fast)**이다. 컴파일이 성공하더라도 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 중 단 하나라도 실패하면(Red), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버는 절대 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 올리지 않는다. 이렇게 함으로써 "운영 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 있는 이미지는 무조건 테스트를 100% 통과한 무결점 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)이다"라는 강력한 신뢰를 형성한다. 이를 구현하기 위해서는 테스트 코드가 필수적이며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경을 위해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 모킹(Mocking)하거나 일회성 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Testcontainers)를 띄웠다 부수는 기술이 동원된다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 일반적인 CI 파이프라인의 파드(Pod) 기반 단계별 실행 구조와 의존성을 나타낸다. 한 단계라도 실패하면 다음 단계는 실행되지 않는다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Developer Push (PR 생성)</div></div>
+<div class="kb-diagram-note">(Webhook)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">── CI Orchestrator (Jenkins / GitHub Actions)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Checkout</div><div class="kb-diagram-note">소스 코드 내려받기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Lint / SAST</div><div class="kb-diagram-note">코드 냄새 및 보안 스캔 (병렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (에러 발견 시) ──&gt; ❌ 파이프라인 중단 (Fail)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (통과)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Build &amp; Unit Test</div><div class="kb-diagram-note">컴파일 및 JUnit 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (테스트 깨짐) ──&gt; ❌ 파이프라인 중단 (Fail)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (통과)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">Image Build</div><div class="kb-diagram-note">도커 이미지 생성 (docker build)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">Push Registry</div><div class="kb-diagram-note">ECR, DockerHub 등에 업로드</div></div>
+<div class="kb-diagram-note">(성공 알림 및 PR Merge 승인 허가)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready for CD (Continuous Delivery)</div></div>
+</div>
+</div>
+
+
+
+이 흐름의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인의 단절성(Fail-Fast)</strong>이다. 컴파일이 성공하더라도 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 중 단 하나라도 실패하면(Red), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버는 절대 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 올리지 않는다. 이렇게 함으로써 "운영 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 있는 이미지는 무조건 테스트를 100% 통과한 무결점 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)이다"라는 강력한 신뢰를 형성한다. 이를 구현하기 위해서는 테스트 코드가 필수적이며, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경을 위해 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 모킹(Mocking)하거나 일회성 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Testcontainers)를 띄웠다 부수는 기술이 동원된다.
 
 **📢 섹션 요약 비유**: 물 정수장에서 1단계(모래 거르기), 2단계(세균 검사), 3단계(미네랄 첨가) 필터를 거치되, 어느 한 곳에서라도 오염이 발견되면 즉시 밸브를 잠가(Fail-Fast) 가정집(운영망)으로 더러운 물이 배달되는 것을 완벽히 차단하는 정수 시스템과 같습니다.
 
@@ -103,23 +108,26 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 | **통합 주기** | 길다 (기능 완료 후 Develop에 병합) | 매우 짧다 (하루에도 수차례 직접 Main에 병합) |
 | **충돌 위험도** | 높음 (오랜 격리로 인해 Big Bang Merge 유발) | 매우 낮음 (작은 단위로 자주 합쳐 즉각 해결) |
 | **안전망 (필수)** | 수동 QA 및 릴리스 검열 | 강력한 자동화 테스트 및 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)) 필수 |
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | 배포 빈도 낮음, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 긺 | 하이 퍼포머(High Performer) 조직의 표준, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 극단적 단축 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | 배포 빈도 낮음, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 긺 | 하이 퍼포머(High Performer) 조직의 표준, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 극단적 단축 |
 
 과거에는 Git Flow처럼 브랜치를 겹겹이 두는 것이 안전하다고 믿었으나, 브랜치 수명이 길어질수록 CI의 본질(지속적이고 잦은 통합)이 훼손된다는 것이 증명되었다. 따라서 최신 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 조직은 무조건 브랜치를 짧게 가져가는 [트렁크 기반 개발](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)을 채택하며, 미완성된 기능이 병합되어 사용자에게 노출되는 것을 막기 위해 런타임에 기능을 끄는 '[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)(Feature Toggle)' 기술을 융합하여 사용한다.
 
 아래 다이어그램은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 아키텍처 관점에서 자체 구축(Self-hosted)과 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 방식의 트레이드오프를 보여준다.
 
-```text
-┌────────────┬─────────────────────────────┬───────────────────────────┐
-│ 방식       │ Self-Hosted (Jenkins)       │ SaaS (GitHub Actions)     │
-├────────────┼─────────────────────────────┼───────────────────────────┤
-│ 아키텍처   │ 마스터-워커 노드 직접 운영  │ 클라우드 인스턴스 임대    │
-│ 유지보수   │ 플러그인 업데이트 지옥 발생 │ 유지보수 제로, 완전 관리형│
-│ 보안/폐쇄망│ 금융권 등 폐쇄망 내 구축 용이│ 외부 통신 필수 (제약 있음)│
-│ 러너 환경  │ 상태가 남을 수 있어 충돌 위험│ 매번 초기화되는 Ephemeral │
-│ 진화 방향  │ 레거시 MSA, 복잡도 높은 룰  │ 모던 클라우드 네이티브 표준│
-└────────────┴─────────────────────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">Self-Hosted (Jenkins)</div><div class="kb-diagram-cell">SaaS (GitHub Actions)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">마스터-워커 노드 직접 운영</div><div class="kb-diagram-cell">클라우드 인스턴스 임대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유지보수</div><div class="kb-diagram-cell">플러그인 업데이트 지옥 발생</div><div class="kb-diagram-cell">유지보수 제로, 완전 관리형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안/폐쇄망</div><div class="kb-diagram-cell">금융권 등 폐쇄망 내 구축 용이</div><div class="kb-diagram-cell">외부 통신 필수 (제약 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">러너 환경</div><div class="kb-diagram-cell">상태가 남을 수 있어 충돌 위험</div><div class="kb-diagram-cell">매번 초기화되는 Ephemeral</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진화 방향</div><div class="kb-diagram-cell">레거시 MSA, 복잡도 높은 룰</div><div class="kb-diagram-cell">모던 클라우드 네이티브 표준</div></div>
+</div>
+</div>
+
+
 
 이 비교의 핵심은 '[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경 자체의 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)'이다. 자체 구축된 [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 서버는 이전에 돌았던 빌드의 캐시나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 디스크에 남아(Stateful) "어제는 성공했는데 오늘은 실패하는" [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 취약성을 낳는다. 반면 GitHub Actions 등의 클라우드 기반 CI는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 돌 때마다 백지상태의 1회용(Ephemeral) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Runner)를 띄워 실행하므로, 언제 돌려도 100% 동일한 빌드 환경과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장한다.
 
@@ -131,39 +139,40 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 
 실무에서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 구축하고 운영할 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 및 플랫폼 엔지니어가 내리는 주요 기술적 의사결정은 다음과 같다.
 
-1. **플래키 테스트(Flaky Test) 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+1. <strong>플래키 테스트(Flaky Test) 처리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
    - **상황**: 어떤 때는 성공하고 어떤 때는 실패하는 신뢰할 수 없는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(Flaky Test) 때문에, 코드는 멀쩡한데 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 빨간불(실패)을 띄우며 배포가 막힘. 개발자들이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 결과를 불신하기 시작함.
-   - **판단**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 추락은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 문화 붕괴의 첫 단추다. [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 타이머 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), DB [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제로 발생하는 Flaky Test는 발견 즉시 **격리(Ignore/Skip 처리)하고, 무조건 Green(성공)을 띄우게 만든 후 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 테스크로 버그를 수정**해야 한다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 실패는 100% 실제 코드 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이어야만 한다.
+   - **판단**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 추락은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 문화 붕괴의 첫 단추다. [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 타이머 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), DB [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제로 발생하는 Flaky Test는 발견 즉시 <strong>격리(Ignore/Skip 처리)하고, 무조건 Green(성공)을 띄우게 만든 후 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 테스크로 버그를 수정</strong>해야 한다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 실패는 100% 실제 코드 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이어야만 한다.
 
-2. **빌드 소요 시간([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) 병목 해결**
+2. <strong>빌드 소요 시간(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">Lead Time</a>) 병목 해결</strong>
    - **상황**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 프로젝트가 커지면서 npm 패키지 다운로드와 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 빌드에만 30분이 걸림. 잦은 푸시(통합)를 권장했으나 대기 시간이 길어져 개발 생산성이 저하됨.
    - **판단**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 속도는 5~10분 내외여야 한다. [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 적극 도입해야 한다. `node_modules`나 `.m2` 디렉토리를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 워크스페이스에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하고, Docker의 Multi-stage 빌드와 레이어 캐시(Layer Cache)를 활용해 변경된 소스코드 레이어만 다시 빌드되도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처를 최적화해야 한다. (비용 증가 시 워커 노드 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 수행)
 
 3. **"빌드 깨짐(Broken Build)"에 대한 최우선 순위 부여**
    - **상황**: 누군가 에러를 포함한 코드를 Main에 푸시하여 CI가 깨졌는데, 다들 본인 기능 개발을 하느라 반나절 방치함. 그 사이 다른 사람들의 PR이 Main과 충돌함.
-   - **판단**: CI가 깨졌다는 것은 Main 브랜치가 "배포 불가능한 썩은 상태"임을 의미한다. 안돈 코드(Andon Cord) 사상에 따라 조직 내 모든 개발자는 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업을 멈추고 **Main 브랜치를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Revert)하거나 버그를 픽스하여 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Green [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))하는 것을 최우선 순위로 삼는 문화**를 확립해야 한다.
+   - **판단**: CI가 깨졌다는 것은 Main 브랜치가 "배포 불가능한 썩은 상태"임을 의미한다. 안돈 코드(Andon Cord) 사상에 따라 조직 내 모든 개발자는 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업을 멈추고 <strong>Main 브랜치를 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(Revert)하거나 버그를 픽스하여 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인을 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Green <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)하는 것을 최우선 순위로 삼는 문화</strong>를 확립해야 한다.
 
 다음은 풀 리퀘스트([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 병합을 제어하기 위한 실무 분기 트리(Quality Gate)이다.
 
-```text
-이 도식은 브랜치 정책과 CI가 결합되어, 결함 있는 코드가 메인(Trunk) 브랜치를 오염시키지 못하도록 막는 완벽한 게이트웨이 시스템을 보여준다.
 
-[ 개발자가 Feature 브랜치에서 PR(Pull Request) 생성 ]
-   │
-   ├─ [GitHub Action 트리거 - PR Check 파이프라인 실행]
-   │       ↓
-   ├─ Q1. 코드 커버리지(Code Coverage)가 80%를 넘는가? (SonarQube)
-   │   ├─ No ──> ❌ 자동 병합(Merge) 차단 및 코멘트 ("테스트 코드 작성 요망")
-   │   └─ Yes ──> ↓
-   │
-   ├─ Q2. 모든 단위/통합 테스트가 100% Pass 했는가?
-   │   ├─ No ──> ❌ 자동 병합 차단 ("Broken Code 감지")
-   │   └─ Yes ──> ↓
-   │
-   └─ Q3. 시니어 엔지니어의 수동 코드 리뷰(Approve)를 받았는가?
-       ├─ No ──> ❌ 병합 대기 상태 유지
-       └─ Yes ──> ✅ [Merge 버튼 활성화] ──> Main 브랜치로 통합!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 브랜치 정책과 CI가 결합되어, 결함 있는 코드가 메인(Trunk) 브랜치를 오염시키지 못하도록 막는 완벽한 게이트웨이 시스템을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자가 Feature 브랜치에서 PR(Pull Request) 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">GitHub Action 트리거 - PR Check 파이프라인 실행</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q1. 코드 커버리지(Code Coverage)가 80%를 넘는가? (SonarQube)</div>
+<div class="kb-diagram-note">─ No ──&gt; ❌ 자동 병합(Merge) 차단 및 코멘트 ("테스트 코드 작성 요망")</div>
+<div class="kb-diagram-note">─ Yes ──&gt; ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q2. 모든 단위/통합 테스트가 100% Pass 했는가?</div>
+<div class="kb-diagram-note">─ No ──&gt; ❌ 자동 병합 차단 ("Broken Code 감지")</div>
+<div class="kb-diagram-note">─ Yes ──&gt; ↓</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q3. 시니어 엔지니어의 수동 코드 리뷰(Approve)를 받았는가?</div>
+<div class="kb-diagram-tree-item" style="--depth:3">No ──&gt; ❌ 병합 대기 상태 유지</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt; ✅</div><div class="kb-diagram-node">Merge 버튼 활성화</div><div class="kb-diagram-note">──&gt; Main 브랜치로 통합!</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 체계는 사람의 눈([코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/))과 기계의 눈([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 스캔, 테스트)을 결합하여 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 상류(Upstream)로 흘러가는 것을 겹겹이 차단한다. 실무에서는 브랜치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규칙(Branch [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Rule) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 통해, 관리자라 할지라도 이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 게이트를 통과하지 못하면 강제 병합(Force Merge)을 불가능하게 만들어야 시스템 붕괴를 막을 수 있다.
 
@@ -177,40 +186,42 @@ CI를 어떻게 조직에 안착시킬 것인지는 브랜치 [전략](/knowledg
 
 | 혜택 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) | 전통적 방법론 | [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 도입 후 | 비즈니스 가치 |
 |:---|:---|:---|:---|
-| **[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 시점** | 통합/QA 테스트 기간 (수 주 뒤) | 개발자가 코드 푸시 후 5분 이내 | 버그 수정 비용의 기하급수적 절감 |
-| **[병합 충돌](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) ([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))** | 수십~수백 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 충돌 (지옥) | 단 몇 줄의 단순 충돌 | 무의미한 충돌 해결 시간([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 제거, 생산성 증대 |
-| **코드 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 및 가시성** | 배포해봐야 알 수 있음 | 대시보드의 'Green' 아이콘으로 증명 | [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감 확보, 공격적 기능 추가 가능 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 탐지 시점</strong> | 통합/QA 테스트 기간 (수 주 뒤) | 개발자가 코드 푸시 후 5분 이내 | 버그 수정 비용의 기하급수적 절감 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/">병합 충돌</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/">Merge Conflict</a>)</strong> | 수십~수백 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 충돌 (지옥) | 단 몇 줄의 단순 충돌 | 무의미한 충돌 해결 시간([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 제거, 생산성 증대 |
+| <strong>코드 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 및 가시성</strong> | 배포해봐야 알 수 있음 | 대시보드의 'Green' 아이콘으로 증명 | [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감 확보, 공격적 기능 추가 가능 |
 
-앞으로의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 정해진 스크립트만 수행하는 멍청한 도구가 아니라, AI가 결합된 지능형 엔진으로 진화할 것이다. AI가 코드를 분석하여 변경된 로직에 영향을 받는 최소한의 테스트 스위트만 선별적으로 실행(Test Impact Analysis)하여 빌드 시간을 초단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고, [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 보안 취약점을 발견하면 즉시 수정된 PR을 봇(Bot)이 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해주는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Augmented [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)**가 미래의 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 생태계 표준(Standard)으로 자리 잡을 것이다.
+앞으로의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 정해진 스크립트만 수행하는 멍청한 도구가 아니라, AI가 결합된 지능형 엔진으로 진화할 것이다. AI가 코드를 분석하여 변경된 로직에 영향을 받는 최소한의 테스트 스위트만 선별적으로 실행(Test Impact Analysis)하여 빌드 시간을 초단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고, [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 보안 취약점을 발견하면 즉시 수정된 PR을 봇(Bot)이 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>-Augmented <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>가 미래의 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 생태계 표준(Standard)으로 자리 잡을 것이다.
 
 **📢 섹션 요약 비유**: 매번 책을 다 쓰고 나서야 인쇄소에 맡기고 수천 개의 오타를 발견해 눈물짓던 작가가, 이제는 한 단락을 쓸 때마다 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 교정기가 문법과 문맥을 완벽히 다듬어주어, 마지막 마침표를 찍는 순간 즉시 베스트셀러로 출판할 수 있게 되는 혁명입니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/) (CD)** (CI를 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 프로덕션 환경으로 안전하게 자동/수동 배포하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 연장선)
-- **[Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))** (코드를 작성하기 전에 실패하는 테스트를 먼저 작성하여, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경에서 무조건 방어망이 작동하도록 설계하는 방법론)
-- **[Trunk-Based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)** (복잡한 브랜치를 만들지 않고 모든 개발자가 하나의 메인 트렁크에 하루에도 수차례 병합하는 최신 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
-- **[Shift-Left Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/)** (소프트웨어 개발 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 맨 우측에 있던 보안/QA 테스트를 개발 단계인 좌측([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)으로 당겨 비용을 줄이는 사상)
-- **[SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) / [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)** (코드를 실행하지 않고 소스코드의 구문과 제어 흐름을 분석해 잠재적 버그와 취약점을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 과정에서 차단하는 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구)
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a> (CD)</strong> (CI를 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 프로덕션 환경으로 안전하게 자동/수동 배포하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 연장선)
+- <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/">Test-Driven Development</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a>)</strong> (코드를 작성하기 전에 실패하는 테스트를 먼저 작성하여, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경에서 무조건 방어망이 작동하도록 설계하는 방법론)
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/">Trunk-Based Development</a></strong> (복잡한 브랜치를 만들지 않고 모든 개발자가 하나의 메인 트렁크에 하루에도 수차례 병합하는 최신 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/466_shift_left_testing/">Shift-Left Testing</a></strong> (소프트웨어 개발 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 맨 우측에 있던 보안/QA 테스트를 개발 단계인 좌측([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)으로 당겨 비용을 줄이는 사상)
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a> / <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a></strong> (코드를 실행하지 않고 소스코드의 구문과 제어 흐름을 분석해 잠재적 버그와 취약점을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 과정에서 차단하는 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[폭포수 통합 — 주기적 빅뱅 통합, 충돌 폭발]
-    │
-    ▼
-[CI (지속적 통합) — 코드 커밋마다 자동 빌드·테스트]
-    │
-    ▼
-[CD (지속적 배포) — 검증된 아티팩트 자동 스테이징/배포]
-    │
-    ▼
-[GitOps — Git을 단일 진실의 원천으로 인프라까지 선언적 관리]
-    │
-    ▼
-[플랫폼 엔지니어링 — 내부 개발자 플랫폼(IDP)으로 CI/CD 셀프서비스화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 통합 — 주기적 빅뱅 통합, 충돌 폭발</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI (지속적 통합) — 코드 커밋마다 자동 빌드·테스트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CD (지속적 배포) — 검증된 아티팩트 자동 스테이징/배포</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps — Git을 단일 진실의 원천으로 인프라까지 선언적 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 엔지니어링 — 내부 개발자 플랫폼(IDP)으로 CI/CD 셀프서비스화</div></div>
+</div>
+</div>
+
+
 CI는 자주 통합해 충돌을 조기에 발견하는 원칙에서 출발해, CD·[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)·[플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)으로 발전해 DevOps의 핵심 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

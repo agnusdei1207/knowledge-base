@@ -29,13 +29,19 @@ tags = ["studynote-cloud"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Build Image
-  ↓ push
-Registry
-  ↓ pull
-Deploy
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Build Image</div>
+<div class="kb-diagram-note">↓ push</div>
+<div class="kb-diagram-note">Registry</div>
+<div class="kb-diagram-note">↓ pull</div>
+<div class="kb-diagram-note">Deploy</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -103,27 +109,39 @@ Deploy
 
 ## 관련 개념 맵
 
-```text
-Image
-  ↓ push/pull
-Container Registry
-  ↓
-Deployment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Image</div>
+<div class="kb-diagram-note">↓ push/pull</div>
+<div class="kb-diagram-note">Container Registry</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Deployment</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Docker Hub
-  ↓
-Container Registry
-  ↓
-ECR
-  ↓
-CI/CD Deployment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Docker Hub</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Registry</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ECR</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI/CD Deployment</div>
+</div>
+</div>
+
+
 
 ---
 

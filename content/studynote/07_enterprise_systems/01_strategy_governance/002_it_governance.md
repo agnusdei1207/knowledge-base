@@ -20,7 +20,7 @@ tags = ["enterprise_systems"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-**IT 거버넌스 ([IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))**는 조직의 IT 자원이 비즈니스 목표를 달성하는 데 효과적이고 효율적으로 사용되도록 지휘하고 통제하는 체계이다. 과거 IT 부서가 단순히 PC를 고치고 서버를 운영하는 지원 조직([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Function)에 불과했을 때는 'IT 관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'만으로도 충분했다. 그러나 금융, 제조, 유통 등 거의 모든 산업에서 IT가 비즈니스 혁신의 주체(Enabler)를 넘어 비즈니스 그 자체(Business is IT)가 되면서, IT의 실패는 곧 기업의 파산으로 직결되는 시대가 도래했다.
+<strong>IT 거버넌스 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/">IT Governance</a>)</strong>는 조직의 IT 자원이 비즈니스 목표를 달성하는 데 효과적이고 효율적으로 사용되도록 지휘하고 통제하는 체계이다. 과거 IT 부서가 단순히 PC를 고치고 서버를 운영하는 지원 조직([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Function)에 불과했을 때는 'IT 관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'만으로도 충분했다. 그러나 금융, 제조, 유통 등 거의 모든 산업에서 IT가 비즈니스 혁신의 주체(Enabler)를 넘어 비즈니스 그 자체(Business is IT)가 되면서, IT의 실패는 곧 기업의 파산으로 직결되는 시대가 도래했다.
 
 이러한 환경에서 IT 투자는 천문학적인 비용을 수반하지만, 경영진은 기술적 복잡성 때문에 IT 부서가 정확히 무엇을 하는지 파악하지 못하는 'IT 블랙홀' 현상이 발생했다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 경영진이 짜고 IT는 알아서 개발하는 이분법적 구조에서는, 아무리 훌륭한 시스템을 구축해도 비즈니스 목표와 어긋나는 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 불일치(Strategic Misalignment)'가 발생한다. 또한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))와 사이버 보안 위협의 증가는 전사 차원의 엄격한 통제 기준을 요구하게 되었다. 
 
@@ -28,17 +28,20 @@ tags = ["enterprise_systems"]
 
 아래 도식은 IT 거버넌스가 부재한 상황에서 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT의 엇박자가 어떻게 가치 손실을 유발하는지, 그리고 거버넌스 도입 후 어떻게 정렬(Alignment)되는지를 보여준다.
 
-```text
-[IT 거버넌스 부재: 전략적 불일치]      [IT 거버넌스 도입: 전략적 연계]
 
-비즈니스 전략 ────(단절/오해)────┐    비즈니스 전략 ◄──(쌍방향 연계)──► IT 전략
-(원가 절감)                      │    (원가 절감)                       (클라우드 전환)
-                                 ▼         │                                  │
-                          IT 블랙홀 발생   │     [IT 거버넌스 위원회 / 통제]  │
-                                 ▲         ▼                                  ▼
-IT 투자/운영 ───(독단적 결정)────┘    비즈니스 가치 ◄──(가치 전달/측정)── IT 투자/실행
-(최신 AI 도입)                         창출 달성                         최적 자원 할당
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 부재: 전략적 불일치</div><div class="kb-diagram-node">IT 거버넌스 도입: 전략적 연계</div></div>
+<div class="kb-diagram-note">비즈니스 전략 (단절/오해) 비즈니스 전략 ◄──(쌍방향 연계)──► IT 전략</div>
+<div class="kb-diagram-note">(원가 절감) │ (원가 절감) (클라우드 전환)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">IT 블랙홀 발생</div><div class="kb-diagram-node">IT 거버넌스 위원회 / 통제</div></div>
+<div class="kb-diagram-note">IT 투자/운영 (독단적 결정) 비즈니스 가치 ◄──(가치 전달/측정)── IT 투자/실행</div>
+<div class="kb-diagram-note">(최신 AI 도입) 창출 달성 최적 자원 할당</div>
+</div>
+</div>
+
+
 *해설: 왼쪽 그림에서는 비즈니스는 원가 절감을 원하지만 IT 부서는 최신 기술([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 도입에 예산을 쏟아부어 가치가 상쇄된다. 오른쪽 그림에서는 IT 거버넌스 체계가 도입되어 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 톱니바퀴처럼 맞물려 돌아가며, IT 투자의 결과가 비즈니스 가치로 정확히 환원되고 있는지 지속적으로 측정된다.*
 
 > 📢 **섹션 요약 비유**: IT 거버넌스는 오케스트라의 '지휘자'와 같습니다. 각각의 악기(IT 시스템)가 아무리 훌륭한 소리를 내더라도, 지휘자(거버넌스)가 악보(비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))에 맞춰 통제하고 조율하지 않으면 아름다운 교향곡(기업 가치) 대신 소음만 발생할 뿐입니다.
@@ -54,34 +57,34 @@ IT 거버넌스는 추상적인 선언이 아니라 실체가 있는 아키텍�
 | **이사회 (Board of Directors)** | 방향 제시 및 감독 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 기업 목표와 부합하는지 최종 감독, IT [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감수 수준([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite) 승인 | 선주 (방향 결정) |
 | **최고경영진 (CEO, CIO)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 및 집행 | IT 거버넌스 원칙을 프로세스로 구현, IT [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 최적화 및 자원 배분 | 선장 (운항 책임) |
 | **IT 거버넌스 위원회 (IT 스티어링)** | 의사결정 협의체 | 현업 임원과 IT 임원이 모여 IT 투자 우선순위 결정 및 분쟁 조정 | 항해 회의 |
-| **운영 프레임워크 ([COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/))** | 통제 및 실행 표준 | 글로벌 베스트 프랙티스를 적용하여 IT 프로세스를 통제하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 지표([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 항해 매뉴얼 |
-| **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 조직 ([IT Audit](/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/))** | 객관적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | IT 프로세스가 거버넌스 원칙과 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 준수하는지 독립적 평가 | 해양 경찰/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관 |
+| <strong>운영 프레임워크 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a>, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a>)</strong> | 통제 및 실행 표준 | 글로벌 베스트 프랙티스를 적용하여 IT 프로세스를 통제하고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 지표([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 항해 매뉴얼 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 조직 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/054_it_audit/">IT Audit</a>)</strong> | 객관적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | IT 프로세스가 거버넌스 원칙과 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))를 준수하는지 독립적 평가 | 해양 경찰/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관 |
 
 아래의 계층 구조도는 이사회의 지시가 어떻게 실무 IT 운영까지 하향 전파([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))되고, 운영의 결과가 어떻게 상향 보고([Bottom-up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))되는지를 나타내는 IT 거버넌스 책임 구조이다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                   이사회 (Board)                       │ (방향 제시, 최종 책임)
-└──────┬──────────────────────────────────────────▲──┘
-       │ [Governance: 지휘 / 통제]                    │
-       ▼                                             │ [Reporting: 투명성/성과]
-┌──────┴──────────────────────────────────────────┴──┐
-│              경영진 / IT 스티어링 위원회               │ (전략 수립, 투자 승인)
-│             (CEO, CIO, CFO, Business Heads)            │
-└──────┬──────────────────────────────────────────▲──┘
-       │ [Management: 관리 / 자원 할당]               │
-       ▼                                             │ [Metrics: KPI / 위험 지표]
-┌──────┴──────────────────────────────────────────┴──┐
-│                   IT 조직 (CIO 주도)                   │ (시스템 구축, 서비스 제공)
-│     - IT 아키텍처 (EA)       - 서비스 관리 (ITSM)      │
-│     - 프로젝트 관리 (PMO)    - 보안 및 위험 통제       │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이사회 (Board)</div><div class="kb-diagram-cell">(방향 제시, 최종 책임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Governance: 지휘 / 통제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">Reporting: 투명성/성과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영진 / IT 스티어링 위원회</div><div class="kb-diagram-cell">(전략 수립, 투자 승인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CEO, CIO, CFO, Business Heads)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Management: 관리 / 자원 할당</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">Metrics: KPI / 위험 지표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 조직 (CIO 주도)</div><div class="kb-diagram-cell">(시스템 구축, 서비스 제공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IT 아키텍처 (EA) - 서비스 관리 (ITSM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로젝트 관리 (PMO) - 보안 및 위험 통제</div></div>
+</div>
+</div>
+
+
 *해설: 이 도식의 핵심은 '거버넌스(Governance)'와 '관리([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'의 엄격한 분리이다. 이사회와 경영진은 "무엇을(What) 달성해야 하고, 어떤 규칙을 지켜야 하는가"를 결정(거버넌스)하며, IT 조직은 "어떻게(How) 시스템을 구축하고 운영할 것인가"를 수행(관리)한다. 만약 이사회가 IT의 세부 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)까지 간섭하거나, 반대로 IT 부서가 전사 투자 방향을 임의로 결정한다면 거버넌스 체계는 붕괴된 것이다.*
 
 내부 동작 원리로서 IT 거버넌스는 다음과 같은 사이클을 반복한다.
-① **지휘 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))**: 이사회가 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 기반하여 IT가 달성해야 할 목표와 허용 가능한 위험 수준을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
-② **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))**: IT 스티어링 위원회는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 기법을 통해 IT 프로젝트의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률과 예상 ROI를 감시한다.
+① <strong>지휘 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>)</strong>: 이사회가 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 기반하여 IT가 달성해야 할 목표와 허용 가능한 위험 수준을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다.
+② <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>: IT 스티어링 위원회는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 기법을 통해 IT 프로젝트의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률과 예상 ROI를 감시한다.
 ③ **평가 (Evaluate)**: IT 부서가 산출한 결과물(시스템 오픈, 장애율 감소 등)을 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)(균형성과표) 등을 통해 측정하고, 그 결과가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 목표와 일치하는지 평가하여 다시 지휘 단계로 피드백한다.
 
 > 📢 **섹션 요약 비유**: 거버넌스 아키텍처는 국가의 '삼권분립' 시스템과 같습니다. 이사회가 법([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 원칙)을 제정하면, 행정부(IT 조직)가 이를 집행하고, 사법부(IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))가 적법성을 평가하여 권력의 남용(자원 낭비)을 막고 국가(기업)를 발전시킵니다.
@@ -97,28 +100,31 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 | **핵심 질문** | "우리가 IT 일을 올바르게 하고 있는가?" (Doing things right) | "우리가 올바른 IT 일을 하고 있는가?" (Doing the right things) | 아무리 개발(관리)을 잘해도, 비즈니스에 불필요한 시스템(거버넌스 실패)이면 무용지물 |
 | **주체와 책임** | CIO 및 실무 IT 관리자 | 이사회 및 최고경영진 | IT 장애나 투자 실패 시 최종 법적/재무적 책임은 이사회에 있음 |
 | **초점 (Focus)** | 시스템의 안정성, 효율성, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 만족) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계, 가치 전달, 위험 감수([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite) 통제 | 관리는 '현재의 운영'에, 거버넌스는 '미래의 방향성과 제어'에 집중 |
-| **[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 프레임워크**| [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리), [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) (프로젝트 관리) | [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) (통제 및 거버넌스 프레임워크) | 실무에서는 COBIT을 우산으로 삼고 그 아래 ITIL을 배치하는 하이브리드 적용이 필수 |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 프레임워크</strong>| [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리), [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) (프로젝트 관리) | [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) (통제 및 거버넌스 프레임워크) | 실무에서는 COBIT을 우산으로 삼고 그 아래 ITIL을 배치하는 하이브리드 적용이 필수 |
 
 또한, IT 거버넌스는 단독으로 존재할 수 없으며 타 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 거버넌스와 강하게 융합된다.
-* **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 시너지**: IT 거버넌스가 인프라와 투자의 방향을 정한다면, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 그 위에서 흐르는 '혈액([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'의 품질과 보안을 통제한다.
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a> 시너지</strong>: IT 거버넌스가 인프라와 투자의 방향을 정한다면, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 그 위에서 흐르는 '혈액([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'의 품질과 보안을 통제한다.
 * **보안/위험 거버넌스 시너지**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 등 사이버 공격이 기업의 생존을 위협함에 따라, IT 거버넌스 내 '위험 관리' [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 전사적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리(ERM, Enterprise [Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))와 완벽히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되어야 한다.
 
 아래 의사결정 매트릭스는 조직의 상황에 따라 IT 거버넌스의 형태가 어떻게 달라져야 하는지를 보여준다.
 
-```text
-[조직 구조 및 문화에 따른 IT 거버넌스 의사결정 권한 모델]
 
-  강함 ◀──────── [ 비즈니스 부서의 자율성 요구 ] ────────► 약함
-       │
- 중앙  │  [ 연방형 (Federal) 거버넌스 ]     [ 중앙 집중형 (Centralized) ]
- 집중  │  - 코어 인프라: IT 중앙 통제       - 모든 IT 예산/의사결정을 CIO가 통제
- 요구  │  - 사업부 앱: 각 부서 자체 예산    - 장점: 표준화, 중복 투자 방지
- (High)│  - *글로벌 대기업의 표준 모델      - 단점: 현업의 민첩성 저하
-       │
- 분산  │  [ 탈중앙형 (Decentralized) ]      [ 무정부 상태 (Anarchy) ]
- 요구  │  - 각 사업부가 독자적 IT 부서 운영 - 공식적인 거버넌스 부재 (섀도우 IT)
- (Low) │  - 장점: 극도의 민첩성 (스타트업)  - 심각한 보안 리스크 및 비용 낭비 발생
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">조직 구조 및 문화에 따른 IT 거버넌스 의사결정 권한 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">비즈니스 부서의 자율성 요구</div><div class="kb-diagram-note">► 약함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">중앙</div><div class="kb-diagram-node">연방형 (Federal) 거버넌스</div><div class="kb-diagram-node">중앙 집중형 (Centralized)</div></div>
+<div class="kb-diagram-note">집중 │ - 코어 인프라: IT 중앙 통제 - 모든 IT 예산/의사결정을 CIO가 통제</div>
+<div class="kb-diagram-note">요구 │ - 사업부 앱: 각 부서 자체 예산 - 장점: 표준화, 중복 투자 방지</div>
+<div class="kb-diagram-note">(High)│ - *글로벌 대기업의 표준 모델 - 단점: 현업의 민첩성 저하</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">분산</div><div class="kb-diagram-node">탈중앙형 (Decentralized)</div><div class="kb-diagram-node">무정부 상태 (Anarchy)</div></div>
+<div class="kb-diagram-note">요구 │ - 각 사업부가 독자적 IT 부서 운영 - 공식적인 거버넌스 부재 (섀도우 IT)</div>
+<div class="kb-diagram-note">(Low) │ - 장점: 극도의 민첩성 (스타트업) - 심각한 보안 리스크 및 비용 낭비 발생</div>
+</div>
+</div>
+
+
 *해설: 이 매트릭스는 정답이 하나가 아님을 시사한다. 엄격한 보안과 비용 통제가 중요한 금융권은 '중앙 집중형'이 유리하지만, 빠른 시장 대응이 필요한 테크/플랫폼 기업은 '연방형'이나 '탈중앙형' 모델을 채택한다. 핵심은 무정부 상태(Anarchy)를 피하고 조직의 비즈니스 모델에 맞는 권한 할당(Decision Rights) 맵을 설계하는 것이다.*
 
 > 📢 **섹션 요약 비유**: IT 관리가 정해진 레시피대로 요리를 맛있게 만드는 '주방장'의 역할이라면, IT 거버넌스는 식당의 컨셉을 정하고 예산을 배분하며 위생 검열 기준을 세우는 '레스토랑 오너(경영자)'의 역할입니다.
@@ -130,7 +136,7 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 실무에서 IT 거버넌스를 도입할 때 가장 흔히 겪는 실패는 거버넌스를 단순히 '문서 작업'이나 '규제 대응용 요식 행위'로 전락시키는 것이다. 기술사와 수석 아키텍트는 이를 실질적인 가치 창출 프로세스로 작동시켜야 한다.
 
 **실무 시나리오 및 의사결정 과정**
-1. **무분별한 섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))의 확산 통제**:
+1. <strong>무분별한 섀도우 IT(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a>)의 확산 통제</strong>:
    - 상황: 현업 마케팅 부서가 IT 부서 모르게 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 솔루션(예: 고객 분석 툴)을 자체 예산으로 도입하여 사용 중이며, 여기에 기업의 핵심 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 업로드되고 있다.
    - 판단: 무조건적인 금지는 현업의 업무 마비를 초래한다. IT 거버넌스 위원회를 통해 'IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)'를 재정비하고, 클라우드 접근 보안 중개([CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/)) 솔루션을 도입하여 섀도우 IT를 가시화해야 한다. 이후 현업의 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 도입에 대한 표준 보안 심사 프로세스(패스트트랙)를 신설하여 통제권 안으로 양성화(Federal 모델 적용)한다.
 2. **대규모 차세대 IT 프로젝트의 중단(Kill) 결정**:
@@ -142,22 +148,28 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 
 아래 플로우차트는 현업에서 신규 IT 투자 요청이 발생했을 때, 거버넌스 관점에서 이를 필터링하고 승인하는 표준 의사결정 절차이다.
 
-```text
-[신규 IT 투자 / 프로젝트 요청 접수]
-               ↓
-[1차 관문: 전략적 연계 검토 (EA 관점)]
-- "전사 비즈니스 방향(예: 모바일 퍼스트)과 일치하는가?"
-- "기존 시스템과 기능이 중복되지 않는가?" (NO -> 반려)
-               ↓ (YES)
-[2차 관문: 가치 및 위험 평가 (CFO/CIO)]
-- "예상 ROI, NPV가 기준치를 넘는가?"
-- "보안/컴플라이언스 리스크는 통제 가능한가?" (NO -> 재검토/반려)
-               ↓ (YES)
-[3차 관문: IT 거버넌스 위원회 승인]
-- 한정된 예산 내 우선순위 할당 및 스폰서(임원) 지정
-               ↓ (승인)
-[포트폴리오 편입 및 실행 (PMO 이관)] ---> (주기적 성과 모니터링 피드백 반복)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 IT 투자 / 프로젝트 요청 접수</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1차 관문: 전략적 연계 검토 (EA 관점)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">"전사 비즈니스 방향(예: 모바일 퍼스트)과 일치하는가?"</div>
+<div class="kb-diagram-tree-item" style="--depth:0">"기존 시스템과 기능이 중복되지 않는가?" (NO -&gt; 반려)</div>
+<div class="kb-diagram-note">↓ (YES)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2차 관문: 가치 및 위험 평가 (CFO/CIO)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">"예상 ROI, NPV가 기준치를 넘는가?"</div>
+<div class="kb-diagram-tree-item" style="--depth:0">"보안/컴플라이언스 리스크는 통제 가능한가?" (NO -&gt; 재검토/반려)</div>
+<div class="kb-diagram-note">↓ (YES)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3차 관문: IT 거버넌스 위원회 승인</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">한정된 예산 내 우선순위 할당 및 스폰서(임원) 지정</div>
+<div class="kb-diagram-note">↓ (승인)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트폴리오 편입 및 실행 (PMO 이관)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(주기적 성과 모니터링 피드백 반복)</div></div>
+</div>
+</div>
+
+
 *해설: 이 흐름도의 핵심은 IT 투자가 단순히 '기술적으로 가능해서' 혹은 '부서장이 강력히 원해서' [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)되는 것을 원천 차단하는 것이다. 3단계의 게이트키핑(Gate-keeping)을 통해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 정렬과 재무적 타당성이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 프로젝트만 살아남게 함으로써 IT 예산의 블랙홀 현상을 방지한다.*
 
 > 📢 **섹션 요약 비유**: IT 거버넌스 실무는 고속도로의 '톨게이트와 과속 단속 카메라' 체계를 구축하는 것과 같습니다. 차(프로젝트)가 무작정 진입하여 혼잡을 유발하는 것을 막고, 규칙(비즈니스 가치)을 위반하는 차량을 통제하여 전체 교통 흐름을 최적화합니다.
@@ -170,41 +182,43 @@ IT 거버넌스를 정확히 이해하기 위해서는 종종 혼용되는 'IT �
 
 | 기대 효과 (정량/정성) | 내용 및 파급력 |
 |:---|:---|
-| **[IT ROI](/knowledge-base/studynote/12_it_management/03_ea_isp/126_it_roi_pre_progress_post_evaluation_evm/) 극대화** | 중복 투자 방지 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 우선순위에 따른 자원 집중으로 전체 IT 투자 수익률 향상 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 및 컴플라이언스** | 보안 사고 및 장애 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소, SOX, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등 글로벌 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응력 확보 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/126_it_roi_pre_progress_post_evaluation_evm/">IT ROI</a> 극대화</strong> | 중복 투자 방지 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 우선순위에 따른 자원 집중으로 전체 IT 투자 수익률 향상 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리 및 컴플라이언스</strong> | 보안 사고 및 장애 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 감소, SOX, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등 글로벌 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응력 확보 |
 | **의사결정의 투명성 확보** | IT 부서와 현업 간의 갈등([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))이 해소되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)) 기반의 객관적 협업 문화 정착 |
 | **비즈니스 민첩성(Agility) 증대** | 명확한 권한 위임 체계를 통해 병목 없이 신속한 기술 채택(클라우드 등) 가능 |
 
-**미래 전망**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 확산되면서 기존의 중앙 집중식 IT 거버넌스는 한계에 부딪히고 있다. 향후에는 중앙의 엄격한 통제를 유지하면서도 각 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 스쿼드 팀에 의사결정 권한을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 위임하는 **'[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) IT 거버넌스([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))'** 또는 **'[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 자동화([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'** 형태로 진화할 것이다. 즉, 사람이 위원회에서 승인하는 것이 아니라 시스템 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 내에 보안 및 거버넌스 룰이 코드로 심어져 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))되는 시대로 나아가고 있다.
+**미래 전망**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 확산되면서 기존의 중앙 집중식 IT 거버넌스는 한계에 부딪히고 있다. 향후에는 중앙의 엄격한 통제를 유지하면서도 각 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 스쿼드 팀에 의사결정 권한을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 위임하는 <strong>'<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> IT 거버넌스(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/">IT Governance</a>)'</strong> 또는 <strong>'<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 기반 자동화(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a>-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong> 형태로 진화할 것이다. 즉, 사람이 위원회에서 승인하는 것이 아니라 시스템 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 내에 보안 및 거버넌스 룰이 코드로 심어져 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))되는 시대로 나아가고 있다.
 
 > 📢 **섹션 요약 비유**: 최고의 IT 거버넌스는 존재감이 없는 투명한 '중력'과 같습니다. 구성원들은 복잡한 통제를 의식하지 않으면서도 자연스럽게 가장 효율적이고 안전한 궤도(비즈니스 가치)를 따라 움직이게 됩니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* **IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정으로 구성된 거버넌스의 핵심 영역
-* **[COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) (Control Objectives for IT)** | ISACA에서 제정한 글로벌 IT 거버넌스 및 통제 프레임워크의 사실상(De facto) 표준
-* **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/))** | 기업의 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 IT 인프라로 매핑하고 청사진을 제공하여 거버넌스 실행을 돕는 뼈대
-* **IT 스티어링 위원회 ([Steering Committee](/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/))** | 최고경영진과 현업 임원들이 모여 IT 투자 우선순위와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정하는 최고 의사결정 기구
-* **컴플라이언스 ([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))** | SOX, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) 등 IT 시스템이 준수해야 하는 내외부의 법적, 규제적 요구사항
+* <strong>IT 거버넌스 5대 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정으로 구성된 거버넌스의 핵심 영역
+* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/">COBIT</a> (Control Objectives for IT)</strong> | ISACA에서 제정한 글로벌 IT 거버넌스 및 통제 프레임워크의 사실상(De facto) 표준
+* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/">Enterprise Architecture</a>)</strong> | 기업의 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 IT 인프라로 매핑하고 청사진을 제공하여 거버넌스 실행을 돕는 뼈대
+* <strong>IT 스티어링 위원회 (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/069_project_sponsor_steering_committee_decision/">Steering Committee</a>)</strong> | 최고경영진과 현업 임원들이 모여 IT 투자 우선순위와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정하는 최고 의사결정 기구
+* <strong>컴플라이언스 (<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/">Compliance</a>)</strong> | SOX, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/) 등 IT 시스템이 준수해야 하는 내외부의 법적, 규제적 요구사항
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[IT 거버넌스 5대 도메인]
-    │
-    ▼
-[COBIT (Control Objectives for IT)]
-    │
-    ▼
-[EA (Enterprise Architecture)]
-    │
-    ▼
-[IT 스티어링 위원회 (Steering Committee)]
-    │
-    ▼
-[컴플라이언스 (Compliance)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 5대 도메인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT (Control Objectives for IT)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EA (Enterprise Architecture)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 스티어링 위원회 (Steering Committee)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴플라이언스 (Compliance)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 출발해 컴플라이언스 ([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

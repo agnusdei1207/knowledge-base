@@ -43,20 +43,22 @@ ZNS의 기본 단위는 존이다. 각 존은 수십 메가바이트에서 수�
 
 아래 그림은 존의 상태와 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 규칙을 단순화해 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    ZNS zone write model                     │
-├──────────────────────────────────────────────────────────────┤
-│ Zone A : [D][D][D][D]  Full                                 │
-│ Zone B : [D][D][ ][ ][ ]                                    │
-│                    ^                                         │
-│               Write pointer                                 │
-│                                                              │
-│ Allowed  : append after pointer                             │
-│ Not allow : overwrite middle of written area                │
-│ Reclaim   : reset entire zone                               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZNS zone write model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Zone A :</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">D</div><div class="kb-diagram-note">Full</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Zone B :</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write pointer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Allowed : append after pointer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Not allow : overwrite middle of written area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reclaim : reset entire zone</div></div>
+</div>
+</div>
+
+
 
 존 상태는 보통 비어 있음, 열림, 닫힘, 가득 참, 재설정 같은 흐름으로 관리된다. 이 규칙 덕분에 장치는 세밀한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동보다 큰 단위의 순차 적재와 일괄 회수에 집중할 수 있다. 대신 호스트는 어떤 데이터를 어떤 존에 넣었는지, 언제 존을 비울지 스스로 더 잘 알아야 한다.
 
@@ -127,21 +129,23 @@ ZNS의 기대효과는 세 가지로 [압축](/knowledge-base/studynote/02_opera
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-플래시의 erase-before-write 제약
-    │
-    ▼
-일반 SSD의 내부 FTL · GC 은닉
-    │
-    ▼
-랜덤 쓰기 비용 증가
-    │
-    ▼
-존 단위 순차 기록 노출
-    │
-    ▼
-ZNS + zone-aware 소프트웨어 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">플래시의 erase-before-write 제약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일반 SSD의 내부 FTL · GC 은닉</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랜덤 쓰기 비용 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">존 단위 순차 기록 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZNS + zone-aware 소프트웨어 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 플래시 제약을 숨기던 단계에서, 제약을 드러내고 소프트웨어가 활용하는 단계로의 이동을 보여준다.
 

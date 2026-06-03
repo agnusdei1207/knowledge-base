@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/)과 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 두 가지 다른 분야처럼 보이지만, 모두 **과거 패턴에서 미래/선호를 예측**한다는 점에서 공통 수학 기반([행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)·자기상관)을 공유한다.
+[시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/)과 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 두 가지 다른 분야처럼 보이지만, 모두 <strong>과거 패턴에서 미래/선호를 예측</strong>한다는 점에서 공통 수학 기반([행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)·자기상관)을 공유한다.
 
 ### [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/) 응용 분야
 
@@ -39,65 +39,70 @@ tags = ["studynote-data-engineering"]
 
 모든 시계열은 다음 성분의 조합이다.
 
-```
-시계열 = 트렌드(T) + 계절성(S) + 잔차(R)
 
-또는 곱셈 분해:
-시계열 = T × S × R
 
-┌────────────────────────────────────────────┐
-│ 트렌드 (Trend)      : 장기 증감 방향        │
-│ 계절성 (Seasonality): 주기적 반복 패턴      │
-│ 주기성 (Cyclicity)  : 불규칙 중기 파동      │
-│ 잔차 (Residual)     : 설명 불가 노이즈      │
-└────────────────────────────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시계열 = 트렌드(T) + 계절성(S) + 잔차(R)</div>
+<div class="kb-diagram-note">또는 곱셈 분해:</div>
+<div class="kb-diagram-note">시계열 = T × S × R</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트렌드 (Trend) : 장기 증감 방향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계절성 (Seasonality): 주기적 반복 패턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기성 (Cyclicity) : 불규칙 중기 파동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔차 (Residual) : 설명 불가 노이즈</div></div>
+<div class="kb-diagram-note">Python: from statsmodels.tsa.seasonal import seasonal_decompose</div>
+</div>
+</div>
 
-Python: from statsmodels.tsa.seasonal import seasonal_decompose
-```
+
 
 ### 2-2. 정상성 ([Stationarity](/knowledge-base/studynote/10_ai/05_data_science_ml/377_time_series_stationarity/)) 검정
 
 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 적용 전 반드시 정상성을 확인해야 한다. 정상성: 평균·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 시간에 따라 변하지 않음.
 
-```
-ADF Test (Augmented Dickey-Fuller Test, 확장 디키-풀러 검정):
-─────────────────────────────────────────────────────────────
-H₀: 단위근 존재 (비정상, Non-Stationary)
-H₁: 단위근 없음 (정상, Stationary)
 
-결과 해석:
-p-value < 0.05 → H₀ 기각 → 정상 시계열
-p-value ≥ 0.05 → 비정상 → 차분(Differencing) 적용
 
-차분(Differencing):
-  1차 차분: Yₜ' = Yₜ - Yₜ₋₁     (트렌드 제거)
-  2차 차분: Yₜ'' = Yₜ' - Yₜ'₋₁  (이차 트렌드 제거)
-  계절 차분: Yₜ - Yₜ₋ₛ           (계절성 제거)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ADF Test (Augmented Dickey-Fuller Test, 확장 디키-풀러 검정):</div>
+<div class="kb-diagram-note">H₀: 단위근 존재 (비정상, Non-Stationary)</div>
+<div class="kb-diagram-note">H₁: 단위근 없음 (정상, Stationary)</div>
+<div class="kb-diagram-note">결과 해석:</div>
+<div class="kb-diagram-note">p-value &lt; 0.05 → H₀ 기각 → 정상 시계열</div>
+<div class="kb-diagram-note">p-value ≥ 0.05 → 비정상 → 차분(Differencing) 적용</div>
+<div class="kb-diagram-note">차분(Differencing):</div>
+<div class="kb-diagram-note">1차 차분: Yₜ' = Yₜ - Yₜ₋₁ (트렌드 제거)</div>
+<div class="kb-diagram-note">2차 차분: Yₜ'' = Yₜ' - Yₜ'₋₁ (이차 트렌드 제거)</div>
+<div class="kb-diagram-note">계절 차분: Yₜ - Yₜ₋ₛ (계절성 제거)</div>
+</div>
+</div>
+
+
 
 ### 2-3. [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) (p, d, q) 모델
 
-```
-ARIMA(p, d, q) 구성:
-────────────────────────────────────────────────────────
-AR (AutoRegressive, 자기회귀, p):
-  Yₜ = c + φ₁Yₜ₋₁ + φ₂Yₜ₋₂ + ... + φₚYₜ₋ₚ + εₜ
-  → 과거 p개 자신의 값으로 현재 예측
 
-I  (Integrated, 누적, d):
-  d번 차분하여 정상성 확보
-  d=1: 1차 차분, d=2: 2차 차분
 
-MA (Moving Average, 이동평균, q):
-  Yₜ = c + εₜ + θ₁εₜ₋₁ + θ₂εₜ₋₂ + ... + θqεₜ₋q
-  → 과거 q개 오차항으로 현재 보정
-────────────────────────────────────────────────────────
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ARIMA(p, d, q) 구성:</div>
+<div class="kb-diagram-note">AR (AutoRegressive, 자기회귀, p):</div>
+<div class="kb-diagram-note">Yₜ = c + φ₁Yₜ₋₁ + φ₂Yₜ₋₂ + ... + φₚYₜ₋ₚ + εₜ</div>
+<div class="kb-diagram-note">→ 과거 p개 자신의 값으로 현재 예측</div>
+<div class="kb-diagram-note">I (Integrated, 누적, d):</div>
+<div class="kb-diagram-note">d번 차분하여 정상성 확보</div>
+<div class="kb-diagram-note">d=1: 1차 차분, d=2: 2차 차분</div>
+<div class="kb-diagram-note">MA (Moving Average, 이동평균, q):</div>
+<div class="kb-diagram-note">Yₜ = c + εₜ + θ₁εₜ₋₁ + θ₂εₜ₋₂ + ... + θqεₜ₋q</div>
+<div class="kb-diagram-note">→ 과거 q개 오차항으로 현재 보정</div>
+<div class="kb-diagram-note">파라미터 선택:</div>
+<div class="kb-diagram-note">ACF (AutoCorrelation Function, 자기상관함수) → q 결정</div>
+<div class="kb-diagram-note">PACF (Partial ACF, 편자기상관함수) → p 결정</div>
+<div class="kb-diagram-note">AIC/BIC 최소화 → 최적 (p,d,q) 탐색</div>
+</div>
+</div>
 
-파라미터 선택:
-  ACF (AutoCorrelation Function, 자기상관함수) → q 결정
-  PACF (Partial ACF, 편자기상관함수)           → p 결정
-  AIC/BIC 최소화                               → 최적 (p,d,q) 탐색
-```
+
 
 | 모델 | 설명 | 사용 시점 |
 |:---|:---|:---|
@@ -109,29 +114,30 @@ MA (Moving Average, 이동평균, q):
 
 ### 2-4. [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)) 구조
 
-```
-사용자-아이템 평점 행렬 (User-Item Rating Matrix):
 
-           영화A  영화B  영화C  영화D
-  사용자1 [  5     ?     3     ?  ]
-  사용자2 [  ?     4     ?     2  ]
-  사용자3 [  4     ?     ?     5  ]
-  사용자4 [  ?     3     5     ?  ]
 
-? = 예측 대상 (빈 칸 채우기 = 추천)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자-아이템 평점 행렬 (User-Item Rating Matrix):</div>
+<div class="kb-diagram-note">영화A 영화B 영화C 영화D</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자1</div><div class="kb-diagram-node">5     ?     3     ?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자2</div><div class="kb-diagram-node">?     4     ?     2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자3</div><div class="kb-diagram-node">4     ?     ?     5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자4</div><div class="kb-diagram-node">?     3     5     ?</div></div>
+<div class="kb-diagram-note">? = 예측 대상 (빈 칸 채우기 = 추천)</div>
+<div class="kb-diagram-note">방법 1: 사용자 기반 (User-Based CF)</div>
+<div class="kb-diagram-note">→ "사용자1과 유사한 사용자가 좋아한 것 추천"</div>
+<div class="kb-diagram-note">→ 유사도: 코사인 유사도, 피어슨 상관</div>
+<div class="kb-diagram-note">방법 2: 아이템 기반 (Item-Based CF)</div>
+<div class="kb-diagram-note">→ "사용자가 좋아한 영화와 유사한 영화 추천"</div>
+<div class="kb-diagram-note">→ Amazon 초기 추천 시스템에서 사용</div>
+<div class="kb-diagram-note">방법 3: 행렬 분해 (Matrix Factorization)</div>
+<div class="kb-diagram-note">→ R ≈ P × Qᵀ (SVD, ALS, SGD)</div>
+<div class="kb-diagram-note">→ 희소 행렬에서도 잠재 요인(Latent Factor) 추출</div>
+</div>
+</div>
 
-방법 1: 사용자 기반 (User-Based CF)
-  → "사용자1과 유사한 사용자가 좋아한 것 추천"
-  → 유사도: 코사인 유사도, 피어슨 상관
 
-방법 2: 아이템 기반 (Item-Based CF)
-  → "사용자가 좋아한 영화와 유사한 영화 추천"
-  → Amazon 초기 추천 시스템에서 사용
-
-방법 3: 행렬 분해 (Matrix Factorization)
-  → R ≈ P × Qᵀ   (SVD, ALS, SGD)
-  → 희소 행렬에서도 잠재 요인(Latent Factor) 추출
-```
 
 | 방법 | 장점 | 단점 |
 |:---|:---|:---|
@@ -159,19 +165,22 @@ MA (Moving Average, 이동평균, q):
 
 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)의 최대 약점은 신규 사용자/아이템에 대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부재다.
 
-```
-콜드 스타트 유형 및 해결:
-────────────────────────────────────────────────────────
-신규 사용자 콜드 스타트:
-  → 온보딩 시 명시적 선호 수집 (별점·장르 선택)
-  → 인기도 기반 추천 (Popular Items)
-  → 콘텐츠 기반 필터링 병행
 
-신규 아이템 콜드 스타트:
-  → 메타데이터 기반 콘텐츠 유사도 계산
-  → 하이브리드 추천 (CB + CF 결합)
-────────────────────────────────────────────────────────
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">콜드 스타트 유형 및 해결:</div>
+<div class="kb-diagram-note">신규 사용자 콜드 스타트:</div>
+<div class="kb-diagram-note">→ 온보딩 시 명시적 선호 수집 (별점·장르 선택)</div>
+<div class="kb-diagram-note">→ 인기도 기반 추천 (Popular Items)</div>
+<div class="kb-diagram-note">→ 콘텐츠 기반 필터링 병행</div>
+<div class="kb-diagram-note">신규 아이템 콜드 스타트:</div>
+<div class="kb-diagram-note">→ 메타데이터 기반 콘텐츠 유사도 계산</div>
+<div class="kb-diagram-note">→ 하이브리드 추천 (CB + CF 결합)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)는 "새 학교에 전학 온 학생에게 친구를 소개해 주는 것"이다. 아직 친구 기록이 없으니 "관심사 설문(콘텐츠 기반)"으로 첫 소개를 시작한다.
 
@@ -181,21 +190,24 @@ MA (Moving Average, 이동평균, q):
 
 ### 4-1. 소매 판매량 예측 SARIMA 적용 시나리오
 
-```
-[데이터] 3년간 월별 의류 판매량 (36 관측치)
 
-[전처리]
-① 시계열 분해 → 강한 계절성(12개월 주기) 확인
-② ADF Test: p = 0.34 → 비정상
-③ 1차 차분 → ADF: p = 0.01 → 정상화
 
-[모델 선택]
-ACF, PACF 분석 → SARIMA(1,1,1)(1,1,1)₁₂
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터</div><div class="kb-diagram-note">3년간 월별 의류 판매량 (36 관측치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전처리</div></div>
+<div class="kb-diagram-note">① 시계열 분해 → 강한 계절성(12개월 주기) 확인</div>
+<div class="kb-diagram-note">② ADF Test: p = 0.34 → 비정상</div>
+<div class="kb-diagram-note">③ 1차 차분 → ADF: p = 0.01 → 정상화</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 선택</div></div>
+<div class="kb-diagram-note">ACF, PACF 분석 → SARIMA(1,1,1)(1,1,1)₁₂</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평가</div></div>
+<div class="kb-diagram-note">RMSE = 245, MAPE = 4.2% → 예측 오차 4.2%</div>
+<div class="kb-diagram-note">다음 6개월 재고 주문 계획 수립에 활용</div>
+</div>
+</div>
 
-[평가]
-RMSE = 245, MAPE = 4.2% → 예측 오차 4.2%
-다음 6개월 재고 주문 계획 수립에 활용
-```
+
 
 ### 4-2. Netflix Prize [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)
 
@@ -259,20 +271,23 @@ ARIMA와 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이동 평균 · 지수 평활법 (단순 예측)
-    │
-    ▼
-ARIMA(p,d,q): 자기회귀 + 차분 + 이동평균
-    ├─► 정상성 변환: ADF 검정 · 차분(d)
-    └─► SARIMA: 계절성 패턴 반영
-    │
-    ▼
-Prophet (Facebook) · DeepAR (Amazon) · Temporal Fusion Transformer
-    │
-    ▼
-협업 필터링: 사용자-아이템 행렬 → 추천 시스템
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이동 평균 · 지수 평활법 (단순 예측)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARIMA(p,d,q): 자기회귀 + 차분 + 이동평균</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정상성 변환: ADF 검정 · 차분(d)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SARIMA: 계절성 패턴 반영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Prophet (Facebook) · DeepAR (Amazon) · Temporal Fusion Transformer</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">협업 필터링: 사용자-아이템 행렬 → 추천 시스템</div>
+</div>
+</div>
+
+
 2. [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) 추천은 "나와 같은 책을 읽은 사람들이 다음에 읽은 책을 나에게 추천"하는 것으로, 직접 물어보지 않아도 취향을 알 수 있다.
 3. [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 문제는 "아직 아무 책도 읽지 않은 신규 회원에게 추천하기 어렵다"는 것이고, 이를 해결하려면 처음에 좋아하는 장르를 물어보는 방법을 쓴다.
 

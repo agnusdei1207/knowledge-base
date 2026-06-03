@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - **방치된 이유**: 이 거대한 행렬 덩어리를 1초에 수백 번씩 곱하고 더하려면 당시 1960년대의 진공관/[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 컴퓨터로는 1년을 돌려도 불가능했습니다. 결국 "수학적으론 완벽하지만 현실에선 쓸 수 없는 망상"으로 취급되어 버려졌습니다.
 - **부활 (1990년대 후반)**: CPU와 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 성능이 미친 듯이 발전하면서 학자들이 다시 논문을 꺼내 컴퓨터를 돌려봤더니, 최강이라 불리던 '[터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)'를 씹어먹는 샤논 한계의 끝판왕임이 증명되며 화려하게 부활했습니다.
 
-```text
-[터보 코드]
-    │
-    ▼
-[LDPC]
-    │
-    └──▶ [폴라 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴라 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LDPC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,16 +44,20 @@ tags = ["studynote-network"]
 
 - **Low Density (저밀도)**: 에러를 검사하기 위해 1만 행 $\times$ 1만 열짜리 거대한 검사 행렬(H)을 만듭니다. 그런데 이 표 안의 숫자가 99%는 다 `0`이고, `1`은 듬성듬성 아주 조금(저밀도)만 들어있습니다.
 - **패리티 방정식**: 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면 이 거대한 0 밭인 행렬과 곱하기를 합니다. `0`을 곱하면 다 사라지므로, 듬성듬성 있는 `1`들끼리만 연결된 수십 개의 '매우 단순한 방정식'이 튀어나옵니다.
-- **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 전파 (Belief Propagation)**: 이 수십 개의 단순한 방정식 노드들이 서로 선을 긋고 "나는 이게 에러 같아", "난 저게 에러 같아"라며 메시지([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 주고받습니다. 몇 번의 핑퐁(반복)을 거치면 거대한 1만 비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 어디가 깨졌는지 단번에 찾아내어 고칩니다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 전파 (Belief Propagation)</strong>: 이 수십 개의 단순한 방정식 노드들이 서로 선을 긋고 "나는 이게 에러 같아", "난 저게 에러 같아"라며 메시지([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 주고받습니다. 몇 번의 핑퐁(반복)을 거치면 거대한 1만 비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 어디가 깨졌는지 단번에 찾아내어 고칩니다.
 
-```text
-[터보 코드]
-    │
-    ▼
-[LDPC]
-    │
-    └──▶ [폴라 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴라 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LDPC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,12 +66,12 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 4G LTE를 지배했던 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)는 왜 5G에서 버려졌을까요?
-5G의 핵심 목표는 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 20Gbps)와 **[URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연, 1ms)**입니다.
+5G의 핵심 목표는 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/)([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 20Gbps)와 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>(초저지연, 1ms)</strong>입니다.
 
-- **[터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리의 한계)**: 두 개의 디코더가 번갈아 가며 한 놈이 끝날 때까지 멍하니 기다렸다가 쪽지를 주고받는 구조입니다. **계산이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)(순차적)이라 처리 속도를 높이는 데 태생적 한계([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생)**가 뚜렷했습니다. 
-- **LDPC ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 마법)**: 저밀도 행렬에서 파생된 수십 개의 방정식들은 서로 독립적입니다. 즉, **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 코어 수백 개를 때려 박아 수십 개의 방정식을 1초의 대기 시간도 없이 동시에([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로) 풀어버릴 수 있습니다.** 계산 속도가 빛의 속도(초저지연)로 빨라집니다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">터보 코드</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 처리의 한계)</strong>: 두 개의 디코더가 번갈아 가며 한 놈이 끝날 때까지 멍하니 기다렸다가 쪽지를 주고받는 구조입니다. <strong>계산이 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>(순차적)이라 처리 속도를 높이는 데 태생적 한계(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발생)</strong>가 뚜렷했습니다. 
+- <strong>LDPC (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리의 마법)</strong>: 저밀도 행렬에서 파생된 수십 개의 방정식들은 서로 독립적입니다. 즉, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 코어 수백 개를 때려 박아 수십 개의 방정식을 1초의 대기 시간도 없이 동시에(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로) 풀어버릴 수 있습니다.</strong> 계산 속도가 빛의 속도(초저지연)로 빨라집니다.
 
-이 압도적인 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해독(Decoding)' 능력 덕분에 LDPC는 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)를 밀어내고 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 이동통신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(사용자 영상/음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 표준 규격**으로 만장일치 채택되었습니다.
+이 압도적인 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 해독(Decoding)' 능력 덕분에 LDPC는 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)를 밀어내고 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 이동통신의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널(사용자 영상/음성 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>) 표준 규격</strong>으로 만장일치 채택되었습니다.
 
 LDPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)가 기반 조건을 만든다면, LDPC는 그 위에서 핵심 메커니즘을 구현하고, [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -73,7 +81,7 @@ LDPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)는 한 권의 어려운 퍼즐 책을 두 명의 천재가 **앞장부터 뒷장으로 번갈아 넘겨주며 푸는 방식([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/), 느림)**입니다. 반면 LDPC는 1만 피스짜리 거대한 직소 퍼즐을 넓은 운동장에 쫙 깔아놓고(저밀도 행렬), 수백 명의 알바생([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어)을 동시에 투입해 각자 자기 구역 퍼즐만 미친 듯이 맞춘 뒤, 마지막에 서로 테이프만 붙여버리는 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 조립 방식**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/">터보 코드</a>는 한 권의 어려운 퍼즐 책을 두 명의 천재가 </strong>앞장부터 뒷장으로 번갈아 넘겨주며 푸는 방식([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/), 느림)<strong>입니다. 반면 LDPC는 1만 피스짜리 거대한 직소 퍼즐을 넓은 운동장에 쫙 깔아놓고(저밀도 행렬), 수백 명의 알바생(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 코어)을 동시에 투입해 각자 자기 구역 퍼즐만 미친 듯이 맞춘 뒤, 마지막에 서로 테이프만 붙여버리는 </strong>[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 조립 방식**입니다.
 
 ---
 
@@ -115,15 +123,19 @@ LDPC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 터보 코드]
-    │
-    ▼
-[현재 개념: LDPC]
-    │
-    ├──▶ [확장 A: 폴라 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 터보 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LDPC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 폴라 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 LDPC는 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

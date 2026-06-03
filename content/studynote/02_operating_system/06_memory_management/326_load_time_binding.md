@@ -11,48 +11,47 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 '컴파일 시간 하드코딩'의 미련함을 깨닫고, 프로그램이 메모리에 진짜로 띄워질(Load) 때 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 메모리 텅 빈 곳을 스캔해서 "이번엔 5000번지부터 써라"고 던져주면, 빌드 시 짜둔 상대 주소표(+Offset)에 5000을 쫙 더해서 안착시키는 이사(Relocate) 기법**이다.
-> 2. **가치**: 이 기법 덕분에 개발자들이 다 같이 "난 1000번지, 넌 200번지!" 싸울 필요 없이 0번지 기준 상대 주소로 코드를 짤 수 있게 되어, **드디어 여러 프로그램(메모장+그림판)을 충돌 없이 램(RAM) 여기저기 빈 구석에 동시에 우겨 넣는 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)의 문이 열렸다.**
-> 3. **융합**: 이렇게 만들어져 이사가 자유로운 목적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 **재배치 가능 코드 (Relocatable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**라 부르지만, 한 번 5000번지에 짐(Load)을 풀면 무덤에 들어갈 때([프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/))까지 절대 다시는 주소를 못 옮긴다는 단단한 경직성을 지닌 과도기적 산물이다.
+> 1. **본질**: 앞선 '컴파일 시간 하드코딩'의 미련함을 깨닫고, 프로그램이 메모리에 진짜로 띄워질(Load) 때 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(OS)가 메모리 텅 빈 곳을 스캔해서 "이번엔 5000번지부터 써라"고 던져주면, 빌드 시 짜둔 상대 주소표(+Offset)에 5000을 쫙 더해서 안착시키는 이사(Relocate) 기법</strong>이다.
+> 2. **가치**: 이 기법 덕분에 개발자들이 다 같이 "난 1000번지, 넌 200번지!" 싸울 필요 없이 0번지 기준 상대 주소로 코드를 짤 수 있게 되어, <strong>드디어 여러 프로그램(메모장+그림판)을 충돌 없이 램(RAM) 여기저기 빈 구석에 동시에 우겨 넣는 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a>의 문이 열렸다.</strong>
+> 3. **융합**: 이렇게 만들어져 이사가 자유로운 목적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 <strong>재배치 가능 코드 (Relocatable <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>라 부르지만, 한 번 5000번지에 짐(Load)을 풀면 무덤에 들어갈 때([프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/))까지 절대 다시는 주소를 못 옮긴다는 단단한 경직성을 지닌 과도기적 산물이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 절대 주소를 고집하던 1단계 컴파일 바인딩 탓에 윈도우 창 2개를 못 띄워 화가 난 프로그래머들.
-그들은 기가 막힌 아이디어를 냈다. "야, 컴파일러가 코드를 기계어로 짤 때 진짜 구멍 번호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))를 박지 말고, **'기준점 + 몇 번째 칸' (상대 주소, Relative Address)**으로만 코딩해 두자."
+그들은 기가 막힌 아이디어를 냈다. "야, 컴파일러가 코드를 기계어로 짤 때 진짜 구멍 번호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))를 박지 말고, <strong>'기준점 + 몇 번째 칸' (상대 주소, Relative Address)</strong>으로만 코딩해 두자."
 
 예를 들어, "HP 물약 변수는 기준점으로부터 +100칸, 몬스터 공격 함수는 기준점으로부터 +500칸" 이렇게 가짜 기준점(0번지)으로 찍어둔 거다(`.obj`).
 그리고 사용자가 아이콘을 딱 더블클릭해서 하드디스크의 프로그램(`exe`)을 램(RAM)으로 끌어올릴 때(**적재, Load 순간**)!
 OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준점 방금부터 7000번지 줘! 그럼 HP 물약은 7100번지! 공격 함수는 7500번지에 쓰여진다."
 
-이것이 **적재 시간 바인딩 (Load Time Binding)**이다. 
+이것이 <strong>적재 시간 바인딩 (Load Time Binding)</strong>이다. 
 메모리 충돌 공포에서 인류를 구원한, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 적재 시점(Loader)의 일괄 치환(Patch) 계산 마법이다.
 
 **💡 비유**: 당신이 캠핑장에 전화했다. "나 텐트 + 의자 100cm 거리, 텐트 + 화로 500cm 거리에 세팅할 건데 설계도는 짜놨어(컴파일 완료-재배치 코드)." 캠핑장에 도착(메모리 적재)하니 사장님이 "어이쿠 A구역은 다 찼고 B구역 70번 구석 비었으니 거기 치쇼!" 라고 한다. 당신은 70번 자리(기준 주소)를 베이스로 아까 짠 설계도 거리만큼 정확히 짐을 푼다. 자리싸움이 전혀 벌어지지 않는다!
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         적재 시간 바인딩: 링커(Linker)와 로더(Loader)의 합작    │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ 컴파일 시점 (Compile Time) ]                                 │
-│  개발자 소스코드: "HP 변수는 그냥 내 방(0번지기준) + 120번칸!"  │
-│                                                                 │
-│  컴파일러: "ㅇㅋ. 결과 파일(`재배치_가능_코드.obj`) 생성.       │
-│            진짜 위치는 난 몰라. 이건 로더 형님이 나중에 알아서  │
-│            기준점 더해 줄 상대(Relative) 거리표임."             │
-│                                                                 │
-│  [ 적재 시점 (Load Time) - 더블클릭하는 순간! ]                 │
-│  OS 로더(Loader): "디스크의 exe를 램(RAM)에 퍼올리자 영차!      │
-│            음~ 지금 램 10만 번지부터 텅텅 비었네? 럭키비키!     │
-│            아까 너네 파일 적힌 +120 표에 10만을 싹 다 더해줄게! │
-│            ▶ 촤라락! HP 변수 = 100,120번지로 물리 주소 확정!"   │
-│                                                                 │
-│  ▶ 한 번 더블 클릭 때마다 빈 곳 찾아서 박아주니 앱 여러 개 동시 │
-│     구동 충돌률 0% 달성 (멀티태스킹 혁명)                       │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적재 시간 바인딩: 링커(Linker)와 로더(Loader)의 합작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴파일 시점 (Compile Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 소스코드: "HP 변수는 그냥 내 방(0번지기준) + 120번칸!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일러: "ㅇㅋ. 결과 파일(<code>재배치_가능_코드.obj</code>) 생성.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 위치는 난 몰라. 이건 로더 형님이 나중에 알아서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준점 더해 줄 상대(Relative) 거리표임."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">적재 시점 (Load Time) - 더블클릭하는 순간!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 로더(Loader): "디스크의 exe를 램(RAM)에 퍼올리자 영차!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음~ 지금 램 10만 번지부터 텅텅 비었네? 럭키비키!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아까 너네 파일 적힌 +120 표에 10만을 싹 다 더해줄게!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 촤라락! HP 변수 = 100,120번지로 물리 주소 확정!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 한 번 더블 클릭 때마다 빈 곳 찾아서 박아주니 앱 여러 개 동시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구동 충돌률 0% 달성 (멀티태스킹 혁명)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 이 방식은 이사 갈 때 "나는 문에서 세 발짝에 침대 둔다(재배치 코드 상대 주소)"라는 원칙만 가지면, 강남 빌라든 부산 아파트든 어디로 발령(Load) 나도 똑같이 적응해서 예쁘게 살아남는 훌륭한 생존 유연성 탑재형 기법입니다.
 
@@ -62,10 +61,10 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 
 ### 재배치 가능 코드 (Relocatable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 한계
 
-적재 시간 바인딩이 낳은 자식의 이름이 `재배치 가능 코드(Relocatable Code)`다. 하지만 이름에 속지 마라. 이사 갈 수 있는 건 **"처음 한방(첫 입주)"**뿐이다.
+적재 시간 바인딩이 낳은 자식의 이름이 `재배치 가능 코드(Relocatable Code)`다. 하지만 이름에 속지 마라. 이사 갈 수 있는 건 <strong>"처음 한방(첫 입주)"</strong>뿐이다.
 
 1. **지독한 입주 후 박제 (Load-Time Fixup)**: 로더가 디스크에서 메모리로 올리는 순간 0.1초 동안 덧셈 연산을 싹 다 해서 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(10만 번지)로 값을 완전히 교체(Over-write)해 버린다. 즉, 실행이 땅! 시작되면 그 주소는 돌이킬 수 없는 절대 주소로 박제된다.
-2. **동적 이사 불가 ([스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 지옥)**: 사용자가 카톡을 오랫동안 안 써서 메모리 용량 부족으로 카톡을 디스크([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/))로 쫓아냈다. 1시간 뒤 카톡 창을 다시 켰다(Swap In). 그러면 OS는 원래 카톡이 있던 옛날 고향 방(10만 번지)을 찾아야 하는데 그 자리에 이미 '롤(LoL)' 게임이 깔려있네? **▶ 크래쉬! 한 번 적재된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 다른 빈 주소 번지로 이사를 다시 못 하기 때문에 여기서 재적재 에러가 뻥 터진다.**
+2. <strong>동적 이사 불가 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 지옥)</strong>: 사용자가 카톡을 오랫동안 안 써서 메모리 용량 부족으로 카톡을 디스크([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/))로 쫓아냈다. 1시간 뒤 카톡 창을 다시 켰다(Swap In). 그러면 OS는 원래 카톡이 있던 옛날 고향 방(10만 번지)을 찾아야 하는데 그 자리에 이미 '롤(LoL)' 게임이 깔려있네? <strong>▶ 크래쉬! 한 번 적재된 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>은 다른 빈 주소 번지로 이사를 다시 못 하기 때문에 여기서 재적재 에러가 뻥 터진다.</strong>
 
 **📢 섹션 요약 비유**: 2단계 바인딩은 '입주 전'에는 남극이든 북극이든 어디든 갈 수 있지만, 일단 그 빈 땅에 "시멘트(물리주소 치환)"를 발라 집을 지어(실행 시작) 버리면, 평생 지진이 와도 다른 자리로 이사를 나갈 수가 없는(동적 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 불가) 저주받은 재배치 불능의 구멍을 안고 있습니다.
 
@@ -74,10 +73,10 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 ## Ⅲ. 비교 및 연결
 
 **실무 시나리오**:
-1. **정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Static [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 링킹)**: C++에서 `.lib`나 `.a` 코드를 짰는데 이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 내 프로그램(exe) 덩어리 안으로 몸을 비비고 들어와(Load/Link) 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 돼야 할 때, 그 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속 빈 구석을 찾아 주소를 덧대어 주는 방식(Relocation Table)이 적재 시간 바인딩의 우수한 실전 메커니즘이다.
-2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 윈도우(Windows 3.x) 리얼 모드 코딩**: MMU라는 신기능 칩이 비싸서 개나 소나 못 사던 시절에는 소프트웨어 로더(Loader)가 이 덧셈 노가다를 적재할 때 다 짊어졌다. 덕분에 돈(하드웨어) 안 들이고 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 흉내는 냈지만, 램이 조금이라도 조각난 틈새([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 생기면 통째로 이사를 못 해서 블루스크린 단골이 되었다. 
+1. <strong>정적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> (Static <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a> 링킹)</strong>: C++에서 `.lib`나 `.a` 코드를 짰는데 이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 내 프로그램(exe) 덩어리 안으로 몸을 비비고 들어와(Load/Link) 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 돼야 할 때, 그 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속 빈 구석을 찾아 주소를 덧대어 주는 방식(Relocation Table)이 적재 시간 바인딩의 우수한 실전 메커니즘이다.
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 윈도우(Windows 3.x) 리얼 모드 코딩</strong>: MMU라는 신기능 칩이 비싸서 개나 소나 못 사던 시절에는 소프트웨어 로더(Loader)가 이 덧셈 노가다를 적재할 때 다 짊어졌다. 덕분에 돈(하드웨어) 안 들이고 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 흉내는 냈지만, 램이 조금이라도 조각난 틈새([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 생기면 통째로 이사를 못 해서 블루스크린 단골이 되었다. 
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **재적재(Re-load) 메모리 최적화 포기**: 서버 프로그래머가 24시간 도는 데몬을 짰는데, 사용량이 적을 땐 디스크 스왑방으로 이사 보내고 트래픽 몰릴 때 남는 가용 램에 재배치시키고 싶다(현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기법). 그런데 Load Time Binding 체제로 빌드된 코드는 이게 불가능해서(옛날 고향 빈 땅 아니면 복귀 안 됨), 램 하나로 서버 증설 없이 트래픽 우겨 넣기를 아예 설계조차 시도할 수 없다. 
 
 **📢 섹션 요약 비유**: 세를 든 상인(프로그램)이 장사가 안돼서 보증금을 빼서 시골(가상 디스크)로 내려갔다가, 장사 잘 될 즈음 서울로 복귀하려는데 굳이 자기가 예전에 쓰던 "서초동 10-1번지 옛 호수(과거 적재 주소)" 아니면 장사 안 하겠다고 땡깡을 부리다 망해버리는 답답한 장사꾼의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다.
@@ -89,10 +88,10 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 | 기준 | 1단계 ([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/)) 절대 고정 | 2단계 (Load Time) 적재 재배치 |
 |:---|:---|:---|
 | [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) | 동시 구동 앱 1개 한계 (충돌) | 램 여유만큼 여러 앱 동시 구동! (진화) |
-| 주소 연산 시점 | 없음. 그냥 날림. (하드웨어 프리) | **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 더블 클릭해서 로딩될 때 OS가 연산 폭격 (조금 느린 로딩속도)** |
-| 램(RAM) 압박 도래 | 메모리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생 시 해결 불가 (이사 못 함) | **여전히 디프래그 이동/[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 불가 (여전히 메모리 터짐 ㅠ)** |
+| 주소 연산 시점 | 없음. 그냥 날림. (하드웨어 프리) | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 더블 클릭해서 로딩될 때 OS가 연산 폭격 (조금 느린 로딩속도)</strong> |
+| 램(RAM) 압박 도래 | 메모리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생 시 해결 불가 (이사 못 함) | <strong>여전히 디프래그 이동/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 불가 (여전히 메모리 터짐 ㅠ)</strong> |
 
-`적재 시간 바인딩 (Load Time Binding)`은 마침내 소프트웨어가 하드웨어의 특정 메모리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))에 묶여있던 족쇄를 시워하게 끊어버린 **[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 1차 혁명**이다. 개발자는 미지의 세계(0번지 상대 주소)를 상상하며 코딩하고, OS의 로더(Loader)가 알아서 땅바닥 빈 곳을 뒤져 그 상상과 현실을 꿰매주는 `재배치 파일(Relocatable File)`을 탄생시켰다.
+`적재 시간 바인딩 (Load Time Binding)`은 마침내 소프트웨어가 하드웨어의 특정 메모리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))에 묶여있던 족쇄를 시워하게 끊어버린 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>) 1차 혁명</strong>이다. 개발자는 미지의 세계(0번지 상대 주소)를 상상하며 코딩하고, OS의 로더(Loader)가 알아서 땅바닥 빈 곳을 뒤져 그 상상과 현실을 꿰매주는 `재배치 파일(Relocatable File)`을 탄생시켰다.
 하지만 메모리 빈 공간 부족으로 앱을 이리 빼고 저리 빼는 퍼즐 놀이([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))가 대세가 된 극한의 현대 트래픽 세상에서는, '단 한 번의 이사'만 허락된 그 경직성 탓에 곧바로 비싼 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 부품에게 시대의 주도권을 넘겨주는 불운의 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 기술로 남았다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -118,15 +117,19 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[컴파일 시간 바인딩 (Compile Time)]
-    │
-    ▼
-[적재 시간 바인딩 (Load Time)]
-    │
-    ├──▶ [실행 시간 바인딩 (Execution Time)]
-    └──▶ [MMU (Memory-Management Unit)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">적재 시간 바인딩 (Load Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실행 시간 바인딩 (Execution Time)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU (Memory-Management Unit)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

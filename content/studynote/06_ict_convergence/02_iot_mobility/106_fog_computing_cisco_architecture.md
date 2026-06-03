@@ -33,30 +33,30 @@ tags = ["ict_convergence"]
 | 계층 | 주요 장비 | 핵심 역할 (기능) | 처리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | :--- | :--- | :--- | :--- |
 | **디바이스 (Edge)** | 스마트 가로등, 온도 센서, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 및 물리적 환경 제어 | 로우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
-| **포그 층 (Fog Node)** | 라우터, 게이트웨이, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 셋톱박스 | **실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터링, 로컬 제어, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)** | 시간 민감형 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| **포그 층 (Fog Node)** | 라우터, 게이트웨이, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 셋톱박스 | <strong>실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 필터링, 로컬 제어, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong> | 시간 민감형 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **클라우드 (Cloud)** | AWS, Azure 등 대형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 | 장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장, 딥러닝, 글로벌 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립 | 정제된 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 빅데이터 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             포그 컴퓨팅의 3계층 데이터 처리 흐름               │
-├──────────────────────────────────────────────────────────────┤
-│  [ 클라우드 층 (Cloud Layer) ]                               │
-│  - 글로벌 분석, 딥러닝 훈련 (응답속도: 수 초 ~ 일 단위)      │
-│          ▲ (필터링된 알짜 데이터만 전송)                      │
-│          │                                                   │
-│ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ WAN / 코어 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─  │
-│          ▼ (정책 및 모델 업데이트)                            │
-│  [ 포그 층 (Fog Layer) ] ★ 핵심                             │
-│  - 동네 라우터, 스마트 게이트웨이                             │
-│  - 즉각적 제어, 쓰레기 데이터 폐기 (응답속도: ms 단위)         │
-│          ▲ (초당 수천 개의 로우 데이터 쏟아짐)                │
-│          │                                                   │
-│ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ LAN / 무선 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─  │
-│          │                                                   │
-│  [ 디바이스 층 (Edge Devices) ]                              │
-│  - CCTV 센서, 로봇 팔, 스마트 워치                           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포그 컴퓨팅의 3계층 데이터 처리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 층 (Cloud Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 글로벌 분석, 딥러닝 훈련 (응답속도: 수 초 ~ 일 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (필터링된 알짜 데이터만 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ WAN / 코어 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (정책 및 모델 업데이트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포그 층 (Fog Layer)</div><div class="kb-diagram-note">★ 핵심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동네 라우터, 스마트 게이트웨이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 즉각적 제어, 쓰레기 데이터 폐기 (응답속도: ms 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (초당 수천 개의 로우 데이터 쏟아짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ LAN / 무선 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 층 (Edge Devices)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CCTV 센서, 로봇 팔, 스마트 워치</div></div>
+</div>
+</div>
+
+
 
 포그 노드는 통신망 기지국이나 사내 라우터 등 인프라 장비에 소규모 서버급 연산 능력을 탑재하여, 의미 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: "온도 변화 없음")는 즉시 폐기하고 중요 이벤트만 클라우드로 넘겨 트래픽 다이어트를 수행한다.
 
@@ -70,11 +70,11 @@ tags = ["ict_convergence"]
 
 | 구분 | 위치 중심 | 컴퓨팅 파워 | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감 |
 | :--- | :--- | :--- | :--- | :--- |
-| **[클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)** | 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 | 무한대 (가장 높음) | 100ms 이상 (가장 긺) | 없음 (모든 트래픽 발생) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a></strong> | 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 | 무한대 (가장 높음) | 100ms 이상 (가장 긺) | 없음 (모든 트래픽 발생) |
 | **포그 컴퓨팅** | 근거리 인프라 (라우터 등) | 중간 (서버/PC급) | 수 ms (빠름) | 높음 (게이트웨이 단에서 필터링) |
-| **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)** | 종단 기기 자체 (센서 칩 내부) | 낮음 (모바일 칩셋급) | < 1ms (초저지연) | 극도로 높음 (자체 처리 후 폐기) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a></strong> | 종단 기기 자체 (센서 칩 내부) | 낮음 (모바일 칩셋급) | < 1ms (초저지연) | 극도로 높음 (자체 처리 후 폐기) |
 
-- **포그 vs 엣지**: 실무적으로 혼용되기도 하나, 엄밀히 말해 **엣지**는 자율주행차 본체 내부에 달린 칩셋에서 연산하는 것이고, **포그**는 그 도로변에 서 있는 신호등(게이트웨이)들이 모여 통신과 연산을 분담하는 인프라 관점이다.
+- **포그 vs 엣지**: 실무적으로 혼용되기도 하나, 엄밀히 말해 <strong>엣지</strong>는 자율주행차 본체 내부에 달린 칩셋에서 연산하는 것이고, <strong>포그</strong>는 그 도로변에 서 있는 신호등(게이트웨이)들이 모여 통신과 연산을 분담하는 인프라 관점이다.
 
 - **📢 섹션 요약 비유**: 클라우드가 중앙 정부, 포그 컴퓨팅이 지방 자치 단체(도/시청)라면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 시민 개개인이 직접 판단하고 행동하는 자가 방범대다. 지방 자치 단체(포그)가 있어야 개별 시민(엣지)과 중앙 정부(클라우드) 사이의 행정 마비(트래픽 병목)가 발생하지 않는다.
 
@@ -85,8 +85,8 @@ tags = ["ict_convergence"]
 포그 컴퓨팅 설계 시, 아키텍트는 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포그에 남기고 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드로 보낼 것인가"를 엄격히 분리해야 한다.
 
 ### 1. 실무 도입 판단 기준 (채택 시나리오)
-- **수천 대의 CCTV를 운영하는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/)**: 모든 영상을 클라우드로 보내면 통신비가 감당 불가. 포그 노드(가로등 라우터)에서 번호판이나 사람 얼굴만 인식해 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 클라우드로 전송.
-- **수 밀리초의 제어가 필요한 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)**: 로봇 팔이 멈추는 긴급 정지 판단은 클라우드 통신을 기다리면 이미 사고가 발생하므로 포그 게이트웨이에서 즉각 명령 하달.
+- <strong>수천 대의 CCTV를 운영하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a></strong>: 모든 영상을 클라우드로 보내면 통신비가 감당 불가. 포그 노드(가로등 라우터)에서 번호판이나 사람 얼굴만 인식해 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 클라우드로 전송.
+- <strong>수 밀리초의 제어가 필요한 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a></strong>: 로봇 팔이 멈추는 긴급 정지 판단은 클라우드 통신을 기다리면 이미 사고가 발생하므로 포그 게이트웨이에서 즉각 명령 하달.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 포그 노드 장비에 대해 물리적/논리적 보안 방어를 누락하는 것. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 라우터는 해커가 물리적으로 접근하기 가장 쉬운 타겟이다.
@@ -116,21 +116,23 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-중앙 집중형 클라우드 컴퓨팅 (Cloud)
-    │
-    ▼
-모바일 통신 및 트래픽 폭증 · 지연(Latency) 한계 직면
-    │
-    ▼
-포그 컴퓨팅 (Fog Computing) · 인프라/게이트웨이 단의 분산 처리
-    │
-    ▼
-엣지 컴퓨팅 (Edge Computing) · 단말 기기 자체의 지능화 (AIoT)
-    │
-    ▼
-클라우드-포그-엣지 협력 아키텍처 (Hybrid Distributed Architecture)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중앙 집중형 클라우드 컴퓨팅 (Cloud)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모바일 통신 및 트래픽 폭증 · 지연(Latency) 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포그 컴퓨팅 (Fog Computing) · 인프라/게이트웨이 단의 분산 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) · 단말 기기 자체의 지능화 (AIoT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드-포그-엣지 협력 아키텍처 (Hybrid Distributed Architecture)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

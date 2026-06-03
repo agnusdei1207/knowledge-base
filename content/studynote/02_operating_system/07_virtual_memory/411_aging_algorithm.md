@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 에이징([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 나이 먹기)은 단 1비트의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로 판단하는 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 변별력 한계와, 과거에 얽매이는 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 알박기 문제를 동시에 해결하기 위해 **'시간의 흐름에 따라 과거의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 기록을 절반씩 깎아내리는(Right Shift) 소프트웨어적 쇠퇴 연산'**이다.
+> 1. **본질**: 에이징([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 나이 먹기)은 단 1비트의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로 판단하는 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 변별력 한계와, 과거에 얽매이는 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 알박기 문제를 동시에 해결하기 위해 <strong>'시간의 흐름에 따라 과거의 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 기록을 절반씩 깎아내리는(Right Shift) 소프트웨어적 쇠퇴 연산'</strong>이다.
 > 2. **가치**: 하드웨어가 비싼 타임스탬프를 달아주지 않아도, OS가 8비트 정수(Integer) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나만 가지고 **"최근에 쓰인 빈도"와 "최근 사용 여부" 두 가지를 기가 막히게 혼합하여 순수 LRU에 99% 근접하는 정확도를 $O(1)$에 가까운 속도로 달성**한다.
-> 3. **융합**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count)의 가장 큰 적폐인 '과거의 망령(과거에 많이 불렸던 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 주기적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 시프트 연산을 통해 강제로 0으로 수렴하게 만듦으로써, **캐시 생태계를 항상 최신 유행([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 상태로 유지하는 자정 메커니즘**이다.
+> 3. **융합**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count)의 가장 큰 적폐인 '과거의 망령(과거에 많이 불렸던 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 주기적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 시프트 연산을 통해 강제로 0으로 수렴하게 만듦으로써, <strong>캐시 생태계를 항상 최신 유행(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 상태로 유지하는 자정 메커니즘</strong>이다.
 
 ---
 
@@ -22,35 +22,34 @@ tags = ["studynote-operating-system"]
 - **개념**: 에이징은 1비트 근사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 확장한 개념이다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 8비트(1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))짜리 상태 변수(History)를 두고, 정해진 시간(예: 0.1초)마다 하드웨어의 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R)' 값을 히스토리 변수의 맨 앞자리에 끼워 넣은 뒤, 나머지 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 오른쪽으로 한 칸씩 밀어버리는(Shift Right) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 - **필요성**: 1비트짜리 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 극단적이다. 어제 100만 번 불렸던 핵심 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)라도 오늘 0.1초 동안 안 불려서 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이 되는 순간, 어제 1번 불린 쓰레기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(얘도 오늘 안 불려서 R=0)와 똑같은 취급을 받으며 운 나쁘면 스왑으로 내쫓긴다(변별력 부재). 반대로 빈도수([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))만 믿고 가면 과거에 100만 번 불린 쓰레기가 평생 램을 알박기한다. "최근에 많이 쓰인 놈을 가려내면서도, 과거의 기록을 적당히(서서히 잊어버리게) 반영할 수 없을까?"라는 딜레마를 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 시프트([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Shift)'라는 수학적 마법으로 풀어냈다.
 
-- **등장 배경 및 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화**:
-  1. **[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 억울함**: R=0 인 애들이 수십만 개 쌓였을 때, 그중 진짜 버려야 할 놈을 골라낼 능력이 없어 무작위 처형을 감행함.
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 진화</strong>:
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 억울함</strong>: R=0 인 애들이 수십만 개 쌓였을 때, 그중 진짜 버려야 할 놈을 골라낼 능력이 없어 무작위 처형을 감행함.
   2. **하드웨어의 한계**: 여전히 하드웨어는 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개만 지원함. 시계를 달아주지 않음.
   3. **OS 소프트웨어의 꼼수**: OS가 램 구석에 8비트 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들어놓고, 매 타이머 인터럽트마다 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 차곡차곡 수집하여 스스로 작은 시계(History)를 만들어냄.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화        │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음 ]      │
-│ (※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)       │
-│                                                                    │
-│ ▶ 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)              │
-│   T=1 (R=0) : 00000000 (0)                                         │
-│   T=2 (R=1) : 10000000 (128)                                       │
-│   T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)                  │
-│                                                                    │
-│ ▶ 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)                 │
-│   T=1 (R=1) : 10000000 (128)                                       │
-│   T=2 (R=0) : 01000000 (64)  (과거 기록이 반토막 깎임)             │
-│   T=3 (R=0) : 00100000 (32)  🐢 (점수 계속 추락 중)                │
-│                                                                    │
-│ ✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)                        │
-│ "A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"       │
-│ (과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함) │
-└────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 이 8비트 정수의 크기 대소 비교는 경이로울 정도로 정확하게 **"최근성([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))"과 "빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))"를 동시에 대변**한다. 맨 왼쪽 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))에 가장 최근 기록이 꽂히기 때문에, 어제 7번 불린 놈(`01111111`, 127점)보다 방금 1번 불린 놈(`10000000`, 128점)이 더 점수가 높다. 철저하게 LRU의 원칙을 따르면서도, 만약 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 똑같다면 그 뒤의 과거 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))로 동점자를 가르는 완벽한 타협의 기술이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1 (R=0) : 00000000 (0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2 (R=1) : 10000000 (128)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1 (R=1) : 10000000 (128)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2 (R=0) : 01000000 (64) (과거 기록이 반토막 깎임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=3 (R=0) : 00100000 (32) 🐢 (점수 계속 추락 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함)</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 이 8비트 정수의 크기 대소 비교는 경이로울 정도로 정확하게 <strong>"최근성(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)"과 "빈도(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a>)"를 동시에 대변</strong>한다. 맨 왼쪽 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))에 가장 최근 기록이 꽂히기 때문에, 어제 7번 불린 놈(`01111111`, 127점)보다 방금 1번 불린 놈(`10000000`, 128점)이 더 점수가 높다. 철저하게 LRU의 원칙을 따르면서도, 만약 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 똑같다면 그 뒤의 과거 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))로 동점자를 가르는 완벽한 타협의 기술이다.
 
 - **📢 섹션 요약 비유**: 최근 8일간의 일기를 쓰되, 어제 한 일은 100점, 그저께 한 일은 50점, 8일 전 일은 1점으로 쳐주는 점수판입니다. 8일 내내 공부한 놈이 제일 점수가 높지만, 일주일 내내 놀다가 어제 하루 벼락치기 한 놈(100점)이, 일주일 내내 공부하다 어제 하루 쉰 놈(99점)을 이기게 만드는 철저한 '현재 중심주의' 평가입니다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-operating-system"]
 
 ### 완벽한 LRU와의 미세한 갭 (Granularity Problem)
 
-에이징은 LRU에 99% 근접하지만 100% 똑같지는 않다. **해상도(Granularity)**의 한계 때문이다.
+에이징은 LRU에 99% 근접하지만 100% 똑같지는 않다. <strong>해상도(Granularity)</strong>의 한계 때문이다.
 - OS가 타이머를 0.1초마다 돌린다고 치자.
 - 0.01초에 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) A가 불렸고, 0.09초에 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) B가 불렸다.
 - 완벽한 LRU는 "B가 더 최근에 불렸으니 B가 이긴다"라고 판단한다.
@@ -89,26 +88,29 @@ tags = ["studynote-operating-system"]
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 정보의 크기 | 변별력 (동점자 처리) | 오버헤드 |
 |:---|:---|:---|:---|
-| **[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (2차 기회)**| **1 [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)** (0 아니면 1) | 최악 (램의 절반이 0이라 무작위 처형 됨) | **가장 가벼움** (1번 깎으면 끝) |
-| **[Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) (에이징)** | **8 [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) ~ 32 [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)** | 최고 (256단계 ~ 42억 단계로 세밀하게 순위 매김) | **약간 무거움** (수백만 개를 계속 Shift 연산) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> (2차 기회)</strong>| <strong>1 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a></strong> (0 아니면 1) | 최악 (램의 절반이 0이라 무작위 처형 됨) | **가장 가벼움** (1번 깎으면 끝) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a> (에이징)</strong> | <strong>8 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> ~ 32 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a></strong> | 최고 (256단계 ~ 42억 단계로 세밀하게 순위 매김) | **약간 무거움** (수백만 개를 계속 Shift 연산) |
 
 ### [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))의 진정한 부활
 
 앞 장에서 "LFU는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 알박기 때문에 죽은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다"라고 배웠다. 
-그런데 실무나 논문에서 "[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 교체를 썼다"고 말하면, 십중팔구 쌩 LFU가 아니라 이 **'에이징이 결합된 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)-[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 또는 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) with Decay)'**를 뜻한다.
+그런데 실무나 논문에서 "[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 교체를 썼다"고 말하면, 십중팔구 쌩 LFU가 아니라 이 <strong>'에이징이 결합된 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>-<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 또는 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> with Decay)'</strong>를 뜻한다.
 - 에이징 덕분에 과거 1만 번의 조회수는 시간이 지나며 나누기 2가 수십 번 반복되어 0으로 증발한다.
 - 알박기(망령)가 사라지니, LFU의 진짜 장점인 "오랫동안 꾸준히 사랑받은 스테디셀러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"의 진가가 폭발한다. 
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼나 웹서버 캐시가 가장 사랑하는 마법의 레시피가 바로 이 `LFU + Aging`의 결합이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────┐
-│ 평가 지표  │ 순수 LFU    │ 1비트 Clock │ Aging 기법         │
-├──────────┼────────────┼────────────┼────────────────────────┤
-│ 과거 망령  │ ☠️ 알박기 됨 │ 🟢 바로 지움 │ 🟢 서서히 지움   │
-│ 빈도 반영  │ 🟢 완벽 반영 │ ❌ 무시함    │ 🟡 최근 빈도 반영│
-│ 하드웨어 짐│ 무거움      │ 제일 가벼움   │ 적당함 (SW 연산) │
-└──────────┴────────────┴────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">순수 LFU</div><div class="kb-diagram-cell">1비트 Clock</div><div class="kb-diagram-cell">Aging 기법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 망령</div><div class="kb-diagram-cell">☠️ 알박기 됨</div><div class="kb-diagram-cell">🟢 바로 지움</div><div class="kb-diagram-cell">🟢 서서히 지움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈도 반영</div><div class="kb-diagram-cell">🟢 완벽 반영</div><div class="kb-diagram-cell">❌ 무시함</div><div class="kb-diagram-cell">🟡 최근 빈도 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 짐</div><div class="kb-diagram-cell">무거움</div><div class="kb-diagram-cell">제일 가벼움</div><div class="kb-diagram-cell">적당함 (SW 연산)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 에이징은 시간([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))과 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 사이의 가장 완벽한 중재자다. 시간이 지나면 잊어버리지만, 아주 빠르게 잊진 않고 최근 8턴 동안의 누적된 애정(빈도)은 점수로 쳐준다. 양쪽의 장점을 모두 취한 궁극의 밸런스형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 - **📢 섹션 요약 비유**: 순수 LFU가 '10년 전 첫사랑을 평생 못 잊는 집착남'이고, 1비트 클럭이 '어제 만난 사람만 사랑하고 다 까먹는 금사빠'라면, 에이징은 '최근 몇 달 동안 꾸준히 만난 사람에게 가장 큰 점수를 주는 성숙한 어른'의 연애 방식입니다.
@@ -121,7 +123,7 @@ tags = ["studynote-operating-system"]
 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 4.0에서 캐시 오염을 막기 위해 전격 도입된 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 내부적으로 이 에이징 기법을 완벽하게 구현하고 있다.
 1. **문제의 발단**: Redis에 `allkeys-lfu` (조회수가 가장 적은 키부터 삭제) 옵션을 켰더니, 예전에 유행했던 키워드가 카운트가 높아 평생 삭제 안 되는 고인물 현상이 발생했다.
 2. **Decay(에이징)의 적용**:
-   - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 엔지니어는 `redis.conf`에 **`lfu-decay-time 1`** 이라는 옵션을 추가했다.
+   - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 엔지니어는 `redis.conf`에 <strong><code>lfu-decay-time 1</code></strong> 이라는 옵션을 추가했다.
    - 번역: "1분이 지날 때마다 메모리에 있는 모든 키의 카운트(조회수)를 1씩(또는 절반으로) 강제로 깎아내려라!"
 3. **튜닝의 예술**:
    - 이 값이 `1`이면 과거의 영광이 빨리 식어서 트렌드 변화에 민감해지고(LRU에 가까워짐),
@@ -143,7 +145,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **변별력(Resolution)의 극대화**| 수십만 개의 0점짜리 찌꺼기 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들 사이에서, 0~255점의 세밀한 랭킹을 매겨 가장 확실한 쓰레기를 사살 |
-| **[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 철학의 실무 안착** | 알박기라는 치명적 버그로 사장될 뻔한 빈도(Frequency) 기반 캐싱을 현대 시스템에 구원시킨 1등 공신 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 철학의 실무 안착</strong> | 알박기라는 치명적 버그로 사장될 뻔한 빈도(Frequency) 기반 캐싱을 현대 시스템에 구원시킨 1등 공신 |
 | **하드웨어 제약 극복** | 비싼 시계 칩셋이나 덧셈기 없이, 가장 싼 1비트 센서(R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))와 CPU의 Shift 연산만으로 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 완벽 모방 |
 
 ### 결론 및 미래 전망
@@ -165,15 +167,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[MFU (Most Frequently Used) 알고리즘]
-    │
-    ▼
-[에이징 (Aging) 기반 페이지 교체 로직]
-    │
-    ├──▶ [스래싱 (Thrashing)]
-    └──▶ [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MFU (Most Frequently Used) 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에이징 (Aging) 기반 페이지 교체 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

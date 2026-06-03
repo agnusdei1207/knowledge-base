@@ -23,25 +23,27 @@ tags = ["studynote-bigdata"]
 
 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 "왜 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 느린가?"를 파악하려면 3가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 필요하다:
 
-```
-관측성 3대 기둥:
-┌──────────────────────────────────────────────────────┐
-│  1. 메트릭 (Metrics)                                 │
-│     - CPU, 메모리, 요청 수, 응답 시간, 오류율         │
-│     - 시계열 데이터 (시간 + 숫자값)                   │
-│     - "무슨 일이 일어나고 있나?" → 양적 측정           │
-│                                                      │
-│  2. 로그 (Logs)                                      │
-│     - 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)    │
-│     - 비정형 텍스트 + 타임스탬프                      │
-│     - "왜 이런 일이 일어났나?" → 상세 이유             │
-│                                                      │
-│  3. 추적 (Traces)                                    │
-│     - 분산 서비스 간 요청 흐름 추적                   │
-│     - Span 연결 (A서비스 → B서비스 → DB 순서)         │
-│     - "어디서 느렸나?" → 병목 위치 식별               │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">관측성 3대 기둥:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메트릭 (Metrics)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU, 메모리, 요청 수, 응답 시간, 오류율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시계열 데이터 (시간 + 숫자값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "무슨 일이 일어나고 있나?" → 양적 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 로그 (Logs)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비정형 텍스트 + 타임스탬프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "왜 이런 일이 일어났나?" → 상세 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 추적 (Traces)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분산 서비스 간 요청 흐름 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Span 연결 (A서비스 → B서비스 → DB 순서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어디서 느렸나?" → 병목 위치 식별</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 관측성 3기둥은 **자동차 계기판·블랙박스·GPS** 조합과 같다. 계기판([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))으로 이상을 감지하고, 블랙박스([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))로 원인을 파악하며, GPS(추적)로 어느 경로에서 문제가 생겼는지 추적한다.
 
@@ -51,33 +53,27 @@ tags = ["studynote-bigdata"]
 
 ### LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                     LGTM 스택 구조                           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  데이터 수집                                                 │
-│  ┌────────────┬──────────────┬─────────────────────────────┐ │
-│  │Prometheus  │ Promtail/    │ OpenTelemetry / Jaeger /    │ │
-│  │(메트릭 수집)│ Fluentbit   │ Zipkin                      │ │
-│  │Pull 기반   │ (로그 수집)  │ (추적 데이터 수집)           │ │
-│  └─────┬──────┴──────┬───────┴──────────────┬──────────────┘ │
-│        │             │                       │               │
-│  저장  ▼             ▼                       ▼               │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────────────┐   │
-│  │  Mimir   │  │  Loki    │  │         Tempo            │   │
-│  │(메트릭   │  │(로그     │  │(추적 데이터 저장)          │   │
-│  │ 장기저장)│  │ 집계·저장)│  │TraceQL 쿼리 지원          │   │
-│  └──────────┘  └──────────┘  └──────────────────────────┘   │
-│        │             │                       │               │
-│  시각화 ▼             ▼                       ▼               │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │                    Grafana UI                          │  │
-│  │  PromQL / LogQL / TraceQL 통합 쿼리                    │  │
-│  │  Explore, Dashboard, Alerting                         │  │
-│  └────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LGTM 스택 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus</div><div class="kb-diagram-cell">Promtail/</div><div class="kb-diagram-cell">OpenTelemetry / Jaeger /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메트릭 수집)</div><div class="kb-diagram-cell">Fluentbit</div><div class="kb-diagram-cell">Zipkin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull 기반</div><div class="kb-diagram-cell">(로그 수집)</div><div class="kb-diagram-cell">(추적 데이터 수집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 ▼ ▼ ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mimir</div><div class="kb-diagram-cell">Loki</div><div class="kb-diagram-cell">Tempo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메트릭</div><div class="kb-diagram-cell">(로그</div><div class="kb-diagram-cell">(추적 데이터 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장기저장)</div><div class="kb-diagram-cell">집계·저장)</div><div class="kb-diagram-cell">TraceQL 쿼리 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각화 ▼ ▼ ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana UI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PromQL / LogQL / TraceQL 통합 쿼리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Explore, Dashboard, Alerting</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 비교
 
@@ -104,7 +100,7 @@ LogQL 예시:
   count_over_time({app="api-server"} |= "ERROR" [1m])
 ```
 
-**📢 섹션 요약 비유**: LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 **병원 종합 진단 시스템**과 같다. 혈압계([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 의무기록(Loki [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 내시경 카메라(Tempo 추적)가 모두 하나의 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Grafana)에 표시되어 의사(엔지니어)가 종합 진단한다.
+**📢 섹션 요약 비유**: LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 <strong>병원 종합 진단 시스템</strong>과 같다. 혈압계([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 의무기록(Loki [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 내시경 카메라(Tempo 추적)가 모두 하나의 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Grafana)에 표시되어 의사(엔지니어)가 종합 진단한다.
 
 ---
 
@@ -115,7 +111,7 @@ LogQL 예시:
 | 차원 | Grafana | [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) |
 |:---|:---|:---|
 | **주 용도** | 다중 소스 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·관측성 | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스** | 다수 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Loki, [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), 등) | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 전용 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스</strong> | 다수 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Loki, [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), 등) | [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 전용 |
 | **강점** | 멀티소스 통합, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 전문 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 검색, [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) |
 | **ML 기능** | 기본 이상 감지 | Elastic ML (고급) |
 | **무료 수준** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 전체 | 기본 기능 (고급은 유료) |
@@ -134,7 +130,7 @@ export default function() {
 }
 ```
 
-**📢 섹션 요약 비유**: Grafana + k6의 조합은 **의사 + [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) 장비**와 같다. [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))를 수행하면서 실시간으로 시스템 반응(Grafana 대시보드)을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하여 한계점을 파악한다.
+**📢 섹션 요약 비유**: Grafana + k6의 조합은 <strong>의사 + <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a> 장비</strong>와 같다. [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/))를 수행하면서 실시간으로 시스템 반응(Grafana 대시보드)을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하여 한계점을 파악한다.
 
 ---
 
@@ -177,7 +173,7 @@ export default function() {
 
 알림 채널: Slack, PagerDuty, OpsGenie, 이메일, [Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)
 
-**📢 섹션 요약 비유**: Grafana Alerting은 **화재경보기**와 같다. 정상 범위(임계값)를 벗어나는 순간 경보가 울리고, 담당자에게 즉시 알림이 전달된다. 경보 기준(임계값)은 미리 정의한다.
+**📢 섹션 요약 비유**: Grafana Alerting은 <strong>화재경보기</strong>와 같다. 정상 범위(임계값)를 벗어나는 순간 경보가 울리고, 담당자에게 즉시 알림이 전달된다. 경보 기준(임계값)은 미리 정의한다.
 
 ---
 
@@ -187,16 +183,16 @@ export default function() {
 
 | 영역 | 효과 |
 |:---|:---|
-| **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축** | [Mean Time To Recover](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/) — 장애 원인 파악 시간 대폭 단축 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> 단축</strong> | [Mean Time To Recover](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/026_mttr/) — 장애 원인 파악 시간 대폭 단축 |
 | **관측성** | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·추적 통합으로 전체 시스템 상태 파악 |
 | **비용** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) + 클라우드 관리형 Grafana Cloud 선택 가능 |
 | **표준화** | 전사 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 플랫폼 단일화 |
 
 ### 결론
 
-Grafana는 **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대의 표준 관측성 플랫폼**이다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 시스템의 "건강 상태"를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상 감지 시 즉각 대응할 수 있는 가시성을 제공한다. 정보통신기술사는 LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할과 PromQL 기반 알림 설계를 이해하고 클라우드 인프라 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처 설계에 적용할 수 있어야 한다.
+Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 시대의 표준 관측성 플랫폼</strong>이다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 시스템의 "건강 상태"를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상 감지 시 즉각 대응할 수 있는 가시성을 제공한다. 정보통신기술사는 LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할과 PromQL 기반 알림 설계를 이해하고 클라우드 인프라 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 아키텍처 설계에 적용할 수 있어야 한다.
 
-**📢 섹션 요약 비유**: Grafana가 있는 엔지니어링 팀은 **항공 관제사가 있는 공항**과 같다. 관제사(Grafana)가 모든 비행기([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 상태를 실시간으로 파악하고, 이상이 감지되면 즉각 대응하여 충돌(장애)을 방지한다.
+**📢 섹션 요약 비유**: Grafana가 있는 엔지니어링 팀은 <strong>항공 관제사가 있는 공항</strong>과 같다. 관제사(Grafana)가 모든 비행기([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 상태를 실시간으로 파악하고, 이상이 감지되면 즉각 대응하여 충돌(장애)을 방지한다.
 
 ---
 
@@ -215,29 +211,31 @@ Grafana는 **[클라우드 네이티브](/knowledge-base/studynote/04_software_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메트릭 수집 (Metrics) — Prometheus Pull 방식]
-    │
-    ▼
-[로그 집계 (Log Aggregation) — Loki]
-    │
-    ▼
-[분산 추적 (Distributed Tracing) — Tempo]
-    │
-    ▼
-[Grafana 대시보드 — 통합 관측성 (Unified Observability)]
-    │
-    ▼
-[LGTM 스택 (Loki + Grafana + Tempo + Mimir)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭 수집 (Metrics) — Prometheus Pull 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로그 집계 (Log Aggregation) — Loki</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 추적 (Distributed Tracing) — Tempo</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Grafana 대시보드 — 통합 관측성 (Unified Observability)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LGTM 스택 (Loki + Grafana + Tempo + Mimir)</div></div>
+</div>
+</div>
+
+
 
 관측성 기술이 개별 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·추적을 통합하여 Grafana 중심의 단일 가시성 플랫폼으로 수렴한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- Grafana는 **병원 중환자실 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)**예요: 환자(서버·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 심장 박동(CPU), 혈압(메모리), 체온(오류율)이 실시간으로 표시되고, 이상이 생기면 경보가 울려요.
-- LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 **의료 검사 세트**예요: 혈액 검사([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 의무기록([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 내시경(추적) 세 가지가 함께 있어야 의사가 정확한 진단을 내릴 수 있어요.
-- PromQL은 **의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묻는 질문 형식**이에요: "지난 5분간 심장 박동이 100을 넘었나?"처럼 복잡한 질문을 짧은 수식으로 표현해요.
+- Grafana는 <strong>병원 중환자실 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>예요: 환자(서버·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 심장 박동(CPU), 혈압(메모리), 체온(오류율)이 실시간으로 표시되고, 이상이 생기면 경보가 울려요.
+- LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 <strong>의료 검사 세트</strong>예요: 혈액 검사([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 의무기록([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 내시경(추적) 세 가지가 함께 있어야 의사가 정확한 진단을 내릴 수 있어요.
+- PromQL은 <strong>의료 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 묻는 질문 형식</strong>이에요: "지난 5분간 심장 박동이 100을 넘었나?"처럼 복잡한 질문을 짧은 수식으로 표현해요.
 
 ---
 

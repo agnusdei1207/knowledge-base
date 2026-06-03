@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **개념**: 해커가 원격에서 웹 서버의 시스템 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(cmd)를 마음대로 조종할 수 있도록 만들어 놓은 '웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 모양의 해킹 도구([백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 스크립트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'입니다. (jsp, php, asp 확장자)
 - 정상적인 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통신([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80/443)을 타고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 게시판을 통해 쑥 들어오기 때문에, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막는 일반 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물입니다.
 
-```text
-[IPS 시그니처 정규식]
-    │
-    ▼
-[웹쉘 탐지 프로토콜 파서]
-    │
-    └──▶ [블록체인 가십 프로토콜 P2P 연결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 1081번에서 배운 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 정규식으로 `eval()`이나 `system()` 같은 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 잡으려 했습니다.
-- **해커의 반격**: 해커가 해킹 코드를 `Base64`로 인코딩하거나, `XOR` 연산을 때려서 `e$va%l()` 처럼 **완벽한 외계어 쓰레기 문자([난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))**로 둔갑시켜 버립니다. 정규식 패턴 엔진은 이 외계어를 읽지 못하고 무사통과시켜 버립니다.
+- **해커의 반격**: 해커가 해킹 코드를 `Base64`로 인코딩하거나, `XOR` 연산을 때려서 `e$va%l()` 처럼 <strong>완벽한 외계어 쓰레기 문자(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/">난독화</a>)</strong>로 둔갑시켜 버립니다. 정규식 패턴 엔진은 이 외계어를 읽지 못하고 무사통과시켜 버립니다.
 
-```text
-[IPS 시그니처 정규식]
-    │
-    ▼
-[웹쉘 탐지 프로토콜 파서]
-    │
-    └──▶ [블록체인 가십 프로토콜 P2P 연결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,14 +66,14 @@ tags = ["studynote-network"]
 정규식을 돌리기 전에, 먼저 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷을 완벽하게 수술대 위에 올리는 과정입니다.
 
 ### 1단계: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) L7 구조 완벽 분해 (디코딩)
-- [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))이나 고급 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 안에 내장된 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서**가 작동합니다.
+- [웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))이나 고급 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 안에 내장된 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 파서</strong>가 작동합니다.
 - 패킷을 무지성으로 보지 않고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 문법에 맞게 칼로 해체합니다. "여기서부터 여기까지는 헤더(Header)고, 여기서부터는 바디(Body/Payload)네!" 
 - 해커가 게시판에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 첨부할 때 쓰는 `multipart/form-data` 구간을 핀셋으로 정확히 발라냅니다. 
 
 ### 2단계: 다중 인코딩/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 (Normalizing) 🌟
 해커의 위장을 모두 벗겨내는 핵심 기술입니다.
 - 파서가 뜯어낸 첨부파일 텍스트가 `Base64`로 암호화(인코딩)되어 있거나 `Gzip`으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되어 있습니다.
-- 탐지 엔진은 정규식을 돌리기 전에, **이 암호와 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 1번, 2번, 심지어 3번까지 역으로 싹 다 풀어버립니다([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), Normalizing).** 해커가 3중으로 꼬아놓은 외계어를 강제로 우리가 읽을 수 있는 쌩얼 문자열(원래 해킹 코드)로 돌려놓습니다.
+- 탐지 엔진은 정규식을 돌리기 전에, <strong>이 암호와 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>을 1번, 2번, 심지어 3번까지 역으로 싹 다 풀어버립니다(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>, Normalizing).</strong> 해커가 3중으로 꼬아놓은 외계어를 강제로 우리가 읽을 수 있는 쌩얼 문자열(원래 해킹 코드)로 돌려놓습니다.
 
 ### 3단계: 정밀 시그니처 및 동적 행위 탐지
 - 쌩얼이 드러난 텍스트 위에 그제야 1081번의 정규식([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)) 칼날을 들이댑니다.
@@ -85,8 +93,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 해커가 아예 1063번 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 암호화)**로 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)을 업로드하면?
-- 인터넷 길목에서 패킷이 몽땅 까만색으로 칠해져 날아가므로 파서(Parser)가 아예 뜯어볼 수가 없습니다. 이를 잡기 위해서는 반드시 웹 서버 바로 코앞에 **SSL 복호화 장비(인증서 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**를 세워, 암호를 한 번 풀고 쌩얼을 까본 뒤 파서를 돌려야만 방어가 성립됩니다.
+- 해커가 아예 1063번 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 암호화)</strong>로 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)을 업로드하면?
+- 인터넷 길목에서 패킷이 몽땅 까만색으로 칠해져 날아가므로 파서(Parser)가 아예 뜯어볼 수가 없습니다. 이를 잡기 위해서는 반드시 웹 서버 바로 코앞에 <strong>SSL 복호화 장비(인증서 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong>를 세워, 암호를 한 번 풀고 쌩얼을 까본 뒤 파서를 돌려야만 방어가 성립됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 업로드 공격은 테러리스트가 **'정상적인 소포 상자([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷)' 안에 '시한폭탄([웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'을 숨겨서 택배로 보내는 짓**입니다. 일반 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 택배 아저씨 얼굴과 우표(IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 정상인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 그냥 통과시킵니다. 심지어 테러리스트가 폭탄을 신문지로 3중, 4중으로 칭칭 감아놓고([난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)/인코딩), "이거 그냥 장난감임"이라고 적어놔서 일반 엑스레이(단순 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))로는 절대 안 보입니다. 이를 잡아내는 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Parser)**는 택배 물류 센터에 있는 **'집요한 폭발물 해체 로봇'**입니다. 로봇은 상자를 뜯어보고([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 파싱), 안에 있는 내용물을 감싼 신문지, 뽁뽁이, 비닐을 1겹, 2겹, 3겹 끝까지 모조리 다 벗겨냅니다(인코딩/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 및 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)). 포장지가 다 까발려져 진짜 쇠붙이 쌩얼(원래 코드)이 드러나면, 그제야 폭발물 탐지견(정규식 패턴 매칭)을 투입해 폭탄 여부를 1초 만에 적발해 내는 L7 계층의 궁극의 검열 시스템입니다.
+- **📢 섹션 요약 비유**: [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 업로드 공격은 테러리스트가 <strong>'정상적인 소포 상자(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 패킷)' 안에 '시한폭탄(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/">웹쉘</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)'을 숨겨서 택배로 보내는 짓</strong>입니다. 일반 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 택배 아저씨 얼굴과 우표(IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 정상인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 그냥 통과시킵니다. 심지어 테러리스트가 폭탄을 신문지로 3중, 4중으로 칭칭 감아놓고([난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)/인코딩), "이거 그냥 장난감임"이라고 적어놔서 일반 엑스레이(단순 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))로는 절대 안 보입니다. 이를 잡아내는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 파서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> Parser)</strong>는 택배 물류 센터에 있는 <strong>'집요한 폭발물 해체 로봇'</strong>입니다. 로봇은 상자를 뜯어보고([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 파싱), 안에 있는 내용물을 감싼 신문지, 뽁뽁이, 비닐을 1겹, 2겹, 3겹 끝까지 모조리 다 벗겨냅니다(인코딩/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 및 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)). 포장지가 다 까발려져 진짜 쇠붙이 쌩얼(원래 코드)이 드러나면, 그제야 폭발물 탐지견(정규식 패턴 매칭)을 투입해 폭탄 여부를 1초 만에 적발해 내는 L7 계층의 궁극의 검열 시스템입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPS 시그니처 정규식]
-    │
-    ▼
-[현재 개념: 웹쉘 탐지 프로토콜 파서]
-    │
-    ├──▶ [확장 A: 블록체인 가십 프로토콜 P2P 연결]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록체인 가십 프로토콜 P2P 연결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서는 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

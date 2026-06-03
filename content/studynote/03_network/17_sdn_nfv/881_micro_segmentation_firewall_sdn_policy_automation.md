@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 과거 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 수동으로 `192.168.1.10 은 접속 허용` 이렇게 IP 주소를 기반으로 엑셀([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))에 타이핑을 쳐넣었습니다.
 - 클라우드에서는 트래픽이 몰리면 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 결제 앱 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 10초 만에 100개로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 버립니다. IP 주소가 무작위로 100개가 쏟아지는데, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자는 새 IP를 알지 못해 100개의 결제 앱 트래픽이 모조리 차단되어 회사가 뻗어버리는 대참사가 일어납니다.
 
-```text
-[오버레이 SDN과 언더레이 SDN]
-    │
-    ▼
-[마이크로세그멘테이션 방화벽]
-    │
-    └──▶ [화이트박스 OCP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 OCP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,17 +48,21 @@ tags = ["studynote-network"]
 - 중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러에 마우스로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 한 줄을 그립니다. **"어떤 IP를 가지든 상관없어! 그냥 꼬리표에 [Role=Web]이 붙어있는 애들만 [Role=DB] 방으로 접속할 수 있게 열어!"**
 
 ### 2. [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 단위의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 차단 ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))
-- 컨트롤러는 이 명령을 받아 기계어로 번역한 뒤, 전국의 1만 대 서버 밑바닥에 깔린 **[가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 또는 랜카드(SmartNIC) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨(iptables/[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))**로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 0.1초 만에 동기화하여 쫙 뿌립니다(중앙 연동 자동 배포).
-- **소름 돋는 결과**: 해커가 `[Role=Web]` 서버를 장악한 뒤, 바로 옆 랙(Rack)에 있는 `[HR_Data]` 서버로 해킹 패킷(횡적 확산, Lateral Movement)을 쏘려 합니다. 패킷이 랜선으로 밖으로 나가기도 전에, **[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 엉덩이에 딱 붙어있는 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 룰에 목이 잘려 그 자리에서 즉사(Drop)해 버립니다.** 중앙 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Appliance)까지 갈 필요도 없이 감염의 불씨를 발생 근원지에서 100% 밀봉해 버립니다.
+- 컨트롤러는 이 명령을 받아 기계어로 번역한 뒤, 전국의 1만 대 서버 밑바닥에 깔린 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a>) 또는 랜카드(SmartNIC) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨(iptables/<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong>로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 0.1초 만에 동기화하여 쫙 뿌립니다(중앙 연동 자동 배포).
+- **소름 돋는 결과**: 해커가 `[Role=Web]` 서버를 장악한 뒤, 바로 옆 랙(Rack)에 있는 `[HR_Data]` 서버로 해킹 패킷(횡적 확산, Lateral Movement)을 쏘려 합니다. 패킷이 랜선으로 밖으로 나가기도 전에, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 엉덩이에 딱 붙어있는 <a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a> 룰에 목이 잘려 그 자리에서 즉사(Drop)해 버립니다.</strong> 중앙 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Appliance)까지 갈 필요도 없이 감염의 불씨를 발생 근원지에서 100% 밀봉해 버립니다.
 
-```text
-[오버레이 SDN과 언더레이 SDN]
-    │
-    ▼
-[마이크로세그멘테이션 방화벽]
-    │
-    └──▶ [화이트박스 OCP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 OCP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +72,7 @@ tags = ["studynote-network"]
 
 - 트래픽이 폭주해 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 `[Role=Web]` [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 100개 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 생산합니다! IP가 무작위로 100개 튀어나옵니다.
 - 하지만 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 등 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인 연동)가 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러에게 "야! 얘네 다 [Role=Web] 꼬리표 달고 태어난 애들이야!"라고 귀띔([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동)해 줍니다. 
-- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 0.1초 만에 100개의 새로운 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 투명 캡슐을 생성하여, 새로 태어난 100개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 각각 하나씩 스윽 씌워줍니다(동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)). **개발자가 퇴근하고 자고 있어도, 서버가 100배로 팽창했다가 줄어드는 동안 보안 방어막이 1초도 틈을 보이지 않고 완벽하게 늘었다 줄어드는 기적**입니다.
+- [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러는 0.1초 만에 100개의 새로운 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 투명 캡슐을 생성하여, 새로 태어난 100개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 각각 하나씩 스윽 씌워줍니다(동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)). <strong>개발자가 퇴근하고 자고 있어도, 서버가 100배로 팽창했다가 줄어드는 동안 보안 방어막이 1초도 틈을 보이지 않고 완벽하게 늘었다 줄어드는 기적</strong>입니다.
 
 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 오버레이 SDN과 언더레이 SDN가 기반 조건을 만든다면, 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 그 위에서 핵심 메커니즘을 구현하고, 화이트박스 OCP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -74,7 +82,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 SDN의 결합은 '아이언맨의 나노 슈트 자동 착용 마법'입니다. 옛날엔 병사([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))가 1만 명으로 늘어나면, 방위산업체 직원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자)이 1만 명의 몸 치수(IP 주소)를 일일이 줄자로 재서 철갑옷([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰)을 손으로 뚝딱뚝딱 맞춰 입히느라 전쟁이 다 끝났습니다(클라우드 대응 불가). **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 자동 배포**는 하늘에 떠 있는 거대한 위성(중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)이 버튼 한 방을 누르는 것입니다. "이마에 '웹 부대(Tag)'라고 적힌 병사가 태어나면, IP나 몸무게가 얼마든 묻지도 따지지도 말고 하늘에서 나노 슈트(미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 캡슐을 쏴서 그 병사 몸에 즉각 착 달라붙게 만들어라!" 병사들이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)술로 10만 명으로 팽창하는 찰나의 1초 동안, 나노 슈트도 알아서 10만 벌이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되어 한 놈도 빠짐없이 철갑 방패를 입고 태어나는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완전 자동 무장 시스템입니다.
+- **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 SDN의 결합은 '아이언맨의 나노 슈트 자동 착용 마법'입니다. 옛날엔 병사([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))가 1만 명으로 늘어나면, 방위산업체 직원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자)이 1만 명의 몸 치수(IP 주소)를 일일이 줄자로 재서 철갑옷([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰)을 손으로 뚝딱뚝딱 맞춰 입히느라 전쟁이 다 끝났습니다(클라우드 대응 불가). <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 자동 배포</strong>는 하늘에 떠 있는 거대한 위성(중앙 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)이 버튼 한 방을 누르는 것입니다. "이마에 '웹 부대(Tag)'라고 적힌 병사가 태어나면, IP나 몸무게가 얼마든 묻지도 따지지도 말고 하늘에서 나노 슈트(미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 캡슐을 쏴서 그 병사 몸에 즉각 착 달라붙게 만들어라!" 병사들이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)술로 10만 명으로 팽창하는 찰나의 1초 동안, 나노 슈트도 알아서 10만 벌이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되어 한 놈도 빠짐없이 철갑 방패를 입고 태어나는 완벽한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완전 자동 무장 시스템입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 오버레이 SDN과 언더레이 SDN]
-    │
-    ▼
-[현재 개념: 마이크로세그멘테이션 방화벽]
-    │
-    ├──▶ [확장 A: 화이트박스 OCP]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오버레이 SDN과 언더레이 SDN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로세그멘테이션 방화벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 화이트박스 OCP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)는 오버레이 SDN과 언더레이 SDN에서 출발해 현재 메커니즘을 정교화하고, 이후 화이트박스 OCP와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

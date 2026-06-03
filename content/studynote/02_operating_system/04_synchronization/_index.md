@@ -17,30 +17,25 @@ tags = ["operating_system"]
 
 ### 데이터의 위기: 경쟁 상태 (Race Condition)
 
-현대 운영체제는 여러 프로세스가 자원을 공유하며 동시에 실행된다. 특히 전역 변수나 힙 메모리, 파일 등을 여러 스레드가 동시에 읽고 쓸 때, 실행 순서에 따라 결과값이 달라지는 **경쟁 상태 (Race Condition)**가 발생한다. 예를 들어, 두 스레드가 동시에 잔액이 100원인 계좌에 10원씩 입금하려 할 때, 운이 나쁘면 최종 잔액이 110원이 되는 심각한 논리적 오류가 발생할 수 있다.
+현대 운영체제는 여러 프로세스가 자원을 공유하며 동시에 실행된다. 특히 전역 변수나 힙 메모리, 파일 등을 여러 스레드가 동시에 읽고 쓸 때, 실행 순서에 따라 결과값이 달라지는 <strong>경쟁 상태 (Race Condition)</strong>가 발생한다. 예를 들어, 두 스레드가 동시에 잔액이 100원인 계좌에 10원씩 입금하려 할 때, 운이 나쁘면 최종 잔액이 110원이 되는 심각한 논리적 오류가 발생할 수 있다.
 
-동기화가 필요한 이유는 세 가지이다. 첫째, 시스템 내의 **데이터 일관성**을 완벽히 유지하기 위해서이며, 둘째, 공유 자원에 접근하는 실행 흐름을 **직렬화 (Serialization)**하여 예측 가능한 결과를 얻기 위해서이고, 셋째, 프로세스들 간의 **실행 순서 협력** (예: 생산자가 물건을 만들어야 소비자가 가져감)을 구현하기 위함이다.
+동기화가 필요한 이유는 세 가지이다. 첫째, 시스템 내의 <strong>데이터 일관성</strong>을 완벽히 유지하기 위해서이며, 둘째, 공유 자원에 접근하는 실행 흐름을 <strong>직렬화 (Serialization)</strong>하여 예측 가능한 결과를 얻기 위해서이고, 셋째, 프로세스들 간의 **실행 순서 협력** (예: 생산자가 물건을 만들어야 소비자가 가져감)을 구현하기 위함이다.
 
 이 그림은 경쟁 상태가 발생하는 '임계구역'의 논리적 위치와 보호 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Structure of Synchronization Control        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Entry Section ]  ──▶  Lock 획득 시도 (상호 배제 시작)   │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Critical Section ] ──▶  공유 자원 접근 코드 영역        │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Exit Section ]   ──▶  Lock 반납 (상호 배제 해제)        │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Remainder Section ] ──▶ 나머지 코드 영역                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structure of Synchronization Control</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Lock 획득 시도 (상호 배제 시작)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Critical Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">공유 자원 접근 코드 영역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Lock 반납 (상호 배제 해제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Remainder Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">나머지 코드 영역</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Entry/Exit Section'의 원자성 (Atomicity)이다. 락을 걸고 푸는 행위 자체가 중단되지 않고 한 번에 수행되어야만 임계구역을 안전하게 보호할 수 있다. 실무에서는 이를 보장하기 위해 하드웨어의 **Test-and-Set** 명령어나 소프트웨어적 뮤텍스 라이브러리를 사용한다.
 
@@ -72,23 +67,22 @@ tags = ["operating_system"]
 
 이 구조도는 세마포어의 내부 동작과 대기 큐 관리 방식을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Semaphore with Waiting Queue                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Semaphore S ] ──▶  value: 0                             │
-│                        list: [ P2, P3 ] (Waiting Queue)     │
-│                                                             │
-│   [ P1: Signal(S) ] ──▶ value++                             │
-│          │              if (value <= 0) {                   │
-│          └────────────▶   Wake up P2 from list              │
-│                         }                                   │
-│                                                             │
-│   * Busy Waiting 해결: CPU를 점유하며 기다리지 않고 Block됨 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semaphore with Waiting Queue</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Semaphore S</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">value: 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">list:</div><div class="kb-diagram-node">P2, P3</div><div class="kb-diagram-note">(Waiting Queue)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1: Signal(S)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">value++</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (value &lt;= 0) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Wake up P2 from list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Busy Waiting 해결: CPU를 점유하며 기다리지 않고 Block됨</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Block & Wake-up' 메커니즘이다. 자원을 얻지 못한 프로세스는 CPU를 낭비하며 무한 루프를 도는 대신(Busy Waiting), 대기 상태로 전환되어 잠들었다가 자원이 생기면 운영체제가 깨워준다. 실무에서는 성능을 위해 아주 짧은 시간은 Busy Waiting (Spinlock)을 하고, 길어지면 Sleep하는 하이브리드 방식을 선호한다.
 
@@ -123,31 +117,28 @@ tags = ["operating_system"]
 ### 기술사적 판단: 병렬 프로그래밍 설계 전략
 
 **시나리오 1: 수만 개의 스레드가 동시에 접근하는 고성능 카운터**
-- **판단**: 뮤텍스나 세마포어를 사용하면 락 경합 (Lock Contention)으로 인해 성능이 심각하게 저하된다. 하드웨어의 지원을 받는 **Atomic Integer**나 **Lock-free 알고리즘 (CAS 기반)**을 적용하여 성능 병목을 제거한다.
+- **판단**: 뮤텍스나 세마포어를 사용하면 락 경합 (Lock Contention)으로 인해 성능이 심각하게 저하된다. 하드웨어의 지원을 받는 <strong>Atomic Integer</strong>나 <strong>Lock-free 알고리즘 (CAS 기반)</strong>을 적용하여 성능 병목을 제거한다.
 
 **시나리오 2: 데이터베이스 커넥션 풀 관리**
-- **판단**: 한정된 자원(커넥션 개수)을 여러 스레드가 나누어 써야 하므로 **카운팅 세마포어 (Counting Semaphore)**를 사용한다. 또한 자원을 반납하지 않는 고아 스레드를 방지하기 위해 **Try-Finally** 구문이나 자원 자동 해제 패턴 (RAII)을 강제한다.
+- **판단**: 한정된 자원(커넥션 개수)을 여러 스레드가 나누어 써야 하므로 <strong>카운팅 세마포어 (Counting Semaphore)</strong>를 사용한다. 또한 자원을 반납하지 않는 고아 스레드를 방지하기 위해 **Try-Finally** 구문이나 자원 자동 해제 패턴 (RAII)을 강제한다.
 
-이 도식은 고수준 동기화 도구인 **모니터 (Monitor)**의 추상화 계층을 보여준다.
+이 도식은 고수준 동기화 도구인 <strong>모니터 (Monitor)</strong>의 추상화 계층을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Monitor Abstraction Layer                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Monitor: Account ]                                      │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │  private balance; (Shared Data)                     │   │
-│   │                                                     │   │
-│   │  public synchronized deposit(amt) { ... }           │   │
-│   │  public synchronized withdraw(amt) { ... }          │   │
-│   └─────────────────────────────────────────────────────┘   │
-│          ▲                                                  │
-│          └─ 개발자는 'synchronized' 키워드만 붙이면 됨      │
-│             내부 락(Lock) 관리는 언어/런타임이 담당         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor Abstraction Layer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor: Account</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private balance; (Shared Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized deposit(amt) { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized withdraw(amt) { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 개발자는 'synchronized' 키워드만 붙이면 됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 락(Lock) 관리는 언어/런타임이 담당</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 동기화 판단은 '안전한 성곽 설계'와 같습니다. 가장 중요한 보물(데이터)을 지키기 위해 성문(Mutex)을 하나만 둘지, 아니면 여러 개의 작은 열쇠(Fine-grained Lock)를 나누어 줄지 상황에 따라 결정해야 합니다.
 
@@ -162,7 +153,7 @@ tags = ["operating_system"]
 
 ### 미래 전망: 불변성(Immutability)과 함수형 패러다임
 
-복잡한 락 관리는 데드락과 성능 저하의 주범이다. 향후 시스템은 상태를 공유하지 않는 **함수형 프로그래밍**이나 **액터 모델 (Actor Model)**로 이동하고 있다. "공유 자원을 수정하지 말고, 새로운 상태를 생성하라"는 철학은 동기화 자체의 필요성을 없애 원천적인 병렬성을 확보하게 해준다. 하지만 운영체제 커널이나 저수준 시스템에서는 여전히 락 메커니즘이 핵심이므로, 기술사는 하드웨어와 소프트웨어를 아우르는 '동기화 통찰력'을 유지해야 한다.
+복잡한 락 관리는 데드락과 성능 저하의 주범이다. 향후 시스템은 상태를 공유하지 않는 <strong>함수형 프로그래밍</strong>이나 <strong>액터 모델 (Actor Model)</strong>로 이동하고 있다. "공유 자원을 수정하지 말고, 새로운 상태를 생성하라"는 철학은 동기화 자체의 필요성을 없애 원천적인 병렬성을 확보하게 해준다. 하지만 운영체제 커널이나 저수준 시스템에서는 여전히 락 메커니즘이 핵심이므로, 기술사는 하드웨어와 소프트웨어를 아우르는 '동기화 통찰력'을 유지해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 동기화는 싸우지 않게 규칙을 정하는 것을 넘어, 아예 싸울 일(공유 자원)이 없는 평화로운 마을(함수형 모델)을 만드는 방향으로 발전할 것입니다.
 

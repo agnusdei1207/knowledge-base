@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리(University of California, Berkeley)에서 정리한 개방형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조다. 핵심은 프로세서 제품이 아니라 **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 규약 자체를 공개 표준으로 두었다**는 점에 있다. 즉 누구든 같은 명세를 따라 CPU (Central Processing Unit)를 만들 수 있고, 표준을 해치지 않는 범위에서 자신만의 확장도 추가할 수 있다.
+[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리(University of California, Berkeley)에서 정리한 개방형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조다. 핵심은 프로세서 제품이 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 규약 자체를 공개 표준으로 두었다</strong>는 점에 있다. 즉 누구든 같은 명세를 따라 CPU (Central Processing Unit)를 만들 수 있고, 표준을 해치지 않는 범위에서 자신만의 확장도 추가할 수 있다.
 
 이 구조가 필요해진 배경은 기존 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 시장의 높은 진입장벽 때문이다. x86은 오랜 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 덕분에 강력하지만 구조가 복잡하고, ARM (Advanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Machine)은 효율적이지만 라이선스와 계약 구조가 설계 자유도를 제한한다. 반면 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 교육용 코어, 저전력 임베디드 칩, 저장장치 컨트롤러, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 제어용 코어처럼 다양한 영역에서 “필요한 만큼만 구현하고 싶다”는 요구에 잘 맞는다.
 
@@ -31,35 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V의 설계 원리는 **작은 베이스 + 명시적 확장 + 깨끗한 인코딩**으로 요약할 수 있다. 베이스는 정수 연산, 분기, 로드/스토어 같은 최소 기능만 담당하고, 곱셈·[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)·[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 같은 기능은 독립 확장으로 붙인다. 이 방식은 하드웨어 면적, 전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위를 목적에 맞게 조절하게 해 준다.
+[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V의 설계 원리는 <strong>작은 베이스 + 명시적 확장 + 깨끗한 인코딩</strong>으로 요약할 수 있다. 베이스는 정수 연산, 분기, 로드/스토어 같은 최소 기능만 담당하고, 곱셈·[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)·[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 같은 기능은 독립 확장으로 붙인다. 이 방식은 하드웨어 면적, 전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위를 목적에 맞게 조절하게 해 준다.
 
 대표적인 베이스는 `RV32I`, `RV64I`다. 여기서 `RV`는 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V, 숫자는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭, `I`는 Integer Base ISA를 뜻한다. 여기에 `M`은 Multiply/Divide, `A`는 Atomic, `F`는 Single-Precision Floating-Point, `D`는 Double-Precision Floating-Point, `C`는 Compressed, `V`는 Vector 확장을 의미한다. 예를 들어 `RV64GC`는 64비트 베이스에 `G`(General-purpose shorthand for IMAFD and common base features)와 `C`를 포함한 형태로, 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구동에 자주 연결되는 조합이다.
 
 아래 그림은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V가 어떻게 공통분모와 선택 기능을 분리하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 RISC-V의 계층형 구성 원리                           │
-├──────────────────────────────────────────────────────────────────────┤
-│  응용 소프트웨어 / 운영체제 / 컴파일러                              │
-│                     │                                                │
-│                     ▼                                                │
-│  ABI (Application Binary Interface) / 호출 규약 / 툴체인            │
-│                     │                                                │
-│                     ▼                                                │
-│  ┌──────────────────────────────────────────────────────────────┐    │
-│  │ Base ISA : RV32I / RV64I                                     │    │
-│  │ - 정수 연산   - 분기/점프   - Load/Store   - 예외 기본틀     │    │
-│  └──────────────────────────────────────────────────────────────┘    │
-│        │                  │                 │                │       │
-│        ├──────────┬───────┼─────────┬───────┼────────┬───────┤       │
-│        ▼          ▼       ▼         ▼       ▼        ▼               │
-│      M 확장      A 확장   F/D 확장  C 확장  V 확장   기타 표준 확장  │
-│  (곱셈/나눗셈) (원자성) (부동소수점) (코드밀도) (벡터)   (Bitmanip 등)│
-│                                                                     │
-│  구현자 선택: 표준 확장 조합 + 필요 시 커스텀 확장 추가             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC-V의 계층형 구성 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 소프트웨어 / 운영체제 / 컴파일러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ABI (Application Binary Interface) / 호출 규약 / 툴체인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base ISA : RV32I / RV64I</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정수 연산 - 분기/점프 - Load/Store - 예외 기본틀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M 확장 A 확장 F/D 확장 C 확장 V 확장 기타 표준 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(곱셈/나눗셈) (원자성) (부동소수점) (코드밀도) (벡터) (Bitmanip 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현자 선택: 표준 확장 조합 + 필요 시 커스텀 확장 추가</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 것은 “베이스를 단순하게 유지할수록 확장 조합을 관리하기 쉽다”는 점이다. 고정 길이 32비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 중심에 두고, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `C` 확장으로 코드 밀도를 보완하며, 로드/스토어 중심의 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 스타일로 파이프라인을 단순화한다. 또한 조건 코드 플래그에 과도하게 의존하지 않고, 비교와 분기를 명시적으로 처리해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성과 구현 복잡도를 줄인다.
 
@@ -70,7 +63,7 @@ tags = ["studynote-computer-architecture"]
 | 프로파일 | 특정 소프트웨어 스택이 기대하는 확장 묶음 | 리눅스, RTOS (Real-Time [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)), 임베디드 타깃 구분 용이 |
 | 커스텀 확장 | 제조사 고유 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 추가 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속 가능, 단 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 관리 필요 |
 
-결국 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 “모든 기능을 한 번에 담는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)”가 아니라, **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 조립 체계 자체를 표준화한 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)**에 가깝다. 그래서 같은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V라도 마이크로컨트롤러용 코어와 서버용 코어는 크기와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 다를 수 있다. 대신 둘 다 같은 철학과 툴체인 기반 위에서 연결된다.
+결국 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 “모든 기능을 한 번에 담는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)”가 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 조립 체계 자체를 표준화한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a></strong>에 가깝다. 그래서 같은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V라도 마이크로컨트롤러용 코어와 서버용 코어는 크기와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 다를 수 있다. 대신 둘 다 같은 철학과 툴체인 기반 위에서 연결된다.
 
 - **📢 섹션 요약 비유**: [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 기본 골조만 먼저 세운 조립식 건물과 같다. 작은 창고를 지을 때는 최소 구조만 쓰고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터를 지을 때는 엘리베이터와 냉난방 설비를 덧붙이듯 필요한 기능만 추가한다.
 
@@ -78,7 +71,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V를 제대로 이해하려면 ARM, x86, MIPS와의 경계를 함께 봐야 한다. 넓게 보면 모두 ISA이지만, 설계 철학과 생태계 전략이 다르다. [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V의 차별점은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 숫자 하나가 아니라 **표준의 개방 방식과 확장 관리 모델**에 있다.
+[RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V를 제대로 이해하려면 ARM, x86, MIPS와의 경계를 함께 봐야 한다. 넓게 보면 모두 ISA이지만, 설계 철학과 생태계 전략이 다르다. [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V의 차별점은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 숫자 하나가 아니라 <strong>표준의 개방 방식과 확장 관리 모델</strong>에 있다.
 
 | 항목 | [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V | ARM | x86 | [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -105,29 +98,26 @@ MIPS와는 철학적으로 닮은 면이 있다. 둘 다 교육용으로 이해�
 ### 실무 시나리오
 
 1. **초저전력 임베디드 제어기**: 센서 노드나 배터리 구동 기기라면 `RV32I` 또는 `RV32IMC`처럼 작은 조합이 적합하다. 코드 크기를 줄이기 위해 `C` 확장을 넣고, 실수 연산이 거의 없다면 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 확장은 제외해 면적과 전력을 낮춘다.
-2. **리눅스 구동 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))**: 메모리 관리 장치와 표준 확장 조합이 중요하다. 범용 리눅스 배포판, GCC (GNU Compiler Collection), LLVM (Low Level [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 툴체인, 디버거, 부트로더와의 정합성을 먼저 확인해야 한다.
-3. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/스토리지/보안 가속기 제어 코어**: 표준 베이스 위에 커스텀 확장을 얹어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 암호 연산, 행렬 처리 명령을 추가할 수 있다. 이 경우 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점은 크지만, 컴파일러 내장 함수, 어셈블러, 시뮬레이터, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 환경까지 함께 확장해야 한다.
+2. <strong>리눅스 구동 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">System on Chip</a>)</strong>: 메모리 관리 장치와 표준 확장 조합이 중요하다. 범용 리눅스 배포판, GCC (GNU Compiler Collection), LLVM (Low Level [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 툴체인, 디버거, 부트로더와의 정합성을 먼저 확인해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/스토리지/보안 가속기 제어 코어</strong>: 표준 베이스 위에 커스텀 확장을 얹어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 암호 연산, 행렬 처리 명령을 추가할 수 있다. 이 경우 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점은 크지만, 컴파일러 내장 함수, 어셈블러, 시뮬레이터, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 환경까지 함께 확장해야 한다.
 
 아래 흐름은 실무에서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V 채택 여부를 판단할 때 보는 주요 기준을 정리한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                RISC-V 채택 판단 흐름                                 │
-├──────────────────────────────────────────────────────────────────────┤
-│  맞춤형 명령어/가속기 필요? ── 아니오 ──▶ 상용 IP 검토 우선          │
-│            │                                                         │
-│           예                                                         │
-│            ▼                                                         │
-│  소프트웨어 툴체인 직접 관리 가능? ── 아니오 ──▶ 범용 플랫폼 재검토   │
-│            │                                                         │
-│           예                                                         │
-│            ▼                                                         │
-│  표준 확장 조합 정의 + ABI/OS 호환성 검증 + 검증환경 구축            │
-│            │                                                         │
-│            ▼                                                         │
-│       RISC-V 기반 맞춤형 SoC 설계 진행                               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC-V 채택 판단 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맞춤형 명령어/가속기 필요? ── 아니오 ──▶ 상용 IP 검토 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 툴체인 직접 관리 가능? ── 아니오 ──▶ 범용 플랫폼 재검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 확장 조합 정의 + ABI/OS 호환성 검증 + 검증환경 구축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC-V 기반 맞춤형 SoC 설계 진행</div></div>
+</div>
+</div>
+
+
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -152,7 +142,7 @@ MIPS와는 철학적으로 닮은 면이 있다. 둘 다 교육용으로 이해�
 
 물론 한계도 분명하다. ISA가 개방되어 있다고 해서 구현과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 쉬운 것은 아니며, 생태계 성숙도는 아직 ARM과 x86보다 약한 영역이 있다. 또한 커스텀 확장이 늘어날수록 파편화 위험이 커지므로, 표준 확장 중심의 설계 원칙과 프로파일 관리가 중요하다.
 
-따라서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 “무료 CPU”로 기억하면 부족하다. 더 정확한 기억법은 **개방형 ISA를 중심으로 하드웨어와 소프트웨어를 함께 설계할 수 있게 만든 현대적 아키텍처 플랫폼**이다. 앞으로의 경쟁 포인트도 단순 채택 수가 아니라, 누가 더 좋은 표준 프로파일과 툴체인, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 생태계를 만들 수 있느냐에 달려 있다.
+따라서 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 “무료 CPU”로 기억하면 부족하다. 더 정확한 기억법은 <strong>개방형 ISA를 중심으로 하드웨어와 소프트웨어를 함께 설계할 수 있게 만든 현대적 아키텍처 플랫폼</strong>이다. 앞으로의 경쟁 포인트도 단순 채택 수가 아니라, 누가 더 좋은 표준 프로파일과 툴체인, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 생태계를 만들 수 있느냐에 달려 있다.
 
 - **📢 섹션 요약 비유**: [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V는 공짜 물건이라기보다 공개 설계 규격에 가깝다. 규격이 잘 열려 있으면 많은 회사가 같은 철로 위에서 각자 다른 기차를 만들 수 있고, 그만큼 산업 전체의 속도도 빨라진다.
 
@@ -171,23 +161,24 @@ MIPS와는 철학적으로 닮은 면이 있다. 둘 다 교육용으로 이해�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 RISC 철학
-    │
-    ▼
-ISA 단순화와 로드/스토어 구조
-    │
-    ▼
-RISC-V Base ISA (RV32I / RV64I)
-    │
-    ├──▶ 표준 확장 (M, A, F, D, C, V)
-    │
-    ▼
-오픈 툴체인 · 리눅스 포팅 · SoC 설계 확산
-    │
-    ▼
-도메인 특화 아키텍처 · 커스텀 가속기 · 공급망 다변화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 RISC 철학</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISA 단순화와 로드/스토어 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RISC-V Base ISA (RV32I / RV64I)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 표준 확장 (M, A, F, D, C, V)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오픈 툴체인 · 리눅스 포팅 · SoC 설계 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 특화 아키텍처 · 커스텀 가속기 · 공급망 다변화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 철학이 개방형 표준으로 재구성되고, 다시 표준 확장과 커스텀 가속기로 확장되는 과정을 보여준다.
 

@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 968번에서 배운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 사이즈 조절([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), Congestion Avoidance 등)은 네트워크 붕괴를 막는 필수 브레이크입니다.
-- **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)**: 이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 코드는 리눅스나 윈도우의 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코어([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)'에 딱딱하게 굳어 박혀 있습니다.
+- <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong>: 이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 코드는 리눅스나 윈도우의 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코어([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)'에 딱딱하게 굳어 박혀 있습니다.
 - **업데이트의 재앙**: 구글이 대역폭을 2배로 뻥튀기시키는 혁명적인 혼잡 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/))을 2016년에 발명했지만, 전 세계의 수십억 대 구형 안드로이드 폰과 윈도우 7 PC의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 강제로 업데이트할 수 없어서 신기술 배포에 10년이 걸리는 지옥에 빠졌습니다.
 
-```text
-[ESNI]
-    │
-    ▼
-[HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    └──▶ [마이크로서비스 서비스 메시 패싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로서비스 서비스 메시 패싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 (470번 연계)
-- 구글은 무거운 TCP를 버리고 가벼운 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(969번)** 기반으로 **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/)** [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들었습니다.
+- 구글은 무거운 TCP를 버리고 가벼운 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(969번)</strong> 기반으로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a></strong> [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들었습니다.
 - **가장 위대한 아키텍처 혁명**: QUIC은 멍청한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에서 돌기 때문에 혼잡 제어를 해줄 교통경찰이 없습니다. 그래서 구글은 혼잡 제어, 암호화([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 재전송 로직을 몽땅 묶어서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 아닌 **'사용자 공간(User-Space, 크롬 브라우저나 앱 내부)'** 소프트웨어 코드로 올려버렸습니다!
 
-```text
-[ESNI]
-    │
-    ▼
-[HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    └──▶ [마이크로서비스 서비스 메시 패싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로서비스 서비스 메시 패싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,13 +71,13 @@ tags = ["studynote-network"]
 
 ### 2. 큐빅(CUBIC)과 BBR의 융합 테스트
 - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 시절(CUBIC)엔 패킷이 1개라도 증발하면 "앗 길 막히나 보다!" 하고 무식하게 속도를 반토막 냈습니다(패킷 유실 기반 브레이크).
-- 구글의 **[BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/)([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) and [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 핑(Ping) 속도와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 굵기를 실시간으로 수학 계산하여, 패킷이 좀 유실돼도 길이 진짜 막힌 게 아니면 속도를 안 줄이고 밀어붙이는 고성능 브레이크입니다.
+- 구글의 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/">BBR</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> and <a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 핑(Ping) 속도와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 굵기를 실시간으로 수학 계산하여, 패킷이 좀 유실돼도 길이 진짜 막힌 게 아니면 속도를 안 줄이고 밀어붙이는 고성능 브레이크입니다.
 - QUIC은 서버가 `A유저에겐 CUBIC`, `B유저에겐 BBR`을 골라 쏴보고 속도가 더 잘 나오는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 실시간 핫스왑으로 골라 쓰는 미친 유연성을 발휘합니다.
 
 ### 3. 모바일 네트워킹의 궁극기 ([Connection Migration](/knowledge-base/studynote/03_network/08_transport_layer/457_quic_connection_migration_connection_id/)) 🌟 기출 🌟
 - 버스에서 와이파이(IP: A)로 유튜브를 보다가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(IP: B)로 넘어갑니다.
 - 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/): IP 주소가 바뀌었으므로 3-way Handshake를 처음부터 다시 해야 해서 유튜브가 1초 동안 뱅글뱅글 멈춥니다.
-- **QUIC의 꼼수**: QUIC은 IP 주소 대신 **'64비트 Connection ID(고유 주민번호)'**라는 식별표로 폰과 서버를 연결합니다. 폰 IP가 와이파이에서 LTE로 확 바뀌어도, 서버는 "어? 너 IP 바뀌었지만 이마에 붙은 Connection ID는 똑같네? 오케이!" 하고 다운로드 받던 영상을 끊김 없이 즉시 이어서(마이그레이션) 쏴줍니다. 넷플릭스 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 제로(0)에 수렴합니다.
+- **QUIC의 꼼수**: QUIC은 IP 주소 대신 <strong>'64비트 Connection ID(고유 주민번호)'</strong>라는 식별표로 폰과 서버를 연결합니다. 폰 IP가 와이파이에서 LTE로 확 바뀌어도, 서버는 "어? 너 IP 바뀌었지만 이마에 붙은 Connection ID는 똑같네? 오케이!" 하고 다운로드 받던 영상을 끊김 없이 즉시 이어서(마이그레이션) 쏴줍니다. 넷플릭스 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 제로(0)에 수렴합니다.
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. ESNI가 기반 조건을 만든다면, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식은 그 위에서 핵심 메커니즘을 구현하고, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 사용자 공간 혼잡 제어, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 원터치 융합, Connection ID 마이그레이션이라는 3단 콤보가 TCP의 30년 늙은 뼈대를 완벽하게 압살해 버렸기 때문에, 국제 인터넷 표준화 기구([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))가 구글의 QUIC을 그대로 가져다가 차세대 웹 표준인 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3**의 뼈대로 공식 박아버린 것입니다.
+이 사용자 공간 혼잡 제어, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 원터치 융합, Connection ID 마이그레이션이라는 3단 콤보가 TCP의 30년 늙은 뼈대를 완벽하게 압살해 버렸기 때문에, 국제 인터넷 표준화 기구([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))가 구글의 QUIC을 그대로 가져다가 차세대 웹 표준인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3</strong>의 뼈대로 공식 박아버린 것입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어**는 자동차 **'엔진 쇳덩어리(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))' 안에 브레이크 조절 장치([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**가 통째로 용접되어 있는 것과 같습니다. 구글이 미끄러운 눈길에서 절대 안 미끄러지는 최신 브레이크 기술([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/))을 개발했지만, 이걸 적용하려면 전 세계 모든 자동차의 본네트를 열고 엔진을 뜯어고쳐야(OS 업데이트) 했습니다. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 ([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))**는 브레이크 조절 장치를 엔진에서 뜯어내어, 스마트폰에 꽂아 쓰는 **'소프트웨어 내비게이션 앱(사용자 공간 브라우저)' 안으로 이식**해 버린 혁명입니다. 이제 구글이 내비 앱 업데이트 버튼만 누르면, 전 세계 수십억 대의 자동차 브레이크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 내일 아침 1초 만에 최신식 눈길 방지 모드([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/))로 싹 갈아 엎어집니다. 쇳덩어리에 갇혀 30년 동안 진화하지 못했던 네트워크 통제 기술을 소프트웨어 앱의 영역으로 끄집어 올려, 빛의 속도로 진화하게 만든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 최강의 속도 업그레이드입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 혼잡 제어</strong>는 자동차 <strong>'엔진 쇳덩어리(OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)' 안에 브레이크 조절 장치(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>가 통째로 용접되어 있는 것과 같습니다. 구글이 미끄러운 눈길에서 절대 안 미끄러지는 최신 브레이크 기술([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/))을 개발했지만, 이걸 적용하려면 전 세계 모든 자동차의 본네트를 열고 엔진을 뜯어고쳐야(OS 업데이트) 했습니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>)</strong>는 브레이크 조절 장치를 엔진에서 뜯어내어, 스마트폰에 꽂아 쓰는 <strong>'소프트웨어 내비게이션 앱(사용자 공간 브라우저)' 안으로 이식</strong>해 버린 혁명입니다. 이제 구글이 내비 앱 업데이트 버튼만 누르면, 전 세계 수십억 대의 자동차 브레이크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 내일 아침 1초 만에 최신식 눈길 방지 모드([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/))로 싹 갈아 엎어집니다. 쇳덩어리에 갇혀 30년 동안 진화하지 못했던 네트워크 통제 기술을 소프트웨어 앱의 영역으로 끄집어 올려, 빛의 속도로 진화하게 만든 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 최강의 속도 업그레이드입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ESNI]
-    │
-    ▼
-[현재 개념: HTTP/3 QUIC 혼잡 윈도우 이식]
-    │
-    ├──▶ [확장 A: 마이크로서비스 서비스 메시 패싱]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ESNI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로서비스 서비스 메시 패싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식는 ESNI에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 패싱와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

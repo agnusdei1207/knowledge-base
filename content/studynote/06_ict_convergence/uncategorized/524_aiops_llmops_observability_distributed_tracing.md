@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Microservice)로 분해된다. 전통적인 모니터링 도구는 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표는 보여주지만, 요청이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체인을 따라 흐르는 **인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 추적하지 못한다. 동시에 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 토큰 비용·[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)률·[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 등 기존 ML과 다른 운영 지표를 필요로 한다.
+[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Microservice)로 분해된다. 전통적인 모니터링 도구는 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지표는 보여주지만, 요청이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체인을 따라 흐르는 <strong>인과 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 추적하지 못한다. 동시에 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 토큰 비용·[환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)률·[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 등 기존 ML과 다른 운영 지표를 필요로 한다.
 
 - **📢 섹션 요약 비유**: 수십 개 역을 지나는 지하철 노선에서 어느 역에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 시작됐는지 알려면 전 노선을 실시간으로 추적하는 관제 시스템([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))이 필수다.
 
@@ -29,24 +29,26 @@ tags = ["studynote-ict-convergence"]
 
 ### [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3원칙 구조
 
-```
-  애플리케이션 (마이크로서비스)
-       │
-       ├──[로그(Logs)]────────► Loki / Elasticsearch
-       │   구조화 이벤트, 에러 스택  
-       ├──[메트릭(Metrics)]──► Prometheus / Datadog
-       │   CPU, RPS, 응답시간
-       └──[트레이스(Traces)]──► Jaeger / Zipkin / Tempo
-           요청 흐름, Span ID, TraceID
-                    │
-                    ▼
-         ┌─────────────────┐
-         │  OpenTelemetry  │   ← 통합 계측 표준
-         │  Collector      │
-         └────────┬────────┘
-                  ▼
-           Grafana Dashboard (통합 시각화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애플리케이션 (마이크로서비스)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">로그(Logs)</div><div class="kb-diagram-note">► Loki / Elasticsearch</div></div>
+<div class="kb-diagram-note">구조화 이벤트, 에러 스택</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">메트릭(Metrics)</div><div class="kb-diagram-note">──► Prometheus / Datadog</div></div>
+<div class="kb-diagram-note">CPU, RPS, 응답시간</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">트레이스(Traces)</div><div class="kb-diagram-note">──► Jaeger / Zipkin / Tempo</div></div>
+<div class="kb-diagram-note">요청 흐름, Span ID, TraceID</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenTelemetry</div><div class="kb-diagram-cell">← 통합 계측 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Grafana Dashboard (통합 시각화)</div>
+</div>
+</div>
+
+
 
 | 구분 | [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) | [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) | [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) |
 |:---|:---|:---|:---|
@@ -55,7 +57,7 @@ tags = ["studynote-ict-convergence"]
 | 대표 도구 | Dynatrace, Moogsoft, PagerDuty | LangSmith, Weights&Biases, [MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/) | [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/), Jaeger, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) |
 | 핵심 지표 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간), 이벤트 노이즈 감소율 | [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)률, p95 토큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용/[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 요청 성공률(RED), 포화도(USE) |
 
-**[분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))**에서 TraceID는 요청 전 구간에 공통으로 부여되며, SpanID는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서의 처리 단위를 식별한다. Jaeger·Zipkin은 이 Span [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집해 폭포수(Waterfall) 형태의 호출 타임라인으로 시각화한다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">분산 추적</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/">Distributed Tracing</a>)</strong>에서 TraceID는 요청 전 구간에 공통으로 부여되며, SpanID는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서의 처리 단위를 식별한다. Jaeger·Zipkin은 이 Span [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집해 폭포수(Waterfall) 형태의 호출 타임라인으로 시각화한다.
 
 - **📢 섹션 요약 비유**: TraceID는 택배 운송장 번호, SpanID는 각 물류 센터의 스캔 기록—번호 하나로 택배가 어디서 얼마나 머물렀는지 전부 추적할 수 있다.
 
@@ -70,7 +72,7 @@ tags = ["studynote-ict-convergence"]
 | 질문 유형 | "지금 다운됐나?" | "왜 이 요청만 3초 걸렸나?" |
 | 확장성 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수 증가 시 한계 | 카디널리티 관리 필요하지만 확장 가능 |
 
-**[LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 특화 관리 항목**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/">LLMOps</a> 특화 관리 항목</strong>:
 - 프롬프트 [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/): 프롬프트 변경이 성능에 미치는 영향 A/B 추적
 - [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 파이프라인 품질: 검색 정확도(MRR, NDCG) 모니터링
 - [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 감지: FactScore, [RAGAS](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) 프레임워크 자동 평가
@@ -82,13 +84,13 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 도입 단계**:
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a> 도입 단계</strong>:
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 통합([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)+[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)+트레이스 → [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/))
 2. 이상 감지 모델 학습(시계열 [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest)
 3. 이벤트 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/) → 노이즈 90% 감소, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(Mean Time to [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 단축
 4. 자동 치유(Auto-Healing): k8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 재시작, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 자동화
 
-**[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 표준화 이점**: 벤더 락인([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 방지. 계측 코드를 한 번 작성하면 Jaeger·Datadog·[New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Relic 등 백엔드를 자유롭게 교체 가능.
+<strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a> 표준화 이점</strong>: 벤더 락인([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 방지. 계측 코드를 한 번 작성하면 Jaeger·Datadog·[New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Relic 등 백엔드를 자유롭게 교체 가능.
 
 **기술사 판단**: [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 구축 시 고카디널리티(High Cardinality) 지표(예: 사용자 ID별 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))는 저장 비용이 폭증한다. Prometheus의 Label 정책과 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 전략을 사전에 설계해야 한다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 
 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) (Static [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))는 `new` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출 대신 클래스가 제공하는 정적 메서드로 인스턴스를 반환하는 방식이다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자는 문법이 단순하지만 이름을 가질 수 없고, 항상 자신의 타입 인스턴스를 새로 만든다는 제약이 있다. 그래서 같은 시그니처로 서로 다른 의미의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 필요하거나, 실제 구현을 감추고 인터페이스 타입만 노출하고 싶을 때 표현력이 부족해진다.
 
-예를 들어 `new LocalDate(2026, 4, 21)`보다 `LocalDate.of(2026, 4, 21)`는 "날짜 조립"이라는 의도가 더 잘 보인다. `Boolean.valueOf(true)`는 매번 새 객체를 만들지 않고 이미 있는 인스턴스를 재사용할 수 있다. 즉 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 단순 문법 취향이 아니라, **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 설계적으로 통제하려는 선택**에서 등장했다.
+예를 들어 `new LocalDate(2026, 4, 21)`보다 `LocalDate.of(2026, 4, 21)`는 "날짜 조립"이라는 의도가 더 잘 보인다. `Boolean.valueOf(true)`는 매번 새 객체를 만들지 않고 이미 있는 인스턴스를 재사용할 수 있다. 즉 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 단순 문법 취향이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 책임을 설계적으로 통제하려는 선택</strong>에서 등장했다.
 
 - **📢 섹션 요약 비유**: 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 손님이 주방에 직접 들어가 요리하지 않고, 메뉴 이름을 보고 주문해 주방이 가장 알맞은 요리를 내주는 식당 주문창구와 같다.
 
@@ -29,27 +29,28 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)의 핵심은 "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"을 하나의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수로 다루는 데 있다. 호출자는 무엇을 원한다고 말하고, 클래스는 새 객체를 만들지, 캐시를 돌려줄지, 하위 구현체를 선택할지 결정한다. 이 덕분에 클라이언트는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항보다 **의도와 계약**에 집중할 수 있다.
+정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)의 핵심은 "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"을 하나의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 함수로 다루는 데 있다. 호출자는 무엇을 원한다고 말하고, 클래스는 새 객체를 만들지, 캐시를 돌려줄지, 하위 구현체를 선택할지 결정한다. 이 덕분에 클라이언트는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항보다 <strong>의도와 계약</strong>에 집중할 수 있다.
 
 다음 그림은 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 감싸는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Static Factory Method: 생성 요청과 실제 생성 정책을 분리      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │ create / of / from / valueOf                                     │
-│   ▼                                                                  │
-│ Static Factory Method                                                 │
-│   ├─ 입력 검증                                                       │
-│   ├─ 캐시 조회                                                       │
-│   ├─ 구현 클래스 선택                                                │
-│   └─ 새 객체 생성 또는 기존 객체 반환                                │
-│            │                                                         │
-│            ├─▶ Interface Type 반환                                   │
-│            └─▶ Concrete Subtype 은닉                                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static Factory Method: 생성 요청과 실제 생성 정책을 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">create / of / from / valueOf</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static Factory Method</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 입력 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 캐시 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 구현 클래스 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 새 객체 생성 또는 기존 객체 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Interface Type 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Concrete Subtype 은닉</div></div>
+</div>
+</div>
+
+
 
 대표적인 설계 효과는 아래와 같다.
 
@@ -76,7 +77,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 자주 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 대체 수단"으로 소개되지만, 실제로는 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자**, **정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)**, **GoF [팩토리 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) ([Factory Method Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/))**을 구분해서 봐야 한다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자는 언어 문법이고, 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 클래스 내부의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 관용구이며, GoF [팩토리 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/)은 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 하위 클래스로 미루는 패턴이다.
+정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 자주 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 대체 수단"으로 소개되지만, 실제로는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자</strong>, <strong>정적 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">팩토리 메서드</a></strong>, <strong>GoF <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/">팩토리 메서드 패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/">Factory Method Pattern</a>)</strong>을 구분해서 봐야 한다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자는 언어 문법이고, 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 클래스 내부의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 관용구이며, GoF [팩토리 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/)은 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 하위 클래스로 미루는 패턴이다.
 
 | 구분 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 | 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | GoF [팩토리 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/) |
 | :--- | :--- | :--- | :--- |
@@ -100,7 +101,7 @@ tags = ["studynote-design-supervision"]
 
 1. **이름이 필요한가**: 같은 파라미터 타입으로 여러 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 의미가 존재하면 정적 팩토리가 유리하다.
 2. **반환 구현을 숨겨야 하는가**: 인터페이스 기반 API면 정적 팩토리가 적합하다.
-3. **재사용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가**: 불변 객체, 캐시 객체, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 객체는 정적 팩토리가 효과적이다.
+3. <strong>재사용 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 있는가</strong>: 불변 객체, 캐시 객체, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 객체는 정적 팩토리가 효과적이다.
 4. **프레임워크 제약이 있는가**: 직렬화, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)) 도구가 기본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 요구하면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자와 병행 공개를 고려한다.
 
 반면 다음 안티패턴은 피해야 한다.
@@ -117,7 +118,7 @@ tags = ["studynote-design-supervision"]
 
 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 API를 더 읽기 쉽게 만들고, 구현 은닉과 객체 수명 제어를 통해 유지보수성을 높인다. 불변 객체 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자 프레임워크 ([Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/) Framework), 인터페이스 반환 API처럼 확장성과 성능을 함께 고려해야 하는 설계에서 특히 효과적이다. 또한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙을 한곳에 모아 두기 때문에 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/601_input_validation/), 로깅, 모니터링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 일관되게 적용하기 쉽다.
 
-하지만 발견성이 낮고 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 친화성이 떨어질 수 있다는 한계는 남는다. 따라서 이 기법은 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 모두 없애는 정답"이 아니라, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 의미를 설계적으로 통제해야 할 때 선택하는 도구로 기억해야 한다. 한마디로 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 **객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문법을 비즈니스 의미와 설계 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 끌어올리는 방법**이다.
+하지만 발견성이 낮고 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 친화성이 떨어질 수 있다는 한계는 남는다. 따라서 이 기법은 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 모두 없애는 정답"이 아니라, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 의미를 설계적으로 통제해야 할 때 선택하는 도구로 기억해야 한다. 한마디로 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 <strong>객체 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 문법을 비즈니스 의미와 설계 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>으로 끌어올리는 방법</strong>이다.
 
 - **📢 섹션 요약 비유**: 정적 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)는 재료를 직접 꺼내 조립하는 공구함이 아니라, 필요한 목적을 말하면 가장 알맞은 제품을 건네주는 전문 상담 매장과 같다.
 
@@ -135,18 +136,20 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-생성자 (Constructor)의 한계
-        │
-        ▼
-정적 팩토리 메서드 (Static Factory Method)
-        │
-        ├─▶ 캐싱 / 싱글턴 / 플라이웨이트
-        │
-        ├─▶ 인터페이스 반환 / 구현 은닉
-        │
-        └─▶ 서비스 제공자 프레임워크 / 확장형 API 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">생성자 (Constructor)의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 팩토리 메서드 (Static Factory Method)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐싱 / 싱글턴 / 플라이웨이트</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터페이스 반환 / 구현 은닉</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 서비스 제공자 프레임워크 / 확장형 API 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"에서 출발해 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제"와 "구현 은닉"으로 설계 관심사가 확장되는 과정을 보여준다.
 

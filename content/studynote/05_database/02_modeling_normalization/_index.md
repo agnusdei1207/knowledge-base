@@ -33,35 +33,29 @@ tags = ["database"]
 
 ### 이상” 도식화
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Update Anomaly 예시: 비정규화된 Employee 테이블 │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ EMP_ID │ EMP_NAME │ DEPT_NO │ DEPT_NAME │ DEPT_LOCATION │ │ │
-│ ├────────┼──────────┼─────────┼───────────┼─────────────────┤ │
-│ │ 001 │ 김철수 │ D1 │ 개발 │ 서울 │ │
-│ │ 002 │ 이영희 │ D1 │ 개발 │ 서울 │ │ ← 중복!
-│ │ 003 │ 박민수 │ D2 │ 마케팅 │ 부산 │ │
-│ │ 004 │ 정수진 │ D2 │ 마케팅 │ 부산 │ │ ← 중복!
-│ └─────────────────────────────────────────────────────────────┘ │
-│ │
-│ 문제 상황들: │
-│ │
-│ [삽입 이상] D3 부서를하려는데 직원이 아직 없다면? │
-│ → DEPT_NAME, DEPT_LOCATION를 어떻게 저장할까? │
-│ → NULL을 허용하거나 가상의 직원을 만들어야 함 │
-│ │
-│ [삭제 이상] Employee 003, 004를 모두 삭제하면? │
-│ → 마케팅 부서 정보가완전에 사라짐! │
-│ │
-│ [수정이상] 개발 부서가 서울에서 인천으로 이전한다면? │
-│ → EMP_ID 001, 002의 DEPT_LOCATION을 모두 업데이트해야 함 │
-│ → 하나라도 누락되면 데이터 불일치 발생! │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Update Anomaly 예시: 비정규화된 Employee 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP_ID</div><div class="kb-diagram-cell">EMP_NAME</div><div class="kb-diagram-cell">DEPT_NO</div><div class="kb-diagram-cell">DEPT_NAME</div><div class="kb-diagram-cell">DEPT_LOCATION</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">001</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">D1</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">서울</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">002</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">D1</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">서울</div><div class="kb-diagram-cell">← 중복!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">003</div><div class="kb-diagram-cell">박민수</div><div class="kb-diagram-cell">D2</div><div class="kb-diagram-cell">마케팅</div><div class="kb-diagram-cell">부산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">004</div><div class="kb-diagram-cell">정수진</div><div class="kb-diagram-cell">D2</div><div class="kb-diagram-cell">마케팅</div><div class="kb-diagram-cell">부산</div><div class="kb-diagram-cell">← 중복!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 상황들:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 이상</div><div class="kb-diagram-note">D3 부서를하려는데 직원이 아직 없다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ DEPT_NAME, DEPT_LOCATION를 어떻게 저장할까?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ NULL을 허용하거나 가상의 직원을 만들어야 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삭제 이상</div><div class="kb-diagram-note">Employee 003, 004를 모두 삭제하면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 마케팅 부서 정보가완전에 사라짐!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수정이상</div><div class="kb-diagram-note">개발 부서가 서울에서 인천으로 이전한다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ EMP_ID 001, 002의 DEPT_LOCATION을 모두 업데이트해야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 하나라도 누락되면 데이터 불일치 발생!</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 중요한 점은 하나의 사실(부서 정보)이 여러 행에 중복 저장되어 있다는 것이다. 이러한 중복은 저장 공간을 낭비할 뿐만 아니라, 데이터의 일관성을 유지하는 것을 어렵게 만든다. 정규화는 이러한 중복을 제거하여 각 사실이 한 곳에만 저장되도록 하는 과정이다.
 
@@ -85,119 +79,80 @@ tags = ["database"]
 
 정규형 (Normal Form)은 관계 스키마가 만족하는 구조적 조건의 수준을 나타내며, 고급 정규형으로 갈수록 더 엄격한 조건을 만족한다.
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normal Forms Hierarchy (정규형 단계) │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌──────────────────┐ │
-│ │ BCNF (3.5NF) │ ← 모든 FD에서 결정자가 │
-│ │ (Boyce-Codd) │ 후보 키이어야 함 │
-│ └────────┬─────────┘ │
-│ │ │
-│ ┌────────▼─────────┐ │
-│ │ 3NF (3차) │ ← transitive dependency │
-│ │ │ 제거 │
-│ └────────┬─────────┘ │
-│ │ │
-│ ┌────────▼─────────┐ │
-│ │ 2NF (2차) │ ← partial dependency │
-│ │ │ 제거 │
-│ └────────┬─────────┘ │
-│ │ │
-│ ┌────────▼─────────┐ │
-│ │ 1NF (1차) │ ← atomic value (원자값) │
-│ │ │ only, no repeating group│
-│ └──────────────────┘ │
-│ │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ 제1정규형 (1NF): 모든 속성의 값이 atomic (분해 불가능한 원자값) │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ ❌ 위반: SETOF, LIST, ARRAY 속성 │ │
-│ │ phone_numbers = {'010-1234-5678', '010-8765-4321'} │ │
-│ │ │ │
-│ │ ✅ 수정: 별도 테이블로 분리하거나 개별 컬럼으로 분리 │ │
-│ │ phone_1 = '010-1234-5678', phone_2 = '010-8765-4321' │ │
-│ └─────────────────────────────────────────────────────────────┘ │
-│ │
-│ 제2정규형 (2NF): 1NF이면서, 모든 비주요 속성이 후보 키에 완전 종속 │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ StudentLecture (학번, 과목번호, 학과, 성적) │ │
-│ │ │ │
-│ │ • (학번, 과목번호) → 성적 (완전 종속) ✓ │ │
-│ │ • 학번 → 학과 (부분 종속) ✗ → 별도 Student 테이블로 분리 │ │
-│ └─────────────────────────────────────────────────────────────┘ │
-│ │
-│ 제3정규형 (3NF): 2NF이면서, 어떤 비주요 속성도 다른 비주요 속성에 종속 X │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ EMP (사원번호, 부서번호, 부서명, 지역) │ │
-│ │ │ │
-│ │ • 사원번호 → 부서번호 (✓) │ │
-│ │ • 사원번호 → 부서명 (✗ transitive via 부서번호) │ │
-│ │ • 부서번호 → 부서명 (✗) │ │
-│ │ → 부서 테이블을 분리하여 3NF 달성 │ │
-│ └─────────────────────────────────────────────────────────────┘ │
-│ │
-│ BCNF (Boyce-Codd Normal Form): 3NF이면서, 모든 FD의 결정자가 후보 키 │
-│ ┌─────────────────────────────────────────────────────────────┐ │
-│ │ Tutoring (학생, 과목, 교수) │ │
-│ │ │ │
-│ │ • 각 과목은 하나의 교수만 담당: (학생, 과목) → 교수 │ │
-│ │ • 각 는 각 과목 담당: 교수 → 과목 │ │
-│ │ │ │
-│ │ 문제: 교수가 결정자이지만 후보 키(학생, 과목)에 속하지 않음 │ │
-│ │ → BCNF 위반 → 테이블 분할 필요 │ │
-│ └─────────────────────────────────────────────────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal Forms Hierarchy (정규형 단계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCNF (3.5NF)</div><div class="kb-diagram-cell">← 모든 FD에서 결정자가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Boyce-Codd)</div><div class="kb-diagram-cell">후보 키이어야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3NF (3차)</div><div class="kb-diagram-cell">← transitive dependency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2NF (2차)</div><div class="kb-diagram-cell">← partial dependency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1NF (1차)</div><div class="kb-diagram-cell">← atomic value (원자값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">only, no repeating group</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제1정규형 (1NF): 모든 속성의 값이 atomic (분해 불가능한 원자값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 위반: SETOF, LIST, ARRAY 속성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">phone_numbers = {'010-1234-5678', '010-8765-4321'}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 수정: 별도 테이블로 분리하거나 개별 컬럼으로 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">phone_1 = '010-1234-5678', phone_2 = '010-8765-4321'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제2정규형 (2NF): 1NF이면서, 모든 비주요 속성이 후보 키에 완전 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StudentLecture (학번, 과목번호, 학과, 성적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• (학번, 과목번호) → 성적 (완전 종속) ✓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 학번 → 학과 (부분 종속) ✗ → 별도 Student 테이블로 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제3정규형 (3NF): 2NF이면서, 어떤 비주요 속성도 다른 비주요 속성에 종속 X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP (사원번호, 부서번호, 부서명, 지역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 사원번호 → 부서번호 (✓)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 사원번호 → 부서명 (✗ transitive via 부서번호)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 부서번호 → 부서명 (✗)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 부서 테이블을 분리하여 3NF 달성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCNF (Boyce-Codd Normal Form): 3NF이면서, 모든 FD의 결정자가 후보 키</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tutoring (학생, 과목, 교수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 각 과목은 하나의 교수만 담당: (학생, 과목) → 교수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 각 는 각 과목 담당: 교수 → 과목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 교수가 결정자이지만 후보 키(학생, 과목)에 속하지 않음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ BCNF 위반 → 테이블 분할 필요</div></div>
+</div>
+</div>
+
+
 
 정규화의 각 단계는 특정 종류의 데이터 중복과 이상 문제를 해결한다. 1NF는 반복 그룹 (Repeating Group)을 제거하여 각 셀이 하나의 값만 가지도록 한다. 2NF는 부분 종속성을 제거하여 키의 일부만으로 결정되는 속성을 별도 테이블로 분리한다. 3NF는 추이 종속성을 제거하여 키가 아닌 속성들 간의 결정 관계를 차단한다. BCNF는 3NF보다 더 엄격하여, 후보 키가 아닌 결정자를 허용하지 않는다.
 
 ### 정규화 과정 도식화
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normalization Process Example │
-│ │
-│ 초기 비정규 테이블: │
-│ ┌──────────────────────────────────────────────────────────────┐ │
-│ │ Project_Assignment │ │
-│ │ ┌──────┬──────────┬────────┬───────────┬──────────┐ │ │
-│ │ │ emp_id │ emp_name │ dept │ project_no │ project_name │ │ │
-│ │ ├──────┼──────────┼────────┼───────────┼──────────┤ │ │
-│ │ │ 001 │ 김철수 │ 개발 │ P1 │ Alpha │ │ │
-│ │ │ 001 │ 김철수 │ 개발 │ P2 │ Beta │ │ │
-│ │ │ 002 │ 이영희 │ 개발 │ P1 │ Alpha │ │ │
-│ │ │ 003 │ 박민수 │ 마케팅 │ P2 │ Beta │ │ │
-│ │ └──────┴──────────┴────────┴───────────┴──────────┘ │ │
-│ └──────────────────────────────────────────────────────────────┘ │
-│ │
-│ 문제 분석: │
-│ • emp_name은 emp_id에 종속 (부분 종속) │
-│ • dept는 emp_id에 종속 (부분 종속) │
-│ • project_name은 project_no에 종속 (추이 종속) │
-│ • 개발 부서 김철수, 이영희의 dept 중복 (데이터 중복) │
-│ │
-│ ▼ 정규화 진행 │
-│ │
-│ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────────┐ │
-│ │ Employee │ │ Project │ │ Assignment (M:N) │ │
-│ ├─────────────────┤ ├─────────────────┤ ├─────────────────────┤ │
-│ │ emp_id (PK) │ │ project_no (PK)│ │ emp_id (FK) │ │
-│ │ emp_name │ │ project_name │ │ project_no (FK) │ │
-│ │ dept │ │ │ │ │ │
-│ └─────────────────┘ └─────────────────┘ └─────────────────────┘ │
-│ │
-│ 효과: │
-│ • dept 정보를 employee에서 한번만 저장 (중복 제거) │
-│ • project_name을 project에서 한번만 저장 (중복 제거) │
-│ • 새 프로젝트추가 project 테이블에만 추가하면 됨 │
-│ • 사원 정보를 employee 테이블에만 하면 됨 │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normalization Process Example</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 비정규 테이블:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Project_Assignment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">emp_id</div><div class="kb-diagram-cell">emp_name</div><div class="kb-diagram-cell">dept</div><div class="kb-diagram-cell">project_no</div><div class="kb-diagram-cell">project_name</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">001</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">Alpha</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">001</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">Beta</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">002</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">Alpha</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">003</div><div class="kb-diagram-cell">박민수</div><div class="kb-diagram-cell">마케팅</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">Beta</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 분석:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• emp_name은 emp_id에 종속 (부분 종속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• dept는 emp_id에 종속 (부분 종속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• project_name은 project_no에 종속 (추이 종속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 개발 부서 김철수, 이영희의 dept 중복 (데이터 중복)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 정규화 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Employee</div><div class="kb-diagram-cell">Project</div><div class="kb-diagram-cell">Assignment (M:N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">emp_id (PK)</div><div class="kb-diagram-cell">project_no (PK)</div><div class="kb-diagram-cell">emp_id (FK)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">emp_name</div><div class="kb-diagram-cell">project_name</div><div class="kb-diagram-cell">project_no (FK)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dept</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• dept 정보를 employee에서 한번만 저장 (중복 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• project_name을 project에서 한번만 저장 (중복 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 새 프로젝트추가 project 테이블에만 추가하면 됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 사원 정보를 employee 테이블에만 하면 됨</div></div>
+</div>
+</div>
+
+
 
 정규화의 핵심 이점은 데이터 중복의 제거와 데이터 무결성의 향상이다. 위 예제에서 비정규 테이블에서는 "개발"이라는 부서 정보가 두 번 중복되어 있었다. 만약 부서명이 "개발팀"으로 변경되면 두 행을 모두 업데이트해야 하지만, 정규화 후에는 employee 테이블의 한 행만 업데이트하면 된다.
 
@@ -211,95 +166,74 @@ tags = ["database"]
 
 ### 정규화 vs 비정규화: 트레이드오프
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normalization vs Denormalization: Trade-off │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌────────────────────────┬──────────────────────────────────────┐ │
-│ │ 정규화 (3NF↑) │ 비정규화 │ │
-│ ├────────────────────────┼──────────────────────────────────────┤ │
-│ │ 장점 │ 장점 │ │
-│ │ • 데이터 중복 최소화 │ • 조인 감소 → 읽기 성능 향상 │ │
-│ │ • 업데이트 이상 방 │ • 쿼리 단순화 │ │
-│ │ • 데이터 일관성 향상 │ • 개발 생산성 향상 │ │
-│ │ • 저장 공간 절약 │ • 집계/분석 쿼리 │ │
-│ ├────────────────────────┼──────────────────────────────────────┤ │
-│ │ 단점 │ 단점 │ │
-│ │ • 과도한 조인 → 읽기 부하 │ • 데이터 중복 → 업데이트 이상 발생 │ │
-│ │ • 복잡한 쿼리 │ • 저장 공간 증가 │ │
-│ │ • 응용 프로그램 복잡화 │ • 데이터 불일치 위험 │ │
-│ └────────────────────────┴──────────────────────────────────────┘ │
-│ │
-│ ════════════════════════════════════════════════════════════════════ │
-│ │
-│ 실무 선택 기준: │
-│ │
-│ ✓ 정규화 선택: │
-│ • OLTP (Online Transaction Processing) 시스템 │
-│ • 빈번한 INSERT/UPDATE/DELETE 작업 │
-│ • 데이터 무결성이 핵심인 시스템 (금융, 회계) │
-│ • 중복 데이터 업데이트 실수 가능성이 높은 환경 │
-│ │
-│ ✓ 의도적 비정규화 선택: │
-│ • OLAP (Online Analytical Processing) 시스템 │
-│ • 읽기 집중 (Read-Heavy) workload │
-│ • 복잡한 조인으로 인한 성능 저하가 인정되는 경우 │
-│ • 분석/보고서용 별도 데이터 웨어하우스 │
-│ │
-│ ✓ 하이브리드 접근: │
-│ • OLTP DB: 정규화된 구조 (원본 데이터) │
-│ • Data Warehouse: 비정규화된 구조 (분석용) │
-│ • ETL (Extract-Transform-Load)로 데이터 동기화 │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normalization vs Denormalization: Trade-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 (3NF↑)</div><div class="kb-diagram-cell">비정규화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점</div><div class="kb-diagram-cell">장점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 중복 최소화</div><div class="kb-diagram-cell">• 조인 감소 → 읽기 성능 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 업데이트 이상 방</div><div class="kb-diagram-cell">• 쿼리 단순화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 일관성 향상</div><div class="kb-diagram-cell">• 개발 생산성 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 저장 공간 절약</div><div class="kb-diagram-cell">• 집계/분석 쿼리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점</div><div class="kb-diagram-cell">단점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 과도한 조인 → 읽기 부하</div><div class="kb-diagram-cell">• 데이터 중복 → 업데이트 이상 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 복잡한 쿼리</div><div class="kb-diagram-cell">• 저장 공간 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 응용 프로그램 복잡화</div><div class="kb-diagram-cell">• 데이터 불일치 위험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 선택 기준:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 정규화 선택:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• OLTP (Online Transaction Processing) 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 빈번한 INSERT/UPDATE/DELETE 작업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 무결성이 핵심인 시스템 (금융, 회계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 중복 데이터 업데이트 실수 가능성이 높은 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 의도적 비정규화 선택:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• OLAP (Online Analytical Processing) 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 읽기 집중 (Read-Heavy) workload</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 복잡한 조인으로 인한 성능 저하가 인정되는 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 분석/보고서용 별도 데이터 웨어하우스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 하이브리드 접근:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• OLTP DB: 정규화된 구조 (원본 데이터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• Data Warehouse: 비정규화된 구조 (분석용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• ETL (Extract-Transform-Load)로 데이터 동기화</div></div>
+</div>
+</div>
+
+
 
 실무에서 "정규화 vs 비정규화"는가 아니다. 현대 데이터베이스 설계는 정규화를 기본으로 하되, 성능 문제 해결을 위한 의도적 비정규화를 전략적으로 도입하는 것이 일반적이다. 중요한 것은한 비정규화가 아닌, 충분한성능 테스트와 모니터링을 통한 의사결정이다.
 
 ### 정규형 선택 가이드
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normal Form Selection Guide │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ 판단 트리: │
-│ │
-│ Start │
-│ │ │
-│ ├─► 데이터가 반복 그룹을 포함하는가? │
-│ │ │ │
-│ │ ├─► 예: ► 1NF 필수 │
-│ │ └─► 아니오: 다음 질문으로 │
-│ │ │
-│ ├─► 복합 키(2개 이상 컬럼)를 사용하는가? │
-│ │ │ │
-│ │ ├─► 예: ► 비주요 속성이 키의 일부에만 종속되는가? │
-│ │ │ │ │
-│ │ │ ├─► 예: ► 2NF 필수 │
-│ │ │ └─► 아니오: 다음 질문으로 │
-│ │ └─► 아니오: 2NF 이상 │
-│ │ │
-│ ├─► 비주요 속성이 다른 비주요 속성을 결정하는가? │
-│ │ │ │
-│ │ ├─► 예: ► 3NF 필수 │
-│ │ └─► 아니오: 다음 질문으로 │
-│ │ │
-│ └─► 결정자가 후보 키가 아닌 경우가 있는가? │
-│ │ │
-│ ├─► 예: ► BCNF 필수 │
-│ └─► 아니오: 3NF로 충분 │
-│ │
-│ ════════════════════════════════════════════════════════════════════ │
-│ │
-│ 일반적 권장사항: │
-│ • 대부분의 OLTP 시스템: 3NF (일반적으로 충분) │
-│ • 복잡한 관계가 있는 경우: BCNF 고려 │
-│ • 분석/보고서 시스템: 비정규화 또는 차원 모델링 고려 │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal Form Selection Guide</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 트리:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Start</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 데이터가 반복 그룹을 포함하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 예: ► 1NF 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 아니오: 다음 질문으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 복합 키(2개 이상 컬럼)를 사용하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 예: ► 비주요 속성이 키의 일부에만 종속되는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 예: ► 2NF 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 아니오: 다음 질문으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 아니오: 2NF 이상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 비주요 속성이 다른 비주요 속성을 결정하는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 예: ► 3NF 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 아니오: 다음 질문으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 결정자가 후보 키가 아닌 경우가 있는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 예: ► BCNF 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► 아니오: 3NF로 충분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반적 권장사항:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 대부분의 OLTP 시스템: 3NF (일반적으로 충분)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 복잡한 관계가 있는 경우: BCNF 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 분석/보고서 시스템: 비정규화 또는 차원 모델링 고려</div></div>
+</div>
+</div>
+
+
 
 ### 📢 섹션 요약 비유
 
@@ -311,79 +245,66 @@ tags = ["database"]
 
 ### 정규화 적용 시 실무적 고려사항
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normalization Practice Guidelines │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ 단계별 실무 체크리스트: │
-│ │
-│ □ 1NF 확인: │
-│ • 모든 컬럼이 하나의 값만 갖는가? (NULL도 하나의 값) │
-│ • 반복 그룹 (여러 전화번호, 여러 주소) 이 분리되었는가? │
-│ • 배열, JSON, XML 타입의 컬럼이 별도 테이블로 분리되었는가? │
-│ │
-│ □ 2NF 확인: │
-│ • 복합 키를 사용하는 테이블인가? │
-│ • 그렇다면, 비주요 속성이 키의 일부에만 종속되는 경우가 없는가? │
-│ • 부분 종속이 있다면 별도 테이블로 분리했는가? │
-│ │
-│ □ 3NF 확인: │
-│ • 비주요 속성 간에 결정 관계가 없는인가? │
-│ • 예: 사원번호 → 부서코드 → 부서명 에서 부서명이 부서코드에 종속? │
-│ • 추이 종속이 있다면 적절히 분리했는가? │
-│ │
-│ □ BCNF 확인: │
-│ • 모든 결정자가 후보 키인가? │
-│ • 경우가 있다면 테이블을 분리했는가? │
-│ • 분리 결과 데이터 손실이나 정보 손실이 없는가? │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normalization Practice Guidelines</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계별 실무 체크리스트:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 1NF 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 모든 컬럼이 하나의 값만 갖는가? (NULL도 하나의 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 반복 그룹 (여러 전화번호, 여러 주소) 이 분리되었는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 배열, JSON, XML 타입의 컬럼이 별도 테이블로 분리되었는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 2NF 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 복합 키를 사용하는 테이블인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 그렇다면, 비주요 속성이 키의 일부에만 종속되는 경우가 없는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 부분 종속이 있다면 별도 테이블로 분리했는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 3NF 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 비주요 속성 간에 결정 관계가 없는인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 예: 사원번호 → 부서코드 → 부서명 에서 부서명이 부서코드에 종속?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 추이 종속이 있다면 적절히 분리했는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ BCNF 확인:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 모든 결정자가 후보 키인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 경우가 있다면 테이블을 분리했는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 분리 결과 데이터 손실이나 정보 손실이 없는가?</div></div>
+</div>
+</div>
+
+
 
 ### 안티패턴: 실무에서 흔히 저지르는 정규화 실수
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normalization Anti-Patterns in Practice │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ❌ 안티패턴 1: "모든 테이블을 3NF로 만들어야 한다" 고집 │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ 문제: │ │
-│ │ • 소규모 조회 전용 테이블까지 과도한 정규화 │ │
-│ │ • 조인이 너무 많아져 응답 시간 증가 │ │
-│ │ • 오히려 비정규화가 성능에 유리한 경우 많음 │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-│ │
-│ ❌ 안티패턴 2: UUID/ GUID를 Primary Key로만 사용 │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ 문제: │ │
-│ │ • UUID는 순서가 없어 B-Tree 인덱스 분포가 불균형 │ │
-│ │ • 저장 공간 증가 (128비트 vs 32비트 정수) │ │
-│ │ • 범위 기반 쿼리 성능 저하 │ │
-│ │ → 권장: 자연 키(Natural Key)가 적합하면 사용, 아니면 단일키+인덱스│ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-│ │
-│ ❌ 안티패턴 3: NULL 남용 │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ 문제: │ │
-│ │ • NULL 비교는 항상 삼치 논리 (TRUE/FALSE/UNKNOWN) │ │
-│ │ • SQL 작성 시 복잡성 증가 │ │
-│ │ • 인덱스 활용 어려움 │ │
-│ │ → 권장: NULL 대신 , 0, 또는 특수 값 사용 고려 │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-│ │
-│ ❌ 안티패턴 4: 다치 종속(MVD)을 고려하지 않음 │
-│ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ 문제: │ │
-│ │ • 다치 종속은 함수 종속의 일반화인데 간과되기 쉬움 │ │
-│ │ • 4NF 위반으로 불필요한 중복 발생 가능 │ │
-│ │ → 권장: 다중 값을 가진 쌍은 별도 테이블로 분리 │ │
-│ └─────────────────────────────────────────────────────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normalization Anti-Patterns in Practice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 1: "모든 테이블을 3NF로 만들어야 한다" 고집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 소규모 조회 전용 테이블까지 과도한 정규화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 조인이 너무 많아져 응답 시간 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 오히려 비정규화가 성능에 유리한 경우 많음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 2: UUID/ GUID를 Primary Key로만 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• UUID는 순서가 없어 B-Tree 인덱스 분포가 불균형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 저장 공간 증가 (128비트 vs 32비트 정수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 범위 기반 쿼리 성능 저하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 권장: 자연 키(Natural Key)가 적합하면 사용, 아니면 단일키+인덱스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 3: NULL 남용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• NULL 비교는 항상 삼치 논리 (TRUE/FALSE/UNKNOWN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• SQL 작성 시 복잡성 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스 활용 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 권장: NULL 대신 , 0, 또는 특수 값 사용 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 4: 다치 종속(MVD)을 고려하지 않음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 다치 종속은 함수 종속의 일반화인데 간과되기 쉬움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 4NF 위반으로 불필요한 중복 발생 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 권장: 다중 값을 가진 쌍은 별도 테이블로 분리</div></div>
+</div>
+</div>
+
+
 
 ### 📢 섹션 요약 비유
 
@@ -395,38 +316,31 @@ tags = ["database"]
 
 ### 정규화 도입 효과: Before vs After
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ Normalization 도입 효과 분석 │
-├─────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌────────────────┬───────────────────┬───────────────────┐ │
-│ │ 항목 │ 정규화 전 │ 정규화 후 │ │
-│ ├────────────────┼───────────────────┼───────────────────┤ │
-│ │ 데이터 중복 │ 동일 정보 다수 저장 │ 각 정보 한 곳만 │ │
-│ │ │ (공간 낭비) │ (최적화) │ │
-│ ├────────────────┼───────────────────┼───────────────────┤ │
-│ │ 삽입 이상 │ 불완전한 데이터 입력 │ 관련 테이블에 분리 │ │
-│ │ │ 어려움 │ 삽입 가능 │ │
-│ ├────────────────┼───────────────────┼───────────────────┤ │
-│ │ 삭제 이상 │ 중요 데이터 손실 │ 해당 행만 삭제 │ │
-│ │ │ 위험 │ 다른 테이블 무관 │ │
-│ ├────────────────┼───────────────────┼───────────────────┤ │
-│ │ 수정이상 │ 일부만 갱신시 │ 한 곳만 업데이트 │ │
-│ │ │ 불일치 발생 │ → 일관성 유지 │ │
-│ ├────────────────┼───────────────────┼───────────────────┤ │
-│ │ 확장성 │ 구조 변경 어려움 │ 새로운 entity │ │
-│ │ │ (많은 곳 수정) │ 추가 용이 │ │
-│ └────────────────┴───────────────────┴───────────────────┘ │
-│ │
-│ 정량적 기대 효과: │
-│ • 저장 공간: 20~40% 절감 (데이터 중복 제거) │
-│ • 업데이트 Query: 실행 시간 감소 (중복 업데이트 불필요) │
-│ • 데이터 무결성 문제: 95% 이상 감소 │
-│ • 테이블 수가 증가하지만, 각각의 테이블이 단순해져 관리 용이 │
-│ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normalization 도입 효과 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">정규화 전</div><div class="kb-diagram-cell">정규화 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 중복</div><div class="kb-diagram-cell">동일 정보 다수 저장</div><div class="kb-diagram-cell">각 정보 한 곳만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 낭비)</div><div class="kb-diagram-cell">(최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입 이상</div><div class="kb-diagram-cell">불완전한 데이터 입력</div><div class="kb-diagram-cell">관련 테이블에 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어려움</div><div class="kb-diagram-cell">삽입 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삭제 이상</div><div class="kb-diagram-cell">중요 데이터 손실</div><div class="kb-diagram-cell">해당 행만 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험</div><div class="kb-diagram-cell">다른 테이블 무관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수정이상</div><div class="kb-diagram-cell">일부만 갱신시</div><div class="kb-diagram-cell">한 곳만 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불일치 발생</div><div class="kb-diagram-cell">→ 일관성 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">구조 변경 어려움</div><div class="kb-diagram-cell">새로운 entity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(많은 곳 수정)</div><div class="kb-diagram-cell">추가 용이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정량적 기대 효과:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 저장 공간: 20~40% 절감 (데이터 중복 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 업데이트 Query: 실행 시간 감소 (중복 업데이트 불필요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 무결성 문제: 95% 이상 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 테이블 수가 증가하지만, 각각의 테이블이 단순해져 관리 용이</div></div>
+</div>
+</div>
+
+
 
 ### 미래 전망: 정규화 이론의 진화
 

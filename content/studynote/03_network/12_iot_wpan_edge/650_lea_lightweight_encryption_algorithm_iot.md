@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 스마트 홈, 헬스케어 웨어러블 기기, 공장의 센서들은 공격자에게 노출되어 있어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화(보안)가 필수적입니다.
-- 하지만 기존 IT 환경에서 쓰던 최강의 표준 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)인 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**는 수학적 연산 과정(S-Box 등)이 너무 복잡해서 연산 칩셋과 메모리가 매우 작고 동전 배터리로 연명하는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 환경(Constrained Device)에 탑재하기엔 너무 무겁습니다.
-- 이에 따라 **하드웨어 면적을 극단적으로 적게 차지하고(저메모리), 전기를 덜 먹으면서 연산 속도가 비약적으로 빠른 '경량 암호(Lightweight [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))'**의 필요성이 폭발적으로 대두되었습니다.
+- 하지만 기존 IT 환경에서 쓰던 최강의 표준 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)인 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">Advanced Encryption Standard</a>)</strong>는 수학적 연산 과정(S-Box 등)이 너무 복잡해서 연산 칩셋과 메모리가 매우 작고 동전 배터리로 연명하는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 환경(Constrained Device)에 탑재하기엔 너무 무겁습니다.
+- 이에 따라 <strong>하드웨어 면적을 극단적으로 적게 차지하고(저메모리), 전기를 덜 먹으면서 연산 속도가 비약적으로 빠른 '경량 암호(Lightweight <a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">Cryptography</a>)'</strong>의 필요성이 폭발적으로 대두되었습니다.
 
-```text
-[홈넷/IoT 봇넷 방어 기법]
-    │
-    ▼
-[저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    └──▶ [정보보안 3대 요소 + 인증, 부인방지 요구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,14 +52,18 @@ tags = ["studynote-network"]
 - **속도**: 기존 표준인 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 장비보다 소프트웨어 환경에서 암호화 처리 속도가 무려 **1.5배 ~ 2배 빠릅니다.** 센서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1초 만에 휙 암호화해서 쏘고 잠들 수 있습니다.
 - **초저전력**: CPU를 조금만 돌려도 암호화가 끝나므로, 배터리 소모량이 확연히 줄어들어 수만 개의 센서를 운용하는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 인프라에 안성맞춤입니다.
 
-```text
-[홈넷/IoT 봇넷 방어 기법]
-    │
-    ▼
-[저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    └──▶ [정보보안 3대 요소 + 인증, 부인방지 요구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,8 +73,8 @@ tags = ["studynote-network"]
 
 우리나라 기술로 만든 3대 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) 알고리즘의 용도 차이를 알아야 합니다.
 - **SEED (1999년)**: 한국 1세대 암호. 금융권 액티브X 시절 무거운 128비트 블록 암호입니다. 현재는 너무 무겁고 오래되어 사양 추세입니다.
-- **ARIA (2004년)**: SEED를 가볍고 강력하게 개량한 2세대. 국가/공공기관의 일반적인 전자정부망, DB 암호화, 유선망에 표준으로 **가장 범용적**으로 널리 쓰이는 탄탄한 알고리즘입니다. (AES와 동급 포지션)
-- **LEA (2013년)**: ARIA 마저도 무겁다며, 오직 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), 드론, 스마트 모빌리티 등 **작은 기기들을 타겟으로 무게를 극도로 덜어낸 3세대 특수 목적용 경량 암호**입니다.
+- **ARIA (2004년)**: SEED를 가볍고 강력하게 개량한 2세대. 국가/공공기관의 일반적인 전자정부망, DB 암호화, 유선망에 표준으로 <strong>가장 범용적</strong>으로 널리 쓰이는 탄탄한 알고리즘입니다. (AES와 동급 포지션)
+- **LEA (2013년)**: ARIA 마저도 무겁다며, 오직 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), 드론, 스마트 모빌리티 등 <strong>작은 기기들을 타겟으로 무게를 극도로 덜어낸 3세대 특수 목적용 경량 암호</strong>입니다.
 
 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법이 기반 조건을 만든다면, 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)는 그 위에서 핵심 메커니즘을 구현하고, [정보보안 3대 요소](/knowledge-base/studynote/03_network/13_network_security_basics/651_cia_triad_confidentiality_integrity_availability/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 홈넷/IoT 봇넷 방어 기법]
-    │
-    ▼
-[현재 개념: 저전력/메모리 한계 환경 경량 대칭키 암호]
-    │
-    ├──▶ [확장 A: 정보보안 3대 요소 + 인증, 부인방지 요구]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 저전력/메모리 한계 환경 경량 대칭키 암호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 저전력/메모리 한계 환경 경량 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/)는 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법에서 출발해 현재 메커니즘을 정교화하고, 이후 [정보보안 3대 요소](/knowledge-base/studynote/03_network/13_network_security_basics/651_cia_triad_confidentiality_integrity_availability/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

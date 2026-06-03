@@ -23,21 +23,20 @@ L2 캐시 (Level 2 Cache)는 프로세서의 메모리 계층에서 L1 캐시 �
 
 이 문제를 막기 위해 L2는 L1보다 넓은 용량과 약간 더 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 받아들이는 대신, "비싸게 틀리는 일"을 줄이는 계층으로 등장했다. 과거에는 칩 바깥이나 패키지 근처에 두기도 했지만, 오늘날에는 대부분 코어 가까이에 집적된 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 구조로 구현되어 L1 미스의 2차 방어선 역할을 맡는다. 즉 L2의 존재 이유는 단순 저장 공간 추가가 아니라, 고속 코어와 느린 주기억장치 사이의 시간 간극을 현실적인 비용으로 메우는 데 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                L2 캐시가 필요한 이유: "메모리 추락" 방지            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU 요청                                                             │
-│   │                                                                  │
-│   ├─▶ L1 Hit  ───────────────────────────────▶ 즉시 실행             │
-│   │                                                                  │
-│   └─▶ L1 Miss                                                        │
-│         │                                                            │
-│         ├─▶ L2 Hit  ─────────────────────────▶ 짧은 추가 지연 후 복구 │
-│         │                                                            │
-│         └─▶ L2 Miss  ────────────────────────▶ DRAM 접근, 큰 페널티   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 캐시가 필요한 이유: "메모리 추락" 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L1 Hit ▶ 즉시 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L1 Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L2 Hit ▶ 짧은 추가 지연 후 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L2 Miss ▶ DRAM 접근, 큰 페널티</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 핵심은 L2가 "빠른 계층"이라서 중요한 것이 아니라, 더 느린 계층으로 떨어지는 횟수를 줄이기 때문에 중요하다는 점이다. L2 적중 여부 하나가 파이프라인 정지 길이를 한 자릿수 사이클과 수십~수백 사이클로 갈라놓는다.
 
@@ -61,24 +60,21 @@ L2의 핵심 원리는 평균 메모리 접근 시간 최적화다. 단순화하
 
 아래 흐름은 L2가 실제로 어떤 식으로 L1과 메모리 사이를 중재하는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                   L2 캐시 접근 흐름과 데이터 이동                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) 코어 요청                                                        │
-│      │                                                              │
-│      ▼                                                              │
-│   [L1 검사] ── Hit ─────────────────────────────────────────▶ 사용    │
-│      │                                                              │
-│    Miss                                                             │
-│      ▼                                                              │
-│   [L2 태그 검사]                                                    │
-│      │                                                              │
-│      ├─ Hit ─▶ L2 라인 전달 ─▶ L1 채움(Fill) ─▶ 코어 재실행         │
-│      │                                                              │
-│      └─ Miss ─▶ L3/DRAM 요청 ─▶ 라인 수신 ─▶ L2 채움 ─▶ L1 채움     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 캐시 접근 흐름과 데이터 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 코어 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1 검사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Miss</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2 태그 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hit ─▶ L2 라인 전달 ─▶ L1 채움(Fill) ─▶ 코어 재실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Miss ─▶ L3/DRAM 요청 ─▶ 라인 수신 ─▶ L2 채움 ─▶ L1 채움</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 중요한 설계 쟁점은 포함 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. **Inclusive** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 L1에 있는 라인이 L2에도 반드시 존재하게 만들어 추적과 무효화가 쉽지만, 실효 용량 일부를 중복에 사용한다. **Exclusive** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 L1과 L2가 서로 다른 라인을 들고 있어 총 유효 용량은 커지지만, 승격·축출 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 최근에는 둘의 절충인 Non-Inclusive/Non-Exclusive [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 널리 쓰인다.
 
@@ -151,24 +147,28 @@ L2를 제대로 이해하려면 L1, L3와의 역할 경계를 분명히 봐야 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-레지스터 (Register)
-    │
-    ▼
-L1 캐시 (Level 1 Cache)
-    │  L1 미스 완충
-    ▼
-L2 캐시 (Level 2 Cache)
-    │  코어별 작업 집합 흡수
-    ▼
-L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)
-    │  멀티코어 공유 완충
-    ▼
-프리페치 · 교체 정책 · 캐시 일관성 최적화
-    │
-    ▼
-메모리 계층 전체의 AMAT 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레지스터 (Register)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L1 캐시 (Level 1 Cache)</div>
+<div class="kb-diagram-note">L1 미스 완충</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L2 캐시 (Level 2 Cache)</div>
+<div class="kb-diagram-note">코어별 작업 집합 흡수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)</div>
+<div class="kb-diagram-note">멀티코어 공유 완충</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프리페치 · 교체 정책 · 캐시 일관성 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 계층 전체의 AMAT 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 소용량 → 중간 완충 → 대용량 공유 → 지능형 최적화"로 캐시 설계의 초점이 넓어지는 과정을 보여 준다.
 

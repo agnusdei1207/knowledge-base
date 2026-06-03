@@ -23,13 +23,16 @@ tags = ["studynote-devops-sre"]
 
 테스트 계층이 없으면 배포 후 장애 비용이 개발 단계의 수정 비용보다 훨씬 커진다. 따라서 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
-```text
-Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Specification        │──▶│ Execution Layer      │──▶│ Feedback Gate        │──▶│ Learning Loop        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Specification</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Execution Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Feedback Gate</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Learning Loop</div></div>
+</div>
+</div>
+
+
 
 이 그림은 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,13 +51,16 @@ Deployment / Control / Feedback Flow
 | Feedback Gate | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 통과/실패와 품질 기준을 연결 | 배포 차단 기준이 명확해야 함 |
 | [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Loop | 테스트 결과를 리팩터링과 설계 개선에 환류 | 숫자보다 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형 분석이 중요 |
 
-```text
-Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Specification        │──▶│ Execution Layer      │──▶│ Feedback Gate        │──▶│ Learning Loop        │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Reference Architecture</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Specification</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Execution Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Feedback Gate</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Learning Loop</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -121,16 +127,20 @@ Reference Architecture
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Mock]
-    │
-    ▼
-[유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법]
-    │
-    ├──▶ [Stub]
-    ├──▶ [Fast Feedback]
-    └──▶ [수동 QA와 대형 E2E 중심 검증]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Mock</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Stub</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fast Feedback</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수동 QA와 대형 E2E 중심 검증</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 유닛 테스트 함수 격리망 프레임워크 모킹, 스터빙 더블 기법이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

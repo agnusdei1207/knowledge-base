@@ -23,35 +23,34 @@ tags = ["studynote-software-engineering"]
   - **난독화 (Obfuscation)**: `login(String id, String pw)` 처럼 예쁘게 짠 코드를, `a(String b, String c)` 로 뭉개거나 의미 없는 멍청한 가짜 코드를 1만 줄 쑤셔 넣어, 해커가 역어셈블러(JADX 등)로 코드를 까봐도 "이게 도대체 무슨 외계어야?" 라며 뇌 정지를 오게 만드는 코드 화장술이다.
   - **안티 디버깅 (Anti-debugging)**: 해커가 포기하지 않고 실행 중인 앱의 핏줄(메모리)에 디버거 툴(Frida 등)을 꽂고 쳐다보려 할 때, 앱이 "어? 내 몸에 낯선 바늘(디버거)이 들어왔네?"를 감지하고 1초 만에 `System.exit(0)` 으로 스스로 뻗어버려 해커의 관찰(분석) 자체를 물리적으로 눈멀게 하는 자폭 방어술이다.
 
-- **필요성**: 웹(Web) 백엔드 개발자는 코드를 자기 서버(AWS)에 꽁꽁 숨겨두니까 안전하다. 하지만 안드로이드 앱 개발자는? 내가 피땀 흘려 짠 게임 로직(APK)을 구글 플레이를 통해 **해커의 스마트폰 하드디스크 안으로 고스란히 복사해 다운로드** 시켜주어야 한다. 해커는 내 앱을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 풀기 하듯 1초 만에 풀어서(Decompile) 자바(Java) 원본 소스코드를 100% 공짜로 다 읽는다. 안에 적힌 서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신 주소, 결제 우회 로직을 다 털어서 '돈 복사 버그' 앱을 만들어 배포한다. **적진(해커의 폰) 한가운데 덩그러니 내던져진 이 연약한 앱 덩어리를 스스로 방어하기 위한 가시옷(난독화)과 자폭 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(안티 디버깅)**가 절대적으로 필요하다.
+- **필요성**: 웹(Web) 백엔드 개발자는 코드를 자기 서버(AWS)에 꽁꽁 숨겨두니까 안전하다. 하지만 안드로이드 앱 개발자는? 내가 피땀 흘려 짠 게임 로직(APK)을 구글 플레이를 통해 **해커의 스마트폰 하드디스크 안으로 고스란히 복사해 다운로드** 시켜주어야 한다. 해커는 내 앱을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 풀기 하듯 1초 만에 풀어서(Decompile) 자바(Java) 원본 소스코드를 100% 공짜로 다 읽는다. 안에 적힌 서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신 주소, 결제 우회 로직을 다 털어서 '돈 복사 버그' 앱을 만들어 배포한다. <strong>적진(해커의 폰) 한가운데 덩그러니 내던져진 이 연약한 앱 덩어리를 스스로 방어하기 위한 가시옷(난독화)과 자폭 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(안티 디버깅)</strong>가 절대적으로 필요하다.
 
-- **💡 비유**: 이 방어술은 적군에게 빼앗긴 **'암호화된 비밀 금고 상자'**와 같습니다. 
+- **💡 비유**: 이 방어술은 적군에게 빼앗긴 <strong>'암호화된 비밀 금고 상자'</strong>와 같습니다. 
   - **난독화**: 금고 안에 든 다이아몬드(코드)를 찾으려면 1,000만 겹의 까만 비닐봉지로 칭칭 감아놔서, 적군이 봉지를 벗기느라 평생 지쳐 쓰러지게 만듭니다.
   - **안티 디버깅**: 적군이 열받아서 엑스레이 기계(디버거 툴)를 가져와 금고 안을 뚫어보려고 렌즈를 들이대는 찰나의 순간! 금고 표면에 발라둔 특수 센서가 엑스레이 빛을 감지하고, 그 즉시 금고 안의 폭탄을 터뜨려(앱 강제 종료) 다이아몬드를 가루로 만들어 적군이 절대 구조를 파악할 수 없게 눈을 멀게 하는 독한 마술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **오픈북 해킹의 낭만 (안드로이드 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/))**: 자바(Java)의 특성상 컴파일된 `.class` 파일은 거의 원본 소스 수준으로 복원이 너무 쉬웠다(디컴파일러 1초 컷). 개발자가 울며 겨자 먹기로 변수명을 지저분하게 짓던 수동 시대.
+  1. <strong>오픈북 해킹의 낭만 (안드로이드 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: 자바(Java)의 특성상 컴파일된 `.class` 파일은 거의 원본 소스 수준으로 복원이 너무 쉬웠다(디컴파일러 1초 컷). 개발자가 울며 겨자 먹기로 변수명을 지저분하게 짓던 수동 시대.
   2. **ProGuard의 등장과 기계적 치환**: 안드로이드 진영에 기본 툴(ProGuard)이 탑재되며 컴파일 시 자동으로 `a, b, c`로 깎아주는 1세대 난독화가 국룰이 되었다.
-  3. **Frida(프리다) 후킹의 공포와 [RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) (현재)**: 해커들이 진화했다. "코드 안 읽어! 걍 앱 실행시켜놓고 메모리 값을 중간에 후킹(조작)해서 바꿀게!(Frida 툴)" 라며 런타임 공격이 폭발했다. 이에 맞서 난독화를 넘어, 루팅 감지, 메모리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 감지, 디버거 탐지 등 모바일용 **[RASP](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/) (런타임 자가 방어)** 솔루션들이 융합되며 창과 방패의 미친 테크트리 싸움이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다.
+  3. <strong>Frida(프리다) 후킹의 공포와 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">RASP</a> (현재)</strong>: 해커들이 진화했다. "코드 안 읽어! 걍 앱 실행시켜놓고 메모리 값을 중간에 후킹(조작)해서 바꿀게!(Frida 툴)" 라며 런타임 공격이 폭발했다. 이에 맞서 난독화를 넘어, 루팅 감지, 메모리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 감지, 디버거 탐지 등 모바일용 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/494_rasp_runtime_protection/">RASP</a> (런타임 자가 방어)</strong> 솔루션들이 융합되며 창과 방패의 미친 테크트리 싸움이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다.
 
-- **📢 섹션 요약 비유**: 서버 보안(백엔드)이 **'내 튼튼한 성 안에서 적이 못 들어오게 막는 방어전'**이라면, 모바일 앱 보안은 **'적군 병영(해커 스마트폰) 한가운데 나 혼자 떨어진 첩보 요원(앱)의 생존기'**입니다. 요원은 심문(디컴파일)을 당할 때 외계어(난독화)로 헛소리를 뱉어야 하고, 고문 기계(디버거)가 들어오면 차라리 스스로 혀를 깨물고 자결(안티 디버깅)해야만 본국(서버)의 기밀을 지켜낼 수 있는 처절하고 고독한 임무를 수행합니다.
+- **📢 섹션 요약 비유**: 서버 보안(백엔드)이 <strong>'내 튼튼한 성 안에서 적이 못 들어오게 막는 방어전'</strong>이라면, 모바일 앱 보안은 <strong>'적군 병영(해커 스마트폰) 한가운데 나 혼자 떨어진 첩보 요원(앱)의 생존기'</strong>입니다. 요원은 심문(디컴파일)을 당할 때 외계어(난독화)로 헛소리를 뱉어야 하고, 고문 기계(디버거)가 들어오면 차라리 스스로 혀를 깨물고 자결(안티 디버깅)해야만 본국(서버)의 기밀을 지켜낼 수 있는 처절하고 고독한 임무를 수행합니다.
 
 ---
 
 다음은 난독화 (Obfuscation) 및 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  난독화 (Obfuscation) 및                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난독화 (Obfuscation) 및</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 난독화 (Obfuscation) 및 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging) 적용 (모바일 앱 보안) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

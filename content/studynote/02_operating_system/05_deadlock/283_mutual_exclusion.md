@@ -21,31 +21,30 @@ tags = ["studynote-operating-system"]
 
 공유 자원에 두 명이 동시에 수정을 시도하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서진다. 이를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 관점에서는 반드시 방어해야 하는 숙제거리이므로 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)), [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등으로 막아왔다 (이것이 긍정적 측면의 상호 배제).
 
-하지만 **[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 재앙 관점**에서 돌아보면, 이 "너 하나만 써!"라는 상호 배제 성질이야말로 모든 데드락이 꼬여 들어가게 하는 **원죄(첫 번째 조건)**이다. 자원을 모두가 무제한 펑펑 같이 쓸 수 있다면 데드락은 발생하지 않는다.
+하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 재앙 관점</strong>에서 돌아보면, 이 "너 하나만 써!"라는 상호 배제 성질이야말로 모든 데드락이 꼬여 들어가게 하는 <strong>원죄(첫 번째 조건)</strong>이다. 자원을 모두가 무제한 펑펑 같이 쓸 수 있다면 데드락은 발생하지 않는다.
 
 **💡 비유**: 주차장의 장애인 전용석 공간(상호 배제). 그 자리는 무조건 한 차만 주차해야 한다는 강행 규정이 있으므로 차 두 대가 동시에 머리를 밀어 넣으면 오지도 가지도 못하는 데드락의 1차 조건이 성립한다. 넓은 잔디밭(공유 구역)에선 결코 생기지 않는다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         상호 배제(Mutual Exclusion)의 양면의 얼굴             │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [동기화(Synchronization) 관점]  ◀▶  [데드락(Deadlock) 관점]  │
-│                                                               │
-│  "누군가 변수 A를 쓸 때,             "A를 독점하고 있으니     │
-│  다른 놈이 건드리면 데이터가        B를 쥔 타 스레드가        │
-│  오염되니 안전하게 락을 걸자"       영원히 기다리게 만든다"   │
-│             (수호자)                            (원흉)        │
-│                                                               │
-│  [Read-Only 파일] - 공유 가능 자원 (Sharable)                 │
-│  → 100명이 붙어도 다같이 읽음. 상호 배제 불성립.              │
-│  → 데드락 가능성 = 0%                                         │
-│                                                               │
-│  [테이블 Update Lock] - 비공유 자원 (Non-sharable)            │
-│  → 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.         │
-│  → 나머지 2, 3, 4조건만 완성되면 데드락 폭발!                 │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제(Mutual Exclusion)의 양면의 얼굴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동기화(Synchronization) 관점</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">데드락(Deadlock) 관점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"누군가 변수 A를 쓸 때, "A를 독점하고 있으니</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 놈이 건드리면 데이터가 B를 쥔 타 스레드가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오염되니 안전하게 락을 걸자" 영원히 기다리게 만든다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수호자) (원흉)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Read-Only 파일</div><div class="kb-diagram-note">- 공유 가능 자원 (Sharable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 100명이 붙어도 다같이 읽음. 상호 배제 불성립.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 데드락 가능성 = 0%</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 Update Lock</div><div class="kb-diagram-note">- 비공유 자원 (Non-sharable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 나머지 2, 3, 4조건만 완성되면 데드락 폭발!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 상호 배제는 안전 금고 열쇠 — 금고를 나 혼자 열고 쓰니 도둑맞지 않아 좋지만([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 열쇠를 들고 낮잠 자면 뒷사람 일정이 올스톱 되는(교착 악몽) 양날의 검입니다.
 
@@ -62,7 +61,7 @@ tags = ["studynote-operating-system"]
 - 콘솔에 두 프로세스가 동시 `printf` 텍스트 혼선 (에러 출력)
 - 은행 잔고 +50, -30 덮어쓰기 파괴 (금융 사고)
 
-→ 결론적으로 **하드웨어 디바이스와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조의 근본적 태생 제약**에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 **절대 불가능**하다.
+→ 결론적으로 <strong>하드웨어 디바이스와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 근본적 태생 제약</strong>에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 <strong>절대 불가능</strong>하다.
 
 **📢 섹션 요약 비유**: 데드락 1번 조건을 부정하는 건, 화장실을 칸막이 없이 다 같이 투명 통유리로 쓰라는 것 — 데드락은 없어지겠지만 큰일(정합성 혼돈)이 발생해 아무도 사용할 수 없습니다.
 
@@ -84,10 +83,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **데드락 우회를 위한 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/))**: 수많은 프로세스가 제한된 프린터를 동시 점유 시 데드락 위험(1번 조건). OS는 각 프로세스가 가상의 디스크 버퍼(Spool)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시 쓰는 건 다 허락(공유 자원화)해주고 백그라운드 데몬이 순차 배송. 1번 상호배제 조건을 "단일 데몬 전유물화 + 다수 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"로 우회 해결한 명저.
-2. **트랜잭셔널 분리 ([CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 패턴)**: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
+1. <strong>데드락 우회를 위한 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">Spooling</a>)</strong>: 수많은 프로세스가 제한된 프린터를 동시 점유 시 데드락 위험(1번 조건). OS는 각 프로세스가 가상의 디스크 버퍼(Spool)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시 쓰는 건 다 허락(공유 자원화)해주고 백그라운드 데몬이 순차 배송. 1번 상호배제 조건을 "단일 데몬 전유물화 + 다수 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"로 우회 해결한 명저.
+2. <strong>트랜잭셔널 분리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴)</strong>: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음. 
 
 **📢 섹션 요약 비유**: 불변 객체에 락을 거는 것은, 박물관 유리벽 속 미술품을 구경하는데 한 번에 한 명만 복도에 들어오라는 지나친 통제 — 구경(읽기)만 하는 곳은 상호 배제가 필요악도 아닙니다.
@@ -119,15 +118,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
-    │
-    ▼
-[상호 배제 (Mutual Exclusion)]
-    │
-    ├──▶ [점유하며 대기 (Hold-and-Wait)]
-    └──▶ [비선점 (No Preemption)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

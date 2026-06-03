@@ -32,10 +32,10 @@ tags = ["studynote-enterprise"]
 실무에서 자주 만나는 규제는 서로 성격이 다르다.
 
 - **SOX (Sarbanes-Oxley Act)**: 회계 투명성과 내부 통제
-- **[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation)**: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 처리 책임
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> (General <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Regulation)</strong>: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 처리 책임
 - **Basel**: 금융 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)와 자본 적정성
-- **[ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)**: 정보보호 관리체계
-- **[PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) DSS (Payment Card Industry [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Standard)**: 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안
+- <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/">ISMS</a></strong>: 정보보호 관리체계
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/">PCI</a> DSS (Payment Card Industry <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Standard)</strong>: 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안
 
 규제는 다르지만 공통적으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 접근통제, 암호화, 책임 추적을 요구한다.
 
@@ -81,15 +81,21 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-```text
-법/규제
-   ↓
-기술적 통제
-   ↓
-증거 / 감사
-   ↓
-컴플라이언스 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">법/규제</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">기술적 통제</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">증거 / 감사</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">컴플라이언스 운영</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 통신을 시도하는 두 주체(예: 클라이언트 센서와 서버, 또는 자율주행차 A와 B)가 **일방적으로 한쪽만 신분을 증명하는 것이 아니라, 양쪽 모두 서로의 신원을 암호학적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 믿을 수 있는지 검증하는 절차**입니다.
-- 일반 웹 서핑([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에서는 보통 서버(네이버)만 클라이언트에게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보여주고 신분을 증명하지만, 해킹에 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 통신에서는 해커의 기기 위장([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 막기 위해 **반드시 양방향(상호) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**을 거쳐야 합니다.
+- 통신을 시도하는 두 주체(예: 클라이언트 센서와 서버, 또는 자율주행차 A와 B)가 <strong>일방적으로 한쪽만 신분을 증명하는 것이 아니라, 양쪽 모두 서로의 신원을 암호학적으로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고 믿을 수 있는지 검증하는 절차</strong>입니다.
+- 일반 웹 서핑([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에서는 보통 서버(네이버)만 클라이언트에게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보여주고 신분을 증명하지만, 해킹에 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 통신에서는 해커의 기기 위장([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 막기 위해 <strong>반드시 양방향(상호) <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>을 거쳐야 합니다.
 
-```text
-[망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    ▼
-[기기 간 상호인증체계 관리 기법 P2P 연결…]
-    │
-    └──▶ [DTLS 프로토콜 CoAP 결합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,20 +41,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-기기 간 상호인증의 핵심 뼈대는 앞선 550번 문서에서 배운 **[공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)**입니다.
+기기 간 상호인증의 핵심 뼈대는 앞선 550번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/">공개키 기반 구조</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>, X.509 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)</strong>입니다.
 1. 제조 공장에서 세탁기를 만들 때, 세탁기 칩 안에 고유한 비밀번호(개인키)와 삼성전자가 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))을 찍어준 '기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'를 평생 지울 수 없게 심어 넣습니다.
-2. 집에 세탁기를 설치하고 스마트홈 허브와 처음 연결할 때, 세탁기와 허브가 **서로 자신의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 꺼내서 교환**합니다.
+2. 집에 세탁기를 설치하고 스마트홈 허브와 처음 연결할 때, 세탁기와 허브가 <strong>서로 자신의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 꺼내서 교환</strong>합니다.
 3. 양쪽은 상대방의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 찍힌 삼성/애플의 도장(서명)이 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 상대방이 개인키를 제대로 가졌는지 수학적 퀴즈(Challenge-Response)를 내서 검증합니다.
 4. 둘 다 합격(상호인증 완료)하면 그제야 안전한 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호화 터널([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 뚫고 통신을 시작합니다.
 
-```text
-[망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    ▼
-[기기 간 상호인증체계 관리 기법 P2P 연결…]
-    │
-    └──▶ [DTLS 프로토콜 CoAP 결합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -76,10 +84,10 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 인터넷이 없는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 환경에서 기기들 스스로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 어떻게 관리할까요?
-1. **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) ([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 및 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 기술 도입**: 
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">Blockchain</a>) 및 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> 기술 도입</strong>: 
    - 거대한 중앙 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서버를 없애버립니다. 그 대신, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장에 기기들의 공인된 신분증([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))과 공개키를 기록하여 모든 노드가 장부 복사본을 나눠 가집니다.
    - A 차와 B 차가 마주치면 인터넷 연결 없이도 각자 차에 저장된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 장부를 뒤져서 서로의 신분을 즉시 100% 확신하고 통신할 수 있습니다.
-2. **사전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 교차 배포 (Pre-distribution)**: 
+2. <strong>사전 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 교차 배포 (Pre-distribution)</strong>: 
    - 기기들이 인터넷이 연결되는 충전 기지나 차고지에 들를 때마다, 미리 향후 한 달 치의 임시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 목록(동적 키) 뭉치를 한꺼번에 다운받아 들고 나갑니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    ▼
-[현재 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…]
-    │
-    ├──▶ [확장 A: DTLS 프로토콜 CoAP 결합]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DTLS 프로토콜 CoAP 결합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

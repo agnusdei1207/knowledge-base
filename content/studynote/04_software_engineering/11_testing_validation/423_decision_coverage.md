@@ -20,34 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 하급 화이트박스 테스터는 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)([Statement Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 100%를 달성하고 신나서 퇴근합니다. 
-그러나 바로 다음 날 서버가 다운됩니다. 코드는 `if (user_age > 19) { alcohol_buy(); }`로 짜여 있어서 성인이 술을 사는 테스트는 했지만, **미성년자가 술을 사려고 시도했을 때 프로그램이 어떻게 반응하는지에 대한 검사(False 분기 흐름)**가 전혀 이루어지지 않았기 때문입니다. 즉, "안 한다"라는 선택지에 대한 방어(`else` 혹은 `return`)가 무너진 것입니다.
+그러나 바로 다음 날 서버가 다운됩니다. 코드는 `if (user_age > 19) { alcohol_buy(); }`로 짜여 있어서 성인이 술을 사는 테스트는 했지만, <strong>미성년자가 술을 사려고 시도했을 때 프로그램이 어떻게 반응하는지에 대한 검사(False 분기 흐름)</strong>가 전혀 이루어지지 않았기 때문입니다. 즉, "안 한다"라는 선택지에 대한 방어(`else` 혹은 `return`)가 무너진 것입니다.
 
-이를 해결하기 위해 테스터 2단계 각성인 **결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)**가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
+이를 해결하기 위해 테스터 2단계 각성인 <strong>결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)</strong>가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  구문 커버리지 vs 결정 커버리지의 차이            │
-├──────────────────────────────────────────────────────────────┤
-│ [원시 코드]                                                    │
-│  1: int check(int age) {                                     │
-│  2:     if (age >= 18) {                                     │
-│  3:         grant_access();  // 통과!                        │
-│  4:     }                                                    │
-│  5:     return 0;                                            │
-│  6: }                                                        │
-│                                                              │
-│ [구문 커버리지의 오만]                                           │
-│   - 입력: age = 20                                           │
-│   - 흐름: 1 -> 2(참) -> 3 -> 5 -> 6                        │
-│   ▶ 모든 줄 실행! (100% 성공!) => 하지만 18 미만 상황을 아예 무시.  │
-│                                                              │
-│ [결정 커버리지의 집요함]                                         │
-│   - 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)           │
-│   - 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)         │
-│   ▶ 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함! │
-│   ▶ 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구문 커버리지 vs 결정 커버리지의 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1: int check(int age) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: if (age &gt;= 18) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: grant_access(); // 통과!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: return 0;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6: }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구문 커버리지의 오만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력: age = 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 흐름: 1 -&gt; 2(참) -&gt; 3 -&gt; 5 -&gt; 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 모든 줄 실행! (100% 성공!) =&gt; 하지만 18 미만 상황을 아예 무시.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정 커버리지의 집요함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 건물에 화재가 났을 때 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 "탈출구 하나로 나가는 시뮬레이션 한 번 돌려보고 전원이 탈출했으니 건물 안전 100점!"이라고 한다면, 분기 커버리지는 "만약 저쪽 출구가 불에 타서 막혔을 때(False), 반대편 비상계단으로 도망가는 방법(Else)도 다 훈련해 봐야 안전 100점이다!"라고 혹독하게 양방향 대비를 시키는 훈련 대장입니다.
 
@@ -61,10 +62,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-결정 커버리지는 수학적으로 우월한 성질을 갖습니다. **"결정 커버리지 100%를 달성하면, 무조건 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/) 100%는 자동으로 달성된다."** (포용의 법칙, Subsumption [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)).
+결정 커버리지는 수학적으로 우월한 성질을 갖습니다. <strong>"결정 커버리지 100%를 달성하면, 무조건 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/">구문 커버리지</a> 100%는 자동으로 달성된다."</strong> (포용의 법칙, Subsumption [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)).
 참(True) 길과 거짓(False) 길을 구석구석 다 쑤시고 다니다 보면, 자연스럽게 그 길목에 놓인 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Statement)들도 저절로 모두 한 번씩은 밟히기 때문입니다. 
 
-이 극강의 실용성 때문에, 세계 테스트 자격증 위원회(ISTQB)와 대다수 글로벌 IT 기업(구글, 금융권 보안 등)은 **코드 리베이트(개발 승인)의 최소 품질 턱**을 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 아닌 **수준 높은 '분기(결정) 커버리지'**로 박아둡니다. (예: 분기 커버리지 70% 이상 달성 의무화).
+이 극강의 실용성 때문에, 세계 테스트 자격증 위원회(ISTQB)와 대다수 글로벌 IT 기업(구글, 금융권 보안 등)은 <strong>코드 리베이트(개발 승인)의 최소 품질 턱</strong>을 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 아닌 <strong>수준 높은 '분기(결정) 커버리지'</strong>로 박아둡니다. (예: 분기 커버리지 70% 이상 달성 의무화).
 
 - **📢 섹션 요약 비유**: 대학교 수학(결정 커버리지) 시험을 100점 맞은 천재 학생은, 굳이 중학교 수학([구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)) 시험을 따로 치지 않아도 중학교 과정은 자연스럽게 100점으로 보증받고 인정해 주는 무적의 상위 라이센스 원리입니다.
 
@@ -84,13 +85,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-분기 커버리지가 무적일 것 같지만, 치명적인 바보짓을 저지를 때가 있습니다. 바로 조건식이 하나가 아니라 여러 개 겹친 **복합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(`if (A && B)`)**를 만날 때입니다.
+분기 커버리지가 무적일 것 같지만, 치명적인 바보짓을 저지를 때가 있습니다. 바로 조건식이 하나가 아니라 여러 개 겹친 <strong>복합 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>(<code>if (A && B)</code>)</strong>를 만날 때입니다.
 
 테스터가 `if (A && B)`를 100% 결정 커버리지로 통과하려면, 전체 묶음이 한 번 참(True)이 되고, 한 번 거짓(False)이 되기만 하면 100% 수료증을 발급해 줍니다.
 - TC 1: A(True) && B(True) ➔ 전체 True (통과!)
 - TC 2: A(False) && B(True) ➔ 전체 False (통과!)
 
-그런데 잠깐! **A가 True인데 B가 False인 조건**이나, **둘 다 False인 조건**은 아예 검사조차 안 했습니다. 오로지 "if 덩어리 자체가 참/거짓 양쪽 길을 열었냐"만 보기 때문에, 그 안에 숨겨진 $B$라는 개별 변수가 일으키는 오류나 예외 사태는 투명 인간 취급해 버리는 수박 겉핥기 오류에 빠집니다.
+그런데 잠깐! <strong>A가 True인데 B가 False인 조건</strong>이나, <strong>둘 다 False인 조건</strong>은 아예 검사조차 안 했습니다. 오로지 "if 덩어리 자체가 참/거짓 양쪽 길을 열었냐"만 보기 때문에, 그 안에 숨겨진 $B$라는 개별 변수가 일으키는 오류나 예외 사태는 투명 인간 취급해 버리는 수박 겉핥기 오류에 빠집니다.
 
 - **📢 섹션 요약 비유**: 치킨 튀김가루와, 마법 소스가 모두 묻어야(A AND B) 맛있는 치킨이 된다고 할 때, 결정 커버리지는 "맛있는 치킨(전체 T)도 먹어보고, 맛 없는 치킨(전체 F)도 먹어봤으니 나는 다 해봤어!"라고 우깁니다. 하지만 "오직 튀김가루만 상했을 때"나 "소스만 상했을 때"의 미세한 독극물 원인은 전혀 파헤치지 못하는 둔감한 테스터 체격입니다.
 
@@ -107,7 +108,7 @@ tags = ["studynote-software-engineering"]
 실무에서 결정 커버리지는 개발자들이 자신의 코드 스타일([Clean Code](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/))을 개조하게 만드는 강제 교관 역할을 합니다.
 만약 개발자가 `if` 분기 안에 `switch-case`를 넣고 또 `if-else`를 5번 중첩(Nested)했다면? 결정 커버리지 100%를 달성하기 위해 개발자는 참과 거짓 조합을 계산하다 머리가 터져서 수십 개의 TC([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))를 작성해야 하는 고통의 지옥에 빠집니다.
 
-그래서 짬이 찬 개발자들은 테스팅 짜기가 너무 귀찮으니까 애초에 코드를 짤 때 **"If문을 중첩하지 말고, 함수를 쪼개자!(Early Return, Method Extraction)"**라고 셀프 진단하며 코드를 초단순화시킵니다. 테스팅 툴이 코드의 구조적 순수함과 가독성마저 교정해 주는 아름다운 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 선순환([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))이 여기서 발현됩니다.
+그래서 짬이 찬 개발자들은 테스팅 짜기가 너무 귀찮으니까 애초에 코드를 짤 때 <strong>"If문을 중첩하지 말고, 함수를 쪼개자!(Early Return, Method Extraction)"</strong>라고 셀프 진단하며 코드를 초단순화시킵니다. 테스팅 툴이 코드의 구조적 순수함과 가독성마저 교정해 주는 아름다운 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 선순환([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))이 여기서 발현됩니다.
 
 - **📢 섹션 요약 비유**: 미로 방에 문을 30개나 숨겨놓고 자물쇠를 걸어놓은 방 설계자(개발자)가 "이 방의 모든 문을 다 한 번씩 열고 닫혀있는지(결정 커버리지) 네가 직접 테스트까지 해!"라는 지시를 받으면, 방 설계자 스스로가 화를 내며 문을 2개로 줄여버리게 만드는 최고의 반성문 강제 장치입니다.
 
@@ -145,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-재주문 버퍼는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 프로세서에서 **"먼저 끝난 계산"과 "먼저 보여줘야 하는 결과"를 분리**하기 위해 둔 하드웨어 구조다. 파이프라인이 깊어지고 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지면서, 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)부터 먼저 실행하지 않으면 실행 장치가 쉽게 놀게 되었다. 하지만 완료된 즉시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 메모리에 결과를 써 버리면, 앞선 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트나 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 발생했을 때 뒤쪽 결과를 되돌릴 방법이 없다.
+재주문 버퍼는 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 프로세서에서 <strong>"먼저 끝난 계산"과 "먼저 보여줘야 하는 결과"를 분리</strong>하기 위해 둔 하드웨어 구조다. 파이프라인이 깊어지고 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지면서, 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)부터 먼저 실행하지 않으면 실행 장치가 쉽게 놀게 되었다. 하지만 완료된 즉시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 메모리에 결과를 써 버리면, 앞선 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트나 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 발생했을 때 뒤쪽 결과를 되돌릴 방법이 없다.
 
 즉 ROB는 성능을 위한 무질서를, 소프트웨어가 기대하는 질서 안으로 다시 묶는 장치다. 운영체제와 컴파일러는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 프로그램 순서대로 확정된다고 가정하는데, 이 가정을 깨뜨리면 예외 처리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 복귀, 디버깅 모두가 흔들린다. ROB가 필요한 이유는 단순 저장 공간이 아니라, **고성능 실행과 정확한 상태 관리 사이의 계약서** 역할을 하기 때문이다.
 
@@ -42,32 +42,32 @@ ROB는 보통 헤드 (Head)와 테일 (Tail)을 가진 원형 큐로 구현된�
 | Exception [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 예외 발생 여부 | 정밀한 예외 처리와 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기준 제공 |
 | Branch 상태 | [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 성공/실패 정보 | 잘못 추측한 뒤쪽 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 일괄 폐기 |
 
-이 그림은 **할당 → 실행 완료 → 순차 커밋**이 어떻게 분리되는지 보여준다.
+이 그림은 <strong>할당 → 실행 완료 → 순차 커밋</strong>이 어떻게 분리되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                ROB가 유지하는 3단계: Allocate → Finish → Commit         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Decode/Rename                                                           │
-│    │                                                                     │
-│    ├─ Inst A ───────────────▶ [ROB 12] not-ready                         │
-│    ├─ Inst B ───────────────▶ [ROB 13] not-ready                         │
-│    └─ Inst C ───────────────▶ [ROB 14] not-ready                         │
-│                                                                          │
-│ Execute Units                                                            │
-│    ├─ Inst B finished ───────▶ [ROB 13] ready                            │
-│    ├─ Inst C finished ───────▶ [ROB 14] ready                            │
-│    └─ Inst A late miss ───────▶ [ROB 12] wait                            │
-│                                                                          │
-│ Commit Engine                                                            │
-│    ├─ Head = ROB 12 : wait  → 뒤 명령어도 커밋 보류                      │
-│    ├─ Head = ROB 12 : ready → A 커밋                                     │
-│    ├─ Next = ROB 13 : ready → B 커밋                                     │
-│    └─ Next = ROB 14 : ready → C 커밋                                     │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 실행 완료와 커밋 완료가 다르다는 점이다. 어떤 덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 이미 결과를 계산했더라도, 앞선 로드 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아직 메모리에서 데이터를 기다리는 중이면 그 덧셈 결과는 ROB 안에서 대기해야 한다. 이 분리가 있기 때문에 프로세서는 내부적으로는 유연하게 움직이되, 외부적으로는 **항상 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)부터 상태가 확정되는 것처럼** 보일 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROB가 유지하는 3단계: Allocate → Finish → Commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode/Rename</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 12</div><div class="kb-diagram-note">not-ready</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 13</div><div class="kb-diagram-note">not-ready</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 14</div><div class="kb-diagram-note">not-ready</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execute Units</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 13</div><div class="kb-diagram-note">ready</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 14</div><div class="kb-diagram-note">ready</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 12</div><div class="kb-diagram-note">wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Head = ROB 12 : wait → 뒤 명령어도 커밋 보류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Head = ROB 12 : ready → A 커밋</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Next = ROB 13 : ready → B 커밋</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Next = ROB 14 : ready → C 커밋</div></div>
+</div>
+</div>
+
+
+
+핵심은 실행 완료와 커밋 완료가 다르다는 점이다. 어떤 덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 이미 결과를 계산했더라도, 앞선 로드 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아직 메모리에서 데이터를 기다리는 중이면 그 덧셈 결과는 ROB 안에서 대기해야 한다. 이 분리가 있기 때문에 프로세서는 내부적으로는 유연하게 움직이되, 외부적으로는 <strong>항상 앞 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>부터 상태가 확정되는 것처럼</strong> 보일 수 있다.
 
 또한 ROB는 [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/)과 함께 동작한다. 리네이밍은 거짓 의존성 (False Dependency)을 끊어 실행을 앞당기고, ROB는 그 결과를 언제 공식 기록으로 바꿀지 결정한다. 그래서 리네이밍이 "누가 임시로 일을 맡을지 정하는 단계"라면, ROB는 "최종 결재 순서를 통제하는 단계"라고 볼 수 있다.
 
@@ -101,18 +101,18 @@ ROB는 다른 주변 구조와도 긴밀히 연결된다. 로드/스토어 큐 (
 
 ### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨김이 목표인가?** 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 큰 워크로드라면 큰 ROB가 유리하다.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 숨김이 목표인가?</strong> 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 큰 워크로드라면 큰 ROB가 유리하다.
 2. **커밋 폭이 충분한가?** 1사이클에 4개를 발행하면서 2개만 커밋하면 ROB는 쉽게 가득 찬다.
-3. **분기 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 허용되는가?** ROB가 클수록 잘못된 경로를 비우는 비용도 커진다.
+3. <strong>분기 실패 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간이 허용되는가?</strong> ROB가 클수록 잘못된 경로를 비우는 비용도 커진다.
 4. **전력 예산이 제한적인가?** 모바일 계열은 무작정 ROB를 키우기보다 선택적 확장을 선호한다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **엔트리 수만 늘리고 출구를 안 넓히는 설계**: 커밋 폭과 해제 대역폭이 좁으면 큰 ROB가 오히려 체증을 만든다.
 - **메모리 장벽을 과도하게 사용하는 소프트웨어**: 펜스 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 ROB 앞단을 막아 뒤의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 스스로 죽인다.
-- **[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도 개선 없이 ROB만 확대하는 설계**: 잘못 채운 창문을 더 크게 만든 셈이라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용만 커질 수 있다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/">분기 예측</a> 정확도 개선 없이 ROB만 확대하는 설계</strong>: 잘못 채운 창문을 더 크게 만든 셈이라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용만 커질 수 있다.
 
-예를 들어 서버용 고성능 프로세서는 수백 엔트리 ROB로 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려 하지만, 실시간 제어용 프로세서는 예측 가능성과 전력 효율을 위해 더 작은 ROB 또는 제한된 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)을 택하기도 한다. 기술사 답안에서는 "ROB 크기"만 쓰지 말고 **워크로드 특성, 커밋 폭, 분기 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용, 전력 예산**을 함께 판단 기준으로 적는 것이 좋다.
+예를 들어 서버용 고성능 프로세서는 수백 엔트리 ROB로 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려 하지만, 실시간 제어용 프로세서는 예측 가능성과 전력 효율을 위해 더 작은 ROB 또는 제한된 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)을 택하기도 한다. 기술사 답안에서는 "ROB 크기"만 쓰지 말고 <strong>워크로드 특성, 커밋 폭, 분기 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용, 전력 예산</strong>을 함께 판단 기준으로 적는 것이 좋다.
 
 - **📢 섹션 요약 비유**: 대기실 좌석만 많이 늘리고 접수 창구 수를 그대로 두면 병원은 더 빨라지지 않는다. ROB도 좌석 수와 창구 처리 속도를 함께 맞춰야 진짜 효과가 난다.
 
@@ -124,7 +124,7 @@ ROB의 가장 큰 효과는 "빠르게 실행해도 상태는 차분하게 확�
 
 다만 ROB는 공짜 성능이 아니다. 큰 ROB는 더 넓은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 윈도우를 제공하지만, 회로 면적 증가, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로 복잡화, 전력 상승을 동반한다. 앞으로는 단순히 엔트리를 늘리는 방향보다, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 커밋 구조, 더 정교한 [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/), 에너지 효율적인 선택적 웨이크업 같은 방식으로 "넓은 창"과 "낮은 비용"을 함께 잡는 방향이 중요해질 가능성이 크다.
 
-결국 ROB는 **[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)의 가속 페달이 아니라, 그 가속을 안전하게 도로 위에 올려놓는 브레이크 겸 차선 정리 장치**로 기억하는 것이 맞다. 성능은 실행 단계에서 벌고, 신뢰는 ROB의 순차 커밋 단계에서 완성된다.
+결국 ROB는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/">비순차 실행</a>의 가속 페달이 아니라, 그 가속을 안전하게 도로 위에 올려놓는 브레이크 겸 차선 정리 장치</strong>로 기억하는 것이 맞다. 성능은 실행 단계에서 벌고, 신뢰는 ROB의 순차 커밋 단계에서 완성된다.
 
 - **📢 섹션 요약 비유**: 자동차가 빨리 달리는 능력만으로는 좋은 차가 아니다. 브레이크와 차선 유지 장치가 있어야 빠른 속도도 믿고 쓸 수 있는데, ROB가 바로 그 역할을 한다.
 
@@ -142,24 +142,24 @@ ROB의 가장 큰 효과는 "빠르게 실행해도 상태는 차분하게 확�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차 파이프라인
-    │
-    ▼
-스코어보드 (Scoreboard) · 제한적 비순차 실행
-    │
-    ▼
-레지스터 리네이밍 (Register Renaming)
-    │
-    ▼
-재주문 버퍼 (ROB, Reorder Buffer)
-    │
-    ├─▶ 정밀한 예외 (Precise Exception)
-    │
-    ├─▶ 분기 실패 플러시 (Branch Misprediction Flush)
-    │
-    └─▶ 대규모 명령어 윈도우 · 고성능 슈퍼스칼라 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스코어보드 (Scoreboard) · 제한적 비순차 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 리네이밍 (Register Renaming)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재주문 버퍼 (ROB, Reorder Buffer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 정밀한 예외 (Precise Exception)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 분기 실패 플러시 (Branch Misprediction Flush)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 대규모 명령어 윈도우 · 고성능 슈퍼스칼라 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "순서 보장 중심 실행 → 제한적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 → 순서 복원 장치 도입 → 대규모 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)"으로 진화한 과정을 보여준다.
 

@@ -23,19 +23,20 @@ tags = ["studynote-computer-architecture"]
 
 문제가 커지는 이유는 캐시가 빠르기 때문이다. 메인 메모리보다 훨씬 빠른 캐시를 적극적으로 쓰려면, "빠르지만 틀릴 수 있는 사본"을 "빠르고도 믿을 수 있는 사본"으로 유지해야 한다. 스누핑은 이 요구를 가장 직관적으로 해결한다. 모든 코어가 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 함께 본다는 점을 이용해, 어떤 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 내면 다른 코어들이 그 신호를 즉시 듣고 자기 캐시 상태를 수정한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      왜 스누핑이 필요한가: 같은 주소를 여러 코어가 복제함      │
-├──────────────────────────────────────────────────────────────┤
-│ Main Memory: X = 10                                          │
-│      │                                                       │
-│      ├────────▶ Core 0 Cache: X = 10                         │
-│      └────────▶ Core 1 Cache: X = 10                         │
-│                                                              │
-│ Core 0 writes X = 20                                         │
-│   └─ 다른 코어가 이 사실을 모르면 Core 1은 계속 X = 10 사용   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 스누핑이 필요한가: 같은 주소를 여러 코어가 복제함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory: X = 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Core 0 Cache: X = 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Core 1 Cache: X = 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 writes X = 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 다른 코어가 이 사실을 모르면 Core 1은 계속 X = 10 사용</div></div>
+</div>
+</div>
+
+
 
 핵심은 "모두가 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 듣는다"는 공유 매체의 특성을 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 메커니즘으로 바꿨다는 점이다. 그래서 스누핑은 작은 규모의 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서 자연스럽고 구현도 비교적 단순한 출발점이 되었다.
 
@@ -58,18 +59,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 스누핑이 실제로 어떻게 동작하는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         스누핑 기반 쓰기 무효화 (Write-Invalidate) 흐름       │
-├──────────────────────────────────────────────────────────────┤
-│ ① Core 0, Core 1 모두 주소 A를 Shared 상태로 보유            │
-│ ② Core 0이 A에 write miss 또는 write upgrade 요청 발생       │
-│ ③ Shared Bus에 "A invalidate" 트랜잭션 브로드캐스트         │
-│ ④ Core 1 snoop logic이 A 일치 확인                           │
-│ ⑤ Core 1 cache line 상태: Shared ───────────────▶ Invalid    │
-│ ⑥ Core 0만 A를 수정 가능한 상태로 전환 후 값 갱신            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스누핑 기반 쓰기 무효화 (Write-Invalidate) 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Core 0, Core 1 모두 주소 A를 Shared 상태로 보유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Core 0이 A에 write miss 또는 write upgrade 요청 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Shared Bus에 "A invalidate" 트랜잭션 브로드캐스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Core 1 snoop logic이 A 일치 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ Core 1 cache line 상태: Shared ▶ Invalid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ Core 0만 A를 수정 가능한 상태로 전환 후 값 갱신</div></div>
+</div>
+</div>
+
+
 
 이 방식의 장점은 반응이 빠르다는 점이다. 별도 중앙 장부를 조회하지 않아도 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한 번으로 모든 관련 캐시가 즉시 반응할 수 있다. 반면 모든 코어가 매 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)마다 태그 비교를 해야 하므로, 코어 수가 늘수록 하드웨어 감시 비용과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 부하가 함께 증가한다.
 
@@ -110,20 +114,20 @@ tags = ["studynote-computer-architecture"]
 3. 락 변수나 카운터가 모든 코어의 공용 핫스폿이 되어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽을 키우고 있지 않은가?
 4. 코어 수가 큰 시스템이라면 하드웨어가 이미 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 혼합 구조인지, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 더 큰 영향을 주는지 확인했는가?
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             성능 저하 시 의심할 스누핑 관련 징후             │
-├──────────────────────────────────────────────────────────────┤
-│ 코어 수 증가                                                 │
-│      │                                                       │
-│      ▼                                                       │
-│ 처리량 증가가 미미함                                          │
-│      │                                                       │
-│      ├─ 공유 락/카운터 집중? ─────▶ invalidation 빈발         │
-│      ├─ 독립 데이터가 같은 line? ─▶ false sharing 의심        │
-│      └─ 소켓 간 접근 많음? ──────▶ directory/NUMA 영향 확인   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 저하 시 의심할 스누핑 관련 징후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 수 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 증가가 미미함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 공유 락/카운터 집중? ▶ invalidation 빈발</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 독립 데이터가 같은 line? ─▶ false sharing 의심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 소켓 간 접근 많음? ▶ directory/NUMA 영향 확인</div></div>
+</div>
+</div>
+
+
 
 기술사 답안 관점에서는 "소형 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing)에는 적합하지만, 대규모 다코어 확장에는 불리하다"는 문장을 명확히 남겨야 한다. 즉 스누핑은 우수한 기본 해법이지만, 설계 규모가 커질수록 자동으로 최선인 해법은 아니다.
 
@@ -155,24 +159,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 메모리 멀티코어
-        │
-        ▼
-캐시 일관성 (Cache Coherence) 필요
-        │
-        ├──────────────▶ 스누핑 프로토콜 (Snooping Protocol)
-        │                        │
-        │                        ├─ 무효화 정책 (Write-Invalidate)
-        │                        ├─ MESI / MOESI 상태 전이
-        │                        └─ 거짓 공유 (False Sharing) 이슈
-        │
-        ▼
-확장성 요구 증가
-        │
-        ▼
-디렉터리 기반 프로토콜 (Directory-based Protocol)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 메모리 멀티코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 스누핑 프로토콜 (Snooping Protocol)</div>
+<div class="kb-diagram-note">─ 무효화 정책 (Write-Invalidate)</div>
+<div class="kb-diagram-note">─ MESI / MOESI 상태 전이</div>
+<div class="kb-diagram-note">─ 거짓 공유 (False Sharing) 이슈</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확장성 요구 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디렉터리 기반 프로토콜 (Directory-based Protocol)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등장 → 사본 정합성 문제 → 스누핑으로 저지연 해결 → 규모 확대로 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 전환"이라는 진화를 보여준다.
 

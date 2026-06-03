@@ -24,16 +24,20 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 
   - 과거: 전기 선, 수도관, 가스관을 집집마다 따로따로 3번 땅을 파서 묻는 비효율적인 공사.
-  - B-ISDN: **"초대형 특수 만능 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)"** 하나만 땅에 묻으면, 그 안에서 전기, 물, 가스가 알아서 척척 분리되어 쏟아져 나오는 미래 지향적 스마트 배관 시스템.
+  - B-ISDN: <strong>"초대형 특수 만능 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>"</strong> 하나만 땅에 묻으면, 그 안에서 전기, 물, 가스가 알아서 척척 분리되어 쏟아져 나오는 미래 지향적 스마트 배관 시스템.
 
-```text
-[가상 회선 전송 방식 (연결형 패킷 교환]
-    │
-    ▼
-[브로드밴드통신망]
-    │
-    └──▶ [로컬 루프]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 회선 전송 방식 (연결형 패킷 교환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브로드밴드통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 루프</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** B-ISDN은 아날로그의 잔재를 싹 다 갈아엎고 전 지구를 하나의 거대한 광케이블 단일 제국으로 묶으려 했던 통신학계의 **"바벨탑(Babel Tower)"** 프로젝트였습니다.
 
@@ -44,11 +48,11 @@ tags = ["studynote-network"]
 ### 1. B-ISDN [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/))
 B-ISDN은 OSI 7계층과 비슷하지만 멀티미디어 통합에 특화된 독자적인 3차원 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)을 그렸다.
 - **물리 계층**: 광케이블([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))로 155.52 Mbps(STM-1) 이상의 엄청난 깡패 대역폭을 제공.
-- **[ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 계층**: 53바이트 셀을 이용해 음성과 데이터를 스위칭하는 실질적 뼈대.
-- **[AAL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/) (Adaptation Layer)**: IP 데이터나 음성 데이터를 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 크기에 맞게 썰어주는 변환 계층.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> 계층</strong>: 53바이트 셀을 이용해 음성과 데이터를 스위칭하는 실질적 뼈대.
+- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/">AAL</a> (Adaptation Layer)</strong>: IP 데이터나 음성 데이터를 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 크기에 맞게 썰어주는 변환 계층.
 
 ### 2. 너무나도 완벽했던 B-ISDN의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)
-ITU-T가 주도한 이 프로젝트는 수십 년간 통신망을 지배해 온 '전화국(Telco)' 출신 엘리트들이 설계했다. 이들은 **"통신 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))이 100% 보장되지 않으면 통신이 아니다"**라는 완벽주의에 빠져 있었다.
+ITU-T가 주도한 이 프로젝트는 수십 년간 통신망을 지배해 온 '전화국(Telco)' 출신 엘리트들이 설계했다. 이들은 <strong>"통신 품질(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)이 100% 보장되지 않으면 통신이 아니다"</strong>라는 완벽주의에 빠져 있었다.
 - 전화가 끊기지 않게 하려고 에러 제어, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 트래픽 셰이핑 등 온갖 복잡한 안전장치([ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 우겨 넣었다.
 - 장비 가격이 수천만 원에서 수억 원에 달해, 각 가정집까지 B-ISDN [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 깔아주려면 국가 예산이 거덜 날 판이었다.
 
@@ -56,22 +60,23 @@ ITU-T가 주도한 이 프로젝트는 수십 년간 통신망을 지배해 온 
 B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니어([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))들이 주도하는 이더넷과 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP는 "품질 보장? 몰라! 선이 모자라서 끊기면 그냥 선을 더 두껍게 뚫어버려! ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 깡패 전술)"를 외치며 100Mbps, 1Gbps 랜카드와 라우터를 값싸게 찍어내기 시작했다.
 결국 비싼 B-ISDN 망을 까는 것보다, 싼 IP 라우터를 여러 개 달고 대역폭을 왕창 늘려버리는 것이 훨씬 싸고 빠르다는 것이 증명되며, 전 세계 융합망의 패권은 **All-IP (모든 것을 IP 패킷으로 퉁친다)** 아키텍처로 넘어가 버렸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                망 통합 패권 전쟁: B-ISDN vs All-IP            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ B-ISDN (전화국 마인드) ] - 우아하지만 망함                   │
- │   "음성, 데이터는 성격이 다르니 완벽한 53B ATM 셀로 쪼개서         │
- │    100% 지연 없이 품질을 보장(QoS)하며 서비스하겠소!"            │
- │   ▶ 결과: 장비가 너무 비싸고 설정이 극악이라 시장에서 퇴출됨.        │
- │                                                             │
- │   [ TCP/IP (컴퓨터 마인드) ] - 무식하지만 승리함                   │
- │   "음성이 끊긴다고? 그럼 안 끊길 정도로 길을 100배 넓혀줄게!         │
- │    전화든 TV든 전부 IP 패킷으로 대충 던져!"                       │
- │   ▶ 결과: 장비가 싸고 단순하며 무지막지한 대역폭으로 통신계를 씹어먹음.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망 통합 패권 전쟁: B-ISDN vs All-IP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-ISDN (전화국 마인드)</div><div class="kb-diagram-note">- 우아하지만 망함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음성, 데이터는 성격이 다르니 완벽한 53B ATM 셀로 쪼개서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 지연 없이 품질을 보장(QoS)하며 서비스하겠소!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 장비가 너무 비싸고 설정이 극악이라 시장에서 퇴출됨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP/IP (컴퓨터 마인드)</div><div class="kb-diagram-note">- 무식하지만 승리함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음성이 끊긴다고? 그럼 안 끊길 정도로 길을 100배 넓혀줄게!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화든 TV든 전부 IP 패킷으로 대충 던져!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 장비가 싸고 단순하며 무지막지한 대역폭으로 통신계를 씹어먹음.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** B-ISDN은 완벽한 방음과 서스펜션이 갖춰진 **"10억짜리 맞춤형 황금 마차"**를 만들려다 실패한 것이고, 현대의 All-IP 망은 승차감은 조금 나쁘지만 누구나 10만 원에 살 수 있는 **"대량 생산 트럭"**을 뿌려서 세상을 점령한 것과 같습니다.
 
@@ -129,15 +134,19 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 가상 회선 전송 방식 (연결형 패킷 교환]
-    │
-    ▼
-[현재 개념: 브로드밴드통신망]
-    │
-    ├──▶ [확장 A: 로컬 루프]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가상 회선 전송 방식 (연결형 패킷 교환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브로드밴드통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로컬 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 브로드밴드통신망는 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

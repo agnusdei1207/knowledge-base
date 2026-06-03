@@ -26,27 +26,28 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 데드락 예방을 위해 마을 화장실의 칸막이 1인용 룰([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))을 부정하는 것. "줄 서지 말고, 10명이 동시에 한 칸에 들어가서 알아서 섞여서 볼일 봐!" 데드락은 없어지겠지만, 그 결과물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 상상할 수 없을 정도로 파괴적인 위상 오염이 발생한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         상호 배제 (Mutual Exclusion) 보장 vs 부정            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [상호 배제 보장 (현실의 필수악)]                            │
-│  공유 계좌 잔액 = 1,000원                                    │
-│  A: +500원 입금   │   B: -300원 출금                         │
-│                (■ LOCK ■)                                    │
-│  순차 진행: 1000 + 500 = 1500 → 1500 - 300 = 1200 (정상)     │
-│  * 대가: A가 끝날 때까지 B가 대기하다가 데드락 날 수 있음!   │
-│                                                              │
-│  [상호 배제 부정 (데드락 방지 100% 개방)]                    │
-│  공유 계좌 잔액 = 1,000원                                    │
-│  A: +500원 처리 중(메모리에 1500 기억)                       │
-│  B: -300원 처리 중(메모리에 700 기억)                        │
-│  B 저장(700) → A 저장(1500). 최종 잔액: 1500원               │
-│  * 결과: 데드락 대기는 전혀 없었으나, 300원 출금이 소거됨.   │
-│         (은행 파산 ❌)                                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제 (Mutual Exclusion) 보장 vs 부정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 보장 (현실의 필수악)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 계좌 잔액 = 1,000원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: +500원 입금</div><div class="kb-diagram-cell">B: -300원 출금</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(■ LOCK ■)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 진행: 1000 + 500 = 1500 → 1500 - 300 = 1200 (정상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대가: A가 끝날 때까지 B가 대기하다가 데드락 날 수 있음!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 부정 (데드락 방지 100% 개방)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 계좌 잔액 = 1,000원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: +500원 처리 중(메모리에 1500 기억)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: -300원 처리 중(메모리에 700 기억)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 저장(700) → A 저장(1500). 최종 잔액: 1500원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 데드락 대기는 전혀 없었으나, 300원 출금이 소거됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(은행 파산 ❌)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 줄 서는 대기(데드락)가 없게 하려고 도로의 모든 신호등을 파란불(부정)로 바꾸면, 영구 정차는 사라지지만 차들이 전부 부딪혀 대형 사고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 붕괴)가 폭발합니다.
 
@@ -59,7 +60,7 @@ tags = ["studynote-operating-system"]
 컴퓨팅 세계의 자원은 물리적 한계가 존재한다. 
 프린터 모터, CD 버너 빔, 하드디스크의 자기 헤드 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 등은 원자 단위(Atomic)에서 오직 한 놈의 신호만 받아야 한다.
 
-"[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정"을 구현하려면 이 물리적 장벽을 박살 내야 하는데, 이는 불가능하다. 그래서 OS 설계자들은 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 같은 **눈속임 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기법**으로 우회로를 팠다. 
+"[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정"을 구현하려면 이 물리적 장벽을 박살 내야 하는데, 이는 불가능하다. 그래서 OS 설계자들은 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 같은 <strong>눈속임 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기법</strong>으로 우회로를 팠다. 
 
 - **스풀 (Spool)**: "너네 다 프린터에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져(상호배제 가짜 파괴)! 내가 일단 디스크 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 다 쌓아두고 나중에 혼자 천천히 실물 프린터(진짜 상호배제)에 전송할게."
 - 즉, 프로세스들 입장에선 락 대기 없이 다 끝난 줄 아는 완전 공유 환상을 선사한다.
@@ -72,7 +73,7 @@ tags = ["studynote-operating-system"]
 
 | 예방 부정 조건 | 실현 가능성 (구조적) | 부작용 (부정 시) | 실무 적용 방안 |
 |:---|:---|:---|:---|
-| **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정** | **거의 불가능 ([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자원 제약)** | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴, [Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 폭발 | Read-only 패턴 분리, [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 부정</strong> | <strong>거의 불가능 (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 자원 제약)</strong> | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴, [Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 폭발 | Read-only 패턴 분리, [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전환 |
 | [점유 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) | 가능 | 끔찍한 자원 낭비율, [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) | [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 권고 |
 | [비선점 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/295_deny_no_preemption/) | 한정적 가능 | CPU 보존 외 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)/복원 불가 에러 | [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 엔진에서 차용 |
 | [순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) | **가장 현실적 가능** | 자원 요청 순서 제약 오버헤드 | [Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 적용 필수 |
@@ -84,11 +85,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))와 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)([함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/))**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 가장 우아하게 부정한 현대 SW 공학의 꽃이다. `val`이나 불변 객체로 한 번 세팅된 값은 모든 스레드가 동시에 참조해도 수정이 불가하므로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸 필요 자체가 0에 수렴한다. 데드락 자체가 성립 불가능한 "완전 개방 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어"를 이뤄냈다.
-2. **[락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) ([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 뮤텍스 락을 걸어 줄 세우는 대신, 변수 수정을 CPU 원자적 명령(`CMPXCHG`)에 맡겨버려 데드락 발생 큐잉(Queueing)을 아예 우회해버리는 21세기형 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정법이다.
+1. <strong>불변 객체(<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/">Immutable Object</a>)와 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/">함수형 프로그래밍</a>)</strong>: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 가장 우아하게 부정한 현대 SW 공학의 꽃이다. `val`이나 불변 객체로 한 번 세팅된 값은 모든 스레드가 동시에 참조해도 수정이 불가하므로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸 필요 자체가 0에 수렴한다. 데드락 자체가 성립 불가능한 "완전 개방 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어"를 이뤄냈다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">락-프리</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>) <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 뮤텍스 락을 걸어 줄 세우는 대신, 변수 수정을 CPU 원자적 명령(`CMPXCHG`)에 맡겨버려 데드락 발생 큐잉(Queueing)을 아예 우회해버리는 21세기형 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정법이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **전통적 변수에 대한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 누락**: "어? [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좀 높이려면 락 빼면 되는 거 아냐?" 하고 중요 변수에 `synchronized`나 `Mutex`를 실수든 고의든 지워버리는 행위. 이는 시스템에 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정을 강요한 꼴이 되어, 데드락은 면하더라도 더 끔찍한 하이젠버그(재현 불가한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 [Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))를 낳는다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>전통적 변수에 대한 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 누락</strong>: "어? [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좀 높이려면 락 빼면 되는 거 아냐?" 하고 중요 변수에 `synchronized`나 `Mutex`를 실수든 고의든 지워버리는 행위. 이는 시스템에 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 부정을 강요한 꼴이 되어, 데드락은 면하더라도 더 끔찍한 하이젠버그(재현 불가한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 [Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))를 낳는다.
 
 **📢 섹션 요약 비유**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 안 하는 건 고무줄 끈이 없습니다. 여러 사람이 동시에 당기면(공유) 모양이 망가져요. 오직 돌덩이(불변 객체)일 때만 사람들이 마구 만져도 안전한 겁니다.
 
@@ -99,10 +100,10 @@ tags = ["studynote-operating-system"]
 | 기준 | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 강제 보존 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 철폐 ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)/[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) |
 |:---|:---|:---|
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 | 절대적 보존 안전장치 | 우회 설계(불변/[CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) 없이는 치명적 붕괴 |
-| 데드락 교착 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | **발생 가능성 활성화 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ON)** | 0% (완전 소거) |
+| 데드락 교착 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | <strong>발생 가능성 활성화 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> ON)</strong> | 0% (완전 소거) |
 | 병행 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 경합으로 코어 수만큼 대기 병목 | 이론상 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 무한 확장 |
 
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 차원**에서 강제로 프린터 모터나 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 헤드의 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)성을 해체하는 것은 물리 법칙상 불가능하다. 하지만, **애플리케이션 차원**에서 읽기 복제본 분리, [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 큐, 불변 객체, 락프리 자료구조 등을 통한 '소프트웨어적 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'은 데드락 예방 철학의 무능을 딛고 피어난 가장 찬란한 객체 지향 및 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패러다임의 혁명이라 할 수 있다.
+[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 차원</strong>에서 강제로 프린터 모터나 하드디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 헤드의 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)성을 해체하는 것은 물리 법칙상 불가능하다. 하지만, <strong>애플리케이션 차원</strong>에서 읽기 복제본 분리, [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 큐, 불변 객체, 락프리 자료구조 등을 통한 '소프트웨어적 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'은 데드락 예방 철학의 무능을 딛고 피어난 가장 찬란한 객체 지향 및 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 패러다임의 혁명이라 할 수 있다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -119,15 +120,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[교착 상태 예방 (Deadlock Prevention)]
-    │
-    ▼
-[상호 배제 부정 (Deny Mutual Exclusion)]
-    │
-    ├──▶ [점유 대기 부정]
-    └──▶ [비선점 부정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 부정 (Deny Mutual Exclusion)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유 대기 부정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 부정</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

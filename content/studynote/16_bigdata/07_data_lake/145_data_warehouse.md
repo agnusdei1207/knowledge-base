@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. 기업의 의사결정을 지원하기 위해 여러 시스템의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **주제 중심적, 통합적, 시계열적, 비휘발성**으로 구성한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이다.
-2. 저장 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고 가공하는 **[스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))** 방식을 사용하여 높은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장한다.
+1. 기업의 의사결정을 지원하기 위해 여러 시스템의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>주제 중심적, 통합적, 시계열적, 비휘발성</strong>으로 구성한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소이다.
+2. 저장 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고 가공하는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">스키마 온 라이트</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/">Schema-on-Write</a>)</strong> 방식을 사용하여 높은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장한다.
 3. [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/)(BI)와 리포팅의 핵심 인프라이며, 최근에는 클라우드 기반의 MPP(Massive Parallel Processing) 아키텍처로 진화했다.
 
 ---
@@ -24,23 +24,24 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정을 통해 원천 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와 전용 저장소에 적재한다.
 
-```text
-[ Data Warehouse Architecture / 데이터 웨어하우스 아키텍처 ]
 
-    Source Systems (ERP, CRM)          Data Warehouse (DW)             BI & Analytics
-    +-------------------+       +-----------------------+       +-------------------+
-    | [Operational DB]  |       |     [Staging Area]    |       |  Reporting Tools  |
-    | [Flat Files]      | ----> |     [Data Vault]      | ----> |  (SQL, Dashboards)|
-    | [External API]    |       +-----------+-----------+       +---------+---------+
-    +---------+---------+                   |                             |
-                                            v                             v
-                                +-----------+-----------+       +---------+---------+
-                                |      Data Marts       | ----> |  Ad-hoc Analysis  |
-                                | (Sales, Finance, etc) |       |  (Excel, BI)      |
-                                +-----------------------+       +-------------------+
-```
 
-1. **4대 특징 ([Inmon](/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/))**:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse Architecture / 데이터 웨어하우스 아키텍처</div></div>
+<div class="kb-diagram-note">Source Systems (ERP, CRM) Data Warehouse (DW) BI &amp; Analytics</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Operational DB</div><div class="kb-diagram-node">Staging Area</div><div class="kb-diagram-note">| Reporting Tools</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flat Files</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Data Vault</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(SQL, Dashboards)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">External API</div><div class="kb-diagram-note">+-----------+-----------+ +---------+---------+</div></div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Marts</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Ad-hoc Analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sales, Finance, etc)</div><div class="kb-diagram-cell">(Excel, BI)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>4대 특징 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/">Inmon</a>)</strong>:
    - **주제 중심적 (Subject Oriented)**: 고객, 상품 등 특정 주제별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구성.
    - **통합적 (Integrated)**: 전사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 표준화된 포맷으로 통합.
    - **시계열적 (Time Variant)**: 과거의 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존.
@@ -54,7 +55,7 @@ tags = ["studynote-bigdata"]
 | 비교 항목 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | 운영 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) |
 | :--- | :--- | :--- |
 | **주요 목적** | 의사결정 지원 및 분석 | 일상적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위** | 과거 이력 포함 (수년) | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 위주 (수개월) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 범위</strong> | 과거 이력 포함 (수년) | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 위주 (수개월) |
 | **작업 단위** | 복잡한 대량의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 작고 빠른 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) |
 | **핵심 기술** | [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/), MPP, [Columnar Storage](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/234_columnar_storage_parquet_orc/) | SQL, Indexing, [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 
@@ -81,20 +82,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상위 개념: Data Infrastructure, Business Intelligence]
-    │
-    ▼
-[하위 개념: Data Mart, ETL/ELT, Star Schema, OLAP]
-    │
-    ▼
-[연관 개념: OLTP vs OLAP, MPP, Data Lakehouse]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: Data Infrastructure, Business Intelligence</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: Data Mart, ETL/ELT, Star Schema, OLAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: OLTP vs OLAP, MPP, Data Lakehouse</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 상위 개념: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Infrastructure, Business Intelligence에서 출발해 연관 개념: [OLTP vs OLAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/), MPP, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lakehouse까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)**: 학교 도서관에서 책들을 종류별(과학, 소설)로 아주 깔끔하게 정리해둔 책장과 같아요.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a></strong>: 학교 도서관에서 책들을 종류별(과학, 소설)로 아주 깔끔하게 정리해둔 책장과 같아요.
 2. **정확함**: 이름표가 정확하게 붙어 있어서, 내가 원하는 정보를 아주 빠르게 찾을 수 있어요.
 3. **용도**: "지난달에 대출이 가장 많았던 책이 뭐지?" 같은 어려운 질문에 대답할 때 최고예요.
 

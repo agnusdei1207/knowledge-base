@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: Enumeration(열거)은 리스트를 쭉 늘어놓았다는 뜻이다. 보안 기구인 MITRE(마이터) 재단이 전 세계 소프트웨어의 털린 원인을 싹 다 분석해보니, "결국 버퍼를 안 막아서([CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/)-119)", "특수문자를 필터링 안 해서([CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/)-89)" 등 근본적인 원인이 겹치고 있었다. 이 원인들의 이름을 통일하고 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 번호를 부여한 것이다.
 
-- **필요성**: 한국 보안 업체는 "SQL 삽입 취약점", 일본 업체는 "DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 조작 오류"라고 제멋대로 불렀다. 개발자들은 이 두 개가 같은 건지도 몰랐고, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))들마다 진단 기준이 달라서 회사끼리 비교가 안 됐다. **전 세계 개발자, 보안 분석가, 기계(스캐너 봇)가 "이 빵꾸 났어!"라고 하나의 똑같은 단어로 대화할 수 있는 '바벨탑을 무너뜨리는 공용어(Lingua Franca)'**가 필요했고, [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 번호가 그 절대적 잣대가 되었다.
+- **필요성**: 한국 보안 업체는 "SQL 삽입 취약점", 일본 업체는 "DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 조작 오류"라고 제멋대로 불렀다. 개발자들은 이 두 개가 같은 건지도 몰랐고, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))들마다 진단 기준이 달라서 회사끼리 비교가 안 됐다. <strong>전 세계 개발자, 보안 분석가, 기계(스캐너 봇)가 "이 빵꾸 났어!"라고 하나의 똑같은 단어로 대화할 수 있는 '바벨탑을 무너뜨리는 공용어(Lingua Franca)'</strong>가 필요했고, [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 번호가 그 절대적 잣대가 되었다.
 
-- **💡 비유**: CWE는 의학계의 **'질병 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 코드(KCD/ICD)'**와 같습니다. 동네 병원에서는 "속이 쓰리네요", 대학 병원에서는 "위산 과다네요"라고 다르게 말하면 보험 청구나 통계가 불가능합니다. 그래서 전 세계 의사들은 위궤양을 무조건 "K25"라는 질병 코드로 부르기로 약속했습니다. CWE는 소프트웨어가 걸릴 수 있는 수천 가지의 감기, 암, 찰과상의 원인에 `CWE-89`, `CWE-79` 같은 진단 코드를 붙여 전 세계의 소통을 통일한 보안 의학 사전입니다.
+- **💡 비유**: CWE는 의학계의 <strong>'질병 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 코드(KCD/ICD)'</strong>와 같습니다. 동네 병원에서는 "속이 쓰리네요", 대학 병원에서는 "위산 과다네요"라고 다르게 말하면 보험 청구나 통계가 불가능합니다. 그래서 전 세계 의사들은 위궤양을 무조건 "K25"라는 질병 코드로 부르기로 약속했습니다. CWE는 소프트웨어가 걸릴 수 있는 수천 가지의 감기, 암, 찰과상의 원인에 `CWE-89`, `CWE-79` 같은 진단 코드를 붙여 전 세계의 소통을 통일한 보안 의학 사전입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **용어의 파편화 지옥**: 1990년대 해킹이 폭발했지만 방어 가이드는 각 회사(MS, IBM)마다 이름이 달라서 중구난방이었다.
   2. **미국 국토안보부(DHS)의 후원과 MITRE의 집대성**: "안 되겠다, 모든 취약점 원인을 하나로 묶어라!"라는 지시 아래 MITRE 코퍼레이션이 2006년에 [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 리스트를 최초 발행했다.
   3. **시큐어 코딩의 글로벌 법전화 (현재)**: 한국 KISA(인터넷진흥원)의 '소프트웨어 보안약점 진단가이드 47항목' 등 전 세계 국가 공인 보안 규격들이 "[CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) 몇 번을 막아라"라고 법에 명시하면서 절대적인 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) 스캐너의 채점 기준이 되었다.
 
-- **📢 섹션 요약 비유**: CWE는 경찰서 캐비닛에 있는 **'범죄 수법(Modus Operandi) 도감'**입니다. 이 도감에는 "범인 얼굴(사건)"이 있는 게 아니라, "1. 쇠지렛대로 창문 뜯기", "2. 도어록 비번 훔쳐보기" 같은 범죄자들의 뻔한 수법(구멍)들이 적혀 있습니다. 경찰(개발자)은 이 도감을 보고 "아하, 창문을 튼튼하게 바꿔야겠구나" 하고 대비책을 세우게 됩니다.
+- **📢 섹션 요약 비유**: CWE는 경찰서 캐비닛에 있는 <strong>'범죄 수법(Modus Operandi) 도감'</strong>입니다. 이 도감에는 "범인 얼굴(사건)"이 있는 게 아니라, "1. 쇠지렛대로 창문 뜯기", "2. 도어록 비번 훔쳐보기" 같은 범죄자들의 뻔한 수법(구멍)들이 적혀 있습니다. 경찰(개발자)은 이 도감을 보고 "아하, 창문을 튼튼하게 바꿔야겠구나" 하고 대비책을 세우게 됩니다.
 
 ---
 
 다음은 [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) (Common Weakness의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CWE (Common Weakness                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWE (Common Weakness</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) (Common Weakness가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) ([Common Weakness Enumeration](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) ([Common Weakness Enumeration](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [CWE](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/) ([Common Weakness Enumeration](/knowledge-base/studynote/09_security/04_endpoint_security/410_cwe_taxonomy/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-CWE (Common Weakness Enumeration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CWE (Common Weakness Enumeration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -34,22 +34,23 @@ tags = ["database"]
 | :--- | :--- | :--- |
 | **구조** | 기본키 $\rightarrow$ 일반속성A $\rightarrow$ 일반속성B | 테이블1: 기본키 $\rightarrow$ 일반속성A(FK)<br>테이블2: 기본키(기존A) $\rightarrow$ 일반속성B |
 | **문제점** | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)B의 값이 불필요하게 반복 저장됨 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)A를 외래키(FK)로 연결하여 중복 제거 |
-| **[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)** | 이행적 종속 존재 ($X \rightarrow Y \rightarrow Z$) | 직접 종속만 존재 ($X \rightarrow Y$, $Y \rightarrow Z$) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong> | 이행적 종속 존재 ($X \rightarrow Y \rightarrow Z$) | 직접 종속만 존재 ($X \rightarrow Y$, $Y \rightarrow Z$) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  3NF 분리 전후의 종속성 변화                 │
-├──────────────────────────────────────────────────────────────┤
-│ [ 분리 전: 꼬리물기 종속 ]                                   │
-│  사번(PK) ───결정──▶ 부서코드 ───결정──▶ 부서명/위치       │
-│  (X)                   (Y)                 (Z)               │
-│                                                              │
-│ [ 분리 후: 독립된 테이블과 FK 참조 ]                         │
-│  사원 테이블: 사번(PK) ───결정──▶ 부서코드(FK)             │
-│                                      │                       │
-│  부서 테이블: 부서코드(PK) ───결정──▶ 부서명/위치          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3NF 분리 전후의 종속성 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분리 전: 꼬리물기 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사번(PK) 결정──▶ 부서코드 결정──▶ 부서명/위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(X) (Y) (Z)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분리 후: 독립된 테이블과 FK 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사원 테이블: 사번(PK) 결정──▶ 부서코드(FK)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부서 테이블: 부서코드(PK) 결정──▶ 부서명/위치</div></div>
+</div>
+</div>
+
+
 
 테이블 분리 시, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)의 매개체가 되었던 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(부서코드)은 원래 테이블(사원)에 외래키(FK)로 남고, 새로 만들어진 테이블(부서)에서는 기본키(PK)가 된다. 이를 통해 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))으로 언제든 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)/복원할 수 있다.
 
@@ -100,28 +101,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))** | 3NF를 진행하기 위해 반드시 선행되어야 하는 부분 종속 제거 단계 |
-| **[BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) ([Boyce-Codd Normal Form](/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/))** | 3NF를 만족하면서도 발생하는 특이한 종속([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 오류)을 해결하는 상위 단계 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">제2정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a>)</strong> | 3NF를 진행하기 위해 반드시 선행되어야 하는 부분 종속 제거 단계 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/106_bcnf_boyce_codd_normal_form/">Boyce-Codd Normal Form</a>)</strong> | 3NF를 만족하면서도 발생하는 특이한 종속([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 오류)을 해결하는 상위 단계 |
 | **반정규화 (De-normalization)** | 3NF로 인해 저하된 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위해 의도적으로 중복을 허용하는 역방향 기법 |
-| **조인 ([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))** | 3NF로 쪼개진 테이블들을 다시 조합하여 원래의 뷰를 만들어내는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 연산 |
+| <strong>조인 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a>)</strong> | 3NF로 쪼개진 테이블들을 다시 조합하여 원래의 뷰를 만들어내는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 연산 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규 릴레이션 (중복과 이상 현상의 온상)
-    │
-    ▼
-제1정규형 (1NF) · 원자값 확보
-    │
-    ▼
-제2정규형 (2NF) · 부분 함수 종속 제거
-    │
-    ▼
-제3정규형 (3NF) · 이행적 함수 종속 제거 (실무 표준)
-    │
-    ▼
-BCNF 및 반정규화 · 결정자 오류 해결 또는 성능을 위한 의도적 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규 릴레이션 (중복과 이상 현상의 온상)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제1정규형 (1NF) · 원자값 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제2정규형 (2NF) · 부분 함수 종속 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제3정규형 (3NF) · 이행적 함수 종속 제거 (실무 표준)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BCNF 및 반정규화 · 결정자 오류 해결 또는 성능을 위한 의도적 통합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

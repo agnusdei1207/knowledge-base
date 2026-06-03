@@ -26,11 +26,11 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 경비원(테스트 코드)이 훌륭한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 일부러 '가짜 도둑'을 푸는 훈련입니다.
   - **가짜 커버리지**: 경비원(테스트 코드)이 건물 로비를 한 번씩 다 걸어 다녔다고(커버리지 100%) 자랑합니다.
   - **뮤테이션 테스트**: 사장님이 훈련을 위해, 복면을 쓴 가짜 도둑(돌연변이 코드)을 로비에 몰래 들여보냅니다.
-  - **결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 경비원이 복면 도둑을 보고도 가만히 놔두면(Survived), 그 경비원은 눈이 멀었거나 자고 있는 겁니다(쓰레기 테스트). 경비원이 도둑을 보자마자 "도둑이다!(Fail)"라고 사이렌을 울려 도둑을 잡으면(Killed), 비로소 그 경비원(테스트)을 진짜로 믿을 수 있게 됩니다.
+  - <strong>결과 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 경비원이 복면 도둑을 보고도 가만히 놔두면(Survived), 그 경비원은 눈이 멀었거나 자고 있는 겁니다(쓰레기 테스트). 경비원이 도둑을 보자마자 "도둑이다!(Fail)"라고 사이렌을 울려 도둑을 잡으면(Killed), 비로소 그 경비원(테스트)을 진짜로 믿을 수 있게 됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 제안 (1970년대)**: 리처드 립튼(Richard Lipton)이 처음 제안했으나, 원본 코드를 수만 번 복사해서 돌려야 하는 압도적인 연산량 때문에 30년간 "이론으로만 존재하는 사장된 기술" 취급을 받았다.
-  2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구의 등장 (2010년대)**: 자바 생태계에 **PIT(Pitest)** 같은 강력한 바이트코드(Bytecode) 조작 기반의 퍼포먼스 튜닝 도구가 나오면서 실무 적용이 가능해졌다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 제안 (1970년대)</strong>: 리처드 립튼(Richard Lipton)이 처음 제안했으나, 원본 코드를 수만 번 복사해서 돌려야 하는 압도적인 연산량 때문에 30년간 "이론으로만 존재하는 사장된 기술" 취급을 받았다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 도구의 등장 (2010년대)</strong>: 자바 생태계에 **PIT(Pitest)** 같은 강력한 바이트코드(Bytecode) 조작 기반의 퍼포먼스 튜닝 도구가 나오면서 실무 적용이 가능해졌다.
   3. **DevSecOps와의 결합 (현재)**: 단순한 로직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 넘어, 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))이 실수로 훼손되었을 때 테스트가 이를 막아주는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 견고한 보안 파이프라인의 핵심 축으로 자리 잡고 있다.
 
 - **📢 섹션 요약 비유**: 선생님(개발자)이 낸 시험 문제(테스트 코드)가 얼마나 훌륭한 문제인지 평가하기 위해, 일부러 엉터리 오답을 적은 시험지 100장(돌연변이)을 섞어 넣고 채점 기계에 돌렸을 때 기계가 오답 100장을 완벽하게 다 걸러내는지(Killed) 역으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 시험입니다.
@@ -39,18 +39,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 뮤테이션 테스트 (돌연변이) 테스트 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  뮤테이션 테스트 (돌연변이) 테스트                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤테이션 테스트 (돌연변이) 테스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 뮤테이션 테스트 (돌연변이) 테스트 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-뮤테이션 테스트 (돌연변이) [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+뮤테이션 테스트 (돌연변이) [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 뮤테이션 테스트 (돌연변이) [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-뮤테이션 테스트 (돌연변이) 테스트 케이스 검증 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">뮤테이션 테스트 (돌연변이) 테스트 케이스 검증 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

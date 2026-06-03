@@ -12,8 +12,8 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델(Working-Set Model)은 지역성(Locality)의 법칙을 수학적으로 구체화하여, **프로세스가 최근 $\Delta$(델타, [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)) 시간 동안 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 고유한 집합([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))을 실시간으로 추적하는 메모리 관리 기법**이다.
-> 2. **가치**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 방지하기 위해, OS가 이 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 크기($WSS$)만큼은 램 프레임을 무조건 보장(할당)**해주고, 만약 시스템 전체의 가용 램이 모든 앱의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 총합보다 모자라게 되면 즉시 **프로세스 하나를 강제 수면(Suspend) 시켜버리는 강력한 브레이크 역할**을 한다.
-> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기(정적)가 아닌 현재 활발히 쓰는 램(동적)을 측정하므로, **[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)([Global Replacement](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))의 깡패 짓을 제어**하고 CPU 스케줄러와 메모리 관리자가 대화(협업)할 수 있는 완벽한 통계적 인터페이스를 제공한다.
+> 2. **가치**: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))을 방지하기 위해, OS가 이 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 크기($WSS$)만큼은 램 프레임을 무조건 보장(할당)**해주고, 만약 시스템 전체의 가용 램이 모든 앱의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 총합보다 모자라게 되면 즉시 <strong>프로세스 하나를 강제 수면(Suspend) 시켜버리는 강력한 브레이크 역할</strong>을 한다.
+> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 크기(정적)가 아닌 현재 활발히 쓰는 램(동적)을 측정하므로, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)의 깡패 짓을 제어</strong>하고 CPU 스케줄러와 메모리 관리자가 대화(협업)할 수 있는 완벽한 통계적 인터페이스를 제공한다.
 
 ---
 
@@ -22,33 +22,32 @@ tags = ["studynote-operating-system"]
 - **개념**: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))은 특정 프로세스가 렉([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)) 없이 부드럽게 실행되기 위해 '지금 당장 반드시 물리 램에 존재해야 하는 엑기스 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 묶음'이다. OS는 과거 $\Delta$(윈도우) 번의 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 기록을 뒤져 "최근에 이놈이 부른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호들"을 집합으로 묶어 그 크기([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) Size, WSS)를 계산한다.
 - **필요성**: 아무리 CPU가 빨라도 램 프레임 3개가 필요한 앱한테 2개를 주면 무한 폴트([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 터진다. 하지만 10개를 줘도 어차피 3개만 쓰고 7개는 놀린다. "도대체 몇 개를 주는 게 딱 맞는 할당량일까?" 균등 할당과 비례 할당은 런타임의 동적 변화를 반영하지 못해 처참히 실패했다. 피터 데닝(Peter Denning)은 "과거 일정한 시간($\Delta$) 동안 부른 놈들만 세어보면 그게 바로 지금 당장 필요한 최소한의 밥그릇([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))이다"라는 통계적 모델을 제시하여 이 딜레마에 마침표를 찍었다.
 
-- **등장 배경 및 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 방어의 최전선**:
-  1. **[전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)의 폭주**: 남의 램을 무자비하게 뺏다가 다 같이 죽는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 참사가 발생함.
+- <strong>등장 배경 및 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> 방어의 최전선</strong>:
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>의 폭주</strong>: 남의 램을 무자비하게 뺏다가 다 같이 죽는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 참사가 발생함.
   2. **지역성의 발견**: 프로세스의 램 요구량은 시간에 따라 팽창과 수축을 반복한다는 사실 증명.
-  3. **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델 도입**: 각자의 밥그릇(WSS) 크기를 합친 값이 물리 램 총량보다 커지면, OS가 과감히 앱 하나를 쫓아내는 수학적 명분이 확립됨.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a> 모델 도입</strong>: 각자의 밥그릇(WSS) 크기를 합친 값이 물리 램 총량보다 커지면, OS가 과감히 앱 하나를 쫓아내는 수학적 명분이 확립됨.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│        워킹 셋(Working Set)의 윈도우($\Delta$) 이동 시각화          │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│ [ 프로세스의 페이지 참조열 (시간 흐름 ──▶) ]                        │
-│ ... 2, 6, 1, 5, 7, 7, 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ...              │
-│                                                                     │
-│ ▶ Time 1: 윈도우 $\Delta$ = 최근 10번의 호출 (t=1 시점)             │
-│   [ 2, 6, 1, 5, 7, 7, 7, 7, 5, 1 ]                                  │
-│   - 워킹 셋 집합: { 1, 2, 5, 6, 7 }                                 │
-│   - 워킹 셋 크기(WSS): 5장 (OS야! 나 램 5장 무조건 보장해줘!)       │
-│                                                                     │
-│ ▶ Time 2: 시간이 흘러 윈도우가 오른쪽으로 이동 (t=2 시점)           │
-│   [ 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ]                                  │
-│   - 워킹 셋 집합: { 1, 2, 3, 4, 5, 6, 7 }                           │
-│   - 워킹 셋 크기(WSS): 7장 (OS야! 나 램 7장으로 늘려줘!)            │
-│                                                                     │
-│ ✅ 원리: 중복된 호출(7,7,7)은 1개로 친다. 워킹 셋은 프로그램의 국면 │
-│    (Phase)에 따라 풍선처럼 부풀었다가 쪼그라들기를 무한 반복한다.   │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋(Working Set)의 윈도우($\Delta$) 이동 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스의 페이지 참조열 (시간 흐름 ──▶)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 2, 6, 1, 5, 7, 7, 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Time 1: 윈도우 $\Delta$ = 최근 10번의 호출 (t=1 시점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2, 6, 1, 5, 7, 7, 7, 7, 5, 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 집합: { 1, 2, 5, 6, 7 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 크기(WSS): 5장 (OS야! 나 램 5장 무조건 보장해줘!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Time 2: 시간이 흘러 윈도우가 오른쪽으로 이동 (t=2 시점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7, 7, 5, 1, 6, 2, 3, 4, 1, 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 집합: { 1, 2, 3, 4, 5, 6, 7 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 크기(WSS): 7장 (OS야! 나 램 7장으로 늘려줘!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 원리: 중복된 호출(7,7,7)은 1개로 친다. 워킹 셋은 프로그램의 국면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Phase)에 따라 풍선처럼 부풀었다가 쪼그라들기를 무한 반복한다.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 모델의 위대함은 '자기 객관화'에 있다. 과거 비례 할당은 "나 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 10GB니까 램 10GB 줘"라며 억지를 부렸지만, [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델은 "내가 비록 10GB지만, 지난 1초 동안 5장(20KB)밖에 안 불렀으니 램 5장만 있으면 살아갈 수 있어"라고 아주 정직한 견적서를 OS에게 제출한다. 이 견적서 덕분에 OS는 수십 개의 앱을 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 테트리스 할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 회사에서 부서별 예산을 짤 때, 작년 예산 규모(가상메모리 크기)로 무작정 주는 게 아니라, **최근 3달(윈도우 $\Delta$) 동안 실제로 법인카드를 긁은 영수증 내역([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열)**만 뽑아서 딱 그 금액([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만큼만 다음 달 예산으로 칼같이 입금해 주는 가장 완벽하고 합리적인 예산 통제 시스템입니다.
@@ -78,7 +77,7 @@ tags = ["studynote-operating-system"]
 
 이론은 완벽하지만 구현은 지옥이다.
 - $\Delta$가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 호출이라면, CPU가 메모리를 찌를 때마다 최근 1만 번의 기록을 저장하고 큐를 밀어내야 한다 (Overhead 폭발).
-- 이를 해결하기 위해 OS는 **'타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)'와 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(R [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'**를 이용한 근사치 기법을 쓴다.
+- 이를 해결하기 위해 OS는 <strong>'타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>'와 '<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(R <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)'</strong>를 이용한 근사치 기법을 쓴다.
 - **구현 꼼수**: 
   1. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)' 외에 2비트짜리 작은 히스토리 변수를 둔다.
   2. 5초마다 타이머가 깨어나 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽고 0으로 리셋한다.
@@ -97,22 +96,25 @@ tags = ["studynote-operating-system"]
 
 | $\Delta$ [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) | 현상 및 문제점 | 결과 |
 |:---|:---|:---|
-| **너무 작음 (예: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))** | 방금 불린 10개만 보므로, 전체 `for` 루프를 다 못 품음 | [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 축소 측정되어 램을 뺏기고 폴트가 폭발함 |
-| **적당함 (예: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000)**| 한 국면(Phase)의 전체 지역성을 완벽하게 품음 | 가장 이상적인 램 할당이 이루어짐 (최적) |
+| <strong>너무 작음 (예: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong> | 방금 불린 10개만 보므로, 전체 `for` 루프를 다 못 품음 | [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)이 축소 측정되어 램을 뺏기고 폴트가 폭발함 |
+| <strong>적당함 (예: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000)</strong>| 한 국면(Phase)의 전체 지역성을 완벽하게 품음 | 가장 이상적인 램 할당이 이루어짐 (최적) |
 | **너무 큼 (예: 무한대)**| 과거의 쓰레기 데이터까지 몽땅 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)에 포함시켜버림 | 안 쓰는 램까지 껴안고 있어 타 앱이 램을 못 받아 굶어 죽음 |
 
 ### 비교 1: [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) vs [페이지 부재 빈도](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/)([PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/))
 
 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 모두 "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막기 위해 런타임에 램을 조절한다"는 철학은 같지만, 접근 방향이 다르다. (PFF는 다음 키워드에서 상세 서술)
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────────────┐
-│ 모델       │ 측정 대상    │ 동작 원리    │ 시스템 오버헤드                        │
-├──────────┼────────────┼────────────┼──────────────────────────────────────────────┤
-│ Working Set│ 과거 참조열   │ 윈도우 내의 집합을 계속 계산 유지│ 무거움 (계속 스캔)│
-│ PFF (빈도) │ 폴트가 나는 간격│ 폴트 잦으면 램 주고, 적으면 뺏음│ 🟢 매우 가벼움   │
-└──────────┴────────────┴────────────┴──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">측정 대상</div><div class="kb-diagram-cell">동작 원리</div><div class="kb-diagram-cell">시스템 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Working Set</div><div class="kb-diagram-cell">과거 참조열</div><div class="kb-diagram-cell">윈도우 내의 집합을 계속 계산 유지</div><div class="kb-diagram-cell">무거움 (계속 스캔)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFF (빈도)</div><div class="kb-diagram-cell">폴트가 나는 간격</div><div class="kb-diagram-cell">폴트 잦으면 램 주고, 적으면 뺏음</div><div class="kb-diagram-cell">🟢 매우 가벼움</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 "네가 필요한 게 이거지? 다 줄게!"라는 꼼꼼한 비서 스타일이고, PFF는 "너 지금 폴트 나서 아파? 약(램) 줄게! 안 아파? 약 뺏는다!"라는 증상 치료식 의사 스타일이다. 실무 커널에서는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 무거운 오버헤드를 견디지 못하고, 구현이 훨씬 가벼운 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 기반의 로직으로 대체하여 융합 사용하는 경우가 많다.
 
 - **📢 섹션 요약 비유**: $\Delta$([윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))를 1일로 잡으면 내가 어제 먹은 음식([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 기억해서 오늘 또 먹으려니 영양 불균형이 오고, $\Delta$를 10년으로 잡으면 10년 전에 먹던 이유식까지 오늘 밥상에 올라와 상다리가 부러집니다. 적당히 '최근 한 달 치 식단'을 유지하는 것이 완벽한 윈도우 튜닝의 예술입니다.
@@ -122,13 +124,13 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 윈도우즈(Windows OS)의 [Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 튜닝
-리눅스가 PFF나 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)에 치중했다면, Microsoft의 Windows OS는 전통적으로 이 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델**을 OS 핵심 아키텍처로 신봉해 왔다.
+리눅스가 PFF나 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)에 치중했다면, Microsoft의 Windows OS는 전통적으로 이 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 모델</strong>을 OS 핵심 아키텍처로 신봉해 왔다.
 1. **작업 관리자의 비밀**: 
-   - 윈도우 작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)를 열어 프로세스 탭의 메모리 컬럼을 보면, 그것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 총량이 아니라 바로 **"현재 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))"** 크기다.
+   - 윈도우 작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)를 열어 프로세스 탭의 메모리 컬럼을 보면, 그것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 총량이 아니라 바로 <strong>"현재 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)"</strong> 크기다.
 2. **Min / Max Working Set의 강제**:
    - 윈도우 커널은 프로세스를 띄울 때 기본적으로 최소 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(Min)과 최대 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)(Max)을 부여한다.
    - 램이 모자라면 OS가 프로세스들의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 강제로 Min(최소 뼈대) 크기로 쥐어짜서(Trimming) 빈 램을 확보한다.
-3. **C++ Win32 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 튜닝 (`SetProcessWorkingSetSize`)**:
+3. <strong>C++ Win32 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 튜닝 (<code>SetProcessWorkingSetSize</code>)</strong>:
    - 게임 개발자나 실시간 음원 처리 개발자는 윈도우 OS가 자기 램을 뺏어가는 걸 막기 위해 이 함수를 호출한다.
    - "OS 형님, 내 게임의 Min Working Set을 2GB로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸어주십쇼!"
    - 이 락을 걸면 윈도우가 아무리 램이 쪼들려도 절대 이 게임의 2GB 프레임을 스왑으로 쫓아내지 않는다([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 원천 차단). 무거운 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 게임이 윈도우에서 렉 없이 돌아가는 궁극의 실무 API다.
@@ -148,8 +150,8 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 원천 방어** | $\sum WSS > M$ 공식을 통해 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 임계점을 수학적으로 탐지하고 프로세스를 정지(Suspend)시켜 시스템 뇌사를 방어 |
-| **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 최적화** | 과할당(Over-allocation)의 늪에서 벗어나, 램 잔고가 허락하는 한계점(Knee)까지만 앱을 띄우는 이상적인 스케줄링 달성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 원천 방어</strong> | $\sum WSS > M$ 공식을 통해 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 임계점을 수학적으로 탐지하고 프로세스를 정지(Suspend)시켜 시스템 뇌사를 방어 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 최적화</strong> | 과할당(Over-allocation)의 늪에서 벗어나, 램 잔고가 허락하는 한계점(Knee)까지만 앱을 띄우는 이상적인 스케줄링 달성 |
 | **지역성(Locality)의 수치화** | 막연했던 '지역성'이라는 개념을 $\Delta$(윈도우)와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 집합으로 치환하여, OS가 코드로 다룰 수 있는 정량적 지표로 승화 |
 
 ### 결론 및 미래 전망
@@ -171,15 +173,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[지역성 모델 (Locality Model)]
-    │
-    ▼
-[워킹 셋 모델 (Working-Set Model)]
-    │
-    ├──▶ [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
-    └──▶ [메모리 매핑 파일 (Memory-Mapped Files, mmap)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지역성 모델 (Locality Model)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워킹 셋 모델 (Working-Set Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 매핑 파일 (Memory-Mapped Files, mmap)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

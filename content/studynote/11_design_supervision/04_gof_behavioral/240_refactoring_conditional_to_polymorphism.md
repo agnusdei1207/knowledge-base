@@ -18,13 +18,13 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-소프트웨어 개발 초기에는 간단한 if-else로 타입을 분기하는 코드가 자연스럽게 작성된다. 그러나 타입이 추가되고 조건이 복잡해지면 이 코드는 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 문 냄새 ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) Statement Smell)** 라는 안티 패턴이 된다.
+소프트웨어 개발 초기에는 간단한 if-else로 타입을 분기하는 코드가 자연스럽게 작성된다. 그러나 타입이 추가되고 조건이 복잡해지면 이 코드는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 문 냄새 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> Statement Smell)</strong> 라는 안티 패턴이 된다.
 
 마틴 파울러의 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/), 2018 2판) 에서 "Replace Conditional with Polymorphism" 은 가장 중요한 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 기법 중 하나로 다룬다. 핵심 직관은 다음과 같다:
 
 > **"객체에게 자신이 무엇인지 물어보지 말고, 무엇을 해야 하는지 시켜라."**
 
-이는 GoF (Gang of Four) 설계 원칙—**'[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)보다 구성 (Composition over Inheritance)'**, **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open/Closed Principle)** —의 실천이다.
+이는 GoF (Gang of Four) 설계 원칙—<strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>보다 구성 (Composition over Inheritance)'</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (Open/Closed Principle)</strong> —의 실천이다.
 
 ```java
 // 안티패턴: 타입에 따른 switch 분기 (여러 메서드에 동일 패턴 반복)
@@ -47,56 +47,53 @@ double getDeliveryDays(String orderType) {
 }
 ```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 매번 직원 유형(정규직/알바/계약직)을 물어보고 처우를 결정하는 것보다, 각 유형이 자신의 처우 계산법을 직접 알고 있는 게 훨씬 효율적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-[리팩토링 전: 조건문 분기]
-┌──────────────────────────────────────────────────────────┐
-│  OrderService                                            │
-│                                                          │
-│  getShippingCost(type)                                   │
-│    if EXPRESS  → 10%                                     │
-│    if STANDARD → 5%          ← 새 타입 추가 시           │
-│    if ECONOMY  → 2%            여기를 수정해야 함 (OCP 위반)│
-│                                                          │
-│  getDeliveryDays(type)                                   │
-│    if EXPRESS  → 1일         ← 여기도 수정해야 함!        │
-│    if STANDARD → 3일                                     │
-│    if ECONOMY  → 7일                                     │
-└──────────────────────────────────────────────────────────┘
 
-[리팩토링 후: 다형성 기반]
-┌────────────────────────────────────────────────────────────┐
-│  <<interface>> ShippingStrategy                            │
-│  + getShippingCost(): double                               │
-│  + getDeliveryDays(): int                                  │
-└───────────────────────┬────────────────────────────────────┘
-                        │ implements
-          ┌─────────────┼──────────────────┐
-          ▼             ▼                  ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
-│  Express     │ │  Standard    │ │  Economy         │
-│  Shipping    │ │  Shipping    │ │  Shipping        │
-│  cost: 10%   │ │  cost: 5%    │ │  cost: 2%        │
-│  days: 1     │ │  days: 3     │ │  days: 7         │
-└──────────────┘ └──────────────┘ └──────────────────┘
-                                          ▲
-                                          │ 새 타입 추가 시
-                               ┌──────────────────────┐
-                               │  SameDay Shipping    │ ← 클래스만 추가!
-                               │  cost: 20%           │   기존 코드 수정 없음
-                               │  days: 0             │
-                               └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리팩토링 전: 조건문 분기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">getShippingCost(type)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if EXPRESS → 10%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if STANDARD → 5% ← 새 타입 추가 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ECONOMY → 2% 여기를 수정해야 함 (OCP 위반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">getDeliveryDays(type)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if EXPRESS → 1일 ← 여기도 수정해야 함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if STANDARD → 3일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ECONOMY → 7일</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리팩토링 후: 다형성 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt; ShippingStrategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ getShippingCost(): double</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ getDeliveryDays(): int</div></div>
+<div class="kb-diagram-note">implements</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Express</div><div class="kb-diagram-cell">Standard</div><div class="kb-diagram-cell">Economy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shipping</div><div class="kb-diagram-cell">Shipping</div><div class="kb-diagram-cell">Shipping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost: 10%</div><div class="kb-diagram-cell">cost: 5%</div><div class="kb-diagram-cell">cost: 2%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">days: 1</div><div class="kb-diagram-cell">days: 3</div><div class="kb-diagram-cell">days: 7</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">새 타입 추가 시</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SameDay Shipping</div><div class="kb-diagram-cell">← 클래스만 추가!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost: 20%</div><div class="kb-diagram-cell">기존 코드 수정 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">days: 0</div></div>
+</div>
+</div>
+
+
 
 ```java
 // 전략 인터페이스
@@ -128,7 +125,7 @@ public class Order {
 }
 ```
 
-[상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 객체의 **내부 상태**가 바뀔 때 행동이 달라지는 경우에 적용한다:
+[상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 객체의 <strong>내부 상태</strong>가 바뀔 때 행동이 달라지는 경우에 적용한다:
 
 | 패턴 | 사용 시기 | 상태 전환 |
 |:---|:---|:---:|
@@ -147,13 +144,18 @@ public class Order {
 | Extract Method | 긴 메서드 분리 | 메서드가 너무 길 때 |
 | [Introduce Parameter Object](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) | 매개변수 묶기 | 매개변수가 3개 이상 반복 |
 
-```
-Before (OCP 위반):
-  신규 타입 추가 → 기존 switch 문 수정 → 기존 코드 변경 → 회귀 버그 위험
 
-After (OCP 준수):
-  신규 타입 추가 → 새 클래스 추가 → 기존 코드 무변경 → 안전
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Before (OCP 위반):</div>
+<div class="kb-diagram-note">신규 타입 추가 → 기존 switch 문 수정 → 기존 코드 변경 → 회귀 버그 위험</div>
+<div class="kb-diagram-note">After (OCP 준수):</div>
+<div class="kb-diagram-note">신규 타입 추가 → 새 클래스 추가 → 기존 코드 무변경 → 안전</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 조건문은 새 메뉴를 추가할 때마다 주방 레이아웃을 바꾸는 것이고, 다형성은 새 요리사를 고용하는 것이다. 주방은 그대로, 메뉴만 늘어난다.
 
@@ -162,7 +164,7 @@ After (OCP 준수):
 ## Ⅳ. 실무 적용 및 기술사 판단
 1. **테스트 작성**: 기존 조건문 커버하는 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 먼저 작성
 2. **인터페이스 추출**: 공통 행동을 인터페이스로 정의
-3. **구현 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 각 분기를 별도 클래스로 분리
+3. <strong>구현 클래스 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 각 분기를 별도 클래스로 분리
 4. **조건문 교체**: if-else를 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) 또는 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/): [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)) 로 교체
 5. **테스트 재실행**: 동일 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
@@ -195,10 +197,10 @@ After (OCP 준수):
 ## Ⅴ. 기대효과 및 결론
 Replace Conditional with Polymorphism [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 효과:
 
-- **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 달성**: 새 타입 추가 시 기존 코드 변경 없음
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> 달성</strong>: 새 타입 추가 시 기존 코드 변경 없음
 - **코드 중복 제거**: 동일 [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패턴이 여러 메서드에서 제거됨
 - **테스트 용이성**: 각 타입별 독립 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 가능
-- **[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 향상**: 각 클래스가 단일 타입의 행동만 담당 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 준수)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a> 향상</strong>: 각 클래스가 단일 타입의 행동만 담당 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 준수)
 
 GoF (Gang of Four) 패턴과의 연결:
 
@@ -209,7 +211,7 @@ GoF (Gang of Four) 패턴과의 연결:
 | 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 분리 | [Factory Method Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/146_factory_method_pattern/) |
 | 타입별 연산 추가 | [Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) |
 
-기술사 시험에서 이 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 **"[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소와 설계 품질 향상을 동시에 달성하는 실천 기법"** 으로 자주 출제된다. 코드 예시와 함께 전후를 비교 서술하면 높은 점수를 얻을 수 있다.
+기술사 시험에서 이 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 <strong>"<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 해소와 설계 품질 향상을 동시에 달성하는 실천 기법"</strong> 으로 자주 출제된다. 코드 예시와 함께 전후를 비교 서술하면 높은 점수를 얻을 수 있다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 254번 팩토리 메서드나 256번 빌더를 쓰더라도, 결국 마지막엔 `new` 키워드로 새로운 메모리를 할당받아 빈 깡통을 만들고, 거기에 복잡한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 연산(DB 긁어오기, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기)을 거쳐 속을 채워야 합니다.
-- 이 속을 채우는 과정이 1초가 걸린다면, 똑같이 생긴 놈을 100번 호출하면 무식하게 100초를 기다려야 하는 **미친 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낭비**가 터집니다.
+- 이 속을 채우는 과정이 1초가 걸린다면, 똑같이 생긴 놈을 100번 호출하면 무식하게 100초를 기다려야 하는 <strong>미친 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 낭비</strong>가 터집니다.
 
 - **📢 섹션 요약 비유**: 프로토타입 (Prototype)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 프로토타입 (Prototype)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프로토타입 (Prototype)                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토타입 (Prototype)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 프로토타입 (Prototype)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Prototype (원형, 견본)**
-- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 객체를 처음부터 맨땅에 헤딩하며 새로(`new`) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이 아니라, **이미 완성되어 메모리에 띄워져 있는 기존의 완벽한 객체(견본, Prototype)를 그대로 복사([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))하여 새로운 객체를 0.001초 만에 쑴풍쑴풍 만들어내는 메모리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 패턴**입니다.
+- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 객체를 처음부터 맨땅에 헤딩하며 새로(`new`) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이 아니라, <strong>이미 완성되어 메모리에 띄워져 있는 기존의 완벽한 객체(견본, Prototype)를 그대로 복사(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">Clone</a>)하여 새로운 객체를 0.001초 만에 쑴풍쑴풍 만들어내는 메모리 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 프로토타입 (Prototype)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,10 +88,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 DB나 네트워크를 타서 미치도록 무거울 때.** (비용 최적화)
+1. <strong>객체 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 비용이 DB나 네트워크를 타서 미치도록 무거울 때.</strong> (비용 최적화)
 2. 클래스 이름(종류)이 너무 많아서, 수백 개의 팩토리(공장) 자식 클래스를 만들기 귀찮을 때. (그냥 원본 1개 띄워놓고 걔를 찌르면 되니까 공장이 필요 없습니다.)
 
-> 📢 **섹션 요약 비유**: **프로토타입(Prototype) 패턴**은 학교 시험지를 만들 때 **'복합기(복사기)의 100장 연사 인쇄 마법'**과 같습니다. 학교 선생님이 기말고사 시험지(객체) 100장을 만듭니다. 바보 선생님([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 백지 100장을 꺼내놓고, 1번부터 100번 종이까지 1번 문제, 2번 문제를 펜으로 일일이 다 씁니다(복잡한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 연산). 손이 빠지고 10시간이 걸립니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하). 깨달음을 얻은 천재 선생님([프로토타입 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/))은 어떻게 할까요? 10시간 헛짓거리를 안 합니다. 아주 정성스럽게 펜으로 **'완벽한 원본 시험지(Prototype 원형 객체)' 딱 1장만** 빡세게 만듭니다. 그리고 그 1장을 교무실 거대한 복사기([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) 메서드)에 올려놓고 '100장 복사' 버튼을 누릅니다! 지잉~ 징~ 하면서 10초 만에 완벽하게 똑같이 생긴 100장의 시험지([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 새 객체들)가 쏟아져 나옵니다. 1장을 새로 쓰는 고통([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용)을 100% 생략해 버리고, 이미 존재하는 완벽한 완성품의 유전자를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 내어 100만 대군을 1초 만에 찍어내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 꿀벌 패턴입니다.
+> 📢 **섹션 요약 비유**: <strong>프로토타입(Prototype) 패턴</strong>은 학교 시험지를 만들 때 <strong>'복합기(복사기)의 100장 연사 인쇄 마법'</strong>과 같습니다. 학교 선생님이 기말고사 시험지(객체) 100장을 만듭니다. 바보 선생님([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 백지 100장을 꺼내놓고, 1번부터 100번 종이까지 1번 문제, 2번 문제를 펜으로 일일이 다 씁니다(복잡한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 연산). 손이 빠지고 10시간이 걸립니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하). 깨달음을 얻은 천재 선생님([프로토타입 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/149_prototype_pattern/))은 어떻게 할까요? 10시간 헛짓거리를 안 합니다. 아주 정성스럽게 펜으로 **'완벽한 원본 시험지(Prototype 원형 객체)' 딱 1장만** 빡세게 만듭니다. 그리고 그 1장을 교무실 거대한 복사기([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) 메서드)에 올려놓고 '100장 복사' 버튼을 누릅니다! 지잉~ 징~ 하면서 10초 만에 완벽하게 똑같이 생긴 100장의 시험지([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 새 객체들)가 쏟아져 나옵니다. 1장을 새로 쓰는 고통([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용)을 100% 생략해 버리고, 이미 존재하는 완벽한 완성품의 유전자를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 내어 100만 대군을 1초 만에 찍어내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 꿀벌 패턴입니다.
 
 - **📢 섹션 요약 비유**: 프로토타입 (Prototype)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -137,21 +136,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프로토타입 (Prototype) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로토타입 (Prototype) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

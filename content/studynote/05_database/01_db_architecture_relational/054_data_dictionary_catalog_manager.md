@@ -109,18 +109,21 @@ SQL → Parser/Optimizer → Catalog Manager → Data Dictionary
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-DDL / DML
-    │
-    ▼
-Catalog Manager
-    │
-    ▼
-Data Dictionary
-    │
-    ▼
-Optimizer / Security / Metadata Query
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DDL / DML</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Catalog Manager</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Dictionary</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Optimizer / Security / Metadata Query</div>
+</div>
+</div>
+
+
 
 이 흐름은 DBMS가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중심으로 동작하는 구조를 보여준다.
 

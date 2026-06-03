@@ -18,29 +18,31 @@ tags = ["studynote-data-engineering"]
 
 ## I. 와이드 컬럼 구조
 
-```
-관계형 DB (Row-Oriented):
-  Row:  id | name   | email          | age
-  Row1:  1 | Alice  | a@example.com  |  30
-  Row2:  2 | Bob    | b@example.com  | NULL
-  
-  -> 모든 행이 동일한 컬럼 구조
 
-와이드 컬럼 (Column Family):
-  Row Key: user:001
-    personal: {name: Alice, age: 30}
-    contact:  {email: a@example.com, phone: 010-...}
-  
-  Row Key: user:002
-    personal: {name: Bob}
-    social:   {twitter: @bob, github: bob-dev}
-    (contact 컬럼 패밀리 없음 -> 스파스)
 
-특징:
-  - 행마다 다른 컬럼 가능 (스파스 매트릭스)
-  - 컬럼 패밀리 단위로 물리 저장
-  - 컬럼 타임스탬프 내장 (버전 관리)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">관계형 DB (Row-Oriented):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row: id</div><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">email</div><div class="kb-diagram-cell">age</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row1: 1</div><div class="kb-diagram-cell">Alice</div><div class="kb-diagram-cell">a@example.com</div><div class="kb-diagram-cell">30</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row2: 2</div><div class="kb-diagram-cell">Bob</div><div class="kb-diagram-cell">b@example.com</div><div class="kb-diagram-cell">NULL</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">모든 행이 동일한 컬럼 구조</div>
+<div class="kb-diagram-note">와이드 컬럼 (Column Family):</div>
+<div class="kb-diagram-note">Row Key: user:001</div>
+<div class="kb-diagram-note">personal: {name: Alice, age: 30}</div>
+<div class="kb-diagram-note">contact: {email: a@example.com, phone: 010-...}</div>
+<div class="kb-diagram-note">Row Key: user:002</div>
+<div class="kb-diagram-note">personal: {name: Bob}</div>
+<div class="kb-diagram-note">social: {twitter: @bob, github: bob-dev}</div>
+<div class="kb-diagram-note">(contact 컬럼 패밀리 없음 -&gt; 스파스)</div>
+<div class="kb-diagram-note">특징:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">행마다 다른 컬럼 가능 (스파스 매트릭스)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컬럼 패밀리 단위로 물리 저장</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컬럼 타임스탬프 내장 (버전 관리)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 엑셀에서 모든 행에 같은 열을 채우는 대신, 각 학생이 자신에게 필요한 과목 열만 가지는 성적표 — 없는 과목은 칸 자체가 없음.
 
@@ -48,34 +50,35 @@ tags = ["studynote-data-engineering"]
 
 ## II. Apache [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)
 
-```
-Cassandra (Facebook 개발, Apache 오픈소스):
-  
-데이터 모델:
-  Keyspace -> Table -> Row -> Column
-  
-파티션 키 (Partition Key):
-  데이터가 저장될 노드를 결정
-  일관된 해싱(Consistent Hashing)으로 분산
-  
-클러스터링 컬럼 (Clustering Column):
-  파티션 내 데이터 정렬 기준
-  
-예시 테이블:
-  CREATE TABLE sensor_data (
-    device_id TEXT,         -- 파티션 키
-    timestamp TIMESTAMP,    -- 클러스터링 컬럼
-    temperature FLOAT,
-    humidity FLOAT,
-    PRIMARY KEY (device_id, timestamp)
-  );
 
-특성:
-  쓰기: 매우 빠름 (순차 LSM-Tree)
-  읽기: 파티션 키로 조회 시 빠름
-  일관성: 튜너블 (ONE/QUORUM/ALL)
-  CAP: AP (가용성 + 파티션 허용)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cassandra (Facebook 개발, Apache 오픈소스):</div>
+<div class="kb-diagram-note">데이터 모델:</div>
+<div class="kb-diagram-note">Keyspace -&gt; Table -&gt; Row -&gt; Column</div>
+<div class="kb-diagram-note">파티션 키 (Partition Key):</div>
+<div class="kb-diagram-note">데이터가 저장될 노드를 결정</div>
+<div class="kb-diagram-note">일관된 해싱(Consistent Hashing)으로 분산</div>
+<div class="kb-diagram-note">클러스터링 컬럼 (Clustering Column):</div>
+<div class="kb-diagram-note">파티션 내 데이터 정렬 기준</div>
+<div class="kb-diagram-note">예시 테이블:</div>
+<div class="kb-diagram-note">CREATE TABLE sensor_data (</div>
+<div class="kb-diagram-note">device_id TEXT, -- 파티션 키</div>
+<div class="kb-diagram-note">timestamp TIMESTAMP, -- 클러스터링 컬럼</div>
+<div class="kb-diagram-note">temperature FLOAT,</div>
+<div class="kb-diagram-note">humidity FLOAT,</div>
+<div class="kb-diagram-note">PRIMARY KEY (device_id, timestamp)</div>
+<div class="kb-diagram-note">);</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">쓰기: 매우 빠름 (순차 LSM-Tree)</div>
+<div class="kb-diagram-note">읽기: 파티션 키로 조회 시 빠름</div>
+<div class="kb-diagram-note">일관성: 튜너블 (ONE/QUORUM/ALL)</div>
+<div class="kb-diagram-note">CAP: AP (가용성 + 파티션 허용)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: Cassandra는 배달 기사들이 지역별로 나뉘어([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 각자 담당 지역 배달 — 지역 내 빠른 배달, 전체 재고 파악은 느림.
 
@@ -83,30 +86,31 @@ Cassandra (Facebook 개발, Apache 오픈소스):
 
 ## III. Apache [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)
 
-```
-HBase (Google BigTable 아키텍처, Hadoop 기반):
 
-구조:
-  HMaster (마스터) + RegionServer (워커)
-  HDFS 위에서 실행 (영속성)
-  
-Row Key가 사전순 정렬:
-  시계열 데이터: 타임스탬프를 reverse로
-  user:20241201 -> user:20241130 정렬
-  
-컬럼 패밀리 (Column Family):
-  물리적으로 같은 파일에 저장
-  패밀리 내 컬럼은 동적으로 추가 가능
-  
-특성:
-  CAP: CP (일관성 + 파티션 허용)
-  HDFS 기반 -> Hadoop 생태계 통합
-  Spark, Hive와 연동
 
-Cassandra vs HBase:
-  Cassandra: 마스터리스, AP, 낮은 지연
-  HBase: 마스터 기반, CP, Hadoop 통합
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HBase (Google BigTable 아키텍처, Hadoop 기반):</div>
+<div class="kb-diagram-note">구조:</div>
+<div class="kb-diagram-note">HMaster (마스터) + RegionServer (워커)</div>
+<div class="kb-diagram-note">HDFS 위에서 실행 (영속성)</div>
+<div class="kb-diagram-note">Row Key가 사전순 정렬:</div>
+<div class="kb-diagram-note">시계열 데이터: 타임스탬프를 reverse로</div>
+<div class="kb-diagram-note">user:20241201 -&gt; user:20241130 정렬</div>
+<div class="kb-diagram-note">컬럼 패밀리 (Column Family):</div>
+<div class="kb-diagram-note">물리적으로 같은 파일에 저장</div>
+<div class="kb-diagram-note">패밀리 내 컬럼은 동적으로 추가 가능</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">CAP: CP (일관성 + 파티션 허용)</div>
+<div class="kb-diagram-note">HDFS 기반 -&gt; Hadoop 생태계 통합</div>
+<div class="kb-diagram-note">Spark, Hive와 연동</div>
+<div class="kb-diagram-note">Cassandra vs HBase:</div>
+<div class="kb-diagram-note">Cassandra: 마스터리스, AP, 낮은 지연</div>
+<div class="kb-diagram-note">HBase: 마스터 기반, CP, Hadoop 통합</div>
+</div>
+</div>
+
+
 
 | 특성     | [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)     | [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/)         |
 |--------|--------------|--------------|
@@ -121,29 +125,31 @@ Cassandra vs HBase:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 중심 모델링
 
-```
-관계형 DB vs 와이드 컬럼 설계 철학:
 
-관계형:
-  "데이터를 어떻게 저장할까?" (정규화)
-  -> 나중에 어떤 쿼리든 JOIN으로 해결
-  
-와이드 컬럼:
-  "어떤 쿼리를 할 것인가?" (비정규화)
-  -> 쿼리 패턴에 맞게 테이블을 설계
-  -> JOIN 없음 (단일 테이블 조회 원칙)
-  
-예시: 사용자의 최근 주문 조회
-  관계형: users JOIN orders WHERE user_id = ?
-  Cassandra: 
-    orders_by_user 테이블 별도 생성
-    PRIMARY KEY (user_id, order_timestamp)
-    -> 단일 테이블 조회로 해결
 
-비정규화 trade-off:
-  중복 저장 증가 (디스크)
-  대신 빠른 읽기, 분산 용이
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">관계형 DB vs 와이드 컬럼 설계 철학:</div>
+<div class="kb-diagram-note">관계형:</div>
+<div class="kb-diagram-note">"데이터를 어떻게 저장할까?" (정규화)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">나중에 어떤 쿼리든 JOIN으로 해결</div>
+<div class="kb-diagram-note">와이드 컬럼:</div>
+<div class="kb-diagram-note">"어떤 쿼리를 할 것인가?" (비정규화)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">쿼리 패턴에 맞게 테이블을 설계</div>
+<div class="kb-diagram-tree-item" style="--depth:1">JOIN 없음 (단일 테이블 조회 원칙)</div>
+<div class="kb-diagram-note">예시: 사용자의 최근 주문 조회</div>
+<div class="kb-diagram-note">관계형: users JOIN orders WHERE user_id = ?</div>
+<div class="kb-diagram-note">Cassandra:</div>
+<div class="kb-diagram-note">orders_by_user 테이블 별도 생성</div>
+<div class="kb-diagram-note">PRIMARY KEY (user_id, order_timestamp)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">단일 테이블 조회로 해결</div>
+<div class="kb-diagram-note">비정규화 trade-off:</div>
+<div class="kb-diagram-note">중복 저장 증가 (디스크)</div>
+<div class="kb-diagram-note">대신 빠른 읽기, 분산 용이</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 관계형은 서류를 원본 하나만 보관([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)), Cassandra는 자주 쓰는 서류를 각 팀에 복사본 비치(비정규화) — 찾기 빠른 대신 저장 공간 더 씀.
 
@@ -151,35 +157,36 @@ Cassandra vs HBase:
 
 ## V. 실무 시나리오 — [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 시계열
 
-```
-시나리오:
-  IoT 플랫폼: 100만 개 센서
-  각 센서: 1초마다 온도/습도 전송
-  초당 100만 건 쓰기
 
-Cassandra 설계:
 
-  파티션 키: (device_id, date)
-    예: ("sensor-001", "2025-03-03")
-    이유: 하루치 데이터를 한 파티션에
-    (device_id만 쓰면 파티션 무제한 성장)
-    
-  클러스터링 컬럼: timestamp DESC
-    최신 데이터 먼저 정렬
-    
-  쿼리 패턴:
-    최근 1시간 데이터 조회:
-    SELECT * FROM sensor_data
-    WHERE device_id = 'sensor-001'
-    AND date = '2025-03-03'
-    AND timestamp > 1h_ago
-    -> 단일 파티션 조회 -> 빠름!
-    
-성능:
-  쓰기: 초당 100만 건 (10노드 클러스터)
-  읽기: 10ms 이내 (파티션 키 조회)
-  가용성: 99.99% (RF=3, QUORUM)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시나리오:</div>
+<div class="kb-diagram-note">IoT 플랫폼: 100만 개 센서</div>
+<div class="kb-diagram-note">각 센서: 1초마다 온도/습도 전송</div>
+<div class="kb-diagram-note">초당 100만 건 쓰기</div>
+<div class="kb-diagram-note">Cassandra 설계:</div>
+<div class="kb-diagram-note">파티션 키: (device_id, date)</div>
+<div class="kb-diagram-note">예: ("sensor-001", "2025-03-03")</div>
+<div class="kb-diagram-note">이유: 하루치 데이터를 한 파티션에</div>
+<div class="kb-diagram-note">(device_id만 쓰면 파티션 무제한 성장)</div>
+<div class="kb-diagram-note">클러스터링 컬럼: timestamp DESC</div>
+<div class="kb-diagram-note">최신 데이터 먼저 정렬</div>
+<div class="kb-diagram-note">쿼리 패턴:</div>
+<div class="kb-diagram-note">최근 1시간 데이터 조회:</div>
+<div class="kb-diagram-note">SELECT * FROM sensor_data</div>
+<div class="kb-diagram-note">WHERE device_id = 'sensor-001'</div>
+<div class="kb-diagram-note">AND date = '2025-03-03'</div>
+<div class="kb-diagram-note">AND timestamp &gt; 1h_ago</div>
+<div class="kb-diagram-tree-item" style="--depth:2">단일 파티션 조회 -&gt; 빠름!</div>
+<div class="kb-diagram-note">성능:</div>
+<div class="kb-diagram-note">쓰기: 초당 100만 건 (10노드 클러스터)</div>
+<div class="kb-diagram-note">읽기: 10ms 이내 (파티션 키 조회)</div>
+<div class="kb-diagram-note">가용성: 99.99% (RF=3, QUORUM)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 date 포함해서 자동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 만료([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))처럼 관리 — 특정 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 전체를 일괄 삭제도 가능.
 

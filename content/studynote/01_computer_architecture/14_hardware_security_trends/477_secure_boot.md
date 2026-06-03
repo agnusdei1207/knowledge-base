@@ -25,23 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 Secure Boot가 왜 필요한지, 그리고 공격자가 노리는 시점이 어디인지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          운영체제보다 먼저 선점되면, 이후 보안은 모두 뒤늦게 반응한다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Power On                                                                   │
-│    │                                                                       │
-│    ▼                                                                       │
-│ Firmware Stage ──▶ Bootloader ──▶ Kernel Init ──▶ Security Agent Start     │
-│    │                 │                 │                  │                 │
-│    │                 │                 │                  └─ 백신/EDR 동작  │
-│    │                 │                 └─ 이미 제어권 선점 가능            │
-│    │                 └─ Bootkit 삽입 지점                                 │
-│    └─ 악성 Option ROM, 변조 펌웨어 삽입 지점                              │
-│                                                                            │
-│ Secure Boot의 역할: 각 초기 실행 코드를 "실행 전에" 허가/차단              │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제보다 먼저 선점되면, 이후 보안은 모두 뒤늦게 반응한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power On</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firmware Stage ──▶ Bootloader ──▶ Kernel Init ──▶ Security Agent Start</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 백신/EDR 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이미 제어권 선점 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Bootkit 삽입 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 악성 Option ROM, 변조 펌웨어 삽입 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Boot의 역할: 각 초기 실행 코드를 "실행 전에" 허가/차단</div></div>
+</div>
+</div>
+
+
 
 즉 Secure Boot는 단순히 부팅을 예쁘게 시작하는 기능이 아니라, 시스템이 "누구를 먼저 신뢰할 것인가"를 결정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 장치다. 다만 서명된 취약 코드까지 자동으로 안전해지는 것은 아니다. 따라서 이 개념은 권한 부여의 출발점으로 기억해야 맞다.
 
@@ -64,29 +63,27 @@ Secure Boot의 중심은 [UEFI](/knowledge-base/studynote/01_computer_architectu
 
 아래 그림은 Secure Boot의 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 축이 "키 관리 → [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → OS 측 Verified Boot 연계"로 이어짐을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│               Secure Boot의 검증 축: 허용 목록과 차단 목록의 조합         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PK                                                                         │
-│  │  플랫폼 소유권                                                          │
-│  ▼                                                                         │
-│ KEK ───────────────▶ db / dbx 관리                                         │
-│                        │                                                   │
-│                        ├─ db  : 허용된 서명/해시                           │
-│                        └─ dbx : 폐기된 서명/해시                           │
-│                                                                            │
-│ UEFI Firmware                                                              │
-│  ├─ UEFI Driver / Option ROM 검증                                          │
-│  ├─ Boot Manager 검증                                                      │
-│  └─ 실패 시 실행 중단                                                      │
-│            │                                                               │
-│            ▼                                                               │
-│ OS Verified Boot                                                           │
-│  ├─ Kernel / Initramfs / Driver 확인                                       │
-│  └─ 런타임 진입                                                             │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Boot의 검증 축: 허용 목록과 차단 목록의 조합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 소유권</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KEK ▶ db / dbx 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ db : 허용된 서명/해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbx : 폐기된 서명/해시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI Firmware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ UEFI Driver / Option ROM 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Boot Manager 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실패 시 실행 중단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Verified Boot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Kernel / Initramfs / Driver 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 런타임 진입</div></div>
+</div>
+</div>
+
+
 
 실무에서는 Linux가 좋은 예시를 보여 준다. 일반 배포판은 Microsoft 서명된 shim을 통해 UEFI의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통과하고, shim이 다시 GRUB과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 체인을 이어 간다. 반대로 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 사내 드라이버를 쓰는 조직은 자체 키를 등록하거나 Machine Owner [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 운용해야 한다.
 
@@ -120,11 +117,11 @@ Secure Boot를 제대로 이해하려면 "실행 허가"와 "상태 측정"을 �
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **부팅 모드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: Legacy BIOS가 아니라 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 모드로 설치되어 있는가?
-2. **키 소유권 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 기본 벤더 키를 쓸지, 조직 자체 PK/KEK를 등록할지 결정했는가?
-3. **폐기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 유출되거나 취약한 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)를 `dbx` 업데이트로 차단할 준비가 되어 있는가?
-4. **OS 연계 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 램디스크, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 서명 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 Secure Boot와 충돌하지 않는가?
-5. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 키 교체 실패나 부팅 차단 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 문서화되어 있는가?
+1. <strong>부팅 모드 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: Legacy BIOS가 아니라 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 모드로 설치되어 있는가?
+2. <strong>키 소유권 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 기본 벤더 키를 쓸지, 조직 자체 PK/KEK를 등록할지 결정했는가?
+3. <strong>폐기 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 유출되거나 취약한 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)를 `dbx` 업데이트로 차단할 준비가 되어 있는가?
+4. <strong>OS 연계 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 램디스크, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 서명 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 Secure Boot와 충돌하지 않는가?
+5. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 절차 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 키 교체 실패나 부팅 차단 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 문서화되어 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -163,24 +160,25 @@ Secure Boot를 제대로 적용하면 [운영체제](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Legacy BIOS + MBR 부팅
-        │
-        ▼
-UEFI (Unified Extensible Firmware Interface)
-        │
-        ▼
-Secure Boot 서명 검증
-        │
-        ▼
-OS Verified Boot · 서명된 커널/드라이버
-        │
-        ▼
-TPM (Trusted Platform Module) 기반 Measured Boot
-        │
-        ▼
-원격 증명 · 공급망 신뢰 정책 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Legacy BIOS + MBR 부팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UEFI (Unified Extensible Firmware Interface)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Boot 서명 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OS Verified Boot · 서명된 커널/드라이버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TPM (Trusted Platform Module) 기반 Measured Boot</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원격 증명 · 공급망 신뢰 정책 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 "부팅 가능 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"에서 시작해 "실행 결과를 증명하고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 통제하는 단계"로 확장되는 과정을 보여 준다.
 

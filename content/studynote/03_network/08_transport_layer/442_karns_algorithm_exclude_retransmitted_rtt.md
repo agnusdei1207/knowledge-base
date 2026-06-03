@@ -22,21 +22,25 @@ tags = ["studynote-network"]
 - **개념**: TCP의 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)) 측정 시, 재전송된 세그먼트에 대한 응답(ACK)을 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 샘플 산출에서 배제하고, 재전송 발생 시 RTO를 지수 함수적으로 증가시키는 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (RFC 2988).
 - **필요성**: 내 PC가 구글에 패킷을 쐈다. 3초([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))를 기다렸는데 영수증이 안 온다. 나는 눈물을 머금고 패킷을 **다시(재전송)** 쐈다. 그런데 재전송을 쏘자마자 0.1초 뒤에 띠링~ 하고 영수증이 도착했다! 내 PC의 멘탈은 박살 난다. **"이 영수증... 아까 3초 전에 쐈던 1번이 지각해서 이제 온 걸까? 아니면 방금 0.1초 전에 재전송한 2번이 빛의 속도로 튕겨서 온 걸까?"** 만약 1번이 온 건데 2번이 온 줄 알고 "오! 이 동네 핑 0.1초 짱 빠르네!" 착각하고 타이머를 0.1초로 확 줄여버리면? 다음번 패킷부터는 0.1초마다 미친 듯이 재전송 폭풍을 갈겨대어 인터넷이 폭파된다. 이 혼돈(Ambiguity)을 멈출 절대자의 룰이 필요했다.
 
-- **💡 비유**: 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 딜레마는 **"택배 중복 발송의 헷갈림"**과 같습니다.
+- **💡 비유**: 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 딜레마는 <strong>"택배 중복 발송의 헷갈림"</strong>과 같습니다.
   - 내가 쇼핑몰에서 옷을 시켰는데 1주일이 지나도 안 와서 "다시 보내주세요(재전송)"라고 클레임을 걸었습니다. 쇼핑몰은 오늘 새 옷을 다시 보냈습니다.
   - 그런데 내일 덜컥 택배가 도착했습니다!
   - **딜레마**: "이 택배는 1주일 전에 출발해서 8일 만에 온 걸까? 아니면 어제 새로 보낸 게 하루 만에 특급으로 온 걸까?" 박스 겉면만 봐서는 도저히 알 길이 없습니다. 배송 기간([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 측정할 수가 없습니다!
 
-```text
-[RTT, SRTT]
-    │
-    ▼
-[칸 알고리즘]
-    │
-    └──▶ [불필요한 재전송 해결 방안]
-```
 
-- **📢 섹션 요약 비유**: ** 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 오염된 증거물에 대한 **"법정 증거 능력을 원천 무효화"**하는 판사의 철퇴입니다. "출처가 확실하지 않은 영수증(재전송된 ACK)은 우리 동네 평균 속도(SRTT)를 계산하는 데 단 한 방울도 섞지 말고 즉각 폐기하라!"는 가차 없는 위생 관리법입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTT, SRTT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">칸 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">불필요한 재전송 해결 방안</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 칸 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 오염된 증거물에 대한 </strong>"법정 증거 능력을 원천 무효화"**하는 판사의 철퇴입니다. "출처가 확실하지 않은 영수증(재전송된 ACK)은 우리 동네 평균 속도(SRTT)를 계산하는 데 단 한 방울도 섞지 말고 즉각 폐기하라!"는 가차 없는 위생 관리법입니다.
 
 ---
 
@@ -48,32 +52,32 @@ tags = ["studynote-network"]
 
 ### 2. 제2법칙: 타이머 2배 뻥튀기 (Exponential Backoff)
 제1법칙만 쓰면 치명적인 모순이 생긴다. 네트워크가 진짜 막혀서 재전송을 했는데, 재전송 영수증을 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 계산에서 무시해 버리면? 내 PC의 타이머([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))는 갱신되지 않고 영원히 과거의 짧은 시간(예: 1초)으로 고정되어 버린다! 길이 막혔는데 타이머를 늘려주지 않으면 계속 1초마다 재전송을 때릴 것이다.
-- **칸의 천재적인 2번째 룰**: "야! 영수증 무시하는 건 좋은데, **네가 재전송을 했다는 것 자체가 지금 톨게이트 꽉 막혔다는 증거잖아! 재전송 버튼을 누를 때마다 무조건 기존 타이머([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))를 2배로 늘려버려!**"
+- **칸의 천재적인 2번째 룰**: "야! 영수증 무시하는 건 좋은데, <strong>네가 재전송을 했다는 것 자체가 지금 톨게이트 꽉 막혔다는 증거잖아! 재전송 버튼을 누를 때마다 무조건 기존 타이머(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>)를 2배로 늘려버려!</strong>"
 - 최초 RTO가 1초였다면 -> 첫 재전송 시 2초 대기 -> 두 번째 재전송 시 4초 대기 -> 8초 대기 -> 16초 대기...
-- 길이 막혔을 때 스스로 숨을 꾹 참으며 대기 시간을 늘려주는 이 **타이머 백오프([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) Backoff)** 기술 덕분에 라우터들은 한숨을 돌릴 수 있게 되었다.
+- 길이 막혔을 때 스스로 숨을 꾹 참으며 대기 시간을 늘려주는 이 <strong>타이머 백오프(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Backoff)</strong> 기술 덕분에 라우터들은 한숨을 돌릴 수 있게 되었다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                칸 알고리즘(Karn's Algo)의 타임아웃 방어 시퀀스     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 평소 ] (현재 RTO 타이머 = 1초)                              │
- │   - 패킷 전송 -> ACK 무사 도착! -> RTT 측정해서 1.1초로 갱신함.      │
- │                                                             │
- │   [ 꽉 막힌 지옥 ]                                             │
- │   - 패킷 전송 -> 1초 지남 -> 타임아웃 펑! (패킷 잃어버렸어!)           │
- │   - Karn의 개입 1: "오케이 재전송 갈겨! 대신 RTO를 2초(2배)로 늘려 놔!"│
- │   - 2초 지남 -> 타임아웃 또 펑!                                  │
- │   - Karn의 개입 2: "또 재전송해! RTO는 4초(2배)로 또 늘려!!"        │
- │                                                             │
- │   [ 기적의 영수증 도착 ]                                         │
- │   - 재전송 후 드디어 ACK 도착!!                                   │
- │   - Karn의 철퇴: "야! 이거 첫 번째 건지 두 번째 건지 모르잖아!        │
- │                 얘는 RTT 평균 계산식에 절.대. 넣지 마!! 무시해!"    │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 타이머 백오프([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) Backoff)는 화난 여자친구에게 **"다시 카톡 보내는 타이밍"**과 같습니다. 10분 만에 답장이 안 온다고 다시 카톡(재전송)을 보냅니다. 또 안 오면 이번엔 10분이 아니라 **20분을 참고**, 또 안 오면 **40분을 참고** 기다려주는 것이 둘 사이(네트워크)의 완전한 파국을 막는 고도의 눈치 게임(Karn's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칸 알고리즘(Karn's Algo)의 타임아웃 방어 시퀀스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평소</div><div class="kb-diagram-note">(현재 RTO 타이머 = 1초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패킷 전송 -&gt; ACK 무사 도착! -&gt; RTT 측정해서 1.1초로 갱신함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">꽉 막힌 지옥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패킷 전송 -&gt; 1초 지남 -&gt; 타임아웃 펑! (패킷 잃어버렸어!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Karn의 개입 1: "오케이 재전송 갈겨! 대신 RTO를 2초(2배)로 늘려 놔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2초 지남 -&gt; 타임아웃 또 펑!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Karn의 개입 2: "또 재전송해! RTO는 4초(2배)로 또 늘려!!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기적의 영수증 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 재전송 후 드디어 ACK 도착!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Karn의 철퇴: "야! 이거 첫 번째 건지 두 번째 건지 모르잖아!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얘는 RTT 평균 계산식에 절.대. 넣지 마!! 무시해!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 타이머 백오프(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> Backoff)는 화난 여자친구에게 </strong>"다시 카톡 보내는 타이밍"**과 같습니다. 10분 만에 답장이 안 온다고 다시 카톡(재전송)을 보냅니다. 또 안 오면 이번엔 10분이 아니라 **20분을 참고<strong>, 또 안 오면 </strong>40분을 참고** 기다려주는 것이 둘 사이(네트워크)의 완전한 파국을 막는 고도의 눈치 게임(Karn's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))입니다.
 
 ---
 
@@ -129,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RTT, SRTT]
-    │
-    ▼
-[현재 개념: 칸 알고리즘]
-    │
-    ├──▶ [확장 A: 불필요한 재전송 해결 방안]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RTT, SRTT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 칸 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 불필요한 재전송 해결 방안</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), SRTT에서 출발해 현재 메커니즘을 정교화하고, 이후 [불필요한 재전송](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) 해결 방안와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

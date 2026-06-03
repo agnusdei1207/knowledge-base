@@ -23,25 +23,25 @@ tags = ["studynote-network"]
 - **필요성**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 무선 통신(예: 무전기나 해상 통신)은 높은 산 꼭대기에 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000W짜리 거대한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 세워 도시 전체를 커버했다. 이 방식은 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한 개당 한 명밖에 통화하지 못하므로, 도시 전체에 100개의 주파수만 배당되면 101번째 사람은 통화를 할 수 없는 치명적 한계(용량 고갈)를 지녔다.
 - **등장 배경**: ① 고출력 단일 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 방식의 가입자 수용 한계 봉착 → ② 1970년대 벨 연구소와 모토로라가 지형을 벌집 모양으로 쪼개고 출력을 낮춘 '셀룰러 개념' 제안 → ③ 1G 아날로그망부터 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰에 이르기까지 전 세계 이동통신의 절대적 인프라 표준으로 정착.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             단일 대형 기지국 방식 vs 셀룰러 아키텍처 방식 비교        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 고출력 대형 방송망 모델]                                 │
-│         / \      (도시 전체 커버)                               │
-│        / 📡 \ ─────────────────▶ 사용자 A (1번 주파수)          │
-│       /______\─────────────────▶ 사용자 B (2번 주파수)          │
-│       |  산  |  * 문제점: 100개 주파수면 100명 끝! (용량 한계)       │
-│                                                             │
-│   [혁신: 저출력 셀룰러 네트워크 모델]                              │
-│       ⎔ f1   ⎔ f2           (서울시를 1만 개의 작은 육각형으로 쪼갬) │
-│     ⎔ f3   ⎔ f1   ⎔ f3      * 핵심: 서로 멀리 떨어진 ⎔ f1 끼리는    │
-│       ⎔ f2   ⎔ f4           전파가 닿지 않아 같은 주파수를 동시에 씀!│
-│                                                             │
-│   => 결과: 똑같은 100개 주파수로 1,000만 명이 동시에 통화 가능!        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 대형 기지국 방식 vs 셀룰러 아키텍처 방식 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 고출력 대형 방송망 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (도시 전체 커버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 📡 \ ▶ 사용자 A (1번 주파수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/______\ ▶ 사용자 B (2번 주파수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산</div><div class="kb-diagram-cell">* 문제점: 100개 주파수면 100명 끝! (용량 한계)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 저출력 셀룰러 네트워크 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⎔ f1 ⎔ f2 (서울시를 1만 개의 작은 육각형으로 쪼갬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⎔ f3 ⎔ f1 ⎔ f3 * 핵심: 서로 멀리 떨어진 ⎔ f1 끼리는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⎔ f2 ⎔ f4 전파가 닿지 않아 같은 주파수를 동시에 씀!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 똑같은 100개 주파수로 1,000만 명이 동시에 통화 가능!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 그림은 이동통신의 경제학적 기적을 보여준다. 주파수는 땅이나 물처럼 한정된 물리적 자원이다. 큰 소리로 소리치면(고출력 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 동네 전체가 한 사람의 목소리만 들어야 하지만, 작은 소리로 소곤거리면(저출력 소형 기지국) 동네 구석구석에서 여러 쌍이 같은 톤(주파수)으로 대화를 나눠도 서로 방해받지 않는다. 이처럼 전파의 도달 거리를 제한하여 공간적으로 격리된 곳에서 같은 주파수를 재활용하는 '[주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)([Frequency Reuse](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/))' 기법이 셀룰러 통신의 가장 위대한 통찰이다.
 
@@ -65,56 +65,57 @@ tags = ["studynote-network"]
 
 이동통신의 가장 어려운 기술적 과제는 시속 100km로 달리는 자동차 안에서 폰(UE)이 A 기지국 영역을 벗어나 B 기지국 영역으로 들어갈 때, 통화가 절대 끊어지지 않게 기지국을 갈아타는 것이다. 이를 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)라 부른다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               핸드오버의 3가지 진화 단계 (Hard vs Soft vs Softer) │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [1. Hard Handover (하드 핸드오버)] - "Break before Make"        │
-│   단말기 ──(끊음)─▶ 기지국 A (주파수 f1)                          │
-│   단말기 ──(붙음)─▶ 기지국 B (주파수 f2)                          │
-│   * 2G/LTE/5G 주력. 기존 연결을 완전히 끊은 후 찰나의 순간에 새 연결을 맺음.│
-│                                                               │
-│   [2. Soft Handover (소프트 핸드오버)] - "Make before Break"      │
-│   단말기 ──(동시 통신)──▶ 기지국 A (주파수 f1)                     │
-│           ↘ (동시 통신)──▶ 기지국 B (주파수 f1)                     │
-│   * 3G CDMA 전유물. 양쪽 기지국과 모두 통신하며 매끄럽게 넘어간 뒤 A를 끊음.│
-│                                                               │
-│   [3. Softer Handover (소프터 핸드오버)]                          │
-│   하나의 기지국(A) 안에서, 북쪽 안테나(섹터 1)에서 남쪽 안테나(섹터 2)로 이동.│
-│   단말기와 기지국 간 하나의 칩에서 처리되므로 가장 빠르고 부드러움.          │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸드오버의 3가지 진화 단계 (Hard vs Soft vs Softer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Hard Handover (하드 핸드오버)</div><div class="kb-diagram-note">- "Break before Make"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──(끊음)─▶ 기지국 A (주파수 f1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──(붙음)─▶ 기지국 B (주파수 f2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 2G/LTE/5G 주력. 기존 연결을 완전히 끊은 후 찰나의 순간에 새 연결을 맺음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Soft Handover (소프트 핸드오버)</div><div class="kb-diagram-note">- "Make before Break"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──(동시 통신)──▶ 기지국 A (주파수 f1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ (동시 통신)──▶ 기지국 B (주파수 f1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 3G CDMA 전유물. 양쪽 기지국과 모두 통신하며 매끄럽게 넘어간 뒤 A를 끊음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Softer Handover (소프터 핸드오버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 기지국(A) 안에서, 북쪽 안테나(섹터 1)에서 남쪽 안테나(섹터 2)로 이동.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기와 기지국 간 하나의 칩에서 처리되므로 가장 빠르고 부드러움.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 철학은 줄타기와 같다. '[하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)'는 타잔이 앞줄을 완전히 놓고 허공을 날아 다음 줄을 잡는 방식이다. 약간의 끊김(수십 밀리초)이 있지만, 주파수가 전혀 다른 기지국으로 넘어갈 때 쓴다([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대세). 반면 '[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)'는 양손에 줄을 두 개 쥐고 안전하게 넘어가는 방식으로, 동일 주파수를 쓰는 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)(3G) 시절의 꽃이었다. 최신 4G LTE나 5G망은 주파수 효율을 극대화하기 위해 오히려 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/)를 고도로 발전시켜, 인간이 끊김을 느끼지 못할 속도로 핑퐁을 치는 아키텍처로 진화했다.
 
 
 | 세대 | 통신망 구조 | [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 주력 | 주파수/[다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식 | 코어망 핵심 |
 |:---|:---|:---|:---|:---|
-| **2G ([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))** | 회선 교환(음성) 중심 | 하드 / 소프트 | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할) | MSC (음성 교환기) |
-| **3G ([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))** | 음성 + 저속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 완벽한 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) | [WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) (광대역 코드) | SGSN / GGSN 분리 |
-| **4G ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))** | **All-IP (패킷)** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망 | 빠르고 정밀한 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수) | [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) ([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), SGW, PGW) |
-| **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) (NR)** | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연, 대규모 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) | Xn 하드 / 조건부 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) / [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)| [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 기반 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) |
+| <strong>2G (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>)</strong> | 회선 교환(음성) 중심 | 하드 / 소프트 | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 분할) | MSC (음성 교환기) |
+| <strong>3G (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/">WCDMA</a>)</strong> | 음성 + 저속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 완벽한 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) | [WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) (광대역 코드) | SGSN / GGSN 분리 |
+| <strong>4G (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>)</strong> | **All-IP (패킷)** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망 | 빠르고 정밀한 [하드 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/557_hard_handover_break_before_make_lte/) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (직교 주파수) | [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) ([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/), SGW, PGW) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> (NR)</strong> | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연, 대규모 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) | Xn 하드 / 조건부 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) / [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)| [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) ([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 기반 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) |
 
 셀룰러 네트워크는 4G LTE를 기점으로 음성 전용망을 버리고 전면적인 인터넷망(All-IP)으로 탈바꿈했다. 5G에 이르러서는 기지국 장비들이 클라우드 기반 소프트웨어([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))로 가상화되어, 기지국 하드웨어 자체가 하나의 범용 컴퓨터처럼 돌아가는 클라우드 랜(Cloud-RAN) 형태로 융합 진화했다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               위치 등록 (Location Update / Paging) 원리           │
-├───────────────────────────────────────────────────────────────┤
-│   나의 스마트폰은 내가 어디 있는지 안 알려주면 전화가 왔을 때 울릴 수 없다!│
-│                                                               │
-│   [Location Update (단말 ─▶ 망)]                                │
-│   "나 부산에서 서울로 넘어왔어!" (LA: Location Area 변경 시)         │
-│   단말기 ──▶ 서울 기지국 ──▶ HLR (중앙 데이터베이스) 업데이트        │
-│   * 단말기가 주도적으로 쏘며 배터리를 소모함.                          │
-│                                                               │
-│   [Paging (망 ─▶ 단말)]                                         │
-│   외부에서 나에게 전화가 걸려옴 ──▶ HLR "얘 서울에 있네?"               │
-│   서울의 모든 기지국들 ──▶ "홍길동 단말기 있니? 전화받아라!" (페이징)     │
-│   단말기 ──▶ "저 여기 있어요!" (통화 연결)                          │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치 등록 (Location Update / Paging) 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나의 스마트폰은 내가 어디 있는지 안 알려주면 전화가 왔을 때 울릴 수 없다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Location Update (단말 ─▶ 망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 부산에서 서울로 넘어왔어!" (LA: Location Area 변경 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──▶ 서울 기지국 ──▶ HLR (중앙 데이터베이스) 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단말기가 주도적으로 쏘며 배터리를 소모함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Paging (망 ─▶ 단말)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부에서 나에게 전화가 걸려옴 ──▶ HLR "얘 서울에 있네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울의 모든 기지국들 ──▶ "홍길동 단말기 있니? 전화받아라!" (페이징)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기 ──▶ "저 여기 있어요!" (통화 연결)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)가 '통화 중([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))'일 때 안 끊기게 하는 기술이라면, 위치 등록과 페이징은 '대기 중([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))'일 때 나를 찾아내기 위한 기술이다. 만약 폰이 1미터 이동할 때마다 본부에 위치를 보고하면 폰 배터리가 1시간 만에 방전된다. 그래서 통신사는 수백 개의 기지국을 묶어 하나의 '위치 구역(Location Area, LA)' 또는 '트래킹 에어리어(Tracking Area, [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))'를 만든다. 단말기는 구역을 넘을 때만 한 번씩 보고하고(Location Update), 통신사는 전화가 오면 그 구역 전체의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 통해 방송을 때려([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 사용자를 찾아내는 트레이드오프(배터리 vs 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 아키텍처를 채택했다.
 
@@ -141,13 +142,13 @@ tags = ["studynote-network"]
 1. **상황**: 강남역 사거리에 위치한 빌딩 숲에서 사용자가 가만히 서서 전화를 하는데, 통화가 계속 뚝뚝 끊어지고 기지국 장비(DU)의 CPU가 90%를 치며 마비되는 현상이 발생했다.
 2. **원인 (핑퐁 이펙트)**: 기지국 A와 B의 전파가 거의 동일하게 도달하는 경계 지역에서, 전파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 바람이나 보행자 이동에 의해 0.1초마다 역전되었다. 단말기는 "A가 세다!"라며 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 요청하고, 1초 뒤 "B가 세다!"라며 다시 B로 넘어가기를 무한 반복하며 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 시그널링 폭풍(Signaling Storm)을 유발했다.
 3. **의사결정 및 조치 (히스테리시스 Hysteresis 마진 적용)**:
-   - RF(무선 주파수) 아키텍트는 기지국 설정에서 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 임계치에 **히스테리시스 마진(Hysteresis Margin, 예: 3dB)**과 **Time-to-Trigger (TTT, 예: 1초)** 타이머를 적용한다.
-   - 단말기가 A에서 B로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 하려면, 단순히 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 A보다 세지는 것만으로는 안 되고, **B가 A보다 최소 3dB 이상 더 강한 상태를 1초 이상 유지**해야만 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 허용하도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수정했다.
+   - RF(무선 주파수) 아키텍트는 기지국 설정에서 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 임계치에 <strong>히스테리시스 마진(Hysteresis Margin, 예: 3dB)</strong>과 **Time-to-Trigger (TTT, 예: 1초)** 타이머를 적용한다.
+   - 단말기가 A에서 B로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 하려면, 단순히 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 A보다 세지는 것만으로는 안 되고, <strong>B가 A보다 최소 3dB 이상 더 강한 상태를 1초 이상 유지</strong>해야만 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 허용하도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수정했다.
    - **결과**: 무의미한 핑퐁 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)가 95% 이상 감소하여 코어망과 기지국 장비의 부하가 정상화되었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **Roam/[Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고주파수([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), 28GHz) 대역은 전파 도달 거리가 매우 짧아 매크로 셀(대형) 대신 촘촘한 스몰 셀([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)) 수백 개를 깔아야 한다. 셀 크기가 작아지면 시속 100km의 차량은 1초마다 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 해야 하는 참사가 발생한다(Frequent [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)). [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처에서는 컨트롤 플레인(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))은 넓은 4G나 저대역 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 앵커 셀이 잡고 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 고속 셀을 갈아타는 C/U 평면 분리(Dual Connectivity) 설계를 반드시 적용해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 건물 내부(인빌딩) 통신 품질을 높이려고 실내용 중계기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/)) 출력을 너무 강하게 올리는 행위. 이 경우 실내 전파가 창문을 뚫고 건물 밖 도로까지 뻗어나가, 길을 걷던 사람들의 핸드폰이 길거리 기지국을 버리고 엉뚱하게 남의 건물 안 기지국으로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 해버리는 **커버리지 오버슈팅(Overshooting)** 장애를 일으켜 통화 품질을 박살 낸다. 실내 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 철저한 틸팅(Tilting, 각도 조절)과 저출력 튜닝이 생명이다.
+- <strong>Roam/<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고주파수([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), 28GHz) 대역은 전파 도달 거리가 매우 짧아 매크로 셀(대형) 대신 촘촘한 스몰 셀([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)) 수백 개를 깔아야 한다. 셀 크기가 작아지면 시속 100km의 차량은 1초마다 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 해야 하는 참사가 발생한다(Frequent [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)). [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처에서는 컨트롤 플레인(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))은 넓은 4G나 저대역 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 앵커 셀이 잡고 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 고속 셀을 갈아타는 C/U 평면 분리(Dual Connectivity) 설계를 반드시 적용해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 건물 내부(인빌딩) 통신 품질을 높이려고 실내용 중계기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/)) 출력을 너무 강하게 올리는 행위. 이 경우 실내 전파가 창문을 뚫고 건물 밖 도로까지 뻗어나가, 길을 걷던 사람들의 핸드폰이 길거리 기지국을 버리고 엉뚱하게 남의 건물 안 기지국으로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 해버리는 **커버리지 오버슈팅(Overshooting)** 장애를 일으켜 통화 품질을 박살 낸다. 실내 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 철저한 틸팅(Tilting, 각도 조절)과 저출력 튜닝이 생명이다.
 
 - **📢 섹션 요약 비유**: 양쪽 귀에 두 사람의 목소리가 비슷하게 들린다고 0.1초마다 이리저리 고개를 돌리면 목(기지국 CPU)에 디스크가 옵니다. "확실히 10초 이상 저 사람이 더 크게 말할 때만" 고개를 돌리도록 참을성(히스테리시스)을 세팅해 두는 것이 셀룰러 공학의 핵심입니다.
 
@@ -162,12 +163,12 @@ tags = ["studynote-network"]
 | **정성 (이동성 완벽)** | 기지국을 벗어나면 통화가 끊기고 재다이얼 필수 | [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 기술로 끊김 없는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성 제공 | 시속 300km KTX에서도 영상통화가 끊기지 않는 심리스(Seamless) 모빌리티 완성 |
 
 ### 미래 전망 및 진화 방향
-- **[비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/) (NTN, Non-Terrestrial Network)의 융합**: 지금까지의 셀룰러는 땅에 박힌 기지국 중심이었다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))과 성층권 드론([HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/))이 하늘을 날아다니는 '입체적인 이동형 기지국(Flying Cell)' 역할을 수행한다. 우주와 지상의 기지국이 서로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 주고받으며, 바다 한가운데나 아마존 정글에서도 스마트폰 통신이 터지는 초공간 셀룰러 네트워크가 도래하고 있다.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 예측형(Predictive) [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)**: 현재의 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 약해졌네? 바꿔야지" 하는 반응형(Reactive)이다. 앞으로의 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)(개방형 무선망)에서는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 엔진(RIC)이 사용자의 이동 경로와 습관, 지형지물을 0.1초 앞서 예측하여 "이 차는 3초 뒤 코너를 도니까 선제적으로 B 기지국과 연결해 놔"라고 명령하는 0-ms 지연의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 셀룰러 최적화가 상용화될 것이다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/">비지상 네트워크</a> (NTN, Non-Terrestrial Network)의 융합</strong>: 지금까지의 셀룰러는 땅에 박힌 기지국 중심이었다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에는 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/))과 성층권 드론([HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/))이 하늘을 날아다니는 '입체적인 이동형 기지국(Flying Cell)' 역할을 수행한다. 우주와 지상의 기지국이 서로 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 주고받으며, 바다 한가운데나 아마존 정글에서도 스마트폰 통신이 터지는 초공간 셀룰러 네트워크가 도래하고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 예측형(Predictive) <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a></strong>: 현재의 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 약해졌네? 바꿔야지" 하는 반응형(Reactive)이다. 앞으로의 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)(개방형 무선망)에서는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 엔진(RIC)이 사용자의 이동 경로와 습관, 지형지물을 0.1초 앞서 예측하여 "이 차는 3초 뒤 코너를 도니까 선제적으로 B 기지국과 연결해 놔"라고 명령하는 0-ms 지연의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 셀룰러 최적화가 상용화될 것이다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 38.300**: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) Overall Description ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 셀룰러 구조 및 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 기본 아키텍처)
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 23.501**: System [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) for the [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) System ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 코어 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) 표준)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 38.300</strong>: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) Overall Description ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 셀룰러 구조 및 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 기본 아키텍처)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 23.501</strong>: System [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) for the [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) System ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 코어 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) 표준)
 
 이동통신망의 '셀룰러(Cellular)'라는 단어 속에는 인류가 물리학의 한계(주파수 고갈)를 어떻게 공간 분할이라는 기하학적 꼼수와 지능적 소프트웨어로 우회했는지에 대한 위대한 승리의 역사가 담겨 있다. 벌집 모양의 작은 셀들이 촘촘히 엮여 만든 이 보이지 않는 거미줄은, 지구 전체를 하나의 살아 숨 쉬는 통신 유기체로 만들어 냈다.
 
@@ -186,15 +187,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: X.509 v3 디지털 인증서 표준 규격]
-    │
-    ▼
-[현재 개념: 이동통신망 통신 개념]
-    │
-    ├──▶ [확장 A: 주파수 분할 방식 vs 시분할 방식 무선 환…]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: X.509 v3 디지털 인증서 표준 규격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이동통신망 통신 개념</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 주파수 분할 방식 vs 시분할 방식 무선 환…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 이동통신망 통신 개념는 X.509 v3 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 표준 규격에서 출발해 현재 메커니즘을 정교화하고, 이후 [주파수 분할 방식](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/552_fdd_vs_tdd_wireless_duplexing/) vs 시분할 방식 무선 환…와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

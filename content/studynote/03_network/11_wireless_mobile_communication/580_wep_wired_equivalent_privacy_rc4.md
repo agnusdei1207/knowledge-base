@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 1997년 제정된 최초의 IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 무선 LAN 표준에 포함된 기본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 프로토콜입니다. 무선 통신 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공기 중으로 평문(Cleartext) 전송되어 스니핑당하는 것을 막기 위해 개발되었습니다.
 
-```text
-[무선 LAN 보안 진화]
-    │
-    ▼
-[WEP]
-    │
-    └──▶ [WPA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WPA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WEP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,17 +40,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **[RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/))**: WEP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화할 때 RC4라는 매우 빠르고 가벼운 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용합니다.
-- **암호키의 조합**: 사용자가 공유기에 설정한 고정 비밀번호(예: 40bit WEP [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에다가, 패킷을 보낼 때마다 랜덤하게 변하는 **24bit짜리 짧은 주사위 번호인 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Initialization Vector, 초기화 벡터)**를 섞어서 매번 64bit짜리 최종 암호화 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))를 만들어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠급니다.
+- <strong><a href="/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/">RC4</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a>)</strong>: WEP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화할 때 RC4라는 매우 빠르고 가벼운 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용합니다.
+- **암호키의 조합**: 사용자가 공유기에 설정한 고정 비밀번호(예: 40bit WEP [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에다가, 패킷을 보낼 때마다 랜덤하게 변하는 <strong>24bit짜리 짧은 주사위 번호인 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>(Initialization Vector, 초기화 벡터)</strong>를 섞어서 매번 64bit짜리 최종 암호화 열쇠([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))를 만들어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잠급니다.
 
-```text
-[무선 LAN 보안 진화]
-    │
-    ▼
-[WEP]
-    │
-    └──▶ [WPA]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WPA</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WEP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ tags = ["studynote-network"]
 
 ### 1. [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(초기화 벡터)의 길이가 너무 짧음 (재사용 문제)
 - IV는 24비트밖에 되지 않아 경우의 수가 약 1,600만 개(2^24)뿐입니다.
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 많은 공유기에서는 이 1,600만 개의 주사위 번호가 순식간에 고갈되어, **결국 며칠 전이나 몇 분 전에 썼던 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호를 다시 재사용**하게 됩니다.
+- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 많은 공유기에서는 이 1,600만 개의 주사위 번호가 순식간에 고갈되어, <strong>결국 며칠 전이나 몇 분 전에 썼던 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> 번호를 다시 재사용</strong>하게 됩니다.
 - 해커가 공기 중에서 겹치는 IV를 가진 패킷 2개를 캡처해 XOR(수학적 배타적 논리합) 연산을 돌려버리면, 안에 숨겨진 진짜 비밀번호(고정 키)가 스르륵 풀려버립니다.
 
 ### 2. 정적 키(Static [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 기반의 구조
@@ -111,15 +119,19 @@ WEP는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개념�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 무선 LAN 보안 진화]
-    │
-    ▼
-[현재 개념: WEP]
-    │
-    ├──▶ [확장 A: WPA]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WPA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 WEP는 무선 LAN 보안 진화에서 출발해 현재 메커니즘을 정교화하고, 이후 WPA와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

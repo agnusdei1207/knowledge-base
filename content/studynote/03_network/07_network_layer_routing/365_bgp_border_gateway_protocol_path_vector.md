@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)(자율 시스템) 간에 도달 가능성 정보(네트워크 경로)를 교환하여 전체 인터넷망의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 조율하는 [EGP](/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/) 계열의 경로 벡터 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (현재 BGPv4, RFC 4271). [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 179번을 사용한다.
-- **필요성**: 삼성전자 내부망([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 수천 대의 라우터가 "가장 빠른 길"을 0.001초 만에 찾는 게 지상 과제다. 하지만 삼성전자가 인터넷(KT 망)으로 나가는 관문에 섰을 때는 입장이 달라진다. KT 라우터 입장에서는 "전 세계 90만 개의 IP 주소 덩어리가 어디로 가는지 굵직굵직한 도로망만 파악하면 돼. 그리고 만약 중국 망이 우리 KT한테 돈(Transit 비용)을 안 내면 저쪽으로는 1바이트도 통과 안 시켜줄 거야!"라는 무자비한 룰([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 필요했다. **속도(Speed)를 버리고, 확장성(Scale)과 통제([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 몰빵한 괴물**이 바로 BGP다.
+- **필요성**: 삼성전자 내부망([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 수천 대의 라우터가 "가장 빠른 길"을 0.001초 만에 찾는 게 지상 과제다. 하지만 삼성전자가 인터넷(KT 망)으로 나가는 관문에 섰을 때는 입장이 달라진다. KT 라우터 입장에서는 "전 세계 90만 개의 IP 주소 덩어리가 어디로 가는지 굵직굵직한 도로망만 파악하면 돼. 그리고 만약 중국 망이 우리 KT한테 돈(Transit 비용)을 안 내면 저쪽으로는 1바이트도 통과 안 시켜줄 거야!"라는 무자비한 룰([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 필요했다. <strong>속도(Speed)를 버리고, 확장성(Scale)과 통제(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)에 몰빵한 괴물</strong>이 바로 BGP다.
 
 - **💡 비유**: 
-  - **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (사내망)**: 목적지까지 골목길, 샛길 다 따져서 1분이라도 빨리 도착하게 해주는 **"카카오내비(빠른 길 우선)"**입니다.
-  - **BGP (인터넷)**: 국가 간 물류를 통제하는 **"세관(세관장)"**입니다. 미국에서 온 택배(패킷)가 아무리 빨리 오고 싶어도, "어? 너네 중국([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 거쳐서 왔네? 우리나라는 중국 거쳐 온 물건 취급 안 해! 딴 나라로 돌아가!(필터링)"라며 속도와 무관하게 정치와 돈의 잣대로 통로를 막고 엽니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> (사내망)</strong>: 목적지까지 골목길, 샛길 다 따져서 1분이라도 빨리 도착하게 해주는 <strong>"카카오내비(빠른 길 우선)"</strong>입니다.
+  - **BGP (인터넷)**: 국가 간 물류를 통제하는 <strong>"세관(세관장)"</strong>입니다. 미국에서 온 택배(패킷)가 아무리 빨리 오고 싶어도, "어? 너네 중국([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 거쳐서 왔네? 우리나라는 중국 거쳐 온 물건 취급 안 해! 딴 나라로 돌아가!(필터링)"라며 속도와 무관하게 정치와 돈의 잣대로 통로를 막고 엽니다.
 
-```text
-[L1/L2 라우터, L1/L2 Area 체계…]
-    │
-    ▼
-[BGP]
-    │
-    └──▶ [iBGP, eBGP, BGP Split Ho…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 라우터, L1/L2 Area 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BGP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iBGP, eBGP, BGP Split Ho…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** BGP는 전 세계 통신사 대표들이 검은 양복을 입고 모인 **"유엔(UN) 무역 협정 회의장"**입니다. 이 회의장에서는 어느 나라를 거쳐서 물건을 팔지, 어느 나라에는 관세를 왕창 매겨서 우회하게 만들지([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 치열한 수 싸움만이 벌어집니다.
 
@@ -43,41 +47,41 @@ tags = ["studynote-network"]
 
 ### 1. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프의 철벽 방어: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path (경로 벡터)
 [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/)([거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/))가 "3칸 만에 감!"이라고 입을 털다 무한 루프에 빠져 망했던 기억을 떠올려보자.
-BGP는 이 멍청함을 극복하기 위해 **Path-Vector(경로 벡터)**를 쓴다.
+BGP는 이 멍청함을 극복하기 위해 <strong>Path-Vector(경로 벡터)</strong>를 쓴다.
 
-- BGP가 던지는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엽서(Update 메시지) 안에는 **`AS-Path`**라는 빈칸이 있다.
+- BGP가 던지는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엽서(Update 메시지) 안에는 <strong><code>AS-Path</code></strong>라는 빈칸이 있다.
 - 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)이 미국 통신사([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)에게 지도를 던진다. 
   - 봉투 겉면: `[목적지: 구글(8.8.8.x), 거쳐 온 길: AS 15169]`
 - 미국 통신사가 이걸 한국 KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759)에 던진다. 
   - 봉투 겉면: `[목적지: 구글(8.8.8.x), 거쳐 온 길: AS 100, AS 15169]` (지나온 도장을 차곡차곡 쌓는다!)
-- **루프 차단 마법**: 만약 지구를 한 바퀴 뺑 돈 이 엽서가 우연히 다시 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169) 라우터로 들어왔다고 치자. 구글 라우터는 봉투를 딱 보고 "어? 거쳐 온 길 목록에 **내 도장([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)**이 이미 찍혀있네? 이 패킷은 내가 옛날에 보낸 게 돌고 돌아온 썩은 패킷(Loop)이군!" 하고 즉시 쓰레기통에 버린다. (우주 스케일의 완벽한 무한 루프 방어다).
+- **루프 차단 마법**: 만약 지구를 한 바퀴 뺑 돈 이 엽서가 우연히 다시 구글([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169) 라우터로 들어왔다고 치자. 구글 라우터는 봉투를 딱 보고 "어? 거쳐 온 길 목록에 <strong>내 도장(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 15169)</strong>이 이미 찍혀있네? 이 패킷은 내가 옛날에 보낸 게 돌고 돌아온 썩은 패킷(Loop)이군!" 하고 즉시 쓰레기통에 버린다. (우주 스케일의 완벽한 무한 루프 방어다).
 
 ### 2. iBGP와 eBGP (내부파 vs 외부파)
 BGP 라우터가 친구(Neighbor)를 맺는 방식은 상대방이 어느 국가([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 소속이냐에 따라 둘로 쪼개진다. (시험에 매우 단골로 나옴).
 
-- **eBGP (External BGP)**: 나와 찐친을 맺으려는 상대방 라우터의 **[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호(국가)가 나랑 다를 때**.
+- **eBGP (External BGP)**: 나와 찐친을 맺으려는 상대방 라우터의 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 번호(국가)가 나랑 다를 때</strong>.
   - 예: KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759) 라우터와 SKT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 10000) 라우터의 만남.
   - 특징: 국경을 맞대고 있으니 반드시 랜선이 1:1로 직접 꽂혀 있어야만(Directly connected) 친구를 맺어준다. (기본 룰: 홉 제한 1).
-- **[iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/) (Internal BGP)**: 나와 찐친을 맺으려는 상대방의 **[AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호가 나랑 똑같을 때**.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/">iBGP</a> (Internal BGP)</strong>: 나와 찐친을 맺으려는 상대방의 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> 번호가 나랑 똑같을 때</strong>.
   - 예: 서울 KT 라우터와 부산 KT 라우터의 만남. 
   - 둘 다 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759이므로 eBGP로 외부에서 받아온 90만 개의 인터넷 지도를 "우리 식구들끼리 공유"하기 위해 맺는다.
-  - 특징: 같은 나라 안이니까 굳이 랜선이 직접 안 꽂혀 있고 중간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터 10대가 끼어 있어도 **논리적으로([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 멀리서 친구를 맺을 수 있다**.
+  - 특징: 같은 나라 안이니까 굳이 랜선이 직접 안 꽂혀 있고 중간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터 10대가 끼어 있어도 <strong>논리적으로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) 멀리서 친구를 맺을 수 있다</strong>.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                인터넷 망에서의 iBGP와 eBGP의 역할 분담             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │            [ SKT 망 (AS 200) ]         [ KT 망 (AS 100) ]    │
- │                                                             │
- │   미국 구글 ◀── eBGP ──▶ 서울 관문 ◀── iBGP ──▶ 부산 관문 ◀── eBGP ──▶ 일본 야후  │
- │   (AS 300)             라우터                  라우터       (AS 400) │
- │                                                             │
- │   * eBGP의 역할: 외국(미국)에서 90만 개의 글로벌 인터넷 지도를 밀수해 옴.│
- │   * iBGP의 역할: 밀수해 온 지도를 우리나라(KT) 내부 끝단인 부산까지      │
- │                 떨어뜨리지 않고 고이 모셔다 나름!                  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 망에서의 iBGP와 eBGP의 역할 분담</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SKT 망 (AS 200)</div><div class="kb-diagram-node">KT 망 (AS 100)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미국 구글 ◀── eBGP ──▶ 서울 관문 ◀── iBGP ──▶ 부산 관문 ◀── eBGP ──▶ 일본 야후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AS 300) 라우터 라우터 (AS 400)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* eBGP의 역할: 외국(미국)에서 90만 개의 글로벌 인터넷 지도를 밀수해 옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* iBGP의 역할: 밀수해 온 지도를 우리나라(KT) 내부 끝단인 부산까지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">떨어뜨리지 않고 고이 모셔다 나름!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BGP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -86,7 +90,7 @@ BGP 라우터가 친구(Neighbor)를 맺는 방식은 상대방이 어느 국가
 ## Ⅲ. 비교 및 연결
 
 OSPF가 직접 IP 헤더 위에 올라타고, RIP가 UDP로 대충 던지는 것과 달리, BGP는 90만 줄짜리 지도를 던지다가 1줄이라도 삑사리가 나면 세계 통신망이 마비된다.
-그래서 BGP는 반드시 두 라우터가 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 179번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**로 세 번 악수(3-Way Handshake)를 굳게 맺은 다음에야 천천히 안전하게 지도를 복사해 준다.
+그래서 BGP는 반드시 두 라우터가 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>로 세 번 악수(3-Way Handshake)를 굳게 맺은 다음에야 천천히 안전하게 지도를 복사해 준다.
 
 BGP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. L1/L2 라우터, L1/L2 Area 체계…가 기반 조건을 만든다면, BGP는 그 위에서 핵심 메커니즘을 구현하고, [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/), eBGP, BGP Split Ho…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -96,7 +100,7 @@ BGP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path(경로 벡터)는 택배 박스 겉면에 붙어있는 **"경유지 배송 바코드 스티커들"**입니다. 배달원(BGP)이 상자를 잡았는데, 스티커 목록에 **"우리 대리점(내 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호)"**이 이미 찍혀있다면 "아, 이거 돌고 돌아 반송된 잘못된 택배(루프)네!" 하고 즉각 폐기 처분하는 무적의 검수 시스템입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a>-Path(경로 벡터)는 택배 박스 겉면에 붙어있는 </strong>"경유지 배송 바코드 스티커들"**입니다. 배달원(BGP)이 상자를 잡았는데, 스티커 목록에 **"우리 대리점(내 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 번호)"**이 이미 찍혀있다면 "아, 이거 돌고 돌아 반송된 잘못된 택배(루프)네!" 하고 즉각 폐기 처분하는 무적의 검수 시스템입니다.
 
 ---
 
@@ -138,15 +142,19 @@ BGP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: L1/L2 라우터, L1/L2 Area 체계…]
-    │
-    ▼
-[현재 개념: BGP]
-    │
-    ├──▶ [확장 A: iBGP, eBGP, BGP Split Ho…]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: L1/L2 라우터, L1/L2 Area 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: iBGP, eBGP, BGP Split Ho…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 BGP는 L1/L2 라우터, L1/L2 Area 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/), eBGP, BGP Split Ho…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

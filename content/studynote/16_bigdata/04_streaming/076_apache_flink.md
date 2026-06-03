@@ -24,8 +24,8 @@ tags = ["studynote-bigdata"]
 
 ### 1. 스트리밍 처리의 진화: Batch에서 Continuous Processing으로
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 분야에서"스트리밍(Streaming)"이라는 개념은 크게 두 가지로 나뉩니다.
-- **Micro-Batch 모델 (예: Apache [Spark Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 간격(예: 1초)으로 모은 후"미니 배치"로 처리하는 방식입니다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 높지만, [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 배치 간격(Interval)보다 낮아질 수 없는 구조적 제약이 있습니다.
-- **Continuous Processing 모델 (예: [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/))**: 레코드가 도착하는 순간 즉시 처리하는 방식입니다. 이론상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 네트워크를 통해 한 레코드가 처리기에 도착하는 시간(ms 단위)에 근접합니다.이나Uber의처리에서와/과합니다.
+- <strong>Micro-Batch 모델 (예: Apache <a href="/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/">Spark Structured Streaming</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 간격(예: 1초)으로 모은 후"미니 배치"로 처리하는 방식입니다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 높지만, [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 배치 간격(Interval)보다 낮아질 수 없는 구조적 제약이 있습니다.
+- <strong>Continuous Processing 모델 (예: <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/">Apache Flink</a>)</strong>: 레코드가 도착하는 순간 즉시 처리하는 방식입니다. 이론상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 네트워크를 통해 한 레코드가 처리기에 도착하는 시간(ms 단위)에 근접합니다.이나Uber의처리에서와/과합니다.
 
 ### 2. Apache Flink의 탄생 배경
 Apache Flink는 2014년 TU Berlin의，「Stratosphere」부터、2014에Apache Incubator에、2015에Apache Top-Level Project와/과되어했다。
@@ -37,11 +37,11 @@ Apache Flink는 2014년 TU Berlin의，「Stratosphere」부터、2014에Apache 
 | 구분 | Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) ([DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)) | [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) (Native Streaming) |
 |:---|:---|:---|
 | **처리 모델** | Micro-Batch (짧은 간격의 배치) | Continuous Processing (레코드 단위) |
-| **[처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | ~1초+ | 수십 ms ~ 1초 |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/">처리 지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | ~1초+ | 수십 ms ~ 1초 |
 | **상태 관리** |[checkpointing](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) (외부),Updates-of-state | 내장된 상태 백엔드 (RocksDB, [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) |
 | **Event Time 지원** | Structured Streaming에서 이후 도입 | 지원 (이래서 처음부터 중요하게 다룸) |
 | ** exactementonce** | Achieved | Achieved([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)) |
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간** |([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))기반 + WAL |검사, RocksDB검사 |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong> |([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))기반 + WAL |검사, RocksDB검사 |
 
 - **📢 섹션 요약 비유**: Apache Flink와 Spark Streaming의 차이는"음식점에서 음식을 받는 두 가지 방식"에 비유할 수 있습니다. Spark Streaming은"30분마다 Llegando대형로 음식을 한 상차림씩 배달"(마이크로배치)받는 것으로, 한 상차림의 양은 많지만 30분마다 Llegando까지 기다려야 합니다. Flink는"오토바이 택배로 음식을 한 접시씩"(레코드 단위 처리)받는 것으로, 고객은 음식을 한 입 먹고 30분마다대형 배달을 기다리는 대신, 한 입 먹을 때마다 바로 다음 한 입이 도착하는 연속적인 경험(연속 처리)을 할 수 있습니다. 단, 오토바이 택배가 30분마다대형 배송보다 비용이 조금 더 드는 것처럼, Flink도 마이크로배치 대비 높은 처리 오버헤드가 있을 수 있어"즉시성이 얼마나 중요한가?"를 고려하여 도입 여부를 결정해야 합니다.
 
@@ -49,49 +49,44 @@ Apache Flink는 2014년 TU Berlin의，「Stratosphere」부터、2014에Apache 
 
 ## Ⅱ. 핵심 아키텍처 및 원리 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) & Mechanism)
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│ [ Apache Flink 아키텍처 ] │
-│ │
-│ [Client] │
-│ │ Flink 코드를 작성하고, JobGraph으로 컴파일 │
-│ ▼ │
-│ [JobManager (마스터)] │
-│ ├─ JobGraph 스케줄링 → TaskManagers에 태스크 배포 │
-│ ├─ Checkpoint 조정 (체크포인트，자) │
-│ ├─ 리소스 관리 (Slot 관리) │
-│ └─ 장애 복구 (Task 실패 감지 + 재시작 정책) │
-│ │
-│ [TaskManager (워커)] │
-│ ├─ Task 슬롯 (Task 실행 단위) × N개 │
-│ ├─ 상태 백엔드 (State Backend): RocksDB / Heap │
-│ ├─ 네트워크 버퍼 (레코드 교환) │
-│ └─ 입출력 관리 │
-│ │
-│ [DataStream API 실행 흐름] │
-│ │
-│ Source → [Transformation: map/filter/keyBy] │
-│ → [Window: Tumbling/Sliding/Session] │
-│ → [Trigger/Evictor] → [Sink: 출력] │
-│ │
-│ [Checkpoint 기반 Exactly-Once 시맨틱스] │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ ① Checkpoint Barrier (CB): 데이터 스트림에 주기적으로 삽입 │ │
-│ │ ② Barriers는 소스 연산자로부터으로 전달 │ │
-│ │ ③ 모든 연산자가 Barriers를 하면 상태를 스냅샷 저장 │ │
-│ │ ④ 장애 시 마지막 Checkpoint Barrier 시점의 상태로 복구 │ │
-│ │ ⑤ 2PC(2단계 커밋)로 End-to-End Exactly-Once 보장 │ │
-│ └─────────────────────────────────────────────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flink 코드를 작성하고, JobGraph으로 컴파일</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">JobManager (마스터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ JobGraph 스케줄링 → TaskManagers에 태스크 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Checkpoint 조정 (체크포인트，자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 리소스 관리 (Slot 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장애 복구 (Task 실패 감지 + 재시작 정책)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TaskManager (워커)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Task 슬롯 (Task 실행 단위) × N개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태 백엔드 (State Backend): RocksDB / Heap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 네트워크 버퍼 (레코드 교환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 입출력 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataStream API 실행 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Transformation: map/filter/keyBy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Window: Tumbling/Sliding/Session</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Trigger/Evictor</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sink: 출력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Checkpoint 기반 Exactly-Once 시맨틱스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Checkpoint Barrier (CB): 데이터 스트림에 주기적으로 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Barriers는 소스 연산자로부터으로 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 모든 연산자가 Barriers를 하면 상태를 스냅샷 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 장애 시 마지막 Checkpoint Barrier 시점의 상태로 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 2PC(2단계 커밋)로 End-to-End Exactly-Once 보장</div></div>
+</div>
+</div>
+
+
 
 ### 1. Flink 아키텍처: JobManager와 TaskManager
 Flink는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커(Master-Worker) 아키텍처를 채택하고 있습니다.
 
 - **JobManager**: Flink 클러스터의 조정자([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)) 역할을 합니다. 사용자로부터 제출된 JobGraph를 TaskManager들의 슬롯에 배포하고, 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 상태를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하며, 체크포인트 조정(Checkpoint Coordination)을 수행합니다. 장애 발생 시 실패한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 재시작하거나, 리소스를 재배치합니다.
 - **TaskManager**: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 연산(Transformation, Window, Sink 등)이 실행되는 곳입니다. 각 TaskManager는 하나 이상의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 슬롯([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Slot)을 보유하며, 각 슬롯은 하나의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행을 담당합니다. 슬롯 수는 TaskManager의 CPU 코어 수에 의해 결정됩니다.
-- **Slot과 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실행**: 슬롯은 클러스터의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 단위입니다. 각 슬롯은 고립된 메모리(managed memory)를 할당받고, 하나의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(또는 서브테스크)가 할당됩니다. 슬롯은 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 처리할 수 있어, 코어 수보다 더 많은 작은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들을적으로 다중 처리할 수 있습니다.
+- <strong>Slot과 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> 실행</strong>: 슬롯은 클러스터의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 단위입니다. 각 슬롯은 고립된 메모리(managed memory)를 할당받고, 하나의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(또는 서브테스크)가 할당됩니다. 슬롯은 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 처리할 수 있어, 코어 수보다 더 많은 작은 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들을적으로 다중 처리할 수 있습니다.
 
 ### 2. 상태 백엔드 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend) 선택
 
@@ -108,7 +103,7 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 - Processing Time: Flink 연산자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 실제 시간. 간단하지만, 시스템 시간 기준이므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 네트워크 단절 시 결과가합니다.
 - Event Time: 이벤트가 실제 발생한 시간(예: 센서 readings, 거래 시간).Event Time은 시스템clocks와 독립적이므로, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되거나 순서가 바뀌어 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 정확한 시간 순서로처리 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 타임스탬프가 포함되어야 합니다.
 
-- **[Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ([워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))**: "이 시간(Event Time)까지의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이미 도착했다"고 가정하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시점 표시기입니다. 예: `Watermark = T`는"Event Time < T인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이제 거의 도착했으니, T 이상의 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 때때로 올 수 있지만 일반적으로는 도착했다고 봐도 괜찮다"는 선언입니다. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는"[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)"이며, 이를 통해 무한히 도착을 기다려야 하는 상황( الكامل 블로킹)을 방지합니다.
+- <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">Watermark</a> (<a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a>)</strong>: "이 시간(Event Time)까지의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이미 도착했다"고 가정하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 시점 표시기입니다. 예: `Watermark = T`는"Event Time < T인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이제 거의 도착했으니, T 이상의 늦은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 때때로 올 수 있지만 일반적으로는 도착했다고 봐도 괜찮다"는 선언입니다. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는"[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)"이며, 이를 통해 무한히 도착을 기다려야 하는 상황( الكامل 블로킹)을 방지합니다.
 
 - **📢 섹션 요약 비유**: Flink의 Event Time과 Watermark는"항공사 llegadas표관리"와 similar 합니다. 비행기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 실제로 하늘을 나는 시간은"Processing Time( 시간)"이지만,들이 관심을 갖는 것은"Event Time(사전 예정)"입니다. 어떤 비행기가 도착 예정 시간보다 늦게 도착하면([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 우리는"도착 시간표(시간 순서)"를 기반으로"10분 안에 짐을 찾아야지"라는 계획을 세웁니다. 다만"기다리는 시간"이 너무 길어지면([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 기준 넘음), 공항은 해당 항공편의 Llegada 정보를을/를("/수하물 컨베이어 벨트에짐이 아직 안 떴어"라고 걱정하기보다"짐을 받을 수 있다"고 판단) 운영을합니다. 이"기다리는 기준 시간"이 바로"[WATERMARK](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)"입니다.
 
@@ -119,11 +114,11 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 | 비교 항목 | Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) |
 |:---|:---|:---|
 | **처리 모델** | Micro-Batch | Continuous Processing |
-| **[지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)** | ~1초+ | 수십 ms ~ 1초 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | ~1초+ | 수십 ms ~ 1초 |
 | **상태 관리** | 외장 (checkpoint-interval 미지원) | 내장 상태 백엔드 (RocksDB) |
 | **Event Time 지원** | [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) 이후 (Spark 2.3~) | 원래부터 지원 (설계 철학) |
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간** | WAL + Lineage 재연산 | 증분 체크포인트 (빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) |
-| **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 배치/스트리밍 unified (DataFrame) | 배치/스트리밍 unified (DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong> | WAL + Lineage 재연산 | 증분 체크포인트 (빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 배치/스트리밍 unified (DataFrame) | 배치/스트리밍 unified (DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) |
 | ** 생태계 성숙도** | 매우 높음 (Spark 생태계 활용) | 높음 (연속 성장 중) |
 
 - **Flink의 가장 큰 강점**: 상태가 있는(stateful) 스트리밍 연산이 필요한 경우(예: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 방문 횟수를 세다가 사용자가 30분간 활동이 없으면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 종료하고 카운트를 내보내는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [윈도우 연산](/knowledge-base/studynote/16_bigdata/04_streaming/086_window_operations/)) Flink의 내장 상태 관리 은 압도적으로 우수합니다. Spark Streaming에서는 상태 관리를 위해 별도의 외부 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)를 사용해야 하는 경우가 많지만, Flink는 상태 백엔드를 내장하고 RocksDB를 통해 Huge한 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 디스크에서관리합니다.
@@ -136,7 +131,7 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 
 | 고려 사항 | 세부 내용 | 주요 의사결정 |
 |:---|:---|:---|
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구 수준** | < 1초 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) → Flink, 수 초 허용 → [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | ms 단위 실시간이 필요하면 Flink |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요구 수준</strong> | < 1초 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) → Flink, 수 초 허용 → [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | ms 단위 실시간이 필요하면 Flink |
 | **상태 크기** | 수십 GB 이상 상태 → RocksDB Backend 필수 | 수 GB 이하 → HashMapStateBackend |
 | **Event Time 정확도** | 규제 보고서 등 정확한 Event Time 처리 → Flink | Processing Time으로 충분 → Spark |
 | **엔지니어링 역량** | Flink는 학습 곡선이 높음,도 필요 | Spark는 생태계가 큼, 커뮤니티 |
@@ -156,10 +151,10 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 1. **Flink SQL의 표준화 및 데이타 통합**
 Flink SQL은 Flink 1.9에서 정식 도입되어, 이제 배치와 스트리밍 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 동일한 SQL 문법으로 작성할 수 있게 되었습니다. Apache Flink의 가장 큰 강점 중 하나는"사용자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 로직을 어떻게 실행할지(How)가 아니라 무엇을 원하시는지(What)"만 SQL로 기술하면, 프레임워크가 자동으로 최적의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 세우는 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 특성입니다. ksqlDB([Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))와 Flink SQL의 경쟁을 통해, 스트리밍 SQL이 실시간 분석의 표준 언어로 자리잡는 것이 가속화되고 있습니다.
 
-2. **Flink와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 결합**
+2. <strong>Flink와 <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 결합</strong>
 Apache Iceberg와 Delta Lake가 Flink와 통합됨에 따라, 실시간 스트림을 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)에 직접 기록하고 그 위에서 일괄 분석하는"Unified Batch + Streaming" 시나리오가 보편화되고 있습니다. Uber는 Flink를 통해 Apache Hudi로 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ingestion을, LinkedIn은 Kafka와 Flink를 결합하여리소스 분석 플랫폼을하여, 세계적 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 핵심 백본으로 Flink가 자리잡고 있습니다.
 
-3. **Flink의 [serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 및 managed [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확산**
+3. <strong>Flink의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">serverless</a> 및 managed <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 확산</strong>
 AWS Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analytics for [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/)(Managed Flink), Google Cloud Dataflow, Azure [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Analytics 등 주요 클라우드 제공자들이 Flink 기반의 fully managed 스트리밍 분석 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공함에 따라, 클러스터 관리의 부담 없이 Flink의 기능을 활용하는 것이 간편해지고 있습니다. 이는"엔지니어가 오직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 로직에 집중"할 수 있는 환경을 만들어, Flink의 진입 장벽을 크게 낮추고 있습니다.
 
 - **📢 섹션 요약 비유**: Flink의 미래는"자동차 공장의 완전자동Robot"과 같습니다. 과거에는 기술자(Flink 엔지니어)가 각 생산 라인(연산자)의 상태([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고,Robot(체크포인트)의 수리를 명령하고, 새 차량의 도면(새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 분석가에게 요청하는"사이드 프로젝트"이었습니다. 그러나 이제는Robot themselves(Managed Flink/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))가 스스로 상태를 관리하고,하면 자동으로백업([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))하고,(클라이언트)에는"완성된 차량(분석 결과)"만 전달됩니다. 기술자는 더 이상Robot의 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)(클러스터 튜닝)이 아니라,"어떤 종류의 차량(비즈니스 요구)을 만들지"에만 집중하면 되는로 완전히 변화하고 있습니다.
@@ -169,13 +164,13 @@ AWS Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_rela
 ## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 * **Apache Flink핵심컴포넌트**
-* **DataStream [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)**: 시간 기반 스트리밍 처리 (Window, Event Time, [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))
-* **Table [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) & SQL**: 선언적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 (배치/스트리밍 통합)
-* **[CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) ([Complex Event Processing](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/))**: 패턴 기반 이벤트 감지
+* <strong>DataStream <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong>: 시간 기반 스트리밍 처리 (Window, Event Time, [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))
+* <strong>Table <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> &amp; SQL</strong>: 선언적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 (배치/스트리밍 통합)
+* <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a> (<a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">Complex Event Processing</a>)</strong>: 패턴 기반 이벤트 감지
 * **Flink 상태 관리 아키텍처**
-* **Keyed [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)**: 키별로 구분된 상태 (keyBy 후 사용)
-* **[Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)**: 연산자 전체에 공유되는 상태
-* **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend**: HashMap ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) vs RocksDB (디스크)
+* <strong>Keyed <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong>: 키별로 구분된 상태 (keyBy 후 사용)
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong>: 연산자 전체에 공유되는 상태
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Backend</strong>: HashMap ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) vs RocksDB (디스크)
 * **Exactly-Once 시맨틱스 보장 메커니즘**
 * [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([2단계 커밋](/knowledge-base/studynote/05_database/04_transactions_concurrency/249_two_phase_commit_2pc_distributed/)) + Checkpoint Barriers + 소스 함수 재처리 기능
 
@@ -183,18 +178,21 @@ AWS Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배치 처리]
-│
-▼
-[마이크로 배치]
-│
-▼
-[Event Stream]
-│
-▼
-[Exactly-once]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 배치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Event Stream</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exactly-once</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
@@ -204,7 +202,7 @@ AWS Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_rela
 3. 각 친구들은 자신이 받은 색([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 받자마자 바로 그리기 시작해서, 모두가 동시에 끝나요!
 
 ---
-> **🛡️ Expert [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/):** 본 문서는 Apache Flink의 핵심 개념(Continuous Processing, Event Time, Checkpoint)과 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) Streaming과의 비교를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
+> <strong>🛡️ Expert <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>:</strong> 본 문서는 Apache Flink의 핵심 개념(Continuous Processing, Event Time, Checkpoint)과 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) Streaming과의 비교를 기준으로 기술적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하였습니다. (Verified at: 2026-04-05)
 
 ---
 

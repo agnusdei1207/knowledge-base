@@ -43,23 +43,21 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 판단에 `oom_score_adj`가 개입하는 지점을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 OOM selection path with policy override                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ memory pressure                                                            │
-│      │                                                                     │
-│      ├── reclaim / compact / swap try                                      │
-│      └── still allocation failure                                          │
-│              ▼                                                             │
-│      kernel badness heuristic ──▶ oom_score                                │
-│                                   +                                        │
-│                          admin policy ──▶ oom_score_adj                    │
-│                                   │                                        │
-│                                   ▼                                        │
-│                        victim chosen and SIGKILL issued                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM selection path with policy override</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── reclaim / compact / swap try</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── still allocation failure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kernel badness heuristic ──▶ oom_score</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">admin policy ──▶ oom_score_adj</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">victim chosen and SIGKILL issued</div></div>
+</div>
+</div>
+
+
 
 실무적으로 기억할 점은 세 가지다. 첫째, `oom_score_adj`는 프로세스 단위 값이며 자식 프로세스에 상속될 수 있어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트리 전체에 영향을 준다. 둘째, 직접 `/proc`에 쓴 값은 프로세스가 재시작되면 사라지므로 지속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 `systemd`나 오케스트레이터에서 관리하는 편이 낫다. 셋째, `-1000`은 강력하지만 남용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 실제 위기 때 선택할 후보를 잃어 더 큰 장애를 만들 수 있다.
 
@@ -79,7 +77,7 @@ tags = ["studynote-operating-system"]
 | `systemd` `OOMScoreAdjust=` | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 지속 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 재시작 후에도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유지 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 밖까지 자동 해결되진 않음 |
 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 계층 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 중요도에 따른 자동 보정 | 애플리케이션 누수 자체는 해결하지 못함 |
 
-즉 `oom_score_adj`는 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**이고, cgroup 제한은 **격리 장치**다. 둘은 경쟁 관계가 아니라 보완 관계다. 예를 들어 Kubernetes는 Guaranteed, Burstable, BestEffort [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스에 따라 `oom_score_adj`를 자동 부여해 노드 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 시 종료 순서를 정리한다. 하지만 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 메모리를 무한정 먹지 못하게 막는 일은 여전히 `requests/limits`와 cgroup이 맡는다.
+즉 `oom_score_adj`는 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>이고, cgroup 제한은 <strong>격리 장치</strong>다. 둘은 경쟁 관계가 아니라 보완 관계다. 예를 들어 Kubernetes는 Guaranteed, Burstable, BestEffort [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스에 따라 `oom_score_adj`를 자동 부여해 노드 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 시 종료 순서를 정리한다. 하지만 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 메모리를 무한정 먹지 못하게 막는 일은 여전히 `requests/limits`와 cgroup이 맡는다.
 
 - **📢 섹션 요약 비유**: `oom_score_adj`가 좌석 우선순위표라면, cgroup은 아예 객실 칸막이다. 먼저 내릴 사람을 정하는 일과, 방마다 정원을 정하는 일은 서로 다른 관리다.
 
@@ -91,10 +89,10 @@ tags = ["studynote-operating-system"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **정말 반드시 살아야 하는 프로세스만 음수로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)했는가?** 핵심 제어면만 선별해야 한다.
-2. **`-1000`을 남발하지 않았는가?** 면제 대상이 많을수록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택 폭이 줄어든다.
-3. **재시작 후에도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유지되는가?** `/proc` 직접 수정만으로는 지속되지 않는다.
-4. **[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)와 상한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 같이 관리하는가?** `oom_score_adj`만으로 근본 원인은 해결되지 않는다.
+1. <strong>정말 반드시 살아야 하는 프로세스만 음수로 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>했는가?</strong> 핵심 제어면만 선별해야 한다.
+2. <strong><code>-1000</code>을 남발하지 않았는가?</strong> 면제 대상이 많을수록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선택 폭이 줄어든다.
+3. <strong>재시작 후에도 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 유지되는가?</strong> `/proc` 직접 수정만으로는 지속되지 않는다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a>와 상한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>을 같이 관리하는가?</strong> `oom_score_adj`만으로 근본 원인은 해결되지 않는다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -110,7 +108,7 @@ tags = ["studynote-operating-system"]
 
 `oom_score_adj`를 올바르게 쓰면 메모리 위기가 왔을 때 장애 반경을 줄일 수 있다. 즉 모든 프로세스를 무차별적으로 위험에 노출하는 대신, 핵심 제어 프로세스는 살리고 비핵심 작업을 먼저 정리하게 만들어 노드 전체 다운 가능성을 낮춘다. 특히 `systemd`, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), 재시작 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 결합하면 “누가 죽고 누가 복구되는가”를 훨씬 예측 가능하게 만든다.
 
-하지만 이 값은 어디까지나 최후의 순간을 위한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 메모리 사용량 예측, 상한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 누수 제거, PSI (Pressure Stall Information) 기반 조기 경보가 함께 있어야 진짜 운영 품질이 올라간다. 따라서 `oom_score_adj`는 “메모리 문제 해결책”이 아니라 **메모리 재난 시 생존 순서를 정하는 운영 레버**로 기억해야 한다.
+하지만 이 값은 어디까지나 최후의 순간을 위한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 메모리 사용량 예측, 상한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 누수 제거, PSI (Pressure Stall Information) 기반 조기 경보가 함께 있어야 진짜 운영 품질이 올라간다. 따라서 `oom_score_adj`는 “메모리 문제 해결책”이 아니라 <strong>메모리 재난 시 생존 순서를 정하는 운영 레버</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: `oom_score_adj`는 배가 침수될 때 어떤 짐을 먼저 버릴지 정해 둔 목록과 같다. 배를 더 크게 만들어 주지는 않지만, 침몰 직전에 무엇을 지켜야 할지는 분명하게 해 준다.
 
@@ -129,21 +127,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 압박
-    │
-    ▼
-페이지 회수 · 스왑 · 압축 시도
-    │
-    ▼
-OOM Killer 진입
-    │
-    ▼
-oom_score + oom_score_adj
-    │
-    ▼
-cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 압박</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 회수 · 스왑 · 압축 시도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OOM Killer 진입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">oom_score + oom_score_adj</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 `oom_score_adj`가 단독 기능이 아니라, 메모리 압박 감지에서 희생자 선정과 상위 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이어지는 운영 체계의 한 요소임을 보여준다.
 

@@ -19,24 +19,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템의 한쪽 끝(Source)으로 들어와서 다른 쪽 끝(Sink)으로 나갈 때까지, **독립적인 여러 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가공 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(필터)들을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 통로([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))로 줄줄이 엮어서 순차적으로 처리하는 아키텍처 패턴**입니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템의 한쪽 끝(Source)으로 들어와서 다른 쪽 끝(Sink)으로 나갈 때까지, <strong>독립적인 여러 개의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 가공 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(필터)들을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전달 통로(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)로 줄줄이 엮어서 순차적으로 처리하는 아키텍처 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처 (Pipe-Filter)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처 (Pipe-Fi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  파이프-필터 아키텍처 (Pipe-Fi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프-필터 아키텍처 (Pipe-Fi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처 (Pipe-Fi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -62,7 +61,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-- **유닉스/리눅스 쉘 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**: `ls -l | grep "txt" | sort` (이 수직선 `|` 기호가 바로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)입니다! 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 받아 깎아내는 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처)
+- <strong>유닉스/리눅스 쉘 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>: `ls -l | grep "txt" | sort` (이 수직선 `|` 기호가 바로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)입니다! 앞 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과를 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 받아 깎아내는 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처)
 - **컴파일러**: 소스코드 ➜ [어휘 분석기] ➜ [구문 분석기] ➜ [의미 분석기] ➜ 기계어
 - **오디오/비디오 스트리밍 처리 (FFmpeg)**: 영상 프레임을 받아서 노이즈 제거, 색상 보정, 인코딩을 순차적으로 수행하는 멀티미디어 공장.
 
@@ -74,10 +73,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **장점 (레고 조립)**: 새로운 기능이 필요하면 그냥 새 필터를 하나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 찰칵 끼워 넣으면 끝입니다(극강의 재사용성과 확장성). 또한 각 필터가 별도의 스레드나 서버에서 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리(동시 작업)**가 가능해 속도를 미친 듯이 올릴 수 있습니다.
+- **장점 (레고 조립)**: 새로운 기능이 필요하면 그냥 새 필터를 하나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 찰칵 끼워 넣으면 끝입니다(극강의 재사용성과 확장성). 또한 각 필터가 별도의 스레드나 서버에서 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리(동시 작업)</strong>가 가능해 속도를 미친 듯이 올릴 수 있습니다.
 - **치명적 단점 (대화 단절)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 방향으로만 무식하게 흘러가기 때문에, 1066번처럼 "야! 이거 에러 났는데 어떡해? 다시 보낼까?" 같은 **복잡한 양방향 대화(상호작용)나 피드백 제어가 끔찍하게 어렵습니다.** 또한 각 필터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기 입맛에 맞게 포맷 변환(Parsing)하느라 CPU 오버헤드가 발생합니다.
 
-> 📢 **섹션 요약 비유**: **[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터(Pipe-Filter) 아키텍처**는 거대한 **'정수기 필터 시스템'**입니다. 더러운 흙물(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 들어오면, 1번 부직포 필터가 굵은 모래를 거릅니다. 1번 필터는 자기가 정수기 1번인지 2번인지 모릅니다. 그냥 구멍으로 물이 들어오니 걸러서 뒤로 뱉을 뿐입니다. 그 물은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 2번 활성탄 필터로 가고, 3번 역삼투압 필터를 거쳐 맑은 물(최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 컵에 떨어집니다. 만약 활성탄 필터가 막히면? 시스템 전체를 고칠 필요 없이, 정수기 뚜껑을 열어 2번 필터만 쏙 뽑아내고 새 필터를 '찰칵' 끼워 넣기만 하면 정수기는 다시 1초 만에 완벽하게 돌아가는(플러그 앤 플레이) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컨베이어 벨트의 교과서입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>-필터(Pipe-Filter) 아키텍처</strong>는 거대한 <strong>'정수기 필터 시스템'</strong>입니다. 더러운 흙물(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 들어오면, 1번 부직포 필터가 굵은 모래를 거릅니다. 1번 필터는 자기가 정수기 1번인지 2번인지 모릅니다. 그냥 구멍으로 물이 들어오니 걸러서 뒤로 뱉을 뿐입니다. 그 물은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 2번 활성탄 필터로 가고, 3번 역삼투압 필터를 거쳐 맑은 물(최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 컵에 떨어집니다. 만약 활성탄 필터가 막히면? 시스템 전체를 고칠 필요 없이, 정수기 뚜껑을 열어 2번 필터만 쏙 뽑아내고 새 필터를 '찰칵' 끼워 넣기만 하면 정수기는 다시 1초 만에 완벽하게 돌아가는(플러그 앤 플레이) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컨베이어 벨트의 교과서입니다.
 
 - **📢 섹션 요약 비유**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 아키텍처 (Pipe-Filter)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -118,21 +117,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-파이프-필터 아키텍처 (Pipe-Filter) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프-필터 아키텍처 (Pipe-Filter) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

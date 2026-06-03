@@ -18,7 +18,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 펌웨어의 정의와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-펌웨어(Firmware)는 **하드웨어를 직접 제어하기 위해 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)·Flash·EEPROM에 내장된 소프트웨어**다. 하드웨어(HW)와 소프트웨어(SW)의 중간 계층으로, 기기가 켜지면 CPU가 가장 먼저 실행하는 코드다.
+펌웨어(Firmware)는 <strong>하드웨어를 직접 제어하기 위해 <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/">ROM</a>·Flash·EEPROM에 내장된 소프트웨어</strong>다. 하드웨어(HW)와 소프트웨어(SW)의 중간 계층으로, 기기가 켜지면 CPU가 가장 먼저 실행하는 코드다.
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)         | 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)         | 예시                           |
 |-------------|------------------|-------------------------------|
@@ -51,11 +51,17 @@ tags = ["studynote-operating-system"]
 
 ### 부트 시퀀스
 
-```
-전원 ON → POST(Power-On Self Test) → UEFI 초기화
-   → 부트 디바이스 선택 → 부트로더(GRUB2/Windows Boot Manager)
-   → 커널 로드 → OS 초기화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전원 ON → POST(Power-On Self Test) → UEFI 초기화</div>
+<div class="kb-diagram-note">→ 부트 디바이스 선택 → 부트로더(GRUB2/Windows Boot Manager)</div>
+<div class="kb-diagram-note">→ 커널 로드 → OS 초기화</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: UEFI는 낡은 흑백 TV 리모컨(BIOS)을 스마트폰 앱으로 교체한 것과 같다. 기능도 많고 빠르지만 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)도 더 복잡해졌다.
 
@@ -63,17 +69,21 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. Secure Boot와 신뢰 체인 (Chain of Trust)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   Secure Boot 흐름                       │
-│  UEFI Firmware → 서명 검증 → 부트로더 서명 확인          │
-│                           → 커널 서명 확인               │
-│                           → 드라이버 서명 확인           │
-│                    서명 불일치 → 부팅 거부                │
-└─────────────────────────────────────────────────────────┘
-```
 
-**[TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))과 결합**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Boot 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI Firmware → 서명 검증 → 부트로더 서명 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 커널 서명 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 드라이버 서명 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명 불일치 → 부팅 거부</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">TPM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">Trusted Platform Module</a>)과 결합</strong>
 
 - [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 2.0: 플랫폼 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 측정(PCR), 키 저장, [BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) 연동
 - 측정 부팅([Measured Boot](/knowledge-base/studynote/09_security/18_iot_ot_physical/919_measured_boot/)): 각 단계 해시를 TPM에 기록 → 원격 증명
@@ -86,20 +96,20 @@ tags = ["studynote-operating-system"]
 
 ### 임베디드 펌웨어 구조
 
-```
-┌────────────────────────────────┐
-│   애플리케이션 레이어           │
-├────────────────────────────────┤
-│   HAL (Hardware Abstraction    │
-│        Layer, 하드웨어 추상화) │
-├────────────────────────────────┤
-│   드라이버 레이어               │
-├────────────────────────────────┤
-│   부트로더 / BSP               │
-├────────────────────────────────┤
-│   MCU / SoC 하드웨어           │
-└────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HAL (Hardware Abstraction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer, 하드웨어 추상화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드라이버 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트로더 / BSP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCU / SoC 하드웨어</div></div>
+</div>
+</div>
+
+
 
 ### OTA ([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 펌웨어 업데이트
 
@@ -126,17 +136,23 @@ tags = ["studynote-operating-system"]
 
 ### 대응 방안
 
-```
-Secure Boot + TPM 측정 부팅
-   ↓
-펌웨어 서명 검증 (PKI 기반)
-   ↓
-OTA 암호화 전송 (TLS/DTLS)
-   ↓
-쓰기 방지 레지스터 설정 (Write-Protect)
-   ↓
-정기 취약점 스캔 (SBOM 기반)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Secure Boot + TPM 측정 부팅</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">펌웨어 서명 검증 (PKI 기반)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">OTA 암호화 전송 (TLS/DTLS)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">쓰기 방지 레지스터 설정 (Write-Protect)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">정기 취약점 스캔 (SBOM 기반)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 펌웨어 보안은 건물 지하 금고와 같다. 아무리 위층 보안이 강해도 지하 금고(펌웨어)가 뚫리면 건물 전체가 위험해진다.
 
@@ -144,48 +160,55 @@ OTA 암호화 전송 (TLS/DTLS)
 
 ## 📌 관련 개념 맵
 
-```
-펌웨어 (Firmware)
-├── 저장 매체
-│   ├── ROM (Read Only Memory)
-│   ├── EEPROM
-│   └── Flash Memory
-├── PC 플랫폼
-│   ├── BIOS (Basic Input/Output System)
-│   ├── UEFI (Unified Extensible Firmware Interface)
-│   └── Secure Boot
-├── 신뢰 기반
-│   ├── TPM (Trusted Platform Module)
-│   ├── Chain of Trust (신뢰 체인)
-│   └── 측정 부팅 (Measured Boot)
-└── 임베디드
-    ├── HAL (Hardware Abstraction Layer)
-    ├── BSP (Board Support Package)
-    └── OTA (Over-The-Air) 업데이트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">펌웨어 (Firmware)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">저장 매체</div>
+<div class="kb-diagram-note">── ROM (Read Only Memory)</div>
+<div class="kb-diagram-note">── EEPROM</div>
+<div class="kb-diagram-note">── Flash Memory</div>
+<div class="kb-diagram-tree-item" style="--depth:0">PC 플랫폼</div>
+<div class="kb-diagram-note">── BIOS (Basic Input/Output System)</div>
+<div class="kb-diagram-note">── UEFI (Unified Extensible Firmware Interface)</div>
+<div class="kb-diagram-note">── Secure Boot</div>
+<div class="kb-diagram-tree-item" style="--depth:0">신뢰 기반</div>
+<div class="kb-diagram-note">── TPM (Trusted Platform Module)</div>
+<div class="kb-diagram-note">── Chain of Trust (신뢰 체인)</div>
+<div class="kb-diagram-note">── 측정 부팅 (Measured Boot)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">임베디드</div>
+<div class="kb-diagram-tree-item" style="--depth:2">HAL (Hardware Abstraction Layer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BSP (Board Support Package)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OTA (Over-The-Air) 업데이트</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 펌웨어 기술 발전 흐름                            │
-├──────────────┬──────────────────────┬───────────────────────────┤
-│ 1980년대     │ BIOS (ROM 내장)      │ 16비트, 텍스트 기반        │
-│ 1990년대     │ Flash BIOS           │ 업데이트 가능 펌웨어       │
-│ 2000년대     │ UEFI 표준화 (2006)   │ 64비트, GPT, Secure Boot  │
-│ 2010년대     │ TPM 2.0 + 측정 부팅  │ 하드웨어 신뢰 체인         │
-│ 2020년대     │ OTA·IoT 펌웨어 보안  │ SBOM, 공급망 보안 강화     │
-└──────────────┴──────────────────────┴───────────────────────────┘
 
-핵심 키워드 연결:
-펌웨어 → UEFI → Secure Boot → TPM → 측정 부팅
-  ↓         ↓          ↓        ↓
-Flash     GPT/MBR    PKI 서명  PCR 레지스터
-  ↓
-OTA 업데이트 → A/B 파티션 → 롤백 보장
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">펌웨어 기술 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">BIOS (ROM 내장)</div><div class="kb-diagram-cell">16비트, 텍스트 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">Flash BIOS</div><div class="kb-diagram-cell">업데이트 가능 펌웨어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">UEFI 표준화 (2006)</div><div class="kb-diagram-cell">64비트, GPT, Secure Boot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">TPM 2.0 + 측정 부팅</div><div class="kb-diagram-cell">하드웨어 신뢰 체인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">OTA·IoT 펌웨어 보안</div><div class="kb-diagram-cell">SBOM, 공급망 보안 강화</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">펌웨어 → UEFI → Secure Boot → TPM → 측정 부팅</div>
+<div class="kb-diagram-note">Flash GPT/MBR PKI 서명 PCR 레지스터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">OTA 업데이트 → A/B 파티션 → 롤백 보장</div>
+</div>
+</div>
+
+
 
 ---
 

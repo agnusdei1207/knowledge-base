@@ -32,19 +32,25 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-아날로그 음성
-   ↓
-압축기(Compressor)
-   ↓
-PCM (Pulse Code Modulation) 양자화
-   ↓
-전송
-   ↓
-신장기(Expander)
-   ↓
-복원된 음성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">아날로그 음성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">압축기(Compressor)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PCM (Pulse Code Modulation) 양자화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">전송</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">신장기(Expander)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">복원된 음성</div>
+</div>
+</div>
+
+
 
 | 항목 | 선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 컴팬딩 |
 | :-- | :-- | :-- |
@@ -68,17 +74,23 @@ PCM (Pulse Code Modulation) 양자화
 
 둘 다 목적은 같다. 작은 신호의 해상도를 높이고 큰 신호는 덜 민감하게 다루어, 제한된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 안에서 음성 품질을 확보하는 것이다.
 
-```text
-입력 신호
-   ↓
-μ-law / A-law 압축
-   ↓
-8비트 전송
-   ↓
-μ-law / A-law 신장
-   ↓
-음성 복원
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 신호</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">μ-law / A-law 압축</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">8비트 전송</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">μ-law / A-law 신장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">음성 복원</div>
+</div>
+</div>
+
+
 
 G.711 같은 음성 코덱 표준은 이런 컴팬딩 특성을 묶어 전화망 호환성을 유지한다. 덕분에 서로 다른 장비도 같은 음성 품질 기준을 공유할 수 있다.
 
@@ -120,33 +132,45 @@ G.711 같은 음성 코덱 표준은 이런 컴팬딩 특성을 묶어 전화망
 
 ## 관련 개념 맵
 
-```text
-음성 신호
-   ↓
-컴팬딩
-   ↓
-PCM (Pulse Code Modulation)
-   ↓
-G.711
-   ↓
-PSTN 음성망
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">음성 신호</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">컴팬딩</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PCM (Pulse Code Modulation)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">G.711</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">PSTN 음성망</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-선형 양자화
-   ↓
-컴팬딩(Companding)
-   ↓
-μ-law / A-law
-   ↓
-음성 코덱 표준
-   ↓
-IP 기반 음성 서비스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">선형 양자화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">컴팬딩(Companding)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">μ-law / A-law</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">음성 코덱 표준</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">IP 기반 음성 서비스</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -23,7 +23,7 @@ Log4j 사태 이후, 미국 바이든 정부는 모든 공공 납품 소프트�
 
 A 회사는 엑셀 파일로, B 회사는 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 문서로, C 회사는 자체 포맷의 텍스트 파일로 "우리는 이런 라이브러리를 썼습니다"라고 제출했다. 전 세계에서 쏟아지는 수백만 개의 소프트웨어를 사람이 일일이 엑셀을 열어보며 "여기에 위험한 부품이 있나?" 검사하는 것은 불가능했다.
 
-결국 **"기계(Machine)가 서로 소통할 수 있는 단일한 언어(표준 포맷)"**가 절실해졌다. 글로벌 IT 연합체들은 합의 끝에 SBOM을 JSON이나 XML 형태의 완벽한 구조체로 정의하기로 했고, 그 결과 세계 시장을 양분하고 있는 두 가지 거대한 표준, **SPDX**와 **CycloneDX**가 탄생했다.
+결국 <strong>"기계(Machine)가 서로 소통할 수 있는 단일한 언어(표준 포맷)"</strong>가 절실해졌다. 글로벌 IT 연합체들은 합의 끝에 SBOM을 JSON이나 XML 형태의 완벽한 구조체로 정의하기로 했고, 그 결과 세계 시장을 양분하고 있는 두 가지 거대한 표준, <strong>SPDX</strong>와 <strong>CycloneDX</strong>가 탄생했다.
 
 - **📢 섹션 요약 비유**: 한국어, 영어, 스페인어로 흩어져 있던 전 세계의 '요리 레시피(부품 명세서)'를, 로봇 셰프가 1초 만에 읽고 알레르기 유발 물질을 찾아낼 수 있도록 '바코드(표준 포맷)'로 통일한 작업이다.
 
@@ -31,18 +31,17 @@ A 회사는 엑셀 파일로, B 회사는 [워드](/knowledge-base/studynote/01_
 
 다음은 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 규격 SPDX Cyclone의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SBOM 규격 SPDX Cyclone                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 규격 SPDX Cyclone</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 규격 SPDX Cyclone가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -95,7 +94,7 @@ A 회사는 엑셀 파일로, B 회사는 [워드](/knowledge-base/studynote/01_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 IT 실무 환경에서는 보안 자동화의 용이성 때문에 **CycloneDX가 압도적인 지지를 받으며 사실상(De-facto) 표준**이 되어가고 있다.
+최근 IT 실무 환경에서는 보안 자동화의 용이성 때문에 <strong>CycloneDX가 압도적인 지지를 받으며 사실상(De-facto) 표준</strong>이 되어가고 있다.
 
 - **📢 섹션 요약 비유**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 규격 SPDX CycloneDX은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -107,9 +106,9 @@ A 회사는 엑셀 파일로, B 회사는 [워드](/knowledge-base/studynote/01_
 
 ## Ⅴ. 기대효과 및 결론
 
-SPDX나 CycloneDX 같은 표준 포맷을 내재화하면, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 해킹 사고가 터졌을 때 "우리 회사 시스템에 저 취약점이 있나?"를 확인하는 데 걸리는 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))이 수주일에서 **단 몇 분**으로 줄어든다.
+SPDX나 CycloneDX 같은 표준 포맷을 내재화하면, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 해킹 사고가 터졌을 때 "우리 회사 시스템에 저 취약점이 있나?"를 확인하는 데 걸리는 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))이 수주일에서 <strong>단 몇 분</strong>으로 줄어든다.
 
-결론적으로, 현대 소프트웨어 엔지니어링에서 코드는 '우리 회사의 자산'이기도 하지만, 남의 코드를 조립한 '위험한 폭탄'이기도 하다. 기술 리더는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 표준 도입을 귀찮은 규제 대응이 아니라, 회사 내 소프트웨어의 유전자(DNA) 지도를 완벽히 그리는 **'[데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))의 가장 튼튼한 첫 번째 인프라'**로 인식하고 투자해야 한다.
+결론적으로, 현대 소프트웨어 엔지니어링에서 코드는 '우리 회사의 자산'이기도 하지만, 남의 코드를 조립한 '위험한 폭탄'이기도 하다. 기술 리더는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 표준 도입을 귀찮은 규제 대응이 아니라, 회사 내 소프트웨어의 유전자(DNA) 지도를 완벽히 그리는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">데브섹옵스</a>(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a>)의 가장 튼튼한 첫 번째 인프라'</strong>로 인식하고 투자해야 한다.
 
 - **📢 섹션 요약 비유**: 이 표준은 무역을 할 때 쓰는 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 규격'과 같다. 전 세계 모든 배와 항구가 똑같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(SPDX/CycloneDX)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 안에 뭐가 들었는지 바코드만 찍어보면 1초 만에 스캔이 끝나는 가장 위대한 물류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 혁명이다.
 
@@ -132,21 +131,23 @@ SPDX나 CycloneDX 같은 표준 포맷을 내재화하면, [공급망](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SBOM 규격 SPDX CycloneDX 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SBOM 규격 SPDX CycloneDX 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -29,19 +29,25 @@ Docker는 "내 PC에서는 되는데 서버에서는 안 된다"는 문제를 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Docker CLI
-  ↓
-dockerd
-  ↓
-containerd
-  ↓
-runc
-  ↓
-Namespaces + cgroups
-  ↓
-Container
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Docker CLI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">dockerd</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">containerd</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">runc</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Namespaces + cgroups</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -113,31 +119,43 @@ Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반�
 
 ## 관련 개념 맵
 
-```text
-Docker CLI
-  ↓
-dockerd
-  ↓
-containerd / runc
-  ↓
-Linux Kernel
-  ↓
-Container
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Docker CLI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">dockerd</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">containerd / runc</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Linux Kernel</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-수동 배포
-  ↓
-스크립트 배포
-  ↓
-Docker
-  ↓
-Container Platform
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 배포</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스크립트 배포</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Docker</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Platform</div>
+</div>
+</div>
+
+
 
 ---
 

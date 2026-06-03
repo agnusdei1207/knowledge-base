@@ -11,8 +11,8 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ISO/IEC 42001은 조직이 AI를 설계, 개발, 제공, 운영할 때 필요한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 책임, 위험 통제, 성과 평가를 체계화한 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 경영시스템 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System, AIMS) 국제 표준**이다.
-> 2. **가치**: 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만으로는 설명되지 않는 편향, 책임성, 투명성, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 관리 체계 수준에서 다루게 해, AI를 실험이 아니라 **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 운영 체계**로 바꾼다.
+> 1. **본질**: ISO/IEC 42001은 조직이 AI를 설계, 개발, 제공, 운영할 때 필요한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 책임, 위험 통제, 성과 평가를 체계화한 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 경영시스템 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> System, AIMS) 국제 표준</strong>이다.
+> 2. **가치**: 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만으로는 설명되지 않는 편향, 책임성, 투명성, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 관리 체계 수준에서 다루게 해, AI를 실험이 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능한 운영 체계</strong>로 바꾼다.
 > 3. **판단 포인트**: ISO/IEC 42001은 개별 모델 평가 기준이 아니라 조직 운영 프레임이므로, ISO/IEC 27001의 보안 통제, ISO/IEC 23894의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리, 각국 규제(EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 등)와 연결해 해석해야 한다.
 
 ---
@@ -23,16 +23,18 @@ tags = ["studynote-ai"]
 
 ISO/IEC 42001은 이런 질문에 대해 조직 차원의 관리 체계를 요구한다. 즉, 개발자 한 명의 선의나 특정 프로젝트 문서에 맡기지 않고, 경영층 책임, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 운영 통제, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 개선 루프를 표준화한다. AI를 계속 쓰는 조직이라면 결국 "기술"뿐 아니라 "체계"가 필요하다는 문제의식에서 나온 표준이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         AI 통제의 대상이 모델 하나에서 조직 전체로 확대됨     │
-├──────────────────────────────────────────────────────────────┤
-│ 정책/거버넌스 ─┬─ 데이터 관리 ─┬─ 모델 개발/운영 ─┬─ 모니터링 │
-│ 책임/역할      │   편향/품질    │   배포/변경관리   │   개선     │
-│                └─────────────────────────────────────────────┘
-│ 핵심: AI를 제품이 아니라 관리 시스템으로 본다                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 통제의 대상이 모델 하나에서 조직 전체로 확대됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책/거버넌스 ─ ─ 데이터 관리 ─ ─ 모델 개발/운영 ─ ─ 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임/역할</div><div class="kb-diagram-cell">편향/품질</div><div class="kb-diagram-cell">배포/변경관리</div><div class="kb-diagram-cell">개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: AI를 제품이 아니라 관리 시스템으로 본다</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 통제가 모델 학습 시점에서 끝나지 않는다는 점이다. 기획, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 외부 조달, 운영, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 개선까지 이어지는 전 주기가 관리 대상이다. 따라서 ISO/IEC 42001은 기술 문서보다 경영 시스템 문서에 가깝다.
 
@@ -54,16 +56,19 @@ ISO 계열 경영시스템 표준과 마찬가지로 ISO/IEC 42001은 [PDCA](/kn
 
 실제 표준 문언은 ISO 공통 구조를 따르므로, 조직은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사용 목적과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 그에 맞는 통제를 설계해야 한다. 예를 들어 고위험 채용 AI라면 편향 평가와 설명 가능성이 중요하고, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 프롬프트 악용, [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)), [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출이 핵심 통제 포인트가 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              ISO/IEC 42001의 관리 루프                       │
-├──────────────────────────────────────────────────────────────┤
-│ Plan  : AI 목적, 범위, 위험, 통제 목표 정의                  │
-│ Do    : 데이터/모델/운영 프로세스 실행                       │
-│ Check : 성과 측정, 내부 감사, 사고/편향 모니터링             │
-│ Act   : 시정 조치, 재학습, 정책 개선                         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 42001의 관리 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan : AI 목적, 범위, 위험, 통제 목표 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Do : 데이터/모델/운영 프로세스 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check : 성과 측정, 내부 감사, 사고/편향 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Act : 시정 조치, 재학습, 정책 개선</div></div>
+</div>
+</div>
+
+
 
 핵심은 "표준이 모델을 대신 평가해 주는 것"이 아니라 "조직이 스스로 위험을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 증빙 가능한 통제를 갖추게 하는 것"이다. 그래서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 승인 이력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처, 모델 카드, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 프로세스 같은 흔적이 중요해진다.
 
@@ -81,7 +86,7 @@ ISO 계열 경영시스템 표준과 마찬가지로 ISO/IEC 42001은 [PDCA](/kn
 
 ISO/IEC 42001은 보안, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 품질, 윤리 이슈를 모두 아우르지만, 그것을 하나의 세부 기술 통제로 대체하지는 않는다. 보안은 ISO/IEC 27001, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)는 관련 법규와 ISO/IEC 27701, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 위험 평가는 ISO/IEC 23894 같은 보완 규격과 함께 해석해야 한다.
 
-또한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 운영에서는 [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/), 모델 오남용, 출력 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 휴먼 인 더 루프 (Human in the Loop) 같은 통제가 중요하다. 즉, ISO/IEC 42001은 개별 기법 명세보다 **관리 책임 구조**를 제공하고, 세부 통제는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 확장해야 한다.
+또한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 운영에서는 [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/), 모델 오남용, 출력 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 휴먼 인 더 루프 (Human in the Loop) 같은 통제가 중요하다. 즉, ISO/IEC 42001은 개별 기법 명세보다 <strong>관리 책임 구조</strong>를 제공하고, 세부 통제는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 확장해야 한다.
 
 - **📢 섹션 요약 비유**: ISO/IEC 42001이 경기 운영 규정집이라면, 27001은 경기장 보안 매뉴얼이고, 23894는 위험 분석 핸드북이며, EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act는 이를 어기면 벌점을 주는 리그 규정이다.
 

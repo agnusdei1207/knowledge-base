@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가치 제안 캔버스 (Value Proposition Canvas, [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))는 고객이 해결하려는 일과 겪는 고통, 기대하는 이익을 제품의 기능·고통 완화·이익 창출 요소와 정밀하게 맞춰 보는 **적합성 설계 도구**다.
+> 1. **본질**: 가치 제안 캔버스 (Value Proposition Canvas, [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))는 고객이 해결하려는 일과 겪는 고통, 기대하는 이익을 제품의 기능·고통 완화·이익 창출 요소와 정밀하게 맞춰 보는 <strong>적합성 설계 도구</strong>다.
 > 2. **가치**: 제품 팀이 기능 목록에서 출발하지 않고 고객 증거에서 출발하게 만들어, 제품-시장 적합성 (Product-Market Fit, PMF) 가설을 더 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하게 돕는다.
 > 3. **판단 포인트**: 캔버스의 품질은 예쁜 문장보다 실제 고객 인터뷰와 관찰 데이터에 달려 있으므로, "우리가 좋다고 생각하는 기능"이 아니라 "고객이 실제로 아파하는 문제"를 먼저 적어야 한다.
 
@@ -19,24 +19,26 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-가치 제안 캔버스는 고객 측면과 제품 측면을 한 화면에 놓고, 두 영역이 어디서 맞고 어디서 어긋나는지 보는 프레임워크다. 알렉산더 오스터왈더 (Alexander Osterwalder)는 비즈니스 모델 캔버스 (Business Model Canvas, [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))보다 더 좁고 깊게, 특히 가치 제안과 고객 세그먼트의 접점을 파고들기 위해 이 도구를 제시했다. 즉 VPC는 사업 전체를 요약하는 도구가 아니라, **고객 문제와 제품 해법의 밀착도**를 검토하는 현미경이다.
+가치 제안 캔버스는 고객 측면과 제품 측면을 한 화면에 놓고, 두 영역이 어디서 맞고 어디서 어긋나는지 보는 프레임워크다. 알렉산더 오스터왈더 (Alexander Osterwalder)는 비즈니스 모델 캔버스 (Business Model Canvas, [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))보다 더 좁고 깊게, 특히 가치 제안과 고객 세그먼트의 접점을 파고들기 위해 이 도구를 제시했다. 즉 VPC는 사업 전체를 요약하는 도구가 아니라, <strong>고객 문제와 제품 해법의 밀착도</strong>를 검토하는 현미경이다.
 
 이 도구가 필요한 이유는 많은 팀이 기능을 많이 만들면 가치가 생긴다고 착각하기 때문이다. 실제로 고객은 제품 기능 자체보다 "내가 하려는 일을 더 쉽게 해 주는가", "불편을 줄여 주는가", "기대 이상의 결과를 주는가"에 반응한다. 따라서 제품 기획은 내부 아이디어 회의보다 고객의 작업 맥락과 실패 경험을 먼저 구조화해야 한다.
 
 아래 그림은 VPC가 두 반쪽의 궁합을 보는 구조임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 Value Proposition Canvas                    │
-├──────────────────────────────────────────────────────────────┤
-│ Value Map                         Customer Profile           │
-│ ┌──────────────────────┐         ┌──────────────────────┐   │
-│ │ Products & Services  │ ─────▶ │ Customer Jobs        │   │
-│ │ Pain Relievers       │ ─────▶ │ Pains                │   │
-│ │ Gain Creators        │ ─────▶ │ Gains                │   │
-│ └──────────────────────┘   FIT   └──────────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Proposition Canvas</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Map Customer Profile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Products &amp; Services</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Customer Jobs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pain Relievers</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Pains</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gain Creators</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Gains</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIT</div></div>
+</div>
+</div>
+
+
 
 여기서 핵심은 왼쪽을 먼저 채우는 것이 아니라 오른쪽 고객 프로필부터 정리해야 한다는 점이다. 고객이 실제로 중요하게 느끼는 일과 고통이 선행되어야, 왼쪽 제품 가치가 의미를 가진다.
 
@@ -59,7 +61,7 @@ VPC는 크게 고객 프로필 ([Customer](/knowledge-base/studynote/12_it_manag
 
 좋은 캔버스는 이 여섯 칸을 같은 무게로 채우지 않는다. 고객이 중요하게 느끼는 상위 Jobs, Pains, Gains를 먼저 우선순위화하고, 그다음 제품 측 대응 요소를 매칭해야 한다. 예를 들어 "모바일 선주문"이라는 기능은 그 자체가 가치가 아니라, "출근 시간 줄 서기 스트레스 감소"라는 Pain에 대응할 때 비로소 의미가 생긴다.
 
-VPC의 핵심 원리는 완성된 적합성 선언이 아니라 **가설의 대응 관계를 명시**하는 데 있다. 하나의 Pain에 여러 Pain Reliever가 연결될 수도 있고, 어떤 기능은 Jobs에는 맞지만 Gains에는 약할 수도 있다. 따라서 캔버스는 정답표보다 실험 설계도에 가깝다.
+VPC의 핵심 원리는 완성된 적합성 선언이 아니라 <strong>가설의 대응 관계를 명시</strong>하는 데 있다. 하나의 Pain에 여러 Pain Reliever가 연결될 수도 있고, 어떤 기능은 Jobs에는 맞지만 Gains에는 약할 수도 있다. 따라서 캔버스는 정답표보다 실험 설계도에 가깝다.
 
 - **📢 섹션 요약 비유**: VPC는 옷장을 보는 것이 아니라 사람의 몸 치수와 입는 상황을 먼저 보고 옷을 고르는 과정과 같다. 예쁜 옷보다 몸에 맞고 움직임에 맞는 옷이 진짜 가치다.
 
@@ -131,21 +133,23 @@ VPC의 핵심 원리는 완성된 적합성 선언이 아니라 **가설의 대�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고객 관찰 · 인터뷰
-    │
-    ▼
-Jobs / Pains / Gains 정리
-    │
-    ▼
-Value Map 매핑
-    │
-    ▼
-Fit 가설 수립
-    │
-    ▼
-MVP 실험 · PMF 검증 · 비즈니스 모델 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객 관찰 · 인터뷰</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Jobs / Pains / Gains 정리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Value Map 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fit 가설 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP 실험 · PMF 검증 · 비즈니스 모델 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 고객 이해에서 출발해, 가치 매핑과 적합성 가설을 거쳐 제품 실험과 사업 확장으로 이어지는 설계 경로를 보여 준다.
 

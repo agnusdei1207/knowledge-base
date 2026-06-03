@@ -21,19 +21,22 @@ tags = ["studynote-ai"]
 
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 일반화 오차(Generalization Error)를 개선하려면 오차의 원천을 정확히 진단해야 한다. 편향-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분해 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)-[Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Decomposition)는 오차를 수학적으로 해부하는 핵심 도구다.
 
-- **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: 모델의 예측 평균과 실제 값의 차이 → 모델 복잡도 부족 (과소적합)
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**: 다른 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련 시 예측값의 변동성 → 모델 복잡도 과잉 (과적합)
+- <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델의 예측 평균과 실제 값의 차이 → 모델 복잡도 부족 (과소적합)
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 다른 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련 시 예측값의 변동성 → 모델 복잡도 과잉 (과적합)
 
 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법은 이 두 문제를 구조적으로 해결한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편향은 "과녁 중심에서 체계적으로 빗나가는 것", [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "여기저기 흩어져 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 것"이다. 명중률을 높이려면 두 가지를 동시에 줄여야 한다.
 
@@ -74,19 +77,22 @@ Fₘ(x) = Fₘ₋₁(x) + η · hₘ(x)   (η: 학습률)
 hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 ```
 
-```
-┌───────────────────────────────────────────────────────┐
-│ Bagging (병렬)                                        │
-│  데이터 → [트리1] ─┐                                  │
-│  데이터 → [트리2] ─┼─ 평균(회귀)/투표(분류) → ŷ_bag  │
-│  데이터 → [트리n] ─┘                                  │
-│                                                       │
-│ Boosting (순차)                                       │
-│  데이터 → [트리1] → 잔차1 →                           │
-│           [트리2] → 잔차2 → ... →                     │
-│           [트리n] → 합산 → ŷ_boost                    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bagging (병렬)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리1</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">ŷ_bag</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리n</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boosting (순차)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">잔차1 →</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">잔차2 → ... →</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리n</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">합산 → ŷ_boost</div></div>
+</div>
+</div>
+
+
 
 | 방법 | 해결 문제 | 결합 방식 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 |:---|:---|:---|:---|
@@ -114,12 +120,12 @@ hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**:
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 - n_estimators ↑ → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소, 연산 증가
 - max_features ↓ → ρ 감소 (특성 다양성), 편향 소폭 증가
 - max_depth 제한 → 개별 트리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통제
 
-**XGBoost/LightGBM [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**:
+<strong>XGBoost/LightGBM <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 - n_estimators × learning_rate 균형이 핵심
 - subsample, colsample_bytree → [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) 요소 추가로 과적합 방지
 - [early stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) → 과적합 임계점 탐지

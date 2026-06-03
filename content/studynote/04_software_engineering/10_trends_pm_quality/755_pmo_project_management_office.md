@@ -24,7 +24,7 @@ tags = ["studynote-software-engineering"]
 
 PM(프로젝트 매니저)들은 당장 자기 프로젝트 일정 맞추기에 급급해서 회사 전체의 이익이나 표준 품질(Quality)을 챙길 여력이 없다. 
 
-이 무법지대를 통제하기 위해, **"모든 프로젝트가 회사의 표준 규칙(방법론)대로 돌아가는지 감시하고, PM들이 공통으로 필요한 템플릿과 인력을 지원해 주는 중앙 관제탑"**을 세우기로 했다. 이것이 바로 **[PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))**다.
+이 무법지대를 통제하기 위해, <strong>"모든 프로젝트가 회사의 표준 규칙(방법론)대로 돌아가는지 감시하고, PM들이 공통으로 필요한 템플릿과 인력을 지원해 주는 중앙 관제탑"</strong>을 세우기로 했다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/">PMO</a>(<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/">Project Management Office</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: PMO는 오케스트라의 '지휘자'다. 바이올리니스트(PM)가 아무리 연주를 잘해도 혼자 박자를 무시하고 빨리 켜면 음악(전사 비즈니스)이 망친다. 지휘자는 모든 악기가 똑같은 악보(표준 방법론)를 보고 똑같은 박자로 연주하도록 통제한다.
 
@@ -32,18 +32,17 @@ PM(프로젝트 매니저)들은 당장 자기 프로젝트 일정 맞추기에 
 
 다음은 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 전사 품질 통제 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 조직의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  PMO 전사 품질 통제 및 감사 조직                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMO 전사 품질 통제 및 감사 조직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) 전사 품질 통제 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 조직가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -108,7 +107,7 @@ PMO는 프로젝트 관리자(PM)와 종종 헷갈리지만, 시야([Scope](/kno
 
 강력한 PMO가 정착되면, 특정 영웅 개발자에게 의존하던 회사가 '시스템과 프로세스'로 돌아가는 진정한 소프트웨어 기업([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3 이상)으로 환골탈태한다. A 프로젝트에서 발견된 치명적 버그 해결책이 PMO를 통해 B 프로젝트에 즉시 공유되는 '조직적 지식 자산화'가 이루어진다.
 
-결론적으로 기술 리더에게 PMO는 양날의 검이다. 엑셀이나 취합하는 관료제 조직으로 만들면 회사의 혁신 속도를 갉아먹는 암 덩어리가 되지만, **자동화된 툴체인과 최고 수준의 기술력을 갖춘 특공대(SWAT)**로 조직하면 전사 프로젝트의 품질을 폭발적으로 끌어올리는 최고의 파트너가 된다.
+결론적으로 기술 리더에게 PMO는 양날의 검이다. 엑셀이나 취합하는 관료제 조직으로 만들면 회사의 혁신 속도를 갉아먹는 암 덩어리가 되지만, <strong>자동화된 툴체인과 최고 수준의 기술력을 갖춘 특공대(SWAT)</strong>로 조직하면 전사 프로젝트의 품질을 폭발적으로 끌어올리는 최고의 파트너가 된다.
 
 - **📢 섹션 요약 비유**: PMO는 학교의 '교감 선생님'이다. 수업(프로젝트)은 담임 선생님(PM)이 하지만, 학교 폭력(보안 사고)을 예방하고, 좋은 교보재(프레임워크)를 사서 반마다 나눠주고, 옆 반 선생님과 싸우지 않게 조율해 주는 것이 교감 선생님의 묵묵하고 위대한 역할이다.
 
@@ -131,21 +130,23 @@ PMO는 프로젝트 관리자(PM)와 종종 헷갈리지만, 시야([Scope](/kno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-PMO 전사 품질 통제 및 감사 조직 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PMO 전사 품질 통제 및 감사 조직 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: CQRS는 영어 길어서 쫄 필요 없다. 
-  - **[Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) (명령)**: "돈 넣어라, 비번 바꿔라" ➡ DB 상태를 바꾸는(Write, Update, Delete) 묵직한 삽질.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> (명령)</strong>: "돈 넣어라, 비번 바꿔라" ➡ DB 상태를 바꾸는(Write, Update, Delete) 묵직한 삽질.
   - **Query (조회)**: "내 잔고 얼마냐?" ➡ DB 상태를 건드리지 않고 눈으로 보기만 하는(Read) 깃털 같은 행위.
   - **책임 분리 (RS)**: 이 삽질과 눈팅을 똑같은 1개의 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) DB 서버에서 처리하지 말고, 아예 DB를 2개로 찢어서 "삽질 전용 DB", "눈팅 전용 DB"로 역할을 완벽히 나누자(Segregation)는 흑마법이다.
 
-- **필요성**: 쿠팡 같은 이커머스에서 고객들은 물건을 사기(Write) 전에 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 새로고침과 검색(Read)을 100번씩 누른다. 트래픽 비율이 99(Read) : 1(Write)이다. 그런데 옛날엔 통짜 DB 1개로 이걸 다 받았다. 10만 명이 검색([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))을 쾅쾅 때리니까 DB CPU가 100% 치솟아서, 정작 물건을 사려는 1명의 귀중한 결제(UPDATE) 쿼리가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 렉에 걸려 뻗어버렸다([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)). **"수만 명의 윈도우 쇼핑(조회) 트래픽이, 회사 돈줄인 단 1명의 결제([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 트래픽의 목을 조르는 비극을 막기 위해 뼈와 살을 분리하는 외과 수술"**이 CQRS다.
+- **필요성**: 쿠팡 같은 이커머스에서 고객들은 물건을 사기(Write) 전에 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 새로고침과 검색(Read)을 100번씩 누른다. 트래픽 비율이 99(Read) : 1(Write)이다. 그런데 옛날엔 통짜 DB 1개로 이걸 다 받았다. 10만 명이 검색([SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))을 쾅쾅 때리니까 DB CPU가 100% 치솟아서, 정작 물건을 사려는 1명의 귀중한 결제(UPDATE) 쿼리가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 렉에 걸려 뻗어버렸다([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)). <strong>"수만 명의 윈도우 쇼핑(조회) 트래픽이, 회사 돈줄인 단 1명의 결제(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>) 트래픽의 목을 조르는 비극을 막기 위해 뼈와 살을 분리하는 외과 수술"</strong>이 CQRS다.
 
-- **💡 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 안 하는 옛날 시스템은 **'[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 1개짜리 동네 김밥천국'**입니다. 아줌마 한 명이 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 요리 주문([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))도 받고, "화장실 어딨어요?(Query)" 질문도 100번씩 받습니다. 질문하려는 사람 줄이 길어지면, 정작 10만 원어치 결제하려는 손님이 빡쳐서 나갑니다. CQRS는 **'대형 종합 병원의 원무과와 안내 데스크의 분리'**입니다. 돈 내고 입원 수속([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 하는 무거운 업무는 원무과 창구([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB)에서만 은밀하게 1:1로 처리하고, "화장실 어딨어요? 1번 진료실 어디에요?(Query)" 같은 가벼운 질문은 로비 한가운데 세워둔 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 터치스크린 안내판 10대(읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB들)가 다 튕겨내 버려 원무과의 숨통을 완벽히 틔워주는 분업술입니다.
+- **💡 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 안 하는 옛날 시스템은 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 1개짜리 동네 김밥천국'</strong>입니다. 아줌마 한 명이 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 요리 주문([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))도 받고, "화장실 어딨어요?(Query)" 질문도 100번씩 받습니다. 질문하려는 사람 줄이 길어지면, 정작 10만 원어치 결제하려는 손님이 빡쳐서 나갑니다. CQRS는 <strong>'대형 종합 병원의 원무과와 안내 데스크의 분리'</strong>입니다. 돈 내고 입원 수속([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)) 하는 무거운 업무는 원무과 창구([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB)에서만 은밀하게 1:1로 처리하고, "화장실 어딨어요? 1번 진료실 어디에요?(Query)" 같은 가벼운 질문은 로비 한가운데 세워둔 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 터치스크린 안내판 10대(읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB들)가 다 튕겨내 버려 원무과의 숨통을 완벽히 틔워주는 분업술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **CRUD의 한계 (전통적)**: 개발자들은 숨 쉬듯 C([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)), R(읽기), U/D([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))를 하나의 덩어리로 짰다. 조회할 때마다 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 5개를 묶어 때리니 1명 조회에 3초씩 걸렸다.
-  2. **Master-Slave DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) (과도기)**: "조회 트래픽이 빡세네? 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본(Read Replica) DB를 두자!" 이 정도까진 CQRS가 아니다. 그냥 DB만 2대인 거다. 여전히 테이블 구조가 똑같아서 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 지옥은 그대로였다.
-  3. **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 패턴 탄생 (Greg Young 창시)**: "야, 어차피 읽기 전용 DB 띄울 거면, 아예 테이블 구조도 화면에 뿌리기 좋게([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 찰흙처럼 뭉개서 미리 저장해 둬! 그럼 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 1도 없이 0.001초 만에 튕겨내잖아!" 극단의 퍼포먼스 최적화 사상으로 진화했다.
+  2. <strong>Master-Slave DB <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (과도기)</strong>: "조회 트래픽이 빡세네? 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본(Read Replica) DB를 두자!" 이 정도까진 CQRS가 아니다. 그냥 DB만 2대인 거다. 여전히 테이블 구조가 똑같아서 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 지옥은 그대로였다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴 탄생 (Greg Young 창시)</strong>: "야, 어차피 읽기 전용 DB 띄울 거면, 아예 테이블 구조도 화면에 뿌리기 좋게([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 찰흙처럼 뭉개서 미리 저장해 둬! 그럼 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 1도 없이 0.001초 만에 튕겨내잖아!" 극단의 퍼포먼스 최적화 사상으로 진화했다.
 
-- **📢 섹션 요약 비유**: 옛날 CRUD 방식은 손님이 피자를 시킬 때마다 주방장이 도우를 반죽하고 굽는 **'수제 피자집(매번 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산)'**입니다. 1명에 20분 걸립니다. CQRS는 **'맥도날드 피자 뷔페'**입니다. 주방([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB)에서 피자를 굽자마자 뷔페 진열대(읽기 DB)에 쫙 깔아둡니다. 손님(조회 트래픽) 수만 명이 몰려와도 주방장한테 말 안 걸고 뷔페 진열대에서 피자(이미 완성된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 0.1초 만에 쏙쏙 집어가면 끝나는, 무자비한 대량 조회의 치트키입니다.
+- **📢 섹션 요약 비유**: 옛날 CRUD 방식은 손님이 피자를 시킬 때마다 주방장이 도우를 반죽하고 굽는 <strong>'수제 피자집(매번 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a> 연산)'</strong>입니다. 1명에 20분 걸립니다. CQRS는 <strong>'맥도날드 피자 뷔페'</strong>입니다. 주방([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB)에서 피자를 굽자마자 뷔페 진열대(읽기 DB)에 쫙 깔아둡니다. 손님(조회 트래픽) 수만 명이 몰려와도 주방장한테 말 안 걸고 뷔페 진열대에서 피자(이미 완성된 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 0.1초 만에 쏙쏙 집어가면 끝나는, 무자비한 대량 조회의 치트키입니다.
 
 ---
 
 다음은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CQRS (명령과 조회 책임 분리)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS (명령과 조회 책임 분리)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) (명령과 조회 책임 분리)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-CQRS (명령과 조회 책임 분리) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CQRS (명령과 조회 책임 분리) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

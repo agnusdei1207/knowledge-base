@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 기술이 필요해진 이유는 SSD가 빨라졌는데도, 이를 제어하는 규약이 여전히 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive) 시대의 전제를 끌고 왔기 때문이다. [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/))와 AHCI는 회전 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 탐색 시간을 가진 디스크에 맞춰졌기 때문에, 명령 수가 적고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 제한적이었다. 플래시는 기계적 이동이 없으므로 수많은 I/O를 동시에 받아도 되는데, 인터페이스가 이를 막고 있었던 셈이다.
 
-특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 게임 로딩, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재처럼 짧고 많은 I/O가 몰리는 환경에서는 저장 매체보다 명령 처리 경로가 병목이 된다. NVMe는 이 병목을 줄이기 위해 CPU 코어별 큐 분리, 짧은 명령 경로, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 직결 구조를 채택했다. 따라서 NVMe를 이해할 때는 “SSD가 빠르다”가 아니라, **SSD의 속도를 막던 제어 구조를 걷어낸 아키텍처 전환**으로 보는 것이 정확하다.
+특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 게임 로딩, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재처럼 짧고 많은 I/O가 몰리는 환경에서는 저장 매체보다 명령 처리 경로가 병목이 된다. NVMe는 이 병목을 줄이기 위해 CPU 코어별 큐 분리, 짧은 명령 경로, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 직결 구조를 채택했다. 따라서 NVMe를 이해할 때는 “SSD가 빠르다”가 아니라, <strong>SSD의 속도를 막던 제어 구조를 걷어낸 아키텍처 전환</strong>으로 보는 것이 정확하다.
 
 | 배경 문제 | 기존 구조의 한계 | NVMe가 겨냥한 개선 |
 | :-- | :-- | :-- |
@@ -38,35 +38,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NVMe의 핵심은 **제어 경로를 단순하게 하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화한 것**이다. 호스트는 메모리에 제출 큐 (Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))와 완료 큐 (Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 만들고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))로 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽고 쓴다. CPU는 “도어벨 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)”를 눌러 새 명령이 들어왔음을 알리고, 작업 완료는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 폴링으로 확인한다.
+NVMe의 핵심은 <strong>제어 경로를 단순하게 하고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경로를 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화한 것</strong>이다. 호스트는 메모리에 제출 큐 (Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))와 완료 큐 (Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 만들고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))로 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 읽고 쓴다. CPU는 “도어벨 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)”를 눌러 새 명령이 들어왔음을 알리고, 작업 완료는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 폴링으로 확인한다.
 
 이 구조가 중요한 이유는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 컨트롤러 사이의 왕복 비용을 줄이면서도, 여러 코어가 서로 다른 큐를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 사용할 수 있게 해 주기 때문이다. AHCI가 하나의 접수창구에 명령을 몰아넣는 구조였다면, NVMe는 코어별 전용 창구를 둘 수 있다. 그 결과 락 경쟁, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 병목, 큐 헤드 다툼이 줄어든다.
 
 아래 그림은 NVMe가 왜 멀티코어와 잘 맞는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    NVMe 큐 기반 I/O 처리 구조                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU Core 0            CPU Core 1            CPU Core 2                    │
-│    │                     │                     │                           │
-│    ▼                     ▼                     ▼                           │
-│ SQ 0 / CQ 0          SQ 1 / CQ 1          SQ 2 / CQ 2                     │
-│    └──────────────┬──────┴──────────────┬──────┘                           │
-│                   ▼                     ▼                                  │
-│             [ Host Memory Queue Pair Array ]                               │
-│                               │                                            │
-│                     Doorbell Register Write                                │
-│                               │                                            │
-│                               ▼                                            │
-│                    [ NVMe Controller on PCIe ]                             │
-│                               │                                            │
-│                     DMA Read/Write Data Blocks                             │
-│                               │                                            │
-│                               ▼                                            │
-│                      [ NAND Flash / Media ]                                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe 큐 기반 I/O 처리 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 0 CPU Core 1 CPU Core 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQ 0 / CQ 0 SQ 1 / CQ 1 SQ 2 / CQ 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host Memory Queue Pair Array</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doorbell Register Write</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NVMe Controller on PCIe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Read/Write Data Blocks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAND Flash / Media</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 매번 CPU를 통과하는 것이 아니라, 큐와 DMA를 중심으로 흐른다는 점이다. 그래서 NVMe는 빠른 매체를 단순히 “연결”하는 것이 아니라, 명령 발행과 완료 처리까지 포함한 전체 I/O 경로를 짧게 만든다.
 
@@ -101,7 +94,7 @@ NVMe를 제대로 이해하려면 “[SSD](/knowledge-base/studynote/01_computer
 
 또 하나의 연결 포인트는 폼팩터와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 구분이다. M.2는 물리적 모양이고, NVMe는 논리적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 따라서 M.2 SSD라고 해서 모두 NVMe는 아니며, M.2 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSD도 존재한다. 실무에서 “M.2니까 빠르다”라고 단정하면 제품 선택을 잘못할 수 있다.
 
-마지막으로 NVMe는 이후 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) ([NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/))로 확장된다. 즉 NVMe는 로컬 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치에서 끝나는 규약이 아니라, 저지연 원격 스토리지까지 이어지는 기반 언어가 된다. 그래서 NVMe는 단일 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기술이 아니라, **현대 스토리지 계층 전체를 재편하는 중심 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**로 연결된다.
+마지막으로 NVMe는 이후 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) ([NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/))로 확장된다. 즉 NVMe는 로컬 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치에서 끝나는 규약이 아니라, 저지연 원격 스토리지까지 이어지는 기반 언어가 된다. 그래서 NVMe는 단일 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기술이 아니라, <strong>현대 스토리지 계층 전체를 재편하는 중심 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로 연결된다.
 
 - **📢 섹션 요약 비유**: SSD는 물건을 담는 창고 종류이고, NVMe는 그 창고로 드나드는 출입 체계다. 같은 창고라도 좁은 문 하나로 드나드느냐, 여러 대의 지게차가 동시에 들어오는 물류 게이트를 쓰느냐에 따라 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 완전히 달라진다.
 
@@ -109,24 +102,24 @@ NVMe를 제대로 이해하려면 “[SSD](/knowledge-base/studynote/01_computer
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 채택은 “최신이니까 무조건 좋다”가 아니라, **워크로드가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O와 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 실제로 활용하는가**로 판단해야 한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부팅 디스크, 대규모 빌드 캐시, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 가상 머신 스토리지, 영상 편집 스크래치 디스크는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 효과가 크다. 반면 장기 보관용 아카이브나 순차 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 중심 환경은 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSD나 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 계층이 더 경제적일 수 있다.
+실무에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 채택은 “최신이니까 무조건 좋다”가 아니라, <strong>워크로드가 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> I/O와 낮은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 실제로 활용하는가</strong>로 판단해야 한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부팅 디스크, 대규모 빌드 캐시, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 가상 머신 스토리지, 영상 편집 스크래치 디스크는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 효과가 크다. 반면 장기 보관용 아카이브나 순차 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 중심 환경은 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSD나 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 계층이 더 경제적일 수 있다.
 
 특히 소비자 환경에서는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세대와 레인 수를 반드시 확인해야 한다. 예를 들어 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD라도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 3.0 x2 슬롯에 꽂히면 고성능 모델의 잠재력을 다 쓰지 못한다. 노트북과 소형 시스템에서는 발열이 누적되면 스로틀링 ([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))이 발생해 지속 성능이 급격히 떨어질 수 있으므로, 방열판·공기 흐름·메인보드 배치까지 함께 봐야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **작은 랜덤 I/O가 많은가?** 그렇다면 NVMe의 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 IOPS (Input/Output Operations Per Second) 이점이 크다.
-2. **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세대와 레인 수가 충분한가?** 고성능 SSD라도 호스트 경로가 좁으면 병목이 남는다.
-3. **지속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발열을 관리할 수 있는가?** 얇은 노트북이나 밀집 서버는 열로 인해 성능이 흔들릴 수 있다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> 세대와 레인 수가 충분한가?</strong> 고성능 SSD라도 호스트 경로가 좁으면 병목이 남는다.
+3. <strong>지속 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 발열을 관리할 수 있는가?</strong> 얇은 노트북이나 밀집 서버는 열로 인해 성능이 흔들릴 수 있다.
 4. **비용 대비 체감이 필요한가?** 단순 문서 저장·아카이브라면 NVMe의 초과 성능이 낭비될 수 있다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **M.2 = NVMe로 오해하는 구성**
 - **OS와 메인보드가 구형인데 최고속 NVMe만 먼저 구매하는 선택**
-- **벤치마크 순차 읽기 수치만 보고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 성능을 단정하는 판단**
+- <strong>벤치마크 순차 읽기 수치만 보고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>·<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 성능을 단정하는 판단</strong>
 
-기술사 관점의 핵심은 다음 문장으로 정리된다. **NVMe는 저장장치 자체보다, 호스트와 저장장치 사이의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 명령 경로를 최적화하는 기술이며, 효과는 워크로드와 시스템 경로가 함께 맞을 때 극대화된다.** 즉 제품 명칭보다 아키텍처 적합성을 먼저 봐야 한다.
+기술사 관점의 핵심은 다음 문장으로 정리된다. <strong>NVMe는 저장장치 자체보다, 호스트와 저장장치 사이의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 명령 경로를 최적화하는 기술이며, 효과는 워크로드와 시스템 경로가 함께 맞을 때 극대화된다.</strong> 즉 제품 명칭보다 아키텍처 적합성을 먼저 봐야 한다.
 
 - **📢 섹션 요약 비유**: NVMe는 고속 엘리베이터를 설치하는 일과 같다. 사람이 적은 2층 건물에서는 과한 투자일 수 있지만, 출퇴근 시간에 수천 명이 몰리는 초고층 건물에서는 엘리베이터 품질이 건물 전체 체감을 바꾼다.
 
@@ -138,7 +131,7 @@ NVMe를 적절히 도입하면 시스템은 더 짧은 [응답 시간](/knowledg
 
 하지만 전제조건도 분명하다. NVMe는 SATA보다 비쌀 수 있고, 발열 밀도가 높으며, 메인보드 레인 공유나 폼팩터 제약에 민감하다. 또한 모든 작업이 NVMe의 장점을 똑같이 누리는 것은 아니므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관용 계층과 고속 처리 계층을 분리하는 설계가 여전히 중요하다.
 
-앞으로의 확장 방향은 세 가지로 정리할 수 있다. 첫째, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세대 상승으로 단일 장치 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 계속 커진다. 둘째, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF를 통해 로컬 수준의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성을 네트워크 스토리지로 확장한다. 셋째, 계산 스토리지와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약형 가속기 환경에서 NVMe는 더 직접적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 경로의 일부가 된다. 결국 NVMe는 “빠른 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)”가 아니라, **플래시 시대에 맞는 저장 명령 체계를 정립한 표준**으로 기억해야 한다.
+앞으로의 확장 방향은 세 가지로 정리할 수 있다. 첫째, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 세대 상승으로 단일 장치 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 계속 커진다. 둘째, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF를 통해 로컬 수준의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성을 네트워크 스토리지로 확장한다. 셋째, 계산 스토리지와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약형 가속기 환경에서 NVMe는 더 직접적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 경로의 일부가 된다. 결국 NVMe는 “빠른 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)”가 아니라, <strong>플래시 시대에 맞는 저장 명령 체계를 정립한 표준</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: NVMe는 단순히 더 큰 창고가 아니라, 바쁜 도시 전체의 물류 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 다시 설계한 변화다. 그래서 잘 맞는 곳에 놓으면 도시 흐름이 확 달라지지만, 필요 없는 곳에 넣으면 좋은 장비가 놀게 된다.
 
@@ -157,27 +150,28 @@ NVMe를 적절히 도입하면 시스템은 더 짧은 [응답 시간](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-HDD 중심 인터페이스
-    │
-    ▼
-AHCI (Advanced Host Controller Interface) · SATA (Serial ATA)
-    │
-    ▼
-SSD (Solid State Drive) 대중화
-    │
-    ▼
-PCIe (Peripheral Component Interconnect Express) 기반 NVMe
-    │
-    ├─▶ 다중 큐 · 저지연 I/O
-    ├─▶ M.2 · U.2 폼팩터 확산
-    └─▶ 서버 · 워크스테이션 고성능 스토리지
-    │
-    ▼
-NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처
-```
 
-이 흐름은 저장 매체의 발전보다도, **저장장치를 제어하는 명령 체계가 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 중심에서 플래시 중심으로 이동한 과정**을 보여준다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">HDD 중심 인터페이스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AHCI (Advanced Host Controller Interface) · SATA (Serial ATA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD (Solid State Drive) 대중화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCIe (Peripheral Component Interconnect Express) 기반 NVMe</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 다중 큐 · 저지연 I/O</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ M.2 · U.2 폼팩터 확산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 서버 · 워크스테이션 고성능 스토리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처</div>
+</div>
+</div>
+
+
+
+이 흐름은 저장 매체의 발전보다도, <strong>저장장치를 제어하는 명령 체계가 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a> 중심에서 플래시 중심으로 이동한 과정</strong>을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

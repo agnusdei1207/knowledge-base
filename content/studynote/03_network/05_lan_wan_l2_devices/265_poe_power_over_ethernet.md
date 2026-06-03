@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블에 내장된 8가닥의 얇은 구리선 중, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 쓰지 않는 예비 선이나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선 자체에 직류 전압을 미세하게 중첩시켜 말단 장치에 전원을 공급하는 IEEE 표준 기술이다.
 - **필요성**: 사무실 천장에 무선 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 50개 달아야 한다고 치자. 천장 속에는 인터넷 랜선만 지나갈 뿐, 220V 콘센트는 없다. 공유기를 켜기 위해 천장을 다 뜯고 전기 배선 공사를 추가로 해야 할까? 이 막대한 비용과 낭비를 막고자 "어차피 랜선 안에 구리선이 8가닥이나 있는데, 거기다 전기를 같이 실어 보내면 안 될까?"라는 천재적인 아이디어가 상용화되었다.
 
-- **💡 비유**: 일반적인 유선 마우스는 컴퓨터 본체에 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 선 하나만 꽂으면 딸깍딸깍([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 신호도 가고, 마우스 바닥에 빨간 불(전력)도 들어옵니다. 굳이 마우스에 건전지를 넣거나 220V 콘센트를 꽂지 않습니다. **PoE는 이 USB의 편리함을 거대한 빌딩 층 전체의 네트워크 장비로 확장시킨 "거대한 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 네트워크"**와 같습니다.
+- **💡 비유**: 일반적인 유선 마우스는 컴퓨터 본체에 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 선 하나만 꽂으면 딸깍딸깍([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 신호도 가고, 마우스 바닥에 빨간 불(전력)도 들어옵니다. 굳이 마우스에 건전지를 넣거나 220V 콘센트를 꽂지 않습니다. <strong>PoE는 이 USB의 편리함을 거대한 빌딩 층 전체의 네트워크 장비로 확장시킨 "거대한 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 네트워크"</strong>와 같습니다.
 
-```text
-[PAgP]
-    │
-    ▼
-[PoE]
-    │
-    └──▶ [전용선 기초]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PAgP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PoE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전용선 기초</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** PoE는 **"통신선과 전기선을 샴쌍둥이처럼 한 몸으로 합쳐버린 기적의 케이블링"**입니다. 천장에 콘센트 구멍을 뚫는 전기 기사를 부를 필요 없이, 네트워크 엔지니어 혼자서 선 하나로 불을 켤 수 있습니다.
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 
 ### 1. 전기를 어떻게 싣는가? (PSE와 PD)
 PoE 생태계는 전기를 뿜어주는 장비와 받는 장비로 나뉜다.
-- **PSE ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Sourcing Equipment)**: 전기를 쏘아주는 쪽. (일반적으로 고가의 PoE 전용 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.)
+- <strong>PSE (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Sourcing Equipment)</strong>: 전기를 쏘아주는 쪽. (일반적으로 고가의 PoE 전용 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.)
 - **PD (Powered Device)**: 전기를 받아먹고 켜지는 쪽. ([CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 인터넷 전화기, 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 등)
 
 **충돌 방지 원리**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신호는 초당 1억 번 진동하는 고주파([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 형태) 신호이고, PoE 전력은 잔잔한 직류 48V(DC) 전압이다. 주파수 대역이 완전히 다르므로 섞여도 간섭이 일어나지 않는다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 아무 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에나 전기를 막 쏘지 않고, 선을 꽂았을 때 미세한 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 검사(Discovery)를 하여 저 끝에 매달린 장비가 "전기를 받아먹을 수 있는 PD"인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후에만 48V 전류를 밀어 넣는다. (노트북을 꽂았다고 노트북 랜카드가 타버리진 않는다.)
@@ -55,23 +59,20 @@ PoE 생태계는 전기를 뿜어주는 장비와 받는 장비로 나뉜다.
 | **IEEE 802.3at** | PoE+ (플러스) | **30 W** | 듀얼밴드 Wi-Fi 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 상하좌우 회전(PTZ) [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) |
 | **IEEE 802.3bt** | UPoE / PoE++ | **60 W ~ 90 W** | 소형 스마트 TV, 최신형 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 빌딩 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명 |
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    PoE (Power over Ethernet) 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PoE 지원 스위치 (PSE) ]                                    │
- │        │   ▲                                                │
- │        │   │ 콘센트(220V)에서 전기를 왕창 끌어옴                    │
- │        │                                                    │
- │        ▼ (UTP 랜선 1가닥으로 데이터(Data) + 전력(Power) 동시 전송)  │
- │   ========================================                  │
- │                                                             │
- │   [ 무선 공유기 (PD) ]  ◀── 천장에 매달려 있음. 220V 플러그 없음!    │
- │       (Wi-Fi 팡팡!)                                           │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoE (Power over Ethernet) 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PoE 지원 스위치 (PSE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콘센트(220V)에서 전기를 왕창 끌어옴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (UTP 랜선 1가닥으로 데이터(Data) + 전력(Power) 동시 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무선 공유기 (PD)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 천장에 매달려 있음. 220V 플러그 없음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wi-Fi 팡팡!)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PoE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -93,7 +94,7 @@ PoE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **전력 예산 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Budget)**: 24포트 PoE [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 파워 서플라이 한계(예: 370W)가 있다. 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 30W짜리 AP를 꽂으면 24 * 30 = 720W가 필요하므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 감당하지 못해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 몇 개의 전원을 차단해 버린다.
+- <strong>전력 예산 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Budget)</strong>: 24포트 PoE [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 파워 서플라이 한계(예: 370W)가 있다. 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 30W짜리 AP를 꽂으면 24 * 30 = 720W가 필요하므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 감당하지 못해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 몇 개의 전원을 차단해 버린다.
 - **케이블 발열**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블로 전기가 흐르면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 때문에 열이 난다. 수백 가닥의 PoE 선을 꽁꽁 묶어두면 화재가 발생하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이 생길 수 있으므로 발열 통풍에 신경 써야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -125,15 +126,19 @@ PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PAgP]
-    │
-    ▼
-[현재 개념: PoE]
-    │
-    ├──▶ [확장 A: 전용선 기초]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PAgP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PoE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 전용선 기초</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -25,22 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전송 시간이 "디스크 표면 → 장치 버퍼 → 시스템 메모리"의 연속 흐름에서 결정된다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              전송 시간의 실제 경로: 찾은 뒤에 얼마나 빨리 옮기나     │
-├──────────────────────────────────────────────────────────────────────┤
-│ [Platter/낸드 플래시] ── 내부 읽기 ──▶ [Device Buffer] ── 인터페이스 ──▶ │
-│                                                            주기억장치    │
-│      │                         │                            │        │
-│      │                         │                            └─ DMA    │
-│      │                         └─ 버스트 전송·프리패치                 │
-│      └─ 기록 밀도·회전수·채널 수가 좌우                                │
-│                                                                      │
-│ 핵심 병목                                                             │
-│ - HDD: 플래터에서 읽어내는 내부 전송률                                │
-│ - SSD: 낸드 채널 병렬도와 컨트롤러 처리량                             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 시간의 실제 경로: 찾은 뒤에 얼마나 빨리 옮기나</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Platter/낸드 플래시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Device Buffer</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기억장치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DMA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 버스트 전송·프리패치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기록 밀도·회전수·채널 수가 좌우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 병목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HDD: 플래터에서 읽어내는 내부 전송률</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SSD: 낸드 채널 병렬도와 컨트롤러 처리량</div></div>
+</div>
+</div>
+
+
 
 핵심은 케이블 표기 속도가 곧 실제 전송 시간이 아니라는 점이다. [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)) 3.0이 6Gb/s를 지원하더라도 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 내부 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 초당 200MB밖에 못 읽으면 체감 전송 시간은 내부 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 속도에 묶인다. 그래서 저장장치를 평가할 때는 인터페이스 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 전송률, 요청 크기를 함께 봐야 한다.
 
@@ -50,7 +51,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-전송 시간은 기본적으로 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 / 실효 전송률**로 계산된다. 가장 단순하게는 `T_transfer = B / R`이며, 여기서 `B`는 전송 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수, `R`은 초당 전송 가능한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수다. HDD에서는 `R`이 회전 속도와 트랙당 저장량에 의해 결정되어 `R ≈ r × N`으로 볼 수 있다. 여기서 `r`은 RPS (Revolutions Per Second, 초당 회전수), `N`은 한 바퀴 동안 헤드 아래를 지나가는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 양이다.
+전송 시간은 기본적으로 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 크기 / 실효 전송률</strong>로 계산된다. 가장 단순하게는 `T_transfer = B / R`이며, 여기서 `B`는 전송 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수, `R`은 초당 전송 가능한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수다. HDD에서는 `R`이 회전 속도와 트랙당 저장량에 의해 결정되어 `R ≈ r × N`으로 볼 수 있다. 여기서 `r`은 RPS (Revolutions Per Second, 초당 회전수), `N`은 한 바퀴 동안 헤드 아래를 지나가는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 양이다.
 
 즉 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 전송 시간을 줄이는 방법은 크게 두 가지다. 첫째, 회전 속도를 높여 같은 시간 동안 더 많은 섹터를 통과시키는 것이다. 둘째, 같은 회전수에서도 트랙 하나에 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣도록 기록 밀도를 높이는 것이다. 오늘날에는 발열과 진동 때문에 RPM 상승 여지가 작아졌으므로, 실제 경쟁력은 ZBR (Zoned [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Recording)처럼 바깥 트랙에 더 많은 섹터를 배치해 `N`을 키우는 방식에서 많이 나온다.
 
@@ -64,20 +65,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 ZBR이 왜 전송 시간에 직접 영향을 주는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 ZBR이 전송 시간을 줄이는 이유                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 안쪽 트랙 (둘레 짧음)      같은 1회전        바깥 트랙 (둘레 김)      │
-│ [ o o o o o o ]        ───────────────▶    [ o o o o o o o o o ]     │
-│   적은 섹터 수                                    많은 섹터 수        │
-│                                                                      │
-│ 7,200RPM이 동일해도                                                   │
-│ - 안쪽 트랙: 1회전에 읽는 양이 적음                                   │
-│ - 바깥 트랙: 1회전에 읽는 양이 많음                                   │
-│ => 같은 시간에 더 많은 바이트를 넘기므로 전송 시간이 짧아짐           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZBR이 전송 시간을 줄이는 이유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안쪽 트랙 (둘레 짧음) 같은 1회전 바깥 트랙 (둘레 김)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">o o o o o o</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">o o o o o o o o o</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적은 섹터 수 많은 섹터 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7,200RPM이 동일해도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 안쪽 트랙: 1회전에 읽는 양이 적음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 바깥 트랙: 1회전에 읽는 양이 많음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 같은 시간에 더 많은 바이트를 넘기므로 전송 시간이 짧아짐</div></div>
+</div>
+</div>
+
+
 
 이 차이 때문에 HDD는 같은 제품 안에서도 LBA (Logical Block Address) 위치에 따라 초반 영역이 후반 영역보다 빠르다. 반면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 회전 구조가 없으므로 위치별 차이보다 컨트롤러, 낸드 플래시 채널, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 증폭이 전송 시간을 좌우한다. 따라서 전송 시간을 이해할 때는 단순 공식만 외우기보다 "[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 한 단위 시간에 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 연속으로 뽑아낼 수 있는가"를 구조적으로 보는 것이 중요하다.
 
@@ -113,11 +116,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **요청 크기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 4KB 랜덤 중심인지, 1MB 이상 순차 중심인지 분리해서 본다.
-2. **실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 측정**: 인터페이스 스펙이 아니라 실제 MB/s를 측정한다.
+1. <strong>요청 크기 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 4KB 랜덤 중심인지, 1MB 이상 순차 중심인지 분리해서 본다.
+2. <strong>실효 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 측정</strong>: 인터페이스 스펙이 아니라 실제 MB/s를 측정한다.
 3. **배치 위치 고려**: HDD라면 빈번한 순차 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 빠른 외곽 영역에 배치하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 검토한다.
-4. **[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 활용**: 읽기 선행, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))를 통해 CPU 개입과 잔단위 전송을 줄인다.
-5. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 제거**: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼개 자주 동기화하는 구조를 피한다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a> 활용</strong>: 읽기 선행, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 캐시, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))를 통해 CPU 개입과 잔단위 전송을 줄인다.
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 제거</strong>: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 쪼개 자주 동기화하는 구조를 피한다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -155,21 +158,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-탐색 시간·회전 지연 인식
-        │
-        ▼
-전송 시간 (Transfer Time) 분리 측정
-        │
-        ▼
-ZBR (Zoned Bit Recording) · Read-Ahead · DMA
-        │
-        ▼
-RAID Striping · 대용량 순차 I/O 최적화
-        │
-        ▼
-SSD 병렬 채널 · NVMe (Non-Volatile Memory Express) 기반 고대역폭 스토리지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탐색 시간·회전 지연 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전송 시간 (Transfer Time) 분리 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZBR (Zoned Bit Recording) · Read-Ahead · DMA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAID Striping · 대용량 순차 I/O 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD 병렬 채널 · NVMe (Non-Volatile Memory Express) 기반 고대역폭 스토리지</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의가 "위치 찾기"에서 시작해, 점차 "얼마나 많이 동시에 옮길 수 있는가"로 확장되어 왔음을 보여준다.
 

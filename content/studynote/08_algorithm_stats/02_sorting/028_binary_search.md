@@ -18,13 +18,13 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-[선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)([Linear Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/))은 n개 원소를 순차적으로 확인하여 O(n)이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **정렬**되어 있다면, 중간값을 기준으로 탐색 범위를 절반으로 줄이는 **이분 탐색 ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))**으로 O(log n)을 달성할 수 있다.
+[선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)([Linear Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/))은 n개 원소를 순차적으로 확인하여 O(n)이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>정렬</strong>되어 있다면, 중간값을 기준으로 탐색 범위를 절반으로 줄이는 <strong>이분 탐색 (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">Binary Search</a>)</strong>으로 O(log n)을 달성할 수 있다.
 
 ### [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) vs 이분 탐색
 
 | 항목 | [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) | 이분 탐색 |
 |:---|:---:|:---:|
-| 전제 조건 | 없음 | **정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** |
+| 전제 조건 | 없음 | <strong>정렬된 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> |
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(n) | O(log n) |
 | n=10억에서 최대 비교 | 10억 번 | **30번** |
 | 구현 난이도 | 매우 쉬움 | 경계값 주의 |
@@ -37,45 +37,52 @@ tags = ["studynote-algorithm"]
 
 ### 기본 이분 탐색 구현
 
-```
-BinarySearch(arr, target):
-  left = 0, right = n - 1
-  while left <= right:
-    mid = left + (right - left) / 2  ← 오버플로우 방지
-    if arr[mid] == target: return mid
-    elif arr[mid] < target: left = mid + 1
-    else: right = mid - 1
-  return -1  ← 찾지 못함
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BinarySearch(arr, target):</div>
+<div class="kb-diagram-note">left = 0, right = n - 1</div>
+<div class="kb-diagram-note">while left &lt;= right:</div>
+<div class="kb-diagram-note">mid = left + (right - left) / 2 ← 오버플로우 방지</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">if arr</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">== target: return mid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">elif arr</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">&lt; target: left = mid + 1</div></div>
+<div class="kb-diagram-note">else: right = mid - 1</div>
+<div class="kb-diagram-note">return -1 ← 찾지 못함</div>
+</div>
+</div>
+
+
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 탐색 과정
 
-```
-배열: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-인덱스: 0  1  2  3  4   5   6   7   8   9
-목표: 7
 
-── 1단계 ──────────────────────────────────────
-left=0, right=9, mid=4
-arr[4]=9 > 7 → right = mid - 1 = 3
-[1, 3, 5, 7] ← 탐색 범위 절반으로
 
-── 2단계 ──────────────────────────────────────
-left=0, right=3, mid=1
-arr[1]=3 < 7 → left = mid + 1 = 2
-      [5, 7] ← 탐색 범위 또 절반
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">1, 3, 5, 7, 9, 11, 13, 15, 17, 19</div></div>
+<div class="kb-diagram-note">인덱스: 0 1 2 3 4 5 6 7 8 9</div>
+<div class="kb-diagram-note">목표: 7</div>
+<div class="kb-diagram-tree-item" style="--depth:0">1단계</div>
+<div class="kb-diagram-note">left=0, right=9, mid=4</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">right = mid - 1 = 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1, 3, 5, 7</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">탐색 범위 절반으로</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">2단계</div>
+<div class="kb-diagram-note">left=0, right=3, mid=1</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">left = mid + 1 = 2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5, 7</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">탐색 범위 또 절반</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">3단계</div>
+<div class="kb-diagram-note">left=2, right=3, mid=2</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">left = mid + 1 = 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">범위 1</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">4단계</div>
+<div class="kb-diagram-note">left=3, right=3, mid=3</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">발견! 인덱스 3 반환 ✅</div></div>
+<div class="kb-diagram-note">총 4단계 (log₂(10) ≈ 3.32, 올림 → 4)</div>
+</div>
+</div>
 
-── 3단계 ──────────────────────────────────────
-left=2, right=3, mid=2
-arr[2]=5 < 7 → left = mid + 1 = 3
-         [7] ← 범위 1
 
-── 4단계 ──────────────────────────────────────
-left=3, right=3, mid=3
-arr[3]=7 == 7 → 발견! 인덱스 3 반환 ✅
-
-총 4단계 (log₂(10) ≈ 3.32, 올림 → 4)
-```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -84,36 +91,46 @@ arr[3]=7 == 7 → 발견! 인덱스 3 반환 ✅
 | 최선 | O(1) (첫 번째 mid에서 발견) |
 | 평균/최악 | **O(log n)** |
 | 공간 | O(1) (반복 구현), O(log n) ([재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 구현) |
-| 전제 조건 | **정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** |
+| 전제 조건 | <strong>정렬된 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> |
 
 ### 하한(Lower Bound) / 상한(Upper Bound)
 
-중복값이 있을 때 특정 값의 **첫 번째 위치** 또는 **마지막 위치 다음**을 찾는 변형이다.
+중복값이 있을 때 특정 값의 **첫 번째 위치** 또는 <strong>마지막 위치 다음</strong>을 찾는 변형이다.
 
-```
-Lower Bound (lower_bound): target 이상의 첫 번째 위치
-  → arr[mid] < target: left = mid + 1
-  → arr[mid] >= target: right = mid  ← (right = mid-1 이 아님!)
 
-Upper Bound (upper_bound): target 초과의 첫 번째 위치
-  → arr[mid] <= target: left = mid + 1
-  → arr[mid] > target: right = mid
 
-예시: arr = [1, 2, 2, 2, 3, 4], target = 2
-  lower_bound = 인덱스 1 (첫 번째 2)
-  upper_bound = 인덱스 4 (3의 위치, 2 범위의 끝)
-  2의 개수: upper_bound - lower_bound = 3
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Lower Bound (lower_bound): target 이상의 첫 번째 위치</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">&lt; target: left = mid + 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">(right = mid-1 이 아님!)</div></div>
+<div class="kb-diagram-note">Upper Bound (upper_bound): target 초과의 첫 번째 위치</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">&lt;= target: left = mid + 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">&gt; target: right = mid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">예시: arr =</div><div class="kb-diagram-node">1, 2, 2, 2, 3, 4</div><div class="kb-diagram-note">, target = 2</div></div>
+<div class="kb-diagram-note">lower_bound = 인덱스 1 (첫 번째 2)</div>
+<div class="kb-diagram-note">upper_bound = 인덱스 4 (3의 위치, 2 범위의 끝)</div>
+<div class="kb-diagram-note">2의 개수: upper_bound - lower_bound = 3</div>
+</div>
+</div>
+
+
 
 ### 매개변수 탐색 (Parametric Search)
 
-"조건을 만족하는 최대/최솟값"을 구할 때, 이분 탐색의 아이디어를 **해 공간(Answer Space)**에 적용하는 기법이다.
+"조건을 만족하는 최대/최솟값"을 구할 때, 이분 탐색의 아이디어를 <strong>해 공간(Answer Space)</strong>에 적용하는 기법이다.
 
-```
-문제: "K명 이상 들어가는 가장 작은 버스 용량은?"
-  → 버스 용량 x에 대해 "x로 K명 수용 가능한가?" 판단 함수 작성
-  → 이분 탐색으로 최솟값 탐색 (단조 증가/감소 조건 필수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제: "K명 이상 들어가는 가장 작은 버스 용량은?"</div>
+<div class="kb-diagram-note">→ 버스 용량 x에 대해 "x로 K명 수용 가능한가?" 판단 함수 작성</div>
+<div class="kb-diagram-note">→ 이분 탐색으로 최솟값 탐색 (단조 증가/감소 조건 필수)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Lower/Upper Bound는 도서관에서 같은 제목의 책이 여러 권 있을 때, "첫 번째 책이 어디?"(Lower)와 "마지막 책 다음이 어디?"(Upper)를 찾는 것과 같다.
 
@@ -150,13 +167,13 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 실무 시나리오
 
-**시나리오 1 — [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**: B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 각 노드 내 키 탐색  
+<strong>시나리오 1 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: B-트리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 각 노드 내 키 탐색  
 → 페이지당 수백 개 키에 이분 탐색 → O(log n) 탐색 보장
 
 **시나리오 2 — 컴파일러 심볼 테이블**: 정렬된 심볼 목록에서 변수명 탐색  
 → 이분 탐색으로 O(log n) 조회
 
-**시나리오 3 — [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(BST)**: 이분 탐색의 구조화된 형태  
+<strong>시나리오 3 — <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/">이진 탐색 트리</a>(BST)</strong>: 이분 탐색의 구조화된 형태  
 → 삽입/삭제가 가능한 동적 이분 탐색 구조
 
 **시나리오 4 — 업무 최적화 문제**: "최소 배송 비용으로 D일 이내 전달 가능한가?"  
@@ -164,20 +181,23 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 기술사 구현 주의사항
 
-```
-┌──────────────────────────────────────────────────────┐
-│  이분 탐색 구현 체크리스트                            │
-│                                                      │
-│  1. 전제 조건 확인: 배열이 정렬되어 있는가?           │
-│  2. 인덱스 초기화: left=0, right=n-1 (기본 탐색)     │
-│                    left=0, right=n (Lower/Upper Bound)│
-│  3. mid 계산: left + (right-left)/2 (오버플로우 방지) │
-│  4. 루프 조건: while left <= right (기본)            │
-│                while left < right (Lower/Upper Bound) │
-│  5. 업데이트: 항상 범위가 줄어드는지 확인            │
-│  6. 반환값: -1 (미발견) vs lower_bound (삽입 위치)   │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이분 탐색 구현 체크리스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전제 조건 확인: 배열이 정렬되어 있는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인덱스 초기화: left=0, right=n-1 (기본 탐색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">left=0, right=n (Lower/Upper Bound)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. mid 계산: left + (right-left)/2 (오버플로우 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 루프 조건: while left &lt;= right (기본)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while left &lt; right (Lower/Upper Bound)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 업데이트: 항상 범위가 줄어드는지 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 반환값: -1 (미발견) vs lower_bound (삽입 위치)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 이분 탐색 구현의 off-by-one은 마치 자물쇠 조합의 마지막 숫자 같다. 1999번까지 맞다가 2000번째 조합만 틀리면 문이 열리지 않는다.
 
@@ -185,7 +205,7 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ## Ⅴ. 기대효과 및 결론
 
-이분 탐색은 **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 가장 우아한 아이디어 중 하나**다. 단순한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 넘어, 매개변수 탐색을 통해 최적화 문제에까지 적용되며, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 자료구조의 이론적 토대를 제공한다.
+이분 탐색은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 가장 우아한 아이디어 중 하나</strong>다. 단순한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 넘어, 매개변수 탐색을 통해 최적화 문제에까지 적용되며, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 자료구조의 이론적 토대를 제공한다.
 
 ### 효과 정리
 
@@ -212,21 +232,23 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선형 탐색 (Linear Search) — O(n), 정렬 불필요]
-    │
-    ▼
-[이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수]
-    │
-    ▼
-[하한/상한 (Lower/Upper Bound) — 중복값 범위 탐색 변형]
-    │
-    ▼
-[매개변수 탐색 (Parametric Search) — 해 공간 이분 탐색, 최적화 문제]
-    │
-    ▼
-[이진 탐색 트리 (BST) / B-트리 — 동적 데이터 구조로 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 탐색 (Linear Search) — O(n), 정렬 불필요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하한/상한 (Lower/Upper Bound) — 중복값 범위 탐색 변형</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">매개변수 탐색 (Parametric Search) — 해 공간 이분 탐색, 최적화 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST) / B-트리 — 동적 데이터 구조로 확장</div></div>
+</div>
+</div>
+
+
 이분 탐색은 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 범위를 반으로 줄이는 분할 원리를 바탕으로, Lower/Upper Bound·매개변수 탐색·BST 등 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 자료구조로 확장된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

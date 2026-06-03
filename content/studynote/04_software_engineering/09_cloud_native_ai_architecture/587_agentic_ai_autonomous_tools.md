@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **Generative [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (생성형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))**: 글짓기 천재. 텍스트, 이미지, 코드를 그럴싸하게 "만들어주는" 수동적 자판기.
-  - **Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))**: 행동하는 대리인(Agent). 만들어진 텍스트를 들고 밖(현실 세계)으로 나가서 진짜 API를 찌르고, DB를 긁고, 이메일을 쏘는 "행동(Action)"을 스스로 판단해 집행하는 능동적 터미네이터.
+  - <strong>Generative <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (생성형 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>: 글짓기 천재. 텍스트, 이미지, 코드를 그럴싸하게 "만들어주는" 수동적 자판기.
+  - <strong>Agentic <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (에이전틱 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>: 행동하는 대리인(Agent). 만들어진 텍스트를 들고 밖(현실 세계)으로 나가서 진짜 API를 찌르고, DB를 긁고, 이메일을 쏘는 "행동(Action)"을 스스로 판단해 집행하는 능동적 터미네이터.
 
-- **필요성 (딱딱한 일자형 [랭체인](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) 파이프라인의 붕괴)**: 586장 [랭체인](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/)([LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/))으로 `A ➡ B ➡ C` 파이프라인(Chain)을 예쁘게 짰다. 유저가 "날씨 알려줘" 하면 잘 돌았다. 근데 유저가 갑자기 "날씨가 맑으면 주식 가격 알려주고, 비 오면 우산 가격 알려줘"라는 조건부 미친 질문을 던졌다! 일자형 체인은 뇌 정지가 와서 뻗어버렸다. 개발자가 이 모든 엣지 케이스를 if-else문 1,000줄로 다 뚫어두는 건 수학적으로 불가능하다. **"아 ㅆㅂ! 내가 미리 길(순서)을 정해놓지 말고, 그냥 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 너한테 '구글 검색기, 주식 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 쇼핑몰 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)' 무기 3개 쥐여줄 테니까, 유저 질문 딱 듣고 니가 스스로 뇌를 굴려서 무슨 무기를 꺼내서 몇 번 찌를지 니 맘대로 생각하고 행동(Autonomous)해서 결론만 내 눈앞에 가져와!!"** 이 귀차니즘의 끝판왕이 에이전트(Agent)의 강림을 불렀다.
+- <strong>필요성 (딱딱한 일자형 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/">랭체인</a> 파이프라인의 붕괴)</strong>: 586장 [랭체인](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/)([LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/))으로 `A ➡ B ➡ C` 파이프라인(Chain)을 예쁘게 짰다. 유저가 "날씨 알려줘" 하면 잘 돌았다. 근데 유저가 갑자기 "날씨가 맑으면 주식 가격 알려주고, 비 오면 우산 가격 알려줘"라는 조건부 미친 질문을 던졌다! 일자형 체인은 뇌 정지가 와서 뻗어버렸다. 개발자가 이 모든 엣지 케이스를 if-else문 1,000줄로 다 뚫어두는 건 수학적으로 불가능하다. <strong>"아 ㅆㅂ! 내가 미리 길(순서)을 정해놓지 말고, 그냥 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 너한테 '구글 검색기, 주식 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>, 쇼핑몰 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>' 무기 3개 쥐여줄 테니까, 유저 질문 딱 듣고 니가 스스로 뇌를 굴려서 무슨 무기를 꺼내서 몇 번 찌를지 니 맘대로 생각하고 행동(Autonomous)해서 결론만 내 눈앞에 가져와!!"</strong> 이 귀차니즘의 끝판왕이 에이전트(Agent)의 강림을 불렀다.
 
-- **💡 비유**: 체인(Chain) 파이프라인은 **'컨베이어 벨트 위의 로봇 팔'**입니다. 정해진 순서(조립 ➡ 도색)대로만 완벽하게 움직이지만, 갑자기 벨트 위에 나사 하나가 굴러오면 처리할 뇌가 없어서 기계가 뻗습니다. 에이전틱 AI는 **'집안일 베테랑 가사도우미 이모님'**입니다. 주인이 "집안 청소 좀 해줘요" 한마디만 툭 던지고 나갑니다. 이모님([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 스스로 뇌를 굴립니다. "어? 바닥에 빵 부스러기(상황 인지)가 있네? 청소기(Tool 1)를 먼저 돌리고, 그다음 걸레(Tool 2)를 빨아서 닦아야지(Plan & Action)." 내가 청소기 돌리는 순서를 일일이 코딩해 주지 않아도, 쥐여준 무기를 기가 막히게 선택해서 임무를 100% 클리어하는 궁극의 자율성입니다.
+- **💡 비유**: 체인(Chain) 파이프라인은 <strong>'컨베이어 벨트 위의 로봇 팔'</strong>입니다. 정해진 순서(조립 ➡ 도색)대로만 완벽하게 움직이지만, 갑자기 벨트 위에 나사 하나가 굴러오면 처리할 뇌가 없어서 기계가 뻗습니다. 에이전틱 AI는 <strong>'집안일 베테랑 가사도우미 이모님'</strong>입니다. 주인이 "집안 청소 좀 해줘요" 한마디만 툭 던지고 나갑니다. 이모님([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 스스로 뇌를 굴립니다. "어? 바닥에 빵 부스러기(상황 인지)가 있네? 청소기(Tool 1)를 먼저 돌리고, 그다음 걸레(Tool 2)를 빨아서 닦아야지(Plan & Action)." 내가 청소기 돌리는 순서를 일일이 코딩해 주지 않아도, 쥐여준 무기를 기가 막히게 선택해서 임무를 100% 클리어하는 궁극의 자율성입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **챗봇 (Chatbot) 시대**: 모르면 "저는 AI라서 인터넷에 접속할 수 없습니다 ㅠㅠ" 하고 죄송하다고 사과만 하던 바보 시절.
   2. **플러그인 (Plugin/Function Calling)의 쇼크 (2023)**: OpenAI가 `Function Calling` 흑마법을 발표했다. AI가 글을 쓰다 말고, "앗! 나 지금 '날씨 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)' 호출해야 정답 알 수 있을 거 같아! 개발자야 니가 대신 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 찔러서 나한테 결과값 텍스트로 줘!"라고 멱살을 역으로 잡는 충격적 반격의 시작.
-  3. **[AutoGPT](/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/) 와 에이전트 무한 루프 시대 (현재)**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 1마리한테 개발을 통째로 시켰더니, 지가 알아서 코드 짜고 ➡ 터미널 열어서 컴파일 쳐보고 ➡ 에러 나면 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 복붙해서 지가 다시 코드 고쳐서 ➡ 성공할 때까지 무한 루프(Loop)를 도는 1인 기업 스웜(Swarm) 시대가 도래함.
+  3. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/216_autogpt_autonomous_agent/">AutoGPT</a> 와 에이전트 무한 루프 시대 (현재)</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 1마리한테 개발을 통째로 시켰더니, 지가 알아서 코드 짜고 ➡ 터미널 열어서 컴파일 쳐보고 ➡ 에러 나면 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 복붙해서 지가 다시 코드 고쳐서 ➡ 성공할 때까지 무한 루프(Loop)를 도는 1인 기업 스웜(Swarm) 시대가 도래함.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'장님 코끼리 만지기'**에서 **'로봇 수술 팔 이식'**으로의 진화입니다. 옛날 AI는 방구석([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 뇌)에 묶인 채 텍스트만 치는 장님이었습니다. 에이전트(Agent)는 그 뇌에 **'눈(웹 검색 크롤러)'**과 **'손발([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 찌르는 툴)'**을 수술로 꿰매어 달아준 것입니다. 뇌가 바깥세상의 공기를 마시고 직접 물리력을 행사하는 순간, 챗봇은 기계가 아니라 거대한 '소프트웨어 용병'으로 승천합니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'장님 코끼리 만지기'</strong>에서 <strong>'로봇 수술 팔 이식'</strong>으로의 진화입니다. 옛날 AI는 방구석([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 뇌)에 묶인 채 텍스트만 치는 장님이었습니다. 에이전트(Agent)는 그 뇌에 <strong>'눈(웹 검색 크롤러)'</strong>과 <strong>'손발(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 찌르는 툴)'</strong>을 수술로 꿰매어 달아준 것입니다. 뇌가 바깥세상의 공기를 마시고 직접 물리력을 행사하는 순간, 챗봇은 기계가 아니라 거대한 '소프트웨어 용병'으로 승천합니다.
 
 ---
 
 다음은 에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  에이전틱 AI (Agentic AI)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전틱 AI (Agentic AI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시스템의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시스템의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 에이전틱 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Agentic [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 시스템의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-에이전틱 AI (Agentic AI) 시스템 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">에이전틱 AI (Agentic AI) 시스템 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

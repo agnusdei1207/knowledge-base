@@ -10,34 +10,35 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Analytical [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 운영 CRM이 수집한 대규모 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **[데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 적재하고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)으로 분석**하여, "누가 이탈할 것인가?", "어떤 상품을 추천할 것인가?"라는 **예측적 통찰(Predictive Insight)**을 추출하는 두뇌 시스템이다.
-> 2. **가치**: 운영 CRM이 모은 100만 건 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 **고객 세분화([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))·이탈 예측(Churn Prediction)·교차 판매(Cross-sell) 추천**을 도출하여 마케팅 ROI를 극대화한다.
-> 3. **판단 포인트**: 분석 CRM은 운영 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(실행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 **선순환 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)**를 형성하며, 분석 결과가 운영 CRM의 캠페인·영업 자동화에 즉시 반영되어야 가치가 완성된다.
+> 1. **본질**: 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Analytical [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 운영 CRM이 수집한 대규모 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a>)에 적재하고 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/">데이터 마이닝</a>으로 분석</strong>하여, "누가 이탈할 것인가?", "어떤 상품을 추천할 것인가?"라는 <strong>예측적 통찰(Predictive Insight)</strong>을 추출하는 두뇌 시스템이다.
+> 2. **가치**: 운영 CRM이 모은 100만 건 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 <strong>고객 세분화(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)·이탈 예측(Churn Prediction)·교차 판매(Cross-sell) 추천</strong>을 도출하여 마케팅 ROI를 극대화한다.
+> 3. **판단 포인트**: 분석 CRM은 운영 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(실행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 <strong>선순환 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>를 형성하며, 분석 결과가 운영 CRM의 캠페인·영업 자동화에 즉시 반영되어야 가치가 완성된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-운영 CRM은 "어제 김 고객이 장바구니에 신발을 담았다"는 사실을 기록한다. 분석 CRM은 "김 고객처럼 30대 남성이 장바구니에 담고 3일 내 결제 안 하면 이탈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 72%"라는 **패턴(통찰)**을 추출한다.
+운영 CRM은 "어제 김 고객이 장바구니에 신발을 담았다"는 사실을 기록한다. 분석 CRM은 "김 고객처럼 30대 남성이 장바구니에 담고 3일 내 결제 안 하면 이탈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 72%"라는 <strong>패턴(통찰)</strong>을 추출한다.
 
-```text
-┌───────────────────────────────────────────────────────┐
-│      운영 CRM → 분석 CRM 선순환 루프                   │
-├───────────────────────────────────────────────────────┤
-│  운영 CRM (손발)                                      │
-│   [행동 데이터 수집]  ─────▶  DW/Data Lake            │
-│   주문·클릭·상담 기록                │                 │
-│                                      ▼                 │
-│                              분석 CRM (두뇌)           │
-│                              [AI 마이닝]               │
-│                              세분화·이탈예측·추천      │
-│                                      │                 │
-│   [캠페인/영업 자동화]  ◀─────  인사이트 피드백        │
-│   "이 고객에게 15% 쿠폰"            │                 │
-│   운영 CRM에 자동 적용               ▼                 │
-│                              성과 측정 → 모델 개선     │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM → 분석 CRM 선순환 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM (손발)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행동 데이터 수집</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DW/Data Lake</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문·클릭·상담 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 CRM (두뇌)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 마이닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세분화·이탈예측·추천</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">캠페인/영업 자동화</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">인사이트 피드백</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 고객에게 15% 쿠폰"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM에 자동 적용 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성과 측정 → 모델 개선</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 운영 CRM이 범죄 현장(고객 접점)에서 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 수집하는 형사라면, 분석 CRM은 증거를 분석하여 "다음 범행(이탈) 장소를 예측"하는 프로파일러([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))다.
 
@@ -52,7 +53,7 @@ tags = ["studynote-enterprise-systems"]
 | **고객 세분화** | 유사 고객 그룹 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | K-Means, RFM 분석 | "VIP는 누구인가?" |
 | **이탈 예측** | 떠날 고객 사전 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | XGBoost, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) | "누가 다음 달 해지할까?" |
 | **교차 판매 추천** | 함께 사는 상품 발견 | [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_association_rules/)(Apriori) | "맥주 사는 사람에게 기저귀?" |
-| **[고객 생애 가치](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))** | 미래 매출 예측 | 생존 분석, BG/NBD | "이 고객은 평생 얼마를 쓸까?" |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">고객 생애 가치</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">LTV</a>)</strong> | 미래 매출 예측 | 생존 분석, BG/NBD | "이 고객은 평생 얼마를 쓸까?" |
 
 ### RFM 분석
 
@@ -92,7 +93,7 @@ tags = ["studynote-enterprise-systems"]
 
 | 지표 | 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 미도입 | 분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 도입 | 개선 |
 |:---|:---|:---|:---|
-| 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 측정 불가 | **캠페인별 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 정량화** | 투명성 |
+| 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) | 측정 불가 | <strong>캠페인별 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a> 정량화</strong> | 투명성 |
 | 이탈률 | 월 5% | **월 3.5%** | 30% 감소 |
 | 교차 판매 매출 | 기본 | **+15% 객단가** | 매출 증대 |
 
@@ -104,30 +105,33 @@ tags = ["studynote-enterprise-systems"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **운영 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)** | 분석 CRM의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급원 (SFA·MA·[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)) |
+| <strong>운영 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | 분석 CRM의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급원 (SFA·MA·[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)) |
 | **RFM 분석** | 고객 세분화의 기초 지표 |
-| **[데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)** | 패턴 추출의 핵심 기법 |
-| **[LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/) ([고객 생애 가치](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))** | 분석 CRM이 예측하는 핵심 재무 지표 |
-| **[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) / [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)** | 분석 CRM의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/">데이터 마이닝</a></strong> | 패턴 추출의 핵심 기법 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">LTV</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">고객 생애 가치</a>)</strong> | 분석 CRM이 예측하는 핵심 재무 지표 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> / <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a></strong> | 분석 CRM의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[엑셀 기반 고객 분석 (1990s) — 수동 RFM 분류]
-    │
-    ▼
-[데이터 웨어하우스 + OLAP (2000s) — 다차원 큐브 분석]
-    │
-    ▼
-[ML 기반 예측 (2010s) — XGBoost 이탈 예측, 추천 엔진]
-    │
-    ▼
-[현재: GenAI + CRM — 자연어 질의 분석, AI 에이전트 자동 캠페인]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">엑셀 기반 고객 분석 (1990s) — 수동 RFM 분류</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 + OLAP (2000s) — 다차원 큐브 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ML 기반 예측 (2010s) — XGBoost 이탈 예측, 추천 엔진</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI + CRM — 자연어 질의 분석, AI 에이전트 자동 캠페인</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운영 CRM이 "오늘 어떤 손님이 왔고 뭘 샀는지" 기록하는 일기장이라면,
-2. 분석 CRM은 일기장을 쭉 읽고 **"다음 주에 이 손님이 안 올 것 같아!"**라고 예측하는 점쟁이([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))예요.
+2. 분석 CRM은 일기장을 쭉 읽고 <strong>"다음 주에 이 손님이 안 올 것 같아!"</strong>라고 예측하는 점쟁이([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))예요.
 3. 점쟁이의 예측을 듣고 미리 쿠폰을 보내면, 손님이 다시 와서 가게가 번창한답니다!
 
 ---

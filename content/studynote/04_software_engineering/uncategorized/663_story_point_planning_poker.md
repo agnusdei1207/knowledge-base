@@ -19,39 +19,38 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 애자일에서 요구사항([사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))의 크기를 추정할 때 사용하는 두 가지 핵심 도구다. **[스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) ([Story Point](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/))**는 "이 작업은 기준 작업(1포인트)보다 몇 배 더 복잡하고 힘든가?"를 묻는 상대적 척도다. **[플래닝 포커](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/) ([Planning Poker](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/))**는 팀원 전체가 모여 피보나치 수열(1, 2, 3, 5, 8, 13...)이 적힌 카드를 동시에 뒤집어 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)를 합의해 내는 게임화된 추정 회의 기법(광역 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법의 변형)이다.
+- **개념**: 애자일에서 요구사항([사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))의 크기를 추정할 때 사용하는 두 가지 핵심 도구다. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/">스토리 포인트</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/">Story Point</a>)</strong>는 "이 작업은 기준 작업(1포인트)보다 몇 배 더 복잡하고 힘든가?"를 묻는 상대적 척도다. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/">플래닝 포커</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/">Planning Poker</a>)</strong>는 팀원 전체가 모여 피보나치 수열(1, 2, 3, 5, 8, 13...)이 적힌 카드를 동시에 뒤집어 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)를 합의해 내는 게임화된 추정 회의 기법(광역 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법의 변형)이다.
 - **필요성**: 전통적 방식에서 관리자가 "이거 개발하는 데 며칠 걸려요?"라고 물으면 개발자는 방어적으로 일정을 과장하거나, 예상치 못한 버그로 일정을 어기게 된다. 또한 시니어와 주니어의 역량 차이로 인해 '절대적 시간' 추정은 항상 빗나간다. 이를 해결하기 위해 '시간'이라는 단위를 버리고, '상대적 크기(복잡도)'로 단위를 전환하여 팀 전체가 합의하는 과정이 필요해졌다.
 - **💡 비유**: 두 도시 사이의 거리를 "몇 시간 걸릴까?"로 묻는 대신(차량 종류와 교통체증에 따라 다름), "기준 도시 간 거리보다 몇 배 더 멀까?"(절대 불변의 복잡도)로 묻는 것과 같다.
 
 - **등장 배경 및 발전 과정**:
   1. **맨먼스(Man-Month)의 함정**: 프레더릭 브룩스의 지적처럼, 소프트웨어 개발 일정은 사람 수와 비례하지 않으며 절대 시간 추정은 대부분 실패한다.
-  2. **광역 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법의 한계**: 전문가들의 의견을 모으는 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법은 익명성과 반복 합의가 장점이나, 절차가 무거워 짧은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기에 적용하기 어려웠다.
+  2. <strong>광역 <a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/">델파이</a> 기법의 한계</strong>: 전문가들의 의견을 모으는 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/) 기법은 익명성과 반복 합의가 장점이나, 절차가 무거워 짧은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기에 적용하기 어려웠다.
   3. **제임스 그레닝(James Grenning)의 고안**: 2002년, 무거운 회의를 빠르고 즐겁게 만들기 위해 포커 게임의 요소를 차용하여 '동시 공개'와 '대화 중심'의 [플래닝 포커](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/)를 고안해냈다.
 
 전통적인 시간(Hours) 추정과 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) 기반의 상대적 추정 방식의 본질적 차이를 시각화하면, 왜 애자일이 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)를 선택했는지 알 수 있다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         절대적 시간 추정 vs 상대적 스토리 포인트 추정 비교          │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │  [상황] "로그인 화면에 구글 소셜 로그인을 추가하라"                │
-  │                                                              │
-  │  1. 절대적 시간 추정 (Man-Hours)                               │
-  │     - 시니어 개발자: "API 연동해본 적 있어서 4시간이면 됩니다."     │
-  │     - 주니어 개발자: "OAuth 문서부터 봐야 해서 3일(24시간) 걸려요."│
-  │     ▶ 결과: 추정 불가, 누가 작업하느냐에 따라 일정이 널뛰기함.      │
-  │                                                              │
-  │  2. 상대적 스토리 포인트 추정 (Story Point)                     │
-  │     - 기준 스토리 식별: "일반 ID/PW 로그인 화면 구현" = 2 포인트    │
-  │     - 팀 합의 (플래닝 포커): "소셜 로그인은 ID/PW보다 토큰 검증도    │
-  │       있고 예외 처리가 많으니 약 2.5배 복잡하다. 5포인트 주자!"      │
-  │     ▶ 결과: 5 포인트 (작업자가 시니어든 주니어든 '크기'는 불변)     │
-  │                                                              │
-  │  💡 시사점: 시간은 '속도(Velocity)'의 영역이므로 사람마다 다르지만, │
-  │             포인트는 '거리(Distance)'의 영역이므로 모두가 동일하다.│
-  └──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대적 시간 추정 vs 상대적 스토리 포인트 추정 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">"로그인 화면에 구글 소셜 로그인을 추가하라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 절대적 시간 추정 (Man-Hours)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시니어 개발자: "API 연동해본 적 있어서 4시간이면 됩니다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주니어 개발자: "OAuth 문서부터 봐야 해서 3일(24시간) 걸려요."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 추정 불가, 누가 작업하느냐에 따라 일정이 널뛰기함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 상대적 스토리 포인트 추정 (Story Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기준 스토리 식별: "일반 ID/PW 로그인 화면 구현" = 2 포인트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팀 합의 (플래닝 포커): "소셜 로그인은 ID/PW보다 토큰 검증도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있고 예외 처리가 많으니 약 2.5배 복잡하다. 5포인트 주자!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 5 포인트 (작업자가 시니어든 주니어든 '크기'는 불변)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 시사점: 시간은 '속도(Velocity)'의 영역이므로 사람마다 다르지만,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인트는 '거리(Distance)'의 영역이므로 모두가 동일하다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 비교는 [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) 도입의 철학적 배경을 명확히 보여준다. 시간 단위 추정은 추정하는 주체의 기술적 숙련도, 당일의 컨디션, 회사의 방해 요소 등 무수히 많은 변수에 오염되어 있다. 따라서 관리가 불가능하다. 반면 상대적 복잡도는 요구사항 자체의 속성이므로 작업자가 누구든 변하지 않는다. 팀은 "이 작업이 얼마나 복잡한가?"(포인트)에만 합의하고, "그래서 몇 일이 걸리는가?"는 지난 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에서 팀이 소화해 낸 평균 포인트(벨로시티) 데이터를 통해 통계적으로 산출(나눗셈)하는 것이 핵심이다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) [플래닝 포커](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/) 합의의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) [플래닝 포커](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/) 합의의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/) [플래닝 포커](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/083_planning_poker/) 합의의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -152,21 +151,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스토리 포인트 플래닝 포커 합의 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토리 포인트 플래닝 포커 합의 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

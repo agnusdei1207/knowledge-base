@@ -25,24 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생한 뒤 교체 여부와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 어떻게 갈리는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              페이지 폴트 이후의 핵심 의사결정 흐름                        │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU 참조 ─▶ 페이지 폴트 ─▶ 빈 프레임 있음? ── 예 ─▶ 즉시 적재             │
-│                           │                                                │
-│                           └─ 아니오 ─▶ 희생 페이지 선택                    │
-│                                         │                                  │
-│                                         ▼                                  │
-│                              Dirty Bit = 1 인가?                           │
-│                                │                 │                          │
-│                               예                아니오                      │
-│                                │                 │                          │
-│                         디스크에 기록        바로 제거                       │
-│                                │                 │                          │
-│                                └─────── 빈 프레임 확보 ───────▶ 새 페이지 적재 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 이후의 핵심 의사결정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 참조 ─▶ 페이지 폴트 ─▶ 빈 프레임 있음? ── 예 ─▶ 즉시 적재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 희생 페이지 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dirty Bit = 1 인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크에 기록 바로 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 프레임 확보 ▶ 새 페이지 적재</div></div>
+</div>
+</div>
+
+
 
 핵심은 교체가 "누구를 버릴까"만의 문제가 아니라 "버리는 데 얼마가 드는가"까지 포함한다는 점이다. 수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 켜진 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내보내기 전에 반드시 보조기억장치에 써야 하므로, 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 패턴에서도 [희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) 비용이 달라진다.
 
@@ -68,23 +65,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 왜 "최근에 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 두 번째 기회"를 주는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    Clock 알고리즘의 순환 스캔                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│                    hand                                                    │
-│                     ▼                                                      │
-│      [P1,R=1] ─ [P2,R=0] ─ [P3,R=1] ─ [P4,R=0]                            │
-│         │          │          │          │                                 │
-│   R=1 이면 0으로    └─ 희생 가능  R=1 이면 0으로   다음 후보                │
-│   내리고 통과                     내리고 통과                              │
-│                                                                            │
-│  1회전 차: 최근 사용 페이지는 보호                                          │
-│  2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에는 중요한 이론적 구분도 있다. LRU와 OPT처럼 프레임 수가 늘어나면 기존 메모리 집합을 포함하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 일반적으로 프레임 증가가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 악화로 이어지지 않는다. 반면 FIFO처럼 포함 성질이 없는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프레임을 더 줬는데도 폴트가 늘어나는 벨라디의 모순 (Bélády's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 일으킬 수 있다. 따라서 핵심 원리는 단순히 "오래된 것을 버린다"가 아니라, **지역성을 얼마나 보존하면서 구현 비용을 감당할 수 있느냐**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock 알고리즘의 순환 스캔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hand</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1,R=1</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P2,R=0</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P3,R=1</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P4,R=0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R=1 이면 0으로 ─ 희생 가능 R=1 이면 0으로 다음 후보</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내리고 통과 내리고 통과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회전 차: 최근 사용 페이지는 보호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨</div></div>
+</div>
+</div>
+
+
+
+교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에는 중요한 이론적 구분도 있다. LRU와 OPT처럼 프레임 수가 늘어나면 기존 메모리 집합을 포함하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 일반적으로 프레임 증가가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 악화로 이어지지 않는다. 반면 FIFO처럼 포함 성질이 없는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프레임을 더 줬는데도 폴트가 늘어나는 벨라디의 모순 (Bélády's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 일으킬 수 있다. 따라서 핵심 원리는 단순히 "오래된 것을 버린다"가 아니라, <strong>지역성을 얼마나 보존하면서 구현 비용을 감당할 수 있느냐</strong>다.
 
 - **📢 섹션 요약 비유**: 냉장고가 꽉 찼을 때 FIFO는 먼저 넣은 반찬부터 버리고, LRU는 한동안 먹지 않은 반찬을 버리며, Clock은 "최근에 손댄 음식은 일단 한 번 더 남겨두자"고 판단하는 방식이다.
 
@@ -92,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)를 제대로 이해하려면 "이론상 최선"과 "현실의 근사치"를 구분해야 한다. OPT는 기준점으로는 완벽하지만 구현 불가능하고, FIFO는 구현은 쉽지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정성이 약하다. 그래서 실제 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열 또는 그 근사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 채택한다. 즉 비교의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름보다 **미래 예측 정확도와 상태 추적 오버헤드의 균형**이다.
+[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)를 제대로 이해하려면 "이론상 최선"과 "현실의 근사치"를 구분해야 한다. OPT는 기준점으로는 완벽하지만 구현 불가능하고, FIFO는 구현은 쉽지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안정성이 약하다. 그래서 실제 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 계열 또는 그 근사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 채택한다. 즉 비교의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름보다 <strong>미래 예측 정확도와 상태 추적 오버헤드의 균형</strong>이다.
 
 또한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 캐시 교체와 닮았지만 판단 시간이 전혀 다르다. CPU 캐시는 수 ns 안에 결정을 내려야 하므로 회로가 단순한 Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (Pseudo [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 같은 방식이 쓰이고, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 디스크나 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) I/O를 앞두고 있으므로 수십~수백 ns의 추가 계산보다 잘 고르는 편이 훨씬 이득이다. 같은 "replacement"라도 계층마다 최적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 달라지는 이유다.
 
@@ -110,9 +107,9 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 포인트
 
-1. **Major Fault 증가 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 중 디스크 I/O를 동반하는 주요 폴트가 급증하면 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)보다 먼저 메모리 부족 자체를 의심해야 한다.
+1. <strong>Major Fault 증가 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 중 디스크 I/O를 동반하는 주요 폴트가 급증하면 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)보다 먼저 메모리 부족 자체를 의심해야 한다.
 2. **pgscan / pgsteal 비율 관찰**: 리눅스에서는 많이 스캔하고 적게 회수하면 적합한 희생자를 못 찾고 있다는 뜻이므로, [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 전조로 본다.
-3. **Swap In/Out 지속 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 스왑 입출력이 지속되면 작업 집합이 RAM을 넘고 있다는 의미다. 이때는 튜닝보다 증설이 정답일 수 있다.
+3. <strong>Swap In/Out 지속 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 스왑 입출력이 지속되면 작업 집합이 RAM을 넘고 있다는 의미다. 이때는 튜닝보다 증설이 정답일 수 있다.
 4. **애플리케이션 자체 캐시와 충돌 여부 점검**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 검색엔진은 자체 버퍼 풀을 쓰므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시와 이중 캐시가 되면 의도치 않은 교체 압력이 생길 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -124,9 +121,9 @@ tags = ["studynote-computer-architecture"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 수준의 단순 사고로 병목 해석하기**: 메모리 문제를 "오래된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 빨리 버리면 된다"로 단순화하면 지역성 붕괴를 놓친다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> 수준의 단순 사고로 병목 해석하기</strong>: 메모리 문제를 "오래된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 빨리 버리면 된다"로 단순화하면 지역성 붕괴를 놓친다.
 - **스왑을 무조건 끄는 운영**: 지연을 줄이려다 완충지대를 없애면, 급격한 메모리 압박 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 종료가 더 빨리 올 수 있다.
-- **애플리케이션 캐시와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 캐시를 동시에 극단적으로 키우기**: 두 계층이 서로의 작업 집합을 밀어내며 오히려 교체 비용만 키운다.
+- <strong>애플리케이션 캐시와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 캐시를 동시에 극단적으로 키우기</strong>: 두 계층이 서로의 작업 집합을 밀어내며 오히려 교체 비용만 키운다.
 
 기술사 답안이나 설계 면접에서는 "교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 무엇으로 쓸까"보다 "언제 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 문제를 의심하고, 언제 용량 문제로 판단할까"를 말할 수 있어야 한다. [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 튜닝의 마지막 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%를 다루지만, 실제 장애의 90%는 작업 집합이 물리 메모리를 초과한 상태에서 나타난다.
 
@@ -159,28 +156,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 교체 필요성 인식
-    │
-    ▼
-FIFO (First-In, First-Out)
-    │
-    ├─ 한계 노출: 벨라디의 모순 (Bélády's Anomaly)
-    ▼
-OPT (Optimal)로 이상적 기준 정립
-    │
-    ▼
-LRU (Least Recently Used) 중심의 지역성 활용
-    │
-    ▼
-Clock · Second Chance로 실무형 근사 구현
-    │
-    ▼
-Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어
-    │
-    ▼
-적응형 다중 큐 · 세대 기반 메모리 관리로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 교체 필요성 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FIFO (First-In, First-Out)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">한계 노출: 벨라디의 모순 (Bélády's Anomaly)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPT (Optimal)로 이상적 기준 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LRU (Least Recently Used) 중심의 지역성 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Clock · Second Chance로 실무형 근사 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">적응형 다중 큐 · 세대 기반 메모리 관리로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)가 단순 순서 규칙에서 출발해, 지역성 이해와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결합을 거쳐, 오늘날의 적응형 메모리 관리로 발전했음을 보여준다.
 

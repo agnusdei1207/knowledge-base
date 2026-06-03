@@ -19,13 +19,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)([Real-time System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/))은 작업의 논리적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)뿐만 아니라 시간적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Timeliness)이 시스템의 올바른 동작을 결정하는 시스템이다. RTOS는 이러한 환경에서 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들이 자신에게 할당된 **마감 시간([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))을 절대적으로 준수**할 수 있도록 스케줄링과 자원 관리를 보장하는 운영체제다.
+- **개념**: [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)([Real-time System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/))은 작업의 논리적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)뿐만 아니라 시간적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)(Timeliness)이 시스템의 올바른 동작을 결정하는 시스템이다. RTOS는 이러한 환경에서 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)들이 자신에게 할당된 <strong>마감 시간(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a>)을 절대적으로 준수</strong>할 수 있도록 스케줄링과 자원 관리를 보장하는 운영체제다.
 
 - **필요성**: 범용 OS(GPOS)인 윈도우나 리눅스는 "공평성(Fairness)"과 "전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))"에 집중한다. 따라서 중요한 작업이라도 다른 프로세스가 자원을 독점하면 수십~수백 밀리초 동안 CPU를 얻지 못할 수 있다(Jitter 발생). 에어백 전개, 미사일 궤도 수정, 인공호흡기 제어와 같은 임베디드 시스템에서 이러한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 치명적이다. 반드시 정해진 시간 내에 무조건 반응(Hard Real-Time)해야 하는 절대적 요구사항이 RTOS를 탄생시켰다.
 
 - **발전 과정**:
   1. **베어메탈 루프 (Foreground/Background System)**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 임베디드. 무한 `while` 루프와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만으로 동작. 복잡도 증가 시 타이밍 보장 불가.
-  2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) RTOS**: 고정 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) 도입. ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 방식)
+  2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> RTOS</strong>: 고정 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/) 도입. ([Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 방식)
   3. **현대 RTOS (VxWorks, FreeRTOS 등)**: 멀티코어 지원, O(1) 스케줄링, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)(MPU/[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 활용), [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 완비.
 
 - **📢 섹션 요약 비유**: 시계 톱니바퀴처럼 한 치의 오차도 없이 맞물려 돌아가야 하는 기계 장치에, '정확한 타이밍'이라는 생명을 불어넣는 지휘자와 같습니다.
@@ -38,50 +38,43 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작/특징 | 비유 |
 |:---|:---|:---|:---|
-| **O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)** | 우선순위 결정 | 비트맵 연산을 통해 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 수에 무관하게 항상 일정한 시간 내에 다음 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 선택 | 100명 중 VIP 1명을 0.1초 만에 찾는 스캐너 |
-| **선점형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Preemptive [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))** | 즉각적인 CPU 회수 | 시스템 콜 처리 중이라도 더 높은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 Ready되면 즉시 [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) | VIP 등장 시 일반 손님 식사 중이라도 자리 뺏기 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Interrupt Latency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/545_interrupt_latency/)) 최소화** | 하드웨어 이벤트 반응 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화(Disable) 구간을 극단적으로 짧게 설계 | 화재경보기 울리면 즉시 모든 문 열림 |
-| **우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/))** | 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 의한 데드락/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방지 | 하위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 락을 쥐고 있으면, 상위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위를 일시적으로 빌려줌 | VIP가 들어갈 방 열쇠를 가진 청소부에게 프리패스 목걸이 채워주기 |
-| **타이머 틱 ([Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) [Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))** | 시스템의 심장 박동 | 밀리초(ms) 단위의 정밀한 알람 (소프트 타이머 관리) | 메트로놈 |
+| <strong>O(1) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 우선순위 결정 | 비트맵 연산을 통해 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 수에 무관하게 항상 일정한 시간 내에 다음 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 선택 | 100명 중 VIP 1명을 0.1초 만에 찾는 스캐너 |
+| <strong>선점형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> (Preemptive <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> | 즉각적인 CPU 회수 | 시스템 콜 처리 중이라도 더 높은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 Ready되면 즉시 [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) | VIP 등장 시 일반 손님 식사 중이라도 자리 뺏기 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/545_interrupt_latency/">Interrupt Latency</a>) 최소화</strong> | 하드웨어 이벤트 반응 | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화(Disable) 구간을 극단적으로 짧게 설계 | 화재경보기 울리면 즉시 모든 문 열림 |
+| <strong>우선순위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">Priority Inheritance</a>)</strong> | 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 의한 데드락/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방지 | 하위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 락을 쥐고 있으면, 상위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위를 일시적으로 빌려줌 | VIP가 들어갈 방 열쇠를 가진 청소부에게 프리패스 목걸이 채워주기 |
+| <strong>타이머 틱 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/">Timer</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/">Tick</a>)</strong> | 시스템의 심장 박동 | 밀리초(ms) 단위의 정밀한 알람 (소프트 타이머 관리) | 메트로놈 |
 
 ---
 
 ### RTOS의 데드라인 절대 보장 메커니즘
 
-RTOS가 결정론적(Deterministic) 성능을 보장하는 핵심은 **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**과 **[디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/)**을 합친 **총 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**을 항상 계산 가능한(Predictable) 상한선(Upper Bound) 내로 묶어두는 것이다.
+RTOS가 결정론적(Deterministic) 성능을 보장하는 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>과 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a></strong>을 합친 <strong>총 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>을 항상 계산 가능한(Predictable) 상한선(Upper Bound) 내로 묶어두는 것이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────┐
-  │                 RTOS 태스크 응답 시간 (Response Time) 구성              │
-  ├───────────────────────────────────────────────────────────────────────┤
-  │                                                                       │
-  │     외부 이벤트 발생 (예: 센서 신호)                                     │
-  │           │                                                           │
-  │           ▼                                                           │
-  │   [하드웨어 인터럽트]                                                   │
-  │     ├───────────┐ : 인터럽트 지연 (Interrupt Latency)                 │
-  │     │ HW 지연    │ - CPU 파이프라인 정리, 레지스터 백업                  │
-  │     │ OS 지연    │ - 커널의 Interrupt Disable 구간 대기 (RTOS는 매우 짧음)│
-  │     ├───────────┘                                                     │
-  │   [ISR (Interrupt Service Routine) 실행]                              │
-  │     ├───────────┐                                                     │
-  │     │ ISR 처리   │ - 최소한의 작업 (플래그 설정, 세마포어 Signal)          │
-  │     ├───────────┘                                                     │
-  │   [스케줄러 호출 및 문맥 교환]                                           │
-  │     ├───────────┐ : 디스패치 지연 (Dispatch Latency)                  │
-  │     │ O(1) 탐색  │ - 비트맵으로 최고 우선순위 태스크 찾기                  │
-  │     │ Context   │ - 레지스터 복원 (Context Switch)                    │
-  │     │  Switch   │                                                     │
-  │     ├───────────┘                                                     │
-  │   [실시간 태스크 실행 시작!]                                             │
-  │           │                                                           │
-  │           ▼                                                           │
-  │  총 응답 시간(T) = 인터럽트 지연 + ISR 처리 시간 + 디스패치 지연          │
-  │                                                                       │
-  │  ※ RTOS의 핵심: 이 '총 응답 시간(T)'이 최악의 경우(Worst-case)에도        │
-  │                  마감 시간(Deadline)보다 항상 작아야 한다. (T < Deadline) │
-  └───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTOS 태스크 응답 시간 (Response Time) 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 이벤트 발생 (예: 센서 신호)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 인터럽트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 인터럽트 지연 (Interrupt Latency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HW 지연</div><div class="kb-diagram-cell">- CPU 파이프라인 정리, 레지스터 백업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 지연</div><div class="kb-diagram-cell">- 커널의 Interrupt Disable 구간 대기 (RTOS는 매우 짧음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISR (Interrupt Service Routine) 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR 처리</div><div class="kb-diagram-cell">- 최소한의 작업 (플래그 설정, 세마포어 Signal)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 호출 및 문맥 교환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 디스패치 지연 (Dispatch Latency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) 탐색</div><div class="kb-diagram-cell">- 비트맵으로 최고 우선순위 태스크 찾기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div><div class="kb-diagram-cell">- 레지스터 복원 (Context Switch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Switch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 태스크 실행 시작!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 응답 시간(T) = 인터럽트 지연 + ISR 처리 시간 + 디스패치 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ RTOS의 핵심: 이 '총 응답 시간(T)'이 최악의 경우(Worst-case)에도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마감 시간(Deadline)보다 항상 작아야 한다. (T &lt; Deadline)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 일반 OS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 데이터를 수정할 때 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등을 걸고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 장시간 비활성화(CLI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))한다. 이때 센서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어와도 OS가 무시하므로 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)'이 길어져 데드라인을 놓친다. 반면 RTOS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조를 극도로 세분화하고 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하여 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 비활성화 구간을 몇 클럭 사이클 수준으로 제한한다. 또한, 비트맵 인스트럭션(CLZ: Count Leading Zeros 등)을 하드웨어 레벨에서 사용하여 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 10개든 1000개든 동일한 1~2 사이클 만에 다음 실행할 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 찾아내는 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 탑재한다.
 
@@ -91,30 +84,27 @@ RTOS가 결정론적(Deterministic) 성능을 보장하는 핵심은 **[인터�
 
 RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)이다. (1997년 화성 탐사선 패스파인더호 통신 두절 사건의 원인)
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 우선순위 역전 (Priority Inversion) 현상                 │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  T_H (우선순위 높음)       ─────────▶ [대기]        ███████████▶ (실행)│
-  │                                   (공유자원 S 요청)  (S 획득)         │
-  │                                                                   │
-  │  T_M (우선순위 중간)  ──────────────────────────▶██████ (선점)        │
-  │                                                                   │
-  │  T_L (우선순위 낮음)  ██████ (S 획득) ──▶ [대기]         (S 반납)      │
-  │                       ↑                  ↑                       │
-  │                     T_H 실행, S요청    T_M이 T_L을 선점! (치명적 버그) │
-  │                                                                   │
-  │  [문제 상황]: T_H는 T_L이 S(세마포어)를 반납해야 실행할 수 있다.           │
-  │  그런데 우선순위가 중간인 T_M이 깨어나 T_L을 선점해버렸다.                 │
-  │  결과적으로 가장 중요한 T_H가 T_M이 끝날 때까지 무한정 대기하게 된다!       │
-  │                                                                   │
-  │  [해결책: 우선순위 상속 (Priority Inheritance)]                       │
-  │  T_H가 S를 요청하여 대기할 때, OS는 T_L의 우선순위를 일시적으로 T_H 수준으로 │
-  │  '끌어올려줌(상속)'. 따라서 T_M은 T_L을 선점하지 못하고, T_L이 S를 빠르게 │
-  │  반납하게 하여 T_H의 데드라인을 보장한다.                                 │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 역전 (Priority Inversion) 현상</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유자원 S 요청) (S 획득)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_M (우선순위 중간) ▶██████ (선점)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대기</div><div class="kb-diagram-note">(S 반납)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_H 실행, S요청 T_M이 T_L을 선점! (치명적 버그)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제 상황</div><div class="kb-diagram-note">: T_H는 T_L이 S(세마포어)를 반납해야 실행할 수 있다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그런데 우선순위가 중간인 T_M이 깨어나 T_L을 선점해버렸다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과적으로 가장 중요한 T_H가 T_M이 끝날 때까지 무한정 대기하게 된다!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해결책: 우선순위 상속 (Priority Inheritance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T_H가 S를 요청하여 대기할 때, OS는 T_L의 우선순위를 일시적으로 T_H 수준으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'끌어올려줌(상속)'. 따라서 T_M은 T_L을 선점하지 못하고, T_L이 S를 빠르게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반납하게 하여 T_H의 데드라인을 보장한다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 높은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_H)와 낮은 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_L)가 동일한 뮤텍스(공유 자원)를 사용할 때 발생한다. T_L이 락을 쥔 상태에서 T_H가 깨어나 락을 요청하면 대기(Block) 상태가 된다. 이때 자원과 무관한 중간 우선순위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)(T_M)가 깨어나면, T_M은 T_L보다 우선순위가 높으므로 T_L을 선점해버린다. 결과적으로 T_H는 T_M이 끝날 때까지 기다려야 하는 "논리적 모순"이 발생한다. 현대 RTOS(FreeRTOS의 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 등)는 락을 쥔 하위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위를 락을 대기하는 상위 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위로 임시 승격시키는 '우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(PIP)'을 내장하여 이를 원천 차단한다.
 
@@ -129,8 +119,8 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 | 비교 항목 | GPOS (Linux, Windows) | RTOS (VxWorks, FreeRTOS) |
 |:---|:---|:---|
 | **설계 목표** | 공평성, 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 최대화 | **결정론 (Determinism), 타이밍 보장** |
-| **스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | CFS (Completely Fair Scheduler), 동적 우선순위 | 고정 우선순위 선점형 (Fixed-Priority Preemptive) |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 수 ms ~ 수십 ms (변동성 큼) | **수 마이크로초 (µs) 이하 (고정됨)** |
+| <strong>스케줄링 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | CFS (Completely Fair Scheduler), 동적 우선순위 | 고정 우선순위 선점형 (Fixed-Priority Preemptive) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 수 ms ~ 수십 ms (변동성 큼) | **수 마이크로초 (µs) 이하 (고정됨)** |
 | **메모리 관리** | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 발생) | 주로 물리 메모리 직접 접근, [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 없음 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 방지) |
 | **크기 및 풋프린트** | 수 GB (무거움) | 수 KB ~ 수 MB (초경량) |
 
@@ -138,7 +128,7 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: RTOS의 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 ARM 아키텍처의 `CLZ (Count Leading Zeros)` 하드웨어 인스트럭션을 직접 호출하여 소프트웨어 루프 없이 최고 우선순위를 단 1사이클에 찾아내는 H/W-S/W 코디자인의 정수다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: RTOS의 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 ARM 아키텍처의 `CLZ (Count Leading Zeros)` 하드웨어 인스트럭션을 직접 호출하여 소프트웨어 루프 없이 최고 우선순위를 단 1사이클에 찾아내는 H/W-S/W 코디자인의 정수다.
 - **소프트웨어공학 (SE)**: [Rate Monotonic](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) ([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 분석과 [Earliest Deadline First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/) ([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)의 스케줄링 가능성(Schedulability)을 수학적으로 증명하는 핵심 이론이다. (예: [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) CPU 이용률 총합이 $n(2^{1/n}-1)$ 이하이면 보장)
 
 - **📢 섹션 요약 비유**: GPOS가 승객을 많이, 편안하게 태우는 '크루즈 여객선'이라면, RTOS는 정해진 시간에 정확히 목표물에 명중해야 하는 '정밀 유도 미사일'의 엔진과 같습니다.
@@ -149,38 +139,34 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 ### 실무 시나리오
 
-1. **시나리오 — 전기차([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)) 모터 제어 인버터 시스템**: 인버터는 수십 µs 주기로 PWM [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 갱신해야 한다. 만약 RTOS가 아닌 GPOS를 쓰거나 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 설계를 잘못하여 타이밍을 1ms만 놓쳐도 모터가 역토크를 받아 물리적으로 파손된다.
+1. <strong>시나리오 — 전기차(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>) 모터 제어 인버터 시스템</strong>: 인버터는 수십 µs 주기로 PWM [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 갱신해야 한다. 만약 RTOS가 아닌 GPOS를 쓰거나 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 설계를 잘못하여 타이밍을 1ms만 놓쳐도 모터가 역토크를 받아 물리적으로 파손된다.
    - **해결**: 개발자는 하드웨어 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 최우선([NMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/558_nmi/) 수준)으로 설정하고, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/)) 내에서는 단순히 Semaphore만 Signal하고 즉시 반환하도록 설계한다. 이후 가장 높은 우선순위를 가진 PWM 제어 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 즉시 깨어나 연산을 수행하게(Bottom-half 처리) 함으로써 [디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/)을 최소화한다.
 
-2. **시나리오 — 메모리 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))에 의한 런타임 크래시**: FreeRTOS 기반 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 1달 정도 정상 동작하다가 갑자기 재부팅되는 현상. 원인은 런타임에 동적 메모리 할당(`malloc`/`free`)을 남발하여 메모리 파편화가 발생, 중요한 순간에 메모리를 할당받지 못했기 때문이다.
-   - **대응 (기술사적 가이드)**: RTOS 환경, 특히 Hard Real-time 시스템에서는 런타임 동적 메모리 할당을 **절대 금지**한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(Boot) 시점에 필요한 모든 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)([Memory Pool](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/))과 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스택을 정적으로 할당(Static Allocation)해야 한다. (FreeRTOS의 `xTaskCreateStatic()` 활용)
+2. <strong>시나리오 — 메모리 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)에 의한 런타임 크래시</strong>: FreeRTOS 기반 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 1달 정도 정상 동작하다가 갑자기 재부팅되는 현상. 원인은 런타임에 동적 메모리 할당(`malloc`/`free`)을 남발하여 메모리 파편화가 발생, 중요한 순간에 메모리를 할당받지 못했기 때문이다.
+   - **대응 (기술사적 가이드)**: RTOS 환경, 특히 Hard Real-time 시스템에서는 런타임 동적 메모리 할당을 <strong>절대 금지</strong>한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(Boot) 시점에 필요한 모든 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)([Memory Pool](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/))과 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)), [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스택을 정적으로 할당(Static Allocation)해야 한다. (FreeRTOS의 `xTaskCreateStatic()` 활용)
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 RTOS 태스크 타이밍 위반 (Deadline Miss) 분석 플로우       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [시스템 리셋 혹은 워치독(Watchdog) 타이머 만료 발생]                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      Trace 도구(Tracealyzer 등)로 스케줄링 이력 확인                 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      우선순위 역전이 발생했는가?                                     │
-  │          ├─ 예 ─────▶ Mutex 대신 세마포어 사용했는지 확인 (Mutex로 교체) │
-  │          │            (우선순위 상속 옵션 활성화 여부 점검)             │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      인터럽트(ISR) 실행 시간이 너무 긴가?                             │
-  │          ├─ 예 ─────▶ ISR 내부의 연산(루프, I/O)을 일반 태스크로 지연  │
-  │          │            (Deferred Interrupt Processing 적용)      │
-  │          └─ 아니오 ──▶ Rate Monotonic 이론에 따른 우선순위 재배치     │
-  │                         (주기가 짧은 태스크에 높은 우선순위 부여)       │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTOS 태스크 타이밍 위반 (Deadline Miss) 분석 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 리셋 혹은 워치독(Watchdog) 타이머 만료 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace 도구(Tracealyzer 등)로 스케줄링 이력 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 역전이 발생했는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ Mutex 대신 세마포어 사용했는지 확인 (Mutex로 교체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우선순위 상속 옵션 활성화 여부 점검)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트(ISR) 실행 시간이 너무 긴가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ ISR 내부의 연산(루프, I/O)을 일반 태스크로 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Deferred Interrupt Processing 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ Rate Monotonic 이론에 따른 우선순위 재배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주기가 짧은 태스크에 높은 우선순위 부여)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** RTOS 버그의 90%는 '너무 긴 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)'과 '잘못된 우선순위 할당'에서 온다. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 안에서 `printf`를 호출하거나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay) 함수를 쓰면 전체 시스템이 마비된다. ISR은 깃발만 꽂고 빠져야 하며, 락은 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 지원하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 엄격히 구분하여 사용해야 한다.
 
@@ -203,8 +189,8 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 | **정성** | 복잡한 타이밍 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 재현 불가 | 타이밍 동작의 수학적/논리적 증명 가능 | 시스템 안전성(Safety-Critical) 국제 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (ISO 26262 등) 획득 가능 |
 
 ### 미래 전망
-- **멀티코어 AMP/[SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 하이브리드 지원**: 자율주행차(SDV)의 부상으로 하나의 강력한 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 안에서 코어 0, 1은 범용 OS(리눅스/안드로이드)를 돌려 UI를 그리고, 코어 2, 3은 RTOS(QNX, VxWorks)를 돌려 차량 제어를 담당하는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기반 혼합 임계성(Mixed Criticality) 시스템이 대세가 되고 있다.
-- **[Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어의 도입**: C/C++ 기반 RTOS의 고질적인 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), Dangling Pointer) 문제를 컴파일 타임에 차단하기 위해, Rust로 작성된 안전한 차세대 RTOS (Tock OS 등)가 자동차 및 항공 우주 산업을 중심으로 도입되고 있다.
+- <strong>멀티코어 AMP/<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> 하이브리드 지원</strong>: 자율주행차(SDV)의 부상으로 하나의 강력한 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 안에서 코어 0, 1은 범용 OS(리눅스/안드로이드)를 돌려 UI를 그리고, 코어 2, 3은 RTOS(QNX, VxWorks)를 돌려 차량 제어를 담당하는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기반 혼합 임계성(Mixed Criticality) 시스템이 대세가 되고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/">Rust</a> 언어의 도입</strong>: C/C++ 기반 RTOS의 고질적인 [메모리 안전성](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/529_memory_safety_rust_go/)([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), Dangling Pointer) 문제를 컴파일 타임에 차단하기 위해, Rust로 작성된 안전한 차세대 RTOS (Tock OS 등)가 자동차 및 항공 우주 산업을 중심으로 도입되고 있다.
 
 ### 결론
 임베디드 RTOS의 핵심은 "빠름"이 아니라 "정확함(Determinism)"이다. O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 물리 세계와 상호작용하는 시스템이 최악의 시나리오에서도 데드라인을 사수할 수 있게 하는 수학적/구조적 방어막이다. 모빌리티와 IoT가 고도화될수록, 눈에 보이지 않는 RTOS의 '절대 보장 아키텍처'는 인명과 직결되는 가장 중요한 소프트웨어 기술로 자리매김할 것이다.
@@ -224,15 +210,19 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [우선순�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형]
-    │
-    ▼
-[임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
-    │
-    ├──▶ [마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계]
-    └──▶ [하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

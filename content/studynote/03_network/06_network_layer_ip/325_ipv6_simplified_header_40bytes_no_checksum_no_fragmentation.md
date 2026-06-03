@@ -20,37 +20,41 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더(최소 20바이트, 14개 필드) 구조를 완전히 갈아엎고 재설계한 차세대 IP 패킷의 헤더 포맷. 무조건 40바이트 크기를 가지며 단 8개의 핵심 필드로 압축되었다.
-- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절 라우터들은 택배 상자를 받을 때마다 "이 상자가 찢어졌나?([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))", "상자 겉면에 송장이 훼손됐나?([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산)", "옵션(Options)이 더 붙어있나?"를 일일이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 지우개로 고치느라 땀을 뻘뻘 흘렸다. 라우터를 100Gbps로 초광속 구동하려면, 라우터가 고민할 거리를 아예 안 줘야 한다. **"라우터야, 너는 무조건 40바이트만 딱 읽고 목적지로 빛처럼 튕겨내기만 해! 복잡한 계산은 PC들이 알아서 할게!"**라는 하드웨어 고속화 사상이 헤더를 대폭 다이어트시켰다.
+- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절 라우터들은 택배 상자를 받을 때마다 "이 상자가 찢어졌나?([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))", "상자 겉면에 송장이 훼손됐나?([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산)", "옵션(Options)이 더 붙어있나?"를 일일이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 지우개로 고치느라 땀을 뻘뻘 흘렸다. 라우터를 100Gbps로 초광속 구동하려면, 라우터가 고민할 거리를 아예 안 줘야 한다. <strong>"라우터야, 너는 무조건 40바이트만 딱 읽고 목적지로 빛처럼 튕겨내기만 해! 복잡한 계산은 PC들이 알아서 할게!"</strong>라는 하드웨어 고속화 사상이 헤더를 대폭 다이어트시켰다.
 
 - **💡 비유**: 
-  - **[IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더**: 이력서에 "키, 몸무게, 시력, 혈액형, 취미(Options)"까지 잔뜩 적혀 있어서 면접관(라우터)이 읽는 데 한참 걸리는 **"복잡한 옛날 입사 지원서"**입니다. 게다가 면접관이 직접 펜으로 점수([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 계속 고쳐 써야 합니다.
-  - **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더**: 오직 **"이름(출발지), 지망 부서(목적지), 직급([트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/))"** 딱 3개만 적힌 깔끔한 40바이트짜리 **"사원증 바코드"**입니다. 면접관은 바코드만 삑 찍고 1초 만에 바로 현장으로 투입(포워딩)시킵니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더</strong>: 이력서에 "키, 몸무게, 시력, 혈액형, 취미(Options)"까지 잔뜩 적혀 있어서 면접관(라우터)이 읽는 데 한참 걸리는 <strong>"복잡한 옛날 입사 지원서"</strong>입니다. 게다가 면접관이 직접 펜으로 점수([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 계속 고쳐 써야 합니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 헤더</strong>: 오직 <strong>"이름(출발지), 지망 부서(목적지), 직급(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/">트래픽 클래스</a>)"</strong> 딱 3개만 적힌 깔끔한 40바이트짜리 <strong>"사원증 바코드"</strong>입니다. 면접관은 바코드만 삑 찍고 1초 만에 바로 현장으로 투입(포워딩)시킵니다.
 
-```text
-[IPv6]
-    │
-    ▼
-[IPv6 단순화된 헤더]
-    │
-    └──▶ [트래픽 클래스 / 플로우 레이블]
-```
 
-- **📢 섹션 요약 비유**: ** [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더의 단순화는 F1 레이싱카의 설계 철학과 똑같습니다. 차체(IP 주소)는 커졌지만, 레이싱([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 속도에 방해되는 에어컨, 오디오, 뒷좌석([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 필드)을 몽땅 떼어내어 **오직 달리는 목적 하나에만 최적화된 궁극의 다이어트 머신**을 만든 것입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 단순화된 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 클래스 / 플로우 레이블</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 헤더의 단순화는 F1 레이싱카의 설계 철학과 똑같습니다. 차체(IP 주소)는 커졌지만, 레이싱(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>) 속도에 방해되는 에어컨, 오디오, 뒷좌석(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 필드)을 몽땅 떼어내어 </strong>오직 달리는 목적 하나에만 최적화된 궁극의 다이어트 머신**을 만든 것입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. IPv4에서 과감히 삭제(폐기)된 3대 찌꺼기
-- **[헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/) ([Header Checksum](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/))**: 라우터를 통과할 때마다 계속 덧셈 연산을 다시 해야 했던 주범. 어차피 L2([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS)와 L4([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))에서 앞뒤로 에러를 다 잡아주니까, 3계층에서는 쿨하게 삭제해버렸다.
-- **[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 필드 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/): ID, Flags, Offset)**: 라우터가 패킷을 칼질하게 만들었던 암 덩어리. IPv6에서는 **"라우터는 절대 패킷을 찢지 않는다. 좁은 문(MTU)이 나오면 그냥 버린다!"**가 원칙이다. 따라서 보내는 PC가 무조건 PMTUD(경로 MTU 탐색)를 통해 처음부터 작게 썰어 보내야 하므로 라우터가 읽을 기본 헤더에서 삭제되었다.
-- **가변 옵션 (Options, IHL)**: 길이가 늘어났다 줄어들었다 하면 하드웨어 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))이 헷갈린다. 그래서 아예 옵션 필드를 빼버리고 헤더 길이를 무조건 **40바이트 고정**으로 만들어버리면서, 헤더 길이를 알려주는 IHL 필드도 필요 없어져 삭제되었다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/">헤더 체크섬</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/">Header Checksum</a>)</strong>: 라우터를 통과할 때마다 계속 덧셈 연산을 다시 해야 했던 주범. 어차피 L2([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS)와 L4([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))에서 앞뒤로 에러를 다 잡아주니까, 3계층에서는 쿨하게 삭제해버렸다.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 필드 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>: ID, Flags, Offset)</strong>: 라우터가 패킷을 칼질하게 만들었던 암 덩어리. IPv6에서는 <strong>"라우터는 절대 패킷을 찢지 않는다. 좁은 문(MTU)이 나오면 그냥 버린다!"</strong>가 원칙이다. 따라서 보내는 PC가 무조건 PMTUD(경로 MTU 탐색)를 통해 처음부터 작게 썰어 보내야 하므로 라우터가 읽을 기본 헤더에서 삭제되었다.
+- **가변 옵션 (Options, IHL)**: 길이가 늘어났다 줄어들었다 하면 하드웨어 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))이 헷갈린다. 그래서 아예 옵션 필드를 빼버리고 헤더 길이를 무조건 <strong>40바이트 고정</strong>으로 만들어버리면서, 헤더 길이를 알려주는 IHL 필드도 필요 없어져 삭제되었다.
 
 ### 2. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기본 헤더의 8대 핵심 필드 (40 Bytes)
 IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 
 1. **Version (4비트)**: 무조건 `0110 (6)`.
-2. **[Traffic Class](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) (8비트)**: (구 IPv4의 TOS). 음성/영상 등 VIP 패킷 먼저 보내달라는 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 딱지.
+2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/">Traffic Class</a> (8비트)</strong>: (구 IPv4의 TOS). 음성/영상 등 VIP 패킷 먼저 보내달라는 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 딱지.
 3. **Flow Label (20비트) ★신규**: "이 패킷들은 넷플릭스 영상 흐름(Flow)이니까, 똑같은 길로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 쭉 빼줘!"라며 수백만 개의 패킷을 하나의 고속 튜브로 묶어버리는 신개념 스위칭 이정표다. ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 연산을 극적으로 단축시킴).
 4. **Payload Length (16비트)**: (구 IPv4의 Total Length와 다름). 헤더 40바이트를 **제외한** 진짜 알맹이(페이로드)만의 길이를 알려준다.
 5. **Next Header (8비트)**: (구 IPv4의 [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)). 내 뒤에 따라오는 데이터가 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(6)인지 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(17)인지, 아니면 IPv6의 '확장 헤더'가 하나 더 붙어 있는지를 가리키는 포인터 화살표.
@@ -58,32 +62,30 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 7. **Source Address (128비트, 16바이트)**: 출발지 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소.
 8. **Destination Address (128비트, 16바이트)**: 목적지 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPv6 헤더 vs IPv4 헤더 다이어트 비교              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 뚱뚱한 IPv4 (최소 20바이트) ]                              │
- │   VER | IHL | TOS | Total Length                            │
- │   ID  | Flags | Fragment Offset   ◀─ 라우터를 미치게 하는 부분  │
- │   TTL | Protocol | Header Checksum ◀─ 라우터를 미치게 하는 부분  │
- │   Source IP (32비트)                                         │
- │   Destination IP (32비트)                                    │
- │                                                             │
- │   ───────────────────────────────────────────────────────── │
- │                                                             │
- │   [ 근육질 IPv6 (고정 40바이트) ]                              │
- │   VER | Traffic Class | Flow Label (20비트 고속터널)           │
- │   Payload Len | Next Header | Hop Limit                     │
- │   Source IPv6 (무려 128비트 깡패 용량)                         │
- │   Destination IPv6 (무려 128비트 깡패 용량)                    │
- │                                                             │
- │   ▶ "주소 크기가 4배나 커졌는데, 군더더기를 싹 다 잘라낸 덕분에       │
- │      오히려 라우터 통과 속도는 더 빨라지는 기적의 다이어트!"           │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 확장 헤더(Next Header) 시스템은 레고 블록 기차입니다. 기본적으로 **"기관차(40바이트 기본 헤더)"**만 딱 보내서 빛처럼 빠르게 통과시키고, 만약 보안 암호화([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))나 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 같은 특별한 임무가 필요할 때만 기관차 뒤에 **"특수 목적의 객차(확장 헤더)"**를 고리(Next Header 포인터)로 줄줄이 이어 붙여서 통과시키는, 세상에서 가장 유연하고 세련된 포장 시스템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6 헤더 vs IPv4 헤더 다이어트 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">뚱뚱한 IPv4 (최소 20바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VER</div><div class="kb-diagram-cell">IHL</div><div class="kb-diagram-cell">TOS</div><div class="kb-diagram-cell">Total Length</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">Flags</div><div class="kb-diagram-cell">Fragment Offset ◀─ 라우터를 미치게 하는 부분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL</div><div class="kb-diagram-cell">Protocol</div><div class="kb-diagram-cell">Header Checksum ◀─ 라우터를 미치게 하는 부분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source IP (32비트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Destination IP (32비트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">근육질 IPv6 (고정 40바이트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VER</div><div class="kb-diagram-cell">Traffic Class</div><div class="kb-diagram-cell">Flow Label (20비트 고속터널)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload Len</div><div class="kb-diagram-cell">Next Header</div><div class="kb-diagram-cell">Hop Limit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source IPv6 (무려 128비트 깡패 용량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Destination IPv6 (무려 128비트 깡패 용량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "주소 크기가 4배나 커졌는데, 군더더기를 싹 다 잘라낸 덕분에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오히려 라우터 통과 속도는 더 빨라지는 기적의 다이어트!"</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 확장 헤더(Next Header) 시스템은 레고 블록 기차입니다. 기본적으로 </strong>"기관차(40바이트 기본 헤더)"<strong>만 딱 보내서 빛처럼 빠르게 통과시키고, 만약 보안 암호화(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)나 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 같은 특별한 임무가 필요할 때만 기관차 뒤에 </strong>"특수 목적의 객차(확장 헤더)"**를 고리(Next Header 포인터)로 줄줄이 이어 붙여서 통과시키는, 세상에서 가장 유연하고 세련된 포장 시스템입니다.
 
 ---
 
@@ -139,15 +141,19 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv6]
-    │
-    ▼
-[현재 개념: IPv6 단순화된 헤더]
-    │
-    ├──▶ [확장 A: 트래픽 클래스 / 플로우 레이블]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv6</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv6 단순화된 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 클래스 / 플로우 레이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 단순화된 헤더는 IPv6에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 클래스](/knowledge-base/studynote/03_network/06_network_layer_ip/326_traffic_class_flow_label_ipv6_qos/) / 플로우 레이블와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

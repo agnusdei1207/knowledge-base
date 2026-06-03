@@ -26,40 +26,34 @@ tags = ["studynote-network"]
 - **💡 비유**: 운전면허증의 유효기간(max-age)이 지났을 때, 면허를 아예 취소하고 처음부터 필기시험과 실기시험을 다시 쳐서 새 면허증(200 OK 전체 다운로드)을 발급받는 것은 낭비입니다. 경찰서에 가서 시력 검사(조건부 요청)만 간단히 받고 뒷면에 "기간 연장(304 Not Modified)" 도장만 새로 찍어 원래 면허증을 계속 쓰는 것이 훨씬 효율적입니다.
 
 - **등장 배경**:
-  1. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.0의 Last-Modified**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹에서는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 `수정 시간`을 기준으로 변동을 추적했다. 그러나 시간이 같아도 내용이 다를 수 있거나, 서버의 시계가 어긋나는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 있었다.
-  2. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 ETag 등장**: 콘텐츠의 내용을 기반으로 고유한 해시 문자열(지문)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 `ETag`가 도입되어, 1바이트의 변화도 정확하게 감지하는 강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Strong [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이 가능해졌다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.0의 Last-Modified</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹에서는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 `수정 시간`을 기준으로 변동을 추적했다. 그러나 시간이 같아도 내용이 다를 수 있거나, 서버의 시계가 어긋나는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 있었다.
+  2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1의 ETag 등장</strong>: 콘텐츠의 내용을 기반으로 고유한 해시 문자열(지문)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 `ETag`가 도입되어, 1바이트의 변화도 정확하게 감지하는 강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Strong [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))이 가능해졌다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          조건부 요청(Conditional Request) 아키텍처 흐름         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Client / Browser]                           [Origin Server]│
-│         │                                         │         │
-│         │ 1. GET /style.css (최초 요청)             │         │
-│         │────────────────────────────────────────▶│         │
-│         │                                         │         │
-│         │ 2. 200 OK                               │         │
-│   ┌─────│    Cache-Control: max-age=3600          │         │
-│   │     │    ETag: "W/1A2B3C"                     │         │
-│   │     │    Last-Modified: Mon, 12 Oct ...       │         │
-│ 저장    │◀────────────────────────────────────────│         │
-│   │     │                                         │         │
-│   │     │ (1시간 경과 후, 캐시 만료됨 - Stale 상태)   │         │
-│   │     │                                         │         │
-│   └────▶│ 3. GET /style.css (조건부 요청)           │         │
-│         │    If-None-Match: "W/1A2B3C"            │         │
-│         │    If-Modified-Since: Mon, 12 Oct ...   │         │
-│         │────────────────────────────────────────▶│         │
-│         │                             (서버에서 원본과 비교)  │
-│         │                                         │         │
-│         │ 4. 304 Not Modified                     │         │
-│   ┌─────│    (Body 없음! 헤더만 100바이트 전송)       │         │
-│ 갱신    │◀────────────────────────────────────────│         │
-│   │     │                                         │         │
-│   └────▶│ ➔ 기존 1MB 캐시 사본의 수명 연장 후 화면 렌더링!│         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 요청(Conditional Request) 아키텍처 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Browser</div><div class="kb-diagram-node">Origin Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. GET /style.css (최초 요청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 200 OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache-Control: max-age=3600</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETag: "W/1A2B3C"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Last-Modified: Mon, 12 Oct ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1시간 경과 후, 캐시 만료됨 - Stale 상태)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">3. GET /style.css (조건부 요청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If-None-Match: "W/1A2B3C"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If-Modified-Since: Mon, 12 Oct ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버에서 원본과 비교)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 304 Not Modified</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Body 없음! 헤더만 100바이트 전송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">➔ 기존 1MB 캐시 사본의 수명 연장 후 화면 렌더링!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 브라우저는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음 받을 때 꼬리표(`ETag`, `Last-Modified`)를 캐시에 함께 보관한다. `max-age` 시간이 지나면 브라우저는 서버로 3번 단계인 '조건부 요청'을 날린다. 헤더 이름이 `If-None-Match`(지문이 매칭되지 않으면 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘)와 `If-Modified-Since`(이 시간 이후로 수정됐으면 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘)로 바뀐다. 서버가 이 두 값을 자신의 현재 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 상태와 비교해보고 일치한다면, 4번 단계에서 내용물(Body)을 완전히 뺀 상태 코드 `304 Not Modified`만 보낸다. 1MB를 받을 것을 100바이트로 퉁치는 압도적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감이 일어난다.
 
@@ -85,31 +79,25 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
 2. **약한 ETag (Weak ETag)**: `ETag: W/"12345"`
    - 접두사 `W/`가 붙는다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 본질적 의미(시맨틱)는 같지만, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 하나하나가 일치하지는 않을 수 있다. 예를 들어, 웹 페이지의 광고 배너가 바뀌거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내 공백이 약간 추가되었지만 핵심 콘텐츠가 동일할 때 쓰인다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 적고 융통성이 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          ETag vs Last-Modified 조건부 검증 내부 로직           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [조건부 요청 도착: If-None-Match & If-Modified-Since]        │
-│                           │                                 │
-│                           ▼                                 │
-│              [서버: ETag 매칭 검사 수행]                       │
-│             클라이언트 ETag == 서버 현재 ETag ?               │
-│                  │                   │                      │
-│            (매칭됨 = 변경 없음)  (매칭안됨 = 파일 변경됨)          │
-│                  ▼                   ▼                      │
-│        [Last-Modified 검사]  ┌─────────────────────────┐    │
-│        클라이언트 Date >=    │      200 OK             │    │
-│        서버 수정 Date ?      │ (새 파일 1MB 전체 다운로드)│    │
-│                  │           └─────────────────────────┘    │
-│            (둘 다 만족)                                        │
-│                  ▼                                          │
-│        ┌─────────────────────────┐                          │
-│        │   304 Not Modified      │                          │
-│        │ (Body 없음, 헤더만 전송)  │                          │
-│        └─────────────────────────┘                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETag vs Last-Modified 조건부 검증 내부 로직</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건부 요청 도착: If-None-Match &amp; If-Modified-Since</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버: ETag 매칭 검사 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ETag == 서버 현재 ETag ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매칭됨 = 변경 없음) (매칭안됨 = 파일 변경됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Last-Modified 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 Date &gt;=</div><div class="kb-diagram-cell">200 OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 수정 Date ?</div><div class="kb-diagram-cell">(새 파일 1MB 전체 다운로드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(둘 다 만족)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">304 Not Modified</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Body 없음, 헤더만 전송)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 명세에 따르면, 브라우저가 `If-None-Match`와 `If-Modified-Since` 헤더를 동시에 보냈을 경우, 서버는 무조건 ETag를 1순위로 검사해야 한다(ETag가 훨씬 더 정확한 기준이기 때문). 두 조건이 모두 캐시 유효함을 증명할 때만 `304 Not Modified`를 내리며, 어느 하나라도 어긋난다면 가차 없이 `200 OK`와 함께 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리를 꽉 채워서 내려보내야 한다.
 
@@ -130,7 +118,7 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
 
 ### 과목 융합 관점
 
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) (DB)**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 ETag는 DB의 **[낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)([Optimistic Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/))**와 100% 동일한 아키텍처 패턴이다. 클라이언트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(PUT)할 때 `If-Match: "V1"` 헤더를 같이 보낸다. 서버는 현재 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 ETag가 "V1"일 때만 업데이트를 승인하고, 누군가 먼저 갱신하여 "V2"가 되었다면 `412 Precondition Failed` 에러를 던져 덮어쓰기([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)) 사고를 막는다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (DB)</strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 ETag는 DB의 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">낙관적 동시성 제어</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">Optimistic Concurrency Control</a>)</strong>와 100% 동일한 아키텍처 패턴이다. 클라이언트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(PUT)할 때 `If-Match: "V1"` 헤더를 같이 보낸다. 서버는 현재 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 ETag가 "V1"일 때만 업데이트를 승인하고, 누군가 먼저 갱신하여 "V2"가 되었다면 `412 Precondition Failed` 에러를 던져 덮어쓰기([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)) 사고를 막는다.
 - **클라우드 스토리지**: AWS S3나 구글 Cloud Storage에서 객체(Object)에 대한 `GET` 요청 시, S3는 객체의 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시값을 ETag로 반환한다. 이는 단순 캐시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 넘어 다운로드받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 네트워크 상에서 손상되지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지표로 융합되어 쓰인다.
 
 - **📢 섹션 요약 비유**: 클론인간 10명이 서 있을 때(서버 10대), 이름표 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙(ETag 공식)이 다르면 엄마(클라이언트)가 헷갈립니다. 서버가 여러 대면 반드시 ETag를 찍어내는 도장(해시 공식)을 통일해야 가족의 평화(캐시 히트율)가 유지됩니다.
@@ -142,29 +130,30 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
 1. **시나리오 — 로드밸런싱 환경에서의 ETag Miss 폭발**: A 기업의 사이트가 느리다는 보고가 들어왔다. 앞단에는 L7 로드밸런서(ALB)가 있고 뒤에 Apache 서버가 5대 있었다. [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 통계 화면을 보니 정적 자산의 Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 비율이 20%밖에 되지 않았다. 알고 보니 배포 시마다 서버 5대에 똑같은 이미지가 배포되었음에도, 각 서버 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 INode 값이 달라 5개의 다른 ETag가 뿜어져 나오고 있었다.
    - **판단**: 클라이언트가 1번 서버에서 사진을 받아 ETag(A)를 저장했는데, 재요청이 2번 서버로 라우팅되면 2번 서버는 자기의 ETag(B)와 다르다고 판단해 200 OK(풀 다운로드)를 쏴버렸다. 실무 인프라 아키텍트는 Apache의 `FileETag` 지시어에서 `INode`를 반드시 제거하여 클러스터 전역의 ETag 일관성을 보장해야 한다.
 
-2. **시나리오 — 동적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에서의 불필요한 ETag 연산 부하**: 트래픽이 초당 1만 건인 게시판 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버에 ETag를 적용했다. 서버 프레임워크(Spring, Node.js)가 매 요청마다 DB에서 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어와 완전한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열을 만든 뒤, 그것을 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시 함수에 돌려 ETag를 만들고 브라우저와 비교했다. 결과적으로 304 응답을 주어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 아꼈지만, 서버의 CPU 연산 부하와 DB 부하는 전혀 줄지 않았다.
+2. <strong>시나리오 — 동적 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>)에서의 불필요한 ETag 연산 부하</strong>: 트래픽이 초당 1만 건인 게시판 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버에 ETag를 적용했다. 서버 프레임워크(Spring, Node.js)가 매 요청마다 DB에서 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어와 완전한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문자열을 만든 뒤, 그것을 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시 함수에 돌려 ETag를 만들고 브라우저와 비교했다. 결과적으로 304 응답을 주어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 아꼈지만, 서버의 CPU 연산 부하와 DB 부하는 전혀 줄지 않았다.
    - **판단**: 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(이미지)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈/날짜로 ETag 계산이 즉각적(O(1))이지만, 동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) API에 무분별하게 해시 기반 ETag 필터를 걸면 "결과물을 다 만들고 나서야 똑같다는 걸 깨닫는" CPU 낭비의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 된다. 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 차라리 DB의 `update_time` 컬럼을 조회해 즉시 `Last-Modified`로 응답하거나, ETag [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 생략하고 캐시를 수동 무효화([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)하는 아키텍처가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 훨씬 유리하다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: 동적 API 검증 시 CPU 부하의 역설           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [문제 상황: 무거운 해시 연산 기반 ETag]                       │
-  │ 조건부 요청 (If-None-Match) 도착                             │
-  │  ➔ 1. DB Full Scan 조회 (수십 ms 소요)                      │
-  │  ➔ 2. 10MB 크기 JSON 객체 직렬화 렌더링                        │
-  │  ➔ 3. 10MB 전체를 SHA-256 해시 함수 통과 ➔ ETag 생성 (CPU 낭비)│
-  │  ➔ 4. 비교해보니 클라이언트 ETag와 같음 ➔ 304 반환              │
-  │ 🌟 결과: 대역폭은 아꼈지만, 서버 DB/CPU는 100% 낭비됨!          │
-  │                                                             │
-  │ [개선 아키텍처: 메타데이터 기반 Last-Modified 조기 반환]        │
-  │ 조건부 요청 (If-Modified-Since) 도착                         │
-  │  ➔ 1. DB에서 게시물의 '수정일(updated_at)' 컬럼 단 1개만 조회!    │
-  │  ➔ 2. 비교해보니 수정 안됨 ➔ 304 조기 반환 (Short-circuit)       │
-  │ 🌟 결과: 무거운 JSON 직렬화 및 해시 연산 전체 생략! 서버 부하 극감. │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 동적 API 검증 시 CPU 부하의 역설</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제 상황: 무거운 해시 연산 기반 ETag</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 요청 (If-None-Match) 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 1. DB Full Scan 조회 (수십 ms 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 2. 10MB 크기 JSON 객체 직렬화 렌더링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 3. 10MB 전체를 SHA-256 해시 함수 통과 ➔ ETag 생성 (CPU 낭비)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 4. 비교해보니 클라이언트 ETag와 같음 ➔ 304 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 대역폭은 아꼈지만, 서버 DB/CPU는 100% 낭비됨!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개선 아키텍처: 메타데이터 기반 Last-Modified 조기 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 요청 (If-Modified-Since) 도착</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 1. DB에서 게시물의 '수정일(updated_at)' 컬럼 단 1개만 조회!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 2. 비교해보니 수정 안됨 ➔ 304 조기 반환 (Short-circuit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 무거운 JSON 직렬화 및 해시 연산 전체 생략! 서버 부하 극감.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** ETag는 만능 치트키가 아니다. 텍스트를 해싱하는 연산([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA)은 CPU 사이클을 소모한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 아닌 백엔드 애플리케이션(동적 로직) 단에서 ETag를 쓰려면, 본문을 다 그려놓고 해싱하는 멍청한 방식 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도메인의 핵심 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Version 컬럼 등)를 ETag로 차용하거나 `Last-Modified` 시간 대조만으로 로직 초입에서 304를 재빨리 리턴(Short-circuit)해야 진정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 이루어진다.
 
@@ -173,7 +162,7 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
 - **운영·보안적**: 정보 보안 스캔 시, 약한 ETag(Weak ETag) 사용으로 인해 민감한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 누락되는 구간은 없는가? (결제, 계약서 다운로드 등 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 1바이트라도 깨지면 안 되는 곳은 강한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강제)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **`ETag`와 `Cache-Control: no-cache`의 누락 조합**: 개발자가 `Cache-Control: no-cache`(항상 서버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 써라)만 달아놓고 정작 응답에 `ETag`나 `Last-Modified` 헤더를 안 내려주는 실수. 브라우저는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하고 싶어도 잣대가 없으니 무조건 200 OK로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 다운받는 대참사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 0%)가 발생한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지시자에는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구(지문)가 반드시 세트로 따라다녀야 한다.
+- <strong><code>ETag</code>와 <code>Cache-Control: no-cache</code>의 누락 조합</strong>: 개발자가 `Cache-Control: no-cache`(항상 서버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 써라)만 달아놓고 정작 응답에 `ETag`나 `Last-Modified` 헤더를 안 내려주는 실수. 브라우저는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 하고 싶어도 잣대가 없으니 무조건 200 OK로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 다운받는 대참사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 0%)가 발생한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지시자에는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구(지문)가 반드시 세트로 따라다녀야 한다.
 
 - **📢 섹션 요약 비유**: 범인(만료된 캐시)을 잡았는데 지문 조회 기록(ETag)이나 알리바이 시간(Last-Modified)을 경찰서 시스템에 등록해놓지 않았다면, 어쩔 수 없이 매번 처음부터 다시 몽타주를 그려야(새로 다운로드) 하는 헛수고를 반복하게 됩니다.
 
@@ -189,7 +178,7 @@ ETag는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file
 
 ### 미래 전망
 - **Cache Busting 아키텍처로의 회귀**: 현대 프론트엔드 환경(React/Vue 등)에서는 `chunk-8f2b1.js`처럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명 자체에 콘텐츠 해시를 박아넣고 `max-age=1년` 영구 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)을 때리는 이른바 **Cache Busting** 패턴이 완벽한 지배자로 등극했다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 변하면 이름이 바뀌어 아예 새 요청이 나가므로, ETag를 붙잡고 서버와 304 줄다리기를 하는 조건부 요청 통신(1 RTT조차 낭비)조차 하지 않는 극단적 최적화로 아키텍처가 이동하고 있다.
-- **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레이어 중심의 활용**: 반면 HTML 껍데기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나, [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 응답 결과물, 그리고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 환경의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 매커니즘에서는 ETag의 중요성이 결코 사라지지 않고 앞으로도 아키텍처의 핵심 축을 담당할 것이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 레이어 중심의 활용</strong>: 반면 HTML 껍데기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나, [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)) 응답 결과물, 그리고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 환경의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 매커니즘에서는 ETag의 중요성이 결코 사라지지 않고 앞으로도 아키텍처의 핵심 축을 담당할 것이다.
 
 ### 참고 표준
 - **RFC 7232**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 Conditional Requests
@@ -212,21 +201,25 @@ HTTP의 조건부 요청 모델은 컴퓨터 과학의 난제인 캐시 무효�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 캐시 제어 헤더]
-    │
-    ▼
-[현재 개념: ETag / Last-Modified 검증]
-    │
-    ├──▶ [확장 A: 쿠키]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 캐시 제어 헤더</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ETag / Last-Modified 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 쿠키</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)는 [캐시 제어 헤더](/knowledge-base/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. ETag는 웹사이트가 만들어준 반찬통에 붙어있는 **'지문 스티커'**예요. 반찬 내용물이 조금이라도 바뀌면 지문 모양도 완전 달라지죠.
+1. ETag는 웹사이트가 만들어준 반찬통에 붙어있는 <strong>'지문 스티커'</strong>예요. 반찬 내용물이 조금이라도 바뀌면 지문 모양도 완전 달라지죠.
 2. 유통기한(max-age)이 지나서 버릴까 고민할 때, 냉장고가 서버 아저씨한테 "제 지문 스티커 아직 똑같아요?" 하고 물어보는 똑똑한 기능이랍니다.
 3. 서버 아저씨가 "응 지문 똑같아! 안 변했어(304)!"라고 하면 무거운 새 반찬통을 다시 배달받지 않아도 되어서 시간과 돈이 엄청나게 절약돼요!
 

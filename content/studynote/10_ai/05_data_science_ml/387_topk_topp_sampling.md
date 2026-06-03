@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 두 방법 모두 "저확률 쓰레기 토큰"을 제거하고 의미 있는 후보 토큰 집합에서 샘플링한다는 공통 목적을 가진다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Top-K는 "항상 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명 중 무작위 선택", Top-P는 "합격점 이상인 사람들 중에서 무작위 선택"이다. 인원이 고정이냐 기준이 고정이냐의 차이다.
 
@@ -51,31 +54,38 @@ tags = ["studynote-ai"]
 
 ### Top-P (Nucleus [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))
 
-```
-1. 확률 내림차순 정렬
-2. 누적 확률 합 계산
-3. P 임계값 초과하는 최소 집합 S_P 선택
-4. S_P 내 확률 재정규화 후 샘플링
 
-P=0.9 예시:
-토큰:  [A=0.50, B=0.30, C=0.15, D=0.03, E=0.02]
-누적:  [0.50,  0.80,  0.95,  0.98, 1.00]
-→ C까지(누적 0.95 ≥ 0.9) → S_P = {A, B, C}
-```
 
-```
-┌──────────────────────────────────────────────────────┐
-│  뾰족한 분포 (확신)       평평한 분포 (불확실)         │
-│                                                      │
-│  Top-K=3:                 Top-K=3:                   │
-│  [████ A, ██ B, █ C]      [█ A, █ B, █ C]            │
-│  (K=3으로 충분)            (K=3이 너무 적음)           │
-│                                                      │
-│  Top-P=0.9:               Top-P=0.9:                 │
-│  → S_P={A,B} (2개)        → S_P={A,B,...,J} (많음)   │
-│  (분포에 적응적)            (분포에 적응적)             │
-└──────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1. 확률 내림차순 정렬</div>
+<div class="kb-diagram-note">2. 누적 확률 합 계산</div>
+<div class="kb-diagram-note">3. P 임계값 초과하는 최소 집합 S_P 선택</div>
+<div class="kb-diagram-note">4. S_P 내 확률 재정규화 후 샘플링</div>
+<div class="kb-diagram-note">P=0.9 예시:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">토큰:</div><div class="kb-diagram-node">A=0.50, B=0.30, C=0.15, D=0.03, E=0.02</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">누적:</div><div class="kb-diagram-node">0.50,  0.80,  0.95,  0.98, 1.00</div></div>
+<div class="kb-diagram-note">→ C까지(누적 0.95 ≥ 0.9) → S_P = {A, B, C}</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뾰족한 분포 (확신) 평평한 분포 (불확실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-K=3: Top-K=3:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">████ A, ██ B, █ C</div><div class="kb-diagram-node">█ A, █ B, █ C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(K=3으로 충분) (K=3이 너무 적음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-P=0.9: Top-P=0.9:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ S_P={A,B} (2개) → S_P={A,B,...,J} (많음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(분포에 적응적) (분포에 적응적)</div></div>
+</div>
+</div>
+
+
 
 | 방법 | 후보 크기 | 분포 적응 | 하이퍼파라미터 | 권장 값 |
 |:---|:---|:---|:---|:---|
@@ -92,8 +102,8 @@ P=0.9 예시:
 
 Top-P는 2019년 Holtzman et al.의 "The Curious Case of Neural Text Degeneration" 논문에서 제안됐다. 이 논문은 그리디/Beam Search가 반복 루프에 빠지고, 완전 무작위 샘플링은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 텍스트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 **텍스트 퇴화 (Text Degeneration)** 문제를 분석했다.
 
-**η-샘플링 (Epsilon [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ε 이하 토큰 제거 (Top-P의 절대값 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))
-**Typical [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: 정보 이론적 전형성(Typicality)으로 후보 선택
+<strong>η-샘플링 (Epsilon <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)</strong>: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ε 이하 토큰 제거 (Top-P의 절대값 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))
+<strong>Typical <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: 정보 이론적 전형성(Typicality)으로 후보 선택
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -107,9 +117,9 @@ Top-P는 2019년 Holtzman et al.의 "The Curious Case of Neural Text Degeneratio
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**ChatGPT/[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4**: Top-P=1.0, [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=1.0 기본값 (사용자 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능)
+<strong>ChatGPT/<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4</strong>: Top-P=1.0, [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=1.0 기본값 (사용자 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능)
 **창의적 글쓰기**: [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.9, Top-P=0.95
-**코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.2, Top-P=0.95 또는 Greedy
+<strong>코드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)=0.2, Top-P=0.95 또는 Greedy
 **다양성 강화**: [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) + Top-P 둘 다 높게 + Presence Penalty 추가
 
 주의: Temperature와 Top-P를 동시에 매우 높이면 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 출력 발생.

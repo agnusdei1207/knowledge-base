@@ -26,20 +26,21 @@ tags = ["software_engineering"]
 
 이 그림은 다이어그램 수준의 추상 개념이 어떻게 시나리오 문서로 구체화되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      Use Case Diagram → Scenario: 그림을 실행 절차로 번역      │
-├──────────────────────────────────────────────────────────────┤
-│ [결제하기]                                                   │
-│     │                                                        │
-│     ▼                                                        │
-│ 1. 고객이 결제 버튼을 누른다                                 │
-│ 2. 시스템이 금액과 재고를 검증한다                           │
-│ 3. 시스템이 결제를 승인한다                                  │
-│ 4a. 쿠폰 적용 시 우회 성공                                   │
-│ 4b. 승인 실패 시 예외 종료                                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use Case Diagram → Scenario: 그림을 실행 절차로 번역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결제하기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 고객이 결제 버튼을 누른다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 시스템이 금액과 재고를 검증한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 시스템이 결제를 승인한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4a. 쿠폰 적용 시 우회 성공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4b. 승인 실패 시 예외 종료</div></div>
+</div>
+</div>
+
+
 
 핵심은 시나리오가 소설이 아니라는 점이다. 액터의 의도와 시스템의 반응을 경계 중심으로 기술해야 하며, 사람의 감정이나 내부 구현 세부 코드 대신 요구사항 판단에 필요한 단계와 조건을 남겨야 한다.
 
@@ -62,20 +63,19 @@ tags = ["software_engineering"]
 
 이 그림은 세 흐름의 관계를 한눈에 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            시나리오의 3갈래: 성공의 척추, 우회, 실패           │
-├──────────────────────────────────────────────────────────────┤
-│ Start                                                        │
-│   │                                                          │
-│   ▼                                                          │
-│ Basic Flow Step 1 ──▶ Step 2 ──▶ Step 3 ──▶ Success          │
-│                      │                                        │
-│                      ├─▶ Alternative Flow ──▶ rejoin ────────┘│
-│                      │                                        │
-│                      └─▶ Exception Flow ──▶ Abort / Failure   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시나리오의 3갈래: 성공의 척추, 우회, 실패</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Start</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Basic Flow Step 1 ──▶ Step 2 ──▶ Step 3 ──▶ Success</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Alternative Flow ──▶ rejoin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Exception Flow ──▶ Abort / Failure</div></div>
+</div>
+</div>
+
+
 
 대안 흐름과 예외 흐름의 경계는 "목표 달성 여부"로 판단하면 가장 명확하다. 예를 들어 로그인에서 비밀번호 대신 일회용 비밀번호 (One-Time Password, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해도 최종적으로 로그인에 성공하면 대안 흐름이다. 반면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 5회 실패로 계정이 잠기고 로그인 자체가 끝나지 못하면 예외 흐름이다. 이 구분이 명확해야 개발 로직과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)도 흔들리지 않는다.
 
@@ -146,19 +146,22 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-유스케이스 다이어그램
-    │
-    ▼
-유스케이스 시나리오
-    │
-    ├─▶ 기본 흐름 (정상 성공)
-    ├─▶ 대안 흐름 (우회 성공)
-    └─▶ 예외 흐름 (실패 / 중단)
-            │
-            ▼
-테스트 케이스 / BDD 시나리오 / 서비스 경계 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">유스케이스 다이어그램</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유스케이스 시나리오</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 기본 흐름 (정상 성공)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 대안 흐름 (우회 성공)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 예외 흐름 (실패 / 중단)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 케이스 / BDD 시나리오 / 서비스 경계 설계</div>
+</div>
+</div>
+
+
 
 이 흐름도는 추상적인 요구 표현이 실행 가능한 시나리오를 거쳐, 테스트와 아키텍처 경계 설계로 이어지는 관계를 정리한다.
 

@@ -17,28 +17,27 @@ tags = ["enterprise_systems"]
 
 ### 빌링 (Billing)이 아키텍처를 결정한다: 핀옵스의 대두
 
-온프레미스 시대의 비용은 구매 시점에 확정되는 고정비 (CAPEX)였다. 하지만 클라우드는 쓰는 만큼 돈이 나가는 변동비 (OPEX)이다. 엔지니어가 무심코 띄워놓은 고성능 인스턴스 하나가 한 달 뒤에 수천만 원의 청구서로 돌아오는 '클라우드 쇼크'는 기업의 큰 리스크가 되었다. **핀옵스**는 이 보이지 않는 비용의 흐름을 통제하고 최적화하는 '클라우드 시대의 지능형 가계부'이다.
+온프레미스 시대의 비용은 구매 시점에 확정되는 고정비 (CAPEX)였다. 하지만 클라우드는 쓰는 만큼 돈이 나가는 변동비 (OPEX)이다. 엔지니어가 무심코 띄워놓은 고성능 인스턴스 하나가 한 달 뒤에 수천만 원의 청구서로 돌아오는 '클라우드 쇼크'는 기업의 큰 리스크가 되었다. <strong>핀옵스</strong>는 이 보이지 않는 비용의 흐름을 통제하고 최적화하는 '클라우드 시대의 지능형 가계부'이다.
 
-핀옵스가 필요한 이유는 세 가지이다. 첫째, **클라우드 낭비 요소 제거**를 위해서이다. 통계적으로 클라우드 자원의 30% 이상이 유휴 자원으로 낭비되고 있다. 둘째, **비용의 투명성 확보**를 위해서이며 (부서별 사용량 추적), 셋째, **비즈니스 성장과 비용의 연동**을 통해 '수익성 있는 성장'을 지원하기 위함이다.
+핀옵스가 필요한 이유는 세 가지이다. 첫째, <strong>클라우드 낭비 요소 제거</strong>를 위해서이다. 통계적으로 클라우드 자원의 30% 이상이 유휴 자원으로 낭비되고 있다. 둘째, <strong>비용의 투명성 확보</strong>를 위해서이며 (부서별 사용량 추적), 셋째, <strong>비즈니스 성장과 비용의 연동</strong>을 통해 '수익성 있는 성장'을 지원하기 위함이다.
 
 이 그림은 핀옵스의 핵심 순환 주기인 **Inform - Optimize - Operate** 3단계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 FinOps Lifecycle: The 3 Phases              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Phase 1: Inform ] ──▶ [ Phase 2: Optimize ] ──▶ [ Phase 3: Operate ] │
-│   (비용 가시성 확보)      (사용량 및 단가 최적화)   (자동화 및 문화 정착) │
-│          ▲                                              │         │
-│          └─────────────────── (Feedback) ───────────────┘         │
-│                                                                   │
-│   * Inform: 태깅(Tagging)을 통한 부서별 비용 할당                │
-│   * Optimize: 예약 인스턴스(RI), 라이트사이징 적용                │
-│   * Operate: 거버넌스 수립 및 실시간 비용 감시                   │
-│                                                                   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Lifecycle: The 3 Phases</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 1: Inform</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Phase 2: Optimize</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Phase 3: Operate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비용 가시성 확보) (사용량 및 단가 최적화) (자동화 및 문화 정착)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Feedback)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Inform: 태깅(Tagging)을 통한 부서별 비용 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Optimize: 예약 인스턴스(RI), 라이트사이징 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Operate: 거버넌스 수립 및 실시간 비용 감시</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '지속적 피드백'이다. 한 번의 최적화로 끝나는 게 아니라, 매일매일 지표를 보며 개선해 나가는 운영 문화가 핵심이다. 실무에서는 이를 위해 클라우드 비용 관리 도구 (CloudHealth, AWS Cost Explorer 등)를 활용하여 실시간 대시보드를 구축한다.
 
@@ -75,25 +74,20 @@ tags = ["enterprise_systems"]
 
 이 구조도는 핀옵스 조직 (Cloud Center of Excellence)의 협업 아키텍처를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 CCoE: Cross-functional Collaboration        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│          ┌─────────────────────────────────────────┐        │
-│          │         [ Executive / Business ]        │        │
-│          │      (가치 중심 의사결정, 예산 승인)    │        │
-│          └────────────────────┬────────────────────┘        │
-│                               ▼                             │
-│   ┌───────────────┐        ┌─────────────┐        ┌───────────────┐ │
-│   │  [ Engineering ] ◀────▶│  [ FinOps ]  │◀────▶│   [ Finance ]  │ │
-│   │ (효율적 아키텍처)│      │    (CCoE)   │      │ (예산 및 회계) │ │
-│   └───────────────┘        └─────────────┘        └───────────────┘ │
-│                                                             │
-│   * 핵심: 핀옵스 팀이 기술과 재무 사이의 통역사 역할을 수행 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCoE: Cross-functional Collaboration</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Executive / Business</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가치 중심 의사결정, 예산 승인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Engineering</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">FinOps</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Finance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(효율적 아키텍처)</div><div class="kb-diagram-cell">(CCoE)</div><div class="kb-diagram-cell">(예산 및 회계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 핀옵스 팀이 기술과 재무 사이의 통역사 역할을 수행</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '언어의 번역'이다. 재무팀의 언어(손익)와 엔지니어링팀의 언어(인스턴스, 성능)를 '유닛 이코노믹스 (Unit Economics)'로 번역하여 소통한다 (예: 고객 1인당 인프라 비용). 실무에서는 이 지표가 기업의 실질적인 이익률을 결정하는 핵심 KPI가 된다.
 
@@ -127,29 +121,27 @@ tags = ["enterprise_systems"]
 ### 기술사적 판단: 클라우드 비용 폭증 진단 및 최적화 전략
 
 **시나리오 1: 마케팅 이벤트 후 클라우드 청구서가 평소의 5배로 폭증한 경우**
-- **판단**: 우선 **Cost Explorer**를 통해 어떤 자원에서 비용이 튀었는지 식별한다. 만약 사용되지 않는 **Unattached EBS (디스크)**나 **Idle Load Balancer**가 많다면 즉시 회수한다. 또한 급격히 늘어난 트래픽에 대해 **Spot Instance** 활용이 가능했는지 아키텍처를 검토하고, 향후 유사 이벤트 시에는 미리 **Saving Plans**를 구매하여 단가를 낮추는 전략을 수립한다.
+- **판단**: 우선 <strong>Cost Explorer</strong>를 통해 어떤 자원에서 비용이 튀었는지 식별한다. 만약 사용되지 않는 <strong>Unattached EBS (디스크)</strong>나 <strong>Idle Load Balancer</strong>가 많다면 즉시 회수한다. 또한 급격히 늘어난 트래픽에 대해 **Spot Instance** 활용이 가능했는지 아키텍처를 검토하고, 향후 유사 이벤트 시에는 미리 <strong>Saving Plans</strong>를 구매하여 단가를 낮추는 전략을 수립한다.
 
 **시나리오 2: 개발 환경의 클라우드 비용이 운영 환경보다 더 많이 나오는 상황**
-- **판단**: 전형적인 **'좀비 자원'** 문제이다. 개발 환경에 대해 **Nightly Shutdown (야간 자동 정지)** 정책을 IaC 파이프라인에 이식한다. 또한 개발자들에게 각자의 사용량을 투명하게 공개하는 **Showback** 시스템을 가동하고, 예산 한도의 80% 도달 시 즉시 알람을 보내는 '비용 가드레일'을 구축한다. 성능이 크게 중요하지 않은 개발계는 **ARM 기반 인스턴스 (Graviton 등)**로 전환하여 전성비를 40% 이상 개선한다.
+- **판단**: 전형적인 **'좀비 자원'** 문제이다. 개발 환경에 대해 **Nightly Shutdown (야간 자동 정지)** 정책을 IaC 파이프라인에 이식한다. 또한 개발자들에게 각자의 사용량을 투명하게 공개하는 **Showback** 시스템을 가동하고, 예산 한도의 80% 도달 시 즉시 알람을 보내는 '비용 가드레일'을 구축한다. 성능이 크게 중요하지 않은 개발계는 <strong>ARM 기반 인스턴스 (Graviton 등)</strong>로 전환하여 전성비를 40% 이상 개선한다.
 
 이 도식은 기술사가 주도하는 '핀옵스 성숙도 평가 및 개선 로드맵'을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               FinOps Maturity: Crawl - Walk - Run           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Crawl ] : 수동 태깅, 월별 비용 보고서 확인              │
-│          │                                                  │
-│   [ Walk ]  : 자동화된 태깅 정책, RI 구매 시작              │
-│          │                                                  │
-│   [ Run ]   : 실시간 유닛 이코노믹스 분석, 자율 최적화      │
-│                                                             │
-│   * 기술사 가이드: "측정할 수 없으면 관리할 수 없다."       │
-│     1단계 가시화(Inform)에 전력을 다해 신뢰를 확보할 것     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Maturity: Crawl - Walk - Run</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Crawl</div><div class="kb-diagram-note">: 수동 태깅, 월별 비용 보고서 확인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Walk</div><div class="kb-diagram-note">: 자동화된 태깅 정책, RI 구매 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Run</div><div class="kb-diagram-note">: 실시간 유닛 이코노믹스 분석, 자율 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: "측정할 수 없으면 관리할 수 없다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 가시화(Inform)에 전력을 다해 신뢰를 확보할 것</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 핀옵스 판단은 '에너지 효율 등급 설계자'와 같습니다. 집을 지을 때(아키텍처 설계)부터 단열이 잘 되는지(비용 효율성), 가전제품은 1등급인지(인스턴스 선정)를 따져서, 살면서 돈이 줄줄 새지 않게 만드는 전문가입니다.
 
@@ -164,7 +156,7 @@ tags = ["enterprise_systems"]
 
 ### 미래 전망: 자율 핀옵스 (Autonomous FinOps)와 GreenOps
 
-미래의 핀옵스는 사람이 조절하지 않아도 AI가 실시간으로 가장 저렴한 리전과 인스턴스를 찾아 워크로드를 이동시키는 **자율 최적화** 시대로 진화할 것이다. 또한 비용뿐만 아니라 탄소 배출량을 최적화하는 **GreenOps**가 기업의 ESG 경영과 맞물려 핵심 표준이 될 것이다. 기술사는 클라우드 기술의 깊이를 넘어, 기술이 기업의 재무 건전성과 지구 환경에 미치는 영향을 통합적으로 조율하는 '가치 중심 아키텍트'로 거듭나야 한다.
+미래의 핀옵스는 사람이 조절하지 않아도 AI가 실시간으로 가장 저렴한 리전과 인스턴스를 찾아 워크로드를 이동시키는 **자율 최적화** 시대로 진화할 것이다. 또한 비용뿐만 아니라 탄소 배출량을 최적화하는 <strong>GreenOps</strong>가 기업의 ESG 경영과 맞물려 핵심 표준이 될 것이다. 기술사는 클라우드 기술의 깊이를 넘어, 기술이 기업의 재무 건전성과 지구 환경에 미치는 영향을 통합적으로 조율하는 '가치 중심 아키텍트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 핀옵스는 '스마트 그리드'와 같아질 것입니다. 우리가 신경 쓰지 않아도 가장 저렴하고 깨끗한 에너지(클라우드 자원)를 시스템이 스스로 찾아 쓰고, 낭비되는 에너지를 찰나의 순간에 회수하는 완벽한 경제 시스템이 구축될 것입니다.
 

@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 또한 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 단순 번역표가 아니라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치이기도 하다. 읽기 전용 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 사용자 접근 금지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 아직 메모리에 없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 모두 엔트리 상태로 표현할 수 있다. 그래서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "주소를 어디로 보낼까?"와 "이 접근을 허용할까?"를 한 번에 결정한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      프로그램이 보는 세계와 하드웨어가 접근하는 세계 사이의 번역 계층      │
-├────────────────────────────────────────────────────────────────────────────┤
-│  프로세스 관점                                                              │
-│  [가상 주소 공간]  Page 0 │ Page 1 │ Page 2 │ Page 3                      │
-│         │                                                                  │
-│         ▼                                                                  │
-│  [페이지 테이블]  "각 페이지가 어느 프레임에 있는가, 접근 가능 상태는?"      │
-│         │                                                                  │
-│         ▼                                                                  │
-│  물리 메모리 관점                                                           │
-│  [RAM 프레임]   Frame 12 │ Frame 3 │ Frame 88 │ Frame 5 ...               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램이 보는 세계와 하드웨어가 접근하는 세계 사이의 번역 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 관점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 주소 공간</div><div class="kb-diagram-note">Page 0 │ Page 1 │ Page 2 │ Page 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블</div><div class="kb-diagram-note">"각 페이지가 어느 프레임에 있는가, 접근 가능 상태는?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리 관점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAM 프레임</div><div class="kb-diagram-note">Frame 12 │ Frame 3 │ Frame 88 │ Frame 5 ...</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 대형 창고의 위치 안내 데스크와 같다. 손님은 "A구역 3번 상자"만 말하지만, 안내 데스크는 실제 창고 선반 위치와 출입 권한까지 함께 확인해 준다.
 
@@ -53,31 +52,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 단일 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 기준의 핵심 흐름을 보여준다. 중요한 점은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 메모리 안에 존재하므로, 주소 하나를 번역하려 해도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 자체를 한 번 읽어야 한다는 것이다. 그래서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 유연하지만 느릴 수 있고, 이를 보완하기 위해 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/))가 필수로 붙는다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 가상 주소 → 페이지 테이블 → 물리 주소 변환                  │
-├────────────────────────────────────────────────────────────────────────────┤
-│  가상 주소                                                                  │
-│  ┌───────────────────────┬───────────────────────────────────────────────┐ │
-│  │ VPN                   │ Offset                                        │ │
-│  └──────────────┬────────┴───────────────────────────────────────────────┘ │
-│                 │                                                          │
-│                 ▼                                                          │
-│        PTBR ─▶ [페이지 테이블 시작 주소]                                   │
-│                 │                                                          │
-│                 ├─ VPN으로 PTE 선택                                        │
-│                 ▼                                                          │
-│        ┌───────────────────────────────────────────────────────────────┐   │
-│        │ PTE = PFN + Valid + Dirty + Access + Protection + ...        │   │
-│        └───────────────────────────────────────────────────────────────┘   │
-│                 │                                                          │
-│                 ├─ PFN 추출                                                │
-│                 ▼                                                          │
-│  물리 주소   ┌───────────────────────┬───────────────────────────────────┐ │
-│              │ PFN                   │ Offset                            │ │
-│              └───────────────────────┴───────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 → 페이지 테이블 → 물리 주소 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPN</div><div class="kb-diagram-cell">Offset</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 테이블 시작 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ VPN으로 PTE 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTE = PFN + Valid + Dirty + Access + Protection + ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PFN 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFN</div><div class="kb-diagram-cell">Offset</div></div>
+</div>
+</div>
+
+
 
 | PTE 항목 | 의미 | 시스템 관점의 중요성 |
 | :-- | :-- | :-- |
@@ -160,25 +151,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 할당의 한계
-    │
-    ▼
-페이징 (Paging)
-    │
-    ▼
-페이지 테이블 (Page Table)
-    │
-    ├─ 보호 비트 · Valid Bit · Dirty Bit
-    │
-    ├─ TLB (Translation Lookaside Buffer)
-    │
-    ▼
-다단계 페이지 테이블 (Multilevel Page Table)
-    │
-    ▼
-역 페이지 테이블 · Huge Page · 가상화용 EPT/NPT
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 할당의 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징 (Paging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 테이블 (Page Table)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">보호 비트 · Valid Bit · Dirty Bit</div>
+<div class="kb-diagram-tree-item" style="--depth:2">TLB (Translation Lookaside Buffer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 페이지 테이블 (Multilevel Page Table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역 페이지 테이블 · Huge Page · 가상화용 EPT/NPT</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공간 분할 → 번역 장부 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 → 대규모 확장"으로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술이 진화하는 방향을 보여준다.
 

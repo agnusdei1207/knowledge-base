@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handling)은 중앙처리장치 (Central Processing Unit, CPU)가 찾는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 물리 메모리에 없을 때, 하드웨어 예외를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 받아 적재·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 실제 실행 절차**다.
+> 1. **본질**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handling)은 중앙처리장치 (Central Processing Unit, CPU)가 찾는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 물리 메모리에 없을 때, 하드웨어 예외를 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 받아 적재·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 실제 실행 절차</strong>다.
 > 2. **가치**: 이 과정 덕분에 프로그램은 전체를 한꺼번에 올리지 않아도 큰 주소 공간을 쓰는 것처럼 동작하고, 저장장치 입출력 동안 다른 작업을 돌려 시스템 처리량을 지킬 수 있다.
 > 3. **판단 포인트**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 정상 메커니즘이지만, 빈도가 높아져 주요 폴트 (Major Fault)가 누적되면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 밀리초 단위로 튀며 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))으로 이어진다.
 
@@ -23,26 +23,24 @@ tags = ["studynote-computer-architecture"]
 
 이 절차가 필요한 이유는 프로그램의 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 공간과 실제 메모리 용량 사이에 큰 차이가 있기 때문이다. 예를 들어 수 기가바이트 크기의 애플리케이션이라도 실행 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 자주 쓰는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 그중 일부에 불과하다. 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 미리 올리면 시작 시간이 길어지고, 안 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 비싼 메모리를 점유한다. 반대로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리가 있으면 필요한 순간에만 가져와 메모리 자원을 더 촘촘하게 나눌 수 있다.
 
-아래 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 단순 실패가 아니라 **"부재 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 → 적재 → 재시작"**으로 이어지는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름임을 보여 준다.
+아래 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 단순 실패가 아니라 <strong>"부재 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개입 → 적재 → 재시작"</strong>으로 이어지는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   페이지 폴트 처리의 기본 의미                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU가 가상 주소 참조                                                      │
-│        │                                                                  │
-│        ▼                                                                  │
-│ MMU가 페이지 테이블 확인                                                  │
-│        │                                                                  │
-│   Present/Valid = 1 ───────────────▶ 즉시 접근                            │
-│        │                                                                  │
-│   Present/Valid = 0                                                       │
-│        ▼                                                                  │
-│ 페이지 폴트 예외 발생 ─▶ OS 개입 ─▶ 페이지 적재 ─▶ 명령 재시작            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 "주소 변환 실패"에서 끝나는 것이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입해 **프로그램에게는 실패를 거의 보이지 않게 만든다**는 점이다. 사용자 입장에서는 잠깐 느려질 뿐, 마치 원래 메모리에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 이어서 실행된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 처리의 기본 의미</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 가상 주소 참조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 페이지 테이블 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Present/Valid = 1 ▶ 즉시 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Present/Valid = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 예외 발생 ─▶ OS 개입 ─▶ 페이지 적재 ─▶ 명령 재시작</div></div>
+</div>
+</div>
+
+
+
+핵심은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 "주소 변환 실패"에서 끝나는 것이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입해 <strong>프로그램에게는 실패를 거의 보이지 않게 만든다</strong>는 점이다. 사용자 입장에서는 잠깐 느려질 뿐, 마치 원래 메모리에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 이어서 실행된다.
 
 - **📢 섹션 요약 비유**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리는 창고형 서점에서 책이 매대에 없을 때 직원이 창고에서 꺼내 오는 절차와 같다. 손님은 잠깐 기다리지만, 서점은 모든 책을 매장 한가운데 쌓아 둘 필요가 없다.
 
@@ -62,27 +60,30 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리의 실제 시퀀스를 시간 순서대로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    페이지 폴트 처리 시퀀스                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1. CPU가 가상 주소 접근                                                   │
-│ 2. MMU가 PTE/TLB 확인 후 fault trap 발생                                  │
-│ 3. 커널이 fault 원인 확인                                                 │
-│    ├─ 불법 접근이면  → 프로세스 종료 또는 시그널 전달                     │
-│    └─ 적재 가능 부재면 → 계속 진행                                        │
-│ 4. 자유 프레임 확인                                                       │
-│    ├─ 있음        → 그 프레임 사용                                        │
-│    └─ 없음        → 희생 페이지 선택                                      │
-│                    ├─ Dirty = 1 → 디스크에 먼저 기록                      │
-│                    └─ Dirty = 0 → 즉시 회수                               │
-│ 5. 저장장치에서 누락 페이지 읽기                                          │
-│ 6. PTE 갱신 + TLB 정리                                                    │
-│ 7. 실패했던 명령 재실행                                                   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 분기점은 **정상적 부재**와 **진짜 오류**를 구분하는 것이다. 같은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 예외라도, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 확장이나 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 때문에 아직 메모리에 없던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)일 수 있고, 반대로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역 침범이나 널 포인터 접근처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 안 되는 오류일 수도 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 폴트 주소, 접근 유형, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 메타데이터를 보고 이 둘을 갈라야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 처리 시퀀스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU가 가상 주소 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MMU가 PTE/TLB 확인 후 fault trap 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널이 fault 원인 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 불법 접근이면 → 프로세스 종료 또는 시그널 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 적재 가능 부재면 → 계속 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 자유 프레임 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 있음 → 그 프레임 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 없음 → 희생 페이지 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty = 1 → 디스크에 먼저 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty = 0 → 즉시 회수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 저장장치에서 누락 페이지 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. PTE 갱신 + TLB 정리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 실패했던 명령 재실행</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 분기점은 <strong>정상적 부재</strong>와 <strong>진짜 오류</strong>를 구분하는 것이다. 같은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 예외라도, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 확장이나 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 때문에 아직 메모리에 없던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)일 수 있고, 반대로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역 침범이나 널 포인터 접근처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 안 되는 오류일 수도 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 폴트 주소, 접근 유형, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 메타데이터를 보고 이 둘을 갈라야 한다.
 
 또 하나의 핵심은 적재 자체보다 재실행의 투명성이다. 중단된 명령이 다시 실행될 때 프로그램 상태가 깨지면 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 실패한다. 그래서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 보존, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 반영, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지까지 한 묶음으로 처리해야 한다.
 
@@ -122,9 +123,9 @@ tags = ["studynote-computer-architecture"]
 
 ### 대표 시나리오
 
-- **웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기동 직후 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**: 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 매핑이 아직 충분히 올라오지 않아 첫 요청에 주요 폴트가 집중된다. 이 경우 준비 트래픽으로 워밍업하면 사용자 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄일 수 있다.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 배치의 메모리 과구독**: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무작위로 스캔하면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 지역성이 약해져 major fault가 급증한다. 병렬도 축소, 메모리 증설, 접근 패턴 개선이 먼저다.
-- **[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)**: 제어 루프가 밀리초 단위 마감시간을 가지면, 주요 폴트 한 번도 치명적일 수 있다. 이 환경에서는 일반적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 편의보다 [페이지 고정](/knowledge-base/studynote/02_operating_system/07_virtual_memory/422_page_pinning_locking/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 우선이다.
+- <strong>웹 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 기동 직후 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>: 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 매핑이 아직 충분히 올라오지 않아 첫 요청에 주요 폴트가 집중된다. 이 경우 준비 트래픽으로 워밍업하면 사용자 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄일 수 있다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석 배치의 메모리 과구독</strong>: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무작위로 스캔하면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 지역성이 약해져 major fault가 급증한다. 병렬도 축소, 메모리 증설, 접근 패턴 개선이 먼저다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/">실시간 시스템</a></strong>: 제어 루프가 밀리초 단위 마감시간을 가지면, 주요 폴트 한 번도 치명적일 수 있다. 이 환경에서는 일반적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 편의보다 [페이지 고정](/knowledge-base/studynote/02_operating_system/07_virtual_memory/422_page_pinning_locking/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 우선이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -132,7 +133,7 @@ tags = ["studynote-computer-architecture"]
 - major fault 폭증을 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제로만 보고, 실제 작업 집합 초과를 무시하는 운영
 - [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 정상 메커니즘이라는 이유로, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 구간에서도 그대로 허용하는 설계
 
-결국 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정은 "잘 작동하면 유연성, 과도하면 병목"이라는 이중성을 가진다. 기술사 답안이나 실무 판단에서는 **[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 자체를 악으로 보지 말되, major fault가 상시화되는 순간에는 메모리 설계 실패로 읽어야 한다**고 정리하는 것이 정확하다.
+결국 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정은 "잘 작동하면 유연성, 과도하면 병목"이라는 이중성을 가진다. 기술사 답안이나 실무 판단에서는 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 자체를 악으로 보지 말되, major fault가 상시화되는 순간에는 메모리 설계 실패로 읽어야 한다</strong>고 정리하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)는 비상구와 같다. 가끔 쓰일 때는 건물을 안전하게 만들지만, 사람들이 평소에도 계속 비상구로만 드나들기 시작하면 그 건물의 동선 설계가 잘못된 것이다.
 
@@ -142,7 +143,7 @@ tags = ["studynote-computer-architecture"]
 
 잘 설계된 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 현실에서 성립시키는 세 가지 효과를 만든다. 첫째, 프로그램 전체를 미리 적재하지 않아도 되므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 적재량과 메모리 점유를 낮춘다. 둘째, 저장장치 입출력 동안 다른 프로세스를 실행시켜 중앙처리장치 이용률을 보존한다. 셋째, 프로세스 입장에서는 큰 주소 공간을 연속적으로 쓰는 것처럼 보여 개발 복잡도를 줄인다.
 
-하지만 전제조건은 분명하다. 저장장치가 아무리 빨라져도 주기억장치보다 느리고, major fault는 여전히 값비싼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. 따라서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정은 메모리를 "공짜로 늘리는 기술"이 아니라, **지역성과 스케줄링을 활용해 부족한 메모리를 버티게 하는 완충 장치**로 기억해야 한다. 이 완충 장치가 효과를 내려면 작업 집합이 지나치게 크지 않고, 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 함께 받쳐 줘야 한다.
+하지만 전제조건은 분명하다. 저장장치가 아무리 빨라져도 주기억장치보다 느리고, major fault는 여전히 값비싼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. 따라서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리 과정은 메모리를 "공짜로 늘리는 기술"이 아니라, <strong>지역성과 스케줄링을 활용해 부족한 메모리를 버티게 하는 완충 장치</strong>로 기억해야 한다. 이 완충 장치가 효과를 내려면 작업 집합이 지나치게 크지 않고, 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 함께 받쳐 줘야 한다.
 
 정리하면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리의 본질은 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 아니라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 유지다. 프로그램은 메모리가 충분한 것처럼 보이지만, 실제 뒤에서는 부재 감지, 적재, 교체, 재실행이 조용히 반복된다. 이 보이지 않는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루프가 매끄러울수록 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 강력해지고, 거칠어질수록 시스템은 곧바로 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)에 가까워진다.
 
@@ -163,25 +164,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-연속 적재 중심 실행
-        │
-        ▼
-가상 메모리 (Virtual Memory)
-        │
-        ▼
-요구 페이징 (Demand Paging)
-        │
-        ▼
-페이지 폴트 처리 (Page Fault Handling)
-        │
-        ├──▶ 페이지 교체 (Page Replacement)
-        │
-        ├──▶ 작업 집합 기반 제어 (Working Set Control)
-        │
-        ▼
-스래싱 감시 · 지연 최적화 · 메모리 보호 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">연속 적재 중심 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상 메모리 (Virtual Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">요구 페이징 (Demand Paging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 폴트 처리 (Page Fault Handling)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 페이지 교체 (Page Replacement)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 작업 집합 기반 제어 (Working Set Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스래싱 감시 · 지연 최적화 · 메모리 보호 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "모두 올려 두는 방식"에서 출발해, 필요한 순간만 적재하고, 이후에는 폴트 처리와 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 작업 집합 제어까지 확장되는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 운영의 진화를 보여 준다.
 

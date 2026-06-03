@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 자가 균형 [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(Self-balancing [Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)의 일종으로, 리눅스 CFS가 수만 개의 대기 프로세스들을 `vruntime`([가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)) 순으로 정렬하고 관리하기 위해 채택한 **핵심 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조**다.
+> 1. **본질**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 자가 균형 [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)(Self-balancing [Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) Tree)의 일종으로, 리눅스 CFS가 수만 개의 대기 프로세스들을 `vruntime`([가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/)) 순으로 정렬하고 관리하기 위해 채택한 <strong>핵심 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 자료구조</strong>다.
 > 2. **가치**: 트리가 한쪽으로 기우는 것을 막아주어, 프로세스의 삽입(Insert)과 삭제(Delete)를 최악의 경우에도 항상 **$O(\log N)$ 의 일정한 시간 복잡도로 보장**하므로, 스케줄링 오버헤드의 예측 가능성을 극대화한다.
-> 3. **융합**: CFS는 다음 실행할 프로세스를 찾기 위해 트리를 탐색하지 않고, 항상 $O(1)$의 속도로 꺼낼 수 있도록 트리 내의 **가장 왼쪽 노드(Leftmost Node) 포인터**를 별도로 캐싱해 두어, 트리 구조의 단점(탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 완벽히 무력화했다.
+> 3. **융합**: CFS는 다음 실행할 프로세스를 찾기 위해 트리를 탐색하지 않고, 항상 $O(1)$의 속도로 꺼낼 수 있도록 트리 내의 <strong>가장 왼쪽 노드(Leftmost Node) 포인터</strong>를 별도로 캐싱해 두어, 트리 구조의 단점(탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 완벽히 무력화했다.
 
 ---
 
@@ -24,26 +24,29 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 리눅스 2.6.23에서 CFS가 도입될 때, 잉고 몰나르는 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 복잡한 140개 다단계 큐를 모두 쓰레기통에 버렸다. 그리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 이미 파일시스템(ext3) 등에서 검증된 튼튼하고 빠른 부품인 `rbtree` ([레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 가져와, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 유일한 Ready Queue로 탈바꿈시켰다.
 
-```text
-  [배열(Array) vs 이진 탐색 트리(BST) vs 레드-블랙 트리(RB-Tree)의 차이]
 
-  (1) 배열 구조 (O(N))
-  [ P1(10) | P2(30) | P3(50) | P4(100) ] 
-   ▶ P5(20)이 들어오면? P2,P3,P4를 다 뒤로 한 칸씩 밀어야 함 (최악의 지연)
 
-  (2) 일반 이진 탐색 트리 (기울어짐 발생 시 O(N))
-      [10]
-        ↘ [20]
-            ↘ [30] (계속 큰 값만 들어오면 그냥 일자형 배열이 되어버림)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배열(Array) vs 이진 탐색 트리(BST) vs 레드-블랙 트리(RB-Tree)의 차이</div></div>
+<div class="kb-diagram-note">(1) 배열 구조 (O(N))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1(10) | P2(30) | P3(50) | P4(100)</div></div>
+<div class="kb-diagram-note">▶ P5(20)이 들어오면? P2,P3,P4를 다 뒤로 한 칸씩 밀어야 함 (최악의 지연)</div>
+<div class="kb-diagram-note">(2) 일반 이진 탐색 트리 (기울어짐 발생 시 O(N))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">↘</div><div class="kb-diagram-node">20</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">↘</div><div class="kb-diagram-node">30</div><div class="kb-diagram-note">(계속 큰 값만 들어오면 그냥 일자형 배열이 되어버림)</div></div>
+<div class="kb-diagram-note">(3) 레드-블랙 트리 (자가 균형, 항상 O(log N))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">30 (Black)</div></div>
+<div class="kb-diagram-note">↙ ↘</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20 (Red)</div><div class="kb-diagram-node">50 (Red)</div></div>
+<div class="kb-diagram-note">↙ ↘ ↙ ↘</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10(B)</div><div class="kb-diagram-node">25(B)</div><div class="kb-diagram-node">40(B)</div><div class="kb-diagram-node">100(B)</div></div>
+<div class="kb-diagram-note">▶ 값이 어떻게 들어오든 스스로 회전하여 피라미드 모양을 예쁘게 꽉 채워 유지함.</div>
+</div>
+</div>
 
-  (3) 레드-블랙 트리 (자가 균형, 항상 O(log N))
-           [ 30 (Black) ]
-         ↙              ↘
-   [ 20 (Red) ]        [ 50 (Red) ]
-   ↙      ↘          ↙          ↘
- [10(B)]  [25(B)]  [40(B)]       [100(B)]
-  ▶ 값이 어떻게 들어오든 스스로 회전하여 피라미드 모양을 예쁘게 꽉 채워 유지함.
-```
+
 **[다이어그램 해설]** [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 데이터가 어떻게 미친 듯이 쏟아져 들어오든 트리의 깊이(Depth) 차이를 2배 이내로 유지한다. 10만 개의 프로세스가 있어도 트리의 높이는 기껏해야 17층 안팎이다. 즉, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 새 프로세스를 집어넣을 때 최대 17번의 노드 비교만 하면 완벽한 자기 자리를 찾아가는 미친듯한 효율성을 보여준다.
 
 - **📢 섹션 요약 비유**: 도서관에서 책을 꽂을 때, 책꽂이 한 칸에 책이 너무 몰리면(일반 트리) 무너지거나 찾기 힘들어지니까, 사서(RB-Tree)가 실시간으로 책을 양쪽 책꽂이로 예쁘게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이동(회전)시켜, 어떤 책이든 10초(log N) 안에 찾을 수 있게 강제하는 시스템입니다.
@@ -54,11 +57,11 @@ tags = ["studynote-operating-system"]
 
 ### CFS Runqueue (RB-Tree)의 동작 메커니즘
 
-CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서 이 트리의 **정렬 기준([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 무조건 `vruntime`**이다. 트리의 왼쪽으로 갈수록 vruntime이 작고(CPU를 덜 썼고), 오른쪽으로 갈수록 vruntime이 크다(CPU를 많이 썼다).
+CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서 이 트리의 <strong>정렬 기준(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)은 무조건 <code>vruntime</code></strong>이다. 트리의 왼쪽으로 갈수록 vruntime이 작고(CPU를 덜 썼고), 오른쪽으로 갈수록 vruntime이 크다(CPU를 많이 썼다).
 
-1. **[태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 선택 ([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 선택 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">Select</a>)</strong>
    - [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 다음 실행할 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 고른다.
-   - 트리를 타고 내려갈 필요도 없다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 트리의 가장 왼쪽 끝 노드, 즉 **`Leftmost` 노드의 캐시 포인터**를 들고 있다. 이것을 꺼내오면 탐색 시간은 $O(1)$이다.
+   - 트리를 타고 내려갈 필요도 없다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 트리의 가장 왼쪽 끝 노드, 즉 <strong><code>Leftmost</code> 노드의 캐시 포인터</strong>를 들고 있다. 이것을 꺼내오면 탐색 시간은 $O(1)$이다.
 2. **실행 및 vruntime 증가**
    - 꺼내온 Leftmost 노드(프로세스)에게 CPU를 준다. 프로세스가 10ms 실행하면 이 노드의 vruntime도 10ms 증가한다.
 3. **재삽입 (Re-insert) 및 트리 회전**
@@ -67,28 +70,25 @@ CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 4. **새로운 Leftmost 탄생**
    - 1번 놈이 오른쪽으로 도망갔으므로, 2등으로 작았던 놈이 자연스럽게 새로운 `Leftmost`가 되어 다음번 CPU 옥좌에 앉을 준비를 마친다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │         CFS 내부 레드-블랙 트리의 Leftmost 갱신 라이프사이클         │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │  [상태 1: P1 실행 전]                                                │
-  │                  [ P2 (vruntime: 30) ]                               │
-  │                 /                     \                              │
-  │  ⭐Leftmost ─▶ [ P1 (10) ]              [ P3 (50) ]                  │
-  │                                                                      │
-  │  [상태 2: P1이 CPU를 점유하여 vruntime이 35로 폭등함]                │
-  │                                                                      │
-  │  [상태 3: P1 재삽입 (Re-insert) 후 트리 자동 재정렬]                 │
-  │                  [ P2 (vruntime: 30) ]                               │
-  │                 /                     \                              │
-  │  ⭐Leftmost ─▶ [ ??? (비어있음) ]       [ P1 (35) ]                  │
-  │               (새로운 1등은 누구?)          \                        │
-  │                                           [ P3 (50) ]                │
-  │                                                                      │
-  │  ✅ 결과: P2가 30으로 시스템 내 최저값이 되어 새로운 Leftmost로 승격!│
-  └──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CFS 내부 레드-블랙 트리의 Leftmost 갱신 라이프사이클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 1: P1 실행 전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2 (vruntime: 30)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1 (10)</div><div class="kb-diagram-node">P3 (50)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 2: P1이 CPU를 점유하여 vruntime이 35로 폭등함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 3: P1 재삽입 (Re-insert) 후 트리 자동 재정렬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2 (vruntime: 30)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">??? (비어있음)</div><div class="kb-diagram-node">P1 (35)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새로운 1등은 누구?) \</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P3 (50)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: P2가 30으로 시스템 내 최저값이 되어 새로운 Leftmost로 승격!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이것이 CFS가 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 같은 더러운 꼼수 없이 완벽한 공정성을 획득하는 원리다. 누군가를 억지로 끌어올리지 않아도, 1등 하던 놈이 밥(CPU)을 먹으면 먹은 만큼 무거워져서 트리 오른쪽으로 굴러 떨어지기 때문에, 가만히 굶고 있던 놈들이 자연스럽게 왼쪽 끝(Leftmost)으로 밀려 나와 1등석을 차지하게 된다.
 
 - **📢 섹션 요약 비유**: 물레방아(트리)와 같습니다. 위로 올라온 바가지(Leftmost)가 물(CPU)을 가득 담으면 그 무게(vruntime) 때문에 아래쪽(오른쪽)으로 쑥 내려갑니다. 그러면 자연스럽게 비어있는 다음 바가지가 물을 받기 위해 위로 올라오는, 중력과 질량의 법칙만으로 돌아가는 완벽한 순환 기계입니다.
@@ -103,13 +103,13 @@ CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 | 특성 | O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) ([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) + 비트맵) | CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (RB-Tree) |
 |:---|:---|:---|
-| **자료 구조** | 140개의 고정된 큐 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 유사) | **단 1개의 우아한 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)** |
+| **자료 구조** | 140개의 고정된 큐 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 유사) | <strong>단 1개의 우아한 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/">이진 트리</a></strong> |
 | **우선순위의 의미** | 0~139라는 "고정된 계급장 (신분제)" | vruntime이 흐르는 "속도([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))" |
 | **응답성 판별** | "얘가 대화형인가?" [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 코드로 추측함 | 💡 **추측 안 함. 트리 맨 왼쪽 놈이 정답임.** |
 | **삽입 오버헤드** | 극강의 $O(1)$ (그냥 큐 끝에 넣으면 됨) | **$O(\log N)$** (트리를 타고 내려가 비교해야 함) |
 | **버그 및 예외 처리** | 코드가 더럽고, 잘못된 추측 시 렉 끔찍함 | **코드가 수학적으로 완벽히 깔끔함 (버그 제로)** |
 
-$O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 띄워져 있어도 $\log_2(10000) \approx 13.2$ 번의 if 비교문만 타면 삽입이 끝난다. 현대 3GHz가 넘는 CPU에서 13번의 비교문 연산 시간은 나노초 단위라 체감할 수 없는 수치다. 반면, O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "얘가 대화형인가?"를 추측하기 위해 돌렸던 수백 줄의 찌꺼기 코드들이 CPU 캐시를 박살 내는 오버헤드가 훨씬 컸다. 결국 **"단순하고 버그 없는 수학(RB-Tree)"**이 "지저분하게 빠른 꼼수(O(1))"를 이긴 것이다.
+$O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 띄워져 있어도 $\log_2(10000) \approx 13.2$ 번의 if 비교문만 타면 삽입이 끝난다. 현대 3GHz가 넘는 CPU에서 13번의 비교문 연산 시간은 나노초 단위라 체감할 수 없는 수치다. 반면, O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 "얘가 대화형인가?"를 추측하기 위해 돌렸던 수백 줄의 찌꺼기 코드들이 CPU 캐시를 박살 내는 오버헤드가 훨씬 컸다. 결국 <strong>"단순하고 버그 없는 수학(RB-Tree)"</strong>이 "지저분하게 빠른 꼼수(O(1))"를 이긴 것이다.
 
 - **📢 섹션 요약 비유**: O(1)은 140개의 서랍을 짜놓고 물건을 대충 던져 넣는 빠른 정리법이지만, 서랍 이름을 정하느라 머리가 아픕니다. RB-Tree는 1개의 큰 서랍장에 알파벳 순서대로 정교하게 꽂아야 해서 3초(log N) 정도 늦지만, 나중에 책을 찾거나 관리할 때 절대 꼬이지 않는 평생 쓸 수 있는 도서관 시스템입니다.
 
@@ -120,29 +120,29 @@ $O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowl
 ### 실무 시나리오
 1. **서버 과부하 시 CFS Tree의 폭발(Throttling) 현상**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 노드에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1,000개를 띄웠다. 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에는 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 돌고 있다.
    - **문제**: RB-Tree에 매달린 노드(프로세스) 수가 10만 개를 넘어가면, 아무리 $O(\log N)$이라도 1초에 수만 번씩 발생하는 타이머 인터럽트마다 트리를 재정렬하느라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타임(`sy`)이 치솟는다.
-   - **해결 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 트리 병합)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 10만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 하나의 거대한 트리에 달지 않는다. Cgroups를 이용해 **'계층적 트리(Hierarchical Tree)'**를 만든다. 루트 트리에는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1,000개만 노드로 매달려 있고, A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 노드를 까보면 그 안에 자기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 50개짜리 미니 RB-Tree가 들어있는 식이다. 이를 통해 탐색 깊이(Depth)를 물리적으로 분절시켜 서버 폭파를 막는다.
-2. **`min_vruntime` 튜닝과 트리의 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)**: 트리는 무한정 커지지 않는다. 너무 오래 굶어서 vruntime이 터무니없이 작은 녀석이나, 이제 막 `fork()`로 태어난 신생 프로세스가 트리의 근간을 흔들며 CPU를 10분 동안 독점하는 것을 막아야 한다.
-   - **실무 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 항상 트리에 있는 가장 작은 값(`min_vruntime`)을 추적 변수로 들고 있다. 1년 자다 깬 프로세스가 트리에 진입하려고 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 녀석의 vruntime을 1년 전의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(극단적 작은 값)으로 두지 않고, 현재 트리의 `min_vruntime - 보너스 알파` 수준으로 강제로 값을 조작하여 트리에 꽂아 넣는다. 트리 모양이 왼쪽으로 기형적으로 길어지는 것을 막는 수학적 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)다.
+   - <strong>해결 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> 트리 병합)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 10만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 하나의 거대한 트리에 달지 않는다. Cgroups를 이용해 <strong>'계층적 트리(Hierarchical Tree)'</strong>를 만든다. 루트 트리에는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1,000개만 노드로 매달려 있고, A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 노드를 까보면 그 안에 자기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 50개짜리 미니 RB-Tree가 들어있는 식이다. 이를 통해 탐색 깊이(Depth)를 물리적으로 분절시켜 서버 폭파를 막는다.
+2. <strong><code>min_vruntime</code> 튜닝과 트리의 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a></strong>: 트리는 무한정 커지지 않는다. 너무 오래 굶어서 vruntime이 터무니없이 작은 녀석이나, 이제 막 `fork()`로 태어난 신생 프로세스가 트리의 근간을 흔들며 CPU를 10분 동안 독점하는 것을 막아야 한다.
+   - <strong>실무 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 로직</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 항상 트리에 있는 가장 작은 값(`min_vruntime`)을 추적 변수로 들고 있다. 1년 자다 깬 프로세스가 트리에 진입하려고 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 녀석의 vruntime을 1년 전의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(극단적 작은 값)으로 두지 않고, 현재 트리의 `min_vruntime - 보너스 알파` 수준으로 강제로 값을 조작하여 트리에 꽂아 넣는다. 트리 모양이 왼쪽으로 기형적으로 길어지는 것을 막는 수학적 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     K8s 엔지니어의 CPU Limit 튜닝과 RB-Tree의 상관관계 분석         │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ K8s 파드 설정: requests: 1, limits: 2 ]                         │
-  │                │                                                    │
-  │                ▼ 커널 내부 스케줄러(CFS)의 동작 변화                │
-  │   ▶ Requests(1): 파드의 가중치(Weight)로 변환됨.                    │
-  │      결과: CFS 트리에서 vruntime이 천천히 증가하게 만들어,          │
-  │            다른 쩌리 파드들보다 트리 왼쪽(Leftmost)에 오래          │
-  │            머물게 하여 1코어만큼의 최소 지분을 절대 방어함.         │
-  │                                                                     │
-  │   ▶ Limits(2): CFS 대역폭 제어기(Bandwidth Controller) 가동.        │
-  │      결과: 파드가 2코어 분량의 시간을 다 써버리면, 아예 CFS         │
-  │            RB-Tree에서 이 파드 노드 전체를 **뽑아버림(Throttled)**! │
-  │            다음 충전 주기가 될 때까지 트리에 못 들어와서 서버 멈춤. │
-  └─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 엔지니어의 CPU Limit 튜닝과 RB-Tree의 상관관계 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 파드 설정: requests: 1, limits: 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 커널 내부 스케줄러(CFS)의 동작 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Requests(1): 파드의 가중치(Weight)로 변환됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: CFS 트리에서 vruntime이 천천히 증가하게 만들어,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 쩌리 파드들보다 트리 왼쪽(Leftmost)에 오래</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머물게 하여 1코어만큼의 최소 지분을 절대 방어함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Limits(2): CFS 대역폭 제어기(Bandwidth Controller) 가동.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 파드가 2코어 분량의 시간을 다 써버리면, 아예 CFS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RB-Tree에서 이 파드 노드 전체를 뽑아버림(Throttled)!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 충전 주기가 될 때까지 트리에 못 들어와서 서버 멈춤.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 클라우드 엔지니어가 작성하는 YAML 파일의 CPU 할당량은, 그 즉시 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 RB-Tree 노드 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 수식으로 번역되어 삽입된다. 트리에 노드가 어떻게 꽂히고(Request), 언제 트리에서 뽑혀서 버려지는지(Limit) 이 역학 관계를 이해해야 K8s 서버의 이유 없는 멈춤(CPU Throttling) 장애를 해결할 수 있다.
 
 - **📢 섹션 요약 비유**: 트리에 매달려 있는 한, 내 순서(vruntime)가 밀릴지언정 게임(CPU)은 계속할 수 있습니다. Request는 내 차례가 좀 더 빨리 오게 해주는 '새치기 쿠폰'이고, Limit는 내가 게임을 너무 많이 하면 엄마가 아예 트리에서 나를 끌어내려 방에 가둬버리는(Throttled) 셧다운 제도입니다.
@@ -152,11 +152,11 @@ $O(\log N)$이 $O(1)$보다 무거운 것은 사실이다. 그러나 [10](/knowl
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)를 도입함으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 O(N) 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 거대한 병목을 털어내고, 프로세스가 수만 개로 늘어나더라도 시스템 응답성이 무너지지 않는 **'선형적 확장성 (Linear Scalability)'**과 수학적으로 증명 가능한 **'완벽한 공정성 (Perfect Fairness)'**을 동시에 손에 넣었다.
+[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)를 도입함으로써 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 O(N) 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 거대한 병목을 털어내고, 프로세스가 수만 개로 늘어나더라도 시스템 응답성이 무너지지 않는 <strong>'선형적 확장성 (Linear Scalability)'</strong>과 수학적으로 증명 가능한 <strong>'완벽한 공정성 (Perfect Fairness)'</strong>을 동시에 손에 넣었다.
 
 ### 결론 및 미래 전망
 CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)의 결합은 2007년 이후 현재까지 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 핵심적인 심장으로 굳건히 뛰고 있다. 그러나 최근 1,000코어가 넘어가는 미친 멀티코어 시대와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 스토리지의 극초고속 I/O 시대가 열리면서, 트리에 넣고 빼고 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 거는 $O(\log N)$의 시간조차 아깝다는 목소리([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)가 커지고 있다. 
-구글 등은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 트리를 유지하는 대신, **[BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) ([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))** 기술을 이용해 `sched_ext`라는 커스텀 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 프레임워크를 개발하여, 유저 공간(User Space)에서 애플리케이션 특성에 맞는 해시나 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 등 아예 다른 자료구조로 스케줄링 큐를 직접 짜서 갈아 끼우는 '[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 모듈화' 시대로 넘어가고 있다.
+구글 등은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 트리를 유지하는 대신, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong> 기술을 이용해 `sched_ext`라는 커스텀 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 프레임워크를 개발하여, 유저 공간(User Space)에서 애플리케이션 특성에 맞는 해시나 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 등 아예 다른 자료구조로 스케줄링 큐를 직접 짜서 갈아 끼우는 '[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 모듈화' 시대로 넘어가고 있다.
 
 - **📢 섹션 요약 비유**: [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)는 지난 20년간 어떤 모진 풍파에도 무너지지 않는 완벽한 피라미드였습니다. 하지만 이제 피라미드마저 무겁다며, 짐을 땅에 닿기도 전에 공중에서 바로바로 던져서 쳐내버리는 마법([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))의 시대로 컴퓨터 과학은 한계를 깨고 나가고 있습니다.
 
@@ -173,22 +173,26 @@ CFS와 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_da
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[경성 실시간 (Hard Real-time) 시스템]
-    │
-    ▼
-[레드-블랙 트리 (Red-Black Tree)와 CFS]
-    │
-    ├──▶ [주기적 태스크 (Periodic Task)]
-    └──▶ [RM (Rate-Monotonic) 스케줄링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">경성 실시간 (Hard Real-time) 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레드-블랙 트리 (Red-Black Tree)와 CFS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주기적 태스크 (Periodic Task)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RM (Rate-Monotonic) 스케줄링</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 1만 명의 아이들 중 밥을 제일 덜 먹은 1명을 찾으려고 한 줄로 세우면, 뒤에 있는 애를 찾느라 시간이 너무 오래 걸려요.
-2. 그래서 선생님은 **[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)**라는 피라미드 모양으로 아이들을 세웠어요. 밥을 덜 먹은 애는 무조건 피라미드 맨 왼쪽 아래로 굴러떨어지게 만들었죠.
+2. 그래서 선생님은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a></strong>라는 피라미드 모양으로 아이들을 세웠어요. 밥을 덜 먹은 애는 무조건 피라미드 맨 왼쪽 아래로 굴러떨어지게 만들었죠.
 3. 이제 선생님은 피라미드 안에 누가 있는지 일일이 안 찾아보고, 그냥 눈 감고 맨 왼쪽 아래(Leftmost)에 있는 아이만 쏙 뽑아오면 무조건 밥 제일 못 먹은 아이를 1초 만에 찾을 수 있답니다!
 
 ---

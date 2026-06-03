@@ -23,16 +23,18 @@ tags = ["studynote-devops-sre"]
 
 문제는 서버가 사라진다고 원인까지 사라지는 것은 아니라는 점이다. 사용자는 단지 "응답이 느리다"고 느끼지만 실제 원인은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 함수 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 한도, 외부 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 적체, 재시도 폭증 중 어디에든 있을 수 있다. 특히 비동기 이벤트 흐름에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로 요청의 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이어 붙이기 어렵다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Serverless trace가 끊어지기 쉬운 지점                         │
-├──────────────────────────────────────────────────────────────┤
-│ API Gateway -> Lambda A -> SQS Queue -> Lambda B -> DB       │
-│                cold start     async gap       downstream call│
-│                                                              │
-│ 서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless trace가 끊어지기 쉬운 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway -&gt; Lambda A -&gt; SQS Queue -&gt; Lambda B -&gt; DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cold start async gap downstream call</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨</div></div>
+</div>
+</div>
+
+
 
 AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 맵"으로 바꿔 주기 때문이다. 루트 세그먼트([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))와 하위 세그먼트(Subsegment)를 통해 어느 함수의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 느렸는지, 어느 다운스트림 호출이 병목인지, 비동기 경계에서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 끊겼는지를 한눈에 볼 수 있다.
 
@@ -46,21 +48,24 @@ AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](
 
 아래 그림은 동기 호출과 비동기 경계를 모두 포함한 전형적 구성을 보여준다.
 
-```text
-┌─────────────┐   trace header   ┌──────────────────────┐
-│ API Gateway │────────────────▶ │ Lambda A             │
-└──────┬──────┘                  │ Init / Handler       │
-       │                         │ DynamoDB / SQS span  │
-       ▼                         └─────────┬────────────┘
-  X-Ray Root Segment                        │ message attr
-                                            ▼
-                                  ┌──────────────────────┐
-                                  │ Lambda B             │
-                                  │ HTTP / DB subsegment │
-                                  └─────────┬────────────┘
-                                            ▼
-                            X-Ray Service Map + Logs + Metrics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">trace header</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Lambda A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Init / Handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB / SQS span</div></div>
+<div class="kb-diagram-note">X-Ray Root Segment │ message attr</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP / DB subsegment</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">X-Ray Service Map + Logs + Metrics</div>
+</div>
+</div>
+
+
 
 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 관점에서는 두 구간을 분리해 봐야 한다. 첫째는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 구간(Init)으로, 패키지 로딩과 런타임 부팅이 포함된 [콜드 스타트 지연](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/152_cold_start_latency_serverless/)이다. 둘째는 핸들러 실행 구간으로, 실제 비즈니스 로직과 외부 호출 시간이 포함된다. 둘을 구분하지 않으면 "함수가 느리다"는 사실만 알 뿐, 코드가 느린지 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 느린지 판단할 수 없다.
 
@@ -130,9 +135,9 @@ X-Ray의 어노테이션과 [메타데이터](/knowledge-base/studynote/05_datab
 
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)가 잘 갖춰지면 "Lambda가 느리다"는 막연한 표현이 "[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 320ms + 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 1.8초 + SQS 재시도 3회"처럼 행동 가능한 문장으로 바뀐다. 이는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄일 뿐 아니라, 어떤 함수에는 Provisioned Concurrency가 필요한지, 어떤 구간은 구조를 비동기로 바꿔야 하는지까지 판단하게 해 준다.
 
-한계도 분명하다. 샘플링된 트레이스만으로는 모든 요청을 재현할 수 없고, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 특성상 호스트 내부 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)이나 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 세밀한 관측이 제한될 수 있다. AWS X-Ray만 쓰면 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성이 커질 수 있으며, 반대로 OpenTelemetry만 고집하면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 복잡도가 올라간다. 결국 관측 체계는 기술 선택보다도 **요청 경로와 이벤트 경계를 얼마나 의식적으로 설계했는가**에 좌우된다.
+한계도 분명하다. 샘플링된 트레이스만으로는 모든 요청을 재현할 수 없고, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 특성상 호스트 내부 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)이나 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 세밀한 관측이 제한될 수 있다. AWS X-Ray만 쓰면 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성이 커질 수 있으며, 반대로 OpenTelemetry만 고집하면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 복잡도가 올라간다. 결국 관측 체계는 기술 선택보다도 <strong>요청 경로와 이벤트 경계를 얼마나 의식적으로 설계했는가</strong>에 좌우된다.
 
-결론적으로 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 서버 시대의 APM을 그대로 옮겨 심는 일이 아니다. 기억해야 할 핵심은 **트레이스 우선 설계, 구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 큐 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 함께 묶어 요청의 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 복원하는 것**이다.
+결론적으로 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 서버 시대의 APM을 그대로 옮겨 심는 일이 아니다. 기억해야 할 핵심은 <strong>트레이스 우선 설계, 구조화 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>, 큐 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>을 함께 묶어 요청의 인과 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 복원하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 좋은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 관측 체계는 반딧불이 수천 마리를 한 번에 보는 야간 관찰 장비와 같다. 개별 빛은 짧지만, 이동 경로를 이어 보면 생태계 전체가 보인다.
 
@@ -151,21 +156,23 @@ X-Ray의 어노테이션과 [메타데이터](/knowledge-base/studynote/05_datab
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-호스트 에이전트 중심 모니터링
-    │
-    ▼
-CloudWatch Metrics / Logs
-    │
-    ▼
-AWS X-Ray 기반 분산 추적
-    │
-    ▼
-OpenTelemetry + Async Context Propagation
-    │
-    ▼
-SLO 기반 Serverless Operations
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">호스트 에이전트 중심 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CloudWatch Metrics / Logs</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AWS X-Ray 기반 분산 추적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenTelemetry + Async Context Propagation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLO 기반 Serverless Operations</div>
+</div>
+</div>
+
+
 
 이 흐름은 "서버 상태 관찰"에서 "이벤트와 요청의 경로 복원"으로 관측 중심축이 이동하는 과정을 보여준다.
 

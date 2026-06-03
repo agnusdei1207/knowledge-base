@@ -33,23 +33,22 @@ tags = ["studynote-it-management"]
 
 네 가지 모델의 차이는 결국 "접근 허용 여부를 누가 무엇으로 판단하는가"에 있다. MAC은 시스템이 레이블과 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 등급을 강제로 비교하고, DAC은 자원 소유자가 권한을 나눠 준다. RBAC은 사용자에게 직접 권한을 주기보다 역할을 매개로 권한을 묶고, ABAC은 주체·객체·환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 평가해 결정을 내린다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Access control decision lens                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Request = Subject + Object + Action + Context                       │
-│        │                                                            │
-│        ▼                                                            │
-│ Decision model                                                      │
-│   MAC  -> label vs clearance                                        │
-│   DAC  -> owner / ACL                                               │
-│   RBAC -> role -> permission map                                    │
-│   ABAC -> attribute policy evaluation                               │
-│        │                                                            │
-│        ▼                                                            │
-│ Enforcement point -> allow / deny / log                             │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access control decision lens</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request = Subject + Object + Action + Context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decision model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC -&gt; label vs clearance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAC -&gt; owner / ACL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBAC -&gt; role -&gt; permission map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ABAC -&gt; attribute policy evaluation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enforcement point -&gt; allow / deny / log</div></div>
+</div>
+</div>
+
+
 
 이 구조가 보여 주는 핵심은 네 모델이 모두 "허용/거부"를 내리지만, 판단의 근거가 다르다는 점이다. 그래서 동일한 시스템이라도 규정 준수, 운영 편의성, 예외 처리 방식이 크게 달라진다. 예를 들어 MAC은 강력하지만 예외가 어렵고, ABAC은 유연하지만 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 품질과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 복잡도가 성패를 가른다.
 
@@ -115,7 +114,7 @@ MAC의 대표 원리는 "No Read Up, No Write Down" 같은 보안 규칙이고, 
 - 관리자 권한을 일반 사용자 권한 모델 안에 섞어 두는 경우
 - 모델은 정교하지만 권한 정기 검토와 회수 프로세스가 없는 경우
 
-결국 접근 제어의 기술사적 포인트는 "어떤 모델이 최고인가"가 아니라, **어떤 조직 문맥에서 어떤 모델 조합이 설명 가능하고 운영 가능한가**다. 시스템이 커질수록 권한 자체보다 권한 변경과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 더 중요해진다.
+결국 접근 제어의 기술사적 포인트는 "어떤 모델이 최고인가"가 아니라, <strong>어떤 조직 문맥에서 어떤 모델 조합이 설명 가능하고 운영 가능한가</strong>다. 시스템이 커질수록 권한 자체보다 권한 변경과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 더 중요해진다.
 
 - **📢 섹션 요약 비유**: 좋은 접근 제어는 열쇠 종류를 많이 만드는 것이 아니라, 누가 왜 어떤 문을 열 수 있는지 관리실이 설명할 수 있게 만드는 것이다.
 
@@ -127,7 +126,7 @@ MAC의 대표 원리는 "No Read Up, No Write Down" 같은 보안 규칙이고, 
 
 다만 모델이 고도화될수록 운영 전제가 중요해진다. MAC은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 흔들리면 의미가 없고, RBAC은 역할 설계가 빈약하면 곧바로 예외 폭증으로 무너진다. ABAC은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 공급과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 테스트 자동화가 없으면 오히려 더 이해하기 어려운 시스템이 될 수 있다. 좋은 모델보다 더 중요한 것은 좋은 거버넌스다.
 
-결론적으로 이 주제는 "권한을 어떤 기준으로 묶고 설명할 것인가"로 기억하는 편이 좋다. **MAC은 시스템 기준, DAC은 소유자 기준, RBAC은 역할 기준, ABAC은 문맥 기준의 접근 제어**다. 실무의 정답은 대개 하나가 아니라, 이 기준들을 적절히 조합해 최소 권한과 설명 가능성을 동시에 확보하는 데 있다.
+결론적으로 이 주제는 "권한을 어떤 기준으로 묶고 설명할 것인가"로 기억하는 편이 좋다. <strong>MAC은 시스템 기준, DAC은 소유자 기준, RBAC은 역할 기준, ABAC은 문맥 기준의 접근 제어</strong>다. 실무의 정답은 대개 하나가 아니라, 이 기준들을 적절히 조합해 최소 권한과 설명 가능성을 동시에 확보하는 데 있다.
 
 - **📢 섹션 요약 비유**: 접근 제어의 성숙도는 열쇠가 많은가보다, 관리실이 출입 규칙을 일관되게 설명하고 바로 수정할 수 있는가에서 갈린다.
 
@@ -146,30 +145,29 @@ MAC의 대표 원리는 "No Read Up, No Write Down" 같은 보안 규칙이고, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기밀 등급 중심 통제
-    │
-    ▼
-MAC (Mandatory Access Control)
-    │
-    ▼
-파일 소유권 중심 공유
-    │
-    ▼
-DAC (Discretionary Access Control)
-    │
-    ▼
-조직 역할 중심 권한 묶음
-    │
-    ▼
-RBAC (Role-Based Access Control)
-    │
-    ▼
-속성 · 문맥 · 위험 기반 정책
-    │
-    ▼
-ABAC 및 적응형 접근 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기밀 등급 중심 통제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MAC (Mandatory Access Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파일 소유권 중심 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAC (Discretionary Access Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조직 역할 중심 권한 묶음</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RBAC (Role-Based Access Control)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">속성 · 문맥 · 위험 기반 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ABAC 및 적응형 접근 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 접근 제어가 고정된 등급 통제에서 점점 더 조직적이고 문맥적인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 확장되는 과정을 보여 준다.
 

@@ -19,30 +19,36 @@ tags = ["studynote-design-supervision"]
 
 감리와 기술사 관점에서 이 주제가 중요한 이유는 조직이 흔히 개발 생산성과 운영 품질을 따로 보고하기 때문이다. 그러나 배포가 느리면 가치 실현도 늦어지고, 반대로 자주 배포하더라도 실패율이 높으면 운영 위험이 커진다. 따라서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 개발, 테스트, 형상관리, 승인, 운영 배포를 하나의 가치 흐름으로 묶어 판단하게 해 준다.
 
-```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌────────────┐   ┌──────────┐   ┌──────────┐
-│ 요구 변화 │──▶│ 백로그   │──▶│ 개발·커밋 │──▶│ 빌드·테스트 │──▶│ 운영 배포 │──▶│ 고객 가치 │
-└──────────┘   └──────────┘   └──────────┘   └─────┬──────┘   └────┬─────┘   └──────────┘
-                                                    │                │
-                                                    └── 리드 타임 ───┘
-                                   배포 빈도 = 일정 기간 내 운영 반영 횟수
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 변화</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">백로그</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">개발·커밋</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">빌드·테스트</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 배포</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">고객 가치</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">리드 타임</div>
+<div class="kb-diagram-note">배포 빈도 = 일정 기간 내 운영 반영 횟수</div>
+</div>
+</div>
+
+
 
 즉 DORA는 팀의 속도를 재촉하는 채찍이 아니라, 병목과 대기 시간을 드러내는 진단 장비다. 기술사 답안에서는 “속도 측정”보다 “전달 체계 전체의 흐름 최적화”라는 표현이 더 적절하다.
 
 - **📢 섹션 요약 비유**: 택배가 빨리 도착했는지 보려면 포장 속도만 볼 것이 아니라 접수부터 배송 완료까지 전체 길을 함께 봐야 하는 것과 같다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 **측정 경계의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**이다. 예를 들어 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
+[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 <strong>측정 경계의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌────────────┐   ┌──────────────┐
-│ Git Commit/PR│──▶│ CI 파이프라인 │──▶│ 배포 로그   │──▶│ 운영 반영 기록 │
-└──────┬───────┘   └──────┬───────┘   └─────┬──────┘   └──────┬───────┘
-       │                  │                 │                 │
-       └────────────── 리드 타임 산정 구간 ────────────────┘
-                                                     └── 기간별 배포 빈도 집계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Commit/PR</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CI 파이프라인</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">배포 로그</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 반영 기록</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">리드 타임 산정 구간</div>
+<div class="kb-diagram-tree-item" style="--depth:8">기간별 배포 빈도 집계</div>
+</div>
+</div>
+
+
 
 | 측정 축 | 핵심 의미 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -88,7 +94,7 @@ tags = ["studynote-design-supervision"]
 ## Ⅴ. 기대효과 및 결론
 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스를 제대로 적용하면 전달 병목이 눈에 보이고, 자동화 투자 우선순위가 분명해지며, 개발과 운영이 같은 언어로 개선 목표를 세울 수 있다. 특히 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 짧아지면 시장 대응 속도가 올라가고, 배포 빈도가 안정적으로 증가하면 작은 배치 단위의 위험 통제가 쉬워진다.
 
-결론적으로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 속도 경쟁 지표가 아니라 **가치 전달 체계의 건강 진단 지표**다. 기술사 답안에서는 정의 경계, 보완 지표, 해석 상의 왜곡 가능성까지 함께 적어야 실무형 답안이 된다.
+결론적으로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 속도 경쟁 지표가 아니라 <strong>가치 전달 체계의 건강 진단 지표</strong>다. 기술사 답안에서는 정의 경계, 보완 지표, 해석 상의 왜곡 가능성까지 함께 적어야 실무형 답안이 된다.
 
 - **📢 섹션 요약 비유**: 자동차 속도계만 보지 않고 연료, 브레이크, 엔진 상태까지 함께 봐야 안전하게 빨리 달릴 수 있는 것과 같다.
 
@@ -102,21 +108,23 @@ tags = ["studynote-design-supervision"]
 | 가치 흐름 맵 | 대기 시간과 병목을 시각화하는 분석 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-형상관리·배포 이력 수집
-          │
-          ▼
-리드 타임·배포 빈도 측정
-          │
-          ▼
-병목 구간 식별
-          │
-          ▼
-자동화·작은 배치 배포 확대
-          │
-          ▼
-빠른 가치 전달 · 안정적 운영 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">형상관리·배포 이력 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리드 타임·배포 빈도 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">병목 구간 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자동화·작은 배치 배포 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">빠른 가치 전달 · 안정적 운영 개선</div>
+</div>
+</div>
+
+
 
 이 흐름은 지표 수집이 목적이 아니라, 병목을 찾아 자동화와 운영 복원력을 높이는 개선 루프로 이어져야 함을 보여 준다.
 

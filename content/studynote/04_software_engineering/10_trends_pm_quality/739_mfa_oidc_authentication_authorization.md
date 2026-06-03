@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 웹 초창기에는 사용자가 사이트마다 아이디와 '비밀번호'를 새로 만들었다. 그런데 사용자들이 귀찮아서 모든 사이트에 똑같은 비밀번호를 쓰다 보니, 허술한 사이트 하나가 털리면 은행 계좌까지 다 털리는 대참사가 일어났다.
 
-이를 막기 위해 구글이나 카카오처럼 보안이 강력한 '중앙 [인증 서버](/knowledge-base/studynote/09_security/12_identity_threat_advanced/581_authentication_server/)'에서 로그인을 한 번만 하고, 다른 사이트는 그 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 결과를 믿고 문을 열어주는 **[SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)([Single Sign-On](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/))** 기술이 필요해졌다. 이때 "저 사람이 진짜 구글 로그인한 사람 맞아?"를 증명하기 위해 탄생한 표준이 **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/))**다.
+이를 막기 위해 구글이나 카카오처럼 보안이 강력한 '중앙 [인증 서버](/knowledge-base/studynote/09_security/12_identity_threat_advanced/581_authentication_server/)'에서 로그인을 한 번만 하고, 다른 사이트는 그 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 결과를 믿고 문을 열어주는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">SSO</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">Single Sign-On</a>)</strong> 기술이 필요해졌다. 이때 "저 사람이 진짜 구글 로그인한 사람 맞아?"를 증명하기 위해 탄생한 표준이 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/">OpenID Connect</a>)</strong>다.
 
-여기에 더해, 해커가 비밀번호를 알아내더라도 스마트폰 앱(Google Authenticator)이나 지문(FIDO)이 없으면 절대 로그인을 못 하게 막는 **[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) ([Multi-Factor Authentication](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), 다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))**가 클라우드 시대 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 절대적 기본 방어막으로 자리 잡았다.
+여기에 더해, 해커가 비밀번호를 알아내더라도 스마트폰 앱(Google Authenticator)이나 지문(FIDO)이 없으면 절대 로그인을 못 하게 막는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">Multi-Factor Authentication</a>, 다중 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>가 클라우드 시대 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 절대적 기본 방어막으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 클럽에 들어갈 때, 내 이름과 생일을 말하는 것(비밀번호)은 쉽게 도용당한다. 그래서 지문 인식([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))으로 문을 통과한 뒤, 클럽에서 발급해 준 'V.I.P 자유이용권 팔찌([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ID 토큰)'를 차고 있으면 클럽 안의 모든 식당과 놀이기구를 매번 검사 없이 맘대로 탈 수 있는 원리다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 보안 구조의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  MFA 인증 OIDC 인가 보안 구조                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MFA 인증 OIDC 인가 보안 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 보안 구조가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ OIDC가 나오기 전까지는 SAML이라는 옛날 기술이 기업용(B2B) SSO
 
 | 비교 항목 | SAML 2.0 | OAuth 2.0 | [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/)) |
 |:---|:---|:---|:---|
-| **목적** | B2B 기업용 통합 로그인 ([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)) | **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 접근 권한 위임 ([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))** | **모바일/웹 소셜 로그인 ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)+[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))** |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷**| XML (매우 무겁고 복잡함) | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (가벼움) | **[JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)** ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) |
+| **목적** | B2B 기업용 통합 로그인 ([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)) | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 접근 권한 위임 (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>)</strong> | <strong>모바일/웹 소셜 로그인 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>+<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>)</strong> |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 포맷</strong>| XML (매우 무겁고 복잡함) | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) (가벼움) | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a></strong> ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) |
 | **토큰 내용** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보(Assertion) 포함 | 권한 정보만 있음 (신원 모름) | **ID 토큰 (신원) + Access 토큰 (권한)** |
-| **주요 환경** | 사내 인트라넷, 구형 웹 | 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 (예: 페이스북 글쓰기) | **카카오/구글 로그인, 최신 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경** |
+| **주요 환경** | 사내 인트라넷, 구형 웹 | 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 (예: 페이스북 글쓰기) | <strong>카카오/구글 로그인, 최신 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경</strong> |
 
 과거에 "OAuth로 로그인 구현했다"고 하던 시절이 있었는데, 사실 OAuth는 권한만 주는 기술이라 이름과 이메일을 알 수 없었다. 그래서 편법으로 Access 토큰을 받은 뒤 다시 `/profile` API를 한 번 더 찌르는 꼼수를 썼다. OIDC는 이 바보 같은 짓을 없애기 위해 아예 처음부터 ID 토큰(명찰)을 같이 주도록 OAuth를 업그레이드한 것이다.
 
@@ -109,7 +108,7 @@ OIDC가 나오기 전까지는 SAML이라는 옛날 기술이 기업용(B2B) SSO
 
 MFA와 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 아키텍처를 도입하면, 기업은 수백만 고객의 비밀번호 유출 리스크라는 거대한 시한폭탄에서 해방된다. 사용자 역시 수십 개의 사이트마다 비밀번호를 찾느라 고통받지 않고, 소셜 로그인 한 번으로 물 흐르듯 서비스를 이용하는 최고의 UX를 누리게 된다.
 
-결론적으로 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처는 "우리가 너의 신원을 관리할게"에서 **"구글아, 네가 빡세게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))한 결과를 우리한테 증명서([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/))로 줘. 우린 그것만 믿을게"**라는 신뢰 위임(Trust Delegation) 모델로 완전히 바뀌었다. 기술 리더는 더 이상 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직을 직접 짜지 말고, 글로벌 표준 프로토콜을 우아하게 연동하는 데 집중해야 한다.
+결론적으로 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처는 "우리가 너의 신원을 관리할게"에서 <strong>"구글아, 네가 빡세게 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a>)한 결과를 우리한테 증명서(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a>)로 줘. 우린 그것만 믿을게"</strong>라는 신뢰 위임(Trust Delegation) 모델로 완전히 바뀌었다. 기술 리더는 더 이상 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직을 직접 짜지 말고, 글로벌 표준 프로토콜을 우아하게 연동하는 데 집중해야 한다.
 
 - **📢 섹션 요약 비유**: 작은 가게 사장님이 손님의 신용을 일일이 조사해서 외상을 주면(자체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)) 떼일 확률이 높다. 그냥 "신용카드([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)) 가져와, 카드가 승인되면 난 카드사([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))를 믿고 물건을 주겠다"라고 하는 것이 현대 금융과 IT 보안의 완벽한 분업이다.
 
@@ -132,21 +131,23 @@ MFA와 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-MFA 인증 OIDC 인가 보안 구조 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MFA 인증 OIDC 인가 보안 구조 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

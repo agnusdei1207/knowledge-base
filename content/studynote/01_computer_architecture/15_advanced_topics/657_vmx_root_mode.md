@@ -21,20 +21,22 @@ tags = ["studynote-computer-architecture"]
 
 VMX root 모드는 Intel이 x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 위해 만든 관리자 자리다. 전통적인 Ring 0 체계만으로는 호스트와 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 동시에 "내가 진짜 관리자"라고 주장할 수 없기 때문에, 과거에는 바이너리 번역이나 Ring [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 같은 우회가 필요했다. 이 우회는 동작은 가능하게 했지만, 특권 명령 처리와 상태 복원 비용이 커서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구현 복잡도를 동시에 악화시켰다.
 
-핵심은 VMX root / non-root가 Ring 0 / Ring 3와 **직교하는 축**이라는 점이다. 즉 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 여전히 Ring 0처럼 실행되지만, 하드웨어 소유권과 가로채기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 root 쪽이 쥔다. 덕분에 게스트는 수정 없이 돌아가고, 하이퍼바이저는 마지막 통제권을 잃지 않는다.
+핵심은 VMX root / non-root가 Ring 0 / Ring 3와 <strong>직교하는 축</strong>이라는 점이다. 즉 게스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 여전히 Ring 0처럼 실행되지만, 하드웨어 소유권과 가로채기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 root 쪽이 쥔다. 덕분에 게스트는 수정 없이 돌아가고, 하이퍼바이저는 마지막 통제권을 잃지 않는다.
 
 아래 그림은 "권한 레벨"과 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 문맥"이 서로 다른 축임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Privilege and virtualization are different axes             │
-├───────────────────────────┬──────────────────────────────────┤
-│ VMX root operation        │ VMX non-root operation           │
-├───────────────────────────┼──────────────────────────────────┤
-│ Hypervisor   (Ring 0)     │ Guest kernel    (Ring 0)         │
-│ Host user app (Ring 3)    │ Guest user app  (Ring 3)         │
-└───────────────────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Privilege and virtualization are different axes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMX root operation</div><div class="kb-diagram-cell">VMX non-root operation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (Ring 0)</div><div class="kb-diagram-cell">Guest kernel (Ring 0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host user app (Ring 3)</div><div class="kb-diagram-cell">Guest user app (Ring 3)</div></div>
+</div>
+</div>
+
+
 
 이 구조가 중요한 이유는, 하이퍼바이저가 게스트를 완전히 에뮬레이션하지 않아도 되기 때문이다. 정상적인 계산은 게스트가 직접 수행하고, 제어권이 필요한 순간에만 root로 돌아오게 하면 된다.
 
@@ -44,7 +46,7 @@ VMX root 모드는 Intel이 x86 [가상화](/knowledge-base/studynote/13_cloud_a
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))** 실행 전후 상태를 관리하는 제어 루프다. 먼저 프로세서는 VMXON으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 동작에 들어가고, 하이퍼바이저는 가상 머신 제어 구조체 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure, [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/))에 게스트 상태, 호스트 상태, 그리고 어떤 사건을 가로챌지에 대한 규칙을 채운다. 이후 VMLAUNCH 또는 VMRESUME가 실행되면 하드웨어가 게스트 상태를 적재하고 non-root로 넘어간다.
+VMX root 모드의 실체는 하이퍼바이저가 <strong>가상 머신 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">Virtual Machine</a>, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)</strong> 실행 전후 상태를 관리하는 제어 루프다. 먼저 프로세서는 VMXON으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 동작에 들어가고, 하이퍼바이저는 가상 머신 제어 구조체 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure, [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/))에 게스트 상태, 호스트 상태, 그리고 어떤 사건을 가로챌지에 대한 규칙을 채운다. 이후 VMLAUNCH 또는 VMRESUME가 실행되면 하드웨어가 게스트 상태를 적재하고 non-root로 넘어간다.
 
 | 구성 요소 | root 모드에서 맡는 역할 | 설계상 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -55,15 +57,18 @@ VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 ([Virtual Mac
 
 아래 흐름은 root 모드가 "직접 계산"보다 "상태 저장과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행"에 집중한다는 점을 보여준다.
 
-```text
-┌────────────────────┐   VM-Entry    ┌──────────────────────────┐
-│ Root handler       │ ───────────▶  │ Guest in non-root mode   │
-│ (hypervisor)       │               │ direct execution         │
-└─────────┬──────────┘               └──────────┬───────────────┘
-          │                                     │
-          │  VM-Exit on configured events       │
-          └─────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VM-Entry</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root handler</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Guest in non-root mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(hypervisor)</div><div class="kb-diagram-cell">direct execution</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM-Exit on configured events</div></div>
+</div>
+</div>
+
+
 
 게스트에서 모든 특권 동작이 무조건 Exit 되는 것은 아니다. 하이퍼바이저는 `CPUID`, 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 변경, 입출력 (Input/Output, I/O), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달 같은 항목 중 무엇을 잡을지 고른다. 따라서 root 모드의 핵심 기술은 "더 많은 것을 직접 처리"가 아니라 "정말 필요한 것만 돌아오게 만드는 선별"이다.
 
@@ -73,7 +78,7 @@ VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 ([Virtual Mac
 
 ## Ⅲ. 비교 및 연결
 
-VMX root 모드를 이해할 때 가장 많이 생기는 오해는 "Ring 0보다 더 높은 슈퍼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)"로 보는 것이다. 실제로는 링 체계 바깥에 추가된 **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제어 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)**에 가깝다. 그래서 root 모드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드와 경쟁 관계가 아니라, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에서 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 감독하는 자리로 이해해야 한다.
+VMX root 모드를 이해할 때 가장 많이 생기는 오해는 "Ring 0보다 더 높은 슈퍼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)"로 보는 것이다. 실제로는 링 체계 바깥에 추가된 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 제어 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a></strong>에 가깝다. 그래서 root 모드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드와 경쟁 관계가 아니라, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 위에서 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 감독하는 자리로 이해해야 한다.
 
 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) (AMD [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 같은 목적을 Secure [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 구조로 푼다. Intel이 [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) 중심으로 설계했다면, AMD는 [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Block (VMCB) 중심으로 풀었다는 차이가 있다. 즉 개념적으로는 비슷하지만, 제어 구조와 명령 체계가 다르다.
 
@@ -129,24 +134,25 @@ VMX root 모드는 x86 [가상화](/knowledge-base/studynote/13_cloud_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Ring 0 한계
-    │
-    ▼
-Binary translation and ring compression
-    │
-    ▼
-VMX root / VMX non-root split
-    │
-    ▼
-VMCS-based control and VM-Exit policy
-    │
-    ▼
-EPT · VT-d · interrupt virtualization
-    │
-    ▼
-Nested virtualization and VM introspection
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Ring 0 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Binary translation and ring compression</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMX root / VMX non-root split</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VMCS-based control and VM-Exit policy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EPT · VT-d · interrupt virtualization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Nested virtualization and VM introspection</div>
+</div>
+</div>
+
+
 
 이 흐름은 "특권 충돌 해결 → 하드웨어 분리 → 주변 가속 기술 결합 → 고급 운영 기능"으로 커진다.
 

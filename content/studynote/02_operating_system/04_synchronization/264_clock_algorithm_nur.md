@@ -11,16 +11,16 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (또는 [NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/): [Not Used Recently](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))은 가장 완벽한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 최소 사용)가 가진 $O(N)$의 거대한 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색 및 갱신 오버헤드를 회피하기 위해, **하드웨어의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))와 원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 결합하여 만든 LRU의 가벼운 근사치(Approximation) 모델**이다.
+> 1. **본질**: 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (또는 [NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/): [Not Used Recently](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))은 가장 완벽한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 최소 사용)가 가진 $O(N)$의 거대한 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색 및 갱신 오버헤드를 회피하기 위해, <strong>하드웨어의 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)와 원형 큐(Circular <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)를 결합하여 만든 LRU의 가벼운 근사치(Approximation) 모델</strong>이다.
 > 2. **가치**: 포인터를 조작하는 비싼 소프트웨어 연산 없이 시곗바늘(포인터)을 빙빙 돌리며 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(0인지 1인지)하면 되므로, **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 감당할 수 있는 $O(1)$ 수준의 극강의 탐색 속도**를 제공하면서도 LRU와 거의 동일한 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)을 달성한다.
-> 3. **융합**: 이 기법은 단지 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 여부만 따지는 것을 넘어, "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 수정(Dirty)되었는가?"를 알려주는 **수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Modify [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**와 융합되어, "가급적 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Swap-out) 비용이 안 드는 깨끗한(Clean) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 먼저 버린다"는 2단계 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화하며 현대 Linux 및 Windows의 절대 표준으로 자리 잡았다.
+> 3. **융합**: 이 기법은 단지 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 여부만 따지는 것을 넘어, "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 수정(Dirty)되었는가?"를 알려주는 <strong>수정 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(Modify <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>와 융합되어, "가급적 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Swap-out) 비용이 안 드는 깨끗한(Clean) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 먼저 버린다"는 2단계 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화하며 현대 Linux 및 Windows의 절대 표준으로 자리 잡았다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 메모리에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임들을 시계테엽처럼 둥글게 원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 형태로 연결해 두고, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(시곗바늘)가 시계 방향으로 돌면서 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 붙어 있는 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'를 검사하여 0인 녀석을 가차 없이 내쫓는 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. (그래서 Second-Chance [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라고도 불린다).
-- **필요성**: 순수 LRU는 완벽했지만 무거웠다. 메모리를 읽을 때마다(초당 10억 번) 리스트의 노드를 맨 앞으로 옮기는 짓은 CPU를 마비시킨다. OS 설계자들은 "가장 오래전에 쓴 놈을 정확히 1등으로 찾아낼 필요는 없다. 그냥 **'최근에 안 쓴 놈들 무리' 중에서 아무나 대충 빨리 찾아내서 버려도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)엔 별 차이가 없다**"는 타협점([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))을 찾아냈다.
+- **필요성**: 순수 LRU는 완벽했지만 무거웠다. 메모리를 읽을 때마다(초당 10억 번) 리스트의 노드를 맨 앞으로 옮기는 짓은 CPU를 마비시킨다. OS 설계자들은 "가장 오래전에 쓴 놈을 정확히 1등으로 찾아낼 필요는 없다. 그냥 <strong>'최근에 안 쓴 놈들 무리' 중에서 아무나 대충 빨리 찾아내서 버려도 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>엔 별 차이가 없다</strong>"는 타협점([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))을 찾아냈다.
 
 - **등장 배경**: FIFO의 멍청함(Belady의 모순)과 LRU의 무거움 사이에서 고통받던 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학계에, 하드웨어 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 칩셋이 "메모리를 읽을 때마다 1비트짜리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 자동으로 켜주겠다"고 지원 사격을 하면서 소프트웨어와 하드웨어가 완벽히 융합된 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 탄생했다.
 
@@ -51,15 +51,15 @@ tags = ["studynote-operating-system"]
 
 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 진짜 실무([NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/): [Not Used Recently](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))로 작동하려면 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 존재하는 두 개의 하드웨어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 조합해야 한다.
 
-1. **R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). 읽거나(Read) 쓰면(Write) 하드웨어가 무조건 1로 세팅한다.
-2. **M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Modify [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) / [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))**: 수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 연산을 했을 때만 1로 세팅된다.
+1. <strong>R <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). 읽거나(Read) 쓰면(Write) 하드웨어가 무조건 1로 세팅한다.
+2. <strong>M <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> (Modify <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> / <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a>)</strong>: 수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 연산을 했을 때만 1로 세팅된다.
 
 이 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 조합하면 총 4개의 클래스(계급)가 나온다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 바늘을 돌릴 때 무조건 **가장 낮은 계급(클래스 0)부터 1순위로 찾아내어 쫓아낸다.**
 
 | 계급 | 상태 (R, M) | 의미 및 교체 우선순위 |
 |:---:|:---:|:---|
 | **Class 0** | (0, 0) | **1순위 (가장 만만함)**. 최근에 읽지도 않았고, 수정도 안 됨. 디스크에 쓸 필요 없이 그냥 램에서 지우면 끝! (극강의 오버헤드 0) |
-| **Class 1** | (0, 1) | **2순위**. 최근에 읽진 않았지만, 과거에 수정된 적이 있음. 얘를 쫓아내려면 **디스크에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Swap-out)** 작업을 해야 해서 좀 무거움. |
+| **Class 1** | (0, 1) | **2순위**. 최근에 읽진 않았지만, 과거에 수정된 적이 있음. 얘를 쫓아내려면 <strong>디스크에 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Swap-out)</strong> 작업을 해야 해서 좀 무거움. |
 | **Class 2** | (1, 0) | **3순위**. 최근에 계속 읽히고 있는 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/). (단, 수정은 안 됨). 살려두는 게 좋음. |
 | **Class 3** | (1, 1) | **4순위 (절대 사수)**. 최근에 미친 듯이 읽히고 갱신되는 시스템의 핵심 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/). 절대 건드리면 안 됨. |
 
@@ -77,10 +77,10 @@ tags = ["studynote-operating-system"]
 
 ### 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs 순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) vs [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 의 실전 포지셔닝
 
-| 비교 기준 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) | 순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) | **클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))** |
+| 비교 기준 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) | 순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) | <strong>클럭 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/">NUR</a>)</strong> |
 |:---|:---|:---|:---|
-| **메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 시 오버헤드** | 없음 | **극악 (매번 포인터 6개 스왑 필요)** | **없음 (하드웨어가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개만 바꿈)** |
-| **[페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 시 오버헤드** | O(1) (그냥 큐 맨 앞 버림) | O(1) (리스트 맨 뒤 버림) | **바늘이 0을 찾을 때까지 도는 시간 (보통 매우 짧음)** |
+| <strong>메모리 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 시 오버헤드</strong> | 없음 | **극악 (매번 포인터 6개 스왑 필요)** | <strong>없음 (하드웨어가 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 1개만 바꿈)</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a> 시 오버헤드</strong> | O(1) (그냥 큐 맨 앞 버림) | O(1) (리스트 맨 뒤 버림) | **바늘이 0을 찾을 때까지 도는 시간 (보통 매우 짧음)** |
 | **캐시 히트율 (정확도)** | 최악 (모순 발생) | 100% (완벽한 지역성 반영) | **95% 이상 (LRU와 거의 차이 안 남)** |
 | **실무 OS 채택** | 안 씀 | 안 씀 | **✅ 전 세계 모든 범용 OS의 사실상 표준** |
 
@@ -89,7 +89,7 @@ tags = ["studynote-operating-system"]
 - 램이 꽉 차서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내쫓아야 한다.
 - 순수 LRU는 멍청하게 "가장 오래된 놈"인 `A`를 내쫓는다. 그런데 `A`는 수정(Dirty)된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)라 디스크에 10ms 동안 쓰는(Swap-out) 작업이 필요하다.
 - 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 바늘을 돌리다가 "오래됐지만 덜 오래된 `B`"를 발견한다. 근데 `B`는 수정 안 된 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)다. 클럭은 10ms짜리 스왑을 치느니, 조금 덜 오래된 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) `B`를 1나노초 만에 날려버리고 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 받는다. 
-- 결과: 클럭은 LRU보다 캐시 히트율이 1~2% 떨어지지만, 끔찍한 **디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Swap-out) 오버헤드를 절반 이하로 줄여 전체 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 압도적으로 높여버린다.**
+- 결과: 클럭은 LRU보다 캐시 히트율이 1~2% 떨어지지만, 끔찍한 <strong>디스크 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Swap-out) 오버헤드를 절반 이하로 줄여 전체 시스템 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)을 압도적으로 높여버린다.</strong>
 
 - **📢 섹션 요약 비유**: 순수 LRU는 고지식한 원칙주의자라서 "무조건 제일 오래된 놈부터 짐을 싸서 쫓아낸다"며 짐 싸는 데 1시간을 낭비합니다. 클럭([NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))은 융통성 있는 매니저라, "제일 오래되진 않았지만, 짐이 아예 없어서 당장 1초 만에 쫓아낼 수 있는 놈(Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))"을 우선적으로 쫓아내어 방을 초고속으로 비웁니다.
 
@@ -98,36 +98,36 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Kswapd 데몬 (클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실체)**: 실무 서버에서 `top`을 쳤을 때 보이는 `kswapd`라는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 데몬이 바로 이 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시곗바늘이다.
+1. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 Kswapd 데몬 (클럭 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 실체)</strong>: 실무 서버에서 `top`을 쳤을 때 보이는 `kswapd`라는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 데몬이 바로 이 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시곗바늘이다.
    - **동작**: 시스템의 램 여유 공간이 `high watermark` 밑으로 떨어지면 잠자고 있던 `kswapd`가 깨어난다. 그리고 `low watermark`를 회복할 때까지 백그라운드에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 검사하며 바늘을 미친 듯이 돌려 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지우고, Dirty [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 디스크로 몰아낸다.
    - **아키텍트 튜닝**: `vm.swappiness` 값을 0으로 주면 이 시곗바늘이 유저 애플리케이션의 메모리를 건드리지 않게 묶어버릴 수 있다. 반대로 값이 높으면 시곗바늘이 너무 적극적으로 돌아 서버가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 늪에 빠질 수 있다.
-2. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB, InnoDB)의 튜닝**: DB 엔진은 OS의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(클럭)를 불신한다. 자기가 직접 메모리(버퍼 풀)를 관리한다.
+2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 버퍼 풀 (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> DB, InnoDB)의 튜닝</strong>: DB 엔진은 OS의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)(클럭)를 불신한다. 자기가 직접 메모리(버퍼 풀)를 관리한다.
    - **문제**: 풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) `SELECT * FROM BIG_TABLE`을 때리면, 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 바늘이 휙 돌면서 기존 단골 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들의 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 다 0으로 깎고, 스캔된 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 램을 가득 채워버린다 (캐시 오염, Cache Pollution).
-   - **실무 조치**: 최신 DB 엔진은 단순 클럭을 넘어 **Midpoint Insertion [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)** 방식을 쓴다. 새로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 큐의 맨 앞(Top)이 아니라 중간(Midpoint)에 꽂는다. 그리고 1초 뒤에 "다시 한번" 조회가 일어나야만 진짜 VIP석(Top)으로 올려준다. 풀 스캔으로 한 번 스치고 지나가는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 중간에 꽂혔다가 바로 꼬리로 밀려나서 버려지게 만드는 극강의 실무 튜닝이다.
+   - **실무 조치**: 최신 DB 엔진은 단순 클럭을 넘어 <strong>Midpoint Insertion <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a></strong> 방식을 쓴다. 새로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 큐의 맨 앞(Top)이 아니라 중간(Midpoint)에 꽂는다. 그리고 1초 뒤에 "다시 한번" 조회가 일어나야만 진짜 VIP석(Top)으로 올려준다. 풀 스캔으로 한 번 스치고 지나가는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 중간에 꽂혔다가 바로 꼬리로 밀려나서 버려지게 만드는 극강의 실무 튜닝이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     메모리 과부하(OOM) 방어 시 아키텍트의 교체 정책 우회 전략     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [요구사항: 10GB 짜리 머신러닝(ML) 모델을 메모리에 상주시켜야 함]│
-  │                                                                   │
-  │   [ ❌ 주니어의 배포 (OS 클럭 알고리즘에 운명을 맡김) ]           │
-  │     - 모델을 RAM에 로드하고 예측 API 서빙 시작.                   │
-  │     - 결과: 밤사이에 다른 로그 수집 데몬이 램을 쓰면서, OS의      │
-  │             시곗바늘(kswapd)이 내 ML 모델의 절반을 디스크로       │
-  │             스왑-아웃 시켜버림. 아침에 첫 API 응답 10초 걸림!     │
-  │                                                                   │
-  │   [ ✅ 시니어 아키텍트의 배포 (mlock 시스템 콜 활용) ]            │
-  │     - 코드에 `mlock(모델 주소, 10GB)` 함수를 명시적으로 호출.     │
-  │     - 효과: OS 커널에게 "내 메모리엔 절대 시곗바늘(클럭) 대지 마!"│
-  │             라고 철창(Pinning)을 쳐버림.                          │
-  │     - 결과: 서버 램이 꽉 차면 다른 데몬이 OOM으로 죽을지언정,     │
-  │             내 ML 모델은 1년 내내 램에 100% 락인(Lock-in)되어     │
-  │             극강의 0.01초 API 지연 시간을 영구 방어함.            │
-  └───────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** "OS가 알아서 최적으로 교체해 주겠지"라는 믿음은 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 사용자에게나 통하는 말이다. 1초의 지연도 허용하지 않는 백엔드 인프라에서는, 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(코어 캐시, ML 모델, 핫 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 희생양이 되지 않도록 **메모리 락킹(Memory [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/))**을 통해 OS의 오지랖을 물리적으로 박살 내는 것이 아키텍트의 기본 소양이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 과부하(OOM) 방어 시 아키텍트의 교체 정책 우회 전략</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 10GB 짜리 머신러닝(ML) 모델을 메모리에 상주시켜야 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 주니어의 배포 (OS 클럭 알고리즘에 운명을 맡김)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델을 RAM에 로드하고 예측 API 서빙 시작.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 밤사이에 다른 로그 수집 데몬이 램을 쓰면서, OS의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시곗바늘(kswapd)이 내 ML 모델의 절반을 디스크로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑-아웃 시켜버림. 아침에 첫 API 응답 10초 걸림!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 시니어 아키텍트의 배포 (mlock 시스템 콜 활용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드에 <code>mlock(모델 주소, 10GB)</code> 함수를 명시적으로 호출.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과: OS 커널에게 "내 메모리엔 절대 시곗바늘(클럭) 대지 마!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라고 철창(Pinning)을 쳐버림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 서버 램이 꽉 차면 다른 데몬이 OOM으로 죽을지언정,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 ML 모델은 1년 내내 램에 100% 락인(Lock-in)되어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">극강의 0.01초 API 지연 시간을 영구 방어함.</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** "OS가 알아서 최적으로 교체해 주겠지"라는 믿음은 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 사용자에게나 통하는 말이다. 1초의 지연도 허용하지 않는 백엔드 인프라에서는, 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(코어 캐시, ML 모델, 핫 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 희생양이 되지 않도록 <strong>메모리 락킹(Memory <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/">Locking</a>)</strong>을 통해 OS의 오지랖을 물리적으로 박살 내는 것이 아키텍트의 기본 소양이다.
 
 - **📢 섹션 요약 비유**: 백화점 청소부(클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 폐점 후 오랫동안 안 만진 물건(R=0)은 다 버립니다. 중요한 프로젝트 서류를 책상 위에 올려두면 다음 날 청소부가 쓰레기인 줄 알고 버립니다([스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)). 절대 버려지면 안 되는 서류는 청소부가 못 건드리게 유리관(`mlock`)을 씌워두어야 안전합니다.
 
@@ -136,11 +136,11 @@ tags = ["studynote-operating-system"]
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-클럭([NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 링크드 리스트 조작이라는 무거운 소프트웨어 오버헤드 없이 하드웨어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만으로 LRU에 필적하는 99%의 캐시 히트율을 달성하며, [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) 최적화를 통해 끔찍한 디스크 스왑(Swap-out) I/O 비용을 절반 이하로 줄이는 **메모리 관리의 극한 가성비**를 얻어냈다.
+클럭([NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 링크드 리스트 조작이라는 무거운 소프트웨어 오버헤드 없이 하드웨어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만으로 LRU에 필적하는 99%의 캐시 히트율을 달성하며, [Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/) 최적화를 통해 끔찍한 디스크 스왑(Swap-out) I/O 비용을 절반 이하로 줄이는 <strong>메모리 관리의 극한 가성비</strong>를 얻어냈다.
 
 ### 결론 및 미래 전망
 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), Second-Chance, [NUR](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/303_nur/))은 이론([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))과 현실(오버헤드) 사이에서 인류가 찾아낸 가장 완벽한 타협점이자, 지난 40년간 지구 상의 모든 데스크톱과 서버의 가상 메모리를 지탱해 온 숨은 영웅이다. 
-하지만 메모리가 테라바이트(TB) 단위로 커지면서, 아무리 O(1) 탐색이라도 시곗바늘이 수천만 개의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 빙빙 돌며 검사하는 행위 자체가 백그라운드 CPU 자원을 너무 많이 먹는 한계에 봉착했다. 이에 미래의 클라우드 시스템은 이 자잘한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 검사를 버리고, **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 단위의 거시적 메모리 통제([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))**나, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) AI가 프로세스의 메모리 접근 패턴을 미리 학습하여 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터지기 전에 선제적으로 램과 디스크를 스왑해버리는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 예측형 메모리 관리(Predictive [Memory Management](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/))**의 시대로 진화하고 있다.
+하지만 메모리가 테라바이트(TB) 단위로 커지면서, 아무리 O(1) 탐색이라도 시곗바늘이 수천만 개의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 빙빙 돌며 검사하는 행위 자체가 백그라운드 CPU 자원을 너무 많이 먹는 한계에 봉착했다. 이에 미래의 클라우드 시스템은 이 자잘한 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 검사를 버리고, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 단위의 거시적 메모리 통제(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">Cgroups</a>)</strong>나, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) AI가 프로세스의 메모리 접근 패턴을 미리 학습하여 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터지기 전에 선제적으로 램과 디스크를 스왑해버리는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 예측형 메모리 관리(Predictive <a href="/knowledge-base/studynote/09_security/uncategorized/610_memory_management/">Memory Management</a>)</strong>의 시대로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 40년 전 만들어진 완벽한 수동 시계입니다. 톱니바퀴가 완벽하게 맞물려 에러 없이 돌아갑니다. 하지만 짐이 산더미처럼 많아진 현대의 물류 창고([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))에서는 톱니바퀴만으론 감당이 안 되어, AI가 "어떤 물건이 내일 팔릴지" 미리 예측해서 앞쪽에 꺼내놓는 스마트 물류 창고 시스템으로 진화하고 있습니다.
 
@@ -157,15 +157,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[티켓 락 (Ticket Lock)]
-    │
-    ▼
-[클럭 알고리즘 (Clock Algorithm / NUR)]
-    │
-    ├──▶ [낙관적 병행성 제어 (Optimistic Concurrency Control)]
-    └──▶ [비관적 병행성 제어 (Pessimistic Concurrency Control)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">티켓 락 (Ticket Lock)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클럭 알고리즘 (Clock Algorithm / NUR)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">낙관적 병행성 제어 (Optimistic Concurrency Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

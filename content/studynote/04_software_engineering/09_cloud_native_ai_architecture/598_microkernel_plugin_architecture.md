@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) (마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) = Core System)**: 프로그램이 굴러가기 위한 최소한의 심장. 텍스트 열기, 끄기, 저장하기 등 우주가 두 쪽 나도 절대 안 바뀌는 순백의 코어 로직. (용량 10MB).
-  - **Plug-in (플러그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))**: 코어에 USB처럼 꽂았다 뺐다 하는 무기. C++ 문법 하이라이팅, AWS 자동 배포, 맞춤법 검사기 등 시시때때로 바뀌고 사람마다 쓸지 안 쓸지 모르는 부가 기능들.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">Microkernel</a> (마이크로 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> = Core System)</strong>: 프로그램이 굴러가기 위한 최소한의 심장. 텍스트 열기, 끄기, 저장하기 등 우주가 두 쪽 나도 절대 안 바뀌는 순백의 코어 로직. (용량 10MB).
+  - <strong>Plug-in (플러그인 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)</strong>: 코어에 USB처럼 꽂았다 뺐다 하는 무기. C++ 문법 하이라이팅, AWS 자동 배포, 맞춤법 검사기 등 시시때때로 바뀌고 사람마다 쓸지 안 쓸지 모르는 부가 기능들.
 
-- **필요성 (통짜 비만 소프트웨어의 멸망과 업데이트 지옥)**: 옛날 Microsoft [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 2003을 보자. CD 1장에 온갖 폰트, 수식 계산기, 클립아트 1만 개를 꽉꽉 욱여넣어 1GB짜리 통짜(Monolith)로 구워 팔았다. 내가 수학 수식을 1도 안 써도 수식 계산기 프로그램 메모리를 내 컴퓨터 램(RAM)이 억지로 짊어져야 했다. 치명적인 건, 달력 폰트 버그 하나 고쳤다고 MS가 1GB짜리 패치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통째로 다시 굽고 전 세계 유저가 그걸 밤새 다운로드받아 재설치(Re-install)해야 하는 악몽이었다. **"아 씨발! 1,000명의 유저가 원하는 1,000개의 기능을 내가 왜 본체에 다 때려 박고 앉았지?! 걍 텍스트 치는 빈 깡통 뼈대만 던져주고, 지들이 필요한 기능만 인터넷에서 작은 1MB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(플러그인)로 쏙쏙 다운받아 레고처럼 꽂아 쓰게 만들면 속도/용량 다이어트 개꿀이잖아!!"** 이 오만하고도 눈부신 '기능의 외주화([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))' 사상이 플러그인 아키텍처를 탄생시켰다.
+- **필요성 (통짜 비만 소프트웨어의 멸망과 업데이트 지옥)**: 옛날 Microsoft [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 2003을 보자. CD 1장에 온갖 폰트, 수식 계산기, 클립아트 1만 개를 꽉꽉 욱여넣어 1GB짜리 통짜(Monolith)로 구워 팔았다. 내가 수학 수식을 1도 안 써도 수식 계산기 프로그램 메모리를 내 컴퓨터 램(RAM)이 억지로 짊어져야 했다. 치명적인 건, 달력 폰트 버그 하나 고쳤다고 MS가 1GB짜리 패치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통째로 다시 굽고 전 세계 유저가 그걸 밤새 다운로드받아 재설치(Re-install)해야 하는 악몽이었다. <strong>"아 씨발! 1,000명의 유저가 원하는 1,000개의 기능을 내가 왜 본체에 다 때려 박고 앉았지?! 걍 텍스트 치는 빈 깡통 뼈대만 던져주고, 지들이 필요한 기능만 인터넷에서 작은 1MB짜리 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(플러그인)로 쏙쏙 다운받아 레고처럼 꽂아 쓰게 만들면 속도/용량 다이어트 개꿀이잖아!!"</strong> 이 오만하고도 눈부신 '기능의 외주화([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))' 사상이 플러그인 아키텍처를 탄생시켰다.
 
-- **💡 비유**: 일반 통짜 프로그램은 **'모든 무기(칼, 방패, 활, 창)가 양손에 강력 본드로 칭칭 용접되어 붙어있는 로봇'**입니다. 활 쏘고 싶은데 칼이 거치적거려 뛰질 못합니다. 칼 날이 빠지면 로봇 전체를 폐기하고 새로 사야 합니다(재설치). 마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처는 **'몸뚱이(Core)와 빈손([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))만 있는 로봇'**입니다. 주인이 오늘 활 쏘고 싶으면 '활 플러그인'만 딸깍! 꽂습니다. 활 줄이 끊어지면 활만 1초 만에 툭 버리고 새 활을 꽂습니다(핫스왑 업데이트). 로봇 심장은 영원히 무적의 가벼움으로 전장을 날아다니는 절대 조립술입니다.
+- **💡 비유**: 일반 통짜 프로그램은 <strong>'모든 무기(칼, 방패, 활, 창)가 양손에 강력 본드로 칭칭 용접되어 붙어있는 로봇'</strong>입니다. 활 쏘고 싶은데 칼이 거치적거려 뛰질 못합니다. 칼 날이 빠지면 로봇 전체를 폐기하고 새로 사야 합니다(재설치). 마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 아키텍처는 <strong>'몸뚱이(Core)와 빈손(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)만 있는 로봇'</strong>입니다. 주인이 오늘 활 쏘고 싶으면 '활 플러그인'만 딸깍! 꽂습니다. 활 줄이 끊어지면 활만 1초 만에 툭 버리고 새 활을 꽂습니다(핫스왑 업데이트). 로봇 심장은 영원히 무적의 가벼움으로 전장을 날아다니는 절대 조립술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **OS ([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 역사에서 출발**: 원래 리눅스(Linux/[Monolithic Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))가 뚱뚱해서 빡친 학자들이, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아주 작게 줄이고 나머지 잡다한 디바이스 드라이버를 밖으로 빼버린 마하(Mach)/미닉스(Minix) OS를 만들며 등장한 컴퓨터 공학의 근본 사상이다.
+  1. <strong>OS (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>) 역사에서 출발</strong>: 원래 리눅스(Linux/[Monolithic Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/))가 뚱뚱해서 빡친 학자들이, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아주 작게 줄이고 나머지 잡다한 디바이스 드라이버를 밖으로 빼버린 마하(Mach)/미닉스(Minix) OS를 만들며 등장한 컴퓨터 공학의 근본 사상이다.
   2. **Eclipse IDE 의 대폭발 (2000s)**: 자바 코딩 에디터 이클립스가 이 뼈대를 소프트웨어 앱으로 완벽히 훔쳐 왔다. 코어(OSGi 프레임워크) 위에 모든 걸 플러그인으로 떡칠해서, 개발자들이 C++용, PHP용 에디터로 무한 마개조 쳐서 써먹으며 세상을 씹어 먹음.
-  3. **VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 와 Browser 의 천하 통일 (현재)**: 크롬(Chrome) 확장 프로그램, VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 익스텐션, 피그마(Figma) 플러그인. 현대의 1티어 앱들은 전부 "내가 기능 다 안 만들어 ㅋ 니들이 플러그인 짜서 마켓에 올려 ㅋ" 라며 생태계(Ecosystem) 플랫폼 비즈니스로 무한 팽창 중이다.
+  3. <strong>VS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 와 Browser 의 천하 통일 (현재)</strong>: 크롬(Chrome) 확장 프로그램, VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 익스텐션, 피그마(Figma) 플러그인. 현대의 1티어 앱들은 전부 "내가 기능 다 안 만들어 ㅋ 니들이 플러그인 짜서 마켓에 올려 ㅋ" 라며 생태계(Ecosystem) 플랫폼 비즈니스로 무한 팽창 중이다.
 
-- **📢 섹션 요약 비유**: 이 뼈대는 **'스마트폰(Core)과 앱스토어(Plugins)'**의 관계와 100% 같습니다. 애플이 아이폰 껍데기에 카톡, 인스타그램, 배달의민족을 다 기본으로 쑤셔 박아 팔지 않습니다. 애플은 '전화, 문자, 인터넷'이라는 가장 얇은 뼈대([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))만 깎아 팔고, 수백만 개의 기능은 전 세계 개발자들이 앱(플러그인)으로 짜서 올리게 판을 깔아줍니다. 아이폰은 가볍고, 유저는 자기 입맛대로 앱을 깔아 무한대의 괴물 폰으로 진화시키는 가장 자본주의적 생태계 장악술입니다.
+- **📢 섹션 요약 비유**: 이 뼈대는 <strong>'스마트폰(Core)과 앱스토어(Plugins)'</strong>의 관계와 100% 같습니다. 애플이 아이폰 껍데기에 카톡, 인스타그램, 배달의민족을 다 기본으로 쑤셔 박아 팔지 않습니다. 애플은 '전화, 문자, 인터넷'이라는 가장 얇은 뼈대([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))만 깎아 팔고, 수백만 개의 기능은 전 세계 개발자들이 앱(플러그인)으로 짜서 올리게 판을 깔아줍니다. 아이폰은 가볍고, 유저는 자기 입맛대로 앱을 깔아 무한대의 괴물 폰으로 진화시키는 가장 자본주의적 생태계 장악술입니다.
 
 ---
 
 다음은 마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Microkernel의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로 커널 (Microkernel                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 커널 (Microkernel</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Microkernel가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) / 플러그인) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) / 플러그인) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 마이크로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) / 플러그인) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로 커널 (Microkernel / 플러그인) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 커널 (Microkernel / 플러그인) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

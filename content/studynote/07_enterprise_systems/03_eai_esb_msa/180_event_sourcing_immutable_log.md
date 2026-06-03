@@ -21,29 +21,30 @@ tags = ["studynote-enterprise"]
 
 전통적인 CRUD (Create, Read, Update, Delete) 저장 방식은 보통 "현재 값"을 기준으로 시스템을 표현한다. 예를 들어 계좌 잔액이 7만 원이면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에는 `balance = 70000`만 남는다. 이 방식은 단순하고 직관적이지만, 왜 7만 원이 되었는지, 어떤 순서로 상태가 바뀌었는지는 별도 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 없으면 잃어버리기 쉽다.
 
-[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이 지점에서 출발한다. 시스템의 핵심 진실을 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 아니라 **상태를 변화시킨 사건의 연속**으로 본다. 즉 `DepositMade`, `WithdrawalMade`, `TransferCancelled` 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트를 과거형 사실로 저장하고, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 그 이벤트들을 순서대로 적용한 결과로 계산한다. 그래서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)에서는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 "원본"이 아니라 **투영된 결과**가 된다.
+[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이 지점에서 출발한다. 시스템의 핵심 진실을 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 아니라 <strong>상태를 변화시킨 사건의 연속</strong>으로 본다. 즉 `DepositMade`, `WithdrawalMade`, `TransferCancelled` 같은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트를 과거형 사실로 저장하고, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 그 이벤트들을 순서대로 적용한 결과로 계산한다. 그래서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)에서는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 "원본"이 아니라 <strong>투영된 결과</strong>가 된다.
 
 이 방식이 필요한 이유는 상태 그 자체보다 "변화의 과정"이 중요한 업무가 분명히 존재하기 때문이다. 금융 원장, 주문 수명주기, 포인트 적립·차감, 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 장기 보상 처리처럼 과거 사건의 맥락이 비즈니스 의미를 가지는 영역에서는 단순 덮어쓰기만으로는 설명력이 부족하다. 장애 분석이나 재현 테스트 관점에서도 "결과"만 있는 시스템보다 "발생 순서"가 남는 시스템이 훨씬 강하다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ State overwrite vs event history                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ State-based storage                                                │
-│   balance = 70000                                                  │
-│   └─ current value is visible, path to it is mostly lost           │
-│                                                                    │
-│ Event-sourced storage                                              │
-│   +100000  DepositMade                                             │
-│   -20000   PurchaseApproved                                        │
-│   -10000   FeeCharged                                              │
-│   = 70000   current balance by replay                              │
-│                                                                    │
-│ same current state, much richer history                            │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 포인트는 이벤트가 단순한 행 변경 이력이 아니라는 점이다. 좋은 이벤트는 `status_changed_to_3`보다 `OrderShipped`처럼 **비즈니스에서 이해 가능한 사실**이어야 한다. 그래야 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 단순 기술 기록이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어가 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State overwrite vs event history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State-based storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balance = 70000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ current value is visible, path to it is mostly lost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event-sourced storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+100000 DepositMade</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-20000 PurchaseApproved</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-10000 FeeCharged</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 70000 current balance by replay</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same current state, much richer history</div></div>
+</div>
+</div>
+
+
+
+중요한 포인트는 이벤트가 단순한 행 변경 이력이 아니라는 점이다. 좋은 이벤트는 `status_changed_to_3`보다 `OrderShipped`처럼 <strong>비즈니스에서 이해 가능한 사실</strong>이어야 한다. 그래야 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 단순 기술 기록이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어가 된다.
 
 - **📢 섹션 요약 비유**: [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만 저장하는 방식은 통장 잔액 숫자만 적어 두는 것과 같고, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 입금·출금 내역이 시간순으로 남는 가계부와 같다. 같은 잔액이라도 이해할 수 있는 정보량이 전혀 다르다.
 
@@ -51,31 +52,26 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로는 보통 명령 처리기, [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)), 이벤트 저장소, 프로젝션으로 이어진다. 사용자의 명령이 들어오면 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)는 과거 이벤트 스트림을 읽어 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 재구성하고, 규칙 위반 여부를 검사한 뒤 새 이벤트를 만든다. 그 이벤트는 기존 이벤트를 수정하지 않고 **맨 뒤에 추가**된다.
+[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로는 보통 명령 처리기, [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) ([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)), 이벤트 저장소, 프로젝션으로 이어진다. 사용자의 명령이 들어오면 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/)는 과거 이벤트 스트림을 읽어 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 재구성하고, 규칙 위반 여부를 검사한 뒤 새 이벤트를 만든다. 그 이벤트는 기존 이벤트를 수정하지 않고 <strong>맨 뒤에 추가</strong>된다.
 
 여기서 중요한 기술 요소는 순서와 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이다. 같은 주문이나 같은 계좌에 대해 두 명령이 동시에 들어오면, 어떤 이벤트가 먼저 기록되는지가 결과를 바꿀 수 있다. 그래서 이벤트 저장소는 보통 스트림 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이나 예상 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 검사를 사용해 [낙관적 동시성 제어](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/) ([Optimistic Concurrency Control](/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/)) 를 수행한다. 즉 "내가 본 마지막 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 다음에 이어 붙인다"는 조건이 깨지면 다시 읽고 재판단하게 만든다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Event sourcing write and rebuild flow                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Command                                                            │
-│   │                                                                │
-│   ▼                                                                │
-│ load snapshot + past events                                        │
-│   │                                                                │
-│   ▼                                                                │
-│ Aggregate validates business rules                                 │
-│   │                                                                │
-│   ├─ invalid -> reject command                                     │
-│   ▼                                                                │
-│ append new event(s) with expected stream version                   │
-│   │                                                                │
-│   ├──────────────► projector updates read model                    │
-│   │                                                                │
-│   └──────────────► replay later to rebuild current state           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event sourcing write and rebuild flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load snapshot + past events</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggregate validates business rules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ invalid -&gt; reject command</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">append new event(s) with expected stream version</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► projector updates read model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► replay later to rebuild current state</div></div>
+</div>
+</div>
+
+
 
 구성 요소를 요약하면 다음과 같다.
 
@@ -88,7 +84,7 @@ tags = ["studynote-enterprise"]
 | 프로젝션 (Projection) | 이벤트를 조회 모델로 변환 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 재생 가능성, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 대응 |
 | 읽기 모델 (Read Model) | 화면·검색용 현재 뷰 | CQRS와 결합 시 별도 저장소 사용 가능 |
 
-[스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 자주 오해되는 요소다. [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 이벤트를 대체하는 원본이 아니라, 재생 시간을 줄이기 위한 중간 체크포인트다. 예를 들어 한 계좌에 10만 건 이벤트가 쌓였다면, 최근 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이후의 이벤트만 다시 적용해 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 빠르게 계산할 수 있다. 따라서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 공식은 **이벤트가 원본, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 캐시**라고 정리하는 편이 맞다.
+[스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 자주 오해되는 요소다. [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 이벤트를 대체하는 원본이 아니라, 재생 시간을 줄이기 위한 중간 체크포인트다. 예를 들어 한 계좌에 10만 건 이벤트가 쌓였다면, 최근 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 이후의 이벤트만 다시 적용해 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 빠르게 계산할 수 있다. 따라서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 공식은 <strong>이벤트가 원본, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a>은 캐시</strong>라고 정리하는 편이 맞다.
 
 또한 읽기 모델은 언제든 다시 만들 수 있어야 한다. 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 진실 원천이라면, 화면용 테이블이나 검색용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 깨져도 다시 투영하면 된다. 이 점 때문에 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)) 와 자주 짝을 이룬다.
 
@@ -98,7 +94,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 종종 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/), [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)와 혼동된다. 하지만 핵심 차이는 **무엇을 시스템의 진실 원천으로 삼느냐**다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 보통 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 저장이 먼저 있고, 그 뒤에 참고용 흔적을 남긴다. 반면 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이벤트 스트림 자체가 먼저이고, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 그로부터 계산된다.
+[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 종종 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/), [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)와 혼동된다. 하지만 핵심 차이는 <strong>무엇을 시스템의 진실 원천으로 삼느냐</strong>다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 보통 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 저장이 먼저 있고, 그 뒤에 참고용 흔적을 남긴다. 반면 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이벤트 스트림 자체가 먼저이고, [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 그로부터 계산된다.
 
 | 방식 | 진실 원천 | 장점 | 한계 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -109,7 +105,7 @@ tags = ["studynote-enterprise"]
 
 이 차이는 CQRS와 연결될 때 더 중요해진다. CQRS는 읽기 모델과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델을 분리하는 패턴이고, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델의 저장 방식을 바꾸는 패턴이다. 둘은 자주 함께 쓰이지만 동일 개념은 아니다. [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 없이 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 적용할 수도 있고, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 없이 CQRS만 적용할 수도 있다.
 
-또 하나의 오해는 "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)가 있으면 곧 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)"이라는 생각이다. 브로커는 이벤트를 전달하는 인프라일 수는 있지만, 이벤트 재생 가능성, 스트림 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 단위 순서 보장, 장기 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 설계되지 않았다면 그 자체로 이벤트 저장소가 되지는 않는다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 단순 발행이 아니라 **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트를 저장 모델의 중심에 놓는 설계**다.
+또 하나의 오해는 "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)가 있으면 곧 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)"이라는 생각이다. 브로커는 이벤트를 전달하는 인프라일 수는 있지만, 이벤트 재생 가능성, 스트림 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 단위 순서 보장, 장기 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 설계되지 않았다면 그 자체로 이벤트 저장소가 되지는 않는다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 단순 발행이 아니라 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 이벤트를 저장 모델의 중심에 놓는 설계</strong>다.
 
 - **📢 섹션 요약 비유**: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상은 흔적을 보는 용도이고, 경기 공식 기록지는 경기 결과를 인정하는 원본이다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 후자가 되는 것이지, 단순히 흔적을 더 남기는 수준이 아니다.
 
@@ -121,23 +117,24 @@ tags = ["studynote-enterprise"]
 
 기술사 관점에서는 특히 이벤트 설계 품질이 중요하다. 이벤트는 `row_updated`처럼 기술적인 차분보다 `PaymentAuthorized`, `InventoryReserved`처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 언어로 표현되어야 한다. 그래야 시간이 지나도 이벤트 의미를 이해할 수 있고, 다른 읽기 모델이나 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 재사용하기 쉽다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ When event sourcing is worth the cost                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Need full audit / replay / temporal reconstruction?                │
-│   ├─ Yes -> event sourcing candidate                               │
-│   └─ No  -> current-state model may be enough                      │
-│                                                                    │
-│ Need separate read models and eventual consistency is acceptable?  │
-│   ├─ Yes -> pair with CQRS                                         │
-│   └─ No  -> keep simpler projection strategy                       │
-│                                                                    │
-│ Can the team operate versioning, snapshot, reprocessing?           │
-│   ├─ Yes -> adopt selectively                                      │
-│   └─ No  -> complexity may outweigh benefit                        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When event sourcing is worth the cost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need full audit / replay / temporal reconstruction?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; event sourcing candidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; current-state model may be enough</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need separate read models and eventual consistency is acceptable?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; pair with CQRS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; keep simpler projection strategy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Can the team operate versioning, snapshot, reprocessing?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; adopt selectively</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; complexity may outweigh benefit</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -155,7 +152,7 @@ tags = ["studynote-enterprise"]
 - 프로젝션은 실시간만 믿고 전체 재생 절차를 만들지 않은 경우
 - 간단한 CRUD 화면에도 유행처럼 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)을 도입하는 경우
 
-특히 불변 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 삭제 요구는 함께 고민해야 한다. 이벤트를 절대 물리 삭제하지 않는 구조라면, 민감 정보는 이벤트 본문에 직접 넣기보다 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 키로 분리하거나 암호화 [키 폐기](/knowledge-base/studynote/09_security/03_network_security/155_key_destruction_crypto_shredding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 준비해야 한다. 즉 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 개발 패턴이면서 동시에 **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 설계**이기도 하다.
+특히 불변 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 삭제 요구는 함께 고민해야 한다. 이벤트를 절대 물리 삭제하지 않는 구조라면, 민감 정보는 이벤트 본문에 직접 넣기보다 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 키로 분리하거나 암호화 [키 폐기](/knowledge-base/studynote/09_security/03_network_security/155_key_destruction_crypto_shredding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 준비해야 한다. 즉 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 개발 패턴이면서 동시에 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a> 설계</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: 박물관에 모든 전시 교체 기록을 남기면 역사 연구에는 좋지만, 기록 체계를 제대로 관리하지 않으면 나중에 오히려 창고가 더 복잡해진다. 좋은 기록은 많이 남기는 것만이 아니라, 나중에 다시 읽고 재구성할 수 있게 남기는 것이다.
 
@@ -163,11 +160,11 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이 잘 맞는 시스템에서는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 장애 재현, 시점 복원, 새 조회 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 외부 이벤트 연계가 훨씬 강력해진다. 현재 화면이 잘못되어도 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 살아 있으면 읽기 모델을 다시 만들 수 있고, 특정 시점 상태를 재생해 문제를 분석할 수 있다. 그래서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 잘 저장하는 기술"보다 **시간 위에서 시스템을 설명하는 기술**에 가깝다.
+[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)이 잘 맞는 시스템에서는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 장애 재현, 시점 복원, 새 조회 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 외부 이벤트 연계가 훨씬 강력해진다. 현재 화면이 잘못되어도 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 살아 있으면 읽기 모델을 다시 만들 수 있고, 특정 시점 상태를 재생해 문제를 분석할 수 있다. 그래서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 잘 저장하는 기술"보다 <strong>시간 위에서 시스템을 설명하는 기술</strong>에 가깝다.
 
 하지만 그만큼 비용도 분명하다. 이벤트 설계 품질이 낮으면 오히려 이해하기 어려운 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 남고, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)·프로젝션·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화·관측 체계를 잘못 설계하면 운영 부담이 커진다. 또한 단순 업무에는 얻는 가치보다 학습 비용과 복잡도가 더 클 수 있다. 따라서 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 전면 도입보다, 이력과 재현 가치가 큰 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 선택적으로 적용하는 편이 현실적이다.
 
-결론적으로 기억해야 할 문장은 이것이다. **[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)에서 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)는 버려도 다시 만들 수 있지만, 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 버리면 안 되는 원본이다.** 이 관점을 이해하면 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 단순 저장 방식이 아니라, 시스템의 시간을 설계하는 아키텍처로 남는다.
+결론적으로 기억해야 할 문장은 이것이다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a>에서 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a>는 버려도 다시 만들 수 있지만, 이벤트 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>는 버리면 안 되는 원본이다.</strong> 이 관점을 이해하면 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 단순 저장 방식이 아니라, 시스템의 시간을 설계하는 아키텍처로 남는다.
 
 - **📢 섹션 요약 비유**: 오늘의 날씨 한 줄만 적는 달력보다, 매일 어떤 날씨였는지 일기를 쓰는 편이 시간이 지나도 더 많은 답을 준다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 시스템의 일기를 원본으로 삼는 방식이다.
 
@@ -188,21 +185,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 명령
-        │
-        ▼
-과거 이벤트 재생 + 규칙 검증
-        │
-        ▼
-새 이벤트 append
-        │
-        ├──────────────► 스냅샷 생성으로 재생 비용 절감
-        │
-        ├──────────────► 프로젝션으로 읽기 모델 생성
-        │
-        └──────────────► 감사 추적 · 시점 복원 · 외부 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 명령</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과거 이벤트 재생 + 규칙 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">새 이벤트 append</div>
+<div class="kb-diagram-tree-item" style="--depth:4">스냅샷 생성으로 재생 비용 절감</div>
+<div class="kb-diagram-tree-item" style="--depth:4">프로젝션으로 읽기 모델 생성</div>
+<div class="kb-diagram-tree-item" style="--depth:4">감사 추적 · 시점 복원 · 외부 연계</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "명령 → 이벤트 기록 → 재생/투영 → 운영 가치"로 이어지는 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 

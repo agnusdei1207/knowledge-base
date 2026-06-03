@@ -100,25 +100,37 @@ GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configur
 
 ## 관련 개념 맵
 
-```text
-.gitlab-ci.yml
-  ↓
-Runner
-  ↓
-Pipeline
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">.gitlab-ci.yml</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Runner</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Pipeline</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-GitLab
-  ↓
-CI/CD
-  ↓
-Runner
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GitLab</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI/CD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Runner</div>
+</div>
+</div>
+
+
 
 ---
 

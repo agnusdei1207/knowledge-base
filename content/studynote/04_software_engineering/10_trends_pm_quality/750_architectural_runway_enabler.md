@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업은 엄청난 속도로 새 기능을 찍어낸다. 하지만 1년이 지나면 "버튼 하나 색깔 바꾸는 데 2주일이 걸린다"는 비명 소리가 나온다. 기능(Feature)만 미친 듯이 만들어내느라 코드가 스파게티가 되고, 인프라가 한계에 달해 **'[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'**가 쌓였기 때문이다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업은 엄청난 속도로 새 기능을 찍어낸다. 하지만 1년이 지나면 "버튼 하나 색깔 바꾸는 데 2주일이 걸린다"는 비명 소리가 나온다. 기능(Feature)만 미친 듯이 만들어내느라 코드가 스파게티가 되고, 인프라가 한계에 달해 <strong>'<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)'</strong>가 쌓였기 때문이다.
 
 과거 폭포수(Waterfall) 모델에서는 개발 전에 6개월 동안 완벽한 아키텍처(활주로)를 설계했다. 하지만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 시대가 오면서 "문서 쓰지 말고 일단 코딩부터 해!"라며 뼈대 없이 기능만 쌓아 올리다 집이 무너지는 대참사가 벌어졌다.
 
-이를 해결하기 위해 스케일드 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))에서 제안한 개념이 **[아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)(Architectural Runway)**다. "완벽한 설계도를 먼저 그릴 필요는 없지만, **최소한 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(다음 달)에 올릴 기능들이 부서지지 않고 올라갈 수 있는 뼈대(인프라)는 항상 한 발 앞서 만들어 두자**"는 철학이다.
+이를 해결하기 위해 스케일드 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크([SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))에서 제안한 개념이 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/">아키텍처 런웨이</a>(Architectural Runway)</strong>다. "완벽한 설계도를 먼저 그릴 필요는 없지만, <strong>최소한 다음 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a>(다음 달)에 올릴 기능들이 부서지지 않고 올라갈 수 있는 뼈대(인프라)는 항상 한 발 앞서 만들어 두자</strong>"는 철학이다.
 
 - **📢 섹션 요약 비유**: 비행기(새 기능)를 날리려면 활주로(아키텍처)가 필요하다. 활주로가 짧은데 무거운 폭격기를 띄우면 숲에 처박혀 다 죽는다(장애 발생). 내일 폭격기를 띄워야 한다면, 오늘 밤에는 비행기를 만들 게 아니라 무조건 포크레인으로 활주로를 연장하는 공사부터 해야 한다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/) 기술적 기반 조기 확의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 런웨이 기술적 기반 조기 확                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 런웨이 기술적 기반 조기 확</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/) 기술적 기반 조기 확가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | BDUF (Big Design Up Front) | Architectural Runway ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) |
 |:---|:---|:---|
-| **설계 시점** | 프로젝트 시작 전, 코딩 전에 한 번에 | **프로젝트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 내내, 지속적으로** |
-| **목표** | 완벽하고 변하지 않는 설계도 완성 | **가까운 미래(다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))의 요구사항 수용** |
+| **설계 시점** | 프로젝트 시작 전, 코딩 전에 한 번에 | <strong>프로젝트 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 내내, 지속적으로</strong> |
+| **목표** | 완벽하고 변하지 않는 설계도 완성 | <strong>가까운 미래(다음 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a>)의 요구사항 수용</strong> |
 | **위험성** | 비즈니스 요구사항이 바뀌면 설계도가 휴지 조각이 됨 | 활주로 관리를 안 하면 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 폭발 (탈선) |
 | **특징** | 전통적인 폭포수(Waterfall) 모델의 상징 | **의도적 아키텍처(Intentional) + 창발적 설계(Emergent)** |
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)를 건강하게 유지하는 팀은 '지속 가능한 배포(Sustainable Delivery)' 속도를 유지한다. 시스템이 수백만 줄로 커져도 코드가 무너지지 않으며, 개발자들은 미리 닦여있는 튼튼한 인프라(런웨이) 위에서 신규 비즈니스 로직을 블록 조립하듯 쾌속으로 얹어 나갈 수 있다.
 
-결론적으로 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)는 '소프트웨어 구조'에 관한 기술적 개념이 아니라, **기능 개발(Dev)과 인프라 개선(Ops) 사이의 예산과 시간을 조율하는 '경영 및 포트폴리오 관리' 철학**이다. "당장 보이는 지붕(기능)만 올리지 말고, 기둥과 철근(런웨이)에 돈을 써야 건물이 안 무너진다"는 진리를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프로세스 속에 강제한 위대한 프레임워크다.
+결론적으로 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)는 '소프트웨어 구조'에 관한 기술적 개념이 아니라, <strong>기능 개발(Dev)과 인프라 개선(Ops) 사이의 예산과 시간을 조율하는 '경영 및 포트폴리오 관리' 철학</strong>이다. "당장 보이는 지붕(기능)만 올리지 말고, 기둥과 철근(런웨이)에 돈을 써야 건물이 안 무너진다"는 진리를 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프로세스 속에 강제한 위대한 프레임워크다.
 
 - **📢 섹션 요약 비유**: 나무꾼이 나무를 베어 파는 것(비즈니스 기능)도 중요하지만, 톱날을 가는 시간([아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/))을 아까워하면 결국 아무 나무도 베지 못한다. 매일 2시간씩 톱날을 가는 시간을 [아키텍처 런웨이](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/600_architecture_runway_agile_foundation/)라고 부른다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 런웨이 기술적 기반 조기 확보 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 런웨이 기술적 기반 조기 확보 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

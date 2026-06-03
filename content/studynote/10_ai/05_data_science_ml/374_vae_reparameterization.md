@@ -21,18 +21,21 @@ tags = ["studynote-ai"]
 
 일반 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/), AE)는 입력 x를 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 잠재 벡터 z로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 x̂로 복원한다. 이 잠재 공간(Latent Space)은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점들로 채워지지만, **점 사이 공간은 비어** 있어 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하기 어렵다.
 
-VAE는 이 문제를 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 잠재 공간(Probabilistic Latent Space)**으로 해결한다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 단일 벡터 z가 아닌 분포의 파라미터 (μ, σ²)를 출력하고, z는 이 분포에서 샘플링된다. 이로써 잠재 공간 전체가 연속적으로 채워지고, 임의의 점에서 샘플링해 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
+VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 잠재 공간(Probabilistic Latent Space)</strong>으로 해결한다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 단일 벡터 z가 아닌 분포의 파라미터 (μ, σ²)를 출력하고, z는 이 분포에서 샘플링된다. 이로써 잠재 공간 전체가 연속적으로 채워지고, 임의의 점에서 샘플링해 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
-그러나 샘플링 과정(z ~ N(μ, σ²))은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Stochastic) 연산으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 불가능하다. **재파라미터화 트릭(Reparameterization Trick)**은 이 문제를 우회하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 경로를 살린다.
+그러나 샘플링 과정(z ~ N(μ, σ²))은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Stochastic) 연산으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 불가능하다. <strong>재파라미터화 트릭(Reparameterization Trick)</strong>은 이 문제를 우회하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 경로를 살린다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 일반 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)가 여행 사진을 특정 장소 좌표로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것이라면, VAE는 사진을 "이 지역 어딘가의 좌표 분포"로 표현한다. 분포로 표현하면 그 지역의 아직 가보지 않은 곳도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
@@ -42,32 +45,25 @@ VAE는 이 문제를 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 구조
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  입력 x                                                    │
-│    │                                                       │
-│  ┌─▼──────────────┐                                        │
-│  │  인코더(Encoder) │  q_φ(z|x)                             │
-│  │  (신경망 f_φ)    │                                        │
-│  └──┬──────────┬──┘                                        │
-│     ▼          ▼                                           │
-│    μ(x)       log σ²(x)   (분포 파라미터)                   │
-│     │          │                                           │
-│     └─────┬────┘                                           │
-│           │ 재파라미터화 트릭                                 │
-│           │ ε ~ N(0, I)                                    │
-│           │ z = μ + ε ⊙ σ                                  │
-│           ▼                                                │
-│         z (잠재 변수)                                        │
-│           │                                                │
-│  ┌────────▼────────┐                                       │
-│  │  디코더(Decoder) │  p_θ(x|z)                             │
-│  │  (신경망 g_θ)    │                                        │
-│  └────────┬────────┘                                       │
-│           ▼                                                │
-│         x̂ (재구성 출력)                                     │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더(Encoder)</div><div class="kb-diagram-cell">q_φ(z</div><div class="kb-diagram-cell">x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신경망 f_φ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ(x) log σ²(x) (분포 파라미터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재파라미터화 트릭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε ~ N(0, I)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = μ + ε ⊙ σ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z (잠재 변수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더(Decoder)</div><div class="kb-diagram-cell">p_θ(x</div><div class="kb-diagram-cell">z)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신경망 g_θ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x̂ (재구성 출력)</div></div>
+</div>
+</div>
+
+
 
 ### 재파라미터화 트릭
 
@@ -87,12 +83,17 @@ VAE는 이 문제를 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 VAE의 목적: log p_θ(x) 최대화 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가능도)
 
-```
-log p_θ(x) ≥ E_q[log p_θ(x|z)] - KL(q_φ(z|x) || p(z))
-                  ↑                        ↑
-          재구성 손실                   KLD 규제
-        (Reconstruction Loss)    (KL Divergence)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">log p_θ(x) ≥ E_q</div><div class="kb-diagram-node">log p_θ(x|z)</div><div class="kb-diagram-note">- KL(q_φ(z|x) || p(z))</div></div>
+<div class="kb-diagram-note">재구성 손실 KLD 규제</div>
+<div class="kb-diagram-note">(Reconstruction Loss) (KL Divergence)</div>
+</div>
+</div>
+
+
 
 **KLD 항 계산** (q_φ ~ N(μ, σ²), p ~ N(0, I)):
 
@@ -121,7 +122,7 @@ KL(N(μ,σ²) || N(0,I)) = -½ Σⱼ (1 + log σ²ⱼ - μ²ⱼ - σ²ⱼ)
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 | 블러리(Blurry) | 블러리 | 선명(Sharp) |
 | 잠재 공간 해석 | 어려움 | 가능 (선형 보간) | 가능 |
 
-**[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) + [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) ([VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)-[GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 하이브리드**: VAE의 안정적 학습과 GAN의 선명한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질을 결합한 방법. DALL-E [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 VQ-[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) (Vector Quantized [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)) 기반이다.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a> + <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a>-<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a>) 하이브리드</strong>: VAE의 안정적 학습과 GAN의 선명한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질을 결합한 방법. DALL-E [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 VQ-[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) (Vector Quantized [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)) 기반이다.
 
 - **📢 섹션 요약 비유**: VAE는 "그럴듯한 그림을 그리지만 약간 흐릿한 화가"이고, GAN은 "매우 선명하지만 특정 스타일만 고집하는 화가"다. [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)-GAN은 두 화가의 장점을 합친 협업 작품이다.
 

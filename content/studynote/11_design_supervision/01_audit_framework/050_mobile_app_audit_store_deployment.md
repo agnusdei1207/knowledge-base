@@ -32,12 +32,18 @@ tags = ["App Store Connect", "OWASP MASVS", "Play Store", "accessibility", "app 
 
 ### 1.2 감리 시점
 
-```
-요구사항 분석 → 설계 → 개발 → [감리 포인트] → 스토어 심사 → 배포
-                                    ↑
-                    알파/베타 테스트 완료 후
-                    스토어 제출 전 2~4주
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">감리 포인트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">스토어 심사 → 배포</div></div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">알파/베타 테스트 완료 후</div>
+<div class="kb-diagram-note">스토어 제출 전 2~4주</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 자동차 출고 전 국가 안전 검사처럼 — 스토어 등록 전에 기능·보안·[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 공식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -137,41 +143,53 @@ MASVS-RESILIENCE : 루팅/탈옥 탐지, 코드 난독화
 
 ## 📌 관련 개념 맵
 
-```
-모바일 앱 감리
-├── 배포 정책 준수
-│   ├── Google Play (Data Safety, Target API)
-│   └── Apple App Store (Privacy Manifest, ATS)
-├── 보안 감리
-│   ├── OWASP MASVS (L1/L2)
-│   └── 인증서 고정, 루팅 탐지
-├── 접근성 감리
-│   ├── KMAG (한국 모바일 접근성 지침)
-│   └── TalkBack / VoiceOver
-└── 감리 결과
-    ├── 필수/권고/참고 분류
-    └── 재감리 절차
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모바일 앱 감리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">배포 정책 준수</div>
+<div class="kb-diagram-note">── Google Play (Data Safety, Target API)</div>
+<div class="kb-diagram-note">── Apple App Store (Privacy Manifest, ATS)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">보안 감리</div>
+<div class="kb-diagram-note">── OWASP MASVS (L1/L2)</div>
+<div class="kb-diagram-note">── 인증서 고정, 루팅 탐지</div>
+<div class="kb-diagram-tree-item" style="--depth:0">접근성 감리</div>
+<div class="kb-diagram-note">── KMAG (한국 모바일 접근성 지침)</div>
+<div class="kb-diagram-note">── TalkBack / VoiceOver</div>
+<div class="kb-diagram-tree-item" style="--depth:0">감리 결과</div>
+<div class="kb-diagram-tree-item" style="--depth:2">필수/권고/참고 분류</div>
+<div class="kb-diagram-tree-item" style="--depth:2">재감리 절차</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-모바일 앱 초기 심사 (앱 스토어 개설, 2008~)
-     │  보안 위협 증가
-     ▼
-OWASP Mobile Top 10 (2010) → MASVS (2016)
-     │  개인정보보호법 강화
-     ▼
-Google Privacy Sandbox / Apple Privacy Manifest (2021~)
-     │  공공앱 접근성 의무화
-     ▼
-한국 모바일 접근성 지침 법제화 + 공공앱 감리 의무화
-     │  AI 기반 자동 보안 검증
-     ▼
-지속적 모바일 앱 보안 감리 자동화 (현재~)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모바일 앱 초기 심사 (앱 스토어 개설, 2008~)</div>
+<div class="kb-diagram-note">보안 위협 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OWASP Mobile Top 10 (2010) → MASVS (2016)</div>
+<div class="kb-diagram-note">개인정보보호법 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Google Privacy Sandbox / Apple Privacy Manifest (2021~)</div>
+<div class="kb-diagram-note">공공앱 접근성 의무화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">한국 모바일 접근성 지침 법제화 + 공공앱 감리 의무화</div>
+<div class="kb-diagram-note">AI 기반 자동 보안 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 모바일 앱 보안 감리 자동화 (현재~)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: OWASP MASVS, Privacy Manifest, KMAG, TalkBack, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 고정, 재감리
 

@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: NAS(Network Attached Storage)는 서버 내부 기판에 디스크 하드를 꽂는 로컬 개념을 버리고, 아예 독립된 스토리지 전용 컴퓨터 박스에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 네트워크 카드(LAN)를 묶어 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 인터넷망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) IP 망에 띄워 공유하는 **'[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위' ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-level) 접근의 범용 외장 스토리지 전용 서버 네트워크 모델**이다.
-> 2. **가치**: 값비싼 광케이블 카드 등 전문 스토리지 장비 구축([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)) 없이, 전 세계 가장 싸고 대중적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP LAN(랜선) 위에 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/), SMB(CIFS) 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 모듈만 씌우면, 노트북, 윈도우, 리눅스 할 것 없이 모든 직종의 클라이언트 PC들이 마치 내 로컬 드라이브 `Z:` 나 `/mnt` 처럼 손쉽게 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 붙여 폴더를 공유하는 **압도적인 접근의 편리성과 범용 대중성**을 무기로 삼았다. 
+> 1. **본질**: NAS(Network Attached Storage)는 서버 내부 기판에 디스크 하드를 꽂는 로컬 개념을 버리고, 아예 독립된 스토리지 전용 컴퓨터 박스에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 네트워크 카드(LAN)를 묶어 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 인터넷망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) IP 망에 띄워 공유하는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 단위' (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a>-level) 접근의 범용 외장 스토리지 전용 서버 네트워크 모델</strong>이다.
+> 2. **가치**: 값비싼 광케이블 카드 등 전문 스토리지 장비 구축([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/)) 없이, 전 세계 가장 싸고 대중적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP LAN(랜선) 위에 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/), SMB(CIFS) 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 모듈만 씌우면, 노트북, 윈도우, 리눅스 할 것 없이 모든 직종의 클라이언트 PC들이 마치 내 로컬 드라이브 `Z:` 나 `/mnt` 처럼 손쉽게 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 붙여 폴더를 공유하는 <strong>압도적인 접근의 편리성과 범용 대중성</strong>을 무기로 삼았다. 
 > 3. **한계**: 스토리지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이 엄청나게 무거운 구형 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 오버헤드 망의 트래픽 병목 혼잡을 뚫고 지나와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Delay) 검수까지 거쳐야 하므로 원천적인 I/O 스루풋 속도가 블록(Block) 장비들에 비해 느려 고성능 RDBMS 부하의 블록 다이렉트 처리([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 등) 타겟으로는 구조적 하향 기피를 유도 당한다.
 
 ---
@@ -22,40 +22,37 @@ tags = ["studynote-operating-system"]
 - **개념**: NAS의 개념을 직관적으로 번역하면 "네트워크(Network) 랜선 케이블 끝자락에 묶어서 매달아 놓은(Attached) 거대한 저장 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 창고(Storage)" 다. 과거처럼 디스크를 샀다고 해서 내 작업용 워크스테이션 배를 갈라 [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 욱여넣지 않는다. 대신 그 디스크들을 박스형 미니 컴퓨터(Synology, QNAP, NetApp 장비 등) 안에 통째로 쓸어 담고 IP 주소를 할당해 주방의 냉장고 공유하듯 모두가 랜선으로 폴더에 접속하게 개방(Share)하는 구조다.
 - **필요성**: 한 회사에서 디자인팀, 영상편집팀, 재무팀수십 명의 직원이 같은 100GB짜리 홍보 영상 프로젝트 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 하나를 동시에 열람 및 수정 공유해야 했다. 각자의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 디스크에 복사본을 쏴서 작업하면 어느 게 최신본 덮어쓰기 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인지 꼬여서 회사가 아수라장([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 단절 충돌)이 된다. 이를 막기 위해 "중앙에 폴더 껍데기를 통째로 하나 크게 파놓고, 다 같이 네트워크 IP로 랜 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 연결 짚고 들어와서 이 거대한 한 저장함(NAS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템)을 각자의 외장하드인 양 공유 공생하자" 라고 협업 공유 폴더의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 체계를 만들어낸 가장 완벽한 해답 S/W 솔루션 묶음 체제다.
 
-- **NAS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 논리적 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 매핑 다이어그램**:
+- <strong>NAS의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 논리적 네트워크 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 매핑 다이어그램</strong>:
 내 컴퓨터가 C드라이브를 던지고 외부 나스 통에서 어떤 망 겹을 통해 폴더([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 접속되어 떨어지는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────────┐
-  │                 NAS (Network Attached Storage) 통신 계층의 논리 구조도            │
-  ├───────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                   │
-  │   [ 클라이언트 (윈도우/맥/리눅스 PC) ]         (범용 TCP/IP LAN 이더넷 스위치 망) │
-  │      ┌───────────────────────────┐                ▒▒▒                             │
-  │      │ 어플리케이션: "Z:\보고서.pdf 열어줘!"│                ▒▒▒ ───────────┐     │
-  │      ├───────────────────────────┤    (SMB / NFS) ▒▒▒            │                │
-  │      │ 파일 시스템 Redirector 클라이언트 │  ─────────▶ ▒▒▒ (라우터 포트) │        │
-  │      ├───────────────────────────┤                ▒▒▒            │                │
-  │      │ TCP/IP 스택 (네트워크 전송 변환)  │                ▒▒▒            │        │
-  │      └───────────────────────────┘                               │                │
-  │                                                                  │                │
-  │   [ NAS 스토리지 장비 본체 박스 (결국 얘도 하나의 완전한 파일 서버 컴퓨터 다) ]  ││
-  │      ┌───────────────────────────────────────────────────────┐   │                │
-  │      │ 1️⃣ 랜카드(NIC) TCP/IP 스택 패킷 수신 및 해독(Unpack) ◀────────┘           │
-  │      │                   ▼ (파일 요청 변환)                           │           │
-  │      │ 2️⃣ NAS 전용 OS 파일 시스템 (Ext4, ZFS, Btrfs 기반 폴더 잠금/권한)│        │
-  │      │                   ▼ (블록 쪼개기 변환 명령 자체 하달 통제)         │       │
-  │      │ 3️⃣ 내부 자체 하드웨어 RAID 컨트롤러 및 LVM 파티션 엔진 스택         │     │
-  │      │                   ▼ (최종 물리 헤드 암 긁기!)                    │         │
-  │      │ 4️⃣ 물리적 디스크 N개 (HDD 바디 군락 풀 배열 저장소)                 │     │
-  │      └───────────────────────────────────────────────────────┘                    │
-  │                                                                                   │
-  │  * 특성: NAS 박스는 자신이 직접 스스로 "파일과 폴더(Ext4 등 OS)"의 관리와         │
-  │         디렉토리 이름까지 철저하게 다 알고 있고 클라에게 파일을 "완성품"으로 퍼줌.│
-  └───────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 일반적인 무식한 하드디스크 연결(다음 백과사전 단원인 493 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 방식)과 다르게, NAS 장비의 최고 핵심 기치는 그 시커먼 박스 자체가 **하나의 독립된 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 머신' 이라는 미니 서버 컴 본체**라는 것이다. 내 노트북 윈도우 OS가 디스크 0과 1비트 나열이 어딘지 고민 긁어모으기 할 필요가 0.1도 절대전무. NAS OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 에다가 "보고서.doc 주소 이리 와!" ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위 요청)를 네트워크로 던지면 NAS 박스 내부 뇌 속 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "아 네 폴더경로 그거 하드 섹터 여기 있네요" 하고 스스로 계산 폴딩 가공해서 조립 완전품 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 LAN 망에 리턴 결제 던져주는 엄청 고차원적이고 친절 무상 포장 배달 앱 시스템이다. 
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAS (Network Attached Storage) 통신 계층의 논리 구조도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (윈도우/맥/리눅스 PC)</div><div class="kb-diagram-note">(범용 TCP/IP LAN 이더넷 스위치 망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▒▒▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어플리케이션: "Z:\보고서.pdf 열어줘!"</div><div class="kb-diagram-cell">▒▒▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SMB / NFS) ▒▒▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 Redirector 클라이언트</div><div class="kb-diagram-cell">▶ ▒▒▒ (라우터 포트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▒▒▒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP/IP 스택 (네트워크 전송 변환)</div><div class="kb-diagram-cell">▒▒▒</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAS 스토리지 장비 본체 박스 (결국 얘도 하나의 완전한 파일 서버 컴퓨터 다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 랜카드(NIC) TCP/IP 스택 패킷 수신 및 해독(Unpack) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (파일 요청 변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ NAS 전용 OS 파일 시스템 (Ext4, ZFS, Btrfs 기반 폴더 잠금/권한)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (블록 쪼개기 변환 명령 자체 하달 통제)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 내부 자체 하드웨어 RAID 컨트롤러 및 LVM 파티션 엔진 스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (최종 물리 헤드 암 긁기!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 물리적 디스크 N개 (HDD 바디 군락 풀 배열 저장소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특성: NAS 박스는 자신이 직접 스스로 "파일과 폴더(Ext4 등 OS)"의 관리와</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디렉토리 이름까지 철저하게 다 알고 있고 클라에게 파일을 "완성품"으로 퍼줌.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 일반적인 무식한 하드디스크 연결(다음 백과사전 단원인 493 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 방식)과 다르게, NAS 장비의 최고 핵심 기치는 그 시커먼 박스 자체가 <strong>하나의 독립된 '<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 머신' 이라는 미니 서버 컴 본체</strong>라는 것이다. 내 노트북 윈도우 OS가 디스크 0과 1비트 나열이 어딘지 고민 긁어모으기 할 필요가 0.1도 절대전무. NAS OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 에다가 "보고서.doc 주소 이리 와!" ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위 요청)를 네트워크로 던지면 NAS 박스 내부 뇌 속 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "아 네 폴더경로 그거 하드 섹터 여기 있네요" 하고 스스로 계산 폴딩 가공해서 조립 완전품 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 LAN 망에 리턴 결제 던져주는 엄청 고차원적이고 친절 무상 포장 배달 앱 시스템이다. 
 
 - **📢 섹션 요약 비유**: 이 구조는 식당 손님(클라이언트 컴퓨터)이 주방에 들어가서 고기 자르고 불 켜며 굽는 생 무식한 노동(블록 I/O)을 1도 안 하고, 그냥 자리에 편히 앉아 식당 키오스크 IP로 "김치찌개 1개([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 이름) 배달이요!" 네트워크 버튼(SMB 요청)만 누르면 NAS 주방장 컴퓨터 OS가 알아서 고기도 썰고 김치도 뒤적거려서 폴더에 예쁘게 포장된 완제품([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 식탁으로 서빙 토스해 내어주는 친절하고도 무거운 완제품([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Level) 요리 배달 식당 구조와 완벽 동기화됩니다.
 
@@ -69,7 +66,7 @@ tags = ["studynote-operating-system"]
 
 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 스펙 | 기반 생태계 (OS 호환 친화도) | 처리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 메커니즘 특성 평가 |
 |:---|:---|:---|
-| **[NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/) ([Network File System](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))** | **UNIX / Linux 백본 생태의 아버지** (Sun Microsystems개발 고대 국룰) | 서버끼리 데몬(`nfsd`) 띄우고 디렉토리를 `mount` 쳐버려 아예 내 리눅스 로컬 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트리 `/mnt/data` 인 것처럼 위장 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 착취해 버림. 가볍고 빠르나 보안 세팅 짜증 극악 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/">NFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/">Network File System</a>)</strong> | **UNIX / Linux 백본 생태의 아버지** (Sun Microsystems개발 고대 국룰) | 서버끼리 데몬(`nfsd`) 띄우고 디렉토리를 `mount` 쳐버려 아예 내 리눅스 로컬 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트리 `/mnt/data` 인 것처럼 위장 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 착취해 버림. 가볍고 빠르나 보안 세팅 짜증 극악 |
 | **SMB (Server Message Block) / CIFS** | **Windows Microsoft 왕국 생태의 황금 표준** (`\\192.168.1.5\share` 쳐서 접속하는 바로 그 폴더 탐색기 공유) | 윈도우 [Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/)(AD) 권한, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(접근제어), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 끄집기 등 사무용 그룹웨어 보안 기능이 철통 떡칠 되어있어 어마어마하게 편리하지만 통신 오버헤드 패킷이 상대적으로 무거운 비만 격 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성 유발 |
 
 *최신 트렌드: 현대의 최고급 NAS 장비(시놀로지 랙, 넷앱 어플라이언스)들은 이 쌍방언을 모두 멀티 딕셔너리로 구사 지원하여 윈도우 직원은 SMB로, 백엔드 리눅스 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 머신은 NFS로 한 폴더를 동시에 쑤시고 병합 조립하는 기적의 통섭 아키텍처 혼종 하이브리드 지원 포팅을 구축했다.*
@@ -78,8 +75,8 @@ tags = ["studynote-operating-system"]
 
 NAS가 세상을 지배하게 된 그 뛰어난 대중성 뒤에는 엄청난 응답 속도의 둔탁 체증(Overhead)의 그림자가 드리워져서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) RDBMS 에겐 독약이 된다는 설계 한계가 박혀있다.
 
-- **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 패킷 비만화 병목**: 블록 I/O 케이블은 1과 0 덩어리만 쏘면 땡인데, NAS 통신은 랜선 위에서 `TCP 헤더 조립`, `IP 캡슐 포장`, `이더넷 프레임 마운트`, 거기다 `SMB 헤더 패킹` 까지 엄청난 편지 봉투 4겹 마트료시카 포장 억지 레이어 인캡슐레이션을 메인보드 CPU가 일일이 뜯어가며 수행해야 한다 (심각한 CPU 로드 파편). 
-- **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) 경합**: 1,000명의 접속 파편에서 "저 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지금 누가 쓰고 있으면 제가 덮어쓰기 막아주세요" 하는 락 관리 연산 오버헤드 수식을 저 시커먼 나스 박스 CPU가 죄다 처리 방어해야 하는 한계성 스로틀로 인해 IOPS 곡선이 초당 1만 건을 넘기는 미친 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 돌입 상황에 직면하면 나스 OS 자체가 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 버려버리며 통째로 Freeze 서버 다운 랙이 걸리는 구성을 연출하고 만다. 고로 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 같은 파괴적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수다쟁이와 NAS 궁합 결합은 기술사적 죽음 반대 구성 혐오 대상이다. 
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷 비만화 병목</strong>: 블록 I/O 케이블은 1과 0 덩어리만 쏘면 땡인데, NAS 통신은 랜선 위에서 `TCP 헤더 조립`, `IP 캡슐 포장`, `이더넷 프레임 마운트`, 거기다 `SMB 헤더 패킹` 까지 엄청난 편지 봉투 4겹 마트료시카 포장 억지 레이어 인캡슐레이션을 메인보드 CPU가 일일이 뜯어가며 수행해야 한다 (심각한 CPU 로드 파편). 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 락 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">Lock contention</a>) 경합</strong>: 1,000명의 접속 파편에서 "저 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지금 누가 쓰고 있으면 제가 덮어쓰기 막아주세요" 하는 락 관리 연산 오버헤드 수식을 저 시커먼 나스 박스 CPU가 죄다 처리 방어해야 하는 한계성 스로틀로 인해 IOPS 곡선이 초당 1만 건을 넘기는 미친 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 돌입 상황에 직면하면 나스 OS 자체가 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 버려버리며 통째로 Freeze 서버 다운 랙이 걸리는 구성을 연출하고 만다. 고로 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 같은 파괴적 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수다쟁이와 NAS 궁합 결합은 기술사적 죽음 반대 구성 혐오 대상이다. 
 
 - **📢 섹션 요약 비유**: 이 구조는 엄청나게 포장 박스가 대규모로 부풀려진 택배 시스템입니다. 귤([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 알맹이 한 개를 던져주려고 에어캡([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 싸고 종이 박스(IP) 접고 송장 스탬프(SMB 목적지) 다 붙여서 우체부 검수([공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/) 감시)까지 다 받고 보내야 하는 편하고도 무거운 비효율성 페이로드(Payload) 타격 오버헤드 구조라서, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1억 개를 수천 번 쪼개서 쓰고 섞는 복잡한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 용으로는 심장이 터져버리는 설계 안티 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 패턴인 셈이죠.
 
@@ -87,33 +84,30 @@ NAS가 세상을 지배하게 된 그 뛰어난 대중성 뒤에는 엄청난 �
 
 ### 실무 시나리오 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구축 모델 - "그래서 언제 어떻게 써야 대박인가?"
 
-1. **시나리오 — 언론사 / 미디어 방송국 영상 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 워크플로 렌더팜 중앙 스토리지**: 파이널컷이나 프리미어 여러 대의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 클러스터 편집기자들이 한 건의 100GB 거대 소스 폴더에 물려 작업하고 있다. 편집은 순차 읽기(Sequential Read / Streaming) 성향이 99%이므로 NAS의 치명적 단점인 랜덤 I/O 오버헤드 병목을 묘하게 피해 간다. 여기에 **10GbE / 100GbE 광 랜선 카드 업그레이드 폭포와 다중 묶음 LACP [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통신망 스펙**만 쏟아부으면 전담 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)서버로의 끝없는 영상 스루풋 축복([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 산개)을 내어주어 협업 대동단결 아키텍처 초 기적 융합을 이뤄낸다.
+1. <strong>시나리오 — 언론사 / 미디어 방송국 영상 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>) 워크플로 렌더팜 중앙 스토리지</strong>: 파이널컷이나 프리미어 여러 대의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 클러스터 편집기자들이 한 건의 100GB 거대 소스 폴더에 물려 작업하고 있다. 편집은 순차 읽기(Sequential Read / Streaming) 성향이 99%이므로 NAS의 치명적 단점인 랜덤 I/O 오버헤드 병목을 묘하게 피해 간다. 여기에 <strong>10GbE / 100GbE 광 랜선 카드 업그레이드 폭포와 다중 묶음 LACP <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 통신망 스펙</strong>만 쏟아부으면 전담 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)서버로의 끝없는 영상 스루풋 축복([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 산개)을 내어주어 협업 대동단결 아키텍처 초 기적 융합을 이뤄낸다.
 
-2. **안티 시나리오 — 1만 유저 동시접속 금융결제 RDBMS MySQL [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)**: 비용 아끼겠다고 ([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 너무 비싸서) 일반 오피스망 거미줄 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 나스 서버 장비 SMB 폴더로 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장 경로를 돌려 연동시켰다. 결제할 때마다 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ACK 수신 체증 패킷이 터지고 잡동사니 트래픽과 부딪히며 밀리터리 핑(Ping ms 응답 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 이 뜨면서 쿼리가 [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 마비 상태에 빠지고 고객 돈 결제가 허공에 붕 뜬 채 롤백되어 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 징계위원회에 불려간다. (블록 스토리지 설계 철학의 절대 위배 폭망사례 전락). 
+2. <strong>안티 시나리오 — 1만 유저 동시접속 금융결제 RDBMS MySQL <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 노드 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a></strong>: 비용 아끼겠다고 ([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 너무 비싸서) 일반 오피스망 거미줄 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 나스 서버 장비 SMB 폴더로 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장 경로를 돌려 연동시켰다. 결제할 때마다 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ACK 수신 체증 패킷이 터지고 잡동사니 트래픽과 부딪히며 밀리터리 핑(Ping ms 응답 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)) 이 뜨면서 쿼리가 [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 마비 상태에 빠지고 고객 돈 결제가 허공에 붕 뜬 채 롤백되어 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 징계위원회에 불려간다. (블록 스토리지 설계 철학의 절대 위배 폭망사례 전락). 
 
 결국 저장소 환경 필드에서의 스펙 결정 도입 아키텍처 트리는 다음 도식으로 떨어분리 판별 짓게 된다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │         저장소 프로토콜 타겟 선정 트래픽 아키텍처 리스크 필터 플로우                            │
-  ├─────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                                 │
-  │   [ 내가 저장 장비(Store)에 꽂아 넣으려는 데이터 워크로드 속성 검진 ]                           │
-  │                │                                                                                │
-  │                ▼                                                                                │
-  │      1. 여러 다양한 OS PC의 협력자들이 "하나의 파일 폴더를 같이 공유 열람"해야 하는가?          │
-  │          ├─ [예: 엑셀 문서, 영상 아카이브 쉐어, 부서 공유 드라이브 묶음]                        │
-  │          │    └─▶ 묻고 따지지도 말고 "NAS (NFS / SMB)" 만능 도입 결제 팡팡!                     │
-  │          │                                                                                      │
-  │          └─ [아니오: DB 서버나 VMWare 가상머신이 OS 블록 자체를 쑤셔 통째로 점거 저장함]        │
-  │                │                                                                                │
-  │                ▼                                                                                │
-  │      2. I/O 오버헤드를 싫어하며 OS 입출력(Block) 자체가 직접 꽂히는 무결점 통제 속도 최우선인가?│
-  │                ├─▶ (다음 장 493 진입) 🚨 "SAN 네트워크(Fibre Channel/iSCSI)" 로 선회!           │
-  └─────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 초거대 딜레마의 핵심 분기점은 **"[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유성 (Sharability)"**과 **"직결 응답 스피드 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))"** 의 등가 교환이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 폴더를 열고 싶음(여러 명이 열람)의 본능이 있으면 OS 통과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 매니저(NAS 대가리 두뇌)를 한 겹 박아야 해서 느려지지만(IP 오버헤드 락) 너무너무 편해지고 쌉싸게 이어진다. 반대로 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점 속도가 절박하면 그 대중 개방 공유성(NAS 로비 사물함)을 발로 걷어차고 완전 프라이빗 케이블([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 연결 채널 다이렉트 매핑) 전송선에 투자 연결하는 양 갈래 진화 선택 진영의 투 트랙으로 확립된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장소 프로토콜 타겟 선정 트래픽 아키텍처 리스크 필터 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내가 저장 장비(Store)에 꽂아 넣으려는 데이터 워크로드 속성 검진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 여러 다양한 OS PC의 협력자들이 "하나의 파일 폴더를 같이 공유 열람"해야 하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예: 엑셀 문서, 영상 아카이브 쉐어, 부서 공유 드라이브 묶음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 묻고 따지지도 말고 "NAS (NFS / SMB)" 만능 도입 결제 팡팡!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오: DB 서버나 VMWare 가상머신이 OS 블록 자체를 쑤셔 통째로 점거 저장함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. I/O 오버헤드를 싫어하며 OS 입출력(Block) 자체가 직접 꽂히는 무결점 통제 속도 최우선인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (다음 장 493 진입) 🚨 "SAN 네트워크(Fibre Channel/iSCSI)" 로 선회!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 초거대 딜레마의 핵심 분기점은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 공유성 (Sharability)"</strong>과 <strong>"직결 응답 스피드 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">latency</a>)"</strong> 의 등가 교환이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 폴더를 열고 싶음(여러 명이 열람)의 본능이 있으면 OS 통과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 매니저(NAS 대가리 두뇌)를 한 겹 박아야 해서 느려지지만(IP 오버헤드 락) 너무너무 편해지고 쌉싸게 이어진다. 반대로 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점 속도가 절박하면 그 대중 개방 공유성(NAS 로비 사물함)을 발로 걷어차고 완전 프라이빗 케이블([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 연결 채널 다이렉트 매핑) 전송선에 투자 연결하는 양 갈래 진화 선택 진영의 투 트랙으로 확립된다.
 
 ### Ⅳ. 기대효과 및 결론
 
@@ -123,11 +117,11 @@ NAS가 세상을 지배하게 된 그 뛰어난 대중성 뒤에는 엄청난 �
 |:---|:---|:---|:---|
 | **정량 (물리적 확충 스케일)** | DB 서버별로 하드 다 차면 서버 전원 끄고 배때지 열고 디스크 증설 교체 지옥. 낭비/여분 편차율 극심 타락 | 중앙 NAS 대형 볼륨 한 곳 뒷 샷시에 하드만 죽죽 꼽아 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)를 네트워크로 용량  [quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) 수치만 숫자 증분 조절하면 모든 앞단 확장 배포가 증식 연장 땡 완료 | 자본 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 유연성 및 무중단 [Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 극초강 펀칭 확립 달성 |
 | **정량 (설비 및 유지 오버헤드)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유를 위해 쓸데없이 Windows 라이센스 꽂힌 비싼 메인 서버 하나 바쳐 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)관리 풀세팅 구축 구동 강제 | 시놀로지, 넷앱 같은 임베디드 OS 고밀도 박스 하나 저전력 깡통 꽂아 랜선 물리면 리눅스 커스텀 쉐어 세팅 오토 통합 관리망 부착으로 전력 소비 초감소 | IDC(전산실 상면 스토리지 통합) 전기세 및 라이센스 폭락비 최적화 실현 완료 |
-| **정성 (자원 통합 관점 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))** | 영업팀, 마케팅팀 컴퓨터 C 드라이브마다 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 먹히면 각개전투 회사 자산 개판 로컬 파괴 재난 연속 확산 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 죄다 중앙 NAS에 몰빵 보존되므로 거기 넷앱 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 한방 찍으면 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무적 타임머신 생존 보장 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 방호 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 파트 전사적 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 중앙 방어 요새([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 컨트롤 타워 장악 |
+| <strong>정성 (자원 통합 관점 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>)</strong> | 영업팀, 마케팅팀 컴퓨터 C 드라이브마다 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 먹히면 각개전투 회사 자산 개판 로컬 파괴 재난 연속 확산 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 죄다 중앙 NAS에 몰빵 보존되므로 거기 넷앱 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 한방 찍으면 전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무적 타임머신 생존 보장 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 방호 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 파트 전사적 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 중앙 방어 요새([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/) [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 컨트롤 타워 장악 |
 
 ### 미래 전망 통찰 
 - NAS(SMB/[NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/)) 패러다임은 회사 직원들의 공유 워크스페이스 대통합에 엄청난 IT 협업 업적을 이뤄냈지만, 대서양을 가로지르는 인터넷(WAN) 바깥 환경 클라우드 퍼블릭으로 넘어오면서 IP망 기반의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 통신 `연결유지(Stateful)` 약점이 발목 장애를 잡아 체증 스케일 한계가 수면에 직면했다 (전 세계 10억명이 하나의 나스 폴더를 어떻게 IP 연결 맺고 여는가? [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 불불 붕괴). 
-- 이를 타파하기 위해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이름이나 공유 폴더라는 고정관념의 허상을 부셔 파괴해 버리고 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 표준 웹 브라우저 RESTful 조각으로 날려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시켜버린 체계인 차세대 **[오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)(Amazon S3) 백본 형태** 로 세상의 거대 NAS 덩어리 지분 점유율들을 급격히 계승 흡수당하며 클라우드 스케일의 대역으로 마이그레이션 진화 승계 중에 돌입하고 있다. 
+- 이를 타파하기 위해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이름이나 공유 폴더라는 고정관념의 허상을 부셔 파괴해 버리고 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 표준 웹 브라우저 RESTful 조각으로 날려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시켜버린 체계인 차세대 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/">오브젝트 스토리지</a>(Amazon S3) 백본 형태</strong> 로 세상의 거대 NAS 덩어리 지분 점유율들을 급격히 계승 흡수당하며 클라우드 스케일의 대역으로 마이그레이션 진화 승계 중에 돌입하고 있다. 
 
 결론적으로 NAS는 과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 본체 안에 갇혀 파편화 파괴되었던 단일 디스크의 우물 벽을 허물어 버리고, 전 세계 모든 대중적인 싸구려 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신 랜선 망이라는 엄청난 "표준적 네트워크 배달 도로망" 위로 저장소의 패러다임을 확 치환 이주시켜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 협업(Collaborative [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Access) 클러스터링의 거대한 유토피아를 발명 구세 설립해낸 IT 역사의 가장 친숙하고 위대한 공유의 아이콘이자 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 매핑 독립군 구조체 서버 그 자체다. 
 
@@ -180,15 +174,19 @@ NAS (Network Attached Storage)은 스토리지와 입출력 경로 최적화을 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[핫 스페어 (Hot Spare) 디스크 자동 재구성]
-    │
-    ▼
-[NAS (Network Attached Storage)]
-    │
-    ├──▶ [SAN (Storage Area Network)]
-    └──▶ [오브젝트 스토리지 (Object Storage)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAS (Network Attached Storage)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SAN (Storage Area Network)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오브젝트 스토리지 (Object Storage)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

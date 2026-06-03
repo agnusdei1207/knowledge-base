@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임은 물리적인 케이블로 전송되기 위해 네트워크 계층의 패킷을 포장하는 2계층 봉투다. 1980년대 DEC, Intel, Xerox 세 회사가 연합하여 만든 'DIX [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II' 포맷이 있고, 이를 다듬어 IEEE에서 공식화한 'IEEE 802.3' 포맷이 있다.
 - **필요성**: 컴퓨터 A가 컴퓨터 B에게 0과 1의 전기 신호를 무작정 보낸다고 B가 이해할 수 없다. "어디서 시작해서, 누가 누구에게 보내고, 내용물이 무엇인지(IP인지 IPX인지), 에러는 없는지"를 약속된 순서대로 배치하는 프레임(틀) 구조가 있어야 수신 측 랜카드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립해 CPU로 올릴 수 있다.
 
-- **💡 비유**: [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II와 IEEE 802.3은 택배 박스에 송장을 붙이는 **"두 가지 양식의 스티커"**와 같습니다. 하나(DIX)는 "내용물이 책(Type)입니다"라고 적고, 다른 하나(IEEE)는 "내용물 무게가 1.5kg(Length)입니다"라고 적습니다. 우체국(수신자)은 송장 번호 크기만 보고 어떤 스티커가 붙었는지 바로 눈치챕니다.
+- **💡 비유**: [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II와 IEEE 802.3은 택배 박스에 송장을 붙이는 <strong>"두 가지 양식의 스티커"</strong>와 같습니다. 하나(DIX)는 "내용물이 책(Type)입니다"라고 적고, 다른 하나(IEEE)는 "내용물 무게가 1.5kg(Length)입니다"라고 적습니다. 우체국(수신자)은 송장 번호 크기만 보고 어떤 스티커가 붙었는지 바로 눈치챕니다.
 
-```text
-[멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
-[이더넷 프레임 포맷]
-    │
-    └──▶ [Preamble & SFD]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 프레임 포맷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Preamble &amp; SFD</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 두 프레임 포맷은 비디오테이프 시절의 **"VHS 대 베타맥스"** 표준 전쟁과 같습니다. 공식 기관(IEEE)이 베타맥스를 밀었지만, 실제 시장에서는 사용이 직관적인 VHS([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II)가 승리하여 현재까지 쓰이고 있습니다.
 
@@ -41,14 +45,18 @@ tags = ["studynote-network"]
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 포맷는 프레임 전달과 근거리 네트워크 장비의 동작을 설명하는 축라는 관점에서 이해해야 한다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…와 [Preamble & SFD](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/234_preamble_and_sfd_start_of_frame_delimiter/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
-[이더넷 프레임 포맷]
-    │
-    └──▶ [Preamble & SFD]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 프레임 포맷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Preamble &amp; SFD</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 포맷의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,32 +66,28 @@ tags = ["studynote-network"]
 
 두 프레임 포맷은 프리앰블(Preamble), 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 그리고 에러 검출 필드(FCS)의 배치가 완전히 동일하다. 유일한 차이는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 2바이트 필드다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │             Ethernet II vs IEEE 802.3 프레임 구조           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │  [Ethernet II (DIX 2.0)] - 현재 인터넷의 사실상 표준             │
- │  ┌────┬─────────┬─────────┬──────┬─────────────────┬─────┐  │
- │  │Pre-│목적지MAC │출발지MAC │ Type │ Data (Payload)  │ FCS │  │
- │  │(8) │  (6)    │  (6)    │ (2)  │  (46 ~ 1500)    │ (4) │  │
- │  └────┴─────────┴─────────┴──────┴─────────────────┴─────┘  │
- │                               ▲ Type > 1536 (0x0600)        │
- │                                                             │
- │  [IEEE 802.3] - LLC(802.2) 헤더를 내부에 추가로 요구함           │
- │  ┌────┬─────────┬─────────┬──────┬─────────────────┬─────┐  │
- │  │Pre-│목적지MAC │출발지MAC │Length│LLC + SNAP + Data│ FCS │  │
- │  │(8) │  (6)    │  (6)    │ (2)  │  (46 ~ 1500)    │ (4) │  │
- │  └────┴─────────┴─────────┴──────┴─────────────────┴─────┘  │
- │                               ▲ Length <= 1500 (0x05DC)     │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ethernet II vs IEEE 802.3 프레임 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ethernet II (DIX 2.0)</div><div class="kb-diagram-note">- 현재 인터넷의 사실상 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-</div><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Data (Payload)</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(8)</div><div class="kb-diagram-cell">(6)</div><div class="kb-diagram-cell">(6)</div><div class="kb-diagram-cell">(2)</div><div class="kb-diagram-cell">(46 ~ 1500)</div><div class="kb-diagram-cell">(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Type &gt; 1536 (0x0600)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.3</div><div class="kb-diagram-note">- LLC(802.2) 헤더를 내부에 추가로 요구함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-</div><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">Length</div><div class="kb-diagram-cell">LLC + SNAP + Data</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(8)</div><div class="kb-diagram-cell">(6)</div><div class="kb-diagram-cell">(6)</div><div class="kb-diagram-cell">(2)</div><div class="kb-diagram-cell">(46 ~ 1500)</div><div class="kb-diagram-cell">(4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Length &lt;= 1500 (0x05DC)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 수신 측의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 메커니즘 (0x0600 규칙)
 수신 측 랜카드는 날아온 프레임이 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II인지 802.3인지 어떻게 구분할까? 바로 해당 2바이트 필드의 십진수 값을 확인한다.
-- **값이 1500 (0x05DC) 이하일 때**: 이 값은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '길이(Length)'를 의미한다. 즉, **IEEE 802.3 프레임**으로 간주하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드 맨 앞을 뜯어 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)/SNAP 헤더가 있는지 확인한다. ([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등에서 사용)
-- **값이 1536 (0x0600) 이상일 때**: 이 값은 길이로 불가능한 숫자(MTU가 1500이므로)이므로, 내용물의 '종류(Type)'를 나타낸다고 판단한다. 즉, **[Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II 프레임**으로 간주한다. ([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) = 0x0800, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) = 0x0806)
+- **값이 1500 (0x05DC) 이하일 때**: 이 값은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '길이(Length)'를 의미한다. 즉, <strong>IEEE 802.3 프레임</strong>으로 간주하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드 맨 앞을 뜯어 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)/SNAP 헤더가 있는지 확인한다. ([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 등에서 사용)
+- **값이 1536 (0x0600) 이상일 때**: 이 값은 길이로 불가능한 숫자(MTU가 1500이므로)이므로, 내용물의 '종류(Type)'를 나타낸다고 판단한다. 즉, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> II 프레임</strong>으로 간주한다. ([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) = 0x0800, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) = 0x0806)
 
 ### 3. [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II가 지배한 이유
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IEEE 802.3은 Length만 명시했기 때문에, 수신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 IP인지 뭔지 알 수 없었다. 이를 보완하기 위해 802.2([LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/))라는 별도의 헤더를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필드 안에 추가로 넣어야 해서 복잡했다. 반면 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) II는 Type 필드 하나로 "안에 든 건 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 패킷이야!"라고 명쾌하게 알려주었기에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 폭발적 성장과 함께 시장의 표준으로 굳어졌다.
@@ -130,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
-    │
-    ▼
-[현재 개념: 이더넷 프레임 포맷]
-    │
-    ├──▶ [확장 A: Preamble & SFD]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이더넷 프레임 포맷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Preamble &amp; SFD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 포맷는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…에서 출발해 현재 메커니즘을 정교화하고, 이후 Preamble & SFD와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

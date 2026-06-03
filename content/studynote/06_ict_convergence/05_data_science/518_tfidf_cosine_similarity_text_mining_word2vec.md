@@ -38,20 +38,22 @@ tags = ["studynote-ict-convergence"]
 
 ### [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 계산 구조
 
-```
-문서 컬렉션 (D개 문서)
-        │
-        ▼
-TF(t,d) = 단어 t가 문서 d에 나타난 횟수 / 문서 d의 전체 단어 수
-        │
-IDF(t) = log(D / df(t))     df(t) = 단어 t를 포함한 문서 수
-        │
-        ▼
-TF-IDF(t,d) = TF(t,d) × IDF(t)
-        │
-높은 TF-IDF ──→ 이 문서에 자주 나타나면서
-                전체 문서에서는 희귀한 단어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문서 컬렉션 (D개 문서)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TF(t,d) = 단어 t가 문서 d에 나타난 횟수 / 문서 d의 전체 단어 수</div>
+<div class="kb-diagram-note">IDF(t) = log(D / df(t)) df(t) = 단어 t를 포함한 문서 수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TF-IDF(t,d) = TF(t,d) × IDF(t)</div>
+<div class="kb-diagram-note">높은 TF-IDF ──→ 이 문서에 자주 나타나면서</div>
+<div class="kb-diagram-note">전체 문서에서는 희귀한 단어</div>
+</div>
+</div>
+
+
 
 ### [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) ([Cosine Similarity](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))
 
@@ -84,20 +86,25 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 
 ### [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/) ([Hybrid Search](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)) — [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 활용
 
-```
-쿼리 입력
-    │
-    ├─ BM25 검색 (키워드 매칭) ──┐
-    │                            ├─ RRF 융합 → 최종 문서 순위
-    └─ Dense Vector 검색         │
-       (의미 유사도)  ────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">쿼리 입력</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BM25 검색 (키워드 매칭) ──</div>
+<div class="kb-diagram-note">─ RRF 융합 → 최종 문서 순위</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Dense Vector 검색</div>
+<div class="kb-diagram-note">(의미 유사도)</div>
+</div>
+</div>
+
+
 
 **RRF(Reciprocal Rank Fusion)**: 두 검색 결과의 순위를 결합하는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법.
 
 ### [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/) ([Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)) 방법
 
-- **BPE ([Byte Pair Encoding](/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/))**: 빈번한 문자 쌍을 반복 합병 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열 사용.
+- <strong>BPE (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/">Byte Pair Encoding</a>)</strong>: 빈번한 문자 쌍을 반복 합병 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열 사용.
 - **WordPiece**: BPE 변형, 하위 단어(Subword) 어휘 학습 → [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 사용.
 - **Unigram LM**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 최적 분할 → SentencePiece.
 
@@ -111,7 +118,7 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 - 10만 건 리뷰 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 벡터화 → [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)로 유사 리뷰 클러스터링.
 - 상위 키워드: "배송 빠름"([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 0.82), "포장 불량"(0.71) → 운영 개선 우선순위 결정.
 
-**시나리오 2 - 사내 문서 검색 시스템 ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))**:
+<strong>시나리오 2 - 사내 문서 검색 시스템 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>)</strong>:
 - BM25: 정확한 제품명 검색에 강점.
 - Dense Vector ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)): "비용 절감 방법"처럼 의미 기반 질의에 강점.
 - 하이브리드: NDCG@[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 기준 BM25=0.62, Dense=0.71, 하이브리드=0.79.
@@ -130,8 +137,8 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 [텍스트 마이닝](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/) 기술의 계층적 이해는 키워드 기반 검색부터 의미 기반 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 시스템 설계까지 실무 전 과정에 활용된다.
 
 - **검색 품질 향상**: [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)으로 키워드 검색과 의미 검색의 상호 보완.
-- **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용**: 리뷰·CS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·계약서를 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·요약·검색.
-- **[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 파이프라인 최적화**: RAG에서 고품질 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 검색이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답 품질 결정.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 활용</strong>: 리뷰·CS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·계약서를 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·요약·검색.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 파이프라인 최적화</strong>: RAG에서 고품질 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 검색이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답 품질 결정.
 
 - **📢 섹션 요약 비유**: [텍스트 마이닝](/knowledge-base/studynote/16_bigdata/05_analysis/109_text_mining/)은 도서관을 AI에게 주는 것과 같아. TF-IDF는 책에 어떤 단어가 많은지 세고, Word2Vec은 책 내용의 의미를 이해하고, BERT는 문장 전체 문맥을 파악해서 진짜 도서관 사서처럼 도움을 줘.
 

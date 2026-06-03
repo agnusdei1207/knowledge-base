@@ -10,32 +10,34 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: MDM은 고객·상품·조직·자산 등 **핵심 마스터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 골든 레코드(Golden Record)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·유지**하여, 전사 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 품질을 보장하는 관리 체계다.
-> 2. **가치**: 마스터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템마다 다르면(고객명이 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)="홍길동", [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)="길동 홍") **보고서 불일치·중복 마케팅·재고 오류**가 발생하며, MDM이 **단일 진실 원천(Single Source of Truth)**을 제공한다.
+> 1. **본질**: MDM은 고객·상품·조직·자산 등 <strong>핵심 마스터 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 단일 골든 레코드(Golden Record)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·유지</strong>하여, 전사 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·[DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 품질을 보장하는 관리 체계다.
+> 2. **가치**: 마스터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시스템마다 다르면(고객명이 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)="홍길동", [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)="길동 홍") <strong>보고서 불일치·중복 마케팅·재고 오류</strong>가 발생하며, MDM이 <strong>단일 진실 원천(Single Source of Truth)</strong>을 제공한다.
 > 3. **판단 포인트**: [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)형)·Consolidation(통합형)·Centralized(중앙 집중형)·Coexistence(공존형)의 4가지 구현 스타일을 구분하고, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)와의 연계가 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    MDM 필요성                                         │
-├───────────────────────────────────────────────────────┤
-│  [MDM 없음]                                           │
-│   ERP: 고객ID=1001, 홍길동                           │
-│   CRM: 고객ID=A99, 길동 홍                           │
-│   DW: ???  → 같은 사람? 다른 사람?                   │
-│                                                       │
-│  [MDM 적용]                                           │
-│   MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"      │
-│   ERP: M001 → 홍길동 ✅                              │
-│   CRM: M001 → 홍길동 ✅                              │
-│   → 전사 일관된 고객 뷰                              │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: MDM은 전사 **주민등록 시스템**이다. 이름이 조금씩 다르게 적힌 주민을 하나의 정확한 레코드로 통합한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM 필요성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP: 고객ID=1001, 홍길동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM: 고객ID=A99, 길동 홍</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DW: ??? → 같은 사람? 다른 사람?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP: M001 → 홍길동 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM: M001 → 홍길동 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전사 일관된 고객 뷰</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: MDM은 전사 <strong>주민등록 시스템</strong>이다. 이름이 조금씩 다르게 적힌 주민을 하나의 정확한 레코드로 통합한다.
 
 ---
 
@@ -45,9 +47,9 @@ tags = ["studynote-database"]
 
 | 스타일 | 설명 | 적합 |
 |:---|:---|:---|
-| **[Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)** | 기존 시스템에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 키만 매핑 | 낮은 침습성 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a></strong> | 기존 시스템에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 키만 매핑 | 낮은 침습성 |
 | **Consolidation** | 읽기 전용 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에 통합 | 분석·보고 |
-| **Centralized** | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 유일한 원천 | **최고 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** |
+| **Centralized** | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 유일한 원천 | <strong>최고 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> |
 | **Coexistence** | [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ↔ 시스템 양방향 동기 | 유연성 |
 
 - **📢 섹션 요약 비유**: Registry는 전화번호부([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)만), Centralized는 중앙은행(모든 거래의 원천)이다.
@@ -58,7 +60,7 @@ tags = ["studynote-database"]
 
 | 비교 | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 없음 | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 적용 |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 시스템별 상이 | **골든 레코드 통합** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 시스템별 상이 | **골든 레코드 통합** |
 | **보고서** | 불일치 | **신뢰 가능** |
 | **중복** | 빈번 | **제거** |
 
@@ -67,7 +69,7 @@ tags = ["studynote-database"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 구축 핵심 단계
-1. **[프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)**: 현행 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/).
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a></strong>: 현행 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/).
 2. **매칭/병합**: 중복 레코드 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·통합.
 3. **골든 레코드**: 단일 마스터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
 4. **거버넌스**: [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/) 지정·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립.
@@ -76,7 +78,7 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 기대효과 및 결론
 
-MDM은 **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 기술적 구현체**이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 기반이 된다.
+MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a>의 기술적 구현체</strong>이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질의 기반이 된다.
 
 ---
 
@@ -85,33 +87,35 @@ MDM은 **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **골든 레코드** | MDM의 핵심 산출물 |
-| **[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)** | MDM의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·조직 프레임워크 |
-| **[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)** | 고객 마스터의 마케팅 특화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질** | MDM이 보장하는 핵심 가치 |
-| **[데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)** | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 운영 책임자 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">데이터 거버넌스</a></strong> | MDM의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·조직 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a></strong> | 고객 마스터의 마케팅 특화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | MDM이 보장하는 핵심 가치 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/">데이터 스튜어드</a></strong> | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 운영 책임자 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 데이터 정제 (엑셀, 2000s)]
-    │
-    ▼
-[MDM 솔루션 (Informatica·IBM, 2005~)]
-    │
-    ▼
-[클라우드 MDM (Reltio, 2015~)]
-    │
-    ▼
-[데이터 메시 + MDM (2020~) — 분산 소유권]
-    │
-    ▼
-[현재: AI MDM — 자동 매칭·병합·품질 보정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 데이터 정제 (엑셀, 2000s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 솔루션 (Informatica·IBM, 2005~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 MDM (Reltio, 2015~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 + MDM (2020~) — 분산 소유권</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI MDM — 자동 매칭·병합·품질 보정</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. MDM은 학교 **출석부 관리 시스템**이에요. 같은 학생이 다른 이름으로 등록되면 안 돼요.
+1. MDM은 학교 <strong>출석부 관리 시스템</strong>이에요. 같은 학생이 다른 이름으로 등록되면 안 돼요.
 2. "홍길동"과 "길동 홍"이 같은 사람인지 확인해서 **하나로 합쳐요** (골든 레코드).
-3. 덕분에 어떤 선생님(시스템)이 봐도 **같은 학생 정보**를 볼 수 있답니다!
+3. 덕분에 어떤 선생님(시스템)이 봐도 <strong>같은 학생 정보</strong>를 볼 수 있답니다!
 
 ---
 

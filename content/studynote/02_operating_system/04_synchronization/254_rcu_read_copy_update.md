@@ -25,35 +25,33 @@ RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프�
 
 **💡 비유**: 도서관에서 책을 빌려주는 방법 중 가장 혁신적인 방법 — 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 책이 나오면(저자), 기존 책을 빌려간 사람들(독자)이 모두 반납할 때까지 원본을 보존하고, 새 사람들에게는 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│            RCU 동작 원리: Read-Copy-Update 4단계              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  초기 상태:                                                   │
-│  ptr ──▶ [Data: A=1, B=2]                                     │
-│                                                               │
-│  ① READ 단계 (독자 = 락 없음):                                │
-│  rcu_read_lock()                 // 선점 방지만               │
-│  data = rcu_dereference(ptr)     // 현재 포인터 읽기          │
-│  use(data->A)                    // 안전하게 읽기 가능        │
-│  rcu_read_unlock()                                            │
-│                                                               │
-│  ② COPY 단계 (저자):                                          │
-│  new_data = kmalloc(sizeof(*ptr))                             │
-│  *new_data = *ptr               // 원본 복사                  │
-│  new_data->A = 99               // 복사본 수정                │
-│                                                               │
-│  ③ UPDATE 단계 (저자):                                        │
-│  rcu_assign_pointer(ptr, new_data) // 포인터 원자적 교체      │
-│  → 신규 독자는 new_data 읽음                                  │
-│  → 기존 독자는 여전히 old_data 읽음 (안전!)                   │
-│                                                               │
-│  ④ RECLAIM 단계:                                              │
-│  synchronize_rcu()              // Grace Period 대기          │
-│  kfree(old_data)                // 모든 기존 독자 완료 후 해제│
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU 동작 원리: Read-Copy-Update 4단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 상태:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data: A=1, B=2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① READ 단계 (독자 = 락 없음):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rcu_read_lock() // 선점 방지만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data = rcu_dereference(ptr) // 현재 포인터 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">use(data-&gt;A) // 안전하게 읽기 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rcu_read_unlock()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② COPY 단계 (저자):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new_data = kmalloc(sizeof(*ptr))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">*new_data = *ptr // 원본 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new_data-&gt;A = 99 // 복사본 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ UPDATE 단계 (저자):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rcu_assign_pointer(ptr, new_data) // 포인터 원자적 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 신규 독자는 new_data 읽음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 기존 독자는 여전히 old_data 읽음 (안전!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ RECLAIM 단계:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronize_rcu() // Grace Period 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kfree(old_data) // 모든 기존 독자 완료 후 해제</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: RCU는 고속도로 도로 공사와 같습니다 — 기존 차선(원본)을 유지한 채 새 차선(복사본)을 다 닦은 다음, 신호를 바꿔 새 차선으로 유도하고, 기존 차선의 차들이 모두 빠져나가면 기존 차선을 철거합니다.
 
@@ -65,29 +63,25 @@ RCU는 이 문제를 근본적으로 해결한다. 읽기는 완전한 락 프�
 
 Grace Period는 RCU의 가장 중요한 개념이다. 저자가 포인터를 교체한 후, 교체 시점에 실행 중이던 모든 독자가 rcu_read_unlock()을 완료할 때까지의 기간이다. 이 기간이 끝나야 원본을 안전하게 해제할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│            Grace Period 타이밍 다이어그램                      │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  시간 ──────────────────────────────────────────────────▶      │
-│                                                                │
-│  Writer: [복사수정] ─[포인터교체]─────[synchronize_rcu]──[해제]│
-│                          ↑                           ↑         │
-│                     새 ptr 공개                Grace Period 끝 │
-│                                                                │
-│  Reader1: ──[rcu_read_lock]──────────[rcu_read_unlock]         │
-│           (교체 전 시작, old_data 읽음)  (Grace Period 기여)   │
-│                                                                │
-│  Reader2:          ──[rcu_read_lock]─[rcu_read_unlock]         │
-│                    (교체 후 시작, new_data 읽음)               │
-│                                                                │
-│  Reader3:                 ──[rcu_read_lock]─────...            │
-│                           (교체 후 시작, new_data 읽음)        │
-│                                                                │
-│  Grace Period: Reader1 완료 → 해제 안전                        │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grace Period 타이밍 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 ▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Writer:</div><div class="kb-diagram-node">복사수정</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">포인터교체</div><div class="kb-diagram-node">synchronize_rcu</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 ptr 공개 Grace Period 끝</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Reader1: ──</div><div class="kb-diagram-node">rcu_read_lock</div><div class="kb-diagram-node">rcu_read_unlock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(교체 전 시작, old_data 읽음) (Grace Period 기여)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Reader2: ──</div><div class="kb-diagram-node">rcu_read_lock</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">rcu_read_unlock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(교체 후 시작, new_data 읽음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Reader3: ──</div><div class="kb-diagram-node">rcu_read_lock</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(교체 후 시작, new_data 읽음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grace Period: Reader1 완료 → 해제 안전</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** Grace Period의 핵심은 "교체 시점에 이미 읽고 있던 독자"가 모두 완료될 때까지만 기다리면 된다는 점이다. 교체 이후에 시작한 독자(Reader2, Reader3)는 이미 new_data를 읽으므로 Grace Period 계산에 포함되지 않는다. 리눅스는 각 CPU의 선점 포인트([context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 완료)를 Quiescent [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)(정지점)로 사용하여, 모든 CPU가 최소 1번 Quiescent State를 통과하면 Grace Period가 완료다.
 
@@ -121,23 +115,26 @@ call_rcu(&old->rcu_head, free_callback);
 
 ### RCU vs ReadWriteLock 비교
 
-```text
-┌──────────────────────┬──────────────────┬───────────────────────┐
-│ 항목                 │ ReadWriteLock    │ RCU                   │
-├──────────────────────┼──────────────────┼───────────────────────┤
-│ 독자 오버헤드        │ 원자적 카운터 증감│ 사실상 0 (선점 비활) │
-│ 독자-저자 차단       │ 있음 (쓰기 시)   │ 없음                  │
-│ 저자 대기            │ 독자 완료 시     │ Grace Period          │
-│ 데이터 일관성        │ 즉시 반영        │ 버전 분기 (일시적)    │
-│ 메모리 오버헤드      │ 낮음             │ 복사본 임시 유지      │
-│ 사용 적합성          │ 단순 R/W 분리    │ 읽기 집중 SMP 환경    │
-└──────────────────────┴──────────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">ReadWriteLock</div><div class="kb-diagram-cell">RCU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자 오버헤드</div><div class="kb-diagram-cell">원자적 카운터 증감</div><div class="kb-diagram-cell">사실상 0 (선점 비활)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자-저자 차단</div><div class="kb-diagram-cell">있음 (쓰기 시)</div><div class="kb-diagram-cell">없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저자 대기</div><div class="kb-diagram-cell">독자 완료 시</div><div class="kb-diagram-cell">Grace Period</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 일관성</div><div class="kb-diagram-cell">즉시 반영</div><div class="kb-diagram-cell">버전 분기 (일시적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 오버헤드</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">복사본 임시 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 적합성</div><div class="kb-diagram-cell">단순 R/W 분리</div><div class="kb-diagram-cell">읽기 집중 SMP 환경</div></div>
+</div>
+</div>
+
+
 
 ### 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) RCU 적용 사례
-- **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블**: 네트워크 패킷 포워딩 경로 (RCU 읽기 수백만 회/초)
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블</strong>: 네트워크 패킷 포워딩 경로 (RCU 읽기 수백만 회/초)
 - **프로세스 목록**: `task_list` 순회 (`for_each_process()`)
-- **[VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 덴트리 캐시**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 조회 고속화
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 덴트리 캐시</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로 조회 고속화
 
 **📢 섹션 요약 비유**: RCU는 [독자-저자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/)에서 '읽기 차선'과 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 차선'을 완전히 분리한 고속도로 설계 — 읽기 차선에는 신호등이 없어 항상 전속력으로 달릴 수 있습니다.
 
@@ -146,8 +143,8 @@ call_rcu(&old->rcu_head, free_callback);
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 캐시**: 읽기가 압도적(수만 QPS), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료 시만 발생. RCU로 읽기 경로 오버헤드 제거.
-2. **공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체**: 마이크로서비스가 공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 빈번히 읽고 관리자가 드물게 업데이트. RCU 패턴으로 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최대화.
+1. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 조회 캐시</strong>: 읽기가 압도적(수만 QPS), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 만료 시만 발생. RCU로 읽기 경로 오버헤드 제거.
+2. <strong>공유 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 객체</strong>: 마이크로서비스가 공유 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 빈번히 읽고 관리자가 드물게 업데이트. RCU 패턴으로 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최대화.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **Grace Period 전 해제**: `synchronize_rcu()` 없이 원본 해제 → 기존 독자가 해제된 메모리 접근 → [Use-After-Free](/knowledge-base/studynote/09_security/04_endpoint_security/351_use_after_free/).
@@ -182,15 +179,19 @@ RCU는 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[리눅스 동기화]
-    │
-    ▼
-[RCU (Read-Copy-Update)]
-    │
-    ├──▶ [SeqLock (순차 락)]
-    └──▶ [락-프리 (Lock-free) 자료구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 동기화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RCU (Read-Copy-Update)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SeqLock (순차 락)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락-프리 (Lock-free) 자료구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

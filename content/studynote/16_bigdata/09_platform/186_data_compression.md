@@ -22,7 +22,7 @@ tags = ["studynote-bigdata"]
 ### 1-1. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 빅데이터에서 중요한 이유
 
 - **스토리지 비용**: S3/[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 저장 비용 직접 절감
-- **I/O [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)**: 디스크 읽기·네트워크 전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 → [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 향상
+- <strong>I/O <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong>: 디스크 읽기·네트워크 전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 감소 → [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 향상
 - **CPU vs I/O 균형**: I/O 병목 환경에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) CPU 비용 < I/O 절감 효과
 
 ### 1-2. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준
@@ -43,17 +43,22 @@ tags = ["studynote-bigdata"]
 
 ### 2-1. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
-```
-압축률      ┤                                    Brotli
-            │                                 ●
-높음        │                           Gzip ●
-            │                       Zstd ●
-            │               Snappy ●
-낮음        │       LZ4 ●
-            └────────────────────────────────────────▶
-                  빠름                           느림
-                         압축/해제 속도
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">압축률 Brotli</div>
+<div class="kb-diagram-note">●</div>
+<div class="kb-diagram-note">높음 │ Gzip ●</div>
+<div class="kb-diagram-note">Zstd ●</div>
+<div class="kb-diagram-note">Snappy ●</div>
+<div class="kb-diagram-note">낮음 │ LZ4 ●</div>
+<div class="kb-diagram-note">빠름 느림</div>
+<div class="kb-diagram-note">압축/해제 속도</div>
+</div>
+</div>
+
+
 
 ### 2-2. 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상세
 
@@ -72,9 +77,9 @@ tags = ["studynote-bigdata"]
 | 인코딩 | 원리 | 최적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성 |
 |:---|:---|:---|
 | **Dictionary Encoding** | 반복 값을 정수 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 치환 | 저카디널리티 (국가, 카테고리) |
-| **[RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) (Run-Length Encoding)** | 연속 반복 값을 (값, 횟수) 쌍으로 | 정렬된 컬럼, 연속 동일 값 |
-| **[Delta Encoding](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)** | 연속 값의 차이를 저장 | 단조 증가 (타임스탬프, ID) |
-| **[Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Packing** | 작은 정수를 최소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 저장 | 작은 숫자 범위 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/">RLE</a> (Run-Length Encoding)</strong> | 연속 반복 값을 (값, 횟수) 쌍으로 | 정렬된 컬럼, 연속 동일 값 |
+| <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Delta Encoding</a></strong> | 연속 값의 차이를 저장 | 단조 증가 (타임스탬프, ID) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Packing</strong> | 작은 정수를 최소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 저장 | 작은 숫자 범위 |
 
 > 📢 **섹션 요약 비유**: Dictionary Encoding은 반복되는 단어를 번호로 대체하는 속기술처럼, "대한민국"이 1000번 나오면 숫자 1로 저장해 공간을 절약한다.
 
@@ -93,10 +98,10 @@ tags = ["studynote-bigdata"]
 
 ### 스트리밍 vs 배치 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 선택
 
-- **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지**: LZ4 (Producer [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), Broker 저장, Consumer 해제)
-- **Spark [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)**: Snappy 또는 Zstd (중간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지</strong>: LZ4 (Producer [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), Broker 저장, Consumer 해제)
+- <strong>Spark <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: Snappy 또는 Zstd (중간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))
 - **S3 아카이빙**: Gzip 또는 Zstd (장기 보관)
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관**: Zstd (속도+[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 균형)
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이관</strong>: Zstd (속도+[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 균형)
 
 > 📢 **섹션 요약 비유**: 스트리밍에 LZ4를 쓰는 건 빠르게 서류를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 꽂는 것이고, 아카이빙에 Gzip을 쓰는 건 진공포장기로 꼼꼼히 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보관하는 것이다.
 
@@ -122,7 +127,7 @@ Level 20-22: 최고 압축률 (Cold Storage)
 |:---|:---:|
 | Snappy ([raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/)) | ❌ |
 | Gzip | ❌ |
-| **Snappy (within [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC)** | ✅ ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 레벨에서 분할) |
+| <strong>Snappy (within <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a>/ORC)</strong> | ✅ ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷 레벨에서 분할) |
 | bzip2 | ✅ |
 | LZO + [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | ✅ |
 
@@ -166,21 +171,23 @@ Level 20-22: 최고 압축률 (Cold Storage)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[무손실 압축 (Lossless Compression) — Huffman/LZ77]
-    │
-    ▼
-[컬럼형 압축 (Columnar Compression) — Parquet/ORC]
-    │
-    ▼
-[사전 인코딩 (Dictionary Encoding) — 반복값 치환]
-    │
-    ▼
-[런 길이 인코딩 (RLE, Run-Length Encoding) — 연속값 압축]
-    │
-    ▼
-[스노우플레이크 자동 압축 (Snowflake Auto-Compression) — 클라우드 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 압축 (Lossless Compression) — Huffman/LZ77</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼형 압축 (Columnar Compression) — Parquet/ORC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사전 인코딩 (Dictionary Encoding) — 반복값 치환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">런 길이 인코딩 (RLE, Run-Length Encoding) — 연속값 압축</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스노우플레이크 자동 압축 (Snowflake Auto-Compression) — 클라우드 최적화</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 손실 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이는 기본 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 시작해, 컬럼형·사전·[RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) 기법을 거쳐 클라우드 자동 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 발전하는 과정을 보여준다.
 

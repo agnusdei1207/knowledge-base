@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3는 175B(1750억) 개의 파라미터를 가진다. 전체 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)을 위해 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 그래디언트를 모든 파라미터에 대해 저장하면 FP32 기준 700GB 이상의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리가 필요하다. 이는 수십 장의 고가 A100 GPU를 요구하며, 대부분의 기업과 연구자에게 접근 불가능한 수준이다.
 
-PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심 위치에 소수의 학습 가능한 파라미터만 추가한다"는 아이디어로 해결한다. LoRA는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 실제 업데이트가 **낮은 내재 차원(Low Intrinsic Dimension)**에서 이루어진다는 가설을 기반으로, ΔW를 두 저랭크 행렬의 곱으로 표현한다.
+PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심 위치에 소수의 학습 가능한 파라미터만 추가한다"는 아이디어로 해결한다. LoRA는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 실제 업데이트가 <strong>낮은 내재 차원(Low Intrinsic Dimension)</strong>에서 이루어진다는 가설을 기반으로, ΔW를 두 저랭크 행렬의 곱으로 표현한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 175B 파라미터 전체를 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)하는 건 직원 1억 명 회사에서 모든 직원의 업무 방식을 바꾸는 것이고, LoRA는 핵심 의사결정자 10명(저랭크 행렬)의 업무 방식만 바꿔서 회사 전체 방향을 조정하는 것이다. 10명만 교육해도 전체 성과가 바뀌는 마법이다.
 
@@ -38,35 +41,31 @@ PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         LoRA (Low-Rank Adaptation) 수학적 구조                     │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  전체 파인 튜닝:                                                    │
-│  W' = W + ΔW  (W: d×d 행렬, ΔW: d×d 행렬 전체 학습)              │
-│  파라미터 수: d×d (예: 4096×4096 = 16.7M)                         │
-│                                                                  │
-│  LoRA:                                                           │
-│  W' = W + ΔW = W + (B · A)                                      │
-│    W: d×d  ← 동결 (Frozen, 학습 안 함)                             │
-│    A: d×r  ← 학습 가능 (r << d, 예: r=8, d=4096 → 4096×8 = 32K) │
-│    B: r×d  ← 학습 가능 (r=8, d=4096 → 8×4096 = 32K)             │
-│    ΔW = B·A: d×d  (행렬 곱이지만 파라미터는 2×d×r만 학습)           │
-│                                                                  │
-│  파라미터 절감 비율:                                                 │
-│  전체: d² = 16.7M | LoRA(r=8): 2×d×r = 65K → 0.39% 만 학습!     │
-│                                                                  │
-│  ┌────────────────────────────────────────────────┐              │
-│  │  입력 x                                         │              │
-│  │    ├──▶ W (동결) ──────────────────────┐       │              │
-│  │    └──▶ A (학습) ──▶ B (학습) ──────▶ + ──▶ 출력│              │
-│  └────────────────────────────────────────────────┘              │
-│                                                                  │
-│  초기화: A = 랜덤 가우시안, B = 0 (학습 초기 ΔW=0으로 시작)          │
-│  스케일링: ΔW에 α/r 비율로 스케일 적용 (α: 스케일 하이퍼파라미터)      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRA (Low-Rank Adaptation) 수학적 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 파인 튜닝:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W' = W + ΔW (W: d×d 행렬, ΔW: d×d 행렬 전체 학습)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 수: d×d (예: 4096×4096 = 16.7M)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRA:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W' = W + ΔW = W + (B · A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W: d×d ← 동결 (Frozen, 학습 안 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: d×r ← 학습 가능 (r &lt;&lt; d, 예: r=8, d=4096 → 4096×8 = 32K)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: r×d ← 학습 가능 (r=8, d=4096 → 8×4096 = 32K)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ΔW = B·A: d×d (행렬 곱이지만 파라미터는 2×d×r만 학습)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 절감 비율:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체: d² = 16.7M</div><div class="kb-diagram-cell">LoRA(r=8): 2×d×r = 65K → 0.39% 만 학습!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ W (동결)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ A (학습) ──▶ B (학습) ▶ + ──▶ 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화: A = 랜덤 가우시안, B = 0 (학습 초기 ΔW=0으로 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링: ΔW에 α/r 비율로 스케일 적용 (α: 스케일 하이퍼파라미터)</div></div>
+</div>
+</div>
+
+
 
 | PEFT 방법 | 파라미터 추가 위치 | 특징 |
 |:---|:---|:---|
@@ -81,9 +80,9 @@ PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심
 
 ## Ⅲ. 비교 및 연결
 
-**[QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/))**: LoRA에 4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))를 결합하여 70B LLM을 단일 48GB [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(예: RTX 4090 2장)에서 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 가능하게 한다. 2023년 등장 직후 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 커뮤니티의 표준 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 방법으로 자리 잡았다.
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/">QLoRA</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/">Quantized LoRA</a>)</strong>: LoRA에 4비트 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))를 결합하여 70B LLM을 단일 48GB [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)(예: RTX 4090 2장)에서 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 가능하게 한다. 2023년 등장 직후 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 커뮤니티의 표준 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 방법으로 자리 잡았다.
 
-**[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 병합 ([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) Merging)**: 훈련 완료 후 W' = W + B·A를 계산하여 원본 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 통합하면, 추론 시 별도의 A·B 행렬 연산이 필요 없어 추론 속도 패널티가 제로다.
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> 병합 (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> Merging)</strong>: 훈련 완료 후 W' = W + B·A를 계산하여 원본 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 통합하면, 추론 시 별도의 A·B 행렬 연산이 필요 없어 추론 속도 패널티가 제로다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -97,13 +96,13 @@ PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 하이퍼파라미터 설계 가이드**:
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> 하이퍼파라미터 설계 가이드</strong>:
 - `r` (랭크): 4~64. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 복잡도가 높을수록 크게. 기본값 r=8
 - `alpha`: 보통 r의 2배. ΔW의 스케일 조정
 - `target_modules`: Q, V 행렬에만 적용 (Attention 레이어 권장)
 - `lora_dropout`: 0.05~0.1 (과적합 방지)
 
-**[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 적용 레이어 선택**: 어텐션 레이어의 Q, V 행렬에 LoRA를 적용하는 것이 가장 효과적이다. K 행렬은 Q와 유사 역할을 해 중복될 수 있으며, FFN(Feed-[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Network) 레이어 추가 적용 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 파라미터 증가 트레이드오프를 고려해야 한다.
+<strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a> 적용 레이어 선택</strong>: 어텐션 레이어의 Q, V 행렬에 LoRA를 적용하는 것이 가장 효과적이다. K 행렬은 Q와 유사 역할을 해 중복될 수 있으며, FFN(Feed-[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Network) 레이어 추가 적용 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 파라미터 증가 트레이드오프를 고려해야 한다.
 
 - **📢 섹션 요약 비유**: [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 레이어 선택은 건물 보강 공사와 같다. 전체 기둥(모든 레이어)에 철근([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))을 추가하면 완벽하지만 공사비가 폭발한다. 가장 중요한 핵심 기둥(Q, V 어텐션 행렬)에만 철근을 추가해도 건물(모델) 강도는 충분히 높아진다.
 
@@ -135,9 +134,9 @@ PEFT/LoRA는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_ll
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)**는 엄청 큰 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(175B 파라미터)를 가르칠 때, **전체 대신 핵심 부분 1%만 바꿔서** 거의 같은 효과를 내는 똑똑한 절약법이에요!
-2. 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 ΔW를 두 개의 **작은 행렬 A×B의 곱**으로 대신 표현해서 배워야 하는 숫자를 99% 줄이는 수학 마법이에요.
-3. 덕분에 집에 있는 게임용 GPU로도 **거대한 ChatGPT급 모델을 내 용도에 맞게 학습**시킬 수 있게 됐어요!
+1. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a></strong>는 엄청 큰 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(175B 파라미터)를 가르칠 때, **전체 대신 핵심 부분 1%만 바꿔서** 거의 같은 효과를 내는 똑똑한 절약법이에요!
+2. 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬 ΔW를 두 개의 <strong>작은 행렬 A×B의 곱</strong>으로 대신 표현해서 배워야 하는 숫자를 99% 줄이는 수학 마법이에요.
+3. 덕분에 집에 있는 게임용 GPU로도 <strong>거대한 ChatGPT급 모델을 내 용도에 맞게 학습</strong>시킬 수 있게 됐어요!
 
 ---
 

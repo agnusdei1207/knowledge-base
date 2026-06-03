@@ -38,22 +38,23 @@ tags = ["it_management"]
 | 사용자 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (User-Based CF) | 나와 취향이 비슷한 '이웃 사용자'가 구매한 아이템 추천 | 평점 교집합 |
 | 아이템 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (Item-Based CF) | 내가 과거에 높게 평가한 아이템과 '비슷한 평점 패턴'을 가진 아이템 추천 | 평점 분포 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           협업 필터링의 핵심: 행렬 분해 (Matrix Factorization) │
-├──────────────────────────────────────────────────────────────┤
-│    [사용자-아이템 평점 희소 행렬]                               │
-│                                                              │
-│       Item1  Item2  Item3        사용자 잠재요인   아이템 잠재요인│
-│ UserA   5      ?      2      ≈   ┌───────┐      ┌───────┐    │
-│ UserB   ?      4      ?          │ U_A   │   X  │ V_1   │    │
-│ UserC   2      5      ?          │ U_B   │      │ V_2   │    │
-│ UserD   4      ?      5          │ U_C   │      │ V_3   │    │
-│                                  └───────┘      └───────┘    │
-│ ▶ 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성     │
-│   (Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협업 필터링의 핵심: 행렬 분해 (Matrix Factorization)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자-아이템 평점 희소 행렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Item1 Item2 Item3 사용자 잠재요인 아이템 잠재요인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserA 5 ? 2 ≈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserB ? 4 ?</div><div class="kb-diagram-cell">U_A</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">V_1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserC 2 5 ?</div><div class="kb-diagram-cell">U_B</div><div class="kb-diagram-cell">V_2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserD 4 ? 5</div><div class="kb-diagram-cell">U_C</div><div class="kb-diagram-cell">V_3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 수백만 명의 사용자가 모든 상품을 평가할 수 없어 발생하는 '희소성(Sparsity)' 문제를, [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)를 통한 차원 축소로 해결하여 숨겨진 평점 빈칸(?)을 예측해 낸다는 점이다.
 
@@ -83,9 +84,9 @@ tags = ["it_management"]
 
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)(Cold-Start) 대비책이 있는가?** 신규 가입자에게 무작정 추천 엔진을 돌리면 에러가 난다. 가입 시점에 관심사를 선택(온보딩)하게 하거나, 인구통계학적 기반의 베스트셀러를 기본값으로 추천하는 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 전략이 필수다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a>(Cold-Start) 대비책이 있는가?</strong> 신규 가입자에게 무작정 추천 엔진을 돌리면 에러가 난다. 가입 시점에 관심사를 선택(온보딩)하게 하거나, 인구통계학적 기반의 베스트셀러를 기본값으로 추천하는 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 전략이 필수다.
 2. **희소성(Sparsity)이 99%를 넘지 않는가?** 사용자 수명과 상품 수가 너무 많아 평점 행렬이 텅 비어있다면, 단순 CF로는 계산이 붕괴된다. [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)([SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))나 딥러닝 임베딩을 통해 차원을 강제로 압축해야 한다.
-3. **탐색([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))과 활용(Exploitation)의 균형을 맞췄는가?** 정확도만 높여서 매일 똑같은 장르만 보여주면 사용자 피로도가 급증한다(필터 버블). 가끔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 확률로 전혀 다른 엉뚱한 장르를 끼워 넣어 새로운 취향을 발굴해야 한다.
+3. <strong>탐색(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">Exploration</a>)과 활용(Exploitation)의 균형을 맞췄는가?</strong> 정확도만 높여서 매일 똑같은 장르만 보여주면 사용자 피로도가 급증한다(필터 버블). 가끔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 확률로 전혀 다른 엉뚱한 장르를 끼워 넣어 새로운 취향을 발굴해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 사용자의 클릭(명시적 피드백)만 믿고, 체류 시간이나 장바구니 담기(암묵적 피드백) 등 풍부한 로그를 버려두는 설계.
@@ -117,21 +118,23 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정보 과부하 (Information Overload) 발생
-    │
-    ▼
-콘텐츠 기반 필터링 (Content-Based) · 콜드 스타트 대응
-    │
-    ▼
-협업 필터링 (Collaborative Filtering) · 행렬 분해(SVD) 적용
-    │
-    ▼
-하이브리드 추천 (Hybrid) · 탐색과 활용(Exploration & Exploitation)
-    │
-    ▼
-딥러닝 기반 (NCF, Wide & Deep) 추천 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정보 과부하 (Information Overload) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">콘텐츠 기반 필터링 (Content-Based) · 콜드 스타트 대응</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">협업 필터링 (Collaborative Filtering) · 행렬 분해(SVD) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이브리드 추천 (Hybrid) · 탐색과 활용(Exploration &amp; Exploitation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝 기반 (NCF, Wide &amp; Deep) 추천 고도화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

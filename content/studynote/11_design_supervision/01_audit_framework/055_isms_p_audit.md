@@ -109,18 +109,21 @@ ISMS-P는 법규 준수와 내부 통제를 동시에 다뤄야 하므로, 증�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항
-    │
-    ▼
-정책/절차
-    │
-    ▼
-증적/운영
-    │
-    ▼
-감사 판정 / 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정책/절차</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">증적/운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">감사 판정 / 개선</div>
+</div>
+</div>
+
+
 
 이 흐름은 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 관리체계가 문서에서 실행으로 이어지는 과정을 보여준다.
 

@@ -27,34 +27,33 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 수백억을 들여 넷플릭스, 야놀자의 보안 서버를 튼튼하게 지어놨다. 무슨 소용인가? 유저들이 모든 사이트 비밀번호를 `Qwe1234!` 로 통일해서 쓰는데. 해커는 보안 허접한 동네 구멍가게 사이트를 턴 다음, 그 비번으로 넷플릭스 정문으로 걸어 들어와 돈을 다 빼간다. **개발자가 아무리 시큐어 코딩을 잘해도 '인간(유저)의 귀찮음과 멍청함'이라는 가장 큰 취약점을 코드 레벨에서 막을 방법이 없었다.** 그래서 유저에게 "비번 길게 외우고 바꿔라"라고 훈수 두는 것을 포기하고, 아예 유저의 뇌(기억)를 쓰지 않게 인프라가 모든 걸 대신해 주는 '패스워드 삭제 작전'이 지상 과제가 되었다.
 
-- **💡 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 트렌드 진화는 **'은행 금고를 지키는 방식의 진화'**와 같습니다.
+- **💡 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 트렌드 진화는 <strong>'은행 금고를 지키는 방식의 진화'</strong>와 같습니다.
   - **1세대 (Password)**: 금고 다이얼 번호를 외우는 것. 훔쳐보거나(스니핑), 멍청한 번호(`1111`)면 털립니다.
-  - **2세대 ([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)/[OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))**: 다이얼도 돌리고(비번), 내 주머니에 있는 임시 열쇠([OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))까지 두 개를 다 넣어야 열리는 철벽. 안전하지만 열 때마다 주머니를 뒤져야 해서 귀찮아 죽습니다.
-  - **3세대 (FIDO/패스워드리스)**: 다이얼도, 열쇠 구멍도 아예 없애버렸습니다. 그냥 내가 금고 문 앞에 서서 **'내 홍채(눈알)'**를 스캐너에 들이밀면 1초 만에 스르륵 문이 열립니다. 해커가 훔칠 비밀번호라는 개념 자체가 아예 세상에 존재하지 않는 마법입니다.
+  - <strong>2세대 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a>)</strong>: 다이얼도 돌리고(비번), 내 주머니에 있는 임시 열쇠([OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))까지 두 개를 다 넣어야 열리는 철벽. 안전하지만 열 때마다 주머니를 뒤져야 해서 귀찮아 죽습니다.
+  - **3세대 (FIDO/패스워드리스)**: 다이얼도, 열쇠 구멍도 아예 없애버렸습니다. 그냥 내가 금고 문 앞에 서서 <strong>'내 홍채(눈알)'</strong>를 스캐너에 들이밀면 1초 만에 스르륵 문이 열립니다. 해커가 훔칠 비밀번호라는 개념 자체가 아예 세상에 존재하지 않는 마법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **비밀번호 피로도 (Password Fatigue)**: 사이트마다 특수문자, 대문자 섞어 쓰라고 강제하자 사람들이 빡쳐서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 포스트잇에 적어놓기 시작했다. 털리는 게 일상이 됨.
   2. **MFA의 대중화**: 은행들이 "비번 치고 SMS 문자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)도 해!"라고 2중 족쇄를 채웠다. 방어율은 99% 올랐지만, UX(사용자 경험)가 최악으로 치달아 장바구니 결제율이 뚝뚝 떨어졌다.
   3. **FIDO 얼라이언스의 강림 (현재)**: 결제율 하락에 분노한 구글, 애플, 페이팔이 뭉쳤다. "야, 스마트폰에 지문 인식기 다 달려있잖아? 브라우저(WebAuthn)랑 폰 생체 인식(FIDO) 엮어서 비번 없이 1초 컷 결제 만들자!" 이 돈(비즈니스)의 논리가 인류 최대의 보안 혁명(Passwordless)을 단숨에 전 세계 표준으로 갈아치웠다.
 
-- **📢 섹션 요약 비유**: 옛날엔 도둑(해커)을 막기 위해 사람들에게 **'100kg짜리 무거운 강철 갑옷(복잡한 비밀번호와 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/))'**을 매일 입고 다니라고 강요했습니다. 사람들은 무거워서 헉헉대다 그냥 갑옷을 벗고 다녀 죽었습니다. 새로운 트렌드(패스워드리스)는 아예 갑옷을 버리게 하고, 눈에 보이지 않는 **'투명한 에너지 쉴드(스마트폰 생체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 자동 수학 연산)'**를 몸 주위에 쳐버리는 겁니다. 유저는 아무 무게(귀찮음)도 못 느끼지만 방어력은 1만 배 올라간 궁극의 공학적 타협입니다.
+- **📢 섹션 요약 비유**: 옛날엔 도둑(해커)을 막기 위해 사람들에게 <strong>'100kg짜리 무거운 강철 갑옷(복잡한 비밀번호와 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a>)'</strong>을 매일 입고 다니라고 강요했습니다. 사람들은 무거워서 헉헉대다 그냥 갑옷을 벗고 다녀 죽었습니다. 새로운 트렌드(패스워드리스)는 아예 갑옷을 버리게 하고, 눈에 보이지 않는 <strong>'투명한 에너지 쉴드(스마트폰 생체 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>과 자동 수학 연산)'</strong>를 몸 주위에 쳐버리는 겁니다. 유저는 아무 무게(귀찮음)도 못 느끼지만 방어력은 1만 배 올라간 궁극의 공학적 타협입니다.
 
 ---
 
 다음은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인증 (Authentication)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증 (Authentication)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -75,7 +74,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 트렌드의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 트렌드의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 트렌드의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -151,21 +150,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인증 (Authentication) 트렌드 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증 (Authentication) 트렌드 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

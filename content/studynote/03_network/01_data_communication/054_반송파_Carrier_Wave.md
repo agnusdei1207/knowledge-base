@@ -109,21 +109,23 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정보 신호
-    │
-    ▼
-변조
-    │
-    ▼
-반송파 실음
-    │
-    ▼
-전송 채널
-    │
-    ▼
-복조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정보 신호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">반송파 실음</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전송 채널</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복조</div>
+</div>
+</div>
+
+
 
 이 흐름은 정보가 전파에 실려 이동하고 다시 원형으로 돌아오는 과정을 보여준다.
 

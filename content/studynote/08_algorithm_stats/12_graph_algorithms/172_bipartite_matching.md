@@ -19,25 +19,27 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-이분 매칭은 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 **서로 다른 두 집단 사이의 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 배정**을 모델링할 때 자주 등장한다.
+이분 매칭은 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 <strong>서로 다른 두 집단 사이의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/">일대일</a> 배정</strong>을 모델링할 때 자주 등장한다.
 
-이 문제가 중요한 이유는 단순히 "연결 가능한가"보다 "얼마나 많이 충돌 없이 배정할 수 있는가"가 실무에서 더 중요하기 때문이다. 단순 탐욕법으로 눈앞의 짝만 먼저 정해 버리면, 뒤에서 더 좋은 배정을 막아 전체 개수가 줄어들 수 있다. 그래서 이분 매칭은 국소 선택보다 **재배치가 가능한 구조**를 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다.
+이 문제가 중요한 이유는 단순히 "연결 가능한가"보다 "얼마나 많이 충돌 없이 배정할 수 있는가"가 실무에서 더 중요하기 때문이다. 단순 탐욕법으로 눈앞의 짝만 먼저 정해 버리면, 뒤에서 더 좋은 배정을 막아 전체 개수가 줄어들 수 있다. 그래서 이분 매칭은 국소 선택보다 <strong>재배치가 가능한 구조</strong>를 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다.
 
 아래 예시는 왜 탐욕 선택만으로는 부족한지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Greedy can miss the global best matching               │
-├──────────────────────────────────────────────────────────────────────┤
-│ U1 -> V1, V2                                                         │
-│ U2 -> V1                                                             │
-│                                                                      │
-│ greedy pick U1-V1  -> U2 unmatched  (1 match)                        │
-│ better: U1-V2, U2-V1 -> 2 matches                                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 이분 매칭의 본질은 "지금 비어 있는 자리 하나 찾기"가 아니라, **이미 잡힌 짝을 흔들어 더 많은 짝을 만들 수 있는지**를 보는 데 있다. 이 재배치 개념이 바로 증대 경로로 이어진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Greedy can miss the global best matching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U1 -&gt; V1, V2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U2 -&gt; V1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">greedy pick U1-V1 -&gt; U2 unmatched (1 match)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">better: U1-V2, U2-V1 -&gt; 2 matches</div></div>
+</div>
+</div>
+
+
+
+즉 이분 매칭의 본질은 "지금 비어 있는 자리 하나 찾기"가 아니라, <strong>이미 잡힌 짝을 흔들어 더 많은 짝을 만들 수 있는지</strong>를 보는 데 있다. 이 재배치 개념이 바로 증대 경로로 이어진다.
 
 - **📢 섹션 요약 비유**: 친구 두 명이 의자 두 개에 앉을 때, 먼저 본 의자에 아무나 앉혀 버리면 나중 친구가 설 수 있다. 이분 매칭은 앉아 있던 친구를 한 칸 옮겨서라도 더 많은 친구가 앉게 만드는 방법이다.
 
@@ -59,16 +61,19 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 증대 경로를 따라 매칭 상태를 뒤집는 과정을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Augmenting path flips the matching                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ before : U1 == V1      U2 free      V2 free                          │
-│ edges  : U2 -- V1, U1 -- V2                                           │
-│ path   : U2 -- V1 == U1 -- V2                                         │
-│ after  : U2 == V1      U1 == V2                                       │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Augmenting path flips the matching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">before : U1 == V1 U2 free V2 free</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">edges : U2 -- V1, U1 -- V2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">path : U2 -- V1 == U1 -- V2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after : U2 == V1 U1 == V2</div></div>
+</div>
+</div>
+
+
 
 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭은 흔히 `O(VE)` 정도로 이해하며, 코딩 테스트와 중간 규모 배정 문제에서 많이 쓰인다. 더 큰 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 Hopcroft-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search) 으로 여러 최단 증대 경로를 한꺼번에 찾고, [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search) 으로 확장해 `O(E√V)`까지 줄여 준다.
 
@@ -104,21 +109,24 @@ tags = ["studynote-algorithm"]
 
 아래 결정 흐름은 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할지 빠르게 정리해 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Which matching formulation should you use?              │
-├──────────────────────────────────────────────────────────────────────┤
-│ graph bipartite?                                                     │
-│        ├─ no  -> general matching / different formulation            │
-│        └─ yes                                                         │
-│ need only maximum count?                                             │
-│        ├─ yes -> DFS matching or Hopcroft-Karp                       │
-│        └─ no                                                          │
-│ cost/weight important?                                               │
-│        ├─ yes -> Hungarian / Min-Cost Max-Flow                       │
-│        └─ online arrival? -> online matching / approximation         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Which matching formulation should you use?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">graph bipartite?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; general matching / different formulation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need only maximum count?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; DFS matching or Hopcroft-Karp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost/weight important?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Hungarian / Min-Cost Max-Flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ online arrival? -&gt; online matching / approximation</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -147,7 +155,7 @@ tags = ["studynote-algorithm"]
 
 한계도 있다. 기본 이분 매칭은 개수 최대화에 초점이 있으므로, 비용·선호도·실시간 도착 같은 요소가 추가되면 다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다. 또한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 동적으로 변하는 온라인 환경에서는 고전적인 오프라인 최대 매칭만으로 충분하지 않을 수 있다.
 
-따라서 이분 매칭은 "두 집단 사이에서 충돌 없이 최대한 많이 연결한다"는 중심 문장으로 기억하되, 실제 문제에서는 **증대 경로 기반 최대 매칭인지, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·온라인·일반 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 확장인지**를 먼저 구분하는 습관이 중요하다.
+따라서 이분 매칭은 "두 집단 사이에서 충돌 없이 최대한 많이 연결한다"는 중심 문장으로 기억하되, 실제 문제에서는 <strong>증대 경로 기반 최대 매칭인지, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>·온라인·일반 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 확장인지</strong>를 먼저 구분하는 습관이 중요하다.
 
 - **📢 섹션 요약 비유**: 이분 매칭은 자리가 부족한 교실에서 아이들을 최대한 많이 앉히기 위해, 이미 앉은 아이의 자리도 다시 조정해 보는 똑똑한 배치표와 같다.
 
@@ -167,22 +175,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Bipartite graph check
-    │
-    ▼
-Matching representation
-    │
-    ▼
-Augmenting path search
-    │
-    ▼
-Maximum matching
-    │
-    ├─ Kőnig / Hall theory
-    ├─ Hopcroft-Karp scaling
-    └─ Hungarian / Min-Cost extensions
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bipartite graph check</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Matching representation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Augmenting path search</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Maximum matching</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Kőnig / Hall theory</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Hopcroft-Karp scaling</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Hungarian / Min-Cost extensions</div>
+</div>
+</div>
+
+
 
 이 흐름은 이분 구조 판정에서 출발해, 증대 경로 기반 최대 매칭으로 확장되고, 이후 이론과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·대규모 처리 문제로 이어지는 발전 방향을 보여 준다.
 

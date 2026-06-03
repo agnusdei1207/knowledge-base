@@ -28,15 +28,21 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Tech (AI/Cloud/Big Data)
-  ↓
-Business Model
-  ↓
-Customer Experience
-  ↓
-Culture Change
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Tech (AI/Cloud/Big Data)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Business Model</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Customer Experience</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Culture Change</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ DX는 경쟁력과 민첩성을 높이는 핵심 [전략](/knowledge-base/studyn
 
 ## 관련 개념 맵
 
-```text
-AI / Cloud / Big Data
-  ↓
-DX
-  ↓
-Business Model
-  ↓
-Culture Change
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AI / Cloud / Big Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DX</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Business Model</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Culture Change</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Digitization
-  ↓
-Digitalization
-  ↓
-DX
-  ↓
-Innovation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Digitization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Digitalization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DX</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Innovation</div>
+</div>
+</div>
+
+
 
 ---
 

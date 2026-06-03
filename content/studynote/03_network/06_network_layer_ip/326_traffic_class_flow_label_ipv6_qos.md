@@ -23,17 +23,21 @@ tags = ["studynote-network"]
 - **필요성**: 인터넷 초기에는 패킷이 늦게 도착해도 텍스트만 늦게 뜨면 그만이었다. 그러나 현대는 4K 넷플릭스 영상과 화상 회의(Zoom)의 시대다. 패킷 도착 순서가 섞이거나 조금만 늦게 도착해도 화면이 깨지고 말이 끊긴다. 라우터가 매 패킷마다 목적지 주소를 읽고 "어디로 보낼까?" 고민하는 시간([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Lookup)조차 사치가 되었다. "특정 프로그램에서 뿜어져 나오는 패킷 뭉치(Flow)를 아예 **하나의 흐름으로 묶어버리고, 대우를 다르게 해주자**"는 철학이 적용되었다.
 
 - **💡 비유**: 고속도로 요금소를 통과하는 차량(패킷)을 상상해 보십시오.
-  - **Traffic Class**: 구급차나 소방차가 울리는 **"사이렌(우선순위)"**입니다. 이 소리가 들리면 일반 차량은 양보해야 하고 톨게이트도 무정차로 통과시켜 줍니다.
-  - **Flow Label**: 대통령 행렬이 지나갈 때 경찰이 도로를 쫙 비워두는 **"특별 호송 작전 번호"**입니다. 경찰(라우터)은 차 번호판(IP 주소)을 일일이 검사하지 않고, 행렬의 앞 유리창에 붙은 특수 스티커(플로우 레이블)만 보고 교차로를 무정차로 뚫어줍니다.
+  - **Traffic Class**: 구급차나 소방차가 울리는 <strong>"사이렌(우선순위)"</strong>입니다. 이 소리가 들리면 일반 차량은 양보해야 하고 톨게이트도 무정차로 통과시켜 줍니다.
+  - **Flow Label**: 대통령 행렬이 지나갈 때 경찰이 도로를 쫙 비워두는 <strong>"특별 호송 작전 번호"</strong>입니다. 경찰(라우터)은 차 번호판(IP 주소)을 일일이 검사하지 않고, 행렬의 앞 유리창에 붙은 특수 스티커(플로우 레이블)만 보고 교차로를 무정차로 뚫어줍니다.
 
-```text
-[IPv6 단순화된 헤더]
-    │
-    ▼
-[트래픽 클래스 / 플로우 레이블]
-    │
-    └──▶ [Next Header, 홉 제한]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 단순화된 헤더</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 클래스 / 플로우 레이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Next Header, 홉 제한</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 트래픽 클래스는 개별 승객의 **"VIP 퍼스트 클래스 티켓"**이고, 플로우 레이블은 100명의 단체 관광객이 길을 잃지 않고 다 같이 한 번에 훅 지나가도록 여행사 가이드가 들고 있는 **"단체 여행객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 깃발"**입니다.
 
@@ -49,30 +53,29 @@ tags = ["studynote-network"]
 ### 2. 플로우 레이블 (Flow Label, 20 Bits)
 IPv6가 IPv4와 가장 극명하게 대비되는 차세대 스위칭 기술의 꽃이다.
 - **배경**: 실시간 영상([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 트래픽은 수만 개의 패킷이 연속해서 날아간다. 라우터가 이 수만 개의 목적지 IP를 일일이 대조([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table Lookup)하는 것은 미친 짓이다.
-- **동작**: 송신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(넷플릭스 서버)는 영상 스트리밍을 시작할 때, 그 영상을 구성하는 수만 개의 패킷 헤더에 무작위 번호인 **`Flow Label = 12345`**를 동일하게 콱 박아서 쏜다.
+- **동작**: 송신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(넷플릭스 서버)는 영상 스트리밍을 시작할 때, 그 영상을 구성하는 수만 개의 패킷 헤더에 무작위 번호인 <strong><code>Flow Label = 12345</code></strong>를 동일하게 콱 박아서 쏜다.
 - **라우터의 기적**: 첫 번째 패킷이 도착했을 때만 라우터가 머리를 써서 목적지 길을 찾는다. "아! 12345번 흐름은 3번 포트로 나가는 게 짱이네!"라고 메모(Flow Cache)해 둔다.
 - 그다음부터 도착하는 수만 개의 패킷들은 IP 주소는 쳐다보지도 않고, 오직 `12345`라는 바코드만 찍어보고 기계적으로 3번 포트로 빛처럼 튕겨낸다. (IP 라우팅을 **L2 스위칭처럼** 고속화한 것이다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                플로우 레이블(Flow Label)에 의한 고속 처리          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 넷플릭스 서버 ] ── (영상 패킷 수만 개 뿜뿜) ──▶ [ 라우터 ]         │
- │                                                             │
- │   * 패킷 1 (Flow Label: 999) 들어옴.                        │
- │     라우터: "어? 999번 처음 보네. 목적지 IP 계산해 보자... 오케이 Port 2!" │
- │     [ 라우터 캐시 등록: Flow 999 = Port 2 ]                   │
- │                                                             │
- │   * 패킷 2~10000 (Flow Label: 999) 줄줄이 들어옴.              │
- │     라우터: "오 999번! 아까 2번 포트로 가기로 했지? IP 주소 볼 필요  │
- │             도 없이 묻고 더블로 가! 전부 Port 2로 즉시 발사!!"     │
- │                                                             │
- │   ▶ 결과: 라우터의 두뇌 연산 부하가 1/10000로 줄어들어 지연(Delay)이 사라짐.│
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 라우터(놀이공원 직원)가 손님 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명의 티켓(IP 주소)을 일일이 검사하는 것이 기존 방식이라면, 플로우 레이블은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명에게 모두 **"빨간색 팔찌(Flow Label)"**를 채워주고 직원이 **"빨간 팔찌 입장하세요!"**라며 무심하게 하이패스로 통과시켜 버리는 궁극의 효율성입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플로우 레이블(Flow Label)에 의한 고속 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">넷플릭스 서버</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 패킷 1 (Flow Label: 999) 들어옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "어? 999번 처음 보네. 목적지 IP 계산해 보자... 오케이 Port 2!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 캐시 등록: Flow 999 = Port 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 패킷 2~10000 (Flow Label: 999) 줄줄이 들어옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "오 999번! 아까 2번 포트로 가기로 했지? IP 주소 볼 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도 없이 묻고 더블로 가! 전부 Port 2로 즉시 발사!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 라우터의 두뇌 연산 부하가 1/10000로 줄어들어 지연(Delay)이 사라짐.</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 라우터(놀이공원 직원)가 손님 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000명의 티켓(IP 주소)을 일일이 검사하는 것이 기존 방식이라면, 플로우 레이블은 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000명에게 모두 </strong>"빨간색 팔찌(Flow Label)"**를 채워주고 직원이 **"빨간 팔찌 입장하세요!"**라며 무심하게 하이패스로 통과시켜 버리는 궁극의 효율성입니다.
 
 ---
 
@@ -128,15 +131,19 @@ IPv6가 IPv4와 가장 극명하게 대비되는 차세대 스위칭 기술의 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv6 단순화된 헤더]
-    │
-    ▼
-[현재 개념: 트래픽 클래스 / 플로우 레이블]
-    │
-    ├──▶ [확장 A: Next Header, 홉 제한]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv6 단순화된 헤더</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 클래스 / 플로우 레이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Next Header, 홉 제한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 트래픽 클래스 / 플로우 레이블는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 단순화된 헤더에서 출발해 현재 메커니즘을 정교화하고, 이후 Next Header, 홉 제한와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

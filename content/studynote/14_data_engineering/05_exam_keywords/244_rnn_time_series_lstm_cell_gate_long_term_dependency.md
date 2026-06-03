@@ -22,23 +22,23 @@ tags = ["studynote-data-engineering"]
 
 ### RNN의 순환 구조
 
-```
-시간 단계별 펼침 (Unrolled Through Time)
 
-     x_0        x_1        x_2        x_3
-      │          │          │          │
-      ↓          ↓          ↓          ↓
-h_0→[RNN]→ h_1→[RNN]→ h_2→[RNN]→ h_3→[RNN]→ h_4
-      │          │          │          │
-      ↓          ↓          ↓          ↓
-     y_0        y_1        y_2        y_3
 
-h_t = tanh(W_h · h_{t-1} + W_x · x_t + b)
-y_t = W_y · h_t
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시간 단계별 펼침 (Unrolled Through Time)</div>
+<div class="kb-diagram-note">x_0 x_1 x_2 x_3</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RNN</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RNN</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RNN</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RNN</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">h_4</div></div>
+<div class="kb-diagram-note">y_0 y_1 y_2 y_3</div>
+<div class="kb-diagram-note">h_t = tanh(W_h · h_{t-1} + W_x · x_t + b)</div>
+<div class="kb-diagram-note">y_t = W_y · h_t</div>
+</div>
+</div>
 
-- **은닉 상태(Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) h_t**: 이전 시간 정보를 누적
-- **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유**: 모든 시간 단계에서 동일한 W 사용
+
+
+- <strong>은닉 상태(Hidden <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>) h_t</strong>: 이전 시간 정보를 누적
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유</strong>: 모든 시간 단계에서 동일한 W 사용
 
 | 특성 | 설명 |
 |:---|:---|
@@ -56,33 +56,40 @@ y_t = W_y · h_t
 
 [BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)([Backpropagation Through Time](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/)) 과정에서 기울기는 시간 스텝을 거슬러 올라가며 반복 곱셈된다.
 
-```
-∂L/∂h_0 = ∂L/∂h_T · Π(t=1→T) ∂h_t/∂h_{t-1}
 
-각 항: ∂h_t/∂h_{t-1} = diag(tanh'(...)) · W_h
 
-T가 크면:
-  │W_h│ < 1 → 지수적 감소 → 기울기 소실 (장기 의존성 학습 불가)
-  │W_h│ > 1 → 지수적 증가 → 기울기 폭발 (발산)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">∂L/∂h_0 = ∂L/∂h_T · Π(t=1→T) ∂h_t/∂h_{t-1}</div>
+<div class="kb-diagram-note">각 항: ∂h_t/∂h_{t-1} = diag(tanh'(...)) · W_h</div>
+<div class="kb-diagram-note">T가 크면:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&lt; 1 → 지수적 감소 → 기울기 소실 (장기 의존성 학습 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&gt; 1 → 지수적 증가 → 기울기 폭발 (발산)</div></div>
+</div>
+</div>
+
+
 
 ### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)) 구조
 
-```
-LSTM 셀 내부 구조
-                     셀 상태 C_t (고속도로)
-  C_{t-1} ─────────────────────────────────→ C_t
-              │           │           │
-             [×]         [+]         [×]
-              │           │           │
-          [망각 게이트]  [입력 게이트]  [출력 게이트]
-              │           │           │
-  h_{t-1} ──→┤←── x_t ──→┤←── x_t ──→┤
-  x_t ───────┘           │           │
-                     [후보값 C̃_t]     │
-                                      ↓
-                                   h_t (은닉 상태 출력)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LSTM 셀 내부 구조</div>
+<div class="kb-diagram-note">셀 상태 C_t (고속도로)</div>
+<div class="kb-diagram-note">C_{t-1} → C_t</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">×</div><div class="kb-diagram-node">+</div><div class="kb-diagram-node">×</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망각 게이트</div><div class="kb-diagram-node">입력 게이트</div><div class="kb-diagram-node">출력 게이트</div></div>
+<div class="kb-diagram-note">h_{t-1} ──→ ←── x_t ──→ ←── x_t ──→</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_t</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">후보값 C̃_t</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">h_t (은닉 상태 출력)</div>
+</div>
+</div>
+
+
 
 ### 3개 게이트 상세
 
@@ -111,13 +118,18 @@ h_t = o_t ⊙ tanh(C_t)
 
 ### [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) ([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)) — [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 간소화
 
-```
-GRU 구조 (게이트 2개)
-  h_{t-1} ──┬──→ [리셋 게이트 r_t] ──→ [후보 h̃_t]
-             │                                  │
-             └──→ [업데이트 게이트 z_t] ──→  h_t
-                                         = (1-z_t)⊙h_{t-1} + z_t⊙h̃_t
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">GRU 구조 (게이트 2개)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">리셋 게이트 r_t</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">후보 h̃_t</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">업데이트 게이트 z_t</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">h_t</div></div>
+<div class="kb-diagram-note">= (1-z_t)⊙h_{t-1} + z_t⊙h̃_t</div>
+</div>
+</div>
+
+
 
 | 구분 | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) | [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) |
 |:---|:---|:---|
@@ -145,19 +157,25 @@ GRU 구조 (게이트 2개)
 
 ### 시계열 예측 파이프라인
 
-```
-시계열 데이터 전처리
-       ↓
-[슬라이딩 윈도우 생성]
-       ↓
-[LSTM 입력: (batch, timesteps, features)]
-       ↓
-[LSTM Layer(s) + Dropout]
-       ↓
-[Dense Output Layer]
-       ↓
-[역정규화 후 예측값 출력]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시계열 데이터 전처리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 생성</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM 입력: (batch, timesteps, features)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM Layer(s) + Dropout</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dense Output Layer</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역정규화 후 예측값 출력</div></div>
+</div>
+</div>
+
+
 
 ### 적용 사례별 모델 선택
 
@@ -190,24 +208,28 @@ model = Sequential([
 
 ### [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) → [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전환 배경
 
-```
-LSTM의 한계               Transformer의 해결
-─────────────────         ──────────────────────
-순차 처리 (병렬 불가)  →  전체 시퀀스 병렬 처리
-거리 비례 정보 감쇠    →  어텐션으로 직접 연결
-O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
-최대 길이 제한         →  상대적으로 긴 컨텍스트
 
-현재: NLP는 Transformer가 주류
-시계열: LSTM/GRU 여전히 실무 활용
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LSTM의 한계 Transformer의 해결</div>
+<div class="kb-diagram-note">순차 처리 (병렬 불가) → 전체 시퀀스 병렬 처리</div>
+<div class="kb-diagram-note">거리 비례 정보 감쇠 → 어텐션으로 직접 연결</div>
+<div class="kb-diagram-note">O(n²) 시간 복잡도 → O(n²)이지만 병렬화됨</div>
+<div class="kb-diagram-note">최대 길이 제한 → 상대적으로 긴 컨텍스트</div>
+<div class="kb-diagram-note">현재: NLP는 Transformer가 주류</div>
+<div class="kb-diagram-note">시계열: LSTM/GRU 여전히 실무 활용</div>
+</div>
+</div>
+
+
 
 ### 기술사 시험 핵심 포인트
 
-1. **RNN [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 원인**: BPTT에서 기울기 반복 곱셈 → 지수 감소
-2. **[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 3개 게이트**: 망각(f)·입력(i)·출력(o) 게이트 수식 기술
+1. <strong>RNN <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 원인</strong>: BPTT에서 기울기 반복 곱셈 → 지수 감소
+2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> 3개 게이트</strong>: 망각(f)·입력(i)·출력(o) 게이트 수식 기술
 3. **셀 상태 갱신**: `C_t = f_t⊙C_{t-1} + i_t⊙C̃_t` (덧셈 = 기울기 보존)
-4. **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) vs [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)** 차이: 게이트 수, 상태 수, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
+4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a> vs <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> 차이: 게이트 수, 상태 수, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 5. **시계열 vs NLP** 적합 모델 선택 근거
 
 📢 **섹션 요약 비유**: LSTM에서 Transformer로의 전환은 릴레이 전화(순차)에서 단체 화상 회의([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/))로의 변화다. 릴레이는 맨 앞 사람 목소리가 맨 끝에 오면 작아지지만, 화상 회의는 모두가 동시에 직접 소통한다.
@@ -231,18 +253,22 @@ O(n²) 시간 복잡도      →  O(n²)이지만 병렬화됨
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MLP (순서 무시)
-    │
-    ▼
-RNN: 순차 입력 처리 + 은닉 상태 전달
-    │ 장기 의존성 문제 (기울기 소실)
-    ▼
-LSTM: Forget · Input · Output Gate → 장기 기억
-    │
-    ▼
-GRU (간소화 LSTM) → Transformer (병렬화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MLP (순서 무시)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RNN: 순차 입력 처리 + 은닉 상태 전달</div>
+<div class="kb-diagram-note">장기 의존성 문제 (기울기 소실)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSTM: Forget · Input · Output Gate → 장기 기억</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GRU (간소화 LSTM) → Transformer (병렬화)</div>
+</div>
+</div>
+
+
 2. LSTM의 세 개 게이트는 "무엇을 잊을까(망각)", "무엇을 새로 기억할까(입력)", "무엇을 지금 말할까(출력)"를 결정하는 세 명의 기억 관리자야.
 3. GRU는 LSTM보다 관리자가 한 명 적어서 더 빠르게 일하는데, 결과는 거의 비슷해서 바쁠 때 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 좋아.
 

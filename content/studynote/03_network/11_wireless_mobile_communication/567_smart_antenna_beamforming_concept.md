@@ -23,27 +23,27 @@ tags = ["studynote-network"]
 - **필요성**: 2G/3G 시절 기지국은 스탠드 조명 같았다. 거실 한구석에 있는 나에게 빛을 보내려면 거실 전체를 환하게 밝혀야 했다. 그래서 내 눈부심은 해결돼도 거실 전체의 사람들은 내가 켠 불빛 때문에 눈이 부셨다(간섭, Interference). 사용자가 1만 명으로 늘어나자 서로 뿜어대는 전파가 섞여 통신망이 자멸했다. "방 전체를 비추지 말고, 오직 내 얼굴만 비추는 핀 조명(Pin Light)으로 쏠 수 없을까?"라는 공간 혁신의 절대적 요구가 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)를 낳았다.
 - **등장 배경**: ① 도심 가입자 폭증으로 인한 재사용 주파수의 [동일 채널 간섭](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)(CCI) 한계 도달 → ② 군사용 레이더(위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 레이더, Phased [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Radar) 기술의 민간 통신 분야 이전 → ③ 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-Advanced를 거쳐 수백 개의 소자를 때려 박는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 스펙으로 화려한 표준화 정착.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             기존 무지향성 안테나 vs 스마트 안테나의 공간 혁명 시각화 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: 무지향성/섹터 안테나 (비효율의 끝판왕)]                     │
-│         ((( 📡 ))) ──▶ (모든 방향으로 퍼져나감)                   │
-│   [피해자 1] ◀── (💥고막 테러!)         [진짜 통화자] (신호 받음)      │
-│   [피해자 2] ◀── (💥고막 테러!)                               │
-│   => 결과: 내 통화를 위해 옆 동네 기지국 사용자들까지 간섭(노이즈) 폭격을 맞음.│
-│                                                             │
-│   [혁신: 스마트 안테나 (빔포밍, Beamforming)]                      │
-│            📡 ════════════════════════════════════▶ [진짜 통화자] │
-│            / \  (다른 곳은 전파 파워가 0에 수렴)                     │
-│   [피해자 1]      [피해자 2]                                      │
-│   (조-용함)       (조-용함)                                      │
-│                                                             │
-│   => 결과: 원하는 타겟만 정밀 저격! 주변 낭비 에너지가 0이 되며,       │
-│            반대로 간섭 신호가 날아오는 곳엔 귀를 닫아(Nulling) 생존율 100%!│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 무지향성 안테나 vs 스마트 안테나의 공간 혁명 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 무지향성/섹터 안테나 (비효율의 끝판왕)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">((( 📡 ))) ──▶ (모든 방향으로 퍼져나감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">진짜 통화자</div><div class="kb-diagram-note">(신호 받음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (💥고막 테러!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 내 통화를 위해 옆 동네 기지국 사용자들까지 간섭(노이즈) 폭격을 맞음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 스마트 안테나 (빔포밍, Beamforming)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">진짜 통화자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (다른 곳은 전파 파워가 0에 수렴)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 1</div><div class="kb-diagram-node">피해자 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조-용함) (조-용함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 원하는 타겟만 정밀 저격! 주변 낭비 에너지가 0이 되며,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반대로 간섭 신호가 날아오는 곳엔 귀를 닫아(Nulling) 생존율 100%!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)의 본질은 '공간(Space)의 필터링'이다. 옛날엔 주파수를 쪼개고([FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)), 시간을 쪼개서([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 간섭을 피했다면, [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 '각도'를 쪼갠다. 이 기술의 최고 사기성(Cheat [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 두 가지다. 첫째, 전파를 한곳으로 모아 쏘기 때문에 10W의 전력으로도 100W를 쏘는 것처럼 멀리 도달한다(커버리지 확장). 둘째, 악성 해커나 방해 전파(Jammer)가 9시 방향에서 날아오면, [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 9시 방향의 수신 귀를 강제로 닫아버리는 '널링(Nulling)'을 구사해 방해 전파를 100% 무력화시킨다. 군사 통신에서 먼저 쓰인 이유가 바로 이 강력한 방어력에 있다.
 
@@ -57,26 +57,26 @@ tags = ["studynote-network"]
 
 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 커다란 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1개가 아니라, 수십 개의 아주 작은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(Element)들이 바둑판처럼 나란히 서 있는 형태다. 이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)들이 '시간차(위상차)' 공격을 하여 빔을 꺾어버린다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               위상(Phase) 조절을 통한 빔포밍 각도 꺾기의 마술      │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [안테나 소자 4개가 나란히 서 있음]                                │
-│   안테나 1  📡 ─▶ (0초에 빵! 쏨)                                │
-│   안테나 2  📡 ─▶ (0.1초 뒤에 쏨)                               │
-│   안테나 3  📡 ─▶ (0.2초 뒤에 쏨)                               │
-│   안테나 4  📡 ─▶ (0.3초 뒤에 쏨)                               │
-│                                                               │
-│   공중에서의 파동 합성 (허공):                                    │
-│   1번이 가장 먼저 날아가고, 4번이 가장 늦게 출발하니까 파동의 물결선이     │
-│   정면(0도)이 아니라 아래쪽(45도) 방향으로 비스듬하게 꺾여서 합체됨!        │
-│                                                               │
-│   [수학적 결합]                                                 │
-│   "각 안테나에 들어가는 신호의 타이밍(위상, Phase) $\theta$만 0.001초씩  │
-│    다르게 꼬아주면, 안테나 기계를 모터로 안 돌려도 허공에서 빔이 꺾인다!"    │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상(Phase) 조절을 통한 빔포밍 각도 꺾기의 마술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">안테나 소자 4개가 나란히 서 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 1 📡 ─▶ (0초에 빵! 쏨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 2 📡 ─▶ (0.1초 뒤에 쏨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 3 📡 ─▶ (0.2초 뒤에 쏨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 4 📡 ─▶ (0.3초 뒤에 쏨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공중에서의 파동 합성 (허공):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번이 가장 먼저 날아가고, 4번이 가장 늦게 출발하니까 파동의 물결선이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정면(0도)이 아니라 아래쪽(45도) 방향으로 비스듬하게 꺾여서 합체됨!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"각 안테나에 들어가는 신호의 타이밍(위상, Phase) $\theta$만 0.001초씩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다르게 꼬아주면, 안테나 기계를 모터로 안 돌려도 허공에서 빔이 꺾인다!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 철탑을 밖에서 보면 그냥 네모난 플라스틱 판때기다. 모터로 고개를 이리저리 돌리지 않는다. 이 판때기 안에는 수십 개의 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있는데, 뒷단의 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 칩셋이 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 전기를 1밀리초씩 시간차를 두고 쏴준다(Phase Shifting). 그러면 전파 파동들이 공중에서 파도타기를 하듯 겹치면서(간섭 무늬), 특정 각도 방향으로만 에너지가 엄청나게 증폭되는 거대한 메가 빔(Main Lobe)이 만들어진다. 소프트웨어 코딩만으로 빔의 방향을 1초에 1,000번씩 상하좌우로 빛의 속도로 꺾어댈 수 있는 기적의 물리학이다.
 
@@ -84,21 +84,21 @@ tags = ["studynote-network"]
 
 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 방식 | 영문 명칭 | 작동 원리 및 지능 수준 | 비유 |
 |:---|:---|:---|:---|
-| **[스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)** | **[Switched Beam](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)** | 기지국이 이미 30도, 60도, 90도 방향으로 고정된 여러 개의 빔(손전등) 스위치를 켜두고, 사용자가 움직일 때마다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 제일 센 방 번호의 빔 스위치를 탁탁 켜고 끄는 방식 (제한적 지능) | 여러 개의 가로등 중 손님이 지나가는 곳만 껐다 켰다 하기 |
-| **적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)** | **Adaptive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)**| 고정된 빔 방향이 없다. 폰의 현재 위치를 실시간 추적하여 수식을 계산한 뒤, 오직 그 폰의 코앞을 향해 0.1도 단위의 맞춤형 빔을 새로 그려서 쏴줌 (최고의 지능) | 배우가 무대 위를 뛰어다녀도 배우 얼굴만 미친 듯이 쫓아가는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 핀 조명 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/">스위칭 빔</a></strong> | <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/">Switched Beam</a></strong> | 기지국이 이미 30도, 60도, 90도 방향으로 고정된 여러 개의 빔(손전등) 스위치를 켜두고, 사용자가 움직일 때마다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 제일 센 방 번호의 빔 스위치를 탁탁 켜고 끄는 방식 (제한적 지능) | 여러 개의 가로등 중 손님이 지나가는 곳만 껐다 켰다 하기 |
+| <strong>적응형 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong> | <strong>Adaptive <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a></strong>| 고정된 빔 방향이 없다. 폰의 현재 위치를 실시간 추적하여 수식을 계산한 뒤, 오직 그 폰의 코앞을 향해 0.1도 단위의 맞춤형 빔을 새로 그려서 쏴줌 (최고의 지능) | 배우가 무대 위를 뛰어다녀도 배우 얼굴만 미친 듯이 쫓아가는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 핀 조명 |
 
-[스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)은 구현이 싸고 쉽지만, 손님이 30도와 60도 빔 사이(45도)의 사각지대에 서 있으면 전파가 뚝 떨어진다(Scalloping 현상). 반면 적응형 어레이(Adaptive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))는 폰이 45도에 있으면 정확히 45도로 빔을 휘어서 쏴주고, 100도에서 노이즈가 날아오면 100도 방향의 귀를 닫는 널링(Nulling) 계산까지 동시에 해낸다. 오늘날 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망에 달린 모든 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 이 극강의 **적응형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))** 알고리즘을 기본으로 탑재하고 있다.
+[스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/)은 구현이 싸고 쉽지만, 손님이 30도와 60도 빔 사이(45도)의 사각지대에 서 있으면 전파가 뚝 떨어진다(Scalloping 현상). 반면 적응형 어레이(Adaptive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))는 폰이 45도에 있으면 정확히 45도로 빔을 휘어서 쏴주고, 100도에서 노이즈가 날아오면 100도 방향의 귀를 닫는 널링(Nulling) 계산까지 동시에 해낸다. 오늘날 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망에 달린 모든 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 이 극강의 <strong>적응형 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 칩(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>)</strong> 알고리즘을 기본으로 탑재하고 있다.
 
 1. **상황**: 과거 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 기껏해야 2개, 4개(4T4R) 썼다. 빔을 꺾어봐야 수평(좌우)으로만 조금 꺾였다. 고층 아파트 1층에 있는 사람에겐 빔이 잘 맞았지만 15층 베란다에 있는 사람에겐 전파가 도달하지 않고 하늘로 날아가는 에너지 낭비가 컸다.
 2. **원인**: 1차원(1D)으로만 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)된 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 수직 고도(Elevation)를 제어할 능력이 없어, 2차원 부채꼴 빔밖에 쏘지 못하는 태생적 한계(2D [Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))가 있었다.
-3. **의사결정 및 조치 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 3D [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 결합)**:
-   - 아키텍트는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국(AAU)에 **64T64R (송신 64개, 수신 64개), 총 128개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자**를 바둑판(2D Planar [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 모양으로 때려 박았다. ([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)).
+3. <strong>의사결정 및 조치 (<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 3D <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> 결합)</strong>:
+   - 아키텍트는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국(AAU)에 <strong>64T64R (송신 64개, 수신 64개), 총 128개의 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 소자</strong>를 바둑판(2D Planar [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 모양으로 때려 박았다. ([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)).
    - 이제 상하(수직) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 위상차와 좌우(수평) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 위상차를 동시에 꺾을 수 있게 되었다.
-   - **결과 (3D [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))**: 기지국은 아파트 15층 베란다에 있는 A 단말기를 향해 고개를 위로 쳐들고 레이저 빔을 쏘고, 동시에 1층 길바닥에 있는 B 단말기를 향해 고개를 푹 숙인 두 번째 빔을 쏜다. 똑같은 주파수를 쓰면서도 빔이 허공에서 완벽하게 갈라지므로 간섭 없이 속도를 2배로 튀기는 **다중 사용자 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))**의 찬란한 시대를 열었다.
+   - <strong>결과 (3D <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a>)</strong>: 기지국은 아파트 15층 베란다에 있는 A 단말기를 향해 고개를 위로 쳐들고 레이저 빔을 쏘고, 동시에 1층 길바닥에 있는 B 단말기를 향해 고개를 푹 숙인 두 번째 빔을 쏜다. 똑같은 주파수를 쓰면서도 빔이 허공에서 완벽하게 갈라지므로 간섭 없이 속도를 2배로 튀기는 <strong>다중 사용자 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">공간 다중화</a>(MU-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a>)</strong>의 찬란한 시대를 열었다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/) 환경에서의 피드백(Feedback) 오버헤드 폭발 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)가 폰을 향해 정밀하게 빔을 쏘려면, 폰이 기지국에 "지금 빔이 왼쪽으로 치우쳤어요! 조금만 오른쪽으로 꺾어주세요"라는 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/), Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 끊임없이 업로드해 줘야 한다. 만약 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할) 망에서 이 짓을 하면, 폰이 피드백 정보를 업로드하느라 업로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역폭이 꽉 막혀버린다. 그래서 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))는 송수신 주파수가 같아 기지국이 폰의 빔 방향을 피드백 없이 스스로 역추산(Channel Reciprocity)할 수 있는 **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 망(시분할, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 3.5GHz 주력)** 환경과 결합할 때만 100%의 진가를 발휘하는 아키텍처적 의존성을 갖는다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이동체에 Adaptive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 강제 적용)**: 시속 300km로 달리는 KTX 기차를 향해 적응형 어레이가 핀셋처럼 좁은 빔(Narrow Beam)을 추적해 쏘도록 세팅하는 짓. 기차가 너무 빨라 빔이 기차를 쫓아가는 연산(Tracking) 속도를 0.01초 차이로 놓치는 순간, 기차가 완전히 암흑(음영) 속으로 빠져 전파가 단절된다. 고속 환경에서는 빔을 바늘처럼 뾰족하게 깎지 말고, 차라리 빔을 뭉툭하고 넓게 펴서(Broad Beam) 기차가 어떻게 흔들려도 전파를 맞을 수 있게 타협하는 세팅(Robustness)이 안전하다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/">FDD</a> 환경에서의 피드백(Feedback) 오버헤드 폭발 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)가 폰을 향해 정밀하게 빔을 쏘려면, 폰이 기지국에 "지금 빔이 왼쪽으로 치우쳤어요! 조금만 오른쪽으로 꺾어주세요"라는 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/), Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 끊임없이 업로드해 줘야 한다. 만약 [FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)(주파수 분할) 망에서 이 짓을 하면, 폰이 피드백 정보를 업로드하느라 업로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역폭이 꽉 막혀버린다. 그래서 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))는 송수신 주파수가 같아 기지국이 폰의 빔 방향을 피드백 없이 스스로 역추산(Channel Reciprocity)할 수 있는 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a> 망(시분할, <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 3.5GHz 주력)</strong> 환경과 결합할 때만 100%의 진가를 발휘하는 아키텍처적 의존성을 갖는다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 이동체에 Adaptive <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> 강제 적용)</strong>: 시속 300km로 달리는 KTX 기차를 향해 적응형 어레이가 핀셋처럼 좁은 빔(Narrow Beam)을 추적해 쏘도록 세팅하는 짓. 기차가 너무 빨라 빔이 기차를 쫓아가는 연산(Tracking) 속도를 0.01초 차이로 놓치는 순간, 기차가 완전히 암흑(음영) 속으로 빠져 전파가 단절된다. 고속 환경에서는 빔을 바늘처럼 뾰족하게 깎지 말고, 차라리 빔을 뭉툭하고 넓게 펴서(Broad Beam) 기차가 어떻게 흔들려도 전파를 맞을 수 있게 타협하는 세팅(Robustness)이 안전하다.
 
 - **📢 섹션 요약 비유**: 5G의 3D [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 밤하늘의 헬리콥터 서치라이트 수십 대가, 땅바닥에서 뛰어다니는 쥐(폰 1)와 하늘을 나는 새(폰 2)를 놓치지 않고 각자 하나씩 완벽하게 비추며 따라다니는 어마어마하게 정밀한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 눈동자입니다. 단, 쥐가 너무 빠르면 레이저 조명이 쫓아가다 놓치니 그땐 손전등을 넓게 퍼지게 비추는 것이 상식입니다.
 
@@ -112,36 +112,34 @@ tags = ["studynote-network"]
 
 | 비교 기준 | 전통적 공간 다이버시티 (Diversity) | [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) |
 |:---|:---|:---|
-| **[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 간격** | 반 파장($\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/2$) 이상 **멀리 띄워둠**. (서로 다른 찌그러진 메아리를 수집하기 위해) | 반 파장($\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/2$) 이내로 **아주 촘촘하게 붙여둠**. (파동들을 정교하게 겹쳐서 레이저빔을 만들기 위해) |
-| **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 목적** | 여러 개 중 살아남은 한 조각이라도 건져서 "전화가 안 끊기게" 하는 **방어적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))** | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 파워를 한곳으로 모아 쏘아 "전파를 멀리 뻗게 하고 노이즈를 죽이는" **공격적 커버리지(Coverage) 확장** |
+| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 간격</strong> | 반 파장($\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/2$) 이상 **멀리 띄워둠**. (서로 다른 찌그러진 메아리를 수집하기 위해) | 반 파장($\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)/2$) 이내로 **아주 촘촘하게 붙여둠**. (파동들을 정교하게 겹쳐서 레이저빔을 만들기 위해) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 처리 목적</strong> | 여러 개 중 살아남은 한 조각이라도 건져서 "전화가 안 끊기게" 하는 <strong>방어적 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 파워를 한곳으로 모아 쏘아 "전파를 멀리 뻗게 하고 노이즈를 죽이는" **공격적 커버리지(Coverage) 확장** |
 | **작동 환경** | 골목길, 반사파가 떡칠된 딥 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)(Deep Fade) 환경에서 진가를 발휘 | 산꼭대기나 일직선 뻥 뚫린 고속도로(LOS) 환경에서 레이저 사격 시 진가를 발휘 |
 
 결국 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 128개나 되기 때문에, 이 두 가지 철학을 융합한다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 4개 단위로 촘촘히 묶어서(Sub-[array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 강력한 빔([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))을 4가닥 만들고, 이 4가닥의 빔 그룹을 물리적으로 약간씩 떨어뜨려 배치하여 다이버시티(Diversity) 효과까지 동시에 챙겨 버리는 무지막지한 공간 하이브리드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 쓴다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               적응형 배열(Adaptive Array)의 간섭 제거(Nulling) 마법 │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [상황: 12시 방향의 폰과 통신 중인데, 3시 방향에서 해커의 방해 전파 유입!] │
-│                                                               │
-│       폰 (12시)                       해커/간섭 (3시 방향)           │
-│        📱                              💥 (지지직!)               │
-│         ▲                               │                     │
-│         │ (메인 빔: Main Lobe)           │ (여기로 귀를 닫아라!)    │
-│   ╭─────┴─────╮                         ▼                     │
-│  /   증폭 수신   \                       (Nulling 널 빔 발생)   │
-│  │    (100점)   │                        ╳ ◀─ (수신 파워 0으로 차단)│
-│  \             /                        │                     │
-│   ╰─────┬─────╯                         │                     │
-│      [ 스마트 안테나 (기지국 DSP) ] ◀─────────┘                     │
-│                                                               │
-│   => DSP 수학 알고리즘: "전파 파동 방정식을 계산해서, 3시 방향에서 들어오는 │
-│      모든 파동이 서로 마이너스(-) 상쇄 간섭을 일으키도록 안테나 위상을 조작해!" │
-│   => 결과: 기지국은 오직 12시 방향의 소리만 듣고, 3시 방향의 노이즈는 완벽한 │
-│            귀머거리가 되어 무시(Interference Cancellation)해버림.      │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적응형 배열(Adaptive Array)의 간섭 제거(Nulling) 마법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 12시 방향의 폰과 통신 중인데, 3시 방향에서 해커의 방해 전파 유입!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 (12시) 해커/간섭 (3시 방향)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 💥 (지지직!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메인 빔: Main Lobe)</div><div class="kb-diagram-cell">(여기로 귀를 닫아라!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 증폭 수신 \ (Nulling 널 빔 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100점)</div><div class="kb-diagram-cell">╳ ◀─ (수신 파워 0으로 차단)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 안테나 (기지국 DSP)</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; DSP 수학 알고리즘: "전파 파동 방정식을 계산해서, 3시 방향에서 들어오는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 파동이 서로 마이너스(-) 상쇄 간섭을 일으키도록 안테나 위상을 조작해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 기지국은 오직 12시 방향의 소리만 듣고, 3시 방향의 노이즈는 완벽한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">귀머거리가 되어 무시(Interference Cancellation)해버림.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)가 "스마트"한 진짜 이유는 빔을 쏘는 것(Main Lobe)보다, 적을 향해 방패(Null Lobe)를 치는 능력 때문이다. 전투기 레이더나 기지국은 간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 강하게 들어오는 방향을 실시간으로 계산한다. 그리고 그 방향에서 들어오는 파동 위상을 정확히 반대(-180도)로 뒤집어서 더해버리는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 곱셈 연산을 수행한다. 이러면 3시 방향에서 들어오는 그 어떤 폭음도 DSP 칩셋 안에서는 "0"으로 소멸한다. 도심 한가운데 수만 개의 기지국이 겹쳐 있어도 간섭 없이 버티는 것은 이 Nulling(널링) 방어벽 덕분이다.
 
@@ -177,12 +175,12 @@ tags = ["studynote-network"]
 | **정성 (간섭 / 잡음 방어)** | 외부 잡음, 해커의 방해 전파에 속수무책 | Nulling 알고리즘으로 적대적 전파 방향 귀 닫기 | 군용 수준의 항재밍(Anti-Jamming) 및 딥 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 방어력 획득 |
 
 ### 미래 전망 및 진화 방향
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 예측 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Beam Tracking)**: 현재 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 단말기가 움직인 '과거'의 위치를 보고 뒤늦게 빔을 꺾는다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 시스템에서는 딥러닝 AI가 사용자의 내비게이션 맵과 과거 보행 패턴을 학습해, "이 고객이 1초 뒤 코너를 돌테니 빔 각도를 미리 저 골목 끝으로 꺾어놔!"라는 초저지연 예지(Predictive) [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 사격으로 진화하여 추적 실패(Beam Failure)를 0으로 수렴시킬 것이다.
-- **RIS (Reconfigurable Intelligent Surface, [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/))**: [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)의 철학이 이제 '기지국 철탑'을 벗어나 '유리창과 벽면'으로 확장된다. 6G에서는 건물 외벽에 전기를 거의 먹지 않는 수천 개의 미세 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 필름(RIS)을 바른다. 이 필름들이 메인 기지국이 쏜 빔을 받아 거울처럼 각도를 꺾어(Phase Shift) 골목길 사각지대에 있는 폰으로 정밀 타격 반사해 주는 '수동형 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 생태계'가 도시를 뒤덮을 전망이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 예측 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (Machine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Beam Tracking)</strong>: 현재 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 단말기가 움직인 '과거'의 위치를 보고 뒤늦게 빔을 꺾는다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 시스템에서는 딥러닝 AI가 사용자의 내비게이션 맵과 과거 보행 패턴을 학습해, "이 고객이 1초 뒤 코너를 돌테니 빔 각도를 미리 저 골목 끝으로 꺾어놔!"라는 초저지연 예지(Predictive) [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 사격으로 진화하여 추적 실패(Beam Failure)를 0으로 수렴시킬 것이다.
+- <strong>RIS (Reconfigurable Intelligent Surface, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/">지능형 반사 표면</a>)</strong>: [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)의 철학이 이제 '기지국 철탑'을 벗어나 '유리창과 벽면'으로 확장된다. 6G에서는 건물 외벽에 전기를 거의 먹지 않는 수천 개의 미세 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 필름(RIS)을 바른다. 이 필름들이 메인 기지국이 쏜 빔을 받아 거울처럼 각도를 꺾어(Phase Shift) 골목길 사각지대에 있는 폰으로 정밀 타격 반사해 주는 '수동형 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 생태계'가 도시를 뒤덮을 전망이다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TR 38.802 / TS 38.214**: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) 물리 계층에서 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 및 Massive MIMO의 송수신 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Precoding Matrix) 수학을 정의한 핵심 스펙.
-- **IEEE 802.[11ac](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) / ax ([Wi-Fi 5](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/)/6)**: Wi-Fi 환경에서 공유기가 무식하게 360도로 쏘지 않고 스마트폰의 위치를 추적해 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)을 때려 넣어 수신 감도를 높이는 Tx [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 표준.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TR 38.802 / TS 38.214</strong>: [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)([New Radio](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/)) 물리 계층에서 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 및 Massive MIMO의 송수신 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Precoding Matrix) 수학을 정의한 핵심 스펙.
+- <strong>IEEE 802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/">11ac</a> / ax (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/">Wi-Fi 5</a>/6)</strong>: Wi-Fi 환경에서 공유기가 무식하게 360도로 쏘지 않고 스마트폰의 위치를 추적해 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)을 때려 넣어 수신 감도를 높이는 Tx [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 표준.
 
 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 "에너지를 쏟아붓는 무식한 아날로그"의 시대에서 "수학을 계산하는 지능적 디지털" 시대로 무선 공학이 도약했음을 알리는 위대한 선언이다. 공기 중의 흩어지는 전파 파동의 위상을 0.001초 단위로 비틀고 조합하여, 눈에 보이지 않는 허공에 고속도로(Beam)를 뚫고 방음벽(Null)을 치는 이 기술이 없었다면, 오늘날 수억 명이 동시에 유튜브를 보는 5G의 기적은 결코 물리적으로 성립할 수 없었을 것이다.
 
@@ -201,15 +199,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 등화기]
-    │
-    ▼
-[현재 개념: 스마트 안테나]
-    │
-    ├──▶ [확장 A: 스위칭 빔 vs 적응형 어레이]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 등화기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 안테나</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위칭 빔 vs 적응형 어레이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/) vs 적응형 어레이와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

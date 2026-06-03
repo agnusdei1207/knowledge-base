@@ -10,9 +10,9 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Apache Airflow는 복잡한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 선후행 의존성을 **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))**로 Python 코드로 정의하고 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·모니터링하는 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구다.
-> 2. **가치**: 수십 개의 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 작업이 서로 복잡하게 의존할 때, 실패한 작업만 재실행하고 의존성 순서를 자동 관리하여 **[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 운영의 신뢰성과 가시성**을 극대화한다.
-> 3. **판단 포인트**: Airflow는 **"코드로 파이프라인 정의([Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/))"** 철학이므로 Git [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 처리하지 않고 작업 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·실행만 담당한다.
+> 1. **본질**: Apache Airflow는 복잡한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 선후행 의존성을 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>, 방향성 비순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>)</strong>로 Python 코드로 정의하고 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·모니터링하는 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 도구다.
+> 2. **가치**: 수십 개의 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 작업이 서로 복잡하게 의존할 때, 실패한 작업만 재실행하고 의존성 순서를 자동 관리하여 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a> 운영의 신뢰성과 가시성</strong>을 극대화한다.
+> 3. **판단 포인트**: Airflow는 <strong>"코드로 파이프라인 정의(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a>)"</strong> 철학이므로 Git [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 처리하지 않고 작업 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링·실행만 담당한다.
 
 ---
 
@@ -22,26 +22,21 @@ tags = ["studynote-cloud-architecture"]
 
 2014년 Airbnb에서 개발, 현재 Apache 최상위 프로젝트. **"워크플로우를 코드로"** 라는 철학이 핵심이다.
 
-```
-[복잡한 파이프라인 의존성 예시]
-                   extract_crm
-                        │
-          ┌─────────────┼─────────────┐
-          ▼             ▼             ▼
-    validate_crm   extract_erp   extract_ga
-          │             │             │
-          └──────┬───────┘             │
-                 ▼                    │
-          transform_orders            │
-                 │                    │
-                 └──────────┬─────────┘
-                            ▼
-                     load_fact_sales
-                            │
-                 ┌──────────┼──────────┐
-                 ▼          ▼          ▼
-           update_bi   train_ml   send_alert
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">복잡한 파이프라인 의존성 예시</div></div>
+<div class="kb-diagram-note">extract_crm</div>
+<div class="kb-diagram-note">validate_crm extract_erp extract_ga</div>
+<div class="kb-diagram-note">transform_orders</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">load_fact_sales</div>
+<div class="kb-diagram-note">update_bi train_ml send_alert</div>
+</div>
+</div>
+
+
 
 이런 복잡한 의존성을 [cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 스크립트로 관리하면 실패 추적, 재실행, 모니터링이 불가능하다. Airflow가 이 문제를 해결한다.
 
@@ -53,27 +48,26 @@ tags = ["studynote-cloud-architecture"]
 
 ### Airflow 시스템 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  Airflow 아키텍처                              │
-│                                                              │
-│  ┌─────────────┐   ┌──────────────┐   ┌──────────────────┐  │
-│  │  Webserver  │   │  Scheduler   │   │   Executor        │  │
-│  │  (UI/API)   │   │  (DAG 파싱   │   │   (Task 실행)     │  │
-│  │  DAG 모니터 │   │   일정 관리)  │   │  ┌────────────┐  │  │
-│  │  실행 로그  │   │              │   │  │Worker 1    │  │  │
-│  └─────────────┘   └──────┬───────┘   │  │Worker 2    │  │  │
-│                            │           │  │Worker 3    │  │  │
-│                            │ Task 큐   │  └────────────┘  │  │
-│  ┌─────────────┐           └──────────▶│                  │  │
-│  │  Metadata   │                       └──────────────────┘  │
-│  │  Database   │◀──────────────────────── 상태 업데이트       │
-│  │ (PostgreSQL)│                                             │
-│  └─────────────┘                                            │
-│                                                              │
-│  DAG 파일 저장소: Git Repo / S3 / Local filesystem           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webserver</div><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Executor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI/API)</div><div class="kb-diagram-cell">(DAG 파싱</div><div class="kb-diagram-cell">(Task 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 모니터</div><div class="kb-diagram-cell">일정 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 로그</div><div class="kb-diagram-cell">Worker 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task 큐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database</div><div class="kb-diagram-cell">◀ 상태 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PostgreSQL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 파일 저장소: Git Repo / S3 / Local filesystem</div></div>
+</div>
+</div>
+
+
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 정의 예시
 
@@ -150,8 +144,8 @@ with DAG(
 |:---|:---|:---|:---|:---|
 | **코드 방식** | Python [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) | Python Flow | Python Asset | Python [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
 | **UI** | 강력 | 좋음 | 좋음 | 기본 |
-| **동적 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)** | 제한적 | 우수 | 우수 | 기본 |
-| **관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | AWS MWAA, Astronomer | Prefect Cloud | Dagster Cloud | - |
+| <strong>동적 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a></strong> | 제한적 | 우수 | 우수 | 기본 |
+| <strong>관리형 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong> | AWS MWAA, Astronomer | Prefect Cloud | Dagster Cloud | - |
 | **학습 곡선** | 높음 | 중간 | 중간 | 낮음 |
 | **에코시스템** | 매우 풍부 | 성장 중 | 성장 중 | 제한적 |
 | **엔터프라이즈 사용** | 매우 많음 | 증가 중 | 증가 중 | 소규모 |
@@ -235,17 +229,17 @@ with DAG('dbt_daily_transform', schedule='0 3 * * *', ...):
 | **자동 재시도** | [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 실패 시 정책에 따라 자동 재시도 |
 | **의존성 관리** | 선행 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 성공 후 후행 [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 자동 실행 |
 | **이력 관리** | 모든 실행 이력 및 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장 |
-| **코드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리** | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Python 파일을 Git으로 관리 |
+| <strong>코드 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong> | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) Python 파일을 Git으로 관리 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **동적 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 제한** | 실행 중 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구조 변경 어려움 |
+| <strong>동적 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 제한</strong> | 실행 중 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구조 변경 어려움 |
 | **학습 곡선** | [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 개념, Scheduler 이해 필요 |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡** | Celery/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Executor, DB [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 복잡</strong> | Celery/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Executor, DB [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | **XCom 크기 제한** | [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 간 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 불가 (DB 저장) |
-| **[스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)** | 초 단위 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 불가 (최소 분 단위) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a> <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong> | 초 단위 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 불가 (최소 분 단위) |
 
 📢 **섹션 요약 비유**: Airflow는 유능한 프로젝트 관리자다. 모든 작업의 순서와 의존성을 파악하고, 누가 실패하면 재시도시키며, 전체 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 한눈에 보여준다. 단, 직접 일([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리)을 하지 않고 조율만 한다.
 
@@ -267,17 +261,21 @@ with DAG('dbt_daily_transform', schedule='0 3 * * *', ...):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-cron + 쉘 스크립트 (의존관계 관리 불가)
-    │
-    ▼
-Airflow: DAG 기반 워크플로 오케스트레이션
-    ├─► Scheduler · Worker · Metadata DB
-    └─► Operator: Python · Bash · K8s · Spark
-    │
-    ▼
-차세대: Dagster · Prefect · Mage (데이터 자산 중심)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">cron + 쉘 스크립트 (의존관계 관리 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Airflow: DAG 기반 워크플로 오케스트레이션</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Scheduler · Worker · Metadata DB</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Operator: Python · Bash · K8s · Spark</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">차세대: Dagster · Prefect · Mage (데이터 자산 중심)</div>
+</div>
+</div>
+
+
 2. DAG는 집 짓기 공정표다. 기초 공사를 해야 벽을 세울 수 있고, 벽이 있어야 지붕을 올릴 수 있는 것처럼, 각 단계([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))가 순서대로 이루어진다.
 3. 만약 어느 공정이 실패하면(벽 공사 실패), Airflow는 자동으로 다시 시도하고, 실패 원인을 기록해 나중에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 해준다.
 

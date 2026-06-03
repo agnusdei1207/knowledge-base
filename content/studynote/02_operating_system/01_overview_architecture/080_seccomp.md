@@ -10,7 +10,7 @@ tags = ["studynote-operating-system"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: seccomp(Secure Computing Mode)는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스가 호출할 수 있는 **시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))의 종류를 화이트리스트(Whitelist) 방식으로 엄격하게 제한**하여 권한을 축소시키는 보안 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 메커니즘이다.
+> 1. **본질**: seccomp(Secure Computing Mode)는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스가 호출할 수 있는 <strong>시스템 콜(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)의 종류를 화이트리스트(Whitelist) 방식으로 엄격하게 제한</strong>하여 권한을 축소시키는 보안 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 메커니즘이다.
 > 2. **가치**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), K8s) 환경에서 해커가 애플리케이션의 취약점을 뚫고 들어오더라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공격하거나 시스템을 파괴하는 위험한 시스템 콜(`execve`, `mount` 등) 자체를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 차단하여 2차 폭발([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 완벽히 방어한다.
 > 3. **판단 포인트**: `seccomp-bpf` 확장을 통해 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 필터를 적용하면, 단순히 "read는 허용, write는 차단"을 넘어 "표준 출력(fd=1)으로 가는 write만 허용"하는 파라미터 수준의 극강의 정밀 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/))을 구현할 수 있다.
 
@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 
 웹 서버(Nginx)에 해커가 침투했다고 가정하자. 해커는 서버의 메모리를 장악한 뒤, 쉘을 띄우기 위해 운영체제에게 `execve("/bin/sh")`라는 시스템 콜을 날린다. 시스템 콜은 유저 권한 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심장(쇳덩어리)에 직접 명령을 내리는 유일한 통로다. 만약 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 호출을 순진하게 받아주면 서버는 그 즉시 해커의 좀비가 된다.
 
-리눅스 아키텍트들은 "Nginx 웹 서버는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고(`read`), 네트워크로 보내고(`write`), 연결을 종료(`close`)하는 권한만 있으면 되는데, 왜 `execve(프로그램 실행)`나 `mount(디스크 마운트)` 같은 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한까지 모두 열려있어야 하는가?"라는 근원적 의문을 제기했다. 그 해답으로 등장한 것이 **seccomp**다. 프로세스가 스스로 "나는 앞으로 이 4가지 시스템 콜 말고는 절대 쓰지 않겠다"고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 맹세(선언)하게 만들고, 만약 그 외의 시스템 콜을 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스의 숨통을 즉시 끊어버리는(SIGKILL) 잔혹하지만 완벽한 보안 방어막을 친 것이다.
+리눅스 아키텍트들은 "Nginx 웹 서버는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고(`read`), 네트워크로 보내고(`write`), 연결을 종료(`close`)하는 권한만 있으면 되는데, 왜 `execve(프로그램 실행)`나 `mount(디스크 마운트)` 같은 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한까지 모두 열려있어야 하는가?"라는 근원적 의문을 제기했다. 그 해답으로 등장한 것이 <strong>seccomp</strong>다. 프로세스가 스스로 "나는 앞으로 이 4가지 시스템 콜 말고는 절대 쓰지 않겠다"고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 맹세(선언)하게 만들고, 만약 그 외의 시스템 콜을 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 프로세스의 숨통을 즉시 끊어버리는(SIGKILL) 잔혹하지만 완벽한 보안 방어막을 친 것이다.
 
 - **📢 섹션 요약 비유**: seccomp는 '아이에게 가위를 주며 종이만 자르라고 약속받는 것'이 아니라, 아예 가위의 날을 특수 코팅해서 '종이 이외의 것(옷, 머리카락)에 닿는 순간 가위가 펑 하고 터져버리게(SIGKILL)' 만드는 절대적인 통제 장치다.
 
@@ -31,28 +31,25 @@ tags = ["studynote-operating-system"]
 ### One-way Transition (돌아올 수 없는 강)
 seccomp는 프로세스가 자신을 샌드박스 안에 가두는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 잠금장치다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           seccomp 기반 시스템 콜 차단 아키텍처 (eBPF 융합)   │
-├────────────────────────────────────────────────────────┤
-│   [ 유저 프로세스 (예: Nginx Worker) ]                    │
-│     1. 초기화 단계에서 seccomp 모드 활성화 (prctl 호출)     │
-│        "앞으로 나는 read, write, sigreturn, exit만 쓴다!"  │
-│        (★ 한 번 활성화되면 절대 취소 불가능. 자식에게도 유전됨)│
-│                            │                           │
-│                            ▼                           │
-│ ═══════════════════════════════════════════════════════│
-│   [ 리눅스 커널 스페이스 ]                              │
-│                                                        │
-│     해커 침투 ──▶ `execve("/bin/sh")` 시스템 콜 발동 시도! │
-│                            │                           │
-│                            ▼                           │
-│     [ BPF 필터 머신 (커널 내부의 판사) ]                 │
-│      검사: "허락된 명단(Whitelist)에 execve가 있는가?"     │
-│       ├──▶ (Yes) 시스템 콜 통과, 실행 허가               │
-│       └──▶ (No) 즉결 처형! ──▶ 프로세스 강제 종료 (SIGKILL) │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seccomp 기반 시스템 콜 차단 아키텍처 (eBPF 융합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 프로세스 (예: Nginx Worker)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 초기화 단계에서 seccomp 모드 활성화 (prctl 호출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"앞으로 나는 read, write, sigreturn, exit만 쓴다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(★ 한 번 활성화되면 절대 취소 불가능. 자식에게도 유전됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 스페이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 침투 ──▶ <code>execve("/bin/sh")</code> 시스템 콜 발동 시도!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BPF 필터 머신 (커널 내부의 판사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검사: "허락된 명단(Whitelist)에 execve가 있는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (Yes) 시스템 콜 통과, 실행 허가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (No) 즉결 처형! ──▶ 프로세스 강제 종료 (SIGKILL)</div></div>
+</div>
+</div>
+
+
 
 **seccomp-bpf의 혁명**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) seccomp(Strict Mode)는 딱 4개의 시스템 콜(`read`, `write`, `exit`, `sigreturn`)만 허용해서 아무짝에도 쓸모가 없었다. 이후 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)([Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 엔진을 결합하여, 유저가 원하는 300여 개의 시스템 콜 중 입맛에 맞게 필터링 룰을 짜서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입할 수 있는 `seccomp-bpf(Filter Mode)`로 진화하며 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 보안의 절대 표준이 되었다.
 
@@ -67,9 +64,9 @@ seccomp는 프로세스가 자신을 샌드박스 안에 가두는 [단방향](/
 
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능 | 격리 대상 및 목적 | [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 적용 예시 | 해킹 방어 관점 |
 |:---|:---|:---|:---|
-| **[Namespaces](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/)** | **가시성 격리 (Visibility)** | 나만의 독립된 PID(1번), 네트워크, [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 공간 제공 | 남의 프로세스가 안 보이니 건드릴 수 없음 |
-| **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)** | **자원 사용량 격리 (Resource)** | CPU 2코어, 메모리 1GB 등 물리적 자원 사용량 제한 | 남의 자원을 갉아먹는 디도스(Resource Exhaustion) 방어 |
-| **seccomp** | **권한 격리 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))** | **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 호출(exec, [mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)) 차단** | **루트 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))의 원천 봉쇄** |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/700_nvme_namespaces/">Namespaces</a></strong> | **가시성 격리 (Visibility)** | 나만의 독립된 PID(1번), 네트워크, [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 공간 제공 | 남의 프로세스가 안 보이니 건드릴 수 없음 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a></strong> | **자원 사용량 격리 (Resource)** | CPU 2코어, 메모리 1GB 등 물리적 자원 사용량 제한 | 남의 자원을 갉아먹는 디도스(Resource Exhaustion) 방어 |
+| **seccomp** | <strong>권한 격리 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong> | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 안에서 위험한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 호출(exec, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">mount</a>) 차단</strong> | <strong>루트 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a>(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">Privilege Escalation</a>)의 원천 봉쇄</strong> |
 
 네임스페이스와 cgroups로 방을 쪼개고 밥그릇을 제한해도, 방 안에 들어온 악당(해커)이 벽([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 뚫고 폭탄(시스템 콜)을 던지는 것은 막을 수 없다. Docker는 기본적으로 300개가 넘는 리눅스 시스템 콜 중 약 44개의 위험한 호출을 디폴트 seccomp 프로파일(Default Profile)로 막아버린다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)가 VM만큼 안전하게 느껴지는 이유는 바로 seccomp가 뒤에서 총구를 겨누고 있기 때문이다.
 
@@ -80,11 +77,11 @@ seccomp는 프로세스가 자신을 샌드박스 안에 가두는 [단방향](/
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)(K8s) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) ([PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) / PSA 적용)**: 금융권 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 아키텍트. 프론트엔드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 털리더라도 호스트 노드의 루트(Root)를 먹히지 않게 하기 위해, Pod의 SecurityContext에 `seccompProfile`을 `RuntimeDefault` 또는 커스텀 프로파일로 강제 지정한다. 이를 통해 개발자가 악의적으로 `chown`이나 `ptrace` 시스템 콜을 날리는 이미지를 배포하더라도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨에서 쳐내어 노드 전체가 오염되는 대형 보안 사고를 방지한다.
-2. **크롬 브라우저(Chrome) [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 융합**: 당신이 지금 이 문서를 보는 브라우저의 렌더링 엔진 프로세스는 악성 자바스크립트가 넘쳐나는 웹사이트의 최전방이다. 구글은 각 탭의 렌더링 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 파일이나 네트워크에 직접 접근하지 못하도록 실행 직후 seccomp 모드를 켜서 샌드박스에 가둬버린다. 렌더러가 파일을 읽고 싶으면 브라우저 메인 프로세스에 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)(통신)로 "허락 좀..." 하고 굽실거려야만 한다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>(K8s) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>) <a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/">PSP</a> / PSA 적용)</strong>: 금융권 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 아키텍트. 프론트엔드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 털리더라도 호스트 노드의 루트(Root)를 먹히지 않게 하기 위해, Pod의 SecurityContext에 `seccompProfile`을 `RuntimeDefault` 또는 커스텀 프로파일로 강제 지정한다. 이를 통해 개발자가 악의적으로 `chown`이나 `ptrace` 시스템 콜을 날리는 이미지를 배포하더라도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레벨에서 쳐내어 노드 전체가 오염되는 대형 보안 사고를 방지한다.
+2. <strong>크롬 브라우저(Chrome) <a href="/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/">샌드박싱</a> 융합</strong>: 당신이 지금 이 문서를 보는 브라우저의 렌더링 엔진 프로세스는 악성 자바스크립트가 넘쳐나는 웹사이트의 최전방이다. 구글은 각 탭의 렌더링 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 파일이나 네트워크에 직접 접근하지 못하도록 실행 직후 seccomp 모드를 켜서 샌드박스에 가둬버린다. 렌더러가 파일을 읽고 싶으면 브라우저 메인 프로세스에 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)(통신)로 "허락 좀..." 하고 굽실거려야만 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **운영 편의를 위한 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 `--privileged` 옵션 남용**: 개발자가 "로컬에서 잘 도는데 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)에 올리니까 에러 나요!"라며 징징댈 때, 운영자가 귀찮다고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 `--privileged` 모드로 띄워버리는 최악의 배임 행위. 이 옵션이 켜지는 순간 **seccomp 필터가 완전히 무력화**되며, 모든 디바이스 접근 권한과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시스템 콜이 활짝 열린다. 해커가 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 터는 순간, 호스트(물리 서버)의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 권한이 1초 만에 쑥대밭이 된다.
+- <strong>운영 편의를 위한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>의 <code>--privileged</code> 옵션 남용</strong>: 개발자가 "로컬에서 잘 도는데 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)에 올리니까 에러 나요!"라며 징징댈 때, 운영자가 귀찮다고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 `--privileged` 모드로 띄워버리는 최악의 배임 행위. 이 옵션이 켜지는 순간 <strong>seccomp 필터가 완전히 무력화</strong>되며, 모든 디바이스 접근 권한과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 시스템 콜이 활짝 열린다. 해커가 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 터는 순간, 호스트(물리 서버)의 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 권한이 1초 만에 쑥대밭이 된다.
 
 - **📢 섹션 요약 비유**: `--privileged` 옵션을 쓰는 것은, 동물원 우리 안의 호랑이(앱)가 답답해한다고 철창(seccomp)을 다 치워버리고 사육사(루트)의 마스터키를 목에 걸어주는 짓이다. 잘 돌아가긴 하겠지만, 호랑이가 화가 나는 순간 동물원 전체가 핏빛으로 물든다.
 
@@ -104,27 +101,29 @@ seccomp는 "모든 애플리케이션은 잠재적 폭탄이며, 그들이 [커�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (Extended [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))** | seccomp에 날개를 달아준 필터링 머신. 시스템 콜 번호뿐만 아니라, 인자(Arguments)값까지 조건문으로 뜯어보고 허용/차단을 정교하게 제어하는 샌드박스 두뇌 |
-| **시스템 콜 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))** | 유저 모드 앱이 디스크를 읽거나 네트워크를 쏘고 싶을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 허락을 구하는 유일한 관문. seccomp가 방어하는 절대적인 최전선 |
-| **특권 에스컬레이션 ([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))** | 일반 유저 권한으로 뚫고 들어온 해커가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점을 공격해 루트(Root)를 따내는 수법. seccomp가 시스템 콜을 막아버려 이를 원천 차단함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a>)</strong> | seccomp에 날개를 달아준 필터링 머신. 시스템 콜 번호뿐만 아니라, 인자(Arguments)값까지 조건문으로 뜯어보고 허용/차단을 정교하게 제어하는 샌드박스 두뇌 |
+| <strong>시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong> | 유저 모드 앱이 디스크를 읽거나 네트워크를 쏘고 싶을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 허락을 구하는 유일한 관문. seccomp가 방어하는 절대적인 최전선 |
+| <strong>특권 에스컬레이션 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">Privilege Escalation</a>)</strong> | 일반 유저 권한으로 뚫고 들어온 해커가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점을 공격해 루트(Root)를 따내는 수법. seccomp가 시스템 콜을 막아버려 이를 원천 차단함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-웹 브라우저 및 탈옥 앱 등에서 커널 취약점 공격(Exploit) 심화
-    │
-    ▼
-최소 권한의 원칙 (Principle of Least Privilege) 대두
-    │
-    ▼
-리눅스 커널에 seccomp (Strict Mode, 4개 시스템 콜만 허용) 탑재
-    │
-    ▼
-과도한 제한으로 실효성 부족 ──▶ BPF(필터) 융합 ──▶ seccomp-bpf (Filter Mode) 진화
-    │
-    ▼
-Docker/Kubernetes 기본 보안 프로파일의 핵심 엔진 및 최신 브라우저 샌드박스로 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">웹 브라우저 및 탈옥 앱 등에서 커널 취약점 공격(Exploit) 심화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최소 권한의 원칙 (Principle of Least Privilege) 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리눅스 커널에 seccomp (Strict Mode, 4개 시스템 콜만 허용) 탑재</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">과도한 제한으로 실효성 부족 ──▶ BPF(필터) 융합 ──▶ seccomp-bpf (Filter Mode) 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Docker/Kubernetes 기본 보안 프로파일의 핵심 엔진 및 최신 브라우저 샌드박스로 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "무차별 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공격 방치 → 초강력 차단(실용성 없음) → 유연한 필터링 융합 → 현대 클라우드 네이티브의 절대적 보안 표준으로 정착"이라는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리 기술의 진화를 보여준다.
 

@@ -10,7 +10,7 @@ tags = ["studynote-algorithm"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리프 노드에만 저장**하고, 리프 노드끼리 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 연결하여 **순차 검색(Full Scan)** [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한 B-트리의 변형 구조임.
+- <strong>모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 리프 노드에만 저장</strong>하고, 리프 노드끼리 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 연결하여 **순차 검색(Full Scan)** [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한 B-트리의 변형 구조임.
 - 내부 노드(Internal Node)는 경로 안내를 위한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 역할만 수행하여 더 많은 키를 저장할 수 있어 트리의 높이가 더욱 낮아짐.
 - 현대의 관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDB) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 아키텍처에서 가장 널리 사용되는 표준 알고리즘임.
 
@@ -20,25 +20,29 @@ tags = ["studynote-algorithm"]
 - **핵심 차이:** B-트리는 모든 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담지만, B+트리는 오직 리프 노드에만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담고 내부 노드에는 키 값만 복사하여 배치함.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-```text
-[ B+Tree Architecture ]
-         [ 20 | 40 ]           <-- Index Set (Internal Node, Pointer Only)
-        /     |      \
- [10|15]   [25|30]   [45|50]   <-- Leaf Nodes (Actual Data)
-   |          |          |
- [D1->D2]-->[D3->D4]-->[D5->D6] <-- Sequence Set (Linked List Connection)
-```
-- **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 노드([Index Node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/)):** 자식 노드를 찾아가기 위한 가이드 역할만 수행. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 없음.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">B+Tree Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20 | 40</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Index Set (Internal Node, Pointer Only)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10|15</div><div class="kb-diagram-node">25|30</div><div class="kb-diagram-node">45|50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Leaf Nodes (Actual Data)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">D1-&gt;D2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D3-&gt;D4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D5-&gt;D6</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Sequence Set (Linked List Connection)</div></div>
+</div>
+</div>
+
+
+- <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 노드(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/">Index Node</a>):</strong> 자식 노드를 찾아가기 위한 가이드 역할만 수행. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 없음.
 - **리프 노드(Leaf Node):** 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(또는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드 주소)가 저장되며, 다음 리프 노드를 가리키는 포인터가 있어 수평적 이동이 가능함.
-- **범위 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Range Query):** 시작 키를 찾은 후 리프 노드 레벨에서 옆으로 쭉 이동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽음 ($O(\log n + k)$, $k$는 범위 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수).
+- <strong>범위 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>(Range Query):</strong> 시작 키를 찾은 후 리프 노드 레벨에서 옆으로 쭉 이동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽음 ($O(\log n + k)$, $k$는 범위 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수).
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | 비교 항목 | B-트리 ([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)) | B+트리 (B+Tree) |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장** | 모든 노드에 저장 | 리프 노드에만 저장 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 저장</strong> | 모든 노드에 저장 | 리프 노드에만 저장 |
 | **리프 연결** | 없음 (중위 순회 필요) | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결 (순차 탐색 유리) |
-| **탐색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 운 좋으면 루트에서 끝남 | 무조건 리프까지 내려가야 함 |
-| **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 크기** | 큼 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함) | 작음 (키만 포함, 더 많은 분기 가능) |
+| <strong>탐색 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 운 좋으면 루트에서 끝남 | 무조건 리프까지 내려가야 함 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 크기</strong> | 큼 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함) | 작음 (키만 포함, 더 많은 분기 가능) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **적용 사례:** MySQL InnoDB 엔진, SQL Server, IBM DB2 등 대부분의 RDBMS [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/).
@@ -55,21 +59,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[해시맵 (HashMap) — 완전 문자열 키 매칭, 접두사 검색 미지원]
-    │
-    ▼
-[이진 탐색 트리 (BST) — 문자열 사전 순서 탐색, 접두사 탐색 비효율]
-    │
-    ▼
-[트라이 (Trie) — 공유 접두사 경로로 O(L) 삽입·검색, 자동완성 최적화]
-    │
-    ▼
-[압축 트라이 (Radix/Patricia Tree) — 단일 자식 노드 병합으로 공간 최적화]
-    │
-    ▼
-[Aho-Corasick — 트라이 + 실패 링크(Failure Link)로 다중 패턴 O(N+M) 검색]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해시맵 (HashMap) — 완전 문자열 키 매칭, 접두사 검색 미지원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST) — 문자열 사전 순서 탐색, 접두사 탐색 비효율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie) — 공유 접두사 경로로 O(L) 삽입·검색, 자동완성 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축 트라이 (Radix/Patricia Tree) — 단일 자식 노드 병합으로 공간 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Aho-Corasick — 트라이 + 실패 링크(Failure Link)로 다중 패턴 O(N+M) 검색</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 완전 키 매칭 해시맵의 접두사 검색 한계에서 트라이가 탄생하고, 공간 효율을 위한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이와 다중 패턴 검색을 위한 Aho-Corasick으로 발전하는 문자열 탐색 자료구조의 진화 계보를 보여준다.
 

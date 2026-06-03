@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 시간적 지역성이 있을 때와 없을 때 캐시가 왜 달라지는지를 시간 축으로 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        같은 주소 재사용 여부가 캐시 효율을 가르는 시간 축 비교       │
-├──────────────────────────────────────────────────────────────────────┤
-│ 시간 순서   t1      t2      t3      t4      t5      t6               │
-│                                                                      │
-│ 지역성 높음  A  ─▶   B  ─▶   A  ─▶   C  ─▶   A  ─▶   B               │
-│             │              │              │                          │
-│             └──── 최근 사용 데이터가 다시 호출됨 ─────┘              │
-│                                                                      │
-│ 지역성 낮음  A  ─▶   Q  ─▶   Z  ─▶   M  ─▶   R  ─▶   T               │
-│                                                                      │
-│ 결과         A를 남겨둘 가치 큼                남겨둬도 다시 안 옴     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 주소 재사용 여부가 캐시 효율을 가르는 시간 축 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 순서 t1 t2 t3 t4 t5 t6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성 높음 A ─▶ B ─▶ A ─▶ C ─▶ A ─▶ B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 사용 데이터가 다시 호출됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성 낮음 A ─▶ Q ─▶ Z ─▶ M ─▶ R ─▶ T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 A를 남겨둘 가치 큼 남겨둬도 다시 안 옴</div></div>
+</div>
+</div>
+
+
 
 핵심은 캐시가 미래를 정확히 예언하지 못하더라도, "최근에 쓴 것은 또 쓸 가능성이 높다"는 경험 법칙 하나만으로도 합리적인 결정을 내릴 수 있다는 점이다. 이 성질이 약한 워크로드에서는 캐시 용량을 늘려도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 제한적이지만, 반복 재사용이 강한 워크로드에서는 작은 L1 캐시만으로도 큰 효과가 난다.
 
@@ -62,20 +61,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 시간적 지역성이 캐시 히트로 바뀌는 과정을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            최근성 기반 캐시 유지: 재참조가 빠르면 히트가 된다         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 접근 순서      1      2      3      4      5                         │
-│ 요청 주소      A      B      C      A      D                         │
-│                                                                      │
-│ 캐시 상태   [ A ]  [ A B ] [ A B C ] [ A B C ] [ A C D ]             │
-│                           (가득 참)    ▲                             │
-│                                         │                             │
-│ 4번째 접근 A  ──────────────────────────┘  → 재사용 간격 짧음 → HIT   │
-│ 5번째 접근 D  → 교체 필요 → 가장 오래된 B 축출                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근성 기반 캐시 유지: 재참조가 빠르면 히트가 된다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 순서 1 2 3 4 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 주소 A B C A D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">캐시 상태</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A B</div><div class="kb-diagram-node">A B C</div><div class="kb-diagram-node">A B C</div><div class="kb-diagram-node">A C D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가득 참) ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4번째 접근 A → 재사용 간격 짧음 → HIT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번째 접근 D → 교체 필요 → 가장 오래된 B 축출</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘 때문에 같은 코드라도 루프를 잘게 나누어 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짧은 시간 안에 반복 사용하면 훨씬 빨라진다. 반대로 한 번 읽고 오래 돌아서 다시 오는 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 캐시 밖으로 밀려났을 가능성이 높다. 고성능 행렬 연산에서 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이나 타일링 (Tiling)을 쓰는 이유도 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 한 번에 훑는 대신, 작은 조각을 짧은 시간에 집중 재사용하여 시간적 지역성을 인위적으로 강화하려는 데 있다.
 
@@ -108,14 +108,14 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)가 실제로 반복 재사용되는가?** 단순 조회량이 높아도 재참조 간격이 길면 시간적 지역성이 약하다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/">핫 데이터</a>가 실제로 반복 재사용되는가?</strong> 단순 조회량이 높아도 재참조 간격이 길면 시간적 지역성이 약하다.
 2. **작업 집합이 캐시나 메모리 용량 안에 들어오는가?** 재사용 대상이 너무 크면 최근성 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있어도 계속 밀려난다.
-3. **스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/)를 오염시키는가?** 한 번 읽고 버릴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 채우면 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축출된다.
+3. <strong>스트리밍 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/">핫 데이터</a>를 오염시키는가?</strong> 한 번 읽고 버릴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시를 채우면 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축출된다.
 
 ### 대표 시나리오
 
 - **루프 블로킹 적용**: 행렬 곱셈에서 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 그대로 도는 대신 블록 단위로 쪼개면, 같은 부분 행렬을 짧은 시간 안에 반복 사용하게 되어 시간적 지역성이 강화된다.
-- **핫 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 캐시 유지**: 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 토큰, 권한 정보, 장바구니처럼 몇 초~몇 분 안에 반복 조회되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메모리 캐시에 남길 가치가 크다.
+- <strong>핫 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 캐시 유지</strong>: 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 토큰, 권한 정보, 장바구니처럼 몇 초~몇 분 안에 반복 조회되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메모리 캐시에 남길 가치가 크다.
 - **배치 스캔 분리**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 분석, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 리플레이처럼 재사용성이 약한 대량 스캔은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 캐시와 분리하거나 우회해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -154,19 +154,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조의 지역성 (Locality of Reference)
-        │
-        ▼
-시간적 지역성 (Temporal Locality)
-        │
-        ├─▶ 최근성 기반 교체 정책
-        │      └─ LRU (Least Recently Used)
-        │
-        ├─▶ 작업 집합 (Working Set) · 스래싱 (Thrashing)
-        │
-        └─▶ 캐시 오염 제어 · RRIP (Re-Reference Interval Prediction)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조의 지역성 (Locality of Reference)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시간적 지역성 (Temporal Locality)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 최근성 기반 교체 정책</div>
+<div class="kb-diagram-note">─ LRU (Least Recently Used)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 작업 집합 (Working Set) · 스래싱 (Thrashing)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐시 오염 제어 · RRIP (Re-Reference Interval Prediction)</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 경험 법칙이 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 메모리 관리, 현대 예측형 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 확장되는 경로를 보여준다.
 

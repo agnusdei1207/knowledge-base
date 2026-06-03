@@ -35,26 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전력 게이팅이 단순 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나가 아니라, 상태 보존과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 함께 관리하는 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│           전력 게이팅 전원 도메인: 끄는 순간에도 질서를 유지해야 함       │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Main VDD ──▶ [Power Switch] ──▶ Virtual VDD ──▶ [Power-Gated Logic]     │
-│                    │                               │                      │
-│                    │                               ├─▶ SRAM / FF / ALU   │
-│                    │                               │                      │
-│ AON VDD ───────────┼──────────────▶ [Retention FF / AON SRAM]            │
-│                    │                                                      │
-│ AON Ctrl ──────────┼──────────────▶ [Isolation Cell Control]              │
-│                    │                                                      │
-│ Crossing Signals ──┴──────────────▶ [Isolation Cell] ──▶ Active Domain    │
-│                                                                          │
-│ Active 진입: Switch ON  → 전압 안정화 → Isolation 해제 → 상태 복원        │
-│ Sleep  진입: 상태 저장 → Isolation 설정 → Clock 차단 → Switch OFF         │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 구성요소는 네 가지다. 첫째, **전력 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 실제로 전원 경로를 차단한다. 둘째, **상태 보존 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)**는 필요한 문맥만 남겨 복귀 시간을 줄인다. 셋째, **아이솔레이션 셀 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Cell)**은 꺼진 블록의 출력이 부정확한 중간 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)으로 외부를 오염시키지 못하게 막는다. 넷째, **레벨 시프터 (Level Shifter)**는 서로 다른 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 안전하게 넘긴다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 게이팅 전원 도메인: 끄는 순간에도 질서를 유지해야 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Power Switch</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Power-Gated Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ SRAM / FF / ALU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Retention FF / AON SRAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Isolation Cell Control</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Isolation Cell</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Active Domain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active 진입: Switch ON → 전압 안정화 → Isolation 해제 → 상태 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sleep 진입: 상태 저장 → Isolation 설정 → Clock 차단 → Switch OFF</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 구성요소는 네 가지다. 첫째, <strong>전력 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 실제로 전원 경로를 차단한다. 둘째, <strong>상태 보존 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a></strong>는 필요한 문맥만 남겨 복귀 시간을 줄인다. 셋째, <strong>아이솔레이션 셀 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a> Cell)</strong>은 꺼진 블록의 출력이 부정확한 중간 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)으로 외부를 오염시키지 못하게 막는다. 넷째, <strong>레벨 시프터 (Level Shifter)</strong>는 서로 다른 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 안전하게 넘긴다.
 
 | 구성 요소 | 역할 | 설계 시 주의점 |
 | :-- | :-- | :-- |
@@ -63,7 +61,7 @@ tags = ["studynote-computer-architecture"]
 | 상태 보존 회로 ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) | 핵심 상태 저장 | 저장 대상 최소화, AON 전력 |
 | 레벨 시프터 (Level Shifter) | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간 변환 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가, 배치 복잡도 |
 
-실제 동작 순서는 중요하다. 전원을 바로 끄면 상태가 날아가고, 출력선이 떠서 인접 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 오류를 만들 수 있다. 그래서 일반적으로 **상태 저장 → 아이솔레이션 활성화 → 클럭 정지 → 전력 차단** 순으로 들어가고, 복귀할 때는 **전력 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) → [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 안정화 → 상태 복원 → 아이솔레이션 해제 → 클럭 재개** 순으로 움직인다. 즉 전력 게이팅은 "전원을 끄는 기술"이 아니라 "전원을 안전하게 끄고 다시 켜는 절차 기술"이다.
+실제 동작 순서는 중요하다. 전원을 바로 끄면 상태가 날아가고, 출력선이 떠서 인접 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 오류를 만들 수 있다. 그래서 일반적으로 **상태 저장 → 아이솔레이션 활성화 → 클럭 정지 → 전력 차단** 순으로 들어가고, 복귀할 때는 <strong>전력 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> → <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 안정화 → 상태 복원 → 아이솔레이션 해제 → 클럭 재개</strong> 순으로 움직인다. 즉 전력 게이팅은 "전원을 끄는 기술"이 아니라 "전원을 안전하게 끄고 다시 켜는 절차 기술"이다.
 
 **📢 섹션 요약 비유**: 전력 게이팅은 가게 문만 닫는 것이 아니라, 금고 잠그기·차단기 내리기·경비 모드 설정까지 한 번에 처리하는 폐점 절차와 같다. 순서를 틀리면 물건을 잃거나 경보가 울리듯, 회로도 저장·차단·복귀 순서가 맞아야 안전하다.
 
@@ -91,17 +89,19 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 가장 중요한 질문은 "이 블록을 껐을 때 정말 이득인가?"이다. 전력 게이팅은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 온오프 에너지, 상태 저장/복원 에너지, 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 비용을 먼저 지불한 뒤에야 절감 이익을 얻는다. 그래서 손익분기 시간인 Break-Even Time이 핵심 판단 기준이 된다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│             Break-Even 판단: 오래 쉴수록 전력 게이팅이 유리            │
-├───────────────────────────────────────────────────────────────────────┤
-│ 절감 에너지 = 유휴 시간 × 차단 가능한 누설 전력                       │
-│ 소모 에너지 = 상태 저장/복원 + 전원 스위치 전환 + 재기동 오버헤드      │
-│                                                                       │
-│ if  유휴 시간 > Break-Even Time  ──▶ Power Gating 적용                │
-│ else                              ──▶ Clock Gating 또는 DVFS 유지      │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Break-Even 판단: 오래 쉴수록 전력 게이팅이 유리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절감 에너지 = 유휴 시간 × 차단 가능한 누설 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소모 에너지 = 상태 저장/복원 + 전원 스위치 전환 + 재기동 오버헤드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if 유휴 시간 &gt; Break-Even Time ──▶ Power Gating 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">else ──▶ Clock Gating 또는 DVFS 유지</div></div>
+</div>
+</div>
+
+
 
 예를 들어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론 칩에서 영상 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 블록이 수 밀리초 이상 비활성 상태로 남는다면 전력 게이팅이 효과적이다. 반대로 CPU 코어가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 때문에 수백 나노초마다 깨어난다면, 전원 차단보다 [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)과 저전압 유지가 더 안전하다. 즉 절전율만 보고 선택하면 안 되고, 워크로드의 유휴 길이 분포와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 응답시간 목표를 같이 봐야 한다.
 
@@ -138,26 +138,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-동적 전력 중심 절감
-    │
-    ▼
-클럭 게이팅 (Clock Gating)
-    │
-    ▼
-정적 전력 문제 부각
-    │
-    ▼
-전력 도메인 분리 · 전력 게이팅 (Power Gating)
-    │
-    ├─▶ 상태 보존 (Retention) · 아이솔레이션 (Isolation)
-    │
-    ▼
-DVFS 연동 · 전원 인식 검증 (Power-Aware Verification)
-    │
-    ▼
-에너지 비례 컴퓨팅 (Energy-Proportional Computing)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동적 전력 중심 절감</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클럭 게이팅 (Clock Gating)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 전력 문제 부각</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전력 도메인 분리 · 전력 게이팅 (Power Gating)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 상태 보존 (Retention) · 아이솔레이션 (Isolation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS 연동 · 전원 인식 검증 (Power-Aware Verification)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">에너지 비례 컴퓨팅 (Energy-Proportional Computing)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

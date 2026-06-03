@@ -31,26 +31,27 @@ tags = ["studynote-cloud-architecture"]
 
 노드 어피니티는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 명세(Spec)에 작성되며, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이를 읽고 노드의 라벨과 연산자(`In`, `NotIn`, `Exists` 등)를 통해 조건을 평가한다. 가장 중요한 것은 조건의 '강도(Strength)'와 '실행 중 변경 시 처리 방법(Execution phase)'이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         Node Affinity: 스케줄러의 노드 필터링 및 점수화      │
-├──────────────────────────────────────────────────────────────┤
-│ [파드 생성 요청] ─▶ API Server ─▶ [Kube-Scheduler]          │
-│                                           │                  │
-│  1. Required (강제 필터링)                │                  │
-│     - 조건 불일치 노드는 후보에서 제외 ◀──┘                  │
-│                                           │                  │
-│  2. Preferred (선호도 점수화)             ▼                  │
-│     - 통과된 노드들에 가중치 합산 ───▶ [최고 점수 노드 선택] │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node Affinity: 스케줄러의 노드 필터링 및 점수화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파드 생성 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Scheduler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Required (강제 필터링)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 불일치 노드는 후보에서 제외 ◀──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Preferred (선호도 점수화) ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최고 점수 노드 선택</div></div>
+</div>
+</div>
+
+
 
 1. **강제 조건 (Required)**: `requiredDuringSchedulingIgnoredDuringExecution`
    - 스케줄링 시점에 **반드시** 만족해야 한다. 조건을 만족하는 노드가 없으면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 스케줄링되지 않는다(Pending).
 2. **선호 조건 (Preferred)**: `preferredDuringSchedulingIgnoredDuringExecution`
    - 스케줄링 시점에 **가급적** 만족하려고 시도한다. 각 조건에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(1~100)를 부여하며, 모든 조건을 만족하는 노드가 없더라도 가장 점수가 높은 노드에 차선으로 배치된다.
 3. **IgnoredDuringExecution**:
-   - 이미 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 노드에 배치되어 실행 중일 때 노드의 라벨이 변경되어 조건이 틀어지더라도, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아내지 않고 **무시**한다. (안정성 우선)
+   - 이미 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 노드에 배치되어 실행 중일 때 노드의 라벨이 변경되어 조건이 틀어지더라도, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아내지 않고 <strong>무시</strong>한다. (안정성 우선)
 
 - **📢 섹션 요약 비유**: 소개팅에서 "키 180cm 이상은 절대 포기 못해(Required)"라고 필터링한 후, 남은 사람들 중에서 "성격 좋은 사람(Preferred, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))"에게 점수를 매겨 최종 1명을 고르는 과정이다.
 
@@ -63,7 +64,7 @@ tags = ["studynote-cloud-architecture"]
 | 비교 항목 | 노드 어피니티 (Node [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)) | [테인트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/)와 톨러레이션 (Taints and Tolerations) |
 | :--- | :--- | :--- |
 | **주체와 방향** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ─▶ 노드 (끌어당김, Attraction) | 노드 ─▶ [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) (밀어냄, Repulsion) |
-| **목적** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 **특정 노드에** 배치하고 싶을 때 | 특정 노드에 **아무 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)나 들어오는 것을** 막을 때 |
+| **목적** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 **특정 노드에** 배치하고 싶을 때 | 특정 노드에 <strong>아무 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a>나 들어오는 것을</strong> 막을 때 |
 | **실패 시 결과** | 조건 불일치 시 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 배치 실패 | 톨러레이션 없으면 노드 진입 불가 |
 | **결합 사용** | "나는 전용 DB 서버에만 갈래" | "여기는 전용 DB 서버니 딴 놈들 오지마" |
 
@@ -79,7 +80,7 @@ tags = ["studynote-cloud-architecture"]
 
 1. **Required의 위험성**: 고가용성(HA)이 필요한 웹 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 `Required`로 특정 존(Zone)만 고집하게 만들면, 해당 존에 장애가 났을 때 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 다른 존으로 대피하지 못하고 서비스가 중단된다. 규제([데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/))나 물리적 장비([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))가 필수인 경우가 아니면 남용을 피해야 한다.
 2. **Preferred를 활용한 유연성**: 일반적인 워크로드는 `Preferred`를 사용하여 "[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 노드면 좋고, 꽉 차면 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 노드라도 가서 실행은 되게 해라"식으로 설계해야 장애 저항성이 높아진다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: `nodeSelector`와 `Node Affinity`를 섞어 쓰는 경우. 룰이 충돌하여 스케줄링 실패 원인을 파악하기 매우 어려워진다. 최신 스펙인 Affinity로 통일해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: `nodeSelector`와 `Node Affinity`를 섞어 쓰는 경우. 룰이 충돌하여 스케줄링 실패 원인을 파악하기 매우 어려워진다. 최신 스펙인 Affinity로 통일해야 한다.
 
 - **📢 섹션 요약 비유**: 깐깐한 조건(Required)만 고집하다간 묵을 방이 없어 길바닥에서 밤을 새우게 된다(Pending). 생존이 우선이라면 적당한 타협(Preferred)을 할 줄 알아야 진짜 인프라 고수다.
 
@@ -100,27 +101,29 @@ tags = ["studynote-cloud-architecture"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **NodeSelector** | 노드 어피니티 이전의 구형 스케줄링 유도 방식 (단순 매칭) |
-| **[Taint](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/) & Toleration** | 노드가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아내는 방어적 스케줄링 기법 (밀어내기) |
-| **[Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) / Anti-[Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/)** | 노드가 아닌 '[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간'의 관계를 따져 같이 띄울지 찢어놓을지 결정 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/106_taint_toleration_kubernetes_node_scheduling_repel/">Taint</a> &amp; Toleration</strong> | 노드가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 쫓아내는 방어적 스케줄링 기법 (밀어내기) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a> / Anti-<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a></strong> | 노드가 아닌 '[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간'의 관계를 따져 같이 띄울지 찢어놓을지 결정 |
 | **Label & Annotation** | 노드 어피니티가 판단의 기준으로 삼는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 키-값 쌍 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-NodeSelector (단순 라벨 매칭)
-    │
-    ▼
-Node Affinity (연산자, 강제/선호 조건 도입)
-    │
-    ▼
-Taint & Toleration (노드 차원의 방어선 구축)
-    │
-    ▼
-Pod Affinity / Anti-Affinity (파드 간 결합/분리 규칙 확장)
-    │
-    ▼
-Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NodeSelector (단순 라벨 매칭)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Node Affinity (연산자, 강제/선호 조건 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Taint &amp; Toleration (노드 차원의 방어선 구축)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pod Affinity / Anti-Affinity (파드 간 결합/분리 규칙 확장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

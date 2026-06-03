@@ -13,39 +13,40 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 종류의 기억장치에 두는 대신, **빠름·비쌈·소용량**과 **느림·저렴·대용량**을 층으로 나누어 조합하는 설계다.
+> 1. **본질**: [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 종류의 기억장치에 두는 대신, <strong>빠름·비쌈·소용량</strong>과 <strong>느림·저렴·대용량</strong>을 층으로 나누어 조합하는 설계다.
 > 2. **가치**: 이 구조는 프로그램의 [참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/) ([Locality of Reference](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))을 이용해, 사용자가 체감하는 평균 접근 시간을 상위 계층에 가깝게 끌어올리면서도 전체 용량 비용은 하위 계층 수준으로 억제한다.
-> 3. **판단 포인트**: 핵심은 “무조건 큰 메모리”가 아니라, **자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 위 계층에 오래 머무를 수 있는가**이며, 이 판단이 캐시 효율·[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 선택까지 연결된다.
+> 3. **판단 포인트**: 핵심은 “무조건 큰 메모리”가 아니라, <strong>자주 쓰는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 얼마나 위 계층에 오래 머무를 수 있는가</strong>이며, 이 판단이 캐시 효율·[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 선택까지 연결된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 캐시, 메인 메모리, 보조기억장치를 속도·용량·가격 기준으로 층층이 배치한 구조다. 위로 갈수록 CPU (Central Processing Unit)에 가깝고 빠르지만 비싸고 작으며, 아래로 갈수록 느리지만 저렴하고 크다. 이 구조의 목적은 단순하다. **CPU가 기다리는 시간을 줄이면서도 시스템 전체 비용은 감당 가능한 수준으로 유지하는 것**이다.
+[메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/) ([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/))는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 캐시, 메인 메모리, 보조기억장치를 속도·용량·가격 기준으로 층층이 배치한 구조다. 위로 갈수록 CPU (Central Processing Unit)에 가깝고 빠르지만 비싸고 작으며, 아래로 갈수록 느리지만 저렴하고 크다. 이 구조의 목적은 단순하다. <strong>CPU가 기다리는 시간을 줄이면서도 시스템 전체 비용은 감당 가능한 수준으로 유지하는 것</strong>이다.
 
-이 계층이 필요한 이유는 하나의 메모리 기술로 세 가지 목표를 동시에 만족시킬 수 없기 때문이다. Static Random Access Memory ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))는 매우 빠르지만 집적도가 낮아 비싸고, Dynamic Random Access Memory ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))는 상대적으로 싸고 크지만 SRAM보다 느리다. [Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))나 Hard Disk Drive ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))는 훨씬 큰 용량을 제공하지만 CPU가 직접 실시간으로 쓰기에는 너무 느리다. 결국 컴퓨터는 “가장 빠른 것 하나”를 고르는 대신, **서로 다른 성질의 메모리를 역할 분담시키는 방향**으로 진화했다.
+이 계층이 필요한 이유는 하나의 메모리 기술로 세 가지 목표를 동시에 만족시킬 수 없기 때문이다. Static Random Access Memory ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))는 매우 빠르지만 집적도가 낮아 비싸고, Dynamic Random Access Memory ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))는 상대적으로 싸고 크지만 SRAM보다 느리다. [Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))나 Hard Disk Drive ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))는 훨씬 큰 용량을 제공하지만 CPU가 직접 실시간으로 쓰기에는 너무 느리다. 결국 컴퓨터는 “가장 빠른 것 하나”를 고르는 대신, <strong>서로 다른 성질의 메모리를 역할 분담시키는 방향</strong>으로 진화했다.
 
 특히 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 속도가 메모리 지연시간 개선 속도보다 빨라지면서 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))이 심각해졌다. 연산기는 몇 나노초(ns) 안에 계산을 끝내는데 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수십~수백 ns 뒤에 도착하면, 비싼 CPU는 계산보다 대기 시간이 더 길어진다. [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)는 이 병목을 완전히 제거하지는 못하지만, 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위 계층에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 두어 기다림을 대부분 숨긴다.
 
 아래 그림은 메모리 계층이 왜 “한 방향으로 갈수록 좋기만 한 구조”가 아니라, 상충하는 속성과 비용을 균형화한 구조인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        Memory Hierarchy: latency, capacity, cost trade-off  │
-├──────────────┬───────────────┬──────────────┬───────────────┤
-│ Level        │ Typical speed │ Capacity     │ Cost per bit  │
-├──────────────┼───────────────┼──────────────┼───────────────┤
-│ Register     │ fastest       │ very tiny    │ highest       │
-│ Cache        │ very fast     │ small        │ very high     │
-│ Main Memory  │ moderate      │ medium/large │ medium        │
-│ SSD / HDD    │ slowest       │ very large   │ lowest        │
-└──────────────┴───────────────┴──────────────┴───────────────┘
 
-위로 갈수록  CPU에 가까움 / 지연시간 감소 / 비용 증가
-아래로 갈수록  CPU에서 멀어짐 / 용량 증가   / 비용 감소
-```
 
-이 표의 핵심은 “위 계층이 항상 우월하다”가 아니라, **위 계층은 속도를 사고 아래 계층은 용량을 산다**는 점이다. 그래서 계층 구조의 설계 포인트는 각 계층의 장점을 그대로 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 규칙으로 단점을 상쇄하는 데 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Hierarchy: latency, capacity, cost trade-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level</div><div class="kb-diagram-cell">Typical speed</div><div class="kb-diagram-cell">Capacity</div><div class="kb-diagram-cell">Cost per bit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register</div><div class="kb-diagram-cell">fastest</div><div class="kb-diagram-cell">very tiny</div><div class="kb-diagram-cell">highest</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">very fast</div><div class="kb-diagram-cell">small</div><div class="kb-diagram-cell">very high</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">moderate</div><div class="kb-diagram-cell">medium/large</div><div class="kb-diagram-cell">medium</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD / HDD</div><div class="kb-diagram-cell">slowest</div><div class="kb-diagram-cell">very large</div><div class="kb-diagram-cell">lowest</div></div>
+<div class="kb-diagram-note">위로 갈수록 CPU에 가까움 / 지연시간 감소 / 비용 증가</div>
+<div class="kb-diagram-note">아래로 갈수록 CPU에서 멀어짐 / 용량 증가 / 비용 감소</div>
+</div>
+</div>
+
+
+
+이 표의 핵심은 “위 계층이 항상 우월하다”가 아니라, <strong>위 계층은 속도를 사고 아래 계층은 용량을 산다</strong>는 점이다. 그래서 계층 구조의 설계 포인트는 각 계층의 장점을 그대로 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 규칙으로 단점을 상쇄하는 데 있다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 집 안 수납 구조와 같다. 당장 쓰는 펜은 손 닿는 책상 위에 두고, 오늘 볼 책은 책장에, 계절 지난 짐은 창고에 둔다. 모든 물건을 책상 위에 올릴 수는 없지만, 필요한 것을 가까운 곳에 두면 생활 속도가 훨씬 빨라진다.
 
@@ -53,7 +54,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 계층이 실제로 동작하는 핵심 원리는 두 가지다. 첫째, CPU는 항상 가장 가까운 계층부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는다. 둘째, 한 번 찾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 상위 계층에 복사해 두어 다음 접근을 더 빠르게 만든다. 즉, 계층 구조는 단순 저장소 목록이 아니라 **탐색 순서와 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 정책이 포함된 동적 구조**다.
+메모리 계층이 실제로 동작하는 핵심 원리는 두 가지다. 첫째, CPU는 항상 가장 가까운 계층부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는다. 둘째, 한 번 찾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 상위 계층에 복사해 두어 다음 접근을 더 빠르게 만든다. 즉, 계층 구조는 단순 저장소 목록이 아니라 <strong>탐색 순서와 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 정책이 포함된 동적 구조</strong>다.
 
 | 계층 | 대표 기술 | 대략적 지연시간 | 전송 단위 | 주된 관리 주체 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -62,31 +63,30 @@ tags = ["studynote-computer-architecture"]
 | 메인 메모리 (Main Memory) | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | 수십 ~ 수백 ns | 블록/[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 일부 | 메모리 컨트롤러 + [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
 | 보조기억장치 (Storage) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | 마이크로초~밀리초 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/블록 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) + [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 |
 
-여기서 중요한 것은 **전송 단위가 계층마다 다르다**는 점이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 필요한 값 하나를 직접 다루지만, 캐시는 보통 수십 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 캐시 라인을 가져오고, 메인 메모리와 스토리지 사이에서는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 이동이 일어난다. 이는 “어차피 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 곧 쓸 가능성이 높다”는 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))을 활용하기 위한 설계다.
+여기서 중요한 것은 <strong>전송 단위가 계층마다 다르다</strong>는 점이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 필요한 값 하나를 직접 다루지만, 캐시는 보통 수십 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 캐시 라인을 가져오고, 메인 메모리와 스토리지 사이에서는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 이동이 일어난다. 이는 “어차피 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 곧 쓸 가능성이 높다”는 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))을 활용하기 위한 설계다.
 
 다음 그림은 CPU 요청이 계층을 따라 내려가고, 찾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 위로 올리며 평균 접근 시간을 줄이는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          Read path: search upward, fetch downward            │
-├──────────────────────────────────────────────────────────────┤
-│ CPU request                                                  │
-│    │                                                         │
-│    ▼                                                         │
-│ Register / L1 Cache ? ── hit ───────────────▶ return quickly │
-│    │ miss                                                    │
-│    ▼                                                         │
-│ Lower Cache / DRAM ? ── hit ───────────────▶ copy upward     │
-│    │ miss                                                    │
-│    ▼                                                         │
-│ SSD / HDD access     ───────────────────────▶ load to DRAM   │
-│                                              then refill up  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 과정에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명할 때 자주 쓰는 값이 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)이다. 개념적으로는 `평균 접근 시간 = 히트 시간 + 미스율 × 미스 패널티`로 볼 수 있다. 즉 캐시는 단지 “빠른 저장소”가 아니라, 미스가 드물다는 전제 아래 전체 평균을 낮추는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 장치다. 그래서 캐시 용량, 연관도, 교체 정책보다 더 근본적인 질문은 **프로그램이 지역성을 보이느냐**다.
 
-또 하나 기억할 점은, 모든 상위 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 항상 엄격한 포함 관계를 가지는 것은 아니라는 점이다. 일부 프로세서는 inclusive, exclusive, non-inclusive 정책을 섞어서 사용한다. 따라서 메모리 계층의 본질은 “항상 똑같이 복사된다”가 아니라, **상위 계층이 하위 계층보다 더 빠른 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 후보 공간이라는 것**에 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read path: search upward, fetch downward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register / L1 Cache ? ── hit ▶ return quickly</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lower Cache / DRAM ? ── hit ▶ copy upward</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD / HDD access ▶ load to DRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then refill up</div></div>
+</div>
+</div>
+
+
+
+이 과정에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명할 때 자주 쓰는 값이 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)이다. 개념적으로는 `평균 접근 시간 = 히트 시간 + 미스율 × 미스 패널티`로 볼 수 있다. 즉 캐시는 단지 “빠른 저장소”가 아니라, 미스가 드물다는 전제 아래 전체 평균을 낮추는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 장치다. 그래서 캐시 용량, 연관도, 교체 정책보다 더 근본적인 질문은 <strong>프로그램이 지역성을 보이느냐</strong>다.
+
+또 하나 기억할 점은, 모든 상위 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 항상 엄격한 포함 관계를 가지는 것은 아니라는 점이다. 일부 프로세서는 inclusive, exclusive, non-inclusive 정책을 섞어서 사용한다. 따라서 메모리 계층의 본질은 “항상 똑같이 복사된다”가 아니라, <strong>상위 계층이 하위 계층보다 더 빠른 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>본 후보 공간이라는 것</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 식당의 준비 동선과 같다. 손님이 주문하면 먼저 조리대 옆 재료통을 보고, 없으면 냉장고를 열고, 그래도 없으면 창고까지 간다. 그리고 창고에서 재료를 가져왔으면 다음 주문을 위해 조리대 가까이에 일부를 다시 올려둔다.
 
@@ -94,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-메모리 계층을 제대로 이해하려면 “각 계층이 무엇이냐”보다 “왜 서로 다른 기술이 공존하느냐”를 비교해야 한다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 캐시는 CPU 실행을 직접 지원하는 초근접 계층이고, 메인 메모리는 실행 중인 프로그램의 작업 공간이며, 스토리지는 장기 보존과 대용량 제공이 목적이다. 따라서 이들은 단순 상하 관계가 아니라 **서로 다른 비용 구조와 사용 시간축을 가진 계층**이다.
+메모리 계층을 제대로 이해하려면 “각 계층이 무엇이냐”보다 “왜 서로 다른 기술이 공존하느냐”를 비교해야 한다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 캐시는 CPU 실행을 직접 지원하는 초근접 계층이고, 메인 메모리는 실행 중인 프로그램의 작업 공간이며, 스토리지는 장기 보존과 대용량 제공이 목적이다. 따라서 이들은 단순 상하 관계가 아니라 <strong>서로 다른 비용 구조와 사용 시간축을 가진 계층</strong>이다.
 
 | 비교 축 | 상위 계층 ([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)/캐시) | 하위 계층 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) |
 | :--- | :--- | :--- |
@@ -106,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 
 이 비교가 중요한 이유는, 캐시와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 사실상 같은 철학의 다른 구현이기 때문이다. 캐시는 DRAM을 더 빠르게 보이게 하고, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))는 스토리지를 더 크게 보이게 한다. 전자는 주로 하드웨어가 자동으로 관리하고, 후자는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 통해 관리한다. 하지만 두 경우 모두 핵심은 동일하다. **자주 필요한 작업 집합만 빠른 계층에 유지하고, 나머지는 아래에 둔다.**
 
-소프트웨어 설계와도 직접 연결된다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)에 유리해 캐시 친화적이지만, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))는 노드가 메모리 여기저기에 흩어질 수 있어 캐시 미스가 늘기 쉽다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 버퍼 풀 (Buffer Pool), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시, 콘텐츠 전송 네트워크인 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network)도 본질적으로는 같은 계층화 사고를 확장한 사례다. 즉 메모리 계층은 하드웨어 장치 설명이면서 동시에 **컴퓨터공학 전반의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계 원리**다.
+소프트웨어 설계와도 직접 연결된다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)에 유리해 캐시 친화적이지만, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))는 노드가 메모리 여기저기에 흩어질 수 있어 캐시 미스가 늘기 쉽다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 버퍼 풀 (Buffer Pool), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시, 콘텐츠 전송 네트워크인 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network)도 본질적으로는 같은 계층화 사고를 확장한 사례다. 즉 메모리 계층은 하드웨어 장치 설명이면서 동시에 <strong>컴퓨터공학 전반의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 설계 원리</strong>다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 회사의 문서 체계와 같다. 당장 결재할 서류는 팀장 책상에, 이번 주 업무 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 부서 캐비닛에, 오래 보관할 문서는 중앙 문서고에 둔다. 어디에 무엇을 둘지 구분해야 빠름과 정리를 동시에 얻는다.
 
@@ -114,7 +114,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)는 “이론적으로 존재하는 층”이 아니라, 응답시간과 비용을 가르는 실제 설계 기준이다. 예를 들어 같은 계산량이라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시에 잘 머무르면 CPU 사용률이 높게 나오고, 그렇지 않으면 연산기가 계속 메모리를 기다리며 멈춘다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝은 종종 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도보다 **워킹셋 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 크기와 접근 패턴을 바꾸는 일**에 가깝다.
+실무에서 [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)는 “이론적으로 존재하는 층”이 아니라, 응답시간과 비용을 가르는 실제 설계 기준이다. 예를 들어 같은 계산량이라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시에 잘 머무르면 CPU 사용률이 높게 나오고, 그렇지 않으면 연산기가 계속 메모리를 기다리며 멈춘다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝은 종종 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도보다 <strong>워킹셋 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 크기와 접근 패턴을 바꾸는 일</strong>에 가깝다.
 
 대표적인 사례가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회와 포인터 추적의 차이다. 대규모 행렬 연산, 영상 처리, 게임 엔진, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론에서는 연속 메모리 접근이 캐시 라인을 효율적으로 소비한다. 반대로 객체가 흩어진 구조나 잦은 랜덤 접근은 같은 O(n) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 실제 시간은 크게 악화된다. 기술사 관점에서는 “복잡도는 같아도 메모리 계층 친화성은 다르다”는 판단을 분명히 말해야 한다.
 
@@ -138,9 +138,9 @@ tags = ["studynote-computer-architecture"]
 
 [메모리 계층 구조](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)의 가장 큰 효과는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 시스템 경제성을 동시에 확보한다는 점이다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 최고속 메모리에 둘 수는 없지만, 계층 구조를 잘 설계하면 사용자는 상당수 작업에서 “메모리가 충분히 빠르다”는 환상을 얻는다. 이 환상 덕분에 범용 컴퓨터는 고성능 연산과 대용량 저장을 동시에 제공할 수 있었다.
 
-다만 한계도 분명하다. 지역성이 약한 워크로드에서는 캐시 효과가 낮고, 워킹셋이 메인 메모리를 넘어서면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)와 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 급증한다. 멀티코어 환경에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 비용이 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 구조를 넘나들면 같은 DRAM이라도 접근 시간이 달라진다. 즉 계층 구조는 만능 해결책이 아니라, **패턴이 맞을 때 매우 강력한 최적화 장치**다.
+다만 한계도 분명하다. 지역성이 약한 워크로드에서는 캐시 효과가 낮고, 워킹셋이 메인 메모리를 넘어서면 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)와 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 급증한다. 멀티코어 환경에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 비용이 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 구조를 넘나들면 같은 DRAM이라도 접근 시간이 달라진다. 즉 계층 구조는 만능 해결책이 아니라, <strong>패턴이 맞을 때 매우 강력한 최적화 장치</strong>다.
 
-앞으로의 확장 방향도 이 원리의 연장선에 있다. [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))는 더 가까운 고대역 메모리 계층을 제공하고, [Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/))는 메모리 풀을 확장해 계층 경계를 유연하게 만든다. [스토리지 클래스 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/) (Storage Class Memory) 계열 기술은 DRAM과 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사이의 간극을 메우려 한다. 결국 기술이 바뀌어도 기억해야 할 관점은 같다. **메모리 계층은 장치 이름의 목록이 아니라, 속도·용량·비용의 불가능한 삼각형을 운영 가능한 구조로 바꾸는 아키텍처적 타협**이다.
+앞으로의 확장 방향도 이 원리의 연장선에 있다. [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))는 더 가까운 고대역 메모리 계층을 제공하고, [Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/))는 메모리 풀을 확장해 계층 경계를 유연하게 만든다. [스토리지 클래스 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/) (Storage Class Memory) 계열 기술은 DRAM과 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사이의 간극을 메우려 한다. 결국 기술이 바뀌어도 기억해야 할 관점은 같다. <strong>메모리 계층은 장치 이름의 목록이 아니라, 속도·용량·비용의 불가능한 삼각형을 운영 가능한 구조로 바꾸는 아키텍처적 타협</strong>이다.
 
 - **📢 섹션 요약 비유**: 메모리 계층은 고속철, 시내버스, 도보를 함께 쓰는 도시 교통망과 같다. 모든 길을 고속철로 만들 수는 없지만, 각 수단을 적절히 이어 붙이면 도시 전체는 훨씬 효율적으로 움직인다.
 
@@ -159,25 +159,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 기억장치 한계
-    │
-    ▼
-메모리 벽 (Memory Wall)
-    │
-    ▼
-메모리 계층 구조 (Memory Hierarchy)
-    │
-    ├─▶ 캐시 메모리 (Cache Memory)
-    │        │
-    │        ├─▶ 캐시 히트/미스 (Cache Hit/Miss)
-    │        └─▶ AMAT (Average Memory Access Time)
-    │
-    └─▶ 가상 메모리 (Virtual Memory)
-             │
-             ├─▶ 워킹셋 (Working Set)
-             └─▶ 스래싱 (Thrashing)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 기억장치 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 벽 (Memory Wall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 계층 구조 (Memory Hierarchy)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 메모리 (Cache Memory)</div>
+<div class="kb-diagram-note">─▶ 캐시 히트/미스 (Cache Hit/Miss)</div>
+<div class="kb-diagram-note">─▶ AMAT (Average Memory Access Time)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 가상 메모리 (Virtual Memory)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 워킹셋 (Working Set)</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 스래싱 (Thrashing)</div>
+</div>
+</div>
+
+
 
 이 흐름은 “속도 격차 인식 → 계층화 도입 → 캐시 최적화와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 확장”으로 이어지는 사고의 확장 순서를 보여준다.
 

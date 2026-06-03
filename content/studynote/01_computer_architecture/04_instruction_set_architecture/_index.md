@@ -17,33 +17,29 @@ tags = ["computer_architecture"]
 
 ### ISA: 하드웨어와 소프트웨어의 교차로
 
-컴퓨터 아키텍처에서 가장 중요한 개념 중 하나는 **ISA (Instruction Set Architecture)**이다. 소프트웨어 (컴파일러, OS)는 하드웨어가 어떤 명령어를 수행할 수 있는지 알아야 하고, 하드웨어 (CPU 설계자)는 소프트웨어가 어떤 명령어를 내릴지 알아야 한다. ISA는 이 양측이 합의한 규격서와 같다.
+컴퓨터 아키텍처에서 가장 중요한 개념 중 하나는 <strong>ISA (Instruction Set Architecture)</strong>이다. 소프트웨어 (컴파일러, OS)는 하드웨어가 어떤 명령어를 수행할 수 있는지 알아야 하고, 하드웨어 (CPU 설계자)는 소프트웨어가 어떤 명령어를 내릴지 알아야 한다. ISA는 이 양측이 합의한 규격서와 같다.
 
-ISA가 필요한 이유는 세 가지이다. 첫째, **호환성 (Compatibility)**을 유지하기 위해서이다. ISA가 같으면 하부 마이크로아키텍처 (파이프라인, 캐시 크기 등)가 바뀌어도 기존 소프트웨어를 그대로 실행할 수 있다. 둘째, **추상화 (Abstraction)**를 통해 개발자가 물리적 회로를 몰라도 프로그래밍할 수 있게 하기 위해서이며, 셋째, **하드웨어 제어권**을 명확히 정의하여 시스템 보안과 안정성을 확보하기 위함이다.
+ISA가 필요한 이유는 세 가지이다. 첫째, <strong>호환성 (Compatibility)</strong>을 유지하기 위해서이다. ISA가 같으면 하부 마이크로아키텍처 (파이프라인, 캐시 크기 등)가 바뀌어도 기존 소프트웨어를 그대로 실행할 수 있다. 둘째, <strong>추상화 (Abstraction)</strong>를 통해 개발자가 물리적 회로를 몰라도 프로그래밍할 수 있게 하기 위해서이며, 셋째, <strong>하드웨어 제어권</strong>을 명확히 정의하여 시스템 보안과 안정성을 확보하기 위함이다.
 
 이 그림은 ISA가 컴퓨터 시스템 계층 구조에서 차지하는 독보적인 위치를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              The Role of ISA in Computing Stack             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Software ] : C, Java, Python, OS                        │
-│          │                                                  │
-│   =======▼================================================  │
-│   [ ISA ] : x86, ARM, RISC-V (The Interface)                │
-│   =======▲================================================  │
-│          │                                                  │
-│   [ Hardware ] : Pipeline, Cache, Logic Gates               │
-│                                                             │
-│   * ISA가 정의하는 것들:                                    │
-│     1. 명령어 (Add, Load, Jump...)                          │
-│     2. 레지스터 (Size, Number)                              │
-│     3. 데이터 타입 (Integer, Floating point)                │
-│     4. 메모리 주소 지정 방식 (Addressing Modes)             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Role of ISA in Computing Stack</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Software</div><div class="kb-diagram-note">: C, Java, Python, OS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISA</div><div class="kb-diagram-note">: x86, ARM, RISC-V (The Interface)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware</div><div class="kb-diagram-note">: Pipeline, Cache, Logic Gates</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ISA가 정의하는 것들:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령어 (Add, Load, Jump...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 레지스터 (Size, Number)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 타입 (Integer, Floating point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 메모리 주소 지정 방식 (Addressing Modes)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '불변의 계약'이다. 하드웨어가 5nm에서 3nm로 미세화되어도 ISA가 x86으로 유지된다면, 10년 전 작성된 엑셀 프로그램은 여전히 돌아간다. 실무에서는 이러한 ISA의 영속성이 거대한 소프트웨어 생태계를 지탱하는 힘이 된다.
 
@@ -83,26 +79,22 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 4. **Indirect**: 포인터와 같이, 주소의 주소를 찾아감.
 5. **Base-plus-Index**: 배열 접근 등에 유리한 상대 주소 방식.
 
-이 구조도는 RISC 아키텍처의 핵심인 **Load/Store Architecture**를 보여준다.
+이 구조도는 RISC 아키텍처의 핵심인 <strong>Load/Store Architecture</strong>를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 RISC Load/Store Architecture Flow           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Memory ] ────(Load)────▶ [ Registers ]                  │
-│                                     │                       │
-│                                     ▼                       │
-│   [ Result ] ◀───(ALU Op)─── [ Compute Unit ]               │
-│       │                             ▲                       │
-│       │                             │                       │
-│       └──────────(Store)────────────┘                       │
-│                                                             │
-│   * 핵심: 연산은 오직 레지스터 간에만 발생함                │
-│   * 효과: 파이프라이닝 최적화가 매우 용이함                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC Load/Store Architecture Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Registers</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Result</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Compute Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 연산은 오직 레지스터 간에만 발생함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 파이프라이닝 최적화가 매우 용이함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '역할의 분리'이다. 메모리에서 데이터를 가져오는 일(Load)과 실제 계산하는 일(ALU Op)을 철저히 분리함으로써, CPU의 각 단계를 공장 컨베이어 벨트처럼 일정하게 돌릴 수 있다. 실무에서 RISC 기반의 ARM이 저전력 고효율을 내는 비결이 바로 이 단순함에 있다.
 
@@ -114,7 +106,7 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 
 ### 현대 ISA의 수렴: CISC inside RISC
 
-오늘날 x86 (Intel/AMD)은 겉으로는 CISC이지만, 내부적으로는 복잡한 명령어를 작은 **u-ops (Micro-operations)**로 쪼개어 RISC 방식으로 처리한다.
+오늘날 x86 (Intel/AMD)은 겉으로는 CISC이지만, 내부적으로는 복잡한 명령어를 작은 <strong>u-ops (Micro-operations)</strong>로 쪼개어 RISC 방식으로 처리한다.
 
 - **Synergy**: CISC의 우수한 코드 밀도와 RISC의 뛰어난 파이프라이닝 성능을 동시에 취하려는 하이브리드 전략이다.
 - **파급 효과**: 이로 인해 x86 서버도 높은 클럭과 병렬성을 확보할 수 있게 되었으나, 디코딩 단계의 전력 소모가 ARM 대비 높다는 숙명적 단점을 안게 되었다.
@@ -141,21 +133,21 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 
 이 도식은 ISA 전환 시 기술사가 고려해야 할 소프트웨어 이식성 (Portability) 체크리스트를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               ISA Migration Complexity Matrix               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Level 1: Scripting ] (Python, JS) -> Easy (Interpreter) │
-│   [ Level 2: Managed ] (Java, C#)     -> Medium (VM/JIT)    │
-│   [ Level 3: Native ] (C, C++, Rust)  -> Hard (Recompile)   │
-│   [ Level 4: Assembly ] (Inline Asm)  -> Critical (Rewrite) │
-│                                                             │
-│   * 핵심 판단: 하드웨어 비용 절감이 소프트웨어 재작성 비용을  │
-│     상쇄할 수 있는가? (TCO 분석 필수)                       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA Migration Complexity Matrix</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Scripting</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Easy (Interpreter)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Managed</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Medium (VM/JIT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: Native</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Hard (Recompile)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: Assembly</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Critical (Rewrite)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 하드웨어 비용 절감이 소프트웨어 재작성 비용을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상쇄할 수 있는가? (TCO 분석 필수)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 ISA 판단은 '철도 궤간(표준)의 선택'과 같습니다. 한 번 깔린 철로(ISA)를 바꾸는 것은 엄청난 비용이 들지만, 더 넓고 빠른 새 철로가 미래 경쟁력을 보장한다면 과감히 환승역(에뮬레이션/재컴파일)을 만들어야 합니다.
 
@@ -170,7 +162,7 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 
 ### 결론: 소프트웨어 정의 하드웨어 (Software-Defined Hardware)
 
-미래의 ISA는 고정된 규격에 소프트웨어를 맞추는 시대를 지나, 소프트웨어의 특성에 맞춰 하드웨어가 변하는 **DSA (Domain Specific Architecture)** 시대로 나아가고 있다. 기술사는 단순한 ISA 명세 암기를 넘어, **컴파일러-ISA-마이크로아키텍처**로 이어지는 수직적 결합 (Vertical Integration)을 이해하고 최적화할 수 있는 '풀스택 시스템 아키텍트'가 되어야 한다.
+미래의 ISA는 고정된 규격에 소프트웨어를 맞추는 시대를 지나, 소프트웨어의 특성에 맞춰 하드웨어가 변하는 **DSA (Domain Specific Architecture)** 시대로 나아가고 있다. 기술사는 단순한 ISA 명세 암기를 넘어, <strong>컴파일러-ISA-마이크로아키텍처</strong>로 이어지는 수직적 결합 (Vertical Integration)을 이해하고 최적화할 수 있는 '풀스택 시스템 아키텍트'가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 ISA는 '변신 로봇'과 같아질 것입니다. 우리가 어떤 게임(소프트웨어)을 하느냐에 따라 로봇이 축구선수나 요리사로 변신하여 가장 잘 어울리는 동작(명령어)을 수행하는 지능형 인터페이스가 완성될 것입니다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스페이스 기반 아키텍처의 투플 맵핑 구조는 비즈니스 객체를 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 형태로 분해해 공간(Space) 안에서 **패턴 매칭·[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)**가 가능하도록 정규화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 규칙이다.
+> 1. **본질**: 스페이스 기반 아키텍처의 투플 맵핑 구조는 비즈니스 객체를 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(Tuple) 형태로 분해해 공간(Space) 안에서 <strong>패턴 매칭·<a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>·<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong>가 가능하도록 정규화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 규칙이다.
 > 2. **가치**: 객체를 그대로 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 던지는 것보다 조회 경계와 처리 경계를 명확히 해, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드 간 충돌을 줄이고 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)(Locality)을 높인다.
 > 3. **판단 포인트**: 좋은 투플 맵핑은 업무 키, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키, 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 함께 설계돼야 하며, 이 중 하나라도 틀리면 Hot Spot·유실·조회 실패가 연쇄적으로 발생한다.
 
@@ -21,7 +21,7 @@ tags = ["studynote-design-supervision"]
 
 스페이스 기반 아키텍처에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 빠르다고 해서 자동으로 잘 동작하는 것은 아니다. 여러 처리 유닛이 같은 공간을 공유하는 순간, “어떤 형식으로 저장하고 어떤 조건으로 찾을 것인가”가 곧 성능과 정합성의 핵심이 된다. 이때 사용하는 설계가 투플 맵핑 구조다. 린다(Linda) 모델의 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 스페이스에서 출발한 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 필드 단위로 나눠 저장하고 템플릿(template) 조건으로 읽거나 가져가는 방식이다.
 
-비즈니스 객체를 직렬화한 덩어리 그대로 저장하면 노드 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기준이 모호해지고, 부분 검색이나 [affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 배치도 어려워진다. 반면 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 구조로 맵핑하면 `업무종류`, `affinityKey`, `businessKey`, `version`, `payload`, `TTL (Time To Live)` 같은 필드를 기준으로 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·만료·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 분리해서 설계할 수 있다. 결국 투플 맵핑은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 문제가 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리에서 질서를 만드는 주소 체계**다.
+비즈니스 객체를 직렬화한 덩어리 그대로 저장하면 노드 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기준이 모호해지고, 부분 검색이나 [affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) 배치도 어려워진다. 반면 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 구조로 맵핑하면 `업무종류`, `affinityKey`, `businessKey`, `version`, `payload`, `TTL (Time To Live)` 같은 필드를 기준으로 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·만료·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 분리해서 설계할 수 있다. 결국 투플 맵핑은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷 문제가 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메모리에서 질서를 만드는 주소 체계</strong>다.
 
 특히 주문, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 게임 룸, 경매 입찰처럼 특정 키 기준으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 처리를 같은 노드에 모아야 하는 워크로드에서는 투플 맵핑의 품질이 전체 시스템의 성패를 좌우한다. 잘 설계하면 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)이 높아지고 네트워크 홉이 줄지만, 잘못 설계하면 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에만 부하가 몰린다.
 
@@ -35,24 +35,22 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 과정에서 투플 맵핑이 어떤 역할을 하는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                   Space-Based Tuple Mapping의 저장/조회 흐름                │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Producer                                                                    │
-│    │                                                                         │
-│    ▼                                                                         │
-│ [Tuple Mapper] ──▶ (Type, AffinityKey, BusinessKey, Version, TTL, Payload) │
-│    │                                                                         │
-│    ├── hash(AffinityKey) ──▶ [Primary Partition] ──▶ [Backup Partition]     │
-│    │                                                                         │
-│    └── template(Type + BusinessKey) ──▶ [Matcher] ──▶ [Processing Unit]     │
-│                                                                              │
-│ Read  : read(template)  = 조회만 수행                                        │
-│ Take  : take(template)  = 조회 후 공간에서 제거                              │
-│ Notify: notify(template)= 조건 일치 시 이벤트 통지                           │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Space-Based Tuple Mapping의 저장/조회 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tuple Mapper</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Type, AffinityKey, BusinessKey, Version, TTL, Payload)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Primary Partition</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Backup Partition</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Matcher</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Processing Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read : read(template) = 조회만 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Take : take(template) = 조회 후 공간에서 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notify: notify(template)= 조건 일치 시 이벤트 통지</div></div>
+</div>
+</div>
+
+
 
 | 필드 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -71,7 +69,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-투플 맵핑은 메시지 큐, [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/), 객체 캐시와 비슷해 보이지만 목적이 다르다. 메시지 큐는 시간 순서의 전달이 핵심이고, [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)는 단일 키 기반 조회가 핵심이다. 반면 투플 맵핑은 **공유 공간 안에서 조건 기반 매칭과 처리자 배치까지 함께 다루는 구조**다. 그래서 단순 캐시보다 표현력이 높고, 메시지 큐보다 상태 보관 능력이 강하다.
+투플 맵핑은 메시지 큐, [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/), 객체 캐시와 비슷해 보이지만 목적이 다르다. 메시지 큐는 시간 순서의 전달이 핵심이고, [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)는 단일 키 기반 조회가 핵심이다. 반면 투플 맵핑은 <strong>공유 공간 안에서 조건 기반 매칭과 처리자 배치까지 함께 다루는 구조</strong>다. 그래서 단순 캐시보다 표현력이 높고, 메시지 큐보다 상태 보관 능력이 강하다.
 
 | 비교 대상 | 강점 | 한계 | 투플 맵핑과의 경계 |
 | :--- | :--- | :--- | :--- |
@@ -105,7 +103,7 @@ tags = ["studynote-design-supervision"]
 - [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 없이 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무기한 남겨 메모리를 잠식하는 설계
 - business key가 없어 중복 write와 중복 take를 구분하지 못하는 설계
 
-기술사 답안에서는 “투플 = [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)” 수준에서 멈추지 말고, **필드 분해 기준, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리**를 같이 적어야 점수를 얻기 쉽다. 투플 맵핑은 저장 형식보다 운영 규칙이 더 중요하기 때문이다.
+기술사 답안에서는 “투플 = [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)” 수준에서 멈추지 말고, <strong>필드 분해 기준, <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>, 만료 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong>를 같이 적어야 점수를 얻기 쉽다. 투플 맵핑은 저장 형식보다 운영 규칙이 더 중요하기 때문이다.
 
 - **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표 없이 큰 냉장고에 반찬통을 쌓아두면 처음엔 편해 보여도 곧 찾을 수 없게 된다. 투플 맵핑은 냉장고 안 칸 나누기, 이름표, 유통기한을 함께 정하는 일이다.
 
@@ -115,7 +113,7 @@ tags = ["studynote-design-supervision"]
 
 잘 설계된 투플 맵핑은 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)을 높여 네트워크 왕복을 줄이고, 패턴 매칭을 통해 처리 유닛이 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 빠르게 고를 수 있게 만든다. 이는 SBA의 확장성과 지연시간 개선 효과를 실제 시스템에서 유지하게 만드는 기반이다. 또한 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 명시하면 장애 시 재처리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 더 예측 가능해진다.
 
-반대로 투플 맵핑이 어설프면 [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 전체가 불안정해진다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형, 중복 처리, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 충돌이 모두 여기서 시작될 수 있다. 따라서 이 구조는 “[튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)로 저장하면 된다”가 아니라, **검색 규칙과 실행 규칙을 함께 심는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계**로 기억하는 것이 맞다.
+반대로 투플 맵핑이 어설프면 [SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 전체가 불안정해진다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 불균형, 중복 처리, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 충돌이 모두 여기서 시작될 수 있다. 따라서 이 구조는 “[튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)로 저장하면 된다”가 아니라, <strong>검색 규칙과 실행 규칙을 함께 심는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 설계</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 같은 창고라도 물건에 바코드와 위치 규칙이 있으면 빠른 물류센터가 되고, 없으면 그냥 어지러운 창고가 된다. 투플 맵핑은 SBA를 물류센터로 만들어 주는 규칙이다.
 
@@ -135,21 +133,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Linda Tuple Space
-    │
-    ▼
-Shared Memory Pattern Matching
-    │
-    ▼
-IMDG 기반 Space-Based Architecture
-    │
-    ▼
-Affinity Key · Template Mapping · TTL
-    │
-    ▼
-Hot Spot 제어 · Idempotency · Versioned Payload
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Linda Tuple Space</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shared Memory Pattern Matching</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IMDG 기반 Space-Based Architecture</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Affinity Key · Template Mapping · TTL</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hot Spot 제어 · Idempotency · Versioned Payload</div>
+</div>
+</div>
+
+
 
 이 흐름은 “공유 공간 개념 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 구현 → 운영 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙”으로 구체화되는 과정을 보여준다.
 

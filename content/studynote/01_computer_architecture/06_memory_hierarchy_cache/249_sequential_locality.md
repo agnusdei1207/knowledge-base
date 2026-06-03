@@ -12,14 +12,14 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 순차적 지역성 (Sequential Locality)은 프로그램이 메모리 주소를 "근처"가 아니라 **일정한 방향과 간격으로 차례차례** 접근하는 성질이다.
-> 2. **가치**: 이 패턴은 캐시 라인 (Cache Line) 적중률을 높이는 데서 끝나지 않고, 프리페처 (Prefetcher)가 다음 주소를 미리 가져오게 만들어 **메모리 지연을 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)으로 숨기게** 한다.
-> 3. **판단 포인트**: 순차적 지역성은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회·[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출처럼 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반이 되지만, 분기 남발·포인터 추적·과도한 동시 스트림이 생기면 쉽게 깨지므로 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 제어 흐름을 함께 설계**해야 한다.
+> 2. **가치**: 이 패턴은 캐시 라인 (Cache Line) 적중률을 높이는 데서 끝나지 않고, 프리페처 (Prefetcher)가 다음 주소를 미리 가져오게 만들어 <strong>메모리 지연을 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>으로 숨기게</strong> 한다.
+> 3. **판단 포인트**: 순차적 지역성은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회·[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출처럼 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반이 되지만, 분기 남발·포인터 추적·과도한 동시 스트림이 생기면 쉽게 깨지므로 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치와 제어 흐름을 함께 설계</strong>해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-순차적 지역성은 최근 접근한 주소의 **바로 다음 주소** 또는 **일정한 간격의 다음 주소**를 계속 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 접근 특성이다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))이 "근처를 본다"는 넓은 개념이라면, 순차적 지역성은 그중에서도 **직선으로 전진하는 경우**를 가리킨다. 즉, `A → A+4 → A+8`처럼 방향과 보폭이 읽히는 순간, 하드웨어는 다음 접근을 매우 높은 확률로 예측할 수 있다.
+순차적 지역성은 최근 접근한 주소의 **바로 다음 주소** 또는 <strong>일정한 간격의 다음 주소</strong>를 계속 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 접근 특성이다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))이 "근처를 본다"는 넓은 개념이라면, 순차적 지역성은 그중에서도 <strong>직선으로 전진하는 경우</strong>를 가리킨다. 즉, `A → A+4 → A+8`처럼 방향과 보폭이 읽히는 순간, 하드웨어는 다음 접근을 매우 높은 확률로 예측할 수 있다.
 
 이 개념이 중요한 이유는 현대 시스템의 병목이 계산보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동에 자주 있기 때문이다. 중앙처리장치인 CPU (Central Processing Unit)는 수 ns 단위로 연산하지만, 주기억장치인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)은 그보다 훨씬 느리다. 순차적 지역성이 있으면 CPU는 캐시가 채워 둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊김 없이 소비할 수 있고, 없으면 매번 메모리 응답을 기다리느라 파이프라인이 비게 된다.
 
@@ -27,19 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)과 순차적 지역성의 차이를 주소 흐름 관점에서 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Address access pattern                                               │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ Spatial locality      │ 100, 104, 112, 108                          │
-│                       │ "nearby addresses, but order may vary"      │
-├───────────────────────┼──────────────────────────────────────────────┤
-│ Sequential locality   │ 100 → 104 → 108 → 112 → 116                │
-│                       │ "nearby addresses with clear direction"     │
-└───────────────────────┴──────────────────────────────────────────────┘
-```
 
-핵심은 **인접성만으로는 부족하고, 방향성이 붙을 때 예측 가능성이 급격히 커진다**는 점이다. 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이라도 앞에서 뒤로 차례대로 읽는 경우와, 인덱스를 불규칙하게 건너뛰며 읽는 경우는 하드웨어 입장에서 전혀 다른 난이도를 가진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address access pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spatial locality</div><div class="kb-diagram-cell">100, 104, 112, 108</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"nearby addresses, but order may vary"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential locality</div><div class="kb-diagram-cell">100 → 104 → 108 → 112 → 116</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"nearby addresses with clear direction"</div></div>
+</div>
+</div>
+
+
+
+핵심은 <strong>인접성만으로는 부족하고, 방향성이 붙을 때 예측 가능성이 급격히 커진다</strong>는 점이다. 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이라도 앞에서 뒤로 차례대로 읽는 경우와, 인덱스를 불규칙하게 건너뛰며 읽는 경우는 하드웨어 입장에서 전혀 다른 난이도를 가진다.
 
 - **📢 섹션 요약 비유**: 순차적 지역성은 도서관에서 책장을 왼쪽에서 오른쪽으로 차례대로 훑는 행동과 같다. 사서가 다음 책을 미리 손에 쥐여 줄 수 있는 이유는 "근처"에 있다는 사실보다도 "다음 칸으로 계속 간다"는 방향이 보이기 때문이다.
 
@@ -47,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-순차적 지역성이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀌는 과정은 보통 **캐시 라인 적재 → 패턴 감지 → 선행 인출**의 3단계로 일어난다. 먼저 CPU가 어떤 주소를 읽으면 캐시는 그 주소 하나만 가져오지 않고, 해당 주소가 속한 캐시 라인 전체를 가져온다. 이때 바로 옆 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 함께 올라오므로, 연속 접근은 첫 번째 미스 이후 여러 번의 히트로 이어진다.
+순차적 지역성이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바뀌는 과정은 보통 <strong>캐시 라인 적재 → 패턴 감지 → 선행 인출</strong>의 3단계로 일어난다. 먼저 CPU가 어떤 주소를 읽으면 캐시는 그 주소 하나만 가져오지 않고, 해당 주소가 속한 캐시 라인 전체를 가져온다. 이때 바로 옆 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 함께 올라오므로, 연속 접근은 첫 번째 미스 이후 여러 번의 히트로 이어진다.
 
 그다음 단계에서 프리페처가 움직인다. 하드웨어 프리페처는 최근 주소들의 차이를 관찰해 `+4`, `+4`, `+4` 같은 일정한 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))를 감지한다. 패턴이 확인되면 CPU가 아직 요청하지 않은 다음 캐시 라인을 미리 가져오므로, CPU는 체감상 메모리 대기 없이 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소비하게 된다.
 
@@ -60,19 +62,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 순차적 지역성이 하드웨어 안에서 어떻게 활용되는지를 보여준다.
 
-```text
-┌────────────┐    miss/hit    ┌──────────────┐    next-line hint
-│ CPU load   │ ─────────────▶ │ L1 cache     │ ────────────────┐
-└────────────┘                 └──────────────┘                 │
-       │                            │ line fill                 │
-       │ address history            ▼                           ▼
-       │                     ┌──────────────┐          ┌──────────────┐
-       └──────────────────▶  │ Prefetcher   │ ───────▶ │ Memory system│
-                             │ stride detect│          │ DRAM / LLC    │
-                             └──────────────┘          └──────────────┘
-```
 
-이 구조의 장점은 **지연시간 자체를 없애는 것**이 아니라, 지연이 드러나기 전에 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨와 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 관점에서 숨기는 것**이다. 따라서 순차적 지역성은 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스트리밍, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 연속 실행 같은 작업에서 큰 효과를 낸다. 반대로 분기가 많거나 포인터 체인이 길면 다음 주소가 끊기므로 프리페처가 확신을 잃고 효과가 급격히 떨어진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">miss/hit next-line hint</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU load</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">L1 cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">line fill</div></div>
+<div class="kb-diagram-note">address history ▼ ▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Prefetcher</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Memory system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stride detect</div><div class="kb-diagram-cell">DRAM / LLC</div></div>
+</div>
+</div>
+
+
+
+이 구조의 장점은 <strong>지연시간 자체를 없애는 것</strong>이 아니라, 지연이 드러나기 전에 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 관점에서 숨기는 것</strong>이다. 따라서 순차적 지역성은 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스트리밍, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 연속 실행 같은 작업에서 큰 효과를 낸다. 반대로 분기가 많거나 포인터 체인이 길면 다음 주소가 끊기므로 프리페처가 확신을 잃고 효과가 급격히 떨어진다.
 
 - **📢 섹션 요약 비유**: 순차적 지역성이 잘 보이는 코드는 컨베이어벨트 위 상자를 차례대로 꺼내는 작업과 같다. 작업자가 다음 상자를 어디서 집을지 분명하니, 보조 인력이 미리 다음 상자를 손 닿는 곳에 가져다둘 수 있다.
 
@@ -80,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-순차적 지역성을 제대로 이해하려면 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/), 그리고 무작위 접근을 함께 비교해야 한다. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)은 "같은 주소를 다시 쓴다"는 재사용성에 초점이 있고, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)은 "가까운 주소를 쓴다"는 인접성에 초점이 있다. 순차적 지역성은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) 위에 **방향성과 규칙성**이 추가된 형태라서, 세 가지 중 가장 공격적인 선행 최적화가 가능하다.
+순차적 지역성을 제대로 이해하려면 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/), 그리고 무작위 접근을 함께 비교해야 한다. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)은 "같은 주소를 다시 쓴다"는 재사용성에 초점이 있고, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)은 "가까운 주소를 쓴다"는 인접성에 초점이 있다. 순차적 지역성은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) 위에 <strong>방향성과 규칙성</strong>이 추가된 형태라서, 세 가지 중 가장 공격적인 선행 최적화가 가능하다.
 
 | 접근 특성 | 대표 패턴 | 잘 맞는 최적화 | 깨질 때 문제 |
 | :-------- | :-------- | :------------- | :----------- |
@@ -89,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 | 순차적 지역성 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)/[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 연속 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) | 프리페치, 스트리밍 최적화 | 분기·점프·큰 보폭 변화 |
 | 무작위 접근 | 해시 버킷, 포인터 추적 | 병렬성 확대 정도만 가능 | 대기시간이 그대로 노출 |
 
-저장장치 관점에서도 차이가 선명하다. [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)는 순차 읽기에서 헤드 이동이 줄어 큰 이득을 보고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))도 내부 병렬성 덕분에 랜덤 접근이 HDD보다 낫지만, 여전히 큰 블록을 순차적으로 읽을 때 더 높은 대역폭을 낸다. 즉 순차적 지역성은 캐시만의 문제가 아니라 **메모리 계층 전체에서 통하는 공통 최적화 언어**다.
+저장장치 관점에서도 차이가 선명하다. [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive)는 순차 읽기에서 헤드 이동이 줄어 큰 이득을 보고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))도 내부 병렬성 덕분에 랜덤 접근이 HDD보다 낫지만, 여전히 큰 블록을 순차적으로 읽을 때 더 높은 대역폭을 낸다. 즉 순차적 지역성은 캐시만의 문제가 아니라 <strong>메모리 계층 전체에서 통하는 공통 최적화 언어</strong>다.
 
 컴파일러와 벡터화도 이 개념과 연결된다. 컴파일러가 루프를 벡터화하거나 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 명령을 적용하려면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적으로 배치되어 있고 접근 순서가 예측 가능해야 한다. 결국 좋은 순차적 지역성은 하드웨어 프리페처, 캐시, 저장장치, 컴파일러 최적화까지 한 방향으로 정렬시키는 기반이 된다.
 
@@ -117,7 +122,7 @@ tags = ["studynote-computer-architecture"]
 - 루프 내부에서 예측하기 어려운 분기와 간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)를 반복하는 구현
 - 필요 이상으로 여러 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 교차 접근해 프리페치 효율을 떨어뜨리는 패턴
 
-기술사 답안 관점에서는 "순차적 지역성이 좋다"로 끝내면 부족하다. **어떤 자료 배치와 제어 흐름이 그 지역성을 유지하는가**, 그리고 **그 지역성이 캐시·프리페치·저장장치 대역폭으로 어떻게 연결되는가**까지 설명해야 설계 판단 문장이 된다.
+기술사 답안 관점에서는 "순차적 지역성이 좋다"로 끝내면 부족하다. **어떤 자료 배치와 제어 흐름이 그 지역성을 유지하는가**, 그리고 <strong>그 지역성이 캐시·프리페치·저장장치 대역폭으로 어떻게 연결되는가</strong>까지 설명해야 설계 판단 문장이 된다.
 
 - **📢 섹션 요약 비유**: 순차적 지역성을 살리는 설계는 물류창고에서 같은 통로를 따라 주문 상자를 차례로 꺼내게 동선을 짜는 것과 같다. 상자가 여기저기 흩어져 있으면 직원은 뛰어다니느라 바쁘지만, 실제 출고량은 오히려 떨어진다.
 
@@ -125,11 +130,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-순차적 지역성이 잘 확보되면 캐시 미스율이 낮아지고, 프리페처 적중률이 올라가며, 메모리 계층은 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 낸다. 그 결과 CPU는 계산 유닛을 놀리지 않고 계속 일할 수 있고, 대용량 스캔·미디어 스트리밍·벡터 연산 같은 워크로드에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득이 크게 나타난다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약형 시스템에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 순서 있게 흘려보내느냐**가 체감 속도를 좌우한다.
+순차적 지역성이 잘 확보되면 캐시 미스율이 낮아지고, 프리페처 적중률이 올라가며, 메모리 계층은 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 낸다. 그 결과 CPU는 계산 유닛을 놀리지 않고 계속 일할 수 있고, 대용량 스캔·미디어 스트리밍·벡터 연산 같은 워크로드에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득이 크게 나타난다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약형 시스템에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 얼마나 순서 있게 흘려보내느냐</strong>가 체감 속도를 좌우한다.
 
 다만 순차적 지역성은 만능이 아니다. 첫째, 분기와 랜덤 접근이 본질인 문제에서는 억지로 순차 패턴을 만들기 어렵다. 둘째, 과도한 프리페치는 쓸모없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어와 캐시 오염을 일으킬 수 있다. 셋째, 다차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)·객체 지향 구조처럼 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조와 물리 배치가 어긋나는 경우에는 별도의 레이아웃 최적화가 필요하다.
 
-앞으로는 컬럼 지향 저장, [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/), 스트리밍 처리, 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 같은 기술이 늘어날수록 순차적 지역성의 가치는 더 커질 가능성이 높다. 따라서 이 개념은 "연속 접근이 빠르다" 정도로 외우기보다, **예측 가능한 흐름을 만들수록 하드웨어가 더 많이 도와준다**는 관점으로 기억하는 것이 좋다.
+앞으로는 컬럼 지향 저장, [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/), 스트리밍 처리, 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 같은 기술이 늘어날수록 순차적 지역성의 가치는 더 커질 가능성이 높다. 따라서 이 개념은 "연속 접근이 빠르다" 정도로 외우기보다, <strong>예측 가능한 흐름을 만들수록 하드웨어가 더 많이 도와준다</strong>는 관점으로 기억하는 것이 좋다.
 
 - **📢 섹션 요약 비유**: 순차적 지역성은 도로를 넓히는 것보다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 흐름을 매끄럽게 만드는 일에 가깝다. 차가 제멋대로 튀지 않고 같은 방향으로 쭉 흐르면, 같은 도로에서도 훨씬 많은 차량을 막힘 없이 보낼 수 있다.
 
@@ -147,19 +152,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-지역성 원리
-    │
-    ├─ 시간적 지역성 (Temporal Locality)
-    └─ 공간적 지역성 (Spatial Locality)
-                     │
-                     ▼
-          순차적 지역성 (Sequential Locality)
-                     │
-                     ├─ 캐시 라인 적재
-                     ├─ 프리페처 (Prefetcher)
-                     └─ 스트리밍 / 벡터화 / 순차 I/O
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지역성 원리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">시간적 지역성 (Temporal Locality)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">공간적 지역성 (Spatial Locality)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">순차적 지역성 (Sequential Locality)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">캐시 라인 적재</div>
+<div class="kb-diagram-tree-item" style="--depth:8">프리페처 (Prefetcher)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">스트리밍 / 벡터화 / 순차 I/O</div>
+</div>
+</div>
+
+
 
 이 흐름은 "인접성 이해 → 방향성 강화 → 하드웨어 선행 최적화 → 고처리량 활용"으로 개념이 확장되는 과정을 보여준다.
 

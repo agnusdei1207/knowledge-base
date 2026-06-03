@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 거대 벤더(시스코, 주니퍼 등)의 라우터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **고정된 하드웨어 규격 칩셋(Fixed [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))**을 사용합니다.
+- 기존 거대 벤더(시스코, 주니퍼 등)의 라우터 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>고정된 하드웨어 규격 칩셋(Fixed <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>)</strong>을 사용합니다.
 - 장비 안에는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등 예전부터 만들어진 수십 개의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 해독하는 회로가 공장에서 아예 못 박혀서(Hard-wired) 굳은 채로 출하됩니다.
 - 새로운 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 발명되어도, 이 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비는 그 패킷을 읽을 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로가 없으니 그냥 쓰레기통에 버려버립니다(Drop). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비를 버리고 새 장비를 사야 하는 극악의 벤더 종속성이 발생했습니다.
 
-```text
-[디지털 트윈 네트워크 망]
-    │
-    ▼
-[네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    └──▶ [자율 주행 넷망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 주행 넷망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 장비 껍데기(하드웨어)는 그대로 둔 채, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 내부에서 패킷을 뜯어보고 길을 찾아주는 **심장부 회로([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 작동 방식을 네트워크 관리자가 마음대로 소프트웨어 코딩하듯 자유자재로 뜯어고칠 수 있게 해주는 혁명적인 '네트워크 프로그래밍 언어'**입니다. (SDN의 끝판왕 진화형)
+- **개념**: 장비 껍데기(하드웨어)는 그대로 둔 채, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 내부에서 패킷을 뜯어보고 길을 찾아주는 <strong>심장부 회로(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)의 작동 방식을 네트워크 관리자가 마음대로 소프트웨어 코딩하듯 자유자재로 뜯어고칠 수 있게 해주는 혁명적인 '네트워크 프로그래밍 언어'</strong>입니다. (SDN의 끝판왕 진화형)
 - 스탠퍼드 대학의 닉 맥키언(Nick McKeown) 교수와 베어풋 네트웍스가 창안했습니다.
 
-```text
-[디지털 트윈 네트워크 망]
-    │
-    ▼
-[네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    └──▶ [자율 주행 넷망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 주행 넷망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,7 +68,7 @@ tags = ["studynote-network"]
 
 ### 1. 칩셋 룰셋의 커스텀 프로세싱 (자유자재 해부)
 - 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "IP 주소가 목적지 A면 1번 포트로 보내"라는 규칙만 알았습니다.
-- 관리자가 컴퓨터에 앉아 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 코드를 짭니다. **"야, 패킷 껍데기 말고 뱃속(Payload) 깊숙이 뜯어봐! 뱃속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '자율주행 긴급 정지'라는 글자가 있으면, IP 목적지가 어디든 상관말고 다른 패킷 다 제치고 무조건 0순위로 3번 포트로 확 날려버려!"**
+- 관리자가 컴퓨터에 앉아 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 코드를 짭니다. <strong>"야, 패킷 껍데기 말고 뱃속(Payload) 깊숙이 뜯어봐! 뱃속 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 '자율주행 긴급 정지'라는 글자가 있으면, IP 목적지가 어디든 상관말고 다른 패킷 다 제치고 무조건 0순위로 3번 포트로 확 날려버려!"</strong>
 - 이 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 코드를 컴파일(Compile)해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋에 업로드(주입)하는 순간, 멍청했던 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1초 만에 0.001초 초저지연 자율주행 패킷만 귀신같이 골라내는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 완전 진화(탈피)합니다.
 
 ### 2. 불필요한 기능 삭제로 극강의 속도 확보 (초저지연 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존(고정 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 공장에서 '고정된 메뉴판과 레시피'가 납땜 되어 나온 라면 자판기입니다. 손님이 메뉴판에 없는 짜장면을 원해도 절대 만들어주지 못하고 기계를 부수고 새 자판기를 사야 합니다. **[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 모델**은 공장에서 '비어있는 만능 로봇팔과 도마'만 배송해 주는 것입니다. 요리사(네트워크 관리자)가 USB를 꽂고 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 "밀가루 반죽을 치대서 짜장면을 만들어라"라는 레시피(패킷 처리 룰) 코드를 입력하는 순간, 로봇팔이 즉시 짜장면 기계로 진화합니다. 내일 마라탕이 유행하면 기계를 버릴 필요 없이 레시피 코드만 마라탕으로 덮어쓰면 즉시 마라탕 자판기(새로운 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))로 변신하는, 하드웨어의 죽음을 넘어선 궁극의 만능 소프트웨어 심장입니다.
+- **📢 섹션 요약 비유**: 기존(고정 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 공장에서 '고정된 메뉴판과 레시피'가 납땜 되어 나온 라면 자판기입니다. 손님이 메뉴판에 없는 짜장면을 원해도 절대 만들어주지 못하고 기계를 부수고 새 자판기를 사야 합니다. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a> 모델</strong>은 공장에서 '비어있는 만능 로봇팔과 도마'만 배송해 주는 것입니다. 요리사(네트워크 관리자)가 USB를 꽂고 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 "밀가루 반죽을 치대서 짜장면을 만들어라"라는 레시피(패킷 처리 룰) 코드를 입력하는 순간, 로봇팔이 즉시 짜장면 기계로 진화합니다. 내일 마라탕이 유행하면 기계를 버릴 필요 없이 레시피 코드만 마라탕으로 덮어쓰면 즉시 마라탕 자판기(새로운 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))로 변신하는, 하드웨어의 죽음을 넘어선 궁극의 만능 소프트웨어 심장입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 디지털 트윈 네트워크 망]
-    │
-    ▼
-[현재 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ├──▶ [확장 A: 자율 주행 넷망]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율 주행 넷망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율 주행 넷망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/791_autonomous_network_aiops_ibn_zero_touch/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 SRP (Single Responsi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SRP (Single Responsi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRP (Single Responsi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 SRP (Single Responsi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 객체지향 프로그래밍에서 **"모든 클래스, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 또는 함수는 오직 '단 하나의 책임(기능, 역할)'만을 가져야 하며, 이 클래스의 코드를 수정(변경)해야 할 이유도 오직 단 하나여야 한다"**는 아주 단순하지만 가장 지키기 어려운 설계 원칙입니다.
+- **개념**: 객체지향 프로그래밍에서 <strong>"모든 클래스, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>, 또는 함수는 오직 '단 하나의 책임(기능, 역할)'만을 가져야 하며, 이 클래스의 코드를 수정(변경)해야 할 이유도 오직 단 하나여야 한다"</strong>는 아주 단순하지만 가장 지키기 어려운 설계 원칙입니다.
 
 - **📢 섹션 요약 비유**: SRP (Single Responsibility Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
   1. 재무팀장이 "야! 월급 계산 방식 세금 떼는 걸로 바꿔!" ➜ (변경의 이유 1 터짐)
   2. 인프라팀장이 "야! 오라클 DB 말고 MySQL로 바꿔서 저장해!" ➜ (변경의 이유 2 터짐)
   3. 사장님이 "야! 보고서 폰트 좀 궁서체로 바꿔!" ➜ (변경의 이유 3 터짐)
-- **사형 선고**: 하나의 클래스가 무려 **'3가지 완전히 다른 이유(서로 다른 액터의 요구)'**에 의해 시달리고 뜯어고쳐져야 합니다. SRP를 끔찍하게 위반한 쓰레기 코드입니다.
+- **사형 선고**: 하나의 클래스가 무려 <strong>'3가지 완전히 다른 이유(서로 다른 액터의 요구)'</strong>에 의해 시달리고 뜯어고쳐져야 합니다. SRP를 끔찍하게 위반한 쓰레기 코드입니다.
 
 - **📢 섹션 요약 비유**: SRP (Single Responsibility Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -90,9 +89,9 @@ tags = ["studynote-software-engineering"]
 1. `PayCalculator` 클래스: 오직 "월급 계산" 로직(핵심 비즈니스)만 죽어라 팝니다. 재무팀장이 딴지 걸 때만 이 코드가 바뀝니다.
 2. `EmployeeRepository` 클래스: 오직 "DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)"만 날립니다. DB를 교체할 때 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 딱 고치면 끝납니다.
 3. `ReportFormatter` 클래스: 오직 "글씨 예쁘게 꾸미기"만 합니다. 사장님이 폰트를 바꿔달라면 아무 눈치 안 보고 얘만 살짝 고치면 끝납니다.
-- **결과 ([응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)의 극대화)**: 각 클래스가 자기 본업에만 미치도록 충실해지면서(High [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), 남의 코드를 건드리지 않아 결합도는 바닥을 찍고(Low [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), 수정 시 버그 발생 확률이 0%로 수렴합니다.
+- <strong>결과 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a>의 극대화)</strong>: 각 클래스가 자기 본업에만 미치도록 충실해지면서(High [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)), 남의 코드를 건드리지 않아 결합도는 바닥을 찍고(Low [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), 수정 시 버그 발생 확률이 0%로 수렴합니다.
 
-> 📢 **섹션 요약 비유**: **[단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)(SRP)**은 맥가이버칼을 버리고 **'전문 장인의 도구함'**을 짜는 과정입니다. 멍청한 목수는 칼, 톱, 드라이버, 가위가 하나로 뭉쳐있는 '뚱뚱한 맥가이버칼 만능 도구(God Class)' 하나로 집을 지으려 합니다. 톱질을 하려는데 옆에 튀어나온 가위 날에 손을 베이고, 드라이버가 고장 나면 수리를 위해 맥가이버칼 통째로 공장에 맡겨야 해서 아무 작업도 못 하는 재앙(수정의 부작용)이 터집니다. SRP의 대원칙은 뚱뚱한 맥가이버칼의 부품들을 다 해체해서, **"오직 나무만 자르는 전용 톱(클래스 1)", "오직 나사만 돌리는 전용 십자드라이버(클래스 2)"**로 완벽하게 개별 도구로 쪼개어 도구함에 예쁘게 진열하는 것입니다. 이렇게 찢어놓으면 나사가 헛돌 때 드라이버만 쓱 빼서 1초 만에 수리(코드 변경)하면 되고, 그 과정에서 톱이나 칼이 망가질(나비효과 버그) 확률은 아예 물리학적으로 0%가 됩니다. 하나의 도구(클래스)는 오직 자기가 맡은 하나의 일(책임)에만 미치도록 집중하게 만들어, 유지보수와 고장 수리를 세상에서 가장 평화롭게 만들어주는 객체지향 1계명입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>(SRP)</strong>은 맥가이버칼을 버리고 <strong>'전문 장인의 도구함'</strong>을 짜는 과정입니다. 멍청한 목수는 칼, 톱, 드라이버, 가위가 하나로 뭉쳐있는 '뚱뚱한 맥가이버칼 만능 도구(God Class)' 하나로 집을 지으려 합니다. 톱질을 하려는데 옆에 튀어나온 가위 날에 손을 베이고, 드라이버가 고장 나면 수리를 위해 맥가이버칼 통째로 공장에 맡겨야 해서 아무 작업도 못 하는 재앙(수정의 부작용)이 터집니다. SRP의 대원칙은 뚱뚱한 맥가이버칼의 부품들을 다 해체해서, <strong>"오직 나무만 자르는 전용 톱(클래스 1)", "오직 나사만 돌리는 전용 십자드라이버(클래스 2)"</strong>로 완벽하게 개별 도구로 쪼개어 도구함에 예쁘게 진열하는 것입니다. 이렇게 찢어놓으면 나사가 헛돌 때 드라이버만 쓱 빼서 1초 만에 수리(코드 변경)하면 되고, 그 과정에서 톱이나 칼이 망가질(나비효과 버그) 확률은 아예 물리학적으로 0%가 됩니다. 하나의 도구(클래스)는 오직 자기가 맡은 하나의 일(책임)에만 미치도록 집중하게 만들어, 유지보수와 고장 수리를 세상에서 가장 평화롭게 만들어주는 객체지향 1계명입니다.
 
 - **📢 섹션 요약 비유**: SRP (Single Responsibility Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -137,21 +136,23 @@ SRP (Single Responsibility Principle)은 '어떻게 빠르게 짜는가'가 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SRP (Single Responsibility Principle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRP (Single Responsibility Principle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

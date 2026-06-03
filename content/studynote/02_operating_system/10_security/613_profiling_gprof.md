@@ -23,32 +23,34 @@ tags = ["studynote-operating-system"]
 Gprof(GNU Profiler)는 GCC 컴파일러와 연동하여 프로그램의 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 빈도, 실행 시간, 호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 분석하는 도구다. -pg 컴파일 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)로 계측 코드를 삽입하고, 실행 후 gmon.out 파일을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 분석한다.
 
 ### 필요성
-"프로그램이 느리다"는 증상만으로는 어디서 최적화해야 할지 알 수 없다. 프로파일링은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반**으로 병목을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하여, 직감이 아닌 증거에 기반한 최적화를 가능하게 한다.
+"프로그램이 느리다"는 증상만으로는 어디서 최적화해야 할지 알 수 없다. 프로파일링은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반</strong>으로 병목을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하여, 직감이 아닌 증거에 기반한 최적화를 가능하게 한다.
 
 ### 등장 배경
 1. **gprof (1982)**: UNIX 시절부터 존재한 표준 프로파일러
 2. **perf (2009)**: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내장 프로파일러
-3. **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반 (2019+)**: 동적 트레이싱으로 진화
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반 (2019+)</strong>: 동적 트레이싱으로 진화
 
-```text
-┌────────── 프로파일링 도구 진화 ──────────┐
-│                                           │
-│  gprof (1982)                             │
-│  ├─ 컴파일러 계측 (-pg)                   │
-│  ├─ 타이머 기반 샘플링                    │
-│  └─ 호출 그래프 생성                      │
-│                                           │
-│  perf (2009)                              │
-│  ├─ 하드웨어 성능 카운터 (PMU)            │
-│  ├─ 동적 계측 (kprobes/uprobes)           │
-│  └─ 샘플링 + 트레이싱                    │
-│                                           │
-│  eBPF/bpftrace (2019+)                    │
-│  ├─ 커널 안전 훅                          │
-│  ├─ 실시간 동적 트레이싱                  │
-│  └─ 프로덕션 배포 가능                   │
-└───────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로파일링 도구 진화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gprof (1982)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 컴파일러 계측 (-pg)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타이머 기반 샘플링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 호출 그래프 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">perf (2009)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 하드웨어 성능 카운터 (PMU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 동적 계측 (kprobes/uprobes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 샘플링 + 트레이싱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF/bpftrace (2019+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 커널 안전 훅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실시간 동적 트레이싱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 프로덕션 배포 가능</div></div>
+</div>
+</div>
+
+
 
 **[해설]** gprof → perf → eBPF로 이어지는 진화는 "정적 계측 → 동적 샘플링 → 실시간 트레이싱"으로 프로파일링의 범위와 정밀도가 확장되는 과정이다.
 
@@ -68,34 +70,34 @@ Gprof(GNU Profiler)는 GCC 컴파일러와 연동하여 프로그램의 [함수 
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 후킹 원리
 
-```text
-┌──────────── Gprof 내부 동작 ────────────┐
-│                                         │
-│  응용 프로그램 ( -pg 컴파일 )            │
-│                                         │
-│  main() {                               │
-│    monstartup();  ← gmon 초기화         │
-│    ...                                  │
-│    foo() {                              │
-│      mcount(foo, caller); ← 계측 호출   │
-│      ...                                │
-│      bar() {                            │
-│        mcount(bar, foo);  ← 계측 호출   │
-│        ...                              │
-│      }                                  │
-│    }                                    │
-│    _mcleanup();  ← gmon.out 생성        │
-│  }                                      │
-│                                         │
-│  커널 SIGPROF 핸들러:                    │
-│  ┌──────────────────────────────┐       │
-│  │ 100Hz 타이머 인터럽트         │       │
-│  │ → PC(프로그램 카운터) 기록    │       │
-│  │ → 호출 스택 샘플링           │       │
-│  │ → gmon.out에 누적            │       │
-│  └──────────────────────────────┘       │
-└─────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Gprof 내부 동작</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램 ( -pg 컴파일 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">main() {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">monstartup(); ← gmon 초기화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">foo() {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mcount(foo, caller); ← 계측 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bar() {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mcount(bar, foo); ← 계측 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_mcleanup(); ← gmon.out 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 SIGPROF 핸들러:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100Hz 타이머 인터럽트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ PC(프로그램 카운터) 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 호출 스택 샘플링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ gmon.out에 누적</div></div>
+</div>
+</div>
+
+
 
 **[해설]** `-pg` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 각 함수 시작에 `mcount()` 호출을 삽입하여 호출 관계를 추적한다. 동시에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 100Hz SIGPROF 시그널을 보내 현재 PC를 샘플링하여 함수별 시간 분포를 측정한다.
 
@@ -136,9 +138,9 @@ index %time    self  children  called     name
 | **계측 방식** | 컴파일러 삽입 | PMU + kprobes | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 훅 |
 | **재컴파일** | 필수 | 불필요 | 불필요 |
 | **오버헤드** | 5~30% | <5% | <5% |
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 분석** | 불가 | 가능 | 가능 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 분석</strong> | 불가 | 가능 | 가능 |
 | **실시간** | 사후 분석 | 반실시간 | 실시간 |
-| **호출 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)** | 정밀 | 통계적 | 통계적 |
+| <strong>호출 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong> | 정밀 | 통계적 | 통계적 |
 
 - **📢 섹션 요약 비유**: Gprof은 가구를 직접 열어보는 방식(정밀하지만 번거로움), perf는 밖에서 관찰하는 방식(빠르지만 덜 정밀), eBPF는 스마트 홈 센서(실시간이고 비침투적)입니다.
 
@@ -194,15 +196,19 @@ bpftrace -e 'profile:hz:99 { @[ustack] = count(); }'
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)]
-    │
-    ▼
-[프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
-    │
-    ├──▶ [시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
-    └──▶ [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 누수 (Memory Leak) 탐지 도구 구조 (Valgrind 등)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **L4/L7 로드밸런서 (481번)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) '안'에 있는 서버 10대끼리 트래픽을 나눠주는 장비입니다. 서버가 다 터지거나 정전(Blackout)이 나면 속수무책입니다.
-- **기존 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) (Round Robin)**: 유저가 물어보면 한국 IP ➜ 미국 IP ➜ 일본 IP를 그냥 순서대로 기계처럼 돌아가며 던져줍니다. 일본 서버가 불타서 죽어있어도 멍청하게 일본 IP를 던져주어 접속 에러(Time-out) 대참사를 만듭니다.
+- <strong>기존 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> (Round Robin)</strong>: 유저가 물어보면 한국 IP ➜ 미국 IP ➜ 일본 IP를 그냥 순서대로 기계처럼 돌아가며 던져줍니다. 일본 서버가 불타서 죽어있어도 멍청하게 일본 IP를 던져주어 접속 에러(Time-out) 대참사를 만듭니다.
 
-```text
-[CDN 엣지 노드 분산]
-    │
-    ▼
-[GSLB 지리적 DNS 라우팅]
-    │
-    └──▶ [SIP INVITE 기반 핸드셰이크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전 세계에 흩어진 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(서버)들 중에서, **접속하려는 사용자와 가장 물리적 거리가 가깝고, 서버의 현재 건강 상태(Health)가 쌩쌩한 최적의 서버 IP 1개를 골라서 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답으로 던져주는 '지능형 글로벌 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처'**입니다. (DNS와 L4 로드밸런서의 궁극의 짬뽕)
+- **개념**: 전 세계에 흩어진 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(서버)들 중에서, <strong>접속하려는 사용자와 가장 물리적 거리가 가깝고, 서버의 현재 건강 상태(Health)가 쌩쌩한 최적의 서버 IP 1개를 골라서 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 응답으로 던져주는 '지능형 글로벌 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처'</strong>입니다. (DNS와 L4 로드밸런서의 궁극의 짬뽕)
 
-```text
-[CDN 엣지 노드 분산]
-    │
-    ▼
-[GSLB 지리적 DNS 라우팅]
-    │
-    └──▶ [SIP INVITE 기반 핸드셰이크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,12 +65,12 @@ tags = ["studynote-network"]
 ### 1. 헬스 체크 (Health Check) - "너 살아있냐?"
 - 가장 위대한 강점입니다. [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 서버는 전 세계 구글 서버들에게 1초마다 `Ping`이나 `HTTP GET`을 때려봅니다.
 - "어? 도쿄 서버 대답이 없네? 도쿄 지진 났구나!"
-- 즉시 도쿄 서버 IP를 뱉어내는 것을 중단하고, 모든 일본 유저들에게 서울 서버 IP를 던져주어 **글로벌 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)(Disaster [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))와 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**를 완벽히 실현합니다.
+- 즉시 도쿄 서버 IP를 뱉어내는 것을 중단하고, 모든 일본 유저들에게 서울 서버 IP를 던져주어 <strong>글로벌 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a>(Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)와 무중단 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>를 완벽히 실현합니다.
 
 ### 2. 지리적(지리적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), Geo-Location) / [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 기반 🌟
 유저가 가장 빨리 도착할 수 있는 곳을 찾아냅니다.
 - **Geo-Location**: 유저의 로컬 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 IP를 조회해서 "아 얘 한국 KT 통신사 쓰네? 그럼 무조건 서울 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) IP 줘라!" (가장 기본)
-- **[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) ([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))**: 만약 한국 서버와 일본 서버 거리가 비슷하다면? GSLB가 핑(Ping) 왕복 시간([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 실시간으로 계산해서, 지금 당장 밀리초 단위로 더 빠른 길을 찾아 그 서버 IP를 던져줍니다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">Round Trip Time</a>)</strong>: 만약 한국 서버와 일본 서버 거리가 비슷하다면? GSLB가 핑(Ping) 왕복 시간([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 실시간으로 계산해서, 지금 당장 밀리초 단위로 더 빠른 길을 찾아 그 서버 IP를 던져줍니다.
 
 ### 3. 트래픽 로드(Load) 동적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)
 - 서울 서버가 살아있긴 한데 CPU 사용률이 95%를 쳤습니다.
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**은 114 전화 안내원에게 짜장면집 번호를 물어보면 **"서울점, 부산점, 광주점 번호를 순서대로 하나씩 불러주는 멍청한 로봇"**입니다. 내가 서울에 살아도 부산점 번호를 줄 수 있고, 심지어 부산점이 파산해서 문을 닫아도 멍청하게 부산점 번호를 알려주어 허탕을 치게 만듭니다. **[GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)(지능형 글로벌 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))**는 전 세계 지점의 CCTV를 다 보고 있는 **'천재 콜센터 매니저'**입니다. 내가 전화를 걸면 매니저는 발신자 번호(IP)를 보고 "아, 이 손님 강남에 있네!" 파악합니다. 그리고 강남점 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(헬스 체크)를 보니 불이 나서 영업을 안 합니다. 그럼 0.1초 만에 두 번째로 가깝고 짜장면 솥단지가 비어있는(CPU 부하가 적은) 서초점의 전화번호(IP)를 내게 딱 뱉어줍니다. 지리적 거리, 서버의 생존 여부, 현재 바쁜 정도를 한 방에 꿰뚫어 보고 완벽한 분점 주소를 알려주는 전 지구적 내비게이션 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>은 114 전화 안내원에게 짜장면집 번호를 물어보면 <strong>"서울점, 부산점, 광주점 번호를 순서대로 하나씩 불러주는 멍청한 로봇"</strong>입니다. 내가 서울에 살아도 부산점 번호를 줄 수 있고, 심지어 부산점이 파산해서 문을 닫아도 멍청하게 부산점 번호를 알려주어 허탕을 치게 만듭니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/">GSLB</a>(지능형 글로벌 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a>)</strong>는 전 세계 지점의 CCTV를 다 보고 있는 <strong>'천재 콜센터 매니저'</strong>입니다. 내가 전화를 걸면 매니저는 발신자 번호(IP)를 보고 "아, 이 손님 강남에 있네!" 파악합니다. 그리고 강남점 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(헬스 체크)를 보니 불이 나서 영업을 안 합니다. 그럼 0.1초 만에 두 번째로 가깝고 짜장면 솥단지가 비어있는(CPU 부하가 적은) 서초점의 전화번호(IP)를 내게 딱 뱉어줍니다. 지리적 거리, 서버의 생존 여부, 현재 바쁜 정도를 한 방에 꿰뚫어 보고 완벽한 분점 주소를 알려주는 전 지구적 내비게이션 시스템입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CDN 엣지 노드 분산]
-    │
-    ▼
-[현재 개념: GSLB 지리적 DNS 라우팅]
-    │
-    ├──▶ [확장 A: SIP INVITE 기반 핸드셰이크]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SIP INVITE 기반 핸드셰이크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

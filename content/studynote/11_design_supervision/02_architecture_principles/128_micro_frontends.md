@@ -23,23 +23,21 @@ tags = ["studynote-design-supervision"]
 
 [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/)는 이 문제를 해결한다. 주문 팀·결제 팀·[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 팀이 각자의 UI 조각을 독립적으로 개발하고 배포하며, 셸 애플리케이션([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Application)이 런타임에 이를 조합하여 사용자에게 하나의 일관된 앱으로 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          마이크로 프론트엔드 통합 구조                        │
-├─────────────────────────────────────────────────────────────┤
-│  사용자 브라우저                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  Shell Application (네비게이션, 인증, 라우팅)          │    │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐            │    │
-│  │  │ 카탈로그  │ │  주문    │ │  결제    │            │    │
-│  │  │ MFE 조각  │ │ MFE 조각 │ │ MFE 조각 │            │    │
-│  │  │(팀A 배포) │ │(팀B 배포)│ │(팀C 배포)│            │    │
-│  │  └──────────┘ └──────────┘ └──────────┘            │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  런타임에 조합: Module Federation / Web Components / iframe  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 프론트엔드 통합 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 브라우저</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell Application (네비게이션, 인증, 라우팅)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카탈로그</div><div class="kb-diagram-cell">주문</div><div class="kb-diagram-cell">결제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MFE 조각</div><div class="kb-diagram-cell">MFE 조각</div><div class="kb-diagram-cell">MFE 조각</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(팀A 배포)</div><div class="kb-diagram-cell">(팀B 배포)</div><div class="kb-diagram-cell">(팀C 배포)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임에 조합: Module Federation / Web Components / iframe</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 신문 지면처럼, 각 기자(팀)가 자신의 기사(UI 조각)를 독립적으로 작성하고, 편집장([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))이 지면을 조합하여 완성된 신문(앱)을 만든다.
 
@@ -56,18 +54,19 @@ tags = ["studynote-design-supervision"]
 | Web Components | 표준 기반 캡슐화 / 가능 | Custom Elements |
 | [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/) | Webpack 5 런타임 공유 / 가능 | Webpack 5 MF |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       Module Federation 런타임 로딩 흐름                     │
-├─────────────────────────────────────────────────────────────┤
-│  Shell App 로드                                             │
-│       │                                                     │
-│   라우팅: /catalog → Catalog MFE URL에서 동적 로드           │
-│                                                             │
-│  Catalog MFE: 독립 배포된 JS 번들 원격 로드                 │
-│  (React·Vue 혼용 가능, 공유 라이브러리 싱글턴 보장)          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module Federation 런타임 로딩 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell App 로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅: /catalog → Catalog MFE URL에서 동적 로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog MFE: 독립 배포된 JS 번들 원격 로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(React·Vue 혼용 가능, 공유 라이브러리 싱글턴 보장)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 레고 세트에서 여러 종류의 블록(MFE 조각)을 각 제조사(팀)가 독립적으로 만들고, 설계도([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))에 따라 완성된 레고(앱)를 조립하는 것과 같다.
 

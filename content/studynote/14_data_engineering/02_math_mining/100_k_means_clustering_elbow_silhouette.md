@@ -34,23 +34,25 @@ K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/00
 | 핵심 요소 | 역할 및 동작 원리 | 평가 지표 활용 |
 | :--- | :--- | :--- |
 | **거리 계산** | 유클리드 거리 (Euclidean Distance)를 이용해 중심점과 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 직선 거리를 측정 | K-Means의 기본 할당 기준 |
-| **[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) (Sum of Squared Errors)** | 각 군집의 중심점과 그 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 거리 제곱을 모두 합산한 값 (Inertia) | 값이 작을수록 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높음을 의미 |
+| <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong> | 각 군집의 중심점과 그 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 거리 제곱을 모두 합산한 값 (Inertia) | 값이 작을수록 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높음을 의미 |
 | **실루엣 계수 (Silhouette Coefficient)** | 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) $a(i)$와 인접 군집과의 분리도 $b(i)$를 비교 계산 | $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$, -1 ~ 1의 값 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  최적 K 도출을 위한 지표 변화 그래프                │
-├──────────────────────────────────────────────────────────────┤
-│    [ 엘보우 기법 (SSE) ]            [ 실루엣 분석 (Score) ]     │
-│ SSE                                Score                      │
-│  │\                                1.0 │    [최적 K 지점]     │
-│  │ \  <- 감소가 둔화되는 팔꿈치           │   / \                │
-│  │  \ (Elbow Point)                0.5 │  /   \              │
-│  │   *─────▶ K=3 이 적당해 보임        │ /     \             │
-│  │    \                                │/       \            │
-│  └──────────────── K               └──────────────── K      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 K 도출을 위한 지표 변화 그래프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엘보우 기법 (SSE)</div><div class="kb-diagram-node">실루엣 분석 (Score)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSE Score</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│\ 1.0</div><div class="kb-diagram-node">최적 K 지점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ &lt;- 감소가 둔화되는 팔꿈치</div><div class="kb-diagram-cell">/ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (Elbow Point) 0.5</div><div class="kb-diagram-cell">/ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ▶ K=3 이 적당해 보임</div><div class="kb-diagram-cell">/ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K K</div></div>
+</div>
+</div>
+
+
 
 엘보우 기법은 K가 증가함에 따라 SSE가 급격히 줄어들다가 어느 순간 완만해지는 변곡점을 찾는다. 반면 실루엣 분석은 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자신이 속한 군집에 얼마나 잘 맞고 다른 군집과 얼마나 잘 분리되었는지를 -1에서 1 사이의 스코어로 정량화하여 가장 1에 가까운 K 지점을 찾아낸다.
 
@@ -79,9 +81,9 @@ K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/00
 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 및 모델링 환경에서 K-Means를 무작정 돌리면 최악의 결과를 낳을 수 있다. 다음과 같은 사전 처리와 아키텍처 판단이 반드시 수반되어야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Standardization) 여부**: K-Means는 거리를 계산하므로, 단위가 다른 변수(예: 키와 몸무게)가 있다면 반드시 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)/표준화를 선행했는가?
-2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 중심점 문제**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 무작위 배치로 인한 결과 왜곡을 막기 위해, 중심점 간 거리를 최대한 벌려 시작하는 **K-Means++** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용했는가?
-3. **실루엣 편차 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 전체 실루엣 평균 스코어가 높아도, 특정 군집의 스코어만 유독 낮거나 음수(-)가 나오지 않는가?
+1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Standardization) 여부</strong>: K-Means는 거리를 계산하므로, 단위가 다른 변수(예: 키와 몸무게)가 있다면 반드시 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)/표준화를 선행했는가?
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 중심점 문제</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 무작위 배치로 인한 결과 왜곡을 막기 위해, 중심점 간 거리를 최대한 벌려 시작하는 **K-Means++** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용했는가?
+3. <strong>실루엣 편차 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 전체 실루엣 평균 스코어가 높아도, 특정 군집의 스코어만 유독 낮거나 음수(-)가 나오지 않는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태가 둥근 구형(Spherical)이 아니라 길쭉한 타원형이거나 초승달 모양(Non-convex)인데도 K-Means를 억지로 적용하는 설계. (이 경우 밀도 기반인 DBSCAN을 써야 한다.)
@@ -105,27 +107,29 @@ K-Means와 두 가지 평가 지표의 결합은 정답이 없는 미지의 [데
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **K-Means++** | 무작위 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 중심점 할당의 문제를 해결하여 더 빠르고 정확하게 수렴시키는 개선 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 밀도를 기반으로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하여 K값을 미리 정할 필요가 없고 노이즈 탐지에 강한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))** | K-Means 적용 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 차원을 축소하여 거리 계산의 왜곡을 방지하는 전처리 기법 |
-| **[GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) ([Gaussian Mixture Model](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/))** | 거리가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 정규 분포에 속할 확률을 계산하는 부드러운 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 기법 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/">DBSCAN</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 밀도를 기반으로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하여 K값을 미리 정할 필요가 없고 노이즈 탐지에 강한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">Principal Component Analysis</a>)</strong> | K-Means 적용 전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 차원을 축소하여 거리 계산의 왜곡을 방지하는 전처리 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/">GMM</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/">Gaussian Mixture Model</a>)</strong> | 거리가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 정규 분포에 속할 확률을 계산하는 부드러운 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-미지의 데이터 군집화 (비지도 학습)
-    │
-    ▼
-K-Means 군집화 알고리즘 · 유클리드 거리 측정
-    │
-    ▼
-최적 K 도출 1: 엘보우 (Elbow) 기법 (SSE 감소량 확인)
-    │
-    ▼
-최적 K 도출 2: 실루엣 (Silhouette) 분석 (군집 내/외부 거리 평가)
-    │
-    ▼
-초기화 문제 해결 (K-Means++) 및 고차원 문제 해결 (PCA 결합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">미지의 데이터 군집화 (비지도 학습)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K-Means 군집화 알고리즘 · 유클리드 거리 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최적 K 도출 1: 엘보우 (Elbow) 기법 (SSE 감소량 확인)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최적 K 도출 2: 실루엣 (Silhouette) 분석 (군집 내/외부 거리 평가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초기화 문제 해결 (K-Means++) 및 고차원 문제 해결 (PCA 결합)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

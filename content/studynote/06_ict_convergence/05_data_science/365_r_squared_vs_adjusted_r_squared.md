@@ -25,14 +25,17 @@ tags = ["studynote-ict-convergence"]
 
 아래 도식은 이 개념이 등장한 배경과 기대 효과를 세 칸으로 압축한 그림이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Why Needed           │ Core Idea            │ Expected Gain │
-├──────────────────────────────────────────────────────────────┤
-│ 문제와 제약           │ 구조/규칙/역할        │ 성능·신뢰·운영 │
-│ 배경을 정리           │ 무엇을 바꾸는가        │ 무엇이 좋아지는가 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Needed</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">Expected Gain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제와 제약</div><div class="kb-diagram-cell">구조/규칙/역할</div><div class="kb-diagram-cell">성능·신뢰·운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배경을 정리</div><div class="kb-diagram-cell">무엇을 바꾸는가</div><div class="kb-diagram-cell">무엇이 좋아지는가</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 기억할 점은 이 개념이 단순 기능이 아니라 배경 문제를 운영 가능한 구조로 번역하는 중간 계층이라는 사실이다. 그래서 공부할 때도 정의만 외우기보다, 무엇이 부족했고 이 개념이 그 부족함을 어디서 보완하는지 먼저 잡는 편이 효과적이다.
 
@@ -53,13 +56,16 @@ tags = ["studynote-ict-convergence"]
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input        │ Measure            │ Governance       │ Outcome │
-├──────────────────────────────────────────────────────────────┤
-│ 데이터·요청   │ 핵심 처리/규칙       │ 정책·검증·조정    │ 서비스 가치 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input</div><div class="kb-diagram-cell">Measure</div><div class="kb-diagram-cell">Governance</div><div class="kb-diagram-cell">Outcome</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터·요청</div><div class="kb-diagram-cell">핵심 처리/규칙</div><div class="kb-diagram-cell">정책·검증·조정</div><div class="kb-diagram-cell">서비스 가치</div></div>
+</div>
+</div>
+
+
 
 핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
 
@@ -69,7 +75,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-[결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) 와 조정된 [결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)(Adjusted R^2) 비교의 경계를 드러내려면 **감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단** 과 비교하는 것이 가장 빠르다. 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 익숙함과 단순성을 제공한다면, 이 개념은 정량 근거 확보, 예측 정확도 향상, 운영 최적화 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+[결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) 와 조정된 [결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)(Adjusted R^2) 비교의 경계를 드러내려면 <strong>감에 의존한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 판단</strong> 과 비교하는 것이 가장 빠르다. 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단이 익숙함과 단순성을 제공한다면, 이 개념은 정량 근거 확보, 예측 정확도 향상, 운영 최적화 같은 가치와 용량 계획, 병목 분석, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 해석를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
 | 비교 항목 | [결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/) 와 조정된 [결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)(Adjusted R^2) 비교 | 감에 의존한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 |
 | :--- | :--- | :--- |
@@ -128,15 +134,19 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[베이즈 정리 사후 확률 갱신 구조망 파악]
-    │
-    ▼
-[결정 계수 와 조정된 결정 계수(Adjusted R^2) 비교]
-    │
-    ├──▶ [데이터 전처리 이상치 제거 (IQR 1.5 규칙, Z-score)]
-    └──▶ [실시간 분석 / 거버넌스 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 정리 사후 확률 갱신 구조망 파악</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정 계수 와 조정된 결정 계수(Adjusted R^2) 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 전처리 이상치 제거 (IQR 1.5 규칙, Z-score)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 분석 / 거버넌스 자동화</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 베이즈 정리 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신 구조망 파악에서 출발해 현재 개념을 거쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 제거 (IQR 1.5 규칙, Z-score)와 실시간 분석 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
 

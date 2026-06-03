@@ -17,21 +17,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 YAGNI는 "언젠가 필요할지도 모른다"는 추측을 설계 근거로 삼지 말라고 요구한다. 사용되지 않는 옵션 컬럼, 호출되지 않는 인터페이스, 한 번도 연결되지 않은 확장 포인트는 모두 시스템을 무겁게 만드는 설계 부채다. 특히 감리나 아키텍처 검토에서는 이런 선행 구현이 기능 범위 왜곡과 예산 낭비의 신호로 해석된다.
 
-```text
-┌──────────────────────────────┐
-│ 추측 기반 설계의 전개        │
-├──────────────────────────────┤
-│ 현재 요구 1개                │
-│        │                     │
-│        ├─ "나중에 다국어?"   │
-│        ├─ "나중에 멀티DB?"   │
-│        └─ "나중에 SaaS?"     │
-│              │               │
-│      미사용 코드·테이블·API  │
-│              │               │
-│         복잡도와 비용 증가    │
-└──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추측 기반 설계의 전개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 요구 1개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "나중에 다국어?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "나중에 멀티DB?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "나중에 SaaS?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미사용 코드·테이블·API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도와 비용 증가</div></div>
+</div>
+</div>
+
+
 
 요구가 불확실할수록 정답은 거대한 선행 설계가 아니라 변경하기 쉬운 작은 구조다. 그래서 YAGNI는 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), 점진적 리팩터링을 가능하게 하는 출발점으로 다뤄진다.
 - **📢 섹션 요약 비유**: 아직 손님도 오지 않았는데 의자 100개를 먼저 사 두는 식당은 공간과 청소비만 늘어납니다.
@@ -39,12 +39,16 @@ YAGNI는 "언젠가 필요할지도 모른다"는 추측을 설계 근거로 삼
 ## Ⅱ. 아키텍처 및 핵심 원리
 YAGNI의 핵심은 "지금 필요한 최소 구조 + 나중에 바꿀 수 있는 여지"의 균형이다. 미래 대비는 거대한 틀을 선행 구축하는 일이 아니라, 변경 비용을 낮추는 설계 습관을 만드는 일에 가깝다.
 
-```text
-┌────────────┐    ┌────────────┐    ┌────────────┐    ┌────────────┐
-│ 실제 요구   │──▶│ 최소 구현   │──▶│ 운영 피드백 │──▶│ 필요한 만큼 │
-│ 확인        │    │ 배포        │    │ 수집        │    │ 리팩터링    │
-└────────────┘    └────────────┘    └────────────┘    └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 요구</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">최소 구현</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 피드백</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">필요한 만큼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확인</div><div class="kb-diagram-cell">배포</div><div class="kb-diagram-cell">수집</div><div class="kb-diagram-cell">리팩터링</div></div>
+</div>
+</div>
+
+
 
 | 실천 원리 | 설명 | 설계 판단 포인트 |
 | :--- | :--- | :--- |
@@ -87,27 +91,29 @@ YAGNI를 지키면 코드량이 줄고, 테스트 범위가 작아지며, 팀이
 - **📢 섹션 요약 비유**: 집 안에 쓰지도 않을 방을 미리 열 개 더 짓기보다, 정말 필요할 때 증축하는 집이 관리도 쉽고 돈도 덜 듭니다.
 
 ### 📌 관련 개념 맵
-- **[XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/)**: "가장 단순하게 동작하는 것"을 우선 구현한다.
-- **[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/)**: 현재 구현의 복잡도를 줄이는 방향으로 함께 작동한다.
-- **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)**: 최소 기능으로 시장 검증을 수행한다.
-- **[Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/)**: 실제 요구가 생긴 뒤 구조를 안전하게 확장한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/">XP</a></strong>: "가장 단순하게 동작하는 것"을 우선 구현한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/">KISS</a></strong>: 현재 구현의 복잡도를 줄이는 방향으로 함께 작동한다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong>: 최소 기능으로 시장 검증을 수행한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/">Refactoring</a></strong>: 실제 요구가 생긴 뒤 구조를 안전하게 확장한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-요구 불확실성 증가
-    │
-    ▼
-추측성 설계와 오버엔지니어링 발생
-    │
-    ▼
-YAGNI 원칙 적용
-    │
-    ▼
-MVP 출시와 사용자 피드백 확보
-    │
-    ▼
-리팩터링 기반의 점진 확장 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구 불확실성 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추측성 설계와 오버엔지니어링 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">YAGNI 원칙 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP 출시와 사용자 피드백 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리팩터링 기반의 점진 확장 정착</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 내일 뭘 입을지 모르는데 옷을 열 벌씩 껴입고 학교에 가면 너무 불편해요.

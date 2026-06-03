@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 과거 실시간 방송은 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전용망과 [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)/UDP라는 특수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 썼습니다.
 - **문제점**: 이 특수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들은 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 외 차단)을 통과하지 못해 튕겨 나가기 일쑤였고, 스마트폰의 변덕스러운 무선 인터넷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) ➜ 3G) 속도 변화에 대처하지 못해 영상이 수시로 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 뺑뺑이를 돌며 멈췄습니다.
 
-```text
-[퍼시스턴트 토폴로지 관리]
-    │
-    ▼
-[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    └──▶ [CMAF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CMAF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 애플(Apple)이 개발한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 거대한 비디오 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잘게 쪼갠 뒤([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), 깐깐한 전용망 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 대신 **웹서핑할 때 쓰는 가장 흔해 빠진 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 태워서 클라이언트에게 끊김 없이 전달하는 적응형(Adaptive) 미디어 스트리밍 기술**입니다.
+- **개념**: 애플(Apple)이 개발한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 거대한 비디오 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잘게 쪼갠 뒤([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), 깐깐한 전용망 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 대신 <strong>웹서핑할 때 쓰는 가장 흔해 빠진 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>(80번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>에 태워서 클라이언트에게 끊김 없이 전달하는 적응형(Adaptive) 미디어 스트리밍 기술</strong>입니다.
 - 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(HTML) 열리듯 동영상 조각이 배달되므로, 전 세계 어떤 깐깐한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이든, 어떤 구식 공유기든 100% 무사통과하는 무적의 호환성을 가집니다.
 
-```text
-[퍼시스턴트 토폴로지 관리]
-    │
-    ▼
-[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    └──▶ [CMAF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CMAF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,12 +64,12 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 비디오의 무자비한 가위질 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))
-- 넷플릭스 서버는 원본 2시간짜리 영화를 **딱 '10초(또는 2~6초)' 분량의 자잘한 `.ts` 확장자 미니 동영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수만 개**로 잘라버립니다.
-- **해상도별 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)**: 1080p(고화질) 10초 조각 1만 개, 720p(중화질) 1만 개, 480p(저화질) 1만 개 등 화질별로 세트를 수십 개 만들어 서버에 저장해 둡니다.
+- 넷플릭스 서버는 원본 2시간짜리 영화를 <strong>딱 '10초(또는 2~6초)' 분량의 자잘한 <code>.ts</code> 확장자 미니 동영상 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 수만 개</strong>로 잘라버립니다.
+- <strong>해상도별 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong>: 1080p(고화질) 10초 조각 1만 개, 720p(중화질) 1만 개, 480p(저화질) 1만 개 등 화질별로 세트를 수십 개 만들어 서버에 저장해 둡니다.
 
 ### 2. 마법의 목차 장부: M3U8 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 🌟
 - 동영상 조각이 10만 개나 널부러져 있으니, 폰은 어떤 조각부터 받아야 할지 모릅니다.
-- 서버는 스마트폰에게 가장 먼저 **`.m3u8` 이라는 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(목차 장부)** 한 장을 던져줍니다.
+- 서버는 스마트폰에게 가장 먼저 <strong><code>.m3u8</code> 이라는 텍스트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(목차 장부)</strong> 한 장을 던져줍니다.
 - 이 장부에는 "고화질 1번 조각은 [URL A]에 있고, 중화질 1번 조각은 [URL B]에 있다!"라는 재생 목록 링크가 줄줄이 적혀 있습니다.
 
 ### 3. ABR (적응형 비트레이트, Adaptive Bitrate) 통신 마법 🌟
@@ -69,8 +77,8 @@ HLS가 세상을 지배한 이유입니다.
 - 스마트폰(클라이언트)이 장부를 보고 **자신의 현재 인터넷 속도에 맞춰 화질을 지 스스로 골라먹습니다.**
 - 처음엔 와이파이가 빵빵해서 [고화질 1번, 2번, 3번 조각]을 다운받아 선명하게 봅니다.
 - 갑자기 지하철을 타서 인터넷이 1/10로 느려졌습니다! 폰이 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)이 걸릴 위기를 감지합니다. 
-- 폰은 똑똑하게 목차 장부(M3U8)를 보고, **다음 4번 조각부터는 용량이 작은 [저화질 4번, 5번 조각] URL로 바꿔서 다운로드**를 요청합니다. 
-- 화면은 갑자기 깍두기 화질로 확 구려지지만, **[버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(멈춤)이라는 최악의 사태는 100% 방어**해 내며 재생을 이어갑니다.
+- 폰은 똑똑하게 목차 장부(M3U8)를 보고, <strong>다음 4번 조각부터는 용량이 작은 [저화질 4번, 5번 조각] URL로 바꿔서 다운로드</strong>를 요청합니다. 
+- 화면은 갑자기 깍두기 화질로 확 구려지지만, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/">버퍼링</a>(멈춤)이라는 최악의 사태는 100% 방어</strong>해 내며 재생을 이어갑니다.
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리가 기반 조건을 만든다면, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 그 위에서 핵심 메커니즘을 구현하고, CMAF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -95,7 +103,7 @@ HLS가 세상을 지배한 이유입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 스트리밍은 '2시간짜리 거대한 통돼지 바베큐(단일 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'를 한 번에 입에 쑤셔 넣는 방식입니다. 목구멍(인터넷 속도)이 좁아지면 고기가 탁 막혀서 질식([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 멈춤)해 버립니다. **HLS(적응형 스트리밍)**는 통돼지를 한 입 크기의 **'10초짜리 작은 큐브 고기(세그먼트 단편 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'** 수만 개로 잘게 썰어놓은 뷔페식입니다. 폰(손님)은 메뉴판(M3U8 장부)을 쥐고 있습니다. 목구멍(인터넷)이 뻥 뚫려있을 땐 엄청 크고 두꺼운 특A급 고기(1080p 고화질 10초 조각)를 집어삼킵니다. 갑자기 목구멍이 붓고 좁아지면(인터넷 속도 저하), 손님은 질식([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 피하기 위해 재빨리 메뉴판을 보고 가장 작고 싼 찌그러진 고기(480p 저화질 조각)로 메뉴를 바꿔서 쏙쏙 집어먹습니다. 고기 맛(화질)은 뚝 떨어지지만 씹어 삼키는 흐름(재생) 자체는 절대 끊기지 않게 살려내는 극한의 생존 식사법입니다.
+- **📢 섹션 요약 비유**: 과거 스트리밍은 '2시간짜리 거대한 통돼지 바베큐(단일 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))'를 한 번에 입에 쑤셔 넣는 방식입니다. 목구멍(인터넷 속도)이 좁아지면 고기가 탁 막혀서 질식([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 멈춤)해 버립니다. <strong>HLS(적응형 스트리밍)</strong>는 통돼지를 한 입 크기의 <strong>'10초짜리 작은 큐브 고기(세그먼트 단편 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)'</strong> 수만 개로 잘게 썰어놓은 뷔페식입니다. 폰(손님)은 메뉴판(M3U8 장부)을 쥐고 있습니다. 목구멍(인터넷)이 뻥 뚫려있을 땐 엄청 크고 두꺼운 특A급 고기(1080p 고화질 10초 조각)를 집어삼킵니다. 갑자기 목구멍이 붓고 좁아지면(인터넷 속도 저하), 손님은 질식([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 피하기 위해 재빨리 메뉴판을 보고 가장 작고 싼 찌그러진 고기(480p 저화질 조각)로 메뉴를 바꿔서 쏙쏙 집어먹습니다. 고기 맛(화질)은 뚝 떨어지지만 씹어 삼키는 흐름(재생) 자체는 절대 끊기지 않게 살려내는 극한의 생존 식사법입니다.
 
 ---
 
@@ -118,15 +126,19 @@ HLS가 세상을 지배한 이유입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 퍼시스턴트 토폴로지 관리]
-    │
-    ▼
-[현재 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
-    │
-    ├──▶ [확장 A: CMAF]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 퍼시스턴트 토폴로지 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CMAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리에서 출발해 현재 메커니즘을 정교화하고, 이후 CMAF와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,25 +19,24 @@ tags = ["software_engineering"]
 
 전통적인 소프트웨어는 특정 서버와 운영체제 환경에 강하게 결합되어 있었다. 하지만 '디지털 심화 시대'에는 트래픽의 급격한 변동과 빠른 기능 출시가 비즈니스 성패를 가른다. 클라우드 네이티브 (Cloud Native)는 단순히 소프트웨어를 클라우드에 옮기는 것(Cloud Migration)을 넘어, 처음부터 클라우드 환경에서 가장 잘 돌아가도록 설계하는 철학이다.
 
-동시에 소프트웨어 공학은 또 다른 도전에 직면했다. 바로 인공지능 (AI)의 결합이다. 기존 소프트웨어가 "A 입력 시 반드시 B 출력"이라는 결정적 (Deterministic) 로직을 따랐다면, AI 소프트웨어는 데이터에 따라 결과가 변하는 비결정적 (Non-deterministic) 특성을 가진다. 이를 기존의 공학적 체계로 관리하기 위해 **AI 소프트웨어 공학**과 **MLOps**가 대두되었다.
+동시에 소프트웨어 공학은 또 다른 도전에 직면했다. 바로 인공지능 (AI)의 결합이다. 기존 소프트웨어가 "A 입력 시 반드시 B 출력"이라는 결정적 (Deterministic) 로직을 따랐다면, AI 소프트웨어는 데이터에 따라 결과가 변하는 비결정적 (Non-deterministic) 특성을 가진다. 이를 기존의 공학적 체계로 관리하기 위해 <strong>AI 소프트웨어 공학</strong>과 <strong>MLOps</strong>가 대두되었다.
 
 이 그림은 클라우드 네이티브를 지탱하는 4대 핵심 축을 보여준다. MSA, 컨테이너, CI/CD, 그리고 DevOps가 어떻게 유기적으로 결합되는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Cloud Native 4 Pillars Architecture             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       [ Microservices ]  ◀─────▶  [ Containers ]            │
-│       (비즈니스 기능 분해)         (환경 일관성 확보)         │
-│               ▲                        ▲                    │
-│               │          [ Synergy ]   │                    │
-│               ▼                        ▼                    │
-│       [ Continuous Delivery ] ◀───▶  [ DevOps ]             │
-│       (자동화된 가치 전달)         (개발-운영 문화 통합)      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Native 4 Pillars Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Microservices</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Containers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 기능 분해) (환경 일관성 확보)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Synergy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Delivery</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">DevOps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자동화된 가치 전달) (개발-운영 문화 통합)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '상호 연결성'이다. MSA로 서비스를 쪼개야 컨테이너로 가볍게 배포할 수 있고, 컨테이너화가 되어야 CI/CD 자동화가 수월하며, 이 모든 것을 DevOps 문화가 지탱한다. 실무에서 이 중 하나라도 빠지면 클라우드 네이티브의 진정한 이점(Agility, Scalability)을 누릴 수 없다.
 
@@ -66,21 +65,18 @@ AI 모델 개발을 공학적으로 규격화한 체계가 MLOps이다. 이는 �
 
 이 구조도는 기존 CI/CD에 데이터와 모델의 흐름이 추가된 **CI/CD/CT** 파이프라인을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Modern AI/ML Pipeline (CI/CD/CT)            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Data Source] ──▶ [Data Prep] ──▶ [Model Train] ──┐       │
-│          ▲                                          │       │
-│          │          ┌───────────────────────────────┘       │
-│          │          ▼                                       │
-│   [Feedback] ◀── [Serving] ◀── [Model Validation] ◀── [CI]  │
-│          │          │                                       │
-│          └──── (Continuous Training) ───────────────────┘    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern AI/ML Pipeline (CI/CD/CT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Prep</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Model Train</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Feedback</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Serving</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Model Validation</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">CI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Continuous Training)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '피드백 루프'와 '지속적 학습 (CT)'이다. 운영 중인 모델에서 수집된 실제 데이터가 다시 데이터 준비 단계로 흘러들어가 모델을 자동으로 재학습시킨다. 실무에서는 이 과정에서 데이터 드리프트 (Data Drift)를 감지하여 재학습 시점을 결정하는 'Trigger' 설계가 아키텍처의 품질을 좌우한다.
 
@@ -121,28 +117,26 @@ AI 모델 개발을 공학적으로 규격화한 체계가 MLOps이다. 이는 �
 ### 기술사적 판단: 클라우드 전환 및 AI 도입 전략
 
 **시나리오 1: 온프레미스 레거시의 클라우드 네이티브 전환**
-- **판단**: 단순히 서버만 옮기는 'Lift and Shift'는 지양한다. 시스템의 중요도에 따라 비핵심 서비스는 **서버리스**로, 핵심 서비스는 **MSA**로 리팩토링하는 단계적 전략을 취한다. 인프라 관리를 자동화하기 위해 **IaC (Infrastructure as Code)** 도입을 필수적으로 권고한다.
+- **판단**: 단순히 서버만 옮기는 'Lift and Shift'는 지양한다. 시스템의 중요도에 따라 비핵심 서비스는 <strong>서버리스</strong>로, 핵심 서비스는 <strong>MSA</strong>로 리팩토링하는 단계적 전략을 취한다. 인프라 관리를 자동화하기 위해 **IaC (Infrastructure as Code)** 도입을 필수적으로 권고한다.
 
 **시나리오 2: 현업 부서의 AI 서비스 상용화 요청**
-- **판단**: 모델의 정확도뿐만 아니라 '운영 지속성'을 먼저 검토한다. 모델 학습 데이터의 수급 경로가 안정적인지, 운영 중 모델 성능 하락을 모니터링할 **MLOps 체계**가 갖춰졌는지 확인한다. 데이터 보안을 위해 **연합 학습 (Federated Learning)**이나 사내 독립 환경 구축 여부를 결정한다.
+- **판단**: 모델의 정확도뿐만 아니라 '운영 지속성'을 먼저 검토한다. 모델 학습 데이터의 수급 경로가 안정적인지, 운영 중 모델 성능 하락을 모니터링할 <strong>MLOps 체계</strong>가 갖춰졌는지 확인한다. 데이터 보안을 위해 <strong>연합 학습 (Federated Learning)</strong>이나 사내 독립 환경 구축 여부를 결정한다.
 
 이 도식은 AI 서비스 도입 시의 의사결정 트리를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               AI/ML Service Decision Tree                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   데이터 주권이 중요한가? ──▶ [YES] ──▶ Private/On-prem AI   │
-│          │                                                  │
-│        [NO] ──▶ Cloud AI API (Public)                       │
-│                                                             │
-│   실시간 응답이 필수인가? ──▶ [YES] ──▶ Edge AI / On-device  │
-│          │                                                  │
-│        [NO] ──▶ Cloud Serving (GPU Farm)                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI/ML Service Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Private/On-prem AI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud AI API (Public)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Edge AI / On-device</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud Serving (GPU Farm)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 전략은 항로를 결정하는 조타수와 같습니다. 최신 기술이라는 '바람'도 중요하지만, 우리 배(조직)의 엔진 성능과 식량(예산) 상황을 보고 가장 안전한 항구를 선택해야 합니다.
 
@@ -157,7 +151,7 @@ AI 모델 개발을 공학적으로 규격화한 체계가 MLOps이다. 이는 �
 
 ### 결론: 소프트웨어 공학의 재정의
 
-이제 소프트웨어 공학은 '코드를 관리하는 기술'에서 '지능을 관리하는 공학'으로 확장되고 있다. 미래의 기술사는 인프라, 코드, 데이터, 그리고 모델이라는 네 가지 이질적인 자원을 하나의 파이프라인에서 조율하는 **'Full-stack Architect'**를 넘어 **'AI Platform Architect'**로 거듭나야 한다. 또한 클라우드 자원의 효율적 사용 (FinOps)과 탄소 중립 (Green ICT)이라는 사회적 책무 또한 공학적 설계의 일부로 포함되어야 한다.
+이제 소프트웨어 공학은 '코드를 관리하는 기술'에서 '지능을 관리하는 공학'으로 확장되고 있다. 미래의 기술사는 인프라, 코드, 데이터, 그리고 모델이라는 네 가지 이질적인 자원을 하나의 파이프라인에서 조율하는 <strong>'Full-stack Architect'</strong>를 넘어 <strong>'AI Platform Architect'</strong>로 거듭나야 한다. 또한 클라우드 자원의 효율적 사용 (FinOps)과 탄소 중립 (Green ICT)이라는 사회적 책무 또한 공학적 설계의 일부로 포함되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 소프트웨어는 스스로 길을 찾는 자율주행차와 같아질 것이며, 우리는 그 차가 안전하게 목적지에 도달하도록 도로(클라우드)를 닦고 지도(데이터)를 갱신하는 일을 하게 될 것입니다.
 

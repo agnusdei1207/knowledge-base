@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 클라우드 네이티브([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))는 '구름(클라우드)'에서 '태어난(Native)'이라는 뜻이다. 옛날에는 프로그램(앱)을 짤 때 "우리 회사 지하실에 있는 안 꺼지는 엄청 튼튼한 슈퍼컴퓨터"를 기준으로 짰다([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)). 네이티브는 아예 뇌 구조가 다르다. **"내 앱을 돌리는 서버는 누군가의 마우스 클릭이나 장애로 5분 뒤에 갑자기 흔적도 없이 터져 죽을 수 있다"**를 전제로 코드를 짠다. 언제든 죽고, 언제든 1만 개로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되어 살아나는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 DNA를 이식하는 것이다.
+- **개념**: 클라우드 네이티브([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/))는 '구름(클라우드)'에서 '태어난(Native)'이라는 뜻이다. 옛날에는 프로그램(앱)을 짤 때 "우리 회사 지하실에 있는 안 꺼지는 엄청 튼튼한 슈퍼컴퓨터"를 기준으로 짰다([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)). 네이티브는 아예 뇌 구조가 다르다. <strong>"내 앱을 돌리는 서버는 누군가의 마우스 클릭이나 장애로 5분 뒤에 갑자기 흔적도 없이 터져 죽을 수 있다"</strong>를 전제로 코드를 짠다. 언제든 죽고, 언제든 1만 개로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되어 살아나는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 DNA를 이식하는 것이다.
 
-- **필요성**: 기존 방식(모놀리식)으로 짠 은행 앱을 그대로 AWS(클라우드)에 올렸다고 치자([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift). 갑자기 트래픽이 10만 명 몰려서 AWS 서버가 10대로 자동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))되었다. 그런데 옛날 앱은 로그인한 사람의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(상태)을 자기 혼자 메모리에 꽉 쥐고 있는 구조(Stateful)라, 2번 서버로 접속된 사람은 로그인이 풀려버리는 미친 에러가 났다. **"단순히 서버를 남의 집(클라우드)으로 이사 가는 게 능사가 아니다. 그 남의 집([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확장 환경)에서 미친 듯이 춤출 수 있게 앱의 뼈대와 체질([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 자체를 완벽하게 [무상태성](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))과 조립식으로 뜯어고치지 않으면 회사는 파산한다."** 이 뼈저린 교훈이 클라우드 네이티브라는 학문을 탄생시켰다.
+- **필요성**: 기존 방식(모놀리식)으로 짠 은행 앱을 그대로 AWS(클라우드)에 올렸다고 치자([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) and Shift). 갑자기 트래픽이 10만 명 몰려서 AWS 서버가 10대로 자동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))되었다. 그런데 옛날 앱은 로그인한 사람의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)(상태)을 자기 혼자 메모리에 꽉 쥐고 있는 구조(Stateful)라, 2번 서버로 접속된 사람은 로그인이 풀려버리는 미친 에러가 났다. <strong>"단순히 서버를 남의 집(클라우드)으로 이사 가는 게 능사가 아니다. 그 남의 집(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 확장 환경)에서 미친 듯이 춤출 수 있게 앱의 뼈대와 체질(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>) 자체를 완벽하게 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/">무상태성</a>(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)과 조립식으로 뜯어고치지 않으면 회사는 파산한다."</strong> 이 뼈저린 교훈이 클라우드 네이티브라는 학문을 탄생시켰다.
 
-- **💡 비유**: 기존 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 개발은 **'거대한 분재(나무) 화분 키우기'**입니다. 화분이 조금이라도 깨지거나 물을 덜 주면 거대한 나무 1그루가 통째로 죽어버립니다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 화분을 들고 이사 가기도 너무 무겁습니다. 클라우드 네이티브는 **'1만 마리의 개미떼 군단'**입니다. 개미 몇 마리(서버)를 발로 밟아 죽여도, 여왕개미(K8s 컨트롤러)가 1초 만에 알을 낳아 즉시 1만 마리로 복구시킵니다. 이사 갈 때는 개미들이 각자 알아서 구멍을 타고 새로운 집(다른 클라우드 벤더)으로 1분 만에 쪼르륵 이동해 그곳에서 다시 1만 마리의 형태를 완벽하게 조립해 냅니다. 군단의 생명력은 개체 1마리에 의존하지 않습니다.
+- **💡 비유**: 기존 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 개발은 <strong>'거대한 분재(나무) 화분 키우기'</strong>입니다. 화분이 조금이라도 깨지거나 물을 덜 주면 거대한 나무 1그루가 통째로 죽어버립니다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 화분을 들고 이사 가기도 너무 무겁습니다. 클라우드 네이티브는 <strong>'1만 마리의 개미떼 군단'</strong>입니다. 개미 몇 마리(서버)를 발로 밟아 죽여도, 여왕개미(K8s 컨트롤러)가 1초 만에 알을 낳아 즉시 1만 마리로 복구시킵니다. 이사 갈 때는 개미들이 각자 알아서 구멍을 타고 새로운 집(다른 클라우드 벤더)으로 1분 만에 쪼르륵 이동해 그곳에서 다시 1만 마리의 형태를 완벽하게 조립해 냅니다. 군단의 생명력은 개체 1마리에 의존하지 않습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 클라우드의 탄생 (2000년대 후반)**: AWS가 하드웨어를 가상으로 쪼개 팔기 시작했다. 이때는 그냥 낡은 코드를 서버만 빌려서 올렸다([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)). 비효율의 극치였다.
-  2. **[12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/) 헌법 제정 (2011)**: Heroku 엔지니어들이 "클라우드에서 앱이 예쁘게 돌려면 이 12개 룰([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리, 무상태 등)을 무조건 지키며 코딩해라!"라고 선포하며 클라우드 최적화 코딩의 바이블을 세웠다.
-  3. **[CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) Computing Foundation) 결성 (2015)**: 구글이 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 지휘하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)를 오픈소스로 풀면서, 전 세계 기업들이 "모든 시스템을 쪼개고([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 컨테이너로 감싸서 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)하는 생태계"로 천하를 통일했다.
+  1. <strong>가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 클라우드의 탄생 (2000년대 후반)</strong>: AWS가 하드웨어를 가상으로 쪼개 팔기 시작했다. 이때는 그냥 낡은 코드를 서버만 빌려서 올렸다([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)). 비효율의 극치였다.
+  2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a> 헌법 제정 (2011)</strong>: Heroku 엔지니어들이 "클라우드에서 앱이 예쁘게 돌려면 이 12개 룰([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 분리, 무상태 등)을 무조건 지키며 코딩해라!"라고 선포하며 클라우드 최적화 코딩의 바이블을 세웠다.
+  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/">CNCF</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a> Computing Foundation) 결성 (2015)</strong>: 구글이 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 지휘하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)를 오픈소스로 풀면서, 전 세계 기업들이 "모든 시스템을 쪼개고([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 컨테이너로 감싸서 배포([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)하는 생태계"로 천하를 통일했다.
 
-- **📢 섹션 요약 비유**: 클라우드 네이티브는 **'레고 블록(Lego)으로 성벽 쌓기'**입니다. 옛날 성(모놀리식)은 시멘트를 부어서 통째로 굳혔기 때문에, 대포를 맞아 벽 한쪽이 깨지면 성을 다 부수고 처음부터 다시 지어야 했습니다. 클라우드 네이티브 성은 작은 레고 조각([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 수만 개로 끼워져 있어서, 대포를 맞아 조각 100개가 날아가도, 로봇(K8s)이 똑같은 레고 조각 100개를 가져와 1초 만에 그 자리에 끼워 넣어(Auto-healing) 언제나 완벽한 성의 모습을 유지하는 미친 회복력의 마술입니다.
+- **📢 섹션 요약 비유**: 클라우드 네이티브는 <strong>'레고 블록(Lego)으로 성벽 쌓기'</strong>입니다. 옛날 성(모놀리식)은 시멘트를 부어서 통째로 굳혔기 때문에, 대포를 맞아 벽 한쪽이 깨지면 성을 다 부수고 처음부터 다시 지어야 했습니다. 클라우드 네이티브 성은 작은 레고 조각([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 수만 개로 끼워져 있어서, 대포를 맞아 조각 100개가 날아가도, 로봇(K8s)이 똑같은 레고 조각 100개를 가져와 1초 만에 그 자리에 끼워 넣어(Auto-healing) 언제나 완벽한 성의 모습을 유지하는 미친 회복력의 마술입니다.
 
 ---
 
 다음은 [클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) (Clou의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 네이티브 아키텍처 (Clou                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 네이티브 아키텍처 (Clou</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) (Clou가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) ([Cloud Native Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)) 철학의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) ([Cloud Native Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)) 철학의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/) ([Cloud Native Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/204_cloud_native_architecture/)) 철학의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

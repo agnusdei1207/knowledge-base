@@ -25,7 +25,7 @@ tags = ["studynote-software-engineering"]
 
 보안 인식 교육은 조직 내 모든 구성원 (IT 담당자뿐 아니라 일반 직원, 계약자, 임시직을 포함)을 대상으로 정보보안에 대한 지식, 기술, 태도를 개발하는 활동이다. 이는 단순히 한번의 교육으로 끝나는 것이 아니라, مستمر인 학습과 실천을 통해문화를 구축하는 장기적 프로세스다.
 
-보안 인식 교육의 주요 목표는 다음과 같다. **위협 인지 능력 향상**으로 구성원이 최신 보안 위협 ([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), 소셜 엔지니어링 등)을 인식하고 적절히 대응하게 한다. **[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 이해**로의의 내용과준수 필요성을 이해하게 한다. **보안 실천 행동**으로 일상 업무에서적으로 행동할 수 있도록 역량을 부여한다. **사고 보고 문화 조성**으로한 상황을 발견하면 즉각 보고하는 문화를 만든다.
+보안 인식 교육의 주요 목표는 다음과 같다. <strong>위협 인지 능력 향상</strong>으로 구성원이 최신 보안 위협 ([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), 소셜 엔지니어링 등)을 인식하고 적절히 대응하게 한다. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/">보안 정책</a> 이해</strong>로의의 내용과준수 필요성을 이해하게 한다. <strong>보안 실천 행동</strong>으로 일상 업무에서적으로 행동할 수 있도록 역량을 부여한다. <strong>사고 보고 문화 조성</strong>으로한 상황을 발견하면 즉각 보고하는 문화를 만든다.
 
 ### 필요성
 
@@ -39,40 +39,35 @@ tags = ["studynote-software-engineering"]
 
 보안 인식 교육의 역사는 컴퓨터 보안과 함께한다. 1980년대 컴퓨터 바이러스가 등장하면서 사용자들의 인식 필요성이 제기되었고, 1990년대 인터넷 확산과 함께 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)과 해킹이 증가하면서 교육의 중요성이 부각되었다. 2000년대 이후에는SOCIAL ENGINEERING과 APT가가 되면서, 기술적 방어만으로는하며 인간을 통한 방어가 필수적다는 것이 업계의가 되었다. NIST는 [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-50과 NICE 프레임워크를 통해 프로그램의 구축 방법을한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보안 인식 교육의 발전 단계 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ 1단계: 안티바이러스 시대 (1980s-1990s) │
-│ ├─: 바이러스 예방법, floppy disk 관리 │
-│ └─ 방식: 포스터, Simultaneously 교육 │
-│ │
-│ 2단계: 인터넷 시대 (1990s-2000s) │
-│ ├─: 피싱, 해킹 기법 인식 │
-│ └─ 방식: 온라인 학습, 이메일 안내 │
-│ │
-│ 3단계: 사회공학 시대 (2000s-2010s) │
-│ ├─: 소셜 엔지니어링, APT, 랜섬웨어 │
-│ └─ 방식: 피싱 시뮬레이션, 사례 공유 │
-│ │
-│ 4단계: 제로 트러스트 시대 (2010s-현재) │
-│ ├─: Continuous 인증, 데이터 분류, 클라우드 보안 │
-│ └─ 방식: micro-learning, gamification, 상황별Role-playing │
-│ │
-│ ┌──────────────────────────────────────────────────────────┐│
-│ │ 현재 주요 위협 주제 ││
-│ │ ││
-│ │ ├─ 피싱 및 소셜 엔지니어링 ││
-│ │ ├─ 랜섬웨어 예방 및 대응 ││
-│ │ ├─ 비밀번호 관리 및 MFA ││
-│ │ ├─ 모바일 및 원격 근무 보안 ││
-│ │ ├─ 개인정보 보호 (GDPR, 개인정보 보호법) ││
-│ │ ├─ 클라우드 서비스 적정 사용 ││
-│ │ └─ 물리적 보안 및 출입 관리 ││
-│ └──────────────────────────────────────────────────────────┘│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 인식 교육의 발전 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 안티바이러스 시대 (1980s-1990s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─: 바이러스 예방법, floppy disk 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 방식: 포스터, Simultaneously 교육</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 인터넷 시대 (1990s-2000s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─: 피싱, 해킹 기법 인식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 방식: 온라인 학습, 이메일 안내</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 사회공학 시대 (2000s-2010s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─: 소셜 엔지니어링, APT, 랜섬웨어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 방식: 피싱 시뮬레이션, 사례 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: 제로 트러스트 시대 (2010s-현재)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─: Continuous 인증, 데이터 분류, 클라우드 보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 방식: micro-learning, gamification, 상황별Role-playing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 주요 위협 주제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 피싱 및 소셜 엔지니어링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 랜섬웨어 예방 및 대응</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비밀번호 관리 및 MFA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 모바일 및 원격 근무 보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 개인정보 보호 (GDPR, 개인정보 보호법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클라우드 서비스 적정 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 물리적 보안 및 출입 관리</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 보안 인식 교육의 내용은 시대마다 변해왔다. 1980년대에는 단순히 플로피 디스크에서 바이러스를 조심하라는 수준이었지만, 2020년대에는 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 클라우드 보안, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 등 훨씬 복잡하고인 주제를 다뤄야 한다. 교육 방식도 단순한 강의에서 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션, 마이크로 러닝, 게임화를 통한 참여형 교육으로 진화하고 있다. 중요한 것은 교육이 "once and done"이 아니라 최신 위협에 맞추어 지속적으로 업데이트되어야 한다는 점이다.
 
@@ -82,14 +77,14 @@ tags = ["studynote-software-engineering"]
 
 ### 보안 인식 교육 프로그램 구성 요소
 
-효과적인 보안 인식 교육 프로그램은 다음 요소들로 구성된다. **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 평가 ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) Assessment)**는 구성원의 현재 보안 인식 수준을 측정하여 교육 필요 영역을 파악한다. **대상자별 교육 설계 (Targeted Content Development)**는 부서, 직급, 업무 특성에 맞는 차별화된 교육을 설계한다. **다양한 전달 방식 (Multi-Channel Delivery)**은 온라인 학습, 대면 교육, 시뮬레이션 등 다양한 방식으로 제공한다. **정기 평가 및 피드백 (Ongoing Assessment)**은 교육 효과를 정기적으로 측정하고 개선한다.
+효과적인 보안 인식 교육 프로그램은 다음 요소들로 구성된다. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a> 평가 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a> Assessment)</strong>는 구성원의 현재 보안 인식 수준을 측정하여 교육 필요 영역을 파악한다. <strong>대상자별 교육 설계 (Targeted Content Development)</strong>는 부서, 직급, 업무 특성에 맞는 차별화된 교육을 설계한다. <strong>다양한 전달 방식 (Multi-Channel Delivery)</strong>은 온라인 학습, 대면 교육, 시뮬레이션 등 다양한 방식으로 제공한다. <strong>정기 평가 및 피드백 (Ongoing Assessment)</strong>은 교육 효과를 정기적으로 측정하고 개선한다.
 
 | 요소 | 활동 내용 | 목표 |
 |:---|:---|:---|
 | **기존 상태 진단** | 사전 평가, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션 | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 취약 영역 파악 |
 | **기본 보안 교육** | 온라인 학습 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 안내 문서 | 기본 지식 전달 |
 | **대상별 심화 교육** | 역할별 시나리오, 실습 | 전문성 향상 |
-| **[피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션** | 실제 유사 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일 발송 | 실무 감수성 향상 |
+| <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/">피싱</a> 시뮬레이션</strong> | 실제 유사 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일 발송 | 실무 감수성 향상 |
 | **지속적 알림** | 월간 보안 팁, 위협 동향 공유 | 경각심 유지 |
 | **효과 측정** | 사후 평가, 행동 변화 측정 | [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 입증, 개선 도출 |
 
@@ -97,47 +92,37 @@ tags = ["studynote-software-engineering"]
 
 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션은 가장 효과적인 보안 인식 교육 도구 중 하나다. 실제 유사한 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일을 몰래 발송하여 구성원들의 반응을측정하고, 클릭하거나 자격 정보를 입력한 사람에게는 즉각적인 교육을 제공한다. 이 방식의 장점은 "눈앞의 위협을 통해 배우게" 하여 이론적 교육보다이고, 즉시 적용 가능한 피드백을 준다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 피싱 시뮬레이션 프로세스 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ [계획 단계] │
-│ │ │
-│ ├── 목표 설정 (클릭률 5% 이하 목표) │
-│ ├── 대상 부서 및 인원 선정 │
-│ ├── 피싱 템플릿 선택/ │
-│ │ (택배 알림, IT 지원 요청, 경영진 사칭 등) │
-│ └── 일정 및 측정 지표 정의 │
-│ │
-│ [실행 단계] │
-│ │ │
-│ └── 조직 배치에 피싱 이메일 발송 │
-│ │
-│ [측정 단계] │
-│ │ │
-│ ├── 클릭률: 이메일 내 링크 클릭 비율 │
-│ ├── 제출률: 자격 정보 입력 비율 │
-│ └── 보고율: 이메일을_security팀에 비율 │
-│ │
-│ [피드백 단계] │
-│ │ │
-│ ├── 클릭/제출자: 즉시 온라인 교육course 제공 │
-│ ├── 일반 구성원: 결과 보고 및 요약 교육 │
-│ └── 경영진: 전체 결과 보고 및 트렌드 분석 │
-│ │
-│ [개선 단계] ──▶ 다음 라운드 계획에 반영 │
-│ │
-│ ┌──────────────────────────────────────────────────────────┐│
-│ │ 예상 효과 지표 ││
-│ │ ││
-│ │ 라운드 1: 클릭률 30% → 교육 후 ││
-│ │ 라운드 2: 클릭률 20% → 심화 교육 후 ││
-│ │ 라운드 3: 클릭률 10% → 지속적인 활동 후 ││
-│ │ 목표: 12개월 내 5% 이하 유지 ││
-│ └──────────────────────────────────────────────────────────┘│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피싱 시뮬레이션 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">계획 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 목표 설정 (클릭률 5% 이하 목표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 대상 부서 및 인원 선정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 피싱 템플릿 선택/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(택배 알림, IT 지원 요청, 경영진 사칭 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 일정 및 측정 지표 정의</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 조직 배치에 피싱 이메일 발송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">측정 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 클릭률: 이메일 내 링크 클릭 비율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 제출률: 자격 정보 입력 비율</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 보고율: 이메일을_security팀에 비율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 클릭/제출자: 즉시 온라인 교육course 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 일반 구성원: 결과 보고 및 요약 교육</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 경영진: 전체 결과 보고 및 트렌드 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개선 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">다음 라운드 계획에 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예상 효과 지표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라운드 1: 클릭률 30% → 교육 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라운드 2: 클릭률 20% → 심화 교육 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라운드 3: 클릭률 10% → 지속적인 활동 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 12개월 내 5% 이하 유지</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션은 "평가 → 실행 → 측정 → 피드백 → 개선"의 사이클로 운영되어야 한다. 중요한 것은 단순히 "누가 클릭했는가"를 파악하는 것을 넘어, 클릭한 사람에 대한즉시 교육으로 같은 실수를 반복하지 않도록 하는 것이다. 또한 보고율 ([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일을 [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 팀에 보고한 비율)도 중요한 지표로, 이는 구성원의 경계심을 보여준다. 보고율이 높다는 것은 구성원들이 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)을 인지하고 있다는 의미이므로, 클릭률만 보는 것보다 더 긍정적인 신호일 수 있다.
 
@@ -145,7 +130,7 @@ tags = ["studynote-software-engineering"]
 
 NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 사이버보안 인력의 역량을 개발하기 위한 standardized 접근을 제공한다.는 NICE 프레임워크의 "Awareness" 영역에 해당하며, 전체 Workforce는 다음 네 가지 영역으로 나눠진다:
 
-- **신입사원 ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Joiners)**: 기본 보안 인식
+- <strong>신입사원 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> Joiners)</strong>: 기본 보안 인식
 - **현장 직원 (Practitioners)**: 업무 관련 보안 역량
 - **보안 담당자 (Cybersecurity Specialists)**: 전문 보안 지식
 - **임원 (Executives)**: 보안 리더십과 거버넌스
@@ -177,39 +162,35 @@ NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 �
 
 ### 실무 시나리오
 
-1. **시나리오 — [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션으로_clickers 집중 교육**: 분기별 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션 결과, 재무팀에서률이 유독 높게 나왔다. 원인은 재무팀이 외부 공급업체에서 오는 청구서 이메일에 익숙하여, 이러한 이메일을 의심 없이 여는 습관이자리 잡고 있기 때문이었다. 아키텍트는 재무팀을 위한 맞춤 교육 (공급업체 사칭 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시나리오 포함)을개발실시하고, 3개월 후 다시 시뮬레이션을 진행하여 효과을 측정한다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/">피싱</a> 시뮬레이션으로_clickers 집중 교육</strong>: 분기별 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션 결과, 재무팀에서률이 유독 높게 나왔다. 원인은 재무팀이 외부 공급업체에서 오는 청구서 이메일에 익숙하여, 이러한 이메일을 의심 없이 여는 습관이자리 잡고 있기 때문이었다. 아키텍트는 재무팀을 위한 맞춤 교육 (공급업체 사칭 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시나리오 포함)을개발실시하고, 3개월 후 다시 시뮬레이션을 진행하여 효과을 측정한다.
 
-2. **시나리오 — [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응 교육**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격이 활발한 시기에 대상으로 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 예방 및 대응 교육을 실시했다. 교육 내용에는 "의심스러운 이메일의 링크를 클릭했을 때 즉시 네트워크 연결을 끊고 IT팀에 보고하는 절차", "[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염 징후와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 대응 방법" 등이 포함되었다. 교육 후 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응 훈련 ([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/))을 통해 직원들이절차를 제대로 이해하고 따르는지 점검했다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a> 대응 교육</strong>: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격이 활발한 시기에 대상으로 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 예방 및 대응 교육을 실시했다. 교육 내용에는 "의심스러운 이메일의 링크를 클릭했을 때 즉시 네트워크 연결을 끊고 IT팀에 보고하는 절차", "[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염 징후와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 대응 방법" 등이 포함되었다. 교육 후 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응 훈련 ([Tabletop Exercise](/knowledge-base/studynote/09_security/13_secops_ir_forensics/660_tabletop_exercise/))을 통해 직원들이절차를 제대로 이해하고 따르는지 점검했다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 보안 인식 교육 ROI (투자 대비 효과) 계산 │
-├──────────────────────────────────────────────────────────────┤
-│ │
-│ 투자 비용: │
-│ ├─ 교육 플랫폼 구축/구독: 연 3,000만 원 │
-│ ├─ 콘텐츠 개발: 1,000만 원 │
-│ ├─ 내부리소스 (교육 운영): 2,000만 원 │
-│ └─ 총 비용: 6,000만 원 │
-│ │
-│ 예상 효과: │
-│ ├─ 피싱 클릭률 30% → 5%로 감소 │
-│ │ = 클릭률 25%p 감소 │
-│ ├─ 피싱 기반 사고 예상 비용 감소 │
-│ │ = 사고 1건 비용 5,000만 × 3건 = 1.5억 원 방지 │
-│ └─ 직무로 인한 사고 감소 │
-│ = 추가 1억 원 방지 │
-│ │
-│ ┌──────────────────────────────────────────────────────────┐│
-│ │ ││
-│ │ ROI = (효과 - 비용) / 비용 × 100 ││
-│ │ = (2.5억 - 0.6억) / 0.6억 × 100 ││
-│ │ = 317% ││
-│ │ ││
-│ │ 즉, 보안 인식 교육에 1원 투자 시 4.17원의 효과가 있음 ││
-│ └──────────────────────────────────────────────────────────┘│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 인식 교육 ROI (투자 대비 효과) 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">투자 비용:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 교육 플랫폼 구축/구독: 연 3,000만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 콘텐츠 개발: 1,000만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 내부리소스 (교육 운영): 2,000만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 총 비용: 6,000만 원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예상 효과:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 피싱 클릭률 30% → 5%로 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 클릭률 25%p 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 피싱 기반 사고 예상 비용 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 사고 1건 비용 5,000만 × 3건 = 1.5억 원 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 직무로 인한 사고 감소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 추가 1억 원 방지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROI = (효과 - 비용) / 비용 × 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= (2.5억 - 0.6억) / 0.6억 × 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 317%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉, 보안 인식 교육에 1원 투자 시 4.17원의 효과가 있음</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 보안 인식 교육의 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 계산은 경영진에게 교육 투자를 설득하는 데 중요하다. 핵심은 "사고 방지로 인한 비용 절감"을 구체적인 숫자로 환산하는 것이다. 평균 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사고 비용과 연간 예상 사고 건수를하여, 교육 전후의 클릭률 차이를 적용하면 예상 비용 절감액을 산출할 수 있다. 물론 이러한 계산에는요소가 많지만, conservative한 가정하에서도 교육의 ROI는 긍정적이며, 이는 투자 결정의 중요한 근거가 된다.
 
@@ -238,7 +219,7 @@ NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 �
 
 ### 미래 전망
 
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 개인화 교육**: AI가 구성원의 학습 패턴과 취약을 분석하여 개인별 맞춤 교육을 제공하는 방식이 발전하고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 개인화 교육</strong>: AI가 구성원의 학습 패턴과 취약을 분석하여 개인별 맞춤 교육을 제공하는 방식이 발전하고 있다.
 - **지속적 어깨고개 (Continuous Nudging)**: 교육 대신 행동경제학적 " nudge"를 활용하여, 구성원이 자연스럽게 보안적으로 행동하도록 환경과 시스템을 설계하는 접근이 주목받고 있다.
 
 ---
@@ -247,10 +228,10 @@ NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 �
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션** | 구성원의 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 인지 능력을 테스트하고 즉각적 피드백을 제공하는 가장 효과적인 교육 도구다. |
+| <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/">피싱</a> 시뮬레이션</strong> | 구성원의 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 인지 능력을 테스트하고 즉각적 피드백을 제공하는 가장 효과적인 교육 도구다. |
 | **NIST NICE** | 사이버보안 인력의 역량 개발을 위한 프레임워크로, 교육 프로그램 설계의기초가 된다. |
 | **사회공학 (Social Engineering)** | 인간의 심리적 약점을 활용하는 공격으로, 교육의 가장 중요한 대상 위협이다. |
-| **[Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Culture** | 조직 전체가 보안을 행동으로 내재화한 상태로, 교육의 궁극적 목표다. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Culture</strong> | 조직 전체가 보안을 행동으로 내재화한 상태로, 교육의 궁극적 목표다. |
 | ** behavior Change** | 단순한 지식 전달이 아닌 실제 행동 변화를 추구하는 교육 설계 접근법이다. |
 | **Gamification** | 게임 요소 (포인트, 리더보드, 배지)를 교육에 도입하여 참여 동기를 높이는 방식이다. |
 
@@ -258,29 +239,31 @@ NIST NICE (National Initiative for Cybersecurity Education) 프레임워크는 �
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사이버 위협 (Cyber Threat) — 피싱, 사회공학 공격]
-│
-▼
-[보안 인식 교육 (Security Awareness Training)]
-│
-▼
-[피싱 시뮬레이션 (Phishing Simulation) — 행동 검증]
-│
-▼
-[게임화 (Gamification) — 교육 참여도 향상]
-│
-▼
-[보안 문화 (Security Culture) — 조직 내재화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사이버 위협 (Cyber Threat) — 피싱, 사회공학 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 인식 교육 (Security Awareness Training)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피싱 시뮬레이션 (Phishing Simulation) — 행동 검증</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">게임화 (Gamification) — 교육 참여도 향상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 문화 (Security Culture) — 조직 내재화</div></div>
+</div>
+</div>
+
+
 
 보안 인식 향상 프로그램이 단순 규정 교육에서 행동 변화를 이끄는 문화 내재화 단계로 발전한 흐름이다.
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 보안 인식 교육은**보안 교육**과 같아. 차가 아무리 좋아도 운전자님이 신호를 안 지키면 사고가 나듯이, 컴퓨터가 아무리 좋아도 우리가 조심하지 않으면 해킹당할 수 있어.
-2. [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션은 **교통 속도 단속**과 같아.가 단속을 하면 운전자들이 속도를 줄이듯이, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일을 받으면 생각하게 되는 거야. "이건 진짜일까?" 하고.
-3. 가장 중요한 것은 **나 sendiri가**을 갖는 거야. 비 이상한 이메일은 열지 말고, 잘 모르겠으면 (보안팀)에게 물어보는 거야!
+1. 보안 인식 교육은<strong>보안 교육</strong>과 같아. 차가 아무리 좋아도 운전자님이 신호를 안 지키면 사고가 나듯이, 컴퓨터가 아무리 좋아도 우리가 조심하지 않으면 해킹당할 수 있어.
+2. [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 시뮬레이션은 <strong>교통 속도 단속</strong>과 같아.가 단속을 하면 운전자들이 속도를 줄이듯이, [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 이메일을 받으면 생각하게 되는 거야. "이건 진짜일까?" 하고.
+3. 가장 중요한 것은 <strong>나 sendiri가</strong>을 갖는 거야. 비 이상한 이메일은 열지 말고, 잘 모르겠으면 (보안팀)에게 물어보는 거야!
 
 ---
 

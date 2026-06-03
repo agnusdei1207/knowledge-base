@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 (One)은 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 두 개(혹은 그 이상)의 물리적 디스크 쌍(Pair)에 동시에 쓰고(Write) 아예 똑같이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (Mirroring) 스토리지 아키텍처다.
-> 2. **가치**: 디스크 중 하나가 불에 타거나 치명적인 하드웨어 돌연사(Crash)를 일으켜도, 파트너 디스크에 단 1바이트의 오차도 없는 원본 사본이 살아 숨 쉬고 있어 서버 다운타임과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 없이 그 즉시 무중단 연속 운영([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 보장하는 **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(고가용성) 끝판왕** 방어선이다.
+> 2. **가치**: 디스크 중 하나가 불에 타거나 치명적인 하드웨어 돌연사(Crash)를 일으켜도, 파트너 디스크에 단 1바이트의 오차도 없는 원본 사본이 살아 숨 쉬고 있어 서버 다운타임과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 없이 그 즉시 무중단 연속 운영([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 보장하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(고가용성) 끝판왕</strong> 방어선이다.
 > 3. **한계**: 기껏 구매한 두 개의 디스크 용량을 전부 사용할 수 없고 반쪽(50%)만 실제 공간으로 남는 '용량 낭비(Capacity Overhead)'라는 혹독한 자본적 페널티 비용을 무작정 감수해야만 하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 우선 비즈니스 보험이다.
 
 ---
@@ -20,35 +20,33 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 미러(거울)라는 이름이 암시하듯, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 운영체제가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 백엔드의 하드웨어(또는 S/W 드라이버)가 똑같은 복사본을 쌍둥이 디스크에 거의 동시다발적으로 심어두는 가장 직관적이고 강력한 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy) 방법론이다.
-- **필요성**: 기업의 메인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Log), 파이낸셜 결제망 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), OS 부팅 영역([MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)/[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 등 "단 1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 1바이트의 손실도 치명적인 타격이 되는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 지대"에서는 아무리 싸고 큰 공간이라도 하드웨어 장애([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아간다면 무용지물이다. 시스템 설계자는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Write Penalty)과 용량 낭비를 기꺼이 자본과 돈으로 때우더라도, **디스크가 고장 나도 멈추지 않는 마법 방패(즉발성 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** 가 절대적으로 필요하게 되었으며 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 그 첫 번째 완벽한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 보루로 탄생했다.
+- **필요성**: 기업의 메인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Log), 파이낸셜 결제망 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), OS 부팅 영역([MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)/[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 등 "단 1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 1바이트의 손실도 치명적인 타격이 되는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 지대"에서는 아무리 싸고 큰 공간이라도 하드웨어 장애([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아간다면 무용지물이다. 시스템 설계자는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Write Penalty)과 용량 낭비를 기꺼이 자본과 돈으로 때우더라도, <strong>디스크가 고장 나도 멈추지 않는 마법 방패(즉발성 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong> 가 절대적으로 필요하게 되었으며 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 그 첫 번째 완벽한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 보루로 탄생했다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 ([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 물리 매핑 구조**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 1 (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 물리 매핑 구조</strong>:
 블록(Block) 크기 단위의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 어떻게 짝꿍(디스크 페어 쌍)에 양분되어 숨겨지는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 1 (Mirroring) 어레이의 쌍둥이 복제 매핑                │
-  ├─────────────────────────────────────────────────────────────────────────────┤
-  │                                                                             │
-  │   운영체제가 바라보는 단일 거대 가상 볼륨 (예: 1TB x 2개 = 1TB 볼륨 반토막!)│
-  │   [ 블록 A | 블록 B | 블록 C | 블록 D | 블록 E | 블록 F | G... ]            │
-  │                                                                             │
-  │          │      (데이터 미러링 쓰기 명령어 하달 시)                         │
-  │          ▼     양쪽 거울에 대고 똑같이 쌍둥이 그려내기 복제!      ▼         │
-  │                                                                             │
-  │                 ┌──────────┐    ┌──────────┐                                │
-  │                 │ 디스크 L │    │ 디스크 R │ (디스크 R 고장시)              │
-  │                 │ (Primary)│    │(Secondary│  💥 파괴 사망 끄악!            │
-  │                 │          │    │          │                                │
-  │                 │  [ A ]   │ == │  [ A ]   │    [ A ]                       │
-  │                 │  [ B ]   │ == │  [ B ]   │    [ B ]                       │
-  │                 │  [ C ]   │ == │  [ C ]   │    [ C ]                       │
-  │                 │  ...     │ == │  ...     │    ...                         │
-  │                 └──────────┘    └──────────┘  온전한 백본 100% 생존         │
-  │                                           (서비스 1초의 중단도 불가)        │
-  │   * 특징: 용량은 1개 디스크 용량만큼만 인식됨 (안전 비용 보험금 징수)       │
-  └─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 1 (Mirroring) 어레이의 쌍둥이 복제 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제가 바라보는 단일 거대 가상 볼륨 (예: 1TB x 2개 = 1TB 볼륨 반토막!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 A | 블록 B | 블록 C | 블록 D | 블록 E | 블록 F | G...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 미러링 쓰기 명령어 하달 시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 양쪽 거울에 대고 똑같이 쌍둥이 그려내기 복제! ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 L</div><div class="kb-diagram-cell">디스크 R</div><div class="kb-diagram-cell">(디스크 R 고장시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Primary)</div><div class="kb-diagram-cell">(Secondary</div><div class="kb-diagram-cell">💥 파괴 사망 끄악!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-note">==</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B</div><div class="kb-diagram-note">==</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C</div><div class="kb-diagram-note">==</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온전한 백본 100% 생존</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서비스 1초의 중단도 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 용량은 1개 디스크 용량만큼만 인식됨 (안전 비용 보험금 징수)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 컨트롤러는 호스트로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각 A를 기록하라는 명령을 받을 때, 이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(또는 아주 미세한 순차 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))로 연결된 두 개의 디스크 영역 (디스크 L과 단짝 R)에 100% [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 이행한다. 두 디스크는 서로 거울을 보듯 완벽히 똑같은 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)) 형상을 가지게 된다. 만일 디스크 R의 스핀들 모터가 맛이 가 멈춰버려도 컨트롤러는 지체 없이 디스크 L만을 통해 정상적인 가상 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 볼륨 마진을 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 지속해서 대령(Degraded 운영 모드)하므로 백엔드 장비 에러가 앞단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애로 번지는 것을 물리적으로 완벽 차단하는 생존의 매커니즘 구조를 자랑한다.
 
@@ -64,8 +62,8 @@ tags = ["studynote-operating-system"]
 
 | I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 동작 원리 매커니즘 | 체감 효과의 스루풋 | 비유 |
 |:---|:---|:---|:---|
-| **읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Read Perf.)** | S/W 나 H/W 컨트롤러가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담은 L과 R 양쪽 디스크에 절반씩 나누어 동시에 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 랜덤리드 (Split Read / 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 읽기)** 를 하달! | 이론상 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대비 **거의 N 배 (읽기 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 뻥튀기 극상성)에 준하는 속도 찬스 상승**. | 쌍둥이 요원 2명에게 두꺼운 책의 절반씩을 분담하여 빨리 파악해오라 시킴 |
-| **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) (Write Perf.)** | 호스트가 보낸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 L에도 100% 기록하고, R에도 100% 끝나야만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성공 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 콜백 이벤트 커밋 신호를 반환. | **결국 느린 디스크 속도에 하향 평준화 동기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계**. 단일 디스크 1장의 속도와 똑같거나 컨트롤러 오버헤드로 미세히 더 둔탁 느려짐! | 책 1권을 베껴쓰는데, 한 번에 붓 두 자루로 똑같이 써야만 결재서류가 끝남. |
+| <strong>읽기 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Read Perf.)</strong> | S/W 나 H/W 컨트롤러가 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담은 L과 R 양쪽 디스크에 절반씩 나누어 동시에 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 랜덤리드 (Split Read / 멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 읽기)</strong> 를 하달! | 이론상 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대비 <strong>거의 N 배 (읽기 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 뻥튀기 극상성)에 준하는 속도 찬스 상승</strong>. | 쌍둥이 요원 2명에게 두꺼운 책의 절반씩을 분담하여 빨리 파악해오라 시킴 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Write Perf.)</strong> | 호스트가 보낸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 L에도 100% 기록하고, R에도 100% 끝나야만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 성공 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 콜백 이벤트 커밋 신호를 반환. | <strong>결국 느린 디스크 속도에 하향 평준화 동기 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 한계</strong>. 단일 디스크 1장의 속도와 똑같거나 컨트롤러 오버헤드로 미세히 더 둔탁 느려짐! | 책 1권을 베껴쓰는데, 한 번에 붓 두 자루로 똑같이 써야만 결재서류가 끝남. |
 
 > **실무 주의점**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1을 도입했다고 해서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 레이드 0처럼 막연히 두 배 껑충 치솟을 거란 착각은 금물. 하지만 다수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시다발적으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 무작위 찌르는 Random Read (웹/캐시서버, 리스팅 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 환경에서는, 컨트롤러의 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)) 덕에 절반씩 병행 탐색 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 인해 읽기 응답시간이 드라마틱하게 감소하는 읽기 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 기적은 누릴 수 있다. 
 
@@ -75,27 +73,25 @@ tags = ["studynote-operating-system"]
 
 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 패리티 연산([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 기계 톱니바퀴 식 XOR 역산)과 다르게 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 미러가 고장 난 디스크를 새것으로 갈아치우고(Hot Swap 교체 파밍) 재건축(Rebuilding / Resync)하는 과정은 시스템에 주는 부하 중압갑이 현저히 낮고 직관적 우아함 그 자체다. 
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 1 장애 디스크 발생 및 핫스왑 리빌딩(Resync) 단계               │
-  ├─────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                     │
-  │   [ 평상시 상태 ]          [ 장애 경보! 사망 ]       [ 핫스왑 교체 새 디스크 꽂음 ] │
-  │    Disk A == Disk B      Disk A == 💥 B 파괴      Disk A ──▶ Disk C (빈 것)         │
-  │                                                                                     │
-  │                (운영체재는 다운/멈춤 없이 백그라운드에서 복구 돌입!)                │
-  │                                                                                     │
-  │   [ Rebuilding (동기화 리싱크) 구조 ] - CPU 수학 연산 불필요 복붙만 찍어댐!         │
-  │    ┌───── 살아남은 디스크 A (1TB) 에서 ─────┐                                       │
-  │    │ 블록[1] 읽기 ──▶──▶──▶ 빈 블록[1] C에 쓰기 │ (단순 1:1 디스크 포맷 카피 복제)  │
-  │    │ 블록[2] 읽기 ──▶──▶──▶ 빈 블록[2] C에 쓰기 │                                   │
-  │    │         ... 줄줄이 복붙 ...            │                                       │
-  │    └─────────────────────────────────────┘                                          │
-  │                                                                                     │
-  │    * RAID 5 (패리티 엮임)의 역산 Rebuilding보다 I/O 병목 데미지가 훨씬 가벼움!      │
-  │    * 서버는 여전히 온라인(Online) 유지! 다운타임 제로 100% 무적 쉴드                │
-  └─────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 1 장애 디스크 발생 및 핫스왑 리빌딩(Resync) 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평상시 상태</div><div class="kb-diagram-node">장애 경보! 사망</div><div class="kb-diagram-node">핫스왑 교체 새 디스크 꽂음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk A == Disk B Disk A == 💥 B 파괴 Disk A ──▶ Disk C (빈 것)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(운영체재는 다운/멈춤 없이 백그라운드에서 복구 돌입!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rebuilding (동기화 리싱크) 구조</div><div class="kb-diagram-note">- CPU 수학 연산 불필요 복붙만 찍어댐!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살아남은 디스크 A (1TB) 에서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 블록</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">C에 쓰기 │ (단순 1:1 디스크 포맷 카피 복제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 블록</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">C에 쓰기 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 줄줄이 복붙 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RAID 5 (패리티 엮임)의 역산 Rebuilding보다 I/O 병목 데미지가 훨씬 가벼움!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 서버는 여전히 온라인(Online) 유지! 다운타임 제로 100% 무적 쉴드</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 고도화된 XOR 이진수 역산으로 잃어버린 값을 쥐어짜내는 패리티 기반 레이드(5/6 등)는 재건축 시 디스크들을 무자비하게 긁어모아 CPU 두뇌가 불타도록 계산하는 패널티 때문에 I/O 병목이 터져 운영 체제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 추락(다운현상 직전)한다. 그러나 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 레이드 1은 그저 살아남은 한 장의 마스터 복사본 디스크에서 새 디스크 깡통으로 처음부터 끝까지 무지성 무식한 `DD 단일 복사(Bit-by-Bit Copy)` 만 냅다 치면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 끝나기 때문에, 재건축 (Resync) 과정이 훨씬 더 속전속결하고 서버 I/O 간섭 데미지가 적어 엔터프라이즈 레벨의 안정성이 최고 점수를 찍는다 ([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 중 고장난 조각(URE)이 뜨더라도 다른 복사본으로 살릴 여지가 높음).
 
@@ -107,7 +103,7 @@ tags = ["studynote-operating-system"]
 
 ### 최적의 결합 하이브리드 진화 ([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10의 전초 기지 기반)
 
-순수 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1의 용량비(50%) 낭비 한계점 때문에, 단일 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로는 중소기업 운영 레벨 이상 올라가기 힘들다. 하지만 IT 기술자들은 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 초월적 '안정성' 매력은 도저히 버릴 수 없었다. 이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 볼륨 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)들을 뼈대 기초 블록 삼아, 속도의 깡패 신계인 [RAID 0](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) ([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/))의 거대 로프 끈으로 양 그룹 페어(Pair)를 합체시켜 묶어버리는 진화 테크 트리가 탄생하는데 이것이 전 세계 DB 최고봉 스탠더드 교본, **[RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) (Striping over Mirroring 조립 모델 1+0 결합)** 이다.
+순수 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1의 용량비(50%) 낭비 한계점 때문에, 단일 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로는 중소기업 운영 레벨 이상 올라가기 힘들다. 하지만 IT 기술자들은 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 초월적 '안정성' 매력은 도저히 버릴 수 없었다. 이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 볼륨 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)들을 뼈대 기초 블록 삼아, 속도의 깡패 신계인 [RAID 0](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) ([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/))의 거대 로프 끈으로 양 그룹 페어(Pair)를 합체시켜 묶어버리는 진화 테크 트리가 탄생하는데 이것이 전 세계 DB 최고봉 스탠더드 교본, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">RAID 10</a> (Striping over Mirroring 조립 모델 1+0 결합)</strong> 이다.
 즉, 가장 밑단의 기초 재료로 거울([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1)을 두어 죽지 않는 호위병 부대를 만들고, 그 무빙 위로 돌격([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))명령을 치는 현대의 언더(Under-Layer) 파운데이션 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이다.
 
 ### S/W 관점의 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) (drbd / LVM / ZFS 미러)과의 철학 차이 
@@ -116,8 +112,8 @@ tags = ["studynote-operating-system"]
 
 | 비교 패러다임 요소 | H/W 종속형 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 카드 제어 | LVM 미러 / ZFS 프로파일 / mdadm 기반 미러 제어 | 시너지 철학 |
 |:---|:---|:---|:---|
-| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡도 / 하드 종속** | H/W 칩 고장 시 같은 메이커 장비 아니면 볼륨 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불능 (Vendor TIE) | Linux가 부팅되는 그 어느 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파편 아무 데나 꼽아도 S/W로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 인식 카피 복원 돌파! | 클라우드 개방 확장성 유연성의 정점 돌파! |
-| **순수 볼륨 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 한계** | 디스크 자체 불량섹터(배드블록 썩는 거)는 잘 커버 됨. | ZFS와 결합하면 썩은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/메타 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 스캔까지 붙어 조용한 타락 (Silent Corruption)까지 방어 치유 (자가 수리 Self-Healing) 증폭 | 단순히 기계 고장이 아니라 '미세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 병균'까지 오토 치료 방어 쉴드 격상! |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 복잡도 / 하드 종속</strong> | H/W 칩 고장 시 같은 메이커 장비 아니면 볼륨 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불능 (Vendor TIE) | Linux가 부팅되는 그 어느 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파편 아무 데나 꼽아도 S/W로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 인식 카피 복원 돌파! | 클라우드 개방 확장성 유연성의 정점 돌파! |
+| <strong>순수 볼륨 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 한계</strong> | 디스크 자체 불량섹터(배드블록 썩는 거)는 잘 커버 됨. | ZFS와 결합하면 썩은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/메타 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 스캔까지 붙어 조용한 타락 (Silent Corruption)까지 방어 치유 (자가 수리 Self-Healing) 증폭 | 단순히 기계 고장이 아니라 '미세 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 병균'까지 오토 치료 방어 쉴드 격상! |
 
 - **📢 섹션 요약 비유**: 이제 하드웨어 카드라는 일회용 보디가드 의존(H/W RAID1)에서 벗어나, 리눅스 자체 두뇌 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 ZFS 백신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템이 직접 거울 복사 면허증 시스템 자체(S/W Layer)를 자가 통제하는 체계로 진전되어 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 연방의 최고 수준 쉴드 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 장벽 시스템으로 도약 진화하고 있습니다.
 
@@ -127,43 +123,37 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 지휘 모델
 
-1. **시나리오 — [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 주요 베어메탈 인스턴스 (Bare-metal) 부팅 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역 아키텍처**: 리눅스 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) Node / [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 거점 호스트)에 장착된 256GB [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 부트 영역이 뻗으면 그 안의 수백 개 가상 인스턴스가 몽땅 죽고 부팅 불가에 수동 인프라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비상 1급 재난 크래시가 터진다. 이 정도면 고속 랜더링이 중요하지 않다. 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지와 Booting Grub 이 담긴 이 제일 앞단 부팅의 호스트 OS 전용 저장 공간(256GB 급 저용량 영역)은 두말할 나위 없이 묻지도 따지지도 않고 S/W `mdadm` 을 활용해 **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 미러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)** 으로 단단히 묶어 봉쇄하는 것이 국룰 인프라 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 아키텍처 초석이다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 주요 베어메탈 인스턴스 (Bare-metal) 부팅 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 영역 아키텍처</strong>: 리눅스 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) Node / [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 거점 호스트)에 장착된 256GB [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 부트 영역이 뻗으면 그 안의 수백 개 가상 인스턴스가 몽땅 죽고 부팅 불가에 수동 인프라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비상 1급 재난 크래시가 터진다. 이 정도면 고속 랜더링이 중요하지 않다. 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지와 Booting Grub 이 담긴 이 제일 앞단 부팅의 호스트 OS 전용 저장 공간(256GB 급 저용량 영역)은 두말할 나위 없이 묻지도 따지지도 않고 S/W `mdadm` 을 활용해 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 1 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 미러 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> 으로 단단히 묶어 봉쇄하는 것이 국룰 인프라 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 아키텍처 초석이다.
 
-2. **시나리오 — 중소 병원 환자 EMR 진료기록 DB (랜덤 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 억세스 혼재)**: 서버 백엔드를 구성할 예산이 디스크 단 두 장밖에 할당되지 않았다. [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)(최소 3개 디스크 제한 조건)는 구상조차 불가. 패리티 계산 같은 쓸데없는 DB I/O 소모 병목 오버도 찢고 싶고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실은 소송에 직결된다. 이럴 때 **순정 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 레이아웃** 으로 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 심어두면 디스크 읽기 로드밸런싱이 양쪽 디스크에 동시에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 뽑아주므로 READ 퍼포먼스 체감은 치솟고 최악의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실도 막아주는 한 줄기 빛과 소금의 인프라 타협선이 된다.
+2. <strong>시나리오 — 중소 병원 환자 EMR 진료기록 DB (랜덤 읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 억세스 혼재)</strong>: 서버 백엔드를 구성할 예산이 디스크 단 두 장밖에 할당되지 않았다. [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)(최소 3개 디스크 제한 조건)는 구상조차 불가. 패리티 계산 같은 쓸데없는 DB I/O 소모 병목 오버도 찢고 싶고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실은 소송에 직결된다. 이럴 때 <strong>순정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 1 레이아웃</strong> 으로 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 심어두면 디스크 읽기 로드밸런싱이 양쪽 디스크에 동시에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 뽑아주므로 READ 퍼포먼스 체감은 치솟고 최악의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실도 막아주는 한 줄기 빛과 소금의 인프라 타협선이 된다.
 
 이토록 확실한 투자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델 구조에서 어떤 상황이면 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 단독 채택해야 하는가에 대한 아키텍처 판단 지침 트리 구조.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │         RAID 1(미러링 단독 구사) 도입 여부 타당성 검토 리스크 필터 플로우    │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │   [ 보유 예산과 스토리지 Bay(베이/슬롯 꼽는 자리 수 칸)의 제약 파악 ]        │
-  │                │                                                             │
-  │                ▼                                                             │
-  │      우리가 꼽을 수 있는 디스크 총 수량 제약이 단 2개뿐인가?                 │
-  │          ├─ [예: 2 Bay NAS, 1U 랙 소형 깡통 샷시 베어메탈 서버임!]           │
-  │          │    └─▶ 데이터 중요하면 묻따말 미러링 RAID 1 외엔 대가 없음 낙점.  │
-  │          │                                                                   │
-  │          └─ [아니오: 4개~ 8개짜리 빵빵한 고급 디스크 베이 장착 샷시 보유!]   │
-  │                │                                                             │
-  │                ▼                                                             │
-  │      결함/파괴 시 복구가 필요한 수준인가? 아님 속도 올인 인가?               │
-  │          ├─ [위험 감수 됨: 그냥 HPC 스크래치 무쌍 속도 찢을 래]              │
-  │          │    └─▶ RAID 0 (이전장 학습 스트라이프) 이단 변환 루트!            │
-  │          │                                                                   │
-  │          └─ [절대 복구 보장 요망: 돈 버려도 안정 무결 생존이 무조건!]        │
-  │                │                                                             │
-  │                ▼                                                             │
-  │   ✅ 자원 버진 낭비율(50% 포기 오버헤드 요율) 기안 예산 통과(CEO 승인) 검토! │
-  │       (※ 10TB 디스크 구성을 8대 샀는데 40TB 용량 반토막 도장 싸인 컨펌)      │
-  └──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 1(미러링 단독 구사) 도입 여부 타당성 검토 리스크 필터 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보유 예산과 스토리지 Bay(베이/슬롯 꼽는 자리 수 칸)의 제약 파악</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우리가 꼽을 수 있는 디스크 총 수량 제약이 단 2개뿐인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예: 2 Bay NAS, 1U 랙 소형 깡통 샷시 베어메탈 서버임!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 데이터 중요하면 묻따말 미러링 RAID 1 외엔 대가 없음 낙점.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오: 4개~ 8개짜리 빵빵한 고급 디스크 베이 장착 샷시 보유!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함/파괴 시 복구가 필요한 수준인가? 아님 속도 올인 인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">위험 감수 됨: 그냥 HPC 스크래치 무쌍 속도 찢을 래</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ RAID 0 (이전장 학습 스트라이프) 이단 변환 루트!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">절대 복구 보장 요망: 돈 버려도 안정 무결 생존이 무조건!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 자원 버진 낭비율(50% 포기 오버헤드 요율) 기안 예산 통과(CEO 승인) 검토!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 10TB 디스크 구성을 8대 샀는데 40TB 용량 반토막 도장 싸인 컨펌)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** "[미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 안정성엔 최고지!" 라고 책에서 배운 막연한 초급 환상만 가지고 부서 사업 스토리지 플랜에 전 디스크 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1을 상신 올렸다가 결재 라인에서 징계를 맞을 수 있다. 엔터프라이즈의 용량 구매 단위는 TB가 아니라 Peta(PB) 단위이며, 이 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 디스크를 1:1로 잡아먹으므로 **'스토리지 구매 자금 예산을 정확히 2배로 폭등시키는 아주 사치스럽고 비싼 보험 구조'** 다. 용량 낭비가 뼈 아픈 일반 거대 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 컨텐츠 서버나 수백 TB 아카이빙은 패리티 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)/6 조합으로 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 자본 타협의 우회를 모색하여 비용 가성비 마진의 허리띠를 조여야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (보안 및 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 무한 착각 2차 방지)
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ≠ Backup의 뫼비우스 오류 망각 타파**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)가 퍼지면 아주 열일해서 열심히 양쪽 백엔드 디스크 거울 양쪽에까지 모조리 똑같이 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 암호화를 성실하게 100% 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 수행해버리는 기계 맹신 바보 거울이다. 기계 파손([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 방패를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 타임머신)으로 절대 착각해선 안 되기에 이단 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 아키텍처 설계를 반드시 분리해 강제했는가 점검 필.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> ≠ Backup의 뫼비우스 오류 망각 타파</strong>: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)가 퍼지면 아주 열일해서 열심히 양쪽 백엔드 디스크 거울 양쪽에까지 모조리 똑같이 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 암호화를 성실하게 100% 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 수행해버리는 기계 맹신 바보 거울이다. 기계 파손([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 방패를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 타임머신)으로 절대 착각해선 안 되기에 이단 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 아키텍처 설계를 반드시 분리해 강제했는가 점검 필.
 
 - **📢 섹션 요약 비유**: 아무리 튼튼한 티타늄 합금 방패 보디가드 쌍둥이를 2명 나란히 전방 호위 시켜놓은 완벽한 철옹성 기지라 하더라도, 성 내부에서 폭탄이 터지거나 사령관 스스로 미쳐서 자폭 버튼을 눌러버리는(소프트웨어/관리자 실수/크립토 랜섬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 찌거기 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)) 사건까지는 이 티타늄 방패들(기계적 오류 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 내성)이 밖의 총탄이 아니므로 막아줄 묘약 방법이 없는 것과 같습니다!
 
@@ -180,8 +170,8 @@ tags = ["studynote-operating-system"]
 | **정성 (운영)** | 새벽 4시에 디스크 사망 터지면 무조건 긴급 출근 장애 배포 | 야간엔 그냥 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 살려두고 아침에 여유롭게 H/W 샷시 핫스왑 당겨 리빌딩 재건 교체! | 백엔드 인프라 파트 온콜(On-call) 수면 품질 보장 및 워라벨 [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/) 요새 건설 |
 
 ### 미래 전망
-- **NVM Express ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 시대 멀티플 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 고도 난제 폭발 진화**: 너무 느린 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 기계 시절엔 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티(Write 병목)가 극심한 부담 전율이었으나, 현대의 미친 속도급 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 5.0 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 솔리드 스테이트의 어레이를 양쪽 미러로 치는 순간 S/W [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 쪽에서 연산의 한계 허덕임([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 통신 병목 락 부하) 한계 스로틀에 치닫는 과부하가 생겨 이를 바이패스(우회)하는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [SPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 튜닝 기술 등의 진보 진영 포팅 솔루션들이 거대하게 싹 트기 시작하고 있다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 레플리카(Replica) 노드의 클라우드 수렴 흡수 기조화**: 박스(한 샷시) 안에서 두 개 디스크를 묶는 로컬 관념의 소심한 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 방벽 수준을 넘어버려, 구글, AWS 레벨의 블록 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 아키텍처 기술망은 스토리지 노드 서버 한 통(머신)이 몽땅 화재에 타버리더라도 지역(AZ, [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone) A와 B의 전체 복사 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 스토리지 연합 체계를 구축하여 소프트웨어 정의 대륙 간 네트워크 미러 기법 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터링으로 그 스파크 유산 사상의 영원한 계보를 이어받아 증폭 확장되고 있는 추세 변곡점에 놓여있다. 
+- <strong>NVM Express (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a>) 시대 멀티플 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>의 고도 난제 폭발 진화</strong>: 너무 느린 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 기계 시절엔 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티(Write 병목)가 극심한 부담 전율이었으나, 현대의 미친 속도급 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 5.0 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 솔리드 스테이트의 어레이를 양쪽 미러로 치는 순간 S/W [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 쪽에서 연산의 한계 허덕임([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 통신 병목 락 부하) 한계 스로틀에 치닫는 과부하가 생겨 이를 바이패스(우회)하는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [SPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/672_spdk/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 튜닝 기술 등의 진보 진영 포팅 솔루션들이 거대하게 싹 트기 시작하고 있다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 레플리카(Replica) 노드의 클라우드 수렴 흡수 기조화</strong>: 박스(한 샷시) 안에서 두 개 디스크를 묶는 로컬 관념의 소심한 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1 방벽 수준을 넘어버려, 구글, AWS 레벨의 블록 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 아키텍처 기술망은 스토리지 노드 서버 한 통(머신)이 몽땅 화재에 타버리더라도 지역(AZ, [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone) A와 B의 전체 복사 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 스토리지 연합 체계를 구축하여 소프트웨어 정의 대륙 간 네트워크 미러 기법 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터링으로 그 스파크 유산 사상의 영원한 계보를 이어받아 증폭 확장되고 있는 추세 변곡점에 놓여있다. 
 
 ### 참고 표준
 - **SNIA 스토리지 규약 협회 표준**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 레벨 1 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Mirroring WITHOUT Parity) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 고가용 보전 포럼 아키텍처 토대.
@@ -204,15 +194,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 0 (스트라이핑, Striping)]
-    │
-    ▼
-[RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)]
-    │
-    ├──▶ [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
-    └──▶ [RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 0 (스트라이핑, Striping)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 5 (블록 단위 스트라이핑 + 분산 패리티)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

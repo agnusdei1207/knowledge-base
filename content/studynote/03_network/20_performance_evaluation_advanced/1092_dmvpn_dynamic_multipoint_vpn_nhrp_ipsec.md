@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **구조**: 서울 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 라우터에 100개 지점(Spoke)이 방사형으로 터널([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))을 뚫어놓은 구조입니다.
 - **재앙**: 지점과 지점끼리(Spoke-to-Spoke) 대용량 파일을 주고받으려 하면 무조건 본사 라우터([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 거쳐서 가야 합니다. 본사 라우터의 트래픽이 터져버리고, 지점 간 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay)이 미친 듯이 치솟습니다.
 
-```text
-[GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    ▼
-[DMVPN 동적 라우팅 결합형 지점]
-    │
-    └──▶ [MPLS VPN L3 경로 격리 라벨 스위치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스코가 개발한 기술로, 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에만 스태틱 터널을 뚫어두면, **지점(Spoke)과 지점 간에 트래픽이 발생할 때만 실시간으로(동적으로) 1:1 다이렉트 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널을 뚫어서 통신하고 끝나면 터널을 허물어버리는 지능형 멀티포인트 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 아키텍처**입니다.
+- **개념**: 시스코가 개발한 기술로, 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에만 스태틱 터널을 뚫어두면, <strong>지점(Spoke)과 지점 간에 트래픽이 발생할 때만 실시간으로(동적으로) 1:1 다이렉트 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 터널을 뚫어서 통신하고 끝나면 터널을 허물어버리는 지능형 멀티포인트 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 아키텍처</strong>입니다.
 
-```text
-[GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    ▼
-[DMVPN 동적 라우팅 결합형 지점]
-    │
-    └──▶ [MPLS VPN L3 경로 격리 라벨 스위치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,9 +70,9 @@ tags = ["studynote-network"]
 
 ### 2. NHRP (Next Hop Resolution [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) - "지점용 전화번호부" 🌟
 DMVPN의 절대적인 뇌(심장)입니다. (ARP와 비슷한 역할을 합니다.)
-- **등록 (Registration)**: 부산 지점(Spoke) 라우터가 켜지면, 서울 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 라우터에게 툭 인사합니다. "나 방금 켜졌어, 내 공인 IP는 `1.1.1.1`이야." 서울 본사는 이 주소들을 **NHRP 캐시(전화번호부)**에 쫙 적어둡니다.
+- **등록 (Registration)**: 부산 지점(Spoke) 라우터가 켜지면, 서울 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 라우터에게 툭 인사합니다. "나 방금 켜졌어, 내 공인 IP는 `1.1.1.1`이야." 서울 본사는 이 주소들을 <strong>NHRP 캐시(전화번호부)</strong>에 쫙 적어둡니다.
 - **조회 (Resolution)**: 부산 직원이 광주 지점에 파일을 보내려 합니다. 부산 라우터가 서울 본사로 패킷을 쏘는 게 아니라, 일단 **본사한테 NHRP 편지만 날립니다. "야 광주 지점 공인 IP 좀 알려줘!"**
-- 본사가 "광주는 `2.2.2.2`야"라고 대답해주면, 1085번 [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 협상이 터지며 그 즉시 **부산과 광주 사이에 다이렉트 mGRE [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널(Spoke-to-Spoke)이 1초 만에 쾅 뚫립니다.**
+- 본사가 "광주는 `2.2.2.2`야"라고 대답해주면, 1085번 [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 협상이 터지며 그 즉시 <strong>부산과 광주 사이에 다이렉트 mGRE <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 터널(Spoke-to-Spoke)이 1초 만에 쾅 뚫립니다.</strong>
 
 ### 3. [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 프로토콜의 결합 ([EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))
 - 터널만 뚫리면 길을 모릅니다. 그래서 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) 터널 위로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 같은 길 찾기 프로토콜을 얹어, 지점들이 켜질 때마다 "나 부산인데, 내 밑에 `192.168.10.x` 서브넷 있어!"라고 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 자동으로 본사에 퍼뜨리게 만듭니다.
@@ -91,7 +99,7 @@ DMVPN의 절대적인 뇌(심장)입니다. (ARP와 비슷한 역할을 합니�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) and Spoke [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)**은 부산 지사에서 광주 지사로 짐을 보낼 때, **무조건 서울 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 물류 센터)를 거쳐서 배달해야 하는 비효율적인 택배망**이었습니다. 부산과 광주는 서로의 전화번호(공인 IP)를 모르기 때문입니다. **[DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/)(동적 다중 지점 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))**은 이 한계를 부수기 위해 서울 본사에 **'114 글로벌 전화번호부 센터(NHRP 서버)'**를 세운 혁명입니다. 부산 지사가 켜질 때 본사에 자기 번호를 등록해 둡니다. 부산이 광주로 짐을 보내고 싶을 땐 짐을 서울로 안 보냅니다. 서울 본사엔 오직 "광주 전화번호 좀!" 하고 묻기만 합니다. 본사가 번호를 알려주면, 부산은 0.1초 만에 광주와 **'일회용 직통 고속도로(Spoke-to-Spoke 동적 터널)'**를 허공에 깔아버립니다. 고속도로를 타고 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다이렉트로 빛의 속도로 날아가고, 볼일이 끝나면 이 고속도로는 신기루처럼 허물어져 사라집니다. 본사로 몰리던 트래픽 병목을 완벽하게 0으로 만들어주는 동적 터널링의 결정판입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a> and Spoke <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong>은 부산 지사에서 광주 지사로 짐을 보낼 때, <strong>무조건 서울 본사(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a> 물류 센터)를 거쳐서 배달해야 하는 비효율적인 택배망</strong>이었습니다. 부산과 광주는 서로의 전화번호(공인 IP)를 모르기 때문입니다. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/">DMVPN</a>(동적 다중 지점 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a>)</strong>은 이 한계를 부수기 위해 서울 본사에 <strong>'114 글로벌 전화번호부 센터(NHRP 서버)'</strong>를 세운 혁명입니다. 부산 지사가 켜질 때 본사에 자기 번호를 등록해 둡니다. 부산이 광주로 짐을 보내고 싶을 땐 짐을 서울로 안 보냅니다. 서울 본사엔 오직 "광주 전화번호 좀!" 하고 묻기만 합니다. 본사가 번호를 알려주면, 부산은 0.1초 만에 광주와 <strong>'일회용 직통 고속도로(Spoke-to-Spoke 동적 터널)'</strong>를 허공에 깔아버립니다. 고속도로를 타고 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다이렉트로 빛의 속도로 날아가고, 볼일이 끝나면 이 고속도로는 신기루처럼 허물어져 사라집니다. 본사로 몰리던 트래픽 병목을 완벽하게 0으로 만들어주는 동적 터널링의 결정판입니다.
 
 ---
 
@@ -114,15 +122,19 @@ DMVPN의 절대적인 뇌(심장)입니다. (ARP와 비슷한 역할을 합니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    ▼
-[현재 개념: DMVPN 동적 라우팅 결합형 지점]
-    │
-    ├──▶ [확장 A: MPLS VPN L3 경로 격리 라벨 스위치]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DMVPN 동적 라우팅 결합형 지점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MPLS VPN L3 경로 격리 라벨 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점는 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드에서 출발해 현재 메커니즘을 정교화하고, 이후 [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

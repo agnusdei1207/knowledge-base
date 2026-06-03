@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 고객의 민감한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 카톡 대화)를 중앙 클라우드 서버로 훔쳐 오지 않고 고객의 스마트폰(Edge) 안에 그대로 둔 채, 스마트폰 내부에서 스스로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 훈련시킨 뒤 **오직 "학습된 뇌의 오차 수학값(Gradient/[Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Update)" 껍데기만 중앙 서버로 전송해 합치는(Aggregation)** 초거대 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 기법이다.
+> 1. **본질**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 고객의 민감한 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 카톡 대화)를 중앙 클라우드 서버로 훔쳐 오지 않고 고객의 스마트폰(Edge) 안에 그대로 둔 채, 스마트폰 내부에서 스스로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)을 훈련시킨 뒤 <strong>오직 "학습된 뇌의 오차 수학값(Gradient/<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Update)" 껍데기만 중앙 서버로 전송해 합치는(Aggregation)</strong> 초거대 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 기법이다.
 > 2. **가치**: 유럽의 무시무시한 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/))이나 의료보안법([HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/))을 100% 우회하여, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출은 원천 차단하면서도, 전 세계 10억 명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 훈련한 것과 똑같은 초정밀 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 만들어내는" 불가능해 보이던 프라이버시 보존형 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 성배를 찾아냈다.
 > 3. **판단 포인트**: 스마트폰 10만 대가 각자 업데이트 값을 서버로 쏠 때, 중간에 통신이 끊기는 벽돌폰이나 느린 폰(Straggler)들이 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체 속도를 깎아 먹는다. 이를 막기 위해 느린 놈은 과감히 버리고 응답한 폰들의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 섞어버리는 비동기식 조합(FedAvg) 설계가 아키텍처 생존의 핵심이다.
 
@@ -23,16 +23,19 @@ tags = ["studynote-ai"]
 
 하지만 세상이 변했다. 사람들은 자신의 카톡 내용이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에 쓰여 다른 사람의 챗봇 대답으로 유출되는 것에 극도로 분노했고, EU는 무지막지한 벌금을 물리는 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)) 철퇴를 내렸다. 병원들은 환자의 암 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밖으로 빼낼 수 없게 법으로 막혔다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 댐이 끊겨버리며 딥러닝 산업은 질식할 위기에 처했다.
 
-2016년, 구글은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 못 가져온다면, 차라리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 핸드폰으로 던져주고 오자!"**라는 미친 역발상을 냈다. 중앙 서버가 빈 깡통 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 전 세계 100만 대의 스마트폰으로 쏴주면, 밤에 충전기를 꽂고 잘 때 스마트폰 자체가 미니 훈련소가 되어 내 카톡 기록으로 혼자 공부를 한다. 아침이 되면 원본 카톡 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대 폰 밖을 나가지 않고, 오직 "어젯밤 훈련으로 변한 수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자 덩어리($\Delta W$)"만 구글 서버로 날아간다. 구글은 이 100만 개의 수학 숫자들을 믹서기로 섞어(평균 내어) 완벽하게 똑똑해진 1개의 메인 AI를 찍어내고, 다시 폰으로 내려보낸다. 이것이 위대한 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/), **[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))**의 탄생이다.
+2016년, 구글은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 못 가져온다면, 차라리 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델을 핸드폰으로 던져주고 오자!"</strong>라는 미친 역발상을 냈다. 중앙 서버가 빈 깡통 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 전 세계 100만 대의 스마트폰으로 쏴주면, 밤에 충전기를 꽂고 잘 때 스마트폰 자체가 미니 훈련소가 되어 내 카톡 기록으로 혼자 공부를 한다. 아침이 되면 원본 카톡 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대 폰 밖을 나가지 않고, 오직 "어젯밤 훈련으로 변한 수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 숫자 덩어리($\Delta W$)"만 구글 서버로 날아간다. 구글은 이 100만 개의 수학 숫자들을 믹서기로 섞어(평균 내어) 완벽하게 똑똑해진 1개의 메인 AI를 찍어내고, 다시 폰으로 내려보낸다. 이것이 위대한 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/), <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong>의 탄생이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 전 국민을 상대로 한 '원격 요리 교실'이다. 예전엔 맛있는 볶음밥 비법을 찾으려고 집집마다 밥통(개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 구글 본사로 뺏어와서 요리했다. 이젠 구글이 레시피([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)만 집집마다 택배로 보내준다. 집에서 자기 집 쌀과 야채로 혼자 볶아본 뒤, "소금을 1스푼 늘리니까 더 맛있네요([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"라는 '의견(수학값)'만 본사로 편지 보낸다. 본사는 절대 남의 집 주방을 훔쳐보지 않고도 100만 명의 의견을 합쳐 우주 최고의 볶음밥 레시피(업데이트된 메인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 완성한다.
 
@@ -42,31 +45,31 @@ tags = ["studynote-ai"]
 
 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 중앙 서버(클라우드)와 엣지 노드(스마트폰, 병원 서버) 사이를 무한대로 핑퐁 치며 돌아간다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           연합 학습 (Federated Learning)의 보안 완벽주의 4단계 루프 도해     │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 중앙에서 모델 하강 (Broadcast)]                              │
-│   * 구글 서버 ─▶ 전 세계 10만 대의 폰에 똑같은 빈깡통 뇌(Global Model)를 쏨.│
-│                                                              │
-│  [2. 엣지 디바이스에서 독학 (Local Training)]                      │
-│   * 내 스마트폰: "앗, 주인이 맨날 'ㅋㅋ' 대신 'ㅎㅎ'를 쓰는구나!"          │
-│   * 내 폰 안에서 내 비밀 데이터만 보고 뇌(Local Model) 가중치를 살짝 고침.│
-│                                                              │
-│  [3. 오직 수학적 오차만 서버로 암호화 전송 (Upload)]                  │
-│   * 카톡 원본 글자는 100% 폰에 남김! (데이터 유출 0%)                 │
-│   * 내 폰 ─▶ "가중치 W1은 +0.5, W2는 -0.2로 고치세요"라는 수학 암호만 쏨.│
-│                                                              │
-│  [4. 연합 평균 (FedAvg, Federated Averaging) 조합]              │
-│   * 구글 서버: 10만 대의 폰에서 날아온 암호 수학값들을 쫙 다 더해서 10만으로 나눔.│
-│   * 결과: 단 한 명의 개인정보도 안 훔쳐보고, 10만 명의 지혜가 담긴 우주 최강의 │
-│          천재 메인 모델(Updated Global Model) 뚝딱 완성! (다시 1번으로) │
-└──────────────────────────────────────────────────────────────┘
-```
 
-**핵심 원리 (FedAvg [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 [Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/))**:
-수만 대의 폰이 쏘아 올린 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 변경 값($\Delta W$)을 섞는 마법의 믹서기 공식이 **FedAvg (연합 평균)**이다. 수학적으로 이 파편화된 평균만 더해도(FedAvg) 한 곳에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 모아놓고 SGD([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))를 돌린 것과 똑같이 완벽한 최적의 Loss 계곡 바닥으로 수렴한다는 것이 증명되었다. 
-더 무서운 방어벽은, 해커가 날아가는 수학값($\Delta W$)을 낚아채어 역추적(역설계)해서 "이 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 나온 걸 보니 이 유저의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '코인'이란 단어가 있군" 하고 훔쳐보는 것을 막기 위해, 숫자를 서버로 쏠 때 고의로 쓸데없는 노이즈를 섞어버리는 **[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/) ([Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/))** 암호화 코팅을 한 겹 더 두른다는 점이다. 창과 방패의 완벽한 융합이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연합 학습 (Federated Learning)의 보안 완벽주의 4단계 루프 도해</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 중앙에서 모델 하강 (Broadcast)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 구글 서버 ─▶ 전 세계 10만 대의 폰에 똑같은 빈깡통 뇌(Global Model)를 쏨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 엣지 디바이스에서 독학 (Local Training)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 스마트폰: "앗, 주인이 맨날 'ㅋㅋ' 대신 'ㅎㅎ'를 쓰는구나!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 폰 안에서 내 비밀 데이터만 보고 뇌(Local Model) 가중치를 살짝 고침.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 오직 수학적 오차만 서버로 암호화 전송 (Upload)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 카톡 원본 글자는 100% 폰에 남김! (데이터 유출 0%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 폰 ─▶ "가중치 W1은 +0.5, W2는 -0.2로 고치세요"라는 수학 암호만 쏨.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 연합 평균 (FedAvg, Federated Averaging) 조합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 구글 서버: 10만 대의 폰에서 날아온 암호 수학값들을 쫙 다 더해서 10만으로 나눔.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 단 한 명의 개인정보도 안 훔쳐보고, 10만 명의 지혜가 담긴 우주 최강의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">천재 메인 모델(Updated Global Model) 뚝딱 완성! (다시 1번으로)</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 원리 (FedAvg <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>과 <a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>)</strong>:
+수만 대의 폰이 쏘아 올린 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 변경 값($\Delta W$)을 섞는 마법의 믹서기 공식이 <strong>FedAvg (연합 평균)</strong>이다. 수학적으로 이 파편화된 평균만 더해도(FedAvg) 한 곳에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 모아놓고 SGD([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))를 돌린 것과 똑같이 완벽한 최적의 Loss 계곡 바닥으로 수렴한다는 것이 증명되었다. 
+더 무서운 방어벽은, 해커가 날아가는 수학값($\Delta W$)을 낚아채어 역추적(역설계)해서 "이 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 나온 걸 보니 이 유저의 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '코인'이란 단어가 있군" 하고 훔쳐보는 것을 막기 위해, 숫자를 서버로 쏠 때 고의로 쓸데없는 노이즈를 섞어버리는 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a> (<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>)</strong> 암호화 코팅을 한 겹 더 두른다는 점이다. 창과 방패의 완벽한 융합이다.
 
 | 요소 | 역할 |
 |:---|:---|
@@ -85,10 +88,10 @@ tags = ["studynote-ai"]
 
 | 비교 아키텍처 | 전통적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 딥러닝 훈련 (Distributed [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel, DDP) | [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)) |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버 1곳에 거대한 덩어리로 다 모여 있음. | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전 세계 수백만 대의 모바일폰이나 수십 개의 병원 서버에 **강제 파편화되어 흩어져 있음 (이동 금지)**. |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 위치</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버 1곳에 거대한 덩어리로 다 모여 있음. | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전 세계 수백만 대의 모바일폰이나 수십 개의 병원 서버에 **강제 파편화되어 흩어져 있음 (이동 금지)**. |
 | **워커(Worker)의 특성** | 구글이 돈 주고 산 수백 대의 똑같은 최고급 H100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 랙. 통신 속도 광속, 고장 안 남. | 아이폰 15, 10년 된 똥폰, 와이파이가 끊기는 폰 등 제멋대로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)인 이기종 배터리 기기들(Stragglers). |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격 (I.I.D)** | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘 섞어서(셔플) 노드에 1/N로 균등하게 분배함 (독립 동일 분포). | 내 폰엔 고양이 사진만, 네 폰엔 강아지 사진만 잔뜩 있음 **(Non-I.I.D 악성 편향)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배 불가능. |
-| **최우선 미션 목표**| "어떻게 하면 클라우드 서버에서 1초라도 더 빨리 훈련 속도를 쥐어짜 낼까?" | **"어떻게 하면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 안 털리면서, 배터리가 닳아 꺼지려는 폰의 통신을 살려낼까?"** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 성격 (I.I.D)</strong> | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘 섞어서(셔플) 노드에 1/N로 균등하게 분배함 (독립 동일 분포). | 내 폰엔 고양이 사진만, 네 폰엔 강아지 사진만 잔뜩 있음 **(Non-I.I.D 악성 편향)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배 불가능. |
+| **최우선 미션 목표**| "어떻게 하면 클라우드 서버에서 1초라도 더 빨리 훈련 속도를 쥐어짜 낼까?" | <strong>"어떻게 하면 <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>를 안 털리면서, 배터리가 닳아 꺼지려는 폰의 통신을 살려낼까?"</strong> |
 
 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)에서 가장 지옥 같은 버그는 **Non-I.I.D (독립 동일 분포 위반)** 붕괴다. 서울 유저의 폰은 한국어만 학습하고, 뉴욕 유저의 폰은 영어만 학습해서 완전히 다른 방향으로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)($\Delta W$)를 찢어놓는데, 이걸 서버에서 무지성 FedAvg(평균) 믹서기로 갈아버리면 모델이 한국어도 영어도 못 하는 바보([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Divergence) 깡통이 되어버린다. 그래서 각 폰의 기여도를 정밀하게 페널티 주며 섞는 FedProx 등 진화된 수학 공식이 필요하다.
 
@@ -101,11 +104,11 @@ tags = ["studynote-ai"]
 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 구글의 G보드(스마트폰 키보드 자동완성)나, 애플의 안면 인식(Face ID) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 고도화에 이미 당신도 모르게 매일 쓰이고 있다. 현업 아키텍트가 이를 적용하려면 철저한 디바이스(Edge) 통제권 설계가 생명이다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **낙오자(Straggler) 절단 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링**: 10만 대의 폰에 훈련을 명령했는데, 그중 100대 폰의 주인이 산속에 가서 통신이 안 터진다. 중앙 서버가 이 100대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 락을 걸고 대기하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체가 마비된다. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 오케스트레이터는 무조건 비동기(Asynchronous) 설계로 "10분 안에 수학값 쏴준 상위 80% 폰의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 갈아서 업데이트하고, 늦게 온 20%는 가차 없이 쓰레기통에 버린다"는 피도 눈물도 없는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 룰을 강제해야 한다.
-2. **배터리 및 사용자 UX [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 헌법**: 사용자는 내 폰이 뒤에서 구글 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련을 하느라 배터리가 다 녹고 핸드폰이 불덩이처럼 뜨거워지는 것을 절대 용납하지 않는다. 안드로이드 OS 코어 레벨에서 "1) 폰이 충전기에 꽂혀있을 것, 2) 와이파이에 연결되어 공짜 통신일 것, 3) 사용자가 잠들어 화면이 꺼져있을 것" 이 3가지 헌법 조건이 만족되는 새벽 3시에만 백그라운드 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 몰래 열어주는 권한 스위칭([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 코딩이 1군 엣지(Edge) 엔지니어의 핵심 타격 지점이다.
+1. <strong>낙오자(Straggler) 절단 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong>: 10만 대의 폰에 훈련을 명령했는데, 그중 100대 폰의 주인이 산속에 가서 통신이 안 터진다. 중앙 서버가 이 100대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 락을 걸고 대기하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체가 마비된다. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 오케스트레이터는 무조건 비동기(Asynchronous) 설계로 "10분 안에 수학값 쏴준 상위 80% 폰의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 갈아서 업데이트하고, 늦게 온 20%는 가차 없이 쓰레기통에 버린다"는 피도 눈물도 없는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 룰을 강제해야 한다.
+2. <strong>배터리 및 사용자 UX <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 헌법</strong>: 사용자는 내 폰이 뒤에서 구글 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련을 하느라 배터리가 다 녹고 핸드폰이 불덩이처럼 뜨거워지는 것을 절대 용납하지 않는다. 안드로이드 OS 코어 레벨에서 "1) 폰이 충전기에 꽂혀있을 것, 2) 와이파이에 연결되어 공짜 통신일 것, 3) 사용자가 잠들어 화면이 꺼져있을 것" 이 3가지 헌법 조건이 만족되는 새벽 3시에만 백그라운드 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 몰래 열어주는 권한 스위칭([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 코딩이 1군 엣지(Edge) 엔지니어의 핵심 타격 지점이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **통신량(Communication Overhead) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 망각의 폭파**: 파라미터가 700억 개인 Llama(거대 언어 모델)의 통짜 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 150GB 덩어리를 10만 대의 폰에 쏘고 돌려받으려는 정신 나간 설계. 스마트폰 무선 통신비([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 조 단위 요금이 깨지며 통신망이 즉사한다. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 엣지(Edge)로 내려보내는 모델은 무조건 수백만 파라미터 수준의 MobileNet처럼 가벼운 경량화([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이어야 하며, 훈련된 수학값($\Delta W$)을 쏠 때도 0에 가까운 의미 없는 숫자들은 싹둑 자르고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서(Sparse Communication) 단 몇 MB만 핑퐁 치게 만들어야 인프라가 생존한다.
+- <strong>통신량(Communication Overhead) <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 망각의 폭파</strong>: 파라미터가 700억 개인 Llama(거대 언어 모델)의 통짜 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 150GB 덩어리를 10만 대의 폰에 쏘고 돌려받으려는 정신 나간 설계. 스마트폰 무선 통신비([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 조 단위 요금이 깨지며 통신망이 즉사한다. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 엣지(Edge)로 내려보내는 모델은 무조건 수백만 파라미터 수준의 MobileNet처럼 가벼운 경량화([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이어야 하며, 훈련된 수학값($\Delta W$)을 쏠 때도 0에 가까운 의미 없는 숫자들은 싹둑 자르고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서(Sparse Communication) 단 몇 MB만 핑퐁 치게 만들어야 인프라가 생존한다.
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 전 국민에게 1,000페이지짜리 설문지를 돌리는 일이다. 설문지 종이([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 너무 크면 우편 배달부(와이파이 통신망)가 허리가 부러져 파업한다. 그래서 10페이지짜리 핵심 설문지만 모바일로 가볍게 보내고, 사람들이 잠자는 새벽에만 몰래 수거해 와야 욕을 안 먹고 생태계가 유지된다. 무거운 짐을 옮기는 건 철저하게 버려야 할 독이다.
 
@@ -127,10 +130,10 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/) ([차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/))** | [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)으로 날아가는 수학 숫자([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))마저 해커가 역추적해 내 카톡을 훔쳐볼까 봐, 숫자에 무작위 노이즈 쓰레기를 강제로 섞어서 쏴버리는 극강의 2중 암호 방패 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a>)</strong> | [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)으로 날아가는 수학 숫자([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))마저 해커가 역추적해 내 카톡을 훔쳐볼까 봐, 숫자에 무작위 노이즈 쓰레기를 강제로 섞어서 쏴버리는 극강의 2중 암호 방패 |
 | **FedAvg (Federated Averaging)** | 10만 대의 스마트폰에서 올라온 삐뚤빼뚤한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 변화량 숫자들을 예쁘게 믹서기로 평균 내어, 하나의 똑똑한 중앙 모델 정답으로 융합해 내는 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 메인 수학 엔진 공식 |
-| **[Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))** | 엣지 폰들이 학습을 하다 보면 어느새 사용자 트렌드가 변하는데, [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 중앙에서 이걸 직접 볼 수 없으니 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 썩어 문드러지는지 파악하기 훨씬 더 골치 아픈 딜레마를 안고 있음 |
-| **[Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/) (엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/))** | 클라우드 서버(뇌)까지 통신을 보내지 않고 내 스마트폰 칩셋([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 안에서 직접 돌아가고 학습하는 경량화 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/). [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)이 돌아갈 수 있는 물리적 바닥 인프라 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a>)</strong> | 엣지 폰들이 학습을 하다 보면 어느새 사용자 트렌드가 변하는데, [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 중앙에서 이걸 직접 볼 수 없으니 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 썩어 문드러지는지 파악하기 훨씬 더 골치 아픈 딜레마를 안고 있음 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/">Edge AI</a> (엣지 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>)</strong> | 클라우드 서버(뇌)까지 통신을 보내지 않고 내 스마트폰 칩셋([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 안에서 직접 돌아가고 학습하는 경량화 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/). [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)이 돌아갈 수 있는 물리적 바닥 인프라 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,7 +144,7 @@ tags = ["studynote-ai"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날엔 로봇 회사가 로봇을 똑똑하게 만들려고 우리 집 일기장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 통째로 자기네 본사로 뺏어가서 엄청 기분 나쁘고 무서웠어요.
-2. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 로봇 회사가 **'빈 책(가짜 로봇)'**만 우리 집으로 보내줘요. 그럼 빈 책이 밤새 내 일기장을 보고 혼자 공부한 다음, 내 일기장은 집에 두고 **"공부하면서 깨달은 수학 숫자"**만 쏙 빼서 회사로 날아간답니다.
+2. [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 로봇 회사가 <strong>'빈 책(가짜 로봇)'</strong>만 우리 집으로 보내줘요. 그럼 빈 책이 밤새 내 일기장을 보고 혼자 공부한 다음, 내 일기장은 집에 두고 <strong>"공부하면서 깨달은 수학 숫자"</strong>만 쏙 빼서 회사로 날아간답니다.
 3. 회사는 수백만 명의 집에서 날아온 숫자들만 섞어서 우주 최고 천재 로봇을 만드니까, 내 비밀 일기장은 아무에게도 안 들키고 로봇은 똑똑해지는 마법 같은 방법이에요!
 
 ---

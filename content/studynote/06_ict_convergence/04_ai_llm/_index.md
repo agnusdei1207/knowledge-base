@@ -19,24 +19,24 @@ tags = ["ict_convergence"]
 
 ChatGPT로 촉발된 생성형 AI (Generative AI) 혁명은 이제 기술적 가능성 확인 단계를 지나, 실질적인 비즈니스 가치 창출 단계로 접어들었다. 특히 초거대 언어 모델 (LLM)은 프로그래밍, 문서 요약, 창의적 콘텐츠 생성 등에서 압도적 성능을 보이고 있다.
 
-그러나 기업이 이를 실무에 도입할 때 세 가지 큰 장벽에 직면한다. 첫째, 모델의 거짓 답변인 **환각 (Hallucination)** 문제, 둘째, 기업 내부 기밀 데이터 유출에 대한 **보안 우려**, 셋째, 수천억 개의 파라미터를 가진 모델을 운영하는 데 드는 막대한 **비용과 자원**이다. 이러한 문제를 해결하기 위한 기술들이 최신 AI 트렌드의 핵심을 형성하고 있다.
+그러나 기업이 이를 실무에 도입할 때 세 가지 큰 장벽에 직면한다. 첫째, 모델의 거짓 답변인 **환각 (Hallucination)** 문제, 둘째, 기업 내부 기밀 데이터 유출에 대한 **보안 우려**, 셋째, 수천억 개의 파라미터를 가진 모델을 운영하는 데 드는 막대한 <strong>비용과 자원</strong>이다. 이러한 문제를 해결하기 위한 기술들이 최신 AI 트렌드의 핵심을 형성하고 있다.
 
 이 그림은 기업이 LLM을 도입할 때 선택할 수 있는 전략적 로드맵을 보여준다. 범용 클라우드 API를 사용하는 방식에서 시작하여, 지식 증강(RAG)을 거쳐 전용 모델 튜닝(PEFT)으로 나아가는 기술적 성숙도 단계를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              기업용 AI 도입 전략 및 성숙도 모델               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [단계 1: 일반 활용] ──▶ [단계 2: 지식 결합] ──▶ [단계 3: 최적화]   │
-│   (Public LLM API)       (RAG & Vector DB)      (PEFT & FineTune)  │
-│          │                      │                      │       │
-│    - 낮은 도입 비용        - 최신 지식 주입       - 도메인 특화 성능  │
-│    - 데이터 보안 취약      - 환각 현상 감소       - 높은 제어력      │
-│    - 범용적 성능           - 보안 수준 강화       - 높은 자원 요구    │
-│                                                                    │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업용 AI 도입 전략 및 성숙도 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계 1: 일반 활용</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단계 2: 지식 결합</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단계 3: 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Public LLM API) (RAG &amp; Vector DB) (PEFT &amp; FineTune)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 낮은 도입 비용 - 최신 지식 주입 - 도메인 특화 성능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 보안 취약 - 환각 현상 감소 - 높은 제어력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 범용적 성능 - 보안 수준 강화 - 높은 자원 요구</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '보안과 성능의 트레이드오프'이다. 공용 API를 쓰면 빠르지만 데이터 주권이 약해지고, 자체 모델을 튜닝하면 강력하지만 비용이 많이 든다. 실무에서는 이 둘을 결합한 하이브리드 전략, 즉 오픈소스 기반의 소형 언어 모델 (sLLM)에 RAG를 결합하는 방식이 가장 현실적인 대안으로 꼽힌다. 기술사는 기업의 예산과 보안 요구사항에 따라 이 지점들 중 최적의 위치를 결정해주어야 한다.
 
@@ -58,21 +58,20 @@ RAG (Retrieval-Augmented Generation)는 모델 내부 가중치에 지식을 가
 
 이 구조도는 사용자의 질문이 어떻게 검색 쿼리로 변환되고, 외부 지식과 결합되어 최종 답변으로 생성되는지 전체 파이프라인을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                   RAG (Retrieval-Augmented Generation) 구조      │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [User Query] ──┐          ┌──────────────┐          ┌────────┐  │
-│                 │          │  Vector DB   │          │  LLM   │  │
-│                 ▼          └──────┬───────┘          └────┬───┘  │
-│        [Query Embedding] ──▶ [Semantic Search] ──▶ [Context]     │
-│                                   │                  │           │
-│  [Internal Docs] ──▶ [Chunking] ──┘                  ▼           │
-│                                                 [Final Response] │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG (Retrieval-Augmented Generation) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User Query</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector DB</div><div class="kb-diagram-cell">LLM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Query Embedding</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Semantic Search</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Context</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internal Docs</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Chunking</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Final Response</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '시맨틱 검색 (Semantic Search)' 단계이다. 키워드 매칭이 아닌 '의미적 유사도'를 기준으로 문서를 찾기 때문에, 질문에 정확한 단어가 없어도 맥락상 적절한 정보를 찾아낼 수 있다. 실무에서는 문서의 쪼개기 전략 (Chunking Strategy)과 상위 K개의 문서를 재배열하는 리랭킹 (Reranking) 기술이 RAG의 성능을 좌우하는 핵심 병목 지점이 된다.
 
@@ -84,23 +83,20 @@ RAG (Retrieval-Augmented Generation)는 모델 내부 가중치에 지식을 가
 
 이 도식은 LoRA가 원래 가중치 행렬(W)을 어떻게 저차원 행렬(A, B)로 분해하여 학습 자원을 절약하는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 LoRA (Low-Rank Adaptation) 원리              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│         [Input x] ───┬───────────────────┐                  │
-│                      │                   │                  │
-│             [Original W (Frozen)]    [Matrix A]             │
-│                      │                   │                  │
-│                      │               [Matrix B]             │
-│                      │                   │                  │
-│                      └─────▶ [ Σ ] ◀─────┘                  │
-│                              │                              │
-│                          [Output y]                         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRA (Low-Rank Adaptation) 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Input x</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Original W (Frozen)</div><div class="kb-diagram-node">Matrix A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Matrix B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Σ</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Output y</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 'Frozen' 표시이다. 기존 모델의 방대한 지식은 건드리지 않고(Frozen), 특정 도메인의 말투나 지식만 담은 작은 행렬(A, B)만 훈련시킨다. 이는 마치 도서관의 책을 모두 다시 쓰는 대신, 책 뒤에 작은 메모지(LoRA)를 붙여 내용을 보완하는 것과 같다. 실무에서는 GPU 메모리가 부족한 상황에서도 고성능 모델을 구축할 수 있게 해주는 마법 같은 기술이다.
 
@@ -156,19 +152,19 @@ LLM이 서비스에 직접 연결되면서 새로운 보안 위협이 나타났�
 
 이 도식은 AI 보안 위협의 전파 경로와 방어 지점을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 AI 보안 위협 및 방어 아키텍처                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [Attacker] ──▶ [Malicious Prompt] ──▶ [Gate: Filter]       │
-│                                              │ (Block!)     │
-│  [User] ─────▶ [Normal Prompt] ─────▶ [LLM Engine]          │
-│                                              │              │
-│  [External API] ◀── [Action/Result] ◀── [Output Guard]       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 보안 위협 및 방어 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Attacker</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Malicious Prompt</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Gate: Filter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Block!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Normal Prompt</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LLM Engine</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">External API</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Action/Result</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Output Guard</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 'Output Guard'의 존재이다. 모델이 내뱉는 결과물도 한 번 더 검증하여 기밀 정보나 부적절한 언어가 포함되었는지 확인해야 한다. 실무적으로는 NeMo Guardrails와 같은 프레임워크를 활용하여 기술적 방어막을 구축하는 것이 권장된다.
 

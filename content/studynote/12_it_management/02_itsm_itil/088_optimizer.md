@@ -34,24 +34,23 @@ tags = ["it_management"]
 
 | 핵심 원리 | 설명 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | :--- | :--- | :--- |
-| **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) (관성)** | 이전 단계의 이동 방향과 속도를 기억해 기울기가 작아져도 밀고 나감 | [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), Nesterov |
-| **[Adaptive Learning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/) Rate (보폭 조절)** | 많이 변한 파라미터는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄이고, 적게 변한 파라미터는 늘림 | `AdaGrad`, `RMSProp` |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a> (관성)</strong> | 이전 단계의 이동 방향과 속도를 기억해 기울기가 작아져도 밀고 나감 | [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/), Nesterov |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/">Adaptive Learning</a> Rate (보폭 조절)</strong> | 많이 변한 파라미터는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄이고, 적게 변한 파라미터는 늘림 | `AdaGrad`, `RMSProp` |
 | **하이브리드 (통합형)** | 관성으로 방향을 유지하면서 파라미터별 보폭도 같이 조절함 | `Adam`, `AdamW` |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Adam 옵티마이저의 가중치 업데이트 원리           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [현재 기울기(Gradient)]                                     │
-│           │                                                  │
-│           ├─▶ (1) 1차 모멘트: 과거 방향의 관성 계산 (Momentum) │
-│           │                                                  │
-│           └─▶ (2) 2차 모멘트: 기울기 제곱합으로 보폭 계산      │
-│                                                              │
-│  [새로운 가중치] = [이전 가중치] - (학습률 × 관성) / (보폭+ε)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam 옵티마이저의 가중치 업데이트 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 기울기(Gradient)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (1) 1차 모멘트: 과거 방향의 관성 계산 (Momentum)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (2) 2차 모멘트: 기울기 제곱합으로 보폭 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 가중치</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">이전 가중치</div><div class="kb-diagram-note">- (학습률 × 관성) / (보폭+ε)</div></div>
+</div>
+</div>
+
+
 
 가장 널리 쓰이는 `Adam (Adaptive Moment Estimation)`은 이 두 가지 기법을 정교하게 결합한 형태다. 1차 모멘트로 매끄러운 방향성을 잡고, 2차 모멘트로 변수마다 맞춤형 보폭을 적용함으로써 험준한 오차 지형에서도 빠르고 안정적으로 최소점을 찾아간다.
 
@@ -66,8 +65,8 @@ tags = ["it_management"]
 | 비교 축 | `SGD` + [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) | `Adam` ([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) | `AdamW` |
 | :--- | :--- | :--- | :--- |
 | **수렴 속도** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 상대적으로 느림 | 초반 수렴 속도가 매우 빠름 | 빠름 |
-| **일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 세밀하게 수렴하여 테스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높음 | Train Loss는 잘 줄이나 과적합 우려 있음 | `Adam`의 과적합 문제를 개선함 |
-| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 민감도** | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝이 매우 까다로움 | 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값만으로도 훌륭한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 발휘 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) 조절 용이 |
+| <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 세밀하게 수렴하여 테스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높음 | Train Loss는 잘 줄이나 과적합 우려 있음 | `Adam`의 과적합 문제를 개선함 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 민감도</strong> | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝이 매우 까다로움 | 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값만으로도 훌륭한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 발휘 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/)) 조절 용이 |
 
 `AdaGrad (Adaptive Gradient)`는 자연어 처리처럼 자주 등장하지 않는 희소(Sparse) 단어 학습에 유리하지만, 학습이 길어지면 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 0으로 소실되는 단점이 있었다. 이를 개선한 것이 최근 추세를 이끄는 `RMSProp (Root Mean Square Propagation)`과 `Adam`이며, 특히 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에서는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과를 깔끔하게 분리한 `AdamW`가 사실상 표준으로 자리 잡았다.
 
@@ -81,8 +80,8 @@ tags = ["it_management"]
 
 ### 실무 선택 가이드
 
-1. **컴퓨터 비전([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열)**: `SGD (Stochastic Gradient Descent)` + [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 조합이 압도적으로 유리하다. 학습은 오래 걸리지만 최종 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 `Adam`보다 뛰어난 경우가 많다.
-2. **자연어 처리 및 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 계열**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 학습이 불안정하므로 `Adam`이나 `AdamW`를 사용하며, 특히 `Warm-up` ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 서서히 올리는 기법)을 반드시 병행해야 발산을 막을 수 있다.
+1. <strong>컴퓨터 비전(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 계열)</strong>: `SGD (Stochastic Gradient Descent)` + [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 조합이 압도적으로 유리하다. 학습은 오래 걸리지만 최종 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 `Adam`보다 뛰어난 경우가 많다.
+2. <strong>자연어 처리 및 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> 계열</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 학습이 불안정하므로 `Adam`이나 `AdamW`를 사용하며, 특히 `Warm-up` ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 서서히 올리는 기법)을 반드시 병행해야 발산을 막을 수 있다.
 3. **빠른 프로토타이핑**: 새로운 구조의 모델을 검증할 때는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝 없이도 빠르게 결과를 보여주는 `Adam`을 최우선으로 적용하여 가설을 먼저 검증한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -114,21 +113,23 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전체 데이터 기반 업데이트
-    │
-    ▼
-SGD (Stochastic Gradient Descent) : 미니배치 단위 이동
-    │
-    ▼
-Momentum : 관성을 활용해 지역 최적해 탈출
-    │
-    ▼
-AdaGrad / RMSProp : 특징별로 보폭을 다르게 조절 (Adaptive)
-    │
-    ▼
-Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전체 데이터 기반 업데이트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SGD (Stochastic Gradient Descent) : 미니배치 단위 이동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Momentum : 관성을 활용해 지역 최적해 탈출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AdaGrad / RMSProp : 특징별로 보폭을 다르게 조절 (Adaptive)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

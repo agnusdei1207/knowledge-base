@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) ([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))는 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 배포 직전 승인 절차가 아니라, 개발·빌드·배포 흐름 전체에 녹인 **[지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/) 구조**다.
+> 1. **본질**: [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) ([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/))는 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 배포 직전 승인 절차가 아니라, 개발·빌드·배포 흐름 전체에 녹인 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/">지속적 피드백</a> 구조</strong>다.
 > 2. **가치**: [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출, 취약 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 잘못된 [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 코드 작성 시점에 잡으면 수정 비용과 릴리스 지연이 급감하고, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적도 자동으로 남는다.
 > 3. **판단 포인트**: Shift-Left는 "무조건 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 다 막는다"가 아니라, **어떤 위험을 어느 단계에서 가장 싸고 정확하게 잡을지** 설계하는 문제이며, 운영 단계의 Shift-Right 관측과 함께 가야 완성된다.
 
@@ -25,20 +25,22 @@ tags = ["studynote-cloud-architecture"]
 
 아래 그림은 "늦은 보안 게이트"와 "흐름 내장형 보안"의 차이를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           Late security gate vs integrated security loop           │
-├───────────────────────┬────────────────────────────────────────────┤
-│ Late gate             │ Integrated DevSecOps                      │
-├───────────────────────┼────────────────────────────────────────────┤
-│ Code -> Build ->      │ Code -> scan -> build -> scan -> deploy   │
-│ Release -> Security   │            ^ feedback returns immediately │
-│ issue found at end    │                                            │
-│ => big rework         │ => small fixes, fast recovery             │
-└───────────────────────┴────────────────────────────────────────────┘
-```
 
-중요한 점은 DevSecOps가 개발자를 보안 담당자로 떠넘기는 구호가 아니라는 점이다. 보안팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 예외 프로세스, 도구 운영을 맡고, 개발팀은 그 기준을 코드와 파이프라인 안에서 실천한다. 즉 책임이 사라지는 것이 아니라, **병목형 승인 구조가 협업형 피드백 구조로 바뀌는 것**이 본질이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late security gate vs integrated security loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late gate</div><div class="kb-diagram-cell">Integrated DevSecOps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code -&gt; Build -&gt;</div><div class="kb-diagram-cell">Code -&gt; scan -&gt; build -&gt; scan -&gt; deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Release -&gt; Security</div><div class="kb-diagram-cell">^ feedback returns immediately</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue found at end</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; big rework</div><div class="kb-diagram-cell">=&gt; small fixes, fast recovery</div></div>
+</div>
+</div>
+
+
+
+중요한 점은 DevSecOps가 개발자를 보안 담당자로 떠넘기는 구호가 아니라는 점이다. 보안팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 예외 프로세스, 도구 운영을 맡고, 개발팀은 그 기준을 코드와 파이프라인 안에서 실천한다. 즉 책임이 사라지는 것이 아니라, <strong>병목형 승인 구조가 협업형 피드백 구조로 바뀌는 것</strong>이 본질이다.
 
 - **📢 섹션 요약 비유**: 건물을 다 지은 뒤 소방법 위반을 찾는 대신, 설계도·자재·시공 단계마다 소방 기준을 넣어 두는 것이 DevSecOps다. 공사 끝에 벽을 다시 뜯는 것보다 훨씬 싸고 빠르다.
 
@@ -48,21 +50,23 @@ tags = ["studynote-cloud-architecture"]
 
 DevSecOps의 핵심은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) 파이프라인 각 지점에 서로 다른 종류의 보안 검사를 배치하는 것이다. [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 탐지는 가장 앞에서 즉시 차단해야 하고, Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing ([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))은 [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 단계에서 코드 패턴을 본다. [Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/) ([SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/))는 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 Common Vulnerabilities and Exposures ([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))를 점검하고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 스캔은 배포 단위 자체를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 배포 직전에는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))와 동적 점검이, 운영 중에는 런타임 탐지와 이상 행위 관측이 뒤를 받친다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Security placement across delivery                  │
-├──────────────┬────────────────────────────┬────────────────────────┤
-│ Stage        │ Main control               │ Best at catching       │
-├──────────────┼────────────────────────────┼────────────────────────┤
-│ IDE/commit   │ secret scan, lint rule     │ leaked key, bad habit  │
-│ PR/build     │ SAST, SCA, IaC scan        │ code/dependency flaw   │
-│ Artifact     │ image scan, SBOM, signing  │ package/image risk     │
-│ Deploy       │ policy gate, admission     │ misconfig, drift gate  │
-│ Runtime      │ DAST, runtime detect       │ env-only exploit path  │
-└──────────────┴────────────────────────────┴────────────────────────┘
-```
 
-이 그림의 메시지는 "한 도구가 모든 취약점을 잡지 못한다"는 점이다. 예를 들어 SAST는 코드 구조를 빨리 보지만 실제 실행 경로를 모두 알지 못하고, Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing ([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))은 실행 환경에서 보이는 약점을 찾지만 느리고 후행적이다. 따라서 좋은 파이프라인은 도구를 많이 붙이는 것이 아니라, **발견 시점·오탐률·차단 비용이 다른 검사들을 계층적으로 배치**한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security placement across delivery</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stage</div><div class="kb-diagram-cell">Main control</div><div class="kb-diagram-cell">Best at catching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDE/commit</div><div class="kb-diagram-cell">secret scan, lint rule</div><div class="kb-diagram-cell">leaked key, bad habit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PR/build</div><div class="kb-diagram-cell">SAST, SCA, IaC scan</div><div class="kb-diagram-cell">code/dependency flaw</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Artifact</div><div class="kb-diagram-cell">image scan, SBOM, signing</div><div class="kb-diagram-cell">package/image risk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deploy</div><div class="kb-diagram-cell">policy gate, admission</div><div class="kb-diagram-cell">misconfig, drift gate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">DAST, runtime detect</div><div class="kb-diagram-cell">env-only exploit path</div></div>
+</div>
+</div>
+
+
+
+이 그림의 메시지는 "한 도구가 모든 취약점을 잡지 못한다"는 점이다. 예를 들어 SAST는 코드 구조를 빨리 보지만 실제 실행 경로를 모두 알지 못하고, Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing ([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))은 실행 환경에서 보이는 약점을 찾지만 느리고 후행적이다. 따라서 좋은 파이프라인은 도구를 많이 붙이는 것이 아니라, <strong>발견 시점·오탐률·차단 비용이 다른 검사들을 계층적으로 배치</strong>한다.
 
 | 파이프라인 지점 | 대표 통제 | 주된 판단 기준 |
 | :--- | :--- | :--- |
@@ -74,7 +78,7 @@ DevSecOps의 핵심은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 실무에서는 여기서 멈추지 않고 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 코드화"까지 가야 한다. 예를 들어 `latest` 태그 금지, 루트 권한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 금지, 공개 버킷 금지, 서명되지 않은 이미지 배포 금지 같은 규칙을 사람이 매번 읽어 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않고 코드로 평가해야 한다. 그래야 속도를 유지하면서도 일관성을 확보할 수 있다.
 
-또한 Shift-Left가 곧 Shift-Only는 아니다. 운영 중 공개된 신규 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/), 런타임 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/), 예상치 못한 네트워크 노출은 배포 전 검사만으로는 잡히지 않는다. 그래서 DevSecOps는 앞단 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 뒷단 관측을 잇는 **연속 보안 루프**로 이해해야 한다.
+또한 Shift-Left가 곧 Shift-Only는 아니다. 운영 중 공개된 신규 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/), 런타임 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/), 예상치 못한 네트워크 노출은 배포 전 검사만으로는 잡히지 않는다. 그래서 DevSecOps는 앞단 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 뒷단 관측을 잇는 <strong>연속 보안 루프</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 공항 보안은 입구 검색대 하나로 끝나지 않는다. 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 수하물 X-Ray, 탑승구 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 기내 보안이 이어져야 전체 여행이 안전해지는 것처럼, DevSecOps도 단계별 보안 분업이 핵심이다.
 
@@ -105,18 +109,20 @@ DevOps와 DevSecOps의 차이는 단순히 보안 도구를 몇 개 더 붙였�
 
 현실적인 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 도입은 "모든 경고를 즉시 차단"이 아니라, 위험도와 팀 성숙도에 맞춰 게이트를 설계하는 데서 시작한다. 가장 먼저 하드 페일(Hard Fail)로 묶을 대상은 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출, 치명적 원격 실행 취약점, 서명되지 않은 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/), 공개 금지 자산 노출처럼 조직이 절대 허용할 수 없는 항목이다. 반면 레거시 코드 전반에 쌓인 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 경고를 첫날부터 모두 빌드 실패로 묶으면 개발 조직이 도구를 우회하려 든다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Practical gate decision flow                      │
-├────────────────────────────────────────────────────────────────────┤
-│ finding detected?                                                  │
-│   │                                                                │
-│   ├─ secret leaked / unsigned artifact? -> block now               │
-│   ├─ critical exploitable on internet path? -> block + fix         │
-│   ├─ high on newly changed code? -> block or require exception     │
-│   └─ legacy / low risk debt? -> ticket + SLA + trend tracking      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical gate decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">finding detected?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ secret leaked / unsigned artifact? -&gt; block now</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ critical exploitable on internet path? -&gt; block + fix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ high on newly changed code? -&gt; block or require exception</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ legacy / low risk debt? -&gt; ticket + SLA + trend tracking</div></div>
+</div>
+</div>
+
+
 
 실무 판단 포인트는 다음과 같다.
 
@@ -126,7 +132,7 @@ DevOps와 DevSecOps의 차이는 단순히 보안 도구를 몇 개 더 붙였�
 4. **개발자 피드백 우선**: IDE 플러그인, [Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 코멘트, 자동 수정 제안이 있어야 보안이 "나중에 오는 벌점"이 아니라 "지금 고칠 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)"가 된다.
 5. **측정 지표를 운영한다**: 취약점 검출 수보다 평균 수정 시간, 신규 취약점 유입률, 예외 누적량, 차단률 대비 오탐률을 봐야 한다.
 
-기술사 답안에서는 DevSecOps를 문화론만으로 쓰면 얕아진다. **단계별 통제 배치, 게이트 설계, 예외 관리, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), Shift-Right 연계**까지 써야 실제 운영 관점이 살아난다. 특히 "빠른 개발을 해치지 않도록 어떤 통제는 즉시 차단하고 어떤 통제는 추적성 위주로 운영하는가"를 설명하면 깊이가 생긴다.
+기술사 답안에서는 DevSecOps를 문화론만으로 쓰면 얕아진다. <strong>단계별 통제 배치, 게이트 설계, 예외 관리, <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>, Shift-Right 연계</strong>까지 써야 실제 운영 관점이 살아난다. 특히 "빠른 개발을 해치지 않도록 어떤 통제는 즉시 차단하고 어떤 통제는 추적성 위주로 운영하는가"를 설명하면 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 학교 규율도 모든 실수를 즉시 퇴학으로 다루면 운영이 망가진다. 반칙의 무게에 따라 즉시 제재할 것과 경고 후 시정할 것을 구분해야 제도가 오래 간다.
 
@@ -136,9 +142,9 @@ DevOps와 DevSecOps의 차이는 단순히 보안 도구를 몇 개 더 붙였�
 
 DevSecOps를 제대로 정착시키면 취약점이 더 빨리 발견되는 것 이상으로, 보안이 릴리스 속도의 적이 아니라 품질 기준으로 자리 잡는다. 개발자는 코드를 바꾼 직후 위험을 알 수 있고, 보안팀은 파이프라인 로그와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기록으로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응을 체계화할 수 있다. [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 측면에서도 어떤 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 이미지가 언제 어떤 기준으로 승인됐는지 추적 가능해진다.
 
-하지만 한계도 분명하다. 오탐이 많은 도구는 금방 무시되고, 무거운 스캔은 빌드 시간을 늘리며, 운영 중에만 드러나는 취약점은 Shift-Left만으로 해결되지 않는다. 따라서 DevSecOps의 성공 조건은 "도구 도입"이 아니라 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 명확성, 예외 관리, [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/), 운영 단계 관측**의 균형이다.
+하지만 한계도 분명하다. 오탐이 많은 도구는 금방 무시되고, 무거운 스캔은 빌드 시간을 늘리며, 운영 중에만 드러나는 취약점은 Shift-Left만으로 해결되지 않는다. 따라서 DevSecOps의 성공 조건은 "도구 도입"이 아니라 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 명확성, 예외 관리, <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a>, 운영 단계 관측</strong>의 균형이다.
 
-결국 이 주제는 "보안을 앞당긴다"보다, **보안 피드백을 전달 체계 안에 심는다**로 기억하는 편이 정확하다. 좋은 DevSecOps는 속도를 늦추는 문지기가 아니라, 더 작은 수정으로 더 이른 시점에 위험을 줄여 주는 설계다.
+결국 이 주제는 "보안을 앞당긴다"보다, <strong>보안 피드백을 전달 체계 안에 심는다</strong>로 기억하는 편이 정확하다. 좋은 DevSecOps는 속도를 늦추는 문지기가 아니라, 더 작은 수정으로 더 이른 시점에 위험을 줄여 주는 설계다.
 
 - **📢 섹션 요약 비유**: 자동차 공장에서 불량을 출고장 끝에서만 잡는 대신, 프레스·용접·도장 단계마다 자동 검사기를 두면 전체 생산 속도는 유지하면서 리콜 위험을 크게 낮출 수 있다.
 
@@ -158,21 +164,24 @@ DevSecOps를 제대로 정착시키면 취약점이 더 빨리 발견되는 것 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Late security review
-    │
-    ▼
-Shift-Left security in CI/CD
-    ├─ secret scan
-    ├─ SAST / SCA / IaC scan
-    └─ image scan + SBOM + signing
-    │
-    ▼
-Policy as Code and trusted deployment
-    │
-    ▼
-Shift-Right runtime detection and continuous verification
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Late security review</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shift-Left security in CI/CD</div>
+<div class="kb-diagram-tree-item" style="--depth:2">secret scan</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SAST / SCA / IaC scan</div>
+<div class="kb-diagram-tree-item" style="--depth:2">image scan + SBOM + signing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy as Code and trusted deployment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shift-Right runtime detection and continuous verification</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

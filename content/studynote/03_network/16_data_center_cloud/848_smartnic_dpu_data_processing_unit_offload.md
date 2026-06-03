@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 비싼 인텔(x86) 메인 CPU를 사서 꽂았더니, 전체 성능의 30~40%를 내 앱(쇼핑몰, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산)을 돌리는 데 안 쓰고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 띄우고, 패킷 암호화를 풀고, [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 길을 찾아주고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000줄을 검사하는 인프라 궂은일(Overhead)에 낭비하고 있었습니다.
-- 아마존 AWS는 이 낭비되는 CPU 자원 30%를 **'[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 세금(Tax)'**이라 불렀고, 이를 없애기 위해 2017년 역사적인 **Nitro(나이트로) 카드**를 독자 개발하여 서버에 꽂기 시작했습니다.
+- 아마존 AWS는 이 낭비되는 CPU 자원 30%를 <strong>'<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 세금(Tax)'</strong>이라 불렀고, 이를 없애기 위해 2017년 역사적인 <strong>Nitro(나이트로) 카드</strong>를 독자 개발하여 서버에 꽂기 시작했습니다.
 
-```text
-[SR-IOV]
-    │
-    ▼
-[SmartNIC와 DPU]
-    │
-    └──▶ [SD-WAN 가속 오버레이 토폴로지 암호망/…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SmartNIC와 DPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SmartNIC와 DPU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,14 +44,18 @@ tags = ["studynote-network"]
 - **개념**: 단순하게 패킷만 밖으로 던져주던 바보 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에, FPGA나 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(맞춤형 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/))을 달아서, 서버 메인 CPU가 하던 복잡한 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))의 라우팅과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 연산을 랜카드 내부에서 하드웨어적으로 처리해 주는 진화된 랜카드입니다.
 - 하지만 SmartNIC는 룰이 고정되어 있어 유연성이 떨어졌습니다. 그래서 다음 단계인 DPU로 진화합니다.
 
-```text
-[SR-IOV]
-    │
-    ▼
-[SmartNIC와 DPU]
-    │
-    └──▶ [SD-WAN 가속 오버레이 토폴로지 암호망/…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SmartNIC와 DPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SmartNIC와 DPU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,16 +66,16 @@ tags = ["studynote-network"]
 엔비디아(Nvidia)의 젠슨 황은 "[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 이제 CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 그리고 DPU라는 3개의 심장으로 돌아간다"라고 선언했습니다. (엔비디아의 BlueField 칩이 대장입니다.)
 
 ### DPU의 핵심 설계 구조: "랜카드 안에 박힌 완전한 컴퓨터"
-- DPU는 단순한 랜카드가 아닙니다. 그 안에 **스마트폰의 메인 칩과 같은 강력한 16코어짜리 멀티코어 ARM CPU**와 엄청난 용량의 램(RAM), 전용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스)가 통째로 들어있습니다.
+- DPU는 단순한 랜카드가 아닙니다. 그 안에 <strong>스마트폰의 메인 칩과 같은 강력한 16코어짜리 멀티코어 ARM CPU</strong>와 엄청난 용량의 램(RAM), 전용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스)가 통째로 들어있습니다.
 - **독립적인 국가(에어갭 보안)**: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 안에 있는 리눅스 OS는, 메인보드에 깔린 윈도우 OS와 완벽하게 격리되어 돌아갑니다.
 
 ### DPU의 3대 사기급 기능 (CPU [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 100%) 🌟
-1. **네트워크 오프로드 ([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) & [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 흡수)**: 
+1. <strong>네트워크 오프로드 (<a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a> &amp; <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 흡수)</strong>: 
    - 844번 문서에서 배운 소프트웨어 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))와, 842번의 수만 줄짜리 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 전체를 통째로 뜯어다가 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 안의 ARM 칩에서 돌립니다.
    - 밖에서 디도스(DDoS) 공격이 들어와도, 메인 CPU는 공격이 온 줄도 모릅니다. 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 선에서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 돌려 다 찢어버리기 때문입니다. 메인 CPU 점유율은 0%입니다.
-2. **스토리지 암호화 오프로드 ([NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/))**:
+2. <strong>스토리지 암호화 오프로드 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/">NVMe-oF</a>)</strong>:
    - 외부 하드디스크(스토리지)에서 파일을 가져올 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 푸는 복잡한 암호화/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 연산을 메인 CPU 대신 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 가속기가 빛의 속도로 풀어줍니다.
-3. **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 흡수 ([베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/))**:
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> 흡수 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/">베어메탈 클라우드</a>)</strong>:
    - 가장 무서운 기능입니다. VMWare 같은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 엔진([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 자체를 서버 메인 CPU에서 뜯어내서 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 칩셋 안에서 돌립니다. 
    - 서버의 비싼 x86 메인 CPU 100% 온전하게 고객에게 팔아먹을 수 있습니다(베어메탈 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)).
 
@@ -79,7 +87,7 @@ SmartNIC와 DPU를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 서버는 비싼 연봉을 주고 데려온 '천재 요리사(메인 CPU)'가 요리(애플리케이션 연산)는 60%만 하고, 나머지 40%의 시간은 주방 청소, 재료 포장 벗기기, 배달원과 싸우기(네트워크/스토리지 암호화/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 등 인프라 세금)를 하느라 멘탈이 터지는 비효율의 극치였습니다. **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치)**는 주방 입구(랜카드)에 '만능 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇 매니저(ARM 칩셋 내장 랜카드)'를 세워둔 것입니다. 식재료 박스 뜯기, 쓰레기 분리수거, 불량 배달원 내쫓기([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 등 모든 더러운 인프라 막일을 입구의 로봇 매니저가 100% 다 전담 마크해 버립니다. 천재 요리사(메인 CPU)는 문밖에서 무슨 일이 일어나는지 단 1도 신경 쓰지 않고 이어폰을 낀 채 오직 100% 요리(고객 비즈니스 로직)에만 몰빵할 수 있는 궁극의 분업 혁명입니다.
+- **📢 섹션 요약 비유**: 기존 서버는 비싼 연봉을 주고 데려온 '천재 요리사(메인 CPU)'가 요리(애플리케이션 연산)는 60%만 하고, 나머지 40%의 시간은 주방 청소, 재료 포장 벗기기, 배달원과 싸우기(네트워크/스토리지 암호화/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 등 인프라 세금)를 하느라 멘탈이 터지는 비효율의 극치였습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 장치)</strong>는 주방 입구(랜카드)에 '만능 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇 매니저(ARM 칩셋 내장 랜카드)'를 세워둔 것입니다. 식재료 박스 뜯기, 쓰레기 분리수거, 불량 배달원 내쫓기([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 등 모든 더러운 인프라 막일을 입구의 로봇 매니저가 100% 다 전담 마크해 버립니다. 천재 요리사(메인 CPU)는 문밖에서 무슨 일이 일어나는지 단 1도 신경 쓰지 않고 이어폰을 낀 채 오직 100% 요리(고객 비즈니스 로직)에만 몰빵할 수 있는 궁극의 분업 혁명입니다.
 
 ---
 
@@ -121,15 +129,19 @@ SmartNIC와 DPU는 [데이터센터](/knowledge-base/studynote/03_network/16_dat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SR-IOV]
-    │
-    ▼
-[현재 개념: SmartNIC와 DPU]
-    │
-    ├──▶ [확장 A: SD-WAN 가속 오버레이 토폴로지 암호망/…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SR-IOV</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SmartNIC와 DPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 SmartNIC와 DPU는 SR-IOV에서 출발해 현재 메커니즘을 정교화하고, 이후 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 가속 오버레이 토폴로지 암호망/…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

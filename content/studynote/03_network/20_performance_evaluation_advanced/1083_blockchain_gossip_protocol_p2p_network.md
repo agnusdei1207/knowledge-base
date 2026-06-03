@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **과거**: 카카오톡 서버 1대에 1만 명이 붙어있습니다. 철수가 메시지를 쏘면 서버 1대가 1만 명에게 브로드캐스트로 뿌립니다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))의 재앙**: 100만 대의 노드가 서로 평등하게 얽힌 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 망에서는 나를 이끌어 줄 중앙 서버가 아예 존재하지 않습니다. 브로드캐스트를 날리자니 트래픽이 폭발해서 네트워크가 죽어버립니다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>)의 재앙</strong>: 100만 대의 노드가 서로 평등하게 얽힌 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 망에서는 나를 이끌어 줄 중앙 서버가 아예 존재하지 않습니다. 브로드캐스트를 날리자니 트래픽이 폭발해서 네트워크가 죽어버립니다.
 
-```text
-[웹쉘 탐지 프로토콜 파서]
-    │
-    ▼
-[블록체인 가십 프로토콜 P2P 연결]
-    │
-    └──▶ [다크 웹 Tor 통신 프로토콜 암호화층]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 일명 **에피데믹 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Epidemic, 전염병 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**이라고도 불립니다.
-- **개념**: 중앙 통제 없이, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 **주기적으로 무작위(Random) 이웃 노드를 몇 개 골라 자기가 가진 최신 정보(상태, 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 귓속말로 속닥거리며 교환함으로써, 바이러스가 퍼지듯 순식간에 네트워크 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 똑같이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))시키는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신 기법**입니다.
+- 일명 <strong>에피데믹 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Epidemic, 전염병 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>이라고도 불립니다.
+- **개념**: 중앙 통제 없이, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 <strong>주기적으로 무작위(Random) 이웃 노드를 몇 개 골라 자기가 가진 최신 정보(상태, 블록 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 귓속말로 속닥거리며 교환함으로써, 바이러스가 퍼지듯 순식간에 네트워크 전체의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같이 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)시키는 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 통신 기법</strong>입니다.
 
-```text
-[웹쉘 탐지 프로토콜 파서]
-    │
-    ▼
-[블록체인 가십 프로토콜 P2P 연결]
-    │
-    └──▶ [다크 웹 Tor 통신 프로토콜 암호화층]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,13 +65,13 @@ tags = ["studynote-network"]
 
 ### 1. 기하급수적 전파 (Exponential Spread)
 - 철수 노드가 새로운 비트코인 거래 내역([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 만들었습니다.
-- 철수는 100만 대에 다 쏘지 않고, 딱 **랜덤한 이웃 3대**에게만 "야, 철수가 돈 보냈대"라고 가십(소문)을 던집니다.
+- 철수는 100만 대에 다 쏘지 않고, 딱 <strong>랜덤한 이웃 3대</strong>에게만 "야, 철수가 돈 보냈대"라고 가십(소문)을 던집니다.
 - 1초 뒤 그 3대가 각각 다른 3대에게 소문을 내면 9대가 알고, 다음 초엔 27대, 81대, 243대로 퍼집니다. $\log$ 스케일의 지수 함수적 폭발이 일어나 **수십 번의 턴(Hop)만 거치면 100만 대의 노드 전체가 100% 동일한 소문을 알게 됩니다.**
 
 ### 2. 안티-엔트로피 (Anti-Entropy)와 자가 치유 🌟
 - **문제**: A 노드는 어제 꺼져있어서 예전 소문을 못 들었습니다.
 - **해결 (장부 맞추기)**: 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 단순히 새 소문만 던지는 게 아닙니다. 두 노드가 만날 때마다 "너 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 몇이야? 난 100번인데. 헐 넌 90번이네? 내가 91~100번까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사해 줄게!" 라며 끊임없이 서로의 장부(해시값)를 비교하고 빈 구멍을 꾹꾹 채워 넣습니다([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)).
-- 네트워크가 일시적으로 끊기거나 노드가 죽었다 살아나도, 옆 사람이 떠드는 수다만 좀 듣다 보면 **결국에는 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 똑같아지는 '최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))'**의 기적을 이뤄냅니다.
+- 네트워크가 일시적으로 끊기거나 노드가 죽었다 살아나도, 옆 사람이 떠드는 수다만 좀 듣다 보면 <strong>결국에는 무조건 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 100% 똑같아지는 '최종적 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)'</strong>의 기적을 이뤄냅니다.
 
 ### 3. 무적의 생존력 ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제로)
 - 중앙 서버가 없으니 해커가 서버를 때려 부술 타겟([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 없습니다.
@@ -83,8 +91,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 비트코인, 이더리움 같은 **[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크**에서 블록과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 전파할 때 씁니다.
-- [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)), [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 클러스터([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster), 아마존 [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 같은 1만 대 규모의 **[NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)**들이 서로 살아있는지(Health Check) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞출 때 이 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 뼈대로 돌립니다.
+- 비트코인, 이더리움 같은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 네트워크</strong>에서 블록과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 전파할 때 씁니다.
+- [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)), [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/) 클러스터([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster), 아마존 [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 같은 1만 대 규모의 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>들이 서로 살아있는지(Health Check) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맞출 때 이 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 뼈대로 돌립니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 중앙 서버 방식은 **'교장 선생님이 운동장 조회대에서 1,000명의 학생에게 마이크로 공지사항을 방송하는 것'**입니다. 교장 선생님 마이크가 고장 나면 아무도 소식을 못 듣는 중앙 마비([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))가 터집니다. 반면 **가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(Gossip)**은 교장 선생님을 없애고 **'쉬는 시간 동네방네 떠도는 소문(전염병)'** 방식을 쓴 것입니다. 철수가 화장실에서 만난 친구 3명에게 "야, 오늘 급식 돈가스래!"라고 귓속말을 던집니다. 그 3명은 반으로 돌아가 각자 자기 짝꿍 3명에게 똑같은 소문을 냅니다. 중앙 마이크가 없어도, 고작 5분 만에 전교생 1,000명이 오늘 메뉴가 돈가스라는 걸 다 알게 됩니다. 중간에 조퇴한 학생이 있어도 내일 등교하면 짝꿍이 "어제 돈가스 나왔음" 하고 밀린 소문을 다 채워줍니다(안티-엔트로피 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 한 명의 입을 막아도 수백 명의 입을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한 증식하며 결국 전체의 뇌가 100% 똑같아지는 절대 죽지 않는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통신망의 흑마법입니다.
+- **📢 섹션 요약 비유**: 기존 중앙 서버 방식은 <strong>'교장 선생님이 운동장 조회대에서 1,000명의 학생에게 마이크로 공지사항을 방송하는 것'</strong>입니다. 교장 선생님 마이크가 고장 나면 아무도 소식을 못 듣는 중앙 마비([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))가 터집니다. 반면 <strong>가십 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(Gossip)</strong>은 교장 선생님을 없애고 **'쉬는 시간 동네방네 떠도는 소문(전염병)'** 방식을 쓴 것입니다. 철수가 화장실에서 만난 친구 3명에게 "야, 오늘 급식 돈가스래!"라고 귓속말을 던집니다. 그 3명은 반으로 돌아가 각자 자기 짝꿍 3명에게 똑같은 소문을 냅니다. 중앙 마이크가 없어도, 고작 5분 만에 전교생 1,000명이 오늘 메뉴가 돈가스라는 걸 다 알게 됩니다. 중간에 조퇴한 학생이 있어도 내일 등교하면 짝꿍이 "어제 돈가스 나왔음" 하고 밀린 소문을 다 채워줍니다(안티-엔트로피 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 한 명의 입을 막아도 수백 명의 입을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무한 증식하며 결국 전체의 뇌가 100% 똑같아지는 절대 죽지 않는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통신망의 흑마법입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 웹쉘 탐지 프로토콜 파서]
-    │
-    ▼
-[현재 개념: 블록체인 가십 프로토콜 P2P 연결]
-    │
-    ├──▶ [확장 A: 다크 웹 Tor 통신 프로토콜 암호화층]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록체인 가십 프로토콜 P2P 연결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 웹 Tor 통신 프로토콜 암호화층</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결는 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서에서 출발해 현재 메커니즘을 정교화하고, 이후 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

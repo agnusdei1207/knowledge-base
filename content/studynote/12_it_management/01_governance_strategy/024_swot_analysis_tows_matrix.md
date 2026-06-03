@@ -20,21 +20,22 @@ tags = ["studynote-it-management"]
 
 SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠퍼드 연구팀이 개발한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, 반세기가 지난 지금도 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 출발점으로 광범위하게 사용된다.
 
-```text
-┌───────────────────────────────────────────────────────┐
-│              SWOT → TOWS 전략 도출 매트릭스              │
-├───────────────┬──────────────────┬────────────────────┤
-│               │   Strengths (S)  │  Weaknesses (W)    │
-├───────────────┼──────────────────┼────────────────────┤
-│ Opportunities │  SO 전략          │  WO 전략            │
-│      (O)      │  강점×기회        │  약점×기회          │
-│               │  (공격 전략)      │  (개선 전략)        │
-├───────────────┼──────────────────┼────────────────────┤
-│  Threats (T)  │  ST 전략          │  WT 전략            │
-│               │  강점×위협        │  약점×위협          │
-│               │  (차별화 전략)    │  (방어 전략)        │
-└───────────────┴──────────────────┴────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SWOT → TOWS 전략 도출 매트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strengths (S)</div><div class="kb-diagram-cell">Weaknesses (W)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Opportunities</div><div class="kb-diagram-cell">SO 전략</div><div class="kb-diagram-cell">WO 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(O)</div><div class="kb-diagram-cell">강점×기회</div><div class="kb-diagram-cell">약점×기회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공격 전략)</div><div class="kb-diagram-cell">(개선 전략)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Threats (T)</div><div class="kb-diagram-cell">ST 전략</div><div class="kb-diagram-cell">WT 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점×위협</div><div class="kb-diagram-cell">약점×위협</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(차별화 전략)</div><div class="kb-diagram-cell">(방어 전략)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SWOT는 자신의 능력 목록(강점·약점)과 주변 환경(기회·위협)을 적는 것이고, TOWS는 "내 강점으로 어떤 기회를 잡을까, 약점 때문에 어떤 위협이 치명적일까"를 계산하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 게임이다.
 
@@ -48,7 +49,7 @@ SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠�
 |:---|:---|:---|:---|
 | **SO (Maxi-Maxi)** | 강점 × 기회 | 공격적 성장 | 클라우드 기술력으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시장 선점 |
 | **WO (Mini-Maxi)** | 약점 × 기회 | 약점 극복하며 기회 활용 | M&A로 기술 역량 보완 후 시장 진입 |
-| **[ST](/knowledge-base/studynote/09_security/12_identity_threat_advanced/587_st/) (Maxi-Mini)** | 강점 × 위협 | 강점으로 위협 방어 | 특허 포트폴리오로 경쟁사 진입 차단 |
+| <strong><a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/587_st/">ST</a> (Maxi-Mini)</strong> | 강점 × 위협 | 강점으로 위협 방어 | 특허 포트폴리오로 경쟁사 진입 차단 |
 | **WT (Mini-Mini)** | 약점 × 위협 | 손실 최소화, 철수 고려 | 비핵심 사업 매각, 자원 집중 |
 
 ### SWOT 분석 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 적용 예시
@@ -76,10 +77,10 @@ WT 전략: 핵심 AI 솔루션에만 집중, 주변 서비스 축소
 | 도구 | 목적 | 범위 |
 |:---|:---|:---|
 | **SWOT** | [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) | 내부+외부 4요소 |
-| **[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)/PESTEL** | 외부 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 외부 요인만 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/">PEST</a>/PESTEL</strong> | 외부 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) | 외부 요인만 |
 | **5 Forces** | 산업 경쟁 구조 분석 | 외부 경쟁 요인 |
 | **TOWS** | SWOT 기반 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 | 4요소 교차 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행 추적 | 4대 관점 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 실행 추적 | 4대 관점 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 
 SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 실행의 흐름이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 완성된 사이클이다.
 
@@ -93,9 +94,9 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 1. **SWOT 워크숍**: C-Level + 팀장 참여, Post-it 방식으로 각 사분면 항목 도출.
 2. **우선순위**: 항목별 투표로 HIGH/MED/LOW [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 3. **TOWS 매트릭스**: 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 × 상위 항목 교차 분석.
-4. **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택**: SO 1개 + WO 1개 + WT 방어 1개 = 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3개.
-5. **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 연계**: 각 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 관점(재무/고객/프로세스/학습)에 배치.
-6. **[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 수립**: 분기 단위 O와 KR로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 실행 수준으로 내림.
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택</strong>: SO 1개 + WO 1개 + WT 방어 1개 = 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3개.
+5. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> 연계</strong>: 각 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 관점(재무/고객/프로세스/학습)에 배치.
+6. <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a> 수립</strong>: 분기 단위 O와 KR로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 실행 수준으로 내림.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - SWOT 항목을 너무 추상적으로 나열하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). "기술력이 강함" 같은 추상적 강점이 아니라 "NLP 모델 정확도 업계 1위(90.5%)"처럼 구체적 수치와 증거가 있어야 TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 도출 시 실질적으로 활용할 수 있다.
@@ -108,8 +109,8 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향 명확화** | 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 유형으로 방향 결정 |
-| **[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 정렬** | 공동 워크숍으로 공감대 형성 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 방향 명확화</strong> | 4개 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 유형으로 방향 결정 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 정렬</strong> | 공동 워크숍으로 공감대 형성 |
 | **실행 연계** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)/[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 연결로 실행 가능성 확보 |
 
 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) 시대에 SWOT 분석의 주기가 연간→분기로 단축되고 있으며, 실시간 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
@@ -124,27 +125,29 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 |:---|:---|
 | **PESTEL** | SWOT의 외부 환경(O·T) 도출 기반 [거시 환경 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/) |
 | **Porter 5 Forces** | 산업 경쟁 구조 분석; SWOT 위협 요인 도출 |
-| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)** | TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 4대 관점 KPI로 실행화 |
-| **[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)** | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 분기 실행 목표로 내림 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 4대 관점 KPI로 실행화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong> | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표를 분기 실행 목표로 내림 |
 | **Dynamic SWOT** | 실시간 빅데이터 기반 동적 SWOT 업데이트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[PEST/PESTEL — 거시 외부 환경 분석]
-    │
-    ▼
-[SWOT — 내부 강·약점 + 외부 기회·위협 통합 분석]
-    │
-    ▼
-[TOWS 매트릭스 — SWOT 4요소 교차 전략 도출]
-    │
-    ▼
-[BSC 연계 — TOWS 전략 → 4대 관점 KPI 설정]
-    │
-    ▼
-[Dynamic SWOT — 빅데이터 기반 실시간 환경 변화 반영]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PEST/PESTEL — 거시 외부 환경 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SWOT — 내부 강·약점 + 외부 기회·위협 통합 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TOWS 매트릭스 — SWOT 4요소 교차 전략 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSC 연계 — TOWS 전략 → 4대 관점 KPI 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dynamic SWOT — 빅데이터 기반 실시간 환경 변화 반영</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

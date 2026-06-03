@@ -28,15 +28,21 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Product Backlog
-  ↓
-Development Team
-  ↓
-Self-organization
-  ↓
-Increment
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Product Backlog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Development Team</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Self-organization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Increment</div>
+</div>
+</div>
+
+
 
 | 특징 | 의미 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ Increment
 
 ## 관련 개념 맵
 
-```text
-Backlog
-  ↓
-Development Team
-  ↓
-Increment
-  ↓
-Sprint Goal
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Backlog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Development Team</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Increment</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sprint Goal</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-기능별 조직
-  ↓
-다기능 팀
-  ↓
-자기 조직화
-  ↓
-애자일 팀
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기능별 조직</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다기능 팀</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">자기 조직화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">애자일 팀</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -19,22 +19,26 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 수신 측에서 송신 측으로부터 패킷을 에러 없이 잘 받았음을 보장하기 위해 보내는 32비트짜리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 필드. 항상 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 중 **`ACK` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)**가 1로 켜져 있을 때만 이 필드의 숫자가 유효하다.
-- **필요성**: 무전기를 생각해보자. 내가 "침투해!"라고 말하고 끝내면, 부하가 내 말을 들었는지 딴청 피우다 못 들었는지 알 길이 없다. 무전기는 찌그러지기 쉬운 무선망이기 때문이다. 그래서 부하가 "침투해라고 잘 들었습니다. 완료(오버)!"라고 **영수증(ACK)**을 쳐줘야만 나는 안심하고 다음 작전 명령을 쏠 수 있다. 이처럼 무법천지 인터넷(IP) 망에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 확실하게 목적지에 꽂혔음을 보장하는 **가장 근본적이고 절대적인 안전벨트**다.
+- **개념**: 수신 측에서 송신 측으로부터 패킷을 에러 없이 잘 받았음을 보장하기 위해 보내는 32비트짜리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 필드. 항상 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 중 <strong><code>ACK</code> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>가 1로 켜져 있을 때만 이 필드의 숫자가 유효하다.
+- **필요성**: 무전기를 생각해보자. 내가 "침투해!"라고 말하고 끝내면, 부하가 내 말을 들었는지 딴청 피우다 못 들었는지 알 길이 없다. 무전기는 찌그러지기 쉬운 무선망이기 때문이다. 그래서 부하가 "침투해라고 잘 들었습니다. 완료(오버)!"라고 <strong>영수증(ACK)</strong>을 쳐줘야만 나는 안심하고 다음 작전 명령을 쏠 수 있다. 이처럼 무법천지 인터넷(IP) 망에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 확실하게 목적지에 꽂혔음을 보장하는 <strong>가장 근본적이고 절대적인 안전벨트</strong>다.
 
-- **💡 비유**: ACK 번호는 택배 배달의 **"이어 받기 쿠폰"**과 같습니다.
+- **💡 비유**: ACK 번호는 택배 배달의 <strong>"이어 받기 쿠폰"</strong>과 같습니다.
   - 전집 100권 중 오늘 1권부터 10권까지 무사히 배송을 받았습니다.
-  - 나는 우체부 아저씨 패드에 사인을 하면서 **"자, 10권까지 잘 받았고 파본 없으니, 내일은 11권부터 가져오쇼! (ACK Number = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))"**라고 다음번 배송 시작점을 딱 찍어서 영수증을 써줍니다. 
+  - 나는 우체부 아저씨 패드에 사인을 하면서 <strong>"자, 10권까지 잘 받았고 파본 없으니, 내일은 11권부터 가져오쇼! (ACK Number = <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)"</strong>라고 다음번 배송 시작점을 딱 찍어서 영수증을 써줍니다. 
   - 내일 우체부 아저씨는 내 영수증을 보고 고민 없이 창고에서 11권부터 싣고 출발합니다.
 
-```text
-[소스/목적지 포트 번호, 일련번호]
-    │
-    ▼
-[확인응답번호]
-    │
-    └──▶ [헤더 길이/데이터 오프셋]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스/목적지 포트 번호, 일련번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확인응답번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤더 길이/데이터 오프셋</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** TCP의 누적 ACK(Cumulative ACK)는 식당의 **"최종 결제 계산서"**입니다. 삼겹살, 소주, 볶음밥을 시킬 때마다 카드를 긁지 않고(개별 ACK 낭비), 다 먹고 나갈 때 한 방에 퉁쳐서 "볶음밥(마지막 패킷)까지 다 먹었으니 5만 원 결제해(누적 ACK)!"라고 쿨하게 승인하는 고도의 효율성입니다.
 
@@ -46,43 +50,43 @@ tags = ["studynote-network"]
 앞 장에서 배운 시퀀스 넘버(Seq)와 영혼의 파트너로 움직인다.
 - 송신자가 `Seq = 1000`번부터 `100 바이트`짜리 알맹이를 보냈다. (즉, 1000 ~ 1099번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)가 날아감).
 - 수신자가 이걸 1바이트도 안 깨지고 다 받았다!
-- 수신자는 답장 헤더에 **`ACK Number = 1100`**이라고 딱 적어서 쏜다.
-- 의미: "나 1099번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)까지 기가 막히게 다 받았다. **이제 다음번엔 1100번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)부터 보내주면 된다!**"
+- 수신자는 답장 헤더에 <strong><code>ACK Number = 1100</code></strong>이라고 딱 적어서 쏜다.
+- 의미: "나 1099번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)까지 기가 막히게 다 받았다. <strong>이제 다음번엔 1100번 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>부터 보내주면 된다!</strong>"
 
 ### 2. 치명적인 이빨 빠짐 (중복 ACK의 징징거림)
 송신자가 1, 2, 3, 4, 5번 상자(각 100바이트)를 쏟아부었다.
 그런데 3번 상자(Seq 300)가 라우터 큐 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)(Drop)로 사라졌다! 수신자의 램(버퍼)에는 `1, 2, _, 4, 5`가 들어왔다. 수신자는 어떻게 행동할까?
 
-- 1, 2번 상자 수신 완료 ──▶ **`ACK = 300`** (오케이 300번 상자 줘!)
+- 1, 2번 상자 수신 완료 ──▶ <strong><code>ACK = 300</code></strong> (오케이 300번 상자 줘!)
 - 3번 상자(Seq 300) 증발함.
 - 4번 상자(Seq 400) 도착! 
   - 수신자 뇌구조: "야 4번 상자 먼저 왔네? 근데 난 아직 3번 못 받았다고!! 난 3번 안 주면 뒤에 거 인정 안 해!!"
-  - 수신자는 4번을 받았지만 억지로 무시하고, 또다시 **`ACK = 300`** (300번 내놓으라고!!)을 쏜다.
+  - 수신자는 4번을 받았지만 억지로 무시하고, 또다시 <strong><code>ACK = 300</code></strong> (300번 내놓으라고!!)을 쏜다.
 - 5번 상자(Seq 500) 도착!
-  - 수신자는 개빡쳐서 또다시 **`ACK = 300`** (아 300번 달라고 미친놈아!!)을 쏜다.
+  - 수신자는 개빡쳐서 또다시 <strong><code>ACK = 300</code></strong> (아 300번 달라고 미친놈아!!)을 쏜다.
 - 송신자 뇌구조: "어? 저쪽에서 똑같은 영수증(`ACK=300`)이 3번 연속으로 날아오네 **(3 Duplicate ACKs)**. 이거 백퍼 3번 상자 가다가 터진 거네! 타이머 다 되기 전이지만 당장 3번 상자 복사해서 긴급 재전송 때려라! ([Fast Retransmit](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/))"
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP 빠른 재전송 (Fast Retransmit) 시나리오          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ]                                      [ 수신자 ]   │
- │   패킷 1 (Seq 100) ───────────────▶ 잘 받음!                 │
- │   패킷 2 (Seq 200) ───────────────▶ 잘 받음!                 │
- │   패킷 3 (Seq 300) ───(가다 터짐 Drop)                       │
- │                                                             │
- │   패킷 4 (Seq 400) ───────────────▶ "어 3번 내놔!" (ACK 300) │
- │   패킷 5 (Seq 500) ───────────────▶ "아 3번 달라고!" (ACK 300)│
- │   패킷 6 (Seq 600) ───────────────▶ "3번!! 3번!!" (ACK 300) │
- │                                                             │
- │   송신자: "헐 ACK 300이 중복(Dup)으로 3번이나 날아왔네! 3번 유실 확정!"│
- │   송신자 ── (타이머 무시하고 패킷 3번 긴급 재전송 빵!!) ──▶ 수신자 쾌재.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 빠른 재전송 (Fast Retransmit) 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-node">수신자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 1 (Seq 100) ▶ 잘 받음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 2 (Seq 200) ▶ 잘 받음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 3 (Seq 300) (가다 터짐 Drop)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 4 (Seq 400) ▶ "어 3번 내놔!" (ACK 300)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 5 (Seq 500) ▶ "아 3번 달라고!" (ACK 300)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 6 (Seq 600) ▶ "3번!! 3번!!" (ACK 300)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신자: "헐 ACK 300이 중복(Dup)으로 3번이나 날아왔네! 3번 유실 확정!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신자 ── (타이머 무시하고 패킷 3번 긴급 재전송 빵!!) ──▶ 수신자 쾌재.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 현대적 보완: SACK (Selective ACK)
-누적 ACK의 멍청한 점은, 위 상황에서 3번만 유실됐는데 송신자가 빡쳐서 3번부터 6번까지 **멀쩡히 잘 간 것들까지 싹 다 몽땅 다시 재전송해 버린다**는 거다. 엄청난 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비다.
+누적 ACK의 멍청한 점은, 위 상황에서 3번만 유실됐는데 송신자가 빡쳐서 3번부터 6번까지 <strong>멀쩡히 잘 간 것들까지 싹 다 몽땅 다시 재전송해 버린다</strong>는 거다. 엄청난 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비다.
 - 그래서 윈도우/리눅스는 `SACK(선택적 확인 응답)` 옵션을 기본으로 켠다.
 - 수신자 왈: "야! 메인 영수증은 `ACK=300` 인데, 나 뒤에 `400~600번`은 잘 받았으니까 **진짜 잃어버린 300번 딱 한 놈만 핀셋으로 집어서 다시 보내라!**" 
 - 이 SACK 마법 덕분에 현대 기가비트 인터넷은 재전송 폭풍에 휘말리지 않고 극강의 쾌적함을 유지한다.
@@ -143,15 +147,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 소스/목적지 포트 번호, 일련번호]
-    │
-    ▼
-[현재 개념: 확인응답번호]
-    │
-    ├──▶ [확장 A: 헤더 길이/데이터 오프셋]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소스/목적지 포트 번호, 일련번호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 확인응답번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 헤더 길이/데이터 오프셋</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)응답번호는 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호에서 출발해 현재 메커니즘을 정교화하고, 이후 헤더 길이/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프셋와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

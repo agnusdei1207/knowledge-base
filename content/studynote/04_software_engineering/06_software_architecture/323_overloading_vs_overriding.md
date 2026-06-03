@@ -28,8 +28,8 @@ tags = ["studynote-software-engineering"]
   - **오버라이딩의 필요성**: `Animal` 부모 클래스에 `cry()` 함수를 만들었다. 자식인 `Dog`와 `Cat`이 이걸 물려받았다. 그런데 둘 다 똑같이 "우는 소리"를 낼 수는 없다. `Dog`는 "멍멍", `Cat`은 "야옹"이라고 자신만의 방식으로 울어야 한다. 부모의 틀(이름)은 그대로 쓰되, 자식의 사정에 맞게 알맹이만 뜯어고칠 권리가 필요했다.
 
 - **💡 비유**: 
-  - **오버로딩(Overloading)**은 **'만능 스위스 아미 나이프'**입니다. 칼 하나에 일자 드라이버, 십자 드라이버, 병따개가 겹겹이 쌓여(Load) 있습니다. 내가 십자나사를 들이대면 십자 드라이버를, 병뚜껑을 들이대면 병따개를 꺼내 씁니다. 도구 이름은 그냥 '칼' 하나입니다.
-  - **오버라이딩(Overriding)**은 **'후계자의 식당 리모델링'**입니다. 아버지가 물려준 '원조 국밥집(부모 메서드)'이라는 간판(이름)은 100% 똑같이 유지하면서, 주방에 들어가서 끓이는 레시피(내부 로직)만 아들이 요즘 입맛에 맞게 통째로 엎어 치는(Ride) 것입니다.
+  - <strong>오버로딩(Overloading)</strong>은 <strong>'만능 스위스 아미 나이프'</strong>입니다. 칼 하나에 일자 드라이버, 십자 드라이버, 병따개가 겹겹이 쌓여(Load) 있습니다. 내가 십자나사를 들이대면 십자 드라이버를, 병뚜껑을 들이대면 병따개를 꺼내 씁니다. 도구 이름은 그냥 '칼' 하나입니다.
+  - <strong>오버라이딩(Overriding)</strong>은 <strong>'후계자의 식당 리모델링'</strong>입니다. 아버지가 물려준 '원조 국밥집(부모 메서드)'이라는 간판(이름)은 100% 똑같이 유지하면서, 주방에 들어가서 끓이는 레시피(내부 로직)만 아들이 요즘 입맛에 맞게 통째로 엎어 치는(Ride) 것입니다.
 
 - **등장 배경 및 발전 과정**:
   1. C언어 시절에는 오버로딩이 안 되어서 수학 함수들이 `abs()`, `fabs()`, `labs()` 등으로 타입마다 이름이 전부 다르게 존재했다(극악의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)).
@@ -42,18 +42,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 오버로딩 (Overloading) v의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오버로딩 (Overloading) v                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버로딩 (Overloading) v</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 오버로딩 (Overloading) v가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-오버로딩 (Overloading) vs 오버라이딩 (Overriding)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+오버로딩 (Overloading) vs 오버라이딩 (Overriding)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 오버로딩 (Overloading) vs 오버라이딩 (Overriding)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오버로딩 (Overloading) vs 오버라이딩 (Overriding) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오버로딩 (Overloading) vs 오버라이딩 (Overriding) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

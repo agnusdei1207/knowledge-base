@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 **"어디로 갈 것인가"를 절대 주소가 아니라 "지금 위치에서 얼마나 떨어졌는가"로 표현하는 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)**이다. 절대 주소 방식이 `0x8048120으로 점프`라고 말한다면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 방식은 `다음 명령어 기준으로 +24바이트 이동`이라고 말한다. 주소 자체보다 **현재 위치와의 차이**를 인코딩한다는 점이 핵심이다.
+[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 <strong>"어디로 갈 것인가"를 절대 주소가 아니라 "지금 위치에서 얼마나 떨어졌는가"로 표현하는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/">주소 지정 방식</a></strong>이다. 절대 주소 방식이 `0x8048120으로 점프`라고 말한다면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 방식은 `다음 명령어 기준으로 +24바이트 이동`이라고 말한다. 주소 자체보다 <strong>현재 위치와의 차이</strong>를 인코딩한다는 점이 핵심이다.
 
 이 방식이 필요한 이유는 코드가 항상 같은 메모리 번지에 놓이지 않기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 로더 (Loader)는 실행 파일을 빈 구역에 적재하고, [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (Address Space Layout Randomization)은 보안을 위해 적재 위치를 계속 바꾼다. 분기와 호출이 절대 주소로 박혀 있으면 적재 위치가 달라질 때마다 수정 부담이 커지지만, 상대 주소는 코드 전체가 함께 이동해도 내부 거리 관계가 유지된다.
 
-또한 실제 프로그램의 분기 대부분은 루프, 조건문, 짧은 함수 호출처럼 현재 위치 근처에서 일어난다. 그래서 매번 32비트나 64비트 절대 주소를 싣는 것보다, 짧은 변위만 싣는 편이 더 경제적이다. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 **재배치 유연성**과 **코드 밀도**를 동시에 얻기 위해 등장한 방식이다.
+또한 실제 프로그램의 분기 대부분은 루프, 조건문, 짧은 함수 호출처럼 현재 위치 근처에서 일어난다. 그래서 매번 32비트나 64비트 절대 주소를 싣는 것보다, 짧은 변위만 싣는 편이 더 경제적이다. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 <strong>재배치 유연성</strong>과 <strong>코드 밀도</strong>를 동시에 얻기 위해 등장한 방식이다.
 
 - **📢 섹션 요약 비유**: [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 "서울시 몇 번지"를 외우는 길찾기가 아니라 "지금 서 있는 곳에서 두 블록 직진"이라고 안내하는 방식과 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정의 계산 자체는 단순하다. **분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 들어 있는 변위를 부호 확장한 뒤, PC에 더해 목표 주소를 만든다.** 다만 여기서 말하는 PC는 많은 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서 "현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 시작 주소"가 아니라 **다음 순차 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소**를 기준으로 쓰는 경우가 많다. 그래서 같은 `-8` 분기라도 아키텍처별 기준점을 알아야 정확한 목적지를 계산할 수 있다.
+[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정의 계산 자체는 단순하다. <strong>분기 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>에 들어 있는 변위를 부호 확장한 뒤, PC에 더해 목표 주소를 만든다.</strong> 다만 여기서 말하는 PC는 많은 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서 "현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 시작 주소"가 아니라 <strong>다음 순차 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>의 주소</strong>를 기준으로 쓰는 경우가 많다. 그래서 같은 `-8` 분기라도 아키텍처별 기준점을 알아야 정확한 목적지를 계산할 수 있다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -43,30 +43,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 조건 분기 명령이 실제 목표 주소를 만드는 과정을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PC-relative branch target generation                              │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction @ 0x1000 : BNE -12                                    │
-│ instruction length   : 4 bytes                                    │
-│                                                                    │
-│ step 1. fetch completes -> PC points to next instruction          │
-│         PC = 0x1004                                                │
-│                                                                    │
-│ step 2. displacement field = -12                                  │
-│         sign-extend(-12) = 0xFFFF FFF4                            │
-│                                                                    │
-│ step 3. target = PC + displacement                                │
-│         0x1004 + (-12) = 0x0FF8                                   │
-│                                                                    │
-│ taken     -> PC <- 0x0FF8                                         │
-│ not taken -> continue with 0x1004                                 │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 실질적 포인트는 세 가지다. 첫째, **뒤로 가는 분기**는 음수 변위로 표현된다. 둘째, 하드웨어는 이를 2의 보수 (Two's Complement) 값으로 받아 부호 확장해 덧셈한다. 셋째, 같은 명령 형식으로 앞쪽 분기와 뒤쪽 분기를 모두 처리할 수 있으므로 루프 구현이 매우 효율적이다.
 
-현대 ISA는 이 원리를 제어 흐름뿐 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)에도 확장한다. 예를 들어 x86-64는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터 기준 상대 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 전역 상수와 테이블을 읽고, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 근처 리터럴 풀 (Literal Pool)이나 분기 후 로드 패턴으로 이를 활용한다. 즉 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 단순 점프 기술이 아니라 **위치 독립 코드의 기본 문법**이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC-relative branch target generation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction @ 0x1000 : BNE -12</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction length : 4 bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 1. fetch completes -&gt; PC points to next instruction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC = 0x1004</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 2. displacement field = -12</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sign-extend(-12) = 0xFFFF FFF4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 3. target = PC + displacement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1004 + (-12) = 0x0FF8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">taken -&gt; PC &lt;- 0x0FF8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">not taken -&gt; continue with 0x1004</div></div>
+</div>
+</div>
+
+
+
+이 그림의 실질적 포인트는 세 가지다. 첫째, <strong>뒤로 가는 분기</strong>는 음수 변위로 표현된다. 둘째, 하드웨어는 이를 2의 보수 (Two's Complement) 값으로 받아 부호 확장해 덧셈한다. 셋째, 같은 명령 형식으로 앞쪽 분기와 뒤쪽 분기를 모두 처리할 수 있으므로 루프 구현이 매우 효율적이다.
+
+현대 ISA는 이 원리를 제어 흐름뿐 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)에도 확장한다. 예를 들어 x86-64는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터 기준 상대 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 전역 상수와 테이블을 읽고, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 근처 리터럴 풀 (Literal Pool)이나 분기 후 로드 패턴으로 이를 활용한다. 즉 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 단순 점프 기술이 아니라 <strong>위치 독립 코드의 기본 문법</strong>이다.
 
 - **📢 섹션 요약 비유**: 이 방식은 내비게이션이 집 주소 전체를 다시 계산하는 대신, 현재 위치에서 남은 거리만 더해 목적지에 도착하는 방식과 같다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 "덧셈을 한다"는 점에서 다른 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)과 비슷해 보이지만, **무엇을 기준으로 삼는가**가 다르다. 이 차이를 이해해야 [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/), 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)과 헷갈리지 않는다.
+[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 "덧셈을 한다"는 점에서 다른 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)과 비슷해 보이지만, <strong>무엇을 기준으로 삼는가</strong>가 다르다. 이 차이를 이해해야 [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/), 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)과 헷갈리지 않는다.
 
 | 방식 | 기준점 | 가변 값 | 강한 상황 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -84,9 +83,9 @@ tags = ["studynote-computer-architecture"]
 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)) | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 안 주소 | 포인터 값 | 동적 호출, 연결 구조 | 포인터 준비 비용 필요 |
 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정 ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)-Relative Addressing) | 현재 명령 위치 | 분기/[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 변위 | 지역 분기, PIC, 공유 코드 | 도달 범위 제한 |
 
-특히 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)은 "프로그램이 어느 구역에 적재되었는가"에 강하고, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 "현재 실행 지점에서 얼마나 떨어졌는가"에 강하다. [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/)이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소 번호를 표현하는 방식이라면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 **제어 흐름의 거리**를 표현하는 방식이다. 같은 덧셈이어도 설계 의도가 서로 다르다.
+특히 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)은 "프로그램이 어느 구역에 적재되었는가"에 강하고, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 "현재 실행 지점에서 얼마나 떨어졌는가"에 강하다. [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/)이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소 번호를 표현하는 방식이라면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 <strong>제어 흐름의 거리</strong>를 표현하는 방식이다. 같은 덧셈이어도 설계 의도가 서로 다르다.
 
-또한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))과도 잘 맞는다. 루프의 뒤로 가는 분기는 반복 패턴이 강해 예측하기 쉽고, 짧은 상대 분기는 코드 밀도를 높여 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 효율을 개선한다. 그래서 이 방식은 주소 계산 기법이면서 동시에 **제어 흐름 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법**이기도 하다.
+또한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))과도 잘 맞는다. 루프의 뒤로 가는 분기는 반복 패턴이 강해 예측하기 쉽고, 짧은 상대 분기는 코드 밀도를 높여 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시 효율을 개선한다. 그래서 이 방식은 주소 계산 기법이면서 동시에 <strong>제어 흐름 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화 기법</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/)이 책장 안에서 몇 번째 칸을 고르는 방법이라면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 지금 읽는 페이지에서 몇 장 앞으로 넘길지를 정하는 방법에 가깝다.
 
@@ -94,14 +93,14 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 단순 문법보다 **재배치와 보안, 코드 크기, 도달 범위**의 판단 문제로 나타난다. [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)나 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) (Position-Independent Executable)를 만들 때는 코드가 어디에 적재될지 고정할 수 없으므로 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 사실상 기본값이 된다. 반대로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 이미지가 매우 커져서 분기 목표가 멀어지면 짧은 상대 분기만으로는 닿지 않아 링커가 veneer나 trampoline을 추가해야 한다.
+실무에서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 단순 문법보다 <strong>재배치와 보안, 코드 크기, 도달 범위</strong>의 판단 문제로 나타난다. [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)나 [PIE](/knowledge-base/studynote/09_security/04_endpoint_security/338_pie/) (Position-Independent Executable)를 만들 때는 코드가 어디에 적재될지 고정할 수 없으므로 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)가 사실상 기본값이 된다. 반대로 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 이미지가 매우 커져서 분기 목표가 멀어지면 짧은 상대 분기만으로는 닿지 않아 링커가 veneer나 trampoline을 추가해야 한다.
 
 ### 실무 판단 기준
 
 1. **분기 대상이 가까운가?** 가까운 루프와 조건 분기라면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정이 가장 경제적이다.
 2. **코드가 재배치되거나 공유될 가능성이 큰가?** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/), 동적 로딩 환경이면 상대 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 이점이 크다.
-3. **변위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭이 충분한가?** 범위를 넘으면 far branch, veneer, [indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) jump 같은 보조 수단이 필요하다.
-4. **ISA가 어떤 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준을 쓰는가?** "현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소"인지 "다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소"인지 헷갈리면 어셈블리 버그가 난다.
+3. <strong>변위 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 폭이 충분한가?</strong> 범위를 넘으면 far branch, veneer, [indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) jump 같은 보조 수단이 필요하다.
+4. <strong>ISA가 어떤 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 기준을 쓰는가?</strong> "현재 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소"인지 "다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소"인지 헷갈리면 어셈블리 버그가 난다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -109,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 - 어셈블리 작성 시 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준점과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이를 잘못 계산해 분기 위치를 틀리는 실수
 - 분기 범위 한계를 무시한 채 코드 배치를 키웠다가 링커 오류를 만나는 설계
 
-기술사 관점에서는 "[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정 = 재배치 가능하고 짧은 분기에 유리하다"까지만 말하면 부족하다. 반드시 **범위 제한**, **링커 보조 기법**, **[ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)/PIC과의 연결**까지 말해 줘야 설계 판단이 살아난다.
+기술사 관점에서는 "[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정 = 재배치 가능하고 짧은 분기에 유리하다"까지만 말하면 부족하다. 반드시 **범위 제한**, **링커 보조 기법**, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a>/PIC과의 연결</strong>까지 말해 줘야 설계 판단이 살아난다.
 
 - **📢 섹션 요약 비유**: 이 방식은 이동식 캠핑카 내부 동선처럼, 주차 위치가 바뀌어도 냉장고와 침대 사이 거리는 그대로라 다시 설계할 필요가 없는 구조와 같다.
 
@@ -117,11 +116,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정의 가장 큰 효과는 **코드를 절대 위치 의존성에서 해방한다**는 점이다. 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로그램을 다양한 주소에 안전하게 적재할 수 있고, 개발자는 짧은 분기 명령으로 코드 밀도와 캐시 효율을 높일 수 있다. 즉 이 방식은 단순히 "주소를 다르게 적는 법"이 아니라, 현대 실행 환경을 가능하게 한 유연성의 핵심이다.
+[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정의 가장 큰 효과는 <strong>코드를 절대 위치 의존성에서 해방한다</strong>는 점이다. 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로그램을 다양한 주소에 안전하게 적재할 수 있고, 개발자는 짧은 분기 명령으로 코드 밀도와 캐시 효율을 높일 수 있다. 즉 이 방식은 단순히 "주소를 다르게 적는 법"이 아니라, 현대 실행 환경을 가능하게 한 유연성의 핵심이다.
 
 물론 모든 문제를 해결하는 것은 아니다. 상대 변위가 짧으면 먼 대상에 닿지 못하고, ISA별 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준 차이를 잘못 이해하면 디버깅이 어려워진다. 그래서 현대 시스템은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정, 간접 점프, [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/), 링커 보조 기법을 함께 조합한다.
 
-정리하면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 **"절대 번지"가 아니라 "현재 위치 + 거리"로 기억해야 하는 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)**이다. 프로그램이 어디에 놓이든 내부 관계를 유지하면서 실행되게 만드는, 제어 흐름 설계의 핵심 문법으로 기억하면 된다.
+정리하면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정은 <strong>"절대 번지"가 아니라 "현재 위치 + 거리"로 기억해야 하는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/">주소 지정 방식</a></strong>이다. 프로그램이 어디에 놓이든 내부 관계를 유지하면서 실행되게 만드는, 제어 흐름 설계의 핵심 문법으로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 좋은 길 안내는 주소책 전체를 외우게 하지 않고, 지금 자리에서 몇 걸음 움직일지만 알려준다. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정도 바로 그런 방식이다.
 
@@ -142,19 +141,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절대 주소 기반 분기
-        │
-        ▼
-재배치와 적재 위치 변경 문제
-        │
-        ▼
-PC + 변위 기반 상대 주소 계산
-        │
-        ├──────────────▶ 짧은 분기 명령 · 코드 밀도 향상
-        ├──────────────▶ PIC · 공유 라이브러리 · ASLR 대응
-        └──────────────▶ 범위 초과 시 veneer · trampoline 보완
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절대 주소 기반 분기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재배치와 적재 위치 변경 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PC + 변위 기반 상대 주소 계산</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 짧은 분기 명령 · 코드 밀도 향상</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ PIC · 공유 라이브러리 · ASLR 대응</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 범위 초과 시 veneer · trampoline 보완</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정이 단순한 분기 기법을 넘어, 재배치 가능 코드와 현대 실행 보안 구조로 이어지는 흐름을 보여 준다.
 

@@ -21,11 +21,15 @@ tags = ["studynote-bigdata"]
 
 엣지 빅데이터 (엣지 집계 후 클라우드 전송, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절감)은 빅데이터 환경에서 엣지 분석을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -41,11 +45,15 @@ tags = ["studynote-bigdata"]
 | 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
-└──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
+</div>
+</div>
+
+
 
 엣지 집계와 클라우드 전송은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -108,24 +116,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[람다 아키텍처 (Lambda Architecture) — 배치 + 스피드 레이어 이중화]
-    │
-    ▼
-[카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화 단순화]
-    │
-    ▼
-[레이크하우스 (Lakehouse) — 데이터 레이크 + DW 통합 ACID 지원]
-    │
-    ▼
-[데이터 메시 (Data Mesh) — 도메인 중심 분산 오너십]
-    │
-    ▼
-[데이터 패브릭 (Data Fabric) — AI 기반 자동화 통합 메타데이터 관리]
-    │
-    ▼
-[실시간 인텔리전스 (Real-Time Intelligence) — 스트리밍 + AI 즉각 의사결정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">람다 아키텍처 (Lambda Architecture) — 배치 + 스피드 레이어 이중화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화 단순화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — 데이터 레이크 + DW 통합 ACID 지원</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 중심 분산 오너십</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric) — AI 기반 자동화 통합 메타데이터 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 인텔리전스 (Real-Time Intelligence) — 스트리밍 + AI 즉각 의사결정</div></div>
+</div>
+</div>
+
+
 빅데이터 아키텍처는 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)→카파→[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)→[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)→[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)으로 진화하며, 복잡성 단순화와 실시간 지능화라는 두 방향으로 수렴하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

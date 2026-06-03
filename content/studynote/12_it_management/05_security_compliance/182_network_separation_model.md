@@ -43,30 +43,27 @@ tags = ["studynote-it-management"]
 
 아래 그림은 망분리가 단순한 "두 박스"가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동과 관리 경로까지 포함하는 모델이라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Network separation reference model                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ [Internet Zone]                                                      │
-│   web / mail / browsing                                              │
-│        │                                                             │
-│        │ controlled access only                                      │
-│        ▼                                                             │
-│ ┌──────────────────┐    inspect / approve    ┌────────────────────┐  │
-│ │ Secure Transfer  │<----------------------->│ Review / Logging    │  │
-│ │ scan, DLP, CDR   │                         │ approval workflow   │  │
-│ └────────┬─────────┘                         └────────┬───────────┘  │
-│          │ one-way or tightly controlled flow                  │      │
-│          ▼                                                     │      │
-│ [Business Zone]                                                │      │
-│   ERP / DB / source code / personal data                       │      │
-│          ▲                                                     │      │
-│          │ admin only from separated management zone           │      │
-│          │                                                     │      │
-│  Physical model : separate PC + switch + line                  │      │
-│  Logical model  : VDI / SBC session on controlled endpoint     │      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network separation reference model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internet Zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">web / mail / browsing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">controlled access only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">inspect / approve</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Transfer</div><div class="kb-diagram-cell">&lt;-----------------------&gt;</div><div class="kb-diagram-cell">Review / Logging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scan, DLP, CDR</div><div class="kb-diagram-cell">approval workflow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one-way or tightly controlled flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Business Zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP / DB / source code / personal data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">admin only from separated management zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical model : separate PC + switch + line</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical model : VDI / SBC session on controlled endpoint</div></div>
+</div>
+</div>
+
+
 
 물리적 망분리는 단말, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 회선까지 분리하므로 보안 강도가 가장 높다. 반면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 망분리는 단말 한 대에서 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) (Virtual Desktop Infrastructure)나 SBC (Server-Based Computing)를 이용해 업무 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 별도 환경으로 제공한다. 이 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 중앙 서버에 남기고 화면만 전달하므로 편의성과 중앙 통제가 좋아지지만, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)·원격 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)·클립보드·[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 제어 같은 추가 통제가 반드시 따라와야 한다.
 
@@ -120,7 +117,7 @@ tags = ["studynote-it-management"]
 - 관리자 계정이 인터넷 메일과 업무 시스템을 같은 단말에서 모두 사용하는 구조
 - 내부망은 안전하다고 가정해 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response)·접근통제·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 분석을 생략하는 경우
 
-기술사 답안에서는 **"망분리는 외부 공격 경로를 줄이는 구조적 통제이며, 실제 품질은 물리/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분리 선택보다 망연계, 관리자 경로, 예외 통제, 내부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 함께 설계했는지에 달려 있다"**고 정리하면 좋다.
+기술사 답안에서는 <strong>"망분리는 외부 공격 경로를 줄이는 구조적 통제이며, 실제 품질은 물리/<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 분리 선택보다 망연계, 관리자 경로, 예외 통제, 내부 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>까지 함께 설계했는지에 달려 있다"</strong>고 정리하면 좋다.
 
 - **📢 섹션 요약 비유**: 망분리를 잘하는 조직은 정문만 잠그는 것이 아니라 택배문, 비상구, 관리자 열쇠까지 모두 다른 규칙으로 관리하는 건물 관리자와 같다.
 
@@ -132,7 +129,7 @@ tags = ["studynote-it-management"]
 
 그러나 망분리만으로 모든 문제가 해결되지는 않는다. 승인된 연계 경로를 통한 악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 유입, 내부자 오남용, [공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/), 관리자 계정 탈취는 별도의 통제가 필요하다. 그래서 오늘날 망분리는 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), [UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/) (User and Entity Behavior Analytics), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access) 같은 추가 계층과 함께 설계될 때 비로소 완성도가 높아진다.
 
-결론적으로 망분리는 구식 경계 보안이 아니라, 여전히 강력한 **공격 경로 축소 모델**이다. 다만 "망을 나눴다"는 선언보다 더 중요한 것은, 나뉜 뒤에도 무엇이 오가고 누가 관리하며 예외가 어떻게 통제되는지를 끝까지 설계하는 일이다.
+결론적으로 망분리는 구식 경계 보안이 아니라, 여전히 강력한 <strong>공격 경로 축소 모델</strong>이다. 다만 "망을 나눴다"는 선언보다 더 중요한 것은, 나뉜 뒤에도 무엇이 오가고 누가 관리하며 예외가 어떻게 통제되는지를 끝까지 설계하는 일이다.
 
 - **📢 섹션 요약 비유**: 망분리는 성벽을 세우는 일이고, 현대 보안은 거기에 감시탑, 출입기록, 순찰까지 더하는 일이다.
 
@@ -151,26 +148,27 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인터넷 기반 업무 확산
-    │
-    ▼
-외부 침입 + 내부 측면 이동 위험 증가
-    │
-    ▼
-물리적 / 논리적 망분리 도입
-    │
-    ├─ internet zone
-    ├─ business zone
-    ├─ secure transfer zone
-    └─ admin zone
-    │
-    ▼
-망연계 통제 + DLP + EDR
-    │
-    ▼
-Zero Trust와 결합한 현대적 내부 보안
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인터넷 기반 업무 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">외부 침입 + 내부 측면 이동 위험 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물리적 / 논리적 망분리 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">internet zone</div>
+<div class="kb-diagram-tree-item" style="--depth:2">business zone</div>
+<div class="kb-diagram-tree-item" style="--depth:2">secure transfer zone</div>
+<div class="kb-diagram-tree-item" style="--depth:2">admin zone</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">망연계 통제 + DLP + EDR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Trust와 결합한 현대적 내부 보안</div>
+</div>
+</div>
+
+
 
 이 흐름은 망분리가 단독 기술이 아니라, 외부 경로 차단에서 시작해 내부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 강화로 이어지는 보안 운영 모델임을 보여 준다.
 

@@ -35,32 +35,33 @@ Kustomize는 베이스(Base), 오버레이(Overlays), 그리고 조립 지시서
 | :--- | :--- |
 | **Base (뼈대)** | 모든 환경에서 공통으로 사용되는 순수 K8s YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 집합. 단독으로 배포해도 문법 오류가 없는 온전한 상태를 유지한다. |
 | **Overlays (덧칠)** | 특정 환경(Dev, Prod 등)에서 Base 위에 덮어쓸 패치(Patch) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 담고 있는 디렉토리 구조. |
-| **`kustomization.yaml`** | 현재 폴더에서 어떤 리소스(Base)를 가져오고, 어떤 패치(Overlay)를 적용하며, 라벨(Label)이나 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 일괄 변경할지 정의하는 지휘자 역할을 한다. |
-| **`kubectl apply -k`** | K8s CLI에 기본 내장된 Kustomize 실행 옵션으로, 조립된 최종 매니페스트를 즉시 클러스터에 적용한다. |
+| <strong><code>kustomization.yaml</code></strong> | 현재 폴더에서 어떤 리소스(Base)를 가져오고, 어떤 패치(Overlay)를 적용하며, 라벨(Label)이나 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 일괄 변경할지 정의하는 지휘자 역할을 한다. |
+| <strong><code>kubectl apply -k</code></strong> | K8s CLI에 기본 내장된 Kustomize 실행 옵션으로, 조립된 최종 매니페스트를 즉시 클러스터에 적용한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          Kustomize의 Base와 Overlay 병합(Merge) 과정        │
-├──────────────────────────────────────────────────────────────┤
-│ [ base/deployment.yaml ]         [ overlays/prod/patch.yaml ]│
-│ apiVersion: apps/v1              apiVersion: apps/v1         │
-│ kind: Deployment                 kind: Deployment            │
-│ metadata:                        metadata:                   │
-│   name: my-app                     name: my-app              │
-│ spec:                            spec:                       │
-│   replicas: 1 ◀────────────────▶   replicas: 10              │
-│                                                              │
-│              Kustomize 엔진 병합 (Merge)                     │
-│                           ▼                                  │
-│ [ 최종 생성된 In-memory YAML (클러스터로 전송됨) ]           │
-│ apiVersion: apps/v1                                          │
-│ kind: Deployment                                             │
-│ metadata:                                                    │
-│   name: my-app                                               │
-│ spec:                                                        │
-│   replicas: 10 (Prod 설정으로 덮어써짐)                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kustomize의 Base와 Overlay 병합(Merge) 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">base/deployment.yaml</div><div class="kb-diagram-node">overlays/prod/patch.yaml</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: apps/v1 apiVersion: apps/v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Deployment kind: Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata: metadata:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name: my-app name: my-app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spec: spec:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replicas: 1 ◀ ▶ replicas: 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kustomize 엔진 병합 (Merge)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 생성된 In-memory YAML (클러스터로 전송됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: apps/v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name: my-app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spec:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replicas: 10 (Prod 설정으로 덮어써짐)</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 Kustomize는 단순 텍스트 치환이 아니라 K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구조를 이해하고 객체 단위의 병합(Strategic Merge Patch)을 수행하기 때문에 구조적 안정성이 매우 높다.
 
@@ -115,28 +116,30 @@ Kustomize를 사용하면 복사/붙여넣기로 인한 [설정](/knowledge-base
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) ([헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/))** | Kustomize와 상호 보완적인 K8s 패키지 매니저 및 템플릿 도구 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) ([깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/))** | Git 저장소를 단일 진실 공급원(SSOT)으로 삼아 Kustomize 코드를 배포하는 철학 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">헬름</a>)</strong> | Kustomize와 상호 보완적인 K8s 패키지 매니저 및 템플릿 도구 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/">깃옵스</a>)</strong> | Git 저장소를 단일 진실 공급원(SSOT)으로 삼아 Kustomize 코드를 배포하는 철학 |
 | **ArgoCD / FluxCD** | Kustomize 조립 지시서를 읽어 자동으로 K8s에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync)해 주는 선언적 배포 로봇 |
 | **Strategic Merge Patch** | Kustomize가 K8s 객체 간의 병합을 수행할 때 충돌을 영리하게 해결하는 K8s 전용 패치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-YAML 파일의 복사본 증식 및 휴먼 에러 발생
-    │
-    ▼
-Helm 도입 (템플릿 변수를 통한 다형성 확보, 가독성 저하)
-    │
-    ▼
-Kustomize의 내장 (순수 YAML 보존 + Overlay 패치 방식 채택)
-    │
-    ▼
-GitOps(ArgoCD)와의 결합 (선언적 지속적 배포 파이프라인 완성)
-    │
-    ▼
-Post-Rendering 전술 (Helm 패키징 위에 Kustomize 패칭을 덮어쓰기)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">YAML 파일의 복사본 증식 및 휴먼 에러 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Helm 도입 (템플릿 변수를 통한 다형성 확보, 가독성 저하)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kustomize의 내장 (순수 YAML 보존 + Overlay 패치 방식 채택)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps(ArgoCD)와의 결합 (선언적 지속적 배포 파이프라인 완성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Post-Rendering 전술 (Helm 패키징 위에 Kustomize 패칭을 덮어쓰기)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

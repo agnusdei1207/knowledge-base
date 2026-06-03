@@ -20,31 +20,35 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 48비트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 64비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 인터페이스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Interface ID)로 확장 변환하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙. 
-- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절엔 집 번호(Host ID)가 고작 `1~254` 였으므로 관리자가 수동으로 쳐 넣거나(Static IP) 공유기가 대충 남는 번호를 줬다([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)). 그런데 IPv6는 집 번호 칸만 무려 64비트(약 1845경 개)다. 이걸 인간이 어떻게 일일이 타이핑하고, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 언제 수십억 대 기기를 관리하겠는가? "기계들아! 어차피 네 랜카드 안에 전 세계에서 너만 가진 유일한 번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 지져져 있잖아? **그걸 그대로 재활용해서 네 스스로 집 번호를 조립([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))해버려!**"라는 자급자족의 사상에서 탄생했다.
+- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절엔 집 번호(Host ID)가 고작 `1~254` 였으므로 관리자가 수동으로 쳐 넣거나(Static IP) 공유기가 대충 남는 번호를 줬다([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)). 그런데 IPv6는 집 번호 칸만 무려 64비트(약 1845경 개)다. 이걸 인간이 어떻게 일일이 타이핑하고, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 언제 수십억 대 기기를 관리하겠는가? "기계들아! 어차피 네 랜카드 안에 전 세계에서 너만 가진 유일한 번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 지져져 있잖아? <strong>그걸 그대로 재활용해서 네 스스로 집 번호를 조립(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)해버려!</strong>"라는 자급자족의 사상에서 탄생했다.
 
-- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 **"주민등록번호 앞자리(생년월일)"**라면, EUI-64는 뒤에 **"성별과 지역 코드(FF:FE)"**를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 **"13자리 전체 주민등록번호(64비트)"**를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
+- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 <strong>"주민등록번호 앞자리(생년월일)"</strong>라면, EUI-64는 뒤에 <strong>"성별과 지역 코드(FF:FE)"</strong>를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 <strong>"13자리 전체 주민등록번호(64비트)"</strong>를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
 
-```text
-[링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    ▼
-[EUI-64]
-    │
-    └──▶ [SLAAC 무상태 주소 자동 설정]
-```
 
-- **📢 섹션 요약 비유**: ** EUI-64는 핫도그 빵([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)의 한가운데를 나이프로 가르고 그 속에 **고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">링크 로컬 주소 / 사이트 로컬 주소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EUI-64</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SLAAC 무상태 주소 자동 설정</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> EUI-64는 핫도그 빵(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)의 한가운데를 나이프로 가르고 그 속에 </strong>고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-어떤 PC의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 **`00:1A:2B:3C:4D:5E`** (48비트)라고 가정하자. 
+어떤 PC의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 <strong><code>00:1A:2B:3C:4D:5E</code></strong> (48비트)라고 가정하자. 
 이 녀석이 EUI-64 규칙을 통해 64비트의 뒷부분 주소(인터페이스 ID)를 만들어내는 과정은 다음과 같다.
 
 ### 1단계: 정중앙 절단 및 `FF:FE` 삽입 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
 - [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 앞 24비트(제조사 OUI, `00:1A:2B`)와 뒤 24비트(일련번호, `3C:4D:5E`) 사이를 반으로 쪼갠다.
-- 그 한가운데 빈틈에 16비트 크기의 **`FF:FE`**를 강제로 밀어 넣는다.
+- 그 한가운데 빈틈에 16비트 크기의 <strong><code>FF:FE</code></strong>를 강제로 밀어 넣는다.
 - **중간 결과**: `00:1A:2B:FF:FE:3C:4D:5E` (64비트 덩어리로 늘어남)
 
 ### 2단계: 첫 번째 바이트의 7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(U/L [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 반전
@@ -52,39 +56,37 @@ tags = ["studynote-network"]
 - 맨 앞의 숫자 `00`을 2진수로 푼다. ──▶ `0000 0000`
 - 왼쪽에서부터 7번째 자리에 있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Universal/Local [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 찾는다.
 - 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 1로, 1이면 0으로 무조건 **뒤집는다(Flip/Invert)**.
-- `0000 00`**`0`**`0` ──▶ `0000 00`**`1`**`0` 으로 바뀐다!
-- 이를 다시 16진수로 돌리면 **`02`**가 된다.
+- `0000 00`<strong><code>0</code></strong>`0` ──▶ `0000 00`<strong><code>1</code></strong>`0` 으로 바뀐다!
+- 이를 다시 16진수로 돌리면 <strong><code>02</code></strong>가 된다.
 - (참고: 이 U/L [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1이 되면 "이 주소는 전 세계적으로 유일무이한 공장 출고([BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)) MAC에서 파생된 진짜 글로벌 주소다"라는 것을 우주 만물에 증명하는 것이다).
 
 ### 3단계: 최종 완성 ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 포맷에 맞춤)
 - **최종 결과**: `02:1A:2B:FF:FE:3C:4D:5E`
 - 이제 이걸 IPv6의 우아한 16비트 콜론 표기법으로 묶는다.
-- ──▶ **`021a:2bff:fe3c:4d5e`**
+- ──▶ <strong><code>021a:2bff:fe3c:4d5e</code></strong>
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                EUI-64 마법의 변환 과정 요약 도식                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 내 MAC 주소:  00:11:22:33:44:55                        │
- │                                                             │
- │   2. 쪼개고 삽입!: 00:11:22  [ FF:FE ]  33:44:55            │
- │                                                             │
- │   3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로! │
- │                                                             │
- │   4. 최종 IP 뒷자리:  0211:22ff:fe33:4455                    │
- │                                                             │
- │   ▶ 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서         │
- │      2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생! │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EUI-64 마법의 변환 과정 요약 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 내 MAC 주소: 00:11:22:33:44:55</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 쪼개고 삽입!: 00:11:22</div><div class="kb-diagram-node">FF:FE</div><div class="kb-diagram-note">33:44:55</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 최종 IP 뒷자리: 0211:22ff:fe33:4455</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생!</div></div>
+</div>
+</div>
+
+
 
 ### 3. 현대의 보안적 한계 (Privacy Extension)
 EUI-64는 천재적이지만 치명적인 프라이버시(해킹) 약점이 있다.
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 평생 안 변하니까, 이 공식으로 만든 뒷자리(`021a:2bff...`) 역시 평생 안 변한다. 즉, 해커가 이 뒷자리만 알면 내가 회사에 출근했는지, 카페에 갔는지(앞자리 Prefix만 바뀜) IP 주소만 보고도 내 동선을 완벽히 추적(Tracking)할 수 있게 된다.
-- **해결책**: 현대의 윈도우나 맥북, 스마트폰은 해커 추적을 막기 위해 EUI-64 방식을 끄고(무시하고), 그냥 무작위 숫자로 뒷자리를 마구 섞어서(Randomized) 임시로 사용하는 **사생활 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 확장(Privacy Extension)** 기능이 강제로 켜져 있다.
+- **해결책**: 현대의 윈도우나 맥북, 스마트폰은 해커 추적을 막기 위해 EUI-64 방식을 끄고(무시하고), 그냥 무작위 숫자로 뒷자리를 마구 섞어서(Randomized) 임시로 사용하는 <strong>사생활 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 확장(Privacy Extension)</strong> 기능이 강제로 켜져 있다.
 
-- **📢 섹션 요약 비유**: ** EUI-64 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 라면([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 끓일 때 무조건 **"가운데를 쪼개서 달걀(FF:FE)을 하나 탁 넣고, 마지막에 참기름(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒤집기)을 한 방울 떨어뜨리는 완벽하고 고정된 요리 공식"**입니다. 기계가 이 레시피만 외우고 있으면 인간 요리사(관리자) 없이도 알아서 한 끼(IP 주소)를 완벽히 차려 먹습니다.
+- **📢 섹션 요약 비유**: <strong> EUI-64 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 라면(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)을 끓일 때 무조건 </strong>"가운데를 쪼개서 달걀(FF:FE)을 하나 탁 넣고, 마지막에 참기름(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒤집기)을 한 방울 떨어뜨리는 완벽하고 고정된 요리 공식"**입니다. 기계가 이 레시피만 외우고 있으면 인간 요리사(관리자) 없이도 알아서 한 끼(IP 주소)를 완벽히 차려 먹습니다.
 
 ---
 
@@ -140,15 +142,19 @@ EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 링크 로컬 주소 / 사이트 로컬 주소]
-    │
-    ▼
-[현재 개념: EUI-64]
-    │
-    ├──▶ [확장 A: SLAAC 무상태 주소 자동 설정]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 링크 로컬 주소 / 사이트 로컬 주소</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EUI-64</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SLAAC 무상태 주소 자동 설정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

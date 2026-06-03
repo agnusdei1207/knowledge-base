@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 클라이언트의 IP 주소나 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) 등 네트워크 4-Tuple(Source/Dest IP, Source/Dest [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이 동적으로 변경되더라도, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 종료(Tear down)하지 않고 새로운 경로로 끊김 없이 이주(Migration)시키는 메커니즘.
-- **필요성**: 데스크톱 시대엔 랜선 뽑을 일이 없으니 TCP의 `IP+Port` 묶음이면 충분했다. 그런데 모바일 시대가 오자 재앙이 터졌다. 유튜브를 보며 엘리베이터를 타면 집 와이파이(`192.168.x.x`)가 끊기고 통신사 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(`211.x.x.x`)로 확 바뀐다. TCP는 "어? IP가 바뀌었네? 너 모르는 놈이야 나가!"라며 연결을 리셋해 버린다. 유튜브는 로딩(뱅글뱅글)이 걸리고 나는 새로고침을 눌러야 한다. **"야! 내가 옷(IP 주소)을 갈아입었다고 나라는 사람([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이 바뀐 게 아니잖아! 내 몸뚱이에 안 지워지는 바코드(Connection ID)를 문신으로 박아넣고, IP가 바뀌어도 그 바코드만 보고 문을 열어주는 신분증 검사 시스템을 도입해!!"**
+- **필요성**: 데스크톱 시대엔 랜선 뽑을 일이 없으니 TCP의 `IP+Port` 묶음이면 충분했다. 그런데 모바일 시대가 오자 재앙이 터졌다. 유튜브를 보며 엘리베이터를 타면 집 와이파이(`192.168.x.x`)가 끊기고 통신사 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(`211.x.x.x`)로 확 바뀐다. TCP는 "어? IP가 바뀌었네? 너 모르는 놈이야 나가!"라며 연결을 리셋해 버린다. 유튜브는 로딩(뱅글뱅글)이 걸리고 나는 새로고침을 눌러야 한다. <strong>"야! 내가 옷(IP 주소)을 갈아입었다고 나라는 사람(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)이 바뀐 게 아니잖아! 내 몸뚱이에 안 지워지는 바코드(Connection ID)를 문신으로 박아넣고, IP가 바뀌어도 그 바코드만 보고 문을 열어주는 신분증 검사 시스템을 도입해!!"</strong>
 
-- **💡 비유**: Connection Migration은 **"놀이공원의 자유이용권 팔찌"**와 같습니다.
-  - **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) (구형)**: 놀이공원 직원이 손님의 **"옷 색깔(IP 주소)"**을 기억합니다. 파란 옷을 입고 나갔다가 화장실에서 빨간 옷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))으로 갈아입고 다시 오면 "옷이 다르네요? 표 새로 사세요!" 라며 쫓아냅니다.
-  - **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) (신형)**: 손목에 **"자유이용권 팔찌(Connection ID)"**를 채워줍니다. 옷을 갈아입든 신발을 바꿔 신든, 직원은 팔찌 바코드만 띡 찍어보고 "오케이 프리패스!" 라며 다시 들여보내 줍니다.
+- **💡 비유**: Connection Migration은 <strong>"놀이공원의 자유이용권 팔찌"</strong>와 같습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> (구형)</strong>: 놀이공원 직원이 손님의 <strong>"옷 색깔(IP 주소)"</strong>을 기억합니다. 파란 옷을 입고 나갔다가 화장실에서 빨간 옷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))으로 갈아입고 다시 오면 "옷이 다르네요? 표 새로 사세요!" 라며 쫓아냅니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (신형)</strong>: 손목에 <strong>"자유이용권 팔찌(Connection ID)"</strong>를 채워줍니다. 옷을 갈아입든 신발을 바꿔 신든, 직원은 팔찌 바코드만 띡 찍어보고 "오케이 프리패스!" 라며 다시 들여보내 줍니다.
 
-```text
-[HOL 블로킹 문제 해결]
-    │
-    ▼
-[QUIC 연결 마이그레이션]
-    │
-    └──▶ [TLS 1.3 기본 내장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HOL 블로킹 문제 해결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 연결 마이그레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 기본 내장</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** QUIC의 연결 마이그레이션은 VIP 손님이 **"택시(와이파이)에서 내려 헬기([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 갈아타더라도, 호텔 지배인(서버)이 손님의 여권 번호(Connection ID)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 멈춤 없이 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 실어주는 007급 논스톱 호송 작전"**입니다.
 
@@ -44,30 +48,29 @@ tags = ["studynote-network"]
 ### 1. Connection ID (CID)의 교환과 이주 과정
 이 과정은 와이파이와 LTE가 섞여 있는 모든 최신 스마트폰에서 1초마다 벌어지는 일이다.
 
-1. **최초 접속**: 스마트폰(와이파이 `10.1.1.1`)이 구글 서버에 QUIC으로 접속한다. 이때 구글은 스마트폰에게 **"너는 이제부터 CID `#ABC-123` 이야!"**라고 64비트 번호판을 준다.
-2. **망 변경 ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 발생)**: 폰을 들고 밖으로 나간다. IP가 통신사 5G인 `200.2.2.2`로 휙 바뀐다.
-3. **이주(Migration) 시도**: 스마트폰은 새로 바뀐 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 주소로 패킷을 쏘면서, 겉면([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 헤더)에 아까 받은 **CID `#ABC-123`**을 당당하게 꽝 찍어 보낸다.
+1. **최초 접속**: 스마트폰(와이파이 `10.1.1.1`)이 구글 서버에 QUIC으로 접속한다. 이때 구글은 스마트폰에게 <strong>"너는 이제부터 CID <code>#ABC-123</code> 이야!"</strong>라고 64비트 번호판을 준다.
+2. <strong>망 변경 (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> 발생)</strong>: 폰을 들고 밖으로 나간다. IP가 통신사 5G인 `200.2.2.2`로 휙 바뀐다.
+3. **이주(Migration) 시도**: 스마트폰은 새로 바뀐 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 주소로 패킷을 쏘면서, 겉면([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 헤더)에 아까 받은 <strong>CID <code>#ABC-123</code></strong>을 당당하게 꽝 찍어 보낸다.
 4. **서버의 관대한 수용**: 구글 서버가 패킷을 받는다. 
    "어? IP가 `200.2.2.2`네? 처음 보는 놈인데? 잠깐, 겉면에 CID가 `#ABC-123`이잖아? 야 이거 아까 와이파이로 영상 다운받고 있던 걔야! 연결 끊지 말고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) IP로 쏜 패킷 그대로 받아주고 다운로드 이어서 쏴줘!"
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs QUIC 모바일 로밍 시나리오 비교             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP의 로밍 실패 (로딩 지옥) ]                             │
- │   WiFi (IP: A) ───(다운로드 50% 진행 중)───▶ 서버               │
- │                                                             │
- │   LTE (IP: B) 로 변경됨! ──(나머지 줘!)──▶ 서버: "뉘신지? (RST)"  │
- │   ▶ 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!      │
- │                                                             │
- │   [ 최신 QUIC의 Connection Migration (로밍 마법) ]              │
- │   WiFi (IP: A) ───(다운로드 50% 진행 중, CID: 99)──▶ 서버      │
- │                                                             │
- │   LTE (IP: B) 로 변경됨! ──(CID: 99 들고 쏨!)──▶ 서버: "오 어서와"│
- │   ▶ 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP vs QUIC 모바일 로밍 시나리오 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구형 TCP의 로밍 실패 (로딩 지옥)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiFi (IP: A) (다운로드 50% 진행 중) ▶ 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTE (IP: B) 로 변경됨! ──(나머지 줘!)──▶ 서버: "뉘신지? (RST)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최신 QUIC의 Connection Migration (로밍 마법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiFi (IP: A) (다운로드 50% 진행 중, CID: 99)──▶ 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTE (IP: B) 로 변경됨! ──(CID: 99 들고 쏨!)──▶ 서버: "오 어서와"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!</div></div>
+</div>
+</div>
+
+
 
 ### 2. 치명적 약점 방어: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 추적 방지 (Privacy [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 구글 천재 엔지니어들이 설계하다 보니 치명적 문제점을 발견했다.
@@ -133,15 +136,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HOL 블로킹 문제 해결]
-    │
-    ▼
-[현재 개념: QUIC 연결 마이그레이션]
-    │
-    ├──▶ [확장 A: TLS 1.3 기본 내장]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HOL 블로킹 문제 해결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC 연결 마이그레이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS 1.3 기본 내장</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제 해결에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

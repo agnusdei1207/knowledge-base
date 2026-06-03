@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: 패킷이 목적지 호스트까지 잃어버리지 않고 도달할 수 있도록 네트워크 토폴로지(지형도)를 파악하고, 최적의 경로를 계산하여 라우팅 테이블(Routing Table, RIB)을 구축하는 3계층 제어 평면(Control Plane)의 활동이다.
 - **필요성**: 서울에서 출발한 차(패킷)가 목적지인 부산(서버)을 찾아가야 한다. 교차로(라우터)에 도착했을 때 표지판(라우팅 테이블)이 없으면 차는 엉뚱한 광주나 강릉으로 빠져 영영 길을 잃는다. 만약 메인 고속도로(1번 길)가 공사 중이라면 국도(2번 길)로 돌아가라는 표지판이 실시간으로 갱신되어야 한다. 이 전 지구적인 도로망의 신호등과 이정표를 유지 보수하는 보이지 않는 손이 바로 라우팅이다.
 
-- **💡 비유**: 라우팅은 **"T맵(내비게이션)의 본사 서버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"**과 같습니다. 매 초마다 전국의 교통 체증, 도로 공사, 사고 현장 정보를 수집하여 "현재 위치에서 부산까지는 경부고속도로가 300km(거리)로 제일 가깝지만 꽉 막혔으니, 320km짜리 중부내륙고속도로로 돌아가는 게 1시간 더 빠릅니다(최적 경로 [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 승리)"라고 실시간으로 지도를 다시 그려주는 두뇌 회전입니다.
+- **💡 비유**: 라우팅은 <strong>"T맵(내비게이션)의 본사 서버 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>"</strong>과 같습니다. 매 초마다 전국의 교통 체증, 도로 공사, 사고 현장 정보를 수집하여 "현재 위치에서 부산까지는 경부고속도로가 300km(거리)로 제일 가깝지만 꽉 막혔으니, 320km짜리 중부내륙고속도로로 돌아가는 게 1시간 더 빠릅니다(최적 경로 [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 승리)"라고 실시간으로 지도를 다시 그려주는 두뇌 회전입니다.
 
-```text
-[CEF 물리적 포워딩 / 하드웨어 스위칭]
-    │
-    ▼
-[라우팅 개요]
-    │
-    └──▶ [정적 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정적 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 라우팅은 전쟁터에서 사령관이 끊임없이 정찰병(라우팅 패킷)을 보내 지형을 파악하고, 적의 매복이 없는 가장 안전하고 빠른 보급로를 지도에 굵은 빨간펜으로 그어놓는 **"[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 경로 획정 작업"**입니다.
 
@@ -42,45 +46,44 @@ tags = ["studynote-network"]
 ### 1. 라우터가 길을 배우는 3가지 방법
 라우터의 머릿속 지동(라우팅 테이블)에 글씨가 적히는 경로는 크게 3가지다.
 1. **Connected (직접 연결)**: 내가 라우터 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 랜선을 꽂고 192.168.1.1이라는 IP를 줬다. 그럼 라우터는 "아! 내 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 앞마당이 192.168.1.x 동네구나!" 하고 자동으로 지도를 그린다. (가장 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 100%인 직관적 정보).
-2. **Static ([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/))**: 관리자가 192.168.2.x로 가려면 무조건 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 가라고 수동으로 억지로 타이핑해서 박아 넣은 절대 불변의 정보.
-3. **Dynamic ([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))**: [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 같은 프로그램이 돌아가면서 라우터들끼리 카톡(패킷)을 주고받아 지형도를 스스로 배우고 갱신하는 훌륭한 정보.
+2. <strong>Static (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/">정적 라우팅</a>)</strong>: 관리자가 192.168.2.x로 가려면 무조건 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 가라고 수동으로 억지로 타이핑해서 박아 넣은 절대 불변의 정보.
+3. <strong>Dynamic (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/">동적 라우팅</a>)</strong>: [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 같은 프로그램이 돌아가면서 라우터들끼리 카톡(패킷)을 주고받아 지형도를 스스로 배우고 갱신하는 훌륭한 정보.
 
 ### 2. 최적 경로 대결 1라운드: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))를 돌렸더니 부산으로 가는 길이 A길과 B길 두 개가 발견되었다.
-이때 어떤 길을 '베스트 경로'로 지도에 올릴지 대결을 펼치는데, 기준이 되는 전투력이 **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))**이다. (숫자가 무조건 작을수록 우승).
-- **RIP의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Hop Count)**: 라우터를 몇 개 거치느냐? (A길은 라우터 3개 통과, B길은 라우터 5개 통과 ──▶ A길 승리!)
-- **OSPF의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Cost / [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 선로가 얼마나 넓고 쾌적하냐? (A길은 좁은 흙길, B길은 8차선 아우토반 ──▶ B길 승리!)
+이때 어떤 길을 '베스트 경로'로 지도에 올릴지 대결을 펼치는데, 기준이 되는 전투력이 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>)</strong>이다. (숫자가 무조건 작을수록 우승).
+- <strong>RIP의 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> (Hop Count)</strong>: 라우터를 몇 개 거치느냐? (A길은 라우터 3개 통과, B길은 라우터 5개 통과 ──▶ A길 승리!)
+- <strong>OSPF의 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> (Cost / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 선로가 얼마나 넓고 쾌적하냐? (A길은 좁은 흙길, B길은 8차선 아우토반 ──▶ B길 승리!)
 - *결과*: 똑같은 목적지라도 승리한 1등 경로 딱 하나만 라우팅 테이블(지도)에 올라가고, 2등 경로는 1등이 죽을 때까지 뒤에서 조용히 숨어 대기한다.
 
 ### 3. 최적 경로 대결 2라운드: AD (Administrative Distance)
 만약 똑같은 목적지 '부산'에 대해, 관리자가 수동으로 적은 Static 경로도 있고, OSPF가 스스로 찾은 경로도 있다면 누구 말을 믿어야 할까?
-이때 라우터는 정보의 출처(소속)를 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)로 매긴 **AD ([관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/))** 점수를 본다. (이것도 무조건 숫자가 작을수록 우승).
+이때 라우터는 정보의 출처(소속)를 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)로 매긴 <strong>AD (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/">관리 거리</a>)</strong> 점수를 본다. (이것도 무조건 숫자가 작을수록 우승).
 - **Connected (직접 꽂음)**: AD `0` (나 자신이니까 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 신뢰)
 - **Static (관리자 수작업)**: AD `1` (신이 내린 명령이니까 99% 신뢰)
-- **[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (동네 소문)**: AD `110` (대충 믿을만 함)
-- **[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) (동네 찌라시)**: AD `120` (좀 덜 믿음)
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> (동네 소문)</strong>: AD `110` (대충 믿을만 함)
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a> (동네 찌라시)</strong>: AD `120` (좀 덜 믿음)
 - *결과*: 관리자가 손으로 친 Static 룰(1점)이 OSPF가 찾은 룰(110점)을 압살하고 승리하여 라우팅 테이블에 최종 등재된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                최적 경로 (Best Path) 결정 알고리즘 요약            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   상황: "부산(10.1.1.0/24)으로 가고 싶다!"                       │
- │                                                             │
- │   1단계 (출처 대결 - AD 비교):                                  │
- │   - Static 정보 왈: "포트 1로 가!" (AD: 1) ◀─ 1차전 승리! (얘만 믿음)│
- │   - OSPF 정보 왈: "포트 2로 가!" (AD: 110)                    │
- │                                                             │
- │   2단계 (같은 출처 내 대결 - Metric 비교):                       │
- │   - OSPF 정보만 두 개라면?                                      │
- │     "포트 2는 대역폭 코스트가 10 이야!" ◀─ 2차전 승리! (이 길 채택) │
- │     "포트 3은 대역폭 코스트가 500 이야!"                       │
- │                                                             │
- │   ▶ "최종적으로 살아남은 단 1개의 챔피언 경로만이 라우팅 테이블(RIB)에   │
- │      영광스럽게 한 줄로 기록된다!"                               │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 경로 (Best Path) 결정 알고리즘 요약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황: "부산(10.1.1.0/24)으로 가고 싶다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 (출처 대결 - AD 비교):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Static 정보 왈: "포트 1로 가!" (AD: 1) ◀─ 1차전 승리! (얘만 믿음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OSPF 정보 왈: "포트 2로 가!" (AD: 110)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 (같은 출처 내 대결 - Metric 비교):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OSPF 정보만 두 개라면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"포트 2는 대역폭 코스트가 10 이야!" ◀─ 2차전 승리! (이 길 채택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"포트 3은 대역폭 코스트가 500 이야!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "최종적으로 살아남은 단 1개의 챔피언 경로만이 라우팅 테이블(RIB)에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영광스럽게 한 줄로 기록된다!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 최적 경로 설정은 라우터의 뇌 속에서 벌어지는 **"프로듀스 101 서바이벌 오디션"**입니다. 수많은 길이 "날 뽑아줘!"라고 외치지만, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(AD 점수)와 개인기([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 점수)에서 가장 뛰어난 단 하나의 길만이 최종 데뷔(라우팅 테이블 등재)의 영광을 누리게 됩니다.
 
@@ -138,15 +141,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CEF 물리적 포워딩 / 하드웨어 스위칭]
-    │
-    ▼
-[현재 개념: 라우팅 개요]
-    │
-    ├──▶ [확장 A: 정적 라우팅]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라우팅 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정적 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 라우팅 개요는 [CEF](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) 물리적 포워딩 / 하드웨어 스위칭에서 출발해 현재 메커니즘을 정교화하고, 이후 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)와 의도 기반 라우팅 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

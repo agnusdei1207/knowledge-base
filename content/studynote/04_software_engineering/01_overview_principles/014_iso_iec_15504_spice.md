@@ -14,7 +14,7 @@ tags = ["software_engineering"]
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(Software [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Improvement and Capability dEtermination)로 널리 알려진 ISO/IEC 15504는 조직의 소프트웨어 프로세스가 얼마나 잘 수행되고 있는지를 객관적으로 평가(Assessment)하기 위한 국제 심사 표준이다.
-> 2. **가치**: 프로세스가 무엇인지 정의한 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)(12207 등)을 가로축으로, 그 프로세스를 얼마나 잘하는지 평가하는 능력 수준(레벨 0~5)을 세로축으로 하는 **2차원 심사 모델**을 채택하여 평가의 유연성과 독립성을 극대화했다.
+> 2. **가치**: 프로세스가 무엇인지 정의한 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)(12207 등)을 가로축으로, 그 프로세스를 얼마나 잘하는지 평가하는 능력 수준(레벨 0~5)을 세로축으로 하는 <strong>2차원 심사 모델</strong>을 채택하여 평가의 유연성과 독립성을 극대화했다.
 > 3. **융합**: 자동차 산업의 안전성을 검증하는 Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)), 의료기기 산업의 Medi [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 등 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 심사 모델의 근간이 되며, 현대 융합 산업에서 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 신뢰성을 입증하는 핵심 라이선스로 작용한다.
 
 ---
@@ -23,25 +23,28 @@ tags = ["software_engineering"]
 
 1990년대 초반, 미국 국방부가 주도하여 만든 CMM(Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))이 전 세계적으로 성공을 거두었다. 그러나 CMM은 주로 북미 중심의 방위 산업에 편향되어 있었고, 영국과 유럽 등 여러 국가에서도 각자의 프로세스 평가 모델을 난립시키면서 국제적인 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제가 대두되었다. 기업들은 국가나 발주처마다 서로 다른 인증을 받아야 하는 심각한 비용 낭비와 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 직면했다.
 
-**ISO/IEC 15504 ([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/))**는 이러한 "평가 표준의 난립"을 하나로 통합하기 위해 ISO 주도하에 개발된 범용 프로세스 심사(Assessment) 프레임워크다. 기업은 이 표준을 통해 자신의 개발 프로세스 약점을 식별하여 내부 역량을 개선(Improvement)할 수 있으며, 발주자는 하청업체(공급자)의 개발 능력을 객관적으로 결정(Capability Determination)하여 계약 리스크를 최소화할 수 있다.
+<strong>ISO/IEC 15504 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a>)</strong>는 이러한 "평가 표준의 난립"을 하나로 통합하기 위해 ISO 주도하에 개발된 범용 프로세스 심사(Assessment) 프레임워크다. 기업은 이 표준을 통해 자신의 개발 프로세스 약점을 식별하여 내부 역량을 개선(Improvement)할 수 있으며, 발주자는 하청업체(공급자)의 개발 능력을 객관적으로 결정(Capability Determination)하여 계약 리스크를 최소화할 수 있다.
 
-💡 **비유**: 기업이 병원에 가서 **'종합 건강검진'**을 받는 것과 같다. 간(형상관리)은 건강한지, 심장(요구분석)은 튼튼한지를 국제적으로 공인된 의학적 잣대([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사 지표)를 통해 객관적으로 수치화하여 진단서를 발급받는 과정이다.
+💡 **비유**: 기업이 병원에 가서 <strong>'종합 건강검진'</strong>을 받는 것과 같다. 간(형상관리)은 건강한지, 심장(요구분석)은 튼튼한지를 국제적으로 공인된 의학적 잣대([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사 지표)를 통해 객관적으로 수치화하여 진단서를 발급받는 과정이다.
 
 아래 다이어그램은 SPICE가 왜 필요해졌는지, 심사의 목적 두 가지를 보여준다.
 
-```text
-[SPICE(ISO 15504)의 두 가지 활용 목적]
 
-┌────────────┐               [평가/심사 기준]               ┌────────────┐
-│  발주 조직 │   <───── (공급자 역량 파악) ─────>  │  개발 조직 │
-│ (Acquirer) │       목적 1: 능력 결정 (Capability) │ (Supplier) │
-└─────┬──────┘                                        └──────┬─────┘
-      │ 하청업체가 엉망진창                                  │ 우리 회사의
-      │ 코드를 짤까 봐 불안함                                │ 개발 속도가 왜 느리지?
-      ▼                                                     ▼
- [외주 계약 전 필터링]                                  [내부 프로세스 진단 및 개선]
- (A-SPICE 레벨2 요구)                                목적 2: 지속적 개선 (Improvement)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPICE(ISO 15504)의 두 가지 활용 목적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평가/심사 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발주 조직</div><div class="kb-diagram-cell">&lt; (공급자 역량 파악) &gt;</div><div class="kb-diagram-cell">개발 조직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Acquirer)</div><div class="kb-diagram-cell">목적 1: 능력 결정 (Capability)</div><div class="kb-diagram-cell">(Supplier)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하청업체가 엉망진창</div><div class="kb-diagram-cell">우리 회사의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드를 짤까 봐 불안함</div><div class="kb-diagram-cell">개발 속도가 왜 느리지?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외주 계약 전 필터링</div><div class="kb-diagram-node">내부 프로세스 진단 및 개선</div></div>
+<div class="kb-diagram-note">(A-SPICE 레벨2 요구) 목적 2: 지속적 개선 (Improvement)</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 SPICE가 단순히 '자랑용 자격증'이 아니라는 점이다. 공급자(개발사) 입장에서는 내부의 비효율과 병목을 찾아내는 메타인지의 도구이며, 발주자(자동차/항공기 제조사 등) 입장에서는 자사의 제품에 들어갈 소프트웨어 부품이 사람을 죽이지 않을 만큼 안전한 공정에서 만들어졌는지를 보증받는 생명선이다. 실무에서 특히 유럽 자동차 벤더(OEM)들은 하청업체에 A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 인증을 강제하고 있다.
 
@@ -51,10 +54,10 @@ tags = ["software_engineering"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(ISO/IEC 15504)의 가장 독창적이고 위대한 아키텍처는 **2차원 모델(Two-Dimensional Model)**이다. 평가 대상을 '어떤 프로세스를 하는가'와 '그 프로세스를 얼마나 잘하는가'로 직교 분리하였다.
+[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(ISO/IEC 15504)의 가장 독창적이고 위대한 아키텍처는 <strong>2차원 모델(Two-Dimensional Model)</strong>이다. 평가 대상을 '어떤 프로세스를 하는가'와 '그 프로세스를 얼마나 잘하는가'로 직교 분리하였다.
 
-1. **프로세스 차원 ([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/), [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))**: X축. 평가 대상이 되는 프로세스들의 목록. 일반적으로 ISO/IEC 12207을 그대로 가져다 쓴다. (무엇을 하는가)
-2. **능력 차원 ([PAM](/knowledge-base/studynote/09_security/11_iam_access_control/564_pam/), [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Assessment Model)**: Y축. 해당 프로세스를 얼마나 성숙하고 완벽하게 수행하는지를 0~5단계로 평가. (얼마나 잘 하는가)
+1. <strong>프로세스 차원 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/121_prm_performance_reference_model_it_roi/">PRM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">Reference Model</a>)</strong>: X축. 평가 대상이 되는 프로세스들의 목록. 일반적으로 ISO/IEC 12207을 그대로 가져다 쓴다. (무엇을 하는가)
+2. <strong>능력 차원 (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/564_pam/">PAM</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Assessment Model)</strong>: Y축. 해당 프로세스를 얼마나 성숙하고 완벽하게 수행하는지를 0~5단계로 평가. (얼마나 잘 하는가)
 
 능력 차원의 6단계 (0~5 레벨) 수준은 다음과 같다.
 
@@ -69,26 +72,29 @@ tags = ["software_engineering"]
 
 이러한 2차원 구조는 아래와 같은 매트릭스로 시각화되어 심사에 사용된다.
 
-```text
-[ISO/IEC 15504 2차원 심사 모델 아키텍처]
 
-                        능력 차원 (How well) - 0~5 레벨
-                 L0       L1       L2       L3       L4       L5
-              ┌────────┬────────┬────────┬────────┬────────┬────────┐
-[프 형상관리] │        │  완료  │  완료  │        │        │        │ => 레벨 2
-[로          ├────────┼────────┼────────┼────────┼────────┼────────┤
-[세 요구분석] │        │  완료  │  완료  │  완료  │        │        │ => 레벨 3
-[스          ├────────┼────────┼────────┼────────┼────────┼────────┤
-[차 코딩    ] │        │  완료  │        │        │        │        │ => 레벨 1
-[원 테스트  ] │        │  완료  │  완료  │        │        │        │ => 레벨 2
-              └────────┴────────┴────────┴────────┴────────┴────────┘
-  (What to do) 
-  (ISO 12207)   결과: 각 프로세스마다 독립적인 능력 레벨(Profile) 산출 가능
-```
 
-이 매트릭스의 핵심은 **프로세스별로 성숙도가 다를 수 있다는 현실을 반영**했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다. 
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 15504 2차원 심사 모델 아키텍처</div></div>
+<div class="kb-diagram-note">능력 차원 (How well) - 0~5 레벨</div>
+<div class="kb-diagram-note">L0 L1 L2 L3 L4 L5</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프 형상관리</div><div class="kb-diagram-note">│ 완료 │ 완료 │ │ │ │ =&gt; 레벨 2</div></div>
+<div class="kb-diagram-note">[로</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세 요구분석</div><div class="kb-diagram-note">│ 완료 │ 완료 │ 완료 │ │ │ =&gt; 레벨 3</div></div>
+<div class="kb-diagram-note">[스</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차 코딩</div><div class="kb-diagram-note">│ 완료 │ │ │ │ │ =&gt; 레벨 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원 테스트</div><div class="kb-diagram-note">│ 완료 │ 완료 │ │ │ │ =&gt; 레벨 2</div></div>
+<div class="kb-diagram-note">(What to do)</div>
+<div class="kb-diagram-note">(ISO 12207) 결과: 각 프로세스마다 독립적인 능력 레벨(Profile) 산출 가능</div>
+</div>
+</div>
 
-심사 평가는 각 레벨에 도달하기 위한 **프로세스 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(PA, [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**을 N, P, L, F (Not, Partially, Largely, Fully achieved) 4등급 척도로 세밀하게 채점하여 산출한다.
+
+
+이 매트릭스의 핵심은 <strong>프로세스별로 성숙도가 다를 수 있다는 현실을 반영</strong>했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다. 
+
+심사 평가는 각 레벨에 도달하기 위한 <strong>프로세스 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a>(PA, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)</strong>을 N, P, L, F (Not, Partially, Largely, Fully achieved) 4등급 척도로 세밀하게 채점하여 산출한다.
 
 📢 **섹션 요약 비유**: 학교 성적표를 매길 때 "너는 전체 평균 70점짜리 학생이야"라고 뭉뚱그려 말하는 대신, "국어는 90점(레벨3), 수학은 40점(레벨1)이니 수학 학원에 더 집중하자"라고 상세한 과목별 진단서를 주는 방식입니다.
 
@@ -103,21 +109,26 @@ tags = ["software_engineering"]
 | **뿌리 및 주관** | 국제 표준 (ISO/IEC) 중심 (범용적) | 미국 국방부/SEI 중심 (업계 주도적) | 유럽권 수출 vs 북미권 수주 |
 | **모델 아키텍처** | **2차원 모델** (프로세스 × 능력 분리) | 1차원 결합형 (연속형, 단계형 표현 혼재) | 독립적 유연성 vs 직관적 이해 |
 | **평가 결과** | 프로세스별 개별 능력 프로파일 (프로파일 맵) | 조직 전체의 성숙도 레벨 1~5 (주로 단계형) | 세밀한 진단 vs 대외 홍보(마케팅) |
-| **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 확장성** | 매우 용이함 (X축 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)만 갈아끼우면 됨) | 다소 무거움 ([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)-DEV, SVC 등 자체 파생) | 자동차(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)), 의료 등 융합 용이성 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 확장성</strong> | 매우 용이함 (X축 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)만 갈아끼우면 됨) | 다소 무거움 ([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)-DEV, SVC 등 자체 파생) | 자동차(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)), 의료 등 융합 용이성 |
 
 아래는 심사 체계의 접근 차이를 보여주는 비교 도식이다.
 
-```text
-[SPICE 심사 체계]
- (12207 참조 모델) + (15504 평가 모델) ===> [ 자동차 분야의 Automotive SPICE 탄생! ]
-    (블록 교체 가능)     (고정된 척도)         아키텍처가 유연하여 타 도메인 이식에 최적
 
-[CMMI 심사 체계]
- [ CMMI-DEV 모델 (목표+프랙티스 한 덩어리) ] ===> "우리 회사는 CMMI 레벨 3 기업입니다!"
-    (블록 교체 어려움)                         평가 자체가 조직 전체의 등급화에 최적
-```
 
-이 도식의 핵심은 SPICE의 **플러그인(Plug-in) 구조**가 가진 강력한 확장성이다. SPICE는 2차원 아키텍처 덕분에 세로축(능력 레벨 0~5) 평가 방식은 그대로 둔 채, 가로축(프로세스 목록)만 자동차 산업에 맞는 모델로 쏙 갈아끼우면 A-SPICE가 되고, 의료기기 모델로 끼우면 Medi SPICE가 된다. 반면 CMMI는 프로세스와 평가 목표가 하나로 강결합되어 있어 이러한 확장이 무겁다. 이 때문에 현대의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 품질 인증은 대부분 SPICE를 모태로 파생되고 있다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SPICE 심사 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">자동차 분야의 Automotive SPICE 탄생!</div></div>
+<div class="kb-diagram-note">(블록 교체 가능) (고정된 척도) 아키텍처가 유연하여 타 도메인 이식에 최적</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI 심사 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI-DEV 모델 (목표+프랙티스 한 덩어리)</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-note">"우리 회사는 CMMI 레벨 3 기업입니다!"</div></div>
+<div class="kb-diagram-note">(블록 교체 어려움) 평가 자체가 조직 전체의 등급화에 최적</div>
+</div>
+</div>
+
+
+
+이 도식의 핵심은 SPICE의 <strong>플러그인(Plug-in) 구조</strong>가 가진 강력한 확장성이다. SPICE는 2차원 아키텍처 덕분에 세로축(능력 레벨 0~5) 평가 방식은 그대로 둔 채, 가로축(프로세스 목록)만 자동차 산업에 맞는 모델로 쏙 갈아끼우면 A-SPICE가 되고, 의료기기 모델로 끼우면 Medi SPICE가 된다. 반면 CMMI는 프로세스와 평가 목표가 하나로 강결합되어 있어 이러한 확장이 무겁다. 이 때문에 현대의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 품질 인증은 대부분 SPICE를 모태로 파생되고 있다.
 
 📢 **섹션 요약 비유**: CMMI가 '태권도 공인 3단'처럼 사람 자체에 단급을 부여하는 방식이라면, SPICE는 '발차기 능력치 80, 주먹 능력치 50'처럼 육각형 스탯 방사형 그래프를 그려주는 스카우팅 리포트와 같습니다.
 
@@ -125,31 +136,30 @@ tags = ["software_engineering"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 SPICE의 가장 파괴적인 적용 사례는 자동차 전장 부품에 적용되는 **Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/))**이다. 자율주행 시대로 넘어가면서 자동차는 '바퀴 달린 스마트폰'이 되었고, 보쉬나 콘티넨탈 같은 부품사들의 소프트웨어 품질이 완성차의 생명과 직결되기 시작했다.
+실무에서 SPICE의 가장 파괴적인 적용 사례는 자동차 전장 부품에 적용되는 <strong>Automotive <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> (A-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a>)</strong>이다. 자율주행 시대로 넘어가면서 자동차는 '바퀴 달린 스마트폰'이 되었고, 보쉬나 콘티넨탈 같은 부품사들의 소프트웨어 품질이 완성차의 생명과 직결되기 시작했다.
 
 #### 1. Automotive [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 실무 적용 시나리오
 유럽의 완성차 업체(벤츠, BMW 등)는 부품 납품 조건으로 "A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 레벨 2 이상"을 강제한다.
 - **상황**: 하청업체가 브레이크 제어 모듈을 개발한다. 개발자는 코딩만 열심히 해서 완벽히 작동하는 모듈을 납품했다.
-- **A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사관의 개입**: 작동 여부는 관심사가 아니다. 심사관은 "요구사항 명세서와 소스코드, 그리고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 사이에 양방향 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 있는가?"를 검증한다. 요구사항 #1에 대해 어떤 소스코드가 구현되었고, 어떤 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 수행되었는지 링크가 끊어져 있다면 가차 없이 '레벨 0'이 부여되어 납품이 취소된다.
+- <strong>A-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/">SPICE</a> 심사관의 개입</strong>: 작동 여부는 관심사가 아니다. 심사관은 "요구사항 명세서와 소스코드, 그리고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 사이에 양방향 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 있는가?"를 검증한다. 요구사항 #1에 대해 어떤 소스코드가 구현되었고, 어떤 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)가 수행되었는지 링크가 끊어져 있다면 가차 없이 '레벨 0'이 부여되어 납품이 취소된다.
 
 #### 2. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 기반 V-모델 매핑 (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) HIS [SCOPE](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 예시)
 
-```text
-[A-SPICE V-모델 매핑도 (추적성 평가의 핵심)]
 
-[시스템 요구분석] (SYS.2)  <========양방향 추적========> [시스템 적격성 테스팅] (SYS.5)
-       │                                                      ▲
-       ▼                                                      │
-[SW 요구분석] (SWE.1)      <========양방향 추적========> [SW 적격성 테스팅] (SWE.6)
-       │                                                      ▲
-       ▼                                                      │
-[SW 아키텍처 설계] (SWE.2) <========양방향 추적========> [SW 통합 테스팅] (SWE.5)
-       │                                                      ▲
-       ▼                                                      │
-[SW 상세설계 및 단위] (SWE.3)<======양방향 추적========> [SW 단위 테스팅] (SWE.4)
-```
 
-이 그림의 핵심은 실무 심사에서 가장 중요하게 보는 **V-모델 좌우의 '[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)'과 '추적성'**이다. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사(레벨 2 이상)를 통과하려면 개발 산출물이 우연히 나온 것이 아니라, 철저하게 상위 명세에 기반하여 설계되고, 그 명세를 정확히 검증하는 테스트가 1:1로 물려 있어야 한다. 실무 아키텍트는 이를 위해 Jira나 DOORS 같은 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용하여 이슈 간의 링크 체인을 강제하는 파이프라인을 구축해야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">A-SPICE V-모델 매핑도 (추적성 평가의 핵심)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 요구분석</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">시스템 적격성 테스팅</div><div class="kb-diagram-note">(SYS.5)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SW 요구분석</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 적격성 테스팅</div><div class="kb-diagram-note">(SWE.6)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SW 아키텍처 설계</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 통합 테스팅</div><div class="kb-diagram-note">(SWE.5)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SW 상세설계 및 단위</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 단위 테스팅</div><div class="kb-diagram-note">(SWE.4)</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 실무 심사에서 가장 중요하게 보는 <strong>V-모델 좌우의 '<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>'과 '추적성'</strong>이다. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사(레벨 2 이상)를 통과하려면 개발 산출물이 우연히 나온 것이 아니라, 철저하게 상위 명세에 기반하여 설계되고, 그 명세를 정확히 검증하는 테스트가 1:1로 물려 있어야 한다. 실무 아키텍트는 이를 위해 Jira나 DOORS 같은 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용하여 이슈 간의 링크 체인을 강제하는 파이프라인을 구축해야 한다.
 
 #### 3. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의사항
 - **평가를 위한 문서 양산**: 심사 기간에만 외주 컨설턴트를 고용해 과거에 개발한 코드에 억지로 가짜 설계 문서와 추적성 매트릭스를 끼워 맞추는 행위. 심사관이 철수하면 프로세스는 다시 레벨 0으로 회귀하며, 치명적인 비용 낭비만 초래한다.
@@ -165,7 +175,7 @@ tags = ["software_engineering"]
 | **정량적 효과** | - 납품 후 필드 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 및 리콜 발생률 50% 이상 감소<br>- 개발 프로세스 병목 식별을 통한 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 예측 정확도 향상 | 글로벌 자동차/의료기기 벤더의 공식 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 진입(Tier-1/2 자격 획득)으로 인한 매출 보장 |
 | **정성적 효과** | - 주먹구구식 코딩 문화에서 체계적인 공학 기반 문화로의 DNA 전환<br>- 개인의 역량(Hero Developer)에 의존하지 않는 시스템적 품질 보장 | 담당자 퇴사 시에도 흔들리지 않는 지식 자산([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Asset)의 내재화 |
 
-**미래 전망**: ISO/IEC 15504는 구조적 개편을 거쳐 최신 규격인 **ISO/IEC 330xx 시리즈**로 진화 및 대체되었다. 330xx 시리즈는 단순히 소프트웨어 개발(12207)뿐만 아니라 정보보안 관리, IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 프로세스까지 모든 영역에 2차원 평가 모델을 갖다 붙일 수 있도록 메타 구조를 극대화했다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 개발 프로세스의 안전성을 평가하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)'나 클라우드 운영 역량을 측정하는 방향으로 확장되며 융합 산업 품질 심사의 글로벌 패권을 유지할 것이다.
+**미래 전망**: ISO/IEC 15504는 구조적 개편을 거쳐 최신 규격인 <strong>ISO/IEC 330xx 시리즈</strong>로 진화 및 대체되었다. 330xx 시리즈는 단순히 소프트웨어 개발(12207)뿐만 아니라 정보보안 관리, IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 프로세스까지 모든 영역에 2차원 평가 모델을 갖다 붙일 수 있도록 메타 구조를 극대화했다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 개발 프로세스의 안전성을 평가하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)'나 클라우드 운영 역량을 측정하는 방향으로 확장되며 융합 산업 품질 심사의 글로벌 패권을 유지할 것이다.
 
 **참고 표준**: ISO/IEC 33001 (프로세스 심사 개념 및 용어 - 15504의 후속), ISO 26262 (자동차 기능안전 - A-SPICE와 상호 보완적으로 적용됨).
 
@@ -183,21 +193,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[소프트웨어 개발 프로세스 — 체계 없는 임시방편 관행의 품질 한계]
-    │
-    ▼
-[ISO/IEC 15504 SPICE — 프로세스 능력 수준 1~5단계 평가 체계]
-    │
-    ▼
-[CMMI (Capability Maturity Model Integration) — 조직 전반 프로세스 성숙도]
-    │
-    ▼
-[ISO/IEC 33000 시리즈 — SPICE 기반 최신 프로세스 평가 국제표준]
-    │
-    ▼
-[자동화 프로세스 심사 (AI-assisted Assessment) — 측정 데이터 기반 연속 개선]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 개발 프로세스 — 체계 없는 임시방편 관행의 품질 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 15504 SPICE — 프로세스 능력 수준 1~5단계 평가 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI (Capability Maturity Model Integration) — 조직 전반 프로세스 성숙도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 33000 시리즈 — SPICE 기반 최신 프로세스 평가 국제표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 프로세스 심사 (AI-assisted Assessment) — 측정 데이터 기반 연속 개선</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 비체계적 개발 관행에서 SPICE의 정량적 능력 수준 평가로 진화하고, [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)·ISO 33000으로 국제 표준화되며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 연속 측정까지 발전하는 소프트웨어 프로세스 성숙도 개선의 계보를 보여준다.
 

@@ -31,19 +31,19 @@ tags = ["studynote-operating-system"]
 
 OS 관점에서 클라우드는 하드웨어 위에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 층을 올리고, 그 위에 격리된 실행 환경을 다수 제공하는 구조다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))는 VM을, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임은 프로세스 격리를, 오케스트레이터는 이 둘의 배치를 관리한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               OS 관점의 클라우드 추상화 계층                │
-├──────────────────────────────────────────────────────────────┤
-│ 애플리케이션 / 서비스 / API                                  │
-│          ▲                                                   │
-│ VM / Container / Serverless                                 │
-│          ▲                                                   │
-│ 하이퍼바이저 · 런타임 · 오케스트레이터                       │
-│          ▲                                                   │
-│ CPU · Memory · Disk · Network · Hardware                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 관점의 클라우드 추상화 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 / 서비스 / API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM / Container / Serverless</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 · 런타임 · 오케스트레이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU · Memory · Disk · Network · Hardware</div></div>
+</div>
+</div>
+
+
 
 | OS 메커니즘 | 클라우드에서의 역할 | 핵심 기술 |
 | :--- | :--- | :--- |
@@ -121,21 +121,23 @@ OS 관점에서 클라우드는 하드웨어 위에 [가상화](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 OS 자원 관리
-    │
-    ▼
-가상화 (Virtualization)
-    │
-    ▼
-VM (Virtual Machine) · 하이퍼바이저
-    │
-    ▼
-컨테이너 (Container) · 오케스트레이션
-    │
-    ▼
-클라우드 네이티브 · 서버리스
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 OS 자원 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화 (Virtualization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VM (Virtual Machine) · 하이퍼바이저</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 (Container) · 오케스트레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 · 서버리스</div>
+</div>
+</div>
+
+
 
 이 흐름은 로컬 자원 관리가 네트워크 규모의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로 진화한 과정을 보여준다.
 

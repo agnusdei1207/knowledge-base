@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기업이나 공공기관에서 외부의 해킹, 악성코드 침입, 내부 정보 유출을 막기 위해 **외부 인터넷망과 내부 업무망을 물리적 또는 논리적으로 완전히 분리하는 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)**입니다.
+- 기업이나 공공기관에서 외부의 해킹, 악성코드 침입, 내부 정보 유출을 막기 위해 <strong>외부 인터넷망과 내부 업무망을 물리적 또는 논리적으로 완전히 분리하는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/">보안 아키텍처</a></strong>입니다.
 - **배경**: 2011년 농협 전산망 마비 사태 등 북한/해커들의 공격으로 국가 인프라가 뚫리자, 금융권과 공공기관에 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)가 법으로 강제(의무화)되었습니다.
 
-코로나19 사태로 '재택근무'가 폭발하고 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 시대가 열리자, 사내 PC에서만 접속할 수 있는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 규제는 IT 혁신을 가로막는 최악의 족쇄가 되었습니다. "망을 무조건 끊어 놓는 게 능사가 아니다. **망을 연결하되, 절대 해킹당하지 않는 새로운 통제 모델**을 만들자." 이것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 출발점입니다.
+코로나19 사태로 '재택근무'가 폭발하고 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 시대가 열리자, 사내 PC에서만 접속할 수 있는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 규제는 IT 혁신을 가로막는 최악의 족쇄가 되었습니다. "망을 무조건 끊어 놓는 게 능사가 아니다. <strong>망을 연결하되, 절대 해킹당하지 않는 새로운 통제 모델</strong>을 만들자." 이것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 출발점입니다.
 
-```text
-[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    ▼
-[망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    └──▶ [기기 간 상호인증체계 관리 기법 P2P 연결…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,14 +51,18 @@ tags = ["studynote-network"]
 - **방식**: 직원 책상에는 PC가 1대만 있습니다. 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)) 기술을 이용해 업무는 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(내부망)에서 직접 하고, 인터넷 서핑을 할 때는 클릭 한 번으로 중앙 서버에 떠 있는 '가상 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면(외부망)'을 띄워서 그 안에서만 서핑하는 방식입니다. (또는 반대로 구성)
 - **장단점**: 물리적 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 비용을 아끼고 공간을 차지하지 않습니다. 하지만 중앙 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)) 구축 비용이 만만치 않게 비싸고 화면이 버벅거릴 수 있습니다.
 
-```text
-[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    ▼
-[망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    └──▶ [기기 간 상호인증체계 관리 기법 P2P 연결…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -77,7 +85,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **개념**: "Never Trust, Always Verify (아무도 믿지 마라, 항상 검증하라)". 내부망에 이미 들어와 있는 직원이라 할지라도 절대 믿지 않고, 새로운 서버나 파일에 접근할 때마다 신원, 권한, 기기 보안 상태를 끊임없이 재검증하는 보안 철학입니다.
-- **[망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)와의 융합 (연결형 논리망)**: 이제는 외부 인터넷이나 재택근무지에서도 회사 망에 접속할 수 있게 열어줍니다(연결). 대신, **[SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/)(소프트웨어 정의 경계)** 기술을 써서 해커의 눈에는 회사 서버가 아예 보이지 않게(블랙홀처럼) 숨겨버립니다. 오직 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 통과하고 회사 백신이 깔려있는 '깨끗한 노트북'을 가진 직원에게만 암호화된 1:1 비밀 통로를 열어줍니다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a>와의 융합 (연결형 논리망)</strong>: 이제는 외부 인터넷이나 재택근무지에서도 회사 망에 접속할 수 있게 열어줍니다(연결). 대신, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a>(소프트웨어 정의 경계)</strong> 기술을 써서 해커의 눈에는 회사 서버가 아예 보이지 않게(블랙홀처럼) 숨겨버립니다. 오직 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)(다중 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 통과하고 회사 백신이 깔려있는 '깨끗한 노트북'을 가진 직원에게만 암호화된 1:1 비밀 통로를 열어줍니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -108,15 +116,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…]
-    │
-    ▼
-[현재 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…]
-    │
-    ├──▶ [확장 A: 기기 간 상호인증체계 관리 기법 P2P 연결…]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…는 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,16 +20,19 @@ tags = ["studynote-enterprise-systems"]
 
 MBO는 1950~60년대 대규모 조직에서 "내가 왜 이 일을 하는지 모르겠다"는 구성원의 소외감 문제를 해결하기 위해 등장했다. 목표를 상위에서 하위까지 일관되게 연결하여 모든 구성원이 자신의 일이 조직 목표에 어떻게 기여하는지 알게 한다.
 
-```text
-┌──────────────────────────────────────────────────────┐
-│             MBO 프로세스 4단계                         │
-├──────────────────────────────────────────────────────┤
-│  1. 목표 설정   │ 관리자↔구성원 협의로 SMART 목표 수립   │
-│  2. 실행        │ 자율적 업무 수행, 중간 점검             │
-│  3. 평가        │ 목표 대비 성과 측정                     │
-│  4. 피드백      │ 결과 반영, 다음 주기 목표 재조정         │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBO 프로세스 4단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 목표 설정</div><div class="kb-diagram-cell">관리자↔구성원 협의로 SMART 목표 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 실행</div><div class="kb-diagram-cell">자율적 업무 수행, 중간 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 평가</div><div class="kb-diagram-cell">목표 대비 성과 측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 피드백</div><div class="kb-diagram-cell">결과 반영, 다음 주기 목표 재조정</div></div>
+</div>
+</div>
+
+
 
 SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) · **A**chievable(달성 가능) · **R**elevant(관련성 있음) · **T**ime-bound(기간 한정)
 
@@ -41,31 +44,37 @@ SMART 목표 기준: **S**pecific(구체적) · **M**easurable(측정 가능) ·
 
 ### MBO vs [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 비교
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│              MBO vs OKR 핵심 비교                        │
-├──────────────────┬──────────────────────────────────────┤
-│      MBO         │           OKR                        │
-├──────────────────┼──────────────────────────────────────┤
-│ 1년 주기         │ 분기(3개월) 주기                       │
-│ 비공개 (관리자↔팀)│ 전사 공개                             │
-│ 100% 달성 목표   │ 70% 달성 = 성공 (도전적 목표)          │
-│ 급여·인사 연동   │ 급여 연동 분리 (자율성 보호)            │
-│ Top-down 위주    │ Bottom-up 가능                        │
-└──────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBO vs OKR 핵심 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBO</div><div class="kb-diagram-cell">OKR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1년 주기</div><div class="kb-diagram-cell">분기(3개월) 주기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비공개 (관리자↔팀)</div><div class="kb-diagram-cell">전사 공개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 달성 목표</div><div class="kb-diagram-cell">70% 달성 = 성공 (도전적 목표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">급여·인사 연동</div><div class="kb-diagram-cell">급여 연동 분리 (자율성 보호)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-down 위주</div><div class="kb-diagram-cell">Bottom-up 가능</div></div>
+</div>
+</div>
+
+
 
 ### 목표 연쇄 (Goal Cascade)
 
-```text
-[조직 목표] 시장 점유율 15% 달성
-    │
-    ▼
-[부서 목표] 신규 고객 1,000명 유치
-    │
-    ▼
-[개인 목표] 분기 신규 계약 25건
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">조직 목표</div><div class="kb-diagram-note">시장 점유율 15% 달성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부서 목표</div><div class="kb-diagram-note">신규 고객 1,000명 유치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인 목표</div><div class="kb-diagram-note">분기 신규 계약 25건</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: MBO의 목표 연쇄는 러시아 마트료시카 인형이다. 가장 큰 인형(조직 목표)을 열면 작은 인형들(부서·개인 목표)이 같은 방향을 향해 정렬되어 있다.
 
@@ -118,29 +127,31 @@ MBO는 현대에도 여전히 [KPI](/knowledge-base/studynote/12_it_management/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)** | MBO의 분기형 도전적 목표 진화 |
-| **[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)** | 4관점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 체계; MBO와 상호보완 |
-| **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)** | MBO 목표 측정 수단 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/">OKR</a></strong> | MBO의 분기형 도전적 목표 진화 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a></strong> | 4관점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 체계; MBO와 상호보완 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a></strong> | MBO 목표 측정 수단 |
 | **SMART 목표** | MBO 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 품질 기준 |
 | **성과 관리 시스템(PMS)** | MBO를 IT 시스템으로 구현한 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[MBO (1954) — 드러커, 참여적 목표 설정]
-    │
-    ▼
-[KPI 중심 성과 관리 — 정량 목표 측정 체계화]
-    │
-    ▼
-[BSC (1992) — 4관점 전략 목표 체계]
-    │
-    ▼
-[OKR (2000s) — 분기 민첩성, 도전적 목표]
-    │
-    ▼
-[데이터 기반 목표 관리 — AI 예측, 실시간 대시보드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MBO (1954) — 드러커, 참여적 목표 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KPI 중심 성과 관리 — 정량 목표 측정 체계화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BSC (1992) — 4관점 전략 목표 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OKR (2000s) — 분기 민첩성, 도전적 목표</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 기반 목표 관리 — AI 예측, 실시간 대시보드</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

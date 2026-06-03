@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비바 모델은 [벨-라파둘라 모델](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과 대칭되는 접근 제어 모델로, **"정보의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(변조/조작 방지)"**을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 것이 목적이다. 두 가지 기본 규칙인 **No Read Down (NRD)**과 **No Write Up (NWU)**을 제시한다.
-> 2. **가치**: 이 규칙들에 의해 시스템의 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 낮은 등급의 신뢰할 수 없는 프로세스에 의해 **변조/조작되는 것이 차단**되어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신뢰성이 보장된다.
-> 3. **한계**: 상위 등급 사용자가 하위 등급의 정보를 읽지 못하므로, 정보 흐름이 제한되어 **상하 간 협력/소통이 어려워지는 문제**가 있다.
+> 1. **본질**: 비바 모델은 [벨-라파둘라 모델](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/)과 대칭되는 접근 제어 모델로, <strong>"정보의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(변조/조작 방지)"</strong>을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 것이 목적이다. 두 가지 기본 규칙인 <strong>No Read Down (NRD)</strong>과 <strong>No Write Up (NWU)</strong>을 제시한다.
+> 2. **가치**: 이 규칙들에 의해 시스템의 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 낮은 등급의 신뢰할 수 없는 프로세스에 의해 <strong>변조/조작되는 것이 차단</strong>되어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신뢰성이 보장된다.
+> 3. **한계**: 상위 등급 사용자가 하위 등급의 정보를 읽지 못하므로, 정보 흐름이 제한되어 <strong>상하 간 협력/소통이 어려워지는 문제</strong>가 있다.
 
 ---
 
@@ -30,7 +30,7 @@ tags = ["studynote-operating-system"]
 
 ### 1.2 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이란?
 
-**[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**이란 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **"(권한) 없이 변조/조작되지 않은 상태"**를 의미한다:
+<strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>이란 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>"(권한) 없이 변조/조작되지 않은 상태"</strong>를 의미한다:
 
 ```text
 [ 예시: 은행 잔고 데이터 ]
@@ -46,7 +46,7 @@ tags = ["studynote-operating-system"]
 
 ### 2.1 Simple [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [Axiom](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/702_axiom/) (No Read Down, NRD)
 
-**"자신의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 등급보다 낮은 등급의 객체는 읽을 수 없다"**
+<strong>"자신의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 등급보다 낮은 등급의 객체는 읽을 수 없다"</strong>
 
 | 프로세스 등급 | 읽기 가능 | 읽기 불가 |
 |:---|:---|:---|
@@ -58,7 +58,7 @@ tags = ["studynote-operating-system"]
 
 ### 2.2 Integral [Axiom](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/702_axiom/) (No Write Up, NWU)
 
-**"자신의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 등급보다 높은 등급의 객체에는 쓸 수 없다"**
+<strong>"자신의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 등급보다 높은 등급의 객체에는 쓸 수 없다"</strong>
 
 | 프로세스 등급 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 |
 |:---|:---|:---|
@@ -80,11 +80,11 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **높은 등급의 의미** | 가장 민감한 정보 | 가장 신뢰할 수 있는 출처 |
 | **정보 흐름** | 위로만 흐름 | 아래로만 흐름 |
-| **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상** | 정보 유출 방지 | 정보 변조 방지 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 정보 유출 방지 | 정보 변조 방지 |
 
 ### 3.2 함께 사용
 
-현실에서는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 **두 모델을 조합**한다:
+현실에서는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 <strong>두 모델을 조합</strong>한다:
 
 ```text
 [ 병행 사용 ]
@@ -102,22 +102,28 @@ tags = ["studynote-operating-system"]
 
 ### 4.1 비바 모델의한계
 
-비바 모델은 **"동일 등급 내에서의 변조"**는 방지하지 못한다:
+비바 모델은 <strong>"동일 등급 내에서의 변조"</strong>는 방지하지 못한다:
 
-```text
-[ 문제 상황 ]
-부서A 팀장(중간 등급)과 부서B 팀장(중간 등급)이 같은 등급
--> 서로의 문서를 자유롭게 읽고 쓸 수 있음 (NRD/NWU 위반 없음)
--> 동등한 위치에서 (공모)하여 데이터 조작 가능
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제 상황</div></div>
+<div class="kb-diagram-note">부서A 팀장(중간 등급)과 부서B 팀장(중간 등급)이 같은 등급</div>
+<div class="kb-diagram-tree-item" style="--depth:0">서로의 문서를 자유롭게 읽고 쓸 수 있음 (NRD/NWU 위반 없음)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">동등한 위치에서 (공모)하여 데이터 조작 가능</div>
+</div>
+</div>
+
+
 
 ### 4.2 Clark-Wilson 모델
 
-실무적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보장을 위해 **Clark-Wilson 모델**이 제안되었다:
+실무적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 보장을 위해 <strong>Clark-Wilson 모델</strong>이 제안되었다:
 
 | 메커니즘 | 설명 |
 |:---|:---|
-| **Well-formed [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)** | 올바른 형식으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 가능 |
+| <strong>Well-formed <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a></strong> | 올바른 형식으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 가능 |
 | **Separation of Duty (SoD)** | 권한 분리를 통해 부당한 변경 방지 |
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -126,7 +132,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-- **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조/조작을 원천 차단
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조/조작을 원천 차단
 - **한계점**: 동일 등급 내의 공범 가능성, 정보 흐름 제한
 - **실무적 확장**: Clark-Wilson 모델과의 조합으로 실무 적용
 
@@ -145,27 +151,31 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[벨-라파둘라 모델 (Bell-LaPadula)]
-│
-▼
-[비바 모델 (Biba Model)]
-│
-├──▶ [리눅스 보안 모듈 (LSM, Linux Security Modules)]
-└──▶ [SELinux]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">벨-라파둘라 모델 (Bell-LaPadula)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비바 모델 (Biba Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 보안 모듈 (LSM, Linux Security Modules)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SELinux</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **비바 모델**은 놀이공원의 **"위생 등급 제도"**와 같다. 위생 등급이 높은 식당(높은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 위생 등급이 낮은 식당(낮은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))의 재료를 사용할 수 없고, 반대로 위생 등급이 낮은 식당은 높은 등급의 재료를 사용할 수 없다.
+1. <strong>비바 모델</strong>은 놀이공원의 <strong>"위생 등급 제도"</strong>와 같다. 위생 등급이 높은 식당(높은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 위생 등급이 낮은 식당(낮은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))의 재료를 사용할 수 없고, 반대로 위생 등급이 낮은 식당은 높은 등급의 재료를 사용할 수 없다.
 
-2. **NRD (No Read Down)**는 **"청결 식당은 불결 식당의 음식을 읽지((검수)) 않는다"**는 규칙과 같다. 청결 식당이 불결 식단의 재료를 사용하면 자기 위생 등급이 떨어질 수 있다.
+2. <strong>NRD (No Read Down)</strong>는 <strong>"청결 식당은 불결 식당의 음식을 읽지((검수)) 않는다"</strong>는 규칙과 같다. 청결 식당이 불결 식단의 재료를 사용하면 자기 위생 등급이 떨어질 수 있다.
 
-3. **NWU (No Write Up)**는 **"불결 식당은 청결 식단에 재료를 쓸 수 없다"**는 규칙과 같다. 불결 식당이 청결 식단의 재료에 손을 대면, 청결 식단 전체의 위생 등급이 오염될 수 있다.
+3. <strong>NWU (No Write Up)</strong>는 <strong>"불결 식당은 청결 식단에 재료를 쓸 수 없다"</strong>는 규칙과 같다. 불결 식당이 청결 식단의 재료에 손을 대면, 청결 식단 전체의 위생 등급이 오염될 수 있다.
 
-4. **한계**는 같은 위생 등급 식당끼리는 재료를 자유롭게 주고받을 수 있어서, 둘이 (공모)하면 위생 등급 전체를 깨뜨릴 수 있다는 점이다.
+4. <strong>한계</strong>는 같은 위생 등급 식당끼리는 재료를 자유롭게 주고받을 수 있어서, 둘이 (공모)하면 위생 등급 전체를 깨뜨릴 수 있다는 점이다.
 
 ---
 

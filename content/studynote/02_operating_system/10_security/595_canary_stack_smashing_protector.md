@@ -25,31 +25,26 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 1990년대 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Smashing)는 해커들에게 시스템 루트 권한을 내어주는 자동문이었다. 공격자는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사가 없는 `strcpy`나 `gets` 같은 취약한 C언어 함수를 악용해 버퍼를 넘치게 한 뒤, 리턴 주소를 덮어써 실행 흐름을 훔쳤다. 이를 하드웨어 레벨([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/))에서 막기 전, 소프트웨어 컴파일러 진영에서 먼저 내놓은 해결책이 바로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 레이아웃 구조의 변경과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 값 삽입이었다. '카나리(Canary)'라는 이름은 과거 광부들이 탄광의 유독가스를 감지하기 위해 민감한 카나리아 새를 먼저 들여보냈던 일화에서 유래했다. 카나리 값이 죽으면(변조되면), 시스템에 독가스([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))가 퍼졌음을 알고 즉각 작업을 중단하는 원리다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│      카나리(Canary) 삽입 전과 삽입 후의 스택 메모리 구조    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [전통적인 스택 구조 (보호 없음)]                           │
-│  ┌──────────────────┬──────────┬─────────┬──────────────┐   │
-│  │ 지역 버퍼 (Buffer)│ 이전 EBP │ RET 주소│ 함수 매개변수  ││
-│  └──────────────────┴──────────┴─────────┴──────────────┘   │
-│       ▲ 오버플로우가 발생하면 [EBP]와 [RET]가 직격탄을 맞음 │
-│                                                             │
-│  [카나리가 적용된 스택 구조 (SSP 적용)]                     │
-│  ┌──────────────────┬──────────┬──────────┬─────────┐       │
-│  │ 지역 버퍼 (Buffer)│ Canary   │ 이전 EBP │ RET 주소│      │
-│  └──────────────────┴──────────┴──────────┴─────────┘       │
-│       ▲ 덮어쓰기 시도 시 무조건 Canary를 거쳐야 함!         │
-│       │                                                     │
-│   [A][A][A][A][A][A]...[A][A] → Canary 훼손 발생!           │
-│                                                             │
-│   함수 에필로그(종료) 시:                                   │
-│   IF (현재 스택의 Canary != 마스터 Canary) {                │
-│       💥 프로그램 즉시 강제 종료 (Stack Smashing Detected)  │
-│   }                                                         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리(Canary) 삽입 전과 삽입 후의 스택 메모리 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 스택 구조 (보호 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 버퍼 (Buffer)</div><div class="kb-diagram-cell">이전 EBP</div><div class="kb-diagram-cell">RET 주소</div><div class="kb-diagram-cell">함수 매개변수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">EBP</div><div class="kb-diagram-note">와</div><div class="kb-diagram-node">RET</div><div class="kb-diagram-note">가 직격탄을 맞음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카나리가 적용된 스택 구조 (SSP 적용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 버퍼 (Buffer)</div><div class="kb-diagram-cell">Canary</div><div class="kb-diagram-cell">이전 EBP</div><div class="kb-diagram-cell">RET 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 덮어쓰기 시도 시 무조건 Canary를 거쳐야 함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Canary 훼손 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 에필로그(종료) 시:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (현재 스택의 Canary != 마스터 Canary) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 프로그램 즉시 강제 종료 (Stack Smashing Detected)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조도는 카나리가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 어떻게 기계적으로 탐지해내는지를 직관적으로 보여준다. 공격자가 버퍼(예: 크기가 64바이트인 char [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 경계를 넘어 EBP와 RET를 변조하려면, 메모리 주소가 낮은 곳에서 높은 곳으로 순차적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어써야 한다. 컴파일러는 이 성질을 역이용하여, 버퍼와 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(EBP/RET) 사이에 카나리라는 방패막이를 물리적으로 끼워 넣었다. 공격자가 RET에 도달하려면 필연적으로 카나리 값을 덮어써야만 하므로 원본 난수 값이 파괴된다. 함수가 `ret` 명령을 수행하기 직전, 이 카나리 값이 훼손된 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 제어권 탈취를 허용하기 전에 시스템이 프로세스를 스스로 죽여버려 보안을 유지한다.
 
@@ -66,39 +61,38 @@ tags = ["studynote-operating-system"]
 | **마스터 카나리 (Master Canary)** | 비교의 기준이 되는 원본 난수 | [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 시 OS가 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([Thread Local Storage](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/))의 `fs:0x28` 또는 `gs:0x14` 오프셋에 저장 | 금고 비밀번호 원본 |
 | **함수 프롤로그 (Prologue)** | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 카나리 삽입 | 마스터 카나리를 읽어와 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임(RBP 바로 위)에 PUSH | 검문소에 감시 장치 설치 |
 | **함수 에필로그 (Epilogue)** | 카나리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 값을 마스터 카나리와 XOR 비교하여 0이 나오는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 출구에서 검문 |
-| **`__stack_chk_fail`** | 패닉 핸들러 | 변조 감지 시 프로세스 코어 덤프를 남기고 `abort()` [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 경찰 특공대 출동 |
+| <strong><code>__stack_chk_fail</code></strong> | 패닉 핸들러 | 변조 감지 시 프로세스 코어 덤프를 남기고 `abort()` [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 경찰 특공대 출동 |
 
 ### 심층 동작 원리 및 어셈블리 레벨 구현
 
-카나리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 아닌 **컴파일러(GCC, Clang)**가 소스코드를 기계어로 번역할 때 함수 시작과 끝에 특별한 어셈블리 코드를 끼워 넣는 방식으로 구현된다. 카나리의 값은 프로그램이 실행될 때마다(정확히는 프로세스가 로드될 때마다) `/dev/urandom` 같은 커널의 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전역 변수 공간에 저장된다. 
+카나리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 아닌 <strong>컴파일러(GCC, Clang)</strong>가 소스코드를 기계어로 번역할 때 함수 시작과 끝에 특별한 어셈블리 코드를 끼워 넣는 방식으로 구현된다. 카나리의 값은 프로그램이 실행될 때마다(정확히는 프로세스가 로드될 때마다) `/dev/urandom` 같은 커널의 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전역 변수 공간에 저장된다. 
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│      GCC x86-64 아키텍처 기반 카나리 동작 어셈블리 흐름       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [함수 프롤로그: 진입 시 카나리 설치]                         │
-│  push   rbp                                                   │
-│  mov    rbp, rsp                                              │
-│  sub    rsp, 0x10         ; 버퍼 공간 할당                    │
-│  mov    rax, QWORD PTR fs:0x28 ; TLS에서 마스터 카나리 읽기   │
-│  mov    QWORD PTR [rbp-0x8], rax ; 스택(버퍼와 rbp 사이)에    │
-│                                  ; 카나리 값 저장 (설치!)     │
-│  xor    eax, eax          ; 레지스터에서 원본 쿠키 지우기     │
-│                                                               │
-│  ... (함수 본문 실행, strcpy 등 잠재적 취약점 존재 구간) ...  │
-│                                                               │
-│  [함수 에필로그: 종료 전 카나리 검증]                         │
-│  mov    rdx, QWORD PTR [rbp-0x8] ; 스택의 카나리 값 읽기      │
-│  xor    rdx, QWORD PTR fs:0x28   ; 마스터 카나리와 XOR 비교   │
-│  je     정상종료_루틴            ; 값이 같으면(0) 정상 리턴   │
-│  call   __stack_chk_fail         ; 다르면 패닉 함수 호출!     │
-│                                                               │
-│  정상종료_루틴:                                               │
-│  leave                                                        │
-│  ret                                                          │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCC x86-64 아키텍처 기반 카나리 동작 어셈블리 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">함수 프롤로그: 진입 시 카나리 설치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">push rbp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mov rbp, rsp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sub rsp, 0x10 ; 버퍼 공간 할당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mov rax, QWORD PTR fs:0x28 ; TLS에서 마스터 카나리 읽기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">mov QWORD PTR</div><div class="kb-diagram-node">rbp-0x8</div><div class="kb-diagram-note">, rax ; 스택(버퍼와 rbp 사이)에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">; 카나리 값 저장 (설치!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xor eax, eax ; 레지스터에서 원본 쿠키 지우기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (함수 본문 실행, strcpy 등 잠재적 취약점 존재 구간) ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">함수 에필로그: 종료 전 카나리 검증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">mov rdx, QWORD PTR</div><div class="kb-diagram-node">rbp-0x8</div><div class="kb-diagram-note">; 스택의 카나리 값 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xor rdx, QWORD PTR fs:0x28 ; 마스터 카나리와 XOR 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">je 정상종료_루틴 ; 값이 같으면(0) 정상 리턴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">call __stack_chk_fail ; 다르면 패닉 함수 호출!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상종료_루틴:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">leave</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ret</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 타이밍/코드 흐름도는 64비트 리눅스 환경에서 카나리가 하드웨어 레지스터와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 어떻게 활용하는지 정밀하게 보여준다. `fs:0x28`은 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 고유하게 할당되는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([Thread Local Storage](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/)) 공간으로, 여기에 커널이 프로세스 시작 시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 진품 카나리 값(Master Canary)이 들어 있다. 함수가 시작할 때 이 값을 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 변수 `[rbp-0x8]` 위치에 복사해 둔다. 만약 함수 실행 중 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 발생하면 버퍼 다음에 위치한 `[rbp-0x8]`의 카나리 값은 'A'(`0x41`) 같은 공격자의 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변조된다. 함수가 끝날 무렵, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 있는 값과 `fs:0x28`의 원본 값을 XOR 연산한다. 두 값이 완벽히 동일하면 결과는 `0`이 되어 정상적으로 `ret` 명령을 수행하지만, 단 1비트라도 다르다면 `__stack_chk_fail`이 호출되며 해커의 제어권 탈취 시도를 차단한다.
 
@@ -119,29 +113,26 @@ tags = ["studynote-operating-system"]
 | **동작 특징** | 문자열 복사 함수는 저 문자들을 만나면 복사를 중단하므로, 카나리를 덮어쓸 수 없음 | 64비트 환경에서 7바이트의 난수 + 1바이트의 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`0x00`)로 혼합 구성됨 | 구현이 가장 단순함 |
 | **한계점** | 공격자가 구조체 복사(`memcpy`) 등을 사용하면 뚫릴 수 있음 | 메모리 정보 유출(Leak) 취약점 발생 시 난수 값이 노출되어 우회됨 | Brute-force 공격에 매우 취약 |
 
-현대 64비트 리눅스/윈도우 시스템은 **널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)가 섞인 랜덤 카나리**를 표준으로 사용한다. 난수의 예측 불가능성(Random)과 문자열 우회 차단(Terminator)의 장점을 융합한 것이다.
+현대 64비트 리눅스/윈도우 시스템은 <strong>널 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>가 섞인 랜덤 카나리</strong>를 표준으로 사용한다. 난수의 예측 불가능성(Random)과 문자열 우회 차단(Terminator)의 장점을 융합한 것이다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│      64비트 카나리의 바이트 구조 (랜덤 + 터미네이터 융합)         │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  [64-bit Stack Canary (8 Bytes)]                                  │
-│   MSB                                                LSB          │
-│  ┌────┬────┬────┬────┬────┬────┬────┬────────┐                    │
-│  │ 0x4B│ 0x82│ 0x1F│ 0x99│ 0xE3│ 0x2A│ 0x77│  0x00  │             │
-│  └────┴────┴────┴────┴────┴────┴────┴────────┘                    │
-│    ▲                                   ▲                          │
-│    │                                   │                          │
-│    └── 7바이트의 강력한 무작위 난수 (Random Payload)              │
-│        (재부팅이나 프로세스 재시작 시마다 변경됨)                 │
-│                                        │                          │
-│    └── 최하위 1바이트(LSB)는 항상 Null Byte (0x00) 강제!          │
-│        이유: strcpy 같은 문자열 취약점을 통한 공격 시,            │
-│        공격자가 0x00을 삽입하려 하면 복사 로직이 멈추기           │
-│        때문에 카나리를 훼손하면서 지나갈 수 없게 됨.              │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64비트 카나리의 바이트 구조 (랜덤 + 터미네이터 융합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">64-bit Stack Canary (8 Bytes)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSB LSB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x4B</div><div class="kb-diagram-cell">0x82</div><div class="kb-diagram-cell">0x1F</div><div class="kb-diagram-cell">0x99</div><div class="kb-diagram-cell">0xE3</div><div class="kb-diagram-cell">0x2A</div><div class="kb-diagram-cell">0x77</div><div class="kb-diagram-cell">0x00</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 7바이트의 강력한 무작위 난수 (Random Payload)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재부팅이나 프로세스 재시작 시마다 변경됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 최하위 1바이트(LSB)는 항상 Null Byte (0x00) 강제!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: strcpy 같은 문자열 취약점을 통한 공격 시,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자가 0x00을 삽입하려 하면 복사 로직이 멈추기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문에 카나리를 훼손하면서 지나갈 수 없게 됨.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 레이아웃은 현대 카나리 설계의 치밀함을 보여준다. 8바이트 카나리 중 7바이트는 강력한 난수(Random)로 채워져 있어 해커가 값을 때려 맞추는 것(Brute-force)을 불가능하게 한다. 동시에 최하위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/) 기준 메모리에서 가장 먼저 만나는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))는 반드시 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`0x00`)로 고정한다. 그 이유는, C언어의 전형적인 취약점인 `strcpy(dest, src)`는 원본 버퍼에서 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 만날 때까지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하기 때문이다. 해커가 원래의 카나리 값을 알게 되더라도, 그 값을 주입 페이로드에 넣는 순간 페이로드 내의 `0x00` 때문에 `strcpy`가 중단되어 리턴 주소(RET)까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도달하지 못하게 하는 이중 잠금장치 역할을 한다.
 
@@ -154,14 +145,14 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오: 카나리 우회 기법 ([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 기반 Bypass)
 
 1. **상황**: 서버 애플리케이션에 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 취약점이 존재하지만, 컴파일러 옵션인 [SSP](/knowledge-base/studynote/09_security/12_identity_threat_advanced/604_ssp/)(`-fstack-protector-all`)가 적용되어 있어 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 발생 시 카나리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패로 프로세스가 즉사하며 방어에 성공하고 있었다.
-2. **공격자의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (카나리 유출)**: 해커는 코드를 분석하여 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 외에 `printf(buf)` 형태로 발생하는 [포맷 스트링 버그](/knowledge-base/studynote/09_security/04_endpoint_security/334_format_string_bug/)([Format String Bug](/knowledge-base/studynote/09_security/04_endpoint_security/334_format_string_bug/))나, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 미검증에 의한 메모리 읽기(Out-of-Bounds Read) 취약점을 추가로 찾아냈다. 해커는 이 정보 유출 취약점을 통해 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장된 **현재 프레임의 카나리 값 자체를 먼저 읽어낸다.** 
+2. <strong>공격자의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (카나리 유출)</strong>: 해커는 코드를 분석하여 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 외에 `printf(buf)` 형태로 발생하는 [포맷 스트링 버그](/knowledge-base/studynote/09_security/04_endpoint_security/334_format_string_bug/)([Format String Bug](/knowledge-base/studynote/09_security/04_endpoint_security/334_format_string_bug/))나, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 미검증에 의한 메모리 읽기(Out-of-Bounds Read) 취약점을 추가로 찾아냈다. 해커는 이 정보 유출 취약점을 통해 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장된 **현재 프레임의 카나리 값 자체를 먼저 읽어낸다.** 
 3. **페이로드 재구성**: 유출해 낸 카나리 값이 `0x4b821f99e32a7700`라면, 해커는 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 페이로드를 작성할 때 덮어쓰는 과정의 카나리 위치에 이 "정확한 원본 값"을 덧대어 끼워 넣는다.
    `페이로드 = [A * 64] + [0x4b821f99e32a7700] + [변조된 RET]`
 4. **우회 성공**: 함수 종료 시 카나리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 값을 마스터 카나리와 비교하지만, 해커가 원본과 똑같은 가짜 값을 채워 넣었으므로 무사히 통과(`je` 명령)되고, 변조된 리턴 주소로 제어권이 넘어가 ROP나 셸코드가 실행된다.
 5. **방어자의 의사결정**: 카나리 하나만으로는 메모리 정보 유출(Leak) 취약점이 동반되었을 때 무력화된다. 따라서 실무에서는 단일 방어막에 의존하지 않고 카나리 + [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) + DEP를 반드시 삼위일체(Combo)로 적용하여 심층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) 아키텍처를 구축해야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (컴파일러 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 옵션)
-- **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: GCC 기준으로 컴파일 시 [SSP](/knowledge-base/studynote/09_security/12_identity_threat_advanced/604_ssp/) 옵션이 켜져 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 강도 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: GCC 기준으로 컴파일 시 [SSP](/knowledge-base/studynote/09_security/12_identity_threat_advanced/604_ssp/) 옵션이 켜져 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
   - `-fno-stack-protector`: ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 끔. 절대 사용 금지.
   - `-fstack-protector`: 크기가 8바이트 이상인 char [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 가진 함수만 선택적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/).
   - `-fstack-protector-strong`: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 포함하거나 로컬 변수의 주소가 참조되는 대다수의 함수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) (현대 표준).
@@ -169,7 +160,7 @@ tags = ["studynote-operating-system"]
 - **로컬 변수 재배치 (Variable Reordering)**: 컴파일러가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 버퍼를 포인터 변수보다 항상 낮은 주소에 배치하도록 재정렬했는지 점검한다. 이렇게 하면 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)가 나더라도 포인터 변수가 덮어씌워지기 전에 무조건 카나리가 먼저 깨지게 된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **`fork()` 서버에서의 랜덤화 부재**: 아파치 워커 모델처럼 부모 프로세스가 `fork()`를 호출해 자식을 무한히 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 데몬의 경우, 자식 프로세스는 부모의 메모리 구조(마스터 카나리 값 포함)를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. 해커가 1바이트씩 덮어쓰며 자식 프로세스가 크래시 나는지 안 나는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 8바이트 카나리를 한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)씩 알아내는 **Byte-by-Byte [Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)** 공격이 가능하다. 멀티프로세스 모델에서는 `execve` 호출을 통해 카나리를 재생성하거나 철저한 예외 관리가 필요하다.
+- <strong><code>fork()</code> 서버에서의 랜덤화 부재</strong>: 아파치 워커 모델처럼 부모 프로세스가 `fork()`를 호출해 자식을 무한히 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 데몬의 경우, 자식 프로세스는 부모의 메모리 구조(마스터 카나리 값 포함)를 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. 해커가 1바이트씩 덮어쓰며 자식 프로세스가 크래시 나는지 안 나는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 8바이트 카나리를 한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)씩 알아내는 <strong>Byte-by-Byte <a href="/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/">Brute Force</a></strong> 공격이 가능하다. 멀티프로세스 모델에서는 `execve` 호출을 통해 카나리를 재생성하거나 철저한 예외 관리가 필요하다.
 
 - **📢 섹션 요약 비유**: 경비원(카나리)이 출입증을 철저히 검사하더라도, [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(메모리 릭)가 경비원의 진짜 출입증 사진을 미리 찍어 위조 출입증을 만들어오면 속을 수밖에 없으므로, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))와 금고 자물쇠([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/))를 함께 사용해야 하는 것과 같습니다.
 
@@ -183,15 +174,15 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **정량** | 단순 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 공격에 100% 뚫림 | 단일 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 기반 제어 탈취 **원천 봉쇄** | 가장 고전적이고 흔한 형태의 공격 루트 단절 |
 | **정성** | 원인 모를 해킹으로 시스템 침해 | [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 시도 시 명시적 패닉 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`stack smashing detected`) 기록 | 침해 시도 탐지 가시성(Visibility) 제공 및 침해 범위 제한 (RCE → [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) |
-| **운영** | 바이너리 크기 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 없음 | 프롤로그/에필로그 연산 추가로 약 **1~2% [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드** 존재 | 극미한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 치명적 취약점을 막는 최고의 가성비 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| **운영** | 바이너리 크기 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 없음 | 프롤로그/에필로그 연산 추가로 약 <strong>1~2% <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 오버헤드</strong> 존재 | 극미한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실로 치명적 취약점을 막는 최고의 가성비 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
 ### 미래 전망
-카나리 기술은 비용 대비 효과가 워낙 뛰어나 거의 모든 현대 컴파일러의 기본값(Default)으로 채택되었다. 하지만 정보 유출(Leak)을 통한 우회라는 구조적 한계가 명확하므로, 하드웨어 아키텍처 제조사들은 소프트웨어적 카나리를 넘어선 차세대 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술을 내놓았다. 인텔의 **Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (CET)** 와 ARM의 **PAC ([Pointer Authentication](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** 가 대표적이다. 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 아예 기존 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 완전히 격리된 물리적으로 안전한 공간에 리턴 주소를 이중으로 저장하고 하드웨어 레벨에서 비교하므로, 메모리 릭이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰기로 우회하는 것이 불가능에 가까운 궁극의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술로 자리 잡고 있다.
+카나리 기술은 비용 대비 효과가 워낙 뛰어나 거의 모든 현대 컴파일러의 기본값(Default)으로 채택되었다. 하지만 정보 유출(Leak)을 통한 우회라는 구조적 한계가 명확하므로, 하드웨어 아키텍처 제조사들은 소프트웨어적 카나리를 넘어선 차세대 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술을 내놓았다. 인텔의 <strong>Shadow <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> (CET)</strong> 와 ARM의 <strong>PAC (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/542_pointer_authentication/">Pointer Authentication</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> 가 대표적이다. 섀도우 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 아예 기존 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 완전히 격리된 물리적으로 안전한 공간에 리턴 주소를 이중으로 저장하고 하드웨어 레벨에서 비교하므로, 메모리 릭이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰기로 우회하는 것이 불가능에 가까운 궁극의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기술로 자리 잡고 있다.
 
 ### 참고 표준
 - **CWE-121**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)-based [Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))
-- **CERT C [Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) Standard**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사 및 안전한 문자열 함수 사용 의무화
-- **Linux [LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) (Linux Standard Base)**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 컴파일 옵션 기본 적용 규정
+- <strong>CERT C <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/">Secure Coding</a> Standard</strong>: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사 및 안전한 문자열 함수 사용 의무화
+- <strong>Linux <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/">LSB</a> (Linux Standard Base)</strong>: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 컴파일 옵션 기본 적용 규정
 
 - **📢 섹션 요약 비유**: 종이로 만든 출입증(소프트웨어 카나리)은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)당할 위험이 있어, 미래에는 아예 지문과 홍채를 검사하는 생체 인식 게이트(하드웨어 Shadow [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))로 발전하여 보안의 패러다임을 바꿀 것입니다.
 
@@ -208,15 +199,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[가상 주소 공간 구조 무작위화 (ASLR)]
-    │
-    ▼
-[카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)]
-    │
-    ├──▶ [ROP (Return-Oriented Programming) 기법]
-    └──▶ [제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 주소 공간 구조 무작위화 (ASLR)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROP (Return-Oriented Programming) 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

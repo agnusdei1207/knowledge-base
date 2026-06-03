@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 단일 인스턴스 환경(각 자원이 오직 1개뿐인 생태계)에서 교착 상태를 예방도 복구도 아닌 "안전 여부 판단 후 승인(회피)"으로 돌파하기 위해, [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에 미리 짐작하는 **'예약 간선(Claim Edge)'이라는 가상의 점선(미래 요청 화살표)**을 덧대어 그린 위상 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 프로세스가 "나 저 프린터 나~~중에 필요할 거야"라고 미리 예약(점선 간선)해둔 지도를 토대로, 실제 요청(실선)이 들어왔을 때 이 실선을 그었을 때 **'예약 점선과 꼬여서 전체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 원(Cycle)이 발생([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) 진입)'하는지 O(N^2)의 가벼운 깊이 탐색DFS**로 검사하여 승인 여부를 자른다.
+> 1. **본질**: 단일 인스턴스 환경(각 자원이 오직 1개뿐인 생태계)에서 교착 상태를 예방도 복구도 아닌 "안전 여부 판단 후 승인(회피)"으로 돌파하기 위해, [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에 미리 짐작하는 <strong>'예약 간선(Claim Edge)'이라는 가상의 점선(미래 요청 화살표)</strong>을 덧대어 그린 위상 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 프로세스가 "나 저 프린터 나~~중에 필요할 거야"라고 미리 예약(점선 간선)해둔 지도를 토대로, 실제 요청(실선)이 들어왔을 때 이 실선을 그었을 때 <strong>'예약 점선과 꼬여서 전체 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>에 원(Cycle)이 발생(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a> 진입)'하는지 O(N^2)의 가벼운 깊이 탐색DFS</strong>로 검사하여 승인 여부를 자른다.
 > 3. **융합**: 복잡한 행렬 계산(뱅커스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 없이 눈으로 보이는 유향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))에서 오직 '직관적 사이클 탐색'만으로 회피 철학을 100% 명쾌히 증명해 낸 아름다운 초석 모델로 인정받는다.
 
 ---
@@ -21,35 +21,33 @@ tags = ["studynote-operating-system"]
 
 [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), [Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))는 원래 "이미 터진" 데드락을 찾아내는 `사후 탐지용` 캔버스다. (너 이거 물었고, 나 저거 쥐어뜯고). 
 
-그런데 천재들은 이걸 어떻게 "미래의 데드락을 예측하는 `회피(Avoidance)`"용으로 써먹을까 고민했다. 답은 간단했다. **아직 자원을 요하지 않았지만(실선), 나중에 요구할 거라는 선전포고를 미리 점선(예약 간선)으로 다 그려놓고 시작하는 것**이다.
+그런데 천재들은 이걸 어떻게 "미래의 데드락을 예측하는 `회피(Avoidance)`"용으로 써먹을까 고민했다. 답은 간단했다. <strong>아직 자원을 요하지 않았지만(실선), 나중에 요구할 거라는 선전포고를 미리 점선(예약 간선)으로 다 그려놓고 시작하는 것</strong>이다.
 
 그러면 OS는 그림판을 보며 "A야, 네가 지금 요구하는 이 선을 실선으로 진하게 칠해버리면, 나머지 점선들이랑 엮여서 전체가 둥근 동그라미(Cycle = Unsafe)가 되버리잖아? 넌 탈락(거부)이야!" 하고 직관적인 문지기 역할을 수행한다.
 
 **💡 비유**: 범죄(데드락) 예방을 위한 마이너리티 리포트(예약 간선 점선). "A가 나중에 칼을 집을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(점선)"과 "B가 방패를 들 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(점선)"이 미리 지도에 다 그려져 있다. 그 상태에서 A가 "진짜 칼 주세요(실선)" 하는 순간, 시스템은 이 실선 한 방울이 전체 점선망과 결합해 범죄(원)를 그릴지 1초 만에 감시해 낸 뒤 방아쇠를 압수한다(회피).
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│         자원 할당 그래프(RAG)와 예약 간선(점선)의 융합         │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [기호] 실선(─▶): 확정된 요청과 할당 / 점선(-▶): 미래 예약     │
-│                                                                │
-│  [시나리오] R1(프린터 1대), R2(디스크 1대) 단일 자원           │
-│                                                                │
-│  P1 ───(점유 실선)───▶ R1                                      │
-│  P2 ───(요청 실선)───▶ R1                                      │
-│                                                                │
-│  여기에 P1과 P2가 나중에 R2를 달성할지 모른다는 '예약'을 추가! │
-│  P1 - - -(미래 예약)- - -▶ R2                                  │
-│  R2 - - -(미래 활당)- - -▶ P2  (아직 상호대치 없음)            │
-│                                                                │
-│  [폭발 순간 검사법 (Avoidance Check)]                          │
-│  * 만약 P2가 R2를 "지금(실선) 주세요!" 라고 요청이 들어오면?   │
-│  OS 화가: "어디 그려볼까... 헉! 그려보니까                     │
-│  [P1→R1→P2→R2→P1] 거대한 원(Cycle)이 형성되네?!"               │
-│  OS: "삐빅- Unsafe স্টেট(불안전)! P2의 R2 요청 파기(Wait)!"    │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프(RAG)와 예약 간선(점선)의 융합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기호</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">): 확정된 요청과 할당 / 점선(-▶): 미래 예약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오</div><div class="kb-diagram-note">R1(프린터 1대), R2(디스크 1대) 단일 자원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 (점유 실선) ▶ R1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2 (요청 실선) ▶ R1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기에 P1과 P2가 나중에 R2를 달성할지 모른다는 '예약'을 추가!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 - - -(미래 예약)- - -▶ R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 - - -(미래 활당)- - -▶ P2 (아직 상호대치 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭발 순간 검사법 (Avoidance Check)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 만약 P2가 R2를 "지금(실선) 주세요!" 라고 요청이 들어오면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 화가: "어디 그려볼까... 헉! 그려보니까</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1→R1→P2→R2→P1</div><div class="kb-diagram-note">거대한 원(Cycle)이 형성되네?!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "삐빅- Unsafe স্টেট(불안전)! P2의 R2 요청 파기(Wait)!"</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 지하철 노선도 확장 플랜 심사. "지금 역을 하나 파서 노선을 그어볼 건데, 미리 계획된 5년 뒤 점선 노선들이랑 합쳐졌을 때 서로 충돌나서 영원히 뱅뱅 도는 폐선(Cycle)이 생기는가?" 종이 위에서 그려보고 안 되면 빠꾸!
 
@@ -61,10 +59,10 @@ tags = ["studynote-operating-system"]
 
 RAG를 이용한 단일 인스턴스 회피는 방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 간선의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변화(Transition) 마술이다.
 
-1. **Step 1 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 세팅)**: 프로세스가 시작할 때 "나 평생 R1, R2 쓸지도 몰라"라고 OS에 예약한다. 이는 `프로세스(P) - - > 자원(R)`의 **예약 간선(Claim Edge)**이라 불리는 점선 화살표로 맵에 새겨진다.
+1. <strong>Step 1 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 세팅)</strong>: 프로세스가 시작할 때 "나 평생 R1, R2 쓸지도 몰라"라고 OS에 예약한다. 이는 `프로세스(P) - - > 자원(R)`의 <strong>예약 간선(Claim Edge)</strong>이라 불리는 점선 화살표로 맵에 새겨진다.
 2. **Step 2 (요청 시그널)**: 나중에 진짜 자원이 필요하면, 이 점선이 `P ─▶ R`의 **요청 간선(Request Edge)** 실선으로 바뀐다.
-3. **Step 3 (시뮬레이션 승인)**: OS가 눈치껏 R을 주면, 방향이 뒤집혀 `R ─▶ P`의 **할당 간선(Assignment Edge)**이 된다.
-4. **대법관의 심판구 (Cycle [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**: Step 3을 가상으로 해봤을 때 점선을 포함한 전체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 **사이클(Cycle)**이 돌아간다면 시스템은 영원한 나락 `불안전 상태(Unsafe State)`로 판정된다. 칼같이 기각하고 대기시킨다.
+3. **Step 3 (시뮬레이션 승인)**: OS가 눈치껏 R을 주면, 방향이 뒤집혀 `R ─▶ P`의 <strong>할당 간선(Assignment Edge)</strong>이 된다.
+4. <strong>대법관의 심판구 (Cycle <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>: Step 3을 가상으로 해봤을 때 점선을 포함한 전체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 <strong>사이클(Cycle)</strong>이 돌아간다면 시스템은 영원한 나락 `불안전 상태(Unsafe State)`로 판정된다. 칼같이 기각하고 대기시킨다.
 
 **📢 섹션 요약 비유**: 점선이 실선으로 레벨업되고 화살표 대가리가 휙 돌아가는 놀이입니다. 하지만 단 하나의 절대 규칙! '전체 그림에서 동그라미가 그려지면 반칙패(회피 반려)'라는 수학의 아름다움을 뽐냅니다.
 
@@ -76,7 +74,7 @@ RAG를 이용한 단일 인스턴스 회피는 방향 [그래프](/knowledge-bas
 |:---|:---|:---|
 | 미래 예측 개입 | 전혀 모름 (현재 실선만 그림) | **미래 사용량을 점선(예약 간선)으로 다 도배함** |
 | 목적 | "이미 죽은 놈" Victim 살해하기 | "들어오면 데드락 뜰 각인데?" 살인 회피 |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 부하 | 가끔 1번씩 돌려봄 (가벼움) | **매번 요청 올 때마다 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 순환 탐색 (무거움)** |
+| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 부하 | 가끔 1번씩 돌려봄 (가벼움) | <strong>매번 요청 올 때마다 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 순환 탐색 (무거움)</strong> |
 | 한계점 | 단일 자원 사이클도 판정 귀찮음 | 다중 인스턴스 환경엔 점선이 얽혀 아예 적용 불가 |
 
 **📢 섹션 요약 비유**: 탐지 RAG는 "사고가 났으니 블박 보고 범인을 찾자" 이고, 회피 RAG는 "사고 날 것 같으니 마이너리티 리포트(점선 예측) 돌려서 아예 출발을 막자"의 엄청난 미래 통제 철학입니다.
@@ -86,10 +84,10 @@ RAG를 이용한 단일 인스턴스 회피는 방향 [그래프](/knowledge-bas
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락 체인 / 데드락 방지 디버거 툴 (Valgrind 등)**: 실전 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매일 초당 1만 번씩 이런 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 데드락 Avoidance를 돌리기엔 오버헤드로 불타오른다. 따라서 실무에선 '빌드/디버깅' 타임에 정적 분석기로 C++ Mutex의 Claim Edge를 가상 위상 정렬해 "이 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 요청 순서, 10년 돌리면 한 번 데드락(사이클) 뜰 뻔!"이라고 분석해 내는 훌륭한 백엔드 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어로 영웅적 활약을 한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 락 체인 / 데드락 방지 디버거 툴 (Valgrind 등)</strong>: 실전 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매일 초당 1만 번씩 이런 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 데드락 Avoidance를 돌리기엔 오버헤드로 불타오른다. 따라서 실무에선 '빌드/디버깅' 타임에 정적 분석기로 C++ Mutex의 Claim Edge를 가상 위상 정렬해 "이 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 요청 순서, 10년 돌리면 한 번 데드락(사이클) 뜰 뻔!"이라고 분석해 내는 훌륭한 백엔드 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어로 영웅적 활약을 한다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **다중 인스턴스에 점선 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 돌격**: 자원(프린터)은 사실 5대인데, 그림에서는 R(프린터라는 개념집단 노드)을 향해 선이 10개씩 위상수학적으로 꼬인다. 사이클은 분명히 떴는데 프린터 3대가 놀고 있어서 데드락이 아닐 수 있다(다중 자원의 덫). RAG는 철저히 단일 인스턴스 독존의 전유물이며, 무식하게 막 들이밀면 아무도 졸업 못 하고 올 스톱 당한다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>다중 인스턴스에 점선 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 돌격</strong>: 자원(프린터)은 사실 5대인데, 그림에서는 R(프린터라는 개념집단 노드)을 향해 선이 10개씩 위상수학적으로 꼬인다. 사이클은 분명히 떴는데 프린터 3대가 놀고 있어서 데드락이 아닐 수 있다(다중 자원의 덫). RAG는 철저히 단일 인스턴스 독존의 전유물이며, 무식하게 막 들이밀면 아무도 졸업 못 하고 올 스톱 당한다.
 
 **📢 섹션 요약 비유**: 단 한 칸의 화장실(단일 자원)에서 서로 줄 서는 순서가 원을 그리는지 눈으로 그리는 건 재밌지만, 공중화장실 10칸(다중 자원)에서는 화살표 위상수학으로 사태를 파악하려다 되려 교통경찰이 쓰러집니다.
 
@@ -120,15 +118,19 @@ RAG를 이용한 단일 인스턴스 회피는 방향 [그래프](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[불안전 상태 (Unsafe State)]
-    │
-    ▼
-[단일 인스턴스 환경의 회피 (Rag Avoidance)]
-    │
-    ├──▶ [다중 인스턴스 환경의 회피]
-    └──▶ [은행원 알고리즘 자료구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 환경의 회피 (Rag Avoidance)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 인스턴스 환경의 회피</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행원 알고리즘 자료구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

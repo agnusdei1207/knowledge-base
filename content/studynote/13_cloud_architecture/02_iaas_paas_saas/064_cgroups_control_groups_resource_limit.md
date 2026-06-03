@@ -12,9 +12,9 @@ tags = ["studynote-cloud"]
 # [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 리소스 제한 기술
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 제공하는 기능으로, 하나 이상의 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))들을 그룹으로 묶어 이들이 사용할 수 있는 **CPU, 메모리(RAM), 디스크 I/O, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 같은 물리적 하드웨어 자원의 사용량 한도를 엄격하게 제한(Limit)하고 모니터링**하는 기술이다.
-> 2. **가치**: 한 서버 안에 수백 개의 프로세스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))가 띄워질 때, 특정 악성 앱이나 버그 걸린 앱이 서버의 모든 메모리를 빨아먹어 옆에 있는 정상적인 앱들까지 일제히 멈추게 만드는 **'시끄러운 이웃(Noisy Neighbor)' 현상을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 원천적으로 방어([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장)**한다.
-> 3. **융합**: cgroups가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 물리적 손발(자원량)을 묶는 하드웨어 격리 기술이라면, Namespace는 눈과 귀([식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))를 가리는 논리적 격리 기술이다. 이 두 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술이 완벽히 융합하여 **Docker의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진**을 이룩했으며, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 `resources.requests`와 `limits` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 밑바탕이 된다.
+> 1. **본질**: [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 제공하는 기능으로, 하나 이상의 프로세스([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))들을 그룹으로 묶어 이들이 사용할 수 있는 <strong>CPU, 메모리(RAM), 디스크 I/O, 네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 같은 물리적 하드웨어 자원의 사용량 한도를 엄격하게 제한(Limit)하고 모니터링</strong>하는 기술이다.
+> 2. **가치**: 한 서버 안에 수백 개의 프로세스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))가 띄워질 때, 특정 악성 앱이나 버그 걸린 앱이 서버의 모든 메모리를 빨아먹어 옆에 있는 정상적인 앱들까지 일제히 멈추게 만드는 <strong>'시끄러운 이웃(Noisy Neighbor)' 현상을 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨에서 원천적으로 방어(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 보장)</strong>한다.
+> 3. **융합**: cgroups가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 물리적 손발(자원량)을 묶는 하드웨어 격리 기술이라면, Namespace는 눈과 귀([식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))를 가리는 논리적 격리 기술이다. 이 두 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기술이 완벽히 융합하여 <strong>Docker의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 엔진</strong>을 이룩했으며, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 `resources.requests`와 `limits` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 밑바탕이 된다.
 
 ---
 
@@ -28,8 +28,8 @@ tags = ["studynote-cloud"]
 
 - **등장 배경 및 발전 과정**:
   1. **구글의 고민과 발명 (2006년)**: 수백만 대의 서버에 자체 검색 엔진과 배치 작업을 섞어 돌리던 구글 엔지니어들(Paul Menage, Rohit Seth)이 프로세스 제어를 위해 '[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Containers'라는 기술을 개발했다.
-  2. **리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 편입 (2008년)**: 이 기술의 위대함을 알아본 리눅스 토발즈가 2.6.24 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 이 기능을 공식 통합하며 이름을 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)'로 변경했다.
-  3. **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 및 K8s의 심장 (현재)**: 이후 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v1의 복잡성을 개선한 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2가 나왔으며, 오늘날 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 자원 제한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 스펙(yaml)은 100% [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) API를 호출하는 거대한 프론트엔드 인터페이스라 해도 과언이 아니다.
+  2. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 편입 (2008년)</strong>: 이 기술의 위대함을 알아본 리눅스 토발즈가 2.6.24 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 이 기능을 공식 통합하며 이름을 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)'로 변경했다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> 및 K8s의 심장 (현재)</strong>: 이후 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v1의 복잡성을 개선한 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v2가 나왔으며, 오늘날 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 자원 제한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 스펙(yaml)은 100% [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) API를 호출하는 거대한 프론트엔드 인터페이스라 해도 과언이 아니다.
 
 - **📢 섹션 요약 비유**: 수영장에 그어진 레인(Lane)의 물살 차단막과 같습니다. 옆 레인의 덩치 큰 수영 선수(폭주하는 프로세스)가 아무리 심하게 물보라를 치고 수영을 해도, 튼튼한 차단막([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)) 덕분에 내 레인의 물결(시스템 자원)은 잔잔하게 유지되어 나만의 수영(안정적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 할 수 있습니다.
 
@@ -54,36 +54,32 @@ cgroups는 덩어리 하나가 아니라, 자원의 종류별로 감독관(Contr
 
 ### [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 동작 원리
 
-개발자가 가장 많이 마주하는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 장애인 `OOMKilled` (Exit [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 137) 에러는 사실 cgroups의 **메모리 컨트롤러**가 수행하는 사형 집행(Execution)이다.
+개발자가 가장 많이 마주하는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 장애인 `OOMKilled` (Exit [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 137) 에러는 사실 cgroups의 <strong>메모리 컨트롤러</strong>가 수행하는 사형 집행(Execution)이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         cgroups 메모리 통제 및 OOM Killer (Out of Memory) 작동 구조 │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [ 리눅스 Host OS (Total RAM: 32GB) ]                          │
-  │     │                                                         │
-  │     ▼ 커널(Kernel) cgroups 룰(Rule) 주입                         │
-  │  ╔══════════════════════════════════════════════════════════╗ │
-  │  ║  [ Docker Container A (Java App) ]                       ║ │
-  │  ║    - Cgroup Memory Limit: 1 GB (최대 허용량)                ║ │
-  │  ║    - Current Usage: 800 MB (메모리 누수 발생 중...)           ║ │
-  │  ║                                                          ║ │
-  │  ║    ... 10초 후 ...                                        ║ │
-  │  ║    - Current Usage: 1.01 GB 돌파 시도! (선 넘음!)            ║ │
-  │  ╚══════════════════════════════════════════════════════════╝ │
-  │          │                                                    │
-  │          ▼ (삐용삐용! cgroups 메모리 컨트롤러 알람 발생)                │
-  │                                                               │
-  │  [ 리눅스 커널 OOM Killer 작동 🔪 ]                                │
-  │    "어이 Container A! 너 나랑 약속한 1GB 한도 넘었네?"                │
-  │    "다른 착한 프로세스들 피해 볼라, 너 당장 사형(SIGKILL-9)!"           │
-  │                                                               │
-  │   ▶ 결과: Container A 프로세스 즉시 강제 종료 (Exit Code 137 발생). │
-  │          이 잔인한 룰 덕분에 서버에 있는 31GB의 램은 안전하게 지켜져서     │
-  │          옆에 있는 다른 컨테이너(DB, 웹 등)는 100% 무사함! (QoS 보장)   │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cgroups 메모리 통제 및 OOM Killer (Out of Memory) 작동 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 Host OS (Total RAM: 32GB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 커널(Kernel) cgroups 룰(Rule) 주입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Container A (Java App)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Cgroup Memory Limit: 1 GB (최대 허용량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Current Usage: 800 MB (메모리 누수 발생 중...)</div></div>
+<div class="kb-diagram-note">║ ║</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 10초 후 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Current Usage: 1.01 GB 돌파 시도! (선 넘음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (삐용삐용! cgroups 메모리 컨트롤러 알람 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 OOM Killer 작동 🔪</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어이 Container A! 너 나랑 약속한 1GB 한도 넘었네?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"다른 착한 프로세스들 피해 볼라, 너 당장 사형(SIGKILL-9)!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: Container A 프로세스 즉시 강제 종료 (Exit Code 137 발생).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 잔인한 룰 덕분에 서버에 있는 31GB의 램은 안전하게 지켜져서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옆에 있는 다른 컨테이너(DB, 웹 등)는 100% 무사함! (QoS 보장)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** cgroups에 메모리 상한선(1GB)을 걸어두면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 그룹에 속한 프로세스가 메모리를 더 달라고 요청할 때 할당을 거부한다. 그래도 앱(Java 힙 등)이 억지로 메모리를 점유해 상한선을 뚫으려 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 저승사자인 `OOM (Out Of Memory) Killer`가 깨어나 해당 프로세스에 자비 없이 9번 시그널(Kill)을 날려 목을 쳐버린다. 앱 개발자 입장에선 앱이 픽픽 죽어서 짜증 나겠지만, 시스템 엔지니어 입장에서는 이 cgroups의 철권통치 덕분에 단 하나의 버그 걸린 앱 때문에 물리 서버 전체가 멈춰버리는 끔찍한 재앙(시끄러운 이웃 문제)을 원천 차단할 수 있게 된다.
 
@@ -93,11 +89,11 @@ cgroups는 덩어리 하나가 아니라, 자원의 종류별로 감독관(Contr
 
 ### 실무 시나리오
 
-1. **시나리오 — [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) Resource Limits 미설정으로 인한 워커 노드 붕괴**: 개발팀이 급하게 Node.js 마이크로서비스를 만들면서 `deployment.yaml` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 `resources: requests/limits` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 아예 빼먹고 배포했다. 이 앱에 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))가 발생하여 K8s 워커 노드(EC2, 16GB)의 모든 RAM을 빨아먹자, 같은 노드에 떠 있던 Kubelet과 로깅 에이전트 데몬까지 OOM으로 터져 노드 전체가 `NotReady` 상태가 된 상황.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(K8s) Resource Limits 미설정으로 인한 워커 노드 붕괴</strong>: 개발팀이 급하게 Node.js 마이크로서비스를 만들면서 `deployment.yaml` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 `resources: requests/limits` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 아예 빼먹고 배포했다. 이 앱에 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))가 발생하여 K8s 워커 노드(EC2, 16GB)의 모든 RAM을 빨아먹자, 같은 노드에 떠 있던 Kubelet과 로깅 에이전트 데몬까지 OOM으로 터져 노드 전체가 `NotReady` 상태가 된 상황.
    - **판단**: K8s에서 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 제약(Limits)을 생략한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(BestEffort [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))는 무제한 폭식 권한을 가진다. 이는 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) 환경의 규칙을 박살 낸 최악의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 누락이다.
-   - **해결책**: 모든 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 스펙에 메모리와 CPU의 **Requests(최소 보장, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) shares)**와 **Limits(최대 상한, [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)/limit)**를 강제로 입력하도록 LimitRange나 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 정책으로 파이프라인 단에서 막아야 한다. K8s의 이 선언적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(yaml)들이 내부적으로는 도커를 거쳐 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `/sys/fs/cgroup/memory` 폴더에 제어값들을 기록하여 완벽한 하드웨어 격리 통제망을 구축한다.
+   - **해결책**: 모든 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 스펙에 메모리와 CPU의 <strong>Requests(최소 보장, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> shares)</strong>와 <strong>Limits(최대 상한, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">quota</a>/limit)</strong>를 강제로 입력하도록 LimitRange나 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 정책으로 파이프라인 단에서 막아야 한다. K8s의 이 선언적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(yaml)들이 내부적으로는 도커를 거쳐 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `/sys/fs/cgroup/memory` 폴더에 제어값들을 기록하여 완벽한 하드웨어 격리 통제망을 구축한다.
 
-2. **시나리오 — CPU Throttling으로 인한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Limits의 역설)**: Java(Spring Boot) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 `CPU Limit: 2` (2코어 제한)를 빡빡하게 걸어두었다. 메모리는 남는데, 트래픽이 몰릴 때마다 CPU Limit 벽에 부딪혀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 목을 조르며(CPU Throttling) 연산을 멈춰 세웠다. 이로 인해 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 시간이 수 초대로 늘어나고, 멀쩡한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)(오토스케일링) 조건에도 맞지 않아 스케일아웃이 안 되는 딜레마.
+2. <strong>시나리오 — CPU Throttling으로 인한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Limits의 역설)</strong>: Java(Spring Boot) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 `CPU Limit: 2` (2코어 제한)를 빡빡하게 걸어두었다. 메모리는 남는데, 트래픽이 몰릴 때마다 CPU Limit 벽에 부딪혀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 목을 조르며(CPU Throttling) 연산을 멈춰 세웠다. 이로 인해 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 시간이 수 초대로 늘어나고, 멀쩡한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)(오토스케일링) 조건에도 맞지 않아 스케일아웃이 안 되는 딜레마.
    - **판단**: 메모리 초과는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)(죽음)으로 끝나지만, CPU 초과는 죽이지 않고 대신 실행 시간을 강제로 빼앗아버려(Throttling, 버벅거림) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 보이지 않는 독약으로 돌아온다.
    - **해결책**: Java나 Go처럼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 시 코어를 병렬로 강하게 당겨 쓰는 런타임의 경우, CPU Limit [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 아예 해제하거나 매우 넉넉하게 주어(Guaranteed 대신 Burstable로 유연하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) Throttling을 우회하는 것이 최근 클라우드 엔지니어링의 실무 팁([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 중 하나로 거론된다. (단, 메모리 Limit은 반드시 걸어야 한다.)
 
@@ -112,9 +108,9 @@ cgroups는 덩어리 하나가 아니라, 자원의 종류별로 감독관(Contr
 
 | 구분 | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 미적용 (모놀리식 환경) | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 적용 ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s 환경) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))** | 버그 난 앱 1개가 서버 RAM 100% 점유 | 앱 1개당 할당된 RAM(예: 1GB) 상한에서 즉사 | 특정 앱의 장애가 물리 서버 전체로 번지는 **동반 장애율 0%** |
+| <strong>정량 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">격리성</a>)</strong> | 버그 난 앱 1개가 서버 RAM 100% 점유 | 앱 1개당 할당된 RAM(예: 1GB) 상한에서 즉사 | 특정 앱의 장애가 물리 서버 전체로 번지는 **동반 장애율 0%** |
 | **정량 (밀집도)** | 자원 쟁탈 방지를 위해 서버에 앱 1~2개만 배치 | CPU/RAM 파이 쪼개기로 1서버에 수백 개 배치 | K8s를 통한 서버 인프라 사용 효율(Density) **수백 % 향상** |
-| **정성 (자원 계획)** | "서버 느려졌네, RAM 꽂아줘" (주먹구구) | Requests/Limits 수치화를 통한 정밀 용량 산정 | **데이터에 기반한 용량 계획(Capacity Planning) 및 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)** 실현 |
+| **정성 (자원 계획)** | "서버 느려졌네, RAM 꽂아줘" (주먹구구) | Requests/Limits 수치화를 통한 정밀 용량 산정 | <strong>데이터에 기반한 용량 계획(Capacity Planning) 및 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a></strong> 실현 |
 
 cgroups는 덩치 큰 하드웨어 장비([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 없이도, 소프트웨어([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 두뇌만으로 완벽한 자원 분배 통치 체제를 이룩해 낸 천재적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 발명품이다. 기술사는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 화려한 오토스케일링([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))이나 선언적 배포(yaml)의 이면에, 이처럼 무자비하게 프로세스 자원의 목줄을 쥐고 흔드는 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)'와 보이지 않는 벽을 치는 '[Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)'의 원초적 동작 원리가 톱니바퀴처럼 맞물려 있음을 꿰뚫어 보아야 한다.
 
@@ -124,11 +120,11 @@ cgroups는 덩치 큰 하드웨어 장비([하이퍼바이저](/knowledge-base/s
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))** | cgroups가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 하드웨어 사용량(손발)을 묶는 기술이라면, Namespace는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뷰(눈과 귀)를 가려버리는 짝꿍 격리 기술이다. |
-| **[OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))** | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 컨트롤러가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 한도(Limit)를 초과하는 불량 프로세스를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자비 없이 강제 종료시켜 시스템을 구하는 데스노트다. |
-| **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Resource Limits/Requests** | K8s 개발자가 `yaml`에 적어 넣는 CPU/RAM 요구사항으로, 이 값들은 Kubelet을 통해 그대로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로 번역(Translation)되어 주입된다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">Namespace</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a>)</strong> | cgroups가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 하드웨어 사용량(손발)을 묶는 기술이라면, Namespace는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 뷰(눈과 귀)를 가려버리는 짝꿍 격리 기술이다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong> | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 컨트롤러가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 한도(Limit)를 초과하는 불량 프로세스를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자비 없이 강제 종료시켜 시스템을 구하는 데스노트다. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> Resource Limits/Requests</strong> | K8s 개발자가 `yaml`에 적어 넣는 CPU/RAM 요구사항으로, 이 값들은 Kubelet을 통해 그대로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로 번역(Translation)되어 주입된다. |
 | **시끄러운 이웃 (Noisy Neighbor)** | [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 환경에서 특정 가상머신이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 자원을 폭식하여 남에게 피해를 주는 현상. cgroups는 이를 막는 가장 완벽한 백신이다. |
-| **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine** | 일반 개발자가 건드리기 복잡한 `/sys/fs/cgroup` 폴더의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 조작을, `docker run -m 512m` 한 줄의 명령어로 매끄럽게 자동화해 준 천재적인 소프트웨어다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Engine</strong> | 일반 개발자가 건드리기 복잡한 `/sys/fs/cgroup` 폴더의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 조작을, `docker run -m 512m` 한 줄의 명령어로 매끄럽게 자동화해 준 천재적인 소프트웨어다. |
 
 ---
 
@@ -137,21 +133,23 @@ cgroups는 덩치 큰 하드웨어 장비([하이퍼바이저](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 격리 없음 (Noisy Neighbor)
-    │
-    ▼
-cgroups v1: CPU · Memory · I/O 자원 제한
-    │
-    ▼
-cgroups v2: 통합 계층 구조 · PSI (Pressure Stall)
-    │
-    ▼
-컨테이너 런타임: Docker · containerd · CRI-O 활용
-    │
-    ▼
-K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 격리 없음 (Noisy Neighbor)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroups v1: CPU · Memory · I/O 자원 제한</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cgroups v2: 통합 계층 구조 · PSI (Pressure Stall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 런타임: Docker · containerd · CRI-O 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)</div>
+</div>
+</div>
+
+
 2. 이러면 다른 친구들이 배가 고파 쓰러지겠죠? 그래서 호랑이 선생님(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 나섰어요! "여기 각자 자기 이름이 적힌 접시에 고기 딱 10인분씩만 덜어 줄 테니, 다 먹었으면 더 이상 남의 고기 넘보지 마!" 
 3. 이렇게 아이들(프로세스)마다 먹을 수 있는 고기와 밥의 한계량(Limit)을 아주 엄격하게 딱딱 정해서 배분해 주고 통제하는 호랑이 선생님의 마법을 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)(씨그룹스)'라고 한답니다!
 

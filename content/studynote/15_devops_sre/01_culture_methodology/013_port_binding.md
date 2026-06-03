@@ -26,62 +26,36 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 전통적 웹 서버 종속 구조와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙의 차이를 보여준다.
 
-```text
-[전통적 웹 서버 종속 vs 포트 바인딩 원칙]
 
-❌ 전통적 웹 서버 종속 구조
-┌─────────────────────────────────────────────────────────────┐
-│ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ Apache / Nginx (웹 서버) │ │
-│ │ │ │ │
-│ │ ┌────────┴────────┐ │ │
-│ │ │ 포트 80/443 Listen │ │ │
-│ │ └────────┬────────┘ │ │
-│ │ │ │ │
-│ │ ▼ │ │
-│ │ ┌────────────────┐ │ │
-│ │ │ Tomcat (Appserver) │ │ │
-│ │ │ 포트 8080 │ │ │
-│ │ └────────────────┘ │ │
-│ │ │ │ │
-│ │ ▼ │ │
-│ │ ┌────────────────┐ │ │
-│ │ │ My Web App │ ← 앱이 서버에 종속 │ │
-│ │ │ (WAR 파일) │ │ │
-│ │ └────────────────┘ │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ │
-│ 문제: │
-│ - 웹 서버 없이는 앱 실행 불가 │
-│ - 포트/설정 변경 시 웹 서버 재설정 필요 │
-│ - 개발 환경과 프로덕션 환경의 구조 차이 │
-└─────────────────────────────────────────────────────────────┘
 
-✓ 포트 바인딩 원칙 (12팩터 준수)
-┌─────────────────────────────────────────────────────────────┐
-│ │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 내 앱 (Standalone Web Server) │ │
-│ │ │ │ │
-│ │ ┌────────┴────────┐ │ │
-│ │ │ 포트 ${PORT} Listen │ (환경 변수 지정) │ │
-│ │ └────────┬────────┘ │ │
-│ │ │ │ │
-│ │ ▼ │ │
-│ │ ┌────────────────┐ │ │
-│ │ │ HTTP Server │ ← 앱 내부에 내장 │ │
-│ │ │ (Express, Flask │ │ │
-│ │ │ Spring Boot) │ │ │
-│ │ └────────────────┘ │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ │
-│ 장점: │
-│ - 웹 서버 종속 없음 → 독립 실행 가능 │
-│ - 환경 변수로 포트 지정 → 설정 변경 시 코드 수정 불필요 │
-│ - 개발/프로덕션 동일 구조 │
-└─────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 웹 서버 종속 vs 포트 바인딩 원칙</div></div>
+<div class="kb-diagram-note">❌ 전통적 웹 서버 종속 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache / Nginx (웹 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 80/443 Listen</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tomcat (Appserver)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 8080</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">My Web App</div><div class="kb-diagram-cell">← 앱이 서버에 종속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(WAR 파일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 웹 서버 없이는 앱 실행 불가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포트/설정 변경 시 웹 서버 재설정 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발 환경과 프로덕션 환경의 구조 차이</div></div>
+<div class="kb-diagram-note">✓ 포트 바인딩 원칙 (12팩터 준수)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 앱 (Standalone Web Server)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 ${PORT} Listen</div><div class="kb-diagram-cell">(환경 변수 지정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP Server</div><div class="kb-diagram-cell">← 앱 내부에 내장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Express, Flask</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spring Boot)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 웹 서버 종속 없음 → 독립 실행 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 환경 변수로 포트 지정 → 설정 변경 시 코드 수정 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발/프로덕션 동일 구조</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙은"영업의"와 같다. 과거에는 백화점 입점(전통적 웹 앱)가 백화점(웹 서버)이 없으면 영업을 시작할 수 없었고, 백화점 내부 통제 규칙에있었다. 그러나 점포를 직접 차리는([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙)는 백화점 없이도 직접 영업을 시작할 수 있고(독립적 실행), 원하는 위치([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 간판을 걸 수 있다([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 지정).
 
@@ -96,60 +70,44 @@ tags = ["devops_sre"]
 | **Node.js (Express)** | 내장 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 서버 | `app.listen(port)` | `PORT=3000 node server.js` |
 | **Python (Flask)** | 내장 Werkzeug 서버 | `app.run(port=port)` | `os.environ.get('PORT', 5000)` |
 | **Java (Spring Boot)** | 내장 Tomcat/Jetty | `server.port=${PORT}` | `PORT=8080 java -jar app.jar` |
-| **Go (net/[http](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))** | 내장 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 서버 | `http.ListenAndServe(port, nil)` | `PORT=8080 ./myapp` |
+| <strong>Go (net/<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">http</a>)</strong> | 내장 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 서버 | `http.ListenAndServe(port, nil)` | `PORT=8080 ./myapp` |
 | **Ruby (Rails)** | Puma 서버 내장 | `rails server -p ${PORT}` | `PORT=3000 rails s` |
 
 아래는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 및 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 어떻게 작동하는지 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
-```text
-[포트 바인딩 원칙: 개발 → CI/CD → 프로덕션]
 
-1. 개발 환경
-┌─────────────────────────────────────────────────────────────┐
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ 내 앱 (Express.js) │ │
-│ │ │ │
-│ │ const PORT = process.env.PORT || 3000; │ │
-│ │ app.listen(PORT, () => console.log(`:${PORT}`)); │ │
-│ │ │ │
-│ │ .env 파일: PORT=3000 │ │
-│ │ 실행: npm start → localhost:3000 에서 Listen │ │
-│ └─────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
 
-2. CI/CD 환경 (Dockerfile)
-┌─────────────────────────────────────────────────────────────┐
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ Dockerfile │ │
-│ │ ┌────────────────────────────────────────────────┐ │ │
-│ │ │ FROM node:18-alpine │ │ │
-│ │ │ WORKDIR /app │ │ │
-│ │ │ EXPOSE 3000 ← 문을 외부에 공개 │ │ │
-│ │ │ CMD ["node", "server.js"] │ │ │
-│ │ └────────────────────────────────────────────────┘ │ │
-│ │ │ │
-│ │ docker build -t myapp . │ │
-│ │ docker run -p 8080:3000 myapp │ │
-│ └─────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 바인딩 원칙: 개발 → CI/CD → 프로덕션</div></div>
+<div class="kb-diagram-note">1. 개발 환경</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 앱 (Express.js)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">const PORT = process.env.PORT</div><div class="kb-diagram-cell">3000;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app.listen(PORT, () =&gt; console.log(<code>:${PORT}</code>));</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.env 파일: PORT=3000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행: npm start → localhost:3000 에서 Listen</div></div>
+<div class="kb-diagram-note">2. CI/CD 환경 (Dockerfile)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dockerfile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FROM node:18-alpine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WORKDIR /app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EXPOSE 3000 ← 문을 외부에 공개</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ CMD</div><div class="kb-diagram-node">"node", "server.js"</div><div class="kb-diagram-note">│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">docker build -t myapp .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">docker run -p 8080:3000 myapp</div></div>
+<div class="kb-diagram-note">3. 쿠버네티스 환경 (Service Exposure)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spec:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ports:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- port: 80 ← 서비스 포트 (클러스터 내부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">targetPort: 3000 ← 파드 포트 (앱이 Listen)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">selector:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app: myapp</div></div>
+</div>
+</div>
 
-3. 쿠버네티스 환경 (Service Exposure)
-┌─────────────────────────────────────────────────────────────┐
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ Kubernetes Service │ │
-│ │ ┌────────────────────────────────────────────────┐ │ │
-│ │ │ apiVersion: v1 │ │ │
-│ │ │ kind: Service │ │ │
-│ │ │ spec: │ │ │
-│ │ │ ports: │ │ │
-│ │ │ - port: 80 ← 서비스 포트 (클러스터 내부)│ │ │
-│ │ │ targetPort: 3000 ← 파드 포트 (앱이 Listen) │ │ │
-│ │ │ selector: │ │ │
-│ │ │ app: myapp │ │ │
-│ │ └────────────────────────────────────────────────┘ │ │
-│ └─────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-```
+
 
 > 📢 **섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙은"은행 지점의 창구 번호 시스템"과 같다. 각 창구([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))는 업무를 처리하는 공간(애플리케이션) 자체가 Listen하는 곳이며, 은행 본부(로드밸런서/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 각 창구의 번호만 알고 있으면 된다. 창구 번호가 바뀌어도([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 변경) 은행 본부의 지시 방식([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))은 변하지 않는다.
 
@@ -161,11 +119,11 @@ tags = ["devops_sre"]
 
 | 관련 기술 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 시너지 효과 |
 |:---|:---|:---|
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)** | 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 자체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Listen, 호스트와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 | 환경 격리 + 유연한 네트워크 구성 |
-| **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)** | ClusterIP, NodePort, LoadBalancer로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 내부/외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출을 선언적으로 관리 |
-| **[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/))** | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별 트래픽 제어 | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), 회로 차단, 금색 배포 등 |
-| **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Compose** | ports [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 호스트-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 | 다중 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경 구축 용이 |
-| **[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)** | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름으로 접근 | IP 기반 연결보다 유연한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> | 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 자체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Listen, 호스트와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 | 환경 격리 + 유연한 네트워크 구성 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | ClusterIP, NodePort, LoadBalancer로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) | 내부/외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 노출을 선언적으로 관리 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>)</strong> | [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별 트래픽 제어 | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), 회로 차단, 금색 배포 등 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Compose</strong> | ports [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 호스트-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 | 다중 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경 구축 용이 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/">서비스 디스커버리</a></strong> | [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 기반으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름으로 접근 | IP 기반 연결보다 유연한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
 특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 통해 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 특정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 Listen하고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 클러스터 내부 또는 외부에 노출하는 구조다.
 
@@ -178,11 +136,11 @@ tags = ["devops_sre"]
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙을 실무에 적용할 때 흔히 발생하는 문제와 해결 방안을 분석한다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: 여러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서Listen하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 단일 호스트에서 실행해야 할 때**
+- <strong>시나리오 A: 여러 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>에서Listen하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 단일 호스트에서 실행해야 할 때</strong>
 - **상황**: 하나의 서버에서 여러 인스턴스의 앱을 실행해야 하는데, 각 앱이 동일한 8080포트에 바인딩하려는 때문에 충돌이 발생함.
 - **판단**: 이것은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙을 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로하지 않은 경우에 발생한다. 각 앱의 [PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)를 고유한 값으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면 된다. [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 환경에서는 `-p 3001:3000`과 `-p 3002:3000`으로 각각 다른 호스트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 매핑할 수 있다.
 
-- **시나리오 B: 레거시 앱이 [war](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 Tomcat에 배포해야 하는데 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙을 적용해야 할 때**
+- <strong>시나리오 B: 레거시 앱이 <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/">war</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 Tomcat에 배포해야 하는데 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 바인딩 원칙을 적용해야 할 때</strong>
 - **판단**: Tomcat 내장JAR(embedded-tomcat)을사용하면 애플리케이션 자체가 Tomcat을하고 자체적으로 Listen할 수 있다. Spring Boot의 내장 서버가 대표적인 예이다.
 
 ```text
@@ -214,7 +172,7 @@ tags = ["devops_sre"]
 | **독립성** | 웹 서버 없이는 실행 불가 | 독립 실행 가능 | 배포 유연성 향상 |
 | **테스트 용이성** | 웹 서버 환경 필요 | curl로직접 테스트 | 개발 속도 향상 |
 | **자원 활용** | 단일 웹 서버에 여러 앱 배치 곤란 | 앱별 독립 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 효율적 배치 | 서버 자원 활용도 향상 |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 환경마다 구조 다름 | 개발/스테이징/프로덕션 동일 | 환경 간 일치성 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 환경마다 구조 다름 | 개발/스테이징/프로덕션 동일 | 환경 간 일치성 |
 
 **미래 전망 및 결론**:
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 및 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경으로의 진화에서 더욱 중요해지고 있다. AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions 등의 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서는 함수가HTTP 엔드포인트를 직접Listen하는 것이 아니라 이벤트에 의해 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)되는 구조다. 그러나 이러한 환경에서도 함수의"[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)" 개념은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway의"리스너"와 매핑되어 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙의 개념적 확장으로 여전히 유효하다.
@@ -229,27 +187,29 @@ tags = ["devops_sre"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **12팩터 앱 ([12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/))** | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩을 포함한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱 설계 12가지 원칙 |
-| **[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) ([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) Variable)** | [PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 코드에서 분리해 런타임에 주입하는 방법 |
-| **리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (Reverse [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))** | Nginx 등이 앞단에서 80/443을 처리하고 내부 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
+| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩을 포함한 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 앱 설계 12가지 원칙 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a> Variable)</strong> | [PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 코드에서 분리해 런타임에 주입하는 방법 |
+| <strong>리버스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (Reverse <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong> | Nginx 등이 앞단에서 80/443을 처리하고 내부 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[웹 서버 종속 배포 (AS-IS) — 앱이 Apache/Tomcat에 종속, 독립 실행 불가]
-│
-▼
-[포트 바인딩 (Port Binding) — 앱이 직접 HTTP 포트를 Listen, 자립적 서비스]
-│
-▼
-[12팩터 앱 원칙 VII — 환경 변수 PORT로 배포 환경 독립성 확보]
-│
-▼
-[컨테이너 포트 매핑 (Docker -p) — 호스트·컨테이너 포트 분리로 다중 인스턴스]
-│
-▼
-[서비스 메시 (Service Mesh) — Envoy 사이드카가 포트 바인딩 위에서 트래픽 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버 종속 배포 (AS-IS) — 앱이 Apache/Tomcat에 종속, 독립 실행 불가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 바인딩 (Port Binding) — 앱이 직접 HTTP 포트를 Listen, 자립적 서비스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">12팩터 앱 원칙 VII — 환경 변수 PORT로 배포 환경 독립성 확보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 포트 매핑 (Docker -p) — 호스트·컨테이너 포트 분리로 다중 인스턴스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시 (Service Mesh) — Envoy 사이드카가 포트 바인딩 위에서 트래픽 제어</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 웹 서버 종속에서 벗어나 앱이 직접 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 Listen하는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 바인딩 원칙이 확립되고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 환경에서 유연한 네트워크 설계의 기반이 되는 과정을 보여준다.
 

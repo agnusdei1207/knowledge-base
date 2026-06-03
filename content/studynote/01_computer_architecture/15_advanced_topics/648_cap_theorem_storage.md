@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 캡 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에서 네트워크 분단이 발생했을 때, **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** 과 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** 을 동시에 완벽히 보장할 수 없다는 장애 시점의 선택 원리를 설명한다.
+> 1. **본질**: 캡 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에서 네트워크 분단이 발생했을 때, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> 과 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> 을 동시에 완벽히 보장할 수 없다는 장애 시점의 선택 원리를 설명한다.
 > 2. **가치**: 이 정리는 `어떤 데이터는 잠시 틀려도 되는가, 아니면 잠시 멈추더라도 맞아야 하는가`를 분명히 하여, 저장 시스템 설계를 기술 문제가 아니라 비즈니스 의미 문제로 바꿔 준다.
-> 3. **판단 포인트**: CAP은 흔한 오해처럼 "셋 중 둘을 고르는 표어"가 아니라, **분단 허용은 현실에서 사실상 필수**이며 분단 시 C와 A 중 무엇을 우선할지 결정하라는 정리다.
+> 3. **판단 포인트**: CAP은 흔한 오해처럼 "셋 중 둘을 고르는 표어"가 아니라, <strong>분단 허용은 현실에서 사실상 필수</strong>이며 분단 시 C와 A 중 무엇을 우선할지 결정하라는 정리다.
 
 ---
 
@@ -33,19 +33,19 @@ CAP을 저장 시스템 관점에서 보면 [복제](/knowledge-base/studynote/1
 
 아래 그림은 세 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 중 한쪽이 네트워크로 분리되었을 때 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지가 맞닥뜨리는 선택을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Replica set under a network partition                             │
-├────────────────────────────────────────────────────────────────────┤
-│ Client L -> [Replica A] --- [Replica B]      X      [Replica C]   │
-│                               ▲                                   │
-│                               │                                   │
-│                          link broken                              │
-│                                                                   │
-│ CP choice: block or reject minority-side requests                 │
-│ AP choice: answer on both sides and reconcile later               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replica set under a network partition</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Replica A</div><div class="kb-diagram-note">---</div><div class="kb-diagram-node">Replica B</div><div class="kb-diagram-note">X</div><div class="kb-diagram-node">Replica C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">link broken</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CP choice: block or reject minority-side requests</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AP choice: answer on both sides and reconcile later</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 | 저장 시스템에서의 해석 |
 | :--- | :--- | :--- |
@@ -105,7 +105,7 @@ CAP은 보통 CP와 AP의 비교로 가장 잘 드러난다. [CP](/knowledge-bas
 
 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 관점을 명확히 적용하면 시스템이 장애 시 어떤 모습을 보일지 예측 가능해진다. 사용자는 어떤 상황에서 잠시 대기해야 하는지, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 약간 늦게 맞춰질 수 있는지 일관된 경험을 하게 되고, 운영자는 불필요한 과설계나 잘못된 기대를 줄일 수 있다. 즉 CAP은 기능보다 `실패 시 행동의 품질`을 높여 주는 이론이다.
 
-물론 CAP만으로 설계가 끝나지는 않는다. 평상시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 정족수 비용, 충돌 병합 난이도, 하드웨어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성은 추가로 따져야 한다. 그래도 이 주제를 기억할 때 가장 중요한 문장은 하나다. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 분단을 피할 수 없고, 따라서 장애 순간에 무엇을 지킬지 미리 결정해야 한다.** 이것이 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리가 남기는 가장 실무적인 메시지다.
+물론 CAP만으로 설계가 끝나지는 않는다. 평상시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 정족수 비용, 충돌 병합 난이도, 하드웨어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성은 추가로 따져야 한다. 그래도 이 주제를 기억할 때 가장 중요한 문장은 하나다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 스토리지는 분단을 피할 수 없고, 따라서 장애 순간에 무엇을 지킬지 미리 결정해야 한다.</strong> 이것이 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리가 남기는 가장 실무적인 메시지다.
 
 - **📢 섹션 요약 비유**: CAP은 세 가지 보물을 다 주는 마법 주문이 아니라, 폭풍이 왔을 때 무엇을 먼저 건질지 정하게 해 주는 선장의 우선순위 표와 같다.
 
@@ -123,21 +123,23 @@ CAP은 보통 CP와 AP의 비교로 가장 잘 드러난다. [CP](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single-node storage assumptions
-    │
-    ▼
-Replication across unreliable networks
-    │
-    ▼
-CAP trade-off under partition
-    │
-    ▼
-Quorum / eventual consistency design patterns
-    │
-    ▼
-PACELC and workload-specific consistency tuning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single-node storage assumptions</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Replication across unreliable networks</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAP trade-off under partition</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quorum / eventual consistency design patterns</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PACELC and workload-specific consistency tuning</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장 시스템 논의가 `복제하면 더 안전하다`는 수준에서, `복제 중 어떤 실패 행동을 선택할 것인가`를 설계하는 수준으로 깊어졌음을 보여 준다.
 

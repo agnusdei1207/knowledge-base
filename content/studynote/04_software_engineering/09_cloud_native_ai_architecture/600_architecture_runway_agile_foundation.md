@@ -23,33 +23,32 @@ tags = ["studynote-software-engineering"]
   - **Feature (비행기 / 비즈니스 가치)**: "장바구니 쿠폰 결제 기능!" ➡ 유저가 직접 만지고 사장님이 돈 버는(Value) 화려한 껍데기 기능들.
   - **Runway (활주로 / 인프라 뼈대)**: "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 비동기 큐, OAuth 2.0 사내 공통 로그인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 세팅" ➡ 유저 눈에는 1도 안 보이고 돈도 당장 안 벌어주지만, 이게 없으면 위의 '결제 기능'을 코딩할 때 서버가 터져 죽거나 개발 기간이 1달에서 1년으로 뻥튀기되는 절대적 밑바닥 기반 공사(Enablers).
 
-- **필요성 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 무지성 폭주의 파멸적 한계 돌파)**: 465장 [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 도입하며 회사에 뽕이 찼다. "우린 2주마다 기획팀이 던져주는 신상 뷰(UI) 기능을 미친 듯이 찍어내서 배포한다 얍!!" 1년 뒤, 앱은 스파게티 쓰레기장이 되었다. 공통된 에러 처리(Exception Handler) 룰 뼈대조차 없이 10개 팀이 각자 지들 맘대로 중복 똥 코드를 짜놨고, DB 커넥션 튜닝을 안 해놔서 유저가 조금만 몰려도 서버가 하얗게 뻗었다. **"아 ㅆㅂ! 2주 단위로 좁은 시야([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))만 보고 당장 눈앞의 찰흙(기능)만 덧붙여 빚어냈더니, 건물의 큰 기둥(아키텍처)이 썩어 문드러져서 이젠 3층을 올릴 수가 없이 무너지기 직전이잖아!! 제발 기능 찍어내는 공장(Feature) 멈추고, 도로 포장([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 뼈대 공사부터 먼저 선행으로 깔아주면 안 돼?!"** 이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 근시안(Short-sightedness)의 대참사를 구원하기 위해 런웨이 사상이 제정되었다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 무지성 폭주의 파멸적 한계 돌파)</strong>: 465장 [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 도입하며 회사에 뽕이 찼다. "우린 2주마다 기획팀이 던져주는 신상 뷰(UI) 기능을 미친 듯이 찍어내서 배포한다 얍!!" 1년 뒤, 앱은 스파게티 쓰레기장이 되었다. 공통된 에러 처리(Exception Handler) 룰 뼈대조차 없이 10개 팀이 각자 지들 맘대로 중복 똥 코드를 짜놨고, DB 커넥션 튜닝을 안 해놔서 유저가 조금만 몰려도 서버가 하얗게 뻗었다. <strong>"아 ㅆㅂ! 2주 단위로 좁은 시야(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a>)만 보고 당장 눈앞의 찰흙(기능)만 덧붙여 빚어냈더니, 건물의 큰 기둥(아키텍처)이 썩어 문드러져서 이젠 3층을 올릴 수가 없이 무너지기 직전이잖아!! 제발 기능 찍어내는 공장(Feature) 멈추고, 도로 포장(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>) 뼈대 공사부터 먼저 선행으로 깔아주면 안 돼?!"</strong> 이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 근시안(Short-sightedness)의 대참사를 구원하기 위해 런웨이 사상이 제정되었다.
 
-- **💡 비유**: 쌩 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 폭주가 **'달리는 기차 앞바닥에 철로 1개씩 땀 뻘뻘 흘리며 깔면서 아슬아슬하게 질주하는 짓([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 폭발)'**이라면, 아키텍처 런웨이는 **'기차가 오기 3달 전, 중장비(아키텍트)를 동원해 산을 뚫고 콘크리트 터널 100km를 단단하게 완벽히 선공사 해두는 것'**입니다. 3달 동안은 기차가 못 달리니 사장님이 빡칩니다. 하지만 뚫린 순간! KTX(기능 개발팀)는 단 1개의 덜컹거림도 없이 시속 300km로 엑셀을 풀로 밟고 미친 속도로 신기능을 런칭해 시장의 돈을 싹 쓸어 담는 우주적 가속도의 마술입니다.
+- **💡 비유**: 쌩 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 폭주가 <strong>'달리는 기차 앞바닥에 철로 1개씩 땀 뻘뻘 흘리며 깔면서 아슬아슬하게 질주하는 짓(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> 폭발)'</strong>이라면, 아키텍처 런웨이는 <strong>'기차가 오기 3달 전, 중장비(아키텍트)를 동원해 산을 뚫고 콘크리트 터널 100km를 단단하게 완벽히 선공사 해두는 것'</strong>입니다. 3달 동안은 기차가 못 달리니 사장님이 빡칩니다. 하지만 뚫린 순간! KTX(기능 개발팀)는 단 1개의 덜컹거림도 없이 시속 300km로 엑셀을 풀로 밟고 미친 속도로 신기능을 런칭해 시장의 돈을 싹 쓸어 담는 우주적 가속도의 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Big Design Up Front (BDUF, 원시 시대 폭포수)**: 폭포수(Waterfall) 모델. "코딩 시작하기 전에 1년 동안 완벽한 인프라 도면 다 그려!!" (너무 무거워서 런칭하기도 전에 회사 망함).
-  2. **[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/) / [Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) Hype (과도기)**: "설계 좆까! 걍 2주마다 찰흙 덧붙이듯 기능만 무지성으로 찍어내서 배포해!" (속도는 빠른데 1년 뒤 거대 스파게티 괴물이 탄생하여 유지보수 파산함).
-  3. **[SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) ([Scaled Agile Framework](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))의 등장 (현재)**: 전 세계 대기업(포춘 500대)들이 다 망해가다 깨달았다. **"[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 민첩성은 살리되, 큰 그림(뼈대)은 선공사로 깔아주는 하이브리드가 무조건 답이다!"** [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 아키텍처 설계가 가장 예술적으로 타협한 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 방법론의 코어 용어로 런웨이가 등극했다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a> / <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Hype (과도기)</strong>: "설계 좆까! 걍 2주마다 찰흙 덧붙이듯 기능만 무지성으로 찍어내서 배포해!" (속도는 빠른데 1년 뒤 거대 스파게티 괴물이 탄생하여 유지보수 파산함).
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">SAFe</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Scaled Agile Framework</a>)의 등장 (현재)</strong>: 전 세계 대기업(포춘 500대)들이 다 망해가다 깨달았다. <strong>"<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>의 민첩성은 살리되, 큰 그림(뼈대)은 선공사로 깔아주는 하이브리드가 무조건 답이다!"</strong> [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 아키텍처 설계가 가장 예술적으로 타협한 [SAFe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 방법론의 코어 용어로 런웨이가 등극했다.
 
-- **📢 섹션 요약 비유**: 이 런웨이(활주로) 사상은 **'대형 레고 테마파크 건설'**과 완벽히 똑같습니다. 알바생들(개발자)한테 "걍 당장 자동차 100개, 나무 100개 무지성으로 찍어 만들어(Feature)!!" 지시하면 테이블 위가 개판 5분 전이 됩니다. 훌륭한 감독(아키텍트)은 알바생이 조립을 시작하기 전, 테이블에 커다란 **'초록색 잔디판 뼈대 블록과 튼튼한 도로 타일판(Runway)'**을 딱 10개 튼튼하게 깔아줍니다. 알바생들은 뇌를 비우고 그 도로 위 정해진 돌기(Interface)에 맞춰서 블록만 꽂으면 됩니다. 삽질(부채) 0%의 압도적 건설 스피드가 뽑힙니다.
+- **📢 섹션 요약 비유**: 이 런웨이(활주로) 사상은 <strong>'대형 레고 테마파크 건설'</strong>과 완벽히 똑같습니다. 알바생들(개발자)한테 "걍 당장 자동차 100개, 나무 100개 무지성으로 찍어 만들어(Feature)!!" 지시하면 테이블 위가 개판 5분 전이 됩니다. 훌륭한 감독(아키텍트)은 알바생이 조립을 시작하기 전, 테이블에 커다란 <strong>'초록색 잔디판 뼈대 블록과 튼튼한 도로 타일판(Runway)'</strong>을 딱 10개 튼튼하게 깔아줍니다. 알바생들은 뇌를 비우고 그 도로 위 정해진 돌기(Interface)에 맞춰서 블록만 꽂으면 됩니다. 삽질(부채) 0%의 압도적 건설 스피드가 뽑힙니다.
 
 ---
 
 다음은 아키텍처 런웨이 (Architectu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 런웨이 (Architectu                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 런웨이 (Architectu</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 아키텍처 런웨이 (Architectu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 아키텍처 런웨이 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Runway)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 런웨이 (Architecture Runway) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 런웨이 (Architecture Runway) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

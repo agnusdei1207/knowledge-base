@@ -18,25 +18,28 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-BIOS 부팅 흐름:
-  전원 → POST → MBR(512B) → 부트로더 → OS 커널
 
-  한계:
-  - 16비트 실모드: 1MB 메모리만 접근
-  - MBR: 최대 2.2TB 디스크
-  - 파티션: 최대 4개 기본 파티션
-  - 텍스트 기반 설정 화면
 
-UEFI 부팅 흐름:
-  전원 → SEC → PEI → DXE → BDS → 부트매니저 → OS
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">BIOS 부팅 흐름:</div>
+<div class="kb-diagram-note">전원 → POST → MBR(512B) → 부트로더 → OS 커널</div>
+<div class="kb-diagram-note">한계:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">16비트 실모드: 1MB 메모리만 접근</div>
+<div class="kb-diagram-tree-item" style="--depth:1">MBR: 최대 2.2TB 디스크</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파티션: 최대 4개 기본 파티션</div>
+<div class="kb-diagram-tree-item" style="--depth:1">텍스트 기반 설정 화면</div>
+<div class="kb-diagram-note">UEFI 부팅 흐름:</div>
+<div class="kb-diagram-note">전원 → SEC → PEI → DXE → BDS → 부트매니저 → OS</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">64비트 보호 모드</div>
+<div class="kb-diagram-tree-item" style="--depth:1">GPT: 최대 9.4ZB 디스크, 128개 파티션</div>
+<div class="kb-diagram-tree-item" style="--depth:1">GUI 설정 화면, 네트워크 스택, GPU 드라이버</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Secure Boot: 서명된 부트로더만 실행</div>
+</div>
+</div>
 
-  장점:
-  - 64비트 보호 모드
-  - GPT: 최대 9.4ZB 디스크, 128개 파티션
-  - GUI 설정 화면, 네트워크 스택, GPU 드라이버
-  - Secure Boot: 서명된 부트로더만 실행
-```
+
 
 - **📢 섹션 요약 비유**: BIOS vs UEFI는 구형 피처폰 vs 스마트폰이다. 피처폰(BIOS)은 기본 통화는 되지만 앱·인터넷은 안 된다. 스마트폰([UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))은 UI가 풍부하고 [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)(잠금 화면)도 지원한다.
 
@@ -57,15 +60,20 @@ UEFI 부팅 흐름:
 
 ### [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 흐름
 
-```text
-UEFI 펌웨어 → db(허용 서명 목록) 확인
-부트로더 서명 검증 → 성공: 로드
-                    → 실패: 부팅 중단
 
-Microsoft → Windows 서명 키 포함
-Linux    → shim(MOK) 통해 GRUB 서명 검증
-커스텀  → 자체 키 등록 (MOK - Machine Owner Key)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">UEFI 펌웨어 → db(허용 서명 목록) 확인</div>
+<div class="kb-diagram-note">부트로더 서명 검증 → 성공: 로드</div>
+<div class="kb-diagram-note">→ 실패: 부팅 중단</div>
+<div class="kb-diagram-note">Microsoft → Windows 서명 키 포함</div>
+<div class="kb-diagram-note">Linux → shim(MOK) 통해 GRUB 서명 검증</div>
+<div class="kb-diagram-note">커스텀 → 자체 키 등록 (MOK - Machine Owner Key)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Secure Boot는 공항 보안 검색대다. 여권(서명)이 유효한 승객([부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))만 탑승(부팅)할 수 있다. 서명 없는 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)는 악성 [부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/)일 수 있어서 차단한다.
 
@@ -90,19 +98,24 @@ Linux    → shim(MOK) 통해 GRUB 서명 검증
 
 ### 디스크 구조: [MBR vs GPT](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)
 
-```text
-MBR (Master Boot Record):
-  └─ 512바이트 섹터 0
-      ├─ 부트 코드 (446B)
-      ├─ 파티션 테이블 (64B, 4엔트리)
-      └─ 시그니처 (2B: 0x55AA)
 
-GPT (GUID Partition Table):
-  └─ 섹터 0: 보호 MBR
-  └─ 섹터 1: GPT 헤더 (CRC32 체크섬)
-  └─ 섹터 2-33: 128개 파티션 엔트리
-  └─ 마지막 섹터: 백업 GPT 헤더
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MBR (Master Boot Record):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">512바이트 섹터 0</div>
+<div class="kb-diagram-tree-item" style="--depth:3">부트 코드 (446B)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">파티션 테이블 (64B, 4엔트리)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">시그니처 (2B: 0x55AA)</div>
+<div class="kb-diagram-note">GPT (GUID Partition Table):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">섹터 0: 보호 MBR</div>
+<div class="kb-diagram-tree-item" style="--depth:1">섹터 1: GPT 헤더 (CRC32 체크섬)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">섹터 2-33: 128개 파티션 엔트리</div>
+<div class="kb-diagram-tree-item" style="--depth:1">마지막 섹터: 백업 GPT 헤더</div>
+</div>
+</div>
+
+
 
 ### 서버 환경 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 고려사항
 
@@ -136,28 +149,30 @@ ARM 기반 서버(AWS Graviton, Ampere Altra)와 임베디드 시스템에서는
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **GRUB** | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 표준 (Linux) |
-| **[TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 2.0** | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) Secure Boot와 연계 |
-| **[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)** | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 표준 |
-| **[Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)** | [부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/)·[루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) 방어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">TPM</a> 2.0</strong> | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) Secure Boot와 연계 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a></strong> | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 디스크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 표준 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/">Secure Boot</a></strong> | [부트킷](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/)·[루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/) 방어 |
 | **U-Boot** | ARM 임베디드 경량 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[BIOS — 16비트 레거시 펌웨어, MBR]
-    │
-    ▼
-[UEFI — 64비트 현대 펌웨어, GPT, Secure Boot]
-    │
-    ▼
-[Secure Boot + TPM — 측정 부팅, 무결성 보장]
-    │
-    ▼
-[Confidential Computing — AMD SEV, Intel TDX]
-    │
-    ▼
-[ARM/RISC-V 부팅 — U-Boot, EDK2, 오픈 펌웨어 표준화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BIOS — 16비트 레거시 펌웨어, MBR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UEFI — 64비트 현대 펌웨어, GPT, Secure Boot</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Secure Boot + TPM — 측정 부팅, 무결성 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Confidential Computing — AMD SEV, Intel TDX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARM/RISC-V 부팅 — U-Boot, EDK2, 오픈 펌웨어 표준화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

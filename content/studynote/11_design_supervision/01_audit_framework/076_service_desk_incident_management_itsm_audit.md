@@ -23,19 +23,22 @@ tags = ["studynote-design"]
 
 인시던트(Incident)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이나 품질 저하처럼 사용자에게 직접 보이는 사건이다. 반면 문제(Problem)는 그 사건을 반복시키는 근본 원인이다. 감리의 핵심은 장애를 고급스럽게 설명하는 것이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 추적 통제가 가능한 구조가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 데 있다.
 
-```text
-사용자
-  │
-  ▼
-서비스 데스크(SPOC)
-  │ 티켓 생성
-  ▼
-분류/우선순위 ─▶ L1 복구 ─▶ L2/L3 분석
-  │                    │
-  └──────────────┬─────┘
-                 ▼
-              종료/지식화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 데스크(SPOC)</div>
+<div class="kb-diagram-note">티켓 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분류/우선순위 ─▶ L1 복구 ─▶ L2/L3 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">종료/지식화</div>
+</div>
+</div>
+
+
 
 이 흐름이 있으면 장애는 개인의 감이 아니라 프로세스의 기록이 된다. 감리자는 바로 이 기록 가능성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -130,21 +133,23 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전화/이메일 분산 접수
-    │
-    ▼
-서비스 데스크(SPOC)
-    │
-    ▼
-티켓팅 / 우선순위 / 에스컬레이션
-    │
-    ▼
-인시던트 복구 → 문제 관리 → KEDB
-    │
-    ▼
-SLA 준수와 감사 추적
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전화/이메일 분산 접수</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 데스크(SPOC)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">티켓팅 / 우선순위 / 에스컬레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인시던트 복구 → 문제 관리 → KEDB</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLA 준수와 감사 추적</div>
+</div>
+</div>
+
+
 
 이 흐름은 "받는 창구"와 "고치는 팀"을 분리하는 방향으로 진화했다. 앞으로는 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 지식 추천이 더해져, 접수 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질을 높이는 쪽으로 발전한다.
 

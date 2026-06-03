@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)-수집(Scatter-Gather) DMA는 램(RAM)의 물리적 주소가 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 갈기갈기 찢어져 있을 때, 디스크나 랜카드에서 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼와 **여러 개의 찢어진 물리 프레임에 알아서 흩뿌리거나(Scatter), 흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 한 번에 모아서(Gather) 전송해 주는 고도화된 지능형 하드웨어 I/O 기술**이다.
-> 2. **가치**: 기존 DMA처럼 "물리적으로 연속된 램 주소"를 억지로 만들어주기 위해 시스템을 멈추고 램 조각모음([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 하거나 쓸데없는 램 복사(Bounce [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))를 할 필요를 100% 소거하여, **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 아키텍처와 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어 간의 치명적 충돌을 우주 끝까지 해결해 낸다.**
-> 3. **융합**: 운영체제가 **"여러 개의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 조각들이 적힌 목록표(Scatter-Gather List)"**를 메모리에 던져주면, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋이 이를 스스로 읽어가며 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 단 1회만으로 기가바이트의 쪼개진 램 전송을 완수하는 **HW-SW 리스트 파싱 융합의 정점**이다.
+> 1. **본질**: [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)-수집(Scatter-Gather) DMA는 램(RAM)의 물리적 주소가 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 갈기갈기 찢어져 있을 때, 디스크나 랜카드에서 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼와 <strong>여러 개의 찢어진 물리 프레임에 알아서 흩뿌리거나(Scatter), 흩어진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들을 한 번에 모아서(Gather) 전송해 주는 고도화된 지능형 하드웨어 I/O 기술</strong>이다.
+> 2. **가치**: 기존 DMA처럼 "물리적으로 연속된 램 주소"를 억지로 만들어주기 위해 시스템을 멈추고 램 조각모음([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 하거나 쓸데없는 램 복사(Bounce [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))를 할 필요를 100% 소거하여, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>) 아키텍처와 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 하드웨어 간의 치명적 충돌을 우주 끝까지 해결해 낸다.</strong>
+> 3. **융합**: 운영체제가 <strong>"여러 개의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 조각들이 적힌 목록표(Scatter-Gather List)"</strong>를 메모리에 던져주면, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋이 이를 스스로 읽어가며 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 단 1회만으로 기가바이트의 쪼개진 램 전송을 완수하는 <strong>HW-SW 리스트 파싱 융합의 정점</strong>이다.
 
 ---
 
@@ -27,30 +27,30 @@ tags = ["studynote-operating-system"]
   2. **Zero-Copy의 절대적 열망**: CPU 100% 점유율을 만드는 저 멍청한 메모리 복사를 없애려면, 랜카드 하드웨어가 직접 찢어진 유저 램으로 쏴주는 수밖에 없었다.
   3. **하드웨어의 진화**: 칩셋 벤더들이 램에서 '[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 장부'를 직접 읽고 파싱할 수 있는 마이크로컨트롤러를 랜카드와 디스크 제어기에 탑재하며 문제가 완전히 해결되었다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        일반 DMA vs Scatter-Gather DMA의 메모리 맵핑 시각화                │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 상황: 12KB 파일(4KB * 3장)을 디스크에서 RAM으로 로드해야 함 ]           │
-│ * 물리 램(RAM)은 파편화되어 [방1] [방8] [방90] 3곳만 비어있음.            │
-│                                                                           │
-│ ▶ 1. 낡은 일반 DMA (연속 메모리 강박증)                                   │
-│   OS: "DMA야, 12KB 퍼와."                                                 │
-│   DMA: "물리적으로 연속된 12KB 빈방 없는데? 나 못해 (Error!)"             │
-│   OS: 💦 눈물을 머금고 기존 앱들을 멈추고 램 12KB를 한 곳으로 쫙 미는     │
-│       압축(Compaction) 노가다를 수 초간 진행 후 다시 DMA 시킴 (지옥)      │
-│                                                                           │
-│ ▶ 2. 구원자 S-G DMA (가상 메모리의 찰떡궁합)                              │
-│   OS: "DMA야, 여기 [방1, 방8, 방90] 주소 적힌 쪽지(S-G List) 줄게!"       │
-│   DMA: "ㅇㅋ 접수!"                                                       │
-│   [ 디스크 ] ──4K──▶ [ 물리 RAM 방 1 ] (Scatter 1)                        │
-│   [ 디스크 ] ──4K──▶ [ 물리 RAM 방 8 ] (Scatter 2)                        │
-│   [ 디스크 ] ──4K──▶ [ 물리 RAM 방 90 ] (Scatter 3)                       │
-│   DMA: 💥 "쪽지에 적힌 3곳 다 배달 끝! (인터럽트 1번 빵!)"                │
-│   ✅ 결과: 램 파편화를 전혀 신경 쓰지 않고 초고속으로 Zero-Copy 적재 완료.│
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 DMA vs Scatter-Gather DMA의 메모리 맵핑 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 12KB 파일(4KB * 3장)을 디스크에서 RAM으로 로드해야 함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 물리 램(RAM)은 파편화되어</div><div class="kb-diagram-node">방1</div><div class="kb-diagram-node">방8</div><div class="kb-diagram-node">방90</div><div class="kb-diagram-note">3곳만 비어있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 낡은 일반 DMA (연속 메모리 강박증)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "DMA야, 12KB 퍼와."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA: "물리적으로 연속된 12KB 빈방 없는데? 나 못해 (Error!)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: 💦 눈물을 머금고 기존 앱들을 멈추고 램 12KB를 한 곳으로 쫙 미는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압축(Compaction) 노가다를 수 초간 진행 후 다시 DMA 시킴 (지옥)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 구원자 S-G DMA (가상 메모리의 찰떡궁합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">OS: "DMA야, 여기</div><div class="kb-diagram-node">방1, 방8, 방90</div><div class="kb-diagram-note">주소 적힌 쪽지(S-G List) 줄게!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA: "ㅇㅋ 접수!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 RAM 방 1</div><div class="kb-diagram-note">(Scatter 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 RAM 방 8</div><div class="kb-diagram-note">(Scatter 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 RAM 방 90</div><div class="kb-diagram-note">(Scatter 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA: 💥 "쪽지에 적힌 3곳 다 배달 끝! (인터럽트 1번 빵!)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 램 파편화를 전혀 신경 쓰지 않고 초고속으로 Zero-Copy 적재 완료.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "흩어 뿌리다(Scatter)"라는 단어가 가장 예술적으로 어울리는 아키텍처다. 유저 입장에서는 가상 주소가 `0x1000 ~ 0x4000`으로 12KB가 쫙 붙어있지만, 현실 세계(물리 램)는 찢어져 있다. S-G DMA는 하드웨어이면서도 소프트웨어의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 쳐놓은 이 어지러운 찢김을 완벽하게 수용하고 이해해 준다. CPU는 중간에 단 한 번도 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 불려 나오지 않고 편안하게 숙면을 취한다.
 
 - **📢 섹션 요약 비유**: 이삿짐센터에서 큰 장롱(12KB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 새집([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))에 넣으려는데, 새집 방문이 좁아서 통째로 안 들어갑니다(연속 물리 램 부족). 옛날 일꾼(일반 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))은 문을 부수자고 난리를 치지만, S-G 일꾼은 조용히 장롱을 분해해서 각 부품을 창문, 뒷문, 안방으로 다 흩어 뿌려(Scatter) 넣은 뒤, 방 안에서 다시 하나로 예쁘게 조립해 주는 가장 스마트하고 피해 없는 이사 방법입니다.
@@ -63,22 +63,22 @@ tags = ["studynote-operating-system"]
 
 OS와 DMA는 어떻게 주소 목록을 주고받을까? 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에는 `struct scatterlist` 라는 구조체 배열이 존재한다.
 - OS는 램에 `[시작 주소, 길이], [시작 주소, 길이], [시작 주소, 길이]` 형태로 배열을 쫙 적어놓는다. 
-- 그리고 이 **배열의 첫 번째 주소(포인터)**만 랜카드나 디스크의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 제어 레지스터에 틱 던져준다.
-- 똑똑한 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋은 램에 있는 이 배열을 스스로 읽고(Fetch), 1번째 줄 주소에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂고, 다 끝나면 2번째 줄 주소를 읽어서 또 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂는 **셀프 루프 연산**을 하드웨어 내부 트랜지스터로 징징징 돌려버린다.
+- 그리고 이 <strong>배열의 첫 번째 주소(포인터)</strong>만 랜카드나 디스크의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 제어 레지스터에 틱 던져준다.
+- 똑똑한 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋은 램에 있는 이 배열을 스스로 읽고(Fetch), 1번째 줄 주소에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂고, 다 끝나면 2번째 줄 주소를 읽어서 또 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽂는 <strong>셀프 루프 연산</strong>을 하드웨어 내부 트랜지스터로 징징징 돌려버린다.
 
 ---
 
 ### Gather (수집)의 위력: 네트워크 패킷 전송 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))
 
-디스크에서 램으로 뿌릴 때가 Scatter라면, 반대로 **램에서 네트워크(랜카드)로 쏠 때가 Gather(수집)**다.
+디스크에서 램으로 뿌릴 때가 Scatter라면, 반대로 <strong>램에서 네트워크(랜카드)로 쏠 때가 Gather(수집)</strong>다.
 1. 웹 서버(Nginx)가 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다. 유저 램 공간에 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있다. (주소 A)
 2. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 헤더(출발지, 목적지 IP)를 붙인다. 이 헤더는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램 공간에 있다. (주소 B)
 3. 만약 S-G DMA가 없다면? OS는 주소 A와 주소 B의 내용을 제3의 연속된 버퍼(주소 C)로 몽땅 복사(Memcpy)해서 하나로 예쁘게 뭉친 뒤에야 랜카드에 쏴야 한다. 서버 CPU가 복사하다가 100% 터져 죽는다.
-4. **S-G DMA의 등판 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))**:
+4. <strong>S-G DMA의 등판 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a>)</strong>:
    - OS는 복사를 안 한다. 그냥 DMA에게 S-G 리스트를 던진다. 
    - `[주소 B에서 64바이트(헤더) 가져와라, 그 다음 주소 A에서 1500바이트(영상) 가져와라]`
    - 랜카드 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩셋이 알아서 찢어져 있는 주소 B와 A를 쓱쓱 긁어와(Gather), 랜카드 내부에서 하나의 1564바이트짜리 뚱뚱한 패킷으로 이쁘게 조립해 인터넷으로 쏴버린다!
-   - 램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 1mm도 움직이지 않았다. CPU 복사 연산 0회. 이것이 초당 수천만 번의 패킷을 쳐내는 10G/40G 현대 네트워크 서버 최강의 비밀 병기, **Tso ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Offload)**와 융합된 Gather 기술의 정수다.
+   - 램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 1mm도 움직이지 않았다. CPU 복사 연산 0회. 이것이 초당 수천만 번의 패킷을 쳐내는 10G/40G 현대 네트워크 서버 최강의 비밀 병기, <strong>Tso (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Offload)</strong>와 융합된 Gather 기술의 정수다.
 
 - **📢 섹션 요약 비유**: 햄버거 세트를 포장할 때, 주방(유저 램)에 있는 햄버거와 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램)에 있는 콜라를 굳이 직원이 한곳에 모아 종이봉투(복사 버퍼)에 예쁘게 담을 필요가 없습니다. 그냥 배달 기사(S-G [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))한테 "주방 가서 햄버거 집고, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 가서 콜라 집어서 네 오토바이(랜카드)에서 한 번에 묶어 배달해!"라고 시키면 직원의 동선 낭비(CPU 멤카피)가 완벽히 사라지는 꿀알바 시스템입니다.
 
@@ -93,22 +93,25 @@ S-G 기술이 없을 때 [커널](/knowledge-base/studynote/02_operating_system/
 | 관점 | 바운스 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Bounce [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)-수집 (Scatter-Gather [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) |
 |:---|:---|:---|
 | **메모리 확보** | OS가 부팅 시 연속된 거대 램([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공터)을 미리 1개 빼놓음 | 램이 4KB로 완전히 갈기갈기 찢어져 있어도 상관없음 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동선** | 찢어진 유저 램 -> 바운스 버퍼로 복사 -> [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 | **유저 램 -> (복사 없음) -> [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))** |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동선</strong> | 찢어진 유저 램 -> 바운스 버퍼로 복사 -> [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 | **유저 램 -> (복사 없음) -> [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 전송 ([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))** |
 | **CPU 점유율** | 램 복사(Memcpy) 하느라 **CPU 폭주 ☠️** | S-G 리스트 몇 줄 적어주는 거 빼면 **CPU 0% 🚀** |
 | **적용 하드웨어**| 저가형 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 메모리, 구형 구석기 랜카드 | 최신 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 10Gbps+ 엔터프라이즈 랜카드, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
 
 ### [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 방어의 최후 저지선
 서버가 1년 내내 돌다 보면 램 파편화가 극에 달해, 1MB(256프레임)짜리 연속된 물리 프레임을 찾는 게 아예 불가능해진다. 만약 모든 하드웨어가 구형 일반 DMA만 지원했다면, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1MB 네트워크 패킷을 받기 위해 하루 종일 램 조각을 미는 '컴팩션([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'을 돌리느라 서버가 1분에 한 번씩 얼어붙었을 것이다([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)).
-하지만 전 세계의 모든 서버 벤더들이 **네트워크([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))와 스토리지(HBA) 칩셋에 S-G 기능을 하드웨어 표준으로 강제 탑재**함으로써, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 램 파편화를 신경 쓰지 않고 무책임하게(?) 4KB 쪼가리들을 툭툭 던져주면서도 시스템을 100% 쾌속으로 굴릴 수 있게 되었다. 하드웨어가 소프트웨어의 똥(파편화)을 묵묵히 치워주는 가장 완벽한 헌신이다.
+하지만 전 세계의 모든 서버 벤더들이 <strong>네트워크(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/">NIC</a>)와 스토리지(HBA) 칩셋에 S-G 기능을 하드웨어 표준으로 강제 탑재</strong>함으로써, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 램 파편화를 신경 쓰지 않고 무책임하게(?) 4KB 쪼가리들을 툭툭 던져주면서도 시스템을 100% 쾌속으로 굴릴 수 있게 되었다. 하드웨어가 소프트웨어의 똥(파편화)을 묵묵히 치워주는 가장 완벽한 헌신이다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
-│ OS 파편화 수준│ 일반 DMA 체감 렉│ S-G DMA 체감 렉 │ 디바이스 칩셋 가격    │
-├──────────┼────────────┼────────────┼──────────────────────────────────────┤
-│ 깨끗함 (초기)│ 0초 컷 (쾌적)  │ 0초 컷 (쾌적)   │ 싸다                    │
-│ 극심함 (1년) │ ☠️ 3~5초 정지  │ 🚀 여전히 0초 컷 │ 칩셋에 로직 추가로 비쌈│
-└──────────┴────────────┴────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 파편화 수준</div><div class="kb-diagram-cell">일반 DMA 체감 렉</div><div class="kb-diagram-cell">S-G DMA 체감 렉</div><div class="kb-diagram-cell">디바이스 칩셋 가격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깨끗함 (초기)</div><div class="kb-diagram-cell">0초 컷 (쾌적)</div><div class="kb-diagram-cell">0초 컷 (쾌적)</div><div class="kb-diagram-cell">싸다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">극심함 (1년)</div><div class="kb-diagram-cell">☠️ 3~5초 정지</div><div class="kb-diagram-cell">🚀 여전히 0초 컷</div><div class="kb-diagram-cell">칩셋에 로직 추가로 비쌈</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** "좋은 하드웨어는 OS의 무능함(파편화)을 가려준다." S-G DMA는 비싼 칩셋 단가라는 허들을 넘고 모든 서버의 디폴트가 되었다. 램 파편화를 막으려고 죽어라 소프트웨어를 튜닝하는 것보다, 파편화된 걸 그대로 씹어먹을 수 있는 하드웨어를 꽂는 게 현대 IT 인프라의 가장 쿨한 해결책이기 때문이다.
 
 - **📢 섹션 요약 비유**: 도로에 구멍(파편화)이 뻥뻥 뚫렸을 때, 일반 자동차(기본 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))는 구멍을 메우는 아스팔트 공사(컴팩션)가 끝날 때까지 며칠을 기다려야 하지만, 무한 궤도가 달린 군용 탱크(S-G [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))는 도로가 깨지든 말든 구멍을 밟고 우렁차게 지나가는 무지막지한 돌파력을 보여줍니다.
@@ -121,9 +124,9 @@ S-G 기술이 없을 때 [커널](/knowledge-base/studynote/02_operating_system/
 1. **문제 상황**: AWS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서 내 가상 서버([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 100GB짜리 네트워크 디스크(EBS)에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴다.
 2. **소프트웨어의 찢기**:
    - [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 때문에 100GB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 램에서 2,500만 개의 4KB 조각으로 갈기갈기 찢겨 있다.
-3. **블록 레이어의 합치기 (S-G List [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))**:
+3. <strong>블록 레이어의 합치기 (S-G List <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>)</strong>:
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 블록 I/O 계층은 이 찢어진 2,500만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중, 운 좋게 물리적으로 연속된 놈들끼리 묶고 나머지는 S-G 리스트로 주소록을 짠다.
-4. **HBA (Host [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 칩셋의 발진**:
+4. <strong>HBA (Host <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>) 칩셋의 발진</strong>:
    - 서버 뒤에 꽂힌 광케이블 랜카드(HBA)가 이 S-G 리스트를 낚아챈다. 
    - 칩셋 내부의 하드웨어 모터가 이 수천만 개의 램 조각을 빛의 속도로 스캔하여(Gather) 한 덩어리의 거대한 광케이블 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패킷([Fibre Channel](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))으로 묶어버린다.
    - 단 한 번의 CPU 복사도 없이 100GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크 건너편의 스토리지 서버로 꽂힌다.
@@ -131,7 +134,7 @@ S-G 기술이 없을 때 [커널](/knowledge-base/studynote/02_operating_system/
 
 ### 보안의 위협: IOMMU의 필요성
 S-G DMA는 치명적인 보안 리스크가 있다. 랜카드가 리스트를 잘못 읽거나, 해커가 랜카드 펌웨어를 해킹해서 S-G 리스트에 "0번지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리(비밀번호)" 주소를 쓱 끼워 넣으면? CPU의 권한 검사를 거치지 않는 무법자 DMA가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램의 비밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 긁어서(Gather) 인터넷 밖으로 유출해 버린다([DMA Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0993_dma_attack/)).
-이를 막기 위해 서버 메인보드에는 **[IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input-Output [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))**라는 추가 방어벽이 꽂혀있다. DMA가 램 주소로 손을 뻗을 때마다, 이 IOMMU가 문지기처럼 서서 "너 이 주소 접근할 권한(S-G 맵핑) 받은 거 맞아?" 하고 한 번 더 깐깐하게 검사해서 해커를 쳐내는 현대 서버의 철통 보안을 담당한다.
+이를 막기 위해 서버 메인보드에는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/">IOMMU</a> (Input-Output <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)</strong>라는 추가 방어벽이 꽂혀있다. DMA가 램 주소로 손을 뻗을 때마다, 이 IOMMU가 문지기처럼 서서 "너 이 주소 접근할 권한(S-G 맵핑) 받은 거 맞아?" 하고 한 번 더 깐깐하게 검사해서 해커를 쳐내는 현대 서버의 철통 보안을 담당한다.
 
 - **📢 섹션 요약 비유**: S-G DMA는 공장(램)의 모든 구역을 프리패스로 드나들며 물건을 긁어가는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 외주 청소 로봇입니다. 너무 편하지만, 로봇이 미쳐서 사장님 금고([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))까지 긁어갈까 봐 두렵죠. 그래서 로봇 전용 감시 카메라와 구역 제한 울타리([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/))를 쳐서 "로봇아, 넌 화장실과 거실만 긁어모아라"라고 통제하는 것이 현대 보안의 정석입니다.
 
@@ -143,9 +146,9 @@ S-G DMA는 치명적인 보안 리스크가 있다. 랜카드가 리스트를 �
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) I/O 실현** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 복사 작업(Bounce [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 삭제하여, 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경에서 CPU 100% 코어 독점 현상 완벽 해결 |
-| **메모리 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 면역** | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 인해 연속된 프레임이 소멸하더라도 OS가 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 하지 않고 I/O를 내보낼 수 있는 강건함 제공 |
-| **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제와의 궁극적 화해**| 4KB로 찢는 소프트웨어의 철학([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 덩어리를 묶는 하드웨어가 100% 수용함으로써 가장 이상적인 HW/SW 코디자인 달성 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a> I/O 실현</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 복사 작업(Bounce [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 삭제하여, 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경에서 CPU 100% 코어 독점 현상 완벽 해결 |
+| <strong>메모리 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 면역</strong> | [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 인해 연속된 프레임이 소멸하더라도 OS가 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 하지 않고 I/O를 내보낼 수 있는 강건함 제공 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 체제와의 궁극적 화해</strong>| 4KB로 찢는 소프트웨어의 철학([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 덩어리를 묶는 하드웨어가 100% 수용함으로써 가장 이상적인 HW/SW 코디자인 달성 |
 
 ### 결론 및 미래 전망
 
@@ -166,15 +169,19 @@ S-G DMA는 치명적인 보안 리스크가 있다. 랜카드가 리스트를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[사이클 스틸링 (Cycle Stealing)]
-    │
-    ▼
-[DMA 산란-수집 (Scatter-Gather)]
-    │
-    ├──▶ [I/O 서브시스템의 커널 서비스]
-    └──▶ [버퍼링 (Buffering)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사이클 스틸링 (Cycle Stealing)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMA 산란-수집 (Scatter-Gather)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 서브시스템의 커널 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼링 (Buffering)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

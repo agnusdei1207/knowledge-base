@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 시스템을 구성하는 커다란 서브시스템 및 **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))들이 무엇인지 정의**하고, 그 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)들이 서로 어떻게 관계를 맺고 데이터를 주고받는지 **상호작용(Connector)을 명시**하며, 전체 시스템의 진화와 발전을 이끄는 **'최상위 수준의 구조적 설계도(뼈대)'**입니다.
+- **개념**: 시스템을 구성하는 커다란 서브시스템 및 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)들이 무엇인지 정의</strong>하고, 그 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)들이 서로 어떻게 관계를 맺고 데이터를 주고받는지 <strong>상호작용(Connector)을 명시</strong>하며, 전체 시스템의 진화와 발전을 이끄는 <strong>'최상위 수준의 구조적 설계도(뼈대)'</strong>입니다.
 - 코드 한 줄 한 줄(For 문, if 문)을 어떻게 짤지 고민하는 상세 설계가 아닙니다! 숲 전체의 모양과 산맥의 배치를 그리는 작업입니다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 아키텍처 (Software [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 정의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 소프트웨어 아키텍처 (Software의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 아키텍처 (Software                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 아키텍처 (Software</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 아키텍처 (Software가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -60,12 +59,12 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 이전 문서들에서 배운 좋은 코딩의 철학이 그대로 들어갑니다.
-1. **198번 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))**: 복잡한 찌끄러기 다 빼고 거대한 박스([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))로만 숲을 그려라.
-2. **199번 [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) ([Information Hiding](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))**: 박스 안의 비밀(DB 종류)을 딴 박스(UI)가 모르게 숨겨라.
-3. **200번 [분할과 정복](/knowledge-base/studynote/04_software_engineering/04_testing_quality/200_divide_and_conquer_software_design/) (Divide & Conquer)**: 100층짜리 거대 시스템을 웹 박스, WAS 박스, DB 박스로 찢어서 해결해라.
-4. **191번 느슨한 결합 (Loose [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))**: 박스끼리 화살표(통신)를 최소한으로 연결해 의존성을 끊어라.
+1. <strong>198번 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong>: 복잡한 찌끄러기 다 빼고 거대한 박스([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))로만 숲을 그려라.
+2. <strong>199번 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">정보 은닉</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/">Information Hiding</a>)</strong>: 박스 안의 비밀(DB 종류)을 딴 박스(UI)가 모르게 숨겨라.
+3. <strong>200번 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/200_divide_and_conquer_software_design/">분할과 정복</a> (Divide &amp; Conquer)</strong>: 100층짜리 거대 시스템을 웹 박스, WAS 박스, DB 박스로 찢어서 해결해라.
+4. <strong>191번 느슨한 결합 (Loose <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)</strong>: 박스끼리 화살표(통신)를 최소한으로 연결해 의존성을 끊어라.
 
-> 📢 **섹션 요약 비유**: **소프트웨어 아키텍처**는 거대한 초고층 빌딩을 올리기 전 설계사가 그리는 **'강철 H빔 골조 설계도(청사진)'**입니다. 각 방의 벽지 색깔을 무슨 색으로 바를지, 형광등 스위치를 어디 달지 고민하는 것(상세 코딩)이 아닙니다. 이 설계도의 가장 큰 목적은 "진도 8.0의 지진(트래픽 폭주)이 와도 건물이 무너지지 않게 하려면 1층에 강철 기둥을 몇 개 박아야 하는가?(비기능적 품질 보장)"를 결정하는 것입니다. 만약 이 뼈대 설계를 대충 하고 건물을 50층까지 다 지어버렸는데, 뒤늦게 "아, 기둥 1개 빼고 콘크리트로 바꿀까?"라고 해봤자 이미 굳어버린 시멘트 때문에 건물을 폭파하고 다시 짓는 수밖에 없습니다([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 의사결정의 치명성). 코드 한 줄 한 줄의 늪에 빠지기 전에, 헬기를 타고 하늘 위에서 시스템 전체의 산맥과 강물의 흐름을 지휘하여 수백 명의 개발자가 길을 잃지 않게 만드는 프로젝트의 나침반이자 콘크리트 뼈대입니다.
+> 📢 **섹션 요약 비유**: <strong>소프트웨어 아키텍처</strong>는 거대한 초고층 빌딩을 올리기 전 설계사가 그리는 <strong>'강철 H빔 골조 설계도(청사진)'</strong>입니다. 각 방의 벽지 색깔을 무슨 색으로 바를지, 형광등 스위치를 어디 달지 고민하는 것(상세 코딩)이 아닙니다. 이 설계도의 가장 큰 목적은 "진도 8.0의 지진(트래픽 폭주)이 와도 건물이 무너지지 않게 하려면 1층에 강철 기둥을 몇 개 박아야 하는가?(비기능적 품질 보장)"를 결정하는 것입니다. 만약 이 뼈대 설계를 대충 하고 건물을 50층까지 다 지어버렸는데, 뒤늦게 "아, 기둥 1개 빼고 콘크리트로 바꿀까?"라고 해봤자 이미 굳어버린 시멘트 때문에 건물을 폭파하고 다시 짓는 수밖에 없습니다([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 의사결정의 치명성). 코드 한 줄 한 줄의 늪에 빠지기 전에, 헬기를 타고 하늘 위에서 시스템 전체의 산맥과 강물의 흐름을 지휘하여 수백 명의 개발자가 길을 잃지 않게 만드는 프로젝트의 나침반이자 콘크리트 뼈대입니다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 아키텍처 (Software [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 정의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -90,8 +89,8 @@ tags = ["studynote-software-engineering"]
 
 ### 기술사 판단 포인트
 
-- 이 개념을 **언제 채택**해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
-- 이 개념을 **언제 회피**해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
+- 이 개념을 <strong>언제 채택</strong>해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
+- 이 개념을 <strong>언제 회피</strong>해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
 
 - **📢 섹션 요약 비유**: 소프트웨어 아키텍처 (Software [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 정의 적용은 요리사가 레시피를 따라 요리하는 과정과 같다. 레시피(원칙)를 완전히 무시하면 매번 결과가 들쑥날쑥하지만, 레시피를 맹목적으로 따르되 재료 상황(프로젝트 특성)에 맞게 조정하는 것이 진정한 전문가의 판단이다.
 
@@ -128,21 +127,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 아키텍처 (Software Architecture) 정의 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 아키텍처 (Software Architecture) 정의 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

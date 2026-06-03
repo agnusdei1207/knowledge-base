@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 ### [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 등장
 
-Nick Szabo가 1994년 제안한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 개념은 "조건 충족 시 자동 실행되는 계약 코드"다. 이더리움은 이를 **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 월드 컴퓨터**로 구현했다.
+Nick Szabo가 1994년 제안한 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 개념은 "조건 충족 시 자동 실행되는 계약 코드"다. 이더리움은 이를 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 월드 컴퓨터</strong>로 구현했다.
 
 전통 계약의 문제: 중개자 필요, 이행 강제 비용, 불투명성 → [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 코드가 자동 집행되므로 신뢰 비용을 제거한다.
 
@@ -33,33 +33,30 @@ Nick Szabo가 1994년 제안한 [스마트 컨트랙트](/knowledge-base/studyno
 
 ### 컴파일·실행 흐름
 
-```
-┌─────────────────────────────────────────────────────────┐
-│         스마트 컨트랙트 실행 파이프라인                  │
-│                                                         │
-│  Solidity (.sol)                                        │
-│       │  solc 컴파일러                                   │
-│       ▼                                                 │
-│  Bytecode (0x606060...)      ABI (인터페이스 정의)       │
-│       │                           │                     │
-│       ▼                           ▼                     │
-│  EVM(Ethereum Virtual Machine)                          │
-│  ┌───────────────────────────────────────────┐          │
-│  │ Stack (256bit × 1024) │ Memory (바이트배열) │          │
-│  │ Storage (영구 키-값)   │ Opcode 실행 엔진   │          │
-│  └───────────────────────────────────────────┘          │
-│       │ 가스(Gas) 차감                                    │
-│       ▼                                                 │
-│  상태 변경(State Change) → 블록체인 기록                 │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 실행 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Solidity (.sol)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">solc 컴파일러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bytecode (0x606060...) ABI (인터페이스 정의)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM(Ethereum Virtual Machine)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack (256bit × 1024)</div><div class="kb-diagram-cell">Memory (바이트배열)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage (영구 키-값)</div><div class="kb-diagram-cell">Opcode 실행 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스(Gas) 차감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 변경(State Change) → 블록체인 기록</div></div>
+</div>
+</div>
+
+
 
 ### [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 구조
 
 | 구성 요소 | 설명 | EIP-1559 이후 |
 |:---|:---|:---|
-| **[Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit** | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 최대 허용 연산량 | 동일 |
-| **[Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Price** | 단위 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)당 지불 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)(Gwei) | 폐지 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a> Limit</strong> | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 최대 허용 연산량 | 동일 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a> Price</strong> | 단위 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)당 지불 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)(Gwei) | 폐지 |
 | **Base Fee** | 네트워크 혼잡도 기반 소각 수수료 | ✅ 도입 |
 | **Priority Fee(Tip)** | 채굴자/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자 팁 | ✅ 도입 |
 | **실제 비용** | [Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Used × (Base Fee + Tip) | 예측 가능 |
@@ -84,7 +81,7 @@ CALL   (외부 호출):    2,600 gas
 | 체인 | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환 | 특징 |
 |:---|:---:|:---|
 | **Ethereum** | 기준 | 원조 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/), 최고 보안 |
-| **[Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)** | ✅ | 낮은 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비, 이더리움 L2 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/">Polygon</a></strong> | ✅ | 낮은 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비, 이더리움 L2 |
 | **BNB Chain** | ✅ | 빠른 블록, 중앙화 우려 |
 | **Arbitrum** | ✅ | 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) L2 |
 | **Solana** | ❌ | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 기반 |
@@ -110,9 +107,9 @@ EVM의 [CALL](/knowledge-base/studynote/01_computer_architecture/04_instruction_
 ### [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화 실무 기법
 
 1. **스토리지 읽기 최소화**: SLOAD는 비싸므로 로컬 변수에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)
-2. **이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 활용**: 히스토리 데이터는 Storage 대신 Event([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) 사용
-3. **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)**: 여러 작업을 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 묶어 기본 비용 절감
-4. **[Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 최신화**: 컴파일러 최적화 개선
+2. <strong>이벤트 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 활용</strong>: 히스토리 데이터는 Storage 대신 Event([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) 사용
+3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a></strong>: 여러 작업을 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 묶어 기본 비용 절감
+4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/">Solidity</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 최신화</strong>: 컴파일러 최적화 개선
 
 ### EIP-1559 의미
 - Base Fee 소각 → [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 공급량 감소 → 인플레이션 방어

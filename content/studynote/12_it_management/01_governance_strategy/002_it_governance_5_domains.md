@@ -27,24 +27,22 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 
 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 체계는 이러한 문제의식에서 출발하여, IT의 방향성을 잡고([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계), 실질적 이익을 내며(가치 전달), 이를 뒷받침할 인프라를 확보하고(자원 관리), 보안 사고를 막아내며(위험 관리), 이 모든 과정이 잘 되고 있는지 감시(성과 측정)하는 종합적인 프레임워크를 제공한다. 현대의 컴플라이언스 및 디지털 혁신 환경에서 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 IT 경영의 성패를 가르는 나침반 역할을 한다.
 
-```text
-이 도식은 IT 거버넌스 5대 도메인이 전략(Strategy)에서 시작하여 성과 측정(Performance)으로 순환하는 유기적 관계와, 핵심 동인(Driver)들을 보여준다.
 
-       [ 1. 전략적 연계 (Strategic Alignment) ] ──▶ (비즈니스와 IT의 방향 일치)
-                    │        ▲
-   (목표 하달)        │        │ (피드백 및 평가)
-                    ▼        │
-       ┌──────────────────────────────┐
-       │ 5. 성과 측정 (Performance)  │ ──▶ (IT BSC, KPI 대시보드)
-       └──────┬──────────────┬──────┘
-              │              │
-(가치 극대화)   ▼              ▼ (자산 보호)
-[ 2. 가치 전달 (Value Delivery) ]    [ 4. 위험 관리 (Risk Management) ]
-              │              │
-              └──────┬───────┘
-                     ▼ (기반 지원)
-       [ 3. 자원 관리 (Resource Management) ] ──▶ (인력, 인프라, 정보 확보)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 IT 거버넌스 5대 도메인이 전략(Strategy)에서 시작하여 성과 측정(Performance)으로 순환하는 유기적 관계와, 핵심 동인(Driver)들을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전략적 연계 (Strategic Alignment)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(비즈니스와 IT의 방향 일치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목표 하달)</div><div class="kb-diagram-cell">(피드백 및 평가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 성과 측정 (Performance)</div><div class="kb-diagram-cell">──▶ (IT BSC, KPI 대시보드)</div></div>
+<div class="kb-diagram-note">(가치 극대화) ▼ ▼ (자산 보호)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 가치 전달 (Value Delivery)</div><div class="kb-diagram-node">4. 위험 관리 (Risk Management)</div></div>
+<div class="kb-diagram-note">▼ (기반 지원)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 자원 관리 (Resource Management)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(인력, 인프라, 정보 확보)</div></div>
+</div>
+</div>
+
+
 
 이 구조도는 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 병렬적으로 존재하는 것이 아니라, 상호 의존적인 순환 고리([Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/))를 형성하고 있음을 시사한다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계가 가장 상위에서 방향을 설정하면, 가치 전달과 위험 관리는 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 실현하는 양대 축(가속 페달과 브레이크)이 된다. 자원 관리는 이 모든 활동을 가능하게 하는 엔진 역할을 하며, 성과 측정은 센서로서 전체 과정의 상태를 파악해 다시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계로 피드백한다. 따라서 실무에서는 어느 한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에만 자원이 편중되지 않도록 균형을 맞추는 것이 중요하다.
 
@@ -58,34 +56,30 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 명칭 | 역할 및 핵심 목표 | 내부 동작 메커니즘 | 핵심 도구 / 프레임워크 | 비유 |
 |:---|:---|:---|:---|:---|
-| **1. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계 (Strategic Alignment)** | 비즈니스와 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 양방향 정렬 | 전사 목표(Goal)를 IT 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))으로 매핑하고, 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 통해 이행 과제를 도출한다. | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)), [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | 지도와 나침반 |
+| <strong>1. <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계 (Strategic Alignment)</strong> | 비즈니스와 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 양방향 정렬 | 전사 목표(Goal)를 IT 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))으로 매핑하고, 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 통해 이행 과제를 도출한다. | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)), [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) | 지도와 나침반 |
 | **2. 가치 전달 (Value Delivery)** | IT 투자의 최적화와 비즈니스 편익 극대화 | 프로젝트 포트폴리오(PPM) 관리를 통해 비용 대비 효과([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 높은 사업을 우선순위화하여 실행한다. | IT 투자 평가 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/), [NPV](/knowledge-base/studynote/12_it_management/01_governance_strategy/013_npv/)), PPM | 이익 창출기 |
-| **3. 자원 관리 (Resource [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | 최적의 IT 인프라, 인력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 | IT 기술 인력의 스킬을 관리하고, 클라우드 등 최적의 인프라 용량(Capacity)을 할당 및 소싱한다. | [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) ([용량 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/)), 소싱(Outsourcing) | 보급창고 |
-| **4. 위험 관리 ([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))** | 규제 준수 및 IT 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 후 취약점과 위협을 분석하고, BCP/DRP 체계를 구축하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 보장한다. | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), ISO 27001 | 방패와 안전망 |
-| **5. 성과 측정 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Measurement)** | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구현 및 프로젝트 진척 상황 추적 | 목표 대비 달성도를 정량화된 KPI로 추출하고, [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/)(균형성과기록표) 4대 관점으로 평가하여 피드백한다. | [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) (Balanced Scorecard), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 계기판과 감사원 |
+| <strong>3. 자원 관리 (Resource <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | 최적의 IT 인프라, 인력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확보 | IT 기술 인력의 스킬을 관리하고, 클라우드 등 최적의 인프라 용량(Capacity)을 할당 및 소싱한다. | [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) ([용량 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/)), 소싱(Outsourcing) | 보급창고 |
+| <strong>4. 위험 관리 (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong> | 규제 준수 및 IT 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 자산 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 후 취약점과 위협을 분석하고, BCP/DRP 체계를 구축하여 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 보장한다. | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/), ISO 27001 | 방패와 안전망 |
+| <strong>5. 성과 측정 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Measurement)</strong> | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구현 및 프로젝트 진척 상황 추적 | 목표 대비 달성도를 정량화된 KPI로 추출하고, [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/)(균형성과기록표) 4대 관점으로 평가하여 피드백한다. | [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) (Balanced Scorecard), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) | 계기판과 감사원 |
 
 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 독립적으로 동작하지 않으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 의사결정이 유기적으로 연결되는 심층 파이프라인을 가진다. 
 
-```text
-이 흐름도는 실무 현장에서 신규 비즈니스 요구사항이 접수되었을 때 5대 도메인이 단계별로 어떻게 의사결정에 개입하는지를 보여주는 순차 흐름도이다.
 
-[비즈니스 부서: "새로운 AI 챗봇 서비스 도입 필요"]
-         │
-         ▼
-[1. 전략적 연계] ──> 질문: "우리 회사의 '디지털 고객경험 강화' 전략과 일치하는가?" ─(Yes)─┐
-         │                                                                  │
-         ▼                                                                  ▼
-[2. 가치 전달] ────> 질문: "도입 시 기대되는 ROI와 비용 절감 효과가 충분한가?" ────(Yes)─┐
-         │                                                                  │
-         ▼                                                                  ▼
-[4. 위험 관리] ────> 질문: "고객 데이터 유출 가능성이나 환각(Hallucination) 리스크는?" ─(통과)─┐
-         │                                                                  │
-         ▼                                                                  ▼
-[3. 자원 관리] ────> 질문: "내부 AI 개발 인력이 있는가? 클라우드 GPU 자원은 충분한가?" ─(확보)─┐
-         │                                                                  │
-         ▼                                                                  ▼
-[5. 성과 측정] ────> 액션: 챗봇 응답률, 고객 만족도(CSAT) 지표 설정 및 BSC 대시보드 등록 <─┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 흐름도는 실무 현장에서 신규 비즈니스 요구사항이 접수되었을 때 5대 도메인이 단계별로 어떻게 의사결정에 개입하는지를 보여주는 순차 흐름도이다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 부서: "새로운 AI 챗봇 서비스 도입 필요"</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전략적 연계</div><div class="kb-diagram-note">──&gt; 질문: "우리 회사의 '디지털 고객경험 강화' 전략과 일치하는가?" ─(Yes)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 가치 전달</div><div class="kb-diagram-note">&gt; 질문: "도입 시 기대되는 ROI와 비용 절감 효과가 충분한가?" (Yes)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 위험 관리</div><div class="kb-diagram-note">&gt; 질문: "고객 데이터 유출 가능성이나 환각(Hallucination) 리스크는?" ─(통과)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 자원 관리</div><div class="kb-diagram-note">&gt; 질문: "내부 AI 개발 인력이 있는가? 클라우드 GPU 자원은 충분한가?" ─(확보)─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5. 성과 측정</div><div class="kb-diagram-note">&gt; 액션: 챗봇 응답률, 고객 만족도(CSAT) 지표 설정 및 BSC 대시보드 등록 &lt;─</div></div>
+</div>
+</div>
+
+
 
 이 흐름도의 핵심은 IT 투자의 의사결정이 직렬화된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계를 거친다는 점이다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계가 확보되지 않으면 아무리 수익성(가치 전달)이 좋아 보여도 프로젝트는 기각된다. 또한 가치가 입증되더라도 위험 관리가 통과되지 않거나(예: 규제 위반), 자원 관리(예: 예산 및 기술력 부재)가 실패하면 프로젝트는 실행될 수 없다. 마지막 성과 측정 단계는 프로젝트 종료 후가 아니라, 시작 시점에 이미 '무엇을 측정할 것인가'를 정의해야 한다는 것이 가장 중요한 실무 원칙이다.
 
@@ -102,27 +96,29 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 |:---|:---|:---|:---|
 | **가치 전달 vs 위험 관리** | 혁신적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(가치)를 빨리 출시하려면 보안 검토(위험)를 축소하려는 유혹이 발생 | '[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)' 도입으로 개발 파이프라인 내에 자동화된 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 통합 | 민첩성 vs 안전성 |
 | **자원 관리 vs 성과 측정** | 과도한 성과 측정(보고용 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))은 실무진의 피로도를 높이고 핵심 자원(시간)을 낭비시킴 | 측정 자동화([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/), 대시보드)로 오버헤드 감소 및 핵심 지표([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)) 위주 최소화 | 관리 오버헤드 vs 투명성 |
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계 vs 위험 관리** | 전사 클라우드 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(연계)은 기존 레거시보다 컴플라이언스 통제(위험)를 어렵게 함 | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)(클라우드 사업자)의 공동 책임 모델(Shared Responsibility)을 명확히 정의 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 혁신 vs 통제 한계 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계 vs 위험 관리</strong> | 전사 클라우드 전환 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(연계)은 기존 레거시보다 컴플라이언스 통제(위험)를 어렵게 함 | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)(클라우드 사업자)의 공동 책임 모델(Shared Responsibility)을 명확히 정의 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 혁신 vs 통제 한계 |
 
 #### 2. 과목 융합 관점: IT 거버넌스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 실행 프레임워크 매핑
 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 '개념적' 모델이므로, 실무에서는 이를 구현할 '도구(프레임워크)'와 결합해야 한다.
-*   **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계 + [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) (엔터프라이즈 아키텍처)**: EA는 [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))와 [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))를 일치시킴으로써 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계를 물리적인 청사진으로 증명한다.
-*   **성과 측정 + [IT BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/) (균형성과기록표)**: IT 성과를 재무(비용/가치), 고객(사용자 만족도), 내부 프로세스([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수율), 학습과 성장(IT 인력 역량) 4가지 관점에서 다차원적으로 측정한다.
+*   <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계 + <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> (엔터프라이즈 아키텍처)</strong>: EA는 [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))와 [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))를 일치시킴으로써 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계를 물리적인 청사진으로 증명한다.
+*   <strong>성과 측정 + <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/020_it_bsc/">IT BSC</a> (균형성과기록표)</strong>: IT 성과를 재무(비용/가치), 고객(사용자 만족도), 내부 프로세스([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 준수율), 학습과 성장(IT 인력 역량) 4가지 관점에서 다차원적으로 측정한다.
 
-```text
-이 매트릭스는 IT 거버넌스 5대 도메인이 COBIT 2019의 핵심 관리 도메인과 어떻게 매핑되고 시너지를 내는지 보여준다.
 
-┌───────────────┬──────────────────────────────────────────────────┐
-│ IT 거버넌스   │ COBIT 2019 도메인 매핑 및 실무 초점              │
-│ 5대 도메인    │ (EDM / APO / BAI / DSS / MEA)                    │
-├───────────────┼──────────────────────────────────────────────────┤
-│ 1. 전략적 연계│ APO (계획 및 조직) : IT 아키텍처 정의, 포트폴리오 계획 │
-│ 2. 가치 전달  │ BAI (구축, 확보 및 구현) : 프로젝트 실행 및 예산 관리  │
-│ 3. 자원 관리  │ APO & DSS (서비스 지원) : 인력 스킬 및 인프라 가용성 관리 │
-│ 4. 위험 관리  │ APO12 (위험 관리) & DSS (보안 서비스) : 보안 인시던트 통제│
-│ 5. 성과 측정  │ MEA (모니터링, 평가 및 평가) : 내부 통제 및 규제 준수 평가 │
-└───────────────┴──────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 매트릭스는 IT 거버넌스 5대 도메인이 COBIT 2019의 핵심 관리 도메인과 어떻게 매핑되고 시너지를 내는지 보여준다.</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 거버넌스</div><div class="kb-diagram-cell">COBIT 2019 도메인 매핑 및 실무 초점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5대 도메인</div><div class="kb-diagram-cell">(EDM / APO / BAI / DSS / MEA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전략적 연계</div><div class="kb-diagram-cell">APO (계획 및 조직) : IT 아키텍처 정의, 포트폴리오 계획</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가치 전달</div><div class="kb-diagram-cell">BAI (구축, 확보 및 구현) : 프로젝트 실행 및 예산 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 자원 관리</div><div class="kb-diagram-cell">APO &amp; DSS (서비스 지원) : 인력 스킬 및 인프라 가용성 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 위험 관리</div><div class="kb-diagram-cell">APO12 (위험 관리) &amp; DSS (보안 서비스) : 보안 인시던트 통제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 성과 측정</div><div class="kb-diagram-cell">MEA (모니터링, 평가 및 평가) : 내부 통제 및 규제 준수 평가</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스에서 알 수 있듯, 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이라는 추상적인 거버넌스 목표는 COBIT이라는 구체적인 통제 프레임워크를 통해서만 조직 내에 안착할 수 있다. 특히 성과 측정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 COBIT의 MEA([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), Evaluate, Assess) 영역과 정확히 일치하여, 나머지 4개 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 활동 결과가 제대로 도출되고 있는지 감사하는 역할을 독점적으로 수행한다. 실무에서는 이러한 매핑을 통해 누락된 관리 영역이 없는지 진단([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))해야 한다.
 
@@ -146,27 +142,31 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
    * **판단**: 자원 관리 최적화를 위해 클라우드([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))로 이전 결정. 이 과정에서 클라우드 비용을 통제하기 위한 [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 체계(새로운 가치 전달/성과 측정 메커니즘)를 추가로 수립하여 클라우드 낭비(Waste)를 통제함.
 
 #### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-Patterns](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/))
-*   **[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리**: 보안팀은 '위험 관리'만, 재무팀은 '성과 측정'만, 개발팀은 '가치 전달'만 신경 쓰며 서로 소통하지 않는 구조. 거버넌스는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간의 통합된 시야가 필수적이다.
+*   <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)화된 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 관리</strong>: 보안팀은 '위험 관리'만, 재무팀은 '성과 측정'만, 개발팀은 '가치 전달'만 신경 쓰며 서로 소통하지 않는 구조. 거버넌스는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간의 통합된 시야가 필수적이다.
 *   **측정을 위한 측정**: 비즈니스 목표와 무관한 IT 실무의 잡다한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수백 개씩 수집하여 화려한 대시보드만 만드는 행위(성과 측정의 오용). 
 
-```text
-이 의사결정 트리는 기존 조직의 거버넌스 성숙도를 진단할 때, 5대 도메인 중 어느 곳에 병목(장애)이 있는지 찾아내는 진단 플로우를 보여준다.
 
-[IT 거버넌스 성숙도 진단]
-         │
-         ▼
-[IT 투자가 비즈니스 매출에 기여하는가?] ──(No)──> 병목: [ 1. 전략적 연계 ] 또는 [ 2. 가치 전달 ] 실패
-         │ (Yes)                                    (대응: 포트폴리오 재평가, EA As-Is 분석)
-         ▼
-[보안 사고나 규제 위반이 잦은가?] ──(Yes)──> 병목: [ 4. 위험 관리 ] 실패
-         │ (No)                              (대응: ISMS-P 인증, 제로트러스트 아키텍처 도입)
-         ▼
-[핵심 IT 인력이 퇴사하고 장비가 부족한가?] ──(Yes)──> 병목: [ 3. 자원 관리 ] 실패
-         │ (No)                                 (대응: 지식 관리 체계화, MSP 아웃소싱 도입)
-         ▼
-[위의 모든 상황을 데이터로 증명할 수 있는가?] ──(No)──> 병목: [ 5. 성과 측정 ] 실패
-                                                (대응: IT BSC 구축, 데이터 카탈로그 정비)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 의사결정 트리는 기존 조직의 거버넌스 성숙도를 진단할 때, 5대 도메인 중 어느 곳에 병목(장애)이 있는지 찾아내는 진단 플로우를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 성숙도 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 투자가 비즈니스 매출에 기여하는가?</div><div class="kb-diagram-note">──(No)──&gt; 병목:</div><div class="kb-diagram-node">1. 전략적 연계</div><div class="kb-diagram-note">또는</div><div class="kb-diagram-node">2. 가치 전달</div><div class="kb-diagram-note">실패</div></div>
+<div class="kb-diagram-note">(Yes) (대응: 포트폴리오 재평가, EA As-Is 분석)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 사고나 규제 위반이 잦은가?</div><div class="kb-diagram-note">──(Yes)──&gt; 병목:</div><div class="kb-diagram-node">4. 위험 관리</div><div class="kb-diagram-note">실패</div></div>
+<div class="kb-diagram-note">(No) (대응: ISMS-P 인증, 제로트러스트 아키텍처 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 IT 인력이 퇴사하고 장비가 부족한가?</div><div class="kb-diagram-note">──(Yes)──&gt; 병목:</div><div class="kb-diagram-node">3. 자원 관리</div><div class="kb-diagram-note">실패</div></div>
+<div class="kb-diagram-note">(No) (대응: 지식 관리 체계화, MSP 아웃소싱 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위의 모든 상황을 데이터로 증명할 수 있는가?</div><div class="kb-diagram-note">──(No)──&gt; 병목:</div><div class="kb-diagram-node">5. 성과 측정</div><div class="kb-diagram-note">실패</div></div>
+<div class="kb-diagram-note">(대응: IT BSC 구축, 데이터 카탈로그 정비)</div>
+</div>
+</div>
+
+
 
 이 진단 플로우는 컨설턴트나 기술사가 조직의 문제를 해결할 때 접근하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 나타낸다. 현상(증상)을 관찰한 후, 그것이 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중 어느 부분의 결함에서 비롯되었는지를 역추적(Root Cause Analysis)하는 방식이다. 모든 문제가 통과되었다 하더라도, 마지막 질문(증명 가능한가?)에서 막힌다면 그 거버넌스는 요행에 기댄 불안정한 상태임을 시사한다.
 
@@ -181,13 +181,13 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 #### 정량적/정성적 기대효과
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 기대효과 ([Expected Value](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)) | 주요 지표 |
 |:---|:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계** | 비즈니스 방향과 무관한 '섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))' 및 매몰 비용 제거 | IT 예산 중 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 프로젝트 할당 비율 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 연계</strong> | 비즈니스 방향과 무관한 '섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))' 및 매몰 비용 제거 | IT 예산 중 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 프로젝트 할당 비율 |
 | **가치 전달** | IT 투자 대비 명확한 재무적 이익 창출, 중복 시스템 통합 | [IT ROI](/knowledge-base/studynote/12_it_management/03_ea_isp/126_it_roi_pre_progress_post_evaluation_evm/) 증가율, [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(총소유비용) 감소율 |
 | **위험 관리** | 사이버 공격 및 시스템 장애로 인한 다운타임 최소화 | 시스템 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 달성률, 보안 인시던트 발생 건수 |
 
 #### 미래 전망 및 표준
-*   **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 거버넌스의 부상**: 전통적인 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 1년 단위의 긴 호흡을 가졌지만, 최근에는 클라우드와 DevOps의 확산으로 인해 주/월 단위로 짧고 빠르게 연계-가치-측정을 반복하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 거버넌스로 진화하고 있다.
-*   **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심의 거버넌스([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)) 통합**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에는 IT 자원 중 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'의 중요성이 극대화되면서, 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내의 자원 관리와 위험 관리 영역이 '[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)(품질, 프라이버시, 편향성 통제)'로 세분화되어 융합되는 추세이다.
+*   <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 거버넌스의 부상</strong>: 전통적인 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)은 1년 단위의 긴 호흡을 가졌지만, 최근에는 클라우드와 DevOps의 확산으로 인해 주/월 단위로 짧고 빠르게 연계-가치-측정을 반복하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 거버넌스로 진화하고 있다.
+*   <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중심의 거버넌스(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/">Data Governance</a>) 통합</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대에는 IT 자원 중 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'의 중요성이 극대화되면서, 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내의 자원 관리와 위험 관리 영역이 '[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)(품질, 프라이버시, 편향성 통제)'로 세분화되어 융합되는 추세이다.
 
 📢 **섹션 요약 비유**: 5대 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 완벽히 맞물려 돌아가는 조직은, 바람([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 읽고 돛(가치)을 펼치며 선원(자원)을 적재적소에 배치하고 암초(위험)를 피해 나침반(성과)을 보며 나아가는 무적의 범선과 같습니다.
 
@@ -202,26 +202,28 @@ IT 거버넌스 5대 [도메인](/knowledge-base/studynote/05_database/02_modeli
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[COBIT 2019 (Control Objectives for Information and Related Technologies)]
-    │
-    ▼
-[엔터프라이즈 아키텍처 (EA)]
-    │
-    ▼
-[IT 투자 평가 (IT ROI)]
-    │
-    ▼
-[IT BSC (균형성과기록표)]
-    │
-    ▼
-[업무 연속성 계획 (BCP)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT 2019 (Control Objectives for Information and Related Technologies)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엔터프라이즈 아키텍처 (EA)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT 투자 평가 (IT ROI)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IT BSC (균형성과기록표)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">업무 연속성 계획 (BCP)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [COBIT 2019](/knowledge-base/studynote/12_it_management/01_governance_strategy/005_cobit_2019/) (Control Objectives for Information and Related Technologies)에서 출발해 업무 연속성 계획 (BCP)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 가치**: 로봇을 만들 때 "청소 로봇을 만들자([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))"고 정하고, "먼지를 진짜 잘 빨아들이게(가치)" 만드는 거예요.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>과 가치</strong>: 로봇을 만들 때 "청소 로봇을 만들자([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))"고 정하고, "먼지를 진짜 잘 빨아들이게(가치)" 만드는 거예요.
 2. **자원과 위험**: 배터리와 부품(자원)을 넉넉히 준비하고, 로봇이 물에 빠져 고장 나지 않도록 방수 기능(위험)을 넣어요.
 3. **성과 측정**: 마지막으로 로봇이 방을 얼마나 빨리 깨끗하게 치웠는지 점수표(성과)를 매기면 완벽한 로봇 만들기 규칙 5가지가 완성된답니다!
 

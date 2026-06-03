@@ -33,33 +33,27 @@ K8s 클러스터에 수백 개의 팀이 리소스를 배포하면, 표준을 �
 
 ### [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper 동작 구조
 
-```
-  개발자/CI 파이프라인이 K8s API에 리소스 생성 요청
-           │
-           ▼
-  ┌─────────────────────────────────────────────────┐
-  │           K8s API Server                         │
-  │                                                  │
-  │  ┌────────────────────────────────────────────┐ │
-  │  │     Admission Controller (Webhook)          │ │
-  │  │                                             │ │
-  │  │   ValidationAdmission → OPA Gatekeeper      │ │
-  │  │   MutatingAdmission   → (기본값 주입 등)    │ │
-  │  └────────────────────────────────────────────┘ │
-  └──────────────────────────┬──────────────────────┘
-                             │
-                             ▼
-  ┌─────────────────────────────────────────────────┐
-  │             OPA Gatekeeper                       │
-  │                                                  │
-  │  ConstraintTemplate: Rego 언어로 정책 정의        │
-  │  Constraint: 정책 적용 범위·파라미터 설정          │
-  │                                                  │
-  │  정책 검증:                                       │
-  │    Pass → 리소스 생성 허용                        │
-  │    Fail → 리소스 생성 거부 + 에러 메시지           │
-  └─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개발자/CI 파이프라인이 K8s API에 리소스 생성 요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s API Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admission Controller (Webhook)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ValidationAdmission → OPA Gatekeeper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MutatingAdmission → (기본값 주입 등)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA Gatekeeper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConstraintTemplate: Rego 언어로 정책 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Constraint: 정책 적용 범위·파라미터 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 검증:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass → 리소스 생성 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fail → 리소스 생성 거부 + 에러 메시지</div></div>
+</div>
+</div>
+
+
 
 ### ConstraintTemplate (Rego [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정의)
 
@@ -139,7 +133,7 @@ spec:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 통합 (Shift Left)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인 통합 (Shift Left)</strong>:
 ```yaml
 # GitHub Actions: PR 단계에서 OPA 정책 검증
 jobs:
@@ -155,7 +149,7 @@ jobs:
     # 클러스터 없이 로컬/CI에서 YAML 정책 검증 가능
 ```
 
-**Kyverno [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 예시 (YAML 기반)**:
+<strong>Kyverno <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 예시 (YAML 기반)</strong>:
 ```yaml
 # image:latest 금지 (Kyverno)
 apiVersion: kyverno.io/v1
@@ -220,17 +214,21 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-K8s Admission Controller (Webhook)
-    │
-    ▼
-OPA Gatekeeper: Rego 정책 언어 기반 검증
-    ├─► ConstraintTemplate: 정책 정의
-    └─► Constraint: 네임스페이스/리소스에 적용
-    │
-    ▼
-Kyverno: YAML 네이티브 정책 · Helm/Kustomize 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">K8s Admission Controller (Webhook)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPA Gatekeeper: Rego 정책 언어 기반 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ConstraintTemplate: 정책 정의</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Constraint: 네임스페이스/리소스에 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kyverno: YAML 네이티브 정책 · Helm/Kustomize 통합</div>
+</div>
+</div>
+
+
 2. `image:latest` 금지는 "유통기한이 없는 음식은 학교에 가져오면 안 돼"와 같아. 반드시 날짜([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 붙여야 해.
 3. 사람이 매번 확인하지 않아도 기계가 24시간 지켜보니까 실수로 규정을 어기는 일이 없어.
 

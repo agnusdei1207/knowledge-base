@@ -30,7 +30,7 @@ tags = ["database"]
 
 [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)성이 발생하는 조건은 최소 3개의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)($X, Y, Z$)이 복합 기본키로 묶여 있고, $Y$와 $Z$가 $X$에 [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)되면서($X \twoheadrightarrow Y$, $X \twoheadrightarrow Z$) 서로는 독립적일 때다.
 
-**[ MVD로 인한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 폭발 현상 ]**
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/"> MVD로 인한 [데이터</a> 중복 폭발 현상 ]</strong>
 
 | 사원 (X) | 언어 (Y) | 취미 (Z) |
 | :--- | :--- | :--- |
@@ -41,21 +41,23 @@ tags = ["database"]
 
 위 구조에서 김철수가 C++를 새로 배웠다면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성을 위해 `(김철수, C++, 등산)`과 `(김철수, C++, 수영)` 두 줄을 동시에 삽입해야만 하는 '[삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)'이 발생한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  제4정규형 (4NF) 분해 원리                   │
-├──────────────────────────────────────────────────────────────┤
-│ [ 분해 전: X, Y, Z가 한 테이블에 결합 ]                      │
-│ X ──▶ Y (독립적 다중값)                                     │
-│ X ──▶ Z (독립적 다중값)                                     │
-│  => 모든 (X, Y)와 (X, Z) 쌍이 곱해져 튜플 수 폭발 (중복)     │
-│                                                              │
-│ [ 분해 후: 무관한 종속성을 격리 ]                            │
-│ 테이블 1: (X, Y) ──> (김철수, Java), (김철수, Python)        │
-│ 테이블 2: (X, Z) ──> (김철수, 등산), (김철수, 수영)          │
-│  => 삽입/삭제 시 서로 영향을 주지 않고 단일 튜플만 처리 가능 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제4정규형 (4NF) 분해 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분해 전: X, Y, Z가 한 테이블에 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X ──▶ Y (독립적 다중값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X ──▶ Z (독립적 다중값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 모든 (X, Y)와 (X, Z) 쌍이 곱해져 튜플 수 폭발 (중복)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분해 후: 무관한 종속성을 격리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 1: (X, Y) ──&gt; (김철수, Java), (김철수, Python)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 2: (X, Z) ──&gt; (김철수, 등산), (김철수, 수영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 삽입/삭제 시 서로 영향을 주지 않고 단일 튜플만 처리 가능</div></div>
+</div>
+</div>
+
+
 이 그림의 핵심은 무관한 다중값 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 매개체 $X$를 기준으로 완전히 독립적인 두 테이블로 분리하여 카테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))의 고리를 끊어내는 것이다.
 
 - **📢 섹션 요약 비유**: 두 다리가 묶인 2인 3각 경기에서, 달리기 선수(언어)와 수영 선수(취미)를 억지로 묶어 놓으면 둘 다 제대로 움직일 수 없다. 가위([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/))로 묶인 끈을 잘라 각자 뛰게 만들어야 한다.
@@ -83,14 +85,14 @@ tags = ["database"]
 
 실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)성은 주로 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 2개가 하나의 매핑 테이블에 억지로 합쳐질 때 발견된다.
 
-**[ 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ]**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/"> 실무 판단 [체크리스트</a> ]</strong>
 1. 기본키가 3개 이상의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)으로 묶여 있는가?
 2. 그중 2개의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 서로 아무런 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 없는 독립적인 개념인가?
 3. 한쪽 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추가할 때 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 기존 값 수만큼 다중 INSERT를 수행해야 하는가?
 
 **[ 기술사적 의사결정 ]**
-- **채택 ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) 분해)**: 위 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)에 해당한다면 즉시 두 개의 테이블로 분해해야 한다. MVD는 애플리케이션 코드로 방어하기에는 정합성 훼손 리스크가 너무 크다.
-- **회피 ([역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 고려 안 함)**: MVD를 남겨두는 형태의 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 절대 권장하지 않는다. 단순한 조인 비용 감소보다 중복 폭발로 인한 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)의 대가가 훨씬 더 치명적이기 때문이다.
+- <strong>채택 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/">4NF</a> 분해)</strong>: 위 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)에 해당한다면 즉시 두 개의 테이블로 분해해야 한다. MVD는 애플리케이션 코드로 방어하기에는 정합성 훼손 리스크가 너무 크다.
+- <strong>회피 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a> 고려 안 함)</strong>: MVD를 남겨두는 형태의 [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 절대 권장하지 않는다. 단순한 조인 비용 감소보다 중복 폭발로 인한 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)의 대가가 훨씬 더 치명적이기 때문이다.
 
 - **📢 섹션 요약 비유**: 환자 1명에게 '처방 약'과 '진료과'를 한 테이블에 쓰면, 약을 하나 바꿀 때마다 모든 진료과 기록을 다 뜯어고쳐야 한다. 실무에서는 무조건 '환자-약', '환자-진료과'로 장부를 찢어야 안전하다.
 
@@ -117,21 +119,23 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-제1~3정규형 (1NF~3NF)
-    │
-    ▼
-함수적 종속성 완벽 제거 (BCNF)
-    │
-    ▼
-다치 종속성 (MVD) 식별 및 폭발적 중복 발생
-    │
-    ▼
-제4정규형 (4NF) · 독립적 테이블 분해
-    │
-    ▼
-조인 종속성 (JD) · 제5정규형 (5NF)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제1~3정규형 (1NF~3NF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수적 종속성 완벽 제거 (BCNF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다치 종속성 (MVD) 식별 및 폭발적 중복 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제4정규형 (4NF) · 독립적 테이블 분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조인 종속성 (JD) · 제5정규형 (5NF)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 해결 과정이 "부분 종속/이행 종속 제거 → [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) 제거 → 조인 종속 제거"의 극한의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 추구로 발전함을 보여준다.
 

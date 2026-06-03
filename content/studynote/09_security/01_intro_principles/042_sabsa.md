@@ -91,34 +91,32 @@ Row 6: Operational (운영):
 
 ## Ⅲ. SABSA [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (6질문)
 
-```
-SABSA 6대 속성 열:
 
-What (자산): 무엇을 보호하는가?
-  데이터, 시스템, 비즈니스 프로세스
-  
-How (기능): 어떻게 보안을 제공하는가?
-  인증, 권한, 암호화, 감사
 
-Where (위치): 어디에 보안을 적용하는가?
-  경계(경계 보안), 네트워크, 시스템 내부
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SABSA 6대 속성 열:</div>
+<div class="kb-diagram-note">What (자산): 무엇을 보호하는가?</div>
+<div class="kb-diagram-note">데이터, 시스템, 비즈니스 프로세스</div>
+<div class="kb-diagram-note">How (기능): 어떻게 보안을 제공하는가?</div>
+<div class="kb-diagram-note">인증, 권한, 암호화, 감사</div>
+<div class="kb-diagram-note">Where (위치): 어디에 보안을 적용하는가?</div>
+<div class="kb-diagram-note">경계(경계 보안), 네트워크, 시스템 내부</div>
+<div class="kb-diagram-note">Who (사람): 누가 접근하는가?</div>
+<div class="kb-diagram-note">사용자 역할, 조직 구조, IAM</div>
+<div class="kb-diagram-note">When (시간): 언제 보안이 필요한가?</div>
+<div class="kb-diagram-note">이벤트 기반, 세션, 주기적 감사</div>
+<div class="kb-diagram-note">Why (동기): 왜 이 보안이 필요한가?</div>
+<div class="kb-diagram-note">비즈니스 리스크, 규제 컴플라이언스</div>
+<div class="kb-diagram-note">SABSA 속성 분류 (Security Attributes):</div>
+<div class="kb-diagram-note">비즈니스 속성에서 보안 속성 도출</div>
+<div class="kb-diagram-note">예: "고객 신뢰 유지" (비즈니스 속성)</div>
+<div class="kb-diagram-note">→ "데이터 무결성 보장" (보안 속성)</div>
+<div class="kb-diagram-note">→ "DB 접근 감사 + 변경 불가 로그" (통제)</div>
+</div>
+</div>
 
-Who (사람): 누가 접근하는가?
-  사용자 역할, 조직 구조, IAM
 
-When (시간): 언제 보안이 필요한가?
-  이벤트 기반, 세션, 주기적 감사
-
-Why (동기): 왜 이 보안이 필요한가?
-  비즈니스 리스크, 규제 컴플라이언스
-
-SABSA 속성 분류 (Security Attributes):
-  비즈니스 속성에서 보안 속성 도출
-  
-  예: "고객 신뢰 유지" (비즈니스 속성)
-   → "데이터 무결성 보장" (보안 속성)
-   → "DB 접근 감사 + 변경 불가 로그" (통제)
-```
 
 > 📢 **섹션 요약 비유**: SABSA 6질문은 보안 6하원칙 — 무엇을(What), 어떻게(How), 어디서(Where), 누가(Who), 언제(When), 왜(Why) 보호하는가.
 
@@ -126,38 +124,35 @@ SABSA 속성 분류 (Security Attributes):
 
 ## Ⅳ. SABSA 추적 가능성
 
-```
-SABSA 추적 가능성 (Traceability):
 
-비즈니스 목표 → 보안 통제 추적:
 
-Level 1 (Contextual): 
-  비즈니스 리스크: "고객 개인정보 유출 시 법적 책임"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SABSA 추적 가능성 (Traceability):</div>
+<div class="kb-diagram-note">비즈니스 목표 → 보안 통제 추적:</div>
+<div class="kb-diagram-note">Level 1 (Contextual):</div>
+<div class="kb-diagram-note">비즈니스 리스크: "고객 개인정보 유출 시 법적 책임"</div>
+<div class="kb-diagram-note">Level 2 (Conceptual):</div>
+<div class="kb-diagram-note">보안 목표: "개인정보 접근 최소화 및 감사"</div>
+<div class="kb-diagram-note">Level 3 (Logical):</div>
+<div class="kb-diagram-note">보안 서비스: 접근 제어(IAM), 감사 로깅</div>
+<div class="kb-diagram-note">Level 4 (Physical):</div>
+<div class="kb-diagram-note">보안 메커니즘: RBAC, SIEM, 암호화</div>
+<div class="kb-diagram-note">Level 5 (Component):</div>
+<div class="kb-diagram-note">제품 사양: AWS IAM Policy, ELK Stack</div>
+<div class="kb-diagram-note">Level 6 (Operational):</div>
+<div class="kb-diagram-note">운영 절차: 분기별 접근 권한 리뷰 SOP</div>
+<div class="kb-diagram-note">가치:</div>
+<div class="kb-diagram-note">각 보안 투자 → 비즈니스 리스크 해소 연결</div>
+<div class="kb-diagram-note">보안 ROI 설명 가능</div>
+<div class="kb-diagram-note">감사(Audit) 시 근거 제공</div>
+<div class="kb-diagram-note">SABSA Business Attributes Profile:</div>
+<div class="kb-diagram-note">비즈니스 요구사항 → 보안 속성으로 변환</div>
+<div class="kb-diagram-note">표준 약 40개 비즈니스 속성 카탈로그</div>
+</div>
+</div>
 
-Level 2 (Conceptual):
-  보안 목표: "개인정보 접근 최소화 및 감사"
 
-Level 3 (Logical):
-  보안 서비스: 접근 제어(IAM), 감사 로깅
-
-Level 4 (Physical):
-  보안 메커니즘: RBAC, SIEM, 암호화
-
-Level 5 (Component):
-  제품 사양: AWS IAM Policy, ELK Stack
-
-Level 6 (Operational):
-  운영 절차: 분기별 접근 권한 리뷰 SOP
-
-가치:
-  각 보안 투자 → 비즈니스 리스크 해소 연결
-  보안 ROI 설명 가능
-  감사(Audit) 시 근거 제공
-
-SABSA Business Attributes Profile:
-  비즈니스 요구사항 → 보안 속성으로 변환
-  표준 약 40개 비즈니스 속성 카탈로그
-```
 
 > 📢 **섹션 요약 비유**: SABSA 추적 가능성은 회사 보안 투자 영수증 — "이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(비즈니스)를 막기 위한 것"을 증명하는 근거.
 

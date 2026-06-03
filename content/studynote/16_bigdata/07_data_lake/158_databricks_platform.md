@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Databricks는 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 창시자들이 설립한 회사로, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)·[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Photon Engine을 통합한 **[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 올인원 플랫폼**을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.
-2. **[Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)**은 C++ 기반 벡터화 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진으로 기존 Spark 대비 SQL 워크로드에서 최대 8배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하며, **[Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)** 클러스터가 워크로드에 따라 노드를 자동으로 조정한다.
+1. Databricks는 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 창시자들이 설립한 회사로, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)·[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)·Photon Engine을 통합한 <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 올인원 플랫폼</strong>을 제공하며 컴퓨팅 네이티브(Compute-Native) 아키텍처로 차별화된다.
+2. <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Photon Engine</a></strong>은 C++ 기반 벡터화 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진으로 기존 Spark 대비 SQL 워크로드에서 최대 8배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성하며, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/">Auto Scaling</a></strong> 클러스터가 워크로드에 따라 노드를 자동으로 조정한다.
 3. AWS·Azure·GCP 모두에서 동일한 API로 동작하는 [멀티 클라우드 전략](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/189_multi_cloud_strategy_vendor_lock_in/)과, SQL 친화적 Snowflake와 코드 친화적 Databricks의 포지셔닝 차별화가 핵심 시장 대립 구도를 형성한다.
 
 ---
@@ -36,37 +36,26 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│               Databricks Lakehouse Platform                       │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              사용자 인터페이스 레이어                      │    │
-│  │  Notebooks │ Databricks SQL │ ML Experiments │ Workflows │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              컴퓨팅 레이어                                │    │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │    │
-│  │  │ All-Purpose  │  │ Job Cluster  │  │  SQL          │   │    │
-│  │  │ Cluster      │  │  (배치 전용) │  │  Warehouse   │   │    │
-│  │  │ (개발/탐색)   │  │              │  │  (BI 전용)   │   │    │
-│  │  └──────────────┘  └──────────────┘  └──────────────┘   │    │
-│  │           Apache Spark + Photon Engine (C++ 벡터화)      │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              데이터/ML 레이어                              │    │
-│  │  Delta Lake │ Unity Catalog │ MLflow │ Feature Store     │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              클라우드 스토리지 레이어                      │    │
-│  │   AWS S3  │  Azure ADLS Gen2  │  Google Cloud Storage    │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Databricks Lakehouse Platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 인터페이스 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notebooks</div><div class="kb-diagram-cell">Databricks SQL</div><div class="kb-diagram-cell">ML Experiments</div><div class="kb-diagram-cell">Workflows</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨팅 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">All-Purpose</div><div class="kb-diagram-cell">Job Cluster</div><div class="kb-diagram-cell">SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster</div><div class="kb-diagram-cell">(배치 전용)</div><div class="kb-diagram-cell">Warehouse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발/탐색)</div><div class="kb-diagram-cell">(BI 전용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark + Photon Engine (C++ 벡터화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터/ML 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake</div><div class="kb-diagram-cell">Unity Catalog</div><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">Feature Store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 스토리지 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS S3</div><div class="kb-diagram-cell">Azure ADLS Gen2</div><div class="kb-diagram-cell">Google Cloud Storage</div></div>
+</div>
+</div>
+
+
 
 **핵심 제품·기능 상세**
 
@@ -87,7 +76,7 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 
 ## Ⅲ. 비교 및 연결
 
-**[Databricks vs Snowflake](/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/) — 핵심 대립 구도**
+<strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/240_databricks_vs_snowflake_dw/">Databricks vs Snowflake</a> — 핵심 대립 구도</strong>
 
 | 항목 | [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) |
 |:---|:---|:---|
@@ -101,9 +90,9 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 
 **연관 기술 연결**
 
-- **[MLflow](/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/)**: Databricks에서 인큐베이션, 현재 LF [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)&[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재단 기증
-- **[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: Linux Foundation 기증, 벤더 중립화
-- **[Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/)**: [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 창업자들이 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley AMPLab에서 개발
+- <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a></strong>: Databricks에서 인큐베이션, 현재 LF [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)&[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재단 기증
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: Linux Foundation 기증, 벤더 중립화
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/">Apache Spark</a></strong>: [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 창업자들이 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) Berkeley AMPLab에서 개발
 
 > 📢 **섹션 요약 비유**: Databricks는 종합 연구소([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리+ML+SQL 올인원)이고, Snowflake는 최고급 SQL 레스토랑(SQL에 특화)이다. 요리사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어)에게는 연구소가, 식품 분석가(BI 분석가)에게는 레스토랑이 더 편하다.
 
@@ -142,7 +131,7 @@ Apache Spark는 뛰어난 [성능](/knowledge-base/studynote/04_software_enginee
 | 비용 최적화 | [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + Spot 인스턴스 + 작업 완료 종료 |
 | 오픈 포맷 | Delta/Iceberg로 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) 최소화 |
 
-Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024년 IPO를 준비 중인 빅데이터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플랫폼의 선두 기업이다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 레퍼런스 구현체로서 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 표준에 가장 가까이 있다. 기술사 시험에서는 **[Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 핵심 제품 구성**, **[Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 특성**, **Snowflake와의 포지셔닝 비교**가 핵심 논점이다.
+Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024년 IPO를 준비 중인 빅데이터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플랫폼의 선두 기업이다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 레퍼런스 구현체로서 기업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 표준에 가장 가까이 있다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> 핵심 제품 구성</strong>, <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Photon Engine</a> 특성</strong>, <strong>Snowflake와의 포지셔닝 비교</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: Databricks는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀의 슈퍼 앱이다. 한 앱에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집·처리·ML·분석·[시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 모두 처리하듯, 하나의 플랫폼에서 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)부터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 배포까지 완결된다.
 
@@ -164,21 +153,23 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Apache Spark — 인메모리 분산 처리 엔진, 배치·스트림 통합]
-    │
-    ▼
-[Databricks (Managed Spark) — Spark 완전 관리형 클라우드 플랫폼, 자동 최적화]
-    │
-    ▼
-[Delta Lake — ACID 트랜잭션·스키마 진화·타임 트래블 지원 오픈 테이블 포맷]
-    │
-    ▼
-[레이크하우스 (Lakehouse) — 데이터 레이크의 유연성 + 데이터 웨어하우스의 ACID·성능 통합]
-    │
-    ▼
-[Unity Catalog + MLflow — 데이터·모델 거버넌스 통합, 엔드투엔드 AI/ML 파이프라인]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark — 인메모리 분산 처리 엔진, 배치·스트림 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Databricks (Managed Spark) — Spark 완전 관리형 클라우드 플랫폼, 자동 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake — ACID 트랜잭션·스키마 진화·타임 트래블 지원 오픈 테이블 포맷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — 데이터 레이크의 유연성 + 데이터 웨어하우스의 ACID·성능 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog + MLflow — 데이터·모델 거버넌스 통합, 엔드투엔드 AI/ML 파이프라인</div></div>
+</div>
+</div>
+
+
 이 흐름은 순수 Spark 엔진이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 보장의 한계를 드러내자 Delta Lake의 ACID가 이를 보완하고, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 통합 거버넌스로 발전하는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼의 진화 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

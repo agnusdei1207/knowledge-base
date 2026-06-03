@@ -36,25 +36,26 @@ tags = ["studynote-operating-system"]
 | **exec()** | 새로운 영혼 덮어씌우기 | 기존 메모리 공간 초기화, ELF(실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 바이너리 로드, 힙/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 초기화 | 지정된 완전히 새로운 프로그램으로 실행 전환 |
 | **wait()** | 자식 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 회수 | 부모가 자식의 종료 상태를 읽어 좀비(Zombie) 프로세스가 되는 것을 방지 | 자원 반환 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 완료 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           fork() + exec() 프로세스 분기 및 전환 흐름          │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 부모 프로세스]                                             │
-│      PID: 1000 ────────┐ (fork 호출)                         │
-│                        │                                     │
-│                        ├─▶ [2. 자식 프로세스 복제 탄생]        │
-│                        │       PID: 1001 (부모의 메모리 공유) │
-│                        │       (COW: Copy-on-Write 대기)     │
-│                        │                                     │
-│                        │   (exec 호출)                       │
-│  (wait 대기)            │   [3. 자식 프로세스 덮어쓰기]        │
-│  [4. 자식 종료 수거]◀───┘       PID: 1001 유지               │
-│                            메모리 공간 초기화 후 새 바이너리 실행│
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 흐름의 핵심은 **[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))** 메커니즘이다. 과거에는 `fork()` 시점에 묻지도 따지지도 않고 부모의 전체 메모리를 통째로 복사해 엄청난 오버헤드가 발생했다. 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 메모리 복사를 미루고, 부모와 자식이 같은 물리 메모리 주소를 읽기 전용으로 가리키게 한다. 어느 한쪽이 데이터에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도하는 순간에만 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 발생시켜 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나만 복사한다. `fork()` 직후 `exec()`가 호출되면 어차피 기존 메모리는 버려지므로, COW는 메모리 할당 낭비를 극적으로 방지하는 구원 투수다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() + exec() 프로세스 분기 및 전환 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 부모 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 1000 (fork 호출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. 자식 프로세스 복제 탄생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 1001 (부모의 메모리 공유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(COW: Copy-on-Write 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(exec 호출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(wait 대기)</div><div class="kb-diagram-node">3. 자식 프로세스 덮어쓰기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 자식 종료 수거</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">PID: 1001 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 공간 초기화 후 새 바이너리 실행</div></div>
+</div>
+</div>
+
+
+
+이 흐름의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> 메커니즘이다. 과거에는 `fork()` 시점에 묻지도 따지지도 않고 부모의 전체 메모리를 통째로 복사해 엄청난 오버헤드가 발생했다. 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 메모리 복사를 미루고, 부모와 자식이 같은 물리 메모리 주소를 읽기 전용으로 가리키게 한다. 어느 한쪽이 데이터에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도하는 순간에만 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 발생시켜 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나만 복사한다. `fork()` 직후 `exec()`가 호출되면 어차피 기존 메모리는 버려지므로, COW는 메모리 할당 낭비를 극적으로 방지하는 구원 투수다.
 
 - **📢 섹션 요약 비유**: [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 방식의 `fork()`는 회사 기안서를 통째로 복사해 나눠주는 것이 아니라, 모두가 클라우드 공유 문서 링크만 보다가 누군가 글씨를 수정하려고 키보드를 누르는 순간에만 개인용 사본을 만들어 주는 효율적인 시스템이다.
 
@@ -67,11 +68,11 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 유닉스 계열 (fork + exec) | 윈도우 계열 (CreateProcess) |
 |:---|:---|:---|
 | **설계 철학** | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 후 덮어쓰기 (2단계 분리) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지정 (1단계 통합) |
-| **자원 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)** | `fork()` 직후 쉘이 I/O 리다이렉션 개입 용이 | 함수 파라미터(STARTUPINFO 등)로 명시적 제어 |
+| <strong>자원 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong> | `fork()` 직후 쉘이 I/O 리다이렉션 개입 용이 | 함수 파라미터(STARTUPINFO 등)로 명시적 제어 |
 | **메모리 복사** | [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 최적화 필수 | 독립 공간 할당으로 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 복사 오버헤드 불필요 |
 
 유닉스의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(`ls | grep`)는 두 프로세스를 `fork`한 뒤 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 입출력을 변경하고 각각 `exec`로 넘기는 방식을 쓴다. 통합형은 이런 조작을 함수 파라미터 구조체에 우겨넣어야 해서 복잡도가 높아진다. 
-최근 리눅스 생태계는 단순한 `fork()`를 넘어, 어떤 자원을 부모와 공유할지 세밀하게 비트마스크로 제어하는 **`clone()`** 시스템 콜을 발전시켰다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술은 바로 이 `clone()`의 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 기능을 활용하여 가상 머신처럼 격리된 독립 프로세스 트리를 만들어낸다.
+최근 리눅스 생태계는 단순한 `fork()`를 넘어, 어떤 자원을 부모와 공유할지 세밀하게 비트마스크로 제어하는 <strong><code>clone()</code></strong> 시스템 콜을 발전시켰다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술은 바로 이 `clone()`의 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 기능을 활용하여 가상 머신처럼 격리된 독립 프로세스 트리를 만들어낸다.
 
 - **📢 섹션 요약 비유**: 유닉스의 방식은 밀가루 반죽(fork)을 떼어낸 뒤 원하는 틀(exec)에 넣어 빵을 굽는 방식이고, 윈도우 방식은 처음부터 별도의 공장 라인(CreateProcess)을 돌려 바로 완성된 빵을 뽑아내는 방식이다.
 
@@ -83,8 +84,8 @@ tags = ["studynote-operating-system"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 유출 차단 (FD_CLOEXEC)**: 백엔드 데몬이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 열어둔 채 무심코 `fork()` + `exec()`를 수행하면, 부모의 민감한 DB 커넥션 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터가 자식(외부 스크립트 등)에게 그대로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)되어 보안 사고가 터진다. `open()`이나 `exec()` 사용 시 반드시 보안 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`O_CLOEXEC`)를 세팅하여 실행 덮어쓰기 순간에 불필요한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동 단절되게 해야 한다.
-2. **[좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)) 예방**: 부모가 `fork`만 해놓고 자식의 종료 신호를 수거하는 `wait()` 처리를 누락하면, 자식은 죽었음에도 프로세스 테이블(PCB)의 슬롯을 영원히 차지하는 좀비가 된다. 이로 인해 시스템의 최대 프로세스 제한(ulimit)을 초과하여 서버가 마비되는 Fork Bomb에 대비해야 한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터 유출 차단 (FD_CLOEXEC)</strong>: 백엔드 데몬이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 열어둔 채 무심코 `fork()` + `exec()`를 수행하면, 부모의 민감한 DB 커넥션 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터가 자식(외부 스크립트 등)에게 그대로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)되어 보안 사고가 터진다. `open()`이나 `exec()` 사용 시 반드시 보안 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`O_CLOEXEC`)를 세팅하여 실행 덮어쓰기 순간에 불필요한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동 단절되게 해야 한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">Zombie Process</a>) 예방</strong>: 부모가 `fork`만 해놓고 자식의 종료 신호를 수거하는 `wait()` 처리를 누락하면, 자식은 죽었음에도 프로세스 테이블(PCB)의 슬롯을 영원히 차지하는 좀비가 된다. 이로 인해 시스템의 최대 프로세스 제한(ulimit)을 초과하여 서버가 마비되는 Fork Bomb에 대비해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -108,28 +109,30 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))** | `fork()`로 인한 거대한 메모리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용을 막기 위해, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작이 발생할 때만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 복사하는 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 최적화 기법 |
-| **[좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/))** | 종료되었으나 부모가 `wait()`로 수거하지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) PCB 메모리 슬롯을 낭비하는 상태 |
-| **`clone()` 시스템 콜** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 시대의 핵심 기술로, 자원 공유 범위와 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 세밀하게 제어하여 프로세스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 고도화된 인터페이스 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> | `fork()`로 인한 거대한 메모리 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용을 막기 위해, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작이 발생할 때만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 복사하는 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 최적화 기법 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">Zombie Process</a>)</strong> | 종료되었으나 부모가 `wait()`로 수거하지 않아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) PCB 메모리 슬롯을 낭비하는 상태 |
+| <strong><code>clone()</code> 시스템 콜</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 시대의 핵심 기술로, 자원 공유 범위와 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 세밀하게 제어하여 프로세스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 고도화된 인터페이스 |
 | **FD_CLOEXEC (Close-on-Exec)** | `exec()`가 호출되어 프로그램이 덮어씌워질 때 부모로부터 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/디스크립터가 자동으로 닫히도록 강제하는 보안 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초기 유닉스 생성 철학 (fork() + exec() 분리)
-    │
-    ▼
-메모리 복제 오버헤드 발생 (통째로 메모리 복사)
-    │
-    ▼
-메모리 가상화 최적화 도입 (Copy-on-Write 지연 복사)
-    │
-    ▼
-멀티쓰레드 환경의 fork 부작용 회피 (posix_spawn 등장)
-    │
-    ▼
-컨테이너 격리 생태계를 위한 세밀한 자원 분리 제어 (clone(), Namespace)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 유닉스 생성 철학 (fork() + exec() 분리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 복제 오버헤드 발생 (통째로 메모리 복사)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 가상화 최적화 도입 (Copy-on-Write 지연 복사)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티쓰레드 환경의 fork 부작용 회피 (posix_spawn 등장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 격리 생태계를 위한 세밀한 자원 분리 제어 (clone(), Namespace)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

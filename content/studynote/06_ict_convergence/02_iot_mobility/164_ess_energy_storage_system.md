@@ -26,17 +26,18 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 이 그림은 ESS가 남는 전력을 흡수해 피크 시간에 다시 공급하는 "시간 이동" 장치임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│             ESS time-shift: store now, use later                │
-├──────────────────────────────────────────────────────────────────┤
-│ Low demand / surplus power   ──▶ [ Charge ESS ]                 │
-│                                                                  │
-│ High demand / peak tariff    ◀── [ Discharge ESS ]              │
-│                                                                  │
-│ Goal: flatten load, reduce curtailment, support grid stability  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ESS time-shift: store now, use later</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Charge ESS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Discharge ESS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: flatten load, reduce curtailment, support grid stability</div></div>
+</div>
+</div>
+
+
 
 즉 ESS는 단순한 비상 배터리가 아니라, 전력 품질과 경제성을 동시에 다루는 운영 장치다. 없으면 계통은 더 자주 흔들리고, 사업자는 전력 요금과 설비 비용을 더 크게 부담하게 된다.
 
@@ -58,21 +59,19 @@ ESS가 중요해진 배경에는 재생에너지 확대와 부하 변동성 증�
 
 아래 구조는 ESS가 단순 배터리 상자가 아니라 "저장-변환-제어-[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"가 함께 움직이는 시스템임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│                    Battery ESS architecture                     │
-├──────────────────────────────────────────────────────────────────┤
-│ Grid / Solar / Wind                                             │
-│        │                                                        │
-│        ▼                                                        │
-│   [ PCS ] <──── command ──── [ EMS ]                            │
-│        │                           │                            │
-│        ▼                           │                            │
-│ [ Battery Rack ] <────────────── [ BMS ]                        │
-│        │                                                        │
-│        └── sensors: voltage / current / temperature             │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Battery ESS architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grid / Solar / Wind</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCS</div><div class="kb-diagram-note">&lt; command</div><div class="kb-diagram-node">EMS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Battery Rack</div><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">BMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── sensors: voltage / current / temperature</div></div>
+</div>
+</div>
+
+
 
 실무에서는 응답 속도와 저장 시간이 함께 중요하다. 리튬이온 기반 ESS는 수 밀리초~수초 수준으로 빠르게 반응해 주파수 조정 (FR, Frequency Regulation)에 유리하고, 왕복 효율도 대체로 85~95% 수준으로 높다. 반면 저장 시간이 길어질수록 설비 비용, 열관리, 수명 열화가 더 큰 설계 이슈가 된다.
 
@@ -113,7 +112,7 @@ ESS를 제대로 보려면 [UPS](/knowledge-base/studynote/01_computer_architect
 
 - **채택이 유리한 경우**: 전력요금 시간대 차가 크고, 피크 부하 또는 재생에너지 변동이 큰 현장.
 - **신중해야 하는 경우**: 저장 시간이 길지만 활용률이 낮아 투자 회수가 불확실한 현장.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 수익 모델 없이 "친환경 이미지"만 보고 설치하거나, 냉각·소방 설계를 배터리 용량 뒤로 미루는 결정.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 수익 모델 없이 "친환경 이미지"만 보고 설치하거나, 냉각·소방 설계를 배터리 용량 뒤로 미루는 결정.
 
 기술사 답안에서는 경제성과 안전성을 함께 적는 것이 중요하다. ESS는 전력요금 절감과 계통 안정화를 가져오지만, 화재 위험과 수명 열화라는 비용도 동시에 관리해야 한다. 즉 도입 판단은 CAPEX (Capital Expenditure)와 운영 리스크를 함께 보는 문제다.
 
@@ -145,21 +144,23 @@ ESS를 제대로 보려면 [UPS](/knowledge-base/studynote/01_computer_architect
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-부하 변동 · 재생에너지 확대
-    │
-    ▼
-ESS (Energy Storage System)
-    │
-    ▼
-BMS · PCS · EMS 통합 제어
-    │
-    ▼
-피크 절감 · 주파수 조정 · 출력 평탄화
-    │
-    ▼
-VPP (Virtual Power Plant) · 스마트 그리드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">부하 변동 · 재생에너지 확대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ESS (Energy Storage System)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BMS · PCS · EMS 통합 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피크 절감 · 주파수 조정 · 출력 평탄화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VPP (Virtual Power Plant) · 스마트 그리드</div>
+</div>
+</div>
+
+
 
 이 흐름은 ESS가 단순 저장 장치에서 계통 제어 자원으로 확장되는 방향을 보여준다.
 

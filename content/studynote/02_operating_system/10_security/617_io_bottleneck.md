@@ -24,7 +24,7 @@ I/O ìë ëëì ììíì ëìíëíëCPUìëëëìììë. ììíì ìì ìë ì�
 
 I/O ëëì ìì ììì ëìê êë:
 - **ëìí ììì ìë ìë íê**: HDDì ëëì ìí ìê(íì ìê + íì ìì)
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) ìíëë ìì**: RAID5/6ì íëí êìì ëë ìê ëë
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> ìíëë ìì</strong>: RAID5/6ì íëí êìì ëë ìê ëë
 - **íìììí ëíëìíìì**:ìíëí
 - **ëë ëìì í êì íê**: ëìì ìë êëí I/O ìì ì ìí
 - **ëíìí ëìí íí**: ëìë ëìí ìì ì ëíìí ëìí êê
@@ -32,26 +32,28 @@ I/O ëëì ìì ììì ëìê êë:
 ### ì I/O ëë ëìì ììíê
 CPUìëê ìëë ëìë, ëìíëìëììíêì ëìíëìì ìë, íì ìë, êì ëì, ë ëëëìI/Oì ëêíëë, I/O ëëì íêíë ììíì íìë ìëììëì êëí ì ìë.
 
-```
-[ììí ìì ìë ìê ëì]
 
-[CPU ëìë íëêëì êì]
-ìì ìê = 100%
-|| CPU ìë (100%)
-|                              |
 
-[CPU + I/O íí íëêëì êì]
-ìì ìê = 100%
-|| CPU ìë (30%)
-|| I/O ëê (70%)
-|             ìêì I/O ëë!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ììí ìì ìë ìê ëì</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU ëìë íëêëì êì</div></div>
+<div class="kb-diagram-note">ìì ìê = 100%</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ìë (100%)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU + I/O íí íëêëì êì</div></div>
+<div class="kb-diagram-note">ìì ìê = 100%</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ìë (30%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O ëê (70%)</div></div>
+<div class="kb-diagram-note">ìêì I/O ëë!</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O ëë íê í</div></div>
+<div class="kb-diagram-note">ìì ìê = 43%</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ìë (30%) &lt;- ììê ëì</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O ëê (13%) &lt;- 70%ìì 13%ë êì!</div></div>
+<div class="kb-diagram-note">I/O ììíë ìì ìêì 57% ëìë!</div>
+</div>
+</div>
 
-[I/O ëë íê í]
-ìì ìê = 43%
-|| CPU ìë (30%)  <- ììê ëì
-|| I/O ëê (13%)   <- 70%ìì 13%ë êì!
-|             I/O ììíë ìì ìêì 57% ëìë!
-```
+
 
 **[ëììêë íì]** I/O ëë íêì"ëëìíêì"ì ëìí ì ìë.ëìí ììëCPU(ìê)ì ìëë ëëëI/O(ëë)ê ëëìëìììë
 
@@ -65,34 +67,35 @@ CPUìëê ìëë ëìë, ëìíëìëììíêì ëìíëìì ìë, íì ìë, ê
 
 ### I/O ìí êìì ê êìë ëë íìí
 
-```
-[]
-  > [File System Layer]  <- ëíëìí ìì, ìê, ëí ìì
-        > [Block Layer]    <- I/O ìììë, í êë
-              > [SCSI/NVMe Layer]  <- ëìí ìíëë, í êì
-                    > [Physical Disk]  <- ìì ëìí read/write
 
-ê êìë ëë íìí:
 
-[File System êì]
-- ëíëìí ìê/ìê ìì ìì (íííì)
-- íìììí ëí ìì ëì ->ëìì
-- ìê êí (fs-wide inode mutex ë)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">[]</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">File System Layer</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">ëíëìí ìì, ìê, ëí ìì</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Block Layer</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">I/O ìììë, í êë</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">SCSI/NVMe Layer</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">ëìí ìíëë, í êì</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Physical Disk</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">ìì ëìí read/write</div></div>
+<div class="kb-diagram-note">ê êìë ëë íìí:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">File System êì</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">ëíëìí ìê/ìê ìì ìì (íííì)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">íìììí ëí ìì ëì -&gt;ëìì</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ìê êí (fs-wide inode mutex ë)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Block Layer</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">I/O ìììë ìí (noop, cfq, deadline, mq-deadline)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">í êì (queue depth) ìí</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ëë (unbalanced I/O ëì)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ëìí ìíëë</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">RAID íëí êì (RAID5/6 ìê)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ìíëë ìì Hit/Miss</div>
+<div class="kb-diagram-tree-item" style="--depth:0">SSDì êì FTL(Flash Translation Layer) ìëíë</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ëë ëìí</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">HDD: íì ìê (seek time) + íì ìì (rotational latency)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">SSD: NAND íëì I/O ìê ( erase + program)</div>
+</div>
+</div>
 
-[Block Layer]
-- I/O ìììë ìí (noop, cfq, deadline, mq-deadline)
-- í êì (queue depth) ìí
-- ëë (unbalanced I/O ëì)
 
-[ëìí ìíëë]
-- RAID íëí êì (RAID5/6 ìê)
-- ìíëë ìì Hit/Miss
-- SSDì êì FTL(Flash Translation Layer) ìëíë
-
-[ëë ëìí]
-- HDD: íì ìê (seek time) + íì ìì (rotational latency)
-- SSD: NAND íëì I/O ìê ( erase + program)
-```
 
 ### I/O ëë ìë ëê êì
 
@@ -124,20 +127,24 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 - **await > 100ms**: ëì ëë ëìí ìë -> HDDì êì typical, SSDëë ëì ìì
 - **avgqu-sz (ëê í íê) > 4**: ëì I/Oê íìì ëê ì -> ëë íì
 
-```
-[ëë íë íë]
 
-%utilì 80% ìììê?
- ì: ëìíê ëëìë
-     ìê ëìì ëëë -> ìê ììí (ìì, ëë ahead)
-     ìê ëìì ëëë -> ìê ììí (ëì ìê, SSD ëì)
 
- ìëì: CPUë ëíìí ìì íì
-     CPU %iowaitê ëìê?
-         ì: I/O ëêë CPUê ëê ìí -> I/O ëëìë
-     CPU ììê ëìê?
-          ì: CPU ëëìë
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ëë íë íë</div></div>
+<div class="kb-diagram-note">%utilì 80% ìììê?</div>
+<div class="kb-diagram-note">ì: ëìíê ëëìë</div>
+<div class="kb-diagram-note">ìê ëìì ëëë -&gt; ìê ììí (ìì, ëë ahead)</div>
+<div class="kb-diagram-note">ìê ëìì ëëë -&gt; ìê ììí (ëì ìê, SSD ëì)</div>
+<div class="kb-diagram-note">ìëì: CPUë ëíìí ìì íì</div>
+<div class="kb-diagram-note">CPU %iowaitê ëìê?</div>
+<div class="kb-diagram-note">ì: I/O ëêë CPUê ëê ìí -&gt; I/O ëëìë</div>
+<div class="kb-diagram-note">CPU ììê ëìê?</div>
+<div class="kb-diagram-note">ì: CPU ëëìë</div>
+</div>
+</div>
+
+
 
 **[ëììêë íì]** iostatì %utilì"êìëë ííë"ê êë. 80% ìíìë ìëì ìííê íëìë, 80% ììì ëë ìë ìì êêì ìììê ìëê ëëìë. 100%ì ìëë êìëëê ìì ííëì ìë ìë ìììì ëíë.
 
@@ -168,28 +175,30 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 | ìëë ëì | ëìí ëë | ëíìí ëìí íí | ëìí êì |
 | ìë ìì | CPU ëì | I/O ëê í íì | CPU ì |
 
-```
-[ìíí ëë ìë êì]
 
-ëê 1: ììí ìì íì
- uptime (ëí íê)
- vmstat 1 (CPU, I/O, ëëë ìí)
- iostat -x 1 (ëìí ììë, ìë ìê)
 
-ëê 2: CPU vs I/O ëë êë
- vmstatìì CPUë ììë ëì
-     us (user) + sy (system) ëì -> CPU ëì
-     wa (wait I/O) ëì -> I/O ëê
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ìíí ëë ìë êì</div></div>
+<div class="kb-diagram-note">ëê 1: ììí ìì íì</div>
+<div class="kb-diagram-note">uptime (ëí íê)</div>
+<div class="kb-diagram-note">vmstat 1 (CPU, I/O, ëëë ìí)</div>
+<div class="kb-diagram-note">iostat -x 1 (ëìí ììë, ìë ìê)</div>
+<div class="kb-diagram-note">ëê 2: CPU vs I/O ëë êë</div>
+<div class="kb-diagram-note">vmstatìì CPUë ììë ëì</div>
+<div class="kb-diagram-note">us (user) + sy (system) ëì -&gt; CPU ëì</div>
+<div class="kb-diagram-note">wa (wait I/O) ëì -&gt; I/O ëê</div>
+<div class="kb-diagram-note">iostatìì ëìí ììë ëì</div>
+<div class="kb-diagram-note">%util 80% ìì -&gt; ëìí íí</div>
+<div class="kb-diagram-note">%util 80% ëë -&gt; ëë êì ëì</div>
+<div class="kb-diagram-note">ëê 3: ìì ìì íì</div>
+<div class="kb-diagram-note">iotop: ìë íëììê I/Oë êì ëì ëììíëì</div>
+<div class="kb-diagram-note">blktrace: I/O ììë latency ëí</div>
+<div class="kb-diagram-note">bpftrace: ìë ëë I/O ìë íì ìì</div>
+</div>
+</div>
 
- iostatìì ëìí ììë ëì
-      %util 80% ìì -> ëìí íí
-      %util 80% ëë -> ëë êì ëì
 
-ëê 3: ìì ìì íì
- iotop: ìë íëììê I/Oë êì ëì ëììíëì
- blktrace: I/O ììë latency ëí
- bpftrace: ìë ëë I/O ìë íì ìì
-```
 
 **[ëììêë íì]** I/O ëë ìëì"ìë ìí ìë"ê êë. íìêì(CPU íê), X-ray(ëìí íê), ììë(ëíìí íê) ë ìë êìë íì ìíììë íëíì"ìì ìì"ì ì ì ìë. í êì êìëìë íëíë ìëë ìëë íê ë ì ìë.
 
@@ -239,7 +248,7 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 ### ìííí
 
 - **"%utilì ëìë I/O ëëì ìëë" íë**: %utilì ëìë await(ìë ìê)ê ëìë ëìí ììì ìë ìë ëìê ìì ì ìë.
-- **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ëìëìë ëë ëë íê**: SSDë ëëìë,ìì ëìíë I/O ìììììì ììë ììí ëëì ë ì ìë.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> ëìëìë ëë ëë íê</strong>: SSDë ëëìë,ìì ëìíë I/O ìììììì ììë ììí ëëì ë ì ìë.
 - **ììëìë íêíë í**: ìì ííìì ëìë(= ìì íëëì ëëë íêëì ììë) ìíëììììë ëìí ëì ìë ììë ëììêíì íë.
 
 - **ìì ëì**: I/O ëë íêì "ëì êí íì íê"ê êë. Royceíë([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) êì)ëìëìê ëë(ìì ì ìê) ë ëíë. ììì(ìì), ìë ííì ììê(ìì ììí), ëëìëë íìììë ëëë êììë.
@@ -263,9 +272,9 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)(ëíìíë íí [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)), ìííììë ìíëì(ìíëììì ìì ìì), êëê [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) êë I/O íí ìì ëì ëë I/O ëë íêì ìëì ëíì ë êìë.
 
 ### ìê íì
-- **Linux iostat [documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://man7.org/linux/man-pages/man1/iostat.1.html
-- **blktrace [documentation](/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/)**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://wiki.btrfs.org/wiki/ blktrace
-- **NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-88**: ìíëì ìíí êìëëì
+- <strong>Linux iostat <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/">documentation</a></strong>: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://man7.org/linux/man-pages/man1/iostat.1.html
+- <strong>blktrace <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/378_software_documentation/">documentation</a></strong>: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://wiki.btrfs.org/wiki/ blktrace
+- <strong>NIST <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a> 800-88</strong>: ìíëì ìíí êìëëì
 
 - **ìì ëì**: I/O ëë íêì "ëë ìê íìí"ì êë. íëìëëê(íëìì ì)ìê ëë íëë ëíê(ìííìì ììí)ëë êë ììíìíë(ìì, ìì) ìì ëë ìëê ëìììë íìëë.
 
@@ -280,9 +289,9 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 | êë ëì | êê ë ìëì ìë |
 |---|---|
 | **ëìí ìììë** | I/O ììì ëìíì ëëê ì ìì ìëíë ìêëììë, ìêëì ìíì ëë ëë íì ëë ìíêëíë. |
-| **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)** | ìë ëìíë íëì ëëì ëëìë êìíë êìë, ìê ìëì íëí êì ìëíëê ëìí ì ìë. |
-| **[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)** | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ëìì ìì ìêëë êì [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìííììë, [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSDëëì ìì ìêì ìêíë. |
-| **[FUSE](/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/)** | ììì êêìì íìììíìêíí ì ìëìë, ìë ìì ìì ììí ìíëìëí ì ìë. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a></strong> | ìë ëìíë íëì ëëì ëëìë êìíë êìë, ìê ìëì íëí êì ìëíëê ëìí ì ìë. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a></strong> | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ëìì ìì ìêëë êì [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìííììë, [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) SSDëëì ìì ìêì ìêíë. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/554_fuse_filesystem_in_userspace/">FUSE</a></strong> | ììì êêìì íìììíìêíí ì ìëìë, ìë ìì ìì ììí ìíëìëí ì ìë. |
 
 ---
 
@@ -305,15 +314,19 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
-    │
-    ▼
-[I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
-    │
-    ├──▶ [캐시 미스 오버헤드 측정 분석망 구조 적용]
-    └──▶ [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 미스 오버헤드 측정 분석망 구조 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모바일 OS 특징 (Android vs iOS 아키텍처 비교)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

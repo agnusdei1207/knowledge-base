@@ -23,17 +23,19 @@ tags = ["studynote-data-engineering"]
 
 따라서 현대 MLOps에서 중요한 질문은 "새 모델이 더 똑똑한가?"보다 먼저 "새 모델을 얼마나 안전하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 것인가?"다. 이 질문에 답하는 대표 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 A/B 테스트, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 롤아웃, 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이다. 셋 모두 실서비스 트래픽을 활용하지만, 사용자에게 실제 응답을 돌려주는지, 몇 퍼센트만 노출할지, 응답을 버릴지에서 차이가 난다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            같은 새 모델이라도 노출 방식이 리스크를 바꾼다     │
-├──────────────────────────────────────────────────────────────┤
-│ 일괄 전환:   v1 0%  ─────────────▶  v2 100%                  │
-│             문제 발생 시 전체 사용자가 즉시 영향             │
-│                                                              │
-│ 점진 검증:  Shadow → Canary 5% → 25% → 100% 또는 A/B 50:50  │
-│             문제를 작은 범위에서 먼저 발견                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 새 모델이라도 노출 방식이 리스크를 바꾼다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일괄 전환: v1 0% ▶ v2 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 발생 시 전체 사용자가 즉시 영향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점진 검증: Shadow → Canary 5% → 25% → 100% 또는 A/B 50:50</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제를 작은 범위에서 먼저 발견</div></div>
+</div>
+</div>
+
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 사용자 응답 | 핵심 질문 | 대표 장점 | 대표 비용 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -49,34 +51,31 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 중심에는 **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 라우터**가 있다. 이 라우터는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Inference Gateway, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 시스템 안에서 동작하며, 어떤 요청을 어느 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 보낼지 결정한다. 단순히 트래픽을 나누는 것이 아니라 사용자 고정 할당, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집, 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 사이드 이펙트 차단까지 함께 책임져야 한다.
+세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 중심에는 <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 라우터</strong>가 있다. 이 라우터는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Inference Gateway, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 시스템 안에서 동작하며, 어떤 요청을 어느 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 보낼지 결정한다. 단순히 트래픽을 나누는 것이 아니라 사용자 고정 할당, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집, 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 사이드 이펙트 차단까지 함께 책임져야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│              Validation Router: 검증 방식별 라우팅 엔진           │
-├────────────────────────────────────────────────────────────────────┤
-│ Client Request                                                    │
-│      │                                                            │
-│      ▼                                                            │
-│ Policy Engine (user hash / feature flag / experiment rule)        │
-│      │                                                            │
-│      ├─ A/B Mode                                                  │
-│      │    ├─ control  ──▶ baseline model ──▶ 실제 응답            │
-│      │    └─ treatment ─▶ candidate model ─▶ 실제 응답            │
-│      │                                                            │
-│      ├─ Canary Mode                                               │
-│      │    ├─ 95% baseline                                         │
-│      │    └─ 5% candidate ──▶ 실제 응답, guardrail 통과 시 확대   │
-│      │                                                            │
-│      └─ Shadow Mode                                               │
-│           ├─ baseline ──▶ 실제 응답                               │
-│           └─ candidate ◀── 요청 복제, 응답은 폐기                 │
-│                                                                    │
-│ Telemetry: latency · error rate · output diff · business KPI      │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 라우터가 제대로 동작하려면 세 가지 원리가 필수다. 첫째, **고정 할당(Sticky [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**이다. 같은 사용자가 요청할 때마다 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 바뀌면 실험 오염이 생기므로 사용자 ID나 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 해시로 일관되게 배정해야 한다. 둘째, **사이드 이펙트 격리**다. 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)에서 결제, 포인트 적립, 이메일 발송 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 후보 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에서 실제로 실행되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이중 반영될 수 있다. 셋째, **다층 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집**이다. 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)만 보면 모델 품질 저하를 놓치고, 비즈니스 지표만 보면 지연시간 폭증을 놓친다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation Router: 검증 방식별 라우팅 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Engine (user hash / feature flag / experiment rule)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A/B Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ control ──▶ baseline model ──▶ 실제 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ treatment ─▶ candidate model ─▶ 실제 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Canary Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 95% baseline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 5% candidate ──▶ 실제 응답, guardrail 통과 시 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shadow Mode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ baseline ──▶ 실제 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ candidate ◀── 요청 복제, 응답은 폐기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Telemetry: latency · error rate · output diff · business KPI</div></div>
+</div>
+</div>
+
+
+
+이 라우터가 제대로 동작하려면 세 가지 원리가 필수다. 첫째, <strong>고정 할당(Sticky <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>이다. 같은 사용자가 요청할 때마다 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 바뀌면 실험 오염이 생기므로 사용자 ID나 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 해시로 일관되게 배정해야 한다. 둘째, <strong>사이드 이펙트 격리</strong>다. 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)에서 결제, 포인트 적립, 이메일 발송 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 후보 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에서 실제로 실행되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이중 반영될 수 있다. 셋째, <strong>다층 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 수집</strong>이다. 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)만 보면 모델 품질 저하를 놓치고, 비즈니스 지표만 보면 지연시간 폭증을 놓친다.
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 계층 | 대표 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 왜 필요한가 |
 | :--- | :--- | :--- |
@@ -106,19 +105,20 @@ A/B 테스트는 통계 [검증](/knowledge-base/studynote/04_software_engineeri
 
 실무에서는 셋을 순차적으로 조합하는 경우가 많다. 예를 들어 완전히 새로운 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어나 추론 엔진을 도입할 때는 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 응답 분포와 자원 사용량을 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. 그다음 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)로 1%~5% 사용자에게만 노출해 안정성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 마지막으로 비즈니스 향상폭을 공식적으로 증명해야 할 때 A/B 테스트를 연다.
 
-```text
-오프라인 평가 통과
-      │
-      ├─ 변화 위험 높음 ──▶ Shadow Mirroring
-      │                         │
-      │                         ▼
-      │                    Canary Rollout
-      │                         │
-      │                         ▼
-      └─ 변화 위험 보통 ─────────────────▶ A/B Test 또는 Full Promotion
-```
 
-이 흐름은 KServe, Argo Rollouts, [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Envoy 같은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 도구와 잘 맞는다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 트래픽 제어를 맡고, 모델 서빙 계층이 응답과 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기록하며, 분석 시스템이 자동 승격 또는 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 결정하는 구조가 일반적이다. 즉, 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 모델 자체의 문제가 아니라 **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·관측성·통계 검정이 결합된 운영 설계**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오프라인 평가 통과</div>
+<div class="kb-diagram-tree-item" style="--depth:3">변화 위험 높음 ──▶ Shadow Mirroring</div>
+<div class="kb-diagram-note">Canary Rollout</div>
+<div class="kb-diagram-tree-item" style="--depth:3">변화 위험 보통 ▶ A/B Test 또는 Full Promotion</div>
+</div>
+</div>
+
+
+
+이 흐름은 KServe, Argo Rollouts, [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Envoy 같은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 도구와 잘 맞는다. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 트래픽 제어를 맡고, 모델 서빙 계층이 응답과 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기록하며, 분석 시스템이 자동 승격 또는 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 결정하는 구조가 일반적이다. 즉, 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 모델 자체의 문제가 아니라 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>·관측성·통계 검정이 결합된 운영 설계</strong>다.
 
 - **📢 섹션 요약 비유**: 섀도우는 리허설, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 프리뷰 공연, A/B 테스트는 두 연출 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 번갈아 올려 관객 반응을 비교하는 상영회와 같다.
 
@@ -144,7 +144,7 @@ A/B 테스트는 통계 [검증](/knowledge-base/studynote/04_software_engineeri
 
 특히 섀도우 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)에서는 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 설계가 중요하다. 결제·주문·알림처럼 부작용이 있는 요청은 후보 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 write path를 끄거나, 별도 sandbox 저장소로 보내야 한다. 그렇지 않으면 "사용자에게는 숨겨진 요청"이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오염시키는 치명적 사고로 이어진다.
 
-피해야 할 안티패턴도 명확하다. 고정 할당 없이 사용자를 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 번갈아 보내는 A/B 테스트, 자동 중단 조건이 없는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 없는 섀도우, 표본 수가 부족한 실험은 모두 잘못된 결론을 만든다. 시험 답안에서는 **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 → [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계 → 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) → 사후 승격 조건** 순서로 설명하면 구조가 명확해진다.
+피해야 할 안티패턴도 명확하다. 고정 할당 없이 사용자를 두 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 번갈아 보내는 A/B 테스트, 자동 중단 조건이 없는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 없는 섀도우, 표본 수가 부족한 실험은 모두 잘못된 결론을 만든다. 시험 답안에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택 → <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 설계 → 자동 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> → 사후 승격 조건</strong> 순서로 설명하면 구조가 명확해진다.
 
 - **📢 섹션 요약 비유**: 점진 배포 운영은 수영장에 바로 뛰어드는 것이 아니라, 먼저 발을 담그고 수온을 본 뒤 천천히 들어가는 방식과 같다.
 
@@ -156,7 +156,7 @@ A/B 테스트는 통계 [검증](/knowledge-base/studynote/04_software_engineeri
 
 한계도 분명하다. 섀도우는 인프라를 이중으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽고, A/B 테스트는 시간과 트래픽이 많이 필요하며, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 품질이 아주 미세하게 나빠지는 경우를 통계적으로 잡기 어렵다. 또한 레이블이 늦게 도착하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 즉시 관찰 가능한 시스템 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)과 나중에 들어오는 정답 기반 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 분리해 설계해야 한다.
 
-결국 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 서로의 대체재가 아니라 서로 다른 질문에 답하는 도구다. **섀도우는 "버틸 수 있는가", [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "안전한가", A/B 테스트는 "더 좋은가"를 묻는다**고 기억하면 판단이 쉬워진다.
+결국 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 서로의 대체재가 아니라 서로 다른 질문에 답하는 도구다. <strong>섀도우는 "버틸 수 있는가", <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a>는 "안전한가", A/B 테스트는 "더 좋은가"를 묻는다</strong>고 기억하면 판단이 쉬워진다.
 
 - **📢 섹션 요약 비유**: 이 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 시험 공부와 같다. 모의고사만 보는 단계, 일부 문제만 실전처럼 풀어 보는 단계, 두 공부법을 비교해 더 좋은 쪽을 고르는 단계가 각각 다르다.
 
@@ -175,21 +175,23 @@ A/B 테스트는 통계 [검증](/knowledge-base/studynote/04_software_engineeri
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-오프라인 모델 평가
-    │
-    ▼
-섀도우 미러링 (실트래픽 무영향 검증)
-    │
-    ▼
-카나리 롤아웃 (소수 사용자 노출)
-    │
-    ├─ 안전성 검증 완료 ──▶ 전체 승격
-    └─ 효과 비교 필요 ────▶ A/B 테스트
-                               │
-                               ▼
-                        통계 검증 기반 우승자 선택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오프라인 모델 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">섀도우 미러링 (실트래픽 무영향 검증)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카나리 롤아웃 (소수 사용자 노출)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">안전성 검증 완료 ──▶ 전체 승격</div>
+<div class="kb-diagram-tree-item" style="--depth:2">효과 비교 필요 ▶ A/B 테스트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통계 검증 기반 우승자 선택</div>
+</div>
+</div>
+
+
 
 이 흐름은 모델 배포가 "학습 완료 → 즉시 전환"이 아니라, 위험도와 목적에 따라 여러 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 관문을 거치는 운영 과정임을 보여준다.
 

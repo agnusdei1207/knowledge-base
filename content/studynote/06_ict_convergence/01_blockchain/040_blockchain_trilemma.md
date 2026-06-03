@@ -18,31 +18,32 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 트릴레마 세 축
 
-```
-블록체인 트릴레마:
 
-        분산화(Decentralization)
-           /
-          / <- 비트코인, 이더리움 1.0
-         /
-        +---------확장성(Scalability)
-        |               ^
-        |               | <- Solana, BSC
-        v
-     보안성(Security)
-     
-세 가지 동시 달성 불가:
 
-분산화: 노드 수가 많을수록 더 탈중앙화
-        -> 합의 비용 증가 -> 확장성 하락
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블록체인 트릴레마:</div>
+<div class="kb-diagram-note">분산화(Decentralization)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">/ &lt;- 비트코인, 이더리움 1.0</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">+---------확장성(Scalability)</div>
+<div class="kb-diagram-note">^</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- Solana, BSC</div></div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">보안성(Security)</div>
+<div class="kb-diagram-note">세 가지 동시 달성 불가:</div>
+<div class="kb-diagram-note">분산화: 노드 수가 많을수록 더 탈중앙화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">합의 비용 증가 -&gt; 확장성 하락</div>
+<div class="kb-diagram-note">확장성: TPS 높이려면 검증 절차 단순화 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:4">노드 수 줄이거나 합의 약화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">분산화/보안성 타협</div>
+<div class="kb-diagram-note">보안성: 충분한 노드와 합의 참여 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:4">처리 속도 제약 -&gt; 확장성 하락</div>
+</div>
+</div>
 
-확장성: TPS 높이려면 검증 절차 단순화 필요
-        -> 노드 수 줄이거나 합의 약화
-        -> 분산화/보안성 타협
 
-보안성: 충분한 노드와 합의 참여 필요
-        -> 처리 속도 제약 -> 확장성 하락
-```
 
 > 📢 **섹션 요약 비유**: 트릴레마는 피자 가게 딜레마 — "저렴하게, 맛있게, 빠르게" 세 가지 중 두 개만 선택 가능.
 
@@ -116,26 +117,28 @@ Layer 2 해결책:
 
 ## Ⅳ. [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)과 공격 벡터
 
-```
-보안성 위협:
 
-51% 공격:
-  채굴 해시파워 51% 이상 장악 시 체인 재편 가능
-  비트코인: 비용 수조원 -> 현실적 불가
-  소규모 코인: 실제 공격 사례 다수
 
-Sybil 공격:
-  수많은 가짜 노드 생성으로 합의 조작
-  PoW/PoS 자원 비용으로 방어
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보안성 위협:</div>
+<div class="kb-diagram-note">51% 공격:</div>
+<div class="kb-diagram-note">채굴 해시파워 51% 이상 장악 시 체인 재편 가능</div>
+<div class="kb-diagram-note">비트코인: 비용 수조원 -&gt; 현실적 불가</div>
+<div class="kb-diagram-note">소규모 코인: 실제 공격 사례 다수</div>
+<div class="kb-diagram-note">Sybil 공격:</div>
+<div class="kb-diagram-note">수많은 가짜 노드 생성으로 합의 조작</div>
+<div class="kb-diagram-note">PoW/PoS 자원 비용으로 방어</div>
+<div class="kb-diagram-note">이클립스 공격:</div>
+<div class="kb-diagram-note">특정 노드의 P2P 연결 독점 -&gt; 정보 차단</div>
+<div class="kb-diagram-note">이더리움 보안 현황:</div>
+<div class="kb-diagram-note">PoS 전환 후 ETH 예치금 (3,200만 ETH) = 보안 담보</div>
+<div class="kb-diagram-note">슬래싱 (Slashing): 악의적 행동 시 예치금 소각</div>
+<div class="kb-diagram-tree-item" style="--depth:1">공격 비용 매우 높음</div>
+</div>
+</div>
 
-이클립스 공격:
-  특정 노드의 P2P 연결 독점 -> 정보 차단
 
-이더리움 보안 현황:
-  PoS 전환 후 ETH 예치금 (3,200만 ETH) = 보안 담보
-  슬래싱 (Slashing): 악의적 행동 시 예치금 소각
-  -> 공격 비용 매우 높음
-```
 
 > 📢 **섹션 요약 비유**: [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)은 금고 잠금 장치 — 공격자가 금고를 열려면 담보물의 절반 이상을 써야 하므로 스스로 손해를 입는 구조.
 
@@ -143,32 +146,34 @@ Sybil 공격:
 
 ## Ⅴ. 실무 시나리오 — 금융 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 선택
 
-```
-DeFi (탈중앙화 금융) 플랫폼 선택 기준:
 
-소규모 DEX 스타트업 결정:
-  요구사항:
-    - 높은 TPS (사용자 거래 빠른 처리)
-    - 낮은 가스비 (사용자 비용 절감)
-    - 충분한 보안성
 
-평가:
-  이더리움 메인넷: 가스비 높음, TPS 낮음 -> X
-  Arbitrum (Optimistic Rollup on ETH):
-    TPS 수천, 가스비 1/10 감소
-    이더리움 보안 상속 -> O
-  Solana:
-    TPS 최고이나 다운타임 이력 -> 보안 우려
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DeFi (탈중앙화 금융) 플랫폼 선택 기준:</div>
+<div class="kb-diagram-note">소규모 DEX 스타트업 결정:</div>
+<div class="kb-diagram-note">요구사항:</div>
+<div class="kb-diagram-tree-item" style="--depth:2">높은 TPS (사용자 거래 빠른 처리)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">낮은 가스비 (사용자 비용 절감)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">충분한 보안성</div>
+<div class="kb-diagram-note">평가:</div>
+<div class="kb-diagram-note">이더리움 메인넷: 가스비 높음, TPS 낮음 -&gt; X</div>
+<div class="kb-diagram-note">Arbitrum (Optimistic Rollup on ETH):</div>
+<div class="kb-diagram-note">TPS 수천, 가스비 1/10 감소</div>
+<div class="kb-diagram-note">이더리움 보안 상속 -&gt; O</div>
+<div class="kb-diagram-note">Solana:</div>
+<div class="kb-diagram-note">TPS 최고이나 다운타임 이력 -&gt; 보안 우려</div>
+<div class="kb-diagram-note">결정: Arbitrum 선택</div>
+<div class="kb-diagram-note">이더리움 보안 + Layer 2 확장성 조합</div>
+<div class="kb-diagram-note">트릴레마를 Layer 2로 실용적 우회</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">블록체인 선택 = 트릴레마 우선순위 결정</div>
+<div class="kb-diagram-note">금융 DeFi: 보안 &gt; 분산화 &gt; 확장성</div>
+<div class="kb-diagram-note">게임 NFT: 확장성 &gt; 비용 &gt; 보안 (부분 타협)</div>
+</div>
+</div>
 
-결정: Arbitrum 선택
-  이더리움 보안 + Layer 2 확장성 조합
-  트릴레마를 Layer 2로 실용적 우회
 
-교훈:
-  블록체인 선택 = 트릴레마 우선순위 결정
-  금융 DeFi: 보안 > 분산화 > 확장성
-  게임 NFT: 확장성 > 비용 > 보안 (부분 타협)
-```
 
 > 📢 **섹션 요약 비유**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 플랫폼 선택은 이사할 동네 고르기 — 안전(보안), 교통(확장성), 독립성(분산화) 중 어디를 더 중시하냐의 선택.
 

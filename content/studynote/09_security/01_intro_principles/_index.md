@@ -19,31 +19,25 @@ tags = ["security"]
 
 과거의 보안은 물리적인 성벽을 쌓는 것이었다. 하지만 모든 것이 연결된 '디지털 심화 시대'에는 자산의 형태가 데이터로 변했고, 성벽(경계)은 사라졌다. 이제 보안은 단순히 '막는 것'을 넘어, 데이터가 생성되고 소멸할 때까지의 전 생애주기를 안전하게 관리하는 **'비즈니스 인에이블러 (Enabler)'** 역할을 수행한다.
 
-보안 기본 원칙이 필요한 이유는 세 가지이다. 첫째, **위협의 고도화** 때문이다. 랜섬웨어, APT 공격 등 지능화된 위협은 단일 솔루션만으로는 막을 수 없다. 둘째, **법적 책임의 강화** 때문이다. 개인정보보호법 (ISMS-P) 등 규제 미준수는 기업의 존폐를 결정한다. 셋째, **사용자 신뢰 확보**를 위해서이며, 이는 플랫폼 비즈니스의 가장 강력한 무형 자산이 된다.
+보안 기본 원칙이 필요한 이유는 세 가지이다. 첫째, **위협의 고도화** 때문이다. 랜섬웨어, APT 공격 등 지능화된 위협은 단일 솔루션만으로는 막을 수 없다. 둘째, **법적 책임의 강화** 때문이다. 개인정보보호법 (ISMS-P) 등 규제 미준수는 기업의 존폐를 결정한다. 셋째, <strong>사용자 신뢰 확보</strong>를 위해서이며, 이는 플랫폼 비즈니스의 가장 강력한 무형 자산이 된다.
 
-이 그림은 정보 보안의 3대 핵심 요소인 **CIA Triad**와 이를 보완하는 확장 요소를 보여준다.
+이 그림은 정보 보안의 3대 핵심 요소인 <strong>CIA Triad</strong>와 이를 보완하는 확장 요소를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Information Security CIA Triad              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│             Confidentiality (기밀성)                        │
-│                 /        \                                  │
-│                /          \                                 │
-│               /            \                                │
-│   Availability (가용성) --- Integrity (무결성)               │
-│               \            /                                │
-│                \          /                                 │
-│                 \________/                                  │
-│                                                             │
-│   * 확장 요소:                                              │
-│     1. Authentication (인증): 정당한 사용자인가?            │
-│     2. Non-repudiation (부인방지): 행위를 부인할 수 없는가? │
-│     3. Accountability (책임추적성): 누가 무엇을 했나?       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Information Security CIA Triad</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Confidentiality (기밀성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availability (가용성) --- Integrity (무결성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 확장 요소:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Authentication (인증): 정당한 사용자인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Non-repudiation (부인방지): 행위를 부인할 수 없는가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Accountability (책임추적성): 누가 무엇을 했나?</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '균형'이다. 보안을 너무 강화하면 가용성(편의성)이 떨어지고, 가용성만 중시하면 기밀성이 위협받는다. 실무에서는 비즈니스 성격에 따라 이 세 가지 요소의 우선순위를 조율하는 **위험 관리 (Risk Management)** 과정이 보안의 시작과 끝이다.
 
@@ -84,23 +78,20 @@ tags = ["security"]
 
 이 구조도는 제로 트러스트 환경에서의 접근 제어 논리 (Policy Engine)를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Zero Trust Architecture (NIST 800-207)      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Subject ] ──▶ [ Policy Decision Point ] ──▶ [ Resource ]│
-│   (User/Device)          (PDP)                     (Data)   │
-│                            │                                │
-│          ┌─────────────────┴─────────────────┐              │
-│          ▼                                   ▼              │
-│   [ Continuous Diag ]                 [ Threat Intel ]      │
-│   (상태 상시 점검)                    (위협 정보 연동)      │
-│                                                             │
-│   * 핵심: "신뢰는 없다. 매 순간 다시 검증하라"              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Trust Architecture (NIST 800-207)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Subject</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Decision Point</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User/Device) (PDP) (Data)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Diag</div><div class="kb-diagram-node">Threat Intel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상태 상시 점검) (위협 정보 연동)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: "신뢰는 없다. 매 순간 다시 검증하라"</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '동적 검증'이다. 한 번 로그인했다고 끝이 아니라, 접속 장소나 시간이 평소와 다르면 즉시 추가 인증을 요구하거나 차단한다. 실무에서는 이를 구현하기 위해 **IAM (Identity and Access Management)** 고도화가 필수적이다.
 
@@ -138,28 +129,27 @@ tags = ["security"]
 ### 기술사적 판단: 보안 거버넌스 및 사고 대응 전략
 
 **시나리오 1: 한정된 예산 내에서 전사 보안 강화 우선순위 결정**
-- **판단**: 기술의 화려함보다 **'자산 식별'**이 먼저다. 무엇을 지킬지 모르면 보안은 실패한다. 비즈니스 영향도 분석 (BIA)을 통해 핵심 자산을 분류하고, 가장 취약한 지점 (Weakest Link)을 보강하는 **'최소 보안 수준 (Minimum Security Baseline)'**을 먼저 달성한다. 이후 고위험 자산에 대해 다층 방어를 적용하는 단계적 로드맵을 수립한다.
+- **판단**: 기술의 화려함보다 <strong>'자산 식별'</strong>이 먼저다. 무엇을 지킬지 모르면 보안은 실패한다. 비즈니스 영향도 분석 (BIA)을 통해 핵심 자산을 분류하고, 가장 취약한 지점 (Weakest Link)을 보강하는 <strong>'최소 보안 수준 (Minimum Security Baseline)'</strong>을 먼저 달성한다. 이후 고위험 자산에 대해 다층 방어를 적용하는 단계적 로드맵을 수립한다.
 
 **시나리오 2: 대규모 랜섬웨어 감염 사고 발생 시 응급 조치**
-- **판단**: 가용성보다 **'확산 방지'**가 우선이다. 즉시 감염된 자산을 네트워크에서 물리적으로 격리 (Isolation)하고, 백업본의 오염 여부를 확인한다. 복구 시에는 가장 중요한 서비스부터 **RTO (목표 복구 시간)**에 맞춰 순차적으로 살리되, 사고 원인을 파악하여 동일 취약점을 패치한 후에 재기동하는 '안전 최우선' 복구 전략을 취한다.
+- **판단**: 가용성보다 <strong>'확산 방지'</strong>가 우선이다. 즉시 감염된 자산을 네트워크에서 물리적으로 격리 (Isolation)하고, 백업본의 오염 여부를 확인한다. 복구 시에는 가장 중요한 서비스부터 <strong>RTO (목표 복구 시간)</strong>에 맞춰 순차적으로 살리되, 사고 원인을 파악하여 동일 취약점을 패치한 후에 재기동하는 '안전 최우선' 복구 전략을 취한다.
 
 이 도식은 보안 사고 발생 시 기술사가 지휘해야 할 '침해 사고 대응 절차 (P-D-C-E-R-P)'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Incident Response Lifecycle (SANS)            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Preparation ] ──▶ [ Detection & Analysis ] ──┐          │
-│          ▲                       │ (발견 및 분석)    │          │
-│          │                       ▼                  │          │
-│   [ Post-Incident ] ◀── [ Recovery ] ◀── [ Containment ]    │
-│     (학습/개선)           (복구)           (격리/박멸)       │
-│                                                             │
-│   * 핵심: 격리(Containment)가 늦어지면 피해는 기하급수적    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident Response Lifecycle (SANS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Preparation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Detection &amp; Analysis</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(발견 및 분석)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Post-Incident</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Recovery</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Containment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학습/개선) (복구) (격리/박멸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 격리(Containment)가 늦어지면 피해는 기하급수적</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '종합 병원의 원장'과 같습니다. 평상시에는 위생 관리(거버넌스)를 철저히 하고, 응급 환자(보안 사고)가 오면 빠른 진단과 격리를 통해 병원 전체로 전염병이 퍼지는 것을 막는 결단력이 필요합니다.
 
@@ -174,7 +164,7 @@ tags = ["security"]
 
 ### 미래 전망: 자율 보안 (Autonomous Security)과 AI 역습
 
-미래의 보안은 사람이 아닌 AI 간의 전쟁터가 될 것이다. 공격용 AI가 취약점을 1초 만에 찾아내면, 방어용 AI가 이를 실시간으로 패치하는 **'자율 보안 운영'**이 표준이 될 것이다. 또한 양자 컴퓨팅 시대에 대비한 **양자 내성 암호 (PQC)** 도입이 인프라의 핵심 과제가 될 것이다. 기술사는 개별 솔루션의 기능을 넘어, 기술과 관리 그리고 사람의 인식이 조화된 **'회복 탄력성 (Cyber Resilience)'** 중심의 보안 아키텍처를 설계해야 한다.
+미래의 보안은 사람이 아닌 AI 간의 전쟁터가 될 것이다. 공격용 AI가 취약점을 1초 만에 찾아내면, 방어용 AI가 이를 실시간으로 패치하는 <strong>'자율 보안 운영'</strong>이 표준이 될 것이다. 또한 양자 컴퓨팅 시대에 대비한 **양자 내성 암호 (PQC)** 도입이 인프라의 핵심 과제가 될 것이다. 기술사는 개별 솔루션의 기능을 넘어, 기술과 관리 그리고 사람의 인식이 조화된 **'회복 탄력성 (Cyber Resilience)'** 중심의 보안 아키텍처를 설계해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 보안은 '스스로 고치는 방어막'과 같아질 것입니다. 외부의 자극을 받으면 즉시 단단해지고, 상처를 입어도 스스로 치유하며 인류의 지식을 영원히 지켜주는 든든한 수호자가 될 것입니다.
 

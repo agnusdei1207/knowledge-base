@@ -28,7 +28,7 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-갱신 이상은 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에 **[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(Dependency)**이 잘못 섞여 있을 때 나타난다. 학번이 학과를 결정하고, 동시에 과목코드가 섞여 불필요한 중복 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 만들어내는 구조가 원인이다.
+갱신 이상은 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 내에 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(Dependency)</strong>이 잘못 섞여 있을 때 나타난다. 학번이 학과를 결정하고, 동시에 과목코드가 섞여 불필요한 중복 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 만들어내는 구조가 원인이다.
 
 | 학번 | 이름 | 학과 | 과목코드 | 과목명 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -36,19 +36,20 @@ tags = ["database"]
 | 101 | 김철수 | **컴퓨터** | OS | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
 | 101 | 김철수 | **수학과** | NW | 네트워크 | *(수정 누락으로 인한 불일치!)*
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  갱신 이상 발생 메커니즘 (데이터 불일치)             │
-├──────────────────────────────────────────────────────────────┤
-│ [DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)]                 │
-│                                                              │
-│ 튜플 1: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
-│ 튜플 2: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
-│ 튜플 3: 김철수, 컴퓨터 ─(누락!)──▶ 김철수, 컴퓨터 (X) 모순 발생!   │
-│                                                              │
-│ 결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신 이상 발생 메커니즘 (데이터 불일치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 1: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 2: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 3: 김철수, 컴퓨터 ─(누락!)──▶ 김철수, 컴퓨터 (X) 모순 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 중복된 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완벽하게 제어하지 못할 때 갱신 이상이 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 파괴하는지 보여준다. 애플리케이션 쿼리문만으로는 이 구조적 취약점을 근본적으로 해결하기 어렵다.
 
@@ -58,13 +59,13 @@ tags = ["database"]
 
 ## Ⅲ. 비교 및 연결
 
-갱신 이상은 [삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)([Insertion Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)), [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)([Deletion Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/))과 함께 **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))**의 3대장으로 불리며, 모두 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부족에서 비롯된다.
+갱신 이상은 [삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)([Insertion Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/)), [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)([Deletion Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/))과 함께 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong>의 3대장으로 불리며, 모두 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부족에서 비롯된다.
 
 | [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 발생 원인 ([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) | 결과적 문제점 |
 | :--- | :--- | :--- |
 | **갱신 이상 (Update)** | 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 일부만 수정 누락 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손 |
-| **[삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/) (Insertion)** | 불필요한 기본키 정보 부재로 삽입 불가 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 거부 (NULL 강요) |
-| **[삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) (Deletion)** | 특정 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 삭제 시 연쇄 삭제 발생 | 유지해야 할 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/">삽입 이상</a> (Insertion)</strong> | 불필요한 기본키 정보 부재로 삽입 불가 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 거부 (NULL 강요) |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/">삭제 이상</a> (Deletion)</strong> | 특정 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 삭제 시 연쇄 삭제 발생 | 유지해야 할 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 |
 
 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)들은 겉보기에는 다르게 작동하지만, 본질적으로는 "하나의 테이블이 너무 많은 주제(엔티티)를 담고 있어서" 발생하는 부작용이다. 이를 해결하기 위해 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 분리하는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 과정으로 이어진다.
 
@@ -78,7 +79,7 @@ tags = ["database"]
 
 ### 실무 판단 가이드
 
-- **채택 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 우선)**: 금융, 결제, 인사 시스템처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 진실성(Single Source of Truth)이 절대적으로 중요한 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 환경에서는 무조건 3정규형([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 이상을 맵핑하여 갱신 이상을 원천 차단해야 한다.
+- <strong>채택 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> 우선)</strong>: 금융, 결제, 인사 시스템처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 진실성(Single Source of Truth)이 절대적으로 중요한 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 환경에서는 무조건 3정규형([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 이상을 맵핑하여 갱신 이상을 원천 차단해야 한다.
 - **회피 (의도적 반정규화)**: 반대로 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 환경에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Update)할 일이 거의 없고 읽기(Read)만 발생하므로, 조인 성능을 위해 갱신 이상의 위험을 감수하고 의도적으로 중복(반정규화)을 허용한다.
 
 - **📢 섹션 요약 비유**: 갱신 이상을 막는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 약 상자를 종류별로 나누는 것과 같다. 약을 찾기(조인)는 조금 번거로워지지만, 엉뚱한 약을 먹고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치) 쓰러질 위험은 완벽히 사라진다.
@@ -99,28 +100,30 @@ tags = ["database"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))** | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)의 상위 개념 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))** | 갱신 이상을 원천적으로 제거하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 기법 |
-| **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** | 갱신 이상이 발생했을 때 파괴되는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 핵심 가치 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 갱신, 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/)의 상위 개념 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)</strong> | 갱신 이상을 원천적으로 제거하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 기법 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong> | 갱신 이상이 발생했을 때 파괴되는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 핵심 가치 |
 | **단일 진실 공급원 (SSOT)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복을 없애 확보하려는 목표 아키텍처 상태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규화 테이블 (데이터 짬뽕)
-    │
-    ▼
-데이터 중복 (Redundancy) 발생
-    │
-    ▼
-이상 현상 (Anomaly: 갱신, 삽입, 삭제)
-    │
-    ▼
-함수적 종속성 (Functional Dependency) 분석
-    │
-    ▼
-정규화 (1NF ➔ 2NF ➔ 3NF ➔ BCNF) 도입
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규화 테이블 (데이터 짬뽕)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 중복 (Redundancy) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이상 현상 (Anomaly: 갱신, 삽입, 삭제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 (1NF ➔ 2NF ➔ 3NF ➔ BCNF) 도입</div>
+</div>
+</div>
+
+
 
 이 흐름도는 잘못된 테이블 설계가 갱신 이상을 유발하고, 이를 수학적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 분석을 통해 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 치유해 나가는 과정을 보여준다.
 

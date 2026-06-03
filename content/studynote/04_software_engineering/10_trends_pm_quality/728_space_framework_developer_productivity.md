@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스가 등장하면서 '배포 빈도'와 '리드타임' 같은 시스템 지표로 팀 성과를 측정하게 되었지만, 여전히 한계가 있었다. 배포는 엄청나게 빠르지만 개발자들이 매일 야근하며 번아웃에 시달려 당장 내일 집단 퇴사할 위기라면, 그 팀을 정말 '생산성이 높다'고 할 수 있을까?
 
-이 한계를 깨닫고, 인간(개발자)의 심리와 협업, 몰입도까지 종합적으로 측정하기 위해 2021년 탄생한 모델이 바로 **SPACE 프레임워크**다.
+이 한계를 깨닫고, 인간(개발자)의 심리와 협업, 몰입도까지 종합적으로 측정하기 위해 2021년 탄생한 모델이 바로 <strong>SPACE 프레임워크</strong>다.
 
 - **📢 섹션 요약 비유**: 육상 선수를 평가할 때 '100m 달리기 기록([DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/))'만 보면 안 된다. 선수의 근육 피로도(만족도), 팀원들과의 패스 횟수(소통), 그리고 작전 이해도(효율성)까지 종합적으로 봐야 1년 내내 부상 없이 우승할 수 있는 진짜 실력을 알 수 있다. 이것이 SPACE다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 SPACE 프레임워크 생산성 다각화의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SPACE 프레임워크 생산성 다각화                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPACE 프레임워크 생산성 다각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 SPACE 프레임워크 생산성 다각화가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -82,7 +81,7 @@ DORA와 SPACE는 경쟁 관계가 아니라, 줌 아웃(Zoom-out)과 줌 인(Zoo
 | **장점** | 명확한 숫자로 나와 경영진 보고에 유리 | 번아웃, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 등 숨겨진 문제 발견에 탁월 |
 | **단점** | 개발자가 행복한지, 갈려나가고 있는지 모름 | 5가지를 모두 측정하기가 까다롭고 정성적임 |
 
-실무에서는 **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 통해 전체 파이프라인의 속도를 재고, 그 속도를 내기 위해 개발자들이 무리하고 있지 않은지 SPACE의 '만족도'와 '몰입도' 지표로 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)**하는 하이브리드 방식을 쓴다.
+실무에서는 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 지표를 통해 전체 파이프라인의 속도를 재고, 그 속도를 내기 위해 개발자들이 무리하고 있지 않은지 SPACE의 '만족도'와 '몰입도' 지표로 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a></strong>하는 하이브리드 방식을 쓴다.
 
 - **📢 섹션 요약 비유**: DORA가 비행기의 '속도계와 고도계'라면, SPACE는 비행기를 모는 '조종사의 심박수와 스트레스 지수'를 보여주는 모니터다. 둘 다 봐야 추락하지 않는다.
 
@@ -133,21 +132,23 @@ SPACE 프레임워크를 정착시키면 "코드 한 줄도 안 짰지만, 후�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SPACE 프레임워크 생산성 다각화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPACE 프레임워크 생산성 다각화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

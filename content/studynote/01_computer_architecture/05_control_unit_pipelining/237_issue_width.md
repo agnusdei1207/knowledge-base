@@ -42,26 +42,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 발급 폭의 제약을 받는 위치를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 명령어 흐름과 발급 폭 병목의 위치                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Fetch 4 ─▶ Decode 4 ─▶ Rename 4 ─▶ Dispatch 4 ─▶ Issue Queue                │
-│                                                       │                      │
-│                                                       │ ready 검사           │
-│                                                       ▼                      │
-│                                            ┌──────────────────────┐          │
-│                                            │ Wakeup / Select      │          │
-│                                            │ 최대 3개 선택 가능   │          │
-│                                            └─────────┬────────────┘          │
-│                                                      │                       │
-│                         ┌──────────────┬─────────────┴─────────────┐         │
-│                         ▼              ▼                           ▼         │
-│                      ALU Port 0     ALU Port 1                Load Port      │
-│                         │              │                           │         │
-│                         └─────── 이번 사이클 실제 Issue = 3 ───────┘         │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 흐름과 발급 폭 병목의 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch 4 ─▶ Decode 4 ─▶ Rename 4 ─▶ Dispatch 4 ─▶ Issue Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wakeup / Select</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 3개 선택 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU Port 0 ALU Port 1 Load Port</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이번 사이클 실제 Issue = 3</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 설계 난제는 웨이크업-셀렉트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. 예를 들어 6-wide 발급을 만들면 단지 선택선 6개를 더하는 것이 아니라, 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 준비되었는지 비교하고 서로 같은 자원을 요구하는지 판정하며, 결과를 각 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 연결하는 배선까지 함께 늘어난다. 그래서 발급 폭 증가는 보통 선형 이득보다 더 큰 회로 비용을 요구하며, 실제 상용 코어가 4~8-wide 부근에서 균형점을 찾는 이유도 여기에 있다.
 
@@ -100,7 +95,7 @@ tags = ["studynote-computer-architecture"]
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **명목 폭 과대 설계**: 8-wide를 광고하지만 실제 워크로드에서 평균 2~3개만 발급되는 구조
-- **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 불균형**: 정수 ALU는 많지만 Load/Store 경로가 좁아 메모리 의존 코드에서 즉시 병목 발생
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 불균형</strong>: 정수 ALU는 많지만 Load/Store 경로가 좁아 메모리 의존 코드에서 즉시 병목 발생
 - **프론트엔드 미스매치**: Fetch와 Decode가 충분히 공급하지 못해 백엔드의 넓은 발급 폭이 놀게 되는 구조
 
 기술사 관점에서는 "발급 폭을 넓힐수록 항상 좋다"고 쓰면 부족하다. 반드시 유효 폭, 전력, 임계 경로, 메모리 공급, 워크로드 ILP를 함께 언급해야 설계 판단으로 인정된다.
@@ -133,23 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 파이프라인
-    │
-    ▼
-수퍼스칼라 (Superscalar)
-    │
-    ├─▶ 디스패치 폭 (Dispatch Width)
-    │
-    ├─▶ 명령어 발급 폭 (Issue Width)
-    │        │
-    │        ├─▶ 비순차 실행 (Out-of-Order Execution, OoO)
-    │        ├─▶ 레지스터 리네이밍 (Register Renaming)
-    │        └─▶ 실행 포트 / 예약역 최적화
-    │
-    ▼
-높은 IPC (Instructions Per Cycle)와 전력-성능 균형 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 파이프라인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수퍼스칼라 (Superscalar)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 디스패치 폭 (Dispatch Width)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 명령어 발급 폭 (Issue Width)</div>
+<div class="kb-diagram-note">─▶ 비순차 실행 (Out-of-Order Execution, OoO)</div>
+<div class="kb-diagram-note">─▶ 레지스터 리네이밍 (Register Renaming)</div>
+<div class="kb-diagram-note">─▶ 실행 포트 / 예약역 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">높은 IPC (Instructions Per Cycle)와 전력-성능 균형 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 도입 → 발급 단계의 정교화 → 실효 폭을 높이기 위한 보조 기술"로 확장되는 구조를 보여준다.
 

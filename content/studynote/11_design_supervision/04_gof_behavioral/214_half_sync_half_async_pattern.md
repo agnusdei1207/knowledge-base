@@ -24,32 +24,27 @@ tags = ["studynote-design-supervision"]
 
 **해결**: 비동기 이벤트 수신([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))과 동기 비즈니스 처리(단순성)를 **큐를 사이에 두고 물리적으로 분리**.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  3-Layer Architecture                       │
-│                                                             │
-│  Layer 1: 비동기 계층 (Async Layer)                          │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  네트워크 I/O 수신 (epoll / IOCP)                   │   │
-│    │  인터럽트 핸들러 / 이벤트 드리븐                      │   │
-│    │  스레드 1개 또는 소수로 수천 연결 처리                 │   │
-│    └────────────────────┬───────────────────────────────┘   │
-│                         │ 이벤트/메시지 투입                  │
-│                         ▼                                   │
-│  Layer 2: 큐 계층 (Queue Layer)                              │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  [Req-1] [Req-2] [Req-3] [Req-4] [Req-5] ...      │   │
-│    │  버퍼링 · 역압(Backpressure) 제어 · 우선순위 큐      │   │
-│    └────────────────────┬───────────────────────────────┘   │
-│                         │ 작업 배포                          │
-│                         ▼                                   │
-│  Layer 3: 동기 계층 (Sync Layer)                             │
-│    ┌────────────────────────────────────────────────────┐   │
-│    │  Worker Thread 1 │ Worker Thread 2 │ Worker Thread N│  │
-│    │  동기 순차 처리   │  DB 조회, 연산  │  응답 전송      │   │
-│    └────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-Layer Architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1: 비동기 계층 (Async Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 I/O 수신 (epoll / IOCP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 핸들러 / 이벤트 드리븐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 1개 또는 소수로 수천 연결 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트/메시지 투입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 2: 큐 계층 (Queue Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Req-1</div><div class="kb-diagram-node">Req-2</div><div class="kb-diagram-node">Req-3</div><div class="kb-diagram-node">Req-4</div><div class="kb-diagram-node">Req-5</div><div class="kb-diagram-note">... │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼링 · 역압(Backpressure) 제어 · 우선순위 큐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 3: 동기 계층 (Sync Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Thread 1</div><div class="kb-diagram-cell">Worker Thread 2</div><div class="kb-diagram-cell">Worker Thread N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기 순차 처리</div><div class="kb-diagram-cell">DB 조회, 연산</div><div class="kb-diagram-cell">응답 전송</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 고속도로(비동기 계층)로 달려온 차들이 톨게이트 앞 대기열(큐)에 줄을 서고, 각 부스의 직원(동기 워커)이 한 대씩 처리하는 구조다.
 
@@ -64,30 +59,38 @@ tags = ["studynote-design-supervision"]
 | Sync Layer (동기 계층) | 동기 | 큐에서 작업 꺼내 동기 처리 |
 | Worker [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) (워커 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) | 동기 | 실제 비즈니스 로직 실행 |
 
-```
-큐 유형 선택:
-  ├── Bounded Queue (제한 큐): 역압(Backpressure) 자동 적용
-  │     └── 큐 가득 찰 시 → 비동기 계층에 흐름 제어 신호
-  ├── Priority Queue (우선순위 큐): SLA 등급별 처리 순서 보장
-  └── Disruptor Pattern: Lock-Free 고성능 큐 (LMAX Disruptor)
 
-큐 크기 결정 공식 (Little's Law):
-  L = λ × W
-  (큐 내 평균 항목 수 = 평균 도착률 × 평균 처리 시간)
-```
 
-```
-[네트워크 소켓 수신]
-       │ (비동기 accept/read)
-       ▼
-[요청 큐 (request queue)]
-       │
-  ┌────┴──────────────────────────────┐
-  │  prefork / worker / event MPM     │
-  │  (동기 처리 워커 풀)                │
-  │  각 워커가 CGI/PHP/모듈 동기 실행   │
-  └───────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">큐 유형 선택:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Bounded Queue (제한 큐): 역압(Backpressure) 자동 적용</div>
+<div class="kb-diagram-note">── 큐 가득 찰 시 → 비동기 계층에 흐름 제어 신호</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Priority Queue (우선순위 큐): SLA 등급별 처리 순서 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Disruptor Pattern: Lock-Free 고성능 큐 (LMAX Disruptor)</div>
+<div class="kb-diagram-note">큐 크기 결정 공식 (Little's Law):</div>
+<div class="kb-diagram-note">L = λ × W</div>
+<div class="kb-diagram-note">(큐 내 평균 항목 수 = 평균 도착률 × 평균 처리 시간)</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 소켓 수신</div></div>
+<div class="kb-diagram-note">(비동기 accept/read)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요청 큐 (request queue)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">prefork / worker / event MPM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동기 처리 워커 풀)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 워커가 CGI/PHP/모듈 동기 실행</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 콜센터에서 자동 응답(비동기 계층)이 전화를 받아 대기열(큐)에 쌓아두면, 상담원(동기 워커)이 한 건씩 처리하는 구조다.
 
@@ -169,7 +172,7 @@ Half-Sync/Half-Async 패턴은 "[성능](/knowledge-base/studynote/04_software_e
 - 큐 메모리 사용량 증가 (Bounded [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 필수)
 - 계층 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 직렬화/역직렬화 오버헤드
 
-기술사 설계 문제에서는 **3계층 구조 (비동기-큐-동기)를 다이어그램으로 명확히 표현**하고, 큐의 역할([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), 디커플링, 역압)을 설명하는 것이 고득점 포인트다.
+기술사 설계 문제에서는 <strong>3계층 구조 (비동기-큐-동기)를 다이어그램으로 명확히 표현</strong>하고, 큐의 역할([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), 디커플링, 역압)을 설명하는 것이 고득점 포인트다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

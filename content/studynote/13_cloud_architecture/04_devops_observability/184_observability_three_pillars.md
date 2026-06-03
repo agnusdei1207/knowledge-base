@@ -35,23 +35,22 @@ tags = ["studynote-cloud-architecture"]
 
 이 그림은 하나의 요청이 3대 기둥으로 어떻게 투영되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ One request, three observability pillars                          │
-├────────────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                        │
-│    │                                                               │
-│    ▼                                                               │
-│ Gateway -> Auth -> Order -> Payment -> Database                    │
-│    │          │       │         │                                  │
-│    ├─ Metrics : 요청 수, 오류율, 95백분위수 지연시간               │
-│    ├─ Logs    : 예외 메시지, 설정 변경, 비즈니스 이벤트            │
-│    └─ Traces  : span 연결, 서비스 간 호출 순서, 병목 구간          │
-│                                                                    │
-│ Collector -> Metrics Store / Log Store / Trace Backend             │
-│                    └─ 공통 상관키(trace_id, service.name)          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One request, three observability pillars</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gateway -&gt; Auth -&gt; Order -&gt; Payment -&gt; Database</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Metrics : 요청 수, 오류율, 95백분위수 지연시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Logs : 예외 메시지, 설정 변경, 비즈니스 이벤트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Traces : span 연결, 서비스 간 호출 순서, 병목 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector -&gt; Metrics Store / Log Store / Trace Backend</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 공통 상관키(trace_id, service.name)</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 것은 세 기둥이 서로를 대체하지 않는다는 점이다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 집계값이라 값이 높아졌다는 사실은 알려 주지만 왜 높아졌는지는 말하지 못한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 상세하지만 건수가 많아지면 검색 비용이 급증한다. 트레이스는 경로를 보여 주지만, 장기 추세나 정확한 오류 문장은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 보완해야 한다.
 
@@ -101,10 +100,10 @@ tags = ["studynote-cloud-architecture"]
 기술사 관점에서 강조할 판단 포인트도 명확하다.
 
 1. **계측 우선 설계**: 코드 배포 전에 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 이름, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 필드, 트레이스 전파 규칙을 먼저 정해야 한다.
-2. **상관관계 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)**: `trace_id`, `span_id`, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명, 배포 버전이 공통으로 남아야 장애 추적 속도가 급격히 빨라진다.
+2. <strong>상관관계 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a></strong>: `trace_id`, `span_id`, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명, 배포 버전이 공통으로 남아야 장애 추적 속도가 급격히 빨라진다.
 3. **카디널리티 관리**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 저장소는 집계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 강하므로 무분별한 라벨 확장은 피해야 한다.
-4. **샘플링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 정상 트래픽은 샘플링하고, 오류·고지연 요청은 우선 보존하는 방식이 비용 대비 효율적이다.
-5. **구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 보안**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 사람이 읽기 쉬운 문장만이 아니라 기계가 필터링할 수 있는 필드 구조를 가져야 하며, 개인정보는 마스킹해야 한다.
+4. <strong>샘플링 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 정상 트래픽은 샘플링하고, 오류·고지연 요청은 우선 보존하는 방식이 비용 대비 효율적이다.
+5. <strong>구조화 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>와 보안</strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 사람이 읽기 쉬운 문장만이 아니라 기계가 필터링할 수 있는 필드 구조를 가져야 하며, 개인정보는 마스킹해야 한다.
 
 대표 안티패턴은 세 가지다. 첫째, 대시보드만 화려하고 코드 계측이 부실한 경우다. 둘째, 모든 값을 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 라벨로 밀어 넣어 저장 비용과 조회 지연을 폭증시키는 경우다. 셋째, 트레이스는 수집하지만 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐나 비동기 작업으로 넘어가면서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 전파가 끊기는 경우다. 이런 시스템은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 많은데 답은 없는" 상태에 빠진다.
 
@@ -137,24 +136,25 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인프라 모니터링
-    │
-    ▼
-애플리케이션 메트릭 수집
-    │
-    ▼
-중앙 로그 관리
-    │
-    ▼
-분산 추적 도입
-    │
-    ▼
-OpenTelemetry 기반 상관분석
-    │
-    ▼
-프로파일링 · 이벤트 · 자동화 분석을 포함한 확장 관측성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인프라 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애플리케이션 메트릭 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중앙 로그 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 추적 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenTelemetry 기반 상관분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로파일링 · 이벤트 · 자동화 분석을 포함한 확장 관측성</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

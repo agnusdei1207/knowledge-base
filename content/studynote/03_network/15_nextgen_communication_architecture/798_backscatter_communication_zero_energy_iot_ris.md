@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 762번 문서([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/))에서 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 10년 가는 동전 배터리로 굴린다고 했지만, 이것도 결국 10년 뒤 수십억 개의 배터리 쓰레기통 산을 만들고 교체 인건비가 폭발하는 시한폭탄입니다.
-- **궁극적 목표**: 센서 내부에 아예 화학 배터리를 없애고, 버려지는 공기 중의 무선 전파 파동(RF Energy)을 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 긁어모아 직류 전기로 변환(Energy Harvesting)해 쓰는 **무전원(Zero-Energy) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통신망** 설계입니다.
+- **궁극적 목표**: 센서 내부에 아예 화학 배터리를 없애고, 버려지는 공기 중의 무선 전파 파동(RF Energy)을 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 긁어모아 직류 전기로 변환(Energy Harvesting)해 쓰는 <strong>무전원(Zero-Energy) <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 통신망</strong> 설계입니다.
 
-```text
-[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    ▼
-[메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    └──▶ [동적 스펙트럼 공유 기술]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,17 +46,21 @@ tags = ["studynote-network"]
 - **문제점**: 폰처럼 자기가 직접 전파를 빵빵하게 쏘려면 전기가 엄청나게 듭니다. 전기가 0인 센서는 전파를 만들 힘이 없습니다.
 - **꼼수 해결책 (반사 통신)**: 
   - 기지국이나 스마트폰이 엄청 강력한 와이파이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파 빔을 허공에 마구 쏩니다.
-  - 무전원 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 스티커는 이 전파 파동에 부딪힐 때, **자기 몸([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 열었다 닫았다(온/오프) 하면서 기지국의 전파를 마치 거울로 태양 빛을 반사시켜 깜빡이듯이 튕겨냅니다(Backscatter).**
+  - 무전원 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 스티커는 이 전파 파동에 부딪힐 때, <strong>자기 몸(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)을 열었다 닫았다(온/오프) 하면서 기지국의 전파를 마치 거울로 태양 빛을 반사시켜 깜빡이듯이 튕겨냅니다(Backscatter).</strong>
   - 기지국은 자기가 쏜 전파가 저 멀리 쓰레기통 스티커에 맞고 '깜빡깜빡(0 1 0 1)' 반사되어 돌아오는 미세한 파동 변화를 읽어들여 센서의 온도 데이터를 0.001초 만에 해독해 냅니다. 센서는 스스로 전기를 쓰지 않고 남의 힘을 빌려 말을 하는 완벽한 기적입니다.
 
-```text
-[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    ▼
-[메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    └──▶ [동적 스펙트럼 공유 기술]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 ### 2. 메타 표면 (RIS) 보조 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 환경 연계
 - 787번 문서에서 배운 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 거울(RIS)이 또 등장합니다.
 - 거실 구석 센서가 튕겨낸 반사 전파(Backscatter)는 너무 힘이 약해 공유기까지 오다가 바닥에 떨어져 소멸해 버립니다.
-- 이때 벽지 발라진 **RIS 메타 표면 보드**가, 이 미세한 반사 전파를 싹 빨아들인 뒤 방향을 휙 꺾고 에너지를 모아서 공유기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 정통으로 꽂아 넣어 줍니다(경로 조작). 약하디약한 무전원 센서의 목소리에 확성기를 달아주는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대 통신 방향의 완성입니다.
+- 이때 벽지 발라진 <strong>RIS 메타 표면 보드</strong>가, 이 미세한 반사 전파를 싹 빨아들인 뒤 방향을 휙 꺾고 에너지를 모아서 공유기 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 정통으로 꽂아 넣어 줍니다(경로 조작). 약하디약한 무전원 센서의 목소리에 확성기를 달아주는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대 통신 방향의 완성입니다.
 
 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…가 기반 조건을 만든다면, 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…는 그 위에서 핵심 메커니즘을 구현하고, 동적 스펙트럼 공유 기술은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
-    │
-    ▼
-[현재 개념: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
-    │
-    ├──▶ [확장 A: 동적 스펙트럼 공유 기술]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 동적 스펙트럼 공유 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…는 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…에서 출발해 현재 메커니즘을 정교화하고, 이후 동적 스펙트럼 공유 기술와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

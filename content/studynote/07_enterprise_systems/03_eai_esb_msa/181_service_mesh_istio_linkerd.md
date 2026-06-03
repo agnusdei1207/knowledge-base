@@ -19,22 +19,24 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 내부 통신을 전담하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 네트워크다. 애플리케이션은 비즈니스 로직에 집중하고, 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 교환, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 같은 횡단 관심사는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 대신 수행한다. 즉 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 핵심은 "통신 기능을 더 넣는 것"이 아니라 **통신 책임의 위치를 바꾸는 것**이다.
+[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 내부 통신을 전담하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 네트워크다. 애플리케이션은 비즈니스 로직에 집중하고, 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 교환, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 같은 횡단 관심사는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 대신 수행한다. 즉 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 핵심은 "통신 기능을 더 넣는 것"이 아니라 <strong>통신 책임의 위치를 바꾸는 것</strong>이다.
 
 이 개념이 필요한 이유는 MSA가 커질수록 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 소스 코드에 퍼지기 때문이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) B를 호출할 때마다 각 팀이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 넣고, 언어별 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 맞추고, 장애 시 추적 정보를 심어야 한다면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지고 배포 부담이 커진다. 특히 자바, 고, 파이썬 같은 다중 언어 환경에서는 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 각기 다른 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 방식으로 반복 구현하게 된다.
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 이 문제를 "모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 옆에 통신 전담 대리인 하나씩을 붙인다"는 방식으로 풀어낸다. 아래 그림은 코드 안에 네트워크 책임이 박혀 있는 구조와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 구조의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Before mesh vs with mesh                                           │
-├────────────────────────────────────────────────────────────────────┤
-│ before : app A [retry][security][metrics] -> app B [auth][timeout] │
-│ after  : app A -> proxy A == policy + identity ==> proxy B -> app B │
-│                                                                    │
-│ effect : traffic logic leaves business binaries                    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before mesh vs with mesh</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">before : app A</div><div class="kb-diagram-node">retry</div><div class="kb-diagram-node">security</div><div class="kb-diagram-node">metrics</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">auth</div><div class="kb-diagram-node">timeout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after : app A -&gt; proxy A == policy + identity ==&gt; proxy B -&gt; app B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">effect : traffic logic leaves business binaries</div></div>
+</div>
+</div>
+
+
 
 여기서 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) (mutual Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 암호화로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 대표 기능이다. 중요한 것은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 비즈니스 기능을 대체하지 않는다는 점이다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙은 애플리케이션에 남고, 공통 통신 제어만 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 계층으로 이동한다.
 
@@ -46,17 +48,18 @@ tags = ["studynote-enterprise"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)과 컨트롤 플레인 (Control Plane)으로 나뉜다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인은 실제 패킷과 요청을 처리하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 집합이고, 컨트롤 플레인은 그 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 텔레메트리 구성을 배포하는 중앙 관리 계층이다. 애플리케이션 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆의 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 대표적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 형태다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Service mesh control loop                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ platform team -> control plane -> policy / cert / route config     │
-│                                    │                               │
-│ App A -> proxy A == secure traffic ==> proxy B -> App B            │
-│               │                                   │                │
-│               └──────── metrics / traces / logs ──┴─> observability │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service mesh control loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">platform team -&gt; control plane -&gt; policy / cert / route config</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A -&gt; proxy A == secure traffic ==&gt; proxy B -&gt; App B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metrics / traces / logs ── ─&gt; observability</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 애플리케이션은 보통 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에만 요청을 보내고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)끼리 실제 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수행한다. 컨트롤 플레인은 "A에서 B로 가는 요청 중 5%만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 보낸다", "모든 내부 통신은 mTLS를 사용한다", "특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 초당 요청 수를 제한한다" 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 배포한다. 그래서 애플리케이션을 재배포하지 않고도 통신 규칙을 바꿀 수 있다.
 
@@ -87,7 +90,7 @@ tags = ["studynote-enterprise"]
 | 부담 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 면이 넓고 운영 학습량이 큼 | 고급 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 범위는 상대적으로 제한적 |
 | 잘 맞는 상황 | 규제, 멀티클러스터, 세밀한 트래픽 제어가 중요한 조직 | 기능보다 단순 도입과 안정 운영이 중요한 조직 |
 
-이 비교가 중요한 이유는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 단순 기능 목록이 아니라 **운영 체계 선택**이기 때문이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많고 릴리스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 복잡하며 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제가 중요하면 Istio가 어울릴 수 있다. 반대로 내부 통신 암호화와 기본 관측성을 빠르게 확보하고 싶고 운영팀 규모가 크지 않다면 Linkerd가 더 현실적일 수 있다.
+이 비교가 중요한 이유는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 단순 기능 목록이 아니라 <strong>운영 체계 선택</strong>이기 때문이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많고 릴리스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 복잡하며 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제가 중요하면 Istio가 어울릴 수 있다. 반대로 내부 통신 암호화와 기본 관측성을 빠르게 확보하고 싶고 운영팀 규모가 크지 않다면 Linkerd가 더 현실적일 수 있다.
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/), [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크와도 자연스럽게 연결된다. 즉 이것은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 하나의 도구가 아니라, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 운영을 인프라 차원에서 표준화하는 묶음 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -119,7 +122,7 @@ tags = ["studynote-enterprise"]
 - [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 자원 한계를 계산하지 않고 모든 Pod에 일괄 주입하는 경우
 - [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 나쁜 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계나 느린 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계를 자동으로 해결해 줄 것이라 기대하는 경우
 
-기술사 답안에서는 "[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 보안과 관측성을 높인다"는 수준을 넘어서, **적용 규모, 운영 역량, 제품 선택 기준, 중복 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위험**까지 함께 판단해야 한다. 특히 도입 전후의 책임 분리 구조를 설명하면 설계 답안의 깊이가 높아진다.
+기술사 답안에서는 "[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 보안과 관측성을 높인다"는 수준을 넘어서, <strong>적용 규모, 운영 역량, 제품 선택 기준, 중복 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 위험</strong>까지 함께 판단해야 한다. 특히 도입 전후의 책임 분리 구조를 설명하면 설계 답안의 깊이가 높아진다.
 
 - **📢 섹션 요약 비유**: 작은 동네 가게 두세 곳이 있는 골목에 대형 교통관제센터를 세우면 과하다. 하지만 도시 전체 도로가 얽혀 있고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 중앙에서 맞춰야 한다면, 관제센터가 없을 때의 혼란이 더 커진다.
 
@@ -127,11 +130,11 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 잘 맞는 환경에서는 내부 통신 보안, 장애 제어, 트래픽 전환, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구현과 분리되어 훨씬 일관되게 운영된다. 개발팀은 비즈니스 로직에 집중하고, 플랫폼팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 다루며, 운영팀은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 더 명확하게 볼 수 있다. 결국 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 "[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 추가하는 기술"이 아니라 **내부 네트워크를 운영 가능한 계층으로 승격시키는 기술**이다.
+[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 잘 맞는 환경에서는 내부 통신 보안, 장애 제어, 트래픽 전환, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구현과 분리되어 훨씬 일관되게 운영된다. 개발팀은 비즈니스 로직에 집중하고, 플랫폼팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 다루며, 운영팀은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 더 명확하게 볼 수 있다. 결국 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 "[프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 추가하는 기술"이 아니라 <strong>내부 네트워크를 운영 가능한 계층으로 승격시키는 기술</strong>이다.
 
 하지만 비용도 함께 온다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 늘어나면 CPU와 메모리 사용량이 증가하고, 장애 분석 경로도 하나 더 생긴다. 또한 조직에 플랫폼 운영 역량이 없으면 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 자체가 새로운 복잡성의 원인이 될 수 있다. 그래서 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 규모가 커질수록 빛나지만, 작은 시스템에서는 과도한 장비가 될 수 있다.
 
-앞으로는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 부담을 줄이는 방향의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 구현도 확대되고 있지만, 핵심 철학은 변하지 않는다. **통신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드가 아니라 인프라에서 통제한다**는 관점이 바로 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 본질이다. 이 관점을 이해하면 Istio와 Linkerd의 차이도 기능 목록이 아니라 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이로 보이게 된다.
+앞으로는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 부담을 줄이는 방향의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 구현도 확대되고 있지만, 핵심 철학은 변하지 않는다. <strong>통신 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 코드가 아니라 인프라에서 통제한다</strong>는 관점이 바로 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 본질이다. 이 관점을 이해하면 Istio와 Linkerd의 차이도 기능 목록이 아니라 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이로 보이게 된다.
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 건물 안의 모든 통로에 센서와 출입 규칙을 붙여 두는 스마트 빌딩과 같다. 복잡한 건물일수록 효과가 크지만, 작은 단층 가게에는 오히려 관리 장비가 더 무거울 수 있다.
 
@@ -151,20 +154,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서비스 수 증가 · 통신 정책 중복
-        │
-        ▼
-사이드카 프록시 도입
-        │
-        ▼
-컨트롤 플레인 기반 중앙 정책 배포
-        │
-        ├──────────────► mTLS · 서비스 신원 관리
-        ├──────────────► 재시도 · 타임아웃 · 카나리 라우팅
-        ├──────────────► 메트릭 · 로그 · 트레이스 수집
-        └──────────────► Istio 또는 Linkerd 운영 전략 선택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 수 증가 · 통신 정책 중복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이드카 프록시 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨트롤 플레인 기반 중앙 정책 배포</div>
+<div class="kb-diagram-tree-item" style="--depth:4">mTLS · 서비스 신원 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:4">재시도 · 타임아웃 · 카나리 라우팅</div>
+<div class="kb-diagram-tree-item" style="--depth:4">메트릭 · 로그 · 트레이스 수집</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Istio 또는 Linkerd 운영 전략 선택</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -21,29 +21,29 @@ tags = ["studynote-database"]
 
 뷰 머징은 SQL (Structured Query Language) [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 위해 나눈 질의 블록을, 실행 전에 다시 합쳐 의미는 그대로 두고 비용은 낮추려는 최적화 기술이다. 개발자는 복잡한 로직을 [인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/), 파생 테이블, 재사용 뷰로 정리하지만, [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 입장에서는 이 경계가 남아 있으면 전체 조인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 자유롭게 탐색하기 어렵다. 특히 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건이 바깥 블록에 있고 큰 테이블이 뷰 안에 숨어 있으면, 뷰를 먼저 계산하는 순간 불필요하게 큰 중간 결과를 만든 뒤에야 행 수를 줄이게 된다.
 
-핵심은 "뷰를 썼다"가 문제가 아니라, **뷰 경계가 최적화 벽이 되는가**다. 단순한 뷰는 결국 `FROM` 절 안에 있는 또 하나의 질의 블록일 뿐이므로, 의미를 훼손하지 않는다면 메인 블록과 합쳐 최적화하는 편이 유리하다. 뷰 머징은 바로 이 벽을 제거해 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 재배치, 선택 조건 이동, 불필요 조인 제거 같은 후속 최적화의 문을 열어 준다.
+핵심은 "뷰를 썼다"가 문제가 아니라, <strong>뷰 경계가 최적화 벽이 되는가</strong>다. 단순한 뷰는 결국 `FROM` 절 안에 있는 또 하나의 질의 블록일 뿐이므로, 의미를 훼손하지 않는다면 메인 블록과 합쳐 최적화하는 편이 유리하다. 뷰 머징은 바로 이 벽을 제거해 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 재배치, 선택 조건 이동, 불필요 조인 제거 같은 후속 최적화의 문을 열어 준다.
 
-아래 그림은 뷰 경계가 남아 있을 때와 사라질 때의 차이를 보여 준다. 중요한 점은 최종 결과 건수보다, **중간 결과가 언제 줄어드느냐**가 비용을 바꾼다는 사실이다.
+아래 그림은 뷰 경계가 남아 있을 때와 사라질 때의 차이를 보여 준다. 중요한 점은 최종 결과 건수보다, <strong>중간 결과가 언제 줄어드느냐</strong>가 비용을 바꾼다는 사실이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ View boundary as optimization wall                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Before merge                                                       │
-│   Main block : CUSTOMERS join [V]                                  │
-│   View V    : ORDERS join ORDER_ITEMS                              │
-│                 ▲                                                  │
-│                 └─ region='SEOUL' predicate stays outside          │
-│                                                                    │
-│ After merge                                                        │
-│   Single block : CUSTOMERS join ORDERS join ORDER_ITEMS            │
-│                  + region predicate can influence join order        │
-│                                                                    │
-│ Same answer / different search space / different temp result size  │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 뷰 머징의 필요성은 "뷰를 없애자"가 아니다. **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분리는 유지하되, 물리 실행에서는 불필요한 경계를 걷어 내자**는 데 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View boundary as optimization wall</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before merge</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Main block : CUSTOMERS join</div><div class="kb-diagram-node">V</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View V : ORDERS join ORDER_ITEMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ region='SEOUL' predicate stays outside</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After merge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single block : CUSTOMERS join ORDERS join ORDER_ITEMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ region predicate can influence join order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same answer / different search space / different temp result size</div></div>
+</div>
+</div>
+
+
+
+즉 뷰 머징의 필요성은 "뷰를 없애자"가 아니다. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 분리는 유지하되, 물리 실행에서는 불필요한 경계를 걷어 내자</strong>는 데 있다.
 
 - **📢 섹션 요약 비유**: 서류철을 보기 좋게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 두는 것은 좋지만, 실제 심사할 때는 관련 종이를 한 책상 위에 펼쳐 놓아야 빠르게 판단할 수 있다. 뷰 머징은 정리용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)철을 잠시 벗겨 실무 처리 속도를 높이는 일과 같다.
 
@@ -85,25 +85,25 @@ SELECT c.customer_name, o.order_id
    AND o.order_date >= DATE '2026-01-01';
 ```
 
-이 변환의 진짜 가치는 단순히 SQL 줄 수가 줄어드는 데 있지 않다. `c.region = 'SEOUL'`처럼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 큰 조건이 고객 테이블을 먼저 줄일 수 있으면, 이후 `orders` 접근 방식도 달라질 수 있다. 다시 말해 뷰 머징은 **조건 푸시다운 (Predicate Pushdown)** 과 **[조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화**를 함께 더 잘 작동하게 만드는 전처리다.
+이 변환의 진짜 가치는 단순히 SQL 줄 수가 줄어드는 데 있지 않다. `c.region = 'SEOUL'`처럼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 큰 조건이 고객 테이블을 먼저 줄일 수 있으면, 이후 `orders` 접근 방식도 달라질 수 있다. 다시 말해 뷰 머징은 **조건 푸시다운 (Predicate Pushdown)** 과 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/">조인 순서</a> 최적화</strong>를 함께 더 잘 작동하게 만드는 전처리다.
 
-물론 모든 머징이 단순하지는 않다. 일반적으로 투영·선택·조인만 있는 [단순 뷰](/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)는 머징이 쉽다. 반면 집계가 들어간 뷰는 일부 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 더 엄격한 "복합 뷰 머징"이나 조인 백 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Back) 형태로 다뤄질 수 있으며, 아무 조건 없이 합칠 수 있는 것은 아니다. 따라서 기술사 답안에서는 "집계 뷰는 무조건 불가"처럼 단정하기보다, **기본적으로 제약이 크고 의미 보존 검사가 더 엄격하다**고 설명하는 편이 정확하다.
+물론 모든 머징이 단순하지는 않다. 일반적으로 투영·선택·조인만 있는 [단순 뷰](/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)는 머징이 쉽다. 반면 집계가 들어간 뷰는 일부 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 더 엄격한 "복합 뷰 머징"이나 조인 백 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Back) 형태로 다뤄질 수 있으며, 아무 조건 없이 합칠 수 있는 것은 아니다. 따라서 기술사 답안에서는 "집계 뷰는 무조건 불가"처럼 단정하기보다, <strong>기본적으로 제약이 크고 의미 보존 검사가 더 엄격하다</strong>고 설명하는 편이 정확하다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Optimizer rewrite path                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ SQL parse                                                          │
-│   ▼                                                                │
-│ Query block graph                                                  │
-│   ▼                                                                │
-│ Merge safety check                                                 │
-│   ├─ safe   -> remove view boundary -> global cost optimization    │
-│   └─ unsafe -> keep block / materialize / separate optimization    │
-│   ▼                                                                │
-│ Final physical plan                                                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimizer rewrite path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL parse</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query block graph</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge safety check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ safe -&gt; remove view boundary -&gt; global cost optimization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unsafe -&gt; keep block / materialize / separate optimization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final physical plan</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 뷰 머징은 부서별 회의 자료를 본부 회의 전에 통합 브리핑본으로 다시 묶는 일과 같다. 자료를 합칠 수 있으면 전체 일정 조정이 쉬워지고, 합치면 안 되는 민감 자료는 별도 봉투로 남겨 둬야 한다.
 
@@ -119,11 +119,11 @@ SELECT c.customer_name, o.order_id
 | 조건 푸시다운 (Predicate Pushdown) | 경계는 유지 | 바깥 조건을 안으로 내려 조기 필터링 | 머징은 어려우나 필터 전달은 가능한 경우 |
 | 머티리얼라이제이션 | 경계를 유지하고 결과를 저장 | 재사용, 안정된 중간 결과 확보 | 비싼 서브쿼리 재사용, 집계 결과 재참조 |
 
-예를 들어 집계 뷰를 여러 번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 보고서 SQL이라면, 뷰 머징보다 머티리얼라이제이션이 더 이득일 수 있다. 반대로 한 번만 쓰는 단순 [인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/)라면 굳이 경계를 유지할 이유가 없으므로 뷰 머징이 유리하다. 즉 "뷰를 합칠 수 있느냐"보다 중요한 질문은 **경계를 없애는 편이 전체 비용을 더 낮추느냐**다.
+예를 들어 집계 뷰를 여러 번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 보고서 SQL이라면, 뷰 머징보다 머티리얼라이제이션이 더 이득일 수 있다. 반대로 한 번만 쓰는 단순 [인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/)라면 굳이 경계를 유지할 이유가 없으므로 뷰 머징이 유리하다. 즉 "뷰를 합칠 수 있느냐"보다 중요한 질문은 <strong>경계를 없애는 편이 전체 비용을 더 낮추느냐</strong>다.
 
 또한 뷰 머징은 [서브쿼리 언네스팅](/knowledge-base/studynote/05_database/04_transactions_concurrency/585_subquery_unnesting_optimizer_query_transformation/) ([Subquery Unnesting](/knowledge-base/studynote/05_database/04_transactions_concurrency/585_subquery_unnesting_optimizer_query_transformation/)), CTE ([Common Table Expression](/knowledge-base/studynote/05_database/07_exam_summary/513_cte_with_recursive_tree/)) 인라이닝, 조인 제거와도 연결된다. 모두 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 사람이 쓴 형태에서 기계가 잘 최적화할 수 있는 형태로 바꾸는 재작성 계열 기술이다. 다만 뷰 머징은 특히 `FROM` 절에 있는 뷰/[인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/)의 경계를 다룬다는 점에서 초점이 분명하다.
 
-실무적으로는 보안 배리어 뷰, 행 수준 보안, Top-N [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)네이션처럼 경계를 일부러 유지해야 하는 경우도 중요하다. 이런 경우에는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 결과 의미와 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 우선한다. 따라서 뷰 머징은 "무조건 좋은 최적화"가 아니라, **의미 보존이 허용하는 범위에서만 성립하는 최적화 자유도**로 이해해야 한다.
+실무적으로는 보안 배리어 뷰, 행 수준 보안, Top-N [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)네이션처럼 경계를 일부러 유지해야 하는 경우도 중요하다. 이런 경우에는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 결과 의미와 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 우선한다. 따라서 뷰 머징은 "무조건 좋은 최적화"가 아니라, <strong>의미 보존이 허용하는 범위에서만 성립하는 최적화 자유도</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 뷰 머징은 벽을 허무는 리모델링이고, 조건 푸시다운은 문만 하나 더 내는 공사이며, 머티리얼라이제이션은 창고를 따로 두는 선택이다. 집 구조와 생활 패턴에 따라 정답이 달라진다.
 
@@ -151,7 +151,7 @@ SELECT c.customer_name, o.order_id
 - 같은 비싼 뷰를 여러 번 쓰면서도 재사용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 계속 인라인으로 복붙하는 경우
 - [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)로 잠깐 빨라진 계획을 영구 해법처럼 받아들이는 경우
 
-DBMS마다 `MERGE`, `NO_MERGE`, `MATERIALIZED`, `NOT MATERIALIZED`처럼 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)나 옵션의 이름은 다르지만, 판단 원리는 같다. **경계를 없애야 전체 탐색 공간이 넓어지는가, 아니면 경계를 남겨야 의미와 재사용성이 살아나는가**를 먼저 따져야 한다.
+DBMS마다 `MERGE`, `NO_MERGE`, `MATERIALIZED`, `NOT MATERIALIZED`처럼 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)나 옵션의 이름은 다르지만, 판단 원리는 같다. <strong>경계를 없애야 전체 탐색 공간이 넓어지는가, 아니면 경계를 남겨야 의미와 재사용성이 살아나는가</strong>를 먼저 따져야 한다.
 
 - **📢 섹션 요약 비유**: 회의실 벽을 허물면 협업은 빨라질 수 있지만, 결재 문서 보관실까지 허물면 오히려 사고가 난다. 뷰 머징도 어디는 터야 하고 어디는 남겨야 한다.
 
@@ -163,7 +163,7 @@ DBMS마다 `MERGE`, `NO_MERGE`, `MATERIALIZED`, `NOT MATERIALIZED`처럼 [힌트
 
 하지만 한계도 분명하다. 잘못된 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 추정 위에서는 머징 이후에도 엉뚱한 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)가 선택될 수 있고, 일부 질의는 경계를 유지해야 오히려 더 안정적이거나 의미상 안전하다. 따라서 뷰 머징은 만능 버튼이 아니라, 통계 품질·질의 의미·재사용 패턴이 함께 맞아야 효과를 내는 최적화다.
 
-결론적으로 뷰 머징은 "뷰를 없애는 기술"이 아니라, **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 설계와 물리적 실행을 분리하는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 대표적 재작성 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 맞다. 읽기 쉬운 SQL을 쓰되, 실행 시에는 불필요한 최적화 벽을 걷어 낼 수 있어야 진짜 좋은 질의가 된다.
+결론적으로 뷰 머징은 "뷰를 없애는 기술"이 아니라, <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 설계와 물리적 실행을 분리하는 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>의 대표적 재작성 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 맞다. 읽기 쉬운 SQL을 쓰되, 실행 시에는 불필요한 최적화 벽을 걷어 낼 수 있어야 진짜 좋은 질의가 된다.
 
 - **📢 섹션 요약 비유**: 정리정돈은 일을 시작하기 쉽게 만들어 주지만, 실제 작업 때는 필요한 도구를 한 작업대에 모아 두는 편이 더 빠르다. 뷰 머징은 정리와 실행을 구분하는 숙련자의 손놀림이다.
 
@@ -183,25 +183,26 @@ DBMS마다 `MERGE`, `NO_MERGE`, `MATERIALIZED`, `NOT MATERIALIZED`처럼 [힌트
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Readable SQL with inline view
-        │
-        ▼
-Query block analysis
-        │
-        ▼
-Merge safety check
-        │
-        ├──────────────► keep boundary / materialize
-        ▼
-View merging
-        │
-        ▼
-Predicate movement + join reorder
-        │
-        ▼
-Lower intermediate result cost
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Readable SQL with inline view</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Query block analysis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Merge safety check</div>
+<div class="kb-diagram-tree-item" style="--depth:4">keep boundary / materialize</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">View merging</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Predicate movement + join reorder</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lower intermediate result cost</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 위한 분리 → 안전성 검사 → 경계 제거 여부 결정 → 전역 최적화 → 중간 결과 축소"라는 뷰 머징의 사고 흐름을 보여 준다.
 

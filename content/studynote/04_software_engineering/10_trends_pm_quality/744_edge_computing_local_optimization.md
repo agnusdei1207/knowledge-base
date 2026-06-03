@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 하지만 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))이 폭발하면서 문제가 생겼다. 자율주행 자동차가 1초에 1GB씩 쏟아내는 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전부 클라우드로 보내서 "저 앞에 사람이야?"라고 묻고 답을 기다리면, 그 0.1초의 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 사이에 차는 사람을 치게 된다. 게다가 산속 깊은 곳이나 바다 한가운데에서는 인터넷(통신망)이 끊길 수도 있다.
 
-이 생존의 딜레마를 해결하기 위해, **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드로 보내지 말고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 태어난 곳(현장)에 작은 미니 컴퓨터를 둬서 그 자리에서 바로 생각하고 결정하게 만들자!"**는 역발상이 나왔다. 이것이 클라우드 아키텍처의 중심을 다시 현장으로 끌어내린 **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))**이다.
+이 생존의 딜레마를 해결하기 위해, <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 클라우드로 보내지 말고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 태어난 곳(현장)에 작은 미니 컴퓨터를 둬서 그 자리에서 바로 생각하고 결정하게 만들자!"</strong>는 역발상이 나왔다. 이것이 클라우드 아키텍처의 중심을 다시 현장으로 끌어내린 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 동네 파출소(엣지)에 권한이 없어서, 도둑을 잡으면 무조건 서울 경찰청(클라우드)까지 데려가서 판결을 받고 와야 했다. [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 파출소장에게 즉결 처분 권한을 주어, 현장에서 1초 만에 도둑을 잡게 해주는 시스템이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  엣지 컴퓨팅 데이터 로컬 최적화                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 컴퓨팅 데이터 로컬 최적화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬 최적화가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -79,7 +78,7 @@ tags = ["studynote-software-engineering"]
 | **1990년대** | 메인프레임 | 중앙 집중형 | 엣지(터미널)는 깡통에 불과함 |
 | **2000년대** | 클라이언트-서버 ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) | 완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 | 엣지(내 컴퓨터)에서 모든 걸 처리함 |
 | **2010년대** | [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) | 다시 중앙 집중형 | 스마트폰은 거들 뿐, AWS가 다 계산함 |
-| **현재** | **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Fog Computing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/))**| **하이브리드 (중앙 + 끝단)** | **클라우드와 엣지가 영리하게 역할을 나눠 가짐** |
+| **현재** | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">Fog Computing</a>)</strong>| **하이브리드 (중앙 + 끝단)** | **클라우드와 엣지가 영리하게 역할을 나눠 가짐** |
 
 *안개(Fog) 컴퓨팅*: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 만든 용어로, 저 높은 구름(Cloud)과 땅(Device) 사이에 안개(Fog)처럼 넓게 퍼져있는 중간 엣지 네트워크를 의미한다. 실무에서는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)과 거의 동의어로 쓰인다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-엣지 컴퓨팅 데이터 로컬 최적화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 컴퓨팅 데이터 로컬 최적화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

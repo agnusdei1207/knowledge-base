@@ -26,41 +26,37 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: COCOMO는 마치 "건축 면적(LOC)과 건물의 용도(프로젝트 모드)를 입력하면, 필요한 인부 수와 공사 기간을 계산해 주는 자동 견적 프로그램"과 같다. 주택(Organic)인지, 상가(Semi-detached)인지, 복잡한 원자력 발전소(Embedded)인지에 따라 같은 면적이라도 공식이 다르게 적용된다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 경험적 추정의 한계**: 1970년대 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)) 시절, 대부분의 프로젝트가 예산을 초과하고 일정을 지연시켰다. 직관적 추정은 대형 프로젝트의 비선형적인 복잡도 증가를 반영하지 못했다.
-  2. **[COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 81의 등장**: 보엠은 63개의 실제 소프트웨어 프로젝트 데이터를 분석하여, 규모(LOC)와 개발 노력(Effort) 간의 상관관계를 지수 방정식 형태로 도출했다. 이는 프로젝트 유형을 3가지(Organic, Semi-detached, Embedded)로 분류하여 적용성을 높였다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 경험적 추정의 한계</strong>: 1970년대 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)) 시절, 대부분의 프로젝트가 예산을 초과하고 일정을 지연시켰다. 직관적 추정은 대형 프로젝트의 비선형적인 복잡도 증가를 반영하지 못했다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/">COCOMO</a> 81의 등장</strong>: 보엠은 63개의 실제 소프트웨어 프로젝트 데이터를 분석하여, 규모(LOC)와 개발 노력(Effort) 간의 상관관계를 지수 방정식 형태로 도출했다. 이는 프로젝트 유형을 3가지(Organic, Semi-detached, Embedded)로 분류하여 적용성을 높였다.
 
 기존 경험적 추정 방식과 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델이 프로젝트 복잡도를 다루는 방식의 차이를 시각화하면 다음과 같다. 규모가 커질수록 직관적 추정은 실제 필요 노력을 과소평가하는 경향이 있다.
 
-```text
-  ┌─────────────────────────────────────────────────────────┐
-  │         규모(LOC)에 따른 필요 노력(Effort) 증가 곡선      │
-  ├─────────────────────────────────────────────────────────┤
-  │                                                         │
-  │  노력(PM)                                                │
-  │   ▲                                    / Embedded       │
-  │   │                                  /  (복잡함, 지수 큼) │
-  │   │                                /                    │
-  │   │                              /                      │
-  │   │                            /  Semi-detached         │
-  │   │                         /    (중간)                 │
-  │   │                      /                              │
-  │   │                    /     Organic                    │
-  │   │                 /       (단순, 지수 작음)            │
-  │   │              /                                      │
-  │   │   . . . . ./ . . . . . . 직관적/선형적 추정(실패 원인) │
-  │   │                                                     │
-  │   └───────────────────────────────────────────▶ 규모  │
-  │                                              (KLOC)     │
-  │                                                         │
-  │  ※ 공식: Effort(PM) = a * (KLOC)^b                       │
-  │     규모가 커질수록 의사소통 비용 등으로 인해              │
-  │     필요 노력이 기하급수적으로 증가함. (b > 1.0)          │
-  └─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규모(LOC)에 따른 필요 노력(Effort) 증가 곡선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노력(PM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ / Embedded</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (복잡함, 지수 큼)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Semi-detached</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (중간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Organic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (단순, 지수 작음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . . . ./ . . . . . . 직관적/선형적 추정(실패 원인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 규모</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KLOC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 공식: Effort(PM) = a * (KLOC)^b</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규모가 커질수록 의사소통 비용 등으로 인해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 노력이 기하급수적으로 증가함. (b &gt; 1.0)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 그래프의 핵심은 소프트웨어 개발 노력이 규모(KLOC)에 비례하여 선형적으로 증가하지 않는다는 점이다. 사람이 늘어나고 시스템 단위가 커질수록 인터페이스 복잡도와 커뮤니케이션 오버헤드가 기하급수적으로 증가하기 때문이다. COCOMO는 방정식의 지수(b) 값을 프로젝트 복잡도(Organic, Semi-detached, Embedded)에 따라 다르게 부여하여 이 비선형성을 수학적으로 모델링했다. 따라서 대규모의 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)(Embedded)일수록 동일한 코드를 짜더라도 훨씬 더 가파른 비용 증가 곡선을 그리게 된다.
 
-  3. **[COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II로의 진화**: 1990년대 이후 객체지향 프로그래밍과 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 재사용, 4GL 등이 등장하면서 단순히 '작성한 코드 라인 수'만으로 노력을 산정하는 것이 무의미해졌다. 이에 따라 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계에서의 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 활용, 재사용 코드 비율, 개발 환경 성숙도 등을 복합적으로 반영하는 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II가 발표되어 현대적 개발 환경에 대응하게 되었다.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/">COCOMO</a> II로의 진화</strong>: 1990년대 이후 객체지향 프로그래밍과 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 재사용, 4GL 등이 등장하면서 단순히 '작성한 코드 라인 수'만으로 노력을 산정하는 것이 무의미해졌다. 이에 따라 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계에서의 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 활용, 재사용 코드 비율, 개발 환경 성숙도 등을 복합적으로 반영하는 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II가 발표되어 현대적 개발 환경에 대응하게 되었다.
 
 - **📢 섹션 요약 비유**: 작은 텃밭을 일구는 것과 거대한 스마트 팜을 짓는 것은 단순히 면적 비례로 인력이 늘어나는 것이 아니듯, COCOMO는 소프트웨어의 '종류'에 따라 기하급수적으로 늘어나는 '협업 오버헤드'를 수학 공식으로 잡아낸 설계도입니다.
 
@@ -83,7 +79,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-소프트웨어 비용 산정 COCOMO의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+소프트웨어 비용 산정 COCOMO의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 비용 산정 COCOMO의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -159,21 +155,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 비용 산정 COCOMO 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 비용 산정 COCOMO 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

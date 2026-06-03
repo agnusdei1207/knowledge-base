@@ -10,9 +10,9 @@ tags = ["hadoop", "studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **[분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)의 표준**: 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 단위로 나누어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리(Map)하고, 그 결과를 하나로 합쳐(Reduce) 최종 통찰을 도출하는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 핵심 연산 프레임워크입니다.
-- **[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) ([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)를 보내어(Function to [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동에 따른 네트워크 병목을 획기적으로 줄입니다.
-- **[회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)**: 작업 도중 특정 서버가 고장 나도 다른 서버가 해당 작업을 자동으로 재수행하여 결코 멈추지 않는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연산을 보장합니다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a>의 표준</strong>: 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 단위로 나누어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리(Map)하고, 그 결과를 하나로 합쳐(Reduce) 최종 통찰을 도출하는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 핵심 연산 프레임워크입니다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">데이터 지역성</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/">Data Locality</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)를 보내어(Function to [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동에 따른 네트워크 병목을 획기적으로 줄입니다.
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a></strong>: 작업 도중 특정 서버가 고장 나도 다른 서버가 해당 작업을 자동으로 재수행하여 결코 멈추지 않는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연산을 보장합니다.
 
 ### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
 수 테라바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단일 서버에서 처리하는 것은 불가능에 가깝습니다. 구글이 2004년 발표한 논문을 바탕으로 구현된 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 수만 대의 서버에 나눠주고(Map), 다 끝난 결과를 묶어서 가져온다(Reduce)"는 단순하지만 강력한 철학을 통해 빅데이터 분석의 시대를 열었습니다.
@@ -20,30 +20,31 @@ tags = ["hadoop", "studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 Map - [Shuffle & Sort](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/) - Reduce의 단계를 거치며 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 쌍으로 처리됩니다.
 
-```text
-[ MapReduce Processing Flow Architecture ]
 
-1. Input Split: Split large file into blocks (HDFS).
-2. Map: Filter and sort data (e.g., Word counting).
-3. Shuffle & Sort: Group values by key across nodes (Heavy Network I/O).
-4. Reduce: Aggregate values for each key.
 
-[ Diagram: Word Count Example ]
-(Input: "Apple Banana Apple") 
-      |
-[ Map ] --> (Apple, 1), (Banana, 1), (Apple, 1)
-      |
-[ Shuffle ] --> (Apple: [1, 1]), (Banana: [1])
-      |
-[ Reduce ] --> (Apple: 2), (Banana: 1)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce Processing Flow Architecture</div></div>
+<div class="kb-diagram-note">1. Input Split: Split large file into blocks (HDFS).</div>
+<div class="kb-diagram-note">2. Map: Filter and sort data (e.g., Word counting).</div>
+<div class="kb-diagram-note">3. Shuffle &amp; Sort: Group values by key across nodes (Heavy Network I/O).</div>
+<div class="kb-diagram-note">4. Reduce: Aggregate values for each key.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Diagram: Word Count Example</div></div>
+<div class="kb-diagram-note">(Input: "Apple Banana Apple")</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Map</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Apple, 1), (Banana, 1), (Apple, 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Shuffle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 1</div><div class="kb-diagram-note">), (Banana:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Apple: 2), (Banana: 1)</div></div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)와 차세대 엔진인 스파크를 비교합니다.
 
 | 비교 항목 | [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) ([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) | [아파치 스파크](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) (Spark) |
 | :--- | :--- | :--- |
-| **저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)** | **디스크 ([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)) 기반** | **메모리 (In-Memory) 기반** |
+| <strong>저장 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a></strong> | <strong>디스크 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a>) 기반</strong> | **메모리 (In-Memory) 기반** |
 | **속도** | 느림 (단계별 디스크 I/O 발생) | **매우 빠름 (최대 100배)** |
 | **복잡도** | Java 코딩 필요 (낮은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) | 다양한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Python/SQL, 높은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) |
 | **적합성** | 배치성 대용량 정산/통계 | 실시간, 반복 연산, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) |
@@ -51,7 +52,7 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 1. **셔플 최적화**: [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)의 가장 큰 병목은 셔플(Shuffle) 단계의 네트워크 전송입니다. `Combiner`를 사용하여 맵 단계에서 1차 집계를 수행함으로써 전송량을 줄여야 합니다.
-2. **[배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)의 제왕**: 실시간성보다는 며칠 치의 거대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 정산하거나 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전수 조사하는 'Heavy Batch' 작업에 여전히 비용 효율적인 선택지가 됩니다.
+2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a>의 제왕</strong>: 실시간성보다는 며칠 치의 거대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 정산하거나 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전수 조사하는 'Heavy Batch' 작업에 여전히 비용 효율적인 선택지가 됩니다.
 3. **기술사적 판단**: [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 '느리다'는 평가를 받지만, 극단적인 저사양 서버 클러스터에서도 디스크를 믿고 끝까지 작업을 완수해내는 끈기(Robustness)가 장점입니다. 최근에는 Hive의 엔진을 Tez나 Spark로 바꾸는 추세지만, 원리적 이해는 필수입니다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
@@ -64,21 +65,23 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단일 서버 한계]
-    │
-    ▼
-[분산 처리 필요]
-    │
-    ▼
-[MapReduce(Map 단계)]
-    │
-    ▼
-[Shuffle/Sort]
-    │
-    ▼
-[Reduce 단계 → Hadoop 에코시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 처리 필요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce(Map 단계)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Shuffle/Sort</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce 단계 → Hadoop 에코시스템</div></div>
+</div>
+</div>
+
+
 
 MapReduce는 단일 서버 한계를 넘어 Map, Shuffle/Sort, Reduce로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행한다.
 

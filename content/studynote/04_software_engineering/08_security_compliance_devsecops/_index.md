@@ -17,28 +17,25 @@ tags = ["software_engineering"]
 
 ### 보안의 패러다임 시프트: 사후 방어에서 사전 내재화로
 
-과거의 소프트웨어 보안은 개발이 완료된 후 방화벽을 세우거나 침입 탐지 시스템을 다는 '외곽 방어' 중심이었다. 그러나 최근의 지능형 지속 위협 (APT)과 오픈소스 취약점을 악용한 공격은 애플리케이션 내부의 논리적 결함을 직접 파고든다. 이에 따라 개발 초기 단계부터 보안을 고려하는 **시큐어 SDLC (Secure SDLC)**와 **DevSecOps**가 필수적인 공학적 실천법으로 자리 잡았다.
+과거의 소프트웨어 보안은 개발이 완료된 후 방화벽을 세우거나 침입 탐지 시스템을 다는 '외곽 방어' 중심이었다. 그러나 최근의 지능형 지속 위협 (APT)과 오픈소스 취약점을 악용한 공격은 애플리케이션 내부의 논리적 결함을 직접 파고든다. 이에 따라 개발 초기 단계부터 보안을 고려하는 <strong>시큐어 SDLC (Secure SDLC)</strong>와 <strong>DevSecOps</strong>가 필수적인 공학적 실천법으로 자리 잡았다.
 
 보안 내재화가 필요한 이유는 명확하다. 첫째, 소프트웨어 배포 속도가 빨라지면서 수동 보안 점검으로는 배포 주기를 맞출 수 없기 때문이고, 둘째, 오픈소스 사용 비중이 80%를 넘어서면서 외부 라이브러리의 취약점이 곧 나의 서비스 취약점이 되기 때문이며, 셋째, 클라우드 네이티브 환경에서 인프라 설정 오류로 인한 데이터 유출 사고가 빈번하기 때문이다.
 
 이 그림은 기존의 DevOps에 보안(Security)이 어떻게 결합되어 'DevSecOps'로 진화하는지를 보여준다. 무한 루프의 모든 단계에 보안 체크포인트가 삽입됨을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DevSecOps Lifecycle Loop                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│         [Plan] ────▶ [Code] ────▶ [Build] ────▶ [Test]      │
-│           │            │            │            │          │
-│      (Threat Mod) (Static Sec) (SCA/SBOM)   (Dynamic Sec)   │
-│           ▲                                      │          │
-│           │                                      ▼          │
-│        [Monitor] ◀── [Operate] ◀── [Deploy] ◀── [Release]   │
-│           │            │            │            │          │
-│      (SIEM/SOAR)  (Zero Trust) (IaC Scan)   (Compliance)    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps Lifecycle Loop</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Plan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Threat Mod) (Static Sec) (SCA/SBOM) (Dynamic Sec)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Operate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Deploy</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SIEM/SOAR) (Zero Trust) (IaC Scan) (Compliance)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '보안의 자동화와 동기화'이다. 보안은 개발 속도를 늦추는 장애물이 아니라, 파이프라인의 일부로서 자동으로 수행되어야 한다. 실무에서는 코드 작성 시 IDE에서 보안 약점을 즉시 알려주고, 빌드 시 오픈소스 취약점을 체크하며, 배포 시 클라우드 설정의 보안 적합성을 자동으로 검증하는 도구 체인 (Toolchain)을 구축한다.
 
@@ -67,26 +64,23 @@ tags = ["software_engineering"]
 
 ### 소프트웨어 공급망 보안과 SBOM
 
-현대 소프트웨어는 직접 짠 코드보다 가져다 쓴 코드(오픈소스)가 더 많다. 이 공급망을 보호하기 위해 **SBOM (Software Bill of Materials)**이 도입되었다. SBOM은 소프트웨어를 구성하는 모든 부품(라이브러리)의 명세서로, 특정 라이브러리(예: Log4j)에서 취약점이 터졌을 때 우리 시스템의 어디가 위험한지 즉시 파악하게 해준다.
+현대 소프트웨어는 직접 짠 코드보다 가져다 쓴 코드(오픈소스)가 더 많다. 이 공급망을 보호하기 위해 <strong>SBOM (Software Bill of Materials)</strong>이 도입되었다. SBOM은 소프트웨어를 구성하는 모든 부품(라이브러리)의 명세서로, 특정 라이브러리(예: Log4j)에서 취약점이 터졌을 때 우리 시스템의 어디가 위험한지 즉시 파악하게 해준다.
 
 이 구조도는 공급망 보안을 위한 신뢰 체인을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Software Supply Chain Security Flow           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Upstream OpenSource] ──▶ [Dependency Check (SCA)] ──┐    │
-│                                                        │    │
-│   [Internal Source Code] ──▶ [Static Scan (SAST)] ─────┼──▶ │
-│                                                        │    │
-│   [CI/CD Artifacts] ◀── [Sign & Verify (SBOM)] ────────┘    │
-│          │                                                  │
-│          ▼                                                  │
-│   [Runtime Env] ──▶ [Monitoring & Drift Detection]          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Software Supply Chain Security Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Upstream OpenSource</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dependency Check (SCA)</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Internal Source Code</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Static Scan (SAST)</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD Artifacts</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Sign &amp; Verify (SBOM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Runtime Env</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Monitoring &amp; Drift Detection</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '출처 증명과 무결성'이다. 가져온 라이브러리가 안전한지 확인하고, 빌드된 결과물에 디지털 서명을 하여 배포 직전까지 위변조되지 않았음을 보장해야 한다. 실무에서는 SLSA (Supply-chain Levels for Software Artifacts) 프레임워크를 참조하여 공급망 보안 성숙도를 관리한다.
 
@@ -124,26 +118,25 @@ tags = ["software_engineering"]
 ### 기술사적 판단: DevSecOps 도입 전략
 
 **시나리오 1: 보안 점검 때문에 배포가 일주일씩 지연되는 조직**
-- **판단**: 모든 보안 점검을 한꺼번에 수행하지 않는다. 개발 단계에서는 크리티컬한 취약점만 체크하는 **경량 SAST**를 적용하고, 정밀 점검은 야간 빌드 파이프라인으로 분리한다. 보안 팀은 '문지기'가 아닌 '도구 제공자'로 역할을 전환하여 개발팀이 스스로 보안을 해결하게 돕는 셀프 서비스 모델을 구축한다.
+- **판단**: 모든 보안 점검을 한꺼번에 수행하지 않는다. 개발 단계에서는 크리티컬한 취약점만 체크하는 <strong>경량 SAST</strong>를 적용하고, 정밀 점검은 야간 빌드 파이프라인으로 분리한다. 보안 팀은 '문지기'가 아닌 '도구 제공자'로 역할을 전환하여 개발팀이 스스로 보안을 해결하게 돕는 셀프 서비스 모델을 구축한다.
 
 **시나리오 2: 오픈소스 취약점 (CVE) 대응에 허덕이는 운영팀**
-- **판단**: 수동 대응은 불가능하다. **SCA 도구**를 CI/CD에 연동하여 빌드 시점에 취약한 라이브러리를 자동 차단한다. 또한 운영 환경에 **Runtime Protection (RASP)**을 도입하여 소스 코드 수정 전까지 임시 방어막을 구축하는 '가상 패칭 (Virtual Patching)' 전략을 취한다.
+- **판단**: 수동 대응은 불가능하다. <strong>SCA 도구</strong>를 CI/CD에 연동하여 빌드 시점에 취약한 라이브러리를 자동 차단한다. 또한 운영 환경에 <strong>Runtime Protection (RASP)</strong>을 도입하여 소스 코드 수정 전까지 임시 방어막을 구축하는 '가상 패칭 (Virtual Patching)' 전략을 취한다.
 
 이 도식은 보안 사고 발생 시 대응하는 기술사적 거버넌스 체계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Incident Response Governance Flow             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [Detect] ──▶ [Triage] ──▶ [Containment] ──▶ [Eradication] │
-│      │           │             │                 │          │
-│   (Monitoring) (Severity)    (Isolate)         (Patching)   │
-│                                                             │
-│   [Recovery] ◀── [Post-Mortem] ◀── [Feedback to SDLC]       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident Response Governance Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Detect</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Triage</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Containment</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Eradication</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Monitoring) (Severity) (Isolate) (Patching)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Recovery</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Post-Mortem</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Feedback to SDLC</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 방역 대책과 같습니다. 감염자(취약점)를 빨리 찾아서 격리(Containment)하는 시스템을 만들고, 왜 감염되었는지 분석하여 다음부터는 마스크(시큐어 코딩)를 잘 쓰도록 교육하는 것이 핵심입니다.
 

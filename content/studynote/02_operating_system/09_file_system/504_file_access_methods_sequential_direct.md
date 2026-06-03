@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 테이프나 하드디스크 속의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정보 조각(Record)을 읽어 들일 때, **"무조건 첫 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 순서대로 책을 훑어 넘겨야만 뒤의 내용을 볼 수 있는가(순차 접근)"**, 아니면 **"[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호만 알면 1초 만에 책의 352쪽으로 확 점프해서 원하는 줄만 빼먹을 수 있는가(직접 접근)"**를 결정짓는 읽기 알고리즘의 2대 축이다.
+> 1. **본질**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 테이프나 하드디스크 속의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 정보 조각(Record)을 읽어 들일 때, <strong>"무조건 첫 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>부터 순서대로 책을 훑어 넘겨야만 뒤의 내용을 볼 수 있는가(순차 접근)"</strong>, 아니면 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 번호만 알면 1초 만에 책의 352쪽으로 확 점프해서 원하는 줄만 빼먹을 수 있는가(직접 접근)"</strong>를 결정짓는 읽기 알고리즘의 2대 축이다.
 > 2. **가치**: 초창기 자기 테이프(Magnetic Tape) 시절엔 감긴 릴을 휙휙 감아야 해서 무조건 1,2,3번 순차 접근만 가능했다. 하지만 회전하는 원판(하드 디스크)과 SSD가 발명되자, OS는 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블록들에 '주소 번호표'를 매겨두고 바늘(헤드)을 허공을 가로질러 툭 찍는 **직접 접근(Random Access)** 신기술을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 표준으로 장착했다. 이 덕분에 거대한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 검색 쿼리가 세상에 탄생할 수 있었다.
 > 3. **한계**: 직접 접근([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access)이 아무리 점프를 잘해도, 1억 개의 무작위 은행 계좌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중에 "김철수 계좌가 몇 번 블록에 있는지" 를 모르면 무용지물이다. 즉, 내가 찾을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치 포인터 번호를 모른다면 직접 접근 방식이라 할지라도 결국 1번 블록부터 1억 번 블록까지 싹 다 순차 탐색(오버헤드 스로틀 폭발 늪)으로 뒤져야 하는 치명적 한계에 부딪힌다. 이 사각지대를 막기 위해 등장한 게 바로 다음 장의 "색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))" 기법이다.
 
@@ -22,34 +22,32 @@ tags = ["studynote-operating-system"]
 - **개념**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Access) 방법이란 사용자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 저장된 무수한 논리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드 더미들을 **"어떤 경로와 순서 조립을 거쳐 메모리(RAM) 위로 뽑아내 퍼 올릴 것인가"** 에 대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 입출력 항해 뼈대 모델이다.
 - **필요성**: 만약 당신이 넷플릭스 영화(.mp4)를 볼 때는 앞에서부터 1초씩 순서대로 쭉 이어서 재생해야 하므로 `순차 접근(Sequential Access)`이 가장 효율적인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 스트림이다. 하지만 네이버 서버에서 '홍길동 회원 정보' 하나만 찾아내야 할 때는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 처음 결제를 타고 1,000만 명을 다 읽는 삽질은 미친 짓이다. 이때는 바로 해당 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 묻힌 하드디스크의 해당 좌표로 번개처럼 워프 점프해서 1블록만 딱 꺼내 읽는 `직접 접근(Direct Access)` 문법 이식이 절대적으로 요구된다.
 
-- **순차 접근의 지옥 vs 직접 점프 접근의 I/O [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 파괴 다이어그램**:
+- <strong>순차 접근의 지옥 vs 직접 점프 접근의 I/O <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 파괴 다이어그램</strong>:
 어플리케이션이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 5번 블록을 읽기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커서(Cursor)를 어떻게 조종하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 까발리면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │                 파일 커서 위치 이동 : 읽기 포인터의 2대 생존 모델 비교    │
-  ├───────────────────────────────────────────────────────────────────────────┤
-  │                                                                           │
-  │  [ 1. 순차 접근 (Sequential Access) : 카세트 테이프 방식 늪 ]             │
-  │    * 목표: 블록 [5번]을 읽고 싶음!                                        │
-  │    * 과정: (무조건 앞에서부터 타고 넘어가 읽으며 버림)                    │
-  │          [블록 0] ─(Read/Skip)─▶ [블록 1] ─(Skip)─▶ [블록 2] ─(Skip)─▶... │
-  │          결국 디스크 I/O를 5번이나 낭비하면서 무식하게 통과함.            │
-  │                                                                           │
-  │  =============================================================            │
-  │                                                                           │
-  │  [ 2. 직접 접근 (Direct/Random Access) : 하드디스크/SSD 점프 비행 ]       │
-  │    * 목표: 블록 [5번]을 벼락같이 읽고 싶음!                               │
-  │    * 과정: (포인터 주소(n)를 알아내서 한방에 헤더 워프 꽂아버림)          │
-  │                                     ╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈╮            │
-  │          [블록 0]     [블록 1]      ┊  🚀 `read(파일, n=5)` 뿅!  ┊        │
-  │            ┆                       ▼                                      │
-  │            ╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▶ [블록 5] 한방에 읽어냄 끝!              │
-  │                                                                           │
-  │    * 결론: 디스크 판독 지연(Seek Time) 파괴! S/W는 파일 껍데기를          │
-  │           단순한 바이트 배열 번호(Array Index)처럼 취급 장악함.           │
-  └───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 커서 위치 이동 : 읽기 포인터의 2대 생존 모델 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 순차 접근 (Sequential Access) : 카세트 테이프 방식 늪</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 목표: 블록</div><div class="kb-diagram-node">5번</div><div class="kb-diagram-note">을 읽고 싶음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: (무조건 앞에서부터 타고 넘어가 읽으며 버림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 디스크 I/O를 5번이나 낭비하면서 무식하게 통과함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 직접 접근 (Direct/Random Access) : 하드디스크/SSD 점프 비행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 목표: 블록</div><div class="kb-diagram-node">5번</div><div class="kb-diagram-note">을 벼락같이 읽고 싶음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: (포인터 주소(n)를 알아내서 한방에 헤더 워프 꽂아버림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 0</div><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-note">┊ 🚀 <code>read(파일, n=5)</code> 뿅! ┊</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┆ ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 5</div><div class="kb-diagram-note">한방에 읽어냄 끝!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 디스크 판독 지연(Seek Time) 파괴! S/W는 파일 껍데기를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순한 바이트 배열 번호(Array Index)처럼 취급 장악함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 이 두 기법은 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 속에서 공존한다. 프로그래머가 C언어로 카세트테이프처럼 `read(), read(), read()` 만 반복하면 OS는 내부적으로 현재 읽는 위칫값([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Offset) 포인터를 +1씩 전진시키며(순차 접근) 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹인다. 하지만 개발자가 `lseek(파일, 5번, 시작점)` 라는 전설적인 시스템 콜 포인터 점프 함수를 때려 버리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 즉시 읽기 포인터 오프셋 커서를 5번 블록으로 한 방에 이조차 워프시켜(직접 접근 모드 가동) 다음 `read()` 때 5번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 족집게 마스킹처럼 퍼 올린다. S/W 엔지니어링의 신세계가 열린 것이다.
 
@@ -64,16 +62,16 @@ tags = ["studynote-operating-system"]
 
 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기능 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 순차 접근 (Sequential) 조작 모델 | 직접 접근 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) / Random) 포인터 락 |
 |:---|:---|:---|
-| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 메커니즘 매핑** | `read next()` (다음 거 읽어), `write next()` (다음 칸에 써) | `read n` (n번째 줄 읽어), `write n` (n번째에 바로 써) |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터 (Offset) 연산** | OS가 알아서 몰래 유지. 읽을 때마다 `Pointer = Pointer + 1` 로 전진 장악해줌. | 사용자가 직접 포인터 번호(n)를 계산해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 위치 이동 샷을 쏴 줘야 작동함 `lseek(n 위치)` |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 메커니즘 매핑</strong> | `read next()` (다음 거 읽어), `write next()` (다음 칸에 써) | `read n` (n번째 줄 읽어), `write n` (n번째에 바로 써) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 포인터 (Offset) 연산</strong> | OS가 알아서 몰래 유지. 읽을 때마다 `Pointer = Pointer + 1` 로 전진 장악해줌. | 사용자가 직접 포인터 번호(n)를 계산해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 위치 이동 샷을 쏴 줘야 작동함 `lseek(n 위치)` |
 | **물리적 저장매체 기기 의존도** | 가장 미개한 구시대 자기 테이프(Magnetic Tape)도 이 방식밖에 스펙 지원 못 함. 구조 단순 무식 압권. | 물리 장비가 반드시 디스크, CD롬, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 같이 무작위 렌즈 빔 액세스가 가능한 하드웨어 뼈대여야만 구현 생존. |
 | **최적화 활용 (Best Use-cases) 앱** | 컴퓨터 컴파일러, 웹 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Log append) 끝도 없이 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 넷플릭스 영화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 전용 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS DB) 파편 조회, 은행 계좌 잔고 무작위 1건 읽기 덮어쓰기 초광속 워프 엔진 |
 
 ### 2. 직접 접근의 전제 조건 (논리적 레코드 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 마운팅)
-내가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 352번 째 블록으로 워프하라" 고 C코드 짭 S/W(`lseek`)에게 시켰을 때 이 마법이 랙 없이 성립하려면, 어플리케이션을 짠 **개발자는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 쌓인 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록(Record)의 "크기 길이(Length)" 가 일정해야 한다**는 미친 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 전제 조건 계산 제약을 짊어진다.
+내가 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 352번 째 블록으로 워프하라" 고 C코드 짭 S/W(`lseek`)에게 시켰을 때 이 마법이 랙 없이 성립하려면, 어플리케이션을 짠 <strong>개발자는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 안에 쌓인 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록(Record)의 "크기 길이(Length)" 가 일정해야 한다</strong>는 미친 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 전제 조건 계산 제약을 짊어진다.
 - **길이 고정 폭발**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 저장된 1만 명의 주소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 줄당 [이름10바이트+나이5바이트] 로 정확히 **15바이트 고정 규격 블록 단위(Fixed-length Record)** 로 꽉꽉 떨어져 있어야 한다. 
 - 그래야 개발자가 "아, 50번 째 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 가고 싶어? 그럼 15바이트 * 50번 = [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 맨 처음부터 750바이트 뒤로 렌즈 건너뛰어 점프해(`lseek(750)`) 도착 장악!" 이라고 주소([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) Offset 계산)를 단순 수학 연산 산술로 곱해서 한 번에 타격 워프를 날릴 수 있기 때문이다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)의 늪 (가변길이)**: 만약 레코드 1줄 길이가 글자 수에 따라 뒤죽박죽 가변 길이(Variable length) 코딩 늪 문법 포장이라면? 곱하기로 750을 계산 못 하니, 결국 "엔터(줄바꿈 기호)" 가 몇 번인지 세기 위해서 1번부터 다 죽어라 까보고 읽어야 하는 끔찍한 강제 순차 접근 랙 병목 사망의 구렁텅이에 회귀해 버린다!
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>의 늪 (가변길이)</strong>: 만약 레코드 1줄 길이가 글자 수에 따라 뒤죽박죽 가변 길이(Variable length) 코딩 늪 문법 포장이라면? 곱하기로 750을 계산 못 하니, 결국 "엔터(줄바꿈 기호)" 가 몇 번인지 세기 위해서 1번부터 다 죽어라 까보고 읽어야 하는 끔찍한 강제 순차 접근 랙 병목 사망의 구렁텅이에 회귀해 버린다!
 
 - **📢 섹션 요약 비유**: 이 규칙은 주차장의 차량 간격표와 같습니다. 주차장 칸(블록)을 모닝이든 덤프트럭이든 모조리 가로 3미터 규격(고정 길이 레코드)으로 딱 공구리를 쳐놨다면? "50번째 주차 칸으로 가!" 라는 지시는 3미터x50= 150미터만 앞으로 직진하면 1초 만에 딱 도착합니다(완벽한 직접 접근 수학 점프!!). 그런데 차 크기에 따라 선을 제멋대로(가변 길이 레코드) 그었다면? 곱하기 계산 방어율은 깨져버리고 무식하게 1번칸, 2번칸 차를 일일이 세면서 50번칸까지 개고생 걸어가야 하는 생존 마비가 일어납니다! 이를 막기 위한 규격 통일 통치가 RDBMS 설계 근간입니다.
 
@@ -84,13 +82,13 @@ tags = ["studynote-operating-system"]
 ### 1. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버의 "순차 접근" 맹신과 병목 폭주 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (Log Append Mismatch)
 웹 서버 엔지니어들이 Nginx/Apache 접속자 활동(Access Log)을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 끊임없이 적으며 겪는 '접근 방법 오용'의 대표적 서버 부하 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 폭파다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 (잘못된 I/O 설계 개방)**: 개발자가 초당 1만 개 떨어지는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트를 `test.log` 에 저장할 때, "아 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 마지막에 계속 덧붙이는 거니까!" 라며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매번 메모리에 다 올리고(Read) 다 읽어서 끝 위치 찾은 다음 써재끼거나, 무겁게 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블을 계속 재배치하려다 락백 I/O 디스크 터짐 대기열 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 멸망을 당한다.
-- **해법 패치 (O_APPEND [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오픈 위임)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 어차피 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 **"순차적으로 뒤에만 엉겨 붙는(Sequential Write) 껍데기 전용 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)"** 란 걸 알고 있다. 개발자는 `open("test.log", O_APPEND)` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 하나만 툭 옵션 줘서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 던지면 된다. 그러면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터가 무조건 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 꼬리 맨 끝(EOF)" 에 자석처럼 철썩 달라붙어 영구 록을 시전하므로, 굳이 내가 맨 끝이 어딘지 계산하거나 앞에서부터 버퍼 늪을 탈 필요 없이, 그저 폭우처럼 쏟아지는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 바이트들을 `write()` 함수로 찍어누르면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 꼬리에 착착착 순차적으로 초광속 직통 삽입(Append Only)해 주는 극한의 백본 최적화 스루풋 보장이 성취 결속된다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 (잘못된 I/O 설계 개방)</strong>: 개발자가 초당 1만 개 떨어지는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트를 `test.log` 에 저장할 때, "아 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 마지막에 계속 덧붙이는 거니까!" 라며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 매번 메모리에 다 올리고(Read) 다 읽어서 끝 위치 찾은 다음 써재끼거나, 무겁게 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블을 계속 재배치하려다 락백 I/O 디스크 터짐 대기열 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 멸망을 당한다.
+- <strong>해법 패치 (O_APPEND <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 오픈 위임)</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 어차피 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>"순차적으로 뒤에만 엉겨 붙는(Sequential Write) 껍데기 전용 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>"</strong> 란 걸 알고 있다. 개발자는 `open("test.log", O_APPEND)` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 하나만 툭 옵션 줘서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 던지면 된다. 그러면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포인터가 무조건 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 꼬리 맨 끝(EOF)" 에 자석처럼 철썩 달라붙어 영구 록을 시전하므로, 굳이 내가 맨 끝이 어딘지 계산하거나 앞에서부터 버퍼 늪을 탈 필요 없이, 그저 폭우처럼 쏟아지는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 바이트들을 `write()` 함수로 찍어누르면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 꼬리에 착착착 순차적으로 초광속 직통 삽입(Append Only)해 주는 극한의 백본 최적화 스루풋 보장이 성취 결속된다.
 
 | 스토리지 미디어 (I/O) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 장비 인프라 특성 | 순차 접근 (Sequential Access 한계 늪) | 직접 접근 (Random/[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access 부스트 이념) | 시스템 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 설계 장악 최적 응용 융합 |
 |:---|:---|:---|:---|
-| **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)용 자기 테이프 아카이브 (LTO Tape)** | 아주 찰떡궁합. 한번 기록 버튼 누르면 10TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뒤도 안 돌아보고 500MB/s 로 직진으로 들이부음 (압도적 가성비 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)). | **테이프 원사 절단 직전의 발작 재앙 파괴**. "1번 줄 읽고 테이프 감아서 5000번 줄 읽어!" 하면 모터가 미친 듯이 감겨 5분 딜레이, "다시 2번 줄!" 감다 모터 탐. 절대 금지! | 차가운(Cold) 콜드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 아카이빙은 순차로! 무식하게 밀어 넣는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대피소의 최적 스펙 통일망. |
-| **현대 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 마이크로 칩)** | 잘 되긴 하지만, 굳이 순서대로 읽을 필요 없이 그냥 번개처럼 다 찢어발겨 조각조각 읽는 게 더 위력적임. | 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(채널 렉)로 칩 주소만 쏘면 "어디든 간에 0.05 밀리초 만에 뿅!!" 하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 튀어나옴. 물리적 바늘([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))이 아예 없음 우주 최강 무결 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/). | 실시간 사용자 1천만 명의 동시 쿼리를 쏴대는 뜨거운 핫(Hot) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)엔 무조건 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 위원회 다이렉트 접근 포인팅 1초 폭격! |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>용 자기 테이프 아카이브 (LTO Tape)</strong> | 아주 찰떡궁합. 한번 기록 버튼 누르면 10TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뒤도 안 돌아보고 500MB/s 로 직진으로 들이부음 (압도적 가성비 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)). | **테이프 원사 절단 직전의 발작 재앙 파괴**. "1번 줄 읽고 테이프 감아서 5000번 줄 읽어!" 하면 모터가 미친 듯이 감겨 5분 딜레이, "다시 2번 줄!" 감다 모터 탐. 절대 금지! | 차가운(Cold) 콜드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 아카이빙은 순차로! 무식하게 밀어 넣는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대피소의 최적 스펙 통일망. |
+| <strong>현대 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/">플래시 메모리</a> 마이크로 칩)</strong> | 잘 되긴 하지만, 굳이 순서대로 읽을 필요 없이 그냥 번개처럼 다 찢어발겨 조각조각 읽는 게 더 위력적임. | 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(채널 렉)로 칩 주소만 쏘면 "어디든 간에 0.05 밀리초 만에 뿅!!" 하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 튀어나옴. 물리적 바늘([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))이 아예 없음 우주 최강 무결 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/). | 실시간 사용자 1천만 명의 동시 쿼리를 쏴대는 뜨거운 핫(Hot) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)엔 무조건 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 위원회 다이렉트 접근 포인팅 1초 폭격! |
 
 ### Ⅳ. 기대효과 및 결론
 - '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 방법론(Sequential vs [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access)' 은 유저가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 저장 창고 보물 상자에서 보물을 어떻게 퍼낼지에 대한 영원한 2가지 통로 뼈대 징검다리 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 렌즈다. 과거 저장 장치가 테이프나 구멍 뚫린 천공 카드이던 원시 시대에는 순차 접근의 족쇄에 묶여 속도 랙 지옥에 갇혔지만, 회전하는 마그네틱 플래터 디스크의 등장은 "순서 무시하고 좌표만 알면 번개처럼 건너뛸 수 있는(Random Seek 점프)" 기적의 직접 접근 우회 마법을 S/W [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로그래밍 세계에 투하 전파했다.
@@ -132,21 +130,25 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[매직 넘버 (Magic Number)]
-    │
-    ▼
-[파일 접근 방법]
-    │
-    ├──▶ [색인 접근 (Indexed Access)]
-    └──▶ [디렉터리 (Directory) 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">매직 넘버 (Magic Number)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 접근 방법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 접근 (Indexed Access)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디렉터리 (Directory) 구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 어릴 적 비디오테이프(만화 영화)로 짱구를 볼 때, 뒤에 나오는 '액션가면' 장면을 보려면 삐이익~ 하고 앞 내용을 엄청 오래 빨리감기로 다 지나쳐야만(어쩔 수 없는 **순차 접근**의 고통 방식 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 늪) 했었죠!
+1. 어릴 적 비디오테이프(만화 영화)로 짱구를 볼 때, 뒤에 나오는 '액션가면' 장면을 보려면 삐이익~ 하고 앞 내용을 엄청 오래 빨리감기로 다 지나쳐야만(어쩔 수 없는 <strong>순차 접근</strong>의 고통 방식 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 늪) 했었죠!
 2. 하지만 최신 스마트폰 터치 화면([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 디스크 혁명)이나 넷플릭스는 달라요! 그냥 타임라인 '오른쪽 35분' 막대기 화면을 손가락으로 꾹 터치 찍으면, 앞 내용은 완전 버리고 1초만에 바로 액션가면이 쫘장!! 하고 나옵니다 (**직접 점프 접근 Random Access**)
 3. 컴퓨터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 S/W 역시 똑같아요. "앞에서부터 순서대로 책 읽듯 글을 내놔!" (순차) 할 수도 있고, 주소 번호표만 알고 있다면 "다 건너뛰고 이 책의 딱 3만 492페이지 위치로 텔레포트해서 그 줄만 빼와!" (직접 접근 점프) 할 수 있게 OS 관리자 선생님이 두 가지 요술 마법봉 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 길을 동시에 다 열어준 통제 구조랍니다!
 

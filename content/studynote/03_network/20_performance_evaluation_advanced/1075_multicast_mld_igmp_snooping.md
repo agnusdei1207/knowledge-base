@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 컴퓨터가 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 방(IP)에 들어가 라우터로부터 영상을 복사 받기 위한 가입 신청 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
 ### 1. IPv4의 영혼: [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) (Internet Group [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
-- **개념**: 라우터와 내 컴퓨터(호스트) 사이에서, "나 239.1.1.1번 방([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹)에 껴줘([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))!" "나 이제 방송 다 봤으니까 나갈래(Leave)!"라고 **그룹 가입/탈퇴 멤버십을 관리해 주는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 전용 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**입니다.
+- **개념**: 라우터와 내 컴퓨터(호스트) 사이에서, "나 239.1.1.1번 방([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹)에 껴줘([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))!" "나 이제 방송 다 봤으니까 나갈래(Leave)!"라고 <strong>그룹 가입/탈퇴 멤버십을 관리해 주는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 전용 제어 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 
 ### 2. IPv6의 후계자: [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) ([Multicast Listener Discovery](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/))
-- **개념**: 899번 IPv6로 넘어오면서 기존 낡은 IGMP를 쓰레기통에 버리고, **ICMPv6 (IPv6용 상태 알림 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))** 뼈대 안에 기능을 쏙 집어넣어 새롭게 만든 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전용 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 멤버십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. (이름만 MLD로 바뀌었지 하는 짓은 IGMP와 100% 똑같습니다.)
+- **개념**: 899번 IPv6로 넘어오면서 기존 낡은 IGMP를 쓰레기통에 버리고, <strong>ICMPv6 (IPv6용 상태 알림 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong> 뼈대 안에 기능을 쏙 집어넣어 새롭게 만든 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전용 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 멤버십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. (이름만 MLD로 바뀌었지 하는 짓은 IGMP와 100% 똑같습니다.)
 
-```text
-[IPv6 SLAAC 자동할당]
-    │
-    ▼
-[멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    └──▶ [ARP 스푸핑 중간자 방어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 SLAAC 자동할당</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,17 +49,21 @@ tags = ["studynote-network"]
 문제는 내 컴퓨터와 라우터 사이에 껴있는 깡통 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
 - 라우터가 239.1.1.1(MBC) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 영상을 쏩니다.
 - 중간에 낀 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 목적지 IP(L3)를 읽을 지능이 없습니다. 오직 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)만 봅니다.
-- [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(`01:00:5E...`)를 본 멍청한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "어? 이거 누구 건지 주소록에 없네? **에라이 모르겠다! 나한테 꽂힌 모든 컴퓨터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1번~24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 모조리 다 쏴버려라(Flooding)!**" 라며 최악의 뻘짓을 합니다. 
+- [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(`01:00:5E...`)를 본 멍청한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "어? 이거 누구 건지 주소록에 없네? <strong>에라이 모르겠다! 나한테 꽂힌 모든 컴퓨터 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(1번~24번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)에 모조리 다 쏴버려라(Flooding)!</strong>" 라며 최악의 뻘짓을 합니다. 
 - 결국 방송을 보지도 않는 옆자리 김 대리 컴퓨터까지 초당 100MB의 영상 패킷 폭탄을 맞고 뻗어버립니다(네트워크 마비).
 
-```text
-[IPv6 SLAAC 자동할당]
-    │
-    ▼
-[멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    └──▶ [ARP 스푸핑 중간자 방어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 SLAAC 자동할당</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,14 +73,14 @@ tags = ["studynote-network"]
 
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자신의 무식한 한계(L2)를 뛰어넘는 기적의 반칙(스누핑) 기술입니다.
 
-- **개념 (몰래 훔쳐보기)**: L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 원래 자기 권한 밖인 **L3 계층의 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/)(가입 신청서) 패킷 속살을 몰래 까보고(Snooping, 엿듣기), 어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂힌 컴퓨터가 진짜 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 방송을 신청했는지 스스로 장부([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑 테이블)를 작성하여 똑똑하게 핀셋으로 전송해 주는 기술**입니다.
+- **개념 (몰래 훔쳐보기)**: L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 원래 자기 권한 밖인 <strong>L3 계층의 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a>(가입 신청서) 패킷 속살을 몰래 까보고(Snooping, 엿듣기), 어느 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>에 꽂힌 컴퓨터가 진짜 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 방송을 신청했는지 스스로 장부(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 매핑 테이블)를 작성하여 똑똑하게 핀셋으로 전송해 주는 기술</strong>입니다.
 - **작동 원리 (모세의 기적)**:
   1. 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂힌 철수가 라우터에게 "[IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)(MBC 가입)"을 쏩니다.
   2. 중간에 낀 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 패킷을 몰래 훔쳐보고 기록합니다. "아하! 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 철수가 MBC(239.1.1.1) 신청했구나. 장부에 적어놔야지!"
   3. 라우터에서 진짜로 어마어마한 용량의 MBC 영상 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷이 내려옵니다.
   4. 옛날 같으면 1번~24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 다 뿌렸을 텐데, 스누핑 장부를 쓱 봅니다. "어? MBC는 아까 1번 철수만 신청했잖아!" 
-  5. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 나머지 2~24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 철벽처럼 막고(플러딩 차단), **오직 1번 철수 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로만 깔끔하게 영상을 흘려보냅니다.** 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 99% 소멸하는 궁극의 최적화입니다.
-- ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 환경에서는 이름만 **[MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) 스누핑([MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) Snooping)**으로 바뀌어 똑같이 작동합니다.)
+  5. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 나머지 2~24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 철벽처럼 막고(플러딩 차단), <strong>오직 1번 철수 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로만 깔끔하게 영상을 흘려보냅니다.</strong> 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 99% 소멸하는 궁극의 최적화입니다.
+- ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 환경에서는 이름만 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/">MLD</a> 스누핑(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/">MLD</a> Snooping)</strong>으로 바뀌어 똑같이 작동합니다.)
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당이 기반 조건을 만든다면, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법은 그 위에서 핵심 메커니즘을 구현하고, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 **깡통 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 눈을 안대로 가린 채 아파트 현관에서 택배를 나눠주는 **'장님 경비 아저씨'**입니다. 우체부(라우터)가 '잡지 구독자 전용([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))' 박스를 던져주면, 장님 경비 아저씨는 이 아파트 100가구 중 누가 이 잡지를 구독했는지 몰라서, 박스를 100개 복사해 안 보는 사람 집 문 앞에도 무식하게 다 던져버립니다(브로드캐스트 폭발, 복도 마비). **[IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑**은 이 경비 아저씨에게 **'우편물 훔쳐보기(스누핑) 신공'**을 전수한 것입니다. 경비 아저씨는 주민들이 평소에 우체국(라우터)으로 보내는 '잡지 신청서([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패킷)'를 중간에서 몰래 뜯어보고 장부에 적어둡니다. "아하! 101호랑 105호만 잡지 신청했군!" 나중에 100MB짜리 거대한 잡지([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 영상)가 도착하면, 장부를 보고 정확히 101호와 105호 문틈으로만 잡지를 밀어 넣고, 나머지 98가구의 복도는 깨끗하게 비워두는(트래픽 절감) 극강의 L2 눈치 게임 기술입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>깡통 L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 눈을 안대로 가린 채 아파트 현관에서 택배를 나눠주는 <strong>'장님 경비 아저씨'</strong>입니다. 우체부(라우터)가 '잡지 구독자 전용([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))' 박스를 던져주면, 장님 경비 아저씨는 이 아파트 100가구 중 누가 이 잡지를 구독했는지 몰라서, 박스를 100개 복사해 안 보는 사람 집 문 앞에도 무식하게 다 던져버립니다(브로드캐스트 폭발, 복도 마비). <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a> 스누핑</strong>은 이 경비 아저씨에게 <strong>'우편물 훔쳐보기(스누핑) 신공'</strong>을 전수한 것입니다. 경비 아저씨는 주민들이 평소에 우체국(라우터)으로 보내는 '잡지 신청서([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 패킷)'를 중간에서 몰래 뜯어보고 장부에 적어둡니다. "아하! 101호랑 105호만 잡지 신청했군!" 나중에 100MB짜리 거대한 잡지([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 영상)가 도착하면, 장부를 보고 정확히 101호와 105호 문틈으로만 잡지를 밀어 넣고, 나머지 98가구의 복도는 깨끗하게 비워두는(트래픽 절감) 극강의 L2 눈치 게임 기술입니다.
 
 ---
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPv6 SLAAC 자동할당]
-    │
-    ▼
-[현재 개념: 멀티캐스트 MLD / IGMP 스누핑 기법]
-    │
-    ├──▶ [확장 A: ARP 스푸핑 중간자 방어]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv6 SLAAC 자동할당</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 스푸핑 중간자 방어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

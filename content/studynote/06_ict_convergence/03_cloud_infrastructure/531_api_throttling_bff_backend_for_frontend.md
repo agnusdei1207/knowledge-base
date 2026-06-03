@@ -19,9 +19,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링 필요성**: 공개 API나 내부 [MSA API](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/) 모두 무제한 요청을 허용하면 서버 과부하, DDOS(Distributed Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), 특정 클라이언트의 자원 독점이 발생한다. [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/)(속도 제한)은 단위 시간당 요청 수를 제한하여 공정한 자원 배분과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 동시에 확보한다.
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 스로틀링 필요성</strong>: 공개 API나 내부 [MSA API](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/) 모두 무제한 요청을 허용하면 서버 과부하, DDOS(Distributed Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), 특정 클라이언트의 자원 독점이 발생한다. [Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/)(속도 제한)은 단위 시간당 요청 수를 제한하여 공정한 자원 배분과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성을 동시에 확보한다.
 
-**[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 필요성**: 하나의 범용 API가 모바일, 웹, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), TV 등 모든 클라이언트를 지원하려 하면:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> 필요성</strong>: 하나의 범용 API가 모바일, 웹, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), TV 등 모든 클라이언트를 지원하려 하면:
 - **오버패칭(Overfetching)**: 필요 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 받아 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비
 - **언더패칭(Underfetching)**: 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얻기 위해 여러 번 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출
 - 클라이언트별 최적화가 불가능하여 모바일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
@@ -32,21 +32,25 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교**:
+<strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 비교</strong>:
 
-```
-[토큰 버킷 (Token Bucket)]
-버킷에 토큰이 채워짐 → 요청마다 토큰 소비
-버킷이 비면 요청 거부 → 버스트(순간 폭주) 허용
 
-[리키 버킷 (Leaky Bucket)]
-큐에 요청을 쌓음 → 일정 속도로 처리
-큐가 가득 차면 거부 → 균일한 출력 속도 보장
 
-[슬라이딩 윈도 (Sliding Window)]
-최근 N초 요청 수를 실시간 집계
-고정 윈도의 경계 문제 해결 → 정확한 제한
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">토큰 버킷 (Token Bucket)</div></div>
+<div class="kb-diagram-note">버킷에 토큰이 채워짐 → 요청마다 토큰 소비</div>
+<div class="kb-diagram-note">버킷이 비면 요청 거부 → 버스트(순간 폭주) 허용</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리키 버킷 (Leaky Bucket)</div></div>
+<div class="kb-diagram-note">큐에 요청을 쌓음 → 일정 속도로 처리</div>
+<div class="kb-diagram-note">큐가 가득 차면 거부 → 균일한 출력 속도 보장</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도 (Sliding Window)</div></div>
+<div class="kb-diagram-note">최근 N초 요청 수를 실시간 집계</div>
+<div class="kb-diagram-note">고정 윈도의 경계 문제 해결 → 정확한 제한</div>
+</div>
+</div>
+
+
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 버스트 허용 | 구현 복잡도 | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 적합 사례 |
 |:---|:---:|:---:|:---:|:---|
@@ -55,20 +59,22 @@ tags = ["studynote-ict-convergence"]
 | 슬라이딩 윈도 (Sliding Window) | 부분 | 높음 | 높음 | 정밀한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 제어 |
 | 고정 윈도 (Fixed Window) | 부분 | 매우 낮음 | 낮음 | 단순 구현 필요 시 |
 
-**[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 아키텍처**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>) 아키텍처</strong>:
 
-```
-클라이언트        BFF 계층               마이크로서비스
-┌────────┐     ┌────────────┐
-│ 모바일  │────→│ Mobile BFF │─┐
-└────────┘     └────────────┘ │  ┌──────────────┐
-┌────────┐     ┌────────────┐ ├─→│ 주문 서비스   │
-│  웹    │────→│  Web BFF   │─┤  ├──────────────┤
-└────────┘     └────────────┘ ├─→│ 사용자 서비스 │
-┌────────┐     ┌────────────┐ │  ├──────────────┤
-│  IoT   │────→│  IoT BFF   │─┘  │ 상품 서비스   │
-└────────┘     └────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 BFF 계층 마이크로서비스</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Mobile BFF</div><div class="kb-diagram-cell">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─→</div><div class="kb-diagram-cell">주문 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Web BFF</div><div class="kb-diagram-cell">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─→</div><div class="kb-diagram-cell">사용자 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">IoT BFF</div><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">상품 서비스</div></div>
+</div>
+</div>
+
+
 
 각 BFF는 해당 클라이언트에 최적화된 집계(Aggregation), 변환(Transformation), 필터링(Filtering)을 담당한다.
 
@@ -78,7 +84,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) vs [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>:
 
 | 구분 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) |
 |:---|:---|:---|
@@ -88,7 +94,7 @@ tags = ["studynote-ict-convergence"]
 | N+1 문제 | BFF에서 사전 집계로 해결 | DataLoader 패턴 필요 |
 | 적합 상황 | 클라이언트 종류 다양, 팀 분리 | 다양한 클라이언트, 중앙 집중 선호 |
 
-**[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**:
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/">버저닝</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 - URI [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/): `/v1/users`, `/v2/users` — 명확하지만 URL 중복
 - 헤더 [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/): `API-Version: 2` — URL 깔끔하지만 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 복잡
 - 콘텐츠 협상: `Accept: application/vnd.api+json;version=2` — RESTful하지만 구현 복잡
@@ -113,12 +119,12 @@ tags = ["studynote-ict-convergence"]
 ## Ⅴ. 기대효과 및 결론
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스로틀링과 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) 패턴을 적용하면:
-- **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안정성**: Rate Limiting으로 과부하, 남용, DDOS 부분 방어
-- **클라이언트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: BFF로 오버패칭 제거, 모바일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용량 감소
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 안정성</strong>: Rate Limiting으로 과부하, 남용, DDOS 부분 방어
+- <strong>클라이언트 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: BFF로 오버패칭 제거, 모바일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용량 감소
 - **팀 독립성**: 각 클라이언트 팀이 자체 BFF를 소유하여 독립 배포
-- **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 수명**: [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지하며 점진적 발전
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 수명</strong>: [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 유지하며 점진적 발전
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계는 기능 구현만큼이나 **클라이언트 경험과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**를 함께 고려해야 한다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계는 기능 구현만큼이나 <strong>클라이언트 경험과 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>를 함께 고려해야 한다.
 
 - **📢 섹션 요약 비유**: 스로틀링과 BFF는 고속도로 설계의 두 축이다 — 스로틀링은 과속 방지 카메라([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), BFF는 클라이언트별 맞춤 출구 램프(최적화)다.
 

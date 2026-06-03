@@ -26,29 +26,32 @@ tags = ["studynote-devops"]
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Flux v1은 단일 덩어리였으나, Flux v2부터는 **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Toolkit**이라는 5개의 초경량 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Controller) 연합체로 재설계되었다. 모든 동작은 철저히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 순정 CRD(Custom Resource Definition)를 통해 제어된다.
+[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Flux v1은 단일 덩어리였으나, Flux v2부터는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> Toolkit</strong>이라는 5개의 초경량 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(Controller) 연합체로 재설계되었다. 모든 동작은 철저히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 순정 CRD(Custom Resource Definition)를 통해 제어된다.
 
 | 핵심 컨트롤러 | 역할 (동작 원리) |
 | :--- | :--- |
 | **Source Controller** | Git, [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/), [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 저장소를 주기적으로 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하여 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 캡처 |
-| **[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) Controller** | 캡처된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 기반으로 [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 빌드를 수행하고 클러스터에 배포(Apply) |
-| **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Controller** | [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 렌더링하고 릴리스의 수명주기를 선언적으로 관리 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a> Controller</strong> | 캡처된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)를 기반으로 [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 빌드를 수행하고 클러스터에 배포(Apply) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a> Controller</strong> | [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트를 렌더링하고 릴리스의 수명주기를 선언적으로 관리 |
 | **Notification Controller** | 배포 성공/실패 이벤트를 Slack, Teams 등으로 전송 |
 | **Image Automation Controller** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 저장소의 새 이미지를 감지하고 Git 저장소의 YAML을 스스로 자동 커밋 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             FluxCD의 GitOps Toolkit 동작 아키텍처             │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ◀──(감시)── [Source Controller]            │
-│       ▲                            │ (Artifact 생성)         │
-│       │ 자동 커밋                    ▼                       │
-│       │                 [Kustomize/Helm Controller]          │
-│ [Image Automation]                 │ (Sync & Apply)          │
-│       │ 감시                       ▼                       │
-│ [Docker Registry]         [Kubernetes Cluster]               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FluxCD의 GitOps Toolkit 동작 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Source Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(Artifact 생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 커밋 ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kustomize/Helm Controller</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Image Automation</div><div class="kb-diagram-note">(Sync &amp; Apply)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감시 ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Registry</div><div class="kb-diagram-node">Kubernetes Cluster</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 봇들이 철저히 분업화되어 있다는 점이다. 이미지가 새로 등록되면 Image Automation 봇이 Git을 업데이트하고, Source 봇이 이를 퍼오면, [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 봇이 배포를 실행하는 톱니바퀴 같은 자동화가 이루어진다.
 
@@ -63,9 +66,9 @@ tags = ["studynote-devops"]
 | :--- | :--- | :--- |
 | **아키텍처 구조** | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형) | 모놀리식 (통합형) |
 | **UI 및 조작** | CLI 중심 (기본 UI 없음) | 강력하고 직관적인 웹 대시보드 |
-| **[멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)** | 가벼워서 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)별 개별 배포 용이 | 하나의 중앙 서버에서 권한 분리([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 관리 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/">멀티 테넌시</a></strong> | 가벼워서 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)별 개별 배포 용이 | 하나의 중앙 서버에서 권한 분리([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 관리 |
 | **리소스 사용량** | CPU/RAM 소비 극도로 적음 | 상대적으로 무거움 |
-| **K8s [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)** | 뼛속까지 K8s CRD 중심 | 자체적인 AppProject 등 독자 개념 혼용 |
+| <strong>K8s <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong> | 뼛속까지 K8s CRD 중심 | 자체적인 AppProject 등 독자 개념 혼용 |
 
 Flux는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)보다 터미널 조작과 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연계에 집중하며, K8s의 선언적([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 철학을 가장 순수하게 구현한다.
 
@@ -96,28 +99,30 @@ FluxCD를 도입하면 보안 위험을 안고 있던 외부 연동 방식(Push)
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | FluxCD가 실현하고자 하는 핵심 철학 (Git이 진실의 원천) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | FluxCD가 실현하고자 하는 핵심 철학 (Git이 진실의 원천) |
 | **ArgoCD** | FluxCD와 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 시장을 양분하는 가장 강력한 라이벌 |
 | **CRD (Custom Resource Definition)** | Flux가 K8s의 기본 기능을 확장하여 사용하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식 |
 | **Pull 기반 배포** | 클러스터가 외부(Git)를 주도적으로 조회하여 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 보안 지향적 배포 모델 |
-| **[Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) / [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)** | Flux가 Git에서 가져온 템플릿을 실제 매니페스트로 렌더링할 때 쓰는 도구 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a> / <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a></strong> | Flux가 Git에서 가져온 템플릿을 실제 매니페스트로 렌더링할 때 쓰는 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-Push 기반 배포 (Jenkins 외부 스크립트)
-    │
-    ▼
-보안 취약점 및 상태 불일치(Drift) 문제 대두
-    │
-    ▼
-GitOps 개념 탄생 (Weaveworks) 및 Flux v1 도입
-    │
-    ▼
-Flux v2 재설계 (GitOps Toolkit 마이크로서비스화)
-    │
-    ▼
-Image Automation 및 멀티 테넌시 분산 배포 고도화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Push 기반 배포 (Jenkins 외부 스크립트)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 취약점 및 상태 불일치(Drift) 문제 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps 개념 탄생 (Weaveworks) 및 Flux v1 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flux v2 재설계 (GitOps Toolkit 마이크로서비스화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Image Automation 및 멀티 테넌시 분산 배포 고도화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 예전에는 택배 기사 아저씨가 우리 집 비밀번호를 직접 누르고 들어와서(Push) 물건을 놓고 갔어요.

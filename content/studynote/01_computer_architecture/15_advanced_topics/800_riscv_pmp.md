@@ -21,16 +21,19 @@ tags = ["studynote-computer-architecture"]
 
 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 대형 하이퍼바이저가 없는 마이크로컨트롤러나 부트 단계에서는, 물리 메모리 자체를 직접 잘라 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해야 하는 경우가 많다. [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) PMP는 이런 환경에서 주소 변환보다 앞서, 특정 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 범위에 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)·실행 권한을 붙여 경계를 만드는 도구다. 즉 복잡한 OS가 없어도 하드웨어 차단선을 만들 수 있게 해 주는 것이다. 그래서 PMP는 단순 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 개 같아 보여도, 임베디드 보안과 secure boot에서 매우 중요하다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             Physical memory sliced into PMP regions         │
-├──────────────────────────────────────────────────────────────┤
-│ Code   : RX                                                  │
-│ Data   : RW                                                  │
-│ MMIO   : restricted                                           │
-│ Others : deny-by-default for lower modes                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical memory sliced into PMP regions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code : RX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data : RW</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMIO : restricted</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Others : deny-by-default for lower modes</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 놀이터를 구역별로 나눠서 어떤 아이는 미끄럼틀만, 어떤 아이는 모래밭만 들어가게 하는 울타리와 같다.
 
@@ -47,16 +50,18 @@ PMP는 pmpcfg와 pmpaddr [레지스터](/knowledge-base/studynote/01_computer_ar
 | TOR | 임의 범위 표현 | 엔트리 2개 소비 |
 | NAPOT | 정렬된 2^N 범위 표현 | 엔트리 절약, 정렬 제약 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                How PMP evaluates an access                  │
-├──────────────────────────────────────────────────────────────┤
-│ Access request -> check entry0 -> entry1 -> ...             │
-│                      │                                       │
-│                      ├─ first match decides allow/deny       │
-│                      └─ no match => lower modes denied       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How PMP evaluates an access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access request -&gt; check entry0 -&gt; entry1 -&gt; ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ first match decides allow/deny</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no match =&gt; lower modes denied</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 문을 순서대로 지나가며 첫 번째로 걸리는 출입 규칙이 곧 최종 판정이 되는 건물과 같다. 문 배치 순서가 곧 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 된다.
 
@@ -103,18 +108,21 @@ PMP는 RISC-V가 소형 코어부터 보안을 실용적으로 가져가기 위�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Boot-time PMP Setup]
-    │
-    ▼
-[Physical Region Permission]
-    │
-    ▼
-[Lower-mode Access Check]
-    │
-    ├──▶ [Allow Code/Data Access]
-    └──▶ [Fault on Forbidden Region]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Boot-time PMP Setup</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Region Permission</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lower-mode Access Check</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Allow Code/Data Access</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fault on Forbidden Region</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 부팅 초기에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 PMP 규칙이 이후 하위 모드의 실제 메모리 접근을 하드웨어로 판정하는 과정을 보여준다. 즉 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시점이 곧 보안 출발점이다.
 

@@ -29,9 +29,9 @@ CPU는 클럭과 [전압](/knowledge-base/studynote/01_computer_architecture/01_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CPU 안전 모드 다운클럭킹은 보통 **온도 감지 → 임계값 비교 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 → 냉각 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 여부 판단 → 필요 시 셧다운** 흐름으로 작동한다. 코어 내부의 DTS (Digital Thermal Sensor)가 실시간으로 온도를 측정하고, TCC (Thermal Control Circuit)가 TjMax와의 차이를 계산한다. 임계점에 도달하면 먼저 터보 부스트를 해제하고 배수(Ratio)를 낮추며, 세대에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 인하, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), 듀티 사이클 modulation을 추가로 적용한다.
+CPU 안전 모드 다운클럭킹은 보통 <strong>온도 감지 → 임계값 비교 → <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 제한 → 냉각 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 여부 판단 → 필요 시 셧다운</strong> 흐름으로 작동한다. 코어 내부의 DTS (Digital Thermal Sensor)가 실시간으로 온도를 측정하고, TCC (Thermal Control Circuit)가 TjMax와의 차이를 계산한다. 임계점에 도달하면 먼저 터보 부스트를 해제하고 배수(Ratio)를 낮추며, 세대에 따라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 인하, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), 듀티 사이클 modulation을 추가로 적용한다.
 
-현대 CPU에서는 단순히 MHz 숫자만 내리는 것이 아니라, **유효 스위칭 활동량 자체를 줄이는 것**이 핵심이다. 그래서 어떤 세대는 배수를 크게 낮추고, 어떤 세대는 T-state 기반 클럭 modulation으로 실제 유효 동작 시간을 줄인다. 그래도 온도가 내려가지 않으면 PROCHOT# [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 플랫폼 전체에 전파되고, 최후에는 THERMTRIP#이 작동해 시스템 전원이 차단된다.
+현대 CPU에서는 단순히 MHz 숫자만 내리는 것이 아니라, <strong>유효 스위칭 활동량 자체를 줄이는 것</strong>이 핵심이다. 그래서 어떤 세대는 배수를 크게 낮추고, 어떤 세대는 T-state 기반 클럭 modulation으로 실제 유효 동작 시간을 줄인다. 그래도 온도가 내려가지 않으면 PROCHOT# [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 플랫폼 전체에 전파되고, 최후에는 THERMTRIP#이 작동해 시스템 전원이 차단된다.
 
 | 단계 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 하드웨어 조치 | 체감 효과 |
 | :-- | :-- | :-- | :-- |
@@ -42,24 +42,22 @@ CPU 안전 모드 다운클럭킹은 보통 **온도 감지 → 임계값 비교
 
 아래 그림은 다운클럭킹이 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조절 기능"이 아니라 "열을 줄이기 위한 단계적 브레이크"라는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CPU 열 보호 단계의 시간 흐름                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 정상 부하                                                            │
-│   │                                                                  │
-│   ▼                                                                  │
-│ 온도 상승 ──▶ TjMax 근접 ──▶ TCC 활성화 ──▶ 배수 하향/터보 해제     │
-│                                   │                                  │
-│                                   ├── 온도 하강 성공 ─▶ 정상 복귀    │
-│                                   │                                  │
-│                                   └── 실패 ─▶ PROCHOT# 유지          │
-│                                                    │                 │
-│                                                    └── THERMTRIP#    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 안전 모드 다운클럭킹은 단순한 속도 감소가 아니라, **열 예산을 넘은 CPU가 스스로 열 생산량을 줄이는 폐루프 제어**다. 이 메커니즘이 있어야 팬 응답, 방열판 열전도, 냉각수 순환처럼 상대적으로 느린 물리 시스템이 뒤늦게라도 따라올 시간을 벌 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 열 보호 단계의 시간 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 부하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도 상승 ──▶ TjMax 근접 ──▶ TCC 활성화 ──▶ 배수 하향/터보 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 온도 하강 성공 ─▶ 정상 복귀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 실패 ─▶ PROCHOT# 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── THERMTRIP#</div></div>
+</div>
+</div>
+
+
+
+즉 안전 모드 다운클럭킹은 단순한 속도 감소가 아니라, <strong>열 예산을 넘은 CPU가 스스로 열 생산량을 줄이는 폐루프 제어</strong>다. 이 메커니즘이 있어야 팬 응답, 방열판 열전도, 냉각수 순환처럼 상대적으로 느린 물리 시스템이 뒤늦게라도 따라올 시간을 벌 수 있다.
 
 - **📢 섹션 요약 비유**: 가파른 내리막에서 브레이크가 뜨거워지면 자동차가 저단 기어로 내려가 속도를 강제로 줄여 브레이크를 식히는 것처럼, CPU도 클럭을 낮춰 자기 열을 먼저 줄인다.
 
@@ -67,7 +65,7 @@ CPU 안전 모드 다운클럭킹은 보통 **온도 감지 → 임계값 비교
 
 ## Ⅲ. 비교 및 연결
 
-CPU 다운클럭킹을 이해할 때 가장 많이 헷갈리는 부분은 **정상적인 전력 관리**와 **비상 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작**의 차이다. DVFS는 주어진 전력 예산 안에서 효율을 최적화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이고, 안전 모드 다운클럭킹은 이미 위험 구간에 들어간 뒤 손상을 막기 위한 제어다. 또한 C-state는 유휴 상태 절전이고, 다운클럭킹은 바쁘게 일하는 중에도 강제로 속도를 줄이는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작이라는 점이 다르다.
+CPU 다운클럭킹을 이해할 때 가장 많이 헷갈리는 부분은 <strong>정상적인 전력 관리</strong>와 <strong>비상 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 동작</strong>의 차이다. DVFS는 주어진 전력 예산 안에서 효율을 최적화하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이고, 안전 모드 다운클럭킹은 이미 위험 구간에 들어간 뒤 손상을 막기 위한 제어다. 또한 C-state는 유휴 상태 절전이고, 다운클럭킹은 바쁘게 일하는 중에도 강제로 속도를 줄이는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작이라는 점이 다르다.
 
 | 항목 | [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) | 열 스로틀링/안전 모드 다운클럭킹 | C-state |
 | :-- | :-- | :-- | :-- |
@@ -85,9 +83,9 @@ CPU 다운클럭킹을 이해할 때 가장 많이 헷갈리는 부분은 **정�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "CPU가 느리다"보다 **왜 느려졌는지의 원인 분리**가 핵심이다. 고부하 직후 1~2초 정도 클럭이 떨어졌다가 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되면 정상 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작일 수 있지만, 지속적으로 베이스 클럭 아래에서 머무르거나 가벼운 부하에서도 팬이 최대 속도로 돌면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되지 않으면 냉각 이상 가능성이 높다. 특히 노트북은 CPU와 GPU가 하나의 히트파이프를 공유해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 과열이 CPU 다운클럭으로 전이되기 쉽고, 서버는 랙 흡기 온도 상승이나 펌프·팬 고장으로 전체 노드가 집단 스로틀링에 빠질 수 있다.
+실무에서는 "CPU가 느리다"보다 <strong>왜 느려졌는지의 원인 분리</strong>가 핵심이다. 고부하 직후 1~2초 정도 클럭이 떨어졌다가 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되면 정상 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작일 수 있지만, 지속적으로 베이스 클럭 아래에서 머무르거나 가벼운 부하에서도 팬이 최대 속도로 돌면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되지 않으면 냉각 이상 가능성이 높다. 특히 노트북은 CPU와 GPU가 하나의 히트파이프를 공유해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 과열이 CPU 다운클럭으로 전이되기 쉽고, 서버는 랙 흡기 온도 상승이나 펌프·팬 고장으로 전체 노드가 집단 스로틀링에 빠질 수 있다.
 
-기술사 관점에서는 단순히 "다운클럭이 일어났다"는 사실보다, **그것이 정상적인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)인지 장애 징후인지 판단하는 기준**을 써야 한다. 예를 들어 AVX (Advanced Vector Extensions) 같은 고전력 명령은 정상 범위 안에서도 일시적인 주파수 하향을 유발할 수 있다. 반면 아이들 상태에서도 저클럭이 지속되면 방열판 장착 불량, 써멀 구리스 열화, 전원부 과열, 팬 RPM 저하 같은 물리 결함을 먼저 점검해야 한다.
+기술사 관점에서는 단순히 "다운클럭이 일어났다"는 사실보다, <strong>그것이 정상적인 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>인지 장애 징후인지 판단하는 기준</strong>을 써야 한다. 예를 들어 AVX (Advanced Vector Extensions) 같은 고전력 명령은 정상 범위 안에서도 일시적인 주파수 하향을 유발할 수 있다. 반면 아이들 상태에서도 저클럭이 지속되면 방열판 장착 불량, 써멀 구리스 열화, 전원부 과열, 팬 RPM 저하 같은 물리 결함을 먼저 점검해야 한다.
 
 ### 점검 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,7 +110,7 @@ CPU 클럭 다운클럭킹(안전 모드)의 기대효과는 명확하다. [성�
 
 하지만 한계도 분명하다. 안전 모드에 오래 머무르면 응답시간이 나빠지고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급락해, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질은 사실상 장애 수준으로 떨어질 수 있다. 또한 근본 원인이 계속 남아 있으면 결국 THERMTRIP# 셧다운으로 이어진다. 앞으로는 더 정교한 센서 융합, 워크로드 인지 전력 제어, 냉각 장치와의 협조 제어가 늘어나겠지만, 본질은 변하지 않는다.
 
-즉 CPU 다운클럭킹은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기능이 아니라, **열과 전력 한계를 넘지 않도록 시스템이 스스로 거는 안전 브레이크**로 기억해야 한다.
+즉 CPU 다운클럭킹은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기능이 아니라, <strong>열과 전력 한계를 넘지 않도록 시스템이 스스로 거는 안전 브레이크</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 엘리베이터 과부하 경보가 울리면 잠깐 불편해도 속도를 줄이거나 멈춰야 사고를 막을 수 있다. CPU의 안전 모드 다운클럭도 바로 그런 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 브레이크다.
 
@@ -130,21 +128,23 @@ CPU 클럭 다운클럭킹(안전 모드)의 기대효과는 명확하다. [성�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 클럭 시대
-    │
-    ▼
-DVFS 기반 효율 최적화
-    │
-    ▼
-TCC 기반 열 스로틀링
-    │
-    ▼
-PROCHOT# 기반 플랫폼 연동
-    │
-    ▼
-THERMTRIP# 포함 다단계 안전 보호
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 클럭 시대</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS 기반 효율 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TCC 기반 열 스로틀링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PROCHOT# 기반 플랫폼 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">THERMTRIP# 포함 다단계 안전 보호</div>
+</div>
+</div>
+
+
 
 이 흐름은 CPU 클럭 제어가 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조절에서 출발해, 오늘날에는 플랫폼 안전 제어까지 확장되었음을 보여준다.
 

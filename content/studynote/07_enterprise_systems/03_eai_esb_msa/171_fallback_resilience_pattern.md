@@ -19,28 +19,29 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-폴백은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 "호출이 실패했을 때 무엇을 반환할 것인가"에 답하는 패턴이다. [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)은 얼마나 기다릴지를 정하고, 재시도는 한 번 더 시도할지를 정하며, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 계속 호출할지를 정한다. 그 다음 단계에서 폴백은 **이제 원래 응답 대신 무엇을 줄지**를 결정한다.
+폴백은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 "호출이 실패했을 때 무엇을 반환할 것인가"에 답하는 패턴이다. [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)은 얼마나 기다릴지를 정하고, 재시도는 한 번 더 시도할지를 정하며, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 계속 호출할지를 정한다. 그 다음 단계에서 폴백은 <strong>이제 원래 응답 대신 무엇을 줄지</strong>를 결정한다.
 
 이 패턴이 필요한 이유는 실패 자체보다 사용자 경험의 붕괴가 더 크게 느껴지기 때문이다. 예를 들어 상품 상세 화면에서 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잠시 죽었을 때, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 전체를 500 오류로 끝내는 것은 과한 대응이다. 이 경우 "추천 영역만 인기 상품으로 대체"하거나 "추천 영역을 잠시 숨김"으로써 핵심 구매 흐름은 살릴 수 있다.
 
-하지만 폴백은 장애를 마법처럼 없애는 기술이 아니다. 정확히 말하면 **실패를 안전하게 축소하는 기술**이다. 따라서 어떤 기능은 폴백이 적합하고, 어떤 기능은 오히려 위험하다. 조회성 기능과 거래성 기능을 구분하지 않으면 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성이 아니라 정합성 사고를 만들 수 있다.
+하지만 폴백은 장애를 마법처럼 없애는 기술이 아니다. 정확히 말하면 <strong>실패를 안전하게 축소하는 기술</strong>이다. 따라서 어떤 기능은 폴백이 적합하고, 어떤 기능은 오히려 위험하다. 조회성 기능과 거래성 기능을 구분하지 않으면 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성이 아니라 정합성 사고를 만들 수 있다.
 
 아래 그림은 원래 경로와 폴백 경로가 어디서 갈리는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 Primary path and fallback path split                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ User -> Product API -> Recommendation service                        │
-│                         │                                            │
-│                         ├─ success -> personalized list              │
-│                         └─ fail/open breaker -> cached popular list  │
-│                                                                      │
-│ goal: keep the page usable without pretending the dependency is fine │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 "정상 응답처럼 보이게 속이는 것"이 아니라, **사용 가능한 최소 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 유지하는 것**이다. 그래서 폴백 응답은 가능한 한 출처와 한계를 분명히 가져야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary path and fallback path split</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User -&gt; Product API -&gt; Recommendation service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ success -&gt; personalized list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail/open breaker -&gt; cached popular list</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">goal: keep the page usable without pretending the dependency is fine</div></div>
+</div>
+</div>
+
+
+
+핵심은 "정상 응답처럼 보이게 속이는 것"이 아니라, <strong>사용 가능한 최소 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준을 유지하는 것</strong>이다. 그래서 폴백 응답은 가능한 한 출처와 한계를 분명히 가져야 한다.
 
 - **📢 섹션 요약 비유**: 주연 배우가 갑자기 못 나오더라도 공연 전체를 취소하는 대신 대역 배우가 핵심 장면만 이어 가게 만드는 것이 폴백이다. 다만 결말까지 바꿔 버리면 그건 대체가 아니라 사고다.
 
@@ -48,7 +49,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-폴백은 보통 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)와 함께 동작한다. 정상 경로가 실패했을 때만 호출되므로, 독립 기능이라기보다 **실패 처리 체인의 마지막 응답 계층**에 가깝다. 따라서 폴백 설계의 핵심은 "무엇으로 대체할 것인가"뿐 아니라 "언제 폴백으로 전환할 것인가"를 같이 정하는 데 있다.
+폴백은 보통 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)와 함께 동작한다. 정상 경로가 실패했을 때만 호출되므로, 독립 기능이라기보다 <strong>실패 처리 체인의 마지막 응답 계층</strong>에 가깝다. 따라서 폴백 설계의 핵심은 "무엇으로 대체할 것인가"뿐 아니라 "언제 폴백으로 전환할 것인가"를 같이 정하는 데 있다.
 
 | 폴백 유형 | 대체 응답 | 적합한 상황 | 주요 위험 |
 | :--- | :--- | :--- | :--- |
@@ -57,26 +58,28 @@ tags = ["studynote-enterprise"]
 | 보조 소스 폴백 | 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본, 다른 공급자 | 외부 의존성 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이와 운영 복잡도 |
 | 기능 축소 폴백 | 특정 기능 숨김, 비활성화 | 선택형 부가 기능 | 사용자 혼란, 장애 은폐 |
 
-실무적으로 좋은 폴백은 세 조건을 만족해야 한다. 첫째, **안전성**이다. 폴백 결과가 비즈니스 정합성을 깨지 않아야 한다. 둘째, **명시성**이다. 오래된 캐시인지, 제한된 정보인지 시스템과 운영자가 알 수 있어야 한다. 셋째, **[관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)**이다. 폴백 발생률이 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)과 알림으로 드러나야 한다.
+실무적으로 좋은 폴백은 세 조건을 만족해야 한다. 첫째, <strong>안전성</strong>이다. 폴백 결과가 비즈니스 정합성을 깨지 않아야 한다. 둘째, <strong>명시성</strong>이다. 오래된 캐시인지, 제한된 정보인지 시스템과 운영자가 알 수 있어야 한다. 셋째, <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/">관측 가능성</a></strong>이다. 폴백 발생률이 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)과 알림으로 드러나야 한다.
 
-특히 캐시 폴백을 쓸 때는 만료 시간 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 과 허용 가능한 최신성 수준을 정해야 한다. "최대 5분 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 허용" 같은 기준이 없으면 폴백은 곧 무기한 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공으로 변질된다. 따라서 폴백은 캐시가 있다는 사실만으로 완성되지 않고, **얼마나 오래된 정보까지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)상 허용할지**에 대한 합의가 있어야 한다.
+특히 캐시 폴백을 쓸 때는 만료 시간 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 과 허용 가능한 최신성 수준을 정해야 한다. "최대 5분 이전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 허용" 같은 기준이 없으면 폴백은 곧 무기한 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공으로 변질된다. 따라서 폴백은 캐시가 있다는 사실만으로 완성되지 않고, <strong>얼마나 오래된 정보까지 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>상 허용할지</strong>에 대한 합의가 있어야 한다.
 
 아래 그림은 실패 감지에서 폴백 응답까지의 전형적인 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Timeout and circuit breaker decide when fallback runs         │
-├──────────────────────────────────────────────────────────────────────┤
-│ request -> timeout -> retry?(limited) -> circuit breaker -> fallback │
-│                                                        │             │
-│                                                        ├─ cache      │
-│                                                        ├─ default    │
-│                                                        ├─ secondary  │
-│                                                        └─ feature off│
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 폴백은 장애 회피 그 자체가 아니라, 이미 실패가 감지된 후 **사용자와 시스템에 가장 덜 위험한 응답 형태로 착지시키는 기술**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timeout and circuit breaker decide when fallback runs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request -&gt; timeout -&gt; retry?(limited) -&gt; circuit breaker -&gt; fallback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ default</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ secondary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ feature off</div></div>
+</div>
+</div>
+
+
+
+즉 폴백은 장애 회피 그 자체가 아니라, 이미 실패가 감지된 후 <strong>사용자와 시스템에 가장 덜 위험한 응답 형태로 착지시키는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 비가 오면 우산을 쓰는 것처럼, 폴백은 비를 멈추게 하지는 못하지만 젖지 않게 도와준다. 다만 폭우인데 종이우산을 주면 오히려 더 위험해진다.
 
@@ -84,7 +87,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-폴백은 비슷한 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 패턴과 역할이 다르다. 재시도는 원래 응답을 다시 받아보려는 시도이고, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 더 이상 호출하지 말자고 결정하는 장치이며, 폴백은 그 이후 **대체 응답**을 제공하는 계층이다. 이 경계를 구분해야 장애 시 설계가 꼬이지 않는다.
+폴백은 비슷한 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 패턴과 역할이 다르다. 재시도는 원래 응답을 다시 받아보려는 시도이고, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 더 이상 호출하지 말자고 결정하는 장치이며, 폴백은 그 이후 <strong>대체 응답</strong>을 제공하는 계층이다. 이 경계를 구분해야 장애 시 설계가 꼬이지 않는다.
 
 | 패턴 | 답하는 질문 | 주 역할 | 폴백과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | :--- | :--- | :--- | :--- |
@@ -106,7 +109,7 @@ tags = ["studynote-enterprise"]
 
 실무에서는 "이 기능이 없어도 핵심 흐름이 유지되는가?"를 먼저 묻는 것이 좋다. 예를 들어 쇼핑몰 메인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 개인화 추천, 리뷰 요약, 부가 배너는 폴백 후보가 된다. 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실패하면 최근 인기 상품이나 카테고리 베스트 목록으로 대체하고, 리뷰 분석이 실패하면 리뷰 요약 영역만 숨길 수 있다.
 
-반대로 결제 승인, 재고 차감, 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 계좌 이체 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업은 폴백으로 성공을 흉내 내면 안 된다. 이런 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 오류를 빠르게 드러내고, 필요한 경우 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)이나 수동 처리 절차로 연결하는 편이 안전하다. 즉 폴백은 **정합성을 훼손하지 않는 범위 안에서만 허용**되어야 한다.
+반대로 결제 승인, 재고 차감, 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 계좌 이체 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업은 폴백으로 성공을 흉내 내면 안 된다. 이런 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 오류를 빠르게 드러내고, 필요한 경우 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)이나 수동 처리 절차로 연결하는 편이 안전하다. 즉 폴백은 <strong>정합성을 훼손하지 않는 범위 안에서만 허용</strong>되어야 한다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -130,7 +133,7 @@ tags = ["studynote-enterprise"]
 - 1차 장애보다 위험한 보조 공급자를 무분별하게 연결하는 경우
 - 화면은 정상처럼 보이지만 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처와 최신성은 설명하지 않는 경우
 
-좋은 폴백은 장애를 감추기보다 **영향 범위를 줄이면서 운영자에게 더 빨리 드러내는 설계**다. 그래서 구현보다 관측, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 안전성 판단이 더 중요하다.
+좋은 폴백은 장애를 감추기보다 <strong>영향 범위를 줄이면서 운영자에게 더 빨리 드러내는 설계</strong>다. 그래서 구현보다 관측, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 안전성 판단이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 자동차 네비게이션이 길이 막히면 우회로를 보여 주는 것은 좋지만, 다리가 끊어졌는데도 "곧 도착"이라고 말하면 큰일 나는 것과 같다.
 
@@ -142,7 +145,7 @@ tags = ["studynote-enterprise"]
 
 하지만 폴백은 공짜가 아니다. 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출, 기능 편차, 장애 은폐, 다중 경로 운영 복잡도가 늘어난다. 특히 비즈니스 정합성을 검토하지 않은 폴백은 원래 장애보다 더 큰 사고를 만든다.
 
-결론적으로 폴백은 "실패를 숨기는 장치"가 아니라, **실패가 발생했을 때 어떤 수준까지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 줄여도 안전한지 정의하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 패턴**이다. 안전한 축소가 가능할 때만 쓰고, 그렇지 않으면 빠른 실패가 더 좋은 설계다.
+결론적으로 폴백은 "실패를 숨기는 장치"가 아니라, <strong>실패가 발생했을 때 어떤 수준까지 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 줄여도 안전한지 정의하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>적 패턴</strong>이다. 안전한 축소가 가능할 때만 쓰고, 그렇지 않으면 빠른 실패가 더 좋은 설계다.
 
 - **📢 섹션 요약 비유**: 좋은 폴백은 다친 선수 대신 수비형 교체 선수를 넣어 경기 흐름을 지키는 선택이지, 골이 들어가지 않았는데도 점수를 올려 놓는 속임수가 아니다.
 
@@ -161,18 +164,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Remote call failure
-    │
-    ▼
-Timeout / Retry / Circuit Breaker
-    │
-    ├─ safe read path  -> cache / default / secondary source
-    └─ unsafe write    -> fail fast / compensation flow
-    │
-    ▼
-Graceful degradation with observability
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Remote call failure</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Timeout / Retry / Circuit Breaker</div>
+<div class="kb-diagram-tree-item" style="--depth:2">safe read path -&gt; cache / default / secondary source</div>
+<div class="kb-diagram-tree-item" style="--depth:2">unsafe write -&gt; fail fast / compensation flow</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Graceful degradation with observability</div>
+</div>
+</div>
+
+
 
 이 흐름은 원격 호출 장애가 발생했을 때 폴백이 어디에 들어가고, 어떤 경우에는 오히려 쓰지 말아야 하는지를 보여 준다.
 

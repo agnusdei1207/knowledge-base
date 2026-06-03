@@ -17,26 +17,26 @@ tags = ["devops_sre"]
 
 ### 보이지 않는 벽: '혼란의 벽 (Wall of Confusion)'
 
-전통적인 IT 조직에서 개발팀의 목표는 '빠른 변화 (Change)'이고, 운영팀의 목표는 '시스템의 안정 (Stability)'이다. 이 상반된 목표는 서로를 불신하게 만들고, 배포 단계에서 책임 전가와 지연을 초래하는 거대한 장벽을 형성한다. **데브옵스**는 이 장벽을 허물고 개발과 운영이 공동의 책임을 지는 구조로 전환하는 문화적 혁명이다.
+전통적인 IT 조직에서 개발팀의 목표는 '빠른 변화 (Change)'이고, 운영팀의 목표는 '시스템의 안정 (Stability)'이다. 이 상반된 목표는 서로를 불신하게 만들고, 배포 단계에서 책임 전가와 지연을 초래하는 거대한 장벽을 형성한다. <strong>데브옵스</strong>는 이 장벽을 허물고 개발과 운영이 공동의 책임을 지는 구조로 전환하는 문화적 혁명이다.
 
-데브옵스 방법론이 필요한 이유는 세 가지이다. 첫째, **시장의 빠른 변화에 대응**하기 위해서이다. 경쟁사보다 한발 앞선 기능 출시가 성패를 가른다. 둘째, **배포 사고의 획기적 감소**를 위해서이며 (자동화된 검증), 셋째, **인적 자원의 고도화**를 위해서이다. 반복적인 수작업에서 벗어나 창의적인 엔지니어링에 집중할 수 있는 환경을 조성한다.
+데브옵스 방법론이 필요한 이유는 세 가지이다. 첫째, <strong>시장의 빠른 변화에 대응</strong>하기 위해서이다. 경쟁사보다 한발 앞선 기능 출시가 성패를 가른다. 둘째, <strong>배포 사고의 획기적 감소</strong>를 위해서이며 (자동화된 검증), 셋째, <strong>인적 자원의 고도화</strong>를 위해서이다. 반복적인 수작업에서 벗어나 창의적인 엔지니어링에 집중할 수 있는 환경을 조성한다.
 
-이 그림은 데브옵스의 핵심 철학인 **CAMS 모델**을 보여준다.
+이 그림은 데브옵스의 핵심 철학인 <strong>CAMS 모델</strong>을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DevOps Core Philosophy: CAMS                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Culture ] ─────▶ 사람 중심, 신뢰와 존중, 공동 책임      │
-│   [ Automation ] ──▶ 수작업 제거, CI/CD, IaC, 파이프라인    │
-│   [ Measurement ] ─▶ 정량적 지표 (MTTR, 배포 빈도), 데이터  │
-│   [ Sharing ] ─────▶ 지식 공유, 열린 소통, 피드백 루프      │
-│                                                             │
-│   * 핵심: 자동화(A) 이전에 문화(C)가 먼저 바뀌어야 함       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps Core Philosophy: CAMS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Culture</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사람 중심, 신뢰와 존중, 공동 책임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Automation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">수작업 제거, CI/CD, IaC, 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Measurement</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">정량적 지표 (MTTR, 배포 빈도), 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sharing</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">지식 공유, 열린 소통, 피드백 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 자동화(A) 이전에 문화(C)가 먼저 바뀌어야 함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '문화 (Culture)'이다. 제아무리 좋은 자동화 도구를 도입해도 개발자와 운영자가 서로 싸운다면 데브옵스는 실패한다. 실무에서는 비난하지 않는 문화 (Blameless Culture)와 실패를 학습의 기회로 삼는 태도가 데브옵스 성공의 80%를 결정한다.
 
@@ -80,20 +80,18 @@ tags = ["devops_sre"]
 
 이 구조도는 데브옵스가 추구하는 **'가치 스트림 (Value Stream)'** 최적화 개념을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Value Stream Mapping (VSM)                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Idea ] ──▶ [ Dev ] ──(Wait)──▶ [ QA ] ──(Wait)──▶ [ Ops ] │
-│      │          │        ▲          │        ▲         │    │
-│      └──────────┴────────┼──────────┴────────┼─────────┘    │
-│                          │                  │               │
-│   * Non-Value Adding Time (낭비): 대기 및 핸드오버 시간     │
-│   * 목표: Lead Time(총 소요시간)을 줄여 가치 전달 가속화    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Stream Mapping (VSM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Idea</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dev</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ops</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Non-Value Adding Time (낭비): 대기 및 핸드오버 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: Lead Time(총 소요시간)을 줄여 가치 전달 가속화</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '병목 (Bottleneck) 제거'이다. 개발이 1시간 걸려도 배포 대기 시간이 1주일이면 고객은 1주일 후에나 가치를 얻는다. 실무에서는 이 대기 시간을 자동화와 협업을 통해 분 단위로 줄이는 것이 데브옵스의 실질적인 목표이다.
 
@@ -129,28 +127,28 @@ tags = ["devops_sre"]
 ### 기술사적 판단: 데브옵스 도입 장애물 및 극복 전략
 
 **시나리오 1: 데브옵스를 도입했으나 운영팀의 저항으로 배포 주기가 여전한 경우**
-- **판단**: 기술적 자동화 이전에 **'공동의 성과 지표'**가 부재한 상태다. 운영팀의 고과 기준을 '무장애'에서 '배포 성공 및 복구 속도'로 변경하도록 인사 시스템 수정을 제안한다. 또한 개발자가 운영 업무 (On-call)를 직접 경험하게 하고, 운영자가 코드 리뷰에 참여하게 하는 **'내재화된 협업'** 문화를 조성한다.
+- **판단**: 기술적 자동화 이전에 <strong>'공동의 성과 지표'</strong>가 부재한 상태다. 운영팀의 고과 기준을 '무장애'에서 '배포 성공 및 복구 속도'로 변경하도록 인사 시스템 수정을 제안한다. 또한 개발자가 운영 업무 (On-call)를 직접 경험하게 하고, 운영자가 코드 리뷰에 참여하게 하는 **'내재화된 협업'** 문화를 조성한다.
 
 **시나리오 2: 잦은 배포로 인한 품질 저하와 롤백 비용 폭증**
-- **판단**: **'Shift-Left'** 전략이 미흡하다. 테스트를 마지막에 몰아서 하지 말고, 개발 초기 단계에 자동화된 단위 테스트와 시큐어 코딩 검사를 강제하는 **품질 게이트 (Quality Gate)**를 파이프라인에 삽입한다. 또한 장애 발생 시 전체를 원복하지 않고 특정 기능만 끄는 **Feature Flag** 기술을 도입하여 리스크를 분산시키는 아키텍처 결단을 내린다.
+- **판단**: **'Shift-Left'** 전략이 미흡하다. 테스트를 마지막에 몰아서 하지 말고, 개발 초기 단계에 자동화된 단위 테스트와 시큐어 코딩 검사를 강제하는 <strong>품질 게이트 (Quality Gate)</strong>를 파이프라인에 삽입한다. 또한 장애 발생 시 전체를 원복하지 않고 특정 기능만 끄는 **Feature Flag** 기술을 도입하여 리스크를 분산시키는 아키텍처 결단을 내린다.
 
 이 도식은 기술사가 주도하는 '데브옵스 조직으로의 성숙도 이행' 단계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               DevOps Maturity & Transformation Roadmap      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Step 1: Silos ]   ──▶ 벽이 있는 개발-운영               │
-│   [ Step 2: Shared ]  ──▶ 공통 도구 사용, 소통 시작         │
-│   [ Step 3: Hybrid ]  ──▶ CI/CD 파이프라인 구축             │
-│   [ Step 4: Native ]  ──▶ 인프라 자동화, 셀프 서비스        │
-│   [ Step 5: Advanced ] ──▶ 데이터 기반 자율 개선 (AIOps)    │
-│                                                             │
-│   * 기술사 역할: "문화를 강요하지 말고, 도구로 문화를 유도" │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps Maturity &amp; Transformation Roadmap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1: Silos</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">벽이 있는 개발-운영</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2: Shared</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">공통 도구 사용, 소통 시작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 3: Hybrid</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">CI/CD 파이프라인 구축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 4: Native</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인프라 자동화, 셀프 서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 5: Advanced</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 기반 자율 개선 (AIOps)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 역할: "문화를 강요하지 말고, 도구로 문화를 유도"</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 데브옵스 판단은 '오케스트라 지휘자'의 역할과 같습니다. 지휘자는 직접 악기를 연주하지 않지만, 각 파트가 서로의 소리를 들으며 완벽한 화음을 내도록 분위기를 조성하고 템포를 조절하는 역할을 수행합니다.
 
@@ -165,7 +163,7 @@ tags = ["devops_sre"]
 
 ### 미래 전망: 플랫폼 엔지니어링과 NoOps
 
-향후 데브옵스는 개발자가 운영을 신경 쓰지 않아도 되는 **플랫폼 엔지니어링 (Platform Engineering)**으로 수렴할 것이다. 사내 개발자 플랫폼 (IDP)이 운영 지식을 추상화하여 제공함으로써 인지 부하를 최소화할 것이다. 또한 AI가 장애를 스스로 예측하고 치유하는 **NoOps** 시대가 열릴 것이다. 기술사는 자동화의 기술적 깊이를 넘어, 기술이 조직의 가치와 어떻게 결합되어 지속 가능한 성장을 이끄는지 설계하는 '디지털 문화 아키텍트'가 되어야 한다.
+향후 데브옵스는 개발자가 운영을 신경 쓰지 않아도 되는 <strong>플랫폼 엔지니어링 (Platform Engineering)</strong>으로 수렴할 것이다. 사내 개발자 플랫폼 (IDP)이 운영 지식을 추상화하여 제공함으로써 인지 부하를 최소화할 것이다. 또한 AI가 장애를 스스로 예측하고 치유하는 **NoOps** 시대가 열릴 것이다. 기술사는 자동화의 기술적 깊이를 넘어, 기술이 조직의 가치와 어떻게 결합되어 지속 가능한 성장을 이끄는지 설계하는 '디지털 문화 아키텍트'가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 데브옵스는 '자율주행 주방'과 같아질 것입니다. 셰프(개발자)가 요리(코드)에만 집중할 수 있도록 로봇(플랫폼)이 재료를 준비하고 설거지(운영)를 도맡아 하겠지만, 그 요리가 손님에게 어떤 기쁨(가치)을 줄지는 여전히 셰프의 몫입니다.
 

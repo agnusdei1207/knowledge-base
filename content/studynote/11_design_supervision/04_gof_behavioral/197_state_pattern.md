@@ -23,24 +23,25 @@ tags = ["studynote-design-supervision"]
 
 [상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/)은 각 상태를 `OrderState` 인터페이스의 구현 클래스(`ReceivedState`, `ProcessingState`, `ShippedState`, `CancelledState`)로 캡슐화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              상태 패턴 구조                                   │
-├─────────────────────────────────────────────────────────────┤
-│  Context (Order)                                            │
-│  - state: OrderState                                        │
-│  + setState(s: OrderState): void                            │
-│  + process(): void { state.process(this); }                 │
-│  + cancel(): void  { state.cancel(this); }                  │
-│                                                             │
-│  OrderState (인터페이스)                                     │
-│  + process(ctx: Order): void                                │
-│  + cancel(ctx: Order): void                                 │
-│       ▲                                                     │
-│  ReceivedState  ProcessingState  ShippedState  CancelledState│
-│  (각 상태에서 가능한 동작 구현 + 다음 상태 전이 결정)       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 패턴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context (Order)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- state: OrderState</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ setState(s: OrderState): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ process(): void { state.process(this); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ cancel(): void { state.cancel(this); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderState (인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ process(ctx: Order): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ cancel(ctx: Order): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReceivedState ProcessingState ShippedState CancelledState</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 상태에서 가능한 동작 구현 + 다음 상태 전이 결정)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 신호등([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(빨강·노랑·초록)에 따라 동작이 다르고, 각 상태가 다음 상태로의 전이 규칙을 결정한다.
 
@@ -56,20 +57,20 @@ tags = ["studynote-design-supervision"]
 | [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 중앙 전이 | 전이 규칙 한 눈에 파악 | [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 비대화 |
 | 상태 머신 프레임워크 | 선언적 전이 정의 | 학습 곡선 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       주문 상태 전이 다이어그램                               │
-├─────────────────────────────────────────────────────────────┤
-│  [접수] → process() → [처리중] → ship() → [배송중]          │
-│     │                    │                    │             │
-│  cancel()            cancel()             (취소 불가)       │
-│     │                    │                                  │
-│     ▼                    ▼                                  │
-│  [취소됨]            [취소됨]                                │
-│                                            → complete()     │
-│                                               [완료]        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 상태 전이 다이어그램</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접수</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">처리중</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배송중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cancel() cancel() (취소 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">취소됨</div><div class="kb-diagram-node">취소됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ complete()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완료</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 주문([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에게 동작을 위임하고, 상태 객체가 다음 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 결정한다. 주문 시스템은 상태 내부 구현을 알 필요 없다.
 

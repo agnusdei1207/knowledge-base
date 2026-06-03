@@ -23,24 +23,25 @@ tags = ["studynote-network"]
 - **필요성**: 내가 서울에 살다 부산으로 여행을 갔다. 친구가 내 번호(010-XXXX)로 전화를 걸면, 친구의 폰은 기지국에 "얘 좀 찾아줘!"라고 외친다. 만약 통신망이 내 위치를 모른다면, 대한민국 전체 기지국 수십만 개를 동시에 울리며 "홍길동 있니?"라고 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))해야 한다. 이러면 단 10명이 전화해도 전국 기지국의 무선 자원이 100% 터져버리는 끔찍한 시그널링 폭풍(Signaling Storm)이 일어난다.
 - **등장 배경**: ① 기지국(Cell) 수가 폭증하며 전화 수신자를 찾기 위한 무차별 전국 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 불가능 → ② 전국을 수백 개의 기지국 단위인 위치 구역(LA/[TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))으로 묶고 중앙 DB(HLR)를 구축 → ③ 단말기가 LA를 넘을 때만 보고하게 하여 기지국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 부하와 단말기 배터리 소모를 획기적으로 줄이는 최적의 타협점 도출.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             이동성 관리의 두 가지 양면성: 대기 모드 vs 연결 모드      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [1. Idle Mode (대기 모드) - 폰을 주머니에 넣고 걷는 중]          │
-│   - 통화 상태: 꺼짐 (데이터/음성 송수신 없음)                       │
-│   - 망의 목표: 배터리 소모를 최소화하면서 "대략적인 위치"만 파악하기!    │
-│   - 핵심 기술: Location Update (위치 등록) + Paging (방송)      │
-│   - 정확도: 기지국 100개 단위의 '구역(Location Area)' 수준의 느슨한 추적│
-│                                                             │
-│   [2. Connected Mode (연결 모드) - 유튜브를 보며 차 타고 가는 중]   │
-│   - 통화 상태: 켜짐 (미친 듯이 데이터 쏟아지는 중)                   │
-│   - 망의 목표: 단 0.1초도 끊기지 않게 "정확한 위치"를 쫓아가기!          │
-│   - 핵심 기술: Measurement Report (전파 측정) + Handover (넘겨주기)│
-│   - 정확도: 단말기가 현재 물려 있는 '단일 기지국(Cell)' 수준의 완벽한 추적 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동성 관리의 두 가지 양면성: 대기 모드 vs 연결 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Idle Mode (대기 모드) - 폰을 주머니에 넣고 걷는 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통화 상태: 꺼짐 (데이터/음성 송수신 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 망의 목표: 배터리 소모를 최소화하면서 "대략적인 위치"만 파악하기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 핵심 기술: Location Update (위치 등록) + Paging (방송)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정확도: 기지국 100개 단위의 '구역(Location Area)' 수준의 느슨한 추적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. Connected Mode (연결 모드) - 유튜브를 보며 차 타고 가는 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통화 상태: 켜짐 (미친 듯이 데이터 쏟아지는 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 망의 목표: 단 0.1초도 끊기지 않게 "정확한 위치"를 쫓아가기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 핵심 기술: Measurement Report (전파 측정) + Handover (넘겨주기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정확도: 단말기가 현재 물려 있는 '단일 기지국(Cell)' 수준의 완벽한 추적</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이동통신 아키텍트의 영원한 숙제는 "배터리 수명"과 "망의 부하" 사이의 트레이드오프다. 폰이 쉬고 있을 때([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)), 망이 폰을 1미터 단위로 감시하려고 하면 폰은 1초마다 자기 위치를 송신해야 해서 하루도 안 가 배터리가 꺼진다. 그래서 쉴 때는 '서울'이나 '부산' 단위로 대충 풀어두었다가(위치 등록), 전화가 올 때만 그 동네 기지국 스피커로 방송([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 때려 폰을 깨운다. 반면 유튜브를 볼 때(Connected)는 배터리 소모를 각오하고서라도 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)를 위해 1초 단위로 주변 기지국의 전파 상태를 보고하게 만드는 이중적 모빌리티 전략이 핵심이다.
 
@@ -54,30 +55,27 @@ tags = ["studynote-network"]
 
 | 장비/개념 | 역할 및 저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 비유 |
 |:---|:---|:---|
-| **HLR (Home Location [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** | 가입자의 단일 영구 DB (과금 정보, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 권한, 현재 어느 VLR 구역에 있는지 저장) | 내 진짜 주소가 적힌 국가 중앙 주민센터 |
-| **VLR ([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) Location [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))** | HLR에서 복사해 온 내 정보를 담은 임시 DB (내가 지금 머무는 '교환기/MSC' 소속 장부) | 내가 잠시 묵고 있는 호텔의 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 숙박 장부 |
-| **Location Area (LA) / Tracking Area ([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))** | 수십~수백 개의 기지국 묶음 단위. VLR 하나가 관할하는 논리적 지도상의 묶음 영토 | "강남구", "송파구" 같은 행정 구역 단위 |
+| <strong>HLR (Home Location <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> | 가입자의 단일 영구 DB (과금 정보, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 권한, 현재 어느 VLR 구역에 있는지 저장) | 내 진짜 주소가 적힌 국가 중앙 주민센터 |
+| <strong>VLR (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> Location <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> | HLR에서 복사해 온 내 정보를 담은 임시 DB (내가 지금 머무는 '교환기/MSC' 소속 장부) | 내가 잠시 묵고 있는 호텔의 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 숙박 장부 |
+| <strong>Location Area (LA) / Tracking Area (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/">TA</a>)</strong> | 수십~수백 개의 기지국 묶음 단위. VLR 하나가 관할하는 논리적 지도상의 묶음 영토 | "강남구", "송파구" 같은 행정 구역 단위 |
 
 단말기가 KTX를 타고 서울(VLR-A)에서 대전(VLR-B)으로 넘어갈 때, 단말기는 기지국이 뿜어내는 시스템 정보(SIB) 속의 '동네 번호(Location Area Identity, LAI)'가 바뀐 것을 눈치채고 위치 등록을 시작한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               위치 등록 (Location Area Update)의 4단계 댄스        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [스마트폰 (UE)]      [대전 VLR (새로운 지역)]      [서울 HLR (중앙)] │
-│         │ (서울 ─▶ 대전)        │                      │           │
-│         │ 1. "안녕 나 대전 LAI로 넘어왔어!" (Location Update Request) │
-│         ├───────────────────────▶│                      │           │
-│         │                        │ 2. "HLR아, 네 손님 대전 왔네. 정보 좀 줘!"│
-│         │                        ├─────────────────────▶│           │
-│         │                        │                      │           │
-│         │                        │ 3. "ㅇㅋ, 여기 정보 복사. 옛날 서울 VLR은 지울게"│
-│         │                        │◀─────────────────────┤           │
-│         │ 4. "등록 끝. 넌 이제 대전 주민이야!"│                      │           │
-│         │◀───────────────────────┤                      │           │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치 등록 (Location Area Update)의 4단계 댄스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 (UE)</div><div class="kb-diagram-node">대전 VLR (새로운 지역)</div><div class="kb-diagram-node">서울 HLR (중앙)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서울 ─▶ 대전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "안녕 나 대전 LAI로 넘어왔어!" (Location Update Request)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "HLR아, 네 손님 대전 왔네. 정보 좀 줘!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "ㅇㅋ, 여기 정보 복사. 옛날 서울 VLR은 지울게"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. "등록 끝. 넌 이제 대전 주민이야!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이것이 이동통신의 꽃인 모빌리티 업데이트다. 단말기가 대전에 진입해 "LA Update"를 때리면, 대전 VLR은 중앙 HLR에 연락해 사용자의 권한 프로필을 싹 복사해 온다. 이때 HLR은 똑똑하게 "오, 얘 대전 갔네? 그럼 서울 VLR에 있는 찌꺼기 정보는 지워라(Cancel Location)"라고 묵은 장부를 정리한다. 이제 HLR의 최신 장부에는 "이 손님은 대전 VLR 관할에 있음"으로 도장이 쾅 찍힌다.
 
@@ -85,41 +83,39 @@ tags = ["studynote-network"]
 
 이제 누군가 나에게 전화를 걸면 어떤 일이 벌어질까? 망은 나를 찾기 위해 HLR을 뒤지고, 대전 VLR을 뒤진 뒤, 최종적으로 대전 기지국들에 스피커 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 명령한다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               전화 수신 시 Paging (페이징) 폭격 구조도              │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [발신자 전화] ─▶ [HLR (중앙)] "홍길동 어딨어?"                         │
-│                       │ "홍길동 지금 대전(VLR) 쪽에 있네"              │
-│                       ▼                                       │
-│                [대전 VLR / 교환기]                               │
-│        (홍길동이 대전 관할의 수백 개 기지국 중 어딨는진 정확히 모름!)          │
-│         ↙             ↓             ↘                       │
-│    [대전 기지국 1]   [대전 기지국 2] ... [대전 기지국 100]             │
-│       ((📡))         ((📡))            ((📡))                 │
-│         │              │                 │                    │
-│   (방송) "홍길동!"    "홍길동!"           "홍길동!"                 │
-│         │              │                 │                    │
-│   📱(다른 사람 폰-무시)   📱(다른 사람-무시)   📱(홍길동 폰!)           │
-│                                           │                    │
-│   "나 여기 대전 100번 기지국 아래 있어! 전화받을게!" ──(연결 완료)──▶   │
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 이 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 아키텍처는 통신망의 가장 거대한 트레이드오프를 여실히 보여준다. HLR은 내가 "대전 지역"에 있다는 건 알지만, 대전의 수백 개 기지국 중 "정확히 어느 기지국" 밑에 있는지는 모른다. (알려주려면 내가 10m 움직일 때마다 위치 등록을 쏴야 하는데 그러면 폰 배터리가 타버린다). 따라서 VLR은 자신이 관할하는 **'대전의 모든 기지국(Tracking Area)'**에 일제히 무전기를 치며 "홍길동 나와라!" 하고 공중파 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Message)을 흩뿌린다. 홍길동의 스마트폰은 주머니 속에서 화면이 꺼진 채로 쉬고 있지만([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)), 귀는 1초에 한 번씩 열어(DRX 주기) 기지국이 쏘는 방송 채널을 엿듣고 있다. 자기 이름이 불리는 순간, 폰은 번쩍 깨어나 "저 여깄어요!"라고 기지국 100번에게 응답하며 전화를 받는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화 수신 시 Paging (페이징) 폭격 구조도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발신자 전화</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HLR (중앙)</div><div class="kb-diagram-note">"홍길동 어딨어?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"홍길동 지금 대전(VLR) 쪽에 있네"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대전 VLR / 교환기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(홍길동이 대전 관할의 수백 개 기지국 중 어딨는진 정확히 모름!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ↓ ↘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대전 기지국 1</div><div class="kb-diagram-node">대전 기지국 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">대전 기지국 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">((📡)) ((📡)) ((📡))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방송) "홍길동!" "홍길동!" "홍길동!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱(다른 사람 폰-무시) 📱(다른 사람-무시) 📱(홍길동 폰!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 여기 대전 100번 기지국 아래 있어! 전화받을게!" ──(연결 완료)──▶</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 이 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 아키텍처는 통신망의 가장 거대한 트레이드오프를 여실히 보여준다. HLR은 내가 "대전 지역"에 있다는 건 알지만, 대전의 수백 개 기지국 중 "정확히 어느 기지국" 밑에 있는지는 모른다. (알려주려면 내가 10m 움직일 때마다 위치 등록을 쏴야 하는데 그러면 폰 배터리가 타버린다). 따라서 VLR은 자신이 관할하는 <strong>'대전의 모든 기지국(Tracking Area)'</strong>에 일제히 무전기를 치며 "홍길동 나와라!" 하고 공중파 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Message)을 흩뿌린다. 홍길동의 스마트폰은 주머니 속에서 화면이 꺼진 채로 쉬고 있지만([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)), 귀는 1초에 한 번씩 열어(DRX 주기) 기지국이 쏘는 방송 채널을 엿듣고 있다. 자기 이름이 불리는 순간, 폰은 번쩍 깨어나 "저 여깄어요!"라고 기지국 100번에게 응답하며 전화를 받는다.
 
 
 1. **상황**: 스마트팜 농장에 설치된 온도 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 1만 개가 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망에 물려 있다. 이 센서들은 동전만 한 수은 배터리 하나로 10년을 버텨야 한다. 기존 스마트폰처럼 1초에 한 번씩 잠에서 깨어 기지국 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 방송을 들으면 배터리가 3달 만에 죽어버린다.
 2. **원인**: 사람이 쓰는 스마트폰은 전화를 걸었을 때 1초 안에 벨이 울려야 한다. 즉 DRX 주기가 길어 봐야 1초~2초다. 반면 센서는 하루에 한 번만 온도 값을 보내면 되고, 외부에서 실시간 호출이 들어올 일이 거의 없다.
 3. **의사결정 및 조치 (eDRX 및 PSM 융합 적용)**:
-   - 아키텍트는 이 센서들에 대해 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 전용 망([NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/), [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))의 핵심 기술인 **eDRX (Extended DRX)** 파라미터를 먹인다. 폰이 깨어나는 주기를 1초가 아니라 무려 **10분~40분 간격**으로 파격적으로 늘려버린다.
-   - 더 나아가 아예 **PSM ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Saving Mode)**을 켜준다. 기지국에 "나 1주일 동안 겨울잠 잘 거니까 날 찾지 마!"라고 통보하고 라디오를 꺼버린다. 이 기간 동안 누군가 센서를 호출([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))해도 센서는 절대 응답하지 않으며, 센서가 스스로 깨어나서 보고할 때까지 망은 센서에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 없다.
+   - 아키텍트는 이 센서들에 대해 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 전용 망([NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/), [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))의 핵심 기술인 **eDRX (Extended DRX)** 파라미터를 먹인다. 폰이 깨어나는 주기를 1초가 아니라 무려 <strong>10분~40분 간격</strong>으로 파격적으로 늘려버린다.
+   - 더 나아가 아예 <strong>PSM (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Saving Mode)</strong>을 켜준다. 기지국에 "나 1주일 동안 겨울잠 잘 거니까 날 찾지 마!"라고 통보하고 라디오를 꺼버린다. 이 기간 동안 누군가 센서를 호출([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))해도 센서는 절대 응답하지 않으며, 센서가 스스로 깨어나서 보고할 때까지 망은 센서에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 없다.
    - **결과**: 배터리 용량의 99.9%를 쥐어짜 보존하며 수은 전지 1개로 10년 수명(10-Year Battery Life)을 보장하는 초저전력 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모빌리티를 완성했다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) (Tracking Area) 경계면 핑퐁 방어 설계**: 고속도로 톨게이트와 같은 차량 이동의 병목 지점에 실수로 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 경계선([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) Border)을 그어놓으면 끔찍한 사태가 발생한다. 차가 밀려 1미터씩 전진과 후진을 반복하는데, 그때마다 단말기가 서울 TA와 경기 TA를 넘나들며 "위치 등록!"을 1분에 수십 번씩 때려버린다. 코어망 서버([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/[AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/))가 위치 등록 폭탄(Signaling Storm)을 맞고 터진다. [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 경계는 반드시 산맥이나 강 등 자연 장애물이 있거나 차량 정체가 전혀 없는 외곽 허허벌판에 기하학적으로 배치(Cell Planning)해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (불필요한 Periodic TAU 남발)**: 단말기는 경계 구역을 넘을 때뿐만 아니라, "나 안 죽고 잘 살아있어!"라고 주기적으로 생존 신고를 날린다(Periodic TAU, 보통 54분 세팅). 이 타이머를 10분 단위로 너무 짧게 튜닝하면, 망 내의 수천만 대 스마트폰이 좀비처럼 일어나 10분마다 쓸데없는 생존 신고를 코어망에 폭격하여 HLR/VLR [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 병목을 유발하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/">TA</a> (Tracking Area) 경계면 핑퐁 방어 설계</strong>: 고속도로 톨게이트와 같은 차량 이동의 병목 지점에 실수로 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 경계선([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) Border)을 그어놓으면 끔찍한 사태가 발생한다. 차가 밀려 1미터씩 전진과 후진을 반복하는데, 그때마다 단말기가 서울 TA와 경기 TA를 넘나들며 "위치 등록!"을 1분에 수십 번씩 때려버린다. 코어망 서버([MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/[AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/))가 위치 등록 폭탄(Signaling Storm)을 맞고 터진다. [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 경계는 반드시 산맥이나 강 등 자연 장애물이 있거나 차량 정체가 전혀 없는 외곽 허허벌판에 기하학적으로 배치(Cell Planning)해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (불필요한 Periodic TAU 남발)</strong>: 단말기는 경계 구역을 넘을 때뿐만 아니라, "나 안 죽고 잘 살아있어!"라고 주기적으로 생존 신고를 날린다(Periodic TAU, 보통 54분 세팅). 이 타이머를 10분 단위로 너무 짧게 튜닝하면, 망 내의 수천만 대 스마트폰이 좀비처럼 일어나 10분마다 쓸데없는 생존 신고를 코어망에 폭격하여 HLR/VLR [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 병목을 유발하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 자동차가 밀리는 톨게이트(교통 혼잡) 한가운데에 경기도와 서울의 경계선([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) Border)을 그어두면, 운전자는 1미터 움직일 때마다 "저 서울 왔어요", "저 경기 왔어요" 전화를 수백 번 해야 해서 통신사 전화통에 불이 납니다. 경계선은 차가 절대 안 막히고 빠르게 휙 지나가는 조용한 터널 안에 그어두는 것이 아키텍트의 상식입니다.
 
@@ -134,29 +130,29 @@ tags = ["studynote-network"]
 | 설계 방식 | 장점 | 단점 (트레이드오프) | 실무 적용 결과 |
 |:---|:---|:---|:---|
 | **LA(위치 구역)를 좁게 잡음 (예: 동 단위)** | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 스피커를 몇 개 안 틀어도 되므로 망 부하가 적음 | 차 타고 달리면 1분마다 "위치 등록"을 쏴야 해서 **단말 배터리 광탈 및 위치 등록 폭주** | 도보 이동이 많은 백화점, 도심 핫스팟 등 밀집 구역에 적용 |
-| **LA(위치 구역)를 넓게 잡음 (예: 시 단위)** | 차를 타고 아무리 다녀도 위치 등록을 안 쏴서 배터리 만땅 | 전화 한 통 올 때마다 서울시 기지국 10만 개가 일제히 소리쳐야 하므로 **[Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Channel 100% 폭주 마비** | 고속도로 톨게이트 주변, KTX 선로 등 고속 이동 구간에 크게 적용 |
+| **LA(위치 구역)를 넓게 잡음 (예: 시 단위)** | 차를 타고 아무리 다녀도 위치 등록을 안 쏴서 배터리 만땅 | 전화 한 통 올 때마다 서울시 기지국 10만 개가 일제히 소리쳐야 하므로 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a> Channel 100% 폭주 마비</strong> | 고속도로 톨게이트 주변, KTX 선로 등 고속 이동 구간에 크게 적용 |
 
 이 딜레마를 풀기 위해 현대 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망에서는 단순한 단일 구역([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)) 할당을 넘어, **TAL (Tracking Area List)** 기법을 도입했다. 단말기에게 구역 번호 1개를 주지 않고, "너는 강남, 서초, 송파 세 구역을 묶어서 편하게 돌아다녀!"라며 리스트 자체를 던져버린다. 폰은 그 리스트 안에서 돌아다닐 때는 꿀 먹은 벙어리처럼 조용히 있다가, 그 거대한 구역을 아예 벗어날 때만 한 번 위치 등록을 쏘도록 설계하여 배터리 수명을 비약적으로 향상했다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               배터리 보존의 마법: 불연속 수신 (DRX, eDRX) 기법       │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [과거: 배터리 살인마 방식]                                      │
-│   단말기: (초당 1000번 기지국 스피커를 감시함) "내 이름 부르나? 내 이름 부르나?"│
-│   결과: 통화 안 해도 반나절 만에 배터리 0% 방전                           │
-│                                                               │
-│   [현재: DRX (Discontinuous Reception) 방식]                    │
-│   기지국: "홍길동아, 넌 1초에 딱 한 번, 정각마다 귀 열어. 그때만 부를게."    │
-│   단말기: (0.99초 동안 무선 칩셋 전원 아예 차단 = Sleep)               │
-│           (0.01초 동안 딱 깨서 귀 엶) "나 불렀어? 안 불렀네. 다시 취침"    │
-│                                                               │
-│   => 결과: 페이징 메시지를 놓치지 않으면서 폰의 대기 전력을 99% 절약!        │
-└───────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 아무리 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 방송을 때려도 폰이 안 들으면 소용없다. 스마트폰 배터리의 대부분은 화면(디스플레이)과 라디오(RF 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))가 다 갉아먹는다. 대기 모드([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에서 RF 칩을 계속 켜두면 배터리가 녹는다. 그래서 기지국과 단말기는 사전에 **DRX 주기**를 약속한다. 기지국은 아무 때나 내 이름을 부르지 않고, 나와 약속한 '특정 타이밍([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Frame)'에만 내 이름을 방송에 싣는다. 폰은 그 찰나의 순간에만 귀를 열고(Wake up), 평소엔 깊은 잠(Deep Sleep)에 빠져든다. 이것이 오늘날 스마트폰을 충전 없이 며칠씩 켜둘 수 있는 숨겨진 이유다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배터리 보존의 마법: 불연속 수신 (DRX, eDRX) 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 배터리 살인마 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기: (초당 1000번 기지국 스피커를 감시함) "내 이름 부르나? 내 이름 부르나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 통화 안 해도 반나절 만에 배터리 0% 방전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DRX (Discontinuous Reception) 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국: "홍길동아, 넌 1초에 딱 한 번, 정각마다 귀 열어. 그때만 부를게."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기: (0.99초 동안 무선 칩셋 전원 아예 차단 = Sleep)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.01초 동안 딱 깨서 귀 엶) "나 불렀어? 안 불렀네. 다시 취침"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 페이징 메시지를 놓치지 않으면서 폰의 대기 전력을 99% 절약!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 아무리 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 방송을 때려도 폰이 안 들으면 소용없다. 스마트폰 배터리의 대부분은 화면(디스플레이)과 라디오(RF 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))가 다 갉아먹는다. 대기 모드([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))에서 RF 칩을 계속 켜두면 배터리가 녹는다. 그래서 기지국과 단말기는 사전에 <strong>DRX 주기</strong>를 약속한다. 기지국은 아무 때나 내 이름을 부르지 않고, 나와 약속한 '특정 타이밍([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Frame)'에만 내 이름을 방송에 싣는다. 폰은 그 찰나의 순간에만 귀를 열고(Wake up), 평소엔 깊은 잠(Deep Sleep)에 빠져든다. 이것이 오늘날 스마트폰을 충전 없이 며칠씩 켜둘 수 있는 숨겨진 이유다.
 
 - **📢 섹션 요약 비유**: 우체부 아저씨(기지국)가 편지를 언제 가져올지 몰라 하루 종일 문 앞을 지키고 서 있는 바보(과거 폰)가 아니라, "우체부 아저씨는 무조건 오후 3시에만 온다"는 걸 알고 하루 종일 꿀잠 자다가 오후 2시 59분에만 딱 일어나서 편지함을 확인하는(DRX) 똑똑한 낮잠 전략입니다.
 
@@ -190,12 +186,12 @@ tags = ["studynote-network"]
 | **정성 (사용자 체감)** | 위치 갱신하느라 단말 배터리 광속 탈락(광탈) | DRX 슬립 모드로 무선 칩셋 전원 차단 시간 극대화 | 스마트폰 대기([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 모드 배터리 유지 시간 **수십 배 연장 달성** |
 
 ### 미래 전망 및 진화 방향
-- **5GC의 AMF와 UDM 아키텍처 혁명**: 2G/3G 시절의 이름인 HLR/VLR은 이제 박물관으로 가고, 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시대엔 MME와 HSS로, 그리고 현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 시대에는 **[AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) (Access and Mobility [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Function)와 UDM (Unified [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**이라는 거대한 클라우드 소프트웨어 컨테이너로 진화했다. 과거엔 쇳덩어리 장비였지만, 지금은 AWS나 구글 클라우드에 떠 있는 가벼운 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처)로 변신하여 수천만 명의 위치를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 통신 기반으로 눈 깜짝할 새 처리하고 있다.
-- **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 없는 위치 추적 (Cell-Free / 지향성 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))**: 미래 6G에서는 내가 어디 있는지 찾기 위해 동네 전체에 방송을 끄게 될지도 모른다. 단말기와 기지국, 심지어 우주 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(NTN)이 AI로 나의 출퇴근 패턴을 미리 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 하여, "아 이 시간에는 홍길동 폰이 강남역 3번 출구 쪽 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 밑에 있을 확률이 99%다"라고 짐작하고 그쪽 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하나에만 쪽집게처럼 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쏘아 날리는 '초정밀 예측 위치 추적(Predictive Mobility)'이 연구의 정점을 달리고 있다.
+- **5GC의 AMF와 UDM 아키텍처 혁명**: 2G/3G 시절의 이름인 HLR/VLR은 이제 박물관으로 가고, 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시대엔 MME와 HSS로, 그리고 현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 시대에는 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/">AMF</a> (Access and Mobility <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Function)와 UDM (Unified <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>이라는 거대한 클라우드 소프트웨어 컨테이너로 진화했다. 과거엔 쇳덩어리 장비였지만, 지금은 AWS나 구글 클라우드에 떠 있는 가벼운 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SBA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/151_sba_service_based_architecture_5g/) 아키텍처)로 변신하여 수천만 명의 위치를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 통신 기반으로 눈 깜짝할 새 처리하고 있다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 없는 위치 추적 (Cell-Free / 지향성 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>)</strong>: 미래 6G에서는 내가 어디 있는지 찾기 위해 동네 전체에 방송을 끄게 될지도 모른다. 단말기와 기지국, 심지어 우주 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)(NTN)이 AI로 나의 출퇴근 패턴을 미리 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 하여, "아 이 시간에는 홍길동 폰이 강남역 3번 출구 쪽 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 밑에 있을 확률이 99%다"라고 짐작하고 그쪽 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하나에만 쪽집게처럼 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 쏘아 날리는 '초정밀 예측 위치 추적(Predictive Mobility)'이 연구의 정점을 달리고 있다.
 
 ### 참고 표준
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 23.401**: GPRS enhancements for E-UTRAN access ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망에서의 위치 등록(Tracking Area Update) 및 [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/[HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) 아키텍처 표준)
-- **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) TS 23.501 / 23.502**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) System [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))에서의 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), UDM을 활용한 모빌리티 제어 및 eDRX 절차 표준)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 23.401</strong>: GPRS enhancements for E-UTRAN access ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망에서의 위치 등록(Tracking Area Update) 및 [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/), [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)/[HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) 아키텍처 표준)
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> TS 23.501 / 23.502</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) System [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))에서의 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), UDM을 활용한 모빌리티 제어 및 eDRX 절차 표준)
 
 나의 스마트폰 전화번호는 변하지 않지만, 내가 밟고 있는 위도와 경도는 1초마다 변한다. 이 변하지 않는 절대 신분(Identity)과 끊임없이 요동치는 위치(Mobility) 사이의 거대한 간극을, HLR이라는 철통같은 장부와 Paging이라는 눈물겨운 전파 방송으로 찰흙처럼 메워낸 것이 바로 이동성 관리(Mobility [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))다. 인류가 스마트폰을 들고 자유롭게 대륙을 유랑할 수 있는 축복의 이면에는 이 정교한 숨바꼭질 엔진의 위대한 공헌이 있다.
 
@@ -214,15 +210,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 로밍]
-    │
-    ▼
-[현재 개념: 이동성 관리]
-    │
-    ├──▶ [확장 A: MIPv4]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 로밍</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이동성 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MIPv4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 이동성 관리는 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)에서 출발해 현재 메커니즘을 정교화하고, 이후 MIPv4와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

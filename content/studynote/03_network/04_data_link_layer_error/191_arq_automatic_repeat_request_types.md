@@ -22,17 +22,21 @@ tags = ["studynote-network"]
 수신기가 "다시 보내!"라고 말하려면, 송신기와 수신기 사이에 치밀한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 필요합니다.
 
 1. **ACK (Acknowledge, 긍정 응답)**: 수신기가 "이번 프레임 에러 없이 완벽하게 잘 받았어! 다음 거 보내줘"라고 송신기에 보내는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장입니다.
-2. **[NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) (Negative Acknowledge, 부정 응답)**: 수신기가 "야! 방금 받은 거 깨져서 왔어. 버렸으니까 다시 쏴!"라고 에러를 통보하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)입니다.
-3. **타이머 ([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))**: 송신기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 나서 초시계를 켭니다. 만약 가던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발하거나 ACK가 오는 길에 사라지면, 송신기는 영원히 기다릴 수 없으므로 **일정 시간([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))이 지나면 "아, 못 받았구나" 하고 스스로 묻지도 따지지도 않고 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 재전송**합니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a> (Negative Acknowledge, 부정 응답)</strong>: 수신기가 "야! 방금 받은 거 깨져서 왔어. 버렸으니까 다시 쏴!"라고 에러를 통보하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)입니다.
+3. <strong>타이머 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)</strong>: 송신기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 나서 초시계를 켭니다. 만약 가던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발하거나 ACK가 오는 길에 사라지면, 송신기는 영원히 기다릴 수 없으므로 <strong>일정 시간(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)이 지나면 "아, 못 받았구나" 하고 스스로 묻지도 따지지도 않고 똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 재전송</strong>합니다.
 
-```text
-[순방향 에러 수정]
-    │
-    ▼
-[역방향 에러 수정 / 자동 재전송 요청]
-    │
-    └──▶ [패리티 검사]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패리티 검사</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 역방향 에러 수정 / 자동 재전송 요청은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,25 +53,29 @@ tags = ["studynote-network"]
 ### 2. [Go-Back-N ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) (GBN)
 - **방식**: 답답해서 한 번에 여러 개를 쏘기로 합니다(슬라이딩 윈도우 도입). 1, 2, 3, 4, 5번을 다다닥 쏩니다.
 - 그런데 3번이 깨졌습니다. 수신기는 3번이 깨졌다고 NAK를 보냅니다.
-- **특징**: 송신기는 "3번이 깨졌네? 그럼 3번부터 5번까지 싹 다 다시 보낼게!"라며, **에러가 난 3번(N) 시점으로 뒤로 돌아가서(Go-Back) 그 뒤에 보냈던 멀쩡한 4, 5번까지 무식하게 싹 다 버리고 다시 전송**합니다. (구현은 쉽지만 멀쩡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 재전송하는 낭비 발생).
+- **특징**: 송신기는 "3번이 깨졌네? 그럼 3번부터 5번까지 싹 다 다시 보낼게!"라며, <strong>에러가 난 3번(N) 시점으로 뒤로 돌아가서(Go-Back) 그 뒤에 보냈던 멀쩡한 4, 5번까지 무식하게 싹 다 버리고 다시 전송</strong>합니다. (구현은 쉽지만 멀쩡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 재전송하는 낭비 발생).
 
 ### 3. [Selective Repeat ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) (선택적 재전송)
 - **방식**: GBN의 무식함을 개선한 끝판왕입니다. 1, 2, 3, 4, 5를 보냈는데 3번만 깨졌다면?
-- **특징**: 송신기는 4번, 5번은 수신기가 잘 받았다고 킵(버퍼)해두게 하고, **오직 에러가 났던 '3번 프레임 딱 하나만 핀셋으로 선택해서(Selective) 다시 재전송'**해 줍니다. 
+- **특징**: 송신기는 4번, 5번은 수신기가 잘 받았다고 킵(버퍼)해두게 하고, <strong>오직 에러가 났던 '3번 프레임 딱 하나만 핀셋으로 선택해서(Selective) 다시 재전송'</strong>해 줍니다. 
 - 네트워크 효율은 최고로 좋지만, 수신기가 도착 순서가 꼬인 프레임들(1, 2, 4, 5, 3)을 원래 순서대로 재조립해야 하므로 하드웨어(버퍼)와 알고리즘이 매우 복잡해집니다.
 
 > - **정지-대기**: 햄버거 한 입 먹고 사장님에게 "맛있네요, 감튀 주세요"라고 할 때까지 사장님이 쳐다만 보는 것.
 > - **Go-Back-N**: 세트 메뉴 중 콜라 하나 엎질렀다고, 사장님이 햄버거랑 감튀까지 싹 다 쓰레기통에 버리고 세트 전체를 다시 만들어오는 비효율.
 > - **선택적 재전송**: 엎지른 '콜라 한 잔'만 주방에서 쏙 다시 가져다주는 가장 스마트한 식당.
 
-```text
-[순방향 에러 수정]
-    │
-    ▼
-[역방향 에러 수정 / 자동 재전송 요청]
-    │
-    └──▶ [패리티 검사]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패리티 검사</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ARQ는 식당의 **'음식 재주문(컴플레인)'**입니다.
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 순방향 에러 수정]
-    │
-    ▼
-[현재 개념: 역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ├──▶ [확장 A: 패리티 검사]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 순방향 에러 수정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패리티 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 역방향 에러 수정 / 자동 재전송 요청는 [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

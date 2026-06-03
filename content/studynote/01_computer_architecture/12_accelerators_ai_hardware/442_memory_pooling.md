@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 따라서 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 단순 확장 기술이 아니라 자원 배치 방식의 전환이다. "서버마다 메모리를 고정 배치한다"는 사고에서 벗어나, "필요한 시점에 필요한 용량을 연결한다"는 운영 모델을 만들기 위해 등장했다. 이 전환이 없으면 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 연산 부족보다 메모리 과잉 구매로 먼저 비효율에 빠진다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         왜 메모리 풀링이 필요한가: 수요는 흔들리고 용량은 고정됨        │
-├───────────────────────────────────────────────────────────────┤
-│ 서버 A (추론 폭주)         서버 B (유휴)         서버 C (야간 배치)      │
-│ 메모리 필요 700GB          메모리 사용 120GB      메모리 필요 900GB       │
-│ 로컬 장착 512GB            로컬 장착 512GB        로컬 장착 512GB         │
-│      ▲ 부족                      ▼ 남음                 ▲ 시간대별 급증      │
-├───────────────────────────────────────────────────────────────┤
-│ 고정 장착 구조에서는 남는 메모리를 즉시 재배치할 수 없어 전체 효율이 낮다 │
-└───────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 총메모리 부족이 아니라 **배치 유연성 부족**이 문제라는 점이다. [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 부족한 노드에 새 자원을 논리적으로 붙여 주는 방식으로 이 병목을 푼다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 메모리 풀링이 필요한가: 수요는 흔들리고 용량은 고정됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 A (추론 폭주) 서버 B (유휴) 서버 C (야간 배치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 필요 700GB 메모리 사용 120GB 메모리 필요 900GB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 장착 512GB 로컬 장착 512GB 로컬 장착 512GB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 부족 ▼ 남음 ▲ 시간대별 급증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 장착 구조에서는 남는 메모리를 즉시 재배치할 수 없어 전체 효율이 낮다</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 총메모리 부족이 아니라 <strong>배치 유연성 부족</strong>이 문제라는 점이다. [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 부족한 노드에 새 자원을 논리적으로 붙여 주는 방식으로 이 병목을 푼다.
 
 - **📢 섹션 요약 비유**: 각 교실마다 책장을 못 박아 두면 어떤 반은 책이 넘치고 어떤 반은 비어도 서로 못 빌려 쓴다. [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 도서관 중앙 창고를 만들고 수업 시간표에 따라 필요한 반에 책을 옮겨 주는 방식이다.
 
@@ -50,20 +52,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 제어 경로를 함께 보여 준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 연산 노드와 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 사이를 왕복하고, 제어는 패브릭 관리자와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 할당 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 조정한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 메모리 풀링의 구성: 데이터 경로 + 제어 경로             │
-├────────────────────────────────────────────────────────────────────┤
-│ [연산 노드]            [CXL Switch]             [Memory Pool]         │
-│ CPU / GPU / NPU ─────▶ 포트 선택 · 경로 제어 ─────▶ DRAM 확장 장치      │
-│      │                        │                         │               │
-│      │ load/store             │ fabric routing          │ read/write    │
-│      ▼                        ▼                         ▼               │
-│ 가상 주소 ─▶ 주소 변환 ─▶ 원격 메모리 접근 ─▶ 데이터 반환               │
-│                                                                    │
-│ [제어 평면] OS / Hypervisor ─────▶ Fabric Manager ─────▶ 용량 할당      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 풀링의 구성: 데이터 경로 + 제어 경로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연산 노드</div><div class="kb-diagram-node">CXL Switch</div><div class="kb-diagram-node">Memory Pool</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / GPU / NPU ▶ 포트 선택 · 경로 제어 ▶ DRAM 확장 장치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load/store</div><div class="kb-diagram-cell">fabric routing</div><div class="kb-diagram-cell">read/write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 ─▶ 주소 변환 ─▶ 원격 메모리 접근 ─▶ 데이터 반환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어 평면</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Fabric Manager ▶ 용량 할당</div></div>
+</div>
+</div>
+
+
 
 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링의 원리는 세 단계로 요약된다. 첫째, 연산 노드는 로컬 메모리와 외부 풀 메모리를 주소 공간 안에 함께 매핑한다. 둘째, 자원 관리 계층은 워크로드 특성에 따라 어느 노드에 얼마만큼의 용량을 열어 줄지 결정한다. 셋째, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 메모리 계층화 (Memory Tiering)나 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 통해 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 차가운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구분해 배치한다.
 
@@ -133,7 +135,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 성공 조건도 분명하다. 고속 인터커넥트 품질, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 지원, 장애 대응 설계, 응용 수준의 메모리 배치 전략이 함께 갖춰져야 한다. 이 전제가 없으면 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 "큰 메모리를 가진 것처럼 보이는 복잡한 시스템"에 그칠 수 있다.
 
-앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 패브릭 성숙, 메모리 티어링 자동화, 가속기 런타임 최적화가 함께 발전하면서 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 실효성이 더 커질 가능성이 높다. 따라서 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 "모든 메모리를 공유하자"라는 구호보다, **비싼 로컬 메모리와 유연한 공용 메모리를 역할에 맞게 분담하는 아키텍처**로 기억하는 것이 정확하다.
+앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 패브릭 성숙, 메모리 티어링 자동화, 가속기 런타임 최적화가 함께 발전하면서 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 실효성이 더 커질 가능성이 높다. 따라서 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링은 "모든 메모리를 공유하자"라는 구호보다, <strong>비싼 로컬 메모리와 유연한 공용 메모리를 역할에 맞게 분담하는 아키텍처</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 도시 계획은 모든 건물을 초대형으로 짓는 게 아니라, 집 앞 상점과 중앙 물류창고의 역할을 나눠 도시 전체를 효율적으로 돌리는 일이다. [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/)링도 마찬가지로, 가까운 곳과 큰 곳의 역할 분담이 핵심이다.
 
@@ -152,24 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 연결 메모리 (Direct-Attached Memory)
-        │
-        ▼
-고립 메모리 (Stranded Memory) 문제 인식
-        │
-        ▼
-CXL (Compute Express Link) 기반 메모리 확장
-        │
-        ▼
-메모리 풀링 (Memory Pooling)
-        │
-        ├──▶ 메모리 티어링 (Memory Tiering)
-        │
-        ├──▶ 컴포저블 인프라 (Composable Infrastructure)
-        │
-        └──▶ AI 추론 KV 캐시·대용량 버퍼 오프로딩
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 연결 메모리 (Direct-Attached Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고립 메모리 (Stranded Memory) 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL (Compute Express Link) 기반 메모리 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 풀링 (Memory Pooling)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 메모리 티어링 (Memory Tiering)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 컴포저블 인프라 (Composable Infrastructure)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ AI 추론 KV 캐시·대용량 버퍼 오프로딩</div>
+</div>
+</div>
+
+
 
 이 흐름은 "고정 장착의 한계 인식 → 연결 표준 등장 → 공용화 → 운영 최적화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용"으로 개념이 확장되는 과정을 보여 준다.
 

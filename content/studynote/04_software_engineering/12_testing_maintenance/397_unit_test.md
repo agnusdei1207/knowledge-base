@@ -22,9 +22,9 @@ tags = ["studynote-software-engineering"]
 수십만 줄의 코드로 이루어진 웹 서버에서 회원가입 버튼을 눌렀는데 서버가 죽어버렸다. 원인이 뭘까?
 네트워크 문제인지, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 문제인지, 아니면 비밀번호를 암호화하는 10줄짜리 작은 함수 하나가 에러를 뿜었는지 알 길이 없다. 이것이 거대한 시스템을 한꺼번에 테스트할 때 겪는 '버그의 은닉(Bug Hiding)' 현상이다.
 
-이를 막기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 **상향식([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) 품질 보증**을 채택했다. 
+이를 막기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 <strong>상향식(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>) 품질 보증</strong>을 채택했다. 
 "전체를 엮어서 돌려보기 전에, 회원가입 함수, 비밀번호 암호화 함수, DB 접속 함수를 **전부 다 쪼개서 하나하나 따로따로** 100% 통과시켜 놓고 조립하자!"
-이 가장 밑바닥, 가장 좁은 범위를 커버하는 치밀한 테스트가 바로 **단위 테스트(Unit Test)**이다.
+이 가장 밑바닥, 가장 좁은 범위를 커버하는 치밀한 테스트가 바로 <strong>단위 테스트(Unit Test)</strong>이다.
 
 > 📢 **섹션 요약 비유**: 우주선을 쏠 때, 다 조립해 놓고 발사 버튼을 눌러서 터지는지 안 터지는지 실험하는 건 미친 짓입니다. 단위 테스트는 우주선에 들어갈 수만 개의 나사와 엔진 밸브를 공장에서 하나하나 현미경으로 검사하여 불량품을 미리 걸러내는 필수 작업입니다.
 
@@ -34,18 +34,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 단위 테스트 (Unit Test)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  단위 테스트 (Unit Test)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단위 테스트 (Unit Test)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 단위 테스트 (Unit Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -75,13 +74,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-단위 테스트를 수작업으로 짤 수는 없다. 전 세계적으로 표준화된 **[단위 테스트 프레임워크](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/)**를 쓴다.
+단위 테스트를 수작업으로 짤 수는 없다. 전 세계적으로 표준화된 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/">단위 테스트 프레임워크</a></strong>를 쓴다.
 * **Java**: JUnit, Mockito
 * **Python**: pytest, unittest
 * **JavaScript/TS**: Jest, Mocha
 
-**TDD ([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))의 부상]**
-과거에는 코드를 다 짠 뒤에 단위 테스트를 만들었다면, 최근에는 **"테스트 코드부터 먼저 짜고, 그 테스트를 통과하기 위한 진짜 코드를 짜자"**라는 극단적인 단위 테스트 중심 개발 방법론인 TDD가 실무의 강력한 트렌드로 자리 잡았다. 이는 단위 테스트가 그 자체로 '살아있는 설계 명세서'가 됨을 증명한다.
+<strong>TDD (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/">Test-Driven Development</a>)의 부상]</strong>
+과거에는 코드를 다 짠 뒤에 단위 테스트를 만들었다면, 최근에는 <strong>"테스트 코드부터 먼저 짜고, 그 테스트를 통과하기 위한 진짜 코드를 짜자"</strong>라는 극단적인 단위 테스트 중심 개발 방법론인 TDD가 실무의 강력한 트렌드로 자리 잡았다. 이는 단위 테스트가 그 자체로 '살아있는 설계 명세서'가 됨을 증명한다.
 
 ---
 
@@ -143,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-단위 테스트 (Unit Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단위 테스트 (Unit Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

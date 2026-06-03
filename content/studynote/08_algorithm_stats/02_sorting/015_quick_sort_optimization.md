@@ -32,7 +32,7 @@ tags = ["studynote-algorithm"]
    lt          i            gt
 ```
 - **Median-of-Three:** [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 첫 번째, 중간, 마지막 원소 중 중간값을 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)으로 설정하여 최악의 시나리오를 방지함
-- **3-Way [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/):** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)보다 작은 구역, 같은 구역, 큰 구역의 세 부분으로 나누어 중복 원소가 많은 경우 불필요한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)를 제거함
+- <strong>3-Way <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>:</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)보다 작은 구역, 같은 구역, 큰 구역의 세 부분으로 나누어 중복 원소가 많은 경우 불필요한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)를 제거함
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | 최적화 기법 | 핵심 원리 | 효과 |
@@ -57,24 +57,25 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단순 정렬 (Simple Sort)]
-    │
-    ▼
-[퀵 정렬 (Quick Sort)]
-    │
-    ▼
-[피벗 선택 최적화 (Pivot Selection)]
-    │
-    ▼
-[3-way 분할 (3-way Partition)]
-    │
-    ▼
-[IntroSort (Introspective Sort)]
-    │
-    ▼
-[병렬 정렬 (Parallel Sort)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단순 정렬 (Simple Sort)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (Quick Sort)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피벗 선택 최적화 (Pivot Selection)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3-way 분할 (3-way Partition)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IntroSort (Introspective Sort)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 정렬 (Parallel Sort)</div></div>
+</div>
+</div>
+
+
 
 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택과 분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 개선되며 최악의 경우를 방지하는 하이브리드 정렬로 발전하는 흐름이다.
 

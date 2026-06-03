@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Interface Segre의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ISP (Interface Segre                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP (Interface Segre</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Interface Segre가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -53,7 +52,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Segregation (분리, 격리)**
-- **개념**: **"클라이언트(이 인터페이스를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아 쓰는 객체)는 자신이 실제로 사용하지 않는 메서드(기능)에 강제로 의존(구현)하도록 강요받아서는 안 된다!"**는 아주 명쾌한 규칙입니다.
+- **개념**: <strong>"클라이언트(이 인터페이스를 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>받아 쓰는 객체)는 자신이 실제로 사용하지 않는 메서드(기능)에 강제로 의존(구현)하도록 강요받아서는 안 된다!"</strong>는 아주 명쾌한 규칙입니다.
 - **해결책**: 거대하고 뚱뚱한([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/)) 만능 인터페이스 1개를 쓰지 말고, 역할에 따라 쪼개서 **"작고 뾰족하게 특화된 여러 개의 얇은 인터페이스들(Segregated Interfaces)"로 갈기갈기 찢어발겨서** 각자 필요한 놈만 골라 쓸 수 있게 제공하라는 뜻입니다.
 
 - **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -95,11 +94,11 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - SRP와 ISP는 동전의 양면과 같습니다.
-- **[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) (243번)**: 뚱뚱한 '클래스(구현체 덩어리)' 자체를 3개로 찢어발기는 것.
-- **[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (246번)**: 뚱뚱한 '인터페이스(껍데기 규칙서)' 자체를 3개로 찢어발기는 것.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (243번)</strong>: 뚱뚱한 '클래스(구현체 덩어리)' 자체를 3개로 찢어발기는 것.
+- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a> (246번)</strong>: 뚱뚱한 '인터페이스(껍데기 규칙서)' 자체를 3개로 찢어발기는 것.
 - 즉, 클래스([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))를 잘 찢어놨어도, 걔네들이 쓰는 콘센트 규칙서(인터페이스)가 하나로 뭉쳐있으면 헛수고입니다. ISP로 콘센트 규격까지 얇게 찢어놔야 비로소 진정한 레고 블록 조립 아키텍처가 완성됩니다.
 
-> 📢 **섹션 요약 비유**: **[인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))**은 헬스장에서 **'쓸데없는 강제 결합 요금제 금지법'**입니다. 동네 헬스장 사장님(뚱뚱한 인터페이스)이 수영장, 골프장, 헬스장, 마사지실을 다 지어놓고 **'월 50만 원짜리 VIP 프리미엄 통합 회원권([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) Interface)'** 딱 한 개만 팝니다. 헬스만 하고 싶은 청년(효도폰 클래스)이 등록하러 갔더니, 사장님이 "야! 넌 수영이나 마사지 안 해도 50만 원 내고 이 통합 카드 무조건 목에 걸고 다녀(사용하지 않는 메서드 억지 구현 강요)!!"라며 갑질을 합니다. 청년은 쓰지도 않는 골프장 규칙까지 외워야 하고 돈을 낭비합니다. ISP는 이 미친 헬스장 사장의 회원권을 찢어버립니다. **'수영장 전용권 5만 원', '헬스장 전용권 5만 원', '마사지 전용권 5만 원'으로 권한(인터페이스)을 갈기갈기 얇게 찢어서(Segregation) 발급합니다.** 수영과 헬스만 할 사람은 딱 2개의 얇은 카드(인터페이스 2개 구현)만 사서 꽂으면 되고, 마사지실 근처에는 얼씬도 안 해도 됩니다. 내가 쓰지도 않을 거대한 권한 덩어리(메서드)를 강제로 떠안아 내 코드 파일이 썩어 문드러지고 무거워지는 것을 얇고 날카로운 메스 분할로 막아내는 인터페이스 최적화 다이어트 비법입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/">인터페이스 분리 원칙</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)</strong>은 헬스장에서 <strong>'쓸데없는 강제 결합 요금제 금지법'</strong>입니다. 동네 헬스장 사장님(뚱뚱한 인터페이스)이 수영장, 골프장, 헬스장, 마사지실을 다 지어놓고 <strong>'월 50만 원짜리 VIP 프리미엄 통합 회원권(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> Interface)'</strong> 딱 한 개만 팝니다. 헬스만 하고 싶은 청년(효도폰 클래스)이 등록하러 갔더니, 사장님이 "야! 넌 수영이나 마사지 안 해도 50만 원 내고 이 통합 카드 무조건 목에 걸고 다녀(사용하지 않는 메서드 억지 구현 강요)!!"라며 갑질을 합니다. 청년은 쓰지도 않는 골프장 규칙까지 외워야 하고 돈을 낭비합니다. ISP는 이 미친 헬스장 사장의 회원권을 찢어버립니다. **'수영장 전용권 5만 원', '헬스장 전용권 5만 원', '마사지 전용권 5만 원'으로 권한(인터페이스)을 갈기갈기 얇게 찢어서(Segregation) 발급합니다.** 수영과 헬스만 할 사람은 딱 2개의 얇은 카드(인터페이스 2개 구현)만 사서 꽂으면 되고, 마사지실 근처에는 얼씬도 안 해도 됩니다. 내가 쓰지도 않을 거대한 권한 덩어리(메서드)를 강제로 떠안아 내 코드 파일이 썩어 문드러지고 무거워지는 것을 얇고 날카로운 메스 분할로 막아내는 인터페이스 최적화 다이어트 비법입니다.
 
 - **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ISP (Interface Segregation Principle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISP (Interface Segregation Principle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

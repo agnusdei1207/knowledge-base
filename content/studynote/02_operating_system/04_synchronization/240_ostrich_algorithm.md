@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ([Ostrich Algorithm](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/))은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 해결하기 위한 수학적 기법이 아니라, **"발생 빈도가 극히 낮고 해결 비용이 너무 크다면, 데드락 문제를 아예 무시하고 발생하게 놔둔다"**는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 극단적이고 현실적인 대응 철학이다.
+> 1. **본질**: [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) ([Ostrich Algorithm](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/))은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 해결하기 위한 수학적 기법이 아니라, <strong>"발생 빈도가 극히 낮고 해결 비용이 너무 크다면, 데드락 문제를 아예 무시하고 발생하게 놔둔다"</strong>는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 극단적이고 현실적인 대응 철학이다.
 > 2. **가치**: 데드락 예방이나 회피(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))에 소모되는 엄청난 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 연산 오버헤드와 자원 낭비를 100% 제거하여, 평상시 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극한으로 끌어올릴 수 있는 실용주의적 타협안이다.
-> 3. **융합**: 현대의 Windows, Linux, MacOS 등 모든 범용 OS의 **기본 데드락 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 채택되었으며, 데드락이 터졌을 때는 사용자가 직접 프로세스를 죽이거나(Kill), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 헬스체크(Liveness Probe) 같은 외부 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템이 컨테이너를 재시작하는 형태로 융합/보완된다.
+> 3. **융합**: 현대의 Windows, Linux, MacOS 등 모든 범용 OS의 <strong>기본 데드락 처리 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 채택되었으며, 데드락이 터졌을 때는 사용자가 직접 프로세스를 죽이거나(Kill), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 헬스체크(Liveness Probe) 같은 외부 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시스템이 컨테이너를 재시작하는 형태로 융합/보완된다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-operating-system"]
 - **개념**: 위협이 다가올 때 머리를 모래에 파묻고 위협이 없어진 것처럼 행동하는 '타조의 습성(사실은 오해지만)'에서 유래한 용어로, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생하지 않을 것이라 가정하고 어떠한 시스템적 조치도 취하지 않는(Do Nothing) 기법이다.
 - **필요성**: 컴퓨터 과학자들은 데드락을 어떻게든 막아보려 수십 년간 락 순서 강제(예방), 행렬 시뮬레이션(회피), 백그라운드 탐지 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 개발했다. 그런데 이 짓을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 매 순간 돌리려니 CPU 자원의 30%가 데드락 방어에 낭비되었다. "1년에 1번 터질까 말까 한 데드락을 막자고 1년 내내 컴퓨터 속도를 절반으로 떨어뜨리는 게 과연 옳은가?"라는 엔지니어링 딜레마에 부딪혔고, 차라리 무시하는 게 낫다는 결론에 도달했다.
 
-- **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임이나 하드 리얼타임 OS에서는 데드락이 우주선의 폭발로 이어졌기에 예방이 필수였다. 하지만 개인용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시대가 열리면서, 사용자가 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 작업을 하다가 1년에 한 번 데드락에 걸려 화면이 멈추면 그냥 "아 짜증나네" 하고 **Ctrl+[Alt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/)+Del**을 눌러 껐다 켜면 그만이었다. 재부팅 비용이 방어 비용보다 압도적으로 싸졌기에 범용 OS의 메인스트림 철학으로 급부상했다.
+- **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임이나 하드 리얼타임 OS에서는 데드락이 우주선의 폭발로 이어졌기에 예방이 필수였다. 하지만 개인용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시대가 열리면서, 사용자가 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 작업을 하다가 1년에 한 번 데드락에 걸려 화면이 멈추면 그냥 "아 짜증나네" 하고 <strong>Ctrl+<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/762_accelerated_life_testing/">Alt</a>+Del</strong>을 눌러 껐다 켜면 그만이었다. 재부팅 비용이 방어 비용보다 압도적으로 싸졌기에 범용 OS의 메인스트림 철학으로 급부상했다.
 
 ```text
   [데드락 처리 방식의 경제성(비용-편익) 분석 다이어그램]
@@ -49,14 +49,14 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 유일한 전제 조건: "책임 전가"
-OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 데드락을 무시한다는 것은, **데드락의 발생 책임과 처리 책임을 "응용 프로그램(User Space) 개발자"와 "사용자"에게 100% 떠넘긴다**는 뜻이다.
+OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 데드락을 무시한다는 것은, <strong>데드락의 발생 책임과 처리 책임을 "응용 프로그램(User Space) 개발자"와 "사용자"에게 100% 떠넘긴다</strong>는 뜻이다.
 
-1. **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 스탠스**: 
+1. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 스탠스</strong>: 
    - [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/): "네가 뮤텍스를 꼬아([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 썼든, 자원을 안 뱉든([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)) 난 모른다. 난 네가 요청한 대로 자원을 줬을 뿐이다."
-   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락: OS 자체는 무너지면 안 되기 때문에, 사용자 프로그램의 데드락은 무시해도, **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 내부에 있는 락([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등)**만큼은 리누스 토발즈가 [Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 규칙(예방)을 써서 결벽증처럼 완벽하게 데드락을 방어해 두었다.
-2. **사용자의 스탠스 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)**: 
+   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락: OS 자체는 무너지면 안 되기 때문에, 사용자 프로그램의 데드락은 무시해도, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 소스 코드(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>) 내부에 있는 락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a> 등)</strong>만큼은 리누스 토발즈가 [Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 규칙(예방)을 써서 결벽증처럼 완벽하게 데드락을 방어해 두었다.
+2. <strong>사용자의 스탠스 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Manager)</strong>: 
    - 윈도우에서 크롬 창이 하얗게 굳었다(데드락). 사용자는 `Ctrl+Shift+Esc`를 눌러 작업 관리자를 켜고 강제 종료(Kill)를 누른다.
-   - 이것이 바로 **인간(Human)을 데드락 탐지기 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)기([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) & [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))로 사용하는 아키텍처**다.
+   - 이것이 바로 <strong>인간(Human)을 데드락 탐지기 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>기(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> &amp; <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)로 사용하는 아키텍처</strong>다.
 3. **애플리케이션 개발자의 스탠스**: 
    - OS가 안 막아주니 백엔드 개발자는 스프링(Spring)에서 DB 트랜잭션을 짤 때 데드락이 터지지 않게끔 락 획득 순서([Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/))를 철저히 지키고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(`tryLock`)을 코딩해야만 서버를 유지할 수 있다.
 
@@ -78,14 +78,14 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경 | 데드락 방어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 이유 및 철학 |
 |:---|:---|:---|
-| **범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/서버 (Windows, Linux)** | 🦆 **[타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) (무시)** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 100%가 가장 중요. 멈추면 사용자가 재부팅하면 끝. |
+| <strong>범용 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>/서버 (Windows, Linux)</strong> | 🦆 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> (무시)</strong> | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 100%가 가장 중요. 멈추면 사용자가 재부팅하면 끝. |
 | **우주선, 의료기기 (Hard RTOS)** | 🛡️ **예방 (Prevention)** | 재부팅할 1분의 시간 동안 환자나 우주선이 폭발함. [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) 절대 금지. 자원 낭비 감수. |
-| **관계형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL)**| 🔎 **탐지 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))** | 트랜잭션이 꼬이는 빈도가 매우 높음. 타조처럼 무시하면 DB 전체가 멈춤. 1초마다 탐지해서 1놈을 죽여버림. |
+| <strong>관계형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, MySQL)</strong>| 🔎 <strong>탐지 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong> | 트랜잭션이 꼬이는 빈도가 매우 높음. 타조처럼 무시하면 DB 전체가 멈춤. 1초마다 탐지해서 1놈을 죽여버림. |
 
 ### [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 진화: 패닉(Panic)과 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 겉으로는 타조처럼 무시하지만, 진짜 극한의 상황(모든 메모리가 락에 걸려 더 이상 OS조차 움직일 수 없을 때)이 오면 방어 기제를 가동한다.
-- **[OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) Killer**: 데드락으로 인해 메모리 반환이 안 되고 시스템이 죽기 직전에, 타조가 갑자기 모래에서 고개를 들고 가장 뚱뚱한 프로세스의 배를 갈라(Kill) 메모리를 빼앗아 시스템을 구출한다.
-- **[Watchdog Timer](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/)**: 임베디드나 리눅스 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 상황 시, 특정 하드웨어 타이머가 10초 동안 리셋되지 않으면(모두가 데드락에 빠져 멈춤) 하드웨어적으로 전원을 강제로 끊고 재부팅(Hard Reset)시켜 버린다. (궁극의 물리적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>) Killer</strong>: 데드락으로 인해 메모리 반환이 안 되고 시스템이 죽기 직전에, 타조가 갑자기 모래에서 고개를 들고 가장 뚱뚱한 프로세스의 배를 갈라(Kill) 메모리를 빼앗아 시스템을 구출한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/461_watchdog_timer/">Watchdog Timer</a></strong>: 임베디드나 리눅스 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 상황 시, 특정 하드웨어 타이머가 10초 동안 리셋되지 않으면(모두가 데드락에 빠져 멈춤) 하드웨어적으로 전원을 강제로 끊고 재부팅(Hard Reset)시켜 버린다. (궁극의 물리적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))
 
 - **📢 섹션 요약 비유**: 평소에는 방 안에서 형제가 머리끄덩이를 잡고 싸우든 말든 타조처럼 모른 척하며 TV를 봅니다. 하지만 형제가 집안 기둥을 무너뜨리려고 하면([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 갑자기 몽둥이([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))를 들고 나타나 한 명을 패 기절시키고 집의 붕괴를 막습니다.
 
@@ -94,33 +94,30 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **클라우드 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 아키텍처의 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) (Liveness Probe)**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클라우드 환경에서는 노드나 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 데드락에 빠지는 것을 심각하게 디버깅하지 않는다.
+1. <strong>클라우드 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 아키텍처의 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a> (Liveness Probe)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클라우드 환경에서는 노드나 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 데드락에 빠지는 것을 심각하게 디버깅하지 않는다.
    - **실무 작동**: K8s는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 5초마다 `/health` API를 때리는 `Liveness Probe`를 달아둔다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부에 데드락이 터져서 스레드가 멈추고 5초 동안 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답이 없으면? 
-   - **아키텍트 조치**: 원인 분석 따위는 하지 않는다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 그냥 무식하게 해당 컨테이너를 **SIGKILL**로 박살 내고 새 컨테이너를 1초 만에 다시 띄운다(Restart). 이것이 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시)과 클라우드 네이티브의 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Auto-healing)가 결합된 현대 백엔드의 완벽한 무중단 장애 대응법이다.
+   - **아키텍트 조치**: 원인 분석 따위는 하지 않는다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 그냥 무식하게 해당 컨테이너를 <strong>SIGKILL</strong>로 박살 내고 새 컨테이너를 1초 만에 다시 띄운다(Restart). 이것이 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시)과 클라우드 네이티브의 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Auto-healing)가 결합된 현대 백엔드의 완벽한 무중단 장애 대응법이다.
 2. **소프트웨어 워치독 (Software Watchdog) 패턴**: 백엔드 애플리케이션(Java, Go)에서 내가 짠 데몬 스레드가 데드락에 빠질까 두려울 때 도입하는 디자인 패턴이다.
    - **구현**: 데몬 스레드가 루프를 돌 때마다 공유 변수(Heartbeat)를 1씩 올린다. 별도의 워치독 스레드는 1분마다 이 숫자가 올랐는지 확인한다.
    - **실무 조치**: 만약 데드락 때문에 숫자가 멈춰있으면, 워치독이 `System.exit(1)`을 때려서 프로세스를 죽여버린다. 밖에서 OS 스크립트(systemd)가 죽은 프로세스를 즉시 재시작시킨다. 데드락 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 짜는 것보다 이 워치독을 다는 것이 개발 기간과 버그 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 1/100로 줄여준다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │     데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native) │
-  ├─────────────────────────────────────────────────────────────────────┤
-  │                                                                     │
-  │   [ 전통적 관점 ] OS가 막아주거나 코드로 완벽히 막아야 해!          │
-  │        ▶ 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.      │
-  │                                                                     │
-  │   [ 현대 클라우드 관점: Let it crash! (터지게 냅둬라!) ]            │
-  │        │                                                            │
-  │        ▼ 1. 타조 알고리즘(무시)으로 성능 100% 획득                  │
-  │        │                                                            │
-  │        ▼ 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작│
-  │        │                                                            │
-  │        ▼ 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지           │
-  │        │                                                            │
-  │        ▼ 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!       │
-  └─────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어의 철학이자 K8s의 핵심 사상인 **"Let it crash (그냥 죽게 놔둬라)"**는 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 위대함을 실무 인프라 단위로 승격시킨 명언이다. 데드락을 예방하려는 오만(Hubris)을 버리고, 데드락은 언젠간 터지는 자연재해로 인정한 뒤 "얼마나 빨리 장애를 숨기고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최소화)"에 집중하는 것이 현대 아키텍트의 정답이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 관점</div><div class="kb-diagram-note">OS가 막아주거나 코드로 완벽히 막아야 해!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현대 클라우드 관점: Let it crash! (터지게 냅둬라!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 타조 알고리즘(무시)으로 성능 100% 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어의 철학이자 K8s의 핵심 사상인 <strong>"Let it crash (그냥 죽게 놔둬라)"</strong>는 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 위대함을 실무 인프라 단위로 승격시킨 명언이다. 데드락을 예방하려는 오만(Hubris)을 버리고, 데드락은 언젠간 터지는 자연재해로 인정한 뒤 "얼마나 빨리 장애를 숨기고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최소화)"에 집중하는 것이 현대 아키텍트의 정답이다.
 
 - **📢 섹션 요약 비유**: 감기(데드락)에 안 걸리려고 365일 내내 무균복을 입고 다니는 건 미친 짓(예방 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))입니다. 현대 의학(클라우드 아키텍처)은 그냥 평상복을 입고 막 놀게 냅둔 뒤([타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)), 감기에 걸리면 즉시 감기약(Restart)을 먹여 하루 만에 낫게 하는 것에 집중합니다.
 
@@ -129,7 +126,7 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) 철학을 받아들이면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 데드락 검사를 위한 O(N^2) 이상의 무거운 행렬 연산과 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 제약에서 100% 해방되어 **시스템의 최대 잠재 스루풋(Max [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))과 코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 문자 그대로 한계치까지 쥐어짤 수 있다.**
+[타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/) 철학을 받아들이면, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 데드락 검사를 위한 O(N^2) 이상의 무거운 행렬 연산과 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 제약에서 100% 해방되어 <strong>시스템의 최대 잠재 스루풋(Max <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)과 코어 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 문자 그대로 한계치까지 쥐어짤 수 있다.</strong>
 
 ### 결론 및 미래 전망
 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)은 이름만 들으면 무책임한 회피성 기법 같지만, 사실상 수십억 대의 스마트폰과 PC를 돌아가게 만드는 가장 위대하고 경제적인 결단(Trade-off)이었다. "버그를 고치는 비용 > 버그로 인한 손해"라는 명확한 계산 하에 포기할 건 포기한 엔지니어링의 승리다.
@@ -150,22 +147,26 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[조건 변수 (Condition Variable)]
-    │
-    ▼
-[타조 알고리즘 (Ostrich Algorithm)]
-    │
-    ├──▶ [라이브락 (Livelock)]
-    └──▶ [우선순위 역전 (Priority Inversion)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 변수 (Condition Variable)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브락 (Livelock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 역전 (Priority Inversion)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 길을 가다가 1년에 한 번쯤 떨어지는 벼락(데드락)을 맞을까 봐, 매일 무거운 강철 헬멧과 갑옷(예방 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 입고 다니면 너무 힘들어서 뛰어놀 수가 없어요.
-2. **[타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)**은 "에이, 벼락 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 거의 없는데 그냥 평상복 입고 신나게 뛰어놀자!"라고 쿨하게 무시해 버리는 방법이에요.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/">타조 알고리즘</a></strong>은 "에이, 벼락 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 거의 없는데 그냥 평상복 입고 신나게 뛰어놀자!"라고 쿨하게 무시해 버리는 방법이에요.
 3. 아주아주 가끔 진짜 벼락(데드락)을 맞아서 컴퓨터가 멈추면, 그냥 "어이쿠 재수 없네" 하고 전원 버튼을 눌러 껐다 켜면 다시 새것처럼 놀 수 있답니다!
 
 ---

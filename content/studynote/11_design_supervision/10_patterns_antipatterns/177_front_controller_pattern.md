@@ -23,19 +23,21 @@ tags = ["studynote-design-supervision"]
 
 이 패턴이 등장한 배경은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 서블릿 기반 시스템에서 URL (Uniform Resource Locator)마다 개별 진입점을 두었을 때 생긴 중복과 편차 때문이다. `LoginServlet`, `OrderServlet`, `AdminServlet`이 각각 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 검사와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 출력을 따로 구현하면, 한 곳에서만 검사를 누락해도 보안 사고가 난다. 또한 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 바뀔 때마다 모든 엔드포인트를 수정해야 하므로 운영 비용이 급격히 커진다.
 
-즉 프론트 컨트롤러의 필요성은 "요청을 한곳으로 모으면 멋있다"가 아니라, **분산된 진입점이 만드는 중복·누락·불일치를 구조적으로 제거하는 것**에 있다.
+즉 프론트 컨트롤러의 필요성은 "요청을 한곳으로 모으면 멋있다"가 아니라, <strong>분산된 진입점이 만드는 중복·누락·불일치를 구조적으로 제거하는 것</strong>에 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why a single entry point is needed                                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ /login ─▶ LoginServlet ─▶ auth / log / error format duplicated       │
-│ /order ─▶ OrderServlet ─▶ auth / log / error format duplicated       │
-│ /admin ─▶ AdminServlet ─▶ auth / log / error format duplicated       │
-│                                                                      │
-│ all requests ─▶ Front Controller ─▶ common policy ─▶ target handler  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why a single entry point is needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/login ─▶ LoginServlet ─▶ auth / log / error format duplicated</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/order ─▶ OrderServlet ─▶ auth / log / error format duplicated</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/admin ─▶ AdminServlet ─▶ auth / log / error format duplicated</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">all requests ─▶ Front Controller ─▶ common policy ─▶ target handler</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러는 건물마다 따로 경비를 두는 대신, 중앙 로비에서 방문증 확인과 안내를 한 번에 처리하는 안내 데스크와 같다.
 
@@ -56,26 +58,27 @@ tags = ["studynote-design-supervision"]
 
 대표 사례인 Spring MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))에서는 DispatcherServlet이 프론트 컨트롤러를 맡는다. 요청이 들어오면 HandlerMapping이 어떤 컨트롤러를 쓸지 결정하고, HandlerAdapter가 호출을 표준화하며, Interceptor가 전후 처리를 감싼다. 이후 ViewResolver나 HttpMessageConverter가 최종 응답을 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Front Controller request flow                                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │ request                                                          │
-│   ▼                                                                  │
-│ Front Controller                                                     │
-│   ├─ HandlerMapping        -> choose handler                         │
-│   ├─ Interceptor preHandle -> auth / trace / policy                  │
-│   ├─ HandlerAdapter        -> invoke controller                      │
-│   ├─ Interceptor postHandle-> enrich model                           │
-│   ├─ ExceptionResolver     -> normalize error response               │
-│   └─ ViewResolver / MessageConverter -> HTML / JSON / file           │
-│   ▼                                                                  │
-│ Response                                                             │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 핵심은 모든 요청을 중앙에서 통제하되, 세부 동작은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 객체들로 분해해 두는 것이다. 그래야 프론트 컨트롤러가 병목이 아니라 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 접점**이 된다. 반대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 비즈니스 판단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근까지 한 클래스에 몰리면 단일 진입점이 아니라 단일 실패 지점으로 변한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller request flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HandlerMapping -&gt; choose handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Interceptor preHandle -&gt; auth / trace / policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HandlerAdapter -&gt; invoke controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Interceptor postHandle-&gt; enrich model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ExceptionResolver -&gt; normalize error response</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ViewResolver / MessageConverter -&gt; HTML / JSON / file</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response</div></div>
+</div>
+</div>
+
+
+
+이 구조의 핵심은 모든 요청을 중앙에서 통제하되, 세부 동작은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 객체들로 분해해 두는 것이다. 그래야 프론트 컨트롤러가 병목이 아니라 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 접점</strong>이 된다. 반대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 비즈니스 판단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근까지 한 클래스에 몰리면 단일 진입점이 아니라 단일 실패 지점으로 변한다.
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러는 모든 악기를 직접 연주하는 지휘자가 아니라, 어떤 악기가 언제 들어올지 지시해 전체 합주를 맞추는 지휘자에 가깝다.
 
@@ -93,7 +96,7 @@ tags = ["studynote-design-supervision"]
 
 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller는 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 자기 입구를 갖는 구조라 직관적이지만, 시스템이 커질수록 공통 규칙이 분산된다. 반면 Front Controller는 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙화해 프레임워크화하기 좋다. 다만 이 패턴이 모든 횡단 관심사를 스스로 구현해야 한다는 뜻은 아니다. 실제 실무에서는 Filter와 Interceptor가 프론트 컨트롤러 전후에서 협력해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 분담한다.
 
-또한 프론트 컨트롤러는 MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))와도 긴밀히 연결된다. MVC에서 Controller가 유스케이스를 담당한다면, 프론트 컨트롤러는 **어떤 Controller를 호출할지 결정하고 그 전후 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 조율하는 상위 제어 계층**이라고 볼 수 있다.
+또한 프론트 컨트롤러는 MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))와도 긴밀히 연결된다. MVC에서 Controller가 유스케이스를 담당한다면, 프론트 컨트롤러는 <strong>어떤 Controller를 호출할지 결정하고 그 전후 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 조율하는 상위 제어 계층</strong>이라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: Front Controller가 공항의 중앙 안내 데스크라면, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller는 항공사마다 따로 있는 개별 접수 창구이고, Filter/Interceptor는 보안 검색대나 탑승 절차처럼 중간에 끼어드는 공통 검사 절차다.
 
@@ -125,7 +128,7 @@ tags = ["studynote-design-supervision"]
 - 중앙 진입점은 두었지만 예외 처리와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 규칙은 각 컨트롤러가 다시 중복 구현하는 상황
 - 상태를 필드에 저장해 멀티스레드 환경에서 오류를 만드는 구현
 
-기술사 답안에서는 **"프론트 컨트롤러는 요청 입구를 하나로 모으는 것이 목적이 아니라, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙화하고 개별 처리 책임은 핸들러로 위임하는 제어 구조"**라고 정리하면 패턴의 본질을 정확히 짚은 답이 된다.
+기술사 답안에서는 <strong>"프론트 컨트롤러는 요청 입구를 하나로 모으는 것이 목적이 아니라, 공통 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 중앙화하고 개별 처리 책임은 핸들러로 위임하는 제어 구조"</strong>라고 정리하면 패턴의 본질을 정확히 짚은 답이 된다.
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러를 잘 쓰는 것은 회사 대표번호를 만드는 것과 같지만, 대표번호 상담원이 모든 부서 일을 대신하게 만드는 것은 오히려 더 큰 혼잡을 부른다.
 
@@ -135,7 +138,7 @@ tags = ["studynote-design-supervision"]
 
 프론트 컨트롤러 패턴의 효과는 요청 흐름의 표준화에 있다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 예외, 로깅, 추적, 국제화, 응답 형식을 중앙에서 통제하면 시스템은 더 예측 가능해지고, 새로운 기능이 늘어도 공통 규칙을 반복 작성하지 않아도 된다. 특히 운영과 감리 관점에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 누락 여부를 한 지점에서 점검할 수 있다는 장점이 크다.
 
-다만 이 패턴은 만능 중앙집권 구조가 아니다. 진짜 효과는 "하나로 모으는 것"보다 "모은 뒤에 적절히 위임하는 것"에서 나온다. 따라서 프론트 컨트롤러를 기억할 때는 **단일 진입점**과 **얇은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층**이라는 두 키워드를 함께 떠올리는 것이 맞다.
+다만 이 패턴은 만능 중앙집권 구조가 아니다. 진짜 효과는 "하나로 모으는 것"보다 "모은 뒤에 적절히 위임하는 것"에서 나온다. 따라서 프론트 컨트롤러를 기억할 때는 <strong>단일 진입점</strong>과 <strong>얇은 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 계층</strong>이라는 두 키워드를 함께 떠올리는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 프론트 컨트롤러는 도심 교차로의 신호등처럼 흐름을 정리하지만, 자동차를 직접 운전하지는 않는다.
 
@@ -154,24 +157,26 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개별 Servlet / Page Controller
-    │
-    ▼
-공통 처리 중복 증가
-    │
-    ▼
-Front Controller 도입
-    ├─ 단일 진입점
-    ├─ 중앙 라우팅
-    └─ 공통 정책 적용
-    │
-    ▼
-Filter / Interceptor / Exception Resolver 확장
-    │
-    ▼
-MVC 프레임워크 표준화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 Servlet / Page Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공통 처리 중복 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Front Controller 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">단일 진입점</div>
+<div class="kb-diagram-tree-item" style="--depth:2">중앙 라우팅</div>
+<div class="kb-diagram-tree-item" style="--depth:2">공통 정책 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Filter / Interceptor / Exception Resolver 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVC 프레임워크 표준화</div>
+</div>
+</div>
+
+
 
 이 흐름은 웹 애플리케이션이 개별 진입점 중심 구조에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 중앙화한 프레임워크 중심 구조로 성숙하는 과정을 보여 준다.
 

@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트 시프트는 CPU와 GPU가 같은 노트북 섀시 안에서 **하나의 열·전력 예산을 공유한다**는 현실에서 출발한다. 얇은 노트북이나 핸드헬드 게임기에서는 CPU와 GPU가 각각 독립된 거대한 쿨링 시스템을 쓰는 것이 아니라, [히트파이프](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/)·팬·전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 어느 정도 함께 나눠 쓴다. 이때 제조사가 CPU 35W, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 65W처럼 고정 분할을 걸어 두면 설계는 단순하지만, 실제 작업에서는 한쪽 예산이 남아도는 경우가 자주 생긴다.
+스마트 시프트는 CPU와 GPU가 같은 노트북 섀시 안에서 <strong>하나의 열·전력 예산을 공유한다</strong>는 현실에서 출발한다. 얇은 노트북이나 핸드헬드 게임기에서는 CPU와 GPU가 각각 독립된 거대한 쿨링 시스템을 쓰는 것이 아니라, [히트파이프](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/739_heatpipe/)·팬·전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 어느 정도 함께 나눠 쓴다. 이때 제조사가 CPU 35W, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 65W처럼 고정 분할을 걸어 두면 설계는 단순하지만, 실제 작업에서는 한쪽 예산이 남아도는 경우가 자주 생긴다.
 
-예를 들어 GPU가 병목인 게임에서는 CPU가 모든 예산을 쓰지 못하고 남길 수 있다. 반대로 CPU 중심의 인코딩이나 컴파일, 일부 생산성 작업에서는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쪽 예산이 크게 남을 수 있다. 고정 분할 구조에서는 남는 예산을 서로 넘겨주지 못하므로, 전체 시스템 입장에서는 **쓸 수 있는 전력을 두고도 못 쓰는 비효율**이 생긴다.
+예를 들어 GPU가 병목인 게임에서는 CPU가 모든 예산을 쓰지 못하고 남길 수 있다. 반대로 CPU 중심의 인코딩이나 컴파일, 일부 생산성 작업에서는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쪽 예산이 크게 남을 수 있다. 고정 분할 구조에서는 남는 예산을 서로 넘겨주지 못하므로, 전체 시스템 입장에서는 <strong>쓸 수 있는 전력을 두고도 못 쓰는 비효율</strong>이 생긴다.
 
-SmartShift는 이 칸막이를 줄이기 위해 등장했다. 특히 AMD (Advanced Micro Devices)의 Ryzen CPU와 Radeon GPU를 함께 쓰는 플랫폼에서는 양쪽 텔레메트리와 제어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 더 긴밀하게 묶을 수 있기 때문에, 워크로드 병목에 맞춰 전력을 재할당하는 시스템 수준 최적화가 가능해진다. 즉 SmartShift는 개별 칩의 부스트가 아니라, **시스템 전체가 어디에 힘을 몰아줘야 하는지 결정하는 예산 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)**다.
+SmartShift는 이 칸막이를 줄이기 위해 등장했다. 특히 AMD (Advanced Micro Devices)의 Ryzen CPU와 Radeon GPU를 함께 쓰는 플랫폼에서는 양쪽 텔레메트리와 제어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 더 긴밀하게 묶을 수 있기 때문에, 워크로드 병목에 맞춰 전력을 재할당하는 시스템 수준 최적화가 가능해진다. 즉 SmartShift는 개별 칩의 부스트가 아니라, <strong>시스템 전체가 어디에 힘을 몰아줘야 하는지 결정하는 예산 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>다.
 
 - **📢 섹션 요약 비유**: SmartShift는 한 집의 전기 용량을 방마다 영구 고정해 두는 대신, 거실에서 에어컨을 세게 틀 때는 그쪽으로 더 보내고 주방에서 전기오븐을 쓸 때는 주방으로 더 보내는 분전반 자동 제어와 같다.
 
@@ -31,9 +31,9 @@ SmartShift는 이 칸막이를 줄이기 위해 등장했다. 특히 AMD (Advanc
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SmartShift의 제어 대상은 CPU 단독이 아니라 **플랫폼 전체의 공유 예산**이다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 드라이버는 CPU와 GPU의 사용률, 온도, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 병목 징후를 함께 관찰하고, 현재 작업이 어느 쪽 자원에 더 민감한지 판단한다. 그다음 총 플랫폼 한계는 넘지 않는 범위에서 CPU 또는 GPU에 더 많은 예산을 배정해 각자의 부스트 한계를 조금 더 밀어 올린다.
+SmartShift의 제어 대상은 CPU 단독이 아니라 <strong>플랫폼 전체의 공유 예산</strong>이다. [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 드라이버는 CPU와 GPU의 사용률, 온도, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 병목 징후를 함께 관찰하고, 현재 작업이 어느 쪽 자원에 더 민감한지 판단한다. 그다음 총 플랫폼 한계는 넘지 않는 범위에서 CPU 또는 GPU에 더 많은 예산을 배정해 각자의 부스트 한계를 조금 더 밀어 올린다.
 
-예를 들어 총 전력 예산이 100W인 시스템에서 기본 분할이 CPU 35W, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 65W라고 하자. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병목 게임 장면에서는 CPU가 20W 정도만 써도 충분할 수 있으므로, 남는 일부를 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쪽으로 넘겨 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 부스트를 더 높일 수 있다. 반대로 영상 인코딩이나 컴파일처럼 CPU가 더 중요한 상황에서는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 예산 일부를 CPU에 넘겨 처리 시간을 줄일 수 있다. 핵심은 **총합은 그대로 두고, 병목 지점에 더 집중 투자**하는 것이다.
+예를 들어 총 전력 예산이 100W인 시스템에서 기본 분할이 CPU 35W, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 65W라고 하자. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병목 게임 장면에서는 CPU가 20W 정도만 써도 충분할 수 있으므로, 남는 일부를 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 쪽으로 넘겨 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 부스트를 더 높일 수 있다. 반대로 영상 인코딩이나 컴파일처럼 CPU가 더 중요한 상황에서는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 예산 일부를 CPU에 넘겨 처리 시간을 줄일 수 있다. 핵심은 <strong>총합은 그대로 두고, 병목 지점에 더 집중 투자</strong>하는 것이다.
 
 | 시나리오 | [고정 분할 방식](/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/) | SmartShift 방식 | 기대 효과 |
 | :--- | :--- | :--- | :--- |
@@ -43,26 +43,24 @@ SmartShift의 제어 대상은 CPU 단독이 아니라 **플랫폼 전체의 공
 
 아래 그림은 SmartShift가 "둘 중 하나를 무조건 올리는 기능"이 아니라, 공유된 한도 안에서 병목 방향으로 예산을 움직이는 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                SmartShift: one system budget, two clients             │
-├────────────────────────────────────────────────────────────────────────┤
-│ CPU telemetry  ─┐                                                     │
-│ GPU telemetry  ─┼─> platform policy engine                            │
-│ Thermal status ─┘                                                     │
-│                │                                                       │
-│                ▼                                                       │
-│      decide where extra budget helps more right now                   │
-│                │                                                       │
-│      ┌─────────┴─────────┐                                             │
-│      ▼                   ▼                                             │
-│ more CPU allowance   more GPU allowance                               │
-│ compile / encode     gaming / graphics                                │
-│      └──── shared platform power limit remains enforced ─────┘        │
-└────────────────────────────────────────────────────────────────────────┘
-```
 
-이 기술이 중요한 이유는, 모바일 플랫폼의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 이제 개별 칩의 사양보다도 **섀시 전체의 전력·열 분배 능력**에 더 민감해졌기 때문이다. 좋은 CPU와 GPU를 넣어도 공유 예산을 비효율적으로 쓰면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아진다. SmartShift는 그 비효율을 줄이는 시스템 레벨 해법이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SmartShift: one system budget, two clients</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU telemetry ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU telemetry ─ ─&gt; platform policy engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thermal status ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">decide where extra budget helps more right now</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">more CPU allowance more GPU allowance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">compile / encode gaming / graphics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared platform power limit remains enforced</div></div>
+</div>
+</div>
+
+
+
+이 기술이 중요한 이유는, 모바일 플랫폼의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 이제 개별 칩의 사양보다도 <strong>섀시 전체의 전력·열 분배 능력</strong>에 더 민감해졌기 때문이다. 좋은 CPU와 GPU를 넣어도 공유 예산을 비효율적으로 쓰면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아진다. SmartShift는 그 비효율을 줄이는 시스템 레벨 해법이다.
 
 - **📢 섹션 요약 비유**: 같은 예산으로 학원비를 쓰더라도, 수학이 부족한 달에는 수학 수업에 더 쓰고 영어가 급한 달에는 영어에 더 쓰는 것이 효율적이다. SmartShift는 그 달그락거리는 가계부 조정을 자동으로 해 주는 기술이다.
 
@@ -81,7 +79,7 @@ SmartShift는 CPU 내부의 Turbo Boost나 [Precision](/knowledge-base/studynote
 
 또한 경쟁 개념으로는 NVIDIA Dynamic Boost가 있다. 둘 다 GPU와 CPU 사이의 예산 조정을 노리지만, SmartShift는 AMD CPU와 AMD GPU가 함께 들어간 플랫폼에서의 긴밀한 통합을 강점으로 삼는다. 따라서 같은 철학이라도 실제 효과는 벤더 간 협업 수준, 드라이버 품질, 플랫폼 설계 자유도에 따라 달라진다.
 
-컴퓨터구조 측면에서 보면 SmartShift는 전력 관리의 범위가 코어와 패키지를 넘어 **시스템 수준의 이종 자원 배분**으로 확장되고 있음을 보여 준다. 앞으로 CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 메모리, 디스플레이 엔진까지 하나의 예산 안에서 조율하는 방향으로 발전할 가능성이 크다. SmartShift는 그 흐름을 대표하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사례다.
+컴퓨터구조 측면에서 보면 SmartShift는 전력 관리의 범위가 코어와 패키지를 넘어 <strong>시스템 수준의 이종 자원 배분</strong>으로 확장되고 있음을 보여 준다. 앞으로 CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 메모리, 디스플레이 엔진까지 하나의 예산 안에서 조율하는 방향으로 발전할 가능성이 크다. SmartShift는 그 흐름을 대표하는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사례다.
 
 - **📢 섹션 요약 비유**: Turbo Boost가 한 명의 선수에게 언제 스퍼트를 허용할지 정하는 코치라면, SmartShift는 축구팀 전체에서 지금 공격수에게 힘을 몰아줄지 미드필더에게 몰아줄지 정하는 감독에 가깝다. 제어 범위가 더 넓다.
 
@@ -91,7 +89,7 @@ SmartShift는 CPU 내부의 Turbo Boost나 [Precision](/knowledge-base/studynote
 
 실무에서 SmartShift를 해석할 때는 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 기술"이라는 말만으로는 부족하다. 먼저 플랫폼이 실제로 SmartShift를 지원하는지, OEM이 이를 공격적으로 튜닝했는지, 그리고 워크로드가 CPU 병목인지 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병목인지를 확인해야 한다. CPU와 GPU가 동시에 강하게 포화되는 작업에서는 넘겨줄 예산 자체가 적기 때문에 개선 폭이 제한될 수 있다. 반대로 병목이 분명한 게임·생산성 작업에서는 같은 하드웨어로도 인상적인 차이를 만들 수 있다.
 
-또한 모바일 플랫폼에서는 배터리 모드, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 용량, 팬 소음 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 작동한다. 따라서 동일한 노트북도 교류 전원 (Alternating [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 연결 여부나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모드에 따라 SmartShift의 가용 폭이 달라질 수 있다. 즉 이 기술은 칩 설계만의 문제가 아니라, **섀시·전원·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·드라이버가 함께 만드는 플랫폼 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 읽어야 한다.
+또한 모바일 플랫폼에서는 배터리 모드, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 용량, 팬 소음 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 작동한다. 따라서 동일한 노트북도 교류 전원 (Alternating [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 연결 여부나 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모드에 따라 SmartShift의 가용 폭이 달라질 수 있다. 즉 이 기술은 칩 설계만의 문제가 아니라, <strong>섀시·전원·<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>·드라이버가 함께 만드는 플랫폼 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 읽어야 한다.
 
 ### 실무 체크포인트
 
@@ -114,9 +112,9 @@ SmartShift는 CPU 내부의 Turbo Boost나 [Precision](/knowledge-base/studynote
 
 ## Ⅴ. 기대효과 및 결론
 
-SmartShift의 가장 큰 효과는 같은 섀시에서 더 나은 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어내는 것이다. 하드웨어를 더 크고 두껍게 만들지 않아도, 기존의 전력·열 여유를 더 영리하게 배분함으로써 게임 프레임이나 생산성 작업 시간을 개선할 수 있다. 이는 모바일 기기에서 특히 중요하다. 데스크톱처럼 전원과 냉각을 마음대로 키울 수 없는 환경에서는, 새로운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상당 부분이 **예산 활용 효율**에서 나오기 때문이다.
+SmartShift의 가장 큰 효과는 같은 섀시에서 더 나은 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어내는 것이다. 하드웨어를 더 크고 두껍게 만들지 않아도, 기존의 전력·열 여유를 더 영리하게 배분함으로써 게임 프레임이나 생산성 작업 시간을 개선할 수 있다. 이는 모바일 기기에서 특히 중요하다. 데스크톱처럼 전원과 냉각을 마음대로 키울 수 없는 환경에서는, 새로운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상당 부분이 <strong>예산 활용 효율</strong>에서 나오기 때문이다.
 
-하지만 SmartShift는 만능이 아니다. 플랫폼 통합 수준이 낮거나, 워크로드 병목이 자주 바뀌거나, CPU와 GPU가 동시에 빡빡하게 포화되면 향상 폭은 제한된다. 또한 OEM의 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 보수적이면 같은 AMD 조합이라도 기대한 만큼 적극적으로 예산이 움직이지 않을 수 있다. 즉 SmartShift는 실리콘만 좋은 것으로 끝나지 않고, **플랫폼 전체 조율이 잘 되어야 살아나는 기술**이다.
+하지만 SmartShift는 만능이 아니다. 플랫폼 통합 수준이 낮거나, 워크로드 병목이 자주 바뀌거나, CPU와 GPU가 동시에 빡빡하게 포화되면 향상 폭은 제한된다. 또한 OEM의 전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 보수적이면 같은 AMD 조합이라도 기대한 만큼 적극적으로 예산이 움직이지 않을 수 있다. 즉 SmartShift는 실리콘만 좋은 것으로 끝나지 않고, <strong>플랫폼 전체 조율이 잘 되어야 살아나는 기술</strong>이다.
 
 결론적으로 SmartShift는 전력 관리의 초점이 단일 칩 최적화에서 이종 컴퓨팅 자원 간 협업으로 넘어가고 있음을 상징한다. 앞으로는 CPU와 GPU뿐 아니라 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 메모리, 디스플레이 엔진, 입출력 (Input/Output, I/O) 가속기까지 하나의 열 예산 안에서 조율하는 흐름이 더 강해질 가능성이 크다. 그런 점에서 SmartShift는 모바일 시스템 아키텍처가 얼마나 플랫폼 중심으로 진화했는지를 보여 주는 대표 사례다.
 
@@ -136,22 +134,24 @@ SmartShift의 가장 큰 효과는 같은 섀시에서 더 나은 실효 [성능
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU와 GPU의 고정 전력 분할
-    │
-    ▼
-개별 칩 내부 Dynamic Voltage and Frequency Scaling (DVFS) / Turbo 제어
-    │
-    ▼
-플랫폼 텔레메트리 통합
-    │
-    ▼
-SmartShift
-: CPU ↔ GPU 사이의 동적 예산 재배분
-    │
-    ▼
-이종 자원 전체로 확장되는 시스템 전력 오케스트레이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU와 GPU의 고정 전력 분할</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개별 칩 내부 Dynamic Voltage and Frequency Scaling (DVFS) / Turbo 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플랫폼 텔레메트리 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SmartShift</div>
+<div class="kb-diagram-note">: CPU ↔ GPU 사이의 동적 예산 재배분</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이종 자원 전체로 확장되는 시스템 전력 오케스트레이션</div>
+</div>
+</div>
+
+
 
 이 흐름은 전력 관리가 "칩 내부 최적화"를 넘어 "플랫폼 자원 간 협업 최적화"로 확대되는 방향을 보여 준다.
 

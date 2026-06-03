@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **IPsec의 철벽**: 오직 1:1 유니캐스트 IP 패킷만 암호화해서 보낼 수 있습니다.
-- **재앙**: 서울 본사와 부산 지사의 라우터가 서로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 994번)로 길 정보를 주고받으려면 **[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 패킷**을 쏴야 합니다. 근데 IPsec은 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 버려버리므로, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널은 뚫렸는데 길 찾기([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))가 안 돼서 수동으로 길을 다 적어줘야(Static Route) 하는 최악의 노가다가 발생했습니다.
+- **재앙**: 서울 본사와 부산 지사의 라우터가 서로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 994번)로 길 정보를 주고받으려면 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 패킷</strong>을 쏴야 합니다. 근데 IPsec은 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 버려버리므로, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널은 뚫렸는데 길 찾기([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))가 안 돼서 수동으로 길을 다 적어줘야(Static Route) 하는 최악의 노가다가 발생했습니다.
 
-```text
-[RSVP 자원 예약 플로우]
-    │
-    ▼
-[GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    └──▶ [DMVPN 동적 라우팅 결합형 지점]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 개발하고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준이 된 기술로, 어떤 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 심지어 애플톡, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)까지) 패킷이든 상관없이 **'[GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 헤더'라는 비닐봉지로 한 번 씌우고, 그 겉면에 새로운 '외부 IP 헤더'를 덧붙여서(캡슐화) 라우터 사이의 허공을 뚫고 지나가는 범용 가상 터널 기술**입니다.
+- **개념**: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 개발하고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준이 된 기술로, 어떤 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 심지어 애플톡, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)까지) 패킷이든 상관없이 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 헤더'라는 비닐봉지로 한 번 씌우고, 그 겉면에 새로운 '외부 IP 헤더'를 덧붙여서(캡슐화) 라우터 사이의 허공을 뚫고 지나가는 범용 가상 터널 기술</strong>입니다.
 
-```text
-[RSVP 자원 예약 플로우]
-    │
-    ▼
-[GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    └──▶ [DMVPN 동적 라우팅 결합형 지점]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,9 +64,9 @@ tags = ["studynote-network"]
 
 패킷을 까보면 마트료시카 인형처럼 3겹으로 되어 있습니다.
 1. **페이로드 패킷 (오리지널)**: 철수가 부산 지사로 보내는 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (20바이트 IP 헤더 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)).
-2. **[GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 헤더 (비닐봉지)**: 오리지널 패킷을 감쌉니다. 고작 **4바이트**로 깃털처럼 가볍습니다. "내 안에 든 내용물이 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이야"라고 종류만 살짝 적어놓습니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 헤더 (비닐봉지)</strong>: 오리지널 패킷을 감쌉니다. 고작 <strong>4바이트</strong>로 깃털처럼 가볍습니다. "내 안에 든 내용물이 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이야"라고 종류만 살짝 적어놓습니다.
 3. **외부 IP 헤더 (택배 송장)**: 제일 바깥 껍데기입니다. 인터넷망 라우터들을 뚫고 가기 위해 서울 라우터 IP(출발지)와 부산 라우터 IP(도착지)를 적은 **20바이트** 껍데기입니다.
-- **결론적 오버헤드**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널을 뚫으면 원래 패킷보다 **최소 24바이트([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 4 + 외곽 IP 20)**가 더 뚱뚱해집니다. MTU(최대 전송 크기)를 넘어가면 패킷이 찢어지므로([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 라우터에 엄청난 CPU 부하가 오기 때문에, 관리자는 MTU 값을 1476 정도로 살짝 깎아줘야 쾌적하게 날아갑니다.
+- **결론적 오버헤드**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널을 뚫으면 원래 패킷보다 <strong>최소 24바이트(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 4 + 외곽 IP 20)</strong>가 더 뚱뚱해집니다. MTU(최대 전송 크기)를 넘어가면 패킷이 찢어지므로([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 라우터에 엄청난 CPU 부하가 오기 때문에, 관리자는 MTU 값을 1476 정도로 살짝 깎아줘야 쾌적하게 날아갑니다.
 
 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. RSVP 자원 예약 플로우가 기반 조건을 만든다면, [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 그 위에서 핵심 메커니즘을 구현하고, [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -76,9 +84,9 @@ tags = ["studynote-network"]
 
 둘 다 완벽하지 않아서 서로의 똥을 치워주는 구조입니다.
 - **GRE의 한계 (쌩얼 전송)**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 비닐봉지는 투명합니다. 캡슐화만 했지 '암호화'를 1도 안 하기 때문에 해커가 가로채면 안의 기밀문서가 평문으로 싹 다 보입니다.
-- **환상의 콜라보 ([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))**:
-  1. 먼저 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)나 온갖 잡동사니 패킷을 멍청한 **[GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 비닐봉지에 담습니다.** ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 해결!)
-  2. 그 비닐봉지 전체를 이번엔 **IPsec이라는 강력한 검은색 철가방([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 암호화) 안에 집어넣습니다.** (암호화 해결!)
+- <strong>환상의 콜라보 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> over <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)</strong>:
+  1. 먼저 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)나 온갖 잡동사니 패킷을 멍청한 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 비닐봉지에 담습니다.</strong> ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 해결!)
+  2. 그 비닐봉지 전체를 이번엔 <strong>IPsec이라는 강력한 검은색 철가방(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a> 암호화) 안에 집어넣습니다.</strong> (암호화 해결!)
 - 이 콤보는 전 세계 99%의 기업 망이 지사와 본사를 연결할 때 쓰는 가장 교과서적이고 완벽한 무결점 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 아키텍처입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)** 터널은 **'규격에 맞는 네모난 상자(유니캐스트 IP 패킷)만 싣고, 밖이 안 보이게 철갑을 두른 현금 수송차'**입니다. 안전하긴 우주 최강이지만, 모양이 안 맞는 커다란 크리스마스트리([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 등)는 실어주지 않아 통신이 반쪽짜리가 됐습니다. **[GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널**은 모양 상관없이 크리스마스트리든 코끼리든 다 쑤셔 넣을 수 있는 **'거대하고 신축성 좋은 투명 비닐봉지(Generic Encapsulation)'**입니다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)든 뭐든 봉지에 담아 인터넷 고속도로를 달릴 수 있지만, 비닐이 투명해서 길거리 해커들이 내용물(기밀)을 다 볼 수 있는 최악의 약점이 있습니다. 그래서 실무에선 이 트리를 **'[GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 비닐봉지로 먼저 묶은 다음(포용력 확보), 그 봉지 전체를 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 현금 수송차의 철갑 안에 던져 넣는([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 확보)'** 이중 포장([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)) 기법을 사용하여, 어떤 형태의 화물이든 100% 안전하게 본사와 지사 사이를 날려 보냅니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong> 터널은 <strong>'규격에 맞는 네모난 상자(유니캐스트 IP 패킷)만 싣고, 밖이 안 보이게 철갑을 두른 현금 수송차'</strong>입니다. 안전하긴 우주 최강이지만, 모양이 안 맞는 커다란 크리스마스트리([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 등)는 실어주지 않아 통신이 반쪽짜리가 됐습니다. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 터널</strong>은 모양 상관없이 크리스마스트리든 코끼리든 다 쑤셔 넣을 수 있는 <strong>'거대하고 신축성 좋은 투명 비닐봉지(Generic Encapsulation)'</strong>입니다. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)든 뭐든 봉지에 담아 인터넷 고속도로를 달릴 수 있지만, 비닐이 투명해서 길거리 해커들이 내용물(기밀)을 다 볼 수 있는 최악의 약점이 있습니다. 그래서 실무에선 이 트리를 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 비닐봉지로 먼저 묶은 다음(포용력 확보), 그 봉지 전체를 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 현금 수송차의 철갑 안에 던져 넣는(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> 확보)'</strong> 이중 포장([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/)) 기법을 사용하여, 어떤 형태의 화물이든 100% 안전하게 본사와 지사 사이를 날려 보냅니다.
 
 ---
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RSVP 자원 예약 플로우]
-    │
-    ▼
-[현재 개념: GRE 일반 캡슐화 포맷 오버헤드]
-    │
-    ├──▶ [확장 A: DMVPN 동적 라우팅 결합형 지점]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RSVP 자원 예약 플로우</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GRE 일반 캡슐화 포맷 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DMVPN 동적 라우팅 결합형 지점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 RSVP 자원 예약 플로우에서 출발해 현재 메커니즘을 정교화하고, 이후 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

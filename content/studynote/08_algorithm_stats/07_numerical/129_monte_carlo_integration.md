@@ -19,7 +19,7 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 개요 및 필요성
 
-**몬테카를로(Monte Carlo) 방법**은 카지노 도박의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)처럼, 무작위 시행을 반복해 결정론적 문제의 해를 추정한다.
+<strong>몬테카를로(Monte Carlo) 방법</strong>은 카지노 도박의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)처럼, 무작위 시행을 반복해 결정론적 문제의 해를 추정한다.
 
 - **적분 추정**: ∫f(x)[dx](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) ≈ (1/n)·Σf(xᵢ), xᵢ: 균등 분포 표본.
 - **큰 수의 법칙**: n → ∞일 때 표본 평균이 기댓값으로 수렴.
@@ -34,41 +34,42 @@ tags = ["studynote-algorithm"]
 
 ### 히트-미스(Hit-Miss) 방법: π 추정
 
-```
-┌──────────────────────────────────────────────────────────┐
-│ 단위 정사각형 [0,1]×[0,1] 안에 점을 무작위로 뿌린다 │
-│ │
-│ ┌─────────────────────────────┐ │
-│ │ . . ● . ● . . . │ ← ●: 원 안 (hit) │
-│ │ . ● ● ● . ● . . │ │
-│ │ ● ● ● ● ● ● ● . │ │
-│ │ ● ● ● ● ● ● ● ● │ │
-│ │ . ● ● ● ● ● . . │ │
-│ │ . . ● . . . . . │ ← .: 원 밖 (miss) │
-│ └─────────────────────────────┘ │
-│ │
-│ 원의 방정식: x² + y² ≤ 1 │
-│ 원 안 비율 ≈ π/4 → π ≈ 4 · (안 점수) / (전체 점수) │
-│ │
-│ n=100: π ≈ 3.12 (오차 ~1%) │
-│ n=10000: π ≈ 3.141 (오차 ~0.1%) │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">단위 정사각형</div><div class="kb-diagram-node">0,1</div><div class="kb-diagram-note">×</div><div class="kb-diagram-node">0,1</div><div class="kb-diagram-note">안에 점을 무작위로 뿌린다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . ● . ● . . .</div><div class="kb-diagram-cell">← ●: 원 안 (hit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ● ● ● . ● . .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ● ● ● ● ● ● .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ● ● ● ● ● ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ● ● ● ● ● . .</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . ● . . . . .</div><div class="kb-diagram-cell">← .: 원 밖 (miss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원의 방정식: x² + y² ≤ 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원 안 비율 ≈ π/4 → π ≈ 4 · (안 점수) / (전체 점수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=100: π ≈ 3.12 (오차 ~1%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=10000: π ≈ 3.141 (오차 ~0.1%)</div></div>
+</div>
+</div>
+
+
 
 ### 표준 몬테카를로 적분
 
-```
-┌──────────────────────────────────────────────────────────┐
-│ I = ∫ₐᵇ f(x) dx 추정 │
-│ │
-│ 1. x₁, x₂, ..., xₙ ~ Uniform[a, b] 표본 추출 │
-│ 2. I ≈ (b-a)/n · Σᵢ f(xᵢ) │
-│ 3. 오차: ε = σ / √n (σ = Std[f(x)]) │
-│ │
-│ d차원: (b-a)ᵈ/n · Σ f(x₁,...,xᵈ) │
-│ 오차: σ/√n ← 차원 d와 무관! │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I = ∫ₐᵇ f(x) dx 추정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. x₁, x₂, ..., xₙ ~ Uniform</div><div class="kb-diagram-node">a, b</div><div class="kb-diagram-note">표본 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. I ≈ (b-a)/n · Σᵢ f(xᵢ)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 오차: ε = σ / √n (σ = Std</div><div class="kb-diagram-node">f(x)</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d차원: (b-a)ᵈ/n · Σ f(x₁,...,xᵈ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차: σ/√n ← 차원 d와 무관!</div></div>
+</div>
+</div>
+
+
 
 | 방법 | 수렴 속도 | 차원 의존성 | 적합 차원 |
 |:---|:---:|:---:|:---:|
@@ -98,17 +99,19 @@ tags = ["studynote-algorithm"]
 
 복잡한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 표본 추출이 어려울 때 마르코프 연쇄를 이용:
 
-```
-┌──────────────────────────────────────────────────────────┐
-│ Metropolis-Hastings 알고리즘 │
-│ │
-│ 현재 상태 x에서 제안 분포 q(x'|x)로 x' 제안 │
-│ 수용 확률: α = min(1, π(x')q(x|x') / (π(x)q(x'|x))) │
-│ α 확률로 x←x', (1-α) 확률로 x 유지 │
-│ │
-│ 수렴 후 표본은 목표 분포 π에서 추출된 것과 동일 │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metropolis-Hastings 알고리즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 x에서 제안 분포 q(x'</div><div class="kb-diagram-cell">x)로 x' 제안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수용 확률: α = min(1, π(x')q(x</div><div class="kb-diagram-cell">x') / (π(x)q(x'</div><div class="kb-diagram-cell">x)))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α 확률로 x←x', (1-α) 확률로 x 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴 후 표본은 목표 분포 π에서 추출된 것과 동일</div></div>
+</div>
+</div>
+
+
 
 [MCMC](/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) 응용: 베이즈 통계, 물리 시뮬레이션(Ising 모델), 생물정보학.
 
@@ -138,8 +141,8 @@ tags = ["studynote-algorithm"]
 ## Ⅴ. 기대효과 및 결론
 
 몬테카를로를 이해하면:
-- **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위력**: 결정론적 방법이 실패하는 고차원에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 접근의 필요성 인식.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 기법**: 중요도 표본추출·MCMC로 같은 계산으로 더 높은 정확도 달성.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 위력</strong>: 결정론적 방법이 실패하는 고차원에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 접근의 필요성 인식.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 감소 기법</strong>: 중요도 표본추출·MCMC로 같은 계산으로 더 높은 정확도 달성.
 - **베이즈 추론**: MCMC를 이용한 사후 분포(Posterior Distribution) 추정 원리 이해.
 
 📢 **섹션 요약 비유**: 몬테카를로는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 세계의 "통계적 용기()" — 완벽한 해법이 없을 때, 무수히 많은 시도로 진실에 점근한다.
@@ -159,22 +162,23 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[결정론적 구적법 (Deterministic Quadrature) — 격자 기반 적분]
-│
-▼
-[무작위 표본추출 (Random Sampling) — 점 샘플 기반 추정]
-│
-▼
-[몬테카를로 적분 — O(1/√n) 확률적 근사]
-│
-├─▶ [분산 감소 기법 — 중요도·층화·제어 변수]
-│
-└─▶ [MCMC — 복잡 분포에서 의존 표본 생성]
-│
-▼
-[고차원 시뮬레이션 — 금융·물리·그래픽스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정론적 구적법 (Deterministic Quadrature) — 격자 기반 적분</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무작위 표본추출 (Random Sampling) — 점 샘플 기반 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">몬테카를로 적분 — O(1/√n) 확률적 근사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 감소 기법 — 중요도·층화·제어 변수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MCMC — 복잡 분포에서 의존 표본 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고차원 시뮬레이션 — 금융·물리·그래픽스</div></div>
+</div>
+</div>
+
+
 몬테카를로 적분은 격자 기반 구적법의 차원 저주를 넘어, 무작위 표본과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소로 고차원 시뮬레이션을 가능하게 했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -37,7 +37,7 @@ void traverse(TreeNode node) {
 }
 ```
 
-컬렉션이 배열에서 링크드리스트로 변경되면, 이 컬렉션을 사용하는 **모든 순회 코드를 수정**해야 한다.
+컬렉션이 배열에서 링크드리스트로 변경되면, 이 컬렉션을 사용하는 <strong>모든 순회 코드를 수정</strong>해야 한다.
 
 ```java
 // Iterator 통일 인터페이스
@@ -48,7 +48,7 @@ while (it.hasNext()) {
 }
 ```
 
-Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 동일**하다.
+Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코드는 동일</strong>하다.
 
 | 언어 | [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 인터페이스 | for-each 지원 |
 |:---|:---|:---|
@@ -57,81 +57,89 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 | JavaScript | `Symbol.iterator`, `{value, done}` | `for...of` |
 | C# | `IEnumerator<T>`: `MoveNext()`, `Current` | `foreach` |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-  «interface»                   «interface»
-  Iterable<T>                   Iterator<T>
-  ──────────────                ──────────────────
-  + iterator(): Iterator<T>     + hasNext(): boolean
-        ▲                       + next(): T
-        │                       + remove()  [optional]
-  ConcreteCollection                  ▲
-  ──────────────────                  │
-  + iterator()                 ConcreteIterator
-    → new ConcreteIterator(this)  - collection
-                                  - currentIndex
-                                  + hasNext()
-                                  + next()
-```
 
-```
-  외부 이터레이터 (External Iterator)
-  ─────────────────────────────────────
-  Client가 Iterator를 직접 제어
 
-  Iterator<T> it = list.iterator();
-  while (it.hasNext()) {
-      T item = it.next();  // Client가 next() 호출
-      if (needStop(item)) break;  // 중간 탈출 가능
-  }
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">«interface» «interface»</div>
+<div class="kb-diagram-note">Iterable&lt;T&gt; Iterator&lt;T&gt;</div>
+<div class="kb-diagram-note">+ iterator(): Iterator&lt;T&gt; + hasNext(): boolean</div>
+<div class="kb-diagram-note">▲ + next(): T</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+ remove()</div><div class="kb-diagram-node">optional</div></div>
+<div class="kb-diagram-note">ConcreteCollection ▲</div>
+<div class="kb-diagram-note">+ iterator() ConcreteIterator</div>
+<div class="kb-diagram-note">→ new ConcreteIterator(this) - collection</div>
+<div class="kb-diagram-tree-item" style="--depth:8">currentIndex</div>
+<div class="kb-diagram-note">+ hasNext()</div>
+<div class="kb-diagram-note">+ next()</div>
+</div>
+</div>
 
-  장점: 세밀한 제어 가능, 중간 탈출 가능
-  단점: 클라이언트 코드가 복잡
 
-  ─────────────────────────────────────
-  내부 이터레이터 (Internal Iterator)
-  ─────────────────────────────────────
-  Collection이 순회를 제어하고 콜백 호출
 
-  list.forEach(item -> process(item));
-  list.stream().filter(x -> x > 0).map(x -> x * 2).collect(...);
 
-  장점: 코드 간결, 함수형 스타일
-  단점: 중간 탈출 어려움 (anyMatch, findFirst로 보완)
-```
 
-```
-  파일 시스템 트리 (Composite)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">외부 이터레이터 (External Iterator)</div>
+<div class="kb-diagram-note">Client가 Iterator를 직접 제어</div>
+<div class="kb-diagram-note">Iterator&lt;T&gt; it = list.iterator();</div>
+<div class="kb-diagram-note">while (it.hasNext()) {</div>
+<div class="kb-diagram-note">T item = it.next(); // Client가 next() 호출</div>
+<div class="kb-diagram-note">if (needStop(item)) break; // 중간 탈출 가능</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">장점: 세밀한 제어 가능, 중간 탈출 가능</div>
+<div class="kb-diagram-note">단점: 클라이언트 코드가 복잡</div>
+<div class="kb-diagram-note">내부 이터레이터 (Internal Iterator)</div>
+<div class="kb-diagram-note">Collection이 순회를 제어하고 콜백 호출</div>
+<div class="kb-diagram-note">list.forEach(item -&gt; process(item));</div>
+<div class="kb-diagram-note">list.stream().filter(x -&gt; x &gt; 0).map(x -&gt; x * 2).collect(...);</div>
+<div class="kb-diagram-note">장점: 코드 간결, 함수형 스타일</div>
+<div class="kb-diagram-note">단점: 중간 탈출 어려움 (anyMatch, findFirst로 보완)</div>
+</div>
+</div>
 
-  root/
-  ├── docs/
-  │   ├── readme.txt
-  │   └── design.pdf
-  └── src/
-      ├── main.java
-      └── util/
-          └── helper.java
 
-  DFSIterator (깊이 우선 탐색):
-  root → docs → readme.txt → design.pdf → src → main.java → util → helper.java
 
-  BFSIterator (너비 우선 탐색):
-  root → docs → src → readme.txt → design.pdf → main.java → util → helper.java
 
-  // 동일한 Collection에 다른 Iterator 적용
-  Iterator<File> dfs = fileSystem.dfsIterator();
-  Iterator<File> bfs = fileSystem.bfsIterator();
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파일 시스템 트리 (Composite)</div>
+<div class="kb-diagram-note">root/</div>
+<div class="kb-diagram-tree-item" style="--depth:1">docs/</div>
+<div class="kb-diagram-note">── readme.txt</div>
+<div class="kb-diagram-note">── design.pdf</div>
+<div class="kb-diagram-tree-item" style="--depth:1">src/</div>
+<div class="kb-diagram-tree-item" style="--depth:3">main.java</div>
+<div class="kb-diagram-tree-item" style="--depth:3">util/</div>
+<div class="kb-diagram-tree-item" style="--depth:5">helper.java</div>
+<div class="kb-diagram-note">DFSIterator (깊이 우선 탐색):</div>
+<div class="kb-diagram-note">root → docs → readme.txt → design.pdf → src → main.java → util → helper.java</div>
+<div class="kb-diagram-note">BFSIterator (너비 우선 탐색):</div>
+<div class="kb-diagram-note">root → docs → src → readme.txt → design.pdf → main.java → util → helper.java</div>
+<div class="kb-diagram-note">// 동일한 Collection에 다른 Iterator 적용</div>
+<div class="kb-diagram-note">Iterator&lt;File&gt; dfs = fileSystem.dfsIterator();</div>
+<div class="kb-diagram-note">Iterator&lt;File&gt; bfs = fileSystem.bfsIterator();</div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -139,11 +147,15 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/).
 
@@ -154,7 +166,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 |:---|:---|:---|
 | **제어권** | 클라이언트 | 컬렉션/[람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) |
 | **중간 탈출** | `break` 가능 | `anyMatch()` 등으로 제한적 |
-| **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리** | 어려움 | `parallelStream()` 용이 |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> | 어려움 | `parallelStream()` 용이 |
 | **코드 간결성** | 낮음 | 높음 |
 | **상태 저장** | [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 객체에 | 없음 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) |
 | **대표 사례** | Java `Iterator`, Python `for` | Java `Stream`, Python 컴프리헨션 |
@@ -208,7 +220,7 @@ for _ in range(10):
 
 Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의 변형이다.
 
-- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴이 **컬렉션 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**의 핵심 메커니즘임을 명시
+- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴이 <strong>컬렉션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>의 핵심 메커니즘임을 명시
 - Java `for-each` 루프가 내부적으로 `Iterable.iterator()`를 호출함 언급
 - 외부/내부 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)의 **트레이드오프** 비교 제시
 
@@ -230,7 +242,7 @@ Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의
 | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 달성 | 컬렉션은 저장, Iterator는 순회 책임 분리 |
 | [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 가능 | Generator로 메모리 효율적 처리 |
 
-- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태를 외부에서 관리하므로 **멀티스레드 환경 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** 주의 필요
+- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태를 외부에서 관리하므로 <strong>멀티스레드 환경 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> 주의 필요
 - 컬렉션 수정 중 순회 시 `ConcurrentModificationException` 위험
 
 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴은 현대 프로그래밍 언어의 `for-each`, [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Generator 등 모든 순회 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 이론적 기반이다. 알고리즘과 자료구조를 분리하는 가장 근본적인 수단으로, 언어 내장 지원으로 자연스럽게 일상화된 패턴이다.

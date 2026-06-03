@@ -32,20 +32,25 @@ tags = ["network"]
 
 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 성공 여부는 복잡한 산란체([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/))가 존재하여 송신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)들이 발사한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들이 서로 다른 경로를 겪어 수신기에 도달하는가에 달려있다.
 
-```text
-[ 2x2 MIMO 공간 다중화의 행렬 복원 아키텍처 ]
 
-[송신 측: 스트림 분할]                 [무선 공간: 다중 경로 혼합]            [수신 측: 행렬 연산 복원]
-원본 데이터(X1, X2) 
-  ├─▶ [Tx 1] ────(경로 h11)─────────▶ 혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 ──┐ 
-  │                ╲             /                                     ▼
-  │                  ╲         /                                  [ DSP Equalizer ]
-  │                    ╲     /     (수학적 행렬 연산 H)              (역행렬 H⁻¹ 곱셈)
-  │                      X                                          X1, X2로 완벽 분리!
-  │                    /   ╲                                           │
-  │                  /       ╲                                         ▼
-  └─▶ [Tx 2] ────(경로 h22)─────────▶ 혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──┘ 
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">2x2 MIMO 공간 다중화의 행렬 복원 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신 측: 스트림 분할</div><div class="kb-diagram-node">무선 공간: 다중 경로 혼합</div><div class="kb-diagram-node">수신 측: 행렬 연산 복원</div></div>
+<div class="kb-diagram-note">원본 데이터(X1, X2)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Tx 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">혼합 신호 y1 ＝ h11*x1 ＋ h12*x2 ──</div></div>
+<div class="kb-diagram-note">╲ / ▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">╲ /</div><div class="kb-diagram-node">DSP Equalizer</div></div>
+<div class="kb-diagram-note">╲ / (수학적 행렬 연산 H) (역행렬 H⁻¹ 곱셈)</div>
+<div class="kb-diagram-note">X X1, X2로 완벽 분리!</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ╲</div></div>
+<div class="kb-diagram-note">/ ╲ ▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Tx 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">혼합 신호 y2 ＝ h21*x1 ＋ h22*x2 ──</div></div>
+</div>
+</div>
+
+
 
 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 도착한 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)($y$)는 채널 행렬($H$)과 원본 송신 스트림($x$), 그리고 노이즈($n$)의 합으로 표현된다 ($y = Hx + n$). 수신기의 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor)는 채널 추정치 $\hat{H}$를 구한 뒤, 이의 역행렬을 곱하여 섞여 있는 원본 스트림 $\hat{x}$를 분리해낸다 (Zero-Forcing 방식 등). 
 
@@ -76,7 +81,7 @@ tags = ["network"]
 
 실무 현장에서 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 스펙만 믿고 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)에 의존하다 낭패를 보는 대표적 오판 사례들이 존재한다.
 
-1. **대강당 및 개활지 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설계 실패**: 탁 트인 강당이나 시골 평야에 비싼 4x4 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) AP를 설치해도 속도 향상이 미미한 경우가 많다. 장애물이 없는 가시선 (LOS, Line-of-Sight) 환경에서는 다중 경로 반사가 일어나지 않아 단말기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 하나의 뭉쳐진 경로로 인식한다(Rank 1 강등). 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)가 깨지고 다이버시티 모드로 강제 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))된 것이다. 이때는 오히려 인위적인 반사 파티션을 두거나, 빔을 벽으로 쏘아 반사파를 유도해야 한다.
+1. <strong>대강당 및 개활지 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 설계 실패</strong>: 탁 트인 강당이나 시골 평야에 비싼 4x4 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) AP를 설치해도 속도 향상이 미미한 경우가 많다. 장애물이 없는 가시선 (LOS, Line-of-Sight) 환경에서는 다중 경로 반사가 일어나지 않아 단말기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 하나의 뭉쳐진 경로로 인식한다(Rank 1 강등). 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)가 깨지고 다이버시티 모드로 강제 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))된 것이다. 이때는 오히려 인위적인 반사 파티션을 두거나, 빔을 벽으로 쏘아 반사파를 유도해야 한다.
 2. **고속 이동 기기 (고속철도 등)**: 채널 상황이 밀리초 단위로 급변하는 고속 주행 시에는 기지국이 역행렬 연산 기준값을 잡기 전에 공간 환경이 변해버려 스트림 꼬임 오류가 폭증한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 알고리즘은 단말의 도플러 시프트(이동 속도)가 높을 경우, 즉시 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 모드를 끄고 다이버시티 송신으로 전환하여 끊김 없는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 모드로 타협해야 한다.
 
 - **📢 섹션 요약 비유**: 사방이 거울로 된 도심의 방에서는 레이저 불빛을 여기저기 튕기게 만들어 여러 가닥의 선(다중 경로)을 활용할 수 있지만, 아무것도 없는 텅 빈 운동장에서는 플래시를 4개 켜봐야 결국 하나의 큰 불빛 덩어리(Rank 1)로 뭉쳐버려 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 마법을 부릴 수 없는 원리다.
@@ -97,27 +102,29 @@ tags = ["network"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))** | 다수의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 송수신 양측에 사용하는 거대 하드웨어 아키텍처로, 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 물리적 기반 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">Multiple-Input Multiple-Output</a>)</strong> | 다수의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 송수신 양측에 사용하는 거대 하드웨어 아키텍처로, 공간 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 물리적 기반 |
 | **랭크 지표 (RI, Rank Indicator)** | 단말기가 기지국에 "현재 몇 개의 공간 스트림을 겹치지 않고 분리할 수 있는지"를 알려주는 핵심 피드백 정보 |
 | **제로 포싱 (Zero-Forcing) 수신기** | 수신된 혼합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 다른 스트림이 일으키는 간섭 성분을 역행렬 연산으로 0으로 억제하여 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 추출하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SISO (Single-Input Single-Output) · 단일 경로 한계
-    │
-    ▼
-공간 다이버시티 (Spatial Diversity) · 안정성 확보 (동일 데이터 중복)
-    │
-    ▼
-공간 다중화 (Spatial Multiplexing) · 속도 혁명 (독립 데이터 분할)
-    │
-    ▼
-랭크 적응 (Rank Adaptation) · 환경에 따른 다중화 모드 동적 스위칭
-    │
-    ▼
-Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대 스트림
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SISO (Single-Input Single-Output) · 단일 경로 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간 다이버시티 (Spatial Diversity) · 안정성 확보 (동일 데이터 중복)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간 다중화 (Spatial Multiplexing) · 속도 혁명 (독립 데이터 분할)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랭크 적응 (Rank Adaptation) · 환경에 따른 다중화 모드 동적 스위칭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대 스트림</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

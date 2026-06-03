@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 이 함수의 테스트 오라클을 만드는 건 쉽다. `a`가 1이고 `b`가 2면, 오라클(정답지)은 `3`이다. 수학적으로 너무 명백하므로, 모든 경우의 수에 대해 100% 참 오라클을 세울 수 있다.
 
 하지만 구글 지도의 `최적_경로_찾기(출발, 도착, 현재교통상황)` 함수의 참 오라클을 만들 수 있을까?
-출발지와 도착지 조합만 수조 개이고, 날씨, 사고, 신호등 등 변수가 무한대다. 테스터가 "음... 이 상황에서는 강변북로로 가는 게 100% 정답이야!"라고 수학적으로 증명해 놓은 정답지를 미리 만들어 둘 수가 없다. 오라클이 없으니 테스트의 결과를 100% 신뢰할 수 없는 **오라클 문제([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem)**가 발생한다.
+출발지와 도착지 조합만 수조 개이고, 날씨, 사고, 신호등 등 변수가 무한대다. 테스터가 "음... 이 상황에서는 강변북로로 가는 게 100% 정답이야!"라고 수학적으로 증명해 놓은 정답지를 미리 만들어 둘 수가 없다. 오라클이 없으니 테스트의 결과를 100% 신뢰할 수 없는 <strong>오라클 문제(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Problem)</strong>가 발생한다.
 
 그럼에도 불구하고 인간은 100%를 보장해야 할 때가 있다.
-비행기 엔진 제어 소프트웨어라면 어떨까? 무한대의 경우의 수가 있더라도, 인간은 수백억 원의 돈을 태워서라도 모든 바람과 고도에 대한 완벽한 정답표, 즉 **참 오라클(True [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))**을 기어코 만들어내야만 생명을 살릴 수 있다.
+비행기 엔진 제어 소프트웨어라면 어떨까? 무한대의 경우의 수가 있더라도, 인간은 수백억 원의 돈을 태워서라도 모든 바람과 고도에 대한 완벽한 정답표, 즉 <strong>참 오라클(True <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>을 기어코 만들어내야만 생명을 살릴 수 있다.
 
 > 📢 **섹션 요약 비유**: 수능 시험에서 1번부터 30번까지의 모든 정답이 한 치의 오차 없이 완벽하게 적혀있는 '평가원 공식 정답지'가 바로 참 오라클입니다. 채점관(테스트 프레임워크)은 학생의 답이 이 정답지와 똑같은지 기계적으로 대조하기만 하면 100% 완벽한 채점을 끝낼 수 있습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 참 오라클 (True [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  참 오라클 (True Oracle)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참 오라클 (True Oracle)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 참 오라클 (True [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -61,32 +60,32 @@ tags = ["studynote-software-engineering"]
 
 현실에서 불가능해 보이는 참 오라클을 억지로라도 만들어내는 몇 가지 엔지니어링 전략이 있다.
 
-1. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([N-Version Programming](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/297_n_version_programming/))**
+1. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 시스템 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/297_n_version_programming/">N-Version Programming</a>)</strong>
    - 가장 무식하지만 확실한 방법이다. 비행기 엔진 제어 시스템을 만들 때, A팀, B팀, C팀을 서로 격리시킨 채 똑같은 명세서를 주고 각자 코드를 짜게 한다.
    - 테스트할 때 세 시스템에 똑같은 입력값을 준다. A, B, C가 뱉어낸 결과가 3개 다 일치하면 그것을 '참 오라클(정답)'로 인정한다.
-2. **이전 버전의 황금 표준 (Gold Standard / Pseudo-[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))**
+2. <strong>이전 버전의 황금 표준 (Gold Standard / Pseudo-<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>
    - 새로 만든 회계 시스템이 복잡해서 정답을 모르겠을 때, 이미 10년 동안 버그 없이 완벽하게 돌아가고 있던 옛날 회계 프로그램의 결괏값을 '참 오라클'로 맹신하고 비교한다.
-3. **수학적 명제 및 역연산 (Inverse [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))**
+3. <strong>수학적 명제 및 역연산 (Inverse <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>)</strong>
    - [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 테스트할 때 정답을 미리 알긴 어렵다.
    - 하지만 "암호화한 것을 다시 복호화하면 원래 글자가 나와야 한다"라는 절대적인 역연산 수학 공식을 참 오라클로 삼아 자동화 테스트를 짠다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│           참 오라클(True Oracle)이 필요한 무한대의 경우의 수 (폭발) 시각화  │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ 🧮 [ 두 수 더하기 함수 ]                                                    │
-│   입력값: X (1~10), Y (1~10)                                                │
-│   경우의 수: 100개 -> 엑셀로 정답 100개 만들기 쌉가능! (참 오라클 ⭕)       │
-│                                                                             │
-│ 🚀 [ 우주선 자동 착륙 함수 ]                                                │
-│   입력값: 고도, 풍속, 연료량, 엔진온도, 기체기울기, 중력... (무한 연속값)   │
-│   경우의 수: 수조 개 X 수조 개 = 💥 뇌 정지 (조합 폭발)                     │
-│                                                                             │
-│   [ 결단 ] "아무리 돈이 들어도, 수퍼컴퓨터로 시뮬레이션해서 수조 개의       │
-│            정답표(참 오라클)를 억지로라도 다 뽑아내라!" (미션 크리티컬)     │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참 오라클(True Oracle)이 필요한 무한대의 경우의 수 (폭발) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🧮</div><div class="kb-diagram-node">두 수 더하기 함수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력값: X (1~10), Y (1~10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경우의 수: 100개 -&gt; 엑셀로 정답 100개 만들기 쌉가능! (참 오라클 ⭕)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">우주선 자동 착륙 함수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력값: 고도, 풍속, 연료량, 엔진온도, 기체기울기, 중력... (무한 연속값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경우의 수: 수조 개 X 수조 개 = 💥 뇌 정지 (조합 폭발)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결단</div><div class="kb-diagram-note">"아무리 돈이 들어도, 수퍼컴퓨터로 시뮬레이션해서 수조 개의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답표(참 오라클)를 억지로라도 다 뽑아내라!" (미션 크리티컬)</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -106,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-사실상 우주항공이나 원자력을 제외한 99%의 IT 프로젝트(쇼핑몰, 게임, SNS)에서 참 오라클을 구축하는 것은 **가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))가 최악**인 짓이다.
+사실상 우주항공이나 원자력을 제외한 99%의 IT 프로젝트(쇼핑몰, 게임, SNS)에서 참 오라클을 구축하는 것은 <strong>가성비(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)가 최악</strong>인 짓이다.
 쇼핑몰 할인 쿠폰 로직의 정답지를 100만 개 만들어두느라 출시가 1년 지연되는 것보다, 대표적인 쿠폰 10장만 테스트([샘플링 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/438_sampling_oracle/))하고 오픈한 뒤 터지는 버그를 고치는 게 회사의 돈을 아끼는 길이다.
 
 따라서 테스트 설계자는 어떤 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(결제 금액 계산)에 100% 참 오라클을 적용할지, 어느 화면(UI 애니메이션)에 경험적 오라클([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))을 적용할지를 경영학적인 시선에서 타협하며 분배해야 한다.
@@ -171,21 +170,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-참 오라클 (True Oracle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">참 오라클 (True Oracle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

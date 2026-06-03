@@ -31,24 +31,21 @@ tags = ["studynote-computer-architecture"]
 
 언팩드 BCD의 구조는 문자열 인쇄를 위한 패스스루 (Pass-Through) 아키텍처를 따른다. 가장 특이한 점은 맨 마지막 바이트의 존(Zone) 영역에 부호를 덮어쓰는 오버펀칭 (Overpunching) 기법이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          언팩드 BCD의 메모리 맵핑 및 오버펀칭 원리           │
-├──────────────────────────────────────────────────────────────┤
-│ [숫자 '+32' 저장 예시 (ASCII 기반)]                          │
-│                                                              │
-│ 바이트 1 (숫자 '3')                                          │
-│ ┌───────────────┬───────────────┐                          │
-│ │  Zone (0011)  │  Digit (0011) │ ──▶ ASCII 문자 '3' 출력 │
-│ └───────────────┴───────────────┘                          │
-│                                                              │
-│ 바이트 2 (숫자 '2'와 부호 '+')                               │
-│ ┌───────────────┬───────────────┐                          │
-│ │  Zone (1100)  │  Digit (0010) │ ──▶ 1100은 양수(+) 의미 │
-│ └───────────────┴───────────────┘                          │
-│  └─ 오버펀치(Overpunch) 발생: 원래 존(0011)을 부호로 덮어씀  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언팩드 BCD의 메모리 맵핑 및 오버펀칭 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">숫자 '+32' 저장 예시 (ASCII 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 1 (숫자 '3')</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone (0011)</div><div class="kb-diagram-cell">Digit (0011)</div><div class="kb-diagram-cell">──▶ ASCII 문자 '3' 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 2 (숫자 '2'와 부호 '+')</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone (1100)</div><div class="kb-diagram-cell">Digit (0010)</div><div class="kb-diagram-cell">──▶ 1100은 양수(+) 의미</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오버펀치(Overpunch) 발생: 원래 존(0011)을 부호로 덮어씀</div></div>
+</div>
+</div>
+
+
 
 이 구조는 숫자를 화면에 출력할 때 상위 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 읽어 문자열로 취급하면 되는 극단적 단순성을 제공한다. 부호를 표시하기 위해 별도의 1바이트를 소모하는 대신, 마지막 숫자의 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1100 (C, +)` 또는 `1101 (D, -)`로 변조하는 오버펀치 기법을 통해 공간 낭비를 그나마 줄이려 시도했다. 컴파일러는 이 변조된 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 전체 숫자의 양/음수를 판단한다.
 
@@ -63,8 +60,8 @@ tags = ["studynote-computer-architecture"]
 | 비교 항목 | 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (Unpacked [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) | 팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Packed BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/099_packed_bcd/)) |
 | :--- | :--- | :--- |
 | **공간 효율성** | 1바이트에 숫자 1개 저장 (낭비 심함) | 1바이트에 숫자 2개 저장 ([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)적) |
-| **I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 별도 변환 없이 즉시 텍스트 출력 가능 | 문자 변환(Unpacking) 디코딩 오버헤드 발생 |
-| **연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제거 작업으로 인해 연산 속도 저하 | 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 없어 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산에 상대적으로 유리 |
+| <strong>I/O <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 별도 변환 없이 즉시 텍스트 출력 가능 | 문자 변환(Unpacking) 디코딩 오버헤드 발생 |
+| <strong>연산 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제거 작업으로 인해 연산 속도 저하 | 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 없어 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산에 상대적으로 유리 |
 | **부호 위치** | 최하위 숫자의 상위 니블(존 영역) | 최하위 숫자의 하위 니블(가장 끝 4비트) |
 
 과거 x86 아키텍처는 메모리에서 언팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 문자열을 그대로 사칙연산할 수 있는 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`AAA`, `AAS`)를 하드웨어에 내장하고 있었다. 이는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 내부에서 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 임시로 무시하고 캐리(Carry)를 계산한 뒤 다시 문자로 복원하는 기법이었으나, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 공간 낭비로 인해 64비트 아키텍처에서는 폐기되었다.
@@ -98,27 +95,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **팩드 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) ([Packed BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/099_packed_bcd/))** | 언팩드 BCD의 공간 낭비를 해결하기 위해, 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제거하고 1바이트에 숫자 2개를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 저장하는 기술 |
+| <strong>팩드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/099_packed_bcd/">Packed BCD</a>)</strong> | 언팩드 BCD의 공간 낭비를 해결하기 위해, 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제거하고 1바이트에 숫자 2개를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 저장하는 기술 |
 | **오버펀치 (Overpunch)** | 최하위 바이트의 존 영역에 부호(+, -) 정보를 덮어씌워 1바이트의 추가적인 메모리 소모를 막아내는 기법 |
-| **[ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) / EBCDIC** | 언팩드 BCD의 존 영역에 들어가는 표준 문자열 헤더 규격. 이 규격에 맞추기 위해 상위 4비트가 희생됨 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> / EBCDIC</strong> | 언팩드 BCD의 존 영역에 들어가는 표준 문자열 헤더 규격. 이 규격에 맞추기 위해 상위 4비트가 희생됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-2진수 데이터 (Binary Data)
-    │
-    ▼
-언팩드 BCD (Unpacked BCD) · 존 비트 (Zone Bit) 추가
-    │
-    ▼
-오버펀치 (Overpunch) 기법 도입 (부호 압축)
-    │
-    ▼
-팩드 BCD (Packed BCD) · 공간 효율성 개선
-    │
-    ▼
-부동소수점 (Floating Point) · IEEE 754 범용 규격 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2진수 데이터 (Binary Data)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언팩드 BCD (Unpacked BCD) · 존 비트 (Zone Bit) 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오버펀치 (Overpunch) 기법 도입 (부호 압축)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팩드 BCD (Packed BCD) · 공간 효율성 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부동소수점 (Floating Point) · IEEE 754 범용 규격 정착</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

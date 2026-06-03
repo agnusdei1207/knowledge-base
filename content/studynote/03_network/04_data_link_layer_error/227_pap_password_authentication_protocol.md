@@ -23,18 +23,22 @@ tags = ["studynote-network"]
 
 - **필요성**: 통신 링크가 연결된 후 "접속을 요청하는 네가 정말로 허가받은 사용자가 맞느냐?"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다. 초창기 네트워크 환경에서는 단순성 자체가 미덕이었기 때문에, 가장 직관적이고 구현하기 쉬운 아이디/비밀번호 전송 방식이 채택되었다.
 
-- **💡 비유**: 클럽(서버)에 들어가기 위해 문지기(라우터)에게 **"내 이름은 홍길동이고 암호는 1234야!"라고 큰 소리로 외치는 것**과 같습니다. 문지기는 장부에 이름이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 들여보내 주지만(PAP), 옆에 서 있던 도둑(해커)이 그 소리를 그대로 듣고 다음 날 똑같이 외쳐서 클럽에 들어갈 수 있는 보안 사고([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), Sniffing)가 발생하기 쉽습니다.
+- **💡 비유**: 클럽(서버)에 들어가기 위해 문지기(라우터)에게 <strong>"내 이름은 홍길동이고 암호는 1234야!"라고 큰 소리로 외치는 것</strong>과 같습니다. 문지기는 장부에 이름이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 들여보내 주지만(PAP), 옆에 서 있던 도둑(해커)이 그 소리를 그대로 듣고 다음 날 똑같이 외쳐서 클럽에 들어갈 수 있는 보안 사고([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), Sniffing)가 발생하기 쉽습니다.
 
-```text
-[NCP]
-    │
-    ▼
-[PAP]
-    │
-    └──▶ [CHAP]
-```
 
-- **📢 섹션 요약 비유**: ** PAP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 마치 비밀번호를 쓴 **"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CHAP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> PAP <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>은 마치 비밀번호를 쓴 </strong>"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
 
 ---
 
@@ -44,29 +48,25 @@ tags = ["studynote-network"]
 PAP는 클라이언트가 능동적으로 자격 증명을 제시하는 방식(Client-driven)이다. 연결 과정은 매우 단순한 두 단계(요청-응답)로 이루어진다.
 
 1. **Authenticate-Request (요청)**: [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)(클라이언트)가 서버에게 ID와 비밀번호를 평문으로 전송한다.
-2. **Authenticate-Ack / [Nak](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) (응답)**: Authenticator(서버)가 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 대조 후 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)) 메시지를 반환한다.
+2. <strong>Authenticate-Ack / <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">Nak</a> (응답)</strong>: Authenticator(서버)가 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 대조 후 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)) 메시지를 반환한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                     PAP 동작 방식 시퀀스                    │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [클라이언트 (Peer)]                       [서버 (Authenticator)]│
- │           │                                         │       │
- │           │     1. Authenticate-Request (ID, PW)    │       │
- │           ├────────────────────────────────────────▶│       │
- │           │      (평문으로 전송됨 - Sniffing 위험)     │       │
- │           │                                         │       │
- │           │     2. Authenticate-Ack 또는 Nak          │       │
- │           │◀────────────────────────────────────────┤       │
- │           │                                         │       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PAP 동작 방식 시퀀스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Peer)</div><div class="kb-diagram-node">서버 (Authenticator)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Authenticate-Request (ID, PW)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(평문으로 전송됨 - Sniffing 위험)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Authenticate-Ack 또는 Nak</div></div>
+</div>
+</div>
+
+
 
 ### 2. 치명적인 취약점: Cleartext 전송
 - **스니핑(Sniffing)**: 와이어샤크(Wireshark) 같은 패킷 분석 도구를 사용해 네트워크 트래픽을 캡처하면, PAP 패킷 내에 포함된 `Peer-ID`와 `Password` 필드의 문자열이 그대로 노출된다.
-- **[재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))**: 탈취한 ID와 암호 패킷을 해커가 그대로 다시 서버로 전송하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과할 수 있다. PAP에는 재전송 방지를 위한 타임스탬프나 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 같은 동적 요소가 없다.
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/">재생 공격</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/">Replay Attack</a>)</strong>: 탈취한 ID와 암호 패킷을 해커가 그대로 다시 서버로 전송하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과할 수 있다. PAP에는 재전송 방지를 위한 타임스탬프나 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 같은 동적 요소가 없다.
 - **무차별 대입 공격(Brute-Force)**: 해커가 클라이언트인 척하며 임의의 비밀번호를 반복해서 보낼 수 있다. (서버 측에서 횟수 제한으로 방어해야 함)
 
 - **📢 섹션 요약 비유**: ** PAP는 너무 구식 자물쇠여서 **"열쇠 구멍을 들여다보면 핀이 어떻게 생겼는지 다 보이는 자물쇠"**와 같습니다. 기술적으로 아무런 암호학적 보호막이 존재하지 않습니다.
@@ -125,15 +125,19 @@ PAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NCP]
-    │
-    ▼
-[현재 개념: PAP]
-    │
-    ├──▶ [확장 A: CHAP]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NCP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CHAP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

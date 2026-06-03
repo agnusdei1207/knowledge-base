@@ -19,11 +19,11 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-gRPC는 네트워크 너머의 함수를 로컬 메서드처럼 호출하게 해 주는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 계열 기술을 현대적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에 맞게 정교화한 방식이다. 핵심은 "어떤 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 어떤 형식으로 주고받는가"를 먼저 계약으로 고정하고, 그 계약을 바탕으로 통신 코드를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다는 점이다. 그래서 gRPC는 단순 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라 **계약 중심 통신 체계**로 이해해야 한다.
+gRPC는 네트워크 너머의 함수를 로컬 메서드처럼 호출하게 해 주는 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 계열 기술을 현대적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에 맞게 정교화한 방식이다. 핵심은 "어떤 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 어떤 형식으로 주고받는가"를 먼저 계약으로 고정하고, 그 계약을 바탕으로 통신 코드를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다는 점이다. 그래서 gRPC는 단순 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라 <strong>계약 중심 통신 체계</strong>로 이해해야 한다.
 
 이 방식이 필요해진 이유는 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출량이 폭증했기 때문이다. 전자상거래나 금융 플랫폼에서는 주문, 결제, 재고, 추천 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 요청 하나를 처리하는 동안 서로 수십 번씩 호출한다. 이때 텍스트 기반 JSON과 반복적인 파싱 비용이 누적되면 p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 CPU 사용량이 빠르게 증가하고, 언어가 다른 팀끼리 DTO ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Transfer Object) 정의가 어긋나며 통합 비용도 커진다.
 
-특히 gRPC는 사람이 읽기 쉬운 문서보다 **기계가 일관되게 이해할 수 있는 계약**을 우선한다. 그래서 외부 공개용 API보다 백엔드 간 동기 호출, 실시간 스트리밍, 다중 언어 SDK [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 중요한 환경에서 더 큰 의미를 가진다.
+특히 gRPC는 사람이 읽기 쉬운 문서보다 <strong>기계가 일관되게 이해할 수 있는 계약</strong>을 우선한다. 그래서 외부 공개용 API보다 백엔드 간 동기 호출, 실시간 스트리밍, 다중 언어 SDK [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 중요한 환경에서 더 큰 의미를 가진다.
 
 - **📢 섹션 요약 비유**: gRPC는 사내 메신저에 자유 형식으로 글을 남기는 방식이 아니라, 모든 부서가 같은 양식의 바코드 운송장을 붙여 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기에 바로 태우는 내부 물류 체계와 같다.
 
@@ -44,18 +44,18 @@ gRPC의 출발점은 인터페이스 정의 언어 (IDL, Interface Definition La
 
 이 그림은 gRPC가 계약에서 실행까지 어떻게 이어지는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ gRPC 호출 경로: 계약 -> 스텁 -> 바이너리 스트림 -> 서비스          │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client App                                                          │
-│    │                                                                │
-│    ▼                                                                │
-│ Client Stub -> Protobuf -> HTTP/2 Stream -> Server Stub -> Service  │
-│    ▲                                                     │          │
-│    └──────────── Response Metadata <- Protobuf <- Result ┘          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gRPC 호출 경로: 계약 -&gt; 스텁 -&gt; 바이너리 스트림 -&gt; 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client App</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Stub -&gt; Protobuf -&gt; HTTP/2 Stream -&gt; Server Stub -&gt; Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response Metadata &lt;- Protobuf &lt;- Result</div></div>
+</div>
+</div>
+
+
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 하나의 연결에서 여러 스트림을 멀티플렉싱하고, 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 제공한다. 여기에 [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers의 태그 기반 바이너리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화가 결합되면, 동일한 의미의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 더 작은 크기와 더 적은 CPU 비용으로 전달할 수 있다. 또한 [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), status [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), interceptor 같은 메커니즘이 함께 제공되어 단순 속도뿐 아니라 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)도 확보한다.
 
@@ -98,7 +98,7 @@ gRPC를 이해하려면 [REST API](/knowledge-base/studynote/03_network/09_appli
 - 장기 스트리밍을 쓰면서 keepalive, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 갱신, 취소 전파를 설계하지 않는 경우
 - [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 없이 필드 삭제·번호 재사용을 반복하는 경우
 
-따라서 기술사 관점의 답안은 "gRPC는 내부 MSA의 고성능 표준" 정도로 외우는 데서 끝나면 부족하다. **어떤 경계는 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), 어떤 경계는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), 어떤 경계는 비동기 이벤트**로 나누는 계층적 통신 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 제시해야 설계력이 드러난다.
+따라서 기술사 관점의 답안은 "gRPC는 내부 MSA의 고성능 표준" 정도로 외우는 데서 끝나면 부족하다. <strong>어떤 경계는 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>, 어떤 경계는 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>, 어떤 경계는 비동기 이벤트</strong>로 나누는 계층적 통신 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 제시해야 설계력이 드러난다.
 
 - **📢 섹션 요약 비유**: [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 도입은 도시 전체 도로를 모두 고속도로로 바꾸는 일이 아니다. 물동량이 큰 산업 단지 사이에만 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 도로를 깔아야 투자 대비 효과가 난다.
 
@@ -108,7 +108,7 @@ gRPC를 이해하려면 [REST API](/knowledge-base/studynote/03_network/09_appli
 
 gRPC를 잘 도입하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용량을 줄이고, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 클라이언트/서버 계약 불일치를 크게 줄일 수 있다. 스트리밍이 필요한 실시간 분석, 채팅, 대량 업로드 시나리오에서도 단일 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 일관된 통신 모델을 확보할 수 있다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 개발 생산성과 계약 안정성까지 함께 얻는다는 점이 핵심 효과다.
 
-다만 전제조건도 분명하다. `.proto` [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 거버넌스, 관측성, 에러 표준화, 게이트웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 없으면 gRPC는 단순히 "빠르지만 다루기 어려운 바이너리 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"로 전락한다. 따라서 이 주제는 **REST의 대체재**가 아니라 **내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통신을 정형화하는 고속 계약 체계**로 기억하는 것이 가장 정확하다.
+다만 전제조건도 분명하다. `.proto` [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 거버넌스, 관측성, 에러 표준화, 게이트웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 없으면 gRPC는 단순히 "빠르지만 다루기 어려운 바이너리 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"로 전락한다. 따라서 이 주제는 <strong>REST의 대체재</strong>가 아니라 <strong>내부 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 통신을 정형화하는 고속 계약 체계</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: gRPC는 손님이 보는 쇼윈도보다 창고와 공장을 잇는 자동 컨베이어 벨트에 가깝다. 보이지 않는 내부 동선을 정리할 때 가장 큰 힘을 발휘한다.
 
@@ -126,21 +126,23 @@ gRPC를 잘 도입하면 [서비스](/knowledge-base/studynote/13_cloud_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RPC (Remote Procedure Call)
-    │
-    ▼
-`.proto` 계약 정의
-    │
-    ▼
-Protocol Buffers 직렬화
-    │
-    ▼
-HTTP/2 멀티플렉싱 · 스트리밍
-    │
-    ▼
-서비스 메시 · 게이트웨이 혼합 운용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RPC (Remote Procedure Call)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note"><code>.proto</code> 계약 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Protocol Buffers 직렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTTP/2 멀티플렉싱 · 스트리밍</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 메시 · 게이트웨이 혼합 운용</div>
+</div>
+</div>
+
+
 
 이 흐름은 "원격 호출 개념 → 계약 정의 → 고속 전송 → 운영 계층 확장"으로 gRPC의 성숙 단계를 보여준다.
 

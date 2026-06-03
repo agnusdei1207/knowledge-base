@@ -28,21 +28,22 @@ tags = ["studynote-cloud-architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리
 서비스는 자체적으로 트래픽을 처리하는 프로세스가 아니라, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버와 각 노드의 `kube-proxy`가 협력하여 만드는 네트워크 규칙(iptables/IPVS)의 집합이다.
 
-핵심 원리는 **라벨 셀렉터(Label Selector)**다. 서비스는 `selector`에 정의된 라벨(예: `app=backend`)과 일치하는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들의 실시간 IP 목록을 `엔드포인트(Endpoint)` 객체로 자동 관리한다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 생기거나 죽으면 엔드포인트가 즉시 업데이트되며, CoreDNS를 통해 `서비스이름.네임스페이스.svc.cluster.local` 형태의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 이름으로 해상(Resolution)된다.
+핵심 원리는 <strong>라벨 셀렉터(Label Selector)</strong>다. 서비스는 `selector`에 정의된 라벨(예: `app=backend`)과 일치하는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들의 실시간 IP 목록을 `엔드포인트(Endpoint)` 객체로 자동 관리한다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 생기거나 죽으면 엔드포인트가 즉시 업데이트되며, CoreDNS를 통해 `서비스이름.네임스페이스.svc.cluster.local` 형태의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 이름으로 해상(Resolution)된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           서비스(Service)의 동적 트래픽 라우팅 원리               │
-├──────────────────────────────────────────────────────────────┤
-│ [Client] ─(DNS Query)─▶ CoreDNS (반환: Service VIP)         │
-│   │                                                          │
-│   ▼ VIP 호출                                                  │
-│ [kube-proxy (iptables / IPVS)] ──▶ 엔드포인트(Endpoint) 참조    │
-│   │                                                          │
-│   ├─▶ [Pod 1 (IP: 10.1.1.2)] (상태: Running, 라벨 일치)        │
-│   └─▶ [Pod 2 (IP: 10.1.1.9)] (상태: Running, 라벨 일치)        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스(Service)의 동적 트래픽 라우팅 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">CoreDNS (반환: Service VIP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ VIP 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">kube-proxy (iptables / IPVS)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">엔드포인트(Endpoint) 참조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod 1 (IP: 10.1.1.2)</div><div class="kb-diagram-note">(상태: Running, 라벨 일치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod 2 (IP: 10.1.1.9)</div><div class="kb-diagram-note">(상태: Running, 라벨 일치)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 클라이언트가 고정된 VIP를 호출하면, 노드의 `kube-proxy`가 라벨이 일치하는 정상 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 중 하나로 트래픽을 리다이렉트하는 과정을 보여준다.
 
@@ -71,7 +72,7 @@ NodePort를 [생성](/knowledge-base/studynote/02_operating_system/02_process_th
 
 - **판단 기준 1**: 외부 노출이 필요한 최소한의 서비스(예: [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Controller 앞단)에만 LoadBalancer를 적용하고, 나머지 내부 서비스는 모두 ClusterIP로 숨겨야 보안과 비용이 확보된다.
 - **판단 기준 2**: 대규모 클러스터에서는 `kube-proxy`의 기본 모드인 iptables가 규칙이 많아질수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목(순차 탐색)을 일으키므로, O(1) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 IPVS(IP Virtual Server) 모드로 변경하는 것을 고려해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 라벨 오타나 잘못된 셀렉터 지정으로 인해 엔드포인트가 비어있는 상태(Endpoints: `<none>`). 서비스는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었지만 트래픽이 갈 곳이 없어 타임아웃이 발생한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 라벨 오타나 잘못된 셀렉터 지정으로 인해 엔드포인트가 비어있는 상태(Endpoints: `<none>`). 서비스는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었지만 트래픽이 갈 곳이 없어 타임아웃이 발생한다.
 
 - **📢 섹션 요약 비유**: 건물의 모든 사무실에 외부 직통 번호(LoadBalancer)를 개통하면 통신비가 폭탄을 맞는다. 안내데스크([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))에만 직통 번호를 두고 나머지는 내선(ClusterIP)으로 연결해야 한다.
 
@@ -89,28 +90,30 @@ NodePort를 [생성](/knowledge-base/studynote/02_operating_system/02_process_th
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))** | 서비스가 트래픽을 분산시켜 주는 최종 목적지 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)</strong> | 서비스가 트래픽을 분산시켜 주는 최종 목적지 |
 | **라벨 셀렉터 (Label Selector)** | 서비스가 동적으로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 그룹(엔드포인트)을 식별하는 기준 |
 | **엔드포인트 (Endpoint)** | 서비스와 연결된 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들의 IP와 [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 목록 |
-| **[인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))** | 서비스 앞단에서 L7 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 라우팅을 담당하는 리소스 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a>)</strong> | 서비스 앞단에서 L7 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 라우팅을 담당하는 리소스 |
 | **CoreDNS** | 서비스 이름을 가상 IP(ClusterIP)로 변환해 주는 내부 네임 서버 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-컨테이너 직접 통신 (IP 하드코딩)
-    │
-    ▼
-파드 IP 휘발성 문제 인식
-    │
-    ▼
-서비스 (Service) · ClusterIP 도입 (L4 로드밸런싱)
-    │
-    ▼
-NodePort · LoadBalancer (외부 트래픽 유입)
-    │
-    ▼
-인그레스 (Ingress) · L7 기반 고급 라우팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨테이너 직접 통신 (IP 하드코딩)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파드 IP 휘발성 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 (Service) · ClusterIP 도입 (L4 로드밸런싱)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NodePort · LoadBalancer (외부 트래픽 유입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인그레스 (Ingress) · L7 기반 고급 라우팅</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 마을에서는 심부름꾼([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))들이 수시로 이사를 다녀서 집 주소(IP)가 자꾸 바뀌어요.

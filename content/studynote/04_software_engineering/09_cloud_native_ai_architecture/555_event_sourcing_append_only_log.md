@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 은행 통장 입출금 내역을 생각해 보라. 우리는 통장을 볼 때 `현재 잔고 100만 원`이라는 딱 1줄만 보지 않는다. `3월 1일 월급 200만 원 들어옴 ➡ 3월 2일 치킨 3만 원 씀 ➡ 3월 3일 월세 50만 원 빠짐` 이 3줄의 이력(Event)을 차례대로 덧셈 뺄셈(Fold/Reduce)하면 결과적으로 147만 원이라는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 수학적으로 도출된다. 이력만 꽉 쥐고 있으면 언제든 현재를 증명할 수 있다는 사상이 '[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)'이다.
 
-- **필요성(기존 CRUD의 치명적 한계)**: 지금까지 백엔드 개발자 99%는 JPA나 MyBatis로 `UPDATE user SET balance = 50` 이라는 SQL을 날렸다. 이 짓의 가장 큰 비극은? **"이전의 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(History)가 영원히 증발해 날아가 버린다"**는 점이다. 해커가 뚫고 들어와서 잔고를 1억으로 UPDATE 쳐놨다. 회사 사장님이 "야! 어제 새벽 3시 상태로 당장 되돌려놔!" 소리치는데, DB에는 덮어 씌워진 1억 원 딱 1줄뿐이다. 과거를 되돌릴 타임머신이 물리적으로 아예 멸종해 버린 상태 중심([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-oriented) 설계의 끔찍한 결함이다. 이를 막으려면 모든 이력을 영원히 화석처럼 박제(Append)해야 한다.
+- **필요성(기존 CRUD의 치명적 한계)**: 지금까지 백엔드 개발자 99%는 JPA나 MyBatis로 `UPDATE user SET balance = 50` 이라는 SQL을 날렸다. 이 짓의 가장 큰 비극은? <strong>"이전의 과거 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(History)가 영원히 증발해 날아가 버린다"</strong>는 점이다. 해커가 뚫고 들어와서 잔고를 1억으로 UPDATE 쳐놨다. 회사 사장님이 "야! 어제 새벽 3시 상태로 당장 되돌려놔!" 소리치는데, DB에는 덮어 씌워진 1억 원 딱 1줄뿐이다. 과거를 되돌릴 타임머신이 물리적으로 아예 멸종해 버린 상태 중심([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-oriented) 설계의 끔찍한 결함이다. 이를 막으려면 모든 이력을 영원히 화석처럼 박제(Append)해야 한다.
 
-- **💡 비유**: CRUD 방식은 장기판의 **'말 위치만 덜렁 기억하는 것'**입니다. 체스판에 말이 쫙 깔려있는데 동생이 장난치느라 말을 다 엎어버렸습니다. 어디 있었는지 복구가 100% 불가능합니다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 **'체스 경기 기보(기록지)'**를 빽빽하게 적어두는 것입니다. "1수: 폰 전진 ➡ 2수: 나이트 전진 ➡ 100수: 퀸 이동." 체스판(현재 DB 상태)이 산산조각이 나도 아무 걱정 없습니다. 그냥 빈 체스판을 가져와서 기보 1번부터 100번까지 1초 만에 촤르륵 다시 두어버리면(Replay), 완벽하게 엎어지기 1초 전의 체스판 세팅 상태가 100% 무결점으로 부활하는 타임머신 마술입니다.
+- **💡 비유**: CRUD 방식은 장기판의 <strong>'말 위치만 덜렁 기억하는 것'</strong>입니다. 체스판에 말이 쫙 깔려있는데 동생이 장난치느라 말을 다 엎어버렸습니다. 어디 있었는지 복구가 100% 불가능합니다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))은 <strong>'체스 경기 기보(기록지)'</strong>를 빽빽하게 적어두는 것입니다. "1수: 폰 전진 ➡ 2수: 나이트 전진 ➡ 100수: 퀸 이동." 체스판(현재 DB 상태)이 산산조각이 나도 아무 걱정 없습니다. 그냥 빈 체스판을 가져와서 기보 1번부터 100번까지 1초 만에 촤르륵 다시 두어버리면(Replay), 완벽하게 엎어지기 1초 전의 체스판 세팅 상태가 100% 무결점으로 부활하는 타임머신 마술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **전통 회계 장부 사상**: 컴퓨터가 나오기 100년 전부터 은행원들은 장부에 화이트(지우개)를 쓰면 감옥에 갔다. 실수로 100원을 더 줬으면 지우지 않고 마이너스(-) 전표를 한 장 더 끊어(Append) 밑에 이어붙였다.
-  2. **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 패턴과의 융합 폭발**: CQRS로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 DB를 찢었는데, 동기화가 깨져 복구할 방법이 없자 아키텍트들이 멘붕에 빠졌다. "야, 아예 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB를 UPDATE 못 치는 무한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장부([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/))로 깔아버려! 그럼 언제든 재생해서 읽기 DB 100번 복원할 수 있잖아!"
-  3. **[Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 궁극체**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 시대가 열렸다. 이벤트를 쏴대는데, 그 쏘는 이벤트 텍스트 쪼가리 자체를 아예 RDBMS나 EventStore DB에 영구 보존 원장(Source of Truth)으로 삼아버리는 클라우드의 절대 표준으로 격상됐다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴과의 융합 폭발</strong>: CQRS로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 DB를 찢었는데, 동기화가 깨져 복구할 방법이 없자 아키텍트들이 멘붕에 빠졌다. "야, 아예 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) DB를 UPDATE 못 치는 무한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장부([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/))로 깔아버려! 그럼 언제든 재생해서 읽기 DB 100번 복원할 수 있잖아!"
+  3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/">Event-Driven Architecture</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>)의 궁극체</strong>: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 시대가 열렸다. 이벤트를 쏴대는데, 그 쏘는 이벤트 텍스트 쪼가리 자체를 아예 RDBMS나 EventStore DB에 영구 보존 원장(Source of Truth)으로 삼아버리는 클라우드의 절대 표준으로 격상됐다.
 
-- **📢 섹션 요약 비유**: 기존 방식(CRUD)이 매일 화이트로 덧칠하며 **'숫자 하나만 덜렁 남긴 낡은 칠판'**이라면, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 내가 태어날 때부터 지금까지 겪은 모든 대화를 초 단위로 녹음해 둔 **'비행기 블랙박스(Flight [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Recorder)'**입니다. 비행기(서버)가 산산조각이 나도 블랙박스만 주워 오면, 엔진이 왜 터졌고 조종사가 무슨 말을 했는지(디버깅) 초 단위로 완벽하게 100% 과거를 시뮬레이션할 수 있는 절대 무적의 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 방식(CRUD)이 매일 화이트로 덧칠하며 <strong>'숫자 하나만 덜렁 남긴 낡은 칠판'</strong>이라면, [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 내가 태어날 때부터 지금까지 겪은 모든 대화를 초 단위로 녹음해 둔 <strong>'비행기 블랙박스(Flight <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Recorder)'</strong>입니다. 비행기(서버)가 산산조각이 나도 블랙박스만 주워 오면, 엔진이 왜 터졌고 조종사가 무슨 말을 했는지(디버깅) 초 단위로 완벽하게 100% 과거를 시뮬레이션할 수 있는 절대 무적의 아키텍처입니다.
 
 ---
 
 다음은 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) (Event Sourci의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 소싱 (Event Sourci                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소싱 (Event Sourci</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) (Event Sourci가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) ([Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 소싱 (Event Sourcing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 소싱 (Event Sourcing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

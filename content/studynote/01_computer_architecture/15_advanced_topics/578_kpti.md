@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 KPTI가 도입되기 전과 후에 사용자 모드에서 보이는 주소 지도가 어떻게 달라지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ User-mode address view before and after KPTI                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Before KPTI                                                               │
-│   user pages + full kernel mapping (supervisor-only)                      │
-│                                                                            │
-│ After KPTI                                                                │
-│   user pages + tiny entry trampoline only                                 │
-│                                                                            │
-│ kernel entry -> switch to full kernel page table                          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-KPTI의 핵심은 단순히 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 숨기는 것이 아니다. 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 거의 보이지 않게 만들어, 투기 실행이 잘못 달려 나가더라도 밟을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 자체를 크게 줄인다. 그래서 KPTI는 "권한 검사 강화"라기보다 **가시성 자체를 줄이는 구조적 격리**로 이해하는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User-mode address view before and after KPTI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before KPTI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user pages + full kernel mapping (supervisor-only)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After KPTI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user pages + tiny entry trampoline only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kernel entry -&gt; switch to full kernel page table</div></div>
+</div>
+</div>
+
+
+
+KPTI의 핵심은 단순히 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 숨기는 것이 아니다. 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 거의 보이지 않게 만들어, 투기 실행이 잘못 달려 나가더라도 밟을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 자체를 크게 줄인다. 그래서 KPTI는 "권한 검사 강화"라기보다 <strong>가시성 자체를 줄이는 구조적 격리</strong>로 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: KPTI는 손님용 건물 안내판에서 관리자실 위치를 아예 지워 버리는 것과 같다. 열쇠가 없다는 사실만으로 안심하지 않고, 지도 자체를 안 보여 줌으로써 잘못 들어갈 출발점부터 없애는 방식이다.
 
@@ -49,7 +50,7 @@ KPTI의 핵심은 단순히 [페이지](/knowledge-base/studynote/01_computer_ar
 
 KPTI는 보통 프로세스마다 두 종류의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 뿌리를 준비한다. 하나는 사용자 모드용으로, 현재 프로세스의 사용자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 최소한의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입용 trampoline만 남긴 얇은 지도다. 다른 하나는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드용으로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전체 매핑과 현재 프로세스의 사용자 메모리를 함께 볼 수 있는 두꺼운 지도다. 사용자 코드가 시스템 호출이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 들어오면, 중앙처리장치 (Central Processing Unit, CPU)는 짧은 trampoline 코드를 거쳐 CR3를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)용 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)로 바꾸고 본격적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 처리를 시작한다.
 
-이때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전환 자체보다, 전환 뒤 주소 번역 캐시가 얼마나 잘 유지되느냐에 달려 있다. 과거에는 CR3를 바꾸면 TLB를 광범위하게 비워야 해서 syscall이 많은 워크로드에서 오버헤드가 컸다. 하지만 PCID를 지원하는 프로세서는 사용자용 번역과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)용 번역에 태그를 붙여, 불필요한 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 무효화를 줄일 수 있다. 그래서 KPTI의 실전 비용은 "격리 여부"보다 **PCID와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 재사용 정책이 얼마나 잘 작동하느냐**에 크게 좌우된다.
+이때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전환 자체보다, 전환 뒤 주소 번역 캐시가 얼마나 잘 유지되느냐에 달려 있다. 과거에는 CR3를 바꾸면 TLB를 광범위하게 비워야 해서 syscall이 많은 워크로드에서 오버헤드가 컸다. 하지만 PCID를 지원하는 프로세서는 사용자용 번역과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)용 번역에 태그를 붙여, 불필요한 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 무효화를 줄일 수 있다. 그래서 KPTI의 실전 비용은 "격리 여부"보다 <strong>PCID와 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 재사용 정책이 얼마나 잘 작동하느냐</strong>에 크게 좌우된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -61,27 +62,24 @@ KPTI는 보통 프로세스마다 두 종류의 [페이지 테이블](/knowledge
 
 이 그림은 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어갔다가 다시 나오는 KPTI의 전환 흐름을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ KPTI entry / exit flow                                                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ User mode on user page table                                               │
-│          │                                                                 │
-│          ├─ syscall / interrupt / exception                                │
-│          ▼                                                                 │
-│ minimal trampoline mapping                                                 │
-│          │                                                                 │
-│          ├─ switch CR3 to kernel page table                                │
-│          ▼                                                                 │
-│ full kernel handling                                                       │
-│          │                                                                 │
-│          ├─ switch CR3 back to user page table                             │
-│          ▼                                                                 │
-│ return to user mode                                                        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 것은 사용자 모드용 테이블이 완전히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 무관한 빈 껍데기가 아니라는 점이다. 실제 진입을 위해 필요한 최소한의 코드와 데이터는 남아 있어야 한다. 따라서 KPTI는 "완전 분리"라기보다 **사용자 모드 노출면을 극단적으로 줄인 이중 지도 설계**라고 이해하는 것이 현실적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI entry / exit flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User mode on user page table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ syscall / interrupt / exception</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">minimal trampoline mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch CR3 to kernel page table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full kernel handling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch CR3 back to user page table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return to user mode</div></div>
+</div>
+</div>
+
+
+
+중요한 것은 사용자 모드용 테이블이 완전히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 무관한 빈 껍데기가 아니라는 점이다. 실제 진입을 위해 필요한 최소한의 코드와 데이터는 남아 있어야 한다. 따라서 KPTI는 "완전 분리"라기보다 <strong>사용자 모드 노출면을 극단적으로 줄인 이중 지도 설계</strong>라고 이해하는 것이 현실적이다.
 
 - **📢 섹션 요약 비유**: 이 구조는 평소엔 요약 안내도만 보여 주다가, 직원 전용 문을 통과한 뒤에만 전체 건물 도면을 펼쳐 보는 방식과 같다. 안내도 두 장을 번갈아 써서 보안과 이동 속도의 균형을 맞춘다.
 
@@ -107,9 +105,9 @@ KPTI를 제대로 이해하려면 무엇을 막고 무엇을 막지 못하는지
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 KPTI의 판단은 단순하지 않다. [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 서버, 브라우저 엔진, 외부 코드 실행 환경처럼 신뢰되지 않은 입력이 항상 들어오는 시스템은 KPTI를 켜는 편이 기본값에 가깝다. 반대로 [Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 비취약 아키텍처이거나, 완전히 폐쇄된 단일 목적 장비처럼 위협 모델이 매우 제한된 환경은 비용 대비 판단이 달라질 수 있다. 하지만 이런 경우에도 결정은 "속도가 좀 느리다"가 아니라 **위협 모델과 CPU 특성, 운영 책임**을 함께 놓고 해야 한다.
+실무에서 KPTI의 판단은 단순하지 않다. [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 서버, 브라우저 엔진, 외부 코드 실행 환경처럼 신뢰되지 않은 입력이 항상 들어오는 시스템은 KPTI를 켜는 편이 기본값에 가깝다. 반대로 [Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 비취약 아키텍처이거나, 완전히 폐쇄된 단일 목적 장비처럼 위협 모델이 매우 제한된 환경은 비용 대비 판단이 달라질 수 있다. 하지만 이런 경우에도 결정은 "속도가 좀 느리다"가 아니라 <strong>위협 모델과 CPU 특성, 운영 책임</strong>을 함께 놓고 해야 한다.
 
-특히 syscall, [page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/), interrupt가 잦은 워크로드는 KPTI 비용이 더 크게 보일 수 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 스토리지 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 네트워크 패킷 처리처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 자주 넘는 시스템은 PCID 지원 여부와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입 빈도를 함께 측정해야 한다. 단순 사용자 연산 위주의 배치 작업은 영향이 작을 수 있지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 왕복이 많은 서비스는 체감 차이가 생긴다. 따라서 기술사 답안에서는 "KPTI = 느려진다"가 아니라, **어떤 경계 전환이 얼마나 잦은가**를 근거로 설명하는 것이 중요하다.
+특히 syscall, [page fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/), interrupt가 잦은 워크로드는 KPTI 비용이 더 크게 보일 수 있다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 스토리지 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 네트워크 패킷 처리처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 자주 넘는 시스템은 PCID 지원 여부와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입 빈도를 함께 측정해야 한다. 단순 사용자 연산 위주의 배치 작업은 영향이 작을 수 있지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 왕복이 많은 서비스는 체감 차이가 생긴다. 따라서 기술사 답안에서는 "KPTI = 느려진다"가 아니라, <strong>어떤 경계 전환이 얼마나 잦은가</strong>를 근거로 설명하는 것이 중요하다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -135,9 +133,9 @@ KPTI는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 KPTI의 가장 큰 효과는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 "권한만으로 막는 대상"에서 "사용자 모드에 거의 보이지 않는 대상"으로 바꿨다는 점이다. 이 덕분에 Meltdown류 공격은 출발점 자체가 크게 줄어들고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 노출면도 함께 축소된다. 보안 관점에서 이는 매우 큰 진전이다. 특히 범용 운영체제가 수많은 신뢰되지 않은 프로그램을 동시에 받아들이는 현실을 생각하면, KPTI는 현대 시스템의 최소한에 가까운 격리 강화라고 볼 수 있다.
 
-물론 한계는 남는다. KPTI만으로 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) 계열 예측기 오염이 사라지는 것은 아니고, 주소 공간 전환 비용도 완전히 없어지지 않는다. 앞으로는 하드웨어 차원에서 권한 검사 순서를 더 안전하게 만들고, 처음부터 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 매핑을 더 세밀하게 줄이며, confidential computing과 결합해 **보이는 메모리 범위 자체를 더 엄격히 다루는 방향**이 중요해질 가능성이 크다.
+물론 한계는 남는다. KPTI만으로 [Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) 계열 예측기 오염이 사라지는 것은 아니고, 주소 공간 전환 비용도 완전히 없어지지 않는다. 앞으로는 하드웨어 차원에서 권한 검사 순서를 더 안전하게 만들고, 처음부터 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 매핑을 더 세밀하게 줄이며, confidential computing과 결합해 <strong>보이는 메모리 범위 자체를 더 엄격히 다루는 방향</strong>이 중요해질 가능성이 크다.
 
-결론적으로 KPTI는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 항상 매핑해 두는 것이 당연하다"는 오래된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가정을 포기하고, 보안 경계에 맞춰 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 다시 설계한 기술이다. 그래서 이 주제는 단순한 패치 이름이 아니라, **보이는 주소도 공격면**이라는 교훈으로 기억하면 된다.
+결론적으로 KPTI는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 항상 매핑해 두는 것이 당연하다"는 오래된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가정을 포기하고, 보안 경계에 맞춰 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 다시 설계한 기술이다. 그래서 이 주제는 단순한 패치 이름이 아니라, <strong>보이는 주소도 공격면</strong>이라는 교훈으로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: KPTI는 귀중품 보관실 열쇠를 잘 숨기는 수준을 넘어, 손님 동선에서는 보관실 복도 자체를 없애 버리는 조치와 같다. 조금 돌아가더라도 보이지 않게 만드는 편이 훨씬 강한 보안이 된다.
 
@@ -157,21 +155,23 @@ KPTI의 가장 큰 효과는 [커널](/knowledge-base/studynote/02_operating_sys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-항상 매핑된 kernel/user 공존 모델
-                │
-                ▼
-Meltdown 발견
-                │
-                ▼
-KPTI 도입
-                │
-                ▼
-PCID 기반 TLB 비용 완화
-                │
-                ▼
-하드웨어 수정 + 최소 노출 kernel mapping
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">항상 매핑된 kernel/user 공존 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Meltdown 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KPTI 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCID 기반 TLB 비용 완화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 수정 + 최소 노출 kernel mapping</div>
+</div>
+</div>
+
+
 
 이 흐름은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리가 단순 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 설계에서, 이제는 실제 가시 범위를 줄이는 방향으로 진화했음을 보여 준다.
 

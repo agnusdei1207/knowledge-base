@@ -70,46 +70,41 @@ IEEE 829 구조:
 
 ## Ⅱ. [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)
 
-```
-테스트 시나리오 (Test Scenario):
 
-정의: 테스트할 단일 기능 또는 비즈니스 흐름
 
-vs 테스트 케이스:
-  시나리오: 무엇을 테스트 (상위 수준)
-  케이스: 어떻게 테스트 (구체적 단계, 데이터)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">테스트 시나리오 (Test Scenario):</div>
+<div class="kb-diagram-note">정의: 테스트할 단일 기능 또는 비즈니스 흐름</div>
+<div class="kb-diagram-note">vs 테스트 케이스:</div>
+<div class="kb-diagram-note">시나리오: 무엇을 테스트 (상위 수준)</div>
+<div class="kb-diagram-note">케이스: 어떻게 테스트 (구체적 단계, 데이터)</div>
+<div class="kb-diagram-note">예: 온라인 쇼핑몰</div>
+<div class="kb-diagram-note">시나리오 1: 정상 구매 흐름</div>
+<div class="kb-diagram-note">케이스 1.1: 상품 검색 후 장바구니 추가</div>
+<div class="kb-diagram-note">케이스 1.2: 장바구니에서 결제 진행</div>
+<div class="kb-diagram-note">케이스 1.3: 신용카드 결제 성공</div>
+<div class="kb-diagram-note">케이스 1.4: 주문 확인 이메일 수신</div>
+<div class="kb-diagram-note">시나리오 2: 재고 부족 상황</div>
+<div class="kb-diagram-note">케이스 2.1: 재고 0 상품 구매 시도</div>
+<div class="kb-diagram-note">케이스 2.2: 품절 안내 메시지 확인</div>
+<div class="kb-diagram-note">시나리오 작성 기법:</div>
+<div class="kb-diagram-note">유스케이스 기반:</div>
+<div class="kb-diagram-note">기능 명세의 유스케이스 → 시나리오 도출</div>
+<div class="kb-diagram-note">경계값 분석:</div>
+<div class="kb-diagram-note">입력 경계 (최솟값, 최댓값, 경계+1)</div>
+<div class="kb-diagram-note">동등 분할:</div>
+<div class="kb-diagram-note">유사 입력 그룹 → 대표값 선택</div>
+<div class="kb-diagram-note">탐색적 테스팅:</div>
+<div class="kb-diagram-note">테스터가 직관+경험으로 자유롭게 탐색</div>
+<div class="kb-diagram-note">공식 케이스로 못 잡는 엣지케이스 탐지</div>
+<div class="kb-diagram-note">시나리오 우선순위:</div>
+<div class="kb-diagram-note">위험 기반 (Risk-Based):</div>
+<div class="kb-diagram-note">빈도×영향도 → 높은 위험 시나리오 우선</div>
+</div>
+</div>
 
-예: 온라인 쇼핑몰
 
-시나리오 1: 정상 구매 흐름
-  케이스 1.1: 상품 검색 후 장바구니 추가
-  케이스 1.2: 장바구니에서 결제 진행
-  케이스 1.3: 신용카드 결제 성공
-  케이스 1.4: 주문 확인 이메일 수신
-
-시나리오 2: 재고 부족 상황
-  케이스 2.1: 재고 0 상품 구매 시도
-  케이스 2.2: 품절 안내 메시지 확인
-
-시나리오 작성 기법:
-
-유스케이스 기반:
-  기능 명세의 유스케이스 → 시나리오 도출
-  
-경계값 분석:
-  입력 경계 (최솟값, 최댓값, 경계+1)
-  
-동등 분할:
-  유사 입력 그룹 → 대표값 선택
-
-탐색적 테스팅:
-  테스터가 직관+경험으로 자유롭게 탐색
-  공식 케이스로 못 잡는 엣지케이스 탐지
-
-시나리오 우선순위:
-  위험 기반 (Risk-Based):
-  빈도×영향도 → 높은 위험 시나리오 우선
-```
 
 > 📢 **섹션 요약 비유**: [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/442_test_scenario/)는 영화 시나리오 — 영화(시스템)에서 주인공(사용자)이 경험하는 장면(비즈니스 흐름)을 순서대로 기술. 시나리오마다 여러 테이크(케이스)!
 
@@ -117,53 +112,44 @@ vs 테스트 케이스:
 
 ## Ⅲ. [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) & [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-```
-V&V (Verification & Validation):
 
-Verification (검증, 확인):
-  "올바르게 만들었는가?"
-  스펙·설계 문서와의 일치 확인
-  
-  질문: "시스템이 요구사항 명세를 따르는가?"
-  
-  활동:
-  - 코드 리뷰 (설계 스펙 준수 확인)
-  - 단위/통합 테스트
-  - 정적 분석 (SAST)
-  - 인스펙션, 워크스루
-  
-  예: 결제 모듈이 API 명세서대로 구현됐나?
 
-Validation (타당성 확인):
-  "올바른 것을 만들었는가?"
-  실제 사용자 요구사항 충족 확인
-  
-  질문: "시스템이 사용자의 실제 필요를 만족하는가?"
-  
-  활동:
-  - 인수 테스트 (UAT)
-  - 사용자 피드백
-  - 베타 테스트
-  - 파일럿 운영
-  
-  예: 고객이 결제 흐름을 자연스럽게 쓸 수 있나?
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">V&amp;V (Verification &amp; Validation):</div>
+<div class="kb-diagram-note">Verification (검증, 확인):</div>
+<div class="kb-diagram-note">"올바르게 만들었는가?"</div>
+<div class="kb-diagram-note">스펙·설계 문서와의 일치 확인</div>
+<div class="kb-diagram-note">질문: "시스템이 요구사항 명세를 따르는가?"</div>
+<div class="kb-diagram-note">활동:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">코드 리뷰 (설계 스펙 준수 확인)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단위/통합 테스트</div>
+<div class="kb-diagram-tree-item" style="--depth:1">정적 분석 (SAST)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">인스펙션, 워크스루</div>
+<div class="kb-diagram-note">예: 결제 모듈이 API 명세서대로 구현됐나?</div>
+<div class="kb-diagram-note">Validation (타당성 확인):</div>
+<div class="kb-diagram-note">"올바른 것을 만들었는가?"</div>
+<div class="kb-diagram-note">실제 사용자 요구사항 충족 확인</div>
+<div class="kb-diagram-note">질문: "시스템이 사용자의 실제 필요를 만족하는가?"</div>
+<div class="kb-diagram-note">활동:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">인수 테스트 (UAT)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">사용자 피드백</div>
+<div class="kb-diagram-tree-item" style="--depth:1">베타 테스트</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파일럿 운영</div>
+<div class="kb-diagram-note">예: 고객이 결제 흐름을 자연스럽게 쓸 수 있나?</div>
+<div class="kb-diagram-note">V 모델 (V-Model):</div>
+<div class="kb-diagram-note">개발 테스트</div>
+<div class="kb-diagram-note">요구분석 → 인수 테스트 (UAT)</div>
+<div class="kb-diagram-note">시스템 설계 → 시스템 테스트</div>
+<div class="kb-diagram-note">아키텍처 → 통합 테스트</div>
+<div class="kb-diagram-note">상세 설계 → 단위 테스트</div>
+<div class="kb-diagram-note">구현 →→→→→→→→→→</div>
+<div class="kb-diagram-note">좌측 V: 개발(Verification)</div>
+<div class="kb-diagram-note">우측 V: 테스트(Validation)</div>
+</div>
+</div>
 
-V 모델 (V-Model):
 
-개발                  테스트
-요구분석    →    인수 테스트 (UAT)
-  ↓         ↑
-시스템 설계  →   시스템 테스트
-  ↓         ↑
-아키텍처    →   통합 테스트
-  ↓         ↑
-상세 설계   →   단위 테스트
-  ↓         ↑
-  구현  →→→→→→→→→→
-
-좌측 V: 개발(Verification)
-우측 V: 테스트(Validation)
-```
 
 > 📢 **섹션 요약 비유**: V&V는 설계도 검사+입주자 검사 — [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 집이 설계도대로 지어졌나(벽 두께, 전기 배선). [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/): 입주자가 실제로 살기 편한가!
 
@@ -221,57 +207,54 @@ V 모델 (V-Model):
 
 ## Ⅴ. 실무 시나리오 — 금융 앱 테스트 계획
 
-```
-모바일 뱅킹 앱 테스트 계획:
 
-환경:
-  Android 8~14, iOS 15~17
-  스테이징 서버 (실제와 동일 구성)
-  테스트 데이터 (가상 계좌)
 
-테스트 레벨별 계획:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모바일 뱅킹 앱 테스트 계획:</div>
+<div class="kb-diagram-note">환경:</div>
+<div class="kb-diagram-note">Android 8~14, iOS 15~17</div>
+<div class="kb-diagram-note">스테이징 서버 (실제와 동일 구성)</div>
+<div class="kb-diagram-note">테스트 데이터 (가상 계좌)</div>
+<div class="kb-diagram-note">테스트 레벨별 계획:</div>
+<div class="kb-diagram-note">1. 단위 테스트:</div>
+<div class="kb-diagram-note">범위: 이자 계산 로직, 암호화 함수</div>
+<div class="kb-diagram-note">담당: 개발자</div>
+<div class="kb-diagram-note">목표: 라인 커버리지 85%</div>
+<div class="kb-diagram-note">도구: JUnit 5 + Mockito</div>
+<div class="kb-diagram-note">2. 통합 테스트:</div>
+<div class="kb-diagram-note">범위: API 연동 (계좌 조회, 이체)</div>
+<div class="kb-diagram-note">담당: QA</div>
+<div class="kb-diagram-note">방법: API 레벨 테스트 (Postman)</div>
+<div class="kb-diagram-note">시나리오:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">정상 이체 (잔액 충분)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이체 실패 (잔액 부족)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">네트워크 단절 중 이체</div>
+<div class="kb-diagram-note">3. 시스템 테스트:</div>
+<div class="kb-diagram-note">범위: 전체 앱 기능</div>
+<div class="kb-diagram-note">주요 시나리오:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">로그인 → 잔액 조회 → 이체 → 거래 내역</div>
+<div class="kb-diagram-tree-item" style="--depth:1">생체인증(Face ID/지문) 로그인</div>
+<div class="kb-diagram-tree-item" style="--depth:1">5회 비밀번호 실패 → 계정 잠금</div>
+<div class="kb-diagram-tree-item" style="--depth:1">대용량 거래 내역 (10,000건) 페이징</div>
+<div class="kb-diagram-note">4. 성능 테스트:</div>
+<div class="kb-diagram-note">도구: JMeter</div>
+<div class="kb-diagram-note">목표: 1,000 동시 사용자, 응답 &lt; 3초</div>
+<div class="kb-diagram-note">5. 보안 테스트:</div>
+<div class="kb-diagram-note">OWASP Mobile Top 10</div>
+<div class="kb-diagram-note">침투 테스트 (외부 전문기업)</div>
+<div class="kb-diagram-note">6. 인수 테스트 (UAT):</div>
+<div class="kb-diagram-note">실제 은행 직원 + 고객 20명</div>
+<div class="kb-diagram-note">2주 베타 테스트</div>
+<div class="kb-diagram-note">합격 판정:</div>
+<div class="kb-diagram-note">P1 버그: 0개 (차단 결함 없음)</div>
+<div class="kb-diagram-note">P2 버그: 5개 이하 (작업 계획 포함)</div>
+<div class="kb-diagram-note">성능: P95 &lt; 3초</div>
+<div class="kb-diagram-note">커버리지: 85% 이상</div>
+</div>
+</div>
 
-1. 단위 테스트:
-   범위: 이자 계산 로직, 암호화 함수
-   담당: 개발자
-   목표: 라인 커버리지 85%
-   도구: JUnit 5 + Mockito
 
-2. 통합 테스트:
-   범위: API 연동 (계좌 조회, 이체)
-   담당: QA
-   방법: API 레벨 테스트 (Postman)
-   시나리오:
-   - 정상 이체 (잔액 충분)
-   - 이체 실패 (잔액 부족)
-   - 네트워크 단절 중 이체
-
-3. 시스템 테스트:
-   범위: 전체 앱 기능
-   주요 시나리오:
-   - 로그인 → 잔액 조회 → 이체 → 거래 내역
-   - 생체인증(Face ID/지문) 로그인
-   - 5회 비밀번호 실패 → 계정 잠금
-   - 대용량 거래 내역 (10,000건) 페이징
-
-4. 성능 테스트:
-   도구: JMeter
-   목표: 1,000 동시 사용자, 응답 < 3초
-
-5. 보안 테스트:
-   OWASP Mobile Top 10
-   침투 테스트 (외부 전문기업)
-
-6. 인수 테스트 (UAT):
-   실제 은행 직원 + 고객 20명
-   2주 베타 테스트
-
-합격 판정:
-  P1 버그: 0개 (차단 결함 없음)
-  P2 버그: 5개 이하 (작업 계획 포함)
-  성능: P95 < 3초
-  커버리지: 85% 이상
-```
 
 > 📢 **섹션 요약 비유**: 모바일 뱅킹 테스트 계획은 신차 출시 전 검사 — 엔진([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)), 부품 연결([통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)), 실도로 주행([시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)), 고객 시승(UAT). 단계마다 합격 기준!
 

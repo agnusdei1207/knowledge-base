@@ -19,22 +19,26 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-통신 엔지니어들의 평생의 과제인 **"어떻게 하면 데이터를 더 빨리 보낼까?"**에 대한 절대적인 해답 공식입니다.
+통신 엔지니어들의 평생의 과제인 <strong>"어떻게 하면 데이터를 더 빨리 보낼까?"</strong>에 대한 절대적인 해답 공식입니다.
 
 ### 샤논-하틀리 정리의 공식 🌟 (무조건 암기)
 $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
-- **C ([Channel Capacity](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/), [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/))**: 에러 없이 데이터를 전송할 수 있는 **최대 속도 한계치 (bps, [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) per Second)**.
-- **B ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: 도로의 폭 (주파수 범위, Hz 단위).
-- **S/N ([Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))**: [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기 $S$를 잡음의 세기 $N$으로 나눈 값).
+- <strong>C (<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">Channel Capacity</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/">채널 용량</a>)</strong>: 에러 없이 데이터를 전송할 수 있는 <strong>최대 속도 한계치 (bps, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> per Second)</strong>.
+- <strong>B (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>: 도로의 폭 (주파수 범위, Hz 단위).
+- <strong>S/N (<a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">Signal-to-Noise Ratio</a>, <a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">SNR</a>)</strong>: [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기 $S$를 잡음의 세기 $N$으로 나눈 값).
 
-```text
-[기저대역 선로 부호]
-    │
-    ▼
-[샤논-하틀리]
-    │
-    └──▶ [에일리어싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에일리어싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 샤논-하틀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,7 +50,7 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ### 1. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(B)을 무식하게 늘려라! (5G의 원리)
 - 식에서 $B$는 곱하기로 들어가 있습니다. $B$를 2배로 늘리면 속도 $C$도 정직하게 2배로 뻥튀기됩니다.
-- **실무 적용**: 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))에서 쓰던 좁은 2GHz 주파수 대역 대신, 5G에서는 아무도 안 쓰던 텅 빈 초광대역폭 **28GHz ([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))** 주파수 대역을 싹 다 끌어다 써서 도로의 폭(B)을 10배로 넓힌 것이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 속도의 핵심입니다.
+- **실무 적용**: 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))에서 쓰던 좁은 2GHz 주파수 대역 대신, 5G에서는 아무도 안 쓰던 텅 빈 초광대역폭 <strong>28GHz (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>)</strong> 주파수 대역을 싹 다 끌어다 써서 도로의 폭(B)을 10배로 넓힌 것이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 속도의 핵심입니다.
 
 ### 2. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(S)의 파워를 높여라! (송신 출력 증대)
 - 잡음(N) 속에서 내 목소리를 상대에게 들리게 하려면 소리(S)를 꽥 지르면 됩니다.
@@ -54,16 +58,20 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ### 3. 잡음(N)을 0으로 죽여버려라! (광케이블의 탄생)
 - 분모에 있는 잡음 $N$을 줄이면 전체 속도 $C$가 미친 듯이 올라갑니다.
-- **실무 적용**: 구리선은 옆 선의 전기가 침범([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 잡음)하고 열이 나서 노이즈(N)가 큽니다. 그래서 아예 빛을 쏘는 **유리관(광케이블)**을 만들어 전기적 잡음 $N$을 거의 0으로 만들어버렸더니, 속도(C)가 테라비트(Tbps) 단위로 폭발하게 된 것입니다.
+- **실무 적용**: 구리선은 옆 선의 전기가 침범([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 잡음)하고 열이 나서 노이즈(N)가 큽니다. 그래서 아예 빛을 쏘는 <strong>유리관(광케이블)</strong>을 만들어 전기적 잡음 $N$을 거의 0으로 만들어버렸더니, 속도(C)가 테라비트(Tbps) 단위로 폭발하게 된 것입니다.
 
-```text
-[기저대역 선로 부호]
-    │
-    ▼
-[샤논-하틀리]
-    │
-    └──▶ [에일리어싱]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에일리어싱</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 샤논-하틀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,7 +90,7 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 샤논-하틀리 법칙은 '고속도로에서 1시간에 차를 몇 대까지 통과시킬 수 있는가?'를 계산하는 절대 공식입니다. 차를 많이 통과시키려면(통신 속도 상승), 첫째, **도로 폭([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) B)**을 2차선에서 10차선으로 미친 듯이 넓히면 차가 5배 더 많이 지나갑니다([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)). 둘째, **안개와 먼지(잡음 N)**를 선풍기로 싹 날려버려 시야를 깨끗하게 만들면, 차들이 브레이크를 밟지 않고 쌩쌩 달려 통과량이 폭발합니다(노이즈 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 광케이블). 즉, 도로를 무작정 넓히거나 먼지를 치우는 물리적 한계에 부딪히면, 인류가 아무리 날고 기는 코딩(소프트웨어) 기술을 가져와도 그 고속도로의 최대 통행량([채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/))은 수학의 신이 정해둔 선을 절대 넘을 수 없다는 통신계의 절대 헌법입니다.
+- **📢 섹션 요약 비유**: 샤논-하틀리 법칙은 '고속도로에서 1시간에 차를 몇 대까지 통과시킬 수 있는가?'를 계산하는 절대 공식입니다. 차를 많이 통과시키려면(통신 속도 상승), 첫째, <strong>도로 폭(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> B)</strong>을 2차선에서 10차선으로 미친 듯이 넓히면 차가 5배 더 많이 지나갑니다([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)). 둘째, <strong>안개와 먼지(잡음 N)</strong>를 선풍기로 싹 날려버려 시야를 깨끗하게 만들면, 차들이 브레이크를 밟지 않고 쌩쌩 달려 통과량이 폭발합니다(노이즈 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 광케이블). 즉, 도로를 무작정 넓히거나 먼지를 치우는 물리적 한계에 부딪히면, 인류가 아무리 날고 기는 코딩(소프트웨어) 기술을 가져와도 그 고속도로의 최대 통행량([채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/))은 수학의 신이 정해둔 선을 절대 넘을 수 없다는 통신계의 절대 헌법입니다.
 
 ---
 
@@ -124,15 +132,19 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 기저대역 선로 부호]
-    │
-    ▼
-[현재 개념: 샤논-하틀리]
-    │
-    ├──▶ [확장 A: 에일리어싱]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기저대역 선로 부호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 샤논-하틀리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 에일리어싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 샤논-하틀리는 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) 선로 부호에서 출발해 현재 메커니즘을 정교화하고, 이후 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

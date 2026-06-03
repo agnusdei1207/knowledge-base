@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Huge Pages)는 현대 컴퓨터의 램(RAM) 용량이 기가/테라바이트 급으로 폭발함에 따라, 기존의 '4KB'라는 잘게 썬 깍두기 규격을 버리고 **2MB, 1GB 등 엄청나게 큰 통나무 규격으로 물리 메모리를 할당하고 매핑하는 기술**이다.
-> 2. **가치**: 하나의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 커버하는 면적이 수백 배 늘어나므로, **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 번역 캐시)가 커버할 수 있는 전체 메모리 영역이 극대화되어 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss'라는 치명적인 병목 현상을 완벽하게 박멸**하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수직 상승시킨다.
-> 3. **융합**: 하지만 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 필연적으로 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(공간 낭비)와 파편화에 따른 강제 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 낳기 때문에, OS가 백그라운드에서 눈치껏 합쳐주는 **THP(투명한 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))** 기능은 인메모리 DB([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)와 충돌하여 STW(시스템 멈춤)를 유발하는 실무 최고의 애증의 튜닝 포인트로 자리 잡았다.
+> 1. **본질**: 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Huge Pages)는 현대 컴퓨터의 램(RAM) 용량이 기가/테라바이트 급으로 폭발함에 따라, 기존의 '4KB'라는 잘게 썬 깍두기 규격을 버리고 <strong>2MB, 1GB 등 엄청나게 큰 통나무 규격으로 물리 메모리를 할당하고 매핑하는 기술</strong>이다.
+> 2. **가치**: 하나의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 커버하는 면적이 수백 배 늘어나므로, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(주소 번역 캐시)가 커버할 수 있는 전체 메모리 영역이 극대화되어 '<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> Miss'라는 치명적인 병목 현상을 완벽하게 박멸</strong>하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수직 상승시킨다.
+> 3. **융합**: 하지만 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 필연적으로 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(공간 낭비)와 파편화에 따른 강제 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 낳기 때문에, OS가 백그라운드에서 눈치껏 합쳐주는 <strong>THP(투명한 거대 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)</strong> 기능은 인메모리 DB([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 등)와 충돌하여 STW(시스템 멈춤)를 유발하는 실무 최고의 애증의 튜닝 포인트로 자리 잡았다.
 
 ---
 
@@ -23,28 +23,28 @@ tags = ["studynote-operating-system"]
 - **필요성**: 32비트 시절 4MB 램을 쓸 때는 4KB씩 썰어도 1,000조각이라 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(캐시)가 대충 감당이 됐다. 하지만 64비트 시대 256GB 램을 4KB로 썰면 조각이 무려 6,700만 개가 나온다. 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) DB가 10GB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번 스캔하면 수십만 장의 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 CPU를 스쳐 지나간다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시의 크기는 고작 1024칸(엔트리)인데 이 수십만 장의 주소를 어떻게 다 외울까? 결국 1초에도 수십만 번씩 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생해 CPU가 램을 뒤지느라 시스템이 뻗어버렸다. "조각 수를 줄여서 캐시 효율을 높이자!"는 간절한 외침이 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 탄생시켰다.
 
 - **등장 배경 및 아키텍처의 한계 돌파**:
-  1. **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 커버리지의 붕괴**: L1 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 방이 64개면, 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 환경에서는 고작 256KB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(커버)할 수 있다. 대용량 앱에게는 턱도 없는 크기다.
-  2. **[Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk의 공포**: 64비트는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)으로 램을 4번이나 연속해서 읽어야 한다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 한 번의 타격이 너무 뼈아프다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 커버리지의 붕괴</strong>: L1 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 방이 64개면, 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 환경에서는 고작 256KB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(커버)할 수 있다. 대용량 앱에게는 턱도 없는 크기다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Walk의 공포</strong>: 64비트는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)으로 램을 4번이나 연속해서 읽어야 한다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 한 번의 타격이 너무 뼈아프다.
   3. **Huge Page의 도약**: 4KB 대신 2MB(512배) 덩어리를 쓰면, 64개의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칸으로 무려 128MB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 커버할 수 있게 된다. 캐시 적중률이 기적처럼 99.9%로 치솟았다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        4KB 일반 페이지 vs 2MB Huge Page의 TLB 소모량 비교              │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ [ 상황: DB가 2MB짜리 덩어리 데이터를 순차적으로 읽으려 함 ]            │
-│                                                                        │
-│ ▶ 4KB Standard Page (표준)                                             │
-│    2MB / 4KB = 총 512개의 페이지 조각이 필요함.                        │
-│    결과: 이 데이터를 읽기 위해 귀한 TLB 방을 512칸이나 소모함!         │
-│         (TLB 캐시가 초토화되고 쫓겨난 다른 데이터들이 미스를 냄)       │
-│                                                                        │
-│ ▶ 2MB Huge Page (거대 페이지)                                          │
-│    2MB 데이터 전체가 딱 1개의 거대한 물리 프레임으로 묶여 있음.        │
-│    결과: TLB 방을 단 1칸만 소모하고도 2MB 전체를 커버함!               │
-│         (나머지 511칸의 TLB 여유 공간으로 다른 앱들도 쾌적하게 돎)     │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB 일반 페이지 vs 2MB Huge Page의 TLB 소모량 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: DB가 2MB짜리 덩어리 데이터를 순차적으로 읽으려 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4KB Standard Page (표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB / 4KB = 총 512개의 페이지 조각이 필요함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 이 데이터를 읽기 위해 귀한 TLB 방을 512칸이나 소모함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 캐시가 초토화되고 쫓겨난 다른 데이터들이 미스를 냄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2MB Huge Page (거대 페이지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB 데이터 전체가 딱 1개의 거대한 물리 프레임으로 묶여 있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: TLB 방을 단 1칸만 소모하고도 2MB 전체를 커버함!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(나머지 511칸의 TLB 여유 공간으로 다른 앱들도 쾌적하게 돎)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 존재 이유는 오직 하나, '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 번역 캐시) 아끼기'다. CPU 아키텍처 상 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칩셋의 크기를 물리적으로 키우는 것은 발열과 비용 문제로 한계가 있다. 따라서 칩셋을 키울 수 없으니 소프트웨어 쪽에서 짐([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))의 덩치를 키워, 하나의 캐시 엔트리가 커버하는 영토를 광활하게 넓혀버린 셈이다.
 
 - **📢 섹션 요약 비유**: 수백 명의 학생 이름을 선생님([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))이 일일이 다 외우려다 머리가 터졌는데, 아예 "1반, 2반, 3반"이라는 큰 묶음(거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 묶어버리니 선생님이 반 이름 3개만 외우고도 전교생을 완벽하게 통제할 수 있게 된 셈입니다.
@@ -57,24 +57,24 @@ tags = ["studynote-operating-system"]
 
 인텔 x86_64 아키텍처에서 2MB 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 만들 때, 하드웨어는 어떻게 작동할까?
 - 기존 4KB [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/): `PGD(1단계) -> PUD(2단계) -> PMD(3단계) -> PTE(4단계)`의 4번 연속된 장부 탐색을 거쳐야 한다.
-- **[Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)**: 3단계 장부인 **PMD([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Middle [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에서 PTE로 넘어가지 않고, 그냥 여기서 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 멈추고 냅다 2MB 물리 메모리를 다이렉트로 매핑**해버린다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 3단계 장부인 <strong>PMD(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Middle <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a>)에서 PTE로 넘어가지 않고, 그냥 여기서 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>를 멈추고 냅다 2MB 물리 메모리를 다이렉트로 매핑</strong>해버린다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              Huge Page 사용 시 다단계 페이징 트리 생략 아키텍처            │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│ [ 4KB 일반 페이지 (4번 램 읽음) ]                                          │
-│ PGD ──▶ PUD ──▶ PMD ──▶ PTE ──▶ [ 4KB 쪼가리 데이터 ]                      │
-│                                                                            │
-│ [ 2MB Huge Page (3번 램 읽음) ]                                            │
-│ PGD ──▶ PUD ──▶ PMD (🌟여기에 특수 비트를 켬!)                             │
-│                  └────▶ [ 2MB 거대 데이터 통짜 매핑 ]                      │
-│                                                                            │
-│ ✅ 이점 1: TLB 미스가 나도 램 읽는 횟수가 4번에서 3번으로 줄어듦.          │
-│ ✅ 이점 2: 수백 개의 PTE 장부 자체를 만들 필요가 없어 메모리가 크게 절약됨.│
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Huge Page 사용 시 다단계 페이징 트리 생략 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4KB 일반 페이지 (4번 램 읽음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4KB 쪼가리 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2MB Huge Page (3번 램 읽음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PGD ──▶ PUD ──▶ PMD (🌟여기에 특수 비트를 켬!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2MB 거대 데이터 통짜 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이점 1: TLB 미스가 나도 램 읽는 횟수가 4번에서 3번으로 줄어듦.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이점 2: 수백 개의 PTE 장부 자체를 만들 필요가 없어 메모리가 크게 절약됨.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 단순히 덩치만 커진 게 아니라, 장부 탐색 단계(Depth) 자체를 하드웨어적으로 한 단계 줄여버리는 흑마술이다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 1GB짜리 초거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Gigantic [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 쓴다면, PUD(2단계)에서 탐색을 멈춰버리고 램을 딱 2번만 읽은 뒤 1GB 영토를 통째로 던져준다. 이 물리적 트리의 절단이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화의 핵심 코어다.
 
@@ -82,8 +82,8 @@ tags = ["studynote-operating-system"]
 
 ### Transparent Huge Pages (THP: 투명한 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))
 
-과거(Explicit [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))에는 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터를 수정하고 C 언어에서 `mmap` 옵션을 줘가며 손수 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 만들었다(매우 번거로움). 이를 본 리눅스 진영은 2010년대에 **THP(Transparent Huge Pages)**라는 백그라운드 요정을 도입했다.
-- **작동 방식**: 사용자(프로그램)가 신경 쓰지 않아도(Transparent), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 백그라운드 데몬(`khugepaged`)이 눈치껏 램을 뒤져서 4KB짜리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 512개가 연속으로 모여있으면, **몰래 이 512개를 하나의 2MB 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 스윽 병합(Merge)**해준다.
+과거(Explicit [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))에는 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터를 수정하고 C 언어에서 `mmap` 옵션을 줘가며 손수 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 만들었다(매우 번거로움). 이를 본 리눅스 진영은 2010년대에 <strong>THP(Transparent Huge Pages)</strong>라는 백그라운드 요정을 도입했다.
+- **작동 방식**: 사용자(프로그램)가 신경 쓰지 않아도(Transparent), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 백그라운드 데몬(`khugepaged`)이 눈치껏 램을 뒤져서 4KB짜리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 512개가 연속으로 모여있으면, <strong>몰래 이 512개를 하나의 2MB 거대 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>로 스윽 병합(Merge)</strong>해준다.
 - **의도**: 개발자가 코드를 수정하지 않아도 서버에 깔기만 하면 알아서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수직 상승하는 마법의 옵션을 의도했다. (하지만 이 요정은 훗날 최악의 악마가 된다.)
 
 - **📢 섹션 요약 비유**: 옛날엔 거대한 짐을 부치려면 구청에 가서 대형 화물 스티커를 발급받아야(수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 했지만, THP를 켜두면 택배 아저씨가 눈치껏 작은 상자들을 모아 거대한 박스로 재포장해서(자동 병합) 알아서 배송 속도를 높여주는 편리한 자동화 시스템입니다.
@@ -98,10 +98,10 @@ tags = ["studynote-operating-system"]
 
 | 관점 | 단점 (패널티) | 이유 |
 |:---|:---|:---|
-| **메모리 낭비 ([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))**| **치명적 낭비 발생** | 앱이 고작 100KB만 필요한데도 2MB 통짜 방을 내어주어 1.9MB의 물리 램이 버려짐 (OOM의 주원인). |
-| **파편화 저항성 ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))**| **할당 실패율 극상** | 2MB짜리 '연속된 빈 공간'을 찾아야 하므로 가변 분할 시절의 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 악몽이 그대로 부활함. |
-| **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합** | **멀티스레드 병목** | 2MB 덩어리 하나에 여러 쓰레드가 동시에 쓰기를 시도하면, 거대한 락이 걸려 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Contention)이 터짐. |
-| **디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | **I/O 블로킹** | 램이 모자라서 2MB를 디스크로 내쫓으려 하면, 4KB 스왑보다 수백 배의 시간이 걸려 시스템이 마비됨 (이래서 Huge Page는 스왑을 안 함). |
+| <strong>메모리 낭비 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>)</strong>| **치명적 낭비 발생** | 앱이 고작 100KB만 필요한데도 2MB 통짜 방을 내어주어 1.9MB의 물리 램이 버려짐 (OOM의 주원인). |
+| <strong>파편화 저항성 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>)</strong>| **할당 실패율 극상** | 2MB짜리 '연속된 빈 공간'을 찾아야 하므로 가변 분할 시절의 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 악몽이 그대로 부활함. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 경합</strong> | **멀티스레드 병목** | 2MB 덩어리 하나에 여러 쓰레드가 동시에 쓰기를 시도하면, 거대한 락이 걸려 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Contention)이 터짐. |
+| <strong>디스크 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | **I/O 블로킹** | 램이 모자라서 2MB를 디스크로 내쫓으려 하면, 4KB 스왑보다 수백 배의 시간이 걸려 시스템이 마비됨 (이래서 Huge Page는 스왑을 안 함). |
 
 ### THP (투명 병합) vs 수동 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)
 
@@ -109,18 +109,21 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **구현 방식** | OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드에서 동적으로 뭉치고 쨈 | 부팅 시점에 아예 2MB 방을 영구적으로 할당해 놓음 |
 | **장점** | 레거시 앱 코드 수정 없이 즉시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 빔 맞음 | 완벽한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장, 런타임 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter) 절대 없음 |
-| **단점 (최악)**| 뭉치려고 **조각모음([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))**을 돌려 렉 유발 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 까다롭고, 지정한 만큼 다른 앱이 램을 못 씀 |
+| **단점 (최악)**| 뭉치려고 <strong>조각모음(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)</strong>을 돌려 렉 유발 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 까다롭고, 지정한 만큼 다른 앱이 램을 못 씀 |
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────┐
-│ 환경       │ TLB 적중률   │ 단편화 민감도 │ OOM(메모리 부족) 위험│
-├──────────┼────────────┼────────────┼─────────────────────────────┤
-│ 4KB 표준   │ 🔴 보통~나쁨 │ 🟢 둔감 (안전)│ 🟢 낮음              │
-│ 2MB 수동   │ 🟢 극강     │ 🔴 매우 민감  │ 🔴 높음 (선점됨)      │
-│ THP (자동) │ 🟡 들쭉날쭉  │ ☠️ 지옥 (STW) │ ☠️ 매우 높음         │
-└──────────┴────────────┴────────────┴─────────────────────────────┘
-```
-**[매트릭스 해설]** THP는 이론상으론 훌륭했지만, 현실 세계의 램은 깨끗하게 유지되지 않는다. 램이 더러운(파편화된) 상태에서 THP가 "2MB 덩어리를 억지로 만들겠다"고 설치기 시작하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 사용 중인 앱들을 일시 정지시키고 메모리를 한쪽으로 싹 미는 **[Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(직접 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))**을 돌려버린다. 이때 서버가 1~2초씩 뻗는 대재앙이 터진다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">TLB 적중률</div><div class="kb-diagram-cell">단편화 민감도</div><div class="kb-diagram-cell">OOM(메모리 부족) 위험</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB 표준</div><div class="kb-diagram-cell">🔴 보통~나쁨</div><div class="kb-diagram-cell">🟢 둔감 (안전)</div><div class="kb-diagram-cell">🟢 낮음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB 수동</div><div class="kb-diagram-cell">🟢 극강</div><div class="kb-diagram-cell">🔴 매우 민감</div><div class="kb-diagram-cell">🔴 높음 (선점됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">THP (자동)</div><div class="kb-diagram-cell">🟡 들쭉날쭉</div><div class="kb-diagram-cell">☠️ 지옥 (STW)</div><div class="kb-diagram-cell">☠️ 매우 높음</div></div>
+</div>
+</div>
+
+
+**[매트릭스 해설]** THP는 이론상으론 훌륭했지만, 현실 세계의 램은 깨끗하게 유지되지 않는다. 램이 더러운(파편화된) 상태에서 THP가 "2MB 덩어리를 억지로 만들겠다"고 설치기 시작하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 사용 중인 앱들을 일시 정지시키고 메모리를 한쪽으로 싹 미는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>(직접 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>)</strong>을 돌려버린다. 이때 서버가 1~2초씩 뻗는 대재앙이 터진다.
 
 - **📢 섹션 요약 비유**: 내 발에 딱 맞는 맞춤 신발(4KB)을 버리고, 발이 커질 걸 대비해 300mm짜리 초대형 장화([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 신었더니, 뛰기는 편하지만([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/)) 장화 안에서 발이 헛돌아 물집이 잡히고(내부 낭비), 좁은 골목길(메모리 파편화)에서는 아예 걸을 수조차 없는 부작용을 낳은 것입니다.
 
@@ -132,7 +135,7 @@ tags = ["studynote-operating-system"]
 1. **서버의 절규**: 잘 돌아가던 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)(인메모리 캐시) 서버 응답 속도가 며칠에 한 번씩 수십~수백 밀리초 단위로 튄다([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes). 고객 불만이 폭주한다.
 2. **원인 분석**:
    - Redis는 4KB, 8KB 등 자잘한 메모리를 수시로 만들고 버리는 구조다.
-   - 그런데 리눅스에 켜진 **THP(투명 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))** 데몬이 "내가 최적화해줄게!"라며 이 자잘한 4KB들을 억지로 모아 2MB 덩어리로 묶어버렸다.
+   - 그런데 리눅스에 켜진 <strong>THP(투명 거대 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)</strong> 데몬이 "내가 최적화해줄게!"라며 이 자잘한 4KB들을 억지로 모아 2MB 덩어리로 묶어버렸다.
    - Redis가 4KB만 쓰려고 했는데 2MB 덩어리에 Lock이 걸리고, 백그라운드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))이 돌면서 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 프로세스가 통째로 멈췄다 (Stop-The-World).
 3. **엔지니어의 철퇴**:
    - 전 세계의 모든 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), [In-Memory DB](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/) 벤더([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), Couchbase)들의 공식 설치 매뉴얼 1페이지에는 붉은색 글씨로 이렇게 적혀있다.
@@ -152,8 +155,8 @@ Java 기반의 대규모 스프링(Spring) 서버는 부팅 시 수 GB의 힙을
 
 | 구분 | 내용 |
 |:---|:---|
-| **[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)) 오버헤드 박멸** | 게스트와 호스트 간 2차원 매핑 시 폭증하는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 페널티를, 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 매핑으로 억눌러 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 베어메탈(Bare-metal) 수준으로 끌어올림 |
-| **[Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 메모리 절약** | 1GB의 장부를 유지하기 위해 4MB를 썼던 4KB 체제와 달리, 수 KB의 장부만으로 테라바이트 공간을 관리하는 공간 혁명 창출 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>) 오버헤드 박멸</strong> | 게스트와 호스트 간 2차원 매핑 시 폭증하는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 페널티를, 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 매핑으로 억눌러 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 베어메탈(Bare-metal) 수준으로 끌어올림 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> 메모리 절약</strong> | 1GB의 장부를 유지하기 위해 4MB를 썼던 4KB 체제와 달리, 수 KB의 장부만으로 테라바이트 공간을 관리하는 공간 혁명 창출 |
 | **I/O 병목 해소 및 DB 가속**| 초대형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트를 순차 스캔(Sequential Scan)하는 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 시스템에서 캐시 미스를 0에 가깝게 수렴시킴 |
 
 ### 결론 및 미래 전망
@@ -175,15 +178,19 @@ Java 기반의 대규모 스프링(Spring) 서버는 부팅 시 수 GB의 힙을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파편화 관리 및 조각 모음]
-    │
-    ▼
-[거대 페이지 (Huge Pages / Transparent Huge Pages)]
-    │
-    ├──▶ [아키텍처 종속적인 MMU 인터페이스]
-    └──▶ [ARM / x86의 메모리 매핑 아키텍처 차이]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파편화 관리 및 조각 모음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

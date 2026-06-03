@@ -26,30 +26,28 @@ tags = ["studynote-devops-sre"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드의 핵심 메커니즘은 **작업 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Scheduling)** 과 **동적 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Dynamic Scaling)** 의 결합이다. 현대의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구들은 고정된 서버를 유지하지 않고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술을 활용해 빌드가 필요한 순간에만 워커를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Ephemeral)한다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드의 핵심 메커니즘은 <strong>작업 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Scheduling)</strong> 과 <strong>동적 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a>(Dynamic Scaling)</strong> 의 결합이다. 현대의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구들은 고정된 서버를 유지하지 않고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 기술을 활용해 빌드가 필요한 순간에만 워커를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Ephemeral)한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Kubernetes 기반 동적 분산 빌드 아키텍처                   │
-├──────────────────────────────────────────────────────────────┤
-│ [Git Repository] ──(Webhook)──▶ [CI Master / Controller]     │
-│                                       │ (작업 분배 및 조율)      │
-│                                       ▼                      │
-│                ┌────────────────────────────────────┐        │
-│                │      Kubernetes Cluster (Node)     │        │
-│                │                                    │        │
-│ Task 분할 ──▶  │  [Pod Worker 1] ─▶ 단위 테스트 1~100  │        │
-│ (Matrix)       │  [Pod Worker 2] ─▶ 단위 테스트 101~200│        │
-│                │  [Pod Worker 3] ─▶ 정적 분석 (Lint)   │        │
-│                └────────────────────────────────────┘        │
-│                                       │                      │
-│ 빌드 완료 후 자동 소멸 (Ephemeral) ◀──┴──▶ [Artifact Storage]  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-1. **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 및 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)**: 코드가 푸시되면 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터가 K8s API를 호출하여 필요한 워커 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 필요한 개수만큼 즉시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes 기반 동적 분산 빌드 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI Master / Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(작업 분배 및 조율)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Cluster (Node)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod Worker 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">단위 테스트 1~100 │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(Matrix)</div><div class="kb-diagram-node">Pod Worker 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">단위 테스트 101~200│</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Pod Worker 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">정적 분석 (Lint) │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Artifact Storage</div></div>
+</div>
+</div>
+
+
+
+1. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 및 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>: 코드가 푸시되면 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터가 K8s API를 호출하여 필요한 워커 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 필요한 개수만큼 즉시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 2. **매트릭스 빌드 (Matrix Build)**: OS 다변화, 브라우저 다변화, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 분할 등 작업을 독립적인 단위로 쪼개어 각각의 워커에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 던진다.
-3. **산출물 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 워커들이 만들어낸 결과물(바이너리, 테스트 리포트)은 중앙 스토리지(S3, Nexus 등)로 모아 하나로 병합한 뒤, 워커 노드는 즉시 삭제된다.
+3. <strong>산출물 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 워커들이 만들어낸 결과물(바이너리, 테스트 리포트)은 중앙 스토리지(S3, Nexus 등)로 모아 하나로 병합한 뒤, 워커 노드는 즉시 삭제된다.
 
 - **📢 섹션 요약 비유**: 배달 주문이 밀려올 때만 오토바이 라이더(워커 노드)들을 단기 호출앱으로 부르고, 배달이 끝나면 바로 퇴근시켜 고정 인건비(클라우드 유지비)를 0으로 만드는 시스템이다.
 
@@ -61,9 +59,9 @@ tags = ["studynote-devops-sre"]
 | 항목 | 단일 빌드 ([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드 ([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) |
 | :--- | :--- | :--- |
 | **확장 방식** | 단일 빌드 서버의 CPU, RAM [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높임 | **작업을 수행하는 노드 개수를 늘림** |
-| **병목 지점** | 물리적 하드웨어 한계에 부딪힘 | **[마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)의 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 부하, 네트워크** |
-| **비용 효율** | 유휴 시간(새벽 등)에도 서버 유지 비용 발생 | K8s 동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 시 **유휴 비용 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)** |
-| **보안 및 격리** | 이전 빌드의 찌꺼기(캐시)가 다음 빌드 오염 가능 | **일회성(Ephemeral) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)**로 완벽히 격리 |
+| **병목 지점** | 물리적 하드웨어 한계에 부딪힘 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/">마스터 노드</a>의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링 부하, 네트워크</strong> |
+| **비용 효율** | 유휴 시간(새벽 등)에도 서버 유지 비용 발생 | K8s 동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 시 <strong>유휴 비용 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a></strong> |
+| **보안 및 격리** | 이전 빌드의 찌꺼기(캐시)가 다음 빌드 오염 가능 | <strong>일회성(Ephemeral) <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong>로 완벽히 격리 |
 | **복잡도** | 매우 단순함 | 네트워크 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 캐시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 관리 로직 필요 |
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축 난이도가 높고, 각 워커가 필요한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 매번 새로 다운로드해야 하므로 '네트워크 오버헤드'라는 새로운 단점이 생긴다. 이를 보완하기 위해 워커 노드와 가까운 곳에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 (Distributed Cache) 서버를 두는 것이 필수적으로 연결된다.
@@ -73,11 +71,11 @@ tags = ["studynote-devops-sre"]
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-엔터프라이즈 환경에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드를 설계할 때 가장 중요한 것은 **클라우드 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 최적화**와 **빌드 안정성 확보**다.
+엔터프라이즈 환경에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드를 설계할 때 가장 중요한 것은 <strong>클라우드 비용(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>) 최적화</strong>와 <strong>빌드 안정성 확보</strong>다.
 
-1. **[스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)) 적극 활용**:
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">스팟 인스턴스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a>) 적극 활용</strong>:
    - 빌드 작업은 중간에 서버가 죽어도 다시 실행하면 그만인 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 작업이다. 따라서 정가보다 70~90% 저렴한 AWS Spot Instance나 GCP Preemptible VM을 워커 노드 풀(Pool)로 활용하는 것이 기술사의 핵심 설계 포인트다.
-2. **캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 수립**:
+2. <strong>캐시 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>) 수립</strong>:
    - 수십 대의 워커 노드가 매번 npm, Maven 패키지를 인터넷에서 받아오면 빌드보다 다운로드 시간이 더 걸린다. ECR, S3 엔드포인트나 사내 Nexus [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 같은 가용 영역(AZ)에 배치하여 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)을 없애야 한다.
 
 **기술사 판단 포인트**: 
@@ -99,28 +97,31 @@ tags = ["studynote-devops-sre"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **Ephemeral [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) (일회성 환경)** | 빌드가 끝난 즉시 워커 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 삭제하여, 찌꺼기에 의한 빌드 오염을 방지하는 보안/격리 개념 |
+| <strong>Ephemeral <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a> (일회성 환경)</strong> | 빌드가 끝난 즉시 워커 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 삭제하여, 찌꺼기에 의한 빌드 오염을 방지하는 보안/격리 개념 |
 | **Matrix Build (매트릭스 빌드)** | 다양한 OS, 브라우저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 조합하여 수십 개의 독립된 단위로 빌드를 쪼개 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행하는 기법 |
-| **[스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) ([Spot Instance](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/))** | 언제든 회수될 수 있지만 매우 저렴한 클라우드 자원으로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드 워커 노드 구성 시 비용 최적화의 핵심 |
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 (Distributed Cache)** | 워커 노드가 흩어져 있을 때 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 및 빌드 산출물을 빠르게 공유하기 위한 네트워크 최적화 장치 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">스팟 인스턴스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/">Spot Instance</a>)</strong> | 언제든 회수될 수 있지만 매우 저렴한 클라우드 자원으로, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 빌드 워커 노드 구성 시 비용 최적화의 핵심 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 캐시 (Distributed Cache)</strong> | 워커 노드가 흩어져 있을 때 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 및 빌드 산출물을 빠르게 공유하기 위한 네트워크 최적화 장치 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-단일 CI 서버 (Scale-up)
-(Jenkins Master 독점 빌드, 병목 발생)
-    │
-    ▼
-마스터-워커 분리 (Master-Worker Architecture)
-(정적 워커 노드 할당, 자원 낭비 존재)
-    │
-    ▼
-동적 프로비저닝 기반 분산 빌드 (Dynamic Scaling)
-(K8s 기반 일회성 파드 생성 및 자동 삭제)
-    │
-    ▼
-서버리스 / 스팟 인스턴스 결합 (Serverless & Spot)
-(초저비용 무제한 수평 확장 파이프라인)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 CI 서버 (Scale-up)</div>
+<div class="kb-diagram-note">(Jenkins Master 독점 빌드, 병목 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마스터-워커 분리 (Master-Worker Architecture)</div>
+<div class="kb-diagram-note">(정적 워커 노드 할당, 자원 낭비 존재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동적 프로비저닝 기반 분산 빌드 (Dynamic Scaling)</div>
+<div class="kb-diagram-note">(K8s 기반 일회성 파드 생성 및 자동 삭제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버리스 / 스팟 인스턴스 결합 (Serverless &amp; Spot)</div>
+<div class="kb-diagram-note">(초저비용 무제한 수평 확장 파이프라인)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 학교 숙제 100문제를 혼자 풀면 밤을 새워야 해서 너무 힘들어요.

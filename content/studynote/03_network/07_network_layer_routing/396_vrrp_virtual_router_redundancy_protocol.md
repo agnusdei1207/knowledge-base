@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))인 기본 게이트웨이의 가용성을 높이기 위해, 여러 대의 라우터를 논리적인 하나의 가상 라우터로 묶어 동작하게 하는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (RFC 3768, IPv6용은 5798). [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.18` ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 112)을 사용한다.
-- **필요성**: 회사 네트워크를 이중화하려고 라우터를 두 대 샀다. 한 대는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 한 대는 주니퍼(Juniper) 장비다. HSRP를 켜려고 하니 주니퍼 장비가 "난 [HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) 뭔지 모르는데?"라며 파업을 선언했다. **"아놔, 기계 제조사가 달라도 공통으로 알아먹고 이중화를 구성할 수 있는 범용 언어(표현 규약)가 필요하네!"**라는 시장의 절실한 요구가 VRRP를 업계 1짱으로 만들었다.
+- **필요성**: 회사 네트워크를 이중화하려고 라우터를 두 대 샀다. 한 대는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 한 대는 주니퍼(Juniper) 장비다. HSRP를 켜려고 하니 주니퍼 장비가 "난 [HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/) 뭔지 모르는데?"라며 파업을 선언했다. <strong>"아놔, 기계 제조사가 달라도 공통으로 알아먹고 이중화를 구성할 수 있는 범용 언어(표현 규약)가 필요하네!"</strong>라는 시장의 절실한 요구가 VRRP를 업계 1짱으로 만들었다.
 
 - **💡 비유**: 
-  - **[HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/)**: 삼성전자 직원들끼리만 사용하는 **"사내 전용 결재 시스템"**입니다. 외부 협력사는 접속도 못 하고 결재도 올릴 수 없습니다.
-  - **VRRP**: 구글 닥스나 PDF처럼 전 세계 누구나 읽고 편집할 수 있는 **"국제 표준 결재 양식"**입니다. 삼성 직원이 올린 문서를 LG 직원이 승인([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 승계)할 수 있는 완벽한 호환성을 자랑합니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/">HSRP</a></strong>: 삼성전자 직원들끼리만 사용하는 <strong>"사내 전용 결재 시스템"</strong>입니다. 외부 협력사는 접속도 못 하고 결재도 올릴 수 없습니다.
+  - **VRRP**: 구글 닥스나 PDF처럼 전 세계 누구나 읽고 편집할 수 있는 <strong>"국제 표준 결재 양식"</strong>입니다. 삼성 직원이 올린 문서를 LG 직원이 승인([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 승계)할 수 있는 완벽한 호환성을 자랑합니다.
 
-```text
-[HSRP]
-    │
-    ▼
-[VRRP]
-    │
-    └──▶ [GLBP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HSRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VRRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GLBP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** VRRP는 스마트폰의 **"USB-C 타입 충전 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)"**와 같습니다. 옛날엔 애플 폰, 삼성 폰마다 충전기([HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/), NSRP)가 다 달라서 낭비가 심했지만, 지금은 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 하나(VRRP)로 모든 회사의 장비가 권력(Master)을 공유하며 안정적으로 배터리를 채웁니다.
 
@@ -45,37 +49,38 @@ tags = ["studynote-network"]
 
 ### 1. 용어의 차이 (Master vs [Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))
 - **Master 라우터**: 가상 IP(Virtual IP)의 권력을 쥐고 PC들이 보내는 모든 패킷을 처리하는 진짜 일꾼. (HSRP의 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)).
-- **[Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 라우터**: Master가 1초마다 보내는 Hello 패킷을 엿들으며 숨죽이고 대기하다가, 3초(Master Down Interval) 동안 소식이 없으면 "대장 죽었다!"라고 선언하고 자신이 Master로 승격하는 대기조. (HSRP의 Standby).
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> 라우터</strong>: Master가 1초마다 보내는 Hello 패킷을 엿들으며 숨죽이고 대기하다가, 3초(Master Down Interval) 동안 소식이 없으면 "대장 죽었다!"라고 선언하고 자신이 Master로 승격하는 대기조. (HSRP의 Standby).
 
 ### 2. 가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 규격
 Master가 죽고 Backup이 올라왔을 때, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블)를 속이기 위해 G-ARP를 쏘며 덮어쓰는 그 가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 규격이다.
 - [HSRP](/knowledge-base/studynote/03_network/07_network_layer_routing/395_hsrp_fhrp_router_redundancy/): `0000.0c07.acXX`
-- **VRRP**: **`0000.5e00.01XX`** (마지막 XX는 01부터 FF까지의 그룹 번호다). 
+- **VRRP**: <strong><code>0000.5e00.01XX</code></strong> (마지막 XX는 01부터 FF까지의 그룹 번호다). 
 - 와이어샤크(Wireshark)에서 패킷을 떴을 때 저 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 보이면 1초 만에 "아, 이 망은 VRRP 돌고 있네!"라고 알 수 있어야 한다.
 
 ### 3. 진짜 IP를 가상 IP로 쓰는 마법 (Owner)
 VRRP만의 독특한 기능이다.
 - A 라우터(물리 IP `10.1.1.254`), B 라우터(물리 IP `10.1.1.253`).
 - HSRP는 무조건 제3의 가상 IP(`10.1.1.1`)를 파야 해서 동네 IP가 총 3개 소모된다.
-- VRRP는 **"A 라우터의 진짜 물리 IP인 `10.1.1.254` 자체를 이 그룹의 가상 IP로 쓰자!"**라고 설정할 수 있다.
-- 이렇게 자기 물리 IP를 가상 IP로 제공한 놈을 **'IP Address Owner(주인)'**라고 부르며, 주인은 선거 점수(Priority)가 강제로 **최고점인 255점**으로 픽스되어 무조건 영원한 Master로 군림하게 된다.
+- VRRP는 <strong>"A 라우터의 진짜 물리 IP인 <code>10.1.1.254</code> 자체를 이 그룹의 가상 IP로 쓰자!"</strong>라고 설정할 수 있다.
+- 이렇게 자기 물리 IP를 가상 IP로 제공한 놈을 <strong>'IP Address Owner(주인)'</strong>라고 부르며, 주인은 선거 점수(Priority)가 강제로 <strong>최고점인 255점</strong>으로 픽스되어 무조건 영원한 Master로 군림하게 된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                HSRP vs VRRP 실무 비교표 (핵심 요약)               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 항목 ]              [ HSRP (Cisco) ]    [ VRRP (표준) ]    │
- │   --------------------------------------------------------- │
- │   소속 (벤더)            시스코 독점          IEEE 개방형 표준     │
- │   역할 명칭              Active / Standby   Master / Backup   │
- │   멀티캐스트 주소        224.0.0.2          224.0.0.18        │
- │   Hello 주기            3초 (Hold 10초)     1초 (Hold 3초)     │
- │   가상 MAC 주소         0000.0c07.acXX     0000.5e00.01XX    │
- │   가상 IP = 물리 IP     불가 (무조건 딴 거)    가능 (Owner 개념)   │
- │   Preempt (권력찬탈)     기본 OFF (수동 켬)    기본 ON (자동 뺏음)  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HSRP vs VRRP 실무 비교표 (핵심 요약)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">항목</div><div class="kb-diagram-node">HSRP (Cisco)</div><div class="kb-diagram-node">VRRP (표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소속 (벤더) 시스코 독점 IEEE 개방형 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할 명칭 Active / Standby Master / Backup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티캐스트 주소 224.0.0.2 224.0.0.18</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hello 주기 3초 (Hold 10초) 1초 (Hold 3초)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 MAC 주소 0000.0c07.acXX 0000.5e00.01XX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 IP = 물리 IP 불가 (무조건 딴 거) 가능 (Owner 개념)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preempt (권력찬탈) 기본 OFF (수동 켬) 기본 ON (자동 뺏음)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** VRRP는 HSRP라는 명작 영화의 **"글로벌 리메이크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)"**입니다. 스토리 라인과 연출 기법(동작 원리)은 소름 돋게 똑같지만, 주연 배우의 이름(Master)을 세계적으로 친숙한 이름으로 바꾸고 넷플릭스(오픈 표준)를 통해 전 세계 어느 나라(벤더)에서든 제약 없이 틀어볼 수 있게 만들었습니다.
 
@@ -133,15 +138,19 @@ VRRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HSRP]
-    │
-    ▼
-[현재 개념: VRRP]
-    │
-    ├──▶ [확장 A: GLBP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HSRP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VRRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GLBP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 VRRP는 HSRP에서 출발해 현재 메커니즘을 정교화하고, 이후 GLBP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

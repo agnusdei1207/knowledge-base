@@ -11,7 +11,7 @@ tags = ["studynote-algorithm"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 모든 노드에 대해 '왼쪽 서브트리 < 루트 < 오른쪽 서브트리'의 크기 관계를 유지하여 탐색 효율을 극대화한 자료구조다.
-> 2. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특징**: 평균적으로 O(log n)의 탐색/삽입/삭제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한쪽으로 치우쳐 편향 트리(Skewed Tree)가 될 경우 O(n)으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다.
+> 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 특징</strong>: 평균적으로 O(log n)의 탐색/삽입/삭제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한쪽으로 치우쳐 편향 트리(Skewed Tree)가 될 경우 O(n)으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다.
 > 3. **활용 가치**: 정렬된 상태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하면서 동적인 삽입/삭제가 빈번한 환경에서 기본이 되는 탐색 트리 모델이다.
 
 ---
@@ -23,18 +23,22 @@ tags = ["studynote-algorithm"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-```text
-       [ 50 ] (Root)             <-- Property: Left < Root < Right
-       /    \
-     [30]   [70]                 [BST Architecture]
-     /  \    /  \                - Left Node  : Smaller than Parent
-   [20] [40][60][80]             - Right Node : Larger than Parent
 
-   [Search Process for '60']     [In-order Traversal Result]
-   1. 60 > 50 -> Go Right        20 -> 30 -> 40 -> 50 -> 60 -> 70 -> 80
-   2. 60 < 70 -> Go Left         (Always Sorted in Ascending Order)
-   3. Found 60!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Property: Left &lt; Root &lt; Right</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">30</div><div class="kb-diagram-node">70</div><div class="kb-diagram-node">BST Architecture</div></div>
+<div class="kb-diagram-note">/ \ / \ - Left Node : Smaller than Parent</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20</div><div class="kb-diagram-node">40</div><div class="kb-diagram-node">60</div><div class="kb-diagram-node">80</div><div class="kb-diagram-note">- Right Node : Larger than Parent</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Search Process for '60'</div><div class="kb-diagram-node">In-order Traversal Result</div></div>
+<div class="kb-diagram-note">1. 60 &gt; 50 -&gt; Go Right 20 -&gt; 30 -&gt; 40 -&gt; 50 -&gt; 60 -&gt; 70 -&gt; 80</div>
+<div class="kb-diagram-note">2. 60 &lt; 70 -&gt; Go Left (Always Sorted in Ascending Order)</div>
+<div class="kb-diagram-note">3. Found 60!</div>
+</div>
+</div>
+
+
 
 **핵심 메커니즘:**
 1. **탐색(Search):** 루트부터 시작하여 찾고자 하는 값이 현재 노드보다 작으면 왼쪽, 크면 오른쪽으로 이동한다.
@@ -47,15 +51,15 @@ tags = ["studynote-algorithm"]
 
 | 구분 | 일반 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) ([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) | [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리 (BST) | 균형 탐색 트리 (AVL/RB) |
 |:---|:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서** | 규칙 없음 | 고정된 크기 규칙 (L < P < R) | 크기 규칙 + 높이 균형 규칙 |
-| **[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (평균)** | O(n) | **O(log n)** | O(log n) |
-| **[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (최악)** | O(n) | **O(n)** (편향 시) | **O(log n)** (항상 유지) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 순서</strong> | 규칙 없음 | 고정된 크기 규칙 (L < P < R) | 크기 규칙 + 높이 균형 규칙 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (평균)</strong> | O(n) | **O(log n)** | O(log n) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (최악)</strong> | O(n) | **O(n)** (편향 시) | **O(log n)** (항상 유지) |
 | **주요 용도** | 계층 구조 표현 | 기본 탐색 자료구조 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), STL map/set |
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 빠른 검색이 필요할 때 유리하다. 그러나 실제 운영 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 순서대로 들어올 경우 트리가 일직선으로 길어지는 **편향(Skewed)** 문제가 발생하여 연결 리스트와 다를 바 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이게 된다. 따라서 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 입력 순서를 보장할 수 없다면 AVL 트리나 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)와 같은 **자가 균형 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리(Self-Balancing BST)**를 사용하는 것이 기술사적 판단으로 적절하다.
+BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 빠른 검색이 필요할 때 유리하다. 그러나 실제 운영 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정렬된 순서대로 들어올 경우 트리가 일직선으로 길어지는 **편향(Skewed)** 문제가 발생하여 연결 리스트와 다를 바 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이게 된다. 따라서 실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 입력 순서를 보장할 수 없다면 AVL 트리나 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)와 같은 <strong>자가 균형 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a> 트리(Self-Balancing BST)</strong>를 사용하는 것이 기술사적 판단으로 적절하다.
 
 ---
 
@@ -67,32 +71,34 @@ BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **부모 자료구조**: [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/) ([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/))
 - **자식 자료구조**: AVL 트리, [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/), 2-3 트리
-- **관련 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 중위 순회 (In-order Traversal)
+- <strong>관련 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 중위 순회 (In-order Traversal)
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선형 탐색(O(n))]
-    │
-    ▼
-[이진 탐색(정렬 배열)]
-    │
-    ▼
-[BST — 좌/우 자식으로 분기]
-    │
-    ▼
-[AVL/Red-Black Tree — 균형 유지]
-    │
-    ▼
-[B-Tree — 디스크 인덱스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선형 탐색(O(n))</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색(정렬 배열)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BST — 좌/우 자식으로 분기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AVL/Red-Black Tree — 균형 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree — 디스크 인덱스</div></div>
+</div>
+</div>
+
+
 
 BST는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)의 아이디어를 트리로 확장해 균형 트리와 B-트리로 발전한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리는 번호표대로 책을 정리하는 **똑똑한 도서관 선반**과 같아요.
+1. [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리는 번호표대로 책을 정리하는 <strong>똑똑한 도서관 선반</strong>과 같아요.
 2. 찾으려는 번호보다 작은 책은 왼쪽 칸에, 큰 책은 오른쪽 칸에 두어서 금방 찾을 수 있죠.
 3. 하지만 책을 한쪽으로만 계속 쌓으면 선반이 길어져서 찾기 힘드니 조심해야 해요!
 

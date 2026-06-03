@@ -12,25 +12,27 @@ tags = ["studynote-database"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ERD 표기법은 엔터티·[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)·관계를 시각적으로 표현하는 규칙이며, **IE(Information Engineering, 까마귀발)·Barker(원·실선)·IDEF1X(국방 표준)** 3가지가 대표적이다.
 > 2. **가치**: 표기법을 통일하지 않으면 같은 모델을 팀원마다 다르게 해석하고, 도구 간 호환이 안 되며, 발주처·감리 기준 충족이 어렵다.
-> 3. **판단 포인트**: 한국 공공 SI는 **IE(까마귀발)**이 사실상 표준이며, Oracle은 Barker, 국방·항공은 IDEF1X를 사용한다.
+> 3. **판단 포인트**: 한국 공공 SI는 <strong>IE(까마귀발)</strong>이 사실상 표준이며, Oracle은 Barker, 국방·항공은 IDEF1X를 사용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    3대 ERD 표기법                                     │
-├───────────────────────────────────────────────────────┤
-│  IE (까마귀발):  ──┤├── (1:N)                        │
-│  Barker:         ──O── (선택), ──|── (필수)          │
-│  IDEF1X:         ●── (식별), ◇── (비식별)           │
-│                                                       │
-│  한국 SI 표준: IE (까마귀발)                         │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: 표기법은 지도의 **범례**이다. 같은 지형도 범례가 다르면 다르게 읽힌다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3대 ERD 표기법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IE (까마귀발): ── ── (1:N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Barker: ──O── (선택), ──</div><div class="kb-diagram-cell">── (필수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDEF1X: ●── (식별), ◇── (비식별)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국 SI 표준: IE (까마귀발)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 표기법은 지도의 <strong>범례</strong>이다. 같은 지형도 범례가 다르면 다르게 읽힌다.
 
 ---
 
@@ -38,15 +40,15 @@ tags = ["studynote-database"]
 
 | 표기법 | 카디널리티 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)/비식별 | 도구 |
 |:---|:---|:---|:---|
-| **IE** | 까마귀발 | 실선/점선 | **ERwin, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)#** |
-| **Barker** | 원·바 | 라인 스타일 | **[Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Designer** |
+| **IE** | 까마귀발 | 실선/점선 | <strong>ERwin, <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>#</strong> |
+| **Barker** | 원·바 | 라인 스타일 | <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Designer</strong> |
 | **IDEF1X** | ●·◇ | 원형 마크 | **ERwin** |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-ERD 표기법 선택은 **프로젝트·조직·도구에 의해 결정**되며, IE(까마귀발)가 국내 SI의 사실상 표준이다.
+ERD 표기법 선택은 <strong>프로젝트·조직·도구에 의해 결정</strong>되며, IE(까마귀발)가 국내 SI의 사실상 표준이다.
 
 ---
 
@@ -62,14 +64,20 @@ ERD 표기법 선택은 **프로젝트·조직·도구에 의해 결정**되며,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Chen 표기법 (1976)] → [IE 까마귀발 (1981)]
-    → [IDEF1X (1985, 국방)] → [Barker (Oracle, 1990s)]
-    → [UML 클래스 (2000s)] → [현재: 도구 자동 변환 — 표기법 간 호환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chen 표기법 (1976)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">IE 까마귀발 (1981)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">IDEF1X (1985, 국방)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Barker (Oracle, 1990s)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML 클래스 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 도구 자동 변환 — 표기법 간 호환</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. ERD 표기법은 지도의 **범례**예요. "산은 △, 강은 ~" 같은 약속이에요.
+1. ERD 표기법은 지도의 <strong>범례</strong>예요. "산은 △, 강은 ~" 같은 약속이에요.
 2. 같은 데이터도 **범례(표기법)가 다르면** 다르게 그려져요.
 3. 한국에서는 **IE(까마귀발)** 표기법을 가장 많이 사용한답니다!
 

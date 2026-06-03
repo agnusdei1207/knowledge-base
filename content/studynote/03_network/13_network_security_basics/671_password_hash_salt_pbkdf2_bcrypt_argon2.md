@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 과거에는 사용자 비밀번호 "1234"를 SHA-256 같은 해시 함수에 그냥 한 번 넣고 갈아서 나온 결과값을 DB에 저장했습니다.
-- **레인보우 테이블([Rainbow Table](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/)) 공격 🌟**: 해커가 바보는 아닙니다. 미리 "0000"부터 "99999999"까지, 그리고 세상의 모든 영단어 사전을 해시 믹서기에 돌려본 뒤, 그 **'평문-해시값 짝꿍표(레인보우 테이블)'**를 수십 테라바이트짜리 하드디스크에 저장해 둡니다.
+- <strong>레인보우 테이블(<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a>) 공격 🌟</strong>: 해커가 바보는 아닙니다. 미리 "0000"부터 "99999999"까지, 그리고 세상의 모든 영단어 사전을 해시 믹서기에 돌려본 뒤, 그 <strong>'평문-해시값 짝꿍표(레인보우 테이블)'</strong>를 수십 테라바이트짜리 하드디스크에 저장해 둡니다.
 - **해킹 성공**: 네이버 DB가 털렸을 때, 해커는 복호화를 할 필요도 없이 털어온 해시값을 자신의 레인보우 테이블에서 `Ctrl+F`로 검색만 하면 "아, 이 해시값은 평문 1234네!" 하고 1초 만에 비밀번호를 모두 탈취해 버립니다.
 
-```text
-[SHA-3 패밀리]
-    │
-    ▼
-[솔트 첨가 패스워드 해시 체계]
-    │
-    └──▶ [무결성 및 출처 인증용 서명 데이터 코드 제…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 솔트 첨가 패스워드 해시 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,18 +42,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 사용자의 평문 비밀번호를 해시 함수에 넣기 직전에, **사용자마다 완전히 다른 무작위 문자열(Salt, 소금)을 생성하여 평문 앞뒤로 찰싹 이어 붙이는 기법**입니다.
+- **개념**: 사용자의 평문 비밀번호를 해시 함수에 넣기 직전에, <strong>사용자마다 완전히 다른 무작위 문자열(Salt, 소금)을 생성하여 평문 앞뒤로 찰싹 이어 붙이는 기법</strong>입니다.
 - **예시**: 내 비밀번호가 `1234`이고 서버가 만들어준 내 소금이 `z9K!`라면, 서버는 `1234z9K!`를 해시에 넣고 돌립니다.
 - **효과 (레인보우 테이블 무력화)**: 해커가 가진 레인보우 테이블에는 `1234z9K!` 같은 괴상한 단어의 해시값은 없습니다. 해커는 내 소금을 알아내어 다시 레인보우 테이블을 처음부터 새로 만들어야 하므로 공격 시간이 수십 년으로 늘어납니다.
 
-```text
-[SHA-3 패밀리]
-    │
-    ▼
-[솔트 첨가 패스워드 해시 체계]
-    │
-    └──▶ [무결성 및 출처 인증용 서명 데이터 코드 제…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 솔트 첨가 패스워드 해시 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **개념**: 소금을 친 비밀번호를 해시 믹서기에 **한 번만 돌리는 게 아니라, 나온 결과물을 다시 믹서기에 넣는 짓을 수천~수만 번 무식하게 반복(Loop)하는 기술**입니다.
+- **개념**: 소금을 친 비밀번호를 해시 믹서기에 <strong>한 번만 돌리는 게 아니라, 나온 결과물을 다시 믹서기에 넣는 짓을 수천~수만 번 무식하게 반복(Loop)하는 기술</strong>입니다.
 - **효과**: 해커가 무차별 대입 공격(Brute-force)으로 비밀번호 1개를 찍어볼 때마다 해시를 수만 번 돌려야 하므로 계산 속도가 엄청나게 느려집니다. 즉, 해커의 컴퓨터 CPU를 지치게 만들어 뚫는 시간을 고의적으로 늦추는([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 기술입니다.
 
 솔트 첨가 패스워드 해시 체계를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리가 기반 조건을 만든다면, 솔트 첨가 패스워드 해시 체계는 그 위에서 핵심 메커니즘을 구현하고, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -77,8 +85,8 @@ tags = ["studynote-network"]
 일반 SHA-256은 너무 빨라서 해커가 좋아합니다. 그래서 일부러 무겁고 느리게 만든 특수 해시 함수들을 씁니다.
 
 1. **PBKDF2**: 가장 고전적이고 널리 쓰이는 표준입니다. 해시 함수를 수만 번 반복([키 스트레칭](/knowledge-base/studynote/09_security/02_crypto/109_key_stretching/))하는 단순한 구조입니다. 애플 iOS나 윈도우 등에서 널리 쓰입니다.
-2. **bcrypt (비크립트)**: 브루스 슈나이어가 만든 전설적인 함수입니다. 반복 횟수를 늘릴 뿐만 아니라, **해커가 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 수백 개 동원해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 해킹하지 못하도록 메모리 요구량을 의도적으로 꼬아버려** 방어력이 매우 뛰어납니다.
-3. **Argon2 (아르곤2)**: 2015년 패스워드 해싱 대회(PHC)에서 당당히 우승한 **현존 최강의 차세대 끝판왕**입니다. CPU 연산 시간뿐만 아니라, **해시를 돌릴 때 소모하는 메모리(RAM) 용량까지 관리자가 마음대로 무겁게 조절**할 수 있어, 해커의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 채굴기 공격을 완벽하게 무력화시킵니다.
+2. **bcrypt (비크립트)**: 브루스 슈나이어가 만든 전설적인 함수입니다. 반복 횟수를 늘릴 뿐만 아니라, <strong>해커가 그래픽카드(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>)를 수백 개 동원해 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 해킹하지 못하도록 메모리 요구량을 의도적으로 꼬아버려</strong> 방어력이 매우 뛰어납니다.
+3. **Argon2 (아르곤2)**: 2015년 패스워드 해싱 대회(PHC)에서 당당히 우승한 <strong>현존 최강의 차세대 끝판왕</strong>입니다. CPU 연산 시간뿐만 아니라, <strong>해시를 돌릴 때 소모하는 메모리(RAM) 용량까지 관리자가 마음대로 무겁게 조절</strong>할 수 있어, 해커의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 채굴기 공격을 완벽하게 무력화시킵니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SHA-3 패밀리]
-    │
-    ▼
-[현재 개념: 솔트 첨가 패스워드 해시 체계]
-    │
-    ├──▶ [확장 A: 무결성 및 출처 인증용 서명 데이터 코드 제…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SHA-3 패밀리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 솔트 첨가 패스워드 해시 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 솔트 첨가 패스워드 해시 체계는 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리에서 출발해 현재 메커니즘을 정교화하고, 이후 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

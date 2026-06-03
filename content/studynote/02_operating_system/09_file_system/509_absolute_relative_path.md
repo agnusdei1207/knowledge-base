@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 수많은 폴더가 얽힌 트리(Tree) 구조 속에서 목적지([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 찾아갈 때, **"무조건 우주의 시작점(Root `/`)부터 주소를 읊어 내려갈 것인가(절대 경로)"**, 아니면 **"지금 내가 서 있는 방(현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) `.`)을 기준으로 옆방으로 꺾어 뛰어 갈 것인가(상대 경로)"** 를 결정짓는 검색 위치 지정 문법의 두 축이다.
+> 1. **본질**: 수많은 폴더가 얽힌 트리(Tree) 구조 속에서 목적지([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 찾아갈 때, <strong>"무조건 우주의 시작점(Root <code>/</code>)부터 주소를 읊어 내려갈 것인가(절대 경로)"</strong>, 아니면 <strong>"지금 내가 서 있는 방(현재 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> <code>.</code>)을 기준으로 옆방으로 꺾어 뛰어 갈 것인가(상대 경로)"</strong> 를 결정짓는 검색 위치 지정 문법의 두 축이다.
 > 2. **가치**: 항상 전체 경로를 외워야 하는 '절대 경로'는 환경이 바뀌거나 백업할 때 스크립트가 박살 나는 치명타를 입지만 단 1초의 오류도 없는 확고한 타겟팅([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 데몬 등)을 보장한다. 반면 '상대 경로'는 프로그래머가 귀찮은 상위 주소를 모조리 생략(`../img/a.png`)하고 프로젝트를 다른 컴퓨터에 통째로 복사해도 경로가 우아하게 톱니 락백 유지되는 이식성 극강의 자유를 S/W에 선사한다.
 > 3. **한계**: 절대 경로는 코드(HTML, Python)에 심어둘 경우 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 이름이 단 한 글자라도 1단계에서 바뀌면(Hard-coded), 하위 100만 개 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주소 연결이 일제히 박살 폭파 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 되는 지옥(Broken Link)을 낳는다. 상대 경로는 반대로 터미널의 시작점(CWD)이 삐끗 틀어진 상태에서 실행되면 엉뚱한 부모 방을 지워버리는(`rm ../test`) 대참사 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 스로틀 멸망을 불러올 수 있다.
 
@@ -25,28 +25,25 @@ tags = ["studynote-operating-system"]
 - **절대 스펙 좌표계 vs 상대 컴팩트 포인터 비교 다이어그램**:
 운영체제가 목적지를 탐색할 때 두 문법이 어떻게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에서 다르게 해체되어 디스크를 워프하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 까보면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────┐
-  │                 파일을 타겟팅하는 두 가지 궤도: Absolute vs Relative       │
-  ├────────────────────────────────────────────────────────────────────────────┤
-  │                                                                            │
-  │    (가정: 지금 당신 터미널의 현재 위치(CWD)는 `/home/bob/docs/` 이다)      │
-  │                                                                            │
-  │  [ 목표! 🎯 내 방(docs) 상위에 있는 `music` 폴더 속 `1.mp3` 를 틀어라! ]   │
-  │                                                                            │
-  │  =============================================================             │
-  │                                                                            │
-  │  1. [ 절대 경로 (Absolute Path) : 무식 철저한 원점부터의 일주 탐색 ]       │
-  │     $ mpg123  /home/bob/music/1.mp3                                        │
-  │               ▲ (맨 앞이 `/` 이므로 커널은 무조건 맨 위 뿌리부터 검색 시작)│
-  │                                                                            │
-  │  2. [ 상대 경로 (Relative Path) : CWD 나침반 워프 이식성 타격 ]            │
-  │     $ mpg123  ../music/1.mp3                                               │
-  │               ▲ (맨 앞이 `/` 가 아니네? 커널은 "아, 지금 docs 방이니까,    │
-  │                  `..` 을 보고 위로 한 칸 나가서 밥(bob)방으로 워프한 뒤,   │
-  │                  거기서 music 방 파고들어라" 로 알아서 자동 수학 계산함!)  │
-  └────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일을 타겟팅하는 두 가지 궤도: Absolute vs Relative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가정: 지금 당신 터미널의 현재 위치(CWD)는 <code>/home/bob/docs/</code> 이다)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목표! 🎯 내 방(docs) 상위에 있는 <code>music</code> 폴더 속 <code>1.mp3</code> 를 틀어라!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">절대 경로 (Absolute Path) : 무식 철저한 원점부터의 일주 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ mpg123 /home/bob/music/1.mp3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (맨 앞이 <code>/</code> 이므로 커널은 무조건 맨 위 뿌리부터 검색 시작)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">상대 경로 (Relative Path) : CWD 나침반 워프 이식성 타격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ mpg123 ../music/1.mp3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (맨 앞이 <code>/</code> 가 아니네? 커널은 "아, 지금 docs 방이니까,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>..</code> 을 보고 위로 한 칸 나가서 밥(bob)방으로 워프한 뒤,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거기서 music 방 파고들어라" 로 알아서 자동 수학 계산함!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수들은 경로 문자열을 받을 때 가장 첫 글자, 0번 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 바이트가 만약 `/` (슬래시)로 시작되면 아예 앞뒤 보지도 않고 "어? 절대 경로명(Absolute)이네! 루트 디바이스 0번 아이노드부터 뒤져!" 라며 공구리를 치고(포인팅 스캐닝), 슬래시가 아니라 `..` 이나 `폴더명` 으로 시작하면 "넌 상대 경로(Relative)구나! 야 PCB 메모리에서 CWD (현재 작업 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 경로) 가져와서 니가 친 문자열 앞에 문자열 덧붙이기(Concatenate 결합) 해!" 라며 내부적으로 알아서 절대 경로로 동적 치환 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Dynamic Translation)을 발생시킨 뒤 목적지로 발사([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))하는 거대한 투트랙 파서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 장악 시전한다.
 
@@ -62,8 +59,8 @@ tags = ["studynote-operating-system"]
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) CWD 탐색 제어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 작동 원리 및 시스템 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 마스킹 구조 결합 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영 및 프로그래밍 한계 설계 기전 |
 |:---|:---|:---|
 | **CWD 록백 메커니즘** | 리눅스 터미널 속 `bash` 셸은 자신이 시작될 때 홈 폴더 위치를 `CWD 변수`에 메모리 장전한다. 유저가 `cd /var` 를 치면, 문자열 `/var` 로 이 변수값을 통째로 갱신 스왑([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/): `chdir`) 시킨다. | 크롤러 봇, 스크립트 작성 시 이 CWD 메모리 의존도를 까먹고 다른 폴더에서 실행하면 "[File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Not Found" 로 터지는 대참사의 1원인 폭발 구역장. |
-| **`..` (부모 Parent 점 탐색)** | 트리 구조의 핵심! 자신을 낳아준 상위 UFD 방으로 가라는 예약된 상대 점 포인터 표식(Parent 마커). | 내가 아무리 `cd ..` 을 무한히 쳐서 지붕을 뚫으려 해도, 최상위 루트 `/` 에 닿으면 그 이상은 튕겨 내려오는 무결점 덮개 마개 시스템 통치. |
-| **`.` (현재 [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 점 탐색)** | 지금 내가 선 방 그 자체를 지칭(`Self` 포인터). 굳이 안 써도 되지만, 리눅스에서 현재 폴더의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 보안상 의무로 `./script.sh` 라 명시 타격을 요구함(해커 우회 방어). | 윈도우랑 다르게 리눅스는 환경변수 `$PATH` 에 보안상 현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(.)를 빼버렸다! 그래서 내가 `.` 점을 강제로 안박으면 명령어가 마비 거부되는 록 융합 기전. |
+| <strong><code>..</code> (부모 Parent 점 탐색)</strong> | 트리 구조의 핵심! 자신을 낳아준 상위 UFD 방으로 가라는 예약된 상대 점 포인터 표식(Parent 마커). | 내가 아무리 `cd ..` 을 무한히 쳐서 지붕을 뚫으려 해도, 최상위 루트 `/` 에 닿으면 그 이상은 튕겨 내려오는 무결점 덮개 마개 시스템 통치. |
+| <strong><code>.</code> (현재 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> 점 탐색)</strong> | 지금 내가 선 방 그 자체를 지칭(`Self` 포인터). 굳이 안 써도 되지만, 리눅스에서 현재 폴더의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 보안상 의무로 `./script.sh` 라 명시 타격을 요구함(해커 우회 방어). | 윈도우랑 다르게 리눅스는 환경변수 `$PATH` 에 보안상 현재 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(.)를 빼버렸다! 그래서 내가 `.` 점을 강제로 안박으면 명령어가 마비 거부되는 록 융합 기전. |
 
 ### 2. S/W 개발 생태계: 이식성 (Portability)의 여왕, 상대 경로
 수만 명의 개발자가 협업하는 깃허브(GitHub) 소스 코드 구조에서는 "절대 절대경로 마비(Absolute Path Hardcoding)" 짓을 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 최대 죄악으로 터부시한다.
@@ -79,14 +76,14 @@ tags = ["studynote-operating-system"]
 ### [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 데몬(Daemon) 서버 튜닝 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): "스크립트에 상대 경로만 맹신한 자동화 멸망"
 위에서 "상대 경로 최고!" 를 외쳤지만, 정반대로 리눅스 백그라운드 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 데몬 등) 서버에 S/W를 탑재할 때는 "상대 경로를 쓰면 서버가 무조건 폭파 셧다운" 되는 극단 최악의 트러블슈팅 함정이 도사린다 락백이다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 폭발 늪**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 "매일 밤 자정에 DB를 백업해!" 라며 `backup.sh` 스크립트를 짰다. 그 안에 상대 경로로 `db_dump > ./backup_data.sql` 라고 예쁘게 썼다. 내가 마우스로 켤 땐 잘 됐는데 자정엔 에러가 나거나 엉뚱한 폴더(`~`) 쓰레기장에 백업이 돼서 찾을 수가 없는 증발 아웃 사태가 터졌다.
-- **원인 분석 스로틀 락 (CWD 증발 파괴타)**: 내가 터미널에서 켤 땐 현재 폴더(CWD)가 `프로젝트 방` 이니까 `.` 이 거길 가리킨다. 그런데 자정에 **[Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 데몬 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로봇이 이 스크립트를 대신 켜줄 땐, 걔의 CWD는 최상위 옥상층 바닥 `/root` 구석이나 엉뚱한 허공 좌표계다!** 결국 상대 경로가 기준점을 잃고 허공을 향해 포인팅을 쏴버리니 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 공중 분해 엉켜버리는 파국 구조 결함이 일어난 것이다.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 S/W 솔루션 뷰**: 서버 자동화 셸 스크립트 작성 시엔, 내부 안의 모든 경로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 반드시 무조건 100% 얄짤없는 **절대 경로 떡칠 (Absolute Path: `/opt/db/backup_data.sql`) 공구리** 로 못을 박거나, 셸이 시작하자마자 `cd /원하는절대경로명` 로 CWD 나침반을 아예 부시고 강제 초기화(Override) 리셋 점프 시켜버리는 방검조끼 방배치 퓨어 가동이 S/W 서버 프로페셔널 1원칙이다!
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 폭발 늪</strong>: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어가 "매일 밤 자정에 DB를 백업해!" 라며 `backup.sh` 스크립트를 짰다. 그 안에 상대 경로로 `db_dump > ./backup_data.sql` 라고 예쁘게 썼다. 내가 마우스로 켤 땐 잘 됐는데 자정엔 에러가 나거나 엉뚱한 폴더(`~`) 쓰레기장에 백업이 돼서 찾을 수가 없는 증발 아웃 사태가 터졌다.
+- **원인 분석 스로틀 락 (CWD 증발 파괴타)**: 내가 터미널에서 켤 땐 현재 폴더(CWD)가 `프로젝트 방` 이니까 `.` 이 거길 가리킨다. 그런데 자정에 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/">Cron</a> 데몬 시스템 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 로봇이 이 스크립트를 대신 켜줄 땐, 걔의 CWD는 최상위 옥상층 바닥 <code>/root</code> 구석이나 엉뚱한 허공 좌표계다!</strong> 결국 상대 경로가 기준점을 잃고 허공을 향해 포인팅을 쏴버리니 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 공중 분해 엉켜버리는 파국 구조 결함이 일어난 것이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 S/W 솔루션 뷰</strong>: 서버 자동화 셸 스크립트 작성 시엔, 내부 안의 모든 경로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 반드시 무조건 100% 얄짤없는 <strong>절대 경로 떡칠 (Absolute Path: <code>/opt/db/backup_data.sql</code>) 공구리</strong> 로 못을 박거나, 셸이 시작하자마자 `cd /원하는절대경로명` 로 CWD 나침반을 아예 부시고 강제 초기화(Override) 리셋 점프 시켜버리는 방검조끼 방배치 퓨어 가동이 S/W 서버 프로페셔널 1원칙이다!
 
 | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 경로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 문법 뷰 | 절대 경로 (Absolute Path 전술 스로틀) | 상대 경로 (Relative Path 도핑 융합체) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 장애 복원 유연성 진단 결탁 부합 |
 |:---|:---|:---|:---|
 | **정량 (글자 길이 오버타이핑 속도 Rate)** | `/var/lib/docker/containers/123/logs.` 글자가 무한대로 길어져 오타 에러 폭주 유발 | `../logs.` 로 극한의 짧은 단축. 손가락 타이핑 부하 제로 쾌적화 타결 성취. | 개발 단계에선 무조건 상대 경로 압승 편의 우위. |
-| **정성 (실행 맥락 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 의존성 멸망도)** | 주변 터미널 상태, 환경에 0% 의존 독립 무적. **언제나 같은 대상을 향해 빔을 정확히 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)있게 타격.** | 터미널을 연 위치(CWD)가 삐끗 틀려진 상태서 엔터 치면 남의 방 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찢고 삭제 파괴 연쇄(Dependency 병목 폭주). | 배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)), 소스 관리엔 상대 경로, **백그라운드 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 데몬([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/))에는 무조건 절대 경로!** 이원화 사수 철칙. |
+| <strong>정성 (실행 맥락 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> 의존성 멸망도)</strong> | 주변 터미널 상태, 환경에 0% 의존 독립 무적. <strong>언제나 같은 대상을 향해 빔을 정확히 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>있게 타격.</strong> | 터미널을 연 위치(CWD)가 삐끗 틀려진 상태서 엔터 치면 남의 방 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찢고 삭제 파괴 연쇄(Dependency 병목 폭주). | 배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)), 소스 관리엔 상대 경로, <strong>백그라운드 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a> 데몬(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/">Cron</a>)에는 무조건 절대 경로!</strong> 이원화 사수 철칙. |
 
 ### Ⅳ. 기대효과 및 결론
 - '절대 경로와 상대 경로(Absolute/Relative Path 네비게이션 트리 뎁스 록백)' 구조는 인간이 수십만 개의 깊은 폴더 미로(Tree [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에 갇히지 않고 논리적으로 빠르게 횡단, 점프(Jump 워프) 활강하기 위해 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 던져준 2개의 거대한 입출력 조향타(나침반) 조준기 스펙이다. 
@@ -128,15 +125,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[트리 구조 디렉터리 (Tree-structured Directory)]
-    │
-    ▼
-[절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
-    │
-    ├──▶ [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
-    └──▶ [하드 링크 (Hard Link)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">트리 구조 디렉터리 (Tree-structured Directory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">절대 경로 (Absolute Path) / 상대 경로 (Relative Path)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비순환 그래프 디렉터리 (Acyclic Graph Directory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 링크 (Hard Link)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

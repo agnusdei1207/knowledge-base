@@ -11,31 +11,34 @@ tags = ["software_engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: AS-IS (현재 상태) / TO-BE (미래 상태) 분석은 현재 업무·시스템·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·조직의 실제 모습을 파악하고, 목표 상태를 정의한 뒤, 그 사이의 차이(Gap)를 이행 과제로 바꾸는 변화 설계 기법이다.
-> 2. **가치**: 단순한 현행 조사나 미래 청사진 그리기를 넘어서, **왜 바꿔야 하는지와 무엇을 바꿔야 하는지**를 같은 프레임에서 연결해 요구사항과 로드맵의 품질을 높인다.
+> 2. **가치**: 단순한 현행 조사나 미래 청사진 그리기를 넘어서, <strong>왜 바꿔야 하는지와 무엇을 바꿔야 하는지</strong>를 같은 프레임에서 연결해 요구사항과 로드맵의 품질을 높인다.
 > 3. **판단 포인트**: AS-IS만 보면 문제 목록에 머물고, TO-BE만 보면 공상도에 그치기 쉬우므로, 측정 가능한 기준과 전환 계획까지 포함해야 실무에서 실행 가능한 분석이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AS-IS / TO-BE 분석은 **현재 상태를 있는 그대로 파악하고, 목표 상태를 설계한 뒤, 두 상태 사이의 간극을 관리 가능한 변화 항목으로 바꾸는 분석 프레임**이다. 요구공학, 업무 프로세스 재설계 ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), 정보화 전략계획, 시스템 고도화 프로젝트의 초반부에서 가장 자주 쓰인다. 핵심은 "문제가 있으니 바꾸자"가 아니라, **무엇이 현재의 병목인지, 바뀐 뒤 어떤 모습이어야 하는지, 그 차이를 어떻게 메울지**를 구조화하는 데 있다.
+AS-IS / TO-BE 분석은 <strong>현재 상태를 있는 그대로 파악하고, 목표 상태를 설계한 뒤, 두 상태 사이의 간극을 관리 가능한 변화 항목으로 바꾸는 분석 프레임</strong>이다. 요구공학, 업무 프로세스 재설계 ([Business Process Reengineering](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/), [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_business_process_reengineering_radical_redesign/)), 정보화 전략계획, 시스템 고도화 프로젝트의 초반부에서 가장 자주 쓰인다. 핵심은 "문제가 있으니 바꾸자"가 아니라, <strong>무엇이 현재의 병목인지, 바뀐 뒤 어떤 모습이어야 하는지, 그 차이를 어떻게 메울지</strong>를 구조화하는 데 있다.
 
-이 기법이 필요한 이유는 프로젝트 실패가 기능 부족보다도 **현실 오해와 목표 불명확성**에서 자주 시작되기 때문이다. 현재 프로세스를 제대로 이해하지 못하면 잘못된 자동화를 만들고, 목표 상태를 구체화하지 못하면 팀마다 서로 다른 그림을 보고 움직인다. 결국 AS-IS / TO-BE 분석은 기술 문서 작성 이전에, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 공통 언어를 만드는 작업이라고 볼 수 있다.
+이 기법이 필요한 이유는 프로젝트 실패가 기능 부족보다도 <strong>현실 오해와 목표 불명확성</strong>에서 자주 시작되기 때문이다. 현재 프로세스를 제대로 이해하지 못하면 잘못된 자동화를 만들고, 목표 상태를 구체화하지 못하면 팀마다 서로 다른 그림을 보고 움직인다. 결국 AS-IS / TO-BE 분석은 기술 문서 작성 이전에, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 공통 언어를 만드는 작업이라고 볼 수 있다.
 
 아래 그림은 이 분석이 단순한 "현재 vs 미래" 비교가 아니라, 변화 경로를 함께 설계하는 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ AS-IS  ->  GAP  ->  TO-BE                                         │
-├────────────────────────────────────────────────────────────────────┤
-│ current process   : what is really happening now?                 │
-│ current pain      : delay / error / duplicate work                │
-│ target capability : what must be different?                       │
-│ transition items  : process / system / data / organization tasks  │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-즉 이 분석의 목적은 "예쁜 미래 그림"을 그리는 데 있지 않다. **현재의 사실을 기준선으로 잡고, 목표 상태를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 정의하며, 그 사이의 변화 비용을 보이게 하는 것**이 진짜 목적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AS-IS -&gt; GAP -&gt; TO-BE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current process : what is really happening now?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current pain : delay / error / duplicate work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target capability : what must be different?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transition items : process / system / data / organization tasks</div></div>
+</div>
+</div>
+
+
+
+즉 이 분석의 목적은 "예쁜 미래 그림"을 그리는 데 있지 않다. <strong>현재의 사실을 기준선으로 잡고, 목표 상태를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능하게 정의하며, 그 사이의 변화 비용을 보이게 하는 것</strong>이 진짜 목적이다.
 
 - **📢 섹션 요약 비유**: AS-IS / TO-BE 분석은 여행을 떠나기 전 "지금 내가 어디에 있는지"와 "어디로 갈지"를 먼저 지도에 표시한 뒤, 그 사이에 어떤 길과 준비물이 필요한지 적는 일과 같다. 출발점이나 목적지 중 하나라도 모르면 좋은 여행 계획이 나올 수 없다.
 
@@ -56,21 +59,24 @@ AS-IS / TO-BE 분석은 **현재 상태를 있는 그대로 파악하고, 목표
 
 다음 표는 같은 대상 업무를 여러 층위에서 비교하는 방식을 예시로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Four-layer gap matrix                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Layer    AS-IS                Gap               TO-BE              │
-│ Process  manual approval      3-day delay       workflow engine    │
-│ Data     duplicate master     inconsistency     single source      │
-│ System   silo applications    re-entry work     API integration    │
-│ Org      unclear owner        handoff conflict   RACI clarified     │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이런 구조를 잡아 두면 TO-BE가 공허한 이상론으로 흐르지 않는다. 예를 들어 "결재를 실시간으로 바꾼다"는 목표가 있다면, 프로세스만 바꾸는 것으로는 부족하고 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/), 인터페이스, 권한 체계, 역할 책임까지 같이 바뀌어야 함이 드러난다. 그래서 AS-IS / TO-BE 분석은 단순한 인터뷰 정리가 아니라, **변화를 시스템적으로 분해하는 설계 도구**다.
 
-또한 분석 모델링에는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Model and Notation), 업무 흐름도, 시스템 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 다이어그램, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 청사진 같은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 자주 활용된다. 중요한 것은 표기법 그 자체보다, 현재와 미래를 **같은 언어로 비교 가능하게 표현**하는 것이다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Four-layer gap matrix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer AS-IS Gap TO-BE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process manual approval 3-day delay workflow engine</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data duplicate master inconsistency single source</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System silo applications re-entry work API integration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Org unclear owner handoff conflict RACI clarified</div></div>
+</div>
+</div>
+
+
+
+이런 구조를 잡아 두면 TO-BE가 공허한 이상론으로 흐르지 않는다. 예를 들어 "결재를 실시간으로 바꾼다"는 목표가 있다면, 프로세스만 바꾸는 것으로는 부족하고 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/), 인터페이스, 권한 체계, 역할 책임까지 같이 바뀌어야 함이 드러난다. 그래서 AS-IS / TO-BE 분석은 단순한 인터뷰 정리가 아니라, <strong>변화를 시스템적으로 분해하는 설계 도구</strong>다.
+
+또한 분석 모델링에는 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) (Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Model and Notation), 업무 흐름도, 시스템 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 다이어그램, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 청사진 같은 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 자주 활용된다. 중요한 것은 표기법 그 자체보다, 현재와 미래를 <strong>같은 언어로 비교 가능하게 표현</strong>하는 것이다.
 
 - **📢 섹션 요약 비유**: 이 분석은 낡은 집을 리모델링할 때 지금의 방 배치, 배관, 전기선을 먼저 확인하고, 새 집 구조도와 나란히 놓고 비교하는 과정과 같다. 벽만 예쁘게 다시 칠한다고 집이 좋아지는 것이 아니라, 배선과 배관까지 함께 바꿔야 진짜 달라진다.
 
@@ -99,28 +105,31 @@ AS-IS / TO-BE 분석은 흔히 현행 조사, Gap 분석, 요구사항 정의와
 
 실무에서는 이 분석을 얼마나 깊게 할지부터 판단해야 한다. 단순 화면 개선 수준의 작은 프로젝트라면 특정 업무 흐름만 좁게 보면 되지만, 여러 부서와 시스템이 얽힌 전사 고도화라면 프로세스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·조직·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 다뤄야 한다. 범위를 잘못 잡으면 분석이 과도하게 무거워지거나, 반대로 핵심 병목을 놓친 채 표면만 고치게 된다.
 
-예를 들어 "결재가 너무 느리다"는 문제를 다룬다고 하자. AS-IS 조사에서 수기 승인, 중복 입력, 승인자 부재, [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 불일치가 함께 드러났다면, TO-BE는 단순 전자결재 도입으로 끝나지 않는다. 모바일 승인, 권한 체계 정비, 기준정보 통합, 인터페이스 자동화까지 포함해야 실제 성과가 난다. 즉 TO-BE는 기능 목록이 아니라 **운영 방식의 재설계**여야 한다.
+예를 들어 "결재가 너무 느리다"는 문제를 다룬다고 하자. AS-IS 조사에서 수기 승인, 중복 입력, 승인자 부재, [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 불일치가 함께 드러났다면, TO-BE는 단순 전자결재 도입으로 끝나지 않는다. 모바일 승인, 권한 체계 정비, 기준정보 통합, 인터페이스 자동화까지 포함해야 실제 성과가 난다. 즉 TO-BE는 기능 목록이 아니라 <strong>운영 방식의 재설계</strong>여야 한다.
 
 아래 의사결정 흐름은 분석 범위와 깊이를 정할 때 자주 쓰는 질문을 정리한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Deciding the depth of AS-IS / TO-BE analysis                       │
-├────────────────────────────────────────────────────────────────────┤
-│ is the problem limited to one task or one screen?                  │
-│   ├─ yes -> narrow process-level analysis                          │
-│   └─ no                                                            │
-│        ├─ data / org / policy also affected? -> cross-domain study │
-│        ├─ multiple systems involved? -> architecture-level gap     │
-│        └─ rollout needed by phases? -> roadmap by release waves    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deciding the depth of AS-IS / TO-BE analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">is the problem limited to one task or one screen?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; narrow process-level analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ data / org / policy also affected? -&gt; cross-domain study</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ multiple systems involved? -&gt; architecture-level gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rollout needed by phases? -&gt; roadmap by release waves</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **현재 상태를 수치로 표현했는가?** 처리시간, 오류율, 재입력 횟수 등 기준선이 있어야 변화 효과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 2. **TO-BE가 측정 가능하게 정의되었는가?** "좋아진다"가 아니라 "결재 3일 → 4시간"처럼 써야 한다.
-3. **변화 범위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·조직·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 포함되는가?** 시스템만 바꾸면 해결되지 않는 경우가 많다.
+3. <strong>변화 범위에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>·조직·<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 포함되는가?</strong> 시스템만 바꾸면 해결되지 않는 경우가 많다.
 4. **이행 우선순위가 있는가?** 한 번에 모든 것을 바꾸려 하면 실행력이 떨어진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -136,11 +145,11 @@ AS-IS / TO-BE 분석은 흔히 현행 조사, Gap 분석, 요구사항 정의와
 
 ## Ⅴ. 기대효과 및 결론
 
-AS-IS / TO-BE 분석을 제대로 수행하면 프로젝트는 막연한 개선 활동이 아니라, **현실 기반의 변화 프로그램**이 된다. 현재 문제를 사실로 정리하고, 목표 상태를 합의 가능한 언어로 정의하며, Gap을 과제로 전환하면 요구사항 누락과 우선순위 혼선을 줄일 수 있다. 특히 여러 부서가 참여하는 프로젝트에서는 "누가 무엇을 왜 바꿔야 하는가"를 공통 기준으로 맞춘다는 점이 크다.
+AS-IS / TO-BE 분석을 제대로 수행하면 프로젝트는 막연한 개선 활동이 아니라, <strong>현실 기반의 변화 프로그램</strong>이 된다. 현재 문제를 사실로 정리하고, 목표 상태를 합의 가능한 언어로 정의하며, Gap을 과제로 전환하면 요구사항 누락과 우선순위 혼선을 줄일 수 있다. 특히 여러 부서가 참여하는 프로젝트에서는 "누가 무엇을 왜 바꿔야 하는가"를 공통 기준으로 맞춘다는 점이 크다.
 
 물론 이 분석도 한계는 있다. AS-IS가 부정확하면 잘못된 현실을 기준으로 삼게 되고, TO-BE가 정치적 구호나 이상론으로 흐르면 실행력을 잃는다. 또한 전환 비용과 변화 저항을 과소평가하면, 문서상으로는 완벽해 보여도 현장 정착에 실패할 수 있다. 그래서 이 기법은 한 번의 문서 작성이 아니라, 프로젝트가 진행되며 계속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·갱신해야 하는 살아 있는 기준선으로 다뤄야 한다.
 
-정리하면 AS-IS / TO-BE 분석은 **현재 문제를 목표 변화와 연결하는 다리**다. 기억할 핵심은 분명하다. **현실 파악, 목표 정의, Gap 설계, 이행 우선순위가 모두 이어질 때 비로소 실행 가능한 요구사항과 로드맵이 나온다**는 점이다.
+정리하면 AS-IS / TO-BE 분석은 <strong>현재 문제를 목표 변화와 연결하는 다리</strong>다. 기억할 핵심은 분명하다. <strong>현실 파악, 목표 정의, Gap 설계, 이행 우선순위가 모두 이어질 때 비로소 실행 가능한 요구사항과 로드맵이 나온다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: 이 분석은 강 건너편에 다리를 놓는 설계와 같다. 지금 서 있는 강둑도 정확히 알아야 하고, 건너편 어디에 닿을지도 정해야 하며, 그 사이에 어떤 기둥을 세울지도 계산해야 실제로 건널 수 있다.
 
@@ -160,24 +169,25 @@ AS-IS / TO-BE 분석을 제대로 수행하면 프로젝트는 막연한 개선 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-observe current operations
-        │
-        ▼
-AS-IS baseline
-        │
-        ▼
-target capability design
-        │
-        ▼
-TO-BE model
-        │
-        ▼
-gap analysis
-        │
-        ├──────────────▶ prioritized requirements
-        └──────────────▶ transition roadmap and change management
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">observe current operations</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AS-IS baseline</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">target capability design</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TO-BE model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">gap analysis</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ prioritized requirements</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ transition roadmap and change management</div>
+</div>
+</div>
+
+
 
 이 흐름도는 AS-IS / TO-BE 분석이 단순 비교표가 아니라, 요구사항 정의와 변화관리 계획으로 이어지는 상위 설계 프레임이라는 점을 보여 준다.
 

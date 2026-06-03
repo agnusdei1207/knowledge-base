@@ -20,53 +20,49 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 크기, 수정 날짜, i-node 포인터 구조. (보통 4KB 이하로 아주 작음)
-  - **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이)**: 영화 영상 프레임, 텍스트 본문 (10GB 등 무지막지하게 클 수 있음)
-  - **저널링 모드 (Journaling Mode 타협 빔!)**: 10GB 알맹이를 일기장(저널 영역)에 다 옮겨 적으려면 디스크 모터가 불타버린다. 그래서 **"[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기만 일기장에 적으면 안 될까?"** 하는 의문에서 파생되어, 읽고 쓰는 순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))와 대상의 범위를 강제 조절해 스토리지 스위칭 스로틀을 제어하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방어 기법이다.
+  - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a> 껍데기)</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 크기, 수정 날짜, i-node 포인터 구조. (보통 4KB 이하로 아주 작음)
+  - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 알맹이)</strong>: 영화 영상 프레임, 텍스트 본문 (10GB 등 무지막지하게 클 수 있음)
+  - **저널링 모드 (Journaling Mode 타협 빔!)**: 10GB 알맹이를 일기장(저널 영역)에 다 옮겨 적으려면 디스크 모터가 불타버린다. 그래서 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 껍데기만 일기장에 적으면 안 될까?"</strong> 하는 의문에서 파생되어, 읽고 쓰는 순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))와 대상의 범위를 강제 조절해 스토리지 스위칭 스로틀을 제어하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방어 기법이다.
 
 - **필요성**: 클라우드 서버는 1원이라도 인프라 I/O 비용을 줄여야 한다. 속도가 반토막 나면 서버를 2배로 늘려야 한다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 무식하게 안전만 외치며 모터를 파괴하는 대신, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이는 포기하더라도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조 시스템 뼈대([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))만큼은 100% 무결 보존한다"는 가성비 넘치는 합의점(Ordered 기전)을 찾아내 병목 늪(Botleneck)을 억제해야만 했다 도출!
 
-  - **([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드 : 융통성 제로 멸망 늪)**: 과장님이 100장짜리 회식 영수증([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이)을 일일이 복사기에 2번(저널 영역, 진짜 장부) 복사해서 붙입니다. 안전은 100,000% 보장되지만 복사기 앞 대기 줄 병목이 터져 부서 업무 마비 프리징!
+  - <strong>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 모드 : 융통성 제로 멸망 늪)</strong>: 과장님이 100장짜리 회식 영수증([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이)을 일일이 복사기에 2번(저널 영역, 진짜 장부) 복사해서 붙입니다. 안전은 100,000% 보장되지만 복사기 앞 대기 줄 병목이 터져 부서 업무 마비 프리징!
   - **(Writeback 모드 : 개판 5분 전 빠른 대충 빔!)**: 대리님이 바쁘다고 "회식 50만 원 씀!" 달랑 품의서([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) 1장 결재 득(저널 도장 쾅!). 근데 정작 진짜 영수증(실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 잃어버려서 증빙 누락 크래시! 엄청 제일 바르고 빠르지만 사고치기 딱 좋은 상태 컷!
   - **(Ordered 모드 : ext4 천재의 디폴트 타협 결속!)**: 과장님이 바뀐 천재적 룰을 씁니다. 일단 영수증 뭉텅이(진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이) 100장을 무조건 사장실 서랍장(실제 디스크 본진 구역)에 그냥 쑤셔 던져 넣습니다(1회 복사로 스피드 부스트!). 그게 "완전 끝난 것만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 다음" 에! 품의서([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) 결재 도장(저널링)을 찍습니다. "실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼저 들어갔다"는 걸 확정 짓고 도장을 찍어 속도와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 생태계를 정복한 천재 콤보 구조랍니다!
 
-- **저널링 3대장의 디스크 I/O 순서도 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 메커니즘 뷰**:
+- <strong>저널링 3대장의 디스크 I/O 순서도 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 저널 영역과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조 영역을 어떻게 오가며 스왑하는지, 그 치명적인 순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조를 까보면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "무엇을 먼저 굽고, 어디까지 일기장에 상세히 적어 댈 것인가?"       │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  🚨 [ 1. Data Mode (Full Journaling) - 방어 100% / 속도 핵폐기물 랙 ]              │
-  │     (유저 기록 시작)                                                               │
-  │      ① 일기장(Journal)에 📝메타데이터 + 📝데이터 알맹이 전부 10GB 굽기 (기절!)     │
-  │      ② 저널 Commit 도장 쾅!                                                        │
-  │      ③ 진짜 목적지 폴더에 💽메타데이터 + 💽데이터 알맹이 10GB 또 굽기 (2중고)      │
-  │                                                                                    │
-  │  =========================▼===================================                     │
-  │                                                                                    │
-  │  🎯 [ 2. Ordered Mode (ext4 기본값) - 방어 99% / 속도 95% 부스트 스왑! ]           │
-  │     (유저 기록 시작)                                                               │
-  │      ① 진짜 목적지 폴더에 💽데이터 알맹이(10GB) 냅다 1번만 쏘기 (스루풋 부스트!)   │
-  │      ② [중요] 모터 완료 확인 후 -> 일기장(Journal)에 📝메타데이터만 가볍게 굽기    │
-  │      ③ 저널 Commit 도장 쾅! -> 진짜 목적지에 💽메타데이터 덮어쓰기 결속!           │
-  │   => 결과: 알맹이는 1번만 구우니까 빠르고, 만약 중간 정전 컷! 나면 일기장 도장이   │
-  │           없어서 아예 파일 쓰기 자체가 전부 취소(Rollback)되어 쓰레기 노출 방어!   │
-  │                                                                                    │
-  │  =========================▼===================================                     │
-  │                                                                                    │
-  │  ⚡ [ 3. Writeback Mode - 방어 뚫림 멸망 / 속도 빛의 속도 부스트 ]                 │
-  │     (유저 기록 시작 - 순서 개나 줘버려 병렬 난사 빔!)                              │
-  │      - 일기장에 📝메타껍데기 굽고 도장 쾅쾅! (초스피드 끝남)                       │
-  │      - 나아아중에 플러셔 봇이 시간 나면 💽데이터 알맹이 디스크 구이 던짐.          │
-  │   => 💀 정전 폭파 크래시 발생: 일기장엔 "카톡 파일 2MB 증가함" 적혀있음.           │
-  │        부팅 후 파일 열어보니 추가된 2MB 알맹이가 안 구워져서, 그 자리에 있던       │
-  │        '이전 사용자의 은행 암호' 같은 쓰레기 데이터가 유출 마스킹 오픈 대참사 발생!│
-  └────────────────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 핵심은 **"순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))의 채찍질"** 이다. 완전([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 저널에 다 복사하지만 극악 병목 늪에 빠진다. 이를 구제하려 나온 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 전용 저널링 방식인 타협 체제 중, `Writeback` 모드는 순서를 OS 맘대로 하다가 메타는 저장, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하는 `Security Breach 랙` 을 맞는다. 하지만 천재적 마스킹의 **`Ordered` 모드는 "반드시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이를 리지덤(디스크 바닥 실제 위치)에 다 구웠다는 신호를 받아야만, 일기장 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Commit 도장을 찍어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 결착 시킨다"** 는 강제 순서 보장 록백을 걸어 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출의 트레이드오프 파단을 완벽히 저지 분쇄한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 백본 구조다 도출.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"무엇을 먼저 굽고, 어디까지 일기장에 상세히 적어 댈 것인가?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">1. Data Mode (Full Journaling) - 방어 100% / 속도 핵폐기물 랙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 일기장(Journal)에 📝메타데이터 + 📝데이터 알맹이 전부 10GB 굽기 (기절!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 저널 Commit 도장 쾅!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 진짜 목적지 폴더에 💽메타데이터 + 💽데이터 알맹이 10GB 또 굽기 (2중고)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">2. Ordered Mode (ext4 기본값) - 방어 99% / 속도 95% 부스트 스왑!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 진짜 목적지 폴더에 💽데이터 알맹이(10GB) 냅다 1번만 쏘기 (스루풋 부스트!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">②</div><div class="kb-diagram-node">중요</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">일기장(Journal)에 📝메타데이터만 가볍게 굽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 저널 Commit 도장 쾅! -&gt; 진짜 목적지에 💽메타데이터 덮어쓰기 결속!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 알맹이는 1번만 구우니까 빠르고, 만약 중간 정전 컷! 나면 일기장 도장이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없어서 아예 파일 쓰기 자체가 전부 취소(Rollback)되어 쓰레기 노출 방어!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">⚡</div><div class="kb-diagram-node">3. Writeback Mode - 방어 뚫림 멸망 / 속도 빛의 속도 부스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작 - 순서 개나 줘버려 병렬 난사 빔!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일기장에 📝메타껍데기 굽고 도장 쾅쾅! (초스피드 끝남)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 나아아중에 플러셔 봇이 시간 나면 💽데이터 알맹이 디스크 구이 던짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 💀 정전 폭파 크래시 발생: 일기장엔 "카톡 파일 2MB 증가함" 적혀있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부팅 후 파일 열어보니 추가된 2MB 알맹이가 안 구워져서, 그 자리에 있던</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'이전 사용자의 은행 암호' 같은 쓰레기 데이터가 유출 마스킹 오픈 대참사 발생!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 핵심은 <strong>"순서(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)의 채찍질"</strong> 이다. 완전([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 저널에 다 복사하지만 극악 병목 늪에 빠진다. 이를 구제하려 나온 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 전용 저널링 방식인 타협 체제 중, `Writeback` 모드는 순서를 OS 맘대로 하다가 메타는 저장, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하는 `Security Breach 랙` 을 맞는다. 하지만 천재적 마스킹의 <strong><code>Ordered</code> 모드는 "반드시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 알맹이를 리지덤(디스크 바닥 실제 위치)에 다 구웠다는 신호를 받아야만, 일기장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> Commit 도장을 찍어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 결착 시킨다"</strong> 는 강제 순서 보장 록백을 걸어 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출의 트레이드오프 파단을 완벽히 저지 분쇄한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 백본 구조다 도출.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -79,19 +75,19 @@ tags = ["studynote-operating-system"]
 
 | 저널링 스위칭 모드 뷰 | 1️⃣ [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드 (완전 저널링 방패) | 2️⃣ Ordered 모드 (ext4 순서 보장 디폴트) | 3️⃣ Writeback 모드 (난사 초스피드 부스트) |
 |:---|:---|:---|:---|
-| **저장 스펙 대상 (Journal에 뭘 쓰는가)** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기 + **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실제 알맹이 전부** | **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기만!** (알맹이는 본진 1타 직행 투척) | **[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기만!** (알맹이는 나중에 알아서 대충) |
-| **순서 제어 철학 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) ([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) 록백 구조)** | 1. 일기장 전부 굽기 $\to$ 2. 커밋 $\to$ 3. 본진 전체 구이 | **1. 알맹이 본진 구이 완료 보장** $\to$ 2. 메타만 일기장 굽기 | 메타 일기장 굽기 / 알맹이 던지기 **순서 상관없이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 렌더** |
-| **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 폭사 블랙홀 늪 (최악의 재앙 발현도)** | 동영상이나 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 쓰면 하드디스크 모터 2배 갈림 랙 터짐 클러스터 셧다운 병목! | 순서를 꼭 지켜야 하니(Sync 블로킹 기다림 늪) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수만 개 난사 시 병목 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 오버헤드. | 크래시 후 메타 구조는 살았지만, 열어본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속 내용은 예전 딴사람 빈공간 찌꺼기 노출(보안 해킹 위험 파단!) |
+| **저장 스펙 대상 (Journal에 뭘 쓰는가)** | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 껍데기 + <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 실제 알맹이 전부</strong> | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 껍데기만!</strong> (알맹이는 본진 1타 직행 투척) | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 껍데기만!</strong> (알맹이는 나중에 알아서 대충) |
+| <strong>순서 제어 철학 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a> 록백 구조)</strong> | 1. 일기장 전부 굽기 $\to$ 2. 커밋 $\to$ 3. 본진 전체 구이 | **1. 알맹이 본진 구이 완료 보장** $\to$ 2. 메타만 일기장 굽기 | 메타 일기장 굽기 / 알맹이 던지기 <strong>순서 상관없이 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 렌더</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 폭사 블랙홀 늪 (최악의 재앙 발현도)</strong> | 동영상이나 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 쓰면 하드디스크 모터 2배 갈림 랙 터짐 클러스터 셧다운 병목! | 순서를 꼭 지켜야 하니(Sync 블로킹 기다림 늪) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수만 개 난사 시 병목 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 오버헤드. | 크래시 후 메타 구조는 살았지만, 열어본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속 내용은 예전 딴사람 빈공간 찌꺼기 노출(보안 해킹 위험 파단!) |
 
 ### 2. 치명적 오버헤드 폭발: Writeback 모드의 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Breach 정보 노출 사태 
 속도가 너무 고파서 Writeback 안전바(순서 강제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 풀어버리면, 클라우드에서는 상상초월의 해킹 정보 유출([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Leak 생지옥) 재앙이 터진다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (크래시와 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 보안 폭쇄 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (크래시와 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유출 보안 폭쇄 랙)</strong>: 
   - (순서 파괴 스왑의 함정): Writeback 모드는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(크기 정보 1바이트)만 재빨리 저널에 적고 "끝! 커밋 도장 꽝!" 치버린다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈를 0MB $\to$ 100MB 로 늘려주었다(메타는 저장 완료). 
   - (정전 크래시 파괴!): 실제 100MB의 내용물(유저의 진짜 글 내용)은 디스크 모터가 게을러서 안 굽고 램에 들고 있다가 전원이 나가버렸다 공중분해!
   - **(치명적 보안 붕괴 데들락!)**: 서버 재부팅 됨! [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 저널 일기장을 쓱 보고 "오! A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100MB로 늘렸었네? 디스크 15~80번 구역 A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 꺼라고 도장 찍어줌 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 완료 스왑!" $\dots$ 그런데, 15~80번 디스크 철판 바닥 블록에는 뭐가 들어 있었을까? 어제 탈퇴한 B 회원의 신용카드 번호와 비밀번호 저장 흔적(Deleted 찌꺼기 블록)이 안 지워지고 고스란히 남아있던 자리였다!!
   - 결과 뷰: A 회원이 자기 빈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열었는데 B 회원의 카드 번호가 스크린에 좔좔 출력되는 전대미문의 권한 탈취 크로스 보안 폭파 (Garbage [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Exposure) 사고 발생 입증 멸망!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (Ordered 강제 순서 보장 스왑 렌더!!) / (DB용 Writeback 도출)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (Ordered 강제 순서 보장 스왑 렌더!!) / (DB용 Writeback 도출)</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어: "야 이런 미친 보안 사고가 있나! 무조건 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(100MB)로 철판을 덮어씌운(Overwrite 모터 완료!) 확실한 증거가 있어야만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 100MB 늘려준다는 도장 찍게 강요해 빔 컷!" $\to$ 이게 바로 `Ordered Mode`가 탄생하여 디폴트로 수호하게 된 절대 법칙의 이유다 팩트.
   - 역설 예시: 단, MariaDB 같은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 앱은 "메타 순서 따위 OS 놈아 네가 관여 마라 랙 걸린다! 어차피 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 롤백은 내가 WAL 저널로 알아서 할 거 안 부서져! OS 넌 **제발 제일 빠른 Writeback 모드 난사** 로 스로틀 다 풀어버려 부스트 스왑!!" 이라며 직접 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 시 `data=writeback` 플래그로 옵션을 해제 비틀어버리는 극한 하이엔드 튜닝 거시 아크를 사용한다 록.
 
@@ -104,10 +100,10 @@ tags = ["studynote-operating-system"]
 ### 클라우드 인스턴스 튜닝: 내가 쓰는 머신의 저널 모드를 장비에 맞게 갈아 끼워라
 실력 없는 엔지니어는 디폴트로 쓰지만, 클라우드 아키텍트는 디스크 종류([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) vs [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))와 앱에 따라 포맷 옵션을 파괴 스위칭한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 (SSD의 수명 갉아먹기와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드의 발화 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 (SSD의 수명 갉아먹기와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 모드의 발화 데들락 랙)</strong>: 
   - 어리석은 자가 "난 안전제일이야 방어 100%!" 라며 `data=journal` ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통짜 모드) 옵션을 켜고 시스템을 돌린다. 
   - [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수 수명(TBW 한계 늪)이 존재한다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1번 쓸 때마다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 영역에 똑같은 10GB를 중복으로 냅다 갈아버리니([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) 2배 폭쇄), SSD의 수명이 반에 반 토막이 나버리고 스토리지 대역폭이 순식간에 혼수 마비 프리징에 빠진다(모터 발열 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 충돌).
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 튜닝 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 기전 뷰 (`/etc/fstab` 멱살 잡기 록백 포팅!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 튜닝 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 기전 뷰 (<code>/etc/fstab</code> 멱살 잡기 록백 포팅!)</strong>: 
   - `mount -o data=ordered /dev/sda1 /mnt` (99%의 쾌적한 밸런스 디폴트 순서 보장 빔)
   - 또는 미친 듯한 속도가 필요한 대용량 배치(Batch) 서버는 `tune2fs -o journal_data_writeback /dev/sda1` 옵션으로 순서 고삐를 끊어 I/O 천장을 박살 내버리는 극약을 처방한다. 이때 서버 정전이 나면 찌꺼기가 노출되겠지만, "그깟 거 다시 받으면 돼! 속도가 최우선 도출 컷!" 이라는 거시적 트레이드오프 계산이 S/W 클러스터를 제패한다 보장.
 
@@ -144,21 +140,25 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[저널링 파일 시스템 (Journaling File System)]
-    │
-    ▼
-[메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling Modes)]
-    │
-    ├──▶ [LFS (Log-structured File System)]
-    └──▶ [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">저널링 파일 시스템 (Journaling File System)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -&gt; 커밋 -&gt; 실제 파일시스템 반영) (Journaling Modes)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFS (Log-structured File System)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 일기장(메모장)에 무엇을 어디까지 자세히 적을지 고르는 3가지 마법의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 모드가 있어요! 첫 번째 **"전체 적기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모드 늪!)"** 방식은 그림도 내용도 모조리 2번씩 꾹꾹 눌러 적어 안전 방어력 100% 무적이지만! 내 손목 인대가 파괴되고 너무 느려서(하드디스크 모터 랙 프리징!) 아무도 안 쓴답니다 오버헤드!
+1. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 일기장(메모장)에 무엇을 어디까지 자세히 적을지 고르는 3가지 마법의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 모드가 있어요! 첫 번째 <strong>"전체 적기(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 모드 늪!)"</strong> 방식은 그림도 내용도 모조리 2번씩 꾹꾹 눌러 적어 안전 방어력 100% 무적이지만! 내 손목 인대가 파괴되고 너무 느려서(하드디스크 모터 랙 프리징!) 아무도 안 쓴답니다 오버헤드!
 2. 그래서 컴퓨터 천재들은 두 번째 마법 **"제목만 적기(Writeback 난사 부스트!)"** 모드를 만들었어요! "나 카톡 10쪽짜리 썼음!" 제목([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))만 휙 쓰고 본문 내용물은 디스크 모터가 굽고 싶을 때 대충 나중에 던져 넣어요 초스피드! 근데 치명적 슬픔 데들락 늪! 중간에 전산망이 끊기면 내용은 사라지고 옛날 남학생이 보낸 '비밀 러브레터 지운 흔적 쓰레기'가 그 자리에 부활해버려 내용 누출 대형 사고가 터져요 멸망 에러!
 3. 이 사고를 완벽히 막기 위해 전 세계 모든 리눅스가 쓰는 최고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) **"순서 보장(Ordered 천재 디폴트 록백!)"** 기법이 태어났어요! 무조건 "본문에 10쪽 진짜 내용 던져 넣은 거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 끝났어 완료 결착!" 이 보장된 다음에만 다이어리에 "10쪽 잘 넣음 쾅!" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장을 찍게 룰을 엄격하게 통치해요! 덕분에 모터를 한 번만 돌려 광속으로 빠르면서도 이상한 쓰레기 해킹 노출 부작용까지 100% 방파제로 막아준 위대한 발명품 구조랍니다 마스킹 결속!
 

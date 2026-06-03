@@ -25,19 +25,20 @@ tags = ["studynote-software-engineering"]
 
 이 그림은 [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/)가 어떻게 인수 기준으로 구체화되는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      Story에서 AC로: 가치 문장을 합격 조건으로 번역한다        │
-├──────────────────────────────────────────────────────────────┤
-│ User Story : "고객은 로그인할 수 있어야 한다"                │
-│        │                                                     │
-│        ▼                                                     │
-│ Acceptance Criteria                                          │
-│  1) 정상 자격 증명 시 로그인 성공                            │
-│  2) 5회 실패 시 10분 잠금                                    │
-│  3) 실패 이유를 사용자에게 안내                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Story에서 AC로: 가치 문장을 합격 조건으로 번역한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Story : "고객은 로그인할 수 있어야 한다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acceptance Criteria</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 정상 자격 증명 시 로그인 성공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 5회 실패 시 10분 잠금</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 실패 이유를 사용자에게 안내</div></div>
+</div>
+</div>
+
+
 
 핵심은 인수 기준이 기능 설명을 한 번 더 반복하는 문장이 아니라는 점이다. 인수 기준은 합격/불합격을 가를 수 있어야 하며, 누가 봐도 같은 판정을 내릴 수 있어야 한다.
 
@@ -58,15 +59,18 @@ tags = ["studynote-software-engineering"]
 
 [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/))에서는 이를 `Given-When-Then` 구조로 많이 표현한다. `Given`은 시작 상태, `When`은 사용자 행동, `Then`은 기대 결과다. 이 형식은 기획 문장을 테스트 가능한 시나리오로 바꾸기 쉬워, 요구사항과 자동화 테스트 사이의 번역 비용을 줄여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       테스트 가능한 AC의 골격: Given - When - Then           │
-├──────────────────────────────────────────────────────────────┤
-│ Given : 사용자가 로그인 화면에 있다                           │
-│ When  : 비밀번호를 5회 연속 틀린다                            │
-│ Then  : 계정이 10분 잠기고 안내 메시지가 보인다               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 가능한 AC의 골격: Given - When - Then</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Given : 사용자가 로그인 화면에 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When : 비밀번호를 5회 연속 틀린다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Then : 계정이 10분 잠기고 안내 메시지가 보인다</div></div>
+</div>
+</div>
+
+
 
 즉 인수 기준의 핵심 원리는 "설명 가능한 요구"를 "판정 가능한 조건"으로 바꾸는 데 있다. 잘 작성된 인수 기준은 개발자에게 구현 경계를 주고, QA에게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트를 주며, [제품 책임자](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/063_product_owner_po/) (Product Owner, PO)에게 승인 근거를 준다.
 
@@ -136,16 +140,20 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사용자 스토리 / 요구사항
-    │
-    ▼
-인수 기준 (Acceptance Criteria)
-    │
-    ├─▶ Given-When-Then 시나리오
-    ├─▶ 테스트 케이스 / 자동화 검증
-    └─▶ PO 승인 / 릴리스 판단
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 스토리 / 요구사항</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인수 기준 (Acceptance Criteria)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Given-When-Then 시나리오</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 테스트 케이스 / 자동화 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ PO 승인 / 릴리스 판단</div>
+</div>
+</div>
+
+
 
 이 흐름도는 비즈니스 요구가 인수 기준을 거쳐, 실행 가능한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 승인 절차로 이어지는 과정을 보여준다.
 

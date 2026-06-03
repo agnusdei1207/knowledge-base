@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-Pres의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  MVP (Model-View-Pres                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVP (Model-View-Pres</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-Pres가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 안드로이드 초창기를 지배한 패턴입니다. C(Controller)를 P(Presenter)로 바꿨습니다.
 - **핵심 목표**: "View와 Model은 평생 서로의 얼굴을 1초도 보면 안 된다! 완벽한 남남으로 찢어놔!"
 - **작동 원리**:
-  - [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)(화면) 1개당 무조건 **Presenter(프레젠터)**라는 1:1 전담 과외 교사를 배정합니다.
+  - [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)(화면) 1개당 무조건 <strong>Presenter(프레젠터)</strong>라는 1:1 전담 과외 교사를 배정합니다.
   - 화면에 로그인 버튼이 눌립니다. View는 생각 없이 옆에 있는 Presenter 멱살을 잡습니다. "형! 눌렸어!"
   - Presenter가 뒤로 가서 Model(DB)한테 아이디 비번을 확인받고 다시 View로 돌아와서 일일이 떠먹여 줍니다. "야 뷰야, 화면 빨간색으로 칠해! 에러 메시지 띄워!"
 - **장단점**: View와 Model이 완벽히 100% 분리되어 테스트하기 미치도록 좋습니다. 하지만, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 하나를 만들 때마다 무조건 Presenter 코드를 1:1 쌍으로 1만 줄씩 새로 짜줘야 하는 노가다(코드 중복)가 끔찍하게 터집니다.
@@ -71,10 +70,10 @@ tags = ["studynote-software-engineering"]
 
 MVP의 노가다에 빡친 마이크로소프트와 안드로이드 진영이 내놓은 궁극의 완성본. 현재 프론트엔드(React, Vue, iOS)의 지배자입니다.
 
-- **개념**: Presenter라는 꼰대 과외 교사를 죽여버리고, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 뒤에 **'ViewModel(뷰 모델)'이라는 마법의 투명 거울 창고**를 세워두는 패턴입니다.
-- **핵심 마법: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Binding)** 🌟 기출 단골 🌟
+- **개념**: Presenter라는 꼰대 과외 교사를 죽여버리고, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 뒤에 <strong>'ViewModel(뷰 모델)'이라는 마법의 투명 거울 창고</strong>를 세워두는 패턴입니다.
+- <strong>핵심 마법: <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 바인딩 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Binding)</strong> 🌟 기출 단골 🌟
   - 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))의 텍스트 박스와, 뷰 모델(ViewModel) 안의 변수를 보이지 않는 마법의 끈([옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/), 양방향 바인딩)으로 꽁꽁 묶어(Binding) 버립니다.
-  - **기적의 결과**: 지휘자가 "화면 고쳐!"라고 1줄의 코드도 짤 필요가 없습니다. 그냥 서버에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아와서 **뷰 모델(ViewModel)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 딱 바뀌는 찰나의 순간! 마법의 끈으로 묶여있는 폰 화면([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))의 글씨가 0.001초 만에 스스로 지 혼자서 착! 하고 바뀌어버립니다.** (반응형 프로그래밍의 기초)
+  - **기적의 결과**: 지휘자가 "화면 고쳐!"라고 1줄의 코드도 짤 필요가 없습니다. 그냥 서버에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아와서 <strong>뷰 모델(ViewModel)의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 딱 바뀌는 찰나의 순간! 마법의 끈으로 묶여있는 폰 화면(<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)의 글씨가 0.001초 만에 스스로 지 혼자서 착! 하고 바뀌어버립니다.</strong> (반응형 프로그래밍의 기초)
 - **효과**: 화면 업데이트를 위한 귀찮은 제어 코드(UI Update Logic) 수만 줄이 지구상에서 완전히 소멸하여 프론트엔드 개발자의 퇴근 시간이 6시간 앞당겨집니다.
 
 - **📢 섹션 요약 비유**: [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-Presenter) / MVVM (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-ViewModel)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -88,10 +87,10 @@ MVP의 노가다에 빡친 마이크로소프트와 안드로이드 진영이 �
 | 패턴 | 핵심 특징 | 의존성 (단점) |
 |:---|:---|:---|
 | **MVC** | 컨트롤러 1명이 여러 뷰와 모델을 통제 | **컨트롤러 코드가 괴물처럼 비대해짐** |
-| **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)** | 프레젠터가 뷰와 1:1로 붙어 일일이 떠먹여줌 | **뷰와 프레젠터 간의 결합도가 높아 코드 노가다** |
-| **MVVM** | **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩**으로 자동 실시간 화면 갱신 | **바인딩 로직을 짤 때 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 조심해야 함** |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a></strong> | 프레젠터가 뷰와 1:1로 붙어 일일이 떠먹여줌 | **뷰와 프레젠터 간의 결합도가 높아 코드 노가다** |
+| **MVVM** | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 바인딩</strong>으로 자동 실시간 화면 갱신 | <strong>바인딩 로직을 짤 때 <a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a> 조심해야 함</strong> |
 
-> 📢 **섹션 요약 비유**: 복잡한 스마트폰 앱 화면을 그리는 전쟁에서 **MVC 패턴**은 **'오케스트라 1명의 지휘자(Controller)'**입니다. 1명이 100명의 악기 연주자([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))에게 일일이 손가락을 짚어가며 "너 지금 이거 쳐! 넌 저거 쳐!" 지시하려니 지휘자가 과로사로 피를 토합니다(Massive Controller). 이를 개선한 **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 패턴**은 100명의 연주자 뒤에 아예 **'1:1 전담 과외 선생님 100명(Presenter)'**을 붙인 것입니다. 선생님이 1:1로 악보(Model)를 받아서 연주자의 손가락을 잡아끌며 떠먹여 주니(완벽한 분리) 절대 안 틀리지만, 선생님 인건비(코드 작성 노가다)가 파산 수준입니다. 최종 완성형인 **MVVM 패턴**은 선생님을 다 자르고, 연주자들의 눈앞에 **'마법의 홀로그램 악보대(ViewModel + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 바인딩)'**를 세워둔 기적입니다. 작곡가(Model)가 멀리서 악보를 쓱 고치면, 그 즉시 모든 연주자 눈앞의 홀로그램 악보가 실시간으로 저절로 스르륵 바뀝니다. 누가 지시(제어 코드)할 필요 없이 연주자([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 그냥 눈앞의 악보(바인딩 된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 보고 연주하면 끝나는, 모바일 프론트엔드 UI 업데이트의 궁극적 자동화 아키텍처입니다.
+> 📢 **섹션 요약 비유**: 복잡한 스마트폰 앱 화면을 그리는 전쟁에서 <strong>MVC 패턴</strong>은 <strong>'오케스트라 1명의 지휘자(Controller)'</strong>입니다. 1명이 100명의 악기 연주자([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))에게 일일이 손가락을 짚어가며 "너 지금 이거 쳐! 넌 저거 쳐!" 지시하려니 지휘자가 과로사로 피를 토합니다(Massive Controller). 이를 개선한 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> 패턴</strong>은 100명의 연주자 뒤에 아예 <strong>'1:1 전담 과외 선생님 100명(Presenter)'</strong>을 붙인 것입니다. 선생님이 1:1로 악보(Model)를 받아서 연주자의 손가락을 잡아끌며 떠먹여 주니(완벽한 분리) 절대 안 틀리지만, 선생님 인건비(코드 작성 노가다)가 파산 수준입니다. 최종 완성형인 <strong>MVVM 패턴</strong>은 선생님을 다 자르고, 연주자들의 눈앞에 <strong>'마법의 홀로그램 악보대(ViewModel + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 바인딩)'</strong>를 세워둔 기적입니다. 작곡가(Model)가 멀리서 악보를 쓱 고치면, 그 즉시 모든 연주자 눈앞의 홀로그램 악보가 실시간으로 저절로 스르륵 바뀝니다. 누가 지시(제어 코드)할 필요 없이 연주자([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 그냥 눈앞의 악보(바인딩 된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 보고 연주하면 끝나는, 모바일 프론트엔드 UI 업데이트의 궁극적 자동화 아키텍처입니다.
 
 - **📢 섹션 요약 비유**: [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-Presenter) / MVVM (Model-[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)-ViewModel)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -132,21 +131,23 @@ MVP의 노가다에 빡친 마이크로소프트와 안드로이드 진영이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-MVP (Model-View-Presenter) / MVVM (Model-View-ViewModel) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MVP (Model-View-Presenter) / MVVM (Model-View-ViewModel) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

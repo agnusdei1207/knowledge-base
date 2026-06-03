@@ -42,20 +42,24 @@ Virtio 드라이버 모델은 크게 게스트 프론트엔드 드라이버, Vir
 
 아래 그림은 Virtio 요청이 어떻게 흘러가는지 보여준다.
 
-```text
-┌──────────────────────────── Guest VM ────────────────────────────┐
-│ App -> virtio driver -> virtqueue                               │
-│                         ├─ descriptor table                     │
-│                         ├─ avail ring                           │
-│                         └─ used ring                            │
-└────────────────────────────────┬─────────────────────────────────┘
-                                 │ shared pages + notify
-                                 ▼
-┌──────────────────────────── Host side ───────────────────────────┐
-│ QEMU / vhost backend -> tap, disk image, or physical device     │
-│ reads descriptors, performs I/O, writes completion to used ring │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Guest VM</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App -&gt; virtio driver -&gt; virtqueue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ descriptor table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ avail ring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ used ring</div></div>
+<div class="kb-diagram-note">shared pages + notify</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Host side</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QEMU / vhost backend -&gt; tap, disk image, or physical device</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reads descriptors, performs I/O, writes completion to used ring</div></div>
+</div>
+</div>
+
+
 
 동작 절차를 순서대로 보면 더 명확하다. 첫째, 게스트 드라이버가 장치와 기능 협상을 하여 [checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) offload, multiqueue 같은 옵션을 맞춘다. 둘째, 게스트는 전송할 버퍼의 메모리 위치를 descriptor table에 적고, available ring에 "이 요청을 처리해 달라"고 표시한다. 셋째, 호스트 백엔드는 해당 엔트리를 읽어 실제 장치 I/O를 수행한다. 넷째, 결과를 used ring에 기록하고 게스트에 완료를 알린다. 이때 중요한 것은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 매 요청마다 여러 번 복사되는 것이 아니라, 이미 약속된 메모리 위치를 서로 참조한다는 점이다.
 
@@ -132,21 +136,23 @@ Virtio 드라이버 모델의 가장 큰 효과는 "빠른데도 관리 가능�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장치 에뮬레이션
-    │
-    ▼
-하이퍼바이저별 반가상화 드라이버
-    │
-    ▼
-Virtio 표준화 + virtqueue
-    │
-    ▼
-멀티큐 + vhost 백엔드
-    │
-    ▼
-Packed Virtqueue + vDPA
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장치 에뮬레이션</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하이퍼바이저별 반가상화 드라이버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Virtio 표준화 + virtqueue</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티큐 + vhost 백엔드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Packed Virtqueue + vDPA</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보 → 표준화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 최적화 → 하드웨어 가속 연계"로 Virtio가 진화해 온 방향을 보여준다.
 

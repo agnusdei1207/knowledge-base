@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트웨어적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해결책은 CPU의 특수한 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(TAS, [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 등) 지원이나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 개입 없이, 오직 **프로그래머가 작성한 일반적인 전역 변수(`flag`, `turn`)의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**하려는 초창기 컴퓨터 과학의 순수 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 접근법이다.
+> 1. **본질**: 소프트웨어적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해결책은 CPU의 특수한 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(TAS, [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 등) 지원이나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 개입 없이, 오직 <strong>프로그래머가 작성한 일반적인 전역 변수(<code>flag</code>, <code>turn</code>)의 읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>만으로 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>)을 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>하려는 초창기 컴퓨터 과학의 순수 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 접근법이다.
 > 2. **가치**: 데커(Dekker), 피터슨(Peterson), 램포트(Lamport) 등의 천재 학자들이 고안한 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 "[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)"라는 3대 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필수 요건을 수학적으로 완벽히 증명해 내어, 현대 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 뼈대를 세운 '교과서의 바이블'로 평가받는다.
-> 3. **융합**: 하지만 현대의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)(Out-of-Order Execution) CPU 아키텍처와 멀티코어 캐시 환경에서는 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지며 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 붕괴하므로, 실무에서는 **[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))**와 하드웨어 락을 결합하는 방식으로 발전/대체되었다.
+> 3. **융합**: 하지만 현대의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)(Out-of-Order Execution) CPU 아키텍처와 멀티코어 캐시 환경에서는 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지며 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 붕괴하므로, 실무에서는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a>(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">Memory Barrier</a>)</strong>와 하드웨어 락을 결합하는 방식으로 발전/대체되었다.
 
 ---
 
@@ -24,22 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 두 프로세스가 교대로만 들어가게 만든 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Strict Alternation)은 핑퐁을 치다가 하나가 죽으면 남은 하나도 영원히 멈추는 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 실패를 겪었다. 이를 해결하기 위해 수학자들은 변수를 추가하고 순서를 꼬아가며, 어떠한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 타이밍에도 깨지지 않는 완전무결한 소프트웨어 자물쇠를 찾기 위해 10년 넘게 논문을 쏟아냈다.
 
-```text
-  [소프트웨어 동기화의 3대 진화 단계]
 
-  [ 1단계: 깃발만 사용 (상호 배제 실패) ]
-  A: "깃발 들게. 어? B 깃발 없네? 들어간다!"
-  B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" ─▶ 💥 쾅! (둘 다 들어감)
 
-  [ 2단계: 양보만 사용 (진행 실패, 데드락) ]
-  A: "너 먼저 해." (turn = B)
-  B: "아니야 너 먼저 해." (turn = A) ─▶ 💥 서로 무한 양보하다 굶어 죽음.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 동기화의 3대 진화 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 깃발만 사용 (상호 배제 실패)</div></div>
+<div class="kb-diagram-note">A: "깃발 들게. 어? B 깃발 없네? 들어간다!"</div>
+<div class="kb-diagram-note">B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" ─▶ 💥 쾅! (둘 다 들어감)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 양보만 사용 (진행 실패, 데드락)</div></div>
+<div class="kb-diagram-note">A: "너 먼저 해." (turn = B)</div>
+<div class="kb-diagram-note">B: "아니야 너 먼저 해." (turn = A) ─▶ 💥 서로 무한 양보하다 굶어 죽음.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 깃발 + 양보 융합 (피터슨 알고리즘 - 완벽 성공)</div></div>
+<div class="kb-diagram-note">A: "나 깃발 들게. 근데 네가 먼저 들어가(turn = B)."</div>
+<div class="kb-diagram-note">B: "나도 깃발 들게. 근데 네가 먼저 들어가(turn = A)."</div>
+<div class="kb-diagram-note">▶ 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)</div>
+</div>
+</div>
 
-  [ 3단계: 깃발 + 양보 융합 (피터슨 알고리즘 - 완벽 성공) ]
-  A: "나 깃발 들게. 근데 네가 먼저 들어가(turn = B)."
-  B: "나도 깃발 들게. 근데 네가 먼저 들어가(turn = A)."
-  ▶ 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)
-```
+
 **[다이어그램 해설]** 소프트웨어 락을 짤 때 가장 많이 하는 실수를 보여준다. 의사 표시(깃발)만으로는 찰나의 문맥 교환을 막을 수 없고, 양보(턴)만으로는 문 앞에서의 교착 상태를 막을 수 없다. 천재 수학자들은 이 두 가지 변수를 교묘하게 교차시켜 "내가 들어가고 싶음을 명확히 하되, 최종 결정권은 상대에게 넘기는" 아름다운 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 완성했다.
 
 - **📢 섹션 요약 비유**: 좁은 골목길에 차 두 대가 마주쳤습니다. 클락션만 울리고(깃발) 전진하면 사고가 나고, 서로 후진만 하면(양보) 평생 골목을 못 빠져나갑니다. 비상등을 켜서(깃발) 내 의사를 알리되, 손짓으로 "먼저 가세요(양보)"를 병행해야 골목길([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 부드럽게 풀립니다.
@@ -77,9 +80,9 @@ tags = ["studynote-operating-system"]
   }
 ```
 **[천재성 분석]**
-- **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 증명**: P0과 P1이 동시에 `while` 문을 통과할 수 있을까? 불가능하다. `turn` 변수는 0 아니면 1, 둘 중 하나의 값만 가진다. 따라서 둘 중 한 명은 무조건 `while` 문에 갇히게 된다.
-- **[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 증명**: P1이 아예 관심이 없으면(`flag[1] == false`), P0은 `turn` 값에 상관없이 100% 프리패스로 통과한다.
-- **[한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 증명**: P0이 대기 중일 때, P1이 방에서 나오며 `flag[1] = false`를 한다. P1이 얄밉게 다시 들어가려 해도 `turn = 0`으로 바꿔버리므로 갇혀있던 P0이 무조건 풀려난다. 새치기를 원천 봉쇄한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> 증명</strong>: P0과 P1이 동시에 `while` 문을 통과할 수 있을까? 불가능하다. `turn` 변수는 0 아니면 1, 둘 중 하나의 값만 가진다. 따라서 둘 중 한 명은 무조건 `while` 문에 갇히게 된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 증명</strong>: P1이 아예 관심이 없으면(`flag[1] == false`), P0은 `turn` 값에 상관없이 100% 프리패스로 통과한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a> 증명</strong>: P0이 대기 중일 때, P1이 방에서 나오며 `flag[1] = false`를 한다. P1이 얄밉게 다시 들어가려 해도 `turn = 0`으로 바꿔버리므로 갇혀있던 P0이 무조건 풀려난다. 새치기를 원천 봉쇄한다.
 
 ### 램포트의 빵집 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Lamport's Bakery [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 오직 프로세스 2개일 때만 동작했다. 레슬리 램포트는 이를 N개의 프로세스로 무한히 확장할 수 있는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 빵집 번호표 기계에서 착안해 발명했다.
@@ -98,8 +101,8 @@ tags = ["studynote-operating-system"]
 | 현대 하드웨어의 배신 | 소프트웨어 락(피터슨)에 미치는 파괴적 영향 |
 |:---|:---|
 | **컴파일러 최적화 (Compiler Optimization)** | 컴파일러가 코드를 보니 `flag`와 `turn` 변수가 서로 연관이 없어 보임. 마음대로 `turn = 1`을 `flag = true` 보다 먼저 실행되게 코드를 섞어버림. ─▶ 락 붕괴. |
-| **[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)** | CPU 칩 자체가 1클럭이라도 아끼려고 메모리에 쓰는 순서를 지 맘대로 섞어서 실행함. ─▶ 락 붕괴. |
-| **L1 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 코어 0이 `flag[0]=true`로 바꿨는데, 코어 1의 캐시에는 아직 `false`로 남아있어 코어 1이 냅다 방으로 밀고 들어옴. ─▶ [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 박살. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/">비순차 실행</a> (Out-of-Order Execution)</strong> | CPU 칩 자체가 1클럭이라도 아끼려고 메모리에 쓰는 순서를 지 맘대로 섞어서 실행함. ─▶ 락 붕괴. |
+| <strong>L1 <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">Cache Coherence</a>) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 코어 0이 `flag[0]=true`로 바꿨는데, 코어 1의 캐시에는 아직 `false`로 남아있어 코어 1이 냅다 방으로 밀고 들어옴. ─▶ [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 박살. |
 
 결론적으로, 아무리 위대한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 종이에 써놔도 밑바닥을 받쳐주는 컴파일러와 하드웨어가 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 순차적 실행(In-order)"을 보장해주지 않으면 소프트웨어 락은 종이 쪼가리에 불과하다.
 
@@ -110,35 +113,33 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))를 통한 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심폐소생**: 코딩 테스트나 시스템 커널을 직접 짤 때 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 굳이 써야 한다면?
-   - **실무 조치**: 컴파일러와 CPU가 순서를 섞지 못하도록 변수 할당 사이에 강제적인 **[메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) (Memory Fence)** [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아 넣어야 한다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a>(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">Memory Barrier</a>)를 통한 피터슨 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 심폐소생</strong>: 코딩 테스트나 시스템 커널을 직접 짤 때 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 굳이 써야 한다면?
+   - **실무 조치**: 컴파일러와 CPU가 순서를 섞지 못하도록 변수 할당 사이에 강제적인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/">메모리 배리어</a> (Memory Fence)</strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아 넣어야 한다.
    - C++ 예시: `std::atomic_thread_fence(std::memory_order_seq_cst);` 를 `flag` 선언 직후에 박아 넣으면, CPU는 "아, 이 선을 넘어가면 안 되는구나" 하고 얌전히 순서를 지킨다. (단, 이 배리어 자체가 성능을 크게 깎아먹으므로 실무에서는 차라리 하드웨어 락인 Mutex를 쓴다.)
 2. **Volatile 키워드의 남용과 오해**: 자바(Java) 백엔드 주니어 개발자가 공유 변수 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 위해 `volatile boolean flag;` 선언만 믿고 피터슨 비스무리한 코드를 짰다.
-   - **아키텍트 교정**: `volatile`은 "캐시를 쓰지 말고 메인 메모리에서 최신 값을 읽어와라"라는 뜻이지, `count++` 같은 동작을 원자적(Atomic)으로 묶어주는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 절대 아니다. 소프트웨어 변수만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 막으려 드는 시도 자체가 현대 실무에서는 **최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**이며, 무조건 `synchronized` 블록이나 `AtomicBoolean` (내부적으로 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용)을 쓰는 것이 정답이다.
+   - **아키텍트 교정**: `volatile`은 "캐시를 쓰지 말고 메인 메모리에서 최신 값을 읽어와라"라는 뜻이지, `count++` 같은 동작을 원자적(Atomic)으로 묶어주는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 절대 아니다. 소프트웨어 변수만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 막으려 드는 시도 자체가 현대 실무에서는 <strong>최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>(<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>이며, 무조건 `synchronized` 블록이나 `AtomicBoolean` (내부적으로 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용)을 쓰는 것이 정답이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │     동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현]     │
-  │                │                                                  │
-  │                ▼ 1. 순수 소프트웨어 변수로 락을 구현할 것인가?    │
-  │      [ 예 (피터슨/빵집 알고리즘 사용 시도) ]                      │
-  │       ├─▶ 판정: 🚨 실무 적용 절대 불가. 버그의 온상.              │
-  │       └─▶ 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.│
-  │                                                                   │
-  │      [ 아니오 (OS 또는 하드웨어의 도움을 받음) ]                  │
-  │                 │                                                 │
-  │                 ▼ 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?     │
-  │          ├─ [ 예 ] ─▶ 하드웨어 Spinlock (TAS/CAS 기반) 적용       │
-  │          │             (문맥 교환 오버헤드 없이 뺑뺑이로 방어)    │
-  │          │                                                        │
-  │          └─ [ 아니오 ] ─▶ 운영체제 Mutex / Semaphore 적용         │
-  │                         (OS가 스레드를 Sleep 시켜서 자원 절약)    │
-  └───────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 과목에서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 배우는 이유는 "이걸 실무에 써라!"가 아니라, **"[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완벽해 보이는 코드도 하드웨어 구조에 의해 어떻게 처참하게 박살 나는가"**를 뼈저리게 느끼게 하기 위함이다. 실무 엔지니어링은 무조건 하단 트리의 OS Mutex나 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 수렴한다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 순수 소프트웨어 변수로 락을 구현할 것인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">예 (피터슨/빵집 알고리즘 사용 시도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판정: 🚨 실무 적용 절대 불가. 버그의 온상.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아니오 (OS 또는 하드웨어의 도움을 받음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">하드웨어 Spinlock (TAS/CAS 기반) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문맥 교환 오버헤드 없이 뺑뺑이로 방어)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">운영체제 Mutex / Semaphore 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 스레드를 Sleep 시켜서 자원 절약)</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 과목에서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 배우는 이유는 "이걸 실무에 써라!"가 아니라, <strong>"<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 완벽해 보이는 코드도 하드웨어 구조에 의해 어떻게 처참하게 박살 나는가"</strong>를 뼈저리게 느끼게 하기 위함이다. 실무 엔지니어링은 무조건 하단 트리의 OS Mutex나 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 수렴한다.
 
 - **📢 섹션 요약 비유**: 무인도에서 나무 막대기를 비벼 불을 피우는 방법(피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 생존의 훌륭한 원리지만, 집에 가스레인지와 라이터(하드웨어 락, [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))가 있는데 굳이 부엌에서 나무 막대기를 비비며 요리를 하려는 셰프는 당장 해고당합니다. 도구를 쓸 줄 아는 것이 엔지니어의 기본입니다.
 
@@ -151,7 +152,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 소프트웨어 락(Software [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 시대는 CPU가 복잡해지면서 역사 속으로 저물었고, 그 자리를 OS가 제공하는 무거운 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 대체했다. 
-하지만 흥미롭게도, 락이 무거워지면서 성능에 병목이 생기자 현대의 컴퓨터 과학은 다시 "락을 우회하는 꼼수"로 회귀하고 있다. 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))를 절묘하게 꼬아서 만든 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 프로그래밍은 사실상 **'현대판 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'**이다. 인간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 다시금 하드웨어의 틈새를 돌파하려는 이 소프트웨어적 발악은, 향후 [트랜잭셔널 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)(Transactional Memory)가 완전히 대중화될 때까지 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 튜닝의 최전선에서 계속될 것이다.
+하지만 흥미롭게도, 락이 무거워지면서 성능에 병목이 생기자 현대의 컴퓨터 과학은 다시 "락을 우회하는 꼼수"로 회귀하고 있다. 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))를 절묘하게 꼬아서 만든 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 프로그래밍은 사실상 <strong>'현대판 피터슨 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>'</strong>이다. 인간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 다시금 하드웨어의 틈새를 돌파하려는 이 소프트웨어적 발악은, 향후 [트랜잭셔널 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)(Transactional Memory)가 완전히 대중화될 때까지 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 튜닝의 최전선에서 계속될 것이다.
 
 - **📢 섹션 요약 비유**: 연금술사들이 돌을 황금(소프트웨어 락)으로 만들려던 시도는 과학적으로 실패했지만, 그 과정에서 발전한 화학 지식(상호배제/[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/))이 현대 과학([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 찬란한 밑거름이 된 것처럼, 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비록 실무에선 죽었으나 영원히 교과서의 위대한 실패작으로 빛나고 있습니다.
 
@@ -168,15 +169,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[코-스케줄링 (Co-scheduling / Gang Scheduling)]
-    │
-    ▼
-[소프트웨어적 동기화 해결책 (Software Synchronization Solutions)]
-    │
-    ├──▶ [실시간 리눅스 (PREEMPT_RT 패치)]
-    └──▶ [무중단 라이브 마이그레이션 스케줄링 고려사항]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코-스케줄링 (Co-scheduling / Gang Scheduling)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어적 동기화 해결책 (Software Synchronization Solutions)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 리눅스 (PREEMPT_RT 패치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무중단 라이브 마이그레이션 스케줄링 고려사항</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

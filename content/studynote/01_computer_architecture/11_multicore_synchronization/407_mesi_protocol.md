@@ -25,19 +25,20 @@ MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295
 
 이 차이는 실제로 매우 중요하다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 코어에서만 읽히고 곧바로 수정되는 경우는 흔한데, MSI는 이 경우에도 일단 공유 가능성을 전제로 S 상태를 부여했다. 결과적으로 실제로는 아무도 공유하지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인데도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순간마다 불필요한 무효화 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽이 발생했다. MESI는 "지금은 나만 가진다"는 사실을 E 상태로 표현해 이런 낭비를 줄인다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           MESI가 필요한 이유: 빠른 캐시와 올바른 값의 동시 보장      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Core 0 Cache        Shared Bus / Interconnect        Core 1 Cache    │
-│ [X = 10] ───────┐                                ┌──▶ [X = 10]       │
-│                 │                                │                   │
-│ Core 0 writes   ├── 무효화/응답 규칙이 없으면 ───┤   Core 1 still     │
-│ X = 11          │                                │   reads old value  │
-│                 ▼                                ▼                   │
-│            서로 다른 "최신 값"이 공존하는 모순 발생                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MESI가 필요한 이유: 빠른 캐시와 올바른 값의 동시 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Cache Shared Bus / Interconnect Core 1 Cache</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">X = 10</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">X = 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 writes ── 무효화/응답 규칙이 없으면 Core 1 still</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X = 11</div><div class="kb-diagram-cell">reads old value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 다른 "최신 값"이 공존하는 모순 발생</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 캐시가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 장치인 동시에, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙이 없으면 오히려 시스템 전체의 진실을 깨뜨릴 수 있다는 점이다. MESI는 모든 캐시 라인에 "내가 최신본인지, 혼자 갖는지, 같이 갖는지, 버려졌는지"를 명시해 이 모순을 막는다.
 
@@ -60,27 +61,27 @@ MESI는 캐시 라인 단위의 유한 상태 기계 (Finite [State](/knowledge-
 
 아래 흐름은 시험에서 자주 묻는 대표 시나리오다. "처음 읽기 → 다른 코어가 읽기 → 한 코어가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)" 순서로 보면 MESI의 전체 철학이 보인다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 대표 상태 전이: Read → Share → Invalidate           │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1) Core 0 read miss on A                                             │
-│    Memory/Bus check: no sharer                                       │
-│    ⇒ Core 0 : I → E                                                  │
-│                                                                      │
-│ 2) Core 1 read miss on A                                             │
-│    Snooping sees Core 0 has E                                        │
-│    ⇒ Core 0 : E → S,  Core 1 : I → S                                 │
-│                                                                      │
-│ 3) Core 1 write A                                                    │
-│    Invalidate broadcast                                              │
-│    ⇒ Core 0 : S → I,  Core 1 : S → M                                 │
-│                                                                      │
-│ 4) Core 0 read A again                                               │
-│    Core 1 supplies newest data or writes back as needed              │
-│    ⇒ Core 1 : M → S,  Core 0 : I → S                                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 상태 전이: Read → Share → Invalidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Core 0 read miss on A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory/Bus check: no sharer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ Core 0 : I → E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Core 1 read miss on A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snooping sees Core 0 has E</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ Core 0 : E → S, Core 1 : I → S</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Core 1 write A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Invalidate broadcast</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ Core 0 : S → I, Core 1 : S → M</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Core 0 read A again</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 supplies newest data or writes back as needed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⇒ Core 1 : M → S, Core 0 : I → S</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 E 상태가 실질적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선 지점이다. E는 "현재는 공유자가 없다"는 정보를 기억해, 로컬 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 위해 굳이 시스템 전체에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방송을 하지 않아도 되게 만든다. 즉 MESI는 단순히 4상태를 늘려 복잡하게 만든 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 아니라, 읽기 직후의 독점 가능성을 활용해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용을 줄인 최적화된 [write-invalidate](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/405_write_invalidate/) 전략이다.
 
@@ -116,14 +117,14 @@ MESI를 이해하려면 [MSI](/knowledge-base/studynote/01_computer_architecture
 
 1. **자주 수정되는 값은 가능하면 코어 지역성 (Core Locality)을 높인다.**
    [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), Thread-Local Storage, 샤딩된 큐는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 E 또는 M 상태로 오래 유지하게 해 무효화 폭풍을 줄인다.
-2. **공유 읽기와 공유 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 구분한다.**
+2. <strong>공유 읽기와 공유 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 구분한다.</strong>
    읽기만 많은 구조는 S 상태가 자연스럽지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 섞이면 곧바로 무효화 비용이 커진다. 읽기 위주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 갱신 위주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리하는 이유가 여기에 있다.
-3. **[거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)를 구조적으로 차단한다.**
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>를 구조적으로 차단한다.</strong>
    64바이트 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 캐시 라인 정렬, per-core [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 같은 기법은 논리보다 물리 배치를 조정해 MESI 충돌을 줄인다.
 
 ### 기술사형 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여러 코어가 동시에 **읽기만** 하는가, 아니면 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁**이 있는가?
+- 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 여러 코어가 동시에 **읽기만** 하는가, 아니면 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 경쟁</strong>이 있는가?
 - [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 비용보다 락 제거 이득이 큰가?
 - 캐시 라인 경계와 자료구조 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 원인일 수 있는가?
 - 멀티소켓 환경이라면 단순 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 스누핑보다 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 더 적합한가?
@@ -140,7 +141,7 @@ MESI의 가장 큰 효과는 멀티코어 시스템이 캐시의 속도를 유�
 
 다만 전제조건도 분명하다. MESI는 스누핑 기반 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 구조에서 특히 효과적이며, 코어 수가 커질수록 브로드캐스트 감시 비용이 커진다. 또한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장이 곧바로 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뜻하지는 않는다. 같은 정답을 보장하더라도, 잦은 무효화와 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)가 있으면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 나빠질 수 있다.
 
-따라서 MESI는 "캐시의 4상태 표"로 외우기보다, **독점이면 조용히 쓰고, 공유되면 조정 비용이 생기며, 수정본은 반드시 주인이 있다**는 관점으로 기억하는 것이 좋다. 이 시각을 가지면 [False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/), MOESI, [Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/), [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 같은 다음 개념도 훨씬 자연스럽게 연결된다.
+따라서 MESI는 "캐시의 4상태 표"로 외우기보다, <strong>독점이면 조용히 쓰고, 공유되면 조정 비용이 생기며, 수정본은 반드시 주인이 있다</strong>는 관점으로 기억하는 것이 좋다. 이 시각을 가지면 [False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/), MOESI, [Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/), [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 같은 다음 개념도 훨씬 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: MESI는 반 전체가 돌려보는 학급 자료의 관리 규칙과 같다. 혼자 보는 자료는 빨리 고칠 수 있지만, 여러 명이 함께 보는 자료는 먼저 다른 복사본부터 정리해야 혼란 없이 같은 내용을 유지할 수 있다.
 
@@ -158,26 +159,26 @@ MESI의 가장 큰 효과는 멀티코어 시스템이 캐시의 속도를 유�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 코어 캐시 적중 최적화
-    │
-    ▼
-캐시 일관성 (Cache Coherence) 필요
-    │
-    ├─▶ MSI 프로토콜 (Modified, Shared, Invalid Protocol)
-    │        │
-    │        └─▶ 읽기 직후 쓰기에도 무효화 필요
-    │
-    ▼
-MESI 프로토콜 (Modified, Exclusive, Shared, Invalid Protocol)
-    │
-    ├─▶ E 상태로 단독 보유 최적화
-    ├─▶ Write Invalidate 기반 공유 조정
-    └─▶ False Sharing 분석의 핵심 배경
-    │
-    ▼
-MOESI / MESIF 프로토콜 (Modified, Exclusive, Shared, Invalid, Forward Protocol) / Directory-Based Coherence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 코어 캐시 적중 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ MSI 프로토콜 (Modified, Shared, Invalid Protocol)</div>
+<div class="kb-diagram-note">─▶ 읽기 직후 쓰기에도 무효화 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESI 프로토콜 (Modified, Exclusive, Shared, Invalid Protocol)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ E 상태로 단독 보유 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Write Invalidate 기반 공유 조정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ False Sharing 분석의 핵심 배경</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MOESI / MESIF 프로토콜 (Modified, Exclusive, Shared, Invalid, Forward Protocol) / Directory-Based Coherence</div>
+</div>
+</div>
+
+
 
 이 흐름은 "캐시를 빠르게 쓰고 싶다"는 요구가 결국 "어떻게 최신본의 주인을 추적할 것인가"라는 문제로 발전하는 과정을 보여준다. MESI는 그중에서도 가장 널리 학습되는 기준점이다.
 

@@ -19,22 +19,25 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-2014년 Ian Goodfellow가 제안한 GAN은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)의 패러다임을 바꿨다. 기존 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델([VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), RBM)이 명시적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도(Explicit [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Density)를 최대화하는 방식이라면, GAN은 **암묵적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Implicit Generation)** — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 명시하지 않고 직접 샘플을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — 을 달성한다.
+2014년 Ian Goodfellow가 제안한 GAN은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델(Generative Model)의 패러다임을 바꿨다. 기존 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델([VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/), RBM)이 명시적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도(Explicit [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Density)를 최대화하는 방식이라면, GAN은 <strong>암묵적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Implicit Generation)</strong> — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 명시하지 않고 직접 샘플을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — 을 달성한다.
 
 핵심 아이디어는 두 신경망의 경쟁이다:
-- **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Generator) G**: 노이즈 z ~ p_z(z)를 입력받아 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) G(z)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자(Generator) G</strong>: 노이즈 z ~ p_z(z)를 입력받아 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) G(z)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - **판별자(Discriminator) D**: 입력이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지(1) 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지(0)를 구별
 
 두 네트워크가 적대적으로 학습하면서 G의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질이 점점 향상된다. 경찰(D)과 위조지폐범(G)의 게임 비유로 유명하다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: GAN은 위조지폐범(G)과 경찰(D)의 쫓고 쫓기는 게임이다. 경찰은 진짜/가짜를 구별하는 눈을 키우고, 위조지폐범은 더 정교한 지폐를 만든다. 이 게임이 끝나면 위조지폐범은 진짜와 구별 불가능한 지폐를 만들 수 있게 된다.
 
@@ -52,20 +55,22 @@ min_G max_D V(D, G) = E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]
 - log D(x): 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) x를 올바르게 1(실제)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 높을수록 좋음
 - log(1 - D(G(z))): 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) G(z)를 올바르게 0(가짜)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → D(G(z))=0이면 log(1)=0 최대
 
-**[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 G의 목표 (최소화)**:
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 G의 목표 (최소화)</strong>:
 - log(1 - D(G(z))) 최소화 → D(G(z))=1이 되도록 D를 속임
 - 실용적 구현: log(D(G(z))) 최대화 (Non-saturating Loss) — 학습 초반 그래디언트 소실 방지
 
-```
-┌───────────────────────────────────────────────────────────┐
-│  z ~ p_z  →  [Generator G]  →  G(z) (가짜)               │
-│                                  │                        │
-│  x ~ p_data (실제)  ────────────►[Discriminator D]        │
-│                                  │                        │
-│              D(x) → 1 (실제)    D(G(z)) → 0 (가짜)        │
-│              ↑ D 학습 방향         ↑ G는 D(G(z)) → 1 목표   │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Generator G</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">G(z) (가짜)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x ~ p_data (실제) ►</div><div class="kb-diagram-node">Discriminator D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D(x) → 1 (실제) D(G(z)) → 0 (가짜)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ D 학습 방향 ↑ G는 D(G(z)) → 1 목표</div></div>
+</div>
+</div>
+
+
 
 ### 내쉬 균형 (Nash Equilibrium) 분석
 
@@ -94,13 +99,16 @@ JSD(p_data || p_G) ≥ 0이고 p_data = p_G일 때만 0이므로, G는 p_G → p
 
 분포 p_data가 다양한 모드(Multi-modal)를 가질 때, G가 D를 속이는 데 충분한 일부 모드만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 나머지를 무시하는 현상:
 
-```
-┌────────────────────────────────────────────────────────┐
-│  p_data:  ●      ●        ●       ● (4개 군집)         │
-│                                                        │
-│  p_G:     ●                          (1개만 생성)      │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p_data: ● ● ● ● (4개 군집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p_G: ● (1개만 생성)</div></div>
+</div>
+</div>
+
+
 
 ### WGAN (Wasserstein [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 개선
 
@@ -127,7 +135,7 @@ max_D (E[D(x)] - E[D(G(z))])   s.t. ||D||_L ≤ 1 (Lipschitz 제약)
 | 잠재 공간 | 구조화 어려움 | 구조화 가능 | 역변환 가능 | 노이즈 경로 |
 | 추론 속도 | 빠름 | 빠름 | 보통 | 느림 |
 
-**현대 [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 발전**: StyleGAN, BigGAN, CycleGAN 등 수백 가지 변형이 등장했고, DALL-E, Stable Diffusion 등 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)이 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 최전선으로 등장했다.
+<strong>현대 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a> 발전</strong>: StyleGAN, BigGAN, CycleGAN 등 수백 가지 변형이 등장했고, DALL-E, Stable Diffusion 등 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)이 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 최전선으로 등장했다.
 
 - **📢 섹션 요약 비유**: [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 가족은 위조지폐범(G)의 기술이 계속 진화하는 가계도다. 원래 GAN은 흑백 지폐, StyleGAN은 초고화질 컬러 지폐, CycleGAN은 한국 원화를 미국 달러로 변환하는 양방향 위조 기술이다.
 

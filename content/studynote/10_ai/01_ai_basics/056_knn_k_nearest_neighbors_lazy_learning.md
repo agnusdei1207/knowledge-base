@@ -45,17 +45,23 @@ K-NN은 학습 시간은 거의 없지만, 예측할 때 모든 [데이터](/kno
 
 이 문제가 바로 차원의 저주([curse of dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))다. 변수가 늘어나면 가까움과 멂의 차이가 희미해져, 이웃을 찾는 이점이 줄어든다.
 
-```text
-학습 데이터 저장
-      ↓
-새 샘플 입력
-      ↓
-모든 점과 거리 계산
-      ↓
-가장 가까운 K개 선택
-      ↓
-다수결 또는 평균
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">학습 데이터 저장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">새 샘플 입력</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">모든 점과 거리 계산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">가장 가까운 K개 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다수결 또는 평균</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 책을 외우는 시간은 없지만, 시험 볼 때마다 도서관 전체를 뒤져야 해서 느려질 수 있다.
 
@@ -68,7 +74,7 @@ K-NN은 학습 시간은 거의 없지만, 예측할 때 모든 [데이터](/kno
 - **KD-Tree (k-dimensional tree)**: 차원축을 기준으로 공간을 분할한다.
 - **Ball Tree**: 구 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어 탐색 범위를 줄인다.
 - **가중 투표**: 가까운 이웃에 더 큰 비중을 준다.
-- **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)**: 거리 왜곡을 줄이고 검색 효율을 높인다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>와 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/">차원 축소</a></strong>: 거리 왜곡을 줄이고 검색 효율을 높인다.
 
 또한 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이나 벡터 검색에서는 K-NN이 "가장 비슷한 항목 찾기"의 기본 엔진처럼 쓰인다.
 
@@ -93,17 +99,23 @@ K-NN은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classifica
 
 ## 관련 개념 맵
 
-```text
-원본 데이터 저장
-      ↓
-거리 계산
-      ↓
-K 이웃 선택
-      ↓
-다수결 / 평균
-      ↓
-분류 / 회귀 출력
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터 저장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">거리 계산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">K 이웃 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다수결 / 평균</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분류 / 회귀 출력</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -45,17 +45,22 @@ B-Tree (Order 3, 최대 2개 키/노드):
 
 ## II. B+Tree vs [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)
 
-```
-B-Tree:
-  내부 노드: 키 + 데이터 포인터
-  리프 노드: 키 + 데이터 포인터
-  -> 범위 탐색 시 트리 여러 경로 방문
 
-B+Tree:
-  내부 노드: 키 + 자식 포인터만 (데이터 없음)
-  리프 노드: 키 + 데이터 포인터 + 다음 리프 링크
-  -> 범위 탐색: 리프 링크만 따라가면 됨
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B-Tree:</div>
+<div class="kb-diagram-note">내부 노드: 키 + 데이터 포인터</div>
+<div class="kb-diagram-note">리프 노드: 키 + 데이터 포인터</div>
+<div class="kb-diagram-tree-item" style="--depth:1">범위 탐색 시 트리 여러 경로 방문</div>
+<div class="kb-diagram-note">B+Tree:</div>
+<div class="kb-diagram-note">내부 노드: 키 + 자식 포인터만 (데이터 없음)</div>
+<div class="kb-diagram-note">리프 노드: 키 + 데이터 포인터 + 다음 리프 링크</div>
+<div class="kb-diagram-tree-item" style="--depth:1">범위 탐색: 리프 링크만 따라가면 됨</div>
+</div>
+</div>
+
+
 
 | 비교       | [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/)               | B+Tree              |
 |-----------|----------------------|---------------------|
@@ -71,20 +76,22 @@ B+Tree:
 
 ## III. 삽입과 분할 (Split)
 
-```
-B+Tree (Order 3) 삽입 예시:
 
-[10 | 20] <- 40 삽입 -> 노드 가득 참
 
-분할 (Split):
-  [10 | 20 | 40] -> 중간값 20을 부모로 올리고
-  좌: [10]  우: [40]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B+Tree (Order 3) 삽입 예시:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10 | 20</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">40 삽입 -&gt; 노드 가득 참</div></div>
+<div class="kb-diagram-note">분할 (Split):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10 | 20 | 40</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">중간값 20을 부모로 올리고</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">좌:</div><div class="kb-diagram-node">10</div><div class="kb-diagram-note">우:</div><div class="kb-diagram-node">40</div></div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">20</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-node">40</div></div>
+</div>
+</div>
 
-결과:
-     [20]
-    /     \
- [10]    [40]
-```
+
 
 | 조건        | 동작          |
 |------------|--------------|
@@ -98,19 +105,22 @@ B+Tree (Order 3) 삽입 예시:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 차수와 트리 깊이
 
-```
-블록 크기 = 4 KB = 4,096 Bytes
-키 크기 = 8 Bytes (int64)
-포인터 크기 = 6 Bytes
 
-차수 m: m*8 + (m+1)*6 <= 4096
-        14m + 6 <= 4096 -> m <= 292
 
-B+Tree 깊이 (10억 개 레코드):
-  log_292(1,000,000,000) = log(1e9)/log(292) ≈ 3.3
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">블록 크기 = 4 KB = 4,096 Bytes</div>
+<div class="kb-diagram-note">키 크기 = 8 Bytes (int64)</div>
+<div class="kb-diagram-note">포인터 크기 = 6 Bytes</div>
+<div class="kb-diagram-note">차수 m: m*8 + (m+1)*6 &lt;= 4096</div>
+<div class="kb-diagram-note">14m + 6 &lt;= 4096 -&gt; m &lt;= 292</div>
+<div class="kb-diagram-note">B+Tree 깊이 (10억 개 레코드):</div>
+<div class="kb-diagram-note">log_292(1,000,000,000) = log(1e9)/log(292) ≈ 3.3</div>
+<div class="kb-diagram-tree-item" style="--depth:0">최대 4번의 I/O로 어떤 레코드도 검색!</div>
+</div>
+</div>
 
--> 최대 4번의 I/O로 어떤 레코드도 검색!
-```
+
 
 > 📢 **섹션 요약 비유**: 10억 개의 책 중 하나를 4번의 선반 검색으로 찾는 것 — B+Tree의 차수가 높을수록 트리가 낮고 넓어진다.
 
@@ -139,50 +149,58 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'test@example.com';
 
 ## 📌 관련 개념 맵
 
-```
-B-Tree / B+Tree
-+-- 속성
-|   +-- 자기 균형 (Self-Balancing)
-|   +-- 다진 탐색 트리 (Multi-way)
-|   +-- O(log n) 검색·삽입·삭제
-+-- B+Tree 특징
-|   +-- 내부: 라우팅 키만
-|   +-- 리프: 데이터 + 링크드 리스트
-|   +-- 범위 탐색 최적
-+-- 주요 연산
-|   +-- 삽입 -> Split
-|   +-- 삭제 -> Merge / 재분배
-+-- 사용처
-    +-- RDBMS 인덱스 (PostgreSQL, MySQL InnoDB)
-    +-- 파일 시스템 (NTFS, HFS+, ext4)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">B-Tree / B+Tree</div>
+<div class="kb-diagram-note">+-- 속성</div>
+<div class="kb-diagram-note">+-- 자기 균형 (Self-Balancing)</div>
+<div class="kb-diagram-note">+-- 다진 탐색 트리 (Multi-way)</div>
+<div class="kb-diagram-note">+-- O(log n) 검색·삽입·삭제</div>
+<div class="kb-diagram-note">+-- B+Tree 특징</div>
+<div class="kb-diagram-note">+-- 내부: 라우팅 키만</div>
+<div class="kb-diagram-note">+-- 리프: 데이터 + 링크드 리스트</div>
+<div class="kb-diagram-note">+-- 범위 탐색 최적</div>
+<div class="kb-diagram-note">+-- 주요 연산</div>
+<div class="kb-diagram-note">+-- 삽입 -&gt; Split</div>
+<div class="kb-diagram-note">+-- 삭제 -&gt; Merge / 재분배</div>
+<div class="kb-diagram-note">+-- 사용처</div>
+<div class="kb-diagram-note">+-- RDBMS 인덱스 (PostgreSQL, MySQL InnoDB)</div>
+<div class="kb-diagram-note">+-- 파일 시스템 (NTFS, HFS+, ext4)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-[이진 탐색 트리 (BST)]
-불균형 시 O(n) 최악
-      |
-      v
-[AVL / Red-Black Tree]
-메모리 내 균형 이진 트리
-      |
-      v
-[B-Tree (Bayer & McCreight, 1972)]
-디스크 최적화: 다진 트리, 노드당 다수 키
-      |
-      v
-[B+Tree]
-내부 노드 라우팅만 -> 리프 링크 -> 범위 탐색 최적
-RDBMS 인덱스 표준
-      |
-      v
-[LSM-Tree (2006~)]
-쓰기 집약 워크로드 (Cassandra, RocksDB, LevelDB)
-B+Tree 대안으로 등장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST)</div></div>
+<div class="kb-diagram-note">불균형 시 O(n) 최악</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AVL / Red-Black Tree</div></div>
+<div class="kb-diagram-note">메모리 내 균형 이진 트리</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree (Bayer &amp; McCreight, 1972)</div></div>
+<div class="kb-diagram-note">디스크 최적화: 다진 트리, 노드당 다수 키</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B+Tree</div></div>
+<div class="kb-diagram-note">내부 노드 라우팅만 -&gt; 리프 링크 -&gt; 범위 탐색 최적</div>
+<div class="kb-diagram-note">RDBMS 인덱스 표준</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSM-Tree (2006~)</div></div>
+<div class="kb-diagram-note">쓰기 집약 워크로드 (Cassandra, RocksDB, LevelDB)</div>
+<div class="kb-diagram-note">B+Tree 대안으로 등장</div>
+</div>
+</div>
+
+
 
 ---
 

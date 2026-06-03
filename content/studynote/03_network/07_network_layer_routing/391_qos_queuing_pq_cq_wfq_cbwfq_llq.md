@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 인터페이스의 출력 버퍼(Output Buffer)에서, 혼잡(Congestion) 발생 시 다수의 패킷 스트림을 어떤 순서와 비율로 처리할지 결정하는 스케줄링 메커니즘.
-- **필요성**: 1Gbps 선로에 1.5Gbps가 쏟아져 들어오면 라우터는 어쩔 수 없이 0.5Gbps를 잠시 창고([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓아둬야 한다([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)). 그런데 창고 문을 열 때 들어온 순서대로 빼면([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)), 덩치 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 패킷 뒤에 목소리(VoIP) 패킷이 갇혀서 전화가 뚝뚝 끊긴다. **"야, 창고 안에 있는 놈들 중에 목소리 패킷부터 무조건 먼저 멱살 잡고 꺼내라!"**라는 지능적인 출고 순서 제어가 필수적이었다.
+- **필요성**: 1Gbps 선로에 1.5Gbps가 쏟아져 들어오면 라우터는 어쩔 수 없이 0.5Gbps를 잠시 창고([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓아둬야 한다([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)). 그런데 창고 문을 열 때 들어온 순서대로 빼면([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)), 덩치 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 패킷 뒤에 목소리(VoIP) 패킷이 갇혀서 전화가 뚝뚝 끊긴다. <strong>"야, 창고 안에 있는 놈들 중에 목소리 패킷부터 무조건 먼저 멱살 잡고 꺼내라!"</strong>라는 지능적인 출고 순서 제어가 필수적이었다.
 
-- **💡 비유**: 큐잉은 응급실의 **"환자 대기열 관리"**와 같습니다.
-  - **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (기본)**: 접수표 뽑은 순서대로 진료합니다. 감기 환자 100명이 먼저 오면 뒤에 온 심정지 환자는 죽습니다.
-  - **PQ ([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))**: 심정지 환자가 1명이라도 있으면 감기 환자 진료를 무조건 멈추고 심정지 환자부터 치료합니다.
-  - **CQ (Custom [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**: 외과, 내과, 소아과 창구를 나누고, 외과 4명, 내과 3명, 소아과 3명씩 번갈아 가며 공평하게 부릅니다.
+- **💡 비유**: 큐잉은 응급실의 <strong>"환자 대기열 관리"</strong>와 같습니다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> (기본)</strong>: 접수표 뽑은 순서대로 진료합니다. 감기 환자 100명이 먼저 오면 뒤에 온 심정지 환자는 죽습니다.
+  - <strong>PQ (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">Priority Queue</a>)</strong>: 심정지 환자가 1명이라도 있으면 감기 환자 진료를 무조건 멈추고 심정지 환자부터 치료합니다.
+  - <strong>CQ (Custom <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 외과, 내과, 소아과 창구를 나누고, 외과 4명, 내과 3명, 소아과 3명씩 번갈아 가며 공평하게 부릅니다.
 
-```text
-[DiffServ]
-    │
-    ▼
-[우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    └──▶ [트래픽 쉐이핑 / 폴리싱]
-```
 
-- **📢 섹션 요약 비유**: ** 큐잉 알고리즘은 1차선 도로로 합쳐지는 병목 구간에서, 경찰관이 **어떤 차(구급차 vs 화물차)에게 먼저 수신호를 보내 뚫어줄 것인지 판단하는 교통정리 룰**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 쉐이핑 / 폴리싱</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 큐잉 알고리즘은 1차선 도로로 합쳐지는 병목 구간에서, 경찰관이 </strong>어떤 차(구급차 vs 화물차)에게 먼저 수신호를 보내 뚫어줄 것인지 판단하는 교통정리 룰**입니다.
 
 ---
 
@@ -48,7 +52,7 @@ tags = ["studynote-network"]
 - **PQ (Priority Queuing)**: 
   - 큐를 4개(High, Medium, Normal, Low) 만든다. 
   - **잔인한 룰**: High 큐에 패킷이 단 1개라도 남아 있으면 나머지 큐는 절대 처리 안 한다! 
-  - 단점: 해커가 High 큐로 쓰레기 데이터를 계속 밀어 넣으면, 나머지 평민 패킷들은 단 한 발자국도 못 나가고 굶어 죽는 **기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상**이 발생한다.
+  - 단점: 해커가 High 큐로 쓰레기 데이터를 계속 밀어 넣으면, 나머지 평민 패킷들은 단 한 발자국도 못 나가고 굶어 죽는 <strong>기아(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 현상</strong>이 발생한다.
 - **CQ (Custom Queuing)**:
   - 기아 현상을 막기 위해 16개의 큐를 판다.
   - "1번 큐에서 1500바이트, 2번 큐에서 1000바이트 꺼내!" 식으로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(돌아가면서) 분배한다.
@@ -61,30 +65,29 @@ tags = ["studynote-network"]
 
 ### 3. 3세대: CBWFQ (Class-Based WFQ)
 - WFQ가 지 알아서 공평하게 나누는 게 맘에 안 들었던 관리자들이 만든 맞춤형 큐다.
-- `class-map`을 만들어서 "1번 큐(웹서핑)는 전체 대역폭의 20% 보장! 2번 큐([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 40% 보장!"이라고 **비율(%) 단위로 대역폭을 쪼개서 분양**해 줄 수 있게 된 혁명적 큐잉이다.
+- `class-map`을 만들어서 "1번 큐(웹서핑)는 전체 대역폭의 20% 보장! 2번 큐([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))는 40% 보장!"이라고 <strong>비율(%) 단위로 대역폭을 쪼개서 분양</strong>해 줄 수 있게 된 혁명적 큐잉이다.
 - 하지만 여전히 '새치기' 기능이 없어서 VoIP 처리가 아쉬웠다.
 
 ### 4. 끝판왕: LLQ (Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Queuing) ★현대 표준
 - **CBWFQ 뼈대 + PQ(절대 반지) 1개의 융합**.
 - "야, CBWFQ로 % 나눠주는 거 다 좋은데, 딱 하나! **음성(VoIP) 패킷이 들어가는 큐 딱 1개만 '엄격한 우선순위(Strict Priority)'로 지정해서, 여기 패킷 들어오면 무조건 0순위로 새치기해서 다 쳐내라!**"
-- 단, 기아 현상(PQ의 단점)을 막기 위해 "음성 패킷이 새치기는 하되, 최대 30%까지만 새치기해라!"라고 **폴리싱(제한)**을 걸어두는 완벽한 밸런스를 맞췄다.
+- 단, 기아 현상(PQ의 단점)을 막기 위해 "음성 패킷이 새치기는 하되, 최대 30%까지만 새치기해라!"라고 <strong>폴리싱(제한)</strong>을 걸어두는 완벽한 밸런스를 맞췄다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                LLQ (Low Latency Queuing) 동작 구조               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수많은 트래픽 유입 ]                                          │
- │       │                                                     │
- │       ├─▶ [ Priority Queue (음성) ] ── (무조건 1빠따 새치기!) ───┐ │
- │       │                                                     │ │
- │       ├─▶ [ CBWFQ 1 (DB 트래픽, 40%) ] ── (라운드 로빈) ──────┤ │
- │       ├─▶ [ CBWFQ 2 (웹 트래픽, 20%) ] ── (라운드 로빈) ──────┤ │
- │       └─▶ [ Default Queue (나머지 찌꺼기) ] ─ (라운드 로빈) ─────┤ │
- │                                                             ▼ │
- │                                                       [ 출력 포트 ]│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLQ (Low Latency Queuing) 동작 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수많은 트래픽 유입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Priority Queue (음성)</div><div class="kb-diagram-note">── (무조건 1빠따 새치기!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CBWFQ 1 (DB 트래픽, 40%)</div><div class="kb-diagram-note">── (라운드 로빈)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CBWFQ 2 (웹 트래픽, 20%)</div><div class="kb-diagram-note">── (라운드 로빈)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Default Queue (나머지 찌꺼기)</div><div class="kb-diagram-note">─ (라운드 로빈)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력 포트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** LLQ는 현대 테마파크의 완벽한 줄서기 시스템입니다. 기본적으로 손님들은 돈 낸 만큼(CBWFQ 비율) 3대의 열차에 골고루 나눠 타지만, 휠체어를 탄 장애인(VoIP 패킷)이 오면 무조건 탑승 대기 줄을 무시하고 **0순위(PQ)로 열차에 태워 보내는 따뜻하고 효율적인 복지 시스템**입니다.
 
@@ -142,15 +145,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DiffServ]
-    │
-    ▼
-[현재 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
-    │
-    ├──▶ [확장 A: 트래픽 쉐이핑 / 폴리싱]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DiffServ</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 쉐이핑 / 폴리싱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…는 DiffServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

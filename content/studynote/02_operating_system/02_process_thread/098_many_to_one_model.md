@@ -31,27 +31,22 @@ tags = ["studynote-operating-system"]
 
 이 모델의 내부는 사용자 공간의 스케줄러가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 속이며 시분할을 구현하는 방식으로 작동한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  다대일 모델의 아키텍처와 블로킹 한계                │
-├──────────────────────────────────────────────────────────────┤
-│ [사용자 공간 (User Space)]                                     │
-│   ┌──────┐   ┌──────┐   ┌──────┐                             │
-│   │ ULT 1│   │ ULT 2│   │ ULT 3│                             │
-│   └──┬───┘   └──┬───┘   └──┬───┘                             │
-│      └──────────┼──────────┘                                 │
-│          [스레드 라이브러리 스케줄러]                             │
-│                 │ (모든 스위칭은 여기서 발생)                     │
-│ ────────────────┼─────────────────────────────────────────── │
-│ [커널 공간 (Kernel Space)]                                     │
-│                 ▼                                            │
-│            ┌─────────┐                                       │
-│            │  KLT 1  │ (단일 커널 스레드)                       │
-│            └────┬────┘                                       │
-│                 ▼                                            │
-│             [CPU Core 0]   [CPU Core 1] (유휴 상태)            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다대일 모델의 아키텍처와 블로킹 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간 (User Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 1</div><div class="kb-diagram-cell">ULT 2</div><div class="kb-diagram-cell">ULT 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 라이브러리 스케줄러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 스위칭은 여기서 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KLT 1</div><div class="kb-diagram-cell">(단일 커널 스레드)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Core 0</div><div class="kb-diagram-node">CPU Core 1</div><div class="kb-diagram-note">(유휴 상태)</div></div>
+</div>
+</div>
+
+
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 라이브러리는 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 사용자 공간에 두고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태를 자체적으로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 복원한다. 문제는 하나의 ULT가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기와 같은 블로킹 시스템 콜 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 호출할 때다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스 안에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 여러 개인지 모르기 때문에 KLT 자체를 대기 큐로 던져버린다. 결국 나머지 ULT들까지 모조리 실행 권한을 잃게 된다.
 
@@ -66,7 +61,7 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 다대일 (Many-to-One) 모델 | [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) ([One-to-One](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/)) 모델 |
 |:---|:---|:---|
 | **매핑 구조** | 다수의 ULT ──▶ 1개의 KLT | 1개의 ULT ──▶ 1개의 KLT |
-| **[문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/)** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입이 없어 극도로 빠름 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))으로 인해 오버헤드 큼 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/">문맥 교환 비용</a></strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입이 없어 극도로 빠름 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))으로 인해 오버헤드 큼 |
 | **블로킹 영향** | 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블로킹 = 프로세스 전체 중단 | 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 중단, 나머지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 정상 실행 |
 | **멀티코어 (Multi-core) 활용**| KLT가 1개이므로 코어를 1개만 사용 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 불가) | 코어 수만큼 KLT가 분산되어 진정한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 달성 |
 
@@ -83,7 +78,7 @@ tags = ["studynote-operating-system"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 시나리오
 
 1. **레거시 마이그레이션**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 자바 1.1의 그린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Green [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 전형적인 다대일 모델이다. 이 환경에서 CPU 코어 수만 늘리는 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 무의미하다. JVM을 최신 네이티브 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경으로 교체해야 성능이 향상된다.
-2. **[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 기반 환경 검토**: Node.js와 같은 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 환경은 논리적으로 다대일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 유사한 블로킹 약점을 지닌다. 단 하나의 긴 CPU 연산이 전체 시스템을 정지시키므로, 무거운 작업은 `Worker Threads` 패키지로 분리해야만 시스템 마비를 피할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a> 기반 환경 검토</strong>: Node.js와 같은 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 환경은 논리적으로 다대일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 유사한 블로킹 약점을 지닌다. 단 하나의 긴 CPU 연산이 전체 시스템을 정지시키므로, 무거운 작업은 `Worker Threads` 패키지로 분리해야만 시스템 마비를 피할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -107,28 +102,30 @@ OS 레벨의 다대일 모델은 멀티코어의 이점을 버리고 시스템�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | 다대일 모델은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 없이 사용자 공간의 TCB만 스와핑하여 이 비용을 극한으로 줄인다. |
-| **블로킹 시스템 콜 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))** | KLT 하나를 멈춰버림으로써 다대일 모델을 붕괴시킨 가장 치명적인 아킬레스건 |
-| **그린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Green [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | JVM이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 지원이 없는 OS 위에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 흉내 내기 위해 만든 사용자 공간 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) |
-| **[코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) / 가상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** | 다대일 모델의 사용자 문맥 관리 철학을 계승하고 I/O 블로킹 한계를 비동기 런타임으로 극복한 현대적 구현 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | 다대일 모델은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 없이 사용자 공간의 TCB만 스와핑하여 이 비용을 극한으로 줄인다. |
+| <strong>블로킹 시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong> | KLT 하나를 멈춰버림으로써 다대일 모델을 붕괴시킨 가장 치명적인 아킬레스건 |
+| <strong>그린 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (Green <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong> | JVM이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 지원이 없는 OS 위에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 흉내 내기 위해 만든 사용자 공간 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">Coroutine</a>) / 가상 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a></strong> | 다대일 모델의 사용자 문맥 관리 철학을 계승하고 I/O 블로킹 한계를 비동기 런타임으로 극복한 현대적 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-순차적 프로세스 실행 (동시성 부재)
-    │
-    ▼
-다대일 (Many-to-One) 스레드 모델 (초경량 동시성 획득, 블로킹 취약)
-    │
-    ▼
-일대일 (One-to-One) 스레드 모델 (커널 스레드 매핑, 멀티코어 활용)
-    │
-    ▼
-다대다 (Many-to-Many) 스레드 모델 (스레드 풀과 LWP 계층 도입)
-    │
-    ▼
-언어 레벨의 코루틴 / 가상 스레드 (비동기 I/O 기반 다대다 진화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순차적 프로세스 실행 (동시성 부재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다대일 (Many-to-One) 스레드 모델 (초경량 동시성 획득, 블로킹 취약)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">일대일 (One-to-One) 스레드 모델 (커널 스레드 매핑, 멀티코어 활용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다대다 (Many-to-Many) 스레드 모델 (스레드 풀과 LWP 계층 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언어 레벨의 코루틴 / 가상 스레드 (비동기 I/O 기반 다대다 진화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

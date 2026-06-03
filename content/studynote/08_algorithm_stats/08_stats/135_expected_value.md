@@ -120,22 +120,22 @@ E[X] = Σ_{i<j} E[X_{ij}]    ← 선형성 적용!
 
 선형성 덕분에 각 쌍의 비교 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)만 계산하면 전체 기댓값이 나온다.
 
-```
-┌────────────────────────────────────────────────────────┐
-│  기댓값 분석 — E[X] 확률 가중 시각화                   │
-│                                                        │
-│  X값    확률     기여값                                │
-│  ┌────┬────────┬────────────────────────────────────┐ │
-│  │ 1  │ P=0.2  │ ████  (1×0.2 = 0.2)               │ │
-│  │ 2  │ P=0.3  │ ██████████ (2×0.3 = 0.6)          │ │
-│  │ 3  │ P=0.3  │ ████████████████ (3×0.3 = 0.9)    │ │
-│  │ 4  │ P=0.2  │ █████████████████ (4×0.2 = 0.8)   │ │
-│  └────┴────────┴────────────────────────────────────┘ │
-│                                                        │
-│  E[X] = 0.2+0.6+0.9+0.8 = 2.5   ← 가중 평균          │
-│  확률 기중(막대 높이 × 위치)의 균형점                  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">기댓값 분석 — E</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">확률 가중 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X값 확률 기여값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">P=0.2</div><div class="kb-diagram-cell">████ (1×0.2 = 0.2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">P=0.3</div><div class="kb-diagram-cell">██████████ (2×0.3 = 0.6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">P=0.3</div><div class="kb-diagram-cell">████████████████ (3×0.3 = 0.9)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">P=0.2</div><div class="kb-diagram-cell">█████████████████ (4×0.2 = 0.8)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가중 평균</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확률 기중(막대 높이 × 위치)의 균형점</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 퀵정렬 분석에서 선형성은 "수천 쌍의 비교를 한꺼번에 계산하는 대신, 각 쌍을 독립적으로 계산해서 더하는" 마법 같은 분해 기법이다.
 
@@ -218,18 +218,21 @@ E[S] = E[E[S|N]]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[확률 분포 (Probability Distribution)]
-    │
-    ▼
-[기댓값 (Expected Value)]
-    │
-    ▼
-[분산 (Variance)]
-    │
-    ▼
-[중심극한정리 (CLT, Central Limit Theorem)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확률 분포 (Probability Distribution)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기댓값 (Expected Value)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 (Variance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중심극한정리 (CLT, Central Limit Theorem)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포에서 기댓값과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 거쳐 중심극한정리로 확장되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

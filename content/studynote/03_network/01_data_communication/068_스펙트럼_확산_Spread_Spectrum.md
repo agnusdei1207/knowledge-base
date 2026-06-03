@@ -30,15 +30,21 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Data Signal
-  ↓
-Spreading Code / Hop Pattern
-  ↓
-Wideband Transmission
-  ↓
-Receiver Despreading
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Signal</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Spreading Code / Hop Pattern</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Wideband Transmission</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Receiver Despreading</div>
+</div>
+</div>
+
+
 
 | 방식 | 특징 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ Receiver Despreading
 
 ## 관련 개념 맵
 
-```text
-Data Signal
-  ↓
-Spread Spectrum
-  ↓
-DSSS / FHSS
-  ↓
-Robust Wireless
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Data Signal</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Spread Spectrum</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DSSS / FHSS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Robust Wireless</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Narrowband
-  ↓
-Spread Spectrum
-  ↓
-CDMA
-  ↓
-Robust Communication
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Narrowband</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Spread Spectrum</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CDMA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Robust Communication</div>
+</div>
+</div>
+
+
 
 ---
 

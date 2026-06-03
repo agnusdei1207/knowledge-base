@@ -6,7 +6,7 @@ tags = ["studynote-algorithm-stats"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정보 이론(Information Theory)은 클로드 섀넌(Claude Shannon)이 1948년 창시한 이론으로, **정보의 양을 수학적으로 정량화**하고 최적의 데이터 압축·전송 한계를 규정한다.
+> 1. **본질**: 정보 이론(Information Theory)은 클로드 섀넌(Claude Shannon)이 1948년 창시한 이론으로, <strong>정보의 양을 수학적으로 정량화</strong>하고 최적의 데이터 압축·전송 한계를 규정한다.
 > 2. **가치**: 엔트로피(Entropy)·상호 정보량(Mutual Information)·KL 발산(KL-Divergence)은 머신러닝의 의사결정 트리·VAE·GANs·Transformer 등 핵심 알고리즘의 수학적 기반이다.
 > 3. **판단 포인트**: 엔트로피는 불확실성(무질서도)의 척도이며, 엔트로피가 낮을수록 정보를 더 효율적으로 압축할 수 있다.
 
@@ -16,14 +16,19 @@ tags = ["studynote-algorithm-stats"]
 
 ### 1. 정보량 (Self-Information)
 
-```text
-사건 x가 발생할 확률이 p(x)일 때:
-정보량 I(x) = -log₂ p(x)  [단위: bit]
 
-예: 동전 앞면(p=0.5) → I = -log₂(0.5) = 1 bit
-    P(0.01) 사건 → I = -log₂(0.01) ≈ 6.64 bit
-    → 희귀한 사건일수록 더 많은 정보를 담음
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사건 x가 발생할 확률이 p(x)일 때:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">정보량 I(x) = -log₂ p(x)</div><div class="kb-diagram-node">단위: bit</div></div>
+<div class="kb-diagram-note">예: 동전 앞면(p=0.5) → I = -log₂(0.5) = 1 bit</div>
+<div class="kb-diagram-note">P(0.01) 사건 → I = -log₂(0.01) ≈ 6.64 bit</div>
+<div class="kb-diagram-note">→ 희귀한 사건일수록 더 많은 정보를 담음</div>
+</div>
+</div>
+
+
 
 ### 2. 엔트로피 (Shannon Entropy)
 
@@ -65,11 +70,17 @@ Loss = -Σ yᵢ · log(ŷᵢ)   (정답 y, 예측 ŷ)
 
 ### 섀넌의 소스 코딩 정리 (데이터 압축)
 
-```text
-최적 압축의 한계: 평균 코드 길이 ≥ H(X)
-→ 엔트로피가 낮을수록 더 많이 압축 가능
-→ 허프만 코딩(Huffman Coding): 엔트로피에 근접한 최적 가변 길이 코드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">최적 압축의 한계: 평균 코드 길이 ≥ H(X)</div>
+<div class="kb-diagram-note">→ 엔트로피가 낮을수록 더 많이 압축 가능</div>
+<div class="kb-diagram-note">→ 허프만 코딩(Huffman Coding): 엔트로피에 근접한 최적 가변 길이 코드</div>
+</div>
+</div>
+
+
 
 ### 섀넌의 채널 용량 정리 (데이터 전송)
 
@@ -124,24 +135,27 @@ I(X;Y) = H(X) + H(Y) - H(X,Y)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-섀넌 정보 이론 (1948)
-    │
-    ├─► 소스 코딩: 허프만·LZW·산술 코딩 (데이터 압축)
-    ├─► 채널 코딩: 채널 용량 (무선 통신 한계)
-    │
-    ▼
-머신러닝 연결
-    ├─► 교차 엔트로피 손실 → 분류 모델 훈련
-    ├─► KL 발산 → VAE · GAN · RLHF
-    └─► 상호 정보량 → 특성 선택 · 독립성 측정
-    │
-    ▼
-정보 병목 이론 (IB) — 딥러닝의 정보 압축 이해
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">섀넌 정보 이론 (1948)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">소스 코딩: 허프만·LZW·산술 코딩 (데이터 압축)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">채널 코딩: 채널 용량 (무선 통신 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">머신러닝 연결</div>
+<div class="kb-diagram-tree-item" style="--depth:2">교차 엔트로피 손실 → 분류 모델 훈련</div>
+<div class="kb-diagram-tree-item" style="--depth:2">KL 발산 → VAE · GAN · RLHF</div>
+<div class="kb-diagram-tree-item" style="--depth:2">상호 정보량 → 특성 선택 · 독립성 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보 병목 이론 (IB) — 딥러닝의 정보 압축 이해</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 정보 이론은 **'정보의 양을 숫자로 측정하는 방법'** 이에요. "내일 해가 뜬다"는 당연한 정보는 적은 비트(정보량 작음), "내일 눈이 오는 여름"은 깜짝 놀랄 정보라서 비트가 많아요!
 2. 엔트로피는 **'불확실성의 크기'** 예요. 동전이 공정하면(앞뒤 50/50) 엔트로피가 최대이고, 항상 앞면만 나오는 동전은 엔트로피가 0(불확실성 없음)이에요.
-3. AI가 그림을 분류할 때 쓰는 **교차 엔트로피 손실 함수**도 정보 이론에서 나온 거예요. 틀릴수록 손실이 커져서 AI가 더 잘 맞추도록 훈련된답니다!
+3. AI가 그림을 분류할 때 쓰는 <strong>교차 엔트로피 손실 함수</strong>도 정보 이론에서 나온 거예요. 틀릴수록 손실이 커져서 AI가 더 잘 맞추도록 훈련된답니다!

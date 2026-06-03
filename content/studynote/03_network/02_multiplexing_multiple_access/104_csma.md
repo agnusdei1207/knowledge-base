@@ -34,27 +34,27 @@ CSMA의 내부 메커니즘은 단순한 '듣기'를 넘어 물리적 [전파 �
 | 구성 요소 | 역할 | 원리 특성 |
 |:---|:---|:---|
 | **Carrier Sense** | 채널 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 물리 계층에서 안테나나 케이블로 들어오는 전파의 에너지 레벨 측정 |
-| **[Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) / Busy 감지** | 채널 점유율 인지 | 측정 에너지가 임계값을 넘으면(Busy) 대기하고, 낮으면([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 전송 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a> / Busy 감지</strong> | 채널 점유율 인지 | 측정 에너지가 임계값을 넘으면(Busy) 대기하고, 낮으면([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 전송 |
 | **취약 시간 (Vulnerable Time)** | [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/)에 의한 맹점 | 감지에는 성공했으나, 상대방의 전파가 아직 도달하지 않아 빈 채널로 오해하는 물리적 사각 시간 구간 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CSMA의 치명적 한계: 취약 시간 (Vulnerable Time)      │
-├──────────────────────────────────────────────────────────────┤
-│  거리 축 (Distance)                                          │
-│    │                                                         │
-│  노드 A ├─────────────────────── 송신 시작 (t0)                │
-│    │    \  (전파가 B를 향해 날아가는 중...)                     │
-│    │     \           [취약 시간 구간]                         │
-│    │      \   (아직 A의 신호가 B에 도달하지 않음!)              │
-│    │       \                                                 │
-│  노드 B ├───┼─────────────────── 송신 시작 (t1)               │
-│    │        \   => B가 Sense할 때 채널은 'Idle'로 착각함!      │
-│    │         \                                               │
-│    ▼          💥 [ 쾅! 중간 지점에서 충돌 발생 ] 💥              │
-│  시간 축 (Time)                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA의 치명적 한계: 취약 시간 (Vulnerable Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리 축 (Distance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 A 송신 시작 (t0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (전파가 B를 향해 날아가는 중...)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ \</div><div class="kb-diagram-node">취약 시간 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (아직 A의 신호가 B에 도달하지 않음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 B 송신 시작 (t1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ =&gt; B가 Sense할 때 채널은 'Idle'로 착각함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">쾅! 중간 지점에서 충돌 발생</div><div class="kb-diagram-note">💥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 축 (Time)</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여주듯, CSMA의 가장 큰 적은 전파가 물리적으로 이동하는 시간(Propagation Time)이다. A가 전송을 시작했더라도 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 구리선이나 공기를 타고 B에 닿기 전까지 B의 센서에는 아무것도 잡히지 않는다. B가 이때 전송을 시작하면 두 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 중간에서 충돌한다. 네트워크의 거리가 멀어질수록 이 '취약 시간'이 길어져 충돌 확률이 급증하는 구조적 한계를 안고 있다.
 
@@ -68,7 +68,7 @@ CSMA의 내부 메커니즘은 단순한 '듣기'를 넘어 물리적 [전파 �
 
 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 여부 | 충돌 사후 대처 | 부하 증가 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|
-| **[ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)** | 눈 감고 전송 (Sense X) | 무조건 재전송 | 부하 증가 시 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 거의 0에 수렴 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/">ALOHA</a></strong> | 눈 감고 전송 (Sense X) | 무조건 재전송 | 부하 증가 시 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 거의 0에 수렴 |
 | **순수 CSMA** | 전송 전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Sense O) | 충돌해도 끝까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 (채널 낭비) | 중간 부하에서 우수, 고부하 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락 |
 | **CSMA/CD** | 전송 전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Sense O) | **충돌 즉시 전송 중단 (채널 낭비 최소화)** | 부하가 높아도 우수한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 유지 |
 
@@ -84,12 +84,12 @@ CSMA의 내부 메커니즘은 단순한 '듣기'를 넘어 물리적 [전파 �
 
 ### 판단 및 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
-1. **유선망 환경 ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))**
+1. <strong>유선망 환경 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)</strong>
    - **판단 기준**: 구리 케이블 안에서는 송신 중에도 전압의 불규칙한 변화를 읽어들여 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충돌했음을 즉시 감지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))할 수 있다.
-   - **채택 기술**: **CSMA/CD ([Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))**. 충돌 감지 시 전송을 즉각 중지하고 잼(Jam) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 날려 오버헤드를 막는다.
+   - **채택 기술**: <strong>CSMA/CD (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/">Collision Detection</a>)</strong>. 충돌 감지 시 전송을 즉각 중지하고 잼(Jam) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 날려 오버헤드를 막는다.
 2. **무선망 환경 (와이파이)**
    - **판단 기준**: 공기 중에서는 안테나가 자신의 강력한 송신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 뿜어낼 때 수신 안테나가 마비되므로(Self-interference) 남의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 충돌했는지 감지하는 것이 하드웨어적으로 불가능하다.
-   - **채택 기술**: **CSMA/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance)**. 감지를 포기하는 대신 충돌을 사전에 막기 위해 난수 시간만큼 강제로 랜덤 백오프(Random Backoff) 대기 시간을 가진 후 조심스럽게 전송한다.
+   - **채택 기술**: <strong>CSMA/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> Avoidance)</strong>. 감지를 포기하는 대신 충돌을 사전에 막기 위해 난수 시간만큼 강제로 랜덤 백오프(Random Backoff) 대기 시간을 가진 후 조심스럽게 전송한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -113,26 +113,28 @@ CSMA (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_mu
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) ([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))** | CSMA에서 충돌이 100% 방지되지 않는 근본 원인이자 '취약 시간'을 형성하는 물리적 제약 |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">Propagation Delay</a>)</strong> | CSMA에서 충돌이 100% 방지되지 않는 근본 원인이자 '취약 시간'을 형성하는 물리적 제약 |
 | **CSMA/CD** | 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 환경의 표준(IEEE 802.3)으로, 충돌 시 즉시 전송을 중지하고 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 발송하여 복구하는 기법 |
-| **CSMA/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)** | 무선 통신 환경의 표준(IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))으로, 랜덤 백오프(Backoff) 타이머를 통해 눈치 게임을 벌여 충돌을 회피하는 기법 |
+| <strong>CSMA/<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong> | 무선 통신 환경의 표준(IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))으로, 랜덤 백오프(Backoff) 타이머를 통해 눈치 게임을 벌여 충돌을 회피하는 기법 |
 | **은닉 노드 문제 (Hidden Node Problem)** | 무선 CSMA/[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 환경에서, 서로 위치가 멀어 Carrier Sense가 불가능한 두 노드가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송해버리는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) (RTS/CTS로 해결) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-무작위 전송 다중 접속 (Pure ALOHA)
-    │
-    ▼
-매체 상태 사전 감지 도입 (CSMA - Listen Before Talk)
-    │
-    ▼
-유선/무선 매체 특성에 따른 기술적 분기 결단
-    │
-    ├──▶ [ 유선망 ] 충돌 즉시 감지 및 멈춤 (CSMA/CD)
-    │
-    └──▶ [ 무선망 ] 무작위 대기로 충돌 사전 회피 (CSMA/CA)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무작위 전송 다중 접속 (Pure ALOHA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">매체 상태 사전 감지 도입 (CSMA - Listen Before Talk)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유선/무선 매체 특성에 따른 기술적 분기 결단</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유선망</div><div class="kb-diagram-note">충돌 즉시 감지 및 멈춤 (CSMA/CD)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선망</div><div class="kb-diagram-note">무작위 대기로 충돌 사전 회피 (CSMA/CA)</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

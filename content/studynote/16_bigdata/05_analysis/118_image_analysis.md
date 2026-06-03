@@ -30,44 +30,39 @@ tags = ["studynote-bigdata"]
 
 ### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│             CNN 기반 이미지 분석 파이프라인                         │
-├────────────────────────────────────────────────────────────────────┤
-│  입력 이미지 (224×224×3 RGB)                                       │
-│       │                                                            │
-│       ▼                                                            │
-│  [합성곱 레이어 (Conv Layer)] × N                                  │
-│   커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출            │
-│       │                                                            │
-│       ▼                                                            │
-│  [풀링 레이어 (Pooling)] → 특성 맵 크기 축소, 위치 불변성          │
-│       │                                                            │
-│       ▼                                                            │
-│  [완전연결층 (FC Layer)] + Softmax                                 │
-│       │                                                            │
-│       ▼                                                            │
-│  분류 (고양이 0.95 / 개 0.04 / 기타 0.01)                          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNN 기반 이미지 분석 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 이미지 (224×224×3 RGB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합성곱 레이어 (Conv Layer)</div><div class="kb-diagram-note">× N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">풀링 레이어 (Pooling)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">특성 맵 크기 축소, 위치 불변성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완전연결층 (FC Layer)</div><div class="kb-diagram-note">+ Softmax</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류 (고양이 0.95 / 개 0.04 / 기타 0.01)</div></div>
+</div>
+</div>
+
+
 
 ### [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 핵심 아키텍처
 
 | [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 아키텍처 | 특징 | 사용 사례 |
 |:---|:---|:---|:---|
-| **이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)** | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet, ViT | Skip Connection, 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) | 상품 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단 |
-| **[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)** | YOLOv8 (실시간), Faster-RCNN (정확도) | 바운딩 박스 + [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 동시 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 탐지, 자율주행 |
-| **시맨틱 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)** | U-Net, DeepLab | 픽셀 단위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 의료 영상, 위성 영상 |
-| **인스턴스 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)** | Mask-RCNN, SAM | 객체별 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품 검사, AR |
-| **특성 추출 ([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))** | [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/), DINOv2 | 이미지-텍스트 공통 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 이미지 검색, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) |
+| <strong>이미지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet, ViT | Skip Connection, 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) | 상품 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">객체 탐지</a></strong> | YOLOv8 (실시간), Faster-RCNN (정확도) | 바운딩 박스 + [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 동시 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 탐지, 자율주행 |
+| <strong>시맨틱 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | U-Net, DeepLab | 픽셀 단위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 의료 영상, 위성 영상 |
+| <strong>인스턴스 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | Mask-RCNN, SAM | 객체별 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품 검사, AR |
+| <strong>특성 추출 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>)</strong> | [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/), DINOv2 | 이미지-텍스트 공통 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 이미지 검색, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) |
 
 ### 대규모 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 아키텍처
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 도구 | 특징 |
 |:---|:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)** | PyTorch DDP | 동일 모델, 다른 배치 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
-| **모델 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)** | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 대형 모델 레이어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| **Spark [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추론** | Spark + PyTorch (spark-dl) | 수억 장 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | PyTorch DDP | 동일 모델, 다른 배치 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
+| <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 대형 모델 레이어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong>Spark <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 추론</strong> | Spark + PyTorch (spark-dl) | 수억 장 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
 | **스트리밍 처리** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink + TensorRT | 실시간 비디오 프레임 분석 |
 
 - **📢 섹션 요약 비유**: CNN의 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 레이어는 이미지를 보는 인간의 시각 피질과 유사하다. 처음에는 선과 모서리를 인식하고, 점점 깊어질수록 귀, 눈, 얼굴 전체를 인식한다.
@@ -139,21 +134,23 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 컴퓨터 비전 — 수동 피처 추출(SIFT·HOG)]
-    │
-    ▼
-[CNN (합성곱 신경망) — 자동 피처 학습, ImageNet 정복]
-    │
-    ▼
-[객체 탐지 (YOLO·SSD·Faster R-CNN) — 실시간 경계박스 예측]
-    │
-    ▼
-[세그멘테이션 (U-Net·Mask R-CNN) — 픽셀 단위 의미 분할]
-    │
-    ▼
-[Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 컴퓨터 비전 — 수동 피처 추출(SIFT·HOG)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CNN (합성곱 신경망) — 자동 피처 학습, ImageNet 정복</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">객체 탐지 (YOLO·SSD·Faster R-CNN) — 실시간 경계박스 예측</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 (U-Net·Mask R-CNN) — 픽셀 단위 의미 분할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임</div></div>
+</div>
+</div>
+
+
 이미지 분석은 수동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출에서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 학습으로 전환되고, [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Vision Transformer로 발전해 의료·자율주행 등 핵심 산업에 응용된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

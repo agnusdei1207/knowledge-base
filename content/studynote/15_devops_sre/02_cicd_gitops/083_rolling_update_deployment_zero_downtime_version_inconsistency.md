@@ -22,13 +22,16 @@ tags = ["studynote-devops"]
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))는 이 과정을 Deployment와 ReplicaSet으로 관리한다. 사용자는 이미지 태그만 바꾸지만, 내부에서는 새 ReplicaSet이 생기고 이전 ReplicaSet이 천천히 줄어든다. 이때 전체 replica 수는 거의 일정하게 유지되므로 사용자는 배포 중단을 체감하지 않는다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       5개 중 1개씩 바꾸면 서비스는 살아 있고 버전만 바뀐다   │
-├──────────────────────────────────────────────────────────────┤
-│ v1 v1 v1 v1 v1  →  v1 v1 v2 v1 v2  →  v2 v2 v2 v2 v2        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5개 중 1개씩 바꾸면 서비스는 살아 있고 버전만 바뀐다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1 v1 v1 v1 v1 → v1 v1 v2 v1 v2 → v2 v2 v2 v2 v2</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 집의 벽돌을 다 무너뜨리지 않고, 하나씩 빼고 새 벽돌을 끼우는 공사 방식이다.
 
@@ -47,13 +50,16 @@ tags = ["studynote-devops"]
 
 새 Pod가 뜬다고 바로 트래픽을 받는 것은 아니다. readinessProbe를 통과해야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트에 들어간다. 이 장치가 없으면 아직 준비되지 않은 Pod가 요청을 받아 장애를 만든다. 그래서 [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)는 "교체"보다 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 교체"라는 표현이 더 맞다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│ Deployment → 새 ReplicaSet 생성 → readiness 통과 후 교체       │
-├────────────────────────────────────────────────────────────────┤
-│ old ready  old ready  old ready   +   new pod 준비 중/준비됨   │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deployment → 새 ReplicaSet 생성 → readiness 통과 후 교체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">old ready old ready old ready + new pod 준비 중/준비됨</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 용량을 유지한 채 배포를 진전시키는 것이다. 다만 네트워크나 외부 상태를 고려하지 않으면 겉으로는 무중단이지만 내부적으로는 혼선이 생길 수 있다.
 
@@ -116,16 +122,19 @@ tags = ["studynote-devops"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Recreate
-    │
-    ▼
-Rolling Update
-    │
-    ├────────► Blue/Green
-    │
-    └────────► Canary
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Recreate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rolling Update</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Blue/Green</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Canary</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

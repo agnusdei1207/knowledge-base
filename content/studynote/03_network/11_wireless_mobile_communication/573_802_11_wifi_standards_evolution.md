@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-무선 LAN 표준은 미국 IEEE 산하 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 워킹그룹에서 제정합니다. 와이파이는 통신사처럼 돈을 주고 주파수를 사지 않아도 되는 무료 공용 대역인 **ISM 대역 (2.4GHz 및 5GHz)**을 사용합니다. 무료인 만큼 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 전자레인지 등 온갖 기기가 섞여 간섭이 매우 심하다는 특징이 있습니다.
+무선 LAN 표준은 미국 IEEE 산하 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 워킹그룹에서 제정합니다. 와이파이는 통신사처럼 돈을 주고 주파수를 사지 않아도 되는 무료 공용 대역인 <strong>ISM 대역 (2.4GHz 및 5GHz)</strong>을 사용합니다. 무료인 만큼 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 전자레인지 등 온갖 기기가 섞여 간섭이 매우 심하다는 특징이 있습니다.
 
-```text
-[AP / DS]
-    │
-    ▼
-[11 b/g/a/n 표준 세대 발전]
-    │
-    └──▶ [11n]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11n</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,14 +52,18 @@ tags = ["studynote-network"]
 - **주파수 / 속도**: **2.4GHz** 대역 / 최대 **54Mbps**
 - **특징**: 기존 802.11b(2.4GHz) 장비들과 호환되면서도, 802.11a의 빠른 OFDM 기술을 가져와 2.4GHz 환경에서도 54Mbps를 뽑아낸 대성공작입니다. 대중적인 공유기의 표준이 되었습니다.
 
-```text
-[AP / DS]
-    │
-    ▼
-[11 b/g/a/n 표준 세대 발전]
-    │
-    └──▶ [11n]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11n</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 - **주파수 / 속도**: **2.4GHz & 5GHz 듀얼밴드** / 최대 **300~600Mbps**
 - **혁신 기술**:
-  - **[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 2개, 3개씩 박아서 여러 차선으로 데이터를 동시에 쏘는 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 기술을 최초 도입하여 속도를 비약적으로 높였습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (다중 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>)</strong>: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 2개, 3개씩 박아서 여러 차선으로 데이터를 동시에 쏘는 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 기술을 최초 도입하여 속도를 비약적으로 높였습니다.
   - **채널 본딩 (Channel Bonding)**: 20MHz짜리 좁은 도로 2개를 합쳐서 40MHz짜리 넓은 도로로 묶어 최고 속도를 두 배로 늘렸습니다. (상세 내용은 574번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) / DS가 기반 조건을 만든다면, [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전은 그 위에서 핵심 메커니즘을 구현하고, 11n는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스펙트럼 효율과 이동성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -87,7 +95,7 @@ tags = ["studynote-network"]
 | **802.11b** | Wi-Fi 1 | 2.4 GHz | [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) Mbps | [DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) 적용, 대중화 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) |
 | **802.11a** | Wi-Fi 2 | 5 GHz | 54 Mbps | OFDM 적용, 장애물에 취약 |
 | **802.11g** | Wi-Fi 3 | 2.4 GHz | 54 Mbps | 11b와 호환되며 OFDM 적용 |
-| **802.[11n](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)** | **[Wi-Fi 4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/)** | 2.4 / 5 GHz (Dual) | 600 Mbps | **[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)**, 채널 본딩 기술 혁신 |
+| <strong>802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/">11n</a></strong> | <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/574_802_11n_wifi_4_mimo_channel_bonding/">Wi-Fi 4</a></strong> | 2.4 / 5 GHz (Dual) | 600 Mbps | <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a></strong>, 채널 본딩 기술 혁신 |
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: AP / DS]
-    │
-    ▼
-[현재 개념: 11 b/g/a/n 표준 세대 발전]
-    │
-    ├──▶ [확장 A: 11n]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AP / DS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11 b/g/a/n 표준 세대 발전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11n</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) / DS에서 출발해 현재 메커니즘을 정교화하고, 이후 11n와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

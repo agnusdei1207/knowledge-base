@@ -23,15 +23,20 @@ tags = ["studynote-bigdata"]
 
 무한 스트림에서 집계를 수행하려면 "집계할 범위"가 있어야 한다.
 
-```
-무한 이벤트 스트림: ─────────────────────────────────→ (끝이 없음)
-                    E1 E2 E3 E4 E5 E6 E7 E8 E9 E10...
 
-"지난 5분 합계"를 구하려면 → 5분이라는 경계(윈도우)가 필요
-"5분마다 집계" → 텀블링 윈도우
-"1분마다 갱신되는 5분 이동평균" → 슬라이딩 윈도우
-"사용자 활동 세션 내 집계" → 세션 윈도우
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">무한 이벤트 스트림: → (끝이 없음)</div>
+<div class="kb-diagram-note">E1 E2 E3 E4 E5 E6 E7 E8 E9 E10...</div>
+<div class="kb-diagram-note">"지난 5분 합계"를 구하려면 → 5분이라는 경계(윈도우)가 필요</div>
+<div class="kb-diagram-note">"5분마다 집계" → 텀블링 윈도우</div>
+<div class="kb-diagram-note">"1분마다 갱신되는 5분 이동평균" → 슬라이딩 윈도우</div>
+<div class="kb-diagram-note">"사용자 활동 세션 내 집계" → 세션 윈도우</div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**
 > 윈도우는 "흐르는 강물에서 물을 퍼내는 양동이"다. 양동이 없이 강물의 양을 재는 것은 불가능하다. 양동이 크기([윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))와 퍼내는 주기(슬라이드)를 어떻게 설계하느냐에 따라 측정 방식이 달라진다.
@@ -42,34 +47,30 @@ tags = ["studynote-bigdata"]
 
 ### 1. 네 가지 윈도우 유형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-```
-[텀블링 윈도우 (Tumbling Window) - 크기=5분, 슬라이드 없음]
- W1        W2        W3
-┌────────┐ ┌────────┐ ┌────────┐
-│00─────05│ │05─────10│ │10─────15│
-└────────┘ └────────┘ └────────┘
-겹침 없음, 각 이벤트는 정확히 1개 윈도우에 속함
 
-[슬라이딩 윈도우 (Sliding Window) - 크기=10분, 슬라이드=5분]
- W1              W2              W3
-┌───────────────┐               │
-│00──────────10 │               │
-└───────────────┘               │
-       ┌───────────────┐        │
-       │05────────────15        │
-       └───────────────┘        │
-겹침 발생, 이벤트가 여러 윈도우에 중복 포함 가능
 
-[세션 윈도우 (Session Window) - 갭 타임아웃=5분]
- 세션1       세션2     세션3
-┌─────────┐  ┌──────┐  ┌──────┐
-│E1 E2 E3 │  │E5 E6 │  │E8 E9 │
-└─────────┘  └──────┘  └──────┘
-     5분↑         5분↑
-  (활동 간격   (활동 간격
-   5분 이상    5분 이상
-   → 분리)     → 분리)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">텀블링 윈도우 (Tumbling Window) - 크기=5분, 슬라이드 없음</div></div>
+<div class="kb-diagram-note">W1 W2 W3</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00 05</div><div class="kb-diagram-cell">05 10</div><div class="kb-diagram-cell">10 15</div></div>
+<div class="kb-diagram-note">겹침 없음, 각 이벤트는 정확히 1개 윈도우에 속함</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 (Sliding Window) - 크기=10분, 슬라이드=5분</div></div>
+<div class="kb-diagram-note">W1 W2 W3</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00 10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">05 15</div></div>
+<div class="kb-diagram-note">겹침 발생, 이벤트가 여러 윈도우에 중복 포함 가능</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">세션 윈도우 (Session Window) - 갭 타임아웃=5분</div></div>
+<div class="kb-diagram-note">세션1 세션2 세션3</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E1 E2 E3</div><div class="kb-diagram-cell">E5 E6</div><div class="kb-diagram-cell">E8 E9</div></div>
+<div class="kb-diagram-note">5분↑ 5분↑</div>
+<div class="kb-diagram-note">(활동 간격 (활동 간격</div>
+<div class="kb-diagram-note">5분 이상 5분 이상</div>
+<div class="kb-diagram-note">→ 분리) → 분리)</div>
+</div>
+</div>
+
+
 
 ### 2. 각 윈도우 유형 코드 (Flink)
 
@@ -114,7 +115,7 @@ stream.keyBy(e -> e.getUserId())
 
 ### 1. 윈도우 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)와 이빅터(Evictor)
 
-- **[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)**: 윈도우 함수를 언제 실행할지 결정
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>(Trigger)</strong>: 윈도우 함수를 언제 실행할지 결정
   - `EventTimeTrigger`: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)가 윈도우 끝을 초과할 때 (기본)
   - `ProcessingTimeTrigger`: 처리 시간 기준
   - `CountTrigger`: N개 이벤트마다
@@ -178,7 +179,7 @@ orders.join(deliveries)
 
 ### 2. 결론
 
-윈도우 연산은 스트리밍 집계의 **기본 문법**이다. 기술사 답안에서는 네 가지 윈도우 유형의 특성과 차이점을 시각적으로 설명하고, 이벤트 시간 기반 윈도우와 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)의 연결, 슬라이딩 윈도우의 메모리 트레이드오프를 함께 서술하는 것이 핵심이다.
+윈도우 연산은 스트리밍 집계의 <strong>기본 문법</strong>이다. 기술사 답안에서는 네 가지 윈도우 유형의 특성과 차이점을 시각적으로 설명하고, 이벤트 시간 기반 윈도우와 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)의 연결, 슬라이딩 윈도우의 메모리 트레이드오프를 함께 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
 > 윈도우 연산은 "흐르는 강물을 사진 찍는 방법"이다. 텀블링은 "5초마다 찍는 연속 사진(겹침 없음)", 슬라이딩은 "1초마다 찍되 5초짜리 노출로 찍는 사진(겹침 있음)", [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "일몰부터 일출까지 찍는 타임랩스(자연 경계)" — 각각 다른 정보를 담는다.
@@ -197,21 +198,23 @@ orders.join(deliveries)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[무한 스트림 (Unbounded Stream) — 실시간 이벤트 연속 발생]
-    │
-    ▼
-[윈도우 할당 (Window Assignment) — 텀블링·슬라이딩·세션 윈도우로 시간 범위 구획]
-    │
-    ▼
-[워터마크 (Watermark) — 지연 도착 이벤트 허용 범위 설정]
-    │
-    ▼
-[윈도우 집계 (Window Aggregation) — 구획 내 합산·평균·카운트 계산]
-    │
-    ▼
-[결과 출력 (Trigger & Output) — 윈도우 완료 시 싱크(Sink)에 결과 방출]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무한 스트림 (Unbounded Stream) — 실시간 이벤트 연속 발생</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 할당 (Window Assignment) — 텀블링·슬라이딩·세션 윈도우로 시간 범위 구획</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크 (Watermark) — 지연 도착 이벤트 허용 범위 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 집계 (Window Aggregation) — 구획 내 합산·평균·카운트 계산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과 출력 (Trigger &amp; Output) — 윈도우 완료 시 싱크(Sink)에 결과 방출</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 무한 스트림을 유한 윈도우로 구획하고 집계·출력하는 스트리밍 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 나타낸다.
 

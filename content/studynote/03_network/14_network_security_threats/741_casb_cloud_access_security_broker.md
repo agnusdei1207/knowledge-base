@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 가트너(Gartner)가 명명한 용어로, **기업의 내부 사용자(직원)와 외부 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 공급자(AWS, MS 365, 구글 드라이브 등) 사이에 위치하여, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가시성(Visibility)을 확보하는 보안 중개자(Broker) 솔루션**입니다. (앞선 740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 아키텍처의 핵심 구성 요소입니다.)
-- **배경 (Shadow IT의 공포)**: 회사 IT 부서의 허락을 받지 않고 직원들이 몰래 카카오톡, 드롭박스, 에버노트 등을 업무에 쓰는 **'섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))'** 현상이 폭발하면서, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통제 불능 상태로 새어 나가는 것을 막기 위해 탄생했습니다.
+- **개념**: 가트너(Gartner)가 명명한 용어로, <strong>기업의 내부 사용자(직원)와 외부 클라우드 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 공급자(AWS, MS 365, 구글 드라이브 등) 사이에 위치하여, 보안 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 강제하고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 가시성(Visibility)을 확보하는 보안 중개자(Broker) 솔루션</strong>입니다. (앞선 740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 아키텍처의 핵심 구성 요소입니다.)
+- **배경 (Shadow IT의 공포)**: 회사 IT 부서의 허락을 받지 않고 직원들이 몰래 카카오톡, 드롭박스, 에버노트 등을 업무에 쓰는 <strong>'섀도우 IT(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a>)'</strong> 현상이 폭발하면서, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통제 불능 상태로 새어 나가는 것을 막기 위해 탄생했습니다.
 
-```text
-[SASE]
-    │
-    ▼
-[CASB]
-    │
-    └──▶ [SWG]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SWG</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CASB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,19 +48,23 @@ tags = ["studynote-network"]
 - 직원이 구글 드라이브에 올린 문서가 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [HIPAA](/knowledge-base/studynote/09_security/17_framework_compliance/863_hipaa/))을 위반하는 '고객 주민등록번호 1,000명분' 리스트가 아닌지 스캔하여, 위반 사항이 있으면 클라우드 업로드를 즉각 차단합니다.
 
 ### 3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보안 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) / [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))
-- 가장 중요한 기능입니다. 회사 밖(클라우드)으로 나가는 문서에 대해 강력한 **[DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)([데이터 유출 방지](/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/))** 기능을 적용합니다. 사내 기밀문서를 감지하면 아예 업로드를 막거나, 업로드되더라도 문서를 강제로 **암호화(Encryption)**해 버려 해커가 클라우드를 털어도 열어보지 못하게 만듭니다.
+- 가장 중요한 기능입니다. 회사 밖(클라우드)으로 나가는 문서에 대해 강력한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/">DLP</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/">데이터 유출 방지</a>)</strong> 기능을 적용합니다. 사내 기밀문서를 감지하면 아예 업로드를 막거나, 업로드되더라도 문서를 강제로 <strong>암호화(Encryption)</strong>해 버려 해커가 클라우드를 털어도 열어보지 못하게 만듭니다.
 
 ### 4. 위협 방지 (Threat [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 - 클라우드에서 회사로 다운로드되는 파일에 랜섬웨어나 악성코드가 묻어있는지(샌드박스 연동) 스캔하고, 누군가 파리에서 로그인한 지 1시간 만에 뉴욕에서 클라우드에 접속하려 하면(불가능한 여행) 이상 행동으로 간주해 차단합니다.
 
-```text
-[SASE]
-    │
-    ▼
-[CASB]
-    │
-    └──▶ [SWG]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SWG</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CASB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,11 +74,11 @@ tags = ["studynote-network"]
 
 CASB가 돋보기를 어디에 대고 감시하느냐에 따라 3가지로 나뉩니다.
 
-1. **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 방식 (가장 많이 쓰임)**:
-   - 사용자와 클라우드 사이에 물리적으로 끼어들지 않습니다. 대신 구글 드라이브, MS 365 등 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체의 **관리자 API를 연동**하여 클라우드 안에서 벌어지는 일들을 모니터링합니다. 속도 저하가 없고 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 스캔 가능하지만, 클라우드 업체가 API를 제공해야만 쓸 수 있습니다.
-2. **[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (포워드 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**:
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 기반 방식 (가장 많이 쓰임)</strong>:
+   - 사용자와 클라우드 사이에 물리적으로 끼어들지 않습니다. 대신 구글 드라이브, MS 365 등 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체의 <strong>관리자 API를 연동</strong>하여 클라우드 안에서 벌어지는 일들을 모니터링합니다. 속도 저하가 없고 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 스캔 가능하지만, 클라우드 업체가 API를 제공해야만 쓸 수 있습니다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> (포워드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong>:
    - 사내 직원의 PC에서 나가는 트래픽을 모조리 가로채어 중간에서 검사한 뒤 클라우드로 넘깁니다. 실시간 업로드 차단([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))에 가장 강력합니다.
-3. **Reverse [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) (리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))**:
+3. <strong>Reverse <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> (리버스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong>:
    - 직원이 개인 폰(에이전트 미설치)으로 집에서 클라우드에 접속할 때, 클라우드가 직접 폰을 CASB 쪽으로 튕겨내어(리다이렉트) 검사받게 하는 방식입니다. 개인 기기 통제에 유리합니다.
 
 CASB를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SASE가 기반 조건을 만든다면, CASB는 그 위에서 핵심 메커니즘을 구현하고, SWG는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -123,15 +131,19 @@ CASB는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SASE]
-    │
-    ▼
-[현재 개념: CASB]
-    │
-    ├──▶ [확장 A: SWG]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SASE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CASB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SWG</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 CASB는 SASE에서 출발해 현재 메커니즘을 정교화하고, 이후 SWG와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

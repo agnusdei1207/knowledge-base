@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) (Dynamic [Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))은 분기 명령이 실제로 Taken인지 Not Taken인지 확정되기 전에, 과거 이력을 근거로 다음 경로를 먼저 정하는 하드웨어 학습 기법이다. 파이프라인 CPU는 매 사이클 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 끊기지 않고 가져와야 높은 처리량을 유지할 수 있는데, 조건 분기는 그 흐름을 가장 자주 끊는 [제어 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/) ([Control Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/224_control_hazard/))의 원인이다. 특히 10단계 이상 파이프라인이나 슈퍼스칼라 코어에서는 분기 결과를 기다리는 동안 인출과 해독을 멈추면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 매우 커진다.
 
-[정적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/) (Static [Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))은 "뒤로 가는 분기는 Taken" 같은 규칙으로 시작할 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 분기에서는 한계가 분명하다. 예를 들어 검색, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 파서, [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 탐색처럼 입력 패턴이 계속 달라지는 코드는 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)라도 순간마다 다른 방향으로 갈 수 있다. 이때 동적 예측기는 "이 분기가 최근에 어떻게 행동했는가"를 기억해 파이프라인이 멈추기 전에 먼저 길을 고른다. 즉 이 기술의 본질은 미래를 완벽히 아는 것이 아니라, **기다림의 비용이 큰 시스템에서 가장 가능성 높은 경로를 빠르게 선점하는 것**이다.
+[정적 분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/) (Static [Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))은 "뒤로 가는 분기는 Taken" 같은 규칙으로 시작할 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 분기에서는 한계가 분명하다. 예를 들어 검색, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 파서, [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 탐색처럼 입력 패턴이 계속 달라지는 코드는 같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)라도 순간마다 다른 방향으로 갈 수 있다. 이때 동적 예측기는 "이 분기가 최근에 어떻게 행동했는가"를 기억해 파이프라인이 멈추기 전에 먼저 길을 고른다. 즉 이 기술의 본질은 미래를 완벽히 아는 것이 아니라, <strong>기다림의 비용이 큰 시스템에서 가장 가능성 높은 경로를 빠르게 선점하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)은 단골손님의 최근 주문 기록을 보고 음식을 미리 준비하는 식당과 같다. 늘 같은 메뉴만 외우는 것이 아니라, 어제와 오늘의 패턴을 보고 가장 가능성 높은 주문을 먼저 잡는 방식이다.
 
@@ -41,37 +41,39 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프론트엔드에서 예측이 생성되고, 뒤에서 실제 결과로 다시 학습되는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│            동적 분기 예측의 폐루프: 예측하고, 틀리면 배우고, 맞으면 강화     │
-├──────────────────────────────────────────────────────────────────────────┤
-│ IF (Instruction Fetch)                                                   │
-│   PC ──▶ BHT / GHR 조회 ──▶ 방향 예측 ──┬─ Not Taken ─▶ PC + 4           │
-│                                         └─ Taken     ─▶ BTB target       │
-│                                                                          │
-│ ID / EX                                                                  │
-│   조건 계산 및 실제 분기 결과 확정                                       │
-│        │                                                                 │
-│        ├─ 예측 성공 ───────────────▶ 추측 경로 유지                      │
-│        └─ 예측 실패 ───────────────▶ Flush + 올바른 PC 재시작            │
-│                                                                          │
-│ Commit / Update                                                          │
-│   실제 결과를 BHT, GHR, 선택기에 반영하여 다음 예측 정확도 개선          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 널리 쓰이는 이유는 단순하면서도 루프 패턴에 강하기 때문이다. 1비트 방식은 "지난번 결과"만 기억하므로, 반복문이 9번 Taken 후 마지막 1번 Not Taken이 나오는 전형적 루프에서 종료 직후와 재진입 직전에 연속으로 틀리기 쉽다. 반면 2비트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 Strongly Taken, Weakly Taken, Weakly Not Taken, Strongly Not Taken의 네 상태를 두어 **두 번 연속 반대 결과가 나와야 예측 방향을 완전히 바꾸는 관성**을 준다. 덕분에 일시적 예외와 구조적 패턴을 구분할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          2비트 포화 카운터: 예측 방향에 관성을 부여           │
-├──────────────────────────────────────────────────────────────┤
-│ 00 Strongly NT ──▶ 01 Weakly NT ──▶ 10 Weakly T ──▶ 11 Strongly T │
-│        ▲                    ▲                    ▲               │
-│        └──── actual NT ─────┴──── actual NT ─────┴──── actual NT │
-│        ───── actual T ─────▶──── actual T ─────▶──── actual T ─▶ │
-└──────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 분기 예측의 폐루프: 예측하고, 틀리면 배우고, 맞으면 강화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (Instruction Fetch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC ──▶ BHT / GHR 조회 ──▶ 방향 예측 ── ─ Not Taken ─▶ PC + 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Taken ─▶ BTB target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID / EX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 계산 및 실제 분기 결과 확정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 성공 ▶ 추측 경로 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 실패 ▶ Flush + 올바른 PC 재시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit / Update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 결과를 BHT, GHR, 선택기에 반영하여 다음 예측 정확도 개선</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 널리 쓰이는 이유는 단순하면서도 루프 패턴에 강하기 때문이다. 1비트 방식은 "지난번 결과"만 기억하므로, 반복문이 9번 Taken 후 마지막 1번 Not Taken이 나오는 전형적 루프에서 종료 직후와 재진입 직전에 연속으로 틀리기 쉽다. 반면 2비트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 Strongly Taken, Weakly Taken, Weakly Not Taken, Strongly Not Taken의 네 상태를 두어 <strong>두 번 연속 반대 결과가 나와야 예측 방향을 완전히 바꾸는 관성</strong>을 준다. 덕분에 일시적 예외와 구조적 패턴을 구분할 수 있다.
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2비트 포화 카운터: 예측 방향에 관성을 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00 Strongly NT ──▶ 01 Weakly NT ──▶ 10 Weakly T ──▶ 11 Strongly T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual NT actual NT actual NT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual T ▶ actual T ▶ actual T ─▶</div></div>
+</div>
+</div>
+
+
 
 결국 동적 예측기의 핵심 원리는 두 문장으로 정리된다. 첫째, **인출 단계에서는 가장 빨리 답을 내야 한다.** 둘째, **실행 단계에서는 실제 결과를 바탕으로 즉시 학습해야 한다.** 정확도가 높아도 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길면 프론트엔드가 느려지고, 반대로 아주 빠르기만 하고 학습력이 약하면 깊은 파이프라인에서 Flush 손실을 줄이지 못한다.
 
@@ -92,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 
 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 예측기 ([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) Predictor)는 최근 분기 이력을 단순 테이블 매칭이 아니라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합으로 해석한다는 점에서 한 단계 더 나아간다. 이는 긴 이력에서도 상관관계를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)적으로 표현할 수 있어, 전통적인 2레벨 예측기가 힘들어하는 패턴에 강하다. 다만 곱셈기 수준의 무거운 연산을 직접 쓰기보다, 하드웨어 친화적으로 덧셈과 부호 비교 중심으로 최적화해야 실제 CPU 프론트엔드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 안에 넣을 수 있다.
 
-이 주제는 단독으로 존재하지 않는다. BTB는 "어디로 점프할지"를, Return Address Stack은 함수 복귀 주소를, 추측 실행 (Speculative Execution)은 예측 결과를 믿고 실제 연산을 앞질러 수행한다. 따라서 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)은 단순한 방향 판단기가 아니라, **프론트엔드 전체가 다음 명령 흐름을 얼마나 공격적으로 선점할 수 있는지 결정하는 중심축**이다.
+이 주제는 단독으로 존재하지 않는다. BTB는 "어디로 점프할지"를, Return Address Stack은 함수 복귀 주소를, 추측 실행 (Speculative Execution)은 예측 결과를 믿고 실제 연산을 앞질러 수행한다. 따라서 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)은 단순한 방향 판단기가 아니라, <strong>프론트엔드 전체가 다음 명령 흐름을 얼마나 공격적으로 선점할 수 있는지 결정하는 중심축</strong>이다.
 
 - **📢 섹션 요약 비유**: 로컬 예측은 한 학생의 생활기록부만 보는 담임 선생님 같고, 글로벌 예측은 반 전체 분위기까지 읽는 교감 선생님 같다. 토너먼트 예측은 둘의 의견을 다 듣고 오늘은 누구 말이 더 맞을지 판단하는 회의 시스템에 가깝다.
 
@@ -116,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 - [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/), Return [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), I-cache miss를 무시한 채 분기 방향 예측기만 튜닝하는 접근
 - 보안 격리 없이 예측 이력을 여러 문맥이 공유하게 두어 사이드 채널 위험을 키우는 구현
 
-기술사 답안에서는 "동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) = 무조건 고성능"처럼 쓰기보다, **정확도 향상 효과와 PPA ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area) 트레이드오프**, 그리고 **보안 대응 비용**을 함께 적어야 평가가 살아난다. 특히 Spectre는 예측기 자체가 틀린 것이 아니라, 맞든 틀리든 추측 실행이 남긴 미세한 흔적이 정보 유출 통로가 된 사례다. 따라서 현대 설계에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 장치가 동시에 보안 공격면이 될 수 있다는 시각이 필수다.
+기술사 답안에서는 "동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) = 무조건 고성능"처럼 쓰기보다, <strong>정확도 향상 효과와 PPA (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>, Area) 트레이드오프</strong>, 그리고 <strong>보안 대응 비용</strong>을 함께 적어야 평가가 살아난다. 특히 Spectre는 예측기 자체가 틀린 것이 아니라, 맞든 틀리든 추측 실행이 남긴 미세한 흔적이 정보 유출 통로가 된 사례다. 따라서 현대 설계에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 장치가 동시에 보안 공격면이 될 수 있다는 시각이 필수다.
 
 - **📢 섹션 요약 비유**: 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 아주 똑똑한 비서와 같다. 일을 많이 덜어주지만, 비서가 너무 커지면 월급과 사무실이 많이 들고, 잘못 배운 습관이 있으면 회사 기밀까지 새어 나갈 수 있다.
 
@@ -128,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 이 기술은 완전무결하지 않다. 예측률이 아무리 높아도 100%가 아니며, 간접 분기·암호화 코드·랜덤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 분기처럼 패턴성이 낮은 영역에서는 한계가 남는다. 또한 정확도를 높이기 위한 구조가 복잡해질수록 전력, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 보안 완화 비용도 함께 증가한다. 그래서 미래 방향도 "무조건 더 큰 예측기"가 아니라, 워크로드 특성에 따라 길이를 조절하는 적응형 구조, 보안 격리를 고려한 학습 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 더 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 긴 상관관계를 잡는 하이브리드 모델로 향한다.
 
-결론적으로 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)은 CPU가 제어 흐름의 불확실성을 통계적 학습으로 흡수하는 기술이다. 이 개념은 "분기를 맞히는 장치"로만 외우기보다, **깊은 파이프라인 시대에 기다림을 확률로 바꿔 처리량을 지키는 핵심 메커니즘**으로 기억하는 것이 정확하다.
+결론적으로 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)은 CPU가 제어 흐름의 불확실성을 통계적 학습으로 흡수하는 기술이다. 이 개념은 "분기를 맞히는 장치"로만 외우기보다, <strong>깊은 파이프라인 시대에 기다림을 확률로 바꿔 처리량을 지키는 핵심 메커니즘</strong>으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 동적 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 내일 날씨를 완벽히 맞히는 예언자가 아니라, 우산을 챙길 확률이 가장 높은 날을 빠르게 골라 큰 손해를 줄여 주는 생활형 전략가에 가깝다.
 
@@ -146,21 +148,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 분기 예측
-    │
-    ▼
-1비트 / 2비트 BHT (Branch History Table)
-    │
-    ▼
-Local / Global 2레벨 예측기
-    │
-    ▼
-Tournament Predictor + BTB (Branch Target Buffer)
-    │
-    ▼
-Perceptron Predictor · 보안 대응형 하이브리드 예측기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 분기 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">1비트 / 2비트 BHT (Branch History Table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Local / Global 2레벨 예측기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tournament Predictor + BTB (Branch Target Buffer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Perceptron Predictor · 보안 대응형 하이브리드 예측기</div>
+</div>
+</div>
+
+
 
 이 흐름은 분기 처리 기술이 "고정 규칙 → 단순 학습 → 상관관계 학습 → 복합 선택 → 장기 패턴과 보안 고려"로 진화해 온 방향을 보여준다.
 

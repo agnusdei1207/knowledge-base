@@ -23,20 +23,20 @@ PAMA (Pre-Assigned [Multiple Access](/knowledge-base/studynote/03_network/02_mul
 
 그러나 트래픽 패턴이 돌발적(Bursty)으로 변하고, 수많은 소규모 지상국(VSAT)들이 간헐적으로 통신을 요구하는 현대 네트워크 환경에서는, PAMA 방식이 초래하는 '미사용 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비'가 심각한 비용 문제로 대두되었다. 그럼에도 불구하고, 단 1ms의 셋업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 허용할 수 없는 초실시간 시스템이나, 타 노드의 폭주로 인해 내 트래픽이 간섭받아서는 절대 안 되는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Leased Line](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)) 개념의 무선망에서는 여전히 그 필요성과 가치가 확고하다.
 
-```text
-[PAMA(고정 할당) 시스템의 대역폭 점유 상황]
 
-주파수 대역 전체 파이(Bandwidth)
-┌────────────────────────────────────────────────────────┐
-│ [주파수 1] 지상국 A 전용 (트래픽 송신 중: 100% 사용)       │ => 효율성 극대화
-├────────────────────────────────────────────────────────┤
-│ [주파수 2] 지상국 B 전용 (트래픽 없음 : 0% 사용)          │ => 대역폭 완전 낭비! (타 노드 접근 불가)
-├────────────────────────────────────────────────────────┤
-│ [주파수 3] 지상국 C 전용 (트래픽 송신 중: 50% 사용)        │ => 잔여 대역폭 낭비
-├────────────────────────────────────────────────────────┤
-│ [주파수 4] 예비 채널 / 보호 대역 (Guard Band)            │
-└────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PAMA(고정 할당) 시스템의 대역폭 점유 상황</div></div>
+<div class="kb-diagram-note">주파수 대역 전체 파이(Bandwidth)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 1</div><div class="kb-diagram-note">지상국 A 전용 (트래픽 송신 중: 100% 사용) │ =&gt; 효율성 극대화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 2</div><div class="kb-diagram-note">지상국 B 전용 (트래픽 없음 : 0% 사용) │ =&gt; 대역폭 완전 낭비! (타 노드 접근 불가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 3</div><div class="kb-diagram-note">지상국 C 전용 (트래픽 송신 중: 50% 사용) │ =&gt; 잔여 대역폭 낭비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 4</div><div class="kb-diagram-note">예비 채널 / 보호 대역 (Guard Band)</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 PAMA 시스템에서 지상국 B가 통신을 하지 않는 순간에도 [주파수 2] 대역은 엄격하게 격리되어 다른 지상국이 침범할 수 없다는 점이다. 이런 배치는 각 지상국 간의 충돌 가능성을 원천 차단하고 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제로(0)로 만들기 때문이며, 따라서 안정성 면에서는 타의 추종을 불허하는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 결정적인 영향을 준다. 실무에서는 이러한 비효율성 때문에, 트래픽이 24시간 일정하게 유지되는 '포인트 투 포인트([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 트렁크 구간'에서만 이 방식을 제한적으로 사용해야 한다.
 
@@ -51,25 +51,28 @@ PAMA 프로토콜은 본질적으로 [다중화](/knowledge-base/studynote/03_ne
 | 구성 요소 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
 | **위성 중계기 (Transponder)** | 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 물리적으로 수용 및 반사 | 지상에서 올라오는 분할된 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들을 일괄 증폭하여 하향 링크로 전송 | 거대한 거울 |
-| **지상국 (Earth [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))** | 고정 할당된 송신부 보유 | 할당받은 주파수 대역(f_a)으로만 모뎀을 고정 튜닝하여 상시 송출 대기 | 지정 차로 주행자 |
+| <strong>지상국 (Earth <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/">Station</a>)</strong> | 고정 할당된 송신부 보유 | 할당받은 주파수 대역(f_a)으로만 모뎀을 고정 튜닝하여 상시 송출 대기 | 지정 차로 주행자 |
 | **대역통과 필터 (Bandpass Filter)** | 타 채널 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 간섭 차단 | 수신 측에서 자기에게 할당된 주파수 성분만을 통과시키고 나머지는 감쇠시킴 | 전용 차단기 |
-| **[보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/) ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))** | 인접 채널 간섭(ACI) 방지 | 고정 할당된 주파수 블록 사이에 일정 간격의 잉여 주파수를 둠 | 차선 사이의 안전지대 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/074_보호_대역_Guard_Band/">보호 대역</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/">Guard Band</a>)</strong> | 인접 채널 간섭(ACI) 방지 | 고정 할당된 주파수 블록 사이에 일정 간격의 잉여 주파수를 둠 | 차선 사이의 안전지대 |
 | **네트워크 관리 시스템** | 정적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 수행 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템 설계 시 하드웨어적 구성으로 주파수 매핑 수행, 이후 개입 없음 | 도로 차선 도색 공무원 |
 
 **PAMA 통신 흐름의 특징**
 
-```text
-[지상국 A] (송신자)                                       [지상국 B] (수신자)
-   │                                                           │
-   │ (트래픽 발생 즉시)                                        │
-   │ 1. 고정 할당된 주파수(F1)로 변조하여 즉시 위성으로 송출   │
-   │======================== Data Stream =====================>│
-   │         (중앙 제어국(NCC)에 채널 요청 절차 없음!)         │
-   │                                                           │
-   │ 2. 트래픽 송신 완료                                       │
-   │ 3. 주파수(F1)는 빈 상태로 유지됨 (타 노드 접근 불가)      │
-   │                                                           │
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지상국 A</div><div class="kb-diagram-note">(송신자)</div><div class="kb-diagram-node">지상국 B</div><div class="kb-diagram-note">(수신자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트래픽 발생 즉시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 고정 할당된 주파수(F1)로 변조하여 즉시 위성으로 송출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================== Data Stream =====================&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중앙 제어국(NCC)에 채널 요청 절차 없음!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 트래픽 송신 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 주파수(F1)는 빈 상태로 유지됨 (타 노드 접근 불가)</div></div>
+</div>
+</div>
+
+
 
 이 통신 흐름의 핵심은 [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/)(Demand Assignment) 시스템에서 필수적인 중앙 제어국을 향한 '채널 할당 요청(Request) -> 대기 -> 승인(Assign)'의 제어 3-Way Handshake 과정이 완전히 생략되어 있다는 점이다. 이런 배치는 복잡한 제어 소프트웨어나 동적 스위칭 장비를 제거하여 시스템을 극도로 단순화시키기 때문이며, 따라서 기기 고장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 최소화 및 1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 없는 즉각적인 통신 개시에 결정적인 영향을 준다. 실무에서는 위성 장비나 모뎀이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 주파수에 하드웨어적으로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 걸린 상태로 동작한다.
 
@@ -83,28 +86,29 @@ PAMA 프로토콜은 본질적으로 [다중화](/knowledge-base/studynote/03_ne
 
 | 비교 항목 | PAMA (Pre-Assigned MA) | [DAMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/117_dama/) (Demand Assigned MA) | 의사결정 기준 포인트 |
 |:---|:---|:---|:---|
-| **채널 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Setup Delay)** | **0초 (즉시 송출)** | 높음 (요청-응답 오버헤드, 왕복 최소 0.5~2초) | 실시간성 확보 여부 |
-| **충돌 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Rate)** | 0% (완전 격리 보장) | 제어 채널에서 충돌 발생 가능 | 전송의 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
-| **스펙트럼/[대역폭 효율성](/knowledge-base/studynote/03_network/01_data_communication/013_대역폭_효율성/)** | **매우 낮음** (평균 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30%) | 매우 높음 (평균 70~90% 이상 활용) | 위성 중계기 임대 비용 |
+| <strong>채널 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Setup Delay)</strong> | **0초 (즉시 송출)** | 높음 (요청-응답 오버헤드, 왕복 최소 0.5~2초) | 실시간성 확보 여부 |
+| <strong>충돌 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a> Rate)</strong> | 0% (완전 격리 보장) | 제어 채널에서 충돌 발생 가능 | 전송의 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
+| <strong>스펙트럼/<a href="/knowledge-base/studynote/03_network/01_data_communication/013_대역폭_효율성/">대역폭 효율성</a></strong> | **매우 낮음** (평균 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30%) | 매우 높음 (평균 70~90% 이상 활용) | 위성 중계기 임대 비용 |
 | **시스템 제어 복잡도** | 단순 (중앙 동적 제어 불필요) | 복잡 (NCC [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 스케줄링 필수) | 장비 구축 및 유지보수 난이도 |
 | **적합한 트래픽 패턴** | **CBR** (Constant [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate), 24h 스트리밍 | **VBR** (Variable [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate), 버스트성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생 양상 |
 
-```text
-┌─────────── 시스템 수용량(Capacity) vs 운영 비용(Cost) 교차 분석표 ──────────┐
-│                                                                             │
-│ 운영 비용/낭비율                                                            │
-│   ▲               [PAMA 고정망]                                             │
-│   │              / (가입자 수가 늘어날수록 선형적으로 물리적 채널 추가 필요,│
-│   │             /   중계기 임대 비용 폭발적 증가)                           │
-│   │            /                                                            │
-│   │           /                                                             │
-│   │          /                                                              │
-│   │         /--------------[DAMA 동적망]-------------------- (임계치 포화)  │
-│   │        /                (단일 풀을 공유하여 다수 가입자 수용,           │
-│   │       /                  비용 증가 완만하나 혼잡 지연 발생)             │
-│   └─────────────────────────────────────────────────────────► 가입자 수(노드) │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시스템 수용량(Capacity) vs 운영 비용(Cost) 교차 분석표</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 비용/낭비율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">PAMA 고정망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (가입자 수가 늘어날수록 선형적으로 물리적 채널 추가 필요,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 중계기 임대 비용 폭발적 증가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ /--------------</div><div class="kb-diagram-node">DAMA 동적망</div><div class="kb-diagram-note">-------------------- (임계치 포화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (단일 풀을 공유하여 다수 가입자 수용,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 비용 증가 완만하나 혼잡 지연 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► 가입자 수(노드)</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스의 핵심은 가입자 노드 수가 적고 24시간 통신량이 많을 때는 PAMA가 확실하고 간편하지만, 가입자 노드(VSAT)가 수백~수천 개로 증가하는 확장성(Scalability) 관점에서는 PAMA 구조 자체가 물리적으로 성립할 수 없다는 점이다. 할당해 줄 주파수 스펙트럼이 바닥나기 때문이다. 실무에서는 국가 기간망이나 대형 지상국 간의 트렁크 회선에는 PAMA를 배치하고, 그 하위의 소형 지점망들에는 DAMA를 배치하는 계층적 하이브리드 아키텍처를 구현한다.
 
@@ -116,22 +120,26 @@ PAMA 프로토콜은 본질적으로 [다중화](/knowledge-base/studynote/03_ne
 
 PAMA 시스템은 그 고비용/저효율 구조에도 불구하고 특정한 임무 필수(Mission Critical) 환경에서 절대적으로 요구된다.
 
-**실무 시나리오 및 설계 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)**
-```text
-[신규 위성/무선망 설계 요건 분석]
-   │
-   ├─ Q: 통신 단절이 인명 사고나 막대한 금융 손실로 직결되는 Mission Critical 망인가?
-   │   ├─ 아니오 => [결정] DAMA 채택으로 비용/효율 최적화
-   │   └─ 예
-   │       │
-   │       ├─ Q: 통신 트래픽이 24시간 거의 일정한 대역폭(CBR)을 유지하는가? (예: 방송 송출, 백본 동기화)
-   │       │   ├─ 예 => [결정] PAMA 도입 승인. (대역폭 낭비가 거의 없고 안정성 극대화)
-   │       │   └─ 아니오 => [타협] 기본 보장 최소 대역폭은 PAMA로, 추가 돌발 트래픽은 DAMA로 하이브리드 처리
-```
+<strong>실무 시나리오 및 설계 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a></strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 위성/무선망 설계 요건 분석</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">Q: 통신 단절이 인명 사고나 막대한 금융 손실로 직결되는 Mission Critical 망인가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 아니오 =&gt;</div><div class="kb-diagram-node">결정</div><div class="kb-diagram-note">DAMA 채택으로 비용/효율 최적화</div></div>
+<div class="kb-diagram-note">─ 예</div>
+<div class="kb-diagram-note">─ Q: 통신 트래픽이 24시간 거의 일정한 대역폭(CBR)을 유지하는가? (예: 방송 송출, 백본 동기화)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ 예 =&gt;</div><div class="kb-diagram-node">결정</div><div class="kb-diagram-note">PAMA 도입 승인. (대역폭 낭비가 거의 없고 안정성 극대화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ 아니오 =&gt;</div><div class="kb-diagram-node">타협</div><div class="kb-diagram-note">기본 보장 최소 대역폭은 PAMA로, 추가 돌발 트래픽은 DAMA로 하이브리드 처리</div></div>
+</div>
+</div>
+
+
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 PAMA를 도입하는 기준이 '효율성'이 아니라 '무조건적인 전송 보장과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 제로'에 맞추어져야 한다는 점이다. 아무리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 남아돌아도 TV 방송 송출용 위성 링크를 경쟁 방식이나 동적 할당으로 설계하면, 화면 멈춤이나 프레임 드롭이 발생하여 대형 방송 사고로 이어진다. 실무에서는 PAMA를 구성할 때 각 채널 간의 상호변조 왜곡(IMD, Intermodulation Distortion)을 방지하기 위해 중계기 증폭기의 출력 전력(Back-off)을 정밀하게 제어해야 한다. 전용 채널이라고 출력을 무리하게 높이면 인접한 PAMA 채널을 침범해 전체 백본망을 망가뜨릴 수 있기 때문이다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 - [ ] 노드 수가 향후 급격히 늘어날 가능성이 없는 폐쇄적, 고정적 토폴로지인가?
 - [ ] 지상국 모뎀의 주파수 대역이 스펙트럼 관리국의 라이선스 허가를 명확히 득한 고정 대역인가?
 - [ ] 채널 할당의 변경이 필요할 경우, 하드웨어적 재구성에 걸리는 유지보수 윈도우(Downtime)를 수용할 수 있는가?
@@ -146,8 +154,8 @@ PAMA는 초고신뢰성 통신망의 가장 단단한 주춧돌 역할을 수행
 
 | 구분 | 기대 효과 및 기술적 가치 |
 |:---|:---|
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))** | 타 노드 트래픽 폭주 및 통신 제어 장비 에러로부터 100% 논리적 물리적 격리 |
-| **무지연성 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Delay)** | 접속 셋업 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 오버헤드 제로, 물리적 전파 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 외의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 완전 소거 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>)</strong> | 타 노드 트래픽 폭주 및 통신 제어 장비 에러로부터 100% 논리적 물리적 격리 |
+| <strong>무지연성 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Delay)</strong> | 접속 셋업 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 오버헤드 제로, 물리적 전파 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 외의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 완전 소거 |
 | **미래 전망** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 '[네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))' 중 초고신뢰 저지연([uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)) 전용 슬라이스에 논리적 PAMA 개념(Hard Reservation) 적용 |
 
 결론적으로, PAMA (Pre-Assigned [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)) 방식은 무선 자원 효율성의 측면에서는 구시대적 유물이지만, [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장의 관점에서는 가장 완벽한 해답이다. 현대 네트워크는 물리적 주파수 분할 고정 할당의 형태에서 벗어나, 클라우드화된 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 자원을 엄격하게 예약하고 격리하는 '소프트웨어 정의 기반의 하드 예약(Hard Reservation)' 구조로 PAMA의 철학을 계승 발전시키고 있다.
@@ -168,15 +176,19 @@ PAMA는 초고신뢰성 통신망의 가장 단단한 주춧돌 역할을 수행
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DAMA]
-    │
-    ▼
-[현재 개념: PAMA]
-    │
-    ├──▶ [확장 A: CDMA2000 1x / EV-DO]
-    └──▶ [확장 B: 지능형 자원 스케줄링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DAMA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PAMA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CDMA2000 1x / EV-DO</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
+</div>
+</div>
+
+
 
 PAMA는 DAMA에서 출발해 현재 메커니즘을 정교화하고, 이후 CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

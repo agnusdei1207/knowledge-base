@@ -29,13 +29,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Logic Blocks
-  ↓
-Programmable Interconnect
-  ↓
-Configured Hardware
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Logic Blocks</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Programmable Interconnect</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Configured Hardware</div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ FPGA는 빠른 개발과 맞춤형 [병렬](/knowledge-base/studynote/05_databas
 
 ## 관련 개념 맵
 
-```text
-FPGA
-  ↓
-LUT / Interconnect
-  ↓
-Reconfigurable Hardware
-  ↓
-Acceleration
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FPGA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">LUT / Interconnect</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Reconfigurable Hardware</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Acceleration</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Programmable Logic
-  ↓
-FPGA
-  ↓
-Hardware Acceleration
-  ↓
-Reconfigurable Computing
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Programmable Logic</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">FPGA</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Hardware Acceleration</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Reconfigurable Computing</div>
+</div>
+</div>
+
+
 
 ---
 

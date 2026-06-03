@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 과거의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 라우터는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 주니퍼(Juniper) 등 제조사가 칩셋 안에 하드코딩해 둔 자신들만의 룰과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Network OS)로 동작했다. 이 폐쇄적인 생태계에서는 관리자가 장비의 동작 방식을 마음대로 바꿀 수 없었다. 
 
-이러한 문제를 해결하기 위해 스탠포드 대학교 연구진은 "장비는 그저 패킷을 고속으로 전달만 하고, 똑똑한 경로는 외부의 서버(컨트롤러)가 계산해서 알려주면 어떨까?"라는 발상을 현실화했다. 이때 외부 서버와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대화할 수 있도록 제정된 최초의 개방형 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바로 **[OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)**이다. OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인과 컨트롤 플레인을 물리적으로 절단해낸 상징적인 인터페이스다.
+이러한 문제를 해결하기 위해 스탠포드 대학교 연구진은 "장비는 그저 패킷을 고속으로 전달만 하고, 똑똑한 경로는 외부의 서버(컨트롤러)가 계산해서 알려주면 어떨까?"라는 발상을 현실화했다. 이때 외부 서버와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대화할 수 있도록 제정된 최초의 개방형 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 바로 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a></strong>이다. OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(Software-Defined Networking)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인과 컨트롤 플레인을 물리적으로 절단해낸 상징적인 인터페이스다.
 
-```text
-[SDN 데이터/컨트롤 플레인]
-    │
-    ▼
-[OpenFlow 프로토콜]
-    │
-    └──▶ [MEC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터/컨트롤 플레인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 각기 다른 나라 말을 쓰던 수공업 장인들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게, 전 세계 공통의 설계도 전달 표준어([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/))를 제정하여 중앙 설계실(컨트롤러)에서 공장을 자동화한 것과 같다.
 
@@ -38,28 +42,26 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OpenFlow의 핵심 동작 원리는 **플로우 테이블(Flow Table)**을 기반으로 한 패킷 처리 파이프라인에 있다.
+OpenFlow의 핵심 동작 원리는 <strong>플로우 테이블(Flow Table)</strong>을 기반으로 한 패킷 처리 파이프라인에 있다.
 
 1. **Match (조건)**: 들어온 패킷이 어떤 헤더([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), IP, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등)를 가지는지 검사한다.
 2. **Action (행동)**: 조건에 맞으면 어떻게 할 것인지(특정 포트로 전달, 드롭, 헤더 변조 등) 실행한다.
-3. **[Statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/) (통계)**: 해당 룰에 매칭된 패킷 수나 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 등의 카운터를 누적한다.
+3. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/">Statistics</a> (통계)</strong>: 해당 룰에 매칭된 패킷 수나 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 등의 카운터를 누적한다.
 
-```text
-┌───────────────── SDN Controller (ONOS, OpenDaylight) ─────────────────┐
-│                                                                       │
-└─────────────────────────────────┬─────────────────────────────────────┘
-                                  │ OpenFlow Protocol (Secure Channel)
-┌─────────────────────────────────▼─────────────────────────────────────┐
-│ [ OpenFlow Switch ]                                                   │
-│                                                                       │
-│  [ Flow Table 0 ]   ──(Miss)──▶  [ Flow Table 1 ]   ──(Miss)──▶ ...   │
-│  ┌───────┬────────┬───────┐      ┌───────┬────────┬───────┐           │
-│  │ Match │ Action │ Stats │      │ Match │ Action │ Stats │           │
-│  ├───────┼────────┼───────┤      ├───────┼────────┼───────┤           │
-│  │ IP=A  │ Port 2 │  150  │      │ MAC=B │  Drop  │   45  │           │
-│  └───────┴────────┴───────┘      └───────┴────────┴───────┘           │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SDN Controller (ONOS, OpenDaylight)</div>
+<div class="kb-diagram-note">OpenFlow Protocol (Secure Channel)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow Switch</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flow Table 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Flow Table 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Match</div><div class="kb-diagram-cell">Action</div><div class="kb-diagram-cell">Stats</div><div class="kb-diagram-cell">Match</div><div class="kb-diagram-cell">Action</div><div class="kb-diagram-cell">Stats</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP=A</div><div class="kb-diagram-cell">Port 2</div><div class="kb-diagram-cell">150</div><div class="kb-diagram-cell">MAC=B</div><div class="kb-diagram-cell">Drop</div><div class="kb-diagram-cell">45</div></div>
+</div>
+</div>
+
+
 
 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 도착했는데 플로우 테이블에 매칭되는 룰(Flow Entry)이 없다면(Table Miss), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷의 헤더만 떼어내어 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 채널([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 통해 컨트롤러에게 "이 패킷 어디로 보낼까요?"(Packet-In 메시지)라고 묻는다. 컨트롤러는 경로를 계산한 뒤 "앞으로 이 패킷은 2번 포트로 보내라"는 룰을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 기록(Flow-Mod 메시지)해준다.
 
@@ -78,7 +80,7 @@ OpenFlow의 핵심 동작 원리는 **플로우 테이블(Flow Table)**을 기�
 | **미등록 패킷 처리** | 디폴트 라우트 전송 또는 드롭 (Drop) | 컨트롤러에게 질의 (Packet-In) |
 | **유연성** | 정적 (새로운 룰 적용 시 장비별 CLI 재설정 필요) | 동적 (컨트롤러에서 API로 실시간 룰 변경) |
 
-OpenFlow는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 네트워크의 **트래픽 엔지니어링(Traffic Engineering)**이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 간 전용망(WAN) 연결 최적화에 탁월하다. 구글의 B4 네트워크가 OpenFlow를 도입하여 세계 각지의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률을 극대화한 것이 대표적인 성공 사례다.
+OpenFlow는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 네트워크의 <strong>트래픽 엔지니어링(Traffic Engineering)</strong>이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 간 전용망(WAN) 연결 최적화에 탁월하다. 구글의 B4 네트워크가 OpenFlow를 도입하여 세계 각지의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률을 극대화한 것이 대표적인 성공 사례다.
 
 - **📢 섹션 요약 비유**: 전통적 방식이 기차 레일이 깔린 대로만 달리는 기차라면, OpenFlow는 앞에 장애물이 생기면 중앙 관제소가 실시간으로 레일을 통째로 다른 길로 틀어버리는 마법의 선로와 같다.
 
@@ -91,7 +93,7 @@ OpenFlow는 [데이터센터](/knowledge-base/studynote/03_network/16_data_cente
 
 **기술사 판단 포인트 (Trade-off):**
 1. **오버헤드 (Packet-In 폭풍)**: 테이블에 룰이 없는 패킷이 일시에 쏟아지면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 컨트롤러에게 질의(Packet-In)하는 트래픽이 폭증하여 컨트롤러의 CPU를 100% 점유하고 네트워크 전체가 마비될 수 있다(DDoS 공격에 취약). 따라서 실무에서는 모든 패킷을 묻지 않도록 미리 핵심 룰을 밀어 넣는 **Proactive(사전 정의)** 방식을 우선해야 한다.
-2. **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 경직성**: OpenFlow는 매칭할 수 있는 헤더 필드(IP, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 등 약 40개)가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격에 박혀 있다. 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 전용 헤더)이 나오면 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 스펙을 업데이트하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 갈아엎어야 한다. 이러한 하드웨어 종속의 한계를 뚫기 위해 최근에는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어가 대안으로 부상하고 있다.
+2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 경직성</strong>: OpenFlow는 매칭할 수 있는 헤더 필드(IP, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 등 약 40개)가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격에 박혀 있다. 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 전용 헤더)이 나오면 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 스펙을 업데이트하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 갈아엎어야 한다. 이러한 하드웨어 종속의 한계를 뚫기 위해 최근에는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어가 대안으로 부상하고 있다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -124,15 +126,19 @@ OpenFlow는 벤더들이 수십 년간 쌓아온 하드웨어 독점의 성벽�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SDN 데이터/컨트롤 플레인]
-    │
-    ▼
-[현재 개념: OpenFlow 프로토콜]
-    │
-    ├──▶ [확장 A: MEC]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 데이터/컨트롤 플레인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OpenFlow 프로토콜</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,16 +20,16 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), AuthN)**: 시스템에 접근하려는 주체(User, System)가 자신이 주장하는 그 사람이 맞는지(ID/PW, 생체정보 등으로) 확인하는 절차.
-  - **[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), AuthZ)**: 인증된 주체가 특정 자원(게시판, 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 접근하거나 행동을 할 수 있는 '권한(Permission)'이 있는지 검증하는 절차.
+  - <strong>인증 (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>, AuthN)</strong>: 시스템에 접근하려는 주체(User, System)가 자신이 주장하는 그 사람이 맞는지(ID/PW, 생체정보 등으로) 확인하는 절차.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>, AuthZ)</strong>: 인증된 주체가 특정 자원(게시판, 관리자 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 접근하거나 행동을 할 수 있는 '권한(Permission)'이 있는지 검증하는 절차.
 
-- **필요성**: 놀이공원에 비유해 보자. 매표소에서 신분증과 지문을 확인해 놀이공원 입장을 허락하는 것이 **인증**이다. 하지만 놀이공원에 들어왔다고 해서 누구나 롤러코스터 조종실에 들어갈 수는 없다. 일반 손님은 놀이기구 탑승만 가능하고, 직원은 조종실에 들어갈 수 있게 명찰 색깔로 통제하는 것이 **[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)**다. 이 두 가지가 시스템적으로 명확히 분리되지 않으면 일반 손님이 롤러코스터를 조종하는 대참사가 터진다.
+- **필요성**: 놀이공원에 비유해 보자. 매표소에서 신분증과 지문을 확인해 놀이공원 입장을 허락하는 것이 <strong>인증</strong>이다. 하지만 놀이공원에 들어왔다고 해서 누구나 롤러코스터 조종실에 들어갈 수는 없다. 일반 손님은 놀이기구 탑승만 가능하고, 직원은 조종실에 들어갈 수 있게 명찰 색깔로 통제하는 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong>다. 이 두 가지가 시스템적으로 명확히 분리되지 않으면 일반 손님이 롤러코스터를 조종하는 대참사가 터진다.
 
-- **💡 비유**: **인증(AuthN)**은 여권을 보여주고 비행기 표를 받는 것이고, **[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)(AuthZ)**는 비행기 안에서 이코노미석에 앉을지 일등석에 앉을지 표의 등급을 확인받는 것입니다. 일등석 표를 가졌어도([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 여권이 가짜면(인증) 애초에 공항에 못 들어가고, 여권이 진짜라도 일등석 표가 없으면 일등석에 못 앉습니다.
+- **💡 비유**: <strong>인증(AuthN)</strong>은 여권을 보여주고 비행기 표를 받는 것이고, <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(AuthZ)</strong>는 비행기 안에서 이코노미석에 앉을지 일등석에 앉을지 표의 등급을 확인받는 것입니다. 일등석 표를 가졌어도([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 여권이 가짜면(인증) 애초에 공항에 못 들어가고, 여권이 진짜라도 일등석 표가 없으면 일등석에 못 앉습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **상태 유지(Stateful) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 인증**: 과거 웹에서는 서버가 메모리나 DB에 로그인한 사람의 명부([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID)를 기록해 두고 매번 대조했다. 동시접속자가 1천만 명이 되자 서버 메모리가 터졌다.
-  2. **무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 토큰 인증**: 서버가 기억하는 대신, 위조 불가능한 도장이 찍힌 출입증(Token, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))을 사용자에게 줘버렸다. 사용자가 올 때마다 서버는 이 도장만 검사하면 되므로 서버 대수를 무한대로 늘릴 수 있게 되었다([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 최적화).
+  1. <strong>상태 유지(Stateful) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 인증</strong>: 과거 웹에서는 서버가 메모리나 DB에 로그인한 사람의 명부([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID)를 기록해 두고 매번 대조했다. 동시접속자가 1천만 명이 되자 서버 메모리가 터졌다.
+  2. <strong>무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 토큰 인증</strong>: 서버가 기억하는 대신, 위조 불가능한 도장이 찍힌 출입증(Token, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))을 사용자에게 줘버렸다. 사용자가 올 때마다 서버는 이 도장만 검사하면 되므로 서버 대수를 무한대로 늘릴 수 있게 되었다([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 최적화).
   3. **권한 위임 (OAuth 2.0)**: 구글, 카카오 같은 거대 플랫폼이 생기며, 내 앱이 구글의 아이디와 패스워드를 묻지 않고도 구글의 '권한'만 빌려오는 OAuth 패턴이 인터넷의 표준으로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 옛날엔 식당 주인이 단골손님 100명의 얼굴과 외상 장부를 다 외웠지만([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)), 손님이 1만 명으로 늘어나자 도저히 외울 수 없어 손님들에게 지워지지 않는 도장이 찍힌 쿠폰([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰)을 나눠주고 쿠폰만 보고 들여보내는 방식으로 바뀐 것입니다.
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  인증 (Authentication)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증 (Authentication)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 및 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 및 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 인증 ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 및 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-인증 (Authentication) 및 인가 (Authorization) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증 (Authentication) 및 인가 (Authorization) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 바이모달 IT ([Bimodal IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/))는 안정성 중심의 모달리티 1 (Mode 1)과 민첩성 중심의 모달리티 2 (Mode 2)를 한 조직 안에서 병행하는 **두 속도 운영 모델**이다.
+> 1. **본질**: 바이모달 IT ([Bimodal IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/059_bimodal_it/))는 안정성 중심의 모달리티 1 (Mode 1)과 민첩성 중심의 모달리티 2 (Mode 2)를 한 조직 안에서 병행하는 <strong>두 속도 운영 모델</strong>이다.
 > 2. **가치**: 코어 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키면서도 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 빠른 실험과 출시를 가능하게 해, 전통 기업의 혁신 딜레마를 완화한다.
-> 3. **판단 포인트**: 두 모드를 나누는 것만으로는 부족하고, **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 평가 체계, 문화 충돌 관리**까지 설계해야 실제로 작동한다.
+> 3. **판단 포인트**: 두 모드를 나누는 것만으로는 부족하고, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 경계, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>, 평가 체계, 문화 충돌 관리</strong>까지 설계해야 실제로 작동한다.
 
 ---
 
@@ -43,25 +43,25 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 바이모달 IT를 시스템 구조에 연결한 페이스 레이어드 아키텍처 (Pace-[Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))의 개념을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Pace-layered architecture for Bimodal IT                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Fast change                                                          │
-│   Systems of Innovation    -> Mode 2                                 │
-│   mobile / AI / campaign apps                                        │
-│              │                                                       │
-│              ▼ API                                                   │
-│   Systems of Differentiation -> mixed zone                           │
-│   customer journey / channel features                                │
-│              │                                                       │
-│              ▼ controlled interface                                  │
-│   Systems of Record         -> Mode 1                                │
-│   ERP / ledger / core master data                                    │
-│                                                                      │
-│ Rule: upper layers must not bypass governed interfaces               │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pace-layered architecture for Bimodal IT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Innovation -&gt; Mode 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mobile / AI / campaign apps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Differentiation -&gt; mixed zone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer journey / channel features</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ controlled interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Record -&gt; Mode 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP / ledger / core master data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: upper layers must not bypass governed interfaces</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 상위 레이어가 하위 레이어를 직접 건드리지 않는 것이다. Mode 2 팀은 빠르게 배포할 수 있지만, Mode 1 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 수정하면 코어 안정성이 무너진다. 그래서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이벤트 스트림 같은 완충 경계가 필요하다.
 
@@ -92,7 +92,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 Mode 2를 신설하는 것보다 **Mode 1과 안전하게 연결하는 방식**이 더 어렵다. 대표적인 해법은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)), 읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소, 이벤트 기반 연동이다. 이렇게 해야 Mode 2의 급격한 트래픽이 Mode 1의 코어 시스템을 직접 흔들지 않는다.
+실무에서는 Mode 2를 신설하는 것보다 <strong>Mode 1과 안전하게 연결하는 방식</strong>이 더 어렵다. 대표적인 해법은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)), 읽기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소, 이벤트 기반 연동이다. 이렇게 해야 Mode 2의 급격한 트래픽이 Mode 1의 코어 시스템을 직접 흔들지 않는다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,9 +119,9 @@ tags = ["studynote-enterprise"]
 
 바이모달 IT를 올바르게 적용하면 코어 시스템의 안정성을 유지하면서도 디지털 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 출시 속도를 높일 수 있다. 특히 전통 산업 기업에서 혁신 조직이 완전히 막히는 상황을 풀어 주는 과도기적 효과가 크다. 코어와 실험의 KPI를 분리함으로써 각 조직이 같은 잣대로 오해받는 일도 줄어든다.
 
-그러나 한계도 분명하다. 조직이 둘로 갈라지면 협업 비용, 문화 갈등, 통합 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생길 수 있다. 그래서 장기적으로는 멀티스피드 IT나 전사 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)처럼 보다 통합된 방향으로 진화하는 경우가 많다. 바이모달 IT는 종착점이라기보다 **레거시 중심 기업이 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)으로 넘어가는 다리**에 가깝다.
+그러나 한계도 분명하다. 조직이 둘로 갈라지면 협업 비용, 문화 갈등, 통합 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생길 수 있다. 그래서 장기적으로는 멀티스피드 IT나 전사 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)처럼 보다 통합된 방향으로 진화하는 경우가 많다. 바이모달 IT는 종착점이라기보다 <strong>레거시 중심 기업이 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>으로 넘어가는 다리</strong>에 가깝다.
 
-결론적으로 이 개념은 "빠른 팀을 따로 만든다"가 아니라, **현재 사업을 지키는 속도와 미래를 탐색하는 속도를 같은 조직 안에서 충돌 없이 공존시키는 운영 원리**로 기억해야 한다.
+결론적으로 이 개념은 "빠른 팀을 따로 만든다"가 아니라, <strong>현재 사업을 지키는 속도와 미래를 탐색하는 속도를 같은 조직 안에서 충돌 없이 공존시키는 운영 원리</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 바이모달 IT는 낡은 본관을 허물지 않고도 새 연구동을 붙여 쓰게 만드는 임시 가교 건물과 같아서, 다리를 건너는 동안은 꼭 필요하지만 언젠가는 도시 전체 설계가 다시 바뀌어야 한다.
 
@@ -140,21 +140,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single-speed legacy IT
-        │
-        ▼
-Mode 1 / Mode 2 separation
-        │
-        ▼
-API-governed coexistence
-        │
-        ▼
-Multi-speed enterprise architecture
-        │
-        ▼
-Enterprise-wide agile modernization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single-speed legacy IT</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Mode 1 / Mode 2 separation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API-governed coexistence</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-speed enterprise architecture</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Enterprise-wide agile modernization</div>
+</div>
+</div>
+
+
 
 이 흐름은 획일적 운영에서, 속도 차이를 인정하고 장기적으로 더 통합된 민첩 조직으로 가는 발전 방향을 보여준다.
 

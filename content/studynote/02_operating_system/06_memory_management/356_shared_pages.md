@@ -11,49 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Shared Pages)는 여러 프로세스가 공통으로 사용하는 코드나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 물리 메모리에 딱 **한 번만 적재(Load)**하고, 각 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 동일한 물리 프레임을 가리키게 하여 메모리를 공유하는 기법이다.
+> 1. **본질**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서의 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Shared Pages)는 여러 프로세스가 공통으로 사용하는 코드나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 물리 메모리에 딱 <strong>한 번만 적재(Load)</strong>하고, 각 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 동일한 물리 프레임을 가리키게 하여 메모리를 공유하는 기법이다.
 > 2. **가치**: 메모리 소비량이 기하급수적으로 폭발하는 다중 사용자 환경(예: 40명의 사용자가 동시에 워드프로세서를 실행할 때)에서, 중복되는 코드 용량을 완벽하게 0으로 만들어 시스템 메모리를 수십~수백 배 절약해 준다.
-> 3. **융합**: 이 기법이 성립하기 위해서는 공유되는 코드가 실행 중에 절대 내용이 변하지 않는 **[재진입 가능 코드](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/)([Reentrant Code](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/), Pure [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**여야만 하며, 이는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(DLL/SO)의 하드웨어적 구현 토대가 된다.
+> 3. **융합**: 이 기법이 성립하기 위해서는 공유되는 코드가 실행 중에 절대 내용이 변하지 않는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/">재진입 가능 코드</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/">Reentrant Code</a>, Pure <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>여야만 하며, 이는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(DLL/SO)의 하드웨어적 구현 토대가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 프로세스마다 독립된 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 가진다. 보통은 자기만의 물리 프레임을 가리키지만, '공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)' 기법에서는 여러 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(Entry)가 **동일한 물리 프레임 번호**를 가리키게끔 의도적으로 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))한다.
+- **개념**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 프로세스마다 독립된 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 가진다. 보통은 자기만의 물리 프레임을 가리키지만, '공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)' 기법에서는 여러 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(Entry)가 <strong>동일한 물리 프레임 번호</strong>를 가리키게끔 의도적으로 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))한다.
 - **필요성**: 만약 50MB짜리 텍스트 에디터를 10명이 동시에 띄웠다고 가정해 보자. [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) 환경에서는 50MB 코드를 10명분으로 각각 램에 올려 총 500MB의 메모리가 증발했다. 똑같은 코드(기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 메모리에 10번이나 중복해서 올리는 것은 막대한 낭비다. "코드 원본은 하나만 두고, 각자 읽어(Read) 가기만 하자!"라는 공유의 철학이 절실했다.
 
 - **등장 배경 및 아키텍처 제약**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 공유 불가**: 과거에는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 있어(Self-modifying [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 등), 한 놈이 코드를 바꾸면 다른 놈이 엉뚱한 코드를 실행하게 되어 공유가 불가능했다.
-  2. **재진입 코드([Reentrant Code](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/))의 등장**: 개발자들이 프로그램의 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))' 부분과 '변수/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))' 부분을 엄격히 분리해서 컴파일하기 시작했다. 코드는 절대 변하지 않는 순수 기계어(Pure [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 작성되었다.
-  3. **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 활용**: OS는 이 변하지 않는 코드 조각들만 핀셋으로 집어 하나의 프레임에 올린 뒤, 수천 개의 프로세스가 이 프레임을 가리키게 하는 마법을 부렸다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 공유 불가</strong>: 과거에는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 있어(Self-modifying [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 등), 한 놈이 코드를 바꾸면 다른 놈이 엉뚱한 코드를 실행하게 되어 공유가 불가능했다.
+  2. <strong>재진입 코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/">Reentrant Code</a>)의 등장</strong>: 개발자들이 프로그램의 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))' 부분과 '변수/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))' 부분을 엄격히 분리해서 컴파일하기 시작했다. 코드는 절대 변하지 않는 순수 기계어(Pure [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 작성되었다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 활용</strong>: OS는 이 변하지 않는 코드 조각들만 핀셋으로 집어 하나의 프레임에 올린 뒤, 수천 개의 프로세스가 이 프레임을 가리키게 하는 마법을 부렸다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│        페이징 시스템에서의 공유 페이지(Shared Page) 매핑 구조            │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [ 프로세스 P1 (유저 A의 크롬) ]     [ 프로세스 P2 (유저 B의 크롬) ]      │
-│  P1의 페이지 테이블                  P2의 페이지 테이블                  │
-│ ┌──────┬───────┐                ┌──────┬───────┐                         │
-│ │ Page │ Frame │                │ Page │ Frame │                         │
-│ ├──────┼───────┤                ├──────┼───────┤                         │
-│ │ 0(Ed)│   3   │──┐    ┌────────│ 0(Ed)│   3   │ (공유!)                 │
-│ │ 1(Ed)│   4   │──┼────┼──┐     │ 1(Ed)│   4   │ (공유!)                 │
-│ │ 2(Ed)│   6   │──┼────┼──┼──┐  │ 2(Ed)│   6   │ (공유!)                 │
-│ │ 3(D1)│   1   │─┐│    │  │  │  │ 3(D2)│   8   │ (독립됨)                │
-│ └──────┴───────┘ ││    │  │  │  └──────┴───────┘                         │
-│                  ││    │  │  │                                           │
-│                  ▼▼    ▼  ▼  ▼                                           │
-│ [ 물리 메모리 (RAM) ]                                                    │
-│ ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐                  │
-│ │ Fr 0│Fr 1 │ Fr 2│Fr 3 │Fr 4 │ Fr 5│Fr 6 │ Fr 7│Fr 8 │                  │
-│ │ (빈) │ Data│ (빈) │ Ed 1│ Ed 2│ (빈) │ Ed 3│ (빈) │ Data│              │
-│ │     │ (P1)│     │(공유)│(공유)│     │(공유)│     │ (P2)│               │
-│ └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘                  │
-│ * Ed: Editor 코드 (읽기 전용, 재진입 가능)                               │
-│ * Data: 사용자 개별 데이터 (읽기/쓰기 가능, 각각 독립적 프레임 할당)     │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징 시스템에서의 공유 페이지(Shared Page) 매핑 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 P1 (유저 A의 크롬)</div><div class="kb-diagram-node">프로세스 P2 (유저 B의 크롬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1의 페이지 테이블 P2의 페이지 테이블</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">Frame</div><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">Frame</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0(Ed)</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">0(Ed)</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">(공유!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1(Ed)</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">── ──</div><div class="kb-diagram-cell">1(Ed)</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">(공유!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2(Ed)</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">── ── ──</div><div class="kb-diagram-cell">2(Ed)</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">(공유!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3(D1)</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">3(D2)</div><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">(독립됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (RAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fr 0</div><div class="kb-diagram-cell">Fr 1</div><div class="kb-diagram-cell">Fr 2</div><div class="kb-diagram-cell">Fr 3</div><div class="kb-diagram-cell">Fr 4</div><div class="kb-diagram-cell">Fr 5</div><div class="kb-diagram-cell">Fr 6</div><div class="kb-diagram-cell">Fr 7</div><div class="kb-diagram-cell">Fr 8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Ed 1</div><div class="kb-diagram-cell">Ed 2</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Ed 3</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P1)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(P2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Ed: Editor 코드 (읽기 전용, 재진입 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Data: 사용자 개별 데이터 (읽기/쓰기 가능, 각각 독립적 프레임 할당)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** P1과 P2는 모두 크롬 브라우저다. [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 0, 1, 2번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 크롬의 핵심 실행 코드(Ed)다. OS는 두 프로세스의 테이블에서 이 코드 영역이 모두 똑같은 물리 프레임 `[3, 4, 6]`을 가리키도록 연결한다. 하지만 3번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 유저가 검색창에 입력한 글자나 로컬 상태값이므로 절대 공유하면 안 된다. 그래서 P1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 프레임 `1`에, P2의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 프레임 `8`에 완전히 격리해서 매핑해 둔다.
 
 - **📢 섹션 요약 비유**: 게임방에서 10명이 똑같은 게임을 할 때, 게임 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 중앙 서버 1대(물리 메모리)에만 깔아두고 모니터로 화면만 공유받되, 각자의 게임 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 자기들 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)(독립 프레임)에 따로 저장하는 완벽한 분리형 시스템입니다.
@@ -64,16 +59,16 @@ tags = ["studynote-operating-system"]
 
 ### [재진입 가능 코드](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/) ([Reentrant Code](/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/) / Pure [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 필수성
 
-공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 안전하게 작동하려면, 공유되는 프레임 안의 기계어 코드들이 **"실행 도중에 절대 자신의 내용([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 변경하지 않는다"**는 속성을 무조건 보장해야 한다. 이를 **재진입 가능(Reentrant)** 하다고 부른다.
+공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 안전하게 작동하려면, 공유되는 프레임 안의 기계어 코드들이 <strong>"실행 도중에 절대 자신의 내용(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)을 변경하지 않는다"</strong>는 속성을 무조건 보장해야 한다. 이를 **재진입 가능(Reentrant)** 하다고 부른다.
 - 만약 프로그램 A가 공유 코드를 실행하다가 내부 변수 값을 `count = 10`으로 바꿔버렸는데, 스케줄링이 넘어가서 프로그램 B가 그 코드를 실행하면 B는 0이 아니라 10부터 시작하게 되어 완전히 버그가 나버린다.
-- 따라서 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 영역은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 **R/W 비트가 반드시 `Read-Only(읽기 전용)`로 강제 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**이 걸려 있어야 한다. 누군가 여기에 Write를 시도하면 MMU가 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)(SegFault)을 날려 죽여버린다.
+- 따라서 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 영역은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 <strong>R/W 비트가 반드시 <code>Read-Only(읽기 전용)</code>로 강제 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>이 걸려 있어야 한다. 누군가 여기에 Write를 시도하면 MMU가 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)(SegFault)을 날려 죽여버린다.
 
 ---
 
 ### [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 위치의 강제 일치성 (The Same Logical Address Rule)
 
 과거 시스템에서 코드를 공유할 때 가장 까다로웠던 물리적 제약 조건이다.
-- 공유되는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(예: Ed 1, Ed 2, Ed 3)는 모든 공유 프로세스들의 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 공간에서 **정확히 똑같은 위치(동일한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호)**에 존재해야만 했다.
+- 공유되는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(예: Ed 1, Ed 2, Ed 3)는 모든 공유 프로세스들의 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 공간에서 <strong>정확히 똑같은 위치(동일한 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 번호)</strong>에 존재해야만 했다.
 - 크롬 A에서 공유 코드가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) `0, 1, 2`에 있다면, 크롬 B에서도 반드시 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) `0, 1, 2`에 있어야 한다.
 - 이유: 기계어 코드 안에 `JUMP 5000 (페이지 1번으로 점프)`이라는 상대 주소가 박혀있기 때문이다. 만약 B에서 공유 코드가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) `10, 11, 12`에 매핑되어 있다면 저 JUMP 명령은 엉뚱한 곳으로 날아가 버린다. (현대에는 주소 독립 코드 PIC 기술로 이 제약이 많이 느슨해졌다.)
 
@@ -89,9 +84,9 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Sharing) | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) Sharing) |
 |:---|:---|:---|
-| **공유 대상** | **같은 프로세스** 소속의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들 간의 공유 | **서로 다른 독립된 프로세스**들 간의 공유 |
-| **공유 범위** | 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 전부 공유 | 오직 읽기 전용 **코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**나 특정 DLL/SO만 제한적 공유 |
-| **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)**| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 **하나의 [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)(장부)을 통째로 공유** | 프로세스 100개가 **각자 자기 [PTBR](/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/)(장부)을 가짐** |
+| **공유 대상** | **같은 프로세스** 소속의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들 간의 공유 | <strong>서로 다른 독립된 프로세스</strong>들 간의 공유 |
+| **공유 범위** | 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 전부 공유 | 오직 읽기 전용 <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>나 특정 DLL/SO만 제한적 공유 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a></strong>| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 <strong>하나의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/">PTBR</a>(장부)을 통째로 공유</strong> | 프로세스 100개가 <strong>각자 자기 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/354_ptbr_ptlr/">PTBR</a>(장부)을 가짐</strong> |
 | **매핑 방식** | 그냥 장부 하나를 같이 쳐다보는 것 | 각자의 장부 특정 줄(Entry)이 우연히 같은 프레임을 가리킴 |
 
 ### 시스템적 파급 효과: DLL과 SO의 탄생
@@ -102,14 +97,17 @@ tags = ["studynote-operating-system"]
 - 그리고 100개 앱의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 `libc.so`의 500개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 번호를 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))를 통해 모두 똑같이 매핑해 준다.
 - 이로 인해 시스템 전체의 메모리 낭비가 테라바이트 수준으로 절약된다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────────┐
-│ 환경       │ 라이브러리 적재│ 물리 메모리 소비│ 페이지 테이블 세팅            │
-├──────────┼────────────┼────────────┼──────────────────────────────────────────┤
-│ 정적 링킹  │ 앱마다 통째로 복사│ 2MB × 100 = 200MB│ 각자 다른 프레임 매핑     │
-│ 동적/페이징│ 램에 딱 1번 로드│ 2MB × 1 = 2MB  │ 100명이 **같은 프레임** 가리킴│
-└──────────┴────────────┴────────────┴──────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">라이브러리 적재</div><div class="kb-diagram-cell">물리 메모리 소비</div><div class="kb-diagram-cell">페이지 테이블 세팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 링킹</div><div class="kb-diagram-cell">앱마다 통째로 복사</div><div class="kb-diagram-cell">2MB × 100 = 200MB</div><div class="kb-diagram-cell">각자 다른 프레임 매핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적/페이징</div><div class="kb-diagram-cell">램에 딱 1번 로드</div><div class="kb-diagram-cell">2MB × 1 = 2MB</div><div class="kb-diagram-cell">100명이 같은 프레임 가리킴</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 동적 링킹([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))을 하드웨어 레벨에서 완성시켜주는 핵심 톱니바퀴다. 소프트웨어가 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 동적으로 연결하겠다고 포인터를 넘기면, 하드웨어([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 유닛)가 다른 앱이 쓰고 있는 프레임 주소를 똑같이 쏴주어 이 거대한 절약 시스템을 완성한다.
 
 - **📢 섹션 요약 비유**: 수백 명의 요리사가 각자 주방에 똑같은 공용 전자레인지(printf)를 돈 주고 들이는 것(정적 링킹)이 아니라, 복도에 있는 업소용 대형 전자레인지 하나([공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/))를 모두가 자기 주방 문 열고 나가서 같이 쓰는(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 구조입니다.
@@ -120,9 +118,9 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 안드로이드 Zygote(지고트) 프로세스의 흑마술
 안드로이드 스마트폰이 램 용량이 적음에도 불구하고 수십 개의 앱을 부드럽게 띄울 수 있는 비밀이 바로 이 '공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'다.
-1. **Zygote의 탄생**: 안드로이드 커널이 부팅되면, 자바 가상 머신(Dalvik/[ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))과 모든 안드로이드 앱이 공통으로 쓰는 수백 MB의 프레임워크 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(UI, 네트워크 등)를 메모리에 몽땅 올려서 **Zygote(수정란)**라는 마스터 프로세스를 하나 만든다.
-2. **앱 실행 (fork)**: 사용자가 카카오톡, 유튜브, 인스타 앱을 터치해서 켤 때마다, 안드로이드는 이 무거운 프레임워크를 디스크에서 새로 읽지 않는다. 그냥 Zygote 프로세스를 **`fork()`** 해버린다.
-3. **Copy-on-Write와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 공유**:
+1. **Zygote의 탄생**: 안드로이드 커널이 부팅되면, 자바 가상 머신(Dalvik/[ART](/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/))과 모든 안드로이드 앱이 공통으로 쓰는 수백 MB의 프레임워크 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(UI, 네트워크 등)를 메모리에 몽땅 올려서 <strong>Zygote(수정란)</strong>라는 마스터 프로세스를 하나 만든다.
+2. **앱 실행 (fork)**: 사용자가 카카오톡, 유튜브, 인스타 앱을 터치해서 켤 때마다, 안드로이드는 이 무거운 프레임워크를 디스크에서 새로 읽지 않는다. 그냥 Zygote 프로세스를 <strong><code>fork()</code></strong> 해버린다.
+3. <strong>Copy-on-Write와 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 공유</strong>:
    - `fork()` 되는 순간, 카톡과 유튜브의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 몽땅 Zygote가 물고 있던 수백 MB의 물리 프레임(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 그대로 똑같이 가리키게 된다.
    - 즉, 10개의 앱을 켜도 프레임워크 코드는 물리 램에 Zygote가 올린 딱 1벌(100MB)뿐이다.
    - 앱이 각자 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)하는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 대해서만 Copy-on-Write가 발동해 물리 램을 1장씩 분리해 나간다.
@@ -139,8 +137,8 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **물리 램(RAM) 절약 극대화**| 다중 사용자 환경(터미널 서버 등)과 멀티 탭 브라우저에서 코드 중복 적재를 없애 메모리 소비량을 N분의 1로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
-| **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩(Booting) 속도 향상**| 누군가 한 번 로드해둔 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 내가 쓸 때는 디스크에서 읽어올 필요 없이 테이블 포인터만 연결하면 즉시 실행 |
-| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**| 코드가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 의도적으로 R/W 권한으로 공유하면, 가장 빠른 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 채널로 진화 |
+| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 로딩(Booting) 속도 향상</strong>| 누군가 한 번 로드해둔 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 내가 쓸 때는 디스크에서 읽어올 필요 없이 테이블 포인터만 연결하면 즉시 실행 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">프로세스 간 통신</a>) <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>| 코드가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 의도적으로 R/W 권한으로 공유하면, 가장 빠른 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)) 채널로 진화 |
 
 ### 결론 및 미래 전망
 
@@ -161,15 +159,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[페이징의 메모리 보호]
-    │
-    ▼
-[페이징에서의 공유 페이지 (Shared Pages)]
-    │
-    ├──▶ [TLB (Translation Look-aside Buffer)]
-    └──▶ [TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이징의 메모리 보호</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이징에서의 공유 페이지 (Shared Pages)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB (Translation Look-aside Buffer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

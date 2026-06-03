@@ -18,28 +18,29 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)
 
-```
-패리티 비트 (Parity Bit):
 
-짝수 패리티 (Even Parity):
-  데이터 7비트 + 패리티 1비트 = 8비트
-  전체 1의 개수가 짝수가 되도록 패리티 설정
 
-예시:
-  데이터: 1010001 (3개의 1)
-  짝수 패리티: 1010001 | 1 (1 추가 -> 1이 4개)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패리티 비트 (Parity Bit):</div>
+<div class="kb-diagram-note">짝수 패리티 (Even Parity):</div>
+<div class="kb-diagram-note">데이터 7비트 + 패리티 1비트 = 8비트</div>
+<div class="kb-diagram-note">전체 1의 개수가 짝수가 되도록 패리티 설정</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">데이터: 1010001 (3개의 1)</div>
+<div class="kb-diagram-note">짝수 패리티: 1010001 | 1 (1 추가 -&gt; 1이 4개)</div>
+<div class="kb-diagram-note">1비트 오류 탐지:</div>
+<div class="kb-diagram-note">수신: 1010011 | 1 (1이 5개, 홀수 -&gt; 오류 탐지)</div>
+<div class="kb-diagram-note">한계:</div>
+<div class="kb-diagram-note">2비트 동시 오류 -&gt; 탐지 불가 (1의 수 변화 없음)</div>
+<div class="kb-diagram-note">오류 위치 알 수 없음 -&gt; 정정 불가</div>
+<div class="kb-diagram-note">홀수 패리티 (Odd Parity):</div>
+<div class="kb-diagram-note">전체 1이 홀수가 되도록 설정</div>
+<div class="kb-diagram-note">(짝수 패리티와 동일 원리, 반대 값)</div>
+</div>
+</div>
 
-1비트 오류 탐지:
-  수신: 1010011 | 1 (1이 5개, 홀수 -> 오류 탐지)
 
-한계:
-  2비트 동시 오류 -> 탐지 불가 (1의 수 변화 없음)
-  오류 위치 알 수 없음 -> 정정 불가
-
-홀수 패리티 (Odd Parity):
-  전체 1이 홀수가 되도록 설정
-  (짝수 패리티와 동일 원리, 반대 값)
-```
 
 > 📢 **섹션 요약 비유**: [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 계란 한 판을 셀 때 "짝수개면 정상"으로 검사하는 것 — 하나 깨져도 알 수 있지만 두 개 깨지면 놓친다.
 
@@ -138,33 +139,34 @@ FEC (Forward Error Correction):
 
 ## Ⅴ. 실무 시나리오 — [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS
 
-```
-이더넷 프레임 전송 (CRC-32):
 
-  [프리엠블][목적지 MAC][출처 MAC][타입][데이터][FCS]
-                                              ^^^^
-                                           CRC-32 (4바이트)
 
-송신 NIC:
-  1. 데이터 준비 완료
-  2. CRC-32 하드웨어 계산 (전용 레지스터)
-  3. FCS 필드에 삽입 후 전송
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이더넷 프레임 전송 (CRC-32):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프리엠블</div><div class="kb-diagram-node">목적지 MAC</div><div class="kb-diagram-node">출처 MAC</div><div class="kb-diagram-node">타입</div><div class="kb-diagram-node">데이터</div><div class="kb-diagram-node">FCS</div></div>
+<div class="kb-diagram-note">^^^^</div>
+<div class="kb-diagram-note">CRC-32 (4바이트)</div>
+<div class="kb-diagram-note">송신 NIC:</div>
+<div class="kb-diagram-note">1. 데이터 준비 완료</div>
+<div class="kb-diagram-note">2. CRC-32 하드웨어 계산 (전용 레지스터)</div>
+<div class="kb-diagram-note">3. FCS 필드에 삽입 후 전송</div>
+<div class="kb-diagram-note">수신 NIC:</div>
+<div class="kb-diagram-note">1. 프레임 수신</div>
+<div class="kb-diagram-note">2. CRC-32 재계산</div>
+<div class="kb-diagram-note">3. 수신 FCS와 비교</div>
+<div class="kb-diagram-note">일치: 프레임 수락, 상위 계층 전달</div>
+<div class="kb-diagram-note">불일치: 프레임 폐기 (자동)</div>
+<div class="kb-diagram-note">성능:</div>
+<div class="kb-diagram-note">10Gbps NIC: CRC 검사 하드웨어 오프로딩</div>
+<div class="kb-diagram-note">CPU 개입 없음 -&gt; 라인 속도 유지</div>
+<div class="kb-diagram-note">이더넷 CRC-32 오류 탐지율:</div>
+<div class="kb-diagram-note">32비트 미만 버스트 오류 -&gt; 100% 탐지</div>
+<div class="kb-diagram-note">32비트 랜덤 오류 -&gt; 1 - 2^(-32) ≈ 99.9999999%</div>
+</div>
+</div>
 
-수신 NIC:
-  1. 프레임 수신
-  2. CRC-32 재계산
-  3. 수신 FCS와 비교
-     일치: 프레임 수락, 상위 계층 전달
-     불일치: 프레임 폐기 (자동)
-     
-성능:
-  10Gbps NIC: CRC 검사 하드웨어 오프로딩
-  CPU 개입 없음 -> 라인 속도 유지
 
-이더넷 CRC-32 오류 탐지율:
-  32비트 미만 버스트 오류 -> 100% 탐지
-  32비트 랜덤 오류 -> 1 - 2^(-32) ≈ 99.9999999%
-```
 
 > 📢 **섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) FCS는 택배 포장 후 봉인 스티커 — 수신측이 스티커 훼손 여부로 내용물 변형 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 

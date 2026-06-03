@@ -29,13 +29,19 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Observed Counts
-  ↓ compare
-Expected Counts
-  ↓
-Chi-square Statistic
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Observed Counts</div>
+<div class="kb-diagram-note">↓ compare</div>
+<div class="kb-diagram-note">Expected Counts</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Chi-square Statistic</div>
+</div>
+</div>
+
+
 
 | 종류 | 의미 |
 | :-- | :-- |
@@ -102,27 +108,39 @@ Chi-square Statistic
 
 ## 관련 개념 맵
 
-```text
-Categorical Data
-  ↓
-Chi-square Test
-  ↓
-Contingency Table
-  ↓
-Decision
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Categorical Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Chi-square Test</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Contingency Table</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Decision</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Observed / Expected
-  ↓
-Chi-square
-  ↓
-Independence / Goodness-of-fit
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Observed / Expected</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Chi-square</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Independence / Goodness-of-fit</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 모놀리스는 짬짜면이다. 짜장면과 짬뽕 국물이 섞이지 않게 철판(메소드)으로 막아놨지만 한 그릇에 붙어있다. 마이크로서비스([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))는 짜장면과 짬뽕을 아예 '각자 다른 주방장의 다른 그릇(독립된 프로세스, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))'으로 100% 물리적으로 찢어내는 것이다. 분해 패턴(Decomposition)은 그 짬짜면을 자를 때 "어디를 기준으로 칼집을 넣어야 국물이 넘치거나 면이 섞여 양쪽 다 망하는(장애 전파) 대참사를 막을 수 있을까?"를 연구하는 수학적 칼질 룰이다.
 
-- **필요성**: 쿠팡 같은 앱이 1개의 소스코드 덩어리(모놀리식)로 되어있다고 치자. 검색팀이 로직 1줄 고치고 컴파일(빌드)하는 데 1시간이 걸린다. 배포할 때 결제팀, 배송팀 수십 명이 모여서 덜덜 떨며 에러가 날까 봐 기도한다(Agility 사망). 심지어 블랙프라이데이에 결제 트래픽만 폭주했는데, 쓸데없는 리뷰 서버와 검색 서버까지 100대 통째로 복제해야 해서 서버비 수억 원이 날아간다(Scalability 낭비). **괴물을 쪼개지 않으면 속도에 치여 죽고 돈에 치여 파산한다. 살기 위해선 시스템을 가장 독립적인 미니 심장(Microservice) 50개로 완벽히 쪼개서 각자 스스로 박동하게 해야 하는 필연성**이 MSA라는 시대를 강제 소환했다.
+- **필요성**: 쿠팡 같은 앱이 1개의 소스코드 덩어리(모놀리식)로 되어있다고 치자. 검색팀이 로직 1줄 고치고 컴파일(빌드)하는 데 1시간이 걸린다. 배포할 때 결제팀, 배송팀 수십 명이 모여서 덜덜 떨며 에러가 날까 봐 기도한다(Agility 사망). 심지어 블랙프라이데이에 결제 트래픽만 폭주했는데, 쓸데없는 리뷰 서버와 검색 서버까지 100대 통째로 복제해야 해서 서버비 수억 원이 날아간다(Scalability 낭비). <strong>괴물을 쪼개지 않으면 속도에 치여 죽고 돈에 치여 파산한다. 살기 위해선 시스템을 가장 독립적인 미니 심장(Microservice) 50개로 완벽히 쪼개서 각자 스스로 박동하게 해야 하는 필연성</strong>이 MSA라는 시대를 강제 소환했다.
 
-- **💡 비유**: 마이크로서비스 분해는 **'거대한 원룸 아파트를 50세대의 독립 오피스텔로 쪼개는 공사'**와 똑같습니다. 옛날 원룸(모놀리식)은 화장실과 주방을 다 같이 썼습니다. 한 명이 화장실 변기를 막히게(메모리 릭 에러) 하면 50명 전원이 똥을 못 싸서 죽습니다(전체 시스템 셧다운). 훌륭한 건축가(아키텍트)는 칼을 듭니다. 각 세대(Microservice)마다 벽을 두껍게 치고, 독립적인 미니 화장실과 주방([Database per service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/))을 개별적으로 달아줍니다. 이제 301호 변기가 터져도, 302호와 303호는 아주 평화롭게 장사를 계속할 수 있는(장애 격리) 극한의 생존술입니다.
+- **💡 비유**: 마이크로서비스 분해는 <strong>'거대한 원룸 아파트를 50세대의 독립 오피스텔로 쪼개는 공사'</strong>와 똑같습니다. 옛날 원룸(모놀리식)은 화장실과 주방을 다 같이 썼습니다. 한 명이 화장실 변기를 막히게(메모리 릭 에러) 하면 50명 전원이 똥을 못 싸서 죽습니다(전체 시스템 셧다운). 훌륭한 건축가(아키텍트)는 칼을 듭니다. 각 세대(Microservice)마다 벽을 두껍게 치고, 독립적인 미니 화장실과 주방([Database per service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/))을 개별적으로 달아줍니다. 이제 301호 변기가 터져도, 302호와 303호는 아주 평화롭게 장사를 계속할 수 있는(장애 격리) 극한의 생존술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **모놀리식의 영광 (2000년대)**: 코드가 수만 줄일 땐 한 통에 넣고 짜는 게 최고로 빠르고 디버깅하기도 좋았다. 
   2. **아마존/넷플릭스의 딜레마 (2010s)**: 코드가 수백만 줄을 돌파했다. 개발자 1,000명이 똑같은 Git 코드 저장소에 Push 하다가 서로 충돌([Merge Conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/))이 나며 회사가 멈췄다. 제발 우리 각자 찢어져서 살자며 분할을 부르짖었다.
-  3. **[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 분해 패턴의 완성 (현재)**: 찢어놓은 50개의 앱을 배포하는 게 지옥이었다. 하지만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))가 등장하며 찢어진 앱들을 1초 만에 허공에 띄울 수 있게 되면서, [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 철학과 결합한 '완벽한 칼질(분해)의 룰'들이 글로벌 대세로 정착했다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)와 분해 패턴의 완성 (현재)</strong>: 찢어놓은 50개의 앱을 배포하는 게 지옥이었다. 하지만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))가 등장하며 찢어진 앱들을 1초 만에 허공에 띄울 수 있게 되면서, [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 철학과 결합한 '완벽한 칼질(분해)의 룰'들이 글로벌 대세로 정착했다.
 
-- **📢 섹션 요약 비유**: 모놀리식은 **'몸이 하나인 머리 3개 달린 샴쌍둥이 괴물'**입니다. 뇌(팀)는 3개인데 몸(서버/DB)이 하나라 서로 가고 싶은 방향이 달라도 다리가 꼬여서 걷지도 못합니다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해는 이 괴물의 몸뚱어리를 완벽하게 외과 수술로 썰어내어, **'3명의 각자 독립된 빠른 육상 선수'**로 탈바꿈시키고 각자의 전용 트랙([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에서 자유롭게 뛰게 만드는 생존의 수술입니다.
+- **📢 섹션 요약 비유**: 모놀리식은 <strong>'몸이 하나인 머리 3개 달린 샴쌍둥이 괴물'</strong>입니다. 뇌(팀)는 3개인데 몸(서버/DB)이 하나라 서로 가고 싶은 방향이 달라도 다리가 꼬여서 걷지도 못합니다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해는 이 괴물의 몸뚱어리를 완벽하게 외과 수술로 썰어내어, <strong>'3명의 각자 독립된 빠른 육상 선수'</strong>로 탈바꿈시키고 각자의 전용 트랙([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에서 자유롭게 뛰게 만드는 생존의 수술입니다.
 
 ---
 
 다음은 마이크로서비스 (Microservic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  마이크로서비스 (Microservic                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 (Microservic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 마이크로서비스 (Microservic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-마이크로서비스 ([Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 분해 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+마이크로서비스 ([Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 분해 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 마이크로서비스 ([Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 분해 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-마이크로서비스 (Microservices) 분해 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 (Microservices) 분해 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

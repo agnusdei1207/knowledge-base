@@ -28,42 +28,35 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│               장바구니 분석 전체 파이프라인                     │
-├────────────────────────────────────────────────────────────────┤
-│  [데이터 수집]                                                  │
-│   POS 거래 로그 / 온라인 주문 DB / 클릭스트림                   │
-│          │                                                      │
-│          ▼                                                      │
-│  [전처리]                                                       │
-│   거래 ID 기준 그룹핑 → 항목 집합 (Itemset) 변환               │
-│   이상치 제거 (반품 거래, 테스트 주문 등)                       │
-│          │                                                      │
-│          ▼                                                      │
-│  [빈발 항목 집합 마이닝]                                        │
-│   Apriori / FP-Growth (Frequent Pattern Growth)                 │
-│   → min_support 적용 → 빈발 항목 집합 추출                     │
-│          │                                                      │
-│          ▼                                                      │
-│  [규칙 생성 및 평가]                                            │
-│   Support ≥ 0.01   Confidence ≥ 0.5   Lift ≥ 1.5              │
-│          │                                                      │
-│          ▼                                                      │
-│  [비즈니스 적용]                                                │
-│   ┌─────────────┬──────────────┬────────────────┐              │
-│   │  진열 배치  │  추천 엔진   │  번들 프로모션 │              │
-│   └─────────────┴──────────────┴────────────────┘              │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장바구니 분석 전체 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POS 거래 로그 / 온라인 주문 DB / 클릭스트림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 ID 기준 그룹핑 → 항목 집합 (Itemset) 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상치 제거 (반품 거래, 테스트 주문 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">빈발 항목 집합 마이닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apriori / FP-Growth (Frequent Pattern Growth)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ min_support 적용 → 빈발 항목 집합 추출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">규칙 생성 및 평가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Support ≥ 0.01 Confidence ≥ 0.5 Lift ≥ 1.5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진열 배치</div><div class="kb-diagram-cell">추천 엔진</div><div class="kb-diagram-cell">번들 프로모션</div></div>
+</div>
+</div>
+
+
 
 ### 핵심 지표 해석 가이드
 
 | 지표 | 낮은 경우 의미 | 높은 경우 의미 | 적정 임계값(리테일) |
 |:---|:---|:---|:---|
-| **[지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))** | 드물게 발생 | 자주 함께 구매 | ≥ 0.01 (1%) |
-| **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))** | A 구매 후 B 구매 드묾 | A 구매 시 B 거의 확실 | ≥ 0.50 (50%) |
-| **[향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))** | 우연보다 낮거나 동일 | 강한 양의 연관 | ≥ 1.5 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">지지도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | 드물게 발생 | 자주 함께 구매 | ≥ 0.01 (1%) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a>)</strong> | A 구매 후 B 구매 드묾 | A 구매 시 B 거의 확실 | ≥ 0.50 (50%) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">향상도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">Lift</a>)</strong> | 우연보다 낮거나 동일 | 강한 양의 연관 | ≥ 1.5 |
 | **레버리지 (Leverage)** | 기대보다 낮은 공동 출현 | 기대 초과 공동 출현 | > 0 |
 
 ### 확장 적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)
@@ -86,7 +79,7 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|:---|
 | **개인화** | 없음 (집단 패턴) | 있음 (유사 사용자 기반) | 있음 (아이템 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반) |
 | **설명 가능성** | 높음 (규칙이 명시적) | 낮음 (잠재 요인) | 중간 ([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반) |
-| **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)** | 없음 (거래만 있으면 됨) | 있음 (신규 사용자/아이템) | 아이템 콜드스타트 없음 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a></strong> | 없음 (거래만 있으면 됨) | 있음 (신규 사용자/아이템) | 아이템 콜드스타트 없음 |
 | **계산 복잡도** | 아이템 수에 지수적 | 사용자×아이템 행렬 | 아이템 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 수 |
 | **적용 사례** | 진열, 번들 | 넷플릭스, 쿠팡 | 음악 추천, 뉴스 추천 |
 
@@ -111,7 +104,7 @@ tags = ["studynote-bigdata"]
 
 ### 기술사 주의사항
 
-1. **희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문제**: 롱테일 상품은 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)가 극히 낮아 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가 → 카테고리 단위로 집계 후 분석
+1. <strong>희소 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문제</strong>: 롱테일 상품은 [지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/)가 극히 낮아 규칙 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 불가 → 카테고리 단위로 집계 후 분석
 2. **계절성 대응**: 분기별·이벤트별로 별도 모델 운영 (여름 자외선차단제 ≠ 겨울 핫초코)
 3. **인과 혼동 방지**: 높은 Lift가 인과관계를 의미하지 않음 → 비즈니스 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필수
 4. **규칙 폭발 문제**: min_support를 너무 낮게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 수만 개 규칙 발생 → 사후 필터링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요
@@ -150,21 +143,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[장바구니 데이터 (POS 트랜잭션 — 판매 기록)]
-    │
-    ▼
-[연관 규칙 (Association Rules) — 지지도/신뢰도/향상도]
-    │
-    ▼
-[Apriori 알고리즘 — 빈발 항목집합 (Frequent Itemset)]
-    │
-    ▼
-[FP-Growth — 대용량 패턴 마이닝]
-    │
-    ▼
-[협업 필터링 (Collaborative Filtering) — 개인화 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">장바구니 데이터 (POS 트랜잭션 — 판매 기록)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연관 규칙 (Association Rules) — 지지도/신뢰도/향상도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apriori 알고리즘 — 빈발 항목집합 (Frequent Itemset)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FP-Growth — 대용량 패턴 마이닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링 (Collaborative Filtering) — 개인화 추천</div></div>
+</div>
+</div>
+
+
 
 장바구니 분석이 단순 빈도 패턴 탐색에서 대용량 마이닝과 개인화 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)으로 발전한 흐름이다.
 

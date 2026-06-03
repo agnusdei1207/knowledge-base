@@ -10,31 +10,30 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 밀도가 높은 영역을 클러스터로 묶고**, 밀도가 낮은 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **노이즈([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))**로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
-> 2. **가치**: K-Means가 K(클러스터 수)를 사전 지정해야 하고 원형 클러스터만 탐지하는 반면, DBSCAN은 **K를 자동 결정**하고 **비구형(초승달·고리 형태) 클러스터**도 탐지하며 **노이즈를 자동 분리**한다.
-> 3. **판단 포인트**: 두 파라미터 **ε(epsilon, 반경)**과 **MinPts(최소 이웃 수)**가 결과를 결정하며, ε이 너무 크면 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
+> 1. **본질**: [DBSCAN](/knowledge-base/studynote/06_ict_convergence/05_data_science/351_dbscan_density_based_clustering/)([Density-Based Spatial Clustering](/knowledge-base/studynote/10_ai/05_data_science_ml/357_dbscan/) of Applications with Noise)은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 밀도가 높은 영역을 클러스터로 묶고</strong>, 밀도가 낮은 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>노이즈(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/">이상치</a>)</strong>로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
+> 2. **가치**: K-Means가 K(클러스터 수)를 사전 지정해야 하고 원형 클러스터만 탐지하는 반면, DBSCAN은 <strong>K를 자동 결정</strong>하고 <strong>비구형(초승달·고리 형태) 클러스터</strong>도 탐지하며 <strong>노이즈를 자동 분리</strong>한다.
+> 3. **판단 포인트**: 두 파라미터 <strong>ε(epsilon, 반경)</strong>과 <strong>MinPts(최소 이웃 수)</strong>가 결과를 결정하며, ε이 너무 크면 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    DBSCAN 핵심 개념                                   │
-├───────────────────────────────────────────────────────┤
-│  ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터          │
-│                                                       │
-│  Core Point: ε 안에 MinPts개 이상 이웃이 있는 점      │
-│  Border Point: Core의 ε 안에 있지만 자신은 Core 아닌  │
-│  Noise: Core도 Border도 아닌 점 → 이상치!            │
-│                                                       │
-│  [Core]─────[Core]─────[Core]   ← 클러스터 1         │
-│    │                     │                             │
-│  [Border]             [Border]                        │
-│                                                       │
-│                  · (Noise)                             │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBSCAN 핵심 개념</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Point: ε 안에 MinPts개 이상 이웃이 있는 점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Border Point: Core의 ε 안에 있지만 자신은 Core 아닌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Noise: Core도 Border도 아닌 점 → 이상치!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core</div><div class="kb-diagram-node">Core</div><div class="kb-diagram-node">Core</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">클러스터 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Border</div><div class="kb-diagram-node">Border</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· (Noise)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DBSCAN은 사람이 모인 곳(밀도 높은 영역)을 "파티(클러스터)"로 인식하고, 혼자 떨어진 사람은 "방관자(노이즈)"로 분류하는 알고리즘이다.
 
@@ -75,13 +74,13 @@ tags = ["studynote-dataengineering"]
 
 ### 활용 시나리오
 1. **지리적 클러스터링**: GPS 좌표로 상점 밀집 지역 탐지.
-2. **[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)**: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
+2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a></strong>: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
+DBSCAN은 K-Means가 실패하는 <strong>비구형·노이즈 혼재 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
 
 ---
 
@@ -97,25 +96,27 @@ DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [데이터](/kno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[K-Means (1957) — 원형 클러스터, K 지정]
-    │
-    ▼
-[DBSCAN (1996, Ester & Kriegel) — 밀도 기반, 노이즈 분리]
-    │
-    ▼
-[OPTICS (1999) — 가변 밀도 대응]
-    │
-    ▼
-[HDBSCAN (2013) — 계층적 밀도 기반, ε 자동]
-    │
-    ▼
-[현재: 딥 클러스터링 — Autoencoder + DBSCAN 결합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">K-Means (1957) — 원형 클러스터, K 지정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DBSCAN (1996, Ester &amp; Kriegel) — 밀도 기반, 노이즈 분리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPTICS (1999) — 가변 밀도 대응</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDBSCAN (2013) — 계층적 밀도 기반, ε 자동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 딥 클러스터링 — Autoencoder + DBSCAN 결합</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. K-Means는 "3개 그룹으로 나눠!"라고 **미리 정해**야 해요.
-2. DBSCAN은 사람이 **많이 모인 곳**을 자동으로 그룹으로 묶고, **혼자 있는 사람은 따로 빼요** (노이즈).
+1. K-Means는 "3개 그룹으로 나눠!"라고 <strong>미리 정해</strong>야 해요.
+2. DBSCAN은 사람이 <strong>많이 모인 곳</strong>을 자동으로 그룹으로 묶고, **혼자 있는 사람은 따로 빼요** (노이즈).
 3. 그래서 초승달 모양 같은 **이상한 모양의 그룹도 잘 찾아낼 수** 있답니다!
 
 ---

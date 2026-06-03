@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 엔드 투 엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 간에 트래픽 플로우별로 절대적인 품질을 보장하기 위해, 통신 전 사전에 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 등의 네트워크 자원을 명시적으로 예약(Reservation)하는 IETF의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 아키텍처.
-- **필요성**: 1990년대, 인터넷 위로 실시간 화상 회의(VoIP, Video) 패킷을 보내고 싶었다. 기존 Best Effort 방식(먼저 온 놈 먼저 처리)으로는 패킷이 가다가 큐(대기열)에 밀려 1초 뒤에 도착하기 일쑤였다. 화상 회의는 0.1초만 끊겨도 모자이크가 뜬다. **"내 회의 패킷이 라우터에 도착했을 때 대기열에 줄 서는 것조차 용납할 수 없어! 아예 출발하기 전에 경로 전체를 내가 쓸 만큼 통째로 대관(예약)해버리자!"**라는 무시무시한 완벽주의가 IntServ를 탄생시켰다.
+- **필요성**: 1990년대, 인터넷 위로 실시간 화상 회의(VoIP, Video) 패킷을 보내고 싶었다. 기존 Best Effort 방식(먼저 온 놈 먼저 처리)으로는 패킷이 가다가 큐(대기열)에 밀려 1초 뒤에 도착하기 일쑤였다. 화상 회의는 0.1초만 끊겨도 모자이크가 뜬다. <strong>"내 회의 패킷이 라우터에 도착했을 때 대기열에 줄 서는 것조차 용납할 수 없어! 아예 출발하기 전에 경로 전체를 내가 쓸 만큼 통째로 대관(예약)해버리자!"</strong>라는 무시무시한 완벽주의가 IntServ를 탄생시켰다.
 
-- **💡 비유**: IntServ는 꽉 막힌 퇴근길 서울 시내를 통과하는 **"대통령 호송 차량 작전"**과 같습니다.
+- **💡 비유**: IntServ는 꽉 막힌 퇴근길 서울 시내를 통과하는 <strong>"대통령 호송 차량 작전"</strong>과 같습니다.
   - 차가 출발하기 전에 경찰(RSVP) 오토바이가 목적지까지의 모든 교차로(라우터)에 미리 가서 섭니다.
   - "10분 뒤에 VIP 지나가니까, 1차선 무조건 싹 비워두고 아무도 못 들어오게 막아(자원 예약)!!"
   - 차가 지나갈 땐 단 1초의 신호등 대기(Delay)도 없이 완벽하게 직진하지만, 경찰들은 10분 내내 1차선을 지키느라 진을 빼야 하고(메모리 유지 부하), 시민들(일반 패킷)은 남은 좁은 차선에 미어터져 죽어 나갑니다.
 
-```text
-[QoS]
-    │
-    ▼
-[IntServ]
-    │
-    └──▶ [DiffServ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">QoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IntServ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DiffServ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IntServ는 KTX 열차표를 끊을 때, 내가 앉을 4호 차 15번 좌석(10Mbps)을 서울부터 부산까지 가는 내내 **"오직 나만 앉을 수 있게 100% 비워두는 절대 예약제"**입니다. 내 자리는 완벽히 보장되지만, 기차 회사(라우터)는 내가 타든 안 타든 그 자리를 절대 남에게 못 파니 극도의 자원 낭비가 발생합니다.
 
@@ -47,32 +51,31 @@ IntServ는 혼자서 굴러가지 않고 반드시 RSVP(Resource Reservation [Pr
 
 1. **Path 메시지 발송 (길 찾기)**: 송신자 A가 목적지 B로 패킷을 쏘기 전에 `Path` 메시지를 날린다. 이 메시지는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도를 따라 목적지까지 가면서 중간 라우터들에게 "나 이 길로 갈 거야, 준비해 둬"라고 눈도장만 찍는다.
 2. **Resv 메시지 회신 (진짜 예약 쾅!)**: 목적지 B가 Path를 받고 "오케이, 그럼 나한테 10Mbps 속도로 쏴줘"라는 `Resv(Reservation)` 메시지를 거꾸로(역방향으로) 쏴 올린다.
-3. **알박기 (Soft [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 유지)**: Resv 메시지가 거꾸로 올라오면서, 중간 라우터들은 자기 큐(대기열 버퍼)의 10Mbps 치를 딱 떼어내서 A 전용으로 자물쇠를 채운다. (이제 다른 패킷은 이 버퍼를 못 쓴다).
+3. <strong>알박기 (Soft <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 유지)</strong>: Resv 메시지가 거꾸로 올라오면서, 중간 라우터들은 자기 큐(대기열 버퍼)의 10Mbps 치를 딱 떼어내서 A 전용으로 자물쇠를 채운다. (이제 다른 패킷은 이 버퍼를 못 쓴다).
 4. 드디어 A가 실시간 영상을 부드럽게 쏘기 시작한다!
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IntServ (RSVP)의 자원 예약 과정 시각화            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ PC A ]                                            [ 서버 B ] │
- │     │ 1. "나 길 좀 쓸게" (Path 엽서)                          │
- │     ├──────▶ [ 라우터 1 ] ──────▶ [ 라우터 2 ] ──────▶     │
- │     │                                                       │
- │     │ 2. "오냐! 10Mbps 치 공간 예약해라!!" (Resv 엽서)          │
- │     ◀────── [ 라우터 1 ] ◀────── [ 라우터 2 ] ◀──────     │
- │                (10M 버퍼 할당!)      (10M 버퍼 할당!)             │
- │                                                             │
- │     3. 실제 영상 데이터 초광속 논스톱 전송 개시!!!                  │
- │                                                             │
- │   ▶ "라우터 1과 2는 이 예약 정보(장부)를 유지하기 위해 계속 CPU를 씀"│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IntServ (RSVP)의 자원 예약 과정 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PC A</div><div class="kb-diagram-node">서버 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "나 길 좀 쓸게" (Path 엽서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 2</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "오냐! 10Mbps 치 공간 예약해라!!" (Resv 엽서)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">라우터 1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">라우터 2</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10M 버퍼 할당!) (10M 버퍼 할당!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실제 영상 데이터 초광속 논스톱 전송 개시!!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "라우터 1과 2는 이 예약 정보(장부)를 유지하기 위해 계속 CPU를 씀"</div></div>
+</div>
+</div>
+
+
 
 ### 2. IntServ가 멸망한 3대 이유 (Stateful의 비극)
 이론상 완벽하지만, 인터넷의 실전(규모)을 무시했다.
 1. **메모리 폭발 (Scalability 이슈)**: 라우터는 들어오는 모든 트래픽의 예약 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 기억해야 한다. 사용자가 1,000명이면 장부도 1,000개다. 통신사 백본은 수백만 명이 쓰는데 라우터 RAM이 버틸 재간이 없다.
-2. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비**: 10Mbps를 예약해 놨는데, A가 화장실 가느라 영상을 안 쏜다. 그래도 예약석이라 남(웹서핑, 다운로드 패킷)이 그 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 못 쓴다. (극강의 비효율).
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비</strong>: 10Mbps를 예약해 놨는데, A가 화장실 가느라 영상을 안 쏜다. 그래도 예약석이라 남(웹서핑, 다운로드 패킷)이 그 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 못 쓴다. (극강의 비효율).
 3. **모두가 동의해야 함**: A부터 B까지 가는 길에 라우터가 10대 있다면, 10대가 **모두** IntServ를 지원하고 예약에 동의해야만 터널이 뚫린다. 단 1대라도 "나 예약 기능 안 킬 건데?" 하면 전체 예약이 싹 다 무효가 된다. (인터넷 환경에선 불가능).
 
 - **📢 섹션 요약 비유**: ** IntServ 시스템은 손님이 예약석에 오지도 않았는데 **"다른 대기 손님 수십 명을 문 밖에 덜덜 떨게 세워두고, 빈 테이블을 절대 내어주지 않는 꽉 막힌 초고급 레스토랑 지배인"**과 같습니다. 소규모 프라이빗 파티(사내망)에는 완벽하지만, 수백만 명이 오가는 대형 푸드코트(인터넷 백본)에서는 절대 굴러갈 수 없는 낭비 시스템입니다.
@@ -131,15 +134,19 @@ IntServ는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: QoS]
-    │
-    ▼
-[현재 개념: IntServ]
-    │
-    ├──▶ [확장 A: DiffServ]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QoS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IntServ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DiffServ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 IntServ는 QoS에서 출발해 현재 메커니즘을 정교화하고, 이후 DiffServ와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -30,28 +30,22 @@ tags = ["studynote-ai"]
 
 ResNet의 핵심 원리는 기존의 네트워크가 $H(x)$라는 최적의 함수를 직접 학습하려 했던 것과 달리, 출력과 입력의 차이인 $F(x) = H(x) - x$ 즉, '잔차(Residual)'를 학습하도록 구조를 바꾼 것이다. 최종 출력은 $F(x) + x$가 되며, 여기서 $x$는 아무런 변형 없이 전달되는 스킵 커넥션 (Skip Connection)이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  잔차 블록 (Residual Block)                  │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       입력 x ─────────────────────────┐                      │
-│         │                             │ (Skip Connection)    │
-│         ▼                             │                      │
-│    [ 가중치 층 (Weight Layer) ]       │                      │
-│         │                             │                      │
-│         ▼                             │                      │
-│    [ ReLU 활성화 (Activation) ]       │                      │
-│         │                             │                      │
-│         ▼                             │                      │
-│    [ 가중치 층 (Weight Layer) ]       │                      │
-│         │                             │                      │
-│         ▼                             ▼                      │
-│      F(x)  ────────── (+) ────────▶ F(x) + x                 │
-│         (잔차)      더하기(Add)     (최종 출력)              │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔차 블록 (Residual Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Skip Connection)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가중치 층 (Weight Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ReLU 활성화 (Activation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가중치 층 (Weight Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F(x) (+) ▶ F(x) + x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잔차) 더하기(Add) (최종 출력)</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 층이 학습해야 할 양이 줄어들고, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 과정에서 미분을 수행할 때 $x$에 대한 미분값 1이 항상 유지되어 오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 앞단까지 강력하게 전달된다. 또한, 152층 이상의 깊은 네트워크에서는 연산량을 줄이기 위해 $1 \times 1$ [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)을 앞뒤로 배치하여 차원을 축소했다가 다시 늘리는 보틀넥 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구조를 적용한다.
 
@@ -67,7 +61,7 @@ ResNet은 이전 세대의 대표적인 [심층 신경망](/knowledge-base/study
 | :--- | :--- | :--- |
 | **학습 목표** | 최적 함수 $H(x)$를 직접 매핑 | 잔차 함수 $F(x) = H(x) - x$ 매핑 |
 | **정보 전달** | 모든 층을 순차적으로 통과 | 스킵 커넥션으로 이전 정보를 건너뛰어 결합 |
-| **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)** | 층이 깊어질수록 급격히 심화됨 | 덧셈 연산을 통해 기울기가 1 이상으로 보존됨 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a></strong> | 층이 깊어질수록 급격히 심화됨 | 덧셈 연산을 통해 기울기가 1 이상으로 보존됨 |
 | **파라미터 효율** | 깊이에 비례하여 기하급수적 증가 | 보틀넥 구조로 깊이 대비 연산량 크게 절감 |
 
 이러한 잔차 연결 개념은 이후 자연어 처리의 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 아키텍처나 밀집 연결을 사용하는 DenseNet 등 수많은 현대 딥러닝 모델의 기본 뼈대로 이식되며 딥러닝 아키텍처의 패러다임을 바꿨다.
@@ -82,7 +76,7 @@ ResNet은 이전 세대의 대표적인 [심층 신경망](/knowledge-base/study
 
 1. **모델 깊이 선택**: 실시간 처리가 중요하고 모바일 환경에 배포해야 한다면 파라미터가 적은 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-18이나 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-34를 채택한다. 반면, 높은 정확도가 요구되는 서버 기반의 복잡한 비전 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에는 보틀넥 구조가 적용된 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)-50 이상을 사용한다.
 2. **사전 학습 (Pre-trained) 모델 활용**: 처음부터 학습하기보다는 ImageNet [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 사전 학습된 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))하는 것이 빠르고 안정적인 수렴을 보장한다.
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 주의**: 잔차 블록 내부에서 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))나 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 순서를 임의로 바꾸면 원래의 기울기 보존 효과가 훼손될 수 있으므로, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 사전 활성화 (Pre-activation) 구조 등을 정확히 적용해야 한다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: 잔차 블록 내부에서 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))나 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 순서를 임의로 바꾸면 원래의 기울기 보존 효과가 훼손될 수 있으므로, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 사전 활성화 (Pre-activation) 구조 등을 정확히 적용해야 한다.
 
 - **📢 섹션 요약 비유**: 건물을 지을 때 설계도를 처음부터 새로 그리지 않고, 이미 내진 설계(스킵 커넥션)가 완벽하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 철골 뼈대(사전 학습된 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/))를 가져와 겉면의 인테리어만 우리 회사에 맞게 바꾸는 것이 가장 안전한 건축법입니다.
 
@@ -102,28 +96,30 @@ ResNet의 도입으로 딥러닝 모델은 수백 층 이상으로 깊어질 수
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))** | 망이 깊어질 때 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 사라지는 현상으로, ResNet이 극복한 핵심 문제 |
-| **[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))** | 출력의 오차를 앞단으로 전달하며 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트하는 학습 매커니즘 |
-| **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))** | 각 층의 입력을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 학습을 안정화하며, ResNet에서 필수적으로 결합됨 |
-| **[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))** | 자연어 처리의 핵심 모델로, 내부적으로 ResNet의 잔차 연결을 필수적으로 사용함 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong> | 망이 깊어질 때 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 사라지는 현상으로, ResNet이 극복한 핵심 문제 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong> | 출력의 오차를 앞단으로 전달하며 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트하는 학습 매커니즘 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> | 각 층의 입력을 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하여 학습을 안정화하며, ResNet에서 필수적으로 결합됨 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>)</strong> | 자연어 처리의 핵심 모델로, 내부적으로 ResNet의 잔차 연결을 필수적으로 사용함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-망의 깊이 한계 도달 (기울기 소실)
-    │
-    ▼
-CNN (Convolutional Neural Network) · VGGNet (단순 깊이 증가)
-    │
-    ▼
-ResNet (Residual Network) · 스킵 커넥션 (Skip Connection) 도입
-    │
-    ▼
-보틀넥 (Bottleneck) 아키텍처 · 파라미터 최적화
-    │
-    ▼
-DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">망의 깊이 한계 도달 (기울기 소실)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CNN (Convolutional Neural Network) · VGGNet (단순 깊이 증가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ResNet (Residual Network) · 스킵 커넥션 (Skip Connection) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보틀넥 (Bottleneck) 아키텍처 · 파라미터 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

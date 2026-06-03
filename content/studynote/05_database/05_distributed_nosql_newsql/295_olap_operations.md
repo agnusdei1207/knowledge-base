@@ -25,13 +25,16 @@ tags = ["studynote-database"]
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Input -> Rule -> Current Concept -> Outcome                 │
-├──────────────────────────────────────────────────────────────┤
-│ olap-operations    -> current scope -> star-schema        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input -&gt; Rule -&gt; Current Concept -&gt; Outcome</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">olap-operations -&gt; current scope -&gt; star-schema</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 `메모리 캐싱 (Caching) 기술 적용`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
 
@@ -52,13 +55,16 @@ tags = ["studynote-database"]
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Pre-condition -> Current Rule -> Validation -> Result       │
-├──────────────────────────────────────────────────────────────┤
-│ HTAP             -> 메모리 캐싱 (Caching… -> 캐시 스탬피드 (Cache … │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-condition -&gt; Current Rule -&gt; Validation -&gt; Result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTAP -&gt; 메모리 캐싱 (Caching… -&gt; 캐시 스탬피드 (Cache …</div></div>
+</div>
+</div>
+
+
 
 결국 `메모리 캐싱 (Caching) 기술 적용`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
@@ -119,15 +125,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[HTAP]
-    │
-    ▼
-[메모리 캐싱 (Caching) 기술 적용]
-    │
-    ├──▶ [캐시 스탬피드 (Cache Stampede…]
-    └──▶ [레디스 (Redis) 자료구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 캐싱 (Caching) 기술 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 스탬피드 (Cache Stampede…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레디스 (Redis) 자료구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `캐시 스탬피드 (Cache Stampede) / Thundering Herd 문제`와 `레디스 (Redis) 자료구조` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 1984년, 카노 노리아키(Kano Noriaki) 교수는 이 현상을 수학적으로 분석했다. **"어떤 기능은 100점을 맞아도 고객이 덤덤한 반면, 어떤 기능은 50점만 맞아도 고객이 환호성을 지른다."**
 
-이처럼 고객의 마음속에 숨겨진 요구사항을 3가지+알파의 품질 요소로 나누고, 한정된 개발 예산을 어디에 쏟아부어야([Resource Allocation](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)) 가장 큰 고객 만족(가치)을 끌어낼 수 있을지 결정하는 도구가 바로 **카노(Kano) 모델**이다.
+이처럼 고객의 마음속에 숨겨진 요구사항을 3가지+알파의 품질 요소로 나누고, 한정된 개발 예산을 어디에 쏟아부어야([Resource Allocation](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)) 가장 큰 고객 만족(가치)을 끌어낼 수 있을지 결정하는 도구가 바로 <strong>카노(Kano) 모델</strong>이다.
 
 - **📢 섹션 요약 비유**: 시험공부를 할 때, '숨쉬기'는 100점을 맞아봐야 칭찬을 못 받지만 0점 맞으면 죽는다(당연적). '수학'은 공부한 만큼 점수가 오르고 칭찬받는다(일원적). '장기자랑'은 기대도 안 했는데 1등을 하면 학교의 스타가 된다(매력적). 카노 모델은 이 과목들을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 주는 시간표 짜기 비법이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 Kano 모델 매력적, 당연적 품질 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Kano 모델 매력적, 당연적 품질                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kano 모델 매력적, 당연적 품질</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Kano 모델 매력적, 당연적 품질 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ Kano 모델은 X축(충족도: 기능이 얼마나 잘 구현되었는가)과 Y�
 
 | 비교 항목 | MoSCoW | Kano 모델 |
 |:---|:---|:---|
-| **접근 방식** | **공급자(개발팀/PM) 중심**의 강압적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | **수요자(고객) 중심**의 심리적/감정적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| **[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계** | M(필수), S(중요), C(선택), W(제외) | 당연적, 일원적, 매력적, 무관심, 역 품질 |
+| **접근 방식** | <strong>공급자(개발팀/PM) 중심</strong>의 강압적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | <strong>수요자(고객) 중심</strong>의 심리적/감정적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계</strong> | M(필수), S(중요), C(선택), W(제외) | 당연적, 일원적, 매력적, 무관심, 역 품질 |
 | **장점** | 직관적이고 빠르며, 납기일을 맞추기 좋음 | 고객의 진짜 속마음(혁신 요소)을 발굴하기 좋음 |
 | **단점** | '고객이 진짜로 뭘 원하는지'는 알 수 없음 | 설문조사 구조가 복잡하여 돈과 시간이 많이 듦 |
 
-실무에서는 설문조사를 통해 **Kano 모델로 '무엇을 만들면 고객이 감동할지'를 찾고, 그것을 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 일정에 구겨 넣을 때 MoSCoW 기법을 써서 일정을 쳐내는** 하이브리드 조합을 쓴다.
+실무에서는 설문조사를 통해 <strong>Kano 모델로 '무엇을 만들면 고객이 감동할지'를 찾고, 그것을 실제 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 일정에 구겨 넣을 때 MoSCoW 기법을 써서 일정을 쳐내는</strong> 하이브리드 조합을 쓴다.
 
 - **📢 섹션 요약 비유**: Kano 모델은 손님에게 "어떤 반찬이 제일 맛있어요?"라고 물어보고(수요 조사), MoSCoW는 주방장이 "내일까지 요리 10개 못 만드니까 국물 2개는 빼!"라고 쳐내는(공급자 통제) 과정이다.
 
@@ -95,7 +94,7 @@ Kano 모델은 X축(충족도: 기능이 얼마나 잘 구현되었는가)과 Y�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Kano 모델을 소프트웨어 개발에 적용할 때 아키텍트가 내려야 할 가장 중요한 판단은 **'시간의 흐름에 따른 품질의 퇴화(Decay)'**다.
+Kano 모델을 소프트웨어 개발에 적용할 때 아키텍트가 내려야 할 가장 중요한 판단은 <strong>'시간의 흐름에 따른 품질의 퇴화(Decay)'</strong>다.
 
 - **📢 섹션 요약 비유**: Kano 모델 매력적, 당연적 품질 요소 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -109,7 +108,7 @@ Kano 모델을 소프트웨어 개발에 적용할 때 아키텍트가 내려야
 
 Kano 모델을 프로젝트 초기에 적용하면, 쓸데없는 기능(무관심, 역 품질)에 개발자들의 소중한 주말과 야근 시간을 낭비하는 끔찍한 오버엔지니어링을 사전에 차단할 수 있다. 
 
-결론적으로 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 단순히 코드를 짜는 기술이 아니라, 고객의 마음을 코드로 번역하는 심리학이다. 기술 리더는 기능 명세서의 줄 수를 채우는 것에 만족하지 말고, Kano 모델을 방패 삼아 **"고객이 당연하게 여기는 것(안전, 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))은 목숨 걸고 지키고, 남는 시간으로 고객을 놀라게 할 단 하나의 칼(매력)을 다듬는"** 선택과 집중의 아키텍처를 지휘해야 한다.
+결론적으로 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 단순히 코드를 짜는 기술이 아니라, 고객의 마음을 코드로 번역하는 심리학이다. 기술 리더는 기능 명세서의 줄 수를 채우는 것에 만족하지 말고, Kano 모델을 방패 삼아 <strong>"고객이 당연하게 여기는 것(안전, 보안, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)은 목숨 걸고 지키고, 남는 시간으로 고객을 놀라게 할 단 하나의 칼(매력)을 다듬는"</strong> 선택과 집중의 아키텍처를 지휘해야 한다.
 
 - **📢 섹션 요약 비유**: 고객의 마음은 까다로운 시험 감독관이다. 기본기(당연적)가 틀리면 0점 처리해 버리고, 응용문제(일원적)는 푼 만큼 점수를 주며, 아무도 예상 못한 서술형 답안(매력적)을 적어내면 보너스 점수와 함께 박수를 쳐준다. Kano 모델은 이 채점 기준표를 훔쳐보는 커닝 페이퍼다.
 
@@ -132,21 +131,23 @@ Kano 모델을 프로젝트 초기에 적용하면, 쓸데없는 기능(무관�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Kano 모델 매력적, 당연적 품질 요소 분류 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kano 모델 매력적, 당연적 품질 요소 분류 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

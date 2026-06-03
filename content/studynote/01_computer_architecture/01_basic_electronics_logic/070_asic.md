@@ -29,13 +29,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Specification
-  ↓ design
-Fabrication
-  ↓
-Fixed Hardware
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Specification</div>
+<div class="kb-diagram-note">↓ design</div>
+<div class="kb-diagram-note">Fabrication</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Fixed Hardware</div>
+</div>
+</div>
+
+
 
 | 특징 | 의미 |
 | :-- | :-- |
@@ -103,29 +109,41 @@ ASIC은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ## 관련 개념 맵
 
-```text
-Specification
-  ↓
-ASIC
-  ↓
-Fabrication
-  ↓
-High Efficiency
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Specification</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ASIC</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Fabrication</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">High Efficiency</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Custom Chip
-  ↓
-ASIC
-  ↓
-SoC
-  ↓
-Specialized Hardware
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Custom Chip</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ASIC</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SoC</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Specialized Hardware</div>
+</div>
+</div>
+
+
 
 ---
 

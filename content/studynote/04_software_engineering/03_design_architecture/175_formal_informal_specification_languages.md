@@ -26,20 +26,19 @@ tags = ["software_engineering"]
 
 아래 그림은 모호한 요구가 어떻게 단계별로 다른 시스템으로 분기되는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ambiguity propagation                                              │
-├────────────────────────────────────────────────────────────────────┤
-│ requirement: "lock account after 5 failures"                      │
-│        │                     │                     │               │
-│        ▼                     ▼                     ▼               │
-│  analyst view          developer view         tester view          │
-│  cumulative 5          consecutive 5          reset by session     │
-│        └─────────────────────┬─────────────────────┘               │
-│                              ▼                                     │
-│                 different design, code, and test oracles           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambiguity propagation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requirement: "lock account after 5 failures"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">analyst view developer view tester view</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cumulative 5 consecutive 5 reset by session</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">different design, code, and test oracles</div></div>
+</div>
+</div>
+
+
 
 따라서 [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/) 언어는 단순한 문서 스타일이 아니라, 오해 비용을 어디까지 줄일 것인가에 대한 관리 전략이다. 시스템 위험이 커질수록 "편하게 쓴 문장"보다 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 표현"이 더 중요해진다.
 
@@ -57,24 +56,26 @@ tags = ["software_engineering"]
 | 반정형 | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/), [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/), [decision table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) | 구조 공유와 시각화에 강함 | 일부 의미는 여전히 자연어 의존 | use case, activity/[state diagram](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) |
 | 정형 | 수학 기호, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 타입, 불변식 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능, 모호성 최소 | 학습 비용과 작성 비용 큼 | Z Notation, VDM, B-Method |
 
-정형 명세의 핵심 구성요소는 크게 네 가지다. 첫째, **상태 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))**: 시스템이 보유한 변수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조. 둘째, **불변식 (Invariant)**: 어떤 순간에도 깨지면 안 되는 제약. 셋째, **사전조건 (Precondition)**: 연산이 실행되기 위해 만족되어야 할 조건. 넷째, **사후조건 (Postcondition)**: 연산 후 반드시 성립해야 할 결과다. Z는 이를 [schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) 중심으로 조직하고, VDM은 보다 프로그램에 가까운 표현으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입과 연산을 기술한다.
+정형 명세의 핵심 구성요소는 크게 네 가지다. 첫째, <strong>상태 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong>: 시스템이 보유한 변수와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조. 둘째, **불변식 (Invariant)**: 어떤 순간에도 깨지면 안 되는 제약. 셋째, **사전조건 (Precondition)**: 연산이 실행되기 위해 만족되어야 할 조건. 넷째, **사후조건 (Postcondition)**: 연산 후 반드시 성립해야 할 결과다. Z는 이를 [schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) 중심으로 조직하고, VDM은 보다 프로그램에 가까운 표현으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입과 연산을 기술한다.
 
 예를 들어 계좌 시스템에서 `balance`는 0 이상이어야 하고, `Withdraw(amount)`는 `amount <= balance`일 때만 실행되며, 실행 후에는 `balance' = balance - amount`가 되어야 한다. 이 한 줄이 중요한 이유는 구현 전에 이미 "잔액 음수 허용 여부", "출금 가능 조건", "상태 변화 결과"가 명확해지기 때문이다.
 
 아래 그림은 정형 명세가 요구를 어떤 구조로 묶는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Structure of a formal specification                                │
-├────────────────────────────────────────────────────────────────────┤
-│ state variables -> invariant -> allowed operations                 │
-│                                   │                                │
-│                                   ├─ precondition                  │
-│                                   ├─ state transition              │
-│                                   └─ postcondition                 │
-│ result: analyzable model before code exists                        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structure of a formal specification</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state variables -&gt; invariant -&gt; allowed operations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ precondition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ state transition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ postcondition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result: analyzable model before code exists</div></div>
+</div>
+</div>
+
+
 
 즉 정형 언어의 힘은 "예쁘게 적는다"가 아니라, 명세를 분석 가능한 모델로 바꾸는 데 있다. 이 모델은 theorem proving, model checking, [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) derivation 같은 후속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활동과도 자연스럽게 연결된다.
 
@@ -108,23 +109,26 @@ tags = ["software_engineering"]
 
 아래 판단 흐름은 어떤 수준의 명세 언어를 택할지 결정할 때 사용할 수 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing the specification language                                │
-├────────────────────────────────────────────────────────────────────┤
-│ failure cost high or regulation strict?                            │
-│   ├─ yes -> formal core model (Z / VDM / proof-oriented review)    │
-│   └─ no                                                            │
-│        ├─ many teams need shared structure? -> semi-formal model   │
-│        └─ rapid discovery and change? -> informal text + examples  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing the specification language</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure cost high or regulation strict?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; formal core model (Z / VDM / proof-oriented review)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ many teams need shared structure? -&gt; semi-formal model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rapid discovery and change? -&gt; informal text + examples</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **실패 비용**: 장애가 금전 손실, 법적 문제, 안전 사고로 직결되는가?
 2. **규칙 안정성**: 자주 바뀌는 화면 요구인지, 오래 유지될 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙인지?
-3. **[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)·상태 복잡도**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 예외 조건이 많아 자연어로 관리하기 어려운가?
+3. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>·상태 복잡도</strong>: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)와 예외 조건이 많아 자연어로 관리하기 어려운가?
 4. **조직 역량**: 팀이 Z, VDM, model checker 같은 도구와 표기를 소화할 수 있는가?
 5. **산출물 연결성**: 명세가 실제 [test case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/), contract, [code review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기준으로 이어질 수 있는가?
 
@@ -165,21 +169,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-stakeholder need
-    │
-    ▼
-informal text and examples
-    │
-    ▼
-semi-formal models (UML / decision table)
-    │
-    ▼
-formal state + invariant + operation model
-    │
-    ▼
-verification / test derivation / auditability
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">stakeholder need</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">informal text and examples</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">semi-formal models (UML / decision table)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">formal state + invariant + operation model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">verification / test derivation / auditability</div>
+</div>
+</div>
+
+
 
 이 흐름도는 요구사항 표현이 단순 문장에서 시작해 구조화된 모델과 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 발전할 수 있으며, 프로젝트 위험이 커질수록 더 정밀한 계층으로 이동한다는 점을 보여 준다.
 

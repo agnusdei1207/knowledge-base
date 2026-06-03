@@ -19,11 +19,15 @@ tags = ["studynote-design-supervision"]
 
 이 구조가 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 요구가 점점 복잡해지고 실시간성이 커졌기 때문이다. [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 미디어 변환, 이벤트 정제, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 전처리처럼 한 덩어리 코드로 처리하면 변경 영향이 크고 병목 지점을 찾기 어렵다. 반면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터 구조는 문제를 작은 변환 단계로 나누어 확장성과 유지보수성을 높인다.
 
-```text
-┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐
-│ Source │──▶│Filter A│──▶│Filter B│──▶│ Sink   │
-└────────┘   └────────┘   └────────┘   └────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Filter A</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Filter B</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Sink</div></div>
+</div>
+</div>
+
+
 
 시험에서는 단순히 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐른다”가 아니라, 각 필터가 독립적으로 교체 가능하며 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 단계 간 결합도를 낮춘다는 점을 써야 한다. 여기에 스트리밍 처리와 단계별 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이성을 붙이면 답안이 더 실무적으로 보인다.
 - **📢 섹션 요약 비유**: 빨래를 세탁-헹굼-탈수로 나눠 맡기면 각 기계가 자기 일만 잘해도 전체 빨래가 깔끔해지는 세탁 공정과 같다.
@@ -38,13 +42,16 @@ tags = ["studynote-design-supervision"]
 | 종단 처리 | 시작점은 수집하고 끝점은 저장·전송·시각화한다. | 재시도, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기준 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 운영 제어 | 모니터링과 병목 분석으로 필터별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다. | 백프레셔 제어, 관측성, 확장 단위 검토 |
 
-```text
-┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Ingest   │──▶│ Normalize│──▶│ Enrich   │──▶│ Publish  │
-└────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘
-     │              │              │              │
-     └──────────────┴──────Audit / Metrics────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Normalize</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Enrich</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Publish</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">Audit / Metrics</div>
+</div>
+</div>
+
+
 
 핵심 원리는 표준 입력·표준 출력, 단계적 분리, 조합 가능성이다. 예를 들어 새로운 정제 규칙이 필요하면 해당 필터만 바꾸면 되므로 전체 시스템 재작성 부담이 작다. 다만 필터 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식이 불안정하거나 특정 필터가 상태를 과도하게 가지면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터의 장점이 급감한다.
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트에서 각 작업자가 한 공정만 맡으면 숙련도와 속도가 올라가지만, 중간 규격이 제각각이면 다음 작업자가 바로 일할 수 없는 것과 같다.
@@ -82,23 +89,29 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 레고 블록을 이어 긴 기차를 만들듯, 작은 객차를 잘 연결하면 목적에 따라 길고 빠른 열차를 쉽게 만들 수 있다.
 
 ### 📌 관련 개념 맵
-- **[스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)([Stream Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/))**: 흐르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊지 않고 즉시 변환·분석하는 처리 방식
-- **메시지 큐(Message [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 역할을 비동기적으로 수행하는 대표 구현 수단
-- **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))**: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 처리해도 결과가 같도록 보장하는 성질
-- **관측성([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))**: 필터별 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 오류, 처리량을 추적해 병목을 찾는 운영 역량
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">스트림 처리</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">Stream Processing</a>)</strong>: 흐르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끊지 않고 즉시 변환·분석하는 처리 방식
+- <strong>메시지 큐(Message <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 역할을 비동기적으로 수행하는 대표 구현 수단
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a>(<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>)</strong>: 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 처리해도 결과가 같도록 보장하는 성질
+- <strong>관측성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>: 필터별 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 오류, 처리량을 추적해 병목을 찾는 운영 역량
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-단일 배치 프로그램
-    ↓
-유닉스 셸 파이프 조합
-    ↓
-ETL 단계 분리
-    ↓
-실시간 스트림 처리
-    ↓
-관측 가능한 데이터 파이프라인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 배치 프로그램</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">유닉스 셸 파이프 조합</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ETL 단계 분리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">실시간 스트림 처리</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">관측 가능한 데이터 파이프라인</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사과를 씻고, 자르고, 접시에 담는 일을 한 사람이 다 하지 않고 차례로 맡는 거예요.

@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 계층형 아키텍처 (Layered Ar의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  계층형 아키텍처 (Layered Ar                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층형 아키텍처 (Layered Ar</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 계층형 아키텍처 (Layered Ar가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 전체 시스템을 비슷한 역할을 하는 **'관심사(Concern)' 단위로 찢어 여러 개의 층(Layer, 계층)으로 층층이 수직으로 쌓아 올린 아키텍처**입니다. 
+- **개념**: 전체 시스템을 비슷한 역할을 하는 <strong>'관심사(Concern)' 단위로 찢어 여러 개의 층(Layer, 계층)으로 층층이 수직으로 쌓아 올린 아키텍처</strong>입니다. 
 - OSI 7계층(942번)이 통신망을 7개 층으로 찢은 것처럼, 소프트웨어 코드도 보통 3~4개의 층으로 찢어 놓습니다.
 
 - **📢 섹션 요약 비유**: 계층형 아키텍처 (Layered [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -75,13 +74,13 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 이 룰을 깨는 순간 계층형을 쓰는 의미가 사라집니다.
-- **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 수직 하강 룰 (Strict Layering)**: **무조건 N층은 바로 밑의 N-1층한테만 부탁(호출)할 수 있습니다.** 
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 수직 하강 룰 (Strict Layering)</strong>: **무조건 N층은 바로 밑의 N-1층한테만 부탁(호출)할 수 있습니다.** 
 - 3층(화면)이 2층(비즈니스)을 건너뛰고 바로 1층(DB)을 다이렉트로 호출하는 짓(Skip)은 보안과 유지보수를 개박살 내므로 절대 엄격히 금지됩니다. 역방향(1층이 2층 호출)도 절대 금지입니다.
 
-- **장점**: **관심사 분리(Separation of Concerns)**로 인해 1층 UI 디자이너와 2층 백엔드 개발자가 완전히 병렬로 독립적으로 일할 수 있고, 층별로 따로따로 모의 테스트(Mocking)가 가능합니다.
+- **장점**: <strong>관심사 분리(Separation of Concerns)</strong>로 인해 1층 UI 디자이너와 2층 백엔드 개발자가 완전히 병렬로 독립적으로 일할 수 있고, 층별로 따로따로 모의 테스트(Mocking)가 가능합니다.
 - **단점**: 그냥 단순하게 1번 방에서 2번 방으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 하나 옮기면 끝날 일을, 굳이 3층 ➜ 2층 ➜ 1층을 멍청하게 다 징검다리로 거쳐야 하므로 덩치가 커질수록 퍼포먼스 딜레이(오버헤드)가 발생하고(싱크홀 현상), 코드가 무거워집니다.
 
-> 📢 **섹션 요약 비유**: **계층형 아키텍처(Layered)**는 코드를 짬뽕으로 섞어놓은 난장판 포장마차를 **'철저한 계급이 나눠진 3층짜리 최고급 레스토랑'**으로 뜯어고친 것입니다. **1층(프레젠테이션 계층)**은 손님에게 미소를 지으며 메뉴판을 보여주고 주문만 딱 받아내는 '홀 서빙 웨이터'입니다. 웨이터는 절대 자기가 요리를 하지 않고 주문서만 2층으로 넘깁니다. **2층(비즈니스 로직 계층)**은 주문서를 보고 소스를 배합하고 고기를 완벽하게 굽는 '메인 셰프'입니다. 셰프는 홀에 손님이 100명이 왔든 예쁜 테이블이 깔렸든 밖은 안 보고 오직 요리(핵심 계산)만 미친 듯이 합니다. **3층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층)**은 지하 냉동 창고에서 고기와 야채를 꺼내서 2층 셰프에게 가져다 바치는 '막내 보조(창고지기)'입니다. 웨이터(1층)가 셰프(2층)를 무시하고 다이렉트로 지하 창고(3층)에 가서 직접 고기를 꺼내오는 미친 짓(룰 위반)은 절대 금지됩니다. 손님이 테이블을 둥근 걸로 바꾸든(UI 변경), 창고 냉장고를 삼성에서 LG로 바꾸든(DB 변경), 중간의 셰프(비즈니스 뇌)는 1도 흔들림 없이 평화롭게 요리만 계속할 수 있게 지켜주는 궁극의 격리 뼈대 시스템입니다.
+> 📢 **섹션 요약 비유**: <strong>계층형 아키텍처(Layered)</strong>는 코드를 짬뽕으로 섞어놓은 난장판 포장마차를 <strong>'철저한 계급이 나눠진 3층짜리 최고급 레스토랑'</strong>으로 뜯어고친 것입니다. <strong>1층(프레젠테이션 계층)</strong>은 손님에게 미소를 지으며 메뉴판을 보여주고 주문만 딱 받아내는 '홀 서빙 웨이터'입니다. 웨이터는 절대 자기가 요리를 하지 않고 주문서만 2층으로 넘깁니다. <strong>2층(비즈니스 로직 계층)</strong>은 주문서를 보고 소스를 배합하고 고기를 완벽하게 굽는 '메인 셰프'입니다. 셰프는 홀에 손님이 100명이 왔든 예쁜 테이블이 깔렸든 밖은 안 보고 오직 요리(핵심 계산)만 미친 듯이 합니다. <strong>3층(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계층)</strong>은 지하 냉동 창고에서 고기와 야채를 꺼내서 2층 셰프에게 가져다 바치는 '막내 보조(창고지기)'입니다. 웨이터(1층)가 셰프(2층)를 무시하고 다이렉트로 지하 창고(3층)에 가서 직접 고기를 꺼내오는 미친 짓(룰 위반)은 절대 금지됩니다. 손님이 테이블을 둥근 걸로 바꾸든(UI 변경), 창고 냉장고를 삼성에서 LG로 바꾸든(DB 변경), 중간의 셰프(비즈니스 뇌)는 1도 흔들림 없이 평화롭게 요리만 계속할 수 있게 지켜주는 궁극의 격리 뼈대 시스템입니다.
 
 - **📢 섹션 요약 비유**: 계층형 아키텍처 (Layered [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -122,21 +121,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-계층형 아키텍처 (Layered Architecture) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계층형 아키텍처 (Layered Architecture) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

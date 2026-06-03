@@ -26,9 +26,9 @@ tags = ["studynote-algorithm"]
 | 무손실 (Lossless) | 통계적 중복 제거 | 완벽 복원 | 텍스트, 코드, 의료 영상 |
 | 손실 (Lossy) | 지각적 불필요 정보 제거 | 근사 복원 | 이미지, 오디오, 동영상 |
 
-**[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 (Compression Ratio)** = 원본 크기 / [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 크기
+<strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>비 (Compression Ratio)</strong> = 원본 크기 / [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 크기
 
-**[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Rate)** = [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 후 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 / 원본 심볼 수 [bits/pixel, bits/sample]
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>율 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Rate)</strong> = [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 후 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 / 원본 심볼 수 [bits/pixel, bits/sample]
 
 📢 **섹션 요약 비유**: 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "원본 그대로 더 작게 접기"고, 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "눈/귀로 구분 못 하는 부분을 버리고 접기"다.
 
@@ -38,62 +38,69 @@ tags = ["studynote-algorithm"]
 
 ### 무손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 계층 구조
 
-```
-원본 데이터
-     │
-     ▼ 1단계: 사전 기반 (Dictionary) 중복 제거
-  LZ77 (슬라이딩 윈도우)
-  LZ78/LZW (동적 사전)
-     │
-     ▼ 2단계: 엔트로피 코딩 (Entropy Coding)
-  허프만 코딩 (Huffman)          ← 심볼 빈도 기반
-  산술 부호화 (Arithmetic)       ← 구간 기반, 엔트로피 근접
-  ANS (Asymmetric Numeral System) ← 고속, zstd 채택
-     │
-     ▼ 최종 형식
-  DEFLATE (LZ77 + 허프만) → ZIP, gzip, PNG
-  Brotli (LZ + 허프만 + 컨텍스트 모델) → HTTPS 압축
-  Zstandard (LZ + ANS + 사전) → 고속 서버 압축
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터</div>
+<div class="kb-diagram-note">▼ 1단계: 사전 기반 (Dictionary) 중복 제거</div>
+<div class="kb-diagram-note">LZ77 (슬라이딩 윈도우)</div>
+<div class="kb-diagram-note">LZ78/LZW (동적 사전)</div>
+<div class="kb-diagram-note">▼ 2단계: 엔트로피 코딩 (Entropy Coding)</div>
+<div class="kb-diagram-note">허프만 코딩 (Huffman) ← 심볼 빈도 기반</div>
+<div class="kb-diagram-note">산술 부호화 (Arithmetic) ← 구간 기반, 엔트로피 근접</div>
+<div class="kb-diagram-note">ANS (Asymmetric Numeral System) ← 고속, zstd 채택</div>
+<div class="kb-diagram-note">▼ 최종 형식</div>
+<div class="kb-diagram-note">DEFLATE (LZ77 + 허프만) → ZIP, gzip, PNG</div>
+<div class="kb-diagram-note">Brotli (LZ + 허프만 + 컨텍스트 모델) → HTTPS 압축</div>
+<div class="kb-diagram-note">Zstandard (LZ + ANS + 사전) → 고속 서버 압축</div>
+</div>
+</div>
+
+
 
 ### LZ77 슬라이딩 윈도우
 
-```
-탐색 버퍼(Search Buffer)  미리보기 버퍼(Lookahead Buffer)
-[a b c a b c a b][c a b c d ...]
-          ↑                    
-     슬라이딩 윈도우           
-                              
-'cabcd' 인코딩:
-  'c'  → (5, 3, 'd')   (5칸 앞에서 3글자 'cab' + 다음 문자 'd')
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탐색 버퍼(Search Buffer) 미리보기 버퍼(Lookahead Buffer)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">a b c a b c a b</div><div class="kb-diagram-node">c a b c d ...</div></div>
+<div class="kb-diagram-connector">↑</div>
+<div class="kb-diagram-note">슬라이딩 윈도우</div>
+<div class="kb-diagram-note">'cabcd' 인코딩:</div>
+<div class="kb-diagram-note">'c' → (5, 3, 'd') (5칸 앞에서 3글자 'cab' + 다음 문자 'd')</div>
+</div>
+</div>
+
+
 
 반복 패턴을 (오프셋, 길이, 다음 문자) 삼중 쌍으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/).
 
 ### JPEG 손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 파이프라인
 
-```
-원본 이미지 (RGB)
-     │
-     ▼ 색공간 변환 (YCbCr)
-     │  Y(밝기), Cb(청색차), Cr(적색차)
-     │  색차 서브샘플링 (4:2:0) → 색상 정보 1/2 감소
-     │
-     ▼ 8×8 블록 분할
-     │
-     ▼ DCT (Discrete Cosine Transform, 이산 코사인 변환)
-     │  공간 도메인 → 주파수 도메인
-     │  저주파(중요) vs 고주파(덜 중요) 분리
-     │
-     ▼ 양자화 (Quantization) ← 손실 발생 지점
-     │  고주파 계수 → 0으로 반올림 (정도 조절)
-     │
-     ▼ 지그재그 스캔 + RLE
-     │
-     ▼ 허프만 코딩
-     │
-     ▼ JPEG 파일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 이미지 (RGB)</div>
+<div class="kb-diagram-note">▼ 색공간 변환 (YCbCr)</div>
+<div class="kb-diagram-note">Y(밝기), Cb(청색차), Cr(적색차)</div>
+<div class="kb-diagram-note">색차 서브샘플링 (4:2:0) → 색상 정보 1/2 감소</div>
+<div class="kb-diagram-note">▼ 8×8 블록 분할</div>
+<div class="kb-diagram-note">▼ DCT (Discrete Cosine Transform, 이산 코사인 변환)</div>
+<div class="kb-diagram-note">공간 도메인 → 주파수 도메인</div>
+<div class="kb-diagram-note">저주파(중요) vs 고주파(덜 중요) 분리</div>
+<div class="kb-diagram-note">▼ 양자화 (Quantization) ← 손실 발생 지점</div>
+<div class="kb-diagram-note">고주파 계수 → 0으로 반올림 (정도 조절)</div>
+<div class="kb-diagram-note">▼ 지그재그 스캔 + RLE</div>
+<div class="kb-diagram-note">▼ 허프만 코딩</div>
+<div class="kb-diagram-note">▼ JPEG 파일</div>
+</div>
+</div>
+
+
 
 ### 웨이블릿 변환과 JPEG 2000
 
@@ -142,23 +149,24 @@ B-프레임 (Bidirectional): 앞뒤 프레임 참조
 
 ### 신경망 기반 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Learned Compression)
 
-```
-원본 x
-  │
-  ▼ 인코더 신경망 f_a
-잠재 표현 y
-  │
-  ▼ 양자화 (정수화)
-ŷ
-  │
-  ▼ 엔트로피 모델 p(ŷ) → 산술 부호화
-비트스트림
-  │
-  ▼ 산술 복호화 → 역양자화
-  │
-  ▼ 디코더 신경망 f_s
-복원 x̂
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 x</div>
+<div class="kb-diagram-note">▼ 인코더 신경망 f_a</div>
+<div class="kb-diagram-note">잠재 표현 y</div>
+<div class="kb-diagram-note">▼ 양자화 (정수화)</div>
+<div class="kb-diagram-note">ŷ</div>
+<div class="kb-diagram-note">▼ 엔트로피 모델 p(ŷ) → 산술 부호화</div>
+<div class="kb-diagram-note">비트스트림</div>
+<div class="kb-diagram-note">▼ 산술 복호화 → 역양자화</div>
+<div class="kb-diagram-note">▼ 디코더 신경망 f_s</div>
+<div class="kb-diagram-note">복원 x̂</div>
+</div>
+</div>
+
+
 
 - Ballé et al. (2018): 기존 JPEG 화질 능가
 - VVC (Versatile Video Coding) 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코덱 경쟁 치열
@@ -197,7 +205,7 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 **디지털 인프라 비용과 사용자 경험**을 직결하는 핵심 기술이다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 <strong>디지털 인프라 비용과 사용자 경험</strong>을 직결하는 핵심 기술이다.
 
 2023년 기준 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 경쟁 구도:
 - **이미지**: JPEG → WebP → AVIF (AV1 기반)
@@ -226,32 +234,31 @@ AV1:   ~8~15 Mbps (H.265 대비 30% 추가 절감)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[중복 데이터 (Redundancy) — 압축 전 대상]
-    │
-    ▼
-[무손실 압축 (Lossless) — 통계 중복 제거]
-    │
-    ▼
-[LZ77 / 허프만 / DEFLATE — 범용 문자열·파일 압축]
-    │
-    ├─▶ [손실 압축 (Lossy) — 지각적 불필요 정보 제거]
-    │           │
-    │           ▼
-    │       [DCT / 웨이블릿 / 모션 보상 — 이미지·동영상 압축]
-    │
-    └─▶ [신경망 압축 (Learned Compression) — 데이터 기반 표현 학습]
-                │
-                ▼
-            [AV1 / VVC / AI 코덱 — 차세대 멀티미디어 압축]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">중복 데이터 (Redundancy) — 압축 전 대상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 압축 (Lossless) — 통계 중복 제거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LZ77 / 허프만 / DEFLATE — 범용 문자열·파일 압축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">손실 압축 (Lossy) — 지각적 불필요 정보 제거</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DCT / 웨이블릿 / 모션 보상 — 이미지·동영상 압축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">신경망 압축 (Learned Compression) — 데이터 기반 표현 학습</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AV1 / VVC / AI 코덱 — 차세대 멀티미디어 압축</div></div>
+</div>
+</div>
+
+
 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술은 중복 제거에서 출발해 손실·무손실을 분화했고, 이제는 학습 기반 표현으로 차세대 코덱까지 확장되고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **무손실은 "완벽한 접기"**: 원래대로 다시 펼 수 있게 종이를 접는 것 — 내용이 하나도 안 없어진다.
 2. **손실은 "스케치로 바꾸기"**: 정밀한 사진을 예쁜 스케치로 바꾸면 파일이 작아지지만, 원본과 완전히 같지는 않다.
-3. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "더 영리한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"**: AI가 "사람이 잘 못 보는 부분"을 배워서 버릴 정보를 더 잘 골라낸다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>은 "더 영리한 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>"</strong>: AI가 "사람이 잘 못 보는 부분"을 배워서 버릴 정보를 더 잘 골라낸다.
 
 ---
 

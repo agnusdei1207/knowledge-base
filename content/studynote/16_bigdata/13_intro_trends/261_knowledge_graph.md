@@ -18,51 +18,46 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기본 구조
 
-```
-지식 그래프 (Knowledge Graph):
-  개체(Entity) + 관계(Relation) = 그래프
 
-삼중항 (Triple: S-P-O):
-  Subject - Predicate - Object
-  
-  예:
-  (구글, 설립자, 래리 페이지)
-  (래리 페이지, 국적, 미국)
-  (구글, 본사위치, 마운틴뷰)
-  (마운틴뷰, 위치국가, 미국)
 
-그래프 구조:
-  노드: 개체 (구글, 래리 페이지, 마운틴뷰)
-  엣지: 관계 (설립자, 국적, 본사위치)
-  
-  래리 페이지 → (설립) → 구글
-  래리 페이지 → (국적) → 미국
-  구글 → (본사) → 마운틴뷰
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지식 그래프 (Knowledge Graph):</div>
+<div class="kb-diagram-note">개체(Entity) + 관계(Relation) = 그래프</div>
+<div class="kb-diagram-note">삼중항 (Triple: S-P-O):</div>
+<div class="kb-diagram-note">Subject - Predicate - Object</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">(구글, 설립자, 래리 페이지)</div>
+<div class="kb-diagram-note">(래리 페이지, 국적, 미국)</div>
+<div class="kb-diagram-note">(구글, 본사위치, 마운틴뷰)</div>
+<div class="kb-diagram-note">(마운틴뷰, 위치국가, 미국)</div>
+<div class="kb-diagram-note">그래프 구조:</div>
+<div class="kb-diagram-note">노드: 개체 (구글, 래리 페이지, 마운틴뷰)</div>
+<div class="kb-diagram-note">엣지: 관계 (설립자, 국적, 본사위치)</div>
+<div class="kb-diagram-note">래리 페이지 → (설립) → 구글</div>
+<div class="kb-diagram-note">래리 페이지 → (국적) → 미국</div>
+<div class="kb-diagram-note">구글 → (본사) → 마운틴뷰</div>
+<div class="kb-diagram-note">RDF (Resource Description Framework):</div>
+<div class="kb-diagram-note">W3C 표준 형식</div>
+<div class="kb-diagram-note">&lt;구글&gt; &lt;설립자&gt; &lt;래리 페이지&gt; .</div>
+<div class="kb-diagram-note">&lt;래리 페이지&gt; &lt;국적&gt; &lt;미국&gt; .</div>
+<div class="kb-diagram-note">SPARQL: RDF 쿼리 언어</div>
+<div class="kb-diagram-note">"구글 설립자의 국적은?"</div>
+<div class="kb-diagram-note">SELECT ?country</div>
+<div class="kb-diagram-note">WHERE {</div>
+<div class="kb-diagram-note">&lt;구글&gt; &lt;설립자&gt; ?founder .</div>
+<div class="kb-diagram-note">?founder &lt;국적&gt; ?country .</div>
+<div class="kb-diagram-note">}</div>
+<div class="kb-diagram-note">온톨로지 (Ontology):</div>
+<div class="kb-diagram-note">지식 그래프의 스키마/개념 계층</div>
+<div class="kb-diagram-note">클래스: 사람, 회사, 장소</div>
+<div class="kb-diagram-note">속성: 이름, 설립일, 위치</div>
+<div class="kb-diagram-note">관계: 설립자, 소속, 위치</div>
+<div class="kb-diagram-note">OWL (Web Ontology Language): W3C 표준</div>
+</div>
+</div>
 
-RDF (Resource Description Framework):
-  W3C 표준 형식
-  
-  <구글> <설립자> <래리 페이지> .
-  <래리 페이지> <국적> <미국> .
-  
-  SPARQL: RDF 쿼리 언어
-  
-  "구글 설립자의 국적은?"
-  SELECT ?country
-  WHERE {
-    <구글> <설립자> ?founder .
-    ?founder <국적> ?country .
-  }
 
-온톨로지 (Ontology):
-  지식 그래프의 스키마/개념 계층
-  
-  클래스: 사람, 회사, 장소
-  속성: 이름, 설립일, 위치
-  관계: 설립자, 소속, 위치
-  
-  OWL (Web Ontology Language): W3C 표준
-```
 
 > 📢 **섹션 요약 비유**: [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 사람 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 + 사실 노트 — 사람(개체)과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(엣지)를 연결한 네트워크. "래리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) → 설립 → 구글 → 본사 → 마운틴뷰". 연결 따라가며 새 사실 발견!
 
@@ -70,43 +65,41 @@ RDF (Resource Description Framework):
 
 ## Ⅱ. 주요 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)
 
-```
-주요 지식 그래프:
 
-1. Google Knowledge Graph (2012):
-   20 billion 팩트, 570 million 개체
-   검색 결과 오른쪽 "지식 패널" 제공
-   
-   기능:
-   "아인슈타인" 검색 → 생년, 국적, 업적 즉시 표시
-   "파리" → 에펠탑, 루브르, 인구, 날씨 연결
 
-2. Wikidata (2012, Wikimedia):
-   오픈 지식 그래프
-   100M+ 개체, 1.4B+ 삼중항
-   
-   SPARQL 쿼리:
-   "1950년 이후 태어난 한국 대통령 목록"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주요 지식 그래프:</div>
+<div class="kb-diagram-note">1. Google Knowledge Graph (2012):</div>
+<div class="kb-diagram-note">20 billion 팩트, 570 million 개체</div>
+<div class="kb-diagram-note">검색 결과 오른쪽 "지식 패널" 제공</div>
+<div class="kb-diagram-note">기능:</div>
+<div class="kb-diagram-note">"아인슈타인" 검색 → 생년, 국적, 업적 즉시 표시</div>
+<div class="kb-diagram-note">"파리" → 에펠탑, 루브르, 인구, 날씨 연결</div>
+<div class="kb-diagram-note">2. Wikidata (2012, Wikimedia):</div>
+<div class="kb-diagram-note">오픈 지식 그래프</div>
+<div class="kb-diagram-note">100M+ 개체, 1.4B+ 삼중항</div>
+<div class="kb-diagram-note">SPARQL 쿼리:</div>
+<div class="kb-diagram-note">"1950년 이후 태어난 한국 대통령 목록"</div>
+<div class="kb-diagram-note">3. DBpedia:</div>
+<div class="kb-diagram-note">Wikipedia에서 자동 추출한 지식 그래프</div>
+<div class="kb-diagram-note">구조화되지 않은 Wikipedia → 트리플</div>
+<div class="kb-diagram-note">4. Freebase → Wikidata:</div>
+<div class="kb-diagram-note">Google이 인수 후 Wikidata로 통합</div>
+<div class="kb-diagram-note">5. 도메인 특화:</div>
+<div class="kb-diagram-note">의료: SNOMED-CT, UMLS</div>
+<div class="kb-diagram-note">금융: FIBO (금융 산업 온톨로지)</div>
+<div class="kb-diagram-note">법률: LegalKG</div>
+<div class="kb-diagram-note">기업: 각 회사 내부 엔터프라이즈 KG</div>
+<div class="kb-diagram-note">지식 그래프 구축 방법:</div>
+<div class="kb-diagram-note">수동 큐레이션: 높은 품질, 낮은 확장성</div>
+<div class="kb-diagram-note">자동 추출 (NLP): 텍스트에서 관계 추출</div>
+<div class="kb-diagram-note">크라우드소싱: 위키피디아, Wikidata</div>
+<div class="kb-diagram-note">하이브리드: 자동 추출 + 인간 검증</div>
+</div>
+</div>
 
-3. DBpedia:
-   Wikipedia에서 자동 추출한 지식 그래프
-   구조화되지 않은 Wikipedia → 트리플
 
-4. Freebase → Wikidata:
-   Google이 인수 후 Wikidata로 통합
-
-5. 도메인 특화:
-   의료: SNOMED-CT, UMLS
-   금융: FIBO (금융 산업 온톨로지)
-   법률: LegalKG
-   기업: 각 회사 내부 엔터프라이즈 KG
-
-지식 그래프 구축 방법:
-  수동 큐레이션: 높은 품질, 낮은 확장성
-  자동 추출 (NLP): 텍스트에서 관계 추출
-  크라우드소싱: 위키피디아, Wikidata
-  하이브리드: 자동 추출 + 인간 검증
-```
 
 > 📢 **섹션 요약 비유**: 주요 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 세상 백과사전들 — 구글 KG(검색 엔진 전용), Wikidata(오픈 공개), DBpedia(위키피디아 자동 추출). 의료·금융·법률은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 사전!
 
@@ -114,41 +107,38 @@ RDF (Resource Description Framework):
 
 ## Ⅲ. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)
 
-```
-지식 그래프 임베딩 (KGE):
-  개체와 관계를 연속 벡터 공간에 표현
-  
-  목적:
-  유사한 개체 → 가까운 벡터
-  관계 추론 → 벡터 연산으로
 
-TransE (2013):
-  핵심 아이디어:
-  head + relation ≈ tail
-  
-  (파리, 수도, 프랑스)
-  V(파리) + V(수도) ≈ V(프랑스)
-  
-  비유:
-  V(왕) - V(남성) + V(여성) ≈ V(여왕)  ← Word2Vec과 유사!
-  
-  학습: 올바른 트리플의 score를 높임
-  score = -||h + r - t||
 
-관계 추론:
-  "구글의 CEO는?" → 지식 그래프에 없는 경우
-  
-  V(구글) + V(CEO) → 가장 가까운 개체 = V(순다 피차이)
-  
-  링크 예측 (Link Prediction):
-  누락된 관계 자동 예측
-  → 지식 그래프 완성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">지식 그래프 임베딩 (KGE):</div>
+<div class="kb-diagram-note">개체와 관계를 연속 벡터 공간에 표현</div>
+<div class="kb-diagram-note">목적:</div>
+<div class="kb-diagram-note">유사한 개체 → 가까운 벡터</div>
+<div class="kb-diagram-note">관계 추론 → 벡터 연산으로</div>
+<div class="kb-diagram-note">TransE (2013):</div>
+<div class="kb-diagram-note">핵심 아이디어:</div>
+<div class="kb-diagram-note">head + relation ≈ tail</div>
+<div class="kb-diagram-note">(파리, 수도, 프랑스)</div>
+<div class="kb-diagram-note">V(파리) + V(수도) ≈ V(프랑스)</div>
+<div class="kb-diagram-note">비유:</div>
+<div class="kb-diagram-note">V(왕) - V(남성) + V(여성) ≈ V(여왕) ← Word2Vec과 유사!</div>
+<div class="kb-diagram-note">학습: 올바른 트리플의 score를 높임</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">score = -</div><div class="kb-diagram-cell">h + r - t</div></div>
+<div class="kb-diagram-note">관계 추론:</div>
+<div class="kb-diagram-note">"구글의 CEO는?" → 지식 그래프에 없는 경우</div>
+<div class="kb-diagram-note">V(구글) + V(CEO) → 가장 가까운 개체 = V(순다 피차이)</div>
+<div class="kb-diagram-note">링크 예측 (Link Prediction):</div>
+<div class="kb-diagram-note">누락된 관계 자동 예측</div>
+<div class="kb-diagram-note">→ 지식 그래프 완성</div>
+<div class="kb-diagram-note">응용:</div>
+<div class="kb-diagram-note">추천 시스템: "이 영화 좋아하면 → 같은 감독 추천"</div>
+<div class="kb-diagram-note">질의응답: "설명 가능한" 추론 경로 제공</div>
+<div class="kb-diagram-note">이상 탐지: 비정상적 관계 탐지</div>
+</div>
+</div>
 
-응용:
-  추천 시스템: "이 영화 좋아하면 → 같은 감독 추천"
-  질의응답: "설명 가능한" 추론 경로 제공
-  이상 탐지: 비정상적 관계 탐지
-```
+
 
 > 📢 **섹션 요약 비유**: KGE = 개체를 별자리처럼 배치 — 비슷한 개체(서울, 도쿄)는 가깝게. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(수도)는 이동 방향으로 표현. "V(서울) + V(수도) ≈ V(한국)" 처럼 벡터 계산으로 추론!
 
@@ -156,49 +146,46 @@ TransE (2013):
 
 ## Ⅳ. [Graph RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/)
 
-```
-Graph RAG (Knowledge Graph + RAG):
-  벡터 검색의 한계를 지식 그래프로 보완
 
-벡터 RAG 한계:
-  "삼성의 반도체 사업부 CEO는 누구인가?"
-  → 벡터 검색: 관련 문서 5개 검색
-  → 문서에 명시적 답변이 없으면 실패
-  → LLM 환각 가능
 
-Graph RAG 강점:
-  (삼성전자, has_division, 반도체사업부)
-  (반도체사업부, has_ceo, 경계현)
-  
-  → 그래프 탐색으로 정확한 답변
-  → 추론 경로 설명 가능: "삼성전자 → 반도체사업부 → CEO"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Graph RAG (Knowledge Graph + RAG):</div>
+<div class="kb-diagram-note">벡터 검색의 한계를 지식 그래프로 보완</div>
+<div class="kb-diagram-note">벡터 RAG 한계:</div>
+<div class="kb-diagram-note">"삼성의 반도체 사업부 CEO는 누구인가?"</div>
+<div class="kb-diagram-note">→ 벡터 검색: 관련 문서 5개 검색</div>
+<div class="kb-diagram-note">→ 문서에 명시적 답변이 없으면 실패</div>
+<div class="kb-diagram-note">→ LLM 환각 가능</div>
+<div class="kb-diagram-note">Graph RAG 강점:</div>
+<div class="kb-diagram-note">(삼성전자, has_division, 반도체사업부)</div>
+<div class="kb-diagram-note">(반도체사업부, has_ceo, 경계현)</div>
+<div class="kb-diagram-note">→ 그래프 탐색으로 정확한 답변</div>
+<div class="kb-diagram-note">→ 추론 경로 설명 가능: "삼성전자 → 반도체사업부 → CEO"</div>
+<div class="kb-diagram-note">구현 방식:</div>
+<div class="kb-diagram-note">Microsoft GraphRAG (2024):</div>
+<div class="kb-diagram-note">1. 문서 → NLP → 개체/관계 추출 → 지식 그래프 구축</div>
+<div class="kb-diagram-note">2. 질의 → 그래프 탐색 + 벡터 검색 결합</div>
+<div class="kb-diagram-note">3. 두 결과 통합 → LLM 답변 생성</div>
+<div class="kb-diagram-note">Community Detection: Leiden 알고리즘</div>
+<div class="kb-diagram-note">계층적 요약 생성 (Global Search)</div>
+<div class="kb-diagram-note">Neo4j + LLM:</div>
+<div class="kb-diagram-note">CYPHER 쿼리 자동 생성:</div>
+<div class="kb-diagram-note">"삼성의 반도체 CEO는?" →</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">MATCH (c:Company)-</div><div class="kb-diagram-node">:HAS_DIVISION</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">:HAS_CEO</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(p:Person)</div></div>
+<div class="kb-diagram-note">WHERE c.name = '삼성'</div>
+<div class="kb-diagram-note">RETURN p.name</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">다단계 추론 가능</div>
+<div class="kb-diagram-note">답변 추론 경로 투명</div>
+<div class="kb-diagram-note">도메인 지식 명시적 구조화</div>
+<div class="kb-diagram-note">단점:</div>
+<div class="kb-diagram-note">지식 그래프 구축 비용</div>
+<div class="kb-diagram-note">갱신 지연 (KG 최신화 어려움)</div>
+</div>
+</div>
 
-구현 방식:
 
-Microsoft GraphRAG (2024):
-  1. 문서 → NLP → 개체/관계 추출 → 지식 그래프 구축
-  2. 질의 → 그래프 탐색 + 벡터 검색 결합
-  3. 두 결과 통합 → LLM 답변 생성
-  
-  Community Detection: Leiden 알고리즘
-  계층적 요약 생성 (Global Search)
-
-Neo4j + LLM:
-  CYPHER 쿼리 자동 생성:
-  "삼성의 반도체 CEO는?" →
-  MATCH (c:Company)-[:HAS_DIVISION]->(d:Division)-[:HAS_CEO]->(p:Person)
-  WHERE c.name = '삼성'
-  RETURN p.name
-
-장점:
-  다단계 추론 가능
-  답변 추론 경로 투명
-  도메인 지식 명시적 구조화
-
-단점:
-  지식 그래프 구축 비용
-  갱신 지연 (KG 최신화 어려움)
-```
 
 > 📢 **섹션 요약 비유**: [Graph RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) = 지식 맵 + [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안내원 — 벡터 검색(광범위 문서 검색)으로 못 찾을 때, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지도)로 경로 탐색. "삼성→[반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)사업부→CEO" [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 탐색!
 
@@ -206,53 +193,50 @@ Neo4j + LLM:
 
 ## Ⅴ. 실무 시나리오 — 금융 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)
 
-```
-글로벌 은행 금융 지식 그래프 구축:
 
-배경:
-  AML (Anti-Money Laundering) 탐지 강화
-  단순 규칙 기반 → 복잡한 관계망 탐지 불가
-  
-  기존 문제:
-  A → B → C → D (4단계 간접 송금)
-  규칙 기반: A-D 직접 연결 없어 탐지 불가
 
-지식 그래프 구축:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">글로벌 은행 금융 지식 그래프 구축:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">AML (Anti-Money Laundering) 탐지 강화</div>
+<div class="kb-diagram-note">단순 규칙 기반 → 복잡한 관계망 탐지 불가</div>
+<div class="kb-diagram-note">기존 문제:</div>
+<div class="kb-diagram-note">A → B → C → D (4단계 간접 송금)</div>
+<div class="kb-diagram-note">규칙 기반: A-D 직접 연결 없어 탐지 불가</div>
+<div class="kb-diagram-note">지식 그래프 구축:</div>
+<div class="kb-diagram-note">개체:</div>
+<div class="kb-diagram-note">Person, Company, Account, Transaction</div>
+<div class="kb-diagram-note">Country, HighRiskCountry</div>
+<div class="kb-diagram-note">관계:</div>
+<div class="kb-diagram-note">OWNS_ACCOUNT, CONTROLS_COMPANY</div>
+<div class="kb-diagram-note">SENDS_TO, RELATED_TO, LOCATED_IN</div>
+<div class="kb-diagram-note">IS_SANCTIONED, IS_HIGH_RISK</div>
+<div class="kb-diagram-note">데이터 소스 통합:</div>
+<div class="kb-diagram-note">핵심 뱅킹 DB → 계좌, 거래</div>
+<div class="kb-diagram-note">KYC 데이터 → 고객 신원, 관계사</div>
+<div class="kb-diagram-note">OFAC 제재 리스트 → 제재 개체</div>
+<div class="kb-diagram-note">Panama Papers 데이터 (오픈) → 페이퍼 컴퍼니</div>
+<div class="kb-diagram-note">구현 (Neo4j):</div>
+<div class="kb-diagram-note">MATCH path = (suspicious:Account)-</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">:SENDS_TO*2..5</div><div class="kb-diagram-note">-</div></div>
+<div class="kb-diagram-note">(target:Account)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">WHERE suspicious.country IN</div><div class="kb-diagram-node">'고위험국가'</div></div>
+<div class="kb-diagram-note">AND ALL(tx IN relationships(path)</div>
+<div class="kb-diagram-note">WHERE tx.amount &gt; 10000)</div>
+<div class="kb-diagram-note">RETURN path, length(path)</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">"4홉 이내 간접 연결" 탐지:</div>
+<div class="kb-diagram-note">직접 탐지 불가했던 네트워크 5개 발견</div>
+<div class="kb-diagram-note">의심 계좌 탐지율: 34% → 89%</div>
+<div class="kb-diagram-note">허위 양성(False Positive): 12% 감소</div>
+<div class="kb-diagram-note">Graph ML 추가:</div>
+<div class="kb-diagram-note">GNN(그래프 신경망)으로 패턴 학습</div>
+<div class="kb-diagram-note">→ 새로운 자금 세탁 패턴 자동 탐지</div>
+</div>
+</div>
 
-개체:
-  Person, Company, Account, Transaction
-  Country, HighRiskCountry
 
-관계:
-  OWNS_ACCOUNT, CONTROLS_COMPANY
-  SENDS_TO, RELATED_TO, LOCATED_IN
-  IS_SANCTIONED, IS_HIGH_RISK
-
-데이터 소스 통합:
-  핵심 뱅킹 DB → 계좌, 거래
-  KYC 데이터 → 고객 신원, 관계사
-  OFAC 제재 리스트 → 제재 개체
-  Panama Papers 데이터 (오픈) → 페이퍼 컴퍼니
-
-구현 (Neo4j):
-  MATCH path = (suspicious:Account)-
-               [:SENDS_TO*2..5]-
-               (target:Account)
-  WHERE suspicious.country IN ['고위험국가']
-  AND ALL(tx IN relationships(path)
-          WHERE tx.amount > 10000)
-  RETURN path, length(path)
-
-결과:
-  "4홉 이내 간접 연결" 탐지:
-  직접 탐지 불가했던 네트워크 5개 발견
-  의심 계좌 탐지율: 34% → 89%
-  허위 양성(False Positive): 12% 감소
-  
-  Graph ML 추가:
-  GNN(그래프 신경망)으로 패턴 학습
-  → 새로운 자금 세탁 패턴 자동 탐지
-```
 
 > 📢 **섹션 요약 비유**: 금융 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) = 자금 세탁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 — A→B→C→D 간접 송금을 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)으로 발견. 직접 연결 없어도 4홉 경로 추적. 의심 계좌 탐지율 34%→89%!
 

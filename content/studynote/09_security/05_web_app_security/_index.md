@@ -19,29 +19,27 @@ tags = ["security"]
 
 오늘날 대부분의 비즈니스는 웹과 모바일 어플리케이션을 통해 이루어진다. 이들은 전 세계 어디서나 접근 가능하므로 공격자에게는 가장 매력적인 침투 경로이다. 특히 데이터베이스와 직접 연결되어 기밀 정보를 다루는 웹 어플리케이션의 특성상, 단 한 번의 취약점이 기업의 신뢰도 추락과 막대한 과징금으로 이어질 수 있다.
 
-웹 및 앱 보안이 필요한 이유는 세 가지이다. 첫째, **데이터베이스 탈취 방지**를 위해서이다 (SQL Injection). 둘째, **사용자 권한 오남용 및 세션 탈취 차단**을 위해서이며 (XSS, CSRF), 셋째, 서비스의 논리적 허점을 파고드는 **비즈니스 로직 공격**을 막아 시스템의 공정성을 유지하기 위함이다.
+웹 및 앱 보안이 필요한 이유는 세 가지이다. 첫째, <strong>데이터베이스 탈취 방지</strong>를 위해서이다 (SQL Injection). 둘째, <strong>사용자 권한 오남용 및 세션 탈취 차단</strong>을 위해서이며 (XSS, CSRF), 셋째, 서비스의 논리적 허점을 파고드는 <strong>비즈니스 로직 공격</strong>을 막아 시스템의 공정성을 유지하기 위함이다.
 
 이 그림은 웹 어플리케이션을 겨냥한 주요 공격 지점과 방어 레이어를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Web Application Security Layers             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Client ] ────▶ [ WAF (Web Firewall) ] ────▶ [ Server ]  │
-│       │                   ▲ (Filter)               │        │
-│       │                   │                        │        │
-│       └──── (XSS/CSRF) ───┼──▶ [ Input Validation ]┘        │
-│                                         │                   │
-│   [ DataBase ] ◀─── (SQL Injection) ───┴── [ Secure Query ] │
-│                                                             │
-│   * OWASP: 웹 보안 취약점의 표준 가이드라인 제공            │
-│   * WAF: HTTP 페이로드 분석을 통한 지능형 차단              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '입력값 검증 (Input Validation)'이다. 모든 보안 사고의 시작은 공격자가 보낸 '나쁜 입력값'을 서버가 그대로 믿고 실행하는 데서 발생한다. 실무에서는 이러한 검증 로직을 소스 코드 수준에 내재화하는 **시큐어 SDLC**가 보안의 핵심이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Application Security Layers</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF (Web Firewall)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Filter)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Input Validation</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataBase</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Secure Query</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OWASP: 웹 보안 취약점의 표준 가이드라인 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* WAF: HTTP 페이로드 분석을 통한 지능형 차단</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '입력값 검증 (Input Validation)'이다. 모든 보안 사고의 시작은 공격자가 보낸 '나쁜 입력값'을 서버가 그대로 믿고 실행하는 데서 발생한다. 실무에서는 이러한 검증 로직을 소스 코드 수준에 내재화하는 <strong>시큐어 SDLC</strong>가 보안의 핵심이 된다.
 
 ### 웹 보안의 3대 핵심 위협 (OWASP 기반)
 
@@ -72,28 +70,25 @@ tags = ["security"]
 - **방식**: 시그니처 매칭 (공격 패턴 대조), 비정상 행위 탐지 (알고리즘 분석).
 - **효과**: 제로 데이 취약점 패치 전까지 임시 방어막 제공 (Virtual Patching).
 
-이 구조도는 **OAuth 2.0**을 이용한 안전한 API 인증 및 인가 아키텍처를 보여준다.
+이 구조도는 <strong>OAuth 2.0</strong>을 이용한 안전한 API 인증 및 인가 아키텍처를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 OAuth 2.0 Authorization Flow                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Resource Owner ] ──── (1) Auth Request ──▶ [ Auth Serv ]│
-│   (User)                                          │         │
-│          ▲                                        ▼         │
-│          └─────────────── (2) Grant Code ◀────────┘         │
-│                                                             │
-│   [ Client App ] ──────── (3) Access Token ◀──────┘         │
-│          │                                                  │
-│          └─────────────── (4) API Call With Token ──▶ [Resource]│
-│                                                             │
-│   * 핵심: 비밀번호를 직접 공유하지 않고 '토큰'으로 권한 위임│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '권한의 대리 행사'이다. 사용자의 아이디와 비밀번호를 앱에 직접 주지 않고, 특정 기간만 유효한 **Access Token**을 발행하여 보안 사고의 파급 효과를 최소화한다. 실무에서는 이 토큰 내부에 사용자 정보를 담는 **JWT (JSON Web Token)**가 널리 쓰인다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 Authorization Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Owner</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Auth Serv</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Grant Code ◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client App</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 비밀번호를 직접 공유하지 않고 '토큰'으로 권한 위임</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '권한의 대리 행사'이다. 사용자의 아이디와 비밀번호를 앱에 직접 주지 않고, 특정 기간만 유효한 <strong>Access Token</strong>을 발행하여 보안 사고의 파급 효과를 최소화한다. 실무에서는 이 토큰 내부에 사용자 정보를 담는 <strong>JWT (JSON Web Token)</strong>가 널리 쓰인다.
 
 📢 **섹션 요약 비유**: 시큐어 코딩은 '튼튼한 재료로 집을 짓는 것'이고, WAF는 '집 앞에 설치된 엑스레이 검색대'이며, OAuth는 '호텔 룸서비스 전용 마스터키'와 같습니다.
 
@@ -130,28 +125,27 @@ tags = ["security"]
 ### 기술사적 판단: 애플리케이션 보안 강화 및 점검 전략
 
 **시나리오 1: 신규 웹 서비스 오픈 전 보안성 검토 요청**
-- **판단**: **시큐어 SDLC** 프로세스가 준수되었는지 확인한다. 우선 **SAST 도구 (SonarQube 등)**를 통해 소스 코드 보안 약점을 전수 점검하고, **OWASP Top 10** 항목별 대응 여부를 체크리스트로 검증한다. 특히 SQL Injection 방지를 위해 **Prepared Statement (파라미터화된 쿼리)** 사용이 의무화되었는지 정밀 심사한다.
+- **판단**: **시큐어 SDLC** 프로세스가 준수되었는지 확인한다. 우선 <strong>SAST 도구 (SonarQube 등)</strong>를 통해 소스 코드 보안 약점을 전수 점검하고, **OWASP Top 10** 항목별 대응 여부를 체크리스트로 검증한다. 특히 SQL Injection 방지를 위해 **Prepared Statement (파라미터화된 쿼리)** 사용이 의무화되었는지 정밀 심사한다.
 
 **시나리오 2: 운영 중인 쇼핑몰에서 대규모 포인트 부정 결제 정황 포착**
-- **판단**: 전형적인 **비즈니스 로직 취약점**이다. 기술적으로는 결제 요청 패킷의 금액을 위변조했는지 확인하고, 서버 단계에서 **Cross-check** (DB 가격과 요청 가격 비교) 로직을 추가한다. 또한 반복적인 비정상 요청을 차단하기 위해 WAF의 **Rate Limiting (임계치 제어)** 설정을 강화하고, **API Gateway** 단계에서 인가되지 않은 호출을 원천 봉쇄한다.
+- **판단**: 전형적인 <strong>비즈니스 로직 취약점</strong>이다. 기술적으로는 결제 요청 패킷의 금액을 위변조했는지 확인하고, 서버 단계에서 **Cross-check** (DB 가격과 요청 가격 비교) 로직을 추가한다. 또한 반복적인 비정상 요청을 차단하기 위해 WAF의 **Rate Limiting (임계치 제어)** 설정을 강화하고, **API Gateway** 단계에서 인가되지 않은 호출을 원천 봉쇄한다.
 
 이 도식은 보안 사고 발생 시 기술사가 지휘해야 할 '웹 취약점 조치 프로세스'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Vulnerability Remediation Cycle               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Discovery ] ──▶ [ Triage ] ──▶ [ Remediation ] ──┐      │
-│   (Scanner/BugBounty) (Risk Score)   (Patching)      │      │
-│          ▲                                           │      │
-│          └─────── [ Regression Test ] ◀──────────────┘      │
-│                                                             │
-│   * Triage 기준: CVSS (Common Vulnerability Scoring System) │
-│   * 핵심: 패치 후 다른 기능이 망가지지 않았는지 반드시 확인 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vulnerability Remediation Cycle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Discovery</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Triage</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Remediation</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scanner/BugBounty) (Risk Score) (Patching)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Regression Test</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Triage 기준: CVSS (Common Vulnerability Scoring System)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 패치 후 다른 기능이 망가지지 않았는지 반드시 확인</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '방역 감독관'과 같습니다. 식당(웹 서비스)이 오픈하기 전 위생 검사(취약점 진단)를 하고, 식중독 사고(해킹)가 나면 원인 식재료(오염된 코드)를 찾아내어 전량 폐기하고 주방 설비를 소독(패치)하는 총괄 책임자입니다.
 

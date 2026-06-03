@@ -20,7 +20,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-빅데이터(Big Data)는 단순한 데이터의 양적 팽창을 넘어선 **'처리 패러다임의 혁명'**이다. 과거 기업들은 RDBMS(관계형 데이터베이스)의 엄격한 스키마(Schema-on-Write)에 맞지 않는 웹 로그, SNS 텍스트, 센서 데이터 등을 모두 버려야만 했다. 또한 데이터가 커지면 비싼 메인프레임 서버를 사야 하는 스케일업(Scale-up)의 한계에 부딪혔다.
+빅데이터(Big Data)는 단순한 데이터의 양적 팽창을 넘어선 <strong>'처리 패러다임의 혁명'</strong>이다. 과거 기업들은 RDBMS(관계형 데이터베이스)의 엄격한 스키마(Schema-on-Write)에 맞지 않는 웹 로그, SNS 텍스트, 센서 데이터 등을 모두 버려야만 했다. 또한 데이터가 커지면 비싼 메인프레임 서버를 사야 하는 스케일업(Scale-up)의 한계에 부딪혔다.
 구글(Google)이 발표한 GFS(분산 파일 시스템)와 MapReduce 논문은 이 한계를 철저히 파단했다. 비싸고 고장 안 나는 슈퍼컴퓨터 대신, '언제든 고장 날 수 있는' 싸구려 범용 서버(Commodity Hardware) 수천 대를 묶어 무한히 스케일아웃(Scale-out)하고, 데이터가 있는 곳으로 연산 코드를 보내는 방식(Data Locality)으로 데이터 분석의 비용을 극단적으로 낮추었다. 현재 빅데이터는 단순한 '저장'을 넘어 초당 수백만 건의 이벤트를 밀리초(ms) 단위로 분석하는 실시간 스트리밍 시대로 진입하여 현대 AI의 거대한 양분이 되고 있다.
 
 ---
@@ -40,23 +40,22 @@ tags = ["studynote-bigdata"]
 
 #### 2. 빅데이터 파이프라인: 람다(Lambda) vs 카파(Kappa) 아키텍처 (ASCII)
 배치(과거)와 스트리밍(현재)을 어떻게 아우를 것인가에 대한 아키텍처적 결단.
-```text
-    [ Evolution of Big Data Architecture: Lambda to Kappa / 빅데이터 아키텍처 진화: 람다에서 카파로 ]
-    
-    (1) Lambda Architecture / 람다 아키텍처 (배치와 스트리밍 분리)
-                                    +----------------------------------+
-                                +-> | Batch Layer (Hadoop/Spark)       | -> [ Batch View ]
-                                |   +----------------------------------+          |
-    [ Data Source (Kafka) ] ----+                                                 +---> [ Serving DB ] -> BI/AI
-                                |   +----------------------------------+          |
-                                +-> | Speed Layer (Spark/Storm)        | -> [ RT View ]
-                                    +----------------------------------+
-    
-    (2) Kappa Architecture / 카파 아키텍처 (스트림 통합 모델)
-    [ Data Source (Kafka) ] ------> | Stream Processing Layer (Flink)  | -------------> [ Serving DB ] -> BI/AI
-                                    +----------------------------------+
-                                    (재처리가 필요하면 Kafka Offset을 되감아 다시 스트리밍 연산)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Evolution of Big Data Architecture: Lambda to Kappa / 빅데이터 아키텍처 진화: 람다에서 카파로</div></div>
+<div class="kb-diagram-note">(1) Lambda Architecture / 람다 아키텍처 (배치와 스트리밍 분리)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Batch View</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source (Kafka)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Serving DB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">BI/AI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RT View</div></div>
+<div class="kb-diagram-note">(2) Kappa Architecture / 카파 아키텍처 (스트림 통합 모델)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source (Kafka)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Serving DB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">BI/AI</div></div>
+<div class="kb-diagram-note">(재처리가 필요하면 Kafka Offset을 되감아 다시 스트리밍 연산)</div>
+</div>
+</div>
+
+
 
 #### 3. 핵심 알고리즘 메커니즘 (MapReduce 패러다임)
 분산 컴퓨팅의 가장 위대한 발상. 천만 페이지의 문서에서 단어 개수를 셀 때의 흐름이다.
@@ -92,11 +91,11 @@ tags = ["studynote-bigdata"]
 
 **시나리오 1: 금융권의 Fraud Detection (이상 거래 탐지) 실시간 아키텍처**
 - **문제 상황**: 기존 하둡 기반의 배치(Batch) 분석으로는 신용카드 도용 거래를 다음 날 아침에나 적발하게 되어 수백억 원의 피해를 막지 못함.
-- **기술사적 결단**: 지연 시간(Latency)을 초 단위에서 밀리초 단위로 파단해야 한다. **Apache Kafka**를 통해 결제 이벤트를 Pub/Sub 형태로 즉시 수집하고, **Apache Flink**의 Event-Time 윈도우링을 통해 최근 5분간의 결제 패턴을 실시간 스트리밍으로 분석한다. 결과를 인메모리 NoSQL인 **Redis**에 밀어 넣어 승인 서버가 결제를 차단하도록 하는 초저지연 Event-Driven Architecture를 결착시킨다.
+- **기술사적 결단**: 지연 시간(Latency)을 초 단위에서 밀리초 단위로 파단해야 한다. <strong>Apache Kafka</strong>를 통해 결제 이벤트를 Pub/Sub 형태로 즉시 수집하고, <strong>Apache Flink</strong>의 Event-Time 윈도우링을 통해 최근 5분간의 결제 패턴을 실시간 스트리밍으로 분석한다. 결과를 인메모리 NoSQL인 <strong>Redis</strong>에 밀어 넣어 승인 서버가 결제를 차단하도록 하는 초저지연 Event-Driven Architecture를 결착시킨다.
 
 **시나리오 2: 거대 이커머스 플랫폼의 데이터 레이크하우스(Lakehouse) 전환**
 - **문제 상황**: 원시 데이터는 AWS S3(데이터 레이크)에, 분석용 데이터는 Snowflake(DW)에 중복 저장되어 스토리지 비용이 폭발하고 데이터 거버넌스가 무너짐(Silo 현상).
-- **기술사적 결단**: 데이터 레이크의 유연성과 DW의 ACID 트랜잭션을 결합한 **데이터 레이크하우스(Data Lakehouse)** 패러다임을 도입. **Apache Iceberg** 또는 **Delta Lake**와 같은 오픈 테이블 포맷을 채택하여, 저렴한 S3 객체 스토리지 위에서도 스키마 에볼루션(Schema Evolution)과 시간 여행(Time Travel, 스냅샷 롤백) 기능을 구현함으로써 컴퓨팅 노드와 스토리지 노드를 완전히 분리하고 비용을 70% 압살한다.
+- **기술사적 결단**: 데이터 레이크의 유연성과 DW의 ACID 트랜잭션을 결합한 **데이터 레이크하우스(Data Lakehouse)** 패러다임을 도입. **Apache Iceberg** 또는 <strong>Delta Lake</strong>와 같은 오픈 테이블 포맷을 채택하여, 저렴한 S3 객체 스토리지 위에서도 스키마 에볼루션(Schema Evolution)과 시간 여행(Time Travel, 스냅샷 롤백) 기능을 구현함으로써 컴퓨팅 노드와 스토리지 노드를 완전히 분리하고 비용을 70% 압살한다.
 
 **도입 시 고려사항 (안티패턴)**
 - **작은 파일의 저주 (Small Files Problem)**: HDFS나 S3에 수 KB짜리 파일 수백만 개를 무작정 적재하는 안티패턴. HDFS의 네임노드(NameNode) 메모리가 폭발하고, Spark가 수백만 개의 Task를 띄우느라 오버헤드로 시스템이 뻗어버린다. 기술사는 실시간 수집 구간에서 데이터를 마이크로 배치로 묶어 일정 크기(예: 128MB) 이상의 Parquet 파일로 병합(Compaction)하는 작업을 반드시 선행해야 한다.
@@ -113,7 +112,7 @@ tags = ["studynote-bigdata"]
 | **Kappa 아키텍처 (Flink)** | 데이터 신선도(Data Freshness) 극대화 | 분석 대시보드 반영 지연 시간 24시간 $\rightarrow$ **1초 이내(Real-time)** |
 
 **미래 전망 및 진화 방향**:
-초창기 '하둡 에코시스템' 중심의 복잡한 빅데이터 인프라 구축 시대는 끝났다. 현재는 스토리지와 컴퓨팅이 완벽히 분리된 클라우드 네이티브 환경(Snowflake, Databricks)으로 진화하여, SQL만 알면 수백 테라바이트를 수 초 내에 분석하는 **서버리스 빅데이터 시대**가 완성되었다. 향후 빅데이터는 LLM(대규모 언어 모델)의 RAG(검색 증강 생성) 아키텍처를 지원하기 위한 **벡터 데이터베이스(Vector DB)** 기능과 융합되어 AI 시대의 가장 강력한 무기로 영속할 것이다.
+초창기 '하둡 에코시스템' 중심의 복잡한 빅데이터 인프라 구축 시대는 끝났다. 현재는 스토리지와 컴퓨팅이 완벽히 분리된 클라우드 네이티브 환경(Snowflake, Databricks)으로 진화하여, SQL만 알면 수백 테라바이트를 수 초 내에 분석하는 <strong>서버리스 빅데이터 시대</strong>가 완성되었다. 향후 빅데이터는 LLM(대규모 언어 모델)의 RAG(검색 증강 생성) 아키텍처를 지원하기 위한 **벡터 데이터베이스(Vector DB)** 기능과 융합되어 AI 시대의 가장 강력한 무기로 영속할 것이다.
 
 **※ 참고 표준/가이드**:
 - ISO/IEC 20546: 빅데이터 참조 아키텍처(BDRA) 및 프레임워크 국제 표준.
@@ -131,7 +130,7 @@ tags = ["studynote-bigdata"]
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **빅데이터(Big Data)**는 모래사장에 있는 수십억 알의 모래 속에서 금가루만 쏙쏙 골라내는 일이에요.
+1. <strong>빅데이터(Big Data)</strong>는 모래사장에 있는 수십억 알의 모래 속에서 금가루만 쏙쏙 골라내는 일이에요.
 2. 예전에는 돋보기로 하나씩 찾느라 평생이 걸렸지만, 지금은 수천 명의 친구들이 뜰채를 들고 동시에 모래를 걸러내요.
 3. 이렇게 찾아낸 황금(데이터)으로 우리는 다음 달에 어떤 장난감이 가장 인기 있을지 미리 알아맞힐 수 있답니다!
 

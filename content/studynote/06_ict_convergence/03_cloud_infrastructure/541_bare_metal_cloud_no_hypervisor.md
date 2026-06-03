@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 일반적인 클라우드 VM은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Xen, Hyper-V) 위에서 실행되므로 CPU, 메모리, 네트워크 I/O에서 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드가 발생한다. 또한 **Noisy Neighbor 문제** — 같은 물리 서버를 공유하는 다른 VM의 워크로드가 내 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 미치는 현상이 존재한다.
 
-**[베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) 필요성**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/">베어메탈 클라우드</a> 필요성</strong>:
 - 초고성능 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) RAC, SAP HANA): [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 없이 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 토폴로지 직접 활용
 - HFT(High-Frequency Trading): μs 단위 레이턴시, 지터(Jitter) 최소화 필수
 - [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 워크로드: MPI([Message Passing Interface](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/227_mpi_message_passing_interface_distributed_computing/)) 통신, [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 네트워크 직접 접근
@@ -33,30 +33,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) vs 베어메탈 비교**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> vs 베어메탈 비교</strong>:
 
-```
-[가상 머신 (VM)]
-┌─────────────────────────────────────────┐
-│ 물리 서버                                │
-│  ┌──────────────┐  ┌──────────────┐    │
-│  │ VM 1         │  │ VM 2         │    │
-│  │ (Guest OS)   │  │ (Guest OS)   │    │
-│  └──────────────┘  └──────────────┘    │
-│  ↑ 하이퍼바이저 (VMware/KVM)            │
-│  ↑ Host OS                             │
-└─────────────────────────────────────────┘
-  오버헤드: CPU 5~10%, 메모리 2~5%, I/O 가변
 
-[베어메탈 클라우드]
-┌─────────────────────────────────────────┐
-│ 물리 서버 (단독 고객 전용)                │
-│  ┌────────────────────────────────────┐ │
-│  │ 고객 OS (직접 실행)                 │ │
-│  └────────────────────────────────────┘ │
-│  하이퍼바이저 없음 → 가상화 오버헤드 없음  │
-└─────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 머신 (VM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1</div><div class="kb-diagram-cell">VM 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Guest OS)</div><div class="kb-diagram-cell">(Guest OS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 하이퍼바이저 (VMware/KVM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ Host OS</div></div>
+<div class="kb-diagram-note">오버헤드: CPU 5~10%, 메모리 2~5%, I/O 가변</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 클라우드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 (단독 고객 전용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 OS (직접 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 없음 → 가상화 오버헤드 없음</div></div>
+</div>
+</div>
+
+
 
 | 구분 | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) |
 |:---|:---|:---|
@@ -68,7 +65,7 @@ tags = ["studynote-ict-convergence"]
 | 비용 | 낮음~중간 | 높음 |
 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 높음 (빠른 증감) | 낮음 (느린 증감) |
 
-**베어메탈 + [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(CaaS)**:
+<strong>베어메탈 + <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(CaaS)</strong>:
 CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 위에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하되, 기반을 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 베어메탈로 구성. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 밀도와 베어메탈 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 확보. Google [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Engine Bare Metal, AWS EKS on Bare Metal.
 
 - **📢 섹션 요약 비유**: [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)는 렌터카([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 아니라 구독제 자가용이다 — 타인이 이전에 쓴 흔적 없고, 내 마음대로 튜닝(OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 가능하며, 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장된다.
@@ -80,7 +77,7 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 **테넌트 격리 방법**:
 베어메탈에서는 소프트웨어 격리([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 없이 하드웨어 격리(물리 서버 전용 할당)로만 테넌트를 분리한다. 이는 강력한 보안 경계이지만, [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)(자원 공유)가 불가능하여 비용 효율이 낮아진다.
 
-**베어메탈 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 자동화**: [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)(Intelligent Platform [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Interface), PXE Boot, Ansible을 조합하여 베어메탈 서버를 자동 OS 설치·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/). 클라우드처럼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/). Ironic(OpenStack)이 대표 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/).
+<strong>베어메탈 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a> 자동화</strong>: [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)(Intelligent Platform [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Interface), PXE Boot, Ansible을 조합하여 베어메탈 서버를 자동 OS 설치·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/). 클라우드처럼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/). Ironic(OpenStack)이 대표 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/).
 
 **AWS Bare Metal 인스턴스(i3.metal, m7i.metal)**: 물리 서버 직접 접근이지만, AWS의 Nitro 시스템(전용 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))이 네트워킹과 스토리지를 관리하여 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(S3, [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))와 완전 통합.
 
@@ -104,12 +101,12 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 ## Ⅴ. 기대효과 및 결론
 
 [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) 도입 기대 효과:
-- **최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 제거로 CPU/메모리/IOPS 100% 활용
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측성**: Noisy Neighbor 없는 일관된 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화)
+- <strong>최대 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 제거로 CPU/메모리/IOPS 100% 활용
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 예측성</strong>: Noisy Neighbor 없는 일관된 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화)
 - **보안 강화**: 물리 수준 격리로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 취약점([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Escape) 위험 제거
 - **컴플라이언스**: 물리 서버 단독 사용으로 규제 충족 용이
 
-[베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)는 모든 워크로드의 답이 아니라, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 예측성이 비용보다 중요한 특정 워크로드**의 최적 선택이다.
+[베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)는 모든 워크로드의 답이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 예측성이 비용보다 중요한 특정 워크로드</strong>의 최적 선택이다.
 
 - **📢 섹션 요약 비유**: 베어메탈은 스포츠카이고 VM은 대중교통이다 — 빠르고 예측 가능하지만 비용이 크고, 혼자만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 빈 시간엔 낭비가 생긴다.
 

@@ -37,23 +37,21 @@ tags = ["ict_convergence"]
 | **단일 노드 오류** | 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) | 매우 낮음 (예: 1% 몰수) | 경고 및 삭감, 이후 복귀 가능성 |
 | **집단 담합 (51% 공격)** | 악의적 목적의 조직적 이중 투표 | 극도로 높음 (최대 100% 몰수) | 예치금 전액 소각 및 네트워크 영구 추방 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           분산 슬래싱 (상관관계 기반 처벌) 메커니즘          │
-├──────────────────────────────────────────────────────────────┤
-│               [ 검증자들의 악의적 투표 탐지 ]                │
-│                              │                               │
-│              동시 위반 검증자의 비율(상관관계) 계산          │
-│                              │                               │
-│         ┌────────────────────┴────────────────────┐          │
-│         ▼                                         ▼          │
-│   [ 단일 검증자 실수 ]                     [ 대규모 집단 담합 ]│
-│   (위반자 비율 < 1%)                       (위반자 비율 > 33%) │
-│         │                                         │          │
-│   보증금 미세 삭감(1%)                     보증금 100% 소각! │
-│  "서버 설정 주의하세요"                   "쿠데타 시도, 즉결 처형"│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 슬래싱 (상관관계 기반 처벌) 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증자들의 악의적 투표 탐지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 위반 검증자의 비율(상관관계) 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 검증자 실수</div><div class="kb-diagram-node">대규모 집단 담합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위반자 비율 &lt; 1%) (위반자 비율 &gt; 33%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보증금 미세 삭감(1%) 보증금 100% 소각!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"서버 설정 주의하세요" "쿠데타 시도, 즉결 처형"</div></div>
+</div>
+</div>
+
+
 
 이 그림은 여러 검증자가 동일한 타이밍에 잘못을 저지르는 정도(상관관계)에 따라 처벌이 기하급수적으로 폭증하는 구조를 보여준다. 이는 개인의 실수는 관용하되, 조직적 51% 공격은 완벽히 파산시키는 핵심 원리다.
 
@@ -116,21 +114,23 @@ PoW가 우주 방어 수준의 물리적 장벽을 쳤다면, PoS의 슬래싱�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비용 소모 기반 방어 (PoW)
-    │
-    ▼
-지분 예치 기반 합의 (PoS 도입)
-    │
-    ▼
-Nothing at Stake 문제 발생 (배신 비용 0원)
-    │
-    ▼
-슬래싱 (Slashing) 메커니즘 도입 (경제적 처벌)
-    │
-    ▼
-분산 슬래싱 (상관관계 기반 처벌) 및 Economic Finality 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비용 소모 기반 방어 (PoW)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지분 예치 기반 합의 (PoS 도입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Nothing at Stake 문제 발생 (배신 비용 0원)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">슬래싱 (Slashing) 메커니즘 도입 (경제적 처벌)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 슬래싱 (상관관계 기반 처벌) 및 Economic Finality 확보</div>
+</div>
+</div>
+
+
 
 이 흐름도는 작업 소모에서 경제적 처벌로 방어 패러다임이 이동하면서, 어떻게 더 빠르고 강력한 확정성을 얻게 되었는지를 보여준다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 엔터프라이즈 애플리케이션의 비즈니스 로직을 어떻게 조직할지에 대해 여러 패턴을 제시한다. 그중 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script와 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 서로 대립하는 개념이라기보다, **복잡도가 다른 문제에 대응하는 두 가지 방식**으로 이해하는 것이 맞다.
+Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 엔터프라이즈 애플리케이션의 비즈니스 로직을 어떻게 조직할지에 대해 여러 패턴을 제시한다. 그중 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script와 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 서로 대립하는 개념이라기보다, <strong>복잡도가 다른 문제에 대응하는 두 가지 방식</strong>으로 이해하는 것이 맞다.
 
 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 가장 자연스러운 출발점이다. "주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)", "주문 취소", "회원 가입"처럼 요청 하나를 함수 하나로 구현하면 처음에는 매우 빠르다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 계산, 저장, 이벤트 발행을 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드에 순서대로 적으면 되므로 작은 프로젝트나 관리 화면에서는 충분히 실용적이다.
 
@@ -42,23 +42,25 @@ Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowl
 
 아래 그림은 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 예시에서 두 방식의 구조 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Business logic placement                                             │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Transaction Script            │ Domain Model                         │
-├───────────────────────────────┼──────────────────────────────────────┤
-│ OrderService.placeOrder()     │ OrderAppService.placeOrder()         │
-│   - load customer             │   - load customer / products         │
-│   - validate items            │   - create Order aggregate           │
-│   - calculate discount        │ Order aggregate                      │
-│   - reserve stock             │   - validate items                   │
-│   - save order                │   - calculate discount               │
-│   - publish event             │   - reserve stock / change status    │
-│                               │   - enforce invariants               │
-│ Logic concentrated in script  │ Logic encapsulated in domain object  │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business logic placement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transaction Script</div><div class="kb-diagram-cell">Domain Model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService.placeOrder()</div><div class="kb-diagram-cell">OrderAppService.placeOrder()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- load customer</div><div class="kb-diagram-cell">- load customer / products</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validate items</div><div class="kb-diagram-cell">- create Order aggregate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- calculate discount</div><div class="kb-diagram-cell">Order aggregate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- reserve stock</div><div class="kb-diagram-cell">- validate items</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- save order</div><div class="kb-diagram-cell">- calculate discount</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- publish event</div><div class="kb-diagram-cell">- reserve stock / change status</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- enforce invariants</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic concentrated in script</div><div class="kb-diagram-cell">Logic encapsulated in domain object</div></div>
+</div>
+</div>
+
+
 
 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model의 핵심은 객체를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상자처럼 두지 않는 것이다. 주문 객체가 주문 총액 계산, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 취소 가능 여부 판단을 직접 책임지면, 규칙은 주문이라는 개념 근처에 응집된다. 이때 Repository 패턴이 함께 쓰이면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 저장 기술보다 비즈니스 의미에 집중할 수 있다.
 
@@ -70,7 +72,7 @@ Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowl
 
 ## Ⅲ. 비교 및 연결
 
-이 두 패턴은 우열 관계보다 적용 맥락이 다르다. 단순한 업무를 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model로 과하게 감싸면 설계 비용만 늘고, 복잡한 업무를 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script로 밀어붙이면 규칙이 중복되고 변경 파급이 커진다. 결국 비교의 핵심은 "처음 빠른가"가 아니라, **복잡도가 커질 때 어느 쪽이 더 단순함을 유지하는가**다.
+이 두 패턴은 우열 관계보다 적용 맥락이 다르다. 단순한 업무를 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model로 과하게 감싸면 설계 비용만 늘고, 복잡한 업무를 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script로 밀어붙이면 규칙이 중복되고 변경 파급이 커진다. 결국 비교의 핵심은 "처음 빠른가"가 아니라, <strong>복잡도가 커질 때 어느 쪽이 더 단순함을 유지하는가</strong>다.
 
 | 비교 축 | [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script | [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model |
 | :--- | :--- | :--- |
@@ -80,7 +82,7 @@ Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowl
 | 저장 계층과의 결합 | 높아지기 쉬움 | Repository로 분리하기 좋음 |
 | 팀 요구 역량 | 절차적 코딩 중심 | 모델링, 경계 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 테스트 역량 필요 |
 
-또한 이 비교는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)), Repository, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)와도 연결된다. [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 보통 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 규칙이 중요할 때 빛난다. 반대로 조회 전용 화면이나 통계성 쿼리는 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script나 Query Service가 더 단순할 수 있다. 즉 한 시스템 안에서도 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쪽은 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model, 읽기 쪽은 단순 스크립트**처럼 혼합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능하다.
+또한 이 비교는 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)), Repository, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)와도 연결된다. [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 보통 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 규칙이 중요할 때 빛난다. 반대로 조회 전용 화면이나 통계성 쿼리는 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script나 Query Service가 더 단순할 수 있다. 즉 한 시스템 안에서도 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 쪽은 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model, 읽기 쪽은 단순 스크립트</strong>처럼 혼합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능하다.
 
 Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 이 둘의 장점을 모두 잃는 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 클래스는 많아졌는데 규칙은 여전히 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 있으므로, [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script의 단순함도 없고 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model의 응집도도 없다. 설계감리에서는 이런 "껍데기 객체"를 특히 경계해야 한다.
 
@@ -90,7 +92,7 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 판단에서 중요한 것은 규칙의 개수보다 **규칙 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)**다. 할인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 하나만 있어도 배송비, 적립금, 쿠폰 중복, 회원 등급, 반품 규칙과 얽히기 시작하면 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 빠르게 비대해진다. 반대로 게시판 관리, 코드 테이블 유지, 내부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) API처럼 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 단순한 업무는 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model을 도입해도 이익이 작다.
+실무 판단에서 중요한 것은 규칙의 개수보다 <strong>규칙 간 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a></strong>다. 할인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 하나만 있어도 배송비, 적립금, 쿠폰 중복, 회원 등급, 반품 규칙과 얽히기 시작하면 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 빠르게 비대해진다. 반대로 게시판 관리, 코드 테이블 유지, 내부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) API처럼 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 단순한 업무는 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model을 도입해도 이익이 작다.
 
 | 시나리오 | 권장 방식 | 판단 이유 |
 | :--- | :--- | :--- |
@@ -114,7 +116,7 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 - [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model을 썼으면서도 상태 변경을 setter 공개로 열어 두어 불변식을 깨뜨리는 구현
 - 읽기 모델과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델을 구분하지 않아 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model에 리포팅 쿼리까지 몰아넣는 설계
 
-기술사 답안에서는 **"[Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 단순 유스케이스를 빠르게 구현하는 데 적합하고, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 복잡한 비즈니스 규칙과 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 객체에 응집시켜 유지보수성과 테스트성을 높이는 구조이며, 선택 기준은 규칙 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)와 변경 빈도"**라고 정리하면 된다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a> Script는 단순 유스케이스를 빠르게 구현하는 데 적합하고, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model은 복잡한 비즈니스 규칙과 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 객체에 응집시켜 유지보수성과 테스트성을 높이는 구조이며, 선택 기준은 규칙 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>와 변경 빈도"</strong>라고 정리하면 된다.
 
 - **📢 섹션 요약 비유**: 작은 가게는 사장 한 명의 메모장으로도 돌아가지만, 백화점 규모가 되면 매장별 규칙과 책임을 나눠야 혼란이 줄어드는 것과 같다.
 
@@ -124,7 +126,7 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script의 장점은 단순함이다. 적은 클래스 수, 빠른 구현, 낮은 진입 장벽 덕분에 작은 업무를 짧은 시간 안에 전달할 수 있다. 반면 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model의 장점은 복잡한 규칙이 커질수록 더 선명해진다. 규칙이 객체 주변으로 모이고 테스트가 쉬워지며, 변경 영향이 예측 가능해진다.
 
-하지만 어떤 패턴도 만능은 아니다. [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 학습 비용과 설계 비용이 있고, [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 규모가 커질수록 빚이 쌓인다. 그래서 중요한 것은 특정 패턴을 신앙처럼 따르는 것이 아니라, **현재 시스템의 복잡도와 앞으로의 변화 방향에 맞는 패턴을 선택하는 것**이다.
+하지만 어떤 패턴도 만능은 아니다. [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model은 학습 비용과 설계 비용이 있고, [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script는 규모가 커질수록 빚이 쌓인다. 그래서 중요한 것은 특정 패턴을 신앙처럼 따르는 것이 아니라, <strong>현재 시스템의 복잡도와 앞으로의 변화 방향에 맞는 패턴을 선택하는 것</strong>이다.
 
 결론적으로 기억할 문장은 이것이다. "비즈니스 규칙이 흩어질수록 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model 쪽으로, 규칙이 단순하고 수명이 짧을수록 [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Script 쪽으로." 설계감리 관점에서는 이 균형을 얼마나 의식적으로 선택했는지가 좋은 아키텍처의 증거가 된다.
 
@@ -145,22 +147,24 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Simple CRUD use cases
-        │
-        ▼
-Transaction Script for fast delivery
-        │
-        ▼
-Rules increase and start to overlap
-        │
-        ├─ duplicated validation
-        ├─ state transition complexity
-        └─ growing God Service
-        │
-        ▼
-Domain Model + Repository + richer business encapsulation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Simple CRUD use cases</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transaction Script for fast delivery</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rules increase and start to overlap</div>
+<div class="kb-diagram-tree-item" style="--depth:4">duplicated validation</div>
+<div class="kb-diagram-tree-item" style="--depth:4">state transition complexity</div>
+<div class="kb-diagram-tree-item" style="--depth:4">growing God Service</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Domain Model + Repository + richer business encapsulation</div>
+</div>
+</div>
+
+
 
 이 흐름은 시스템이 단순 업무 처리에서 복잡한 규칙 중심 구조로 성장할 때, 비즈니스 로직 조직 방식도 함께 바뀌어야 함을 보여 준다.
 

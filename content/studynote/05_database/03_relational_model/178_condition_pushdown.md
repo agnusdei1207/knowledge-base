@@ -21,7 +21,7 @@ tags = ["studynote-database"]
 
 조건 푸시 다운은 SQL (Structured Query Language) 을 사람이 읽기 좋은 형태로 나눈 뒤에도, 실행 단계에서는 가능한 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천에 가까운 곳에서 먼저 걸러 보자는 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 개발자는 [인라인 뷰](/knowledge-base/studynote/05_database/03_relational_model/141_inline_view_subquery/)나 재사용 가능한 서브쿼리로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 정리하지만, [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) 입장에서는 필터가 너무 바깥에 있다는 이유만으로 큰 중간 결과를 만든 뒤 나중에 버리는 상황이 자주 생긴다. 이때 조건 푸시 다운은 뷰 경계를 완전히 없애지 못하더라도, 적어도 조건만 안쪽으로 보내 조기 필터링을 수행하게 만든다.
 
-이 기법이 필요한 이유는 비용의 대부분이 최종 결과 건수보다 **중간 결과가 얼마나 오래 큰 상태로 남아 있느냐**에 달려 있기 때문이다. 100만 행을 모아 놓고 마지막에 100행만 남기는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)보다, 초반에 100행만 골라 그 뒤 조인과 집계를 하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 훨씬 싸다. 특히 큰 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/), 파생 테이블, 분석용 집계 뷰에서는 이 차이가 응답시간과 임시 공간 사용량을 크게 바꾼다.
+이 기법이 필요한 이유는 비용의 대부분이 최종 결과 건수보다 <strong>중간 결과가 얼마나 오래 큰 상태로 남아 있느냐</strong>에 달려 있기 때문이다. 100만 행을 모아 놓고 마지막에 100행만 남기는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)보다, 초반에 100행만 골라 그 뒤 조인과 집계를 하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 훨씬 싸다. 특히 큰 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/), 파생 테이블, 분석용 집계 뷰에서는 이 차이가 응답시간과 임시 공간 사용량을 크게 바꾼다.
 
 - **📢 섹션 요약 비유**: 창고 정리를 할 때 모든 상자를 복도로 끌어낸 뒤 색깔표를 보며 고르는 것보다, 창고 안 선반에서 필요한 상자만 먼저 집어오는 편이 훨씬 덜 힘든 것과 같다.
 
@@ -29,23 +29,24 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-조건 푸시 다운의 핵심은 단순하다. 바깥 블록의 조건이 안쪽 블록에 들어가도 결과 의미가 바뀌지 않는다면, 그 조건을 가능한 한 이른 시점에 적용한다. 중요한 점은 **뷰를 없애는 것**이 아니라 **조건의 적용 위치를 바꾸는 것**이다. 그래서 [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/) ([View Merging](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/))이 어려운 경우에도 조건 푸시 다운은 별도로 성립할 수 있다.
+조건 푸시 다운의 핵심은 단순하다. 바깥 블록의 조건이 안쪽 블록에 들어가도 결과 의미가 바뀌지 않는다면, 그 조건을 가능한 한 이른 시점에 적용한다. 중요한 점은 <strong>뷰를 없애는 것</strong>이 아니라 <strong>조건의 적용 위치를 바꾸는 것</strong>이다. 그래서 [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/) ([View Merging](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/))이 어려운 경우에도 조건 푸시 다운은 별도로 성립할 수 있다.
 
 아래 그림은 같은 조건이 어느 단계에서 적용되느냐에 따라 중간 결과 크기가 어떻게 달라지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Predicate placement changes the cost                              │
-├────────────────────────────────────────────────────────────────────┤
-│ Late filtering                                                    │
-│   EMP 1,000,000 rows -> View V 1,000,000 -> Join -> Filter -> 120 │
-│                                                                    │
-│ Early filtering by pushdown                                       │
-│   EMP 1,000,000 rows -> Filter in V -> 120 -> Join -> 120         │
-│                                                                    │
-│ Same answer / far smaller intermediate result                     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate placement changes the cost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late filtering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP 1,000,000 rows -&gt; View V 1,000,000 -&gt; Join -&gt; Filter -&gt; 120</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early filtering by pushdown</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP 1,000,000 rows -&gt; Filter in V -&gt; 120 -&gt; Join -&gt; 120</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same answer / far smaller intermediate result</div></div>
+</div>
+</div>
+
+
 
 예를 들어 다음과 같은 질의를 보자.
 
@@ -80,7 +81,7 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 실제 실행계획은 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 마다 다르게 나타나지만, 핵심은 `emp` 전체를 먼저 읽는 대신 IT개발부 관련 부서 번호에 해당하는 행만 먼저 줄인다는 데 있다. 이때 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 조건일수록 이득이 크고, 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 푸시다운 이후 액세스 경로까지 좋아질 수 있다.
 
-집계 뷰에서도 원리는 비슷하지만, **어떤 조건이 내려갈 수 있는지**가 더 중요하다. 예를 들어 `GROUP BY deptno` 뷰에 대해 `deptno = 10` 조건은 그룹핑 전에 적용해도 의미가 유지되므로 내려갈 수 있다. 반면 `SUM(salary) > 100000` 같은 집계 결과 조건은 집계가 끝난 뒤에만 평가할 수 있으므로, 원래 위치를 유지하거나 `HAVING` 성격으로 다뤄야 한다.
+집계 뷰에서도 원리는 비슷하지만, <strong>어떤 조건이 내려갈 수 있는지</strong>가 더 중요하다. 예를 들어 `GROUP BY deptno` 뷰에 대해 `deptno = 10` 조건은 그룹핑 전에 적용해도 의미가 유지되므로 내려갈 수 있다. 반면 `SUM(salary) > 100000` 같은 집계 결과 조건은 집계가 끝난 뒤에만 평가할 수 있으므로, 원래 위치를 유지하거나 `HAVING` 성격으로 다뤄야 한다.
 
 | 조건 유형 | 푸시다운 가능성 | 이유 |
 | :--- | :--- | :--- |
@@ -96,7 +97,7 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 ## Ⅲ. 비교 및 연결
 
-조건 푸시 다운은 자주 [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/), 머티리얼라이제이션 (Materialization), [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화와 함께 언급된다. 하지만 셋은 **무엇을 움직이느냐**가 다르다. [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/)은 뷰 경계를 없애고, 조건 푸시 다운은 경계는 남기되 조건만 안으로 전달하며, 머티리얼라이제이션은 오히려 경계를 유지하고 결과를 저장한다.
+조건 푸시 다운은 자주 [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/), 머티리얼라이제이션 (Materialization), [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화와 함께 언급된다. 하지만 셋은 <strong>무엇을 움직이느냐</strong>가 다르다. [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/)은 뷰 경계를 없애고, 조건 푸시 다운은 경계는 남기되 조건만 안으로 전달하며, 머티리얼라이제이션은 오히려 경계를 유지하고 결과를 저장한다.
 
 | 기법 | 뷰 경계 처리 | 무엇을 바꾸는가 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
@@ -104,9 +105,9 @@ SELECT d.dept_name, v.emp_name, v.salary
 | 조건 푸시 다운 (Condition Pushdown) | 경계 유지 | 바깥 필터의 적용 위치를 안쪽으로 이동 | 머징은 어렵지만 조기 필터링은 가능한 경우 |
 | 머티리얼라이제이션 (Materialization) | 경계 유지 + 저장 | 중간 결과를 실제로 계산해 보관 | 재사용이 많거나 경계 유지가 의미상 필요한 경우 |
 
-실무에서는 세 기법이 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 **조합 가능한 선택지**다. [단순 뷰](/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)는 아예 머징되고, 머징이 어려운 집계 뷰는 조건만 일부 푸시다운될 수 있으며, 반복 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되는 비싼 뷰는 반대로 머티리얼라이즈하는 편이 낫다. 따라서 "푸시다운이 되었는가?"보다 먼저 봐야 할 질문은 **이 뷰 경계를 없애야 하는가, 남겨야 하는가, 남기되 안쪽은 줄일 수 있는가**다.
+실무에서는 세 기법이 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 <strong>조합 가능한 선택지</strong>다. [단순 뷰](/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)는 아예 머징되고, 머징이 어려운 집계 뷰는 조건만 일부 푸시다운될 수 있으며, 반복 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되는 비싼 뷰는 반대로 머티리얼라이즈하는 편이 낫다. 따라서 "푸시다운이 되었는가?"보다 먼저 봐야 할 질문은 <strong>이 뷰 경계를 없애야 하는가, 남겨야 하는가, 남기되 안쪽은 줄일 수 있는가</strong>다.
 
-또한 조건 푸시 다운은 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화와도 직접 연결된다. 안쪽 블록의 행 수가 미리 줄면 이후 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 방식, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선택이 모두 달라질 수 있기 때문이다. 즉 조건 푸시 다운 자체가 끝이 아니라, **후속 최적화가 더 잘 작동하도록 탐색 공간을 바꾸는 전처리**라고 이해하는 편이 정확하다.
+또한 조건 푸시 다운은 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화와도 직접 연결된다. 안쪽 블록의 행 수가 미리 줄면 이후 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/), 조인 방식, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선택이 모두 달라질 수 있기 때문이다. 즉 조건 푸시 다운 자체가 끝이 아니라, <strong>후속 최적화가 더 잘 작동하도록 탐색 공간을 바꾸는 전처리</strong>라고 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 벽을 허물어 한 방으로 만드는 것이 [뷰 머징](/knowledge-base/studynote/05_database/03_relational_model/177_view_merging_query_transformation/)이라면, 문만 열어 바람길을 먼저 트는 것이 조건 푸시 다운이고, 아예 별도 창고에 물건을 쌓아 두는 것이 머티리얼라이제이션이다.
 
@@ -114,7 +115,7 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 조건 푸시 다운 이슈는 대개 "뷰로 정리했더니 왜 느려졌는가", "집계 뷰 위에 조건을 걸었는데 왜 전체 스캔이 나는가" 같은 형태로 나타난다. 이때 핵심은 SQL을 다시 쓰는 기술보다, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 **조건을 안쪽으로 밀어도 되는 구조인지**를 만들어 주는 것이다.
+실무에서 조건 푸시 다운 이슈는 대개 "뷰로 정리했더니 왜 느려졌는가", "집계 뷰 위에 조건을 걸었는데 왜 전체 스캔이 나는가" 같은 형태로 나타난다. 이때 핵심은 SQL을 다시 쓰는 기술보다, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 <strong>조건을 안쪽으로 밀어도 되는 구조인지</strong>를 만들어 주는 것이다.
 
 가장 먼저 볼 것은 비선형 표현과 불필요한 경계다. 예를 들어 `TO_CHAR(order_date, 'YYYYMM') = '202605'`처럼 컬럼을 함수로 감싸면, 푸시다운이 되더라도 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 접근 이점이 줄어들 수 있다. 반면 `order_date >= DATE '2026-05-01' AND order_date < DATE '2026-06-01'`처럼 범위 조건으로 쓰면, 푸시다운과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용이 동시에 유리해진다.
 
@@ -146,7 +147,7 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 하지만 한계도 분명하다. [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 낮은 조건은 푸시다운해도 이득이 작을 수 있고, 잘못된 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성 (Cardinality) 추정 아래에서는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 기대만큼 좋은 계획을 만들지 못할 수도 있다. 또한 보안 경계, 의미 보존, 집계 결과 조건처럼 경계를 남겨야 하는 경우에는 무리한 푸시다운이 오히려 위험하다.
 
-결론적으로 조건 푸시 다운은 "WHERE 절을 안쪽으로 옮기는 꼼수"가 아니다. **행 수를 줄이는 시점을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천에 최대한 가깝게 당겨, 후속 조인과 집계 비용 전체를 낮추는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 사고방식**으로 기억하는 것이 맞다.
+결론적으로 조건 푸시 다운은 "WHERE 절을 안쪽으로 옮기는 꼼수"가 아니다. <strong>행 수를 줄이는 시점을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 원천에 최대한 가깝게 당겨, 후속 조인과 집계 비용 전체를 낮추는 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a> 사고방식</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 긴 여행에서 짐을 줄일 수 있다면 목적지에 도착해서 버릴 것이 아니라, 출발하기 전에 가방 안에서 먼저 빼는 편이 훨씬 현명하다.
 
@@ -166,25 +167,26 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Outer predicate discovered
-        │
-        ▼
-Safety check on view boundary
-        │
-        ├──────────────► keep predicate outside
-        ▼
-Predicate moved into view
-        │
-        ▼
-Earlier row reduction
-        │
-        ▼
-Cheaper join / sort / aggregation
-        │
-        ▼
-Lower overall query cost
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Outer predicate discovered</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Safety check on view boundary</div>
+<div class="kb-diagram-tree-item" style="--depth:4">keep predicate outside</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Predicate moved into view</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Earlier row reduction</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cheaper join / sort / aggregation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lower overall query cost</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "바깥 조건 발견 → 안전성 검사 → 안쪽 이동 여부 결정 → 조기 필터링 → 후속 연산 비용 절감"이라는 조건 푸시 다운의 핵심 판단 절차를 요약한다.
 

@@ -23,16 +23,19 @@ tags = ["studynote-computer-architecture"]
 
 배경은 분명하다. 칩을 더 빠르게 만들수록 외부 메모리와의 왕복, 보드 위 긴 배선, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 문제가 더 먼저 병목이 된다. 그래서 최근 설계는 "칩 하나를 무한히 키운다"보다 "칩들을 더 가깝게, 더 넓게, 때로는 더 높게 붙인다"는 방향으로 이동하고 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 패키징의 역할 변화: 보호용 외장재에서 성능 아키텍처로                       │
-├──────────────────────┬─────────────────────────┬───────────────────────────┤
-│ 전통 패키지           │ 2.5D                    │ 3D                        │
-│ Die ─ PCB Trace ─ Die│ Die ═ Interposer ═ Die  │ Die                       │
-│ 긴 배선, 낮은 밀도    │ 짧은 수평 배선, 고대역폭 메모리 친화│ TSV / Direct Bond 수직 적층│
-│ 열 분산은 쉬움        │ 대역폭/열의 균형        │ 면적 절감, 열 밀도 상승    │
-└──────────────────────┴─────────────────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키징의 역할 변화: 보호용 외장재에서 성능 아키텍처로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 패키지</div><div class="kb-diagram-cell">2.5D</div><div class="kb-diagram-cell">3D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Die ─ PCB Trace ─ Die</div><div class="kb-diagram-cell">Die ═ Interposer ═ Die</div><div class="kb-diagram-cell">Die</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">긴 배선, 낮은 밀도</div><div class="kb-diagram-cell">짧은 수평 배선, 고대역폭 메모리 친화</div><div class="kb-diagram-cell">TSV / Direct Bond 수직 적층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">열 분산은 쉬움</div><div class="kb-diagram-cell">대역폭/열의 균형</div><div class="kb-diagram-cell">면적 절감, 열 밀도 상승</div></div>
+</div>
+</div>
+
+
 
 이 그림이 보여 주는 핵심은 2.5D와 3D가 단순히 "더 고급 포장"이 아니라, 데이터가 지나가는 길 자체를 바꾸는 기술이라는 점이다. 즉 패키징 선택은 곧 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 전력, 열 구조를 동시에 선택하는 일이다.
 
@@ -42,7 +45,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-2.5D 패키징의 핵심은 **수평 배치 + 초미세 배선**이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 다이와 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 실리콘 인터포저 (Silicon Interposer) 위에 나란히 올리거나, EMIB (Embedded Multi-die Interconnect [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 같은 국소 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 연결해 매우 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통로를 만든다. 3D 패키징의 핵심은 **수직 적층 + 직접 연결**이다. 로직 위에 캐시를 쌓거나, 센서 픽셀층 위아래로 로직층을 붙이는 식으로 가장 짧은 경로를 확보한다.
+2.5D 패키징의 핵심은 <strong>수평 배치 + 초미세 배선</strong>이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 다이와 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 실리콘 인터포저 (Silicon Interposer) 위에 나란히 올리거나, EMIB (Embedded Multi-die Interconnect [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 같은 국소 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 연결해 매우 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통로를 만든다. 3D 패키징의 핵심은 <strong>수직 적층 + 직접 연결</strong>이다. 로직 위에 캐시를 쌓거나, 센서 픽셀층 위아래로 로직층을 붙이는 식으로 가장 짧은 경로를 확보한다.
 
 | 요소 | 2.5D에서의 역할 | 3D에서의 역할 | 설계 포인트 |
 | :-- | :-- | :-- | :-- |
@@ -52,20 +55,22 @@ tags = ["studynote-computer-architecture"]
 | 마이크로 범프 | 다이 간 접속 | 적층 접속 | 피치, 접촉 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) |
 | 하이브리드 본딩 | 제한적 | 초미세 직접 접합 | 정렬 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 제조 난도 |
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ 2.5D와 3D의 실제 연결 구조                                                  │
-├──────────────────────────────────────────┬─────────────────────────────────┤
-│ 2.5D                                     │ 3D                              │
-│ [Logic Die] [HBM Stack] [HBM Stack]      │ [Logic Die]                     │
-│        ╲      │        ╱                 │    │ µ-bump / Hybrid Bond       │
-│      Silicon Interposer                  │ [Cache or Memory Die]           │
-│               │                          │    │ TSV / Vertical Link         │
-│        Package Substrate                 │ [Base Die / I/O]                │
-├──────────────────────────────────────────┴─────────────────────────────────┤
-│ 2.5D 과제: 인터포저 면적·원가            3D 과제: 열 방출·테스트·수율       │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D와 3D의 실제 연결 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D</div><div class="kb-diagram-cell">3D</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Logic Die</div><div class="kb-diagram-node">HBM Stack</div><div class="kb-diagram-node">HBM Stack</div><div class="kb-diagram-node">Logic Die</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div><div class="kb-diagram-cell">µ-bump / Hybrid Bond</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Silicon Interposer</div><div class="kb-diagram-node">Cache or Memory Die</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSV / Vertical Link</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Package Substrate</div><div class="kb-diagram-node">Base Die / I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D 과제: 인터포저 면적·원가 3D 과제: 열 방출·테스트·수율</div></div>
+</div>
+</div>
+
+
 
 2.5D가 널리 쓰이는 이유는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 늘리면서도 발열체를 옆으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)할 수 있기 때문이다. 반면 3D는 연결 거리가 가장 짧고 패키지 면적을 줄이기 좋지만, 위층이 아래층의 열을 막아 열 밀도가 빠르게 높아진다. 그래서 3D는 캐시 적층, 이미지 센서, 소형 모바일 타일처럼 면적 절감과 짧은 경로의 가치가 큰 분야에 먼저 들어간다.
 
@@ -75,7 +80,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-2.5D와 3D는 경쟁 관계이면서도 서로 다른 병목을 푼다. 2.5D는 큰 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 다이와 여러 메모리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 묶어 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 열의 균형**을 맞추기에 좋고, 3D는 로직-캐시, 센서-로직처럼 **면적 절감과 짧은 경로**가 중요한 곳에서 강하다. 전통 패키지는 제조가 쉽고 싸지만, 배선 길이와 핀 수 한계 때문에 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 요구를 감당하기 어렵다.
+2.5D와 3D는 경쟁 관계이면서도 서로 다른 병목을 푼다. 2.5D는 큰 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 다이와 여러 메모리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 묶어 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>과 열의 균형</strong>을 맞추기에 좋고, 3D는 로직-캐시, 센서-로직처럼 <strong>면적 절감과 짧은 경로</strong>가 중요한 곳에서 강하다. 전통 패키지는 제조가 쉽고 싸지만, 배선 길이와 핀 수 한계 때문에 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 요구를 감당하기 어렵다.
 
 | 항목 | 전통 패키지 | 2.5D 패키징 | 3D 패키징 |
 | :-- | :-- | :-- | :-- |
@@ -95,15 +100,15 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 워크로드 특성에 따라 패키징 방식을 골라야 한다. 대형 그래픽 처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와 여러 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 붙여 수 TB/s급 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 노리는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기라면 2.5D가 가장 현실적이다. 반대로 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 기반 대용량 캐시를 코어 바로 위에 쌓아 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 면적을 줄이려면 3D 적층이 효과적이다. 즉 "어느 쪽이 더 진보했는가"보다 **어느 병목을 해결하려는가**가 판단 기준이다.
+실무에서는 워크로드 특성에 따라 패키징 방식을 골라야 한다. 대형 그래픽 처리장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와 여러 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 붙여 수 TB/s급 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 노리는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기라면 2.5D가 가장 현실적이다. 반대로 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) (Static Random Access Memory) 기반 대용량 캐시를 코어 바로 위에 쌓아 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 면적을 줄이려면 3D 적층이 효과적이다. 즉 "어느 쪽이 더 진보했는가"보다 <strong>어느 병목을 해결하려는가</strong>가 판단 기준이다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **병목 유형**: 문제의 핵심이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족인가, 면적 부족인가, 둘 다인가?
 2. **열 예산**: 적층 후 최고 온도와 열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 냉각 구조가 감당할 수 있는가?
-3. **테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 적층 전 Known Good Die 확보와 적층 후 검사 경로가 준비되어 있는가?
+3. <strong>테스트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 적층 전 Known Good Die 확보와 적층 후 검사 경로가 준비되어 있는가?
 4. **원가 구조**: 인터포저 전체 적용이 필요한가, EMIB 같은 부분 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 충분한가?
-5. **[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 성숙도**: 파운드리, OSAT (Outsourced [Semiconductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) Assembly and Test), 설계 툴 체인이 모두 대응 가능한가?
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 성숙도</strong>: 파운드리, OSAT (Outsourced [Semiconductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) Assembly and Test), 설계 툴 체인이 모두 대응 가능한가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -111,7 +116,7 @@ tags = ["studynote-computer-architecture"]
 - 열 경로와 냉각 구조를 보지 않고 적층 밀도만 높이는 설계
 - 패키징 수율을 칩 수율과 별개로 생각해 총 원가를 과소평가하는 판단
 
-기술사 답안에서는 2.5D와 3D를 단순 정의로 끝내지 말고, **배선 길이·열·수율·검사·원가**의 다섯 축으로 비교하면 좋다. 그래야 패키징을 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술로 이해하고 있다는 점이 드러난다.
+기술사 답안에서는 2.5D와 3D를 단순 정의로 끝내지 말고, <strong>배선 길이·열·수율·검사·원가</strong>의 다섯 축으로 비교하면 좋다. 그래야 패키징을 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술로 이해하고 있다는 점이 드러난다.
 
 - **📢 섹션 요약 비유**: 2.5D와 3D 선택은 건물을 넓게 지을지 높게 지을지 결정하는 것과 같다. 같은 면적 확보라도 냉방, 공사비, 동선이 완전히 달라진다.
 
@@ -123,7 +128,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 크다. 적층이 복잡해질수록 테스트와 수율 관리가 어려워지고, 열 밀도 문제는 물리적으로 더 예민해진다. 앞으로는 하이브리드 본딩, 백사이드 전력 전달, 광 I/O, 더 얇은 웨이퍼 기술이 이런 약점을 줄이는 방향으로 발전할 가능성이 높다.
 
-결론적으로 2.5D와 3D 패키징은 "칩을 더 촘촘히 놓는 기술"이 아니라, **데이터가 오가는 거리와 방식 자체를 재설계하는 시스템 기술**이다. 따라서 이 주제는 후공정 지식으로만 보지 말고, 현대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 아키텍처의 중심으로 기억하는 것이 맞다.
+결론적으로 2.5D와 3D 패키징은 "칩을 더 촘촘히 놓는 기술"이 아니라, <strong>데이터가 오가는 거리와 방식 자체를 재설계하는 시스템 기술</strong>이다. 따라서 이 주제는 후공정 지식으로만 보지 말고, 현대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 아키텍처의 중심으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 첨단 패키징은 이삿짐을 예쁘게 싸는 기술이 아니라, 주방·창고·엘리베이터 위치를 다시 배치해 집안 동선을 바꾸는 리모델링과 같다.
 
@@ -142,24 +147,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통 패키지 중심 SoC / 보드 연결
-        │
-        ▼
-배선 길이 · 핀 수 · 신호 무결성 한계
-        │
-        ▼
-2.5D 인터포저 / 브리지 패키징
-        │
-        ├────────▶ GPU + HBM 결합
-        └────────▶ 칩렛 기반 이기종 통합
-        │
-        ▼
-3D 적층 · TSV · 하이브리드 본딩
-        │
-        ▼
-고밀도 캐시 적층 · 이미지 센서 · 차세대 AI 패키지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 패키지 중심 SoC / 보드 연결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배선 길이 · 핀 수 · 신호 무결성 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2.5D 인터포저 / 브리지 패키징</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ GPU + HBM 결합</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 칩렛 기반 이기종 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3D 적층 · TSV · 하이브리드 본딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고밀도 캐시 적층 · 이미지 센서 · 차세대 AI 패키지</div>
+</div>
+</div>
+
+
 
 이 흐름은 보드 수준 연결 한계를 넘기 위해 패키징이 수평 고밀도화에서 수직 적층으로 확장되는 과정을 보여 준다.
 

@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)([Event-Driven Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/140_event_driven_architecture_eda/))는 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 변한 '과거의 사실(Event)'을 중심으로 시스템이 돌아간다. 결제 서버가 배송 서버에게 `sendDelivery()`라고 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))하지 않는다. 결제 서버는 그냥 자기가 한 일, `[결제완료_이벤트]` 딱지를 브로커(게시판)에 틱 던지고 끝이다. 배송 서버는 심심할 때 게시판을 쓱 보고 "오! 결제완료네? 택배 싸야지~" 하고 스스로 일(Trigger)을 시작한다. 서로 얼굴도 모르고 이름도 모르는 완벽한 남남이다.
 
-- **필요성**: 쿠팡에서 고객이 결제 버튼을 눌렀다. 백엔드에서 1) DB 잔고 차감, 2) 쿠폰 회수, 3) 판매자 알림, 4) 영수증 메일 발송, 5) 빅데이터 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 적재... 이 5가지 일을 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)(동기)로 연달아 불렀다. 만약 4번(메일 서버)이 3초 멈추면? 결제 완료 화면이 3초 늦게 뜬다. 최악은 5번(빅데이터)이 터졌다고 결제 전체가 `Rollback` 쳐져서 고객이 돈을 못 쓰는 코미디가 벌어진다. **"핵심 로직(결제)이 쩌리 로직(메일, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))의 장애에 발목 잡혀 회사 매출이 날아가는 이 끔찍한 종속성을 박살 내기 위해"** 중간에 쿠션(브로커)을 대고 책임을 완전히 찢어버리는 EDA가 구원투수로 등판했다.
+- **필요성**: 쿠팡에서 고객이 결제 버튼을 눌렀다. 백엔드에서 1) DB 잔고 차감, 2) 쿠폰 회수, 3) 판매자 알림, 4) 영수증 메일 발송, 5) 빅데이터 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 적재... 이 5가지 일을 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)(동기)로 연달아 불렀다. 만약 4번(메일 서버)이 3초 멈추면? 결제 완료 화면이 3초 늦게 뜬다. 최악은 5번(빅데이터)이 터졌다고 결제 전체가 `Rollback` 쳐져서 고객이 돈을 못 쓰는 코미디가 벌어진다. <strong>"핵심 로직(결제)이 쩌리 로직(메일, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)의 장애에 발목 잡혀 회사 매출이 날아가는 이 끔찍한 종속성을 박살 내기 위해"</strong> 중간에 쿠션(브로커)을 대고 책임을 완전히 찢어버리는 EDA가 구원투수로 등판했다.
 
-- **💡 비유**: 이벤트 기반 아키텍처는 식당의 **'주문 전표 회전판(Order Ticket Carousel)'**과 똑같습니다. 옛날 방식(동기)은 웨이터(생산자)가 주방장(소비자)을 찾아가서 요리가 끝날 때까지 10분 동안 옆에 우두커니 서서 기다렸습니다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블로킹). [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 방식은 웨이터가 주문을 종이(Event)에 써서 주방 앞 돌림판(Broker)에 꽂아놓고 1초 만에 홀로 돌아가 다음 손님을 받습니다(Fire-and-Forget). 주방장들은 돌림판에 꽂힌 종이를 자기들 요리 속도에 맞춰 쓱쓱 빼가서 볶습니다. 요리사가 배탈이 나서 쓰러져도 웨이터는 전혀 타격을 안 받고 손님을 1,000명이나 더 받을 수 있는 완벽한 완충(Buffer) 지대입니다.
+- **💡 비유**: 이벤트 기반 아키텍처는 식당의 <strong>'주문 전표 회전판(Order Ticket Carousel)'</strong>과 똑같습니다. 옛날 방식(동기)은 웨이터(생산자)가 주방장(소비자)을 찾아가서 요리가 끝날 때까지 10분 동안 옆에 우두커니 서서 기다렸습니다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 블로킹). [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 방식은 웨이터가 주문을 종이(Event)에 써서 주방 앞 돌림판(Broker)에 꽂아놓고 1초 만에 홀로 돌아가 다음 손님을 받습니다(Fire-and-Forget). 주방장들은 돌림판에 꽂힌 종이를 자기들 요리 속도에 맞춰 쓱쓱 빼가서 볶습니다. 요리사가 배탈이 나서 쓰러져도 웨이터는 전혀 타격을 안 받고 손님을 1,000명이나 더 받을 수 있는 완벽한 완충(Buffer) 지대입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **요청-응답 (Request-Reply)의 낭만 시대**: 모놀리식 구조에선 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 1번이면 끝났으므로 비동기나 이벤트 큐 따위는 필요 없었다.
-  2. **EAI와 [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) (2000년대)**: 대기업에서 낡은 서버 10대를 묶으려고 엔터프라이즈 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))라는 뚱뚱하고 멍청한 중앙 통신관을 뒀다. 속도가 개판이었다.
-  3. **MSA와 멍청한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), 똑똑한 엔드포인트 (Smart Endpoints, Dumb Pipes)**: 서버가 50개로 찢어지자, 중앙에 똑똑한 통역사를 두지 말고, 1초에 100만 건을 쌩으로 실어 나르는 **"무식하게 빠르고 거대한 우체국([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Broker)"**과, 각자 알아서 해석해 먹는 **"똑똑한 컨슈머(Microservice)"**로 역할을 뒤집어버리면서 EDA가 천하를 통일했다.
+  2. <strong>EAI와 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a> (2000년대)</strong>: 대기업에서 낡은 서버 10대를 묶으려고 엔터프라이즈 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))라는 뚱뚱하고 멍청한 중앙 통신관을 뒀다. 속도가 개판이었다.
+  3. <strong>MSA와 멍청한 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>, 똑똑한 엔드포인트 (Smart Endpoints, Dumb Pipes)</strong>: 서버가 50개로 찢어지자, 중앙에 똑똑한 통역사를 두지 말고, 1초에 100만 건을 쌩으로 실어 나르는 <strong>"무식하게 빠르고 거대한 우체국(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> Broker)"</strong>과, 각자 알아서 해석해 먹는 <strong>"똑똑한 컨슈머(Microservice)"</strong>로 역할을 뒤집어버리면서 EDA가 천하를 통일했다.
 
-- **📢 섹션 요약 비유**: 동기 통신이 **'전화(Phone [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))'**라면, EDA는 **'유튜브 구독(Subscription)'**입니다. 내가 전화를 걸면 상대가 무조건 받아야 하고, 못 받으면 대화가 터집니다(동기). 하지만 유튜버(생산자)는 영상을 채널(브로커)에 띡 올려놓고 잡니다. 구독자 100만 명(소비자)은 다음 날 아침에 보든, 1년 뒤에 보든 각자 알아서 영상을 꺼내 봅니다. 유튜버는 구독자가 1명인지 1억 명인지 전혀 알 필요 없이 쾌적하게 영상을 찍어 올리기만 하면 되는 미친 확장성입니다.
+- **📢 섹션 요약 비유**: 동기 통신이 <strong>'전화(Phone <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)'</strong>라면, EDA는 <strong>'유튜브 구독(Subscription)'</strong>입니다. 내가 전화를 걸면 상대가 무조건 받아야 하고, 못 받으면 대화가 터집니다(동기). 하지만 유튜버(생산자)는 영상을 채널(브로커)에 띡 올려놓고 잡니다. 구독자 100만 명(소비자)은 다음 날 아침에 보든, 1년 뒤에 보든 각자 알아서 영상을 꺼내 봅니다. 유튜버는 구독자가 1명인지 1억 명인지 전혀 알 필요 없이 쾌적하게 영상을 찍어 올리기만 하면 되는 미친 확장성입니다.
 
 ---
 
 다음은 이벤트 기반 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  이벤트 기반 아키텍처 (EDA)                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 기반 아키텍처 (EDA)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 이벤트 기반 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-이벤트 기반 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+이벤트 기반 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 이벤트 기반 아키텍처 ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-이벤트 기반 아키텍처 (EDA) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 기반 아키텍처 (EDA) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

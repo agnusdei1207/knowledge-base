@@ -30,26 +30,21 @@ bfloat16은 구글(Google)이 [TPU](/knowledge-base/studynote/01_computer_archit
 
 bfloat16의 가장 큰 하드웨어적 특징은 FP32와의 극단적인 호환성이다. FP32의 구조에서 하위 16비트(가수부의 뒷부분)를 그대로 잘라내면(Truncation) 즉시 bfloat16이 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            bfloat16의 비트 레이아웃과 FP32와의 관계            │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ FP32 (단정밀도) ] - 총 32비트                              │
-│ ┌──┬──────────────┬───────────────────────────────────────┐│
-│ │부호│ 지수 (8 bit) │              가수 (23 bit)            ││
-│ └──┴──────────────┴───────────────────────────────────────┘│
-│   │       │                    │                             │
-│   │       │     잘라내기(Truncate) & 버림                     │
-│   ▼       ▼                    ▼                             │
-│ [ bfloat16 (Brain Float) ] - 총 16비트                       │
-│ ┌──┬──────────────┬──────────────┐                         │
-│ │부호│ 지수 (8 bit) │ 가수 (7 bit) │                         │
-│ └──┴──────────────┴──────────────┘                         │
-│                                                              │
-│ 핵심: 지수부 크기가 같아 표현 범위(~10^-38 ~ 10^38)가 100% 동일│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bfloat16의 비트 레이아웃과 FP32와의 관계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FP32 (단정밀도)</div><div class="kb-diagram-note">- 총 32비트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호</div><div class="kb-diagram-cell">지수 (8 bit)</div><div class="kb-diagram-cell">가수 (23 bit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘라내기(Truncate) &amp; 버림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">bfloat16 (Brain Float)</div><div class="kb-diagram-note">- 총 16비트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호</div><div class="kb-diagram-cell">지수 (8 bit)</div><div class="kb-diagram-cell">가수 (7 bit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 지수부 크기가 같아 표현 범위(~10^-38 ~ 10^38)가 100% 동일</div></div>
+</div>
+</div>
+
+
 
 이 잘라내기 구조 덕분에 bfloat16은 지수부(Exponent)가 8비트로 FP32와 동일하며, 표현 범위 또한 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-38}$에서 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{38}$로 완전히 같다. 단, 가수부(Mantissa)가 7비트로 줄어들어 유효숫자가 약 2~3자리 수준으로 극단적으로 낮아진다. 하지만 딥러닝의 행렬 곱셈(GEMM, General Matrix Multiply)에서는 수백만 번의 덧셈이 누적되며 통계적 평균으로 수렴하기 때문에, 이 정도의 절사 오차(Truncation Error)는 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어지지 않는다.
 
@@ -65,7 +60,7 @@ bfloat16의 가장 큰 하드웨어적 특징은 FP32와의 극단적인 호환�
 |:---|:---|:---|:---|
 | **지수부 / 가수부** | 5비트 / 10비트 | **8비트** / 7비트 | 범위 vs [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 등가 교환 |
 | **표현 범위 (Range)** | $\sim [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$ ~ $\sim 65,504$ | **$\sim [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-38}$ ~ $\sim [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{38}$** | [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 방지 (bfloat16 승) |
-| **유효 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)** | 약 3.3자리 | 약 2.4자리 | 픽셀 렌더링 등에서는 FP16 승 |
+| <strong>유효 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a></strong> | 약 3.3자리 | 약 2.4자리 | 픽셀 렌더링 등에서는 FP16 승 |
 | **FP32 변환 비용** | 반올림 등 추가 연산회로 필요 | 하위 16비트 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)/절사로 0 클럭 | 칩 면적(Area) 다이어트 (bfloat16 승) |
 
 일반적인 3D 그래픽스 엔진에서는 픽셀의 위치나 색상을 계산할 때 3.3자리의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 가진 FP16이 훨씬 유리하다. 그러나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 훈련에서는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트 시 발생하는 극도로 작은 기울기 값이 FP16의 좁은 지수 범위($[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-5}$)를 뚫고 바닥으로 꺼지는 현상이 발생한다. bfloat16은 이 한계를 지수 확장을 통해 하드웨어 레벨에서 원천 차단했다.
@@ -79,9 +74,9 @@ bfloat16의 가장 큰 하드웨어적 특징은 FP32와의 극단적인 호환�
 하드웨어 아키텍트와 딥러닝 엔지니어는 연산의 목적에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 철저히 분리해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 포인트
-1. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 훈련 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))**: 무조건 bfloat16을 우선 채택한다. FP32 코드를 수정 없이 포팅해도 범위 초과 에러([NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/), Inf)가 발생하지 않으며, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구량을 절반으로 줄이고 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))의 처리량을 극대화할 수 있다.
-2. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 적용 회피**: 물리 시뮬레이션, 유체 역학, 정밀 3D 렌더링에 bfloat16을 적용하는 것은 치명적인 안티패턴이다. 가수부가 7비트에 불과해 위치 좌표가 1.00m에서 1.01m로 변하는 순간 소수점이 통째로 날아가 객체가 벽에 끼는 등 물리 법칙이 붕괴된다.
-3. **하드웨어 네이티브 지원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 인텔 AVX-512 기반 제온(Xeon) 프로세서나 엔비디아 암페어(Ampere) 아키텍처 이상에서 하드웨어 인스트럭션(예: `VDPBF16PS`)이 지원되는지 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 적용해야 0 클럭 캐스팅 혜택을 누릴 수 있다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델 훈련 (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>: 무조건 bfloat16을 우선 채택한다. FP32 코드를 수정 없이 포팅해도 범위 초과 에러([NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/), Inf)가 발생하지 않으며, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구량을 절반으로 줄이고 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))의 처리량을 극대화할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화 적용 회피</strong>: 물리 시뮬레이션, 유체 역학, 정밀 3D 렌더링에 bfloat16을 적용하는 것은 치명적인 안티패턴이다. 가수부가 7비트에 불과해 위치 좌표가 1.00m에서 1.01m로 변하는 순간 소수점이 통째로 날아가 객체가 벽에 끼는 등 물리 법칙이 붕괴된다.
+3. <strong>하드웨어 네이티브 지원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 인텔 AVX-512 기반 제온(Xeon) 프로세서나 엔비디아 암페어(Ampere) 아키텍처 이상에서 하드웨어 인스트럭션(예: `VDPBF16PS`)이 지원되는지 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 적용해야 0 클럭 캐스팅 혜택을 누릴 수 있다.
 
 - **📢 섹션 요약 비유**: bfloat16을 정밀 과학에 쓰는 것은, 안경 도수가 안 맞는 '장난감 돋보기'를 쓰고 저격총의 영점을 잡는 것과 같은 자살 행위다. 용도에 맞는 도구를 써야 한다.
 
@@ -101,35 +96,36 @@ bfloat16의 등장은 IEEE 754라는 절대적인 국제 표준을 깨고, 오�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **FP32 ([단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/))** | bfloat16의 원본. 32비트 체계에서 하위 16비트를 물리적으로 잘라내어(Truncation) 변환 오버헤드를 0으로 만든 기준점이다. |
-| **[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) ([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/))** | 숫자가 너무 작아져 0으로 처리되는 현상. bfloat16은 지수부를 8비트로 확장해 이 재앙을 하드웨어적으로 방어했다. |
-| **[텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))** | 엔비디아 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 및 구글 TPU에서 bfloat16 행렬 연산을 사이클당 수백 번씩 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하기 위해 탑재된 전용 가속 유닛. |
-| **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** | bfloat16의 철학을 이어받아, 추론(Inference) 단계에서 INT8이나 FP8로 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 더 낮추는 모델 경량화 기법. |
+| <strong>FP32 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/">단정밀도</a>)</strong> | bfloat16의 원본. 32비트 체계에서 하위 16비트를 물리적으로 잘라내어(Truncation) 변환 오버헤드를 0으로 만든 기준점이다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">언더플로우</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">Underflow</a>)</strong> | 숫자가 너무 작아져 0으로 처리되는 현상. bfloat16은 지수부를 8비트로 확장해 이 재앙을 하드웨어적으로 방어했다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">텐서 코어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a>)</strong> | 엔비디아 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 및 구글 TPU에서 bfloat16 행렬 연산을 사이클당 수백 번씩 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리하기 위해 탑재된 전용 가속 유닛. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> | bfloat16의 철학을 이어받아, 추론(Inference) 단계에서 INT8이나 FP8로 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 더 낮추는 모델 경량화 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IEEE 754 표준 부동소수점 (FP32/FP64)
-    │
-    ▼
-메모리 대역폭 병목 및 반정밀도(FP16) 도입 시도
-    │
-    ▼
-언더플로우 발생 및 로스 스케일링(Loss Scaling) 한계
-    │
-    ▼
-Brain Floating Point (bfloat16) 발명 (지수부 유지, 가수부 절단)
-    │
-    ▼
-하드웨어 네이티브 지원 (Tensor Core, AVX-512)
-    │
-    ▼
-초저정밀도 양자화 포맷 확장 (FP8, FP4, MX 패밀리)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IEEE 754 표준 부동소수점 (FP32/FP64)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 대역폭 병목 및 반정밀도(FP16) 도입 시도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">언더플로우 발생 및 로스 스케일링(Loss Scaling) 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Brain Floating Point (bfloat16) 발명 (지수부 유지, 가수부 절단)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 네이티브 지원 (Tensor Core, AVX-512)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초저정밀도 양자화 포맷 확장 (FP8, FP4, MX 패밀리)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터가 숫자를 기억하는 커다란 32칸짜리 서랍장(FP32)을, 인공지능을 위해 **도끼로 반을 뚝 잘라 16칸짜리 상자**로 만들었어요.
+1. 컴퓨터가 숫자를 기억하는 커다란 32칸짜리 서랍장(FP32)을, 인공지능을 위해 <strong>도끼로 반을 뚝 잘라 16칸짜리 상자</strong>로 만들었어요.
 2. 하지만 큰 숫자를 담는 마법 돋보기(지수부) 칸은 원래 크기 그대로 둬서, 상자가 반으로 줄었는데도 우주만큼 큰 숫자를 전부 담을 수 있죠.
 3. 세밀한 소수점은 조금 무시해버리지만, 똑똑한 인공지능은 대충 분위기만 보고도 정답을 잘 찾아내서 계산 속도만 엄청나게 빨라졌답니다!
 

@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 프로젝트의 타임라인 화살표 `[ 기획 ➡ 설계 ➡ 개발 ➡ 테스트 ➡ 배포 ]` 가 있다. 예전엔 QA(테스터) 팀원들이 '테스트' 단계(오른쪽 끝)가 될 때까지 석 달 동안 놀았다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))는 QA 팀원들의 멱살을 잡고 화살표 맨 왼쪽(기획, 설계)으로 끌고 온다. 기획자가 스펙 문서를 쓸 때 "어? 결제 실패 시 예외 처리 스펙이 빠졌는데요?"라고 문서(텍스트) 단계에서 버그를 찾아버리는([Static Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/)) 거대한 인식의 전환이다.
 
-- **필요성**: 개발을 다 끝내고 라이브 배포(오른쪽 끝) 하루 전날 버그가 터졌다. DB 구조가 꼬인 치명적 버그다. 이 버그 1개를 고치려면 DB 설계자, 백엔드 서버, 프론트 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 등 10명의 인원이 1주일간 밤을 새워 코드를 갈아엎어야 한다(비용 1,000만 원). 만약 이 버그를 두 달 전 '설계 회의(왼쪽)' 때 화이트보드에 그림 그리다 발견했다면? 기획자가 지우개로 슥 지우고 선 하나 다시 그으면 1초 만에 해결된다(비용 0원). **소프트웨어의 버그는 눈덩이(Snowball)처럼 커지기 때문에, 눈이 굴러가기 전 산꼭대기(왼쪽 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계)에서 발로 밟아 터뜨려야 회사가 산다.**
+- **필요성**: 개발을 다 끝내고 라이브 배포(오른쪽 끝) 하루 전날 버그가 터졌다. DB 구조가 꼬인 치명적 버그다. 이 버그 1개를 고치려면 DB 설계자, 백엔드 서버, 프론트 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 등 10명의 인원이 1주일간 밤을 새워 코드를 갈아엎어야 한다(비용 1,000만 원). 만약 이 버그를 두 달 전 '설계 회의(왼쪽)' 때 화이트보드에 그림 그리다 발견했다면? 기획자가 지우개로 슥 지우고 선 하나 다시 그으면 1초 만에 해결된다(비용 0원). <strong>소프트웨어의 버그는 눈덩이(Snowball)처럼 커지기 때문에, 눈이 굴러가기 전 산꼭대기(왼쪽 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 단계)에서 발로 밟아 터뜨려야 회사가 산다.</strong>
 
-- **💡 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 **'건물 설계도 도장 찍기 전의 감리 검토'**와 같습니다. 건물을 다 짓고 나서 보니까 화장실에 배수구 구멍이 안 뚫려 있습니다(오른쪽 테스트). 이 구멍을 뚫으려면 벽을 부수고 포크레인을 부르는 미친 대공사를 해야 합니다. 반면에, 건물을 짓기 전 종이 설계도(왼쪽 기획 단계)를 볼 때 감리사(QA)가 "어? 여기 도면에 하수구 빠졌네! 펜으로 그려!"라고 찾아내면, 단 1방울의 시멘트 낭비도 없이 10억 원짜리 실수를 막아냅니다.
+- **💡 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 <strong>'건물 설계도 도장 찍기 전의 감리 검토'</strong>와 같습니다. 건물을 다 짓고 나서 보니까 화장실에 배수구 구멍이 안 뚫려 있습니다(오른쪽 테스트). 이 구멍을 뚫으려면 벽을 부수고 포크레인을 부르는 미친 대공사를 해야 합니다. 반면에, 건물을 짓기 전 종이 설계도(왼쪽 기획 단계)를 볼 때 감리사(QA)가 "어? 여기 도면에 하수구 빠졌네! 펜으로 그려!"라고 찾아내면, 단 1방울의 시멘트 낭비도 없이 10억 원짜리 실수를 막아냅니다.
 
 - **등장 배경 및 발전 과정**:
   1. **오른쪽 편향의 고통 (Waterfall)**: 폭포수 모델에서는 이전 단계가 안 끝나면 다음 단계로 못 넘어갔다. 테스트는 무조건 맨 마지막(오른쪽)에 하는 쓰레기 치우는 하급 업무로 천대받았다.
   2. **100배 비용의 법칙 증명**: 배리 보엠(Barry Boehm) 등 공학자들이 "개발 단계에서 버그 잡으면 1달러, 배포 후 잡으면 100달러 든다"는 100배의 법칙(Rule of Ten)을 수학적으로 증명해 내며 경영진이 경악했다.
   3. **Agile과 Shift-Left의 결합 (현재)**: 애자일이 들어오면서 직군 벽이 허물어졌다. 기획, 개발, QA(테스터)가 첫날부터 한 책상에 모여 스펙을 토론(Three Amigos)하며 코드 한 줄 짜기 전에 테스트 시나리오를 완성하는 좌측 이동([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))이 절대 패러다임이 되었다.
 
-- **📢 섹션 요약 비유**: 옛날 코딩은 **'일단 칼질부터 하고 나중에 반창고 붙이기(오른쪽 편향)'**였습니다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 **'칼질을 하기 전에, 쇠사슬 장갑(테스트 설계)을 미리 끼고 칼 잡기(왼쪽 이동)'**입니다. 피를 흘리고 꿰매는 비용보다, 애초에 피가 날 틈조차 없게 미리 방어막부터 치고 일을 시작하는 위대한 선견지명입니다.
+- **📢 섹션 요약 비유**: 옛날 코딩은 <strong>'일단 칼질부터 하고 나중에 반창고 붙이기(오른쪽 편향)'</strong>였습니다. [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)는 <strong>'칼질을 하기 전에, 쇠사슬 장갑(테스트 설계)을 미리 끼고 칼 잡기(왼쪽 이동)'</strong>입니다. 피를 흘리고 꿰매는 비용보다, 애초에 피가 날 틈조차 없게 미리 방어막부터 치고 일을 시작하는 위대한 선견지명입니다.
 
 ---
 
 다음은 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  시프트 레프트 테스팅 (Shift-L                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시프트 레프트 테스팅 (Shift-L</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 (Shift-L가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 테스팅 ([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-시프트 레프트 테스팅 (Shift-Left Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시프트 레프트 테스팅 (Shift-Left Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

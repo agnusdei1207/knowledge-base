@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: 인터넷 외부 망으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)되지 않고, 오직 독립된 내부망(LAN, 인트라넷) 안에서만 통신할 때 사용하는 IANA 예약 IP 주소 공간.
 - **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소 43억 개가 바닥나기 시작했다. 삼성전자 직원이 10만 명인데 10만 개의 공인 IP를 돈 주고 사려니 돈도 없고 IP도 모자랐다. "가만, 직원들끼리 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 주고받는 사내망에 굳이 인터넷이 되는 진짜 IP가 필요해? 우리끼리 쓸 땐 가짜 IP를 쓰고, 바깥(네이버)에 나갈 때만 문지기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 진짜 IP 1개로 전부 대신 처리해 주면 되잖아!" 이렇게 탄생한 사설 IP 덕분에, 우리는 IP 1개만 통신사에 가입하고도 집에서 스마트폰, TV, 노트북 수십 대를 인터넷에 연결할 수 있게 되었다.
 
-- **💡 비유**: 사설 IP는 회사 구내전화의 **"내선 번호(예: 내선 101번)"**와 같습니다. 회사 건물 안에서는 "101번"만 누르면 옆자리 김대리에게 바로 걸리지만, 밖(인터넷)에서 내 휴대폰으로 "101번"을 누른다고 김대리에게 연결되지 않습니다. 바깥세상과 통화하려면 회사 대표번호(공인 IP)를 통해 교환원([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 거쳐야만 합니다.
+- **💡 비유**: 사설 IP는 회사 구내전화의 <strong>"내선 번호(예: 내선 101번)"</strong>와 같습니다. 회사 건물 안에서는 "101번"만 누르면 옆자리 김대리에게 바로 걸리지만, 밖(인터넷)에서 내 휴대폰으로 "101번"을 누른다고 김대리에게 연결되지 않습니다. 바깥세상과 통화하려면 회사 대표번호(공인 IP)를 통해 교환원([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 거쳐야만 합니다.
 
-```text
-[클래스 A, B, C, D, E]
-    │
-    ▼
-[사설 IP 영역: 10.x, 172.16.x…]
-    │
-    └──▶ [루프백 IP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루프백 IP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 사설 IP는 놀이공원 안에서만 돈 대신 쓸 수 있는 **"자유이용권 토큰(가짜 돈)"**입니다. 이 토큰으로 놀이기구(내부망)는 다 탈 수 있지만, 놀이공원 밖으로 나가서 편의점(인터넷)에 토큰을 내밀면 라우터 점원이 경찰에 신고하며 버려버립니다.
 
@@ -41,14 +45,18 @@ tags = ["studynote-network"]
 
 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…는 주소 체계와 패킷 전달 경로를 정의하는 축라는 관점에서 이해해야 한다. 클래스 A, B, C, D, E와 루프백 IP 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[클래스 A, B, C, D, E]
-    │
-    ▼
-[사설 IP 영역: 10.x, 172.16.x…]
-    │
-    └──▶ [루프백 IP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루프백 IP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,32 +89,31 @@ tags = ["studynote-network"]
 *주의: 172 대역은 `172.0`이 아니라 `172.16`부터 `172.31`까지만 사설이다. (예: 172.32.x.x는 인터넷이 되는 진짜 공인 IP다!)*
 
 ### 2. 라우터의 사설 IP 폐기 룰
-통신사(KT, SKT) 백본에 있는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 짤 때, 목적지나 출발지에 위 3개의 사설 대역이 적혀 있는 패킷을 만나면 그 즉시 **Null0 (블랙홀, 쓰레기통) 인터페이스로 보내 가차 없이 삭제(Drop)**하도록 전 세계가 약속했다. 그래서 사설 IP는 밖으로 나갈 수 없다.
+통신사(KT, SKT) 백본에 있는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 짤 때, 목적지나 출발지에 위 3개의 사설 대역이 적혀 있는 패킷을 만나면 그 즉시 <strong>Null0 (블랙홀, 쓰레기통) 인터페이스로 보내 가차 없이 삭제(Drop)</strong>하도록 전 세계가 약속했다. 그래서 사설 IP는 밖으로 나갈 수 없다.
 
 ### 3. [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 와의 결합
 사설 IP를 가진 노트북(`192.168.0.5`)이 네이버(`223.130.195.95`)를 보려면 공유기가 필요하다.
 - **나갈 때**: 노트북이 패킷을 쏘면 공유기가 이를 잡아서, 출발지 주소를 `192.168.0.5(가짜)`에서 자신이 통신사로부터 받은 `211.200.x.x(진짜)`로 몰래 지우고 덮어쓴 뒤(변환, Translation) 밖으로 내보낸다.
 - **들어올 때**: 네이버가 응답을 공유기(`211.200.x.x`)로 돌려주면, 공유기는 내부 수첩([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 테이블)을 뒤져보고 "아! 이거 아까 192.168.0.5가 부탁했던 거네!"라며 목적지 주소를 다시 가짜 주소로 바꿔서 내부에 쏴준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                사설 IP와 NAT(공유기)의 변신 메커니즘            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 우리집 거실 (사설망) ]                                     │
- │   스마트폰 : 192.168.0.2  ──┐                               │
- │   노트북   : 192.168.0.5  ──┼──▶ [ iptime 공유기 (NAT) ]    │
- │   스마트TV : 192.168.0.10 ──┘        내부 : 192.168.0.1      │
- │                                    외부 : 211.100.5.10 (공인IP)│
- │                                            │                │
- │       (사설 IP는 여기서 절대 못 넘어감!) =======│====== (인터넷)  │
- │                                            ▼                │
- │                               [ 네이버 웹 서버 (223.130...) ]  │
- │                                                             │
- │   * 네이버 입장에서는 우리 집에 기기가 3대 있는지 알 바 아님.         │
- │     오직 공유기(211.100.5.10) 한 대랑만 통신하고 있다고 생각함.      │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사설 IP와 NAT(공유기)의 변신 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우리집 거실 (사설망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰 : 192.168.0.2 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iptime 공유기 (NAT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트TV : 192.168.0.10 ── 내부 : 192.168.0.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 : 211.100.5.10 (공인IP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사설 IP는 여기서 절대 못 넘어감!) =======</div><div class="kb-diagram-cell">====== (인터넷)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네이버 웹 서버 (223.130...)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 네이버 입장에서는 우리 집에 기기가 3대 있는지 알 바 아님.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오직 공유기(211.100.5.10) 한 대랑만 통신하고 있다고 생각함.</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,7 +121,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** 사설 IP 대역은 국가가 허락한 **"무법지대"**입니다. 이 구역 안에서는 IP 주소를 내 맘대로 찍어내도 아무도 체포하지 않지만, 이 무법지대 주민들이 정상적인 사회(인터넷)로 나가려면 반드시 위조여권 제작자(공유기, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))에게 부탁해 **"합법적 신분증(공인 IP)"**으로 신분 세탁을 해야만 국경을 통과할 수 있습니다.
+- **📢 섹션 요약 비유**: ** 사설 IP 대역은 국가가 허락한 **"무법지대"<strong>입니다. 이 구역 안에서는 IP 주소를 내 맘대로 찍어내도 아무도 체포하지 않지만, 이 무법지대 주민들이 정상적인 사회(인터넷)로 나가려면 반드시 위조여권 제작자(공유기, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)에게 부탁해 </strong>"합법적 신분증(공인 IP)"**으로 신분 세탁을 해야만 국경을 통과할 수 있습니다.
 
 ---
 
@@ -137,15 +144,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 클래스 A, B, C, D, E]
-    │
-    ▼
-[현재 개념: 사설 IP 영역: 10.x, 172.16.x…]
-    │
-    ├──▶ [확장 A: 루프백 IP]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 루프백 IP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…는 클래스 A, B, C, D, E에서 출발해 현재 메커니즘을 정교화하고, 이후 루프백 IP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

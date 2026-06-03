@@ -25,18 +25,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 브로커 패턴 (Broker Patte의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  브로커 패턴 (Broker Patte                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커 패턴 (Broker Patte</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 브로커 패턴 (Broker Patte가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -46,7 +45,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하는 놈([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))과 일하는 놈(Server) 사이에, 모든 통신 트래픽을 가로채서 목적지로 전달해 주는 **'중앙 중계인(Broker)'**을 떡하니 세워두는 아키텍처 패턴입니다. (1038번 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 아키텍처의 심장)
+- **개념**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하는 놈([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))과 일하는 놈(Server) 사이에, 모든 통신 트래픽을 가로채서 목적지로 전달해 주는 <strong>'중앙 중계인(Broker)'</strong>을 떡하니 세워두는 아키텍처 패턴입니다. (1038번 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 아키텍처의 심장)
 
 - **📢 섹션 요약 비유**: 브로커 패턴 (Broker Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -63,7 +62,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 이 단어 하나가 브로커 패턴의 모든 것을 설명합니다.
-- **[위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)**: 클라이언트는 서버가 한국에 있는지, 미국에 있는지, IP 주소가 무엇인지, 포트가 몇 번인지 **절대 알 필요도 없고 알 수도 없다는 성질**입니다.
+- <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/">위치 투명성</a></strong>: 클라이언트는 서버가 한국에 있는지, 미국에 있는지, IP 주소가 무엇인지, 포트가 몇 번인지 <strong>절대 알 필요도 없고 알 수도 없다는 성질</strong>입니다.
 - **작동 원리**: 클라이언트가 브로커에게 "결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출해 줘!"라고 요청하면, 브로커 안의 네임 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(주소록)가 현재 '결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'가 돌아가고 있는 진짜 서버의 물리적 IP를 알아서 찾은 뒤, 네트워크 길을 뚫고 데이터를 넘겨줍니다.
 
 - **📢 섹션 요약 비유**: 브로커 패턴 (Broker Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -74,10 +73,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) (클라이언트)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하는 놈. 브로커의 IP 딱 1개만 알고 있습니다.
+1. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> (클라이언트)</strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하는 놈. 브로커의 IP 딱 1개만 알고 있습니다.
 2. **Server (서버)**: 실제 일을 하는 놈. 브로커에게 "나 1.1.1.1에서 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하고 있어!"라고 미리 등록해 둡니다.
 3. **Broker (브로커/중개자)**: 둘 사이의 중매쟁이. 요청을 가로채어 목적지로 라우팅하고 에러를 처리합니다.
-4. **[Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) & Server [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**: 클라이언트와 서버가 브로커의 통신 규격(언어)을 몰라도 쉽게 통신하게 돕는 통역사([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 껍데기)입니다.
+4. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> &amp; Server <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a></strong>: 클라이언트와 서버가 브로커의 통신 규격(언어)을 몰라도 쉽게 통신하게 돕는 통역사([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 껍데기)입니다.
 
 - **📢 섹션 요약 비유**: 브로커 패턴 (Broker Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -88,9 +87,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅴ. 기대효과 및 결론
 
 - **사례**: [아파치 카프카](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)([Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)), RabbitMQ 같은 메시지 큐(MQ) 시스템이나, 옛날의 CORBA 시스템이 이 뼈대 위에서 돌아갑니다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 환경에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)끼리 직접 부르지 않고 브로커([이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/))를 통해 비동기로 통신하게 만드는 핵심 뼈대입니다.
-- **치명적 단점 ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))**: 모든 트래픽이 브로커 1명에게 몰리기 때문에(병목 현상), **브로커가 과로사로 죽으면 100대의 서버가 모두 장님이 되어 시스템 전체가 1초 만에 멸망(Single Point of Failure)**합니다. 브로커를 3대, 5대로 복제해 두는 클러스터링([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/))이 절대적으로 필요합니다.
+- <strong>치명적 단점 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong>: 모든 트래픽이 브로커 1명에게 몰리기 때문에(병목 현상), <strong>브로커가 과로사로 죽으면 100대의 서버가 모두 장님이 되어 시스템 전체가 1초 만에 멸망(Single Point of Failure)</strong>합니다. 브로커를 3대, 5대로 복제해 두는 클러스터링([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/))이 절대적으로 필요합니다.
 
-> 📢 **섹션 요약 비유**: 기존 **다이렉트 통신**은 동네 사람들이 서로의 **'집 주소(IP)'를 100개씩 달달 외우고 직접 편지를 들고 남의 집 문을 두드리는 고생**입니다. 옆집 영희가 이사를 가면 나는 영희의 새 주소를 다시 외워야 합니다. **브로커 패턴(Broker Pattern)**은 이 동네 한가운데에 거대한 **'절대 권력의 중앙 우체국'**을 지은 것입니다. 나는 영희의 집 주소를 외울 필요가 전혀 없습니다([위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)). 편지봉투에 그냥 '영희에게'라고 적어서 동네 우체국(브로커) 우체통에 던져 넣으면 끝입니다. 영희가 부산으로 이사를 하든 미국으로 가든, 영희가 자기 새 주소를 우체국에만 업데이트해 두면, 우체국이 알아서 내 편지를 미국까지 찾아내어 완벽하게 배달해 줍니다. 100명의 주민들이 서로의 얼굴을 몰라도, 우체국이라는 믿음직한 중매쟁이 덕분에 지구 끝까지 연결되는 완벽한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 우편망 시스템입니다.
+> 📢 **섹션 요약 비유**: 기존 <strong>다이렉트 통신</strong>은 동네 사람들이 서로의 <strong>'집 주소(IP)'를 100개씩 달달 외우고 직접 편지를 들고 남의 집 문을 두드리는 고생</strong>입니다. 옆집 영희가 이사를 가면 나는 영희의 새 주소를 다시 외워야 합니다. <strong>브로커 패턴(Broker Pattern)</strong>은 이 동네 한가운데에 거대한 <strong>'절대 권력의 중앙 우체국'</strong>을 지은 것입니다. 나는 영희의 집 주소를 외울 필요가 전혀 없습니다([위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)). 편지봉투에 그냥 '영희에게'라고 적어서 동네 우체국(브로커) 우체통에 던져 넣으면 끝입니다. 영희가 부산으로 이사를 하든 미국으로 가든, 영희가 자기 새 주소를 우체국에만 업데이트해 두면, 우체국이 알아서 내 편지를 미국까지 찾아내어 완벽하게 배달해 줍니다. 100명의 주민들이 서로의 얼굴을 몰라도, 우체국이라는 믿음직한 중매쟁이 덕분에 지구 끝까지 연결되는 완벽한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 우편망 시스템입니다.
 
 - **📢 섹션 요약 비유**: 브로커 패턴 (Broker Pattern)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -109,21 +108,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-브로커 패턴 (Broker Pattern) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브로커 패턴 (Broker Pattern) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

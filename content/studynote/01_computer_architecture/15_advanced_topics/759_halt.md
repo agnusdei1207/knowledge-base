@@ -35,16 +35,18 @@ HALT는 보통 소수의 시제품에 대해 스트레스를 단계적으로 높
 
 아래 그림은 HALT가 찾고자 하는 설계 마진의 구조를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     HALT margin discovery ladder                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Spec limit ──▶ Operational limit ──▶ Destruct limit                 │
-│ promised use    function stops        permanent damage begins       │
-│                                                                    │
-│ Goal: find weak link and push both limits outward by redesign      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HALT margin discovery ladder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spec limit ──▶ Operational limit ──▶ Destruct limit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">promised use function stops permanent damage begins</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: find weak link and push both limits outward by redesign</div></div>
+</div>
+</div>
+
+
 
 HALT에서 자주 쓰는 자극과 그 목적은 다음과 같다.
 
@@ -94,7 +96,7 @@ HALT는 다른 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 산출용으로 HALT 사용**: HALT는 통계적 수명 예측 시험이 아니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/">MTBF</a> 산출용으로 HALT 사용</strong>: HALT는 통계적 수명 예측 시험이 아니다.
 - **한 번 부숴 보고 끝내기**: 설계 수정과 재시험이 빠지면 학습 효과가 없다.
 - **양산품 판정 시험으로 오용**: HALT는 좋은 제품을 선별하는 절차가 아니라 약한 설계를 찾는 절차다.
 
@@ -110,7 +112,7 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 
 하지만 HALT만으로 제품의 장기 수명이나 규격 적합성을 모두 증명할 수는 없다. 수명 보증은 ALT와 통계 시험이 필요하고, 규격 적합성은 별도의 qualification이 필요하다. HALT는 어디까지나 설계 마진을 키우는 학습 도구라는 점을 잊으면 안 된다.
 
-앞으로는 센서 계측, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 자동 실패 분류가 결합되어 HALT의 분석 속도가 더 빨라질 것이다. 그래도 본질은 동일하다. HALT는 제품을 일부러 힘들게 해서 망가뜨리는 시험이 아니라, **왜 망가지는지를 가장 빨리 배우는 설계 실험**이다.
+앞으로는 센서 계측, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), 자동 실패 분류가 결합되어 HALT의 분석 속도가 더 빨라질 것이다. 그래도 본질은 동일하다. HALT는 제품을 일부러 힘들게 해서 망가뜨리는 시험이 아니라, <strong>왜 망가지는지를 가장 빨리 배우는 설계 실험</strong>이다.
 
 - **📢 섹션 요약 비유**: 좋은 코치는 선수를 망신 주려고 힘든 훈련을 시키지 않는다. 큰 경기 전에 약한 부분을 빨리 찾아 보강하려고 일부러 더 어려운 훈련을 시키는 것이다.
 
@@ -129,22 +131,24 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-설계 가설 · FMEA
-    │
-    ▼
-HALT (Highly Accelerated Life Test)
-    : step stress · vibration · combined environment
-    │
-    ├──▶ weak link discovery
-    │     : connector · solder joint · thermal path
-    │
-    ├──▶ redesign
-    │     : mechanical reinforcement · derating · cooling fix
-    │
-    └──▶ production transition
-          : qualification · HASS profile definition
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">설계 가설 · FMEA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HALT (Highly Accelerated Life Test)</div>
+<div class="kb-diagram-note">: step stress · vibration · combined environment</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ weak link discovery</div>
+<div class="kb-diagram-note">: connector · solder joint · thermal path</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ redesign</div>
+<div class="kb-diagram-note">: mechanical reinforcement · derating · cooling fix</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ production transition</div>
+<div class="kb-diagram-note">: qualification · HASS profile definition</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

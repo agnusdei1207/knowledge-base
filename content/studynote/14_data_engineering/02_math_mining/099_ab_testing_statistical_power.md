@@ -22,19 +22,20 @@ tags = ["studynote-data-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) α, 검정력 1-β, 효과 크기 δ, 표본 크기 n)가 서로 톱니바퀴처럼 맞물려 결정된다. 검정력을 높이려면 더 큰 표본(n)을 수집하거나, 더 큰 효과(δ)를 기대해야 한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 A/B 테스트 가설 검정 매트릭스               │
-├─────────────────────────────────────────────────────────────┤
-│   판단 결과   │    H0 참 (실제 효과 없음)    │  H1 참 (실제 효과 있음)   │
-│---------------│------------------------------│---------------------------│
-│ 대립가설 채택 │        제1종 오류 (α)        │      올바른 결정 (1-β)    │
-│ (효과 있다!)  │       (False Positive)       │      검정력 (Power)       │
-│---------------│------------------------------│---------------------------│
-│ 귀무가설 채택 │         올바른 결정          │        제2종 오류 (β)     │
-│ (효과 없다!)  │       (True Negative)        │       (False Negative)    │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A/B 테스트 가설 검정 매트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 결과</div><div class="kb-diagram-cell">H0 참 (실제 효과 없음)</div><div class="kb-diagram-cell">H1 참 (실제 효과 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대립가설 채택</div><div class="kb-diagram-cell">제1종 오류 (α)</div><div class="kb-diagram-cell">올바른 결정 (1-β)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(효과 있다!)</div><div class="kb-diagram-cell">(False Positive)</div><div class="kb-diagram-cell">검정력 (Power)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">귀무가설 채택</div><div class="kb-diagram-cell">올바른 결정</div><div class="kb-diagram-cell">제2종 오류 (β)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(효과 없다!)</div><div class="kb-diagram-cell">(True Negative)</div><div class="kb-diagram-cell">(False Negative)</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스는 의사결정의 두 가지 위험을 보여준다. p-hacking은 실험 도중 중간 결과를 훔쳐보며(Peeking) 유리할 때 실험을 멈추는 행위로, 이 경우 제1종 오류(α)가 설정값(예: 5%)을 넘어 기하급수적으로 폭증하게 된다. 반대로 표본이 부족하면 효과가 있어도 증명하지 못해 제2종 오류(β)에 빠진다.
 
@@ -48,7 +49,7 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledg
 | **초점** | 결과가 우연히 발생했을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 낮은가? | 우리가 원하는 크기의 효과를 발견할 수 있는가? |
 | **설계 시점** | 주로 사후적(Post-hoc) 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 반드시 실험 전 사전적(A-priori) 표본 산정 |
 | **핵심 지표** | [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) (Significance Level, α) | 최소 탐지 효과 (MDE) 및 표본 크기 (n) |
-| **발생 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 거짓 양성 (효과가 없는데 있다고 함) | 거짓 음성 (효과가 있는데 없다고 함) |
+| <strong>발생 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 거짓 양성 (효과가 없는데 있다고 함) | 거짓 음성 (효과가 있는데 없다고 함) |
 
 빈도주의 통계의 이러한 한계를 보완하기 위해 베이지안(Bayesian) A/B 테스트가 도입되기도 하며, 이는 사전 지식(Prior)을 활용해 중간에 실험을 멈춰도 통계적 왜곡이 적은 특성을 가진다.
 
@@ -60,7 +61,7 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledg
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 1. **사전 표본 산정**: 실험 전 예상 효과 크기(MDE)를 바탕으로 n을 계산하고, 해당 기간을 반드시 완주하는가?
 2. **다중 비교 보정**: 여러 버튼의 색상을 동시에 테스트할 때, 본페로니 교정(Bonferroni Correction) 등으로 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)(α)을 엄격하게 재조정하는가?
-3. **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: p-value가 0.05 밑으로 내려가는 순간 즉시 실험을 종료하고 성공을 선언하는 행위.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: p-value가 0.05 밑으로 내려가는 순간 즉시 실험을 종료하고 성공을 선언하는 행위.
 
 - **📢 섹션 요약 비유**: 마라톤 코스를 미리 42.195km로 정해놓고 뛰어야지, 뛰다가 자신이 1등일 때 임의로 결승선을 그어버리고 경기를 끝내면(p-hacking) 안 된다.
 
@@ -78,21 +79,23 @@ A/B 테스트의 통계적 신뢰성은 4가지 요소([유의 수준](/knowledg
 | 본페로니 교정 (Bonferroni Correction) | 동시에 여러 가설을 검정할 때 1종 오류가 커지는 것을 막기 위한 [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 보정법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-A/B 테스트의 도입 (직관에서 데이터로)
-    │
-    ▼
-p-value의 맹신과 Peeking 문제 발생
-    │
-    ▼
-p-hacking (데이터 마사지 및 통계적 왜곡)
-    │
-    ▼
-Power Analysis (사전 검정력 분석 및 표본 산정)
-    │
-    ▼
-Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">A/B 테스트의 도입 (직관에서 데이터로)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">p-value의 맹신과 Peeking 문제 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">p-hacking (데이터 마사지 및 통계적 왜곡)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Power Analysis (사전 검정력 분석 및 표본 산정)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)</div>
+</div>
+</div>
+
+
 이 흐름도는 단순한 A/B 테스트가 통계적 함정을 극복하며 사전 설계와 고급 통계 기법으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프레임 할당(Frame Allocation)은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 한정된 **물리 메모리(Free Frames)라는 파이를 시스템에 띄워진 여러 프로세스들에게 '몇 개씩 쪼개어 나눠줄 것인가'를 결정**하는 운영체제의 거시적 자원 분배 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. **가치**: 특정 프로세스에 프레임을 너무 적게 주면 매 클럭마다 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 뿜어내는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))에 빠져 죽고, 너무 많이 주면 다른 프로세스가 굶어 죽으므로([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 전체 시스템의 **동시 실행 효율([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화할 황금 밸런스**를 맞춘다.
-> 3. **융합**: 이 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)의 크기는 **균등(Equal)/비례(Proportional) 할당**이라는 정적 규칙에서 출발하여, 프로세스의 활동량([Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/))에 따라 프레임을 뺏고 더해주는 동적 **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))** 개념과 융합되어 현대 OS의 적응형 스케줄링으로 진화했다.
+> 1. **본질**: 프레임 할당(Frame Allocation)은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 한정된 <strong>물리 메모리(Free Frames)라는 파이를 시스템에 띄워진 여러 프로세스들에게 '몇 개씩 쪼개어 나눠줄 것인가'를 결정</strong>하는 운영체제의 거시적 자원 분배 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 2. **가치**: 특정 프로세스에 프레임을 너무 적게 주면 매 클럭마다 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 뿜어내는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))에 빠져 죽고, 너무 많이 주면 다른 프로세스가 굶어 죽으므로([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 전체 시스템의 <strong>동시 실행 효율(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/">Degree of Multiprogramming</a>)과 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 극대화할 황금 밸런스</strong>를 맞춘다.
+> 3. **융합**: 이 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)의 크기는 <strong>균등(Equal)/비례(Proportional) 할당</strong>이라는 정적 규칙에서 출발하여, 프로세스의 활동량([Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/))에 따라 프레임을 뺏고 더해주는 동적 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)</strong> 개념과 융합되어 현대 OS의 적응형 스케줄링으로 진화했다.
 
 ---
 
@@ -25,28 +25,28 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 분배의 딜레마**:
   1. **요구 페이징의 맹점**: 요구 페이징으로 필요한 것만 올리다 보니, 어떤 앱은 끝도 없이 프레임을 요구해 램을 독식해 버렸다.
   2. **최소/최대 할당의 가이드라인 필요**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))가 꼬이지 않기 위한 절대적인 최소 프레임 수를 보장해야 했다.
-  3. **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 고도화**: 무식하게 1/N로 나누는 [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)에서 시작해, 덩치에 비례해서 주는 비례 할당을 거쳐, 런타임에 눈치껏 조절하는 동적 할당으로 뼈대가 굳어졌다.
+  3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 고도화</strong>: 무식하게 1/N로 나누는 [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)에서 시작해, 덩치에 비례해서 주는 비례 할당을 거쳐, 런타임에 눈치껏 조절하는 동적 할당으로 뼈대가 굳어졌다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│        프레임 할당의 극단적 실패 사례 (스래싱 유발) 시각화              │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│ [ 상황: 10,000 프레임을 가진 무거운 그래픽 편집기 실행 ]                │
-│                                                                         │
-│ ▶ 1. 램을 너무 조금 할당했을 때 (예: 5 프레임만 할당)                   │
-│  - 프로그램 루프가 돌 때마다 10장의 페이지를 핥고 지나가야 함.          │
-│  - 근데 방이 5개뿐이라, 6번째 페이지 가져올 때 1번 쫓아냄.              │
-│  - 7번째 가져올 때 2번 쫓아냄... 무한 교체 지옥 발생!                   │
-│  💥 결과: Page Fault Rate가 폭발하여 시스템 완전 정지 (Thrashing)       │
-│                                                                         │
-│ ▶ 2. 램을 너무 많이 할당했을 때 (예: 9,000 프레임 독점)                 │
-│  - 그래픽 편집기는 너무나 쾌적하고 부드럽게 돌아감.                     │
-│  - 하지만 뒤에 백그라운드로 띄워둔 음악 플레이어와 백신 프로그램이      │
-│    프레임을 1장도 못 받아서 노래가 끊기고 튕겨버림!                     │
-│  💥 결과: 다중 프로그래밍 수준(Degree)이 바닥으로 처박힘.               │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임 할당의 극단적 실패 사례 (스래싱 유발) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 10,000 프레임을 가진 무거운 그래픽 편집기 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 램을 너무 조금 할당했을 때 (예: 5 프레임만 할당)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로그램 루프가 돌 때마다 10장의 페이지를 핥고 지나가야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 근데 방이 5개뿐이라, 6번째 페이지 가져올 때 1번 쫓아냄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 7번째 가져올 때 2번 쫓아냄... 무한 교체 지옥 발생!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: Page Fault Rate가 폭발하여 시스템 완전 정지 (Thrashing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 램을 너무 많이 할당했을 때 (예: 9,000 프레임 독점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그래픽 편집기는 너무나 쾌적하고 부드럽게 돌아감.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하지만 뒤에 백그라운드로 띄워둔 음악 플레이어와 백신 프로그램이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임을 1장도 못 받아서 노래가 끊기고 튕겨버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 다중 프로그래밍 수준(Degree)이 바닥으로 처박힘.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)(Allocation Size)과 [페이지 부재율](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/)(Fault Rate)은 반비례 곡선을 그린다. 프레임을 많이 주면 폴트는 줄어들어 그 앱은 날아다니지만 남들이 죽고, 프레임을 아끼면 여러 앱을 띄울 순 있지만 폴트가 터져 모두가 버벅댄다. OS는 이 곡선의 변곡점(무릎)을 귀신같이 찾아내어 딱 그만큼만 램을 끊어주는 줄타기의 장인이 되어야 한다.
 
 - **📢 섹션 요약 비유**: 부모가 용돈(프레임)을 줄 때, 첫째에게 100만 원을 주면 둘째가 굶어 죽고([다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 실패), 둘 다 1만 원씩 쪼잔하게 주면 둘 다 매일 돈 달라고 전화를 해대는([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 폭발) 극단적 상황을 막는 지혜로운 재무 설계입니다.
@@ -57,10 +57,10 @@ tags = ["studynote-operating-system"]
 
 ### 최소 프레임 수 (Minimum Number of Frames)의 하드웨어적 강제
 
-"아무리 적게 줘도 이것보단 많이 줘야 프로그램이 터지지 않는다"는 절대 하한선이 있다. 이는 OS가 아닌 **CPU 하드웨어의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))**가 결정한다.
+"아무리 적게 줘도 이것보단 많이 줘야 프로그램이 터지지 않는다"는 절대 하한선이 있다. 이는 OS가 아닌 <strong>CPU 하드웨어의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 구조(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a>)</strong>가 결정한다.
 - 인텔 x86이나 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 같은 CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나를 실행할 때, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체가 여러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 걸쳐 있거나 [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)([Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))을 통해 피연산자가 여러 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 흩어져 있을 수 있다.
 - 예를 들어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드가 1번, 2번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 걸쳐 있고, 가져올 데이터가 3번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에, 저장할 곳이 4번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 있다면?
-- 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 한 번 치기 위해선 **무조건 최소 4장의 프레임**이 물리 램에 깔려 있어야 한다. OS가 3장만 할당해 주면 4번째 장을 가져올 때 1번 장을 쫓아내게 되어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 영원히 완성되지 못하고 제자리를 맴도는 무한 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 재앙이 터진다.
+- 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 한 번 치기 위해선 <strong>무조건 최소 4장의 프레임</strong>이 물리 램에 깔려 있어야 한다. OS가 3장만 할당해 주면 4번째 장을 가져올 때 1번 장을 쫓아내게 되어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 영원히 완성되지 못하고 제자리를 맴도는 무한 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 재앙이 터진다.
 
 ---
 
@@ -68,7 +68,7 @@ tags = ["studynote-operating-system"]
 
 프로세스의 실행 전 덩치(사이즈)만 보고 미리 기계적으로 파이를 나눠주는 고전적인 2가지 방식이다.
 
-1. **[균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/) ([Equal Allocation](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/))**
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/">균등 할당</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/">Equal Allocation</a>)</strong>
    - 가용 프레임이 100개고 프로세스가 5개면, 묻지도 따지지도 않고 공산주의처럼 20개씩 칼같이 나눠준다.
    - **문제점**: 10KB짜리 계산기 앱은 20개를 받아 15개를 버리고(낭비), 10GB짜리 오라클 DB도 20개를 받아 숨이 막혀 죽어버리는 최악의 비효율을 낳는다.
 2. **비례 할당 (Proportional Allocation)**
@@ -95,18 +95,21 @@ tags = ["studynote-operating-system"]
 
 | 할당 및 교체 조합 | 철학 및 결과 | 현대 OS 채택 여부 |
 |:---|:---|:---|
-| **고정 할당 + [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)** | 딱 100프레임만 주고, 넘치면 니들 안에서 알아서 쫓아내며 살아라. **타 앱에 피해를 주진 않지만 램 활용도가 썩어 들어감**. | ❌ 낡은 메인프레임 방식 |
-| **가변 할당 + [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)** | 일단 주고, 더 필요하면 램을 휩쓸며 남의 방을 막 뺏어와라! **전체 램 가동률 99%의 멱살 캐리 가능하지만 남의 렉을 유발**. | 🟢 리눅스, 윈도우의 абсолют 스탠다드 |
+| <strong>고정 할당 + <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">지역 교체</a></strong> | 딱 100프레임만 주고, 넘치면 니들 안에서 알아서 쫓아내며 살아라. **타 앱에 피해를 주진 않지만 램 활용도가 썩어 들어감**. | ❌ 낡은 메인프레임 방식 |
+| <strong>가변 할당 + <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a></strong> | 일단 주고, 더 필요하면 램을 휩쓸며 남의 방을 막 뺏어와라! **전체 램 가동률 99%의 멱살 캐리 가능하지만 남의 렉을 유발**. | 🟢 리눅스, 윈도우의 абсолют 스탠다드 |
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────┐
-│ 램 쟁탈전  │ 승자 프로세스 │ 패자 프로세스 │ 전체 시스템 스루풋   │
-├──────────┼────────────┼────────────┼──────────────────────────────┤
-│ 전역 교체  │ 램 쫙 빨아먹음│ 쫓겨나서 버벅댐│ 🚀 램 낭비 없이 최고│
-│ 지역 교체  │ 자기 방만 씀  │ 피해 안 받음  │ 🐢 남는 램 썩음      │
-└──────────┴────────────┴────────────┴──────────────────────────────┘
-```
-**[매트릭스 해설]** 리눅스는 지독한 능력주의([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))를 택했다. 열심히 일하는 놈이 폴트를 쳐서 램을 요구하면, 가만히 쉬고 있는 남의 프레임을 가차 없이 빼앗아 일하는 놈에게 퍼준다. 이로 인해 프로세스별 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)은 매초마다 고무줄처럼 변하며, 이는 자연스럽게 다음 장에서 배울 **동적 할당([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))** 아키텍처로 이어지게 된다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 쟁탈전</div><div class="kb-diagram-cell">승자 프로세스</div><div class="kb-diagram-cell">패자 프로세스</div><div class="kb-diagram-cell">전체 시스템 스루풋</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 교체</div><div class="kb-diagram-cell">램 쫙 빨아먹음</div><div class="kb-diagram-cell">쫓겨나서 버벅댐</div><div class="kb-diagram-cell">🚀 램 낭비 없이 최고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 교체</div><div class="kb-diagram-cell">자기 방만 씀</div><div class="kb-diagram-cell">피해 안 받음</div><div class="kb-diagram-cell">🐢 남는 램 썩음</div></div>
+</div>
+</div>
+
+
+**[매트릭스 해설]** 리눅스는 지독한 능력주의([전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/))를 택했다. 열심히 일하는 놈이 폴트를 쳐서 램을 요구하면, 가만히 쉬고 있는 남의 프레임을 가차 없이 빼앗아 일하는 놈에게 퍼준다. 이로 인해 프로세스별 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)은 매초마다 고무줄처럼 변하며, 이는 자연스럽게 다음 장에서 배울 <strong>동적 할당(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)</strong> 아키텍처로 이어지게 된다.
 
 - **📢 섹션 요약 비유**: [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 시스템은 회사 책상이 부족할 때, 놀고 있는 직원의 빈 책상을 확 뺏어서 야근하는 에이스 직원에게 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 3개 세팅하라고 몰아주는 철저한 성과주의 환경입니다.
 
@@ -119,8 +122,8 @@ tags = ["studynote-operating-system"]
    - 리눅스의 묻지마 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)(능력주의)는 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 시대에 치명적 위기를 맞았다.
    - 서버 하나에 10개 회사 앱을 띄웠는데, 1번 회사 앱 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 버그를 내며 미친 듯이 램을 요구([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))했다.
    - [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/) 논리에 의해 리눅스는 나머지 9개 회사의 프레임(램)을 다 뺏어서 1번 놈에게 줘버려 멀쩡한 9개 회사가 다 뻗어버리는 대참사(Noisy Neighbor)가 났다.
-2. **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) ([Control Groups](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/))의 구원**:
-   - 구글 엔지니어들은 이 야생의 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 통제하기 위해, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 **[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)**라는 철창을 만들었다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/668_cgroups_hw_resource_allocation/">Control Groups</a>)의 구원</strong>:
+   - 구글 엔지니어들은 이 야생의 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 통제하기 위해, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/">cgroups</a></strong>라는 철창을 만들었다.
    - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 `Memory Limit = 1GB` 라는 하드웨어적 철창([지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)의 부활)을 씌웠다.
    - 1번 회사가 1GB를 다 채우면? 더 이상 남의 램을 못 뺏게 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러로 그 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나만 깔끔하게 암살해 버린다.
 3. **실무의 결론**: 
@@ -139,9 +142,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)** | 무한정 램을 뺏고 뺏기는 악순환의 고리를 끊고, 최소한의 작동 보장선(Minimum Frames)을 지켜내어 시스템 붕괴를 방어 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | 무한정 램을 뺏고 뺏기는 악순환의 고리를 끊고, 최소한의 작동 보장선(Minimum Frames)을 지켜내어 시스템 붕괴를 방어 |
 | **공정성(Fairness)과 효율성의 타협**| 무식한 N분의 1 [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)을 버리고 동적 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 채택하여, 노는 램을 1바이트도 남기지 않는 100% 가동률 달성 |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계의 뼈대** | [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)을 엄격히 통제하는 cgroups와 결합하여, 남의 자원을 훔쳐 쓰지 못하게 막는 클라우드 샌드박싱의 인프라로 진화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 생태계의 뼈대</strong> | [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)을 엄격히 통제하는 cgroups와 결합하여, 남의 자원을 훔쳐 쓰지 못하게 막는 클라우드 샌드박싱의 인프라로 진화 |
 
 ### 결론 및 미래 전망
 
@@ -162,15 +165,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[변경 비트 (Modify Bit / Dirty Bit)]
-    │
-    ▼
-[프레임 할당 (Frame Allocation) 알고리즘]
-    │
-    ├──▶ [균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
-    └──▶ [전역 교체 (Global Replacement)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">변경 비트 (Modify Bit / Dirty Bit)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

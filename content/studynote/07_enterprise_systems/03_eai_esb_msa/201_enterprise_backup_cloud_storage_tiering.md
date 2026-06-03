@@ -43,18 +43,19 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간이 지나며 더 저렴한 계층으로 이동하고, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시에는 다시 리콜되는 구조를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                         Backup data lifecycle tiering                     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Backup Job -> Performance Tier -> Capacity Tier -> Archive Tier          │
-│                (SSD / NAS)        (Object / HDD)     (Glacier / Tape)    │
-│                     └────────── ILM / retention policy ──────────┘        │
-│                                      │                                     │
-│                                      ▼                                     │
-│                         Recall for restore / immutable copy                │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backup data lifecycle tiering</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backup Job -&gt; Performance Tier -&gt; Capacity Tier -&gt; Archive Tier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SSD / NAS) (Object / HDD) (Glacier / Tape)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ILM / retention policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recall for restore / immutable copy</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 자동 이동 자체보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 있다. 예를 들어 30일 이내 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 유지하고, 30일 이후는 객체 스토리지로 이동하며, 1년 이후는 딥 아카이브 (Deep Archive)로 내리는 식의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 대표적이다. 여기에 객체 잠금 (Object [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))과 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) ([Write Once Read Many](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/693_worm_storage/))을 결합하면, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복사본이 삭제·변조되지 않는 불변 저장소 역할도 수행할 수 있다.
 
@@ -106,7 +107,7 @@ tags = ["studynote-enterprise"]
 
 클라우드 티어링을 적절히 설계하면 고가 스토리지 증설을 줄이고, 장기 보관 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 운영 비용을 크게 낮출 수 있다. 동시에 객체 잠금과 외부 리전 보관을 활용하면 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)와 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응력도 강화된다. 즉 티어링은 단순 저장 기술이 아니라 비용, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 보안을 함께 최적화하는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
-물론 지나친 저비용 최적화는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실패로 되돌아올 수 있다. 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 깊은 아카이브로 보내거나, 테스트 없는 자동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의존하면 위기 시 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 쓸모없어질 수 있다. 따라서 이 개념은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 요구에 맞춰 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 거주지를 설계하는 것**으로 기억하는 편이 가장 정확하다.
+물론 지나친 저비용 최적화는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실패로 되돌아올 수 있다. 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 깊은 아카이브로 보내거나, 테스트 없는 자동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 의존하면 위기 시 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 쓸모없어질 수 있다. 따라서 이 개념은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 온도와 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 요구에 맞춰 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>의 거주지를 설계하는 것</strong>으로 기억하는 편이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 클라우드 티어링은 모든 짐을 가장 싼 창고에 넣는 기술이 아니라, 자주 쓰는 짐과 거의 안 쓰는 짐의 자리를 다르게 배치해 집과 창고를 함께 효율적으로 쓰는 방법이다.
 
@@ -124,21 +125,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 고가 스토리지 백업
-    │
-    ▼
-성능 티어 + 용량 티어 분리
-    │
-    ▼
-객체 스토리지 활용
-    │
-    ▼
-아카이브 · 불변 백업 결합
-    │
-    ▼
-정책 기반 클라우드 티어링 백업 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 고가 스토리지 백업</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 티어 + 용량 티어 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 스토리지 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아카이브 · 불변 백업 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정책 기반 클라우드 티어링 백업 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 보관에서, 비용·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·보안을 함께 최적화하는 계층형 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 진화한 과정을 보여준다.
 

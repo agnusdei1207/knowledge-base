@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 회사 본사와 수백 개의 지방 지사(Branch)를 연결하는 망을 WAN이라 부릅니다.
-- **비싼 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 종속**: 회사는 무조건 통신사(SKT, KT)의 비싸고 느린 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))을 울며 겨자 먹기로 써야 했습니다. 대역폭을 10Mbps 늘리려면 통신사에 전화해서 한 달을 기다려야 했습니다.
+- <strong>비싼 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a> 종속</strong>: 회사는 무조건 통신사(SKT, KT)의 비싸고 느린 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))을 울며 겨자 먹기로 써야 했습니다. 대역폭을 10Mbps 늘리려면 통신사에 전화해서 한 달을 기다려야 했습니다.
 - **백홀링(Backhauling)의 굴레**: 지방 지사 직원이 구글(인터넷)을 검색하려 해도, 회사 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)상 무조건 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 타고 서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 한 번 찍고 나가야 했습니다(740번 참고). 지사 직원들이 유튜브라도 틀면 서울 본사 회선이 다 터져버렸습니다(병목 현상).
 
-```text
-[스마트NIC / DPU]
-    │
-    ▼
-[SD-WAN]
-    │
-    └──▶ [SDN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC / DPU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SD-WAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,32 +42,36 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크, 다음 850번)의 철학을 좁은 데이터센터가 아니라 **전 세계 국가/지사망 단위(WAN)**로 거대하게 확장한 융합 기술입니다. 
+[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크, 다음 850번)의 철학을 좁은 데이터센터가 아니라 <strong>전 세계 국가/지사망 단위(WAN)</strong>로 거대하게 확장한 융합 기술입니다. 
 
 ### 1. 두뇌와 손발의 분리 ([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 철학)
 - 옛날엔 지방 지사에 깔린 라우터 장비 1,000대를 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트하려면 직원이 1,000곳을 출장 다녀야 했습니다.
-- SD-WAN은 서울 본사에 **오케스트레이터(중앙 컨트롤러)**라는 똑똑한 뇌 한 대만 딱 둡니다. 지사에는 멍청하지만 싼 화이트박스 공유기(Edge 장비)를 보냅니다. 서울 본사에서 "유튜브 차단해!"라고 마우스를 클릭하면, 전 세계 1,000개 지사 장비에 1초 만에 보안 룰([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 다운로드되어 자동 세팅(Zero-Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))됩니다.
+- SD-WAN은 서울 본사에 <strong>오케스트레이터(중앙 컨트롤러)</strong>라는 똑똑한 뇌 한 대만 딱 둡니다. 지사에는 멍청하지만 싼 화이트박스 공유기(Edge 장비)를 보냅니다. 서울 본사에서 "유튜브 차단해!"라고 마우스를 클릭하면, 전 세계 1,000개 지사 장비에 1초 만에 보안 룰([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 다운로드되어 자동 세팅(Zero-Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))됩니다.
 
 ### 2. 트래픽 인식 지능형 다중 경로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Application-Aware [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 🌟
 SD-WAN이 돈을 벌어다 주는 진짜 이유입니다.
-- 지사 장비 엉덩이에 **비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)) 1개**와 **동네 싼 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷 랜선(500Mbps) 1개**, 그리고 폰에서 쓰는 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 라우터 1개**, 총 3가닥의 이질적인 선을 동시에 꽂아둡니다.
+- 지사 장비 엉덩이에 <strong>비싼 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a>) 1개</strong>와 <strong>동네 싼 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 인터넷 랜선(500Mbps) 1개</strong>, 그리고 폰에서 쓰는 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 무선 라우터 1개</strong>, 총 3가닥의 이질적인 선을 동시에 꽂아둡니다.
 - **마법의 분배**: SD-WAN 장비는 패킷의 내용물(L7 앱)을 뜯어봅니다. 
-  - "이거 회사 사장님 결재 서류 패킷이네? 절대 해킹당하면 안 되니까 **비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))**으로 보내!"
-  - "어? 이건 직원들이 점심시간에 보는 유튜브 패킷이네? 굳이 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 탈 필요 없지! 그냥 **동네 싼 인터넷 선**으로 밖으로 바로 던져버려!(Local Internet Breakout, 백홀링 병목 해소)"
-  - 만약 싼 인터넷 선이 갑자기 품질이 구려지면(Jitter 폭증), 0.1초 만에 유튜브 패킷을 **[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망으로 휙 꺾어서 우회**시켜 버립니다. 끊김이 제로입니다.
+  - "이거 회사 사장님 결재 서류 패킷이네? 절대 해킹당하면 안 되니까 <strong>비싼 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a>)</strong>으로 보내!"
+  - "어? 이건 직원들이 점심시간에 보는 유튜브 패킷이네? 굳이 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 탈 필요 없지! 그냥 <strong>동네 싼 인터넷 선</strong>으로 밖으로 바로 던져버려!(Local Internet Breakout, 백홀링 병목 해소)"
+  - 만약 싼 인터넷 선이 갑자기 품질이 구려지면(Jitter 폭증), 0.1초 만에 유튜브 패킷을 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 무선망으로 휙 꺾어서 우회</strong>시켜 버립니다. 끊김이 제로입니다.
 
 ### 3. 암호화 오버레이 (Overlay) 통합망 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)
-- 싼 인터넷 선을 타고 가도 해킹 걱정이 없습니다. 지사 장비와 서울 본사 장비 사이의 허공(인터넷)에 **강력한 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 암호화 터널([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 오버레이)**을 통째로 뚫어버립니다. 
+- 싼 인터넷 선을 타고 가도 해킹 걱정이 없습니다. 지사 장비와 서울 본사 장비 사이의 허공(인터넷)에 <strong>강력한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 암호화 터널(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 오버레이)</strong>을 통째로 뚫어버립니다. 
 - 물리적인 선이 구리선이든 광케이블이든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파든 상관없이, 소프트웨어적으로는 하나의 완벽히 안전한 통합 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 덮어버립니다.
 
-```text
-[스마트NIC / DPU]
-    │
-    ▼
-[SD-WAN]
-    │
-    └──▶ [SDN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC / DPU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SD-WAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,7 +79,7 @@ SD-WAN이 돈을 벌어다 주는 진짜 이유입니다.
 
 ## Ⅲ. 비교 및 연결
 
-- 740번 문서에서 배운 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)(Secure Access [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Edge)가 바로 **이 똑똑한 네비게이션인 "SD-WAN"과 클라우드 보안 세트인 "[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)([SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/), [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 등)" 두 가지를 하나로 완전히 융합**해서 찍어낸 2020년대 최고의 보안 트렌드 마스터피스입니다.
+- 740번 문서에서 배운 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)(Secure Access [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Edge)가 바로 <strong>이 똑똑한 네비게이션인 "SD-WAN"과 클라우드 보안 세트인 "<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/">SWG</a>, <a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a> 등)" 두 가지를 하나로 완전히 융합</strong>해서 찍어낸 2020년대 최고의 보안 트렌드 마스터피스입니다.
 
 SD-WAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 스마트NIC / DPU가 기반 조건을 만든다면, SD-WAN는 그 위에서 핵심 메커니즘을 구현하고, SDN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ SD-WAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 WAN([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))은 '비싼 VIP 전용 1차선 지하 터널'입니다. 부산 지사 직원이 1급 기밀 서류를 보낼 때든, 점심시간에 피자 배달을 시킬 때든 무조건 이 비싼 터널만 써야 했고, 차가 막히면 꼼짝없이 서 있어야 했습니다. **SD-WAN**은 지사 입구에 '천재 내비게이션 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 교통경찰'을 세워둔 것입니다. 경찰 뒤에는 VIP 1차선([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))과 뻥 뚫린 8차선 국도(싸구려 인터넷) 두 길이 뚫려 있습니다. 경찰이 차 내용물을 쓱 보고, 기밀 서류 차는 VIP 터널로 보내고, 피자 배달 오토바이는 넓은 8차선 국도로 알아서 분산시킵니다. 갑자기 국도에 사고가 나면 1초 만에 뒷골목 샛길([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망)로 차를 우회시켜 배달 지연을 원천 차단합니다. 통신비는 반토막 내고 속도와 안정성은 10배로 올린 지점망의 궁극기입니다.
+- **📢 섹션 요약 비유**: 기존 WAN([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))은 '비싼 VIP 전용 1차선 지하 터널'입니다. 부산 지사 직원이 1급 기밀 서류를 보낼 때든, 점심시간에 피자 배달을 시킬 때든 무조건 이 비싼 터널만 써야 했고, 차가 막히면 꼼짝없이 서 있어야 했습니다. <strong>SD-WAN</strong>은 지사 입구에 '천재 내비게이션 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 교통경찰'을 세워둔 것입니다. 경찰 뒤에는 VIP 1차선([전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))과 뻥 뚫린 8차선 국도(싸구려 인터넷) 두 길이 뚫려 있습니다. 경찰이 차 내용물을 쓱 보고, 기밀 서류 차는 VIP 터널로 보내고, 피자 배달 오토바이는 넓은 8차선 국도로 알아서 분산시킵니다. 갑자기 국도에 사고가 나면 1초 만에 뒷골목 샛길([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망)로 차를 우회시켜 배달 지연을 원천 차단합니다. 통신비는 반토막 내고 속도와 안정성은 10배로 올린 지점망의 궁극기입니다.
 
 ---
 
@@ -123,15 +131,19 @@ SD-WAN는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스마트NIC / DPU]
-    │
-    ▼
-[현재 개념: SD-WAN]
-    │
-    ├──▶ [확장 A: SDN]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트NIC / DPU</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SD-WAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 SD-WAN는 스마트NIC / DPU에서 출발해 현재 메커니즘을 정교화하고, 이후 SDN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

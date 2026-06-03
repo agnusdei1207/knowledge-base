@@ -24,13 +24,13 @@ tags = ["studynote-software-engineering"]
 * 결과(Output): `8`
 
 이때 테스터는 어떻게 결과가 정상(Pass)이라고 판정했을까?
-테스터의 머릿속에 이미 `5+3=8`이라는 **정답지(Expected Result)**가 있었기 때문이다. 이 정답지가 바로 **테스트 오라클(Test [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))**이다.
+테스터의 머릿속에 이미 `5+3=8`이라는 <strong>정답지(Expected Result)</strong>가 있었기 때문이다. 이 정답지가 바로 <strong>테스트 오라클(Test <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>이다.
 
 그런데 내비게이션 앱을 테스트한다고 치자.
 * 입력: "서울역에서 부산 해운대까지 가는 가장 빠른 길"
 * 결과: "서해안 고속도로를 타고 돌아가는 길" (응?)
 
-이 결과가 진짜로 가장 빠른 길인지 버그인지 테스터가 알 수 있을까? 없다! 실시간 교통상황과 복잡한 알고리즘이 얽혀있기 때문에 인간의 머리로는 완벽한 '정답지(오라클)'를 미리 만들어둘 수가 없다. 이것을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 **오라클 문제([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem)**라고 부른다.
+이 결과가 진짜로 가장 빠른 길인지 버그인지 테스터가 알 수 있을까? 없다! 실시간 교통상황과 복잡한 알고리즘이 얽혀있기 때문에 인간의 머리로는 완벽한 '정답지(오라클)'를 미리 만들어둘 수가 없다. 이것을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서는 <strong>오라클 문제(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> Problem)</strong>라고 부른다.
 
 > 📢 **섹션 요약 비유**: 수능 시험을 치고 났는데 평가원에서 정답지(오라클)를 안 나눠줬습니다. 학생이 1번 문제에 3번이라고 체크(결과)를 했지만, 채점할 정답지가 없으니 자기가 100점인지 0점(버그)인지 영원히 알 수 없는 막막한 상태가 됩니다.
 
@@ -40,18 +40,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 테스트 오라클 (Test Oracle의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  테스트 오라클 (Test Oracle                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 오라클 (Test Oracle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 테스트 오라클 (Test Oracle가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -150,21 +149,23 @@ assertEquals(8, result);  // <-- 8이 바로 '테스트 오라클(정답)'이다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-테스트 오라클 (Test Oracle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 오라클 (Test Oracle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

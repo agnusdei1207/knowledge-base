@@ -25,23 +25,22 @@ tags = ["studynote-ai"]
 
 아래 그림은 왜 오프라인에서 좋던 모델이 운영에서 조용히 약해지는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why offline accuracy decays after deployment                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training window                                                     │
-│   winter queries, old camera, weekday-heavy users                  │
-│        │                                                            │
-│        ▼                                                            │
-│ Model deployment                                                    │
-│        │                                                            │
-│ Live window                                                         │
-│   spring queries, new camera noise, mobile-heavy users             │
-│        │                                                            │
-│        └─ predictions continue, labels arrive later                │
-│                     -> silent quality decay                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why offline accuracy decays after deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">winter queries, old camera, weekday-heavy users</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model deployment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live window</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spring queries, new camera noise, mobile-heavy users</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ predictions continue, labels arrive later</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; silent quality decay</div></div>
+</div>
+</div>
+
+
 
 결국 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 이해한다는 것은 "모델의 수명은 코드가 아니라 입력 환경에 의해 결정된다"는 사실을 받아들이는 일이다. 운영 중인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 시스템은 배포 완료가 끝이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경 변화와의 장기전 안에 놓여 있다.
 
@@ -55,21 +54,20 @@ tags = ["studynote-ai"]
 
 실무에서는 학습 시점의 기준 분포를 저장해 두고, 운영 입력을 일정 시간 창(window)으로 묶어 비교한다. 이때 PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), KS 검정 (Kolmogorov-Smirnov Test), KL 발산 ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)), Jensen-Shannon Divergence 같은 통계 거리를 사용해 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)별 변화를 측정한다. 수치형과 범주형, 단일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 결합 분포에 따라 적합한 지표가 달라지므로 "한 개 지표로 끝내는 감시"는 보통 부족하다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Drift monitoring loop                                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training data -> baseline stats / schema                           │
-│        │                                                            │
-│        ▼                                                            │
-│ Live feature window -> drift scorer -> alert threshold             │
-│        │                  │                                          │
-│        │                  ├─ PSI / KS / KL / Jensen-Shannon        │
-│        │                  └─ segment-level comparison              │
-│        ▼                                                            │
-│ Root-cause analysis -> retrain / preprocess fix / threshold tune   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift monitoring loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training data -&gt; baseline stats / schema</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live feature window -&gt; drift scorer -&gt; alert threshold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PSI / KS / KL / Jensen-Shannon</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ segment-level comparison</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root-cause analysis -&gt; retrain / preprocess fix / threshold tune</div></div>
+</div>
+</div>
+
+
 
 | 감시 대상 | 대표 지표 | 해석 포인트 |
 | :--- | :--- | :--- |
@@ -78,7 +76,7 @@ tags = ["studynote-ai"]
 | 다변량 조합 | [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 거리, [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 후 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 개별 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)는 멀쩡해도 조합 분포는 달라질 수 있다. |
 | 세그먼트별 입력 | 국가·기기·시간대별 비교 | 전체 평균이 정상이어도 특정 집단에서만 붕괴가 날 수 있다. |
 
-여기서 중요한 실무 포인트는 **라벨 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**이다. 사기 탐지나 이탈 예측처럼 정답이 며칠, 몇 주 뒤에야 확정되면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 직접 보기 전에 입력 분포 이상부터 먼저 감지해야 한다. 그래서 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 모델 정확도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 대체재가 아니라, 늦게 도착하는 정답을 기다리기 전에 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 잡는 조기 경보 체계다.
+여기서 중요한 실무 포인트는 <strong>라벨 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>이다. 사기 탐지나 이탈 예측처럼 정답이 며칠, 몇 주 뒤에야 확정되면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 직접 보기 전에 입력 분포 이상부터 먼저 감지해야 한다. 그래서 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 모델 정확도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 대체재가 아니라, 늦게 도착하는 정답을 기다리기 전에 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 잡는 조기 경보 체계다.
 
 - **📢 섹션 요약 비유**: [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 감시는 냉장고 온도계를 다는 것과 같다. 음식이 상한 뒤에 냄새를 맡는 것보다, 온도가 평소보다 올라가는 순간 먼저 알아차리는 편이 훨씬 안전하다.
 
@@ -128,7 +126,7 @@ tags = ["studynote-ai"]
 - 전체 분포만 보고 소수 세그먼트 붕괴를 놓치는 대시보드
 - 중요하지 않은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 미세한 흔들림을 과대 해석해 경보 피로를 만드는 운영
 
-기술사 답안에서는 **"[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)는 배포 후 입력 환경 변화에 따른 통계적 분포 이동이며, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 여부와 원인 구분을 위해 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·세그먼트 분석·재학습 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다"**라고 정리하면 실무적 깊이가 살아난다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a>는 배포 후 입력 환경 변화에 따른 통계적 분포 이동이며, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하 여부와 원인 구분을 위해 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링·세그먼트 분석·재학습 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 함께 설계해야 한다"</strong>라고 정리하면 실무적 깊이가 살아난다.
 
 - **📢 섹션 요약 비유**: [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 대응은 기상 특보를 보고 바로 학교를 폐쇄하는 일이 아니라, 비의 양과 지역, 등굣길 상황을 보고 우산만 챙길지 휴교할지 결정하는 일과 같다.
 
@@ -138,7 +136,7 @@ tags = ["studynote-ai"]
 
 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 체계적으로 다루면 모델 운영은 "한 번 배포한 뒤 운에 맡기는 일"이 아니라, 변화하는 환경을 관찰하며 품질을 유지하는 관리 체계가 된다. 그 결과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락을 더 빨리 발견하고, 필요한 경우에만 재학습해 비용을 통제하며, 예측 품질과 비즈니스 성과를 함께 안정화할 수 있다.
 
-다만 모든 변화가 나쁜 것은 아니다. 입력 분포 변화가 곧바로 모델 실패를 뜻하지는 않으며, 지나친 경보 체계는 운영팀을 지치게 만든다. 그래서 기억해야 할 핵심은 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 "무조건 막아야 하는 적"으로 보는 것이 아니라, **운영 중인 모델이 현실과 얼마나 멀어졌는지를 재는 계기판**으로 이해하는 것이다.
+다만 모든 변화가 나쁜 것은 아니다. 입력 분포 변화가 곧바로 모델 실패를 뜻하지는 않으며, 지나친 경보 체계는 운영팀을 지치게 만든다. 그래서 기억해야 할 핵심은 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 "무조건 막아야 하는 적"으로 보는 것이 아니라, <strong>운영 중인 모델이 현실과 얼마나 멀어졌는지를 재는 계기판</strong>으로 이해하는 것이다.
 
 - **📢 섹션 요약 비유**: [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)는 자동차 바퀴의 마모 상태를 알려 주는 계기판과 같다. 계기판이 있다고 매일 타이어를 갈 필요는 없지만, 경고를 무시하면 결국 큰 사고로 이어진다.
 
@@ -157,28 +155,29 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 오프라인 학습 데이터
-    │
-    ▼
-운영 입력 모니터링
-    │
-    ▼
-피처별 분포 거리 계산
-    │
-    ▼
-원인 분석
-    ├─ 계절성 변화
-    ├─ 사용자군 변화
-    ├─ 센서 / 채널 변화
-    └─ 파이프라인 오류 구분
-    │
-    ▼
-재학습 · 전처리 수정 · 임계값 조정
-    │
-    ▼
-폐루프 MLOps 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 오프라인 학습 데이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">운영 입력 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피처별 분포 거리 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원인 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">계절성 변화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">사용자군 변화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">센서 / 채널 변화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파이프라인 오류 구분</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재학습 · 전처리 수정 · 임계값 조정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">폐루프 MLOps 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)가 단순 통계 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)에서 출발해, 원인 분석과 운영 자동화까지 연결되는 과정을 보여 준다.
 

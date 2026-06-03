@@ -31,24 +31,22 @@ tags = ["studynote-computer-architecture"]
 ### 무지성 0 채우기의 하드웨어 로직
 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) SHL(Shift Left)과 SHR(Shift Right)이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트를 담당한다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           논리 우측 시프트(SHR)의 하드웨어 이동 궤적         │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│   원본 데이터: 1 0 1 1 0 0 0 0  (십진수 176, Unsigned)     │
-│                                                        │
-│   [ 우측으로 1칸 논리 시프트 연산 수행 (>> 1) ]             │
-│                                                        │
-│   1. 밀려 나감: [ 빈칸 ] 1 0 1 1 0 0 0  ──▶ (끝의 0은 캐리로)│
-│   2. 0 채우기 : [   0  ] 1 0 1 1 0 0 0                   │
-│                                                        │
-│   결과 데이터: 0 1 0 1 1 0 0 0  (십진수 88) ──▶ 정확히 절반!│
-│                                                        │
-│ * 핵심 판단: 원본 데이터의 맨 앞이 1이든 0이든 신경 쓰지 않고   │
-│   무자비하게 0을 밀어 넣어 '나누기 2'의 수치를 완벽히 달성함.  │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 우측 시프트(SHR)의 하드웨어 이동 궤적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터: 1 0 1 1 0 0 0 0 (십진수 176, Unsigned)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우측으로 1칸 논리 시프트 연산 수행 (&gt;&gt; 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. 밀려 나감:</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(끝의 0은 캐리로)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. 0 채우기 :</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">1 0 1 1 0 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 데이터: 0 1 0 1 1 0 0 0 (십진수 88) ──▶ 정확히 절반!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 원본 데이터의 맨 앞이 1이든 0이든 신경 쓰지 않고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무자비하게 0을 밀어 넣어 '나누기 2'의 수치를 완벽히 달성함.</div></div>
+</div>
+</div>
+
+
 
 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 좌측 시프트(SHL)의 경우 맨 뒤의 빈자리에 0을 채운다. 좌측 시프트는 숫자가 2배로 커지고, 우측 시프트는 숫자가 절반으로 잘린다. 하드웨어 관점에서는 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 입력 핀 하나를 그냥 그라운드(0V)에 묶어버리면 끝나기 때문에 쇳덩어리 설계 비용이 말 그대로 '0'에 수렴한다.
 
@@ -63,8 +61,8 @@ tags = ["studynote-computer-architecture"]
 
 | 연산 유형 | 적용 대상 | 빈자리 채우는 룰 | 부호 있는 음수(-4) 우측 시프트 결과 |
 |:---|:---|:---|:---|
-| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트 (SHR)** | **Unsigned 정수** | **무조건 0으로 채움** | `11111100` ➔ **`01111110` (양수 126 폭발) ❌** |
-| **[산술 시프트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/) (SAR)** | Signed 정수 | 부호([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 복제함 | `11111100` ➔ `11111110` (음수 -2 유지) ✅ |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 시프트 (SHR)</strong> | **Unsigned 정수** | **무조건 0으로 채움** | `11111100` ➔ <strong><code>01111110</code> (양수 126 폭발) ❌</strong> |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/121_arithmetic_shift/">산술 시프트</a> (SAR)</strong> | Signed 정수 | 부호([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 복제함 | `11111100` ➔ `11111110` (음수 -2 유지) ✅ |
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 `11111100(-4)` 일 때 이를 오른쪽으로 1칸 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트(`SHR`) 해버리면, 앞에 무지성으로 0이 박히면서 `01111110`이 되어 기계는 이를 양수 `126`으로 오해해버린다. 마이너스 통장 잔고가 시프트 한 방에 갑자기 플러스 억만장자로 둔갑하는(물론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 박살 난) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 파괴 현상이 일어난다. 따라서 컴파일러는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입이 `unsigned`일 때만 기계어 `SHR`로 번역하는 철저한 방어선을 쳐둔다.
 
@@ -76,10 +74,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 시나리오
 1. **IP 서브넷 마스킹 (Subnet Masking)**: 32비트 IP 주소 `192.168.1.1`에서 네트워크 ID 대역만 뽑아내어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 뒤질 때, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널은 IP를 `unsigned int`로 캐스팅한 후 우측 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트를 맹렬하게 갈겨서 서브넷 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추출한다. 네트워크 패킷 스니핑과 조작에 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트는 필수 불가결한 뼈대다.
-2. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)보드 (Bitboard) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체스 엔진**: 64칸의 체스판을 64비트 정수 하나로 표현(1은 기물 있음, 0은 없음)하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 체스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 렌더링. 폰(Pawn)이 한 칸 앞으로 전진하는 움직임은 복잡한 2차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산이 아니라, 단순히 체스판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `board = board << 8;` 로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트 한 방에 밀어버려 단 1클럭 만에 말들의 이동 계산을 수십억 번 처리해 낸다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>보드 (Bitboard) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 체스 엔진</strong>: 64칸의 체스판을 64비트 정수 하나로 표현(1은 기물 있음, 0은 없음)하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 체스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 렌더링. 폰(Pawn)이 한 칸 앞으로 전진하는 움직임은 복잡한 2차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산이 아니라, 단순히 체스판 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `board = board << 8;` 로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트 한 방에 밀어버려 단 1클럭 만에 말들의 이동 계산을 수십억 번 처리해 낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **자바(Java)에서의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)/산술 [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/)자 혼동**: C/C++은 변수의 타입(`signed` vs `unsigned`)을 보고 컴파일러가 알아서 산술/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 골라주지만, 태생적으로 `unsigned` 타입이 없는 Java는 코더에게 책임을 떠넘겼다. Java에서 음수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 부호를 무시하고 밀어버리고 싶다면 `>>` (산술) 대신 반드시 `>>>` ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트 전용 연산자)를 명확히 타이핑해야 한다. 이를 실수하면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 대회에서 무한 루프나 런타임 에러([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Out of Bounds)로 처참하게 박살 난다.
+- <strong>자바(Java)에서의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>/산술 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/">시프트 연산</a>자 혼동</strong>: C/C++은 변수의 타입(`signed` vs `unsigned`)을 보고 컴파일러가 알아서 산술/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 골라주지만, 태생적으로 `unsigned` 타입이 없는 Java는 코더에게 책임을 떠넘겼다. Java에서 음수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 부호를 무시하고 밀어버리고 싶다면 `>>` (산술) 대신 반드시 `>>>` ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트 전용 연산자)를 명확히 타이핑해야 한다. 이를 실수하면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 대회에서 무한 루프나 런타임 에러([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Out of Bounds)로 처참하게 박살 난다.
 
 - **📢 섹션 요약 비유**: Java에서 `>>>` 연산자를 안 쓰는 것은 자동변속기 차를 몰다 수동변속기 트럭을 몰면서 클러치를 안 밟는 것과 같다. 언어의 규격(문법)이 달라졌는데 하드웨어가 알아서 변속(부호 처리)해 줄 거라 착각하면 기어([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 완전히 박살 난다.
 
@@ -99,27 +97,29 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **제로 확장 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Extension)** | 더 큰 레지스터로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮길 때 앞을 0으로 채우는 작업. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트가 빈자리를 채우는 철학과 정확히 100% 일치함 |
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산자 (Bitwise Operators)** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트와 함께 쓰여, 밀려난 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중에서 쓰레기 값을 지우고(AND) 원하는 값을 덮어씌우는(OR) 시스템 해킹의 콤보 기술 |
-| **[부호 없는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/) ([Unsigned Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/))** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트를 안심하고 갈길 수 있는 유일무이한 합법적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그릇. 음수 파괴 버그를 원천 차단함 |
+| <strong>제로 확장 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Extension)</strong> | 더 큰 레지스터로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮길 때 앞을 0으로 채우는 작업. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트가 빈자리를 채우는 철학과 정확히 100% 일치함 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 연산자 (Bitwise Operators)</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트와 함께 쓰여, 밀려난 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중에서 쓰레기 값을 지우고(AND) 원하는 값을 덮어씌우는(OR) 시스템 해킹의 콤보 기술 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/">부호 없는 정수</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/">Unsigned Integer</a>)</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트를 안심하고 갈길 수 있는 유일무이한 합법적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 그릇. 음수 파괴 버그를 원천 차단함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-곱셈/나눗셈 연산의 막대한 하드웨어 사이클 낭비
-    │
-    ▼
-부호 없는(Unsigned) 메모리 포인터/데이터 연산 가속 요구
-    │
-    ▼
-부호 독립적 물리 이동 ──▶ 논리 시프트(Logical Shift) 명령어 확립
-    │
-    ▼
-배럴 시프터(Barrel Shifter) 회로로 통합되어 1클럭 사이클 연산 보장
-    │
-    ▼
-고급 언어(Java의 >>> 등)로 노출되어 프로그래머의 비트 정밀 조작 코어로 안착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">곱셈/나눗셈 연산의 막대한 하드웨어 사이클 낭비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호 없는(Unsigned) 메모리 포인터/데이터 연산 가속 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부호 독립적 물리 이동 ──▶ 논리 시프트(Logical Shift) 명령어 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배럴 시프터(Barrel Shifter) 회로로 통합되어 1클럭 사이클 연산 보장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고급 언어(Java의 &gt;&gt;&gt; 등)로 노출되어 프로그래머의 비트 정밀 조작 코어로 안착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "고속화 요구 → 순수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이동 개념 설계 → 클럭 단축 쇳덩어리 융합 → 소프트웨어 레벨의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어권 획득"으로 귀결되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트의 진화를 보여준다.
 

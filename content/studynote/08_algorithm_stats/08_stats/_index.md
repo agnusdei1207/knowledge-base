@@ -89,16 +89,21 @@ y = β₀ + β₁x + ε
 
 ### 상관관계 vs. 인과관계
 
-```text
-상관관계 (Correlation): r ∈ [-1, 1]
-  r = 1: 완전 양의 상관
-  r = 0: 상관 없음
-  r = -1: 완전 음의 상관
 
-⚠ 상관 ≠ 인과
-예시: 아이스크림 판매량 ↑ → 익사 사고 ↑
-실제 원인: 더운 날씨 (교란 변수, Confounding Variable)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">상관관계 (Correlation): r ∈</div><div class="kb-diagram-node">-1, 1</div></div>
+<div class="kb-diagram-note">r = 1: 완전 양의 상관</div>
+<div class="kb-diagram-note">r = 0: 상관 없음</div>
+<div class="kb-diagram-note">r = -1: 완전 음의 상관</div>
+<div class="kb-diagram-note">⚠ 상관 ≠ 인과</div>
+<div class="kb-diagram-note">예시: 아이스크림 판매량 ↑ → 익사 사고 ↑</div>
+<div class="kb-diagram-note">실제 원인: 더운 날씨 (교란 변수, Confounding Variable)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 상관관계와 인과관계의 혼동은 **'닭이 울면 해가 뜬다'** 는 오류와 같습니다. 닭 울음과 일출은 상관이 있지만, 닭이 해를 뜨게 만드는 것은 아닙니다.
 
@@ -134,24 +139,26 @@ y = β₀ + β₁x + ε
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기술통계 (평균·분산·분포)
-    │
-    ▼
-추론통계 (가설 검정·신뢰구간·p-value)
-    │
-    ▼
-회귀 분석 (선형·로지스틱·다항) → 머신러닝 모델
-    │
-    ▼
-베이즈 통계 (사후 분포·MCMC) → 베이즈 딥러닝
-    │
-    ▼
-인과 추론 (Causal Inference) — 상관 넘어 인과 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기술통계 (평균·분산·분포)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추론통계 (가설 검정·신뢰구간·p-value)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회귀 분석 (선형·로지스틱·다항) → 머신러닝 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">베이즈 통계 (사후 분포·MCMC) → 베이즈 딥러닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인과 추론 (Causal Inference) — 상관 넘어 인과 분석</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 통계는 **'많은 사람의 특징을 숫자로 요약하는 것'** 이에요. 우리 반 키 평균이 150cm라면, 그게 대략 어떤 수준인지 알 수 있는 것처럼요!
 2. 가설 검정은 **'새 레시피가 기존보다 정말 맛있는지 과학적으로 확인하는 것'** 이에요. 많은 사람에게 맛보게 해서 우연이 아닌 진짜 차이인지 수학으로 검증해요.
-3. 중요한 것은 **"상관이 있다"는 것이 "원인이다"를 뜻하지 않는다**는 거예요. 닭이 울어서 해가 뜨는 게 아닌 것처럼요!
+3. 중요한 것은 <strong>"상관이 있다"는 것이 "원인이다"를 뜻하지 않는다</strong>는 거예요. 닭이 울어서 해가 뜨는 게 아닌 것처럼요!

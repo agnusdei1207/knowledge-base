@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 과거엔 부처별로 낡고 구린 무전기(주파수)를 따로 썼습니다. 경찰은 100MHz, 소방관은 400MHz. 세월호 참사 같은 국가적 재난에서 경찰청장과 해경이 서로 무전이 안 닿아 카카오톡으로 지시를 내리다 골든타임을 놓치는 참사가 발생했습니다.
 - **사진/영상 전송 불가**: 구형 무전기는 "치직- 현장 불났음" 음성만 들릴 뿐, 현장의 잔해 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 지휘소로 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도가 아예 없었습니다.
 
-```text
-[지중 통신]
-    │
-    ▼
-[재난 통신망]
-    │
-    └──▶ [EMP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재난 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EMP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 재난 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 우리 국민이 흔히 쓰는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 인프라(영상, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 기반으로 하되, **국가 재난안전(Public Safety) 목적에 맞게 '절대 끊기지 않는 생존성(재난망 특화 기능)'과 '우선순위(QPP, 914번)'를 극대화시켜 구축한 전국 단일망 통신 시스템**입니다. (한국이 세계 최초 구축)
+- **개념**: 우리 국민이 흔히 쓰는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 인프라(영상, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 기반으로 하되, <strong>국가 재난안전(Public Safety) 목적에 맞게 '절대 끊기지 않는 생존성(재난망 특화 기능)'과 '우선순위(QPP, 914번)'를 극대화시켜 구축한 전국 단일망 통신 시스템</strong>입니다. (한국이 세계 최초 구축)
 
-```text
-[지중 통신]
-    │
-    ▼
-[재난 통신망]
-    │
-    └──▶ [EMP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재난 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EMP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 재난 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,11 +65,11 @@ tags = ["studynote-network"]
 ### 1. MCPTT (Mission Critical Push-To-Talk) - 0.3초의 귓속말 🌟
 일반 스마트폰(카톡 보이스)으로 무전기 앱을 만들면, 말을 할 때마다 중앙 서버를 거쳐 오느라 2초의 딜레이가 생깁니다. 불 속에선 2초면 죽습니다.
 - **MCPTT 혁명**: 국제 표준 3GPP가 만든 재난용 [PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)(무전기) 표준입니다. 
-- 소방관 대장이 스마트폰 옆구리([PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)) 버튼을 꾹 누르고 소리를 치는 순간, **서버 라우팅을 우회하고 0.3초 (300ms) 이내에 1만 명의 소방관 스마트폰 스피커로 음성이 다이렉트([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))로 일제히 꽂히게 만드는 초저지연 무전 통신 규격**입니다.
+- 소방관 대장이 스마트폰 옆구리([PTT](/knowledge-base/studynote/09_security/12_identity_threat_advanced/591_ptt/)) 버튼을 꾹 누르고 소리를 치는 순간, <strong>서버 라우팅을 우회하고 0.3초 (300ms) 이내에 1만 명의 소방관 스마트폰 스피커로 음성이 다이렉트(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)로 일제히 꽂히게 만드는 초저지연 무전 통신 규격</strong>입니다.
 
 ### 2. D2D 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) (ProSe / 애드혹 생존망) 🌟
 재난망 최고의 생존 필살기입니다. 산불이 나서 산꼭대기 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국 철탑이 다 불타서 신호가 0칸이 떴습니다. 일반 폰은 먹통이 됩니다.
-- **D2D (Device-to-Device) 마법**: 기지국이 죽으면, 100명의 소방관 스마트폰이 **기지국을 버리고 지들끼리 릴레이로 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)(와이파이) 엮듯이 직접 무선망(애드혹, Ad-hoc)을 거미줄처럼 형성해 버립니다.**
+- **D2D (Device-to-Device) 마법**: 기지국이 죽으면, 100명의 소방관 스마트폰이 <strong>기지국을 버리고 지들끼리 릴레이로 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a>(와이파이) 엮듯이 직접 무선망(애드혹, Ad-hoc)을 거미줄처럼 형성해 버립니다.</strong>
 - 대장 폰 ➜ 1번 대원 폰 ➜ 2번 대원 폰으로 무전 소리가 릴레이로 전파되어, 동굴 속 기지국 불모지에서도 대원들끼리의 생명 통신줄이 100% 유지됩니다. (Off-Network 통신 보장)
 
 ### 3. 기지국 단독 모드 (IOPS, Isolated E-UTRAN)
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 PS-[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(재난망) 기술은 완벽한 뼈대입니다. 이것을 바다로 끌고 나가면 915번 **[LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)(해상망)**이 되고, 기차역에 깔면 914번 **[LTE-R](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/)(철도망)**이 됩니다.
+- 이 PS-[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(재난망) 기술은 완벽한 뼈대입니다. 이것을 바다로 끌고 나가면 915번 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a>(해상망)</strong>이 되고, 기차역에 깔면 914번 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/">LTE-R</a>(철도망)</strong>이 됩니다.
 - 국가 전체(산, 바다, 기차)를 3개의 망이 빈틈없이 덮고 상호 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)(연동)하여, 경찰관 폰 들고 바다에 빠져도 해경 기지국을 빌려 타고 무전을 쳐 구조되는 궁극의 원-네트워크 생존 지표가 보장됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 재난 통신망은 각자 다른 언어를 쓰는 '다국적 연합군 무전기'였습니다. 산불이 나면 소방관(영어), 경찰(프랑스어), 군인(일본어)이 모였는데, 무전 주파수가 달라 서로 대화가 안 되어 손발짓으로 지휘하다 마을이 다 탔습니다. **PS-[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(재난 통신망)**는 전국의 모든 영웅에게 **'통일된 스마트폰 무전기(MCPTT)'**를 지급하고 주파수를 하나로 합쳐버린 국가 통합 사령부입니다. 이 스마트폰 무전기는 괴물입니다. 화재로 동네 통신탑(기지국)이 싹 다 녹아내려 먹통이 되어도, 영웅들 호주머니 속의 스마트폰들끼리 알아서 텔레파시(D2D 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/))를 엮어 거미줄 통신망을 창조해 냅니다. 기지국이 죽든 말든 소방관 대장이 무전 버튼을 누르면 단 0.3초 만에 1만 명의 영웅 폰에서 똑같은 진격 명령이 터져 나오는 인류 최고의 불사조 통신망입니다.
+- **📢 섹션 요약 비유**: 과거 재난 통신망은 각자 다른 언어를 쓰는 '다국적 연합군 무전기'였습니다. 산불이 나면 소방관(영어), 경찰(프랑스어), 군인(일본어)이 모였는데, 무전 주파수가 달라 서로 대화가 안 되어 손발짓으로 지휘하다 마을이 다 탔습니다. <strong>PS-<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>(재난 통신망)</strong>는 전국의 모든 영웅에게 <strong>'통일된 스마트폰 무전기(MCPTT)'</strong>를 지급하고 주파수를 하나로 합쳐버린 국가 통합 사령부입니다. 이 스마트폰 무전기는 괴물입니다. 화재로 동네 통신탑(기지국)이 싹 다 녹아내려 먹통이 되어도, 영웅들 호주머니 속의 스마트폰들끼리 알아서 텔레파시(D2D 단말 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/))를 엮어 거미줄 통신망을 창조해 냅니다. 기지국이 죽든 말든 소방관 대장이 무전 버튼을 누르면 단 0.3초 만에 1만 명의 영웅 폰에서 똑같은 진격 명령이 터져 나오는 인류 최고의 불사조 통신망입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 지중 통신]
-    │
-    ▼
-[현재 개념: 재난 통신망]
-    │
-    ├──▶ [확장 A: EMP]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지중 통신</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 재난 통신망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EMP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 재난 통신망는 [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)에서 출발해 현재 메커니즘을 정교화하고, 이후 EMP와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

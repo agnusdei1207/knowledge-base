@@ -37,18 +37,20 @@ tags = ["database"]
 
 위의 비정규 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 1NF로 변환하면 다음과 같이 행이 늘어난다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  1NF 변환: 원자값 분할 메커니즘              │
-├──────────────────────────────────────────────────────────────┤
-│ [비정규 속성] "독서, 영화, 등산"                             │
-│       │                                                      │
-│       ▼ (Split)                                              │
-│ [Row 1] 101, 김철수, 독서  <-- 기본키: {학번, 취미}로 변경   │
-│ [Row 2] 101, 김철수, 영화                                    │
-│ [Row 3] 101, 김철수, 등산                                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1NF 변환: 원자값 분할 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비정규 속성</div><div class="kb-diagram-note">"독서, 영화, 등산"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Split)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Row 1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">기본키: {학번, 취미}로 변경</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Row 2</div><div class="kb-diagram-note">101, 김철수, 영화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Row 3</div><div class="kb-diagram-note">101, 김철수, 등산</div></div>
+</div>
+</div>
+
+
 
 이 과정에서 원래의 기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))였던 '학번'만으로는 튜플을 유일하게 식별할 수 없게 된다. 따라서 기본키를 `{학번, 취미}`로 묶은 복합키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 형태로 변경해야 하며, 이로 인해 이름 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기본키의 일부인 학번에만 종속되는 부분 함수 종속 ([Partial Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/))이 필연적으로 발생하게 된다.
 
@@ -78,9 +80,9 @@ tags = ["database"]
 실무 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 1NF 원칙은 엄격하게 적용되어야 하지만, 최근의 NoSQL이나 현대적인 RDBMS 환경에서는 판단 기준이 유연해지기도 한다.
 
 ### 판단 가이드라인
-1. **RDBMS ([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB)**: 1NF는 절대적인 의무다. 검색 조건으로 사용되거나 집계([Group by](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)) 대상이 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 반드시 1NF를 만족하도록 테이블을 분리해야 한다.
-2. **[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 타입 활용**: MySQL 5.7+ 또는 PostgreSQL에서는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 지원한다. 만약 다중값 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '단순 조회용'이고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검색이나 결합 조건에 쓰이지 않는다면, 1NF를 위반([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 배열로 저장)하는 것이 조인 비용을 줄이는 실무적 타협안이 될 수 있다.
-3. **[역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) ([Denormalization](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/))와의 구별**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 일부러 1NF를 포기하고 콤마로 묶어 저장하는 경우도 있지만, 이는 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 화면에 뿌려주는 역할만 할 때 국한된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 중요한 코어 트랜잭션에서는 절대 금지된다.
+1. <strong>RDBMS (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 DB)</strong>: 1NF는 절대적인 의무다. 검색 조건으로 사용되거나 집계([Group by](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)) 대상이 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 반드시 1NF를 만족하도록 테이블을 분리해야 한다.
+2. <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 타입 활용</strong>: MySQL 5.7+ 또는 PostgreSQL에서는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입을 지원한다. 만약 다중값 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '단순 조회용'이고 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검색이나 결합 조건에 쓰이지 않는다면, 1NF를 위반([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 배열로 저장)하는 것이 조인 비용을 줄이는 실무적 타협안이 될 수 있다.
+3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">역정규화</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/">Denormalization</a>)와의 구별</strong>: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 일부러 1NF를 포기하고 콤마로 묶어 저장하는 경우도 있지만, 이는 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 화면에 뿌려주는 역할만 할 때 국한된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 중요한 코어 트랜잭션에서는 절대 금지된다.
 
 - **📢 섹션 요약 비유**: 규칙을 알고 어기는 것과 모르고 어기는 것은 다르다. 무작정 규칙을 깨면 시스템이 붕괴되지만, 상황(검색 빈도)에 따라 일부러 규칙을 완화하면 속도를 얻을 수 있다.
 
@@ -101,24 +103,27 @@ tags = ["database"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **원자값 (Atomic Value)** | 더 이상 분해할 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최소 단위, 1NF의 핵심 요건 |
-| **복합 기본키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) PK)** | 1NF 변환 과정에서 유일성을 보장하기 위해 여러 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 묶은 키 |
+| <strong>복합 기본키 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a> PK)</strong> | 1NF 변환 과정에서 유일성을 보장하기 위해 여러 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 묶은 키 |
 | **부분 함수 종속 (Partial Dependency)** | 1NF 달성 후 복합키 구조에서 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복의 원인 |
-| **[제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))** | 1NF가 남긴 부분 함수 종속 문제를 해결하기 위해 테이블을 쪼개는 단계 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">제2정규형</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/">2NF</a>)</strong> | 1NF가 남긴 부분 함수 종속 문제를 해결하기 위해 테이블을 쪼개는 단계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비정규 릴레이션 (Unnormalized Form)
-    │
-    ▼ (다중값 속성 및 반복 그룹 제거)
-제1정규형 (1NF) · 원자값 (Atomic Value) 구성
-    │
-    ▼ (부분 함수 종속성 제거)
-제2정규형 (2NF) · 완전 함수 종속 달성
-    │
-    ▼ (이행적 함수 종속성 제거)
-제3정규형 (3NF) · 일반 속성 간 독립성 확보
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비정규 릴레이션 (Unnormalized Form)</div>
+<div class="kb-diagram-note">▼ (다중값 속성 및 반복 그룹 제거)</div>
+<div class="kb-diagram-note">제1정규형 (1NF) · 원자값 (Atomic Value) 구성</div>
+<div class="kb-diagram-note">▼ (부분 함수 종속성 제거)</div>
+<div class="kb-diagram-note">제2정규형 (2NF) · 완전 함수 종속 달성</div>
+<div class="kb-diagram-note">▼ (이행적 함수 종속성 제거)</div>
+<div class="kb-diagram-note">제3정규형 (3NF) · 일반 속성 간 독립성 확보</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 어떻게 수학적 제약을 거치며 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 강화해 나가는지의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진화 과정을 보여준다.
 

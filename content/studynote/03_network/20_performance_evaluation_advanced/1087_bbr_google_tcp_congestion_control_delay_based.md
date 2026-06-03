@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **CUBIC, Reno의 룰**: "데이터를 쏘다가 응답(ACK)이 안 와서 패킷 유실(Loss)이 뜨면, 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 터진 게 분명해! 윈도우 사이즈(보내는 양)를 절반으로 깎아라(브레이크)!"
 - **모바일/무선 시대의 억울함**: LTE나 와이파이에선 길이 막힌 게(Congestion) 아니라, 그냥 터널 들어가다가 전파 간섭으로 패킷 1개가 날아간([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error) 경우가 허다합니다. 그런데도 CUBIC은 겁먹고 속도를 50%로 팍 죽여버려서 버퍼링이 미친 듯이 걸렸습니다.
 
-```text
-[WireGuard 라우팅 고속망 체계]
-    │
-    ▼
-[BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    └──▶ [ECN 징후 큐 통지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 패킷이 유실됐다고 쫄지 않고, 현재 통신 중인 네트워크 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 **'가장 좁은 병목 구간의 최대 폭(BtlBw)'과 '최소 왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(RTprop)'을 동적으로 0.1초마다 직접 수학적으로 측정하여, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 물이 꽉 차기 직전의 황금 비율까지만 데이터를 우겨 넣는(Pacing) 선제적 딜레이 기반(Delay-based) 혼잡 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다.
+- **개념**: 패킷이 유실됐다고 쫄지 않고, 현재 통신 중인 네트워크 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 <strong>'가장 좁은 병목 구간의 최대 폭(BtlBw)'과 '최소 왕복 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(RTprop)'을 동적으로 0.1초마다 직접 수학적으로 측정하여, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에 물이 꽉 차기 직전의 황금 비율까지만 데이터를 우겨 넣는(Pacing) 선제적 딜레이 기반(Delay-based) 혼잡 제어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
-```text
-[WireGuard 라우팅 고속망 체계]
-    │
-    ▼
-[BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    └──▶ [ECN 징후 큐 통지]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,9 +64,9 @@ tags = ["studynote-network"]
 
 ### 1. BDP (Bandwidth-Delay Product, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 용량 계산)
 - 구글 서버는 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 켜고 계속 측정을 합니다.
-  - **BtlBw (병목 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))**: "최근 10초 동안 내가 쏠 때 낼 수 있었던 가장 빠른 속도(예: 100Mbps)."
-  - **RTprop (왕복 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: "패킷 하나가 갔다 오는 데 걸린 가장 짧은 시간(예: 10ms)."
-- **BDP 공식 = `BtlBw × RTprop`**: 두 개를 곱하면 **"이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 대기열에 쌓이지 않고 허공을 날아다닐 수 있는 완벽한 패킷의 최대 개수(예: 1MB)"**가 도출됩니다. BBR은 무조건 이 수치만큼만 데이터를 쏴서 길을 절대 막히지 않게 조율합니다.
+  - <strong>BtlBw (병목 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>: "최근 10초 동안 내가 쏠 때 낼 수 있었던 가장 빠른 속도(예: 100Mbps)."
+  - <strong>RTprop (왕복 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>)</strong>: "패킷 하나가 갔다 오는 데 걸린 가장 짧은 시간(예: 10ms)."
+- <strong>BDP 공식 = <code>BtlBw × RTprop</code></strong>: 두 개를 곱하면 <strong>"이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 안에 큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>) 대기열에 쌓이지 않고 허공을 날아다닐 수 있는 완벽한 패킷의 최대 개수(예: 1MB)"</strong>가 도출됩니다. BBR은 무조건 이 수치만큼만 데이터를 쏴서 길을 절대 막히지 않게 조율합니다.
 
 ### 2. 프로빙(Probing) 찌르기: 악셀과 브레이크
 - **ProbeBW (속도 찔러보기)**: 1초에 한 번씩 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 늘어났나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고 원래 쏘던 양보다 1.25배를 더 강하게 꽉 밟아서(악셀) 찔러봅니다. 만약 속도가 늘어나면 BtlBw(최대 속도) 장부를 업데이트합니다.
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 ### 3. 큐오염(Bufferbloat) 현상 완벽 [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) 🌟
 CUBIC을 압살한 최고의 업적입니다.
 - CUBIC은 라우터 버퍼([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 큐)가 100% 꽉 차서 패킷이 흘러넘쳐 터질 때(Drop)까지 무식하게 계속 속도를 올립니다(Bufferbloat 발생 ➜ 핑 1,000ms 폭발).
-- BBR은 위에서 계산한 BDP [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 용량을 알고 있기 때문에, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 차고 **'[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 큐(버퍼)에 패킷이 쌓이기 시작하는 그 찰나의 순간'**을 핑([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 아주 살짝 튀는 걸 보고 귀신같이 알아챕니다. 큐에 데이터가 쌓이기 전에 속도를 조절하므로 버퍼가 항상 텅텅 비어있어 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 게임급으로 낮게 유지됩니다.
+- BBR은 위에서 계산한 BDP [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 용량을 알고 있기 때문에, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 차고 <strong>'<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 큐(버퍼)에 패킷이 쌓이기 시작하는 그 찰나의 순간'</strong>을 핑([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 아주 살짝 튀는 걸 보고 귀신같이 알아챕니다. 큐에 데이터가 쌓이기 전에 속도를 조절하므로 버퍼가 항상 텅텅 비어있어 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 게임급으로 낮게 유지됩니다.
 
 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계가 기반 조건을 만든다면, [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 그 위에서 핵심 메커니즘을 구현하고, ECN 징후 큐 통지는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -92,7 +100,7 @@ CUBIC을 압살한 최고의 업적입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 리눅스의 **CUBIC 혼잡 제어**는 눈을 안대로 가리고 엑셀을 밟는 **'맹인 운전자'**입니다. 계속 속도를 올리다가 앞차에 "쾅!" 하고 부딪혀 차 범퍼(패킷 1개)가 깨지면(패킷 유실), 그제야 깜짝 놀라서 브레이크를 미친 듯이 밟아 속도를 반토막 냅니다. 속도가 널뛰기를 합니다(버퍼블로트 지옥). **구글 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/)**은 앞유리에 완벽한 카메라 센서(수학 공식)를 단 **'테슬라 자율주행차'**입니다. 차가 달리면서 앞차와의 거리([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 핑)와 차선의 넓이([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 0.1초마다 레이더로 쏴서 정밀 계산(BDP)합니다. 앞차와 부딪혀 범퍼가 깨지기 훨씬 전에, 센서가 "어? 앞차 간격이 1m 줄었네?" 하고 알아채서 엑셀을 살짝 떼어 앞차와 완벽히 2m 간격을 죽을 때까지 유지하며 정속 주행합니다. 패킷 유실이라는 끔찍한 충돌 사태를 겪기 전에, 속도와 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 황금비율 지점을 스스로 찾아내서 꽉 찬 고속도로를 밀림 없이 뚫고 나가는 구글의 궁극의 속도 마법입니다.
+- **📢 섹션 요약 비유**: 기존 리눅스의 <strong>CUBIC 혼잡 제어</strong>는 눈을 안대로 가리고 엑셀을 밟는 <strong>'맹인 운전자'</strong>입니다. 계속 속도를 올리다가 앞차에 "쾅!" 하고 부딪혀 차 범퍼(패킷 1개)가 깨지면(패킷 유실), 그제야 깜짝 놀라서 브레이크를 미친 듯이 밟아 속도를 반토막 냅니다. 속도가 널뛰기를 합니다(버퍼블로트 지옥). <strong>구글 <a href="/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/">BBR</a></strong>은 앞유리에 완벽한 카메라 센서(수학 공식)를 단 <strong>'테슬라 자율주행차'</strong>입니다. 차가 달리면서 앞차와의 거리([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 핑)와 차선의 넓이([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 0.1초마다 레이더로 쏴서 정밀 계산(BDP)합니다. 앞차와 부딪혀 범퍼가 깨지기 훨씬 전에, 센서가 "어? 앞차 간격이 1m 줄었네?" 하고 알아채서 엑셀을 살짝 떼어 앞차와 완벽히 2m 간격을 죽을 때까지 유지하며 정속 주행합니다. 패킷 유실이라는 끔찍한 충돌 사태를 겪기 전에, 속도와 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)의 황금비율 지점을 스스로 찾아내서 꽉 찬 고속도로를 밀림 없이 뚫고 나가는 구글의 궁극의 속도 마법입니다.
 
 ---
 
@@ -115,15 +123,19 @@ CUBIC을 압살한 최고의 업적입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WireGuard 라우팅 고속망 체계]
-    │
-    ▼
-[현재 개념: BBR 구글 TCP 동적 모델 지연 기반 혼…]
-    │
-    ├──▶ [확장 A: ECN 징후 큐 통지]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WireGuard 라우팅 고속망 체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECN 징후 큐 통지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 ECN 징후 큐 통지와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기에 부여할 128비트 무한 주소 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 시대가 열렸지만, 기계가 너무 작고 멍청해서 문제가 컸습니다.
-1. IP 주소를 세팅받을 **서버 통신 비용([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/))**이 너무 큽니다.
+1. IP 주소를 세팅받을 <strong>서버 통신 비용(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>)</strong>이 너무 큽니다.
 2. 주소 껍데기([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 40바이트)가 너무 뚱뚱해서, 가느다란 블루투스나 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 무선망에 데이터가 들어가지 않고 튕겨 나옵니다.
 
-```text
-[서브넷 마스크 / CIDR]
-    │
-    ▼
-[IPv6 헤더 압축 / SLAAC]
-    │
-    └──▶ [NAT 횡단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 횡단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,21 +44,25 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)(주소 할당) 서버를 완전히 멸망시킨 천재적인 자급자족 기술입니다.
 
-- **원리 ([Stateless Address Autoconfiguration](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))**: 
+- <strong>원리 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">Stateless Address Autoconfiguration</a>)</strong>: 
   - 작은 전구([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 단말)를 콘센트에 꽂아 전원을 켭니다. 전구는 서버에 IP를 달라고 떼쓰지 않습니다.
   - 전구는 허공에 귀를 열고, 옆에 있는 가정용 공유기(라우터)가 주기적으로 쏘는 `라우터 광고(RA: Router Advertisement)` 패킷을 쓱 엿듣습니다. "아, 우리 동네 이름(네트워크 프리픽스 64비트)이 `2001:db8::` 이구나!"
-  - 동네 이름을 외운 전구는, 자기 공장에서 타고난 뒷주소(자신의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 48비트를 반으로 가르고 중간에 `FF:FE`를 쑤셔 넣어 **64비트짜리 고유한 방 번호([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/))**를 지 스스로 조합해 냅니다.
-  - `[동네 이름 64비트] + [내가 만든 방 번호 64비트]` = **128비트짜리 완벽한 전 세계 유일 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소가 전구 스스로의 수학 계산만으로 0.1초 만에 뚝딱 탄생합니다!** 
+  - 동네 이름을 외운 전구는, 자기 공장에서 타고난 뒷주소(자신의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 48비트를 반으로 가르고 중간에 `FF:FE`를 쑤셔 넣어 <strong>64비트짜리 고유한 방 번호(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/">EUI-64</a>)</strong>를 지 스스로 조합해 냅니다.
+  - `[동네 이름 64비트] + [내가 만든 방 번호 64비트]` = <strong>128비트짜리 완벽한 전 세계 유일 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소가 전구 스스로의 수학 계산만으로 0.1초 만에 뚝딱 탄생합니다!</strong> 
 - 서버가 뻗어도 상관없고([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 기계가 수백만 대가 동시에 켜져도 트래픽 하나 없이 즉각 인터넷 통신망(Plug & Play)에 물려버리는 IoT의 혁명입니다.
 
-```text
-[서브넷 마스크 / CIDR]
-    │
-    ▼
-[IPv6 헤더 압축 / SLAAC]
-    │
-    └──▶ [NAT 횡단]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 횡단</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,11 +73,11 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 964번에서 배울 IPv6를 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 같은 저전력 좁은 무선망에 쑤셔 넣는 구세주 기술입니다. ([6LoWPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/): [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) over Low-Power Wireless Personal Area Networks)
 
 - **배보다 배꼽이 큰 문제**: 좁은 무선망은 택배 박스 크기가 최대 127바이트밖에 안 되는데, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 껍데기가 40바이트를 쳐먹습니다. 진짜 데이터는 보내지도 못합니다.
-- **헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Header [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))의 마법**:
+- <strong>헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> (Header <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)의 마법</strong>:
   - [6LoWPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/) 칩셋은 패킷을 보낼 때 뚱뚱한 40바이트 헤더를 과감하게 다 칼로 오려냅니다.
   - "야, 수신자 IP 앞자리 어차피 뻔한 동네 이름이잖아? 생략해! 버림!"
   - "보내는 놈 주소? 밑에 깔린 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 보면 다 알잖아? 생략해! 버림!"
-  - 이렇게 뻔하고 중복되는 앞자리 0과 뻔한 주소들(Link-Local 등)을 극한으로 생략하고 수학적으로 찌그러뜨려, **40바이트짜리 거대한 쇳덩어리 헤더를 단 2바이트~7바이트 수준의 깃털 같은 무게로 미친 듯이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**해 버립니다.
+  - 이렇게 뻔하고 중복되는 앞자리 0과 뻔한 주소들(Link-Local 등)을 극한으로 생략하고 수학적으로 찌그러뜨려, <strong>40바이트짜리 거대한 쇳덩어리 헤더를 단 2바이트~7바이트 수준의 깃털 같은 무게로 미친 듯이 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>해 버립니다.
   - 이로 인해 택배 박스 공간이 널널해져서 좁디좁은 저전력 무선망([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))에서도 수십억 대의 기기가 가볍고 쌩쌩하게 날아다닐 수 있게 되었습니다.
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) / CIDR가 기반 조건을 만든다면, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 그 위에서 핵심 메커니즘을 구현하고, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -80,7 +88,7 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 통신망 연결은 '아프리카 깡촌 마을에 스마트 가전 수만 대 배달하기'입니다. 옛날 방식([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))은 수만 대의 기계가 마을 동사무소(서버) 앞에 줄을 서서 며칠을 기다려 IP 주소 딱지를 발급받고(느림), 그 작은 기계들이 자기 몸통보다 무거운 '40kg짜리 무거운 강철 우체통([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기본 헤더)'을 등에 메고 소식을 배달하느라 길가다 다 쓰러졌습니다. 이를 극복한 **SLAAC와 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**은 미친 자급자족 생존술입니다. 가전제품을 마을에 떨궈놓으면 동사무소에 안 갑니다. 동네 방송 스피커에서 흘러나오는 '마을 우편번호(라우터 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))'만 쓱 엿듣고, 자기 공장 시리얼 번호랑 수학적으로 조합해 **0.1초 만에 스스로 평생 쓸 주소 딱지([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))를 등판에 붙여버립니다.** 그리고 소식을 쏠 때 40kg 강철 우체통을 갖다 버리고, 꼭 필요한 동 호수만 적힌 **'2g짜리 초경량 포스트잇(헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'** 하나만 이마에 딱 붙여 날려 보냅니다([6LoWPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/)). 수만 대의 벼룩 같은 초소형 센서들이 중앙의 도움 없이도 전 세계 인터넷망과 빛의 속도로 춤을 추며 소통하게 만든 저전력 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 극의입니다.
+- **📢 섹션 요약 비유**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 통신망 연결은 '아프리카 깡촌 마을에 스마트 가전 수만 대 배달하기'입니다. 옛날 방식([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))은 수만 대의 기계가 마을 동사무소(서버) 앞에 줄을 서서 며칠을 기다려 IP 주소 딱지를 발급받고(느림), 그 작은 기계들이 자기 몸통보다 무거운 '40kg짜리 무거운 강철 우체통([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기본 헤더)'을 등에 메고 소식을 배달하느라 길가다 다 쓰러졌습니다. 이를 극복한 <strong>SLAAC와 헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>은 미친 자급자족 생존술입니다. 가전제품을 마을에 떨궈놓으면 동사무소에 안 갑니다. 동네 방송 스피커에서 흘러나오는 '마을 우편번호(라우터 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/))'만 쓱 엿듣고, 자기 공장 시리얼 번호랑 수학적으로 조합해 <strong>0.1초 만에 스스로 평생 쓸 주소 딱지(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)를 등판에 붙여버립니다.</strong> 그리고 소식을 쏠 때 40kg 강철 우체통을 갖다 버리고, 꼭 필요한 동 호수만 적힌 <strong>'2g짜리 초경량 포스트잇(헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>)'</strong> 하나만 이마에 딱 붙여 날려 보냅니다([6LoWPAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/117_6lowpan_iot_ipv6/)). 수만 대의 벼룩 같은 초소형 센서들이 중앙의 도움 없이도 전 세계 인터넷망과 빛의 속도로 춤을 추며 소통하게 만든 저전력 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술의 극의입니다.
 
 ---
 
@@ -122,15 +130,19 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 서브넷 마스크 / CIDR]
-    │
-    ▼
-[현재 개념: IPv6 헤더 압축 / SLAAC]
-    │
-    ├──▶ [확장 A: NAT 횡단]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서브넷 마스크 / CIDR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv6 헤더 압축 / SLAAC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAT 횡단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) / CIDR에서 출발해 현재 메커니즘을 정교화하고, 이후 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

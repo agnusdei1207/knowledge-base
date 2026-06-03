@@ -32,34 +32,27 @@ SCE는 물건이 주문되고 출고되어 도착하기까지의 물류 동선�
 
 | 핵심 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 역할 및 처리 메커니즘 |
 | :--- | :--- |
-| **OMS (Order [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)** | **주문 관리**: 고객 접점. 결제 승인, 재고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 적절한 창고로의 출고 명령 하달 |
-| **[WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))** | **창고 관리**: 물류 심장. 센터 내 진열대 위치 관리, 작업자 피킹(Picking) 경로 최적화, 바코드 스캔 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| **[TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))**| **운송 관리**: 배송망 통제. 트럭 내 적재 최적화(테트리스), 배차 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 최단 경로 내비게이션, 위치 추적 |
+| <strong>OMS (Order <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> System)</strong> | **주문 관리**: 고객 접점. 결제 승인, 재고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 적절한 창고로의 출고 명령 하달 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">Warehouse Management System</a>)</strong> | **창고 관리**: 물류 심장. 센터 내 진열대 위치 관리, 작업자 피킹(Picking) 경로 최적화, 바코드 스캔 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">TMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">Transportation Management System</a>)</strong>| **운송 관리**: 배송망 통제. 트럭 내 적재 최적화(테트리스), 배차 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 최단 경로 내비게이션, 위치 추적 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  SCE의 핵심 모듈 간 데이터 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ [ 고객 결제 ]                                                │
-│      │                                                       │
-│      ▼                                                       │
-│ ┌─────────┐ "결제완료! 서울 강남 물류센터, A상품 내보내!"  │
-│ │   OMS   │─────────────────────────────────┐                │
-│ └─────────┘                                 │                │
-│                                             ▼                │
-│                                         ┌───────┐            │
-│ "선반 3번에서 A상품 꺼내 포장해!" ◀────│  WMS  │            │
-│ (지게차/AGV 동선 제어, 재고 차감)       └───────┘            │
-│                                             │                │
-│                                             ▼                │
-│                                         ┌───────┐            │
-│ "오늘 오후 2시, 남부순환로 타고 배송!" ◀│  TMS  │            │
-│ (최적 배차, 차량 트래킹, 고객 알림)     └───────┘            │
-│                                             │                │
-│                                             ▼                │
-│                                        [ 실물 배송 ]         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCE의 핵심 모듈 간 데이터 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객 결제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"결제완료! 서울 강남 물류센터, A상품 내보내!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"선반 3번에서 A상품 꺼내 포장해!" ◀</div><div class="kb-diagram-cell">WMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지게차/AGV 동선 제어, 재고 차감)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오늘 오후 2시, 남부순환로 타고 배송!" ◀</div><div class="kb-diagram-cell">TMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최적 배차, 차량 트래킹, 고객 알림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실물 배송</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 단순한 정보의 전달이 아니라, 소프트웨어(OMS)의 명령이 창고 내의 물리적 움직임([WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))을 거쳐 도로 위의 트럭([TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))까지 끊김 없이 제어하는 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 과정을 보여준다.
 
@@ -90,7 +83,7 @@ SCE 인프라를 구축할 때, SI 사업자나 기업의 물류 담당자는 �
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **가시성(Visibility) 확보 여부**: 바코드나 RFID를 통해, 물건이 현재 창고 선반에 있는지 트럭 적재함에 있는지 실시간 위치 추적이 가능한가?
-2. **OMS-[WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 주기**: 고객이 주문을 취소했을 때, WMS에 즉각 반영되어 포장 작업이 중단되는 리얼타임 인터페이스가 구현되어 있는가? ([배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 지양)
+2. <strong>OMS-<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 주기</strong>: 고객이 주문을 취소했을 때, WMS에 즉각 반영되어 포장 작업이 중단되는 리얼타임 인터페이스가 구현되어 있는가? ([배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 지양)
 3. **확장성 고려**: 성수기(블랙 프라이데이 등) 트래픽 폭증 시 [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)/OMS 서버가 버티는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -114,29 +107,31 @@ SCE 인프라를 구축할 때, SI 사업자나 기업의 물류 담당자는 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/) ([Supply Chain Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/))** | SCE의 행동 지침이 되는 상위 수요/생산 계획 |
-| **[WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))** | SCE의 심장부로 창고 내 피킹/패킹 동선을 제어 |
-| **[TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))**| 창고 문을 나선 이후부터 고객 앞까지의 배차 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 제어 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/">SCP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/095_scp_supply_chain_planning/">Supply Chain Planning</a>)</strong> | SCE의 행동 지침이 되는 상위 수요/생산 계획 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">Warehouse Management System</a>)</strong> | SCE의 심장부로 창고 내 피킹/패킹 동선을 제어 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">TMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/">Transportation Management System</a>)</strong>| 창고 문을 나선 이후부터 고객 앞까지의 배차 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 제어 |
 | **RFID / 바코드 시스템** | 실물과 SCE 소프트웨어를 이어주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처의 기본 인프라 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 재고 관리 (수작업, 엑셀)
-    │
-    ▼
-개별 시스템 도입 (단독 WMS, 단독 TMS 운영)
-    │
-    ▼
-SCE (Supply Chain Execution) 통합
-(OMS-WMS-TMS의 심리스 데이터 연계 및 가시성 확보)
-    │
-    ▼
-로보틱스 융합 (AGV/AMR, 자동 피킹)
-    │
-    ▼
-초자동화 물류 시스템 (AI 예측 기반 선제적 물류 실행)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 재고 관리 (수작업, 엑셀)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개별 시스템 도입 (단독 WMS, 단독 TMS 운영)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SCE (Supply Chain Execution) 통합</div>
+<div class="kb-diagram-note">(OMS-WMS-TMS의 심리스 데이터 연계 및 가시성 확보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로보틱스 융합 (AGV/AMR, 자동 피킹)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초자동화 물류 시스템 (AI 예측 기반 선제적 물류 실행)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

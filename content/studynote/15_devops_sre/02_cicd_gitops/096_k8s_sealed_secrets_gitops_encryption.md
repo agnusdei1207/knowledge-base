@@ -34,28 +34,26 @@ Sealed Secrets 시스템은 클러스터 내부에 상주하는 '컨트롤러(Co
 | 구성 요소 | 역할 | 상세 기제 |
 | :--- | :--- | :--- |
 | **Sealed Secrets Controller** | 비대칭 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 복호화 | 클러스터 시작 시 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 퍼블릭/프라이빗 키 쌍을 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 프라이빗 키 보관 |
-| **`kubeseal` (CLI)** | 로컬 환경에서의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호화 | 클러스터에서 퍼블릭 키를 다운받아, 로컬의 평문 Secret을 `SealedSecret` CRD로 암호화 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Agent (ArgoCD)** | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 반영 | Git에 푸시된 암호화 매니페스트를 K8s 클러스터로 끌고 와서 적용 (Pull) |
+| <strong><code>kubeseal</code> (CLI)</strong> | 로컬 환경에서의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호화 | 클러스터에서 퍼블릭 키를 다운받아, 로컬의 평문 Secret을 `SealedSecret` CRD로 암호화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> Agent (ArgoCD)</strong> | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 반영 | Git에 푸시된 암호화 매니페스트를 K8s 클러스터로 끌고 와서 적용 (Pull) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Sealed Secrets 기반의 GitOps 파이프라인           │
-├──────────────────────────────────────────────────────────────┤
-│  [개발자 로컬 PC]             [Git 저장소]            [K8s 클러스터] │
-│                                                              │
-│ 1. 평문 Secret 작성                                          │
-│         │                                                    │
-│ 2. `kubeseal` 실행 ──(Public Key)──┐                       │
-│         │                          │                       │
-│ 3. 암호화된 SealedSecret 생성        │  [Controller] (Private Key)│
-│         │                          │                       │
-│ 4. Git Push ─────────────────▶ 저장 ────(ArgoCD Sync)──▶ 5. K8s 배포 │
-│                                                            │ │
-│                                        [원본 Secret 복원] ◀─┘ │
-└──────────────────────────────────────────────────────────────┘
-```
 
-가장 중요한 원리는 **[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 워크플로**다. 개발자는 퍼블릭 키를 사용해 평문을 묶어(Seal) 암호문 덩어리로 만들 수 있지만, 이 암호문은 개발자 본인조차도 다시 풀 수 없다. 오직 클러스터 안에서 프라이빗 키를 품고 있는 컨트롤러만이 이를 해독하여 K8s 내부에 실제 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체를 렌더링한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sealed Secrets 기반의 GitOps 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 로컬 PC</div><div class="kb-diagram-node">Git 저장소</div><div class="kb-diagram-node">K8s 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 평문 Secret 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. <code>kubeseal</code> 실행 ──(Public Key)──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. 암호화된 SealedSecret 생성</div><div class="kb-diagram-node">Controller</div><div class="kb-diagram-note">(Private Key)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Git Push ▶ 저장 (ArgoCD Sync)──▶ 5. K8s 배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 Secret 복원</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
+</div>
+</div>
+
+
+
+가장 중요한 원리는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 워크플로</strong>다. 개발자는 퍼블릭 키를 사용해 평문을 묶어(Seal) 암호문 덩어리로 만들 수 있지만, 이 암호문은 개발자 본인조차도 다시 풀 수 없다. 오직 클러스터 안에서 프라이빗 키를 품고 있는 컨트롤러만이 이를 해독하여 K8s 내부에 실제 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체를 렌더링한다.
 
 - **📢 섹션 요약 비유**: 개발자는 엽서에 비밀번호를 적고 '열면 터지는 특수 자물쇠(kubeseal)'를 채워 우체통(Git)에 넣는다. 도둑이 엽서를 주워도 열 수 없으며, 오직 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 키를 가진 우체국장(Controller)만이 안전하게 뜯어볼 수 있다.
 
@@ -82,11 +80,11 @@ Vault나 AWS Secrets Manager가 비밀번호를 외부 금고에 숨겨두고 K8
 
 Sealed Secrets는 도입은 쉽지만, 핵심 보안 키의 라이프사이클 관리를 잘못하면 대형 사고로 이어진다.
 
-1. **치명적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/): [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 키 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))**:
+1. <strong>치명적 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>: <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터 키 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a>)</strong>:
    - 컨트롤러가 가진 프라이빗 키를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하지 않고 K8s 클러스터가 파괴(재설치)되었다면?
    - Git에 수천 줄의 `SealedSecret` 코드가 남아있어도, 이를 해독할 키가 없으므로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 영원히 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되지 않는다.
-   - **의사결정**: 클러스터 구축 직후 컨트롤러의 프라이빗 키([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))를 반드시 추출하여, 사내 오프라인 물리 금고나 [AWS KMS](/knowledge-base/studynote/09_security/20_extra_exam_prep/1013_aws_kms/) 같은 가장 안전한 곳에 **수동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))**해야 한다.
-2. **키 로테이션 ([Key Rotation](/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**:
+   - **의사결정**: 클러스터 구축 직후 컨트롤러의 프라이빗 키([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))를 반드시 추출하여, 사내 오프라인 물리 금고나 [AWS KMS](/knowledge-base/studynote/09_security/20_extra_exam_prep/1013_aws_kms/) 같은 가장 안전한 곳에 <strong>수동 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a>)</strong>해야 한다.
+2. <strong>키 로테이션 (<a href="/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/">Key Rotation</a>) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>:
    - 보안 규정에 따라 30일마다 퍼블릭/프라이빗 키 쌍을 갱신(로테이션)해야 할 수 있다.
    - 키가 바뀌더라도 기존에 옛날 키로 암호화된 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 컨트롤러가 과거 키 이력을 기억하여 여전히 복호화할 수 있으나, 새로 암호화할 때는 반드시 최신 퍼블릭 키를 가져오도록 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 설계해야 한다.
 
@@ -108,28 +106,30 @@ Sealed Secrets의 도입은 '[DevSecOps](/knowledge-base/studynote/04_software_e
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 선언적 코드를 Git에서 관리하는 패러다임으로, Sealed Secrets 도입의 근본 원인 |
-| **Asymmetric [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) (비대칭 암호화)** | 퍼블릭 키(암호화)와 프라이빗 키(복호화)를 분리하는 핵심 보안 원리 |
-| **External Secrets [Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/)** | Sealed Secrets의 정적 관리를 넘어, 외부 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 등)와 연동하기 위한 대체/확장 기술 |
-| **Disaster [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/))** | 컨트롤러의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 프라이빗 키를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하여 클러스터 소실 시 복원력을 확보하는 필수 절차 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 선언적 코드를 Git에서 관리하는 패러다임으로, Sealed Secrets 도입의 근본 원인 |
+| <strong>Asymmetric <a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">Cryptography</a> (비대칭 암호화)</strong> | 퍼블릭 키(암호화)와 프라이빗 키(복호화)를 분리하는 핵심 보안 원리 |
+| <strong>External Secrets <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/">Operator</a></strong> | Sealed Secrets의 정적 관리를 넘어, 외부 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 등)와 연동하기 위한 대체/확장 기술 |
+| <strong>Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a>)</strong> | 컨트롤러의 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 프라이빗 키를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하여 클러스터 소실 시 복원력을 확보하는 필수 절차 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Base64 인코딩 K8s Secret (단순 평문)
-    │
-    ▼
-GitOps 도입에 따른 시크릿 유출 취약점 발생
-    │
-    ▼
-K8s Sealed Secrets (GitOps 친화적 비대칭 암호화)
-    │
-    ▼
-HashiCorp Vault / External Secrets Operator (중앙 집중식 동적 관리)
-    │
-    ▼
-Secret Rotation & OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Base64 인코딩 K8s Secret (단순 평문)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps 도입에 따른 시크릿 유출 취약점 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K8s Sealed Secrets (GitOps 친화적 비대칭 암호화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HashiCorp Vault / External Secrets Operator (중앙 집중식 동적 관리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secret Rotation &amp; OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 인프라 보안 관리 방식이 "평문 노출 → 로컬 정적 암호화 → 외부 중앙화 → 단기 토큰/무암호화"로 진화하는 과정을 보여준다.
 

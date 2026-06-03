@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 장비나 프로토콜이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 때 **선입선출([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/), 먼저 온 놈 먼저 처리)** 방식을 고집하면서 터지는 고질적인 문제입니다.
+네트워크 장비나 프로토콜이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 때 <strong>선입선출(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>, 먼저 온 놈 먼저 처리)</strong> 방식을 고집하면서 터지는 고질적인 문제입니다.
 
-```text
-[슬로우 스타트]
-    │
-    ▼
-[홀오브라인 블로킹]
-    │
-    └──▶ [QUIC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홀오브라인 블로킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,16 +40,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 큐(대기열)나 전송 파이프라인에서, **맨 앞(Head of Line)에 있는 패킷의 처리가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되거나 손실되어 멈췄을 때, 그 뒤에 대기하고 있는 모든 정상적인 패킷들까지 연쇄적으로 처리가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(블로킹)되어 전체 네트워크 성능이 수직 낙하하는 현상**입니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 큐(대기열)나 전송 파이프라인에서, <strong>맨 앞(Head of Line)에 있는 패킷의 처리가 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>되거나 손실되어 멈췄을 때, 그 뒤에 대기하고 있는 모든 정상적인 패킷들까지 연쇄적으로 처리가 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(블로킹)되어 전체 네트워크 성능이 수직 낙하하는 현상</strong>입니다.
 
-```text
-[슬로우 스타트]
-    │
-    ▼
-[홀오브라인 블로킹]
-    │
-    └──▶ [QUIC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 홀오브라인 블로킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,14 +64,14 @@ tags = ["studynote-network"]
 ### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 웹 통신의 지옥 (파이프라이닝의 실패)
 - 옛날 웹 브라우저([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1)는 파이프라인 기능으로 사진 1번, 2번, 3번을 한 번에 요청했습니다.
 - **발생**: 1번 사진(100MB)이 너무 커서 다운로드가 10초 걸립니다. 그 뒤에 줄 서 있는 2번 사진(1KB)과 3번 사진(1KB)은 크기가 엄청 작은데도, 1번 사진이 다 올 때까지 화면에 절대 뜨지 못하고 모래시계(로딩)만 돕니다. 웹페이지가 미친 듯이 느리게 뜹니다.
-- **해결책**: **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 (973번 문서)**가 이 문제를 박살 냈습니다. 사진들을 레고 블록처럼 쪼개서(멀티플렉싱) 한 파이프에 동시에 마구잡이로 섞어 쏴버려 앞사람이 막는 현상 자체를 없앴습니다.
+- **해결책**: <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 (973번 문서)</strong>가 이 문제를 박살 냈습니다. 사진들을 레고 블록처럼 쪼개서(멀티플렉싱) 한 파이프에 동시에 마구잡이로 섞어 쏴버려 앞사람이 막는 현상 자체를 없앴습니다.
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 전송 계층의 원초적 한계 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 웹의 HOL을 해결했지만, 그 밑에 깔린 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 자체가 가진 원초적 한계는 못 고쳤습니다.
-- **발생**: TCP는 1번, 2번, 3번 패킷을 보냈을 때 수신자가 **반드시 순서대로 조립**해야 합니다. 
+- **발생**: TCP는 1번, 2번, 3번 패킷을 보냈을 때 수신자가 <strong>반드시 순서대로 조립</strong>해야 합니다. 
 - 만약 1번 패킷이 공중에서 유실(에러)되었습니다! 2번과 3번 패킷은 수신자 폰에 멀쩡히 잘 도착했습니다.
 - **문제**: TCP는 완벽주의자라 1번 패킷을 다시 재전송받을 때까지([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 대기), 폰에 이미 도착한 2번과 3번 패킷을 브라우저(앱)로 올려보내 주지 않고 램(RAM) 임시 저장소에 꽉 잡고 인질극을 벌입니다. 여기서 앱의 렉이 걸립니다.
-- **해결책**: 이 끔찍한 TCP의 고집을 버리고, 그냥 도착한 놈부터 화면에 띄워버리자며 구글이 만든 차세대 프로토콜이 바로 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반의 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) (972번 문서)**입니다.
+- **해결책**: 이 끔찍한 TCP의 고집을 버리고, 그냥 도착한 놈부터 화면에 띄워버리자며 구글이 만든 차세대 프로토콜이 바로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 기반의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (972번 문서)</strong>입니다.
 
 홀오브라인 블로킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)가 기반 조건을 만든다면, 홀오브라인 블로킹은 그 위에서 핵심 메커니즘을 구현하고, QUIC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -88,7 +96,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking은 **'1차선 도로 터널의 길막 현상'**입니다. 터널은 차선 변경(추월)이 안 됩니다. 맨 앞에 가던 고물 트럭(에러 난 패킷 또는 대용량 패킷)이 고장 나서 터널 한가운데 멈춰 섰습니다. 그 뒤를 따르던 페라리와 포르쉐(정상 패킷들)는 쌩쌩 달릴 능력이 충분하지만, 트럭이 견인차에 실려 갈 때까지(재전송 완료 시까지) 터널 안에서 꼼짝없이 빵빵거리며 서 있어야 합니다. 이 무식한 1차선 줄서기 구조 때문에 발생하는 전 국민적 교통 체증(통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 통신학에서는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹이라고 부릅니다. 이를 해결하려면 1차선 터널을 허물고 추월이 가능한 다차선 고속도로(멀티플렉싱, [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))를 깔아야 합니다.
+- **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking은 <strong>'1차선 도로 터널의 길막 현상'</strong>입니다. 터널은 차선 변경(추월)이 안 됩니다. 맨 앞에 가던 고물 트럭(에러 난 패킷 또는 대용량 패킷)이 고장 나서 터널 한가운데 멈춰 섰습니다. 그 뒤를 따르던 페라리와 포르쉐(정상 패킷들)는 쌩쌩 달릴 능력이 충분하지만, 트럭이 견인차에 실려 갈 때까지(재전송 완료 시까지) 터널 안에서 꼼짝없이 빵빵거리며 서 있어야 합니다. 이 무식한 1차선 줄서기 구조 때문에 발생하는 전 국민적 교통 체증(통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 통신학에서는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹이라고 부릅니다. 이를 해결하려면 1차선 터널을 허물고 추월이 가능한 다차선 고속도로(멀티플렉싱, [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))를 깔아야 합니다.
 
 ---
 
@@ -111,15 +119,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 슬로우 스타트]
-    │
-    ▼
-[현재 개념: 홀오브라인 블로킹]
-    │
-    ├──▶ [확장 A: QUIC]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슬로우 스타트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홀오브라인 블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QUIC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 홀오브라인 블로킹는 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

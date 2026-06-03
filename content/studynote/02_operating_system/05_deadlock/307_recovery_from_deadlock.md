@@ -21,32 +21,32 @@ tags = ["studynote-operating-system"]
 
 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에 빠진 스레드들은 서로 양보라는 걸 모른다. 누가 멱살을 잡고 풀어주기 전까지 무한대기(Infinity Block) 상태로 화석이 되어 영겁의 시간을 보낸다.
 
-탐지 드론(OS [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Daemon)이 "저기 4명이 서로 멱살 잡고 원(Cycle)을 그리고 있네!!"라고 경보를 울렸다면, **"[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"** 특수부대가 투입된다.
+탐지 드론(OS [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Daemon)이 "저기 4명이 서로 멱살 잡고 원(Cycle)을 그리고 있네!!"라고 경보를 울렸다면, <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)"</strong> 특수부대가 투입된다.
 이들의 유일한 목표는 단 하나다. **"무조건 원(사이클)에 끊어진 구멍을 낸다."**
 어떻게? 누군가 한 명을 강제로 쏴서 죽이거나(Kill), 그 한 명이 쥐고 있던 칼(자원)을 억지로 뺏어 남에게 던져줌으로써(Preemption)!
 
 **💡 비유**: 교차로 4대 알박기 꼬리물기 사고(데드락). 탐지(경찰)가 떴다. 4대 다 비킬 생각을 안 하니, 견인차([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))가 출동해서 차 1대를 통째로 들어서 폐차장으로 던져버리거나(Kill), 차에서 운전자를 대포로 쏴 쫓아내고 차를 뒤로 쑥 빼버린다(Preempt). 그 빈 공간 1개가 생기는 순간 나머지 3대는 신나서 시동을 걸고 지나갈 수 있다. 무사히 돌아가는 시스템을 위해 한 놈을 바치는 제물(Victim) 의식.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│         교착 상태 복구(Recovery)의 2대 처단 강령               │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  탐지 결과 보고 접수: "P1→P2→P3→P1 데드락 확진!"               │
-│                                                                │
-│  [루트 1 (Process Termination): 사람을 청부 살해!]             │
-│  ① 전체 사살 (Abort All): "P1, P2, P3 셋 다 죽여(Kill)!"       │
-│     ▶ 1방에 해결! (하지만 여태껏 쓴 자원과 노력 몽땅 증발)     │
-│  ② 순차 사살 (Abort One-by-One): "일단 만만한 P1만 짤라!"      │
-│     ▶ 1놈 자르고, 다시 스캔 돌려서 데드락 풀렸는지 확인.       │
-│     ▶ 풀렸으면 P2, P3은 구출! 안 풀렸으면 P2도 짤라!           │
-│                                                                │
-│  [루트 2 (Resource Preemption): 소매치기 강탈!]                │
-│  ① 희생자 선정 (Victim): "비용이 제일 싼 P2를 털자"            │
-│  ② 롤백 (Rollback): "P2야 네가 쥔 자원 A 당장 토해내렴."       │
-│  ③ 기아(Starvation) 방지: "야 P2 너무 여러 번 털리는데?"       │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 복구(Recovery)의 2대 처단 강령</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 결과 보고 접수: "P1→P2→P3→P1 데드락 확진!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트 1 (Process Termination): 사람을 청부 살해!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 전체 사살 (Abort All): "P1, P2, P3 셋 다 죽여(Kill)!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1방에 해결! (하지만 여태껏 쓴 자원과 노력 몽땅 증발)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 순차 사살 (Abort One-by-One): "일단 만만한 P1만 짤라!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1놈 자르고, 다시 스캔 돌려서 데드락 풀렸는지 확인.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 풀렸으면 P2, P3은 구출! 안 풀렸으면 P2도 짤라!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">루트 2 (Resource Preemption): 소매치기 강탈!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 희생자 선정 (Victim): "비용이 제일 싼 P2를 털자"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 롤백 (Rollback): "P2야 네가 쥔 자원 A 당장 토해내렴."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 기아(Starvation) 방지: "야 P2 너무 여러 번 털리는데?"</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 탐지가 암을 발견(진단서 발급)한 거라면, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 직접 메스를 들고 암 덩어리의 피가 통하는 혈관(사이클 간선) 중 가장 만만한 하나를 쓱! 하고 잘라버리는 무자비한 집도의(Surgeon)입니다.
 
@@ -58,9 +58,9 @@ tags = ["studynote-operating-system"]
 
 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에서 가장 뼈아픈 수식은 '죽일 놈 고르기([Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/))'다. 왜냐하면 죽여서 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 데 들어가는 컴퓨터의 `비용(Overhead)`이 다 다르기 때문이다.
 
-1. **처리 완료도 ([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/))**: 여태 1시간 동안 계산해 놓은 P1을 죽일래? 방금 켜진 P2를 죽일래? (당연히 P2 척살).
+1. <strong>처리 완료도 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>: 여태 1시간 동안 계산해 놓은 P1을 죽일래? 방금 켜진 P2를 죽일래? (당연히 P2 척살).
 2. **보유 자원의 가치 (Resource Amount)**: P1은 자원 100개를 움켜쥐고 있다. 얘를 죽이면 자원 100개가 공중에 흩날려 거대한 대박(여유)이 터지므로, P3, [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 등 수십 명을 구하려는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최우선 희생양으로 점 찍힌다.
-3. **사용자의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (User Level)**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 루트(ROOT)가 돌리는 백그라운드 P1을 죽일래? 동네 유저가 심심해서 킨 배경화면 위젯 P2를 죽일래? (우선순위를 따져 무참히 P2가 희생당함).
+3. <strong>사용자의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> (User Level)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 루트(ROOT)가 돌리는 백그라운드 P1을 죽일래? 동네 유저가 심심해서 킨 배경화면 위젯 P2를 죽일래? (우선순위를 따져 무참히 P2가 희생당함).
 
 **📢 섹션 요약 비유**: 4명이 얽혔을 때 경찰([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직)은 무작정 총을 쏘는 게 아니라 수첩을 꺼냅니다. "가장 가난한 놈, 가장 일 안 한 놈, 빽 없는 놈(최소 비용)"을 재빠르게 계산해 한 놈만 골라내서 핀셋으로 죽여버리는 잔혹성을 띱니다.
 
@@ -73,7 +73,7 @@ tags = ["studynote-operating-system"]
 | 교착 방임 (Ostrich) | 무시 (어차피 잘 안 터짐) | 블루스크린, 유저의 빡종 재부팅 유발 | 시스템 전체 사망 (치명적) |
 | 예방 (Prevention) | 얽히기 전 룰 제약 | 자원 활용성 바닥 (효율성 박살) | 피 안 흘림 (아예 싸울 일을 차단) |
 | 회피 (Avoidance) | 행렬로 예측 후 거절 | CPU가 연산하다 뻗음 | 피 안 흘림 (위험할 거 같으면 안 줌) |
-| **탐지 & [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))** | **터졌을 때 (사후 대응)** | **DB [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 코어나 트러블슈팅의 핵심** | **명백한 희생자 1인(Victim Abort/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 발생** |
+| <strong>탐지 &amp; <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | **터졌을 때 (사후 대응)** | <strong>DB <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 코어나 트러블슈팅의 핵심</strong> | <strong>명백한 희생자 1인(Victim Abort/<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>) 발생</strong> |
 
 **📢 섹션 요약 비유**: 회피가 쫄보 엄마(안 줄래 모드), 타조가 방임 부모(안 볼래 모드)라면, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 형제끼리 치고박고 싸우다 한계점(사이클)을 넘어섰을 때 몽둥이 들고 나타나 장난감을 뺏어 부숴버리는 호랑이 아빠입니다 (피를 보는 대신 바로 상황 종료).
 
@@ -82,10 +82,10 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **RDBMS ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim 튜닝**: 데이터베이스의 꽃! DB는 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓸 수 없다 (돈 관련 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 영원히 멈추면 대형 금융사고!). 탐지 데몬이 사이클을 잡는 순간, 락 매니저는 '[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log량(가장 일 조금 한 놈)'을 체크해 Victim으로 확정 짓고 `$ Transaction Rolled back: Deadlock` 이란 에러와 함께 그 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제 종료([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)조치 루트 1-②)시킨다. 앱 개발자는 이 에러를 캐치해서 `while`문으로 쿼리를 2~3번 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 재시도해 살아남게 코딩하는 것이 실무의 정석이다.
+1. <strong>RDBMS (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>, MySQL) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> Victim 튜닝</strong>: 데이터베이스의 꽃! DB는 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓸 수 없다 (돈 관련 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 영원히 멈추면 대형 금융사고!). 탐지 데몬이 사이클을 잡는 순간, 락 매니저는 '[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log량(가장 일 조금 한 놈)'을 체크해 Victim으로 확정 짓고 `$ Transaction Rolled back: Deadlock` 이란 에러와 함께 그 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제 종료([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)조치 루트 1-②)시킨다. 앱 개발자는 이 에러를 캐치해서 `while`문으로 쿼리를 2~3번 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 재시도해 살아남게 코딩하는 것이 실무의 정석이다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직에 희생자 보호장치가 없는 생태계 (현대 기아의 원인)**: 희생자 비용 계산 수식을 짰더니, 하필 A 프로그램이 계속 0.1초짜리 가벼운 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 프로그램이라 매번 "죽이는데 가장 싼 놈"으로 낙인찍힌다. 데드락 터질 때마다 경찰이 A만 잡아 패니까 A는 영원히 시스템에서 일을 완료하지 못하고 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 상태라는 최악의 버그 지옥에 처박힌다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 로직에 희생자 보호장치가 없는 생태계 (현대 기아의 원인)</strong>: 희생자 비용 계산 수식을 짰더니, 하필 A 프로그램이 계속 0.1초짜리 가벼운 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 프로그램이라 매번 "죽이는데 가장 싼 놈"으로 낙인찍힌다. 데드락 터질 때마다 경찰이 A만 잡아 패니까 A는 영원히 시스템에서 일을 완료하지 못하고 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 상태라는 최악의 버그 지옥에 처박힌다.
 
 **📢 섹션 요약 비유**: 이 동네 교착 해결 방식은 삥 뜯긴 불쌍한 애(비용 적은 놈)를 만만하다는 이유로 한 대 더 치는 거라, 걔가 굶어 죽는 사이드 이펙트([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))가 생깁니다. 그래서 "이번엔 봐준다(희생 횟수 체크)"는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 룰을 달아 실무에 융합합니다.
 
@@ -115,15 +115,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[탐지 알고리즘의 오버헤드]
-    │
-    ▼
-[교착 상태 복구 (Recovery from Deadlock)]
-    │
-    ├──▶ [프로세스 종료 방식]
-    └──▶ [프로세스 순차 종료 방식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">탐지 알고리즘의 오버헤드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 복구 (Recovery from Deadlock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 종료 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 순차 종료 방식</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

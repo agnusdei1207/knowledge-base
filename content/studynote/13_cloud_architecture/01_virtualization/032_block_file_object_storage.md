@@ -62,18 +62,24 @@ EC2 인스턴스
 
 ### [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
-```
-클라이언트 A ─────┐
-                  │ NFS v4.1 / SMB 3.0
-클라이언트 B ─────┤
-                  ↓
-         파일 스토리지 서버 (EFS / NetApp)
-               /shared/
-               ├── project/
-               │   ├── data.csv
-               │   └── config.yaml
-               └── logs/
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 A</div>
+<div class="kb-diagram-note">NFS v4.1 / SMB 3.0</div>
+<div class="kb-diagram-note">클라이언트 B</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">파일 스토리지 서버 (EFS / NetApp)</div>
+<div class="kb-diagram-note">/shared/</div>
+<div class="kb-diagram-tree-item" style="--depth:7">project/</div>
+<div class="kb-diagram-note">── data.csv</div>
+<div class="kb-diagram-note">── config.yaml</div>
+<div class="kb-diagram-tree-item" style="--depth:7">logs/</div>
+</div>
+</div>
+
+
 
 ### AWS EFS vs FSx 비교
 
@@ -92,14 +98,20 @@ EC2 인스턴스
 
 ### 오브젝트 구조
 
-```
-버킷 (Bucket): my-data-bucket
-   └── 오브젝트 (Object)
-          ├── Key: "2024/01/15/logs/app.log"
-          ├── Value: 실제 데이터 (바이너리)
-          ├── 메타데이터: Content-Type, ETag, 커스텀 태그
-          └── 버전 ID: v1, v2, v3...
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">버킷 (Bucket): my-data-bucket</div>
+<div class="kb-diagram-tree-item" style="--depth:1">오브젝트 (Object)</div>
+<div class="kb-diagram-tree-item" style="--depth:5">Key: "2024/01/15/logs/app.log"</div>
+<div class="kb-diagram-tree-item" style="--depth:5">Value: 실제 데이터 (바이너리)</div>
+<div class="kb-diagram-tree-item" style="--depth:5">메타데이터: Content-Type, ETag, 커스텀 태그</div>
+<div class="kb-diagram-tree-item" style="--depth:5">버전 ID: v1, v2, v3...</div>
+</div>
+</div>
+
+
 
 ### S3 스토리지 클래스 (비용 최적화)
 
@@ -116,19 +128,24 @@ EC2 인스턴스
 
 ## Ⅴ. 다계층 스토리지 아키텍처
 
-```
-클라우드 스토리지 아키텍처:
 
-Web App ──→ EFS (공유 정적 파일)
-             ↓
-  DB ──────→ EBS io2 (고성능 블록)
-             ↓
-  로그 ─────→ S3 Standard (원본)
-                   ↓ 30일 후
-             S3 IA (비용 절감)
-                   ↓ 90일 후
-             Glacier (장기 보관)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라우드 스토리지 아키텍처:</div>
+<div class="kb-diagram-note">Web App ──→ EFS (공유 정적 파일)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">DB → EBS io2 (고성능 블록)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">로그 → S3 Standard (원본)</div>
+<div class="kb-diagram-note">↓ 30일 후</div>
+<div class="kb-diagram-note">S3 IA (비용 절감)</div>
+<div class="kb-diagram-note">↓ 90일 후</div>
+<div class="kb-diagram-note">Glacier (장기 보관)</div>
+</div>
+</div>
+
+
 
 ### 선택 가이드
 
@@ -146,45 +163,53 @@ Web App ──→ EFS (공유 정적 파일)
 
 ## 📌 관련 개념 맵
 
-```
-클라우드 스토리지 유형
-├── 블록 스토리지
-│   ├── EBS (AWS), Persistent Disk (GCP)
-│   ├── SAN (Storage Area Network)
-│   └── iSCSI / NVMe-oF
-├── 파일 스토리지
-│   ├── EFS / FSx (AWS), Filestore (GCP)
-│   ├── NFS (Network File System)
-│   └── SMB / CIFS
-└── 오브젝트 스토리지
-    ├── S3 (AWS), GCS (GCP), Azure Blob
-    ├── S3 API 표준 (호환 생태계)
-    └── S3 스토리지 클래스 계층
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라우드 스토리지 유형</div>
+<div class="kb-diagram-tree-item" style="--depth:0">블록 스토리지</div>
+<div class="kb-diagram-note">── EBS (AWS), Persistent Disk (GCP)</div>
+<div class="kb-diagram-note">── SAN (Storage Area Network)</div>
+<div class="kb-diagram-note">── iSCSI / NVMe-oF</div>
+<div class="kb-diagram-tree-item" style="--depth:0">파일 스토리지</div>
+<div class="kb-diagram-note">── EFS / FSx (AWS), Filestore (GCP)</div>
+<div class="kb-diagram-note">── NFS (Network File System)</div>
+<div class="kb-diagram-note">── SMB / CIFS</div>
+<div class="kb-diagram-tree-item" style="--depth:0">오브젝트 스토리지</div>
+<div class="kb-diagram-tree-item" style="--depth:2">S3 (AWS), GCS (GCP), Azure Blob</div>
+<div class="kb-diagram-tree-item" style="--depth:2">S3 API 표준 (호환 생태계)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">S3 스토리지 클래스 계층</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│             클라우드 스토리지 발전 흐름                          │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1990년대     │ SAN / NAS 등장     │ 블록·파일 스토리지 기업화    │
-│ 2006년       │ AWS S3 출시        │ 오브젝트 스토리지 클라우드화 │
-│ 2008년       │ AWS EBS 출시       │ 클라우드 블록 스토리지 표준  │
-│ 2015년       │ AWS EFS GA         │ 관리형 NFS 서비스            │
-│ 2018년       │ S3 Intelligent Tier| AI 기반 자동 계층 이동       │
-│ 2020년대     │ NVMe-oF·CSI       │ 컨테이너 스토리지 표준화     │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-블록(EBS) → DB/VM 고성능 워크로드
-파일(EFS) → 컨테이너·공유 파일시스템
-오브젝트(S3) → 비정형 데이터·무한 확장
-     ↓
-다계층 스토리지 정책 → 비용 최적화 (FinOps)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 스토리지 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">SAN / NAS 등장</div><div class="kb-diagram-cell">블록·파일 스토리지 기업화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2006년</div><div class="kb-diagram-cell">AWS S3 출시</div><div class="kb-diagram-cell">오브젝트 스토리지 클라우드화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2008년</div><div class="kb-diagram-cell">AWS EBS 출시</div><div class="kb-diagram-cell">클라우드 블록 스토리지 표준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">AWS EFS GA</div><div class="kb-diagram-cell">관리형 NFS 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">S3 Intelligent Tier</div><div class="kb-diagram-cell">AI 기반 자동 계층 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">NVMe-oF·CSI</div><div class="kb-diagram-cell">컨테이너 스토리지 표준화</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">블록(EBS) → DB/VM 고성능 워크로드</div>
+<div class="kb-diagram-note">파일(EFS) → 컨테이너·공유 파일시스템</div>
+<div class="kb-diagram-note">오브젝트(S3) → 비정형 데이터·무한 확장</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다계층 스토리지 정책 → 비용 최적화 (FinOps)</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -21,9 +21,9 @@ tags = ["studynote-design-supervision"]
 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 환경에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 커밋한 뒤 이벤트를 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 같은 메시지 브로커에 발행해야 하는 상황이 매우 흔하다. 이때 전통적인 방식—비즈니스 로직 저장 → 이벤트 발행—은 두 가지 위험을 내포한다.
 
 1. **커밋 직후 브로커 발행 실패**: DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 에는 저장됐지만 브로커에는 도달하지 못해 이벤트가 사라진다.
-2. **발행 성공 후 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)**: 브로커에는 이벤트가 올라갔지만 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)돼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 발생한다.
+2. <strong>발행 성공 후 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong>: 브로커에는 이벤트가 올라갔지만 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)돼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 발생한다.
 
-[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 아웃박스 패턴 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event Outbox Pattern) 은 이 두 가지 문제를 근본적으로 차단한다. 핵심 아이디어는 **이벤트 발행을 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 같은 DB ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에 포함시키는 것**이다. 이벤트는 즉시 브로커로 가지 않고 `outbox` 테이블에 저장되며, 이후 릴레이(Relay) 프로세스나 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 가 이를 읽어 브로커에 전달한다.
+[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 아웃박스 패턴 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Event Outbox Pattern) 은 이 두 가지 문제를 근본적으로 차단한다. 핵심 아이디어는 <strong>이벤트 발행을 비즈니스 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>과 같은 DB (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a>) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 안에 포함시키는 것</strong>이다. 이벤트는 즉시 브로커로 가지 않고 `outbox` 테이블에 저장되며, 이후 릴레이(Relay) 프로세스나 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 가 이를 읽어 브로커에 전달한다.
 
 | 방식 | [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) | 유실 위험 | 중복 발행 |
 |:---|:---:|:---:|:---:|
@@ -31,43 +31,43 @@ tags = ["studynote-design-supervision"]
 | Outbox 패턴 | ✅ | 없음 | At-least-once (최소 1회) |
 | [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 단독 | 부분적 | 있음 | 가능 |
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 편지를 바로 우체통에 넣는 대신 먼저 수신함에 보관해 두고, 우편배달부가 정해진 시간에 가져가는 것과 같다. 편지(이벤트)는 절대 잃어버리지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌──────────────────────────────────────────────────────────┐
-│                  Business Transaction                    │
-│  ┌───────────────┐          ┌────────────────────────┐   │
-│  │  Domain Model │ ──저장──▶│  Business Table (DB)   │   │
-│  │  (비즈니스 객체)│          └────────────────────────┘   │
-│  │               │ ──저장──▶┌────────────────────────┐   │
-│  └───────────────┘          │  Outbox Table (DB)     │   │
-│                             │  id / event_type       │   │
-│                             │  payload / status      │   │
-│                             └────────────┬───────────┘   │
-└──────────────────────────────────────────┼───────────────┘
-                                           │ COMMIT 동시 반영
-                     ┌─────────────────────▼──────────────┐
-                     │     Relay / CDC (Debezium 등)       │
-                     │  미발행 row 폴링 or 변경 로그 캡처    │
-                     └─────────────────────┬──────────────┘
-                                           │ publish
-                     ┌─────────────────────▼──────────────┐
-                     │     Message Broker (Kafka/RabbitMQ) │
-                     └─────────────────────┬──────────────┘
-                                           │ consume
-                     ┌─────────────────────▼──────────────┐
-                     │         Consumer Service B          │
-                     └────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Transaction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Model</div><div class="kb-diagram-cell">──저장──▶</div><div class="kb-diagram-cell">Business Table (DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 객체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──저장──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outbox Table (DB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id / event_type</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">payload / status</div></div>
+<div class="kb-diagram-note">COMMIT 동시 반영</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Relay / CDC (Debezium 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미발행 row 폴링 or 변경 로그 캡처</div></div>
+<div class="kb-diagram-note">publish</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Message Broker (Kafka/RabbitMQ)</div></div>
+<div class="kb-diagram-note">consume</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Service B</div></div>
+</div>
+</div>
+
+
 
 ```sql
 CREATE TABLE outbox_events (
@@ -109,15 +109,15 @@ CREATE TABLE outbox_events (
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-1. **주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: `ORDER_CREATED` 이벤트를 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 전달
-2. **결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: `PAYMENT_COMPLETED` 이벤트가 유실되면 배송이 시작되지 않는 치명적 오류 → Outbox 필수
-3. **알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 선택적 이벤트이지만, 비용·UX를 위해 Outbox로 At-least-once 보장
+1. <strong>주문 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: `ORDER_CREATED` 이벤트를 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 전달
+2. <strong>결제 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: `PAYMENT_COMPLETED` 이벤트가 유실되면 배송이 시작되지 않는 치명적 오류 → Outbox 필수
+3. <strong>알림 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 선택적 이벤트이지만, 비용·UX를 위해 Outbox로 At-least-once 보장
 
-- **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 처리**: 릴레이가 같은 이벤트를 중복 발행할 수 있으므로 소비자 측에서 idempotent (멱등) 처리 필수
+- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> 처리</strong>: 릴레이가 같은 이벤트를 중복 발행할 수 있으므로 소비자 측에서 idempotent (멱등) 처리 필수
 - **Outbox 테이블 정리**: 발행 완료된 행을 주기적으로 삭제하거나 아카이브하여 테이블 비대화 방지
 - **모니터링**: PENDING 상태가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이상 지속되면 릴레이 장애 알림 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-기술사 시험에서 Outbox 패턴은 **"MSA에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 어떻게 보장하는가"** 라는 논제와 연결된다. [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)) 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 달성하는 실용적 해법으로 평가받는다.
+기술사 시험에서 Outbox 패턴은 <strong>"MSA에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 어떻게 보장하는가"</strong> 라는 논제와 연결된다. [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)) 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 달성하는 실용적 해법으로 평가받는다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
@@ -136,7 +136,7 @@ Outbox 패턴 도입의 정량적 효과:
 - 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 단축 → 릴레이 재시작만으로 미발행 이벤트 자동 재처리
 - 브로커 일시 다운 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영에 영향 없음 (Outbox에 누적 후 발행)
 
-[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 특성상 네트워크 장애, 브로커 재시작, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재배포는 피할 수 없다. Outbox 패턴은 이러한 **불확실성을 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이라는 확실성으로 흡수**하는 설계 전략이다. [Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/) ([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)) 과 결합하면 시스템 전체의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))까지 완성된다.
+[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 특성상 네트워크 장애, 브로커 재시작, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재배포는 피할 수 없다. Outbox 패턴은 이러한 <strong>불확실성을 DB <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>이라는 확실성으로 흡수</strong>하는 설계 전략이다. [Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/) ([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)) 과 결합하면 시스템 전체의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))까지 완성된다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

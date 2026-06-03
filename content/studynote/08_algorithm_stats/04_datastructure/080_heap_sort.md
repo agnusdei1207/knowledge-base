@@ -18,18 +18,22 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-힙 정렬 2단계:
 
-1단계: Build Max-Heap (O(n))
-  [3,1,6,5,2,4] → 힙화 → [6,5,4,3,2,1]
-                                (최대 힙)
 
-2단계: Extract-Max 반복 (n-1번, 각 O(log n))
-  [6,5,4,3,2,1] → 6 추출·말단 교환 → Heapify
-  → [5,3,4,1,2|6] → 5 추출... 반복
-  → 정렬 완료: [1,2,3,4,5,6]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">힙 정렬 2단계:</div>
+<div class="kb-diagram-note">1단계: Build Max-Heap (O(n))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3,1,6,5,2,4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6,5,4,3,2,1</div></div>
+<div class="kb-diagram-note">(최대 힙)</div>
+<div class="kb-diagram-note">2단계: Extract-Max 반복 (n-1번, 각 O(log n))</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6,5,4,3,2,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">6 추출·말단 교환 → Heapify</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5,3,4,1,2|6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">5 추출... 반복</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2,3,4,5,6</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 힙 정렬은 사장을 반복 해고하는 인사 시스템이다. 회사(힙)에서 가장 능력 있는 사람(최대값)을 계속 뽑아 정렬된 명단에 추가하고, 남은 직원 중 새로운 사장을 선출하는 과정을 반복한다.
 
@@ -83,9 +87,9 @@ Heapify(i):
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 힙 정렬의 실제 사용처
-- **[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 구현**: 힙 정렬의 핵심 자료구조인 힙이 직접 활용.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a> 구현</strong>: 힙 정렬의 핵심 자료구조인 힙이 직접 활용.
 - **K번째 최댓값 탐색**: 힙을 이용해 O(n + k log n)으로 효율적 해결.
-- **[IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)**: C++ STL std::sort. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 깊어지면 힙 정렬로 전환 → O(n log n) 최악 보장.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">IntroSort</a></strong>: C++ STL std::sort. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 깊어지면 힙 정렬로 전환 → O(n log n) 최악 보장.
 
 ### [IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) (하이브리드)
 ```text
@@ -117,29 +121,31 @@ IntroSort = QuickSort + HeapSort + InsertionSort
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Max-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)** | 힙 정렬의 핵심 자료구조 |
+| <strong>Max-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a></strong> | 힙 정렬의 핵심 자료구조 |
 | **Heapify** | 힙 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 복원 핵심 연산 |
-| **[우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)** | 힙의 주요 응용 자료구조 |
-| **[IntroSort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/)** | 힙 정렬 + [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 하이브리드 |
-| **[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)** | 최소 힙 기반 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong> | 힙의 주요 응용 자료구조 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/">IntroSort</a></strong> | 힙 정렬 + [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 하이브리드 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a></strong> | 최소 힙 기반 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선택 정렬 — O(n²) 기본 선택 기반 정렬]
-    │
-    ▼
-[힙 자료구조 — O(log n) 최대·최소값 추출]
-    │
-    ▼
-[힙 정렬 — O(n log n) 제자리 정렬]
-    │
-    ▼
-[IntroSort — 힙+퀵+삽입 하이브리드 최적화]
-    │
-    ▼
-[우선순위 큐 응용 — 스케줄러, 다익스트라, A*]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 — O(n²) 기본 선택 기반 정렬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 자료구조 — O(log n) 최대·최소값 추출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 — O(n log n) 제자리 정렬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IntroSort — 힙+퀵+삽입 하이브리드 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 응용 — 스케줄러, 다익스트라, A*</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

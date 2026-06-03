@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 과거에 억지로 체인을 엮을 때는 [PBR](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))이나 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 꼼수를 썼습니다.
 - **한계**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 매번 패킷의 본문(IP, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 샅샅이 까보고 "아, 얜 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 거친 애구나" 하고 수동으로 판단해야 했습니다. 트래픽이 몰리면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 뇌정지가 왔고, 가상 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)) 10개를 거치는 복잡한 체인은 길을 잃어버리기 일쑤였습니다.
 
-```text
-[서비스 체이닝 (Service Chainin…]
-    │
-    ▼
-[네트워크 서비스 헤더]
-    │
-    └──▶ [P4 (Programming Protocol…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 서비스 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 인터넷 표준화 기구)에서 제정한 공식 [SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기능 체이닝) 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약입니다. 
-- 원래 패킷 겉면에 **'이 패킷이 어떤 징검다리 코스(체인)를 밟아야 하며, 지금 현재 몇 번째 징검다리를 밟았는지(경로와 상태)'를 적어놓은 꼬리표(헤더 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 추가로 씌워서(인캡슐레이션) 전송하는 기술**입니다.
+- 원래 패킷 겉면에 <strong>'이 패킷이 어떤 징검다리 코스(체인)를 밟아야 하며, 지금 현재 몇 번째 징검다리를 밟았는지(경로와 상태)'를 적어놓은 꼬리표(헤더 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 추가로 씌워서(인캡슐레이션) 전송하는 기술</strong>입니다.
 
-```text
-[서비스 체이닝 (Service Chainin…]
-    │
-    ▼
-[네트워크 서비스 헤더]
-    │
-    └──▶ [P4 (Programming Protocol…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 서비스 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 ### 1. [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Path [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)) - "너 무슨 코스 타니?"
 - 클라우드에 수만 개의 징검다리 코스(체인)가 있습니다.
-- SPI는 **패킷이 배정받은 전체 코스의 고유 ID 번호**입니다. 
+- SPI는 <strong>패킷이 배정받은 전체 코스의 고유 ID 번호</strong>입니다. 
 - (예: `SPI=100번`은 `방화벽 ➜ IPS ➜ 로드밸런서` 코스, `SPI=200번`은 `방화벽 ➜ 필터링` 코스) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100번을 보면 묻지도 따지지도 않고 그 코스 설계도대로 쳐냅니다.
 
 ### 2. SI ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) - "지금 몇 번째 징검다리 밟았니?" 🌟
@@ -89,7 +97,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - NSH 자체는 박스에 붙이는 송장(스티커)이지, 박스 그 자체(운반 수단)가 아닙니다.
-- 그래서 817번에서 배운 **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 박스(오버레이 터널) 안에 NSH 스티커가 붙은 패킷을 통째로 밀어 넣어서 배달([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)-GPE 등)**하는 것이 현대 클라우드 체이닝 배관의 절대 표준입니다.
+- 그래서 817번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 박스(오버레이 터널) 안에 NSH 스티커가 붙은 패킷을 통째로 밀어 넣어서 배달(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a>-GPE 등)</strong>하는 것이 현대 클라우드 체이닝 배관의 절대 표준입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -97,7 +105,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: NSH는 놀이공원([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) 입구에서 손님(패킷)의 손목에 채워주는 **'스마트 칩 자유이용권 팔찌'**입니다. 팔찌 안에는 두 가지가 들어있습니다. 첫째, **[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)(코스 번호)**입니다. "이 손님은 바이킹 ➜ 롤러코스터 ➜ 귀신의 집 순서로 도는 VIP 코스([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100) 손님이다!" 둘째, **SI(남은 티켓 횟수)**입니다. 손님이 바이킹을 타고 나오면 출구 직원이 팔찌를 찍어 횟수를 3에서 2(SI=2)로 깎습니다. 다음 길목에 서 있는 안내원([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))은 손님이 누군지 물어보지도 않고 팔찌만 딱 스캔합니다. "오! [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100번 코스인데 SI가 2가 남았군! 바이킹 탔으니 이제 롤러코스터 탈 차례네. 이쪽으로 가세요!" [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비가 골치 아프게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 장부를 머리 싸매고 고민할 필요 없이, 손목 팔찌(NSH)만 띡띡 스캔해서 0.1초 만에 다음 코스로 착착 돌려보내는 기적의 무인 릴레이 패스 시스템입니다.
+- **📢 섹션 요약 비유**: NSH는 놀이공원([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) 입구에서 손님(패킷)의 손목에 채워주는 <strong>'스마트 칩 자유이용권 팔찌'</strong>입니다. 팔찌 안에는 두 가지가 들어있습니다. 첫째, <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/">SPI</a>(코스 번호)</strong>입니다. "이 손님은 바이킹 ➜ 롤러코스터 ➜ 귀신의 집 순서로 도는 VIP 코스([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100) 손님이다!" 둘째, <strong>SI(남은 티켓 횟수)</strong>입니다. 손님이 바이킹을 타고 나오면 출구 직원이 팔찌를 찍어 횟수를 3에서 2(SI=2)로 깎습니다. 다음 길목에 서 있는 안내원([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))은 손님이 누군지 물어보지도 않고 팔찌만 딱 스캔합니다. "오! [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 100번 코스인데 SI가 2가 남았군! 바이킹 탔으니 이제 롤러코스터 탈 차례네. 이쪽으로 가세요!" [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비가 골치 아프게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 장부를 머리 싸매고 고민할 필요 없이, 손목 팔찌(NSH)만 띡띡 스캔해서 0.1초 만에 다음 코스로 착착 돌려보내는 기적의 무인 릴레이 패스 시스템입니다.
 
 ---
 
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 서비스 체이닝 (Service Chainin…]
-    │
-    ▼
-[현재 개념: 네트워크 서비스 헤더]
-    │
-    ├──▶ [확장 A: P4 (Programming Protocol…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 체이닝 (Service Chainin…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 서비스 헤더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: P4 (Programming Protocol…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…에서 출발해 현재 메커니즘을 정교화하고, 이후 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

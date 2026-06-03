@@ -28,15 +28,21 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Attribute
-  ↓
-Domain
-  ↓
-Allowed Atomic Values
-  ↓
-Integrity Check
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Attribute</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Domain</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Allowed Atomic Values</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Integrity Check</div>
+</div>
+</div>
+
+
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -99,29 +105,41 @@ Integrity Check
 
 ## 관련 개념 맵
 
-```text
-Attribute
-  ↓
-Domain
-  ↓
-Constraint
-  ↓
-Data Integrity
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Attribute</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Domain</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Constraint</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Integrity</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-원자값
-  ↓
-도메인
-  ↓
-제약 조건
-  ↓
-데이터 무결성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원자값</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">도메인</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">제약 조건</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터 무결성</div>
+</div>
+</div>
+
+
 
 ---
 

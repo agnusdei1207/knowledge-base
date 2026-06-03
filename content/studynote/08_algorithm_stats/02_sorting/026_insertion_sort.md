@@ -21,34 +21,29 @@ tags = ["algorithm_stats"]
 
 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))은 인간이 가장 자연스럽게 사용하는 정렬 방법이다. 카드 게임에서 카드를 한 장씩 받아 순서대로 정렬할 때, 우리는 무의식적으로 이미 정렬된 카드들 사이에서 새 카드가 들어갈 위치를 찾고 거기에 삽입한다. 이러한 자연스러움 때문에 구현이 매우 단순하고, 또한 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서는 대부분의 고급 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 실제로 더 빠른 경우가 많다.
 
-[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 가장 중요한 특성은 **안정 정렬(Stable Sort)**이라는 점과 **부분 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 강건성**이다. 동일 값 사이의 상대적 순서가 보존되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 정렬되어 있으면 비교 횟수가 O(N)에 불과하다.
+[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 가장 중요한 특성은 <strong>안정 정렬(Stable Sort)</strong>이라는 점과 <strong>부분 정렬된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 대한 강건성</strong>이다. 동일 값 사이의 상대적 순서가 보존되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 이미 정렬되어 있으면 비교 횟수가 O(N)에 불과하다.
 
 > 이 도식은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 카드를 정렬하는 방식을 보여준다.
 
-```text
-[삽입 정렬: 카드 게임 방식]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [손에 들고 있는 정렬된 카드] │
-│ ──────────────────────────────────── │
-│ │
-│ 기존 카드: [3, 7, 10, 15] │
-│ 새 카드: 9 │
-│ │
-│ 탐색: 9는 7보다 크고 10보다 작다 │
-│ → 7과 10 사이 어딘가에 삽입 │
-│ │
-│ [9 삽입 과정] │
-│ ──────────────────────────────────── │
-│ Shift: 10를 오른쪽으로 이동 │
-│ [3, 7, _, 10, 15] │
-│ │
-│ Insert: 9를 빈자리에 놓음 │
-│ [3, 7, 9, 10, 15] │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬: 카드 게임 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">손에 들고 있는 정렬된 카드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">기존 카드:</div><div class="kb-diagram-node">3, 7, 10, 15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 카드: 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색: 9는 7보다 크고 10보다 작다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 7과 10 사이 어딘가에 삽입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">9 삽입 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shift: 10를 오른쪽으로 이동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 7, _, 10, 15</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Insert: 9를 빈자리에 놓음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3, 7, 9, 10, 15</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 새 원소를 삽입할 때 이미 정렬된 부분을 왼쪽에서 오른쪽으로 한 칸씩 Shift한다.
 - **원인**: 이는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 원소 이동이 단순한 대입 연산으로 처리되어이기 때문이다.
@@ -61,7 +56,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 핵심 특성은 **시간 복잡도의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성**이다. 최선의 경우(완전히 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 O(N)이고, 최악의 경우(역순으로 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 O(N²), 평균적으로는 O(N²/2)이다.
+[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 핵심 특성은 <strong>시간 복잡도의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 의존성</strong>이다. 최선의 경우(완전히 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 O(N)이고, 최악의 경우(역순으로 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 O(N²), 평균적으로는 O(N²/2)이다.
 
 | 비교 항목 | [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) | [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/) | [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) |
 |:---|:---|:---|:---|
@@ -69,24 +64,22 @@ tags = ["algorithm_stats"]
 | **안정성** | 안정 | 불안정 | **안정** |
 | **최선 복잡도** | O(N²) | O(N²) | **O(N)** |
 
-```text
-[삽입 정렬의 시간 복잡도 분석]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [Best Case: 이미 정렬된 데이터] │
-│ ──────────────────────────────────── │
-│ A = [1, 2, 3, 4, 5] │
-│ → 각 원소: 이미 정렬된 위치 → 비교 1회, 교환 없음 │
-│ 총: O(N) │
-│ │
-│ [Worst Case: 역순 정렬된 데이터] │
-│ ──────────────────────────────────── │
-│ A = [5, 4, 3, 2, 1] │
-│ 총: Σᵢ₌₁ᴺ⁻¹ i = N(N-1)/2 = O(N²) │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬의 시간 복잡도 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Best Case: 이미 정렬된 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A =</div><div class="kb-diagram-node">1, 2, 3, 4, 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 원소: 이미 정렬된 위치 → 비교 1회, 교환 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총: O(N)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Worst Case: 역순 정렬된 데이터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A =</div><div class="kb-diagram-node">5, 4, 3, 2, 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총: Σᵢ₌₁ᴺ⁻¹ i = N(N-1)/2 = O(N²)</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/)보다 약 2배 정도 빠르게 동작하는 경우가 많다.
 - **원인**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 교환이 실제 원소 이동(Shift)이므로 캐시 친화적이기 때문이다.
@@ -99,24 +92,25 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 실무 적용은 다음과 같다. **부분 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: 네트워크 패킷 순서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬, 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 등에서 이미정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 새 레코드가 추가되는 상황에서한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다. **hybrid 정렬**: Python의 [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), C++ STL의 Intro Sort, Java의 Dual-Pivot Quick Sort에서의 기본 케이스로 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 활용한다.
+[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 실무 적용은 다음과 같다. <strong>부분 정렬된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 네트워크 패킷 순서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정렬, 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 등에서 이미정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 새 레코드가 추가되는 상황에서한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다. **hybrid 정렬**: Python의 [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), C++ STL의 Intro Sort, Java의 Dual-Pivot Quick Sort에서의 기본 케이스로 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 활용한다.
 
-```text
-[삽입 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ function insertion_sort(A): │
-│ for i in range(1, length(A)): │
-│ key = A[i] │
-│ j = i - 1 │
-│ while j >= 0 and A[j] > key: │
-│ A[j+1] = A[j] // 오른쪽으로 Shift │
-│ j = j - 1 │
-│ A[j+1] = key // 올바른 위치에 삽입 │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 의사코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function insertion_sort(A):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i in range(1, length(A)):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">key = A</div><div class="kb-diagram-node">i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j = i - 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">while j &gt;= 0 and A</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">&gt; key:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">j+1</div><div class="kb-diagram-note">= A</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">// 오른쪽으로 Shift</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j = j - 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">j+1</div><div class="kb-diagram-note">= key // 올바른 위치에 삽입</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 새 직원을과 같습니다. 새 직원들은 자기보다 먼저 입사한들 사이에서 적절한 자리에 스스로 이동하며, 나머지는 옆으로 양보하며 자리를 비켜줍니다.
 
@@ -124,9 +118,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 품질 관리에서 가장 중요한 것은 **안정성**의 활용이다. 동일 값 사이의 순서가 보존되므로, 다중 키 정렬에서 2차 정렬 기준으로 활용할 수 있다.
+[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 품질 관리에서 가장 중요한 것은 <strong>안정성</strong>의 활용이다. 동일 값 사이의 순서가 보존되므로, 다중 키 정렬에서 2차 정렬 기준으로 활용할 수 있다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 동일 값을 가진 요소들의 순서가 중요한 경우에는 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 안정성이 필수적으로 활용된다. 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 O(N²) 복잡도로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 발생할 수 있으므로 N의 크기를 예측해야 한다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 동일 값을 가진 요소들의 순서가 중요한 경우에는 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 안정성이 필수적으로 활용된다. 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 O(N²) 복잡도로 인해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 발생할 수 있으므로 N의 크기를 예측해야 한다.
 
 📢 **섹션 요약 비유**: [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의품질 관리는 조직도에서 동일 직급의 동료들 사이에서 Seniority 순서를 지키며 새 를 것과 같습니다.
 
@@ -134,7 +128,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 최신 동향은 **hybrid 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**에서의 활용이다. Python의 [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), Java의 Dual-Pivot [Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), C++ Intro Sort 모두의 기본 케이스로 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 사용하며, 이는삽입 정렬이 소규모에서 가장 효율적이라는 empirical한 사실에 기반한다.
+[삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)의 최신 동향은 <strong>hybrid 정렬 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>에서의 활용이다. Python의 [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), Java의 Dual-Pivot [Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), C++ Intro Sort 모두의 기본 케이스로 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 사용하며, 이는삽입 정렬이 소규모에서 가장 효율적이라는 empirical한 사실에 기반한다.
 
 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)은 O(N²) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이지만, 그 단순성, 안정성, 그리고 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 강건성은 여전히 중요한 활용 가치를 가지고 있다.
 
@@ -144,55 +138,52 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[삽입 정렬 (Insertion Sort) 핵심 개념 맵]
 
-┌─────────────────────────────────┐
-│ 삽입 정렬 (Insertion Sort) │
-└────────────────┬────────────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 핵심 특성 │ │ 시간 복잡도 │ │ 실무 활용 │
-│ Properties │ │ Time Complexity│ │ Use Cases │
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ 안정 정렬 │ │ O(N²) 일반 │ │ 부분 정렬된 데이터│
-│ Stable Sort │ │ O(N) 최선 │ │ 소규모 정렬 │
-│ 제자리 정렬 │ │ O(N²) 최악 │ │ Timsort 기본케이스│
-│ 자연스러움 │ │ (역순 입력) │ │ 연결 리스트 │
-└──────────────┘ └──────────────┘ └──────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입 정렬 (Insertion Sort)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성</div><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">실무 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Properties</div><div class="kb-diagram-cell">Time Complexity</div><div class="kb-diagram-cell">Use Cases</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정 정렬</div><div class="kb-diagram-cell">O(N²) 일반</div><div class="kb-diagram-cell">부분 정렬된 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stable Sort</div><div class="kb-diagram-cell">O(N) 최선</div><div class="kb-diagram-cell">소규모 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제자리 정렬</div><div class="kb-diagram-cell">O(N²) 최악</div><div class="kb-diagram-cell">Timsort 기본케이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자연스러움</div><div class="kb-diagram-cell">(역순 입력)</div><div class="kb-diagram-cell">연결 리스트</div></div>
+</div>
+</div>
+
+
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/) ([Bubble Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/))** | 동일 O(N²) 안정 정렬이나 교환 횟수가 더 많아 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 우세 |
-| **[셸 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/) ([Shell Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/))** | [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 간격(gap) 단위로 반복·수렴시켜 평균 O(N^1.5)로 개선한 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/)** | Python·Java 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 정렬로, 소규모 런(Run)에 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 적용하는 하이브리드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">버블 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/">Bubble Sort</a>)</strong> | 동일 O(N²) 안정 정렬이나 교환 횟수가 더 많아 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 우세 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/">셸 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/">Shell Sort</a>)</strong> | [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 간격(gap) 단위로 반복·수렴시켜 평균 O(N^1.5)로 개선한 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong> | Python·Java 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 정렬로, 소규모 런(Run)에 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 적용하는 하이브리드 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[버블 정렬 (Bubble Sort) — O(N²) 인접 교환, 안정 정렬이나 교환 비용 높음]
-│
-▼
-[삽입 정렬 (Insertion Sort) — O(N²)/O(N) 최선, 정렬된 부분 배열에 삽입]
-│
-▼
-[셸 정렬 (Shell Sort) — 간격(gap) 기반 부분 삽입 정렬, 평균 O(N^1.3~1.5)]
-│
-▼
-[병합 정렬 (Merge Sort) — O(N log N) 안정 정렬, 분할 정복 패러다임]
-│
-▼
-[Timsort — 삽입 정렬 + 병합 정렬 하이브리드, Python·Java 표준 정렬]
-│
-▼
-[병렬 정렬 (Parallel Sort) — 멀티코어 분할 병합, 대용량 데이터 O(N/p·log N)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">버블 정렬 (Bubble Sort) — O(N²) 인접 교환, 안정 정렬이나 교환 비용 높음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — O(N²)/O(N) 최선, 정렬된 부분 배열에 삽입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬 (Shell Sort) — 간격(gap) 기반 부분 삽입 정렬, 평균 O(N^1.3~1.5)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병합 정렬 (Merge Sort) — O(N log N) 안정 정렬, 분할 정복 패러다임</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Timsort — 삽입 정렬 + 병합 정렬 하이브리드, Python·Java 표준 정렬</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 정렬 (Parallel Sort) — 멀티코어 분할 병합, 대용량 데이터 O(N/p·log N)</div></div>
+</div>
+</div>
+
+
 이 흐름은 단순 비교·교환 정렬에서 분할 정복과 하이브리드 전략으로 발전하며, 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 탁월한 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 현대 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부 엔진의 핵심 구성 요소로 살아남은 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

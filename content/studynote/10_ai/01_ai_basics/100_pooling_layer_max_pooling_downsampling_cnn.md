@@ -30,26 +30,23 @@ tags = ["studynote-ai"]
 | [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) | 추출을 수행할 구역의 크기 (보통 $2 \times 2$) | 크기가 클수록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아지나 정보 손실도 커짐 |
 | 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 윈도우가 한 번에 이동하는 칸 수 (보통 2) | 보폭을 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 같게 하여 구역이 겹치지 않게 함 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Max Pooling (2x2 Window, Stride=2)            │
-├─────────────────────────────────────────────────────────────┤
-│   [ 입력 특성 맵 (4x4) ]            [ 출력 특성 맵 (2x2) ]  │
-│                                                             │
-│   ┌───┬───┐ ┌───┬───┐                                       │
-│   │ 1 │ 3 │ │ 2 │ 4 │               ┌───┬───┐               │
-│   ├───┼───┤ ├───┼───┤ ───────────▶  │ 8 │ 7 │               │
-│   │ 8 │ 5 │ │ 7 │ 1 │               ├───┼───┤               │
-│   └───┴───┘ └───┴───┘               │ 6 │ 9 │               │
-│   ┌───┬───┐ ┌───┬───┐ ───────────▶  └───┴───┘               │
-│   │ 3 │ 1 │ │ 5 │ 8 │                                       │
-│   ├───┼───┤ ├───┼───┤                                       │
-│   │ 6 │ 2 │ │ 9 │ 3 │                                       │
-│   └───┴───┘ └───┴───┘                                       │
-│                                                             │
-│   * 4칸 중 가장 큰 숫자 1개만 살아남아 용량이 1/4로 줄어듦  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Max Pooling (2x2 Window, Stride=2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 특성 맵 (4x4)</div><div class="kb-diagram-node">출력 특성 맵 (2x2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">9</div><div class="kb-diagram-cell">3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 4칸 중 가장 큰 숫자 1개만 살아남아 용량이 1/4로 줄어듦</div></div>
+</div>
+</div>
+
+
 위 다이어그램은 16개의 픽셀이 $2 \times 2$ 구역별로 묶여 가장 큰 값 하나씩만 추출됨으로써 총 4개의 픽셀로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되는 과정을 보여준다. 이 과정을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 $25\%$로 줄어든다.
 
 - **📢 섹션 요약 비유**: 전국 노래자랑 예선전([특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에 16명의 참가자가 4개 조(2x2 구역)로 나뉘어 대결할 때, 심사위원([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 각 조에서 목소리가 제일 큰 1명만 결선으로 올려보내 방송 시간(연산량)을 $1/4$로 줄이는 룰과 같다.
@@ -71,8 +68,8 @@ tags = ["studynote-ai"]
 실제 딥러닝 아키텍처 설계 시 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 적용과 회피를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 판단해야 한다.
 
 1. **Max Pooling의 채택**: 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))나 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))처럼 사물의 미세한 위치보다 "그게 무엇인지" 파악하는 것이 중요할 때 적극 사용한다.
-2. **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층의 회피 (Strided [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))**: 최근 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 계열 등에서는 정보 유실을 막기 위해 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층을 제거하고, 대신 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 필터 이동 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 2로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 연산과 해상도 축소를 동시에 해결하는 방식을 선호한다.
-3. **GAP (Global Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 적용**: 네트워크 마지막에 Fully Connected Layer를 두면 파라미터가 수천만 개로 폭발하므로, 마지막 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 전체의 평균을 하나의 숫자로 퉁치는 GAP를 적용하여 파라미터 수를 0으로 만들고 오버피팅을 방어한다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 층의 회피 (Strided <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>)</strong>: 최근 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 계열 등에서는 정보 유실을 막기 위해 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층을 제거하고, 대신 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 필터 이동 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 2로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 연산과 해상도 축소를 동시에 해결하는 방식을 선호한다.
+3. <strong>GAP (Global Average <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>) 적용</strong>: 네트워크 마지막에 Fully Connected Layer를 두면 파라미터가 수천만 개로 폭발하므로, 마지막 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 전체의 평균을 하나의 숫자로 퉁치는 GAP를 적용하여 파라미터 수를 0으로 만들고 오버피팅을 방어한다.
 
 - **📢 섹션 요약 비유**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)와 같아서, 과일(결과물)을 맺게 하려면 잔가지(불필요한 픽셀)를 과감히 쳐내야 하지만, 최근에는 아예 처음부터 굵은 가지만 자라게 씨앗을 심는(Strided Conv) 농법이 유행하는 것과 같다.
 
@@ -89,18 +86,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-합성곱 층 (Conv Layer) 연산 폭발
-    │
-    ▼
-최대 풀링 (Max Pooling) 도입 · 공간 이동 불변성 확보
-    │
-    ▼
-전역 평균 풀링 (GAP) · FC Layer 대체 및 파라미터 최소화
-    │
-    ▼
-Strided Convolution · 풀링 계층 생략 및 정보 손실 방지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">합성곱 층 (Conv Layer) 연산 폭발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최대 풀링 (Max Pooling) 도입 · 공간 이동 불변성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전역 평균 풀링 (GAP) · FC Layer 대체 및 파라미터 최소화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Strided Convolution · 풀링 계층 생략 및 정보 손실 방지</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "특징 탐지 → [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) → 파라미터 최소화 → [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 연산의 통합"으로 진화하는 해상도 축소 기법의 발전 과정을 보여준다.
 

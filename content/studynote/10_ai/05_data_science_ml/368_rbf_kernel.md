@@ -21,14 +21,17 @@ tags = ["studynote-ai"]
 
 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 이중 문제(Dual Problem)에는 샘플 간 내적(x·x')만 나타난다. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 원본 공간의 내적을 고차원 특성 공간에서의 내적으로 대체하는 수식 K(x,x') = φ(x)·φ(x')을 이용한다. 핵심은 φ(x)(명시적 고차원 변환)를 직접 계산하지 않고 K(x,x')만 계산하면 된다는 것이다. RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 아이디어의 가장 강력한 구현으로, Taylor 급수 전개 시 무한 차원 내적으로 확장됨이 수학적으로 증명된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "차원 이동 포탈"이다. 2D 평면에서 뒤엉킨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(선형 분리 불가)를 무한 차원 공간으로 순간 이동시키면 그 공간에서는 초평면 하나로 깔끔하게 나눌 수 있다. 포탈을 직접 만들지 않고(명시적 변환 없이) 목적지에서의 거리([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 값)만 계산하는 것이 트릭이다.
 
@@ -36,25 +39,25 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           RBF 커널 수식 및 무한 차원 확장                │
-├──────────────────────────────────────────────────────────┤
-│  K(x,x') = exp(-γ||x-x'||²)  where γ = 1/(2σ²)        │
-│                                                          │
-│  Taylor 급수 전개 (1차원 예시):                         │
-│  exp(-γ(x-x')²) = exp(-γx²)·exp(2γxx')·exp(-γx'²)     │
-│  = Σₙ (2γ)ⁿ/n! · xⁿ·x'ⁿ · exp(-γx²)exp(-γx'²)       │
-│  → φ(x) = exp(-γx²)·[1, √(2γ)x, (2γ)x²/√2!, ...]    │
-│  → 무한 차원 특성 벡터!                                │
-│                                                          │
-│  γ 파라미터 효과:                                       │
-│  γ 크면 → 각 샘플이 좁은 영역만 영향 → 복잡한 경계    │
-│  γ 작으면 → 각 샘플이 넓은 영역 영향 → 매끄러운 경계 │
-│                                                          │
-│  커널 행렬 K_ij = K(xᵢ, xⱼ): 반드시 양 정치(PSD)      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBF 커널 수식 및 무한 차원 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K(x,x') = exp(-γ</div><div class="kb-diagram-cell">x-x'</div><div class="kb-diagram-cell">²) where γ = 1/(2σ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Taylor 급수 전개 (1차원 예시):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exp(-γ(x-x')²) = exp(-γx²)·exp(2γxx')·exp(-γx'²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Σₙ (2γ)ⁿ/n! · xⁿ·x'ⁿ · exp(-γx²)exp(-γx'²)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, √(2γ)x, (2γ)x²/√2!, ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 무한 차원 특성 벡터!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ 파라미터 효과:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ 크면 → 각 샘플이 좁은 영역만 영향 → 복잡한 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ 작으면 → 각 샘플이 넓은 영역 영향 → 매끄러운 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 행렬 K_ij = K(xᵢ, xⱼ): 반드시 양 정치(PSD)</div></div>
+</div>
+</div>
+
+
 
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 수식 | 특성 공간 | 하이퍼파라미터 |
 |:---|:---|:---|:---|

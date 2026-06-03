@@ -30,14 +30,17 @@ tags = ["studynote-ai"]
 | 지시 무시 | "3줄 요약" 을 20줄 출력 | 형식 준수 응답 선호 |
 | 지나친 동의 | 틀린 전제에 동조 | 사실 기반 반박 학습 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 없는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 은 "박학다식하지만 눈치 없는 천재"다. 질문에 뭐든 대답하지만, 상황과 예의를 모른다. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 이 천재에게 "사회 교육"을 시키는 과정이다.
 
@@ -47,22 +50,23 @@ tags = ["studynote-ai"]
 
 ### [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-  ┌──────────────────────────────────────────────────────────────┐
-  │                   RLHF 전체 파이프라인                       │
-  ├──────────────┬──────────────────┬────────────────────────────┤
-  │  [Step 1]    │    [Step 2]      │       [Step 3]             │
-  │  SFT 지도    │  Reward Model    │     PPO 강화학습            │
-  │  미세조정    │  학습            │                            │
-  ├──────────────┼──────────────────┼────────────────────────────┤
-  │ 사전학습 LLM │ 동일 프롬프트에  │  SFT 모델 = 초기 정책      │
-  │    +         │ 2개 응답 생성    │  보상 모델로 점수 계산      │
-  │ 인간 작성    │ 사람이 선호 선택 │  PPO 로 정책 업데이트       │
-  │ 예시 대화    │ 순위 학습        │  KL 패널티 적용             │
-  │    ↓         │      ↓           │      ↓                     │
-  │  SFT 모델    │  Reward Model    │   정렬된 LLM (RL Model)    │
-  └──────────────┴──────────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF 전체 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1</div><div class="kb-diagram-node">Step 2</div><div class="kb-diagram-node">Step 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 지도</div><div class="kb-diagram-cell">Reward Model</div><div class="kb-diagram-cell">PPO 강화학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미세조정</div><div class="kb-diagram-cell">학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전학습 LLM</div><div class="kb-diagram-cell">동일 프롬프트에</div><div class="kb-diagram-cell">SFT 모델 = 초기 정책</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">2개 응답 생성</div><div class="kb-diagram-cell">보상 모델로 점수 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간 작성</div><div class="kb-diagram-cell">사람이 선호 선택</div><div class="kb-diagram-cell">PPO 로 정책 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시 대화</div><div class="kb-diagram-cell">순위 학습</div><div class="kb-diagram-cell">KL 패널티 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 모델</div><div class="kb-diagram-cell">Reward Model</div><div class="kb-diagram-cell">정렬된 LLM (RL Model)</div></div>
+</div>
+</div>
+
+
 
 ### 보상 모델 ([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습
 
@@ -110,8 +114,8 @@ KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_
 ### ChatGPT 구현 방식 (OpenAI InstructGPT)
 
 1. **SFT**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 + 인간 작성 데모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (13K 개) 미세조정
-2. **[Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)**: 6B 파라미터 모델로 33K 비교 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습
-3. **[PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)**: SFT 모델을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 적용, β=0.02 KL 패널티
+2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a></strong>: 6B 파라미터 모델로 33K 비교 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습
+3. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a></strong>: SFT 모델을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 적용, β=0.02 KL 패널티
 
 - **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) vs [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 는 "경기에서 심판(보상 모델)을 두고 반칙 시 벌점 주는 방식" vs "선수가 직접 좋아하는 플레이 스타일을 학습하는 방식"의 차이다. 심판이 있으면 정교하지만 복잡하고, 없으면 단순하지만 미묘한 조정이 어렵다.
 

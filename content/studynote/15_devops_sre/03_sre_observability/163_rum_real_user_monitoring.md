@@ -35,23 +35,22 @@ RUM의 기본 구조는 브라우저나 앱 안에 심어진 경량 수집기와
 
 아래 그림은 RUM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 분석되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                     RUM 수집 아키텍처                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 실제 사용자 브라우저/앱                                             │
-│   ├─ 성능 API: Navigation / Resource / Paint / Event Timing         │
-│   ├─ 오류 수집: JS Error, API Fail, Crash                           │
-│   ├─ 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형          │
-│   └─ RUM SDK                                                         │
-│              │                                                       │
-│              ▼                                                       │
-│       Beacon/API 전송 ──▶ 수집 엔드포인트 ──▶ 저장/집계 파이프라인   │
-│                                              │                      │
-│                                              ▼                      │
-│                    대시보드 · 경보 · 세그먼트 분석 · APM 연계        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RUM 수집 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 사용자 브라우저/앱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 성능 API: Navigation / Resource / Paint / Event Timing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오류 수집: JS Error, API Fail, Crash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RUM SDK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beacon/API 전송 ──▶ 수집 엔드포인트 ──▶ 저장/집계 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 · 경보 · 세그먼트 분석 · APM 연계</div></div>
+</div>
+</div>
+
+
 
 | 지표 | 의미 | 대표 기준 |
 | :--- | :--- | :--- |
@@ -135,22 +134,24 @@ RUM을 도입하면 사용자 경험 문제를 추측이 아니라 측정으로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서버 중심 모니터링
-    │
-    ▼
-브라우저 성능 API · 모바일 SDK 계측
-    │
-    ▼
-RUM (Real User Monitoring)
-    │
-    ├─ Core Web Vitals 측정
-    ├─ 오류율 · 세그먼트 분석
-    └─ 사용자 체감 SLI 도출
-    │
-    ▼
-Synthetic Monitoring · APM · DEM 통합 관측성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서버 중심 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브라우저 성능 API · 모바일 SDK 계측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RUM (Real User Monitoring)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Core Web Vitals 측정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">오류율 · 세그먼트 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">사용자 체감 SLI 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Synthetic Monitoring · APM · DEM 통합 관측성</div>
+</div>
+</div>
+
+
 
 이 흐름도는 인프라 중심 관측이 사용자 경험 중심 관측으로 확장되고, 다시 통합 관측성 체계로 연결되는 과정을 보여 준다.
 

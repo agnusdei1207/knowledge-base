@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 희생자가 정상적인 웹사이트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름(`www.bank.com`)을 요청할 때, 해커가 중간에서 조작된(위조된) 가짜 IP 주소를 응답으로 보내어, 희생자를 해커가 만들어놓은 가짜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 유도하는 해킹 기법입니다.
-- **구조적 취약점**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통신은 엄청나게 빨라야 하므로 무겁게 검증하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 **가볍고 빠른 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 53번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**를 씁니다. UDP는 상대방이 진짜인지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하는 과정이 1도 없어서, **질문(Query)을 던진 뒤 "누구든 가장 먼저 도착한 응답 패킷"을 무조건 정답으로 맹신**해버리는 치명적인 바보 같은 성질을 가집니다.
+- **구조적 취약점**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통신은 엄청나게 빨라야 하므로 무겁게 검증하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 <strong>가볍고 빠른 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 53번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>를 씁니다. UDP는 상대방이 진짜인지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하는 과정이 1도 없어서, <strong>질문(Query)을 던진 뒤 "누구든 가장 먼저 도착한 응답 패킷"을 무조건 정답으로 맹신</strong>해버리는 치명적인 바보 같은 성질을 가집니다.
 
-```text
-[IP 스푸핑]
-    │
-    ▼
-[DNS 스푸핑 / DNS Cache Pois…]
-    │
-    └──▶ [중간자 공격 도청 흐름과 통제 조치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,14 +54,18 @@ tags = ["studynote-network"]
 3. 이 중 하나가 KT 서버에 먹혀들어 가면, KT 서버의 메모리(Cache) 장부에는 `bank.com = 해커 IP`라고 기록(Poisoning, 독극물 오염)되어 버립니다.
 4. 이제 KT 인터넷을 쓰는 수십만 명의 시민들이 은행에 접속하려 할 때마다, 오염된 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 일제히 가짜 해커 IP를 뿌려대어 수십만 명을 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 납치해 버립니다.
 
-```text
-[IP 스푸핑]
-    │
-    ▼
-[DNS 스푸핑 / DNS Cache Pois…]
-    │
-    └──▶ [중간자 공격 도청 흐름과 통제 조치]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 출발할 때 쓰는 출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호가 예측 가능했기 때문입니다.
-- **대응책 ([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Randomization)**: 방어하기 위해 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 출발할 때 질문 번호([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) ID)뿐만 아니라, **출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호까지 수만 개의 난수(Random)로 복잡하게 비틀어버립니다.** 해커가 가짜 응답을 끼워 넣으려면 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 번호 두 개를 정확히 1초 안에 0.001% 확률로 찍어서 맞춰야 하므로 공격이 기하급수적으로 어려워집니다.
+- <strong>대응책 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> Randomization)</strong>: 방어하기 위해 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 출발할 때 질문 번호([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) ID)뿐만 아니라, <strong>출발지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호까지 수만 개의 난수(Random)로 복잡하게 비틀어버립니다.</strong> 해커가 가짜 응답을 끼워 넣으려면 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 번호 두 개를 정확히 1초 안에 0.001% 확률로 찍어서 맞춰야 하므로 공격이 기하급수적으로 어려워집니다.
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)이 기반 조건을 만든다면, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 그 위에서 핵심 메커니즘을 구현하고, [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +91,7 @@ KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/k
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 난수화 방어조차 운이 나쁘면 뚫리기 때문에, 아예 근본적인 해결책이 등장했습니다.
-- **[DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/)**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답 패킷에 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리자의 **비대칭키 기반 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/)([Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))**을 쾅쾅 찍어서 보내는 국제 표준 방어 기술입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/">DNSSEC</a></strong>: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답 패킷에 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리자의 <strong>비대칭키 기반 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)</strong>을 쾅쾅 찍어서 보내는 국제 표준 방어 기술입니다.
 - 브라우저가 은행 IP를 받을 때, "이 답변이 진짜 KT 서버에서 서명한 게 맞는지, 중간에 해커가 위조하지 않았는지(무결성과 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))" 서명값을 수학적으로 검증합니다. 해커는 KT의 개인키를 모르므로 가짜 서명을 만들 수 없어 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 공격이 100% 원천 차단됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -115,15 +123,19 @@ KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IP 스푸핑]
-    │
-    ▼
-[현재 개념: DNS 스푸핑 / DNS Cache Pois…]
-    │
-    ├──▶ [확장 A: 중간자 공격 도청 흐름과 통제 조치]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP 스푸핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNS 스푸핑 / DNS Cache Pois…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 중간자 공격 도청 흐름과 통제 조치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

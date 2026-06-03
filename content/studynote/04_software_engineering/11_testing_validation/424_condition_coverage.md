@@ -27,27 +27,27 @@ tags = ["studynote-software-engineering"]
 > TC 2: 나이 15(F) AND 음주 0.05(F) ➔ 전체 결과: **False**
 
 위 두 개만 해봐도 분기가 $T/F$로 모두 갈렸으니 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 만족합니다. 그런데 갑자기 프로그램이 사형 선고를 받습니다. "어? 성인인데 음주 수치가 0.05(F)가 나온 상황은 테스트 아예 안 했네?"
-이 끔찍한 눈먼 구멍을 메우기 위해 돋보기를 들고 이빨을 들이미는 것이 바로 **조건 커버리지(Condition Coverage)**입니다! 조건 커버리지는 덩어리 결과는 버리고, **개별 부품인 나이 $>=19$가 T/F를 가졌나? 음주 수치 $<0.03$이 T/F를 독자적으로 모두 가졌나?**를 끝까지 캐묻는 현미경 검사입니다.
+이 끔찍한 눈먼 구멍을 메우기 위해 돋보기를 들고 이빨을 들이미는 것이 바로 <strong>조건 커버리지(Condition Coverage)</strong>입니다! 조건 커버리지는 덩어리 결과는 버리고, **개별 부품인 나이 $>=19$가 T/F를 가졌나? 음주 수치 $<0.03$이 T/F를 독자적으로 모두 가졌나?**를 끝까지 캐묻는 현미경 검사입니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 조건 커버리지 타격 부위 분해의 예시 │
-├──────────────────────────────────────────────────────────────┤
-│ [원시 코드] │
-│ if ( 점수 > 80 [조건A] OR 출석률 == 100 [조건B] ) { │
-│ 장학금 지급!! │
-│ } │
-│ │
-│ [조건 커버리지 100% 달성 목표: "껍데긴 가라, 부품만 산다"] │
-│ 목표: 조건 A가 True/False, 조건 B가 True/False를 다 가져볼 것! │
-│ │
-│ 테스트 케이스 1: 점수 90 (A=True) , 출석률 90 (B=False) │
-│ 테스트 케이스 2: 점수 50 (A=False), 출석률 100(B=True) │
-│ │
-│ ▶ 결과적으로 A입장에서도 참/거짓 해봤고, B입장에서도 참/거짓 해봤다! │
-│ ▶ 이로써 내부 부품에 숨은 오류 폭탄은 다 제거 완료(100% 합격!) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 커버리지 타격 부위 분해의 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">if ( 점수 &gt; 80</div><div class="kb-diagram-node">조건A</div><div class="kb-diagram-note">OR 출석률 == 100</div><div class="kb-diagram-node">조건B</div><div class="kb-diagram-note">) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장학금 지급!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 커버리지 100% 달성 목표: "껍데긴 가라, 부품만 산다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 조건 A가 True/False, 조건 B가 True/False를 다 가져볼 것!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 케이스 1: 점수 90 (A=True) , 출석률 90 (B=False)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 케이스 2: 점수 50 (A=False), 출석률 100(B=True)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과적으로 A입장에서도 참/거짓 해봤고, B입장에서도 참/거짓 해봤다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이로써 내부 부품에 숨은 오류 폭탄은 다 제거 완료(100% 합격!)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 로봇 장난감 검사를 할 때, [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/)는 "버튼 누르니 로봇이 걷고, 또 누르니 섰네. 합격(전체 결괏값)"이라고 평가하지만, 조건 커버리지는 "왼쪽 다리의 작은 톱니(조건A)가 한번 돌아갔고 안 돌아갔나? 오른쪽 큰 톱니바퀴(조건B)가 한 번 멈추고 굴렀나?"라고 겉모습 대신 뱃속 다이얼들의 미세 작동 여부만 하나하나 따지는 독종 정비사입니다.
 
@@ -66,7 +66,7 @@ TC1 (A=T, B=F) 의 전체 덩어리 결과 $\rightarrow$ `True OR False` = **결
 TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결과 True** (장학금 지급)
 
 어라? 내부 부품 A와 B는 억울함 없이 참, 거짓을 다 한 번씩 밟았음에도 불구하고, **정작 덩어리(분기문 전체)는 두 번 모두 결과가 참(True)으로만 흘러갑니다!** 즉, 장학금을 지급받지 못하는 `else` 구문으로는 단 1번도 내려가지 않습니다!
-이게 바로 그 유명한 화이트박스 기출문제, **"조건 커버리지 100%는 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) 100%를 보장하지 못한다"**는 학술적 진리입니다. 안쪽 부품들의 조화가 어긋나 엉뚱하게 겉 껍데기 문이 반쪽짜리로만 닫혀버리는 무서운 약점입니다.
+이게 바로 그 유명한 화이트박스 기출문제, <strong>"조건 커버리지 100%는 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> 100%를 보장하지 못한다"</strong>는 학술적 진리입니다. 안쪽 부품들의 조화가 어긋나 엉뚱하게 겉 껍데기 문이 반쪽짜리로만 닫혀버리는 무서운 약점입니다.
 
 - **📢 섹션 요약 비유**: 체육대회에서 체육 교사(조건 커버리지)가 "모든 학생이 달리기(T)랑 휴식(F)을 다 한 번씩 반반 섞어서 했네!"라고 칭찬했지만, 막상 청백전 종합 점수판([결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))을 보니 이상한 대진표 꼬임 때문에 청군(True)만 스코어가 100번 오르고 백군(False)으론 점수가 1점도 안 올라가서 행사가 망해버린 꼴입니다.
 
@@ -89,7 +89,7 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 순수한 100% 조건 커버리지만을 쓰는 회사는 거의 없습니다. 왜냐하면 '전체 결정(분기) 경로'를 무시해버리는 너무 위험한 사상누각이기 때문입니다.
 실무의 테스트 엔지니어들은 이 조건 커버리지와 [결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) 각각의 치명적 결점들을 꿰매어 완벽한 괴물을 창조해 냈습니다.
 
-이것이 그 유명한 **조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (Condition/[Decision Coverage](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/))**이며 한 발 더 나아가 항공 우주 방위산업의 최강 군주라 불리는 **변경 조건/[결정 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/) (MC/DC)**의 기둥이 됩니다.
+이것이 그 유명한 <strong>조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (Condition/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">Decision Coverage</a>)</strong>이며 한 발 더 나아가 항공 우주 방위산업의 최강 군주라 불리는 <strong>변경 조건/<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/423_decision_coverage/">결정 커버리지</a> (MC/DC)</strong>의 기둥이 됩니다.
 이 기법들은 "야, A랑 B 각각 참/거짓 한 번씩 다 돌고(조건 달성), 동시에 전체 껍데기 나가는 문도 참/거짓 다 밟아!(결정 달성)"라고 테스터의 영혼을 갉아먹으며 소스코드를 불태워 무오류의 신전으로 만듭니다.
 
 - **📢 섹션 요약 비유**: 엔진 안에 있는 왼쪽 볼트도 조였다 풀고 오른쪽 너트도 조이고 풀었는데(조건 100%), 자동차 시동이 안방향으로만 걸리는(결정 실패) 한심한 짓을 막으려고, 퀄리티 제어관(MC/DC)이 나타나 두 개를 동시에 압박해서 완벽한 명품 엔진 라인을 구축하는 과정입니다.
@@ -104,7 +104,7 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-조건 커버리지가 빛을 발하는 순간은, 단락 평가(Short-circuit evaluation)로 인해 특정 오류가 영원히 가려지는 **마스킹(Masking) 현상**을 박살 낼 때입니다.
+조건 커버리지가 빛을 발하는 순간은, 단락 평가(Short-circuit evaluation)로 인해 특정 오류가 영원히 가려지는 <strong>마스킹(Masking) 현상</strong>을 박살 낼 때입니다.
 `if ( user != null && user.getAge() > 20 )` 코드에서, 앞 조건(A)이 False면 프로그램 속성에 의해 뒤의 죽음의 조건(Null 오류 포함 조건 B)은 검사하지도 않고 버립니다.
 
 만약 결정(분기) 커버리지만 대충 맞추면 뒤의 부품 `user.getAge()`가 어떤 미친 버그를 일으킬지 영원히 모릅니다. 이때 조건 커버리지 추적기가 강제로 칼을 들이밀며 "야, B조건 저 뒷놈도 강제로 True/False가 되도록 입력값 멱살 잡고 끌고 와바!"라고 지시함으로써, 꽁꽁 숨어 영원히 호출 안 된 널 포인터 무덤방(Method null)을 파헤쳐내는 일등 공신이 됩니다.
@@ -145,21 +145,23 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-조건 커버리지 (Condition Coverage) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">조건 커버리지 (Condition Coverage) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

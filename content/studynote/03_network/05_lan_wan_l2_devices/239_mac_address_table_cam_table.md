@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 포워딩(Forwarding) 결정을 내리기 위해 참조하는 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스다. 특정 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가진 장비가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 몇 번 물리적 인터페이스([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 꽂혀 있는지 맵핑 정보가 저장되어 있다.
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "길동이에게 전해줘"라는 편지(프레임)를 받으면, 길동이네 방이 1번인지 24번인지 알아야 한다. 만약 지도가 없다면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 매번 "길동이 어디 있어?"라며 모든 방 문을 열어 젖혀야(Flooding) 하므로, 옛날 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 다를 바 없게 된다. 빠른 처리를 위해 반드시 정확하고 실시간으로 갱신되는 지도가 필요하다.
 
-- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 아파트 경비실에 걸려있는 **"호수별 입주자 현황판"**과 같습니다. 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 택배에 적힌 이름([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 현황판에서 쓱 찾아보고 "아, 302호([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3)구나!" 하고 즉시 가져다줍니다.
+- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 아파트 경비실에 걸려있는 <strong>"호수별 입주자 현황판"</strong>과 같습니다. 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 택배에 적힌 이름([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 현황판에서 쓱 찾아보고 "아, 302호([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3)구나!" 하고 즉시 가져다줍니다.
 
-```text
-[스위치 의 동작 원리]
-    │
-    ▼
-[MAC 주소 테이블]
-    │
-    └──▶ [수신/학습 / 전달 / 플러딩]
-```
 
-- **📢 섹션 요약 비유**: ** [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블은 수많은 전화선이 꽂힌 옛날 전화 교환국의 **"가입자 전화번호 명부"**입니다. 이 명부가 있어야만 교환수([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 정확한 플러그([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 연결해 통화를 성사시킬 수 있습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 의 동작 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신/학습 / 전달 / 플러딩</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 테이블은 수많은 전화선이 꽂힌 옛날 전화 교환국의 </strong>"가입자 전화번호 명부"**입니다. 이 명부가 있어야만 교환수([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 정확한 플러그([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 연결해 통화를 성사시킬 수 있습니다.
 
 ---
 
@@ -41,32 +45,32 @@ tags = ["studynote-network"]
 
 ### 1. 왜 CAM (Content-Addressable Memory)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?
 일반적인 RAM(Random Access Memory)은 CPU가 "메모리 100번지에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 좀 줘"라고 '주소'를 주면 '내용물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'을 꺼내준다.
-반면 **CAM**은 정반대다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(예: `00:1A...`)라는 '내용물(Content)'을 던지면, CAM 메모리가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 통해 이 주소가 맵핑된 '[포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3)'를 `O(1)`의 속도로 즉각 뱉어낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 맨 위부터 아래까지 순차 탐색(Search)하는 시간이 제로(0)에 가깝기 때문에 Wire-speed([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 전송) 스위칭이 가능하다.
+반면 <strong>CAM</strong>은 정반대다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(예: `00:1A...`)라는 '내용물(Content)'을 던지면, CAM 메모리가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 통해 이 주소가 맵핑된 '[포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 3)'를 `O(1)`의 속도로 즉각 뱉어낸다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 맨 위부터 아래까지 순차 탐색(Search)하는 시간이 제로(0)에 가깝기 때문에 Wire-speed([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 전송) 스위칭이 가능하다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                   RAM과 CAM의 검색 방식 차이                  │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │  [ RAM (일반 PC 메모리) ]                                     │
- │  CPU: "번지수(Address 0x05)에 뭐가 있니?"                       │
- │  RAM: "네, 그 안에는 데이터(Data X)가 있습니다."                 │
- │                                                             │
- │  [ CAM (스위치 MAC 테이블 메모리) ]                            │
- │  스위치 ASIC: "이 MAC 주소(Content)랑 짝지어진 포트 어딨니?"      │
- │  CAM: (모든 회로가 동시 검색) "네! 3번 포트(Port 3)에 있습니다!"  │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM과 CAM의 검색 방식 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAM (일반 PC 메모리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "번지수(Address 0x05)에 뭐가 있니?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM: "네, 그 안에는 데이터(Data X)가 있습니다."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CAM (스위치 MAC 테이블 메모리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 ASIC: "이 MAC 주소(Content)랑 짝지어진 포트 어딨니?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAM: (모든 회로가 동시 검색) "네! 3번 포트(Port 3)에 있습니다!"</div></div>
+</div>
+</div>
+
+
 
 ### 2. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 테이블의 생명 주기 ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))
 - **동적 테이블 (Dynamic)**: 관리자가 수동으로 적는 정적(Static) 테이블도 있지만, 대부분 꽂으면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 알아서 배우는 동적 테이블이다.
-- **[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**: 만약 노트북을 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 빼서 5번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂으면 어떻게 될까? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 테이블은 무한정 저장하지 않는다. 약 300초(기본값 5분) 동안 해당 MAC에서 아무 패킷도 오지 않으면 "이놈 퇴사했구나" 하고 테이블에서 지워버린다([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Time). 새로운 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂히면 그때 다시 배운다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>: 만약 노트북을 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 빼서 5번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂으면 어떻게 될까? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 테이블은 무한정 저장하지 않는다. 약 300초(기본값 5분) 동안 해당 MAC에서 아무 패킷도 오지 않으면 "이놈 퇴사했구나" 하고 테이블에서 지워버린다([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Time). 새로운 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂히면 그때 다시 배운다.
 
 ### 3. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Flooding 공격
-해커가 툴(예: macof)을 돌려 초당 수만 개의 랜덤한 가짜 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 생성해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 쏟아부으면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 한정된 CAM 메모리(수천~수만 개 용량)가 가득 차버린다. 메모리가 풀(Full)난 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 더 이상 테이블을 기록하지 못하고, 목적지를 몰라 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해 뿌리는 **'[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))' 상태(Fail-open)**로 강등된다. 이때 해커는 옆 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 지나가는 다른 사람들의 비밀번호 패킷을 유유히 엿듣는다(Sniffing).
+해커가 툴(예: macof)을 돌려 초당 수만 개의 랜덤한 가짜 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 생성해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 쏟아부으면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 한정된 CAM 메모리(수천~수만 개 용량)가 가득 차버린다. 메모리가 풀(Full)난 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 더 이상 테이블을 기록하지 못하고, 목적지를 몰라 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해 뿌리는 <strong>'<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)' 상태(Fail-open)</strong>로 강등된다. 이때 해커는 옆 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 지나가는 다른 사람들의 비밀번호 패킷을 유유히 엿듣는다(Sniffing).
 
-- **📢 섹션 요약 비유**: ** CAM 테이블은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 **"마법의 자동 응답 백과사전"**입니다. 일반 사전처럼 첫 장부터 넘겨가며 찾는 게 아니라, 질문을 던지자마자 책이 스스로 펼쳐져 정답([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))을 보여주는 최고급 특수 하드웨어입니다.
+- **📢 섹션 요약 비유**: <strong> CAM 테이블은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 </strong>"마법의 자동 응답 백과사전"**입니다. 일반 사전처럼 첫 장부터 넘겨가며 찾는 게 아니라, 질문을 던지자마자 책이 스스로 펼쳐져 정답([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))을 보여주는 최고급 특수 하드웨어입니다.
 
 ---
 
@@ -122,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스위치 의 동작 원리]
-    │
-    ▼
-[현재 개념: MAC 주소 테이블]
-    │
-    ├──▶ [확장 A: 수신/학습 / 전달 / 플러딩]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위치 의 동작 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MAC 주소 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 수신/학습 / 전달 / 플러딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 의 동작 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 수신/학습 / 전달 / 플러딩와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식의 한계**: 중앙 감시 서버가 전국의 장비들에게 주기적(보통 5분)으로 질의(Pull)를 던져 상태를 가져옵니다. 
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 방식의 한계</strong>: 중앙 감시 서버가 전국의 장비들에게 주기적(보통 5분)으로 질의(Pull)를 던져 상태를 가져옵니다. 
 - **초정밀성 붕괴**: 5분 사이에 10Gbps의 엄청난 해커 디도스 트래픽이 들어왔다가 1분 만에 싹 빠져나갑니다. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 그래프를 보면 5분 단위 평균으로 퉁쳐져서 디도스가 들어왔던 뾰족한 송곳 흉터가 아예 그래프에서 증발해버립니다(가시성 제로). 
 - **장비 과부하**: 중앙에서 1,000만 개의 질의를 쏘면 라우터의 CPU가 대답하느라 터져버립니다.
 
-```text
-[오픈컨피그]
-    │
-    ▼
-[스트리밍 텔레메트리]
-    │
-    └──▶ [오버레이 SDN과 언더레이 SDN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 텔레메트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스트리밍 텔레메트리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,24 +42,28 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 주도권을 중앙 서버(Pull)에서, **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비 본인(Push)**으로 180도 뒤집어버립니다.
+[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 주도권을 중앙 서버(Pull)에서, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비 본인(Push)</strong>으로 180도 뒤집어버립니다.
 
 ### 1. 자발적 푸시 (Push) 방식의 빅데이터 폭격 🌟
 - 장비(라우터) 안에 아주 가벼운 내장 앱(에이전트)이 돕니다. 
-- 중앙 서버가 물어보지도 않았는데, 라우터가 스스로 자기 CPU 상태, 인터페이스 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 대기열 꽉 찬 상태, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등을 모아서 **0.1초, 혹은 마이크로초(µs) 단위로 연속된 강물([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))처럼 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 컬렉터(빅데이터 서버)로 쉴 새 없이 뿜어냅니다.**
+- 중앙 서버가 물어보지도 않았는데, 라우터가 스스로 자기 CPU 상태, 인터페이스 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 대기열 꽉 찬 상태, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 경로 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등을 모아서 <strong>0.1초, 혹은 마이크로초(µs) 단위로 연속된 강물(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)처럼 중앙 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 컬렉터(빅데이터 서버)로 쉴 새 없이 뿜어냅니다.</strong>
 
 ### 2. [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)(YANG)와 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전송 결합
 - 무식하게 텍스트로 쏘면 중앙 서버가 뻗습니다. 
-- 878번의 **[오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)([OpenConfig](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)) 표준 YANG 뼈대**에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정갈하게 맞춘 뒤, 구글이 만든 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이진(Binary) 직렬화 통신 프로토콜인 **[gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 기반 [Protocol Buffers](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/))** 껍데기로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장해서 빛의 속도로 쏴버립니다. 텍스트 파싱을 할 필요가 없어 CPU 오버헤드가 제로에 수렴합니다.
+- 878번의 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">오픈컨피그</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">OpenConfig</a>) 표준 YANG 뼈대</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정갈하게 맞춘 뒤, 구글이 만든 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이진(Binary) 직렬화 통신 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 기반 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/">Protocol Buffers</a>)</strong> 껍데기로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장해서 빛의 속도로 쏴버립니다. 텍스트 파싱을 할 필요가 없어 CPU 오버헤드가 제로에 수렴합니다.
 
-```text
-[오픈컨피그]
-    │
-    ▼
-[스트리밍 텔레메트리]
-    │
-    └──▶ [오버레이 SDN과 언더레이 SDN]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 텔레메트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스트리밍 텔레메트리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,10 +71,10 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-이 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 강물(스트림)을 사람이 눈으로 볼 수는 없습니다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 소비자는 **[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))**입니다.
+이 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 강물(스트림)을 사람이 눈으로 볼 수는 없습니다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 소비자는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>입니다.
 
 - **마이크로버스트(Micro-burst) 탐지**: 0.01초 만에 휙 치솟았다 사라지는 병목 트래픽(마이크로버스트)을 텔레메트리 현미경이 모조리 잡아내어 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 댐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))에 차곡차곡 쌓습니다.
-- **예지 정비와 857번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 결합**: 중앙의 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 쏟아지는 텔레메트리 강물을 딥러닝으로 마시면서, "어? 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 온도 파형이 10일 뒤에 터질 파형이랑 일치하네?"라고 즉각 예지(예측)합니다. 즉시 857번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(인텐트 네트워크)에 명령을 쏴서 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽을 미리 비워버려 고장을 100% 무과실로 방어해 냅니다.
+- <strong>예지 정비와 857번 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/">IBN</a> 결합</strong>: 중앙의 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 쏟아지는 텔레메트리 강물을 딥러닝으로 마시면서, "어? 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 온도 파형이 10일 뒤에 터질 파형이랑 일치하네?"라고 즉각 예지(예측)합니다. 즉시 857번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(인텐트 네트워크)에 명령을 쏴서 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽을 미리 비워버려 고장을 100% 무과실로 방어해 냅니다.
 
 스트리밍 텔레메트리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)가 기반 조건을 만든다면, 스트리밍 텔레메트리는 그 위에서 핵심 메커니즘을 구현하고, 오버레이 SDN과 언더레이 SDN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -76,7 +84,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 의사가 중환자실 환자에게 '1시간마다 병실에 들러 체온계를 꽂고 열을 재고 나가는 것'입니다. 의사가 없는 59분 동안 환자 심장이 멈췄다 뛰어도 의사는 절대 모릅니다. **스트리밍 텔레메트리([Streaming Telemetry](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/))**는 환자의 몸에 '심전도 스마트 워치([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 센서)'를 24시간 착용시킨 것입니다. 환자의 심장 박동, 혈압, 맥박이 0.001초 단위로 의사의 중앙 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면(빅데이터 컬렉터)으로 한 치의 끊김도 없이 실시간 전송(Push/Streaming)됩니다. 심박수가 0.1초만 불규칙하게 뛰어도(마이크로버스트 병목) 즉각 알람이 울려 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 응급처치([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 자가 치유)를 해버리는 궁극의 초정밀 실시간 감시 생태계입니다.
+- **📢 섹션 요약 비유**: 기존 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 의사가 중환자실 환자에게 '1시간마다 병실에 들러 체온계를 꽂고 열을 재고 나가는 것'입니다. 의사가 없는 59분 동안 환자 심장이 멈췄다 뛰어도 의사는 절대 모릅니다. <strong>스트리밍 텔레메트리(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1058_streaming_telemetry_network_monitoring/">Streaming Telemetry</a>)</strong>는 환자의 몸에 '심전도 스마트 워치([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 센서)'를 24시간 착용시킨 것입니다. 환자의 심장 박동, 혈압, 맥박이 0.001초 단위로 의사의 중앙 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 화면(빅데이터 컬렉터)으로 한 치의 끊김도 없이 실시간 전송(Push/Streaming)됩니다. 심박수가 0.1초만 불규칙하게 뛰어도(마이크로버스트 병목) 즉각 알람이 울려 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 응급처치([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) 자가 치유)를 해버리는 궁극의 초정밀 실시간 감시 생태계입니다.
 
 ---
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 오픈컨피그]
-    │
-    ▼
-[현재 개념: 스트리밍 텔레메트리]
-    │
-    ├──▶ [확장 A: 오버레이 SDN과 언더레이 SDN]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오픈컨피그</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스트리밍 텔레메트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버레이 SDN과 언더레이 SDN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 스트리밍 텔레메트리는 [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 오버레이 SDN과 언더레이 SDN와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

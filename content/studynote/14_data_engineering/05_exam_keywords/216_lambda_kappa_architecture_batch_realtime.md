@@ -24,20 +24,25 @@ tags = ["studynote-data-engineering"]
 
 | 요구 | 내용 | 전통적 해법의 한계 |
 |:---|:---|:---|
-| **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)** | 수TB 히스토리 배치 집계 | 배치만으로는 T+1일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong> | 수TB 히스토리 배치 집계 | 배치만으로는 T+1일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | **저지연** | 수 초 내 실시간 업데이트 | 실시간만으로는 재처리 어려움 |
 
 Nathan Marz가 2011년 Lambda 아키텍처를 제안하며 두 경로를 병렬로 운영하는 해법을 제시했고, Jay Kreps가 2014년 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처로 이를 단순화했다.
 
 ### 1.2 두 아키텍처의 탄생 배경
 
-```
-Lambda: "정확성(배치) + 속도(스트리밍)를 모두 갖자"
-        → 두 파이프라인 병렬 운영
 
-Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다"
-        → 단일 스트리밍 파이프라인
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Lambda: "정확성(배치) + 속도(스트리밍)를 모두 갖자"</div>
+<div class="kb-diagram-note">→ 두 파이프라인 병렬 운영</div>
+<div class="kb-diagram-note">Kappa: "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다"</div>
+<div class="kb-diagram-note">→ 단일 스트리밍 파이프라인</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Lambda는 '빠른 지하철 + 정확한 기차' 두 노선을 동시에 운영하는 것이고, Kappa는 '고속 KTX 하나'로 모든 노선을 대체하는 것이다.
 
@@ -47,69 +52,60 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ### 2.1 Lambda 아키텍처 상세 구조
 
-```
-데이터 소스
-(Kafka, DB 등)
-     │
-     ├─────────────────────────────────────────────────────┐
-     │                                                     │
-     ▼                                                     ▼
-┌──────────────────────────────────┐   ┌────────────────────────────┐
-│         배치 레이어               │   │       스피드 레이어          │
-│         (Batch Layer)            │   │       (Speed Layer)         │
-│                                  │   │                            │
-│  - Hadoop MapReduce / Spark      │   │  - Kafka + Flink/Spark     │
-│  - 전체 데이터 집계               │   │  - 최근 N시간 실시간 집계   │
-│  - 정확한 결과, 느린 처리         │   │  - 빠른 결과, 근사치 가능   │
-│  - 주기: 시간/일 단위 배치        │   │  - 주기: 초/분 단위 실시간  │
-└──────────────┬───────────────────┘   └──────────────┬─────────────┘
-               │                                      │
-               ▼                                      ▼
-┌─────────────────────────┐         ┌──────────────────────────────┐
-│    배치 뷰 (Batch View)  │         │   실시간 뷰 (Real-time View) │
-│  (전체 정확 집계 결과)   │         │   (최근 데이터 빠른 집계)    │
-└────────────┬────────────┘         └──────────────┬───────────────┘
-             └──────────────────┬──────────────────┘
-                                │ 쿼리 시 병합(Merge)
-                                ▼
-                    ┌──────────────────────┐
-                    │    서빙 레이어        │
-                    │    (Serving Layer)    │
-                    │  배치 뷰 + 실시간 뷰  │
-                    │  병합하여 최종 응답   │
-                    └──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 소스</div>
+<div class="kb-diagram-note">(Kafka, DB 등)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 레이어</div><div class="kb-diagram-cell">스피드 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Batch Layer)</div><div class="kb-diagram-cell">(Speed Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Hadoop MapReduce / Spark</div><div class="kb-diagram-cell">- Kafka + Flink/Spark</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전체 데이터 집계</div><div class="kb-diagram-cell">- 최근 N시간 실시간 집계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정확한 결과, 느린 처리</div><div class="kb-diagram-cell">- 빠른 결과, 근사치 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주기: 시간/일 단위 배치</div><div class="kb-diagram-cell">- 주기: 초/분 단위 실시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 뷰 (Batch View)</div><div class="kb-diagram-cell">실시간 뷰 (Real-time View)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 정확 집계 결과)</div><div class="kb-diagram-cell">(최근 데이터 빠른 집계)</div></div>
+<div class="kb-diagram-note">쿼리 시 병합(Merge)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Serving Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 뷰 + 실시간 뷰</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병합하여 최종 응답</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처 상세 구조
 
-```
-데이터 소스
-(Kafka, DB 등)
-     │
-     ▼
-┌──────────────────────────────────────────────────────────┐
-│               단일 스트리밍 레이어                         │
-│           (Single Streaming Layer)                        │
-│                                                          │
-│  - Kafka + Flink / Kafka Streams                         │
-│  - 실시간 처리 + 재처리(Reprocessing) 통합               │
-│  - 로그 보존으로 어떤 시점이든 재처리 가능               │
-└──────────────────────────┬───────────────────────────────┘
-                           │
-                           ▼
-              ┌──────────────────────────┐
-              │       서빙 레이어         │
-              │    (Serving Layer)        │
-              │  단일 결과, 단일 관리     │
-              └──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 소스</div>
+<div class="kb-diagram-note">(Kafka, DB 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 스트리밍 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Single Streaming Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Kafka + Flink / Kafka Streams</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실시간 처리 + 재처리(Reprocessing) 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로그 보존으로 어떤 시점이든 재처리 가능</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Serving Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 결과, 단일 관리</div></div>
+</div>
+</div>
+
+
 
 ### 2.3 재처리 (Reprocessing) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | 아키텍처 | 재처리 방법 | 복잡도 |
 |:---|:---|:---|
 | **Lambda** | 배치 레이어 재실행 (Spark Job 재구동) | 낮음 (배치는 독립적) |
-| **[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋 리셋 후 스트리밍 재처리 | 중간 (리플레이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의존) |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/">Kappa</a></strong> | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋 리셋 후 스트리밍 재처리 | 중간 (리플레이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의존) |
 
 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 재처리 흐름:
 ```
@@ -132,8 +128,8 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 |:---|:---|:---|
 | **레이어 수** | 3개 (Batch·Speed·Serving) | 1~2개 (Streaming·Serving) |
 | **코드 중복** | 배치/스트리밍 로직 이중 구현 | 단일 구현 |
-| **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)** | 높음 (배치로 보정) | 중~높음 (스트리밍 성숙도에 의존) |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | Speed Layer로 저지연 | 스트리밍으로 저지연 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong> | 높음 (배치로 보정) | 중~높음 (스트리밍 성숙도에 의존) |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | Speed Layer로 저지연 | 스트리밍으로 저지연 |
 | **재처리** | 배치 레이어에서 독립 재처리 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 리플레이 필요 |
 | **운영 복잡성** | 높음 (두 파이프라인 관리) | 낮음 (단일 파이프라인) |
 | **적합 환경** | 레거시 혼용, 복잡한 집계 | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 중심 |
@@ -155,23 +151,25 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ### 4.1 아키텍처 선택 결정 트리
 
-```
-실시간 처리가 필수인가?
-       │
-       ├── YES ──► 배치 정확성도 동시에 필요한가?
-       │                │
-       │                ├── YES, 레거시/복잡 집계 ──► Lambda 아키텍처
-       │                │
-       │                └── NO, 클라우드 네이티브  ──► Kappa 아키텍처
-       │
-       └── NO ──► 순수 배치 아키텍처 (Hadoop/Spark)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실시간 처리가 필수인가?</div>
+<div class="kb-diagram-tree-item" style="--depth:3">YES ──► 배치 정확성도 동시에 필요한가?</div>
+<div class="kb-diagram-note">── YES, 레거시/복잡 집계 ──► Lambda 아키텍처</div>
+<div class="kb-diagram-note">── NO, 클라우드 네이티브 ──► Kappa 아키텍처</div>
+<div class="kb-diagram-tree-item" style="--depth:3">NO ──► 순수 배치 아키텍처 (Hadoop/Spark)</div>
+</div>
+</div>
+
+
 
 ### 4.2 Lambda 아키텍처의 핵심 구현 과제
 
 | 과제 | 설명 | 해법 |
 |:---|:---|:---|
-| **코드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)** | 배치·스트리밍 로직이 달라지면 결과 불일치 | 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 추출 |
+| <strong>코드 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 배치·스트리밍 로직이 달라지면 결과 불일치 | 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 추출 |
 | **병합 복잡성** | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시 배치 뷰와 실시간 뷰를 합쳐야 함 | Druid·[Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 병합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) |
 | **운영 오버헤드** | 두 파이프라인 모니터링 이중 비용 | 통합 관제 시스템 |
 
@@ -186,11 +184,11 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 | 아키텍처 | 주요 효과 | 주의점 |
 |:---|:---|:---|
 | **Lambda** | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·속도 동시 확보, 레거시 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 운영 복잡성, 코드 중복 |
-| **[Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)** | 단순성, 빠른 배포, 코드 단일화 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽 보존 비용, 재처리 시간 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/">Kappa</a></strong> | 단순성, 빠른 배포, 코드 단일화 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽 보존 비용, 재처리 시간 |
 
 ### 5.2 결론 — 기술사 작성 포인트
 
-기술사 답안에서는 **"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"**을 보여야 한다. Lambda는 배치 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 마이크로서비스가 이미 구축된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
+기술사 답안에서는 <strong>"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"</strong>을 보여야 한다. Lambda는 배치 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 기반 마이크로서비스가 이미 구축된 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
 
 📢 **섹션 요약 비유**: Lambda vs [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 선택은 '자동차 두 대 vs 고성능 오토바이 한 대' 선택과 같다 — 안전성과 다양성이 필요하면 두 대(Lambda), 속도와 단순함이 우선이면 오토바이 한 대([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/))다.
 
@@ -213,18 +211,22 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배치 전용 (MapReduce: 높은 지연)
-    │
-    ▼
-Lambda: Batch Layer + Speed Layer 병행 → Serving Layer
-    │ 코드 중복 · 유지보수 복잡
-    ▼
-Kappa: Speed Layer만 (Kafka 리플레이로 배치 대체)
-    │
-    ▼
-Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 전용 (MapReduce: 높은 지연)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lambda: Batch Layer + Speed Layer 병행 → Serving Layer</div>
+<div class="kb-diagram-note">코드 중복 · 유지보수 복잡</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kappa: Speed Layer만 (Kafka 리플레이로 배치 대체)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합</div>
+</div>
+</div>
+
+
 2. [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처는 '최신 고속 착즙기 하나'로 빠르고 정확하게 주스를 만들어서 두 대 기계가 필요 없는 가게야.
 3. 어떤 방식이 좋냐고? 오래된 레시피(레거시 배치)가 많으면 Lambda, 처음부터 최신 기계로 만들었다면 Kappa가 훨씬 편해!
 

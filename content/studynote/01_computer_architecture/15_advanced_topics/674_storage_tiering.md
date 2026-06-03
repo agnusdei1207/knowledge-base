@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 그래서 아키텍처는 저장장치를 하나의 덩어리로 보지 않고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용이 다른 여러 계층으로 나눈다. [Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))나 [Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 짧지만 비싸고, Hard Disk Drive ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))나 오브젝트 스토리지는 싸지만 느리다. 티어링은 이 차이를 이용해 "핫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 위로, 콜드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 아래로"라는 운영 원칙을 자동화한다.
 
-핵심은 단순한 정렬이 아니라 **시간이 지나며 변하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도에 반응하는 것**이다. 오늘 인기 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내일도 뜨겁다는 보장은 없으므로, 티어링은 처음 배치보다 이후의 재배치 전략이 더 중요하다.
+핵심은 단순한 정렬이 아니라 <strong>시간이 지나며 변하는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 온도에 반응하는 것</strong>이다. 오늘 인기 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 내일도 뜨겁다는 보장은 없으므로, 티어링은 처음 배치보다 이후의 재배치 전략이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 스토리지 티어링은 자주 쓰는 조리도구는 싱크대 바로 옆에 두고, 명절에만 쓰는 큰 냄비는 다용도실 위칸에 올려두는 주방 정리법과 같다. 같은 집이라도 손이 많이 가는 물건과 거의 안 쓰는 물건의 자리는 달라야 한다.
 
@@ -40,13 +40,17 @@ tags = ["studynote-computer-architecture"]
 | Tier 2 | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | 수 밀리초~수십 밀리초 | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 덜 자주 쓰는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 세트 |
 | Tier 3 | 오브젝트 아카이브, 테이프 | 초~분 단위 | 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 규제 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Access telemetry -> Heat score -> Policy engine -> Promote / Demote / Pin  │
-│ recency / frequency / size / latency / write rate                           │
-│ Tier 0/1: NVMe/SSD <-> Tier 2: HDD <-> Tier 3: object/tape                 │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access telemetry -&gt; Heat score -&gt; Policy engine -&gt; Promote / Demote / Pin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recency / frequency / size / latency / write rate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 0/1: NVMe/SSD &lt;-&gt; Tier 2: HDD &lt;-&gt; Tier 3: object/tape</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 설계 포인트는 이동 단위다. 블록 단위 티어링은 작은 hot spot만 골라 올릴 수 있어 효율적이지만 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 제어가 복잡하다. 반대로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 또는 오브젝트 단위 티어링은 단순하지만, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부만 뜨거운 경우 전체를 통째로 올려야 해 비효율이 생길 수 있다. 또한 지나치게 민감한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위아래로 계속 흔들어, 백그라운드 복사 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 플래시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명을 낭비하게 만든다.
 
@@ -56,7 +60,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-스토리지 티어링을 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이나 아카이빙과 구분하지 못하면 설계가 쉽게 혼란스러워진다. 세 기술은 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 위치에 두지만, **원본의 위치와 이동 속도, 목표**가 다르다.
+스토리지 티어링을 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이나 아카이빙과 구분하지 못하면 설계가 쉽게 혼란스러워진다. 세 기술은 모두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 위치에 두지만, <strong>원본의 위치와 이동 속도, 목표</strong>가 다르다.
 
 | 구분 | 빠른 계층에 무엇이 있나 | 이동 시간축 | 주된 목표 | 대표 위험 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -74,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 시나리오
 
-1. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 스토리지**
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>와 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 스토리지</strong>
    - 작은 랜덤 입출력이 집중되는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 가상머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 이미지의 hot block은 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 계층에 유지하는 편이 유리하다.
    - 반대로 오래된 스냅샷과 낮은 우선순위 템플릿 이미지는 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 계층으로 내려 비용을 줄일 수 있다.
 
@@ -82,7 +86,7 @@ tags = ["studynote-computer-architecture"]
    - 최근 업로드된 영상, 많이 조회되는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 자주 참조되는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)만 상위 티어에 두고 나머지는 하위 티어로 내리면 저장 비용을 크게 절약할 수 있다.
    - 이 경우 블록 단위보다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 또는 오브젝트 단위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 단순하고 운영하기 쉽다.
 
-3. **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장소**
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>·<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 저장소</strong>
    - 최근 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본과 장애 분석용 최신 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 빠른 복원이 필요하므로 상위 티어에 남기고, 장기 보존본은 느린 티어로 내리는 식으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도와 보존 비용을 동시에 조절한다.
 
 ### 채택/회피 판단 체크포인트
@@ -97,7 +101,7 @@ tags = ["studynote-computer-architecture"]
   - 상위 티어의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 내구성과 하위 티어의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표를 함께 고려하지 않았을 때
   - 잘못된 쿼리나 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계를 스토리지 티어링으로 가리려 할 때
 
-기술사 관점에서는 "빠른 디스크를 일부 섞었다"보다 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 어떤 기준으로 원본을 이동시키는가**를 설명해야 한다. 특히 승급·강등 임계값, 최소 체류 시간, 배경 이동 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 장애 시 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 일관성이 핵심 판단 포인트다.
+기술사 관점에서는 "빠른 디스크를 일부 섞었다"보다 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 엔진이 어떤 기준으로 원본을 이동시키는가</strong>를 설명해야 한다. 특히 승급·강등 임계값, 최소 체류 시간, 배경 이동 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 장애 시 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 일관성이 핵심 판단 포인트다.
 
 - **📢 섹션 요약 비유**: 티어링을 잘 쓰는 사람은 이삿짐센터를 부르는 시점을 정확히 아는 사람과 같다. 짐이 아주 많이 바뀔 때만 한 번 크게 옮겨야지, 물건 하나 쓸 때마다 집 전체를 재배치하면 오히려 더 힘들어진다.
 
@@ -107,7 +111,7 @@ tags = ["studynote-computer-architecture"]
 
 스토리지 티어링의 기대효과는 분명하다. 한정된 고성능 저장장치를 정말 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 집중하게 만들어 응답 시간을 낮추고, 대다수 저활성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저렴한 계층으로 보내 전체 저장 비용을 줄인다. 즉, 시스템 전체를 가장 비싼 부품으로 채우지 않고도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높일 수 있다.
 
-하지만 티어링은 공짜가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체가 배경 부하를 만들고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 부정확하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 변동성이 커지며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 복잡해진다. 따라서 스토리지 티어링은 "SSD를 덧붙이는 기술"이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 온도와 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성을 지속적으로 맞춰 주는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 아키텍처**로 기억하는 편이 정확하다.
+하지만 티어링은 공짜가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체가 배경 부하를 만들고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 부정확하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 변동성이 커지며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 복잡해진다. 따라서 스토리지 티어링은 "SSD를 덧붙이는 기술"이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 온도와 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 특성을 지속적으로 맞춰 주는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 아키텍처</strong>로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 티어링은 모든 손님에게 최고급 좌석을 주는 것이 아니라, 자주 오는 손님에게는 문 가까운 좌석을 주고 가끔 오는 손님에게는 안쪽 좌석을 주는 식당 배치와 같다. 중요한 건 좌석 수보다 배치 원리다.
 
@@ -125,21 +129,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 고정 스토리지 계층
-        │
-        ▼
-SSD / HDD 혼합 배치
-        │
-        ▼
-Access telemetry 기반 heat scoring
-        │
-        ▼
-스토리지 티어링 (Storage Tiering)
-        │
-        ▼
-클라우드 수명주기 정책 + Intelligent placement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 고정 스토리지 계층</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD / HDD 혼합 배치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Access telemetry 기반 heat scoring</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스토리지 티어링 (Storage Tiering)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 수명주기 정책 + Intelligent placement</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치 설계가 "어떤 디스크를 살까"에서 출발해, 점점 더 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 관찰하고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 배치하는 방향으로 진화했음을 보여준다.
 

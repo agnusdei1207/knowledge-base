@@ -23,22 +23,21 @@ tags = ["studynote-design-supervision"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 이 문제를 [사이드카 패턴](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/)([Sidecar Pattern](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/182_sidecar_pattern_proxy_container/))으로 해결한다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 옆에 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 주입하면, 모든 인바운드·아웃바운드 트래픽이 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)를 거쳐 흐른다. 비즈니스 코드는 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 전혀 알 필요 없이 localhost:port로만 통신한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│           서비스 메시 사이드카 패턴 구조                      │
-├─────────────────────────────────────────────────────────────┤
-│  [서비스 A Pod]                 [서비스 B Pod]               │
-│  ┌──────────┬───────────┐       ┌──────────┬───────────┐    │
-│  │ 비즈니스  │ Envoy     │  ←──  │ Envoy    │ 비즈니스  │    │
-│  │  코드     │ 사이드카  │  ──▶  │ 사이드카 │  코드     │    │
-│  └──────────┴───────────┘       └──────────┴───────────┘    │
-│                                                             │
-│  [컨트롤 플레인 (Istio Control Plane)]                      │
-│   Pilot(라우팅 설정) + Citadel(인증서 관리) + Galley(설정)  │
-│        │                              │                     │
-│        └──── 사이드카 정책 배포 ──────┘                     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 사이드카 패턴 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 A Pod</div><div class="kb-diagram-node">서비스 B Pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스</div><div class="kb-diagram-cell">Envoy</div><div class="kb-diagram-cell">←──</div><div class="kb-diagram-cell">Envoy</div><div class="kb-diagram-cell">비즈니스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드</div><div class="kb-diagram-cell">사이드카</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">사이드카</div><div class="kb-diagram-cell">코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨트롤 플레인 (Istio Control Plane)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pilot(라우팅 설정) + Citadel(인증서 관리) + Galley(설정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이드카 정책 배포</div></div>
+</div>
+</div>
+
+
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)과 컨트롤 플레인(Control Plane)으로 구성된다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들이 실제 트래픽을 처리하고, 컨트롤 플레인은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)들에게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 배포한다.
 
@@ -57,17 +56,19 @@ tags = ["studynote-design-supervision"]
 | 관찰성 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), 트레이싱 자동 수집 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + Jaeger 통합 |
 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/), 장애 주입 | DestinationRule outlierDetection |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│      서비스 메시 카나리 배포 (트래픽 분할) 예시              │
-├─────────────────────────────────────────────────────────────┤
-│  [VirtualService 설정]                                      │
-│  /api/orders → 주문 서비스 v1: 90% 가중치                   │
-│              → 주문 서비스 v2: 10% 가중치 (카나리)          │
-│                                                             │
-│  서킷 브레이커 임계치: 5초 내 50% 에러율 초과 → 회로 열기   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 카나리 배포 (트래픽 분할) 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VirtualService 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/api/orders → 주문 서비스 v1: 90% 가중치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 주문 서비스 v2: 10% 가중치 (카나리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서킷 브레이커 임계치: 5초 내 50% 에러율 초과 → 회로 열기</div></div>
+</div>
+</div>
+
+
 
 mTLS는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 핵심 보안 기능이다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 갖고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 암호화·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하므로, 클러스터 내부에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 도청하거나 위조할 수 없다. 이는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 모델의 구현이다.
 

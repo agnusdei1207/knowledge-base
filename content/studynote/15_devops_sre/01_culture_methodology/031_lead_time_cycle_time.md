@@ -18,18 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-리드 타임 vs 사이클 타임:
 
-요청 ────────────────────────── 배포
- │                                 │
- │<──────── Lead Time ──────────>│
-           │<── Cycle Time ────>│
-           │                    │
-          개발 시작            배포
 
-차이 = 대기 시간 (요청 접수 → 개발 시작)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">리드 타임 vs 사이클 타임:</div>
+<div class="kb-diagram-note">요청 배포</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; Lead Time &gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;── Cycle Time &gt;</div></div>
+<div class="kb-diagram-note">개발 시작 배포</div>
+<div class="kb-diagram-note">차이 = 대기 시간 (요청 접수 → 개발 시작)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) vs 사이클 타임은 피자 주문과 요리 시간이다. 주문에서 수령까지([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))에는 주문 대기(리드-사이클 차이)와 실제 요리 시간(사이클 타임)이 포함된다.
 
@@ -42,24 +44,29 @@ tags = ["studynote-devops-sre"]
 | 지표 | Elite | High | Medium | Low |
 |:---|:---|:---|:---|:---|
 | **배포 빈도** | 하루 여러 번 | 하루 1번~주1 | 주1~월1 | 월1 미만 |
-| **[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)** | < 1시간 | 1일~1주 | 1주~1개월 | 1~6개월+ |
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간** | < 1시간 | < 1일 | < 1주 | 1~6개월 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/">리드 타임</a></strong> | < 1시간 | 1일~1주 | 1주~1개월 | 1~6개월+ |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong> | < 1시간 | < 1일 | < 1주 | 1~6개월 |
 | **변경 실패율** | 0~15% | 16~30% | 16~30% | 16~30% |
 
 ### [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-배치 크기 축소:
-  Before: 2주마다 100개 변경 → 리드 타임 2주+
-  After:  매일 5~10개 변경  → 리드 타임 1일 미만
 
-핵심 단계별 최적화:
-  요청 대기:   자동 티켓 생성, 스프린트 즉시 배정
-  개발:        Feature Flag, Trunk-based Development
-  코드 리뷰:   소규모 PR, AI 코드 리뷰
-  CI 파이프라인: 병렬화, 캐싱으로 10분 → 5분
-  배포 승인:   자동화 테스트 통과 시 자동 배포 (CD)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 크기 축소:</div>
+<div class="kb-diagram-note">Before: 2주마다 100개 변경 → 리드 타임 2주+</div>
+<div class="kb-diagram-note">After: 매일 5~10개 변경 → 리드 타임 1일 미만</div>
+<div class="kb-diagram-note">핵심 단계별 최적화:</div>
+<div class="kb-diagram-note">요청 대기: 자동 티켓 생성, 스프린트 즉시 배정</div>
+<div class="kb-diagram-note">개발: Feature Flag, Trunk-based Development</div>
+<div class="kb-diagram-note">코드 리뷰: 소규모 PR, AI 코드 리뷰</div>
+<div class="kb-diagram-note">CI 파이프라인: 병렬화, 캐싱으로 10분 → 5분</div>
+<div class="kb-diagram-note">배포 승인: 자동화 테스트 통과 시 자동 배포 (CD)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 배치 크기 축소는 배달 방식 개선이다. 하루치 배달을 한 번에 큰 트럭으로 하면 오래 기다리지만, 여러 번 소량 배달하면 각 고객이 더 빨리 받는다. 소프트웨어도 작게 자주 배포하면 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 줄어든다.
 
@@ -81,36 +88,43 @@ tags = ["studynote-devops-sre"]
 
 ### [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 측정 도구
 
-```text
-JIRA:
-  생성 시간 → 완료 시간 = 리드 타임 자동 계산
-  사이클 타임 보고서: "In Progress" → "Done"
 
-GitHub Insights:
-  PR 생성 → 머지: 사이클 타임 일부
 
-LinearB / Swarmia:
-  Git 이벤트 + JIRA를 통합 분석
-  DORA 메트릭 자동 대시보드
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">JIRA:</div>
+<div class="kb-diagram-note">생성 시간 → 완료 시간 = 리드 타임 자동 계산</div>
+<div class="kb-diagram-note">사이클 타임 보고서: "In Progress" → "Done"</div>
+<div class="kb-diagram-note">GitHub Insights:</div>
+<div class="kb-diagram-note">PR 생성 → 머지: 사이클 타임 일부</div>
+<div class="kb-diagram-note">LinearB / Swarmia:</div>
+<div class="kb-diagram-note">Git 이벤트 + JIRA를 통합 분석</div>
+<div class="kb-diagram-note">DORA 메트릭 자동 대시보드</div>
+<div class="kb-diagram-note">배포 추적:</div>
+<div class="kb-diagram-note">ArgoCD → 배포 시점 기록</div>
+<div class="kb-diagram-note">Feature Flag → 기능 릴리즈 시점</div>
+</div>
+</div>
 
-배포 추적:
-  ArgoCD → 배포 시점 기록
-  Feature Flag → 기능 릴리즈 시점
-```
+
 
 ### Little's Law 적용
 
-```text
-리틀의 법칙:
-  평균 리드 타임 = 평균 WIP / 평균 처리량
 
-  WIP = 20개 (진행 중인 작업)
-  처리량 = 4개/일
-  리드 타임 = 20/4 = 5일
 
-  WIP 감소(10개) → 리드 타임 = 10/4 = 2.5일
-  → WIP 제한이 리드 타임 단축의 가장 확실한 방법!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">리틀의 법칙:</div>
+<div class="kb-diagram-note">평균 리드 타임 = 평균 WIP / 평균 처리량</div>
+<div class="kb-diagram-note">WIP = 20개 (진행 중인 작업)</div>
+<div class="kb-diagram-note">처리량 = 4개/일</div>
+<div class="kb-diagram-note">리드 타임 = 20/4 = 5일</div>
+<div class="kb-diagram-note">WIP 감소(10개) → 리드 타임 = 10/4 = 2.5일</div>
+<div class="kb-diagram-note">→ WIP 제한이 리드 타임 단축의 가장 확실한 방법!</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 리틀의 법칙은 줄 서기 대기 이론이다. 계산대([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 같아도 줄(WIP)이 짧으면 결제 대기 시간([리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))이 줄어든다. 한 번에 너무 많은 일을 시작하면 모든 일이 늦어진다.
 
@@ -122,7 +136,7 @@ LinearB / Swarmia:
 |:---|:---|
 | **고객 가치** | 빠른 기능 전달 → 경쟁 우위 |
 | **품질** | 소규모 변경 → [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 쉬움·버그 감소 |
-| **[개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)** | 빠른 피드백 → 높은 만족도 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a></strong> | 빠른 피드백 → 높은 만족도 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)(GitHub Copilot for [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))·자동화 테스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배포 의사결정이 사이클 타임 단축의 새로운 레버가 되고 있다. AI가 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 시간을 시간 단위에서 분 단위로 단축하면 Elite 팀의 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 1시간 미만 목표가 대부분의 팀에게 현실이 될 수 있다.
 
@@ -134,29 +148,31 @@ LinearB / Swarmia:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)** | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 성숙도 벤치마크 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong> | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 성숙도 벤치마크 |
 | **WIP 제한** | 리틀의 법칙 기반 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축 |
 | **배치 크기** | 소규모 빈번 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)** | WIP 제한 시각적 관리 |
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)** | 사이클 타임 단축 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 레버 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a></strong> | WIP 제한 시각적 관리 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/">코드 리뷰</a></strong> | 사이클 타임 단축 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 레버 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 폭포수 — 리드 타임 수개월, 배치 크기 대규모]
-    │
-    ▼
-[애자일 스프린트 — 2주 배치, 리드 타임 수주]
-    │
-    ▼
-[Continuous Delivery — 소규모 자주 배포, 리드 타임 일]
-    │
-    ▼
-[DORA Elite — 리드 타임 1시간 미만, 자동화 CD]
-    │
-    ▼
-[AI 지원 DevOps — AI 리뷰·테스트로 사이클 타임 분 단위]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 폭포수 — 리드 타임 수개월, 배치 크기 대규모</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 스프린트 — 2주 배치, 리드 타임 수주</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Delivery — 소규모 자주 배포, 리드 타임 일</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DORA Elite — 리드 타임 1시간 미만, 자동화 CD</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 지원 DevOps — AI 리뷰·테스트로 사이클 타임 분 단위</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

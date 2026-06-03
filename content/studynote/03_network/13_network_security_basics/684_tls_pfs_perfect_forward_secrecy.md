@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크(682번) 시절, 클라이언트는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키(대칭키) 재료를 **'서버의 공개키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))'**로 암호화해서 보냈습니다.
-- **문제점**: 암호화된 이 패킷은 오직 서버의 **'마스터 개인키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'** 하나로만 풀립니다. 즉, 오늘 만든 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 3년 뒤에 만들 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 모두 똑같은 '서버 개인키' 하나에 운명이 걸려 있습니다.
+[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크(682번) 시절, 클라이언트는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키(대칭키) 재료를 <strong>'서버의 공개키(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)'</strong>로 암호화해서 보냈습니다.
+- **문제점**: 암호화된 이 패킷은 오직 서버의 <strong>'마스터 개인키(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> Private <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong> 하나로만 풀립니다. 즉, 오늘 만든 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 3년 뒤에 만들 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 모두 똑같은 '서버 개인키' 하나에 운명이 걸려 있습니다.
 - **해킹 시나리오**: 무서운 집념을 가진 해커는 10년 동안 지나다니는 모든 암호화 패킷을 복호화하지 못한 채 하드디스크에 저장만 해둡니다. 그러다 10년 뒤 늙은 서버가 해킹당해 **'마스터 개인키' 하나가 털리는 순간, 해커는 10년 치 저장해 둔 과거의 모든 패킷을 소급해서 모조리 복호화(해독)해 버립니다.**
 
-```text
-[Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
-[TLS 전방향 안전성 보장 원리]
-    │
-    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **"서버의 마스터 개인키(장기 키)가 미래에 해커에게 털리더라도, 과거에 주고받았던 암호화된 통신 내용([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))은 절대 해독할 수 없어야 한다"**는 완벽한 보안 특성을 말합니다.
+- **개념**: <strong>"서버의 마스터 개인키(장기 키)가 미래에 해커에게 털리더라도, 과거에 주고받았던 암호화된 통신 내용(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)은 절대 해독할 수 없어야 한다"</strong>는 완벽한 보안 특성을 말합니다.
 - (※ 이름이 좀 헷갈릴 수 있는데, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)(앞으로/미래에) 키가 털리더라도 과거의 비밀은 완벽(Perfect)하게 지킨다는 뜻입니다.)
 
-```text
-[Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
-[TLS 전방향 안전성 보장 원리]
-    │
-    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,10 +64,10 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-이 완벽한 안전성을 달성하기 위한 유일한 방법은 **"[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키를 만들 때, 마스터 개인키를 쓰지 말고, 그때그때 쓰고 버리는 '일회용' 수학 공식을 쓰자!"**는 것입니다.
+이 완벽한 안전성을 달성하기 위한 유일한 방법은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>키를 만들 때, 마스터 개인키를 쓰지 말고, 그때그때 쓰고 버리는 '일회용' 수학 공식을 쓰자!"</strong>는 것입니다.
 
-1. **[DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/) (Diffie-Hellman Ephemeral)** 또는 **[ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) (타원 곡선 [DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/))** 알고리즘을 사용합니다.
-2. 클라이언트와 서버가 연결을 맺을 때마다, 즉흥적으로 무작위 난수를 섞어 서로 일회용 비밀키([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키)를 만들어냅니다(666번 디피-헬만 방식). **마스터 개인키는 이 과정에서 키를 암호화하는 데 쓰이지 않고, 단지 "내가 진짜 네이버 서버가 맞다"는 도장(서명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 찍는 데만 딱 한 번 쓰이고 빠집니다.**
+1. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/">DHE</a> (Diffie-Hellman Ephemeral)</strong> 또는 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/">ECDHE</a> (타원 곡선 <a href="/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/">DHE</a>)</strong> 알고리즘을 사용합니다.
+2. 클라이언트와 서버가 연결을 맺을 때마다, 즉흥적으로 무작위 난수를 섞어 서로 일회용 비밀키([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키)를 만들어냅니다(666번 디피-헬만 방식). <strong>마스터 개인키는 이 과정에서 키를 암호화하는 데 쓰이지 않고, 단지 "내가 진짜 네이버 서버가 맞다"는 도장(서명 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)을 찍는 데만 딱 한 번 쓰이고 빠집니다.</strong>
 3. 통신이 끝나면 방금 썼던 일회용 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키는 양쪽 컴퓨터 메모리에서 즉시 영구 삭제(파기)됩니다.
 4. **결과**: 나중에 해커가 서버의 마스터 개인키를 훔쳐 와서 과거의 패킷을 풀어보려 해도, 마스터 개인키는 자물쇠를 푸는 열쇠가 아니라 도장에 불과했으므로 패킷은 절대 열리지 않습니다.
 
@@ -77,8 +85,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 애플, 구글 등 글로벌 기업들은 사용자 프라이버시를 지키기 위해 자사 앱이나 서버에서 이 **PFS ([ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) 등) 방식의 Cipher Suite만을 사용하도록 강제**하고 있습니다.
-- 최신 암호 표준인 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3**에서는 아예 낡고 위험한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반의 키 교환 방식을 프로토콜에서 완전히 폐지(삭제)해 버리고, 오직 PFS가 보장되는 [DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/)/[ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) 방식만 쓰도록 못 박았습니다.
+- 애플, 구글 등 글로벌 기업들은 사용자 프라이버시를 지키기 위해 자사 앱이나 서버에서 이 <strong>PFS (<a href="/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/">ECDHE</a> 등) 방식의 Cipher Suite만을 사용하도록 강제</strong>하고 있습니다.
+- 최신 암호 표준인 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3</strong>에서는 아예 낡고 위험한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반의 키 교환 방식을 프로토콜에서 완전히 폐지(삭제)해 버리고, 오직 PFS가 보장되는 [DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/)/[ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) 방식만 쓰도록 못 박았습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Cipher Suite 모델 표기방식 예시…]
-    │
-    ▼
-[현재 개념: TLS 전방향 안전성 보장 원리]
-    │
-    ├──▶ [확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Cipher Suite 모델 표기방식 예시…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS 전방향 안전성 보장 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 Cipher Suite 모델 표기방식 예시…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

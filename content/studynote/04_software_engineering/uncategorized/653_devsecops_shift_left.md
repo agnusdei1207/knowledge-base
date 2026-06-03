@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 전통적인 워크플로우에서 보안 팀은 배포 파이프라인의 가장 마지막 관문(Gatekeeper)에 서서, 개발이 끝난 시스템을 며칠 동안 모의 해킹하고 취약점을 스캔했다. 배포 속도가 느렸던 과거에는 이 방식이 통했다.
 - **필요성 (DevOps와의 충돌)**: 하지만 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 시대에는 하루에도 수십 번씩 코드가 배포된다. 보안 팀이 수동으로 스크립트를 돌리고 승인을 내주는 기존의 '[사후 보안](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/)([Bolt-on Security](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/))' 방식으로는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 속도를 도저히 따라갈 수 없어 보안이 끔찍한 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 된다.
-- **해결책**: "빠른 배포 속도"와 "단단한 보안"이라는 두 마리 토끼를 잡기 위해, 보안 검사 과정을 자동화하여 개발자의 로컬 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(IDE)와 소스코드 저장소(Git) 등 개발 극초기 단계로 전부 이동시키는 **[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) ([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))** 사상이 탄생했다.
+- **해결책**: "빠른 배포 속도"와 "단단한 보안"이라는 두 마리 토끼를 잡기 위해, 보안 검사 과정을 자동화하여 개발자의 로컬 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(IDE)와 소스코드 저장소(Git) 등 개발 극초기 단계로 전부 이동시키는 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/">시프트 레프트</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/">Shift-Left</a>)</strong> 사상이 탄생했다.
 
 - **📢 섹션 요약 비유**: 건물을 다 짓고 나서야 소방 검사관이 와서 "여기 복도가 너무 좁아서 불법입니다. 다 허물고 다시 지으세요!"라고 하면 망해버리겠죠? 처음 설계도를 그릴 때부터 소방 검사 프로그램이 자동으로 불법 여부를 빨간펜으로 짚어주는 것이 데브섹옵스입니다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 데브섹옵스 (DevSecOps) 시프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데브섹옵스 (DevSecOps) 시프                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데브섹옵스 (DevSecOps) 시프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 데브섹옵스 (DevSecOps) 시프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,22 +53,22 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))를 시간순으로 나열했을 때 왼쪽부터 오른쪽으로 흐른다고 가정하자 (요구사항 -> 설계 -> 구현 -> 테스트 -> 배포). 여기서 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 검증을 가장 마지막(Right)에서 가장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(Left)로 옮긴다는 뜻의 은유적 표현이 '[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)'다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│              비용 및 발견 시점에 따른 Shift-Left 비용 최적화           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│   결함 수정 비용 ($)                                                │
-│   1000x │                                         🔴 (운영 중 해킹)│
-│    100x │                              🟠 (배포 직전 보안 검토)     │
-│     10x │                   🟡 (CI 테스트 중)                     │
-│      1x │       🟢 (IDE에서 코드 짤 때)                           │
-│         └─────────────────────────────────────────────────────  │
-│             설계/개발 (Left)  --->   빌드/테스트   --->   운영 (Right) │
-│                                                                 │
-│ * 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다. │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 및 발견 시점에 따른 Shift-Left 비용 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 수정 비용 ($)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1000x</div><div class="kb-diagram-cell">🔴 (운영 중 해킹)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100x</div><div class="kb-diagram-cell">🟠 (배포 직전 보안 검토)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10x</div><div class="kb-diagram-cell">🟡 (CI 테스트 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1x</div><div class="kb-diagram-cell">🟢 (IDE에서 코드 짤 때)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계/개발 (Left) ---&gt; 빌드/테스트 ---&gt; 운영 (Right)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]**
 오른쪽(운영 단계)에서 하드코딩된 패스워드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점이 발견되면, DB 구조를 바꾸고 서비스를 중단하고 긴급 패치를 해야 하는 대재앙이 벌어진다. 하지만 왼쪽(개발 단계)에서 IDE의 보안 플러그인이 "이 코드 취약합니다"라고 즉시 밑줄을 쳐주면, 개발자는 백스페이스를 몇 번 누르는 것만으로(비용 거의 0) 완벽하게 보안을 지켜낼 수 있다.
@@ -94,13 +93,13 @@ tags = ["studynote-software-engineering"]
 
 DevSecOps는 구호가 아니라 실체적인 툴 체인(Tool-chain)의 결합이다. 파이프라인 단계별로 각기 다른 자동화 보안 분석 도구가 동작한다.
 
-1. **[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)) - 설계/개발 단계**:
+1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/">Software Composition Analysis</a>) - 설계/개발 단계</strong>:
    - 현대 소프트웨어의 80%는 남이 짠 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Log4j 등)로 구성된다. SCA는 `package.json`이나 `pom.xml`을 분석하여 이미 알려진 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 있는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 버전을 사용하고 있는지 스캔하고 차단한다.
-2. **[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) - 커밋/빌드 단계**:
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (Static Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing) - 커밋/빌드 단계</strong>:
    - [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 기법. 개발자가 짠 소스코드 자체(텍스트)를 실행하지 않고 훑어보며, SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), 하드코딩된 암호 키 등 [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) 위반을 컴파일 전에 잡아낸다. 화이트박스 보안 테스트에 해당한다.
-3. **[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) (Dynamic Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) - 테스트/스테이징 단계**:
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (Dynamic Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing) - 테스트/스테이징 단계</strong>:
    - [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 기법. 애플리케이션이 실제로 실행되어 메모리에 올라간 상태에서, 자동화된 해커 봇이 웹의 폼(Form)과 API에 무작위 악성 페이로드를 쏘아보며(Fuzzing) 보안 취약점을 검증한다. 블랙박스 보안 테스트에 해당한다.
-4. **[IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) (Interactive Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)**:
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/">IAST</a> (Interactive Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing)</strong>:
    - SAST와 DAST의 장점을 결합한 최신 기법. 앱 내부에 에이전트(Agent)를 심어놓고, 테스트 중 발생하는 메모리 흐름과 코드 실행 경로를 실시간으로 추적하여 오탐지(False Positive)를 극적으로 줄인다.
 
 - **📢 섹션 요약 비유**: 재료에 썩은 것이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)), 요리 레시피 자체에 문제가 없는지 글씨를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 완성된 요리를 독 감식가가 직접 먹어보며 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/))하는 다중 방어 시스템 체계입니다.
@@ -117,27 +116,22 @@ DevSecOps는 구호가 아니라 실체적인 툴 체인(Tool-chain)의 결합�
 
 DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 암호화 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 등을 사람이 엑셀 문서로 관리하는 것이 아니라 전부 코드화([As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))하는 것이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          컴플라이언스 코드화(Compliance as Code) OPA 정책 검사      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [개발자 인프라 배포 요청 (Terraform)]                         │
-│     "S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"       │
-│               │                                             │
-│               ▼                                             │
-│   ┌───────────────────────────────────────────────┐         │
-│   │ OPA (Open Policy Agent) 보안 룰 엔진           │         │
-│   │ `deny if bucket.acl == "public-read"`         │         │
-│   └───────────┬───────────────────────────────────┘         │
-│               │                                             │
-│               ▼                                             │
-│   [ ❌ 배포 실패 (Pipeline Failed) ]                          │
-│   "보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."    │
-│                                                             │
-│ * 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴플라이언스 코드화(Compliance as Code) OPA 정책 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 인프라 배포 요청 (Terraform)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA (Open Policy Agent) 보안 룰 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>deny if bucket.acl == "public-read"</code></div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 배포 실패 (Pipeline Failed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]**
 이전에는 개발자가 클라우드 환경을 배포할 때, 보안 팀이 티켓을 받아 "이 설정이 보안 규정에 맞나?" 일일이 대조했다. 컴플라이언스 코드화가 적용된 파이프라인에서는 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 단계에 삽입된다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 코드가 푸시되면 보안 팀이 개입하기도 전에 젠킨스가 빌드를 파기(Drop)해버려 휴먼 에러가 물리적으로 차단된다.
@@ -159,8 +153,8 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 | 이슈 (트레이드오프) | 실무 현상 | 해결책 및 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|:---|
 | **오탐의 홍수 (False Positives)** | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 도구가 조금만 의심스러워도 수천 개의 알람을 쏟아내어 빌드를 멈추면, 개발자들이 보안 경고를 끄거나 무시해버리는 '양치기 소년' 사태가 발생한다. | 처음에는 알람만 주고 빌드를 통과시키되([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) mode), 오탐을 정교하게 튜닝한 후 핵심 룰에 대해서만 차단([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) mode)을 걸어야 한다. |
-| **파이프라인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Slow Builds)** | 코드 한 번 올릴 때마다 [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 스캔에 30분이 걸린다면, 5분 만에 배포하려던 DevOps의 기동성이 완전히 파괴된다. | 딥 스캔은 자정에(Nightly) 비동기로 돌리고, 주간에는 변경된 파일만 가볍게 검사하는 증분 스캔(Incremental Scan)을 적용해야 한다. |
-| **보안 팀의 역할 변화 ([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 재발)** | 보안 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 욱여넣고 관리는 여전히 보안 팀이 뒷짐 지고 한다면 결국 사일로는 부활한다. | 보안 담당자는 검사관(Inspector)이 아니라, 자동화 도구를 컨설팅하고 룰을 짜주는 보안 조력자(Enabler)로 직무가 전환되어야 한다. |
+| <strong>파이프라인 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Slow Builds)</strong> | 코드 한 번 올릴 때마다 [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) 스캔에 30분이 걸린다면, 5분 만에 배포하려던 DevOps의 기동성이 완전히 파괴된다. | 딥 스캔은 자정에(Nightly) 비동기로 돌리고, 주간에는 변경된 파일만 가볍게 검사하는 증분 스캔(Incremental Scan)을 적용해야 한다. |
+| <strong>보안 팀의 역할 변화 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a> 재발)</strong> | 보안 도구를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 욱여넣고 관리는 여전히 보안 팀이 뒷짐 지고 한다면 결국 사일로는 부활한다. | 보안 담당자는 검사관(Inspector)이 아니라, 자동화 도구를 컨설팅하고 룰을 짜주는 보안 조력자(Enabler)로 직무가 전환되어야 한다. |
 
 - **📢 섹션 요약 비유**: 과속을 막기 위해 1km마다 과속 단속 카메라(보안 스캔)를 너무 많이 설치하면, 차들이 아예 앞으로 가지 못해 교통 체증(배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 끔찍해지므로 꼭 필요한 커브길에만 영리하게 설치해야 하는 딜레마입니다.
 
@@ -169,7 +163,7 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 ## 👶 어린이를 위한 3줄 비유 설명
 1. 여러분이 공책에 비밀 일기를 썼는데, 학교에 가져가서 다 펼친 다음에야 "앗 비밀번호 자물쇠를 안 달았네!" 하고 후회하면 이미 늦었죠?
 2. 그래서 옛날에는 일기장을 완성하면 무서운 경비 아저씨(보안팀)가 가져가서 하루 종일 검사하고 돌려줬어요.
-3. 하지만 **데브섹옵스([시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))**는 일기장을 쓸 때 쓰는 연필 자체가 마법 연필이라서, 비밀이 샐 것 같은 단어를 적는 순간 "삐빅! 위험해요!" 하고 즉시 알려주는 엄청난 기술이랍니다.
+3. 하지만 <strong>데브섹옵스(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/">시프트 레프트</a>)</strong>는 일기장을 쓸 때 쓰는 연필 자체가 마법 연필이라서, 비밀이 샐 것 같은 단어를 적는 순간 "삐빅! 위험해요!" 하고 즉시 알려주는 엄청난 기술이랍니다.
 
 ---
 
@@ -188,21 +182,23 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데브섹옵스 (DevSecOps) 시프트 레프트 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데브섹옵스 (DevSecOps) 시프트 레프트 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

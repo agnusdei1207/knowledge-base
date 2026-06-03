@@ -18,39 +18,31 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. NP-Hard의 정의와 위치
 
-```
-NP-Hard (NP-어려움):
 
-정의:
-  NP의 모든 문제 Y를 
-  다항시간 환산(≤_p)으로 X에 환산 가능
-  
-  = "NP의 모든 문제보다 최소한 동등하게 어려운"
-  
-NP-Hard는 NP에 속하지 않아도 됨:
-  결정 문제가 아닌 경우 포함
-  NP-Hard ⊇ NP-Complete
-  
-집합 포함 관계:
-              ┌─────────────────────┐
-              │      NP-Hard        │
-              │  ┌───────────────┐  │
-              │  │  NP-Complete  │  │
-              │  │  (NP ∩ NP-Hard) │
-              │  └───────────────┘  │
-              │                     │
-  ┌───────────┴──────────┐          │
-  │          NP          │          │
-  │   ┌────────────┐     │          │
-  │   │     P      │     │          │
-  │   └────────────┘     │          │
-  └──────────────────────┘          │
-              └─────────────────────┘
 
-P ⊆ NP ⊆ NP-Complete? : 미증명
-NP-Complete ⊆ NP-Hard : 정의상 참
-NP-Hard \ NP : 존재 (최적화 NP-Hard 등)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NP-Hard (NP-어려움):</div>
+<div class="kb-diagram-note">정의:</div>
+<div class="kb-diagram-note">NP의 모든 문제 Y를</div>
+<div class="kb-diagram-note">다항시간 환산(≤_p)으로 X에 환산 가능</div>
+<div class="kb-diagram-note">= "NP의 모든 문제보다 최소한 동등하게 어려운"</div>
+<div class="kb-diagram-note">NP-Hard는 NP에 속하지 않아도 됨:</div>
+<div class="kb-diagram-note">결정 문제가 아닌 경우 포함</div>
+<div class="kb-diagram-note">NP-Hard ⊇ NP-Complete</div>
+<div class="kb-diagram-note">집합 포함 관계:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NP-Hard</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NP-Complete</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NP ∩ NP-Hard)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P</div></div>
+<div class="kb-diagram-note">P ⊆ NP ⊆ NP-Complete? : 미증명</div>
+<div class="kb-diagram-note">NP-Complete ⊆ NP-Hard : 정의상 참</div>
+<div class="kb-diagram-note">NP-Hard \ NP : 존재 (최적화 NP-Hard 등)</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: NP-Hard는 "어려운 문제들의 클럽" 전체이고, NP-Complete는 그 클럽 중 "답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 빠른(NP)" 멤버만 따로 모은 것.
 
@@ -58,32 +50,33 @@ NP-Hard \ NP : 존재 (최적화 NP-Hard 등)
 
 ## Ⅱ. [NP-Complete](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/108_np_complete/) vs NP-Hard 차이
 
-```
-NP-Complete vs NP-Hard:
 
-                NP-Complete    NP-Hard
-NP 소속 여부:   O (반드시)    X (없어도 됨)
-NP-Hard 소속:  O (정의상)    O (정의상)
-해 검증:       다항시간 가능  불가능할 수도 있음
-문제 유형:     결정 문제      결정/최적화 모두
 
-예시:
-  TSP 결정 버전 (경로 비용 ≤ k 존재?):
-    → NP-Complete (답 확인 가능)
-  
-  TSP 최적화 버전 (최소 비용 경로 찾기):
-    → NP-Hard (NP 아님, 최적값 검증 불가)
-    (어떤 경로가 최적인지 다항시간에 검증 불가)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NP-Complete vs NP-Hard:</div>
+<div class="kb-diagram-note">NP-Complete NP-Hard</div>
+<div class="kb-diagram-note">NP 소속 여부: O (반드시) X (없어도 됨)</div>
+<div class="kb-diagram-note">NP-Hard 소속: O (정의상) O (정의상)</div>
+<div class="kb-diagram-note">해 검증: 다항시간 가능 불가능할 수도 있음</div>
+<div class="kb-diagram-note">문제 유형: 결정 문제 결정/최적화 모두</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">TSP 결정 버전 (경로 비용 ≤ k 존재?):</div>
+<div class="kb-diagram-note">→ NP-Complete (답 확인 가능)</div>
+<div class="kb-diagram-note">TSP 최적화 버전 (최소 비용 경로 찾기):</div>
+<div class="kb-diagram-note">→ NP-Hard (NP 아님, 최적값 검증 불가)</div>
+<div class="kb-diagram-note">(어떤 경로가 최적인지 다항시간에 검증 불가)</div>
+<div class="kb-diagram-note">Halt 문제 (Halting Problem):</div>
+<div class="kb-diagram-note">→ NP-Hard 이지만 NP도 아님</div>
+<div class="kb-diagram-note">→ 결정 불가능 (Undecidable)</div>
+<div class="kb-diagram-note">→ NP-Hard에서 가장 어려운 부류</div>
+<div class="kb-diagram-note">PSPACE-Hard:</div>
+<div class="kb-diagram-note">→ NP-Hard보다 더 넓은 어려움</div>
+<div class="kb-diagram-note">→ NP-Hard ⊆ PSPACE-Hard</div>
+</div>
+</div>
 
-Halt 문제 (Halting Problem):
-  → NP-Hard 이지만 NP도 아님
-  → 결정 불가능 (Undecidable)
-  → NP-Hard에서 가장 어려운 부류
 
-PSPACE-Hard:
-  → NP-Hard보다 더 넓은 어려움
-  → NP-Hard ⊆ PSPACE-Hard
-```
 
 > 📢 **섹션 요약 비유**: NP-Complete는 "어렵지만 답이 맞는지 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능", NP-Hard는 "어렵고 답 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)도 어려울 수 있음" — 더 넓은 범위.
 

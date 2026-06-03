@@ -26,14 +26,17 @@ Hinton et al. (2015) "Distilling the Knowledge in a Neural Network"이 제안한
 
 예: 고양이 사진에서 소프트 타겟이 "호랑이 0.08, 개 0.05"를 출력하면, 고양이가 개보다 호랑이에 더 가깝다는 구조적 지식을 전달한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "선생님의 노트(교사 모델)"를 복사하는 게 아니라, 선생님이 "왜 그렇게 생각했는지(소프트 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))"를 배우는 것이다.
 
@@ -65,19 +68,20 @@ L_total = α · L_KD + (1-α) · L_CE
 T²: 그래디언트 스케일 보정 항
 ```
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  교사 모델 (Teacher, 대형)                                │
-│  입력 x → [거대 네트워크] → 로짓 zᵀ → 소프트 타겟 q(T) │
-│                                          ↓               │
-│  학생 모델 (Student, 소형)               KL 다이버전스    │
-│  입력 x → [작은 네트워크] → 로짓 zˢ → 소프트 예측 p(T)  │
-│                              ↓                           │
-│                         하드 타겟 CE 손실                 │
-│                              ↓                           │
-│               L_total = α·L_KD + (1-α)·L_CE             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교사 모델 (Teacher, 대형)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">거대 네트워크</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">로짓 zᵀ → 소프트 타겟 q(T)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생 모델 (Student, 소형) KL 다이버전스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">작은 네트워크</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">로짓 zˢ → 소프트 예측 p(T)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 타겟 CE 손실</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_total = α·L_KD + (1-α)·L_CE</div></div>
+</div>
+</div>
+
+
 
 | 구성요소 | 역할 | 온도 T의 역할 |
 |:---|:---|:---|
@@ -107,9 +111,9 @@ DistilBERT는 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_m
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 증류**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5, LLaMA-70B → LLaMA-7B 증류 예시
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 증류</strong>: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4 → [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3.5, LLaMA-70B → LLaMA-7B 증류 예시
 **온-디바이스**: MobileNet, TinyBERT 등 모바일 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-**[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반 증류**: 교사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출로 소프트 타겟 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 학생 모델 학습
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 기반 증류</strong>: 교사 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출로 소프트 타겟 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 학생 모델 학습
 
 기술사 포인트: [KL 다이버전스](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 수식, T² [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 이유, α [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 역할을 명확히 설명.
 

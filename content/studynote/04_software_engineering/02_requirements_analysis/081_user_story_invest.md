@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 과거 폭포수 시절 기획자는 요구사항 명세서에 이렇게 썼습니다.
 - *"ID 필드는 VARCHAR(20)로 하고, 패스워드 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 후 Session에 토큰을 구워라."*
-이 문장은 시스템이 '어떻게(How)' 동작할지는 잘 설명하지만, **"대체 이 기능을 왜 만들어야 하는가?"**에 대한 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 완전히 빠져 있습니다. 개발자들은 이유도 모른 채 기계처럼 코딩만 하게 되고, 결과적으로 쓸모없는 기능이 만들어집니다.
+이 문장은 시스템이 '어떻게(How)' 동작할지는 잘 설명하지만, <strong>"대체 이 기능을 왜 만들어야 하는가?"</strong>에 대한 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 완전히 빠져 있습니다. 개발자들은 이유도 모른 채 기계처럼 코딩만 하게 되고, 결과적으로 쓸모없는 기능이 만들어집니다.
 
 ---
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 사용자 스토리 (User Story)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사용자 스토리 (User Story)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 스토리 (User Story)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 사용자 스토리 (User Story)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,7 +77,7 @@ tags = ["studynote-software-engineering"]
 5. **S (Small, 작은 크기)**: 한 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(2주) 안에 코딩부터 테스트까지 넉넉히 끝낼 수 있도록 작게 쪼개져 있어야 합니다. (너무 크면 '[에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)([Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))'이라고 부름)
 6. **T (Testable, 테스트 가능)**: "이 기능이 완료(Done)되었는가?"를 명확히 합격/불합격으로 판정할 수 있는 '인수 조건([Acceptance Criteria](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/))'이 존재해야 합니다.
 
-> 📢 **섹션 요약 비유:** 사용자 스토리는 건축가에게 **"시멘트를 10톤 발라서 10미터짜리 벽을 세워라(기존 요구사항)"**라고 지시하는 대신, **"나는 아이의 부모로서(Who), 아이가 마당에서 안전하게 뛰놀게 하기 위해(Why), 튼튼한 울타리(What)를 원한다"**라고 말해주는 것입니다. 그러면 건축가는 꼭 시멘트가 아니더라도 나무나 예쁜 벽돌을 써서 그 목적(가치)에 딱 맞는 완벽한 울타리를 창의적으로 만들어냅니다.
+> 📢 **섹션 요약 비유:** 사용자 스토리는 건축가에게 <strong>"시멘트를 10톤 발라서 10미터짜리 벽을 세워라(기존 요구사항)"</strong>라고 지시하는 대신, <strong>"나는 아이의 부모로서(Who), 아이가 마당에서 안전하게 뛰놀게 하기 위해(Why), 튼튼한 울타리(What)를 원한다"</strong>라고 말해주는 것입니다. 그러면 건축가는 꼭 시멘트가 아니더라도 나무나 예쁜 벽돌을 써서 그 목적(가치)에 딱 맞는 완벽한 울타리를 창의적으로 만들어냅니다.
 
 - **📢 섹션 요약 비유**: 사용자 스토리 (User Story)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -127,21 +126,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사용자 스토리 (User Story) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사용자 스토리 (User Story) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

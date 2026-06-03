@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient)는 Q값을 통해 행동을 간접 유도하는 Q-러닝과 달리, **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) π_θ(a|s)를 파라미터 θ로 직접 표현하고 기대 보상의 그래디언트로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 파라미터를 직접 최적화**하는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 방법론이다.
+> 1. **본질**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사 ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient)는 Q값을 통해 행동을 간접 유도하는 Q-러닝과 달리, <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>) π_θ(a|s)를 파라미터 θ로 직접 표현하고 기대 보상의 그래디언트로 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 파라미터를 직접 최적화</strong>하는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 방법론이다.
 > 2. **가치**: 연속 행동 공간(로봇 관절 토크, 자율주행 핸들 각도)에서 DQN이 불가능한 문제를 처리 가능하고, [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 구조는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 문제를 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)(Critic)로 안정화하여 현대 Deep RL의 표준 구조가 됐다.
 > 3. **판단 포인트**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))에서 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 정렬에 사용되는 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))가 Actor-Critic의 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, ChatGPT·Claude·Gemini 모두 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 기반 RLHF로 정렬됐다는 것이 기술사 필수 지식이다.
 
@@ -21,16 +21,19 @@ tags = ["studynote-ai"]
 
 로봇 팔이 공을 잡으려면 관절 토크를 연속 실수값으로 출력해야 한다. DQN은 "버튼 3번 누르기" 같은 이산 행동에만 적합하고, 이런 연속 제어에는 부적합하다. 또한 DQN은 Q값 최대화를 통해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 간접 유도하여, Q값 과대추정 등의 문제가 있다.
 
-**[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Gradient)**는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) π_θ(a|s)를 신경망 파라미터 θ로 직접 모델링하고, 그래디언트 상승(Gradient Ascent)으로 기대 누적 보상 J(θ)를 직접 최대화한다. "직접 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습"하는 것이 핵심 철학이다.
+<strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 경사(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> Gradient)</strong>는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) π_θ(a|s)를 신경망 파라미터 θ로 직접 모델링하고, 그래디언트 상승(Gradient Ascent)으로 기대 누적 보상 J(θ)를 직접 최대화한다. "직접 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습"하는 것이 핵심 철학이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DQN이 "각 식당의 맛 점수표를 보고 가장 맛있는 곳을 선택"하는 것이라면, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사는 "식당 선택 습관 자체([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 직접 최적화"하는 것이다. 점수표 없이 "어떤 날, 어떤 기분에 어떤 종류 식당이 최고인가"를 직관적으로 학습해서 점점 더 만족스러운 선택 패턴을 발전시킨다.
 
@@ -38,39 +41,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         정책 경사 및 Actor-Critic 아키텍처                           │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  정책 경사 수식 (REINFORCE):                                        │
-│  ∇J(θ) = E[Σ ∇ log π_θ(a|s) · G_t]                            │
-│  θ ← θ + α · ∇J(θ)  (경사 상승, Gradient Ascent)                │
-│                                                                  │
-│  직관: 보상이 높은 행동(G_t 큰 경우)의 확률을 올려라!                │
-│  문제: G_t의 분산이 커서 학습 불안정 (REINFORCE 의 단점)             │
-│                                                                  │
-│  Actor-Critic 구조 (A2C, A3C, PPO의 기반):                        │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  입력: 상태 s                                            │    │
-│  │       │                                                 │    │
-│  │  ┌────┴────────────────────────────┐                    │    │
-│  │  │         공유 신경망 (Backbone)    │                    │    │
-│  │  └────┬────────────────────────────┘                    │    │
-│  │       ├─────────────────┐                               │    │
-│  │  [Actor Head]     [Critic Head]                         │    │
-│  │  π_θ(a|s)         V_φ(s)                                │    │
-│  │  (정책, 행동 확률)   (가치, 상태 평가)                     │    │
-│  │       │                 │                               │    │
-│  │   행동 a 선택       어드밴티지 A(s,a) = R + γV(s') - V(s)  │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  PPO (Proximal Policy Optimization):                            │
-│  목표: L^CLIP = E[min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)]│
-│  r_t = π_θ(a|s) / π_θ_old(a|s) (새 정책 / 이전 정책 비율)       │
-│  클리핑으로 정책이 너무 급격히 변하지 않게 제한                      │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 경사 및 Actor-Critic 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 경사 수식 (REINFORCE):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">∇J(θ) = E</div><div class="kb-diagram-node">Σ ∇ log π_θ(a|s) · G_t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ ← θ + α · ∇J(θ) (경사 상승, Gradient Ascent)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직관: 보상이 높은 행동(G_t 큰 경우)의 확률을 올려라!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: G_t의 분산이 커서 학습 불안정 (REINFORCE 의 단점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic 구조 (A2C, A3C, PPO의 기반):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: 상태 s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 신경망 (Backbone)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Actor Head</div><div class="kb-diagram-node">Critic Head</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">π_θ(a</div><div class="kb-diagram-cell">s) V_φ(s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정책, 행동 확률) (가치, 상태 평가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 a 선택 어드밴티지 A(s,a) = R + γV(s') - V(s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPO (Proximal Policy Optimization):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">목표: L^CLIP = E</div><div class="kb-diagram-node">min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">r_t = π_θ(a</div><div class="kb-diagram-cell">s) / π_θ_old(a</div><div class="kb-diagram-cell">s) (새 정책 / 이전 정책 비율)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클리핑으로 정책이 너무 급격히 변하지 않게 제한</div></div>
+</div>
+</div>
+
+
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 적합 환경 |
 |:---|:---|:---|
@@ -85,7 +80,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">Reinforcement Learning from Human Feedback</a>)</strong>:
 1. SFT (Supervised [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)): 이상적 응답으로 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)
 2. [Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) ([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 학습: 인간 평가자의 선호도 순위로 보상 모델 학습
 3. [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 최적화: [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 보상을 최대화하도록 LLM을 PPO로 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)
@@ -104,7 +99,7 @@ ChatGPT, Claude, Gemini 모두 이 3단계 [RLHF](/knowledge-base/studynote/14_d
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 하이퍼파라미터 설계**:
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> 하이퍼파라미터 설계</strong>:
 - `clip_range` ε: 0.1~0.2. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화 허용 범위. 클수록 빠르지만 불안정
 - `n_steps`: 2048~4096. 업데이트 전 수집할 샘플 수. 클수록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소
 - `n_epochs`: 3~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 업데이트 반복 횟수
@@ -142,9 +137,9 @@ ChatGPT, Claude, Gemini 모두 이 3단계 [RLHF](/knowledge-base/studynote/14_d
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 경사**는 Q값 표 대신 **"이 상황에서 이 행동을 할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 직접 신경망으로 배우는** 방법으로, 버튼 고르기가 아닌 **핸들 각도(연속값)** 결정에 딱 맞아요!
-2. **[Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)**은 행동을 결정하는 배우(Actor)와 "그 행동이 얼마나 좋았나" 평가하는 감독(Critic)이 협력하는 구조예요.
-3. **ChatGPT가 좋은 대답을 하도록 훈련**한 RLHF도 이 [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 방식이에요!
+1. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 경사</strong>는 Q값 표 대신 <strong>"이 상황에서 이 행동을 할 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>"을 직접 신경망으로 배우는</strong> 방법으로, 버튼 고르기가 아닌 **핸들 각도(연속값)** 결정에 딱 맞아요!
+2. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/">Actor-Critic</a></strong>은 행동을 결정하는 배우(Actor)와 "그 행동이 얼마나 좋았나" 평가하는 감독(Critic)이 협력하는 구조예요.
+3. <strong>ChatGPT가 좋은 대답을 하도록 훈련</strong>한 RLHF도 이 [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 방식이에요!
 
 ---
 

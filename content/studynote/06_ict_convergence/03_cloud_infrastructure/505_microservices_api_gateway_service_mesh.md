@@ -22,7 +22,7 @@ tags = ["studynote-ict-convergence"]
 MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 서로 통신할 때 세 가지 문제가 발생한다:
 1. **외부 클라이언트 복잡성**: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 IP/포트를 직접 알아야 하는 문제
 2. **횡단 관심사(Cross-Cutting Concerns)**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 로깅, 암호화를 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 중복 구현하는 문제
-3. **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장애 전파**: 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체로 확산되는 Cascading Failure 문제
+3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 장애 전파</strong>: 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 장애가 전체로 확산되는 Cascading Failure 문제
 
 이 세 문제를 각각 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)가 담당한다.
 
@@ -32,24 +32,23 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 통신 계층 구조**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 통신 계층 구조</strong>:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│            외부 클라이언트 (모바일/웹/IoT)                    │
-└───────────────────────┬─────────────────────────────────────┘
-                        ↓
-┌───────────────────────────────────────────────────────────┐
-│          API Gateway (Kong / AWS API GW / Nginx)          │
-│  인증/인가 │ 라우팅 │ Rate Limiting │ LB │ 로깅            │
-└──────┬─────────────┬────────────────┬──────────────────────┘
-       ↓             ↓                ↓
-┌──────────┐  ┌──────────┐   ┌──────────────┐
-│ 주문 서비스│  │ 재고 서비스│   │ 결제 서비스   │
-│ +Sidecar │  │ +Sidecar │   │ +Sidecar     │
-└──────────┘  └──────────┘   └──────────────┘
-  ↑ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 클라이언트 (모바일/웹/IoT)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway (Kong / AWS API GW / Nginx)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증/인가</div><div class="kb-diagram-cell">라우팅</div><div class="kb-diagram-cell">Rate Limiting</div><div class="kb-diagram-cell">LB</div><div class="kb-diagram-cell">로깅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 서비스</div><div class="kb-diagram-cell">재고 서비스</div><div class="kb-diagram-cell">결제 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+Sidecar</div><div class="kb-diagram-cell">+Sidecar</div><div class="kb-diagram-cell">+Sidecar</div></div>
+<div class="kb-diagram-note">↑ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리</div>
+</div>
+</div>
+
+
 
 | 기술 | 역할 | 구현 위치 | 대표 도구 |
 |:---|:---|:---|:---|
@@ -58,7 +57,7 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 | [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/) | 장애 전파 차단 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내 또는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) | Hystrix, Resilience4j |
 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) ([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) | 클라이언트별 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 최적화 | 클라이언트 전용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층 | 커스텀 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 
-**[사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)([Sidecar](/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/)) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Pod에 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 컨테이너를 자동 주입. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드 변경 없이 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)([mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/), 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화), 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 등을 투명하게 처리.
+<strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a>) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>: 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Pod에 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 컨테이너를 자동 주입. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드 변경 없이 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)([mutual TLS](/knowledge-base/studynote/09_security/04_endpoint_security/187_mtls_mutual_tls_authentication/), 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화), 재시도, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 등을 투명하게 처리.
 
 - **📢 섹션 요약 비유**: [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)는 모터사이클 옆에 붙은 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)처럼, 본체([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 바꾸지 않고 기능(보안/모니터링)을 옆에 탑재하는 방식이다.
 
@@ -66,12 +65,12 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ## Ⅲ. 비교 및 연결
 
-**[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)) 상태 전환**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a>) 상태 전환</strong>:
 - **Closed(정상)**: 요청 정상 전달, 실패율 모니터링
 - **Open(차단)**: 실패율 임계값 초과 시 즉시 오류 반환([폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 차단
 - **Half-Open(시험)**: 일정 시간 후 소수 요청 허용, 성공 시 Closed 복귀
 
-**[BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend for Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) vs [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>) vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>:
 
 | 구분 | [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/) | [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) |
 |:---|:---|:---|

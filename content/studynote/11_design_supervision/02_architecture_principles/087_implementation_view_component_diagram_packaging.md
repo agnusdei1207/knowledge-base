@@ -38,12 +38,16 @@ tags = ["studynote-design"]
 | Interface | 호출 규약 | 구현 세부를 숨기고 계약만 노출 |
 | [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물 | JAR, DLL, 이미지 등 배포 단위 |
 
-```text
-[ui package] ──► [application package] ──► [domain package]
-       │                    │                   │
-       │                    ▼                   ▼
-       └──────────────► [interface contract] [infra package]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ui package</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">application package</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">domain package</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">►</div><div class="kb-diagram-node">interface contract</div><div class="kb-diagram-node">infra package</div></div>
+</div>
+</div>
+
+
 
 이 구조가 중요한 이유는 코드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 존재하는 방식과, 설계자가 책임을 나눈 방식이 같아야 변경 비용이 줄어들기 때문이다.
 

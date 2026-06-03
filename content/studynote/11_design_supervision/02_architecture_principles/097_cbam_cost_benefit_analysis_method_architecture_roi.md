@@ -31,26 +31,27 @@ tags = ["studynote-design"]
 
 CBAM은 후보 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Architectural Strategies)들을 나열하고, 각 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 비용, 효용, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 계량화하여 최종 ROI를 산출하는 정량적 프로세스로 동작한다.
 
-**[CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 핵심 수식 및 도출 과정:**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a> 핵심 수식 및 도출 과정:</strong>
 $$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) ([투자수익률](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/005_it_investment_metrics/))} = \frac{\text{효용 (Benefit)} \times (1 - \text{[Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)})}{\text{비용 (Cost)}} $$
 
 | 평가 항목 | 의미 | 도출 방법 |
 | :--- | :--- | :--- |
 | **효용 (Benefit)** | 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비즈니스 목표(품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 달성에 기여하는 가치 | 이해관계자들의 시나리오 투표 및 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 합산 |
 | **비용 (Cost)** | 라이선스, 개발비, 인프라 구축 등 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구현에 필요한 총 비용 | SI 견적, 과거 프로젝트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 산정 |
-| **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))** | 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제시간에 구현되지 않거나 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 기술적 난이도, 외주 업체의 역량 평가 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제시간에 구현되지 않거나 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 기술적 난이도, 외주 업체의 역량 평가 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CBAM 평가 메커니즘 흐름도                   │
-├──────────────────────────────────────────────────────────────┤
-│ [아키텍처 전략] ──▶ [이해관계자 투표] ──▶ 효용 점수 (B) 도출 │
-│       │                                                      │
-│       └──────────▶ [비용 산정 팀] ────▶ 예상 비용 (C) 도출 │
-│                                                              │
-│  => ROI 산출: (B) / (C) ──▶ 가장 높은 ROI의 전략을 최종 채택  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBAM 평가 메커니즘 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 전략</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이해관계자 투표</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">효용 점수 (B) 도출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비용 산정 팀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">예상 비용 (C) 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; ROI 산출: (B) / (C) ──▶ 가장 높은 ROI의 전략을 최종 채택</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 설계 도면이 어떻게 경제적 숫자로 변환되는지 보여준다. 효용 점수가 아무리 높아도 분모인 비용(C)이 천문학적이라면 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 ROI는 급락하여 탈락한다.
 
@@ -80,8 +81,8 @@ ATAM이 기술의 무기를 제련하는 대장간이라면, CBAM은 그 무기�
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **효용의 정량화**: 비즈니스 부서장들이 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상" 같은 추상적 가치를 0~100점의 구체적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 점수로 일관되게 평가했는가?
-2. **숨은 비용 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)**: 라이선스비, 하드웨어 비용 외에 장기적인 운영(Ops) 인건비나 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송료([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)) 같은 숨은 비용이 Cost에 반영되었는가?
-3. **[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 패널티**: 신기술 도입 시 개발 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(불확실성)을 효용에서 얼마나 차감할지 합의되었는가?
+2. <strong>숨은 비용 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 라이선스비, 하드웨어 비용 외에 장기적인 운영(Ops) 인건비나 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송료([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)) 같은 숨은 비용이 Cost에 반영되었는가?
+3. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 패널티</strong>: 신기술 도입 시 개발 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(불확실성)을 효용에서 얼마나 차감할지 합의되었는가?
 
 ### 실무 판단 가이드
 - **채택**: 한정된 예산 안에서 여러 개의 기능/인프라 투자 요구가 서로 충돌하여, 경영진이 "무엇부터 돈을 쓸지" 투자 우선순위를 결정해야 할 때 [CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/) 체계를 채택한다.
@@ -112,21 +113,23 @@ CBAM을 적용하면 엔지니어의 막연한 기술적 주장에 브레이크�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 아키텍처 평가 (SAAM) · 초기 시나리오 평가
-    │
-    ▼
-ATAM (Architecture Trade-off Analysis Method) · 품질 속성 간의 기술적 타협
-    │
-    ▼
-CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가
-    │
-    ▼
-애자일 아키텍처 런웨이 (Architectural Runway) · 지속적 투자 가치 평가 결합
-    │
-    ▼
-클라우드 FinOps (Cloud Financial Operations) · 실시간 클라우드 아키텍처 비용 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 아키텍처 평가 (SAAM) · 초기 시나리오 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM (Architecture Trade-off Analysis Method) · 품질 속성 간의 기술적 타협</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">애자일 아키텍처 런웨이 (Architectural Runway) · 지속적 투자 가치 평가 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 FinOps (Cloud Financial Operations) · 실시간 클라우드 아키텍처 비용 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "단순 시나리오 → 기술적 타협 → 경제적 타협 → 실시간 비용 최적화"로 이어지는 아키텍처 평가 기법의 진화를 보여준다.
 

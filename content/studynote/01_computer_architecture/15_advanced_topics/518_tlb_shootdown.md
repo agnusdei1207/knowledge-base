@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 멀티코어 시스템에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 주소 변환 캐시의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추기 위한 절차다. 각 코어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 자신의 TLB에 최근 가상 주소 → [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 번역 결과를 따로 저장한다. 문제는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 바뀌어도 다른 코어의 TLB는 자동으로 바뀌지 않는 경우가 많다는 점이다.
 
-예를 들어 한 스레드가 `munmap()`으로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 해제하거나 `mprotect()`로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 제거했는데, 다른 코어의 TLB에 예전 번역이 남아 있다면 어떤 일이 생길까. 이미 다른 용도로 재할당된 물리 프레임을 계속 쓰거나, 더 이상 허용되지 않은 권한으로 접근하는 심각한 오류가 발생할 수 있다. 즉 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보조 기능"이 아니라 **정확성을 위해 반드시 필요한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 절차**다.
+예를 들어 한 스레드가 `munmap()`으로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 해제하거나 `mprotect()`로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 제거했는데, 다른 코어의 TLB에 예전 번역이 남아 있다면 어떤 일이 생길까. 이미 다른 용도로 재할당된 물리 프레임을 계속 쓰거나, 더 이상 허용되지 않은 권한으로 접근하는 심각한 오류가 발생할 수 있다. 즉 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보조 기능"이 아니라 <strong>정확성을 위해 반드시 필요한 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 절차</strong>다.
 
 이 문제가 더 까다로운 이유는 주소 공간이 여러 코어에서 동시에 실행될 수 있기 때문이다. 멀티스레드 프로세스, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전역 매핑, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경이 곧 여러 코어의 로컬 상태를 동시에 흔든다. 그래서 슈팅다운은 메모리 관리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라, 사실상 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)처럼 다뤄야 한다.
 
@@ -35,23 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 비용이 어디서 커지는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다   │
-├──────────────────────────────────────────────────────────────────────┤
-│ Initiator Core        Remote Core A           Remote Core B          │
-│      │                    │                        │                 │
-│ PTE update               run                      run                │
-│ local invalidate         │                        │                 │
-│ IPI / invalidate ─────▶ trap                     │                 │
-│      │                    flush local TLB         │                 │
-│ IPI / invalidate ───────────────────────────────▶ trap              │
-│      │                    done ────────────────▶  │                 │
-│ wait for all done        │                        flush local TLB    │
-│      │                    │                        done ──────────▶  │
-│ resume only after every stale translation is gone                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initiator Core Remote Core A Remote Core B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTE update run run</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local invalidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / invalidate ▶ trap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flush local TLB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / invalidate ▶ trap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">done ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait for all done</div><div class="kb-diagram-cell">flush local TLB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">done ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">resume only after every stale translation is gone</div></div>
+</div>
+</div>
+
+
 
 | 단계 | 실제 작업 | 왜 비싼가 |
 | :--- | :--- | :--- |
@@ -60,7 +62,7 @@ tags = ["studynote-computer-architecture"]
 | 원격 정지 | 실행 중인 파이프라인을 멈추고 특권 모드 진입 | 사용자 코드가 끊기며 tail latency가 커짐 |
 | 재적재 | 무효화 뒤 다시 [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) walk로 번역을 채움 | flush 이후에도 한동안 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락이 이어짐 |
 
-따라서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운의 비용은 단순한 "지우기"가 아니라, **[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경을 전역적으로 확정하는 회합 비용**이다. 주소 하나만 바꿔도 대상 코어가 많고 무효화 범위가 넓으면 시스템 전체가 잠깐 흔들리는 이유가 여기에 있다.
+따라서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운의 비용은 단순한 "지우기"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 변경을 전역적으로 확정하는 회합 비용</strong>이다. 주소 하나만 바꿔도 대상 코어가 많고 무효화 범위가 넓으면 시스템 전체가 잠깐 흔들리는 이유가 여기에 있다.
 
 - **📢 섹션 요약 비유**: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 회의실 여러 곳에 붙은 공지문을 동시에 바꾸는 작업과 같다. 종이 한 장 바꾸는 시간보다, 모든 회의실 진행을 잠깐 멈추게 하고 "다 바꿨다"는 확인을 받는 시간이 더 오래 걸린다.
 
@@ -88,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운 병목은 보통 "코어는 많은데 메모리 관리가 잦을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 이상하게 떨어진다"는 형태로 나타난다. [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러의 잦은 `mprotect()`, 고빈도 `mmap()/munmap()`, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 마이그레이션, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 재배치, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 분할, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 메모리 회수 작업은 모두 슈팅다운을 자주 유발할 수 있다. 이때 문제는 CPU (Central Processing Unit) 연산량이 아니라, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경이 너무 잦아 **전역 번역 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 처리량을 갉아먹는 것**이다.
+실무에서 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운 병목은 보통 "코어는 많은데 메모리 관리가 잦을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 이상하게 떨어진다"는 형태로 나타난다. [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러의 잦은 `mprotect()`, 고빈도 `mmap()/munmap()`, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 마이그레이션, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 재배치, [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) 분할, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 메모리 회수 작업은 모두 슈팅다운을 자주 유발할 수 있다. 이때 문제는 CPU (Central Processing Unit) 연산량이 아니라, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경이 너무 잦아 <strong>전역 번역 캐시 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>가 처리량을 갉아먹는 것</strong>이다.
 
 해법의 방향은 세 가지다. 첫째, 변경 자체를 줄인다. 작은 버퍼를 매번 매핑·해제하지 말고 풀링하거나 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)한다. 둘째, 무효화 범위와 대상을 줄인다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 `invalidate` 대신 범위 기반 무효화와 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/)/PCID 태깅을 활용한다. 셋째, 하드웨어 지원을 쓴다. 아키텍처가 허용한다면 브로드캐스트 무효화나 더 정교한 태그 기반 유지 전략이 IPI 폭풍을 줄여 준다.
 
@@ -116,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 
 앞으로의 방향은 명확하다. 더 정교한 주소 공간 태깅, 범위 기반 `invalidate`, 하드웨어 브로드캐스트, 원격 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 가속이 계속 강화될 것이다. 결국 목표는 "정확성을 위해 다 멈추는 방식"에서 "정확성을 유지하되 멈추는 대상을 최소화하는 방식"으로 가는 것이다.
 
-결론적으로 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 **주소 변환 캐시를 위한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**이다. 이 개념을 단순 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기법이 아니라, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경이 시스템 전체에 전파되는 비용 구조로 기억해야 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 제대로 읽을 수 있다.
+결론적으로 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 <strong>주소 변환 캐시를 위한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다. 이 개념을 단순 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기법이 아니라, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경이 시스템 전체에 전파되는 비용 구조로 기억해야 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 제대로 읽을 수 있다.
 
 - **📢 섹션 요약 비유**: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슈팅다운은 회사 조직도 변경 공지를 모든 부서 게시판에 반영하는 절차와 같다. 바꾸는 내용은 짧아도, 모든 부서가 옛 공지를 떼기 전에는 새 체계가 제대로 작동하지 않는다.
 
@@ -135,22 +137,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 코어의 로컬 TLB flush
-        │
-        ▼
-멀티코어 공유 주소 공간
-        │
-        ▼
-TLB 슈팅다운 (IPI 기반 원격 invalidate)
-        │
-        ├─▶ ASID / PCID 기반 대상 축소
-        ├─▶ range-based invalidate
-        ├─▶ hardware broadcast invalidate
-        │
-        ▼
-가상화·many-core 시대의 확장형 번역 캐시 일관성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 코어의 로컬 TLB flush</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티코어 공유 주소 공간</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB 슈팅다운 (IPI 기반 원격 invalidate)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ ASID / PCID 기반 대상 축소</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ range-based invalidate</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ hardware broadcast invalidate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화·many-core 시대의 확장형 번역 캐시 일관성</div>
+</div>
+</div>
+
+
 
 이 흐름은 "내 코어만 지우면 되던 시대"에서 출발해, "여러 코어의 번역 캐시를 정밀하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 시대"로 발전하는 과정을 보여준다.
 

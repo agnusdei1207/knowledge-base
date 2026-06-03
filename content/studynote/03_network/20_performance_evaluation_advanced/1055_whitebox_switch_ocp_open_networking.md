@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 시스코, 주니퍼 같은 거대 공룡(벤더)이 팔던 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **하드웨어 기계와 소프트웨어(OS)가 본드로 찰싹 붙어있는 '블랙박스'**였습니다.
+- 시스코, 주니퍼 같은 거대 공룡(벤더)이 팔던 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>하드웨어 기계와 소프트웨어(OS)가 본드로 찰싹 붙어있는 '블랙박스'</strong>였습니다.
 - 기계 안이 어떻게 도는지 볼 수 없고, 원하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능을 마음대로 추가할 수 없으며, 기곗값이 부르는 게 값이었습니다([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)).
 
-```text
-[IBN 선행 AI 설계]
-    │
-    ▼
-[화이트박스 OCP 스위치]
-    │
-    └──▶ [ONOS / OpenDaylight 구조 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 OCP 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight 구조 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 (859번 화이트박스 심화 및 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 연계)
-- **개념**: PC처럼 **하드웨어 껍데기(Bare-metal [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))와 소프트웨어(Network OS)를 완벽하게 분리(Decoupling)**하여, 사용자가 싸구려 범용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하드웨어를 구매한 뒤 원하는 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS)를 입맛대로 골라 설치할 수 있는 오픈 생태계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
+- **개념**: PC처럼 <strong>하드웨어 껍데기(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)와 소프트웨어(Network OS)를 완벽하게 분리(Decoupling)</strong>하여, 사용자가 싸구려 범용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하드웨어를 구매한 뒤 원하는 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS)를 입맛대로 골라 설치할 수 있는 오픈 생태계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
 
-```text
-[IBN 선행 AI 설계]
-    │
-    ▼
-[화이트박스 OCP 스위치]
-    │
-    └──▶ [ONOS / OpenDaylight 구조 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 OCP 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight 구조 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,11 +65,11 @@ tags = ["studynote-network"]
 
 ### 1. 범용 스위칭 실리콘 칩 (Merchant Silicon)
 - 옛날엔 시스코가 자기들만의 비밀 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))를 썼지만, 요즘은 브로드컴(Broadcom)이나 인텔(Intel)이 만든 '범용 싸구려 대량 생산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋(Merchant Silicon)' [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 미치도록 좋아졌습니다.
-- 대만 제조사(Accton 등)가 이 칩을 사서 네모난 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 깡통(하드웨어)을 마구 찍어냅니다. 이걸 **베어메탈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**라고 부릅니다.
+- 대만 제조사(Accton 등)가 이 칩을 사서 네모난 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 깡통(하드웨어)을 마구 찍어냅니다. 이걸 <strong>베어메탈 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>라고 부릅니다.
 
 ### 2. [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (오픈 네트워크 설치 환경) - "윈도우 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 부팅 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)"
 - 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 사 오면 제일 먼저 마주하는 화면입니다.
-- **[ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) (Open Network Install [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**: 하드웨어 제조사가 칩 안에 살짝 심어놓은 '소형 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)(설치 마법사)'입니다. 빈 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 랜선을 꽂으면 ONIE가 켜지면서 네트워크 너머에 있는 리눅스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) OS(소프트웨어)를 쫙 빨아당겨 기계 안에 자동으로 설치(OS 인스톨)해 주는 징검다리입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/">ONIE</a> (Open Network Install <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>: 하드웨어 제조사가 칩 안에 살짝 심어놓은 '소형 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)(설치 마법사)'입니다. 빈 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 랜선을 꽂으면 ONIE가 켜지면서 네트워크 너머에 있는 리눅스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) OS(소프트웨어)를 쫙 빨아당겨 기계 안에 자동으로 설치(OS 인스톨)해 주는 징검다리입니다.
 
 ### 3. 분리형 네트워크 OS (Network OS, NOS)
 - 깡통에 깔리는 영혼(소프트웨어)입니다. Cumulus Linux, [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/)(마이크로소프트 주도) 등이 대표적입니다.
@@ -82,7 +90,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 누가 이 생태계를 이끌까요? 바로 페이스북(Meta)입니다.
-- 시스코 장비값에 피눈물을 흘리던 페이스북이 2011년에 **[OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/))**를 창설했습니다.
+- 시스코 장비값에 피눈물을 흘리던 페이스북이 2011년에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/">Open Compute Project</a>)</strong>를 창설했습니다.
 - "야, 전 세계 서버, 스토리지, 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 설계도(도면)를 인터넷에 싹 다 공짜로 오픈 소스로 까버리자!"
 - 제조사들은 이 공짜 도면을 보고 하드웨어를 찍어내고, 구글/아마존/페이스북은 그 싸구려 도면 장비를 수십만 대씩 사들여 자기들의 자체 클라우드 OS([SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) 등)를 깔아 데이터센터를 지배했습니다. 장비 원가를 50% 이상 후려친 거대 클라우드 기업의 승리입니다.
 
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **시스코 블랙박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 애플의 **'아이폰(iPhone)'**과 같습니다. 기계(하드웨어)도 훌륭하고 iOS(소프트웨어)도 완벽하지만, 둘이 하나로 완전히 용접되어 있어 껍데기만 사서 안드로이드를 깔거나 내 맘대로 개조하는 게 100% 불가능한 폐쇄적 독재품(비쌈)이었습니다. 반면 **화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 용산 전자상가에서 부품을 주워다 맞춘 **'조립식 깡통 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)'**입니다. 껍데기 기계(베어메탈)는 대만 공장에서 부품만 사다 원가로 조립해 만듭니다. 처음 전원을 켜면 깡통이지만, 윈도우 설치 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)([ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))를 꽂아 무료 리눅스 OS(개방형 NOS)를 입맛대로 설치합니다. 기계값은 아이폰의 반의반 값이고, 안에 깔린 리눅스는 내가 프로그래밍([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))으로 마음대로 뜯어고쳐 방화벽으로 쓰든 라우터로 쓰든 변신시킬 수 있는, 무한의 자유도를 가진 클라우드 시대의 저가형 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 장비입니다.
+- **📢 섹션 요약 비유**: 기존 <strong>시스코 블랙박스 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 애플의 <strong>'아이폰(iPhone)'</strong>과 같습니다. 기계(하드웨어)도 훌륭하고 iOS(소프트웨어)도 완벽하지만, 둘이 하나로 완전히 용접되어 있어 껍데기만 사서 안드로이드를 깔거나 내 맘대로 개조하는 게 100% 불가능한 폐쇄적 독재품(비쌈)이었습니다. 반면 <strong>화이트박스 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 용산 전자상가에서 부품을 주워다 맞춘 <strong>'조립식 깡통 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>'</strong>입니다. 껍데기 기계(베어메탈)는 대만 공장에서 부품만 사다 원가로 조립해 만듭니다. 처음 전원을 켜면 깡통이지만, 윈도우 설치 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)([ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/) [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))를 꽂아 무료 리눅스 OS(개방형 NOS)를 입맛대로 설치합니다. 기계값은 아이폰의 반의반 값이고, 안에 깔린 리눅스는 내가 프로그래밍([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))으로 마음대로 뜯어고쳐 방화벽으로 쓰든 라우터로 쓰든 변신시킬 수 있는, 무한의 자유도를 가진 클라우드 시대의 저가형 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 장비입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IBN 선행 AI 설계]
-    │
-    ▼
-[현재 개념: 화이트박스 OCP 스위치]
-    │
-    ├──▶ [확장 A: ONOS / OpenDaylight 구조 모…]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IBN 선행 AI 설계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화이트박스 OCP 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ONOS / OpenDaylight 구조 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

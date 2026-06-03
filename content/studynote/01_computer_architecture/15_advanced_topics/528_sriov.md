@@ -25,23 +25,23 @@ SR-IOV는 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_com
 
 이 그림은 왜 전통적인 가상 I/O 경로가 고속 네트워크에서 빠르게 한계에 닿는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                SR-IOV가 필요한 이유: 소프트웨어 중계 비용 제거             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [일반 가상 I/O]                                                            │
-│ VM → VirtIO → vSwitch → Host Driver → NIC                                 │
-│                      │                                                     │
-│                      └─ 복사·큐 관리·인터럽트 처리 CPU 소모                │
-│                                                                            │
-│ [SR-IOV]                                                                   │
-│ VM → VF Driver ───────────────────────────────▶ NIC 내부 스위치            │
-│                                                                            │
-│ 결과: 데이터 평면은 짧아지고, Host는 관리 평면에 더 집중할 수 있다.        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 SR-IOV의 본질은 "가상 장치가 많아진다"가 아니라, **I/O 중계에 쓰이던 소프트웨어 경로를 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 대체한다**는 데 있다. 이 관점을 잡아야 VirtIO, full [passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/), SmartNIC과의 차이도 명확해진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SR-IOV가 필요한 이유: 소프트웨어 중계 비용 제거</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 가상 I/O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM → VirtIO → vSwitch → Host Driver → NIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 복사·큐 관리·인터럽트 처리 CPU 소모</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM → VF Driver ▶ NIC 내부 스위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 데이터 평면은 짧아지고, Host는 관리 평면에 더 집중할 수 있다.</div></div>
+</div>
+</div>
+
+
+
+즉 SR-IOV의 본질은 "가상 장치가 많아진다"가 아니라, <strong>I/O 중계에 쓰이던 소프트웨어 경로를 하드웨어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경로로 대체한다</strong>는 데 있다. 이 관점을 잡아야 VirtIO, full [passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/), SmartNIC과의 차이도 명확해진다.
 
 - **📢 섹션 요약 비유**: 기존 방식이 아파트 경비실이 모든 택배를 일일이 분류해 각 집에 전달하는 구조라면, SR-IOV는 각 세대 앞에 전용 택배함을 두어 경비실의 왕복 일을 크게 줄이는 구조와 같다.
 
@@ -51,7 +51,7 @@ SR-IOV는 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_com
 
 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 장치는 하나의 PF와 여러 개의 VF를 노출한다. PF는 장치 전체 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), VF [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 관리, 통계 수집을 담당하는 관리 기능이고, VF는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신에 필요한 최소한의 레지스터와 큐만 가진 경량 기능이다. 하이퍼바이저는 PF를 통해 장치를 관리하고, 개별 VF를 각 VM에 할당한다.
 
-장치 내부에는 보통 간단한 스위칭 또는 steering 로직이 있어 들어온 패킷을 VF별 큐로 보내고, 반대로 VF에서 나온 패킷을 외부 포트로 내보낸다. 이때 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))는 IOMMU를 거치며, 각 VF가 접근할 수 있는 메모리 범위가 하드웨어적으로 제한된다. 따라서 SR-IOV는 단순 속도 기술이 아니라, **공유 장치를 분할하면서도 메모리 침범을 막는 격리 기술**이기도 하다.
+장치 내부에는 보통 간단한 스위칭 또는 steering 로직이 있어 들어온 패킷을 VF별 큐로 보내고, 반대로 VF에서 나온 패킷을 외부 포트로 내보낸다. 이때 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))는 IOMMU를 거치며, 각 VF가 접근할 수 있는 메모리 범위가 하드웨어적으로 제한된다. 따라서 SR-IOV는 단순 속도 기술이 아니라, <strong>공유 장치를 분할하면서도 메모리 침범을 막는 격리 기술</strong>이기도 하다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -63,24 +63,20 @@ SR-IOV는 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_com
 
 이 그림은 PF가 관리 평면을, VF가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 담당하는 구조를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     SR-IOV의 관리 평면과 데이터 평면                       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ VM1            VM2            VM3                                          │
-│  │              │              │                                           │
-│  ▼              ▼              ▼                                           │
-│ VF1            VF2            VF3                                          │
-│   \              │              /                                          │
-│    \             │             /                                           │
-│     └────── [NIC / 스토리지 어댑터 내부 스위치] ─────▶ Wire / Fabric       │
-│                     ▲                                                       │
-│                     │                                                       │
-│                   PF (Host 관리, VF 생성, 정책 설정)                       │
-│                                                                            │
-│ DMA 경로는 IOMMU가 검증하여 각 VF가 허용된 메모리만 접근하게 한다.         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SR-IOV의 관리 평면과 데이터 평면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM1 VM2 VM3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VF1 VF2 VF3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIC / 스토리지 어댑터 내부 스위치</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Wire / Fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PF (Host 관리, VF 생성, 정책 설정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA 경로는 IOMMU가 검증하여 각 VF가 허용된 메모리만 접근하게 한다.</div></div>
+</div>
+</div>
+
+
 
 단, VF는 "완전한 장치 복제본"이 아니다. 큐 수, 버퍼, 필터, [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/), 통계 자원은 PF 아래에서 나눠 쓰는 공유 자원이다. 따라서 VF를 많이 만든다고 무조건 좋은 것이 아니라, PF 내부 자원이 어떻게 분할되는지를 봐야 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 격리 품질을 예측할 수 있다.
 
@@ -99,7 +95,7 @@ SR-IOV는 여러 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture
 | Full [Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/) | 매우 높음 | 낮음 | 어려움 | 장치 독점 워크로드 |
 | [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) | 매우 높음 | 중간 | 쉬움 | 고성능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 |
 
-중요한 경계 비교는 VirtIO와의 차이다. VirtIO는 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 관측성, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 삽입에 유리해 범용 서비스에 좋다. 반면 SR-IOV는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면이 짧아 tail latency와 CPU 사용률에서 강력하지만, 장치 상태를 VM과 함께 옮기기 어렵고 운영 추상화가 얇다. 즉 SR-IOV는 "항상 더 좋은 가상 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)"가 아니라, **유연성을 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 바꾸는 선택지**다.
+중요한 경계 비교는 VirtIO와의 차이다. VirtIO는 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 관측성, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 삽입에 유리해 범용 서비스에 좋다. 반면 SR-IOV는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면이 짧아 tail latency와 CPU 사용률에서 강력하지만, 장치 상태를 VM과 함께 옮기기 어렵고 운영 추상화가 얇다. 즉 SR-IOV는 "항상 더 좋은 가상 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)"가 아니라, <strong>유연성을 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 바꾸는 선택지</strong>다.
 
 또한 SR-IOV는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit), SmartNIC, [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/)), RDMA와도 연결된다. SR-IOV가 장치 내부의 분할과 직결을 제공했다면, SmartNIC과 DPU는 여기서 더 나아가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 보안, 스토리지 기능까지 장치 쪽으로 밀어 넣는다. 즉 SR-IOV는 가상 I/O 가속의 끝이 아니라, 더 강한 장치 오프로딩으로 가는 중간 단계다.
 
@@ -127,7 +123,7 @@ SR-IOV는 여러 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture
 - PF reset이나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 갱신이 여러 VF에 미치는 blast radius를 무시하는 운영
 - 장치 직결 이후 관측성과 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 삽입 지점이 줄어든 사실을 놓치는 설계
 
-기술사 답안에서는 "[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) = 빠름"으로 끝내면 부족하다. 더 좋은 답은 **왜 빠른가: [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) plane이 하이퍼바이저를 덜 거치기 때문**이라고 쓰고, **무엇을 잃는가: 이동성·가시성·자원 유연성**까지 함께 제시하는 것이다.
+기술사 답안에서는 "[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) = 빠름"으로 끝내면 부족하다. 더 좋은 답은 <strong>왜 빠른가: <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> plane이 하이퍼바이저를 덜 거치기 때문</strong>이라고 쓰고, <strong>무엇을 잃는가: 이동성·가시성·자원 유연성</strong>까지 함께 제시하는 것이다.
 
 - **📢 섹션 요약 비유**: SR-IOV는 전용 차선을 주는 대신 차선 수가 한정된 고속도로와 같다. 급한 차에는 매우 좋지만, 모든 차에 주면 오히려 전체 교통 운영이 어려워질 수 있다.
 
@@ -158,24 +154,25 @@ SR-IOV의 가장 큰 효과는 I/O [데이터](/knowledge-base/studynote/05_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장치 에뮬레이션 기반 가상 I/O
-        │
-        ▼
-VirtIO 기반 반가상화
-        │
-        ▼
-Full PCIe Passthrough
-        │
-        ▼
-SR-IOV 기반 공유 장치 직결
-        │
-        ▼
-RDMA · SmartNIC · DPU 오프로딩
-        │
-        ▼
-Scalable IOV · 더 세밀한 장치 가상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장치 에뮬레이션 기반 가상 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VirtIO 기반 반가상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Full PCIe Passthrough</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SR-IOV 기반 공유 장치 직결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDMA · SmartNIC · DPU 오프로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scalable IOV · 더 세밀한 장치 가상화</div>
+</div>
+</div>
+
+
 
 이 흐름은 I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 "소프트웨어로 흉내 내기"에서 출발해, "장치 내부에서 직접 분할하고 더 많은 기능을 오프로딩하기"로 진화하는 과정을 보여 준다.
 

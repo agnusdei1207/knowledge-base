@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 마이크로프로세서 (Microprocessor)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽고, 해석하고, 계산하고, 제어하는 CPU의 핵심 회로를 단일 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩으로 구현한 프로세서다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 여러 인쇄회로기판 (Printed Circuit Board, PCB)에 제어회로와 연산회로를 나눠 배치했기 때문에 부품 수가 많고 배선이 길었으며, 이 긴 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 경로가 속도와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 한계가 되었다. 같은 연산이라도 보드 간 배선을 거치면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지고 접점이 늘어나 고장 가능성도 높아졌다.
 
-이 문제를 해결한 방식이 집적이다. 초고밀도 집적 (Very Large Scale Integration, VLSI) 기술로 제어, 연산, 저장의 핵심 블록을 한 칩에 모으자 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 이동 거리가 급격히 짧아졌고, 제조비·전력·크기·조립 복잡도도 함께 줄었다. 즉 마이크로프로세서는 단순한 "작은 CPU"가 아니라, **컴퓨팅을 대중화할 수 있게 만든 물리적 전환점**이다.
+이 문제를 해결한 방식이 집적이다. 초고밀도 집적 (Very Large Scale Integration, VLSI) 기술로 제어, 연산, 저장의 핵심 블록을 한 칩에 모으자 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 이동 거리가 급격히 짧아졌고, 제조비·전력·크기·조립 복잡도도 함께 줄었다. 즉 마이크로프로세서는 단순한 "작은 CPU"가 아니라, <strong>컴퓨팅을 대중화할 수 있게 만든 물리적 전환점</strong>이다.
 
 마이크로프로세서가 없었다면 컴퓨터는 여전히 비싸고 크며 특정 기관만 운용하는 장비에 가까웠을 것이다. 개인용 컴퓨터, 임베디드 장치, 스마트폰, 서버 확산은 결국 "처리의 중심을 한 칩에 담아냈다"는 변화에서 출발한다.
 
@@ -31,28 +31,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-마이크로프로세서의 핵심은 **연산 블록을 칩 내부에 가깝게 배치해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 명령 처리 흐름을 반복 가능하게 만든 것**이다. 기본적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리에서 인출되고, 제어기가 해석하며, ALU가 계산하고, 결과는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 캐시에 반영된다. 이 흐름 자체는 과거 CPU와 같지만, 물리적 구현 위치가 칩 안으로 들어오면서 클럭과 집적도가 폭발적으로 개선되었다.
+마이크로프로세서의 핵심은 <strong>연산 블록을 칩 내부에 가깝게 배치해 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 줄이고, 명령 처리 흐름을 반복 가능하게 만든 것</strong>이다. 기본적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 메모리에서 인출되고, 제어기가 해석하며, ALU가 계산하고, 결과는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 캐시에 반영된다. 이 흐름 자체는 과거 CPU와 같지만, 물리적 구현 위치가 칩 안으로 들어오면서 클럭과 집적도가 폭발적으로 개선되었다.
 
 아래 그림은 마이크로프로세서가 "외부 배선 중심 구조"를 "칩 내부 배선 중심 구조"로 바꿨다는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        From board-level CPU to single-chip microprocessor           │
-├──────────────────────────────────────────────────────────────────────┤
-│  Old board system                                                   │
-│  [CU board] ───── external bus ───── [ALU board] ───── [Reg board] │
-│       │                         long path / more noise              │
-│       └────────────── slower clock, bigger size, more faults ──────┘
-│                                                                      │
-│  Single chip                                                         │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │ CU │ Decode │ ALU │ Registers │ L1 Cache │ Internal bus       │  │
-│  └────────────────────────────────────────────────────────────────┘  │
-│            short path / lower latency / higher integration          │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 설계 포인트는 단순 집적이 아니라 **병목을 안으로 옮기고 내부 계층으로 관리하는 것**이다. 외부 배선 병목이 줄어든 대신, 이제는 파이프라인, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 발열, 전력 밀도가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 그래서 현대 마이크로프로세서는 단일 연산기보다 "명령 처리 공장"에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From board-level CPU to single-chip microprocessor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old board system</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CU board</div><div class="kb-diagram-note">external bus</div><div class="kb-diagram-node">ALU board</div><div class="kb-diagram-node">Reg board</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long path / more noise</div></div>
+<div class="kb-diagram-note">slower clock, bigger size, more faults</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single chip</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CU</div><div class="kb-diagram-cell">Decode</div><div class="kb-diagram-cell">ALU</div><div class="kb-diagram-cell">Registers</div><div class="kb-diagram-cell">L1 Cache</div><div class="kb-diagram-cell">Internal bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short path / lower latency / higher integration</div></div>
+</div>
+</div>
+
+
+
+이 구조의 설계 포인트는 단순 집적이 아니라 <strong>병목을 안으로 옮기고 내부 계층으로 관리하는 것</strong>이다. 외부 배선 병목이 줄어든 대신, 이제는 파이프라인, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 발열, 전력 밀도가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 그래서 현대 마이크로프로세서는 단일 연산기보다 "명령 처리 공장"에 가깝다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 |
 | :--- | :--- | :--- |
@@ -62,7 +62,7 @@ tags = ["studynote-computer-architecture"]
 | [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/) ([Cache Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)) | 메인 메모리 접근 완화 | 메모리 병목 감소 |
 | 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Internal [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | 블록 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 충돌 관리 |
 
-실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `클럭 × 명령어당 처리량`만으로 설명되지 않는다. 같은 3GHz라도 캐시가 작고 분기 실패가 많으면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어지고, 반대로 클럭이 조금 낮아도 파이프라인과 캐시 계층이 잘 설계되면 더 높은 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다. 따라서 마이크로프로세서는 "빠른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 묶음"이 아니라 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 계층적으로 제어하는 칩 아키텍처**로 이해해야 한다.
+실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `클럭 × 명령어당 처리량`만으로 설명되지 않는다. 같은 3GHz라도 캐시가 작고 분기 실패가 많으면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어지고, 반대로 클럭이 조금 낮아도 파이프라인과 캐시 계층이 잘 설계되면 더 높은 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있다. 따라서 마이크로프로세서는 "빠른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 묶음"이 아니라 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 계층적으로 제어하는 칩 아키텍처</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 마이크로프로세서 내부는 작은 공장 안에 설계실, 계산실, 창고, 복도가 붙어 있는 구조다. 건물은 작아졌지만, 안에서 사람을 어떻게 동선 배치하느냐에 따라 일 잘하는 공장도 되고 병목 공장도 된다.
 
@@ -70,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-마이크로프로세서를 정확히 이해하려면 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU), 시스템 온 칩 ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))과의 경계를 구분해야 한다. 세 개 모두 칩 위에 연산 기능을 담지만, **무엇을 어디까지 통합했는가**가 다르다. 마이크로프로세서는 범용 계산 중심, MCU는 제어 중심, SoC는 시스템 통합 중심으로 보는 것이 핵심이다.
+마이크로프로세서를 정확히 이해하려면 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU), 시스템 온 칩 ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))과의 경계를 구분해야 한다. 세 개 모두 칩 위에 연산 기능을 담지만, <strong>무엇을 어디까지 통합했는가</strong>가 다르다. 마이크로프로세서는 범용 계산 중심, MCU는 제어 중심, SoC는 시스템 통합 중심으로 보는 것이 핵심이다.
 
 | 구분 | 마이크로프로세서 | MCU | [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) |
 | :--- | :--- | :--- | :--- |
@@ -81,7 +81,7 @@ tags = ["studynote-computer-architecture"]
 
 또 하나의 비교 축은 ISA다. 복합 명령 중심의 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 하위 호환성과 풍부한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 생태계에 강하고, 단순 명령 중심의 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 전력 효율과 파이프라인 최적화에 유리하다. 이 차이는 결국 디코드 복잡도, 발열, 소프트웨어 생태계, 서버·모바일 시장 구조까지 영향을 준다.
 
-마이크로프로세서는 다른 과목 개념과도 강하게 연결된다. 컴퓨터구조에서는 캐시·파이프라이닝·멀티코어의 출발점이고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 스케줄링과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 대상이며, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 관점에서는 공정 미세화와 전력 밀도의 영향을 직접 받는다. 즉 이 개념은 "칩 하나"가 아니라 **하드웨어와 시스템 소프트웨어를 잇는 중심축**이다.
+마이크로프로세서는 다른 과목 개념과도 강하게 연결된다. 컴퓨터구조에서는 캐시·파이프라이닝·멀티코어의 출발점이고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서는 스케줄링과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 대상이며, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 관점에서는 공정 미세화와 전력 밀도의 영향을 직접 받는다. 즉 이 개념은 "칩 하나"가 아니라 <strong>하드웨어와 시스템 소프트웨어를 잇는 중심축</strong>이다.
 
 - **📢 섹션 요약 비유**: 마이크로프로세서는 고성능 엔진, MCU는 소형 발전기, SoC는 엔진과 변속기와 계기판을 한 몸에 묶은 차체와 비슷하다. 다 비슷해 보여도 태어난 목적이 달라서 잘하는 일이 다르다.
 
@@ -104,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 - 코어 수만 늘리고 메모리 병목을 무시하는 설계
 - 범용 마이크로프로세서가 필요한 곳에 MCU를 억지 적용하거나, 반대로 단순 제어 장치에 과한 프로세서를 넣는 과설계
 
-기술사 답안 관점에서는 "마이크로프로세서의 진화"를 말할 때 **집적 → 캐시/파이프라인 → 멀티코어 → 고집적 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)/[칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)**의 흐름으로 정리하면 좋다. 단순히 칩이 빨라졌다고 쓰기보다, 왜 클럭 경쟁이 발열 한계에 막혔고 왜 병렬화와 통합 설계로 옮겨갔는지까지 설명해야 완성도가 올라간다.
+기술사 답안 관점에서는 "마이크로프로세서의 진화"를 말할 때 <strong>집적 → 캐시/파이프라인 → 멀티코어 → 고집적 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a>/<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/">칩렛</a></strong>의 흐름으로 정리하면 좋다. 단순히 칩이 빨라졌다고 쓰기보다, 왜 클럭 경쟁이 발열 한계에 막혔고 왜 병렬화와 통합 설계로 옮겨갔는지까지 설명해야 완성도가 올라간다.
 
 - **📢 섹션 요약 비유**: 좋은 프로세서 선택은 무조건 큰 트럭을 사는 일이 아니다. 골목 배달이면 소형차가 맞고, 대형 물류면 트럭이 맞듯이 업무 특성에 맞게 엔진급을 골라야 한다.
 
@@ -114,9 +114,9 @@ tags = ["studynote-computer-architecture"]
 
 마이크로프로세서는 컴퓨팅의 중심을 "거대한 장비의 조립"에서 "작은 칩의 설계"로 바꿨다. 그 결과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상뿐 아니라 소형화, 대량생산, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 소프트웨어 산업 확장이 함께 가능해졌다. 오늘날의 서버, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트 디바이스, 산업 장비 대부분은 이 집적 혁신 위에 서 있다.
 
-다만 한계도 분명하다. 공정 미세화가 어려워질수록 전력 밀도와 발열이 더 큰 제약이 되고, 메모리 벽과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용도 계속 문제로 남는다. 그래서 앞으로의 방향은 단일 코어 클럭 경쟁보다 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 이기종 가속기, 3차원 적층, 전력 관리 최적화처럼 **구조적 효율을 높이는 진화**에 가깝다.
+다만 한계도 분명하다. 공정 미세화가 어려워질수록 전력 밀도와 발열이 더 큰 제약이 되고, 메모리 벽과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용도 계속 문제로 남는다. 그래서 앞으로의 방향은 단일 코어 클럭 경쟁보다 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 이기종 가속기, 3차원 적층, 전력 관리 최적화처럼 <strong>구조적 효율을 높이는 진화</strong>에 가깝다.
 
-결국 마이크로프로세서는 "CPU를 한 칩에 넣었다"에서 끝나는 용어가 아니다. **거리와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄여 범용 컴퓨팅을 현실화한 출발점이며, 이후 모든 고성능 프로세서 설계 철학의 기반**으로 기억하는 것이 가장 정확하다.
+결국 마이크로프로세서는 "CPU를 한 칩에 넣었다"에서 끝나는 용어가 아니다. <strong>거리와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 줄여 범용 컴퓨팅을 현실화한 출발점이며, 이후 모든 고성능 프로세서 설계 철학의 기반</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 마이크로프로세서는 커다란 도시를 손바닥 위 축소 모형으로 옮긴 것과 같다. 작아졌다고 단순해진 것이 아니라, 더 정교하게 설계해야 도시가 제대로 돌아간다.
 
@@ -134,21 +134,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-보드 단위 CPU 구현
-    │
-    ▼
-마이크로프로세서 (Microprocessor)
-    │
-    ├─▶ 캐시 메모리 (Cache Memory)
-    │
-    ├─▶ 파이프라이닝 (Pipelining)
-    │
-    ├─▶ 멀티코어 (Multi-core)
-    │
-    ▼
-SoC (System on Chip) · 칩렛 (Chiplet)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보드 단위 CPU 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로프로세서 (Microprocessor)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 메모리 (Cache Memory)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 파이프라이닝 (Pipelining)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 멀티코어 (Multi-core)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SoC (System on Chip) · 칩렛 (Chiplet)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "집적의 시작"에서 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화"를 거쳐 "시스템 통합"으로 확장되는 방향을 보여준다.
 

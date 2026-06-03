@@ -31,11 +31,16 @@ tags = ["studynote-computer-architecture"]
 
 카운터의 핵심은 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)) 여러 개를 연결해 상태를 저장하고, 클럭 에지([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Edge)에서만 값을 바꾸는 데 있다. 3비트 카운터는 000부터 111까지 상태를 순서대로 훑는다.
 
-```text
-클럭 ─▶ [T FF Q0] ─▶ [T FF Q1] ─▶ [T FF Q2]
-         │            │            │
-         1/2          1/4          1/8
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">T FF Q0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">T FF Q1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">T FF Q2</div></div>
+<div class="kb-diagram-note">1/2 1/4 1/8</div>
+</div>
+</div>
+
+
 
 | 상태 | Q2 | Q1 | Q0 |
 | :-- | :-: | :-: | :-: |
@@ -107,31 +112,43 @@ T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_ele
 
 ## 관련 개념 맵
 
-```text
-클럭(Clock)
-   ↓
-플립플롭(Flip-Flop)
-   ↓
-카운터(Counter)
-   ↓
-주파수 분주 / 타이머 / PC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭(Clock)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">플립플롭(Flip-Flop)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">카운터(Counter)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">주파수 분주 / 타이머 / PC</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-수동 계산
-   ↓
-T FF / JK FF 기반 카운터
-   ↓
-비동기식(Ripple) → 동기식(Synchronous)
-   ↓
-Mod-N / Gray Code / 분주기
-   ↓
-타이머 · PC · 인코더 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 계산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">T FF / JK FF 기반 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">비동기식(Ripple) → 동기식(Synchronous)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mod-N / Gray Code / 분주기</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">타이머 · PC · 인코더 제어</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -21,12 +21,12 @@ tags = ["studynote-ict-convergence"]
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 두 가지 근본적 보안 위협에 직면한다:
 
-1. **[적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)**: 모델 추론 과정을 공격 — "무엇을 판단하느냐"를 속임
+1. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a></strong>: 모델 추론 과정을 공격 — "무엇을 판단하느냐"를 속임
 2. **프라이버시 유출**: 모델 학습 과정의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출 — "무엇으로 학습했는지"를 숨김
 
 이 두 위협은 서로 다른 차원의 문제이지만, 안전한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 설계를 위해 함께 고려해야 한다.
 
-**특성 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)(Feature Visualization)**
+<strong>특성 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>(Feature Visualization)</strong>
 [딥 드림](/knowledge-base/studynote/10_ai/02_dl_architecture_new/194_deepdream_gradcam/)(Deep Dream): 특정 뉴런을 활성화하는 입력 이미지를 역전파로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 모델 내부 표현 이해. 적대적 공격 이해의 출발점.
 
 - **📢 섹션 요약 비유**: [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)는 마술사의 눈속임(모델을 속임), [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)는 공연 후 관객이 출연자 신원을 알아낼 수 없도록 하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이다.
@@ -35,28 +35,28 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           AI 보안 두 축                                   │
-│                                                          │
-│  적대적 예제                     차분 프라이버시           │
-│  ┌────────────────────┐         ┌─────────────────────┐  │
-│  │입력 x + δ (노이즈) │         │ε-DP 보장            │  │
-│  │‖δ‖∞ ≤ ε_adv       │         │                     │  │
-│  │                    │         │ 훈련 데이터           │  │
-│  │ → f(x+δ) ≠ f(x)   │         │    │                │  │
-│  │  모델 오분류        │         │    ▼ 클리핑          │  │
-│  │                    │         │ 그래디언트           │  │
-│  │방어: 적대적 훈련   │         │    │                │  │
-│  │      입력 정화     │         │    ▼ 노이즈 추가     │  │
-│  └────────────────────┘         │ N(0, σ²C²I)        │  │
-│                                 │    │                │  │
-│                                 │    ▼ 모델 업데이트  │  │
-│                                 └─────────────────────┘  │
-└──────────────────────────────────────────────────────────┘
-```
 
-**[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)([Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/)) 정의**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 보안 두 축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적대적 예제 차분 프라이버시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x + δ (노이즈)</div><div class="kb-diagram-cell">ε-DP 보장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‖δ‖∞ ≤ ε_adv</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ f(x+δ) ≠ f(x)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 오분류</div><div class="kb-diagram-cell">▼ 클리핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래디언트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: 적대적 훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 정화</div><div class="kb-diagram-cell">▼ 노이즈 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N(0, σ²C²I)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 모델 업데이트</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>) 정의</strong>
 
 메커니즘 M이 ε-DP를 만족하면, 인접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 D, D'(한 레코드만 다름)에 대해:
 
@@ -64,7 +64,7 @@ $$\[Pr](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_
 
 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 특정 개인이 포함되었는지 공격자가 구분하기 어려움.
 
-**DP-SGD [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** (Abadi et al., 2016)
+<strong>DP-SGD <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> (Abadi et al., 2016)
 
 | 단계 | 내용 |
 |:---:|:---|
@@ -129,8 +129,8 @@ optimizer = DPKerasSGDOptimizer(
 **기술사 판단 포인트**
 
 1. **DP vs 정확도 트레이드오프**: CIFAR-10에서 ε=3 → 정확도 약 5~8% 하락 → 허용 기준 사전 합의
-2. **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성(Auditability)**: ε 계산 결과와 훈련 로그를 함께 보존 → 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응
-3. **[적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) + DP 결합**: DP 노이즈가 [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) 방어에도 일부 기여 — 완전한 방어는 아님
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능성(Auditability)</strong>: ε 계산 결과와 훈련 로그를 함께 보존 → 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응
+3. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a> + DP 결합</strong>: DP 노이즈가 [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/) 방어에도 일부 기여 — 완전한 방어는 아님
 4. **프라이버시 예산 소진**: ε 예산 초과 후 추가 학습 불가 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 주기와 재훈련 계획 연계
 
 - **📢 섹션 요약 비유**: DP 예산은 연간 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 사용 허가증 — 쓸수록 줄어들고, 다 쓰면 추가 학습이 불가능하다.

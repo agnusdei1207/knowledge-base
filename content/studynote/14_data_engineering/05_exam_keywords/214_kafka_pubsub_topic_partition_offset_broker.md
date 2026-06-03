@@ -24,25 +24,28 @@ tags = ["studynote-data-engineering"]
 |:---|:---|:---|
 | **소비 후 삭제** | 소비 시 즉시 삭제 | 보존 기간([retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/)) 동안 유지 |
 | **순서 보장** | 큐 수준 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수준 |
-| **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)** | 수직 확장 위주 | 수평 확장 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | 수직 확장 위주 | 수평 확장 ([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가) |
 | **재처리** | 불가 | 오프셋 리셋으로 가능 |
-| **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)** | 중간 (수만 TPS) | 초고성능 (수백만 TPS) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 중간 (수만 TPS) | 초고성능 (수백만 TPS) |
 | **주요 용도** | 작업 큐, [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 이벤트 스트리밍, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) |
 
 ### 1.2 Kafka의 핵심 설계 원칙
 
 Kafka는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log) 자료구조를 기반으로 설계되었다. 메시지는 순서대로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 추가(Append-Only)되며, 컨슈머는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽을 뿐 지우지 않는다.
 
-```
-Kafka 토픽 = 무한히 이어지는 기록지(Append-Only Log)
 
-오프셋:  0     1     2     3     4     5   ...
-        ┌───┬─────┬─────┬─────┬─────┬─────┐
-메시지:  │ A │  B  │  C  │  D  │  E  │  F  │ ──► 계속 추가
-        └───┴─────┴─────┴─────┴─────┴─────┘
-컨슈머1:                    ↑ (오프셋 3 읽는 중)
-컨슈머2:              ↑ (오프셋 2 읽는 중 — 독립적!)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Kafka 토픽 = 무한히 이어지는 기록지(Append-Only Log)</div>
+<div class="kb-diagram-note">오프셋: 0 1 2 3 4 5 ...</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지:</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">D</div><div class="kb-diagram-cell">E</div><div class="kb-diagram-cell">F</div><div class="kb-diagram-cell">──► 계속 추가</div></div>
+<div class="kb-diagram-note">컨슈머1: ↑ (오프셋 3 읽는 중)</div>
+<div class="kb-diagram-note">컨슈머2: ↑ (오프셋 2 읽는 중 — 독립적!)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Kafka는 거대한 공용 게시판이다 — 글을 올리면 모두가 볼 수 있고, 내가 어디까지 읽었는지(오프셋)는 각자 책갈피로 관리한다. 다른 사람이 읽어도 게시물은 지워지지 않는다.
 
@@ -56,80 +59,78 @@ Kafka 토픽 = 무한히 이어지는 기록지(Append-Only Log)
 |:---|:---|
 | **브로커 (Broker)** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 서버 노드 — 메시지 저장·전달 담당 |
 | **토픽 (Topic)** | 메시지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 채널 (예: orders, payments, [logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)) |
-| **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))** | 토픽을 분할한 단위 — [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 기본 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a>)</strong> | 토픽을 분할한 단위 — [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 기본 |
 | **오프셋 (Offset)** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내 메시지 순서 번호 (0부터 시작) |
 | **프로듀서 (Producer)** | 메시지를 토픽에 발행(Publish)하는 주체 |
 | **컨슈머 (Consumer)** | 토픽에서 메시지를 구독(Subscribe)하는 주체 |
-| **[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) ([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/))** | 동일 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 컨슈머 묶음 |
-| **주키퍼 ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) / KRaft** | 클러스터 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.x에서 KRaft로 전환) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">컨슈머 그룹</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/">Consumer Group</a>)</strong> | 동일 토픽을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 컨슈머 묶음 |
+| <strong>주키퍼 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/">ZooKeeper</a>) / KRaft</strong> | 클러스터 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 3.x에서 KRaft로 전환) |
 
 ### 2.2 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-```
-토픽: "orders" (파티션 3개)
 
-파티션 0: [msg0, msg3, msg6, ...]
-파티션 1: [msg1, msg4, msg7, ...]
-파티션 2: [msg2, msg5, msg8, ...]
 
-컨슈머 그룹 A (컨슈머 3개 — 1:1 매핑):
-┌────────────┬────────────┬────────────┐
-│ Consumer-0 │ Consumer-1 │ Consumer-2 │
-│  파티션 0  │  파티션 1  │  파티션 2  │
-└────────────┴────────────┴────────────┘
-→ 최대 처리량 (각 컨슈머가 독립 파티션 담당)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">토픽: "orders" (파티션 3개)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 0:</div><div class="kb-diagram-node">msg0, msg3, msg6, ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 1:</div><div class="kb-diagram-node">msg1, msg4, msg7, ...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 2:</div><div class="kb-diagram-node">msg2, msg5, msg8, ...</div></div>
+<div class="kb-diagram-note">컨슈머 그룹 A (컨슈머 3개 — 1:1 매핑):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer-0</div><div class="kb-diagram-cell">Consumer-1</div><div class="kb-diagram-cell">Consumer-2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0</div><div class="kb-diagram-cell">파티션 1</div><div class="kb-diagram-cell">파티션 2</div></div>
+<div class="kb-diagram-note">→ 최대 처리량 (각 컨슈머가 독립 파티션 담당)</div>
+<div class="kb-diagram-note">컨슈머 그룹 B (컨슈머 1개 — 전체 소비):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer-0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0 + 파티션 1 + 파티션 2</div></div>
+<div class="kb-diagram-note">→ 단일 컨슈머가 전체 순서 처리 가능</div>
+</div>
+</div>
 
-컨슈머 그룹 B (컨슈머 1개 — 전체 소비):
-┌──────────────────────────────────────┐
-│           Consumer-0                  │
-│  파티션 0 + 파티션 1 + 파티션 2      │
-└──────────────────────────────────────┘
-→ 단일 컨슈머가 전체 순서 처리 가능
-```
+
 
 **중요 규칙**: 하나의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 동일 [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 내에서 **하나의 컨슈머에게만** 할당된다 → [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리의 한계를 결정한다.
 
 ### 2.3 리플리케이션 ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 내결함성
 
-```
-토픽: "payments", 파티션 0, 복제 인수(Replication Factor) = 3
 
-브로커 1 (Leader): ┌─────────────────┐
-                   │  파티션 0 리더  │ ◄── 프로듀서/컨슈머 연결
-                   └─────────────────┘
-                         │  복제
-브로커 2 (Follower): ┌───▼─────────────┐
-                   │  파티션 0 팔로워 │
-                   └─────────────────┘
-                         │  복제
-브로커 3 (Follower): ┌───▼─────────────┐
-                   │  파티션 0 팔로워 │
-                   └─────────────────┘
 
-브로커 1 장애 시 → 브로커 2 또는 3이 자동으로 리더 선출
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">토픽: "payments", 파티션 0, 복제 인수(Replication Factor) = 3</div>
+<div class="kb-diagram-note">브로커 1 (Leader):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0 리더</div><div class="kb-diagram-cell">◄── 프로듀서/컨슈머 연결</div></div>
+<div class="kb-diagram-note">복제</div>
+<div class="kb-diagram-note">브로커 2 (Follower): ▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0 팔로워</div></div>
+<div class="kb-diagram-note">복제</div>
+<div class="kb-diagram-note">브로커 3 (Follower): ▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0 팔로워</div></div>
+<div class="kb-diagram-note">브로커 1 장애 시 → 브로커 2 또는 3이 자동으로 리더 선출</div>
+</div>
+</div>
 
-**[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)(In-Sync Replicas)**: 리더와 동기화된 팔로워 집합. `acks=all`(또는 `-1`) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 모든 ISR에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 완료 후 응답 → 최강 내구성.
+
+
+<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>(In-Sync Replicas)</strong>: 리더와 동기화된 팔로워 집합. `acks=all`(또는 `-1`) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 모든 ISR에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 완료 후 응답 → 최강 내구성.
 
 ### 2.4 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 에코시스템
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Kafka 에코시스템                       │
-│                                                         │
-│  ┌──────────────────┐   ┌──────────────────────────┐   │
-│  │  Kafka Connect   │   │     Kafka Streams         │   │
-│  │ (커넥터 기반     │   │ (스트림 처리 라이브러리)  │   │
-│  │  데이터 이동)    │   │  조인·집계·윈도우 연산   │   │
-│  └──────────────────┘   └──────────────────────────┘   │
-│                                                         │
-│  ┌──────────────────┐   ┌──────────────────────────┐   │
-│  │  Schema Registry │   │       ksqlDB              │   │
-│  │ (Avro/Protobuf   │   │ (SQL로 스트림 처리)       │   │
-│  │  스키마 관리)    │   │                           │   │
-│  └──────────────────┘   └──────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 에코시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka Connect</div><div class="kb-diagram-cell">Kafka Streams</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커넥터 기반</div><div class="kb-diagram-cell">(스트림 처리 라이브러리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 이동)</div><div class="kb-diagram-cell">조인·집계·윈도우 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema Registry</div><div class="kb-diagram-cell">ksqlDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Avro/Protobuf</div><div class="kb-diagram-cell">(SQL로 스트림 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 관리)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Kafka의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·[컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 '고속도로 요금소'다 — [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 차선, 컨슈머는 요금소 직원이다. 차선([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))을 늘리면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 증가하고, 각 직원은 자기 차선만 담당한다.
 
@@ -143,8 +144,8 @@ Kafka 토픽 = 무한히 이어지는 기록지(Append-Only Log)
 |:---|:---|:---|:---|:---|
 | **관리 방식** | 자체 운영 | 완전 관리형 | 자체 운영 | 자체/관리형 |
 | **보존 기간** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가능 (무제한) | 24시간~7일 | 소비 즉시 삭제 | 무제한 |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | ms 단위 | ms 단위 | ms 단위 | ms 단위 |
-| **[멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)** | 제한적 | AWS 계정 단위 | 제한적 | 기본 지원 |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | ms 단위 | ms 단위 | ms 단위 | ms 단위 |
+| <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/">멀티 테넌트</a></strong> | 제한적 | AWS 계정 단위 | 제한적 | 기본 지원 |
 
 ### 3.2 오프셋 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -177,10 +178,16 @@ Kafka 토픽 = 무한히 이어지는 기록지(Append-Only Log)
 
 ### 4.2 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect를 이용한 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 파이프라인
 
-```
-MySQL DB ──► Debezium Connector ──► Kafka 토픽 ──► Sink Connector ──► DW
-           (Source Connector)      "db.orders"   (JDBC/S3 Sink)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MySQL DB ──► Debezium Connector ──► Kafka 토픽 ──► Sink Connector ──► DW</div>
+<div class="kb-diagram-note">(Source Connector) "db.orders" (JDBC/S3 Sink)</div>
+</div>
+</div>
+
+
 
 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect는 소스(Source)와 싱크(Sink) 커넥터로 외부 시스템과 Kafka를 연결하며, Debezium은 대표적인 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) Source 커넥터다.
 
@@ -201,7 +208,7 @@ MySQL DB ──► Debezium Connector ──► Kafka 토픽 ──► Sink Conn
 
 ### 5.2 결론 — 기술사 작성 포인트
 
-기술사 답안에서는 **"[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 성능과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 근간"**임을 강조하고, [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 메커니즘, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 기반 내결함성, 오프셋 커밋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(At-Most-Once / At-Least-Once / Exactly-Once)을 함께 논술하면 고득점이다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>이 <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> 성능과 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성의 근간"</strong>임을 강조하고, [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 메커니즘, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 기반 내결함성, 오프셋 커밋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(At-Most-Once / At-Least-Once / Exactly-Once)을 함께 논술하면 고득점이다.
 
 📢 **섹션 요약 비유**: Kafka는 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라의 '중앙 혈관'이다 — 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이 혈관을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받으며, 혈관이 막히지 않도록 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(굵기)을 늘리고 리플리케이션([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 혈관)을 유지한다.
 
@@ -225,20 +232,23 @@ MySQL DB ──► Debezium Connector ──► Kafka 토픽 ──► Sink Conn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-포인트-투-포인트 메시징 (단일 소비자)
-    │
-    ▼
-Pub/Sub 패턴: 다중 소비자 독립 구독
-    │
-    ▼
-Kafka: Topic · Partition · Offset · Broker 클러스터
-    ├─► Producer: 키 기반 파티셔닝
-    └─► Consumer Group: 파티션별 분산 소비
-    │
-    ▼
-Kafka Connect + Schema Registry → 데이터 통합 허브
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">포인트-투-포인트 메시징 (단일 소비자)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pub/Sub 패턴: 다중 소비자 독립 구독</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kafka: Topic · Partition · Offset · Broker 클러스터</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Producer: 키 기반 파티셔닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Consumer Group: 파티션별 분산 소비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kafka Connect + Schema Registry → 데이터 통합 허브</div>
+</div>
+</div>
+
+
 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 채널을 여러 조각으로 나눠서 여러 TV(컨슈머)가 동시에 시청하게 하는 것 — 채널 조각이 많을수록 더 많은 TV가 동시에 볼 수 있어!
 3. 오프셋은 '어디까지 봤어요' 표시야 — TV를 껐다 켜도 이어보기가 되고, 다른 사람이 봐도 내 진도는 그대로야.
 

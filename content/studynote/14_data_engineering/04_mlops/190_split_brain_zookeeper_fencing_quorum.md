@@ -11,8 +11,8 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스플릿 브레인(Split Brain)은 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(분할) 발생 시 클러스터가 두 개 이상의 독립 그룹으로 나뉘어 **각자 리더라고 주장하며 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Dual Write)를 일으키는** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 가장 위험한 장애 패턴이다.
-> 2. **가치**: 주키퍼([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))의 ZAB([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) 합의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 쿼럼(Quorum, 과반수) 메커니즘은 네트워크 분할에서도 **하나의 일관된 진실(Single Source of Truth)**을 유지하게 하는 핵심 인프라다.
+> 1. **본질**: 스플릿 브레인(Split Brain)은 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(분할) 발생 시 클러스터가 두 개 이상의 독립 그룹으로 나뉘어 <strong>각자 리더라고 주장하며 이중 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Dual Write)를 일으키는</strong> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 가장 위험한 장애 패턴이다.
+> 2. **가치**: 주키퍼([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/))의 ZAB([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) 합의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 쿼럼(Quorum, 과반수) 메커니즘은 네트워크 분할에서도 <strong>하나의 일관된 진실(Single Source of Truth)</strong>을 유지하게 하는 핵심 인프라다.
 > 3. **판단 포인트**: Kafka의 KRaft 모드([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.8+)는 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 의존성을 제거하여 운영 복잡도를 낮추고 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 개선—이것이 기술사 답안에서 최신 트렌드로 반드시 언급해야 할 포인트다.
 
 ---
@@ -21,47 +21,52 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 스플릿 브레인 발생 시나리오
 
-```
-정상 상태: 5-노드 Kafka 클러스터
-  브로커1 - 브로커2 - 브로커3 - 브로커4 - 브로커5
-  [리더: 브로커1]
 
-네트워크 파티션 발생:
-  ┌── 그룹 A ──┐      ┌── 그룹 B ──┐
-  │ 브로커1     │ ╳    │ 브로커4    │
-  │ 브로커2     │(단절) │ 브로커5    │
-  │ 브로커3     │      └────────────┘
-  └────────────┘
 
-스플릿 브레인 위험:
-  그룹 A: "우리가 과반수(3/5), 브로커1이 리더 유지!"
-  그룹 B: "우리도 과반수라 착각, 브로커4를 리더로 선출!"
-  → 두 리더가 동시에 쓰기 수행 → 데이터 충돌!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정상 상태: 5-노드 Kafka 클러스터</div>
+<div class="kb-diagram-note">브로커1 - 브로커2 - 브로커3 - 브로커4 - 브로커5</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">리더: 브로커1</div></div>
+<div class="kb-diagram-note">네트워크 파티션 발생:</div>
+<div class="kb-diagram-note">── 그룹 A ── ── 그룹 B ──</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커1</div><div class="kb-diagram-cell">╳</div><div class="kb-diagram-cell">브로커4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커2</div><div class="kb-diagram-cell">(단절)</div><div class="kb-diagram-cell">브로커5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커3</div></div>
+<div class="kb-diagram-note">스플릿 브레인 위험:</div>
+<div class="kb-diagram-note">그룹 A: "우리가 과반수(3/5), 브로커1이 리더 유지!"</div>
+<div class="kb-diagram-note">그룹 B: "우리도 과반수라 착각, 브로커4를 리더로 선출!"</div>
+<div class="kb-diagram-note">→ 두 리더가 동시에 쓰기 수행 → 데이터 충돌!</div>
+<div class="kb-diagram-note">쿼럼 메커니즘으로 방지:</div>
+<div class="kb-diagram-note">그룹 A: 3노드 (과반수 O) → 정상 운영</div>
+<div class="kb-diagram-note">그룹 B: 2노드 (과반수 X) → 운영 중단 (쓰기 거부)</div>
+<div class="kb-diagram-note">→ 단일 리더만 유지 (CAP 이론의 CP 선택)</div>
+</div>
+</div>
 
-쿼럼 메커니즘으로 방지:
-  그룹 A: 3노드 (과반수 O) → 정상 운영
-  그룹 B: 2노드 (과반수 X) → 운영 중단 (쓰기 거부)
-  → 단일 리더만 유지 (CAP 이론의 CP 선택)
-```
+
 
 ### 1.2 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 이론과 스플릿 브레인
 
-```
-CAP 이론 트레이드오프:
-  C (Consistency):  모든 노드 동일한 데이터
-  A (Availability): 모든 요청에 응답
-  P (Partition Tolerance): 네트워크 분할 허용
 
-분산 시스템은 P는 반드시 처리해야 함 → C 또는 A 선택
 
-  CP 시스템 (ZooKeeper, HBase):
-    네트워크 분할 시 → 소수 파티션 쓰기 거부 (일관성 우선)
-    → 스플릿 브레인 방지 O, 일부 가용성 포기
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CAP 이론 트레이드오프:</div>
+<div class="kb-diagram-note">C (Consistency): 모든 노드 동일한 데이터</div>
+<div class="kb-diagram-note">A (Availability): 모든 요청에 응답</div>
+<div class="kb-diagram-note">P (Partition Tolerance): 네트워크 분할 허용</div>
+<div class="kb-diagram-note">분산 시스템은 P는 반드시 처리해야 함 → C 또는 A 선택</div>
+<div class="kb-diagram-note">CP 시스템 (ZooKeeper, HBase):</div>
+<div class="kb-diagram-note">네트워크 분할 시 → 소수 파티션 쓰기 거부 (일관성 우선)</div>
+<div class="kb-diagram-note">→ 스플릿 브레인 방지 O, 일부 가용성 포기</div>
+<div class="kb-diagram-note">AP 시스템 (Cassandra, CouchDB):</div>
+<div class="kb-diagram-note">네트워크 분할에서도 모든 노드 응답 (가용성 우선)</div>
+<div class="kb-diagram-note">→ 스플릿 브레인 가능, 나중에 충돌 해결(Eventually Consistent)</div>
+</div>
+</div>
 
-  AP 시스템 (Cassandra, CouchDB):
-    네트워크 분할에서도 모든 노드 응답 (가용성 우선)
-    → 스플릿 브레인 가능, 나중에 충돌 해결(Eventually Consistent)
-```
+
 
 📢 **섹션 요약 비유**: 스플릿 브레인은 마치 회사가 통신 장애로 두 팀으로 나뉘어, 각 팀이 독립적으로 계약서를 수정하면 나중에 두 개의 서로 다른 계약서가 존재하는 것과 같다. 쿼럼은 "3명 중 2명 동의 없으면 서명 금지" 규칙으로 이를 방지한다.
 
@@ -71,96 +76,93 @@ CAP 이론 트레이드오프:
 
 ### 2.1 [ZooKeeper ZAB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/260_zookeeper_leader_election_consensus/) ([ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) Atomic Broadcast) 합의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
-```
-ZAB 합의 프로토콜 흐름:
 
-리더 선출 (Leader Election):
-  1. 모든 노드가 자신의 서버ID + 트랜잭션ID로 투표
-  2. 최신 트랜잭션ID를 가진 노드가 리더 후보
-  3. 과반수(N/2 + 1) 투표 받으면 리더 확정
-  4. 리더가 팔로워에게 최신 상태 동기화
 
-정상 쓰기 흐름 (2-Phase Commit):
-  클라이언트 쓰기 요청 → 리더 수신
-       ↓
-  리더 → 팔로워 전체에게 PROPOSAL 전송 (Phase 1)
-       ↓
-  과반수 팔로워 → ACK 응답
-       ↓
-  리더 → 전체에게 COMMIT (Phase 2)
-       ↓
-  클라이언트에게 성공 응답
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ZAB 합의 프로토콜 흐름:</div>
+<div class="kb-diagram-note">리더 선출 (Leader Election):</div>
+<div class="kb-diagram-note">1. 모든 노드가 자신의 서버ID + 트랜잭션ID로 투표</div>
+<div class="kb-diagram-note">2. 최신 트랜잭션ID를 가진 노드가 리더 후보</div>
+<div class="kb-diagram-note">3. 과반수(N/2 + 1) 투표 받으면 리더 확정</div>
+<div class="kb-diagram-note">4. 리더가 팔로워에게 최신 상태 동기화</div>
+<div class="kb-diagram-note">정상 쓰기 흐름 (2-Phase Commit):</div>
+<div class="kb-diagram-note">클라이언트 쓰기 요청 → 리더 수신</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">리더 → 팔로워 전체에게 PROPOSAL 전송 (Phase 1)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">과반수 팔로워 → ACK 응답</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">리더 → 전체에게 COMMIT (Phase 2)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">클라이언트에게 성공 응답</div>
+<div class="kb-diagram-note">쿼럼: 2n+1 노드 중 n+1개 응답 필요</div>
+<div class="kb-diagram-note">3노드: 2개 ACK 필요</div>
+<div class="kb-diagram-note">5노드: 3개 ACK 필요</div>
+<div class="kb-diagram-note">7노드: 4개 ACK 필요</div>
+</div>
+</div>
 
-쿼럼: 2n+1 노드 중 n+1개 응답 필요
-  3노드: 2개 ACK 필요
-  5노드: 3개 ACK 필요
-  7노드: 4개 ACK 필요
-```
+
 
 ### 2.2 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 클러스터 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────┐
-│          ZooKeeper 앙상블 (5-노드) 아키텍처                 │
-│                                                           │
-│  ZK-1 (리더)    ZK-2 (팔로워)    ZK-3 (팔로워)           │
-│  ┌─────────┐    ┌─────────┐    ┌─────────┐              │
-│  │ ZAB 리더 │◄──►│ ZAB팔로워│◄──►│ ZAB팔로워│              │
-│  │ 쓰기처리  │    │ 읽기처리 │    │ 읽기처리 │              │
-│  └────┬─────┘    └─────────┘    └─────────┘              │
-│       │                                                  │
-│  ZK-4 (팔로워)   ZK-5 (팔로워)                            │
-│  ┌─────────┐    ┌─────────┐                              │
-│  │ ZAB팔로워│    │ ZAB팔로워│                              │
-│  │ 읽기처리 │    │ 읽기처리 │                              │
-│  └─────────┘    └─────────┘                              │
-│                                                           │
-│  쿼럼 = 3 (5/2 + 1)                                      │
-│  → ZK-1 장애 시: ZK-2~5 중 과반수로 새 리더 선출          │
-│  → 최대 2개 노드 동시 장애까지 허용                         │
-│                                                           │
-│  ZNode 구조:                                             │
-│  /kafka                                                  │
-│  ├── /brokers                                            │
-│  │   ├── /ids/1 (브로커 메타데이터)                        │
-│  │   └── /ids/2                                          │
-│  ├── /controller (현재 Kafka 컨트롤러 ID)                 │
-│  └── /consumers (컨슈머 그룹 오프셋)                      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 앙상블 (5-노드) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK-1 (리더) ZK-2 (팔로워) ZK-3 (팔로워)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZAB 리더</div><div class="kb-diagram-cell">◄──►</div><div class="kb-diagram-cell">ZAB팔로워</div><div class="kb-diagram-cell">◄──►</div><div class="kb-diagram-cell">ZAB팔로워</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기처리</div><div class="kb-diagram-cell">읽기처리</div><div class="kb-diagram-cell">읽기처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK-4 (팔로워) ZK-5 (팔로워)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZAB팔로워</div><div class="kb-diagram-cell">ZAB팔로워</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기처리</div><div class="kb-diagram-cell">읽기처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼럼 = 3 (5/2 + 1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ZK-1 장애 시: ZK-2~5 중 과반수로 새 리더 선출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최대 2개 노드 동시 장애까지 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZNode 구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/kafka</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /brokers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /ids/1 (브로커 메타데이터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /ids/2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /controller (현재 Kafka 컨트롤러 ID)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /consumers (컨슈머 그룹 오프셋)</div></div>
+</div>
+</div>
+
+
 
 ### 2.3 펜싱 (Fencing) 메커니즘
 
-```
-펜싱의 필요성:
-  구형 리더(Old Leader)가 장애에서 복구 시,
-  새 리더가 이미 선출된 상태에서 두 리더가 공존 가능
-  → 이중 쓰기 방지를 위해 구형 리더를 강제 격리
 
-펜싱 기법 1: 에포크 토큰 (Epoch Token / Fencing Token)
-  ┌──────────────────────────────────────────────┐
-  │  리더 선출 시마다 에포크 번호 증가             │
-  │  에포크 5: 구형 리더 (이미 격리되어야 함)      │
-  │  에포크 6: 새 리더                            │
-  │                                              │
-  │  스토리지 서버: 에포크 < 6인 요청 거부!        │
-  │  → 구형 리더의 쓰기 자동 차단                 │
-  └──────────────────────────────────────────────┘
 
-펜싱 기법 2: STONITH (Shoot The Other Node In The Head)
-  ┌──────────────────────────────────────────────┐
-  │  장애 노드(구형 리더)를 물리적으로 강제 종료   │
-  │  - IPMI/iDRAC/iLO로 원격 전원 차단            │
-  │  - SCSI 예약(SCSI-3 PR)으로 디스크 접근 차단  │
-  │  주의: 잘못 작동 시 정상 노드 종료 위험         │
-  └──────────────────────────────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">펜싱의 필요성:</div>
+<div class="kb-diagram-note">구형 리더(Old Leader)가 장애에서 복구 시,</div>
+<div class="kb-diagram-note">새 리더가 이미 선출된 상태에서 두 리더가 공존 가능</div>
+<div class="kb-diagram-note">→ 이중 쓰기 방지를 위해 구형 리더를 강제 격리</div>
+<div class="kb-diagram-note">펜싱 기법 1: 에포크 토큰 (Epoch Token / Fencing Token)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리더 선출 시마다 에포크 번호 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에포크 5: 구형 리더 (이미 격리되어야 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에포크 6: 새 리더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 서버: 에포크 &lt; 6인 요청 거부!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 구형 리더의 쓰기 자동 차단</div></div>
+<div class="kb-diagram-note">펜싱 기법 2: STONITH (Shoot The Other Node In The Head)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 노드(구형 리더)를 물리적으로 강제 종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IPMI/iDRAC/iLO로 원격 전원 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCSI 예약(SCSI-3 PR)으로 디스크 접근 차단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주의: 잘못 작동 시 정상 노드 종료 위험</div></div>
+<div class="kb-diagram-note">펜싱 기법 3: ZooKeeper 에페머럴 ZNode</div>
+<div class="kb-diagram-note">리더 = /leader ZNode 소유 (에페머럴)</div>
+<div class="kb-diagram-note">리더 세션 만료 시 → ZNode 자동 삭제 → 재선출</div>
+<div class="kb-diagram-note">새 리더가 ZNode 재생성 → 구형 리더는 ZNode 없음</div>
+<div class="kb-diagram-note">→ 구형 리더의 쓰기 시도 시 ZooKeeper가 거부</div>
+</div>
+</div>
 
-펜싱 기법 3: ZooKeeper 에페머럴 ZNode
-  리더 = /leader ZNode 소유 (에페머럴)
-  리더 세션 만료 시 → ZNode 자동 삭제 → 재선출
-  새 리더가 ZNode 재생성 → 구형 리더는 ZNode 없음
-  → 구형 리더의 쓰기 시도 시 ZooKeeper가 거부
-```
+
 
 📢 **섹션 요약 비유**: 펜싱은 마치 회사 사장이 교체된 후 전 사장의 출입카드를 즉시 비활성화하는 것이다. 에포크 토큰은 "새 사장은 직인 번호 6번, 5번 이하 직인은 무효" 규칙으로 전 사장의 서류 결재를 자동 차단한다.
 
@@ -182,34 +184,35 @@ ZAB 합의 프로토콜 흐름:
 
 ### 3.2 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 의존성 vs KRaft 모드 비교
 
-```
-기존 Kafka + ZooKeeper 아키텍처:
-  ┌──────────────────────────────────────────────┐
-  │  Kafka 클러스터                               │
-  │  브로커1 - 브로커2 - 브로커3                   │
-  │       ↕          ↕          ↕                │
-  │  ZooKeeper 앙상블 (별도 운영)                  │
-  │  ZK-1 - ZK-2 - ZK-3                         │
-  │  메타데이터: 브로커 목록, 토픽 설정, ISR 등     │
-  └──────────────────────────────────────────────┘
-  단점:
-  - ZooKeeper 별도 운영 복잡도
-  - 메타데이터 변경 시 ZooKeeper 병목
-  - 파티션 수 100만 개 이상 시 성능 한계
 
-Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
-  ┌──────────────────────────────────────────────┐
-  │  Kafka KRaft 클러스터                         │
-  │  컨트롤러 1 - 컨트롤러 2 - 컨트롤러 3         │
-  │  (RAFT 합의 + 메타데이터 관리 통합)            │
-  │  브로커 1 - 브로커 2 - 브로커 3               │
-  └──────────────────────────────────────────────┘
-  장점:
-  - ZooKeeper 불필요 → 운영 단순화
-  - 파티션 수 백만 개 이상 지원
-  - 컨트롤러 페일오버 수초 → 수십 밀리초로 단축
-  - 단일 보안 모델 (ZooKeeper 별도 인증 불필요)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 Kafka + ZooKeeper 아키텍처:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커1 - 브로커2 - 브로커3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ ↕ ↕</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 앙상블 (별도 운영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK-1 - ZK-2 - ZK-3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터: 브로커 목록, 토픽 설정, ISR 등</div></div>
+<div class="kb-diagram-note">단점:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ZooKeeper 별도 운영 복잡도</div>
+<div class="kb-diagram-tree-item" style="--depth:1">메타데이터 변경 시 ZooKeeper 병목</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파티션 수 100만 개 이상 시 성능 한계</div>
+<div class="kb-diagram-note">Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka KRaft 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨트롤러 1 - 컨트롤러 2 - 컨트롤러 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RAFT 합의 + 메타데이터 관리 통합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커 1 - 브로커 2 - 브로커 3</div></div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ZooKeeper 불필요 → 운영 단순화</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파티션 수 백만 개 이상 지원</div>
+<div class="kb-diagram-tree-item" style="--depth:1">컨트롤러 페일오버 수초 → 수십 밀리초로 단축</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단일 보안 모델 (ZooKeeper 별도 인증 불필요)</div>
+</div>
+</div>
+
+
 
 ### 3.3 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코디네이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비교
 
@@ -228,26 +231,25 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 
 ### 4.1 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 고가용성 배포 설계
 
-```
-┌──────────────────────────────────────────────────────────┐
-│            ZooKeeper 엔터프라이즈 배포 아키텍처             │
-│                                                           │
-│  데이터센터 A           데이터센터 B           데이터센터 C  │
-│  ┌──────────┐         ┌──────────┐         ┌──────────┐  │
-│  │  ZK-1    │         │  ZK-2    │         │  ZK-3    │  │
-│  │  ZK-2(2) │         │  ZK-4    │         │  ZK-5    │  │
-│  └──────────┘         └──────────┘         └──────────┘  │
-│                                                           │
-│  5노드 앙상블: 최대 2개 노드 장애 허용                       │
-│  데이터센터 단위 장애 시에도 쿼럼(3/5) 유지               │
-│                                                           │
-│  주의사항:                                               │
-│  ① 홀수 노드 구성 (2n+1)                                │
-│  ② 전용 SSD 사용 (fsync 지연 최소화)                     │
-│  ③ NTP 동기화 필수 (타임아웃 기반 선출)                   │
-│  ④ 힙 크기: 4~8GB (너무 크면 GC 정지 악화)               │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 엔터프라이즈 배포 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터 A 데이터센터 B 데이터센터 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK-1</div><div class="kb-diagram-cell">ZK-2</div><div class="kb-diagram-cell">ZK-3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK-2(2)</div><div class="kb-diagram-cell">ZK-4</div><div class="kb-diagram-cell">ZK-5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5노드 앙상블: 최대 2개 노드 장애 허용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터 단위 장애 시에도 쿼럼(3/5) 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주의사항:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 홀수 노드 구성 (2n+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 전용 SSD 사용 (fsync 지연 최소화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ NTP 동기화 필수 (타임아웃 기반 선출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 힙 크기: 4~8GB (너무 크면 GC 정지 악화)</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 스플릿 브레인 방지 종합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -276,18 +278,24 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 
 ### 4.3 기술사 답안 핵심 포인트
 
-```
-스플릿 브레인 / ZooKeeper 설계 시 필수 언급:
-  ✓ 스플릿 브레인 정의 + 이중 쓰기 위험성
-  ✓ CAP 이론: ZooKeeper는 CP 선택 (일관성 우선)
-  ✓ ZAB 프로토콜: PROPOSAL → ACK(과반수) → COMMIT
-  ✓ 쿼럼 계산: 2n+1 노드 구성 필요
-  ✓ 펜싱 기법: 에포크 토큰 + STONITH 레이어드 방어
-  ✓ KRaft 모드: Kafka 3.0+ ZooKeeper 의존성 제거
-  ✓ 홀수 노드 구성 이유: 과반수 계산 용이, 동점 방지
-  ✓ etcd vs ZooKeeper: Kubernetes는 etcd+RAFT 사용
-  ✓ ZooKeeper 운영 주의: 전용 SSD, NTP 동기화, 힙 크기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스플릿 브레인 / ZooKeeper 설계 시 필수 언급:</div>
+<div class="kb-diagram-note">✓ 스플릿 브레인 정의 + 이중 쓰기 위험성</div>
+<div class="kb-diagram-note">✓ CAP 이론: ZooKeeper는 CP 선택 (일관성 우선)</div>
+<div class="kb-diagram-note">✓ ZAB 프로토콜: PROPOSAL → ACK(과반수) → COMMIT</div>
+<div class="kb-diagram-note">✓ 쿼럼 계산: 2n+1 노드 구성 필요</div>
+<div class="kb-diagram-note">✓ 펜싱 기법: 에포크 토큰 + STONITH 레이어드 방어</div>
+<div class="kb-diagram-note">✓ KRaft 모드: Kafka 3.0+ ZooKeeper 의존성 제거</div>
+<div class="kb-diagram-note">✓ 홀수 노드 구성 이유: 과반수 계산 용이, 동점 방지</div>
+<div class="kb-diagram-note">✓ etcd vs ZooKeeper: Kubernetes는 etcd+RAFT 사용</div>
+<div class="kb-diagram-note">✓ ZooKeeper 운영 주의: 전용 SSD, NTP 동기화, 힙 크기</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 스플릿 브레인 방지 레이어드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 마치 은행 금고의 다중 잠금 장치와 같다. 네트워크 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(첫 번째 자물쇠), 쿼럼 합의(두 번째 자물쇠), 펜싱(세 번째 자물쇠) 중 하나가 뚫려도 다음 단계에서 차단한다.
 
@@ -306,23 +314,25 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 
 ### 5.2 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 기술 발전 방향
 
-```
-┌──────────────────────────────────────────────────────┐
-│           분산 합의 기술 발전 트렌드                    │
-│                                                      │
-│  2006: ZooKeeper + ZAB 오픈소스 공개                  │
-│  2014: etcd + RAFT (CoreOS, Kubernetes 핵심)          │
-│  2019: Kafka KIP-500: KRaft 제안 (ZK 제거)           │
-│  2021: Kafka 2.8: KRaft 얼리 액세스                  │
-│  2022: Kafka 3.3: KRaft 프로덕션 안정화              │
-│  2023: Kafka 3.7: ZooKeeper 지원 완전 제거 예고       │
-│                                                      │
-│  트렌드:                                              │
-│  → 합의 알고리즘 내재화 (외부 ZK 의존 제거)            │
-│  → RAFT 우세 (이해 쉬움, 구현 라이브러리 풍부)          │
-│  → 분산 합의의 클라우드 네이티브화 (etcd + K8s)        │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 합의 기술 발전 트렌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2006: ZooKeeper + ZAB 오픈소스 공개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2014: etcd + RAFT (CoreOS, Kubernetes 핵심)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019: Kafka KIP-500: KRaft 제안 (ZK 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021: Kafka 2.8: KRaft 얼리 액세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022: Kafka 3.3: KRaft 프로덕션 안정화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2023: Kafka 3.7: ZooKeeper 지원 완전 제거 예고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트렌드:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 합의 알고리즘 내재화 (외부 ZK 의존 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ RAFT 우세 (이해 쉬움, 구현 라이브러리 풍부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 분산 합의의 클라우드 네이티브화 (etcd + K8s)</div></div>
+</div>
+</div>
+
+
 
 ### 5.3 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 설계 원칙 요약
 
@@ -354,30 +364,32 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **스플릿 브레인**은 마치 반장 선거를 하다가 교실이 둘로 나뉘어, 앞쪽 학생들은 A가 반장이라 하고 뒤쪽 학생들은 B가 반장이라고 주장하는 상황이에요—두 명이 동시에 반장 노릇을 하면 학급이 혼란에 빠지는 것처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스도 엉망이 돼요.
+1. <strong>스플릿 브레인</strong>은 마치 반장 선거를 하다가 교실이 둘로 나뉘어, 앞쪽 학생들은 A가 반장이라 하고 뒤쪽 학생들은 B가 반장이라고 주장하는 상황이에요—두 명이 동시에 반장 노릇을 하면 학급이 혼란에 빠지는 것처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스도 엉망이 돼요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분산 시스템 네트워크 파티션 발생
-    │
-    ▼
-스플릿 브레인: 두 리더가 동시 존재 → 데이터 불일치
-    │
-    ▼
-방어 메커니즘
-    ├─► 쿼럼 (Quorum): 과반수 합의 (N/2+1)
-    ├─► 펜싱 (Fencing): 이전 리더 강제 차단 (STONITH)
-    └─► ZooKeeper · etcd: 분산 코디네이터
-    │
-    ▼
-CAP 정리: Consistency vs Availability 트레이드오프
-    │
-    ▼
-Raft · Paxos 합의 알고리즘 → 안전한 리더 선출
-```
-2. **쿼럼**은 "반 전체 30명 중 16명 이상이 동의해야 반장이 된다"는 규칙이에요—교실이 둘로 나뉠 때 한쪽이 16명 이상이어야만 반장을 선출할 수 있어서, 양쪽 동시에 반장이 나오는 일이 없어요.
-3. **펜싱**은 새 반장이 뽑힌 후 전 반장의 교실 열쇠와 반장 도장을 즉시 회수하는 것처럼, 구형 리더가 실수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드리지 못하게 물리적으로 차단하는 방법이에요.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분산 시스템 네트워크 파티션 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스플릿 브레인: 두 리더가 동시 존재 → 데이터 불일치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">방어 메커니즘</div>
+<div class="kb-diagram-tree-item" style="--depth:2">쿼럼 (Quorum): 과반수 합의 (N/2+1)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">펜싱 (Fencing): 이전 리더 강제 차단 (STONITH)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ZooKeeper · etcd: 분산 코디네이터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAP 정리: Consistency vs Availability 트레이드오프</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Raft · Paxos 합의 알고리즘 → 안전한 리더 선출</div>
+</div>
+</div>
+
+
+2. <strong>쿼럼</strong>은 "반 전체 30명 중 16명 이상이 동의해야 반장이 된다"는 규칙이에요—교실이 둘로 나뉠 때 한쪽이 16명 이상이어야만 반장을 선출할 수 있어서, 양쪽 동시에 반장이 나오는 일이 없어요.
+3. <strong>펜싱</strong>은 새 반장이 뽑힌 후 전 반장의 교실 열쇠와 반장 도장을 즉시 회수하는 것처럼, 구형 리더가 실수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드리지 못하게 물리적으로 차단하는 방법이에요.
 
 ---
 

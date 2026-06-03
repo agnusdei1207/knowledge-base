@@ -37,16 +37,20 @@ tags = ["studynote-ai"]
 | log | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 벌점 증폭 | 틀린 확신에 큰 패널티 |
 | loss | 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 직접 목표 |
 
-```text
-정답 원-핫: [0 0 1]
-예측 확률 : [0.1 0.2 0.7]
-               │
-               ▼
-      정답 클래스의 log(p)만 평가
-               │
-               ▼
-         확률이 높을수록 손실 감소
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">정답 원-핫:</div><div class="kb-diagram-node">0 0 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">예측 확률 :</div><div class="kb-diagram-node">0.1 0.2 0.7</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정답 클래스의 log(p)만 평가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확률이 높을수록 손실 감소</div>
+</div>
+</div>
+
+
 
 Cross-Entropy는 MLE와 맞닿아 있다. 즉 실제 정답을 가장 그럴듯하게 설명하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 찾는 것이 학습 목표이므로, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도(log-likelihood)를 최대화하는 것과 같은 방향으로 움직인다.
 
@@ -103,21 +107,23 @@ cross-entropy는 "정답을 맞히는가"뿐 아니라 "얼마나 틀리게 확�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-원-핫 정답
-    │
-    ▼
-예측 확률(sigmoid / softmax)
-    │
-    ▼
-Cross-Entropy Error
-    │
-    ▼
-역전파 / MLE (Maximum Likelihood Estimation)
-    │
-    ▼
-더 나은 분류 확률
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원-핫 정답</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 확률(sigmoid / softmax)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cross-Entropy Error</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역전파 / MLE (Maximum Likelihood Estimation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">더 나은 분류 확률</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

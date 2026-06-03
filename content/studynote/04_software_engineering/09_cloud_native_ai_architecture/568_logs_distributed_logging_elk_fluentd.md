@@ -20,37 +20,36 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [옵저버빌리티 3대 기둥](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/184_observability_three_pillars/)([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), 트레이스, 로그) 중 가장 원초적이고 무거우며 디테일한 끝판왕 돋보기.
-  - **E ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/))**: 1억 줄의 텍스트 로그를 쑤셔 넣어도 구글 검색처럼 0.01초 만에 단어를 찾아주는 역인덱스([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 기반 초광속 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 텍스트 저장소 (창고).
+  - <strong>E (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a>)</strong>: 1억 줄의 텍스트 로그를 쑤셔 넣어도 구글 검색처럼 0.01초 만에 단어를 찾아주는 역인덱스([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 기반 초광속 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 텍스트 저장소 (창고).
   - **L (Logstash) / F (Fluentd)**: 서버 바닥에 떨어진 텍스트 로그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.log`)을 빗자루로 싹 쓸어 모아서 쓸데없는 문자열 뭉개버리고(정제) E 창고로 퍼 나르는 택배 기사 (파이프라인).
-  - **K ([Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/))**: E 창고에 처박힌 시커먼 텍스트들을 마우스 클릭 한 방에 파이 차트, 시계열 막대그래프 등 눈부신 대시보드 뷰로 띄워주는 미친 화가 (화면).
+  - <strong>K (<a href="/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/">Kibana</a>)</strong>: E 창고에 처박힌 시커먼 텍스트들을 마우스 클릭 한 방에 파이 차트, 시계열 막대그래프 등 눈부신 대시보드 뷰로 띄워주는 미친 화가 (화면).
 
-- **필요성 ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 증발과 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 텔넷 접속의 멸망)**: 563장 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 핵심 룰. "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))는 에러가 나거나 배포 치면 무자비하게 찢어져 죽고 새 놈이 뜬다(Ephemeral)." 서버에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 뚫고 들어가 `spring.log` 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 까보려 했더니, 이미 에러 난 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 1초 전에 암살당해 흔적도 없이 우주로 삭제(Eviction)돼버렸다! 살인 사건(에러)이 터졌는데 현장 보존(Log)이 1초 만에 바람에 날아가 버리는 클라우드 환장 파티. **"제발 텍스트가 허공에 증발하기 전에, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 밖으로 빛의 속도로 텍스트를 빨아내어 절대 안 지워지는 중앙 금고(ELK)로 피신시켜라!"** 이것이 중앙화 로깅(Centralized [Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)) 파이프라인의 생존 이유다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 증발과 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a> 텔넷 접속의 멸망)</strong>: 563장 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 핵심 룰. "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))는 에러가 나거나 배포 치면 무자비하게 찢어져 죽고 새 놈이 뜬다(Ephemeral)." 서버에 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 뚫고 들어가 `spring.log` 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 까보려 했더니, 이미 에러 난 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 1초 전에 암살당해 흔적도 없이 우주로 삭제(Eviction)돼버렸다! 살인 사건(에러)이 터졌는데 현장 보존(Log)이 1초 만에 바람에 날아가 버리는 클라우드 환장 파티. <strong>"제발 텍스트가 허공에 증발하기 전에, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 밖으로 빛의 속도로 텍스트를 빨아내어 절대 안 지워지는 중앙 금고(ELK)로 피신시켜라!"</strong> 이것이 중앙화 로깅(Centralized [Logging](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/)) 파이프라인의 생존 이유다.
 
-- **💡 비유**: 옛날 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 로깅 방식은 사장님이 비리를 조사하려 **'지사(서버) 50곳을 KTX 타고 직접 일일이 돌아다니며 영수증 서랍장(Log [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 손으로 뒤져보는 미친 노가다'**입니다. 지사가 불타버리면 영수증도 다 날아가서 수사가 종결되죠([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 증발). ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Fluentd)은 아예 지사 건물마다 **'[스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(Agent) 1명씩 박아두고, 영수증 1장이 생길 때마다 0.1초 컷으로 스캔 떠서 중앙 본사 거대 엑셀 서버([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/))로 팩스 쏘게 만드는 짓'**입니다. 지사가 불타 폭파되어도, 이미 본사 창고엔 방금 전 1초까지의 영수증(로그)이 완벽히 피신해 있으니 100% 무결점 조사가 가능한 무적의 뒷수습술입니다.
+- **💡 비유**: 옛날 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 로깅 방식은 사장님이 비리를 조사하려 <strong>'지사(서버) 50곳을 KTX 타고 직접 일일이 돌아다니며 영수증 서랍장(Log <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)을 손으로 뒤져보는 미친 노가다'</strong>입니다. 지사가 불타버리면 영수증도 다 날아가서 수사가 종결되죠([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 증발). ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Fluentd)은 아예 지사 건물마다 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(Agent) 1명씩 박아두고, 영수증 1장이 생길 때마다 0.1초 컷으로 스캔 떠서 중앙 본사 거대 엑셀 서버(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a>)로 팩스 쏘게 만드는 짓'</strong>입니다. 지사가 불타 폭파되어도, 이미 본사 창고엔 방금 전 1초까지의 영수증(로그)이 완벽히 피신해 있으니 100% 무결점 조사가 가능한 무적의 뒷수습술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **물리 서버 + Crontab 복사 (원시)**: 밤 12시마다 `scp` 명령어로 10대 서버 로그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 압축해서 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 서버로 복사하던 야만 시대.
-  2. **[Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/) 등 상용 툴 대두 (과도기)**: 에이전트 깔면 다 모아주는데, 로그 용량이 1TB 넘어가면 돈을 수억 원씩 뜯어가서 회사가 파산할 뻔함.
-  3. **ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오픈소스의 천하통일 (현재)**: Elasticsearch가 텍스트 검색 엔진의 신으로 군림하고, 그 위에 L(로그스태시)과 K(키바나)를 얹은 **무적의 3단 콤보(ELK 삼형제)**가 전 세계 K8s 클러스터의 디버깅 생태계를 공짜로 100% 장악하며 현대의 텍스트 블랙박스 헌법을 세웠다.
+  2. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/">Splunk</a> 등 상용 툴 대두 (과도기)</strong>: 에이전트 깔면 다 모아주는데, 로그 용량이 1TB 넘어가면 돈을 수억 원씩 뜯어가서 회사가 파산할 뻔함.
+  3. <strong>ELK <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 오픈소스의 천하통일 (현재)</strong>: Elasticsearch가 텍스트 검색 엔진의 신으로 군림하고, 그 위에 L(로그스태시)과 K(키바나)를 얹은 <strong>무적의 3단 콤보(ELK 삼형제)</strong>가 전 세계 K8s 클러스터의 디버깅 생태계를 공짜로 100% 장악하며 현대의 텍스트 블랙박스 헌법을 세웠다.
 
-- **📢 섹션 요약 비유**: 이 혁명은 도서관의 책 찾는 법이 통째로 갈아 엎어진 것과 같습니다. 옛날엔 "결제 에러" 로그를 찾으려면 책장(서버 50대)을 1장씩 넘기는 **'쌩 노가다 책 읽기'**였습니다. ELK의 심장인 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/))는 모든 텍스트 로그 단어들을 분해해 책 맨 뒷장의 **'가나다 색인표(역인덱스)'**를 미리 완벽히 깎아둡니다. "결제" 단어 검색 엔터 치자마자 1억 줄의 텍스트 중 `10페이지 5번째 줄!` 단 1개의 핀셋 정답만 0.001초 컷으로 화면에 뽑아내 주는 압도적인 구글(Google) 검색의 마술을 사내 서버 똥에 이식한 쾌감입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 도서관의 책 찾는 법이 통째로 갈아 엎어진 것과 같습니다. 옛날엔 "결제 에러" 로그를 찾으려면 책장(서버 50대)을 1장씩 넘기는 <strong>'쌩 노가다 책 읽기'</strong>였습니다. ELK의 심장인 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/))는 모든 텍스트 로그 단어들을 분해해 책 맨 뒷장의 <strong>'가나다 색인표(역인덱스)'</strong>를 미리 완벽히 깎아둡니다. "결제" 단어 검색 엔터 치자마자 1억 줄의 텍스트 중 `10페이지 5번째 줄!` 단 1개의 핀셋 정답만 0.001초 컷으로 화면에 뽑아내 주는 압도적인 구글(Google) 검색의 마술을 사내 서버 똥에 이식한 쾌감입니다.
 
 ---
 
 다음은 로그 (Logs)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  로그 (Logs)                                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 (Logs)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 로그 (Logs)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-로그 (Logs)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+로그 (Logs)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 로그 (Logs)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-로그 (Logs) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로그 (Logs) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

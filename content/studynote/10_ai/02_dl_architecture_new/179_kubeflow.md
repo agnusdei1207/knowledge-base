@@ -19,11 +19,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 워크플로우를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 운영하기 위해 등장한 플랫폼이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 보통 주피터 노트북 (Jupyter Notebook)에서 실험을 시작하지만, 실제 운영 단계에서는 학습 환경 재현, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 할당, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적, 반복 학습, 모델 서빙이 한꺼번에 문제로 튀어나온다. 즉 모델 개발의 병목은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만이 아니라 **운영 가능한 형태로 넘기는 과정**에 있다.
+[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 워크플로우를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 위에서 운영하기 위해 등장한 플랫폼이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 보통 주피터 노트북 (Jupyter Notebook)에서 실험을 시작하지만, 실제 운영 단계에서는 학습 환경 재현, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 할당, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적, 반복 학습, 모델 서빙이 한꺼번에 문제로 튀어나온다. 즉 모델 개발의 병목은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만이 아니라 <strong>운영 가능한 형태로 넘기는 과정</strong>에 있다.
 
 이 문제가 커지는 이유는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)이 일반 배치 작업보다 상태와 자원 의존성이 크기 때문이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 CPU 위주 자원을 원하고, 학습 단계는 GPU와 대용량 스토리지를 요구하며, 서빙 단계는 짧은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 자동 확장을 요구한다. 각각을 사람 손으로 이어 붙이면 재현성이 떨어지고, 실험이 늘수록 운영 복잡도는 폭증한다.
 
-[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 이 간극을 줄이기 위해 "각 단계를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 작업으로 만들고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 그 작업을 반복 가능하게 실행하게 하자"는 방향으로 발전했다. 핵심은 단순 실행기가 아니라 **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 수명주기를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 자원으로 번역하는 계층**이라는 점이다.
+[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 이 간극을 줄이기 위해 "각 단계를 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 작업으로 만들고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 그 작업을 반복 가능하게 실행하게 하자"는 방향으로 발전했다. 핵심은 단순 실행기가 아니라 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 수명주기를 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> 자원으로 번역하는 계층</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 연구실 책상 위에서만 돌아가던 실험을 공장 라인에 올려, 누가 버튼을 눌러도 같은 순서로 다시 생산되게 만드는 자동화 설비와 같다.
 
@@ -43,35 +43,33 @@ tags = ["studynote-ai"]
 
 아래 그림은 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 "실험 코드"를 "운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"으로 바꾸는 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Kubeflow execution flow on Kubernetes                               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Notebook / SDK                                                      │
-│   │  define pipeline in Python                                      │
-│   ▼                                                                  │
-│ KFP compiler / API                                                   │
-│   │  DAG spec                                                        │
-│   ▼                                                                  │
-│ Kubernetes controllers                                               │
-│   ├─ data prep pod                                                   │
-│   ├─ training pod (GPU)                                              │
-│   ├─ Katib trial pods                                                │
-│   └─ validation / packaging pod                                      │
-│             │                                                        │
-│             ├──────────────▶ Artifact / metadata store               │
-│             │                                                        │
-│             ▼                                                        │
-│ KServe                                                               │
-│   ├─ canary rollout                                                  │
-│   ├─ autoscaling / scale-to-zero                                     │
-│   └─ inference API                                                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심 원리는 두 가지다. 첫째, **[파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화**다. 각 단계가 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 실행되므로 같은 코드를 다른 클러스터에서도 재현하기 쉽다. 둘째, **컨트롤러 기반 운영 자동화**다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 CRD (Custom Resource Definition)와 컨트롤러 패턴을 이용해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 실험, 서빙 상태를 계속 원하는 상태로 맞춘다. 덕분에 실패한 단계만 재시도하거나, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드에만 특정 작업을 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링하거나, 모델 서빙을 단계적으로 교체하는 운영이 가능해진다.
 
-즉 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)의 본질은 "[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 코드를 더 잘 쓰게 하는 도구"보다, **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 작업을 운영 가능한 단위로 쪼개고 추적하는 플랫폼**에 가깝다. 모델 품질을 자동으로 보장하지는 않지만, 반복 실행과 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 크게 높여 준다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow execution flow on Kubernetes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notebook / SDK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">define pipeline in Python</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KFP compiler / API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG spec</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes controllers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ data prep pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ training pod (GPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Katib trial pods</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validation / packaging pod</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Artifact / metadata store</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KServe</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ canary rollout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ autoscaling / scale-to-zero</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ inference API</div></div>
+</div>
+</div>
+
+
+
+핵심 원리는 두 가지다. 첫째, <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/">파이프라인 단계</a>의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화</strong>다. 각 단계가 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 실행되므로 같은 코드를 다른 클러스터에서도 재현하기 쉽다. 둘째, <strong>컨트롤러 기반 운영 자동화</strong>다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 CRD (Custom Resource Definition)와 컨트롤러 패턴을 이용해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 실험, 서빙 상태를 계속 원하는 상태로 맞춘다. 덕분에 실패한 단계만 재시도하거나, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드에만 특정 작업을 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링하거나, 모델 서빙을 단계적으로 교체하는 운영이 가능해진다.
+
+즉 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)의 본질은 "[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 코드를 더 잘 쓰게 하는 도구"보다, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 작업을 운영 가능한 단위로 쪼개고 추적하는 플랫폼</strong>에 가깝다. 모델 품질을 자동으로 보장하지는 않지만, 반복 실행과 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 크게 높여 준다.
 
 - **📢 섹션 요약 비유**: [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 셰프가 손으로만 하던 요리를 재료 준비, 조리, 맛 검사, 포장 라인으로 나눠 공장 기계가 맡도록 바꾸는 자동 주방과 같다.
 
@@ -91,7 +89,7 @@ tags = ["studynote-ai"]
 
 실무에서는 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)보다 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 보는 편이 정확하다. 예를 들어 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행과 서빙을 맡고, MLflow가 실험 추적과 [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)를 보완할 수 있다. 또한 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)), 모델 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 감지 같은 구성 요소가 함께 붙어야 진짜 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 체계가 완성된다.
 
-관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 비교도 중요하다. Google Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), AWS SageMaker, Azure Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 부담을 줄여 준다. 반면 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 멀티클라우드, 규제 환경, 세밀한 플랫폼 통제가 필요한 조직에서 더 매력적이다. 즉 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 기능보다도 **운영 주권을 얼마나 직접 쥐고 싶은가**의 선택과 연결된다.
+관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 비교도 중요하다. Google Vertex [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), AWS SageMaker, Azure Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 부담을 줄여 준다. 반면 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/), 멀티클라우드, 규제 환경, 세밀한 플랫폼 통제가 필요한 조직에서 더 매력적이다. 즉 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 기능보다도 <strong>운영 주권을 얼마나 직접 쥐고 싶은가</strong>의 선택과 연결된다.
 
 - **📢 섹션 요약 비유**: [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 자체 조립 공장이라면, MLflow는 생산 이력 관리장부이고, 관리형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 공장을 직접 짓는 대신 임대형 스마트 공장을 쓰는 선택에 가깝다.
 
@@ -124,7 +122,7 @@ tags = ["studynote-ai"]
 - 모델 품질 문제를 플랫폼 부재 문제로 착각하는 조직
 - 업그레이드와 장애 대응 인력을 확보하지 않고 "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 공짜"라고 판단하는 도입
 
-기술사 답안에서는 **"[쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 플랫폼으로 반복 가능한 ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 서빙을 강하게 지원하지만, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 운영 성숙도가 낮은 조직에는 과한 플랫폼이 될 수 있다"**라고 정리하면 실무 감각이 살아난다.
+기술사 답안에서는 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/">쿠브플로우</a>는 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> 기반 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 플랫폼으로 반복 가능한 ML <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인과 서빙을 강하게 지원하지만, <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> 운영 성숙도가 낮은 조직에는 과한 플랫폼이 될 수 있다"</strong>라고 정리하면 실무 감각이 살아난다.
 
 - **📢 섹션 요약 비유**: [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) 도입은 대형 자동화 공장을 세우는 일과 같아서, 생산량이 많으면 큰 힘이 되지만 공장 관리자를 준비하지 않으면 오히려 공장만 멈춰 선다.
 
@@ -134,7 +132,7 @@ tags = ["studynote-ai"]
 
 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 잘 정착되면 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 "개인이 돌리는 실험"에서 "조직이 운영하는 반복 가능한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"으로 바뀐다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리, 학습, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 튜닝, 배포, 재실행이 표준화되므로 실험 재현성과 배포 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 올라가고, 자원 활용도도 좋아진다. 여러 팀이 공통 플랫폼 위에서 협업한다는 점도 큰 효과다.
 
-반면 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 만능 해법이 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의, 모델 평가 체계가 빈약하면 플랫폼만 복잡해질 수 있다. 그래서 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)를 기억할 때는 "AI용 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 도구"보다 **ML 수명주기를 운영 가능한 생산 라인으로 바꾸는 플랫폼**이라는 관점이 더 정확하다.
+반면 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)는 만능 해법이 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의, 모델 평가 체계가 빈약하면 플랫폼만 복잡해질 수 있다. 그래서 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)를 기억할 때는 "AI용 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 도구"보다 <strong>ML 수명주기를 운영 가능한 생산 라인으로 바꾸는 플랫폼</strong>이라는 관점이 더 정확하다.
 
 결국 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)의 질문은 기술 하나를 더 넣을지 여부가 아니다. 우리 조직이 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)을 개인 실험 수준으로 둘 것인지, 아니면 재현 가능하고 배포 가능한 산업 공정으로 끌어올릴 것인지의 문제다.
 
@@ -155,22 +153,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-노트북 중심 실험
-    │
-    ▼
-컨테이너 기반 재현성 요구
-    │
-    ▼
-쿠버네티스 위 ML 파이프라인화
-    │
-    ├─ KFP -> 단계 실행 / 재시도 / 캐시
-    ├─ Katib -> 자동 튜닝
-    └─ KServe -> 서빙 / 오토스케일
-    │
-    ▼
-Feature Store · Registry · Monitoring이 결합된 MLOps 플랫폼으로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">노트북 중심 실험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 기반 재현성 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">쿠버네티스 위 ML 파이프라인화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">KFP -&gt; 단계 실행 / 재시도 / 캐시</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Katib -&gt; 자동 튜닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">KServe -&gt; 서빙 / 오토스케일</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Feature Store · Registry · Monitoring이 결합된 MLOps 플랫폼으로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [쿠브플로우](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)가 단순 학습 도구가 아니라, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 운영 전체를 플랫폼화하는 방향으로 발전했음을 보여 준다.
 

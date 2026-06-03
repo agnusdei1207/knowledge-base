@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 중앙 관리자(은행, 카카오)가 거래 장부를 혼자 독점하는 것이 아니라, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크에 참여하는 수천, 수만 대의 동등한 컴퓨터(노드)들이 **각자 100% 동일한 장부 사본(Ledger)을 하드디스크에 들고 있으면서, 새로운 거래 데이터가 들어올 때마다 중앙 서버의 개입 없이 자기들끼리 '수학적 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(Consensus)'을 거쳐 장부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 업데이트하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 아키텍처**입니다.
+- **개념**: 중앙 관리자(은행, 카카오)가 거래 장부를 혼자 독점하는 것이 아니라, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크에 참여하는 수천, 수만 대의 동등한 컴퓨터(노드)들이 <strong>각자 100% 동일한 장부 사본(Ledger)을 하드디스크에 들고 있으면서, 새로운 거래 데이터가 들어올 때마다 중앙 서버의 개입 없이 자기들끼리 '수학적 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/">합의 알고리즘</a>(Consensus)'을 거쳐 장부를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하고 업데이트하는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 아키텍처</strong>입니다.
 - ※ 참고: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 데이터를 '블록'이라는 체인으로 엮어서 저장하는 DLT의 한 종류(하위 개념)일 뿐입니다. ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) $\subset$ DLT)
 
-```text
-[블록체인 네트워크 계층 가십 프로토콜]
-    │
-    ▼
-[DLT]
-    │
-    └──▶ [스마트 컨트랙트 분산망 오라클]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DLT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,7 +41,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DLT는 중앙 서버 독재를 무너뜨린 대가로 **'끔찍한 통신 트래픽 부하와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)'**이라는 저주를 받았습니다.
+DLT는 중앙 서버 독재를 무너뜨린 대가로 <strong>'끔찍한 통신 트래픽 부하와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay)'</strong>이라는 저주를 받았습니다.
 
 ### 1. 브로드캐스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 패킷의 폭풍 (통신망 병목)
 - 비자(VISA) 카드는 중앙 서버 1대에서 1초에 24,000건의 결제를 가볍게 처리합니다.
@@ -46,17 +50,21 @@ DLT는 중앙 서버 독재를 무너뜨린 대가로 **'끔찍한 통신 트래
 
 ### 2. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 (Consensus)의 지옥 같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 파급) 🌟
 - 장부에 글씨를 적으려면 10만 명이 다 같이 "이거 진짜다!"라고 고개를 끄덕여야 합니다.
-- **PoW ([작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/), 비트코인)**: 노드들이 수학 문제를 푸느라 10분을 허비합니다. 그래서 비트코인은 결제 버튼을 누르고 상대방에게 돈이 진짜 들어갈 때까지 확정([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 시간이 10분에서 1시간이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됩니다.
-- **[BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) 계열 합의 ([PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/), 텐더민트)**: 투표를 빨리 끝내기 위해, "야! 이 패킷 진짜냐?"라고 노드 100대가 서로 1:1로 귓속말(투표) 패킷을 주고받습니다. 만약 노드가 $N$개면 서로 묻고 답하는 패킷 트래픽 양이 $N^2$ (N의 제곱)으로 기하급수적으로 뻥튀기(폭주)되어 네트워크망이 박살 납니다. 결국 노드 개수를 100개 이상 늘리기 불가능하다는 치명적 확장성 한계(Scalability Trilemma)에 부딪힙니다.
+- <strong>PoW (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/">작업 증명</a>, 비트코인)</strong>: 노드들이 수학 문제를 푸느라 10분을 허비합니다. 그래서 비트코인은 결제 버튼을 누르고 상대방에게 돈이 진짜 들어갈 때까지 확정([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 시간이 10분에서 1시간이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됩니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/">BFT</a> 계열 합의 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/">PBFT</a>, 텐더민트)</strong>: 투표를 빨리 끝내기 위해, "야! 이 패킷 진짜냐?"라고 노드 100대가 서로 1:1로 귓속말(투표) 패킷을 주고받습니다. 만약 노드가 $N$개면 서로 묻고 답하는 패킷 트래픽 양이 $N^2$ (N의 제곱)으로 기하급수적으로 뻥튀기(폭주)되어 네트워크망이 박살 납니다. 결국 노드 개수를 100개 이상 늘리기 불가능하다는 치명적 확장성 한계(Scalability Trilemma)에 부딪힙니다.
 
-```text
-[블록체인 네트워크 계층 가십 프로토콜]
-    │
-    ▼
-[DLT]
-    │
-    └──▶ [스마트 컨트랙트 분산망 오라클]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DLT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,11 +74,11 @@ DLT는 중앙 서버 독재를 무너뜨린 대가로 **'끔찍한 통신 트래
 
 통신 엔지니어들과 수학자들은 이 답답한 DLT의 속도를 살리기 위해 꼼수를 발명해 냈습니다.
 
-1. **[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) ([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/)) - 쪼개서 검사하기**:
+1. <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/">Sharding</a>) - 쪼개서 검사하기</strong>:
    - 10만 명이 모든 장부를 다 검사하려니 느려 터집니다. 전 세계를 강남구, 서초구 1,000명씩 100개의 조(Shard)로 찢어놓고, "강남구 결제는 너희 강남구 노드 1,000명끼리만 모여서 합의하고 끝내!" 라며 트래픽 부하를 파편화시켜 100배 빠르게 처리합니다.
-2. **[DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) (방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) 모델**:
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (방향성 비순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>) 모델</strong>:
    - 10분마다 1개씩 블록(장부)을 만드는 미련한 방식을 폐기합니다.
-   - 내가 새로운 결제 패킷을 날릴 때, 전체 합의를 기다리지 않고 **과거에 올라온 남의 거래 2개만 쓱 보고 "저거 진짜네"라고 도장([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 찍어준 뒤 내 거래를 즉시 장부에 욱여넣는 IOTA, 해시그래프 같은 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 구조**로 진화하여 수만 TPS의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장을 구현해 냅니다.
+   - 내가 새로운 결제 패킷을 날릴 때, 전체 합의를 기다리지 않고 <strong>과거에 올라온 남의 거래 2개만 쓱 보고 "저거 진짜네"라고 도장(<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)을 찍어준 뒤 내 거래를 즉시 장부에 욱여넣는 IOTA, 해시그래프 같은 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> 구조</strong>로 진화하여 수만 TPS의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장을 구현해 냅니다.
 
 DLT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 기반 조건을 만든다면, DLT는 그 위에서 핵심 메커니즘을 구현하고, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 오라클은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +88,7 @@ DLT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 중앙 서버(은행) 방식은 선생님 1명(중앙 서버)이 학생들의 용돈 기입장([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))을 혼자 독재로 다 적어주는 방식입니다. 1명이 쓱쓱 쓰니까 0.1초면 끝납니다(비자 카드 속도). 반면 **DLT([분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/))**는 선생님을 없애버리고 학생 10만 명이 똑같은 빈 노트를 한 권씩 쥐고 있는 '극단적 민주주의 교실'입니다. 한 학생이 "철수가 영희한테 1,000원 빌림!"이라고 외치면(가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전파), 나머지 99,999명이 그 소문을 듣고 "잠깐! 철수 돈 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해!"라며 10만 명이 다 같이 토론([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의)을 10분 동안 피 터지게 벌입니다(트래픽/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). 만장일치가 나오면 그때야 10만 명이 다 같이 일제히 자기 노트에 글씨를 적습니다. 독재자(은행)에게 사기를 당할 확률은 0%가 되었지만([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 극대화), 10만 명의 토론 소음(합의 트래픽 병목) 때문에 결제 1건에 10분이 걸리는 최악의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 겪게 되는 혁명적 딜레마 구조입니다.
+- **📢 섹션 요약 비유**: 기존 중앙 서버(은행) 방식은 선생님 1명(중앙 서버)이 학생들의 용돈 기입장([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))을 혼자 독재로 다 적어주는 방식입니다. 1명이 쓱쓱 쓰니까 0.1초면 끝납니다(비자 카드 속도). 반면 <strong>DLT(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/">분산 원장 기술</a>)</strong>는 선생님을 없애버리고 학생 10만 명이 똑같은 빈 노트를 한 권씩 쥐고 있는 '극단적 민주주의 교실'입니다. 한 학생이 "철수가 영희한테 1,000원 빌림!"이라고 외치면(가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전파), 나머지 99,999명이 그 소문을 듣고 "잠깐! 철수 돈 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해!"라며 10만 명이 다 같이 토론([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의)을 10분 동안 피 터지게 벌입니다(트래픽/[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭발). 만장일치가 나오면 그때야 10만 명이 다 같이 일제히 자기 노트에 글씨를 적습니다. 독재자(은행)에게 사기를 당할 확률은 0%가 되었지만([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 극대화), 10만 명의 토론 소음(합의 트래픽 병목) 때문에 결제 1건에 10분이 걸리는 최악의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 겪게 되는 혁명적 딜레마 구조입니다.
 
 ---
 
@@ -122,15 +130,19 @@ DLT는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 블록체인 네트워크 계층 가십 프로토콜]
-    │
-    ▼
-[현재 개념: DLT]
-    │
-    ├──▶ [확장 A: 스마트 컨트랙트 분산망 오라클]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록체인 네트워크 계층 가십 프로토콜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DLT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 컨트랙트 분산망 오라클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 DLT는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 오라클와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

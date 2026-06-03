@@ -19,18 +19,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-ChatGPT에게 "세종대왕이 맥북으로 한글을 창제했나요?"라고 물으면, 일부 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델은 "세종대왕은 15세기에 맥북 프로를 활용하여 훈민정음 24자를 설계했습니다"라고 자신감 있게 대답할 수 있다. 이것이 **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/), [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))**이다.
+ChatGPT에게 "세종대왕이 맥북으로 한글을 창제했나요?"라고 물으면, 일부 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델은 "세종대왕은 15세기에 맥북 프로를 활용하여 훈민정음 24자를 설계했습니다"라고 자신감 있게 대답할 수 있다. 이것이 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>, <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>)</strong>이다.
 
 LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 없는 정보나 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 모순된 상황에서도 "가장 그럴듯한 다음 토큰"을 계속 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 특성이 있다. 즉, 모델 구조상 "모른다"는 응답보다 "아는 척"이 손실(Loss)이 더 낮게 나오는 경향이 있다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: LLM의 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 자신감 넘치는 학생이 시험 답을 모르면서도 "그럴싸한 답"을 당당히 써내는 것이다. 채점자(사용자)는 정답처럼 보여서 바로 믿어버린다. 진짜 문제는 학생이 거짓말하는 게 아니라, 본인도 모른다는 것을 모른다는 것이다.
 
@@ -38,33 +41,29 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         할루시네이션 발생 원인 및 유형 분류                            │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [할루시네이션 유형]                                                 │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │ 1. 사실 오류 (Factual Hallucination)                     │    │
-│  │    "아인슈타인은 1921년 노벨 문학상을 받았다" (→ 물리학상)    │    │
-│  │                                                         │    │
-│  │ 2. 소스 없는 인용 (Citation Fabrication)                  │    │
-│  │    없는 논문·책·URL을 실제처럼 인용                          │    │
-│  │                                                         │    │
-│  │ 3. 지식 커트오프 오류 (Knowledge Cutoff)                   │    │
-│  │    학습 이후 발생한 사건을 모르면서도 아는 척 생성             │    │
-│  │                                                         │    │
-│  │ 4. 논리 불일치 (Logical Inconsistency)                    │    │
-│  │    동일 대화 내에서 이전 답과 모순된 답 생성                   │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                                                                  │
-│  [근본 원인]                                                       │
-│  LLM 학습 목표: P(next token | context) 최대화                    │
-│  → 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성               │
-│  → 학습 데이터의 오류·편향·누락이 그대로 학습됨                       │
-│  → 드문 사실은 학습 데이터 부족으로 잘못 기억                         │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할루시네이션 발생 원인 및 유형 분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">할루시네이션 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사실 오류 (Factual Hallucination)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아인슈타인은 1921년 노벨 문학상을 받았다" (→ 물리학상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 소스 없는 인용 (Citation Fabrication)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없는 논문·책·URL을 실제처럼 인용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 지식 커트오프 오류 (Knowledge Cutoff)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 이후 발생한 사건을 모르면서도 아는 척 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 논리 불일치 (Logical Inconsistency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 대화 내에서 이전 답과 모순된 답 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">근본 원인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 학습 목표: P(next token</div><div class="kb-diagram-cell">context) 최대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 학습 데이터의 오류·편향·누락이 그대로 학습됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 드문 사실은 학습 데이터 부족으로 잘못 기억</div></div>
+</div>
+</div>
+
+
 
 | 완화 기법 | 방법 | 효과 |
 |:---|:---|:---|
@@ -80,8 +79,8 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ## Ⅲ. 비교 및 연결
 
-- **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) vs 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))**: [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 사실 자체를 틀리게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이고, 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 특정 집단에 대한 편향된 서술을 하는 것이다. 예를 들어 "남성 엔지니어, 여성 간호사"처럼 성별과 직업을 편향적으로 연결하는 것은 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)이 아닌 편향이다. 하지만 둘 다 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제의 핵심 구성 요소다.
-- **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 검사**: 동일 프롬프트를 N회 실행하여 답변이 일관되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 낮으면 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a> vs 편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 사실 자체를 틀리게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것이고, 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))은 특정 집단에 대한 편향된 서술을 하는 것이다. 예를 들어 "남성 엔지니어, 여성 간호사"처럼 성별과 직업을 편향적으로 연결하는 것은 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)이 아닌 편향이다. 하지만 둘 다 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제의 핵심 구성 요소다.
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>) 검사</strong>: 동일 프롬프트를 N회 실행하여 답변이 일관되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 낮으면 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -95,12 +94,12 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**고위험 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 배포 시 필수 방어 체계**:
-1. **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) + 출처 인용 강제**: 모든 사실 주장에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 문서 출처를 표시
-2. **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 점수([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Score)**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 답변의 자신감 수준 정량화 및 임계값 아래면 "불확실합니다" 표시
+<strong>고위험 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 배포 시 필수 방어 체계</strong>:
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> + 출처 인용 강제</strong>: 모든 사실 주장에 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 문서 출처를 표시
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 점수(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Score)</strong>: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 답변의 자신감 수준 정량화 및 임계값 아래면 "불확실합니다" 표시
 3. **Human-in-the-Loop**: 고위험 결정(의료 진단, 법률 판단)은 반드시 전문가 최종 검토
-4. **사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동**: WolframAlpha, Google [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 등 외부 사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 출력 후처리 연동
-5. **[Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/) 벤치마크**: TruthfulQA, HaluEval 등 전용 벤치마크로 배포 전 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 발생률 측정
+4. <strong>사실 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 연동</strong>: WolframAlpha, Google [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 등 외부 사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 출력 후처리 연동
+5. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a> 벤치마크</strong>: TruthfulQA, HaluEval 등 전용 벤치마크로 배포 전 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 발생률 측정
 
 - **📢 섹션 요약 비유**: 의료 AI에서 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 방어는 비행기 조종사의 이중 점검 의무와 같다. 자동 조종장치([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 "활주로 37L로 착륙"이라고 판단해도, 조종사(의사)가 반드시 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 최종 결정을 내린다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 출력은 제안이지 판결이 아니다.
 
@@ -132,9 +131,9 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)**은 AI가 "모른다"고 말하는 대신 **그럴싸한 거짓말을 자신 있게 하는** 것이에요 — 마치 시험에서 모르는 문제에 아무 답이나 당당히 쓰는 것처럼요!
-2. AI는 진실을 찾는 게 아니라 **"자연스럽게 이어지는 글자"**를 만들어내는 기계라서, 사실이 아닌 것도 그럴듯하면 써버려요.
-3. 이걸 막으려면 **외부 지식 검색([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))**이나 **전문가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Human-in-the-Loop)**을 반드시 함께 사용해야 해요!
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a></strong>은 AI가 "모른다"고 말하는 대신 **그럴싸한 거짓말을 자신 있게 하는** 것이에요 — 마치 시험에서 모르는 문제에 아무 답이나 당당히 쓰는 것처럼요!
+2. AI는 진실을 찾는 게 아니라 <strong>"자연스럽게 이어지는 글자"</strong>를 만들어내는 기계라서, 사실이 아닌 것도 그럴듯하면 써버려요.
+3. 이걸 막으려면 <strong>외부 지식 검색(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>)</strong>이나 <strong>전문가 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(Human-in-the-Loop)</strong>을 반드시 함께 사용해야 해요!
 
 ---
 

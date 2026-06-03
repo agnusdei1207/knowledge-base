@@ -35,19 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 파이프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스가 무엇을 연결하는지 한눈에 보여준다. 중요한 점은 [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)이 계산 자체를 하지 않고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스 안의 어느 길을 열지 지정한다는 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Datapath flow: fetch → read → execute → memory → writeback         │
-├──────────────────────────────────────────────────────────────────────┤
-│ PC ─▶ Instruction Memory ─▶ Stage Register ─▶ Register File         │
-│                                                │                     │
-│                                                ├──▶ Immediate Select │
-│                                                ▼                     │
-│                                         ALU / Address Calc           │
-│                                                │                     │
-│                         Data Memory or ALU Result ─▶ Write Back      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Datapath flow: fetch → read → execute → memory → writeback</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC ─▶ Instruction Memory ─▶ Stage Register ─▶ Register File</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Immediate Select</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU / Address Calc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Memory or ALU Result ─▶ Write Back</div></div>
+</div>
+</div>
+
+
 
 이 흐름에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 두 가지다. 첫째, 어떤 자원이 한 사이클 안에 너무 많은 일을 맡아 임계 경로 (Critical Path)를 길게 만들지 않는가이다. 둘째, 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 동시에 흐를 때 같은 자원을 두고 충돌하지 않도록 단계와 버퍼를 적절히 나눴는가이다. 그래서 현대 CPU는 단일 거대 경로보다, 여러 짧은 단계로 분리된 파이프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스를 선호한다.
 
@@ -131,19 +131,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 사이클 Datapath
-        │
-        ▼
-다중 사이클 Datapath
-        │
-        ▼
-파이프라인 Datapath
-        │
-        ├──▶ 구조 해저드 대응: 자원 분리, 다중 포트
-        ├──▶ 데이터 해저드 대응: Forwarding, Stall
-        └──▶ 고성능 확장: Superscalar, Out-of-Order
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 사이클 Datapath</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 사이클 Datapath</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 Datapath</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 구조 해저드 대응: 자원 분리, 다중 포트</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 데이터 해저드 대응: Forwarding, Stall</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 고성능 확장: Superscalar, Out-of-Order</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)패스가 단순 실행 경로에서 출발해, 파이프라인 충돌을 다루고, 다시 다중 실행 구조로 확장되는 진화를 보여준다.
 

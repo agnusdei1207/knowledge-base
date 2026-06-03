@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) Algorithms | 양자 내성 후보 | Kyber, Dilithium, Falcon 등 |
 | Hybrid [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 기존+신규 병행 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 키 크기 |
 
-```text
-┌──────────────┐   identify   ┌──────────────┐   classify   ┌──────────────┐
-│ Crypto Asset │ ───────────▶ │ Risk Profile │ ───────────▶ │ Migration Plan│
-└──────────────┘              └──────────────┘              └──────────────┘
-        │                              │                              │
-        │ legacy PKI                   │ long-lived data              │ hybrid test
-        ▼                              ▼                              ▼
-┌──────────────┐              ┌──────────────┐              ┌──────────────┐
-│ RSA / ECC    │ ───────────▶ │ PQC Candidate│ ───────────▶ │ Runtime Rollout│
-└──────────────┘              └──────────────┘              └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">identify classify</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Crypto Asset</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Risk Profile</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Migration Plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">legacy PKI</div><div class="kb-diagram-cell">long-lived data</div><div class="kb-diagram-cell">hybrid test</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA / ECC</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">PQC Candidate</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Runtime Rollout</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) 체계에 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 추가하는 식이다. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)는 키/서명 크기가 커지고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 달라질 수 있으므로, 단순 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
 
@@ -116,18 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Classical Public-key Crypto
-   │
-   ▼
-Quantum Threat Awareness
-   │
-   ▼
-PQC Standardization
-   │
-   ▼
-Crypto Agility + Hybrid Migration
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Classical Public-key Crypto</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Quantum Threat Awareness</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PQC Standardization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Crypto Agility + Hybrid Migration</div>
+</div>
+</div>
+
+
 
 이 흐름은 “기존 공개키 의존 → 양자 위험 인식 → [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 표준화 → 운영 전환”으로 보안 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 성숙하는 방향을 보여준다.
 

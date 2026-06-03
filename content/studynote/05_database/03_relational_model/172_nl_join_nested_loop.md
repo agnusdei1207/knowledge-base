@@ -19,29 +19,29 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-중첩 루프 조인 (NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 두 테이블을 결합할 때, 먼저 한쪽 결과를 읽고 그 각 행마다 다른 쪽을 반복 탐색하는 물리 조인 방식이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) SQL은 단순히 `JOIN` 한 줄이지만, 실행 엔진 입장에서는 "한 건씩 찾아 들어갈지, 큰 집합을 한 번에 처리할지"를 정해야 하며, NL Join은 그중 **반복 조회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**에 해당한다.
+중첩 루프 조인 (NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System) 이 두 테이블을 결합할 때, 먼저 한쪽 결과를 읽고 그 각 행마다 다른 쪽을 반복 탐색하는 물리 조인 방식이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) SQL은 단순히 `JOIN` 한 줄이지만, 실행 엔진 입장에서는 "한 건씩 찾아 들어갈지, 큰 집합을 한 번에 처리할지"를 정해야 하며, NL Join은 그중 <strong>반복 조회 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>에 해당한다.
 
 이 방식이 필요한 이유는 모든 조인이 대량 배치처럼 동작하지 않기 때문이다. 회원 1명을 조회한 뒤 주문 5건과 결제 5건을 붙이는 화면, `WHERE order_id = :id` 처럼 이미 강하게 선별된 질의는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)을 만들거나 양쪽을 정렬하는 준비 비용이 오히려 더 크다. 이때 NL Join은 필요한 행만 차례로 찾아가므로 시작 비용이 작고, 첫 번째 결과 행도 빨리 반환할 수 있다.
 
-반대로 선행 집합이 커지면 이야기가 완전히 달라진다. 후행 집합을 한 번 찾는 비용은 작아 보여도, 그 탐색이 수천~수백만 번 반복되면 랜덤 I/O가 누적되어 급격히 느려진다. 그래서 NL Join은 "가볍고 쉬운 조인"이 아니라, **작은 선행 집합과 싼 후행 탐색 경로가 있을 때 강력한 조인**으로 이해해야 한다.
+반대로 선행 집합이 커지면 이야기가 완전히 달라진다. 후행 집합을 한 번 찾는 비용은 작아 보여도, 그 탐색이 수천~수백만 번 반복되면 랜덤 I/O가 누적되어 급격히 느려진다. 그래서 NL Join은 "가볍고 쉬운 조인"이 아니라, <strong>작은 선행 집합과 싼 후행 탐색 경로가 있을 때 강력한 조인</strong>으로 이해해야 한다.
 
 이 그림은 NL Join이 왜 선택적 조회에서 강한지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        Small filtered outer rows can justify repeated lookups        │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL : Orders JOIN Customers ON customer_id                           │
-│                                                                      │
-│ Orders after filter (order_id = :id) -> 1 row                        │
-│        │                                                             │
-│        └─ probe Customers by indexed customer_id                     │
-│                                                                      │
-│ point: do not build/sort the whole world for one selective lookup    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 "두 테이블을 모두 넓게 훑는 것"이 아니라, **필요한 키만 들고 후행 집합을 찌르는 것**이다. 그래서 NL Join은 대량 분석보다 온라인 조회에서 더 자주 빛난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Small filtered outer rows can justify repeated lookups</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL : Orders JOIN Customers ON customer_id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orders after filter (order_id = :id) -&gt; 1 row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ probe Customers by indexed customer_id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">point: do not build/sort the whole world for one selective lookup</div></div>
+</div>
+</div>
+
+
+
+핵심은 "두 테이블을 모두 넓게 훑는 것"이 아니라, <strong>필요한 키만 들고 후행 집합을 찌르는 것</strong>이다. 그래서 NL Join은 대량 분석보다 온라인 조회에서 더 자주 빛난다.
 
 - **📢 섹션 요약 비유**: 필요한 책이 1권뿐이라면 도서관 전체를 새로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하기보다 색인 카드로 바로 찾아가는 편이 빠르다. NL Join은 작은 요청을 받을 때 그런 식으로 움직이는 사서와 같다.
 
@@ -49,7 +49,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NL Join의 핵심 구성은 선행 테이블 (Driving Table), 후행 테이블 (Driven Table), 조인 조건, 후행 액세스 경로 4가지다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "선행에서 몇 행이 나오느냐"와 "후행을 한 번 찾는 비용이 얼마냐"라는 두 숫자에 거의 좌우된다. 실무에서 "NL Join이 빠르다"라고 말할 때는 대개 **후행 테이블의 조인 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하는 [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Nested Loop](/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/)**를 뜻한다.
+NL Join의 핵심 구성은 선행 테이블 (Driving Table), 후행 테이블 (Driven Table), 조인 조건, 후행 액세스 경로 4가지다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "선행에서 몇 행이 나오느냐"와 "후행을 한 번 찾는 비용이 얼마냐"라는 두 숫자에 거의 좌우된다. 실무에서 "NL Join이 빠르다"라고 말할 때는 대개 <strong>후행 테이블의 조인 컬럼 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>를 활용하는 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/431_nested_loop_join/">Nested Loop</a></strong>를 뜻한다.
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 포인트 |
 | :--- | :--- | :--- |
@@ -60,22 +60,24 @@ NL Join의 핵심 구성은 선행 테이블 (Driving Table), 후행 테이블 (
 
 실행 흐름은 단순하다. 먼저 Driving Table에서 조건에 맞는 행을 읽고, 그 행의 조인 키로 Driven Table의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 탐색한다. 해당 키를 만족하는 행을 찾으면 즉시 결합 결과를 반환하고, 다음 Driving 행으로 넘어간다. 이 반복 구조 때문에 NL Join의 비용은 대략 `외부 집합 접근 비용 + (외부 행 수 × 내부 탐색 비용)`으로 생각할 수 있다.
 
-특히 주의할 점은 "중첩 루프"라는 이름이 곧바로 두 테이블을 모두 완전 탐색한다는 뜻은 아니라는 점이다. 후행 쪽에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 내부 루프는 실제로 전체 스캔이 아니라 **짧은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 + 필요한 행 접근**으로 줄어든다. 반면 후행 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 같은 구조라도 사실상 반복적인 풀 스캔에 가까워져 매우 불리해진다.
+특히 주의할 점은 "중첩 루프"라는 이름이 곧바로 두 테이블을 모두 완전 탐색한다는 뜻은 아니라는 점이다. 후행 쪽에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있으면 내부 루프는 실제로 전체 스캔이 아니라 <strong>짧은 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 탐색 + 필요한 행 접근</strong>으로 줄어든다. 반면 후행 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 같은 구조라도 사실상 반복적인 풀 스캔에 가까워져 매우 불리해진다.
 
 아래 그림은 NL Join의 병목이 어디에서 생기는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         NL Join = outer loop + repeated inner access path            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Outer row O1 ----┐                                                   │
-│ Outer row O2 ----┼--> inner index probe -> rowid lookup -> join row │
-│ Outer row O3 ----┘                                                   │
-│                                                                      │
-│ Cost ≈ outer access + (outer rows × inner probe cost)               │
-│ Hotspot = repeated inner probes / random I/O                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NL Join = outer loop + repeated inner access path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer row O1 ----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer row O2 ---- --&gt; inner index probe -&gt; rowid lookup -&gt; join row</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer row O3 ----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost ≈ outer access + (outer rows × inner probe cost)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hotspot = repeated inner probes / random I/O</div></div>
+</div>
+</div>
+
+
 
 즉 NL Join은 메모리를 크게 쓰지 않는 대신, 후행 탐색을 여러 번 반복한다. 그래서 메모리 친화적인 대신 I/O 패턴에는 매우 민감한 조인이다.
 
@@ -85,7 +87,7 @@ NL Join의 핵심 구성은 선행 테이블 (Driving Table), 후행 테이블 (
 
 ## Ⅲ. 비교 및 연결
 
-NL Join을 제대로 이해하려면 다른 조인 방식과의 경계를 같이 봐야 한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/))은 작은 집합을 메모리에 올려 큰 집합을 순차적으로 매칭하고, 정렬 병합 조인 ([Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/))은 양쪽을 조인 키 기준으로 정렬한 뒤 순차 병합한다. 반면 NL Join은 **행 단위 반복 탐색**이 핵심이므로, 준비 비용이 적고 첫 응답이 빠른 대신 반복 횟수 증가에 취약하다.
+NL Join을 제대로 이해하려면 다른 조인 방식과의 경계를 같이 봐야 한다. [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) ([Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/))은 작은 집합을 메모리에 올려 큰 집합을 순차적으로 매칭하고, 정렬 병합 조인 ([Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/))은 양쪽을 조인 키 기준으로 정렬한 뒤 순차 병합한다. 반면 NL Join은 <strong>행 단위 반복 탐색</strong>이 핵심이므로, 준비 비용이 적고 첫 응답이 빠른 대신 반복 횟수 증가에 취약하다.
 
 | 비교 축 | NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | [Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/) | [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) |
 | :--- | :--- | :--- | :--- |
@@ -98,7 +100,7 @@ NL Join을 제대로 이해하려면 다른 조인 방식과의 경계를 같이
 
 또한 NL Join은 [상관 서브쿼리](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/) ([Correlated Subquery](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)) 나 `EXISTS` 계열 질의와도 자연스럽게 연결된다. 바깥 행 하나가 들어올 때마다 안쪽 질의를 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 구조가 NL Join의 반복 탐색과 닮아 있기 때문이다. 그래서 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 볼 때 [상관 서브쿼리](/knowledge-base/studynote/05_database/03_relational_model/144_correlated_subquery_nested_loop/)가 NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 또는 세미 조인 (Semi [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 형태로 바뀌는 경우가 많다.
 
-Driving Table과 Driven Table의 구분도 여기서 중요해진다. 같은 SQL이라도 어떤 테이블을 먼저 읽느냐에 따라 반복 횟수가 바뀌기 때문이다. 즉 NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 튜닝은 단순히 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있나"를 보는 것이 아니라, **누가 운전석에 앉는가**까지 포함한 문제다.
+Driving Table과 Driven Table의 구분도 여기서 중요해진다. 같은 SQL이라도 어떤 테이블을 먼저 읽느냐에 따라 반복 횟수가 바뀌기 때문이다. 즉 NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 튜닝은 단순히 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있나"를 보는 것이 아니라, <strong>누가 운전석에 앉는가</strong>까지 포함한 문제다.
 
 - **📢 섹션 요약 비유**: 사람 3명을 집집마다 태우는 셔틀은 편하지만, 운동장에 있는 3만 명을 같은 방식으로 태우면 큰 혼잡이 난다. NL Join도 승객 수가 적을 때는 민첩하지만 많아지면 방식 자체를 바꿔야 한다.
 
@@ -106,24 +108,27 @@ Driving Table과 Driven Table의 구분도 여기서 중요해진다. 같은 SQL
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 NL Join이 가장 설득력 있는 장면은 **강하게 선별된 화면 조회**다. 예를 들어 주문 상세 화면에서 `order_id` 로 주문 1건을 찾고, 그 주문의 회원, 배송, 결제 정보를 붙일 때는 NL Join이 매우 자연스럽다. 주문 1건이 Driving Table이 되고, 각 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 테이블은 기본키 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 즉시 탐색되므로 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 짧고 메모리 부담도 작다.
+실무에서 NL Join이 가장 설득력 있는 장면은 <strong>강하게 선별된 화면 조회</strong>다. 예를 들어 주문 상세 화면에서 `order_id` 로 주문 1건을 찾고, 그 주문의 회원, 배송, 결제 정보를 붙일 때는 NL Join이 매우 자연스럽다. 주문 1건이 Driving Table이 되고, 각 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 테이블은 기본키 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 즉시 탐색되므로 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 짧고 메모리 부담도 작다.
 
 반대로 월말 정산처럼 수천만 건의 주문 이력과 수천만 건의 결제 이력을 대량 결합하는 배치에서는 NL Join을 기본 후보로 보기 어렵다. 이 경우 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있더라도 반복 탐색 횟수 자체가 너무 많아 랜덤 I/O 누적 비용이 커진다. 대량 집합에서는 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)이나 정렬 병합 조인이 더 안정적인 경우가 많다.
 
 아래 결정 흐름은 NL Join을 현실적으로 검토하는 순서를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 When is NL Join a realistic choice?                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ outer rows after filter small?                                       │
-│        ├─ no  -> consider Hash Join / Sort Merge Join                │
-│        └─ yes                                                         │
-│             inner access path indexed?                               │
-│                 ├─ no  -> repeated scan risk                         │
-│                 └─ yes -> NL Join strong candidate                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When is NL Join a realistic choice?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">outer rows after filter small?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; consider Hash Join / Sort Merge Join</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">inner access path indexed?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; repeated scan risk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; NL Join strong candidate</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -139,7 +144,7 @@ Driving Table과 Driven Table의 구분도 여기서 중요해진다. 같은 SQL
 - 후행 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 있지만 Driving Table 결과가 이미 대량인데도 그대로 밀어붙이는 경우
 - 통계 오류로 작은 집합처럼 보이게 만들어 잘못된 NL [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 계획을 유도하는 경우
 
-결국 NL Join의 의사결정은 구조가 아니라 **입력 크기와 액세스 경로의 현실성**을 묻는 일이다. 작은 조회에서는 칼처럼 빠르지만, 대량 결합에서는 오히려 가장 비싼 선택이 될 수 있다.
+결국 NL Join의 의사결정은 구조가 아니라 <strong>입력 크기와 액세스 경로의 현실성</strong>을 묻는 일이다. 작은 조회에서는 칼처럼 빠르지만, 대량 결합에서는 오히려 가장 비싼 선택이 될 수 있다.
 
 - **📢 섹션 요약 비유**: 손님 두세 명이면 점원이 직접 창고에 다녀오는 게 빠르지만, 백화점 세일처럼 손님이 몰리면 창고 왕복보다 컨베이어 시스템이 필요하다. NL Join은 소량 주문 처리에는 강하지만 군중 처리에는 맞춤형 무기가 아니다.
 
@@ -151,7 +156,7 @@ NL Join을 올바르게 사용하면 준비 비용이 낮고, 메모리 사용�
 
 하지만 한계도 분명하다. 외부 결과가 커지면 후행 탐색이 기하급수적으로 늘고, 랜덤 I/O가 병목이 된다. 최근 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 배치 키 액세스, 버퍼 재사용, 프리페치 같은 최적화를 추가하지만, "작은 외부 집합을 기반으로 반복 탐색한다"는 본질은 바뀌지 않는다.
 
-따라서 NL Join은 "가장 기본적인 조인"이 아니라, **작은 선행 집합 + 싼 후행 탐색**이라는 조건이 맞을 때 가장 강한 조인이라고 기억하는 것이 정확하다. 이름을 외우는 것보다 비용 구조를 이해하는 것이 튜닝 판단에 더 중요하다.
+따라서 NL Join은 "가장 기본적인 조인"이 아니라, <strong>작은 선행 집합 + 싼 후행 탐색</strong>이라는 조건이 맞을 때 가장 강한 조인이라고 기억하는 것이 정확하다. 이름을 외우는 것보다 비용 구조를 이해하는 것이 튜닝 판단에 더 중요하다.
 
 - **📢 섹션 요약 비유**: 가까운 편의점 한두 군데를 들를 때는 도보가 가장 효율적이지만, 도시 전체를 순회해야 한다면 지하철 노선을 써야 한다. NL Join도 범위가 작을 때 빛나고, 범위가 커지면 다른 교통수단이 필요하다.
 
@@ -171,21 +176,23 @@ NL Join을 올바르게 사용하면 준비 비용이 낮고, 메모리 사용�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Logical Join
-    │
-    ▼
-Filter Selectivity / Cardinality Estimate
-    │
-    ▼
-Driving Table Selection
-    │
-    ▼
-Indexed Probe on Driven Table
-    │
-    ├─ efficient repeated lookup -> NL Join fit
-    └─ excessive repeated I/O    -> Hash / Sort Merge reconsider
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Logical Join</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Filter Selectivity / Cardinality Estimate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Driving Table Selection</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Indexed Probe on Driven Table</div>
+<div class="kb-diagram-tree-item" style="--depth:2">efficient repeated lookup -&gt; NL Join fit</div>
+<div class="kb-diagram-tree-item" style="--depth:2">excessive repeated I/O -&gt; Hash / Sort Merge reconsider</div>
+</div>
+</div>
+
+
 
 이 흐름은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조인이 작은 외부 집합과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 액세스 조건을 만나 물리적으로 NL Join으로 구체화되는 과정을 보여 준다.
 

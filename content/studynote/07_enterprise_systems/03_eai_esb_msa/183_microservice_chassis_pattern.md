@@ -11,7 +11,7 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시 ([Microservice Chassis](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/141_microservice_chassis/))는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 로깅, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 바인딩, 헬스 체크 같은 횡단 관심사를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드 안의 공통 프레임워크로 묶어 주는 **인프로세스 표준 뼈대**다.
+> 1. **본질**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시 ([Microservice Chassis](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/141_microservice_chassis/))는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 로깅, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 바인딩, 헬스 체크 같은 횡단 관심사를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드 안의 공통 프레임워크로 묶어 주는 <strong>인프로세스 표준 뼈대</strong>다.
 > 2. **가치**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 반복되던 보일러플레이트를 줄이고 운영 표준을 강제해, 새로운 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 더 빨리 띄우면서도 관측성·보안·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 방식의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 확보할 수 있다.
 > 3. **판단 포인트**: 애플리케이션 코드와 강하게 결합된 공통 기능에는 적합하지만, 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이나 언어 독립성이 더 중요한 기능까지 모두 샤시에 넣으면 무거운 플랫폼 락인과 업그레이드 비용만 커진다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 공통으로 가져야 할 비기능 코드를 하나의 재사용 가능한 뼈대로 제공하는 패턴이다. 자동차의 샤시가 엔진과 바퀴가 올라갈 공통 기반을 제공하듯, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 뜨기 위해 필요한 로깅, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 예외 처리, 헬스 체크, 추적 연동 같은 기본 구조를 미리 넣어 둔다. 핵심은 "템플릿 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사"가 아니라 **운영 표준이 포함된 코드 기반**이라는 점이다.
+[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 공통으로 가져야 할 비기능 코드를 하나의 재사용 가능한 뼈대로 제공하는 패턴이다. 자동차의 샤시가 엔진과 바퀴가 올라갈 공통 기반을 제공하듯, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 뜨기 위해 필요한 로깅, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 예외 처리, 헬스 체크, 추적 연동 같은 기본 구조를 미리 넣어 둔다. 핵심은 "템플릿 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사"가 아니라 <strong>운영 표준이 포함된 코드 기반</strong>이라는 점이다.
 
 이 패턴이 필요한 이유는 MSA가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수를 늘리기 때문이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 5개일 때는 각 팀이 공통 기능을 직접 넣어도 버틸 수 있지만, 수십·수백 개로 늘어나면 팀마다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 포맷과 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 이름, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 로딩 방식이 달라져 운영 복잡도가 폭발한다. 비즈니스 기능은 작아졌는데, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작을 위한 준비 코드가 오히려 더 비슷하게 반복되는 상황이 생긴다.
 
@@ -27,19 +27,21 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 샤시가 왜 "중복 제거 이상의 의미"를 가지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Without chassis vs with chassis                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Service A : biz + log + trace + config + health                   │
-│ Service B : biz + log + trace + config + health                   │
-│ Service C : biz + log + trace + config + health                   │
-│                                                                    │
-│ With chassis :                                                     │
-│   shared chassis -> log / metrics / tracing / config / health     │
-│   each service  -> business capability only                       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without chassis vs with chassis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A : biz + log + trace + config + health</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service B : biz + log + trace + config + health</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service C : biz + log + trace + config + health</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With chassis :</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared chassis -&gt; log / metrics / tracing / config / health</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">each service -&gt; business capability only</div></div>
+</div>
+</div>
+
+
 
 이 구조의 가치는 단순한 코드 절감이 아니다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들 때마다 같은 방식으로 관측과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 기본 보안을 확보할 수 있으므로, 운영팀 입장에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘어도 관리 방식이 크게 흔들리지 않는다.
 
@@ -51,24 +53,23 @@ tags = ["studynote-enterprise"]
 
 샤시는 보통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 스타터 패키지, 내부 프레임워크 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 안에 포함된다. 그래서 요청 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), 예외, 애플리케이션 생명주기에 직접 접근할 수 있다. 이 점이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)나 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)처럼 프로세스 밖에서 동작하는 방식과 가장 크게 다른 부분이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ In-process composition of a chassis                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Business endpoint / domain logic                                  │
-│        │                                                          │
-│        ▼                                                          │
-│ Chassis layer                                                     │
-│   ├─ bootstrapping & dependency wiring                            │
-│   ├─ structured logging / metrics / trace context                 │
-│   ├─ config binding / secrets integration                         │
-│   ├─ resilience policy / client wrapper                           │
-│   └─ health check / graceful shutdown                             │
-│        │                                                          │
-│        ▼                                                          │
-│ Language runtime + framework + platform SDK                       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In-process composition of a chassis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business endpoint / domain logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chassis layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bootstrapping &amp; dependency wiring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ structured logging / metrics / trace context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ config binding / secrets integration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ resilience policy / client wrapper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ health check / graceful shutdown</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Language runtime + framework + platform SDK</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -79,7 +80,7 @@ tags = ["studynote-enterprise"]
 | 보안/[컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 파싱, 공통 헤더 처리, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 연결 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 섞지 않고 공통 규약만 제공해야 함 |
 | 테스트 지원 | 기본 테스트 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/), [목 객체](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/), 헬스 체크 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 샤시 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 쉽게 만들어야 함 |
 
-대표 형태로는 Spring Boot Starter, Micronaut 기반 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), Go [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)용 내부 툴킷이 있다. 중요한 것은 특정 프레임워크 이름이 아니라, 샤시가 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 반복되는 인프라 접합 코드를 재사용 가능한 계약으로 바꾼다**는 점이다.
+대표 형태로는 Spring Boot Starter, Micronaut 기반 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), Go [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)용 내부 툴킷이 있다. 중요한 것은 특정 프레임워크 이름이 아니라, 샤시가 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>마다 반복되는 인프라 접합 코드를 재사용 가능한 계약으로 바꾼다</strong>는 점이다.
 
 다만 샤시는 어디까지나 인프로세스 방식이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드와 같은 프로세스 안에 있으므로 프레임워크 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 런타임, 예외 체계의 영향을 받는다. 이 덕분에 깊은 통합이 가능하지만, 동시에 언어별로 별도 샤시가 필요하거나 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 관리가 어려워질 수 있다.
 
@@ -114,25 +115,24 @@ tags = ["studynote-enterprise"]
 
 아래 흐름은 어떤 공통 기능을 샤시에 둘지 판단하는 기준을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Decide where a common concern should live                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Need request context / exception / framework hook?                │
-│        ├─ Yes ─▶ Chassis                                           │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Is it mostly network policy or traffic control?                   │
-│        ├─ Yes ─▶ Sidecar / Service Mesh                           │
-│        └─ No                                                      │
-│             │                                                     │
-│             ▼                                                     │
-│ Is it only for project creation once?                             │
-│        ├─ Yes ─▶ Template / Scaffold                              │
-│        └─ No  ─▶ Reconsider platform boundary                     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decide where a common concern should live</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need request context / exception / framework hook?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Chassis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it mostly network policy or traffic control?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Sidecar / Service Mesh</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it only for project creation once?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Template / Scaffold</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ Reconsider platform boundary</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -149,7 +149,7 @@ tags = ["studynote-enterprise"]
 - 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 너무 많아 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 동작 원리를 이해하지 못하는 경우
 - 작은 변경에도 전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 동시 업그레이드를 요구해 배포 병목을 만드는 경우
 
-기술사 답안에서는 "공통 프레임워크"라는 표현만으로는 부족하다. **인프로세스 표준화의 장점, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)·[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와의 역할 분담, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 락인 위험**까지 함께 설명해야 실제 플랫폼 설계 논의가 된다.
+기술사 답안에서는 "공통 프레임워크"라는 표현만으로는 부족하다. <strong>인프로세스 표준화의 장점, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>·<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>와의 역할 분담, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리와 락인 위험</strong>까지 함께 설명해야 실제 플랫폼 설계 논의가 된다.
 
 - **📢 섹션 요약 비유**: 학교에서 모든 교실에 같은 전기 규격과 방송 설비를 넣어 두면 운영은 쉬워지지만, 교실마다 필요 없는 장비까지 억지로 깔면 공간만 좁아진다. 샤시도 필요한 공통 설비만 얇게 넣을수록 오래 간다.
 
@@ -161,7 +161,7 @@ tags = ["studynote-enterprise"]
 
 하지만 한계도 분명하다. 특정 프레임워크와 언어에 깊게 결합되므로 다언어 조직에서는 여러 샤시를 유지해야 할 수 있고, 잘못 설계하면 플랫폼 의존성과 업그레이드 비용이 커진다. 그래서 최근에는 "얇은 샤시 + 외부 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) + [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)/[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)"처럼 역할을 나누는 하이브리드 접근이 많다.
 
-결론적으로 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빨리 만드는 템플릿"을 넘어, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 안쪽에서 공통 운영 규약을 실행시키는 표준 뼈대**로 기억하는 것이 맞다. 코드 내부와 강하게 결합된 횡단 관심사를 안정적으로 반복해야 할 때 가장 큰 힘을 발휘한다.
+결론적으로 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 샤시는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빨리 만드는 템플릿"을 넘어, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 안쪽에서 공통 운영 규약을 실행시키는 표준 뼈대</strong>로 기억하는 것이 맞다. 코드 내부와 강하게 결합된 횡단 관심사를 안정적으로 반복해야 할 때 가장 큰 힘을 발휘한다.
 
 - **📢 섹션 요약 비유**: 잘 만든 운동화 브랜드는 겉모양이 달라도 밑창과 충격 흡수 구조는 공통 플랫폼을 쓴다. 그래야 신발마다 디자인은 달라도 기본 착화감과 품질은 흔들리지 않는다.
 
@@ -181,20 +181,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서비스 수 증가
-      │
-      ▼
-보일러플레이트 중복 · 운영 표준 불일치
-      │
-      ▼
-마이크로서비스 샤시 (Microservice Chassis)
-      │
-      ├──────────────► 로깅 · 메트릭 · 분산 추적 표준화
-      ├──────────────► 설정 · 헬스 체크 · 예외 처리 공통화
-      ├──────────────► 서비스 부트스트랩 단축
-      └──────────────► 사이드카 · 서비스 메시와 역할 분담
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 수 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보일러플레이트 중복 · 운영 표준 불일치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로서비스 샤시 (Microservice Chassis)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">로깅 · 메트릭 · 분산 추적 표준화</div>
+<div class="kb-diagram-tree-item" style="--depth:3">설정 · 헬스 체크 · 예외 처리 공통화</div>
+<div class="kb-diagram-tree-item" style="--depth:3">서비스 부트스트랩 단축</div>
+<div class="kb-diagram-tree-item" style="--depth:3">사이드카 · 서비스 메시와 역할 분담</div>
+</div>
+</div>
+
+
 
 이 흐름은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수 증가가 공통 코드 표준화를 요구하고, 이후에는 샤시와 외부 플랫폼을 조합하는 방향으로 성숙해 가는 과정을 보여 준다.
 

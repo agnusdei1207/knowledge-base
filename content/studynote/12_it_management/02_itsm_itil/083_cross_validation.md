@@ -119,18 +119,20 @@ Stratified K-Fold는 클래스 비율을 각 폴드에 비슷하게 유지하는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Hold-out
-    │
-    ▼
-K-Fold Cross Validation
-    │
-    ├──────────────▶ Stratified K-Fold
-    │
-    ├──────────────▶ LOOCV (Leave-One-Out Cross Validation)
-    │
-    └──────────────▶ TimeSeriesSplit
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hold-out</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">K-Fold Cross Validation</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Stratified K-Fold</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ LOOCV (Leave-One-Out Cross Validation)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ TimeSeriesSplit</div>
+</div>
+</div>
+
+
 
 이 흐름은 "빠른 단일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성별 정교한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 발전하는 과정을 보여준다.
 

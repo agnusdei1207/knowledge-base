@@ -11,26 +11,29 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시간 순서대로 하나씩 처리하면서 이전 시점의 정보를 **은닉 상태 (Hidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), h_t)**라는 내부 메모리에 담아 다음 시점으로 전달하는 시계열 전용 신경망이다.
+> 1. **본질**: [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시간 순서대로 하나씩 처리하면서 이전 시점의 정보를 <strong>은닉 상태 (Hidden <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>, h_t)</strong>라는 내부 메모리에 담아 다음 시점으로 전달하는 시계열 전용 신경망이다.
 > 2. **가치**: 문장의 단어, 주가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 음성 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처럼 "순서가 의미를 만드는" 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해 설계되었으며, 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 모든 시점에 재사용하는 **파라미터 공유** 구조로 가변 길이 입력을 처리한다.
-> 3. **판단 포인트**: RNN의 치명적 단점은 시퀀스가 길어질수록 과거 정보가 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))로 증발하는 **[장기 의존성 문제](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)**이며, 이를 해결하기 위해 LSTM과 GRU가 등장했다.
+> 3. **판단 포인트**: RNN의 치명적 단점은 시퀀스가 길어질수록 과거 정보가 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/))로 증발하는 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/">장기 의존성 문제</a></strong>이며, 이를 해결하기 위해 LSTM과 GRU가 등장했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기존 완전연결층(Fully Connected Layer)과 CNN은 입력의 순서에 무감각하다. "오늘 주식 가격이 올랐다"는 문장을 처리할 때, 단어를 뒤죽박죽 섞어도 같은 결과를 낸다면 번역 시스템은 쓸모없어진다. 언어, 음성, 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 **앞 순서가 뒤 순서의 의미를 결정하는 Sequential [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 처리하려면 순서 기억 메커니즘이 필수다.
+기존 완전연결층(Fully Connected Layer)과 CNN은 입력의 순서에 무감각하다. "오늘 주식 가격이 올랐다"는 문장을 처리할 때, 단어를 뒤죽박죽 섞어도 같은 결과를 낸다면 번역 시스템은 쓸모없어진다. 언어, 음성, 센서 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 <strong>앞 순서가 뒤 순서의 의미를 결정하는 Sequential <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 처리하려면 순서 기억 메커니즘이 필수다.
 
-**[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) ([Recurrent Neural Network](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))**은 네트워크에 루프(Loop)를 도입하여 이전 시점의 출력(은닉 상태)을 현재 시점 입력과 함께 받아들인다. 덕분에 "어제의 정보 + 오늘의 입력 → 오늘의 판단"이라는 인과 연쇄가 수학적으로 구현된다.
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">Recurrent Neural Network</a>)</strong>은 네트워크에 루프(Loop)를 도입하여 이전 시점의 출력(은닉 상태)을 현재 시점 입력과 함께 받아들인다. 덕분에 "어제의 정보 + 오늘의 입력 → 오늘의 판단"이라는 인과 연쇄가 수학적으로 구현된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: RNN은 선생님이 매일 일기(오늘 배운 것)를 쓰는데, 어제 일기장을 오늘도 펼쳐 놓고 참고하며 새로운 내용을 덧붙이는 방식이다. CNN은 오직 오늘 교과서만 본다. RNN은 어제까지의 기억(은닉 상태)을 들고 수업에 참석하는 연속성 있는 학생이다.
 
@@ -40,27 +43,25 @@ tags = ["studynote-ai"]
 
 RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 상태 h_(t-1)과 현재 입력 x_t의 함수다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            RNN (순환 신경망) 시간 전개 구조                         │
-├──────────────────────────────────────────────────────────────┤
-│  입력 시퀀스: x_1 = "나", x_2 = "는", x_3 = "학교", x_4 = "간다"   │
-│                                                              │
-│  t=1           t=2           t=3           t=4              │
-│  [x_1]──┐    [x_2]──┐    [x_3]──┐    [x_4]──┐             │
-│          ▼           ▼           ▼           ▼             │
-│  [h_0]──▶[RNN셀]──▶[RNN셀]──▶[RNN셀]──▶[RNN셀]──▶ y_4      │
-│          │  h_1      │  h_2      │  h_3      │             │
-│          ▼           ▼           ▼           ▼             │
-│         y_1         y_2         y_3         출력            │
-│                                                              │
-│  핵심 수식:  h_t = tanh(W_h · h_(t-1) + W_x · x_t + b)       │
-│  [동일한 가중치 W_h, W_x 를 모든 시점에서 공유!]                    │
-│                                                              │
-│  ⚠ 문제: t=4에서 t=1 "나"의 정보가 h_1→h_2→h_3→h_4 로 전달되는    │
-│          동안 곱해지는 tanh 미분값 (≤1)이 4번 곱해짐 → 신호 소멸!   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN (순환 신경망) 시간 전개 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 시퀀스: x_1 = "나", x_2 = "는", x_3 = "학교", x_4 = "간다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=1 t=2 t=3 t=4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">x_1</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_2</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_3</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_4</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">h_0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">y_4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1</div><div class="kb-diagram-cell">h_2</div><div class="kb-diagram-cell">h_3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_1 y_2 y_3 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 수식: h_t = tanh(W_h · h_(t-1) + W_x · x_t + b)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동일한 가중치 W_h, W_x 를 모든 시점에서 공유!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제: t=4에서 t=1 "나"의 정보가 h_1→h_2→h_3→h_4 로 전달되는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동안 곱해지는 tanh 미분값 (≤1)이 4번 곱해짐 → 신호 소멸!</div></div>
+</div>
+</div>
+
+
 
 | 구조 | 설명 | 활용 예 |
 |:---|:---|:---|
@@ -124,9 +125,9 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 일반 신경망이 "오늘 날씨만 보고 내일을 예측"한다면, **[RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)([순환 신경망](/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/))**은 **"오늘까지 1주일 날씨 기록을 다 기억하면서"** 내일을 예측하는 더 똑똑한 신경망이에요!
-2. 문장에서 "나는 학교에 **간다**"를 이해하려면 앞에 "나는"이 있다는 걸 기억해야 하는데, RNN은 **앞 단어를 메모(은닉 상태)**해두면서 뒤를 읽어요.
-3. 하지만 아주 긴 소설을 읽으면 **맨 처음 문장이 뭐였는지 까먹어버리는 문제**가 있어서, 더 좋은 LSTM이 그 문제를 해결하러 나왔어요!
+1. 일반 신경망이 "오늘 날씨만 보고 내일을 예측"한다면, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/111_rnn_recurrent_neural_network_sequential_data/">순환 신경망</a>)</strong>은 **"오늘까지 1주일 날씨 기록을 다 기억하면서"** 내일을 예측하는 더 똑똑한 신경망이에요!
+2. 문장에서 "나는 학교에 **간다**"를 이해하려면 앞에 "나는"이 있다는 걸 기억해야 하는데, RNN은 <strong>앞 단어를 메모(은닉 상태)</strong>해두면서 뒤를 읽어요.
+3. 하지만 아주 긴 소설을 읽으면 <strong>맨 처음 문장이 뭐였는지 까먹어버리는 문제</strong>가 있어서, 더 좋은 LSTM이 그 문제를 해결하러 나왔어요!
 
 ---
 

@@ -20,20 +20,22 @@ tags = ["studynote-database"]
 
 DBA는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 운영·유지보수까지 전 생명주기를 책임지는 역할이다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             DBA 핵심 책임 영역                           │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  설치·구성   │ DB 엔진 설치, 파라미터 최적화               │
-│  스키마 설계 │ 테이블·인덱스·파티셔닝 설계                 │
-│  성능 튜닝   │ 쿼리 최적화, 인덱스 관리, 실행 계획 분석     │
-│  백업·복구   │ RTO/RPO 기반 백업 전략, DR 구성             │
-│  보안 관리   │ 접근 제어, 감사 로그, 암호화                 │
-│  가용성      │ HA 구성 (RAC, Always On, Replication)       │
-│  용량 계획   │ 성장 예측, 스토리지 확장 계획                │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBA 핵심 책임 영역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설치·구성</div><div class="kb-diagram-cell">DB 엔진 설치, 파라미터 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 설계</div><div class="kb-diagram-cell">테이블·인덱스·파티셔닝 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 튜닝</div><div class="kb-diagram-cell">쿼리 최적화, 인덱스 관리, 실행 계획 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백업·복구</div><div class="kb-diagram-cell">RTO/RPO 기반 백업 전략, DR 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 관리</div><div class="kb-diagram-cell">접근 제어, 감사 로그, 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성</div><div class="kb-diagram-cell">HA 구성 (RAC, Always On, Replication)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량 계획</div><div class="kb-diagram-cell">성장 예측, 스토리지 확장 계획</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DBA는 병원 의사다. 환자(DB)가 아프면([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하) 진단하고([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석), 처방하고([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가), 예방 접종(정기 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))하고, 응급 처치(장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하는 모든 역할을 담당한다.
 
@@ -43,30 +45,32 @@ DBA는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architec
 
 ### DBA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 프로세스
 
-```text
-[성능 문제 감지] — APM, 쿼리 실행 시간 모니터링
-       │
-       ▼
-[실행 계획 분석] — EXPLAIN PLAN, AWR (Oracle), DMV (SQL Server)
-       │
-       ▼
-[병목 식별] — Full Table Scan? Index Missing? Locking?
-       │
-       ▼
-[튜닝 조치] — 인덱스 생성/재구성, 쿼리 리라이트, 파라미터 조정
-       │
-       ▼
-[효과 검증] — 실행 시간 재측정, 실행 계획 재확인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">성능 문제 감지</div><div class="kb-diagram-note">— APM, 쿼리 실행 시간 모니터링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 계획 분석</div><div class="kb-diagram-note">— EXPLAIN PLAN, AWR (Oracle), DMV (SQL Server)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">병목 식별</div><div class="kb-diagram-note">— Full Table Scan? Index Missing? Locking?</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">튜닝 조치</div><div class="kb-diagram-note">— 인덱스 생성/재구성, 쿼리 리라이트, 파라미터 조정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">효과 검증</div><div class="kb-diagram-note">— 실행 시간 재측정, 실행 계획 재확인</div></div>
+</div>
+</div>
+
+
 
 ### [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 유형 | 빈도 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 | [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) |
 |:---|:---|:---|:---|
-| **전체 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (Full)** | 주 1회 | 장시간 | 최대 1주 |
-| **차등 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (Differential)** | 일 1회 | 중간 | 최대 1일 |
-| **[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) (Log)** | 매 15분 | 짧음 | 최대 15분 |
-| **실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))** | 실시간 | 즉시 (HA 페일오버) | 수 초 |
+| <strong>전체 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> (Full)</strong> | 주 1회 | 장시간 | 최대 1주 |
+| <strong>차등 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> (Differential)</strong> | 일 1회 | 중간 | 최대 1일 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> (Log)</strong> | 매 15분 | 짧음 | 최대 15분 |
+| <strong>실시간 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a>)</strong> | 실시간 | 즉시 (HA 페일오버) | 수 초 |
 
 - **📢 섹션 요약 비유**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 생명보험 플랜이다. Full [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 1년 만기 보험(주기 길고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 많이 필요), Log [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)은 실손 보험(매달 소액으로 최신 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능). 중요할수록 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기를 줄여야 한다.
 
@@ -77,7 +81,7 @@ DBA는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architec
 | 역할 | DBA | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍트 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 |
 |:---|:---|:---|:---|
 | **주요 책임** | DB 운영·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)·거버넌스 설계 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인·[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 구현 |
-| **기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)** | [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL, SQL Server | ERD, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | Spark, Airflow, dbt |
+| <strong>기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong> | [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), PostgreSQL, SQL Server | ERD, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | Spark, Airflow, dbt |
 | **시간 지평** | 현재 운영 | 중장기 아키텍처 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 자동화 |
 
 클라우드 DBA(Cloud DBA)는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) DBA 역할 외에 DBaaS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구성·비용 최적화·클라우드 마이그레이션 계획을 담당한다.
@@ -114,8 +118,8 @@ CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 튜닝으로 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안전성** | [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화</strong> | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 튜닝으로 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 안전성</strong> | [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **고가용성** | HA 구성으로 다운타임 최소화 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 기반 자율 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(Autonomous [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), Google AlloyDB)가 DBA 역할의 일부([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추천, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화, 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/))를 자동화하고 있으나, [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 설계와 비즈니스 맥락을 이해하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 DBA 역할은 여전히 필수다.
@@ -128,29 +132,31 @@ CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))** | DBA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단의 핵심 도구 |
-| **[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)** | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 설계의 기준 |
-| **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계** | DBA 튜닝의 가장 중요한 수단 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">Execution Plan</a>)</strong> | DBA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 진단의 핵심 도구 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a></strong> | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 설계의 기준 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 설계</strong> | DBA 튜닝의 가장 중요한 수단 |
 | **DBaaS** | 클라우드 환경에서 DBA 역할 변화 |
-| **자율 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 DBA 자동화 미래 방향 |
+| <strong>자율 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 DBA 자동화 미래 방향 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 DBA — 온프레미스 DB 설치·운영·튜닝]
-    │
-    ▼
-[성능 최적화 전문화 — 실행 계획, 인덱스, 파티셔닝]
-    │
-    ▼
-[클라우드 DBA — DBaaS 구성, 마이그레이션, 비용 최적화]
-    │
-    ▼
-[데이터 아키텍트 전환 — 거버넌스, 메타데이터, 설계]
-    │
-    ▼
-[AI 자율 DBA — 자동 인덱스 추천, 자동 쿼리 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 DBA — 온프레미스 DB 설치·운영·튜닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">성능 최적화 전문화 — 실행 계획, 인덱스, 파티셔닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 DBA — DBaaS 구성, 마이그레이션, 비용 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 아키텍트 전환 — 거버넌스, 메타데이터, 설계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자율 DBA — 자동 인덱스 추천, 자동 쿼리 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

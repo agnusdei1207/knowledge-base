@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 두 방법의 철학적 차이: SMT는 "번역을 통계 문제로 분해", NMT는 "번역을 표현 학습 문제로 통합"이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SMT는 "단어 사전 + 문법책 + 용례집을 수작업으로 조합", NMT는 "번역 예시를 대량으로 보고 패턴을 스스로 학습"하는 것이다.
 
@@ -56,29 +59,36 @@ hᵢ(e, f): 특성 함수 (번역 모델, 언어 모델, 리오더링 모델 등
 
 ### NMT 구조 발전
 
-```
-2014 (Seq2Seq + Attention):
-  인코더: RNN/LSTM → 컨텍스트 벡터
-  디코더: RNN/LSTM → 번역 생성
-  어텐션: 소스 각 위치 가중합
 
-2017 (Transformer):
-  인코더: Multi-Head Self-Attention + FFN × N
-  디코더: Masked Attention + Cross-Attention + FFN × N
-  포지셔널 인코딩 + 잔차 연결 + 레이어 정규화
-```
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  SMT vs NMT 파이프라인                                   │
-│                                                          │
-│  SMT:  입력 → 형태소 분석 → 구절 테이블 조회 →           │
-│        리오더링 → 언어 모델 스코어링 → 번역 선택          │
-│                                                          │
-│  NMT:  입력 → 토크나이저 → 인코더 →                      │
-│        디코더 (어텐션 + 자기 회귀) → 번역 출력            │
-└──────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">2014 (Seq2Seq + Attention):</div>
+<div class="kb-diagram-note">인코더: RNN/LSTM → 컨텍스트 벡터</div>
+<div class="kb-diagram-note">디코더: RNN/LSTM → 번역 생성</div>
+<div class="kb-diagram-note">어텐션: 소스 각 위치 가중합</div>
+<div class="kb-diagram-note">2017 (Transformer):</div>
+<div class="kb-diagram-note">인코더: Multi-Head Self-Attention + FFN × N</div>
+<div class="kb-diagram-note">디코더: Masked Attention + Cross-Attention + FFN × N</div>
+<div class="kb-diagram-note">포지셔널 인코딩 + 잔차 연결 + 레이어 정규화</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMT vs NMT 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMT: 입력 → 형태소 분석 → 구절 테이블 조회 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리오더링 → 언어 모델 스코어링 → 번역 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NMT: 입력 → 토크나이저 → 인코더 →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더 (어텐션 + 자기 회귀) → 번역 출력</div></div>
+</div>
+</div>
+
+
 
 | 비교 항목 | [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) | NMT |
 |:---|:---|:---|
@@ -106,7 +116,7 @@ pₙ: n-gram 정밀도
 
 [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) → NMT 전환에서 BLEU 20~30→30~45점 향상이 일반적
 
-**[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 시대의 번역**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude는 별도 번역 모델 없이 번역 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 수행 가능. 저자원 언어에서는 여전히 전용 NMT 시스템이 경쟁력 있음.
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 시대의 번역</strong>: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Claude는 별도 번역 모델 없이 번역 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 수행 가능. 저자원 언어에서는 여전히 전용 NMT 시스템이 경쟁력 있음.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -120,7 +130,7 @@ pₙ: n-gram 정밀도
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 번역**: 의료/법률 용어가 중요한 경우 → 전문 코퍼스로 NMT 파인튜닝
+<strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화 번역</strong>: 의료/법률 용어가 중요한 경우 → 전문 코퍼스로 NMT 파인튜닝
 **저자원 언어**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코퍼스가 적은 언어 → 교차 언어 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/), mBART, mT5
 **실시간 번역**: [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 중요 → 소형 NMT 모델 + [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)
 

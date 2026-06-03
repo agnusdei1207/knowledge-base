@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 프레임 헤더에 존재하는 10비트 길이의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 필드. 어떤 가상 회선([PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/)/SVC)을 타고 데이터가 흘러야 하는지 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 알려주는 목적지 번호다.
 - **필요성**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(LAN) 세상에서는 A 컴퓨터에서 B 컴퓨터로 보낼 때 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 편지 봉투에 적는다. 하지만 라우터를 넘어 통신사의 거대한 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 클라우드(WAN)로 들어가면, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 아무런 쓸모가 없다. 수십 개의 가상 터널(Virtual Circuit)이 뚫려 있는 구름 속에서, 내 데이터가 부산 지사 터널로 들어가야 할지 광주 지사 터널로 들어가야 할지 구별해 줄 새로운 꼬리표 번호가 필요했다.
 
-- **💡 비유**: DLCI는 거대한 지하철 환승역의 **"출구 번호"**와 같습니다. 인터넷 패킷(승객)이 역(라우터)에 도착하면, "너는 1번 출구(DLCI 101)로 나가면 부산지사로 가고, 너는 2번 출구(DLCI 102)로 나가면 광주지사로 간다!"라고 길을 갈라주는 안내판 번호입니다.
+- **💡 비유**: DLCI는 거대한 지하철 환승역의 <strong>"출구 번호"</strong>와 같습니다. 인터넷 패킷(승객)이 역(라우터)에 도착하면, "너는 1번 출구(DLCI 101)로 나가면 부산지사로 가고, 너는 2번 출구(DLCI 102)로 나가면 광주지사로 간다!"라고 길을 갈라주는 안내판 번호입니다.
 
-```text
-[PVC / SVC]
-    │
-    ▼
-[DLCI]
-    │
-    └──▶ [CIR / FECN, BECN 혼잡 알림]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PVC / SVC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLCI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CIR / FECN, BECN 혼잡 알림</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** DLCI는 은행 콜센터 ARS 번호와 같습니다. **"1번(DLCI 101)을 누르시면 예금 조회(부산), 2번(DLCI 102)을 누르시면 대출 상담(광주)으로 연결됩니다"**라며 하나의 전화선([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에서 논리적으로 부서를 쪼개주는 마법의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자입니다.
 
@@ -42,35 +46,33 @@ tags = ["studynote-network"]
 ### 1. 전역적(Global)이 아닌 국지적(Local) 의미
 DLCI의 가장 큰 헷갈림 포인트는 "출발지 번호와 도착지 번호가 다를 수 있다"는 점이다.
 IP 주소는 서울에서 부산까지 192.168.1.1이라는 값이 평생 변하지 않는다(Global). 
-하지만 **DLCI는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이의 구간(Hop)을 지날 때마다 계속 바뀐다**.
+하지만 <strong>DLCI는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 사이의 구간(Hop)을 지날 때마다 계속 바뀐다</strong>.
 
 - 서울 본사가 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 계약할 때 "DLCI 100번으로 넣으면 부산으로 가요"라고 세팅을 받았다.
 - 본사는 패킷 헤더에 DLCI 100을 박아서 통신사 구름으로 밀어 넣는다.
 - 구름 내부의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 지들끼리 테이블을 보고 막 스위칭을 하다가, 부산 지사 라우터와 직접 연결된 마지막 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 도달한다.
 - 이때 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 부산 라우터 사이의 계약 번호는 DLCI 200번일 수 있다. 그럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 DLCI를 200으로 바꿔서 부산 라우터에 던져준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 DLCI의 로컬 식별성 (Local Significance)       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서울 본사 ]                                  [ 부산 지사 ]  │
- │        │                                             ▲      │
- │        │ (여긴 DLCI 100번 길)           (여긴 DLCI 200번 길) │
- │        ▼                                             │      │
- │   ┌───────────┐    망 내부에서 번호 변환    ┌───────────┐ │
- │   │ ISP 스위치 A│ ──── (DLCI 333) ────▶ │ ISP 스위치 B│ │
- │   └───────────┘                        └───────────┘ │
- │                                                             │
- │   * 서울 입장: "난 100번 터널로 보냈어."                          │
- │   * 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."              │
- │   ▶ 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLCI의 로컬 식별성 (Local Significance)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서울 본사</div><div class="kb-diagram-node">부산 지사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(여긴 DLCI 100번 길) (여긴 DLCI 200번 길)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망 내부에서 번호 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP 스위치 A</div><div class="kb-diagram-cell">(DLCI 333) ▶</div><div class="kb-diagram-cell">ISP 스위치 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 서울 입장: "난 100번 터널로 보냈어."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.</div></div>
+</div>
+</div>
+
+
 
 ### 2. Inverse [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) (인버스 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))
 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 라우터는 자기가 100번, 101번이라는 DLCI(가상 터널 입구)를 가지고 있다는 것은 통신사 신호선(LMI)을 통해 자동으로 알게 된다. 그런데 "100번 입구로 들어가면 끝에 나오는 IP 주소가 뭐지?"는 모른다.
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 ARP가 IP를 주고 MAC을 물어본다면, [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)의 **Inverse [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)**는 반대다. 라우터가 100번 터널 안으로 빈 패킷을 던지며 "이 터널 끝에 있는 라우터야, 네 IP 주소 좀 알려줘!"라고 물어보어 **DLCI와 상대방 IP 주소 간의 맵핑 테이블**을 완성한다.
+[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 ARP가 IP를 주고 MAC을 물어본다면, [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/)의 <strong>Inverse <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a></strong>는 반대다. 라우터가 100번 터널 안으로 빈 패킷을 던지며 "이 터널 끝에 있는 라우터야, 네 IP 주소 좀 알려줘!"라고 물어보어 <strong>DLCI와 상대방 IP 주소 간의 맵핑 테이블</strong>을 완성한다.
 
 - **📢 섹션 요약 비유**: ** DLCI는 놀이공원의 **"미끄럼틀 번호"**입니다. 내가 1번 미끄럼틀(DLCI 100)을 탔다고 해서, 도착 지점의 수영장 구역 번호가 똑같이 1번일 필요는 없습니다. 그냥 그 입구로 들어가면 정해진 물풀(IP 주소)에 100% 도착한다는 사실만 보장될 뿐입니다.
 
@@ -128,15 +130,19 @@ DLCI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: PVC / SVC]
-    │
-    ▼
-[현재 개념: DLCI]
-    │
-    ├──▶ [확장 A: CIR / FECN, BECN 혼잡 알림]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PVC / SVC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DLCI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CIR / FECN, BECN 혼잡 알림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 DLCI는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

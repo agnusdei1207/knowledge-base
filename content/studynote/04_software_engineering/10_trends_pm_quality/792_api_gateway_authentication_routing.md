@@ -27,7 +27,7 @@ tags = ["studynote-software-engineering"]
 - 100개의 서버가 각자 "이 유저가 로그인한 유저 맞나?"를 100번 검사해야 한다.
 - 해커가 뒷단에 숨어있어야 할 결제 서버를 직접 공격할 수 있게 된다.
 
-이 끔찍한 복잡성을 해결하기 위해 등장한 것이 **[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))**다. **"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"**라는 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴의 완벽한 아키텍처 구현체다.
+이 끔찍한 복잡성을 해결하기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a>)</strong>다. <strong>"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"</strong>라는 [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) 패턴의 완벽한 아키텍처 구현체다.
 
 - **📢 섹션 요약 비유**: 대형 병원에 갔을 때, 환자가 100명의 의사 진료실을 직접 찾아다니는 건 불가능하다. 입구에 있는 '원무과 데스크([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)'에서 환자의 신분을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), "내과 3번 방으로 가세요"라고 안내([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))해 주는 시스템이다.
 
@@ -35,18 +35,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  API 게이트웨이 인증 및 라우팅 병                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 게이트웨이 인증 및 라우팅 병</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -85,7 +84,7 @@ tags = ["studynote-software-engineering"]
 | **관리 주체** | **인프라/플랫폼 팀** | **프론트엔드 개발팀** |
 | **장점** | 관리가 편하고 모든 보안 통제 가능 | 모바일 화면용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아주어 앱 로딩이 극도로 빠름 |
 
-실무에서는 **"가장 앞단에 Global [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 두고, 그 바로 뒤에 모바일용 BFF와 웹용 BFF를 따로 두는 이중 구조"**가 대세로 자리 잡았다.
+실무에서는 <strong>"가장 앞단에 Global <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Gateway를 두고, 그 바로 뒤에 모바일용 BFF와 웹용 BFF를 따로 두는 이중 구조"</strong>가 대세로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 글로벌 게이트웨이는 건물 입구의 '메인 경비실(신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'이고, BFF는 각 층마다 있는 '부서별 안내데스크(맞춤형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합)'다. 역할이 다르므로 둘 다 있으면 좋다.
 
@@ -99,7 +98,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 트래픽이 모이는 목구멍(Choke point)이므로, 자칫하면 회사 전체를 마비시키는 **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))**이 될 수 있다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 트래픽이 모이는 목구멍(Choke point)이므로, 자칫하면 회사 전체를 마비시키는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)</strong>이 될 수 있다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병목 관리망은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -113,7 +112,7 @@ tags = ["studynote-software-engineering"]
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 제대로 구축하면 개발자들은 "이 API에 권한 체크 로직 넣었어?"라는 소모적인 코드 리뷰를 할 필요가 없어진다. 인프라 계층에서 이미 100% 검증된 상태로 깨끗한 트래픽만 들어오기 때문이다. 또한 구형 서버(A)를 신형 서버(B)로 무중단 교체([카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/))할 때도, 게이트웨이의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 비율만 9:1에서 0:10으로 서서히 돌려주면 끝이다.
 
-결론적으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 수백 개의 파편화된 마이크로서비스를 **외부(고객)에게는 '하나의 거대하고 깔끔한 시스템'으로 보이게 만들어주는 거대한 마술 망토**다. 기술 리더는 뒷단이 아무리 복잡하게 찢어져 있더라도, 이 망토(게이트웨이)를 통해 보안과 확장성을 완벽하게 중앙 통제해야 한다.
+결론적으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 수백 개의 파편화된 마이크로서비스를 <strong>외부(고객)에게는 '하나의 거대하고 깔끔한 시스템'으로 보이게 만들어주는 거대한 마술 망토</strong>다. 기술 리더는 뒷단이 아무리 복잡하게 찢어져 있더라도, 이 망토(게이트웨이)를 통해 보안과 확장성을 완벽하게 중앙 통제해야 한다.
 
 - **📢 섹션 요약 비유**: 고객은 식당 주방([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에 요리사가 100명인지 1명인지 관심 없다. 고객은 오직 깔끔한 유니폼을 입은 매니저([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이)에게 주문하고 음식을 받는다. 주방이 아무리 전쟁터라도, 매니저만 완벽하면 손님은 최고급 레스토랑의 서비스를 경험한다.
 
@@ -136,21 +135,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-API 게이트웨이 인증 및 라우팅 병목 관리망 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API 게이트웨이 인증 및 라우팅 병목 관리망 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

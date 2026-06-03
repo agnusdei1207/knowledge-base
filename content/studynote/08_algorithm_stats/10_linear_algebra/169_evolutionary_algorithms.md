@@ -45,33 +45,31 @@ tags = ["studynote-algorithm"]
 
 ### GA (Genetic [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 구조
 
-```
-초기 세대 (Population) 생성
-        │
-        ▼
-┌────────────────────────────────────────┐
-│  ① 적합도 평가 (Fitness Evaluation)   │
-│     각 염색체에 f(x) 계산              │
-│                                        │
-│  ② 선택 (Selection)                   │
-│     적합도 높은 개체 선택 (부모)        │
-│     토너먼트, 룰렛 휠, 엘리트 선택     │
-│                                        │
-│  ③ 교차 (Crossover)                   │
-│     두 부모 염색체를 섞어 자식 생성     │
-│     1점, 2점, 균등 교차               │
-│                                        │
-│  ④ 돌연변이 (Mutation)               │
-│     낮은 확률로 임의 유전자 변경       │
-│     탐색 다양성 유지                  │
-└────────────────────────────────────────┘
-        │
-        ▼
-수렴 조건 (최대 세대 또는 최적값 안정) 까지 반복
-        │
-        ▼
-최적 개체 = 해답
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 세대 (Population) 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 적합도 평가 (Fitness Evaluation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 염색체에 f(x) 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 선택 (Selection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합도 높은 개체 선택 (부모)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토너먼트, 룰렛 휠, 엘리트 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 교차 (Crossover)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 부모 염색체를 섞어 자식 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1점, 2점, 균등 교차</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 돌연변이 (Mutation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 확률로 임의 유전자 변경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 다양성 유지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수렴 조건 (최대 세대 또는 최적값 안정) 까지 반복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최적 개체 = 해답</div>
+</div>
+</div>
+
+
 
 ### GA 연산 상세
 
@@ -120,16 +118,20 @@ pBestᵢ: 입자 i의 개인 최적 위치
 gBest: 전체 최적 위치
 ```
 
-```
-탐색 공간 시각화:
 
-        gBest★            ← 전체 최적
-         ↑    ↑
-  pBest○ │   ○pBest     ← 각 입자의 개인 최적
-     ↗  │  ↗
-   ●    │  ●            ← 현재 위치 (입자들)
-  (v↗)  │  (v↗)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탐색 공간 시각화:</div>
+<div class="kb-diagram-note">gBest★ ← 전체 최적</div>
+<div class="kb-diagram-note">pBest○ │ ○pBest ← 각 입자의 개인 최적</div>
+<div class="kb-diagram-note">↗ │ ↗</div>
+<div class="kb-diagram-note">● │ ● ← 현재 위치 (입자들)</div>
+<div class="kb-diagram-note">(v↗) │ (v↗)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: PSO의 각 입자는 "목적지를 찾는 새떼 한 마리"다 — 개인 최선 경험(pBest)과 떼 전체의 최선 위치(gBest)를 참고하며 날아가, 결국 무리 전체가 최적 지점으로 수렴한다.
 
@@ -155,19 +157,25 @@ Wolpert & Macready (1997):
 
 → 특정 문제 클래스에서 A가 B보다 나으면, 다른 문제 클래스에서는 B가 A보다 낫다.
 
-실용적 함의: **문제 구조를 이용한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계가 범용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 항상 유리**.
+실용적 함의: <strong>문제 구조를 이용한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 설계가 범용 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 항상 유리</strong>.
 
 ### CMA-ES (Covariance Matrix Adaptation Evolution [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
 
 현재 연속 공간 블랙박스 최적화의 황금 기준:
 
-```
-다변수 정규분포 N(m, σ²·C)에서 샘플링
-적합도에 따라:
-  m (평균) 업데이트 → 탐색 방향
-  C (공분산) 업데이트 → 탐색 형태
-  σ (스텝 크기) 업데이트 → 탐색 크기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다변수 정규분포 N(m, σ²·C)에서 샘플링</div>
+<div class="kb-diagram-note">적합도에 따라:</div>
+<div class="kb-diagram-note">m (평균) 업데이트 → 탐색 방향</div>
+<div class="kb-diagram-note">C (공분산) 업데이트 → 탐색 형태</div>
+<div class="kb-diagram-note">σ (스텝 크기) 업데이트 → 탐색 크기</div>
+</div>
+</div>
+
+
 
 인구 개체 없이 분포 자체를 학습.
 
@@ -194,20 +202,25 @@ Wolpert & Macready (1997):
   돌연변이 = 일부 파라미터 랜덤 변경
 ```
 
-**Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search ([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))**: GA/강화학습으로 신경망 구조 자체를 탐색 (EfficientNet, DARTS).
+<strong>Neural <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Search (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a>)</strong>: GA/강화학습으로 신경망 구조 자체를 탐색 (EfficientNet, DARTS).
 
 ### [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) (Traveling Salesman Problem) — 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-n = 100개 도시
-염색체: 순열 (방문 순서)
-교차: Order Crossover (OX)
-돌연변이: 두 위치 교환 (Swap Mutation)
 
-GA 결과: 최적해의 2~5% 이내
-정확해 알고리즘(Held-Karp): O(n²·2ⁿ) → n=100 불가능
-GA: O(pop × gen × n) → 실용적
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">n = 100개 도시</div>
+<div class="kb-diagram-note">염색체: 순열 (방문 순서)</div>
+<div class="kb-diagram-note">교차: Order Crossover (OX)</div>
+<div class="kb-diagram-note">돌연변이: 두 위치 교환 (Swap Mutation)</div>
+<div class="kb-diagram-note">GA 결과: 최적해의 2~5% 이내</div>
+<div class="kb-diagram-note">정확해 알고리즘(Held-Karp): O(n²·2ⁿ) → n=100 불가능</div>
+<div class="kb-diagram-note">GA: O(pop × gen × n) → 실용적</div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 포인트
 
@@ -221,23 +234,27 @@ GA: O(pop × gen × n) → 실용적
 
 ## Ⅴ. 기대효과 및 결론
 
-진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 **기울기 없이 탐색하는 최적화의 마지막 수단이자 강력한 대안**이다.
+진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>기울기 없이 탐색하는 최적화의 마지막 수단이자 강력한 대안</strong>이다.
 
 실무 적용 시 선택 가이드:
 
-```
-목적 함수가 미분 가능?
-  YES → 경사하강법 (Adam, L-BFGS)
-  NO  → 진화 알고리즘 / 시뮬레이티드 어닐링
 
-연속 공간?
-  YES → PSO, CMA-ES, DE
-  NO  → GA (이진/순열 인코딩)
 
-전역 최적 중요?
-  이론적 보장 필요 → 볼록 최적화 (LP, QP)
-  근사 해 허용 → 진화 알고리즘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">목적 함수가 미분 가능?</div>
+<div class="kb-diagram-note">YES → 경사하강법 (Adam, L-BFGS)</div>
+<div class="kb-diagram-note">NO → 진화 알고리즘 / 시뮬레이티드 어닐링</div>
+<div class="kb-diagram-note">연속 공간?</div>
+<div class="kb-diagram-note">YES → PSO, CMA-ES, DE</div>
+<div class="kb-diagram-note">NO → GA (이진/순열 인코딩)</div>
+<div class="kb-diagram-note">전역 최적 중요?</div>
+<div class="kb-diagram-note">이론적 보장 필요 → 볼록 최적화 (LP, QP)</div>
+<div class="kb-diagram-note">근사 해 허용 → 진화 알고리즘</div>
+</div>
+</div>
+
+
 
 현대 응용: [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), 로봇 공학, 분자 설계 (신약 개발), [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 설계 모두에서 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 인간 전문가를 능가하는 해를 발견하고 있다.
 
@@ -260,29 +277,30 @@ GA: O(pop × gen × n) → 실용적
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[브루트 포스 탐색 — 모든 해를 직접 확인]
-    │
-    ▼
-[메타휴리스틱 (Metaheuristic) — 구조 없이 좋은 해 탐색]
-    │
-    ▼
-[진화 알고리즘 — 선택·교차·돌연변이로 탐색]
-    │
-    ├─▶ [GA (Genetic Algorithm) — 조합 최적화 중심]
-    │
-    └─▶ [PSO (Particle Swarm Optimization) — 연속 공간 빠른 수렴]
-                │
-                ▼
-            [CMA-ES / NAS — 공학 설계·신경망 구조 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">브루트 포스 탐색 — 모든 해를 직접 확인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메타휴리스틱 (Metaheuristic) — 구조 없이 좋은 해 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">진화 알고리즘 — 선택·교차·돌연변이로 탐색</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GA (Genetic Algorithm) — 조합 최적화 중심</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PSO (Particle Swarm Optimization) — 연속 공간 빠른 수렴</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMA-ES / NAS — 공학 설계·신경망 구조 최적화</div></div>
+</div>
+</div>
+
+
 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 브루트 포스와 경사 기반 최적화의 한계를 넘어, 조합 문제와 블랙박스 설계에 맞는 범용 탐색 틀로 발전했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **GA는 "우수한 유전자 경쟁"**: 좋은 특성을 가진 부모끼리 교배하면, 세대를 거듭할수록 더 좋은 자손이 나타난다.
 2. **PSO는 "목적지 찾는 새떼"**: 각 새가 자신이 지금껏 발견한 최고 위치와 떼 전체의 최고 위치를 참고하며 날아가 최적 지점을 발견한다.
-3. **공짜 점심 없음은 "만능 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없음"**: 모든 문제를 동시에 잘 푸는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 존재하지 않으니, 문제에 맞는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 골라야 한다.
+3. <strong>공짜 점심 없음은 "만능 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 없음"</strong>: 모든 문제를 동시에 잘 푸는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 존재하지 않으니, 문제에 맞는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 골라야 한다.
 
 ---
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/))은 세그멘트 번호를 실제 메모리 위치와 접근 규칙으로 바꾸는 **주소 변환표이자 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정책표**다.
+> 1. **본질**: [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/))은 세그멘트 번호를 실제 메모리 위치와 접근 규칙으로 바꾸는 <strong>주소 변환표이자 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 정책표</strong>다.
 > 2. **가치**: 각 세그먼트가 가변 길이이므로 Base (시작 주소), Limit (길이), [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Bits ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 함께 관리해야 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조와 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/)를 동시에 성립시킬 수 있다.
 > 3. **판단 포인트**: [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 공유와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에는 강하지만, 세그먼트 수 증가·[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)·변환 오버헤드가 커지면 단독 사용보다 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과의 혼용이 더 현실적이다.
 
@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 표가 필요한 이유는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소가 단순 숫자 하나가 아니라 `(세그먼트 번호, 오프셋)` 구조이기 때문이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 하드웨어는 세그먼트 번호만 보고는 실제 메모리 위치를 알 수 없고, 오프셋이 허용 범위를 넘는지도 판단할 수 없다. [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 없으면 주소 변환도 불가능하고, 다른 프로세스의 메모리를 침범하는 접근도 막기 어렵다.
 
-특히 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위별 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에 강점이 있다. 코드 세그먼트는 읽기/실행, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트는 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트는 아래 방향 성장처럼 서로 다른 정책을 줄 수 있는데, 이 정책의 집합이 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) 엔트리 안에 담긴다. 즉 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 단순 위치표가 아니라 **메모리 경계선과 출입 규칙을 적어 둔 계약서**다.
+특히 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위별 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에 강점이 있다. 코드 세그먼트는 읽기/실행, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트는 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 세그먼트는 아래 방향 성장처럼 서로 다른 정책을 줄 수 있는데, 이 정책의 집합이 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) 엔트리 안에 담긴다. 즉 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 단순 위치표가 아니라 <strong>메모리 경계선과 출입 규칙을 적어 둔 계약서</strong>다.
 
 - **📢 섹션 요약 비유**: [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 건물 안내판이 아니라 "각 방의 위치, 크기, 출입 권한"까지 적힌 관리실 장부와 같다. 방 번호만 알아서는 부족하고, 어디까지 내 방인지와 들어가도 되는지도 함께 확인해야 안전하다.
 
@@ -31,35 +31,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)의 핵심은 **주소 변환보다 먼저 경계 검사를 수행한다**는 점이다. 중앙처리장치인 CPU (Central Processing Unit)가 `(s, d)` 형태의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 내보내면, 메모리 관리 장치인 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 먼저 세그먼트 번호 `s`가 유효한지, 다음으로 오프셋 `d`가 그 세그먼트 길이 안에 있는지 확인한다. 검사가 통과하면 최종 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)는 `Base + d`로 계산된다.
+[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)의 핵심은 <strong>주소 변환보다 먼저 경계 검사를 수행한다</strong>는 점이다. 중앙처리장치인 CPU (Central Processing Unit)가 `(s, d)` 형태의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 내보내면, 메모리 관리 장치인 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 먼저 세그먼트 번호 `s`가 유효한지, 다음으로 오프셋 `d`가 그 세그먼트 길이 안에 있는지 확인한다. 검사가 통과하면 최종 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)는 `Base + d`로 계산된다.
 
 이 과정에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 현재 프로세스의 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) 위치를 STBR ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))에 넣고, 세그먼트 개수는 STLR ([Segment Table](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/) Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))에 저장한다. 그래서 세그먼트 번호가 존재 범위를 벗어나면 테이블을 읽기도 전에 차단할 수 있다. 유효한 번호라면 MMU는 해당 엔트리에서 Base, Limit, [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 존재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 같은 정보를 읽는다.
 
-아래 그림은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 단순 조회표가 아니라, **번호 검사 → 엔트리 조회 → 경계/권한 검사 → [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 산출**을 담당하는 흐름을 보여준다.
+아래 그림은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 단순 조회표가 아니라, <strong>번호 검사 → 엔트리 조회 → 경계/권한 검사 → <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 산출</strong>을 담당하는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                 세그먼트 테이블 기반 주소 변환 및 보호 흐름                 │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 논리 주소 = (Segment s, Offset d)                                           │
-│                                                                              │
-│   CPU                                                                        │
-│    │                                                                         │
-│    ▼                                                                         │
-│ [1] s < STLR ? ── 아니오 ───────────────▶ Trap                               │
-│    │ 예                                                                     │
-│    ▼                                                                         │
-│ [2] STBR + s × 엔트리크기 ─────────────▶ 세그먼트 테이블 엔트리 읽기         │
-│                                          ┌──────────────────────────────┐    │
-│                                          │ Base │ Limit │ Prot │ Valid │    │
-│                                          └──────────────────────────────┘    │
-│    ▼                                                                         │
-│ [3] d < Limit && 권한 허용 ? ─ 아니오 ─▶ Segmentation Fault                 │
-│    │ 예                                                                     │
-│    ▼                                                                         │
-│ [4] Physical Address = Base + d                                             │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 테이블 기반 주소 변환 및 보호 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 = (Segment s, Offset d)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Trap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">세그먼트 테이블 엔트리 읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base</div><div class="kb-diagram-cell">Limit</div><div class="kb-diagram-cell">Prot</div><div class="kb-diagram-cell">Valid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Segmentation Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">Physical Address = Base + d</div></div>
+</div>
+</div>
+
+
 
 | 엔트리 필드 | 의미 | 설계상 중요 포인트 |
 | :-- | :-- | :-- |
@@ -113,7 +108,7 @@ tags = ["studynote-computer-architecture"]
 - 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 느슨하게 잡아 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 효과를 잃는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델은 세그먼트식으로 설계했는데 실제 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 비용은 검토하지 않는 접근
 
-기술사 관점에서는 "[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 왜 단독 표준이 되지 못했는가"를 설명할 수 있어야 한다. 답은 간단히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 느려서가 아니라, **가변 길이의 아름다움이 곧 관리 복잡성과 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 비용으로 되돌아오기 때문**이다. 따라서 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 공유의 원리를 설명할 때 채택하고, 실제 대규모 주소 공간 관리 해법으로는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 혼용을 함께 제시하는 것이 균형 잡힌 답안이다.
+기술사 관점에서는 "[세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 왜 단독 표준이 되지 못했는가"를 설명할 수 있어야 한다. 답은 간단히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 느려서가 아니라, <strong>가변 길이의 아름다움이 곧 관리 복잡성과 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 비용으로 되돌아오기 때문</strong>이다. 따라서 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 공유의 원리를 설명할 때 채택하고, 실제 대규모 주소 공간 관리 해법으로는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 혼용을 함께 제시하는 것이 균형 잡힌 답안이다.
 
 - **📢 섹션 요약 비유**: 맞춤 서랍장은 물건 성격별 정리에 좋지만, 물건 종류가 지나치게 많아지면 서랍 설명서부터 복잡해진다. 결국 정리 규칙은 맞춤형으로 가져가되, 실제 수납은 규격 상자와 섞어 쓰는 것이 현실적이다.
 
@@ -125,7 +120,7 @@ tags = ["studynote-computer-architecture"]
 
 반면 한계도 분명하다. 세그먼트가 가변 길이이므로 메모리 배치가 복잡하고, 연속 공간 요구 때문에 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 누적되며, 세그먼트가 많아지면 테이블 관리와 캐시 적중 관리가 어려워진다. 그래서 현대 시스템은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)의 철학은 유지하되, 실제 공간 배분은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중심으로 재구성하는 쪽으로 진화했다.
 
-결국 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 "주소를 적어 둔 목록"으로 기억하면 반쪽 이해다. 정확한 기억법은 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역별 위치·경계·권한을 한 번에 정의하는 메모리 통제판**이라는 것이다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 자체는 축소되었어도, 이 통제판 사고방식은 오늘날의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 권한 분리, 안전한 실행 모델 속에 계속 살아 있다.
+결국 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 "주소를 적어 둔 목록"으로 기억하면 반쪽 이해다. 정확한 기억법은 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 구역별 위치·경계·권한을 한 번에 정의하는 메모리 통제판</strong>이라는 것이다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 자체는 축소되었어도, 이 통제판 사고방식은 오늘날의 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/), 권한 분리, 안전한 실행 모델 속에 계속 살아 있다.
 
 - **📢 섹션 요약 비유**: [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 집 주소록이 아니라 집 계약서에 가깝다. 어디 사는지만 적는 것이 아니라, 어느 방까지 쓸 수 있고 무엇을 해도 되는지까지 함께 정해 놓기 때문이다.
 
@@ -144,26 +139,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 Base/Limit 보호
-    │
-    ▼
-세그멘테이션 (Segmentation)
-    │
-    ▼
-세그먼트 테이블 (Segment Table)
-    │
-    ├──▶ 보호 비트 · 공유 세그먼트
-    │
-    ▼
-TLB (Translation Lookaside Buffer) · 디스크립터 캐싱
-    │
-    ▼
-페이징과 세그멘테이션 혼용
-    │
-    ▼
-현대 메모리 보호 모델의 권한 분리 사고
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 Base/Limit 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세그먼트 테이블 (Segment Table)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호 비트 · 공유 세그먼트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · 디스크립터 캐싱</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이징과 세그멘테이션 혼용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 메모리 보호 모델의 권한 분리 사고</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단일 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 다중 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역 관리 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 → 하이브리드 메모리 관리"로 발전하는 방향을 보여준다.
 

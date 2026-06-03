@@ -10,9 +10,9 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 딥러닝 모델이 정답과 오답의 차이([손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), Loss)를 줄이기 위해, 현재 위치의 **미분 값(기울기, Gradient)을 계산하여 경사가 깎이는 아랫방향으로 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 업데이트**하는 수학적 탐색 네비게이션이다.
+> 1. **본질**: [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))은 딥러닝 모델이 정답과 오답의 차이([손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), Loss)를 줄이기 위해, 현재 위치의 <strong>미분 값(기울기, Gradient)을 계산하여 경사가 깎이는 아랫방향으로 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 업데이트</strong>하는 수학적 탐색 네비게이션이다.
 > 2. **가치**: 수천만 개의 파라미터가 얽혀 있어 인간의 뇌로는 절대 풀 수 없는 복잡한 다차원 방정식의 최적 해(가장 오차가 적은 지점, Global Minimum)를, 단순히 맹인 모드로 발밑의 경사만 더듬어가며 기계적으로 찾아내는 극강의 쇳덩어리 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 3. **판단 포인트**: [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)의 치명적 한계(느린 속도, 로컬 미니멈 늪)를 극복하기 위해, 과거의 이동 속도(관성)를 기억하는 Momentum과 현재 지형의 험난함([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응)을 판단하는 RMSProp이 융합된 **아담([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)**가 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습의 절대 표준 지배자로 군림한다.
+> 3. **판단 포인트**: [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)의 치명적 한계(느린 속도, 로컬 미니멈 늪)를 극복하기 위해, 과거의 이동 속도(관성)를 기억하는 Momentum과 현재 지형의 험난함([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응)을 판단하는 RMSProp이 융합된 <strong>아담(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a>) <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a></strong>가 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습의 절대 표준 지배자로 군림한다.
 
 ---
 
@@ -20,7 +20,7 @@ tags = ["studynote-ai"]
 
 딥러닝 신경망을 처음 만들면 각 뉴런(노드)을 연결하는 선들의 굵기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))는 완전히 랜덤이다. 고양이 사진을 넣어도 '개'라고 오답을 뱉는다. 여기서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))의 목적은 이 수백만 개의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 다이얼을 돌려 오차(Loss)를 '0'에 가깝게 만드는 것이다.
 
-하지만 수백만 개의 다이얼을 한 번에 다 맞춰볼 수는 없다(경우의 수가 우주 원자보다 많음). 수학자들은 미분(Differentiation)이라는 칼을 빼들었다. 오차(Loss)라는 거대한 산맥 한가운데 뚝 떨어진 맹인(모델)에게, **"지금 발바닥의 기울기(미분)를 느껴보고, 가장 가파르게 내리막길로 향하는 방향으로 딱 한 발짝([학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)만 걸어라"**라고 명령하는 것이다. 이것이 손실의 바닥을 찾아 하산하는 위대한 여정, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))의 시작이다.
+하지만 수백만 개의 다이얼을 한 번에 다 맞춰볼 수는 없다(경우의 수가 우주 원자보다 많음). 수학자들은 미분(Differentiation)이라는 칼을 빼들었다. 오차(Loss)라는 거대한 산맥 한가운데 뚝 떨어진 맹인(모델)에게, <strong>"지금 발바닥의 기울기(미분)를 느껴보고, 가장 가파르게 내리막길로 향하는 방향으로 딱 한 발짝(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Rate)만 걸어라"</strong>라고 명령하는 것이다. 이것이 손실의 바닥을 찾아 하산하는 위대한 여정, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))의 시작이다.
 
 - **📢 섹션 요약 비유**: [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 '안대 낀 등산객의 캄캄한 하산(하산)'이다. 등산객은 주변 지형을 볼 수 없지만, 지팡이(미분)로 발밑을 찔러보고 "아, 이쪽이 아래로 기울었네" 하며 오로지 기울기만 믿고 한 발짝씩 더듬어 산골짜기(오차 0인 가장 낮은 곳)로 내려가는 무식하지만 확실한 생존법이다.
 
@@ -31,27 +31,28 @@ tags = ["studynote-ai"]
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))의 기울기와 업데이트 수식
 신경망의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) $W$는 매 스텝(Epoch)마다 미분값의 반대 방향으로 갱신된다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│ 경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘 │
-├────────────────────────────────────────────────────────┤
-│ [ 공식 ] │
-│ 새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기) │
-│ W_new = W_old - ( α × ∂L / ∂W ) │
-│ │
-│ [ 하산(학습)의 과정 ] │
-│ (오차 꼭대기) │
-│ 🔴 (초기 W) 기울기가 크다! ──▶ 보폭을 크게 성큼성큼 이동 │
-│ ↘ │
-│ ↘ (중간 W) 기울기가 줄어든다 ──▶ 보폭을 점점 줄임 │
-│ ↘ │
-│ 🔴 (바닥 도달, 최적 해) 기울기가 0! ──▶ 스톱(Stop)│
-│ │
-│ * 핵심 논리: 알파(α, Learning Rate)가 너무 크면 맹인이 성큼 걷다가│
-│ 반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,│
-│ 너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연). │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경사 하강법 (Gradient Descent) 가중치 업데이트 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 가중치 = 현재 가중치 - (학습률 × 손실 함수의 기울기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_new = W_old - ( α × ∂L / ∂W )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하산(학습)의 과정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오차 꼭대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔴 (초기 W) 기울기가 크다! ──▶ 보폭을 크게 성큼성큼 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ (중간 W) 기울기가 줄어든다 ──▶ 보폭을 점점 줄임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔴 (바닥 도달, 최적 해) 기울기가 0! ──▶ 스톱(Stop)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 알파(α, Learning Rate)가 너무 크면 맹인이 성큼 걷다가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반대편 산등성이로 튕겨 올라가는 발산(Overshooting) 재앙이 터지고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">너무 작으면 평생 산을 다 못 내려오고 늙어 죽는다(학습 지연).</div></div>
+</div>
+</div>
+
+
 
 **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate, $\[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)$)의 거버넌스**: 이 한 발짝의 보폭 크기를 정하는 것은 딥러닝 아키텍트의 가장 고통스러운 하이퍼파라미터(Hyperparameter) 튜닝 작업이다. 아무리 코드를 잘 짜도 보폭 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 실패하면 AI는 영원히 정답을 찾지 못하고 헛발질만 한다.
 
@@ -66,11 +67,11 @@ tags = ["studynote-ai"]
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)) | 핵심 철학 및 융합된 물리적 원리 | 아키텍처적 장점 |
 |:---|:---|:---|
-| **SGD ([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 경사하강법)** | 한 발짝 갈 때마다 기울기 계산 (오리지널) | 계산이 가볍지만, 지그재그로 심하게 흔들리며 느림 |
-| **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) ([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))** | **관성의 법칙(가속도) 추가** (이전 이동 방향 기억) | 얕은 웅덩이(Local Minimum)를 가속도로 치고 올라가 탈출함 |
-| **AdaGrad (아다그라드)** | 많이 걸은 변수는 보폭을 줄이고, 안 걸은 변수는 크게 | **변수별 맞춤형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 자동 조절** (희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 강함) |
+| <strong>SGD (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 경사하강법)</strong> | 한 발짝 갈 때마다 기울기 계산 (오리지널) | 계산이 가볍지만, 지그재그로 심하게 흔들리며 느림 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">모멘텀</a>)</strong> | **관성의 법칙(가속도) 추가** (이전 이동 방향 기억) | 얕은 웅덩이(Local Minimum)를 가속도로 치고 올라가 탈출함 |
+| **AdaGrad (아다그라드)** | 많이 걸은 변수는 보폭을 줄이고, 안 걸은 변수는 크게 | <strong>변수별 맞춤형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> 자동 조절</strong> (희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 강함) |
 | **RMSProp (알엠에스프롭)** | AdaGrad가 나중에 보폭이 0이 되는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 | 최근 이동한 기울기만 반영하여 영원히 멈추지 않게 방어 |
-| **[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) (아담, Adaptive Moment)** | **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)(관성 방향) + RMSProp(맞춤 보폭) 악마의 융합** | **현존 최고의 가성비 끝판왕. 묻지 마 디폴트(Default) 옵션** |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a> (아담, Adaptive Moment)</strong> | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a>(관성 방향) + RMSProp(맞춤 보폭) 악마의 융합</strong> | **현존 최고의 가성비 끝판왕. 묻지 마 디폴트(Default) 옵션** |
 
 복잡하게 생각할 필요 없이, 오늘날 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어들은 파이토치(PyTorch) 코드에 모델을 짤 때 습관적으로 `optimizer = torch.optim.Adam()`을 박아 넣고 시작한다. 방향의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))과 걸음의 유연성(RMSProp)을 결합한 Adam은, 인간이 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 튜닝에 쏟을 시간을 기계가 대신 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링해 주는 최강의 자율주행 엔진이다.
 
@@ -81,8 +82,8 @@ tags = ["studynote-ai"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **배치 크기([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))와 미니배치 SGD의 쇳덩어리 최적화**: 100만 장의 이미지를 학습할 때, 100만 장을 다 보고 나서 딱 한 번 찔끔 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트(Full-batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))하면 메모리(VRAM)가 폭발하고 시간이 수백 시간 걸린다. 아키텍트는 100만 장을 256장짜리 덩어리(Mini-batch)로 쪼개어, 256장만 대충 보고 방향을 찍어 즉각 즉각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트하며 내려가는 **미니배치 SGD**를 적용한다. 약간 지그재그로 술 취한 듯 내려가지만, 결국 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 터뜨리지 않고 광속으로 산 밑에 도착하는 실무의 절대 규칙이다.
-2. **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate Decay / Warmup)**: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 알아서 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 조절하지만, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델) 같은 수천억 파라미터를 구울 때는 아키텍트의 하드코딩된 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 들어간다. 처음 하산할 때는 보폭을 크게(Warm-up) 하여 산 중턱까지 빠르게 치고 내려가게 만들고, 정답 바닥에 다가갈수록 보폭을 기하급수적으로 줄여(Decay) 바닥 주변에서 미세하게 주차([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))하게 만드는 치밀한 통제 로직이다.
+1. <strong>배치 크기(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/">Batch Size</a>)와 미니배치 SGD의 쇳덩어리 최적화</strong>: 100만 장의 이미지를 학습할 때, 100만 장을 다 보고 나서 딱 한 번 찔끔 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트(Full-batch [GD](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))하면 메모리(VRAM)가 폭발하고 시간이 수백 시간 걸린다. 아키텍트는 100만 장을 256장짜리 덩어리(Mini-batch)로 쪼개어, 256장만 대충 보고 방향을 찍어 즉각 즉각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트하며 내려가는 <strong>미니배치 SGD</strong>를 적용한다. 약간 지그재그로 술 취한 듯 내려가지만, 결국 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리를 터뜨리지 않고 광속으로 산 밑에 도착하는 실무의 절대 규칙이다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Rate Decay / Warmup)</strong>: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 알아서 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 조절하지만, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(거대 언어 모델) 같은 수천억 파라미터를 구울 때는 아키텍트의 하드코딩된 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 들어간다. 처음 하산할 때는 보폭을 크게(Warm-up) 하여 산 중턱까지 빠르게 치고 내려가게 만들고, 정답 바닥에 다가갈수록 보폭을 기하급수적으로 줄여(Decay) 바닥 주변에서 미세하게 주차([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))하게 만드는 치밀한 통제 로직이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **로컬 미니멈(Local Minimum)의 공포에 사로잡힌 구조 맹신**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 신경망 시절, 맹인(모델)이 진짜 바닥(Global Minimum)이 아니라 산 중턱의 작은 웅덩이(Local Minimum)에 빠져서 학습이 멈추는 것을 최악의 문제로 여겼다. 하지만 수백 개의 차원을 갖는 현대 딥러닝(수백만 파라미터) 구조에서는 "모든 차원이 동시에 위로 오목한 웅덩이가 될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 거의 제로에 가깝다(안장점, Saddle point 극복)"는 수학적 진실이 밝혀졌다. 로컬 미니멈 핑계를 대기 전에, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 Adam으로 바꾸고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))부터 다시 세팅해야 한다.
@@ -105,27 +106,29 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))** | [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)이 어느 방향으로 갈지 알기 위해 필요한 '기울기(미분값)' 자체를, 출력층에서부터 입력층으로 거꾸로 쫙 뿌려주며 순식간에 계산해 내는 수학적 엔진 파트너 |
-| **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)** | [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)에서 하산할 때 뻗는 한 걸음의 보폭(Step Size). 딥러닝 훈련이 터지냐 마느냐를 결정하는 가장 무섭고 중요한 신의 파라미터 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong> | [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)이 어느 방향으로 갈지 알기 위해 필요한 '기울기(미분값)' 자체를, 출력층에서부터 입력층으로 거꾸로 쫙 뿌려주며 순식간에 계산해 내는 수학적 엔진 파트너 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Rate)</strong> | [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)에서 하산할 때 뻗는 한 걸음의 보폭(Step Size). 딥러닝 훈련이 터지냐 마느냐를 결정하는 가장 무섭고 중요한 신의 파라미터 |
 | **안장점 (Saddle Point)** | 앞뒤로는 오르막인데 좌우로는 내리막인, 말의 안장처럼 생긴 고약한 지형. 옛날엔 이걸 로컬 미니멈으로 착각해 학습이 망했다고 울부짖었으나 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)이 돌파구를 열었음 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-신경망의 가중치 최적화를 위한 해석적 수학 공식 부재 (연산량 폭발)
-│
-▼
-수치적 최적화 ──▶ 미분을 활용한 오리지널 경사 하강법 (Gradient Descent) 도입
-│
-▼
-연산 지연 및 웅덩이(Local Minimum) 갇힘 현상 ──▶ 미니배치(Mini-batch) 및 관성(Momentum) 추가
-│
-▼
-파라미터별 학습률 조절 필요성 ──▶ AdaGrad, RMSProp 등장
-│
-▼
-현존 최고 스펙의 융합 엔진 ──▶ Adam (Adaptive Moment Estimation) 옵티마이저로 생태계 통일
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">신경망의 가중치 최적화를 위한 해석적 수학 공식 부재 (연산량 폭발)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수치적 최적화 ──▶ 미분을 활용한 오리지널 경사 하강법 (Gradient Descent) 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">연산 지연 및 웅덩이(Local Minimum) 갇힘 현상 ──▶ 미니배치(Mini-batch) 및 관성(Momentum) 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파라미터별 학습률 조절 필요성 ──▶ AdaGrad, RMSProp 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현존 최고 스펙의 융합 엔진 ──▶ Adam (Adaptive Moment Estimation) 옵티마이저로 생태계 통일</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "원초적인 방향 탐색 → 속도 가속(관성) 도입 → 지형에 따른 보폭의 지능형 제어 → 모든 기술의 완전체([Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) 탄생"이라는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하산 네비게이션 기술의 진화를 보여준다.
 

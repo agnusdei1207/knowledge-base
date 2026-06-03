@@ -38,22 +38,22 @@ tags = ["studynote-operating-system"]
 | **경제성 (Economy)** | 프로세스 단위 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 발생하는 캐시 플러시(Cache Flush)나 메모리 할당 오버헤드가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 교환 시에는 발생하지 않아 훨씬 가볍다. |
 | **다중 처리기 활용 (Scalability)** | 다중 코어 (Multi-core) CPU에서 각 코어에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적으로 스케줄링하여 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 선형적으로 증가시킨다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           단일 스레드 vs 다중 스레드의 구조적 처리량 비교          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [단일 스레드 모델 (Single-Thread) - 응답성 마비]                  │
-│ 사용자 입력 ─▶ [UI 처리] ─▶ [네트워크 I/O (대기 10초)] ─▶ 화면 멈춤 │
-│                                                              │
-│ [다중 스레드 모델 (Multi-Thread) - 자원 공유 및 병렬 처리]        │
-│                ┌─▶ [UI 스레드] : 멈춤 없이 화면 애니메이션 렌더링 │
-│ 사용자 입력 ─▶ │                                              │
-│                └─▶ [Worker 스레드] : 백그라운드 네트워크 I/O 실행 │
-│                       │                                      │
-│                       └─▶ 동일 Data 공간 공유를 통해 결과 즉시 반환 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 스레드 vs 다중 스레드의 구조적 처리량 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 스레드 모델 (Single-Thread) - 응답성 마비</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI 처리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 I/O (대기 10초)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">화면 멈춤</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 스레드 모델 (Multi-Thread) - 자원 공유 및 병렬 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI 스레드</div><div class="kb-diagram-note">: 멈춤 없이 화면 애니메이션 렌더링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 입력 ─▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Worker 스레드</div><div class="kb-diagram-note">: 백그라운드 네트워크 I/O 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동일 Data 공간 공유를 통해 결과 즉시 반환</div></div>
+</div>
+</div>
+
+
 
 위 다이어그램은 작업이 분리됨으로써 애플리케이션의 멈춤 현상을 어떻게 방지하는지 보여준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)만 분리하여 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 정보만 독립적으로 유지하므로, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 전환 비용이 프로세스 대비 수십 배 저렴하다.
 
@@ -67,10 +67,10 @@ tags = ["studynote-operating-system"]
 
 | 항목 | 다중 프로세스 (Multi-processing) | 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (Multi-threading) |
 | :--- | :--- | :--- |
-| **[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)** | 각 프로세스가 독립적인 주소 공간 ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 소유 | 하나의 프로세스 내에서 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역 공유 |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드** | 무거움 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), 캐시 초기화 필요) | 가벼움 ([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 포인터만 교체) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a></strong> | 각 프로세스가 독립적인 주소 공간 ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 소유 | 하나의 프로세스 내에서 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 영역 공유 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 오버헤드</strong> | 무거움 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), 캐시 초기화 필요) | 가벼움 ([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 포인터만 교체) |
 | **통신 비용** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 등 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication) 필수 | 전역 변수나 Heap을 통한 직접 접근 가능 |
-| **안정성 ([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))** | 한 프로세스가 죽어도 다른 프로세스에 영향 없음 | 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 메모리 오류를 내면 프로세스 전체가 종료됨 |
+| <strong>안정성 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong> | 한 프로세스가 죽어도 다른 프로세스에 영향 없음 | 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 메모리 오류를 내면 프로세스 전체가 종료됨 |
 
 또한 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 CPU 코어 활용 방식에 따라 다중 코어 (Multi-core) 아키텍처와 밀접하게 연결된다. 아무리 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 많아도 코어가 하나라면 시분할 (Time-sharing) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))에 불과하지만, 다중 코어가 지원되면 진정한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (Parallelism)으로 확장되어 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 수직 상승한다.
 
@@ -83,11 +83,11 @@ tags = ["studynote-operating-system"]
 실무에서 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 장점을 온전히 취하기 위해서는 시스템의 병목 원인을 정확히 짚어내고 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 함정을 피해야 한다.
 
 ### 의사결정 포인트 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 튜닝 판단**: 대량의 트래픽을 처리하는 웹 서버 (Tomcat 등)에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 요청마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 메모리 고갈 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))로 서버가 다운된다. 따라서 경제성(Economy)을 살리기 위해 미리 일정 수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들어두고 재사용하는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 구성해야 한다. 작업이 I/O 바운드인지 CPU 바운드인지에 따라 풀의 크기 (Pool Size)를 최적화해야 한다.
-2. **응답성 (Responsiveness) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)**: 모바일 앱(안드로이드, iOS)에서 "응답 없음 (ANR)"이 발생한다면, 메인 UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 무거운 동기적 작업을 수행하고 있을 확률이 높다. 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로딩 파트를 백그라운드 Worker [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 분리(비동기 처리)해야 한다.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>) 튜닝 판단</strong>: 대량의 트래픽을 처리하는 웹 서버 (Tomcat 등)에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 요청마다 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 메모리 고갈 ([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))로 서버가 다운된다. 따라서 경제성(Economy)을 살리기 위해 미리 일정 수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들어두고 재사용하는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 구성해야 한다. 작업이 I/O 바운드인지 CPU 바운드인지에 따라 풀의 크기 (Pool Size)를 최적화해야 한다.
+2. <strong>응답성 (Responsiveness) <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong>: 모바일 앱(안드로이드, iOS)에서 "응답 없음 (ANR)"이 발생한다면, 메인 UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 무거운 동기적 작업을 수행하고 있을 확률이 높다. 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로딩 파트를 백그라운드 Worker [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 분리(비동기 처리)해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 장점을 부수는 과도한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
-- 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 가장 큰 장점인 자원 공유는 곧바로 **경쟁 상태 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))** 위험을 낳는다. 이를 막기 위해 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 무분별하게 거대한 락 (Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어버리면, 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 실행되지 못하고 하나씩 순서대로 대기하게 된다. 이는 암달의 법칙 (Amdahl's Law)에 따라 코어가 아무리 많아도 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 완전히 상실하게 만들어 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 혜택을 파괴한다. 가급적 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 알고리즘이나 원자적 (Atomic) 연산, 미세 단위의 락 ([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 적용해야 한다.
+- 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 가장 큰 장점인 자원 공유는 곧바로 <strong>경쟁 상태 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a>)</strong> 위험을 낳는다. 이를 막기 위해 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))에 무분별하게 거대한 락 (Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어버리면, 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 실행되지 못하고 하나씩 순서대로 대기하게 된다. 이는 암달의 법칙 (Amdahl's Law)에 따라 코어가 아무리 많아도 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 완전히 상실하게 만들어 멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 혜택을 파괴한다. 가급적 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 알고리즘이나 원자적 (Atomic) 연산, 미세 단위의 락 ([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 적용해야 한다.
 
 - **📢 섹션 요약 비유**: 수술실에 뛰어난 의사 10명(다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 모아놨지만, 사용하는 메스(공유 자원 락)가 단 1개뿐이라면 결국 1명씩 교대로 수술해야 해서 인건비만 낭비되고 시간은 전혀 단축되지 않는 것과 같다.
 
@@ -107,28 +107,30 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)** | 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 경제성을 갖도록 만드는 근원. 프로세스보다 무거운 캐시 플러시를 피할 수 있게 해준다. |
-| **[멀티코어 프로세서](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/) ([Multi-Core Processor](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/))** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 다중 처리기 활용(Scalability) 장점을 물리적인 진정한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(Parallel) 연산으로 실현시키는 하드웨어. |
-| **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 및 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))** | 자원 공유의 이면에 숨겨진 충돌을 막기 위한 기법. 과도하면 장점을 무효화하므로 밸런스가 필수. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | 다중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 경제성을 갖도록 만드는 근원. 프로세스보다 무거운 캐시 플러시를 피할 수 있게 해준다. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/">멀티코어 프로세서</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/">Multi-Core Processor</a>)</strong> | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 다중 처리기 활용(Scalability) 장점을 물리적인 진정한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)(Parallel) 연산으로 실현시키는 하드웨어. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>) 및 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong> | 자원 공유의 이면에 숨겨진 충돌을 막기 위한 기법. 과도하면 장점을 무효화하므로 밸런스가 필수. |
 | **암달의 법칙 (Amdahl's Law)** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 아무리 늘려도 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화할 수 없는 순차 구역([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 대기 등) 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상에 한계가 있음을 증명. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 스레드 시스템 (응답성 및 I/O 블로킹 한계)
-    │
-    ▼
-다중 프로세스 생성 (Fork 비용 및 문맥 교환 오버헤드 문제 대두)
-    │
-    ▼
-다중 스레드 (Multithreading) 도입 (자원 공유, 경제성 확보)
-    │
-    ▼
-SMP (대칭형 다중 처리) 멀티코어 환경 (확장성 및 병렬성 극대화)
-    │
-    ▼
-사용자 레벨 가상 스레드 (Virtual Thread, Coroutine) 최적화로 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 스레드 시스템 (응답성 및 I/O 블로킹 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 프로세스 생성 (Fork 비용 및 문맥 교환 오버헤드 문제 대두)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 스레드 (Multithreading) 도입 (자원 공유, 경제성 확보)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SMP (대칭형 다중 처리) 멀티코어 환경 (확장성 및 병렬성 극대화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사용자 레벨 가상 스레드 (Virtual Thread, Coroutine) 최적화로 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계를 극복하기 위해 처리 단위가 어떻게 경량화되고 하드웨어 확장성을 끌어안으며 발전했는지를 보여준다.
 

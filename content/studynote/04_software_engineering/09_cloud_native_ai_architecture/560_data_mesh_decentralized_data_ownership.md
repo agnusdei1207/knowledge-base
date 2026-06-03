@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: `Data Mesh`는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀(결제, 배송)이 자기 구역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산/정제를 끝까지 책임지고 셀프 서빙(Self-serve) 인프라에 올려서 남들에게 **'[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 팔 수 있는 상품([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product)'**처럼 진열해 두는 분산형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 철학이다. 
+- **개념**: `Data Mesh`는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀(결제, 배송)이 자기 구역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생산/정제를 끝까지 책임지고 셀프 서빙(Self-serve) 인프라에 올려서 남들에게 <strong>'<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 하나의 팔 수 있는 상품(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">as</a> a Product)'</strong>처럼 진열해 두는 분산형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 철학이다. 
 
-- **필요성 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크의 늪과 중앙 병목의 폭발)**: 옛날엔 빅데이터 열풍에 취해 사내 100개 팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무지성으로 S3 `데이터 레이크` 중앙 창고 하나에 다 쑤셔 부었다. 그리고 가엾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 10명이 그 쓰레기 산([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))을 뒤지며 마케팅팀의 "결제 전환율 통계 좀 뽑아주세요!"라는 주문을 매일 받아 쳐냈다. 문제는 중앙 엔지니어는 '결제([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))' 로직을 1도 모른다는 것이다. "결제팀에서 `status_code 4`라고 던졌는데 이거 환불인가요?" 물어보느라 3달이 걸려 파이프라인([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))을 하나 뚫었다. **"중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀 10명이 전사 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요구사항을 독박으로 처리하려니 회사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민첩성 속도가 0에 수렴하는 끔찍한 바틀넥([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))"**이 터지며, 이를 부수기 위한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)의 칼바람이 불었다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레이크의 늪과 중앙 병목의 폭발)</strong>: 옛날엔 빅데이터 열풍에 취해 사내 100개 팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무지성으로 S3 `데이터 레이크` 중앙 창고 하나에 다 쑤셔 부었다. 그리고 가엾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어 10명이 그 쓰레기 산([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))을 뒤지며 마케팅팀의 "결제 전환율 통계 좀 뽑아주세요!"라는 주문을 매일 받아 쳐냈다. 문제는 중앙 엔지니어는 '결제([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))' 로직을 1도 모른다는 것이다. "결제팀에서 `status_code 4`라고 던졌는데 이거 환불인가요?" 물어보느라 3달이 걸려 파이프라인([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))을 하나 뚫었다. <strong>"중앙 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>팀 10명이 전사 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000명의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 요구사항을 독박으로 처리하려니 회사의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 민첩성 속도가 0에 수렴하는 끔찍한 바틀넥(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)"</strong>이 터지며, 이를 부수기 위한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)의 칼바람이 불었다.
 
-- **💡 비유**: 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크는 **'초대형 중앙 집중식 쓰레기장 겸 재활용 센터'**입니다. 동네([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 50곳에서 온갖 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 분리수거도 안 하고 한곳에 쏟아붓습니다. 가운데 앉은 불쌍한 재활용 직원 10명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어)이 냄새나는 산을 뒤지며 땀 뻘뻘 흘려 쓸만한 플라스틱을 골라냅니다(효율 최악). [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 **'각 동네 재활용 책임제'**입니다. 결제 동네, 배송 동네에서 각자 주민들이 깨끗하게 세척하고 분리수거해서 딱 묶어 '예쁜 완제품 상자([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))'로 집 앞에 내놓습니다. 중앙 직원은 없고, 필요한 사람은 그냥 지나가다 그 예쁜 상자를 가져다 쓰기만 하면 되는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 친환경 시스템입니다.
+- **💡 비유**: 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크는 <strong>'초대형 중앙 집중식 쓰레기장 겸 재활용 센터'</strong>입니다. 동네([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 50곳에서 온갖 쓰레기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 분리수거도 안 하고 한곳에 쏟아붓습니다. 가운데 앉은 불쌍한 재활용 직원 10명([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어)이 냄새나는 산을 뒤지며 땀 뻘뻘 흘려 쓸만한 플라스틱을 골라냅니다(효율 최악). [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 <strong>'각 동네 재활용 책임제'</strong>입니다. 결제 동네, 배송 동네에서 각자 주민들이 깨끗하게 세척하고 분리수거해서 딱 묶어 '예쁜 완제품 상자([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/))'로 집 앞에 내놓습니다. 중앙 직원은 없고, 필요한 사람은 그냥 지나가다 그 예쁜 상자를 가져다 쓰기만 하면 되는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 친환경 시스템입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/) (구석기)**: 오라클 통짜 DB에 정형화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 예쁘게 모아둠. 확장성 부족.
-  2. **[Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) (신석기)**: "야 그냥 다 쑤셔 넣어! [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/S3!" ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 붐). 엄청나게 쌓였으나 아무도 의미를 모르는 쓰레기 늪([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))이 됨.
-  3. **Zhamak Dehghani의 [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) 제창 (2019~)**: ThoughtWorks의 아키텍트가 일침을 놨다. "니들 백엔드는 MSA로 다 찢어서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 해졌으면서, 왜 빅데이터 분석 인프라(파이프라인)는 아직도 중앙에 모놀리식으로 뚱뚱하게 모아두고 병목 짓거리냐? [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 찢어서 걔들한테 책임지라 그래!" 빅데이터 씬의 거대한 패러다임 시프트가 터졌다.
+  1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/">Data Warehouse</a> (구석기)</strong>: 오라클 통짜 DB에 정형화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 예쁘게 모아둠. 확장성 부족.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a> (신석기)</strong>: "야 그냥 다 쑤셔 넣어! [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/S3!" ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 붐). 엄청나게 쌓였으나 아무도 의미를 모르는 쓰레기 늪([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))이 됨.
+  3. <strong>Zhamak Dehghani의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a> 제창 (2019~)</strong>: ThoughtWorks의 아키텍트가 일침을 놨다. "니들 백엔드는 MSA로 다 찢어서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 해졌으면서, 왜 빅데이터 분석 인프라(파이프라인)는 아직도 중앙에 모놀리식으로 뚱뚱하게 모아두고 병목 짓거리냐? [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별로 찢어서 걔들한테 책임지라 그래!" 빅데이터 씬의 거대한 패러다임 시프트가 터졌다.
 
-- **📢 섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 혁명은 공장의 **'품질 관리(QA) 부서의 해체'**와 같습니다. 옛날엔 100명이 각자 대충 부품을 만들면 맨 끝에 있는 불쌍한 중앙 QA팀 5명이 불량품을 다 걸러내느라([데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)) 공장 출고가 막혔습니다. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 중앙 QA팀을 없애버리고, "부품 만든 너희 100명이 각자 100% 품질 검사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임) 끝내고 라벨 붙여서 컨베이어에 올려라!"라고 생산자에게 독박 책임을 묻는 극강의 품질 분권화입니다.
+- **📢 섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 혁명은 공장의 <strong>'품질 관리(QA) 부서의 해체'</strong>와 같습니다. 옛날엔 100명이 각자 대충 부품을 만들면 맨 끝에 있는 불쌍한 중앙 QA팀 5명이 불량품을 다 걸러내느라([데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)) 공장 출고가 막혔습니다. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 중앙 QA팀을 없애버리고, "부품 만든 너희 100명이 각자 100% 품질 검사([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 책임) 끝내고 라벨 붙여서 컨베이어에 올려라!"라고 생산자에게 독박 책임을 묻는 극강의 품질 분권화입니다.
 
 ---
 
 다음은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 메시 (Data Mesh)                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 메시 (Data Mesh)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) ([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데이터 메시 (Data Mesh) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 메시 (Data Mesh) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

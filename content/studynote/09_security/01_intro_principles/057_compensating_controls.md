@@ -94,15 +94,21 @@ tags = ["studynote-security"]
 
 ## 관련 개념 맵
 
-```text
-기본 통제 불가
-   ↓
-대체 수단 조합
-   ↓
-동등한 위험 감소
-   ↓
-감사 증빙 / 예외 승인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 통제 불가</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">대체 수단 조합</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">동등한 위험 감소</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">감사 증빙 / 예외 승인</div>
+</div>
+</div>
+
+
 
 ---
 

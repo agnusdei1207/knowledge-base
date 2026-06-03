@@ -23,7 +23,7 @@ BMT는 서버, 스토리지, [데이터베이스](/knowledge-base/studynote/05_d
 
 BMT가 필요한 이유는 제조사 스펙이 대개 특정 조건에서 측정된 최댓값이기 때문이다. 예를 들어 저장장치가 4KB, 100% 읽기, 큐 깊이 최대 조건에서 100만 IOPS를 낸다고 해도, 실제 업무가 64KB 혼합 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 높은 동시성으로 움직인다면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 크게 다를 수 있다. 결국 구매자는 자기 업무 패턴을 반영한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이는 "빠른 장비"가 아니라 "우리 환경에서 맞는 장비"를 고르기 어렵다.
 
-특히 공공·금융·대형 기업 환경에서는 한 번의 장비 선정이 수년의 운영 안정성을 좌우한다. 따라서 BMT는 단순한 기술 비교가 아니라, 장애 비용과 재도입 비용을 줄이는 **사전 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제 장치**로 이해해야 한다.
+특히 공공·금융·대형 기업 환경에서는 한 번의 장비 선정이 수년의 운영 안정성을 좌우한다. 따라서 BMT는 단순한 기술 비교가 아니라, 장애 비용과 재도입 비용을 줄이는 <strong>사전 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 통제 장치</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: BMT는 광고만 보고 차를 사지 않고, 내가 매일 다니는 언덕길과 막히는 출근길에서 직접 시승해 보는 절차와 같다. 화려한 카탈로그보다 내 길에서의 실제 반응이 더 중요하다.
 
@@ -43,20 +43,20 @@ BMT가 필요한 이유는 제조사 스펙이 대개 특정 조건에서 측정
 
 아래 흐름은 BMT가 단순 벤치마크 한 번이 아니라, 사전 기준을 둔 의사결정 과정임을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            BMT flow: same workload, same rules, measurable result         │
-├────────────────────────────────────────────────────────────────────────────┤
-│  Requirement                                                               │
-│      │                                                                     │
-│      ▼                                                                     │
-│  Workload Model -> Testbed Setup -> Run & Repeat -> Fault Injection       │
-│      │                                │                    │               │
-│      └─────────────── Scorecard & Pass/Fail Decision ─────┘               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 과정에서 중요한 것은 워밍업 구간과 정상 상태 구간을 분리하고, 평균값뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 자원 여유율을 함께 보는 것이다. 또한 장애 시험은 단순 핑 손실이 아니라 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 절체, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 운영 알람까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. BMT의 품질은 테스트 도구보다 **조건 통제와 평가 기준의 명확성**에서 결정된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BMT flow: same workload, same rules, measurable result</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload Model -&gt; Testbed Setup -&gt; Run &amp; Repeat -&gt; Fault Injection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scorecard &amp; Pass/Fail Decision</div></div>
+</div>
+</div>
+
+
+
+이 과정에서 중요한 것은 워밍업 구간과 정상 상태 구간을 분리하고, 평균값뿐 아니라 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 자원 여유율을 함께 보는 것이다. 또한 장애 시험은 단순 핑 손실이 아니라 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 절체, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 운영 알람까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. BMT의 품질은 테스트 도구보다 <strong>조건 통제와 평가 기준의 명확성</strong>에서 결정된다.
 
 - **📢 섹션 요약 비유**: BMT는 한 번의 달리기 기록만 보는 체력장이 아니라, 오래 뛰기·비 오는 날 달리기·넘어졌다 다시 일어나기까지 함께 보는 종합 체력 검사와 같다.
 
@@ -89,7 +89,7 @@ BMT는 다른 운영 지표와도 연결된다. 예를 들어 고가용성 장�
 3. 장애 주입 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 절체 시간, 운영 알람까지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가?
 4. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 40, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 30, 운영성 20, 비용 10처럼 가중치가 사전에 정의돼 있는가?
 
-흔한 실패는 벤더가 잘하는 스크립트만 돌리고 끝내는 것이다. 또 하나의 실패는 최고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 숫자만 보고 선택해, 실제 운영에서 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 나쁜 장비를 뽑는 경우다. BMT의 목표는 우승 기록이 아니라 **운영 가능한 장비를 증거 기반으로 고르는 것**이라는 점을 잊지 말아야 한다.
+흔한 실패는 벤더가 잘하는 스크립트만 돌리고 끝내는 것이다. 또 하나의 실패는 최고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 숫자만 보고 선택해, 실제 운영에서 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 나쁜 장비를 뽑는 경우다. BMT의 목표는 우승 기록이 아니라 <strong>운영 가능한 장비를 증거 기반으로 고르는 것</strong>이라는 점을 잊지 말아야 한다.
 
 - **📢 섹션 요약 비유**: 시험 범위를 미리 정하지 않으면 학생이 잘하는 문제만 풀고도 만점처럼 보일 수 있다. BMT는 전 과목과 실전 상황까지 포함해 진짜 실력을 보게 만드는 감독 규칙이다.
 
@@ -99,7 +99,7 @@ BMT는 다른 운영 지표와도 연결된다. 예를 들어 고가용성 장�
 
 BMT를 제대로 수행하면 장비 선정의 실패 확률을 줄이고, 운영 중 예상치 못한 병목과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문제를 사전에 발견할 수 있다. 또한 벤더 제안서의 추상적 표현을 수치와 로그로 바꾸어, 내부 승인과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응에도 강한 근거를 남길 수 있다. 대규모 사업일수록 이 문서화 효과는 기술적 효과만큼 중요하다.
 
-물론 BMT가 모든 미래를 보장하지는 않는다. 생산계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화, 사용자 증가, 소프트웨어 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 차이로 실제 운영 결과는 달라질 수 있으므로, 도입 후에도 주기적 재검증과 모니터링이 필요하다. 그래도 BMT는 "감으로 사는 장비"를 "증거로 고르는 장비"로 바꾸는 핵심 절차다. 이 주제는 결국 **벤더 스펙을 믿을 것인가가 아니라, 우리 기준으로 증명시킬 것인가의 문제**로 기억하면 된다.
+물론 BMT가 모든 미래를 보장하지는 않는다. 생산계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화, 사용자 증가, 소프트웨어 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 차이로 실제 운영 결과는 달라질 수 있으므로, 도입 후에도 주기적 재검증과 모니터링이 필요하다. 그래도 BMT는 "감으로 사는 장비"를 "증거로 고르는 장비"로 바꾸는 핵심 절차다. 이 주제는 결국 <strong>벤더 스펙을 믿을 것인가가 아니라, 우리 기준으로 증명시킬 것인가의 문제</strong>로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: BMT는 큰 시험 전에 미리 실전 모의고사를 치러 보는 것과 같다. 점수를 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 본시험에서 놀랄 일이 줄어든다.
 
@@ -117,21 +117,23 @@ BMT를 제대로 수행하면 장비 선정의 실패 확률을 줄이고, 운�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 · SLA 정의
-    │
-    ▼
-워크로드 모델링 · 시험 환경 통일
-    │
-    ▼
-성능 · 가용성 · 운영성 반복 측정
-    │
-    ▼
-점수화 · 우선순위 결정
-    │
-    ▼
-도입 이후 FAT/SAT 및 운영 검증 연계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 · SLA 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워크로드 모델링 · 시험 환경 통일</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 · 가용성 · 운영성 반복 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">점수화 · 우선순위 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도입 이후 FAT/SAT 및 운영 검증 연계</div>
+</div>
+</div>
+
+
 
 이 흐름은 BMT가 단발 테스트가 아니라, 선정·구매·운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 잇는 연속 절차임을 보여준다.
 

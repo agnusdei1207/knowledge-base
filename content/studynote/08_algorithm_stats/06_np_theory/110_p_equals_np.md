@@ -55,40 +55,39 @@ P ⊆ NP 관계:
 
 ## Ⅱ. 밀레니엄 문제와 역사
 
-```
-클레이 수학 연구소 밀레니엄 7대 난제 (2000년 발표):
-  1. P vs NP ← 오늘 주제
-  2. 호지 추측
-  3. 푸앵카레 추측 (2003 Perelman 증명, 유일하게 해결)
-  4. 리만 가설
-  5. Yang-Mills 존재성과 질량 간극
-  6. 나비에-스토크스 방정식
-  7. Birch and Swinnerton-Dyer 추측
-  
-  각 문제 해결 상금: $1,000,000 (100만 달러)
 
-P vs NP 역사:
-  1971년: Stephen Cook
-    Cook-Levin 정리: SAT(만족 가능성 문제)가 NP-완전
-    
-  1972년: Richard Karp
-    21개 NP-완전 문제 목록 발표
-    (배낭 문제, 해밀턴 경로, 3-색칠 문제 등)
-    
-  2000년: 클레이 수학 연구소 공식 난제 등록
-  
-  2010년: Vinay Deolalikar (HP Labs)
-    "P ≠ NP 증명" 논문 발표 → 오류 발견, 철회
-    
-  현재: 여전히 미해결
 
-증명의 어려움:
-  대각화(Diagonalization) 기법 한계
-  자연화 장벽 (Relativization Barrier)
-  대수화 장벽 (Algebrization Barrier)
-  오라클화 장벽 (Oracle Barrier)
-  → 기존 수학 도구가 통하지 않음
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클레이 수학 연구소 밀레니엄 7대 난제 (2000년 발표):</div>
+<div class="kb-diagram-note">1. P vs NP ← 오늘 주제</div>
+<div class="kb-diagram-note">2. 호지 추측</div>
+<div class="kb-diagram-note">3. 푸앵카레 추측 (2003 Perelman 증명, 유일하게 해결)</div>
+<div class="kb-diagram-note">4. 리만 가설</div>
+<div class="kb-diagram-note">5. Yang-Mills 존재성과 질량 간극</div>
+<div class="kb-diagram-note">6. 나비에-스토크스 방정식</div>
+<div class="kb-diagram-note">7. Birch and Swinnerton-Dyer 추측</div>
+<div class="kb-diagram-note">각 문제 해결 상금: $1,000,000 (100만 달러)</div>
+<div class="kb-diagram-note">P vs NP 역사:</div>
+<div class="kb-diagram-note">1971년: Stephen Cook</div>
+<div class="kb-diagram-note">Cook-Levin 정리: SAT(만족 가능성 문제)가 NP-완전</div>
+<div class="kb-diagram-note">1972년: Richard Karp</div>
+<div class="kb-diagram-note">21개 NP-완전 문제 목록 발표</div>
+<div class="kb-diagram-note">(배낭 문제, 해밀턴 경로, 3-색칠 문제 등)</div>
+<div class="kb-diagram-note">2000년: 클레이 수학 연구소 공식 난제 등록</div>
+<div class="kb-diagram-note">2010년: Vinay Deolalikar (HP Labs)</div>
+<div class="kb-diagram-note">"P ≠ NP 증명" 논문 발표 → 오류 발견, 철회</div>
+<div class="kb-diagram-note">현재: 여전히 미해결</div>
+<div class="kb-diagram-note">증명의 어려움:</div>
+<div class="kb-diagram-note">대각화(Diagonalization) 기법 한계</div>
+<div class="kb-diagram-note">자연화 장벽 (Relativization Barrier)</div>
+<div class="kb-diagram-note">대수화 장벽 (Algebrization Barrier)</div>
+<div class="kb-diagram-note">오라클화 장벽 (Oracle Barrier)</div>
+<div class="kb-diagram-note">→ 기존 수학 도구가 통하지 않음</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: P = NP는 수학계의 에베레스트 — 50년 넘게 수천 명이 도전했지만 아직 정상 정복 불가. 오히려 "왜 못 오르는지"를 설명하는 새로운 수학이 계속 발전 중.
 
@@ -96,38 +95,37 @@ P vs NP 역사:
 
 ## Ⅲ. P = NP일 경우의 영향
 
-```
-만약 P = NP라면:
 
-암호화 시스템 붕괴:
-  RSA: 소인수분해 문제 (NP 문제)
-    현재: 2048비트 소인수분해 → 10^14년 이상
-    P=NP: 다항 시간 내 풀 수 있다 → 수 초~분
-  
-  AES: 키 탐색이 사실 P일 수도
-  
-  블록체인 해시: 역함수 찾기 (현재 NP)
-    → P=NP면 블록체인 보안 기반 붕괴
 
-긍정적 영향:
-  최적화 문제 완전 해결:
-    TSP(외판원 문제) → 완벽한 물류 최적화
-    단백질 접힘(Protein Folding) → 신약 개발 혁신
-    스케줄링 문제 → 완벽한 자원 배분
-  
-  수학 자동화:
-    AI가 모든 수학 정리를 자동 증명
-    "수학이 컴퓨터 과학이 된다"
-  
-  AI 진화:
-    기계 학습 최적화 문제 완전 해결
-    NP-hard 학습 문제 다항 시간 해결
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">만약 P = NP라면:</div>
+<div class="kb-diagram-note">암호화 시스템 붕괴:</div>
+<div class="kb-diagram-note">RSA: 소인수분해 문제 (NP 문제)</div>
+<div class="kb-diagram-note">현재: 2048비트 소인수분해 → 10^14년 이상</div>
+<div class="kb-diagram-note">P=NP: 다항 시간 내 풀 수 있다 → 수 초~분</div>
+<div class="kb-diagram-note">AES: 키 탐색이 사실 P일 수도</div>
+<div class="kb-diagram-note">블록체인 해시: 역함수 찾기 (현재 NP)</div>
+<div class="kb-diagram-note">→ P=NP면 블록체인 보안 기반 붕괴</div>
+<div class="kb-diagram-note">긍정적 영향:</div>
+<div class="kb-diagram-note">최적화 문제 완전 해결:</div>
+<div class="kb-diagram-note">TSP(외판원 문제) → 완벽한 물류 최적화</div>
+<div class="kb-diagram-note">단백질 접힘(Protein Folding) → 신약 개발 혁신</div>
+<div class="kb-diagram-note">스케줄링 문제 → 완벽한 자원 배분</div>
+<div class="kb-diagram-note">수학 자동화:</div>
+<div class="kb-diagram-note">AI가 모든 수학 정리를 자동 증명</div>
+<div class="kb-diagram-note">"수학이 컴퓨터 과학이 된다"</div>
+<div class="kb-diagram-note">AI 진화:</div>
+<div class="kb-diagram-note">기계 학습 최적화 문제 완전 해결</div>
+<div class="kb-diagram-note">NP-hard 학습 문제 다항 시간 해결</div>
+<div class="kb-diagram-note">현실적 시나리오 (P=NP라도):</div>
+<div class="kb-diagram-note">증명이 존재해도 상수 계수 너무 클 수 있음</div>
+<div class="kb-diagram-note">예: O(n^1000) → 다항 시간이지만 비실용적</div>
+<div class="kb-diagram-note">→ "실용적 P=NP"는 별개 문제</div>
+</div>
+</div>
 
-현실적 시나리오 (P=NP라도):
-  증명이 존재해도 상수 계수 너무 클 수 있음
-  예: O(n^1000) → 다항 시간이지만 비실용적
-  → "실용적 P=NP"는 별개 문제
-```
+
 
 > 📢 **섹션 요약 비유**: P = NP는 마스터키 발견 — 모든 자물쇠를 열 수 있는 열쇠이자 모든 자물쇠의 의미가 없어지는 열쇠. 보안의 근간이 흔들리는 가정.
 
@@ -135,42 +133,39 @@ P vs NP 역사:
 
 ## Ⅳ. P ≠ NP 가정 하의 실용적 접근
 
-```
-NP 문제의 현실적 해법 (P ≠ NP 가정):
 
-근사 알고리즘 (Approximation Algorithm):
-  정확한 최적해 대신 (1+ε) 배 이내 근사해
-  
-  예: TSP 2-근사 알고리즘 (Christofides)
-    최적해의 1.5배 이내 보장
-    O(n^3) 다항 시간
-  
-  예: Knapsack (0/1 배낭)
-    FPTAS: (1+ε)-근사해, O(n/ε) 시간
 
-메타휴리스틱:
-  시뮬레이티드 어닐링 (SA):
-    무작위 탐색 + 냉각 스케줄
-    
-  유전 알고리즘 (GA):
-    진화 시뮬레이션으로 해 탐색
-    
-  앤트 콜로니 최적화 (ACO):
-    개미 페로몬 방식
-    
-  입자 군집 최적화 (PSO):
-    새 떼 군집 이동 방식
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NP 문제의 현실적 해법 (P ≠ NP 가정):</div>
+<div class="kb-diagram-note">근사 알고리즘 (Approximation Algorithm):</div>
+<div class="kb-diagram-note">정확한 최적해 대신 (1+ε) 배 이내 근사해</div>
+<div class="kb-diagram-note">예: TSP 2-근사 알고리즘 (Christofides)</div>
+<div class="kb-diagram-note">최적해의 1.5배 이내 보장</div>
+<div class="kb-diagram-note">O(n^3) 다항 시간</div>
+<div class="kb-diagram-note">예: Knapsack (0/1 배낭)</div>
+<div class="kb-diagram-note">FPTAS: (1+ε)-근사해, O(n/ε) 시간</div>
+<div class="kb-diagram-note">메타휴리스틱:</div>
+<div class="kb-diagram-note">시뮬레이티드 어닐링 (SA):</div>
+<div class="kb-diagram-note">무작위 탐색 + 냉각 스케줄</div>
+<div class="kb-diagram-note">유전 알고리즘 (GA):</div>
+<div class="kb-diagram-note">진화 시뮬레이션으로 해 탐색</div>
+<div class="kb-diagram-note">앤트 콜로니 최적화 (ACO):</div>
+<div class="kb-diagram-note">개미 페로몬 방식</div>
+<div class="kb-diagram-note">입자 군집 최적화 (PSO):</div>
+<div class="kb-diagram-note">새 떼 군집 이동 방식</div>
+<div class="kb-diagram-note">Fixed-Parameter Tractable (FPT):</div>
+<div class="kb-diagram-note">파라미터 k에 대해 O(f(k) × n^c) 시간</div>
+<div class="kb-diagram-note">k가 작으면 실용적</div>
+<div class="kb-diagram-note">예: k-vertex cover, k-planar graph</div>
+<div class="kb-diagram-note">특수 구조 활용:</div>
+<div class="kb-diagram-note">그래프가 트리형 → 트리 분해 알고리즘</div>
+<div class="kb-diagram-note">그래프가 평면 → 평면 그래프 알고리즘</div>
+<div class="kb-diagram-note">입력에 제약 조건 → DP로 폭발적 탐색 제한</div>
+</div>
+</div>
 
-Fixed-Parameter Tractable (FPT):
-  파라미터 k에 대해 O(f(k) × n^c) 시간
-  k가 작으면 실용적
-  예: k-vertex cover, k-planar graph
 
-특수 구조 활용:
-  그래프가 트리형 → 트리 분해 알고리즘
-  그래프가 평면 → 평면 그래프 알고리즘
-  입력에 제약 조건 → DP로 폭발적 탐색 제한
-```
 
 > 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))이 완벽한 지도보다 실용적.
 
@@ -178,39 +173,39 @@ Fixed-Parameter Tractable (FPT):
 
 ## Ⅴ. 실무 시나리오 — 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계
 
-```
-암호화 시스템과 P ≠ NP 가정:
 
-현대 공개키 암호화 근거:
-  RSA 가정:
-    "큰 수의 소인수분해는 NP이며, P가 아니다"
-    2048비트: n = p × q (p, q는 1024비트 소수)
-    복호화: 작은 d만 알면 O(n) → P
-    공격: n을 소인수분해해야 → 현재 NP
-    
-  타원곡선(ECC) 가정:
-    "타원곡선 이산 로그는 NP이며, P가 아니다"
-    256비트 ECC ≈ 3072비트 RSA 보안 강도
-    
-양자 컴퓨터의 위협 (별개 문제):
-  Shor 알고리즘: 양자 컴퓨터로 소인수분해 O((log n)^3)
-  → P=NP가 아니어도 양자 컴퓨터면 RSA 취약!
-  → 양자 내성 암호(Post-Quantum Cryptography) 필요
-  
-  NIST 표준화 (2024):
-    CRYSTALS-Kyber (키 교환)
-    CRYSTALS-Dilithium (서명)
-    SPHINCS+ (서명)
 
-P vs NP와 AI 보안:
-  적대적 예제 (Adversarial Example):
-    AI를 속이는 입력 찾기 = NP 문제
-    P=NP면 완벽한 적대적 예제 자동 생성 가능
-  
-현실: P ≠ NP를 가정하고 보안 설계
-  만약 P=NP 증명 시: 모든 암호화 시스템 교체 필요
-  대비: 양자 내성 알고리즘으로 이전 작업 진행 중
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">암호화 시스템과 P ≠ NP 가정:</div>
+<div class="kb-diagram-note">현대 공개키 암호화 근거:</div>
+<div class="kb-diagram-note">RSA 가정:</div>
+<div class="kb-diagram-note">"큰 수의 소인수분해는 NP이며, P가 아니다"</div>
+<div class="kb-diagram-note">2048비트: n = p × q (p, q는 1024비트 소수)</div>
+<div class="kb-diagram-note">복호화: 작은 d만 알면 O(n) → P</div>
+<div class="kb-diagram-note">공격: n을 소인수분해해야 → 현재 NP</div>
+<div class="kb-diagram-note">타원곡선(ECC) 가정:</div>
+<div class="kb-diagram-note">"타원곡선 이산 로그는 NP이며, P가 아니다"</div>
+<div class="kb-diagram-note">256비트 ECC ≈ 3072비트 RSA 보안 강도</div>
+<div class="kb-diagram-note">양자 컴퓨터의 위협 (별개 문제):</div>
+<div class="kb-diagram-note">Shor 알고리즘: 양자 컴퓨터로 소인수분해 O((log n)^3)</div>
+<div class="kb-diagram-note">→ P=NP가 아니어도 양자 컴퓨터면 RSA 취약!</div>
+<div class="kb-diagram-note">→ 양자 내성 암호(Post-Quantum Cryptography) 필요</div>
+<div class="kb-diagram-note">NIST 표준화 (2024):</div>
+<div class="kb-diagram-note">CRYSTALS-Kyber (키 교환)</div>
+<div class="kb-diagram-note">CRYSTALS-Dilithium (서명)</div>
+<div class="kb-diagram-note">SPHINCS+ (서명)</div>
+<div class="kb-diagram-note">P vs NP와 AI 보안:</div>
+<div class="kb-diagram-note">적대적 예제 (Adversarial Example):</div>
+<div class="kb-diagram-note">AI를 속이는 입력 찾기 = NP 문제</div>
+<div class="kb-diagram-note">P=NP면 완벽한 적대적 예제 자동 생성 가능</div>
+<div class="kb-diagram-note">현실: P ≠ NP를 가정하고 보안 설계</div>
+<div class="kb-diagram-note">만약 P=NP 증명 시: 모든 암호화 시스템 교체 필요</div>
+<div class="kb-diagram-note">대비: 양자 내성 알고리즘으로 이전 작업 진행 중</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: P ≠ NP 가정과 암호화는 자물쇠 산업 — "마스터키를 만들 수 없다"는 가정 위에 모든 자물쇠가 만들어짐. 가정이 무너지면 자물쇠 산업 전체 붕괴.
 

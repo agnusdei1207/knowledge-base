@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 점대점 링크로 설계된 PCIe를 더 큰 장치 집합으로 확장하기 위한 구조다. CPU (Central Processing Unit)나 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))가 제공하는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인 수는 한정돼 있으므로, 직접 연결만으로는 대량의 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 여러 장의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 고속 NIC를 모두 붙이기 어렵다. 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버, JBOF (Just a Bunch of Flash), 가속기 섀시처럼 장치 수가 CPU [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수를 쉽게 넘는 환경에서는 단순 bifurcation만으로 해결되지 않는다.
 
-여기서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 역할은 단순한 분배기가 아니다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 계층 패킷을 읽고 적절한 다운스트림 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하며, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 아래에 있는 장치끼리는 상위 루트 컴플렉스를 거치지 않고 서로 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하게 만들 수 있다. 그래서 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 늘리는 부품"이면서 동시에 **I/O [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 재설계하는 토폴로지 장치**다.
+여기서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 역할은 단순한 분배기가 아니다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 계층 패킷을 읽고 적절한 다운스트림 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하며, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 아래에 있는 장치끼리는 상위 루트 컴플렉스를 거치지 않고 서로 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하게 만들 수 있다. 그래서 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 늘리는 부품"이면서 동시에 <strong>I/O <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경로를 재설계하는 토폴로지 장치</strong>다.
 
 이 구조가 중요해진 배경은 두 가지다. 첫째, 장치 수와 장치당 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구가 동시에 커졌다. 둘째, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ↔ [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ↔ [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) ↔ GPU처럼 CPU보다 장치끼리 주고받는 동서(East-West) 트래픽이 늘었다. 따라서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 단순 확장이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 CPU 중심에서 장치 중심으로 흐르는 환경에 맞춘 해법이다.
 
@@ -35,28 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수를 늘리는 동시에, 어디서 병목이 생길 수 있는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      switch fabric는 fan-out과 local routing을 주지만 uplink는 유한 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Host / Root Complex  x16                                             │
-│          │                                                           │
-│          ▼                                                           │
-│   [ Upstream Port ]                                                  │
-│          │                                                           │
-│   ┌──────┴───────────────────────────────────────────────────────┐    │
-│   │                    PCIe Switch Fabric                         │    │
-│   │  crossbar + buffers + arbitration                             │    │
-│   ├───────────────┬───────────────────┬───────────────────────────┤    │
-│   │ Down x16      │ Down x16          │ Down x4                   │    │
-│   ▼               ▼                   ▼                           │    │
-│ GPU0  ◀── P2P ─▶  GPU1             NVMe SSD                       │    │
-│   │                                                    multi-host │    │
-│   └───────────────────────── local switching ─────────────────────┘    │
-│                                                                      │
-│ aggregate hot traffic > x16 uplink  → oversubscription bottleneck    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">switch fabric는 fan-out과 local routing을 주지만 uplink는 유한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host / Root Complex x16</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Upstream Port</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe Switch Fabric</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">crossbar + buffers + arbitration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Down x16</div><div class="kb-diagram-cell">Down x16</div><div class="kb-diagram-cell">Down x4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU0 ◀── P2P ─▶ GPU1 NVMe SSD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">multi-host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local switching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">aggregate hot traffic &gt; x16 uplink → oversubscription bottleneck</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 시 보는 포인트 |
 | :--- | :--- | :--- |
@@ -66,7 +62,7 @@ tags = ["studynote-computer-architecture"]
 | [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 경로 | 같은 패브릭 내 장치 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) | CPU 메모리 왕복 감소, 소프트웨어 지원 필요 |
 | NTB (Non-Transparent [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) / 멀티호스트 | 서로 다른 호스트를 분리 연결 | 주소 공간 격리, 장애 전파 범위 관리 필요 |
 
-따라서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭의 핵심은 "링크를 더 만든다"가 아니라, **어떤 트래픽은 로컬에서 돌리고 어떤 트래픽만 상위로 올릴지 결정하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 구조**에 있다. 이 때문에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수보다 내부 중재 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 실제 트래픽 행렬에 더 크게 좌우된다.
+따라서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭의 핵심은 "링크를 더 만든다"가 아니라, <strong>어떤 트래픽은 로컬에서 돌리고 어떤 트래픽만 상위로 올릴지 결정하는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 구조</strong>에 있다. 이 때문에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수보다 내부 중재 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 실제 트래픽 행렬에 더 크게 좌우된다.
 
 - **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 입체 교차로와 같다. 길이 많다고 다 빨라지는 것이 아니라, 어디서 바로 빠지고 어디서 합류하는지가 교통 흐름을 결정한다.
 
@@ -74,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 lane bifurcation과 자주 혼동되지만 성격이 다르다. bifurcation은 CPU가 가진 x16 레인을 x8+x8 또는 x4+x4+x4+x4처럼 **정적으로 쪼개는 것**이고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 들어온 트래픽을 **패킷 단위로 중재하고 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 것**이다. 즉 bifurcation은 배선을 나누는 기술이고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 토폴로지를 확장하는 기술이다.
+[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 lane bifurcation과 자주 혼동되지만 성격이 다르다. bifurcation은 CPU가 가진 x16 레인을 x8+x8 또는 x4+x4+x4+x4처럼 <strong>정적으로 쪼개는 것</strong>이고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 들어온 트래픽을 <strong>패킷 단위로 중재하고 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>하는 것</strong>이다. 즉 bifurcation은 배선을 나누는 기술이고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 토폴로지를 확장하는 기술이다.
 
 | 방식 | 장점 | 약점 | 잘 맞는 환경 |
 | :--- | :--- | :--- | :--- |
@@ -118,9 +114,9 @@ tags = ["studynote-computer-architecture"]
 
 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭을 제대로 설계하면 같은 CPU 레인 자원으로 더 많은 장치를 붙이고, 장치 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)을 활성화하며, 가속기와 스토리지를 더 유연하게 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)할 수 있다. 그래서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 노드, 스토리지 확장 섀시, 멀티호스트 가속기 박스에서 시스템 활용도가 크게 오른다. 특히 CPU 메모리를 우회하는 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 경로가 잘 살아나면, 복사 오버헤드와 루트 컴플렉스 부담이 함께 줄어든다.
 
-반대로 잘못 설계하면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 단순한 병목 증폭기로 바뀐다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수는 많아 보이는데 업링크가 막히고, 홉 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적되고, 리셋이나 오류가 넓게 번져 운영성이 떨어질 수 있다. 앞으로는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 6.0 이후 세대, 케이블 기반 외부 패브릭, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 스위칭과의 결합을 통해 더 큰 규모의 composable infrastructure로 확장되겠지만, 기본 원리는 여전히 같다. **토폴로지를 잘 짜야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.**
+반대로 잘못 설계하면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 단순한 병목 증폭기로 바뀐다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수는 많아 보이는데 업링크가 막히고, 홉 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적되고, 리셋이나 오류가 넓게 번져 운영성이 떨어질 수 있다. 앞으로는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 6.0 이후 세대, 케이블 기반 외부 패브릭, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 스위칭과의 결합을 통해 더 큰 규모의 composable infrastructure로 확장되겠지만, 기본 원리는 여전히 같다. <strong>토폴로지를 잘 짜야 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 나온다.</strong>
 
-결론적으로 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 단순한 멀티포트 허브가 아니라, **장치 수·[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·격리를 동시에 설계하는 I/O 토폴로지 엔진**이다. 이 개념은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 확장"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 어떻게 흐르는가를 설계하는 기술"로 기억해야 정확하다.
+결론적으로 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 단순한 멀티포트 허브가 아니라, <strong>장치 수·<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·격리를 동시에 설계하는 I/O 토폴로지 엔진</strong>이다. 이 개념은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 확장"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 어떻게 흐르는가를 설계하는 기술"로 기억해야 정확하다.
 
 - **📢 섹션 요약 비유**: [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭은 도시의 고속도로 인터체인지와 같다. 길을 많이 내는 것보다, 어떤 차를 어디로 우회시킬지 잘 설계할 때 도시 전체가 빨라진다.
 
@@ -139,22 +135,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 연결 PCIe 장치
-        │
-        ▼
-lane bifurcation 기반 정적 분기
-        │
-        ▼
-PCIe 스위치 패브릭
-        │
-        ├─▶ P2P DMA
-        ├─▶ 멀티호스트 / NTB
-        ├─▶ JBOF · GPU expansion chassis
-        │
-        ▼
-CXL switch · composable infrastructure · 외부 패브릭 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 연결 PCIe 장치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">lane bifurcation 기반 정적 분기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCIe 스위치 패브릭</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ P2P DMA</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 멀티호스트 / NTB</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ JBOF · GPU expansion chassis</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL switch · composable infrastructure · 외부 패브릭 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 나누는 수준"에서 출발해, "장치 간 경로와 자원 풀을 설계하는 수준"으로 진화하는 과정을 보여준다.
 

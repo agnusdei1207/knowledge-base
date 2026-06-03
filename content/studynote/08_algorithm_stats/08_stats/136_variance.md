@@ -125,23 +125,24 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 ρ = -1: 완전 음의 선형 상관
 ```
 
-**저분산 vs 고분산 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**:
+<strong>저분산 vs 고분산 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-```
-┌──────────────────────────────────────────────────────────┐
-│  저분산 분포                   고분산 분포               │
-│                                                          │
-│      ████                    ██                         │
-│     ██████                  ████                        │
-│    ████████                ██████                       │
-│   ██████████              ████████                      │
-│  ────μ────→              ───────μ───────→               │
-│                                                         │
-│  σ 작음 (좁은 분포)       σ 큼 (넓은 분포)             │
-│                                                         │
-│  품질 균일 (소분산)        위험 높음 (대분산)            │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저분산 분포 고분산 분포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████ ██</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████ ████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████████ ██████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████████ ████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ → μ →</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">σ 작음 (좁은 분포) σ 큼 (넓은 분포)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 균일 (소분산) 위험 높음 (대분산)</div></div>
+</div>
+</div>
+
+
 
 ### 변동 계수 ([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), Coefficient of Variation)
 
@@ -167,7 +168,7 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 동치: P(|X-μ| < kσ) ≥ 1 - 1/k²
 ```
 
-**분포 모양에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이** 성립하는 강력한 부등식!
+<strong>분포 모양에 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>없이</strong> 성립하는 강력한 부등식!
 
 | k 값 | P(|X-μ| ≥ kσ) ≤ | P(μ ± kσ 범위 내) ≥ |
 |:---:|:---:|:---:|
@@ -177,24 +178,27 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 | 4 | 6.25% | 93.75% |
 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 1% | 99% |
 
-**[정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)와의 비교**:
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a>와의 비교</strong>:
 - [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) μ±2σ: 95.4% (체비쇼프: 75% 이상 보장)
 - 체비쇼프는 더 느슨하지만 **모든 분포에 적용 가능**
 
 ### 응용 — 표본 평균의 수렴 증명
 
-```
-X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
 
-표본 평균 X̄ = (1/n)ΣXᵢ:
-  E[X̄] = μ
-  Var[X̄] = σ²/n
 
-체비쇼프 적용:
-  P(|X̄-μ| ≥ ε) ≤ σ²/(nε²) → 0 as n→∞
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">X₁,...,Xₙ i.i.d., E</div><div class="kb-diagram-node">Xᵢ</div><div class="kb-diagram-note">=μ, Var</div><div class="kb-diagram-node">Xᵢ</div><div class="kb-diagram-note">=σ²</div></div>
+<div class="kb-diagram-note">표본 평균 X̄ = (1/n)ΣXᵢ:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">X̄</div><div class="kb-diagram-note">= μ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Var</div><div class="kb-diagram-node">X̄</div><div class="kb-diagram-note">= σ²/n</div></div>
+<div class="kb-diagram-note">체비쇼프 적용:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(</div><div class="kb-diagram-cell">X̄-μ</div><div class="kb-diagram-cell">≥ ε) ≤ σ²/(nε²) → 0 as n→∞</div></div>
+<div class="kb-diagram-note">→ 대수의 법칙 (Law of Large Numbers) 증명!</div>
+</div>
+</div>
 
-→ 대수의 법칙 (Law of Large Numbers) 증명!
-```
+
 
 📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%다"라는 최악의 경우 보증서다.
 
@@ -204,15 +208,19 @@ X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
 
 ### 금융 위험 분석 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)
 
-```
-포트폴리오 수익률 R = w₁R₁ + w₂R₂
 
-Var[R] = w₁²Var[R₁] + w₂²Var[R₂] + 2w₁w₂Cov[R₁,R₂]
-       = w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂
 
-→ ρ = -1 이면 완전 분산 투자(헤지) 가능
-→ ρ > 0 이면 리스크 분산 효과 감소
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">포트폴리오 수익률 R = w₁R₁ + w₂R₂</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Var</div><div class="kb-diagram-node">R</div><div class="kb-diagram-note">= w₁²Var</div><div class="kb-diagram-node">R₁</div><div class="kb-diagram-note">+ w₂²Var</div><div class="kb-diagram-node">R₂</div><div class="kb-diagram-note">+ 2w₁w₂Cov</div><div class="kb-diagram-node">R₁,R₂</div></div>
+<div class="kb-diagram-note">= w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂</div>
+<div class="kb-diagram-note">→ ρ = -1 이면 완전 분산 투자(헤지) 가능</div>
+<div class="kb-diagram-note">→ ρ &gt; 0 이면 리스크 분산 효과 감소</div>
+</div>
+</div>
+
+
 
 ### ML [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))
 
@@ -250,24 +258,25 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[중심 경향 (Central Tendency)]
-    │
-    ▼
-[편차 (Deviation)]
-    │
-    ▼
-[분산 (Variance)]
-    │
-    ▼
-[표준 편차 (Standard Deviation)]
-    │
-    ▼
-[정규 분포 (Normal Distribution)]
-    │
-    ▼
-[통계적 추론 (Statistical Inference)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">중심 경향 (Central Tendency)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">편차 (Deviation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 (Variance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">표준 편차 (Standard Deviation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규 분포 (Normal Distribution)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통계적 추론 (Statistical Inference)</div></div>
+</div>
+</div>
+
+
 
 평균에서 벗어난 정도를 수치화한 분산이 표준 편차·분포 분석·통계 추론으로 이어지는 흐름이다.
 

@@ -19,35 +19,36 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-개발자가 소스 코드를 타이핑할 때는 위에서 아래로 순차적으로 진행될 것 같지만, 실상은 `if` (예/아니오)에서 물길이 갈라졌다가 다시 만나고, `while` 루프에서는 물길이 영원히 뱅글뱅글 도는 **혈관(흐름) 구조**를 가집니다.
+개발자가 소스 코드를 타이핑할 때는 위에서 아래로 순차적으로 진행될 것 같지만, 실상은 `if` (예/아니오)에서 물길이 갈라졌다가 다시 만나고, `while` 루프에서는 물길이 영원히 뱅글뱅글 도는 <strong>혈관(흐름) 구조</strong>를 가집니다.
 만약 이 혈관 어딘가가 막혀 있거나, 죽을 때까지 도는 소용돌이에 빠져있다면 프로그램은 흔히 말하는 '응답 없음(Hang)'에 빠져버립니다.
 
-이러한 논리의 꼬임 현상을 추적하기 위해 등장한 것이 **제어 흐름 테스팅([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)**입니다. 소스 코드를 읽는 대신, 각 실행 문장(Statement)을 동그라미(노드)로, `if/while`로 움직이는 방향을 화살표(간선)로 그리는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(CFG)를 만듭니다. 그리고 테스터는 주사위를 굴려 말을 움직이듯 이 화살표를 타고 경로를 시뮬레이션해 봅니다.
+이러한 논리의 꼬임 현상을 추적하기 위해 등장한 것이 <strong>제어 흐름 테스팅(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a> Testing)</strong>입니다. 소스 코드를 읽는 대신, 각 실행 문장(Statement)을 동그라미(노드)로, `if/while`로 움직이는 방향을 화살표(간선)로 그리는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(CFG)를 만듭니다. 그리고 테스터는 주사위를 굴려 말을 움직이듯 이 화살표를 타고 경로를 시뮬레이션해 봅니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  소스 코드와 제어 흐름 그래프(CFG) 매핑         │
-├──────────────────────────────────────────────────────────────┤
-│ [원시 코드 (Source Code)]                                     │
-│  1: int a = 10;                                              │
-│  2: if (a > 5) {                                             │
-│  3:     print("Big");                                        │
-│  4: } else {                                                 │
-│  5:     print("Small");                                      │
-│  6: }                                                        │
-│  7: return;                                                  │
-│                                                              │
-│ [제어 흐름 그래프 (CFG) 치환]                                    │
-│                 ( Node 1_2 : a 대입 및 if 비교 검사 )             │
-│                      ↙ (True)      ↘ (False)               │
-│      ( Node 3 : Big 출력 )        ( Node 5 : Small 출력 )    │
-│                      ↘             ↙                        │
-│                     ( Node 6_7 : 리턴 종료 )                  │
-│                                                              │
-│ ※ 길(Path)은 명확히 2개가 나왔다. 테스터는 무조건 a에 5보다 큰 값,  │
-│    작은 값 2개를 쏴야만 저 미로의 길을 다 덮을(Cover) 수 있다!       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 코드와 제어 흐름 그래프(CFG) 매핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드 (Source Code)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1: int a = 10;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: if (a &gt; 5) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: print("Big");</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: } else {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: print("Small");</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6: }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7: return;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어 흐름 그래프 (CFG) 치환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 1_2 : a 대입 및 if 비교 검사 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ (True) ↘ (False)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 3 : Big 출력 ) ( Node 5 : Small 출력 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 6_7 : 리턴 종료 )</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 길(Path)은 명확히 2개가 나왔다. 테스터는 무조건 a에 5보다 큰 값,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 값 2개를 쏴야만 저 미로의 길을 다 덮을(Cover) 수 있다!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 구불구불 산비탈에 나 있는 등산로(소스 코드)를 밑에서 쳐다보며 저기가 끊겼는지 아닌지 추측하기보다, 하늘에서 헬기를 타고 숲길의 갈라짐과 만남을 한 장의 '등산로 지도 그림([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))'으로 만들어 길의 구조를 장악하는 기법입니다.
 
@@ -62,7 +63,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리면, 단순히 경로를 확보하는 것 외에도 이 코드가 "얼마나 미치게 꼬여있고 쓰레기 같은지"를 객관적 숫자로 알 수 있습니다.
-토마스 맥케이브(Thomas McCabe)가 고안한 **순환 복잡도(Cyclomatic Complexity)**는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 화살표와 동그라미 수를 세어 복잡도를 평가합니다.
+토마스 맥케이브(Thomas McCabe)가 고안한 <strong>순환 복잡도(Cyclomatic Complexity)</strong>는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 화살표와 동그라미 수를 세어 복잡도를 평가합니다.
 
 - **계산 공식**: $V(G) = E(간선 수) - N(노드 수) + 2$
 - **의미**: 이 공식의 결괏값은 "이 로직에 숨겨져 있는 **독립적인 길(Basic Path)의 개수**"를 의미합니다.
@@ -86,7 +87,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-제어 흐름 테스팅의 핵심 전략은, 그려진 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 **'독립 경로 모음(Basis Set)'**을 뽑아내는 것입니다. 
+제어 흐름 테스팅의 핵심 전략은, 그려진 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 <strong>'독립 경로 모음(Basis Set)'</strong>을 뽑아내는 것입니다. 
 순환 복잡도가 4가 나왔다면, 최소 서로 다른 4가지의 흐름 고리가 존재한다는 뜻이고, 테스터는 4개의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(입력값 $x, y, z$의 조작)를 기가 막히게 세팅해서 4개의 경로만 찔러주면 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 구석구석을 100% 다 소독했다는 보증수표를 얻게 됩니다.
 
 만약 이 경로 탐색 중에 "어? 어떤 입력값을 넣건 간에 Node 5번으로 향하는 화살표로는 들어갈 수가 없네?"라는 결론이 나온다면, 바로 그것이 도달할 수 없는 유령 코드(Unreachable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))이며 제어 흐름 테스팅이 잡아내는 최고의 전리품입니다.
@@ -145,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-제어 흐름 테스트 (Control Flow Testing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제어 흐름 테스트 (Control Flow Testing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,7 +18,7 @@ tags = ["it_management"]
 
 ## Ⅰ. 개요 및 필요성
 
-[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))은 키를 해시 함수에 넣어 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치를 찾아내는 속도 O(1)의 마법 같은 자료구조다. 하지만 해시 함수는 무한한 키를 유한한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(버킷)로 압축하기 때문에, 서로 다른 키가 동일한 버킷 주소를 배정받는 **충돌 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))**이 필연적으로 발생한다. 이 충돌을 방치하면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 덮어씌워져 날아가는 대형 사고가 터진다.
+[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) ([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))은 키를 해시 함수에 넣어 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치를 찾아내는 속도 O(1)의 마법 같은 자료구조다. 하지만 해시 함수는 무한한 키를 유한한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(버킷)로 압축하기 때문에, 서로 다른 키가 동일한 버킷 주소를 배정받는 <strong>충돌 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>)</strong>이 필연적으로 발생한다. 이 충돌을 방치하면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 덮어씌워져 날아가는 대형 사고가 터진다.
 
 이 충돌을 해결하기 위해 고안된 것이 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) (Chaining)이다. [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)은 "방(버킷)이 꽉 찼으면 튕겨내거나 다른 방을 찾는 대신, 그냥 방 안에 꼬리표를 달아 계속 연결하자"는 단순한 철학에서 출발했다. 이 방식은 테이블이 일정 수준 이상 채워지더라도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 붕괴되지 않는 든든한 방어막을 제공한다.
 
@@ -28,35 +28,29 @@ tags = ["it_management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 핵심 아키텍처는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 버킷이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 들고 있는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 **[연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 머리 (Head) 포인터**만 들고 있다는 점이다.
+[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 핵심 아키텍처는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 버킷이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 들고 있는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>의 머리 (Head) 포인터</strong>만 들고 있다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  해시 테이블의 체인법 (Chaining) 구조          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Hash Function: key % 5]                                    │
-│                                                              │
-│  버킷 인덱스 (배열)          연결 리스트 (충돌된 데이터들 엮음)     │
-│  ┌─────┐                                                     │
-│  │  0  │──▶ [Key:A, Val:10] ──▶ [Key:F, Val:99] ──▶ Null   │
-│  ├─────┤                                                     │
-│  │  1  │──▶ Null (빈 버킷)                                  │
-│  ├─────┤                                                     │
-│  │  2  │──▶ [Key:C, Val:30] ──▶ Null                       │
-│  ├─────┤                                                     │
-│  │  3  │──▶ [Key:D, Val:40] ──▶ [Key:G, Val:77] ──▶ [Key:H]│
-│  ├─────┤                                                     │
-│  │  4  │──▶ [Key:E, Val:50] ──▶ Null                       │
-│  └─────┘                                                     │
-│                                                              │
-│  * 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!) │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 테이블의 체인법 (Chaining) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hash Function: key % 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버킷 인덱스 (배열) 연결 리스트 (충돌된 데이터들 엮음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:A, Val:10</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:F, Val:99</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">──▶ Null (빈 버킷)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:C, Val:30</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:D, Val:40</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:G, Val:77</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:H</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:E, Val:50</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!)</div></div>
+</div>
+</div>
+
+
 
 검색이나 삭제를 할 때는 1차로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 찾아가고, 2차로 해당 인덱스에 매달린 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 순차 탐색(O(N))하여 일치하는 키를 찾아낸다. 
 
-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 지표는 **부하율 (Load Factor = [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 / 버킷 수)**이다. 부하율이 1.0을 넘어가면 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 길이가 길어져 탐색 속도가 떨어진다. 이를 막기 위해 최신 아키텍처(예: Java HashMap)에서는 버킷에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 8개 이상 쌓이면 선형 리스트를 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))로 변신시켜 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 O(N)에서 O(log N)으로 방어하는 진화된 원리를 사용한다.
+[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 지표는 <strong>부하율 (Load Factor = <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수 / 버킷 수)</strong>이다. 부하율이 1.0을 넘어가면 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 길이가 길어져 탐색 속도가 떨어진다. 이를 막기 위해 최신 아키텍처(예: Java HashMap)에서는 버킷에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 8개 이상 쌓이면 선형 리스트를 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))로 변신시켜 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 O(N)에서 O(log N)으로 방어하는 진화된 원리를 사용한다.
 
 - **📢 섹션 요약 비유**: 서랍장의 칸(버킷)마다 끈을 달아두고, 같은 칸에 넣어야 할 영수증이 생길 때마다 끈에 집게로 줄줄이 매달아 두는([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 원리입니다. 영수증을 찾을 때는 그 끈을 처음부터 쭉 훑어보면 됩니다.
 
@@ -64,7 +58,7 @@ tags = ["it_management"]
 
 ## Ⅲ. 비교 및 연결
 
-[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)은 항상 라이벌인 **[개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/))**과 비교된다. [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)은 충돌이 나면 리스트를 만들지 않고 테이블 내의 다른 '빈 방'을 찾아 떠도는 방식이다.
+[체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)은 항상 라이벌인 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">개방 주소법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">Open Addressing</a>)</strong>과 비교된다. [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)은 충돌이 나면 리스트를 만들지 않고 테이블 내의 다른 '빈 방'을 찾아 떠도는 방식이다.
 
 | 비교 항목 | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/) (Chaining) | [개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/)) |
 |:---|:---|:---|
@@ -85,7 +79,7 @@ tags = ["it_management"]
 실무에서 해시 맵 구조를 직접 바닥부터 짜는 일은 드물지만, 이 원리를 알아야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝과 장애 분석이 가능하다.
 
 1. **Rehashing (재해싱) 폭풍 주의**: [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)이라도 무한정 끈만 길게 할 수는 없다. 시스템은 부하율이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(보통 0.75)를 넘으면 테이블 크기를 2배로 늘리고 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 배치(Rehashing)하는데, 이때 엄청난 CPU [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))가 튄다. 따라서 저장할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건수가 1,000만 건으로 예상된다면, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 용량을 처음부터 1,300만 이상으로 세팅해 재해싱을 원천 차단하는 것이 실력 있는 엔지니어의 판단이다.
-2. **보안 취약점 (Hash Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**: 악의적인 해커가 고의로 해시 충돌이 나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 수만 개 서버에 던지면, [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(O(N))을 악용해 서버 CPU를 100%로 마비시킬 수 있다. 이에 대응하기 위해 트리 변환이나 랜덤 시드(Seed)를 해시 함수에 섞는 방어 로직이 반드시 포함되어 있는지 스펙을 점검해야 한다.
+2. <strong>보안 취약점 (Hash Denial of <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: 악의적인 해커가 고의로 해시 충돌이 나는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 수만 개 서버에 던지면, [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(O(N))을 악용해 서버 CPU를 100%로 마비시킬 수 있다. 이에 대응하기 위해 트리 변환이나 랜덤 시드(Seed)를 해시 함수에 섞는 방어 로직이 반드시 포함되어 있는지 스펙을 점검해야 한다.
 
 - **📢 섹션 요약 비유**: 이사 갈 짐이 트럭 10대 분량인 걸 알면서도, 처음엔 작은 용달차를 부르고 꽉 차면 조금 더 큰 차를 다시 부르는 짓(Rehashing)을 반복하면 이삿날 밤을 꼬박 새우게 됩니다. 처음부터 15톤 트럭([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 용량 튜닝)을 부르는 것이 비용을 아끼는 판단입니다.
 
@@ -106,27 +100,29 @@ tags = ["it_management"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **부하율 (Load Factor)** | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓는 핵심 지표 (보통 0.75에서 확장 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) |
-| **[개방 주소법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/) ([Open Addressing](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/))** | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)과 쌍벽을 이루는 충돌 해결 기법 (선형 탐사 등) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">개방 주소법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/068_open_addressing/">Open Addressing</a>)</strong> | [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)과 쌍벽을 이루는 충돌 해결 기법 (선형 탐사 등) |
 | **재해싱 (Rehashing)** | 테이블 크기를 늘리고 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 새로운 해시값으로 재배치하는 무거운 작업 |
-| **[레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/) ([Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/))** | 자바에서 체인이 길어질 때 리스트 대신 교체 투입되는 고속 탐색 트리 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a>)</strong> | 자바에서 체인이 길어질 때 리스트 대신 교체 투입되는 고속 탐색 트리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-해시 테이블의 충돌 (Collision) 발생
-    │
-    ▼
-체인법 (Chaining) 도입 (연결 리스트로 묶음)
-    │
-    ▼
-임계치 초과 시 테이블 크기 2배 확장 및 재해싱 (Rehashing)
-    │
-    ▼
-보안 위협 (Hash DoS) 및 성능 저하 문제 직면
-    │
-    ▼
-데이터 8개 이상 충돌 시 O(log N) 탐색 보장을 위한 트리(Tree) 변환 아키텍처 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">해시 테이블의 충돌 (Collision) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">체인법 (Chaining) 도입 (연결 리스트로 묶음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임계치 초과 시 테이블 크기 2배 확장 및 재해싱 (Rehashing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 위협 (Hash DoS) 및 성능 저하 문제 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 8개 이상 충돌 시 O(log N) 탐색 보장을 위한 트리(Tree) 변환 아키텍처 결합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

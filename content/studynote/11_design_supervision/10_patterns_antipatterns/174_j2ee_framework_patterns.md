@@ -21,21 +21,23 @@ tags = ["studynote-design-supervision"]
 
 J2EE 패턴은 단순 객체 설계 기법이 아니라, 엔터프라이즈 웹 시스템이 반복해서 겪는 운영 문제에 대한 해법이다. 2000년대 초 J2EE 환경에서는 Servlet, JSP (JavaServer Pages), EJB (Enterprise JavaBeans), JNDI (Java Naming and [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) Interface), 원격 호출이 뒤섞이며 구조가 빠르게 복잡해졌다. 요청 처리 로직이 화면마다 흩어지고, 비즈니스 계층은 여러 원격 EJB를 잦게 호출했으며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 코드는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직에 섞였다. 이런 반복 문제를 "계층별 패턴 언어"로 정리한 것이 Core J2EE Patterns 계열이다.
 
-이 패턴들이 중요했던 이유는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 때문이다. 네트워크 왕복이 비싼 시대에는 자잘한 원격 호출이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하였고, JNDI lookup 같은 인프라 의존 코드가 프레젠테이션 계층까지 침투하면 테스트와 교체가 어려웠다. 결국 J2EE 패턴은 "어떤 클래스가 예쁜가"보다 **어떤 책임을 어느 계층 경계에 둬야 시스템이 견딜 수 있는가**를 다뤘다.
+이 패턴들이 중요했던 이유는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 때문이다. 네트워크 왕복이 비싼 시대에는 자잘한 원격 호출이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하였고, JNDI lookup 같은 인프라 의존 코드가 프레젠테이션 계층까지 침투하면 테스트와 교체가 어려웠다. 결국 J2EE 패턴은 "어떤 클래스가 예쁜가"보다 <strong>어떤 책임을 어느 계층 경계에 둬야 시스템이 견딜 수 있는가</strong>를 다뤘다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Enterprise pain points that created J2EE patterns                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Web tier       : duplicated request handling, auth, navigation       │
-│ Business tier  : chatty remote calls, unclear transaction boundary   │
-│ Integration    : SQL / JNDI / legacy access mixed into service code  │
-│                                                                      │
-│ Pattern goal   : split entry, orchestration, transfer, persistence   │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-현재는 Jakarta EE라는 이름이 더 공식적이지만, 설계 패턴 명칭과 사고방식은 여전히 J2EE 패턴으로 널리 통한다. 즉 이 주제는 특정 프레임워크 버전보다 **엔터프라이즈 계층 설계의 공통 문법**으로 기억하는 것이 맞다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise pain points that created J2EE patterns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web tier : duplicated request handling, auth, navigation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business tier : chatty remote calls, unclear transaction boundary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integration : SQL / JNDI / legacy access mixed into service code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pattern goal : split entry, orchestration, transfer, persistence</div></div>
+</div>
+</div>
+
+
+
+현재는 Jakarta EE라는 이름이 더 공식적이지만, 설계 패턴 명칭과 사고방식은 여전히 J2EE 패턴으로 널리 통한다. 즉 이 주제는 특정 프레임워크 버전보다 <strong>엔터프라이즈 계층 설계의 공통 문법</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: J2EE 패턴은 대형 병원에서 접수창구, 진료과, 검사실, 약국의 역할을 나누는 운영 매뉴얼과 같다. 한 사람이 모두 처리하면 처음엔 빨라 보여도, 환자가 많아질수록 혼란이 폭발한다.
 
@@ -45,24 +47,20 @@ J2EE 패턴은 단순 객체 설계 기법이 아니라, 엔터프라이즈 웹 
 
 J2EE 패턴의 핵심 원리는 네 가지다. 첫째, **단일 진입점**: 모든 웹 요청을 공통 지점에서 받아 공통 처리를 집중한다. 둘째, **원격 호출 축소**: 여러 번 왕복할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DTO와 Facade로 묶는다. 셋째, **인프라 의존성 격리**: JNDI lookup, SQL (Structured Query Language), 메시징 같은 기술 세부사항을 상위 계층에서 숨긴다. 넷째, **계층 책임 분리**: 프레젠테이션은 화면 흐름, 비즈니스는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 통합 계층은 저장/연계에 집중하게 만든다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ J2EE pattern map across layers                                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                               │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Front Controller -> Intercepting Filter -> Controller / View Helper  │
-│   │                                                                  │
-│   ▼                                                                  │
-│ Business Delegate -> Session Facade -> DTO / Assembler               │
-│   │                                                                  │
-│   ▼                                                                  │
-│ DAO / Repository-like access -> Database / Legacy / External Service │
-│                                                                      │
-│ Service Locator sits beside container lookup when DI is unavailable  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">J2EE pattern map across layers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller -&gt; Intercepting Filter -&gt; Controller / View Helper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Delegate -&gt; Session Facade -&gt; DTO / Assembler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO / Repository-like access -&gt; Database / Legacy / External Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Locator sits beside container lookup when DI is unavailable</div></div>
+</div>
+</div>
+
+
 
 | 패턴 | 주 계층 | 해결하려는 문제 | 현대적 해석 |
 | :--- | :--- | :--- | :--- |
@@ -74,9 +72,9 @@ J2EE 패턴의 핵심 원리는 네 가지다. 첫째, **단일 진입점**: 모
 | [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) | Integration | SQL/저장소 접근 코드 분리 | `@Repository`, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA (Java Persistence [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), persistence [adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) |
 | [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Locator | Infrastructure | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) lookup 중복 | 과거 JNDI 캡슐화, 현재는 DI로 대체 권장 |
 
-여기서 중요한 것은 패턴들이 독립적으로 존재하지 않는다는 점이다. 예를 들어 Front Controller가 요청을 모으면, 그 아래에서 공통 필터가 보안/로그를 처리하고, 비즈니스 호출은 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Facade로 모아 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 정의하며, 외부로 나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DTO로 정리되고, 저장소 접근은 DAO로 분리된다. 즉 J2EE 패턴은 개별 기법 모음이 아니라 **경계마다 다른 책임을 부여하는 협업 구조**다.
+여기서 중요한 것은 패턴들이 독립적으로 존재하지 않는다는 점이다. 예를 들어 Front Controller가 요청을 모으면, 그 아래에서 공통 필터가 보안/로그를 처리하고, 비즈니스 호출은 [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Facade로 모아 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 정의하며, 외부로 나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 DTO로 정리되고, 저장소 접근은 DAO로 분리된다. 즉 J2EE 패턴은 개별 기법 모음이 아니라 <strong>경계마다 다른 책임을 부여하는 협업 구조</strong>다.
 
-또한 현대 프레임워크는 많은 패턴을 내장한다. Spring MVC는 Front Controller를, Spring Transaction은 Facade의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계를, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA는 DAO의 구현 부담을 크게 줄였다. 그래서 오늘날 중요한 것은 패턴 구현 코드를 재현하는 일이 아니라, **프레임워크가 이미 제공하는 패턴적 성질을 이해하는 것**이다.
+또한 현대 프레임워크는 많은 패턴을 내장한다. Spring MVC는 Front Controller를, Spring Transaction은 Facade의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 경계를, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA는 DAO의 구현 부담을 크게 줄였다. 그래서 오늘날 중요한 것은 패턴 구현 코드를 재현하는 일이 아니라, <strong>프레임워크가 이미 제공하는 패턴적 성질을 이해하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: J2EE 패턴은 공연장을 운영할 때 입장 게이트, 안내 요원, 무대 감독, 창고 담당을 나누는 방식과 같다. 각 역할이 분명해야 관객이 많아져도 공연이 꼬이지 않는다.
 
@@ -84,7 +82,7 @@ J2EE 패턴의 핵심 원리는 네 가지다. 첫째, **단일 진입점**: 모
 
 ## Ⅲ. 비교 및 연결
 
-J2EE 패턴은 GoF (Gang of Four) 패턴, [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)), Spring 관례와 자주 비교된다. 차이는 해결 범위에 있다. GoF가 클래스와 객체 협력의 미시 구조를 다룬다면, J2EE는 웹 요청, 원격 호출, 저장소 연동 같은 **시스템 경계의 거시 구조**를 다룬다.
+J2EE 패턴은 GoF (Gang of Four) 패턴, [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)), Spring 관례와 자주 비교된다. 차이는 해결 범위에 있다. GoF가 클래스와 객체 협력의 미시 구조를 다룬다면, J2EE는 웹 요청, 원격 호출, 저장소 연동 같은 <strong>시스템 경계의 거시 구조</strong>를 다룬다.
 
 | 비교 축 | J2EE 패턴 | GoF 패턴 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) / 현대 Spring |
 | :--- | :--- | :--- | :--- |
@@ -93,7 +91,7 @@ J2EE 패턴은 GoF (Gang of Four) 패턴, [DDD](/knowledge-base/studynote/12_it_
 | 대표 패턴 | Front Controller, [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/), [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) | [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) | Repository, Application [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) |
 | 현대 적용 | 의도는 유지, 구현은 단순화 | 여전히 세부 설계에 유효 | J2EE 의도를 더 높은 수준에서 흡수 |
 
-특히 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Locator는 현대 환경에서 중요한 비교 포인트다. J2EE 초기에는 JNDI lookup 비용과 중복을 줄이는 유용한 패턴이었지만, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 컨테이너가 보편화된 뒤에는 의존성이 코드 밖에서 숨겨져 테스트가 어려워지는 문제가 더 커졌다. 따라서 **DI가 가능한 환경에서는 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Locator를 습관적으로 넣지 않는 판단**이 중요하다.
+특히 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Locator는 현대 환경에서 중요한 비교 포인트다. J2EE 초기에는 JNDI lookup 비용과 중복을 줄이는 유용한 패턴이었지만, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 컨테이너가 보편화된 뒤에는 의존성이 코드 밖에서 숨겨져 테스트가 어려워지는 문제가 더 커졌다. 따라서 <strong>DI가 가능한 환경에서는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Locator를 습관적으로 넣지 않는 판단</strong>이 중요하다.
 
 DAO와 Repository도 구분해야 한다. DAO는 저장 기술 중심 추상화에 가깝고, Repository는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 중심 추상화다. 즉 J2EE 패턴의 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 정신은 여전히 중요하지만, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 주도 설계가 강한 시스템에서는 Repository가 더 높은 수준의 해법일 수 있다.
 
@@ -127,7 +125,7 @@ DAO와 Repository도 구분해야 한다. DAO는 저장 기술 중심 추상화�
 3. [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Locator는 역사적으로 의미가 있으나, [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 환경에서는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 될 수 있다.
 4. [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/), DTO, Front Controller는 여전히 자주 쓰이지만, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도와 운영 경계에 맞게 선택해야 한다.
 
-결국 설계감리 관점의 질문은 "이 패턴을 썼는가"가 아니라, **요청 진입점, 업무 경계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계가 설계 문서와 코드에서 일관되게 분리되어 있는가**다.
+결국 설계감리 관점의 질문은 "이 패턴을 썼는가"가 아니라, <strong>요청 진입점, 업무 경계, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 경계가 설계 문서와 코드에서 일관되게 분리되어 있는가</strong>다.
 
 - **📢 섹션 요약 비유**: 패턴 적용은 부엌에 칼을 몇 자루 두느냐가 아니라, 칼·도마·냉장고가 제자리에 있어 요리가 엉키지 않게 만드는 주방 동선 설계와 같다.
 
@@ -137,7 +135,7 @@ DAO와 Repository도 구분해야 한다. DAO는 저장 기술 중심 추상화�
 
 J2EE 프레임워크 패턴을 올바르게 이해하면 엔터프라이즈 시스템의 구조를 "기술 조각 모음"이 아니라 "경계와 책임의 조합"으로 볼 수 있다. 그 결과 요청 처리, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근, 원격 통신을 분리해 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)과 테스트 가능성, 팀 간 협업 효율을 높일 수 있다. 특히 레거시 Java 시스템을 modernize할 때도 어떤 경계를 살리고 무엇을 걷어낼지 판단하는 기준이 된다.
 
-다만 모든 패턴이 오늘날 동일한 무게를 갖는 것은 아니다. 일부는 EJB/JNDI 시대의 제약을 반영한 해법이므로, 현대 Jakarta EE나 Spring에서는 더 단순한 방법으로 구현하는 편이 낫다. 따라서 J2EE 패턴을 외울 때는 "구현 세부"보다 **분리하려던 문제와 설계 의도**를 중심에 두는 것이 가장 중요하다.
+다만 모든 패턴이 오늘날 동일한 무게를 갖는 것은 아니다. 일부는 EJB/JNDI 시대의 제약을 반영한 해법이므로, 현대 Jakarta EE나 Spring에서는 더 단순한 방법으로 구현하는 편이 낫다. 따라서 J2EE 패턴을 외울 때는 "구현 세부"보다 <strong>분리하려던 문제와 설계 의도</strong>를 중심에 두는 것이 가장 중요하다.
 
 - **📢 섹션 요약 비유**: 오래된 도시의 교통 규칙을 공부하는 이유는 오래된 마차를 다시 타기 위해서가 아니라, 왜 길을 일방통행으로 나눴는지 이해해 오늘의 도로도 더 잘 설계하기 위해서다.
 
@@ -156,23 +154,25 @@ J2EE 프레임워크 패턴을 올바르게 이해하면 엔터프라이즈 시�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Servlet / JSP / EJB complexity
-    │
-    ▼
-Core J2EE Patterns
-    │
-    ├─ request entry unification
-    ├─ remote call reduction
-    ├─ transaction boundary definition
-    └─ persistence isolation
-    │
-    ▼
-Spring / Jakarta EE simplification
-    │
-    ▼
-Repository / DI / API-driven enterprise patterns
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Servlet / JSP / EJB complexity</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Core J2EE Patterns</div>
+<div class="kb-diagram-tree-item" style="--depth:2">request entry unification</div>
+<div class="kb-diagram-tree-item" style="--depth:2">remote call reduction</div>
+<div class="kb-diagram-tree-item" style="--depth:2">transaction boundary definition</div>
+<div class="kb-diagram-tree-item" style="--depth:2">persistence isolation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Spring / Jakarta EE simplification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Repository / DI / API-driven enterprise patterns</div>
+</div>
+</div>
+
+
 
 이 흐름은 J2EE 패턴이 레거시 제약을 해결하는 언어에서 출발해, 현대 프레임워크의 설계 의도로 흡수되는 과정을 보여 준다.
 

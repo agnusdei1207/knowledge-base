@@ -21,7 +21,7 @@ tags = ["studynote-ai"]
 
 ### 역사적 배경
 
-1943년 맥컬럭과 피츠(McCulloch & Pitts)는 뉴런을 이진 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)로 모델링했다. 1958년 로젠블랫(Frank Rosenblatt)은 이를 **[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))**이라는 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 발전시켰다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 최초의 [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)으로, AND·OR 같은 선형 분리 가능 문제를 자동으로 학습할 수 있었다.
+1943년 맥컬럭과 피츠(McCulloch & Pitts)는 뉴런을 이진 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)로 모델링했다. 1958년 로젠블랫(Frank Rosenblatt)은 이를 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">퍼셉트론</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/">Perceptron</a>)</strong>이라는 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 발전시켰다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 최초의 [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)으로, AND·OR 같은 선형 분리 가능 문제를 자동으로 학습할 수 있었다.
 
 ### 뉴런 모델 수식
 
@@ -32,9 +32,9 @@ z = w₁x₁ + w₂x₂ + ... + wₙxₙ - θ  (θ: 임계값, Threshold)
          0  if z < 0
 ```
 
-- **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), wᵢ)**: 각 입력의 중요도
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>, wᵢ)</strong>: 각 입력의 중요도
 - **임계값(Threshold, θ)**: 발화 기준값 (편향 -b로 치환 가능)
-- **[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)**: [계단 함수](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/)([Step Function](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/))
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a></strong>: [계단 함수](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/)([Step Function](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/))
 
 ### [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙
 
@@ -53,41 +53,39 @@ wᵢ ← wᵢ + η × (y_target - y_pred) × xᵢ
 
 ### 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 구조
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                   단층 퍼셉트론 (SLP) 구조                    │
-│                                                              │
-│   입력층 (Input Layer)         출력층 (Output Layer)          │
-│                                                              │
-│   x₁ ──[w₁]──┐                                              │
-│               │                                              │
-│   x₂ ──[w₂]──┼──► Σ(wᵢxᵢ) - θ ──► 계단 함수 ──► ŷ (0 or 1) │
-│               │                                              │
-│   x₃ ──[w₃]──┘                                              │
-│                                                              │
-│   ┌────────────────────────────────────────────────────┐    │
-│   │ 결정 경계: w₁x₁ + w₂x₂ = θ  (직선, 초평면)         │    │
-│   └────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단층 퍼셉트론 (SLP) 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 (Input Layer) 출력층 (Output Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₁ ──</div><div class="kb-diagram-node">w₁</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₂ ──</div><div class="kb-diagram-node">w₂</div><div class="kb-diagram-note">── ──► Σ(wᵢxᵢ) - θ ──► 계단 함수 ──► ŷ (0 or 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">x₃ ──</div><div class="kb-diagram-node">w₃</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 경계: w₁x₁ + w₂x₂ = θ (직선, 초평면)</div></div>
+</div>
+</div>
+
+
 
 ### XOR 문제와 선형 분리 불가능성
 
-```
-┌─────────────────────────────────────────────────┐
-│        AND (선형 분리 가능)    XOR (불가능)        │
-│                                                 │
-│  x₂│           x₂│                             │
-│  1 │  ○  ●     1 │  ●  ○                        │
-│    │             │                              │
-│  0 │  ○  ○     0 │  ○  ●                        │
-│    └──────x₁    └──────x₁                       │
-│       0   1        0   1                        │
-│                                                 │
-│  ○=0 ●=1          직선 하나로 ○와 ●를             │
-│  직선으로 분리 ✓   분리 불가 ✗                    │
-└─────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND (선형 분리 가능) XOR (불가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₂</div><div class="kb-diagram-cell">x₂</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">○ ● 1</div><div class="kb-diagram-cell">● ○</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">○ ○ 0</div><div class="kb-diagram-cell">○ ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₁ x₁</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 0 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○=0 ●=1 직선 하나로 ○와 ●를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직선으로 분리 ✓ 분리 불가 ✗</div></div>
+</div>
+</div>
+
+
 
 XOR [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/):
 
@@ -102,7 +100,7 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 ### 민스키와 패퍼트의 증명 (1969)
 
-민스키(Marvin Minsky)와 패퍼트(Seymour Papert)는 저서 『Perceptrons』에서 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 XOR 같은 비선형 분리 불가능 문제를 해결할 수 없음을 **수학적으로 엄밀하게 증명**했다. 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연구 투자가 급감한 1차 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter, 1974~1980)의 직접적 원인이 되었다.
+민스키(Marvin Minsky)와 패퍼트(Seymour Papert)는 저서 『Perceptrons』에서 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 XOR 같은 비선형 분리 불가능 문제를 해결할 수 없음을 <strong>수학적으로 엄밀하게 증명</strong>했다. 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연구 투자가 급감한 1차 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Winter, 1974~1980)의 직접적 원인이 되었다.
 
 - **📢 섹션 요약 비유**: 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 체스판의 흑백 칸을 직선 하나로 나누려는 시도 — AND(한쪽 귀퉁이)는 가능하지만, XOR(대각선 패턴)은 어떤 직선으로도 불가능하다.
 
@@ -117,8 +115,8 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 | **은닉층** | 없음 | 1개 이상 |
 | **결정 경계** | 직선 (초평면) | 비선형 곡선 |
 | **XOR 해결** | ❌ 불가 | ✅ 가능 |
-| **[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)** | [계단 함수](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 |
-| **학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙 | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a></strong> | [계단 함수](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 |
+| <strong>학습 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙 | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
 | **표현 능력** | 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)만 | 임의 함수 근사 가능 |
 
 ### [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/)와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -140,25 +138,26 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 1. **왜 XOR 불가능한가**: 2차원 공간에서 XOR의 네 점이 선형 분리 불가능한 구조를 형성하기 때문 — 직선(결정 경계)이 아닌 비선형 경계가 필요
 2. **역사적 의의**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계 증명 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울 → MLP + [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 재발견 (1986) → 딥러닝 시대의 밑거름
-3. **편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 도입**: 임계값 θ를 음수 편향 b = -θ로 치환하면 학습 가능 파라미터로 통일 가능
+3. <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>) 도입</strong>: 임계값 θ를 음수 편향 b = -θ로 치환하면 학습 가능 파라미터로 통일 가능
 4. **수렴 정리**: 선형 분리 가능 문제에서 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 유한 번의 반복으로 반드시 수렴 ([퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/), [Perceptron Convergence Theorem](/knowledge-base/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))
 
 ### [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계를 극복하는 방법
 
-```
-┌──────────────────────────────────────────────────────┐
-│             XOR 해결 방법들                           │
-│                                                      │
-│  방법 1: MLP (은닉층 추가)                            │
-│  x₁, x₂ → [은닉층: AND, OR 조합] → [출력: XOR 결과]  │
-│                                                      │
-│  방법 2: 특징 공학 (Feature Engineering)              │
-│  새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가           │
-│                                                      │
-│  방법 3: 커널 방법 (Kernel Method, SVM)               │
-│  데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환   │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XOR 해결 방법들</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 1: MLP (은닉층 추가)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">은닉층: AND, OR 조합</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">출력: XOR 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 2: 특징 공학 (Feature Engineering)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 3: 커널 방법 (Kernel Method, SVM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: SLP의 한계 극복은 "더 많은 눈금자(은닉층)"를 추가하거나 "3D로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들어올려([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))" 직선으로 나누는 것 — 평면에서 불가능한 분리가 입체에서는 가능해진다.
 
@@ -171,7 +170,7 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 | 기여 | 내용 |
 |:---|:---|
 | **신경망 이론 정립** | 생물학적 뉴런을 수학적으로 모델링하는 프레임워크 제공 |
-| **학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 도입** | 규칙을 수동 입력하지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 자동 학습하는 개념 확립 |
+| <strong>학습 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 도입</strong> | 규칙을 수동 입력하지 않고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 자동 학습하는 개념 확립 |
 | **한계 증명의 가치** | XOR 불가능 증명이 MLP와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 연구로 이어져 딥러닝 탄생 |
 | **현재 활용** | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)와 동등 — 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 기본 구성 요소 |
 

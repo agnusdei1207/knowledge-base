@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 전통적인 S3 절전은 이런 요구를 만족시키기 어려웠다. S3는 DRAM만 남기고 플랫폼 대부분을 내려 전력 효율은 좋았지만, 네트워크와 장치 활동을 매우 제한하고 복귀 경로도 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존적이었다. 그 결과 "배터리는 아끼지만 잠든 동안 너무 많은 것이 멈춘다"는 한계가 있었다.
 
-이 문제를 풀기 위해 Windows는 과거 Connected Standby를 확장해 Modern Standby를 만들었다. 핵심 철학은 **시스템을 S3로 완전히 보내지 않고, S0 안에서 가능한 한 깊은 저전력 유휴를 반복적으로 달성**하는 것이다. 그래서 Modern Standby는 단순한 절전 상태 이름이 아니라, 화면 꺼짐부터 다시 켜질 때까지 이어지는 전체 운영 시나리오로 이해해야 한다.
+이 문제를 풀기 위해 Windows는 과거 Connected Standby를 확장해 Modern Standby를 만들었다. 핵심 철학은 <strong>시스템을 S3로 완전히 보내지 않고, S0 안에서 가능한 한 깊은 저전력 유휴를 반복적으로 달성</strong>하는 것이다. 그래서 Modern Standby는 단순한 절전 상태 이름이 아니라, 화면 꺼짐부터 다시 켜질 때까지 이어지는 전체 운영 시나리오로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 모던 스탠바이는 집 대문을 완전히 잠그고 전등을 다 끄는 취침 모드가 아니라, 현관 센서와 초인종만 살려 둔 채 집 전체를 최대한 조용히 유지하는 야간 경비 모드에 가깝다.
 
@@ -33,20 +33,20 @@ tags = ["studynote-computer-architecture"]
 
 Modern Standby [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "화면이 꺼진 뒤 가능한 한 오래 idle에 머물고, 꼭 필요할 때만 짧게 active로 튀어 오르는" 반복 구조다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 먼저 앱과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 드라이버를 저전력 동작에 맞게 정리(quiesce)하고, 하드웨어는 네트워크·오디오·저장장치 같은 구성 요소를 각각 가능한 낮은 전력 상태로 보낸다. 그다음 플랫폼은 S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/), 즉 S0 내부의 깊은 유휴로 진입한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                Modern Standby screen-off session                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ Lid close / Power key                                               │
-│        │                                                            │
-│        ▼                                                            │
-│   [Quiesce apps] -> [S0 low power idle] -> [Short active burst]     │
-│                              ^                  │                    │
-│                              └── timer / net / wake event ──────────┘
-│        │                                                            │
-│        └──────────────────── repeat until screen on ───────────────▶ │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Standby screen-off session</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lid close / Power key</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Quiesce apps</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">S0 low power idle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Short active burst</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-note">── timer / net / wake event</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">repeat until screen on ▶</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 각 구성 요소의 역할은 다음과 같다.
 
@@ -79,7 +79,7 @@ Modern Standby를 이해할 때 가장 중요한 비교 대상은 전통적인 S
 | 플랫폼 요구사항 | 드라이버/[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 품질 요구 높음 | 상대적으로 단순 |
 | 대표 장애 양상 | 배터리 drain, hot bag, activator 과다 | resume 불안정, 장치 재인식 문제 |
 
-여기서 또 하나의 경계는 Modern Standby와 S0ix의 관계다. Modern Standby는 **Windows의 전원 운영 모델**이고, S0ix는 **플랫폼이 실제로 누적해야 하는 저전력 유휴 residency**다. 다시 말해 "Modern Standby를 지원한다"는 말이 곧 "항상 깊은 S0ix에 잘 들어간다"를 보장하지는 않는다. 지원과 품질은 다르다.
+여기서 또 하나의 경계는 Modern Standby와 S0ix의 관계다. Modern Standby는 <strong>Windows의 전원 운영 모델</strong>이고, S0ix는 <strong>플랫폼이 실제로 누적해야 하는 저전력 유휴 residency</strong>다. 다시 말해 "Modern Standby를 지원한다"는 말이 곧 "항상 깊은 S0ix에 잘 들어간다"를 보장하지는 않는다. 지원과 품질은 다르다.
 
 또한 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State 관점에서 보면 Modern Standby는 전통적인 S3 대체 모델로 볼 수 있다. 즉 예전에는 S3로 해결하던 화면 꺼짐 대기 경험을, 이제는 S0 내부의 더 세밀한 저전력 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 제어로 구현하는 방향으로 이동한 것이다.
 
@@ -93,11 +93,11 @@ Modern Standby는 울트라북, 2-in-1, 태블릿형 PC처럼 "즉시 켜짐"과
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **플랫폼이 S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Idle을 제대로 광고하고 있는가?** 지원 선언과 실제 품질은 별개다.
-2. **장치 드라이버가 D-State 전환과 wake [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 안정적으로 처리하는가?** [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), 오디오가 자주 병목이 된다.
+1. <strong>플랫폼이 S0 Low <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Idle을 제대로 광고하고 있는가?</strong> 지원 선언과 실제 품질은 별개다.
+2. <strong>장치 드라이버가 D-State 전환과 wake <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 안정적으로 처리하는가?</strong> [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), 오디오가 자주 병목이 된다.
 3. **네트워크가 꼭 필요한가?** 메일·메신저 중심이면 connected [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 유리하고, 장시간 배터리 보존이면 disconnected 성향이 유리하다.
 4. **활성 구간이 짧게 끝나는가?** Screen-off 상태에서 CPU가 길게 active에 남으면 drain과 발열이 커진다.
-5. **진단 도구로 화면 꺼짐 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 분석했는가?** Windows SleepStudy나 ETW (Event [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) for Windows) 기반 추적이 대표적이다.
+5. <strong>진단 도구로 화면 꺼짐 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>을 분석했는가?</strong> Windows SleepStudy나 ETW (Event [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/) for Windows) 기반 추적이 대표적이다.
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -105,7 +105,7 @@ Modern Standby는 울트라북, 2-in-1, 태블릿형 PC처럼 "즉시 켜짐"과
 - 배터리 문제를 CPU 하나의 문제로 단정하고, 장치 드라이버와 activator를 보지 않는 진단
 - 항상 connected가 최고라고 생각해, 실제 사용 패턴보다 배터리 drain을 키우는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-기술사 관점에서는 Modern Standby를 "좋은 최신 기능"으로만 쓰면 부족하다. **instant-on, background activity, battery drain [risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), platform integration cost**를 같이 적어야 균형 잡힌 설명이 된다. 즉 Modern Standby는 마법의 절전 모드가 아니라, 소프트웨어와 하드웨어가 정교하게 협조해야 성립하는 시스템 설계 결과다.
+기술사 관점에서는 Modern Standby를 "좋은 최신 기능"으로만 쓰면 부족하다. <strong>instant-on, background activity, battery drain <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">risk</a>, platform integration cost</strong>를 같이 적어야 균형 잡힌 설명이 된다. 즉 Modern Standby는 마법의 절전 모드가 아니라, 소프트웨어와 하드웨어가 정교하게 협조해야 성립하는 시스템 설계 결과다.
 
 - **📢 섹션 요약 비유**: 모던 스탠바이는 무인 경비 시스템이 잘 갖춰진 건물에서만 빛난다. 센서 하나라도 오작동하면 밤새 불이 켜지고 경보가 울려 전기세와 피로만 늘어난다.
 
@@ -115,9 +115,9 @@ Modern Standby는 울트라북, 2-in-1, 태블릿형 PC처럼 "즉시 켜짐"과
 
 Modern Standby가 잘 구현되면 사용자는 스마트폰처럼 자연스러운 전원 경험을 얻는다. 뚜껑을 닫았을 때 거의 즉시 조용해지고, 다시 열면 기다림이 짧으며, 필요한 알림이나 유지보수는 제한적으로 계속 처리된다. 이는 단순한 전력 절감 이상의 사용자 경험 개선이다.
 
-하지만 한계도 명확하다. Modern Standby는 전통적인 S3보다 통합 난도가 높고, 문제 발생 시 원인이 응용 프로그램, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 드라이버, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 어느 층에나 있을 수 있다. 따라서 이 모델의 성패는 기능 유무보다 **얼마나 긴 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) residency를 확보하고, 얼마나 불필요한 [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) burst를 줄였는가**에 달려 있다.
+하지만 한계도 명확하다. Modern Standby는 전통적인 S3보다 통합 난도가 높고, 문제 발생 시 원인이 응용 프로그램, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 드라이버, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 어느 층에나 있을 수 있다. 따라서 이 모델의 성패는 기능 유무보다 <strong>얼마나 긴 <a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">idle</a> residency를 확보하고, 얼마나 불필요한 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">active</a> burst를 줄였는가</strong>에 달려 있다.
 
-정리하면 Modern Standby는 "S3가 없는 최신 절전"이 아니라, **S0 안에서 깊은 저전력 idle과 짧은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) burst를 반복해 스마트폰형 screen-off 경험을 만드는 전원 운영 모델**이다. 이 관점으로 기억하면 S0ix, activator, SleepStudy, hot bag 같은 주변 개념도 한 프레임으로 연결된다.
+정리하면 Modern Standby는 "S3가 없는 최신 절전"이 아니라, <strong>S0 안에서 깊은 저전력 idle과 짧은 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> burst를 반복해 스마트폰형 screen-off 경험을 만드는 전원 운영 모델</strong>이다. 이 관점으로 기억하면 S0ix, activator, SleepStudy, hot bag 같은 주변 개념도 한 프레임으로 연결된다.
 
 - **📢 섹션 요약 비유**: 잘 만든 Modern Standby는 불을 거의 끈 채도 초인종에는 즉시 반응하는 똑똑한 집이다. 하지만 배선과 센서가 엉키면 집이 밤새 혼자 움직이며 배터리와 열만 낭비한다.
 
@@ -136,25 +136,25 @@ Modern Standby가 잘 구현되면 사용자는 스마트폰처럼 자연스러�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Connected Standby
-    │
-    ▼
-Modern Standby
-    │
-    ▼
-App / driver quiesce for screen-off
-    │
-    ▼
-S0 low power idle residency
-    │
-    ├──▶ short activator bursts
-    │
-    ├──▶ connected or disconnected policy
-    │
-    ▼
-Instant-on resume experience
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Connected Standby</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Modern Standby</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">App / driver quiesce for screen-off</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">S0 low power idle residency</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ short activator bursts</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ connected or disconnected policy</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Instant-on resume experience</div>
+</div>
+</div>
+
+
 
 이 흐름은 Modern Standby가 단순한 sleep state가 아니라, 화면 꺼짐 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전체를 관리하는 운영 모델로 발전한 과정을 보여 준다.
 

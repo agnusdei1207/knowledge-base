@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 건축물이나 기계 부품은 시간이 지나면 비바람에 깎이고 마찰에 닳아서 부서진다(하드웨어 노후화). 하지만 소프트웨어는 0과 1로 된 수학적 논리이므로 시간이 100년 지난다고 해서 닳아 없어지지 않는다.
 
-그런데 왜 5년 전 짠 시스템은 점점 느려지고, 버튼 하나 추가하려면 에러가 10개씩 터지는 걸까? 데이비드 파나스(David Parnas)는 이를 **[소프트웨어 노후화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/)(Software [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**라고 불렀다. 
+그런데 왜 5년 전 짠 시스템은 점점 느려지고, 버튼 하나 추가하려면 에러가 10개씩 터지는 걸까? 데이비드 파나스(David Parnas)는 이를 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/">소프트웨어 노후화</a>(Software <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>라고 불렀다. 
 
-소프트웨어가 늙는 이유는 역설적으로 '계속 고치기' 때문이다. 기획팀은 매일 새로운 요구사항을 던지고, 개발자는 데드라인에 쫓겨 원래의 예쁜 아키텍처(설계도)를 무시한 채 스파게티처럼 코드를 이어 붙인다. 이렇게 쌓인 누더기 코드는 결국 누구도 손댈 수 없는 **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))**가 되어 회사의 목을 조른다.
+소프트웨어가 늙는 이유는 역설적으로 '계속 고치기' 때문이다. 기획팀은 매일 새로운 요구사항을 던지고, 개발자는 데드라인에 쫓겨 원래의 예쁜 아키텍처(설계도)를 무시한 채 스파게티처럼 코드를 이어 붙인다. 이렇게 쌓인 누더기 코드는 결국 누구도 손댈 수 없는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong>가 되어 회사의 목을 조른다.
 
 - **📢 섹션 요약 비유**: [소프트웨어 노후화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/)는 '젠가(Jenga) 게임'이다. 처음엔 반듯한 탑(아키텍처)이었지만, 게임(운영)이 진행될수록 억지로 블록을 빼고 위에 쌓다 보면 어느 순간 손가락만 닿아도 우르르 무너져 내리는 아슬아슬한 쓰레기탑이 된다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [소프트웨어 노후화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 연계의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 노후화 기술 부채 연계                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 노후화 기술 부채 연계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [소프트웨어 노후화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 연계가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,10 +76,10 @@ tags = ["studynote-software-engineering"]
 | 해결 기법 | 방법 | 위험도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) | 비용(Cost) | 비유 |
 |:---|:---|:---|:---|:---|
 | **유지보수 (Maintenance)** | 버그 난 곳만 땜질 | 낮음 | 적음 | 터진 수도관에 테이프 감기 |
-| **소프트웨어 재공학 (Re-engineering)** | **기능은 놔두고 내부 구조만 뜯어고침 ([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 등)** | **중간** | **중간** | **수도관을 녹슬지 않는 동파이프로 교체** |
-| **빅뱅 재개발 (Rewrite)** | 낡은 시스템을 버리고 처음부터 다 새로 짬 | **최상 (망할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 90%)** | 천문학적 | 집을 부수고 새 아파트 짓기 |
+| **소프트웨어 재공학 (Re-engineering)** | <strong>기능은 놔두고 내부 구조만 뜯어고침 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 등)</strong> | **중간** | **중간** | **수도관을 녹슬지 않는 동파이프로 교체** |
+| **빅뱅 재개발 (Rewrite)** | 낡은 시스템을 버리고 처음부터 다 새로 짬 | <strong>최상 (망할 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 90%)</strong> | 천문학적 | 집을 부수고 새 아파트 짓기 |
 
-[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 극한에 달하면 개발자들은 "이 코드 도저히 못 고치겠습니다. 처음부터 다시 짜시죠(Rewrite)"라고 조른다. 하지만 재개발은 5년 치 업무 로직을 100% 완벽히 복원할 수 없으므로 사실상 실패가 예정된 길이다. 따라서 노후화는 **'재공학([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))'**으로 평소에 닦아내야 한다.
+[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 극한에 달하면 개발자들은 "이 코드 도저히 못 고치겠습니다. 처음부터 다시 짜시죠(Rewrite)"라고 조른다. 하지만 재개발은 5년 치 업무 로직을 100% 완벽히 복원할 수 없으므로 사실상 실패가 예정된 길이다. 따라서 노후화는 <strong>'재공학(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>)'</strong>으로 평소에 닦아내야 한다.
 
 - **📢 섹션 요약 비유**: 충치([기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))가 생겼을 때, 매일 양치질하고 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))을 하면 평생 쓸 수 있다. 이걸 방치하다가 이가 다 썩은 뒤에 임플란트를 통째로 새로 박아 넣는 것(재개발)은 엄청난 고통과 돈이 따른다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 노후화 기술 부채 연계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 노후화 기술 부채 연계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

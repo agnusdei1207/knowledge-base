@@ -44,23 +44,20 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 중기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 개입하는 위치를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 medium-term scheduling with swapping                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Ready ───────▶ Running ───────▶ Waiting                                   │
-│   ▲              │                  │                                     │
-│   │              │                  │                                     │
-│   │         preempt / exit          │ I/O wait                            │
-│   │              │                  │                                     │
-│   │              ▼                  ▼                                     │
-│   │       Ready Suspended ◀──── Waiting Suspended                         │
-│   │              ▲                  ▲                                     │
-│   └──── swap in ─┴──── swap out ────┘                                     │
-│                                                                            │
-│ Memory pressure rises  ─────────▶  some processes lose resident memory     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">medium-term scheduling with swapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready ▶ Running ▶ Waiting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">preempt / exit</div><div class="kb-diagram-cell">I/O wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Suspended ◀ Waiting Suspended</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swap in ─ swap out</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory pressure rises ▶ some processes lose resident memory</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 보류 상태가 단순 대기가 아니라 "메모리 상주권을 잃은 상태"라는 것이다. Waiting 상태의 프로세스는 어차피 CPU를 바로 쓰지 못하므로 스와프 아웃 후보가 되기 쉽다. 반대로 Swap In은 디스크에서 다시 읽어 와야 하므로 느리기 때문에, 중기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 자주 개입할수록 오히려 시스템을 더 느리게 만들 수 있다.
 
@@ -97,10 +94,10 @@ tags = ["studynote-operating-system"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 프로세스 생존 중 무엇이 더 중요한가?**
+1. <strong>응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>과 프로세스 생존 중 무엇이 더 중요한가?</strong>
 2. **메모리 부족의 원인이 일시적 피크인가, 상시 과부하인가?** 상시 과부하라면 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)보다 증설이 우선이다.
 3. **스왑 매체가 충분히 빠른가?** 느린 디스크라면 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 구제책보다 병목이 되기 쉽다.
-4. **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·실시간 시스템인가?** 그렇다면 예측 불가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 특히 주의해야 한다.
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>·실시간 시스템인가?</strong> 그렇다면 예측 불가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 특히 주의해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -133,21 +130,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다중 프로그래밍 증가
-        │
-        ▼
-메모리 압박 · 스래싱 징후
-        │
-        ▼
-중기 스케줄러의 스와핑 (Swapping)
-        │
-        ▼
-페이지 단위 회수 · 요구 페이징
-        │
-        ▼
-ZRAM · 메모리 압축 · OOM 정책으로 현대화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다중 프로그래밍 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 압박 · 스래싱 징후</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중기 스케줄러의 스와핑 (Swapping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 단위 회수 · 요구 페이징</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZRAM · 메모리 압축 · OOM 정책으로 현대화</div>
+</div>
+</div>
+
+
 
 이 흐름은 프로세스 전체를 통째로 옮기던 전통적 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이, 현대에는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 회수와 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리, 최종 종료 정책과 결합된 형태로 진화했음을 보여 준다.
 

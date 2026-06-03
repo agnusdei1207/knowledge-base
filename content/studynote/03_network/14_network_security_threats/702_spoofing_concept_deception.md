@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: '속이다, 기만하다'라는 뜻으로, 해커가 자신의 컴퓨터 시스템이나 송신 데이터를 숨기고, **마치 신뢰할 수 있는 정상적인 사용자나 시스템인 것처럼 신분을 위장(Spoof)하여 접근 제어를 우회하거나 정보를 빼돌리는 공격 기법**의 총칭입니다.
+- **개념**: '속이다, 기만하다'라는 뜻으로, 해커가 자신의 컴퓨터 시스템이나 송신 데이터를 숨기고, <strong>마치 신뢰할 수 있는 정상적인 사용자나 시스템인 것처럼 신분을 위장(Spoof)하여 접근 제어를 우회하거나 정보를 빼돌리는 공격 기법</strong>의 총칭입니다.
 - 인터넷 통신 규약([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 자체가 초창기에 "상대방이 보낸 주소는 진짜겠지?"라고 맹신하도록 허술하게 설계된 약점을 파고든 공격입니다.
 
-```text
-[도청 네트워크 토폴로지 취약]
-    │
-    ▼
-[스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    └──▶ [ARP 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,7 +44,7 @@ tags = ["studynote-network"]
 해커가 바꿔치기하는 '신분증'의 종류에 따라 이름이 바뀝니다.
 
 ### 1. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([ARP Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/991_arp_spoofing/))
-- **위장 대상**: **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 (물리적 하드웨어 주소)**
+- **위장 대상**: <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 (물리적 하드웨어 주소)</strong>
 - 해커가 사내망 안에서 "내가 바로 인터넷으로 나가는 메인 공유기(게이트웨이)다!"라고 가짜 방송을 하여, 같은 사무실 직원들의 모든 인터넷 패킷을 자기 컴퓨터로 먼저 들어오게끔 가로채는 공격입니다. (상세 내용은 703번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 2. IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([IP Spoofing](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/))
@@ -48,21 +52,25 @@ tags = ["studynote-network"]
 - 서버가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 접근을 통제하고 있을 때, 해커가 자신의 패킷 출발지 주소를 '사장님 컴퓨터 IP'로 조작하여 서버에 던져, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 속이고 몰래 뚫고 들어가는 공격입니다. 디도스(DDoS) 공격 시 추적을 피하기 위해 필수적으로 쓰입니다. (상세 내용은 704번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 3. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([DNS Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/))
-- **위장 대상**: **웹사이트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) IP 주소 매칭 정보**
+- **위장 대상**: <strong>웹사이트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> IP 주소 매칭 정보</strong>
 - 사용자가 `www.naver.com`을 입력했을 때, 해커가 중간에 끼어들어 "네이버의 진짜 IP는 이거야!"라며 자기가 만든 '가짜 네이버([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트)'의 IP 주소를 던져주어 사용자를 엉뚱한 곳으로 납치하는 공격입니다. (상세 내용은 705번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ### 4. 이메일 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) (Email [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))
 - **위장 대상**: **이메일 발신자 주소 (From:)**
 - 이메일을 보낼 때 발신자 란에 `admin@naver.com`이나 `president@whitehouse.gov`처럼 권위 있는 주소를 마음대로 적어서 보내, 수신자가 무심코 첨부파일(악성코드)을 열어보게 유도하는 사기 수법입니다. 이를 막기 위해 [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/), [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/), [DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/) 같은 방어 기술이 쓰입니다.
 
-```text
-[도청 네트워크 토폴로지 취약]
-    │
-    ▼
-[스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    └──▶ [ARP 스푸핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 막는 유일한 방법은 **"네트워크 헤더에 적힌 겉면 주소표를 절대 맹신하지 말고, 암호학적 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)을 통해 진짜 그놈이 보낸 게 맞는지 내용물을 뜯어보고 2차 검증을 하라"**는 것입니다. 이는 오늘날 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안의 핵심 사상이 되었습니다.
+[스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 막는 유일한 방법은 <strong>"네트워크 헤더에 적힌 겉면 주소표를 절대 맹신하지 말고, 암호학적 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서)을 통해 진짜 그놈이 보낸 게 맞는지 내용물을 뜯어보고 2차 검증을 하라"</strong>는 것입니다. 이는 오늘날 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안의 핵심 사상이 되었습니다.
 
 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약이 기반 조건을 만든다면, [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석은 그 위에서 핵심 메커니즘을 구현하고, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 도청 네트워크 토폴로지 취약]
-    │
-    ▼
-[현재 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석]
-    │
-    ├──▶ [확장 A: ARP 스푸핑]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 스푸핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

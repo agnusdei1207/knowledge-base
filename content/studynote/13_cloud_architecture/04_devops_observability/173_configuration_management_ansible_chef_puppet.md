@@ -25,20 +25,21 @@ tags = ["studynote-cloud-architecture"]
 
 아래 그림은 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)가 자동화 스택에서 어디에 놓이는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Where configuration management fits              │
-├─────────────────────────────┬──────────────────────────────────────┤
-│ Provisioning                │ VM, network, subnet, load balancer  │
-│                             │ example: Terraform                  │
-├─────────────────────────────┼──────────────────────────────────────┤
-│ Configuration management    │ package, file, user, service state  │
-│                             │ example: Ansible, Chef, Puppet      │
-├─────────────────────────────┼──────────────────────────────────────┤
-│ Application delivery        │ artifact rollout, version switch    │
-│                             │ example: CI/CD pipeline             │
-└─────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Where configuration management fits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioning</div><div class="kb-diagram-cell">VM, network, subnet, load balancer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">example: Terraform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Configuration management</div><div class="kb-diagram-cell">package, file, user, service state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">example: Ansible, Chef, Puppet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application delivery</div><div class="kb-diagram-cell">artifact rollout, version switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">example: CI/CD pipeline</div></div>
+</div>
+</div>
+
+
 
 즉 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)는 "인프라를 만든 뒤 아무도 손대지 않는다"는 가정이 깨지는 순간 본격적으로 중요해진다. 특히 전통적인 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버, 보안 장비, 사내 미들웨어, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)처럼 장기 생명주기를 가진 자산에서는 여전히 핵심 역할을 한다.
 
@@ -52,20 +53,21 @@ tags = ["studynote-cloud-architecture"]
 
 도구별 아키텍처는 제어 모델에서 갈린다. Ansible은 컨트롤 노드가 대상 서버에 SSH로 접속해 작업을 밀어 넣는 푸시 (Push) 모델이다. 반면 Chef와 Puppet은 보통 에이전트가 서버 안에 상주하거나 주기적으로 동작해 중앙 서버에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 받아오는 풀 (Pull) 기반 수렴 모델에 가깝다. 이 차이는 단순 연결 방식이 아니라, "상태를 누가 언제 다시 맞추는가"에 직접 영향을 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Convergence model by tool                       │
-├───────────────────────────────┬────────────────────────────────────┤
-│ Ansible                       │ Chef / Puppet                      │
-├───────────────────────────────┼────────────────────────────────────┤
-│ Control node                  │ Policy server / master            │
-│   │                           │        ▲                          │
-│   ├─ SSH push --------------> │        │ periodic pull            │
-│   ├─ module execution         │   agent on each node              │
-│   └─ run on demand            │   continuous convergence          │
-│                               │   compliance-friendly             │
-└───────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Convergence model by tool</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ansible</div><div class="kb-diagram-cell">Chef / Puppet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control node</div><div class="kb-diagram-cell">Policy server / master</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SSH push --------------&gt;</div><div class="kb-diagram-cell">periodic pull</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ module execution</div><div class="kb-diagram-cell">agent on each node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ run on demand</div><div class="kb-diagram-cell">continuous convergence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">compliance-friendly</div></div>
+</div>
+</div>
+
+
 
 | 비교 축 | [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) | Chef | Puppet |
 | :--- | :--- | :--- | :--- |
@@ -77,7 +79,7 @@ tags = ["studynote-cloud-architecture"]
 
 여기서 중요한 차이는 "실행"과 "지속 수렴"이다. Ansible은 사람이 파이프라인이나 운영 작업에서 Playbook을 실행할 때 강력하고, Chef/Puppet은 시간이 지나도 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 계속 강제하는 구조에 더 잘 맞는다. 다만 Ansible도 모듈을 잘 선택하면 선언형으로 운영할 수 있고, Chef/Puppet도 결국 운영 방식에 따라 차이가 줄어들 수 있으므로 도구 이름보다 운영 모델을 먼저 봐야 한다.
 
-또 하나의 핵심은 셸 스크립트와 전용 모듈의 차이다. `shell: useradd ...`처럼 명령만 던지면 매번 결과를 예측하기 어렵지만, `user`, `package`, `service` 같은 전용 리소스나 모듈은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 알고 필요한 변경만 수행한다. [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구의 진짜 힘은 자동화 그 자체보다 **반복 실행해도 같은 상태로 수렴하는 성질**에서 나온다.
+또 하나의 핵심은 셸 스크립트와 전용 모듈의 차이다. `shell: useradd ...`처럼 명령만 던지면 매번 결과를 예측하기 어렵지만, `user`, `package`, `service` 같은 전용 리소스나 모듈은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 알고 필요한 변경만 수행한다. [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구의 진짜 힘은 자동화 그 자체보다 <strong>반복 실행해도 같은 상태로 수렴하는 성질</strong>에서 나온다.
 
 - **📢 섹션 요약 비유**: Ansible은 감독이 직접 각 지점을 순회하며 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 수행하는 방식이고, Chef와 Puppet은 각 지점 직원이 본사 매뉴얼을 주기적으로 확인하며 스스로 표준 상태로 되돌리는 방식이다.
 
@@ -97,16 +99,19 @@ tags = ["studynote-cloud-architecture"]
 
 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구는 다른 자동화 계층과도 경계가 분명해야 한다. [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/) ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))는 서버를 만들고 네트워크를 연결하는 데 강하고, 이미지 빌더인 Packer는 베이스 이미지를 굽는 데 강하며, GitOps는 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 Git으로 운영하는 통제 모델이다. [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)는 이들 사이에서 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 계속 일관되게 맞추는 역할"을 담당한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     Related automation layers                      │
-├─────────────────────────────┬──────────────────────────────────────┤
-│ Terraform / IaC             │ create infrastructure               │
-│ Packer / image build        │ bake reusable base image            │
-│ Config management           │ converge OS / middleware state      │
-│ CI/CD / GitOps              │ release application and policy      │
-└─────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Related automation layers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform / IaC</div><div class="kb-diagram-cell">create infrastructure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Packer / image build</div><div class="kb-diagram-cell">bake reusable base image</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Config management</div><div class="kb-diagram-cell">converge OS / middleware state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD / GitOps</div><div class="kb-diagram-cell">release application and policy</div></div>
+</div>
+</div>
+
+
 
 이 연결 관점이 중요한 이유는, [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구에 모든 문제를 집어넣으면 자동화가 오히려 흐려지기 때문이다. 예를 들어 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 안에 무거운 원격 셸을 넣거나, [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) [Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/) 안에서 네트워크 토폴로지까지 모두 만들기 시작하면 책임 경계가 흐려진다. 좋은 설계는 "[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수렴, 배포"를 나누되 서로 잘 연결하는 구조다.
 
@@ -118,19 +123,20 @@ tags = ["studynote-cloud-architecture"]
 
 실무에서 가장 흔한 성공 패턴은 "Terraform으로 만들고, [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/)·Chef·Puppet으로 맞추고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD로 배포한다"는 분리 구조다. 이렇게 하면 인프라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 실패와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 구성 실패, 애플리케이션 릴리스를 서로 독립적으로 추적할 수 있다. 또한 Git 저장소 구조도 [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 코드, 애플리케이션 배포 코드를 분리해야 변경 리뷰가 쉬워진다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                   Practical operating pipeline                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Git change                                                         │
-│   │                                                                │
-│   ├─ IaC pipeline ----------> VM / subnet / security group         │
-│   ├─ Config pipeline -------> package / file / service baseline    │
-│   └─ Release pipeline ------> app artifact / rollout               │
-│                                                                    │
-│ Periodic run or agent check -> detect drift -> converge again      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical operating pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IaC pipeline ----------&gt; VM / subnet / security group</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Config pipeline -------&gt; package / file / service baseline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Release pipeline ------&gt; app artifact / rollout</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Periodic run or agent check -&gt; detect drift -&gt; converge again</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -168,7 +174,7 @@ tags = ["studynote-cloud-architecture"]
 
 물론 한계도 있다. 에이전트 기반 도구는 운영 부담이 있고, 에이전트리스 도구는 지속 수렴을 별도로 설계해야 한다. 또한 모든 인프라가 불변 이미지와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)로 옮겨간 환경에서는 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)의 역할이 줄어들 수 있다. 그러나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 패치, 미들웨어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 사내 레거시 시스템, 규정 준수 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서는 여전히 대체하기 어렵다.
 
-따라서 이 주제는 "셸 스크립트를 예쁘게 만든 도구"가 아니라, **서버 상태를 코드로 수렴시키는 운영 체계**로 기억해야 한다. [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef, Puppet의 차이는 문법보다 수렴 방식과 조직 운영 모델의 차이에서 생긴다.
+따라서 이 주제는 "셸 스크립트를 예쁘게 만든 도구"가 아니라, <strong>서버 상태를 코드로 수렴시키는 운영 체계</strong>로 기억해야 한다. [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/), Chef, Puppet의 차이는 문법보다 수렴 방식과 조직 운영 모델의 차이에서 생긴다.
 
 - **📢 섹션 요약 비유**: [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 도구는 체인점 운영 매뉴얼을 넘어서, 매일 매장 상태를 돌아보며 진열대와 가격표를 본사 기준으로 다시 맞추는 점검 시스템과 같다.
 
@@ -188,21 +194,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Manual SSH and shell script
-    │
-    ▼
-Configuration management
-    ├─ Ansible: push, agentless, fast adoption
-    ├─ Chef: recipe-driven, reusable logic
-    └─ Puppet: policy-driven, continuous convergence
-    │
-    ▼
-IaC separation + secret management + drift control
-    │
-    ▼
-Immutable image / GitOps / policy as code coexistence
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Manual SSH and shell script</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Configuration management</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Ansible: push, agentless, fast adoption</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Chef: recipe-driven, reusable logic</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Puppet: policy-driven, continuous convergence</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IaC separation + secret management + drift control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Immutable image / GitOps / policy as code coexistence</div>
+</div>
+</div>
+
+
 
 이 흐름은 서버 운영이 수동 접속에서 출발해, 상태 수렴 자동화와 드리프트 통제를 거쳐, 불변 이미지와 Git 기반 통제 모델로 확장되는 과정을 보여준다.
 

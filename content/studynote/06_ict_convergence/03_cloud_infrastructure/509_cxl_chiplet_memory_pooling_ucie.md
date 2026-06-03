@@ -36,22 +36,21 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 계층 구조**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 계층 구조</strong>:
 
-```
-┌───────────────────────────────────────────────────────────┐
-│                    호스트 CPU                              │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │          CXL 패브릭 (PCIe 물리 계층)               │    │
-│  │  CXL.io │ CXL.cache │ CXL.mem                    │    │
-│  └──┬─────────────┬────────────────────┬─────────────┘   │
-│     ↓             ↓                    ↓                  │
-│  ┌──────┐  ┌────────────┐    ┌─────────────────────┐     │
-│  │ PCIe │  │ 가속기(GPU) │    │ CXL 메모리 확장 카드 │     │
-│  │ 장치 │  │ /FPGA/DPU  │    │ (수백 GB DRAM 풀링)  │     │
-│  └──────┘  └────────────┘    └─────────────────────┘     │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 패브릭 (PCIe 물리 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL.io</div><div class="kb-diagram-cell">CXL.cache</div><div class="kb-diagram-cell">CXL.mem</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe</div><div class="kb-diagram-cell">가속기(GPU)</div><div class="kb-diagram-cell">CXL 메모리 확장 카드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치</div><div class="kb-diagram-cell">/FPGA/DPU</div><div class="kb-diagram-cell">(수백 GB DRAM 풀링)</div></div>
+</div>
+</div>
+
+
 
 | 기술 | 역할 | 핵심 특징 |
 |:---|:---|:---|
@@ -61,7 +60,7 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 | [메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) ([Memory Pooling](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/)) | 서버 간 메모리 동적 공유 | 자원 활용률 향상 |
 | [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/)) | 네트워킹/스토리지/보안 CPU [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | ARM 코어 + [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) |
 
-**[칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 패키징**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/">칩렛</a> 패키징</strong>:
 - **2.5D 패키징**: [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)들을 인터포저(Interposer) 위에 나란히 배치, [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))과 병행 탑재
 - **3D 패키징**: [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)을 수직으로 적층([TSV](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/), Through-Silicon Via), 초단 연결로 초고대역폭
 
@@ -71,9 +70,9 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 ## Ⅲ. 비교 및 연결
 
-**[메모리 풀링](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/) 시나리오**: 서버 A의 워크로드가 폭증하면 서버 B의 유휴 메모리를 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 패브릭을 통해 서버 A가 직접 접근. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 계층 없이 나노초(ns) 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 메모리 자원 공유.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/442_memory_pooling/">메모리 풀링</a> 시나리오</strong>: 서버 A의 워크로드가 폭증하면 서버 B의 유휴 메모리를 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 패브릭을 통해 서버 A가 직접 접근. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 계층 없이 나노초(ns) 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 메모리 자원 공유.
 
-**[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/)) vs SmartNIC**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/">Data Processing Unit</a>) vs SmartNIC</strong>:
 
 | 구분 | SmartNIC | [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) |
 |:---|:---|:---|

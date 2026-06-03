@@ -19,27 +19,26 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (High-level)**: "결제", "자동차 굴러가기" 등 시스템의 핵심 비즈니스 뇌.
-- **저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (Low-level)**: "오라클 DB 접속", "미쉐린 타이어 구르기" 등 밑바닥의 잦은 변경이 일어나는 찌끄러기 기계 부품들.
-- 멍청한 C언어 시절에는 **왕(고수준 결제 로직)**이 자기가 일을 하려고 **평민(오라클 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))**의 이름을 직접 부르며 화살표를 내리꽂았습니다(하향식 의존).
+- <strong>고수준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (High-level)</strong>: "결제", "자동차 굴러가기" 등 시스템의 핵심 비즈니스 뇌.
+- <strong>저수준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (Low-level)</strong>: "오라클 DB 접속", "미쉐린 타이어 구르기" 등 밑바닥의 잦은 변경이 일어나는 찌끄러기 기계 부품들.
+- 멍청한 C언어 시절에는 <strong>왕(고수준 결제 로직)</strong>이 자기가 일을 하려고 <strong>평민(오라클 DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>)</strong>의 이름을 직접 부르며 화살표를 내리꽂았습니다(하향식 의존).
 - **비극**: 평민(오라클)이 죽고 `MySQL`이라는 새 평민이 오면, 왕의 뇌 코드를 열어 `오라클` 글자를 지우고 `MySQL`로 다 뜯어고치는 능욕을 당해야 했습니다 (244번 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 폭발).
 
 - **📢 섹션 요약 비유**: DIP (Dependency Inversion Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 DIP (Dependency Inve의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  DIP (Dependency Inve                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIP (Dependency Inve</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 DIP (Dependency Inve가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Inversion (역전, 뒤집힘)**
-- **개념**: 이 미친 비극을 부수기 위해 **"1. 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 절대 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(구체적인 클래스)에 직접 의존해서는 안 되며, 둘 다 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)'에 의존해야 한다! 2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)는 세부 사항에 의존해서는 안 되고, 세부 사항이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존해야 한다!"**라고 화살표의 방향을 180도 뒤집어버리는(의존성 역전) 객체지향 5계명의 최후의 보스 룰입니다.
+- **개념**: 이 미친 비극을 부수기 위해 <strong>"1. 고수준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>은 절대 저수준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(구체적인 클래스)에 직접 의존해서는 안 되며, 둘 다 '<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(인터페이스)'에 의존해야 한다! 2. <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>는 세부 사항에 의존해서는 안 되고, 세부 사항이 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>에 의존해야 한다!"</strong>라고 화살표의 방향을 180도 뒤집어버리는(의존성 역전) 객체지향 5계명의 최후의 보스 룰입니다.
 
 - **📢 섹션 요약 비유**: DIP (Dependency Inversion Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,8 +71,8 @@ tags = ["studynote-software-engineering"]
 
 도대체 어떻게 평민이 왕에게 고개를 조아리게 만들까요? (217번 클린 아키텍처의 영혼입니다.)
 
-1. **하늘에 빈 구멍([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 뚫기**:
-   - `자동차(고수준)`와 `미쉐린 타이어(저수준)` 사이에, 텅 비어있는 투명한 **`[타이어 인터페이스(추상화)]`**라는 콘센트 구멍을 떡하니 파놓습니다.
+1. <strong>하늘에 빈 구멍(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>) 뚫기</strong>:
+   - `자동차(고수준)`와 `미쉐린 타이어(저수준)` 사이에, 텅 비어있는 투명한 <strong><code>[타이어 인터페이스(추상화)]</code></strong>라는 콘센트 구멍을 떡하니 파놓습니다.
 2. **왕의 화살표 꺾기**:
    - `자동차(고수준)`는 미쉐린 타이어를 보지 않습니다. 오직 허공에 뚫어놓은 투명한 `[타이어 인터페이스]`만을 쳐다보며 화살표를 꽂습니다. "나는 동그랗게 굴러가기만 하면 누가 오든 신경 안 써!"
 3. **평민의 굴복 (의존성 역전의 순간) 🌟**:
@@ -96,10 +95,10 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 이 놀라운 DIP 룰을 개발자가 손으로 일일이 짜려면 너무 귀찮습니다.
-- 그래서 나온 게 전 세계를 지배한 **자바 스프링(Spring) 프레임워크**입니다. 
-- 스프링은 이 DIP 룰을 지키기 위해, 하늘의 빈 구멍(인터페이스)에다가 런타임에 몰래 미쉐린 타이어를 쏙 꽂아 넣어주는 비서 역할을 합니다. 이것을 **[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))**라고 부르며, 화살표가 거꾸로 꽂혀 제어권이 스프링으로 넘어간 것을 **IoC (Inversion of Control, 제어의 역전)**라고 부릅니다. 결국 이 모든 화려한 현대 기술의 태초의 아버지가 바로 이 DIP 원칙입니다.
+- 그래서 나온 게 전 세계를 지배한 <strong>자바 스프링(Spring) 프레임워크</strong>입니다. 
+- 스프링은 이 DIP 룰을 지키기 위해, 하늘의 빈 구멍(인터페이스)에다가 런타임에 몰래 미쉐린 타이어를 쏙 꽂아 넣어주는 비서 역할을 합니다. 이것을 <strong><a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">Dependency Injection</a>, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">의존성 주입</a>)</strong>라고 부르며, 화살표가 거꾸로 꽂혀 제어권이 스프링으로 넘어간 것을 <strong>IoC (Inversion of Control, 제어의 역전)</strong>라고 부릅니다. 결국 이 모든 화려한 현대 기술의 태초의 아버지가 바로 이 DIP 원칙입니다.
 
-> 📢 **섹션 요약 비유**: **[의존 역전 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/)(DIP)**은 황제(고수준 뇌)가 노예 목수(저수준 구체물)를 다루는 **'건축 하도급 계약서의 절대 법칙'**입니다. 멍청한 황제(전통적 의존성)는 "목수 '김서방(구체적 클래스)'한테 내 별장을 지으라고 시켜라(직접 의존)!"라고 명령했습니다. 화살표가 황제 ➜ 김서방으로 꽂혔습니다. 김서방이 암에 걸려 죽자, 황제는 멘붕에 빠져 별장 공사가 스톱되고 수십억이 날아갑니다(수정 폭발). 깨달음을 얻은 천재 황제(DIP)는 특정 노예의 이름을 절대 부르지 않습니다. 대신 허공에 **'별장 건축 도면과 1급 목수 자격증([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 인터페이스)'**을 던져놓고 공고를 냅니다. 황제는 이 '도면([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'만 쳐다보고(의존) 편하게 낮잠을 잡니다. 그러면 전국의 수백 명의 목수(김서방, 이서방, 최서방)들이 이 도면([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))을 보고 스스로 자격을 맞춰서 "제가 그 도면대로 짓겠습니다!!"라며 **스스로 황제의 룰을 향해 엎드려 화살표를 쏩니다(의존성 역전).** 이렇게 하면 오늘 김서방이 죽어도 내일 이서방이 똑같은 도면(인터페이스) 규격에 맞춰 공사를 이어가기 때문에, 황제의 뇌(핵심 비즈니스 로직)는 영원히 평화롭고 시스템이 망가지지 않는 궁극의 왕권 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방어술이 완성됩니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/359_process/">의존 역전 원칙</a>(DIP)</strong>은 황제(고수준 뇌)가 노예 목수(저수준 구체물)를 다루는 <strong>'건축 하도급 계약서의 절대 법칙'</strong>입니다. 멍청한 황제(전통적 의존성)는 "목수 '김서방(구체적 클래스)'한테 내 별장을 지으라고 시켜라(직접 의존)!"라고 명령했습니다. 화살표가 황제 ➜ 김서방으로 꽂혔습니다. 김서방이 암에 걸려 죽자, 황제는 멘붕에 빠져 별장 공사가 스톱되고 수십억이 날아갑니다(수정 폭발). 깨달음을 얻은 천재 황제(DIP)는 특정 노예의 이름을 절대 부르지 않습니다. 대신 허공에 <strong>'별장 건축 도면과 1급 목수 자격증(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 인터페이스)'</strong>을 던져놓고 공고를 냅니다. 황제는 이 '도면([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'만 쳐다보고(의존) 편하게 낮잠을 잡니다. 그러면 전국의 수백 명의 목수(김서방, 이서방, 최서방)들이 이 도면([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))을 보고 스스로 자격을 맞춰서 "제가 그 도면대로 짓겠습니다!!"라며 **스스로 황제의 룰을 향해 엎드려 화살표를 쏩니다(의존성 역전).** 이렇게 하면 오늘 김서방이 죽어도 내일 이서방이 똑같은 도면(인터페이스) 규격에 맞춰 공사를 이어가기 때문에, 황제의 뇌(핵심 비즈니스 로직)는 영원히 평화롭고 시스템이 망가지지 않는 궁극의 왕권 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 방어술이 완성됩니다.
 
 - **📢 섹션 요약 비유**: DIP (Dependency Inversion Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -144,21 +143,23 @@ DIP (Dependency Inversion Principle)은 '어떻게 빠르게 짜는가'가 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-DIP (Dependency Inversion Principle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DIP (Dependency Inversion Principle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

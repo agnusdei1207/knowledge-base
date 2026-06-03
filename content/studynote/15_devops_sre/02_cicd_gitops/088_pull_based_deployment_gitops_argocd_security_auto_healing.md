@@ -37,25 +37,25 @@ tags = ["studynote-devops"]
 | **Pull 에이전트 (ArgoCD)** | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 배포 수행 | 클러스터 내부에서 실행되며, Git 저장소를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하거나 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)([Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/))으로 감지 |
 | **Reconciliation Loop** | 드리프트(Drift) 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | Git 명세([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))와 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(Actual [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 지속 비교하여 불일치 시 자동 재조정 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           Pull-based GitOps 아키텍처 (보안 격리 구조)        │
-├──────────────────────────────────────────────────────────────┤
-│ [외부 환경]                    │ [쿠버네티스 클러스터 내부]  │
-│                                │                             │
-│ 1. 개발자 Commit               │                             │
-│       │                        │   3. Pull (변경 감지)       │
-│       ▼                        │      ◀───────────┐          │
-│ 2. Git 저장소 (SSOT) ◀────────┼─ ArgoCD Controller │          │
-│    (Desired State)             │      │            │          │
-│                                │      ▼            │          │
-│    * CI 서버는 Git만           │   4. K8s API Apply │          │
-│      업데이트하고 배포 끝      │      ▼            │          │
-│                                │  실제 파드 (Actual State)    │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 루프 구조의 가장 큰 특징은 **자동 치유(Auto-healing)**다. 누군가 수동 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 무단으로 변경하더라도, 에이전트가 즉각 이를 감지하고 Git에 선언된 원래 상태로 되돌려버린다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull-based GitOps 아키텍처 (보안 격리 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 환경</div><div class="kb-diagram-node">쿠버네티스 클러스터 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자 Commit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Pull (변경 감지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Git 저장소 (SSOT) ◀ ─ ArgoCD Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Desired State)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CI 서버는 Git만</div><div class="kb-diagram-cell">4. K8s API Apply</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">업데이트하고 배포 끝</div><div class="kb-diagram-cell">▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 파드 (Actual State)</div></div>
+</div>
+</div>
+
+
+
+이 루프 구조의 가장 큰 특징은 <strong>자동 치유(Auto-healing)</strong>다. 누군가 수동 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 무단으로 변경하더라도, 에이전트가 즉각 이를 감지하고 Git에 선언된 원래 상태로 되돌려버린다.
 
 - **📢 섹션 요약 비유**: 방을 어지럽혀도(Drift 발생), 로봇 청소기(ArgoCD)가 사진첩(Git)에 있는 완벽하게 정돈된 원래 방의 모습 그대로 5분마다 다시 정리해 놓는 것과 같다.
 
@@ -68,9 +68,9 @@ tags = ["studynote-devops"]
 | 비교 축 | [Push-based](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/087_push_based_deployment_jenkins_ci_cd_security_risk/) 배포 | Pull-based 배포 ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) |
 | :--- | :--- | :--- |
 | **제어 주체 위치** | 클러스터 외부 ([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitHub Actions) | 클러스터 내부 (ArgoCD, FluxCD) |
-| **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 보안** | 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 소유해야 함 | 클러스터가 외부 Git 접근 토큰만 보유하면 됨 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> 보안</strong> | 외부 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 소유해야 함 | 클러스터가 외부 Git 접근 토큰만 보유하면 됨 |
 | **진실의 원천 (SSOT)** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 스크립트 실행 결과 | Git에 저장된 선언형 매니페스트 (YAML) |
-| **장애 시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 방식** | 이전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 등 수동 개입 | Git Commit Revert 시 즉각 자동 반영 |
+| <strong>장애 시 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 방식</strong> | 이전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 등 수동 개입 | Git Commit Revert 시 즉각 자동 반영 |
 
 Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) YAML을 담은 '[Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Repo'를 분리하는 구조와 강하게 연결된다. 빌드는 App Repo에서 푸시 방식으로 끝나고, 배포는 [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Repo 업데이트를 통해 풀 방식으로 처리되기 때문이다.
 
@@ -83,9 +83,9 @@ Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [�
 풀 기반 배포는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 선언형([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) 철학과 완벽히 맞물리며 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 보안의 표준으로 자리 잡았다.
 
 ### 💡 기술사 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **[Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Repo 분리**: 소스코드와 매니페스트 저장소를 분리하여, 코드 빌드가 일어날 때마다 불필요한 인프라 배포 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 발생하지 않도록 차단했는가?
-2. **[최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))**: 내부 에이전트(ArgoCD)에게 부여된 `RBAC (Role-Based Access Control)` 권한이 해당 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)나 배포 대상 리소스로만 적절히 제한되어 있는가?
-3. **드리프트 처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 수동 변경을 무조건 Git 상태로 덮어씌우는 Auto-Sync를 켤 것인지, 위험을 알리기만 하고 멈출 것인지(Out of Sync 알림) 환경별 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수립했는가?
+1. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> Repo 분리</strong>: 소스코드와 매니페스트 저장소를 분리하여, 코드 빌드가 일어날 때마다 불필요한 인프라 배포 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 발생하지 않도록 차단했는가?
+2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">최소 권한 원칙</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a>)</strong>: 내부 에이전트(ArgoCD)에게 부여된 `RBAC (Role-Based Access Control)` 권한이 해당 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)나 배포 대상 리소스로만 적절히 제한되어 있는가?
+3. <strong>드리프트 처리 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 수동 변경을 무조건 Git 상태로 덮어씌우는 Auto-Sync를 켤 것인지, 위험을 알리기만 하고 멈출 것인지(Out of Sync 알림) 환경별 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수립했는가?
 
 ### 🚫 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **운영 환경 직접 수정 (Hotfix)**: 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 `kubectl edit`으로 운영 환경을 수정하고, 이를 Git에 반영하지 않는 행위. 다음 Pull 주기가 돌아오면 수정한 내용이 사라져 2차 장애를 유발한다.
@@ -108,33 +108,35 @@ Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | "Git을 유일한 진실의 원천(SSOT)으로 삼고, 선언형 인프라와 애플리케이션 배포를 자동화한다"는 전체 운영 방법론 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | "Git을 유일한 진실의 원천(SSOT)으로 삼고, 선언형 인프라와 애플리케이션 배포를 자동화한다"는 전체 운영 방법론 |
 | **ArgoCD / FluxCD** | 풀 기반 배포를 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 실제로 구현해 주는 양대산맥 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 에이전트 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | 배포 상태를 코드로 선언하여 보관하는 기반 기술 ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/), [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) |
-| **SSOT ([Single Source of Truth](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))** | 시스템 전체의 상태를 판단하는 단 하나의 절대적인 기준점 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | 배포 상태를 코드로 선언하여 보관하는 기반 기술 ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/), [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)) |
+| <strong>SSOT (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">Single Source of Truth</a>)</strong> | 시스템 전체의 상태를 판단하는 단 하나의 절대적인 기준점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[배포의 한계와 위험]
-Push-based Deployment (외부 CI의 과도한 권한)
-        │
-        ▼
-[보안 및 권한 분리 모델]
-CI/CD 파이프라인 분리 (App Repo vs Config Repo)
-        │
-        ▼
-[새로운 배포 패러다임]
-Pull-based Deployment (클러스터 내부 통제)
-        │
-        ▼
-[선언형 인프라의 완성]
-GitOps 아키텍처 및 SSOT 확립
-        │
-        ▼
-[자동화의 끝판왕]
-Reconciliation Loop를 통한 Auto-healing (자동 복구)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">배포의 한계와 위험</div></div>
+<div class="kb-diagram-note">Push-based Deployment (외부 CI의 과도한 권한)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보안 및 권한 분리 모델</div></div>
+<div class="kb-diagram-note">CI/CD 파이프라인 분리 (App Repo vs Config Repo)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 배포 패러다임</div></div>
+<div class="kb-diagram-note">Pull-based Deployment (클러스터 내부 통제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">선언형 인프라의 완성</div></div>
+<div class="kb-diagram-note">GitOps 아키텍처 및 SSOT 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화의 끝판왕</div></div>
+<div class="kb-diagram-note">Reconciliation Loop를 통한 Auto-healing (자동 복구)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

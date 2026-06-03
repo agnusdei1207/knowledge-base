@@ -21,17 +21,21 @@ tags = ["studynote-network"]
 
 - **왜 꼬았는가?**: 구리선 2가닥에 전류가 흐르면 서로 간섭([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), 1030번 복습)이 생기고, 외부 전파(EMI)의 방해를 받습니다. 두 선을 나선형으로 꼬아주면 서로 발생하는 전자기장이 서로 상쇄(Cancel out)되어 노이즈가 기적처럼 사라집니다. (꼬임 피치 배열의 수학적 계산)
 - **종류**:
-  - **[UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) (Unshielded)**: 차폐막(은박지)이 없는 가장 싸고 얇은 국민 랜선.
-  - **[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)/[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) (Shielded)**: 구리선 겉면을 알루미늄 은박지로 칭칭 감아서 전자레인지나 공장 기계 옆에서도 노이즈가 안 튀게 방어한 비싼 랜선.
+  - <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a> (Unshielded)</strong>: 차폐막(은박지)이 없는 가장 싸고 얇은 국민 랜선.
+  - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> (Shielded)</strong>: 구리선 겉면을 알루미늄 은박지로 칭칭 감아서 전자레인지나 공장 기계 옆에서도 노이즈가 안 튀게 방어한 비싼 랜선.
 
-```text
-[스위치 포트 미러링]
-    │
-    ▼
-[UTP 배선 카테고리]
-    │
-    └──▶ [광섬유 싱글모드 다중모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 포트 미러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,29 +46,33 @@ tags = ["studynote-network"]
 카테고리 숫자가 올라갈수록 구리선이 더 촘촘하게 꼬여있고 굵어집니다.
 
 ### 1. Cat.5e (Category 5 Enhanced) - "국민 기가비트 랜선"
-- **속도 / [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**: 1 Gbps / 100 MHz
+- <strong>속도 / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>: 1 Gbps / 100 MHz
 - **특징**: 2000년대 초반 PC방을 점령한 전설의 랜선입니다. 원래 100Mbps까지만 되던 Cat.5의 꼬임을 살짝 개선해서 억지로 1기가 속도를 뽑아낸 가성비 끝판왕입니다.
 
 ### 2. Cat.6 - "기업용 표준"
-- **속도 / [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**: 1 Gbps (거리가 짧으면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps 가능) / 250 MHz
-- **특징**: Cat.5e보다 구리선이 두꺼워지고, 선 4쌍 한가운데에 **'플라스틱 십자형 격벽(Cross Filler)'**을 뼈대처럼 박아 넣었습니다. 이 뼈대가 선들끼리의 물리적 거리를 강제로 벌려놔서 내부 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))를 획기적으로 차단했습니다.
+- <strong>속도 / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>: 1 Gbps (거리가 짧으면 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps 가능) / 250 MHz
+- **특징**: Cat.5e보다 구리선이 두꺼워지고, 선 4쌍 한가운데에 <strong>'플라스틱 십자형 격벽(Cross Filler)'</strong>을 뼈대처럼 박아 넣었습니다. 이 뼈대가 선들끼리의 물리적 거리를 강제로 벌려놔서 내부 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))를 획기적으로 차단했습니다.
 
 ### 3. Cat.6A (Augmented) - "10기가 이더넷의 완성"
-- **속도 / [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps / 500 MHz
+- <strong>속도 / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps / 500 MHz
 - **특징**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버실의 표준입니다. 100미터 거리까지 10기가 속도를 안정적으로 쏴줍니다. 외부 노이즈(Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 방어가 강화되어 선이 엄청나게 뻣뻣해졌습니다.
 
 ### 4. Cat.7 / Cat.8 - "돈지랄 오버스펙"
 - **속도**: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps ~ 40 Gbps / 600 MHz ~ 2000 MHz
 - **특징**: 모든 구리선 가닥마다 은박지 쉴드를 감아놓은 완벽한 S/[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 규격입니다. 일반 가정에서는 아예 쓸모가 없고, 광케이블을 깔기 힘든 짧은 서버 랙 구간에서만 극도로 제한적으로 씁니다.
 
-```text
-[스위치 포트 미러링]
-    │
-    ▼
-[UTP 배선 카테고리]
-    │
-    └──▶ [광섬유 싱글모드 다중모드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 포트 미러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,7 +80,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블(구리선)의 100% 한계 거리는 **100 미터**입니다. 
+- [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블(구리선)의 100% 한계 거리는 <strong>100 미터</strong>입니다. 
 - 100미터가 넘어가면 구리의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 때문에 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 에너지가 다 깎여먹어서(감쇠) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발해 버립니다. 중간에 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 다시 살려주는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 리피터를 꽂지 않는 이상, 100m 이상의 장거리는 다음 장의 광케이블(빛)에 자리를 내어줘야 합니다.
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)이 기반 조건을 만든다면, [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 그 위에서 핵심 메커니즘을 구현하고, [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 인터넷 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))은 **'8개의 고무 호스로 물을 쏘는 소방차'**와 같습니다. 물살([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도)을 1기가, 10기가로 미친 듯이 세게 틀면 호스들이 요동치며 서로 부딪히고([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 노이즈), 호스가 터져 물이 샙니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 에러). **Cat.5e** 규격은 그냥 고무호스 8개를 밧줄로 대충 묶어놓은 것입니다. 수압이 약할 땐 괜찮지만 세지면 엉망이 됩니다. **Cat.6** 규격은 호스들 한가운데에 **'단단한 십자가 플라스틱 뼈대'**를 박고 호스들을 꽈배기처럼 칭칭 꼬아 단단히 결박한 것입니다. 아무리 수압(10기가)을 세게 틀어도 호스가 절대 흔들리거나 부딪히지 않아 물 한 방울 흘리지 않고 완벽하게 목적지에 도착합니다. 하지만 구리 호스는 길이가 100m를 넘어가면 마찰력 때문에 물이 말라버리므로, 등급이 아무리 높아져도 동네 PC방과 사무실 층계를 벗어나지 못하는 태생적 구리선의 한계가 존재합니다.
+- **📢 섹션 요약 비유**: 인터넷 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))은 <strong>'8개의 고무 호스로 물을 쏘는 소방차'</strong>와 같습니다. 물살([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도)을 1기가, 10기가로 미친 듯이 세게 틀면 호스들이 요동치며 서로 부딪히고([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 노이즈), 호스가 터져 물이 샙니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 에러). **Cat.5e** 규격은 그냥 고무호스 8개를 밧줄로 대충 묶어놓은 것입니다. 수압이 약할 땐 괜찮지만 세지면 엉망이 됩니다. **Cat.6** 규격은 호스들 한가운데에 <strong>'단단한 십자가 플라스틱 뼈대'</strong>를 박고 호스들을 꽈배기처럼 칭칭 꼬아 단단히 결박한 것입니다. 아무리 수압(10기가)을 세게 틀어도 호스가 절대 흔들리거나 부딪히지 않아 물 한 방울 흘리지 않고 완벽하게 목적지에 도착합니다. 하지만 구리 호스는 길이가 100m를 넘어가면 마찰력 때문에 물이 말라버리므로, 등급이 아무리 높아져도 동네 PC방과 사무실 층계를 벗어나지 못하는 태생적 구리선의 한계가 존재합니다.
 
 ---
 
@@ -125,15 +133,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스위치 포트 미러링]
-    │
-    ▼
-[현재 개념: UTP 배선 카테고리]
-    │
-    ├──▶ [확장 A: 광섬유 싱글모드 다중모드]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위치 포트 미러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTP 배선 카테고리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광섬유 싱글모드 다중모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

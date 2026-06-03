@@ -43,17 +43,20 @@ BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터
 
 아래 구조는 BPM 엔진이 사람 작업과 시스템 작업을 모두 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 방식을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                      BPM orchestration for long-running flow              │
-├────────────────────────────────────────────────────────────────────────────┤
-│ BPMN Model -> Process Engine -> User Task Inbox                           │
-│                   │                ├-> Service Connector -> Business Sys  │
-│                   │                ├-> Timer / Event Wait                 │
-│                   ▼                └-> Exception / Compensation           │
-│         State Store / Audit Log / Monitoring Dashboard                    │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPM orchestration for long-running flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPMN Model -&gt; Process Engine -&gt; User Task Inbox</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Service Connector -&gt; Business Sys</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Timer / Event Wait</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ -&gt; Exception / Compensation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State Store / Audit Log / Monitoring Dashboard</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 것은 프로세스가 메모리 속 일회성 함수가 아니라, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 상태를 남기는 장기 실행 객체라는 점이다. 누가 승인했는지, 어디서 3일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되었는지, 어떤 예외 분기를 탔는지 기록이 남아야 재시작·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·개선이 가능하다. 그래서 BPM은 단순 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엔진이 아니라, 상태 기반의 업무 실행 플랫폼으로 봐야 한다.
 
@@ -105,7 +108,7 @@ BPM은 인사 온보딩, 구매 승인, 보험 청구, 대출 심사, 민원 처
 
 BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책임 추적, 자동 재처리가 가능해진다. 특히 업무와 시스템 연계가 복잡할수록 "절차가 문서에만 있는 조직"에서 "절차가 실행되고 측정되는 조직"으로 전환하는 효과가 크다. 프로세스 변경도 모델 수정 중심으로 전환되어, 현업과 IT의 소통 비용이 줄어든다.
 
-다만 BPM은 모든 업무를 모델링해야 한다는 강박으로 흐르면 실패한다. 빈번히 바뀌지 않는 단순 흐름이나 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기술성 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 코드나 이벤트 기반 구조가 더 적합할 수 있다. 결국 BPM은 **사람과 시스템이 함께 움직이는 긴 업무 흐름을 상태 기반으로 운영·개선하는 도구**로 기억하는 것이 가장 정확하다.
+다만 BPM은 모든 업무를 모델링해야 한다는 강박으로 흐르면 실패한다. 빈번히 바뀌지 않는 단순 흐름이나 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 기술성 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 코드나 이벤트 기반 구조가 더 적합할 수 있다. 결국 BPM은 <strong>사람과 시스템이 함께 움직이는 긴 업무 흐름을 상태 기반으로 운영·개선하는 도구</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: BPM의 진짜 힘은 서류를 빨리 보내는 데만 있는 것이 아니라, 지금 서류가 누구 책상 위에 있고 왜 멈췄는지 모두가 볼 수 있게 만드는 데 있다.
 
@@ -123,21 +126,23 @@ BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수기 결재 · 이메일 전달
-    │
-    ▼
-프로세스 표준화 요구
-    │
-    ▼
-BPMN 모델링
-    │
-    ▼
-프로세스 엔진 실행 · 상태 저장
-    │
-    ▼
-BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수기 결재 · 이메일 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 표준화 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPMN 모델링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 엔진 실행 · 상태 저장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신</div>
+</div>
+</div>
+
+
 
 이 흐름은 업무 문서화 수준에서, 실행 가능하고 측정 가능한 프로세스 운영 체계로 발전하는 방향을 보여준다.
 

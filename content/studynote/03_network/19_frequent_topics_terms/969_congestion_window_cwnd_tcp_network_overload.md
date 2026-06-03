@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/), 967번)**: 딱 **수신자(친구)**의 버퍼(그릇)가 터지지 않게 맞춰주는 1:1 개인적 조율입니다. (수신 윈도우, `rwnd`)
-- **혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)) 🌟**: 수신자가 아니라, 패킷이 거쳐 가는 **인터넷망 전체 라우터들의 버퍼(큐)**가 터져 통신 대란이 일어나는 걸 방지하는 '글로벌 네트워크 눈치 게임'입니다. 이때 쓰이는 창문 크기가 **[혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) (cwnd, Congestion Window)**입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>, 967번)</strong>: 딱 <strong>수신자(친구)</strong>의 버퍼(그릇)가 터지지 않게 맞춰주는 1:1 개인적 조율입니다. (수신 윈도우, `rwnd`)
+- <strong>혼잡 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a>) 🌟</strong>: 수신자가 아니라, 패킷이 거쳐 가는 <strong>인터넷망 전체 라우터들의 버퍼(큐)</strong>가 터져 통신 대란이 일어나는 걸 방지하는 '글로벌 네트워크 눈치 게임'입니다. 이때 쓰이는 창문 크기가 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a> (cwnd, Congestion Window)</strong>입니다.
 
-```text
-[TCP 쓰리웨이 핸드셰이크]
-    │
-    ▼
-[혼잡 윈도우]
-    │
-    └──▶ [슬로우 스타트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬로우 스타트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,20 +41,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: "지금 당장 인터넷 고속도로 상태를 보니 한 번에 이만큼의 패킷만 쏴야 안전하겠군!" 하고 송신자 컴퓨터 스스로 짐작하여 맞춰둔 **가상의 송신 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 한도(창문 크기)**입니다.
+- **개념**: "지금 당장 인터넷 고속도로 상태를 보니 한 번에 이만큼의 패킷만 쏴야 안전하겠군!" 하고 송신자 컴퓨터 스스로 짐작하여 맞춰둔 <strong>가상의 송신 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a> 한도(창문 크기)</strong>입니다.
 - **절대 지배 룰 (송신 크기 결정)**:
   송신자가 실제로 허공에 쏠 수 있는 패킷의 연사 개수(최종 [Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))는 어떻게 결정될까요?
   $$ \text{실제 송신 창문} = \min (\text{수신 윈도우 rwnd}, \text{[혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) cwnd}) $$
   - 즉, 친구가 "나 1,000개 받을 수 있어!(rwnd)"라고 자랑해도, 내가 고속도로 상태를 보고 "도로가 막혀서 10개밖에 못 지나가겠어(cwnd)"라고 판단하면, **무조건 더 작은 숫자인 10개만 찔끔 쏘게 목줄이 강제로 채워집니다.**
 
-```text
-[TCP 쓰리웨이 핸드셰이크]
-    │
-    ▼
-[혼잡 윈도우]
-    │
-    └──▶ [슬로우 스타트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬로우 스타트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,9 +68,9 @@ tags = ["studynote-network"]
 
 내 컴퓨터가 중간 라우터의 상태를 어떻게 알까요? 라우터가 카톡을 안 주는데?
 
-- **대원칙**: **TCP의 창시자들은 "인터넷 세상에서 패킷이 증발해 에러([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))가 터졌다는 건, 랜선이 끊어져서가 아니라 무조건 중간 라우터 큐(톨게이트)가 꽉 차서 터졌기(혼잡) 때문이다!" 라고 가정해버렸습니다.**
+- **대원칙**: <strong>TCP의 창시자들은 "인터넷 세상에서 패킷이 증발해 에러(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>)가 터졌다는 건, 랜선이 끊어져서가 아니라 무조건 중간 라우터 큐(톨게이트)가 꽉 차서 터졌기(혼잡) 때문이다!" 라고 가정해버렸습니다.</strong>
 - **눈치채기**: 내가 10개를 쐈는데 친구한테서 1개가 안 왔다는 답장(3 중복 ACK)이 오거나 답장 기한을 넘겨버렸습니다([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)). 
-- **동작**: 송신자 컴퓨터는 찰나의 순간에 "아뿔싸! 중간 도로(라우터) 터졌구나!" 직감하고, **[혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)(CWND) 크기를 미친 듯이 확 쪼그라뜨려 전송량을 바닥으로 떨어뜨립니다.** 고속도로에 차를 안 보내어 중간 라우터가 숨을 쉬고 체증을 풀 수 있게 기회를 주는 위대한 이타주의(백오프) 알고리즘입니다.
+- **동작**: 송신자 컴퓨터는 찰나의 순간에 "아뿔싸! 중간 도로(라우터) 터졌구나!" 직감하고, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a>(CWND) 크기를 미친 듯이 확 쪼그라뜨려 전송량을 바닥으로 떨어뜨립니다.</strong> 고속도로에 차를 안 보내어 중간 라우터가 숨을 쉬고 체증을 풀 수 있게 기회를 주는 위대한 이타주의(백오프) 알고리즘입니다.
 
 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크가 기반 조건을 만든다면, [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 그 위에서 핵심 메커니즘을 구현하고, [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,9 +87,9 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 이 창문 크기(CWND)를 넓히고 좁히는 파도타기 예술 4단계입니다.
-1. **[슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) ([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/), 970번 문서)**: 처음엔 도로 상태를 모르니 1개만 쏘고, 문제없으면 2개, 4개, 8개로 미친 듯이 늘리며 간을 봅니다.
-2. **[혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) (Congestion Avoidance)**: 어느 정도 창문이 커지면 조심스럽게 1개씩만 살금살금 늘립니다.
-3. **[빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/) / [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)**: 에러 조짐이 보이면 창문을 절반으로 확 줄이고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 전에 재빨리 재전송해 수습합니다.
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">슬로우 스타트</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a>, 970번 문서)</strong>: 처음엔 도로 상태를 모르니 1개만 쏘고, 문제없으면 2개, 4개, 8개로 미친 듯이 늘리며 간을 봅니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/">혼잡 회피</a> (Congestion Avoidance)</strong>: 어느 정도 창문이 커지면 조심스럽게 1개씩만 살금살금 늘립니다.
+3. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/">빠른 재전송</a> / <a href="/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/">빠른 회복</a></strong>: 에러 조짐이 보이면 창문을 절반으로 확 줄이고 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 전에 재빨리 재전송해 수습합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -89,7 +97,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인터넷 통신망은 서울에서 부산으로 가는 '경부고속도로'입니다. **수신 윈도우(rwnd)**는 부산에 있는 하역장 창고 크기입니다. 창고가 비어있다고 서울 물류센터(송신자)가 무작정 트럭 1만 대를 한 방에 풀어버리면, 중간에 있는 대전 톨게이트(라우터)가 꽉 막혀 고속도로에 차들이 다 갇혀서 기름이 떨어져 죽습니다(패킷 드랍 재앙). **[혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)(CWND)**는 서울 물류센터장이 켜둔 '고속도로 실시간 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)'와 같습니다. 트럭이 제때 안 돌아오면([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 발생) 센터장은 0.1초 만에 "아! 대전 톨게이트가 터졌구나!" 눈치를 까고, 부산 창고가 텅텅 비어있든 말든(rwnd 무시) 톨게이트 상황이 정상화될 때까지 트럭 출발 대수를 10대로 확 줄여버려 목줄을 쥡니다. 내 친구의 뱃속이 아니라 전 지구적 고속도로의 교통체증(혼잡)을 스스로 걱정하고 자제해 주는 인터넷망 붕괴 방어의 1등 공신입니다.
+- **📢 섹션 요약 비유**: 인터넷 통신망은 서울에서 부산으로 가는 '경부고속도로'입니다. <strong>수신 윈도우(rwnd)</strong>는 부산에 있는 하역장 창고 크기입니다. 창고가 비어있다고 서울 물류센터(송신자)가 무작정 트럭 1만 대를 한 방에 풀어버리면, 중간에 있는 대전 톨게이트(라우터)가 꽉 막혀 고속도로에 차들이 다 갇혀서 기름이 떨어져 죽습니다(패킷 드랍 재앙). <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a>(CWND)</strong>는 서울 물류센터장이 켜둔 '고속도로 실시간 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)'와 같습니다. 트럭이 제때 안 돌아오면([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 발생) 센터장은 0.1초 만에 "아! 대전 톨게이트가 터졌구나!" 눈치를 까고, 부산 창고가 텅텅 비어있든 말든(rwnd 무시) 톨게이트 상황이 정상화될 때까지 트럭 출발 대수를 10대로 확 줄여버려 목줄을 쥡니다. 내 친구의 뱃속이 아니라 전 지구적 고속도로의 교통체증(혼잡)을 스스로 걱정하고 자제해 주는 인터넷망 붕괴 방어의 1등 공신입니다.
 
 ---
 
@@ -112,15 +120,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: TCP 쓰리웨이 핸드셰이크]
-    │
-    ▼
-[현재 개념: 혼잡 윈도우]
-    │
-    ├──▶ [확장 A: 슬로우 스타트]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 쓰리웨이 핸드셰이크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 혼잡 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 슬로우 스타트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크에서 출발해 현재 메커니즘을 정교화하고, 이후 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

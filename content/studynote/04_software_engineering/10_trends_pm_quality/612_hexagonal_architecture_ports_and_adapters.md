@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **육각형 (Hexagon)**: 코어 뇌에 꽂히는 외부 잡동사니(웹, DB, 메시지 큐)가 다방면으로 무한히 많다는 걸 보여주기 위해 육각형으로 그린 것.
-  - **[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (구멍/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))**: 코어(뇌)가 세상과 대화하기 위해 자기 몸에 뚫어놓은 '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 잭 구멍(Interface)'. 
-  - **[Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ([어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)/변환기)**: 밖의 220V 전기를 그 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 구멍에 맞게 깎아서 꽂아주는 통역사.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (구멍/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)</strong>: 코어(뇌)가 세상과 대화하기 위해 자기 몸에 뚫어놓은 '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 잭 구멍(Interface)'. 
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>/변환기)</strong>: 밖의 220V 전기를 그 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 구멍에 맞게 깎아서 꽂아주는 통역사.
 
-- **필요성 (양방향 스파게티 침공의 멸망)**: 옛날엔 `Controller ➡ Service ➡ DB` 로 화살표가 무조건 밑으로 쏠렸다. 주니어가 `Service` 로직 안에 `@KafkaListener` 를 떡칠하고, 파싱 코드를 한가운데 쑤셔 박아 코어 뇌가 오염됐다. **"비즈니스 로직은 순수한 수학 공식이어야 하잖아!! 왜 통신 프로토콜이 내 뇌를 직접 찌르게 냅둬?! 뇌 겉에다 '입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)' 하나만 뚫고, 밖에서 카프카용 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 따로 짜서 꽂아 넣게 분리해!!"** 이 오염에 대한 강박적 혐오가 헥사고날 철창을 완성했다.
+- **필요성 (양방향 스파게티 침공의 멸망)**: 옛날엔 `Controller ➡ Service ➡ DB` 로 화살표가 무조건 밑으로 쏠렸다. 주니어가 `Service` 로직 안에 `@KafkaListener` 를 떡칠하고, 파싱 코드를 한가운데 쑤셔 박아 코어 뇌가 오염됐다. <strong>"비즈니스 로직은 순수한 수학 공식이어야 하잖아!! 왜 통신 프로토콜이 내 뇌를 직접 찌르게 냅둬?! 뇌 겉에다 '입력 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>' 하나만 뚫고, 밖에서 카프카용 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 따로 짜서 꽂아 넣게 분리해!!"</strong> 이 오염에 대한 강박적 혐오가 헥사고날 철창을 완성했다.
 
-- **💡 비유**: 쌩 코딩은 **'컴퓨터 메인보드에 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/), 키보드 선을 아예 인두기로 영구 납땜해 버린 짓'**입니다. 헥사고날 아키텍처는 본체 뒤에 **'[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'** 딱 10개만 뚫어두는 겁니다. 본체는 밖에 키보드가 달렸는지 마우스가 달렸는지 알 필요 없습니다. '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 규격만 맞게 만들어서 찰칵 꽂으면, 무선 키보드든 마우스든 1초 만에 핑퐁 대화가 돌아가는 완벽한 플러그 앤 플레이 조립식 생태계입니다.
+- **💡 비유**: 쌩 코딩은 <strong>'컴퓨터 메인보드에 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>, 키보드 선을 아예 인두기로 영구 납땜해 버린 짓'</strong>입니다. 헥사고날 아키텍처는 본체 뒤에 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)'</strong> 딱 10개만 뚫어두는 겁니다. 본체는 밖에 키보드가 달렸는지 마우스가 달렸는지 알 필요 없습니다. '[USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 규격만 맞게 만들어서 찰칵 꽂으면, 무선 키보드든 마우스든 1초 만에 핑퐁 대화가 돌아가는 완벽한 플러그 앤 플레이 조립식 생태계입니다.
 
 ---
 
@@ -34,18 +34,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 헥사고날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 외부 격리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  헥사고날 포트와 어댑터 외부 격리                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헥사고날 포트와 어댑터 외부 격리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 헥사고날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 외부 격리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -66,7 +65,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-헥사고날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 외부 격리의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+헥사고날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 외부 격리의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 헥사고날 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 외부 격리의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -142,21 +141,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-헥사고날 포트와 어댑터 외부 격리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헥사고날 포트와 어댑터 외부 격리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

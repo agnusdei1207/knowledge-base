@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 왜 이런 일이 반복될까? 발주자(고객)는 IT 전문가가 아니기 때문에 개발사가 가져온 문서나 코드를 검증할 능력이 없기 때문이다. 
 
-이 비극을 막기 위해 법(전자정부법 등)으로 강제한 제도가 **[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)**다. 건축을 할 때 시공사가 벽돌을 잘 쌓는지 '건축 감리사'가 옆에서 매일 감시하듯, **최고의 기술 전문가(정보처리기술사, 수석감리원)들로 구성된 제3의 팀이 투입되어 개발의 모든 과정을 탈탈 터는([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 제도**다.
+이 비극을 막기 위해 법(전자정부법 등)으로 강제한 제도가 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/">정보시스템 감리</a></strong>다. 건축을 할 때 시공사가 벽돌을 잘 쌓는지 '건축 감리사'가 옆에서 매일 감시하듯, <strong>최고의 기술 전문가(정보처리기술사, 수석감리원)들로 구성된 제3의 팀이 투입되어 개발의 모든 과정을 탈탈 터는(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>) 제도</strong>다.
 
 - **📢 섹션 요약 비유**: 식당 주인이 주방장을 고용해 요리를 맡겼는데, 주방장이 몰래 썩은 고기를 쓸까 봐 불안하다. 그래서 국가에서 면허를 받은 '위생 점검관(감리)'을 돈 주고 불러서, 주방장이 레시피대로 신선한 재료를 쓰는지 요리 중간중간에 검사하게 만드는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 절차 모델의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  정보시스템 감리 절차 모델                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보시스템 감리 절차 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 절차 모델가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-감리 모델은 보통 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/)([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 핵심 마일스톤에 맞춰 **3단계**로 진행된다.
+감리 모델은 보통 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/)([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 핵심 마일스톤에 맞춰 <strong>3단계</strong>로 진행된다.
 
 - **📢 섹션 요약 비유**: [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 절차 모델은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 QA(품질 보증)나 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)(프로젝트 관리)와 헷갈리기 쉽지만, **'독립성'**에서 완전히 차원이 다르다.
+감리([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))는 QA(품질 보증)나 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)(프로젝트 관리)와 헷갈리기 쉽지만, <strong>'독립성'</strong>에서 완전히 차원이 다르다.
 
 | 비교 항목 | QA (Quality Assurance) | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Mgt. Office) | [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) |
 |:---|:---|:---|:---|
@@ -109,7 +108,7 @@ QA가 스스로 채점하는 '기말고사'라면, 감리는 국가에서 나와
 
 [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)를 철저히 수행하면, 프로젝트 실패(비용 초과, 납기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 불량)의 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)'를 사전에 완벽히 차단할 수 있다. 특히 수백억 원의 세금이 들어가는 공공/금융 차세대 프로젝트에서 대국민 피해를 막는 최후의 방어선 역할을 한다.
 
-결론적으로 기술 리더는 시스템을 '설계'하는 사람을 넘어, 자신의 설계가 **제3자의 객관적이고 매서운 칼날(감리 기준) 앞에서도 한 치의 부끄러움 없이 논리적으로 방어(Defense)될 수 있는지**를 스스로 묻고 단련하는 자세를 가져야 한다.
+결론적으로 기술 리더는 시스템을 '설계'하는 사람을 넘어, 자신의 설계가 <strong>제3자의 객관적이고 매서운 칼날(감리 기준) 앞에서도 한 치의 부끄러움 없이 논리적으로 방어(Defense)될 수 있는지</strong>를 스스로 묻고 단련하는 자세를 가져야 한다.
 
 - **📢 섹션 요약 비유**: 내가 쓴 책을 내 눈으로 100번 읽어도 오타는 안 보인다. 나랑 전혀 상관없는 맞춤법 전문가(감리원)가 한 번 쓱 읽고 빨간펜으로 그어줄 때, 비로소 세상에 내놔도 부끄럽지 않은 완벽한 베스트셀러(시스템)가 탄생하는 것이다.
 
@@ -132,21 +131,23 @@ QA가 스스로 채점하는 '기말고사'라면, 감리는 국가에서 나와
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-정보시스템 감리 절차 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정보시스템 감리 절차 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

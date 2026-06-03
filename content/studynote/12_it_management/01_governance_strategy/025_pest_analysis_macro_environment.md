@@ -20,16 +20,19 @@ tags = ["studynote-it-management"]
 
 기업은 내부 역량(강점·약점)만큼 외부 환경(기회·위협)에 의해 성패가 좌우된다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 전에 "우리 회사를 둘러싼 세계가 어떻게 변하고 있는가?"를 4가지 렌즈로 체계적으로 검토한다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│                  PEST 분석 4대 요소                          │
-├──────────────┬─────────────────────────────────────────────┤
-│ P (Political)│ 정부 규제, 세금 정책, 무역 협정, 정치 안정성   │
-│ E (Economic) │ GDP 성장률, 인플레이션, 환율, 실업률, 금리    │
-│ S (Social)   │ 인구 구조, 문화 트렌드, 소비자 행동, 교육 수준│
-│ T (Tech)     │ R&D 투자, 기술 혁신 속도, 자동화, AI 성숙도   │
-└──────────────┴─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEST 분석 4대 요소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P (Political)</div><div class="kb-diagram-cell">정부 규제, 세금 정책, 무역 협정, 정치 안정성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E (Economic)</div><div class="kb-diagram-cell">GDP 성장률, 인플레이션, 환율, 실업률, 금리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S (Social)</div><div class="kb-diagram-cell">인구 구조, 문화 트렌드, 소비자 행동, 교육 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T (Tech)</div><div class="kb-diagram-cell">R&amp;D 투자, 기술 혁신 속도, 자동화, AI 성숙도</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 기업이 항해하는 바다(외부 환경)의 날씨(정치), 조류(경제), 해류 온도(사회), 선박 기술(기술)을 사전에 파악하는 해도 작성이다. 바다를 알아야 올바른 항로를 선택할 수 있다.
 
@@ -39,38 +42,44 @@ tags = ["studynote-it-management"]
 
 ### IT 기업 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석 예시 (클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업)
 
-```text
-P (정치적):
-  - EU AI Act 규제 강화 → AI 서비스 컴플라이언스 비용 증가
-  - 미-중 기술 디커플링 → 글로벌 공급망 위험
 
-E (경제적):
-  - 금리 인상 → IT 인프라 투자 심리 위축
-  - SaaS 구독 모델 성장 → 경기 변동 완충
 
-S (사회적):
-  - 디지털 전환 가속 → 클라우드 수요 증가
-  - AI 일자리 불안 → 대중 수용성 관리 필요
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">P (정치적):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">EU AI Act 규제 강화 → AI 서비스 컴플라이언스 비용 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:1">미-중 기술 디커플링 → 글로벌 공급망 위험</div>
+<div class="kb-diagram-note">E (경제적):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">금리 인상 → IT 인프라 투자 심리 위축</div>
+<div class="kb-diagram-tree-item" style="--depth:1">SaaS 구독 모델 성장 → 경기 변동 완충</div>
+<div class="kb-diagram-note">S (사회적):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">디지털 전환 가속 → 클라우드 수요 증가</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AI 일자리 불안 → 대중 수용성 관리 필요</div>
+<div class="kb-diagram-note">T (기술적):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">생성형 AI 확산 → 새 서비스 기회</div>
+<div class="kb-diagram-tree-item" style="--depth:1">양자 컴퓨팅 → 현재 암호화 위협 (5~10년 후)</div>
+</div>
+</div>
 
-T (기술적):
-  - 생성형 AI 확산 → 새 서비스 기회
-  - 양자 컴퓨팅 → 현재 암호화 위협 (5~10년 후)
-```
+
 
 ### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) → SWOT 연결
 
-```text
-PEST 분석
-   │
-   ├─ 기회 요소 → SWOT의 O (Opportunity)
-   └─ 위협 요소 → SWOT의 T (Threat)
-         │
-         ▼
-   SWOT 분석 (내부 S·W + 외부 O·T)
-         │
-         ▼
-   전략 도출 (SO, ST, WO, WT 전략)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PEST 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:1">기회 요소 → SWOT의 O (Opportunity)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">위협 요소 → SWOT의 T (Threat)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SWOT 분석 (내부 S·W + 외부 O·T)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전략 도출 (SO, ST, WO, WT 전략)</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PEST는 레이더이고 SWOT은 지도다. PEST가 외부 환경(날씨, 장애물)을 레이더로 탐지하면, SWOT이 그 정보를 내부 역량과 결합해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 지도를 그린다.
 
@@ -80,7 +89,7 @@ PEST 분석
 
 | 프레임워크 | 분석 대상 | 연계 |
 |:---|:---|:---|
-| **[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/)** | 거시 외부 환경 4요소 | SWOT의 O·T 인풋 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/">PEST</a></strong> | 거시 외부 환경 4요소 | SWOT의 O·T 인풋 |
 | **PESTLE** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) + 법률(L) + 환경(E) | 규제·ESG 확장 |
 | **Porter's 5 Forces** | 산업 내 경쟁 구조 | PEST의 맥락하에 적용 |
 | **SWOT** | 내부 S·W + 외부 O·T | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 결과 통합 |
@@ -109,7 +118,7 @@ PEST 분석
 | 기대효과 | 내용 |
 |:---|:---|
 | **외부 위험 사전 인지** | 규제·경제·기술 변화 조기 탐지 |
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정합성** | SWOT·5 Forces와 연계한 일관된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 정합성</strong> | SWOT·5 Forces와 연계한 일관된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **의사결정 근거** | 신사업/[DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 투자 의사결정 외부 맥락 제공 |
 
 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 환경 스캐닝(Environmental Scanning) 도구로 발전하고 있다. 뉴스 기사, SNS, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 자동 분석하여 실시간으로 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 요소의 변화를 감지하고 경영진에게 알림을 제공하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인텔리전스 플랫폼이 등장했다.
@@ -125,26 +134,28 @@ PEST 분석
 | **SWOT 분석** | PEST의 O·T를 입력으로 받는 통합 분석 |
 | **Porter's 5 Forces** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 맥락하의 산업 경쟁 구조 분석 |
 | **PESTLE** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) + 법률·환경 요소 확장 |
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵 ([Strategy Map](/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/))** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 결과 반영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 맵 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/021_strategy_map_bsc/">Strategy Map</a>)</strong> | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 결과 반영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | **ESG** | PESTLE의 E·S 요소와 직결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[PEST 분석 — 거시 환경 4요소 분석]
-    │
-    ▼
-[PESTLE 확장 — 법률·환경 요소 추가]
-    │
-    ▼
-[SWOT 통합 — 내부 역량과 외부 환경 결합]
-    │
-    ▼
-[동적 PEST — 실시간 환경 변화 모니터링]
-    │
-    ▼
-[AI 환경 스캐닝 — NLP 기반 자동 PEST 업데이트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PEST 분석 — 거시 환경 4요소 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PESTLE 확장 — 법률·환경 요소 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SWOT 통합 — 내부 역량과 외부 환경 결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 PEST — 실시간 환경 변화 모니터링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 환경 스캐닝 — NLP 기반 자동 PEST 업데이트</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

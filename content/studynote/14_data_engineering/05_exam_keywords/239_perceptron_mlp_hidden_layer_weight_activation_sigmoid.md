@@ -18,45 +18,50 @@ tags = ["studynote-data-engineering"]
 
 ### 생물학적 뉴런에서 인공 뉴런으로
 
-```
-생물학적 뉴런                 인공 뉴런 (퍼셉트론)
 
-   수상돌기 (Dendrites)          입력 x₁, x₂, ..., xₙ
-       │ 신호 수신                     │ 가중합 계산
-       ▼                               ▼
-   세포체 (Cell Body)             가중합: z = Σ(wᵢ·xᵢ) + b
-   신호 통합·처리                        │
-       │                               ▼
-       ▼                         활성화 함수 f(z)
-   축삭 (Axon)                         │
-   신호 전달                            ▼
-       │                          출력 y = f(z)
-       ▼
-   다음 뉴런으로
 
-  생물 뉴런의 핵심: 역치 이상이면 발화
-  인공 뉴런의 핵심: 활성화 함수로 비선형 변환
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">생물학적 뉴런 인공 뉴런 (퍼셉트론)</div>
+<div class="kb-diagram-note">수상돌기 (Dendrites) 입력 x₁, x₂, ..., xₙ</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신호 수신</div><div class="kb-diagram-cell">가중합 계산</div></div>
+<div class="kb-diagram-note">세포체 (Cell Body) 가중합: z = Σ(wᵢ·xᵢ) + b</div>
+<div class="kb-diagram-note">신호 통합·처리</div>
+<div class="kb-diagram-note">▼ 활성화 함수 f(z)</div>
+<div class="kb-diagram-note">축삭 (Axon)</div>
+<div class="kb-diagram-note">신호 전달 ▼</div>
+<div class="kb-diagram-note">출력 y = f(z)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다음 뉴런으로</div>
+<div class="kb-diagram-note">생물 뉴런의 핵심: 역치 이상이면 발화</div>
+<div class="kb-diagram-note">인공 뉴런의 핵심: 활성화 함수로 비선형 변환</div>
+</div>
+</div>
+
+
 
 ### [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 한계 — XOR 문제
 
-```
-AND 문제: 선형 분리 가능 ✅
-  ○○            선 하나로
-    ●            분리 가능
-  (0,0)(0,1)(1,0) = 0  (1,1) = 1
 
-XOR 문제: 선형 분리 불가 ❌
-  ●○
-  ○●    어떤 직선으로도
-         두 클래스를 분리 불가
 
-  (0,0)=0  (1,1)=0  → ●
-  (0,1)=1  (1,0)=1  → ○
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AND 문제: 선형 분리 가능 ✅</div>
+<div class="kb-diagram-note">○○ 선 하나로</div>
+<div class="kb-diagram-note">● 분리 가능</div>
+<div class="kb-diagram-note">(0,0)(0,1)(1,0) = 0 (1,1) = 1</div>
+<div class="kb-diagram-note">XOR 문제: 선형 분리 불가 ❌</div>
+<div class="kb-diagram-note">●○</div>
+<div class="kb-diagram-note">○● 어떤 직선으로도</div>
+<div class="kb-diagram-note">두 클래스를 분리 불가</div>
+<div class="kb-diagram-note">(0,0)=0 (1,1)=0 → ●</div>
+<div class="kb-diagram-note">(0,1)=1 (1,0)=1 → ○</div>
+<div class="kb-diagram-note">Minsky &amp; Papert (1969): 단층 퍼셉트론으로</div>
+<div class="kb-diagram-note">XOR 풀 수 없음 → 첫 번째 AI 겨울</div>
+</div>
+</div>
 
-Minsky & Papert (1969): 단층 퍼셉트론으로
-XOR 풀 수 없음 → 첫 번째 AI 겨울
-```
+
 
 📢 **섹션 요약 비유**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로 직선만 그을 수 있는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다. 모든 문제가 직선 하나로 풀린다면 좋겠지만, XOR처럼 곡선이 필요한 문제는 손이 묶인다.
 
@@ -64,24 +69,24 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 ### [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer Perceptron) 구조
 
-```
-┌───────────────────────────────────────────────────────┐
-│              MLP 네트워크 구조                          │
-│                                                       │
-│  입력층         은닉층 1        은닉층 2       출력층   │
-│  (Input)       (Hidden 1)     (Hidden 2)    (Output)  │
-│                                                       │
-│   x₁ ──────── h₁₁ ─────── h₂₁ ────────         │
-│   x₂ ────── × h₁₂ ──── × h₂₂ ────── × ──→ ŷ  │
-│   x₃ ──────── h₁₃ ─────── h₂₃ ────────         │
-│                                                       │
-│   × = 가중치·편향 연산 + 활성화 함수 적용              │
-│                                                       │
-│  계층별 수식:                                          │
-│    z = W·x + b      (선형 변환)                       │
-│    a = f(z)         (비선형 활성화)                    │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLP 네트워크 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 은닉층 1 은닉층 2 출력층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Input) (Hidden 1) (Hidden 2) (Output)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₁ h₁₁ h₂₁</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₂ × h₁₂ × h₂₂ × ──→ ŷ</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₃ h₁₃ h₂₃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× = 가중치·편향 연산 + 활성화 함수 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층별 수식:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = W·x + b (선형 변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a = f(z) (비선형 활성화)</div></div>
+</div>
+</div>
+
+
 
 ### 보편 근사 정리 (Universal Approximation Theorem)
 
@@ -106,60 +111,70 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) — [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/))
 
-```
-σ(x) = 1 / (1 + e^(-x))
 
-특성:
-  출력 범위:  (0, 1)
-  미분:      σ'(x) = σ(x) × (1 - σ(x))
-  최대 미분: 0.25 (x=0에서)
 
-그래프:
-  σ(x)
-  1.0 │          ─────────
-      │        ╱
-  0.5 │      ╱  ← 변곡점 (x=0)
-      │    ╱
-  0.0 │─────────
-      └──────────────────── x
-       -5   0    5
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">σ(x) = 1 / (1 + e^(-x))</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">출력 범위: (0, 1)</div>
+<div class="kb-diagram-note">미분: σ'(x) = σ(x) × (1 - σ(x))</div>
+<div class="kb-diagram-note">최대 미분: 0.25 (x=0에서)</div>
+<div class="kb-diagram-note">그래프:</div>
+<div class="kb-diagram-note">σ(x)</div>
+<div class="kb-diagram-note">1.0 │</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-note">0.5 │ ╱ ← 변곡점 (x=0)</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-note">0.0 │</div>
+<div class="kb-diagram-tree-item" style="--depth:3">x</div>
+<div class="kb-diagram-tree-item" style="--depth:3">5 0 5</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">✅ 출력 (0,1) → 확률 해석 가능</div>
+<div class="kb-diagram-note">✅ 미분 가능 (연속 함수)</div>
+<div class="kb-diagram-note">✅ 이진 분류 출력층에 적합</div>
+<div class="kb-diagram-note">단점:</div>
+<div class="kb-diagram-note">❌ 기울기 소실 (Vanishing Gradient)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">x</div><div class="kb-diagram-cell">가 크면 σ'(x) ≈ 0</div></div>
+<div class="kb-diagram-note">→ 깊은 레이어 학습 불가</div>
+<div class="kb-diagram-note">❌ 출력 중심이 0이 아님 (비대칭)</div>
+<div class="kb-diagram-note">❌ 지수 연산으로 계산 비용 높음</div>
+</div>
+</div>
 
-장점:
-  ✅ 출력 (0,1) → 확률 해석 가능
-  ✅ 미분 가능 (연속 함수)
-  ✅ 이진 분류 출력층에 적합
 
-단점:
-  ❌ 기울기 소실 (Vanishing Gradient)
-     → |x|가 크면 σ'(x) ≈ 0
-     → 깊은 레이어 학습 불가
-  ❌ 출력 중심이 0이 아님 (비대칭)
-  ❌ 지수 연산으로 계산 비용 높음
-```
 
 ### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-순전파 (Forward Pass):
-  x → [Layer 1] → a₁ → [Layer 2] → a₂ → ŷ → 손실 L
 
-역전파 (Backward Pass):
-  손실 L → ∂L/∂W₂ → ∂L/∂a₁ → ∂L/∂W₁ → 가중치 업데이트
 
-연쇄 법칙 (Chain Rule) 적용:
-  ∂L/∂W₁ = (∂L/∂ŷ) × (∂ŷ/∂a₂) × (∂a₂/∂a₁) × (∂a₁/∂W₁)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순전파 (Forward Pass):</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">a₂ → ŷ → 손실 L</div></div>
+<div class="kb-diagram-note">역전파 (Backward Pass):</div>
+<div class="kb-diagram-note">손실 L → ∂L/∂W₂ → ∂L/∂a₁ → ∂L/∂W₁ → 가중치 업데이트</div>
+<div class="kb-diagram-note">연쇄 법칙 (Chain Rule) 적용:</div>
+<div class="kb-diagram-note">∂L/∂W₁ = (∂L/∂ŷ) × (∂ŷ/∂a₂) × (∂a₂/∂a₁) × (∂a₁/∂W₁)</div>
+<div class="kb-diagram-note">가중치 업데이트 (경사 하강법, Gradient Descent):</div>
+<div class="kb-diagram-note">W ← W - η × ∂L/∂W</div>
+<div class="kb-diagram-note">여기서 η = 학습률 (Learning Rate)</div>
+</div>
+</div>
 
-가중치 업데이트 (경사 하강법, Gradient Descent):
-  W ← W - η × ∂L/∂W
-  여기서 η = 학습률 (Learning Rate)
-```
 
-**[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 흐름 다이어그램:**
-```
-순전파:   x → W₁ → a₁ → W₂ → ŷ → L (손실 계산)
-               ↑                        │
-역전파:   ∂L/∂W₁ ←─────────────────────╯ (기울기 역방향 전달)
-```
+
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 흐름 다이어그램:</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순전파: x → W₁ → a₁ → W₂ → ŷ → L (손실 계산)</div>
+<div class="kb-diagram-note">역전파: ∂L/∂W₁ ← (기울기 역방향 전달)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리 실패 후 원인을 찾는 것이다. "음식이 짜다(손실 크다)" → "어디서 소금이 많이 들어갔나?" → 각 조리 단계를 거슬러 올라가며 원인을 찾는다.
 
@@ -191,42 +206,50 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 ### MLP 아키텍처 설계 가이드
 
-```
-입력 피처 수에 따른 은닉층 뉴런 수 경험적 규칙:
-  1번째 은닉층: 입력 수의 2/3 ~ 2배
-  이후 층:     점차 줄이거나 유지
 
-예시 (입력 100차원, 10클래스 분류):
-  Input(100) → Hidden(200) → Hidden(100) → Output(10)
-             ReLU          ReLU           Softmax
 
-과적합 방지:
-  → 드롭아웃(Dropout) 0.3~0.5 각 은닉층 후 추가
-  → 배치 정규화(Batch Normalization) 적용
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 피처 수에 따른 은닉층 뉴런 수 경험적 규칙:</div>
+<div class="kb-diagram-note">1번째 은닉층: 입력 수의 2/3 ~ 2배</div>
+<div class="kb-diagram-note">이후 층: 점차 줄이거나 유지</div>
+<div class="kb-diagram-note">예시 (입력 100차원, 10클래스 분류):</div>
+<div class="kb-diagram-note">Input(100) → Hidden(200) → Hidden(100) → Output(10)</div>
+<div class="kb-diagram-note">ReLU ReLU Softmax</div>
+<div class="kb-diagram-note">과적합 방지:</div>
+<div class="kb-diagram-note">→ 드롭아웃(Dropout) 0.3~0.5 각 은닉층 후 추가</div>
+<div class="kb-diagram-note">→ 배치 정규화(Batch Normalization) 적용</div>
+</div>
+</div>
+
+
 
 ### XOR 문제 MLP 해결 과정
 
-```
-레이어 구성: Input(2) → Hidden(2) → Output(1)
-            ReLU         Sigmoid
 
-학습 데이터:
-  (0,0) → 0    (0,1) → 1
-  (1,0) → 1    (1,1) → 0
 
-은닉층의 역할:
-  h₁: "둘 다 0이거나 둘 다 1" 탐지 (AND+AND)
-  h₂: "적어도 하나가 1" 탐지 (OR)
-  출력: h₂ AND NOT(h₁) = XOR
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레이어 구성: Input(2) → Hidden(2) → Output(1)</div>
+<div class="kb-diagram-note">ReLU Sigmoid</div>
+<div class="kb-diagram-note">학습 데이터:</div>
+<div class="kb-diagram-note">(0,0) → 0 (0,1) → 1</div>
+<div class="kb-diagram-note">(1,0) → 1 (1,1) → 0</div>
+<div class="kb-diagram-note">은닉층의 역할:</div>
+<div class="kb-diagram-note">h₁: "둘 다 0이거나 둘 다 1" 탐지 (AND+AND)</div>
+<div class="kb-diagram-note">h₂: "적어도 하나가 1" 탐지 (OR)</div>
+<div class="kb-diagram-note">출력: h₂ AND NOT(h₁) = XOR</div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 포인트
 
 1. **은닉층 깊이 vs 너비**: 깊이(층 수)는 추상 표현 학습, 너비(뉴런 수)는 세부 패턴 수용
-2. **[시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 사용 주의**: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 권장, 출력층에만 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
-3. **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 너무 크면 발산, 너무 작으면 수렴 느림 → [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
-4. **[가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)**: 0으로 초기화 금지 → He/Xavier 초기화 사용
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a> 사용 주의</strong>: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 권장, 출력층에만 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 너무 크면 발산, 너무 작으면 수렴 느림 → [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
+4. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong>: 0으로 초기화 금지 → He/Xavier 초기화 사용
 
 📢 **섹션 요약 비유**: 은닉층은 화가가 스케치를 하기 전 밑그림을 그리는 과정이다. 바로 최종 그림을 그리는 것보다, 중간 단계를 거치면 훨씬 복잡한 그림이 가능해진다.
 
@@ -264,17 +287,21 @@ XOR 풀 수 없음 → 첫 번째 AI 겨울
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단층 퍼셉트론 → XOR 문제 (선형 분리 불가)
-    │
-    ▼
-MLP (다층 퍼셉트론): 은닉층 + 비선형 활성화 함수
-    ├─► Sigmoid · Tanh → ReLU · Swish
-    └─► 역전파 (Backpropagation) + Chain Rule
-    │
-    ▼
-CNN · RNN · Transformer → 딥러닝 시대
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단층 퍼셉트론 → XOR 문제 (선형 분리 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLP (다층 퍼셉트론): 은닉층 + 비선형 활성화 함수</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Sigmoid · Tanh → ReLU · Swish</div>
+<div class="kb-diagram-tree-item" style="--depth:2">역전파 (Backpropagation) + Chain Rule</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CNN · RNN · Transformer → 딥러닝 시대</div>
+</div>
+</div>
+
+
 2. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 선생님 말씀 중 중요한 것에 귀를 쫑긋 세우는 것(w 큼)이고, 편향은 기본적으로 긍정적이거나 부정적인 선입견(b)이다.
 3. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리가 실패했을 때 "마지막에 소금을 넣었나, 그 전에 간장을 넣었나" 거슬러 올라가며 잘못된 단계를 찾아 고치는 과정이다.
 

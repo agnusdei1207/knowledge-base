@@ -30,15 +30,20 @@ tags = ["C-suite", "CDO", "CIO", "CISO", "IT governance", "data governance", "in
 
 ### 1.2 [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 독립성 문제
 
-```
-❌ 독립성 없는 구조:
-  CIO → CISO (CISO가 CIO 하위)
-  → 운영 효율 vs 보안 갈등 시 CIO 판단 우선 → 보안 경시 위험
 
-✅ 독립성 있는 구조:
-  CEO/이사회 → CISO (직속 보고)
-  → 보안 이슈를 이사회에 직접 보고 가능
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">❌ 독립성 없는 구조:</div>
+<div class="kb-diagram-note">CIO → CISO (CISO가 CIO 하위)</div>
+<div class="kb-diagram-note">→ 운영 효율 vs 보안 갈등 시 CIO 판단 우선 → 보안 경시 위험</div>
+<div class="kb-diagram-note">✅ 독립성 있는 구조:</div>
+<div class="kb-diagram-note">CEO/이사회 → CISO (직속 보고)</div>
+<div class="kb-diagram-note">→ 보안 이슈를 이사회에 직접 보고 가능</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 회사 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/))가 CEO 직속이어야 내부 문제를 솔직히 보고 가능 — 부서장 아래면 눈치 보게 된다.
 
@@ -57,13 +62,19 @@ tags = ["C-suite", "CDO", "CIO", "CISO", "IT governance", "data governance", "in
 
 ### 2.2 [CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/) 등장 배경
 
-```
-데이터가 핵심 자산
-    ↓
-전담 C-suite 필요
-    ↓
-CDO 신설 (대형 기업 2010s~, 공공기관 2020s~)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터가 핵심 자산</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">전담 C-suite 필요</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CDO 신설 (대형 기업 2010s~, 공공기관 2020s~)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 도서관이 커지자 장서 관리자([CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/))를 따로 임명 — 누가 어떤 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쓰고 어떻게 관리할지 전담.
 
@@ -81,14 +92,20 @@ CDO 신설 (대형 기업 2010s~, 공공기관 2020s~)
 
 ### 3.2 협력 시나리오
 
-```
-데이터 활용 프로젝트:
-CDO: 데이터 공유 확대 요구
-CISO: 개인정보 보호, 접근 통제 강화 요구
-CIO: 인프라 비용·안정성 우선
-     ↓
-[데이터 거버넌스 위원회] → 균형 정책 결정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 활용 프로젝트:</div>
+<div class="kb-diagram-note">CDO: 데이터 공유 확대 요구</div>
+<div class="kb-diagram-note">CISO: 개인정보 보호, 접근 통제 강화 요구</div>
+<div class="kb-diagram-note">CIO: 인프라 비용·안정성 우선</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 위원회</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">균형 정책 결정</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: CIO는 학교 교감, CISO는 보안 경비대장, CDO는 도서관장 — 셋이 함께 학교(IT 조직)를 운영해야 균형이 맞는다.
 
@@ -98,14 +115,20 @@ CIO: 인프라 비용·안정성 우선
 
 ### 4.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·[보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 위원회
 
-```
-이사회/경영진
-      ↓
-데이터·보안 위원회 (CDO + CISO + CIO 공동 의장)
-      ├── 데이터 스튜어드십 팀 (CDO 산하)
-      ├── 보안 운영팀 (CISO 산하)
-      └── IT 아키텍처팀 (CIO 산하)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이사회/경영진</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">데이터·보안 위원회 (CDO + CISO + CIO 공동 의장)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">데이터 스튜어드십 팀 (CDO 산하)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">보안 운영팀 (CISO 산하)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">IT 아키텍처팀 (CIO 산하)</div>
+</div>
+</div>
+
+
 
 ### 4.2 책임 분리 (RACI 예시)
 
@@ -142,40 +165,52 @@ CIO: 인프라 비용·안정성 우선
 
 ## 📌 관련 개념 맵
 
-```
-CISO / CDO
-├── CISO
-│   ├── SOC, ISMS, 취약점 관리
-│   ├── 독립성 (CEO 직속 보고)
-│   └── ISMS-P, ISO 27001
-├── CDO
-│   ├── MDM, 데이터 카탈로그
-│   ├── 데이터 거버넌스 위원회
-│   └── 데이터산업진흥법
-└── 거버넌스 협업
-    ├── CIO·CISO·CDO 위원회
-    └── RACI 책임 분리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CISO / CDO</div>
+<div class="kb-diagram-tree-item" style="--depth:0">CISO</div>
+<div class="kb-diagram-note">── SOC, ISMS, 취약점 관리</div>
+<div class="kb-diagram-note">── 독립성 (CEO 직속 보고)</div>
+<div class="kb-diagram-note">── ISMS-P, ISO 27001</div>
+<div class="kb-diagram-tree-item" style="--depth:0">CDO</div>
+<div class="kb-diagram-note">── MDM, 데이터 카탈로그</div>
+<div class="kb-diagram-note">── 데이터 거버넌스 위원회</div>
+<div class="kb-diagram-note">── 데이터산업진흥법</div>
+<div class="kb-diagram-tree-item" style="--depth:0">거버넌스 협업</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CIO·CISO·CDO 위원회</div>
+<div class="kb-diagram-tree-item" style="--depth:2">RACI 책임 분리</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-CIO 단일 체제 (1990s~2000s)
-     │  보안·데이터 전문성 분화
-     ▼
-CISO 신설 (2000s, 금융·공공 의무화)
-     │  데이터 전략 중요성 증가
-     ▼
-CDO 신설 (2010s 대기업, 2020s 공공)
-     │  AI/디지털 전환 가속
-     ▼
-CIO·CISO·CDO 협력 거버넌스 (현재)
-     │  CAIO (AI 책임자) 추가 논의
-     ▼
-멀티 C-suite IT 거버넌스 구조 (미래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CIO 단일 체제 (1990s~2000s)</div>
+<div class="kb-diagram-note">보안·데이터 전문성 분화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CISO 신설 (2000s, 금융·공공 의무화)</div>
+<div class="kb-diagram-note">데이터 전략 중요성 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDO 신설 (2010s 대기업, 2020s 공공)</div>
+<div class="kb-diagram-note">AI/디지털 전환 가속</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CIO·CISO·CDO 협력 거버넌스 (현재)</div>
+<div class="kb-diagram-note">CAIO (AI 책임자) 추가 논의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 C-suite IT 거버넌스 구조 (미래)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 독립성, [CDO](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/068_cdo_cio_role_separation_governance/), CIO, 거버넌스 위원회, RACI, [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임관
 

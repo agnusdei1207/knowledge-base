@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 필요한 이유는 서버 내부 이중화만으로는 건물 수준 재난을 막지 못하기 때문이다. [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/), 이중 전원공급장치, 듀얼 스위치는 같은 랙이나 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안의 고장에는 강하지만, 센터 자체가 정전되거나 폐쇄되면 함께 영향을 받는다. 따라서 고가용성 (HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))이 "같은 장소 안에서 안 멈추는 구조"라면, DRS는 "장소가 사라져도 다시 시작할 수 있는 구조"라고 볼 수 있다.
 
-스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 없으면 원격지에 서버가 남아 있어도 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없다. 결국 운영자는 오래된 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 찾아 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해야 하고, 그만큼 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))과 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))이 동시에 악화된다. 그래서 DRS의 본질은 원격 센터에 장비를 두는 것이 아니라, **주 센터의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 흐름을 어디까지 원격에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)할 것인가**를 정하는 데 있다.
+스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 없으면 원격지에 서버가 남아 있어도 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없다. 결국 운영자는 오래된 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 찾아 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해야 하고, 그만큼 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))과 목표 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))이 동시에 악화된다. 그래서 DRS의 본질은 원격 센터에 장비를 두는 것이 아니라, <strong>주 센터의 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 흐름을 어디까지 원격에 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>할 것인가</strong>를 정하는 데 있다.
 
 - **📢 섹션 요약 비유**: DRS [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 집에 금고 하나 더 두는 것이 아니라, 다른 동네 은행 금고에 내 통장 내용을 계속 복사해 두는 것과 같다. 집이 불타도 다른 곳에서 바로 잔액을 확인할 수 있어야 진짜 대비가 된다.
 
@@ -33,15 +33,18 @@ tags = ["studynote-computer-architecture"]
 
 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심 질문은 간단하다. "주 센터에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 들어왔을 때, 언제 완료 응답 (ACK, Acknowledgement)을 줄 것인가?" 이 답에 따라 동기식과 비동기식이 갈린다. 동기식은 원격 센터까지 반영된 뒤 ACK를 주고, 비동기식은 주 센터에만 먼저 반영한 뒤 나중에 원격으로 보낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│             ACK timing decides latency, distance, and data loss          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Sync  : Host -> Primary -> WAN -> Secondary -> ACK -> Host              │
-│ Async : Host -> Primary -> ACK -> Host                                  │
-│                          └──── Journal / Queue ───▶ Secondary           │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK timing decides latency, distance, and data loss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sync : Host -&gt; Primary -&gt; WAN -&gt; Secondary -&gt; ACK -&gt; Host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Async : Host -&gt; Primary -&gt; ACK -&gt; Host</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Journal / Queue ▶ Secondary</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 보듯 동기식은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 네트워크 왕복시간 ([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 직접 들어간다. 그래서 보통 수 ms 이하 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 비교적 짧은 거리의 메트로 구간에서 유리하다. 반면 비동기식은 주 센터 응답 경로에서 원격 WAN을 떼어 내기 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거리에서 훨씬 유연하지만, 큐에 남아 아직 전송되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있으면 장애 시 그 구간만큼 RPO가 생긴다.
 
@@ -84,11 +87,11 @@ tags = ["studynote-computer-architecture"]
 
 기술사 관점에서 확인할 질문은 다음과 같다.
 
-1. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산이 충분한가?** 동기식이면 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 애플리케이션 응답시간에 직접 들어온다.
-2. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 피크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량을 감당하는가?** 평시 평균이 아니라 배치·정산 시간대까지 봐야 한다.
-3. **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 그룹이 구성되었는가?** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 따로 놀면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 DB가 깨질 수 있다.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 예산이 충분한가?</strong> 동기식이면 왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 애플리케이션 응답시간에 직접 들어온다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 피크 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>량을 감당하는가?</strong> 평시 평균이 아니라 배치·정산 시간대까지 봐야 한다.
+3. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 그룹이 구성되었는가?</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 따로 놀면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 DB가 깨질 수 있다.
 4. **위트니스와 절체 절차가 있는가?** 링크 단절 시 양쪽 센터가 동시에 주 센터라고 주장하면 더 큰 장애가 된다.
-5. **미러 외에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 있는가?** [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·운영 실수·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 손상은 미러만으로 막기 어렵다.
+5. <strong>미러 외에 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>이 있는가?</strong> [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·운영 실수·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 손상은 미러만으로 막기 어렵다.
 
 대형 환경에서는 3DC (3 [Data Center](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) 전략도 자주 쓴다. 가까운 센터에는 동기식으로 무손실을 노리고, 먼 센터에는 비동기식으로 광역 재난까지 대비하는 방식이다. 이 구조는 비용이 크지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)·지역 재난 대응을 동시에 만족시키려는 현실적 절충안이다.
 
@@ -102,7 +105,7 @@ DRS 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/
 
 다만 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 공짜 안전장치가 아니다. 전용 회선 비용, 스토리지 컨트롤러 기능, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가, 운영 복잡도, 정기적인 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련이 함께 따라온다. 또한 애플리케이션이 다중 센터 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 순서를 감당하지 못하면 하드웨어 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)만으로는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 완벽히 보장하지 못한다.
 
-앞으로는 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Continuous [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 클라우드 블록 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 합의 프로토콜이 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 더 소프트웨어 정의 방식으로 바꾸고 있다. 그래도 핵심 기억법은 같다. **DRS [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하는 기능이 아니라, 원격지에서 어떤 시점의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 완료로 인정할지 정하는 아키텍처 선택**이다.
+앞으로는 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Continuous [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 클라우드 블록 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 합의 프로토콜이 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 더 소프트웨어 정의 방식으로 바꾸고 있다. 그래도 핵심 기억법은 같다. <strong>DRS <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 복사하는 기능이 아니라, 원격지에서 어떤 시점의 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 완료로 인정할지 정하는 아키텍처 선택</strong>이다.
 
 - **📢 섹션 요약 비유**: [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 거울 하나 더 놓는 일이 아니라, 멀리 떨어진 곳에서도 같은 장부를 믿고 영업을 계속할 수 있게 만드는 원격 분신술과 같다.
 
@@ -120,21 +123,23 @@ DRS 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-로컬 디스크 이중화 (RAID)
-    │
-    ▼
-원격 스냅샷 · 비동기 복제
-    │
-    ▼
-메트로 구간 동기 미러링
-    │
-    ▼
-3DC 하이브리드 DR 구조
-    │
-    ▼
-CDP · 합의 기반 분산 저장 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">로컬 디스크 이중화 (RAID)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원격 스냅샷 · 비동기 복제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메트로 구간 동기 미러링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3DC 하이브리드 DR 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CDP · 합의 기반 분산 저장 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장장치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 "디스크 고장 대응"에서 "센터 장애 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속"으로 확장되는 과정을 보여준다.
 

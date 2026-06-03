@@ -35,20 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 어떻게 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)되고, 그 뒤 디스크로 내려가는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│               Controller Cache Mirroring Flow               │
-├──────────────────────────────────────────────────────────────┤
-│ Host Write                                                   │
-│    │                                                         │
-│    ▼                                                         │
-│ Controller A : Local Cache ---- Mirror Link ----> Peer Cache │
-│    │                                 │                       │
-│    └──────── Ack after both protected ──────────────────────▶│
-│                                                              │
-│ Later: Destage Engine -------------------------------> Disks │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller Cache Mirroring Flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Write</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller A : Local Cache ---- Mirror Link ----&gt; Peer Cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ack after both protected ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Later: Destage Engine -------------------------------&gt; Disks</div></div>
+</div>
+</div>
+
+
 
 일반적인 순서는 이렇다. 첫째, 컨트롤러 A가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 로컬 캐시에 기록한다. 둘째, [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 링크를 통해 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컨트롤러 B의 파트너 캐시에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. 셋째, 양쪽 캐시가 모두 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 상태임이 확인되면 완료 응답을 보낸다. 넷째, 백그라운드 디스테이징 작업으로 실제 디스크에 천천히 내려쓴다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Write-Through only
-        │
-        ▼
-Write-Back cache
-        │
-        ▼
-Dual-controller cache mirroring
-        │
-        ▼
-Protected cache with battery / NVRAM
-        │
-        ▼
-Persistent-memory aware storage controllers
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Write-Through only</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write-Back cache</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dual-controller cache mirroring</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Protected cache with battery / NVRAM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Persistent-memory aware storage controllers</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 안전성 확보에서 시작해, 빠른 응답을 유지하면서도 지속성을 보장하는 방향으로 스토리지 제어기가 진화하는 모습을 보여준다.
 

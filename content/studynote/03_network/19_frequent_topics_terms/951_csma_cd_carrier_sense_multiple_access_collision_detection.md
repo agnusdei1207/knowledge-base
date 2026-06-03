@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 하나의 구리선(공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))을 여러 대의 PC가 공유할 때, 2대 이상이 동시에 전기를 쏘면 전압이 겹쳐서 데이터가 걸레짝이 됩니다. 이 피 터지는 도로([Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/))의 교통정리 규칙이 필요했습니다.
 
-```text
-[HDLC 비트 스터핑]
-    │
-    ▼
-[반송파 감지 다중 접속 및 충돌 검출]
-    │
-    └──▶ [은닉 단말 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉 단말 문제</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,7 +52,7 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 ### 3단계: CD ([Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/)) - "충돌 감지와 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)" 🌟 핵심 🌟
 여기가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 위대한 발명입니다. (유선은 전압이 변하는 걸로 충돌을 쉽게 알 수 있습니다.)
 - **충돌 감지**: 패킷을 쏘면서도 내 귀를 열어둡니다. 내가 보낸 5V [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 상대방의 5V [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 부딪혀 전압이 10V로 확 튀어 오르는 순간! "아 ㅆㅂ 충돌 났다([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))!" 하고 즉각 눈치챕니다.
-- **[잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/) ([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))**: 충돌을 눈치챈 두 컴퓨터는 즉시 전송을 멈추고, 전국의 모든 컴퓨터에게 "야 다들 멈춰!! 충돌 났어!!!"라는 삐- 소리([잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 32비트짜리로 요란하게 방송합니다. 이 소리를 들은 모든 컴퓨터는 전송을 멈춥니다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/">잼 신호</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/">Jam Signal</a>)</strong>: 충돌을 눈치챈 두 컴퓨터는 즉시 전송을 멈추고, 전국의 모든 컴퓨터에게 "야 다들 멈춰!! 충돌 났어!!!"라는 삐- 소리([잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 32비트짜리로 요란하게 방송합니다. 이 소리를 들은 모든 컴퓨터는 전송을 멈춥니다.
 
 ### 4단계: 이진 지수 백오프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Binary Exponential Backoff) 🌟
 충돌 난 두 놈이 똑같이 1초 쉬었다 다시 쏘면 영원히 충돌이 납니다. 랜덤 눈치 게임을 돌립니다.
@@ -57,14 +61,18 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 - 세 번째 겹침: 0~7초 중 랜덤 휴식.
 - 충돌이 반복될수록 쉴 수 있는 시간의 범위(K)가 지수 함수($2^n$)로 미친 듯이 벌어져서, 두 컴퓨터가 똑같은 숫자를 뽑을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수학적으로 0으로 수렴하게 만들어 결국 한 놈이 먼저 쏘게 만들어주는 눈치 게임의 극의입니다. (최대 16번 충돌하면 포기하고 패킷 버림).
 
-```text
-[HDLC 비트 스터핑]
-    │
-    ▼
-[반송파 감지 다중 접속 및 충돌 검출]
-    │
-    └──▶ [은닉 단말 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉 단말 문제</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,7 +80,7 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 
 ## Ⅲ. 비교 및 연결
 
-- [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 시대에는 이 눈치 게임이 필수였지만, 요즘 우리가 쓰는 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 전이중 Full-Duplex)** 장비는 포트마다 도로를 따로 분리해주기 때문에 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 자체가 아예 일어나지 않습니다.
+- [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 시대에는 이 눈치 게임이 필수였지만, 요즘 우리가 쓰는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>, 전이중 Full-Duplex)</strong> 장비는 포트마다 도로를 따로 분리해주기 때문에 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 자체가 아예 일어나지 않습니다.
 - 따라서 현대 유선 랜망에서는 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 기능이 사실상 꺼진 상태로(필요 없이) 빛의 속도로 쌩쌩 양방향 통신을 하고 있습니다.
 
 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)이 기반 조건을 만든다면, [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출은 그 위에서 핵심 메커니즘을 구현하고, [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +91,7 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 '어두운 회의실에서의 완벽한 토론 예절'입니다. 어두워서 누가 말할지 안 보입니다. **첫째(CS)**, 말하기 전에 누군가 떠들고 있는지 조용히 귀를 기울입니다. **둘째(MA)**, 조용해지면 말을 꺼냅니다. **셋째(CD)**, 근데 눈치가 겹쳐서 나랑 철수가 동시에 "저기요!" 하고 말이 겹쳤습니다. 둘 다 깜짝 놀라 말을 멈추고 "아 겹쳤네 ㅈㅅ!([잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))" 하고 소리칩니다. **넷째(백오프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**, 다시 동시에 말하면 또 겹치니까, 나는 마음속으로 3초를 세고, 철수는 랜덤으로 5초를 센 뒤에, 내가 먼저 3초 뒤에 "제가 먼저 할게요" 하고 치고 나가는 완벽한 비동기 눈치 게임 매너입니다.
+- **📢 섹션 요약 비유**: [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 '어두운 회의실에서의 완벽한 토론 예절'입니다. 어두워서 누가 말할지 안 보입니다. **첫째(CS)**, 말하기 전에 누군가 떠들고 있는지 조용히 귀를 기울입니다. **둘째(MA)**, 조용해지면 말을 꺼냅니다. **셋째(CD)**, 근데 눈치가 겹쳐서 나랑 철수가 동시에 "저기요!" 하고 말이 겹쳤습니다. 둘 다 깜짝 놀라 말을 멈추고 "아 겹쳤네 ㅈㅅ!([잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))" 하고 소리칩니다. <strong>넷째(백오프 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>, 다시 동시에 말하면 또 겹치니까, 나는 마음속으로 3초를 세고, 철수는 랜덤으로 5초를 센 뒤에, 내가 먼저 3초 뒤에 "제가 먼저 할게요" 하고 치고 나가는 완벽한 비동기 눈치 게임 매너입니다.
 
 ---
 
@@ -125,15 +133,19 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HDLC 비트 스터핑]
-    │
-    ▼
-[현재 개념: 반송파 감지 다중 접속 및 충돌 검출]
-    │
-    ├──▶ [확장 A: 은닉 단말 문제]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC 비트 스터핑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 반송파 감지 다중 접속 및 충돌 검출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 은닉 단말 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

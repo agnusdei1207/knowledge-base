@@ -32,7 +32,7 @@ tags = ["studynote-operating-system"]
   - CPU 버스트는 아주 짧고, **I/O 버스트(대기 시간)가 압도적으로 긴** 프로그램.
   - 예: 카카오톡(사용자 키보드 대기), 웹 브라우저, 웹 서버(DB와 네트워크 대기), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 프로그램.
 
-- **필요성 ([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 편애)**: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 편애)</strong>: 
   - OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 두 프로세스를 똑같이 대우하면 시스템이 엉망이 된다. 동영상 인코딩(CPU 바운드)이 CPU를 꽉 잡고 안 놔주면, 사용자가 카카오톡(I/O 바운드)에 글자를 쳤을 때 3초 뒤에나 글자가 찍힌다(응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
   - **해결책**: OS는 불공평해야 한다. 사용자와 소통하는 **I/O 바운드 프로세스의 우선순위를 강제로 높여주어(Boost)**, 이들이 키보드 입력을 받는 즉시 CPU를 새치기(Preempt)하게 만들어야 시스템이 부드럽게 돌아간다.
 
@@ -50,26 +50,26 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들이 전 세계의 수많은 프로그램을 분석해 보니, CPU 버스트 길이는 지수 분포(Exponential Distribution)를 따랐다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 CPU Burst 길이의 확률 분포 그래프                     │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  빈도수(빈번함)                                                       │
-  │   ▲                                                               │
-  │   │  * (짧은 CPU Burst가 압도적으로 많음 = I/O Bound)                  │
-  │   │  * *                                                          │
-  │   │  *   *                                                        │
-  │   │  *     *                                                      │
-  │   │  *       * *                                                  │
-  │   │  *           * * * *      (긴 CPU Burst는 매우 드묾 = CPU Bound)│
-  │   │  *                   * * * * * * * * * * *                    │
-  │   └─────────────────────────────────────────────────────────▶     │
-  │      1ms   10ms        50ms                    1000ms    CPU 시간  │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 세상에 존재하는 90%의 프로그램은 아주 잠깐(1ms) 연산하고 I/O를 기다리러 떠난다(I/O Bound). 반면, 한 번 CPU를 잡으면 수백 ms 동안 안 놓는 무거운 프로그램(CPU Bound)은 극소수다. **[스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 목표는 이 다수의 I/O 바운드 프로세스들이 "응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 느끼지 않게, 소수의 CPU 바운드 프로세스로부터 지켜내는 것**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Burst 길이의 확률 분포 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈도수(빈번함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (짧은 CPU Burst가 압도적으로 많음 = I/O Bound)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * * * * (긴 CPU Burst는 매우 드묾 = CPU Bound)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * * * * * * * * * * *</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms 10ms 50ms 1000ms CPU 시간</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 세상에 존재하는 90%의 프로그램은 아주 잠깐(1ms) 연산하고 I/O를 기다리러 떠난다(I/O Bound). 반면, 한 번 CPU를 잡으면 수백 ms 동안 안 놓는 무거운 프로그램(CPU Bound)은 극소수다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 목표는 이 다수의 I/O 바운드 프로세스들이 "응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>"을 느끼지 않게, 소수의 CPU 바운드 프로세스로부터 지켜내는 것</strong>이다.
 
 ---
 
@@ -98,15 +98,15 @@ OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_s
 | 구분 | CPU Bound 워크로드 | I/O Bound 워크로드 |
 |:---|:---|:---|
 | **병목 지점** | CPU 연산력 (클럭, 코어 수) | 디스크 속도, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), DB 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) |
-| **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기** | **코어 수와 동일하게 (예: 16코어 = 16개)** | **코어 수의 수십 배 (예: 16코어 = 200개)** |
-| **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)** | 오히려 낮춰야 함 (스위칭 오버헤드 방지) | 무조건 높여야 함 (CPU가 쉬는 걸 막기 위해) |
-| **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)** | [Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) (고성능 CPU로 교체) | [Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) (서버 대수 늘리기), 비동기 I/O 전환 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 크기</strong> | **코어 수와 동일하게 (예: 16코어 = 16개)** | **코어 수의 수십 배 (예: 16코어 = 200개)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a></strong> | 오히려 낮춰야 함 (스위칭 오버헤드 방지) | 무조건 높여야 함 (CPU가 쉬는 걸 막기 위해) |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong> | [Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) (고성능 CPU로 교체) | [Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) (서버 대수 늘리기), 비동기 I/O 전환 |
 | **적용 사례** | 암호화 화폐 채굴, 이미지 딥러닝 | 웹 서버(Nginx), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, DB 서버 |
 
 ### 과목 융합 관점
 
 - **소프트웨어공학 (SE)**: Node.js나 Python의 asyncio 같은 '단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 비동기 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)' 모델은 철저하게 **I/O 바운드** 워크로드에 특화된 아키텍처다. I/O 대기 시간에 다른 요청을 처리해 효율이 극강이다. 하지만 이 서버에 CPU 바운드(예: 1GB [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱) 요청이 하나라도 들어오면, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 자체가 블로킹되어 수만 명의 다른 I/O 요청이 전부 멈춰버리는 대참사가 터진다.
-- **[클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) (Cloud)**: AWS EC2 인스턴스를 고를 때, C 계열(Compute Optimized)은 CPU 바운드 연산용이고, I 계열(I/O Optimized)이나 M 계열(General)은 I/O 바운드에 적합하다. 앱의 바운드 성향을 모른 채 아무 인스턴스나 띄우면 매달 수천만 원의 클라우드 요금이 낭비된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> (Cloud)</strong>: AWS EC2 인스턴스를 고를 때, C 계열(Compute Optimized)은 CPU 바운드 연산용이고, I 계열(I/O Optimized)이나 M 계열(General)은 I/O 바운드에 적합하다. 앱의 바운드 성향을 모른 채 아무 인스턴스나 띄우면 매달 수천만 원의 클라우드 요금이 낭비된다.
 
 - **📢 섹션 요약 비유**: 화물차(서버)가 느리다고 무작정 엔진(CPU)을 바꾸면 안 됩니다. 짐이 무거워서(CPU Bound) 느린 거면 엔진을 바꿔야 하지만, 상하차 알바생이 느려서(I/O Bound) 차가 못 떠나는 거라면 알바생을 더 고용([스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 증가)해야 합니다.
 
@@ -116,44 +116,41 @@ OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_s
 
 ### 실무 시나리오
 
-1. **시나리오 — 톰캣(Tomcat) [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 튜닝 실패로 인한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)**: 16코어 서버에서 돌아가는 자바 스프링 기반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버(I/O Bound). 초보 개발자가 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이겠다"며 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(MaxThreads)을 200에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000으로 무작정 늘려버림.
+1. <strong>시나리오 — 톰캣(Tomcat) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 튜닝 실패로 인한 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a></strong>: 16코어 서버에서 돌아가는 자바 스프링 기반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버(I/O Bound). 초보 개발자가 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이겠다"며 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(MaxThreads)을 200에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000으로 무작정 늘려버림.
    - **원인 분석**: I/O 바운드 앱은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 넉넉히 주는 게 맞다. 하지만 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개는 선을 넘었다. DB 병목으로 인해 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 모두 I/O 대기에 빠졌다가 DB 응답이 오는 순간 동시에 깨어난다(Thundering Herd). CPU 코어 16개가 1만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하느라 시스템 전체 CPU가 100%를 치고(Sys time 폭주), 정작 앱 연산(User time)은 0%가 되는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 늪에 빠졌다.
    - **대응 (기술사적 가이드)**: Little's Law 등 대기열 이론을 바탕으로 적정 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 산정해야 한다. 이상적인 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 공식: `Threads = CPU 코어 수 * (1 + (I/O 대기 시간 / CPU 처리 시간))`. 만약 이 공식을 넘어서는 동시 접속(10K)을 처리해야 한다면, 전통적인 톰캣 멀티스레드 모델을 버리고 Netty나 Spring WebFlux 같은 비동기(Non-blocking I/O) 프레임워크로 아키텍처를 전면 전환해야 한다.
 
-2. **시나리오 — 배달 앱의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추천 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (CPU Bound 침범)**: 배달 앱 홈 화면을 띄울 때 사용자에게 맞는 가게를 딥러닝으로 추천해 주는 API를 호출한다. 이 API가 들어있는 마이크로서비스가 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 3초나 걸려 홈 화면이 마비됨.
+2. <strong>시나리오 — 배달 앱의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 추천 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (CPU Bound 침범)</strong>: 배달 앱 홈 화면을 띄울 때 사용자에게 맞는 가게를 딥러닝으로 추천해 주는 API를 호출한다. 이 API가 들어있는 마이크로서비스가 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 3초나 걸려 홈 화면이 마비됨.
    - **원인 분석**: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론(Inference)은 완벽한 **CPU 바운드** 작업이다. 이 무거운 CPU 바운드 로직을, 일반적인 웹 라우팅과 DB 조회를 담당하는 I/O 바운드 노드([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))에 섞어서 올려놓았다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 연산이 CPU 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 길게 독점해 버리면서, 가벼운 I/O 요청들의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 다 같이 늦어진 것이다.
    - **아키텍처 적용 (워크로드 격리)**: I/O 바운드 서비스와 CPU 바운드 서비스는 절대 같은 노드(또는 같은 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))에 섞어 쓰면 안 된다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추천 로직을 별도의 컨테이너로 분리(Decoupling)하여 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인스턴스나 Compute 전용 노드 그룹으로 격리 스케줄링해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 워크로드 특성(CPU vs I/O) 기반 아키텍처 의사결정 플로우    │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [서버 성능 모니터링 툴(top, vmstat)을 통한 병목 확인]                      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      `top`에서 CPU의 `%us`(유저)가 90% 이상이고 `%wa`(I/O 대기)는 0인가?    │
-  │          ├─ 예 ─────▶ [명확한 CPU Bound 워크로드]                   │
-  │          │            대책 1: 로직 알고리즘 자체의 시간 복잡도(O(n)) 개선     │
-  │          │            대책 2: Scale-Up (CPU 클럭/코어 수 높은 장비로 마이그레이션)│
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      CPU 사용률은 20% 이내인데, `%wa`(Wait)가 높거나 스레드들이 다 자고 있는가?│
-  │          ├─ 예 ─────▶ [명확한 I/O Bound 워크로드]                   │
-  │          │            대책 1: I/O 병목 지점(DB 쿼리, 외부 API 네트워크) 튜닝│
-  │          │            대책 2: 스레드 풀 증가 또는 비동기(Async) 아키텍처 적용 │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 메모리 스왑(Swapping)이나 락(Lock) 경합 문제 의심 │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드 특성(CPU vs I/O) 기반 아키텍처 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버 성능 모니터링 툴(top, vmstat)을 통한 병목 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>top</code>에서 CPU의 <code>%us</code>(유저)가 90% 이상이고 <code>%wa</code>(I/O 대기)는 0인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">명확한 CPU Bound 워크로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: 로직 알고리즘 자체의 시간 복잡도(O(n)) 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: Scale-Up (CPU 클럭/코어 수 높은 장비로 마이그레이션)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 사용률은 20% 이내인데, <code>%wa</code>(Wait)가 높거나 스레드들이 다 자고 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">명확한 I/O Bound 워크로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: I/O 병목 지점(DB 쿼리, 외부 API 네트워크) 튜닝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: 스레드 풀 증가 또는 비동기(Async) 아키텍처 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 메모리 스왑(Swapping)이나 락(Lock) 경합 문제 의심</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 초보자는 서버가 느리면 "서버 사양(CPU)을 올립시다"라고 한다. 하지만 I/O 바운드 병목(DB가 느림)일 때 웹 서버의 CPU를 100코어짜리로 바꿔봤자 속도는 1ms도 빨라지지 않는다. 기술사는 모니터링 지표를 보고 현재의 워크로드가 CPU 바운드인지 I/O 바운드인지 단번에 갈라내어 엉뚱한 곳에 돈을 쓰지 않도록 막는 사람이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **적응형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 튜닝**: 리눅스의 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 두 가지 바운드를 스스로 판단하여 공평하게 조절한다. 하지만 백그라운드 영상 인코딩(CPU Bound) 때문에 마우스가 끊긴다면, 해당 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 프로세스의 `nice` 값을 19로 낮추어(우선순위 강등) OS의 판단을 돕는 수동 튜닝을 거쳤는가?
+- <strong>적응형 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> 튜닝</strong>: 리눅스의 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 두 가지 바운드를 스스로 판단하여 공평하게 조절한다. 하지만 백그라운드 영상 인코딩(CPU Bound) 때문에 마우스가 끊긴다면, 해당 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 프로세스의 `nice` 값을 19로 낮추어(우선순위 강등) OS의 판단을 돕는 수동 튜닝을 거쳤는가?
 
 - **📢 섹션 요약 비유**: CPU 바운드는 소화불량이고, I/O 바운드는 영양실조입니다. 소화가 안 돼서(CPU 과부하) 배가 아픈 환자에게 밥을 더 주거나, 영양실조(I/O 대기) 환자에게 소화제를 먹이는 오진을 피하는 것이 진단(모니터링)의 핵심입니다.
 
@@ -165,13 +162,13 @@ OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_s
 
 | 구분 | 성향을 무시한 아키텍처 | CPU/I/O Bound 분리 및 맞춤 아키텍처 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))** | I/O 병목으로 CPU [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 사용 | 비동기 적용으로 CPU 80% 활용 | 동일 하드웨어 대비 TPS 5배 이상 증가 |
-| **정량 ([응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))**| CPU 로직 혼재로 화면 멈춤 발생 | 워크로드 격리로 즉각적 I/O 반응 | P99 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 대폭 감소 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>)</strong> | I/O 병목으로 CPU [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 사용 | 비동기 적용으로 CPU 80% 활용 | 동일 하드웨어 대비 TPS 5배 이상 증가 |
+| <strong>정량 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>)</strong>| CPU 로직 혼재로 화면 멈춤 발생 | 워크로드 격리로 즉각적 I/O 반응 | P99 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 대폭 감소 |
 | **정성 (비용 효율)**| 원인 모를 Scale-up으로 돈 낭비 | 병목 구간(DB, 네트워크) 정확히 타격 | 클라우드 인프라 유지보수 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 최적화 |
 
 ### 미래 전망
-- **이기종([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) 프로세싱의 가속**: CPU 바운드 연산 중에서도 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산(행렬 곱 등)은 CPU가 하기엔 비효율적이다. 이런 극단적 CPU 바운드 연산을 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) 같은 특수 목적 가속기로 덜어내어([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 메인 CPU는 순수하게 I/O 바운드와 스케줄링(제어)에만 집중하게 만드는 것이 현대 모바일 칩셋(Apple Silicon 등)과 클라우드 서버의 지배적인 발전 방향이다.
-- **eBPF를 이용한 실시간 워크로드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**: 단순히 프로세스 단위로 I/O 성향을 나누는 것을 넘어, 패킷 단위나 시스템 콜 단위로 eBPF가 실시간 프로파일링을 수행하여, "현재 이 컨테이너는 10초간 CPU 바운드 모드다"라고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에게 힌트를 주어 동적으로 정책을 바꾸는 지능형 OS가 연구되고 있다.
+- <strong>이기종(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/">Heterogeneous</a>) 프로세싱의 가속</strong>: CPU 바운드 연산 중에서도 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산(행렬 곱 등)은 CPU가 하기엔 비효율적이다. 이런 극단적 CPU 바운드 연산을 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) 같은 특수 목적 가속기로 덜어내어([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 메인 CPU는 순수하게 I/O 바운드와 스케줄링(제어)에만 집중하게 만드는 것이 현대 모바일 칩셋(Apple Silicon 등)과 클라우드 서버의 지배적인 발전 방향이다.
+- <strong>eBPF를 이용한 실시간 워크로드 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 단순히 프로세스 단위로 I/O 성향을 나누는 것을 넘어, 패킷 단위나 시스템 콜 단위로 eBPF가 실시간 프로파일링을 수행하여, "현재 이 컨테이너는 10초간 CPU 바운드 모드다"라고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에게 힌트를 주어 동적으로 정책을 바꾸는 지능형 OS가 연구되고 있다.
 
 ### 결론
 CPU 바운드와 I/O 바운드는 모든 소프트웨어의 성격을 규정하는 가장 근본적인 두 가지 유전자다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 역사([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) $\rightarrow$ [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) $\rightarrow$ [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) $\rightarrow$ CFS)는 결국 "어떻게 하면 소수의 탐욕스러운 CPU 바운드로부터 다수의 불쌍한 I/O 바운드를 지켜내어 사용자를 답답하지 않게 만들 것인가?"에 대한 투쟁의 역사였다. 소프트웨어 아키텍트가 자신이 만든 코드의 유전자가 어느 쪽인지 모른다면, 그 어떤 화려한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 구축하더라도 결국 병목의 늪에서 허우적대게 될 것이다.
@@ -191,15 +188,19 @@ CPU 바운드와 I/O 바운드는 모든 소프트웨어의 성격을 규정하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[단기 스케줄러 디스패치]
-    │
-    ▼
-[CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)]
-    │
-    ├──▶ [선점 / 비선점 스케줄링 차이]
-    └──▶ [FCFS 호위 효과 (Convoy Effect)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단기 스케줄러 디스패치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선점 / 비선점 스케줄링 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCFS 호위 효과 (Convoy Effect)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

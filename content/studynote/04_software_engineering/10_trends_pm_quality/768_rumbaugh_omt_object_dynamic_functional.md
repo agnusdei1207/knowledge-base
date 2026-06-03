@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 1990년대, "세상을 데이터와 함수가 하나로 뭉친 '객체(Object)'의 조립으로 보자!"는 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임이 등장했다. 수많은 학자가 "객체를 어떻게 찾고 어떻게 설계할 것인가?"에 대한 방법론을 쏟아냈다 (부치, 야콥슨 등). 
 
-그중 **제임스 럼바우(James Rumbaugh)**가 제안한 **OMT (Object Modeling Technique)**는 가장 직관적이고 강력했다. 그는 "시스템을 제대로 만들려면 세 번의 청사진을 그려야 한다. 첫째는 뼈대(객체), 둘째는 움직임(동적), 셋째는 하는 일(기능)이다!"라고 외쳤다. 이 세 가지 모델은 훗날 부치, 야콥슨의 방법론과 통합되어 오늘날 우리가 쓰는 **[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))**의 표준이 되었다.
+그중 <strong>제임스 럼바우(James Rumbaugh)</strong>가 제안한 <strong>OMT (Object Modeling Technique)</strong>는 가장 직관적이고 강력했다. 그는 "시스템을 제대로 만들려면 세 번의 청사진을 그려야 한다. 첫째는 뼈대(객체), 둘째는 움직임(동적), 셋째는 하는 일(기능)이다!"라고 외쳤다. 이 세 가지 모델은 훗날 부치, 야콥슨의 방법론과 통합되어 오늘날 우리가 쓰는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>의 표준이 되었다.
 
 - **📢 섹션 요약 비유**: 로봇을 설계할 때, 럼바우는 3장의 도면을 그렸다. 첫째는 로봇의 부품 리스트(객체 모델), 둘째는 로봇이 뛰거나 멈출 때의 관절 상태(동적 모델), 셋째는 로봇이 에너지를 먹고 레이저를 쏘는 흐름(기능 모델)이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 럼바우 객체 모델링 (객체/동적/기능의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  럼바우 객체 모델링 (객체/동적/기능                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">럼바우 객체 모델링 (객체/동적/기능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 럼바우 객체 모델링 (객체/동적/기능가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,9 +77,9 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|
 | **럼바우 (Rumbaugh)**| **객체/동적/기능 3가지 모델로 다각도 분석** (OMT) | 클래스, 상태, [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 다이어그램의 기초 제공 |
 | **부치 (Booch)** | 미시적이고 구체적인 설계 중심. **다양한 아이콘과 기호** 사용 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), 배치 다이어그램 등 구체적 표기법 제공 |
-| **야콥슨 (Jacobson)**| **사용자 관점(Use Case) 중심의 OOSE 방법론** | **[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)** (UML의 시작점) 제공 |
+| **야콥슨 (Jacobson)**| **사용자 관점(Use Case) 중심의 OOSE 방법론** | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a></strong> (UML의 시작점) 제공 |
 
-이 3명의 학자(Three Amigos)가 싸우는 것을 멈추고 합심하여 1997년에 발표한 것이 바로 **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 세계 공용어인 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))**이다.
+이 3명의 학자(Three Amigos)가 싸우는 것을 멈추고 합심하여 1997년에 발표한 것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 세계 공용어인 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 럼바우는 '건축 도면의 구조'를 잘 짰고, 부치는 '도면에 쓰이는 예쁜 아이콘'을 잘 그렸으며, 야콥슨은 '건물주가 원하는 기능(유스케이스)'을 잘 뽑아냈다. 이 세 천재의 기술을 다 합쳐 만든 궁극의 건축 프로그램이 UML이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-럼바우 객체 모델링 (객체/동적/기능 모델) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">럼바우 객체 모델링 (객체/동적/기능 모델) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

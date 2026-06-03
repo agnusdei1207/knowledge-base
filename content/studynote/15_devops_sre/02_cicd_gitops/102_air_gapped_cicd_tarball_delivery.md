@@ -30,23 +30,22 @@ tags = ["studynote-devops-sre"]
 
 에어 갭 배포 아키텍처는 크게 외부망에서의 '정적 패키징', 물리적 '반입 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)', 내부망에서의 '로컬 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 및 배포' 3단계로 나뉜다. 모든 의존성은 외부망에서 하나의 아카이브 (Tarball 등)로 병합되어 반입된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           에어 갭 (Air-gapped) CI/CD 반입 워크플로우           │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ 외부 인터넷 망 ]         [ 물리적 격리 구간 ]       [ 내부 폐쇄 망 ]  │
-│                                                              │
-│  1. 빌드 및 패키징         2. 보안 스캔/반입          3. 내부 배포       │
-│  ┌────────────┐         ┌──────────────┐         ┌────────────┐  │
-│  │ 외부 라이브러리│         │ 안티바이러스 │         │ 로컬 레지스트리│  │
-│  │ 도커 베이스 이미지├─포장─▶ │ 단방향 전송망 │ ─반입─▶ │ 헬름 (Helm)  │  │
-│  │ 자체 소스코드 │ (.tar) │ (Data Diode) │         │ K8s 클러스터 │  │
-│  └────────────┘         └──────────────┘         └────────────┘  │
-│      (모든 종속성              (물리적 망연계            (완전 오프라인    │
-│       미리 포함)                 망분리 솔루션)            자동화 배포)    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에어 갭 (Air-gapped) CI/CD 반입 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 인터넷 망</div><div class="kb-diagram-node">물리적 격리 구간</div><div class="kb-diagram-node">내부 폐쇄 망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 빌드 및 패키징 2. 보안 스캔/반입 3. 내부 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 라이브러리</div><div class="kb-diagram-cell">안티바이러스</div><div class="kb-diagram-cell">로컬 레지스트리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도커 베이스 이미지 ─포장─▶</div><div class="kb-diagram-cell">단방향 전송망</div><div class="kb-diagram-cell">─반입─▶</div><div class="kb-diagram-cell">헬름 (Helm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자체 소스코드</div><div class="kb-diagram-cell">(.tar)</div><div class="kb-diagram-cell">(Data Diode)</div><div class="kb-diagram-cell">K8s 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 종속성 (물리적 망연계 (완전 오프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미리 포함) 망분리 솔루션) 자동화 배포)</div></div>
+</div>
+</div>
+
+
 
 가장 핵심적인 원리는 벤더링 (Vendoring)이다. 외부망 빌드 단계에서 필요한 모든 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 애플리케이션 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)에 다운로드하여 묶고, [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 역시 `docker save` 명령을 통해 `.tar` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 구워낸다. 이후 일방향 통신 장비 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))나 승인된 USB를 통해 반입되며, 폐쇄망 내부에 구축된 프라이빗 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (예: Harbor, Nexus)에 로드 (Load)되어 내부 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 이를 당겨간다.
 
@@ -68,8 +67,8 @@ tags = ["studynote-devops-sre"]
 | :--- | :--- | :--- |
 | **의존성 해결** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 실행 시 동적 다운로드 | 사전 다운로드 후 정적 반입 (Vendoring) |
 | **보안 통제** | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), 클라우드 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) | 망연계 솔루션, 물리적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) ([USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) |
-| **배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 코드 커밋 후 수 분 내 즉각 배포 | 반입 심사 및 물리적 이동으로 인한 배치 (Batch) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | 런타임 보안 스캐닝 활용 | 반입 전 아카이브 해시(SHA) 및 악성코드 전수 검사 |
+| <strong>배포 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 코드 커밋 후 수 분 내 즉각 배포 | 반입 심사 및 물리적 이동으로 인한 배치 (Batch) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 런타임 보안 스캐닝 활용 | 반입 전 아카이브 해시(SHA) 및 악성코드 전수 검사 |
 
 일반 환경이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 속도(Agility)에 집중한다면, 에어 갭 환경은 반입되는 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) ([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))가 변조되지 않았다는 확신(Trust)을 얻는 데 집중한다. 이는 최근 부상하는 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/))을 통한 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과도 직접적으로 연결된다.
 
@@ -84,7 +83,7 @@ tags = ["studynote-devops-sre"]
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **베이스 이미지 최소화**: 반입 용량을 줄이기 위해 Distroless나 Alpine Linux 같이 불필요한 OS 패키지가 제거된 초경량 베이스 이미지를 사용하는가?
 2. **로컬 미러 (Local Mirror) 구성**: 폐쇄망 내부에 NPM, Maven, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Image를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하는 통합 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 저장소 (Artifactory, Nexus 등)가 구성되어 있는가?
-3. **오프라인 [헬름 차트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/) ([Helm Chart](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/))**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 배포 시 [헬름 차트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/) 내부에 외부 이미지 저장소 URL이 하드코딩되지 않고 내부 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 바라보도록 값이 치환되는가?
+3. <strong>오프라인 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/">헬름 차트</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/056_helm_chart/">Helm Chart</a>)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 배포 시 [헬름 차트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/061_helm_charts/) 내부에 외부 이미지 저장소 URL이 하드코딩되지 않고 내부 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 바라보도록 값이 치환되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 개발자가 외부망에서 빌드된 `node_modules`를 OS 환경([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Windows)이 다른 폐쇄망 리눅스 서버에 그대로 복사하여 실행 오류를 유발하는 방식
@@ -108,28 +107,30 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[망연계 시스템](/knowledge-base/studynote/12_it_management/05_security_compliance/183_network_linkage_system/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))** | 외부망에서 내부망으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하여 침입을 물리적으로 차단하는 보안 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/183_network_linkage_system/">망연계 시스템</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a>)</strong> | 외부망에서 내부망으로 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하여 침입을 물리적으로 차단하는 보안 기술 |
 | **벤더링 (Vendoring)** | 외부 의존성 패키지를 프로젝트 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 내부에 포함하여 오프라인 빌드를 가능하게 하는 기법 |
-| **프라이빗 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) (Private [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))** | 폐쇄망 내부에 구축되어 외부 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Hub의 역할을 대신하는 내부 이미지 저장소 |
-| **[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))** | 폐쇄망 내부로 반입되는 소프트웨어 구성 요소의 투명성과 취약점 추적을 위한 명세서 |
+| <strong>프라이빗 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">레지스트리</a> (Private <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/">Registry</a>)</strong> | 폐쇄망 내부에 구축되어 외부 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Hub의 역할을 대신하는 내부 이미지 저장소 |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">Software Bill of Materials</a>)</strong> | 폐쇄망 내부로 반입되는 소프트웨어 구성 요소의 투명성과 취약점 추적을 위한 명세서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-망분리 · 에어 갭 (Air-gapped) 환경 제약
-    │
-    ▼
-오프라인 패키징 · 벤더링 (Vendoring) 적용
-    │
-    ▼
-타르볼 (Tarball) 반입 · 망연계 솔루션 통과
-    │
-    ▼
-프라이빗 레지스트리 구축 (Nexus, Harbor)
-    │
-    ▼
-SBOM 기반 공급망 보안 · 내부 GitOps 배포 자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">망분리 · 에어 갭 (Air-gapped) 환경 제약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오프라인 패키징 · 벤더링 (Vendoring) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">타르볼 (Tarball) 반입 · 망연계 솔루션 통과</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프라이빗 레지스트리 구축 (Nexus, Harbor)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SBOM 기반 공급망 보안 · 내부 GitOps 배포 자동화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 밖으로 절대 나갈 수 없고 택배 기사님도 들어올 수 없는 비밀 비밀기지가 있어요.

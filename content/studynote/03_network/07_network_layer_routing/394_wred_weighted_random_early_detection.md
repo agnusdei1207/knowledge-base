@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 라우터의 버퍼(큐) 혼잡이 발생하기 이전에, 트래픽의 IP 우선순위(DSCP)에 따라 차등화된 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))로 패킷을 선제적으로 폐기하여 TCP의 혼잡 제어 메커니즘을 부드럽게 유도하는 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)(AQM) 기술.
-- **필요성**: 라우터 큐가 100칸이다. 일반 라우터는 100칸이 꽉 찰 때까지 가만히 구경하다가, 101번째부터 들어오는 패킷은 그게 VIP든 뭐든 모조리 다 모가지를 날려버린다(Tail Drop). 이때 하필 잘 가고 있던 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수십 개가 동시에 꼬리가 잘린다. TCP는 패킷이 유실되면 "헉! 길 막힌다! 전송 속도 반으로 줄여(혼잡 제어)!"라고 반응한다. **수십 대의 PC가 동시에 속도를 0으로 줄였다가, 큐가 비면 다시 동시에 속도를 풀악셀로 밟는다. 네트워크 그래프가 미친 듯이 출렁거리며 낭비된다([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Global [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**. 이걸 막을 부드러운 브레이크가 필요했다.
+- **필요성**: 라우터 큐가 100칸이다. 일반 라우터는 100칸이 꽉 찰 때까지 가만히 구경하다가, 101번째부터 들어오는 패킷은 그게 VIP든 뭐든 모조리 다 모가지를 날려버린다(Tail Drop). 이때 하필 잘 가고 있던 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수십 개가 동시에 꼬리가 잘린다. TCP는 패킷이 유실되면 "헉! 길 막힌다! 전송 속도 반으로 줄여(혼잡 제어)!"라고 반응한다. <strong>수십 대의 PC가 동시에 속도를 0으로 줄였다가, 큐가 비면 다시 동시에 속도를 풀악셀로 밟는다. 네트워크 그래프가 미친 듯이 출렁거리며 낭비된다(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> Global <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>. 이걸 막을 부드러운 브레이크가 필요했다.
 
-- **💡 비유**: Tail Drop이 영화관 입구에서 100명이 꽉 찼을 때 **"101번부터는 입장 불가! 문 닫아!"**라고 매몰차게 셔터를 내리는 것이라면, WRED는 영화관이 한 70명쯤 찼을 때부터 줄 서 있는 사람들 중 **무작위로 몇 명의 어깨를 툭툭 치며 "오늘은 자리 없으니 다른 데 가보세요(사전 폐기)"**라고 조금씩 빼내어 입구에 몰려드는 인파 자체를 부드럽게 줄여나가는 기술입니다.
+- **💡 비유**: Tail Drop이 영화관 입구에서 100명이 꽉 찼을 때 <strong>"101번부터는 입장 불가! 문 닫아!"</strong>라고 매몰차게 셔터를 내리는 것이라면, WRED는 영화관이 한 70명쯤 찼을 때부터 줄 서 있는 사람들 중 <strong>무작위로 몇 명의 어깨를 툭툭 치며 "오늘은 자리 없으니 다른 데 가보세요(사전 폐기)"</strong>라고 조금씩 빼내어 입구에 몰려드는 인파 자체를 부드럽게 줄여나가는 기술입니다.
 
-```text
-[Leaky Bucket / Token Buc…]
-    │
-    ▼
-[WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    └──▶ [HSRP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Leaky Bucket / Token Buc…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HSRP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** WRED는 고속도로 톨게이트 전방 10km 지점에 세워둔 **"우회 권고 전광판(조기 경보)"**입니다. 톨게이트가 완전히 막혀서 차들이 다 같이 급브레이크를 밟고 연쇄 추돌([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))을 일으키기 전에, 멀리서부터 차들을 한두 대씩 국도로 미리 빼내어 교통 흐름을 부드럽게 유지합니다.
 
@@ -42,18 +46,18 @@ tags = ["studynote-network"]
 ### 1. WRED의 3가지 동작 구간 (수위 조절)
 WRED는 큐(버퍼)에 물이 얼마나 찼는지 수위([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Depth)를 보고 행동을 결정한다.
 
-1. **최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (Minimum Threshold) 미만 구간**:
+1. <strong>최소 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> (Minimum Threshold) 미만 구간</strong>:
    - 큐가 0% ~ 30% 정도만 찼다. 아주 널널하다.
    - 라우터 행동: "다 통과! 단 1방울도 안 버림!" (Drop [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0%)
-2. **최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) ~ 최대 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (Maximum Threshold) 사이 구간 ★핵심**:
+2. <strong>최소 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> ~ 최대 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> (Maximum Threshold) 사이 구간 ★핵심</strong>:
    - 큐가 30% ~ 80% 사이로 찼다. 슬슬 위험하다.
    - 라우터 행동: **"여기서부터 Random(무작위) 살생을 시작한다!"** 큐가 차오를수록 패킷을 버릴 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 1%에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%까지 서서히 높이면서 뒤에서 오는 패킷들을 도끼로 툭툭 쳐낸다.
-3. **최대 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (Max Threshold) 초과 구간**:
+3. <strong>최대 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> (Max Threshold) 초과 구간</strong>:
    - 큐가 80%를 넘어 100%를 향해 간다. 댐이 터지기 직전이다.
    - 라우터 행동: "자비는 없다! 들어오는 족족 100% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 모조리 죽여버려!(Tail Drop 발동)"
 
 ### 2. Weighted([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 진가: 차별적 살생부
-WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 수위를 **"DSCP 딱지(신분)마다 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"**한다는 것이다.
+WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 수위를 <strong>"DSCP 딱지(신분)마다 다르게 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>"</strong>한다는 것이다.
 
 - **BE (천민 패킷)**: 
   - 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 20%로 낮게 잡는다. 즉, 큐가 20%만 차도 "어이 천민들, 너희부터 버려질 준비 해라"라며 가장 먼저 사살(Drop)이 시작된다.
@@ -62,26 +66,26 @@ WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledg
 - **EF (황족 패킷)**:
   - WRED 자체를 거의 적용하지 않거나, 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 90%로 잡아서 세상이 멸망하기 직전까지 절대 버리지 않고 살려둔다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                WRED 확률적 폐기(Drop Probability) 그래프         │
- ├─────────────────────────────────────────────────────────────┤
- │ Drop 확률(%)                                                  │
- │  100 |                                 /| (최대 임계치 돌파 시 100% 즉사)│
- │      |                                / |                   │
- │   10 |                              /   |                   │
- │      |                            /     |                   │
- │    0 |__________________________/_______|______ 큐에 쌓인 패킷량│
- │                               (Min)   (Max)                 │
- │                                                             │
- │   ▶ 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며, │
- │      Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!          │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WRED 확률적 폐기(Drop Probability) 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drop 확률(%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">(최대 임계치 돌파 시 100% 즉사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">__________________________/_______</div><div class="kb-diagram-cell">______ 큐에 쌓인 패킷량</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Min) (Max)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!</div></div>
+</div>
+</div>
+
+
 
 ### 3. TCP와 UDP에 미치는 영향
-- **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)**: WRED가 패킷을 하나 툭 죽이면, 그걸 눈치챈 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 사이즈가 절반으로 뚝 꺾인다. 즉, 라우터가 원하는 대로 "스스로 속도를 줄이는([혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/))" 착한 반응을 보인다.
-- **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)**: 얘는 피도 눈물도 없어서 WRED가 패킷을 죽이든 말든 신경 안 쓰고 계속 10Gbps로 쏟아붓는다. 그래서 WRED는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 폭주를 막기 위해 울며 겨자 먹기로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷들을 계속 썰어버려야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: WRED가 패킷을 하나 툭 죽이면, 그걸 눈치챈 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 사이즈가 절반으로 뚝 꺾인다. 즉, 라우터가 원하는 대로 "스스로 속도를 줄이는([혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/))" 착한 반응을 보인다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a></strong>: 얘는 피도 눈물도 없어서 WRED가 패킷을 죽이든 말든 신경 안 쓰고 계속 10Gbps로 쏟아붓는다. 그래서 WRED는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 폭주를 막기 위해 울며 겨자 먹기로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷들을 계속 썰어버려야 한다.
 
 - **📢 섹션 요약 비유**: ** WRED는 배가 가라앉으려고(혼잡) 할 때, 배가 완전히 침몰하기 전에 미리 **"가장 싼 짐(BE 패킷)"부터 무작위로 하나씩 바다에 던져서(Random Drop)** 배의 무게를 가볍게 만들어 서서히 안정을 찾는 고도의 생존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 
@@ -139,15 +143,19 @@ WRED 혼잡 제어 꼬리 짜르기 제한은 [라우팅](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Leaky Bucket / Token Buc…]
-    │
-    ▼
-[현재 개념: WRED 혼잡 제어 꼬리 짜르기 제한]
-    │
-    ├──▶ [확장 A: HSRP]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Leaky Bucket / Token Buc…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HSRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 WRED 혼잡 제어 꼬리 짜르기 제한는 Leaky Bucket / Token Buc…에서 출발해 현재 메커니즘을 정교화하고, 이후 HSRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,11 +19,15 @@ BDD는 “무엇을 만들 것인가”보다 “사용자가 어떤 행위를 �
 
 특히 업무 시스템에서 실패하는 원인 중 상당수는 구현 기술 부족이 아니라 용어 불일치다. 같은 “승인”, “완료”, “정산”이라는 말도 부서마다 의미가 다르면 테스트와 운영이 모두 어긋난다. BDD는 이런 문제를 방지하기 위해 시나리오와 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)를 중심으로 요구를 구조화한다.
 
-```text
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│ 사용자 행위 │──▶│ 공통 언어   │──▶│ 검증 시나리오 │
-└────────────┘   └────────────┘   └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 행위</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">공통 언어</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">검증 시나리오</div></div>
+</div>
+</div>
+
+
 
 따라서 감리 시에는 화면 목록이나 기능 목록만 확인할 것이 아니라, 시나리오가 실제 업무 흐름과 같은 말을 쓰고 있는지 반드시 확인해야 한다.
 - **📢 섹션 요약 비유**: 같은 지도를 보고 같은 지명으로 말해야 길을 잃지 않는다.
@@ -37,13 +41,16 @@ BDD의 대표 형식은 Given-When-Then이다. Given은 전제 조건, When은 �
 | 스텝 정의 | 시나리오 문장을 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 코드와 연결 | 자동화 범위와 책임 경계를 명확히 해야 함 |
 | 실행 보고 | 통과·실패 결과를 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 공유 | [인수 기준](/knowledge-base/studynote/04_software_engineering/03_design_architecture/165_acceptance_criteria_definition/) 변경 시 시나리오와 코드가 동시에 갱신되어야 함 |
 
-```text
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│ Given    │──▶│ When     │──▶│ Then     │
-└────┬─────┘   └────┬─────┘   └────┬─────┘
-     │              │              │
-     └──────도메인 용어/자동화 코드로 연결──────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Given</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">When</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Then</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">도메인 용어/자동화 코드로 연결</div>
+</div>
+</div>
+
+
 
 핵심 원리는 첫째, 시나리오가 비즈니스 가치를 반영해야 한다는 점이다. 둘째, 문장이 테스트 가능해야 한다. 셋째, 자동화가 어려운 문서는 시간이 지나면 죽은 문서가 되므로 실행 가능한 시나리오로 유지해야 한다. 이 세 가지를 답안에 넣으면 BDD의 본질이 드러난다.
 - **📢 섹션 요약 비유**: 연극 대본처럼 등장인물, 행동, 결과가 한 줄로 이어져야 모두가 같은 장면을 떠올릴 수 있다.

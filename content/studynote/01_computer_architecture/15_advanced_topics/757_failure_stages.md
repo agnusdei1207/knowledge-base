@@ -35,19 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 세 단계가 단순 시간 구분이 아니라, 지배적 고장 원인과 대응 전략이 함께 바뀌는 곡선임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Failure-rate stages over lifetime                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ High λ   \                                                          │
-│           \   DFR           CFR                    IFR              │
-│            \__________________________            /                 │
-│                                       \          /                  │
-│                                        \________/                   │
-│ Time ─────────────────────────────────────────────────────────────▶ │
-│ Action : screen-out weak units   protect & repair   replace early   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure-rate stages over lifetime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High λ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ DFR CFR IFR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action : screen-out weak units protect &amp; repair replace early</div></div>
+</div>
+</div>
+
+
 
 이 곡선의 해석은 다음과 같다.
 
@@ -131,21 +131,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고장률 개념 λ(t)
-    │
-    ▼
-배스터브 곡선 (Bathtub Curve)
-    │
-    ├──▶ 초기 고장기
-    │     : burn-in · screening · infant mortality control
-    │
-    ├──▶ 우발 고장기
-    │     : MTBF · redundancy · fast repair
-    │
-    └──▶ 마모 고장기
-          : wear-out · preventive replacement · life prediction
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고장률 개념 λ(t)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배스터브 곡선 (Bathtub Curve)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 초기 고장기</div>
+<div class="kb-diagram-note">: burn-in · screening · infant mortality control</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 우발 고장기</div>
+<div class="kb-diagram-note">: MTBF · redundancy · fast repair</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 마모 고장기</div>
+<div class="kb-diagram-note">: wear-out · preventive replacement · life prediction</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

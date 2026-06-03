@@ -20,26 +20,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 4+1 뷰 미비와 유지보수 추적 단절은 4+1 뷰 산출물 미비로 인한 유지보수 추적 단절 위험을 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 개발 뷰가 기준선으로 정리되지 않으면 [유스케이스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)는 사람 의존 절차로 흩어지고, 최종적으로 추적 매트릭스가 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
 
-```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 개발 뷰 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 유스케이스 뷰 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 추적 매트릭스 증적 확보 │
-└──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 뷰 기준 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 뷰 설계 반영</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추적 매트릭스 증적 확보</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: 4+1 뷰 미비와 유지보수 추적 단절은 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -53,16 +48,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | [유스케이스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)를 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 추적 매트릭스를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: 개발 뷰, [유스케이스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/), 추적 매트릭스는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

@@ -30,33 +30,29 @@ TMS (Transportation [Management](/knowledge-base/studynote/12_it_management/05_s
 
 TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 동작하며, VRP (Vehicle [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Problem)와 적재 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 시스템의 두뇌 역할을 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                TMS (운송 관리 시스템) 프로세스 아키텍처        │
-├──────────────────────────────────────────────────────────────┤
-│  [ 입력 데이터 ]                                              │
-│  - WMS 출고 오더, 차량 제원(적재량), 교통 상황 API, 배송 기한 │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌──────────────────────── TMS Core ───────────────────────┐ │
-│  │ 1. 라우팅 & 배차 (Routing & Dispatching)                │ │
-│  │    : VRP 알고리즘 ─▶ 최단 거리, 최소 요금 경로 도출         │ │
-│  │    : 3D 적재 테트리스 (LIFO 하차 순서 고려)               │ │
-│  │                                                         │ │
-│  │ 2. 가시성 및 실시간 관제 (Visibility & Tracking)         │ │
-│  │    : GPS / 모바일 App 연동 ─▶ 트럭 실시간 위치 모니터링   │ │
-│  │                                                         │ │
-│  │ 3. 운임 정산 (Freight Settlement)                       │ │
-│  │    : 운송 거리, 유류 할증료, 톨게이트 비용 자동 계산      │ │
-│  └─────────────────────────────────────────────────────────┘ │
-│         │                                                    │
-│         ▼                                                    │
-│  [ 출력 및 결과 ]                                             │
-│  최적 배차 지시서, 고객 실시간 배송조회, 협력사 자동 대금 지급 │
-└──────────────────────────────────────────────────────────────┘
-```
 
-가장 핵심이 되는 **[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 배차**는 차량의 최대 중량/부피 한계, 운전자의 법정 근로 시간, 고객의 수령 가능 시간 (Time Window) 등 수많은 제약 조건을 만족하면서 전체 비용 함수를 최소화하는 복잡한 수리계획법 모델을 푼다. 또한 하차 지점이 여러 곳일 경우, 마지막 목적지 물건을 트럭 가장 안쪽에, 첫 목적지 물건을 문 앞에 싣도록 지시하는 3D 적재 최적화(테트리스) 기능도 함께 작동한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TMS (운송 관리 시스템) 프로세스 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- WMS 출고 오더, 차량 제원(적재량), 교통 상황 API, 배송 기한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TMS Core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 라우팅 &amp; 배차 (Routing &amp; Dispatching)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: VRP 알고리즘 ─▶ 최단 거리, 최소 요금 경로 도출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 3D 적재 테트리스 (LIFO 하차 순서 고려)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가시성 및 실시간 관제 (Visibility &amp; Tracking)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: GPS / 모바일 App 연동 ─▶ 트럭 실시간 위치 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 운임 정산 (Freight Settlement)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 운송 거리, 유류 할증료, 톨게이트 비용 자동 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">출력 및 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 배차 지시서, 고객 실시간 배송조회, 협력사 자동 대금 지급</div></div>
+</div>
+</div>
+
+
+
+가장 핵심이 되는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 및 배차</strong>는 차량의 최대 중량/부피 한계, 운전자의 법정 근로 시간, 고객의 수령 가능 시간 (Time Window) 등 수많은 제약 조건을 만족하면서 전체 비용 함수를 최소화하는 복잡한 수리계획법 모델을 푼다. 또한 하차 지점이 여러 곳일 경우, 마지막 목적지 물건을 트럭 가장 안쪽에, 첫 목적지 물건을 문 앞에 싣도록 지시하는 3D 적재 최적화(테트리스) 기능도 함께 작동한다.
 
 - **📢 섹션 요약 비유**: TMS는 택시 기사의 '내비게이션(경로)'과 '앱미터기(정산)', 그리고 트렁크에 짐을 싣는 '공간 지각 능력(적재)'을 하나로 합친 완벽한 자율 주행 지휘소다.
 
@@ -70,7 +66,7 @@ TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/0
 | :--- | :--- | :--- |
 | **통제 공간** | 창고 **내부** (입고, 보관, 피킹, 출고) | 창고 **외부** (도로망, 해운, 항로 등) |
 | **핵심 목표** | 재고 정확도 100%, 공간 최적화, 피킹 동선 단축 | 유류비 및 운임 절감, 정시 도착(납기) 준수 |
-| **주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | 존(Zone) 배정, 파도([Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 피킹 | 차량 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (VRP), 화물 혼재 (Consolidation) |
+| <strong>주요 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | 존(Zone) 배정, 파도([Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 피킹 | 차량 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (VRP), 화물 혼재 (Consolidation) |
 | **추적 대상** | 선반 위 팔레트(Pallet)와 바코드 | 도로 위 트럭의 GPS 좌표와 주행 상태 |
 
 최근에는 창고 안에서 트럭에 짐을 싣는 도크(Dock) [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이 중요해지면서, WMS와 TMS의 경계가 허물어지고 유기적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 통합 물류 플랫폼 형태로 진화하고 있다.
@@ -85,7 +81,7 @@ TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/0
 
 ### 판단 포인트
 - **언제 TMS 고도화가 필요한가?**: 자가 물류 (1PL)를 하든 외주 물류 ([3PL](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/))를 쓰든, 배송비 정산 과정에서 엑셀 수작업으로 인한 오류와 마찰이 빈번하고 화물차의 적재율(Fill Rate)이 70%를 밑도는 구간이 존재한다면 즉시 TMS [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 도입을 검토해야 한다.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합의 중요성**: TMS 단독으로는 힘을 쓰지 못한다. ERP의 주문(Order) 정보, WMS의 부피/무게(CBM) 정보, 외부의 실시간 교통 API가 실시간으로 연동되는 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 아키텍처가 필수다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통합의 중요성</strong>: TMS 단독으로는 힘을 쓰지 못한다. ERP의 주문(Order) 정보, WMS의 부피/무게(CBM) 정보, 외부의 실시간 교통 API가 실시간으로 연동되는 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 아키텍처가 필수다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 가장 싼 화물차 기사만 무작정 배정하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 운송 품질(파손, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 고려하지 않고 요금만 최적화하면 결국 고객 이탈로 이어지는 맹점에 빠진다. 
@@ -96,7 +92,7 @@ TMS는 계획, 실행, 정산의 3단계 [파이프](/knowledge-base/studynote/0
 
 ## Ⅴ. 기대효과 및 결론
 
-TMS 도입의 가장 큰 기대효과는 **운송비 절감**과 **가시성 (Visibility) 확보**다. 경로 최적화와 혼재 배송을 통해 물류비를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 절감할 수 있으며, 배송 상태의 실시간 투명성은 고객 만족도를 극대화한다. 또한 디지털화된 운임 정산은 [3PL](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) 협력사와의 투명한 거래 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 구축한다.
+TMS 도입의 가장 큰 기대효과는 <strong>운송비 절감</strong>과 <strong>가시성 (Visibility) 확보</strong>다. 경로 최적화와 혼재 배송을 통해 물류비를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 절감할 수 있으며, 배송 상태의 실시간 투명성은 고객 만족도를 극대화한다. 또한 디지털화된 운임 정산은 [3PL](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) 협력사와의 투명한 거래 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 구축한다.
 
 미래의 TMS는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 기상 예측, 실시간 교통 체증을 반영한 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) ([Dynamic Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)), 친환경 규제에 대응하는 탄소 배출량 최소화 경로 탐색 영역으로 확장되고 있다. 결론적으로 TMS는 물리적 재화를 움직이는 기업이 시장 경쟁력을 유지하기 위한 디지털 물류의 관제탑이다.
 
@@ -108,28 +104,30 @@ TMS 도입의 가장 큰 기대효과는 **운송비 절감**과 **가시성 (Vi
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))** | TMS가 일하기 전, 창고 내 재고를 관리하고 트럭에 실을 준비를 마치는 선행 시스템 |
-| **VRP (Vehicle [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Problem)** | 여러 대의 차량이 여러 목적지를 방문할 때 총 비용을 최소화하는 경로를 찾는 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | 원자재부터 최종 소비자까지의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)을 관리하는 상위 개념 |
-| **[3PL](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) (Third-Party Logistics)** | 기업의 물류 부문을 전문 물류업체에 아웃소싱하는 것, 이들과의 정산에 TMS가 필수 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">WMS</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/">Warehouse Management System</a>)</strong> | TMS가 일하기 전, 창고 내 재고를 관리하고 트럭에 실을 준비를 마치는 선행 시스템 |
+| <strong>VRP (Vehicle <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Problem)</strong> | 여러 대의 차량이 여러 목적지를 방문할 때 총 비용을 최소화하는 경로를 찾는 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | 원자재부터 최종 소비자까지의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)을 관리하는 상위 개념 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/">3PL</a> (Third-Party Logistics)</strong> | 기업의 물류 부문을 전문 물류업체에 아웃소싱하는 것, 이들과의 정산에 TMS가 필수 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수기 배차 및 엑셀 기반 정산 (비효율의 극치)
-    │
-    ▼
-기본형 TMS : 고정 경로 배차 및 요율표 기반 자동 정산
-    │
-    ▼
-최적화 TMS : VRP 알고리즘, 3D 적재 테트리스, GPS 가시성 확보
-    │
-    ▼
-AI 및 클라우드 TMS : 실시간 동적 경로 변경, 기상 정보 반영
-    │
-    ▼
-지속가능 TMS (Green Logistics) : 탄소 배출량 최소화 라우팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수기 배차 및 엑셀 기반 정산 (비효율의 극치)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기본형 TMS : 고정 경로 배차 및 요율표 기반 자동 정산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최적화 TMS : VRP 알고리즘, 3D 적재 테트리스, GPS 가시성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 및 클라우드 TMS : 실시간 동적 경로 변경, 기상 정보 반영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속가능 TMS (Green Logistics) : 탄소 배출량 최소화 라우팅</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

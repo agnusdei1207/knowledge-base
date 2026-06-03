@@ -21,15 +21,17 @@ tags = ["studynote-cloud-architecture"]
 
 따라서 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 시맨틱 검색 RAG를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 벡터 데이터베이스 임베딩 ANN 시맨틱 검색 RAG가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정                 │
-├──────────────────────────────────────────────────────────────┤
-│ 요구사항 ─▶ 자원 배치 ─▶ 실행 환경 ─▶ 운영 피드백                  │
-│    │           │             │             │                       │
-│    └──────── 성능·비용·전력의 균형점을 반복적으로 조정 ──────────┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 데이터베이스 임베딩 ANN 시맨틱 검색 RAG가 필요한 이유: 자원, 전력, 성능 목표를 함께 조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 ─▶ 자원 배치 ─▶ 실행 환경 ─▶ 운영 피드백</div></div>
+<div class="kb-diagram-note">성능·비용·전력의 균형점을 반복적으로 조정</div>
+</div>
+</div>
+
+
 
 이 그림은 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 시맨틱 검색 RAG가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
 
@@ -46,15 +48,17 @@ tags = ["studynote-cloud-architecture"]
 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 | 격리·[오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 적용 | [hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) |
 | 운영 계층 | 비용·전력·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 최적화 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/), cooling, scheduling |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 벡터 데이터베이스 임베딩 ANN 시맨틱 검색 RAG 핵심 원리                                          │
-├──────────────────────────────────────────────────────────────┤
-│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
-│     │           │            │              │                │
-│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 데이터베이스 임베딩 ANN 시맨틱 검색 RAG 핵심 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백</div></div>
+<div class="kb-diagram-note">병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──</div>
+</div>
+</div>
+
+
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) 시맨틱 검색 RAG는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
 

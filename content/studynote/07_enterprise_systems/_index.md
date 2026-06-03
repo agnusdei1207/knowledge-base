@@ -10,8 +10,8 @@ tags = ["studynote-enterprise-systems"]
 > 3. **융합**: 전통적인 On-premise 모놀리식 ERP를 넘어, 클라우드 기반의 SaaS(Software as a Service)와 AI, RPA(로봇 프로세스 자동화)가 융합된 **지능형 초자동화(Hyperautomation)** 엔터프라이즈 플랫폼으로 진화.
 
 ### Ⅰ. 개요 (Context & Background)
-과거 기업의 IT 부서는 재무팀의 회계 시스템, 인사팀의 급여 시스템, 영업팀의 고객 관리 시스템을 각각 독립적으로 구축했다. 이로 인해 같은 '매출' 데이터라도 영업팀과 재무팀의 숫자가 맞지 않는 **'데이터 사일로(Silo)'**와 **'스파게티 연동'**이라는 치명적 구조 결함이 발생했다.
-**엔터프라이즈 시스템(Enterprise Systems)**은 이 혼돈을 제압하기 위해 등장했다. 전사적 자원 관리(ERP)를 중심으로 모든 비즈니스 로직을 단일 데이터베이스(Single Source of Truth)로 통합함으로써, 공장에서 제품 하나가 완성되는 순간 재무제표의 원가가 즉시 업데이트되는 경이로운 자동화를 이룩했다. 오늘날 엔터프라이즈 시스템은 기업의 프로세스를 시스템에 맞추는(BPR) 경영 혁신의 도구이자, 글로벌 공급망(SCM) 위기를 돌파하는 생존 아키텍처다.
+과거 기업의 IT 부서는 재무팀의 회계 시스템, 인사팀의 급여 시스템, 영업팀의 고객 관리 시스템을 각각 독립적으로 구축했다. 이로 인해 같은 '매출' 데이터라도 영업팀과 재무팀의 숫자가 맞지 않는 <strong>'데이터 사일로(Silo)'</strong>와 <strong>'스파게티 연동'</strong>이라는 치명적 구조 결함이 발생했다.
+<strong>엔터프라이즈 시스템(Enterprise Systems)</strong>은 이 혼돈을 제압하기 위해 등장했다. 전사적 자원 관리(ERP)를 중심으로 모든 비즈니스 로직을 단일 데이터베이스(Single Source of Truth)로 통합함으로써, 공장에서 제품 하나가 완성되는 순간 재무제표의 원가가 즉시 업데이트되는 경이로운 자동화를 이룩했다. 오늘날 엔터프라이즈 시스템은 기업의 프로세스를 시스템에 맞추는(BPR) 경영 혁신의 도구이자, 글로벌 공급망(SCM) 위기를 돌파하는 생존 아키텍처다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
@@ -28,23 +28,27 @@ tags = ["studynote-enterprise-systems"]
 
 #### 2. 엔터프라이즈 통합 아키텍처 (EAI vs ESB) (ASCII)
 수십 개의 시스템을 점대점(Point-to-Point)으로 연결하면 복잡도가 $O(N^2)$으로 폭발한다. 이를 ESB(Enterprise Service Bus) 기반의 SOA(Service Oriented Architecture)로 전환하여 결합도를 끊어낸다.
-```text
-    [ Legacy Spaghetti vs Modern ESB Architecture / 레거시 스파게티 vs 현대적 ESB 아키텍처 ]
-    
-    (Anti-pattern: Point-to-Point / 점대점 연결)  (Best Practice: Enterprise Service Bus / 모범 사례)
-    
-       ERP <-----> CRM                           ERP        CRM         SCM
-        ^   \   /   ^                             |          |           |
-        |    \ /    |                        +----v----------v-----------v----+
-        |     X     |                        |      Message Bus (ESB)         | 
-        |    / \    |                        |    (라우팅, 데이터 변환)       |
-        v   /   \   v                        +----^----------^-----------^----+
-       SCM <-----> BPM                            |          |           |
-                                                 BPM      Legacy DB    External API
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy Spaghetti vs Modern ESB Architecture / 레거시 스파게티 vs 현대적 ESB 아키텍처</div></div>
+<div class="kb-diagram-note">(Anti-pattern: Point-to-Point / 점대점 연결) (Best Practice: Enterprise Service Bus / 모범 사례)</div>
+<div class="kb-diagram-note">ERP &lt;-----&gt; CRM ERP CRM SCM</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ \ / ^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">+----v----------v-----------v----+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">Message Bus (ESB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \</div><div class="kb-diagram-cell">(라우팅, 데이터 변환)</div></div>
+<div class="kb-diagram-note">v / \ v +----^----------^-----------^----+</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM &lt;-----&gt; BPM</div></div>
+<div class="kb-diagram-note">BPM Legacy DB External API</div>
+</div>
+</div>
+
+
 
 #### 3. SCM 핵심 수학적 원리 (채찍 효과 방어와 안전재고)
-SCM의 궁극적 목표는 불확실성을 통제하여 재고 비용을 최소화하는 것이다. 수요의 작은 변동이 공급망을 거슬러 올라가며 거대하게 증폭되는 **채찍 효과(Bullwhip Effect)**를 막기 위해 리드타임(Lead Time)과 안전재고(Safety Stock)를 수식화하여 관리한다.
+SCM의 궁극적 목표는 불확실성을 통제하여 재고 비용을 최소화하는 것이다. 수요의 작은 변동이 공급망을 거슬러 올라가며 거대하게 증폭되는 <strong>채찍 효과(Bullwhip Effect)</strong>를 막기 위해 리드타임(Lead Time)과 안전재고(Safety Stock)를 수식화하여 관리한다.
 - **안전재고(SS) 산출 공식**: $SS = Z \times \sqrt{(LT \times \sigma_D^2) + (D_{avg}^2 \times \sigma_{LT}^2)}$
   (여기서 $Z$: 서비스 수준 계수, $LT$: 리드타임, $\sigma_D$: 수요의 표준편차, $D_{avg}$: 평균 수요)
 - 이러한 데이터 기반 확률 모델을 통해 과잉 재고와 품절(Stock-out) 사이의 완벽한 최적점을 도출한다.
@@ -72,11 +76,11 @@ SCM의 궁극적 목표는 불확실성을 통제하여 재고 비용을 최소�
 
 **시나리오 1: 글로벌 제조사의 차세대 ERP (SAP S/4HANA) 마이그레이션**
 - **문제 상황**: 수십 년간 덧대어진 커스텀(Custom Add-on) 프로그램들로 인해 ERP 업그레이드가 불가능한 상태(기술 부채의 늪)에 빠졌으며, 데이터 추출 속도가 비즈니스 속도를 따라가지 못함.
-- **기술사적 결단**: 기존 디스크 기반 DB를 인메모리(In-Memory) 기반의 **SAP HANA**로 전환하여 실시간 분석(OLAP)과 트랜잭션(OLTP)을 동시에 처리하는 아키텍처(HTAP)로 혁신한다. 또한 **"Fit to Standard"** 철학을 강력히 강제하여, 기업의 프로세스를 솔루션 표준에 맞추게(BPR) 함으로써 무분별한 커스터마이징 코드를 폐기하고 유지보수성을 극대화한다.
+- **기술사적 결단**: 기존 디스크 기반 DB를 인메모리(In-Memory) 기반의 <strong>SAP HANA</strong>로 전환하여 실시간 분석(OLAP)과 트랜잭션(OLTP)을 동시에 처리하는 아키텍처(HTAP)로 혁신한다. 또한 **"Fit to Standard"** 철학을 강력히 강제하여, 기업의 프로세스를 솔루션 표준에 맞추게(BPR) 함으로써 무분별한 커스터마이징 코드를 폐기하고 유지보수성을 극대화한다.
 
 **시나리오 2: 팬데믹으로 인한 SCM(공급망) 붕괴 방어 아키텍처**
 - **문제 상황**: 갑작스러운 국경 폐쇄와 물류 대란으로 부품 수급이 끊겨 생산 라인이 정지되는 사태 발생.
-- **기술사적 결단**: 사후 대응형의 낡은 SCM을 폐기하고, 빅데이터와 AI 기반의 **수요 예측 및 실시간 공급망 통제탑(Control Tower)**을 구축한다. 클라우드 외부 API(기상, 항만 데이터)를 ESB로 연동하여 예측 불가능한 변수를 알고리즘에 실시간 주입하고, 대체 공급처로의 발주를 RPA(Robotic Process Automation)가 자동으로 수행하게 결착 짓는다.
+- **기술사적 결단**: 사후 대응형의 낡은 SCM을 폐기하고, 빅데이터와 AI 기반의 <strong>수요 예측 및 실시간 공급망 통제탑(Control Tower)</strong>을 구축한다. 클라우드 외부 API(기상, 항만 데이터)를 ESB로 연동하여 예측 불가능한 변수를 알고리즘에 실시간 주입하고, 대체 공급처로의 발주를 RPA(Robotic Process Automation)가 자동으로 수행하게 결착 짓는다.
 
 **도입 시 고려사항 (안티패턴)**
 - **경영진 스폰서십 부재 (Lack of Executive Sponsorship)**: ERP 프로젝트는 단순한 IT 시스템 도입이 아니라 전사적 권력 구조와 일하는 방식을 뜯어고치는 '혁명'이다. IT 부서장(CIO) 선에서만 프로젝트를 주도하면 현업 부서의 극렬한 저항(Change Management 실패)에 부딪혀 프로젝트가 좌초된다. 기술사는 반드시 CEO가 조종간을 잡도록 거버넌스 체계를 설계해야 거시적 프로젝트가 성공한다.

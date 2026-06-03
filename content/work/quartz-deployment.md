@@ -20,7 +20,7 @@ GitHub Pages를 통해 별도의 웹서버를 구축하지 않고도 무료로 �
 
 1. **레포지토리 설정 변경:** 
    * GitHub 레포지토리 Settings -> Pages 탭 진입
-   * Build and deployment -> Source를 **GitHub Actions**로 변경
+   * Build and deployment -> Source를 <strong>GitHub Actions</strong>로 변경
 2. **GitHub Workflow 파일 생성:**
    * `.github/workflows/deploy.yml` 파일 생성 (자동 생성 스크립트 실행 시 셋팅 가능)
 3. **배포 확인:**

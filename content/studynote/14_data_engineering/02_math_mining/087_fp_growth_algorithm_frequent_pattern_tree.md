@@ -39,14 +39,19 @@ tags = ["math-mining", "studynote-data-engineering"]
 | 조건부 패턴 베이스 | 특정 항목의 접두 경로 수집 | 조건부 입력 |
 | [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 확장 | 더 작은 FP-tree로 분해 | 빈발 항목집합 |
 
-```text
-root
- ├─ f:4 ─ a:3 ─ c:2
- │        └─ m:2
- └─ c:3 ─ b:2 ─ p:1
 
-Header Table: f → a → c → m → b → p
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">root</div>
+<div class="kb-diagram-tree-item" style="--depth:0">f:4 ─ a:3 ─ c:2</div>
+<div class="kb-diagram-note">─ m:2</div>
+<div class="kb-diagram-tree-item" style="--depth:0">c:3 ─ b:2 ─ p:1</div>
+<div class="kb-diagram-note">Header Table: f → a → c → m → b → p</div>
+</div>
+</div>
+
+
 
 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 같은 접두사를 공유하는 거래를 한 노드 경로로 묶는 데 있다. 그래서 트리는 단순 저장소가 아니라 탐색 공간 자체를 줄이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 된다.
 

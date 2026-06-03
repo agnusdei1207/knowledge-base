@@ -35,27 +35,27 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 | :--- | :--- | :--- |
 | **Cloud Update Manager** | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 저장, 배포 타겟팅, 현황 수집 | [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/) ([Code Signing](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)), 점진적 롤아웃 |
 | **OTA Agent (Edge)** | 새 바이너리 다운로드, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사 수행 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전송, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 연계) |
-| **A/B 뱅크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)** | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 두 구역으로 나눠 안전하게 덮어쓰기 | 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Auto-[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 전원 차단 대비 |
+| <strong>A/B 뱅크 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a></strong> | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 두 구역으로 나눠 안전하게 덮어쓰기 | 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) (Auto-[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 전원 차단 대비 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           엣지 OTA의 듀얼 뱅크 (A/B Partition) 업데이트 원리         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 정상 동작 중 (A 실행)                                     │
-│    [ Partition A (Active) ] <--- 시스템 실행 중             │
-│    [ Partition B (Idle)   ]                                  │
-│                                                              │
-│ 2. 백그라운드 다운로드 & 굽기 (B에 업데이트)                    │
-│    [ Partition A (Active) ] <--- 서비스 무중단 유지           │
-│    [ Partition B (Writing)] <--- 무선으로 새 펌웨어 기록       │
-│                                                              │
-│ 3. 무결성 검증 후 리부팅 (Swap)                              │
-│    [ Partition A (Idle)   ] <--- 롤백을 위해 기존 버전 보존    │
-│    [ Partition B (Active) ] <--- 새 펌웨어로 부팅 성공!       │
-│                                                              │
-│ ※ 만약 부팅 B가 실패하면? 다시 A로 자동 재부팅 (Fail-safe)     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 OTA의 듀얼 뱅크 (A/B Partition) 업데이트 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정상 동작 중 (A 실행)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition A (Active)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- 시스템 실행 중</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition B (Idle)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 백그라운드 다운로드 &amp; 굽기 (B에 업데이트)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition A (Active)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- 서비스 무중단 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition B (Writing)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- 무선으로 새 펌웨어 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 무결성 검증 후 리부팅 (Swap)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition A (Idle)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- 롤백을 위해 기존 버전 보존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Partition B (Active)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- 새 펌웨어로 부팅 성공!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 만약 부팅 B가 실패하면? 다시 A로 자동 재부팅 (Fail-safe)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램이 보여주듯, 새 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 다운로드해서 덮어쓰는 동안에도 기기는 A [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 통해 정상 작동한다. 업데이트가 완료된 후 리부팅 시 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)([Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/))가 진입점을 B로 변경하기만 하면 된다. 중간에 전원이 끊어지더라도 A [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 손상되지 않았으므로 기기가 벽돌(Brick)이 되는 사태를 완벽하게 막아준다.
 
@@ -69,7 +69,7 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 
 | 비교 항목 | 웹/클라우드 서버 배포 | 엣지 디바이스 OTA 배포 |
 | :--- | :--- | :--- |
-| **배포 [환경 통제](/knowledge-base/studynote/09_security/18_iot_ot_physical/937_environmental_control/)력** | 완벽함 (항온항습, 안정적 전력/네트워크) | 매우 열악함 (이동형, 배터리 방전 위험, 불안정 망) |
+| <strong>배포 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/937_environmental_control/">환경 통제</a>력</strong> | 완벽함 (항온항습, 안정적 전력/네트워크) | 매우 열악함 (이동형, 배터리 방전 위험, 불안정 망) |
 | **장애 시 임팩트** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 재시작, 트래픽 우회로 해결 | 물리적 수거 전까지 영구적 벽돌(Brick) 상태 |
 | **주요 배포 방식** | 블루/그린 (Blue/Green), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 델타(Delta) 업데이트, A/B [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 플래싱 |
 | **보안 초점** | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 | [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)), 서명된 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) |
@@ -85,9 +85,9 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 엣지 OTA [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 설계할 때는 통신 인프라 비용과 기기의 하드웨어 수명을 동시에 고려해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **델타(Delta) 업데이트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 매번 100MB짜리 전체 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 전송하면 통신비가 폭발하고 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))이 깎인다. 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과의 차이점(Delta, 예: 2MB)만 추출해 전송하고 기기 내부에서 패치(Patch)를 결합하도록 설계해야 한다.
+1. <strong>델타(Delta) 업데이트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 매번 100MB짜리 전체 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 전송하면 통신비가 폭발하고 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 수명([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/))이 깎인다. 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과의 차이점(Delta, 예: 2MB)만 추출해 전송하고 기기 내부에서 패치(Patch)를 결합하도록 설계해야 한다.
 2. **배터리 및 상태 인지**: 기기의 배터리가 30% 이하이거나, 자동차가 고속 주행 중일 때는 절대로 업데이트를 시작해선 안 된다. 에이전트가 하드웨어 상태를 체크하는 조건부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다.
-3. **[코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)과 체인 오브 트러스트 (Chain of Trust)**: 해커가 가짜 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 보낼 수 없도록, 클라우드에서 배포 전 프라이빗 키로 서명하고 기기 내의 하드웨어 보안 칩([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))이 이를 퍼블릭 키로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야만 굽기를 허락해야 한다.
+3. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/">코드 서명</a>과 체인 오브 트러스트 (Chain of Trust)</strong>: 해커가 가짜 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 보낼 수 없도록, 클라우드에서 배포 전 프라이빗 키로 서명하고 기기 내의 하드웨어 보안 칩([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/))이 이를 퍼블릭 키로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야만 굽기를 허락해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 수만 대의 기기에 동시에 OTA 패키지를 밀어내어(Push), AWS 요금이 폭탄을 맞고 네트워크가 마비되는 설계 (반드시 지역별 점진적 롤아웃 필요).
@@ -112,27 +112,29 @@ OTA 배포는 스마트폰이나 테슬라 같은 커넥티드 카(SDV, Software
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **델타 패치 (Delta Patching)** | 변경된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))만 추출해 네트워크 전송량을 줄이는 핵심 최적화 기술 |
-| **[Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) (보안 부트)** | 부팅 시 OS 이미지의 디지털 서명을 검사해 변조된 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 실행을 차단하는 하드웨어 기술 |
-| **[Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)** | 수만 대의 엣지 기기 중 1%에만 먼저 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 배포해 치명적 오류를 테스트하는 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **[Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))** | OTA로 밀어넣는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 안에 취약한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)가 없는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 명세서 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/">Secure Boot</a> (보안 부트)</strong> | 부팅 시 OS 이미지의 디지털 서명을 검사해 변조된 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 실행을 차단하는 하드웨어 기술 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a></strong> | 수만 대의 엣지 기기 중 1%에만 먼저 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 배포해 치명적 오류를 테스트하는 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">Software Bill of Materials</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a>)</strong> | OTA로 밀어넣는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 안에 취약한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)가 없는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 명세서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-서비스 센터 방문 / 물리적 플래싱 (USB)
-    │
-    ▼
-단일 파티션 OTA (업데이트 중 전원 꺼지면 벽돌 발생)
-    │
-    ▼
-A/B 듀얼 파티션 (무중단 다운로드 및 안전 롤백 보장)
-    │
-    ▼
-델타(Delta) 업데이트 (네트워크 및 스토리지 I/O 최소화)
-    │
-    ▼
-Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 센터 방문 / 물리적 플래싱 (USB)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 파티션 OTA (업데이트 중 전원 꺼지면 벽돌 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">A/B 듀얼 파티션 (무중단 다운로드 및 안전 롤백 보장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">델타(Delta) 업데이트 (네트워크 및 스토리지 I/O 최소화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "물리적 교체 → 단순 원격 배포 → 안전성 확보([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) → 효율성 확보(차분) → 완벽한 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 원격 하드웨어 배포 기술의 진화를 보여준다.
 

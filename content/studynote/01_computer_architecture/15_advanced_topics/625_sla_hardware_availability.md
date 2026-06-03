@@ -48,18 +48,20 @@ $$
 
 아래 그림은 SLA를 높이는 두 축이 무엇인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│          Availability grows by reducing failures and shrinking repair    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Better components / cooling / monitoring  ───────────────▶  MTBF ↑       │
-│ Redundancy / failover / hot-swap / automation ───────────▶  MTTR ↓       │
-│                                                                          │
-│ Result: more uptime under the same business service                      │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-하드웨어 아키텍처 관점에서는 보통 세 층으로 접근한다. 첫째, 서버 내부에서 전원공급장치·팬·디스크를 N+1 구조로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)한다. 둘째, 서버 단위를 넘어 클러스터와 가상 IP 절체로 노드 장애를 숨긴다. 셋째, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 단위로는 멀티 AZ ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone) 또는 원격 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 센터를 두어 건물 장애까지 흡수한다. 높은 SLA는 결국 **부품 → 시스템 → 사이트**의 다층 방어로 만들어진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availability grows by reducing failures and shrinking repair</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Better components / cooling / monitoring ▶ MTBF ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redundancy / failover / hot-swap / automation ▶ MTTR ↓</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: more uptime under the same business service</div></div>
+</div>
+</div>
+
+
+
+하드웨어 아키텍처 관점에서는 보통 세 층으로 접근한다. 첫째, 서버 내부에서 전원공급장치·팬·디스크를 N+1 구조로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)한다. 둘째, 서버 단위를 넘어 클러스터와 가상 IP 절체로 노드 장애를 숨긴다. 셋째, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 단위로는 멀티 AZ ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone) 또는 원격 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 센터를 두어 건물 장애까지 흡수한다. 높은 SLA는 결국 <strong>부품 → 시스템 → 사이트</strong>의 다층 방어로 만들어진다.
 
 - **📢 섹션 요약 비유**: SLA를 높이는 일은 튼튼한 타이어만 다는 게 아니라, 예비 타이어와 긴급 출동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 함께 준비하는 것과 같다. 고장이 안 나는 차보다, 고장 나도 바로 계속 달릴 수 있는 차가 더 높은 점수를 받는다.
 
@@ -89,12 +91,12 @@ SLA를 이해할 때 가장 자주 헷갈리는 개념은 [신뢰성](/knowledge
 
 기술사 답안이나 설계 면접에서는 다음 판단이 핵심이다.
 
-1. **[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거 여부**: 전원, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 스토리지 경로, 관리자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 서버까지 한 군데라도 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)이 남아 있는가?
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a> 제거 여부</strong>: 전원, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 스토리지 경로, 관리자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 서버까지 한 군데라도 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)이 남아 있는가?
 2. **정비 시간 포함 여부**: 패치, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업그레이드, 스토리지 교체가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 가능한가?
-3. **자동 절체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 여부**: 클러스터가 있다고 끝이 아니라, 실제로 절체 시간이 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 예산 안에 들어오는가?
+3. <strong>자동 절체 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 여부</strong>: 클러스터가 있다고 끝이 아니라, 실제로 절체 시간이 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 예산 안에 들어오는가?
 4. **사이트 장애 대응 여부**: 랙 장애만 막는 수준인지, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체 장애까지 고려한 구조인지?
 
-흔한 안티패턴은 "5 Nines가 필요하다"고 말하면서 실제 운영은 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 의존하는 경우다. 또 하나는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 크레딧만 보고 안심하는 것이다. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 시 환불을 받더라도, 실제 매출 손실과 고객 이탈은 돈 몇 퍼센트로 회복되지 않는다. 따라서 높은 SLA는 계약서 문구보다 **구조와 훈련의 문제**로 봐야 한다.
+흔한 안티패턴은 "5 Nines가 필요하다"고 말하면서 실제 운영은 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 의존하는 경우다. 또 하나는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 크레딧만 보고 안심하는 것이다. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 시 환불을 받더라도, 실제 매출 손실과 고객 이탈은 돈 몇 퍼센트로 회복되지 않는다. 따라서 높은 SLA는 계약서 문구보다 <strong>구조와 훈련의 문제</strong>로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 가게 문을 매일 꼭 열어야 한다면, 자물쇠만 튼튼한 것으로는 부족하다. 정전 때 켜질 비상등, 아플 때 대신 나올 직원, 고장 난 POS를 바꿀 예비 장비까지 함께 준비해야 진짜 영업 약속이 된다.
 
@@ -106,7 +108,7 @@ SLA를 기준으로 시스템을 설계하면 장애 대응이 감각이 아니�
 
 다만 SLA는 절대 무오류 선언이 아니다. 네트워크 사업자, 전력 인입, 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 인적 실수처럼 하드웨어 밖의 요인도 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 깎을 수 있다. 앞으로는 예지 정비, 텔레메트리 기반 장애 감지, 소프트웨어 정의 인프라가 결합되면서 MTTR를 더 줄이는 방향으로 진화하겠지만, 여전히 핵심은 "어떤 수준의 중단을 비즈니스가 감당할 수 있는가"라는 질문이다.
 
-결국 이 주제는 SLA를 숫자 표가 아니라 **비즈니스 약속을 하드웨어 토폴로지로 번역한 결과물**로 기억하는 것이 가장 정확하다.
+결국 이 주제는 SLA를 숫자 표가 아니라 <strong>비즈니스 약속을 하드웨어 토폴로지로 번역한 결과물</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: SLA는 "절대 늦지 않겠습니다"라는 선언이 아니라, 늦지 않기 위해 차선 도로·예비 차량·실시간 내비게이션까지 준비해 둔 통학 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운영 계획과 같다.
 
@@ -124,21 +126,23 @@ SLA를 기준으로 시스템을 설계하면 장애 대응이 감각이 아니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 안정성 확보
-    │
-    ▼
-부품 이중화 (PSU / NIC / RAID)
-    │
-    ▼
-클러스터 기반 자동 절체
-    │
-    ▼
-멀티 AZ · 원격 재해 복구
-    │
-    ▼
-예지 정비 · 자동화 기반 고가용성 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 안정성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부품 이중화 (PSU / NIC / RAID)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클러스터 기반 자동 절체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티 AZ · 원격 재해 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예지 정비 · 자동화 기반 고가용성 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 설계가 "튼튼한 서버"에서 "장애를 숨기는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조"로 확장되는 과정을 보여준다.
 

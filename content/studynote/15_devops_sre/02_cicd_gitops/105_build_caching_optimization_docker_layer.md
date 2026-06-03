@@ -29,30 +29,28 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 빌드 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)의 핵심은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 **[레이어드 파일 시스템](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/) (Layered [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System)**과 **캐시 무효화 (Cache Invalidation)** 메커니즘에 있다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)는 `Dockerfile`의 각 줄([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 독립된 레이어(계층)로 저장한다. 빌드를 다시 수행할 때, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 내용과 해당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시(Hash)값이 이전과 같다면, 명령을 새로 실행하지 않고 디스크에 저장된 캐시 레이어를 그대로 가져온다(Using cache).
+[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 빌드 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)의 핵심은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/069_layered_file_system_unionfs/">레이어드 파일 시스템</a> (Layered <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> System)</strong>과 **캐시 무효화 (Cache Invalidation)** 메커니즘에 있다. [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)는 `Dockerfile`의 각 줄([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 독립된 레이어(계층)로 저장한다. 빌드를 다시 수행할 때, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 내용과 해당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해시(Hash)값이 이전과 같다면, 명령을 새로 실행하지 않고 디스크에 저장된 캐시 레이어를 그대로 가져온다(Using cache).
 
 하지만 단 하나의 레이어라도 변경(무효화)되면, 그 밑에 있는 **모든 후속 레이어의 캐시는 연쇄적으로 박살(Invalidated)** 나며 전부 새로 빌드해야 한다. 따라서 "변화의 빈도가 낮은 것부터 높은 것 순서로" [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 정렬하는 것이 핵심 원리다.
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│              효율적인 Dockerfile 캐시 최적화 아키텍처           │
-├─────────────────────────────────────────────────────────────────┤
-│ [명령어 순서]             [변경 빈도]       [캐시 재사용 여부]  │
-│                                                                 │
-│ 1. FROM ubuntu:20.04    (가장 안 변함)  ──▶ ✅ 캐시 히트(Hit)   │
-│                                                                 │
-│ 2. COPY package.json    (가끔 변함)     ──▶ ✅ 캐시 히트        │
-│    (라이브러리 목록만 먼저 복사)                                │
-│                                                                 │
-│ 3. RUN npm install      (종속성 다운)   ──▶ ✅ 2번이 안 변했으므로 캐시 히트! │
-│    (가장 시간이 오래 걸리는 병목 구간 - 캐시 방어 성공!)        │
-│                                                                 │
-│ 4. COPY . /app          (매번 변함)     ──▶ ❌ 캐시 미스(Miss)  │
-│    (수시로 바뀌는 실제 앱 소스코드 복사)                        │
-│                                                                 │
-│ 5. CMD ["npm", "start"] (후속 레이어)   ──▶ ❌ 연쇄 캐시 미스   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효율적인 Dockerfile 캐시 최적화 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">명령어 순서</div><div class="kb-diagram-node">변경 빈도</div><div class="kb-diagram-node">캐시 재사용 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. FROM ubuntu:20.04 (가장 안 변함) ──▶ ✅ 캐시 히트(Hit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. COPY package.json (가끔 변함) ──▶ ✅ 캐시 히트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(라이브러리 목록만 먼저 복사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. RUN npm install (종속성 다운) ──▶ ✅ 2번이 안 변했으므로 캐시 히트!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가장 시간이 오래 걸리는 병목 구간 - 캐시 방어 성공!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. COPY . /app (매번 변함) ──▶ ❌ 캐시 미스(Miss)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수시로 바뀌는 실제 앱 소스코드 복사)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5. CMD</div><div class="kb-diagram-node">"npm", "start"</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">❌ 연쇄 캐시 미스</div></div>
+</div>
+</div>
+
+
 
 만약 4번의 `COPY . /app`(소스 전체 복사)을 2번 위치로 올린다면 어떻게 될까? 소스코드는 매번 바뀌므로, 그 아래에 있는 가장 무거운 3번 `npm install` 레이어가 매번 무효화되어 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 효과가 0이 된다. 이것이 레이어 정렬의 핵심 원리다.
 
@@ -67,7 +65,7 @@ tags = ["studynote-devops-sre"]
 | 비교 항목 | 로컬 레이어 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (Local DLC) | 원격 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (Remote Cache) |
 | :--- | :--- | :--- |
 | **저장 위치** | 빌드를 수행하는 단일 호스트 머신의 디스크 | AWS S3, GCS, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 등 중앙화된 원격 스토리지 |
-| **공유 범위** | 해당 머신에서 도는 빌드끼리만 캐시 공유 | **전체 팀, 여러 대의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 워커(Worker) 노드**가 캐시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 공유 |
+| **공유 범위** | 해당 머신에서 도는 빌드끼리만 캐시 공유 | <strong>전체 팀, 여러 대의 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 워커(Worker) 노드</strong>가 캐시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 공유 |
 | **적용 기술** | 순수 `docker build` | `docker buildx` (inline/[registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) cache), `Bazel` |
 | **트레이드오프** | 세팅이 단순하고 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이 없음. 단, 클라우드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 환경(매번 새 인스턴스 할당)에서는 무용지물임. | 캐시를 다운받는 네트워크 오버헤드가 발생함. 단, 팀원 누군가 한 번 빌드한 내역을 전사가 재사용해 대규모 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 속도를 극대화함. |
 
@@ -83,11 +81,11 @@ tags = ["studynote-devops-sre"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
 
-1. **[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 분리 COPY의 강제화**:
+1. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 분리 COPY의 강제화</strong>:
    - `package.json`과 `package-lock.json` (또는 `go.mod`와 `go.sum`, `requirements.txt`) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 **반드시 소스코드보다 먼저 분리해서 COPY** 하도록 아키텍처 규칙을 강제한다. 이를 어기면 빌드 시간이 10배 길어진다.
 2. **멀티 스테이지 빌드 (Multi-stage Build) 결합**:
    - 캐시를 이용해 빠르게 컴파일을 마친 후, 최종 배포 이미지에는 무거운 컴파일러나 다운로드 캐시 찌꺼기를 제외하고 가벼운 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 남기도록 멀티 스테이지 빌드를 적용해야 캐시의 장점을 챙기면서도 보안(공격 표면 축소)과 이미지 크기 최적화를 달성할 수 있다.
-3. **캐시 포이즈닝 ([Cache Poisoning](/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/)) 방어**:
+3. <strong>캐시 포이즈닝 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/">Cache Poisoning</a>) 방어</strong>:
    - `apt-get update`와 `apt-get install` 명령을 각기 다른 `RUN` 줄에 나누어 쓰면, `update` 레이어는 예전 캐시를 쓰면서 `install` 레이어만 새로 실행되어 과거의 구형 패키지가 설치되는 치명적인 버그가 발생한다. 반드시 한 줄에 묶어(`RUN apt-get update && apt-get install -y`) 캐시 무효화가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되도록 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 훌륭한 건축가는 벽돌을 빨리 쌓는 법만 고민하는 게 아니라, 남은 시멘트 찌꺼기가 건물 안에 안 남게 치우는 법(멀티 스테이지 빌드)과 썩은 벽돌이 재사용되는 걸 막는 법(캐시 포이즈닝 방어)을 동시에 설계에 반영한다.
@@ -108,31 +106,32 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **Layered [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System** | UFS(Union [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System) 기술을 바탕으로 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)의 각 변경 사항을 차곡차곡 쌓아 재사용성을 높이는 핵심 저장 구조 |
+| <strong>Layered <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> System</strong> | UFS(Union [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System) 기술을 바탕으로 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)의 각 변경 사항을 차곡차곡 쌓아 재사용성을 높이는 핵심 저장 구조 |
 | **Multi-stage Build** | 빌드 환경(무거움)과 실행 환경(가벼움)을 분리하여 최종 산출물 이미지 크기를 극단적으로 줄이는 최적화 기법 |
 | **Buildx / BuildKit** | 기존 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)를 대체하여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 빌드, 원격 캐시 내보내기/가져오기 등 차세대 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 기능을 제공하는 확장 엔진 |
 | **Ephemeral Node** | 클라우드 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 환경에서 빌드 시점에만 잠깐 떴다가 사라지는 일회용 서버 (원격 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)의 필요성을 만듦) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-빌드 파이프라인의 가속 최적화
-    │
-    ▼
-단일 Monolithic 빌드 (매번 전체 컴파일, 극도의 비효율)
-    │
-    ▼
-로컬 패키지 캐싱 (npm, Maven 폴더 캐싱)
-    │
-    ▼
-Docker Layer Caching (명령어 순서와 해시 기반 레이어 재사용)
-    │
-    ▼
-Multi-stage Build (빌드 캐시 활용 + 최종 이미지 경량화 달성)
-    │
-    ▼
-분산 BuildKit & Remote Cache (CI/CD 팜 전체의 지식 공유 및 병렬 빌드)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">빌드 파이프라인의 가속 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 Monolithic 빌드 (매번 전체 컴파일, 극도의 비효율)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로컬 패키지 캐싱 (npm, Maven 폴더 캐싱)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Docker Layer Caching (명령어 순서와 해시 기반 레이어 재사용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Multi-stage Build (빌드 캐시 활용 + 최종 이미지 경량화 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 BuildKit &amp; Remote Cache (CI/CD 팜 전체의 지식 공유 및 병렬 빌드)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "매번 처음부터 빌드 → 로컬 자원 재사용 → 레이어 구조화 → 이미지 다이어트 결합 → 클라우드 스케일의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 공유"로 이어지는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 진화를 보여준다.
 

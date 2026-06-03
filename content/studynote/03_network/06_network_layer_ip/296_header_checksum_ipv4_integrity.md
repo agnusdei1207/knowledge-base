@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더의 3번째 줄에 위치한 16비트 필드로, 송신자가 헤더 전체를 수학 공식(1의 보수 합)으로 계산한 결과값을 적어 넣고, 수신자(또는 중간 라우터)가 이를 다시 계산해 변조 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 에러 검출 코드다.
-- **필요성**: 내가 미국 8.8.8.8로 패킷을 쐈는데, 태평양 해저 케이블을 지날 때 상어가 케이블을 건드려 노이즈가 발생해 목적지 주소가 `8.8.8.9`로 바뀌었다고 치자. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)이 없다면 라우터는 이 엉뚱한 주소로 데이터를 배달하게 되고, 엉뚱한 서버는 쓸데없는 데이터를 받느라 고통받는다. 차라리 **이정표(헤더)가 깨졌으면 그 즉시 쓰레기통에 버려버리는 것(Drop)**이 전체 인터넷망의 효율을 위해 이득이다.
+- **필요성**: 내가 미국 8.8.8.8로 패킷을 쐈는데, 태평양 해저 케이블을 지날 때 상어가 케이블을 건드려 노이즈가 발생해 목적지 주소가 `8.8.8.9`로 바뀌었다고 치자. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)이 없다면 라우터는 이 엉뚱한 주소로 데이터를 배달하게 되고, 엉뚱한 서버는 쓸데없는 데이터를 받느라 고통받는다. 차라리 <strong>이정표(헤더)가 깨졌으면 그 즉시 쓰레기통에 버려버리는 것(Drop)</strong>이 전체 인터넷망의 효율을 위해 이득이다.
 
-- **💡 비유**: 택배 박스 겉면에 붙은 **"송장 바코드([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))"**와 같습니다. 우체국 기계(라우터)가 바코드를 찍어보고, 송장에 적힌 아파트 동/호수 숫자가 잉크가 번져서 인식 불량([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) Error)이 나면 엉뚱한 집으로 배달하지 않고 그 자리에서 즉시 폐기 처분합니다.
+- **💡 비유**: 택배 박스 겉면에 붙은 <strong>"송장 바코드(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a>)"</strong>와 같습니다. 우체국 기계(라우터)가 바코드를 찍어보고, 송장에 적힌 아파트 동/호수 숫자가 잉크가 번져서 인식 불량([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) Error)이 나면 엉뚱한 집으로 배달하지 않고 그 자리에서 즉시 폐기 처분합니다.
 
-```text
-[프로토콜 필드]
-    │
-    ▼
-[헤더 체크섬]
-    │
-    └──▶ [IP 주소 고갈 문제, 클라스풀 주소체계]
-```
 
-- **📢 섹션 요약 비유**: ** 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 **"이정표 훼손 감지기"**입니다. 내용물(박스 안의 물건)이 깨졌는지는 알 바 아니지만, 적어도 택배 기사님이 보는 주소지(헤더)만큼은 완벽하게 흠집이 없어야만 다음 배달지로 패킷을 넘겨줍니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로토콜 필드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 헤더 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>은 </strong>"이정표 훼손 감지기"**입니다. 내용물(박스 안의 물건)이 깨졌는지는 알 바 아니지만, 적어도 택배 기사님이 보는 주소지(헤더)만큼은 완벽하게 흠집이 없어야만 다음 배달지로 패킷을 넘겨줍니다.
 
 ---
 
@@ -42,38 +46,37 @@ tags = ["studynote-network"]
 ### 1. 수학적 계산 원리 (1의 보수 연산)
 IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 복잡한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 알고리즘을 쓰지 않고, 라우터 CPU가 가장 빠르게 연산할 수 있는 단순 덧셈을 사용한다.
 1. **송신자**: 헤더 20바이트를 16비트(2바이트) 단위로 10개로 쪼갠다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드는 일단 `0000`으로 둔다. 10개의 덩어리를 모두 더한 뒤, 그 결과값을 1의 보수(0은 1로, 1은 0으로 뒤집음)로 취해 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드에 박아 넣는다.
-2. **수신자 (또는 라우터)**: 도착한 헤더 20바이트 전체([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드 포함)를 16비트 단위로 모두 더한다. 만약 전송 중 단 1비트의 에러도 없었다면, **더한 결과가 무조건 모든 비트가 `1` (즉, `0xFFFF`)**이 나오게 설계되어 있다. 하나라도 `0`이 섞여 있으면 가차 없이 패킷을 버린다(Drop).
+2. **수신자 (또는 라우터)**: 도착한 헤더 20바이트 전체([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드 포함)를 16비트 단위로 모두 더한다. 만약 전송 중 단 1비트의 에러도 없었다면, <strong>더한 결과가 무조건 모든 비트가 <code>1</code> (즉, <code>0xFFFF</code>)</strong>이 나오게 설계되어 있다. 하나라도 `0`이 섞여 있으면 가차 없이 패킷을 버린다(Drop).
 
 ### 2. 라우터의 재계산(Re-calculation) 딜레마
-[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)의 가장 큰 문제는 **"헤더가 변하면 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)도 다시 계산해야 한다"**는 점이다.
-- 패킷이 라우터를 지날 때마다 패킷의 생명줄인 **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)([Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 값이 무조건 1씩 감소**한다.
+[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)의 가장 큰 문제는 <strong>"헤더가 변하면 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>도 다시 계산해야 한다"</strong>는 점이다.
+- 패킷이 라우터를 지날 때마다 패킷의 생명줄인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">Time To Live</a>) 값이 무조건 1씩 감소</strong>한다.
 - 헤더 안의 숫자([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)) 하나가 변했으므로, 예전 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 값은 더 이상 유효하지 않다.
 - 전 세계의 모든 라우터는 패킷 수백만 개를 통과시킬 때마다, 1) TTL을 1 빼고, 2) 새로운 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 다시 계산해서 덮어쓰는 뻘짓을 무한 반복해야 한다. 
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                라우터의 체크섬 재계산(Re-calculate) 오버헤드      │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 수신된 패킷 헤더 ] TTL: 64 / Checksum: 0x1234              │
- │          │                                                  │
- │          ▼ (라우터 내부 통과)                                   │
- │   [ 1단계 ] TTL을 1 깎음 ──▶ TTL: 63                          │
- │   [ 2단계 ] 헤더 숫자가 바뀌었으니 체크섬 폐기! ──▶ Checksum: 0000  │
- │   [ 3단계 ] 1의 보수 공식으로 덧셈 다시 함 ──▶ Checksum: 0x1A2B     │
- │          │                                                  │
- │          ▼ (다음 라우터로 발송)                                 │
- │   [ 전송할 패킷 헤더 ] TTL: 63 / Checksum: 0x1A2B              │
- │                                                             │
- │   ▶ 결과: 라우터의 CPU 자원을 어마어마하게 갉아먹는 주범이 됨!         │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터의 체크섬 재계산(Re-calculate) 오버헤드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신된 패킷 헤더</div><div class="kb-diagram-note">TTL: 64 / Checksum: 0x1234</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (라우터 내부 통과)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">TTL: 63</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Checksum: 0000</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Checksum: 0x1A2B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (다음 라우터로 발송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전송할 패킷 헤더</div><div class="kb-diagram-note">TTL: 63 / Checksum: 0x1A2B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 라우터의 CPU 자원을 어마어마하게 갉아먹는 주범이 됨!</div></div>
+</div>
+</div>
+
+
 
 ### 3. IPv6에서의 과감한 삭제
 현대의 광통신망은 옛날 구리선처럼 비트가 깨지는 일이 거의 없다(에러율 0%). 게다가 어차피 2계층 이더넷에서도 검사(FCS)하고, 4계층 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/UDP에서도 또 검사([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))한다.
-결국 네트워크 공학자들은 **"쓸데없이 3계층 라우터까지 에러 검사를 3중으로 할 필요가 없다!"**고 결론 내렸고, 차세대 규격인 IPv6에서는 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드를 완전히 삭제하여 라우터의 포워딩 스피드를 극한으로 끌어올렸다.
+결국 네트워크 공학자들은 <strong>"쓸데없이 3계층 라우터까지 에러 검사를 3중으로 할 필요가 없다!"</strong>고 결론 내렸고, 차세대 규격인 IPv6에서는 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 필드를 완전히 삭제하여 라우터의 포워딩 스피드를 극한으로 끌어올렸다.
 
-- **📢 섹션 요약 비유**: ** 라우터의 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 재계산은, 우체국을 지날 때마다 택배 송장의 **"남은 배송 가능 횟수([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))를 지우개로 지우고 새로 적은 뒤, 송장 전체의 글자 수([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 매번 다시 세어 적는 미련한 짓"**이었습니다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 시대에는 이 바보 같은 글자 수 세기 작업을 쿨하게 생략해버렸습니다.
+- **📢 섹션 요약 비유**: <strong> 라우터의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a> 재계산은, 우체국을 지날 때마다 택배 송장의 </strong>"남은 배송 가능 횟수([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))를 지우개로 지우고 새로 적은 뒤, 송장 전체의 글자 수([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 매번 다시 세어 적는 미련한 짓"**이었습니다. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 시대에는 이 바보 같은 글자 수 세기 작업을 쿨하게 생략해버렸습니다.
 
 ---
 
@@ -129,15 +132,19 @@ IP 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 프로토콜 필드]
-    │
-    ▼
-[현재 개념: 헤더 체크섬]
-    │
-    ├──▶ [확장 A: IP 주소 고갈 문제, 클라스풀 주소체계]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프로토콜 필드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 헤더 체크섬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 헤더 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드에서 출발해 현재 메커니즘을 정교화하고, 이후 IP 주소 고갈 문제, 클라스풀 주소체계와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

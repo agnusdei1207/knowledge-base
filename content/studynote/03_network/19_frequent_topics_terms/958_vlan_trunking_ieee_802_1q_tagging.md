@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **브로드캐스트의 저주**: 100대의 PC가 하나의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 물려있으면 한 대가 "[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)!" 소리치면 99대가 다 들어야 해서 랜망이 마비됩니다. 
 - **VLAN의 해결책**: 비싼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 논리적(소프트웨어)으로 쪼갭니다. 1~5번 구멍은 영업팀([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 6~10번은 인사팀([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20). 영업팀이 소리쳐도 절대 인사팀 구멍으로는 데이터가 넘어가지 않아(브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할) 성능과 보안이 극대화됩니다.
 
-```text
-[코드 분할 다중 접속]
-    │
-    ▼
-[VLAN 트렁킹]
-    │
-    └──▶ [스패닝 트리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VLAN 트렁킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스패닝 트리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,18 +41,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **액세스 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Access Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/))**: PC가 꽂히는 일반 구멍입니다. 오직 1개의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)(예: 영업팀) 소속만 가질 수 있습니다.
+- <strong>액세스 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/">Access Port</a>)</strong>: PC가 꽂히는 일반 구멍입니다. 오직 1개의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)(예: 영업팀) 소속만 가질 수 있습니다.
 - **비극**: 1층과 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 각각 5개의 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))가 퍼져있습니다. 이 부서들을 다 이어주려면 1층과 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구멍 5개끼리 물리적 랜선 5가닥을 일일이 매달아 연결해야 합니다. 회사가 커져 부서가 100개가 되면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구멍이 모자라 회사가 망합니다.
-- **트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Trunk [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 🌟**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 연결하는 단 1가닥의 전용 고속도로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)입니다. 이 트렁크 1가닥은 **모든 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1~4000번)의 패킷을 짬뽕해서 한 방에 실어 나르는 초광역 다리 역할**을 합니다.
+- <strong>트렁크 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (Trunk <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 🌟</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 연결하는 단 1가닥의 전용 고속도로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)입니다. 이 트렁크 1가닥은 <strong>모든 부서(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 1~4000번)의 패킷을 짬뽕해서 한 방에 실어 나르는 초광역 다리 역할</strong>을 합니다.
 
-```text
-[코드 분할 다중 접속]
-    │
-    ▼
-[VLAN 트렁킹]
-    │
-    └──▶ [스패닝 트리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VLAN 트렁킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스패닝 트리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -60,13 +68,13 @@ tags = ["studynote-network"]
 
 1. **포스트잇 붙이기 (Tag Insertion)**:
    - 1층 1번 구멍(영업팀, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))에서 올라온 평범한 컴퓨터 패킷이 트렁크 구멍으로 빨려 들어갑니다.
-   - 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 통과하는 찰나의 순간! [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뇌가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷의 껍데기를 살짝 찢고, 중간에 **4바이트짜리 802.1Q 태그(Tag)**를 강제로 쑤셔 넣습니다.
-   - 이 태그 안에는 **[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID (VID: 10번)**가 쾅 찍혀있습니다. ("나는 영업팀이다!")
+   - 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 통과하는 찰나의 순간! [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 뇌가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷의 껍데기를 살짝 찢고, 중간에 <strong>4바이트짜리 802.1Q 태그(Tag)</strong>를 강제로 쑤셔 넣습니다.
+   - 이 태그 안에는 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> ID (VID: 10번)</strong>가 쾅 찍혀있습니다. ("나는 영업팀이다!")
 2. **트렁크 선 전송**: 태그가 붙은 패킷 수백 개가 하나의 트렁크 랜선을 타고 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 날아갑니다.
 3. **포스트잇 떼기 (Tag Removal) 및 분배**:
    - 2층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 트렁크 구멍으로 패킷을 받습니다. 
    - 껍데기에 붙은 `VLAN ID: 10` 포스트잇을 스캔합니다. "오! 너 1층 영업팀에서 온 애구나?" 
-   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **손님([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))에게 전달하기 직전에 그 포스트잇(태그)을 쥐도 새도 모르게 싹 뜯어서 버려버립니다(Untagged).** 그리고 2층의 영업팀 10번 구멍으로만 패킷을 쏙 밀어 넣어 줍니다.
+   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>손님(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)에게 전달하기 직전에 그 포스트잇(태그)을 쥐도 새도 모르게 싹 뜯어서 버려버립니다(Untagged).</strong> 그리고 2층의 영업팀 10번 구멍으로만 패킷을 쏙 밀어 넣어 줍니다.
    - PC는 자기가 포스트잇이 붙어 날아온 줄 꿈에도 모르고(투명성 보장) 평화롭게 통신을 마칩니다.
 
 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)이 기반 조건을 만든다면, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 그 위에서 핵심 메커니즘을 구현하고, [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 802.1Q 트렁크 선에는 1가지 재밌는 룰이 있습니다. **"수천 개의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 중 딱 1개([Native VLAN](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/250_native_vlan_untagged_traffic/), 기본값 1번)는 포스트잇(태그)을 붙이지 않고 쌩얼로 그냥 통과시켜라!"**
+- 802.1Q 트렁크 선에는 1가지 재밌는 룰이 있습니다. <strong>"수천 개의 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 중 딱 1개(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/250_native_vlan_untagged_traffic/">Native VLAN</a>, 기본값 1번)는 포스트잇(태그)을 붙이지 않고 쌩얼로 그냥 통과시켜라!"</strong>
 - 태그를 못 읽는 옛날 구닥다리 허브나 PC가 트렁크 선 중간에 꼽사리 꼈을 때, 최소한의 통신 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(관리용 통신)을 보장해주기 위한 배려이자 아킬레스건(보안 취약점)입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 '거대한 다국적 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템'입니다. 1층([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 사과(영업팀), 바나나(인사팀), 포도(기획팀) 박스가 막 밀려옵니다. 이걸 2층으로 보내려고 사과 전용 엘리베이터, 바나나 전용 엘리베이터를 100개씩 지을 순 없습니다. **[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹(IEEE 802.1Q)**은 1층과 2층 사이에 엄청나게 크고 넓은 '통합 화물 엘리베이터(트렁크 선)' 딱 1대만 짓는 마법입니다. 엘리베이터 문지기(트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))는 택배 박스가 들어올 때마다 과일 이름을 보고 박스 겉면에 **'사과팀 전용([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 태그 10번)'이라는 빨간색 스티커를 찰싹 붙여서** 엘리베이터에 몽땅 쑤셔 넣습니다. 2층 문지기는 문이 열리자마자 쏟아지는 박스들의 빨간색, 파란색 스티커만 보고 0.1초 만에 사과, 바나나 부서로 짐을 완벽하게 찢어 던져줍니다(분배). 던지기 직전에 스티커를 싹 떼서 몰래 버리기 때문에, 받는 사람은 아무도 자기 박스에 스티커가 붙었던 사실을 모르는 완벽한 1가닥 몰빵 배달 시스템입니다.
+- **📢 섹션 요약 비유**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 '거대한 다국적 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템'입니다. 1층([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 사과(영업팀), 바나나(인사팀), 포도(기획팀) 박스가 막 밀려옵니다. 이걸 2층으로 보내려고 사과 전용 엘리베이터, 바나나 전용 엘리베이터를 100개씩 지을 순 없습니다. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 트렁킹(IEEE 802.1Q)</strong>은 1층과 2층 사이에 엄청나게 크고 넓은 '통합 화물 엘리베이터(트렁크 선)' 딱 1대만 짓는 마법입니다. 엘리베이터 문지기(트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))는 택배 박스가 들어올 때마다 과일 이름을 보고 박스 겉면에 <strong>'사과팀 전용(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 태그 10번)'이라는 빨간색 스티커를 찰싹 붙여서</strong> 엘리베이터에 몽땅 쑤셔 넣습니다. 2층 문지기는 문이 열리자마자 쏟아지는 박스들의 빨간색, 파란색 스티커만 보고 0.1초 만에 사과, 바나나 부서로 짐을 완벽하게 찢어 던져줍니다(분배). 던지기 직전에 스티커를 싹 떼서 몰래 버리기 때문에, 받는 사람은 아무도 자기 박스에 스티커가 붙었던 사실을 모르는 완벽한 1가닥 몰빵 배달 시스템입니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 코드 분할 다중 접속]
-    │
-    ▼
-[현재 개념: VLAN 트렁킹]
-    │
-    ├──▶ [확장 A: 스패닝 트리]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 코드 분할 다중 접속</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VLAN 트렁킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스패닝 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹는 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

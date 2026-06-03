@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))과 클라우드가 발전하면서 기계에 수천 개의 센서를 달 수 있게 되었다. 그러자 "비행기 엔진에 센서를 달아 실시간 온도를 측정하고, 그 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컴퓨터 안의 3D 가상 비행기 엔진에 똑같이 부어주자. 그러면 진짜 비행기와 가상 비행기가 똑같이 뜨거워지고 똑같이 작동하지 않을까?"라는 아이디어가 실현되었다. 
 
-이것이 NASA의 아폴로 계획에서 우주선의 고장을 지상에서 고치기 위해 처음 고안되고, 제너럴 일렉트릭(GE)이 산업의 표준으로 만든 **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))** 기술이다.
+이것이 NASA의 아폴로 계획에서 우주선의 고장을 지상에서 고치기 위해 처음 고안되고, 제너럴 일렉트릭(GE)이 산업의 표준으로 만든 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> 기술이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 인형(3D 모델)을 만들어 놓고 혼자 상상하며 놀았다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 내 친구(물리적 자산) 몸에 센서를 붙여서, 친구가 팔을 올리면 내 컴퓨터 속 3D 아바타(가상 자산)도 0.01초 만에 똑같이 팔을 올리게 만드는 마법의 거울이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 인터페이스 모델의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  디지털 트윈 동기화 인터페이스 모델                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 동기화 인터페이스 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 인터페이스 모델가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -78,7 +77,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---:|:---:|:---|
 | **디지털 모델 (Model)** | 수동 (사람이 입력) | 수동 | CAD 설계도. 설계 당시의 멈춰있는 도면. |
 | **디지털 섀도우 (Shadow)**| **자동 (실시간 센서)** | 수동 | 공장 대시보드. 현실의 에러가 모니터에 자동으로 뜨지만 기계 조작은 사람이 함. |
-| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) (Twin)** | **자동 (실시간 센서)** | **자동 (제어 명령)** | **궁극적 형태.** 트윈에서 시뮬레이션한 최적값이 현실 기계의 밸브를 자동으로 잠금. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> (Twin)</strong> | **자동 (실시간 센서)** | **자동 (제어 명령)** | **궁극적 형태.** 트윈에서 시뮬레이션한 최적값이 현실 기계의 밸브를 자동으로 잠금. |
 
 우리가 대시보드라고 부르는 것들의 90%는 디지털 섀도우(그림자)다. 진짜 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 가상이 현실을 통제(Control)할 수 있어야 한다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-디지털 트윈 동기화 인터페이스 모델 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 트윈 동기화 인터페이스 모델 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

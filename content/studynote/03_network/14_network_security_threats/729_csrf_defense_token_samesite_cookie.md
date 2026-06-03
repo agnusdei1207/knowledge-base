@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 - 해커의 요청이 정상적인 나의 IP와 나의 정상적인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 달고 날아오기 때문에, 서버의 방화벽이나 입력값 필터링만으로는 이게 해커의 짓인지 구분할 수가 없습니다.
 
-```text
-[크로스 사이트 스크립팅 (XSS]
-    │
-    ▼
-[크로스 사이트 요청 위조]
-    │
-    └──▶ [APT (Advanced Persistent…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 크로스 사이트 요청 위조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,22 +44,26 @@ tags = ["studynote-network"]
 
 ### 1. 동작 원리 (숨겨진 난수 맞추기)
 1. 앨리스가 A 은행의 `[송금 화면]`에 정상적으로 찰칵 접속합니다.
-2. 은행 서버는 앨리스에게 화면을 뿌려줄 때, 화면 속 HTML 폼(Form) 깊숙한 곳에 눈에 안 보이는 입력칸(Hidden)으로 **`CSRF_TOKEN: x9f@8zk`라는 일회용 무작위 난수**를 쏙 끼워 넣어 줍니다. (서버도 이 난수를 기억해 둡니다.)
+2. 은행 서버는 앨리스에게 화면을 뿌려줄 때, 화면 속 HTML 폼(Form) 깊숙한 곳에 눈에 안 보이는 입력칸(Hidden)으로 <strong><code>CSRF_TOKEN: x9f@8zk</code>라는 일회용 무작위 난수</strong>를 쏙 끼워 넣어 줍니다. (서버도 이 난수를 기억해 둡니다.)
 3. 앨리스가 송금 버튼을 누르면, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)와 함께 이 `x9f@8zk` 토큰이 같이 은행 서버로 날아가고, 은행은 "음, 아까 내가 준 토큰표 가져왔네. 정상 처리!" 통과시킵니다.
 
 ### 2. 해커의 절망
 - 해커의 '고양이 낚시 사이트'에서 앨리스가 클릭하면, 앨리스의 브라우저가 은행 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 자동으로 붙여서 쏩니다.
-- **하지만!** 해커는 은행이 방금 앨리스의 진짜 화면 안에 몰래 뿌려준 **일회용 토큰 `x9f@8zk`가 무엇인지 절대 알 방법이 없습니다** (동일 출처 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), SOP 탓에 해커가 남의 화면을 훔쳐볼 수 없음).
+- **하지만!** 해커는 은행이 방금 앨리스의 진짜 화면 안에 몰래 뿌려준 <strong>일회용 토큰 <code>x9f@8zk</code>가 무엇인지 절대 알 방법이 없습니다</strong> (동일 출처 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), SOP 탓에 해커가 남의 화면을 훔쳐볼 수 없음).
 - 결국 해커가 억지로 날린 송금 요청 패킷 안에는 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰표가 텅 비어있거나 가짜 값이 들어있게 됩니다. 서버는 "[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 맞는데, 토큰표가 없잖아! 너 해커 낚시 사이트에서 왔지!"라며 즉시 걷어차 버립니다. (방어 100% 성공)
 
-```text
-[크로스 사이트 스크립팅 (XSS]
-    │
-    ▼
-[크로스 사이트 요청 위조]
-    │
-    └──▶ [APT (Advanced Persistent…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 크로스 사이트 요청 위조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,8 +75,8 @@ tags = ["studynote-network"]
 
 ### 1. 브라우저의 똑똑한 반란
 - **기존의 바보 브라우저**: 내가 '고양이.com(A 사이트)'에서 버튼을 눌러도, 요청 목적지가 '은행.com(B 사이트)'이면 무조건 은행 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 친절하게 다 붙여서 날려줬습니다(Third-party [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 허용).
-- **`SameSite` 속성의 등장**: 서버가 로그인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `SameSite=Lax` 나 `SameSite=Strict` 라는 꼬리표를 하나 딱 달아줍니다.
-  - 이 꼬리표를 본 브라우저는 선언합니다. **"앞으로는 내가 현재 보고 있는 주소창의 사이트 이름(A)과, 데이터가 날아갈 목적지 사이트 이름(B)이 다르면(크로스 사이트), 보안을 위해 아예 이 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 꺼내서 붙여주지 않겠다!"**
+- <strong><code>SameSite</code> 속성의 등장</strong>: 서버가 로그인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `SameSite=Lax` 나 `SameSite=Strict` 라는 꼬리표를 하나 딱 달아줍니다.
+  - 이 꼬리표를 본 브라우저는 선언합니다. <strong>"앞으로는 내가 현재 보고 있는 주소창의 사이트 이름(A)과, 데이터가 날아갈 목적지 사이트 이름(B)이 다르면(크로스 사이트), 보안을 위해 아예 이 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 꺼내서 붙여주지 않겠다!"</strong>
 
 ### 2. 해커의 멸망
 - 이제 앨리스가 '고양이 사이트'에서 낚시 버튼을 아무리 클릭해 봐야, 앨리스의 크롬 브라우저가 "목적지는 은행인데 넌 왜 고양이 사이트에서 누르냐? [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 안 줄래!" 하고 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 떼버리고 그냥 알맹이 없는 빈 껍데기 요청만 은행으로 쏩니다. 은행은 당연히 로그인이 안 된 비회원 쓰레기 요청으로 간주하고 폐기합니다.
@@ -88,7 +96,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 토큰을 만들기 귀찮을 때 서버가 쓰는 단순한 꼼수입니다. 모든 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 헤더에는 `Referer` (이 요청을 쏜 직전 사이트 주소)가 적혀 날아옵니다.
-- 은행 서버는 딱 한 줄만 짭니다. **"내게 온 송금 요청의 `Referer` 주소가 `http://A은행.com`으로 시작하지 않으면 모조리 버려라!"** 해커의 고양이 사이트에서 온 요청은 `Referer`가 고양이 주소이므로 가차 없이 차단됩니다.
+- 은행 서버는 딱 한 줄만 짭니다. <strong>"내게 온 송금 요청의 <code>Referer</code> 주소가 <code>http://A은행.com</code>으로 시작하지 않으면 모조리 버려라!"</strong> 해커의 고양이 사이트에서 온 요청은 `Referer`가 고양이 주소이므로 가차 없이 차단됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 크로스 사이트 스크립팅 (XSS]
-    │
-    ▼
-[현재 개념: 크로스 사이트 요청 위조]
-    │
-    ├──▶ [확장 A: APT (Advanced Persistent…]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 크로스 사이트 스크립팅 (XSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: APT (Advanced Persistent…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 크로스 사이트 요청 위조는 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

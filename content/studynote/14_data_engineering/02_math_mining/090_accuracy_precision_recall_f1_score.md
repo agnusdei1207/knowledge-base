@@ -29,28 +29,29 @@ tags = ["studynote-data-engineering"]
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 평가 지표는 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)(TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN)의 조합을 통해 산출된다.
 - **True Positive (TP)**: 실제 양성을 양성으로 맞춤
 - **True Negative (TN)**: 실제 음성을 음성으로 맞춤
-- **False Positive ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))**: 실제 음성을 양성으로 잘못 예측 (오탐, 1형 오류)
+- <strong>False Positive (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)</strong>: 실제 음성을 양성으로 잘못 예측 (오탐, 1형 오류)
 - **False Negative (FN)**: 실제 양성을 음성으로 잘못 예측 (미탐, 2형 오류)
 
 | 지표 | 공식 | 의미 | 초점 |
 | :--- | :--- | :--- | :--- |
 | **정확도 (Accuracy)** | `(TP + TN) / Total` | 전체 중 정답을 맞춘 비율 | 전반적 예측력 |
-| **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** | `TP / (TP + FP)` | 모델이 '양성'이라 한 것 중 진짜 양성의 비율 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(오탐) 최소화 |
-| **[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))** | `TP / (TP + FN)` | 실제 '양성'인 것 중 모델이 찾아낸 비율 | FN(미탐) 최소화 |
-| **[F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/)** | `2 × (Precision × Recall) / (Precision + Recall)` | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 조화 평균 | 두 지표의 균형 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | `TP / (TP + FP)` | 모델이 '양성'이라 한 것 중 진짜 양성의 비율 | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(오탐) 최소화 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> | `TP / (TP + FN)` | 실제 '양성'인 것 중 모델이 찾아낸 비율 | FN(미탐) 최소화 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/">F1-Score</a></strong> | `2 × (Precision × Recall) / (Precision + Recall)` | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 조화 평균 | 두 지표의 균형 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             정밀도와 재현율의 트레이드오프 (Trade-off)          │
-├──────────────────────────────────────────────────────────────┤
-│ [판단 임계값(Threshold) 하향 조정] ─▶ 더 쉽게 '양성'으로 판정  │
-│    │                                                         │
-│    ├─▶ 실제 양성을 더 많이 찾아냄 ====> 재현율(Recall) 상승    │
-│    └─▶ 정상도 양성으로 잘못 판정 증가 ===> 정밀도(Precision) 하락│
-│                                                              │
-│ ※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀도와 재현율의 트레이드오프 (Trade-off)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">판단 임계값(Threshold) 하향 조정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">더 쉽게 '양성'으로 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실제 양성을 더 많이 찾아냄 ====&gt; 재현율(Recall) 상승</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 정상도 양성으로 잘못 판정 증가 ===&gt; 정밀도(Precision) 하락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.</div></div>
+</div>
+</div>
+
+
 
 이러한 반비례 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 때문에 한 지표만 높이는 꼼수를 막기 위해, 둘 다 높아야만 좋은 점수를 받는 조화 평균인 F1-Score를 종합 지표로 사용한다.
 
@@ -78,7 +79,7 @@ tags = ["studynote-data-engineering"]
 현업 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 단순히 F1-Score가 높은 모델을 기계적으로 선택해서는 안 된다.
 
 - **임계값(Threshold) 최적화**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 출력하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 값(예: 0.5 이상 양성)의 기준선을 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 요구사항에 맞게 조절해야 한다. [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 더 중요하다면 임계값을 0.3으로 낮춰 더 공격적으로 양성 판정을 내리도록 튜닝한다.
-- **비용 민감 학습 (Cost-sensitive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))**: 기술사적 관점에서, FP와 FN이 초래하는 실제 비즈니스 손실 금액(Cost)을 정량화하여 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여해야 한다. [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 2배 중요하다면 F2-Score([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 둔 조화 평균)를 평가지표로 채택하는 것이 타당하다.
+- <strong>비용 민감 학습 (Cost-sensitive <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 기술사적 관점에서, FP와 FN이 초래하는 실제 비즈니스 손실 금액(Cost)을 정량화하여 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여해야 한다. [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 2배 중요하다면 F2-Score([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 둔 조화 평균)를 평가지표로 채택하는 것이 타당하다.
 - **다중 클래스 평가**: 3개 이상의 클래스를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 때는 각 클래스별 지표를 구한 뒤, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에 따라 가중 평균(Weighted Avg)이나 단순 평균(Macro Avg)을 적용해 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가해야 한다.
 
 - **📢 섹션 요약 비유**: 오디오 볼륨(임계값)을 맞출 때 무조건 중간 50에 두는 것이 정답이 아니다. 주변이 시끄러운 공사장([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중요)이라면 볼륨을 크게 키워야 하고, 도서관([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 중요)이라면 작게 줄이는 판단이 필요하다.
@@ -97,28 +98,30 @@ tags = ["studynote-data-engineering"]
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))** | TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN 네 가지 예측 결과를 요약한 기본 표 |
-| **ROC 곡선 ([ROC Curve](/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/))** | 임계값 변화에 따른 FPR과 TPR([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))의 변화를 그린 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">Confusion Matrix</a>)</strong> | TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN 네 가지 예측 결과를 요약한 기본 표 |
+| <strong>ROC 곡선 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/256_roc_auc/">ROC Curve</a>)</strong> | 임계값 변화에 따른 FPR과 TPR([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/))의 변화를 그린 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
 | **AUC (Area Under the Curve)** | ROC 곡선 아래 면적으로, 임계값에 무관한 전반적 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불균형 (Class Imbalance)** | 소수 클래스와 다수 클래스 비율이 크게 차이 나는 현상 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 불균형 (Class Imbalance)</strong> | 소수 클래스와 다수 클래스 비율이 크게 차이 나는 현상 |
 | **F-Beta Score** | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중 특정 지표에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Beta)를 부여한 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-```text
-분류 예측 및 혼동 행렬 도입
-    │
-    ▼
-정확도의 한계 인식 (데이터 불균형 문제)
-    │
-    ▼
-정밀도 (Precision) · 재현율 (Recall) 세분화 (FP/FN 억제)
-    │
-    ▼
-F1-Score (두 지표의 조화 평균으로 종합 평가)
-    │
-    ▼
-비용 민감 학습 및 도메인 특화 지표(F-Beta) 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분류 예측 및 혼동 행렬 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정확도의 한계 인식 (데이터 불균형 문제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정밀도 (Precision) · 재현율 (Recall) 세분화 (FP/FN 억제)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">F1-Score (두 지표의 조화 평균으로 종합 평가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비용 민감 학습 및 도메인 특화 지표(F-Beta) 적용</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사과 골라내기 시험에서 '전체 중 몇 개를 맞췄나'가 정확도예요.

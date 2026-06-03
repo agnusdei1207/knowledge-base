@@ -20,31 +20,28 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 자원 두 개가 있다고 가정하자. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 점유하고 자원 2를 요청한다. 여기까지는 '1자형 라인'이다. 
-그런데 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 동시에 자원 2를 점유하고 자원 1을 요청하는 순간, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 화살표가 **원을 그려 닫히는 고리(Cycle)**를 형성한다. 이 사이클이 바로 **순환 대기(Circular Wait)**다.
+그런데 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 동시에 자원 2를 점유하고 자원 1을 요청하는 순간, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 화살표가 <strong>원을 그려 닫히는 고리(Cycle)</strong>를 형성한다. 이 사이클이 바로 <strong>순환 대기(Circular Wait)</strong>다.
 
 직선 대기라면 끝에 있는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 작업 후 하나씩 풀면 연쇄적으로 해소되겠지만, 닫힌 원 위에서는 누구도 시작점이자 끝점이 될 수 없어 무한 멈춤이 발생한다.
 
 **💡 비유**: 길게 늘어선 도로 정체 구간. 일직선 정체는 맨 앞차가 빠지면 결국 해소된다. 하지만 차량들이 교차로 네 방향에서 꼬리를 물고 들어가 완벽한 □(정사각형) 링 모양으로 멈추면(Gridlock), 아무리 기다려도 어느 한 차도 먼저 나갈 수 없는 순환 대기에 빠진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         순환 대기 조건의 무한 루프 형성 구조                 │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│        [점유]                               [요청]           │
-│  P1 ──────────▶ R1 ──┐              P1 ───▶ R2 (B점유)       │
-│   ▲                  │               │                       │
-│   │                  │               │                       │
-│   └──────────────────┘               └───────────────────▼   │
-│  (사이클 형성: P1 → R2 → P2 → R1 → P1)                       │
-│                                                              │
-│  대기 선형(직선) 모델 (데드락 ❌)                            │
-│  P1 → R1 → P2 → R2 (마지막 P2는 요청할 다른 목표가 없음)     │
-│  → 언젠가 P2가 R2 완료 시 반납, 그 뒤 선형 연결 풀림.        │
-│                                                              │
-│  위상 기하학적 의미: 사이클 차수가 1이상 존재.               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 대기 조건의 무한 루프 형성 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점유</div><div class="kb-diagram-node">요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 ▶ R1 ── P1 ▶ R2 (B점유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사이클 형성: P1 → R2 → P2 → R1 → P1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 선형(직선) 모델 (데드락 ❌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 → R1 → P2 → R2 (마지막 P2는 요청할 다른 목표가 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 언젠가 P2가 R2 완료 시 반납, 그 뒤 선형 연결 풀림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상 기하학적 의미: 사이클 차수가 1이상 존재.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 순환 대기는 우물 속에 빠진 세 사람 — 1번이 2번 발목을 잡고, 2번은 3번 발목을 잡고, 3번이 다시 1번 목말을 타고 있는 황당한 고리 구조. 아무도 혼자 손을 못 푸는 영원한 늪입니다.
 
@@ -54,27 +51,27 @@ tags = ["studynote-operating-system"]
 
 ### [순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/) (Prevention: 자원 순서화)
 
-4조건을 찢어버릴 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들 중에 **가장 소프트웨어적으로 현실성 있는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이 바로 "순환 대기를 파괴하는 것"이다. 이는 자원에 넘버링 위계(Hierarchy [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 가해서 강제적인 오름차순(Ascending order) 요청만 허락하면 된다.
+4조건을 찢어버릴 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들 중에 <strong>가장 소프트웨어적으로 현실성 있는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이 바로 "순환 대기를 파괴하는 것"이다. 이는 자원에 넘버링 위계(Hierarchy [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 가해서 강제적인 오름차순(Ascending order) 요청만 허락하면 된다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│         Lock Hierarchy (락 순서화)를 통한 억제 구조           │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│  1. 모든 글로벌 자원에 고유 ID (오름차순) 발급                │
-│     R1(ID:10), R2(ID:20), R3(ID:30)                           │
-│                                                               │
-│  2. 프로세스의 획득 룰:                                       │
-│     "항상 번호표가 낮은 자원부터 먼저 요청해라"               │
-│     "내가 번호 20을 잡았으면, 절대로 10을 요청할 수 없다"     │
-│                                                               │
-│  시나리오 우회 도출:                                          │
-│  스레드 A: 10 잡고 20 요청 (✅ 합법)                          │
-│  스레드 B: 20 잡고 10 요청 (❌ 불법 접근, OS 레벨 코드 거절)  │
-│  → B는 반드시 10을 먼저 쥐어야 20에 접근 가능하게끔 강제화    │
-│  → 원형 형성 가능성 = 0% 완전히 깨짐!                         │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock Hierarchy (락 순서화)를 통한 억제 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 모든 글로벌 자원에 고유 ID (오름차순) 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(ID:10), R2(ID:20), R3(ID:30)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로세스의 획득 룰:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"항상 번호표가 낮은 자원부터 먼저 요청해라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내가 번호 20을 잡았으면, 절대로 10을 요청할 수 없다"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시나리오 우회 도출:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A: 10 잡고 20 요청 (✅ 합법)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 B: 20 잡고 10 요청 (❌ 불법 접근, OS 레벨 코드 거절)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ B는 반드시 10을 먼저 쥐어야 20에 접근 가능하게끔 강제화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원형 형성 가능성 = 0% 완전히 깨짐!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Order 제약은 다중 락을 디자인할 때의 불문율이다. 무작위 요청 시 터지던 P1(1잡고 2기다림)과 P2(2잡고 1기다림)가 사라지고, 둘 다 (1부터 잡고 2잡음)로 통일되니, 처음부터 1번을 선점한 녀석이 스무스하게 끝내고 반납할 수 있다.
 
@@ -99,11 +96,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) C코드 개발 가이드라인**: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 등 파일시스템 커밋 시 서로 다른 두 i-node 락을 걸 일이 생긴다면, 룰 매뉴얼에는 "항상 더 낮은 메모리 주소를 가진 i-node 객체를 먼저 잠그고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 높은 쪽을 잠가라"라고 적혀있다. (이 동적 [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) 기법이 순환 대기 박멸의 기본 전술)
-2. **이체 시스템([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 자유 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**: Java로 `Account A -> B` 이체 코드를 짤 때 `A`의 락, `B`락을 연달아 걸면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)로 사망한다(`B -> A` 역이체 시). 해결법: System.identityHashCode 로 해시값을 뽑아 값이 더 작은 계좌번호 락부터 획득. 완벽히 사이클을 파괴함.
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> C코드 개발 가이드라인</strong>: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 등 파일시스템 커밋 시 서로 다른 두 i-node 락을 걸 일이 생긴다면, 룰 매뉴얼에는 "항상 더 낮은 메모리 주소를 가진 i-node 객체를 먼저 잠그고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 높은 쪽을 잠가라"라고 적혀있다. (이 동적 [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) 기법이 순환 대기 박멸의 기본 전술)
+2. <strong>이체 시스템(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> 자유 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong>: Java로 `Account A -> B` 이체 코드를 짤 때 `A`의 락, `B`락을 연달아 걸면 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)로 사망한다(`B -> A` 역이체 시). 해결법: System.identityHashCode 로 해시값을 뽑아 값이 더 작은 계좌번호 락부터 획득. 완벽히 사이클을 파괴함.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **블랙박스형 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 의존 락**: 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 객체를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 때, 그 객체 내부에서 자기가 어떤 락을 어떤 내부 순서로 부를지 모르는 상태로 내가 호출을 감싼다(Wrapping [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 내부가 내 락 주소와 엇갈리게 락을 시전 시(Reentrant 거부) 보이지 않는 순환 대기 형성. 서브시스템 간 경계를 넘어가는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 최소화해야 함.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>블랙박스형 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 의존 락</strong>: 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 객체를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 때, 그 객체 내부에서 자기가 어떤 락을 어떤 내부 순서로 부를지 모르는 상태로 내가 호출을 감싼다(Wrapping [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)). 내부가 내 락 주소와 엇갈리게 락을 시전 시(Reentrant 거부) 보이지 않는 순환 대기 형성. 서브시스템 간 경계를 넘어가는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 최소화해야 함.
 
 **📢 섹션 요약 비유**: 계좌 A와 B의 돈 교환은 "언제나 더 작은 잔고 계좌나 번호가 빠른 사람부터 도장 먼저 찍고 가라"고 정해버리면 양쪽 창구가 서로 노려보며 마비되는 일 100% 차단!
 
@@ -134,15 +131,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비선점 (No Preemption)]
-    │
-    ▼
-[순환 대기 (Circular Wait)]
-    │
-    ├──▶ [자원 할당 그래프 (Resource-Allocation Graph)]
-    └──▶ [단일 인스턴스 자원 환경]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단일 인스턴스 자원 환경</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -29,26 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-+-------------------------------------------------------------+
-|              OPA/Gatekeeper 정책 흐름                        |
-+-------------------------------------------------------------+
-|                                                             |
-|  개발자 kubectl apply ->                                     |
-|                         Kubernetes API Server               |
-|                                  |                          |
-|                                  v                          |
-|                    Admission Controller (Gatekeeper)        |
-|                                  |                          |
-|                    ConstraintTemplate 정책 검사              |
-|                    (Rego 언어로 작성된 정책)                 |
-|                                  |                          |
-|              +-------------------+-------------------+       |
-|              v                                       v       |
-|           허용 (Admitted)                     거부 (Denied)  |
-|           -> Pod 생성                         -> 에러 반환   |
-+-------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA/Gatekeeper 정책 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 kubectl apply -&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes API Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admission Controller (Gatekeeper)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConstraintTemplate 정책 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Rego 언어로 작성된 정책)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v v</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허용 (Admitted) 거부 (Denied)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Pod 생성 -&gt; 에러 반환</div></div>
+</div>
+</div>
+
+
 
 Rego [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 예시:
 
@@ -127,7 +125,7 @@ spec:
 
 [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 도입으로 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)이 자동으로 강제되어 인적 실수로 인한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반이 사라진다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 목적으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 이력이 git에 보관되고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경은 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)를 통해 승인된다.
 
-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code의 핵심은 **"[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제하는 것이 아니라 위반을 불가능하게 만드는 것"**이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 교육하는 것보다, 위반 시 자동 차단이 더 효과적인 보안을 달성한다.
+[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code의 핵심은 <strong>"<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 강제하는 것이 아니라 위반을 불가능하게 만드는 것"</strong>이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 교육하는 것보다, 위반 시 자동 차단이 더 효과적인 보안을 달성한다.
 
 > 📢 **섹션 요약 비유**: 속도위반 금지 표지판보다 과속방지턱이 더 효과적이다. [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 과속방지턱으로 만든다.
 
@@ -146,14 +144,19 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 정책 관리            Policy as Code 등장             현대 정책 자동화
-------------------   --------------------------   ------------------------
-정책 문서 관리       ->  OPA CNCF 프로젝트 등장    ->  GitOps 정책 관리
-이메일 교육              Gatekeeper K8s 통합           AI 기반 정책 추천
-감사 수작업              Conftest CI 통합               멀티클라우드 정책
-위반 사후 처리           Defense in Depth 구현           Crossplane + OPA
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 정책 관리 Policy as Code 등장 현대 정책 자동화</div>
+<div class="kb-diagram-note">정책 문서 관리 -&gt; OPA CNCF 프로젝트 등장 -&gt; GitOps 정책 관리</div>
+<div class="kb-diagram-note">이메일 교육 Gatekeeper K8s 통합 AI 기반 정책 추천</div>
+<div class="kb-diagram-note">감사 수작업 Conftest CI 통합 멀티클라우드 정책</div>
+<div class="kb-diagram-note">위반 사후 처리 Defense in Depth 구현 Crossplane + OPA</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

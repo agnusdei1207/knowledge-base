@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 과거 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))라는 단일 거대 소프트웨어가 독점하던 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계는, 기술의 발전과 함께 '이미지 포맷'과 '실행 엔진'을 분리하여 개방형 표준으로 정의하는 **[OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) ([Open Container Initiative](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/))** 규격으로 파편화 및 표준화되었다.
+> 1. **본질**: 과거 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))라는 단일 거대 소프트웨어가 독점하던 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계는, 기술의 발전과 함께 '이미지 포맷'과 '실행 엔진'을 분리하여 개방형 표준으로 정의하는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/">Open Container Initiative</a>)</strong> 규격으로 파편화 및 표준화되었다.
 > 2. **계층화**: 이 표준화에 따라 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임은 고수준 런타임(containerd, CRI-O - 이미지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), 네트워크 관리)과 저수준 런타임([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) - 실제 리눅스 namespace와 cgroup을 조작하여 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/))으로 계층이 명확히 분리되었다.
 > 3. **가치**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 표준화 덕분에 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))는 무거운 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진(dockerd)을 버리고 containerd나 CRI-O와 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(CRI)할 수 있게 되었으며, gVisor나 Kata Containers 같은 강력한 보안 샌드박스 런타임을 `runc` 대신 손쉽게 끼워 넣을 수 있는 플러그인 생태계가 완성되었다.
 
@@ -20,20 +20,20 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) ([Open Container Initiative](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/))**: 리눅스 재단 산하에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 이미지 포맷(Image Spec)과 런타임 실행 방식(Runtime Spec)을 정의한 산업 표준이다.
-  - **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격에 맞춰 실제로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 실행하는 소프트웨어. 역할에 따라 고수준(High-level)과 저수준(Low-level)으로 나뉜다.
-  - **[runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/)**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Runtime Spec을 구현한 가장 대표적인 저수준 런타임으로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 직접 맞닿아 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우는 핵심 CLI 도구다.
+  - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/">Open Container Initiative</a>)</strong>: 리눅스 재단 산하에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 이미지 포맷(Image Spec)과 런타임 실행 방식(Runtime Spec)을 정의한 산업 표준이다.
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 런타임</strong>: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격에 맞춰 실제로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 실행하는 소프트웨어. 역할에 따라 고수준(High-level)과 저수준(Low-level)으로 나뉜다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong>: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Runtime Spec을 구현한 가장 대표적인 저수준 런타임으로, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 직접 맞닿아 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우는 핵심 CLI 도구다.
   - **containerd**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Image Spec을 관리하고 `runc`를 제어하는 고수준 런타임 데몬이다.
 
-- **필요성 ([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 독점의 폐해와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 독립)**: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 독점의 폐해와 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>의 독립)</strong>: 
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시장은 Docker가 천하통일했다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)도 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우려면 무조건 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬(dockerd)을 거쳐야 했다.
   - 그러나 K8s 입장에서 Docker는 볼륨 관리, 스웜(Swarm), 빌드 등 불필요한 기능이 너무 많은 '무거운 뚱보'였다. 게다가 Docker가 업데이트될 때마다 K8s 호환성이 깨지는 문제가 발생했다.
   - 이를 해결하기 위해 업계는 Docker의 핵심 부품([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/), containerd)을 적출하여 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)로 기증하고, 누구든 이 규격([OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/))만 맞추면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진을 만들 수 있도록 표준화(Democratization)했다.
 
 - **발전 과정**:
   1. **모놀리식 시대 (2013년)**: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 단일 데몬(dockerd)이 모든 것을 처리. LXC(LinuX Containers) 의존.
-  2. **[OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 설립 및 [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) 기증 (2015년)**: Docker사가 핵심 실행 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(libcontainer)을 `runc`로 분리하여 OCI에 기증.
-  3. **CRI와 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Shim (2016년)**: K8s가 런타임을 골라 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 CRI([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) Interface) 도입. Docker는 CRI를 미지원해 중간 번역기(Dockershim) 사용.
+  2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> 설립 및 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a> 기증 (2015년)</strong>: Docker사가 핵심 실행 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(libcontainer)을 `runc`로 분리하여 OCI에 기증.
+  3. <strong>CRI와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Shim (2016년)</strong>: K8s가 런타임을 골라 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 CRI([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) Interface) 도입. Docker는 CRI를 미지원해 중간 번역기(Dockershim) 사용.
   4. **Docker의 완전 분해 (현재)**: K8s에서 Dockershim이 완전 퇴출(Deprecation)되고, containerd나 CRI-O가 K8s의 표준 고수준 런타임으로 직결됨.
 
 - **📢 섹션 요약 비유**: 종합 선물 세트([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))에서 우리가 진짜 먹고 싶었던 알맹이([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/), containerd)만 빼내어, 누구나 쉽게 레고 블록처럼 조립할 수 있게 만든 규격화의 승리입니다.
@@ -50,8 +50,8 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **오케스트레이터** | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) ([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배치, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 명령 하달 | - |
 | **고수준 런타임** | containerd, CRI-O | 이미지 Pull/Push, 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 네트워크([CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)) 연동, 저수준 런타임 호출 | **CRI** ([Container Runtime](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/084_container_runtime_containerd_runc_cri/) Interface) |
-| **저수준 런타임** | **[runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/)**, gVisor (runsc), Kata | [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/), [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 실제 리눅스 프로세스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 격리 및 실행 | **[OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) Runtime Spec** |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)** | Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 실제 리소스 격리 수행 및 하드웨어 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) | Syscall |
+| **저수준 런타임** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong>, gVisor (runsc), Kata | [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/), [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 실제 리눅스 프로세스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 격리 및 실행 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> Runtime Spec</strong> |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong> | Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 실제 리소스 격리 수행 및 하드웨어 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) | Syscall |
 
 ---
 
@@ -59,36 +59,29 @@ tags = ["studynote-operating-system"]
 
 `runc`는 데몬(Daemon)이 아니라, 실행 후 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우고 종료되는 단순한 CLI 바이너리다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 runc 기반 저수준 컨테이너 생성 흐름                   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  1. [containerd]                                                  │
-  │     Docker Hub에서 이미지를 Pull 받고 압축을 풀어 디스크에 저장한다.       │
-  │     (Rootfs 형태의 디렉터리로 구성)                                   │
-  │            │                                                      │
-  │            ▼                                                      │
-  │  2. [config.json 생성 (OCI Spec)]                                 │
-  │     containerd는 컨테이너가 어떻게 돌아야 하는지 명세서(JSON)를 만든다.    │
-  │     (예: "네임스페이스는 이걸 쓰고, CPU 제한은 2코어로 해라")               │
-  │            │                                                      │
-  │            ▼                                                      │
-  │  3. [runc 실행]  명령어: `runc create` 및 `runc start`              │
-  │            │                                                      │
-  │     ┌──────▼────────────────────────────────────────┐             │
-  │     │ runc 내부 동작 (Linux Kernel API 호출)           │             │
-  │     │ 1) unshare / clone  : 네임스페이스 분리 (격리 공간)│             │
-  │     │ 2) cgroups 파일 작성 : 자원 할당량(Limit) 설정     │             │
-  │     │ 3) pivot_root       : Root 파일시스템(경로) 변경 │             │
-  │     │ 4) seccomp / AppArmor : 보안 필터 적용           │             │
-  │     └──────┬────────────────────────────────────────┘             │
-  │            │                                                      │
-  │            ▼                                                      │
-  │  4. [컨테이너 프로세스(예: nginx) 실행 완료!]                           │
-  │     * 띄운 직후 runc 프로세스 자체는 종료되고, nginx 프로세스만 남음.      │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">runc 기반 저수준 컨테이너 생성 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">containerd</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Hub에서 이미지를 Pull 받고 압축을 풀어 디스크에 저장한다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Rootfs 형태의 디렉터리로 구성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">config.json 생성 (OCI Spec)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">containerd는 컨테이너가 어떻게 돌아야 하는지 명세서(JSON)를 만든다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: "네임스페이스는 이걸 쓰고, CPU 제한은 2코어로 해라")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">runc 실행</div><div class="kb-diagram-note">명령어: <code>runc create</code> 및 <code>runc start</code></div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">runc 내부 동작 (Linux Kernel API 호출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) unshare / clone : 네임스페이스 분리 (격리 공간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) cgroups 파일 작성 : 자원 할당량(Limit) 설정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) pivot_root : Root 파일시스템(경로) 변경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) seccomp / AppArmor : 보안 필터 적용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">컨테이너 프로세스(예: nginx) 실행 완료!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 띄운 직후 runc 프로세스 자체는 종료되고, nginx 프로세스만 남음.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격의 핵심은 `config.json`과 `rootfs`(루트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템) 디렉터리만 주어지면, 전 세계 어떤 런타임이든 똑같은 형태의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들어내야 한다는 것이다. `runc`는 이 규격을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Namespace와 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) API로 치환해 주는 가장 완벽한 번역기다. `runc`는 무거운 데몬이 아니므로 메모리를 상시 점유하지 않는다.
 
@@ -98,28 +91,22 @@ tags = ["studynote-operating-system"]
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 에이전트인 `Kubelet`과 고수준 런타임(containerd)이 통신하는 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 기반의 표준 API다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 K8s CRI 아키텍처 (Dockershim 퇴출 이후)              │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ Kubelet ] (K8s 워커 노드 데몬)                                    │
-  │       │                                                           │
-  │       │ (gRPC 통신 - CRI 표준 규격: RunPodSandbox, CreateContainer)│
-  │       ▼                                                           │
-  │  [ CRI 플러그인 ] (보통 containerd 내부에 내장됨)                       │
-  │       │                                                           │
-  │       ▼                                                           │
-  │  [ containerd ] (고수준 런타임)                                      │
-  │       │                                                           │
-  │       │ (containerd-shim 프로세스 생성)                             │
-  │       ▼                                                           │
-  │  [ runc ] (저수준 런타임) ───▶ [ Linux Kernel (Namespace/Cgroup) ]  │
-  │                                       │                           │
-  │                                       ▼                           │
-  │                                [ Nginx 컨테이너 ]                   │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s CRI 아키텍처 (Dockershim 퇴출 이후)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubelet</div><div class="kb-diagram-note">(K8s 워커 노드 데몬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(gRPC 통신 - CRI 표준 규격: RunPodSandbox, CreateContainer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRI 플러그인</div><div class="kb-diagram-note">(보통 containerd 내부에 내장됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">containerd</div><div class="kb-diagram-note">(고수준 런타임)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(containerd-shim 프로세스 생성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">runc</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Linux Kernel (Namespace/Cgroup)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Nginx 컨테이너</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 과거에는 Kubelet과 containerd 사이에 무거운 Dockerd와 그 명령을 번역하는 Dockershim이 억지로 끼어 있었다. K8s 1.24 버전부터 이를 걷어내고, Kubelet이 CRI 규격을 통해 containerd와 직결통신하게 되었다. 이로써 K8s 클러스터의 메모리 사용량이 감소하고 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도가 비약적으로 향상되었다.
 
@@ -133,17 +120,17 @@ tags = ["studynote-operating-system"]
 
 | 런타임 명칭 | 수준 / 역할 | 개발 주체 | 특징 |
 |:---|:---|:---|:---|
-| **[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine** | Full [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (더 이상 K8s 표준 아님) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Inc. | 빌드, 스웜, 볼륨 등 모든 기능 포함. 개발자 PC용으로 적합. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Engine</strong> | Full [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (더 이상 K8s 표준 아님) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Inc. | 빌드, 스웜, 볼륨 등 모든 기능 포함. 개발자 PC용으로 적합. |
 | **containerd** | 고수준 (High-level) | [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) | Docker에서 분리된 핵심 데몬. K8s의 사실상 표준(Defacto). |
 | **CRI-O** | 고수준 (High-level) | Red Hat | K8s 전용으로 만들어진 초경량 런타임. (OpenShift 주력) |
-| **[runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/)** | 저수준 (Low-level) | [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리 기술을 직접 조작. 일반적 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행기. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/">runc</a></strong> | 저수준 (Low-level) | [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리 기술을 직접 조작. 일반적 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행기. |
 | **runsc (gVisor)** | 저수준 (보안 샌드박스) | Google | 유저 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Syscall)을 에뮬레이션하여 강력한 격리 달성. |
 | **Kata Containers**| 저수준 (마이크로 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | OpenStack 등 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 얇은 경량 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄워 하드웨어 레벨 격리. |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격과 runc의 본질은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 제공하는 `Namespace` (가시성 격리)와 `Cgroups` ([자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 제한)의 복잡한 C API를, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나(`config.json`)로 추상화한 인프라스트럭처로서의 소프트웨어 공학이다.
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: runc가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 직접 공유하는 한계([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Breakout 취약점)를 극복하기 위해, [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 스펙을 준수하면서도 내부적으로는 VM을 띄우는 Kata Containers나 시스템 콜을 가로채는 gVisor 등 보안 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 런타임으로 진화하는 촉매가 되었다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격과 runc의 본질은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 제공하는 `Namespace` (가시성 격리)와 `Cgroups` ([자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 제한)의 복잡한 C API를, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나(`config.json`)로 추상화한 인프라스트럭처로서의 소프트웨어 공학이다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: runc가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 직접 공유하는 한계([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Breakout 취약점)를 극복하기 위해, [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 스펙을 준수하면서도 내부적으로는 VM을 띄우는 Kata Containers나 시스템 콜을 가로채는 gVisor 등 보안 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 런타임으로 진화하는 촉매가 되었다.
 
 - **📢 섹션 요약 비유**: 플러그 규격([OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/))이 똑같으니, 220V 콘센트(containerd)에 선풍기([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))를 꽂든, 에어컨(Kata)을 꽂든, 히터(gVisor)를 꽂든 사용자는 전원만 켜면 되는 완벽한 호환성입니다.
 
@@ -153,38 +140,35 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — K8s 클러스터의 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 퇴출(Dockershim Deprecation) 마이그레이션**: 운영 중인 K8s 클러스터 노드가 구버전 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine 기반으로 돌고 있어, K8s 버전을 1.24 이상으로 올릴 때 워커 노드가 먹통이 될 위기.
+1. <strong>시나리오 — K8s 클러스터의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a> 퇴출(Dockershim Deprecation) 마이그레이션</strong>: 운영 중인 K8s 클러스터 노드가 구버전 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine 기반으로 돌고 있어, K8s 버전을 1.24 이상으로 올릴 때 워커 노드가 먹통이 될 위기.
    - **대응 (마이그레이션 플로우)**: 
      1. 워커 노드에서 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬을 중지하고 삭제.
      2. `containerd` 패키지를 설치하고 `/etc/containerd/config.toml`을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Systemd cgroup 드라이버 사용 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필수).
      3. Kubelet의 시작 파라미터(`--container-runtime=remote`, `--container-runtime-endpoint=unix:///run/containerd/containerd.sock`)를 containerd 소켓으로 변경하여 재시작.
      4. 이미지 빌드 작업([docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) build)은 클러스터 내부 [도커 데몬](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/066_docker_daemon_dockerd/) 대신, 런타임 독립적인 툴(Kaniko, Buildah)을 사용하여 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 개편.
 
-2. **시나리오 — [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)([Multi-tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 환경의 [컨테이너 보안](/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/)**: 서로 모르는 A 회사와 B 회사의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 같은 워커 노드([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 배치될 때, 일반 `runc`를 쓰면 [커널 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/376_kernel_vulnerability/) 공격([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)) 시 A가 B의 데이터를 훔쳐볼 수 있다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/">멀티 테넌트</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/">Multi-tenant</a>) <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">퍼블릭 클라우드</a> 환경의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/513_container_security/">컨테이너 보안</a></strong>: 서로 모르는 A 회사와 B 회사의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 같은 워커 노드([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 배치될 때, 일반 `runc`를 쓰면 [커널 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/376_kernel_vulnerability/) 공격([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)) 시 A가 B의 데이터를 훔쳐볼 수 있다.
    - **설계 (RuntimeClass 적용)**: K8s 클러스터에 Kata Containers 또는 gVisor를 추가 설치한다. K8s에 `RuntimeClass` 리소스를 정의하여, 신뢰할 수 없는 외부 고객 워크로드 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 `runtimeClassName: gvisor`를 지정하게 한다. containerd는 이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄울 때 `runc` 대신 `runsc`를 호출하여, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)마다 독립된 가상 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 할당함으로써 완벽한 보안 격리를 달성한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 K8s 컨테이너 런타임(Runtime) 선정 의사결정 플로우          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [새로운 K8s 워커 노드 풀(Node Pool) 구축]                             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      워크로드가 악의적일 수 있는 외부 사용자(Untrusted) 코드인가?            │
-  │          ├─ 예 ─────▶ [샌드박스 저수준 런타임 (Kata, gVisor) 적용]       │
-  │          │            (성능 손실 5~10% 감수, 보안 극대화)               │
-  │          └─ 아니오                                                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      K8s 배포판이 Red Hat OpenShift 인가?                           │
-  │          ├─ 예 ─────▶ [CRI-O + runc (Red Hat 네이티브 조합)]          │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [containerd + runc (가장 범용적이고 안정적인 표준)]│
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 컨테이너 런타임(Runtime) 선정 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 K8s 워커 노드 풀(Node Pool) 구축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드가 악의적일 수 있는 외부 사용자(Untrusted) 코드인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샌드박스 저수준 런타임 (Kata, gVisor) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성능 손실 5~10% 감수, 보안 극대화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 배포판이 Red Hat OpenShift 인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRI-O + runc (Red Hat 네이티브 조합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">containerd + runc (가장 범용적이고 안정적인 표준)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 현대 K8s 아키텍처 설계에서 런타임의 선택권은 전적으로 아키텍트에게 있다. 사내용 마이크로서비스는 가장 가볍고 빠른 `containerd + runc`가 정답이다. 반면 AWS Fargate, GCP Cloud Run처럼 고객이 올린 임의의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 내 서버에서 돌려야 하는 [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 비즈니스를 구축한다면 `Kata`나 `gVisor` 같은 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 호환 마이크로 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 런타임이 법적/기술적 필수 방어막이다.
 
@@ -207,8 +191,8 @@ tags = ["studynote-operating-system"]
 | **정성** | 보안 이슈 발생 시 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 전체 패치 대기 | [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) 등 타겟 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 교체/업데이트 가능 | 클러스터 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 및 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 |
 
 ### 미래 전망
-- **[Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)) [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 런타임의 부상**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 100배 더 가볍고 빠르게 시작되는 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 K8s에서 돌리기 위해, `runwasi` 같은 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 전용 저수준 런타임이 등장하고 있다. [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격 덕분에 기존 K8s 아키텍처를 하나도 바꾸지 않고 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 워크로드를 스케줄링할 수 있게 되었다.
-- **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기반의 런타임 최적화**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹과 보안 필터링([Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/))의 오버헤드를 줄이기 위해, 저수준 런타임이 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로그램을 직접 주입하여 네트워크 패킷과 시스템 콜을 O(1) 속도로 필터링하는 아키텍처가 표준화될 것이다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">Wasm</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a>) <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/">OCI</a> 런타임의 부상</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 100배 더 가볍고 빠르게 시작되는 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 K8s에서 돌리기 위해, `runwasi` 같은 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 전용 저수준 런타임이 등장하고 있다. [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격 덕분에 기존 K8s 아키텍처를 하나도 바꾸지 않고 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 워크로드를 스케줄링할 수 있게 되었다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반의 런타임 최적화</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹과 보안 필터링([Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/))의 오버헤드를 줄이기 위해, 저수준 런타임이 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로그램을 직접 주입하여 네트워크 패킷과 시스템 콜을 O(1) 속도로 필터링하는 아키텍처가 표준화될 것이다.
 
 ### 결론
 [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/) 규격 표준화와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 런타임의 계층 분리는, 한 기업([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 훌륭한 발명품이 전 세계 인프라의 '공공재 표준'으로 승화하는 가장 모범적인 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진화 과정이다. `runc`와 `containerd`의 이해 없이 K8s를 운영하는 것은 자동차의 엔진 원리를 모른 채 운전대만 잡는 것과 같다. 이 구조적 이해는 트러블슈팅과 차세대 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 도입의 핵심 열쇠가 된다.
@@ -228,15 +212,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[IOMMU (Input/Output MMU) 역할]
-    │
-    ▼
-[컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
-    │
-    ├──▶ [라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]
-    └──▶ [가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IOMMU (Input/Output MMU) 역할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 런타임 (runc, containerd) OCI 규격 표준화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

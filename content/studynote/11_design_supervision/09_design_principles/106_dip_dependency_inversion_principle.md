@@ -33,26 +33,24 @@ DIP를 구현하는 핵심 메커니즘은 '[추상화](/knowledge-base/studynot
 
 아래 다이어그램은 DIP가 위배된 상황과 준수된 상황의 의존성 화살표 변화를 명확히 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  [DIP 적용 전후의 의존성 변화]                 │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 전통적 방식 (DIP 위배): 고수준이 저수준에 끌려다님             │
-│                                                              │
-│   [ OrderService ] ───────── 의존 ────────▶ [ MySQLRepository ] │
-│    (고수준 정책)                              (저수준 구현체)  │
-│                                                              │
-│ 2. DIP 준수 방식 (의존성 역전): 양쪽 모두 추상화에 의존            │
-│                                                              │
-│   [ OrderService ] ───────── 의존 ────────▶ << Interface >> │
-│    (고수준 정책)         (추상화 주도권)      [ OrderRepository ] │
-│                                                  ▲           │
-│                                                  │ 구현       │
-│                                                  │           │
-│                                          [ OracleRepository ]│
-│                                           (저수준 구현체)     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DIP 적용 전후의 의존성 변화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전통적 방식 (DIP 위배): 고수준이 저수준에 끌려다님</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OrderService</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MySQLRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고수준 정책) (저수준 구현체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DIP 준수 방식 (의존성 역전): 양쪽 모두 추상화에 의존</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OrderService</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">&lt;&lt; Interface &gt;&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(고수준 정책) (추상화 주도권)</div><div class="kb-diagram-node">OrderRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OracleRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(저수준 구현체)</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 `OrderService`는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 무엇이든 신경 쓰지 않고 오직 `OrderRepository` 인터페이스의 명세만 호출한다. 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인 `OracleRepository`가 그 인터페이스를 구현하며 의존성이 역전(Inversion)된다.
 
@@ -68,7 +66,7 @@ DIP는 독단적으로 쓰이지 않고, 제어의 역전(IoC)이나 [의존성 
 |:---|:---|:---|
 | **의존성 주체** | 고수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (`new` 키워드) | 인터페이스에 의존, 외부([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에서 객체 주입 |
 | **코드 변경 전파** | 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 바뀌면 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)도 수정해야 함 (연쇄 폭발) | 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 완전히 교체되어도 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 무사함 |
-| **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)** | 외부 DB, API가 없으면 테스트 불가 | 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))를 주입하여 완벽한 고립 테스트 가능 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a></strong> | 외부 DB, API가 없으면 테스트 불가 | 가짜 객체([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/))를 주입하여 완벽한 고립 테스트 가능 |
 
 이처럼 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)(원칙)를 지키기 위해 인터페이스를 설계하고 나면, 런타임에 실제 구현체를 꽂아주는 역할은 `DI (Dependency Injection)` [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(예: Spring Framework)가 전담하여 시스템의 결합도를 극적으로 낮춘다.
 
@@ -84,7 +82,7 @@ DIP는 독단적으로 쓰이지 않고, 제어의 역전(IoC)이나 [의존성 
 외부 결제 API나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 호출하는 비즈니스 로직을 개발할 때, DIP가 적용되어 있다면 결제 인터페이스에 `MockPayment` 객체를 꽂아 넣어 즉각적이고 안정적인 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)를 수행할 수 있다.
 
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 변동 가능성이 전혀 없는 순수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체(예: 단순 DTO나 Value Object)까지 무분별하게 인터페이스로 추출하여 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수만 2배로 늘리는 오버엔지니어링(Over-engineering).
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 변동 가능성이 전혀 없는 순수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체(예: 단순 DTO나 Value Object)까지 무분별하게 인터페이스로 추출하여 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수만 2배로 늘리는 오버엔지니어링(Over-engineering).
 - **판단 기준**: "이 구현체는 향후 교체될 확률이 있는가?", "이 컴포넌트는 단독으로 격리하여 테스트해야 하는가?"라는 질문에 'Yes'일 때만 DIP를 적용한다.
 
 - **📢 섹션 요약 비유**: 좋은 도구라고 해서 종이 한 장 자르는데 전기톱을 쓸 필요는 없다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 교체 가능성과 테스트 필요성을 가늠하여 DIP라는 방패를 세울지 결정해야 한다.
@@ -105,28 +103,30 @@ DIP를 시스템 전반에 올바르게 적용하면 플러그인(Plug-in) 구�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙** | 객체지향 설계를 견고하게 만드는 5가지 핵심 원칙의 집합 |
-| **[DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/))** | [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙을 실제 런타임에 구현하기 위해 외부에서 객체를 꽂아주는 메커니즘 |
-| **[클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/) ([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))** | 비즈니스 로직을 중심에 두고 외부 기술은 철저히 DIP로 분리하는 아키텍처 |
-| **[Mock Object](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/) (가짜 객체)** | DIP로 분리된 인터페이스를 활용하여 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)를 용이하게 하는 기법 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/">SOLID</a> 원칙</strong> | 객체지향 설계를 견고하게 만드는 5가지 핵심 원칙의 집합 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/">DI</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/">Dependency Injection</a>)</strong> | [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙을 실제 런타임에 구현하기 위해 외부에서 객체를 꽂아주는 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/">클린 아키텍처</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/">Clean Architecture</a>)</strong> | 비즈니스 로직을 중심에 두고 외부 기술은 철저히 DIP로 분리하는 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/399_mock_object/">Mock Object</a> (가짜 객체)</strong> | DIP로 분리된 인터페이스를 활용하여 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)를 용이하게 하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절차적 지향 (하향식 강결합)
-    │
-    ▼
-객체지향 설계의 등장 (캡슐화와 다형성)
-    │
-    ▼
-SOLID 원칙 정립: DIP (Dependency Inversion Principle)
-    │
-    ▼
-프레임워크 주도 개발: IoC (제어의 역전) 및 DI (의존성 주입)
-    │
-    ▼
-헥사고날 / 클린 아키텍처 (플러그인 기반 아키텍처 완성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절차적 지향 (하향식 강결합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체지향 설계의 등장 (캡슐화와 다형성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SOLID 원칙 정립: DIP (Dependency Inversion Principle)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프레임워크 주도 개발: IoC (제어의 역전) 및 DI (의존성 주입)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">헥사고날 / 클린 아키텍처 (플러그인 기반 아키텍처 완성)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

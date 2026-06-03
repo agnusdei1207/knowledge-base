@@ -26,18 +26,21 @@ tags = ["software_engineering"]
 
 아래 그림은 이해관계자 분석이 왜 설계보다 먼저 와야 하는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why stakeholder analysis comes before design                      │
-├────────────────────────────────────────────────────────────────────┤
-│ sponsor   -> funding / scope approval                            │
-│ users     -> adoption / usability                                │
-│ ops       -> deployment / support                                │
-│ security  -> compliance / release gate                           │
-│ regulator -> legal permission / external constraint              │
-│ miss one actor -> late change, delay, or project rejection       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why stakeholder analysis comes before design</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sponsor -&gt; funding / scope approval</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">users -&gt; adoption / usability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ops -&gt; deployment / support</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">security -&gt; compliance / release gate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">regulator -&gt; legal permission / external constraint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss one actor -&gt; late change, delay, or project rejection</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 이해관계자 누락이 단순 커뮤니케이션 문제가 아니라는 점이다. 누락된 한 명의 승인권자나 영향 집단은 설계 변경, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 범위 재정의, 릴리스 중단으로 곧바로 이어질 수 있다. 그래서 이해관계자 분석은 부드러운 사람 관리가 아니라, 사실상 프로젝트 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리의 전초전이다.
 
@@ -51,17 +54,19 @@ tags = ["software_engineering"]
 
 아래는 가장 널리 쓰이는 영향력-관심도 매트릭스의 기본 구조다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Influence / Interest matrix                                       │
-├────────────────────────────────────────────────────────────────────┤
-│                    high interest        low interest              │
-│ high influence   Manage closely         Keep satisfied            │
-│ low influence    Keep informed          Monitor                   │
-│                                                             ▲     │
-│                     influence / power                     more     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Influence / Interest matrix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">high interest low interest</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">high influence Manage closely Keep satisfied</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">low influence Keep informed Monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">influence / power more</div></div>
+</div>
+</div>
+
+
 
 | 구역 | 특징 | 대표 예시 | 기본 대응 |
 | :--- | :--- | :--- | :--- |
@@ -70,7 +75,7 @@ tags = ["software_engineering"]
 | Keep Informed | 영향력 낮고 관심도 높음 | 실사용자, 지원부서 | 데모, FAQ, 피드백 채널 운영 |
 | [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | 영향력 낮고 관심도 낮음 | 주변 부서, 일반 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)자 | 필요 시 공지, 상태 모니터링 |
 
-여기서 중요한 것은 축 이름보다 의사결정 의미다. 영향력은 예산, 승인, 우선순위, 배포 여부를 바꿀 수 있는 힘을 뜻하고, 관심도는 프로젝트 결과에 얼마나 민감하게 반응하는지를 뜻한다. 실제 현장에서는 관심도 대신 영향도나 변화 체감도를 넣어도 되지만, 목적은 같다. **누구를 얼마나 자주, 어떤 방식으로 관리해야 하는지**를 구체적 행동 계획으로 바꾸는 것이다.
+여기서 중요한 것은 축 이름보다 의사결정 의미다. 영향력은 예산, 승인, 우선순위, 배포 여부를 바꿀 수 있는 힘을 뜻하고, 관심도는 프로젝트 결과에 얼마나 민감하게 반응하는지를 뜻한다. 실제 현장에서는 관심도 대신 영향도나 변화 체감도를 넣어도 되지만, 목적은 같다. <strong>누구를 얼마나 자주, 어떤 방식으로 관리해야 하는지</strong>를 구체적 행동 계획으로 바꾸는 것이다.
 
 - **📢 섹션 요약 비유**: 영향도 매트릭스는 같은 교실에서도 담임 선생님, 반장, 시험 걱정 많은 친구, 그냥 구경하는 친구를 똑같이 대하지 않는 자리 배치도와 같다.
 
@@ -99,17 +104,20 @@ tags = ["software_engineering"]
 
 실무에서는 이해관계자 목록을 예쁘게 정리하는 것보다, 그 목록을 행동 계획으로 바꾸는 것이 더 중요하다. 예를 들어 개인정보를 다루는 고객 포털 구축 프로젝트라면 스폰서는 Manage Closely, 보안팀과 법무팀은 Keep Satisfied, 실제 상담원과 고객센터는 Keep Informed, 주변 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 부서는 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 대상이 될 수 있다. 이때 핵심은 "누구에게 무엇을 언제 보여 줄 것인가"를 릴리스 계획과 연결하는 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Engagement decision flow                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ can this actor block budget, scope, or release? -> high influence │
-│ is this actor heavily affected by the change?    -> high interest │
-│ both high  -> frequent review and decision lock                   │
-│ power only -> milestone approval and risk brief                   │
-│ interest only -> demo, feedback, training                         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Engagement decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">can this actor block budget, scope, or release? -&gt; high influence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">is this actor heavily affected by the change? -&gt; high interest</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">both high -&gt; frequent review and decision lock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">power only -&gt; milestone approval and risk brief</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interest only -&gt; demo, feedback, training</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -126,7 +134,7 @@ tags = ["software_engineering"]
 - 고위 임원에게 세부 진행을 과다 보고해 불필요한 간섭을 유발하는 것
 - 매트릭스를 한 번 만든 뒤 조직개편, 담당자 교체, 규제 변화가 생겨도 갱신하지 않는 것
 
-기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, **[식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) → 평가 → [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → 재평가**의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
+기술사 답안에서는 "권력-관심도 매트릭스 사용"이라고만 쓰지 말고, <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> → 평가 → <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 참여 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> → 재평가</strong>의 흐름과 숨은 이해관계자·부정적 이해관계자 처리까지 설명해야 실무성이 살아난다.
 
 - **📢 섹션 요약 비유**: 이해관계자 관리는 동네 축제를 준비할 때 후원자, 주민대표, 안전요원, 소음에 민감한 이웃을 각자 다른 방식으로 설득해야 행사가 무사히 열리는 것과 같다.
 
@@ -138,7 +146,7 @@ tags = ["software_engineering"]
 
 물론 한계도 있다. 사람의 태도와 권한은 고정되지 않고, 정치적 영향력은 문서보다 빠르게 움직인다. 따라서 매트릭스는 현실을 완벽히 복제하는 지도가 아니라, 의사결정을 돕는 모델로 써야 한다. 숫자화된 점수만 믿기보다 인터뷰, 회의 관찰, 조직 변화 정보를 함께 반영해야 한다.
 
-결론적으로 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 영향도 매트릭스는 사람 관리 문서가 아니라 **프로젝트 성공 조건을 보이지 않는 곳에서 정렬하는 구조도**다. 좋은 시스템은 좋은 코드만으로 완성되지 않고, 누가 그것을 승인하고 받아들이며 운영할지까지 함께 설계할 때 비로소 완성된다.
+결론적으로 이해관계자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 및 영향도 매트릭스는 사람 관리 문서가 아니라 <strong>프로젝트 성공 조건을 보이지 않는 곳에서 정렬하는 구조도</strong>다. 좋은 시스템은 좋은 코드만으로 완성되지 않고, 누가 그것을 승인하고 받아들이며 운영할지까지 함께 설계할 때 비로소 완성된다.
 
 - **📢 섹션 요약 비유**: 이해관계자 매트릭스는 배를 띄우기 전에 바람 방향, 항구 관리자, 승객, 정비팀의 위치를 함께 확인하는 항해도와 같아서, 배 자체만 튼튼하다고 항해가 성공하는 것은 아니다.
 
@@ -157,20 +165,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-stakeholder identification
-    │
-    ▼
-influence / interest assessment
-    │
-    ▼
-impact matrix
-    │
-    ├──────────────▶ engagement strategy
-    ├──────────────▶ approval / communication plan
-    ▼
-review and update by phase
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">stakeholder identification</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">influence / interest assessment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">impact matrix</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ engagement strategy</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ approval / communication plan</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">review and update by phase</div>
+</div>
+</div>
+
+
 
 이 흐름도는 이해관계자 매트릭스가 명단 정리로 끝나는 문서가 아니라, 참여 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 승인 계획을 거쳐 주기적으로 갱신되는 관리 도구임을 보여준다.
 

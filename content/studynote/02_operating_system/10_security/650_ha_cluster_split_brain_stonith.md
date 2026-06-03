@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 클러스터에서 노드 간의 네트워크가 단절되었을 때 양쪽 노드가 모두 자신이 마스터라고 착각하여 공유 스토리지를 훼손하는 치명적 장애를 **[스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)(Split-Brain, 뇌 분할)**이라 한다.
-> 2. **메커니즘**: 이를 방어하기 위해 클러스터는 평소에 **하트비트(Heartbeat)**로 서로의 생존을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, 통신이 끊어지는 즉시 **펜싱(Fencing) / STONITH(Shoot The Other Node In The Head)**를 발동하여 응답 없는 노드의 전원을 하드웨어적으로 강제 차단하거나 스토리지 접근을 잘라버린다.
+> 1. **본질**: 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 클러스터에서 노드 간의 네트워크가 단절되었을 때 양쪽 노드가 모두 자신이 마스터라고 착각하여 공유 스토리지를 훼손하는 치명적 장애를 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a>(Split-Brain, 뇌 분할)</strong>이라 한다.
+> 2. **메커니즘**: 이를 방어하기 위해 클러스터는 평소에 <strong>하트비트(Heartbeat)</strong>로 서로의 생존을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며, 통신이 끊어지는 즉시 <strong>펜싱(Fencing) / STONITH(Shoot The Other Node In The Head)</strong>를 발동하여 응답 없는 노드의 전원을 하드웨어적으로 강제 차단하거나 스토리지 접근을 잘라버린다.
 > 3. **가치**: 이 무자비한 '[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살' 메커니즘은 엔터프라이즈 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) RAC, MSCS)나 클라우드 인프라 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 영구적 오염([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption)을 막고 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하는 가장 확실하고 필수적인 최후의 보루다.
 
 ---
@@ -21,10 +21,10 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **하트비트 (Heartbeat)**: 노드끼리 1초에 한 번씩 "나 살아있다"라는 신호를 네트워크를 통해 주고받는 메커니즘.
-  - **[스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) (Split-Brain)**: 클러스터 노드 간의 하트비트 통신망(Private Network)이 끊어졌을 때, 양쪽 모두 "상대방이 죽었구나! 이제 내가 마스터([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))로서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 인계받아야겠다"라고 오판하는 상황.
+  - <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a> (Split-Brain)</strong>: 클러스터 노드 간의 하트비트 통신망(Private Network)이 끊어졌을 때, 양쪽 모두 "상대방이 죽었구나! 이제 내가 마스터([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))로서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 인계받아야겠다"라고 오판하는 상황.
   - **STONITH / Fencing**: "머리에 총을 쏴라"라는 뜻의 STONITH는 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 의심 상황 시, 한 노드가 다른 노드의 전원(PDU/[IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/))을 아예 내려버리거나([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Fencing), 스토리지 케이블([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단하는(Fabric Fencing) 행위다.
 
-- **필요성 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염의 공포)**: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오염의 공포)</strong>: 
   - A서버([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))와 B서버(Standby)가 공유 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))의 한 디스크를 보고 있다.
   - A서버가 멀쩡히 글을 쓰고 있는데, A와 B를 잇는 랜선(Heartbeat망)만 딱 끊어졌다. B는 A가 죽은 줄 알고 자기가 Active가 되어 스토리지에 글을 쓴다.
   - 결과적으로 A와 B가 동시에 동일한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/디스크 블록에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰게 되어(Concurrent Write), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 산산조각 난다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption). 한 번 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 외에는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 방법이 없다.
@@ -35,7 +35,7 @@ tags = ["studynote-operating-system"]
   - **STONITH의 도입**: 전화선이 끊기면 B는 요리를 시작하기 전에, 경호원([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/))에게 무전기를 쳐서 A를 주방에서 기절시켜 밖으로 끌어내라고 지시한다(전원 차단). A가 완전히 기절한 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후에야 B는 안심하고 냄비에 손을 댄다.
 
 - **발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수동 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)**: 관리자가 직접 콘솔을 보고 죽은 서버를 재부팅한 뒤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 넘김. (새벽에 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 수동 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a></strong>: 관리자가 직접 콘솔을 보고 죽은 서버를 재부팅한 뒤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 넘김. (새벽에 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))
   2. **하트비트 + 타이 브레이커 (Tie-breaker)**: Quorum(정족수) 디스크나 제3의 투표 노드를 도입하여 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)을 논리적으로 방어.
   3. **하드웨어 펜싱 (STONITH) 자동화**: Pacemaker / Corosync 등의 HA 프레임워크가 [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/), iLO(서버 관리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 연동되어 장애 노드를 즉결 처형하는 아키텍처로 성숙.
 
@@ -51,7 +51,7 @@ Linux 기반의 HA 클러스터(Pacemaker + Corosync) 구조를 기준으로 본
 
 | 계층 (Layer) | 주요 소프트웨어 / 구성 요소 | 역할 | 비유 |
 |:---|:---|:---|:---|
-| **Resource Manager ([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))**| Pacemaker, K8s Controller | 앱(VIP, DB 데몬)을 시작/정지/이동시키는 두뇌 | 현장 지휘관 |
+| <strong>Resource Manager (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>)</strong>| Pacemaker, K8s Controller | 앱(VIP, DB 데몬)을 시작/정지/이동시키는 두뇌 | 현장 지휘관 |
 | **Messaging & Membership**| Corosync, Keepalived | 노드 간 하트비트 교환 및 클러스터 멤버십(누가 살아있나) 관리 | 통신병 (하트비트) |
 | **Fencing / STONITH** | fence_ipmilan, fence_san | 응답 없는 노드의 전원이나 스토리지를 강제로 끊어버리는 플러그인 | 저격수 |
 | **Quorum (정족수)** | Quorum Disk, QDevice | [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 시 과반수(Majority)를 가진 쪽만 생존하게 하는 다수결 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 투표함 |
@@ -62,36 +62,33 @@ Linux 기반의 HA 클러스터(Pacemaker + Corosync) 구조를 기준으로 본
 
 A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 노드와 B (Standby) 노드로 구성된 2-Node 클러스터에서의 장애 시나리오다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Split-Brain 및 STONITH (Fencing) 동작 원리          │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 정상 동작]                                                 │
-  │   Node A (Active) ◀───── (Heartbeat 통신 정상) ─────▶ Node B (Standby)│
-  │     │ (Lock 보유)                                                 │
-  │     ▼                                                             │
-  │  [공유 스토리지 (SAN)]                                               │
-  │                                                                   │
-  │  [상황 2: 네트워크 파티션 (Split-Brain 발생)]                         │
-  │   Node A ◀─X─X─X─ (Heartbeat 회선만 끊어짐!) ─X─X─X─▶ Node B        │
-  │   (Node A는 여전히 살아있고, 자기가 Active라 생각하며 스토리지에 I/O 중)  │
-  │                                                                   │
-  │  [상황 3: Node B의 반란 및 STONITH 발동]                             │
-  │   1. Node B: "A가 죽었다! 내가 Active로 승격(Failover)해야겠다!"        │
-  │   2. 승격 전 필수 조건 ──▶ [STONITH 명령 발사]                       │
-  │                                                                   │
-  │   Node B ────(IPMI / iLO 원격 관리망 통신)────▶ Node A의 메인보드 전원부 │
-  │                                                                   │
-  │  [상황 4: Node A의 죽음과 안전한 서비스 인계]                           │
-  │   3. Node A의 전원이 물리적으로 강제 차단됨 (Power OFF 됨)              │
-  │   4. Node B는 IPMI로부터 "A의 전원 차단 성공" 응답을 수신함.              │
-  │   5. Node B는 이제 스토리지에 자신 혼자 남았음을 확신(Data Safety).        │
-  │   6. Node B가 VIP(가상 IP)를 띄우고 공유 스토리지에 마운트하여 서비스 재개!  │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 초보 엔지니어들은 "어? A가 죽은 줄 알고 B가 승격할 때 그냥 스토리지 마운트만 하면 되는 거 아니야?"라고 생각한다. 하지만 A는 안 죽었다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 고장 났을 뿐 A는 살아 숨 쉬고 있다. 이 상태에서 B가 스토리지를 마운트하는 순간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(예: ext4)은 즉시 박살 난다. 그래서 HA 클러스터 소프트웨어는 **"경쟁자(A)가 확실히 시체가 되었다는 증명(전원 차단 성공)을 받기 전까지는 절대 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(B)를 띄우지 않는다"**는 엄격한 규칙(Fencing)을 적용한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split-Brain 및 STONITH (Fencing) 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 정상 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A (Active) ◀ (Heartbeat 통신 정상) ▶ Node B (Standby)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Lock 보유)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 스토리지 (SAN)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 네트워크 파티션 (Split-Brain 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A ◀─X─X─X─ (Heartbeat 회선만 끊어짐!) ─X─X─X─▶ Node B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node A는 여전히 살아있고, 자기가 Active라 생각하며 스토리지에 I/O 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Node B의 반란 및 STONITH 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Node B: "A가 죽었다! 내가 Active로 승격(Failover)해야겠다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STONITH 명령 발사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node B (IPMI / iLO 원격 관리망 통신) ▶ Node A의 메인보드 전원부</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: Node A의 죽음과 안전한 서비스 인계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Node A의 전원이 물리적으로 강제 차단됨 (Power OFF 됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Node B는 IPMI로부터 "A의 전원 차단 성공" 응답을 수신함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Node B는 이제 스토리지에 자신 혼자 남았음을 확신(Data Safety).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Node B가 VIP(가상 IP)를 띄우고 공유 스토리지에 마운트하여 서비스 재개!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 초보 엔지니어들은 "어? A가 죽은 줄 알고 B가 승격할 때 그냥 스토리지 마운트만 하면 되는 거 아니야?"라고 생각한다. 하지만 A는 안 죽었다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 고장 났을 뿐 A는 살아 숨 쉬고 있다. 이 상태에서 B가 스토리지를 마운트하는 순간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(예: ext4)은 즉시 박살 난다. 그래서 HA 클러스터 소프트웨어는 <strong>"경쟁자(A)가 확실히 시체가 되었다는 증명(전원 차단 성공)을 받기 전까지는 절대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(B)를 띄우지 않는다"</strong>는 엄격한 규칙(Fencing)을 적용한다.
 
 ---
 
@@ -111,14 +108,14 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 | 펜싱 기법 | 동작 매커니즘 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| **[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Fencing (전원 펜싱)** | [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/), iLO, PDU를 통해 핑이 빠진 서버의 전원을 물리적으로 재부팅(리셋) | **가장 확실하고 100% 안전함. 업계 표준** | BMC망이 장애 나면 펜싱 실패 |
-| **Fabric Fencing ([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 펜싱)**| [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 접속해 장애 노드와 연결된 파이버 채널([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단 | 서버 전원은 살려두어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(원인) 분석 가능 | [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 및 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Fencing (전원 펜싱)</strong> | [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/), iLO, PDU를 통해 핑이 빠진 서버의 전원을 물리적으로 재부팅(리셋) | **가장 확실하고 100% 안전함. 업계 표준** | BMC망이 장애 나면 펜싱 실패 |
+| <strong>Fabric Fencing (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a> 펜싱)</strong>| [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 접속해 장애 노드와 연결된 파이버 채널([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 차단 | 서버 전원은 살려두어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(원인) 분석 가능 | [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 및 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 복잡 |
 | **SBD (Storage Based Death)**| 공유 스토리지([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/))에 각 노드의 독약(Poison Pill) 메시지를 적어 둠 | 네트워크와 무관하게 스토리지 연결만으로 펜싱 | 스토리지가 뻗으면 클러스터 전체 붕괴 |
 
 ### 과목 융합 관점
 
 - **네트워크 (NW)**: 하트비트를 주고받는 네트워크는 절대 단일 경로로 구성하면 안 된다. 크로스 다이렉트 케이블(Dedicated Heartbeat)과 퍼블릭 네트워크(Public) 두 개 이상의 경로를 Bonding(LACP)으로 구성해야 '네트워크 단절로 인한 억울한 사살'을 막을 수 있다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 (Distributed System)**: K8s나 [Etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/), ZooKeeper의 리더 선출(Leader Election)은 펜싱 하드웨어([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)) 대신 뗏목([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/))이나 팍소스(Paxos) 같은 논리적 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의존한다. 이들은 홀수 개의 노드를 강제하여 논리적 Quorum(정족수)을 달성함으로써 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)을 100% 방어한다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템 (Distributed System)</strong>: K8s나 [Etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/), ZooKeeper의 리더 선출(Leader Election)은 펜싱 하드웨어([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)) 대신 뗏목([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/))이나 팍소스(Paxos) 같은 논리적 합의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의존한다. 이들은 홀수 개의 노드를 강제하여 논리적 Quorum(정족수)을 달성함으로써 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)을 100% 방어한다.
 
 - **📢 섹션 요약 비유**: 네트워크 선이 끊겼다고 상대방이 죽은 것은 아닙니다. 심장마비(진짜 장애)인지 벙어리(네트워크 단절)인지 알 수 없을 때는, 차라리 진짜 심장마비로 만들어버리는([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Fencing) 것이 공유 자산을 지키는 유일한 방법입니다.
 
@@ -129,43 +126,40 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 ### 실무 시나리오
 
 1. **시나리오 — 클라우드 (AWS/GCP) 환경의 HA 클러스터 구축 한계**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(물리 서버)에서는 Pacemaker가 서버의 iLO([IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)) 모듈에 접속해 전원을 뽑았다. 하지만 AWS EC2 인스턴스는 물리적 전원 케이블이라는 개념이 없다.
-   - **대응 (Cloud [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Fencing)**: 클라우드 환경 전용 펜싱 에이전트(예: `fence_aws`)를 사용한다. Node B가 Node A를 펜싱할 때, AWS EC2 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Endpoint로 `aws ec2 stop-instances --instance-ids <Node_A>` API를 호출한다. AWS 인프라가 A 인스턴스를 강제로 정지시키면, B가 이를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 넘겨받는다. (이를 위해서는 각 EC2 인스턴스에 상대방을 죽일 수 있는 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role 권한이 부여되어 있어야 한다.)
+   - <strong>대응 (Cloud <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> Fencing)</strong>: 클라우드 환경 전용 펜싱 에이전트(예: `fence_aws`)를 사용한다. Node B가 Node A를 펜싱할 때, AWS EC2 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Endpoint로 `aws ec2 stop-instances --instance-ids <Node_A>` API를 호출한다. AWS 인프라가 A 인스턴스를 강제로 정지시키면, B가 이를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 넘겨받는다. (이를 위해서는 각 EC2 인스턴스에 상대방을 죽일 수 있는 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Role 권한이 부여되어 있어야 한다.)
 
 2. **시나리오 — 2-Node 핑퐁(Ping-Pong) 장애 (펜싱 무한 루프)**: A와 B로 이루어진 클러스터에서 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 비정상 동작하여 패킷이 10초 끊겼다 이어지길 반복한다.
    - **원인 분석**: 10초 끊기자 B가 A에게 STONITH를 쏴서 A를 재부팅시켰다. A가 살아서 부팅되었는데 다시 패킷이 끊겼다. 이번엔 A가 "어 B가 죽었네?" 하고 B에게 STONITH를 쐈다. 두 서버가 서로를 번갈아 가며 계속 죽이는 'Fencing Deathmatch'가 터졌다.
    - **대응 (기술사적 가이드)**: 
-     1. **펜싱 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Fencing Delay)**: A 노드는 즉시 총을 쏘고, B 노드는 총을 쏘기 전에 15초를 기다리게(Delay) 비대칭 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 부여하여 동시 사격을 막는다.
+     1. <strong>펜싱 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Fencing Delay)</strong>: A 노드는 즉시 총을 쏘고, B 노드는 총을 쏘기 전에 15초를 기다리게(Delay) 비대칭 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 부여하여 동시 사격을 막는다.
      2. **Quorum Device (QDevice) 도입**: 2-Node는 태생적으로 위험하다. 제3의 가벼운 서버(또는 클라우드 인스턴스)에 QDevice 데몬을 올려 투표권(+1표)만 준다. 총 3표가 되어 네트워크 단절 시 제3의 서버와 통신이 되는 노드(2표 획득)만 살아남게 구조를 바꾼다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 스플릿 브레인 방어를 위한 HA 클러스터 설계 플로우            │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [고가용성(Active-Standby) 클러스터 아키텍처 설계]                        │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      데이터베이스 등 '동시 쓰기(Concurrent Write) 시 100% 파일 파괴' 위험이 있는가?│
-  │          ├─ 예 ─────▶ [STONITH / Fencing 필수 활성화 강제]            │
-  │          │            (펜싱이 설정되지 않은 HA는 폭탄을 안고 도는 것과 같음) │
-  │          └─ 아니오 ──▶ 단순 웹서버(Stateless)면 로드밸런서 수준으로 타협 가능 │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      물리 서버 노드 개수가 짝수(Even, 예: 2대)인가?                       │
-  │          ├─ 예 ─────▶ [QDevice (Tie-breaker)를 반드시 추가 구성]      │
-  │          │            (스플릿 브레인 시 다수결 판단을 위한 홀수 표 확보)   │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 홀수 노드(3, 5) 구성으로 Quorum 자동 방어 작동     │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** "테스트 환경에서는 STONITH를 끄고(disable) 연습하세요"라는 블로그 글이 많은데, 실무에서 이를 그대로 껐다가는 대재앙을 맞는다. HA 클러스터 구축의 90%는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 어떻게 띄울까"가 아니라 **"상대방이 죽은 척할 때 어떻게 확실하게 묻어버릴까(Fencing)"**를 정교하게 튜닝하는 작업이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스플릿 브레인 방어를 위한 HA 클러스터 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고가용성(Active-Standby) 클러스터 아키텍처 설계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스 등 '동시 쓰기(Concurrent Write) 시 100% 파일 파괴' 위험이 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STONITH / Fencing 필수 활성화 강제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(펜싱이 설정되지 않은 HA는 폭탄을 안고 도는 것과 같음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단순 웹서버(Stateless)면 로드밸런서 수준으로 타협 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 노드 개수가 짝수(Even, 예: 2대)인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QDevice (Tie-breaker)를 반드시 추가 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스플릿 브레인 시 다수결 판단을 위한 홀수 표 확보)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 홀수 노드(3, 5) 구성으로 Quorum 자동 방어 작동</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** "테스트 환경에서는 STONITH를 끄고(disable) 연습하세요"라는 블로그 글이 많은데, 실무에서 이를 그대로 껐다가는 대재앙을 맞는다. HA 클러스터 구축의 90%는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 어떻게 띄울까"가 아니라 <strong>"상대방이 죽은 척할 때 어떻게 확실하게 묻어버릴까(Fencing)"</strong>를 정교하게 튜닝하는 작업이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **Out-of-Band(대역 외) 네트워크 보장**: [IPMI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/709_ipmi/)(전원 관리)로 STONITH를 날리려면, 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 다니는 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 완전히 분리된 전용 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(OOB 관리망)를 통해 명령이 날아가도록 구성되어야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 죽었을 때 관리망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)도 같이 죽으면 총(STONITH)을 쏠 수 없어 페일오버([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))가 영원히 멈춘다.
-- **[Fail-safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 메커니즘 (Watchdog)**: 내가 네트워크가 끊겨 고립되었는데 상대방이 나에게 STONITH를 못 쏘는 상황이라면? 서버 스스로 하드웨어 Watchdog 타이머를 통해 "나 혼자 고립되었으니 내 전원을 내리겠다(Self-fencing)"고 자결하는 세팅이 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 필수 안전장치다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-safe</a> 메커니즘 (Watchdog)</strong>: 내가 네트워크가 끊겨 고립되었는데 상대방이 나에게 STONITH를 못 쏘는 상황이라면? 서버 스스로 하드웨어 Watchdog 타이머를 통해 "나 혼자 고립되었으니 내 전원을 내리겠다(Self-fencing)"고 자결하는 세팅이 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 필수 안전장치다.
 
 - **📢 섹션 요약 비유**: 비행기의 탈출 시스템(페일오버)이 아무리 좋아도, 조종석의 두 조종사가 서로 비행기를 몰겠다고 싸우면 추락합니다. 한 조종사가 의식을 잃은 것 같으면, 부조종사가 완전히 조종권을 뺏기 위해 먼저 기장석의 컨트롤을 물리적으로 잠가버리는(STONITH) 룰이 있어야 안전합니다.
 
@@ -177,13 +171,13 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 | 구분 | Fencing 미적용 (수동 개입) | Fencing (STONITH) 자동화 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 ([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))** | [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 발생 시 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파손 | 의심 노드 강제 종료로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 원천 차단 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염(Corruption) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 0% |
-| **정량 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)**| 관리자 콘솔 접속 및 수동 전원 차단 (수 분)| 핑 누락 즉시 하드웨어 전원 컷 및 절체 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) **수 초 이내로 단축** |
+| <strong>정성 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong> | [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 발생 시 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 파손 | 의심 노드 강제 종료로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 원천 차단 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염(Corruption) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 0% |
+| <strong>정량 (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간)</strong>| 관리자 콘솔 접속 및 수동 전원 차단 (수 분)| 핑 누락 즉시 하드웨어 전원 컷 및 절체 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) **수 초 이내로 단축** |
 | **정성 (운영 무인화)**| 야간 장애 시 심리적 압박 극심 | 자동화된 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살로 안심 취침 보장 | 24/365 엔터프라이즈 급 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(99.999%) 달성 |
 
 ### 미래 전망
-- **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)의 Fencing 도입 발전**: 과거 K8s는 워커 노드가 응답이 없으면 그냥 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 다른 노드로 스케줄링했다(Eviction). 하지만 이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 외부 블록 스토리지(EBS)를 마운트해서 쓰고 있었다면 기존 노드의 좀비 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)와 충돌이 났다. 최근 K8s 생태계는 `Node Fencing Controller`와 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스토리지 인터페이스)를 결합하여, 응답 없는 노드의 스토리지 락을 강제로 빼앗고(Fencing) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우는 엔터프라이즈 HA 기능을 흡수하고 있다.
-- **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 장애 판별**: 네트워크의 일시적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Lag)인지 진짜 노드 사망인지를 판별하기 위해, 단순히 3초 타임아웃을 넘어 노드의 디스크 I/O 큐와 CPU 로드를 AI가 실시간으로 분석하여 오발 사격(False Positive STONITH)을 막는 지능형 하트비트가 연구되고 있다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(K8s)의 Fencing 도입 발전</strong>: 과거 K8s는 워커 노드가 응답이 없으면 그냥 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 다른 노드로 스케줄링했다(Eviction). 하지만 이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 외부 블록 스토리지(EBS)를 마운트해서 쓰고 있었다면 기존 노드의 좀비 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)와 충돌이 났다. 최근 K8s 생태계는 `Node Fencing Controller`와 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스토리지 인터페이스)를 결합하여, 응답 없는 노드의 스토리지 락을 강제로 빼앗고(Fencing) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우는 엔터프라이즈 HA 기능을 흡수하고 있다.
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 기반 장애 판별</strong>: 네트워크의 일시적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Lag)인지 진짜 노드 사망인지를 판별하기 위해, 단순히 3초 타임아웃을 넘어 노드의 디스크 I/O 큐와 CPU 로드를 AI가 실시간으로 분석하여 오발 사격(False Positive STONITH)을 막는 지능형 하트비트가 연구되고 있다.
 
 ### 결론
 하트비트와 STONITH(펜싱) 메커니즘은 운영체제와 네트워크가 결코 100% 신뢰할 수 없다는 비관적 철학에서 출발한 시스템 공학의 걸작이다. "살아있는지 모르면 일단 죽여놓고 본다"는 이 살벌한 원칙은, 역설적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지킬 수 있는 유일하고도 가장 안전한 해답이다. 현대 IT 인프라에서 수십억 건의 금융 트랜잭션과 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지지 않고 유지되는 것은, 보이지 않는 곳에서 서로의 숨통을 겨누고 있는 이 차가운 펜싱(Fencing) 로직 덕분이다.
@@ -203,15 +197,19 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조]
-    │
-    ▼
-[고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
-    │
-    ├──▶ [전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
-    └──▶ [모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

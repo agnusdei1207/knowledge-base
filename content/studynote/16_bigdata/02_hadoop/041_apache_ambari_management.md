@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **아파치 암바리**는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 관리 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링을 중앙에서 웹 기반 UI로 수행하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구이다.
+1. <strong>아파치 암바리</strong>는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 관리 및 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링을 중앙에서 웹 기반 UI로 수행하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 도구이다.
 2. 수백 개 이상의 노드에 [하둡 에코시스템](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/) 소프트웨어를 일괄 설치하고, 실시간으로 각 노드의 상태와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 가시화한다.
 3. RESTful API를 통해 외부 시스템과의 연동을 지원하며, 클러스터 규모의 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 시 운영 복잡도를 획기적으로 줄여준다.
 
@@ -24,28 +24,23 @@ tags = ["studynote-bigdata"]
   - **Ambari Agent**: 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드에서 실행되며, 서버의 명령을 수행하고 상태를 보고한다.
   - **Web UI**: 사용자가 브라우저를 통해 클러스터를 제어하는 대시보드이다.
 
-```text
-[Apache Ambari Architecture]
 
-   +---------------------------------------------------------+
-   |                    Admin User (Web UI)                  |
-   +----------------------------+----------------------------+
-                                |
-                                \/
-   +---------------------------------------------------------+
-   |                     Ambari Server                       |
-   |   (Database, REST API, Resource Manager, State Store)   |
-   +----------------------------+----------------------------+
-           ||                   ||                   ||
-           \/                   \/                   \/
-   +----------------+   +----------------+   +----------------+
-   | Ambari Agent   |   | Ambari Agent   |   | Ambari Agent   |
-   | (Worker Node 1)|   | (Worker Node 2)|   | (Worker Node N)|
-   +----------------+   +----------------+   +----------------+
-   | - Install SW   |   | - Start Service|   | - Health Check |
-   | - Monitoring   |   | - Config Update|   | - Metrics Send |
-   +----------------+   +----------------+   +----------------+
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ambari Architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin User (Web UI)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambari Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Database, REST API, Resource Manager, State Store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambari Agent</div><div class="kb-diagram-cell">Ambari Agent</div><div class="kb-diagram-cell">Ambari Agent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Worker Node 1)</div><div class="kb-diagram-cell">(Worker Node 2)</div><div class="kb-diagram-cell">(Worker Node N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Install SW</div><div class="kb-diagram-cell">- Start Service</div><div class="kb-diagram-cell">- Health Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Monitoring</div><div class="kb-diagram-cell">- Config Update</div><div class="kb-diagram-cell">- Metrics Send</div></div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -54,7 +49,7 @@ tags = ["studynote-bigdata"]
 | **라이선스** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) (Apache 2.0) | 상용 (Cloudera 전용) |
 | **대상 배포판** | HDP (Hortonworks) 및 범용 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) | [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([Cloudera Data Platform](/knowledge-base/studynote/16_bigdata/02_hadoop/042_cloudera_cdp_platform/)) |
 | **주요 특징** | 자유로운 커스터마이징 가능 | 매우 강력한 자동화 및 유료 지원 보장 |
-| **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링** | Ganglia, Nagios 등 연동 | 자체 고성능 엔진 내장 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong> | Ganglia, Nagios 등 연동 | 자체 고성능 엔진 내장 |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **실무 적용**: 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 구축 시 수백 대의 서버에 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 1시간 이내에 배포하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 권장 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값(Blueprint)을 일괄 적용하는 데 활용된다.
@@ -66,26 +61,28 @@ tags = ["studynote-bigdata"]
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 1. **Ambari Blueprints**: 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형식으로 정의한 템플릿
-2. **[REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)**: 모든 암바리 기능을 외부 프로그램에서 호출 가능하게 함
+2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/">REST API</a></strong>: 모든 암바리 기능을 외부 프로그램에서 호출 가능하게 함
 3. **Smart Configs**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간 의존성을 고려한 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 추천 기능
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Hadoop 클러스터 수동 관리 — XML 설정 파일 직접 편집의 복잡성]
-    │
-    ▼
-[Apache Ambari — 웹 UI·REST API 기반 중앙 집중 클러스터 관리]
-    │
-    ▼
-[Ambari Blueprints — JSON 템플릿으로 클러스터 프로비저닝 자동화]
-    │
-    ▼
-[Cloudera Manager / CDP — 엔터프라이즈급 관리 플랫폼으로 발전]
-    │
-    ▼
-[Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hadoop 클러스터 수동 관리 — XML 설정 파일 직접 편집의 복잡성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ambari — 웹 UI·REST API 기반 중앙 집중 클러스터 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ambari Blueprints — JSON 템플릿으로 클러스터 프로비저닝 자동화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cloudera Manager / CDP — 엔터프라이즈급 관리 플랫폼으로 발전</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리</div></div>
+</div>
+</div>
+
+
 Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 웹 UI와 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 단순화한 관리 플랫폼으로, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 통합 관리로 진화하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

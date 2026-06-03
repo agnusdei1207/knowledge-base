@@ -40,17 +40,20 @@ tags = ["software_engineering"]
 | 품질 내장 | 테스트·코드리뷰 자동화 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파 차단 |
 | 전체 최적화 | 부분 효율보다 흐름 최적화 | 시스템 병목 제거 |
 
-```text
-고객 가치
-    │
-    ▼
-작은 배치 개발 ──► 빠른 피드백 ──► 학습 강화
-    │                                 │
-    └────────────► 품질 내장 ◄─────────┘
-                    │
-                    ▼
-               흐름 개선 / 낭비 감소
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고객 가치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">작은 배치 개발 ──► 빠른 피드백 ──► 학습 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">품질 내장 ◄</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">흐름 개선 / 낭비 감소</div>
+</div>
+</div>
+
+
 
 Lean의 핵심은 "더 열심히"가 아니라 "더 늦지 않게 배우는 구조"를 만드는 데 있다.
 

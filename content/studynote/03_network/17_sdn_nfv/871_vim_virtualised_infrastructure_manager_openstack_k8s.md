@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 868번 MANO 아키텍처의 3계층 중 **가장 맨 밑바닥에서, 물리적 서버/스토리지/네트워크 장비들([NFVI](/knowledge-base/studynote/03_network/17_sdn_nfv/867_nfvi_nfv_infrastructure_physical_virtual_resources/))을 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)하여 거대한 자원 풀(Pool)로 만들고, 윗선([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/), [NFVO](/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/))의 명령에 따라 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실제로 뚝딱 만들어내어 하드웨어 자원을 할당(Allocation)하고 회수하는 인프라 관리 플랫폼**입니다.
-- **실무의 제왕**: 이 VIM 자리를 전 세계 100% 독점하다시피 한 거대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 괴물이 바로 **오픈스택(OpenStack)**입니다. (최근엔 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시대가 오며 **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s)**가 VIM의 자리를 급속도로 뺏어 먹고 있습니다.)
+- **개념**: 868번 MANO 아키텍처의 3계층 중 <strong>가장 맨 밑바닥에서, 물리적 서버/스토리지/네트워크 장비들(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/867_nfvi_nfv_infrastructure_physical_virtual_resources/">NFVI</a>)을 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>하여 거대한 자원 풀(Pool)로 만들고, 윗선(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/">VNFM</a>, <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/">NFVO</a>)의 명령에 따라 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)이나 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 실제로 뚝딱 만들어내어 하드웨어 자원을 할당(Allocation)하고 회수하는 인프라 관리 플랫폼</strong>입니다.
+- **실무의 제왕**: 이 VIM 자리를 전 세계 100% 독점하다시피 한 거대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 괴물이 바로 <strong>오픈스택(OpenStack)</strong>입니다. (최근엔 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시대가 오며 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(k8s)</strong>가 VIM의 자리를 급속도로 뺏어 먹고 있습니다.)
 
-```text
-[VNFM]
-    │
-    ▼
-[VIM]
-    │
-    └──▶ [서비스 체이닝 (Service Chainin…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VIM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VIM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,7 +44,7 @@ tags = ["studynote-network"]
 ### 1. 무한한 가상 자원 찍어내기 ([Resource Allocation](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/))
 - 윗선([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))에서 "가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 띄우게 방 하나 파줘([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)"라고 명령서가 내려옵니다.
 - VIM(오픈스택 Nova)은 전국 1만 대의 물리 서버의 램(RAM)과 CPU 엑셀 장부를 뒤적입니다. "오, 부산 3번 서버에 CPU 4코어 빈 공간 있네!"
-- 즉시 3번 서버의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))에게 명령을 때려 **CPU 4코어짜리 텅 빈 깡통 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 1초 만에 뚝딱 파내어 VNFM에게 상납**합니다.
+- 즉시 3번 서버의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))에게 명령을 때려 <strong>CPU 4코어짜리 텅 빈 깡통 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)을 1초 만에 뚝딱 파내어 VNFM에게 상납</strong>합니다.
 
 ### 2. 가상 네트워크 핏줄 뚫어주기 (Network Connectivity)
 - VM만 달랑 만들어주면 인터넷이 안 됩니다. 
@@ -50,14 +54,18 @@ tags = ["studynote-network"]
 - VIM은 땅 바닥의 흙(서버) 상태를 24시간 현미경으로 감시합니다.
 - "10번 서버 하드디스크가 뻑났습니다! 5번 서버 온도가 100도입니다!"라는 비명 소리(물리적 장애)를 가장 먼저 수집하여, 위에 있는 사령관([NFVO](/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/))과 매니저([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))에게 긴급 보고타전(Notification)을 날립니다. 이 보고를 받아야 VNFM이 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))을 다른 서버로 살려서 이사(마이그레이션)시킬 수 있습니다.
 
-```text
-[VNFM]
-    │
-    ▼
-[VIM]
-    │
-    └──▶ [서비스 체이닝 (Service Chainin…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VIM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VIM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **1세대 VIM (OpenStack)**: 무거운 운영체제를 통째로 띄우는 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 시대의 절대 군주입니다. 통신사의 4G [EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/) 코어망은 다 오픈스택 VIM 위에서 돌아갑니다.
-- **2세대 VIM ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), k8s) 🌟**: 무거운 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 가벼운 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))로 모든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(이젠 CNF라 부름)를 쪼개서 돌리는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대의 새로운 VIM 대장입니다. 부팅 속도가 0.1초라 트래픽 폭주 대처([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 능력이 오픈스택을 압살합니다.
+- <strong>2세대 VIM (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>, k8s) 🌟</strong>: 무거운 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 가벼운 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))로 모든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(이젠 CNF라 부름)를 쪼개서 돌리는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대의 새로운 VIM 대장입니다. 부팅 속도가 0.1초라 트래픽 폭주 대처([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 능력이 오픈스택을 압살합니다.
 
 VIM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. VNFM가 기반 조건을 만든다면, VIM는 그 위에서 핵심 메커니즘을 구현하고, [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -90,7 +98,7 @@ VIM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: MANO가 거대한 빌딩 건설 회사라면, NFVO가 본사 회장님이고, VNFM이 인테리어 업자입니다. 그렇다면 **VIM([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라 관리자)**은 흙먼지 날리는 공사판 현장을 지휘하는 '골조 공사 노가다 현장 소장님(오픈스택)'입니다. 인테리어 업자([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))가 "여기에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 가구 들여놓을 거니까 방 좀 하나 만들어줘!" 하면, 현장 소장님(VIM)은 즉각 시멘트(물리 CPU)와 철근(물리 RAM) 재고를 쓱 파악한 뒤 인부들을 시켜 빈 콘크리트 방(가상머신 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 벽돌로 1초 만에 뚝딱 지어냅니다. 방에 수도관과 전기선(가상 랜선과 IP)까지 완벽하게 꽂아준 뒤 "방 다 뺐습니다! 가구 들이십쇼!"라고 위로 깍듯이 보고하는 가장 핵심적인 인프라 바닥의 일꾼 대장입니다.
+- **📢 섹션 요약 비유**: MANO가 거대한 빌딩 건설 회사라면, NFVO가 본사 회장님이고, VNFM이 인테리어 업자입니다. 그렇다면 <strong>VIM(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 인프라 관리자)</strong>은 흙먼지 날리는 공사판 현장을 지휘하는 '골조 공사 노가다 현장 소장님(오픈스택)'입니다. 인테리어 업자([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))가 "여기에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 가구 들여놓을 거니까 방 좀 하나 만들어줘!" 하면, 현장 소장님(VIM)은 즉각 시멘트(물리 CPU)와 철근(물리 RAM) 재고를 쓱 파악한 뒤 인부들을 시켜 빈 콘크리트 방(가상머신 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 벽돌로 1초 만에 뚝딱 지어냅니다. 방에 수도관과 전기선(가상 랜선과 IP)까지 완벽하게 꽂아준 뒤 "방 다 뺐습니다! 가구 들이십쇼!"라고 위로 깍듯이 보고하는 가장 핵심적인 인프라 바닥의 일꾼 대장입니다.
 
 ---
 
@@ -113,15 +121,19 @@ VIM는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: VNFM]
-    │
-    ▼
-[현재 개념: VIM]
-    │
-    ├──▶ [확장 A: 서비스 체이닝 (Service Chainin…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VNFM</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VIM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서비스 체이닝 (Service Chainin…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 VIM는 VNFM에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 램(RAM)에 빈방이 없을 때 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내기 위해, **"과거에 가장 오랫동안(Least) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되지 않은(Recently Used) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 미래에도 안 쓸 것이다"**라는 강력한 통계적 가정을 바탕으로 희생양을 처형하는 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 불가능의 영역인 [최적 교체](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/)([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/), 미래 예측) 곡선에 가장 가깝게 들러붙는 압도적인 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 자랑하며, 프레임을 늘리면 폴트가 오히려 늘어나는 바보 같은 **벨라디의 모순(Belady's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 성질([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Property)을 통해 완벽하게 박멸**했다.
-> 3. **융합(한계)**: 이론상 완벽하지만 수십만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 '마지막 접근 시간'을 기록하거나 순서를 갱신해야 하는 끔찍한 오버헤드를 동반하므로, 현대 하드웨어와 OS는 이를 100% 쌩으로 돌리지 못하고 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개로 퉁치는 **'[Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) (2차 기회) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'이라는 근사치(Approximation) 형태로 융합하여 실무에 적용**한다.
+> 1. **본질**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 램(RAM)에 빈방이 없을 때 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아내기 위해, <strong>"과거에 가장 오랫동안(Least) <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>되지 않은(Recently Used) <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>는 미래에도 안 쓸 것이다"</strong>라는 강력한 통계적 가정을 바탕으로 희생양을 처형하는 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 불가능의 영역인 [최적 교체](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/301_opt_replacement/)([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/), 미래 예측) 곡선에 가장 가깝게 들러붙는 압도적인 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 자랑하며, 프레임을 늘리면 폴트가 오히려 늘어나는 바보 같은 <strong>벨라디의 모순(Belady's <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)을 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 성질(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Property)을 통해 완벽하게 박멸</strong>했다.
+> 3. **융합(한계)**: 이론상 완벽하지만 수십만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 '마지막 접근 시간'을 기록하거나 순서를 갱신해야 하는 끔찍한 오버헤드를 동반하므로, 현대 하드웨어와 OS는 이를 100% 쌩으로 돌리지 못하고 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개로 퉁치는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> (2차 기회) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>'이라는 근사치(Approximation) 형태로 융합하여 실무에 적용</strong>한다.
 
 ---
 
@@ -23,33 +23,31 @@ tags = ["studynote-operating-system"]
 - **필요성**: FIFO를 썼더니 맨 처음에 메모리에 올라온 '핵심 전역 변수'나 'Init() 함수'가 늙었다는 이유로 억울하게 쫓겨났다가 다시 램으로 올라오는 삽질([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 무한 반복되었다. 공학자들은 "들어온 시간이 중요한 게 아니라, 방금 전까지 누가 얘를 계속 건드리고 있었느냐가 중요한 거 아니야?"라는 본질을 깨달았다. 즉, 프로그램의 코드가 `for` 루프를 돌며 계속 특정 변수만 괴롭히는 특성(지역성)을 캐치하여, "최근에 버림받은 놈을 죽이자"는 냉혹한 실용주의가 필요했다.
 
 - **등장 배경 및 OPT의 그림자**:
-  1. **[OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/)(미래 투시)의 좌절**: 미래를 아는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 코딩할 수 없다. 
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a>(미래 투시)의 좌절</strong>: 미래를 아는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 코딩할 수 없다. 
   2. **시간 대칭성 가설**: "미래에 가장 늦게 쓰일 놈 = 과거에 가장 안 쓴 놈". 과거와 미래가 거울처럼 데칼코마니 대칭을 이룬다는 천재적 가설을 채택.
   3. **대성공과 오버헤드**: 시뮬레이션 결과 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 턱밑까지 폴트를 막아냈으나, "과거를 완벽하게 기억하는 데 드는 비용(CPU 낭비)"이 너무 커 실무 도입에 장벽을 맞았다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        LRU 알고리즘의 동작 시각화 (스택 기반의 생명 연장 마술)            │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 상황: 램 프레임 3개 / 호출 순서: 1 -> 2 -> 3 -> 1 -> 4 ]                │
-│                                                                           │
-│ ▶ 1. 초기 램 꽉 참                                                        │
-│   (최근) [ 3 ] - [ 2 ] - [ 1 ] (가장 안 씀: 쫓겨날 1순위)                 │
-│                                                                           │
-│ ▶ 2. 기적의 생명 연장: CPU가 '1'을 다시 불렀다! (Hit!)                    │
-│   OS: "어이구 1번 안 쓰는 놈인 줄 알았는데 방금 또 썼네? VIP로 모셔!"     │
-│   (최근) [ 1 ] - [ 3 ] - [ 2 ] (가장 안 씀: 타겟이 2로 바뀜!)             │
-│                                                                           │
-│ ▶ 3. 새로운 위기: CPU가 '4'를 불렀다! (Page Fault 터짐)                   │
-│   OS: "누굴 죽일까... 1은 방금 썼고, 3도 아까 썼고, 2가 젤 오래 쉬었네!"  │
-│   '2'를 처형하고 디스크로 날림! 그 자리에 4를 얹음.                       │
-│   (최근) [ 4 ] - [ 1 ] - [ 3 ] (가장 안 씀: 이번엔 3이 타겟)              │
-│                                                                           │
-│ ✅ 결과: 만약 FIFO였다면 2번 스텝에서 1을 죽이고 1을 또 가져오는 미친 짓을│
-│         했겠지만, LRU는 방금 쓴 1을 살려내어 완벽하게 폴트를 방어함!      │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU 알고리즘의 동작 시각화 (스택 기반의 생명 연장 마술)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 호출 순서: 1 -&gt; 2 -&gt; 3 -&gt; 1 -&gt; 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 초기 램 꽉 참</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">(가장 안 씀: 쫓겨날 1순위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 기적의 생명 연장: CPU가 '1'을 다시 불렀다! (Hit!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "어이구 1번 안 쓰는 놈인 줄 알았는데 방금 또 썼네? VIP로 모셔!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">(가장 안 씀: 타겟이 2로 바뀜!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 새로운 위기: CPU가 '4'를 불렀다! (Page Fault 터짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "누굴 죽일까... 1은 방금 썼고, 3도 아까 썼고, 2가 젤 오래 쉬었네!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'2'를 처형하고 디스크로 날림! 그 자리에 4를 얹음.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">(가장 안 씀: 이번엔 3이 타겟)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 만약 FIFO였다면 2번 스텝에서 1을 죽이고 1을 또 가져오는 미친 짓을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">했겠지만, LRU는 방금 쓴 1을 살려내어 완벽하게 폴트를 방어함!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** LRU의 핵심은 "순위의 역동성"이다. 한 번 램에 들어왔다고 끝이 아니다. 불릴([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 때마다 무조건 맨 앞줄(Top)로 새치기를 시켜준다. 이 쉼 없는 줄 세우기 덕분에 프로그램이 뺑글뺑글 도는 `while` 루프의 핵심 변수들은 영원히 쫓겨나지 않고 램의 1열을 독차지하게 되며, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 극한으로 방어된다.
 
 - **📢 섹션 요약 비유**: 서재에 책을 3권만 꺼내둘 수 있습니다. 책을 볼 때마다 다 본 책을 서재의 맨 왼쪽 끝(가장 최근)으로 밀어놓습니다. 며칠 지나면 자연스럽게 오른쪽 끝에는 '가장 오랫동안 안 편 먼지 쌓인 책([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 타겟)'이 밀려나 있게 되고, 새 책이 필요할 때 고민 1도 없이 맨 오른쪽 책을 창고로 치워버리는 우아한 정리법입니다.
@@ -62,13 +60,13 @@ tags = ["studynote-operating-system"]
 
 LRU는 이론이 너무 예쁘지만, 저 "맨 앞으로 순위 당겨주기"를 매 클럭마다 컴퓨터가 하려면 피를 토해야 한다. 구현법은 두 가지가 제안되었다.
 
-1. **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) / 타임스탬프 (Counters) 방식**
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> / 타임스탬프 (Counters) 방식</strong>
    - **구조**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 한 줄마다 '시간(Time)'을 기록하는 64비트 시계 변수를 달아놓는다.
    - **동작**: CPU가 3번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 터치하는 0.000001초의 찰나에, 하드웨어가 3번 PTE에 들어가서 `Time = 2026-03-23 15:30:11.999` 라고 미친 듯이 시간을 갱신해 놓는다.
    - **교체 시**: 램이 모자라면 OS가 400만 개의 장부를 풀 스캔(O(N))하며 "누구 시계가 제일 옛날이지?" 찾아서 죽인다.
    - **절망**: 시간 갱신 오버헤드 + 풀 스캔 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) = 시스템 즉사.
 
-2. **[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 하드웨어 방식**
+2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>) 하드웨어 방식</strong>
    - **구조**: 방금 예시처럼 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호를 '더블 링크드 리스트(Double [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)'으로 유지한다.
    - **동작**: 5번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽으면, 리스트 중간에 박혀있던 5번의 앞뒤 포인터 6개를 지우고 잇고 난리 부르스를 쳐서 5번을 꼭대기(Top)로 뽑아 올린다.
    - **교체 시**: 그냥 맨 밑바닥(Bottom)에 있는 놈을 $O(1)$ 속도로 바로 죽인다. (탐색 속도 우주 최강).
@@ -78,7 +76,7 @@ LRU는 이론이 너무 예쁘지만, 저 "맨 앞으로 순위 당겨주기"를
 
 ### 그래서 현업(OS)은 어떻게 하는가? (포기 선언)
 
-결론부터 말하면, 윈도우, 리눅스, 맥 OS 등 **세상에 존재하는 그 어떤 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)도 이 '완벽한 100% 순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)'를 사용하지 않는다.**
+결론부터 말하면, 윈도우, 리눅스, 맥 OS 등 <strong>세상에 존재하는 그 어떤 범용 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>도 이 '완벽한 100% 순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>'를 사용하지 않는다.</strong>
 소프트웨어(OS)가 매 클럭마다 인터럽트를 걸어 순위를 바꾸는 건 미친 짓이고, 하드웨어(CPU)가 수백만 장의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 포인터를 실시간 조작할 회로를 납땜하는 것도 돈 낭비다. 
 결국 인류는 "완벽한 LRU는 포기하자. 그냥 1비트만 써서 대충 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 비스무리하게 흉내만 내는 가짜 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) / [Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/))로 퉁치자!"라고 역사적 백기를 들게 된다.
 
@@ -94,25 +92,28 @@ LRU는 이론이 너무 예쁘지만, 저 "맨 앞으로 순위 당겨주기"를
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)) 등급 | 벨라디의 모순 | 구현 가능성 (실무) |
 |:---|:---|:---|:---|
-| **[OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) (미래 투시)**| 👑 1등 (넘사벽) | 🟢 절대 없음 | ☠️ 절대 불가능 (타임머신 없음) |
-| **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (과거 추적)**| ⭐ 2등 ([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 턱밑)| 🟢 절대 없음 | 🔴 가능은 한데 렉 너무 심해 근사치로 퉁침 |
-| **[FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (시간 맹신)**| 💩 꼴찌 (자해 공갈)| ☠️ 펑펑 터짐 | 🟢 눈 감고도 만듦. (하지만 안 씀) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a> (미래 투시)</strong>| 👑 1등 (넘사벽) | 🟢 절대 없음 | ☠️ 절대 불가능 (타임머신 없음) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> (과거 추적)</strong>| ⭐ 2등 ([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 턱밑)| 🟢 절대 없음 | 🔴 가능은 한데 렉 너무 심해 근사치로 퉁침 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> (시간 맹신)</strong>| 💩 꼴찌 (자해 공갈)| ☠️ 펑펑 터짐 | 🟢 눈 감고도 만듦. (하지만 안 씀) |
 
 ### [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))의 승리
 
-LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려다 꽂아줘도(3장 -> 4장 -> 5장) **절대로 폴트 횟수가 늘어나지 않는 '벨라디의 모순 박멸' 증명**을 끝낸 우아한 수학적 모델이기 때문이다.
+LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려다 꽂아줘도(3장 -> 4장 -> 5장) <strong>절대로 폴트 횟수가 늘어나지 않는 '벨라디의 모순 박멸' 증명</strong>을 끝낸 우아한 수학적 모델이기 때문이다.
 - 방이 3장일 때 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 큐: `[A, B, C]`
 - 방이 4장일 때 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 큐: `[A, B, C, D]`
 - 방 크기가 커져도, 내가 소중하게 아끼는 상위 3등까지의 VIP(`A, B, C`)는 무조건 부분집합(Subset)으로 그대로 다 안고 간다. 그래서 램을 늘려주면 무조건 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상되는 우하향 폴트 곡선을 안정적으로 보장한다. 인프라 엔지니어가 믿고 램 증설 결재를 올릴 수 있는 든든한 빽이다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 평가 지표  │ 늙은 코어 코드│ 최신 잡다 코드│ 램 증설 시 효과    │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ FIFO     │ 처참히 쫓겨남 │ 살아남아 낭비 │ 오히려 터질 수 있음  │
-│ LRU      │ **영원히 생존**│ 금방 쫓겨남   │ **무조건 성능 향상**│
-└──────────┴────────────┴────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">늙은 코어 코드</div><div class="kb-diagram-cell">최신 잡다 코드</div><div class="kb-diagram-cell">램 증설 시 효과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO</div><div class="kb-diagram-cell">처참히 쫓겨남</div><div class="kb-diagram-cell">살아남아 낭비</div><div class="kb-diagram-cell">오히려 터질 수 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU</div><div class="kb-diagram-cell">영원히 생존</div><div class="kb-diagram-cell">금방 쫓겨남</div><div class="kb-diagram-cell">무조건 성능 향상</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 철학은 "많이 쓰는 놈을 우대하라(Locality)"다. FIFO는 늙었다고 우대하지 않아 망했고, [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)(빈도)는 많이 썼다고 찌꺼기를 영원히 우대해서 망했다. LRU만이 오직 "지금 이 순간, 최근에 나를 찾아준 놈"만을 우대하여 변화무쌍한 프로그램의 페이즈 변환(Phase Transition)을 소름 끼치게 잘 따라간다.
 
 - **📢 섹션 요약 비유**: FIFO가 오래된 친구(핵심 코드)를 늙었다고 배신하는 쓰레기라면, LRU는 10년 된 친구라도 어제 연락 한 번([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 했으면 내 마음속 1순위로 다시 올려주는 진정한 의리의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -124,7 +125,7 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 ### 실무 시나리오: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached 인메모리 DB의 척추
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서는 너무 무거워서 순수 LRU를 못 쓴다고 했다. **그러나 애플리케이션 레벨(User-space)에서는 이야기가 다르다!**
 1. **Redis의 위력**: 백엔드 서버에서 램 20GB를 꽂고 캐시 서버([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 돌린다. 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 1억 개가 넘어가며 20GB가 꽉 찬다.
-2. **`allkeys-lru` 옵션의 발동**:
+2. <strong><code>allkeys-lru</code> 옵션의 발동</strong>:
    - [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`redis.conf`)에서 `maxmemory-policy allkeys-lru`를 켠다.
    - Redis는 1억 개의 키 값마다 24비트짜리 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 클럭(타임스탬프) 필드를 달아놓는다. 앱 단에서는 이 정도 오버헤드는 충분히 씹어먹는다.
    - 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와 램이 터지기 직전이 되면, Redis가 이 타임스탬프를 쓱 훑어보고(정확히는 샘플링) "가장 오랫동안 조회(GET)되지 않은 쓰레기 키"들을 팍팍 지워버리고 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는다.
@@ -146,7 +147,7 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 |:---|:---|
 | **EAT(접근 시간) 최적 방어** | 디스크 I/O를 일으키는 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)($p$) 발생을 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 벤치마크에 버금가는 한 자릿수 오차율로 방어하여 서버를 구원 |
 | **Locality(지역성)의 하드웨어적 증명**| "과거에 쓴 놈이 미래에도 쓴다"는 소프트웨어 패턴이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리에서 얼마나 강력한 무기인지 통계적으로 완벽히 입증 |
-| **무수히 많은 변종 파생([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))**| 순수 LRU의 끔찍한 오버헤드를 줄이기 위해 시곗바늘([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)), [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 등 수십 개의 경량화 변종을 파생시킨 캐시계의 아버지 |
+| <strong>무수히 많은 변종 파생(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a>)</strong>| 순수 LRU의 끔찍한 오버헤드를 줄이기 위해 시곗바늘([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)), [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 등 수십 개의 경량화 변종을 파생시킨 캐시계의 아버지 |
 
 ### 결론 및 미래 전망
 
@@ -167,15 +168,19 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[FIFO (First-In, First-Out) 교체]
-    │
-    ▼
-[LRU (Least Recently Used) 교체]
-    │
-    ├──▶ [LRU 근사 알고리즘 (LRU Approximation)]
-    └──▶ [2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FIFO (First-In, First-Out) 교체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

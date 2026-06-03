@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: ANSI(미국국립표준협회)와 ISO가 제정한 100Mbps 속도의 광섬유 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/) LAN/MAN [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). [토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)([Token Passing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)) 알고리즘을 사용하므로 충돌이 발생하지 않는다.
 - **필요성**: 1980년대 말 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(10Mbps)과 일반 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)(16Mbps)은 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 수십 대를 연결하기엔 충분했지만, A건물, B건물, C건물의 거대한 네트워크들을 하나로 묶어주는 메인 척추(Backbone) 역할을 하기에는 속도가 너무 느리고, 거리가 짧았으며(구리선의 한계), 한번 끊어지면 대형 사고가 났다. 따라서 "수십 km를 가면서도 속도는 10배 빠르고, 포크레인이 선을 파먹어도 즉각 복구되는 궁극의 튼튼한 척추"가 절실했다.
 
-- **💡 비유**: FDDI는 건물을 잇는 **"지하철 순환선(2호선)"**과 같습니다. 동네 마을버스([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))가 모아온 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 한꺼번에 싣고 다른 동네로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)(광케이블)으로 실어 나릅니다. 내선 순환과 외선 순환(이중 링)이 다 있어서 한쪽 터널이 무너져도 반대 방향 열차로 어떻게든 승객을 실어 나를 수 있습니다.
+- **💡 비유**: FDDI는 건물을 잇는 <strong>"지하철 순환선(2호선)"</strong>과 같습니다. 동네 마을버스([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))가 모아온 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 한꺼번에 싣고 다른 동네로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)(광케이블)으로 실어 나릅니다. 내선 순환과 외선 순환(이중 링)이 다 있어서 한쪽 터널이 무너져도 반대 방향 열차로 어떻게든 승객을 실어 나를 수 있습니다.
 
-```text
-[토큰 링]
-    │
-    ▼
-[FDDI]
-    │
-    └──▶ [DQDB]
-```
 
-- **📢 섹션 요약 비유**: ** 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선이 집 안에서 쓰는 **"플라스틱 수도관"**이라면, FDDI는 도시 전체의 물탱크를 연결하기 위해 땅속 깊숙이 묻어둔 **"절대 터지지 않는 초대형 강철 이중 배관(백본)"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">토큰 링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FDDI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DQDB</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 일반 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 랜선이 집 안에서 쓰는 </strong>"플라스틱 수도관"**이라면, FDDI는 도시 전체의 물탱크를 연결하기 위해 땅속 깊숙이 묻어둔 **"절대 터지지 않는 초대형 강철 이중 배관(백본)"**입니다.
 
 ---
 
@@ -45,8 +49,8 @@ FDDI 네트워크는 물리적으로 2개의 광케이블 링으로 구성된다
 - **Secondary Ring (부 링)**: 평상시엔 텅 비어있다가, 주 링이 끊어지면 반시계 방향으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 돌려 살려내는 스페어 도로.
 
 노드(라우터나 대형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 이 링에 어떻게 물리느냐에 따라 두 종류로 나뉜다.
-- **[DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/) (Dual Attachment [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))**: 메인 링과 예비 링 양쪽 모두에 랜카드가 꽂혀 있는 비싼 녀석. (백본망의 주요 기둥들)
-- **SAS (Single Attachment [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))**: 돈이 없어서 메인 링에만 꽂혀 있는 녀석. 중간에 배선기(Concentrator)를 거쳐서 간접적으로 연결된다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/">DAS</a> (Dual Attachment <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/">Station</a>)</strong>: 메인 링과 예비 링 양쪽 모두에 랜카드가 꽂혀 있는 비싼 녀석. (백본망의 주요 기둥들)
+- <strong>SAS (Single Attachment <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/">Station</a>)</strong>: 돈이 없어서 메인 링에만 꽂혀 있는 녀석. 중간에 배선기(Concentrator)를 거쳐서 간접적으로 연결된다.
 
 ### 2. 셀프 힐링(Self-Healing): 무중단 복구의 마법
 포크레인이 땅을 파다가 노드 B와 노드 C 사이의 케이블을 완전히 절단 냈다고 가정해 보자.
@@ -55,31 +59,31 @@ FDDI 네트워크는 물리적으로 2개의 광케이블 링으로 구성된다
 3. 노드 C 역시 왼쪽(B 방향)으로 쏘지 못하자, 부 링에서 오던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주 링으로 U턴 시킨다.
 4. 끊어진 부분을 제외한 거대한 C자 모양의 새로운 하나의 링이 완성되며 통신 단절 없이 네트워크가 100% 복구된다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 FDDI의 이중 링 자가 복구(Self-Healing)         │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 평상시 ]                          [ 장애 발생 시 (U턴) ]       │
- │                                                             │
- │     ▶ 주 링(시계) ▶                      ▶ 주 링(시계) ▶        │
- │  ┌─ A ────── B ─┐                 ┌─ A ────── B ┐       │
- │  │   ◀ 부 링 ◀   │ 포크레인 절단!     │   ◀ 부 링 ◀   │ U턴!   │
- │  │              │    ====X====▶   │              X       │
- │  │   ◀ 부 링 ◀   │                 │   ◀ 부 링 ◀   │ U턴!   │
- │  └─ D ────── C ─┘                 └─ D ────── C ┘       │
- │     ▶ 주 링(시계) ▶                      ▶ 주 링(시계) ▶        │
- │                                                             │
- │   결과: 링이 끊어졌지만, B와 C가 내부에서 링을 꼬아서 이어버려       │
- │        거대한 "하나의 말굽 자석(U자) 모양"으로 망이 유지된다!        │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FDDI의 이중 링 자가 복구(Self-Healing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평상시</div><div class="kb-diagram-node">장애 발생 시 (U턴)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주 링(시계) ▶ ▶ 주 링(시계) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A B ─ ─ A B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">포크레인 절단!</div><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">U턴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====X====▶</div><div class="kb-diagram-cell">X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">U턴!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ D C ─ ─ D C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주 링(시계) ▶ ▶ 주 링(시계) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 링이 끊어졌지만, B와 C가 내부에서 링을 꼬아서 이어버려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 "하나의 말굽 자석(U자) 모양"으로 망이 유지된다!</div></div>
+</div>
+</div>
+
+
 
 ### 3. FDDI의 소멸과 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 승리
 아무리 완벽해도 도태될 수밖에 없었다. 광케이블 랜카드 2개([DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/))를 꽂아야 하는 FDDI 라우터는 한 대에 수천만 원이 넘었다.
-그 사이 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 진영(IEEE 802.3)은 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 구리선 8가닥을 다 꼬아 쓰는 기염을 토하며 가격이 10분의 1도 안 되는 **"패스트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(100Mbps)"**과 **"기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(1Gbps)"**을 시장에 쏟아부었다. 신뢰성은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)/LACP)로 때워버렸다. FDDI는 가성비에서 압살당하며 2000년대 초반에 흔적도 없이 사라졌다.
+그 사이 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 진영(IEEE 802.3)은 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 구리선 8가닥을 다 꼬아 쓰는 기염을 토하며 가격이 10분의 1도 안 되는 <strong>"패스트 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(100Mbps)"</strong>과 <strong>"기가비트 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(1Gbps)"</strong>을 시장에 쏟아부었다. 신뢰성은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)/LACP)로 때워버렸다. FDDI는 가성비에서 압살당하며 2000년대 초반에 흔적도 없이 사라졌다.
 
-- **📢 섹션 요약 비유**: ** FDDI는 타이어에 펑크가 나도 100km/h로 계속 달릴 수 있는 **"최첨단 방탄 군용 장갑차"**였습니다. 하지만 민간인(기업)들은 그 비싼 장갑차를 사는 대신, 펑크 나면 타이어를 빨리 갈아 끼우면([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)) 되는 **"10배 빠르고 저렴한 스포츠카(기가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))"**를 선택했습니다.
+- **📢 섹션 요약 비유**: ** FDDI는 타이어에 펑크가 나도 100km/h로 계속 달릴 수 있는 **"최첨단 방탄 군용 장갑차"<strong>였습니다. 하지만 민간인(기업)들은 그 비싼 장갑차를 사는 대신, 펑크 나면 타이어를 빨리 갈아 끼우면(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>) 되는 </strong>"10배 빠르고 저렴한 스포츠카(기가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))"**를 선택했습니다.
 
 ---
 
@@ -135,15 +139,19 @@ FDDI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 토큰 링]
-    │
-    ▼
-[현재 개념: FDDI]
-    │
-    ├──▶ [확장 A: DQDB]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 토큰 링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FDDI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DQDB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 FDDI는 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DQDB와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에 통신의 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 기억하는 **상태 테이블([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)/[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Table)이라는 메모리를 두고, 현재 오고 가는 모든 패킷이 '이전에 맺어진 정당한 연결([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))의 연장선인가?'를 검사**하는 2세대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기술입니다. Check Point [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 특허를 내며 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 시장의 표준을 바꿨습니다.
+- **개념**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에 통신의 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 기억하는 <strong>상태 테이블(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Table)이라는 메모리를 두고, 현재 오고 가는 모든 패킷이 '이전에 맺어진 정당한 연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)의 연장선인가?'를 검사</strong>하는 2세대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기술입니다. Check Point [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 특허를 내며 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 시장의 표준을 바꿨습니다.
 - **작동 계층**: 기본적으로 3~4계층을 보지만, 응용 프로그램의 연결 상태([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 추적한다는 점에서 제한적인 7계층 기능까지 포괄합니다.
 
-```text
-[패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    ▼
-[상태 기반 감시 기술의 원리]
-    │
-    └──▶ [NIDS 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NIDS 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 상태 기반 감시 기술의 원리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,23 +45,27 @@ tags = ["studynote-network"]
 
 1. **내부망 ➜ 외부망 요청 (장부 기록)**:
    - 사내 직원이 네이버(외부) 웹서버로 접속하기 위해 `[SYN]` 패킷을 던집니다.
-   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 패킷을 통과시키면서, 즉시 자신의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블(장부)에 **"직원 A (IP: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/): 5000) ➜ 네이버 (IP: 220.x.x.x, [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/): 80) 접속 요청 중"**이라고 한 줄을 기록([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))합니다.
+   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 패킷을 통과시키면서, 즉시 자신의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블(장부)에 <strong>"직원 A (IP: <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>.0.0.1, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>: 5000) ➜ 네이버 (IP: 220.x.x.x, <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>: 80) 접속 요청 중"</strong>이라고 한 줄을 기록([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))합니다.
 2. **외부망 ➜ 내부망 응답 (장부 대조)**:
    - 0.1초 뒤 네이버 서버가 `[SYN+ACK]` 응답 패킷을 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 보냅니다.
-   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(허용 규칙)을 보기 전에 먼저 자기의 **'[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블(장부)'부터 뒤집니다.**
+   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(허용 규칙)을 보기 전에 먼저 자기의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 테이블(장부)'부터 뒤집니다.</strong>
    - "어? 아까 우리 직원 A가 80번 포트로 네이버에 요청했던 그 대화의 연장선이네?"라고 문맥을 파악한 뒤, 이 패킷을 묻지도 따지지도 않고 무사통과시킵니다.
 3. **해커의 위장 패킷 (차단)**:
    - 만약 해커가 뜬금없이 네이버 IP로 위장하여 `[ACK]`나 `[RST]` 패킷을 사내망으로 툭 던졌다고 가정해 봅시다 ([세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 등).
-   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 장부를 까봅니다. **"내 장부에 이 녀석이 먼저 나한테 요청한 기록이 없는데? 넌 가짜다!"**라며 즉각 이 패킷을 버립니다(Drop).
+   - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 장부를 까봅니다. <strong>"내 장부에 이 녀석이 먼저 나한테 요청한 기록이 없는데? 넌 가짜다!"</strong>라며 즉각 이 패킷을 버립니다(Drop).
 
-```text
-[패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    ▼
-[상태 기반 감시 기술의 원리]
-    │
-    └──▶ [NIDS 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NIDS 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 상태 기반 감시 기술의 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,9 +75,9 @@ tags = ["studynote-network"]
 
 - **장점 (보안과 속도의 타협점)**:
   - 1세대 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/)링보다 보안성이 압도적으로 높습니다(위장 공격, 비정상 패킷 원천 차단).
-  - 3세대 애플리케이션 프록시처럼 매번 짐칸(Payload)을 다 뜯어볼 필요 없이 장부([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하므로 속도 병목이 크지 않아 **가장 가성비 좋은 대중적인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)**이 되었습니다.
-- **치명적 단점 ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블 고갈 공격, [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/))**:
-  - 해커가 이를 역이용합니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 장부(메모리) 용량이 한정되어 있다는 점을 노려, 가짜 `[SYN]` 요청 패킷을 1초에 10만 개씩 들이부어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 장부에 쓰다가 메모리가 터져서([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블 풀) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 다운되게 만드는 **DDoS 공격(SYN Flooding)**에 취약해졌습니다.
+  - 3세대 애플리케이션 프록시처럼 매번 짐칸(Payload)을 다 뜯어볼 필요 없이 장부([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하므로 속도 병목이 크지 않아 <strong>가장 가성비 좋은 대중적인 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a></strong>이 되었습니다.
+- <strong>치명적 단점 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 테이블 고갈 공격, <a href="/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/">SYN Flood</a>)</strong>:
+  - 해커가 이를 역이용합니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 장부(메모리) 용량이 한정되어 있다는 점을 노려, 가짜 `[SYN]` 요청 패킷을 1초에 10만 개씩 들이부어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 장부에 쓰다가 메모리가 터져서([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 테이블 풀) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 다운되게 만드는 <strong>DDoS 공격(SYN Flooding)</strong>에 취약해졌습니다.
 
 상태 기반 감시 기술의 원리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/), 애플리케이션 상태 필터 및 프록…가 기반 조건을 만든다면, 상태 기반 감시 기술의 원리는 그 위에서 핵심 메커니즘을 구현하고, [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    │
-    ▼
-[현재 개념: 상태 기반 감시 기술의 원리]
-    │
-    ├──▶ [확장 A: NIDS 공격]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NIDS 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 상태 기반 감시 기술의 원리는 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/), 애플리케이션 상태 필터 및 프록…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

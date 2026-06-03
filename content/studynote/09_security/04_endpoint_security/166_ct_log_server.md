@@ -25,20 +25,19 @@ tags = ["studynote-security"]
 
 또한 하나의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버만 믿어서는 안 된다. 특정 운영자가 악의적이거나 장애를 일으키면 투명성 체계가 흔들릴 수 있기 때문이다. 그래서 브라우저 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 서로 다른 운영 주체의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 요구하고, 생태계 전체가 상호 감시 구조를 갖는다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT 로그 서버의 필요성: 발급 사실을 숨기지 못하게 함  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA issues certificate                                                │
-│      │                                                               │
-│      ├─ Hidden issuance  ──▶ 탐지 어려움                              │
-│      │                                                               │
-│      └─ CT Log submission ──▶ Public record ──▶ Monitor / Browser    │
-│                                   ▲                                  │
-│                                   │                                  │
-│                           anyone can inspect                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 로그 서버의 필요성: 발급 사실을 숨기지 못하게 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA issues certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hidden issuance ──▶ 탐지 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CT Log submission ──▶ Public record ──▶ Monitor / Browser</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">anyone can inspect</div></div>
+</div>
+</div>
+
+
 
 따라서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 인증서 보안의 "심판"이라기보다, 모두가 볼 수 있는 공용 기록장에 가깝다. 보안의 핵심은 기록을 남기는 것 자체와 그 기록이 삭제·변조되지 않음을 증명하는 데 있다.
 
@@ -60,19 +59,22 @@ tags = ["studynote-security"]
 
 아래 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 단순 저장소가 아니라, append-only 구조와 증명 체계를 함께 제공하는 인프라임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 CT 로그 서버의 핵심 동작 흐름                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ CA ── submit cert/precert ──▶ CT Log                                │
-│ CA ◀────── SCT (signed promise) ───── CT Log                         │
-│ CT Log ── append entry ──▶ Merkle Tree                               │
-│ Merkle Tree ── proofs ──▶ Browser / Auditor / Monitor                │
-│ Monitor ── suspicious domain alert ──▶ Security Team                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)를 쓰는 이유는 과거 기록을 몰래 바꾸지 못하게 하기 위해서다. 새로운 인증서가 추가되면 루트 해시가 갱신되고, 과거 항목을 삭제하거나 수정하면 이후 증명 체계가 깨진다. 그래서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 단순한 공개 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 아니라, **변조 시도가 드러나는 공개 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)**라고 보는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 로그 서버의 핵심 동작 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ── submit cert/precert ──▶ CT Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ◀ SCT (signed promise) CT Log</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT Log ── append entry ──▶ Merkle Tree</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merkle Tree ── proofs ──▶ Browser / Auditor / Monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor ── suspicious domain alert ──▶ Security Team</div></div>
+</div>
+</div>
+
+
+
+[머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)를 쓰는 이유는 과거 기록을 몰래 바꾸지 못하게 하기 위해서다. 새로운 인증서가 추가되면 루트 해시가 갱신되고, 과거 항목을 삭제하거나 수정하면 이후 증명 체계가 깨진다. 그래서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 단순한 공개 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 아니라, <strong>변조 시도가 드러나는 공개 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>라고 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 한 장씩 페이지를 덧붙이는 공책이 아니라, 새 장을 붙일 때마다 책 전체에 봉인을 찍는 장부와 같다. 옛장을 몰래 뜯으면 봉인이 바로 깨진다.
 
@@ -80,7 +82,7 @@ tags = ["studynote-security"]
 
 ## Ⅲ. 비교 및 연결
 
-[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 온라인 인증서 상태 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이나 인증서 폐기 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))과 목적이 다르다. [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 **발급 사실의 공개와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**에 집중하고, OCSP와 CRL은 **발급된 인증서가 현재 유효한지** 알려 주는 체계다. 또 SCT는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 발급하는 증명서이고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 자체는 그 증명의 근거를 유지하는 기반 인프라다.
+[CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 온라인 인증서 상태 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이나 인증서 폐기 목록 ([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/), [Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))과 목적이 다르다. [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 <strong>발급 사실의 공개와 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>에 집중하고, OCSP와 CRL은 **발급된 인증서가 현재 유효한지** 알려 주는 체계다. 또 SCT는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버가 발급하는 증명서이고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 자체는 그 증명의 근거를 유지하는 기반 인프라다.
 
 | 항목 | [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 | [SCT](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/) | [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) / [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) |
 | :--- | :--- | :--- | :--- |
@@ -127,7 +129,7 @@ tags = ["studynote-security"]
 
 물론 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버만으로 모든 문제를 해결할 수는 없다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 발급을 투명하게 만들 뿐, 잘못 발급된 인증서를 자동으로 폐기하지는 못한다. 또한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 공개는 투명성을 높이는 대신, 서브도메인 정보 노출이라는 운영상 trade-off도 만든다.
 
-그럼에도 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버의 의미는 분명하다. 인터넷 인증서 신뢰를 소수 기관의 비밀스러운 판단에서, **공개 기록과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 증명**으로 이동시켰다는 점이다. 따라서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 PKI의 보조 기능이 아니라, 현대 웹 신뢰 모델을 지탱하는 핵심 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 인프라로 기억할 가치가 있다.
+그럼에도 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버의 의미는 분명하다. 인터넷 인증서 신뢰를 소수 기관의 비밀스러운 판단에서, <strong>공개 기록과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 증명</strong>으로 이동시켰다는 점이다. 따라서 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 PKI의 보조 기능이 아니라, 현대 웹 신뢰 모델을 지탱하는 핵심 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 인프라로 기억할 가치가 있다.
 
 - **📢 섹션 요약 비유**: [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버는 모두가 볼 수 있는 회계장부와 같다. 장부가 있다고 도둑이 완전히 사라지지는 않지만, 몰래 빼돌리고 오래 숨기기는 훨씬 어려워진다.
 
@@ -146,21 +148,23 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폐쇄적 PKI 신뢰 모델
-    │
-    ▼
-CA 오발급·침해 사고 노출
-    │
-    ▼
-인증서 투명성 (CT, Certificate Transparency)
-    │
-    ▼
-CT 로그 서버 (CT Log Server) · SCT · 모니터링
-    │
-    ▼
-브라우저 정책 강제 · 로그 감사 · 폐기 체계 연동
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폐쇄적 PKI 신뢰 모델</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CA 오발급·침해 사고 노출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인증서 투명성 (CT, Certificate Transparency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CT 로그 서버 (CT Log Server) · SCT · 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브라우저 정책 강제 · 로그 감사 · 폐기 체계 연동</div>
+</div>
+</div>
+
+
 
 이 흐름은 인증서 신뢰 체계가 "발급 기관을 믿는 구조"에서 "발급 사실을 공개하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조"로 확장된 과정을 보여 준다.
 

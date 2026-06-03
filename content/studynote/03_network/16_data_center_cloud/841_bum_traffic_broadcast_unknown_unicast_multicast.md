@@ -24,18 +24,22 @@ tags = ["studynote-network"]
 1. **Broadcast (브로드캐스트)**: 
    - **설명**: "나 192.168.0.5 IP를 가진 컴퓨터의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 알고 싶어!" 라며 서브넷 안의 **모든 컴퓨터에게 편지를 다 복사해서 쏴버리는** 트래픽입니다 ([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 요청 등).
 2. **Unknown Unicast (언노운 유니캐스트)**: 
-   - **설명**: "A 컴퓨터가 B 컴퓨터로 편지를 보냈는데, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 장부를 뒤져봐도 B 컴퓨터가 어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂혀 있는지 모를 때" 발생합니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 편지를 버리지 않고, **자기가 가진 모든 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 편지를 다 복사해서 뿌려버리는 무식한 짓(Flooding)**을 합니다.
-3. **Multicast ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))**: 
+   - **설명**: "A 컴퓨터가 B 컴퓨터로 편지를 보냈는데, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 장부를 뒤져봐도 B 컴퓨터가 어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 꽂혀 있는지 모를 때" 발생합니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 편지를 버리지 않고, <strong>자기가 가진 모든 구멍(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)으로 편지를 다 복사해서 뿌려버리는 무식한 짓(Flooding)</strong>을 합니다.
+3. <strong>Multicast (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong>: 
    - **설명**: "이 증권 시세 데이터는 구독 신청한 100명한테만 뿌려줘!" 특정 그룹([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP)에게만 복사해서 뿌리는 트래픽입니다.
 
-```text
-[BDI]
-    │
-    ▼
-[BUM 트래픽]
-    │
-    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BDI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BUM 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,14 +50,18 @@ tags = ["studynote-network"]
 - 과거 3-Tier 망에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 몇 개 없어 그냥 플러딩(복사해서 다 뿌리기)을 해도 견딜 만했습니다.
 - **재앙의 시작**: 802번 문서의 **Spine-Leaf** 구조에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 수백 대, 서버가 수만 대입니다. 하나의 브로드캐스트 패킷([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))이 발생하면 수만 개의 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Leaf)로 복사되고, 이게 다시 또 복사되며 거대한 폭풍(Broadcast Storm)이 일어나 100억짜리 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 망 전체가 뻗어버립니다.
 
-```text
-[BDI]
-    │
-    ▼
-[BUM 트래픽]
-    │
-    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BDI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BUM 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,14 +72,14 @@ tags = ["studynote-network"]
 현대 클라우드는 이 BUM 트래픽을 처리하기 위해 두 가지 고도의 컨트롤 전술을 씁니다.
 
 ### 1. 언더레이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 기반 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (Multicast Group 매핑)
-- **원리**: BUM 트래픽이 발생했을 때 무식하게 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 복사해서 보내지 않기 위해, **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) VNI(가상망 이름표) 하나당 특정 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹 IP(예: 239.1.1.1)를 1:1로 매핑**해 둡니다.
+- **원리**: BUM 트래픽이 발생했을 때 무식하게 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 복사해서 보내지 않기 위해, <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> VNI(가상망 이름표) 하나당 특정 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 그룹 IP(예: 239.1.1.1)를 1:1로 매핑</strong>해 둡니다.
 - 브로드캐스트 패킷이 터지면? [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 전 세계에 뿌리는 대신, 딱 `239.1.1.1` 그룹에 가입된 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(같은 VNI를 쓰는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게만 핀셋으로 복사해서 뿌려 쓰레기 트래픽을 90% 이상 차단합니다.
 
 ### 2. 궁극의 해결책: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) EVPN의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 마법 ([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Suppression) 🌟
 - 앞서 820번 문서에서 극찬한 기능입니다. 가장 완벽한 BUM 트래픽 [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/) 솔루션입니다.
 - **원리**: EVPN은 애초에 브로드캐스트([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))나 언노운 유니캐스트 상황 자체가 발생하지 못하도록 환경을 설계합니다.
 - [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜이 전국의 모든 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP 주소를 1초 만에 엑셀 장부로 만들어 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 뿌려줍니다(동적 학습). 
-- 서버가 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(브로드캐스트)를 쏘려고 입을 벌리면, **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 입을 틀어막고 자기 엑셀 장부에서 답을 꺼내어 즉시 대답해 줍니다([Proxy ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/)).** 따라서 허공으로 날아가는 BUM 트래픽이 0에 수렴하여 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 도서관처럼 고요해집니다.
+- 서버가 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(브로드캐스트)를 쏘려고 입을 벌리면, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 입을 틀어막고 자기 엑셀 장부에서 답을 꺼내어 즉시 대답해 줍니다(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/">Proxy ARP</a>).</strong> 따라서 허공으로 날아가는 BUM 트래픽이 0에 수렴하여 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)가 도서관처럼 고요해집니다.
 
 BUM 트래픽을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. BDI가 기반 조건을 만든다면, BUM 트래픽은 그 위에서 핵심 메커니즘을 구현하고, 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -81,7 +89,7 @@ BUM 트래픽을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 �
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: BUM 트래픽은 아파트 단지의 '무식한 시끄러운 방송 체계'입니다. 누군가 잃어버린 강아지를 찾을 때(Unknown Unicast), 온 단지 스피커를 다 켜고 "강아지 본 사람!!" 하고 소리를 지르는 것입니다(Flooding). 아파트가 100동이 넘어가면 하루 종일 소음 때문에 주민들이 미쳐버립니다. 이를 해결하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 **[EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 기술**은 아파트 관리사무소에 '전 주민 완벽 위치 파악 엑셀 장부'를 도입한 것입니다. 강아지를 잃어버린 사람이 마이크를 잡으려고 하면, 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 마이크를 뺏고 "소리 지르지 마! 내 장부 보니까 네 강아지 105동에 있네! 105동으로 바로 찾아가!"라고 속삭여 줍니다. 아파트 방송 스피커(BUM 트래픽)를 쓸 일 자체가 완벽히 사라집니다.
+- **📢 섹션 요약 비유**: BUM 트래픽은 아파트 단지의 '무식한 시끄러운 방송 체계'입니다. 누군가 잃어버린 강아지를 찾을 때(Unknown Unicast), 온 단지 스피커를 다 켜고 "강아지 본 사람!!" 하고 소리를 지르는 것입니다(Flooding). 아파트가 100동이 넘어가면 하루 종일 소음 때문에 주민들이 미쳐버립니다. 이를 해결하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a> 기술</strong>은 아파트 관리사무소에 '전 주민 완벽 위치 파악 엑셀 장부'를 도입한 것입니다. 강아지를 잃어버린 사람이 마이크를 잡으려고 하면, 경비 아저씨([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 마이크를 뺏고 "소리 지르지 마! 내 장부 보니까 네 강아지 105동에 있네! 105동으로 바로 찾아가!"라고 속삭여 줍니다. 아파트 방송 스피커(BUM 트래픽)를 쓸 일 자체가 완벽히 사라집니다.
 
 ---
 
@@ -123,15 +131,19 @@ BUM 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BDI]
-    │
-    ▼
-[현재 개념: BUM 트래픽]
-    │
-    ├──▶ [확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BDI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BUM 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 BUM 트래픽는 BDI에서 출발해 현재 메커니즘을 정교화하고, 이후 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

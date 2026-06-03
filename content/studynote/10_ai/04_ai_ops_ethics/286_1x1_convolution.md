@@ -21,9 +21,9 @@ tags = ["studynote-ai"]
 
 ### 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 등장 배경
 
-딥러닝 네트워크가 깊어질수록 채널 수가 수백~수천 개로 늘어나고, 이후의 3×3 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)량이 **채널 수의 제곱에 비례**하여 증가한다. 예를 들어 256채널 입력에 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 256채널 출력을 만들면 약 5900만(256×256×9) 번의 곱셈이 필요하다.
+딥러닝 네트워크가 깊어질수록 채널 수가 수백~수천 개로 늘어나고, 이후의 3×3 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)량이 <strong>채널 수의 제곱에 비례</strong>하여 증가한다. 예를 들어 256채널 입력에 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 256채널 출력을 만들면 약 5900만(256×256×9) 번의 곱셈이 필요하다.
 
-1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 이를 해결하기 위해 **2014년 NIN (Network in Network, Lin et al.)**에서 처음 제안되었고, GoogLeNet(Inception)과 ResNet에 채택되어 현대 CNN의 표준 기법이 되었다.
+1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 이를 해결하기 위해 <strong>2014년 NIN (Network in Network, Lin et al.)</strong>에서 처음 제안되었고, GoogLeNet(Inception)과 ResNet에 채택되어 현대 CNN의 표준 기법이 되었다.
 
 ### 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 핵심 특성
 
@@ -35,14 +35,17 @@ tags = ["studynote-ai"]
 | 계산 복잡도 | O(H × W × C_in × C_out) |
 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | ReLU와 결합하여 비선형성 추가 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '채널 믹싱 DJ'다. 공간 위치는 건드리지 않고, 여러 채널(악기)의 소리를 섞어 새로운 채널(믹스 트랙)을 만드는 작업이다.
 
@@ -52,83 +55,75 @@ tags = ["studynote-ai"]
 
 ### 1×1 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 원리
 
-```
-입력 특징 맵: H × W × C_in
-                    │
-           1×1 합성곱 필터 C_out개
-           (각 필터 크기: 1×1×C_in)
-                    │
-                    ↓
-출력 특징 맵: H × W × C_out
 
-예시: 입력 28×28×256, 1×1 Conv, 64 필터
-┌──────────────────────────────────────────────┐
-│  입력 (28×28×256)                            │
-│  각 위치 (i,j) 에서 256차원 벡터             │
-│         ↓                                   │
-│  W (64×256) 행렬과 내적 연산                 │
-│  = 채널 방향 선형 결합                       │
-│         ↓                                   │
-│  출력 (28×28×64)                             │
-│  채널 수 256 → 64 로 축소                    │
-└──────────────────────────────────────────────┘
-파라미터 수: 256 × 64 = 16,384 (바이어스 제외)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 특징 맵: H × W × C_in</div>
+<div class="kb-diagram-note">1×1 합성곱 필터 C_out개</div>
+<div class="kb-diagram-note">(각 필터 크기: 1×1×C_in)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">출력 특징 맵: H × W × C_out</div>
+<div class="kb-diagram-note">예시: 입력 28×28×256, 1×1 Conv, 64 필터</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (28×28×256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 위치 (i,j) 에서 256차원 벡터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W (64×256) 행렬과 내적 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 채널 방향 선형 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 (28×28×64)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 수 256 → 64 로 축소</div></div>
+<div class="kb-diagram-note">파라미터 수: 256 × 64 = 16,384 (바이어스 제외)</div>
+</div>
+</div>
+
+
 
 ### 보틀넥 구조 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))
 
 ResNet의 50층 이상 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에서 사용되는 보틀넥 블록은 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 채널을 줄인 뒤 3×3 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)을 수행하고, 다시 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 채널을 복원한다.
 
-```
-보틀넥 블록 (ResNet-50 기준):
 
-입력: 256채널
-    │
-    ▼
-┌──────────────────────┐
-│ 1×1 Conv, 64채널     │  ← 채널 축소 (256→64)
-│ BN + ReLU            │     파라미터: 256×64 = 16K
-└──────────────────────┘
-    │
-    ▼
-┌──────────────────────┐
-│ 3×3 Conv, 64채널     │  ← 공간 특징 추출
-│ BN + ReLU            │     파라미터: 64×64×9 = 36K
-└──────────────────────┘
-    │
-    ▼
-┌──────────────────────┐
-│ 1×1 Conv, 256채널    │  ← 채널 복원 (64→256)
-│ BN + ReLU            │     파라미터: 64×256 = 16K
-└──────────────────────┘
-    │
-    + (Shortcut)
-    ▼
-출력: 256채널
 
-총 파라미터: 68K
-vs 2개의 3×3 Conv만 사용 시: 256×256×9×2 = 1,179K
-→ 약 17배 파라미터 감소!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보틀넥 블록 (ResNet-50 기준):</div>
+<div class="kb-diagram-note">입력: 256채널</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv, 64채널</div><div class="kb-diagram-cell">← 채널 축소 (256→64)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div><div class="kb-diagram-cell">파라미터: 256×64 = 16K</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3×3 Conv, 64채널</div><div class="kb-diagram-cell">← 공간 특징 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div><div class="kb-diagram-cell">파라미터: 64×64×9 = 36K</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv, 256채널</div><div class="kb-diagram-cell">← 채널 복원 (64→256)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div><div class="kb-diagram-cell">파라미터: 64×256 = 16K</div></div>
+<div class="kb-diagram-note">+ (Shortcut)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">출력: 256채널</div>
+<div class="kb-diagram-note">총 파라미터: 68K</div>
+<div class="kb-diagram-note">vs 2개의 3×3 Conv만 사용 시: 256×256×9×2 = 1,179K</div>
+<div class="kb-diagram-note">→ 약 17배 파라미터 감소!</div>
+</div>
+</div>
+
+
 
 ### Inception [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서의 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)
 
 GoogLeNet의 인셉션(Inception) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 여러 크기의 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 적용하기 전에 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)으로 채널을 줄여 계산량을 제어한다.
 
-```
-입력 특징 맵
-      │
- ┌────┴──────────────────────┐
- │         │         │      │
-1×1       1×1→3×3  1×1→5×5  MP→1×1
-Conv      Conv      Conv    Conv
- │         │         │      │
- └────┬──────────────────────┘
-      │
-Concatenate (채널 방향 결합)
-      │
-출력 특징 맵
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 특징 맵</div>
+<div class="kb-diagram-note">1×1 1×1→3×3 1×1→5×5 MP→1×1</div>
+<div class="kb-diagram-note">Conv Conv Conv Conv</div>
+<div class="kb-diagram-note">Concatenate (채널 방향 결합)</div>
+<div class="kb-diagram-note">출력 특징 맵</div>
+</div>
+</div>
+
+
 
 ### 연산량 비교 (1×1 Conv 유무)
 
@@ -154,7 +149,7 @@ Concatenate (채널 방향 결합)
 
 ### NIN (Network in Network)과의 연관
 
-NIN (Network in Network, 2013년 Lin et al.)은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 MLP (Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))를 적용하는 개념을 제안했는데, 이 MLP가 실질적으로 **1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 연속**과 동일하다. 각 위치에서 채널 벡터에 다층 변환을 적용하는 것이기 때문이다.
+NIN (Network in Network, 2013년 Lin et al.)은 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 MLP (Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))를 적용하는 개념을 제안했는데, 이 MLP가 실질적으로 <strong>1×1 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>의 연속</strong>과 동일하다. 각 위치에서 채널 벡터에 다층 변환을 적용하는 것이기 때문이다.
 
 ### MobileNet의 깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Depthwise Separable [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))
 
@@ -168,7 +163,7 @@ MobileNet은 일반 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_c
 
 ### 설계 사용 시나리오
 
-1. **채널 축소 ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))**: 연산량 줄이기 전 전처리 단계
+1. <strong>채널 축소 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/">Dimensionality Reduction</a>)</strong>: 연산량 줄이기 전 전처리 단계
 2. **채널 증가**: 특징 공간을 풍부하게 확장할 때
 3. **비선형성 추가**: ReLU와 결합하여 표현력 향상 (GAP 전 마지막 1×1 Conv)
 4. **채널 정렬**: 잔차 연결(Skip Connection)에서 채널 수 맞추기
@@ -177,14 +172,18 @@ MobileNet은 일반 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_c
 
 ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가 다를 때, 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Projection Shortcut)으로 차원을 맞춘다.
 
-```
-입력 (64채널)   잔차 블록   출력 (256채널)
-     │                         │
-     ├─── 1×1 Conv(→256) ─────┤
-     │                         │
-     └──── F(x) ──────────────+┘
-     (보틀넥 연산 결과 256채널)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 (64채널) 잔차 블록 출력 (256채널)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">1×1 Conv(→256)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">F(x) +</div>
+<div class="kb-diagram-note">(보틀넥 연산 결과 256채널)</div>
+</div>
+</div>
+
+
 
 ### 기술사 서술 포인트
 
@@ -204,19 +203,20 @@ ResNet의 스킵 연결(Skip Connection)에서 입력과 출력의 채널 수가
 
 ### 채널 축소 연산량 공식
 
-```
-┌──────────────────────────────────────────────────────┐
-│ 1×1 Conv 연산량 절감 계산                            │
-│                                                      │
-│ 직접 3×3 Conv:                                       │
-│   H×W × C_in × C_out × 9                            │
-│                                                      │
-│ 1×1(→k) + 3×3(→k) + 1×1(→C_out):                  │
-│   H×W×C_in×k + H×W×k×k×9 + H×W×k×C_out             │
-│                                                      │
-│ k = C_in/4 일 때 약 4배 이상 절감                    │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv 연산량 절감 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 3×3 Conv:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H×W × C_in × C_out × 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1(→k) + 3×3(→k) + 1×1(→C_out):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H×W×C_in×k + H×W×k×k×9 + H×W×k×C_out</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">k = C_in/4 일 때 약 4배 이상 절감</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 CNN의 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.zip)'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(채널)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 전달하고, 받은 쪽에서 다시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제하는 방식으로 통신 비용(연산량)을 극적으로 줄인다.
 

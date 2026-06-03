@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 암호화는 평문(Plaintext)을 허가받지 않은 자가 읽을 수 없는 암호문(Ciphertext)으로 변환하는 과정이다. **대칭키 ([Symmetric Key](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)) 암호**는 이 변환과 역변환(복호화)에 완전히 동일한 하나의 키(비밀키)를 사용하는 방식이며, **비대칭키 (Asymmetric [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 암호**는 암호화에 쓰는 키(공개키)와 복호화에 쓰는 키(개인키)가 수학적으로 연결되어 있지만 서로 다른 두 개의 키를 사용하는 방식이다.
+- **개념**: 암호화는 평문(Plaintext)을 허가받지 않은 자가 읽을 수 없는 암호문(Ciphertext)으로 변환하는 과정이다. <strong>대칭키 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">Symmetric Key</a>) 암호</strong>는 이 변환과 역변환(복호화)에 완전히 동일한 하나의 키(비밀키)를 사용하는 방식이며, <strong>비대칭키 (Asymmetric <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 암호</strong>는 암호화에 쓰는 키(공개키)와 복호화에 쓰는 키(개인키)가 수학적으로 연결되어 있지만 서로 다른 두 개의 키를 사용하는 방식이다.
 
 - **필요성**: 고대부터 사용된 대칭키 방식은 속도가 매우 빠르지만, 통신하려는 양측이 사전에 안전하게 동일한 키를 나눠 가져야 한다는 '키 분배 문제 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution Problem)'라는 치명적인 한계가 있었다. 인터넷처럼 한 번도 만난 적 없는 불특정 다수와 통신해야 하는 환경에서는 이 한계가 시스템 구축을 불가능하게 만들었다. 비대칭키는 공개키를 누구에게나 뿌려도 안전하다는 획기적인 발상으로 키 분배 문제를 해결했으며, 역으로 개인키로 암호화하면 '신원 증명([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))'까지 가능해지는 정보보안의 혁명을 가져왔다.
 
@@ -32,34 +32,30 @@ tags = ["studynote-network"]
 
   대칭키 환경에서 키 교환 시 발생하는 취약점과 비대칭키가 이를 해결하는 구조를 비교하면 다음과 같다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         키 분배 문제 (Key Distribution Problem)의 해결           │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [대칭키의 키 교환 딜레마]                                        │
-  │                                                             │
-  │  Alice                                             Bob      │
-  │   │     1. 암호화 통신을 위해 '비밀키(K)' 생성            │      │
-  │   │     2. "내 비밀키(K)는 이거야" ────────(평문 전송)─▶│      │
-  │   │                                       ▲        │      │
-  │   │     (해커가 중간에서 K를 탈취하면 모든 암호문 복호화 가능!)   │      │
-  │                                                             │
-  │  [비대칭키의 우아한 해결책]                                       │
-  │                                                             │
-  │  Alice                                             Bob      │
-  │   │                                  1. 한 쌍의 키 생성      │      │
-  │   │                                     (공개키 K_pub, 개인키 K_pri)│
-  │   │     2. "내 공개키(K_pub)야" ◀─────────(누구나 봐도 됨)─┤      │
-  │   │                                                 │      │
-  │   ├── 3. Data를 K_pub으로 암호화                       │      │
-  │   │     [ Ciphertext ] ─────────────────────────▶│      │
-  │   │                           (해커는 K_pub이 있어도 복호화 불가)│      │
-  │   │                                                 │      │
-  │   │                                  4. 자신만 아는 개인키(K_pri)로│      │
-  │   │                                     Ciphertext 복호화   │      │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키 분배 문제 (Key Distribution Problem)의 해결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키의 키 교환 딜레마</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alice Bob</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 암호화 통신을 위해 '비밀키(K)' 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "내 비밀키(K)는 이거야" (평문 전송)─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해커가 중간에서 K를 탈취하면 모든 암호문 복호화 가능!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키의 우아한 해결책</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alice Bob</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 한 쌍의 키 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공개키 K_pub, 개인키 K_pri)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "내 공개키(K_pub)야" ◀ (누구나 봐도 됨)─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 3. Data를 K_pub으로 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ciphertext</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해커는 K_pub이 있어도 복호화 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 자신만 아는 개인키(K_pri)로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ciphertext 복호화</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 상단의 대칭키 딜레마는 인터넷의 근본적 취약성을 보여준다. 자물쇠를 채우기 위해 열쇠를 택배로 보내야 하는데, 택배 기사가 열쇠를 복사해버리면 끝이다. 하단의 비대칭키 구조는 이 발상을 완전히 뒤집었다. Bob은 자물쇠(공개키)를 열린 채로 뿌린다. Alice는 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 상자에 넣고 Bob의 자물쇠를 딸깍 잠가서 보낸다. 중간에 해커가 상자와 자물쇠(공개키)를 모두 얻어도, 이미 잠긴 자물쇠를 열 수 있는 열쇠(개인키)는 오직 Bob만 가지고 있기 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다. 이 수학적 비대칭성이 인터넷 전자상거래를 가능하게 만들었다.
 
@@ -76,37 +72,28 @@ tags = ["studynote-network"]
 | **키 구성** | 1개의 동일한 비밀키 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 수학적으로 결합된 1쌍의 키 (Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) & Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) |
 | **수학적 근간** | 혼돈(Confusion)과 확산(Diffusion), XOR 연산, Substitution-Permutation Network | 소인수분해의 어려움([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), 이산 대수 문제([DH](/knowledge-base/studynote/09_security/03_network_security/128_dh_diffie_hellman/)), 타원 곡선 이산 대수([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) |
 | **연산 속도** | 비대칭키 대비 **약 100~1000배 빠름** | 지수 승(Exponentiation) 등 복잡한 수학 연산으로 인해 **매우 느림** |
-| **주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)), ChaCha20, SEED, ARIA | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)), DSA |
+| <strong>주요 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)), ChaCha20, SEED, ARIA | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Elliptic Curve Cryptography](/knowledge-base/studynote/09_security/03_network_security/119_ecc_elliptic_curve_cryptography/)), DSA |
 | **적용 분야** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화, [데이터베이스 암호화](/knowledge-base/studynote/05_database/06_dw_olap_trends/365_tde/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 암호화 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)), [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), 키 교환 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Exchange) |
 
 대칭키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 표준인 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 크기(128비트 블록)로 나누어, 혼돈(Confusion)과 확산(Diffusion)을 반복하는 SPN (Substitution-Permutation Network) 구조를 사용한다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 AES (대칭키) 암호화 동작 라운드 구조                 │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │     Plaintext (128 bit)                 [ Key Schedule ]         │
-  │           │                                      │               │
-  │           ▼                                      ▼               │
-  │  ┌──────────────────┐               ┌────────────────────────┐ │
-  │  │ Add Round Key    │◀──────────────│ Initial Round Key (K0) │ │
-  │  └──────────────────┘               └────────────────────────┘ │
-  │           │                                                      │
-  │  ┌────────▼─────────┐ (이 과정을 10~14번 반복: Rounds)               │
-  │  │ SubBytes (혼돈)  │: S-Box를 이용해 바이트 단위로 비선형 치환        │
-  │  │        ▼         │                                            │
-  │  │ ShiftRows (확산) │: 행 단위로 순환 시프트 이동                   │
-  │  │        ▼         │                                            │
-  │  │ MixColumns (확산)│: 열 단위로 행렬 곱셈을 통해 데이터를 섞음        │
-  │  │        ▼         │                                            │
-  │  │ Add Round Key    │◀──[ Round Key (K1 ~ K10) ]──────────────┤ │
-  │  └──────────────────┘                                            │
-  │           │                                                      │
-  │           ▼                                                      │
-  │     Ciphertext (128 bit)                                         │
-  └──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AES (대칭키) 암호화 동작 라운드 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Plaintext (128 bit)</div><div class="kb-diagram-node">Key Schedule</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add Round Key</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Initial Round Key (K0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (이 과정을 10~14번 반복: Rounds)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SubBytes (혼돈)</div><div class="kb-diagram-cell">: S-Box를 이용해 바이트 단위로 비선형 치환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ShiftRows (확산)</div><div class="kb-diagram-cell">: 행 단위로 순환 시프트 이동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MixColumns (확산)</div><div class="kb-diagram-cell">: 열 단위로 행렬 곱셈을 통해 데이터를 섞음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Round Key (K1 ~ K10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ciphertext (128 bit)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하나의 마스터 키를 가지고 여러 개의 라운드 키(Round [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 파생시킨다. 평문 블록은 매 라운드마다 4가지 변환 연산(SubBytes, ShiftRows, MixColumns, AddRoundKey)을 거치며 철저하게 섞이고 쪼개진다. `SubBytes`는 평문과 암호문 간의 상관관계를 없애는 혼돈(Confusion)을 제공하고, `ShiftRows`와 `MixColumns`는 한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 변화가 암호문 전체에 영향을 미치게 하는 쇄도 효과(Avalanche Effect)를 통해 확산(Diffusion)을 보장한다. 이 연산들은 복잡한 수학 공식이 아니라 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산(XOR)과 행렬 곱셈으로 이루어져 있어 하드웨어 칩(CPU의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 등)으로 구현했을 때 처리 속도가 극도로 빠르다.
 
@@ -114,32 +101,31 @@ tags = ["studynote-network"]
 
 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 일방향 함수(One-Way Function)인 "두 개의 아주 큰 소수(Prime Number)를 곱하는 것은 쉽지만, 곱해진 결과값을 다시 두 개의 소수로 분해하는 것은 현실적으로 불가능하다"는 소인수분해의 수학적 난제에 기반한다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                 RSA (비대칭키) 알고리즘의 동작 원리                   │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  [1. 키 생성 (Key Generation) - 수신자 Bob]                          │
-  │   - 두 개의 큰 소수 p, q를 선택 (비밀 유지)                         │
-  │   - N = p × q (N은 공개됨, 소인수분해가 불가능할 만큼 큼)             │
-  │   - φ(N) = (p-1) × (q-1) (오일러 피 함수)                          │
-  │   - φ(N)과 서로소인 e 선택 → [ 공개키 (e, N) ] 배포                 │
-  │   - (e × d) mod φ(N) = 1 을 만족하는 d 계산 → [ 개인키 (d, N) ] 보관  │
-  │                                                                  │
-  │  [2. 암호화 (Encryption) - 송신자 Alice]                            │
-  │   - 평문 메시지를 정수 M으로 변환 (M < N)                             │
-  │   - 암호문 C = (M ^ e) mod N                                     │
-  │     (Bob의 공개키 e와 N을 사용하여 거듭제곱 후 나머지 계산)               │
-  │                                                                  │
-  │  [3. 복호화 (Decryption) - 수신자 Bob]                              │
-  │   - 수신된 암호문 C를 복호화                                        │
-  │   - 평문 M = (C ^ d) mod N                                       │
-  │     (오직 Bob만 아는 개인키 d를 사용하여 원래 메시지 복원)                │
-  │                                                                  │
-  │  * 병목 지점: 수천 비트(2048-bit 등) 길이의 숫자를 거듭제곱(Exponentiation)│
-  │             해야 하므로 CPU 연산 자원을 엄청나게 소모함.                │
-  └──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA (비대칭키) 알고리즘의 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 키 생성 (Key Generation) - 수신자 Bob</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 두 개의 큰 소수 p, q를 선택 (비밀 유지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- N = p × q (N은 공개됨, 소인수분해가 불가능할 만큼 큼)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- φ(N) = (p-1) × (q-1) (오일러 피 함수)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">공개키 (e, N)</div><div class="kb-diagram-note">배포</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개인키 (d, N)</div><div class="kb-diagram-note">보관</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 암호화 (Encryption) - 송신자 Alice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 평문 메시지를 정수 M으로 변환 (M &lt; N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 암호문 C = (M ^ e) mod N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bob의 공개키 e와 N을 사용하여 거듭제곱 후 나머지 계산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 복호화 (Decryption) - 수신자 Bob</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수신된 암호문 C를 복호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 평문 M = (C ^ d) mod N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오직 Bob만 아는 개인키 d를 사용하여 원래 메시지 복원)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 병목 지점: 수천 비트(2048-bit 등) 길이의 숫자를 거듭제곱(Exponentiation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해야 하므로 CPU 연산 자원을 엄청나게 소모함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 수학적 과정의 핵심은 공개키 `e`로 평문 `M`을 거듭제곱하여 만든 암호문 `C`를, 역으로 개인키 `d`를 사용해 한 번 더 거듭제곱하면 원래의 `M`으로 마법처럼 돌아온다는 모듈러 산술(Modular Arithmetic)의 속성이다. 해커는 공개된 `N`과 `e`, 그리고 가로챈 암호문 `C`를 알고 있지만, 암호를 풀기 위한 개인키 `d`를 계산하려면 `φ(N)`을 알아야 하고, `φ(N)`을 알기 위해서는 `N`을 다시 `p`와 `q`로 소인수분해해야만 한다. 현재의 컴퓨팅 파워로는 2048비트 크기의 N을 소인수분해하는 데 우주의 나이보다 긴 시간이 걸리므로 RSA는 안전하다. 단점은 이렇게 거대한 숫자를 지수 승 연산하는 과정이 대칭키의 단순 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산(XOR)보다 수백 배 느리다는 점이다.
 
@@ -153,43 +139,39 @@ tags = ["studynote-network"]
 
 | 비교 기준 | 대칭키 ([Symmetric Key](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)) | 비대칭키 (Asymmetric [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 수십 Gbps 수준의 고속 처리, 하드웨어 가속 최적화 | 지수 연산으로 인해 수 MB/s 수준으로 매우 느림 | **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 방식 선택** |
-| **키 분배 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Distribution)** | O(N²) 문제. 통신 전에 안전한 채널로 교환 필수 | 공개키는 오픈 채널 전송 가능, 개인키만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수립 방식 선택** |
-| **키 길이 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Size)** | 128 / 256 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 충분한 보안강도 확보 | 최소 2048 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 이상 요구됨 | **저전력/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서의 연산 제약** |
-| **보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) ([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 한정 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), 부인 방지 (Non-repudiation) | **[전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) 및 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 주체** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong> | 수십 Gbps 수준의 고속 처리, 하드웨어 가속 최적화 | 지수 연산으로 인해 수 MB/s 수준으로 매우 느림 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화 방식 선택</strong> |
+| <strong>키 분배 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Distribution)</strong> | O(N²) 문제. 통신 전에 안전한 채널로 교환 필수 | 공개키는 오픈 채널 전송 가능, 개인키만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 수립 방식 선택</strong> |
+| <strong>키 길이 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Size)</strong> | 128 / 256 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 충분한 보안강도 확보 | 최소 2048 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 이상 요구됨 | <strong>저전력/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 환경에서의 연산 제약</strong> |
+| <strong>보안 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) ([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 한정 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), 부인 방지 (Non-repudiation) | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a> 및 신원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>의 주체</strong> |
 
 이 표의 해석 포인트는 "어떤 방식이 더 우월한가"가 아니라 "각각의 약점이 무엇인가"이다. 대칭키는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 측면에서 완벽하고 빠르지만, 만난 적 없는 상대와는 시작조차 할 수 없다. 비대칭키는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 키 분배의 혁명을 이뤘으나 속도가 너무 느려서 1GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 비대칭키로 암호화하면 컴퓨터가 멈춰버릴 것이다. 결국 실무에서는 이 둘을 결합할 수밖에 없다.
 
 현대 인터넷 보안의 근간인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 프로토콜은 비대칭키의 '안전한 키 교환' 기능과 대칭키의 '고속 암호화' 기능을 융합한 하이브리드 아키텍처의 결정체다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────┐
-  │                 하이브리드 암호화 아키텍처 (TLS 핸드셰이크 예시)              │
-  ├──────────────────────────────────────────────────────────────────────┤
-  │                                                                      │
-  │    [Client (웹 브라우저)]                           [Server (웹 서버)]     │
-  │                                                                      │
-  │     ── 1. Client Hello (지원하는 암호 스위트 목록) ─────────────────▶    │
-  │                                                                      │
-  │     ◀── 2. Server Hello + 서버의 X.509 인증서(서버 공개키 포함) ──────    │
-  │                                                                      │
-  │  [비대칭키 동작 구간]                                                      │
-  │  3. 클라이언트는 CA를 통해 서버 인증서 검증                                 │
-  │  4. 임시 '대칭키(Session Key)'를 무작위로 생성                              │
-  │  5. Session Key를 '서버의 공개키(RSA)'로 암호화하여 전송                       │
-  │     [ E_RSA(Session Key) ] ────────────────────────────────────▶    │
-  │                                        6. 서버는 자신의 개인키로 복호화       │
-  │                                           → Session Key 획득 (안전 교환)│
-  │  ────────────────────────────────────────────────────────────────────│
-  │  [대칭키 동작 구간]                                                        │
-  │  7. 양측 모두 동일한 대칭키(Session Key) 확보 완료!                          │
-  │                                                                      │
-  │     ◀─────────────── [ E_AES(웹 페이지 데이터) ] ───────────────▶    │
-  │                     이후의 모든 통신은 AES 등 고속 대칭키로 암호화             │
-  │                                                                      │
-  │  * 트레이드오프 해결: 비대칭키로 무거운 키 교환 1회 완료 후, 대칭키로 대용량 전송│
-  └──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이브리드 암호화 아키텍처 (TLS 핸드셰이크 예시)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client (웹 브라우저)</div><div class="kb-diagram-node">Server (웹 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. Client Hello (지원하는 암호 스위트 목록) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 2. Server Hello + 서버의 X.509 인증서(서버 공개키 포함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키 동작 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 클라이언트는 CA를 통해 서버 인증서 검증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 임시 '대칭키(Session Key)'를 무작위로 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Session Key를 '서버의 공개키(RSA)'로 암호화하여 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">E_RSA(Session Key)</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 서버는 자신의 개인키로 복호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Session Key 획득 (안전 교환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 동작 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 양측 모두 동일한 대칭키(Session Key) 확보 완료!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">E_AES(웹 페이지 데이터)</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후의 모든 통신은 AES 등 고속 대칭키로 암호화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 트레이드오프 해결: 비대칭키로 무거운 키 교환 1회 완료 후, 대칭키로 대용량 전송</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 하이브리드 아키텍처는 양쪽의 장점만을 취한다. 브라우저가 서버에 접속할 때, 브라우저는 스스로 난수를 돌려 이번 통신에만 쓸 1회용 대칭키([Session Key](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))를 만든다. 그리고 이 작지만 소중한 열쇠를 서버의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 들어있던 '비대칭 공개키'로 암호화해서 서버에 던진다. 해커가 중간에서 가로채도 서버의 개인키가 없으니 풀 수 없다. 서버가 이를 받아 복호화해 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)를 알아내면, 키 교환([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Exchange)이라는 가장 어려운 과제가 해결된다. 이 순간부터 무겁고 느린 비대칭키는 임무를 마치고 퇴장하며, 이후 오고 가는 유튜브 영상, 이미지, HTML 텍스트는 모두 가볍고 빠른 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 암호화되어 눈부신 속도로 처리된다.
 
@@ -199,41 +181,32 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하**: 수십 개의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간에 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 통신 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 크게 증가했다. 원인 분석 결과, 매 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 처리를 위해 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 비대칭키 기반의 서명 검증을 수행하면서 CPU 부하와 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적된 것이다. 아키텍트는 비대칭키 오버헤드를 줄이기 위해, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 무거운 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 대신 고속의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/)암호인 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 혹은 내부망 신뢰 기반의 대칭키 서명인 HMAC-SHA256으로 전환하는 결정을 내린다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 간 통신 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하</strong>: 수십 개의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간에 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/) 통신 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 크게 증가했다. 원인 분석 결과, 매 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 처리를 위해 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 비대칭키 기반의 서명 검증을 수행하면서 CPU 부하와 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적된 것이다. 아키텍트는 비대칭키 오버헤드를 줄이기 위해, [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 무거운 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 대신 고속의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/)암호인 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) 혹은 내부망 신뢰 기반의 대칭키 서명인 HMAC-SHA256으로 전환하는 결정을 내린다.
 
-2. **시나리오 — [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 컬럼 레벨 암호화 구축**: 개인정보보호법에 따라 주민등록번호 컬럼을 암호화해야 한다. 개발팀이 비대칭키를 도입하려 하나, 아키텍트는 비대칭키 사용 시 암호문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이(블록 크기)가 기하급수적으로 커져 DB 용량 증가 및 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검색 불가 사태가 발생함을 지적한다. 따라서 DB 컬럼 암호화에는 반드시 형태 보존 암호화([FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/))나 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 대칭키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해야 하며, 이 대칭키를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))나 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 장비를 분리 도입하는 아키텍처를 설계한다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 컬럼 레벨 암호화 구축</strong>: 개인정보보호법에 따라 주민등록번호 컬럼을 암호화해야 한다. 개발팀이 비대칭키를 도입하려 하나, 아키텍트는 비대칭키 사용 시 암호문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 길이(블록 크기)가 기하급수적으로 커져 DB 용량 증가 및 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 검색 불가 사태가 발생함을 지적한다. 따라서 DB 컬럼 암호화에는 반드시 형태 보존 암호화([FPE](/knowledge-base/studynote/09_security/16_data_privacy/822_fpe/))나 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 대칭키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해야 하며, 이 대칭키를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))나 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 장비를 분리 도입하는 아키텍처를 설계한다.
 
 실무에서 어떤 암호화 방식을 선택할지는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구사항에 따라 명확히 결정된다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────┐
-  │              보호 대상 특성에 따른 암호 알고리즘 선택 플로우                 │
-  ├────────────────────────────────────────────────────────────────────┤
-  │                                                                    │
-  │   [암호화가 필요한 데이터 식별]                                          │
-  │                │                                                   │
-  │                ▼                                                   │
-  │      데이터의 목적이 신원 확인/부인 방지(서명)인가?                           │
-  │          ├─ 예 ─────▶ [비대칭키 (RSA / ECDSA) 사용]                    │
-  │          │                     │                                   │
-  │          │                     └─▶ 데이터의 해시값만 비대칭키로 서명        │
-  │          │                                                         │
-  │          └─ 아니오 (순수 기밀성 보호 목적)                                 │
-  │                │                                                   │
-  │                ▼                                                   │
-  │      데이터의 크기가 크거나 실시간 고속 스트리밍인가?                         │
-  │          ├─ 예 ─────▶ [대칭키 (AES-GCM / ChaCha20) 사용]             │
-  │          │                     │                                   │
-  │          │                     └─▶ 키 교환은 하이브리드(TLS/DH) 방식 활용 │
-  │          │                                                         │
-  │          └─ 아니오 (작은 사이즈의 키, 패스워드 등)                          │
-  │                │                                                   │
-  │                ▼                                                   │
-  │         [단방향 해시(Bcrypt/Argon2) 또는 비대칭키(Key Wrap) 적용 고려]    │
-  │                                                                    │
-  │   최종 판단: 데이터 크기(Volume)와 인증 필요성(Authentication)이 결정 기준    │
-  └────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보호 대상 특성에 따른 암호 알고리즘 선택 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화가 필요한 데이터 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 목적이 신원 확인/부인 방지(서명)인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭키 (RSA / ECDSA) 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 데이터의 해시값만 비대칭키로 서명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 기밀성 보호 목적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 크기가 크거나 실시간 고속 스트리밍인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭키 (AES-GCM / ChaCha20) 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 키 교환은 하이브리드(TLS/DH) 방식 활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (작은 사이즈의 키, 패스워드 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단방향 해시(Bcrypt/Argon2) 또는 비대칭키(Key Wrap) 적용 고려</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 판단: 데이터 크기(Volume)와 인증 필요성(Authentication)이 결정 기준</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 트리는 현장 엔지니어가 흔히 범하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 오용을 막아준다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 영상 같은 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 대칭키의 영역이다. 반대로 전자계약서에 도장을 찍거나(서명), 대칭키 자체를 암호화해서 전달([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Wrap)하는 1KB 미만의 극소량 연산은 비대칭키의 영역이다. 특히 사용자 비밀번호를 DB에 저장할 때 대칭키/비대칭키를 써서 복호화 가능하게 만드는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이며, 이 경우에는 복원이 불가능한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 사용하는 것이 올바른 판단이다.
 
@@ -243,7 +216,7 @@ tags = ["studynote-network"]
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **ECB 운용 모드 사용**: 대칭키 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호화 시 `AES-ECB` 모드를 사용하는 경우. 똑같은 평문 블록이 똑같은 암호문 블록으로 변환되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 윤곽(예: 이미지의 실루엣)이 그대로 노출되는 끔찍한 결과를 낳는다. 반드시 `IV (초기화 벡터)`를 사용하는 CBC나 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드를 써야 한다.
-- **전방향 안전성 (PFS, Perfect [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy) 미지원**: 키 교환 시 서버의 고정된 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키로 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)를 감싸는 구형 방식([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이하의 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Exchange)을 방치하는 것. 서버 개인키가 나중에 털리면 과거 수년간의 모든 패킷이 소급하여 해독된다. 반드시 임시 키를 매번 버리는 [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) ([타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 디피-헬만 임시) 방식을 적용해야 한다.
+- <strong>전방향 안전성 (PFS, Perfect <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Secrecy) 미지원</strong>: 키 교환 시 서버의 고정된 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 개인키로 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)를 감싸는 구형 방식([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 이하의 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Exchange)을 방치하는 것. 서버 개인키가 나중에 털리면 과거 수년간의 모든 패킷이 소급하여 해독된다. 반드시 임시 키를 매번 버리는 [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) ([타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 디피-헬만 임시) 방식을 적용해야 한다.
 
 - **📢 섹션 요약 비유**: 요리(암호화)를 할 때 식칼(대칭키)은 크고 무거운 고기를 빠르게 써는 데 제격이고, 조각칼(비대칭키)은 정교한 무늬([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))를 새기는 데 필요합니다. 식칼로 조각을 하거나 조각칼로 소뼈를 자르려다가는 요리를 망치는 것처럼, 용도에 맞는 도구 선택이 생명입니다.
 
@@ -254,12 +227,12 @@ tags = ["studynote-network"]
 | 구분 | 대칭키 단독 사용 시 | 비대칭키 하이브리드 적용 시 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (운영)** | N명의 사용자를 위해 N(N-1)/2 개의 키 관리 | 사용자당 1쌍의 키만 관리, O(N)으로 수렴 | 통신 주체 1만 명 시 **키 관리 비용 99.9% 절감** |
-| **정량 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 속도 우수, 키 교환 단계에서 스니핑율 100% | 비대칭키 교환 후 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 가속 사용 | 키 탈취율 0%, 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 **ms 단위 유지** |
+| <strong>정량 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>)</strong> | 속도 우수, 키 교환 단계에서 스니핑율 100% | 비대칭키 교환 후 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 가속 사용 | 키 탈취율 0%, 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 **ms 단위 유지** |
 | **정성 (보안)** | 상호 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가, MITM 공격 노출 | [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 결합하여 완벽한 신뢰 형성 | 신원 위장 및 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 범죄 원천 차단, **부인 방지 확보** |
 
 ### 미래 전망
 - **SNDOK (Store Now, Decrypt Later) 공격과 양자 위협**: 현재 해커들은 복호화하지 못하는 비대칭키 암호문들을 일단 무작위로 저장(Store Now)해두고 있다. [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15년 뒤 양자 컴퓨터가 상용화되어 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 붕괴되면 그때 가서 모두 해독(Decrypt Later)하겠다는 전략이다. 따라서 각국 정부와 글로벌 기업들은 대칭키 수준의 안전성을 가진 격자 암호 등의 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/))로 비대칭키 인프라를 전면 교체하는 마이그레이션 전쟁을 이미 시작했다.
-- **[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) ([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/))의 부상**: 클라우드 시대의 궁극적 목표는 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복호화하지 않은 상태 그대로 연산(덧셈, 곱셈 등)하여 결과값만 얻어내는 것이다. 대칭/비대칭키 구조의 다음 패러다임인 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)의 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))를 통해 점차 해소되면서 금융 및 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 판도를 바꿀 것이다.
+- <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a> (<a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">Homomorphic Encryption</a>)의 부상</strong>: 클라우드 시대의 궁극적 목표는 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복호화하지 않은 상태 그대로 연산(덧셈, 곱셈 등)하여 결과값만 얻어내는 것이다. 대칭/비대칭키 구조의 다음 패러다임인 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)의 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))를 통해 점차 해소되면서 금융 및 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 판도를 바꿀 것이다.
 
 ### 참고 표준
 - **NIST FIPS 197**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 대칭키 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규격
@@ -268,22 +241,21 @@ tags = ["studynote-network"]
 
 대칭키와 비대칭키는 서로 경쟁하는 기술이 아니라, 정보보안이라는 거대한 건축물을 떠받치는 기둥과 대들보다. 대칭키가 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 홍수 속에서 속도와 효율성으로 집의 뼈대를 세운다면, 비대칭키는 신원과 신뢰라는 문패를 달아 누구도 그 집에 함부로 들어오지 못하게 하는 잠금장치를 제공한다. 이 두 가지 체계의 융합 구조를 명확히 이해하는 것은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), 그리고 다가올 양자 통신 시대를 설계하는 모든 IT 엔지니어의 가장 기초적이고도 치명적인 소양이다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────┐
-  │             암호 아키텍처의 패러다임 진화 (1970 ~ 2030+)             │
-  ├────────────────────────────────────────────────────────────────┤
-  │                                                                │
-  │  [1세대: 기밀성]       [2세대: 신뢰/인증]      [3세대: 완전한 프라이버시] │
-  │                                                                │
-  │  순수 대칭키 시대   →   공개키 혁명/하이브리드 →   양자 내성 및 활용 암호   │
-  │  (DES, 초기 AES)     (RSA, ECC, PKI)        (PQC, 동형암호, ZKP)   │
-  │                                                                │
-  │  키 분배 불가       →  인터넷 전자상거래 가능  → 데이터의 '활용' 중에도 안전 │
-  │  데이터 보호        →  네트워크 채널 보호     → 클라우드 내 연산 보호     │
-  │                                                                │
-  │  핵심 동인: "어떻게 감출까"에서 "어떻게 증명할까", 다시 "어떻게 연산할까"로 진화 │
-  └────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호 아키텍처의 패러다임 진화 (1970 ~ 2030+)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1세대: 기밀성</div><div class="kb-diagram-node">2세대: 신뢰/인증</div><div class="kb-diagram-node">3세대: 완전한 프라이버시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순수 대칭키 시대 → 공개키 혁명/하이브리드 → 양자 내성 및 활용 암호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DES, 초기 AES) (RSA, ECC, PKI) (PQC, 동형암호, ZKP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키 분배 불가 → 인터넷 전자상거래 가능 → 데이터의 '활용' 중에도 안전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 보호 → 네트워크 채널 보호 → 클라우드 내 연산 보호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 동인: "어떻게 감출까"에서 "어떻게 증명할까", 다시 "어떻게 연산할까"로 진화</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 암호학의 역사는 한계 극복의 연속이다. 1세대 대칭키는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을 얻었으나 키를 나눌 방법이 없었고, 2세대 비대칭키는 공개키의 마법으로 키 분배와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 해결하여 지금의 인터넷 시대를 열었다. 그러나 현재의 하이브리드 방식도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "가만히 저장할 때"나 "전송할 때"만 안전할 뿐, 클라우드 서버에서 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리(연산)할 때"는 필연적으로 평문으로 복호화해야 하는 치명적 약점([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Use의 취약성)이 있다. 3세대 패러다임인 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)(Homomorphic)와 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))은 바로 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산 및 증명 과정에서도 암호 상태를 유지하게 만들어, 완벽한 프라이버시를 보장하는 미래 아키텍처를 향해 나아가고 있다.
 
@@ -302,23 +274,27 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: X.509 인증서]
-    │
-    ▼
-[현재 개념: 대칭키 / 비대칭키 구조 비교]
-    │
-    ├──▶ [확장 A: 해시 함수]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: X.509 인증서</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 대칭키 / 비대칭키 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 해시 함수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 대칭키 / 비대칭키 구조 비교는 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에서 출발해 현재 메커니즘을 정교화하고, 이후 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **대칭키**는 친구와 나침반을 열 수 있는 똑같은 '비밀 열쇠'를 하나씩 나눠 갖고, 그 열쇠로만 상자를 잠그고 여는 방식이에요. 속도는 엄청 빠르지만 처음에 열쇠를 몰래 나눠 갖는 게 너무 어려워요.
-2. **비대칭키**는 누구나 누를 수 있는 '잠금 버튼'과 나만 가진 '마스터 키'로 나뉘어 있어요. 내가 잠금 버튼을 복사해서 친구들에게 뿌리면, 친구들이 내게 보낼 선물을 상자에 넣고 잠금 버튼만 꾹 눌러서 보내요. 그러면 열 때는 나만 가진 마스터 키로 여니까 중간에 아무도 훔쳐볼 수 없죠!
-3. 우리가 매일 쓰는 인터넷([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))은 처음 만날 땐 똑똑한 **비대칭키**로 진짜 친구가 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 임시 열쇠를 몰래 넘겨준 다음, 영화나 게임 같은 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 땐 빠르고 힘센 **대칭키**로 후딱 암호화해서 보내는 환상의 팀플레이를 한답니다.
+1. <strong>대칭키</strong>는 친구와 나침반을 열 수 있는 똑같은 '비밀 열쇠'를 하나씩 나눠 갖고, 그 열쇠로만 상자를 잠그고 여는 방식이에요. 속도는 엄청 빠르지만 처음에 열쇠를 몰래 나눠 갖는 게 너무 어려워요.
+2. <strong>비대칭키</strong>는 누구나 누를 수 있는 '잠금 버튼'과 나만 가진 '마스터 키'로 나뉘어 있어요. 내가 잠금 버튼을 복사해서 친구들에게 뿌리면, 친구들이 내게 보낼 선물을 상자에 넣고 잠금 버튼만 꾹 눌러서 보내요. 그러면 열 때는 나만 가진 마스터 키로 여니까 중간에 아무도 훔쳐볼 수 없죠!
+3. 우리가 매일 쓰는 인터넷([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))은 처음 만날 땐 똑똑한 <strong>비대칭키</strong>로 진짜 친구가 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 임시 열쇠를 몰래 넘겨준 다음, 영화나 게임 같은 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 땐 빠르고 힘센 <strong>대칭키</strong>로 후딱 암호화해서 보내는 환상의 팀플레이를 한답니다.
 
 ---
 

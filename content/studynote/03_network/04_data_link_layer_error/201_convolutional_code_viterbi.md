@@ -21,18 +21,22 @@ tags = ["studynote-network"]
 
 - **블록 코드 (해밍, RS, BCH)**: 
   - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고정된 크기(예: 8비트)의 도마 위에 올려놓고 무를 썰듯 텅텅 자릅니다. 그리고 그 8비트 덩어리 뒤에 3비트의 힌트를 붙입니다. 이전 덩어리와 다음 덩어리는 서로 아무런 연관이 없습니다.
-- **길쌈 코드 (Convolutional [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**: 
-  - 도마가 아니라, **'과거의 기억을 간직한 미끄럼틀([Shift Register](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/))'**에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 연속해서 집어넣습니다. 
+- <strong>길쌈 코드 (Convolutional <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: 
+  - 도마가 아니라, <strong>'과거의 기억을 간직한 미끄럼틀(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/">Shift Register</a>)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 연속해서 집어넣습니다. 
   - 지금 들어간 1비트가 출력될 때, 그 1비트만 쓰이는 게 아니라 **방금 전, 2초 전, 3초 전에 미끄럼틀을 지나갔던 과거의 비트들과 서로 '길쌈(베 짜기, 얽힘)'되어서** 완전히 새로운 여러 개의 비트로 뻥튀기되어 출력됩니다.
 
-```text
-[BCH 코드 / 골레이 코드]
-    │
-    ▼
-[길쌈 코드]
-    │
-    └──▶ [터보 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">터보 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 길쌈 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,22 +45,26 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 송신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실타래처럼 엮어서 꼬아버렸으니, 수신기는 이걸 어떻게 풀까요?
-우주 공간을 날아오며 에러가 섞여 들어온 이 난해한 실타래를 풀기 위해 고안된 천재적인 해독법이 **비터비([Viterbi](/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**입니다.
+우주 공간을 날아오며 에러가 섞여 들어온 이 난해한 실타래를 풀기 위해 고안된 천재적인 해독법이 <strong>비터비(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/385_hmm_viterbi_dynamic_programming/">Viterbi</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
 ### 트렐리스 도도(Trellis Diagram)와 최적 경로 탐색
 1. 송신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꼴 때 나올 수 있는 모든 경우의 수를 그리면 엄청나게 복잡한 나뭇가지(트리) 혹은 그물망(Trellis) 모양이 됩니다.
 2. 수신기는 도착한 찌그러진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들고 이 그물망의 맨 앞에서부터 출발합니다.
-3. 갈림길이 나올 때마다, **"내가 지금 받은 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 가장 비슷하게 생긴(해밍 거리가 가장 짧은) 길(생존 경로, Survivor Path)"**이 어디인지 확률을 계산하며 따라갑니다.
-4. 이 짓을 끝까지 반복하여 가장 확률이 높은 단 하나의 최적 경로를 찾아내면, 그것이 바로 **"송신기가 원래 보냈던 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)!"**라고 100% 확신하며 에러를 고쳐냅니다.
+3. 갈림길이 나올 때마다, <strong>"내가 지금 받은 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 가장 비슷하게 생긴(해밍 거리가 가장 짧은) 길(생존 경로, Survivor Path)"</strong>이 어디인지 확률을 계산하며 따라갑니다.
+4. 이 짓을 끝까지 반복하여 가장 확률이 높은 단 하나의 최적 경로를 찾아내면, 그것이 바로 <strong>"송신기가 원래 보냈던 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>!"</strong>라고 100% 확신하며 에러를 고쳐냅니다.
 
-```text
-[BCH 코드 / 골레이 코드]
-    │
-    ▼
-[길쌈 코드]
-    │
-    └──▶ [터보 코드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">터보 코드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 길쌈 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 비터비 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 20세기 디지털 통신, [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 2G/3G 휴대폰의 절대적인 표준 에러 정정 코드였습니다.
 
 **치명적 한계 (에러 전파)**:
-- 과거의 기억을 엮어서 만든다는 구조적 특성 때문에, 만약 비터비 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 중간에 한 번 길을 잘못 들면(오진), 그 뒤에 줄줄이 나오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 전부 연쇄적으로 틀리게 해석해 버리는 **'에러 전파(Error Propagation)' 현상**이 발생합니다.
+- 과거의 기억을 엮어서 만든다는 구조적 특성 때문에, 만약 비터비 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 중간에 한 번 길을 잘못 들면(오진), 그 뒤에 줄줄이 나오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 전부 연쇄적으로 틀리게 해석해 버리는 <strong>'에러 전파(Error Propagation)' 현상</strong>이 발생합니다.
 - 이 한계를 극복하기 위해 블록 코드(RS 코드)와 섞어 쓰다가, 현대에는 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)로 진화하게 됩니다.
 
 길쌈 코드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. BCH 코드 / 골레이 코드가 기반 조건을 만든다면, 길쌈 코드는 그 위에서 핵심 메커니즘을 구현하고, [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BCH 코드 / 골레이 코드]
-    │
-    ▼
-[현재 개념: 길쌈 코드]
-    │
-    ├──▶ [확장 A: 터보 코드]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BCH 코드 / 골레이 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 길쌈 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 터보 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 길쌈 코드는 BCH 코드 / 골레이 코드에서 출발해 현재 메커니즘을 정교화하고, 이후 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

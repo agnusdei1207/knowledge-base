@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 문제는 이 현상이 단순 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에만 머무르지 않는다는 점이다. 락 획득 여부, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트, 큐 헤드 포인터, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 상태 변수처럼 시스템 핵심 구조가 모두 읽기-수정-쓰기를 포함한다. 따라서 원자적 RMW가 없으면 효율적인 락 자체를 구현하기 어렵고, [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 알고리즘은 거의 성립하지 않는다.
 
-또한 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)은 단순히 "한 번에 쓴다"를 넘어서 가시성과 순서 문제까지 연결된다. 다른 코어가 언제 값을 볼 수 있는지, 해당 연산 전후 메모리 접근이 어떤 순서로 보장되는지까지 함께 다뤄야 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그를 막을 수 있다. 그래서 원자적 RMW는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나이면서 동시에 **메모리 모델의 핵심 경계점**이다.
+또한 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)은 단순히 "한 번에 쓴다"를 넘어서 가시성과 순서 문제까지 연결된다. 다른 코어가 언제 값을 볼 수 있는지, 해당 연산 전후 메모리 접근이 어떤 순서로 보장되는지까지 함께 다뤄야 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 버그를 막을 수 있다. 그래서 원자적 RMW는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나이면서 동시에 <strong>메모리 모델의 핵심 경계점</strong>이다.
 
 - **📢 섹션 요약 비유**: 원자적 RMW는 공동 장부의 숫자를 고칠 때, 숫자를 읽고 지우고 다시 쓰는 동안 아무도 손대지 못하게 잠깐 덮개를 씌우는 것과 같다. 덮개가 없으면 둘이 동시에 고쳐 장부가 틀어진다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 CPU (Central Processing Unit)에서 원자적 RMW는 대개 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그지 않고, 대상 캐시 라인의 독점 소유권을 확보한 뒤 코어 내부에서 수행된다. 즉 진짜 직렬화 지점은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 길다"가 아니라 **해당 캐시 라인을 누가 소유하느냐**다. x86에서는 `LOCK` 접두사, `CMPXCHG`, `XADD`, `XCHG` 같은 명령이 이를 제공하고, 다른 아키텍처는 로드-링크/스토어-컨디셔널 (Load-Link / Store-Conditional, LL/SC)이나 원자적 메모리 연산 (Atomic Memory [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/), AMO)으로 비슷한 효과를 낸다.
+현대 CPU (Central Processing Unit)에서 원자적 RMW는 대개 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그지 않고, 대상 캐시 라인의 독점 소유권을 확보한 뒤 코어 내부에서 수행된다. 즉 진짜 직렬화 지점은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 길다"가 아니라 <strong>해당 캐시 라인을 누가 소유하느냐</strong>다. x86에서는 `LOCK` 접두사, `CMPXCHG`, `XADD`, `XCHG` 같은 명령이 이를 제공하고, 다른 아키텍처는 로드-링크/스토어-컨디셔널 (Load-Link / Store-Conditional, LL/SC)이나 원자적 메모리 연산 (Atomic Memory [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/), AMO)으로 비슷한 효과를 낸다.
 
 예외적으로 비캐시 가능 메모리나 캐시 라인을 가로지르는 비정렬 접근은 더 무거운 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 잠금을 유발할 수 있지만, 일반적인 주 메모리에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜이 핵심 구현 수단이다. 따라서 같은 전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 여러 코어가 동시에 `fetch_add`를 반복하면, 병목은 산술 연산이 아니라 캐시 라인이 코어 사이를 오가며 invalidation을 만드는 데서 생긴다.
 
@@ -45,18 +45,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 원자적 RMW가 실제로는 "한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)를 독점 소유한 상태에서 수행되는 짧은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)"이라는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Atomic RMW: 계산보다 캐시 라인 소유권 이동이 더 큰 비용이 될 수 있다       │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Core A                 Coherence Fabric                 Core B              │
-│ [LOCK XADD] ──Req E/M ownership──▶ [Line X] ◀──Req E/M ownership── [CAS]   │
-│     │                                    │                                  │
-│     ├─ read / modify / write 완료        ├─ 다른 코어는 invalid 상태 대기   │
-│     │                                    │                                  │
-│     └──────── 완료 후 소유권 이동 가능 ──┴──────────────▶ cache bounce       │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Atomic RMW: 계산보다 캐시 라인 소유권 이동이 더 큰 비용이 될 수 있다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A Coherence Fabric Core B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LOCK XADD</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Line X</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">CAS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ read / modify / write 완료 ─ 다른 코어는 invalid 상태 대기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 후 소유권 이동 가능 ── ▶ cache bounce</div></div>
+</div>
+</div>
+
+
 
 메모리 순서도 함께 중요하다. 어떤 원자 연산은 acquire, release, acquire-release, sequentially consistent 같은 순서 보장을 선택할 수 있으며, 이는 correctness와 성능을 모두 바꾼다. 예를 들어 락 해제에는 release가, 락 획득에는 acquire가 자주 쓰이고, 단순 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 교환에 무조건 가장 강한 순서를 쓰면 불필요한 직렬화 비용을 떠안게 된다.
 
@@ -75,7 +76,7 @@ tags = ["studynote-computer-architecture"]
 | 적합한 경우 | 포인터 교체, 상태 머신 | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 티켓 발급 | 저수준 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 기초 | 긴 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) |
 | 대표 연결 이슈 | ABA 문제 | cache bounce | [forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) | [priority inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) |
 
-이 비교가 중요한 이유는 "원자 연산이면 다 빠르다"는 오해를 깨기 때문이다. 전역 통계 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나에 FAA를 몰아넣는 설계는 뮤텍스보다도 더 나쁜 병목을 만들 수 있고, 반대로 복합 자료구조 전체를 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 한두 번으로 억지 표현하려 하면 재시도 폭발과 읽기 어려운 코드가 생긴다. 따라서 RMW는 락을 대체하는 만능 열쇠가 아니라, **어떤 공유 상태를 어디까지 한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 안에 압축할 수 있는가**를 묻는 설계 도구다.
+이 비교가 중요한 이유는 "원자 연산이면 다 빠르다"는 오해를 깨기 때문이다. 전역 통계 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나에 FAA를 몰아넣는 설계는 뮤텍스보다도 더 나쁜 병목을 만들 수 있고, 반대로 복합 자료구조 전체를 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 한두 번으로 억지 표현하려 하면 재시도 폭발과 읽기 어려운 코드가 생긴다. 따라서 RMW는 락을 대체하는 만능 열쇠가 아니라, <strong>어떤 공유 상태를 어디까지 한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 안에 압축할 수 있는가</strong>를 묻는 설계 도구다.
 
 또한 [하드웨어 락 엘리전](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/) ([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/), HLE)이나 [하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/) (Hardware Transactional Memory, [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/))는 여러 메모리 위치를 넓은 의미의 원자적 구간으로 묶는 상위 개념이고, RMW는 그보다 더 작고 더 신뢰할 수 있는 기본 단위다. 즉 고급 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이 실패해도 마지막에 남는 것은 대부분 원자적 RMW다.
 
@@ -87,7 +88,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 원자적 RMW는 매우 자주 쓰이지만, 잘 쓰는 방법은 "전역 하나에 몰아넣지 않는 것"에서 시작한다. 예를 들어 초당 수천만 번 증가하는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 per-core [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 분산하고 주기적으로 합치는 편이 낫다. [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트도 객체가 여러 코어에서 동시에 핫해질 경우 원자 증가 자체가 병목이 되므로, 배치 처리나 로컬 캐시를 섞어야 한다.
 
-메모리 순서 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 정확성에 필요한 범위가 acquire/release면 sequentially consistent를 남용하지 않는 편이 좋고, 같은 캐시 라인에 unrelated 변수들이 모이지 않도록 정렬과 패딩을 고려해야 false sharing을 줄일 수 있다. 즉 원자 연산 성능은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택만이 아니라 **배치·정렬·경합 패턴**이 함께 만든다.
+메모리 순서 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 정확성에 필요한 범위가 acquire/release면 sequentially consistent를 남용하지 않는 편이 좋고, 같은 캐시 라인에 unrelated 변수들이 모이지 않도록 정렬과 패딩을 고려해야 false sharing을 줄일 수 있다. 즉 원자 연산 성능은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택만이 아니라 <strong>배치·정렬·경합 패턴</strong>이 함께 만든다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 한 번에 보호할 수 있는 범위가 작고, 공정성 보장이 약하며, 경합이 심할수록 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용이 폭증한다. 앞으로는 더 넓은 원자 폭, 아키텍처별 AMO 확장, [하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)와의 결합이 발전하겠지만, 기본 관점은 변하지 않는다.
 
-원자적 읽기-수정-쓰기는 "작은 락"이 아니라, **한 메모리 단어에 대한 소유권을 하드웨어가 잠깐 독점하게 만드는 최소 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리**로 기억해야 한다. 그 최소 단위를 어디에 쓰고 어디에는 쓰지 않을지를 구분하는 것이 설계자의 실력이다.
+원자적 읽기-수정-쓰기는 "작은 락"이 아니라, <strong>한 메모리 단어에 대한 소유권을 하드웨어가 잠깐 독점하게 만드는 최소 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 원리</strong>로 기억해야 한다. 그 최소 단위를 어디에 쓰고 어디에는 쓰지 않을지를 구분하는 것이 설계자의 실력이다.
 
 - **📢 섹션 요약 비유**: 원자적 RMW는 섬세한 핀셋과 같다. 작은 부품을 집을 때는 최고지만, 큰 상자를 옮기는 데까지 핀셋만 고집하면 오히려 일이 더 느려진다.
 
@@ -133,21 +134,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-버스 잠금 기반 원자성
-        │
-        ▼
-캐시 일관성 기반 LOCK 연산
-        │
-        ▼
-CAS · FAA · Exchange 같은 범용 RMW
-        │
-        ▼
-락-프리 자료구조 · 세밀한 메모리 순서
-        │
-        ▼
-HTM · 더 넓은 원자 폭 · 아키텍처별 AMO 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">버스 잠금 기반 원자성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 기반 LOCK 연산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAS · FAA · Exchange 같은 범용 RMW</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">락-프리 자료구조 · 세밀한 메모리 순서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTM · 더 넓은 원자 폭 · 아키텍처별 AMO 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)이 시스템 전체를 세우는 무거운 잠금에서 출발해, 점차 더 국소적이고 더 정교한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 도구로 발전해 온 과정을 보여 준다.
 

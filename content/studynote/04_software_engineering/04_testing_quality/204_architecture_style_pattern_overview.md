@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 소프트웨어 뼈대를 처음부터 100% 창작(DIY)하는 것은 미친 짓입니다. 예기치 못한 병목과 유지보수 지옥이 100% 터집니다.
-- 반복적으로 발생하는 시스템 설계 문제들에 대해, 선배들이 찾아낸 **가장 우아하고 검증된([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 구조적 해결책의 묶음**이 바로 아키텍처 패턴입니다.
+- 반복적으로 발생하는 시스템 설계 문제들에 대해, 선배들이 찾아낸 <strong>가장 우아하고 검증된(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/">Best Practice</a>) 구조적 해결책의 묶음</strong>이 바로 아키텍처 패턴입니다.
 
 - **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 스타일 및 패턴 개요                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 스타일 및 패턴 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -48,7 +47,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 족보(패턴)를 까보면 단순히 그림만 있는 게 아닙니다. 3가지 철저한 규격이 명시되어 있습니다.
-1. **[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) ([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))**: 이 도면을 구성하는 주인공 네모 박스들입니다. (예: 클라이언트 앱, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버, 필터 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등)
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a>)</strong>: 이 도면을 구성하는 주인공 네모 박스들입니다. (예: 클라이언트 앱, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버, 필터 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등)
 2. **커넥터 (Connector)**: 이 네모 박스들이 서로 데이터를 어떻게 주고받을지 연결하는 화살표의 룰입니다. (예: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 스트림 전송 등)
 3. **제약 사항 (Constraints)**: 이 족보를 쓸 때 "절대 이렇게 선을 꼬아서 연결하면 안 돼!"라고 정해둔 엄격한 법률입니다. (예: 계층형 패턴에서는 3층이 1층을 다이렉트로 부르면 안 됨!)
 
@@ -76,10 +75,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **아키텍처 패턴 (숲)**: 서버와 DB, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리들이 수백 km를 넘나들며 통신하는 **'초거대 시스템 전체의 뼈대'**입니다. (예: 클라이언트-서버, MVC, 계층형)
-- **[디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) (나무)**: 코딩 창 안에서, 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 2~3개끼리 서로 함수를 어떻게 예쁘게 엮어서 메모리 에러를 안 나게 할지 고민하는 **'코드 수준의 미시적인 설계 스킬'**입니다. (GoF의 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), 팩토리 패턴 등)
+- **아키텍처 패턴 (숲)**: 서버와 DB, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 덩어리들이 수백 km를 넘나들며 통신하는 <strong>'초거대 시스템 전체의 뼈대'</strong>입니다. (예: 클라이언트-서버, MVC, 계층형)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a> (나무)</strong>: 코딩 창 안에서, 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 2~3개끼리 서로 함수를 어떻게 예쁘게 엮어서 메모리 에러를 안 나게 할지 고민하는 <strong>'코드 수준의 미시적인 설계 스킬'</strong>입니다. (GoF의 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), 팩토리 패턴 등)
 
-> 📢 **섹션 요약 비유**: 소프트웨어의 **아키텍처 패턴**은 도시를 건설할 때 시장님이 백지에서 맘대로 도로를 깔지 못하게 막는 **'수백 년 검증된 도시 공학 마스터 템플릿(족보)'**입니다. 만약 무기 공장을 짓는다면 템플릿 책을 넘겨서 **'컨베이어 벨트형 도면([파이프-필터 패턴](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/))'**을 그대로 찢어다 베낍니다. 식당을 창업한다면 **'홀서빙과 주방 분리형 도면(클라이언트-서버 패턴)'**을 베껴서 짓습니다. 아파트 단지를 짓는다면 무조건 1층부터 차곡차곡 쌓는 **'수직 아파트 도면(계층형 패턴)'**을 베낍니다. 이 도면들 안에는 거실([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))을 뚫고, 복도(커넥터)를 내며, "절대 안방에서 화장실로 벽을 허물고 다이렉트로 가지 마라(제약 사항)"라는 완벽한 규칙이 다 적혀 있습니다. 초보 건축가가 상상력으로 기괴한 집을 지어 화장실 똥물이 거실로 역류하는 참사를 막아주고, 수십 년 선배들의 피땀 눈물이 밴 가장 안정적이고 유지보수하기 편한 구조를 1초 만에 훔쳐다 쓸 수 있게 해주는 위대한 마법의 설계 도감입니다.
+> 📢 **섹션 요약 비유**: 소프트웨어의 <strong>아키텍처 패턴</strong>은 도시를 건설할 때 시장님이 백지에서 맘대로 도로를 깔지 못하게 막는 <strong>'수백 년 검증된 도시 공학 마스터 템플릿(족보)'</strong>입니다. 만약 무기 공장을 짓는다면 템플릿 책을 넘겨서 <strong>'컨베이어 벨트형 도면(<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/134_pipe_filter_pattern/">파이프-필터 패턴</a>)'</strong>을 그대로 찢어다 베낍니다. 식당을 창업한다면 <strong>'홀서빙과 주방 분리형 도면(클라이언트-서버 패턴)'</strong>을 베껴서 짓습니다. 아파트 단지를 짓는다면 무조건 1층부터 차곡차곡 쌓는 <strong>'수직 아파트 도면(계층형 패턴)'</strong>을 베낍니다. 이 도면들 안에는 거실([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))을 뚫고, 복도(커넥터)를 내며, "절대 안방에서 화장실로 벽을 허물고 다이렉트로 가지 마라(제약 사항)"라는 완벽한 규칙이 다 적혀 있습니다. 초보 건축가가 상상력으로 기괴한 집을 지어 화장실 똥물이 거실로 역류하는 참사를 막아주고, 수십 년 선배들의 피땀 눈물이 밴 가장 안정적이고 유지보수하기 편한 구조를 1초 만에 훔쳐다 쓸 수 있게 해주는 위대한 마법의 설계 도감입니다.
 
 - **📢 섹션 요약 비유**: [아키텍처 스타일](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/114_architecture_style/) 및 패턴 개요은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -120,21 +119,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 스타일 및 패턴 개요 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 스타일 및 패턴 개요 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

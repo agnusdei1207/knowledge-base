@@ -25,7 +25,7 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
 
 그래서 대규모 [베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)를 하기 전에, 게임을 한 번도 안 해본 옆 부서 직원(인사팀, 영업팀)이나 충성 고객 몇 명을 사내 랩실(Lab)로 초대한다. 그리고 의자에 앉혀놓고 게임을 하라고 시킨다.
 이때 개발자는 절대 도와주지 않고 뒤에서 조용히 관찰만 한다. "어? 왜 저기서 저 버튼을 누르지? 길을 못 찾네?"
-이렇게 개발자가 완벽하게 통제할 수 있는 안전한 울타리 안에서 진행되는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인수 테스트가 바로 **알파 테스트([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) Test)**다.
+이렇게 개발자가 완벽하게 통제할 수 있는 안전한 울타리 안에서 진행되는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 인수 테스트가 바로 <strong>알파 테스트(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/">Alpha</a> Test)</strong>다.
 
 > 📢 **섹션 요약 비유**: 신약(약)을 개발하고 나서 바로 대중에게 팔기([베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/))는 너무 위험합니다. 그래서 병원 안(통제된 환경)의 입원 환자 몇 명에게만 약을 먹여보고, 의사(개발자)가 바로 옆에서 체온과 심박수를 지켜보며 안전하게 부작용을 확인하는 과정이 알파 테스트입니다.
 
@@ -35,18 +35,17 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
 
 다음은 알파 테스트 ([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) Test)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  알파 테스트 (Alpha Test)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알파 테스트 (Alpha Test)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 알파 테스트 ([Alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) Test)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -58,35 +57,33 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-알파 테스트가 이어질 '[베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)([Beta Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/))'와 결정적으로 다른 점은 **환경의 통제권**과 **관찰의 밀접도**에 있다.
+알파 테스트가 이어질 '[베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/)([Beta Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/))'와 결정적으로 다른 점은 <strong>환경의 통제권</strong>과 <strong>관찰의 밀접도</strong>에 있다.
 
-1. **통제된 환경 (Controlled [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))**
+1. <strong>통제된 환경 (Controlled <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong>
    - 테스터가 집에서 자기 마음대로 설치하고 해보는 것이 아니다.
    - 개발사가 준비한 빵빵한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 최적화된 네트워크망, 디버깅 툴이 깔린 사내 환경에서 진행된다. 따라서 "내 똥컴에서는 안 돌아가요!" 같은 하드웨어 파편화 이슈는 발생하지 않는다. 오직 프로그램 자체의 UI/UX와 기능 흐름에 집중한다.
-2. **개발자와 테스터의 동반자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (Shoulder Surfing)**
+2. <strong>개발자와 테스터의 동반자 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> (Shoulder Surfing)</strong>
    - 테스터가 블랙박스 관점에서 화면을 꾹꾹 누르다가 에러 창이 뜬다.
    - 바로 등 뒤에 있던 개발자는 "오케이, 거기 멈춰!" 하고 즉시 옆 모니터로 DB 로그와 디버깅 툴을 까서(화이트박스적 접근) 에러가 터진 101번 라인의 버그를 실시간으로 잡아낸다.
 3. **불완전성 용인**
    - 알파 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)은 아직 기능이 100% 다 만들어지지 않은 상태(기능 동결 전)일 수 있다. [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 텍스트(Lorem Ipsum)나 미완성 그래픽이 섞여 있어도 일단 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)과 흐름을 보기 위해 강행한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│           알파 테스트의 '통제된 환경'과 '관찰' 메커니즘 시각화               │
-├──────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│ 🏢 [ 개발사 내부 랩실 (통제된 완벽한 환경) ]                                 │
-│                                                                              │
-│  🤷‍♂️ 테스터 (일반인/타부서 직원)      👀 개발자 (디버깅 노트북 들고 대기)  │
-│   │                               │                                          │
-│   ├─ "회원가입 버튼이 어딨지..?"       ├─ (메모: 버튼 크기 키워야겠군)       │
-│   │                               │                                          │
-│   ├─ 💥 에러 발생! 시스템 다운!      ├─ "아하! Null 에러구나!"               │
-│                                      (즉각적인 백엔드 로그 확인 가능)        │
-│                                                                              │
-│ ★ 핵심: 테스터는 자기 맘대로 테스트하지만, 그 모든 행동과 결과가             │
-│         개발자의 손바닥(통제) 안에서 실시간으로 분석되고 있다.               │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알파 테스트의 '통제된 환경'과 '관찰' 메커니즘 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">개발사 내부 랩실 (통제된 완벽한 환경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🤷‍♂️ 테스터 (일반인/타부서 직원) 👀 개발자 (디버깅 노트북 들고 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "회원가입 버튼이 어딨지..?" ─ (메모: 버튼 크기 키워야겠군)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 💥 에러 발생! 시스템 다운! ─ "아하! Null 에러구나!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(즉각적인 백엔드 로그 확인 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 핵심: 테스터는 자기 맘대로 테스트하지만, 그 모든 행동과 결과가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 손바닥(통제) 안에서 실시간으로 분석되고 있다.</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -173,21 +170,23 @@ RPG 게임을 3년 동안 만들었다. 개발팀과 QA팀은 매일 게임을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-알파 테스트 (Alpha Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">알파 테스트 (Alpha Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

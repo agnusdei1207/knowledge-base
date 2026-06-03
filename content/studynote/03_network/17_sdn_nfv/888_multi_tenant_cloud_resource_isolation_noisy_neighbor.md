@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 단일한 물리적 IT 인프라(서버, 스토리지, 네트워크, 소프트웨어 애플리케이션) 환경을, **다수의 서로 다른 고객, 부서, 혹은 기업(Tenant, 세입자)들이 완벽히 격리된 상태에서 동시에 자원을 공유하며 나누어 쓰는 클라우드 컴퓨팅의 핵심 아키텍처 모델**입니다.
+- **개념**: 단일한 물리적 IT 인프라(서버, 스토리지, 네트워크, 소프트웨어 애플리케이션) 환경을, <strong>다수의 서로 다른 고객, 부서, 혹은 기업(Tenant, 세입자)들이 완벽히 격리된 상태에서 동시에 자원을 공유하며 나누어 쓰는 클라우드 컴퓨팅의 핵심 아키텍처 모델</strong>입니다.
 - **반대말**: 싱글 테넌트(Single-Tenant). 아파트 대신 단독 주택 전체를 혼자 전세 내서 쓰는 비싼 방식입니다. (예: 기업의 자체 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 전산실 구축)
 
-```text
-[SD-LAN]
-    │
-    ▼
-[멀티 테넌트]
-    │
-    └──▶ [네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 멀티 테넌트는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,7 +46,7 @@ tags = ["studynote-network"]
 ### 1. 네트워크 격리 (Network [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) / 오버레이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) 🌟
 가장 중요하고 치명적인 통신 보안 벽입니다.
 - 삼성이 IP `10.0.0.1`을 쓰고, 옆집 LG도 똑같이 `10.0.0.1`을 쓰고 싶어 합니다(IP 충돌 위기).
-- **해결책 (VPC와 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/))**: 817번([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), 836번([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))에서 배운 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술이 강림합니다. 클라우드 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러가 삼성 패킷에는 VNI 100번이라는 쇠창살을 씌우고, LG 패킷에는 VNI 200번이라는 쇠창살을 씌워 완벽히 다른 차원의 우주([가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))로 분리해 버립니다. 똑같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1이 한 서버에서 돌아도 물리적으로 절대 섞일 수 없는 구조입니다. (네트워크 슬라이싱의 근간)
+- <strong>해결책 (VPC와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a>)</strong>: 817번([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)), 836번([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))에서 배운 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술이 강림합니다. 클라우드 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러가 삼성 패킷에는 VNI 100번이라는 쇠창살을 씌우고, LG 패킷에는 VNI 200번이라는 쇠창살을 씌워 완벽히 다른 차원의 우주([가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))로 분리해 버립니다. 똑같은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1이 한 서버에서 돌아도 물리적으로 절대 섞일 수 없는 구조입니다. (네트워크 슬라이싱의 근간)
 
 ### 2. 컴퓨팅/메모리 격리 ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) & [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))
 - 1대의 쇳덩어리 인텔 CPU를 100명의 세입자가 나눠 씁니다.
@@ -51,14 +55,18 @@ tags = ["studynote-network"]
 ### 3. 스토리지 격리 ([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) / 버킷 분할)
 - 거대한 1페타바이트짜리 하드디스크 덩어리를, 1테라바이트짜리 작은 블록([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/))으로 1,000조각 내어 세입자별로 비밀번호 암호화 키를 다르게 잠가서 대여해 줍니다.
 
-```text
-[SD-LAN]
-    │
-    ▼
-[멀티 테넌트]
-    │
-    └──▶ [네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 멀티 테넌트의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,7 +75,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **층간 소음(노이지 네이버)의 재앙**: 101호 세입자(비트코인 채굴업자)가 CPU와 인터넷 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 100% 풀파워로 다 빨아먹으면, 같은 쇳덩어리 서버에 세 들어 사는 102호, 103호 얌전한 세입자들의 쇼핑몰이 버벅거리며 마비되는 현상입니다.
-- **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 강제 할당 ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 목줄 채우기)**: 이를 막기 위해 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(850번)와 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 무자비한 법을 집행합니다. "101호! 넌 월세 3만 원짜리 요금제니까 인터넷 속도 10Mbps 넘어가면 패킷 전부 바닥에 찢어서 버려버려라(Throttling/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))!" 철저한 트래픽 셰이핑(Shaping)으로 층간 소음을 원천 차단합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 강제 할당 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 목줄 채우기)</strong>: 이를 막기 위해 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(850번)와 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 무자비한 법을 집행합니다. "101호! 넌 월세 3만 원짜리 요금제니까 인터넷 속도 10Mbps 넘어가면 패킷 전부 바닥에 찢어서 버려버려라(Throttling/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))!" 철저한 트래픽 셰이핑(Shaping)으로 층간 소음을 원천 차단합니다.
 
 멀티 테넌트를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SD-LAN가 기반 조건을 만든다면, 멀티 테넌트는 그 위에서 핵심 메커니즘을 구현하고, [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SD-LAN]
-    │
-    ▼
-[현재 개념: 멀티 테넌트]
-    │
-    ├──▶ [확장 A: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SD-LAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티 테넌트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 멀티 테넌트는 SD-LAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

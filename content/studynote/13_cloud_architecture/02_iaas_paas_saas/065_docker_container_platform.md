@@ -29,17 +29,23 @@ Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-CLI
-  ↓
-Docker Engine
-  ↓
-containerd
-  ↓
-runc
-  ↓
-Linux Kernel
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CLI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Docker Engine</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">containerd</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">runc</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Linux Kernel</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -109,29 +115,41 @@ Docker를 활용하면 개발과 운영의 차이를 줄이고, 배포 표준을
 
 ## 관련 개념 맵
 
-```text
-Docker
-  ↓
-Image / Registry
-  ↓
-containerd / runc
-  ↓
-Container Platform
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Docker</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Image / Registry</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">containerd / runc</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Platform</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-컨테이너 기술
-  ↓
-Docker
-  ↓
-OCI
-  ↓
-Container Platform
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨테이너 기술</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Docker</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">OCI</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Platform</div>
+</div>
+</div>
+
+
 
 ---
 

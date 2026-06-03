@@ -23,27 +23,27 @@ tags = ["studynote-enterprise"]
 
 이 방식이 필요한 이유는 전통적인 전역 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 MSA와 잘 맞지 않기 때문이다. 주문, 결제, 재고, 배송이 서로 다른 저장소를 쓰는 상황에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/) ([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)) 같은 강한 동기식 조정은 락 지속시간, 장애 전파, 운영 복잡도를 키운다. 그렇다고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들을 동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 체인으로 엮으면 앞단 장애가 뒷단까지 연쇄 전파되고, 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 빠르게 복잡해진다.
 
-[코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 여기서 한 걸음 비틀어 생각한다. **다음 단계를 직접 호출하지 말고, "무슨 일이 일어났는지"를 이벤트로 알리자**는 것이다. 그러면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 서로의 위치나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 내부를 몰라도 같은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)를 통해 느슨하게 협력할 수 있다.
+[코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 여기서 한 걸음 비틀어 생각한다. <strong>다음 단계를 직접 호출하지 말고, "무슨 일이 일어났는지"를 이벤트로 알리자</strong>는 것이다. 그러면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 서로의 위치나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 내부를 몰라도 같은 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)를 통해 느슨하게 협력할 수 있다.
 
 아래 그림은 중앙 조정자 없이 이벤트만으로 주문 흐름이 이어지는 모습을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choreography Saga by domain events                                │
-├────────────────────────────────────────────────────────────────────┤
-│ Order Service  -- OrderCreated ---> Event Bus                     │
-│                                  │                                │
-│                                  ├─> Payment Service              │
-│                                  │      └─ PaymentApproved ------>│
-│                                  │                                │
-│                                  └─> Inventory Service            │
-│                                         └─ StockReserved -------->│
-│                                                                    │
-│ No central conductor; each service reacts to business events      │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 필요성은 "비동기라서 멋있다"가 아니다. **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 직접 의존을 줄이면서도, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 업무를 끝까지 이어 갈 수 있는 자율 협업 규칙**이 필요하기 때문에 등장한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choreography Saga by domain events</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Service -- OrderCreated ---&gt; Event Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PaymentApproved ------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Inventory Service</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ StockReserved --------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No central conductor; each service reacts to business events</div></div>
+</div>
+</div>
+
+
+
+따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 필요성은 "비동기라서 멋있다"가 아니다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 직접 의존을 줄이면서도, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 업무를 끝까지 이어 갈 수 있는 자율 협업 규칙</strong>이 필요하기 때문에 등장한다.
 
 - **📢 섹션 요약 비유**: 무대 뒤에서 감독이 한 명씩 지시하는 대신, 배우들이 음악 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 듣고 자기 차례에 맞춰 스스로 등장하는 공연과 같다. 중앙 지시는 줄지만, 각 배우가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 정확히 이해해야 공연이 끊기지 않는다.
 
@@ -63,25 +63,23 @@ tags = ["studynote-enterprise"]
 
 실행 흐름은 보통 다음과 같다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 `OrderCreated`를 저장하고 아웃박스에 함께 기록한다. 릴레이 프로세스가 이를 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)로 발행하면, 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이벤트를 읽고 결제를 승인한 뒤 `PaymentApproved`를 다시 발행한다. 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 이 이벤트를 구독해 재고를 예약하고, 이어 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 출고를 준비한다. 어느 단계에서 실패하면 `PaymentFailed`, `StockRejected` 같은 실패 이벤트가 발행되고, 앞선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 이를 보고 취소나 해제를 수행한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Forward flow and compensation                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ Order database commit + Outbox(OrderCreated)                       │
-│                  │                                                 │
-│                  ▼                                                 │
-│               Event Bus                                            │
-│                  │                                                 │
-│                  ├─> Payment Service -> PaymentApproved            │
-│                  │                                                 │
-│                  └─> Payment Service -> PaymentFailed              │
-│                                         │                          │
-│                                         └─> OrderCancelled         │
-│                                             InventoryReleased      │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-중요한 점은 보상이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ROLLBACK이 아니라는 사실이다. 이미 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 로컬 커밋은 끝났으므로, 실패가 나면 반대 의미의 새 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실행해 상태를 상쇄해야 한다. 따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 설계 핵심은 "성공 이벤트 설계"만이 아니라 **실패 이벤트와 보상 경로를 업무적으로 모델링하는 것**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forward flow and compensation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order database commit + Outbox(OrderCreated)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Bus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service -&gt; PaymentApproved</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service -&gt; PaymentFailed</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; OrderCancelled</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InventoryReleased</div></div>
+</div>
+</div>
+
+
+
+중요한 점은 보상이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ROLLBACK이 아니라는 사실이다. 이미 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 로컬 커밋은 끝났으므로, 실패가 나면 반대 의미의 새 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실행해 상태를 상쇄해야 한다. 따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 설계 핵심은 "성공 이벤트 설계"만이 아니라 <strong>실패 이벤트와 보상 경로를 업무적으로 모델링하는 것</strong>이다.
 
 또한 관측성이 매우 중요하다. 중앙 오케스트레이터가 없기 때문에 전체 흐름은 상관관계 ID와 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 사실상 유일한 실마리가 된다. 이 장치가 약하면 장애가 났을 때 "누가 어떤 이벤트를 언제 소비했는가"를 찾기 어렵다.
 
@@ -91,7 +89,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-[코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)를 제대로 이해하려면 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/), 단순 이벤트 알림, 동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 체인과 구분해야 한다. 모두 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연결하지만, **누가 흐름을 알고 있는가**가 다르다.
+[코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)를 제대로 이해하려면 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/), 단순 이벤트 알림, 동기 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 체인과 구분해야 한다. 모두 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 연결하지만, <strong>누가 흐름을 알고 있는가</strong>가 다르다.
 
 | 방식 | 제어 주체 | 장점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -103,7 +101,7 @@ tags = ["studynote-enterprise"]
 
 또한 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/))의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트, [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command Query Responsibility Segregation](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/250_cqrs_command_query_responsibility_segregation_pattern/)), [트랜잭셔널 아웃박스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/314_transactional_outbox_pattern/)와 자주 함께 등장한다. 이유는 단순하다. 이벤트 중심 흐름은 결국 "상태 변화의 의미"를 명확히 정의해야 하고, 중복·재시도·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 견디려면 읽기 모델과 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 모델을 분리해 설계하는 편이 유리하기 때문이다.
 
-즉 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 단순 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 패턴이 아니라, **업무 의미를 이벤트로 표현하고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 느슨하게 유지하려는 아키텍처 선택**이다. 그래서 기술 선택보다 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계와 운영 성숙도가 먼저 중요하다.
+즉 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 단순 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 패턴이 아니라, <strong>업무 의미를 이벤트로 표현하고 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 경계를 느슨하게 유지하려는 아키텍처 선택</strong>이다. 그래서 기술 선택보다 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계와 운영 성숙도가 먼저 중요하다.
 
 - **📢 섹션 요약 비유**: 자유로운 재즈 합주는 연주자 개개인의 자율성을 살리지만, 곡이 길고 변주가 많아질수록 누가 언제 들어와야 하는지 놓치기 쉽다. 반면 지휘자가 있는 오케스트라는 통제가 쉬운 대신 중앙 악보에 더 크게 의존한다.
 
@@ -111,7 +109,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 포인트 적립, 쿠폰 차감, 결제 승인, 재고 예약처럼 **여러 팀이 소유한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 느슨하게 이어야 하는 짧은 흐름**에서 특히 유효하다. 각 팀이 자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 이벤트 핸들러만 관리하면 되므로 배포 독립성이 높고, 새로운 후속 기능도 구독자로 붙이기 쉽다. 예를 들어 주문 완료 후 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 `OrderCompleted`를 구독해 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 적재하는 식의 확장이 자연스럽다.
+실무에서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 포인트 적립, 쿠폰 차감, 결제 승인, 재고 예약처럼 <strong>여러 팀이 소유한 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 느슨하게 이어야 하는 짧은 흐름</strong>에서 특히 유효하다. 각 팀이 자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 이벤트 핸들러만 관리하면 되므로 배포 독립성이 높고, 새로운 후속 기능도 구독자로 붙이기 쉽다. 예를 들어 주문 완료 후 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 `OrderCompleted`를 구독해 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 적재하는 식의 확장이 자연스럽다.
 
 하지만 모든 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)를 코레오그래피로 밀어 넣으면 곧 한계가 온다. 분기 규칙이 많고, 사람이 개입하는 승인 절차가 있고, 규제 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로 전체 타임라인을 한눈에 보여 줘야 한다면 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)이 더 낫다. 실패 보상이 복잡한 금융 업무나 장시간 지속되는 배송·정산 흐름도 마찬가지다.
 
@@ -132,7 +130,7 @@ tags = ["studynote-enterprise"]
 - 중앙 추적 장치 없이 "이벤트가 잘 가겠지"라고 낙관하는 경우
 - 소비자가 너무 많아졌는데도 이벤트 계약 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리를 하지 않는 경우
 
-기술사 답안에서는 장점만 강조하면 부족하다. [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 분명 자율성과 확장성에 강하지만, 그 대가로 추적성과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 잃기 쉽다. 따라서 채택 기준을 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자율성 우선인가, 전체 흐름 통제가 우선인가**로 분명히 나눠 설명해야 한다.
+기술사 답안에서는 장점만 강조하면 부족하다. [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 분명 자율성과 확장성에 강하지만, 그 대가로 추적성과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 잃기 쉽다. 따라서 채택 기준을 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 자율성 우선인가, 전체 흐름 통제가 우선인가</strong>로 분명히 나눠 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 작은 동네 축제는 서로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보며 유연하게 움직여도 되지만, 수만 명이 모이는 국제 행사는 중앙 관제실이 필요하다. 코레오그래피는 규모와 규칙이 맞을 때 가장 아름답다.
 
@@ -144,7 +142,7 @@ tags = ["studynote-enterprise"]
 
 그러나 한계 또한 구조적이다. 이벤트 흐름이 눈에 잘 보이지 않고, 실패 원인을 추적하기 어렵고, 계약 변경이 숨은 연쇄 영향을 만들 수 있다. 따라서 이벤트 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), 추적 도구, 재처리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 함께 갖춰져야 한다.
 
-앞으로는 많은 조직이 순수 코레오그래피나 순수 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 중 하나만 고집하기보다, 짧은 흐름은 코레오그래피로 두고 장기·고위험 흐름은 워크플로 엔진으로 분리하는 하이브리드 구조를 택할 가능성이 크다. 결론적으로 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 **이벤트로 스스로 이어지는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 업무 안무**로 기억하면 된다. 다만 안무가 아름다우려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자기 박자와 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 규칙을 정확히 알고 있어야 한다.
+앞으로는 많은 조직이 순수 코레오그래피나 순수 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 중 하나만 고집하기보다, 짧은 흐름은 코레오그래피로 두고 장기·고위험 흐름은 워크플로 엔진으로 분리하는 하이브리드 구조를 택할 가능성이 크다. 결론적으로 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)는 <strong>이벤트로 스스로 이어지는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 업무 안무</strong>로 기억하면 된다. 다만 안무가 아름다우려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자기 박자와 실패 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 규칙을 정확히 알고 있어야 한다.
 
 - **📢 섹션 요약 비유**: 감독 없는 춤이 잘 맞으면 아주 유연하고 자연스럽지만, 박자를 잃으면 누가 먼저 틀렸는지 찾기 어려워진다. 자유를 얻는 대신 합을 맞추는 규칙을 더 엄격히 지켜야 한다.
 
@@ -164,25 +162,26 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business command accepted
-        │
-        ▼
-Local transaction + outbox write
-        │
-        ▼
-Publish to event bus
-        │
-        ▼
-Subscriber local transaction
-        │
-        ├──────────────► failure event -> compensation chain
-        ▼
-Next domain event
-        │
-        ▼
-Eventual consistency reached
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business command accepted</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Local transaction + outbox write</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Publish to event bus</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Subscriber local transaction</div>
+<div class="kb-diagram-tree-item" style="--depth:4">failure event -&gt; compensation chain</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Next domain event</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Eventual consistency reached</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "업무 요청 수락 → 로컬 커밋 → 이벤트 발행 → 다음 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반응 → 실패 시 보상 → 최종 상태 수렴"이라는 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 전형적 리듬을 보여 준다.
 

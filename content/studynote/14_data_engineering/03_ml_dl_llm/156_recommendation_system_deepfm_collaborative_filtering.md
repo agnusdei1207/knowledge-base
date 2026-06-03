@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 넷플릭스 시청 이력, 유튜브 좋아요, 쿠팡 구매 이력을 바탕으로 다음에 볼 것, 살 것을 예측하는 것이 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이다. 넷플릭스는 추천 알고리즘으로 연간 10억 달러 이상의 가치를 창출한다.
 
-**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>
 - [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) ([Collaborative Filtering](/knowledge-base/studynote/14_data_engineering/04_mlops/186_graph_db_recommendation_collaborative_filtering_cold_start/)): "비슷한 사용자가 좋아한 것"
 - 콘텐츠 기반 (Content-Based): "내가 좋아한 것과 비슷한 것"
 - 하이브리드: 두 가지 결합
@@ -36,43 +36,32 @@ tags = ["studynote-data-engineering"]
 | Two-Tower | 사용자/아이템 독립 인코딩 | 2019 |
 | BERT4Rec | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 순차 추천 | 2019 |
 
-```
-[DeepFM 아키텍처]
 
-입력 특징 (사용자 ID, 아이템 ID, 장르, 시간대, ...)
-             │
-     임베딩 레이어 (고차원 → 저차원 벡터)
-             │
-     ┌───────┴───────┐
-     │               │
-  FM 컴포넌트      Deep 컴포넌트
-  (2차 상호작용)  (고차 상호작용)
-  ∑ᵢ∑ⱼ<vᵢ,vⱼ>    FC → FC → FC
-  xᵢxⱼ           (ReLU 활성화)
-     │               │
-     └───────┬───────┘
-             │
-          Sigmoid
-             │
-       CTR 예측값 (클릭률)
 
-[Two-Tower 모델]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DeepFM 아키텍처</div></div>
+<div class="kb-diagram-note">입력 특징 (사용자 ID, 아이템 ID, 장르, 시간대, ...)</div>
+<div class="kb-diagram-note">임베딩 레이어 (고차원 → 저차원 벡터)</div>
+<div class="kb-diagram-note">FM 컴포넌트 Deep 컴포넌트</div>
+<div class="kb-diagram-note">(2차 상호작용) (고차 상호작용)</div>
+<div class="kb-diagram-note">∑ᵢ∑ⱼ&lt;vᵢ,vⱼ&gt; FC → FC → FC</div>
+<div class="kb-diagram-note">xᵢxⱼ (ReLU 활성화)</div>
+<div class="kb-diagram-note">Sigmoid</div>
+<div class="kb-diagram-note">CTR 예측값 (클릭률)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Two-Tower 모델</div></div>
+<div class="kb-diagram-note">사용자 특징 아이템 특징</div>
+<div class="kb-diagram-note">(이력, 나이, 성별) (장르, 가격, 태그)</div>
+<div class="kb-diagram-note">사용자 인코더 아이템 인코더</div>
+<div class="kb-diagram-note">사용자 임베딩 아이템 임베딩</div>
+<div class="kb-diagram-note">내적 (Dot Product)</div>
+<div class="kb-diagram-note">유사도 점수 → 추천</div>
+</div>
+</div>
 
-사용자 특징          아이템 특징
-(이력, 나이, 성별)   (장르, 가격, 태그)
-      │                    │
-사용자 인코더          아이템 인코더
-      │                    │
-사용자 임베딩          아이템 임베딩
-      │                    │
-      └──────┬─────────────┘
-             │
-    내적 (Dot Product)
-             │
-        유사도 점수 → 추천
-```
 
-**[행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))**
+
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/">Matrix Factorization</a>)</strong>
 - 사용자-아이템 평점 행렬 R ≈ U·V^T
 - U: 사용자 잠재 요인 행렬 (|사용자| × k)
 - V: 아이템 잠재 요인 행렬 (|아이템| × k)
@@ -90,7 +79,7 @@ tags = ["studynote-data-engineering"]
 | 확장성 | ❌ 행렬 크기 문제 | ✅ | ✅ (Two-Tower) |
 | 해석 가능성 | 보통 | 높음 | ❌ 낮음 |
 
-**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 파이프라인 (대규모)**
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> 파이프라인 (대규모)</strong>
 1. 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Candidate Generation): 수백만 → 수백개 Two-Tower
 2. 랭킹 (Ranking): 수백 → Top-10 DeepFM/DIN
 3. 재랭킹 (Re-ranking): 다양성·신선도·비즈니스 규칙 적용
@@ -99,13 +88,13 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 평가 지표**
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/">추천 시스템</a> 평가 지표</strong>
 - [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)@K: 상위 K개 중 실제 관련 비율
 - [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)@K: 전체 관련 아이템 중 상위 K개에 포함 비율
 - NDCG (Normalized Discounted Cumulative Gain): 순위 가중 정확도
 - [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) (Click-Through Rate): 클릭률 A/B 테스트
 
-**[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> 해결 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 - 인기 아이템 추천 (Popularity-based)
 - 콘텐츠 기반 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추천
 - LLM으로 아이템 설명 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
@@ -139,26 +128,28 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-콘텐츠 기반 필터링 (Content-Based)
-    │
-    ▼
-협업 필터링 (Collaborative Filtering)
-    ├─► 사용자 기반 / 아이템 기반
-    └─► 행렬 분해 (SVD · ALS)
-    │
-    ▼
-딥러닝 추천 모델
-    ├─► Wide & Deep (Google) — 암기 + 일반화
-    ├─► DeepFM — FM + DNN 결합
-    └─► DIN · DIEN — 사용자 행동 시퀀스 모델링
-    │
-    ▼
-콜드 스타트 → 그래프 기반 (GNN) 추천
-    │
-    ▼
-LLM 기반 대화형 추천 (Conversational RecSys)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">콘텐츠 기반 필터링 (Content-Based)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">협업 필터링 (Collaborative Filtering)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">사용자 기반 / 아이템 기반</div>
+<div class="kb-diagram-tree-item" style="--depth:2">행렬 분해 (SVD · ALS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝 추천 모델</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Wide &amp; Deep (Google) — 암기 + 일반화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">DeepFM — FM + DNN 결합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">DIN · DIEN — 사용자 행동 시퀀스 모델링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">콜드 스타트 → 그래프 기반 (GNN) 추천</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM 기반 대화형 추천 (Conversational RecSys)</div>
+</div>
+</div>
+
+
 
 ---
 

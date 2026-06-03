@@ -33,22 +33,25 @@ tags = ["studynote-ai"]
 
 | 모드 | 동작 방식 | 수학적 처리 |
 | :--- | :--- | :--- |
-| **훈련 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))** | 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $p$로 유지, $(1-p)$로 0 처리 | $y = f(W \cdot (x \odot m))$, $m \sim Bernoulli(p)$ |
+| <strong>훈련 (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong> | 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $p$로 유지, $(1-p)$로 0 처리 | $y = f(W \cdot (x \odot m))$, $m \sim Bernoulli(p)$ |
 | **추론 (Inference)** | 모든 뉴런 100% 활성화 (Drop 없음) | $y = f(pW \cdot x)$ ([스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 보정) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           드롭아웃 동작 방식: 훈련 시 랜덤 셧다운          │
-├──────────────────────────────────────────────────────────────┤
-│ [일반 신경망]              [드롭아웃 적용 훈련 (p=0.5)]      │
-│  ○ ─ ○ ─ ○                 ○ ─ Ｘ ─ ○ (활성)           │
-│  │ ╳ │ ╳ │                 │   │ ╳ │                 │
-│  ○ ─ ○ ─ ○      ====>      Ｘ ─ ○ ─ Ｘ (기절)           │
-│  │ ╳ │ ╳ │                 │ ╳ │   │                 │
-│  ○ ─ ○ ─ ○                 ○ ─ ○ ─ ○ (활성)           │
-│ (모두 연결됨)              (랜덤하게 끊어진 연결망)          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드롭아웃 동작 방식: 훈련 시 랜덤 셧다운</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 신경망</div><div class="kb-diagram-node">드롭아웃 적용 훈련 (p=0.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ─ ○ ─ ○ ○ ─ Ｘ ─ ○ (활성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╳</div><div class="kb-diagram-cell">╳</div><div class="kb-diagram-cell">╳</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ─ ○ ─ ○ ====&gt; Ｘ ─ ○ ─ Ｘ (기절)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╳</div><div class="kb-diagram-cell">╳</div><div class="kb-diagram-cell">╳</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ─ ○ ─ ○ ○ ─ ○ ─ ○ (활성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모두 연결됨) (랜덤하게 끊어진 연결망)</div></div>
+</div>
+</div>
+
+
 
 추론 시에는 모든 뉴런을 사용하므로, 훈련 때보다 출력값이 $1/p$배 커지게 된다. 따라서 실전에서는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 $p$를 곱해주는 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) (Scaling)을 수행하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 크기를 균일하게 맞춘다.
 
@@ -78,7 +81,7 @@ tags = ["studynote-ai"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **적용 위치의 적절성**: 파라미터가 집중되어 과적합 위험이 높은 Dense/[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 층에 적용(보통 $p=0.5$)하고 있는가?
-2. **[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 적용 주의**: 공간적 맥락 유지가 중요한 Conv 층에는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)을 피하거나, 채널 전체를 끄는 Spatial [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) (예: $p=0.1\sim0.2$)을 쓰고 있는가?
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 적용 주의</strong>: 공간적 맥락 유지가 중요한 Conv 층에는 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)을 피하거나, 채널 전체를 끄는 Spatial [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) (예: $p=0.1\sim0.2$)을 쓰고 있는가?
 3. **학습 속도 저하 고려**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 적용 시 수렴 시간이 2~3배 길어질 수 있으므로, 에폭 (Epoch)과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 충분히 늘렸는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -109,21 +112,23 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-과적합 (Overfitting) 발생
-    │
-    ▼
-L1/L2 정규화 (Regularization) · 조기 종료 (Early Stopping)
-    │
-    ▼
-드롭아웃 (Dropout) 도입 (무작위 뉴런 비활성화)
-    │
-    ▼
-공간 드롭아웃 (Spatial Dropout) · 드롭커넥트 (DropConnect)
-    │
-    ▼
-확률적 깊이 (Stochastic Depth) · 활성 정규화 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과적합 (Overfitting) 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">L1/L2 정규화 (Regularization) · 조기 종료 (Early Stopping)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">드롭아웃 (Dropout) 도입 (무작위 뉴런 비활성화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공간 드롭아웃 (Spatial Dropout) · 드롭커넥트 (DropConnect)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확률적 깊이 (Stochastic Depth) · 활성 정규화 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 파라미터 값을 제한하던 고전적 방식에서, 네트워크 구조 자체를 무작위로 흔드는 방식으로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 패러다임이 진화했음을 보여준다.
 

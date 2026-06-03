@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Monolith (모놀리스)**: 배포([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) 단위. 웹서버, DB 연결, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 모든 기능 1,000만 줄을 거대한 `.jar` [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 깡통 딱 1개로 말아서 AWS 서버 1대에 통째로 던져 올리는 구식의 위대한 가성비.
-  - **Modular ([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러)**: 소스코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 단위. 비록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 안에 쑤셔 넣어지지만, 소스 코드 패키지(`order`, `payment`) 간에는 콘크리트 벽(Interface/Event)을 세워 서로 남의 살림살이(DB, 변수)를 함부로 훔쳐보거나 만지지 못하게 완벽히 분업 격리 쳐두는 우아한 객체 지향 상태.
+  - <strong>Modular (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>러)</strong>: 소스코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 단위. 비록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개 안에 쑤셔 넣어지지만, 소스 코드 패키지(`order`, `payment`) 간에는 콘크리트 벽(Interface/Event)을 세워 서로 남의 살림살이(DB, 변수)를 함부로 훔쳐보거나 만지지 못하게 완벽히 분업 격리 쳐두는 우아한 객체 지향 상태.
 
 - **필요성 (무지성 MSA병 척결과 스타트업의 눈물)**: 창업 첫날. 주니어가 "요즘 쿠팡은 무조건 MSA지 ㅋ" 라며 주문 서버, 배송 서버를 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 10개로 찢어버렸다. 하루 접속자 100명인데, 이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 10개가 1개의 결제를 처리하려 서로 K8s [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 네트워크를 타고 핑퐁 통신을 치느라 Ping [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 3초 터지고, [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 환불 로직, 550장) 짠다고 코드는 10배 길어져 개발자 3명이 과로로 다 뻗어 퇴사했다. 스타트업 런칭 1달 만에 클라우드 K8s 요금 1,000만 원이 찍히며 파산했다. **"아 씨발! 일단 돈 없을 땐 가볍게 1통짜리 톰캣 서버 1대 띄워서 로컬 통신 1초 컷으로 개꿀 빨리 런칭 치고 싶은데! 나중에 트래픽 터졌을 때 똥 코드 스파게티 걷어내느라 1년 재개발하는 건 막을 꼼수 없을까?!"** 이 피눈물 나는 스타트업 대표들의 탐욕이 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스를 천하 통일의 교과서로 빚어냈다.
 
-- **💡 비유**: 쌩 모놀리스(스파게티)는 **'거대한 원룸 고시원(1통짜리)'**입니다. 10명(코드)이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 하나 없이 엉켜 살아서 누가 똥(에러) 싸면 원룸 전체 100% 냄새 다 퍼지고 죽습니다(강결합). 무지성 MSA는 **'강남 아파트 10채 사서 1명씩 분가시킨 짓'**입니다. 쾌적하긴 개뿔, 친구(다른 서버) 만나서 밥 한 번 먹으려면 매번 차 끌고 30분씩 톨게이트(네트워크 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 타야 하고 월세(AWS 서버비) 터져서 길거리에 나앉습니다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스는 **'100평짜리 거대 단독 주택 1채(모놀리스 서버 1대)' 안에 철저하게 방 10개를 콘크리트 방음벽([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 캡슐화)으로 나누어 지어둔 것**입니다. 월세(서버비)는 1채 값만 내는 극한 가성비 꿀을 빨고, 거실 문(인터페이스)만 열면 1초 컷 핑퐁 통신(로컬 메소드 호출)으로 초광속 대화가 가능하면서도! 철수가 자기 방([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에서 불장난(에러)을 쳐도 절대 영희 방으로 번지지 않는 궁극의 가성비+무결점 펜트하우스입니다.
+- **💡 비유**: 쌩 모놀리스(스파게티)는 <strong>'거대한 원룸 고시원(1통짜리)'</strong>입니다. 10명(코드)이 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 하나 없이 엉켜 살아서 누가 똥(에러) 싸면 원룸 전체 100% 냄새 다 퍼지고 죽습니다(강결합). 무지성 MSA는 <strong>'강남 아파트 10채 사서 1명씩 분가시킨 짓'</strong>입니다. 쾌적하긴 개뿔, 친구(다른 서버) 만나서 밥 한 번 먹으려면 매번 차 끌고 30분씩 톨게이트(네트워크 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 타야 하고 월세(AWS 서버비) 터져서 길거리에 나앉습니다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스는 <strong>'100평짜리 거대 단독 주택 1채(모놀리스 서버 1대)' 안에 철저하게 방 10개를 콘크리트 방음벽(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 캡슐화)으로 나누어 지어둔 것</strong>입니다. 월세(서버비)는 1채 값만 내는 극한 가성비 꿀을 빨고, 거실 문(인터페이스)만 열면 1초 컷 핑퐁 통신(로컬 메소드 호출)으로 초광속 대화가 가능하면서도! 철수가 자기 방([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))에서 불장난(에러)을 쳐도 절대 영희 방으로 번지지 않는 궁극의 가성비+무결점 펜트하우스입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Monolithic Hell (2000s)**: JSP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개에 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 화면, 결제 로직 1만 줄이 비빔밥 된 스파게티 지옥 시대. 서버 띄우는 데 10분 걸림.
-  2. **[Microservices](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) Hype (2015~)**: 넷플릭스 뽕을 맞고 전 세계 모든 개발자가 "무조건 쪼개는 게 정답!" 이라며 50개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 찢었다가, 네트워크 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 난이도 지옥에 빠져 수만 개 스타트업 멸망.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a> Hype (2015~)</strong>: 넷플릭스 뽕을 맞고 전 세계 모든 개발자가 "무조건 쪼개는 게 정답!" 이라며 50개 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 찢었다가, 네트워크 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/)의 난이도 지옥에 빠져 수만 개 스타트업 멸망.
   3. **"Monolith First" 선언 (현재)**: 마틴 파울러 아저씨가 일침을 놨다. "니들 트래픽 쥐꼬리면서 왜 찢고 깝침? 무조건 모놀리식으로 시작해라(Monolith First)! 대신 코드 내부 패키지 뼈대만 완벽하게 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단위로 썰어놔(Modular)! 그리고 100만 트래픽 터질 때만 그때 가서 칼로 툭 잘라서 MSA로 이사 가라 ㅂㅅ들아!" 대 오답 노트의 시대.
 
-- **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 뼈대는 **'비상 탈출용 캡슐이 10개 장착된 거대 우주 모선(Mothership)'**과 똑같습니다. 평소엔 엔진 1개(서버 1대)로 우주를 미친 듯이 빠르게, 가성비 쩔게 항해합니다(Monolith). 하지만 적의 포탄을 맞아 엔진에 과부하가 걸려 모선이 터지려 하는 그 찰나의 폭발 임계점(Traffic 폭주 1,000만)! 아키텍트가 비상 버튼 하나를 누르면, 붙어있던 10개의 캡슐([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 찰칵찰칵 0.1초 만에 몸체에서 뜯겨 나가며 10대의 독립 우주 전투기([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))로 변신해 우주 사방으로 찢어져 흩날리며 100배의 공격력을 퍼붓는, 가장 완벽한 2단 진화 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 생존술입니다.
+- **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 뼈대는 <strong>'비상 탈출용 캡슐이 10개 장착된 거대 우주 모선(Mothership)'</strong>과 똑같습니다. 평소엔 엔진 1개(서버 1대)로 우주를 미친 듯이 빠르게, 가성비 쩔게 항해합니다(Monolith). 하지만 적의 포탄을 맞아 엔진에 과부하가 걸려 모선이 터지려 하는 그 찰나의 폭발 임계점(Traffic 폭주 1,000만)! 아키텍트가 비상 버튼 하나를 누르면, 붙어있던 10개의 캡슐([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))이 찰칵찰칵 0.1초 만에 몸체에서 뜯겨 나가며 10대의 독립 우주 전투기([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))로 변신해 우주 사방으로 찢어져 흩날리며 100배의 공격력을 퍼붓는, 가장 완벽한 2단 진화 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 생존술입니다.
 
 ---
 
 다음은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Mo의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  모듈러 모놀리스 (Modular Mo                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈러 모놀리스 (Modular Mo</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Mo가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Monolith) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Monolith) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)러 모놀리스 (Modular Monolith) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-모듈러 모놀리스 (Modular Monolith) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈러 모놀리스 (Modular Monolith) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

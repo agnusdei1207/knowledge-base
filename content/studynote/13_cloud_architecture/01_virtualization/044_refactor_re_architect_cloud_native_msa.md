@@ -18,47 +18,44 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 클라우드 마이그레이션 6R
 
-```
-6R 마이그레이션 전략:
 
-1. Retire (폐기):
-   더 이상 필요 없는 애플리케이션 폐기
-   예: 중복 CRM 시스템
-   
-2. Retain (유지):
-   현재 온프레미스 유지 (규제, 레이턴시)
-   예: 실시간 금융 거래 코어
-   
-3. Rehost (리호스팅, Lift & Shift):
-   코드 변경 없이 클라우드로 이전
-   빠르지만 클라우드 혜택 최소화
-   
-4. Replatform (리플랫폼):
-   소규모 최적화 (RDS로 DB 이전 등)
-   코드 변경 최소화
-   
-5. Re-factor / Re-purchase (재구성):
-   클라우드 네이티브로 코드 재작성
-   PaaS, 서버리스 활용
-   
-6. Re-architect (재설계):
-   아키텍처 근본 변경 (MSA 전환)
-   가장 많은 투자, 가장 큰 가치
 
-Re-factor vs Re-architect:
-  Re-factor:
-    기존 기능 유지, 구현 방식 변경
-    예: 모놀리스 → Lambda + DynamoDB
-    
-  Re-architect:
-    기능 분리, 서비스 경계 재정의
-    예: 모놀리스 → 10개 마이크로서비스
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">6R 마이그레이션 전략:</div>
+<div class="kb-diagram-note">1. Retire (폐기):</div>
+<div class="kb-diagram-note">더 이상 필요 없는 애플리케이션 폐기</div>
+<div class="kb-diagram-note">예: 중복 CRM 시스템</div>
+<div class="kb-diagram-note">2. Retain (유지):</div>
+<div class="kb-diagram-note">현재 온프레미스 유지 (규제, 레이턴시)</div>
+<div class="kb-diagram-note">예: 실시간 금융 거래 코어</div>
+<div class="kb-diagram-note">3. Rehost (리호스팅, Lift &amp; Shift):</div>
+<div class="kb-diagram-note">코드 변경 없이 클라우드로 이전</div>
+<div class="kb-diagram-note">빠르지만 클라우드 혜택 최소화</div>
+<div class="kb-diagram-note">4. Replatform (리플랫폼):</div>
+<div class="kb-diagram-note">소규모 최적화 (RDS로 DB 이전 등)</div>
+<div class="kb-diagram-note">코드 변경 최소화</div>
+<div class="kb-diagram-note">5. Re-factor / Re-purchase (재구성):</div>
+<div class="kb-diagram-note">클라우드 네이티브로 코드 재작성</div>
+<div class="kb-diagram-note">PaaS, 서버리스 활용</div>
+<div class="kb-diagram-note">6. Re-architect (재설계):</div>
+<div class="kb-diagram-note">아키텍처 근본 변경 (MSA 전환)</div>
+<div class="kb-diagram-note">가장 많은 투자, 가장 큰 가치</div>
+<div class="kb-diagram-note">Re-factor vs Re-architect:</div>
+<div class="kb-diagram-note">Re-factor:</div>
+<div class="kb-diagram-note">기존 기능 유지, 구현 방식 변경</div>
+<div class="kb-diagram-note">예: 모놀리스 → Lambda + DynamoDB</div>
+<div class="kb-diagram-note">Re-architect:</div>
+<div class="kb-diagram-note">기능 분리, 서비스 경계 재정의</div>
+<div class="kb-diagram-note">예: 모놀리스 → 10개 마이크로서비스</div>
+<div class="kb-diagram-note">투자 vs 가치:</div>
+<div class="kb-diagram-note">Rehost: 비용 20~30% 절감 (이전 비용 낮음)</div>
+<div class="kb-diagram-note">Replatform: 비용 40~50% 절감</div>
+<div class="kb-diagram-note">Re-architect: 비용 60~80% 절감 + 민첩성 향상</div>
+</div>
+</div>
 
-투자 vs 가치:
-  Rehost: 비용 20~30% 절감 (이전 비용 낮음)
-  Replatform: 비용 40~50% 절감
-  Re-architect: 비용 60~80% 절감 + 민첩성 향상
-```
+
 
 > 📢 **섹션 요약 비유**: 6R은 이사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 짐 그대로 옮기기(Rehost), 조금 정리하기(Replatform), 새로 디자인하기(Re-architect). 비용은 커지지만 새 집을 제대로 활용할수록 효과도 커요.
 
@@ -121,47 +118,45 @@ Two-Pizza Team:
 
 ## Ⅲ. [Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/)
 
-```
-Strangler Fig Pattern (교살 무화과 패턴):
-  Martin Fowler 제안
-  모놀리스 → MSA 점진적 전환 전략
 
-이름 유래:
-  교살 무화과나무: 기존 나무를 감으며 천천히 대체
-  → 기존 시스템을 유지하면서 새 시스템이 점진적 대체
 
-전환 단계:
-  Stage 1: API Gateway 도입
-    모든 트래픽 → API Gateway
-    처음에는 모두 모놀리스로 라우팅
-    
-  Stage 2: 기능 분리 시작
-    가장 독립적인 기능부터 추출
-    알림 서비스: 모놀리스에서 분리 (낮은 의존성)
-    Gateway → 알림: 신규 서비스
-    Gateway → 나머지: 모놀리스
-    
-  Stage 3: 점진적 분리 계속
-    배송 → 상품 → 결제 순서로 분리
-    각 분리 후 검증 (A/B 트래픽)
-    
-  Stage 4: 모놀리스 최소화
-    핵심 기능만 남은 모놀리스
-    
-  Stage 5: 완전 대체
-    모놀리스 폐기
-    
-Anti-Pattern (Big Bang):
-  전체를 한번에 재설계
-  → 수개월~수년의 "개발 블랙홀"
-  → 서비스 중단 리스크
-  → 대부분 실패
-  
-Strangler 장점:
-  비즈니스 연속성 유지
-  점진적 위험 관리
-  팀 학습 곡선 완화
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Strangler Fig Pattern (교살 무화과 패턴):</div>
+<div class="kb-diagram-note">Martin Fowler 제안</div>
+<div class="kb-diagram-note">모놀리스 → MSA 점진적 전환 전략</div>
+<div class="kb-diagram-note">이름 유래:</div>
+<div class="kb-diagram-note">교살 무화과나무: 기존 나무를 감으며 천천히 대체</div>
+<div class="kb-diagram-note">→ 기존 시스템을 유지하면서 새 시스템이 점진적 대체</div>
+<div class="kb-diagram-note">전환 단계:</div>
+<div class="kb-diagram-note">Stage 1: API Gateway 도입</div>
+<div class="kb-diagram-note">모든 트래픽 → API Gateway</div>
+<div class="kb-diagram-note">처음에는 모두 모놀리스로 라우팅</div>
+<div class="kb-diagram-note">Stage 2: 기능 분리 시작</div>
+<div class="kb-diagram-note">가장 독립적인 기능부터 추출</div>
+<div class="kb-diagram-note">알림 서비스: 모놀리스에서 분리 (낮은 의존성)</div>
+<div class="kb-diagram-note">Gateway → 알림: 신규 서비스</div>
+<div class="kb-diagram-note">Gateway → 나머지: 모놀리스</div>
+<div class="kb-diagram-note">Stage 3: 점진적 분리 계속</div>
+<div class="kb-diagram-note">배송 → 상품 → 결제 순서로 분리</div>
+<div class="kb-diagram-note">각 분리 후 검증 (A/B 트래픽)</div>
+<div class="kb-diagram-note">Stage 4: 모놀리스 최소화</div>
+<div class="kb-diagram-note">핵심 기능만 남은 모놀리스</div>
+<div class="kb-diagram-note">Stage 5: 완전 대체</div>
+<div class="kb-diagram-note">모놀리스 폐기</div>
+<div class="kb-diagram-note">Anti-Pattern (Big Bang):</div>
+<div class="kb-diagram-note">전체를 한번에 재설계</div>
+<div class="kb-diagram-note">→ 수개월~수년의 "개발 블랙홀"</div>
+<div class="kb-diagram-note">→ 서비스 중단 리스크</div>
+<div class="kb-diagram-note">→ 대부분 실패</div>
+<div class="kb-diagram-note">Strangler 장점:</div>
+<div class="kb-diagram-note">비즈니스 연속성 유지</div>
+<div class="kb-diagram-note">점진적 위험 관리</div>
+<div class="kb-diagram-note">팀 학습 곡선 완화</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: Strangler Fig는 점진적 집 수리 — 사람이 살면서 방 하나씩 리모델링. 전체 집을 비우고 한꺼번에 고치면(Big Bang) 살 곳이 없어지는 위험.
 
@@ -169,49 +164,43 @@ Strangler 장점:
 
 ## Ⅳ. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 패턴
 
-```
-클라우드 네이티브 패턴:
 
-1. Circuit Breaker (회로 차단기):
-   연쇄 장애 방지
-   
-   상태: Closed → Open → Half-Open
-   실패 임계값 초과 시 Open → 빠른 실패 반환
-   일정 시간 후 Half-Open → 재시도 허용
-   
-   도구: Resilience4j, Hystrix
 
-2. Service Mesh:
-   서비스 간 통신 인프라를 사이드카 프록시로 관리
-   
-   기능: 로드밸런싱, 암호화, 트레이싱, 레이트 리미팅
-   
-   Istio: 가장 많이 사용되는 Service Mesh
-   Envoy 사이드카 프록시
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라우드 네이티브 패턴:</div>
+<div class="kb-diagram-note">1. Circuit Breaker (회로 차단기):</div>
+<div class="kb-diagram-note">연쇄 장애 방지</div>
+<div class="kb-diagram-note">상태: Closed → Open → Half-Open</div>
+<div class="kb-diagram-note">실패 임계값 초과 시 Open → 빠른 실패 반환</div>
+<div class="kb-diagram-note">일정 시간 후 Half-Open → 재시도 허용</div>
+<div class="kb-diagram-note">도구: Resilience4j, Hystrix</div>
+<div class="kb-diagram-note">2. Service Mesh:</div>
+<div class="kb-diagram-note">서비스 간 통신 인프라를 사이드카 프록시로 관리</div>
+<div class="kb-diagram-note">기능: 로드밸런싱, 암호화, 트레이싱, 레이트 리미팅</div>
+<div class="kb-diagram-note">Istio: 가장 많이 사용되는 Service Mesh</div>
+<div class="kb-diagram-note">Envoy 사이드카 프록시</div>
+<div class="kb-diagram-note">3. API Gateway:</div>
+<div class="kb-diagram-note">단일 진입점 (Single Entry Point)</div>
+<div class="kb-diagram-note">인증, 라우팅, 로드밸런싱, 로깅</div>
+<div class="kb-diagram-note">AWS API Gateway, Kong, nginx</div>
+<div class="kb-diagram-note">4. Sidecar Pattern:</div>
+<div class="kb-diagram-note">메인 컨테이너 옆에 보조 컨테이너</div>
+<div class="kb-diagram-note">로깅, 모니터링, 보안 에이전트</div>
+<div class="kb-diagram-note">5. Saga Pattern:</div>
+<div class="kb-diagram-note">분산 트랜잭션 처리</div>
+<div class="kb-diagram-note">Choreography Saga: 이벤트 기반 자율 조율</div>
+<div class="kb-diagram-note">Orchestration Saga: 중앙 조율자(Orchestrator)</div>
+<div class="kb-diagram-note">쿠버네티스(Kubernetes) 기반:</div>
+<div class="kb-diagram-note">컨테이너 오케스트레이션 표준</div>
+<div class="kb-diagram-note">자동 확장 (HPA, VPA)</div>
+<div class="kb-diagram-note">자가 치유 (Self-Healing)</div>
+<div class="kb-diagram-note">롤링 업데이트</div>
+<div class="kb-diagram-note">서비스 디스커버리</div>
+</div>
+</div>
 
-3. API Gateway:
-   단일 진입점 (Single Entry Point)
-   인증, 라우팅, 로드밸런싱, 로깅
-   
-   AWS API Gateway, Kong, nginx
-   
-4. Sidecar Pattern:
-   메인 컨테이너 옆에 보조 컨테이너
-   로깅, 모니터링, 보안 에이전트
 
-5. Saga Pattern:
-   분산 트랜잭션 처리
-   
-   Choreography Saga: 이벤트 기반 자율 조율
-   Orchestration Saga: 중앙 조율자(Orchestrator)
-
-쿠버네티스(Kubernetes) 기반:
-  컨테이너 오케스트레이션 표준
-  자동 확장 (HPA, VPA)
-  자가 치유 (Self-Healing)
-  롤링 업데이트
-  서비스 디스커버리
-```
 
 > 📢 **섹션 요약 비유**: Circuit Breaker는 전기 차단기 — 한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 망가져서 요청이 계속 오면, 전기 차단기처럼 "뚝!" 차단해서 전체 시스템이 쓰러지지 않도록 보호해요.
 
@@ -219,50 +208,46 @@ Strangler 장점:
 
 ## Ⅴ. 실무 시나리오 — 이커머스 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환
 
-```
-대형 이커머스 모놀리스 → MSA 전환:
 
-배경:
-  Java 모놀리스: 200만 라인 코드
-  문제: 배포 6시간, 특정 기능 확장 불가
-  목표: 마이크로서비스로 전환
 
-전환 전략: Strangler Fig
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 이커머스 모놀리스 → MSA 전환:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">Java 모놀리스: 200만 라인 코드</div>
+<div class="kb-diagram-note">문제: 배포 6시간, 특정 기능 확장 불가</div>
+<div class="kb-diagram-note">목표: 마이크로서비스로 전환</div>
+<div class="kb-diagram-note">전환 전략: Strangler Fig</div>
+<div class="kb-diagram-note">Phase 1 (Q1): API Gateway 도입</div>
+<div class="kb-diagram-note">Kong Gateway 앞단 배치</div>
+<div class="kb-diagram-note">기존 모놀리스 유지</div>
+<div class="kb-diagram-note">→ 영향 없이 인프라 준비</div>
+<div class="kb-diagram-note">Phase 2 (Q2): 알림 서비스 분리</div>
+<div class="kb-diagram-note">이메일/SMS 발송 기능 추출</div>
+<div class="kb-diagram-note">모놀리스 코드 비활성화</div>
+<div class="kb-diagram-note">Gateway에서 알림 요청 → 신규 서비스 라우팅</div>
+<div class="kb-diagram-note">A/B 테스트로 안전 검증</div>
+<div class="kb-diagram-note">기술: Python FastAPI + AWS SQS + Lambda</div>
+<div class="kb-diagram-note">Phase 3 (Q3~Q4): 상품/카탈로그 분리</div>
+<div class="kb-diagram-note">가장 높은 조회 트래픽 → 독립 확장 필요</div>
+<div class="kb-diagram-note">기술: Go + Redis + Elasticsearch</div>
+<div class="kb-diagram-note">오토스케일링 효과:</div>
+<div class="kb-diagram-note">기존: 전체 모놀리스 스케일업 (비효율)</div>
+<div class="kb-diagram-note">신규: 상품 서비스만 스케일 (20→200 인스턴스)</div>
+<div class="kb-diagram-note">Phase 4~6 (다음 해): 주문/결제/배송 분리</div>
+<div class="kb-diagram-note">결과 (2년 후):</div>
+<div class="kb-diagram-note">배포 시간: 6시간 → 15분</div>
+<div class="kb-diagram-note">장애 격리: 알림 장애 → 결제 영향 없음</div>
+<div class="kb-diagram-note">팀 자율성: 각 팀 독립 배포 주 3회 이상</div>
+<div class="kb-diagram-note">인프라 비용: 20% 절감 (세밀한 스케일링)</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">서비스 경계 결정이 가장 중요 (DDD 필수)</div>
+<div class="kb-diagram-note">공유 DB 문제: 서비스마다 DB 분리가 핵심 난제</div>
+<div class="kb-diagram-note">분산 트랜잭션: Saga 패턴으로 해결</div>
+</div>
+</div>
 
-Phase 1 (Q1): API Gateway 도입
-  Kong Gateway 앞단 배치
-  기존 모놀리스 유지
-  → 영향 없이 인프라 준비
 
-Phase 2 (Q2): 알림 서비스 분리
-  이메일/SMS 발송 기능 추출
-  모놀리스 코드 비활성화
-  Gateway에서 알림 요청 → 신규 서비스 라우팅
-  A/B 테스트로 안전 검증
-  
-  기술: Python FastAPI + AWS SQS + Lambda
-
-Phase 3 (Q3~Q4): 상품/카탈로그 분리
-  가장 높은 조회 트래픽 → 독립 확장 필요
-  기술: Go + Redis + Elasticsearch
-  
-  오토스케일링 효과:
-  기존: 전체 모놀리스 스케일업 (비효율)
-  신규: 상품 서비스만 스케일 (20→200 인스턴스)
-
-Phase 4~6 (다음 해): 주문/결제/배송 분리
-
-결과 (2년 후):
-  배포 시간: 6시간 → 15분
-  장애 격리: 알림 장애 → 결제 영향 없음
-  팀 자율성: 각 팀 독립 배포 주 3회 이상
-  인프라 비용: 20% 절감 (세밀한 스케일링)
-  
-교훈:
-  서비스 경계 결정이 가장 중요 (DDD 필수)
-  공유 DB 문제: 서비스마다 DB 분리가 핵심 난제
-  분산 트랜잭션: Saga 패턴으로 해결
-```
 
 > 📢 **섹션 요약 비유**: 이커머스 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환은 대형마트 → 전문점 거리 — 모든 것 파는 대형마트(모놀리스)를 식료품점·전자제품점·의류점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))으로 분리. 각 점포가 독립적으로 영업!
 

@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 회춘은 시스템이 완전히 고장 나기 전에 의도적으로 재시작하거나 새 인스턴스로 교체해, 축적된 내부 상태를 초기화하는 기법이다. 여기서 출발점은 **소프트웨어 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)(Software [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))** 다. 프로그램이 오래 돌수록 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 누수, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 캐시 비대화, 힙 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/), 락 누적, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 오버플로, 드라이버 상태 꼬임 같은 문제가 서서히 쌓일 수 있다.
+소프트웨어 회춘은 시스템이 완전히 고장 나기 전에 의도적으로 재시작하거나 새 인스턴스로 교체해, 축적된 내부 상태를 초기화하는 기법이다. 여기서 출발점은 <strong>소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a>(Software <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong> 다. 프로그램이 오래 돌수록 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 누수, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 캐시 비대화, 힙 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/), 락 누적, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 오버플로, 드라이버 상태 꼬임 같은 문제가 서서히 쌓일 수 있다.
 
 문제는 이런 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)가 대부분 서서히 진행된다는 점이다. 처음에는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 조금 늘고, 그다음에는 재시도나 타임아웃이 늘며, 마지막에는 프로세스 크래시나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉처럼 큰 장애로 폭발한다. 따라서 "망가지면 다시 켜자"보다 "망가지기 전에 짧게 비우자"가 오히려 전체 가용성에 유리할 수 있다.
 
-특히 24x7 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 통신 장비, 거래 시스템, 장기 실행 미들웨어에서는 코드 결함이 완전히 사라지지 않아도 운영상 위험을 통제해야 한다. 이런 맥락에서 회춘은 결함을 미화하는 꼼수가 아니라, **[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 속도를 안다는 가정 아래 장애를 계획된 유지보수로 바꾸는 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+특히 24x7 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 통신 장비, 거래 시스템, 장기 실행 미들웨어에서는 코드 결함이 완전히 사라지지 않아도 운영상 위험을 통제해야 한다. 이런 맥락에서 회춘은 결함을 미화하는 꼼수가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a> 속도를 안다는 가정 아래 장애를 계획된 유지보수로 바꾸는 운영 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 계속 달리는 자동차는 먼지가 조금씩 쌓여 어느 순간 갑자기 퍼질 수 있다. 소프트웨어 회춘은 길 한복판에서 멈추기 전에 정비소에 잠깐 들러 기름과 필터를 갈아 주는 예방 정비와 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-회춘의 핵심은 **어느 계층의 상태를 얼마나 깊게 지울 것인가**를 고르는 일이다. 얕은 재시작은 빠르지만 일부 상태만 지우고, 깊은 리부트는 더 많은 상태를 지우지만 비용이 커진다. 따라서 관측 지표와 장애 징후를 기반으로 적정 수준을 선택해야 한다.
+회춘의 핵심은 <strong>어느 계층의 상태를 얼마나 깊게 지울 것인가</strong>를 고르는 일이다. 얕은 재시작은 빠르지만 일부 상태만 지우고, 깊은 리부트는 더 많은 상태를 지우지만 비용이 커진다. 따라서 관측 지표와 장애 징후를 기반으로 적정 수준을 선택해야 한다.
 
 | 수준 | 지워지는 상태 | 비용/영향 | 대표 적용 상황 |
 | :--- | :--- | :--- | :--- |
@@ -40,22 +40,25 @@ tags = ["studynote-computer-architecture"]
 | OS 재부팅 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 테이블, 드라이버 상태 | 중간 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 누수, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 이상 |
 | HW 리부트(Cold/Warm Reboot) | OS 상태 + 일부 디바이스 초기화, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)/[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 재초기화 | 가장 큼 | [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치 응답 정지(Hang), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 꼬임, 노드 전체 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) |
 
-실제 운영 흐름은 보통 **모니터링 → [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 판단 → 트래픽 드레인 → 재시작/리부트 → 워밍업 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재투입**으로 이뤄진다.
+실제 운영 흐름은 보통 <strong>모니터링 → <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 판단 → 트래픽 드레인 → 재시작/리부트 → 워밍업 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 재투입</strong>으로 이뤄진다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Monitor -> Trigger -> Drain -> Rejuvenate -> Warm-up -> Rejoin    │
-│                  │                                                 │
-│                  ├─ App restart                                    │
-│                  ├─ Container / VM recycle                         │
-│                  ├─ OS reboot                                      │
-│                  └─ HW reboot                                      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor -&gt; Trigger -&gt; Drain -&gt; Rejuvenate -&gt; Warm-up -&gt; Rejoin</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ App restart</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Container / VM recycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ OS reboot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HW reboot</div></div>
+</div>
+</div>
+
+
 
 여기서 HW 리부트는 단순한 "껐다 켠다"가 아니라, 소프트웨어 계층만으로는 제거되지 않는 상태를 비우는 가장 깊은 회춘 단계다. 예를 들어 사용자 프로세스 재시작으로는 해결되지 않는 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 이상, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 장치 응답 불능, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 누적 오류는 OS 재부팅이나 물리 노드 리셋이 필요할 수 있다. 다만 비용이 큰 만큼, 먼저 얕은 회춘으로 해결 가능한지 판단하는 것이 원칙이다.
 
-또한 회춘 시점은 **시간 기반**, **[임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 기반**, **예측 기반**으로 잡을 수 있다. 매주 새벽 4시에 재시작하는 고정 정책도 있고, RSS (Resident Set Size) 메모리 증가율·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 꼬리값·핸들 수 증가 추세가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘을 때만 회춘하는 적응형 정책도 있다.
+또한 회춘 시점은 **시간 기반**, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 기반</strong>, <strong>예측 기반</strong>으로 잡을 수 있다. 매주 새벽 4시에 재시작하는 고정 정책도 있고, RSS (Resident Set Size) 메모리 증가율·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 꼬리값·핸들 수 증가 추세가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘을 때만 회춘하는 적응형 정책도 있다.
 
 - **📢 섹션 요약 비유**: 방 청소를 할 때 책상만 닦을지, 방 전체를 정리할지, 집 전기를 내리고 가전까지 재설정할지는 어질러진 범위에 따라 다르다. 회춘도 어디까지 더러워졌는지 보고 청소 깊이를 정하는 작업이다.
 
@@ -63,7 +66,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-소프트웨어 회춘은 단순 재부팅과 같아 보이지만, 목적과 맥락이 다르다. **장애 후 재시작**은 이미 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 깨진 뒤의 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)이고, **회춘**은 깨지기 전에 계획된 짧은 중단으로 더 큰 장애를 피하는 사전 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)다. 또한 HW 리부트는 회춘의 한 수단이지, 모든 경우의 기본 해답은 아니다.
+소프트웨어 회춘은 단순 재부팅과 같아 보이지만, 목적과 맥락이 다르다. <strong>장애 후 재시작</strong>은 이미 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 깨진 뒤의 사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)이고, <strong>회춘</strong>은 깨지기 전에 계획된 짧은 중단으로 더 큰 장애를 피하는 사전 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)다. 또한 HW 리부트는 회춘의 한 수단이지, 모든 경우의 기본 해답은 아니다.
 
 | 구분 | 소프트웨어 회춘 | HW 리부트 | 장애 후 비상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | :--- | :--- | :--- | :--- |
@@ -72,7 +75,7 @@ tags = ["studynote-computer-architecture"]
 | 목적 | [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 누적 제거 | 깊은 상태 오염 제거 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 | 비용 | 비교적 통제 가능 | 더 큼 | 가장 예측하기 어려움 |
 
-이 개념은 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 함께 봐야 의미가 커진다. 로드밸런서, 액티브-스탠바이, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 같은 중복 구조가 있어야 한 대씩 순차적으로 회춘해도 사용자 체감 중단을 최소화할 수 있다. 즉 **회춘은 장애 확률을 줄이고, HA는 회춘 비용을 숨긴다**고 보면 된다.
+이 개념은 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 함께 봐야 의미가 커진다. 로드밸런서, 액티브-스탠바이, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) 같은 중복 구조가 있어야 한 대씩 순차적으로 회춘해도 사용자 체감 중단을 최소화할 수 있다. 즉 <strong>회춘은 장애 확률을 줄이고, HA는 회춘 비용을 숨긴다</strong>고 보면 된다.
 
 또한 최근 클라우드 환경에서는 회춘이 운영 철학과도 연결된다. 오래된 서버를 정성껏 살리는 대신, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)나 노드를 주기적으로 폐기하고 새 이미지로 교체하는 [Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 회춘의 자동화된 형태로 볼 수 있다. 반대로 단일 상태 저장 서버에 모든 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 묶어 두면, 회춘은 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이 되므로 설계 자체가 취약해진다.
 
@@ -82,11 +85,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 회춘 정책은 "얼마나 자주 껐다 켤 것인가"보다 **어떤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보고, 어떤 범위까지, 어떤 순서로 실행할 것인가**를 설계하는 일이 중요하다. 예를 들어 웹 애플리케이션 팜에서는 인스턴스 한 대를 드레인한 뒤 프로세스를 재시작하고 캐시를 워밍업한 후 다시 투입하는 롤링 재시작이 일반적이다. 반면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)나 드라이버 불안정이 의심되는 스토리지 노드는 프로세스 재시작만으로 부족하므로 OS 재부팅이나 노드 리셋을 계획해야 한다.
+실무에서 회춘 정책은 "얼마나 자주 껐다 켤 것인가"보다 <strong>어떤 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 보고, 어떤 범위까지, 어떤 순서로 실행할 것인가</strong>를 설계하는 일이 중요하다. 예를 들어 웹 애플리케이션 팜에서는 인스턴스 한 대를 드레인한 뒤 프로세스를 재시작하고 캐시를 워밍업한 후 다시 투입하는 롤링 재시작이 일반적이다. 반면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)나 드라이버 불안정이 의심되는 스토리지 노드는 프로세스 재시작만으로 부족하므로 OS 재부팅이나 노드 리셋을 계획해야 한다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 지표가 보이는가**: RSS 메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 수, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수, GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 오류율, p99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 시간에 따라 단조 증가하는가?
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a> 지표가 보이는가</strong>: RSS 메모리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 수, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수, GC ([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 오류율, p99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 시간에 따라 단조 증가하는가?
 2. **상태를 비우기 전 안전하게 내보낼 수 있는가**: 커넥션 드레이닝, 리더 전환, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 종료 절차가 있는가?
 3. **워밍업 비용을 고려했는가**: 재시작 후 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 캐시, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시, 커넥션 풀, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 비어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 흔들리지 않는가?
 4. **가장 얕은 수단으로 해결 가능한가**: 앱 재시작이면 될 문제에 노드 전체 전원 재인가를 남발하지 않는가?
@@ -98,7 +101,7 @@ tags = ["studynote-computer-architecture"]
 - 상태 저장 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 없이 회춘을 적용하는 것
 - 회춘 스케줄만 믿고 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 원인을 추적하지 않는 것
 
-좋은 회춘 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 결국 **예측 가능한 작은 중단으로 예측 불가능한 큰 장애를 대체**한다. 따라서 기술사 관점에서는 회춘 주기만 외우기보다, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특성·상태성·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 구조·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))를 함께 보고 계층별 수단을 고르는 답안이 설득력 있다.
+좋은 회춘 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 결국 <strong>예측 가능한 작은 중단으로 예측 불가능한 큰 장애를 대체</strong>한다. 따라서 기술사 관점에서는 회춘 주기만 외우기보다, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 특성·상태성·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 구조·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 목표([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))를 함께 보고 계층별 수단을 고르는 답안이 설득력 있다.
 
 - **📢 섹션 요약 비유**: 집 전구가 깜빡이기 시작할 때 전구만 갈지, 차단기를 내렸다 올릴지, 전기 배선을 점검할지는 문제 위치에 따라 다르다. 회춘도 어디에서 이상이 쌓였는지 보고 가장 필요한 수준만 리셋해야 한다.
 
@@ -106,11 +109,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-소프트웨어 회춘의 직접 효과는 장애를 없애는 것이 아니라 **장애 발생 시점을 통제 가능한 유지보수 시간대로 옮기는 것**이다. 그 결과 평균 장애 간격을 늘리고, 예상치 못한 야간 장애와 긴 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄일 수 있다. 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 회춘을 자동화함으로써 운영자 개입 없이도 장기 안정성을 유지할 수 있다.
+소프트웨어 회춘의 직접 효과는 장애를 없애는 것이 아니라 <strong>장애 발생 시점을 통제 가능한 유지보수 시간대로 옮기는 것</strong>이다. 그 결과 평균 장애 간격을 늘리고, 예상치 못한 야간 장애와 긴 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄일 수 있다. 대규모 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 회춘을 자동화함으로써 운영자 개입 없이도 장기 안정성을 유지할 수 있다.
 
 하지만 한계도 분명하다. 재시작은 캐시 냉각, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재구성, 짧은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 동반할 수 있고, 깊은 HW 리부트는 더 큰 영향과 시간이 든다. 무엇보다 회춘만 반복하고 원인을 고치지 않으면 시스템은 계속 같은 빚을 쌓는다.
 
-따라서 이 개념은 "문제가 생기면 다시 켜라"가 아니라, **[노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)를 관측하고 가장 적절한 층에서 계획적으로 초기화하라**로 기억해야 한다. 프로세스 재시작에서 HW 리부트까지를 하나의 연속선으로 이해하면, 운영 설계와 장애 대응을 더 정교하게 설명할 수 있다.
+따라서 이 개념은 "문제가 생기면 다시 켜라"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a>를 관측하고 가장 적절한 층에서 계획적으로 초기화하라</strong>로 기억해야 한다. 프로세스 재시작에서 HW 리부트까지를 하나의 연속선으로 이해하면, 운영 설계와 장애 대응을 더 정교하게 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 몸이 완전히 쓰러진 뒤 응급실에 가는 것보다, 주기적으로 건강검진과 휴식을 넣어 큰 병을 막는 편이 낫다. 회춘은 시스템에게 계획된 휴식을 주는 운영 습관이다.
 
@@ -129,22 +132,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-장기 실행 서비스
-    │
-    ▼
-소프트웨어 노화 관측
-    │
-    ▼
-임계치/예측 기반 회춘 트리거
-    │
-    ├── 프로세스 재시작
-    ├── 컨테이너·VM 교체
-    ├── OS 재부팅
-    └── HW 리부트
-    ▼
-롤링 운영 · 자가 치유(Self-healing) 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">장기 실행 서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 노화 관측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임계치/예측 기반 회춘 트리거</div>
+<div class="kb-diagram-tree-item" style="--depth:2">프로세스 재시작</div>
+<div class="kb-diagram-tree-item" style="--depth:2">컨테이너·VM 교체</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OS 재부팅</div>
+<div class="kb-diagram-tree-item" style="--depth:2">HW 리부트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">롤링 운영 · 자가 치유(Self-healing) 인프라</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

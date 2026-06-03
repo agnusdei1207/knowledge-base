@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 연결 (Dynamic Linking)은 프로그램이 컴파일될 때 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 내 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EXE) 안에 통째로 복사해 넣지 않고, **실행되는 시점(Run-time)에 메모리에 이미 올라와 있는 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 주소만 연결(Link)**하는 기법이다.
-> 2. **가치**: 100개의 프로그램이 `printf`를 써도 메모리에는 단 1개의 `printf` 코드만 존재하게 하여 디스크 용량과 메인 메모리를 극적으로 절약하고, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 버그 패치 시 각 프로그램을 재컴파일할 필요 없이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 교체하면 되는 **독립적 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)**을 제공한다.
+> 1. **본질**: 동적 연결 (Dynamic Linking)은 프로그램이 컴파일될 때 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 내 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EXE) 안에 통째로 복사해 넣지 않고, <strong>실행되는 시점(Run-time)에 메모리에 이미 올라와 있는 공용 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>의 주소만 연결(Link)</strong>하는 기법이다.
+> 2. **가치**: 100개의 프로그램이 `printf`를 써도 메모리에는 단 1개의 `printf` 코드만 존재하게 하여 디스크 용량과 메인 메모리를 극적으로 절약하고, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 버그 패치 시 각 프로그램을 재컴파일할 필요 없이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 교체하면 되는 <strong>독립적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong>을 제공한다.
 > 3. **융합**: Windows의 DLL (Dynamic Link [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))과 Linux의 SO (Shared Object) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 그 구현체이며, 링커(Linker) 대신 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 로더(Loader)와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 기술이 융합되어 주소 변환을 수행한다.
 
 ---
@@ -23,28 +23,28 @@ tags = ["studynote-operating-system"]
 - **필요성**: C 언어의 표준 입출력 함수(`printf`, `scanf`)나 수학 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 등은 거의 모든 프로그램이 공통으로 사용한다. 만약 [정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) 방식을 쓰면, 이 공통 코드들이 모든 카카오톡, 크롬, 엑셀 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 중복 복사된다. 이는 디스크 공간의 막대한 낭비일 뿐 아니라, 램(RAM)에도 똑같은 코드가 수백 개씩 올라가는 대참사를 낳는다. 이를 해결할 "코드 공유([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Sharing)" 메커니즘이 필요했다.
 
 - **등장 배경 및 구조적 진화**:
-  1. **[정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)의 재앙**: 초기에는 바이너리에 모든 코드를 박아 넣었다. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에서 보안 취약점이 발견되면, 그 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 가져다 쓴 수천 개의 소프트웨어 개발사들이 일일이 코드를 다시 컴파일해서 재배포해야 했다 (의존성 지옥).
-  2. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 개입**: 이 문제를 풀기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 특정 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 시스템 폴더(예: `C:\Windows\System32`)에 중앙 집중시켜 관리하기 시작했다.
-  3. **메모리 맵핑 (Memory [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))**: 프로세스가 이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출하면, OS는 물리 메모리에 해당 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 1개만 올려두고, 호출한 모든 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(가상 주소)이 이 1개의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 가리키도록 연결선만 이어주게 되었다.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/">정적 연결</a>의 재앙</strong>: 초기에는 바이너리에 모든 코드를 박아 넣었다. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에서 보안 취약점이 발견되면, 그 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 가져다 쓴 수천 개의 소프트웨어 개발사들이 일일이 코드를 다시 컴파일해서 재배포해야 했다 (의존성 지옥).
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 개입</strong>: 이 문제를 풀기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 특정 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 시스템 폴더(예: `C:\Windows\System32`)에 중앙 집중시켜 관리하기 시작했다.
+  3. <strong>메모리 맵핑 (Memory <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 프로세스가 이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출하면, OS는 물리 메모리에 해당 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 1개만 올려두고, 호출한 모든 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(가상 주소)이 이 1개의 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 가리키도록 연결선만 이어주게 되었다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│       정적 연결(Static) vs 동적 연결(Dynamic) 메모리 낭비 비교    │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│ [정적 연결 시 메모리 맵]                                          │
-│  프로세스 A (3MB): [자체 코드 1MB] + [표준 라이브러리 2MB]        │
-│  프로세스 B (4MB): [자체 코드 2MB] + [표준 라이브러리 2MB]        │
-│  => 총 메모리 소모: 7MB (라이브러리 코드가 중복 적재됨!)          │
-│                                                                   │
-│ [동적 연결 시 메모리 맵]                                          │
-│  물리 메모리 1번지: [표준 라이브러리 2MB] (OS가 1개만 띄움)       │
-│                                                                   │
-│  프로세스 A (1MB): [자체 코드 1MB] ────주소 연결──▶ 라이브러리    │
-│  프로세스 B (2MB): [자체 코드 2MB] ────주소 연결──▶ 라이브러리    │
-│  => 총 메모리 소모: 1MB + 2MB + 2MB(공용) = 5MB (공간 절약!)      │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 연결(Static) vs 동적 연결(Dynamic) 메모리 낭비 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 연결 시 메모리 맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 A (3MB):</div><div class="kb-diagram-node">자체 코드 1MB</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">표준 라이브러리 2MB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 B (4MB):</div><div class="kb-diagram-node">자체 코드 2MB</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">표준 라이브러리 2MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 총 메모리 소모: 7MB (라이브러리 코드가 중복 적재됨!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 연결 시 메모리 맵</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">물리 메모리 1번지:</div><div class="kb-diagram-node">표준 라이브러리 2MB</div><div class="kb-diagram-note">(OS가 1개만 띄움)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 A (1MB):</div><div class="kb-diagram-node">자체 코드 1MB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">라이브러리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 B (2MB):</div><div class="kb-diagram-node">자체 코드 2MB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">라이브러리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 총 메모리 소모: 1MB + 2MB + 2MB(공용) = 5MB (공간 절약!)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 단순한 도식이 윈도우나 리눅스 생태계의 뼈대를 설명한다. 동적 연결은 단순히 디스크 용량만 줄여주는 게 아니라, 한정된 물리 램(RAM)에 똑같은 코드가 여러 개 올라가는 것을 OS 차원에서 차단하여 가용 메모리를 극적으로 늘려준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑 기술을 이용해, 각 프로세스에게는 "너 혼자 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 다 쓰고 있어"라는 착각을 심어준 채 뒤에서는 하나의 물리 메모리를 은밀하게 공유시킨다.
 
 - **📢 섹션 요약 비유**: 모든 학생이 교과서를 복사해서 무겁게 들고 다니는([정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) 대신, 학교 도서관에 교과서 한 권을 두고 필요할 때마다 가서 읽게(동적 연결) 하여 모두의 가방을 가볍게 만드는 것과 같습니다.
@@ -57,37 +57,36 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Executable)** | 사용자 프로그램 본체 | 내부에 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드 대신 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))를 포함함 | .exe, .elf | 집을 짓기 위한 설계도 |
-| **스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))** | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 위치를 찾는 작은 포인터 코드 | 실행 시 OS가 이 스터브를 실제 메모리 주소로 치환함 | PLT (Procedure Linkage Table) | 배관공에게 전화하는 호출 버튼 |
-| **동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** | 공유되는 범용 코드 덩어리 | 디스크의 시스템 폴더에 존재하며 OS에 의해 1회 적재됨 | DLL, SO | 마을의 공용 물탱크 |
+| <strong>실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> (Executable)</strong> | 사용자 프로그램 본체 | 내부에 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드 대신 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))를 포함함 | .exe, .elf | 집을 짓기 위한 설계도 |
+| <strong>스터브 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong> | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 위치를 찾는 작은 포인터 코드 | 실행 시 OS가 이 스터브를 실제 메모리 주소로 치환함 | PLT (Procedure Linkage Table) | 배관공에게 전화하는 호출 버튼 |
+| <strong>동적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | 공유되는 범용 코드 덩어리 | 디스크의 시스템 폴더에 존재하며 OS에 의해 1회 적재됨 | DLL, SO | 마을의 공용 물탱크 |
 | **동적 링커 (Dynamic Linker/Loader)**| 실행 시점에 주소를 바인딩 | 스터브 실행 시, 메모리의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주소를 찾아 연결 | ld.so | 배관을 이어주는 수도국 직원 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)** | 메모리 매핑 및 접근 권한 제어 | 하나의 물리 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 여러 가상 주소 공간에 맵핑 | [Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 | 물탱크 관리자 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong> | 메모리 매핑 및 접근 권한 제어 | 하나의 물리 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 여러 가상 주소 공간에 맵핑 | [Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 | 물탱크 관리자 |
 
 ---
 
 ### 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)) 기반의 동적 링킹 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 연결([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding) 흐름
 
-프로그램이 시작될 때 모든 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 주소를 연결하면 부팅 속도가 매우 느려진다. 그래서 현대 OS는 함수가 **실제로 처음 호출될 때** 주소를 연결하는 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding)** 기법을 사용한다.
+프로그램이 시작될 때 모든 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 주소를 연결하면 부팅 속도가 매우 느려진다. 그래서 현대 OS는 함수가 **실제로 처음 호출될 때** 주소를 연결하는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding)</strong> 기법을 사용한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│             지연 바인딩(Lazy Binding) 동적 연결 과정                     │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ [프로세스 A 코드]                                                        │
-│ CALL printf ───────┐                                                     │
-│                    ▼                                                     │
-│               [ Stub 코드 영역 (PLT) ]                                   │
-│               "printf의 실제 메모리 주소를 아는가?"                      │
-│                    │                                                     │
-│       ┌───(No: 최초 호출 시)───┐        ┌───(Yes: 두 번째 호출)          │
-│       ▼                        ▼        ▼                                │
-│ [OS 개입]                [주소 테이블(GOT) 갱신]  [즉시 실행]            │
-│ 1. printf가 메모리에 없으면  2. printf의 실제 주소를  3. 오버헤드 없이   │
-│    디스크(DLL)에서 적재     Stub 포인터에 기록     printf 코드 실행      │
-│ 2. 주소 계산 후 반환                                                     │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 바인딩(Lazy Binding) 동적 연결 과정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALL printf</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stub 코드 영역 (PLT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"printf의 실제 메모리 주소를 아는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No: 최초 호출 시) (Yes: 두 번째 호출)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS 개입</div><div class="kb-diagram-node">주소 테이블(GOT) 갱신</div><div class="kb-diagram-node">즉시 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. printf가 메모리에 없으면 2. printf의 실제 주소를 3. 오버헤드 없이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크(DLL)에서 적재 Stub 포인터에 기록 printf 코드 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 주소 계산 후 반환</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 구조는 속도와 메모리라는 두 마리 토끼를 잡는 핵심 메커니즘이다. 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 진짜 `printf` 코드가 아니라 껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있다. 최초 호출 시에는 OS의 동적 링커가 개입하여 시스템 폴더를 뒤져 `libc.so`를 찾고 메모리에 올린 뒤 그 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 알아내어 주소 테이블(GOT)에 적어둔다. (이때 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생). 하지만 두 번째 호출부터는 테이블에 적힌 주소로 다이렉트 점프(Yes 경로)하므로 속도 저하가 전혀 발생하지 않는다. 
 
@@ -95,9 +94,9 @@ tags = ["studynote-operating-system"]
 
 ### 주소 독립 코드 (PIC: Position Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))
 
-동적 연결이 완벽하게 작동하려면, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메모리의 **어느 주소에 적재되더라도 정상적으로 실행**될 수 있도록 컴파일되어야 한다. 
+동적 연결이 완벽하게 작동하려면, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메모리의 <strong>어느 주소에 적재되더라도 정상적으로 실행</strong>될 수 있도록 컴파일되어야 한다. 
 - 만약 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 특정 절대 주소(예: 1000번지)를 고집한다면, 다른 프로그램이 1000번지를 쓰고 있을 때 충돌이 난다.
-- 따라서 C/C++에서 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 만들 때(예: GCC의 `-fPIC` 옵션)는, 모든 코드 내부의 JUMP 주소를 절대 주소가 아닌 **현재 위치(Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 기준 상대 주소(Relative Address)**로 변환하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 주소 독립 코드라고 한다.
+- 따라서 C/C++에서 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 만들 때(예: GCC의 `-fPIC` 옵션)는, 모든 코드 내부의 JUMP 주소를 절대 주소가 아닌 <strong>현재 위치(Program <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>) 기준 상대 주소(Relative Address)</strong>로 변환하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이를 주소 독립 코드라고 한다.
 
 - **📢 섹션 요약 비유**: 이사용 가구가 방의 1번 모서리에 놓이든 2번 모서리에 놓이든(주소 위치), 가구 서랍들의 위치는 가구 본체를 기준으로만 따지게(상대 주소) 만들어서 어디든 자유롭게 배치할 수 있게 한 것입니다.
 
@@ -109,10 +108,10 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | [정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 동적 연결 (Dynamic Linking) |
 |:---|:---|:---|
-| **[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 위치** | 내 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 안에 완전히 박제됨 | 외부 시스템 폴더(.dll, .so)에 존재 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기** | 매우 큼 (수 MB ~ 수십 MB) | 매우 작음 (수십 KB) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 위치</strong> | 내 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 안에 완전히 박제됨 | 외부 시스템 폴더(.dll, .so)에 존재 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 크기</strong> | 매우 큼 (수 MB ~ 수십 MB) | 매우 작음 (수십 KB) |
 | **메모리 효율** | 최악 (10개 실행하면 10세트의 코드가 RAM에 적재) | 최상 (OS가 1세트만 RAM에 올리고 공유함) |
-| **배포/유지보수** | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 버그 패치 시 **전체 소스코드 재컴파일 필요** | 프로그램 수정 없이 **DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 교체하면 즉시 패치** |
+| **배포/유지보수** | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 버그 패치 시 **전체 소스코드 재컴파일 필요** | 프로그램 수정 없이 <strong>DLL <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>만 교체하면 즉시 패치</strong> |
 | **이식성(장점)** | USB에 EXE 하나만 담아가면 어디서든 무조건 실행됨 | 해당 PC에 DLL이 없으면 실행 불가 ("DLL Hell" 발생) |
 
 ### 비교 2: [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ([Dynamic Loading](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)) vs 동적 연결 (Dynamic Linking)
@@ -124,14 +123,17 @@ tags = ["studynote-operating-system"]
 | **대상** | 같은 프로그램 안의 내 함수 (예외 처리 루틴 등) | 남이 만든 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 (printf 등) |
 | **목적** | 지금 당장 안 쓰는 내 코드 덩어리를 메모리에 안 올리려는 목적 | 모두가 쓰는 코드를 한 번만 올려서 셰어하려는 목적 |
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────┐
-│ 환경       │ 실행파일 독립성│ 버전 관리    │ 메모리 중복 │
-├──────────┼────────────┼────────────┼─────────────────────┤
-│ 정적 링킹  │ 완벽함       │ 매우 불편함  │ 심각함        │
-│ 동적 링킹  │ 의존성 높음   │ 파일 교체만  │ 1개만 상주   │
-└──────────┴────────────┴────────────┴─────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">실행파일 독립성</div><div class="kb-diagram-cell">버전 관리</div><div class="kb-diagram-cell">메모리 중복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 링킹</div><div class="kb-diagram-cell">완벽함</div><div class="kb-diagram-cell">매우 불편함</div><div class="kb-diagram-cell">심각함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 링킹</div><div class="kb-diagram-cell">의존성 높음</div><div class="kb-diagram-cell">파일 교체만</div><div class="kb-diagram-cell">1개만 상주</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))이나 구글의 Go 언어 생태계에서는 최근 정적 링킹을 다시 선호하는 역설적인 현상이 벌어지고 있다. 디스크나 메모리 용량이 충분히 저렴해졌기 때문에, "대상 서버에 해당 SO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 설치되어 있나?"를 걱정(의존성 문제)하느니 그냥 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나에 다 때려 넣고([정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) 배포의 안정성을 취하겠다는 트레이드오프다. 반면 윈도우 OS나 안드로이드 시스템 코어는 여전히 철저한 동적 링킹 기반으로 용량을 쥐어짜고 있다.
 
 - **📢 섹션 요약 비유**: 도시락에 밥과 반찬, 숟가락까지 몽땅 싸서 다니는 것([정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/))은 무겁지만 무인도에서도 먹을 수 있고, 식권만 들고 다니는 것(동적 연결)은 가볍지만 식당(공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))이 문을 닫으면 굶어 죽는 차이입니다.
@@ -145,7 +147,7 @@ tags = ["studynote-operating-system"]
 2. **동적 연결 환경의 대처**:
    - 시스템 관리자가 리눅스 서버의 `libssl.so` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단 1개만 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 덮어쓰고 서버를 재부팅한다.
    - Nginx, Apache, MySQL 등 이 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(동적 연결)하던 수백 개의 소프트웨어들이 스스로 소스코드를 1줄도 수정하지 않고 자동으로 패치된 보안 코드를 쓰게 된다.
-3. **[정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) 환경이었다면?**: 모든 소프트웨어 벤더가 자사 프로그램을 재컴파일하여 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 배포해야 하고, 사용자는 수십 개의 프로그램을 일일이 업데이트해야 하는 악몽이 펼쳐진다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/">정적 연결</a> 환경이었다면?</strong>: 모든 소프트웨어 벤더가 자사 프로그램을 재컴파일하여 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 배포해야 하고, 사용자는 수십 개의 프로그램을 일일이 업데이트해야 하는 악몽이 펼쳐진다.
 
 ### 실무 시나리오 2: DLL Hell (동적 연결의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))
 1. **문제 발생**: 게임 A를 설치했더니 윈도우 시스템 폴더의 `DirectX_v10.dll` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인 `v11.dll`로 덮어씌워 버렸다.
@@ -185,15 +187,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[동적 적재 (Dynamic Loading)]
-    │
-    ▼
-[동적 연결 (Dynamic Linking)]
-    │
-    ├──▶ [공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
-    └──▶ [정적 연결 (Static Linking)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 적재 (Dynamic Loading)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 연결 (Dynamic Linking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 라이브러리 (Shared Library) 스터브 (Stub) 코드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정적 연결 (Static Linking)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

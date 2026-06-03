@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 에릭슨, 노키아, 인텔 등이 연합하여 만든 근거리 무선 통신([WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)) 산업 표준으로, IEEE 802.15.1 규격에 해당합니다. 
-- 와이파이, 전자레인지와 동일한 **2.4GHz ISM 대역**을 무료로 사용합니다. 간섭이 극심한 대역이므로, 1초에 1,600번씩 주파수 채널을 요리조리 피하며 갈아타는 **[주파수 도약](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) 대역 확산([FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/))** 기술을 써서 혼선을 이겨냅니다.
+- 와이파이, 전자레인지와 동일한 <strong>2.4GHz ISM 대역</strong>을 무료로 사용합니다. 간섭이 극심한 대역이므로, 1초에 1,600번씩 주파수 채널을 요리조리 피하며 갈아타는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">주파수 도약</a> 대역 확산(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a>)</strong> 기술을 써서 혼선을 이겨냅니다.
 
-```text
-[WPAN]
-    │
-    ▼
-[블루투스]
-    │
-    └──▶ [블루투스 버전]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 버전</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 블루투스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,25 +41,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-블루투스는 동등한 기기끼리의 대화가 아니라 철저한 상하 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))로 네트워크를 형성합니다. 이 작은 네트워크 조직 단위를 **피코넷(Piconet)**이라고 부릅니다.
+블루투스는 동등한 기기끼리의 대화가 아니라 철저한 상하 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(주종 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))로 네트워크를 형성합니다. 이 작은 네트워크 조직 단위를 <strong>피코넷(Piconet)</strong>이라고 부릅니다.
 
 ### 1. 피코넷 (Piconet) - "1명의 주인과 7명의 노예"
 - **Master (마스터, 예: 스마트폰)**: 네트워크를 지휘하는 대장입니다. 주변 기기를 스캔하여 연결을 주도하고, 누가 언제 전파를 쏠지 시간을 통제([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))합니다.
 - **Slave (슬레이브, 예: 이어폰, 워치, 키보드)**: 마스터의 지시가 있을 때만 데이터를 보낼 수 있는 종속 기기입니다.
-- **규칙**: 하나의 피코넷 안에는 **딱 1대의 마스터와, 최대 7대의 '활성화된([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))' 슬레이브**만 존재할 수 있습니다. (물론 뒤에 숨겨진 수면 상태의 예비 슬레이브는 255대까지 등록 가능)
+- **규칙**: 하나의 피코넷 안에는 <strong>딱 1대의 마스터와, 최대 7대의 '활성화된(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>)' 슬레이브</strong>만 존재할 수 있습니다. (물론 뒤에 숨겨진 수면 상태의 예비 슬레이브는 255대까지 등록 가능)
 
 ### 2. 스캐터넷 (Scatternet) - "피코넷들의 연합"
 - 피코넷 7개 제한을 넘어 더 넓은 네트워크를 만들고 싶을 때 씁니다.
-- **A 피코넷의 슬레이브 중 하나가, 동시에 B 피코넷의 마스터 역할(또는 슬레이브)을 겸임**하면서 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 역할을 하여 여러 피코넷을 거미줄처럼 엮어버리는 확장된 토폴로지입니다.
+- <strong>A 피코넷의 슬레이브 중 하나가, 동시에 B 피코넷의 마스터 역할(또는 슬레이브)을 겸임</strong>하면서 다리([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 역할을 하여 여러 피코넷을 거미줄처럼 엮어버리는 확장된 토폴로지입니다.
 
-```text
-[WPAN]
-    │
-    ▼
-[블루투스]
-    │
-    └──▶ [블루투스 버전]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 버전</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 블루투스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 기기 두 대를 처음 샀을 때 맺어주는 과정입니다.
 1. **Inquiry (스캔)**: 마스터(폰)가 주변에 연결할 슬레이브가 있는지 허공에 신호를 뿌리며 찾습니다.
-2. **[Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))**: 폰이 특정 이어폰을 발견하면, 이어폰의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 사용해 "너랑 나랑 통신하자"고 호출장을 보냅니다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>)</strong>: 폰이 특정 이어폰을 발견하면, 이어폰의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 사용해 "너랑 나랑 통신하자"고 호출장을 보냅니다.
 3. **Paring (페어링)**: 핀(PIN) 코드 번호를 교환하거나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 버튼을 눌러, 둘 사이에 주고받을 데이터를 암호화하기 위한 '비밀 키(Link [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 안전하게 나누어 가지며 신뢰를 쌓습니다.
 4. **Connection**: 피코넷이 완성되어 데이터를 주고받습니다.
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WPAN]
-    │
-    ▼
-[현재 개념: 블루투스]
-    │
-    ├──▶ [확장 A: 블루투스 버전]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WPAN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블루투스 버전</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 블루투스는 WPAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스 버전](/knowledge-base/studynote/03_network/12_iot_wpan_edge/606_bluetooth_edr_hs_speed_extension/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

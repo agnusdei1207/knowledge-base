@@ -18,30 +18,31 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 개념과 구조
 
-```
-RTM (Requirements Traceability Matrix):
-  요구사항 추적성: 요구사항이 설계·구현·테스트에서
-                    어떻게 반영됐는지 추적하는 능력
-  
-  RTM 형식:
-  
-  요구사항ID | 요구사항 설명      | 설계문서  | 구현모듈  | 테스트케이스
-  -----------+-------------------+-----------+-----------+-------------
-  REQ-001    | 사용자 로그인     | DS-02     | auth.py   | TC-001, 002
-  REQ-002    | 비밀번호 암호화   | DS-05     | crypto.py | TC-010
-  REQ-003    | 세션 타임아웃     | DS-08     | session.py| TC-015
-  REQ-004    | 동시 로그인 제한  | DS-08     | session.py| TC-016, 017
-  
-  추적 방향:
-    순방향: 요구사항 → 설계 → 코드 → 테스트
-    역방향: 테스트 → 코드 → 설계 → 요구사항
 
-RTM의 목적:
-  1. 요구사항 완전성 검증: 모든 요구사항이 구현됐는가?
-  2. 테스트 완전성 검증: 모든 요구사항이 테스트됐는가?
-  3. 변경 영향 분석: 이 요구사항 변경 시 영향 범위?
-  4. 범위 크립(Scope Creep) 방지: 구현이 요구사항 범위 내인가?
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RTM (Requirements Traceability Matrix):</div>
+<div class="kb-diagram-note">요구사항 추적성: 요구사항이 설계·구현·테스트에서</div>
+<div class="kb-diagram-note">어떻게 반영됐는지 추적하는 능력</div>
+<div class="kb-diagram-note">RTM 형식:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항ID</div><div class="kb-diagram-cell">요구사항 설명</div><div class="kb-diagram-cell">설계문서</div><div class="kb-diagram-cell">구현모듈</div><div class="kb-diagram-cell">테스트케이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-001</div><div class="kb-diagram-cell">사용자 로그인</div><div class="kb-diagram-cell">DS-02</div><div class="kb-diagram-cell">auth.py</div><div class="kb-diagram-cell">TC-001, 002</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-002</div><div class="kb-diagram-cell">비밀번호 암호화</div><div class="kb-diagram-cell">DS-05</div><div class="kb-diagram-cell">crypto.py</div><div class="kb-diagram-cell">TC-010</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-003</div><div class="kb-diagram-cell">세션 타임아웃</div><div class="kb-diagram-cell">DS-08</div><div class="kb-diagram-cell">session.py</div><div class="kb-diagram-cell">TC-015</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-004</div><div class="kb-diagram-cell">동시 로그인 제한</div><div class="kb-diagram-cell">DS-08</div><div class="kb-diagram-cell">session.py</div><div class="kb-diagram-cell">TC-016, 017</div></div>
+<div class="kb-diagram-note">추적 방향:</div>
+<div class="kb-diagram-note">순방향: 요구사항 → 설계 → 코드 → 테스트</div>
+<div class="kb-diagram-note">역방향: 테스트 → 코드 → 설계 → 요구사항</div>
+<div class="kb-diagram-note">RTM의 목적:</div>
+<div class="kb-diagram-note">1. 요구사항 완전성 검증: 모든 요구사항이 구현됐는가?</div>
+<div class="kb-diagram-note">2. 테스트 완전성 검증: 모든 요구사항이 테스트됐는가?</div>
+<div class="kb-diagram-note">3. 변경 영향 분석: 이 요구사항 변경 시 영향 범위?</div>
+<div class="kb-diagram-note">4. 범위 크립(Scope Creep) 방지: 구현이 요구사항 범위 내인가?</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: RTM은 레고 조립 설명서와 완성품 대조표 — 설명서의 모든 단계가 완성품에 반영됐는지, 완성품의 모든 부분이 설명서 어느 단계인지 양방향 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
@@ -49,48 +50,42 @@ RTM의 목적:
 
 ## Ⅱ. 추적성 유형
 
-```
-추적성 유형:
 
-1. 순방향 추적성 (Forward Traceability):
-   요구사항 → 설계 → 구현 → 테스트
-   
-   "REQ-001 로그인 요구사항이 어디에 구현됐나?"
-   REQ-001 → DS-02(설계) → auth.py(구현) → TC-001(테스트)
-   
-   용도:
-     요구사항 누락 탐지 (구현 안 된 요구사항)
-     구현 완성도 확인
 
-2. 역방향 추적성 (Backward Traceability):
-   테스트 → 구현 → 설계 → 요구사항
-   
-   "TC-001 테스트 케이스는 어떤 요구사항을 위한 것인가?"
-   TC-001 → auth.py → DS-02 → REQ-001
-   
-   용도:
-     불필요한 기능 탐지 (요구사항 없는 구현)
-     테스트 케이스 정당성 확인
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">추적성 유형:</div>
+<div class="kb-diagram-note">1. 순방향 추적성 (Forward Traceability):</div>
+<div class="kb-diagram-note">요구사항 → 설계 → 구현 → 테스트</div>
+<div class="kb-diagram-note">"REQ-001 로그인 요구사항이 어디에 구현됐나?"</div>
+<div class="kb-diagram-note">REQ-001 → DS-02(설계) → auth.py(구현) → TC-001(테스트)</div>
+<div class="kb-diagram-note">용도:</div>
+<div class="kb-diagram-note">요구사항 누락 탐지 (구현 안 된 요구사항)</div>
+<div class="kb-diagram-note">구현 완성도 확인</div>
+<div class="kb-diagram-note">2. 역방향 추적성 (Backward Traceability):</div>
+<div class="kb-diagram-note">테스트 → 구현 → 설계 → 요구사항</div>
+<div class="kb-diagram-note">"TC-001 테스트 케이스는 어떤 요구사항을 위한 것인가?"</div>
+<div class="kb-diagram-note">TC-001 → auth.py → DS-02 → REQ-001</div>
+<div class="kb-diagram-note">용도:</div>
+<div class="kb-diagram-note">불필요한 기능 탐지 (요구사항 없는 구현)</div>
+<div class="kb-diagram-note">테스트 케이스 정당성 확인</div>
+<div class="kb-diagram-note">3. 양방향 추적성 (Bidirectional):</div>
+<div class="kb-diagram-note">= 순방향 + 역방향 모두 완비</div>
+<div class="kb-diagram-note">고품질 RTM의 기준</div>
+<div class="kb-diagram-note">4. 부모-자식 추적성 (Vertical):</div>
+<div class="kb-diagram-note">고수준 요구사항(Business) → 시스템 요구사항 → 소프트웨어 요구사항</div>
+<div class="kb-diagram-note">적용: 항공, 방산, 의료 분야 계층적 요구사항</div>
+<div class="kb-diagram-note">5. 피어 추적성 (Horizontal):</div>
+<div class="kb-diagram-note">동일 레벨의 요구사항 간 의존 관계</div>
+<div class="kb-diagram-note">예: REQ-003 세션 타임아웃은 REQ-001 로그인 전제</div>
+<div class="kb-diagram-note">커버리지 지표:</div>
+<div class="kb-diagram-note">요구사항 커버리지 = 설계 반영된 요구사항 / 전체 요구사항</div>
+<div class="kb-diagram-note">테스트 커버리지 = 테스트된 요구사항 / 전체 요구사항</div>
+<div class="kb-diagram-note">목표: 100% (안전 중요 시스템)</div>
+</div>
+</div>
 
-3. 양방향 추적성 (Bidirectional):
-   = 순방향 + 역방향 모두 완비
-   
-   고품질 RTM의 기준
 
-4. 부모-자식 추적성 (Vertical):
-   고수준 요구사항(Business) → 시스템 요구사항 → 소프트웨어 요구사항
-   
-   적용: 항공, 방산, 의료 분야 계층적 요구사항
-
-5. 피어 추적성 (Horizontal):
-   동일 레벨의 요구사항 간 의존 관계
-   예: REQ-003 세션 타임아웃은 REQ-001 로그인 전제
-
-커버리지 지표:
-  요구사항 커버리지 = 설계 반영된 요구사항 / 전체 요구사항
-  테스트 커버리지 = 테스트된 요구사항 / 전체 요구사항
-  목표: 100% (안전 중요 시스템)
-```
 
 > 📢 **섹션 요약 비유**: 양방향 추적성은 두 방향 연결 고리 — "이 드라이버(요구사항)로 어느 나사(기능)를 조이나"(순방향) + "이 나사는 왜 여기 있나"(역방향) 모두 대답할 수 있어야.
 
@@ -98,39 +93,38 @@ RTM의 목적:
 
 ## Ⅲ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성 방법
 
-```
-RTM 작성 절차:
 
-1단계: 요구사항 식별 및 ID 부여:
-  REQ-001, REQ-002 ... (고유 ID)
-  요구사항 유형 분류: 기능(F), 비기능(NF), 인터페이스(I)
 
-2단계: 설계 산출물 연결:
-  SRS(요구사항 명세서) → SDS(설계 명세서)
-  각 요구사항이 설계 섹션 번호와 연결
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RTM 작성 절차:</div>
+<div class="kb-diagram-note">1단계: 요구사항 식별 및 ID 부여:</div>
+<div class="kb-diagram-note">REQ-001, REQ-002 ... (고유 ID)</div>
+<div class="kb-diagram-note">요구사항 유형 분류: 기능(F), 비기능(NF), 인터페이스(I)</div>
+<div class="kb-diagram-note">2단계: 설계 산출물 연결:</div>
+<div class="kb-diagram-note">SRS(요구사항 명세서) → SDS(설계 명세서)</div>
+<div class="kb-diagram-note">각 요구사항이 설계 섹션 번호와 연결</div>
+<div class="kb-diagram-note">3단계: 구현 모듈 연결:</div>
+<div class="kb-diagram-note">설계 → 소스 파일/모듈/클래스</div>
+<div class="kb-diagram-note">JIRA 이슈 번호와 연결 (Agile 환경)</div>
+<div class="kb-diagram-note">4단계: 테스트 케이스 연결:</div>
+<div class="kb-diagram-note">각 요구사항 → 최소 1개 테스트 케이스</div>
+<div class="kb-diagram-note">TC-001, TC-002 ...</div>
+<div class="kb-diagram-note">5단계: 상태 추적:</div>
+<div class="kb-diagram-note">상태: 작성중/검토완료/승인/구현완료/테스트완료</div>
+<div class="kb-diagram-note">RTM 품질 기준:</div>
+<div class="kb-diagram-note">완전성 (Completeness): 모든 요구사항 항목 존재</div>
+<div class="kb-diagram-note">일관성 (Consistency): ID 충돌, 중복 없음</div>
+<div class="kb-diagram-note">정확성 (Accuracy): 링크가 실제 관계 반영</div>
+<div class="kb-diagram-note">추적 가능성: 역방향 탐색 가능</div>
+<div class="kb-diagram-note">RTM 유지보수:</div>
+<div class="kb-diagram-note">요구사항 변경 시: 연결된 설계/코드/테스트 모두 업데이트</div>
+<div class="kb-diagram-note">변경 영향 분석: RTM으로 영향 범위 파악 후 변경</div>
+<div class="kb-diagram-note">버전 관리: 요구사항과 RTM의 버전 일치 유지</div>
+</div>
+</div>
 
-3단계: 구현 모듈 연결:
-  설계 → 소스 파일/모듈/클래스
-  JIRA 이슈 번호와 연결 (Agile 환경)
 
-4단계: 테스트 케이스 연결:
-  각 요구사항 → 최소 1개 테스트 케이스
-  TC-001, TC-002 ...
-
-5단계: 상태 추적:
-  상태: 작성중/검토완료/승인/구현완료/테스트완료
-
-RTM 품질 기준:
-  완전성 (Completeness): 모든 요구사항 항목 존재
-  일관성 (Consistency): ID 충돌, 중복 없음
-  정확성 (Accuracy): 링크가 실제 관계 반영
-  추적 가능성: 역방향 탐색 가능
-
-RTM 유지보수:
-  요구사항 변경 시: 연결된 설계/코드/테스트 모두 업데이트
-  변경 영향 분석: RTM으로 영향 범위 파악 후 변경
-  버전 관리: 요구사항과 RTM의 버전 일치 유지
-```
 
 > 📢 **섹션 요약 비유**: [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성은 가계부 작성 — 지출(요구사항)마다 영수증(설계), 배달(구현), 검수(테스트) 칸을 채우는 것. 빈 칸이 있으면 추적이 끊긴 것.
 
@@ -138,40 +132,39 @@ RTM 유지보수:
 
 ## Ⅳ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구
 
-```
-RTM 자동화 도구 비교:
 
-IBM DOORS (Dynamic Object-Oriented Requirements System):
-  특징: 계층적 요구사항, Link 자동 관리
-  적용: 방산, 항공, 자동차 대형 프로젝트
-  장점: 버전 관리, 변경 영향 자동 하이라이트
-  단점: 고가, 학습 곡선 높음
 
-Jama Connect:
-  특징: 클라우드 기반, API 통합
-  적용: 의료기기, 반도체
-  기능: RTM 자동 생성, 커버리지 대시보드
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RTM 자동화 도구 비교:</div>
+<div class="kb-diagram-note">IBM DOORS (Dynamic Object-Oriented Requirements System):</div>
+<div class="kb-diagram-note">특징: 계층적 요구사항, Link 자동 관리</div>
+<div class="kb-diagram-note">적용: 방산, 항공, 자동차 대형 프로젝트</div>
+<div class="kb-diagram-note">장점: 버전 관리, 변경 영향 자동 하이라이트</div>
+<div class="kb-diagram-note">단점: 고가, 학습 곡선 높음</div>
+<div class="kb-diagram-note">Jama Connect:</div>
+<div class="kb-diagram-note">특징: 클라우드 기반, API 통합</div>
+<div class="kb-diagram-note">적용: 의료기기, 반도체</div>
+<div class="kb-diagram-note">기능: RTM 자동 생성, 커버리지 대시보드</div>
+<div class="kb-diagram-note">Polarion ALM (Siemens):</div>
+<div class="kb-diagram-note">특징: 전체 ALM 통합 (요구사항~테스트)</div>
+<div class="kb-diagram-note">적용: 자동차, 산업 자동화</div>
+<div class="kb-diagram-note">Azure DevOps (Microsoft):</div>
+<div class="kb-diagram-note">특징: 코드 커밋 ↔ 요구사항 링크</div>
+<div class="kb-diagram-note">Epic → Feature → User Story → Task → PR ← Test Case</div>
+<div class="kb-diagram-note">CI/CD 파이프라인과 통합</div>
+<div class="kb-diagram-note">실무: Work Item ID 참조로 자동 추적</div>
+<div class="kb-diagram-note">PR 설명: "Fixes #123" → 요구사항 자동 링크</div>
+<div class="kb-diagram-note">GitHub Projects:</div>
+<div class="kb-diagram-note">소규모 팀, 간단한 RTM</div>
+<div class="kb-diagram-note">감리 활용:</div>
+<div class="kb-diagram-note">감리원 = RTM + 실제 구현/테스트 일치 확인</div>
+<div class="kb-diagram-note">불일치 항목 = 결함 보고서 (Deficiency Report)</div>
+<div class="kb-diagram-note">RTM 미작성 = 주요 감리 지적 사항</div>
+</div>
+</div>
 
-Polarion ALM (Siemens):
-  특징: 전체 ALM 통합 (요구사항~테스트)
-  적용: 자동차, 산업 자동화
 
-Azure DevOps (Microsoft):
-  특징: 코드 커밋 ↔ 요구사항 링크
-  Epic → Feature → User Story → Task → PR ← Test Case
-  CI/CD 파이프라인과 통합
-  
-  실무: Work Item ID 참조로 자동 추적
-  PR 설명: "Fixes #123" → 요구사항 자동 링크
-
-GitHub Projects:
-  소규모 팀, 간단한 RTM
-
-감리 활용:
-  감리원 = RTM + 실제 구현/테스트 일치 확인
-  불일치 항목 = 결함 보고서 (Deficiency Report)
-  RTM 미작성 = 주요 감리 지적 사항
-```
 
 > 📢 **섹션 요약 비유**: [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구는 GPS 내비게이션 — 수동 지도(엑셀 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))보다 실시간 교통 반영(변경 영향 자동 업데이트)이 훨씬 안전한 경로 안내.
 
@@ -179,44 +172,44 @@ GitHub Projects:
 
 ## Ⅴ. 실무 시나리오 — 의료기기 SW [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
 
-```
-의료기기 소프트웨어 IEC 62304 + RTM:
 
-법적 요구사항:
-  IEC 62304: 의료기기 소프트웨어 생명주기
-  Class C (고위험): 완전한 RTM 필수
-  FDA 510(k)/PMA 제출: RTM 포함
 
-RTM 구조 (의료기기 SW):
-  사용자 필요성 (User Need, UN)
-    ↓
-  소프트웨어 시스템 요구사항 (System Requirement, SRS)
-    ↓
-  소프트웨어 아키텍처 (Architecture, ARCH)
-    ↓
-  소프트웨어 유닛 (Unit, UNIT)
-    ↓
-  단위 테스트 (Unit Test, UT)
-    ↓
-  통합 테스트 (Integration Test, IT)
-    ↓
-  시스템 테스트 (System Test, ST)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">의료기기 소프트웨어 IEC 62304 + RTM:</div>
+<div class="kb-diagram-note">법적 요구사항:</div>
+<div class="kb-diagram-note">IEC 62304: 의료기기 소프트웨어 생명주기</div>
+<div class="kb-diagram-note">Class C (고위험): 완전한 RTM 필수</div>
+<div class="kb-diagram-note">FDA 510(k)/PMA 제출: RTM 포함</div>
+<div class="kb-diagram-note">RTM 구조 (의료기기 SW):</div>
+<div class="kb-diagram-note">사용자 필요성 (User Need, UN)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">소프트웨어 시스템 요구사항 (System Requirement, SRS)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">소프트웨어 아키텍처 (Architecture, ARCH)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">소프트웨어 유닛 (Unit, UNIT)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">단위 테스트 (Unit Test, UT)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">통합 테스트 (Integration Test, IT)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">시스템 테스트 (System Test, ST)</div>
+<div class="kb-diagram-note">샘플 RTM:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UN-001</div><div class="kb-diagram-cell">환자 혈당 측정</div><div class="kb-diagram-cell">SRS-005</div><div class="kb-diagram-cell">ARCH-03</div><div class="kb-diagram-cell">UNIT-glucose.c</div><div class="kb-diagram-cell">UT-005, IT-003, ST-010</div></div>
+<div class="kb-diagram-note">감리/인증 검토:</div>
+<div class="kb-diagram-note">1. 모든 SRS가 UN에 연결됐는가? (역방향)</div>
+<div class="kb-diagram-note">2. 모든 SRS가 테스트됐는가? (순방향)</div>
+<div class="kb-diagram-note">3. 변경된 요구사항이 모든 하위 문서에 반영됐는가?</div>
+<div class="kb-diagram-note">4. 미테스트 요구사항 0개?</div>
+<div class="kb-diagram-note">실제 FDA 지적 사항 (483 Observation):</div>
+<div class="kb-diagram-note">"RTM이 요구사항과 시험 케이스 간 연계를 완전히 보여주지 않음"</div>
+<div class="kb-diagram-note">→ 제품 출시 지연 → 수억원 비용 발생</div>
+<div class="kb-diagram-note">교훈: RTM 완전성 = 인증 선행 조건</div>
+</div>
+</div>
 
-샘플 RTM:
 
-UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, IT-003, ST-010
-
-감리/인증 검토:
-  1. 모든 SRS가 UN에 연결됐는가? (역방향)
-  2. 모든 SRS가 테스트됐는가? (순방향)
-  3. 변경된 요구사항이 모든 하위 문서에 반영됐는가?
-  4. 미테스트 요구사항 0개?
-
-실제 FDA 지적 사항 (483 Observation):
-  "RTM이 요구사항과 시험 케이스 간 연계를 완전히 보여주지 않음"
-  → 제품 출시 지연 → 수억원 비용 발생
-  교훈: RTM 완전성 = 인증 선행 조건
-```
 
 > 📢 **섹션 요약 비유**: 의료기기 RTM은 항공기 점검표 — 비행 전 모든 체크 항목(요구사항)이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(구현+테스트)됐는지 하나도 빠짐없이 서명해야 이륙 허가(FDA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)).
 
@@ -224,50 +217,58 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
 
 ## 📌 관련 개념 맵
 
-```
-요구사항 추적성 매트릭스 (RTM)
-+-- 추적 방향
-|   +-- 순방향: 요구사항→설계→구현→테스트
-|   +-- 역방향: 테스트→구현→설계→요구사항
-|   +-- 양방향 (완전 RTM)
-+-- 도구
-|   +-- IBM DOORS, Jama, Polarion
-|   +-- Azure DevOps, Jira
-+-- 표준 적용
-|   +-- IEC 62304 (의료기기)
-|   +-- DO-178C (항공 SW)
-|   +-- ISO 26262 (자동차 기능안전)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 추적성 매트릭스 (RTM)</div>
+<div class="kb-diagram-note">+-- 추적 방향</div>
+<div class="kb-diagram-note">+-- 순방향: 요구사항→설계→구현→테스트</div>
+<div class="kb-diagram-note">+-- 역방향: 테스트→구현→설계→요구사항</div>
+<div class="kb-diagram-note">+-- 양방향 (완전 RTM)</div>
+<div class="kb-diagram-note">+-- 도구</div>
+<div class="kb-diagram-note">+-- IBM DOORS, Jama, Polarion</div>
+<div class="kb-diagram-note">+-- Azure DevOps, Jira</div>
+<div class="kb-diagram-note">+-- 표준 적용</div>
+<div class="kb-diagram-note">+-- IEC 62304 (의료기기)</div>
+<div class="kb-diagram-note">+-- DO-178C (항공 SW)</div>
+<div class="kb-diagram-note">+-- ISO 26262 (자동차 기능안전)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-[폭포수 개발 모델 (1970s)]
-요구사항 → 설계 → 구현 → 테스트 순서
-추적성 수동 관리
-      |
-      v
-[DOORS 도입 (1990s)]
-IBM Rational DOORS
-요구사항 자동 추적 최초 도구
-      |
-      v
-[기능 안전 표준 RTM 의무화 (2000s)]
-DO-178B/C (항공), IEC 62304 (의료)
-RTM = 인증 필수 요소
-      |
-      v
-[Agile + RTM 통합 (2010s)]
-Azure DevOps, Jira Epic-Story-Task 링크
-애자일에서도 추적성 관리
-      |
-      v
-[현재: AI 기반 RTM 자동화]
-LLM으로 요구사항 → 테스트 케이스 자동 생성
-변경 영향 AI 분석 (GitHub Copilot 통합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 개발 모델 (1970s)</div></div>
+<div class="kb-diagram-note">요구사항 → 설계 → 구현 → 테스트 순서</div>
+<div class="kb-diagram-note">추적성 수동 관리</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DOORS 도입 (1990s)</div></div>
+<div class="kb-diagram-note">IBM Rational DOORS</div>
+<div class="kb-diagram-note">요구사항 자동 추적 최초 도구</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기능 안전 표준 RTM 의무화 (2000s)</div></div>
+<div class="kb-diagram-note">DO-178B/C (항공), IEC 62304 (의료)</div>
+<div class="kb-diagram-note">RTM = 인증 필수 요소</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agile + RTM 통합 (2010s)</div></div>
+<div class="kb-diagram-note">Azure DevOps, Jira Epic-Story-Task 링크</div>
+<div class="kb-diagram-note">애자일에서도 추적성 관리</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 RTM 자동화</div></div>
+<div class="kb-diagram-note">LLM으로 요구사항 → 테스트 케이스 자동 생성</div>
+<div class="kb-diagram-note">변경 영향 AI 분석 (GitHub Copilot 통합)</div>
+</div>
+</div>
+
+
 
 ---
 

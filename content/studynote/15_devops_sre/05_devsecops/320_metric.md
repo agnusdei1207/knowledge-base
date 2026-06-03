@@ -18,14 +18,17 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. Three Pillars of [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
 
-```
-┌──────────────────────────────────────────────────────┐
-│             Observability 세 기둥                   │
-│                                                      │
-│  Metrics (수치 집계)  Logs (이벤트)  Traces (흐름)  │
-│     무엇이               왜              어디서       │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observability 세 기둥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics (수치 집계) Logs (이벤트) Traces (흐름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무엇이 왜 어디서</div></div>
+</div>
+</div>
+
+
 
 | 기둥      | 질문               | 도구 예시                     |
 |-----------|-------------------|-------------------------------|
@@ -102,13 +105,19 @@ User Request → API Gateway → Order Svc → Inventory Svc → DB
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Observability
-    ├── Metrics → Prometheus + Grafana
-    ├── Logs → ELK Stack / Loki
-    ├── Traces → Jaeger / Zipkin / Tempo
-    └── OpenTelemetry → 세 기둥 통합 표준 SDK
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Observability</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Metrics → Prometheus + Grafana</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Logs → ELK Stack / Loki</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Traces → Jaeger / Zipkin / Tempo</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OpenTelemetry → 세 기둥 통합 표준 SDK</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > 몸이 아플 때 체온계([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))·의사 일지([Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))·혈액 이동 경로 사진(Traces), 이 세 가지가 있어야 정확한 진단이 가능해요.

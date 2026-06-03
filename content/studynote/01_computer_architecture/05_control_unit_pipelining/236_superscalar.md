@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 수퍼스칼라 (Superscalar)는 하나의 프로세서가 같은 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 안에서 두 개 이상의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 동시에 인출, 해독, 발행, 실행할 수 있도록 만든 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 파이프라인 구조다. 핵심은 "더 빨리 한 줄을 달리는 것"이 아니라 "여러 줄을 함께 달리게 하는 것"이다. 즉 파이프라인을 깊게만 만드는 접근과 달리, 같은 단계에 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 나란히 흘려보내 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키운다.
 
-이 개념이 필요해진 이유는 단순 스칼라 파이프라인이 **[CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) 1 근처의 벽**에 부딪히기 때문이다. 클럭을 계속 높이는 방식은 발열과 전력 한계에 막히고, 파이프라인만 깊게 하는 방식은 분기 실패 패널티를 키운다. 그래서 현대 CPU는 코드 안에 숨어 있는 "서로 독립적인 일감"을 동시에 실행해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올리는 방향으로 진화했다.
+이 개념이 필요해진 이유는 단순 스칼라 파이프라인이 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/">CPI</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/">Cycles Per Instruction</a>) 1 근처의 벽</strong>에 부딪히기 때문이다. 클럭을 계속 높이는 방식은 발열과 전력 한계에 막히고, 파이프라인만 깊게 하는 방식은 분기 실패 패널티를 키운다. 그래서 현대 CPU는 코드 안에 숨어 있는 "서로 독립적인 일감"을 동시에 실행해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올리는 방향으로 진화했다.
 
 특히 정수 연산, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산, 메모리 접근처럼 서로 다른 성격의 작업이 섞여 있는 일반 프로그램에서는 동시에 처리할 여지가 자주 생긴다. 수퍼스칼라는 이 틈을 활용해, 한쪽 실행 유닛이 놀지 않도록 계속 일을 배분하는 구조다. 따라서 수퍼스칼라는 단순한 고속화 기법이 아니라, 현대 범용 프로세서가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보하는 기본 골격으로 이해해야 한다.
 
@@ -41,28 +41,28 @@ tags = ["studynote-computer-architecture"]
 | 실행 유닛 (Execution Units) | 정수, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/), 메모리 연산 수행 | 유닛 종류별 균형, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수 |
 | 은퇴 (Retire / Commit) | 결과를 프로그램 순서에 맞게 확정 | 정확한 예외, 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
 
-아래 그림은 4-way 수퍼스칼라가 어떤 식으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 처리하는지 보여준다. 핵심은 "4개를 무조건 실행"이 아니라, **독립적인 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 있을 때 최대 4개까지 같은 박자에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)**된다는 점이다.
+아래 그림은 4-way 수퍼스칼라가 어떤 식으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 처리하는지 보여준다. 핵심은 "4개를 무조건 실행"이 아니라, <strong>독립적인 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 있을 때 최대 4개까지 같은 박자에 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a></strong>된다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│               4-Way 수퍼스칼라의 기본 흐름: 넓은 길을 계속 채우기            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 명령어 묶음   ──▶ [ Fetch x4 ] ──▶ [ Decode x4 ] ──▶ [ Issue / Select ]      │
-│                                                        │                     │
-│                                                        ├─▶ [ ALU 0 ]         │
-│                                                        ├─▶ [ ALU 1 ]         │
-│                                                        ├─▶ [ FPU 0 ]         │
-│                                                        └─▶ [ LSU 0 ]         │
-│                                                              │               │
-│                                            결과 수집 ────────┴──────▶ Retire │
-│                                                                              │
-│ 조건 1) 명령어 사이에 RAW/WAR/WAW 충돌이 적어야 함                           │
-│ 조건 2) 실행 유닛 종류와 수가 실제 명령어 혼합 비율에 맞아야 함              │
-│ 조건 3) 캐시와 분기 예측이 계속 명령어/데이터를 공급해 줘야 함               │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
 
-수퍼스칼라의 진짜 어려움은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 자체보다 **어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 함께 내보낼지 판단하는 일**이다. 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건드리거나, 둘 다 같은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 원하거나, 앞선 분기 결과가 아직 확정되지 않았다면 동시 발행이 깨진다. 그래서 발행 폭이 넓어질수록 비교 회로와 우선순위 선택 로직이 급격히 복잡해지고, 이 복잡도는 흔히 O(N^2) 수준으로 설명된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Way 수퍼스칼라의 기본 흐름: 넓은 길을 계속 채우기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fetch x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Decode x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Issue / Select</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU 1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FPU 0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSU 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 수집 ▶ Retire</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 1) 명령어 사이에 RAW/WAR/WAW 충돌이 적어야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 2) 실행 유닛 종류와 수가 실제 명령어 혼합 비율에 맞아야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 3) 캐시와 분기 예측이 계속 명령어/데이터를 공급해 줘야 함</div></div>
+</div>
+</div>
+
+
+
+수퍼스칼라의 진짜 어려움은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 자체보다 <strong>어떤 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 함께 내보낼지 판단하는 일</strong>이다. 두 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건드리거나, 둘 다 같은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 원하거나, 앞선 분기 결과가 아직 확정되지 않았다면 동시 발행이 깨진다. 그래서 발행 폭이 넓어질수록 비교 회로와 우선순위 선택 로직이 급격히 복잡해지고, 이 복잡도는 흔히 O(N^2) 수준으로 설명된다.
 
 결국 수퍼스칼라는 "실행 유닛 여러 개"가 아니라 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 탐색기 + 넓은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) + 정확한 정리 장치"의 결합체다. 그래서 고성능 CPU일수록 단순 수퍼스칼라에 그치지 않고, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/), [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/), [재주문 버퍼](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/) (ROB, [Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/))를 함께 도입해 빈 차선을 최대한 줄인다.
 
@@ -83,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 수퍼스칼라는 다음 개념들과 강하게 연결된다. [명령어 발급 폭](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/) ([Issue Width](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/237_issue_width/))은 수퍼스칼라의 차선 수를 수치로 표현한 개념이고, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (OoO)은 넓은 차선을 비워 두지 않기 위한 동적 스케줄링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ([Register Renaming](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/))은 [WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/) ([Write After Read](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/)), [WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/) ([Write After Write](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/)) 같은 가짜 의존성을 줄여 동시 실행 가능성을 넓힌다.
 
-즉 수퍼스칼라는 단독 기술이 아니라, **넓은 발행 폭을 실전에서 살려내는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념**이다. 발행 폭만 넓고 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이 약하면 프론트엔드가 막히고, 실행 유닛만 많고 리네이밍이 없으면 가짜 의존성 때문에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 줄어든다. 그래서 현대 CPU 문맥에서 수퍼스칼라는 항상 OoO, ROB, [예약역](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/) ([Reservation Station](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/)) 같은 후속 개념으로 이어진다.
+즉 수퍼스칼라는 단독 기술이 아니라, <strong>넓은 발행 폭을 실전에서 살려내는 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 개념</strong>이다. 발행 폭만 넓고 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이 약하면 프론트엔드가 막히고, 실행 유닛만 많고 리네이밍이 없으면 가짜 의존성 때문에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 줄어든다. 그래서 현대 CPU 문맥에서 수퍼스칼라는 항상 OoO, ROB, [예약역](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/) ([Reservation Station](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/241_reservation_station/)) 같은 후속 개념으로 이어진다.
 
 - **📢 섹션 요약 비유**: 스칼라는 한 줄 서기, 수퍼스칼라는 여러 줄 동시 처리, VLIW는 미리 짜 온 시간표대로 여러 줄을 배치하는 방식이다. 모두 "사람을 빨리 보내는 법"을 다루지만, 누가 현장에서 판단하느냐가 결정적 차이다.
 
@@ -96,9 +96,9 @@ tags = ["studynote-computer-architecture"]
 ### 설계 판단 포인트
 
 1. **워크로드 적합성**: 과학 계산, 미디어 처리, 서버 코드처럼 독립 연산이 풍부한 경우 수퍼스칼라 효과가 크다. 반대로 포인터 추적이 많고 분기가 잦은 코드는 폭을 넓혀도 기대만큼 오르지 않는다.
-2. **메모리 병목 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 로드/스토어 유닛 (LSU, Load Store Unit)과 캐시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 부족하면 실행 유닛 수를 늘려도 의미가 없다. 백엔드가 아니라 메모리 계층이 병목이면 수퍼스칼라는 놀게 된다.
+2. <strong>메모리 병목 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 로드/스토어 유닛 (LSU, Load Store Unit)과 캐시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 부족하면 실행 유닛 수를 늘려도 의미가 없다. 백엔드가 아니라 메모리 계층이 병목이면 수퍼스칼라는 놀게 된다.
 3. **전력·면적 균형**: 폭이 커질수록 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 바이패스 네트워크, 리네이밍 테이블이 급격히 비싸진다. 모바일 효율 코어가 보통 보수적 폭을 택하는 이유가 여기에 있다.
-4. **[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 의존성**: 수퍼스칼라는 프론트엔드가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 계속 공급해야 살아난다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도가 낮으면 넓은 프론트엔드가 자주 비워지고, 폭 확장의 효과가 희석된다.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/">분기 예측</a> 의존성</strong>: 수퍼스칼라는 프론트엔드가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 계속 공급해야 살아난다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도가 낮으면 넓은 프론트엔드가 자주 비워지고, 폭 확장의 효과가 희석된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -106,7 +106,7 @@ tags = ["studynote-computer-architecture"]
 - [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 혼합 비율을 보지 않고 정수 유닛만 과도하게 복제하는 설계
 - "8-way" 같은 마케팅 수치만 강조하고 실제 평균 IPC를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는 접근
 
-기술사 답안에서는 수퍼스칼라를 무조건 고성능의 상징으로 쓰기보다, **고성능을 얻기 위해 전력·복잡도·메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 교환하는 설계 선택**으로 설명하는 것이 좋다. 즉 채택 기준은 "더 넓게"가 아니라 "넓어진 폭을 지속적으로 먹여 살릴 수 있는가"다.
+기술사 답안에서는 수퍼스칼라를 무조건 고성능의 상징으로 쓰기보다, <strong>고성능을 얻기 위해 전력·복잡도·메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 교환하는 설계 선택</strong>으로 설명하는 것이 좋다. 즉 채택 기준은 "더 넓게"가 아니라 "넓어진 폭을 지속적으로 먹여 살릴 수 있는가"다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장을 8개로 늘려도 도착하는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 2대뿐이면 나머지 승강장은 텅 빈다. 수퍼스칼라는 승강장 수보다 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 공급, 승객 흐름, 안내 체계가 함께 맞아야 효과가 나는 교통 설계다.
 
@@ -118,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 프로그램 안의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 자체가 무한하지 않고, 분기와 메모리 의존성은 언제든 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 깨뜨린다. 게다가 폭이 커질수록 설계 비용과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 전력 밀도 문제가 함께 상승하므로, 무한정 넓히는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 현실적이지 않다.
 
-그래서 현대 설계는 단순 폭 확장만이 아니라, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/), 마이크로 연산 캐시 (uOP Cache, [Micro-Operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) Cache), 정교한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))과 결합해 "차선을 더 잘 채우는 방향"으로 발전한다. 기억해야 할 핵심은 수퍼스칼라가 여러 연산기를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치하는 기술이면서도, 본질적으로는 **빈 차선을 줄여 IPC를 높이려는 종합 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이라는 점이다.
+그래서 현대 설계는 단순 폭 확장만이 아니라, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/), 마이크로 연산 캐시 (uOP Cache, [Micro-Operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/) Cache), 정교한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))과 결합해 "차선을 더 잘 채우는 방향"으로 발전한다. 기억해야 할 핵심은 수퍼스칼라가 여러 연산기를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치하는 기술이면서도, 본질적으로는 <strong>빈 차선을 줄여 IPC를 높이려는 종합 운영 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 수퍼스칼라는 단순히 도로를 넓히는 공사가 아니라, 차가 계속 흐르게 만드는 도시 운영 시스템이다. 길만 넓고 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계와 진입로가 엉키면 막히듯, CPU도 넓은 차선만으로는 빨라지지 않는다.
 
@@ -136,24 +136,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령어 파이프라이닝 (Instruction Pipelining)
-    │
-    ▼
-스칼라 처리의 CPI 한계 인식
-    │
-    ▼
-수퍼스칼라 (Superscalar)
-    │
-    ├─▶ 명령어 발급 폭 (Issue Width) 확대
-    │
-    ├─▶ 비순차 실행 (Out-of-Order Execution, OoO)
-    │        │
-    │        ├─▶ 레지스터 리네이밍 (Register Renaming)
-    │        └─▶ 재주문 버퍼 (ROB, Reorder Buffer)
-    │
-    └─▶ 대안적 병렬화: VLIW → EPIC (Explicitly Parallel Instruction Computing)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스칼라 처리의 CPI 한계 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수퍼스칼라 (Superscalar)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 명령어 발급 폭 (Issue Width) 확대</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 비순차 실행 (Out-of-Order Execution, OoO)</div>
+<div class="kb-diagram-note">─▶ 레지스터 리네이밍 (Register Renaming)</div>
+<div class="kb-diagram-note">─▶ 재주문 버퍼 (ROB, Reorder Buffer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 대안적 병렬화: VLIW → EPIC (Explicitly Parallel Instruction Computing)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단일 파이프라인의 한계 인식 → 하드웨어 동적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 확대 → 이를 지탱하는 보조 기술 → 소프트웨어 중심 대안"으로 이어지는 진화 경로를 보여준다.
 

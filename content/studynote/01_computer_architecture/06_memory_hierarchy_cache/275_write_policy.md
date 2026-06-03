@@ -21,31 +21,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-캐시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 프로세서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 때 **"언제 하위 계층에 책임 있게 반영할 것인가"**를 정하는 메모리 계층의 운영 규칙이다. 캐시는 본질적으로 메인 메모리의 빠른 사본이므로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 발생하는 순간부터 캐시와 하위 메모리 사이에는 최신본과 원본의 차이가 생길 수 있다. 읽기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 "어디서 가져올까"를 다룬다면, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "어디까지 즉시 맞출까"를 다룬다.
+캐시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 프로세서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 때 <strong>"언제 하위 계층에 책임 있게 반영할 것인가"</strong>를 정하는 메모리 계층의 운영 규칙이다. 캐시는 본질적으로 메인 메모리의 빠른 사본이므로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 발생하는 순간부터 캐시와 하위 메모리 사이에는 최신본과 원본의 차이가 생길 수 있다. 읽기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 "어디서 가져올까"를 다룬다면, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "어디까지 즉시 맞출까"를 다룬다.
 
 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 중요한 이유는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산이 단순히 값 1개를 바꾸는 행위가 아니기 때문이다. CPU는 1ns 안팎의 속도로 캐시에 접근하지만, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)은 수십~수백 ns 수준으로 느리다. 만약 모든 STORE 명령이 메모리까지 즉시 완료되어야 한다면 파이프라인은 자주 멈추고, 반대로 캐시에만 오래 머물게 하면 다른 코어나 입출력 장치는 오래된 값을 볼 위험이 커진다.
 
 즉 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법이면서 동시에 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 전략이다. 캐시 히트율이 높아도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 나쁘면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 포화되고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 지나치게 공격적이면 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 복잡도가 폭증한다. 그래서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단독 개념이 아니라 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), 장치 메모리 속성과 함께 이해해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              쓰기 정책이 필요한 이유: 빠른 사본과 느린 원본의 충돌  │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU가 값 수정                                                        │
-│    │                                                                 │
-│    ▼                                                                 │
-│ Cache Line 최신화 ───────────────┐                                   │
-│    │                             │                                   │
-│    │ 즉시 동기화                 │ 나중 동기화                      │
-│    ▼                             ▼                                   │
-│ Main Memory도 바로 갱신         캐시에 최신값 유지                  │
-│    │                             │                                   │
-│ 일관성 단순                      버스 절감                           │
-│ 성능 손해                        관리 복잡                           │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단순한 구현 취향이 아니라, **즉시 일치**와 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 반영** 사이의 구조적 선택임을 보여준다. 결국 메모리 계층은 "무조건 빠르게"가 아니라 "어느 계층에서 병목을 감당할지"를 정해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 정책이 필요한 이유: 빠른 사본과 느린 원본의 충돌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 값 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Line 최신화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 동기화</div><div class="kb-diagram-cell">나중 동기화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory도 바로 갱신 캐시에 최신값 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 단순 버스 절감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 손해 관리 복잡</div></div>
+</div>
+</div>
+
+
+
+이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단순한 구현 취향이 아니라, <strong>즉시 일치</strong>와 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 반영</strong> 사이의 구조적 선택임을 보여준다. 결국 메모리 계층은 "무조건 빠르게"가 아니라 "어느 계층에서 병목을 감당할지"를 정해야 한다.
 
 - **📢 섹션 요약 비유**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 메모장에 고친 내용을 본사 서버에 바로 저장할지, 로컬에서 다듬다가 나중에 한 번에 올릴지 정하는 업무 규칙과 같다. 바로 올리면 안심되지만 느리고, 나중에 몰아 올리면 빠르지만 관리가 더 필요하다.
 
@@ -53,7 +51,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 두 갈래 질문으로 구성된다. 첫째, **Write [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)**가 났을 때 메모리까지 즉시 쓸 것인가([Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)) 아니면 캐시에만 반영하고 나중에 쓸 것인가([Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))이다. 둘째, **Write Miss**가 났을 때 해당 블록을 캐시로 가져와서 쓸 것인가(Write-Allocate) 아니면 캐시를 우회하고 하위 메모리에만 쓸 것인가(No-Write-Allocate)이다. 이 두 질문이 합쳐져 실제 시스템의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로가 결정된다.
+[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보통 두 갈래 질문으로 구성된다. 첫째, <strong>Write <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a></strong>가 났을 때 메모리까지 즉시 쓸 것인가([Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)) 아니면 캐시에만 반영하고 나중에 쓸 것인가([Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))이다. 둘째, <strong>Write Miss</strong>가 났을 때 해당 블록을 캐시로 가져와서 쓸 것인가(Write-Allocate) 아니면 캐시를 우회하고 하위 메모리에만 쓸 것인가(No-Write-Allocate)이다. 이 두 질문이 합쳐져 실제 시스템의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로가 결정된다.
 
 | 판단 축 | 선택지 | 핵심 동작 | 보통의 결합 |
 | :--- | :--- | :--- | :--- |
@@ -62,38 +60,29 @@ tags = ["studynote-computer-architecture"]
 | Write Miss 처리 | Write-Allocate | 블록을 캐시로 가져온 뒤 수정 | 지역성이 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 유리 |
 | Write Miss 처리 | No-Write-Allocate | 캐시 적재 없이 하위 메모리에 직접 기록 | 일회성 스트리밍 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에 유리 |
 
-현대 CPU의 주류 조합은 **[Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) + Write-Allocate**다. 이유는 시간이 지나도 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 다시 접근할 가능성, 즉 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에도 강하게 작동하기 때문이다. 예를 들어 반복문 안의 카운터나 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 누적값은 한 번 쓰고 끝나는 값이 아니라, 짧은 시간에 여러 번 다시 수정된다. 이 경우 메모리로 매번 내보내는 것보다 캐시에 블록을 들여와 여러 번 수정한 뒤 교체 시점에 한 번만 반영하는 편이 훨씬 효율적이다.
+현대 CPU의 주류 조합은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/">Write-Back</a> + Write-Allocate</strong>다. 이유는 시간이 지나도 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 다시 접근할 가능성, 즉 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에도 강하게 작동하기 때문이다. 예를 들어 반복문 안의 카운터나 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 누적값은 한 번 쓰고 끝나는 값이 아니라, 짧은 시간에 여러 번 다시 수정된다. 이 경우 메모리로 매번 내보내는 것보다 캐시에 블록을 들여와 여러 번 수정한 뒤 교체 시점에 한 번만 반영하는 편이 훨씬 효율적이다.
 
 다만 Write-Back은 추가 장치를 요구한다. 캐시 라인이 수정되었는지 표시하는 [더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/) ([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/)), 교체 순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼 (Write Buffer), 멀티코어 환경에서 최신 소유자를 추적하는 MESI (Modified, Exclusive, Shared, Invalid) 같은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 함께 필요하다. 반대로 Write-Through는 구조가 단순하지만 메모리 대역폭을 계속 소비하므로, 실제 구현에서는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼 없이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손해가 매우 크다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Write Hit / Write Miss 결정 흐름                    │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Write Request                                                    │
-│        │                                                             │
-│        ▼                                                             │
-│   Cache Tag Check                                                    │
-│        │                                                             │
-│   ┌────┴────┐                                                        │
-│   │         │                                                        │
-│ Hit       Miss                                                       │
-│   │         │                                                        │
-│   │         ├──────────────┐                                         │
-│   │         │              │                                         │
-│   ▼         ▼              ▼                                         │
-│ Through/Back Allocate    No-Allocate                                 │
-│   │         │              │                                         │
-│   │         ▼              ▼                                         │
-│   │      Bring Line      Write Lower Level                           │
-│   │      Then Update     Without Cache Fill                          │
-│   │                                                                  │
-│   ├─ WT: Cache + Memory now                                          │
-│   └─ WB: Cache only, Dirty=1                                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 흐름에서 핵심은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단일 스위치가 아니라 **히트 처리 + 미스 처리**의 조합이라는 점이다. 시험 답안에서도 Write-Through와 Write-Back만 쓰고 끝내면 절반 설명에 머무르고, Allocate 여부까지 연결해야 실제 아키텍처를 설명한 것이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write Hit / Write Miss 결정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Write Request</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Tag Check</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hit Miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Through/Back Allocate No-Allocate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bring Line Write Lower Level</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Then Update Without Cache Fill</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ WT: Cache + Memory now</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ WB: Cache only, Dirty=1</div></div>
+</div>
+</div>
+
+
+
+이 흐름에서 핵심은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단일 스위치가 아니라 <strong>히트 처리 + 미스 처리</strong>의 조합이라는 점이다. 시험 답안에서도 Write-Through와 Write-Back만 쓰고 끝내면 절반 설명에 머무르고, Allocate 여부까지 연결해야 실제 아키텍처를 설명한 것이 된다.
 
 - **📢 섹션 요약 비유**: 손님이 온다고 해서 바로 본사 창고까지 주문을 넣을지, 일단 매장 재고 선반에 가져다 놓고 그 자리에서 계속 팔지 정하는 방식과 같다. 자주 팔릴 물건이면 선반에 올려두는 편이 훨씬 효율적이다.
 
@@ -101,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 경계는 단순히 "빠름 vs 안전함"으로 끝나지 않는다. **어떤 트래픽을 줄이고, 어떤 복잡도를 늘리는가**로 비교해야 한다. Write-Through는 메모리가 항상 최신에 가깝기 때문에 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 외부 관찰이 단순하지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수만큼 하위 계층이 바빠진다. Write-Back은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용량을 줄이는 대신, 최신본이 캐시 안에만 존재하는 시간을 허용한다.
+[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 경계는 단순히 "빠름 vs 안전함"으로 끝나지 않는다. <strong>어떤 트래픽을 줄이고, 어떤 복잡도를 늘리는가</strong>로 비교해야 한다. Write-Through는 메모리가 항상 최신에 가깝기 때문에 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 외부 관찰이 단순하지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수만큼 하위 계층이 바빠진다. Write-Back은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용량을 줄이는 대신, 최신본이 캐시 안에만 존재하는 시간을 허용한다.
 
 | 비교 항목 | [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) | [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) |
 | :--- | :--- | :--- |
@@ -121,11 +110,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 우수한가"보다 **어느 주소 공간과 워크로드에 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해야 하는가**가 중요하다. 일반적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시는 Write-Back이 유리하지만, MMIO (Memory-Mapped I/O) 레지스터처럼 장치가 즉시 반응해야 하는 공간은 Write-Back을 쓰면 안 된다. CPU가 장치 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 캐시에만 써놓고 실제 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전송을 미루면, 장치는 명령을 받지 못한 채 멈춰 있기 때문이다.
+실무에서는 "어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 더 우수한가"보다 <strong>어느 주소 공간과 워크로드에 어떤 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 적용해야 하는가</strong>가 중요하다. 일반적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시는 Write-Back이 유리하지만, MMIO (Memory-Mapped I/O) 레지스터처럼 장치가 즉시 반응해야 하는 공간은 Write-Back을 쓰면 안 된다. CPU가 장치 시작 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 캐시에만 써놓고 실제 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전송을 미루면, 장치는 명령을 받지 못한 채 멈춰 있기 때문이다.
 
 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 연동도 대표적 판단 지점이다. 네트워크 카드나 스토리지 컨트롤러가 메모리를 직접 갱신할 때, CPU 캐시에 이전 값이 남아 있으면 소프트웨어는 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽게 된다. 그래서 운영체제와 드라이버는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 시작 전후로 캐시 플러시, 무효화, 비캐시 영역 매핑을 사용해 CPU 관점과 장치 관점을 맞춘다. 이 지점에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단순 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라 시스템 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제로 확장된다.
 
-기술사 답안에서는 다음처럼 정리하면 좋다. **반복 수정이 많은 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**에는 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) + Write-Allocate를 채택하고, **즉시 가시성이 필요한 장치 제어 공간**에는 [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 또는 Uncacheable [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 둔다. **대용량 스트리밍 출력**처럼 재사용이 거의 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 Non-Temporal Store 같은 캐시 우회 기법을 함께 고려해야 한다.
+기술사 답안에서는 다음처럼 정리하면 좋다. <strong>반복 수정이 많은 일반 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>에는 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) + Write-Allocate를 채택하고, <strong>즉시 가시성이 필요한 장치 제어 공간</strong>에는 [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 또는 Uncacheable [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 둔다. <strong>대용량 스트리밍 출력</strong>처럼 재사용이 거의 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 Non-Temporal Store 같은 캐시 우회 기법을 함께 고려해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -150,7 +139,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 만능은 아니다. Write-Back은 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 가능성, 교체 시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 집중, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 복잡도를 동반하고, Write-Through는 하위 메모리 대역폭과 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 부담을 키운다. 결국 좋은 설계는 하나의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 절대화하는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격과 시스템 경계에 따라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 구획하는 데서 나온다.
 
-앞으로는 비휘발성 메모리, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장, 가속기 중심 이기종 시스템이 늘수록 "누가 최신본을 갖는가"가 더 복잡해진다. 그래서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 오래된 캐시 이론이 아니라, 앞으로도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 사이의 균형점을 묻는 핵심 주제로 남는다. 기억해야 할 한 문장은 이것이다. **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 값을 어디에 쓰느냐가 아니라, 책임을 언제 어디까지 전파하느냐를 정하는 규칙**이다.
+앞으로는 비휘발성 메모리, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장, 가속기 중심 이기종 시스템이 늘수록 "누가 최신본을 갖는가"가 더 복잡해진다. 그래서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 오래된 캐시 이론이 아니라, 앞으로도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 사이의 균형점을 묻는 핵심 주제로 남는다. 기억해야 할 한 문장은 이것이다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>은 값을 어디에 쓰느냐가 아니라, 책임을 언제 어디까지 전파하느냐를 정하는 규칙</strong>이다.
 
 - **📢 섹션 요약 비유**: 좋은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 회사의 보고 체계와 같다. 모든 일을 즉시 보고하면 느려지고, 너무 늦게 보고하면 사고가 난다. 결국 조직이 잘 굴러가려면 업무 성격에 맞는 보고 타이밍이 필요하다.
 
@@ -169,26 +158,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-주기억장치 병목 인식
-    │
-    ▼
-캐시 도입
-    │
-    ▼
-Write-Through / Write-Back 분화
-    │
-    ├── Write Buffer · Dirty Bit
-    │
-    ▼
-Write-Allocate · No-Write-Allocate 최적화
-    │
-    ▼
-MESI 기반 캐시 일관성 · DMA 동기화
-    │
-    ▼
-비휘발성 메모리 · CXL 기반 이기종 메모리 정책 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">주기억장치 병목 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write-Through / Write-Back 분화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Write Buffer · Dirty Bit</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Write-Allocate · No-Write-Allocate 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MESI 기반 캐시 일관성 · DMA 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비휘발성 메모리 · CXL 기반 이기종 메모리 정책 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 단순한 캐시 내부 옵션에서 출발해, 멀티코어·장치 연동·차세대 메모리 구조까지 확장되는 과정을 보여준다.
 

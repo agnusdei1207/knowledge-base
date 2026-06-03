@@ -44,29 +44,30 @@ SQL 대응: WHERE 절
 
 ## Ⅱ. 프로젝트 (π, [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/))
 
-```
-π (Pi, 프로젝트):
 
-목적: 특정 열(Column) 추출 (수직적 분할)
-문법: π_속성목록(릴레이션)
 
-예시:
-  π_이름, 학과(학생)
-  -> 학생 테이블에서 이름, 학과 열만 반환
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">π (Pi, 프로젝트):</div>
+<div class="kb-diagram-note">목적: 특정 열(Column) 추출 (수직적 분할)</div>
+<div class="kb-diagram-note">문법: π_속성목록(릴레이션)</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">π_이름, 학과(학생)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">학생 테이블에서 이름, 학과 열만 반환</div>
+<div class="kb-diagram-note">SQL 대응: SELECT 절의 컬럼 목록</div>
+<div class="kb-diagram-note">SELECT 이름, 학과 FROM 학생;</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">열 수 감소 (명시된 열만)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">행 수 변동: 중복 제거 가능 (집합 기반)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">단항 연산</div>
+<div class="kb-diagram-note">셀렉트와 조합:</div>
+<div class="kb-diagram-note">π_이름(σ_나이&gt;25(학생))</div>
+<div class="kb-diagram-tree-item" style="--depth:1">나이 25 초과 학생의 이름만 추출</div>
+<div class="kb-diagram-note">SQL: SELECT 이름 FROM 학생 WHERE 나이 &gt; 25;</div>
+</div>
+</div>
 
-SQL 대응: SELECT 절의 컬럼 목록
-  SELECT 이름, 학과 FROM 학생;
 
-특성:
-  - 열 수 감소 (명시된 열만)
-  - 행 수 변동: 중복 제거 가능 (집합 기반)
-  - 단항 연산
-  
-셀렉트와 조합:
-  π_이름(σ_나이>25(학생))
-  -> 나이 25 초과 학생의 이름만 추출
-  SQL: SELECT 이름 FROM 학생 WHERE 나이 > 25;
-```
 
 > 📢 **섹션 요약 비유**: π(프로젝트)는 스프레드시트에서 특정 열만 복사하기 — 관심 있는 정보 열만 남기고 나머지는 숨기기.
 
@@ -146,29 +147,30 @@ SQL 구현 (이중 NOT EXISTS):
 
 ## Ⅴ. 실무 시나리오 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화
 
-```
-쿼리 최적화 관점의 관계 연산 순서:
 
-원래 쿼리:
-  σ_학과='컴퓨터'(학생 ⋈ 수강 ⋈ 과목)
 
-비효율적 실행:
-  1. 학생 × 수강 × 과목 (카테시안 곱, 매우 큼)
-  2. 조인 조건 적용
-  3. 학과 = '컴퓨터' 필터
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">쿼리 최적화 관점의 관계 연산 순서:</div>
+<div class="kb-diagram-note">원래 쿼리:</div>
+<div class="kb-diagram-note">σ_학과='컴퓨터'(학생 ⋈ 수강 ⋈ 과목)</div>
+<div class="kb-diagram-note">비효율적 실행:</div>
+<div class="kb-diagram-note">1. 학생 × 수강 × 과목 (카테시안 곱, 매우 큼)</div>
+<div class="kb-diagram-note">2. 조인 조건 적용</div>
+<div class="kb-diagram-note">3. 학과 = '컴퓨터' 필터</div>
+<div class="kb-diagram-note">최적화 규칙 적용:</div>
+<div class="kb-diagram-note">1. σ_학과='컴퓨터'(학생) 먼저 실행 &lt;- 행 수 줄임</div>
+<div class="kb-diagram-note">2. 줄어든 학생 ⋈ 수강 &lt;- 작은 테이블 먼저</div>
+<div class="kb-diagram-note">3. 결과 ⋈ 과목</div>
+<div class="kb-diagram-note">옵티마이저 전략:</div>
+<div class="kb-diagram-note">Predicate Pushdown: σ를 조인보다 먼저</div>
+<div class="kb-diagram-note">Join Reordering: 작은 테이블 먼저 조인</div>
+<div class="kb-diagram-note">Index 활용: σ 조건에 인덱스 적용</div>
+<div class="kb-diagram-note">결과: 수백 배 성능 차이 가능</div>
+</div>
+</div>
 
-최적화 규칙 적용:
-  1. σ_학과='컴퓨터'(학생) 먼저 실행  <- 행 수 줄임
-  2. 줄어든 학생 ⋈ 수강               <- 작은 테이블 먼저
-  3. 결과 ⋈ 과목
 
-옵티마이저 전략:
-  Predicate Pushdown: σ를 조인보다 먼저
-  Join Reordering: 작은 테이블 먼저 조인
-  Index 활용: σ 조건에 인덱스 적용
-
-결과: 수백 배 성능 차이 가능
-```
 
 > 📢 **섹션 요약 비유**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화는 요리 순서 최적화 — 재료를 먼저 손질(필터)하고 조리(조인)하면 전체 시간이 훨씬 단축.
 

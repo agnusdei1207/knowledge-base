@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 일반적인 소프트웨어는 배포된 순간부터 고장 나지 않는다(코드가 스스로 변하지 않으므로). 하지만 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)) 모델은 배포되는 그 순간부터 서서히 성능이 썩기 시작한다(Model Decay). 
 
-왜냐하면 세상이 변하기 때문이다. 예를 들어, 2019년에 학습된 '신용카드 사기 탐지 모델'은 해외 오프라인 결제를 의심스럽게 봤다. 그런데 코로나19가 터지면서 해외 온라인 직구가 폭증하자, 이 모델은 정상적인 직구 결제를 모조리 사기로 차단하기 시작했다. 이것이 바로 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(과거)와 추론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(현재)의 분포가 달라지는 **[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))** 현상이다.
+왜냐하면 세상이 변하기 때문이다. 예를 들어, 2019년에 학습된 '신용카드 사기 탐지 모델'은 해외 오프라인 결제를 의심스럽게 봤다. 그런데 코로나19가 터지면서 해외 온라인 직구가 폭증하자, 이 모델은 정상적인 직구 결제를 모조리 사기로 차단하기 시작했다. 이것이 바로 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(과거)와 추론 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(현재)의 분포가 달라지는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a>)</strong> 현상이다.
 
 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/))는 이처럼 시간이 지남에 따라 필연적으로 발생하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 노후화를 막기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 변화를 실시간으로 감시하고 모델을 자동으로 재학습시키는 파이프라인을 구축하는 엔지니어링 철학이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 모니터링의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  MLOps 데이터 드리프트 모니터링                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 데이터 드리프트 모니터링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) 모니터링가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 
 | 지표명 | 특징 및 설명 |
 |:---|:---|
-| **[KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)** (쿨백-라이블러 발산) | 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 얼마나 다른지 측정하는 정보 이론의 기본 지표. 비대칭적(A $\rightarrow$ B와 B $\rightarrow$ A의 값이 다름)이다. |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/">KL Divergence</a></strong> (쿨백-라이블러 발산) | 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포가 얼마나 다른지 측정하는 정보 이론의 기본 지표. 비대칭적(A $\rightarrow$ B와 B $\rightarrow$ A의 값이 다름)이다. |
 | **PSI** ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)) | 금융/신용평가 업계에서 오랫동안 쓰인 지표. 두 분포의 차이를 대칭적이고 안정적으로 보여주어 실무에서 가장 많이 쓰인다. (통상 0.2 이상이면 중대한 변화로 간주) |
 | **KS Test** (콜모고로프-스미르노프 검정) | 두 연속형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(숫자) 분포의 누적 분포 함수가 떨어져 있는 최대 거리를 측정하는 비모수 검정법. |
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-MLOps 데이터 드리프트 모니터링 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLOps 데이터 드리프트 모니터링 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

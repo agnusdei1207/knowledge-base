@@ -22,15 +22,21 @@ tags = ["studynote-design-supervision"]
 
 해결책의 진화 경로:
 
-```
-동기 블로킹(Sync Blocking)
-└→ 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제
-└→ 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행
-└→ Proactor — 완료 이벤트, OS가 I/O 수행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동기 블로킹(Sync Blocking)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ 멀티스레드(Multi-Thread) 동기 — 스레드 폭발 문제</div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ 이벤트 루프 + Reactor — 준비 이벤트, 앱이 I/O 수행</div>
+<div class="kb-diagram-tree-item" style="--depth:0">→ Proactor — 완료 이벤트, OS가 I/O 수행</div>
+</div>
+</div>
+
+
 
 Proactor 패턴의 핵심 동기:
-- **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 절감**: 소수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))로 수천~수만 연결 처리
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 절감</strong>: 소수의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))로 수천~수만 연결 처리
 - **CPU 효율**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 대기 없이 Completion Handler 실행에만 집중
 - **OS 위임**: Windows IOCP (I/O Completion [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 입출력 완료 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)), Linux `io_uring` 등 OS 레벨 비동기 I/O 활용
 
@@ -42,11 +48,15 @@ Proactor 패턴의 핵심 동기:
 | 대표 구현 | `epoll`, `select`, `kqueue` | Windows IOCP, `io_uring` |
 | 복잡도 | 상대적으로 단순 | 비교적 복잡(버퍼 수명 관리) |
 
-```text
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ Problem │──▶│ Core Idea │──▶│ Expected Gain │
-└──────────────┘ └──────────────┘ └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Reactor는 "손님이 도착하면 알려줘, 내가 문을 열게(readiness)" 이고 Proactor는 "손님을 안으로 모시고 자리까지 안내한 다음 나한테 알려줘(completion)" 다.
 
@@ -62,45 +72,41 @@ Proactor 패턴의 핵심 동기:
 | Proactor (프로액터) | 완료 큐에서 이벤트를 꺼내 Completion Handler에 디스패치 |
 | Completion Handler (완료 핸들러) | 비즈니스 로직 수행 (읽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 등) |
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│ Proactor Pattern │
-│ │
-│ ┌──────────────┐ 1. 비동기 I/O 요청 + Handler 등록 │
-│ │ Initiator │─────────────────────────────────────┐ │
-│ └──────────────┘ │ │
-│ ▼ │
-│ ┌────────────────────────────────────────────────────────┐ │
-│ │ OS Kernel (비동기 오퍼레이션 프로세서) │ │
-│ │ 2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등) │ │
-│ └───────────────────────┬────────────────────────────────┘ │
-│ │ 3. I/O 완료 → 결과를 큐에 삽입 │
-│ ▼ │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Completion Event Queue (완료 이벤트 큐) │ │
-│ │ [결과 데이터 A] [결과 데이터 B] [결과 데이터 C] ... │ │
-│ └───────────────────────┬─────────────────────────────────┘ │
-│ │ 4. 이벤트 디큐(Dequeue) │
-│ ▼ │
-│ ┌──────────────┐ 5. Handler 호출 ┌──────────────────┐ │
-│ │ Proactor │────────────────────▶│ Completion │ │
-│ │ (이벤트 루프) │ │ Handler │ │
-│ └──────────────┘ │ (비즈니스 로직) │ │
-│ └──────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
 
-```
-CreateIoCompletionPort() ← IOCP 생성 및 소켓 연결
-│
-WSARecv(overlapped) ← 비동기 수신 시작 (버퍼를 OS에 미리 제공)
-│
-└→ [OS가 비동기로 TCP 수신 수행]
-│
-GetQueuedCompletionStatus() ← 스레드 풀 워커가 완료 대기
-│
-완료 이벤트 수신 → 수신된 데이터로 비즈니스 로직 처리
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proactor Pattern</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 비동기 I/O 요청 + Handler 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initiator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel (비동기 오퍼레이션 프로세서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 실제 I/O 수행 (디스크 읽기, 네트워크 수신 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. I/O 완료 → 결과를 큐에 삽입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Completion Event Queue (완료 이벤트 큐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과 데이터 A</div><div class="kb-diagram-node">결과 데이터 B</div><div class="kb-diagram-node">결과 데이터 C</div><div class="kb-diagram-note">... │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 이벤트 디큐(Dequeue)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Handler 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proactor</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Completion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이벤트 루프)</div><div class="kb-diagram-cell">Handler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 로직)</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CreateIoCompletionPort() ← IOCP 생성 및 소켓 연결</div>
+<div class="kb-diagram-note">WSARecv(overlapped) ← 비동기 수신 시작 (버퍼를 OS에 미리 제공)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OS가 비동기로 TCP 수신 수행</div></div>
+<div class="kb-diagram-note">GetQueuedCompletionStatus() ← 스레드 풀 워커가 완료 대기</div>
+<div class="kb-diagram-note">완료 이벤트 수신 → 수신된 데이터로 비즈니스 로직 처리</div>
+</div>
+</div>
+
+
 
 ```cpp
 // 비동기 읽기 시작 (Initiator 역할)
@@ -124,7 +130,7 @@ if (!ec) process(buf, bytes);
 | Non-[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) I/O | 논블로킹 | 앱 | 즉시 반환 (EAGAIN) | `fcntl(O_NONBLOCK)` |
 | I/O [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Reactor) | 준()블로킹 | 앱 | I/O 준비 시 | `epoll`, `select` |
 | Signal-Driven I/O | 논블로킹 | 앱 | I/O 준비 시 (시그널) | `SIGIO` |
-| **Async I/O (Proactor)** | **논블로킹** | **OS** | **I/O 완료 시** | **IOCP, `io_uring`** |
+| **Async I/O (Proactor)** | **논블로킹** | **OS** | **I/O 완료 시** | <strong>IOCP, <code>io_uring</code></strong> |
 
 | 패턴 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
@@ -142,7 +148,7 @@ if (!ec) process(buf, bytes);
 - AcceptEx → WSARecv/WSASend → GetQueuedCompletionStatus 루프
 - [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기는 보통 CPU 코어 수의 2배 (I/O 완료 후 CPU 처리 고려)
 
-**2. Linux [io_uring](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.1+)**
+<strong>2. Linux <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 5.1+)</strong>
 - Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (제출 큐)에 I/O 요청을 일괄 등록
 - Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (완료 큐)에서 완료 이벤트 수확(Harvest)
 - 시스템 콜 오버헤드 최소화 — 고빈도 소규모 I/O에 최적
@@ -171,11 +177,11 @@ if (!ec) process(buf, bytes);
 ## Ⅴ. 기대효과 및 결론
 Proactor 패턴은 비동기 I/O의 정점에 해당하는 아키텍처 패턴이다. OS가 I/O를 전담하고 애플리케이션은 순수하게 완료된 결과를 처리하는 역할 분리는 다음 효과를 제공한다:
 
-- **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 효율성 극대화**: 소수 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 수만 연결 처리 (C10K 해결)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 효율성 극대화</strong>: 소수 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 수만 연결 처리 (C10K 해결)
 - **CPU 가동률 향상**: I/O 블로킹 없이 Completion Handler 연속 실행
-- **응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소**: OS 레벨 비동기 I/O는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 최적화됨
+- <strong>응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 감소</strong>: OS 레벨 비동기 I/O는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 최적화됨
 
-그러나 버퍼 수명 관리, 에러 전파, 복잡한 제어 흐름은 설계 복잡도를 높인다. 따라서 **고성능 네트워크 서버(게임 서버, 실시간 스트리밍, 금융 거래 시스템)에서는 Proactor가 최선**이지만, 간단한 서비스에서는 Reactor 기반 Node.js나 Netty가 충분하다.
+그러나 버퍼 수명 관리, 에러 전파, 복잡한 제어 흐름은 설계 복잡도를 높인다. 따라서 <strong>고성능 네트워크 서버(게임 서버, 실시간 스트리밍, 금융 거래 시스템)에서는 Proactor가 최선</strong>이지만, 간단한 서비스에서는 Reactor 기반 Node.js나 Netty가 충분하다.
 
 기술사 시험에서는 Reactor와 Proactor의 **"I/O 수행 주체"** 와 **"이벤트 발생 시점"** 의 차이를 명확히 서술하는 것이 핵심이다.
 

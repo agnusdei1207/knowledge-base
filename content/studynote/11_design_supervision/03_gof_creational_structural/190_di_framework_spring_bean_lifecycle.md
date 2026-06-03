@@ -23,29 +23,24 @@ tags = ["studynote-design-supervision"]
 
 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 없이 객체를 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면: `OrderService service = new OrderServiceImpl(new OrderRepository(...))` — 클라이언트가 모든 의존성 구체 클래스를 알아야 한다. [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 이 의존성 그래프를 자동으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 주입한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         스프링 빈 생명주기                                   │
-├─────────────────────────────────────────────────────────────┤
-│  1. Bean 정의 스캔 (@Component, @Bean, XML)                 │
-│       │                                                     │
-│  2. Bean 인스턴스화 (생성자 호출)                           │
-│       │                                                     │
-│  3. 의존성 주입 (생성자/세터/필드 주입)                     │
-│       │                                                     │
-│  4. BeanPostProcessor.postProcessBeforeInitialization()    │
-│       │                                                     │
-│  5. @PostConstruct 초기화 메서드 호출                       │
-│       │                                                     │
-│  6. BeanPostProcessor.postProcessAfterInitialization()     │
-│       │                                                     │
-│  7. Bean 사용 (애플리케이션 실행 중)                        │
-│       │                                                     │
-│  8. @PreDestroy 소멸 전 메서드 호출                         │
-│       │                                                     │
-│  9. Bean 소멸                                               │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링 빈 생명주기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Bean 정의 스캔 (@Component, @Bean, XML)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Bean 인스턴스화 (생성자 호출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 의존성 주입 (생성자/세터/필드 주입)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. BeanPostProcessor.postProcessBeforeInitialization()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. @PostConstruct 초기화 메서드 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. BeanPostProcessor.postProcessAfterInitialization()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Bean 사용 (애플리케이션 실행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. @PreDestroy 소멸 전 메서드 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. Bean 소멸</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 건설회사(스프링)가 건물(Bean)을 짓고, 필요한 자재(의존성)를 조달하며, 준공 후(PostConstruct) 사용자에게 인도하고, 폐건물 철거(PreDestroy)까지 책임지는 방식이다.
 
@@ -61,16 +56,19 @@ tags = ["studynote-design-supervision"]
 | 세터 주입 | 선택적 의존성, 변경 가능 | 선택적 사용 |
 | 필드 주입 | 간결하지만 테스트 어려움 | 비권장 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       스프링 빈 스코프                                       │
-├─────────────────────────────────────────────────────────────┤
-│  Singleton (기본): 컨테이너당 하나의 인스턴스 → 무상태 필수 │
-│  Prototype: 요청마다 새 인스턴스 생성                        │
-│  Request: HTTP 요청마다 새 인스턴스 (웹 환경)               │
-│  Session: HTTP 세션마다 새 인스턴스 (웹 환경)               │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링 빈 스코프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Singleton (기본): 컨테이너당 하나의 인스턴스 → 무상태 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prototype: 요청마다 새 인스턴스 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request: HTTP 요청마다 새 인스턴스 (웹 환경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session: HTTP 세션마다 새 인스턴스 (웹 환경)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 주입은 집(빈) 설계도를 그릴 때 필요한 재료(의존성) 목록을 명시하는 것이다. 집이 완성되면 재료 목록은 변경할 수 없어(불변) 안전하다.
 

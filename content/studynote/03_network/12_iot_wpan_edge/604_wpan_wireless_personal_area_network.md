@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-노트북, 스마트폰, 무선 이어폰, 스마트워치 등 **사용자 한 사람의 몸 주변이나 책상 위 반경 약 10m 이내(Personal Space)**에 있는 소형 디지털 기기들을 선 없이 무선으로 연결하기 위한 초근거리/저전력 무선 통신 네트워크 표준(IEEE 802.15 계열)입니다.
+노트북, 스마트폰, 무선 이어폰, 스마트워치 등 <strong>사용자 한 사람의 몸 주변이나 책상 위 반경 약 10m 이내(Personal Space)</strong>에 있는 소형 디지털 기기들을 선 없이 무선으로 연결하기 위한 초근거리/저전력 무선 통신 네트워크 표준(IEEE 802.15 계열)입니다.
 
-```text
-[센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
-[WPAN]
-    │
-    └──▶ [블루투스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WPAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 
 무선 랜([WLAN](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/), Wi-Fi)과 비교하면 WPAN의 목적이 명확해집니다.
 - **통신 반경**: 와이파이는 50~100m, **WPAN은 딱 10m 내외**. 멀리 갈 필요가 없습니다.
-- **초저전력 (Ultra Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))**: 가장 중요합니다. 이어폰이나 마우스처럼 작은 AAA 건전지나 동전 배터리로 수개월~수년을 버텨야 하므로 전력 소모를 극한으로 쥐어짭니다.
+- <strong>초저전력 (Ultra Low <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>)</strong>: 가장 중요합니다. 이어폰이나 마우스처럼 작은 AAA 건전지나 동전 배터리로 수개월~수년을 버텨야 하므로 전력 소모를 극한으로 쥐어짭니다.
 - **Ad-hoc(애드혹) 연결**: 와이파이처럼 거대한 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 거치지 않습니다. 스마트폰과 무선 이어폰이 기지국 없이 1:1로 다이렉트로 바로 연결(Paring)됩니다.
 
-```text
-[센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
-[WPAN]
-    │
-    └──▶ [블루투스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WPAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,15 +126,19 @@ WPAN는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 센서 네트워크 / 싱크 노드 구성]
-    │
-    ▼
-[현재 개념: WPAN]
-    │
-    ├──▶ [확장 A: 블루투스]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 센서 네트워크 / 싱크 노드 구성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블루투스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 WPAN는 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) / 싱크 노드 구성에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 기존처럼 땅바닥(Terrestrial)에 설치한 기지국 철탑이 아니라, 지표면 위 10km의 대기권(무인기, 드론)부터 수백~수만 km 우주(인공위성)에 띄워 놓은 **비행체나 위성을 하늘 위의 기지국(중계기)으로 삼아 지상과 통신하는 거대한 3차원 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/) 기술**입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-17부터 표준화 시작)
+- **개념**: 기존처럼 땅바닥(Terrestrial)에 설치한 기지국 철탑이 아니라, 지표면 위 10km의 대기권(무인기, 드론)부터 수백~수만 km 우주(인공위성)에 띄워 놓은 <strong>비행체나 위성을 하늘 위의 기지국(중계기)으로 삼아 지상과 통신하는 거대한 3차원 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/">이동통신망</a> 기술</strong>입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-17부터 표준화 시작)
 - **목적**: 6G의 목표인 "지구상 음영(먹통) 지역 0%, 하늘을 나는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 완벽 통신 커버" 달성.
 
-```text
-[지능형 반사 표면]
-    │
-    ▼
-[비지상 네트워크망]
-    │
-    └──▶ [디지털 트윈 네트워크 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +47,22 @@ tags = ["studynote-network"]
 
 ### 2. 고도 500~2,000km: [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) (저궤도 인공위성, Low Earth Orbit) 🌟
 NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
-- **과거의 위성([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/))**: 고도 36,000km 정지궤도에 떠 있었습니다. 너무 멀어서 인터넷을 클릭하면 화면이 뜰 때까지 0.5초([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))나 걸려 게임이나 카톡이 불가능했습니다.
-- **저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 혁명**: 위성을 지구와 500km 거리로 아슬아슬하게 바짝 붙여 수천 개를 뿌립니다. 거리가 짧아지니 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 20ms 이내로 줄어들어 지상의 광랜 속도와 맞먹게 됩니다.
+- <strong>과거의 위성(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/">GEO</a>)</strong>: 고도 36,000km 정지궤도에 떠 있었습니다. 너무 멀어서 인터넷을 클릭하면 화면이 뜰 때까지 0.5초([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))나 걸려 게임이나 카톡이 불가능했습니다.
+- <strong>저궤도(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>) 혁명</strong>: 위성을 지구와 500km 거리로 아슬아슬하게 바짝 붙여 수천 개를 뿌립니다. 거리가 짧아지니 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 20ms 이내로 줄어들어 지상의 광랜 속도와 맞먹게 됩니다.
 - 스마트폰의 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나가 지상 기지국 연결이 끊기는 순간(산속 조난 등), 하늘을 쳐다보며 직접 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성과 빔포밍으로 다이렉트 통신(D2D)을 체결합니다. (아이폰 14의 위성 긴급 구조 원리)
 
-```text
-[지능형 반사 표면]
-    │
-    ▼
-[비지상 네트워크망]
-    │
-    └──▶ [디지털 트윈 네트워크 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,14 +72,14 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 우주와 통신하는 데는 끔찍한 물리적 한계가 따릅니다. 이를 극복해야 합니다.
 
-1. **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 도플러 천이 (Doppler Shift) 보상**
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 도플러 천이 (Doppler Shift) 보상</strong>
    - [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)은 지구를 하루에 10바퀴씩, 총알보다 빠른 시속 2만 7천 km로 날아다닙니다. 위성이 폰 쪽으로 쌩 날아오면 주파수 소리가 빽! 하고 찌그러지고([도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)), 멀어지면 낮아집니다.
    - 폰과 위성이 미친 듯이 머리를 굴려, 이 찌그러진 주파수 파형을 실시간으로 역계산해 깨끗한 파동으로 복원(주파수 보상 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))해야 통신이 안 끊깁니다.
 
-2. **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 인내 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 끊김 보완 ([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**
+2. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 인내 및 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 끊김 보완 (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>)</strong>
    - 내 머리 위에 있던 1번 위성이 10분 뒤면 저 멀리 지평선 너머로 날아가 사라집니다. 통신이 안 끊기려면 내 폰이 뒤따라 날아오는 2번 위성으로 0.1초 만에 접속([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))을 넘겨야 하는 고난도 위성 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술이 핵심입니다.
 
-3. **[UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 커버 통제**
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a>(도심 항공 모빌리티) 커버 통제</strong>
    - 하늘을 나는 헬기 택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))는 지상 500m 고도를 납니다. 밑에 있는 지상 기지국이 위를 향해 빔을 쏴주고, 하늘에 있는 위성이 아래를 향해 빔을 쏴주며, [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 기체가 그 중간 허공에서 양쪽의 신호를 동시에 받아(3D 융합) 절대 끊기지 않는 1ms 초저지연 안전 제어 통신을 받게 됩니다.
 
 [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)이 기반 조건을 만든다면, [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 그 위에서 핵심 메커니즘을 구현하고, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -124,15 +132,19 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 지능형 반사 표면]
-    │
-    ▼
-[현재 개념: 비지상 네트워크망]
-    │
-    ├──▶ [확장 A: 디지털 트윈 네트워크 망]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지능형 반사 표면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비지상 네트워크망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망는 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

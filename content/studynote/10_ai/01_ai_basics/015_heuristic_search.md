@@ -22,16 +22,20 @@ tags = ["ai"]
 이러한 '목표 방향에 대한 합리적인 추측치'를 수학 함수인 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)($h(n)$)으로 정량화하여 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 주입한 것이 바로 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색이다. 이를 통해 탐색 엔진은 엉뚱한 방향의 트리를 전개하는 오버헤드를 잘라내고, 정답이 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은(유망한) 유효 경로에 컴퓨팅 자원을 집중 투입할 수 있게 된다.
 
 이 도식은 평가 함수 $f(n)$을 기준으로 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색이 어떻게 노드의 우선순위를 매기는지를 보여준다.
-```text
-[평가 함수 구조: f(n) = g(n) + h(n)]
-  S (시작)
-   │
-   ├─> (노드 A) : 이미 온 거리 g(A)=10 + 예상 남은 거리 h(A)=50  => 총 f(A)=60
-   │
-   └─> (노드 B) : 이미 온 거리 g(B)=15 + 예상 남은 거리 h(B)=20  => 총 f(B)=35  (★우선 탐색)
-                                                           ↓
-                                                      목표점(Goal)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">평가 함수 구조: f(n) = g(n) + h(n)</div></div>
+<div class="kb-diagram-note">S (시작)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(노드 A) : 이미 온 거리 g(A)=10 + 예상 남은 거리 h(A)=50 =&gt; 총 f(A)=60</div>
+<div class="kb-diagram-tree-item" style="--depth:1">(노드 B) : 이미 온 거리 g(B)=15 + 예상 남은 거리 h(B)=20 =&gt; 총 f(B)=35 (★우선 탐색)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">목표점(Goal)</div>
+</div>
+</div>
+
+
 이 구조의 핵심은 과거의 확정된 비용($g(n)$)과 미래의 추정된 비용($h(n)$)의 결합이다. 오직 $h(n)$에만 의존하여 가장 좋아 보이는 곳만 탐색하는 것을 최고 우선 탐색(Best-First Search / Greedy Search)이라 하고, $g(n)$과 $h(n)$을 더해 전체 경로의 최적성을 보장하는 가장 완벽한 형태가 바로 A* (에이스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 📢 **섹션 요약 비유**: 미로에서 출구를 찾을 때 바닥만 보고 모든 길을 걷는 것이 맹목 탐색이라면, 바람이 불어오는 방향([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))을 느끼며 출구가 있을 법한 쪽으로만 빠르게 나아가는 것이 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색입니다.
@@ -45,21 +49,25 @@ tags = ["ai"]
 | 구성 원리 | 상세 설명 및 제약 조건 |
 |:---|:---|
 | **$f(n) = g(n) + h(n)$** | $f(n)$: 노드 n을 거쳐가는 전체 경로의 예상 총 비용 <br> $g(n)$: 시작점~n까지의 실제 발생 비용 <br> $h(n)$: n에서 목표까지의 예상 비용 ([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)) |
-| **Open List ([우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))** | 평가 함수 $f(n)$ 값이 가장 작은 노드가 큐의 최상단([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) 대상)에 오도록 유지하는 자료구조 |
-| **[허용적 휴리스틱](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/) (Admissibility)** | $h(n) \le h^*(n)$ (단, $h^*$는 실제 남은 최단 비용). 즉, **[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)은 절대로 실제 비용을 과대평가(Overestimate)해서는 안 됨.** |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) / Monotonicity)** | $h(A) \le Cost(A \to B) + h(B)$. 삼각 부등식을 만족해야 탐색 중 노드 비용의 역전 현상이 발생하지 않음. |
+| <strong>Open List (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a>)</strong> | 평가 함수 $f(n)$ 값이 가장 작은 노드가 큐의 최상단([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) 대상)에 오도록 유지하는 자료구조 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">허용적 휴리스틱</a> (Admissibility)</strong> | $h(n) \le h^*(n)$ (단, $h^*$는 실제 남은 최단 비용). 즉, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>은 절대로 실제 비용을 과대평가(Overestimate)해서는 안 됨.</strong> |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a> / Monotonicity)</strong> | $h(A) \le Cost(A \to B) + h(B)$. 삼각 부등식을 만족해야 탐색 중 노드 비용의 역전 현상이 발생하지 않음. |
 
 다음은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 과대평가되었을 때 왜 최적 경로를 놓치는지를 보여주는 치명적 병목 도식이다.
-```text
-(S) -- 비용(1) --> (A) -- 비용(10) --> (Goal) : 총 실제비용 11
- │
- └---- 비용(5) --> (B) -- 비용( 2) --> (Goal) : 총 실제비용 7 (이게 정답이어야 함)
 
-[만약 h(n)이 잘못 설계되어 과대평가한 경우 (비허용적)]
-- 노드 A 평가: f(A) = g(1) + h(A)추정치(1) = 2
-- 노드 B 평가: f(B) = g(5) + h(B)추정치(100) = 105  (과대평가됨)
-=> 알고리즘은 2 < 105 이므로 A경로를 택하고 (총 비용 11) 탐색 종료. (오답 도출!)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">(S) -- 비용(1) --&gt; (A) -- 비용(10) --&gt; (Goal) : 총 실제비용 11</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비용(5) --&gt; (B) -- 비용( 2) --&gt; (Goal) : 총 실제비용 7 (이게 정답이어야 함)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">만약 h(n)이 잘못 설계되어 과대평가한 경우 (비허용적)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">노드 A 평가: f(A) = g(1) + h(A)추정치(1) = 2</div>
+<div class="kb-diagram-tree-item" style="--depth:0">노드 B 평가: f(B) = g(5) + h(B)추정치(100) = 105 (과대평가됨)</div>
+<div class="kb-diagram-note">=&gt; 알고리즘은 2 &lt; 105 이므로 A경로를 택하고 (총 비용 11) 탐색 종료. (오답 도출!)</div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 '보수적인 예측의 중요성'이다. 거리를 조금이라도 길게 추정(과대평가)해버리면, A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 길이 너무 비싸다고 착각하여 아예 탐색 시도조차 안 하고 덮어버린다. 그 결과 최단 경로를 놓친 채 부분 최적해를 도출하고 종료해버린다. 따라서 직선 거리(Euclidean distance)나 맨해튼 블록 거리(Manhattan distance)처럼 물리적으로 절대 실제 거리보다 클 수 없는 안전한 값을 $h(n)$으로 써야 최적성이 100% 보장된다.
 
 📢 **섹션 요약 비유**: 목적지까지 택시비가 2만원 나올 것 같은데 보수적으로 1만원 나온다고 짐작(과소평가)하면 가보면서 수정할 기회가 있지만, 100만원 나온다고 짐작(과대평가)해버리면 아예 택시 탈 생각조차 접어버려 좋은 길을 놓치는 것과 같습니다.
@@ -69,27 +77,29 @@ tags = ["ai"]
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 탐색 환경의 제약(메모리 부족, 시간 촉박)에 따라 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 외에도 국소 탐색(Local Search) 계열의 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)들이 사용된다. 
 
-**[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교 매트릭스**
+<strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 탐색 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 비교 매트릭스</strong>
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 평가 기준 | 메모리 사용량 | 특징 및 트레이드오프 |
 |:---|:---|:---|:---|
 | **A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/))** | $f(n) = g(n) + h(n)$ | 지수적 (오픈 리스트 유지) | 조건 만족 시 완결성/최적성 100% 보장. 단, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 문제. |
 | **IDA* (Iterative)** | 깊이 대신 $f(n)$ 한계치 증가 | 선형적 (매우 적음) | A*의 메모리 폭발 한계를 극복. 대신 시간 오버헤드 존재. |
 | **Greedy Search** | $f(n) = h(n)$ 오직 남은거리만 | 지수적 | $g(n)$ 무시. 무조건 목표 쪽에 가까운 노드 돌진. 빠르나 최적 경로 미보장. |
-| **언덕 오르기 ([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/))** | 현재 노드와 이웃 노드의 비용만 비교 | O(1) (이전 경로 폐기) | 경로 자체는 알 바 없고 최종 상태만 중요할 때. (지역 최적해 빠짐 주의) |
+| <strong>언덕 오르기 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/">Hill Climbing</a>)</strong> | 현재 노드와 이웃 노드의 비용만 비교 | O(1) (이전 경로 폐기) | 경로 자체는 알 바 없고 최종 상태만 중요할 때. (지역 최적해 빠짐 주의) |
 
 다음은 언덕 오르기([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)) 탐색이 맞닥뜨리는 치명적인 병목 현상인 '지역 최적해(Local Maxima)'를 나타낸 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)이다.
-```text
-목표 함수 값(성능)
-  ↑             (Global Maxima: 진짜 목표)
-  │                 /\
-  │ (Local Maxima) /  \
-  │      /\       /
-  │     /  \     /
-  │    /    \___/ (계곡)
-  │   /
-  │  / (현재 위치에서 주변을 보면 다 내리막이라 자기가 정상인 줄 착각함)
-  └───────────────────────────────> 상태 공간
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">목표 함수 값(성능)</div>
+<div class="kb-diagram-note">↑ (Global Maxima: 진짜 목표)</div>
+<div class="kb-diagram-note">(Local Maxima) / \</div>
+<div class="kb-diagram-note">/ \___/ (계곡)</div>
+<div class="kb-diagram-note">/ (현재 위치에서 주변을 보면 다 내리막이라 자기가 정상인 줄 착각함)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">상태 공간</div>
+</div>
+</div>
+
+
 이 비교도의 핵심은 '근시안적 탐색의 한계'다. 메모리를 아끼기 위해 현재 노드의 주변 이웃만 평가하여 무조건 높은 곳으로 올라가는 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)은, 작은 봉우리(Local Maxima)에 갇히면 내려갈 수 있는 수단([백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))이 없어 탐색이 정지된다. 실무에서는 이를 돌파하기 위해 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 가끔 나쁜 길(내리막)도 수용하는 **시뮬레이티드 어닐링(Simulated Annealing)** 기법이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 위치를 무작위로 바꾸는 **랜덤 리스타트(Random Restart)** 기법을 필수로 융합해야 한다.
 
 📢 **섹션 요약 비유**: 짙은 안개 속에서 산 정상(목표)을 찾을 때, 일단 무조건 오르막길만 따라가면(언덕 오르기) 동네 뒷산 꼭대기에 도착한 뒤 에베레스트 정상에 왔다고 착각하여 멈추게 되는 부작용과 같습니다.
@@ -99,22 +109,28 @@ tags = ["ai"]
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 실무에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색을 설계할 때 가장 큰 고민은 "[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)을 얼마나 빡빡하게(정교하게) 만들 것인가"에 대한 엔지니어링 비용 산정이다.
 
-**실무 의사결정 시나리오: 자율주행 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 시스템 구축**
-```text
-[실시간 라우팅 탐색 전략 결정]
-   ↓
-[Q1. 100% 최적 경로 보장이 비즈니스상 필수적인가?]
- ├── (Yes) -> 허용적(Admissible) h(n)을 철저히 설계한 A* 적용
- └── (No, 1% 오차는 감수하되 빠른 속도가 중요)
-      ↓
-[Q2. 동적 장애물(공사, 사고)로 지도가 실시간 파편화되는가?]
- ├── (No) -> $h(n)$의 가중치 $w$를 1 이상으로 키운 Weighted A*로 연산 가속화 (Sub-optimal 허용)
- └── (Yes) -> 목표점에서 역방향으로 갱신하는 D* Lite 알고리즘 도입
-```
+<strong>실무 의사결정 시나리오: 자율주행 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 시스템 구축</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 라우팅 탐색 전략 결정</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Q1. 100% 최적 경로 보장이 비즈니스상 필수적인가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(Yes) -&gt; 허용적(Admissible) h(n)을 철저히 설계한 A* 적용</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(No, 1% 오차는 감수하되 빠른 속도가 중요)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Q2. 동적 장애물(공사, 사고)로 지도가 실시간 파편화되는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(No) -&gt; $h(n)$의 가중치 $w$를 1 이상으로 키운 Weighted A*로 연산 가속화 (Sub-optimal 허용)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(Yes) -&gt; 목표점에서 역방향으로 갱신하는 D* Lite 알고리즘 도입</div>
+</div>
+</div>
+
+
 이 의사결정 흐름의 핵심은 정확도와 연산 시간의 타협(Trade-off)이다. A*에서 $h(n)$의 비중을 높이면($f(n) = g(n) + W \times h(n), W > 1$) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 탐색 가지를 극적으로 좁혀 속도가 10배 이상 빨라진다. 다만 최단 거리를 살짝 벗어날 위험이 생긴다. 실시간 게임(스타크래프트 길찾기)이나 내비게이션에서는 완벽한 최단거리보다 '빠른 반응성'이 더 중요하므로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 부여된 $W-A^*$ 방식이나 탐색 공간을 계층화한 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/)* (Hierarchical Pathfinding A*)를 적극 채택하여 CPU 부하를 방어한다.
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
-- **무거운 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수**: 탐색 노드를 줄이는 데 집착하여 $h(n)$을 계산하는 함수 자체를 너무 복잡하게(예: 내부적으로 또 다른 탐색을 호출) 짜면, 노드 평가 비용 자체가 탐색 비용을 넘어서서 전체 시스템이 더 느려진다. $h(n)$ 계산은 O(1) 수준으로 매우 가벼워야 한다.
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
+- <strong>무거운 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 함수</strong>: 탐색 노드를 줄이는 데 집착하여 $h(n)$을 계산하는 함수 자체를 너무 복잡하게(예: 내부적으로 또 다른 탐색을 호출) 짜면, 노드 평가 비용 자체가 탐색 비용을 넘어서서 전체 시스템이 더 느려진다. $h(n)$ 계산은 O(1) 수준으로 매우 가벼워야 한다.
 
 📢 **섹션 요약 비유**: 내비게이션이 1초 만에 알려주는 '약간 막히지만 빠른 길([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) A*)'이, 1분 동안 미친 듯이 연산해서 알려주는 '1미터 더 짧은 완벽한 길(순수 A*)'보다 운전자에게 훨씬 유용한 실무적 판단과 같습니다.
 
@@ -125,7 +141,7 @@ tags = ["ai"]
 
 | 지표 | [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/) 대비 기대 효과 |
 |:---|:---|
-| **응답성 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | 탐색 범위가 원형이 아닌 타원형(목표 지향)으로 축소되어, 최악의 경우 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 수백 배 이상 단축 |
+| <strong>응답성 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | 탐색 범위가 원형이 아닌 타원형(목표 지향)으로 축소되어, 최악의 경우 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 수백 배 이상 단축 |
 | **확장성 (Scalability)** | 노드 수가 폭발하는 고차원 복잡계 문제(로보틱스 6자유도 조인트 제어 등)의 실시간 연산 허용 |
 | **유연성 (Flexibility)** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 수식 하나만 교체하면 로봇 청소기에서 물류 트럭 경로까지 다양한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 동일 엔진 재사용 가능 |
 
@@ -139,28 +155,30 @@ tags = ["ai"]
 |:---|:---|
 | **A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | 허용 가능 h(n) 보장 시 최적 경로를 탐색하는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 대표 구현체 |
 | **Greedy Best-First Search** | h(n)만 사용, A*의 서브셋, 속도 우선이지만 최적성 보장 불가 |
-| **[가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 값이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘는 노드를 탐색 전 제거하는 탐색 공간 축소 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong> | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 값이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘는 노드를 탐색 전 제거하는 탐색 공간 축소 기법 |
 | **딥러닝 가치 네트워크 (Value Network)** | 강화학습에서 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)의 승패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 예측하는 초고도화된 학습 기반 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) |
 | **MRV / min-conflicts** | [CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/)(제약 충족 문제) 탐색에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)을 제약 기반으로 구현한 사례 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[맹목적 탐색 (BFS / DFS) — 휴리스틱 없이 모든 경우의 수 탐색, 지수적 복잡도]
-    │
-    ▼
-[탐욕적 최선 우선 탐색 (Greedy Best-First) — h(n)만 사용, 빠르지만 최적성 미보장]
-    │
-    ▼
-[A* 알고리즘 — f(n)=g(n)+h(n), 허용 가능 h(n)으로 최적성 보장]
-    │
-    ▼
-[가중치 A* (Weighted A*) — f(n)=g(n)+W·h(n), 최적성 포기하고 속도 우선화]
-    │
-    ▼
-[학습 기반 휴리스틱 (Learned Heuristics) — 딥러닝으로 h(n) 함수 자체를 데이터 학습]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">맹목적 탐색 (BFS / DFS) — 휴리스틱 없이 모든 경우의 수 탐색, 지수적 복잡도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">탐욕적 최선 우선 탐색 (Greedy Best-First) — h(n)만 사용, 빠르지만 최적성 미보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 — f(n)=g(n)+h(n), 허용 가능 h(n)으로 최적성 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가중치 A* (Weighted A*) — f(n)=g(n)+W·h(n), 최적성 포기하고 속도 우선화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">학습 기반 휴리스틱 (Learned Heuristics) — 딥러닝으로 h(n) 함수 자체를 데이터 학습</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 방향 없이 탐색하는 [맹목적 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/014_uninformed_search/)에서 경험적 추정치(h(n))를 도입한 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐색으로 진화하고, A*의 최적성 보장→[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) A*의 속도 우선화를 거쳐, 딥러닝이 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 자체를 학습하는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 탐색의 발전 계보를 보여준다.
 

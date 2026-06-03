@@ -18,19 +18,22 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-k-Fold 교차 검증 (k=5):
 
-폴드  | 1    | 2    | 3    | 4    | 5
-------+------+------+------+------+------
-반복1 | 검증 | 훈련 | 훈련 | 훈련 | 훈련
-반복2 | 훈련 | 검증 | 훈련 | 훈련 | 훈련
-반복3 | 훈련 | 훈련 | 검증 | 훈련 | 훈련
-반복4 | 훈련 | 훈련 | 훈련 | 검증 | 훈련
-반복5 | 훈련 | 훈련 | 훈련 | 훈련 | 검증
 
-최종 성능 = 5번 검증 성능의 평균 ± 표준편차
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">k-Fold 교차 검증 (k=5):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴드</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복1</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복2</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복3</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복4</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">훈련</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복5</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">훈련</div><div class="kb-diagram-cell">검증</div></div>
+<div class="kb-diagram-note">최종 성능 = 5번 검증 성능의 평균 ± 표준편차</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: k-Fold는 5교시 수업 방식이다. 매 교시마다 다른 학생이 선생님 역할([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 맡아 나머지를 평가한다. 5번 평균으로 선생님으로서의 실력(모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 공정하게 평가한다.
 
@@ -50,17 +53,21 @@ k-Fold 교차 검증 (k=5):
 
 ### Stratified k-Fold 필요성
 
-```text
-불균형 데이터 (암 양성: 5%, 음성: 95%):
 
-  일반 k-Fold:
-  폴드1: 양성 2%, 음성 98%  ← 클래스 비율 불균일
-  폴드3: 양성 8%, 음성 92%
 
-  Stratified k-Fold:
-  모든 폴드: 양성 5%, 음성 95%  ← 비율 유지
-  → 더 공정하고 안정적인 평가
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">불균형 데이터 (암 양성: 5%, 음성: 95%):</div>
+<div class="kb-diagram-note">일반 k-Fold:</div>
+<div class="kb-diagram-note">폴드1: 양성 2%, 음성 98% ← 클래스 비율 불균일</div>
+<div class="kb-diagram-note">폴드3: 양성 8%, 음성 92%</div>
+<div class="kb-diagram-note">Stratified k-Fold:</div>
+<div class="kb-diagram-note">모든 폴드: 양성 5%, 음성 95% ← 비율 유지</div>
+<div class="kb-diagram-note">→ 더 공정하고 안정적인 평가</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Stratified k-Fold는 비례 대표 선거다. 각 지역(폴드)에서 인구 비율에 맞는 의석(클래스 비율)을 배분하여 전체 대표성이 왜곡되지 않게 한다.
 
@@ -125,8 +132,8 @@ scores = cross_val_score(model, X, y, cv=tss, scoring='rmse')
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활용 |
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소** | 단일 Hold-out 대비 안정적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 활용 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 감소</strong> | 단일 Hold-out 대비 안정적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정 |
 | **과적합 방지** | 편향 없는 하이퍼파라미터 선택 |
 
 [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 시스템(Google [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), H2O [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))은 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)을 하이퍼파라미터 탐색의 핵심 피드백으로 사용한다. Bayesian Optimization이 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 점수를 목적 함수로 최적화하며, 수백~수천 번의 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 반복을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수행하는 대규모 [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) 클러스터가 실용화되어 있다.
@@ -141,27 +148,29 @@ scores = cross_val_score(model, X, y, cv=tss, scoring='rmse')
 |:---|:---|
 | **Stratified k-Fold** | 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스 비율 유지 |
 | **TimeSeriesSplit** | 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시간 순서 유지 |
-| **Nested [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)** | 하이퍼파라미터·평가 공정 분리 |
-| **[AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/)** | [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 자동화 탐색 |
+| <strong>Nested <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/">CV</a></strong> | 하이퍼파라미터·평가 공정 분리 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/">AutoML</a></strong> | [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 자동화 탐색 |
 | **LOOCV** | 극소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leave-One-Out [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Hold-out — 단순 고정 분할, 높은 분산]
-    │
-    ▼
-[k-Fold — 순환 검증, 낮은 분산]
-    │
-    ▼
-[Stratified/TimeSeriesSplit — 데이터 특성 맞춤 분할]
-    │
-    ▼
-[Nested CV — 하이퍼파라미터·평가 공정 이중 루프]
-    │
-    ▼
-[AutoML 병렬 CV — 수천 번 자동 탐색 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hold-out — 단순 고정 분할, 높은 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">k-Fold — 순환 검증, 낮은 분산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Stratified/TimeSeriesSplit — 데이터 특성 맞춤 분할</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Nested CV — 하이퍼파라미터·평가 공정 이중 루프</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AutoML 병렬 CV — 수천 번 자동 탐색 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

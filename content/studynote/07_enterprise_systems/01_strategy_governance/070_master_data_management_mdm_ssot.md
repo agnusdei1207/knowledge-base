@@ -28,15 +28,21 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Source Systems
-  ↓
-Master Data Hub
-  ↓
-Golden Record
-  ↓
-SSOT
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Source Systems</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Master Data Hub</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Golden Record</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SSOT</div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ MDM은 고객/제품/조직 정보를 통합해 업무 [일관성](/knowledge-ba
 
 ## 관련 개념 맵
 
-```text
-Master Data
-  ↓
-MDM
-  ↓
-Golden Record
-  ↓
-SSOT
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Master Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MDM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Golden Record</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SSOT</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Master Data
-  ↓
-MDM
-  ↓
-Data Quality
-  ↓
-SSOT
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Master Data</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">MDM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Quality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SSOT</div>
+</div>
+</div>
+
+
 
 ---
 

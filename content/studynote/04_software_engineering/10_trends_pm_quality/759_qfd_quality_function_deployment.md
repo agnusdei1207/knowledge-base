@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 소프트웨어 개발 프로젝트에서 기획자와 개발자의 싸움은 영원한 숙제다.
 기획자(고객)는 "앱이 좀 빠릿빠릿하고 세련되게 만들어주세요"라고 말한다. 개발자는 "그게 뭔 소리야? 메모리를 몇 MB 할당하고 렌더링을 몇 ms로 맞추라는 건데?"라며 답답해한다.
 
-이처럼 고객이 사용하는 언어(요구사항)와 엔지니어가 사용하는 언어(설계 사양)는 완전히 다르다. 1960년대 일본의 요지 아카오(Yoji Akao) 교수는 조선소에서 배를 만들 때 이 의사소통 문제를 해결하기 위해, **고객의 목소리(VOC)를 기술자의 도면(Engineering Spec)으로 번역해 주는 시스템**을 고안했다. 이것이 **QFD ([품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/))**다.
+이처럼 고객이 사용하는 언어(요구사항)와 엔지니어가 사용하는 언어(설계 사양)는 완전히 다르다. 1960년대 일본의 요지 아카오(Yoji Akao) 교수는 조선소에서 배를 만들 때 이 의사소통 문제를 해결하기 위해, <strong>고객의 목소리(VOC)를 기술자의 도면(Engineering Spec)으로 번역해 주는 시스템</strong>을 고안했다. 이것이 <strong>QFD (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/">품질 기능 전개</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 고객이 카페에서 "달달하면서도 살 안 찌는 커피 주세요"라고 주문할 때, 알바생이 이걸 바리스타에게 "시럽 1펌프, 알룰로스 2펌프, 무지방 우유 200ml"라는 완벽한 '레시피(기술 스펙)'로 번역해서 넘겨주는 과정이 바로 QFD다.
 
@@ -30,18 +30,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  QFD 품질 기능 전개 요구사항 변환                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QFD 품질 기능 전개 요구사항 변환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -53,7 +52,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-QFD를 시각적으로 구현한 도구가 바로 지붕이 달린 집 모양의 매트릭스, **[품질의 집](/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/)(HoQ, House of Quality)**이다.
+QFD를 시각적으로 구현한 도구가 바로 지붕이 달린 집 모양의 매트릭스, <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/169_hoq_house_of_quality_matrix/">품질의 집</a>(HoQ, House of Quality)</strong>이다.
 
 - **📢 섹션 요약 비유**: QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -75,9 +74,9 @@ QFD는 요구사항을 도출하는 수많은 기법들과 시너지를 낸다.
 
 | 기법 | 역할 | QFD와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| **Kano 모델** | 고객 요구사항이 필수인지, 매력적인지 심리적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | Kano에서 찾아낸 '매력적 품질'을 **QFD의 왼쪽 벽(WHAT)**에 채워 넣음. |
-| **[스토리 포인트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/)**| 애자일에서 개발 공수(시간)를 산정하는 단위 | QFD 지하실에서 나온 '기술 목표'를 달성하기 위해 **구체적 백로그([태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))로 쪼개어** 점수를 매김. |
-| **[FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) / [FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/)** | 시스템의 고장 원인과 위험을 분석 | QFD를 통해 도출된 기술적 스펙(HOW)이 **고장 났을 때 어떤 위험이 있는지([FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))** 추가 분석함. |
+| **Kano 모델** | 고객 요구사항이 필수인지, 매력적인지 심리적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | Kano에서 찾아낸 '매력적 품질'을 <strong>QFD의 왼쪽 벽(WHAT)</strong>에 채워 넣음. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/082_story_point_velocity/">스토리 포인트</a></strong>| 애자일에서 개발 공수(시간)를 산정하는 단위 | QFD 지하실에서 나온 '기술 목표'를 달성하기 위해 <strong>구체적 백로그(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a>)로 쪼개어</strong> 점수를 매김. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a> / <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/">FTA</a></strong> | 시스템의 고장 원인과 위험을 분석 | QFD를 통해 도출된 기술적 스펙(HOW)이 <strong>고장 났을 때 어떤 위험이 있는지(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a>)</strong> 추가 분석함. |
 
 특히 **Kano 모델 $\rightarrow$ QFD $\rightarrow$ [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)** 로 이어지는 흐름은 식스시그마([6 Sigma](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/))나 제조/소프트웨어 융합 프로젝트에서 완벽한 품질을 보장하는 불패의 콤보다.
 
@@ -105,7 +104,7 @@ QFD는 요구사항을 도출하는 수많은 기법들과 시너지를 낸다.
 
 ## Ⅴ. 기대효과 및 결론
 
-QFD를 거치면 막연했던 마케팅 부서의 요구사항이 개발 부서가 측정하고 테스트할 수 있는 **[KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/)(예: 0.5초 응답속도, 99.9% 가동률)**로 완벽하게 변환된다. 개발팀은 무엇을 테스팅([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/))해야 할지 명확한 목표를 갖게 되며, 런칭 후 "내가 원한 건 이게 아니야"라는 고객의 불만을 100% 방어할 수 있다.
+QFD를 거치면 막연했던 마케팅 부서의 요구사항이 개발 부서가 측정하고 테스트할 수 있는 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a>(예: 0.5초 응답속도, 99.9% 가동률)</strong>로 완벽하게 변환된다. 개발팀은 무엇을 테스팅([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [ATDD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/710_atdd_acceptance_test_driven_development/))해야 할지 명확한 목표를 갖게 되며, 런칭 후 "내가 원한 건 이게 아니야"라는 고객의 불만을 100% 방어할 수 있다.
 
 결론적으로 기술 리더는 두 가지 언어를 구사하는 '통역사'가 되어야 한다. 고객의 비즈니스 언어(WHAT)를 경청하고, 이를 엔지니어들이 사랑하는 정확한 숫자의 언어(HOW)로 번역해 내는 QFD의 뇌 구조야말로, 요구사항 실패를 막는 가장 위대한 엔지니어링 스킬이다.
 
@@ -130,21 +129,23 @@ QFD를 거치면 막연했던 마케팅 부서의 요구사항이 개발 부서�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-QFD 품질 기능 전개 요구사항 변환 기법 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">QFD 품질 기능 전개 요구사항 변환 기법 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

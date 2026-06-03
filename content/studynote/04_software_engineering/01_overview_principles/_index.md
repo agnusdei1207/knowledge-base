@@ -39,7 +39,7 @@ tags = ["Process Models", "Software Engineering"]
 
 **1980년대-1990년대: 점진적 모델들의 등장**
 
-폭포수 모델의성(경직성) 문제를 해결하기 위해 다양한 모델이 등장했다. **원형 모델 (Radial Model)**은 각 단계별로 위험도를 평가하며 회귀적으로 개발을 진행한다. **나선형 모델 (Spiral Model)**은 Barry Boehm이 1988년 제안했으며, 위험 분석을 각 순환 주기에 포함시켜 점진적으로 프로토타입을 완성해간다. 이는 대규모 시스템 개발에서 비용 초과와 일정 지연의근본 원인을 사전에 식별하려는 시도다.
+폭포수 모델의성(경직성) 문제를 해결하기 위해 다양한 모델이 등장했다. <strong>원형 모델 (Radial Model)</strong>은 각 단계별로 위험도를 평가하며 회귀적으로 개발을 진행한다. <strong>나선형 모델 (Spiral Model)</strong>은 Barry Boehm이 1988년 제안했으며, 위험 분석을 각 순환 주기에 포함시켜 점진적으로 프로토타입을 완성해간다. 이는 대규모 시스템 개발에서 비용 초과와 일정 지연의근본 원인을 사전에 식별하려는 시도다.
 
 **2000년대 이후: 애자일 혁명**
 
@@ -96,26 +96,25 @@ tags = ["Process Models", "Software Engineering"]
 
 CMMI (Capability Maturity Model Integration)는 Carnegie Mellon 대학의 Software Engineering Institute (SEI)가 개발한 조직의 소프트웨어 개발 능력를 평가하는 모델이다. 5단계 레벨로 구성되며, 각 레벨은 조직의 프로세스 성숙도를 나타낸다.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ CMMI 성숙도 단계 │
-├─────────────────────────────────────────────────────────────┤
-│ Level 5: 최적화 (Optimizing) │
-│ └─-process metrics 기반 지속적인 개선 │
-├─────────────────────────────────────────────────────────────┤
-│ Level 4: 관리됨 (Quantitatively Managed) │
-│ └─정량적 관리, 통계적 프로세스 제어 │
-├─────────────────────────────────────────────────────────────┤
-│ Level 3: 정의됨 (Defined) │
-│ └─표준 프로세스, 조직 표준 적용 │
-├─────────────────────────────────────────────────────────────┤
-│ Level 2: 관리됨 (Managed) │
-│ └─프로젝트 관리, 요구사항 관리 │
-├─────────────────────────────────────────────────────────────┤
-│ Level 1: 초기 (Initial) │
-│ └─adhoc(일회적) 프로세스, 성공이 개인에 의존 │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMMI 성숙도 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 5: 최적화 (Optimizing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─-process metrics 기반 지속적인 개선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4: 관리됨 (Quantitatively Managed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─정량적 관리, 통계적 프로세스 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: 정의됨 (Defined)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─표준 프로세스, 조직 표준 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: 관리됨 (Managed)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─프로젝트 관리, 요구사항 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 초기 (Initial)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─adhoc(일회적) 프로세스, 성공이 개인에 의존</div></div>
+</div>
+</div>
+
+
 
 CMMI 성숙도 모델의 핵심은 조직의 프로세스 성숙도가 낮을수록 프로젝트 결과의(변동성)이 크다는 점이다. Level 1 조직에서는 능력 있는프로젝트가 있으면 성공하고, 그렇지 않으면 실패하는상황 보인다. Level 5 조직에서는 프로세스가 정량적으로 관리되어 결과의 예측 가능성이 높아진다. 시험에서는 CMMI 레벨별 특성과 각 레벨에서 요구하는 구체적인 프로세스 영역을 구분해서 출제된다.
 
@@ -127,31 +126,27 @@ CMMI 성숙도 모델의 핵심은 조직의 프로세스 성숙도가 낮을수
 
 폭포수 모델과 애자일 모델의 차이는 단순한 개발 속도 문제가 아니라, 소프트웨어 개발에 대한근본적 인식의 차이다. 폭포수 모델은 요구사항이 안정적이며 개발초기에완전 정의될 수 있다고 가정한다. 반면 애자일 모델은 변화가하며, 고객도 개발 과정에서 요구사항을 더 잘 알게 된다고 본다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ 폭포수 모델 vs 애자일 모델: 패러다임 비교 │
-├───────────────────────┬───────────────────────┬───────────────────┤
-│ 항목 │ 폭포수 모델 │ 애자일 모델 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 핵심 철학 │ 예측 가능한 계획 중심 │ 변화에 적응하는 │
-│ │ │ 민첩성 중심 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 요구사항 처리 │ 사전 완벽 정의 │ 점진적 발견 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 고객 참여 시점 │ 개발초기 (요구분석) │ 전 과정 참여 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 위험 대처 │ 개발 테스트 집중 │ 각 이터레이션에서 │
-│ │ │ 위험 식별/완화 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 납품 단위 │ 최종 제품 한 번 │ 동작하는 소프트 │
-│ │ │ 웨어increment(증가)│
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 변경 비용 곡선 │ 초기 낮음 → 후기 급등 │ 전반히 완만 │
-├───────────────────────┼───────────────────────┼───────────────────┤
-│ 적합한 환경 │ 규제 산업, 하드웨어 │ 웹/앱 개발, 스타트업│
-│ │ 같이 변경 어려운 분야 │ 변화 빠른 환경 │
-└───────────────────────┴───────────────────────┴───────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭포수 모델 vs 애자일 모델: 패러다임 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">폭포수 모델</div><div class="kb-diagram-cell">애자일 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 철학</div><div class="kb-diagram-cell">예측 가능한 계획 중심</div><div class="kb-diagram-cell">변화에 적응하는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민첩성 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 처리</div><div class="kb-diagram-cell">사전 완벽 정의</div><div class="kb-diagram-cell">점진적 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 참여 시점</div><div class="kb-diagram-cell">개발초기 (요구분석)</div><div class="kb-diagram-cell">전 과정 참여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 대처</div><div class="kb-diagram-cell">개발 테스트 집중</div><div class="kb-diagram-cell">각 이터레이션에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 식별/완화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">납품 단위</div><div class="kb-diagram-cell">최종 제품 한 번</div><div class="kb-diagram-cell">동작하는 소프트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨어increment(증가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 비용 곡선</div><div class="kb-diagram-cell">초기 낮음 → 후기 급등</div><div class="kb-diagram-cell">전반히 완만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합한 환경</div><div class="kb-diagram-cell">규제 산업, 하드웨어</div><div class="kb-diagram-cell">웹/앱 개발, 스타트업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같이 변경 어려운 분야</div><div class="kb-diagram-cell">변화 빠른 환경</div></div>
+</div>
+</div>
+
+
 
 위 비교표에서 주목할 점은 변경 비용 곡선이다. 폭포수 모델에서는로 갈수록 변경 요청의 비용이 기하급수적으로 증가한다. 요구사항이(동결)된 설계 단계 이후 변경을 요구하면, 이미 작성된 문서와 코드를으로 수정해야 하기 때문이다. 반면 애자일 모델에서는 변경 비용이 전반히 완만하다. 각 이터레이션이 짧고, 고객에게 작동하는 소프트웨어를 자주 납품하여 피드백을 일찍 받기 때문이다. 실무에서는 Hybrid 접근법이 많이 쓰이며, 프로젝트의 특성(규제 여부, 기술 스택 안정성, 팀 규모)에 따라 폭포수적 요소와 애자일적 요소를 적절히 mixing한다.
 
@@ -180,30 +175,21 @@ ISO/IEC 25010의 실무적 함의는 품질 목표 설정과 검증 기준을 �
 
 실무에서방법 선택은 프로젝트의스트에 따라 달라진다. 단일 방법론을 는 없으며, 상황에 적합한 접근법이 필요하다. 다음 의사결정 프레임워크는 프로젝트관리와 기술사가 방법론을 선택할 때 고려해야 할 핵심 요소를 보여준다.
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ 방법론 선택 의사결정 프레임워크 │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ 프로젝트 시작 ──► 요구사항 안정한가? │
-│ │ │
-│ ┌───────┴───────┐ │
-│ ▼ ▼ │
-│ [YES] [NO] │
-│ │ │ │
-│ 규제 산업? 변화 대응력 중요한가? │
-│ │ │ │ │ │
-│ ┌────┴────┐ │ ┌────┴────┐ │ │
-│ ▼ ▼ │ ▼ ▼ │ │
-│ [폭포수] [단계적] │ [Scrum] [Kanban] │ │
-│ │ │ │ │ │ │ │
-│ └────┬────┘ │ └────┬────┘ │ │
-│ ▼ │ ▼ │ │
-│ 문서 중심 │ 제품 중심 │ │
-│ 규정 준수 │ 빠른 배포 │ │
-│ │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법론 선택 의사결정 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 시작 ──► 요구사항 안정한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YES</div><div class="kb-diagram-node">NO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제 산업? 변화 대응력 중요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수</div><div class="kb-diagram-node">단계적</div><div class="kb-diagram-node">Scrum</div><div class="kb-diagram-node">Kanban</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 중심</div><div class="kb-diagram-cell">제품 중심</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규정 준수</div><div class="kb-diagram-cell">빠른 배포</div></div>
+</div>
+</div>
+
+
 
 위 의사결정 프레임워크의 핵심은방법론이이고의이/가와/과와/과。 규제 산업(의료기기, 항공, 금융)에서는 감사 추적이 가능하고 문서화된 프로세스가 중요하므로 폭포수적 요소가 필요하다. 반면 인터넷 서비스 개발처럼 경쟁이 치열하고 시장 반응이 중요한 분야에서는 애자일이 유리하다. 그러나 중요한 것은한 방법론 적용보다는 팀의와 프로젝트의 컨텍스트를 고려한 실용적 선택이다.
 

@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 군대가 진지를 구축할 때, 장군들이 지도(아키텍처)를 펴놓고 "서쪽 숲길([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 적의 게릴라(해커)가 오면 어떻게 막을까?"를 워게임(War-game) 하듯 토론하는 것이다. 개발 프로세스에서는 보통 **[DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)([Data Flow Diagram](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름도)**를 화이트보드에 그려놓고, 사용자 -> 앱 -> 웹서버 -> DB로 이어지는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흘러가는 모든 길목(Trust Boundary)'을 째려보며 뚫릴 만한 구멍(위협)을 찾아 리스트로 정리한다.
+- **개념**: 군대가 진지를 구축할 때, 장군들이 지도(아키텍처)를 펴놓고 "서쪽 숲길([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 적의 게릴라(해커)가 오면 어떻게 막을까?"를 워게임(War-game) 하듯 토론하는 것이다. 개발 프로세스에서는 보통 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">Data Flow Diagram</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름도)</strong>를 화이트보드에 그려놓고, 사용자 -> 앱 -> 웹서버 -> DB로 이어지는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흘러가는 모든 길목(Trust Boundary)'을 째려보며 뚫릴 만한 구멍(위협)을 찾아 리스트로 정리한다.
 
 - **필요성**: 개발자들은 너무 순진하다. 시스템을 그릴 때 "사용자가 로그인하면 DB에 예쁘게 저장되겠지"라고 해피 패스(Happy Path)만 상상한다. 하지만 해커는 로그인 패킷을 중간 공중에서 가로채거나(스니핑), 1초에 1만 번 로그인을 시도해서(무차별 대입) DB를 폭파시킬 궁리를 한다. **"창을 막으려면 창을 던지는 자의 마인드(Attacker's Perspective)로 뇌 구조를 바꿔야 한다."** 코딩에 매몰되어 시야가 좁아진 개발자들을 강제로 멈춰 세우고, 숲 전체의 맹점을 조감(Bird-eye [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))하게 만드는 유일한 절차가 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)이다.
 
-- **💡 비유**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 **'나 홀로 집에(케빈의 도둑 방어 작전)'**와 같습니다. 케빈(아키텍트)은 도둑들이 현관문(로그인)이나 뒷문 창문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 들어올 것을 도면([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))을 보며 상상합니다. "현관문은 튼튼하니까 냅두고, 뒷문으로 오면 미끄러지게 구슬을 깔자(방어 설계)!" 이렇게 도둑(해커)의 동선을 미리 뇌내 시뮬레이션으로 돌려보고, 적재적소에 덫(암호화, 권한 체크)을 놓는 천재적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 회의입니다.
+- **💡 비유**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 <strong>'나 홀로 집에(케빈의 도둑 방어 작전)'</strong>와 같습니다. 케빈(아키텍트)은 도둑들이 현관문(로그인)이나 뒷문 창문([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 들어올 것을 도면([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))을 보며 상상합니다. "현관문은 튼튼하니까 냅두고, 뒷문으로 오면 미끄러지게 구슬을 깔자(방어 설계)!" 이렇게 도둑(해커)의 동선을 미리 뇌내 시뮬레이션으로 돌려보고, 적재적소에 덫(암호화, 권한 체크)을 놓는 천재적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 회의입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 주먹구구식 상상**: 90년대엔 칠판에 그림 그려놓고 "여기 털릴 거 같은데?" 식의 천재 아키텍트 개인의 직감에 의존했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 주먹구구식 상상</strong>: 90년대엔 칠판에 그림 그려놓고 "여기 털릴 거 같은데?" 식의 천재 아키텍트 개인의 직감에 의존했다.
   2. **마이크로소프트 STRIDE의 대통일 (1999)**: 위협을 막연히 상상하지 말고, "[Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/), Tampering..." 6가지 카테고리로 딱 잘라서 기계적으로 찾으라는 혁명적인 방법론([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 마이크로소프트 엔지니어들(Loren Kohnfelder 등)이 발명했다.
-  3. **[DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 융합 (현재)**: 칠판에 그리는 걸 넘어, AWS 인프라([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드를 짠 뒤 버튼을 누르면 AI가 즉시 다이어그램을 그려주고 위협([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 자동 스캔해 주는 `Threat Dragon`, `IriusRisk` 같은 도구의 융합 시대로 진입했다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/">DevSecOps</a> 융합 (현재)</strong>: 칠판에 그리는 걸 넘어, AWS 인프라([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)) 코드를 짠 뒤 버튼을 누르면 AI가 즉시 다이어그램을 그려주고 위협([STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 자동 스캔해 주는 `Threat Dragon`, `IriusRisk` 같은 도구의 융합 시대로 진입했다.
 
-- **📢 섹션 요약 비유**: [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)이 이미 완성된 성벽을 **'밖에서 대포를 쏴보는 물리적 파괴 테스트'**라면, [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 성벽을 짓기 전 도면(블루프린트)을 보며 **"성문 높이가 너무 낮아서 사다리 타면 뚫리겠는데?"라고 빨간펜으로 X표를 치는 도면 검수(논리적 타격)**입니다. 대포([모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/))를 쏘기 전에 이미 90%의 약점을 0원의 비용으로 방어해 내는 기적입니다.
+- **📢 섹션 요약 비유**: [모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/)이 이미 완성된 성벽을 <strong>'밖에서 대포를 쏴보는 물리적 파괴 테스트'</strong>라면, [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 성벽을 짓기 전 도면(블루프린트)을 보며 <strong>"성문 높이가 너무 낮아서 사다리 타면 뚫리겠는데?"라고 빨간펜으로 X표를 치는 도면 검수(논리적 타격)</strong>입니다. 대포([모의 해킹](/knowledge-base/studynote/04_software_engineering/11_testing_validation/455_penetration_testing_vulnerability_scanning/))를 쏘기 전에 이미 90%의 약점을 0원의 비용으로 방어해 내는 기적입니다.
 
 ---
 
 다음은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) (Threat Model의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  위협 모델링 (Threat Model                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협 모델링 (Threat Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) (Threat Model가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) ([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)) 아키텍처 보안 분석의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) ([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)) 아키텍처 보안 분석의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/) ([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)) 아키텍처 보안 분석의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-위협 모델링 (Threat Modeling) 아키텍처 보안 분석 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">위협 모델링 (Threat Modeling) 아키텍처 보안 분석 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

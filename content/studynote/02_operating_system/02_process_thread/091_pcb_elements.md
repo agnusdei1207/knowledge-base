@@ -31,28 +31,28 @@ PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance
 
 PCB 구조체 내부는 목적에 따라 여러 논리적 구역으로 명확히 나뉜다. 이 구조를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 필요한 정보에 빠르게 접근하고 갱신한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           PCB (Process Control Block) 내부 논리적 레이아웃   │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 식별 및 상태 (Identification & State)                     │
-│    - PID (Process ID): 1045, PPID: 1024                      │
-│    - UID/GID: 사용자 및 그룹 권한 식별                       │
-│    - State: READY, RUNNING, BLOCKED 등 현재 상태             │
-│                                                              │
-│ 2. 스케줄링 정보 (Scheduling Information)                    │
-│    - Priority (우선순위), Nice 값                            │
-│    - 누적 CPU 사용 시간 (vruntime 등)                        │
-│                                                              │
-│ 3. 하드웨어 문맥 (Hardware Context)                          │
-│    - PC (Program Counter): 다음 실행할 기계어 주소           │
-│    - Registers: SP, BP, AX 등 범용 및 상태 플래그 백업       │
-│                                                              │
-│ 4. 메모리 및 I/O 정보 (Memory & I/O)                         │
-│    - Memory Map: 페이지 테이블 포인터 (Base Register 등)     │
-│    - FD (File Descriptor) Table: 열린 파일과 소켓 목록       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB (Process Control Block) 내부 논리적 레이아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 식별 및 상태 (Identification &amp; State)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PID (Process ID): 1045, PPID: 1024</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- UID/GID: 사용자 및 그룹 권한 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- State: READY, RUNNING, BLOCKED 등 현재 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스케줄링 정보 (Scheduling Information)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Priority (우선순위), Nice 값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 누적 CPU 사용 시간 (vruntime 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하드웨어 문맥 (Hardware Context)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PC (Program Counter): 다음 실행할 기계어 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Registers: SP, BP, AX 등 범용 및 상태 플래그 백업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 메모리 및 I/O 정보 (Memory &amp; I/O)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Memory Map: 페이지 테이블 포인터 (Base Register 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FD (File Descriptor) Table: 열린 파일과 소켓 목록</div></div>
+</div>
+</div>
+
+
 
 가장 핵심적인 갱신은 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시 3번 영역인 하드웨어 문맥에서 일어난다. 프로세스가 중단될 때 하드웨어와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 협력을 통해 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값들이 이곳에 안전하게 복사(Save)되고, 나중에 다시 이 값들을 CPU로 밀어 넣어(Restore) 실행을 완벽하게 재개한다. FD 테이블은 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 강제로 자원 누수를 막는 회수(Reaping) 루틴의 기준이 된다.
 
@@ -82,10 +82,10 @@ PCB 필드들은 갱신 주기와 접근 패턴에 따라 정적 필드와 동�
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단 포인트
 1. **Too Many Open Files 장애 판단**: 웹 서버 로그에 접속 불가 에러가 도배된다면, PCB 내의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기 한계(`ulimit -n`)를 넘긴 것이다. 시스템 한계와 프로세스별 한계를 파악하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 제한을 해제하는 조치가 필요하다.
-2. **비정상 `D (Uninterruptible Sleep)` 상태 대응**: `kill -9` 시그널조차 무시하는 프로세스는 디스크 장애 등으로 치명적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) I/O 락에 빠져있는 경우다. 이 시그널 정보는 PCB 안의 Pending 비트맵에만 마킹된 채 스케줄링이 되지 않아 읽히지 못하므로, 시스템 재부팅이나 스토리지 물리 점검으로 판단을 선회해야 한다.
+2. <strong>비정상 <code>D (Uninterruptible Sleep)</code> 상태 대응</strong>: `kill -9` 시그널조차 무시하는 프로세스는 디스크 장애 등으로 치명적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) I/O 락에 빠져있는 경우다. 이 시그널 정보는 PCB 안의 Pending 비트맵에만 마킹된 채 스케줄링이 되지 않아 읽히지 못하므로, 시스템 재부팅이나 스토리지 물리 점검으로 판단을 선회해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 무조건적인 전체 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프**: 현대의 큰 부동소수점이나 AVX [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 매 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 PCB에 강제로 복사하는 아키텍처 설계. 성능이 급감하므로, 썼을 때만 복사하는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Save([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 저장) 최적화가 없는지 확인하지 않고 방치하는 것은 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 시 무조건적인 전체 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 덤프</strong>: 현대의 큰 부동소수점이나 AVX [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 매 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 PCB에 강제로 복사하는 아키텍처 설계. 성능이 급감하므로, 썼을 때만 복사하는 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Save([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 저장) 최적화가 없는지 확인하지 않고 방치하는 것은 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 회사 직원이 출입증(PCB의 권한) 없이 사장실을 들어가려 하거나, 지급된 사물함(FD 테이블) 100개를 꽉 채웠는데 짐을 더 구겨 넣으려 할 때, 경비원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 출입을 즉시 막고 에러를 뿜어내는 것이 정확한 실무 통제다.
 
@@ -105,28 +105,30 @@ PCB 요소들이 체계적으로 분리되고 확장됨으로써 [운영체제](
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 PCB의 하드웨어 문맥 영역과 맞교환하여 프로세스 실행을 중단/재개하는 절차 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Descriptor)** | 유저 레벨의 단순 정수가 PCB 안의 포인터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 거쳐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 자원으로 매핑되는 통로 |
-| **시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | 외부의 비동기 제어 명령이 즉시 실행되지 않고 PCB 내부 비트맵에 우선 기록되었다가 안전하게 처리되는 메커니즘 |
-| **[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))** | 리눅스 PCB에 추가된 구조체 포인터로, 단일 OS 내에서 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환상을 만들어내는 클라우드 격리 기술 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 PCB의 하드웨어 문맥 영역과 맞교환하여 프로세스 실행을 중단/재개하는 절차 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Descriptor)</strong> | 유저 레벨의 단순 정수가 PCB 안의 포인터 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 거쳐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 자원으로 매핑되는 통로 |
+| <strong>시그널 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | 외부의 비동기 제어 명령이 즉시 실행되지 않고 PCB 내부 비트맵에 우선 기록되었다가 안전하게 처리되는 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">Namespace</a>)</strong> | 리눅스 PCB에 추가된 구조체 포인터로, 단일 OS 내에서 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환상을 만들어내는 클라우드 격리 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 제어 필요성 등장
-    │
-    ▼
-PCB (Process Control Block) 기반 문맥 교환 확립
-    │
-    ▼
-권한 분리 및 가상 메모리 보호 필드 (UID, Page Table) 추가
-    │
-    ▼
-POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합
-    │
-    ▼
-네임스페이스 (Namespace) 필드 확장을 통한 컨테이너 격리 지원
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 제어 필요성 등장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PCB (Process Control Block) 기반 문맥 교환 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">권한 분리 및 가상 메모리 보호 필드 (UID, Page Table) 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">POSIX 기반 시그널 비트맵 및 FD 자원 관리 체계 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">네임스페이스 (Namespace) 필드 확장을 통한 컨테이너 격리 지원</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

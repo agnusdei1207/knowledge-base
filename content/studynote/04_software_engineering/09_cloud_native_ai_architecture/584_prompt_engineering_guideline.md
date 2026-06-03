@@ -23,33 +23,32 @@ tags = ["studynote-software-engineering"]
   - **Prompt (프롬프트)**: 원래 연극 무대 밑에서 배우가 대사를 까먹었을 때 귓속말로 살짝 알려주는 대본 쪼가리. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대엔 "내가 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 채팅창에 치는 텍스트 입력값(질문/명령)"을 뜻한다.
   - **Engineering (엔지니어링)**: 단순히 말을 예쁘게 하는 국어 시간이 아니다! AI가 가장 잘 알아먹는 수학적 텍스트 구조([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) ➡ [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) ➡ Format)를 뼈 깎듯 튜닝하여, 1,000번 물어봐도 1,000번 다 오차 없이 똑같은 100% 무결점 정답(Determinism)을 뱉어내게 깎아내는 공학적 통제술이다.
 
-- **필요성 (GIGO, 쓰레기를 넣으면 쓰레기가 나온다)**: 신입 개발자에게 GPT-4 유료 결제를 해줬다. "버그 고쳐줘" 띡 1줄 쳤다. AI가 헛소리 100줄을 뱉었다. 신입은 "아 챗GPT 개멍청하네 ㅋ" 하며 창을 닫는다. **AI는 신이 아니다. 텍스트 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 기계(Stochastic Parrot)일 뿐이다. 인간이 "현재 우리 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 환경이 이렇고, Spring Boot 버전은 이거고, 에러 로그는 이래. 이 문맥 안에서만 해결책을 찾아"라고 울타리([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))를 쳐주지 않으면, AI는 우주 끝까지 망상을 펼치며 2010년도 구닥다리 쓰레기 코드([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/), [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/))를 정답인 양 토해낸다.** 이 미친 앵무새의 뇌를 통제하여 우리 회사 비즈니스에 맞는 정밀 타격 무기로 쓰려면 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) 헌법이 절대적으로 필요하다.
+- **필요성 (GIGO, 쓰레기를 넣으면 쓰레기가 나온다)**: 신입 개발자에게 GPT-4 유료 결제를 해줬다. "버그 고쳐줘" 띡 1줄 쳤다. AI가 헛소리 100줄을 뱉었다. 신입은 "아 챗GPT 개멍청하네 ㅋ" 하며 창을 닫는다. <strong>AI는 신이 아니다. 텍스트 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 예측 기계(Stochastic Parrot)일 뿐이다. 인간이 "현재 우리 K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 환경이 이렇고, Spring Boot 버전은 이거고, 에러 로그는 이래. 이 문맥 안에서만 해결책을 찾아"라고 울타리(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)를 쳐주지 않으면, AI는 우주 끝까지 망상을 펼치며 2010년도 구닥다리 쓰레기 코드(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/">환각</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/">Hallucination</a>)를 정답인 양 토해낸다.</strong> 이 미친 앵무새의 뇌를 통제하여 우리 회사 비즈니스에 맞는 정밀 타격 무기로 쓰려면 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) 헌법이 절대적으로 필요하다.
 
-- **💡 비유**: 프롬프트 없는 멍청한 질문은, 식당 알바생한테 **"야 맛있는 거 아무거나 하나 줘 봐"**라고 툭 던지는 짓입니다. 알바생이 매운 짬뽕을 가져오면 "나 매운 거 못 먹는데? 멍청하네!" 하고 욕하죠([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탓). 훌륭한 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 **"나는 해산물 알러지가 있고(제약 조건), 매운 건 못 먹어(금지 사항). 고기가 들어간 달콤한 파스타 류(명확한 목표)로 2만 원 안쪽에서(포맷) 메뉴 3개 추천해 줘(출력 형식)"**라고 완벽하게 주문서를 들이미는 것입니다. 이러면 알바생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 0.1초 만에 100% 완벽한 취향 저격 음식을 가져올 수밖에 없는 절대 통제의 미학입니다.
+- **💡 비유**: 프롬프트 없는 멍청한 질문은, 식당 알바생한테 <strong>"야 맛있는 거 아무거나 하나 줘 봐"</strong>라고 툭 던지는 짓입니다. 알바생이 매운 짬뽕을 가져오면 "나 매운 거 못 먹는데? 멍청하네!" 하고 욕하죠([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탓). 훌륭한 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 <strong>"나는 해산물 알러지가 있고(제약 조건), 매운 건 못 먹어(금지 사항). 고기가 들어간 달콤한 파스타 류(명확한 목표)로 2만 원 안쪽에서(포맷) 메뉴 3개 추천해 줘(출력 형식)"</strong>라고 완벽하게 주문서를 들이미는 것입니다. 이러면 알바생([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이 0.1초 만에 100% 완벽한 취향 저격 음식을 가져올 수밖에 없는 절대 통제의 미학입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Zero-Shot 원시 시대 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))**: 챗GPT 처음 나왔을 때. 그냥 쌩으로 질문 1줄 치고 신기해함. [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말) 쩔어서 실무에선 장난감 취급받음.
+  1. <strong>Zero-Shot 원시 시대 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>)</strong>: 챗GPT 처음 나왔을 때. 그냥 쌩으로 질문 1줄 치고 신기해함. [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(거짓말) 쩔어서 실무에선 장난감 취급받음.
   2. **Few-Shot & 페르소나 부여 (2022)**: "야! AI한테 '넌 10년 차 천재 아키텍트야' 라고 최면 걸고 예시 2개 던져주니까 대답 퀄리티가 미친 듯이 떡상하네?!" 조련의 흑마법이 발견됨.
-  3. **[Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) ([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)) 와 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 융합 (현재)**: "AI한테 수능 수학 문제 풀게 하려면 '단계별로 쪼개서 논리적으로 생각해 봐(Step-by-step)' 1줄 덧붙여라!" AI의 잠재 지능을 폭발시키는 구조적 프롬프팅이 엔터프라이즈의 표준 코딩 가이드라인으로 안착함.
+  3. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">Chain-of-Thought</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>) 와 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 융합 (현재)</strong>: "AI한테 수능 수학 문제 풀게 하려면 '단계별로 쪼개서 논리적으로 생각해 봐(Step-by-step)' 1줄 덧붙여라!" AI의 잠재 지능을 폭발시키는 구조적 프롬프팅이 엔터프라이즈의 표준 코딩 가이드라인으로 안착함.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'신입 사원 일 시키기'**와 100% 같습니다. 쌩초보 팀장(제로 샷)은 "김사원, 내일까지 보고서 써와" 띡 던지고 똥 퀄리티 보고서를 받습니다. 1티어 갓 팀장(프롬프트 엔지니어)은 **"김사원, 너는 지금부터 재무 전문가 입장에서 써(페르소나). 작년 보고서 양식 이거니까 똑같이 맞추고(퓨샷 예시). 1장엔 매출, 2장엔 지출 순서대로 나눠서 논리적으로 적어와([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))."** 신입 사원([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 멱살을 잡고 천재적인 결과물을 억지로 쥐어짜 내는 궁극의 매니지먼트 기술입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'신입 사원 일 시키기'</strong>와 100% 같습니다. 쌩초보 팀장(제로 샷)은 "김사원, 내일까지 보고서 써와" 띡 던지고 똥 퀄리티 보고서를 받습니다. 1티어 갓 팀장(프롬프트 엔지니어)은 <strong>"김사원, 너는 지금부터 재무 전문가 입장에서 써(페르소나). 작년 보고서 양식 이거니까 똑같이 맞추고(퓨샷 예시). 1장엔 매출, 2장엔 지출 순서대로 나눠서 논리적으로 적어와(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>)."</strong> 신입 사원([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 멱살을 잡고 천재적인 결과물을 억지로 쥐어짜 내는 궁극의 매니지먼트 기술입니다.
 
 ---
 
 다음은 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) (Prompt E의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  프롬프트 엔지니어링 (Prompt E                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프롬프트 엔지니어링 (Prompt E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) (Prompt E가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/)) 가이드라인 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/)) 가이드라인 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/)) 가이드라인 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 설계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 설계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(텍스트 등)에 누구나 접근하면 해킹으로 서버가 파괴되므로, **"[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개마다 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지배하는 '주인(User)', 주인의 친구들(Group), 그리고 생판 남(Other)' 이라는 3계급으로 철저히 신분을 쪼개고, 그들에게 각각 읽기(r), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(w), 실행(x)의 권한 블록을 차등 결합 렌더"** 시키는 가장 고전적이고 원초적인 UNIX 통제 인프라다.
+> 1. **본질**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(텍스트 등)에 누구나 접근하면 해킹으로 서버가 파괴되므로, <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 1개마다 그 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 지배하는 '주인(User)', 주인의 친구들(Group), 그리고 생판 남(Other)' 이라는 3계급으로 철저히 신분을 쪼개고, 그들에게 각각 읽기(r), <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(w), 실행(x)의 권한 블록을 차등 결합 렌더"</strong> 시키는 가장 고전적이고 원초적인 UNIX 통제 인프라다.
 > 2. **가치**: 8진수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스크(r=4, w=2, x=1)라는 극단적으로 콤팩트한 9자리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(예: `755` = `rwxr-xr-x`) 표기법을 통해, 단 9비트의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(i-node 매핑 공간)만으로도 수백만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한을 초광속 스위칭 스루풋으로 연산 스캔 처리하는 $O(1)$ 보안 체계의 기적적인 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 타결을 이루어 냈다 포팅.
 > 3. **한계**: 오직 1개의 그룹(Group)에만 권한을 퉁쳐서 통째로 할당할 수 있으므로, "A팀은 읽기만, B팀은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만, C팀의 특정인 1명은 금지" 라는 기업형 복합 콤보 조직도 시나리오(엔터프라이즈 마스킹)를 절대로 이 9비트 안에 담아낼 수 없는 치명적 **'표현력 부족(Granularity Loss 한계 벽)'** 파단 모순을 안고 있어, 뒷장 549번의 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/)) 확장 팩이 강제 투입되어야만 했다 결착.
 
@@ -25,42 +25,33 @@ tags = ["studynote-operating-system"]
 - **필요성**: 슈퍼컴퓨터(메인프레임) 1대에 1,000명의 대학생이 터미널로 동시 접속하던 1970년대 시절. "내 숙제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저 자식이 못 보게 좀 막아줘!" 라는 다중 사용자 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Multi-user OS)의 생존 본능이 낳은 가장 완벽하고 가벼운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 필터링 1차 저지선이다 증명.
 
   - (접근 차단 없는 도스 시절 늪): 오피스텔 현관 1층 문만 열면 누구나 내 호실 안방까지 들어와서 내 금고([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 돈을 훔치고 찢어발깁니다 보안 전멸 마비 에러!
-  - **(리눅스 UGO 3단 rwx 출입구 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 기전!)**: 똑똑한 리눅스 집주인(User)은 현관([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 마법 자물쇠 번호 키 3개를 달았어요! **1번 자물쇠(U)**: 나 혼자 열쇠(rwx 권한 다 있음, 읽고 고치고 버리기 빔!). **2번 자물쇠(G)**: 내 가족들 지문(r-x 권한, 내 방에 들어와 구경만 해라 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 금지!). **3번 자물쇠(O)**: 외부인 배달부 놈들(--x 권한 금지, 아예 현관에 발도 들이지 말고 문 앞에서 놓고 꺼져라 차단!). 방구석에 100명이 놀러 와도 절대 내 소중한 일기장은 못 훔쳐 보는 완벽 방화벽입니다 결속!
+  - <strong>(리눅스 UGO 3단 rwx 출입구 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 기전!)</strong>: 똑똑한 리눅스 집주인(User)은 현관([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 마법 자물쇠 번호 키 3개를 달았어요! **1번 자물쇠(U)**: 나 혼자 열쇠(rwx 권한 다 있음, 읽고 고치고 버리기 빔!). **2번 자물쇠(G)**: 내 가족들 지문(r-x 권한, 내 방에 들어와 구경만 해라 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 금지!). **3번 자물쇠(O)**: 외부인 배달부 놈들(--x 권한 금지, 아예 현관에 발도 들이지 말고 문 앞에서 놓고 꺼져라 차단!). 방구석에 100명이 놀러 와도 절대 내 소중한 일기장은 못 훔쳐 보는 완벽 방화벽입니다 결속!
 
-- **i-node [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스크 기반 권한 환산(chmod) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭주 메커니즘 뷰**:
+- <strong>i-node <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스크 기반 권한 환산(chmod) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 메커니즘 뷰</strong>:
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 `rwxr-xr-- (754)` 가 대체 CPU 내부에서 어떻게 숫자로 변환 스위칭되어 접근 허가를 때리는지 그 렌더를 까보면 다음과 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "컴퓨터는 r, w, x 알파벳을 모른다! 비트(Bit) 0과 1로 압살시켜 쏴!" │
-  ├────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                    │
-  │  🚨 [ 유저: "명령어 chmod 754 일기장.txt" 발포 록백! ]                             │
-  │                                                                                    │
-  │  =========================▼===================================                     │
-  │                                                                                    │
-  │  ✅ [ OS 커널 (i-node 12번 블록 내부 메타 9-Bit 권한 스위치 조작 기전) ]           │
-  │                                                                                    │
-  │   [ 대상계급 ]   | 소유자(User) |  내팀(Group) | 다른놈(Other) |                   │
-  │               -----------------------------------------                            │
-  │   [ 알파벳 매핑 ] |   r  w  x   |   r  -  x   |   r  -  -   |                      │
-  │   [ 이진 비트 ] |   1  1  1   |   1  0  1   |   1  0  0   | 빔!                    │
-  │               -----------------------------------------                            │
-  │   [ 8진수 가중치] | (4 + 2 + 1) | (4 + 0 + 1) | (4 + 0 + 0) | 포팅!                │
-  │               -----------------------------------------                            │
-  │   [ 최종 허가값 ] |      7       |      5      |      4      |                     │
-  │                                                                                    │
-  │  =========================▼===================================                     │
-  │                                                                                    │
-  │  🔥 [ 파일 열기(Open System Call) 접근 방패 타격 발동!! ]                          │
-  │                                                                                    │
-  │      - 접속자 C가 "일기장.txt 내용 좀 보자(r 요청)!" 시스템 콜 빔                  │
-  │      - 커널봇: "너 주인장(U) 아니네? 통과."                                        │
-  │      - 커널봇: "너 주인장이랑 같은 팀(G) 아니네? 통과."                            │
-  │      - 커널봇: "그럼 넌 잡놈(O)이네! Other 권한 비트 확인: [ 1 0 0 ]               │
-  │                오! 첫 번째 자리(r)가 1이다! 읽기 파이프 문 열어줘!!"               │
-  └────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"컴퓨터는 r, w, x 알파벳을 모른다! 비트(Bit) 0과 1로 압살시켜 쏴!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">유저: "명령어 chmod 754 일기장.txt" 발포 록백!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 커널 (i-node 12번 블록 내부 메타 9-Bit 권한 스위치 조작 기전)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">대상계급</div><div class="kb-diagram-note">소유자(User) | 내팀(Group) | 다른놈(Other) |</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알파벳 매핑</div><div class="kb-diagram-note">r w x | r - x | r - - |</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 비트</div><div class="kb-diagram-note">1 1 1 | 1 0 1 | 1 0 0 | 빔!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">8진수 가중치</div><div class="kb-diagram-note">(4 + 2 + 1) | (4 + 0 + 1) | (4 + 0 + 0) | 포팅!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 허가값</div><div class="kb-diagram-note">7 | 5 | 4 |</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">파일 열기(Open System Call) 접근 방패 타격 발동!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 접속자 C가 "일기장.txt 내용 좀 보자(r 요청)!" 시스템 콜 빔</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널봇: "너 주인장(U) 아니네? 통과."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널봇: "너 주인장이랑 같은 팀(G) 아니네? 통과."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 커널봇: "그럼 넌 잡놈(O)이네! Other 권한 비트 확인:</div><div class="kb-diagram-node">1 0 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오! 첫 번째 자리(r)가 1이다! 읽기 파이프 문 열어줘!!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** U-G-O의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사는 무조건 왼쪽부터 폭포수처럼 떨어지는 순차적 검문소 계급장(Sequential Matching 스왑) 도축이다. 만약 내가 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 소유자(U)인데, 소유자 권한은 `--- (0)` 이고 타인(O) 권한은 `rwx (7)` 라면? 나는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주인임에도 불구하고 첫 번째 문(U) 검문소에서 내 신분증(소유자)이 일치하므로 바로 U의 권한(0)을 적용받아 쫓겨난다("어? 난 주인인데 남들(O) 다 보는 내 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내가 못 보네? Permission Denied" 기현상 오버헤드). 이것이 이 체계의 잔혹하고 기계적인 거시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 매스킹([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking 검사 록) 아크 구조다.
 
@@ -75,19 +66,19 @@ tags = ["studynote-operating-system"]
 
 | 타겟 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 뷰 | 일반 텍스트, 그림, 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) | 폴더/[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) ([Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조 방어) |
 |:---|:---|:---|
-| **읽기 권한 (r=4) 발동 빔** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안의 글씨를 **cat(출력)해서 읽을 수 있다.** | 그 폴더 안에 **'무슨 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는지 목록(ls)'** 을 볼 수 있다. |
-| **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한 (w=2) 파단 렌더** | 텍스트 내용을 지우거나 새로 타이핑해서 **수정(vi)할 수 있다.** | 그 폴더 안에 **'새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(touch)하거나 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제([rm](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))'** 할 수 있다 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 변경 권리와 무관! [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 창조 권한). |
+| **읽기 권한 (r=4) 발동 빔** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안의 글씨를 **cat(출력)해서 읽을 수 있다.** | 그 폴더 안에 <strong>'무슨 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 있는지 목록(ls)'</strong> 을 볼 수 있다. |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 권한 (w=2) 파단 렌더</strong> | 텍스트 내용을 지우거나 새로 타이핑해서 **수정(vi)할 수 있다.** | 그 폴더 안에 <strong>'새 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(touch)하거나 있는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 삭제(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">rm</a>)'</strong> 할 수 있다 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 변경 권리와 무관! [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 창조 권한). |
 | **실행 권한 (x=1) 돌파 스루풋** | 쉘 스크립트나 프로그램(`.exe, .sh`)을 **CPU 위로 구동(run) 시킬 수 있다.** | 그 폴더 안으로 **'cd (디렉토리 이동 접속점)' 타고 들어갈 수 있다. (x가 없으면 그 방은 영원한 봉인 금지 구역 컷!)** |
 
 ### 2. 치명적 오버헤드 폭발: 그룹 1개 묶기의 모순과 umask의 기본값 삭감 데들락 방어
 `rwx` 구조는 치명적으로 그룹(Group)을 딱 1개(예: `dev-team`)만 지정할 수 있다. 두 개의 그룹에 교집합으로 세밀하게 권한을 주는 것이 불가능한 십자 포박의 늪을 진단한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (한계 부딪힘 777 오픈 파탄 데들락 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (한계 부딪힘 777 오픈 파탄 데들락 랙)</strong>: 
   - (프로젝트 부서 충돌 늪 스왑): 내가 서버에 `비밀프로젝트_A.txt` 를 만들었다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 우리 `영업팀` 팀원들은 다 읽고 써야 하고, 저기 옆방 `기획팀` 도 읽기만 가능하게 해주고 싶다.
   - (U-G-O 9비트 붕괴 빔 결합): 앗! 그룹(Group) 권한을 주는 칸은 딱 한 블럭(`r-x`) 뿐이다. 여기다 `영업팀` 을 넣으면 `기획팀` 은 쫓겨나고, `기획팀` 을 넣으면 `영업팀` 이 쫓겨난다.
   - 환상 미봉책 결과: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가 결국 "아 몰라 짜증나! 그냥 Other(모르는 남들 전부 다)한테 권한 확 열어버려 타결!" 이라며 `chmod 777` 멸망의 치트키를 입력해, 전 세계 해커가 내 프로젝트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 씹어 먹도록 서버 대문([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Hole 마비 터짐)을 열어젖히게 된다 증명 발발.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 기본 방어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 패치 (umask [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기본 거세 필터 록백!!) / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 통제**: 
-  - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자가 방어 기전: 멍청한 유저가 실수로 `777`짜리 완전 오픈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 뻥뻥 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 걸 막기 위해 **`umask` (유마스크 거세망 빔!)** 필터 봇을 기본 가동시킨다. 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 기본 방어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 패치 (umask <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 기본 거세 필터 록백!!) / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 통제</strong>: 
+  - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자가 방어 기전: 멍청한 유저가 실수로 `777`짜리 완전 오픈 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 뻥뻥 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 걸 막기 위해 <strong><code>umask</code> (유마스크 거세망 빔!)</strong> 필터 봇을 기본 가동시킨다. 
   - 포팅 로직: 시스템이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 주는 최대 권한은 666 (실행 금지). 여기서 사용자의 `umask (예: 022)` 를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹(빼기) 때려버린다. `666 - 022 = 644 (rw-r--r--)`. 즉, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 무조건 안전한 읽기 전용 상태로 세상에 태어나도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥에서 유저의 망나니 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 강제 스로틀 조율 통치해 버린다 보장 록.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -99,11 +90,11 @@ tags = ["studynote-operating-system"]
 ### "이 쓰레기통 폴더는 누구나 버릴 순 있지만, 남의 쓰레기는 못 치웁니다!" - `Sticky Bit (1777)` 의 궁극적 융합 생존기
 `/tmp` 등 수만 명이 동시 접속해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 토해내는 난장판 공용 폴더에서, 남의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실수로 `rm` 해버리는 테러를 차단하는 특수 방패 기전.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (공용 폴더 /tmp 의 무차별 학살 삭제 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (공용 폴더 /tmp 의 무차별 학살 삭제 파단 랙)</strong>: 
   - 서버 안의 `/tmp` (임시 저장 폴더)는 모든 사용자가 여기에 찌꺼기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 버려야([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) w권한) 하므로, 필연적으로 폴더 권한이 `rwxrwxrwx (777)` 다.
   - 치명적 테러 스왑: 777 폴더의 의미? "누구든 이 폴더 안에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제할 권리가 있다" (앞선 표 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)). 해커(잡놈 유저)가 `/tmp` 에 들어와서 [시스템 데몬](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/) 봇이나 사장님이 임시로 만들어 둔 아주 중요한 `pid.록파일` 등 남의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 냅다 `rm -f` 명령어로 다 지워버린다!! 무정지 프리징 데들락 서버 초토화 파단 뷰.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 접착제 't' 봉인 렌더 방어 빔!)**: 
-  - 엔지니어 한 방: `chmod 1777 /tmp` 발포 (혹은 `chmod +t`). 권한 맨 끝이 `x` 가 아니라 진득진득한 접착제 **`t (rwxrwxrwt)`** 로 환상 둔갑 빔 록백!
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (Sticky <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> 접착제 't' 봉인 렌더 방어 빔!)</strong>: 
+  - 엔지니어 한 방: `chmod 1777 /tmp` 발포 (혹은 `chmod +t`). 권한 맨 끝이 `x` 가 아니라 진득진득한 접착제 <strong><code>t (rwxrwxrwt)</code></strong> 로 환상 둔갑 빔 록백!
   - 갓기능 발동 스로틀: 이 폴더 안에서는 오직 **[파일을 직접 만든 주인이거나(User) 최고관리자(Root)]** 만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지울 자격을 획득한다($O(1)$ 스나이퍼 권한 방어). 방금 777로 들어온 잡놈 해커가 남의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 삭제하려고 칼을 들이대면? "넌 못 지워!" OS가 철퇴를 내리꽂는 거시적 공동 구역([Shared Pool](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/)) 사수 통치 모델이다 증명.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -139,22 +130,26 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
-    │
-    ▼
-[파일 시스템 접근 제어 (Access Control)]
-    │
-    ├──▶ [SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한]
-    └──▶ [ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 중복 제거 (Data Deduplication) 파일 시스템 기능</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 접근 제어 (Access Control)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 수천 명이 같이 쓰는 거대한 컴퓨터 기숙사(서버 하드) 시스템은 엉망진창이에요! 내 일기장 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 그냥 놔두면 불량배 해커들이 막 열어보고 찢어서 낙서해 버리는(무방비 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변조 권한 파괴 에러 늪!) 지옥의 사태가 매일 벌어졌어요 덜덜 마비!
-2. 그래서 리눅스 경비원 아저씨가 궁극의 3단계 비밀번호 열쇠 **"U-G-O! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 rwx 자물쇠 시스템!"** 을 채워버렸어요 록백 스왑! 세상 사람을 딱 3부류로 나눠! 내가 나일 때(User 주인의 마스터키), 내 친한 동아리 친구들 그룹일 때(Group 팀 열쇠), 나랑 맘먹는 모르는 잡동사니 생판 남들(Other 아웃사이더)! 그리고 "읽고(r) 고치고(w) 실행버튼을 누르는(x)" 세 가지 행동만 각각 차별해서 문을 쪼개 열어주는 기적의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)(9비트 방파제 부스트!) 신분 인증이 탄생했답니다 방어 록!
+2. 그래서 리눅스 경비원 아저씨가 궁극의 3단계 비밀번호 열쇠 <strong>"U-G-O! <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 권한 rwx 자물쇠 시스템!"</strong> 을 채워버렸어요 록백 스왑! 세상 사람을 딱 3부류로 나눠! 내가 나일 때(User 주인의 마스터키), 내 친한 동아리 친구들 그룹일 때(Group 팀 열쇠), 나랑 맘먹는 모르는 잡동사니 생판 남들(Other 아웃사이더)! 그리고 "읽고(r) 고치고(w) 실행버튼을 누르는(x)" 세 가지 행동만 각각 차별해서 문을 쪼개 열어주는 기적의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)(9비트 방파제 부스트!) 신분 인증이 탄생했답니다 방어 록!
 3. 치명적 슬픔 단체 미팅 붕괴 현상 발생! 근데 내가 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 "과학팀 A" 랑 "수학팀 B" 에게 동시에 공유(읽기 권한)해주고 싶은데, 이 바보 시스템은 **친한 친구들 그룹 칸 1개** 가 딱 한 칸 빈칸밖에 없어서 둘을 동시에 지정할 수가 없는(표현력 붕괴 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 그룹 지정 랙!) 멍청한 한계 늪을 지니고 태어났어요. 그래서 결국 모르는 남들 전체(Other)에게 문을 활짝 다 열어주는 "누구나 들어오세요 777 위험 오픈 테러(보안 허점 파단 모순)" 의 지름길 유혹에 오버헤드로 빠지기 마련이었답니다 복합 권한 진화 한계!
 
 ---

@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **전통적인 트래픽 흐름 (North-South)**: 과거의 서버들은 주로 바깥에 있는 인터넷 사용자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))들에게 웹페이지를 보여주는 역할만 했습니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 위(인터넷)에서 아래(서버)로 흐르는 수직적인 'North-South(남-북)' 트래픽이 80% 이상을 차지했습니다.
-- 이 수직 트래픽을 가장 빠르고 안정적으로 외부로 뽑아내기 위해, 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 등의 네트워크 장비 회사들이 제안한 **트리(Tree) 형태의 피라미드 계층 구조**가 3-Tier 아키텍처입니다.
+- 이 수직 트래픽을 가장 빠르고 안정적으로 외부로 뽑아내기 위해, 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 등의 네트워크 장비 회사들이 제안한 <strong>트리(Tree) 형태의 피라미드 계층 구조</strong>가 3-Tier 아키텍처입니다.
 
-```text
-[주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
-[데이터센터 3-Tier 아키텍처]
-    │
-    └──▶ [데이터센터 Spine-Leaf 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 3-Tier 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,26 +50,30 @@ tags = ["studynote-network"]
 ### 2. Aggregation / Distribution Layer (집선/분배 계층) - "중간 관리자" 🌟
 - **위치**: 수백 개의 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에서 올라오는 선들을 중간에서 거대하게 묶어주는(Aggregation) 중간 층의 고성능 L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/라우터입니다.
 - **역할 (통제의 핵심)**: 
-  - 여기가 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 내부망의 **[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)([가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)) 경계선이 끝나고 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 시작되는 핵심 경계(L2/L3 Boundary)**입니다.
+  - 여기가 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 내부망의 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/">가상 랜</a>) 경계선이 끝나고 IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>이 시작되는 핵심 경계(L2/L3 Boundary)</strong>입니다.
   - 외부 인터넷으로 나갈 패킷인지, 옆 부서 서버로 갈 패킷인지 길을 찾아주고([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/))과 로드밸런싱을 걸어 트래픽을 통제하는 실질적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 지휘소입니다.
 
 ### 3. Core Layer (코어 계층) - "고속도로 톨게이트"
 - **위치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 전체 네트워크의 맨 꼭대기에 위치하는 최상위 초대형 백본(Backbone) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 라우터입니다.
-- **역할**: 밑에서 올라온 수천만 개의 패킷들을 아무런 통제나 검열 없이 오직 빛의 속도로 **"외부 인터넷([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))이나 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터로 가장 빠르게 쏴버리는(High-speed Switching)" 단순 무식한 괴력의 톨게이트 역할**만 전담합니다. 
+- **역할**: 밑에서 올라온 수천만 개의 패킷들을 아무런 통제나 검열 없이 오직 빛의 속도로 <strong>"외부 인터넷(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)이나 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>센터로 가장 빠르게 쏴버리는(High-speed Switching)" 단순 무식한 괴력의 톨게이트 역할</strong>만 전담합니다. 
 
 - 이 구조는 20년을 지배했지만, 클라우드 시대가 오며 붕괴하기 시작했습니다.
 - **East-West 트래픽 폭주**: 요즘은 넷플릭스 영화 1편을 띄우기 위해, 내부 서버 10대가 서로 DB를 조회하고 인증하느라 지들끼리 핑퐁 통신(East-West 트래픽)을 100번씩 합니다.
-- **구조적 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))**: 옆 랙(Rack)에 있는 서버와 통신하려면? 맨 밑의 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 저 꼭대기에 있는 Aggregation [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 무조건 올라갔다가 다시 내려와야 합니다. 중앙 고속도로(Aggregation 층)가 매일 미어터집니다.
-- **[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) ([스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/))의 비효율**: 혹시나 장비가 죽을까 봐 선을 두 개씩 꽂아두는데([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)), L2 네트워크 특성상 루핑(패킷이 무한 뺑뺑이 도는 현상)을 막기 위해 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 기술이 대기 선(절반의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 강제로 끊어버립니다(차단 상태). 즉, 100억어치 케이블을 깔아도 절반은 평소에 쓰지도 못하고 놀려두어야 하는 극악의 비효율이 발생했습니다.
+- <strong>구조적 병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 옆 랙(Rack)에 있는 서버와 통신하려면? 맨 밑의 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 저 꼭대기에 있는 Aggregation [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 무조건 올라갔다가 다시 내려와야 합니다. 중앙 고속도로(Aggregation 층)가 매일 미어터집니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/">스패닝 트리 프로토콜</a>)의 비효율</strong>: 혹시나 장비가 죽을까 봐 선을 두 개씩 꽂아두는데([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)), L2 네트워크 특성상 루핑(패킷이 무한 뺑뺑이 도는 현상)을 막기 위해 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 기술이 대기 선(절반의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 강제로 끊어버립니다(차단 상태). 즉, 100억어치 케이블을 깔아도 절반은 평소에 쓰지도 못하고 놀려두어야 하는 극악의 비효율이 발생했습니다.
 
-```text
-[주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
-[데이터센터 3-Tier 아키텍처]
-    │
-    └──▶ [데이터센터 Spine-Leaf 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 3-Tier 아키텍처는 과거의 '수직적 피라미드 군대 조직'입니다. 이병(서버)이 바로 옆 소대에 있는 이병(다른 서버)에게 말을 걸고 싶어도 마음대로 다가갈 수 없습니다. 무조건 자기 소대장(Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 보고하고, 소대장은 중대장(Aggregation [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 보고서를 올립니다. 중대장이 그걸 읽어보고 옆 중대 소대장에게 서류를 내려보내야 비로소 옆 소대 이병에게 말이 전달됩니다. 외부의 적(North-South 인터넷 사용자)과 싸울 때는 지휘 체계가 훌륭하지만, 정작 내부 이병들끼리 협업(East-West 트래픽)해서 일해야 하는 클라우드 시대에는 모든 보고서가 중대장(Aggregation) 책상에 쌓여 업무가 마비(병목)되는 낡은 관료제 시스템입니다.
 
@@ -123,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…]
-    │
-    ▼
-[현재 개념: 데이터센터 3-Tier 아키텍처]
-    │
-    ├──▶ [확장 A: 데이터센터 Spine-Leaf 아키텍처]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 데이터센터 Spine-Leaf 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 3-Tier 아키텍처는 주파수 집성 기술 고급 모델 연대 전방위 고…에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터 Spine-Leaf 아키텍처와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

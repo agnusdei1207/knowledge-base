@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에서 돌아가는 CPU 온도, RAM 여유량, 프로세스 1번의 상태 등은 100% 바이너리 C 구조체([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리)다. 일반 유저가 이 숫자를 보려면 원래 특수 시스템 콜(`ioctl`) 깡통을 두드려야 하지만, 리눅스는 **"모든 것은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다(Everything is a [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))"** 철학을 극대화하여 **이 엄청난 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 변수들을 단순히 `cat /proc/cpuinfo` 로 읽을 수 있는 가상의 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(가짜 폴더 렌더)** 로 둔갑(Illusion 스왑) 시켰다.
+> 1. **본질**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속에서 돌아가는 CPU 온도, RAM 여유량, 프로세스 1번의 상태 등은 100% 바이너리 C 구조체([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리)다. 일반 유저가 이 숫자를 보려면 원래 특수 시스템 콜(`ioctl`) 깡통을 두드려야 하지만, 리눅스는 <strong>"모든 것은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이다(Everything is a <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">file</a>)"</strong> 철학을 극대화하여 <strong>이 엄청난 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 변수들을 단순히 <code>cat /proc/cpuinfo</code> 로 읽을 수 있는 가상의 텍스트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(가짜 폴더 렌더)</strong> 로 둔갑(Illusion 스왑) 시켰다.
 > 2. **가치**: `procfs` ([프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 명부)와 `sysfs` ([PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/), [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 하드웨어 계층도) 덕분에 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어는 C언어를 몰라도 터미널 창에서 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열고 닫는 것($O(1)$) 만으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뱃속을 실시간 수술하고 튜닝(`echo 1 > /proc/sys/net/ipv4/ip_forward` 패킷 포워딩 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 록백!)할 수 있는 궁극의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 제어권을 얻게 되었다 포팅.
 > 3. **한계**: 이 폴더(`/proc`, `/sys`) 안의 내용물들은 하드디스크에 단 1바이트도 존재하지 않는 신기루(메모리 실시간 프로젝션 뷰)다. 멋모르는 초보 서버 관리자가 "어? `/proc/kcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량이 128TB네? 하드디스크 다 찼겠다! 지워야지 `rm -rf` 빔!" 이라는 끔찍한 착각을 유발하며 불필요한 공포를 낳는 일루전 트레이드오프 단점을 안고 있다 결착.
 
@@ -20,48 +20,40 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 제어의 늪 (ioctl 깡통 두드리기 파단)**: 옛날 유닉스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(네트워크 버퍼 크기 변경 등)을 바꾸려면 무조건 C언어로 프로그램을 짜서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 `ioctl()` 함수로 특수 구조체 포인터를 던져야만 겨우 대답을 들을 수 있었다. 비직관적이고 폐쇄적인 블랙박스 감옥 지대.
-  - **procfs / sysfs (가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 투명 브릿지 빔!)**: 리눅스의 천재적 우회로 발사! "야 유저들이 제일 친숙한 게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기 트리잖아? 디스크도 아닌데 디스크인 척 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 폴더 트리로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)시켜!" 유저가 `/proc/meminfo` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `cat` 으로 여는 그 찰나의 순간! [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇이 실시간으로 자신의 진짜 RAM 잔여량 변수를 텍스트 `String` 으로 변환해 화면에 뿌려주는 위대한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 통치 기전이다.
+  - <strong>기존 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 제어의 늪 (ioctl 깡통 두드리기 파단)</strong>: 옛날 유닉스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(네트워크 버퍼 크기 변경 등)을 바꾸려면 무조건 C언어로 프로그램을 짜서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 `ioctl()` 함수로 특수 구조체 포인터를 던져야만 겨우 대답을 들을 수 있었다. 비직관적이고 폐쇄적인 블랙박스 감옥 지대.
+  - <strong>procfs / sysfs (가상 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 투명 브릿지 빔!)</strong>: 리눅스의 천재적 우회로 발사! "야 유저들이 제일 친숙한 게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색기 트리잖아? 디스크도 아닌데 디스크인 척 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리를 폴더 트리로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)시켜!" 유저가 `/proc/meminfo` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `cat` 으로 여는 그 찰나의 순간! [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇이 실시간으로 자신의 진짜 RAM 잔여량 변수를 텍스트 `String` 으로 변환해 화면에 뿌려주는 위대한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 통치 기전이다.
 - **필요성**: 서버가 미친 듯이 느려지는데 도대체 어떤 프로세스가 디스크 I/O를 빨아먹는지 디버깅해야 한다([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)). 이때 거창한 모니터링 툴을 새로 컴파일해서 까는 건 자살 행위. 오직 쉘 스크립트 기반 `cat` 한 방으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Vital)를 찌를 수 있는 표준 인터페이스의 통일(Unified Interface)이 필연적으로 요구되었다 증명.
 
   - (시스템 콜 ioctl 방식 늪): 아픈 서버의 심장 박동(CPU 상태)을 알려면, 특수한 번역기(C언어 코드)를 들고 의사 선생님([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 방에 똑똑 노크하며 "선생님 CPU 구조체 0번지 값 좀..." 물어봐야 합니다(엄청 귀찮은 1:1 대화 랙!).
-  - **(procfs 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 통달 기전!)**: 똑똑한 리눅스 병원은 환자들(서버) 침대 앞에 커다란 **[투명 홀로그램 모니터판(/proc 폴더 트리 뷰!)]** 을 하나씩 켜뒀어요! 이 모니터판에 손을 대면([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 `cat` 빔!) 의사한테 물어볼 필요도 없이 뱃속의 혈압(RAM), 심박수(CPU) 글자가 실시간으로 촥 바뀝니다! 더욱 대박인 건, 내가 모니터판 속 혈압 숫자를 매직으로 쓱 지우고 엄청 큰 숫자를 적어버리면([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) `echo`!) 거꾸로 내 혈압이 강제로 확 올라가는([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 변수 실시간 핵수술 제어 렌더!) 미친 기적이 일어납니다 결속!
+  - <strong>(procfs 가상 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 통달 기전!)</strong>: 똑똑한 리눅스 병원은 환자들(서버) 침대 앞에 커다란 **[투명 홀로그램 모니터판(/proc 폴더 트리 뷰!)]** 을 하나씩 켜뒀어요! 이 모니터판에 손을 대면([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 `cat` 빔!) 의사한테 물어볼 필요도 없이 뱃속의 혈압(RAM), 심박수(CPU) 글자가 실시간으로 촥 바뀝니다! 더욱 대박인 건, 내가 모니터판 속 혈압 숫자를 매직으로 쓱 지우고 엄청 큰 숫자를 적어버리면([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) `echo`!) 거꾸로 내 혈압이 강제로 확 올라가는([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 변수 실시간 핵수술 제어 렌더!) 미친 기적이 일어납니다 결속!
 
-- **procfs / sysfs [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 동적 매핑 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 폭주 뷰**:
+- <strong>procfs / sysfs <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 동적 매핑 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 디스크 용량 0바이트인 `/proc` 폴더 안에서 1TB 짜리 정보가 어떻게 유저의 터미널로 튀어나오는지 그 렌더를 까보면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────────────────────┐
-  │                 "깡통 폴더를 여는 순간, 커널 뱃속의 피와 뼈가 텍스트로 쏟아진다!" │
-  ├───────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                   │
-  │  🚨 [ 사용자 터미널 : $ cat /proc/1234/status  엔터 타격! ]                       │
-  │     (유저 마음가짐: "와 하드디스크 /proc 폴더 안에 1234번 파일이 있겠지?")        │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  ✅ [ VFS (가상 파일 시스템 - Illusion 위장술 록백) ]                             │
-  │     => "ㅋㅋㅋㅋ 멍청한 유저야 저긴 디스크가 아니라 내 뇌세포로 가는 문이다!"     │
-  │                                                                                   │
-  │  ======= ( 마운트된 proc 패스우회! 하드디스크 모터 정지 컷! ) ===========         │
-  │                                                                                   │
-  │  🔥 [ 커널 공간 (Kernel Memory Space 실제 덩어리 렌더) ]                          │
-  │                                                                                   │
-  │     => 커널 스케줄러: "야 VFS가 [1234번 PID 프로세스] 상태 물어본다!"             │
-  │     => 해당 [task_struct 구조체] 메모리 번지 0xFFA0 뒤지기 스왑!                  │
-  │     => 상태: TASK_RUNNING, 스레드 수 5개, 메모리 점유 1G 확인 완료!               │
-  │                                                                                   │
-  │     💻 [ proc 생성기 봇 (문자열 역변환 조립기 파이프) ]                           │
-  │     => "이진수 0011 바이트들을 이쁜 String 글자로 포장해서 리턴 쏴라 빔!"         │
-  │                                                                                   │
-  │  =========================▼===================================                    │
-  │                                                                                   │
-  │  ✅ [ 사용자 화면 출력 스루풋 결과 달성!! ]                                       │
-  │     Name:   nginx                                                                 │
-  │     State:  S (sleeping)                                                          │
-  │     VmSize: 1048576 kB       <-- (절대 하드에서 읽어온 글자가 아님 통달!)         │
-  └───────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"깡통 폴더를 여는 순간, 커널 뱃속의 피와 뼈가 텍스트로 쏟아진다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">사용자 터미널 : $ cat /proc/1234/status  엔터 타격!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 마음가짐: "와 하드디스크 /proc 폴더 안에 1234번 파일이 있겠지?")</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">VFS (가상 파일 시스템 - Illusion 위장술 록백)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "ㅋㅋㅋㅋ 멍청한 유저야 저긴 디스크가 아니라 내 뇌세포로 가는 문이다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( 마운트된 proc 패스우회! 하드디스크 모터 정지 컷! ) ===========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">커널 공간 (Kernel Memory Space 실제 덩어리 렌더)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 커널 스케줄러: "야 VFS가</div><div class="kb-diagram-node">1234번 PID 프로세스</div><div class="kb-diagram-note">상태 물어본다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 해당</div><div class="kb-diagram-node">task_struct 구조체</div><div class="kb-diagram-note">메모리 번지 0xFFA0 뒤지기 스왑!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 상태: TASK_RUNNING, 스레드 수 5개, 메모리 점유 1G 확인 완료!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">proc 생성기 봇 (문자열 역변환 조립기 파이프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "이진수 0011 바이트들을 이쁜 String 글자로 포장해서 리턴 쏴라 빔!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">사용자 화면 출력 스루풋 결과 달성!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Name: nginx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State: S (sleeping)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VmSize: 1048576 kB &lt;-- (절대 하드에서 읽어온 글자가 아님 통달!)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스의 모든 모니터링 툴(top, htop, ps명령어 등)의 유일한 뿌리이자 심장부 설계다. `top` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 어떻게 프로세스의 CPU 점유율을 아냐고? 걔네들도 그냥 뒤에서 무식하게 `/proc` 밑에 있는 폴더 수만 개를 0.1초마다 `cat` 으로 미친 듯이 읽어 들여서 껍데기 예쁘게 색칠만 해주는 렌더러 표면에 불과하다. 이토록 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) Everything-is-a-[File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 치트) 덕택에, 디스크든 네트워크든 메모리 변수든 모든 것을 "텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)" 이라는 1차원 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 관통 조율해 버린 유닉스의 정점 아크다 도출.
 
@@ -76,18 +68,18 @@ tags = ["studynote-operating-system"]
 
 | 가상 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 트리 공간 뷰 | ✨ /proc (소프트웨어 생체 정보 늪 록백) | 🔥 /sys (하드웨어 물리 계층도 빔) |
 |:---|:---|:---|
-| **설립 목적 및 보관 장부 성격** | 오직 **프로세스 봇(PID)들의 상태** 와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 추상적 변수(네트워크, 메모리 제한) 보관소 통제. | 메인보드에 꽂힌 **CPU, [PCI](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) 랜카드, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장비** 등의 철제 장치들의 부모-자식 트리 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 증명 창고. |
-| **[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 네이밍 스왑 구조 랙** | 프로세스 번호(PID)인 **숫자(`1`, `999` 폴더)** 중심의 극단적 유동성 변이 트리 구획. | 하드웨어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(`pci`, `usb`) 이름 중심의 **정적이고 체계화된 하드웨어 뼈대 마스킹 렌더.** |
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 대표 제어 튜닝 포인트** | `/proc/sys/net/..` [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 열고 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 튜닝이나 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) 허들 강제 조율 스루풋.** | `/sys/class/net/eth0/..` [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 열쇠로 조져 **랜카드 전기 끄기 혹은 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 깜빡이 불 끄기 물리 타격.** |
+| **설립 목적 및 보관 장부 성격** | 오직 **프로세스 봇(PID)들의 상태** 와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 추상적 변수(네트워크, 메모리 제한) 보관소 통제. | 메인보드에 꽂힌 <strong>CPU, <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/">PCI</a> 랜카드, <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 장비</strong> 등의 철제 장치들의 부모-자식 트리 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 증명 창고. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 네이밍 스왑 구조 랙</strong> | 프로세스 번호(PID)인 <strong>숫자(<code>1</code>, <code>999</code> 폴더)</strong> 중심의 극단적 유동성 변이 트리 구획. | 하드웨어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(`pci`, `usb`) 이름 중심의 **정적이고 체계화된 하드웨어 뼈대 마스킹 렌더.** |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 대표 제어 튜닝 포인트</strong> | `/proc/sys/net/..` [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 열고 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 튜닝이나 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a> 허들 강제 조율 스루풋.</strong> | `/sys/class/net/eth0/..` [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 열쇠로 조져 <strong>랜카드 전기 끄기 혹은 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/">LED</a> 깜빡이 불 끄기 물리 타격.</strong> |
 
 ### 2. 치명적 오버헤드 폭발: 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 크기(Size) 사기와 함정의 굴레
 "어? 우리 서버 하드 100GB짜리인데 /proc에 엄청나게 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 생겼어요! 해킹인가요?" [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 신입들의 영원한 데들락 착각 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (/proc/kcore [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 거대 128TB 용량 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (/proc/kcore <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 거대 128TB 용량 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)</strong>: 
   - (물리 용량 매핑 늪 스왑): 신입 개발자가 서버 용량이 꽉 찼다고 `du -sh /*` 를 쳤다. 앗! 뜬금없이 `/proc/kcore` 라는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 용량이 무려 물리 메모리를 초과하는 128TB(테라바이트) 로 찍혀있다. 
   - ([rm](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파괴 본능 발동!): "저 쓰레기 삭제해서 용량 확보해야지! `rm -f /proc/kcore` 데들락 빔!"
-  - 진실게임 멸망: `kcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 하드디스크에 단 1바이트도 존재하지 않는 가짜 환상이다! 저 128TB라는 숫자는 64비트 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리할 수 있는 **[총 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 7단원 연계)의 잠재적 리미트 천장 크기 점유 스왑]** 을 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈 표기 슬롯에 빌려 표시해 준 홀로그램일 뿐이다. 백날 지워봐야 하드 여유 공간은 1KB도 안 늘어난다 입증 증명.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (모니터링 예외 경로 Ignore 록백!!) / 필터 방패**: 
+  - 진실게임 멸망: `kcore` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 하드디스크에 단 1바이트도 존재하지 않는 가짜 환상이다! 저 128TB라는 숫자는 64비트 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리할 수 있는 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">총 [가상 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">Virtual Memory</a> 7단원 연계)의 잠재적 리미트 천장 크기 점유 스왑]</strong> 을 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 사이즈 표기 슬롯에 빌려 표시해 준 홀로그램일 뿐이다. 백날 지워봐야 하드 여유 공간은 1KB도 안 늘어난다 입증 증명.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (모니터링 예외 경로 Ignore 록백!!) / 필터 방패</strong>: 
   - 천재 백엔드 쉘 방어 1방!: 현업의 모든 스크립트 작성 장인(`find, du, 백업 데몬`) 들은 시스템 스캔할 때 무조건 `--exclude=/proc --exclude=/sys --exclude=/dev` 옵션을 달아 이 환상 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 3대장 늪을 뛰어넘어 통과(Ignore 스킵 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))시켜버리는 필수 면역 코드를 주입한다([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 무한 루프 멸망 회피 뷰 보장 록).
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -99,10 +91,10 @@ tags = ["studynote-operating-system"]
 ### "서버 재부팅 없이" [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 뇌세포를 후벼 파서 성능을 3배로 올리는 O(1) 매직 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)
 웹 서버가 접속 폭주로 터질 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 안 고치고 오직 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 숫자 '1' 하나 던져 넣어 살려내는 기적의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 조율.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Time-Wait [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 10만 개 랙 킹 멸망 파단)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> Time-Wait <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 10만 개 랙 킹 멸망 파단)</strong>: 
   - 유저 접속이 미어터지는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거래소 서버. 네트워크 연결이 끊어졌는데도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 불안해서 소켓을 버리지 않고 쥐고 있는 `TIME_WAIT` 쓰레기 소켓이 순식간에 10만 개가 쌓였다. 
   - 더 이상 새 손님을 못 받아 서버가 숨이 막혀 마비(Connection Refused 셧다운 빔!).
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (/proc/sys/net/[ipv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/tcp_tw_reuse 렌더 방어 빔!)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (/proc/sys/net/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">ipv4</a>/tcp_tw_reuse 렌더 방어 빔!)</strong>: 
   - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 초격차 터미널 주사기 발사!: 터미널을 열고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심장 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 경로를 딴다. 
   - `echo 1 > /proc/sys/net/ipv4/tcp_tw_reuse` 엔터 쾅! 
   - 갓기능 회전 스로틀: 이 순간 `1` 이라는 String 이 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 껍데기를 통과하자마자 `int = 1` 로 역변환되어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 스택의 `tcp_tw_reuse` 전역 변수(Variable C구조체)에 다이렉트로 $O(1)$ 삽입 패치 포팅된다.
@@ -141,15 +133,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[임시 파일 시스템 (tmpfs / ramfs)]
-    │
-    ▼
-[가상 장치 파일 시스템 (sysfs, procfs)]
-    │
-    ├──▶ [파일 시스템 일관성 검사 (fsck / chkdsk)]
-    └──▶ [다중 스트림 (Multi-stream) 파일 / 포크 (Forks)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 장치 파일 시스템 (sysfs, procfs)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 시스템 일관성 검사 (fsck / chkdsk)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 스트림 (Multi-stream) 파일 / 포크 (Forks)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

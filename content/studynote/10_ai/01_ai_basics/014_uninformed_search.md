@@ -39,30 +39,32 @@ tags = ["ai"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 맹목적 탐색은 노드를 임시 보관하는 자료구조(큐 또는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))를 무엇으로 선택하느냐에 따라 너비 우선([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))과 깊이 우선([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))으로 나뉜다.
 
-**주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작 메커니즘**
+<strong>주요 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 동작 메커니즘</strong>
 | 탐색 기법 | 핵심 자료구조 | 내부 동작 원리 | 특징 및 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) |
 |:---|:---|:---|:---|
-| **[너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/))** | **[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))** | 시작 노드에서 가까운 깊이(Depth)의 노드부터 층별로 모두 탐색 | 최단 거리 보장. [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 매우 큼 $O(b^d)$ |
-| **[깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))** | **[Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (LIFO)** | 한쪽 가지를 끝(Leaf)까지 파고든 뒤, 없으면 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)(역추적) | 메모리 효율 우수 $O(b \times m)$. 최적 경로 미보장 |
-| **반복적 깊이 심화 ([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))** | [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (제한 적용) | DFS를 깊이 제한(Depth Limit) 1, 2, 3으로 순차적으로 늘리며 반복 | BFS의 최적성과 DFS의 메모리 효율 결합 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">너비 우선 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>)</strong> | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>)</strong> | 시작 노드에서 가까운 깊이(Depth)의 노드부터 층별로 모두 탐색 | 최단 거리 보장. [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) 매우 큼 $O(b^d)$ |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">깊이 우선 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong> | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> (LIFO)</strong> | 한쪽 가지를 끝(Leaf)까지 파고든 뒤, 없으면 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)(역추적) | 메모리 효율 우수 $O(b \times m)$. 최적 경로 미보장 |
+| <strong>반복적 깊이 심화 (<a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a>)</strong> | [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (제한 적용) | DFS를 깊이 제한(Depth Limit) 1, 2, 3으로 순차적으로 늘리며 반복 | BFS의 최적성과 DFS의 메모리 효율 결합 |
 | **양방향 탐색 (Bidirectional)** | 2개의 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 시작점과 목표점에서 동시에 BFS를 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하여 중간에서 조우 | 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)를 반으로 획기적 축소 $O(b^{d/2})$ |
 
 다음은 자료구조의 차이가 트리를 전개하는 순서에 어떤 영향을 미치는지 보여주는 비교 전이도이다.
-```text
-       [ A ]  (Root)
-      /     \
-   [ B ]   [ C ]
-   /   \   /   \
- [D]  [E] [F]  [G]
 
-(1) BFS 탐색 순서 (Queue: A 빼고 B,C 넣음)
-경로: A ──> B ──> C ──> D ──> E ──> F ──> G
-(층 단위로 평행하게 진행. 한 층을 다 봐야 다음 층 전개)
 
-(2) DFS 탐색 순서 (Stack: A 빼고 C,B 넣고 B부터 꺼냄)
-경로: A ──> B ──> D ──> E ──> C ──> F ──> G
-(왼쪽 끝 바닥까지 파고든 후, 막히면 형제 노드로 회귀)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-note">(Root)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">D</div><div class="kb-diagram-node">E</div><div class="kb-diagram-node">F</div><div class="kb-diagram-node">G</div></div>
+<div class="kb-diagram-note">(1) BFS 탐색 순서 (Queue: A 빼고 B,C 넣음)</div>
+<div class="kb-diagram-note">경로: A ──&gt; B ──&gt; C ──&gt; D ──&gt; E ──&gt; F ──&gt; G</div>
+<div class="kb-diagram-note">(층 단위로 평행하게 진행. 한 층을 다 봐야 다음 층 전개)</div>
+<div class="kb-diagram-note">(2) DFS 탐색 순서 (Stack: A 빼고 C,B 넣고 B부터 꺼냄)</div>
+<div class="kb-diagram-note">경로: A ──&gt; B ──&gt; D ──&gt; E ──&gt; C ──&gt; F ──&gt; G</div>
+<div class="kb-diagram-note">(왼쪽 끝 바닥까지 파고든 후, 막히면 형제 노드로 회귀)</div>
+</div>
+</div>
+
+
 이 구조의 핵심은 [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)([Space Complexity](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/))의 병목 지점이다. BFS는 트리의 폭이 넓어질수록 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 담아두어야 할 형제 노드의 수가 지수적으로 증가하므로, 시간보다 '메모리 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))'으로 먼저 죽는다. 반면 DFS는 현재 뻗어나가는 경로 상의 노드들만 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 들고 있으면 되므로 메모리를 매우 적게 소모하지만, 목표 노드가 오른쪽에 있음에도 끝없는 깊이를 가진 왼쪽 가지에 빠지면 영원히 헤어 나오지 못하는 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 지닌다.
 
 📢 **섹션 요약 비유**: BFS가 물결이 동심원을 그리며 고르게 퍼져나가는 방식이라면, DFS는 날카로운 드릴로 구멍을 깊게 하나 뚫어보고 꽝이면 옆에 다시 뚫는 방식입니다.
@@ -72,14 +74,14 @@ tags = ["ai"]
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 맹목적 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할 때는 완결성, 최적성, 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)라는 4가지 평가 지표를 엄격하게 저울질해야 한다.
 
-**[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 매트릭스**
+<strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 비교 매트릭스</strong>
 (분기 계수 = b, 목표 깊이 = d, 최대 깊이 = m)
 | 지표 | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) (너비 우선) | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (깊이 우선) | [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) (반복 깊이 심화) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
 | **완결성 (해 보장)** | 보장 (무한 깊이 위험 없음) | 미보장 (무한 루프 빠질 위험) | 보장 | 솔루션이 반드시 나오는가? |
 | **최적성 (최단 거리)**| 보장 (가장 얕은 목표 발견) | 미보장 (더 깊은 오답 찾을 수 있음)| 보장 | 가장 적은 비용인가? |
-| **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)** | $O(b^d)$ | $O(b^m)$ | $O(b^d)$ | 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계점 |
-| **[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)** | $O(b^d)$ (치명적 단점) | $O(b \times m)$ (최대 장점) | $O(b \times d)$ | 가용 RAM 메모리 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong> | $O(b^d)$ | $O(b^m)$ | $O(b^d)$ | 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계점 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/">공간 복잡도</a></strong> | $O(b^d)$ (치명적 단점) | $O(b \times m)$ (최대 장점) | $O(b \times d)$ | 가용 RAM 메모리 |
 
 이 매트릭스의 핵심은 결국 BFS의 메모리 폭발 문제와 DFS의 불완전성을 어떻게 극복하느냐다. 여기서 실무적 타협점인 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)(Iterative Deepening Search)의 진가가 드러난다. IDS는 겉보기에는 루트 노드를 여러 번 반복 탐색하므로 시간 오버헤드가 커 보이지만, 지수적으로 증가하는 트리의 특성상 이전 단계의 중복 연산 비용은 전체의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만에 불과하다. 따라서 DFS의 낮은 메모리 공간을 유지하면서도 BFS의 최단 거리 보장 능력을 획득하는 최고의 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
 
@@ -90,24 +92,30 @@ tags = ["ai"]
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 맹목적 탐색은 인프라 구축의 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)이기 때문에, 한계 조건을 명확히 파악하고 적재적소에 배치하는 운영적 판단이 요구된다.
 
-**실무 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) ([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 채택)**
-```text
-[상태 공간 탐색 문제 발생]
-   ↓
-[Q1. 도메인 특성상 목표까지의 거리를 추정(Heuristic)할 수 있는가?]
- ├── (Yes) -> A* 알고리즘 등 정보 기반 탐색으로 전환
- └── (No, 맹목적 탐색 사용)
-      ↓
-[Q2. 트리 깊이가 매우 깊거나 무한 루프 가능성이 있는가?]
- ├── (Yes) -> 순수 DFS 배제 (무한 루프 위험) -> IDS 알고리즘 채택
- └── (No) -> [Q3. 메모리(RAM) 용량이 트리의 폭(Branch Factor)을 감당하는가?]
-       ├── (Yes) -> 최단 경로를 보장하는 BFS 채택 (웹 크롤링 등)
-       └── (No)  -> 메모리 절약을 위해 DFS 기반 백트래킹 채택 (퍼즐, 미로 등)
-```
+<strong>실무 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 채택)</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 공간 탐색 문제 발생</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Q1. 도메인 특성상 목표까지의 거리를 추정(Heuristic)할 수 있는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(Yes) -&gt; A* 알고리즘 등 정보 기반 탐색으로 전환</div>
+<div class="kb-diagram-tree-item" style="--depth:0">(No, 맹목적 탐색 사용)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Q2. 트리 깊이가 매우 깊거나 무한 루프 가능성이 있는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(Yes) -&gt; 순수 DFS 배제 (무한 루프 위험) -&gt; IDS 알고리즘 채택</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Q3. 메모리(RAM) 용량이 트리의 폭(Branch Factor)을 감당하는가?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">(Yes) -&gt; 최단 경로를 보장하는 BFS 채택 (웹 크롤링 등)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">(No) -&gt; 메모리 절약을 위해 DFS 기반 백트래킹 채택 (퍼즐, 미로 등)</div>
+</div>
+</div>
+
+
 이 의사결정의 핵심 병목은 '메모리 한계(Memory Constraint)'다. 구글과 같은 검색 엔진이 웹페이지 링크를 탐색할 때(Web Crawling), DFS를 쓰면 링크가 꼬리를 물어 특정 스팸 사이트의 무한 루프에 영원히 갇히게 된다. 따라서 반드시 큐 기반의 BFS를 통해 1-Depth 링크들을 먼저 수집하고 인덱싱하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 취해야 한다. 반면, 보드게임이나 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 퍼즐의 해답을 찾을 때는 노드가 넓게 퍼지므로, 램 초과 방지를 위해 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반의 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)을 적용하는 것이 정석이다.
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
-- **방문 목록 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 누락**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조에서 이미 거쳐 간 상태(Visited Node)를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하지 않고 단순 큐/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 돌리면, A->B->A->B로 반복되는 전이(Cycle)에 갇혀 무한 연산에 빠진다. 해시셋(HashSet) 기반의 중복 제거가 필수적이다.
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
+- <strong>방문 목록 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 누락</strong>: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조에서 이미 거쳐 간 상태(Visited Node)를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하지 않고 단순 큐/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 돌리면, A->B->A->B로 반복되는 전이(Cycle)에 갇혀 무한 연산에 빠진다. 해시셋(HashSet) 기반의 중복 제거가 필수적이다.
 
 📢 **섹션 요약 비유**: 메모리(램)가 넉넉한 부자 서버라면 군대를 넓게 펼치는 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 진형을 짜고, 램이 부족한 빈자 서버라면 특공대를 깊숙이 투입하는 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 진형을 짜야 합니다.
 
@@ -118,7 +126,7 @@ tags = ["ai"]
 
 | 지표 | 활용 가치 및 기대 효과 |
 |:---|:---|
-| **[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 제공** | 새로운 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개발 시, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 측정하는 비교 기준점([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 역할 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a> 제공</strong> | 새로운 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개발 시, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 측정하는 비교 기준점([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 역할 |
 | **강건성(Robustness)** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수가 잘못 설계되었거나 정보가 오염된 환경에서 유일하게 해를 보장하는 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 수단 |
 | **시스템 유틸리티** | 네트워크 패킷 브로드캐스팅, 소셜 네트워크 1촌/2촌 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 엔진(Neo4j 등)에 직접적 활용 |
 
@@ -132,28 +140,30 @@ tags = ["ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) (Breadth-First Search)** | 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 기반 층별 탐색, 최단 경로 보장, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) O(b^d) |
-| **[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Depth-First Search)** | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 기반 깊이 우선, 메모리 효율 O(b×m), 완전성 미보장 |
-| **[IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) (Iterative Deepening Search)** | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 깊이 제한 반복 확장, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 최적성 + [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 메모리 효율 하이브리드 |
-| **[휴리스틱 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/) (Informed Search)** | 맹목적 탐색의 한계를 극복하기 위해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식(h(n))을 활용하는 A* 등 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (Breadth-First Search)</strong> | 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 기반 층별 탐색, 최단 경로 보장, [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) O(b^d) |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a> (Depth-First Search)</strong> | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 기반 깊이 우선, 메모리 효율 O(b×m), 완전성 미보장 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/">IDS</a> (Iterative Deepening Search)</strong> | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 깊이 제한 반복 확장, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 최적성 + [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 메모리 효율 하이브리드 |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/">휴리스틱 탐색</a> (Informed Search)</strong> | 맹목적 탐색의 한계를 극복하기 위해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식(h(n))을 활용하는 A* 등 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상태 공간 (State Space) — 초기 상태에서 목표까지 모든 가능 상태 집합]
-    │
-    ▼
-[BFS (Breadth-First Search) — 큐 기반 층별 탐색, 최단 거리 보장]
-    │
-    ▼
-[DFS (Depth-First Search) — 스택 기반 깊이 우선 탐색, 메모리 효율]
-    │
-    ▼
-[IDS (Iterative Deepening Search) — DFS 깊이 제한 반복, BFS+DFS 장점 결합]
-    │
-    ▼
-[A* 알고리즘 (Informed Search) — 휴리스틱 함수로 맹목적 탐색의 한계 초월]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 공간 (State Space) — 초기 상태에서 목표까지 모든 가능 상태 집합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (Breadth-First Search) — 큐 기반 층별 탐색, 최단 거리 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DFS (Depth-First Search) — 스택 기반 깊이 우선 탐색, 메모리 효율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IDS (Iterative Deepening Search) — DFS 깊이 제한 반복, BFS+DFS 장점 결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 (Informed Search) — 휴리스틱 함수로 맹목적 탐색의 한계 초월</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 상태 공간 문제를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 없이 탐색하는 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)·DFS에서 출발해, 두 방법의 장점을 결합한 IDS로 발전하고, 최종적으로 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 기반 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화하는 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 계보를 보여준다.
 

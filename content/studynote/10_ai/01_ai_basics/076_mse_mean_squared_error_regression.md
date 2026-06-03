@@ -23,11 +23,17 @@ tags = ["studynote-ai"]
 
 residual을 그냥 더하면 양수와 음수가 서로 지워진다. 그래서 오차를 제곱해 모두 양수로 만든 뒤 평균을 내면, "얼마나 틀렸는가"가 한 값으로 모인다. MSE는 바로 그 평균이다.
 
-```text
-정답 y ─┐
-        ├─ residual ─▶ 제곱 ─▶ 평균 ─▶ MSE
-예측 ŷ ─┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정답 y ─</div>
+<div class="kb-diagram-tree-item" style="--depth:4">residual ─▶ 제곱 ─▶ 평균 ─▶ MSE</div>
+<div class="kb-diagram-note">예측 ŷ ─</div>
+</div>
+</div>
+
+
 
 이 흐름은 간단하지만 강력하다. 모델은 MSE가 작아지도록 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 조정하면서 점점 정답에 가까워진다.
 
@@ -125,21 +131,23 @@ MSE는 회귀 학습을 단순하고 안정적으로 만든다. 오차가 작아
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정답과 예측의 차이
-    │
-    ▼
-residual 계산
-    │
-    ▼
-제곱으로 부호 제거
-    │
-    ▼
-평균으로 전체 오차 요약
-    │
-    ▼
-Gradient Descent로 가중치 갱신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정답과 예측의 차이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">residual 계산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제곱으로 부호 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">평균으로 전체 오차 요약</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Gradient Descent로 가중치 갱신</div>
+</div>
+</div>
+
+
 
 이 흐름은 "오차를 수치화하고, 그 수치를 미분해, 다시 학습으로 돌리는" 전형적인 회귀 학습 구조를 보여준다. 앞으로도 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 문제 성격에 맞게 MSE·MAE·Huber 사이에서 선택된다.
 

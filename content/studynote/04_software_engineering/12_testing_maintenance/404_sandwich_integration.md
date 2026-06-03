@@ -24,7 +24,7 @@ tags = ["studynote-software-engineering"]
 * 백엔드 팀 (상향식 주장): "미쳤어요? 지금 DB랑 결제 서버(I/O) 연동부터 빡세게 안 잡아놓으면 나중에 시스템 전체가 무너집니다. 무조건 바닥부터 뭉치고 올라갑시다!"
 
 이 두 팀의 싸움을 끝내기 위해 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)자들은 솔로몬의 지혜를 발휘했다. **"그럼, 시스템을 상/중/하 로 나누고 너희 둘 다 동시에 시작해! 그리고 중간(비즈니스 로직)에서 만나자!"**
-이것이 샌드위치의 빵을 위아래로 덮어 속재료에서 만나듯 양방향에서 조립을 진행하는 **샌드위치 통합(Sandwich Integration)**, 다른 말로 **혼합식(Hybrid) 통합**이다.
+이것이 샌드위치의 빵을 위아래로 덮어 속재료에서 만나듯 양방향에서 조립을 진행하는 **샌드위치 통합(Sandwich Integration)**, 다른 말로 <strong>혼합식(Hybrid) 통합</strong>이다.
 
 > 📢 **섹션 요약 비유**: 해저 터널을 뚫을 때, 한쪽 나라에서만 10년 내내 뚫어가는 것이 아니라 양쪽 나라에서 바다 한가운데를 향해 동시에 굴착기를 파고 들어가서 중간에서 쾅! 하고 만나는 방법입니다. 시간이 절반으로 단축되고, 양쪽 끝의 모양(입구)을 빨리 확인할 수 있는 최고의 공사법입니다.
 
@@ -34,18 +34,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 샌드위치 통합 (Sandwich / 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  샌드위치 통합 (Sandwich /                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샌드위치 통합 (Sandwich /</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 샌드위치 통합 (Sandwich / 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 **[ 궁극의 장점 (유연성과 속도) ]**
-1. **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발의 극대화**: 프론트엔드 팀(하향식)과 백엔드 팀(상향식)이 서로를 기다릴 필요 없이 독자적으로 완벽한 테스트를 진행할 수 있다. 프로젝트 일정이 획기적으로 단축된다.
+1. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 개발의 극대화</strong>: 프론트엔드 팀(하향식)과 백엔드 팀(상향식)이 서로를 기다릴 필요 없이 독자적으로 완벽한 테스트를 진행할 수 있다. 프로젝트 일정이 획기적으로 단축된다.
 2. **조기 시연 + 기반 안정성 보장**: 하향식과 상향식의 치명적 단점을 서로가 완벽하게 덮어준다. 일찍부터 화면을 보여주어 고객을 안심시키면서도, 밑바닥 DB 에러를 초반에 확실히 다 잡고 갈 수 있다. 대형 프로젝트(대규모 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 등)의 기본 전략이다.
 
 **[ 단점 (미친듯한 복잡도) ]**
@@ -143,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-샌드위치 통합 (Sandwich / Hybrid Integration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">샌드위치 통합 (Sandwich / Hybrid Integration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

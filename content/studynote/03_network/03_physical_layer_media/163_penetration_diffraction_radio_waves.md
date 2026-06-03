@@ -44,22 +44,22 @@ tags = ["studynote-network"]
 
 아래 그림은 같은 장애물을 만났을 때 전파가 어떻게 달라지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              radio wave response at an obstacle                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Tx ─────────────▶ █████ obstacle █████ ─────────────▶ Rx                   │
-│                     │            │                                          │
-│                     │            └─ penetration path                        │
-│                     │                 (passes through with attenuation)     │
-│                     │                                                       │
-│                     └────────────── diffraction path                        │
-│                                      (bends around edge to shadow area)    │
-│                                                                             │
-│ Low frequency  : more diffraction, often better indoor penetration          │
-│ High frequency : less diffraction, larger penetration loss, more dead zone  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radio wave response at an obstacle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx ▶ █████ obstacle █████ ▶ Rx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ penetration path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(passes through with attenuation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">diffraction path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(bends around edge to shadow area)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low frequency : more diffraction, often better indoor penetration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High frequency : less diffraction, larger penetration loss, more dead zone</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 전파가 장애물을 만났을 때 단 하나의 경로만 택하지 않는다는 점이다. 일부는 반사되고, 일부는 통과하며, 일부는 모서리를 돌아간다. 다만 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 좌우하는 주된 경로가 주파수에 따라 달라지기 때문에, 저주파망은 넓은 커버리지에 강하고 고주파망은 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 대신 촘촘한 기지국과 빔 제어가 필요하다.
 
@@ -96,10 +96,10 @@ tags = ["studynote-network"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표가 커버리지 우선인가, 용량 우선인가?**
+1. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 목표가 커버리지 우선인가, 용량 우선인가?</strong>
 2. **장애물이 많은 실내·도심 환경인가, 개방된 LOS 환경인가?**
 3. **건물 재질이 철근 콘크리트, 코팅 유리, 금속 패널처럼 고손실 재료인가?**
-4. **고주파를 쓴다면 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/), 중계기, 소형 셀 같은 보완 수단이 준비되어 있는가?**
+4. <strong>고주파를 쓴다면 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a>, 중계기, 소형 셀 같은 보완 수단이 준비되어 있는가?</strong>
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -132,21 +132,23 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저대역 장거리 커버리지
-        │
-        ▼
-회절 · 건물 침투 활용
-        │
-        ▼
-중대역에서 커버리지 / 용량 균형
-        │
-        ▼
-고대역 · mmWave에서 대용량 확보
-        │
-        ▼
-소형 셀 · 빔포밍 · 중계기로 차폐 보완
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저대역 장거리 커버리지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">회절 · 건물 침투 활용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중대역에서 커버리지 / 용량 균형</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고대역 · mmWave에서 대용량 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소형 셀 · 빔포밍 · 중계기로 차폐 보완</div>
+</div>
+</div>
+
+
 
 이 흐름은 전파 특성이 주파수 선택을 바꾸고, 다시 그 선택이 기지국 밀도와 보완 기술 채택으로 이어지는 과정을 보여 준다.
 

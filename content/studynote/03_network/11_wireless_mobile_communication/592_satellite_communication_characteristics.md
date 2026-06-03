@@ -20,32 +20,29 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 지구상의 지구국(Earth [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))에서 쏜 극초고주파([마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))를 우주 궤도를 도는 인공위성이 수신(Up-link)한 뒤, 주파수를 변환하여 증폭시킨 후 다시 지구상의 다른 지역으로 쏘아 보내는(Down-link) 무선 통신 기술이다.
-- **필요성**: 해저 광케이블(Submarine Cable)은 빠르지만, 배가 침몰하거나 상어가 물어뜯으면 한 국가의 인터넷이 통째로 날아간다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 지상의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 산골짜기나 사막에는 수익이 안 나서 깔 수가 없다. 비행기나 유람선 위에서는 기지국 전파가 닿지도 않는다. **"지형지물, 국경, 물리적 케이블의 제약 없이 지구 반대편까지 가장 안전하고 넓게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뿌릴 수 있는 우주 기지국"**이 통신 주권과 생존을 위해 필수 불가결했다.
+- **필요성**: 해저 광케이블(Submarine Cable)은 빠르지만, 배가 침몰하거나 상어가 물어뜯으면 한 국가의 인터넷이 통째로 날아간다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 지상의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 산골짜기나 사막에는 수익이 안 나서 깔 수가 없다. 비행기나 유람선 위에서는 기지국 전파가 닿지도 않는다. <strong>"지형지물, 국경, 물리적 케이블의 제약 없이 지구 반대편까지 가장 안전하고 넓게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 뿌릴 수 있는 우주 기지국"</strong>이 통신 주권과 생존을 위해 필수 불가결했다.
 - **등장 배경**: ① 군사 목적 및 대륙 간 대용량 통신(TV 방송 등)을 위한 광역 인프라 요구 → ② 적도 상공 36,000km에 위성을 띄우면 지구 자전 속도와 같아져 위성이 고정된 것처럼 보이는 정지 궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)) 이론의 현실화 → ③ 최근 일론 머스크의 스타링크(Starlink)로 대변되는 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 군집 위성 시대 개막.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             위성 통신의 3대 핵심 아키텍처: 업링크, 트랜스폰더, 다운링크 시각화│
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [우주 정거장 (위성, Satellite)]                               │
-│       ┌───────────────────────────────────────┐            │
-│       │ 📡 2. 트랜스폰더 (Transponder, 중계기) 작동!│            │
-│       │ "받은 신호(6GHz)를 4GHz로 변환하고 파워를 1만 배 뻥튀기!" │            │
-│       └───────────▲───────────────────────────▼───────────┘            │
-│                   │ (업링크)                │ (다운링크)     │
-│       ┌───────────┴───────────┐ ┌───────────┴───────────┐      │
-│       │ 송신 지구국 (지구 🇰🇷)   │ │ 수신 지구국 (지구 🇺🇸)   │      │
-│       │ 1. "야! 신호 쏜다!"     │ │ 3. "오케이 잘 받았음!"   │      │
-│       └───────────────────────┘ └───────────────────────┘      │
-│                                                             │
-│   * 왜 업링크(올라가는 길)와 다운링크(내려오는 길)의 주파수가 다를까?          │
-│   => 쏘는 전파와 내려오는 전파가 똑같은 주파수면 위성 안테나에서 꽝! 부딪혀서  │
-│      간섭(하울링)이 터지기 때문! (항상 업링크 주파수가 다운링크보다 높다!)   │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 위성 통신 아키텍처의 가장 중요한 뇌(Brain)는 위성 뱃속에 들어있는 **트랜스폰더(Transponder)**다. 지상에서 쏜 전파가 우주를 날아가면 에너지가 거의 0에 수렴할 만큼 미약해진다. 트랜스폰더는 이 죽어가는 파동을 받아 쓰레기 잡음(Noise)을 깎아내고, 다시 우주에서 지구로 쏠 수 있도록 파워를 엄청나게 뻥튀기(Amplification)하는 마법의 앰프다. 또한 올라가는 전파(Uplink)와 내려오는 전파(Downlink)가 공중에서 부딪혀 섞이는 걸 막기 위해, 위성 내부에서 주파수의 색깔(대역)을 억지로 바꿔서 쏴준다(Frequency Translation). 보통 뚫고 올라가는 힘이 더 많이 필요하므로 높은 주파수를 업링크에 쓴다 (예: C-Band 6GHz 업링크 / 4GHz 다운링크).
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성 통신의 3대 핵심 아키텍처: 업링크, 트랜스폰더, 다운링크 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우주 정거장 (위성, Satellite)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📡 2. 트랜스폰더 (Transponder, 중계기) 작동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"받은 신호(6GHz)를 4GHz로 변환하고 파워를 1만 배 뻥튀기!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(업링크)</div><div class="kb-diagram-cell">(다운링크)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 지구국 (지구 🇰🇷)</div><div class="kb-diagram-cell">수신 지구국 (지구 🇺🇸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "야! 신호 쏜다!"</div><div class="kb-diagram-cell">3. "오케이 잘 받았음!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왜 업링크(올라가는 길)와 다운링크(내려오는 길)의 주파수가 다를까?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 쏘는 전파와 내려오는 전파가 똑같은 주파수면 위성 안테나에서 꽝! 부딪혀서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간섭(하울링)이 터지기 때문! (항상 업링크 주파수가 다운링크보다 높다!)</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 위성 통신 아키텍처의 가장 중요한 뇌(Brain)는 위성 뱃속에 들어있는 <strong>트랜스폰더(Transponder)</strong>다. 지상에서 쏜 전파가 우주를 날아가면 에너지가 거의 0에 수렴할 만큼 미약해진다. 트랜스폰더는 이 죽어가는 파동을 받아 쓰레기 잡음(Noise)을 깎아내고, 다시 우주에서 지구로 쏠 수 있도록 파워를 엄청나게 뻥튀기(Amplification)하는 마법의 앰프다. 또한 올라가는 전파(Uplink)와 내려오는 전파(Downlink)가 공중에서 부딪혀 섞이는 걸 막기 위해, 위성 내부에서 주파수의 색깔(대역)을 억지로 바꿔서 쏴준다(Frequency Translation). 보통 뚫고 올라가는 힘이 더 많이 필요하므로 높은 주파수를 업링크에 쓴다 (예: C-Band 6GHz 업링크 / 4GHz 다운링크).
 
 - **📢 섹션 요약 비유**: 위성은 산꼭대기에 세워둔 거대한 거울입니다. 서울에서 산꼭대기 거울을 향해 손전등(업링크)을 비추면, 거울이 빛의 색깔을 파란색에서 빨간색(주파수 변환)으로 바꾼 뒤, 돋보기(트랜스폰더)로 빛을 만 배 뻥튀기해서 저 멀리 미국(다운링크)으로 넓게 쏴주는 초거대 릴레이 반사경입니다.
 
@@ -55,7 +52,7 @@ tags = ["studynote-network"]
 
 ### 1. 극초고주파([Microwave](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)) 대역의 물리적 한계와 날씨의 늪
 
-위성은 대기권(전리층)을 뚫고 우주로 나가야 하므로, 뚫는 힘(직진성)이 엄청나게 강한 1GHz ~ 40GHz 사이의 **[마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)([Microwave](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))** 대역을 쓴다.
+위성은 대기권(전리층)을 뚫고 우주로 나가야 하므로, 뚫는 힘(직진성)이 엄청나게 강한 1GHz ~ 40GHz 사이의 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/">마이크로파</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/">Microwave</a>)</strong> 대역을 쓴다.
 
 | 주파수 밴드 | 대역 특징 | 장점 및 단점 트레이드오프 | 실무 적용 시나리오 |
 |:---|:---|:---|:---|
@@ -66,41 +63,40 @@ tags = ["studynote-network"]
 
 위성 통신은 지구상의 광케이블과 비교할 때, 물리 법칙에 의한 3가지의 잔인한 페널티(Penalty)를 안고 태어났다.
 
-1. **[전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) ([Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))**: 빛의 속도(30만 km/s)로 쏴도 정지 궤도(36,000km)를 왕복(업/다운)하면 무조건 편도에 0.25초가 걸린다. 왕복([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))하면 기본 **0.5초(500ms)의 절대적 핑(Ping) 딜레이**가 생긴다. FPS 게임이나 주식 단타 트레이딩은 물리적으로 불가능하다.
-2. **자유 공간 경로 손실 (FSPL, Free Space Path Loss)**: 전파가 36,000km의 허공을 날아가는 동안 에너지가 허공으로 흩어져서, 도착할 때쯤엔 수백억 분의 1로 쪼그라든다. 이를 줍기 위해 지구에는 **초대형 파라볼라 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))**와 잡음을 영하 270도로 얼려 없애는 초저잡음 증폭기(LNA)가 강제된다.
-3. **[에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) (Echo, 메아리 현상)**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 0.5초나 되기 때문에, 내가 "여보세요!" 하고 말하면 내 목소리가 위성을 맞고 0.5초 뒤에 내 수화기로 다시 "여보세요!" 하고 돌아오는 미친 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 현상이 생긴다. 장비에 **[에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 캔슬러(Echo Canceller)** DSP 칩을 무조건 달아야 통화가 가능하다.
+1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">Propagation Delay</a>)</strong>: 빛의 속도(30만 km/s)로 쏴도 정지 궤도(36,000km)를 왕복(업/다운)하면 무조건 편도에 0.25초가 걸린다. 왕복([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))하면 기본 <strong>0.5초(500ms)의 절대적 핑(Ping) 딜레이</strong>가 생긴다. FPS 게임이나 주식 단타 트레이딩은 물리적으로 불가능하다.
+2. **자유 공간 경로 손실 (FSPL, Free Space Path Loss)**: 전파가 36,000km의 허공을 날아가는 동안 에너지가 허공으로 흩어져서, 도착할 때쯤엔 수백억 분의 1로 쪼그라든다. 이를 줍기 위해 지구에는 <strong>초대형 파라볼라 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(접시 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>)</strong>와 잡음을 영하 270도로 얼려 없애는 초저잡음 증폭기(LNA)가 강제된다.
+3. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/">에코</a> (Echo, 메아리 현상)</strong>: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 0.5초나 되기 때문에, 내가 "여보세요!" 하고 말하면 내 목소리가 위성을 맞고 0.5초 뒤에 내 수화기로 다시 "여보세요!" 하고 돌아오는 미친 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 현상이 생긴다. 장비에 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/">에코</a> 캔슬러(Echo Canceller)</strong> DSP 칩을 무조건 달아야 통화가 가능하다.
 
 수만 명의 지구인이 1개의 위성(트랜스폰더)을 동시에 쓰려다 빔이 부딪혀 터지는 걸 막기 위해, 위성 내부에서는 엄청난 스케줄링 믹서기 기술이 돌아간다.
 
 | [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식 | 철학 및 작동 원리 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 장점 및 적용 분야 | 한계 및 단점 |
 |:---|:---|:---|:---|
-| **[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (주파수 쪼개기)** | 위성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 30MHz를 "한국 5MHz, 일본 5MHz, 중국 5MHz"로 주파수 도로를 차선별로 쪼개서 영구 분양함. | 아날로그 방식에 최적화. 구조가 너무 단순해서 기계가 고장 날 일이 없음. | 아무도 말을 안 해도 쪼개둔 차선을 남이 못 써서 **주파수 낭비가 끔찍함.** |
-| **[TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (시간 쪼개기)** | 주파수 전체 통로를 하나로 둔 뒤, "1초는 한국 쏘고, 2초는 일본 쏘고, 3초는 중국 쏴!"라고 시간표(Slot)를 줌. | 남이 안 쓰는 빈 시간을 뺏어 쓸 수 있어 **디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 효율 극대화.** | 1초마다 번갈아 쏘려면 지구국과 위성 간의 **시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(타이밍)를 맞추는 게 지옥임.** |
-| **[CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (코드 섞기)** | 시간, 주파수 다 무시하고 그냥 수천 명이 동시에 냅다 빔을 쏨. 대신 자기들만 아는 '암호 코드(직교 코드)'를 섞어 쏴서, 위성이 코드별로 분리(필터링)해 냄. | 다른 전파 간섭(재밍)과 도청에 미친 듯이 강함. 누가 언제 쏘든 상관없어 유연성 최고. **군사 위성망(GPS) 특화.** | 위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파를 분리해 내는 수학 연산 칩셋이 미친 듯이 비싸고 복잡함. (근거리 원거리 문제 발생). |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a> (주파수 쪼개기)</strong> | 위성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 30MHz를 "한국 5MHz, 일본 5MHz, 중국 5MHz"로 주파수 도로를 차선별로 쪼개서 영구 분양함. | 아날로그 방식에 최적화. 구조가 너무 단순해서 기계가 고장 날 일이 없음. | 아무도 말을 안 해도 쪼개둔 차선을 남이 못 써서 **주파수 낭비가 끔찍함.** |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (시간 쪼개기)</strong> | 주파수 전체 통로를 하나로 둔 뒤, "1초는 한국 쏘고, 2초는 일본 쏘고, 3초는 중국 쏴!"라고 시간표(Slot)를 줌. | 남이 안 쓰는 빈 시간을 뺏어 쓸 수 있어 <strong>디지털 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 효율 극대화.</strong> | 1초마다 번갈아 쏘려면 지구국과 위성 간의 <strong>시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(타이밍)를 맞추는 게 지옥임.</strong> |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 섞기)</strong> | 시간, 주파수 다 무시하고 그냥 수천 명이 동시에 냅다 빔을 쏨. 대신 자기들만 아는 '암호 코드(직교 코드)'를 섞어 쏴서, 위성이 코드별로 분리(필터링)해 냄. | 다른 전파 간섭(재밍)과 도청에 미친 듯이 강함. 누가 언제 쏘든 상관없어 유연성 최고. **군사 위성망(GPS) 특화.** | 위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파를 분리해 내는 수학 연산 칩셋이 미친 듯이 비싸고 복잡함. (근거리 원거리 문제 발생). |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               위성의 치명적 약점: 빗방울 감쇠(Rain Fade) 시각화        │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [맑은 날: 쌩쌩한 위성 인터넷]                                     │
-│   위성 (Ku 밴드, 14GHz) ───(레이저 빔 ⚡️)───▶ [지붕 위 접시 안테나]│
-│   => 파장이 짧아서(약 2cm) 직진성이 좋고 1Gbps 속도로 빵빵하게 꽂힘!      │
-│                                                               │
-│   [비 오는 날: Rain Attenuation (비의 저주) 발생 ⛈️]               │
-│   위성 ───(레이저 빔 ⚡️)───▶ 💧빗방울💧 ──X──▶ [접시 안테나 (먹통)] │
-│                                                               │
-│   * 공학적 비극: 빗방울의 크기(약 1~2cm)와 Ku 밴드 전파의 파장 길이(2cm)가 │
-│                서로 딱 맞아떨어지는 순간, 전파가 빗방울을 뚫지 못하고     │
-│                빗방울을 데우는 데 에너지를 다 뺏기며 흡수(공진)되어 버림! │
-│                                                               │
-│   [아키텍처적 방어막 (Adaptive Modulation)]                        │
-│   위성: "어? 비 와서 신호가 자꾸 깨지네? QAM 압축률(64-QAM)을 풀고,      │
-│         가장 무식하지만 단단한 맷집의 BPSK(1비트 전송)로 빔의 성질을 바꿔!"│
-│   => 결과: 비가 오면 인터넷 속도는 1/6로 떨어지지만, 카톡 텍스트 하나라도  │
-│            어떻게든 지상으로 살려 보내기 위한 눈물겨운 변조 방식의 타협 발동!│
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성의 치명적 약점: 빗방울 감쇠(Rain Fade) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">맑은 날: 쌩쌩한 위성 인터넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지붕 위 접시 안테나</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 파장이 짧아서(약 2cm) 직진성이 좋고 1Gbps 속도로 빵빵하게 꽂힘!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비 오는 날: Rain Attenuation (비의 저주) 발생 ⛈️</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접시 안테나 (먹통)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공학적 비극: 빗방울의 크기(약 1~2cm)와 Ku 밴드 전파의 파장 길이(2cm)가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 딱 맞아떨어지는 순간, 전파가 빗방울을 뚫지 못하고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빗방울을 데우는 데 에너지를 다 뺏기며 흡수(공진)되어 버림!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처적 방어막 (Adaptive Modulation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성: "어? 비 와서 신호가 자꾸 깨지네? QAM 압축률(64-QAM)을 풀고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 무식하지만 단단한 맷집의 BPSK(1비트 전송)로 빔의 성질을 바꿔!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 비가 오면 인터넷 속도는 1/6로 떨어지지만, 카톡 텍스트 하나라도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떻게든 지상으로 살려 보내기 위한 눈물겨운 변조 방식의 타협 발동!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위성 통신 엔지니어가 가장 두려워하는 것이 바로 날씨(Rain Fade)다. L 밴드나 C 밴드는 파장이 커서(축구공만 해서) 빗방울(구슬 크기)을 그냥 밀고 지나간다. 하지만 속도를 높이기 위해 채택한 Ku/Ka 밴드는 파장 길이가 빗방울 크기와 거의 똑같아서, 파동이 빗방울을 만나는 순간 산란되거나 수분에 에너지를 완전히 흡수당한다. 이를 극복하기 위해 비가 올 때는 지상국과 위성이 **ACM (적응형 변조 및 코딩)** 기술을 발동하여, 고속 변조(QAM)를 풀고 가장 저속이지만 튼튼한 QPSK 등으로 변조 방식을 실시간으로 기어 변속하듯 바꿔치기하며 통신의 끈을 놓지 않는다.
 
@@ -127,14 +123,14 @@ tags = ["studynote-network"]
 1. **상황**: 아마존 정글 한가운데 댐을 건설하는 캠프나, 태평양 한가운데 떠 있는 원양어선에는 광케이블이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 없다. 이 오지의 직원들은 가족과 카톡을 하고 싶어 하고, 회사는 본사와 공정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)해야 한다.
 2. **원인 (지상망의 절대적 공간 제약)**: 지구 표면의 70%는 바다고, 육지의 상당수도 사막과 정글이다. [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)(셀룰러) 커버리지는 인류가 사는 도심지 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에만 쏠려있어, 지구 면적의 90%는 완벽한 통신 암흑기둥(Dead Zone)이다. 
 3. **의사결정 및 아키텍처 조치 (VSAT 융합망 도입)**:
-   - 인프라 아키텍트는 원양어선 지붕에 지름 1미터짜리 작은 접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)인 **VSAT 장비**를 달아버린다.
+   - 인프라 아키텍트는 원양어선 지붕에 지름 1미터짜리 작은 접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)인 <strong>VSAT 장비</strong>를 달아버린다.
    - VSAT은 흔들리는 배 위에서도 하늘에 떠 있는 정지궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)) 위성의 위치를 자이로센서로 추적하여 레이저 빔을 계속 고정(Tracking)한다.
    - 선원들의 스마트폰은 배 안의 일반 Wi-Fi 공유기에 붙고, 공유기는 이 VSAT [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 거쳐 하늘의 위성(Ku 대역)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아 올린다. 위성은 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지구 반대편 한국의 위성 기지국으로 쏴서 카카오톡 서버(유선망)에 꽂아준다.
    - **결과**: 지구상 어디를 가든 하늘이 뚫려있기만 하다면 반경 10미터의 와이파이존(초연결망)을 즉석에서 창조해 내는 궁극의 '무선 유목민(Nomad) 아키텍처'가 완성된다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 붕괴 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 위성망을 처음 구축한 주니어 엔지니어가 땅에서 쓰던 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 세팅을 위성에 그대로 올리면 망이 터진다. TCP는 패킷을 1개 보낼 때마다 상대방이 "잘 받았음(ACK)" 도장을 찍어줘야 다음 패킷을 쏘는([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 락) 깐깐한 룰을 가졌다. 위성 통신은 Ping(왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 500ms(0.5초)다. 1개를 쏘고 0.5초를 쉬고, 1개를 쏘고 0.5초를 쉬면, 위성의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 1Gbps라도 실제 체감 속도는 1Mbps도 안 나오는 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Window 빈 공간([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 현상**이 터진다. 위성 엔지니어는 반드시 TCP의 전송 창 크기([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))를 무식하게 1,000배 이상 늘려버리거나(Window Scaling), 아예 신뢰성을 포기하고 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 베이스로 마개조한 **SCPS-TP (우주 통신 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**를 융합 도입해야만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 무시하고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 꽉꽉 채워 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뿜어낼 수 있다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (보안 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 암호화 맹신)**: 회사 기밀을 지키겠다고 위성망 중간에 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 기반의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널을 뚫어버리는 짓. 위에서 말한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 튜닝(위성 가속기, PEP)은 위성 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 오고 가는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷의 헤더를 몰래 까보고 거짓으로 "나 도착했어!"라고 폰을 속여주는([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 꼼수로 속도를 튀긴다. 그런데 VPN을 켜버리면 패킷 헤더와 내용물이 모두 암호화되어 위성 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 속을 까볼 수 없게 된다. 결국 위성 가속기(PEP) 기능이 100% 무력화되어 위성 인터넷 속도가 옛날 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 시절 56kbps 속도로 추락하는 참사를 맞게 된다. 위성 구간에서는 L3 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 대신 L2 단의 링크 암호화(Link Encryption)를 쓰는 것이 올바른 아키텍처다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 붕괴 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 위성망을 처음 구축한 주니어 엔지니어가 땅에서 쓰던 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 세팅을 위성에 그대로 올리면 망이 터진다. TCP는 패킷을 1개 보낼 때마다 상대방이 "잘 받았음(ACK)" 도장을 찍어줘야 다음 패킷을 쏘는([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 락) 깐깐한 룰을 가졌다. 위성 통신은 Ping(왕복 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 500ms(0.5초)다. 1개를 쏘고 0.5초를 쉬고, 1개를 쏘고 0.5초를 쉬면, 위성의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 1Gbps라도 실제 체감 속도는 1Mbps도 안 나오는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> Window 빈 공간(<a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>) 현상</strong>이 터진다. 위성 엔지니어는 반드시 TCP의 전송 창 크기([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))를 무식하게 1,000배 이상 늘려버리거나(Window Scaling), 아예 신뢰성을 포기하고 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 베이스로 마개조한 <strong>SCPS-TP (우주 통신 전용 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>를 융합 도입해야만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 무시하고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 꽉꽉 채워 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뿜어낼 수 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (보안 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 암호화 맹신)</strong>: 회사 기밀을 지키겠다고 위성망 중간에 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 기반의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널을 뚫어버리는 짓. 위에서 말한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 튜닝(위성 가속기, PEP)은 위성 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 오고 가는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷의 헤더를 몰래 까보고 거짓으로 "나 도착했어!"라고 폰을 속여주는([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 꼼수로 속도를 튀긴다. 그런데 VPN을 켜버리면 패킷 헤더와 내용물이 모두 암호화되어 위성 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 속을 까볼 수 없게 된다. 결국 위성 가속기(PEP) 기능이 100% 무력화되어 위성 인터넷 속도가 옛날 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 시절 56kbps 속도로 추락하는 참사를 맞게 된다. 위성 구간에서는 L3 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 대신 L2 단의 링크 암호화(Link Encryption)를 쓰는 것이 올바른 아키텍처다.
 
 - **📢 섹션 요약 비유**: 우주로 패킷을 쏘는 건 달나라로 택배를 보내는 겁니다. 땅(광케이블)에서는 1개 보내고 영수증 받고 1개 보내면 됩니다. 달나라로 택배 1개를 보내고 영수증(ACK)이 오길 기다리면 왕복 한 달이 걸려 창고가 다 놉니다([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 한계). 위성 엔지니어는 영수증 따위 안 기다리고 한 달 동안 트럭 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대를 무조건 우주로 줄줄이 발사해 버리고([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 뻥튀기), 나중에 안 온 것만 몰아서 다시 쏘는 상남자식 배송 시스템으로 속도를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 냅니다.
 
@@ -145,12 +141,12 @@ tags = ["studynote-network"]
 | 구분 | 지상망 (광케이블, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 셀룰러) | 위성 통신 (Satellite Comm.) | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (물리적 인프라 커버리지)** | 기지국 1대당 반경 1~3km 찔끔 커버 | 위성 1대로 지구 표면의 **3분의 1 (1/3) 동시 커버** | 섬, 사막, 남극 펭귄 앞마당까지 단 3대의 위성으로 **전 지구 글로벌 100% 초광역 커버리지 획득.** |
-| **정량 (장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도 및 생존력)**| 화재나 홍수로 해저 케이블 끊기면 국가 마비 | 하늘의 위성은 지진/쓰나미에 파괴되지 않음 | 전쟁 융단폭격이나 대지진 발생 시에도 파괴되지 않는 **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 99.999% 무결점 백업망.** |
+| <strong>정량 (장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 속도 및 생존력)</strong>| 화재나 홍수로 해저 케이블 끊기면 국가 마비 | 하늘의 위성은 지진/쓰나미에 파괴되지 않음 | 전쟁 융단폭격이나 대지진 발생 시에도 파괴되지 않는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>) 99.999% 무결점 백업망.</strong> |
 | **정성 (방송 통신 융합 전송)** | 1,000명에게 영상 쏘려면 1,000가닥 회선 낭비 | 허공에 냅다 1번만 쏘면 접시 1,000개가 다 받음 | 전국에 흩어진 편의점 포스(POS) 기기 10만 대에 똑같은 소프트웨어 업데이트를 **단 한 번의 전파 난사로 100% 동시 완료(Broadcast 갓성비).** |
 
 ### 미래 전망 및 진화 방향
-- **[비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)(NTN)와 스마트폰 다이렉트 통신의 결합**: 2023년부터 3GPP는 엄청난 폭탄선언을 했다. "위성 접시를 사지 말고, 당신들이 들고 있는 아이폰과 갤럭시 폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 500km 우주에 떠 있는 위성과 다이렉트로 바로 빔을 쏘게 만들겠다!"라는 **NTN (Non-Terrestrial Network, 비지상망)** 융합 규격이다. 이로써 사막에서 조난당해도 아이폰을 하늘로 들면 SOS 문자가 스타링크 위성을 때리고 지구로 내려와 119를 부르는 기적의 시대가 열렸다. 우주 위성과 지상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 하나의 거대한 코어망 아래 통합되는 진정한 "어스(Earth) 원 네트워킹" 시대의 개막이다.
-- **광통신 (Laser [ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/), [Inter-Satellite Link](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/))**: 옛날엔 위성 A가 위성 B로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주려면 무조건 지구 땅으로 전파를 내렸다가 땅에서 선을 타고 가서 다시 우주로 올려야 했다(비효율 극치). 이제 위성들은 자기들끼리 우주 허공에서 **레이저 빛(광통신)**을 쏴서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이한다([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)). 진공 상태인 우주에서는 빛의 속도가 유리섬유(광케이블) 안보다 30%나 더 빨라서, 런던에서 뉴욕으로 주식 단타(HFT) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때 해저 케이블을 뜯어내고 하늘의 위성 레이저망을 타는 게 핑([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 10ms나 더 빠르다는 충격적인 역전극이 벌어지고 있다.
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/">비지상 네트워크</a>(NTN)와 스마트폰 다이렉트 통신의 결합</strong>: 2023년부터 3GPP는 엄청난 폭탄선언을 했다. "위성 접시를 사지 말고, 당신들이 들고 있는 아이폰과 갤럭시 폰 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 500km 우주에 떠 있는 위성과 다이렉트로 바로 빔을 쏘게 만들겠다!"라는 **NTN (Non-Terrestrial Network, 비지상망)** 융합 규격이다. 이로써 사막에서 조난당해도 아이폰을 하늘로 들면 SOS 문자가 스타링크 위성을 때리고 지구로 내려와 119를 부르는 기적의 시대가 열렸다. 우주 위성과 지상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 하나의 거대한 코어망 아래 통합되는 진정한 "어스(Earth) 원 네트워킹" 시대의 개막이다.
+- <strong>광통신 (Laser <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>, <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/">Inter-Satellite Link</a>)</strong>: 옛날엔 위성 A가 위성 B로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주려면 무조건 지구 땅으로 전파를 내렸다가 땅에서 선을 타고 가서 다시 우주로 올려야 했다(비효율 극치). 이제 위성들은 자기들끼리 우주 허공에서 <strong>레이저 빛(광통신)</strong>을 쏴서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이한다([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)). 진공 상태인 우주에서는 빛의 속도가 유리섬유(광케이블) 안보다 30%나 더 빨라서, 런던에서 뉴욕으로 주식 단타(HFT) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때 해저 케이블을 뜯어내고 하늘의 위성 레이저망을 타는 게 핑([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 10ms나 더 빠르다는 충격적인 역전극이 벌어지고 있다.
 
 ### 참고 표준
 - **ITU-R (국제전기통신연합 전파통신부문)**: 전 세계 국가들이 우주 공간에 위성(거울)을 띄우다 서로 부딪치거나 주파수가 겹치는 재앙을 막기 위해, 우주 궤도의 주차 구역(Slot)과 사용할 주파수 대역을 칼같이 배분하고 허가증을 발급하는 UN 산하의 절대 권력 기구.
@@ -173,15 +169,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: C-V2X]
-    │
-    ▼
-[현재 개념: 위성 통신 특징]
-    │
-    ├──▶ [확장 A: 정지 궤도 위성]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: C-V2X</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 위성 통신 특징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정지 궤도 위성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 위성 통신 특징는 C-V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 [정지 궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

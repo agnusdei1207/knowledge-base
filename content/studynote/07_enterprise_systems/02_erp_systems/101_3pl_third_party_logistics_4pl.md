@@ -29,31 +29,28 @@ tags = ["enterprise_systems"]
 
 물류 아웃소싱의 진화는 주체가 누구인지, 그리고 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 범위(단순 배송 vs 종합 컨설팅)에 따라 1PL에서 4PL로 계층화된다. 
 
-3PL은 단순히 트럭을 빌려주는 것이 아니라 재고 관리, 창고 운영(Fulfillment), 포장, 반품 처리까지 물류의 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 전담한다. 나아가 4PL은 3PL의 실행력에 **IT 및 비즈니스 컨설팅 역량**을 결합하여, 화주의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 아키텍처를 진단하고 재설계하는 두뇌 역할까지 수행한다.
+3PL은 단순히 트럭을 빌려주는 것이 아니라 재고 관리, 창고 운영(Fulfillment), 포장, 반품 처리까지 물류의 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 전담한다. 나아가 4PL은 3PL의 실행력에 <strong>IT 및 비즈니스 컨설팅 역량</strong>을 결합하여, 화주의 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 아키텍처를 진단하고 재설계하는 두뇌 역할까지 수행한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  물류 아웃소싱의 진화 단계                   │
-├──────────────────────────────────────────────────────────────┤
-│ [ 4PL ] 제4자 물류 = 3PL + IT 컨설팅 (SCM 재설계)            │
-│  "A창고를 닫고 B창고를 열면 연간 20억이 절감됩니다." 제안    │
-│    ▲                                                         │
-│    │ IT 솔루션 및 공급망 최적화 역량 결합                    │
-│    │                                                         │
-│ [ 3PL ] 제3자 물류 = 외부 전문 물류 기업 (종합 아웃소싱)     │
-│  "재고 보관, 포장, 배송, 반품까지 우리가 다 해드립니다."     │
-│    ▲                                                         │
-│    │ 자산 매각 및 외부 아웃소싱 단행                         │
-│    │                                                         │
-│ [ 2PL ] 제2자 물류 = 물류 자회사 독립                        │
-│  "그룹사 내에 물류만 전담하는 계열사를 새로 만들자."         │
-│    ▲                                                         │
-│    │ 내부 물류 부서의 분리 독립                              │
-│    │                                                         │
-│ [ 1PL ] 제1자 물류 = 자사 물류                               │
-│  "우리 회사 직원이, 우리 회사 트럭으로 직접 배달한다."       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물류 아웃소싱의 진화 단계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4PL</div><div class="kb-diagram-note">제4자 물류 = 3PL + IT 컨설팅 (SCM 재설계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A창고를 닫고 B창고를 열면 연간 20억이 절감됩니다." 제안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 솔루션 및 공급망 최적화 역량 결합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3PL</div><div class="kb-diagram-note">제3자 물류 = 외부 전문 물류 기업 (종합 아웃소싱)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"재고 보관, 포장, 배송, 반품까지 우리가 다 해드립니다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자산 매각 및 외부 아웃소싱 단행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2PL</div><div class="kb-diagram-note">제2자 물류 = 물류 자회사 독립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"그룹사 내에 물류만 전담하는 계열사를 새로 만들자."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 물류 부서의 분리 독립</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1PL</div><div class="kb-diagram-note">제1자 물류 = 자사 물류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"우리 회사 직원이, 우리 회사 트럭으로 직접 배달한다."</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 '실행(Execution)'의 위탁에서 '기획 및 최적화(Planning & Optimization)'의 위탁으로 아웃소싱의 무게 중심이 이동하고 있음을 보여준다.
 
@@ -68,7 +65,7 @@ tags = ["enterprise_systems"]
 | 비교 항목 | 3PL (제3자 물류) | 4PL (제4자 물류) |
 | :--- | :--- | :--- |
 | **핵심 역량** | 하드웨어 (창고, 트럭 인프라, 물류 네트워크) | 소프트웨어 (IT 시스템, 빅데이터 분석, [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 컨설팅) |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위** | 보관, 운송, 포장, 재고 관리 등 물리적 실행 | 3PL 기능 + 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 기획, 최적화, 재설계 제안 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 범위</strong> | 보관, 운송, 포장, 재고 관리 등 물리적 실행 | 3PL 기능 + 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 기획, 최적화, 재설계 제안 |
 | **운영 주체** | 택배사, 포워딩 업체, 종합 물류 기업 | IT 기업, 경영 컨설팅사, 또는 3PL 업체와의 합작 법인 |
 | **주요 목표** | 운송 단가 인하 및 물류 처리 속도 향상 | 전사적 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 가시성(Visibility) 확보 및 구조적 원가 절감 |
 
@@ -82,7 +79,7 @@ tags = ["enterprise_systems"]
 
 기업이 3PL/4PL 도입을 검토할 때는 비용 절감의 환상 뒤에 숨어 있는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 정확히 평가해야 한다.
 
-- **통제력 상실 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 외부 업체에 전적으로 의존하므로, 3PL 업체의 노조 파업, 창고 화재, IT 시스템 마비 등 통제 불가능한 사고가 발생하면 자사의 비즈니스 전체가 멈추는 '[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))' 문제가 발생한다. 핵심 VIP 고객 물량이나 보안이 중요한 신제품은 일부 1PL이나 2PL로 병행 운영하는 듀얼 벤더(Dual Vendor) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
+- <strong>통제력 상실 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 외부 업체에 전적으로 의존하므로, 3PL 업체의 노조 파업, 창고 화재, IT 시스템 마비 등 통제 불가능한 사고가 발생하면 자사의 비즈니스 전체가 멈추는 '[종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))' 문제가 발생한다. 핵심 VIP 고객 물량이나 보안이 중요한 신제품은 일부 1PL이나 2PL로 병행 운영하는 듀얼 벤더(Dual Vendor) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 - **정보 유출 보안 설계**: 4PL 체제에서는 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), 생산 계획이 물류/IT 파트너와 공유된다. 따라서 계약 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Ownership)을 명확히 하고, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)에 보안 위반 시 페널티 조항을 강력하게 세팅해야 한다.
 
 - **📢 섹션 요약 비유**: 요리사가 주방 보조에게 재료 손질(3PL)을 다 맡기면 몸은 편하지만, 보조가 갑자기 무단결근하면 그날 장사를 통째로 망치게 된다. 그래서 가장 중요한 소스 비법이나 핵심 재료 한두 개는 늘 사장님이 직접 챙겨야([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 한다.
@@ -103,28 +100,30 @@ tags = ["enterprise_systems"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))** | 원자재부터 최종 소비자까지의 전체 물름 흐름 관리, 4PL의 최적화 대상 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/">SCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">Supply Chain</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> | 원자재부터 최종 소비자까지의 전체 물름 흐름 관리, 4PL의 최적화 대상 |
 | **풀필먼트 (Fulfillment)** | 3PL의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로, 이커머스 주문 접수부터 픽업, 포장, 배송, 반품까지 일괄 처리 |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** | 3PL/4PL 아웃소싱 계약 시 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율, 파손율 등의 품질을 강제하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 협약 |
-| **[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))** | 4PL 시스템과 연동되어 기업의 재무, 생산, 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물류 정보와 통합하는 시스템 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | 3PL/4PL 아웃소싱 계약 시 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율, 파손율 등의 품질을 강제하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 협약 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">ERP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/">Enterprise Resource Planning</a>)</strong> | 4PL 시스템과 연동되어 기업의 재무, 생산, 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 물류 정보와 통합하는 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-1PL (First Party Logistics) - 고정비 부담 증가 및 비핵심 업무 과다
-    │
-    ▼
-2PL (Second Party Logistics) - 물류 자회사 설립을 통한 전문화 시도
-    │
-    ▼
-3PL (Third Party Logistics) - 외부 전문 물류 기업을 통한 자산 유동화 및 원가 절감
-    │
-    ▼
-4PL (Fourth Party Logistics) - IT 및 SCM 컨설팅 결합으로 공급망 아키텍처 재설계
-    │
-    ▼
-지능형 디지털 물류 (AI, 블록체인 기반의 자율 예측 및 추적 네트워크 구축)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1PL (First Party Logistics) - 고정비 부담 증가 및 비핵심 업무 과다</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2PL (Second Party Logistics) - 물류 자회사 설립을 통한 전문화 시도</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3PL (Third Party Logistics) - 외부 전문 물류 기업을 통한 자산 유동화 및 원가 절감</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">4PL (Fourth Party Logistics) - IT 및 SCM 컨설팅 결합으로 공급망 아키텍처 재설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 디지털 물류 (AI, 블록체인 기반의 자율 예측 및 추적 네트워크 구축)</div>
+</div>
+</div>
+
+
 이 흐름도는 기업이 자산을 소유하는 방식에서 지식을 활용하는 방식으로 물류 패러다임이 옮겨가고 있음을 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

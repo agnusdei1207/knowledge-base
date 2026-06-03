@@ -31,23 +31,20 @@ tags = ["studynote-database"]
 
 로깅 엔진은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 변경을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 버퍼에 쌓고, 이를 디스크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 순차적으로 flush한 뒤 커밋을 완료한다. 이후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 여유가 있을 때 디스크로 내려보내도 된다. 이 구조가 가능한 이유가 WAL 규칙이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                WAL 기반 로깅 엔진 동작 흐름                  │
-├──────────────────────────────────────────────────────────────┤
-│ 트랜잭션 수정                                                │
-│    │                                                         │
-│    ├──▶ 버퍼 풀의 페이지 변경 (Dirty Page)                  │
-│    │                                                         │
-│    └──▶ 로그 버퍼에 Log Record 생성                         │
-│                 │                                            │
-│                 ▼                                            │
-│          로그 파일에 Flush  ──▶ COMMIT 응답                 │
-│                 │                                            │
-│                 ▼                                            │
-│         나중에 데이터 페이지를 디스크에 Flush               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAL 기반 로깅 엔진 동작 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 버퍼 풀의 페이지 변경 (Dirty Page)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 로그 버퍼에 Log Record 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 파일에 Flush ──▶ COMMIT 응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나중에 데이터 페이지를 디스크에 Flush</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -57,7 +54,7 @@ tags = ["studynote-database"]
 | 체크포인트 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시작 위치 단축 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과 런타임 I/O의 절충 |
 | [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) / [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) | 재실행 / 되돌리기 | 커밋/미커밋 상태를 복원 |
 
-WAL의 핵심 규칙은 두 가지다. 첫째, **어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전에는 해당 변경 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 먼저 디스크에 있어야 한다**. 둘째, **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 커밋을 인정하기 전에는 그 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 디스크에 있어야 한다**. 이 규칙 덕분에 시스템은 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 쓰지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 잃지 않는다.
+WAL의 핵심 규칙은 두 가지다. 첫째, <strong>어떤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 디스크에 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 전에는 해당 변경 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>가 먼저 디스크에 있어야 한다</strong>. 둘째, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 커밋을 인정하기 전에는 그 커밋 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>가 디스크에 있어야 한다</strong>. 이 규칙 덕분에 시스템은 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 쓰지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 잃지 않는다.
 
 - **📢 섹션 요약 비유**: 로깅 엔진은 영화 촬영장의 콘티와 같다. 장면을 실제로 편집하기 전에 촬영 기록을 먼저 남겨 두어야, 촬영 중 문제가 생겨도 어느 장면을 다시 찍을지 알 수 있다.
 
@@ -125,21 +122,23 @@ WAL의 핵심 규칙은 두 가지다. 첫째, **어떤 [데이터](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-버퍼 풀 기반 갱신
-    │
-    ▼
-WAL (Write-Ahead Logging)
-    │
-    ▼
-LSN · Redo · Undo
-    │
-    ▼
-체크포인트 (Checkpoint)
-    │
-    ▼
-ARIES · 그룹 커밋 · 분산 로그 복제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">버퍼 풀 기반 갱신</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WAL (Write-Ahead Logging)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LSN · Redo · Undo</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">체크포인트 (Checkpoint)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARIES · 그룹 커밋 · 분산 로그 복제</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록"이 "고성능 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처"로 발전하는 과정을 보여준다.
 

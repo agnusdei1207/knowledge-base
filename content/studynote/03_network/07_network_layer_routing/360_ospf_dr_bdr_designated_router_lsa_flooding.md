@@ -23,19 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나에 라우터 5대가 꽂혀 있다 치자. 5대가 서로서로 1:1 찐친([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺으려면 수학 공식으로 $n(n-1)/2 = [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)$ 개의 인접성이 생기고 엽서도 그만큼 날아다닌다. 만약 라우터가 100대 꽂혀 있다면? 인접성이 무려 4,950개가 생겨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 엽서 폭풍에 휩싸여(Flooding Storm) 사망한다. "야! 100명이 서로 떠들지 말고, **'반장' 한 명 딱 뽑아! 99명의 평민은 무조건 반장이랑만 1:1로 찐친을 맺고 정보는 반장한테만 줘! 반장이 다 취합해서 스피커로 한방에 공지할게!!**"라는 미친 최적화 아이디어다.
 
 - **💡 비유**: 
-  - **DR이 없을 때**: 100명의 학생이 교실에서 "내 숙제 봐라!" 하면서 99명의 친구들에게 각자 자기 숙제 99장을 복사해서 날리는 **아수라장([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭발)**입니다.
-  - **DR이 있을 때**: **"반장(DR)"**이 교탁에 섭니다. 99명의 학생(평민)은 조용히 반장에게만 자기 숙제 1장씩을 제출합니다. 반장이 99장을 다 모아서 예쁘게 제본한 다음, **"자, 이게 우리 반 전체 숙제 모음집([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))이다!"**라며 한 방에 쫙 뿌려줍니다. 교실은 눈물 나게 조용해집니다.
+  - **DR이 없을 때**: 100명의 학생이 교실에서 "내 숙제 봐라!" 하면서 99명의 친구들에게 각자 자기 숙제 99장을 복사해서 날리는 <strong>아수라장(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭발)</strong>입니다.
+  - **DR이 있을 때**: <strong>"반장(DR)"</strong>이 교탁에 섭니다. 99명의 학생(평민)은 조용히 반장에게만 자기 숙제 1장씩을 제출합니다. 반장이 99장을 다 모아서 예쁘게 제본한 다음, <strong>"자, 이게 우리 반 전체 숙제 모음집(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)이다!"</strong>라며 한 방에 쫙 뿌려줍니다. 교실은 눈물 나게 조용해집니다.
 
-```text
-[OSPF Area 계층적 구조]
-    │
-    ▼
-[DR, BDR]
-    │
-    └──▶ [OSPF 트래픽엔지니어링 연동]
-```
 
-- **📢 섹션 요약 비유**: ** DR(반장) 제도는 거미줄처럼 엉킨 수백 개의 실타래를, **바퀴살(Spoke)들이 오직 중앙 축([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), DR) 하나하고만 연결되는 자전거 바퀴 모양으로 아주 깔끔하게 빗질하여 재정렬하는 극강의 통신망 다이어트**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF Area 계층적 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DR, BDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF 트래픽엔지니어링 연동</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> DR(반장) 제도는 거미줄처럼 엉킨 수백 개의 실타래를, </strong>바퀴살(Spoke)들이 오직 중앙 축([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), DR) 하나하고만 연결되는 자전거 바퀴 모양으로 아주 깔끔하게 빗질하여 재정렬하는 극강의 통신망 다이어트**입니다.
 
 ---
 
@@ -43,38 +47,37 @@ tags = ["studynote-network"]
 
 ### 1. [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)의 핑퐁 (224.0.0.5 vs 224.0.0.6)
 OSPF는 멍청하게 브로드캐스트를 쓰지 않고 조용한 단톡방([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))을 2개 판다.
-- **`224.0.0.5` (모든 라우터 듣기 방)**: 동네에 있는 100대의 모든 평민, 반장, 부반장이 다 들어와 있는 스피커 방이다. 반장(DR)이 공지사항을 뿌릴 때 쓴다.
-- **`224.0.0.6` (반장/부반장 전용 귓속말 방)**: 평민(DROther)들은 이 방에 못 들어온다. 평민이 선로가 끊겨서 비상 보고를 할 때 이 방으로 쏙 밀어 넣으면, 오직 반장(DR)과 부반장(BDR) 둘만 그 비보를 조용히 챙겨 듣는다.
+- <strong><code>224.0.0.5</code> (모든 라우터 듣기 방)</strong>: 동네에 있는 100대의 모든 평민, 반장, 부반장이 다 들어와 있는 스피커 방이다. 반장(DR)이 공지사항을 뿌릴 때 쓴다.
+- <strong><code>224.0.0.6</code> (반장/부반장 전용 귓속말 방)</strong>: 평민(DROther)들은 이 방에 못 들어온다. 평민이 선로가 끊겨서 비상 보고를 할 때 이 방으로 쏙 밀어 넣으면, 오직 반장(DR)과 부반장(BDR) 둘만 그 비보를 조용히 챙겨 듣는다.
 
 ### 2. 평민(DROther)들의 인접성 상태
-DR이 있는 환경에서, 평민 라우터(DROther)들끼리 `show ip ospf neighbor` 명령어를 쳐보면 상태가 **`2-Way` (그냥 아는 사이)**에서 멈춰있고 절대로 `Full` (완벽한 찐친)로 넘어가지 않는다. 
-왜냐하면 "평민끼리는 정보(LSA)를 1:1로 주고받지 않는다"는 룰 때문이다. 평민은 오직 **반장(DR)과 부반장(BDR)하고만 `Full` 상태를 맺는다.** (시험에 100% 나오는 단골 개념이다).
+DR이 있는 환경에서, 평민 라우터(DROther)들끼리 `show ip ospf neighbor` 명령어를 쳐보면 상태가 <strong><code>2-Way</code> (그냥 아는 사이)</strong>에서 멈춰있고 절대로 `Full` (완벽한 찐친)로 넘어가지 않는다. 
+왜냐하면 "평민끼리는 정보(LSA)를 1:1로 주고받지 않는다"는 룰 때문이다. 평민은 오직 <strong>반장(DR)과 부반장(BDR)하고만 <code>Full</code> 상태를 맺는다.</strong> (시험에 100% 나오는 단골 개념이다).
 
 ### 3. 피 튀기는 반장 선거 (Election)
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜면 40초(Wait [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/)) 동안 반장 선거가 벌어진다.
 1. **1순위 (Priority)**: 인터페이스에 설정된 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Priority 값(0~255)이 제일 높은 놈이 반장(DR)이 된다. (기본값은 전부 1이다). 만약 Priority를 `0`으로 세팅하면 "난 평생 반장 선거 안 나감(평민 확정)"이라는 뜻이다.
 2. **2순위 (Router ID)**: Priority가 1로 전부 동점이라면? "라우터 IP 주소가 가장 높은 놈"이 이긴다. (예: `10.1.1.1`보다 `192.168.1.1`이 깡패라서 반장이 됨).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DR 선거의 절대 룰: 기득권 유지 (Non-Preemptive)     │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1) 아침 9시: 동네에 꾸진 구형 라우터 A(IP: 1.1.1.1) 혼자 켜짐.     │
- │               "동네에 나 혼자네? 내가 당연히 반장(DR)이지!"         │
- │                                                             │
- │   2) 아침 10시: 초호화 최신형 라우터 B(IP: 200.200.200.200) 켜짐.  │
- │               "야! 내 IP 깡패인 거 안 보여? 반장 자리 내놔!!"       │
- │                                                             │
- │   3) OSPF의 심판: "안 돼 돌아가. 이미 A가 반장 완장 차고 통신 돌리고   │
- │                 있는데, 너한테 반장 주려고 판 다시 엎으면 통신 끊겨!"│
- │                                                             │
- │   ▶ 결과: OSPF 반장 선거는 '굴러온 돌이 박힌 돌을 절대 빼낼 수 없다'. │
- │           새로 온 B는 끽해야 부반장(BDR)밖에 못 먹는다.              │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 반장(DR) 선거의 '기득권 보장' 룰은, 회의가 이미 시작되어 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중일 때 늦게 들어온 사람이 아무리 **"내가 사장님 아들이야!"**라며 완장을 뺏으려 해도, 회의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)의 흐름(통신 무중단)을 지키기 위해 **"다음 선거(라우터 재부팅) 때까지 넌 그냥 조용히 부반장이나 해!"**라고 질서를 유지하는 훌륭한 억제기입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR 선거의 절대 룰: 기득권 유지 (Non-Preemptive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 아침 9시: 동네에 꾸진 구형 라우터 A(IP: 1.1.1.1) 혼자 켜짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"동네에 나 혼자네? 내가 당연히 반장(DR)이지!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 아침 10시: 초호화 최신형 라우터 B(IP: 200.200.200.200) 켜짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야! 내 IP 깡패인 거 안 보여? 반장 자리 내놔!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) OSPF의 심판: "안 돼 돌아가. 이미 A가 반장 완장 차고 통신 돌리고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있는데, 너한테 반장 주려고 판 다시 엎으면 통신 끊겨!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OSPF 반장 선거는 '굴러온 돌이 박힌 돌을 절대 빼낼 수 없다'.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로 온 B는 끽해야 부반장(BDR)밖에 못 먹는다.</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 반장(DR) 선거의 '기득권 보장' 룰은, 회의가 이미 시작되어 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중일 때 늦게 들어온 사람이 아무리 </strong>"내가 사장님 아들이야!"<strong>라며 완장을 뺏으려 해도, 회의 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>의 흐름(통신 무중단)을 지키기 위해 </strong>"다음 선거(라우터 재부팅) 때까지 넌 그냥 조용히 부반장이나 해!"**라고 질서를 유지하는 훌륭한 억제기입니다.
 
 ---
 
@@ -130,15 +133,19 @@ DR, BDR는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rou
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: OSPF Area 계층적 구조]
-    │
-    ▼
-[현재 개념: DR, BDR]
-    │
-    ├──▶ [확장 A: OSPF 트래픽엔지니어링 연동]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF Area 계층적 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DR, BDR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF 트래픽엔지니어링 연동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 DR, BDR는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층적 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

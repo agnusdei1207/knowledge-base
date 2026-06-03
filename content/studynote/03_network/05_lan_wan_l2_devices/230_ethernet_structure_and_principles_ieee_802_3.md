@@ -23,16 +23,20 @@ tags = ["studynote-network"]
 
 - **필요성**: 수많은 컴퓨터가 프린터나 서버에 연결되려면 물리적인 선(전선)을 연결하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 0과 1의 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 어떻게 바꿀지, 누가 먼저 선로를 차지할지([매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/))를 정해야 한다. 이더넷은 이 복잡한 하드웨어적, 논리적 제어 문제를 가장 저렴하고 단순하며 튼튼하게 해결해 준 혁명적 기술이다.
 
-- **💡 비유**: 이더넷은 **"하나뿐인 차선을 나눠 쓰는 규칙"**과 같습니다. 좁은 골목길([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))에 여러 대의 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 다니면 부딪칠 수 있으니, "눈치껏 길이 비었을 때 출발하고, 부딪히면 멈췄다가 나중에 다시 출발하자([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)"라는 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 만든 것이 이더넷의 시작이었습니다.
+- **💡 비유**: 이더넷은 <strong>"하나뿐인 차선을 나눠 쓰는 규칙"</strong>과 같습니다. 좁은 골목길([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))에 여러 대의 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 다니면 부딪칠 수 있으니, "눈치껏 길이 비었을 때 출발하고, 부딪히면 멈췄다가 나중에 다시 출발하자([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)"라는 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 만든 것이 이더넷의 시작이었습니다.
 
-```text
-[EAP]
-    │
-    ▼
-[이더넷 구조 및 원리]
-    │
-    └──▶ [MAC 주소]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 구조 및 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 주소</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 이더넷은 컴퓨터들이 모인 방 안에서 대화하는 **"회의실 발언 규칙"**입니다. 발언권([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 가진 사람이, 남이 말하지 않을 때([반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지) 말을 시작하여 정보를 안전하게 전달하는 통신 질서입니다.
 
@@ -48,27 +52,22 @@ tags = ["studynote-network"]
 ### 2. 이더넷 프레임 (Ethernet II Frame 구조)
 IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케이블로 쏘아진다. 프레임의 크기는 최소 64바이트 ~ 최대 1518바이트(페이로드 MTU 1500바이트 기준)다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 Ethernet II 프레임 (MAC 프레임) 구조          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │  [Preamble]  동기화 목적 (8 Byte) - 101010... 패턴으로 시작        │
- │      │                                                      │
- │      ▼                                                      │
- │  ┌───────┬────────────┬────────────┬────────┬───────────┐   │
- │  │ SFD   │ 목적지 MAC │ 출발지 MAC │ Type   │ Data(IP)  │   │
- │  │(1B)   │  (6 Byte)  │  (6 Byte)  │(2 Byte)│ (46~1500B)│   │
- │  └───────┴────────────┴────────────┴────────┴───────────┘   │
- │                                                   │         │
- │                                                   ▼         │
- │                                                 [FCS]       │
- │                                            에러 검출(4 Byte) │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ethernet II 프레임 (MAC 프레임) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Preamble</div><div class="kb-diagram-note">동기화 목적 (8 Byte) - 101010... 패턴으로 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFD</div><div class="kb-diagram-cell">목적지 MAC</div><div class="kb-diagram-cell">출발지 MAC</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Data(IP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1B)</div><div class="kb-diagram-cell">(6 Byte)</div><div class="kb-diagram-cell">(6 Byte)</div><div class="kb-diagram-cell">(2 Byte)</div><div class="kb-diagram-cell">(46~1500B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 검출(4 Byte)</div></div>
+</div>
+</div>
+
+
 - **Preamble / SFD (Start Frame Delimiter)**: 수신 측 랜카드에 "지금부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 들어간다, 박자(클럭) 맞춰라!"라고 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
-- **Type ([EtherType](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/))**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)에 포장된 상위 프로토콜이 IP(0x0800)인지 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(0x0806)인지 알려주는 식별표.
+- <strong>Type (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/">EtherType</a>)</strong>: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)에 포장된 상위 프로토콜이 IP(0x0800)인지 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(0x0806)인지 알려주는 식별표.
 - **FCS (Frame Check Sequence)**: 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는 도중 노이즈 등으로 깨졌는지 검사하는 순환 중복 검사([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 필드. 에러가 나면 프레임을 즉시 폐기한다.
 
 - **📢 섹션 요약 비유**: ** 이더넷 프레임은 **"규격화된 택배 상자"**입니다. 상자 겉면에는 정확한 보내는 사람(출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))과 받는 사람(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 주소가 적혀 있고, 송장(Type)에는 내용물이 책인지 옷인지 적혀 있으며, 파손 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 스티커(FCS)가 붙어 있습니다.
@@ -78,15 +77,15 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 ## Ⅲ. 비교 및 연결
 
 ### 1. 초창기 이더넷: [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (반이중, Half-Duplex)
-과거 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 토폴로지([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))나 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 환경에서는 여러 PC가 선을 물리적으로 공유했기 때문에 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생했다. 이를 해결하기 위해 **[CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD (Carrier Sense [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) with [Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/))** 알고리즘이 도입되었다.
+과거 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 토폴로지([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))나 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 환경에서는 여러 PC가 선을 물리적으로 공유했기 때문에 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생했다. 이를 해결하기 위해 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD (Carrier Sense <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a> with <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/">Collision Detection</a>)</strong> 알고리즘이 도입되었다.
 - **Carrier Sense (눈치 보기)**: 선로에 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 흐르고 있는지 엿듣는다.
-- **[Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (다중 접근)**: 선로가 비어 있으면 누구나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있다.
-- **[Collision Detection](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/) (충돌 감지)**: 재수 없게 두 PC가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내 전압이 솟구쳐 '충돌'이 발생하면, 즉시 전송을 중단하고 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 뿌려 모두에게 충돌을 알린다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a> (다중 접근)</strong>: 선로가 비어 있으면 누구나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/106_CSMA_CD_유선이더넷_충돌감지/">Collision Detection</a> (충돌 감지)</strong>: 재수 없게 두 PC가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내 전압이 솟구쳐 '충돌'이 발생하면, 즉시 전송을 중단하고 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 뿌려 모두에게 충돌을 알린다.
 - **Backoff (대기)**: 난수(랜덤 시간)만큼 각자 대기한 후 눈치 보며 다시 전송을 시도한다.
 
 ### 2. 현대의 이더넷: 스위칭([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))과 전이중(Full-Duplex)
-오늘날의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선(CAT.6 등) 환경에서는 수신 선(Rx)과 송신 선(Tx)이 물리적으로 나뉘어 있고, 중간에 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))**가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 각 포트로 길을 정확히 열어주기 때문에 **충돌이 물리적으로 발생하지 않는다**. 
-따라서 현대의 1Gbps, 10Gbps 이더넷은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 주고받는 **전이중(Full-Duplex) 방식**으로 작동하며, 과거의 유산인 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 알고리즘은 사실상 작동을 멈추고 은퇴한 상태다.
+오늘날의 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 랜선(CAT.6 등) 환경에서는 수신 선(Rx)과 송신 선(Tx)이 물리적으로 나뉘어 있고, 중간에 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 보고 각 포트로 길을 정확히 열어주기 때문에 **충돌이 물리적으로 발생하지 않는다**. 
+따라서 현대의 1Gbps, 10Gbps 이더넷은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 주고받는 <strong>전이중(Full-Duplex) 방식</strong>으로 작동하며, 과거의 유산인 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 알고리즘은 사실상 작동을 멈추고 은퇴한 상태다.
 
 이더넷 구조 및 원리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. EAP가 기반 조건을 만든다면, 이더넷 구조 및 원리는 그 위에서 핵심 메커니즘을 구현하고, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -96,7 +95,7 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 과거의 이더넷([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)이 **"무전기(무전 버튼을 누를 땐 들을 수 없는 반이중)"** 통신이었다면, 현대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 이더넷은 **"양방향 통화가 가능한 스마트폰(전이중)"** 통신으로 진화하여 말 겹침(충돌) 현상을 완전히 극복했습니다.
+- **📢 섹션 요약 비유**: <strong> 과거의 이더넷(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD)이 </strong>"무전기(무전 버튼을 누를 땐 들을 수 없는 반이중)"<strong> 통신이었다면, 현대의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 이더넷은 </strong>"양방향 통화가 가능한 스마트폰(전이중)"** 통신으로 진화하여 말 겹침(충돌) 현상을 완전히 극복했습니다.
 
 ---
 
@@ -138,15 +137,19 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EAP]
-    │
-    ▼
-[현재 개념: 이더넷 구조 및 원리]
-    │
-    ├──▶ [확장 A: MAC 주소]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EAP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이더넷 구조 및 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 이더넷 구조 및 원리는 EAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

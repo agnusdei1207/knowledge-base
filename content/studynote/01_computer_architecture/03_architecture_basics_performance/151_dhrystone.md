@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Dhrystone은 실수 연산보다 **정수(Integer) 연산, 문자열 처리, 포인터 조작, 분기 흐름**에 초점을 맞춘 합성 벤치마크(Synthetic [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.
-> 2. **가치**: 단순한 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second) 수치보다, 같은 프로그램을 얼마나 빨리 끝내는지를 비교하게 만들어 **CPU (Central Processing Unit)의 제어 중심 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 상대적으로 읽기 쉽게 했다.
-> 3. **판단 포인트**: 코드 크기가 작아 현대 프로세서에서는 캐시 효과와 컴파일러 최적화의 영향을 크게 받으므로, **대형 시스템의 실사용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표라기보다 임베디드 코어의 기초 정수 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표**로 해석해야 한다.
+> 1. **본질**: Dhrystone은 실수 연산보다 <strong>정수(Integer) 연산, 문자열 처리, 포인터 조작, 분기 흐름</strong>에 초점을 맞춘 합성 벤치마크(Synthetic [Benchmark](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/149_benchmark/))다.
+> 2. **가치**: 단순한 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second) 수치보다, 같은 프로그램을 얼마나 빨리 끝내는지를 비교하게 만들어 <strong>CPU (Central Processing Unit)의 제어 중심 처리 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 상대적으로 읽기 쉽게 했다.
+> 3. **판단 포인트**: 코드 크기가 작아 현대 프로세서에서는 캐시 효과와 컴파일러 최적화의 영향을 크게 받으므로, <strong>대형 시스템의 실사용 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표라기보다 임베디드 코어의 기초 정수 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표</strong>로 해석해야 한다.
 
 ---
 
@@ -21,19 +21,21 @@ tags = ["studynote-computer-architecture"]
 
 Dhrystone은 1980년대 초에 등장한 정수 중심 합성 벤치마크로, 일반 응용 프로그램에서 자주 나타나는 제어문과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 패턴을 작게 압축해 반복 실행하는 방식의 시험 코드다. 당시 시장에서는 클럭 주파수나 MIPS만으로 프로세서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 홍보하는 경우가 많았는데, 이는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조가 다른 시스템을 공정하게 비교하기 어렵다는 한계가 있었다.
 
-특히 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)와 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 수행하는 일이 다르므로, “초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수”만으로는 실제 처리 능력을 말하기 어렵다. Dhrystone은 같은 코드 묶음을 모든 시스템에 실행하게 함으로써, 적어도 **같은 종류의 정수성 작업을 얼마나 빨리 끝내는가**라는 비교 기준을 제공했다. 즉, Dhrystone의 필요성은 “[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 개수”가 아니라 “작업 완료 속도”에 더 가까운 관점을 만들었다는 데 있다.
+특히 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)와 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 수행하는 일이 다르므로, “초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수”만으로는 실제 처리 능력을 말하기 어렵다. Dhrystone은 같은 코드 묶음을 모든 시스템에 실행하게 함으로써, 적어도 <strong>같은 종류의 정수성 작업을 얼마나 빨리 끝내는가</strong>라는 비교 기준을 제공했다. 즉, Dhrystone의 필요성은 “[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 개수”가 아니라 “작업 완료 속도”에 더 가까운 관점을 만들었다는 데 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      왜 Dhrystone이 필요했는가: 수치 홍보를 작업 기준으로 교정 │
-├──────────────────────────────────────────────────────────────┤
-│ 클럭 주파수 ↑  ─┐                                           │
-│ MIPS 수치 ↑    ├─▶ 서로 다른 ISA 비교 시 왜곡 가능          │
-│ 명령어 길이 차이 ┘                                           │
-│                                                              │
-│ 같은 Dhrystone 코드 실행 ─▶ 완료 시간 비교 ─▶ 상대 성능 해석 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 Dhrystone이 필요했는가: 수치 홍보를 작업 기준으로 교정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 주파수 ↑ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS 수치 ↑ ─▶ 서로 다른 ISA 비교 시 왜곡 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 길이 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 Dhrystone 코드 실행 ─▶ 완료 시간 비교 ─▶ 상대 성능 해석</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 Dhrystone이 절대적인 “진실의 벤치마크”라서가 아니라, 서로 다른 구조의 CPU를 비교할 때 최소한의 공통 과제를 부여했다는 점이다. 없었다면 벤더마다 다른 기준으로 숫자를 제시해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석이 더 혼란스러웠을 것이다.
 
@@ -43,7 +45,7 @@ Dhrystone은 1980년대 초에 등장한 정수 중심 합성 벤치마크로, �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Dhrystone의 핵심은 실무 프로그램을 그대로 복제하는 것이 아니라, **정수 중심 프로그램의 전형적 행동 패턴을 작은 루프 안에 요약**한다는 데 있다. 대표적으로 산술 연산, 문자열 복사, 구조체 접근, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), 조건 분기, 반복문이 섞여 있다. 따라서 Dhrystone 점수는 단순 산술기 하나의 속도보다, 파이프라인 제어, 분기 처리, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 활용, 컴파일러 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질의 영향을 함께 받는다.
+Dhrystone의 핵심은 실무 프로그램을 그대로 복제하는 것이 아니라, <strong>정수 중심 프로그램의 전형적 행동 패턴을 작은 루프 안에 요약</strong>한다는 데 있다. 대표적으로 산술 연산, 문자열 복사, 구조체 접근, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 포인터 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), 조건 분기, 반복문이 섞여 있다. 따라서 Dhrystone 점수는 단순 산술기 하나의 속도보다, 파이프라인 제어, 분기 처리, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 활용, 컴파일러 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질의 영향을 함께 받는다.
 
 | 구성 요소 | Dhrystone에서 보는 대상 | 의미 |
 | :-- | :-- | :-- |
@@ -55,25 +57,24 @@ Dhrystone의 핵심은 실무 프로그램을 그대로 복제하는 것이 아�
 
 아래 흐름은 Dhrystone 점수가 만들어지는 과정을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        Dhrystone 점수 형성 구조: 코드 특성 + 실행 환경        │
-├──────────────────────────────────────────────────────────────┤
-│ Dhrystone 루프                                               │
-│   ├─ 정수 연산                                               │
-│   ├─ 분기/반복                                               │
-│   ├─ 포인터/문자열                                           │
-│   └─ 함수 호출                                               │
-│            │                                                 │
-│            ▼                                                 │
-│ CPU 마이크로아키텍처 + 컴파일러 최적화                       │
-│            │                                                 │
-│            ▼                                                 │
-│ 초당 반복 횟수 측정 ─▶ DMIPS (Dhrystone MIPS) 환산           │
-└──────────────────────────────────────────────────────────────┘
-```
 
-실무에서 많이 쓰이는 값은 DMIPS (Dhrystone [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/))다. 전통적으로 VAX [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)/780에서의 기준값을 1 DMIPS로 두고, 다른 시스템이 그보다 몇 배 빠른지 환산한다. 이 방식은 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정이라기보다 **기준 시스템 대비 상대 속도**를 표현하는 데 유용하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dhrystone 점수 형성 구조: 코드 특성 + 실행 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dhrystone 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정수 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분기/반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 포인터/문자열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 함수 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 마이크로아키텍처 + 컴파일러 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 반복 횟수 측정 ─▶ DMIPS (Dhrystone MIPS) 환산</div></div>
+</div>
+</div>
+
+
+
+실무에서 많이 쓰이는 값은 DMIPS (Dhrystone [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/))다. 전통적으로 VAX [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)/780에서의 기준값을 1 DMIPS로 두고, 다른 시스템이 그보다 몇 배 빠른지 환산한다. 이 방식은 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정이라기보다 <strong>기준 시스템 대비 상대 속도</strong>를 표현하는 데 유용하다.
 
 다만 이 벤치마크는 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 작기 때문에 현대 CPU의 L1 캐시([Level 1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/)) 안에 쉽게 들어간다. 그 결과 메모리 계층 병목, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 입출력 대기 같은 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요소는 거의 드러나지 않는다. 따라서 Dhrystone은 “제어와 정수 중심의 짧은 코드가 얼마나 민첩하게 돈다”는 정보를 주지만, 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대변하지는 못한다.
 
@@ -93,9 +94,9 @@ Dhrystone을 이해하려면 무엇을 잘 재고, 무엇을 놓치는지 경계
 | 약점 | 메모리 병목 반영 약함 | 현대 현실성과 거리 | 실행 비용 큼 | 범용 시스템 대표성 제한 |
 | 적합 환경 | 임베디드/기초 비교 | 과거 수치계산 비교 | 서버·워크스테이션 | 소형 임베디드 |
 
-여기서 중요한 연결점은 Dhrystone이 단순한 역사 유물이 아니라, **벤치마크 설계의 한계를 보여준 출발점**이라는 점이다. 작은 합성 벤치마크는 빠르고 재현성이 좋지만 현실성이 약해지고, 큰 실제형 벤치마크는 현실성이 높지만 비용과 복잡성이 커진다. 결국 벤치마크는 하나로 모든 것을 재기보다, 목적에 맞게 조합해서 해석해야 한다.
+여기서 중요한 연결점은 Dhrystone이 단순한 역사 유물이 아니라, <strong>벤치마크 설계의 한계를 보여준 출발점</strong>이라는 점이다. 작은 합성 벤치마크는 빠르고 재현성이 좋지만 현실성이 약해지고, 큰 실제형 벤치마크는 현실성이 높지만 비용과 복잡성이 커진다. 결국 벤치마크는 하나로 모든 것을 재기보다, 목적에 맞게 조합해서 해석해야 한다.
 
-또한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 시스템 관점에서 보면 Dhrystone 점수는 캐시 적중률이 높은 계산 루프에서의 민첩함과 연결되고, 컴파일러 관점에서는 최적화 옵션 차이가 결과를 크게 좌우한다. 즉 Dhrystone은 하드웨어만이 아니라 **소프트웨어 도구 체인까지 반영되는 벤치마크**다.
+또한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 시스템 관점에서 보면 Dhrystone 점수는 캐시 적중률이 높은 계산 루프에서의 민첩함과 연결되고, 컴파일러 관점에서는 최적화 옵션 차이가 결과를 크게 좌우한다. 즉 Dhrystone은 하드웨어만이 아니라 <strong>소프트웨어 도구 체인까지 반영되는 벤치마크</strong>다.
 
 - **📢 섹션 요약 비유**: Dhrystone은 단거리 달리기 기록이고, SPEC CPU는 철인 3종 경기 기록에 가깝다. 둘 다 운동 능력을 말해 주지만, 어느 기록이 더 중요하냐는 선수의 종목에 따라 달라진다.
 
@@ -132,7 +133,7 @@ Dhrystone의 가장 큰 공헌은 벤치마크 문화에 “같은 일을 시켜
 
 하지만 Dhrystone을 기억할 때는 장점과 함께 한계를 같이 붙여야 한다. 작은 코드 풋프린트(Footprint), 높은 컴파일러 민감도, 메모리 병목 반영 부족 때문에 현대 범용 프로세서의 종합 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대표하기는 어렵다. 즉, Dhrystone의 의미는 “완전한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표”가 아니라 “특정 성격의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 빠르게 보는 역사적이고 실용적인 도구”에 있다.
 
-결론적으로 Dhrystone은 **정수 중심 제어 처리의 민첩성을 보는 지표**로 기억하는 것이 맞다. 임베디드 설계에서는 아직 유효하지만, 범용 시스템 평가에서는 SPEC CPU, CoreMark, 실제 애플리케이션 테스트와 함께 다층적으로 해석해야 한다.
+결론적으로 Dhrystone은 <strong>정수 중심 제어 처리의 민첩성을 보는 지표</strong>로 기억하는 것이 맞다. 임베디드 설계에서는 아직 유효하지만, 범용 시스템 평가에서는 SPEC CPU, CoreMark, 실제 애플리케이션 테스트와 함께 다층적으로 해석해야 한다.
 
 - **📢 섹션 요약 비유**: Dhrystone은 오래된 줄자와 같다. 작은 물건 길이를 재는 데는 아직 정확하고 편리하지만, 도시 전체 지형을 측량할 때는 더 큰 지도와 다른 측정 도구가 필요하다.
 
@@ -151,24 +152,26 @@ Dhrystone의 가장 큰 공헌은 벤치마크 문화에 “같은 일을 시켜
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-클럭/MIPS 중심 홍보
-    │
-    ▼
-Dhrystone 등장
-(정수·분기·포인터 중심 합성 벤치마크)
-    │
-    ▼
-DMIPS 정착
-(기준 시스템 대비 상대 성능 표현)
-    │
-    ▼
-한계 노출
-(작은 코드, 캐시 영향, 컴파일러 민감도)
-    │
-    ▼
-CoreMark · SPEC CPU · 실사용 워크로드 중심 평가로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클럭/MIPS 중심 홍보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dhrystone 등장</div>
+<div class="kb-diagram-note">(정수·분기·포인터 중심 합성 벤치마크)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DMIPS 정착</div>
+<div class="kb-diagram-note">(기준 시스템 대비 상대 성능 표현)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">한계 노출</div>
+<div class="kb-diagram-note">(작은 코드, 캐시 영향, 컴파일러 민감도)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CoreMark · SPEC CPU · 실사용 워크로드 중심 평가로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 단순 수치 경쟁에서 시작해, 합성 벤치마크를 거쳐, 점점 더 현실적이고 목적 지향적인 벤치마크 체계로 발전해 온 과정을 보여준다.
 

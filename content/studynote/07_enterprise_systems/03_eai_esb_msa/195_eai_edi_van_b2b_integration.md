@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-EDI는 서로 다른 기업의 시스템이 거래 문서를 기계가 읽을 수 있는 표준 형식으로 직접 교환하게 만드는 B2B (Business to Business) 통합 방식이다. 사람이 종이를 보고 다시 입력하는 절차를 제거하고, 구매사 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 발주 정보가 협력사 ERP로 자동 반영되도록 하는 것이 핵심 목적이다. 따라서 EDI의 본질은 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 아니라 **기업 간 거래 절차의 표준화**에 있다.
+EDI는 서로 다른 기업의 시스템이 거래 문서를 기계가 읽을 수 있는 표준 형식으로 직접 교환하게 만드는 B2B (Business to Business) 통합 방식이다. 사람이 종이를 보고 다시 입력하는 절차를 제거하고, 구매사 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 발주 정보가 협력사 ERP로 자동 반영되도록 하는 것이 핵심 목적이다. 따라서 EDI의 본질은 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송이 아니라 <strong>기업 간 거래 절차의 표준화</strong>에 있다.
 
 이런 체계가 필요한 이유는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)이 길어질수록 입력 오류와 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)이 기하급수적으로 커지기 때문이다. 자동차·유통·물류 산업에서는 하루 수만 건의 발주와 출하 문서가 오가는데, 사람이 팩스나 이메일 첨부파일을 보고 ERP에 재입력하면 오타, 누락, [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)이 바로 비용으로 이어진다. 또한 거래처마다 문서 형식이 다르면 파트너가 늘어날수록 인터페이스가 N 대 N으로 폭증한다.
 
@@ -43,17 +43,19 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 
 아래 그림은 기업 간 EDI 연동의 대표 경로를 요약한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ B2B EDI flow: internal data -> mapping -> network -> partner ERP    │
-├──────────────────────────────────────────────────────────────────────┤
-│ ERP -> B2B Gateway -> EDI Message -> VAN/AS2 -> Partner Gateway     │
-│  │            │                    │                │                │
-│  └─ Master Data ─┴─ Validation ───┴─ Ack/Tracking ─┘                │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 과정에서 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 엔진은 중요한 연결고리다. 외부 표준 문서와 내부 애플리케이션 포맷이 다르기 때문에, 게이트웨이는 단순 전달이 아니라 코드 변환, 필드 매핑, 오류 큐 적재, 재처리, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링까지 담당한다. 즉 현대 EDI 운영의 핵심은 "문서를 보내는 것"보다 **변환과 예외를 통제하는 것**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2B EDI flow: internal data -&gt; mapping -&gt; network -&gt; partner ERP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP -&gt; B2B Gateway -&gt; EDI Message -&gt; VAN/AS2 -&gt; Partner Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Master Data ─ ─ Validation ─ Ack/Tracking ─</div></div>
+</div>
+</div>
+
+
+
+이 과정에서 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 엔진은 중요한 연결고리다. 외부 표준 문서와 내부 애플리케이션 포맷이 다르기 때문에, 게이트웨이는 단순 전달이 아니라 코드 변환, 필드 매핑, 오류 큐 적재, 재처리, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링까지 담당한다. 즉 현대 EDI 운영의 핵심은 "문서를 보내는 것"보다 <strong>변환과 예외를 통제하는 것</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: EDI 게이트웨이는 외국어 계약서를 우리 회사 양식으로 번역하고, 봉인하고, 배송 추적 번호까지 붙여 주는 전문 통역·물류 데스크와 같다.
 
@@ -61,7 +63,7 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 
 ## Ⅲ. 비교 및 연결
 
-오늘날 기업 간 통합은 EDI/VAN만으로 설명되지 않는다. 대기업 제조망은 여전히 EDI를 강하게 쓰지만, 중소 파트너나 플랫폼 생태계에서는 AS2 직연결, Web-EDI, OpenAPI가 함께 쓰인다. 따라서 최신 관점은 "구형 대 신형"의 대체 구도가 아니라 **거래 중요도와 파트너 성숙도에 따른 혼합 운용**이다.
+오늘날 기업 간 통합은 EDI/VAN만으로 설명되지 않는다. 대기업 제조망은 여전히 EDI를 강하게 쓰지만, 중소 파트너나 플랫폼 생태계에서는 AS2 직연결, Web-EDI, OpenAPI가 함께 쓰인다. 따라서 최신 관점은 "구형 대 신형"의 대체 구도가 아니라 <strong>거래 중요도와 파트너 성숙도에 따른 혼합 운용</strong>이다.
 
 | 항목 | EDI + VAN | AS2 직접 연동 | Web-EDI / OpenAPI |
 | :--- | :--- | :--- | :--- |
@@ -94,7 +96,7 @@ EDI 프로젝트의 성패는 [프로토콜](/knowledge-base/studynote/03_networ
 - **보완**: 실시간 조회나 개발자 친화적 통합이 필요한 경우 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 병행
 - **주의**: 모든 파트너에게 동일한 엄격한 EDI 수준을 강제해 온보딩 비용을 폭증시키는 경우
 
-따라서 답안에서는 EDI를 "옛날 기술"로만 취급하면 안 된다. 지금도 제조·유통 핵심 거래에서는 유효하며, 현대 아키텍처에서는 API와 결합된 **하이브리드 B2B 통합 패턴**으로 설명해야 설득력이 높다.
+따라서 답안에서는 EDI를 "옛날 기술"로만 취급하면 안 된다. 지금도 제조·유통 핵심 거래에서는 유효하며, 현대 아키텍처에서는 API와 결합된 <strong>하이브리드 B2B 통합 패턴</strong>으로 설명해야 설득력이 높다.
 
 - **📢 섹션 요약 비유**: EDI 운영은 서류를 보내는 우체국 일이 아니라, 거래처마다 다른 주소 체계와 문서 양식을 맞추는 관제 센터 운영과 같다. 배송망보다 주소록 관리가 더 어렵다.
 
@@ -104,7 +106,7 @@ EDI 프로젝트의 성패는 [프로토콜](/knowledge-base/studynote/03_networ
 
 EDI와 VAN을 적절히 활용하면 거래 문서 처리 속도가 빨라지고, 입력 오류와 누락이 줄며, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 가시성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적성이 높아진다. 특히 발주에서 정산까지 표준화된 흐름이 자리 잡으면 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축과 재고 절감 효과가 크다. 이 점에서 EDI는 단순 통신 기술이 아니라 업무 프로세스 혁신 수단이다.
 
-반면 변화 비용이 높고 파트너별 매핑 유지보수가 만만치 않다는 한계도 분명하다. 따라서 이 주제는 VAN 중심의 과거 구조에 머무르지 말고, **표준 전자문서 기반 핵심 거래는 유지하되 인터넷 기반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·Web-EDI와 조합하는 다층 B2B 통합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 가장 현실적이다.
+반면 변화 비용이 높고 파트너별 매핑 유지보수가 만만치 않다는 한계도 분명하다. 따라서 이 주제는 VAN 중심의 과거 구조에 머무르지 말고, <strong>표준 전자문서 기반 핵심 거래는 유지하되 인터넷 기반 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>·Web-EDI와 조합하는 다층 B2B 통합 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 가장 현실적이다.
 
 - **📢 섹션 요약 비유**: EDI는 오래된 철도망처럼 한번 깔아 두면 대량 화물을 안정적으로 실어 나르지만, 모든 목적지까지 철도만으로 갈 수는 없다. 마지막 구간은 트럭이나 도로망과 함께 써야 전체 물류가 완성된다.
 
@@ -122,21 +124,23 @@ EDI와 VAN을 적절히 활용하면 거래 문서 처리 속도가 빨라지고
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-종이 문서 · 수기 입력
-    │
-    ▼
-EDI (Electronic Data Interchange) 표준화
-    │
-    ▼
-VAN 중계망 · ACK 추적
-    │
-    ▼
-EAI 기반 매핑 · 예외 처리
-    │
-    ▼
-AS2 · Web-EDI · OpenAPI 하이브리드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">종이 문서 · 수기 입력</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EDI (Electronic Data Interchange) 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VAN 중계망 · ACK 추적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EAI 기반 매핑 · 예외 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AS2 · Web-EDI · OpenAPI 하이브리드</div>
+</div>
+</div>
+
+
 
 이 흐름은 "문서 표준화 → 안전한 전달 → 내부 변환 → 현대적 혼합 통합"으로 발전하는 과정을 보여준다.
 

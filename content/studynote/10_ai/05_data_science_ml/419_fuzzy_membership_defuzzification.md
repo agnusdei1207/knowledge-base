@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 퍼지 이론 ([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))은 참/거짓을 0 또는 1로 자르지 않고, 소속 함수 (Membership Function)로 **부분적 참값**을 표현해 애매한 현실을 모델링하는 방법이다.
+> 1. **본질**: 퍼지 이론 ([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))은 참/거짓을 0 또는 1로 자르지 않고, 소속 함수 (Membership Function)로 <strong>부분적 참값</strong>을 표현해 애매한 현실을 모델링하는 방법이다.
 > 2. **가치**: 온도 제어, 세탁기, 자동차 제동, [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)처럼 사람이 "조금 덥다", "매우 빠르다"처럼 언어적으로 판단하는 문제를 규칙 기반으로 다룰 수 있다.
 > 3. **판단 포인트**: 퍼지 시스템은 설명 가능성과 직관성이 강하지만, 소속 함수 설계와 규칙 베이스 품질이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하며, 최종 제어값을 만들기 위한 디퍼지피케이션 (Defuzzification) 방식 선택이 중요하다.
 
@@ -19,20 +19,22 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-현실의 많은 문제는 칼같이 나뉘지 않는다. 실내 온도 24.9도와 25.1도를 서로 완전히 다른 상태로 잘라 버리면, 제어 시스템은 경계 근처에서 불안정하게 흔들릴 수 있다. 퍼지 이론은 이런 애매함을 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 아니라 **정보**로 다룬다.
+현실의 많은 문제는 칼같이 나뉘지 않는다. 실내 온도 24.9도와 25.1도를 서로 완전히 다른 상태로 잘라 버리면, 제어 시스템은 경계 근처에서 불안정하게 흔들릴 수 있다. 퍼지 이론은 이런 애매함을 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 아니라 <strong>정보</strong>로 다룬다.
 
 핵심은 "이 값이 집합에 얼마나 속하는가"를 0과 1 사이 연속값으로 표현하는 것이다. 그래서 퍼지 제어는 센서 값이 조금 흔들려도 급격히 튀지 않고, 사람이 쓰는 규칙을 시스템에 옮기기 쉽다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            Crisp vs Fuzzy: 경계를 자를 것인가, 완만하게 볼 것인가 │
-├──────────────────────────────────────────────────────────────┤
-│ Crisp set : 24.9도 = 차갑다, 25.1도 = 따뜻하다                │
-│ Fuzzy set : 25도는 차갑다 0.3, 적당하다 0.8, 따뜻하다 0.2     │
-│                                                              │
-│ 핵심: 애매함을 수치화해 규칙으로 다룬다                       │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Crisp vs Fuzzy: 경계를 자를 것인가, 완만하게 볼 것인가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Crisp set : 24.9도 = 차갑다, 25.1도 = 따뜻하다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fuzzy set : 25도는 차갑다 0.3, 적당하다 0.8, 따뜻하다 0.2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 애매함을 수치화해 규칙으로 다룬다</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 퍼지가 "모호해서 대충"가 아니라는 점이다. 오히려 애매한 판단을 정량화해, 경계 부근에서 더 부드럽고 설명 가능한 의사결정을 하려는 접근이다.
 
@@ -58,18 +60,21 @@ $$
 y^* = \frac{\int y \cdot \mu(y) \, dy}{\int \mu(y) \, dy}
 $$
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              퍼지 시스템의 3단계 처리 흐름                   │
-├──────────────────────────────────────────────────────────────┤
-│ 입력값                                                       │
-│   └─> 퍼지화: "차갑다 0.2, 적당하다 0.7, 덥다 0.4"           │
-│         └─> 규칙 추론: 여러 IF-THEN 규칙 결합               │
-│               └─> 디퍼지피케이션: 최종 제어값 63% 출력      │
-└──────────────────────────────────────────────────────────────┘
-```
 
-연산자도 중요하다. Mamdani 계열에서는 보통 AND에 `min`, OR에 `max`를 쓰고, 여러 규칙의 결과를 결합한 뒤 최종 출력으로 변환한다. 즉, 퍼지 시스템은 애매한 언어 판단을 수치 규칙망으로 옮긴 **설명 가능한 비선형 제어기**라고 볼 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼지 시스템의 3단계 처리 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 퍼지화: "차갑다 0.2, 적당하다 0.7, 덥다 0.4"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 규칙 추론: 여러 IF-THEN 규칙 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 디퍼지피케이션: 최종 제어값 63% 출력</div></div>
+</div>
+</div>
+
+
+
+연산자도 중요하다. Mamdani 계열에서는 보통 AND에 `min`, OR에 `max`를 쓰고, 여러 규칙의 결과를 결합한 뒤 최종 출력으로 변환한다. 즉, 퍼지 시스템은 애매한 언어 판단을 수치 규칙망으로 옮긴 <strong>설명 가능한 비선형 제어기</strong>라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 여러 선생님이 "조금 덥다", "아주 덥다"라고 의견을 내면, 마지막에 그 의견을 종합해 에어컨 세기를 정하는 회의와 같다.
 

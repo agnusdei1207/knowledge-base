@@ -19,11 +19,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-노화는 **"오래 기다린 작업일수록 더 중요하게 취급한다"는 시간 기반 공정성 규칙**이다. 고정 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 처음 부여받은 등급을 그대로 유지하므로, 상위 등급 작업이 계속 들어오면 하위 작업은 준비 상태에 있으면서도 CPU를 받지 못할 수 있다. 노화는 이 문제를 해결하기 위해 기다린 시간 자체를 우선순위 계산에 반영한다.
+노화는 <strong>"오래 기다린 작업일수록 더 중요하게 취급한다"는 시간 기반 공정성 규칙</strong>이다. 고정 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 처음 부여받은 등급을 그대로 유지하므로, 상위 등급 작업이 계속 들어오면 하위 작업은 준비 상태에 있으면서도 CPU를 받지 못할 수 있다. 노화는 이 문제를 해결하기 위해 기다린 시간 자체를 우선순위 계산에 반영한다.
 
-이 기법이 필요한 이유는 효율 중심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 쉽게 불공정을 만들기 때문이다. [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 중요한 작업의 응답성을 높이고, SJF는 평균 대기 시간을 줄이는 장점이 있다. 하지만 둘 다 "선호되는 작업이 계속 들어오는 상황"에서는 긴 작업이나 낮은 우선순위 작업의 대기 시간이 무한히 커질 수 있다. 즉 노화는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 폐기하지 않고도 **장기 공정성**을 회복하기 위한 보정장치다.
+이 기법이 필요한 이유는 효율 중심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 쉽게 불공정을 만들기 때문이다. [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)은 중요한 작업의 응답성을 높이고, SJF는 평균 대기 시간을 줄이는 장점이 있다. 하지만 둘 다 "선호되는 작업이 계속 들어오는 상황"에서는 긴 작업이나 낮은 우선순위 작업의 대기 시간이 무한히 커질 수 있다. 즉 노화는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 폐기하지 않고도 <strong>장기 공정성</strong>을 회복하기 위한 보정장치다.
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 중요한 문장은 하나다. **기다림이 계속 쌓이면 언젠가는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 그 기다림을 가치로 바꿔 주어야 한다.** 그렇지 않으면 시스템은 바쁘게 일하는 것처럼 보여도 일부 프로세스는 영원히 완료되지 못한다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서 중요한 문장은 하나다. <strong>기다림이 계속 쌓이면 언젠가는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 그 기다림을 가치로 바꿔 주어야 한다.</strong> 그렇지 않으면 시스템은 바쁘게 일하는 것처럼 보여도 일부 프로세스는 영원히 완료되지 못한다.
 
 - **📢 섹션 요약 비유**: 노화는 줄을 오래 선 사람에게 대기표 가산점을 줘서, 처음에는 뒤에 있었더라도 결국은 앞줄로 오게 만드는 제도와 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-노화의 핵심은 **대기 시간을 우선순위 계산식에 주기적으로 반영하는 것**이다. 숫자 규칙은 시스템마다 다르다. 어떤 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 숫자가 작을수록 높은 우선순위를 의미하고, 어떤 시스템은 반대로 큰 숫자가 높다. 중요한 것은 숫자의 방향이 아니라, **오래 기다릴수록 유리해지는 단조 증가 규칙**을 넣는다는 점이다.
+노화의 핵심은 <strong>대기 시간을 우선순위 계산식에 주기적으로 반영하는 것</strong>이다. 숫자 규칙은 시스템마다 다르다. 어떤 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 숫자가 작을수록 높은 우선순위를 의미하고, 어떤 시스템은 반대로 큰 숫자가 높다. 중요한 것은 숫자의 방향이 아니라, <strong>오래 기다릴수록 유리해지는 단조 증가 규칙</strong>을 넣는다는 점이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -43,20 +43,22 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 "숫자가 작을수록 높은 우선순위"인 시스템에서 노화가 어떻게 기아를 줄이는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Aging example: lower number means higher priority                 │
-├────────────────────────────────────────────────────────────────────┤
-│ waiting time        t0      t1      t2      t3      t4            │
-│ high-priority H      1       1       1       1       1            │
-│ waiting task L       9  ->   7  ->   5  ->   3  ->   1            │
-│ scheduler choice     H       H       H       H      L runs        │
-│                                                                    │
-│ rule: effective priority = max(1, base - aging_step × wait_slots) │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조의 포인트는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 버리지 않으면서도 최악 대기 시간을 통제하려는 데 있다. 상위 작업이 계속 들어와도, 오래 기다린 작업은 점점 높은 우선권을 얻는다. 그래서 노화는 엄밀한 의미의 완전 평등이 아니라 **시간이 누적되면 계층 차이를 서서히 지우는 기법**이라고 볼 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aging example: lower number means higher priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting time t0 t1 t2 t3 t4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">high-priority H 1 1 1 1 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting task L 9 -&gt; 7 -&gt; 5 -&gt; 3 -&gt; 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scheduler choice H H H H L runs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule: effective priority = max(1, base - aging_step × wait_slots)</div></div>
+</div>
+</div>
+
+
+
+이 구조의 포인트는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 버리지 않으면서도 최악 대기 시간을 통제하려는 데 있다. 상위 작업이 계속 들어와도, 오래 기다린 작업은 점점 높은 우선권을 얻는다. 그래서 노화는 엄밀한 의미의 완전 평등이 아니라 <strong>시간이 누적되면 계층 차이를 서서히 지우는 기법</strong>이라고 볼 수 있다.
 
 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 고전적 방식처럼 모든 프로세스의 숫자를 매 tick마다 직접 바꾸기보다, 조금 더 값싼 변형을 쓴다. MLFQ는 일정 주기마다 하위 큐 작업을 상위 큐로 올리는 방식으로 집단 승급을 하고, CFS는 기다린 태스크의 가상 실행 시간인 `vruntime`이 상대적으로 덜 증가하도록 만들어 비슷한 효과를 낸다. 즉 구현은 달라져도 철학은 같다. **오래 기다린 작업을 잊지 않는다.**
 
@@ -66,7 +68,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-노화를 제대로 이해하려면, 그것이 "우선순위를 없애는 것"이 아니라 **우선순위를 시간으로 보정하는 것**임을 알아야 한다. 그래서 strict priority, [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin), CFS와 나란히 놓고 보면 위치가 더 분명해진다.
+노화를 제대로 이해하려면, 그것이 "우선순위를 없애는 것"이 아니라 <strong>우선순위를 시간으로 보정하는 것</strong>임을 알아야 한다. 그래서 strict priority, [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin), CFS와 나란히 놓고 보면 위치가 더 분명해진다.
 
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 장점 | 약점 | 기아 위험 | 적합한 환경 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -77,7 +79,7 @@ tags = ["studynote-operating-system"]
 
 SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 긴 작업을 불리하게 만든다. 노화를 섞으면 오래 기다린 긴 작업이 점점 유리해져 SJF의 극단적 편향을 완화할 수 있다. 반대로 RR은 기본적으로 실행 기회를 순환시키므로 노화의 필요성이 훨씬 작다.
 
-또한 노화는 단독 기법이 아니라 다른 스케줄러의 안전장치로 자주 등장한다. MLFQ의 periodic boost는 집단 노화라고 볼 수 있고, Windows의 동적 priority boost는 입출력 (Input/Output, I/O) 완료 후 응답성 향상을 위해 일시적 노화 효과를 준다. 즉 노화는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름이면서 동시에 **현대 스케줄러의 공정성 설계 원리**이기도 하다.
+또한 노화는 단독 기법이 아니라 다른 스케줄러의 안전장치로 자주 등장한다. MLFQ의 periodic boost는 집단 노화라고 볼 수 있고, Windows의 동적 priority boost는 입출력 (Input/Output, I/O) 완료 후 응답성 향상을 위해 일시적 노화 효과를 준다. 즉 노화는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름이면서 동시에 <strong>현대 스케줄러의 공정성 설계 원리</strong>이기도 하다.
 
 - **📢 섹션 요약 비유**: 고정 우선순위가 신분제를 그대로 두는 제도라면, 노화는 오래 기다린 사람에게 호봉을 붙여 결국은 차례가 오게 만드는 제도다.
 
@@ -85,7 +87,7 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 노화는 "좋은 이론"이 아니라 **최악 대기 시간을 얼마나 허용할 것인가**의 설계 문제다. 데스크톱, 서버, 혼합 워크로드 환경에서는 인터랙티브 작업을 우대하되 배치 작업이 영원히 밀리면 안 되므로 노화가 유용하다. 반면 하드 실시간 시스템은 우선순위를 시간에 따라 바꾸면 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 분석이 흐려질 수 있어, 명시적 데드라인 기반 검증이 더 중요하다.
+실무에서 노화는 "좋은 이론"이 아니라 <strong>최악 대기 시간을 얼마나 허용할 것인가</strong>의 설계 문제다. 데스크톱, 서버, 혼합 워크로드 환경에서는 인터랙티브 작업을 우대하되 배치 작업이 영원히 밀리면 안 되므로 노화가 유용하다. 반면 하드 실시간 시스템은 우선순위를 시간에 따라 바꾸면 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 분석이 흐려질 수 있어, 명시적 데드라인 기반 검증이 더 중요하다.
 
 ### 실무 판단 기준
 
@@ -101,7 +103,7 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 - 모든 지연을 노화로 해결하려다, 실제로는 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 부족이나 입출력 병목을 놓치는 설계
 - 하드 실시간 시스템에 무분별하게 노화를 넣어 예측 가능성을 해치는 설계
 
-기술사 답안에서는 "노화 = 우선순위 증가"에서 끝내지 말고, **공정성과 응답성의 절충**, **승급 파라미터의 중요성**, **현대 스케줄러에서의 변형 계승**까지 함께 설명해야 한다.
+기술사 답안에서는 "노화 = 우선순위 증가"에서 끝내지 말고, **공정성과 응답성의 절충**, **승급 파라미터의 중요성**, <strong>현대 스케줄러에서의 변형 계승</strong>까지 함께 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 노화는 식당이 VIP 손님을 우선 받되, 일반 손님이 너무 오래 기다리면 무료 업그레이드로라도 반드시 한 번은 자리에 앉게 만드는 규칙과 같다.
 
@@ -109,11 +111,11 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 ## Ⅴ. 기대효과 및 결론
 
-노화의 가장 큰 효과는 **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 선호를 가지더라도 영원한 배제를 허용하지 않게 만든다**는 점이다. 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 높은 우선순위 작업의 반응성을 유지하면서도, 백그라운드 작업과 긴 작업이 끝내 실행 기회를 얻도록 보장할 수 있다. 즉 노화는 공정성을 위한 윤리적 장치가 아니라, 장기적으로 시스템이 막히지 않게 하는 실용적 안전장치다.
+노화의 가장 큰 효과는 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 선호를 가지더라도 영원한 배제를 허용하지 않게 만든다</strong>는 점이다. 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 높은 우선순위 작업의 반응성을 유지하면서도, 백그라운드 작업과 긴 작업이 끝내 실행 기회를 얻도록 보장할 수 있다. 즉 노화는 공정성을 위한 윤리적 장치가 아니라, 장기적으로 시스템이 막히지 않게 하는 실용적 안전장치다.
 
 물론 노화만으로 모든 공정성 문제가 해결되지는 않는다. 자원이 심각하게 부족하거나, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 구조가 잘못되었거나, 락 경합이 심한 시스템에서는 노화보다 구조 개편이 먼저다. 그래서 현대 커널은 노화를 직접 쓰기도 하고, vruntime이나 periodic boost처럼 더 세련된 형태로 흡수하기도 한다.
 
-정리하면 노화는 **"기다린 시간 자체를 우선순위 자산으로 바꾸는 기법"**이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 스케줄러라도 유한 대기 보장이 없다면 완성된 설계가 아니라는 점을 기억하면, 노화의 위치가 명확해진다.
+정리하면 노화는 <strong>"기다린 시간 자체를 우선순위 자산으로 바꾸는 기법"</strong>이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좋은 스케줄러라도 유한 대기 보장이 없다면 완성된 설계가 아니라는 점을 기억하면, 노화의 위치가 명확해진다.
 
 - **📢 섹션 요약 비유**: 좋은 놀이공원은 빠른 줄과 느린 줄을 따로 두더라도, 느린 줄 아이가 하루 종일 한 번도 못 타고 돌아가게 두지는 않는다.
 
@@ -133,19 +135,22 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 우선순위 · SJF 중심 스케줄링
-        │
-        ▼
-하위 작업의 무기한 대기
-        │
-        ▼
-노화 (Aging) 도입
-        │
-        ├──────────────▶ bounded waiting 보장 강화
-        ├──────────────▶ MLFQ의 periodic boost
-        └──────────────▶ CFS의 공정 스케줄링 철학으로 발전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 우선순위 · SJF 중심 스케줄링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하위 작업의 무기한 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">노화 (Aging) 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ bounded waiting 보장 강화</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ의 periodic boost</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ CFS의 공정 스케줄링 철학으로 발전</div>
+</div>
+</div>
+
+
 
 이 흐름도는 노화가 단순 보정 기법을 넘어, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 공정성 메커니즘으로 발전해 간 과정을 보여 준다.
 

@@ -10,29 +10,35 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Event Sourcing은 **엔티티의 현재 상태를 저장하는 대신, 상태를 변경한 모든 이벤트(Event)를 순서대로 저장**하고, 이벤트를 재생(Replay)하여 현재 상태를 복원하는 패턴이다.
-> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 **모든 변경 이력이 이벤트로 보존**되어 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
+> 1. **본질**: Event Sourcing은 <strong>엔티티의 현재 상태를 저장하는 대신, 상태를 변경한 모든 이벤트(Event)를 순서대로 저장</strong>하고, 이벤트를 재생(Replay)하여 현재 상태를 복원하는 패턴이다.
+> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 <strong>모든 변경 이력이 이벤트로 보존</strong>되어 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
 > 3. **판단 포인트**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)와 자주 함께 사용하며, 이벤트 저장소(Event Store)가 핵심 인프라이다. 스냅샷으로 재생 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-기존: orders 테이블 → UPDATE status='배송' (이전 상태 유실)
-Event Sourcing: events 테이블 →
-  {주문 생성, 결제 완료, 배송 시작, 배달 완료}
-  → Replay → 현재 상태 = '배달 완료'
-  → 감사: 언제·누가·무엇을 변경했는지 100% 추적
-```
 
-- **📢 섹션 요약 비유**: Event Sourcing은 **은행 거래 내역**이다. 잔고(상태)만 보는 것이 아니라 **모든 입출금 기록(이벤트)**을 보존한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존: orders 테이블 → UPDATE status='배송' (이전 상태 유실)</div>
+<div class="kb-diagram-note">Event Sourcing: events 테이블 →</div>
+<div class="kb-diagram-note">{주문 생성, 결제 완료, 배송 시작, 배달 완료}</div>
+<div class="kb-diagram-note">→ Replay → 현재 상태 = '배달 완료'</div>
+<div class="kb-diagram-note">→ 감사: 언제·누가·무엇을 변경했는지 100% 추적</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: Event Sourcing은 <strong>은행 거래 내역</strong>이다. 잔고(상태)만 보는 것이 아니라 <strong>모든 입출금 기록(이벤트)</strong>을 보존한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Event Sourcing은 **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·추적·재생이 중요한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(금융·의료)의 핵심 패턴**이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
+Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>·추적·재생이 중요한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(금융·의료)의 핵심 패턴</strong>이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
 
 ---
 
@@ -40,25 +46,31 @@ Event Sourcing은 **[감사](/knowledge-base/studynote/02_operating_system/10_se
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Event Sourcing](/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/)** | 이벤트 저장·재생 |
-| **[CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)** | 명령·조회 분리 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a></strong> | 이벤트 저장·재생 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 명령·조회 분리 |
 | **Event Store** | 이벤트 저장소 |
-| **[Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)** | 재생 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
-| **[Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/)** | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 재생 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
+| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/">Audit Trail</a></strong> | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CRUD (상태 저장)] → [Event Sourcing (Martin Fowler, 2005)]
-    → [CQRS + ES (Greg Young, 2010)]
-    → [EventStoreDB (2012)] → [Kafka as Event Store]
-    → [현재: Axon Framework — ES+CQRS 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRUD (상태 저장)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Event Sourcing (Martin Fowler, 2005)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CQRS + ES (Greg Young, 2010)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EventStoreDB (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka as Event Store</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Axon Framework — ES+CQRS 통합</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Event Sourcing은 **일기장**이에요. 오늘 잔고(상태)만 보는 게 아니라 **모든 용돈 기록(이벤트)**을 남겨요.
+1. Event Sourcing은 <strong>일기장</strong>이에요. 오늘 잔고(상태)만 보는 게 아니라 <strong>모든 용돈 기록(이벤트)</strong>을 남겨요.
 2. 기록을 처음부터 **다시 읽으면(Replay)** 지금 잔고를 정확히 알 수 있어요.
-3. "3일 전에 뭘 샀지?" 같은 **시간 여행 질문**에도 답할 수 있어요!
+3. "3일 전에 뭘 샀지?" 같은 <strong>시간 여행 질문</strong>에도 답할 수 있어요!
 
 ---
 

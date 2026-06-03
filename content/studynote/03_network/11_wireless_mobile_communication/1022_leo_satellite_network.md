@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 
 이 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 문제를 물리적으로 해결하기 위해 위성을 땅과 가까운 500km 상공으로 확 끌어내린 것이 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) 위성망이다. 고도가 낮아진 대신 지구 전체를 덮으려면 수천 개의 위성이 촘촘한 그물망(Constellation)을 형성해야 하므로, 로켓 재사용 기술(발사 비용 절감)을 앞세운 스페이스X의 '스타링크(Starlink)'가 이 시장을 폭발적으로 개화시켰다.
 
-```text
-[가시광 통신 라이파이]
-    │
-    ▼
-[저궤도 위성망과 스타링크]
-    │
-    └──▶ [위성 통신 핸드오버 (ISL]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가시광 통신 라이파이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">저궤도 위성망과 스타링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위성 통신 핸드오버 (ISL</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 엄청나게 높은 곳에 뜬 아주 밝은 태양 1개(정지궤도)는 빛이 도달하는 데 오래 걸리지만, 아주 낮게 뜬 수만 개의 작은 가로등(저궤도)을 촘촘히 깔면 그림자 없이 즉각적으로 땅을 밝힐 수 있다.
 
@@ -40,24 +44,22 @@ tags = ["studynote-network"]
 
 스타링크로 대표되는 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망 아키텍처는 크게 세 가지 요소로 구성된다. 지상 단말(User Terminal), [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 군집(Constellation), 그리고 지상의 게이트웨이(Ground [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│               [ LEO 위성 군집 (고도 500km) ]             │
-│                                                        │
-│  [위성 A] ◀───── (위성 간 레이저 통신, ISL) ─────▶ [위성 B] │
-│   ▲  │                                          ▲  │ │
-│   │  │ (RF 전파: Ku/Ka 대역)                    │  │ │
-│   │  ▼                                          │  ▼ │
-├────────────────────────────────────────────────────────┤
-│┌──────────────┐                          ┌──────────────┐│
-││ 지상 단말기  │                          │ 지상 게이트웨이││
-││(위상배열 안테나)│                          │(인터넷 백본 연결)││
-│└──────────────┘                          └──────────────┘│
-└────────────────────────────────────────────────────────┘
-```
 
-1. **위상배열 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Phased [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))**: 지상 단말(접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))은 모터를 돌려 위성을 쫓아가는 것이 아니라, 수백 개의 미세한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자가 전파의 위상(Phase)을 전자적으로 조절하여 눈에 보이지 않는 전파 빔의 방향을 1초에도 수백 번씩 꺾어 날아가는 위성을 정밀하게 추적한다([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)).
-2. **[ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) ([Inter-Satellite Link](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/))**: 초창기 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 지상 단말과 지상 게이트웨이를 단순 중계하는 '구부러진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Bent-pipe)' 역할만 했으나, 최근에는 위성끼리 우주 공간에서 레이저(Optical)로 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 ISL을 탑재하여 지상 기지국 없이도 대륙 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 가능해졌다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LEO 위성 군집 (고도 500km)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위성 A</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">위성 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RF 전파: Ku/Ka 대역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지상 단말기</div><div class="kb-diagram-cell">지상 게이트웨이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위상배열 안테나)</div><div class="kb-diagram-cell">(인터넷 백본 연결)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>위상배열 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> (Phased <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">Antenna</a>)</strong>: 지상 단말(접시 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))은 모터를 돌려 위성을 쫓아가는 것이 아니라, 수백 개의 미세한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자가 전파의 위상(Phase)을 전자적으로 조절하여 눈에 보이지 않는 전파 빔의 방향을 1초에도 수백 번씩 꺾어 날아가는 위성을 정밀하게 추적한다([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)).
+2. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/">Inter-Satellite Link</a>)</strong>: 초창기 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 지상 단말과 지상 게이트웨이를 단순 중계하는 '구부러진 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Bent-pipe)' 역할만 했으나, 최근에는 위성끼리 우주 공간에서 레이저(Optical)로 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 ISL을 탑재하여 지상 기지국 없이도 대륙 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 가능해졌다.
 
 - **📢 섹션 요약 비유**: KTX처럼 엄청나게 빨리 지나가는 기차(위성)를 향해, 고개를 돌리지 않고 눈동자만 휙휙 굴려가며(위상배열 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 끊김 없이 대화를 주고받는 엄청난 동체 시력의 결과물이다.
 
@@ -70,10 +72,10 @@ tags = ["studynote-network"]
 | 비교 항목 | [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) (정지궤도) | [MEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/) (중궤도) | [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) (저궤도) |
 |:---:|:---|:---|:---|
 | **고도** | 약 36,000 km | 2,000 ~ 36,000 km | **500 ~ 1,200 km** |
-| **[전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/) ([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))**| 약 500 ~ 600 ms (느림) | 약 100 ~ 150 ms | **약 20 ~ 40 ms (유선 광랜 급)** |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/">전송 지연</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong>| 약 500 ~ 600 ms (느림) | 약 100 ~ 150 ms | **약 20 ~ 40 ms (유선 광랜 급)** |
 | **전 지구 커버 필요 수**| 단 3대 | 수십 대 | **수천 ~ 수만 대 (Constellation)** |
 | **위성의 움직임** | 지상에서 볼 때 정지해 있음 | 천천히 이동 | **시속 27,000km로 빠르게 이동 (90분/1주)** |
-| **단말 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)** | 고정형 파라볼라 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) | 추적형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 필요 | **초정밀 위상배열 (전자식 트래킹) 필수** |
+| <strong>단말 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong> | 고정형 파라볼라 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) | 추적형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 필요 | **초정밀 위상배열 (전자식 트래킹) 필수** |
 
 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신에서 NTN(Non-Terrestrial Network, [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/))이라는 핵심 표준으로 편입되어, 하늘을 나는 드론(UAV), 도심항공교통([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)), 바다 위 선박까지 모두 스마트폰 하나로 연결되는 '3차원 공간 통신망'의 기반이 된다.
 
@@ -87,7 +89,7 @@ tags = ["studynote-network"]
 도심지에서는 기존 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/광랜이 훨씬 싸고 빠르므로 LEO가 경쟁력이 없다. 그러나 재난재해로 지상 기지국이 붕괴된 상황(예: 우크라이나 전쟁, 대규모 지진), 광케이블을 깔 수 없는 사막의 태양광 발전소나 해상 시추선, 비행기 기내 와이파이 환경에서는 유일무이한 백본망([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)) 솔루션이 된다.
 
 **기술사 판단 포인트 (Trade-off):**
-[LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망 도입을 검토할 때는 **'전파 대역의 한계'와 '하늘의 혼잡도'**를 판단해야 한다.
+[LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성망 도입을 검토할 때는 <strong>'전파 대역의 한계'와 '하늘의 혼잡도'</strong>를 판단해야 한다.
 1. [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성은 매우 높은 고주파수(Ku/Ka 대역, 12~30GHz)를 사용하므로 폭우나 폭설이 내리면 전파가 빗방울에 흡수되어 통신이 끊어지는 '강우 감쇠(Rain Fade)' 현상이 치명적이다. 
 2. 따라서 임무 수행 크리티컬(Mission Critical) 환경에서는 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)만 믿어선 안 되며, 기존 지상 4G/LTE나 다른 저주파수(L/S 대역) 위성망과의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Multi-path) 설계로 가용성을 확보해야 한다.
 
@@ -122,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 가시광 통신 라이파이]
-    │
-    ▼
-[현재 개념: 저궤도 위성망과 스타링크]
-    │
-    ├──▶ [확장 A: 위성 통신 핸드오버 (ISL]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가시광 통신 라이파이</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 저궤도 위성망과 스타링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 위성 통신 핸드오버 (ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)망과 스타링크는 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

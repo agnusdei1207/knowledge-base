@@ -42,19 +42,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 피연산자 종류에 따라 CPU 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 달라지는 모습을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                operand path: data location changes latency                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Instruction = [ opcode | operand specifier ]                              │
-│                    │                                                       │
-│                    ├── immediate field ───────────────▶ ALU input          │
-│                    ├── register index ─▶ Register File ─▶ ALU input        │
-│                    └── memory address ─▶ Cache / Memory ─▶ Register / ALU  │
-│                                                                            │
-│ Result ─▶ Register write-back / memory store                               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operand path: data location changes latency</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Instruction =</div><div class="kb-diagram-node">opcode | operand specifier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── immediate field ▶ ALU input</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── register index ─▶ Register File ─▶ ALU input</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── memory address ─▶ Cache / Memory ─▶ Register / ALU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result ─▶ Register write-back / memory store</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 같은 `ADD` 명령이라도 피연산자 위치가 달라지면 실제로 열리는 하드웨어 경로가 완전히 달라진다는 점이다. 즉시값은 디코드 후 바로 쓰이지만, 메모리 피연산자는 주소 계산과 캐시 접근이 추가되고, 그만큼 지연과 전력 소모가 커진다. 그래서 현대 프로세서는 연산기 자체보다 피연산자 공급 경로를 더 엄격하게 설계한다.
 
@@ -85,8 +86,8 @@ tags = ["studynote-computer-architecture"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **연산 피연산자를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심으로 제한할 것인가?** 고성능 파이프라인일수록 로드와 연산을 분리하는 편이 유리하다.
-2. **즉시값 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭이 실제 워크로드를 감당하는가?** 너무 좁으면 상수 로딩 명령 수가 늘고, 너무 넓으면 다른 필드 공간이 줄어든다.
+1. <strong>연산 피연산자를 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 중심으로 제한할 것인가?</strong> 고성능 파이프라인일수록 로드와 연산을 분리하는 편이 유리하다.
+2. <strong>즉시값 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 폭이 실제 워크로드를 감당하는가?</strong> 너무 좁으면 상수 로딩 명령 수가 늘고, 너무 넓으면 다른 필드 공간이 줄어든다.
 3. **피연산자 수가 컴파일러 최적화와 맞는가?** 3-주소 구조는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당에 유리하지만 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭 부담이 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -120,22 +121,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-상수 / 레지스터 / 메모리
-        │
-        ▼
-피연산자 해석
-(Addressing Mode)
-        │
-        ▼
-0·1·2·3-주소 명령어 구조
-        │
-        ▼
-로드-스토어 아키텍처
-        │
-        ▼
-컴파일러의 레지스터 할당 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상수 / 레지스터 / 메모리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피연산자 해석</div>
+<div class="kb-diagram-note">(Addressing Mode)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">0·1·2·3-주소 명령어 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로드-스토어 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컴파일러의 레지스터 할당 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디서 읽는가"라는 문제에서 시작해, 현대 ISA와 컴파일러 최적화 전략으로 이어지는 연결을 보여 준다.
 

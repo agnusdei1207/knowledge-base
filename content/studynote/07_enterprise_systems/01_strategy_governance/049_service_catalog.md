@@ -18,41 +18,37 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 개요
 
-```
-서비스 카탈로그 (Service Catalog):
-  현재 고객에게 제공 가능한 IT 서비스 목록
-  
-  ITIL v4 정의:
-  "고객에게 제공되는 서비스의 상세 정보를 담은
-  구조화된 문서 또는 데이터베이스"
 
-서비스 포트폴리오 vs 서비스 카탈로그:
 
-서비스 포트폴리오 (전략):
-  ┌─────────────────────┐
-  │ 서비스 파이프라인    │ ← 기획 중
-  │ 서비스 카탈로그      │ ← 운영 중 (고객 접점)
-  │ 폐기된 서비스        │ ← 단종
-  └─────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">서비스 카탈로그 (Service Catalog):</div>
+<div class="kb-diagram-note">현재 고객에게 제공 가능한 IT 서비스 목록</div>
+<div class="kb-diagram-note">ITIL v4 정의:</div>
+<div class="kb-diagram-note">"고객에게 제공되는 서비스의 상세 정보를 담은</div>
+<div class="kb-diagram-note">구조화된 문서 또는 데이터베이스"</div>
+<div class="kb-diagram-note">서비스 포트폴리오 vs 서비스 카탈로그:</div>
+<div class="kb-diagram-note">서비스 포트폴리오 (전략):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 파이프라인</div><div class="kb-diagram-cell">← 기획 중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 카탈로그</div><div class="kb-diagram-cell">← 운영 중 (고객 접점)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폐기된 서비스</div><div class="kb-diagram-cell">← 단종</div></div>
+<div class="kb-diagram-note">서비스 카탈로그 구성:</div>
+<div class="kb-diagram-note">비즈니스/고객 카탈로그:</div>
+<div class="kb-diagram-note">고객이 볼 수 있는 서비스 뷰</div>
+<div class="kb-diagram-note">비즈니스 언어로 설명</div>
+<div class="kb-diagram-note">가격, SLA, 신청 방법</div>
+<div class="kb-diagram-note">예: "노트북 지급 서비스"</div>
+<div class="kb-diagram-note">설명: 신규 직원/교체 노트북 신청</div>
+<div class="kb-diagram-note">처리 시간: 3 영업일</div>
+<div class="kb-diagram-note">비용: 무료 (연 1대)</div>
+<div class="kb-diagram-note">기술 카탈로그:</div>
+<div class="kb-diagram-note">내부 IT팀 대상 서비스 구성</div>
+<div class="kb-diagram-note">의존성, 인프라, 서포트 팀</div>
+<div class="kb-diagram-note">예: 노트북 지급 → 자산 관리 DB + HR 시스템 연동</div>
+</div>
+</div>
 
-서비스 카탈로그 구성:
 
-비즈니스/고객 카탈로그:
-  고객이 볼 수 있는 서비스 뷰
-  비즈니스 언어로 설명
-  가격, SLA, 신청 방법
-  
-  예: "노트북 지급 서비스"
-      설명: 신규 직원/교체 노트북 신청
-      처리 시간: 3 영업일
-      비용: 무료 (연 1대)
-
-기술 카탈로그:
-  내부 IT팀 대상 서비스 구성
-  의존성, 인프라, 서포트 팀
-  
-  예: 노트북 지급 → 자산 관리 DB + HR 시스템 연동
-```
 
 > 📢 **섹션 요약 비유**: [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) = 레스토랑 메뉴판 — 메뉴판([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)): 내부용. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 전체 음식점 사업 계획!
 
@@ -109,48 +105,45 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅲ. 셀프서비스 포털
 
-```
-IT 셀프서비스 포털:
-  서비스 카탈로그를 사용자가 직접 신청하는 인터페이스
 
-기능:
-  브라우저/모바일로 서비스 신청
-  상태 추적 (제출 → 승인 → 처리 → 완료)
-  승인 워크플로우 자동화
-  자동 프로비저닝 (가능한 경우)
-  지식베이스 연동 (FAQ, 해결 방법)
 
-도구:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 셀프서비스 포털:</div>
+<div class="kb-diagram-note">서비스 카탈로그를 사용자가 직접 신청하는 인터페이스</div>
+<div class="kb-diagram-note">기능:</div>
+<div class="kb-diagram-note">브라우저/모바일로 서비스 신청</div>
+<div class="kb-diagram-note">상태 추적 (제출 → 승인 → 처리 → 완료)</div>
+<div class="kb-diagram-note">승인 워크플로우 자동화</div>
+<div class="kb-diagram-note">자동 프로비저닝 (가능한 경우)</div>
+<div class="kb-diagram-note">지식베이스 연동 (FAQ, 해결 방법)</div>
+<div class="kb-diagram-note">도구:</div>
+<div class="kb-diagram-note">ServiceNow:</div>
+<div class="kb-diagram-note">ITSM 통합 플랫폼</div>
+<div class="kb-diagram-note">서비스 카탈로그 + 인시던트 + 변경 관리</div>
+<div class="kb-diagram-note">UI: 쇼핑 카트 방식 (여러 항목 한 번에 신청)</div>
+<div class="kb-diagram-note">플로우 디자이너: 드래그앤드롭 워크플로우</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">"직원 온보딩" 단일 요청</div>
+<div class="kb-diagram-note">→ 노트북 준비 (IT)</div>
+<div class="kb-diagram-note">→ 계정 생성 (AD/SSO)</div>
+<div class="kb-diagram-note">→ 사무용 소프트웨어 설치 (IT)</div>
+<div class="kb-diagram-note">→ 사무실 접근 카드 (보안팀)</div>
+<div class="kb-diagram-note">→ 자동 병렬 처리</div>
+<div class="kb-diagram-note">Jira Service Management:</div>
+<div class="kb-diagram-note">ITSM + Atlassian 생태계 통합</div>
+<div class="kb-diagram-note">개발팀 친화적</div>
+<div class="kb-diagram-note">Freshservice:</div>
+<div class="kb-diagram-note">중소기업 적합, 직관적 UI</div>
+<div class="kb-diagram-note">자동화 효과:</div>
+<div class="kb-diagram-note">비밀번호 재설정:</div>
+<div class="kb-diagram-note">헬프데스크 처리: 15분 × $50/시간 = $12.50</div>
+<div class="kb-diagram-note">셀프서비스: 2분, $0</div>
+<div class="kb-diagram-note">연 1,000건: $12,500 절감</div>
+</div>
+</div>
 
-ServiceNow:
-  ITSM 통합 플랫폼
-  서비스 카탈로그 + 인시던트 + 변경 관리
-  
-  UI: 쇼핑 카트 방식 (여러 항목 한 번에 신청)
-  플로우 디자이너: 드래그앤드롭 워크플로우
-  
-  예:
-  "직원 온보딩" 단일 요청
-  → 노트북 준비 (IT)
-  → 계정 생성 (AD/SSO)
-  → 사무용 소프트웨어 설치 (IT)
-  → 사무실 접근 카드 (보안팀)
-  → 자동 병렬 처리
 
-Jira Service Management:
-  ITSM + Atlassian 생태계 통합
-  개발팀 친화적
-
-Freshservice:
-  중소기업 적합, 직관적 UI
-
-자동화 효과:
-  비밀번호 재설정:
-  헬프데스크 처리: 15분 × $50/시간 = $12.50
-  셀프서비스: 2분, $0
-  
-  연 1,000건: $12,500 절감
-```
 
 > 📢 **섹션 요약 비유**: 셀프서비스 포털 = 인터넷 쇼핑몰 — 장바구니(여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 묶음 신청), 배송 추적(상태 조회). 헬프데스크 없이도 직원이 직접 주문!
 
@@ -158,41 +151,39 @@ Freshservice:
 
 ## Ⅳ. 클라우드 [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/)
 
-```
-AWS Service Catalog:
-  기업 IT가 승인한 AWS 리소스만 제공
-  
-  역할:
-  IT 관리자: 포트폴리오(승인된 제품 집합) 정의
-  개발자/사용자: 카탈로그에서 선택 → 배포
-  
-  제어:
-  IAM 권한 없어도 카탈로그를 통해 제한적 배포 가능
-  비용 태깅, 보안 정책 자동 적용
-  
-  예:
-  포트폴리오: "개발팀 인프라"
-  제품: "웹 서버 스택" (CloudFormation 템플릿)
-  → 개발자: 스택 선택 → 파라미터 입력 → 배포
-  → IT: 표준 보안/비용 설정 자동 적용
 
-Backstage (Spotify 오픈소스):
-  개발자 플랫폼 포털
-  
-  Software Catalog:
-  모든 마이크로서비스, 라이브러리, 데이터 파이프라인
-  소유자, 문서, 의존성 한눈에
-  
-  Self-Service Template:
-  "새 마이크로서비스 생성"
-  → GitHub 레포 + CI/CD + 모니터링 자동 설정
-  
-  사용: Spotify, Zalando, 1,000+ 기업
 
-HashiCorp Terraform Cloud:
-  인프라 서비스 카탈로그 역할
-  Workspace 기반 셀프서비스 IaC 배포
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AWS Service Catalog:</div>
+<div class="kb-diagram-note">기업 IT가 승인한 AWS 리소스만 제공</div>
+<div class="kb-diagram-note">역할:</div>
+<div class="kb-diagram-note">IT 관리자: 포트폴리오(승인된 제품 집합) 정의</div>
+<div class="kb-diagram-note">개발자/사용자: 카탈로그에서 선택 → 배포</div>
+<div class="kb-diagram-note">제어:</div>
+<div class="kb-diagram-note">IAM 권한 없어도 카탈로그를 통해 제한적 배포 가능</div>
+<div class="kb-diagram-note">비용 태깅, 보안 정책 자동 적용</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">포트폴리오: "개발팀 인프라"</div>
+<div class="kb-diagram-note">제품: "웹 서버 스택" (CloudFormation 템플릿)</div>
+<div class="kb-diagram-note">→ 개발자: 스택 선택 → 파라미터 입력 → 배포</div>
+<div class="kb-diagram-note">→ IT: 표준 보안/비용 설정 자동 적용</div>
+<div class="kb-diagram-note">Backstage (Spotify 오픈소스):</div>
+<div class="kb-diagram-note">개발자 플랫폼 포털</div>
+<div class="kb-diagram-note">Software Catalog:</div>
+<div class="kb-diagram-note">모든 마이크로서비스, 라이브러리, 데이터 파이프라인</div>
+<div class="kb-diagram-note">소유자, 문서, 의존성 한눈에</div>
+<div class="kb-diagram-note">Self-Service Template:</div>
+<div class="kb-diagram-note">"새 마이크로서비스 생성"</div>
+<div class="kb-diagram-note">→ GitHub 레포 + CI/CD + 모니터링 자동 설정</div>
+<div class="kb-diagram-note">사용: Spotify, Zalando, 1,000+ 기업</div>
+<div class="kb-diagram-note">HashiCorp Terraform Cloud:</div>
+<div class="kb-diagram-note">인프라 서비스 카탈로그 역할</div>
+<div class="kb-diagram-note">Workspace 기반 셀프서비스 IaC 배포</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: AWS [Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) = 회사 전용 AWS 마트 — IT가 승인한 상품(CloudFormation)만 진열. 개발자가 골라 담고 계산(배포). 보안/비용 태그 자동 적용!
 
@@ -200,43 +191,42 @@ HashiCorp Terraform Cloud:
 
 ## Ⅴ. 실무 시나리오 — [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 구축
 
-```
-금융회사 IT 서비스 카탈로그 구축:
 
-AS-IS 문제:
-  직원 IT 요청: 이메일로 헬프데스크 전송
-  처리 현황 불투명 (전화로 확인)
-  요청 유형 비표준 (제각각 표현)
-  평균 처리 시간: 3.2일
-  헬프데스크 인력: 12명
 
-TO-BE ServiceNow 구축:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">금융회사 IT 서비스 카탈로그 구축:</div>
+<div class="kb-diagram-note">AS-IS 문제:</div>
+<div class="kb-diagram-note">직원 IT 요청: 이메일로 헬프데스크 전송</div>
+<div class="kb-diagram-note">처리 현황 불투명 (전화로 확인)</div>
+<div class="kb-diagram-note">요청 유형 비표준 (제각각 표현)</div>
+<div class="kb-diagram-note">평균 처리 시간: 3.2일</div>
+<div class="kb-diagram-note">헬프데스크 인력: 12명</div>
+<div class="kb-diagram-note">TO-BE ServiceNow 구축:</div>
+<div class="kb-diagram-note">1. 서비스 카탈로그 100개 항목 정의:</div>
+<div class="kb-diagram-note">카테고리: 계정관리, 하드웨어, SW, 네트워크, 보안</div>
+<div class="kb-diagram-note">최다 요청 (자동화 우선):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">비밀번호 재설정 (연 4,200건)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">VPN 접근 신청 (연 1,800건)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">소프트웨어 라이선스 (연 900건)</div>
+<div class="kb-diagram-note">2. 자동화 워크플로우:</div>
+<div class="kb-diagram-note">비밀번호 재설정: 완전 자동 (2분, 0 인력)</div>
+<div class="kb-diagram-note">VPN 승인: 매니저 자동 알림 → 1클릭 승인</div>
+<div class="kb-diagram-note">노트북 신청: 자산 DB 연동 → 자동 배정</div>
+<div class="kb-diagram-note">3. 승인 워크플로우:</div>
+<div class="kb-diagram-note">$5,000 이하: 매니저 1단계 승인</div>
+<div class="kb-diagram-note">$5,000~$50,000: 매니저 + IT팀장</div>
+<div class="kb-diagram-note">$50,000+: 매니저 + IT + CFO</div>
+<div class="kb-diagram-note">결과 (6개월 후):</div>
+<div class="kb-diagram-note">셀프서비스 처리율: 0% → 67%</div>
+<div class="kb-diagram-note">평균 처리 시간: 3.2일 → 0.8일</div>
+<div class="kb-diagram-note">직원 만족도: 62% → 89%</div>
+<div class="kb-diagram-note">헬프데스크: 12명 → 6명 (재배치)</div>
+<div class="kb-diagram-note">연간 비용 절감: 약 2억원</div>
+</div>
+</div>
 
-1. 서비스 카탈로그 100개 항목 정의:
-   카테고리: 계정관리, 하드웨어, SW, 네트워크, 보안
-   
-   최다 요청 (자동화 우선):
-   - 비밀번호 재설정 (연 4,200건)
-   - VPN 접근 신청 (연 1,800건)
-   - 소프트웨어 라이선스 (연 900건)
 
-2. 자동화 워크플로우:
-   비밀번호 재설정: 완전 자동 (2분, 0 인력)
-   VPN 승인: 매니저 자동 알림 → 1클릭 승인
-   노트북 신청: 자산 DB 연동 → 자동 배정
-
-3. 승인 워크플로우:
-   $5,000 이하: 매니저 1단계 승인
-   $5,000~$50,000: 매니저 + IT팀장
-   $50,000+: 매니저 + IT + CFO
-
-결과 (6개월 후):
-  셀프서비스 처리율: 0% → 67%
-  평균 처리 시간: 3.2일 → 0.8일
-  직원 만족도: 62% → 89%
-  헬프데스크: 12명 → 6명 (재배치)
-  연간 비용 절감: 약 2억원
-```
 
 > 📢 **섹션 요약 비유**: [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) 구축 = 편의점 자동화 — 직원 주문(IT 요청)을 자동 키오스크(ServiceNow)로. 처리 시간 3.2일→0.8일. 헬프데스크 절반으로. 직원 만족 89%!
 

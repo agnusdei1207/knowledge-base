@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간 복수의 물리 링크를 논리적 단일 링크([EtherChannel](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/))로 묶기 위한 시스코 전용 시그널링 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/).
 - **필요성**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 양 끝단에 4가닥의 선을 꽂아 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)을 수동(On 모드)으로 강제 설정하면, 만약 한쪽 선이 헐거워지거나 상대방 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 설정이 잘못되었을 때 즉각 블랙홀([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실)이나 루프([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 장애)가 발생한다. 이를 막기 위해 양쪽이 PAgP 패킷을 교환하며 "우리 4가닥 모두 속도랑 듀플렉스 완벽히 똑같은 거 맞지? 그럼 하나로 묶는다!"라고 안전장치(협상)를 거치도록 고안되었다.
 
-- **💡 비유**: 두 사람이 양손을 맞잡고 2인 3각 달리기([이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/))를 하려고 합니다. **PAgP**는 시스코 마을 사람들끼리만 알아듣는 사투리로 "왼발부터 뛸래? 오른발부터 뛸래?" 하고 미리 발을 맞추는 대화입니다. 만약 옆 마을(HP, Juniper 등) 사람과 뛰려면 이 사투리를 못 알아듣기 때문에, 표준어인 **LACP**를 써야만 발을 맞출 수 있습니다.
+- **💡 비유**: 두 사람이 양손을 맞잡고 2인 3각 달리기([이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/))를 하려고 합니다. <strong>PAgP</strong>는 시스코 마을 사람들끼리만 알아듣는 사투리로 "왼발부터 뛸래? 오른발부터 뛸래?" 하고 미리 발을 맞추는 대화입니다. 만약 옆 마을(HP, Juniper 등) 사람과 뛰려면 이 사투리를 못 알아듣기 때문에, 표준어인 <strong>LACP</strong>를 써야만 발을 맞출 수 있습니다.
 
-```text
-[이더채널 / 링크 어그리게이션]
-    │
-    ▼
-[PAgP]
-    │
-    └──▶ [PoE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더채널 / 링크 어그리게이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PAgP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PoE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** PAgP는 아이폰 사용자들끼리만 사진을 순식간에 묶어서 보낼 수 있는 **"에어드롭(AirDrop)"**과 같습니다. 반면 LACP는 갤럭시, 아이폰 모두 쓸 수 있는 범용 이메일 첨부파일과 같습니다.
 
@@ -45,24 +49,25 @@ PAgP로 포트를 묶으려면 양쪽 포트에 모드를 세팅해야 한다.
 - **Desirable 모드**: "우리 묶자!"라고 PAgP 제안 패킷을 능동적으로 쏘아대는 적극적인 모드.
 - **Auto 모드**: 가만히 기다리다가 상대방이 제안하면 "콜!" 하고 묶어주는 수동적인 모드.
 
-**결합 규칙의 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)**:
+<strong>결합 규칙의 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/">진리표</a></strong>:
 - `Desirable` + `Desirable` = 묶임 (성공)
 - `Desirable` + `Auto` = 묶임 (성공)
 - `Auto` + `Auto` = **안 묶임** (둘 다 평생 기다리기만 하다가 일반 개별 포트로 동작함)
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │               LACP vs PAgP 협상 모드 명칭 비교                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 표준 LACP (IEEE 802.3ad) ]       [ 시스코 전용 PAgP ]       │
- │   * Active (적극적 제안)    ======   * Desirable (적극적)      │
- │   * Passive (수동적 수락)   ======   * Auto (수동적)          │
- │                                                             │
- │   ▶ 두 프로토콜의 기능은 99.9% 똑같으며, 명령어 단어만 다를 뿐이다.    │
- │   ▶ 시험 문제 단골 출제: "PAgP의 능동적 모드는 무엇인가?" -> Desirable│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LACP vs PAgP 협상 모드 명칭 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">표준 LACP (IEEE 802.3ad)</div><div class="kb-diagram-node">시스코 전용 PAgP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Active (적극적 제안) ====== * Desirable (적극적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Passive (수동적 수락) ====== * Auto (수동적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 두 프로토콜의 기능은 99.9% 똑같으며, 명령어 단어만 다를 뿐이다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 시험 문제 단골 출제: "PAgP의 능동적 모드는 무엇인가?" -&gt; Desirable</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: PAgP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -86,7 +91,7 @@ PAgP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 1990년대, 벤더 간 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 개념이 약하고 시스코가 네트워크 천하통일을 이룩하던 시절에는 PAgP가 대세였다. 하지만 현대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터는 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 아리스타 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 리눅스 서버(Teaming), VM웨어([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 등 수많은 기종이 혼재되어 묶여야 한다.
 - **이기종 불가**: 시스코 장비와 타사 장비 간에는 PAgP 협상이 100% 실패한다.
-- **글로벌 표준의 승리**: 결국 시스코 장비조차도 PAgP보다는 LACP를 우선적으로 지원하도록 설계 트렌드가 바뀌었고, 오늘날 네트워크 관리자들은 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)을 묶을 때 묻지도 따지지도 않고 무조건 **`channel-group 1 mode active` (LACP)** 명령어를 타이핑한다.
+- **글로벌 표준의 승리**: 결국 시스코 장비조차도 PAgP보다는 LACP를 우선적으로 지원하도록 설계 트렌드가 바뀌었고, 오늘날 네트워크 관리자들은 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/)을 묶을 때 묻지도 따지지도 않고 무조건 <strong><code>channel-group 1 mode active</code> (LACP)</strong> 명령어를 타이핑한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -117,15 +122,19 @@ PAgP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 이더채널 / 링크 어그리게이션]
-    │
-    ▼
-[현재 개념: PAgP]
-    │
-    ├──▶ [확장 A: PoE]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이더채널 / 링크 어그리게이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PAgP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PoE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 PAgP는 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) / 링크 어그리게이션에서 출발해 현재 메커니즘을 정교화하고, 이후 PoE와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -17,33 +17,25 @@ tags = ["enterprise_systems"]
 
 ### 정보의 파편화를 끝내는 단일 혈관: ERP의 역할
 
-과거 기업들은 각 부서마다 독립적인 전산 시스템을 운영했다. 영업 데이터와 회계 데이터가 일치하지 않아 결산에만 수주일이 걸리는 비효율이 일상이었다. **ERP**는 이러한 파편화된 시스템들을 하나의 거대한 유기체로 묶어낸다. 공장에서 제품 하나가 완성되는 순간, 재고가 줄어들고 원가가 계산되며 재무제표에 즉시 반영되는 '실시간 경영'을 가능하게 한다.
+과거 기업들은 각 부서마다 독립적인 전산 시스템을 운영했다. 영업 데이터와 회계 데이터가 일치하지 않아 결산에만 수주일이 걸리는 비효율이 일상이었다. <strong>ERP</strong>는 이러한 파편화된 시스템들을 하나의 거대한 유기체로 묶어낸다. 공장에서 제품 하나가 완성되는 순간, 재고가 줄어들고 원가가 계산되며 재무제표에 즉시 반영되는 '실시간 경영'을 가능하게 한다.
 
-ERP 시스템이 필요한 이유는 세 가지이다. 첫째, **전사적 가시성 (Visibility) 확보**를 위해서이다. 경영진이 언제 어디서나 기업의 건강 상태를 정확한 숫자로 파악해야 한다. 둘째, **업무 프로세스의 표준화**를 위해서이며 (Best Practice 도입), 셋째, **데이터 무결성**을 유지하여 의사결정의 오류를 원천 차단하기 위함이다.
+ERP 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>전사적 가시성 (Visibility) 확보</strong>를 위해서이다. 경영진이 언제 어디서나 기업의 건강 상태를 정확한 숫자로 파악해야 한다. 둘째, <strong>업무 프로세스의 표준화</strong>를 위해서이며 (Best Practice 도입), 셋째, <strong>데이터 무결성</strong>을 유지하여 의사결정의 오류를 원천 차단하기 위함이다.
 
 이 그림은 ERP가 기업의 각 부서를 어떻게 하나의 통합 데이터베이스로 연결하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 ERP Integrated Architecture Model           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│      [ Sales ]       [ Finance ]      [ Human Resource ]    │
-│          │                │                 │               │
-│          └───────────┐    │    ┌────────────┘               │
-│                      ▼    ▼    ▼                            │
-│               ┌──────────────────────────┐                  │
-│               │  Unified Database (SSOT) │                  │
-│               └──────────────────────────┘                  │
-│                      ▲    ▲    ▲                            │
-│          ┌───────────┘    │    └────────────┐               │
-│          │                │                 │               │
-│    [ Production ]    [ Inventory ]     [ Procurement ]      │
-│                                                             │
-│   * SSOT: Single Source of Truth (단일 진실 원천)          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Integrated Architecture Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sales</div><div class="kb-diagram-node">Finance</div><div class="kb-diagram-node">Human Resource</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Database (SSOT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Production</div><div class="kb-diagram-node">Inventory</div><div class="kb-diagram-node">Procurement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SSOT: Single Source of Truth (단일 진실 원천)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '통합 (Integration)'이다. 데이터가 한 번만 입력되면 모든 관련 모듈에 자동으로 전파되어 중복 입력을 없앤다. 실무에서는 이 과정에서 데이터 표준화가 선행되어야만 진정한 통합의 효과 (Efficiency)를 누릴 수 있다.
 
@@ -75,21 +67,19 @@ ERP의 물리적 진화 단계이다.
 
 이 구조도는 ERP 구축 시 가장 중요한 **BPR (Business Process Reengineering)** 연계 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 ERP Implementation: Fit-to-Standard         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Package Standard ] ◀─── (Gap Analysis) ───▶ [ As-Is Biz ]│
-│          │                                         │        │
-│          ▼                                         ▼        │
-│   [ Customization ] ◀─────── (Decide) ──────▶ [ Process BPR ]│
-│                                                             │
-│   * 기술사 가이드: "시스템을 고치지 말고, 업무를 고쳐라"    │
-│     (Fit-to-Standard를 통한 유지보수성 확보가 핵심)        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Implementation: Fit-to-Standard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Package Standard</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">As-Is Biz</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Customization</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Process BPR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: "시스템을 고치지 말고, 업무를 고쳐라"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Fit-to-Standard를 통한 유지보수성 확보가 핵심)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '커스터마이징의 최소화'이다. 기업의 낡은 업무 관행에 시스템을 맞추면(Over-customizing), 나중에 시스템 업그레이드가 불가능해지는 '기술 부채'의 늪에 빠진다. 실무에서는 글로벌 베스트 프랙티스에 맞춰 업무 프로세스를 혁신하는 용기가 필요하다.
 
@@ -123,27 +113,27 @@ ERP의 물리적 진화 단계이다.
 ### 기술사적 판단: ERP 도입 성공 전략 및 리스크 관리
 
 **시나리오 1: ERP 도입 후 부서 간 권한 갈등으로 업무 지연 발생**
-- **판단**: 기술적인 권한 설정의 문제가 아닌 **'프로세스 소유권 (Process Ownership)'**의 문제이다. 전사적인 거버넌스 위원회를 통해 직무 분리 (SoD) 원칙을 명확히 하고, 정보의 독점이 아닌 '공유를 통한 전체 최적화' 가치를 전파한다. 시스템적으로는 **RBAC (역할 기반 접근 제어)**를 엄격히 적용하여 보안과 편의성의 균형을 맞춘다.
+- **판단**: 기술적인 권한 설정의 문제가 아닌 <strong>'프로세스 소유권 (Process Ownership)'</strong>의 문제이다. 전사적인 거버넌스 위원회를 통해 직무 분리 (SoD) 원칙을 명확히 하고, 정보의 독점이 아닌 '공유를 통한 전체 최적화' 가치를 전파한다. 시스템적으로는 <strong>RBAC (역할 기반 접근 제어)</strong>를 엄격히 적용하여 보안과 편의성의 균형을 맞춘다.
 
 **시나리오 2: 글로벌 지사의 파편화된 ERP 시스템 통합 프로젝트**
 - **판단**: **'Single Instance'** 전략을 제안한다. 전 세계 어디서든 동일한 데이터 코드와 프로세스를 쓰도록 표준 템플릿 (Global Template)을 설계한다. 단, 각 국가의 법규 (세법, 인사법)는 유연하게 수용할 수 있는 **Localization** 레이어를 분리하여 아키텍처의 확장성을 확보한다. 인프라는 운영 효율을 위해 클라우드 기반의 **Centralized DB** 구성을 권고한다.
 
 이 도식은 ERP 프로젝트의 단계별 기술사적 체크리스트를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               ERP Project Critical Success Factors          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. 기획: CEO의 강력한 리더십과 비전 공유                  │
-│   2. 설계: 프로세스 표준화(BPR) 및 데이터 정제              │
-│   3. 구축: 핵심 커스터마이징 최소화 및 인터페이스 테스트    │
-│   4. 오픈: 변화 관리 교육 및 현장 안정화 지원               │
-│                                                             │
-│   * 금언: "가장 나쁜 ERP는 사람의 손을 다시 거치는 ERP다"   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Project Critical Success Factors</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기획: CEO의 강력한 리더십과 비전 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 설계: 프로세스 표준화(BPR) 및 데이터 정제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 구축: 핵심 커스터마이징 최소화 및 인터페이스 테스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 오픈: 변화 관리 교육 및 현장 안정화 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 금언: "가장 나쁜 ERP는 사람의 손을 다시 거치는 ERP다"</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 ERP 판단은 '대수술을 집도하는 외과의'와 같습니다. 환자(기업)의 낡은 혈관(프로세스)을 잘라내고 인공 혈관(ERP 표준)을 이식할 때, 전신 마취(변화 관리)와 사후 관리(안정화)까지 책임지는 정밀한 수술과 같습니다.
 
@@ -158,7 +148,7 @@ ERP의 물리적 진화 단계이다.
 
 ### 미래 전망: 지능형 ERP와 자율 비즈니스
 
-미래의 ERP는 사람이 데이터를 입력하는 단계를 넘어, AI가 스스로 전표를 생성하고 이상 징후를 탐지하는 **지능형 초자동화 (Hyperautomation)** 플랫폼으로 진화할 것이다. 또한 생성형 AI와 결합하여 "이번 달 매출이 왜 줄었지?"라는 질문에 즉시 원인을 분석해 보고하는 **'Conversational ERP'**가 표준이 될 것이다. 기술사는 패키지 솔루션의 기능을 넘어, 데이터가 스스로 부가가치를 창출하는 '자율 운영 기업'의 마스터 아키텍트가 되어야 한다.
+미래의 ERP는 사람이 데이터를 입력하는 단계를 넘어, AI가 스스로 전표를 생성하고 이상 징후를 탐지하는 **지능형 초자동화 (Hyperautomation)** 플랫폼으로 진화할 것이다. 또한 생성형 AI와 결합하여 "이번 달 매출이 왜 줄었지?"라는 질문에 즉시 원인을 분석해 보고하는 <strong>'Conversational ERP'</strong>가 표준이 될 것이다. 기술사는 패키지 솔루션의 기능을 넘어, 데이터가 스스로 부가가치를 창출하는 '자율 운영 기업'의 마스터 아키텍트가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 ERP는 '자율주행 비즈니스 엔진'이 될 것입니다. 경영자가 목적지만 정하면, 엔진이 스스로 연료(자금)를 관리하고 길(공급망)을 찾아 목적지(수익)까지 가장 안전하고 빠르게 회사를 이끌어줄 것입니다.
 

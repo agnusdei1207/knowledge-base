@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU가 프로그램을 굴리며 내부적으로 뱉어내는 주소이자, 컴파일된 프로그램(프로세스) 자신이 **"나는 물리적 세상이 어찌 생겼든 간에 오직 0번지부터 시작하는 내 전용 독방에 살고 있다"**고 착각하게 만드는 환상(Illusion)의 번지수다.
+> 1. **본질**: CPU가 프로그램을 굴리며 내부적으로 뱉어내는 주소이자, 컴파일된 프로그램(프로세스) 자신이 <strong>"나는 물리적 세상이 어찌 생겼든 간에 오직 0번지부터 시작하는 내 전용 독방에 살고 있다"</strong>고 착각하게 만드는 환상(Illusion)의 번지수다.
 > 2. **가치**: 이 가짜 주소 공간 덕분에 개발자들은 "내 프로그램이 램(RAM)의 어디에 꽂힐지, 남들이 무슨 주소를 쓰는지" 단 1도 신경 쓰지 않고 오직 자기만의 무한한 0번지 도화지에 변수들을 자유롭게 때려 박을 수 있는 코딩의 해방을 맞이했다.
-> 3. **융합**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 홀로는 메모리를 터치할 수 없으므로, **반드시 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))라는 번역기를 관통해 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(머신 주소)로 트랜슬레이션(Binding)되는 과정**과 덧붙여 완전한 현대 OS의 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 구역을 완성한다.
+> 3. **융합**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 홀로는 메모리를 터치할 수 없으므로, <strong>반드시 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/">Memory Management Unit</a>)라는 번역기를 관통해 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(머신 주소)로 트랜슬레이션(Binding)되는 과정</strong>과 덧붙여 완전한 현대 OS의 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 구역을 완성한다.
 
 ---
 
@@ -23,30 +23,30 @@ tags = ["studynote-operating-system"]
 문제가 생겼다. 두 개의 프로그램(게임과 카톡)을 동시에 켜려는데, 둘 다 지들 소스 코드에 `1000번지 쓰겠다`고 코드를 짜둔 것이다. 동시에 켜면? 둘이 같은 RAM 1000번지 박스에서 치고박고 싸우다 블루스크린이 뜬다.
 
 이 원시적인 충돌을 박살 내기 위해 OS 아키텍트들은 기상천외한 꼼수를 냈다.
-**"프로그램에게 램(RAM)의 진짜 주소를 보여주지 말자! 그냥 너네 모두 각자 `0번지부터 시작하는 자기만의 가상 세계(환상)`에 살고 있다고 뻥을 치자!"**
+<strong>"프로그램에게 램(RAM)의 진짜 주소를 보여주지 말자! 그냥 너네 모두 각자 <code>0번지부터 시작하는 자기만의 가상 세계(환상)</code>에 살고 있다고 뻥을 치자!"</strong>
 
-이것이 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 (Logical Address)** 혹은 가상 주소(Virtual Address)의 위대한 탄생이다.
+이것이 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 주소 (Logical Address)</strong> 혹은 가상 주소(Virtual Address)의 위대한 탄생이다.
 CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 몰래 "아 게임의 0번지는 실제 램의 5만 번지에, 카톡의 0번지는 실제 램 8만 번지에 조립해 주자"라고 뒤통수를 치는 것이다.
 
 **💡 비유**: 현실 세계 아파트 동호수. 어떤 택배 기사(프로그램)든 항상 "나는 무조건 101호에 배달할 거야!"라고 외친다([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소). 하지만 경비원([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석기-[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 그 택배를 받아서 몰래 "아 A회사 택배의 101호는 실제로는 강남구 삼성동 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로, B회사 택배의 101호는 부산 해운대 101호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로" 분류해서 대신 딱딱 꽂아주는 마술이다. 
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│         논리 주소 공간 (가짜 평행 우주)의 탄생 기믹             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [ Process A (게임) ]            [ Process B (카톡) ]           │
-│  (CPU가 얘를 실행할 때 생성)       (CPU가 얘를 실행할 때 생성)  │
-│                                                                 │
-│  논리 주소 0번지 (시작)          논리 주소 0번지 (시작)         │
-│  논리 주소 120번지에 HP 저장     논리 주소 120번지에 톡 저장    │
-│  논리 주소 500번지 (끝)          논리 주소 300번지 (끝)         │
-│                                                                 │
-│  ▶ 둘 다 "내가 120번지의 주인이다"라고 똑같이 뻗댐.             │
-│  ▶ 논리 주소(Virtual) 세계에서는 둘 다 혼자 사는 독방이므로     │
-│     다른 놈을 침범할 일도, 충돌할 일도 0% 차단됨!               │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 공간 (가짜 평행 우주)의 탄생 기믹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process A (게임)</div><div class="kb-diagram-node">Process B (카톡)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU가 얘를 실행할 때 생성) (CPU가 얘를 실행할 때 생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 0번지 (시작) 논리 주소 0번지 (시작)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 120번지에 HP 저장 논리 주소 120번지에 톡 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 500번지 (끝) 논리 주소 300번지 (끝)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 둘 다 "내가 120번지의 주인이다"라고 똑같이 뻗댐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 논리 주소(Virtual) 세계에서는 둘 다 혼자 사는 독방이므로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 놈을 침범할 일도, 충돌할 일도 0% 차단됨!</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소는 누구나 방에 들어갈 때 자기가 "1번 손님"인 줄 아는 가상현실(VR) 고글입니다. 고글 안에서는 다 자기가 주인공이지만, 현실 세계([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))의 의자 배치는 직원이 몰래 겹치지 않게 다 벌려놓은 겁니다.
 
@@ -57,7 +57,7 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 ### CPU 시점과 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소의 상관 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 흔히 오해하는 것이 "CPU는 물리(기계) 장치니까 진짜 하드웨어 램 구멍 번호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))를 내뿜지 않을까?" 인데, 대실패적인 착각이다.
-**현대의 CPU 코어는 100% [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해서 입 밖으로 뱉는다.**
+<strong>현대의 CPU 코어는 100% <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 주소만 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>해서 입 밖으로 뱉는다.</strong>
 
 1. **프로세서의 시각**: CPU 안의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)), [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)), 심지어 C언어 빌드로 튀어나온 어셈블리어의 포인터들 싹 다 가짜 주소(Logical)다. CPU는 자기가 가상 세계에 갇혀 돌아간다는 사실을 묵인한 채 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 번지만 죽어라 계산한다.
 2. **연속적 환상 보장 (Contiguous Memory)**: 실제 물리적 램(RAM) 칩이 중간중간 고장 나거나 다른 놈이 써서 듬성듬성 깨져 있어도, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소는 무결점의 연속된 깨끗한 블록(`0~MAX`)으로 스스로를 포장한다.
@@ -70,7 +70,7 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 
 | 진단 항목 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 (Logical Address) | [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)) |
 |:---|:---|:---|
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주체** | **CPU**가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행하며 띡띡 계산해 냄 | 하드웨어 칩스틱([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 핀과 소켓에 각인된 진짜 번호 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 주체</strong> | <strong>CPU</strong>가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행하며 띡띡 계산해 냄 | 하드웨어 칩스틱([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 핀과 소켓에 각인된 진짜 번호 |
 | **관점 (Perspective)** | 사용자(프로그램), 컴파일러, 어셈블리어 | 메모리 컨트롤러 부품, 캐시 하드웨어 |
 | **연속성** | 0번지부터 예쁘게 순서대로 꽉 찬 한 덩어리 | 조각조각 찢어져서 여기저기 처박혀있을 수 있음 |
 | **소환 마법사** | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리자 (OS) 패러다임 | [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 부품이 땀 뻘뻘 흘리며 변환해낸 실체 |
@@ -82,8 +82,8 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) (Address Space Layout Randomization) 해킹 방어**: 만약 어떤 해커가 당신의 C언어 프로그램 안에 있는 `관리자 권한 부여 함수`가 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 0x00401000'에 있다는 걸 소스코드 분석으로 알아냈다고 치자. 옛날엔 저 주소로 웜바이러스 공격을 때리면 직격으로 뚫렸다. 하지만 현대 OS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꿀 때마다 **베이스 맵핑 번호를 미친 듯이 무작위(Random)로 섞어버린다**. 해커가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 아무리 알아봐야 메모리의 진짜 좌표는 매번 흩어지므로 허공에 주먹질만 하게 된다 ([버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/) 원천 봉쇄).
-2. **C언어 포인터의 실체**: C언어에서 `printf("%p", &a);` 찍어서 나오는 16진수 메모리 주소! 대학생들은 이게 내 랩탑 램(RAM)의 진짜 실리콘 구멍 번호라고 생각하며 신기해한다. 틀렸다. 그거 그냥 OS가 뻥친 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소(Virtual Address)**일 뿐이다. 진실은 결코 볼 수 없다!
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/">ASLR</a> (Address Space Layout Randomization) 해킹 방어</strong>: 만약 어떤 해커가 당신의 C언어 프로그램 안에 있는 `관리자 권한 부여 함수`가 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소 0x00401000'에 있다는 걸 소스코드 분석으로 알아냈다고 치자. 옛날엔 저 주소로 웜바이러스 공격을 때리면 직격으로 뚫렸다. 하지만 현대 OS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꿀 때마다 **베이스 맵핑 번호를 미친 듯이 무작위(Random)로 섞어버린다**. 해커가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 아무리 알아봐야 메모리의 진짜 좌표는 매번 흩어지므로 허공에 주먹질만 하게 된다 ([버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/) 원천 봉쇄).
+2. **C언어 포인터의 실체**: C언어에서 `printf("%p", &a);` 찍어서 나오는 16진수 메모리 주소! 대학생들은 이게 내 랩탑 램(RAM)의 진짜 실리콘 구멍 번호라고 생각하며 신기해한다. 틀렸다. 그거 그냥 OS가 뻥친 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 주소(Virtual Address)</strong>일 뿐이다. 진실은 결코 볼 수 없다!
 
 **📢 섹션 요약 비유**: 여러분의 인터넷 웹브라우저 창을 켤 때마다, 컴퓨터는 "너는 이제 VVIP 전용 0번지 방이야" 라고 속입니다. 해커가 "VVIP 0번지 털어!" 라고 총을 쏴도, 뒷문으로 몰래 방 위치를 계속 바꾸기 때문에 허공에 총알만 날아갑니다.
 
@@ -96,7 +96,7 @@ CPU는 0번지를 내뿜지만, 밑단에서 기계([MMU](/knowledge-base/studyn
 | 프로그래밍 | 램 용량과 남의 공간 눈치 보며 주소 숫자 하드코딩 | 그냥 막무가내로 포인터 0번지부터 막 쓰면 됨 |
 | 시스템 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) | 여러 프로그램 동시 켜면 서로 주소 엉켜서 파멸 | 각자 가상 독방에 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))되어 수천 개 동시 구동 |
 
-`논리 주소 (Logical Address)`는 IT 역사가 이룩한 **위대한 기만(Great Deception)의 마스터피스**다. 소프트웨어가 복잡해지며 수백 개의 프로세스를 램(RAM)이라는 한정된 운동장에 쑤셔 넣어야 하는 지옥에서, 프로그래머들에게 "네 땅이 찢어지고 다른 놈이랑 섞일 걱정 따윈 하지 마! 너한테는 매트릭스(Matrix) 안의 완벽하고 끝없이 펼쳐진 너만의 0번지 도화지를 선사하마!"라며 거대한 백지수표를 끊어준 것이다. 
+`논리 주소 (Logical Address)`는 IT 역사가 이룩한 <strong>위대한 기만(Great Deception)의 마스터피스</strong>다. 소프트웨어가 복잡해지며 수백 개의 프로세스를 램(RAM)이라는 한정된 운동장에 쑤셔 넣어야 하는 지옥에서, 프로그래머들에게 "네 땅이 찢어지고 다른 놈이랑 섞일 걱정 따윈 하지 마! 너한테는 매트릭스(Matrix) 안의 완벽하고 끝없이 펼쳐진 너만의 0번지 도화지를 선사하마!"라며 거대한 백지수표를 끊어준 것이다. 
 CPU가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 이 가짜 주소들 덕분에, 인류의 소프트웨어는 하드웨어의 물리적 파편화 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 구속에서 완벽하게 해방되어 우주 끝까지 확충되는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기적을 이루어냈다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
@@ -114,15 +114,19 @@ CPU가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
-    │
-    ▼
-[논리 주소 (Logical/Virtual Address)]
-    │
-    ├──▶ [물리 주소 (Physical Address)]
-    └──▶ [주소 바인딩 (Address Binding) 3단계 시점]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 (Logical/Virtual Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 바인딩 (Address Binding) 3단계 시점</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

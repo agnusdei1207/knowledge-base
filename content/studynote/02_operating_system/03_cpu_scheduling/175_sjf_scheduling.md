@@ -25,16 +25,19 @@ SJF 스케줄링은 이름 그대로 가장 빨리 끝날 작업을 먼저 보�
 
 아래 그림은 같은 작업 집합이라도 정렬 기준이 바뀌면 대기 비용이 어떻게 달라지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same jobs, different ordering cost                                │
-├────────────────────────────────────────────────────────────────────┤
-│ jobs : P1(12)  P2(2)  P3(1)  P4(3)                                │
-│ FCFS : [P1............][P2][P3][P4]                               │
-│ SJF  : [P3][P2][P4][P1............]                               │
-│ idea : many short waits shrink more than one long wait grows      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same jobs, different ordering cost</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">jobs : P1(12) P2(2) P3(1) P4(3)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">FCFS :</div><div class="kb-diagram-node">P1............</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">SJF :</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P4</div><div class="kb-diagram-node">P1............</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">idea : many short waits shrink more than one long wait grows</div></div>
+</div>
+</div>
+
+
 
 즉 SJF의 핵심은 "공정한 도착 순서"보다 "총 대기 시간의 합"을 더 중요하게 본다는 점이다. 배치 처리처럼 처리량과 평균 대기 시간이 중요한 환경에서는 이 기준이 강력한 설계 논리가 된다.
 
@@ -46,17 +49,20 @@ SJF 스케줄링은 이름 그대로 가장 빨리 끝날 작업을 먼저 보�
 
 SJF가 평균 대기 시간을 줄이는 이유는 교환 논리로 설명할 수 있다. 현재 줄에서 긴 작업 A와 짧은 작업 B가 인접해 있고 `A > B`라면, A를 먼저 두는 것보다 B를 먼저 두는 편이 뒤에 누적되는 대기 시간이 더 작다. 이 교환을 가능한 곳마다 반복하면 결국 burst 길이 오름차순 배열이 되고, 그것이 SJF 순서다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why shorter-first lowers average waiting                          │
-├────────────────────────────────────────────────────────────────────┤
-│ current order : A(long) -> B(short)                               │
-│ total wait    : W + (W + A)                                       │
-│ swapped order : B(short) -> A(long)                               │
-│ total wait    : W + (W + B)                                       │
-│ since A > B, swapped total wait is smaller                        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why shorter-first lowers average waiting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current order : A(long) -&gt; B(short)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">total wait : W + (W + A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swapped order : B(short) -&gt; A(long)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">total wait : W + (W + B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">since A &gt; B, swapped total wait is smaller</div></div>
+</div>
+</div>
+
+
 
 예를 들어 동시에 도착한 네 프로세스 `P1=6ms`, `P2=8ms`, `P3=7ms`, `P4=3ms`를 생각해 보자.
 
@@ -99,36 +105,41 @@ SJF를 제대로 이해하려면 [FCFS](/knowledge-base/studynote/02_operating_s
 
 대표적인 근사 방법이 지수 평균 ([Exponential Averaging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/176_exponential_averaging/))이다. 과거 CPU burst 길이를 이용해 다음 burst를 예측한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Burst prediction for SJF-like behavior                             │
-├────────────────────────────────────────────────────────────────────┤
-│ tau(n+1) = alpha * t(n) + (1 - alpha) * tau(n)                    │
-│                                                                    │
-│ t(n)   : last actual burst                                         │
-│ tau(n) : previous prediction                                       │
-│ alpha  : weight for recency                                        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Burst prediction for SJF-like behavior</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tau(n+1) = alpha * t(n) + (1 - alpha) * tau(n)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t(n) : last actual burst</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tau(n) : previous prediction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alpha : weight for recency</div></div>
+</div>
+</div>
+
+
 
 아래 판단 흐름은 SJF를 직접 쓸지, 근사할지, 피할지를 정리한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Can SJF be used directly?                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ burst length known or predictable?                                 │
-│   ├─ yes -> SJF / SRTF candidate                                   │
-│   │         └─ add aging or wait cap if starvation risk is high    │
-│   └─ no  -> RR / MLFQ / fair scheduling                            │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Can SJF be used directly?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">burst length known or predictable?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; SJF / SRTF candidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ add aging or wait cap if starvation risk is high</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; RR / MLFQ / fair scheduling</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **burst 예측 가능성**: 작업 길이를 모르면 SJF는 이론에 머문다.
 2. **최적화 목표**: 평균 대기 시간 최소화가 1순위인지, 응답성·공정성이 더 중요한지 확인한다.
-3. **[starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 허용 여부**: 긴 작업이 오래 밀려도 되는 환경인지 본다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">starvation</a> 허용 여부</strong>: 긴 작업이 오래 밀려도 되는 환경인지 본다.
 4. **선점 비용**: SRTF를 쓰면 [timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) interrupt와 [context switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 추가된다.
 5. **보정 장치**: [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 최대 대기 시간 제한, 클래스 분리 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)장치가 있는지 확인한다.
 
@@ -138,7 +149,7 @@ SJF를 제대로 이해하려면 [FCFS](/knowledge-base/studynote/02_operating_s
 - 전체 job length와 다음 CPU burst length를 구분하지 않는 것
 - 예측 오차와 starvation을 무시하고 SJF를 절대 해법처럼 설명하는 것
 
-기술사 답안에서는 SJF를 단순 암기형 알고리즘으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **왜 최적인지**, **왜 현실에서는 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어려운지**, **현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 어떤 방식으로 그 철학을 차용했는지**까지 연결해야 깊이가 생긴다.
+기술사 답안에서는 SJF를 단순 암기형 알고리즘으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **왜 최적인지**, <strong>왜 현실에서는 그대로 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 어려운지</strong>, <strong>현대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>가 어떤 방식으로 그 철학을 차용했는지</strong>까지 연결해야 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: SJF는 오늘 주문량을 대충 아는 주방에서 빨리 끝나는 메뉴를 먼저 내는 전략이고, 언제 긴 주문이 튀어나올지 모르는 식당이라면 대기 제한과 순번 조정 장치가 함께 필요하다.
 
@@ -169,21 +180,22 @@ SJF 계열이 잘 맞는 환경에서는 평균 대기 시간과 평균 turnarou
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-convoy effect in FCFS
-    │
-    ▼
-CPU burst length as priority
-    │
-    ▼
-SJF ordering
-    │
-    ├──────────────▶ lower average waiting time
-    │
-    ├──────────────▶ SRTF preemption
-    │
-    └──────────────▶ burst prediction + MLFQ approximation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">convoy effect in FCFS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU burst length as priority</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SJF ordering</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ lower average waiting time</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ SRTF preemption</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ burst prediction + MLFQ approximation</div>
+</div>
+</div>
+
+
 
 이 흐름도는 SJF가 FCFS의 병목을 해결하기 위해 등장했고, 이후 선점형 확장과 예측 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 진화해 현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계 원리로 남았음을 보여 준다.
 

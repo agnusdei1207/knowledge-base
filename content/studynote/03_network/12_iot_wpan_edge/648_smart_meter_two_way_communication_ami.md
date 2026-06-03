@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 기존 기계식 아날로그 전력/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)/수도 계량기를 대체하는 **고급 지능형 디지털 계량기**입니다.
-- **가장 큰 특징**: 전기 사용량을 정밀하게(보통 15분 간격) 측정할 뿐만 아니라, 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/))이 내장되어 있어 **전력 회사(서버)와 실시간 양방향(Two-way) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신이 가능한 장비**입니다. 앞서 배운 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(원격검침인프라, 629번)의 핵심 단말 노드입니다.
+- 기존 기계식 아날로그 전력/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)/수도 계량기를 대체하는 <strong>고급 지능형 디지털 계량기</strong>입니다.
+- **가장 큰 특징**: 전기 사용량을 정밀하게(보통 15분 간격) 측정할 뿐만 아니라, 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/))이 내장되어 있어 <strong>전력 회사(서버)와 실시간 양방향(Two-way) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통신이 가능한 장비</strong>입니다. 앞서 배운 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(원격검침인프라, 629번)의 핵심 단말 노드입니다.
 
-```text
-[CPS]
-    │
-    ▼
-[양방향 스마트 계량기]
-    │
-    └──▶ [홈넷/IoT 봇넷 방어 기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양방향 스마트 계량기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,14 +51,18 @@ tags = ["studynote-network"]
 ### 3. 양방향 전력 거래 (Prosumer)
 - 집에 태양광 패널이 있어서 전기를 생산하면, 남는 전기를 한전 쪽으로 거꾸로 쏘아 보내서 돈을 팝니다. 스마트 미터는 한전에서 "들어온 전기(+)"와 내가 한전으로 "판 전기(-)"를 실시간으로 퉁쳐서(Net Metering) 계산해 주는 정밀 회계사 역할을 합니다.
 
-```text
-[CPS]
-    │
-    ▼
-[양방향 스마트 계량기]
-    │
-    └──▶ [홈넷/IoT 봇넷 방어 기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양방향 스마트 계량기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,9 +72,9 @@ tags = ["studynote-network"]
 
 스마트 미터가 전봇대의 중계기(DCU)나 집안의 월패드와 대화하기 위해 쓰는 통신 기술은 환경에 따라 다양하게 섞어 씁니다.
 
-1. **[PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/))**: 별도 랜선을 안 깔고 이미 연결된 두꺼운 전기선에 신호를 얹어 쏩니다. (아파트 단지처럼 밀집된 환경에 유리)
-2. **RF (Wi-SUN, [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 등 무선 메시망)**: 900MHz 비면허 대역 전파를 써서 계량기들끼리 징검다리([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 통신을 하여 동네 밖 기지국으로 넘깁니다. (전기선 노이즈가 심한 주택가, 공장에 유리)
-3. **[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) ([NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/), [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))**: 산속의 펜션이나 뚝 떨어진 공장 1개의 계량기는 릴레이할 친구가 없으므로, 아예 통신사 LTE망에 직접 붙여버립니다.
+1. <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/">전력선 통신</a>)</strong>: 별도 랜선을 안 깔고 이미 연결된 두꺼운 전기선에 신호를 얹어 쏩니다. (아파트 단지처럼 밀집된 환경에 유리)
+2. <strong>RF (Wi-SUN, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">ZigBee</a> 등 무선 메시망)</strong>: 900MHz 비면허 대역 전파를 써서 계량기들끼리 징검다리([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 통신을 하여 동네 밖 기지국으로 넘깁니다. (전기선 노이즈가 심한 주택가, 공장에 유리)
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a>)</strong>: 산속의 펜션이나 뚝 떨어진 공장 1개의 계량기는 릴레이할 친구가 없으므로, 아예 통신사 LTE망에 직접 붙여버립니다.
 
 양방향 스마트 계량기를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CPS가 기반 조건을 만든다면, 양방향 스마트 계량기는 그 위에서 핵심 메커니즘을 구현하고, 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CPS]
-    │
-    ▼
-[현재 개념: 양방향 스마트 계량기]
-    │
-    ├──▶ [확장 A: 홈넷/IoT 봇넷 방어 기법]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CPS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양방향 스마트 계량기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홈넷/IoT 봇넷 방어 기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 양방향 스마트 계량기는 CPS에서 출발해 현재 메커니즘을 정교화하고, 이후 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

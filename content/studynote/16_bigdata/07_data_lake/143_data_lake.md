@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. 정형, 반정형, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 포함한 방대한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 목적에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 **원래의 형식 그대로 저장**하는 거대 저장소이다.
-2. 저장 시점에 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 정의하지 않는 **[스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/)([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))** 방식을 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집의 유연성과 저비용성을 극대화한다.
+1. 정형, 반정형, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 포함한 방대한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 목적에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 <strong>원래의 형식 그대로 저장</strong>하는 거대 저장소이다.
+2. 저장 시점에 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 정의하지 않는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong> 방식을 사용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집의 유연성과 저비용성을 극대화한다.
 3. [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))의 폐쇄성을 극복하고 빅데이터 분석 및 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)을 위한 통합 기반 인프라 역할을 수행한다.
 
 ---
@@ -24,23 +24,24 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 가공([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 소비(Consume)의 4단계 아키텍처를 가진다.
 
-```text
-[ Data Lake Architecture / 데이터 레이크 아키텍처 ]
 
-    Sources (Log, IoT, DB)         Data Lake (S3, HDFS)            Analysis & ML
-    +-------------------+       +-----------------------+       +-------------------+
-    | [Structured]      |       |  Landing / Raw Zone   |       |   BI Dashboards   |
-    | [Semi-structured] | ----> |  (Schema-on-Read)     | ----> |   (Tableau, PBI)  |
-    | [Unstructured]    |       +-----------+-----------+       +---------+---------+
-    +---------+---------+                   |                             |
-                                            v                             v
-                                +-----------+-----------+       +---------+---------+
-                                |  Curated / Gold Zone  | ----> |  Machine Learning |
-                                |  (Processed Data)     |       |  (PyTorch, Spark) |
-                                +-----------------------+       +-------------------+
-```
 
-1. **[스키마 온 리드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) ([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 구조를 부여한다. (유연성 극대화)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake Architecture / 데이터 레이크 아키텍처</div></div>
+<div class="kb-diagram-note">Sources (Log, IoT, DB) Data Lake (S3, HDFS) Analysis &amp; ML</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Structured</div><div class="kb-diagram-note">| Landing / Raw Zone | | BI Dashboards</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Semi-structured</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Schema-on-Read) | ----&gt; | (Tableau, PBI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Unstructured</div><div class="kb-diagram-note">+-----------+-----------+ +---------+---------+</div></div>
+<div class="kb-diagram-note">v v</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Curated / Gold Zone</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Machine Learning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Processed Data)</div><div class="kb-diagram-cell">(PyTorch, Spark)</div></div>
+</div>
+</div>
+
+
+
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 구조를 부여한다. (유연성 극대화)
 2. **비용 효율성**: 범용 x86 서버나 저가형 객체 스토리지를 사용하여 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대비 약 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하의 비용으로 저장 가능하다.
 3. **거버넌스 필수**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/)가 없으면 '[데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))'으로 전락할 위험이 크다.
 
@@ -50,16 +51,16 @@ tags = ["studynote-bigdata"]
 
 | 비교 항목 | [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) | [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) |
 | :--- | :--- | :--- |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형태** | 정형 (Structured) | 모든 형태 ([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Format) |
-| **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 방식** | [Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) (저장 시 정의) | [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) (읽을 때 정의) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태</strong> | 정형 (Structured) | 모든 형태 ([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Format) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 방식</strong> | [Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/) (저장 시 정의) | [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) (읽을 때 정의) |
 | **사용자** | 비즈니스 분석가 (BI) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자, 엔지니어 |
 | **저장 비용** | 비쌈 (고성능 스토리지) | 저렴함 ([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) |
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-1. **메들리온 아키텍처 ([Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Bronze(원시), Silver(정제), Gold(집계) 계층으로 나누어 관리함으로써 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장해야 한다.
-2. **델타 레이크([Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)) 도입**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 한계인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 부재를 해결하기 위해 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)을 도입하여 '[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)'로 진화하는 추세다.
+1. <strong>메들리온 아키텍처 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Bronze(원시), Silver(정제), Gold(집계) 계층으로 나누어 관리함으로써 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 보장해야 한다.
+2. <strong>델타 레이크(<a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a>) 도입</strong>: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 한계인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 부재를 해결하기 위해 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/)을 도입하여 '[데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)'로 진화하는 추세다.
 3. **PE 관점의 판단**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 분석의 자유도를 높이지만 보안과 권한 관리가 매우 까다롭다. AWS Lake Formation 같은 도구를 통해 미세 권한 제어([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [access control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))를 반드시 구축해야 한다.
 
 ---
@@ -78,23 +79,26 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Data Warehouse]
-    │
-    ▼
-[Data Lake]
-    │
-    ▼
-[Schema-on-Read]
-    │
-    ▼
-[Lakehouse]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lakehouse</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **[데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)**: 세상의 모든 장난감을 일단 거대한 창고에 다 넣어두는 거예요.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a></strong>: 세상의 모든 장난감을 일단 거대한 창고에 다 넣어두는 거예요.
 2. **유연함**: 나중에 "로봇만 가지고 놀래!"라고 할 때 그제서야 로봇을 골라내서 노는 방식이에요.
 3. **주의사항**: 정리를 안 하고 막 던져넣기만 하면 나중에 원하는 걸 찾을 수 없는 '쓰레기산'이 될 수 있어요.
 

@@ -23,22 +23,19 @@ tags = ["studynote-devops-sre"]
 
 전통적인 ext4, XFS, NTFS는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널링으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 잘 지키지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 자체의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)까지 항상 보장하진 않는다. 하드웨어 RAID도 디스크 한두 개의 장애에는 강하지만, 어떤 블록이 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 끝단에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하진 못한다. 그래서 컨트롤러가 "읽기는 성공"이라고 말해도, 애플리케이션은 이미 손상된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아들일 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      전통적 저장 경로의 맹점: 읽혔다고 해서 맞는 건 아니다    │
-├──────────────────────────────────────────────────────────────┤
-│ Disk bit rot 발생                                             │
-│      │                                                        │
-│      ▼                                                        │
-│ RAID / Controller: "섹터 읽기 성공"                           │
-│      │                                                        │
-│      ▼                                                        │
-│ 일반 파일시스템: 내용 체크 없음                               │
-│      │                                                        │
-│      ▼                                                        │
-│ Application: 잘못된 데이터를 정상으로 신뢰                    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 저장 경로의 맹점: 읽혔다고 해서 맞는 건 아니다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk bit rot 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID / Controller: "섹터 읽기 성공"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 파일시스템: 내용 체크 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application: 잘못된 데이터를 정상으로 신뢰</div></div>
+</div>
+</div>
+
+
 
 ZFS와 Btrfs가 중요한 이유는 이 맹점을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 차원에서 메우기 때문이다. 특히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 저장소, 아카이브, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)처럼 "오래 보관했다가 나중에 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"일수록 침묵 손상이 늦게 발견되기 때문에 자가 치유 기능의 가치가 커진다.
 
@@ -48,36 +45,31 @@ ZFS와 Btrfs가 중요한 이유는 이 맹점을 [파일](/knowledge-base/study
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 핵심은 **종단 간 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) ([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))**이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기록될 때 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 함께 만들고, 읽을 때 다시 계산해 비교한다. 값이 다르면 "디스크에서 읽혔다"는 사실보다 "내용이 맞다"는 사실을 더 중요하게 본다. 여기에 [쓰기 시 복사](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))와 중복 사본이 결합되면 안전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능해진다.
+자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 핵심은 <strong>종단 간 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기록될 때 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 함께 만들고, 읽을 때 다시 계산해 비교한다. 값이 다르면 "디스크에서 읽혔다"는 사실보다 "내용이 맞다"는 사실을 더 중요하게 본다. 여기에 [쓰기 시 복사](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))와 중복 사본이 결합되면 안전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능해진다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│            Self-Healing Read/Write Path: 검증 후 복구              │
-├────────────────────────────────────────────────────────────────────┤
-│ Write Path                                                        │
-│ App Data                                                          │
-│    │                                                              │
-│    ▼                                                              │
-│ CoW로 새 블록에 기록                                              │
-│    │                                                              │
-│    ├─ 체크섬 계산                                                 │
-│    └─ 부모 메타데이터에 체크섬 저장                               │
-│    │                                                              │
-│    ▼                                                              │
-│ Mirror / RAID Profile에 블록 배치                                 │
-│                                                                    │
-│ Read Path                                                         │
-│ 블록 읽기 ─▶ 체크섬 재계산 ─▶ 비교                                │
-│                 │                                                  │
-│                 ├─ 일치  ─▶ 데이터 반환                           │
-│                 └─ 불일치 ─▶ 다른 사본 재조회                     │
-│                               ├─ 정상 사본 발견 ─▶ 반환 + 재기록   │
-│                               └─ 사본 없음      ─▶ 오류 보고        │
-│                                                                    │
-│ Background                                                        │
-│ scrub: 전체 블록을 순회하며 잠복 손상을 조기 발견                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Healing Read/Write Path: 검증 후 복구</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write Path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CoW로 새 블록에 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 체크섬 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 부모 메타데이터에 체크섬 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirror / RAID Profile에 블록 배치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read Path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 읽기 ─▶ 체크섬 재계산 ─▶ 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일치 ─▶ 데이터 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 불일치 ─▶ 다른 사본 재조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정상 사본 발견 ─▶ 반환 + 재기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사본 없음 ─▶ 오류 보고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scrub: 전체 블록을 순회하며 잠복 손상을 조기 발견</div></div>
+</div>
+</div>
+
+
 
 | 메커니즘 | 역할 | 실무 의미 |
 | :--- | :--- | :--- |
@@ -87,7 +79,7 @@ ZFS와 Btrfs가 중요한 이유는 이 맹점을 [파일](/knowledge-base/study
 | 스크럽 (Scrub) | 전체 블록 주기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 평소 안 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잠복 [오류 탐지](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/) |
 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) ([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) | 시점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지점 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 잘못된 삭제, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 오류 대응 |
 
-중요한 점은 **단일 디스크에서는 "자가 치유"가 아니라 "자가 탐지"에 가까울 수 있다**는 사실이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 손상을 발견할 수 있지만, 다른 정상 사본이 없으면 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 재료가 없다. 따라서 자가 치유를 원한다면 최소한 미러, RAID1, RAIDZ 같은 중복성이 전제되어야 한다.
+중요한 점은 <strong>단일 디스크에서는 "자가 치유"가 아니라 "자가 탐지"에 가까울 수 있다</strong>는 사실이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 손상을 발견할 수 있지만, 다른 정상 사본이 없으면 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 재료가 없다. 따라서 자가 치유를 원한다면 최소한 미러, RAID1, RAIDZ 같은 중복성이 전제되어야 한다.
 
 - **📢 섹션 요약 비유**: 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 시험 답안의 정답지와 복사본을 함께 보관하는 것과 같다. 글자가 번지면 원본과 복사본을 대조해 옳은 답을 다시 적을 수 있다.
 
@@ -116,7 +108,7 @@ ZFS와 Btrfs는 모두 [체크섬](/knowledge-base/studynote/01_computer_archite
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ZFS와 Btrfs를 고를 때는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 기능표보다 운영 조건을 먼저 봐야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정말 중요한가, 디스크를 직접 제어할 수 있는가, 주기적 스크럽과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련을 할 조직인가가 더 중요하다. 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 켜 두기만 하면 끝나는 기능이 아니라, **운영 습관까지 포함한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 체계**다.
+실무에서 ZFS와 Btrfs를 고를 때는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 기능표보다 운영 조건을 먼저 봐야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정말 중요한가, 디스크를 직접 제어할 수 있는가, 주기적 스크럽과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 훈련을 할 조직인가가 더 중요하다. 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 켜 두기만 하면 끝나는 기능이 아니라, <strong>운영 습관까지 포함한 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 체계</strong>다.
 
 | 판단 상황 | 권장 선택 | 이유 | 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -127,11 +119,11 @@ ZFS와 Btrfs는 모두 [체크섬](/knowledge-base/studynote/01_computer_archite
 
 다음 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 특히 중요하다.
 
-1. **스크럽 주기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 월 1회 이상 전체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 돌리고 결과를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링한다.
-2. **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 별도 유지**: [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이지, 다른 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 있는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 대체재가 아니다.
+1. <strong>스크럽 주기 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 월 1회 이상 전체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 돌리고 결과를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 별도 유지</strong>: [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단이지, 다른 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 있는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)의 대체재가 아니다.
 3. **직접 디스크 노출**: ZFS는 가능하면 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 뒤가 아니라 HBA (Host [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))나 JBOD 구성으로 디스크를 직접 보는 편이 좋다.
-4. **[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리 고려**: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리는 특히 중요한 ZFS 서버에서 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 줄이는 데 유리하다.
-5. **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 분리**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약적 워크로드는 recordsize, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장치 등을 별도 검토해야 한다.
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 메모리 고려</strong>: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리는 특히 중요한 ZFS 서버에서 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류를 줄이는 데 유리하다.
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 튜닝 분리</strong>: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약적 워크로드는 recordsize, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 장치 등을 별도 검토해야 한다.
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 기억해야 한다. Btrfs RAID5/6을 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 무심코 적용하거나, ZFS 위에 또 하드웨어 RAID를 겹쳐 디스크 가시성을 잃거나, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)만 믿고 오프사이트 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 생략하는 설계는 위험하다. 또한 scrub을 수개월씩 미루면 "읽을 때만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)" 구조 때문에 잠복 손상이 오랫동안 숨어 있을 수 있다.
 
@@ -145,7 +137,7 @@ ZFS와 Btrfs는 모두 [체크섬](/knowledge-base/studynote/01_computer_archite
 
 하지만 "자가 치유"라는 이름이 만능을 뜻하진 않는다. 중복 사본이 없으면 탐지까지만 가능하고, 운영자가 scrub·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 테스트를 하지 않으면 치유 능력은 반쪽이 된다. 또한 메모리 사용량, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 운영 난이도 같은 비용도 함께 감수해야 한다.
 
-따라서 이 기술은 **디스크가 고장 나도 버티는 시스템**이 아니라, **잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고도 모른 척하지 않는 시스템**으로 기억하는 편이 맞다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관점에서 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 가치는 저장소의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)보다 한 단계 깊은, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 자체에 있다.
+따라서 이 기술은 <strong>디스크가 고장 나도 버티는 시스템</strong>이 아니라, <strong>잘못된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 읽고도 모른 척하지 않는 시스템</strong>으로 기억하는 편이 맞다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관점에서 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 가치는 저장소의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)보다 한 단계 깊은, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 자체에 있다.
 
 - **📢 섹션 요약 비유**: 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템은 몸의 면역 체계와 같다. 병이 완전히 없게 만드는 것은 아니지만, 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 빨리 발견하고 스스로 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)할 가능성을 크게 높여 준다.
 
@@ -164,20 +156,24 @@ ZFS와 Btrfs는 모두 [체크섬](/knowledge-base/studynote/01_computer_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-저널링 파일시스템
-    │
-    ├─ 장점: 크래시 후 메타데이터 일관성
-    └─ 한계: 데이터 무결성은 별도 보장 부족
-    ▼
-체크섬 + CoW 파일시스템 (Btrfs · ZFS)
-    │
-    ├─ scrub
-    ├─ snapshot
-    └─ self-healing with mirror / RAIDZ
-    ▼
-고신뢰 백업 · NAS · 분산 스토리지 설계로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">저널링 파일시스템</div>
+<div class="kb-diagram-tree-item" style="--depth:2">장점: 크래시 후 메타데이터 일관성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">한계: 데이터 무결성은 별도 보장 부족</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">체크섬 + CoW 파일시스템 (Btrfs · ZFS)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">scrub</div>
+<div class="kb-diagram-tree-item" style="--depth:2">snapshot</div>
+<div class="kb-diagram-tree-item" style="--depth:2">self-healing with mirror / RAIDZ</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고신뢰 백업 · NAS · 분산 스토리지 설계로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장 계층이 "고장 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"에서 "손상 탐지와 예방" 중심으로 발전해 온 과정을 보여준다.
 

@@ -26,36 +26,33 @@ tags = ["studynote-network"]
 - **💡 비유**: 일반 전화(단일 통신)로 이사를 하려면, 전화기에 대고 "TV 옮겨주세요~ 으라차차~ 침대 옮겨주세요~ 으라차차" 하며 말과 짐을 섞어 보내느라 숨이 넘어갑니다. FTP는 감독관이 무전기(제어 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21)로 "3번 방 짐 전부 트럭에 실어라!"라고 짧게 명령만 내리면, 밖에 대기하던 거대한 이삿짐센터 트럭([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 20)이 무전기와는 완전히 다른 별도의 경로를 통해 짐 덩어리만 무식하게 실어 나르는 분업 시스템과 같습니다.
 
 - **등장 배경**:
-  1. **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 여명기의 산물**: 1971년 Abhay Bhushan에 의해 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스펙(RFC 114)이 작성되어, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(1989년)보다 무려 20년이나 일찍 태어난 인터넷의 조상 격 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
-  2. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 네트워크의 취약성**: 당시 네트워크는 매우 불안정해서 중간에 선이 끊기는 일이 다반사였다. 제어/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊어져도 제어 채널은 살아있어 "어디까지 보냈어? 다시 거기로부터 보내"라는 이어받기 로직이 절실했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 여명기의 산물</strong>: 1971년 Abhay Bhushan에 의해 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스펙(RFC 114)이 작성되어, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(1989년)보다 무려 20년이나 일찍 태어난 인터넷의 조상 격 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
+  2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 네트워크의 취약성</strong>: 당시 네트워크는 매우 불안정해서 중간에 선이 끊기는 일이 다반사였다. 제어/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끊어져도 제어 채널은 살아있어 "어디까지 보냈어? 다시 거기로부터 보내"라는 이어받기 로직이 절실했다.
   3. **평문 전송의 비극**: 그 시절엔 보안 개념이 희박하여 아이디/패스워드 암호화라는 개념 자체가 설계도에 없었다. 이것이 훗날 FTP를 역사 속으로 사라지게 만든 결정적 아킬레스건이 된다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          FTP 아키텍처: 제어 채널과 데이터 채널의 완벽한 분리        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [Client]                                         [FTP Server]│
-│                                                             │
-│  ====== 제어 채널 (Control Connection) - TCP 포트 21 ====== │
-│  (명령어와 응답 코드만 가볍게 오가는 영구적인 텔레파시 통로)         │
-│   │                                                 │       │
-│   │ 1. USER admin / PASS 1234 ──────────────▶│       │
-│   │ ◀────────────── 230 User logged in, proceed. │       │
-│   │ 2. RETR secret_file.zip (다운로드 명령) ────────▶│       │
-│                                                             │
-│  ====== 데이터 채널 (Data Connection) - TCP 포트 20 ======= │
-│  (실제 거대한 파일 덩어리가 폭풍처럼 쏟아지는 무식한 파이프.         │
-│   파일 전송이 끝나면 이 파이프는 매번 생성되었다가 즉시 닫힘)         │
-│   │                                                 │       │
-│   │◀◀◀◀◀◀ [ 1GB짜리 zip 바이너리 파일 덩어리 전송 ] ◀◀◀◀◀◀│       │
-│   │                                                 │       │
-│  ====== 제어 채널 (Control Connection) ======               │
-│   │ ◀────────────── 226 Transfer complete.       │       │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** FTP의 가장 독특한 설계 철학인 '이중 연결 구조(Dual Connection)'를 보여준다. 클라이언트가 FTP 클라이언트 프로그램(FileZilla 등)을 켜면, 서버의 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 접속해 제어 채널을 연다. 이 채널은 로그아웃할 때까지 절대 끊어지지 않으며 오직 가벼운 텍스트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(USER, PASS, CWD, RETR)만 주고받는다. 만약 클라이언트가 1GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운로드해달라(`RETR`)고 명령하면, 서버와 클라이언트는 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 아닌 **20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(또는 임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))**를 통해 완전히 새로운 두 번째 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)를 별도로 뚫는다. 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)나 헤더 찌꺼기 없이 100% 퓨어한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들만 전송하고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 다 옮겨지면 뒤도 안 돌아보고 끊어버린다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FTP 아키텍처: 제어 채널과 데이터 채널의 완벽한 분리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-node">FTP Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====== 제어 채널 (Control Connection) - TCP 포트 21 ======</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어와 응답 코드만 가볍게 오가는 영구적인 텔레파시 통로)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. USER admin / PASS 1234 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 230 User logged in, proceed.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. RETR secret_file.zip (다운로드 명령) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====== 데이터 채널 (Data Connection) - TCP 포트 20 =======</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실제 거대한 파일 덩어리가 폭풍처럼 쏟아지는 무식한 파이프.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 전송이 끝나면 이 파이프는 매번 생성되었다가 즉시 닫힘)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">1GB짜리 zip 바이너리 파일 덩어리 전송</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">◀◀◀◀◀│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====== 제어 채널 (Control Connection) ======</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 226 Transfer complete.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** FTP의 가장 독특한 설계 철학인 '이중 연결 구조(Dual Connection)'를 보여준다. 클라이언트가 FTP 클라이언트 프로그램(FileZilla 등)을 켜면, 서버의 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 접속해 제어 채널을 연다. 이 채널은 로그아웃할 때까지 절대 끊어지지 않으며 오직 가벼운 텍스트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(USER, PASS, CWD, RETR)만 주고받는다. 만약 클라이언트가 1GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운로드해달라(`RETR`)고 명령하면, 서버와 클라이언트는 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 아닌 <strong>20번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(또는 임의의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>를 통해 완전히 새로운 두 번째 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)를 별도로 뚫는다. 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)나 헤더 찌꺼기 없이 100% 퓨어한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들만 전송하고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 다 옮겨지면 뒤도 안 돌아보고 끊어버린다.
 
 - **📢 섹션 요약 비유**: 사장님과 비서가 통화하는 '결재 내선 전화(21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'와, 실제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 물건이 들어오는 '화물차 전용 고속도로(20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'를 완벽히 따로 만들어서 짐이 들어오느라 내선 전화가 먹통이 되는 일이 없도록 분리한 구조입니다.
 
@@ -68,13 +65,13 @@ tags = ["studynote-network"]
 | 채널 구분 | [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/) | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 성격 | 상태 지속성 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) | 비유 |
 |:---|:---|:---|:---|:---|
 | **Control Channel (제어 채널)** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) **21번** (기본값) | Telnet 형식의 NVT(Network Virtual Terminal) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 텍스트 | **지속 연결 (Stateful)**. 로그인 상태, 현재 디렉토리 위치 기억 | 관제탑 무전기 |
-| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) **20번** ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 모드 시) | 순수 바이너리 조각 또는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용물 | **일회성 연결**. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 전송/디렉토리 목록 1번 출력 후 즉시 종료 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 화물선 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Channel (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널)</strong> | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) **20번** ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 모드 시) | 순수 바이너리 조각 또는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용물 | **일회성 연결**. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나 전송/디렉토리 목록 1번 출력 후 즉시 종료 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 화물선 |
 
 ### 대표적인 FTP [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 상태 코드
 
 제어 채널([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21)을 통해 오가는 통신은 컴퓨터가 텍스트를 주고받는 대화형(Interactive) 구조다. 클라이언트가 3~4글자의 대문자 명령을 쏘면, 서버는 3자리 숫자 상태 코드와 설명을 리턴한다. (이 구조가 훗날 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드 설계의 조상이 된다).
 
-- **주요 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ➔ Server)**
+- <strong>주요 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> ➔ Server)</strong>
   - `USER / PASS` : [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 수행
   - `CWD` (Change Working [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)) : 디렉토리 이동 (서버가 현재 위치를 기억하는 Stateful 특성)
   - `LIST` : 현재 디렉토리의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 조회 (흥미롭게도 목록 텍스트마저 제어 채널이 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 새로 뚫어서 전송받음)
@@ -82,33 +79,31 @@ tags = ["studynote-network"]
   - `STOR` (Store) : [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드
   - `TYPE A / TYPE I` : 전송 모드 변경. A([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/), 텍스트 줄바꿈 변환 적용), I(Image/Binary, 원본 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 유지). 바이너리를 A로 받으면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 100% 깨짐.
 
-- **주요 응답 코드 (Server ➔ [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))**
+- <strong>주요 응답 코드 (Server ➔ <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)</strong>
   - `2xx` : 성공 (예: `230 User logged in`, `226 Transfer complete`)
   - `3xx` : 추가 정보 필요 (예: `331 User name okay, need password`)
   - `4xx` : 일시적 에러 (예: `421 Service not available`)
   - `5xx` : 영구적 에러 (예: `530 Not logged in`)
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Wireshark로 들여다본 충격적인 FTP 스니핑           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [공격자 화면 (사내망 스위치 미러링)]                             │
-│                                                             │
-│ 192.168.0.10 ➔ 192.168.0.50 [TCP 포트 21 캡처]             │
-│ Payload: USER administrator\r\n                             │
-│                                                             │
-│ 192.168.0.50 ➔ 192.168.0.10                                │
-│ Payload: 331 User name okay, need password.\r\n             │
-│                                                             │
-│ 192.168.0.10 ➔ 192.168.0.50 [TCP 포트 21 캡처]             │
-│ 💥 Payload: PASS top_secret_p@ssw0rd! 💥                   │
-│                                                             │
-│ 🌟 결과: 아무런 암호화 캡슐화(TLS) 없이 아이디와 최고관리자 비밀번호가   │
-│ 알파벳 그대로 허공에 날아다닌다. 옆자리 동료가 Wireshark만 켜놓으면     │
-│ 1초 만에 서버의 쉘 권한이 털리는 경악스러운 보안 수준.                │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wireshark로 들여다본 충격적인 FTP 스니핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공격자 화면 (사내망 스위치 미러링)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">192.168.0.10 ➔ 192.168.0.50</div><div class="kb-diagram-node">TCP 포트 21 캡처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload: USER administrator\r\n</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.50 ➔ 192.168.0.10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload: 331 User name okay, need password.\r\n</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">192.168.0.10 ➔ 192.168.0.50</div><div class="kb-diagram-node">TCP 포트 21 캡처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 Payload: PASS top_secret_p@ssw0rd! 💥</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 아무런 암호화 캡슐화(TLS) 없이 아이디와 최고관리자 비밀번호가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알파벳 그대로 허공에 날아다닌다. 옆자리 동료가 Wireshark만 켜놓으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1초 만에 서버의 쉘 권한이 털리는 경악스러운 보안 수준.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 고전 FTP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 IT 업계에서 강제 퇴출당하게 된 가장 결정적인 원흉이다. FTP는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL이라는 암호화 개념이 발명되기 전에 설계되었다. 제어 채널로 날아가는 아이디와 패스워드는 물론이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 날아가는 사내 기밀문서 내용이나 소스 코드조차 아무런 변장 없이 1과 0의 민낯(Plain text/Cleartext)으로 전송된다. 네트워크 중간의 라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 통신사에서 누구나 트래픽을 가로채서(Sniffing) 들여다볼 수 있다. 이를 보완하기 위해 나온 것이 [FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)(SSL 얹기)와 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))다.
 
@@ -122,7 +117,7 @@ tags = ["studynote-network"]
 
 | 항목 | FTP | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) | 트레이드오프 판단 |
 |:---|:---|:---|:---|
-| **상태 유지 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))** | **Stateful**. 한 번 접속하면 내가 어느 폴더에 있는지(CWD) 서버가 기억함 | **[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)**. 매 요청마다 어느 위치의 무슨 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내놓을지 풀 경로를 말해야 함 | 연속적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색/작업에 유리한가 |
+| <strong>상태 유지 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)</strong> | **Stateful**. 한 번 접속하면 내가 어느 폴더에 있는지(CWD) 서버가 기억함 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a></strong>. 매 요청마다 어느 위치의 무슨 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내놓을지 풀 경로를 말해야 함 | 연속적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색/작업에 유리한가 |
 | **연결 채널** | 2개 (21번 제어 + 20번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 1개 (80/443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 제어/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 믹스 전송) | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과의 편의성 |
 | **전송 오버헤드** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널엔 헤더가 일절 붙지 않는 **순수 100% 페이로드**. 극단적 효율 | 매 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각마다 무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더(수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))가 덕지덕지 붙음 | 100GB짜리 통파일 전송 시 압도적 승리 |
 | **이어받기 (Resume)** | 네이티브 지원 ([REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 `Range` 헤더로 흉내 내기 가능 | 네트워크 단절 환경에서의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
@@ -131,8 +126,8 @@ tags = ["studynote-network"]
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: FTP는 유닉스 철학을 그대로 이식받았다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 전송할 때 `TYPE A (ASCII)` 모드로 설정하면, 서버와 클라이언트의 OS가 다를 때(Linux의 `\n`과 Windows의 `\r\n`) 생기는 줄바꿈 문자 충돌을 FTP 데몬(데몬 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 중간에서 자동으로 치환(Translation)해주어 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨지는 것을 막아주는 마법을 부렸다.
-- **클라우드 및 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: AWS 환경에서 고전 FTP 서버를 EC2에 구축하려면 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 20, 21번뿐만 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결을 위한 임의의 상위 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1024~65535) 수만 개를 전부 열어둬야(Passive 모드 시) 하는 끔찍한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 타공 지옥이 열린다. 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 아키텍처와 극단적으로 궁합이 맞지 않는 고전 유물이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: FTP는 유닉스 철학을 그대로 이식받았다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 전송할 때 `TYPE A (ASCII)` 모드로 설정하면, 서버와 클라이언트의 OS가 다를 때(Linux의 `\n`과 Windows의 `\r\n`) 생기는 줄바꿈 문자 충돌을 FTP 데몬(데몬 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 중간에서 자동으로 치환(Translation)해주어 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨지는 것을 막아주는 마법을 부렸다.
+- <strong>클라우드 및 보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: AWS 환경에서 고전 FTP 서버를 EC2에 구축하려면 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 20, 21번뿐만 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결을 위한 임의의 상위 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1024~65535) 수만 개를 전부 열어둬야(Passive 모드 시) 하는 끔찍한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 타공 지옥이 열린다. 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 아키텍처와 극단적으로 궁합이 맞지 않는 고전 유물이다.
 
 - **📢 섹션 요약 비유**: FTP가 옛날에 쓰던 무식하고 튼튼한 '짐 전용 이삿짐 트럭'이라면, HTTP는 에어컨도 나오고 대화도 편한 '다목적 SUV'입니다. 옛날엔 짐 트럭이 짱이었지만 요즘 SUV는 힘도 세지고 트렁크도 넓어져서 굳이 매연 뿜는 짐 트럭을 부를 필요가 없어진 셈입니다.
 
@@ -141,41 +136,41 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **시나리오 — 구형 사내 망의 평문 FTP 탈취 사고**: 공공기관에서 외주 개발업체들이 서버에 웹 소스를 올리기 위해 `vsftpd` 데몬을 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 열어두고 FTP 클라이언트(알FTP)로 접속해 작업했다. 내부망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 악성 코드가 감염되어 패킷 스니핑이 발생, 개발자의 root 계정 비밀번호가 탈취당해 서버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 랜섬웨어에 감염되었다.
-   - **판단**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21을 사용하는 고전 FTP는 즉각 폐기 처분해야 할 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) 1순위다. 아키텍트는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 20, 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 영구 차단하고, 리눅스 서버에 이미 깔려 있는 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 데몬을 재활용하여 **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 22번 하나만으로 암호화 통신과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송을 동시에 처리하는 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Transfer [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))** 환경으로 100% 마이그레이션해야 한다.
+   - **판단**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21을 사용하는 고전 FTP는 즉각 폐기 처분해야 할 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) 1순위다. 아키텍트는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 20, 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 영구 차단하고, 리눅스 서버에 이미 깔려 있는 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 데몬을 재활용하여 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 22번 하나만으로 암호화 통신과 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 전송을 동시에 처리하는 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Transfer <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong> 환경으로 100% 마이그레이션해야 한다.
 
-2. **시나리오 — 클라우드 환경(AWS)에서의 FTP [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 붕괴 ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 모드 이슈)**: SI 업체가 AWS EC2에 FTP 서버를 띄우고 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)의 인바운드 룰을 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나만 뚫어놨다. 사용자가 접속은 성공해서 아이디/비밀번호 로그인은 잘 되는데, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록(`LIST`)을 누르거나 다운로드를 누르면 화면이 멈추더니 수 분 뒤에 무한 로딩 타임아웃이 떨어졌다.
-   - **판단**: FTP 최악의 약점인 **'[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 모드의 함정'**에 빠진 것이다. 제어 채널(21번)은 클라이언트가 서버로 문을 두드려 뚫고 들어가지만, [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) FTP 모드에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(20번)을 뚫기 위해 **서버가 반대로 클라이언트의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 향해 역방향 연결(Reverse Connect)**을 시도한다. 클라이언트가 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(공유기) 뒤에 숨어 있거나 윈도우 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 켜져 있으면 서버가 치고 들어오는 이 역방향 연결이 100% 차단된다. 결국 연결이 성사되지 않아 무한정 대기하다 끊기는 것이다. 이를 해결하려면 클라이언트가 서버로 능동적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 여는 **Passive(패시브) 모드**로 전환하고, 서버 쪽 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 숭숭 뚫어주어야 한다. (이에 대한 딥다이브는 다음 개념에서 상세히 다룬다).
+2. <strong>시나리오 — 클라우드 환경(AWS)에서의 FTP <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 붕괴 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> 모드 이슈)</strong>: SI 업체가 AWS EC2에 FTP 서버를 띄우고 보안 그룹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group)의 인바운드 룰을 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나만 뚫어놨다. 사용자가 접속은 성공해서 아이디/비밀번호 로그인은 잘 되는데, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록(`LIST`)을 누르거나 다운로드를 누르면 화면이 멈추더니 수 분 뒤에 무한 로딩 타임아웃이 떨어졌다.
+   - **판단**: FTP 최악의 약점인 <strong>'<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> 모드의 함정'</strong>에 빠진 것이다. 제어 채널(21번)은 클라이언트가 서버로 문을 두드려 뚫고 들어가지만, [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) FTP 모드에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(20번)을 뚫기 위해 <strong>서버가 반대로 클라이언트의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>(랜덤 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)를 향해 역방향 연결(Reverse Connect)</strong>을 시도한다. 클라이언트가 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(공유기) 뒤에 숨어 있거나 윈도우 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 켜져 있으면 서버가 치고 들어오는 이 역방향 연결이 100% 차단된다. 결국 연결이 성사되지 않아 무한정 대기하다 끊기는 것이다. 이를 해결하려면 클라이언트가 서버로 능동적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 여는 <strong>Passive(패시브) 모드</strong>로 전환하고, 서버 쪽 클라우드 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 숭숭 뚫어주어야 한다. (이에 대한 딥다이브는 다음 개념에서 상세히 다룬다).
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │      실무 아키텍처: FTP의 폐기와 안전한 대안(SFTP/HTTPS) 이주     │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [❌ 구식/위험 아키텍처: FTP (포트 21)]                         │
-  │ - 제어 포트(21), 데이터 포트(20 또는 랜덤) 2개 구멍 다 뚫어야 함.  │
-  │ - 평문 패스워드 허공에 노출.                                   │
-  │ - 공유기/NAT 환경에서 포트포워딩 지옥 발생.                       │
-  │                                                             │
-  │ [✅ 모범 아키텍처 1: SFTP (SSH 기반, 포트 22)]                   │
-  │ Client ──(SSH 터널링, 포트 22 하나만 씀!)──▶ [ Linux Server ]  │
-  │ - 리눅스 기본 내장 기능으로 별도 데몬(vsftpd 등) 설치조차 불필요.      │
-  │ - 강력한 RSA/ECDSA 키반환 인증 기반 + 이중화 채널도 터널 안에 캡슐화. │
-  │                                                             │
-  │ [✅ 모범 아키텍처 2: S3 Presigned URL (HTTP 기반)]               │
-  │ Client ──(GET https://s3.aws.../?token=xyz)──▶ [ AWS S3 ]   │
-  │ - 서버 자원 완전 분리, 서버 개입 없이 토큰만 받아 S3 엣지망으로 고속 다운로드.│
-  │ - 웹 80/443 포트 그대로 쓰므로 방화벽 스트레스 0%.               │
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 실무 시스템 아키텍트가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 구축을 고민할 때 FTP는 아예 선택지 목록에서 지우는 것이 정석이다. 시스템 간 배치 연동(새벽에 정산 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넘겨줄 때)에는 반드시 **[SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)(Secure FTP)**를 써서 22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나로 암호화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 뚫는 것이 금융권/엔터프라이즈의 표준이다. 대민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객이 첨부파일을 다운/업로드할 때)는 백엔드 서버를 거치지 않고, 서명된 암호화 URL(Presigned URL)을 클라이언트에 던져주어 AWS S3 같은 오브젝트 스토리지로 직접 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신을 쏘게 만드는 것이 서버 I/O 병목을 막는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 아키텍처의 끝판왕이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: FTP의 폐기와 안전한 대안(SFTP/HTTPS) 이주</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 구식/위험 아키텍처: FTP (포트 21)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 제어 포트(21), 데이터 포트(20 또는 랜덤) 2개 구멍 다 뚫어야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 평문 패스워드 허공에 노출.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공유기/NAT 환경에서 포트포워딩 지옥 발생.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 모범 아키텍처 1: SFTP (SSH 기반, 포트 22)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Linux Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리눅스 기본 내장 기능으로 별도 데몬(vsftpd 등) 설치조차 불필요.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 강력한 RSA/ECDSA 키반환 인증 기반 + 이중화 채널도 터널 안에 캡슐화.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 모범 아키텍처 2: S3 Presigned URL (HTTP 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AWS S3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서버 자원 완전 분리, 서버 개입 없이 토큰만 받아 S3 엣지망으로 고속 다운로드.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 웹 80/443 포트 그대로 쓰므로 방화벽 스트레스 0%.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 실무 시스템 아키텍트가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 구축을 고민할 때 FTP는 아예 선택지 목록에서 지우는 것이 정석이다. 시스템 간 배치 연동(새벽에 정산 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 넘겨줄 때)에는 반드시 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a>(Secure FTP)</strong>를 써서 22번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 하나로 암호화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 뚫는 것이 금융권/엔터프라이즈의 표준이다. 대민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객이 첨부파일을 다운/업로드할 때)는 백엔드 서버를 거치지 않고, 서명된 암호화 URL(Presigned URL)을 클라이언트에 던져주어 AWS S3 같은 오브젝트 스토리지로 직접 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 통신을 쏘게 만드는 것이 서버 I/O 병목을 막는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 아키텍처의 끝판왕이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - **기술적**: (레거시 사유로 어쩔 수 없이 써야 한다면) FTP 데몬(vsftpd, proftpd) 설정에서 `chroot_local_user=YES` (감옥 가두기)가 켜져 있어, 계정이 털리더라도 해커가 `/etc/passwd` 같은 리눅스 루트 디렉토리 상위로 절대 올라가지([Directory Traversal](/knowledge-base/studynote/09_security/05_web_app_security/420_directory_traversal/)) 못하게 막아두었는가?
 - **운영·보안적**: 익명 접속(`Anonymous`) 계정이 비활성화되어 있는가? (이를 열어두면 전 세계 해커들의 불법 소프트웨어 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 창고로 내 서버의 하드디스크가 털리게 된다).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **FTP over SSL([FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))의 맹신**: 암호화를 한답시고 FTPS를 세팅했는데 묵시적(Implicit) 모드와 명시적(Explicit) 모드의 복잡성으로 인해 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 세팅만 더 지옥이 되는 경우. [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 인프라에 기생하는 SFTP와 달리 FTPS는 여전히 2개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 복잡하게 열어야 하므로 네트워크 엔지니어들의 혐오 대상 1호다.
+- <strong>FTP over SSL(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/">FTPS</a>)의 맹신</strong>: 암호화를 한답시고 FTPS를 세팅했는데 묵시적(Implicit) 모드와 명시적(Explicit) 모드의 복잡성으로 인해 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 세팅만 더 지옥이 되는 경우. [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 인프라에 기생하는 SFTP와 달리 FTPS는 여전히 2개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널을 복잡하게 열어야 하므로 네트워크 엔지니어들의 혐오 대상 1호다.
 
 - **📢 섹션 요약 비유**: 열쇠 구멍이 2개([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2개)나 있고 투명한 문짝(평문 전송)을 달고 있던 구닥다리 금고(FTP)는 박물관으로 보내고, 최첨단 지문 인식과 강철 코팅이 된 비밀 금고([SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)/S3)로 교체하는 것이 회사 재산을 지키는 유일한 정답입니다.
 
@@ -187,10 +182,10 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | **정량** | 패스워드 텍스트 도청률 100% | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)을 통한 암호화 | 네트워크 스니핑 공격 **방어율 100% 달성** |
 | **정량** | 제어/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 2~N개 타공 | 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(22 or 443) 통과 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리 및 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)포워딩 공수 **수직 하락** |
-| **정성** | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Passive 모드 충돌 불만 | 단일 스트림으로 직관적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단으로 인한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 **CS 불만 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)** |
+| **정성** | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Passive 모드 충돌 불만 | 단일 스트림으로 직관적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단으로 인한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 및 <strong>CS 불만 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/">제로화</a></strong> |
 
 ### 미래 전망
-- **역사 속으로의 퇴장 (Browser Deprecation)**: 2021년을 기점으로 구글 크롬(Chrome) 88 버전과 모질라 파이어폭스(Firefox) 브라우저에서 **기본 내장되었던 FTP 기능(`ftp://`) 스펙 자체가 아예 삭제**되었다. 웹 브라우저에서 FTP 링크를 클릭해도 더 이상 창이 열리지 않으며 전용 클라이언트(FileZilla 등)를 써야만 한다. 보안을 이유로 표준 생태계에서 완전히 사망 선고를 받은 것이다.
+- **역사 속으로의 퇴장 (Browser Deprecation)**: 2021년을 기점으로 구글 크롬(Chrome) 88 버전과 모질라 파이어폭스(Firefox) 브라우저에서 <strong>기본 내장되었던 FTP 기능(<code>ftp://</code>) 스펙 자체가 아예 삭제</strong>되었다. 웹 브라우저에서 FTP 링크를 클릭해도 더 이상 창이 열리지 않으며 전용 클라이언트(FileZilla 등)를 써야만 한다. 보안을 이유로 표준 생태계에서 완전히 사망 선고를 받은 것이다.
 - **클라우드 스토리지 API와의 통합**: 기업의 배치(Batch) 작업 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 연동 역시 레거시 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 망을 거치는 대신, AWS S3 나 GCP 버킷에 Access [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 기반의 [REST API](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)(AWS SDK)로 직접 쏘아 올리는 [Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처로 100% 진화가 완료된 상태다.
 
 ### 참고 표준
@@ -215,21 +210,25 @@ FTP는 인터넷 초창기, 모든 자원과 대역폭이 귀중했던 시기에
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SSE]
-    │
-    ▼
-[현재 개념: FTP]
-    │
-    ├──▶ [확장 A: 액티브 FTP vs 패시브 FTP 동작 원리…]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SSE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 액티브 FTP vs 패시브 FTP 동작 원리…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 FTP는 SSE에서 출발해 현재 메커니즘을 정교화하고, 이후 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) FTP vs 패시브 FTP 동작 원리…와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. FTP는 커다란 짐([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 인터넷으로 보내기 위해 옛날 옛적에 만든 **이삿짐센터 시스템**이에요.
+1. FTP는 커다란 짐([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 인터넷으로 보내기 위해 옛날 옛적에 만든 <strong>이삿짐센터 시스템</strong>이에요.
 2. 사장님과 비서가 통화하는 전용 '내선 전화기([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21)'와 실제 짐만 무식하게 싣고 나르는 '대형 트럭([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 20)'을 아예 따로 분리해서 짐 때문에 전화가 끊기는 일이 없게 똑똑하게 만들었죠.
 3. 하지만, 전화 내용이 밖으로 다 새어나가서 도둑(해커)이 내 집 비밀번호를 다 훔쳐 듣는 끔찍한 단점 때문에 요즘엔 아무도 안 쓰고 튼튼한 철갑 트럭([SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/))으로 바꿨답니다!
 

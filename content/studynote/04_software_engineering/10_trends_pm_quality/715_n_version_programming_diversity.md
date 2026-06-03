@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-일반적으로 서버가 죽는 것을 막으려면 서버를 3대 사서 똑같은 코드를 깔아두면 된다(하드웨어 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)). 하지만 만약 **"2월 29일을 계산하지 못하는 버그(소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))"**가 코드 안에 있다면 어떨까? 하드웨어가 1,000대라도 그날 자정에 1,000대의 서버가 동시에 죽어버린다.
+일반적으로 서버가 죽는 것을 막으려면 서버를 3대 사서 똑같은 코드를 깔아두면 된다(하드웨어 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)). 하지만 만약 <strong>"2월 29일을 계산하지 못하는 버그(소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>)"</strong>가 코드 안에 있다면 어떨까? 하드웨어가 1,000대라도 그날 자정에 1,000대의 서버가 동시에 죽어버린다.
 
 즉, 동일한 소프트웨어를 복사해서 배포하는 것만으로는 소프트웨어 자체의 논리적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Design Flaw)을 방어할 수 없다. 우주선이나 항공기를 제어하는 소프트웨어에서 이런 공통 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생하면 우주선은 그대로 폭발한다.
 
-이 문제를 해결하기 위해 1970년대 아비지엔스(Algirdas Avizienis)가 제안한 아이디어가 바로 **"서로 다른 팀에게 똑같은 일을 독립적으로 시키자"**는 **N-버전 프로그래밍(NVP)**이다. 언어도 다르고 짠 사람도 다르면, 우연히 같은 부분에서 똑같은 버그를 낼 확률은 0에 수렴한다는 통계학적 믿음이 그 바탕이다.
+이 문제를 해결하기 위해 1970년대 아비지엔스(Algirdas Avizienis)가 제안한 아이디어가 바로 <strong>"서로 다른 팀에게 똑같은 일을 독립적으로 시키자"</strong>는 <strong>N-버전 프로그래밍(NVP)</strong>이다. 언어도 다르고 짠 사람도 다르면, 우연히 같은 부분에서 똑같은 버그를 낼 확률은 0에 수렴한다는 통계학적 믿음이 그 바탕이다.
 
 - **📢 섹션 요약 비유**: 중요한 수학 문제를 풀 때, 똑같은 계산기 3대를 쓰는 게 아니라 수학자 3명(미국인, 한국인, 독일인)을 각각 독방에 가두고 문제를 풀게 한 뒤, 2명 이상이 똑같이 적어낸 답을 진짜 정답으로 믿는 방식이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 N-버전 프로그래밍 이종 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  N-버전 프로그래밍 이종 다중화                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N-버전 프로그래밍 이종 다중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 N-버전 프로그래밍 이종 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ N-버전 프로그래밍의 핵심은 '다양성(Diversity)'과 '다수결 투�
 
 | 기법 | [N-Version Programming](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/297_n_version_programming/) (NVP) | [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Block ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 블록) |
 |:---|:---|:---|
-| **실행 방식** | **N개를 동시에 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) 실행** | **순차적으로 실행 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))** |
+| **실행 방식** | <strong>N개를 동시에 (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>) 실행</strong> | <strong>순차적으로 실행 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>)</strong> |
 | **결정 방식** | 다수결 투표 (Majority [Voting](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)) | 수용 테스트 ([Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) 통과 여부 |
 | **장점** | 처리 속도가 빠름 (동시 실행이므로) | NVP처럼 N개를 동시에 돌릴 하드웨어 리소스가 없어도 됨 |
 | **단점** | 하드웨어 리소스가 N배로 필요함 | 1번이 실패하고 2번으로 넘어가는 동안 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 |
@@ -107,7 +106,7 @@ N-버전 프로그래밍의 핵심은 '다양성(Diversity)'과 '다수결 투�
 
 ## Ⅴ. 기대효과 및 결론
 
-N-버전 프로그래밍은 소프트웨어의 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없는 완벽함'을 포기하는 대신, **'[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있어도 시스템이 무너지지 않는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)'**을 선택한 철학이다. 보잉이나 에어버스와 같은 항공기 제조사들은 NVP를 통해 비행기 제어 소프트웨어의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인한 추락 사고를 완벽에 가깝게 차단하고 있다.
+N-버전 프로그래밍은 소프트웨어의 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없는 완벽함'을 포기하는 대신, <strong>'<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>이 있어도 시스템이 무너지지 않는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a>(Resilience)'</strong>을 선택한 철학이다. 보잉이나 에어버스와 같은 항공기 제조사들은 NVP를 통해 비행기 제어 소프트웨어의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인한 추락 사고를 완벽에 가깝게 차단하고 있다.
 
 비록 일반적인 IT 환경에서는 다소 과한 아키텍처지만, 기술사는 "[단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 다양성(Diversity)을 통해 공통 원인 고장을 방어한다"는 NVP의 핵심 사상을 이해하고, 금융이나 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 치명적인 트랜잭션을 설계할 때 이를 응용한 이종 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계 역량을 갖추어야 한다.
 
@@ -132,21 +131,23 @@ N-버전 프로그래밍은 소프트웨어의 '[결함](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-N-버전 프로그래밍 이종 다중화 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">N-버전 프로그래밍 이종 다중화 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

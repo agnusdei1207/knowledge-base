@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 추상 팩토리 (Abstract Fac의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  추상 팩토리 (Abstract Fac                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추상 팩토리 (Abstract Fac</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 추상 팩토리 (Abstract Fac가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 구체적인 클래스의 이름을 명시하지 않고도 **'서로 연관되거나 의존적인 여러 객체들의 묶음(군, Group / Family)'을 단 한 번의 호출로 안전하게 통째로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 내는 '복합 공장용 인터페이스'를 제공하는 패턴**입니다.
+- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 구체적인 클래스의 이름을 명시하지 않고도 <strong>'서로 연관되거나 의존적인 여러 객체들의 묶음(군, Group / Family)'을 단 한 번의 호출로 안전하게 통째로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>해 내는 '복합 공장용 인터페이스'를 제공하는 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 추상 팩토리 (Abstract Factory)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 
 1. **Abstract Factory (최상위 본사 껍데기)**: 
    - 텅 빈 구멍 함수들을 모아놓은 인터페이스입니다. 근데 구멍이 1개가 아닙니다! 
-   - `createButton()`, `createScrollbar()` 이렇게 **부품의 개수만큼 빈 구멍**을 뚫어놓습니다.
+   - `createButton()`, `createScrollbar()` 이렇게 <strong>부품의 개수만큼 빈 구멍</strong>을 뚫어놓습니다.
 2. **Concrete Factory (현대 공장, 삼성 공장)**:
    - 본사 껍데기를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 진짜 거대 공장들입니다.
    - `WindowsFactory (자식 공장 1)`: 버튼 구멍에 `new WinButton()`을, 스크롤바 구멍에 `new WinScrollbar()`를 채워 넣어 **오직 윈도우 세트만 무조건 세트로** 찍어냅니다.
@@ -94,11 +93,11 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 254. [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)) | 255. 추상 팩토리 (Abstract Factory) |
 |:---:|:---|:---|
-| **초점 (타겟)** | 단 **1개**의 객체(Product)를 어떻게 예쁘게 찍어낼까? | 여러 개의 관련된 **객체 세트(Family/군)**를 어떻게 통째로 찍어낼까? |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 위임** | 자식 클래스([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))가 오버라이딩해서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 여러 공장 객체(조합)가 파츠별로 모아서 통째로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **초점 (타겟)** | 단 <strong>1개</strong>의 객체(Product)를 어떻게 예쁘게 찍어낼까? | 여러 개의 관련된 <strong>객체 세트(Family/군)</strong>를 어떻게 통째로 찍어낼까? |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>의 위임</strong> | 자식 클래스([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))가 오버라이딩해서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 여러 공장 객체(조합)가 파츠별로 모아서 통째로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **비유** | '치킨'이라는 단일 메뉴를 굽는 하청 공장 | '치킨+콜라+감튀'를 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 맞춰서 내놓는 **세트 메뉴 공장** |
 
-> 📢 **섹션 요약 비유**: **추상 팩토리(Abstract Factory)** 패턴은 가구점의 **'북유럽풍 인테리어 세트 판매 강제 규정'**과 같습니다. 손님이 이케아에서 침대는 북유럽풍 나무 침대(객체 1)를 사고, 책상은 번쩍거리는 사이버펑크 쇠 책상(객체 2)을 사 가면, 방의 인테리어(시스템 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))가 개박살 납니다. 이 부품 섞임의 대참사를 막기 위해 이케아 본사(Abstract Factory)는 단품 판매를 폐지합니다. 대신 **'북유럽풍 공장(Concrete Factory 1)'**과 **'사이버펑크 공장(Concrete Factory 2)'**을 짓습니다. 손님이 "북유럽 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 방 꾸며줘!"라고 본사에 요청하면, 본사는 구체적인 나무 침대 이름, 나무 책상 이름을 알 필요도 없이 북유럽풍 공장의 스위치를 누릅니다. 공장은 알아서 북유럽풍 침대, 책상, 옷장을 **완벽하게 짝이 맞는 세트(연관된 객체군)**로 찍어내어 통째로 배달합니다. 쇠 책상이 섞여 들어올 위험이 0%로 차단되어, 시스템 전체의 부품 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 일관성을 철통같이 보장하는 거대 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 공장 아키텍처입니다.
+> 📢 **섹션 요약 비유**: **추상 팩토리(Abstract Factory)** 패턴은 가구점의 <strong>'북유럽풍 인테리어 세트 판매 강제 규정'</strong>과 같습니다. 손님이 이케아에서 침대는 북유럽풍 나무 침대(객체 1)를 사고, 책상은 번쩍거리는 사이버펑크 쇠 책상(객체 2)을 사 가면, 방의 인테리어(시스템 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))가 개박살 납니다. 이 부품 섞임의 대참사를 막기 위해 이케아 본사(Abstract Factory)는 단품 판매를 폐지합니다. 대신 <strong>'북유럽풍 공장(Concrete Factory 1)'</strong>과 <strong>'사이버펑크 공장(Concrete Factory 2)'</strong>을 짓습니다. 손님이 "북유럽 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)로 방 꾸며줘!"라고 본사에 요청하면, 본사는 구체적인 나무 침대 이름, 나무 책상 이름을 알 필요도 없이 북유럽풍 공장의 스위치를 누릅니다. 공장은 알아서 북유럽풍 침대, 책상, 옷장을 <strong>완벽하게 짝이 맞는 세트(연관된 객체군)</strong>로 찍어내어 통째로 배달합니다. 쇠 책상이 섞여 들어올 위험이 0%로 차단되어, 시스템 전체의 부품 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 일관성을 철통같이 보장하는 거대 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/) 공장 아키텍처입니다.
 
 - **📢 섹션 요약 비유**: 추상 팩토리 (Abstract Factory)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -143,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-추상 팩토리 (Abstract Factory) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상 팩토리 (Abstract Factory) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

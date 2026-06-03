@@ -24,58 +24,57 @@ tags = ["studynote-network"]
   - **너무 작으면 문제**: 과거 버스형 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)에서는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 충돌을 감지하기 전에 전송이 끝나버려 에러를 파악하지 못할 수 있다.
   - **너무 크면 문제**: 한 놈이 회선을 너무 오래 독점하여 다른 사람들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 없고, 만약 프레임 하나에 에러가 나면 폐기해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실량이 너무 막대해진다.
 
-- **💡 비유**: 고속도로의 "최소/최고 속도 제한"과 같습니다. 너무 느리게(너무 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 달리면 뒤차와 사고가 나고(충돌 감지 실패), 너무 큰 화물차(과적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 1차선을 오래 막고 있으면 도로 전체가 마비되기 때문에 엄격한 제한을 둡니다. 만약 화물이 너무 작으면 **"빈 박스([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))"**를 채워서 크기를 키우고, 너무 크면 **"여러 트럭([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))"**으로 나누어 싣게 합니다.
+- **💡 비유**: 고속도로의 "최소/최고 속도 제한"과 같습니다. 너무 느리게(너무 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 달리면 뒤차와 사고가 나고(충돌 감지 실패), 너무 큰 화물차(과적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 1차선을 오래 막고 있으면 도로 전체가 마비되기 때문에 엄격한 제한을 둡니다. 만약 화물이 너무 작으면 <strong>"빈 박스(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)"</strong>를 채워서 크기를 키우고, 너무 크면 <strong>"여러 트럭(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>)"</strong>으로 나누어 싣게 합니다.
 
-```text
-[Type 필드 / Length 필드]
-    │
-    ▼
-[페이로드 크기, 패딩]
-    │
-    └──▶ [충돌 도메인 / 브로드캐스트 도메인]
-```
 
-- **📢 섹션 요약 비유**: ** [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))은 택배 상자가 너무 텅 비어있을 때 상자가 찌그러지거나(에러 감지 불가) 분실되는 것을 막기 위해 억지로 욱여넣는 **"에어캡(뽁뽁이)"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Type 필드 / Length 필드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이로드 크기, 패딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">충돌 도메인 / 브로드캐스트 도메인</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)은 택배 상자가 너무 텅 비어있을 때 상자가 찌그러지거나(에러 감지 불가) 분실되는 것을 막기 위해 억지로 욱여넣는 </strong>"에어캡(뽁뽁이)"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 최소 크기 64바이트와 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))의 원리
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 전체 길이는 헤더(14바이트) + 페이로드 + FCS(4바이트)로 구성된다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준은 **전체 프레임의 최소 길이를 무조건 64바이트(512비트)**로 규정한다.
-- 64바이트에서 헤더(14)와 FCS(4)를 빼면 46바이트가 남는다. 즉, **페이로드의 최소 크기는 46바이트**가 되어야 한다.
-- 만약 상위 계층에서 달랑 10바이트짜리 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려보낸다면? 랜카드([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))는 모자란 36바이트를 아무 의미 없는 `00000000`으로 강제로 채워 넣는다. 이 과정을 **[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))**이라 한다.
+[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 전체 길이는 헤더(14바이트) + 페이로드 + FCS(4바이트)로 구성된다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준은 <strong>전체 프레임의 최소 길이를 무조건 64바이트(512비트)</strong>로 규정한다.
+- 64바이트에서 헤더(14)와 FCS(4)를 빼면 46바이트가 남는다. 즉, <strong>페이로드의 최소 크기는 46바이트</strong>가 되어야 한다.
+- 만약 상위 계층에서 달랑 10바이트짜리 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려보낸다면? 랜카드([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))는 모자란 36바이트를 아무 의미 없는 `00000000`으로 강제로 채워 넣는다. 이 과정을 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong>이라 한다.
 
-**왜 하필 최소 64바이트인가? ([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 충돌 감지 제약)**
-과거 10Mbps [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 환경에서 최대 케이블 길이(2500m)를 왕복하는 데 걸리는 시간(Slot Time)이 약 51.2마이크로초였다. 송신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 도중에 저 멀리서 충돌이 났다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Jam)가 되돌아올 때까지, 송신자는 **"계속해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하고 있어야"** 자기가 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 충돌이 났다는 것을 알아챌 수 있다. 51.2마이크로초 동안 10Mbps 속도로 뿜어낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양이 정확히 512비트(64바이트)이기 때문이다.
+<strong>왜 하필 최소 64바이트인가? (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD 충돌 감지 제약)</strong>
+과거 10Mbps [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 환경에서 최대 케이블 길이(2500m)를 왕복하는 데 걸리는 시간(Slot Time)이 약 51.2마이크로초였다. 송신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 도중에 저 멀리서 충돌이 났다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Jam)가 되돌아올 때까지, 송신자는 <strong>"계속해서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전송하고 있어야"</strong> 자기가 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 충돌이 났다는 것을 알아챌 수 있다. 51.2마이크로초 동안 10Mbps 속도로 뿜어낼 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양이 정확히 512비트(64바이트)이기 때문이다.
 
 ### 2. 최대 크기 제한과 MTU ([Maximum Transmission Unit](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/))
-반대로, 페이로드가 가질 수 있는 최대 크기는 1500바이트다. ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 전체 길이는 1518바이트). 이 페이로드 최대 크기를 **MTU**라고 한다.
+반대로, 페이로드가 가질 수 있는 최대 크기는 1500바이트다. ([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 전체 길이는 1518바이트). 이 페이로드 최대 크기를 <strong>MTU</strong>라고 한다.
 - **MTU 1500의 기원**: 1980년대 컴퓨터의 메모리(RAM) 용량 한계와 네트워크 버퍼 크기를 고려한 타협점이었다.
 - **점보 프레임 (Jumbo Frame)**: 현대의 1Gbps, 10Gbps [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서는 1500바이트씩 쪼개 보내면 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 너무 커진다. 따라서 MTU를 9000바이트까지 늘려 보내는 비표준 확장을 점보 프레임이라 부른다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                이더넷 프레임 길이 제약 도식도                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   ┌───────────┬──────────────┬──────────────────┬───────┐   │
- │   │ MAC 헤더  │   Payload    │ Padding (패딩)   │  FCS  │   │
- │   │ (14 Byte) │ (가정: 10 B) │ (부족분: 36 B)   │ (4 B) │   │
- │   └───────────┴──────────────┴──────────────────┴───────┘   │
- │   │◀──────────────── 전체 최소 64 Bytes ─────────────────▶│   │
- │                                                             │
- │                                                             │
- │   ┌───────────┬─────────────────────────────────┬───────┐   │
- │   │ MAC 헤더  │   Payload (MTU 1500 Bytes)      │  FCS  │   │
- │   │ (14 Byte) │     IP 패킷이 꽉 차게 들어감       │ (4 B) │   │
- │   └───────────┴─────────────────────────────────┴───────┘   │
- │   │◀──────────────── 전체 최대 1518 Bytes ────────────────▶│   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 화물차(프레임)는 짐칸(페이로드)에 짐을 적어도 46kg(최소) 이상 실어야 브레이크(충돌 감지)가 제대로 작동하고, 1500kg(최대)까지만 실을 수 있도록 법으로 정해진 **"규격 트럭"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더넷 프레임 길이 제약 도식도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 헤더</div><div class="kb-diagram-cell">Payload</div><div class="kb-diagram-cell">Padding (패딩)</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(14 Byte)</div><div class="kb-diagram-cell">(가정: 10 B)</div><div class="kb-diagram-cell">(부족분: 36 B)</div><div class="kb-diagram-cell">(4 B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 전체 최소 64 Bytes ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 헤더</div><div class="kb-diagram-cell">Payload (MTU 1500 Bytes)</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(14 Byte)</div><div class="kb-diagram-cell">IP 패킷이 꽉 차게 들어감</div><div class="kb-diagram-cell">(4 B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 전체 최대 1518 Bytes ▶</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 화물차(프레임)는 짐칸(페이로드)에 짐을 적어도 46kg(최소) 이상 실어야 브레이크(충돌 감지)가 제대로 작동하고, 1500kg(최대)까지만 실을 수 있도록 법으로 정해진 </strong>"규격 트럭"**입니다.
 
 ---
 
@@ -131,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Type 필드 / Length 필드]
-    │
-    ▼
-[현재 개념: 페이로드 크기, 패딩]
-    │
-    ├──▶ [확장 A: 충돌 도메인 / 브로드캐스트 도메인]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Type 필드 / Length 필드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 페이로드 크기, 패딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 충돌 도메인 / 브로드캐스트 도메인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 페이로드 크기, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)는 Type 필드 / Length 필드에서 출발해 현재 메커니즘을 정교화하고, 이후 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

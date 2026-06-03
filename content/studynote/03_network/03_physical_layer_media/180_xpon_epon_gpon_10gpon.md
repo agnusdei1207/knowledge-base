@@ -20,20 +20,22 @@ tags = ["network"]
 
 xPON은 **"국사에서 가입자까지 광을 1:1로 전부 깔지 않고, 중간에서 전기 없이 분기해 여러 가입자가 함께 쓰게 만드는 광접속 방식"** 이다. FTTH를 이상적으로 생각하면 모든 가정에 전용 광섬유를 직접 연결하는 점대점 구조가 가장 단순해 보이지만, 실제 대규모 망 구축에서는 광케이블 수, 관로 비용, 장비 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수, 중간 전원 유지비가 급격히 늘어난다.
 
-바로 이 지점에서 PON이 필요해졌다. 중간 분배 지점에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 같은 능동 장비를 두는 AON ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Optical Network)은 제어가 쉽지만 전원과 유지보수가 부담이다. 반면 PON은 수동 광분배기를 써서 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 물리적으로 나누기 때문에, 외부 전원 없이도 다수 가입자에게 회선을 확장할 수 있다. 즉 PON의 핵심 가치는 단순한 속도 향상이 아니라 **광접속망 경제성의 혁신**에 있다.
+바로 이 지점에서 PON이 필요해졌다. 중간 분배 지점에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 같은 능동 장비를 두는 AON ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Optical Network)은 제어가 쉽지만 전원과 유지보수가 부담이다. 반면 PON은 수동 광분배기를 써서 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 물리적으로 나누기 때문에, 외부 전원 없이도 다수 가입자에게 회선을 확장할 수 있다. 즉 PON의 핵심 가치는 단순한 속도 향상이 아니라 <strong>광접속망 경제성의 혁신</strong>에 있다.
 
 또한 가입자망은 백본보다 가입자 수가 훨씬 많아, "한 명당 얼마에 연결할 수 있는가"가 중요한 영역이다. PON은 이 마지막 구간에서 비용을 낮추면서도, 세대별 규격 교체로 1G급에서 10G급 이상으로 자연스럽게 발전할 수 있어 오늘날 광가입자망의 표준적 선택지가 되었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ 왜 PON이 필요한가                                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Point-to-Point FTTH : 가입자마다 전용 광 1쌍 필요                   │
-│ PON                : 국사에서 1가닥 -> 분배기 1:N -> 여러 가입자    │
-│                                                                    │
-│ 결과: 포트 수, 광섬유 수, 현장 전원 장비 수를 크게 줄일 수 있다.    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 PON이 필요한가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Point-to-Point FTTH : 가입자마다 전용 광 1쌍 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PON : 국사에서 1가닥 -&gt; 분배기 1:N -&gt; 여러 가입자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 포트 수, 광섬유 수, 현장 전원 장비 수를 크게 줄일 수 있다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: xPON은 아파트마다 개인 전용 수도관을 따로 묻는 대신, 굵은 본관에서 수동 분배기를 써 여러 세대로 나누는 방식과 같다. 물줄기를 나누는 장치가 전기를 먹지 않으니 관리가 훨씬 단순해진다.
 
@@ -53,24 +55,25 @@ PON의 핵심 구성은 국사 측 OLT, 중간의 ODN (Optical Distribution Netw
 
 아래 그림은 PON의 공유 구조와 상향/하향 동작을 한눈에 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ PON shared access architecture                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ [ OLT ]                                                            │
-│    │ feeder fiber                                                   │
-│    ▼                                                                │
-│ [ Passive Splitter 1:N ]                                            │
-│   ├────────▶ [ ONU/ONT #1 ]                                         │
-│   ├────────▶ [ ONU/ONT #2 ]                                         │
-│   └────────▶ [ ONU/ONT #N ]                                         │
-│                                                                    │
-│ Downstream : OLT가 모두에게 전송 -> 각 ONU가 자기 프레임만 수신     │
-│ Upstream   : ONU들이 시간 슬롯을 나눠 전송 -> OLT가 취합            │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-실제 품질은 단순 선로 속도보다 **분기비와 광예산**에 크게 좌우된다. 분기비를 크게 잡으면 한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)당 더 많은 가입자를 붙일 수 있지만, 스플리터 손실이 커져 도달 거리와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 여유가 줄어든다. 또한 상향은 공유 매체이므로, "10G-PON이면 모든 가입자가 항상 10Gbps를 쓴다"가 아니라 **공유 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 배분한다**는 관점으로 이해해야 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PON shared access architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OLT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feeder fiber</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Passive Splitter 1:N</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONU/ONT #1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONU/ONT #2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONU/ONT #N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Downstream : OLT가 모두에게 전송 -&gt; 각 ONU가 자기 프레임만 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upstream : ONU들이 시간 슬롯을 나눠 전송 -&gt; OLT가 취합</div></div>
+</div>
+</div>
+
+
+
+실제 품질은 단순 선로 속도보다 <strong>분기비와 광예산</strong>에 크게 좌우된다. 분기비를 크게 잡으면 한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)당 더 많은 가입자를 붙일 수 있지만, 스플리터 손실이 커져 도달 거리와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 여유가 줄어든다. 또한 상향은 공유 매체이므로, "10G-PON이면 모든 가입자가 항상 10Gbps를 쓴다"가 아니라 <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>적으로 배분한다</strong>는 관점으로 이해해야 정확하다.
 
 - **📢 섹션 요약 비유**: PON은 한 방송국이 여러 집에 TV [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내고, 각 집은 차례를 정해 답장을 보내는 구조와 같다. 보는 쪽은 함께 받아도 되지만, 말하는 쪽은 순서를 정하지 않으면 모두 한꺼번에 겹쳐 버린다.
 
@@ -78,7 +81,7 @@ PON의 핵심 구성은 국사 측 OLT, 중간의 ODN (Optical Distribution Netw
 
 ## Ⅲ. 비교 및 연결
 
-xPON 계열은 모두 같은 수동 분기 철학을 공유하지만, **프레임 구조, 표준 계보, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 철학, 업그레이드 경로**에서 차이가 난다. EPON은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심, GPON은 통신사업자 멀티서비스 중심, 10G-PON은 고속화와 공존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중심으로 이해하면 정리가 쉽다.
+xPON 계열은 모두 같은 수동 분기 철학을 공유하지만, <strong>프레임 구조, 표준 계보, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 철학, 업그레이드 경로</strong>에서 차이가 난다. EPON은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심, GPON은 통신사업자 멀티서비스 중심, 10G-PON은 고속화와 공존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중심으로 이해하면 정리가 쉽다.
 
 | 구분 | EPON | GPON | 10G-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) |
 | :--- | :--- | :--- | :--- |
@@ -90,13 +93,19 @@ xPON 계열은 모두 같은 수동 분기 철학을 공유하지만, **프레�
 
 EPON은 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 거의 그대로 다루기 때문에 LAN 운영 감각과 친화적이고, 장비 구조도 비교적 단순하다. GPON은 GEM (GPON Encapsulation Method), T-CONT (Transmission [Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/)) 같은 메커니즘으로 다양한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질과 사업자 운용 요구를 세밀하게 반영한다. 그래서 대규모 통신사업자 환경에서는 GPON 생태계가 강한 편이다.
 
-10G-PON은 단순히 속도만 10배로 올린 것이 아니다. 실제 실무에서는 기존 GPON ODN을 최대한 유지하면서 상위 세대를 **파장 분리로 공존**시키는 업그레이드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심이다. 또한 10G급에서도 XG-PON은 비대칭, XGS-PON은 대칭이므로 "10G면 다 같음"이라고 보면 안 된다.
+10G-PON은 단순히 속도만 10배로 올린 것이 아니다. 실제 실무에서는 기존 GPON ODN을 최대한 유지하면서 상위 세대를 <strong>파장 분리로 공존</strong>시키는 업그레이드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심이다. 또한 10G급에서도 XG-PON은 비대칭, XGS-PON은 대칭이므로 "10G면 다 같음"이라고 보면 안 된다.
 
-```text
-EPON  -> Ethernet 중심의 단순성
-GPON  -> 멀티서비스와 사업자 운용성
-10G-PON -> 고속화 + 공존 전략 + 더 높은 가입자 밀도
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EPON -&gt; Ethernet 중심의 단순성</div>
+<div class="kb-diagram-note">GPON -&gt; 멀티서비스와 사업자 운용성</div>
+<div class="kb-diagram-note">10G-PON -&gt; 고속화 + 공존 전략 + 더 높은 가입자 밀도</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 세 방식은 모두 같은 광도로를 쓰지만, EPON은 일반 도로 규칙에 가까운 단순한 체계이고, GPON은 고속도로 운영센터가 붙은 체계이며, 10G-PON은 차선을 더 넓히고 기존 차선과 함께 운행되게 만든 확장형 고속도로에 가깝다.
 
@@ -104,28 +113,31 @@ GPON  -> 멀티서비스와 사업자 운용성
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 xPON 선택은 "어떤 규격이 더 빠른가"보다 **현재 ODN을 재사용할 수 있는가, 필요한 가입자당 체감 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 얼마인가, 대칭 업로드가 중요한가** 로 판단해야 한다. 가입자망은 공유망이므로 선로 속도만 보고 가입자 경험을 단정하면 안 되고, 분기비, [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합, 업그레이드 경로를 함께 봐야 한다.
+실무에서 xPON 선택은 "어떤 규격이 더 빠른가"보다 <strong>현재 ODN을 재사용할 수 있는가, 필요한 가입자당 체감 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 얼마인가, 대칭 업로드가 중요한가</strong> 로 판단해야 한다. 가입자망은 공유망이므로 선로 속도만 보고 가입자 경험을 단정하면 안 되고, 분기비, [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합, 업그레이드 경로를 함께 봐야 한다.
 
 ### 실무 판단 기준
 
 1. **기존 GPON ODN을 최대한 유지하며 증속해야 하는가?** 그렇다면 XG-PON이나 XGS-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 같은 10G-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 계열이 유리하다.
-2. **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 기반 운용 단순성이 중요한가?** 캠퍼스형 환경이나 특정 지역 사업자에서는 EPON이 관리상 유리할 수 있다.
-3. **상향 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요한가?** 클라우드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 기업 회선, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)처럼 업로드 수요가 크면 XGS-PON이 더 적합하다.
+2. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 기반 운용 단순성이 중요한가?</strong> 캠퍼스형 환경이나 특정 지역 사업자에서는 EPON이 관리상 유리할 수 있다.
+3. <strong>상향 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 중요한가?</strong> 클라우드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 기업 회선, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)처럼 업로드 수요가 크면 XGS-PON이 더 적합하다.
 4. **분기비와 거리에서 광예산이 충분한가?** 고속 규격을 도입해도 광손실이 맞지 않으면 품질이 불안정해진다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ xPON selection flow                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ need low-cost shared FTTH?                                          │
-│   ├─ no  -> point-to-point fiber or active Ethernet                 │
-│   └─ yes                                                            │
-│        ├─ existing GPON ODN reuse is critical? -> 10G-PON          │
-│        ├─ simple Ethernet operations matter? -> EPON               │
-│        ├─ carrier-grade multi-service control? -> GPON             │
-│        └─ high symmetric bandwidth needed? -> XGS-PON              │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xPON selection flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need low-cost shared FTTH?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; point-to-point fiber or active Ethernet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ existing GPON ODN reuse is critical? -&gt; 10G-PON</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ simple Ethernet operations matter? -&gt; EPON</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ carrier-grade multi-service control? -&gt; GPON</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ high symmetric bandwidth needed? -&gt; XGS-PON</div></div>
+</div>
+</div>
+
+
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -134,7 +146,7 @@ GPON  -> 멀티서비스와 사업자 운용성
 - GPON과 10G-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 공존 시 파장 계획과 ONU 교체 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 무시하는 것
 - 업로드 요구가 큰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 비대칭 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 위에 무심코 올리는 것
 
-즉 xPON 설계는 장비 규격 선정이 아니라 **망 경제성, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 업그레이드 경로의 동시 최적화** 문제다. 기술사 답안에서도 "속도 비교"만 적는 것보다, 공유 구조와 공존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 설명해야 판단력이 살아난다.
+즉 xPON 설계는 장비 규격 선정이 아니라 <strong>망 경제성, <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>, 업그레이드 경로의 동시 최적화</strong> 문제다. 기술사 답안에서도 "속도 비교"만 적는 것보다, 공유 구조와 공존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 설명해야 판단력이 살아난다.
 
 - **📢 섹션 요약 비유**: xPON 도입은 아파트 인터넷을 새로 까는 일이 아니라, 기존 배관을 최대한 살리면서 몇 세대까지 안정적으로 물을 보낼지 계산하는 일과 같다. 배관 굵기와 분배 방식까지 봐야 진짜 설계가 된다.
 
@@ -144,9 +156,9 @@ GPON  -> 멀티서비스와 사업자 운용성
 
 xPON의 가장 큰 효과는 **광가입자망의 단가를 낮추면서도 세대별 증속을 가능하게 만든다** 는 점이다. 같은 ODN 위에서 EPON, GPON, 10G-[PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 계열로 진화해 오며, 가입자 수용량과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구가 커지는 시장을 따라갈 수 있었다. 이 덕분에 FTTH는 일부 고가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라 대중적인 광접속 방식이 되었다.
 
-하지만 PON은 어디까지나 공유 매체다. 분기비, 거리, [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 가입자 트래픽 패턴에 따라 체감 성능이 달라지고, 업그레이드도 장비 세대만 바꾸면 끝나는 것이 아니라 파장 공존과 광예산을 함께 따져야 한다. 따라서 xPON은 "무조건 빠른 기술"이 아니라 **경제성과 확장성을 중심에 둔 가입자망 아키텍처**로 기억하는 편이 정확하다.
+하지만 PON은 어디까지나 공유 매체다. 분기비, 거리, [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 가입자 트래픽 패턴에 따라 체감 성능이 달라지고, 업그레이드도 장비 세대만 바꾸면 끝나는 것이 아니라 파장 공존과 광예산을 함께 따져야 한다. 따라서 xPON은 "무조건 빠른 기술"이 아니라 <strong>경제성과 확장성을 중심에 둔 가입자망 아키텍처</strong>로 기억하는 편이 정확하다.
 
-앞으로도 방향성은 분명하다. 더 높은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 더 좋은 대칭성, 더 쉬운 공존 운용으로 진화하되, 기본 철학은 그대로다. **하나의 광트리를 여러 가입자가 효율적으로 공유한다**는 원리가 xPON의 본질이다.
+앞으로도 방향성은 분명하다. 더 높은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 더 좋은 대칭성, 더 쉬운 공존 운용으로 진화하되, 기본 철학은 그대로다. <strong>하나의 광트리를 여러 가입자가 효율적으로 공유한다</strong>는 원리가 xPON의 본질이다.
 
 - **📢 섹션 요약 비유**: xPON의 진화는 같은 나무 줄기에서 더 굵은 가지를 뻗는 과정과 같다. 가지는 계속 강화되지만, 한 줄기에서 여러 잎으로 나누는 기본 구조는 변하지 않는다.
 
@@ -166,16 +178,20 @@ xPON의 가장 큰 효과는 **광가입자망의 단가를 낮추면서도 세�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-점대점 FTTH 비용 부담
-        │
-        ▼
-PON (Passive Optical Network) 수동 분기
-        │
-        ├──────────────▶ EPON (Ethernet 중심)
-        ├──────────────▶ GPON (사업자 멀티서비스)
-        └──────────────▶ 10G-PON / XGS-PON (고속화·공존)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">점대점 FTTH 비용 부담</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PON (Passive Optical Network) 수동 분기</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ EPON (Ethernet 중심)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ GPON (사업자 멀티서비스)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 10G-PON / XGS-PON (고속화·공존)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 가입자망에서 비용 절감을 위해 수동 분기 구조가 도입되고, 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요구에 따라 [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 중심과 사업자 중심, 그리고 10G급 고속화 계열로 발전한 흐름을 보여 준다.
 

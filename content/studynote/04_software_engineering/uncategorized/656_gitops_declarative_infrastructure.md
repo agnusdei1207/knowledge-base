@@ -26,42 +26,35 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: GitOps는 '온도 조절기(보일러)'의 원리와 같습니다. 사용자는 방 온도를 24도(Git에 선언된 목표 상태)로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 합니다. 그러면 온도 조절기([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Agent)가 수시로 현재 방 온도(운영 환경 상태)를 측정하고, 20도라면 보일러를 켜고 26도라면 끄는 작업을 스스로 반복하여 정확히 24도를 맞춰냅니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))의 한계**: Terraform이나 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 같은 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구는 인프라를 코드로 관리하게 해주었지만, 코드를 실행하는 시점에만 상태를 맞출 뿐 실행 이후 누군가 수동으로 수정한 변경 사항은 감지하거나 자동 복구하지 못했다.
-  2. **Weaveworks의 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 제창 (2017)**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 관리가 복잡해지자, Weaveworks는 "모든 것은 Git을 통해서만 변경되어야 한다"는 원칙 하에 클러스터 내부에 에이전트를 두고 Git을 감시(Pull)하게 하는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 사상을 발표했다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)의 한계</strong>: Terraform이나 [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) 같은 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 도구는 인프라를 코드로 관리하게 해주었지만, 코드를 실행하는 시점에만 상태를 맞출 뿐 실행 이후 누군가 수동으로 수정한 변경 사항은 감지하거나 자동 복구하지 못했다.
+  2. <strong>Weaveworks의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 제창 (2017)</strong>: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 환경에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 관리가 복잡해지자, Weaveworks는 "모든 것은 Git을 통해서만 변경되어야 한다"는 원칙 하에 클러스터 내부에 에이전트를 두고 Git을 감시(Pull)하게 하는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 사상을 발표했다.
 
   전통적인 푸시(Push) 기반 배포와 GitOps의 풀(Pull) 기반 배포 아키텍처의 근본적인 차이를 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │         기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교 │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │   [기존 방식: CIOps (Push Model)]                              │
-  │                                   (무소불위 권한)                  │
-  │   Developer ──▶ Git Repo ──▶ [ CI/CD Server ] ──▶ K8s Cluster │
-  │                  (코드)        (Jenkins/Action)     (운영 서버)   │
-  │                                                               │
-  │   ⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)         │
-  │   ⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)│
-  │                                                               │
-  │  =============================================================│
-  │                                                               │
-  │   [GitOps 방식: Pull Model (Reconciliation)]                  │
-  │                                                               │
-  │   Developer ──▶ Git Repo         [ K8s Cluster ]              │
-  │                (Manifest)        │                            │
-  │                   ▲              │ ┌───────────────────────┐  │
-  │                   │              │ │ GitOps Agent (ArgoCD) │  │
-  │                   │ (Pull/Watch) │ └───────────────────────┘  │
-  │                   └──────────────┼───────┘  │ (Apply)         │
-  │                                  │          ▼                 │
-  │                                  │     [ K8s API Server ]     │
-  │                                  └────────────────────────────┘
-  │                                                               │
-  │   ✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화    │
-  │   ✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)│
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 방식: CIOps (Push Model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무소불위 권한)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI/CD Server</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">K8s Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드) (Jenkins/Action) (운영 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps 방식: Pull Model (Reconciliation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Manifest)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps Agent (ArgoCD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pull/Watch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Apply)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">K8s API Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 도식은 보안과 상태 관리의 주도권이 어떻게 이동했는지를 보여준다. 상단의 Push 모델에서는 외부의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터의 API를 찔러야 하므로 방화벽을 열어주어야 하고 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버에 저장해야 한다. 반면 하단의 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Pull 모델에서는 클러스터 내부에 설치된 에이전트(ArgoCD나 Flux)가 외부의 Git 저장소를 감시(Pull)하다가 변경이 발생하면 클러스터 내부에서 배포를 수행한다. 외부에서 안으로 들어오는 인바운드 연결이 불필요해지며, 배포 권한이 클러스터 내부에 격리되므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 모델을 달성할 수 있다.
 
@@ -86,7 +79,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -162,21 +155,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-GitOps 인프라 선언적 관리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GitOps 인프라 선언적 관리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

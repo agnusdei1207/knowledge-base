@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) 는 항상 함께 등장하는 변수 묶음이 별도 클래스로 추상화되지 않아 중복·불일치·유효성 분산을 유발하는 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)이다.
-> 2. **가치**: 클럼프를 클래스로 캡슐화하면 묶음의 **의미**가 코드에 드러나고, 유효성 검사와 행동이 한곳에 모인다.
+> 2. **가치**: 클럼프를 클래스로 캡슐화하면 묶음의 <strong>의미</strong>가 코드에 드러나고, 유효성 검사와 행동이 한곳에 모인다.
 > 3. **판단 포인트**: "이 변수들 중 하나를 지우면 나머지가 의미를 잃는가?" — Yes라면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프다.
 
 ---
@@ -24,58 +24,61 @@ tags = ["studynote-design-supervision"]
 - 점진적 기능 추가 과정에서 관련 변수가 늘어남
 - 복붙 (Copy-and-Paste) 개발로 동일 패턴이 여러 곳에 확산
 
-```
-┌──────────────────────────────────────────────────────┐
-│  데이터 클럼프 발생 위치                             │
-├──────────────────────────────────────────────────────┤
-│  1. 클래스 필드: 여러 필드가 항상 함께 변경됨       │
-│     예) User { String firstName; String lastName;    │
-│              String email; String phoneCountryCode;  │
-│              String phoneNumber; }                   │
-├──────────────────────────────────────────────────────┤
-│  2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음   │
-│     예) send(String host, int port, boolean ssl)     │
-├──────────────────────────────────────────────────────┤
-│  3. 반환값: 여러 관련 값을 배열이나 맵으로 반환     │
-│     예) return new Object[]{lat, lng, altitude}     │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 클럼프 발생 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 클래스 필드: 여러 필드가 항상 함께 변경됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) User { String firstName; String lastName;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String email; String phoneCountryCode;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String phoneNumber; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) send(String host, int port, boolean ssl)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반환값: 여러 관련 값을 배열이나 맵으로 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) return new Object[]{lat, lng, altitude}</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 항상 같이 다니는 친구들을 매번 이름 하나하나 불러 모으는 것보다 "농구팀"이라는 그룹 이름으로 부르는 게 효율적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-[ 변환 전 — 클럼프 산재 ]
-┌────────────────────────────────────────────────────────┐
-│  class Server {                                        │
-│    String host; int port; boolean ssl;                 │
-│  }                                                     │
-│  class HttpClient {                                    │
-│    connect(String host, int port, boolean ssl) {}      │
-│    ping   (String host, int port, boolean ssl) {}      │
-│    retry  (String host, int port, boolean ssl, n) {}   │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
-         ↓  클래스 분리 (Extract Class) / 파라미터 객체화
-┌────────────────────────────────────────────────────────┐
-│  class ConnectionEndpoint {                            │
-│    final String host;                                  │
-│    final int    port;                                  │
-│    final boolean ssl;                                  │
-│    ConnectionEndpoint(host, port, ssl) { validate(); } │
-│    String toUri() { return (ssl?"https":"http")        │
-│                     + "://" + host + ":" + port; }     │
-│  }                                                     │
-│  class Server { ConnectionEndpoint endpoint; }         │
-│  class HttpClient {                                    │
-│    connect(ConnectionEndpoint ep) {}                   │
-│    ping   (ConnectionEndpoint ep) {}                   │
-│    retry  (ConnectionEndpoint ep, int n) {}            │
-│  }                                                     │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">변환 전 — 클럼프 산재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Server {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String host; int port; boolean ssl;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class HttpClient {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">connect(String host, int port, boolean ssl) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ping (String host, int port, boolean ssl) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retry (String host, int port, boolean ssl, n) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-note">↓ 클래스 분리 (Extract Class) / 파라미터 객체화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class ConnectionEndpoint {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final String host;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final int port;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final boolean ssl;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConnectionEndpoint(host, port, ssl) { validate(); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String toUri() { return (ssl?"https":"http")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ "://" + host + ":" + port; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Server { ConnectionEndpoint endpoint; }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class HttpClient {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">connect(ConnectionEndpoint ep) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ping (ConnectionEndpoint ep) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retry (ConnectionEndpoint ep, int n) {}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 | 클럼프 위치 | 권장 처방 | 결과 |
 |:---|:---|:---|
@@ -83,13 +86,19 @@ tags = ["studynote-design-supervision"]
 | 메서드 매개변수로 반복 | [파라미터 객체화](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) ([Introduce Parameter Object](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/)) | 값 객체 (VO) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | 반환값 묶음 | 결과 객체 (Result Object) 도입 | 명시적 타입 반환 |
 
-클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 **[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))** 가 높아진다.
+클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong> 가 높아진다.
 
-```
-ConnectionEndpoint.isSecure()    ← ssl 판단 로직 이전
-ConnectionEndpoint.toUri()       ← URI 조합 로직 이전
-ConnectionEndpoint.validate()    ← 포트 범위 검사 이전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ConnectionEndpoint.isSecure() ← ssl 판단 로직 이전</div>
+<div class="kb-diagram-note">ConnectionEndpoint.toUri() ← URI 조합 로직 이전</div>
+<div class="kb-diagram-note">ConnectionEndpoint.validate() ← 포트 범위 검사 이전</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 흩어진 퍼즐 조각을 상자에 담고 나면, 상자 라벨을 붙이고 완성 그림 미리보기를 상자에 인쇄할 수 있다 — 그게 클럼프에 클래스를 만드는 일이다.
 
@@ -134,9 +143,9 @@ public final class Money {
 
 지도 서비스에서 `double latitude, double longitude, double altitude`가 100곳에 흩어진 경우, `GeoCoordinate` 객체로 통합하면 거리 계산 (`distanceTo`), 유효 범위 검사 (`isValid`), WKT (Well-Known Text) 직렬화 등을 한곳에서 관리한다.
 
-- **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model) 풍부화**: 클럼프 → 클래스 전환은 빈약한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 (Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model) 을 탈출하는 첫걸음이다.
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model) 풍부화</strong>: 클럼프 → 클래스 전환은 빈약한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델 (Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model) 을 탈출하는 첫걸음이다.
 - **테스트 집중화**: 유효성 검사가 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자에 모이므로 테스트 1개로 모든 사용처를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
-- **불변 객체 ([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전성 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Safety) 이 보장되어 멀티스레드 환경에서도 안전하다.
+- <strong>불변 객체 (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/">Immutable Object</a>)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전성 ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Safety) 이 보장되어 멀티스레드 환경에서도 안전하다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
@@ -156,7 +165,7 @@ public final class Money {
 | 단위 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수 (동일 커버리지) | 47개 | 12개 |
 | 코드 중복률 | 19% | 3% |
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) 제거는 **숨겨진 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 개념을 발굴하는 탐사 작업**이다. 단순히 변수를 묶는 것이 아니라, 그 묶음에 이름과 행동을 부여함으로써 코드가 비즈니스 언어와 일치하도록 만든다. 이는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트 용이성, 팀 커뮤니케이션을 동시에 향상시킨다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클럼프 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clumps) 제거는 <strong>숨겨진 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 개념을 발굴하는 탐사 작업</strong>이다. 단순히 변수를 묶는 것이 아니라, 그 묶음에 이름과 행동을 부여함으로써 코드가 비즈니스 언어와 일치하도록 만든다. 이는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트 용이성, 팀 커뮤니케이션을 동시에 향상시킨다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

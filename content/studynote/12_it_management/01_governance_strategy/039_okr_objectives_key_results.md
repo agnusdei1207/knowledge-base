@@ -23,19 +23,19 @@ OKR (Objectives and [Key](/knowledge-base/studynote/05_database/02_modeling_norm
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
-```text
-┌────────────────────┐
-│ Business Need      │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ OKR                │
-└─────────┬──────────┘
-          ▼
-┌────────────────────┐
-│ Value / Control    │
-└────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Need</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OKR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value / Control</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 'OKR'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
@@ -53,13 +53,17 @@ OKR의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | 구글 방식 | 핵심 흐름을 설계한다. | 이 단계가 흔들리면 뒤 단계가 모두 흔들린다. |
 | 야심찬 목표와 측정 가능한 핵심 결과로 구성된 성과 관리 | 통제와 측정을 연결한다. | 측정 기준과 연결될 때 실무성이 생긴다. |
 
-```text
-┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
-│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
-└────┬─────┘           └────┬───────┘           └────┬───────┘
-     │                      │                          │
-     └──── constraints ────▶│◀──── metrics / review ──┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">input output</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger ▶</div><div class="kb-diagram-cell">Core Rule ▶</div><div class="kb-diagram-cell">Decision</div></div>
+<div class="kb-diagram-tree-item" style="--depth:2">constraints ▶│◀ metrics / review ──</div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
 
@@ -124,15 +128,19 @@ OKR의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[AARRR 퍼널]
-    │
-    ▼
-[OKR]
-    │
-    ├──▶ [플랫폼 비즈니스 모델]
-    └──▶ [전략 맵 연계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AARRR 퍼널</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OKR</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플랫폼 비즈니스 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전략 맵 연계</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
 

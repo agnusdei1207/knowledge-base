@@ -30,32 +30,29 @@ Kibana는 2013년 Elastic이 공개한 [오픈소스](/knowledge-base/studynote/
 
 아래 다이어그램은 Elastic Stack의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 Kibana의 위치를 보여준다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Elastic Stack 흐름                       │
-├─────────────────────────────────────────────────────────────────┤
-│  애플리케이션/서버                                               │
-│    ├── Filebeat (로그 수집 에이전트)                            │
-│    ├── Metricbeat (메트릭 수집)                                 │
-│    └── APM Agent (트레이스 수집)                                │
-│         │                                                       │
-│         ▼                                                       │
-│  Logstash (선택적 파이프라인: 파싱/변환/라우팅)                  │
-│         │                                                       │
-│         ▼                                                       │
-│  Elasticsearch (분산 검색·저장 엔진)                            │
-│    ├── 역색인(Inverted Index) → 전문 검색                       │
-│    └── 샤드(Shard) 기반 수평 확장                               │
-│         │                                                       │
-│         ▼                                                       │
-│  Kibana (시각화 + UI 레이어)                                    │
-│    ├── Discover: 로그 탐색                                      │
-│    ├── Lens/Visualize: 차트                                     │
-│    ├── Dashboard: 통합 시각화                                   │
-│    ├── Alerting: 임계치 알림                                    │
-│    └── APM/Maps/ML: 확장 기능                                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elastic Stack 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션/서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Filebeat (로그 수집 에이전트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Metricbeat (메트릭 수집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── APM Agent (트레이스 수집)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logstash (선택적 파이프라인: 파싱/변환/라우팅)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch (분산 검색·저장 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 역색인(Inverted Index) → 전문 검색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 샤드(Shard) 기반 수평 확장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kibana (시각화 + UI 레이어)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Discover: 로그 탐색</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Lens/Visualize: 차트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Dashboard: 통합 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Alerting: 임계치 알림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── APM/Maps/ML: 확장 기능</div></div>
+</div>
+</div>
+
+
 
 | Kibana 기능 | 설명 | 사용 시나리오 |
 |:---|:---|:---|
@@ -94,7 +91,7 @@ Kibana는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/62
 
 **회피 시나리오**: [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 없이 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/[InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 기반 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링만 필요한 경우(Grafana가 더 적합). 비용이 제한적인 소규모 팀([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) + Loki가 경제적).
 
-**운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong>운영 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 1. ILM ([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 오래된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 자동 삭제/아카이브
 2. 대시보드에 [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Refresh Interval 최적화 (기본 1s는 대용량에 부하)
 3. 역할 기반 접근 제어 (Space별 대시보드 격리)
@@ -127,21 +124,23 @@ Kibana 도입 시 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[로그 수집(Logstash/Beats)]
-    │
-    ▼
-[Elasticsearch 인덱싱]
-    │
-    ▼
-[Kibana 시각화]
-    │
-    ▼
-[ELK 스택 통합]
-    │
-    ▼
-[Elastic SIEM/APM 확장]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로그 수집(Logstash/Beats)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Elasticsearch 인덱싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kibana 시각화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ELK 스택 통합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Elastic SIEM/APM 확장</div></div>
+</div>
+</div>
+
+
 
 Kibana는 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)과 [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 인덱싱 위에서 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)/APM으로 확장된다.
 

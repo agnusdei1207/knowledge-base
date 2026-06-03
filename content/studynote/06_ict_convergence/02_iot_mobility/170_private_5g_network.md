@@ -21,27 +21,28 @@ tags = ["studynote-ict-convergence"]
 
 프라이빗 5G는 이동통신 사업자의 전국망을 그대로 쓰는 것이 아니라, 특정 사업장 내부에 전용 무선 접속망과 코어망을 배치해 그 구역만을 위한 셀룰러 통신 환경을 만드는 방식이다. 한국에서는 이음5G라는 이름으로 제도화되어, 기업이 일정 조건 아래 로컬 주파수를 활용하거나 사업자와 연계해 구축할 수 있다.
 
-이 기술이 등장한 배경은 산업 현장의 요구가 소비자 인터넷과 다르기 때문이다. [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)에서는 자율주행 운반 로봇 (AGV, Automated Guided Vehicle), 자율이동로봇 (AMR, Autonomous Mobile Robot), 고해상도 비전 카메라, 원격 제어 장비가 동시에 움직인다. 이들은 넓은 구역에서 끊기지 않아야 하고, 특히 카메라 영상처럼 **업링크 트래픽**이 많으며, 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 통신사 코어를 우회하지 않기를 원한다.
+이 기술이 등장한 배경은 산업 현장의 요구가 소비자 인터넷과 다르기 때문이다. [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)에서는 자율주행 운반 로봇 (AGV, Automated Guided Vehicle), 자율이동로봇 (AMR, Autonomous Mobile Robot), 고해상도 비전 카메라, 원격 제어 장비가 동시에 움직인다. 이들은 넓은 구역에서 끊기지 않아야 하고, 특히 카메라 영상처럼 <strong>업링크 트래픽</strong>이 많으며, 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 통신사 코어를 우회하지 않기를 원한다.
 
 와이파이는 구축이 쉽고 저렴하지만, 전파 간섭과 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 품질 한계 때문에 빠르게 움직이는 산업 장비에는 불리할 수 있다. 공중 5G는 이동성은 좋지만, 사업장 맞춤 품질 보장과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고립이 쉽지 않다. 결국 "셀룰러급 이동성"과 "기업 내부 통제"를 동시에 얻기 위한 해법이 프라이빗 5G다.
 
 이 그림은 공중 5G와 프라이빗 5G의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 차이를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Public 5G versus on-site Private 5G traffic path         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Public 5G                                                           │
-│ Device -> operator RAN -> operator core -> enterprise app           │
-│                                                                      │
-│ Private 5G                                                          │
-│ Device -> local gNB -> local UPF -> on-site MEC / MES / AI          │
-│                                                                      │
-│ Key difference: user traffic can stay inside the enterprise site    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 단순히 "빠른 무선망"이 아니라 **누가 품질과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통제하느냐**에 있다. 프라이빗 5G는 망 운영 책임도 함께 가져오지만, 그만큼 현장 요구에 맞춘 설계 자유도를 얻는다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public 5G versus on-site Private 5G traffic path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public 5G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device -&gt; operator RAN -&gt; operator core -&gt; enterprise app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Private 5G</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device -&gt; local gNB -&gt; local UPF -&gt; on-site MEC / MES / AI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key difference: user traffic can stay inside the enterprise site</div></div>
+</div>
+</div>
+
+
+
+핵심은 단순히 "빠른 무선망"이 아니라 <strong>누가 품질과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 통제하느냐</strong>에 있다. 프라이빗 5G는 망 운영 책임도 함께 가져오지만, 그만큼 현장 요구에 맞춘 설계 자유도를 얻는다.
 
 - **📢 섹션 요약 비유**: 공중 5G가 많은 차가 함께 달리는 고속도로라면, 프라이빗 5G는 공장 울타리 안에 회사가 직접 만든 전용 도로라서 차종, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 제한속도를 현장 목적에 맞게 정할 수 있는 셈이다.
 
@@ -49,7 +50,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처의 핵심 구성은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 (gNB, next-generation Node B), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Core), 사용자 평면 기능 (UPF, User Plane Function), 가입자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계, 그리고 현장 애플리케이션 서버다. 진짜 차별점은 **UPF를 현장 안쪽에 배치해 사용자 트래픽을 로컬에서 바로 분기할 수 있다**는 점이다.
+프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처의 핵심 구성은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 (gNB, next-generation Node B), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 ([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) Core), 사용자 평면 기능 (UPF, User Plane Function), 가입자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계, 그리고 현장 애플리케이션 서버다. 진짜 차별점은 <strong>UPF를 현장 안쪽에 배치해 사용자 트래픽을 로컬에서 바로 분기할 수 있다</strong>는 점이다.
 
 | 구성 요소 | 역할 | 실무 판단 포인트 |
 | :--- | :--- | :--- |
@@ -59,23 +60,24 @@ tags = ["studynote-ict-convergence"]
 | USIM / eSIM | 단말 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) | 기업 자체 가입자 관리 체계 필요 |
 | [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) (Multi-access [Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) | 현장 근처 애플리케이션 처리 | 영상 분석, 로봇 제어, 디지털 트윈과 결합 |
 
-프라이빗 5G는 크게 세 가지 형태로 나뉜다. 첫째, **독립형 NPN**은 무선 접속과 코어를 모두 현장 안에 두는 방식으로 보안과 통제가 가장 강하다. 둘째, **공중망 연계형 NPN (PNI-NPN, Public Network Integrated NPN)** 은 일부 제어 기능을 사업자와 공유하면서도 사용자 평면을 현장에 가깝게 둘 수 있다. 셋째, **[네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/))** 은 공중망 자원을 논리적으로 분리해 쓰는 방식으로, 엄밀한 의미의 완전한 프라이빗 5G와는 다르다.
+프라이빗 5G는 크게 세 가지 형태로 나뉜다. 첫째, <strong>독립형 NPN</strong>은 무선 접속과 코어를 모두 현장 안에 두는 방식으로 보안과 통제가 가장 강하다. 둘째, **공중망 연계형 NPN (PNI-NPN, Public Network Integrated NPN)** 은 일부 제어 기능을 사업자와 공유하면서도 사용자 평면을 현장에 가깝게 둘 수 있다. 셋째, <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/">네트워크 슬라이싱</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/">Network Slicing</a>)</strong> 은 공중망 자원을 논리적으로 분리해 쓰는 방식으로, 엄밀한 의미의 완전한 프라이빗 5G와는 다르다.
 
 아래 그림은 왜 로컬 UPF가 중요한지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               Local UPF is the real industrial pivot                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Camera / AGV / Robot                                                │
-│        │ radio                                                       │
-│        ▼                                                             │
-│      gNB ───────► Local UPF ───────► MEC / MES / AI server          │
-│        │                │                                             │
-│        │                └─ user traffic stays inside the campus      │
-│        └────────► 5GC control plane (local or managed)              │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local UPF is the real industrial pivot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Camera / AGV / Robot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radio</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gNB ► Local UPF ► MEC / MES / AI server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ user traffic stays inside the campus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► 5GC control plane (local or managed)</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 로봇 제어, 비전 검사, 안전 감시처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감한 처리를 클라우드까지 왕복하지 않고 현장에서 끝낼 수 있다. 다만 이것은 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) 수준의 완전한 결정론을 뜻하지는 않는다. 실제 설계에서는 무선 구간 품질, 스케줄링, 간섭 관리, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 배치까지 함께 봐야 한다.
 
@@ -87,7 +89,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-프라이빗 5G를 제대로 이해하려면 와이파이, 공중 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)과 구분해야 한다. 중요한 비교축은 속도 자체보다 **이동성, 업링크 품질, 격리 수준, 운영 통제력**이다.
+프라이빗 5G를 제대로 이해하려면 와이파이, 공중 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)과 구분해야 한다. 중요한 비교축은 속도 자체보다 <strong>이동성, 업링크 품질, 격리 수준, 운영 통제력</strong>이다.
 
 | 항목 | [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/)/7 | Public [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) | [Private 5G](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/365_5g_tsn/) |
 | :--- | :--- | :--- | :--- |
@@ -108,7 +110,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-대표적인 도입 장면은 넓은 생산라인과 야드 (Yard)를 오가는 로봇·크레인·차량이 많고, 카메라 업링크가 끊기면 안전사고나 공정 손실로 이어지는 현장이다. 이런 곳에서는 "연결만 되면 된다"가 아니라, **이동 중에도 끊기지 않고, 영상 업로드가 안정적이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 현장 밖으로 불필요하게 빠져나가지 않아야 한다**는 요구가 동시에 나온다.
+대표적인 도입 장면은 넓은 생산라인과 야드 (Yard)를 오가는 로봇·크레인·차량이 많고, 카메라 업링크가 끊기면 안전사고나 공정 손실로 이어지는 현장이다. 이런 곳에서는 "연결만 되면 된다"가 아니라, <strong>이동 중에도 끊기지 않고, 영상 업로드가 안정적이며, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 현장 밖으로 불필요하게 빠져나가지 않아야 한다</strong>는 요구가 동시에 나온다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -130,7 +132,7 @@ tags = ["studynote-ict-convergence"]
 - 단말 생태계, 산업용 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 배치, 전파 반사 환경을 검토하지 않는 경우
 - 현장 애플리케이션이 사실상 정지형인데도 프라이빗 5G를 만능 해법처럼 도입하는 경우
 
-실무에서는 종종 프라이빗 5G와 와이파이를 혼합한다. 고정형 단말과 일반 업무는 와이파이가, 이동 로봇과 미션 크리티컬 제어는 프라이빗 5G가 맡는 식이다. 중요한 것은 기술 이름이 아니라 **업무 특성별로 무선 책임을 분리하는 아키텍처**다.
+실무에서는 종종 프라이빗 5G와 와이파이를 혼합한다. 고정형 단말과 일반 업무는 와이파이가, 이동 로봇과 미션 크리티컬 제어는 프라이빗 5G가 맡는 식이다. 중요한 것은 기술 이름이 아니라 <strong>업무 특성별로 무선 책임을 분리하는 아키텍처</strong>다.
 
 - **📢 섹션 요약 비유**: 공장 안 모든 길을 고속 전용도로로 만들 필요는 없지만, 사고가 나면 안 되는 핵심 운송 구간만큼은 일반 도로 대신 전용 차선을 두어야 하는 것과 같다.
 
@@ -142,7 +144,7 @@ tags = ["studynote-ict-convergence"]
 
 물론 공짜는 아니다. 주파수 제도, 장비 비용, 운영 복잡도, 단말 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 무선 최적화 역량이 모두 필요하다. 특히 소규모 환경에서는 총소유비용 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/), Total Cost of Ownership)이 기대 효과를 압도할 수 있다.
 
-결국 프라이빗 5G는 "기업용 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)"라는 마케팅 용어로 기억하면 부족하다. **이동성과 격리된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 동시에 요구하는 현장에서, 셀룰러 품질을 기업이 직접 통제하기 위한 기반 인프라**로 기억하는 것이 정확하다. 앞으로 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced, RedCap 단말, [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 연계가 확산될수록 그 활용 범위는 더 넓어질 가능성이 크다.
+결국 프라이빗 5G는 "기업용 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)"라는 마케팅 용어로 기억하면 부족하다. <strong>이동성과 격리된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리를 동시에 요구하는 현장에서, 셀룰러 품질을 기업이 직접 통제하기 위한 기반 인프라</strong>로 기억하는 것이 정확하다. 앞으로 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced, RedCap 단말, [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 연계가 확산될수록 그 활용 범위는 더 넓어질 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 좋은 프라이빗 5G는 단순히 무선 인터넷을 빠르게 깔아 주는 것이 아니라, 공장 안에서 가장 중요한 차량과 정보가 우선적으로 움직이게 만드는 전용 관제 도로망과 같다.
 
@@ -161,22 +163,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Enterprise Wi-Fi limits
-    │
-    ▼
-Public 5G for mobility
-    │
-    ▼
-Private 5G / NPN
-    │
-    ├─ Local UPF / data sovereignty
-    ├─ MEC integration
-    └─ Industrial mobility and campus control
-    │
-    ▼
-TSN linkage · edge AI · smart factory orchestration
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Enterprise Wi-Fi limits</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Public 5G for mobility</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Private 5G / NPN</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Local UPF / data sovereignty</div>
+<div class="kb-diagram-tree-item" style="--depth:2">MEC integration</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Industrial mobility and campus control</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TSN linkage · edge AI · smart factory orchestration</div>
+</div>
+</div>
+
+
 
 이 흐름은 기업 무선망의 초점이 단순 접속 제공에서, 현장 통제와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주권을 포함한 산업용 플랫폼으로 확장되는 과정을 보여 준다.
 

@@ -10,8 +10,8 @@ tags = ["studynote-data-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RLHF([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)는 인간이 선호하는 출력을 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 신호로 삼아 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 "도움이 되고·무해하며·솔직한(HHH: Helpful, Harmless, Honest)" 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 **정렬(Alignment)**시키는 핵심 기술이다.
-> 2. **가치**: 단순한 언어 모델링을 넘어 인간의 의도와 가치관에 맞는 AI를 만드는 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Alignment)** 문제의 실용적 해법으로, GPT-4·Claude·Gemini 등 현대 상용 LLM의 안전성과 유용성의 기반이다.
+> 1. **본질**: RLHF([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) from Human Feedback)는 인간이 선호하는 출력을 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 신호로 삼아 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 "도움이 되고·무해하며·솔직한(HHH: Helpful, Harmless, Honest)" 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 <strong>정렬(Alignment)</strong>시키는 핵심 기술이다.
+> 2. **가치**: 단순한 언어 모델링을 넘어 인간의 의도와 가치관에 맞는 AI를 만드는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 정렬(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Alignment)</strong> 문제의 실용적 해법으로, GPT-4·Claude·Gemini 등 현대 상용 LLM의 안전성과 유용성의 기반이다.
 > 3. **판단 포인트**: RLHF의 인간 피드백 수집 비용·규모 한계를 극복하기 위한 [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback), [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) 등 대안 정렬 방법들의 등장 이유와 트레이드오프를 논술에서 제시해야 한다.
 
 ---
@@ -21,7 +21,7 @@ tags = ["studynote-data-engineering"]
 ### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬 문제 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Alignment Problem)
 
 강력한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 인간의 의도와 다르게 행동하는 문제:
-- **의도 정렬([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/) Alignment)**: 사용자가 원하는 것을 실제로 수행
+- <strong>의도 정렬(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a> Alignment)</strong>: 사용자가 원하는 것을 실제로 수행
 - **가치 정렬(Value Alignment)**: 인간의 윤리적 가치와 일치하는 행동
 - **안전 정렬(Safety Alignment)**: 해로운 콘텐츠 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 거부
 
@@ -36,7 +36,7 @@ Anthropic이 제시한 [AI](/knowledge-base/studynote/04_software_engineering/03
 - **Harmless(무해성)**: 개인·사회에 해로운 내용 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 거부
 - **Honest(정직성)**: 불확실한 것에 대해 솔직히 인정
 
-📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬은 **새 직원 교육**과 같다. 실력이 뛰어나도 회사 가치관과 규칙을 가르쳐야 진짜 도움이 되는 직원이 된다.
+📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬은 <strong>새 직원 교육</strong>과 같다. 실력이 뛰어나도 회사 가치관과 규칙을 가르쳐야 진짜 도움이 되는 직원이 된다.
 
 ---
 
@@ -44,40 +44,35 @@ Anthropic이 제시한 [AI](/knowledge-base/studynote/04_software_engineering/03
 
 ### RLHF 3단계 파이프라인
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    RLHF 파이프라인                           │
-│                                                             │
-│  1단계: SFT (Supervised Fine-Tuning)                       │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍     │   │
-│  │  → 지시사항 따르기 기초 능력 획득                     │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                            │                               │
-│  2단계: RM (Reward Model 학습)                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  동일 프롬프트에 대해 여러 응답 생성                   │   │
-│  │  인간 평가자가 응답 쌍을 비교하여 선호도 레이블링       │   │
-│  │  → 보상 모델(Reward Model) 학습                      │   │
-│  └────────────────────────┬────────────────────────────┘   │
-│                            │                               │
-│  3단계: PPO (강화 학습으로 LLM 최적화)                     │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  SFT 모델이 응답 생성 → RM이 보상 점수 부여            │   │
-│  │  PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트│   │
-│  │  KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게  │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: SFT (Supervised Fine-Tuning)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 지시사항 따르기 기초 능력 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: RM (Reward Model 학습)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 프롬프트에 대해 여러 응답 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간 평가자가 응답 쌍을 비교하여 선호도 레이블링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 보상 모델(Reward Model) 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: PPO (강화 학습으로 LLM 최적화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 모델이 응답 생성 → RM이 보상 점수 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게</div></div>
+</div>
+</div>
+
+
 
 ### 주요 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 세부 내용 |
 |:---|:---|:---|
 | **SFT 모델** | 기초 지시사항 따르기 | 고품질 인간 작성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 파인튜닝 |
-| **보상 모델([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))** | 인간 선호 예측 | 응답 품질 점수 출력 (스칼라) |
-| **[PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 | 보상 최대화 + KL 페널티 균형 |
-| **[KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)** | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제약 | SFT 모델에서 너무 벗어나지 않도록 |
+| <strong>보상 모델(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a>)</strong> | 인간 선호 예측 | 응답 품질 점수 출력 (스칼라) |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 | 보상 최대화 + KL 페널티 균형 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/">KL Divergence</a></strong> | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제약 | SFT 모델에서 너무 벗어나지 않도록 |
 
 ### [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))
 
@@ -90,7 +85,7 @@ r(x,y): 보상 모델 점수
 → "사람이 좋아하는 응답"과 "기본 언어 능력 유지" 동시 달성
 ```
 
-📢 **섹션 요약 비유**: RLHF는 **요리 대회 피드백 시스템**이다. 심사위원(인간 평가자)이 맛을 평가하고, 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))는 그 점수를 높이는 방향으로 레시피를 개선한다. 다만 너무 이상한 요리가 되지 않도록 기본 조리법(SFT 모델)과 너무 멀어지면 페널티를 준다.
+📢 **섹션 요약 비유**: RLHF는 <strong>요리 대회 피드백 시스템</strong>이다. 심사위원(인간 평가자)이 맛을 평가하고, 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))는 그 점수를 높이는 방향으로 레시피를 개선한다. 다만 너무 이상한 요리가 되지 않도록 기본 조리법(SFT 모델)과 너무 멀어지면 페널티를 준다.
 
 ---
 
@@ -101,10 +96,10 @@ r(x,y): 보상 모델 점수
 | 방법 | 설명 | 장점 | 단점 |
 |:---|:---|:---|:---|
 | **RLHF** | 인간 선호 피드백 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) | 인간 가치 직접 반영 | 피드백 수집 비용, [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 불안정 |
-| **[RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/)** | AI가 피드백 제공 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback) | 확장 가능, 비용 절감 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향 전이 가능 |
-| **[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)** | 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 직접 최적화 | [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 불필요, 안정적 | 표현력 제한 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a></strong> | AI가 피드백 제공 ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback) | 확장 가능, 비용 절감 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향 전이 가능 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a></strong> | 선호 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 직접 최적화 | [RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/) 불필요, 안정적 | 표현력 제한 |
 | **SPIN** | 자기 대화로 정렬 | 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불필요 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한 |
-| **[Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)** | 규칙 기반 자기 검토 | 명시적 가치 정의 | 규칙 완전성 문제 |
+| <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/">Constitutional AI</a></strong> | 규칙 기반 자기 검토 | 명시적 가치 정의 | 규칙 완전성 문제 |
 
 ### [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/))
 
@@ -123,24 +118,29 @@ yw: 선호 응답, yl: 비선호 응답
 
 RLHF와 함께 추론 능력 향상에 쓰이는 핵심 기법:
 
-```
-일반 프롬프팅:
-"24 × 17 = ?"
-→ LLM: "408"
 
-CoT 프롬프팅:
-"24 × 17 = ? 단계별로 생각해보자."
-→ LLM: "24 × 17 = 24 × 10 + 24 × 7 
-              = 240 + 168 = 408"
-```
 
-**[CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 변형:**
-- **Zero-shot [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)**: "Let's think step by step" 추가
-- **Few-shot [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)**: 예시 추론 과정 제공
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 프롬프팅:</div>
+<div class="kb-diagram-note">"24 × 17 = ?"</div>
+<div class="kb-diagram-note">→ LLM: "408"</div>
+<div class="kb-diagram-note">CoT 프롬프팅:</div>
+<div class="kb-diagram-note">"24 × 17 = ? 단계별로 생각해보자."</div>
+<div class="kb-diagram-note">→ LLM: "24 × 17 = 24 × 10 + 24 × 7</div>
+<div class="kb-diagram-note">= 240 + 168 = 408"</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a> 변형:</strong>
+- <strong>Zero-shot <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a></strong>: "Let's think step by step" 추가
+- <strong>Few-shot <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a></strong>: 예시 추론 과정 제공
 - **Self-Consistency**: 여러 추론 경로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 다수결
 - **Tree of Thoughts**: 추론 트리 탐색
 
-📢 **섹션 요약 비유**: DPO는 **중간 평가자 없이 최종 고객 피드백으로 직접 개선**하는 것이다. RLHF가 심사위원([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))을 통해 간접 개선한다면, DPO는 고객 만족도(선호 쌍)로 직접 개선한다.
+📢 **섹션 요약 비유**: DPO는 <strong>중간 평가자 없이 최종 고객 피드백으로 직접 개선</strong>하는 것이다. RLHF가 심사위원([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))을 통해 간접 개선한다면, DPO는 고객 만족도(선호 쌍)로 직접 개선한다.
 
 ---
 
@@ -159,12 +159,12 @@ CoT 프롬프팅:
 ### Red Teaming과 안전 평가
 
 RLHF 후 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스:
-1. **자동 [Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)**: AI가 공격적 프롬프트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-2. **인간 [Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)**: 전문가가 의도적 취약점 탐색
+1. <strong>자동 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/">Red Teaming</a></strong>: AI가 공격적 프롬프트 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+2. <strong>인간 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/">Red Teaming</a></strong>: 전문가가 의도적 취약점 탐색
 3. **안전 분류기**: 응답 안전성 자동 필터링 (OpenAI Moderation [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
 4. **Jailbreak 테스트**: 안전 장치 우회 시도 테스트
 
-📢 **섹션 요약 비유**: Red Teaming은 **신제품 출시 전 [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)**다. 일부러 못되게 굴어봐서 제품이 버티는지 확인한다.
+📢 **섹션 요약 비유**: Red Teaming은 <strong>신제품 출시 전 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a></strong>다. 일부러 못되게 굴어봐서 제품이 버티는지 확인한다.
 
 ---
 
@@ -181,9 +181,9 @@ RLHF 후 안전성 [검증](/knowledge-base/studynote/04_software_engineering/07
 
 ### 결론
 
-RLHF는 **AI를 도구에서 파트너로 전환**시키는 기술이다. 단순히 텍스트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 모델에서 인간의 가치와 의도를 이해하고 존중하는 AI로 거듭나게 한다. CoT와 결합할 때 추론 능력이 극적으로 향상되며, [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)·[RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) 등 후속 방법들이 RLHF의 한계를 보완하며 발전하고 있다. 기술사 논술에서는 정렬 기술이 단순한 안전 필터가 아닌 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 신뢰성과 상용화 가능성의 핵심 요건**임을 강조해야 한다.
+RLHF는 <strong>AI를 도구에서 파트너로 전환</strong>시키는 기술이다. 단순히 텍스트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 모델에서 인간의 가치와 의도를 이해하고 존중하는 AI로 거듭나게 한다. CoT와 결합할 때 추론 능력이 극적으로 향상되며, [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)·[RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) 등 후속 방법들이 RLHF의 한계를 보완하며 발전하고 있다. 기술사 논술에서는 정렬 기술이 단순한 안전 필터가 아닌 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 신뢰성과 상용화 가능성의 핵심 요건</strong>임을 강조해야 한다.
 
-📢 **섹션 요약 비유**: RLHF는 **AI에게 사회화 교육을 시키는 것**이다. 똑똑한 아이도 예의범절과 사회 규범을 배워야 진정한 사회 구성원이 된다.
+📢 **섹션 요약 비유**: RLHF는 <strong>AI에게 사회화 교육을 시키는 것</strong>이다. 똑똑한 아이도 예의범절과 사회 규범을 배워야 진정한 사회 구성원이 된다.
 
 ---
 
@@ -206,20 +206,23 @@ RLHF는 **AI를 도구에서 파트너로 전환**시키는 기술이다. 단순
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-SFT (Supervised Fine-Tuning): 인간 시연 데이터 학습
-    │
-    ▼
-RLHF: Reward Model 학습 → PPO 정책 최적화
-    │
-    ▼
-DPO (Direct Preference Optimization): RM 없이 직접 정렬
-    │
-    ▼
-Constitutional AI · RLAIF: AI 자가 피드백
-```
-2. CoT는 **수학 시험에서 풀이 과정을 쓰는 것**과 같아. 답만 쓰면 틀리기 쉽지만, 과정을 적으면 훨씬 정확해져.
-3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬은 **AI에게 인성 교육을 시키는 것**이야. 공부를 잘하는 것도 중요하지만, 착하고 솔직하게 행동하는 것도 배워야 해.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SFT (Supervised Fine-Tuning): 인간 시연 데이터 학습</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RLHF: Reward Model 학습 → PPO 정책 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DPO (Direct Preference Optimization): RM 없이 직접 정렬</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Constitutional AI · RLAIF: AI 자가 피드백</div>
+</div>
+</div>
+
+
+2. CoT는 <strong>수학 시험에서 풀이 과정을 쓰는 것</strong>과 같아. 답만 쓰면 틀리기 쉽지만, 과정을 적으면 훨씬 정확해져.
+3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬은 <strong>AI에게 인성 교육을 시키는 것</strong>이야. 공부를 잘하는 것도 중요하지만, 착하고 솔직하게 행동하는 것도 배워야 해.
 
 ---
 

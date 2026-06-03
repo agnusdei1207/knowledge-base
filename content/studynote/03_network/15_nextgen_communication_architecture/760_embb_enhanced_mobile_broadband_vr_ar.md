@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 앞서 배운 5G의 3대 요소 중, 4G LTE의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도'를 극단적으로 진화(Enhanced)시킨 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)/초대용량 광대역 모바일 인터넷 기술**입니다.
+- **개념**: 앞서 배운 5G의 3대 요소 중, 4G LTE의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도'를 극단적으로 진화(Enhanced)시킨 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>/초대용량 광대역 모바일 인터넷 기술</strong>입니다.
 - 일반 스마트폰 사용자들이 "5G로 바꾸니 앱 다운로드 속도가 미쳤네!"라고 체감하는 바로 그 기술 영역입니다.
 
-```text
-[5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    ▼
-[eMBB AR/VR 기술 지원 파급 체계 지…]
-    │
-    └──▶ [uRLLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">uRLLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: eMBB AR/VR 기술 지원 파급 체계 지…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,23 +43,27 @@ tags = ["studynote-network"]
 
 최대 20Gbps라는 미친 속도를 허공(무선)에서 어떻게 만들어낼까요?
 
-1. **[mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) ([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/), 초고주파 대역 활용)**:
-   - 기존 LTE는 2.6GHz 같은 낮은 주파수를 써서 도로 폭이 좁았습니다. eMBB는 아예 산에 터널을 새로 뚫어 **28GHz, 39GHz 같은 아무도 안 쓰던 텅텅 빈 초고주파 대역(FR2)**을 가져왔습니다. (상세는 765번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>, 초고주파 대역 활용)</strong>:
+   - 기존 LTE는 2.6GHz 같은 낮은 주파수를 써서 도로 폭이 좁았습니다. eMBB는 아예 산에 터널을 새로 뚫어 <strong>28GHz, 39GHz 같은 아무도 안 쓰던 텅텅 빈 초고주파 대역(FR2)</strong>을 가져왔습니다. (상세는 765번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
    - 도로 폭이 수백 MHz로 넓어져 트럭 수만 대가 한 번에 쏟아져 들어갈 수 있습니다.
-2. **[Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) ([대규모 다중 안테나](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))**:
-   - 기지국에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 2~4개 달던 LTE와 달리, eMBB 기지국 철탑에는 **[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 64개, 128개가 바둑판처럼 촘촘히 박힌 거대한 판때기**를 답니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">대규모 다중 안테나</a>)</strong>:
+   - 기지국에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 2~4개 달던 LTE와 달리, eMBB 기지국 철탑에는 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 64개, 128개가 바둑판처럼 촘촘히 박힌 거대한 판때기</strong>를 답니다.
    - 100명이 모여 있어도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 수십 갈래의 빔을 쏴서 수십 명에게 동시에 기가급 속도를 몰아줄 수 있습니다([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)).
 3. **256-QAM 고차 변조**:
    - 덤프트럭 1대에 싣는 택배 박스 밀도를 극한으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해, 파형 한 번에 8비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 우겨넣어 보냅니다.
 
-```text
-[5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    ▼
-[eMBB AR/VR 기술 지원 파급 체계 지…]
-    │
-    └──▶ [uRLLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">uRLLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: eMBB AR/VR 기술 지원 파급 체계 지…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,13 +71,13 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-eMBB가 20Gbps의 속도를 타겟으로 한 진짜 이유는 스마트폰을 넘어선 차세대 기기, 바로 **'[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)(AR/VR [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 기기)'**을 무선으로 묶기 위해서입니다.
+eMBB가 20Gbps의 속도를 타겟으로 한 진짜 이유는 스마트폰을 넘어선 차세대 기기, 바로 <strong>'<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/">공간 컴퓨팅</a>(AR/VR <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/">메타버스</a> 기기)'</strong>을 무선으로 묶기 위해서입니다.
 
 - **문제점**: 최고급 메타 퀘스트나 애플 비전 프로 같은 VR 고글은 4K/8K 해상도를 요구합니다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고글 내부에 탑재된 칩셋으로 다 계산(렌더링)하려면, 고글이 무거워지고 배터리가 30분 만에 녹아버려 목 디스크가 걸립니다.
 - **eMBB 기반 클라우드 VR의 해결책**:
-  - 무거운 그래픽 연산([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))은 저 멀리 있는 **엣지 클라우드 서버([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))** 슈퍼컴퓨터가 다 해치웁니다.
-  - 고글은 그저 **eMBB의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 20Gbps [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(무선망)**를 이용해, 서버가 다 그려놓은 완벽한 8K 영상을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 0.01초 만에 스마트TV처럼 다운받아서(스트리밍) 눈앞에 뿌려주기만 하면 됩니다.
-  - **결과**: VR 고글에서 무거운 칩셋과 거대 배터리를 다 빼버릴 수 있어, **고글이 가벼운 뿔테안경 수준(경량화)으로 진화할 수 있는 마법의 기반**을 제공합니다. (Cloud AR/VR)
+  - 무거운 그래픽 연산([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))은 저 멀리 있는 <strong>엣지 클라우드 서버(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a>)</strong> 슈퍼컴퓨터가 다 해치웁니다.
+  - 고글은 그저 <strong>eMBB의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 20Gbps <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(무선망)</strong>를 이용해, 서버가 다 그려놓은 완벽한 8K 영상을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 0.01초 만에 스마트TV처럼 다운받아서(스트리밍) 눈앞에 뿌려주기만 하면 됩니다.
+  - **결과**: VR 고글에서 무거운 칩셋과 거대 배터리를 다 빼버릴 수 있어, <strong>고글이 가벼운 뿔테안경 수준(경량화)으로 진화할 수 있는 마법의 기반</strong>을 제공합니다. (Cloud AR/VR)
 
 eMBB AR/VR 기술 지원 파급 체계 지…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…가 기반 조건을 만든다면, eMBB AR/VR 기술 지원 파급 체계 지…는 그 위에서 핵심 메커니즘을 구현하고, uRLLC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -121,15 +129,19 @@ eMBB AR/VR 기술 지원 파급 체계 지…는 차세대 통신 아키텍처�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 5G 통신 성능 목표 3대 특징 기능적 체계…]
-    │
-    ▼
-[현재 개념: eMBB AR/VR 기술 지원 파급 체계 지…]
-    │
-    ├──▶ [확장 A: uRLLC]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: uRLLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 eMBB AR/VR 기술 지원 파급 체계 지…는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 uRLLC와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,19 +23,21 @@ tags = ["studynote-design-supervision"]
 
 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)는 이 모호성을 해결한다. 각 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 자신만의 언어와 모델을 갖고, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 경계 밖에서는 그 모델이 의미 없거나 다른 의미를 가진다고 명시적으로 선언한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│         동일 용어의 컨텍스트별 의미 차이                      │
-├─────────────────────────────────────────────────────────────┤
-│  [주문 바운디드 컨텍스트]          [마케팅 바운디드 컨텍스트] │
-│  Customer: {                      Customer: {               │
-│    orderId, shippingAddr,           segment, purchaseHist,  │
-│    paymentMethod                    campaignTargets          │
-│  }                                }                         │
-│                                                             │
-│  같은 'Customer'이지만 완전히 다른 모델 → BC로 명확히 분리  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 용어의 컨텍스트별 의미 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주문 바운디드 컨텍스트</div><div class="kb-diagram-node">마케팅 바운디드 컨텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer: { Customer: {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">orderId, shippingAddr, segment, purchaseHist,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">paymentMethod campaignTargets</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 'Customer'이지만 완전히 다른 모델 → BC로 명확히 분리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 국제법([컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 맵)에서 '국경([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))'이 각 나라의 주권([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)이 유효한 영역을 정한다. 한국법은 한국 영토에서만 유효하고, 미국법은 미국 영토에서 유효하다.
 
@@ -52,19 +54,20 @@ tags = ["studynote-design-supervision"]
 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([부패 방지 레이어](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/133_anti_corruption_layer/)) | 외부 모델 변환으로 내부 모델 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 낮음 |
 | 오픈 호스트 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 공개 API로 다수 하류 BC 지원 | 낮음 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│           컨텍스트 맵 예시 (전자상거래)                       │
-├─────────────────────────────────────────────────────────────┤
-│  [카탈로그 BC] ──Open Host──> [주문 BC] ──고객-공급자──>     │
-│                                   │             [결제 BC]   │
-│                                   │                         │
-│                                ACL 변환                      │
-│                                   │                         │
-│                              [외부 PG API]                  │
-│                              (외부 결제사 모델 차단)          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 맵 예시 (전자상거래)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카탈로그 BC</div><div class="kb-diagram-note">──Open Host──&gt;</div><div class="kb-diagram-node">주문 BC</div><div class="kb-diagram-note">──고객-공급자──&gt;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결제 BC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACL 변환</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">외부 PG API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 결제사 모델 차단)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 외교관([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))은 두 나라(BC)가 언어·문화가 달라도 서로 소통할 수 있게 해주는 중재자로, 한 나라의 문화(모델)가 다른 나라를 오염시키지 않게 막는다.
 

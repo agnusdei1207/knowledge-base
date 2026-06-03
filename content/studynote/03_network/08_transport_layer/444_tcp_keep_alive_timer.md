@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결이 설정된 후, 장기간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 없는 유휴([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) 상태에서 연결의 유효성을 검증하고, 중간 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 타임아웃을 방지하기 위해 송신하는 주기적인 Probe(탐침) 패킷 메커니즘 (RFC 1122).
-- **필요성**: 클라이언트가 텔넷(원격 접속)으로 내 서버에 붙어 놓고, 밥 먹으러 가서 10시간 동안 키보드를 안 쳤다. 내 서버는 이 클라이언트가 아직 화장실에 있는지, 아니면 아까 컴퓨터 코드를 뽑고 퇴근해 버렸는지 알 방법이 없다. 왜? **TCP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아갈 때만 통신을 하니까! 가만히 있으면 상대가 죽었는지 살았는지 구별이 안 된다.** "야! 아무리 할 말이 없어도, 2시간에 한 번씩은 '나 살아있다'고 생존 신고 좀 하자! 대답 없으면 나 그냥 너 버리고 방([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 뺄 거야!!"
+- **필요성**: 클라이언트가 텔넷(원격 접속)으로 내 서버에 붙어 놓고, 밥 먹으러 가서 10시간 동안 키보드를 안 쳤다. 내 서버는 이 클라이언트가 아직 화장실에 있는지, 아니면 아까 컴퓨터 코드를 뽑고 퇴근해 버렸는지 알 방법이 없다. 왜? <strong>TCP는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 날아갈 때만 통신을 하니까! 가만히 있으면 상대가 죽었는지 살았는지 구별이 안 된다.</strong> "야! 아무리 할 말이 없어도, 2시간에 한 번씩은 '나 살아있다'고 생존 신고 좀 하자! 대답 없으면 나 그냥 너 버리고 방([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 뺄 거야!!"
 
-- **💡 비유**: Keep-Alive는 요양원의 **"안부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화"**와 같습니다.
+- **💡 비유**: Keep-Alive는 요양원의 <strong>"안부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 전화"</strong>와 같습니다.
   - 자식(클라이언트)과 부모(서버) 사이에 며칠 동안 아무 대화([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 없습니다.
   - 부모님이 갑자기 전화를 안 받거나(장애), 전화선이 끊어지면([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단) 큰일이 납니다.
   - 그래서 요양원 직원(OS)이 **매일 아침 의미 없이 한 번씩 전화를 걸어(Keep-Alive Probe)** "여보세요? 잘 계시죠?"라고 묻습니다. "응 잘 있다(ACK)"라는 대답만 들으면 바로 끊고 안심합니다. 대답이 없으면 즉시 호적([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))을 정리합니다.
 
-```text
-[불필요한 재전송 해결 방안]
-    │
-    ▼
-[TCP Keep-Alive 타이머]
-    │
-    └──▶ [영 윈도우 탐색]
-```
 
-- **📢 섹션 요약 비유**: ** 킵얼라이브는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이라는 피도 눈물도 없는 저승사자에게서 살아남기 위한 **"생존 본능의 발버둥"**입니다. 저승사자는 움직임이 없는 시체([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 귀신같이 찾아내 낫으로 베어버리므로, 살기 위해선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없더라도 5분마다 헛기침(Keep-Alive)이라도 내서 자기가 살아있음을 증명해야 합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">불필요한 재전송 해결 방안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Keep-Alive 타이머</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">영 윈도우 탐색</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 킵얼라이브는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>이라는 피도 눈물도 없는 저승사자에게서 살아남기 위한 </strong>"생존 본능의 발버둥"**입니다. 저승사자는 움직임이 없는 시체([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 귀신같이 찾아내 낫으로 베어버리므로, 살기 위해선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없더라도 5분마다 헛기침(Keep-Alive)이라도 내서 자기가 살아있음을 증명해야 합니다.
 
 ---
 
@@ -45,42 +49,41 @@ tags = ["studynote-network"]
 ### 1. 언제, 어떻게 찌르는가? (3대 파라미터)
 리눅스 서버 커널을 만지는 백엔드 엔지니어라면 무조건 외우고 있는 설정값이다. OS는 아무 때나 찌르지 않고 3가지 초시계 룰을 따른다.
 
-1. **`tcp_keepalive_time` (대기 시간)**: 기본값 무려 **2시간(7200초)**. 마지막 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받은 뒤 2시간 동안 아무 말이 없으면, 그제야 최초의 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 깡통 패킷 1개를 훅 던져본다.
-2. **`tcp_keepalive_intvl` (재시도 간격)**: 던졌는데 대답이 안 온다? 기본값 **75초**마다 한 번씩 계속 찔러본다. "야, 죽었냐? 야, 진짜 죽었어?"
-3. **`tcp_keepalive_probes` (포기 횟수)**: 기본값 **9번**. 75초 간격으로 9번이나 찔렀는데(약 11분 소요) 끝끝내 대답이 없으면, "아 이 새끼 진짜 죽었구나!" 하고 RST 패킷을 내부적으로 날려버리고 점유하던 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 영구 삭제해 버린다.
+1. <strong><code>tcp_keepalive_time</code> (대기 시간)</strong>: 기본값 무려 **2시간(7200초)**. 마지막 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받은 뒤 2시간 동안 아무 말이 없으면, 그제야 최초의 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 깡통 패킷 1개를 훅 던져본다.
+2. <strong><code>tcp_keepalive_intvl</code> (재시도 간격)</strong>: 던졌는데 대답이 안 온다? 기본값 <strong>75초</strong>마다 한 번씩 계속 찔러본다. "야, 죽었냐? 야, 진짜 죽었어?"
+3. <strong><code>tcp_keepalive_probes</code> (포기 횟수)</strong>: 기본값 **9번**. 75초 간격으로 9번이나 찔렀는데(약 11분 소요) 끝끝내 대답이 없으면, "아 이 새끼 진짜 죽었구나!" 하고 RST 패킷을 내부적으로 날려버리고 점유하던 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 영구 삭제해 버린다.
 
 ### 2. 가짜 패킷(Probe)의 정체
 - 킵얼라이브 패킷은 와이어샤크(Wireshark)에서 보면 아주 기괴하게 생겼다.
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이는 `0바이트`이거나 쓰레기 `1바이트`다.
 - 그리고 **시퀀스 넘버(Seq)를 현재 진짜 번호보다 1 뺀 번호(-1)로 고의로 틀리게 적어서** 날린다.
-- 상대방 컴퓨터는 "어? 너 아까 1000번까지 불렀잖아. 왜 갑자기 지나간 999번을 부르고 지랄이야? 1000번 내놔 임마!"라며 **화가 나서 즉각 `ACK 1000` (나 살아있음!) 영수증을 반사적으로 쏘게 된다**. 이 꼼수를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신 없이 상대방의 생사만 귀신같이 캐내는 것이다.
+- 상대방 컴퓨터는 "어? 너 아까 1000번까지 불렀잖아. 왜 갑자기 지나간 999번을 부르고 지랄이야? 1000번 내놔 임마!"라며 <strong>화가 나서 즉각 <code>ACK 1000</code> (나 살아있음!) 영수증을 반사적으로 쏘게 된다</strong>. 이 꼼수를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송수신 없이 상대방의 생사만 귀신같이 캐내는 것이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AWS/클라우드 환경에서의 Keep-Alive 실무 튜닝        │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 상황: AWS 클라우드의 로드밸런서(ELB)를 거치는 웬앱 ]             │
- │                                                             │
- │   * 아마존 ELB(로드밸런서)의 가차 없는 룰:                          │
- │     "내 앞을 지나는 놈들, 60초(Idle Timeout) 동안 대화 없으면 무조건 컷!" │
- │                                                             │
- │   * 리눅스 기본 설정(2시간)의 대참사:                             │
- │     웹서버 왈: "난 2시간 동안 입 닫고 기다릴게~"                    │
- │     ELB 왈: "60초 지났네? 너네 접속 끊어버려! (세션 강제 종료)"         │
- │     웹서버: "어? 왜 갑자기 연결이 끊겼지?? (연결 끊김 장애 폭주)"       │
- │                                                             │
- │   ▶ "이 장애를 막기 위해, 리눅스 커널의 keepalive_time 값을 2시간에서  │
- │      강제로 40초나 50초로 대폭 줄여서(Tuning), ELB가 썰어버리기 전에   │
- │      미리 헛기침(Keep-alive)을 하도록 무조건 멱살을 잡아야 한다!"     │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS/클라우드 환경에서의 Keep-Alive 실무 튜닝</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: AWS 클라우드의 로드밸런서(ELB)를 거치는 웬앱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 아마존 ELB(로드밸런서)의 가차 없는 룰:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내 앞을 지나는 놈들, 60초(Idle Timeout) 동안 대화 없으면 무조건 컷!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 리눅스 기본 설정(2시간)의 대참사:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹서버 왈: "난 2시간 동안 입 닫고 기다릴게~"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELB 왈: "60초 지났네? 너네 접속 끊어버려! (세션 강제 종료)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹서버: "어? 왜 갑자기 연결이 끊겼지?? (연결 끊김 장애 폭주)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 장애를 막기 위해, 리눅스 커널의 keepalive_time 값을 2시간에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강제로 40초나 50초로 대폭 줄여서(Tuning), ELB가 썰어버리기 전에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미리 헛기침(Keep-alive)을 하도록 무조건 멱살을 잡아야 한다!"</div></div>
+</div>
+</div>
+
+
 
 ### 3. 애플리케이션 계층(L7)의 Keep-Alive
-- **주의**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 헤더에 붙어있는 `Connection: keep-alive` 와 방금 배운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 계층(L4)의 Keep-Alive는 **이름만 똑같지 완전히 다른 기술**이다.
-- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 킵얼라이브는 상대방이 살아있는지 찔러보는 생사(Zombie) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)용 깡통 패킷이고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 킵얼라이브는 웹페이지 사진 10장 받을 때마다 3-Way Handshake 10번 하지 말고 "우리 한 번 맺은 연결(터널) 끊지 말고 계속 사진이나 넘기자!"라며 **터널 자체를 안 끊고 유지(재활용)하는 목적**으로 쓰인다.
+- **주의**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1 헤더에 붙어있는 `Connection: keep-alive` 와 방금 배운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 계층(L4)의 Keep-Alive는 <strong>이름만 똑같지 완전히 다른 기술</strong>이다.
+- [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 킵얼라이브는 상대방이 살아있는지 찔러보는 생사(Zombie) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)용 깡통 패킷이고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 킵얼라이브는 웹페이지 사진 10장 받을 때마다 3-Way Handshake 10번 하지 말고 "우리 한 번 맺은 연결(터널) 끊지 말고 계속 사진이나 넘기자!"라며 <strong>터널 자체를 안 끊고 유지(재활용)하는 목적</strong>으로 쓰인다.
 
-- **📢 섹션 요약 비유**: ** [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive는 줌(Zoom) 화상회의 중에 상대방 화면이 가만히 멈춰있을 때, 이게 상대가 생각 중인 건지 아니면 인터넷이 끊긴 건지 알 수 없어서 **"저기요, 제 말 들리세요?"**라고 마이크로 툭 찔러보는 안부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기능과 완벽히 일치합니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> Keep-Alive는 줌(Zoom) 화상회의 중에 상대방 화면이 가만히 멈춰있을 때, 이게 상대가 생각 중인 건지 아니면 인터넷이 끊긴 건지 알 수 없어서 </strong>"저기요, 제 말 들리세요?"**라고 마이크로 툭 찔러보는 안부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기능과 완벽히 일치합니다.
 
 ---
 
@@ -136,15 +139,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 불필요한 재전송 해결 방안]
-    │
-    ▼
-[현재 개념: TCP Keep-Alive 타이머]
-    │
-    ├──▶ [확장 A: 영 윈도우 탐색]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 불필요한 재전송 해결 방안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP Keep-Alive 타이머</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 영 윈도우 탐색</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머는 [불필요한 재전송](/knowledge-base/studynote/03_network/08_transport_layer/443_spurious_retransmission_unnecessary_recovery/) 해결 방안에서 출발해 현재 메커니즘을 정교화하고, 이후 [영 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) 탐색와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

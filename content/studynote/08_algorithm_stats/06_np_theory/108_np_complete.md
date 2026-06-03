@@ -51,35 +51,35 @@ NP-완전 (NP-Complete):
 
 ## Ⅱ. Cook-Levin 정리와 다항시간 환산
 
-```
-Cook-Levin 정리 (1971):
-  SAT (Boolean Satisfiability) 문제가
-  NP-완전임을 최초 증명
-  
-  Stephen Cook (1971, NP-완전성 개념 정립)
-  Leonid Levin (독립적 발견)
-  Cook: 1982년 튜링상 수상
 
-SAT 문제:
-  입력: Boolean 공식 (AND, OR, NOT)
-  질문: 참으로 만드는 변수 값 조합이 있는가?
-  
-  예: (x1 OR x2) AND (NOT x1 OR x3)
-  → x1=F, x2=T, x3=T: (T) AND (T) = T ✓
 
-3-SAT:
-  SAT의 특수 형태 (각 절 변수 3개)
-  SAT ≤_p 3-SAT ≤_p 클리크 ≤_p ...
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Cook-Levin 정리 (1971):</div>
+<div class="kb-diagram-note">SAT (Boolean Satisfiability) 문제가</div>
+<div class="kb-diagram-note">NP-완전임을 최초 증명</div>
+<div class="kb-diagram-note">Stephen Cook (1971, NP-완전성 개념 정립)</div>
+<div class="kb-diagram-note">Leonid Levin (독립적 발견)</div>
+<div class="kb-diagram-note">Cook: 1982년 튜링상 수상</div>
+<div class="kb-diagram-note">SAT 문제:</div>
+<div class="kb-diagram-note">입력: Boolean 공식 (AND, OR, NOT)</div>
+<div class="kb-diagram-note">질문: 참으로 만드는 변수 값 조합이 있는가?</div>
+<div class="kb-diagram-note">예: (x1 OR x2) AND (NOT x1 OR x3)</div>
+<div class="kb-diagram-note">→ x1=F, x2=T, x3=T: (T) AND (T) = T ✓</div>
+<div class="kb-diagram-note">3-SAT:</div>
+<div class="kb-diagram-note">SAT의 특수 형태 (각 절 변수 3개)</div>
+<div class="kb-diagram-note">SAT ≤_p 3-SAT ≤_p 클리크 ≤_p ...</div>
+<div class="kb-diagram-note">다항시간 환산 (Polynomial Reduction):</div>
+<div class="kb-diagram-note">문제 A ≤_p 문제 B:</div>
+<div class="kb-diagram-note">A의 인스턴스 → 다항시간 변환 → B의 인스턴스</div>
+<div class="kb-diagram-note">B를 풀면 A도 풀림</div>
+<div class="kb-diagram-note">Karp의 21개 NP-완전 문제 (1972):</div>
+<div class="kb-diagram-note">SAT, 3-SAT, 클리크, 정점 커버</div>
+<div class="kb-diagram-note">해밀턴 경로, TSP, 부분집합 합, 그래프 채색 등</div>
+</div>
+</div>
 
-다항시간 환산 (Polynomial Reduction):
-  문제 A ≤_p 문제 B:
-  A의 인스턴스 → 다항시간 변환 → B의 인스턴스
-  B를 풀면 A도 풀림
-  
-Karp의 21개 NP-완전 문제 (1972):
-  SAT, 3-SAT, 클리크, 정점 커버
-  해밀턴 경로, TSP, 부분집합 합, 그래프 채색 등
-```
+
 
 > 📢 **섹션 요약 비유**: 다항시간 환산은 번역 — A 언어 문제를 B 언어로 번역해서 B 해법으로 A도 풀 수 있는 것처럼, NP-완전은 서로 번역 가능한 "어려운 문제들의 연합".
 
@@ -128,36 +128,36 @@ NP-완전 문제 목록:
 
 ## Ⅳ. 실용적 접근법
 
-```
-NP-완전 문제 실용적 해법:
 
-1. 근사 알고리즘 (Approximation Algorithm):
-   최적해의 c배 이내 근사해 보장
-   예: TSP 2-근사 (Christofides: 1.5-근사)
-   정점 커버 2-근사 알고리즘 존재
 
-2. 메타휴리스틱:
-   SA (Simulated Annealing): 확률적 탐색
-   GA (Genetic Algorithm): 진화 기반 탐색
-   TS (Tabu Search): 금기 목록 탐색
-   
-3. FPT (Fixed Parameter Tractable):
-   특정 파라미터 고정 시 다항시간 가능
-   예: 정점 커버 (k=파라미터) → O(2^k * n)
-   k가 작으면 실용적
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NP-완전 문제 실용적 해법:</div>
+<div class="kb-diagram-note">1. 근사 알고리즘 (Approximation Algorithm):</div>
+<div class="kb-diagram-note">최적해의 c배 이내 근사해 보장</div>
+<div class="kb-diagram-note">예: TSP 2-근사 (Christofides: 1.5-근사)</div>
+<div class="kb-diagram-note">정점 커버 2-근사 알고리즘 존재</div>
+<div class="kb-diagram-note">2. 메타휴리스틱:</div>
+<div class="kb-diagram-note">SA (Simulated Annealing): 확률적 탐색</div>
+<div class="kb-diagram-note">GA (Genetic Algorithm): 진화 기반 탐색</div>
+<div class="kb-diagram-note">TS (Tabu Search): 금기 목록 탐색</div>
+<div class="kb-diagram-note">3. FPT (Fixed Parameter Tractable):</div>
+<div class="kb-diagram-note">특정 파라미터 고정 시 다항시간 가능</div>
+<div class="kb-diagram-note">예: 정점 커버 (k=파라미터) → O(2^k * n)</div>
+<div class="kb-diagram-note">k가 작으면 실용적</div>
+<div class="kb-diagram-note">4. 특수 구조 활용:</div>
+<div class="kb-diagram-note">평면 그래프 → 채색 4색 (상수시간)</div>
+<div class="kb-diagram-note">트리 구조 → 많은 NP-완전 문제 다항시간 해결</div>
+<div class="kb-diagram-note">5. 확률적 알고리즘:</div>
+<div class="kb-diagram-note">Monte Carlo: 높은 확률로 정답 보장</div>
+<div class="kb-diagram-note">Las Vegas: 항상 정답, 랜덤 실행시간</div>
+<div class="kb-diagram-note">6. ILP (Integer Linear Programming):</div>
+<div class="kb-diagram-note">실제 산업에서 NP-완전 문제 해결</div>
+<div class="kb-diagram-note">CPLEX, Gurobi 상용 솔버</div>
+</div>
+</div>
 
-4. 특수 구조 활용:
-   평면 그래프 → 채색 4색 (상수시간)
-   트리 구조 → 많은 NP-완전 문제 다항시간 해결
-   
-5. 확률적 알고리즘:
-   Monte Carlo: 높은 확률로 정답 보장
-   Las Vegas: 항상 정답, 랜덤 실행시간
 
-6. ILP (Integer Linear Programming):
-   실제 산업에서 NP-완전 문제 해결
-   CPLEX, Gurobi 상용 솔버
-```
 
 > 📢 **섹션 요약 비유**: NP-완전 실용 해법은 완벽한 지도 없이 등산 — GPS(근사), 경험 산악인(메타휴리스틱), 작은 구간만 정밀 탐색(FPT).
 
@@ -165,36 +165,36 @@ NP-완전 문제 실용적 해법:
 
 ## Ⅴ. 실무 시나리오 — [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 NP-완전
 
-```
-물류 센터 배송 스케줄링 (TSP 변형):
 
-문제:
-  배송 기사 50명, 거점 500개
-  하루 최소 비용 배송 경로 최적화
-  = NP-완전 (TSP 변형)
-  
-단순 완전 탐색:
-  500! 경우의 수 → 우주 나이로도 불가
 
-근사 알고리즘 선택:
-  방법: Christofides 알고리즘
-  보장: 최적 비용의 1.5배 이내
-  실행: 수 초 이내
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">물류 센터 배송 스케줄링 (TSP 변형):</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-note">배송 기사 50명, 거점 500개</div>
+<div class="kb-diagram-note">하루 최소 비용 배송 경로 최적화</div>
+<div class="kb-diagram-note">= NP-완전 (TSP 변형)</div>
+<div class="kb-diagram-note">단순 완전 탐색:</div>
+<div class="kb-diagram-note">500! 경우의 수 → 우주 나이로도 불가</div>
+<div class="kb-diagram-note">근사 알고리즘 선택:</div>
+<div class="kb-diagram-note">방법: Christofides 알고리즘</div>
+<div class="kb-diagram-note">보장: 최적 비용의 1.5배 이내</div>
+<div class="kb-diagram-note">실행: 수 초 이내</div>
+<div class="kb-diagram-note">실용적 접근:</div>
+<div class="kb-diagram-note">1. 지역 분할: 500개 거점 → 50개 구역 분할</div>
+<div class="kb-diagram-note">2. 각 구역 내: Greedy TSP (50~100개 노드)</div>
+<div class="kb-diagram-note">3. 구역 간: 최소 신장 트리 기반 근사</div>
+<div class="kb-diagram-note">4. 결과: 최적의 85~95% 효율 달성</div>
+<div class="kb-diagram-note">실제 성과:</div>
+<div class="kb-diagram-note">수작업 배송 비용 대비 30% 절감</div>
+<div class="kb-diagram-note">배송 시간 25% 단축</div>
+<div class="kb-diagram-note">핵심 인사이트:</div>
+<div class="kb-diagram-note">"최적 해를 구할 수 없어도</div>
+<div class="kb-diagram-note">충분히 좋은 해로 실무 문제 해결 가능"</div>
+</div>
+</div>
 
-실용적 접근:
-  1. 지역 분할: 500개 거점 → 50개 구역 분할
-  2. 각 구역 내: Greedy TSP (50~100개 노드)
-  3. 구역 간: 최소 신장 트리 기반 근사
-  4. 결과: 최적의 85~95% 효율 달성
 
-실제 성과:
-  수작업 배송 비용 대비 30% 절감
-  배송 시간 25% 단축
-
-핵심 인사이트:
-  "최적 해를 구할 수 없어도
-   충분히 좋은 해로 실무 문제 해결 가능"
-```
 
 > 📢 **섹션 요약 비유**: 물류 TSP는 "완벽한 최단 경로" 대신 "충분히 좋은 경로" 실용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 완벽 해는 영원히 못 찾지만, 85% 효율로도 비즈니스 문제는 해결.
 

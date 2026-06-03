@@ -26,7 +26,7 @@ tags = ["studynote-ict-convergence"]
 1. **선형성 (Linearity)**: Y = β₀ + β₁X₁ + ε
 2. **등분산성 (Homoscedasticity)**: Var(ε) = σ² (상수)
 3. **잔차 정규성 (Normality of Residuals)**
-4. **독립성 ([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))**: 관측값 간 상관 없음
+4. <strong>독립성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>: 관측값 간 상관 없음
 5. **다중공선성 없음**: 독립변수들 간 완전한 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 없음
 
 **BLUE 정리**: 위 가정이 모두 만족되면 OLS 추정량이 최량 선형 불편 추정량(BLUE, Best Linear Unbiased Estimator).
@@ -39,23 +39,22 @@ tags = ["studynote-ict-convergence"]
 
 ### VIF 계산 흐름과 다중공선성 진단
 
-```
-다중 회귀 모델 구축
-        │
-        ▼
-┌─────────────────────────────────┐
-│  VIF 계산: VIFⱼ = 1/(1 - Rⱼ²)  │
-│  Rⱼ² = Xⱼ를 나머지로 회귀한 R²  │
-└─────────────────────────────────┘
-        │
-   ┌────┴────┐
-VIF < 5   VIF > 10
-  정상     심각한 다중공선성
-            │
-    ┌───────┴────────┐
-  변수 제거       Ridge / Lasso
-  (Dropping)      정규화(Regularization)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다중 회귀 모델 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF 계산: VIFⱼ = 1/(1 - Rⱼ²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rⱼ² = Xⱼ를 나머지로 회귀한 R²</div></div>
+<div class="kb-diagram-note">VIF &lt; 5 VIF &gt; 10</div>
+<div class="kb-diagram-note">정상 심각한 다중공선성</div>
+<div class="kb-diagram-note">변수 제거 Ridge / Lasso</div>
+<div class="kb-diagram-note">(Dropping) 정규화(Regularization)</div>
+</div>
+</div>
+
+
 
 ### R² vs 조정된 R²
 
@@ -115,7 +114,7 @@ VIF < 5   VIF > 10
 
 OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석 가능성을 동시에 확보할 수 있다.
 
-- **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 계수 해석**: VIF 관리로 안정적인 β 추정 → [인과 추론](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/) 가능.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 계수 해석</strong>: VIF 관리로 안정적인 β 추정 → [인과 추론](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/) 가능.
 - **과적합 방지**: Ridge/[Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지.
 - **모델 선택 체계화**: Adjusted R², AIC(Akaike Information Criterion), BIC(Bayesian Information Criterion) 기준으로 변수 선택.
 

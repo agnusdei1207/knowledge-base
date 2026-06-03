@@ -11,7 +11,7 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certification Authority)는 공개키와 주체 신원을 결합한 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급하고 서명하는 **신뢰 중개 기관**이다.
+> 1. **본질**: [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certification Authority)는 공개키와 주체 신원을 결합한 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급하고 서명하는 <strong>신뢰 중개 기관</strong>이다.
 > 2. **가치**: 브라우저와 서버가 처음 만난 상황에서도, 제3자인 CA의 서명을 통해 공개키의 주인을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있어 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 같은 보안 통신이 현실적으로 가능해진다.
 > 3. **판단 포인트**: CA의 진짜 경쟁력은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름보다 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 발급 심사, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 운영, 폐기 대응처럼 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 생명주기를 얼마나 엄격하게 관리하느냐에 달려 있다.
 
@@ -35,21 +35,21 @@ CA는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_
 
 아래 그림은 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 함께 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│               CA 기반 인증서 발급·검증 흐름                        │
-├────────────────────────────────────────────────────────────────────┤
-│ [Issuance]                                                         │
-│ Subject -> CSR 제출 -> RA 신원 확인 -> Intermediate CA 서명       │
-│                                                                    │
-│ [Validation]                                                       │
-│ Browser trust store -> Root CA -> Intermediate CA -> Server Cert   │
-│                                                │                   │
-│                                                └-> CRL/OCSP 확인   │
-│                                                                    │
-│ Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 기반 인증서 발급·검증 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Issuance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject -&gt; CSR 제출 -&gt; RA 신원 확인 -&gt; Intermediate CA 서명</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Validation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser trust store -&gt; Root CA -&gt; Intermediate CA -&gt; Server Cert</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; CRL/OCSP 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 신뢰가 단일 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 한 장에서 나오지 않는다는 점이다. 클라이언트는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효기간, 서명 체인, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 일치 여부, 폐기 상태를 함께 본다. 루트 CA는 보통 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 브라우저의 신뢰 저장소에 탑재되어 있고, 중간 CA가 실제 대량 발급을 수행한다. 루트 키를 오프라인에 가깝게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 중간 CA를 분리하는 이유도 여기에 있다.
 
@@ -60,7 +60,7 @@ CA는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_
 | [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) | 신청자 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 발급 정확성과 심사 품질 좌우 |
 | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 폐기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 해지 반영 속도와 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 중요 |
 
-즉 CA는 서명 행위 하나가 아니라, **발급 전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·발급 후 관리·문제 발생 시 폐기**까지 포함한 생명주기 관리 체계다.
+즉 CA는 서명 행위 하나가 아니라, <strong>발급 전 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>·발급 후 관리·문제 발생 시 폐기</strong>까지 포함한 생명주기 관리 체계다.
 
 - **📢 섹션 요약 비유**: [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 시스템은 신분증 한 장을 찍는 인쇄기가 아니라, 접수 창구·발급 본부·분실 신고 센터가 함께 돌아가는 행정 체계와 같다.
 
@@ -77,7 +77,7 @@ CA의 의미는 자체 서명 [인증](/knowledge-base/studynote/04_software_eng
 | 운영 부담 | 낮음 | 높음 | 중간 |
 | 대표 활용 | 개발/테스트 | 사내망, 기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) | 공용 웹서비스 |
 
-또한 CA는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) 로그와 밀접하게 연결된다. 특히 오늘날 공용 웹에서는 짧은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명과 ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 자동화가 결합되면서, CA의 역할도 단순 발급 기관에서 **자동화 가능한 신뢰 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**로 진화하고 있다.
+또한 CA는 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/)) 로그와 밀접하게 연결된다. 특히 오늘날 공용 웹에서는 짧은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명과 ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 자동화가 결합되면서, CA의 역할도 단순 발급 기관에서 <strong>자동화 가능한 신뢰 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>로 진화하고 있다.
 
 - **📢 섹션 요약 비유**: 자체 서명은 본인이 자기 명함에 도장을 찍는 것, 사설 CA는 회사 안에서만 통하는 사원증 발급소, 공용 CA는 전국 어디서나 인정받는 공적 신분증 발급 기관과 같다.
 
@@ -85,9 +85,9 @@ CA의 의미는 자체 서명 [인증](/knowledge-base/studynote/04_software_eng
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위에 따라 공용 CA와 사설 CA를 구분해 선택해야 한다. 인터넷 공개 사이트는 브라우저 신뢰 저장소와 호환되는 공용 CA가 사실상 필수다. 반면 내부 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 장비 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 기업 단말 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 사설 CA가 더 적합할 수 있다. 중요한 것은 발급 자체보다 **갱신 자동화, 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 해지 대응, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성**을 함께 설계하는 것이다.
+실무에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 범위에 따라 공용 CA와 사설 CA를 구분해 선택해야 한다. 인터넷 공개 사이트는 브라우저 신뢰 저장소와 호환되는 공용 CA가 사실상 필수다. 반면 내부 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 장비 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 기업 단말 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 사설 CA가 더 적합할 수 있다. 중요한 것은 발급 자체보다 <strong>갱신 자동화, 키 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>, 해지 대응, <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능성</strong>을 함께 설계하는 것이다.
 
-또한 루트 키와 중요한 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 키는 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 같은 강한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 경계 안에 두는 것이 일반적이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료 장애는 매우 흔한 운영 사고이므로 자동 갱신, 만료 모니터링, [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링 ([OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/)) 같은 운영 기법도 반드시 고려해야 한다. 특히 단기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 확산으로 인해 "폐기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)만 잘하면 된다"가 아니라, **수명 자체를 짧게 가져가는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**도 중요해졌다.
+또한 루트 키와 중요한 중간 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 키는 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 같은 강한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 경계 안에 두는 것이 일반적이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료 장애는 매우 흔한 운영 사고이므로 자동 갱신, 만료 모니터링, [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링 ([OCSP Stapling](/knowledge-base/studynote/03_network/13_network_security_basics/680_ocsp_stapling_tls_handshake_performance/)) 같은 운영 기법도 반드시 고려해야 한다. 특히 단기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 확산으로 인해 "폐기 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)만 잘하면 된다"가 아니라, <strong>수명 자체를 짧게 가져가는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>도 중요해졌다.
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -110,7 +110,7 @@ CA의 의미는 자체 서명 [인증](/knowledge-base/studynote/04_software_eng
 
 CA가 잘 운영되면, 서로 처음 만나는 주체 사이에도 빠른 신뢰 형성이 가능해진다. 사용자는 브라우저 자물쇠 표시 뒤에 있는 복잡한 암호 체인을 몰라도, 안전한 접속 경험을 자연스럽게 누릴 수 있다. 조직 입장에서는 웹 보안, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/), 기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 전자문서 서명 같은 다양한 보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기반을 통일할 수 있다.
 
-하지만 한계도 있다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 오발급, 키 유출, 폐기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 신뢰 저장소 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화는 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 큰 영향을 준다. 따라서 CA는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 업체"보다, **신뢰를 장기간 유지하기 위한 운영 인프라**로 이해해야 한다. 기술은 암호학으로 시작하지만, 실제 신뢰는 운영 품질에서 완성된다.
+하지만 한계도 있다. [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 오발급, 키 유출, 폐기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 신뢰 저장소 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변화는 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 큰 영향을 준다. 따라서 CA는 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 업체"보다, <strong>신뢰를 장기간 유지하기 위한 운영 인프라</strong>로 이해해야 한다. 기술은 암호학으로 시작하지만, 실제 신뢰는 운영 품질에서 완성된다.
 
 결론적으로 CA의 핵심은 공개키에 이름표를 붙이는 데 있지 않다. 그 이름표를 모두가 믿을 수 있도록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 사고가 나면 즉시 철회할 수 있게 만드는 지속적 관리 체계가 바로 CA의 본질이다.
 
@@ -130,20 +130,23 @@ CA가 잘 운영되면, 서로 처음 만나는 주체 사이에도 빠른 신�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-자체 서명 인증서
-    │
-    ▼
-공용/사설 CA 체계 확립
-    │
-    ├─ Root CA
-    ├─ Intermediate CA
-    ├─ X.509 인증서
-    └─ CRL / OCSP
-    │
-    ▼
-ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자체 서명 인증서</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공용/사설 CA 체계 확립</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Root CA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Intermediate CA</div>
+<div class="kb-diagram-tree-item" style="--depth:2">X.509 인증서</div>
+<div class="kb-diagram-tree-item" style="--depth:2">CRL / OCSP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급에서 출발해, 자동화와 운영 통제까지 포함하는 현대 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 생태계로 발전한 과정을 보여준다.
 

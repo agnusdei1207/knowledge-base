@@ -35,20 +35,20 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 운영 부채가 어떻게 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)과 복원력 저하로 이어지는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Operational debt grows through repeated manual work                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Manual deploy ─┐                                                   │
-│ Hidden runbook ─┼─▶ Toil accumulation ─▶ Less engineering time     │
-│ Person-only know┘                         │                         │
-│                                           ▼                         │
-│                                    Weak automation                  │
-│                                           │                         │
-│                                           ▼                         │
-│                              Higher incident risk / slower recovery │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operational debt grows through repeated manual work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manual deploy ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hidden runbook ─ ─▶ Toil accumulation ─▶ Less engineering time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Person-only know</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weak automation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Higher incident risk / slower recovery</div></div>
+</div>
+</div>
+
+
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 예시 | 위험 |
 | :--- | :--- | :--- |
@@ -56,7 +56,7 @@ tags = ["studynote-devops-sre"]
 | 다크 데트 | 특정 인원만 아는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차, 비문서화 의존성 | 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실패 가능 |
 | 구조적 부채 | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 공백, 승인 병목, 테스트 없는 변경 | 장애 탐지·변경 안정성 약화 |
 
-[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 운영 부채를 측정하는 대표 단위다. 반복적이고, 자동화 가능하며, 장기적 시스템 가치를 거의 만들지 않고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모에 따라 선형적으로 늘어나는 작업이라면 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)로 본다. 그래서 운영 부채 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 단순히 업무를 줄이는 것이 아니라, **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 엔지니어링 과제로 전환하는 것**이라고 말할 수 있다.
+[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 운영 부채를 측정하는 대표 단위다. 반복적이고, 자동화 가능하며, 장기적 시스템 가치를 거의 만들지 않고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모에 따라 선형적으로 늘어나는 작업이라면 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)로 본다. 그래서 운영 부채 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 단순히 업무를 줄이는 것이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a>을 엔지니어링 과제로 전환하는 것</strong>이라고 말할 수 있다.
 
 핵심 원리는 선순환 구조를 만드는 데 있다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 기록하고, 가장 자주 반복되거나 위험도가 높은 작업부터 자동화하면, 확보된 시간을 다시 문서화와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선에 투자할 수 있다. 이때 운영 부채 상환은 일회성 정리가 아니라 지속적인 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리에 가깝다.
 
@@ -105,7 +105,7 @@ tags = ["studynote-devops-sre"]
 | [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 부채 우선순위화 | 측정 기준이 일관되어야 함 |
 | Game Day | 다크 데트 발굴 | 실패를 안전하게 연습할 환경 필요 |
 
-[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 영웅 엔지니어에게만 의존하는 문화, [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 "원래 운영은 그런 것"으로 정상화하는 태도, 문서만 만들고 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 하지 않는 형식주의는 운영 부채를 더 깊게 만든다. 기술사 관점에서는 자동화 자체보다 **어떤 부채를 먼저 갚아야 장애 위험이 가장 빨리 줄어드는가**를 설명해야 점수가 높다.
+[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 영웅 엔지니어에게만 의존하는 문화, [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 "원래 운영은 그런 것"으로 정상화하는 태도, 문서만 만들고 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 하지 않는 형식주의는 운영 부채를 더 깊게 만든다. 기술사 관점에서는 자동화 자체보다 <strong>어떤 부채를 먼저 갚아야 장애 위험이 가장 빨리 줄어드는가</strong>를 설명해야 점수가 높다.
 
 - **📢 섹션 요약 비유**: 운영 부채 청산은 카드값을 아무거나 갚는 것이 아니라, 이자가 가장 크고 위험한 빚부터 먼저 정리하는 금융 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같다.
 
@@ -136,20 +136,23 @@ tags = ["studynote-devops-sre"]
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-Manual Work / Hidden Dependency
-           │
-           ▼
-Operational Debt
-           │
-           ├──▶ Toil Measurement
-           ├──▶ Runbook Standardization
-           ├──▶ Self-Service Automation
-           └──▶ Game Day / DR Drill
-           │
-           ▼
-Dark Debt Exposure → SPOF Removal → Faster Recovery
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Manual Work / Hidden Dependency</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Operational Debt</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ Toil Measurement</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ Runbook Standardization</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ Self-Service Automation</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ Game Day / DR Drill</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dark Debt Exposure → SPOF Removal → Faster Recovery</div>
+</div>
+</div>
+
+
 
 이 흐름은 "반복 수작업 인식 → 운영 부채 계량화 → 자동화·문서화 → 다크 데트 제거"로 이어지는 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 뼈대를 보여준다.
 

@@ -25,18 +25,19 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)가 필요한 전형적 상황, 즉 "제품 종류"와 "제품 계열"이 동시에 존재하는 2차원 문제를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          제품 생성 문제가 2차원으로 커질 때 추상화 필요        │
-├───────────────────────┬──────────────┬──────────────┬─────────┤
-│ 제품 계열 (Family)    │ Button       │ Dialog       │ Menu    │
-├───────────────────────┼──────────────┼──────────────┼─────────┤
-│ Web Theme             │ WebButton    │ WebDialog    │ WebMenu │
-│ Desktop Theme         │ WinButton    │ WinDialog    │ WinMenu │
-└───────────────────────┴──────────────┴──────────────┴─────────┘
 
-행(계열)은 Concrete Factory, 열(제품 종류)은 Abstract Product로 도출된다.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품 생성 문제가 2차원으로 커질 때 추상화 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품 계열 (Family)</div><div class="kb-diagram-cell">Button</div><div class="kb-diagram-cell">Dialog</div><div class="kb-diagram-cell">Menu</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Theme</div><div class="kb-diagram-cell">WebButton</div><div class="kb-diagram-cell">WebDialog</div><div class="kb-diagram-cell">WebMenu</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desktop Theme</div><div class="kb-diagram-cell">WinButton</div><div class="kb-diagram-cell">WinDialog</div><div class="kb-diagram-cell">WinMenu</div></div>
+<div class="kb-diagram-note">행(계열)은 Concrete Factory, 열(제품 종류)은 Abstract Product로 도출된다.</div>
+</div>
+</div>
+
+
 
 즉, [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 클래스 도출은 요구사항 분석의 결과다. 여러 객체가 항상 같은 계열로 함께 선택되어야 한다면, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 개별 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자나 단일 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)로 흩어 두기보다 제품군 단위로 올려 묶어야 한다.
 
@@ -52,29 +53,25 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 전형적 아키텍처를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                       Client                                 │
-│                 (추상 팩토리에만 의존)                       │
-└───────────────────────────┬──────────────────────────────────┘
-                            │
-                            ▼
-                ┌──────────────────────────┐
-                │ AbstractFactory          │
-                │ + createButton()         │
-                │ + createDialog()         │
-                │ + createMenu()           │
-                └───────────┬──────────────┘
-                            │
-          ┌─────────────────┴─────────────────┐
-          ▼                                   ▼
-┌──────────────────────┐           ┌──────────────────────┐
-│ WebFactory           │           │ DesktopFactory       │
-│ → WebButton          │           │ → WinButton          │
-│ → WebDialog          │           │ → WinDialog          │
-│ → WebMenu            │           │ → WinMenu            │
-└──────────────────────┘           └──────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추상 팩토리에만 의존)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractFactory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createButton()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createDialog()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createMenu()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WebFactory</div><div class="kb-diagram-cell">DesktopFactory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ WebButton</div><div class="kb-diagram-cell">→ WinButton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ WebDialog</div><div class="kb-diagram-cell">→ WinDialog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ WebMenu</div><div class="kb-diagram-cell">→ WinMenu</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 도출 기준 |
 | :--- | :--- | :--- |
@@ -83,7 +80,7 @@ tags = ["studynote-design-supervision"]
 | [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) ([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)) | 제품군 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 계약 정의 | 계열이 바뀌어도 필요한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메서드는 동일 |
 | 구체 팩토리 (Concrete Factory) | 한 계열의 제품군 전체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | WebFactory, DesktopFactory처럼 행 단위 묶음 |
 
-실무에서는 여기에 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))을 결합해 런타임에 구체 팩토리를 바꾼다. 그러면 클라이언트는 `new WebButton()` 같은 구체 클래스를 모르고도 전체 계열을 전환할 수 있다. 결국 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 핵심 원리는 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임의 묶음화와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 강제**다.
+실무에서는 여기에 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/) ([Dependency Injection](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/))을 결합해 런타임에 구체 팩토리를 바꾼다. 그러면 클라이언트는 `new WebButton()` 같은 구체 클래스를 모르고도 전체 계열을 전환할 수 있다. 결국 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)의 핵심 원리는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 책임의 묶음화와 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 강제</strong>다.
 
 - **📢 섹션 요약 비유**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 같은 브랜드 부품만 공급하는 조립 라인과 같다. 어느 브랜드 라인을 선택했는지에 따라 엔진, 핸들, 계기판이 한꺼번에 그 브랜드 세트로 따라온다.
 
@@ -117,7 +114,7 @@ tags = ["studynote-design-supervision"]
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 서로 다른 객체들이 항상 같은 계열로 **함께 교체**되는가?
+1. 서로 다른 객체들이 항상 같은 계열로 <strong>함께 교체</strong>되는가?
 2. 클라이언트가 구체 클래스를 직접 알아서는 안 되는가?
 3. 런타임 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 또는 DI로 계열을 바꿀 필요가 있는가?
 4. 제품 종류 증가보다 계열 증가 가능성이 더 큰가?
@@ -140,7 +137,7 @@ tags = ["studynote-design-supervision"]
 
 하지만 이 패턴은 공짜가 아니다. 제품 종류가 늘어날수록 팩토리 인터페이스와 구체 팩토리 구현이 함께 비대해지고, 클래스 수가 늘어 관리 복잡도가 올라간다. 그래서 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)" 자체보다 "제품군 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장"이 정말 필요한 순간에 쓰는 것이 맞다.
 
-결론적으로 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중에서도 **계열 단위 교체를 설계하는 도구**로 기억하면 된다. 어떤 객체를 만들지보다, 어떤 묶음을 함께 바꿔야 하는지를 먼저 보는 관점이 핵심이다.
+결론적으로 [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중에서도 <strong>계열 단위 교체를 설계하는 도구</strong>로 기억하면 된다. 어떤 객체를 만들지보다, 어떤 묶음을 함께 바꿔야 하는지를 먼저 보는 관점이 핵심이다.
 
 - **📢 섹션 요약 비유**: [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)는 옷장 하나를 통째로 계절별 세트로 바꾸는 방식이다. 여름 세트를 고르면 반팔·반바지·샌들이 함께 바뀌고, 겨울 세트를 고르면 코트·니트·부츠가 함께 따라온다.
 
@@ -158,21 +155,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-생성 책임 분리 요구
-    │
-    ▼
-정적 팩토리 · 팩토리 메서드 (Factory Method)
-    │
-    ▼
-제품 종류 + 제품 계열의 2축 식별
-    │
-    ▼
-추상 팩토리 (Abstract Factory)
-    │
-    ▼
-DI (Dependency Injection) · 플러그인형 아키텍처
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">생성 책임 분리 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 팩토리 · 팩토리 메서드 (Factory Method)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제품 종류 + 제품 계열의 2축 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추상 팩토리 (Abstract Factory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DI (Dependency Injection) · 플러그인형 아키텍처</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 "단일 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)"에서 출발해 "제품군 교체 가능한 구조"로 성숙하는 과정을 보여준다.
 

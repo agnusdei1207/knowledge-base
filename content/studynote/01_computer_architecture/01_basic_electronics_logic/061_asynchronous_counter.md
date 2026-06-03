@@ -29,14 +29,18 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-CLK
-  │
-  ▼
-[ FF0 ] ──Q0──▶ [ FF1 ] ──Q1──▶ [ FF2 ] ──Q2──▶ [ FF3 ]
-   │              │              │              │
-   └── 리플 시작 ─┴── 다음 단계 클럭 ─┴── 다음 단계 클럭 ─┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CLK</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FF0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FF3</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">리플 시작 ─ ── 다음 단계 클럭 ─ ── 다음 단계 클럭 ─</div>
+</div>
+</div>
+
+
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -100,31 +104,43 @@ CLK
 
 ## 관련 개념 맵
 
-```text
-Clock
-   ↓
-Flip-Flop Chain
-   ↓
-Ripple
-   ↓
-Frequency Divider
-   ↓
-Low-speed Counter
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Clock</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Flip-Flop Chain</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Ripple</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Frequency Divider</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Low-speed Counter</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-동기식 카운터
-   ↓
-비동기식 카운터
-   ↓
-리플 지연 분석
-   ↓
-저전력 분주 회로
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동기식 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">비동기식 카운터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">리플 지연 분석</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">저전력 분주 회로</div>
+</div>
+</div>
+
+
 
 ---
 

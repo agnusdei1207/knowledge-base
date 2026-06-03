@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 해밍 코드(Hamming [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 사이사이에 여러 개의 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 교차 결합하여 심어 넣음으로써, **스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)**다.
+> 1. **본질**: 해밍 코드(Hamming [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 사이사이에 여러 개의 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 교차 결합하여 심어 넣음으로써, <strong>스스로 에러 위치를 찾아내고 1비트를 고칠 수 있는 자기 정정 코드(FEC)</strong>다.
 > 2. **가치**: 단순 오류 검출([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))에 그쳤던 기존 패리티의 한계를 깨고, 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/)) 요청 없이 송신된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 즉각적인 수정(Correction)을 수행해 실시간 시스템의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 없앴다.
 > 3. **판단 포인트**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 비례해 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)의 오버헤드가 증가하므로, D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 메모리처럼 1비트 플립이 잦고 고속 복구가 필수적인 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 계층에서 핵심적으로 융합된다.
 
@@ -31,26 +31,26 @@ tags = ["studynote-computer-architecture"]
 ### 벤 다이어그램을 통한 교차 감시 로직
 해밍 코드는 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(P)를 $2^n$ 번째 자리(1, 2, 4, 8...)에 심어놓고, 나머지 빈자리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(D)를 끼워 넣는다. 각 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 자신만의 고유한 감시 구역을 지닌다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           해밍 코드(7,4) 비트 배치 및 감시 구역 (짝수 패리티) │
-├────────────────────────────────────────────────────────┤
-│   비트 위치 :  1   2   3   4   5   6   7                   │
-│   비트 종류 :  P1  P2  D1  P4  D2  D3  D4                  │
-│                                                        │
-│   [ P1의 감시 구역 ] : 1, 3, 5, 7 번 비트 검사              │
-│   [ P2의 감시 구역 ] : 2, 3, 6, 7 번 비트 검사              │
-│   [ P4의 감시 구역 ] : 4, 5, 6, 7 번 비트 검사              │
-│                                                        │
-│ * 원리: 만약 6번 비트(D3)에 에러가 발생했다면?              │
-│   - P1 구역: 정상 (6번 안 들어있음) ──▶ 결과 0              │
-│   - P2 구역: 에러 (6번 들어있음)   ──▶ 결과 1              │
-│   - P4 구역: 에러 (6번 들어있음)   ──▶ 결과 1              │
-│                                                        │
-│   증후군(Syndrome) = P4 P2 P1 = '110' (십진수 6)         │
-│   ──▶ "범인은 6번 자리다! 6번 비트를 뒤집어라(NOT)!"        │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해밍 코드(7,4) 비트 배치 및 감시 구역 (짝수 패리티)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트 위치 : 1 2 3 4 5 6 7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트 종류 : P1 P2 D1 P4 D2 D3 D4</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P1의 감시 구역</div><div class="kb-diagram-note">: 1, 3, 5, 7 번 비트 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P2의 감시 구역</div><div class="kb-diagram-note">: 2, 3, 6, 7 번 비트 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">P4의 감시 구역</div><div class="kb-diagram-note">: 4, 5, 6, 7 번 비트 검사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 만약 6번 비트(D3)에 에러가 발생했다면?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P1 구역: 정상 (6번 안 들어있음) ──▶ 결과 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P2 구역: 에러 (6번 들어있음) ──▶ 결과 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P4 구역: 에러 (6번 들어있음) ──▶ 결과 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증후군(Syndrome) = P4 P2 P1 = '110' (십진수 6)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ "범인은 6번 자리다! 6번 비트를 뒤집어라(NOT)!"</div></div>
+</div>
+</div>
+
+
 
 수신 측 하드웨어는 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3개의 패리티 구역별로 XOR 연산하여 **신드롬(Syndrome)** 값을 뽑아낸다. 이 신드롬 값이 `000`이면 정상이고, 0이 아닌 숫자가 나오면 그 숫자가 곧 에러가 발생한 주소([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 된다. CPU는 해당 위치의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무심하게 뒤집어버림으로써(NOT 게이트) 복구를 1 나노초 만에 완료한다.
 
@@ -78,11 +78,11 @@ tags = ["studynote-computer-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **서버 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(Error Correction [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 메모리의 SEC-DED 규격**: 엔터프라이즈 서버 D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))은 우주 방사선이나 발열로 인해 메모리 셀 전하가 누설되는 '[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)([Soft Error](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/))'가 상시 발생한다. 아키텍트는 일반 64비트 메모리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 대신 해밍 코드 기반의 **72비트 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (64 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 8 Parity)**을 융합하여, 1비트 에러는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 모르게 하드웨어 단에서 자동 수선(SEC)하고, 2비트 이상 에러 시에는 멈추게(DED) 하여 블루스크린을 방지한다.
-2. **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 2 스토리지 아키텍처**: 디스크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구성 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위로 쪼개어 해밍 코드를 계산한 뒤 별도의 디스크에 저장한다. 디스크 하나가 박살 나도 수학적으로 원래 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 즉각 연산하여 서비스를 무중단([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime)으로 이어간다. (현재는 블록 단위인 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로 진화함)
+1. <strong>서버 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>(Error Correction <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>) 메모리의 SEC-DED 규격</strong>: 엔터프라이즈 서버 D램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))은 우주 방사선이나 발열로 인해 메모리 셀 전하가 누설되는 '[소프트 에러](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/)([Soft Error](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/462_soft_error_hard_error/))'가 상시 발생한다. 아키텍트는 일반 64비트 메모리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 대신 해밍 코드 기반의 <strong>72비트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> (64 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> + 8 Parity)</strong>을 융합하여, 1비트 에러는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 모르게 하드웨어 단에서 자동 수선(SEC)하고, 2비트 이상 에러 시에는 멈추게(DED) 하여 블루스크린을 방지한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 2 스토리지 아키텍처</strong>: 디스크 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구성 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위로 쪼개어 해밍 코드를 계산한 뒤 별도의 디스크에 저장한다. 디스크 하나가 박살 나도 수학적으로 원래 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 즉각 연산하여 서비스를 무중단([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime)으로 이어간다. (현재는 블록 단위인 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로 진화함)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) 환경에 해밍 코드 단독 배치**: 번개가 쳐서 무선 통신의 4~5비트가 연속으로 깨져서 들어오는 환경에 해밍 코드를 적용하는 만행. 해밍 코드는 1비트 에러를 고치도록 설계된 정밀 타격 무기다. 에러가 2개를 넘어가면 엉뚱한 증후군(Syndrome) 값을 뱉어내어 멀쩡한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어버리는 **'오류의 자기 파괴(Miscorrection)'**를 일으킨다. 반드시 블록 코드(인터리빙)나 CRC와 융합하여 써야 한다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">버스트 에러</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">Burst Error</a>) 환경에 해밍 코드 단독 배치</strong>: 번개가 쳐서 무선 통신의 4~5비트가 연속으로 깨져서 들어오는 환경에 해밍 코드를 적용하는 만행. 해밍 코드는 1비트 에러를 고치도록 설계된 정밀 타격 무기다. 에러가 2개를 넘어가면 엉뚱한 증후군(Syndrome) 값을 뱉어내어 멀쩡한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 뒤집어버리는 <strong>'오류의 자기 파괴(Miscorrection)'</strong>를 일으킨다. 반드시 블록 코드(인터리빙)나 CRC와 융합하여 써야 한다.
 
 - **📢 섹션 요약 비유**: [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)에 해밍 코드를 쓰는 것은, 피부에 난 뾰루지 하나(1비트 에러)를 짜도록 프로그램된 로봇 수술기에게 전신 화상 환자([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))를 맡기는 것과 같다. 기계는 에러를 감당하지 못하고 멀쩡한 살까지 도려내 버린다.
 
@@ -103,26 +103,28 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **증후군 (Syndrome)** | 수신된 해밍 코드 전체를 패리티 검사하여 뱉어내는 이진수 결과값. 이 값이 0이 아니면 에러 주소를 뜻함 |
-| **SEC-DED (Single Error Correction, Double [Error Detection](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/))** | 기본 해밍 코드 끝에 패리티를 하나 더 붙여, 1비트는 고치고 2비트 고장은 경고할 수 있도록 확장한 엔터프라이즈 램의 표준 규격 |
-| **[해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))** | 해밍 코드가 에러를 정정할 수 있는 수학적 근간. 해밍 코드의 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 '3'이 확보됨 |
+| <strong>SEC-DED (Single Error Correction, Double <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/">Error Detection</a>)</strong> | 기본 해밍 코드 끝에 패리티를 하나 더 붙여, 1비트는 고치고 2비트 고장은 경고할 수 있도록 확장한 엔터프라이즈 램의 표준 규격 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">Hamming Distance</a>)</strong> | 해밍 코드가 에러를 정정할 수 있는 수학적 근간. 해밍 코드의 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 '3'이 확보됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-통신 에러와 재전송(ARQ)의 병목 한계 도달
-    │
-    ▼
-단순 패리티 비트 (검출만 가능)
-    │
-    ▼
-해밍 코드(Hamming Code) 개발 (다중 패리티 교차 감시 및 1비트 자기 정정)
-    │
-    ▼
-SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화)
-    │
-    ▼
-다중 버스트 에러 극복을 위한 리드-솔로몬 / 터보 코드 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">통신 에러와 재전송(ARQ)의 병목 한계 도달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단순 패리티 비트 (검출만 가능)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 코드(Hamming Code) 개발 (다중 패리티 교차 감시 및 1비트 자기 정정)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SEC-DED 설계 적용 (엔터프라이즈 서버 ECC D램 아키텍처 표준화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 버스트 에러 극복을 위한 리드-솔로몬 / 터보 코드 융합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "검출의 시대 → 단일 정정의 시대 → 다중 검출/정정 혼합의 시대 → 블록단위 대규모 정정의 시대"로 진화하는 하드웨어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 방어망의 발전 궤적을 보여준다.
 

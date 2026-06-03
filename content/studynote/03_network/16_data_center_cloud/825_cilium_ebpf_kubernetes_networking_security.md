@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 모든 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 제어(Kube-Proxy, [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) 등)는 리눅스의 고전적인 도구인 **iptables**에 전적으로 의존해 왔습니다.
+- [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 모든 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 제어(Kube-Proxy, [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) 등)는 리눅스의 고전적인 도구인 <strong>iptables</strong>에 전적으로 의존해 왔습니다.
 - **문제점 폭발 (O(N)의 저주)**: iptables는 규칙이 많아질수록 위에서 아래로 순서대로 무식하게 스캔을 때립니다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 5,000개가 넘어가면, 패킷이 길을 찾느라 iptables 장부를 뒤적이는 데만 엄청난 CPU 자원을 갉아먹어 트래픽이 꽉 막혀버리는 재앙([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 떡락)이 벌어졌습니다.
 
-```text
-[Calico]
-    │
-    ▼
-[Cilium]
-    │
-    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Calico</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Cilium는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 이 구닥다리 iptables를 완전히 도려내고, 그 자리에 **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)(extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))**라는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최신 흑마법을 쑤셔 넣어 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 차세대 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 네트워킹 & 보안 프레임워크입니다.
+- **개념**: 이 구닥다리 iptables를 완전히 도려내고, 그 자리에 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong>라는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최신 흑마법을 쑤셔 넣어 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 차세대 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 네트워킹 & 보안 프레임워크입니다.
 - **eBPF란? (661번 복습)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 코드를 뜯어고치거나 리부팅하지 않고도, 내가 짠 커스텀 C언어 프로그램(미니 앱)을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 밑바닥)에 안전하게 찔러넣어 빛의 속도로 실행시킬 수 있는 마법의 샌드박스 기술입니다.
 
-```text
-[Calico]
-    │
-    ▼
-[Cilium]
-    │
-    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Calico</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Cilium의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 
 ### 3. 허블(Hubble) - 심해 통신 망원경 감시
 - eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 장악하고 있으므로, 모든 패킷이 핏줄을 흐르는 소리를 다 들을 수 있습니다.
-- Cilium의 짝꿍 툴인 **Hubble(허블 망원경)**을 켜면, "지금 DB 포드가 에러 500을 뿜어내는데, 그 원인은 결제 포드에서 날아온 비정상 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 때문이야!"라고 눈에 보이지 않던 수만 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간 통신 거미줄과 에러 지도를 시각적으로 아름답게 그려줍니다(가시성, [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 극대화).
+- Cilium의 짝꿍 툴인 <strong>Hubble(허블 망원경)</strong>을 켜면, "지금 DB 포드가 에러 500을 뿜어내는데, 그 원인은 결제 포드에서 날아온 비정상 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 때문이야!"라고 눈에 보이지 않던 수만 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간 통신 거미줄과 에러 지도를 시각적으로 아름답게 그려줍니다(가시성, [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 극대화).
 
 Cilium를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Calico가 기반 조건을 만든다면, Cilium는 그 위에서 핵심 메커니즘을 구현하고, Kube-Proxy [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -76,7 +84,7 @@ Cilium를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 구형 [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)(iptables 방식)는 성문 입구의 '늙은 경비병'입니다. 손님이 오면 두꺼운 종이 장부(iptables)를 펼쳐놓고 첫 장부터 끝장까지 일일이 이름을 대조한 뒤에야 문을 열어줍니다(속도 저하). 반면 **Cilium([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 방식)**은 성문 바닥에 깔아둔 '최첨단 홍채 인식 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 센서'입니다. 손님이 성문에 발을 내딛기도 전에([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥 도착 즉시), AI가 0.001초 만에 해시 연산으로 얼굴을 스캔하고는 묻지도 따지지도 않고 바로 VIP 엘리베이터([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 직통 연결)로 쏴버립니다. 장부가 10만 장이든 100만 장이든 검사 속도는 0.001초로 완벽하게 똑같은, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 한계를 부수고 탄생한 진정한 차세대 통신 하이패스입니다.
+- **📢 섹션 요약 비유**: 구형 [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/)(iptables 방식)는 성문 입구의 '늙은 경비병'입니다. 손님이 오면 두꺼운 종이 장부(iptables)를 펼쳐놓고 첫 장부터 끝장까지 일일이 이름을 대조한 뒤에야 문을 열어줍니다(속도 저하). 반면 <strong>Cilium(<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 방식)</strong>은 성문 바닥에 깔아둔 '최첨단 홍채 인식 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 센서'입니다. 손님이 성문에 발을 내딛기도 전에([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밑바닥 도착 즉시), AI가 0.001초 만에 해시 연산으로 얼굴을 스캔하고는 묻지도 따지지도 않고 바로 VIP 엘리베이터([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 직통 연결)로 쏴버립니다. 장부가 10만 장이든 100만 장이든 검사 속도는 0.001초로 완벽하게 똑같은, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리적 한계를 부수고 탄생한 진정한 차세대 통신 하이패스입니다.
 
 ---
 
@@ -118,15 +126,19 @@ Cilium는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Calico]
-    │
-    ▼
-[현재 개념: Cilium]
-    │
-    ├──▶ [확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Calico</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Cilium</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 Cilium는 Calico에서 출발해 현재 메커니즘을 정교화하고, 이후 Kube-Proxy [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

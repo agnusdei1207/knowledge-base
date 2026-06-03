@@ -10,8 +10,8 @@ tags = ["studynote-dataengineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))은 **[Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)(1차 모멘트, 이동 평균) + RMSProp(2차 모멘트, 기울기 제곱 이동 평균)**을 결합한 적응형 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)이며, 파라미터별로 **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 자동 조정**한다.
-> 2. **가치**: SGD는 모든 파라미터에 같은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적용하여 **희소 기울기·비등방 공간에서 수렴이 느리지만**, Adam은 각 파라미터에 적합한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 자동 계산하여 **빠르고 안정적**으로 수렴한다.
+> 1. **본질**: [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/))은 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/">Momentum</a>(1차 모멘트, 이동 평균) + RMSProp(2차 모멘트, 기울기 제곱 이동 평균)</strong>을 결합한 적응형 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)이며, 파라미터별로 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>을 자동 조정</strong>한다.
+> 2. **가치**: SGD는 모든 파라미터에 같은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적용하여 **희소 기울기·비등방 공간에서 수렴이 느리지만**, Adam은 각 파라미터에 적합한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 자동 계산하여 <strong>빠르고 안정적</strong>으로 수렴한다.
 > 3. **판단 포인트**: AdamW([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 분리)가 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 학습의 사실상 표준이며, β₁=0.9·β₂=0.999·lr=1e-3이 기본 하이퍼파라미터이다.
 
 ---
@@ -25,7 +25,7 @@ Adam = Momentum + RMSProp
   θ = θ - lr · m̂/√(v̂+ε)    (업데이트)
 ```
 
-- **📢 섹션 요약 비유**: Adam은 **내비게이션**이다. 방향([Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))과 속도(RMSProp)를 자동으로 조절하여 목적지(최솟값)에 빠르게 도착한다.
+- **📢 섹션 요약 비유**: Adam은 <strong>내비게이션</strong>이다. 방향([Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))과 속도(RMSProp)를 자동으로 조절하여 목적지(최솟값)에 빠르게 도착한다.
 
 ---
 
@@ -33,7 +33,7 @@ Adam = Momentum + RMSProp
 
 | 비교 | SGD | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) |
 |:---|:---|:---|
-| **[학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)** | 고정 | **적응형** |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a></strong> | 고정 | **적응형** |
 | **방향** | 현재 기울기 | **이동 평균 (안정)** |
 | **수렴** | 느림 | **빠름** |
 
@@ -41,7 +41,7 @@ Adam = Momentum + RMSProp
 
 ## Ⅲ~Ⅴ. 결론
 
-[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)/AdamW는 **딥러닝 학습의 사실상 표준 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)**이며, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습에 필수이다.
+[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)/AdamW는 <strong>딥러닝 학습의 사실상 표준 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a></strong>이며, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습에 필수이다.
 
 ---
 
@@ -49,24 +49,30 @@ Adam = Momentum + RMSProp
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)** | [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) + RMSProp |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a></strong> | [Momentum](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) + RMSProp |
 | **AdamW** | [Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 분리 |
-| **[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate** | 학습 보폭 |
-| **[Cosine Annealing](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/309_cosine_annealing/)** | LR [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
+| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> Rate</strong> | 학습 보폭 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/309_cosine_annealing/">Cosine Annealing</a></strong> | LR [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 | **Lion** | 차세대 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[SGD (1951)] → [Momentum (1964)] → [AdaGrad (2011)]
-    → [RMSProp (2012)] → [Adam (2014)]
-    → [AdamW (2018)] → [현재: Lion·Sophia — 메모리 효율↑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SGD (1951)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Momentum (1964)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdaGrad (2011)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RMSProp (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adam (2014)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdamW (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Lion·Sophia — 메모리 효율↑</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Adam은 **내비게이션**이에요. 방향과 속도를 **자동으로** 조절해줘요.
-2. SGD는 지도 없이 걷기(느림), Adam은 **내비 따라 운전하기(빠름)**예요.
-3. 거의 모든 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에서 **Adam이 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**으로 쓰인답니다!
+1. Adam은 <strong>내비게이션</strong>이에요. 방향과 속도를 **자동으로** 조절해줘요.
+2. SGD는 지도 없이 걷기(느림), Adam은 <strong>내비 따라 운전하기(빠름)</strong>예요.
+3. 거의 모든 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에서 <strong>Adam이 기본 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>으로 쓰인답니다!
 
 ---
 

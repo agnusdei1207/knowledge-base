@@ -17,34 +17,29 @@ tags = ["design_supervision"]
 
 ### 스파케티 코드를 막는 5가지 약속: SOLID
 
-소프트웨어는 끊임없이 변한다. 사용자의 요구사항이 바뀌고, 새로운 기능이 추가된다. 이때 설계 원칙 없이 작성된 코드는 수정할 때마다 다른 곳에서 버그가 터지는 '연쇄 폭발' 현상을 일으킨다. **객체지향 설계 원칙 (SOLID)**은 이러한 부작용을 막고, 코드를 부품처럼 갈아 끼울 수 있게 해주는 공학적 약속이다.
+소프트웨어는 끊임없이 변한다. 사용자의 요구사항이 바뀌고, 새로운 기능이 추가된다. 이때 설계 원칙 없이 작성된 코드는 수정할 때마다 다른 곳에서 버그가 터지는 '연쇄 폭발' 현상을 일으킨다. <strong>객체지향 설계 원칙 (SOLID)</strong>은 이러한 부작용을 막고, 코드를 부품처럼 갈아 끼울 수 있게 해주는 공학적 약속이다.
 
-설계 원칙이 필요한 이유는 세 가지이다. 첫째, **변경의 용이성**을 위해서이다. 한 곳을 고쳤을 때 전체를 다 고쳐야 하는 상황을 방지한다. 둘째, **재사용성 극대화**를 위해서이며, 셋째, **테스트 용이성**을 확보하여 시스템의 신뢰도를 높이기 위함이다.
+설계 원칙이 필요한 이유는 세 가지이다. 첫째, <strong>변경의 용이성</strong>을 위해서이다. 한 곳을 고쳤을 때 전체를 다 고쳐야 하는 상황을 방지한다. 둘째, <strong>재사용성 극대화</strong>를 위해서이며, 셋째, <strong>테스트 용이성</strong>을 확보하여 시스템의 신뢰도를 높이기 위함이다.
 
 이 그림은 설계 원칙이 부재한 시스템과 준수된 시스템의 구조적 차이를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Bad Design vs Good Design (SOLID)           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Tight Coupling ]              [ Loose Coupling ]        │
-│   (의존성 덩어리)                 (인터페이스 기반 분리)    │
-│   ┌──────────────┐                ┌──────────────┐          │
-│   │   Module A   │                │   Module A   │          │
-│   └──────┬───────┘                └──────┬───────┘          │
-│          │ (Direct Call)                 │ (Depends on)     │
-│          ▼                               ▼                  │
-│   ┌──────────────┐                ┌──────────────┐          │
-│   │   Module B   │                │ <<Interface>>│          │
-│   └──────────────┘                └──────┬───────┘          │
-│                                          │                  │
-│   * 위기: B가 바뀌면 A도 수정     ┌──────┴──────┐          │
-│   * 해결: 인터페이스로 격리       ▼             ▼          │
-│                            [ Impl B1 ]   [ Impl B2 ]        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bad Design vs Good Design (SOLID)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Tight Coupling</div><div class="kb-diagram-node">Loose Coupling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(의존성 덩어리) (인터페이스 기반 분리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A</div><div class="kb-diagram-cell">Module A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Direct Call)</div><div class="kb-diagram-cell">(Depends on)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module B</div><div class="kb-diagram-cell">&lt;&lt;Interface&gt;&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위기: B가 바뀌면 A도 수정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해결: 인터페이스로 격리 ▼ ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Impl B1</div><div class="kb-diagram-node">Impl B2</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '추상화 레이어'이다. 직접적인 호출 대신 인터페이스라는 약속을 사이에 둠으로써, 실제 구현체가 무엇이든 상관없이 시스템이 돌아가게 만든다. 실무에서는 이러한 구조가 클린 아키텍처와 MSA로 나아가는 가장 기본적이면서도 강력한 토대가 된다.
 
@@ -75,26 +70,21 @@ tags = ["design_supervision"]
 - **Problem**: '스마트 폰' 인터페이스에 '전화', '문자', '웹', '결제'가 다 들어있으면, 전화만 필요한 폴더폰 앱도 결제 기능을 구현해야 함.
 - **Solution**: '전화 인터페이스', '결제 인터페이스'로 잘게 쪼개어 필요한 것만 구현하게 함.
 
-이 구조도는 **개방-폐쇄 원칙 (OCP)**이 적용된 확장형 아키텍처를 보여준다.
+이 구조도는 <strong>개방-폐쇄 원칙 (OCP)</strong>이 적용된 확장형 아키텍처를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 OCP: Extension without Modification         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Client: Reporter ]                                      │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Formatter (Interface) ] ◀────── (추가 시 기존 코드 유지)│
-│          ▲                                                  │
-│   ┌──────┴─────────────┬────────────────────────┐            │
-│   ▼                    ▼                        ▼            │
-│ [ HTML Formatter ]  [ PDF Formatter ]        [ CSV Formatter ]│
-│                                                             │
-│   * 핵심: 새로운 포맷이 추가되어도 Reporter 코드는 그대로   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCP: Extension without Modification</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client: Reporter</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Formatter (Interface)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(추가 시 기존 코드 유지)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTML Formatter</div><div class="kb-diagram-node">PDF Formatter</div><div class="kb-diagram-node">CSV Formatter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 새로운 포맷이 추가되어도 Reporter 코드는 그대로</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '플러그인 구조'이다. 기존 코드를 한 줄도 건드리지 않고 신규 기능을 붙일 수 있는 능력이 진정한 객체지향의 정수이다. 실무에서는 이 원칙을 통해 배포 리스크를 획기적으로 줄이고 대규모 협업을 가능하게 한다.
 
@@ -137,23 +127,21 @@ tags = ["design_supervision"]
 
 이 도식은 기술사가 설계 검토 시 활용하는 'SOLID 위반 탐지 및 처방' 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               SOLID Violation Detection Workflow             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Code / Design ] ──▶ [ Symptom: Ripple Effect? ] ──▶ [ OCP/DIP ]│
-│          │                                                  │
-│          ├──▶ [ Symptom: God Class? ] ──▶ [ SRP ]           │
-│          │                                                  │
-│          └──▶ [ Symptom: Fat Interface? ] ──▶ [ ISP ]       │
-│                                                             │
-│   * 처방: 1. 인터페이스 추출 (Extract Interface)            │
-│           2. 의존성 주입 (Dependency Injection)             │
-│           3. 위임 (Delegation) 적극 활용                    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOLID Violation Detection Workflow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Code / Design</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Symptom: Ripple Effect?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCP/DIP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Symptom: God Class?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SRP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Symptom: Fat Interface?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 처방: 1. 인터페이스 추출 (Extract Interface)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 의존성 주입 (Dependency Injection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 위임 (Delegation) 적극 활용</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 설계 판단은 '교통 신호 체계 최적화'와 같습니다. 사고(버그)가 났을 때 한 차선(모듈)만 통제하면 되도록 도로를 잘 설계하고, 꼬리물기(강한 의존성)를 방지하여 전체 흐름(성능)을 유지하는 전문가입니다.
 
@@ -168,7 +156,7 @@ tags = ["design_supervision"]
 
 ### 미래 전망: 도메인 주도 설계 (DDD)와의 결합
 
-향후 설계 원칙은 단순한 클래스 구조를 넘어 비즈니스 언어와 일치하는 **도메인 주도 설계 (DDD)**로 확장될 것이다. 각 모듈은 기술적인 기준이 아닌 비즈니스의 **바운디드 컨텍스트 (Bounded Context)**를 따라야 하며, 이 경계 내에서 SOLID 원칙이 완벽히 구현될 것이다. 기술사는 특정 언어의 기법을 넘어, 비즈니스의 복잡성을 어떻게 수학적으로 깨끗하게 설계할 것인가에 대한 '철학적 공학자'로서의 태도를 견지해야 한다.
+향후 설계 원칙은 단순한 클래스 구조를 넘어 비즈니스 언어와 일치하는 <strong>도메인 주도 설계 (DDD)</strong>로 확장될 것이다. 각 모듈은 기술적인 기준이 아닌 비즈니스의 <strong>바운디드 컨텍스트 (Bounded Context)</strong>를 따라야 하며, 이 경계 내에서 SOLID 원칙이 완벽히 구현될 것이다. 기술사는 특정 언어의 기법을 넘어, 비즈니스의 복잡성을 어떻게 수학적으로 깨끗하게 설계할 것인가에 대한 '철학적 공학자'로서의 태도를 견지해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 설계는 '세포의 분화'와 같아질 것입니다. 각 세포(객체)가 맡은 역할(책임)에만 집중하면서도, 전체 몸(시스템)의 건강을 위해 완벽하게 소통하는 유기적인 지능형 소프트웨어가 탄생할 것입니다.
 

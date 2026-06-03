@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) 프레임워크에서 백로그(Backlog)는 제품에 필요한 모든 작업(기능, 버그 수정, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소 등)의 목록이다. 이 중 **프로덕트 백로그(PB)** 는 제품 오너(PO)가 소유하며 제품의 생애주기와 함께 끊임없이 변하는 전체 요구사항의 집합이다. 반면 **[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그(SB)** 는 개발팀(Dev Team)이 소유하며, 단일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(보통 1~4주) 동안 달성해야 할 구체적인 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))들의 고정된 집합이다.
+- **개념**: [애자일 스크럼](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)) 프레임워크에서 백로그(Backlog)는 제품에 필요한 모든 작업(기능, 버그 수정, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 해소 등)의 목록이다. 이 중 **프로덕트 백로그(PB)** 는 제품 오너(PO)가 소유하며 제품의 생애주기와 함께 끊임없이 변하는 전체 요구사항의 집합이다. 반면 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 백로그(SB)</strong> 는 개발팀(Dev Team)이 소유하며, 단일 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)(보통 1~4주) 동안 달성해야 할 구체적인 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))들의 고정된 집합이다.
 
 - **필요성**: 전통적인 프로젝트 관리에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수백 페이지의 요구사항 명세서를 확정(Freeze)하고 시작했다. 그러나 이 방식은 개발 도중 시장 상황이 변하거나 고객의 마음이 바뀌었을 때 대처할 수 없는 구조적 한계가 있었다. 이를 해결하기 위해 요구사항을 고정하지 않고 '우선순위가 높은 것부터 순차적으로 구체화'하는 지연된 의사결정(Deferred Decision) 체계가 필요해졌다. 프로덕트 백로그는 이 유연성을 제공하고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그는 잦은 변경으로 인해 개발자가 집중력을 잃는 것을 막아주는 방파제 역할을 한다.
 
@@ -27,36 +27,32 @@ tags = ["studynote-software-engineering"]
 
 - **등장 배경 및 발전 과정**:
   1. **빅뱅 릴리스(Big Bang Release)의 실패**: 과거에는 모든 기능을 한 번에 기획하고 수년에 걸쳐 개발했으나, 출시 시점에는 이미 고객의 니즈가 변해버리는 경우가 빈번했다.
-  2. **[에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)([Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/))과 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))의 도입**: 요구사항을 시스템 중심의 기능 명세가 아닌 사용자 가치 중심([As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [User], I want [Action] so that [Value])으로 잘게 쪼개는 기법이 정착되었다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/">에픽</a>(<a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/">Epic</a>)과 유저 스토리(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a>)의 도입</strong>: 요구사항을 시스템 중심의 기능 명세가 아닌 사용자 가치 중심([As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [User], I want [Action] so that [Value])으로 잘게 쪼개는 기법이 정착되었다.
   3. **DEEP 원칙의 확립**: 로만 피츨러(Roman Pichler) 등 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전문가들에 의해 프로덕트 백로그는 Detailed appropriately(적절한 수준의 상세함), Estimated(추정됨), Emergent(창발적임), Prioritized(우선순위화됨)라는 4가지 원칙(DEEP)을 갖추어야 한다는 점이 표준화되었다.
 
 전통적인 요구사항 정의([WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) 방식과 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 백로그 기반 요구사항 진화 과정을 시각화하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────┐
-  │           전통적 WBS vs 애자일 백로그(DEEP 원칙 적용) 비교          │
-  ├───────────────────────────────────────────────────────────────┤
-  │                                                               │
-  │  [전통적 WBS: 빙산 접근법]                                        │
-  │   모든 요구사항을 초기에 동일한 깊이로 분석 (수개월 소요)              │
-  │   ┌────┬────┬────┬────┬────┬────┬────┐                        │
-  │   │상세│상세│상세│상세│상세│상세│상세│ (그러나 대부분 변경됨)       │
-  │   └────┴────┴────┴────┴────┴────┴────┘                        │
-  │                                                               │
-  │  [애자일 백로그: DEEP 구조]                                       │
-  │   우선순위가 높은(당장 개발할) 상단일수록 상세히 쪼개고,                 │
-  │   낮은 하단은 큰 덩어리(Epic)로 남겨두어 분석 낭비를 방지              │
-  │                                                               │
-  │     [상단] ┌─┐┌─┐┌─┐┌─┐ ← 곧 스프린트에 들어갈 작고 명확한 아이템 │
-  │   우선순위 │ └─┘└─┘└─┘└─┘                                      │
-  │      ↑   │ ┌───┐ ┌───┐  ← 중간 크기의 스토리 (분석 진행 중)      │
-  │      │   │ └───┘ └───┘                                      │
-  │      │   │ ┌────────┐   ← 거대한 에픽 (아직 모호함)            │
-  │     [하단] └ └────────┘                                      │
-  │                                                               │
-  │   결과: 계획의 가변성 흡수, '분석 마비(Analysis Paralysis)' 방지    │
-  └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 WBS vs 애자일 백로그(DEEP 원칙 적용) 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 WBS: 빙산 접근법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요구사항을 초기에 동일한 깊이로 분석 (수개월 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">상세</div><div class="kb-diagram-cell">(그러나 대부분 변경됨)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 백로그: DEEP 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위가 높은(당장 개발할) 상단일수록 상세히 쪼개고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 하단은 큰 덩어리(Epic)로 남겨두어 분석 낭비를 방지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상단</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">곧 스프린트에 들어갈 작고 명확한 아이템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위</div><div class="kb-diagram-cell">─ ─ ─ ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑</div><div class="kb-diagram-cell">← 중간 크기의 스토리 (분석 진행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 거대한 에픽 (아직 모호함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 계획의 가변성 흡수, '분석 마비(Analysis Paralysis)' 방지</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 전통적 모델인 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))는 아직 만들지 않을 기능까지 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 모두 상세하게 설계하여, 요구사항이 변경될 때마다 막대한 매몰 비용(Sunk Cost)을 발생시킨다. 반면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 프로덕트 백로그는 '빙산의 일각' 구조를 취한다. 우선순위가 높아 당장 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 개발될 아이템(상단)은 아주 작고 구체적으로(Detailed appropriately) 정제(Refinement)되어 있지만, 6개월 뒤에나 개발할 기능(하단)은 하나의 큰 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)([Epic](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/244_epic/)) 덩어리로 둔다(Emergent). 이 전략은 불확실한 미래를 완벽히 예측하려는 헛된 시도를 버리고, 지금 당장 중요한 것에만 집중함으로써 시간과 자원의 낭비를 원천 차단한다.
 
@@ -81,7 +77,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 / 프로덕트 백로그의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 / 프로덕트 백로그의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 백로그 / 프로덕트 백로그의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -157,21 +153,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스프린트 백로그 / 프로덕트 백로그 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스프린트 백로그 / 프로덕트 백로그 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

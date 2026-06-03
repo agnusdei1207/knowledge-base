@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 954번 문서에서 배운 협대역(Narrowband) 통신은 하나의 주파수 차선만 씁니다. 
 - 옆에서 드론 조종기나 전자레인지가 똑같은 주파수(예: 2.4GHz)의 굉음을 쏘면, 내 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 간섭에 부딪혀 100% 파괴됩니다.
 
-```text
-[확산 스펙트럼]
-    │
-    ▼
-[FHSS]
-    │
-    └──▶ [DSSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FHSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **송신자와 수신자가 사전에 약속된 '비밀 수학 공식(도약 패턴, PN Sequence)'에 따라, 0.01초 등 아주 짧은 시간 간격(Hop)마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 보내는 주파수 채널을 메뚜기처럼 이리저리 미친 듯이 점프(Hopping)하며 통신하는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) 기술**입니다.
+- **개념**: <strong>송신자와 수신자가 사전에 약속된 '비밀 수학 공식(도약 패턴, PN Sequence)'에 따라, 0.01초 등 아주 짧은 시간 간격(Hop)마다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 보내는 주파수 채널을 메뚜기처럼 이리저리 미친 듯이 점프(Hopping)하며 통신하는 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a> 기술</strong>입니다.
 
-```text
-[확산 스펙트럼]
-    │
-    ▼
-[FHSS]
-    │
-    └──▶ [DSSS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSSS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: FHSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,12 +64,12 @@ tags = ["studynote-network"]
 
 ### 1. 전파 방해(Jamming)와 간섭(Interference)의 무력화 🌟
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))가 2.4GHz 쓰레기 주파수 대역에서도 안 끊기고 노래를 들려주는 핵심 원리입니다.
-- [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz 대역을 79개의 얇은 차선으로 쪼갠 뒤, 1초에 무려 **1,600번**이나 차선을 휙휙 바꿔가며(도약하며) 노래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏩니다.
+- [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz 대역을 79개의 얇은 차선으로 쪼갠 뒤, 1초에 무려 <strong>1,600번</strong>이나 차선을 휙휙 바꿔가며(도약하며) 노래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏩니다.
 - 만약 30번 차선에서 강한 전자레인지 노이즈(간섭)가 터졌습니다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 30번 차선에 머무는 시간은 1/1,600초뿐입니다. 찰나의 시간 동안 딱 1글자만 깨지고, 1/1,600초 뒤에 바로 45번 깨끗한 차선으로 점프하여 도망가기 때문에(간섭 회피), 우리가 노래를 들을 땐 끊긴 줄도 모르게 완벽히 재생됩니다.
 
 ### 2. 군사급 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지 ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
 - 해커가 공중의 전파를 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기로 잡으려 합니다.
-- 하지만 송신자가 다음 0.1초 뒤에 79개 채널 중 어디로 점프할지는 **둘만의 비밀 암호키(PN 코드)**로 계산됩니다.
+- 하지만 송신자가 다음 0.1초 뒤에 79개 채널 중 어디로 점프할지는 <strong>둘만의 비밀 암호키(PN 코드)</strong>로 계산됩니다.
 - 해커는 패턴을 모르니 79개 채널을 멍청하게 다 켜놓고 쳐다봐야 하는데, 이러면 다른 사람들의 쓰레기 전파까지 다 주워 먹게 되어 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립해 내는 것이 불가능해집니다(군사용 보안 통신).
 
 ### 3. 동시 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (CDMA의 사촌)
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 - A쌍은 `1 ➜ 5 ➜ 9` 패턴으로 점프하고, B쌍은 `2 ➜ 6 ➜ 8` 패턴으로 점프합니다.
 - 점프 패턴이 서로 다르기 때문에, 아주 가끔 우연히 같은 차선에서 부딪히는 찰나를 제외하면, 10쌍이 허공의 79개 차선을 미친 듯이 엇갈리며 평화롭게 동시에 통신할 수 있습니다.
 
-- **[DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) (956번)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부숴서 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체에 '안개처럼 한 번에 확' 뿌려버리는 방식. (넓고 얇게 바르기 - 와이파이, 3G 통신)
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (956번)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부숴서 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체에 '안개처럼 한 번에 확' 뿌려버리는 방식. (넓고 얇게 바르기 - 와이파이, 3G 통신)
 - **FHSS**: 좁고 강한 빔을 쏘되, 그 빔의 위치를 미친 듯이 여기저기로 '옮겨 다니는' 방식. (메뚜기 점프 - [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 군용 무전기)
 
 FHSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)이 기반 조건을 만든다면, FHSS는 그 위에서 핵심 메커니즘을 구현하고, DSSS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -122,15 +130,19 @@ FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 확산 스펙트럼]
-    │
-    ▼
-[현재 개념: FHSS]
-    │
-    ├──▶ [확장 A: DSSS]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 확산 스펙트럼</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FHSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DSSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 FHSS는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **East-West 트래픽의 폭주**: 빅데이터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 마이그레이션, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도입되면서, 서버가 인터넷(외부)으로 나가는 트래픽보다 **[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부의 서버들끼리 옆으로 대화하는 트래픽(East-West)이 전체 트래픽의 80%를 넘어서게 되었습니다.**
+- **East-West 트래픽의 폭주**: 빅데이터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 마이그레이션, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도입되면서, 서버가 인터넷(외부)으로 나가는 트래픽보다 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 서버들끼리 옆으로 대화하는 트래픽(East-West)이 전체 트래픽의 80%를 넘어서게 되었습니다.</strong>
 - 기존 3계층 구조는 이 거대한 옆면 트래픽을 감당하지 못하고 병목을 일으켰기 때문에, 이를 해결하기 위한 '넓고 평평한(Flat)' 아키텍처가 등장했습니다.
 
-```text
-[데이터센터 3-Tier 아키텍처]
-    │
-    ▼
-[데이터센터 Spine-Leaf 아키텍처]
-    │
-    └──▶ [오버서브스크립션 비율 설계 개념 분산망 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 
 이름 그대로 척추(Spine) 뼈대와 나뭇잎(Leaf)이라는 딱 2개의 층으로만 이루어집니다.
 
-```text
-[데이터센터 3-Tier 아키텍처]
-    │
-    ▼
-[데이터센터 Spine-Leaf 아키텍처]
-    │
-    └──▶ [오버서브스크립션 비율 설계 개념 분산망 대역]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,19 +63,19 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **위치 및 연결**: 옛날 3-Tier의 Access [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 비슷합니다. 서버 랙(Rack) 맨 위에 달리며(ToR), 실제 서버(컴퓨터)들이 여기에 꽂힙니다.
-- **특징**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리는 서로 랜선을 절대 연결하지 않습니다. 대신 **모든 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 저 위에 있는 '모든 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'와 각각 1:1로 빠짐없이 풀-메쉬(Full-Mesh)로 광케이블을 냅다 꽂아 연결**합니다.
+- **특징**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리는 서로 랜선을 절대 연결하지 않습니다. 대신 <strong>모든 Leaf <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>는 저 위에 있는 '모든 Spine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>'와 각각 1:1로 빠짐없이 풀-메쉬(Full-Mesh)로 광케이블을 냅다 꽂아 연결</strong>합니다.
 
 ### 2. Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) (척추) - "핵심 고속도로"
 - **위치 및 연결**: Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들의 모든 선을 다 받아주는 상위 백본 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다. 
-- **특징**: Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리도 서로 연결하지 않고, 서버를 직접 꽂지도 않습니다. 오직 밑에서 올라온 Leaf의 트래픽을 다른 Leaf로 쏴주는 **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 십자로 교차로 역할**만 합니다.
+- **특징**: Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리도 서로 연결하지 않고, 서버를 직접 꽂지도 않습니다. 오직 밑에서 올라온 Leaf의 트래픽을 다른 Leaf로 쏴주는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 십자로 교차로 역할</strong>만 합니다.
 
 ### 1. 완벽한 1-Hop 거리 (일관된 초저지연 보장)
-- 가장 위대한 장점입니다. 서버 A(1번 Leaf)에서 서버 Z(100번 Leaf)로 데이터를 보낼 때, 경로가 어떻게 되든 **무조건 `내 Leaf ➜ 아무 Spine 1개 ➜ 목적지 Leaf`라는 딱 2단계([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간 거리로는 1-Hop)만 뛰면 100% 도착합니다.**
+- 가장 위대한 장점입니다. 서버 A(1번 Leaf)에서 서버 Z(100번 Leaf)로 데이터를 보낼 때, 경로가 어떻게 되든 <strong>무조건 <code>내 Leaf ➜ 아무 Spine 1개 ➜ 목적지 Leaf</code>라는 딱 2단계(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 간 거리로는 1-Hop)만 뛰면 100% 도착합니다.</strong>
 - 서버가 어디에 있든 네트워크 딜레이([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 완벽하게 똑같고 예측 가능해져, 클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리가 톱니바퀴처럼 돌아갑니다.
 
 ### 2. [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/))의 저주 탈피 ➜ [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) 무한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장
 - 3-Tier는 케이블 절반을 놀려두는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)(루핑 방지)를 썼습니다(801번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)).
-- Spine-Leaf는 멍청한 L2 통신 대신 똑똑한 L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 통신)을 기반으로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 묶습니다. 덕분에 **[ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/)([Equal-Cost Multi-Path](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/), 804번 문서)**라는 마법을 써서, 100개의 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 향하는 100가닥의 광케이블을 단 하나도 끊지 않고 동시에 100차선 고속도로처럼 100% 꽉 채워서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 트래픽을 뿌려댈 수 있습니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 극대화).
+- Spine-Leaf는 멍청한 L2 통신 대신 똑똑한 L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP 통신)을 기반으로 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 묶습니다. 덕분에 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">Equal-Cost Multi-Path</a>, 804번 문서)</strong>라는 마법을 써서, 100개의 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 향하는 100가닥의 광케이블을 단 하나도 끊지 않고 동시에 100차선 고속도로처럼 100% 꽉 채워서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 트래픽을 뿌려댈 수 있습니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 극대화).
 
 ### 3. 무한 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 확장성
 - 서버가 더 필요해서 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나를 사 왔다면? 그냥 빈 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구멍들에 선만 꽂아주면 끝납니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 추가 증가). 병목 없이 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 무한히 수평 증식([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))할 수 있습니다.
@@ -122,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 데이터센터 3-Tier 아키텍처]
-    │
-    ▼
-[현재 개념: 데이터센터 Spine-Leaf 아키텍처]
-    │
-    ├──▶ [확장 A: 오버서브스크립션 비율 설계 개념 분산망 대역]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 데이터센터 3-Tier 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 데이터센터 Spine-Leaf 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [오버서브스크립션 비율](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/) 설계 개념 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 대역와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

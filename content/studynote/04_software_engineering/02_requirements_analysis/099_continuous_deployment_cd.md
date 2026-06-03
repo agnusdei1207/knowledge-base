@@ -30,23 +30,23 @@ tags = ["software_engineering"]
 
 CD 파이프라인은 코드가 커밋되는 순간부터 운영 서버에 안착하기까지의 워크플로우를 자동화 툴체인(예: [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), ArgoCD, GitHub Actions)으로 연결한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             CD 파이프라인의 2가지 뉘앙스와 워크플로우        │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ CI 완료 ] ──▶ [ Staging 환경 자동 배포 ] ──▶ (통합 테스트/QA)│
-│                                                              │
-│ 1. Continuous Delivery (지속적 제공) - 인간의 마지막 허락    │
-│    (QA 완료) ──▶ [출하 대기장 보관] ──▶ 👤 PO/보안팀 수동 승인 ──▶ [운영 환경 배포]│
-│                                         (Approve Click)      │
-│                                                              │
-│ 2. Continuous Deployment (지속적 배포) - 로봇의 무인 독주    │
-│    (QA 완료) ──▶ 🤖 조건 만족 시 즉시 100% 자동 직행 ────────▶ [운영 환경 배포]│
-└──────────────────────────────────────────────────────────────┘
-```
 
-CD의 핵심 아키텍처는 **[무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)([Zero Downtime Deployment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/))** 메커니즘을 내장한다는 것이다. 고객이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용 중인 10초의 순간에도 릴리즈가 이루어져야 하므로, 구버전 서버와 신버전 서버를 스위치처럼 교체하는 블루/그린(Blue/Green) 배포나, 서버를 1~2대씩 순차적으로 갈아 끼우는 롤링(Rolling) 배포, 트래픽을 5%만 먼저 흘려보내 모니터링하는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 배포 기법이 파이프라인 내부 로직으로 작동한다. 
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD 파이프라인의 2가지 뉘앙스와 워크플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI 완료</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Staging 환경 자동 배포</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(통합 테스트/QA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Continuous Delivery (지속적 제공) - 인간의 마지막 허락</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출하 대기장 보관</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">운영 환경 배포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Approve Click)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Continuous Deployment (지속적 배포) - 로봇의 무인 독주</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">운영 환경 배포</div></div>
+</div>
+</div>
+
+
+
+CD의 핵심 아키텍처는 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">무중단 배포</a>(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/">Zero Downtime Deployment</a>)</strong> 메커니즘을 내장한다는 것이다. 고객이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용 중인 10초의 순간에도 릴리즈가 이루어져야 하므로, 구버전 서버와 신버전 서버를 스위치처럼 교체하는 블루/그린(Blue/Green) 배포나, 서버를 1~2대씩 순차적으로 갈아 끼우는 롤링(Rolling) 배포, 트래픽을 5%만 먼저 흘려보내 모니터링하는 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 배포 기법이 파이프라인 내부 로직으로 작동한다. 
 
 - **📢 섹션 요약 비유**: Delivery가 고객 집 앞에 택배를 두고 가서 주인이 직접 상자를 열어야 하는 방식이라면, Deployment는 자율주행 로봇이 내 방 책상 위에 물건을 세팅하고 껍질까지 뜯어 놓는 완벽한 풀오토 배송이다.
 
@@ -60,7 +60,7 @@ CD의 핵심 아키텍처는 **[무중단 배포](/knowledge-base/studynote/15_d
 | :--- | :--- | :--- |
 | **운영 서버 배포 주체** | 인간 (버튼 클릭 등 수동 승인) | 시스템 (조건 충족 시 자동화) |
 | **비즈니스 통제력** | 높음 (마케팅 타이밍에 맞춰 출시 가능) | 낮음 (개발 완료 즉시 시장에 나감) |
-| **테스트 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 요구사항** | 높지만 마지막 방어선(인간)이 있음 | **절대적 ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 완벽해야 함)** |
+| <strong>테스트 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 요구사항</strong> | 높지만 마지막 방어선(인간)이 있음 | <strong>절대적 (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a>, <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/">E2E</a> 완벽해야 함)</strong> |
 | **적합한 기업 조직** | 금융, 의료, B2B 엔터프라이즈 솔루션 | 넷플릭스, 아마존 등 B2C 플랫폼 |
 
 특히 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 Git 저장소의 상태를 유일한 진실의 원천(SSOT)으로 삼고, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 클러스터가 저장소의 상태와 현재 서버 상태를 지속적으로 일치시키는 [깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/)([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)) 아키텍처와 연결되어 CD의 신뢰성을 극도로 끌어올렸다. 
@@ -75,7 +75,7 @@ CD는 기술적인 도구 설치만으로 완성되지 않으며, 배포 실패 
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 기준
 1. **스몰 배지(Small Batch) 단위 배포 여부**: 한 달 치 코드를 모아서 한 번에 CD 파이프라인에 태우면 에러 추적이 불가능하다. 변경 사항을 아주 작은 단위로 쪼개어 하루에도 여러 번 파이프라인을 통과시키는 개발 문화가 정착되었는가?
-2. **자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: 배포 직후 5분 내에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러율이 1%를 초과하거나 CPU 사용량이 폭증하면 인간의 개입 없이 CD 도구가 알아서 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 컨테이너로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하도록 헬스체크 트리거가 연동되어 있는가 판단해야 한다.
+2. <strong>자동 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 배포 직후 5분 내에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 500 에러율이 1%를 초과하거나 CPU 사용량이 폭증하면 인간의 개입 없이 CD 도구가 알아서 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 컨테이너로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하도록 헬스체크 트리거가 연동되어 있는가 판단해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **수동 스크립트의 난입**: 파이프라인 중간에 "DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경은 DBA가 직접 콘솔에서 실행해야 한다"며 수동 병목을 남겨두는 설계. 이는 CD의 생명인 재현 가능성을 파괴하며, 새벽 배포 시 담당자 부재로 인한 파이프라인 프리징을 유발하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. (DB 마이그레이션 도구인 Flyway, Liquibase 등을 연동해 코드화해야 함).
@@ -98,27 +98,29 @@ CD는 기술적인 도구 설치만으로 완성되지 않으며, 배포 실패 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **블루/그린 배포 (Blue/Green [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))** | CD 파이프라인 내에서 다운타임을 없애기 위해 구버전과 신버전 트래픽을 스위칭하는 핵심 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 기법 |
-| **[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 릴리즈 ([Canary Release](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/))** | CD 배포 시 전체 트래픽 대신 일부 사용자(예: 5%)에게만 먼저 신버전을 노출해 에러를 탐지하는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 기법 |
-| **[깃옵스](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))** | CD의 진화형으로, 인프라와 배포 선언문을 Git에 올려두면 봇(ArgoCD 등)이 이를 읽어 운영 서버의 상태를 강제로 일치시키는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패턴 |
+| <strong>블루/그린 배포 (Blue/Green <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>)</strong> | CD 파이프라인 내에서 다운타임을 없애기 위해 구버전과 신버전 트래픽을 스위칭하는 핵심 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 기법 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 릴리즈 (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong> | CD 배포 시 전체 트래픽 대신 일부 사용자(예: 5%)에게만 먼저 신버전을 노출해 에러를 탐지하는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 최소화 기법 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/">깃옵스</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a>)</strong> | CD의 진화형으로, 인프라와 배포 선언문을 Git에 올려두면 봇(ArgoCD 등)이 이를 읽어 운영 서버의 상태를 강제로 일치시키는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-빅뱅 배포 (Big Bang) · 월 단위 수동 배포, 잦은 장애 발생
-    │
-    ▼
-지속적 통합 (CI) 정착 · 코드 병합 및 테스트 자동화 보편화
-    │
-    ▼
-지속적 제공 (Continuous Delivery) · 검증된 코드를 출하 대기까지 자동화 (수동 승인)
-    │
-    ▼
-무중단 배포 기법 융합 · 블루/그린, 카나리, 롤링 등 다운타임 제로 아키텍처
-    │
-    ▼
-지속적 배포 (Continuous Deployment) · Git 커밋부터 라이브 환경까지 100% 무인 자동화 직행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">빅뱅 배포 (Big Bang) · 월 단위 수동 배포, 잦은 장애 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 통합 (CI) 정착 · 코드 병합 및 테스트 자동화 보편화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 제공 (Continuous Delivery) · 검증된 코드를 출하 대기까지 자동화 (수동 승인)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무중단 배포 기법 융합 · 블루/그린, 카나리, 롤링 등 다운타임 제로 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 배포 (Continuous Deployment) · Git 커밋부터 라이브 환경까지 100% 무인 자동화 직행</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -11,28 +11,28 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 개발자가 직접 P와 V 연산([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))을 호출하다가 실수로 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 것을 막기 위해, **프로그래밍 언어 차원(Java 등)에서 제공하는 고수준의 '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 자동화' 추상 자료형**이다.
+> 1. **본질**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 개발자가 직접 P와 V 연산([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))을 호출하다가 실수로 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 내는 것을 막기 위해, <strong>프로그래밍 언어 차원(Java 등)에서 제공하는 고수준의 '<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 자동화' 추상 자료형</strong>이다.
 > 2. **구조**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 이를 조작하는 함수(메서드)를 하나의 캡슐로 묶고, "이 캡슐 안에는 오직 한 번에 하나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 들어올 수 있다"는 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 언어의 컴파일러가 자동으로 보장해 준다.
-> 3. **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔지만 아직 작업할 조건(예: 버퍼가 빔)이 안 맞을 때, 락을 쥔 채로 멍때리지 않고 스스로 락을 풀고 잠들 수 있도록 도와주는 `wait()`와 `notify()` 메커니즘을 제공하여 생산자-소비자 문제를 우아하게 해결한다.
+> 3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔지만 아직 작업할 조건(예: 버퍼가 빔)이 안 맞을 때, 락을 쥔 채로 멍때리지 않고 스스로 락을 풀고 잠들 수 있도록 도와주는 `wait()`와 `notify()` 메커니즘을 제공하여 생산자-소비자 문제를 우아하게 해결한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))**: 순차적이고 재사용 가능한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 코드 블록. 내부의 프로시저(함수)들은 한 번에 하나의 프로세스만 실행할 수 있도록 보장된다.
-  - **[조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) ([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))**: 특정 조건이 만족될 때까지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 재워두고, 조건이 맞으면 깨워주는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부의 신호등.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>: 순차적이고 재사용 가능한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 코드 블록. 내부의 프로시저(함수)들은 한 번에 하나의 프로세스만 실행할 수 있도록 보장된다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">Condition Variable</a>)</strong>: 특정 조건이 만족될 때까지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 재워두고, 조건이 맞으면 깨워주는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부의 신호등.
 
-- **필요성 ([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)의 휴먼 에러 극복)**: 
+- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>의 휴먼 에러 극복)</strong>: 
   - [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 훌륭하지만 '어셈블리어'처럼 너무 날것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))이다. 개발자가 `P()`와 `V()`의 순서를 바꾸거나, `P()`를 두 번 쓰거나, `V()`를 까먹으면 시스템 전체가 데드락에 빠지거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 깨져버린다.
   - **해결책**: "개발자를 믿지 마라! 아예 언어(Compiler)가 함수 시작할 때 자동으로 자물쇠를 잠그고, 함수 끝날 때 자동으로 풀어주게 만들자!" 이것이 바로 C.A.R. Hoare와 Brinch Hansen이 제안한 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)다.
 
-  - **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)**: 방(공유 자원)에 들어가기 전에 내가 직접 열쇠(P)로 문을 따고 들어가서, 나올 때 내가 직접 문을 잠그고(V) 열쇠를 반납해야 하는 수동 화장실. (까먹고 열어두고 가면 남이 들어와서 사고가 남)
-  - **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)**: 최신식 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리할 필요가 전혀 없다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a></strong>: 방(공유 자원)에 들어가기 전에 내가 직접 열쇠(P)로 문을 따고 들어가서, 나올 때 내가 직접 문을 잠그고(V) 열쇠를 반납해야 하는 수동 화장실. (까먹고 열어두고 가면 남이 들어와서 사고가 남)
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>: 최신식 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리할 필요가 전혀 없다.
 
 - **발전 과정**:
-  1. **뮤텍스 / [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) (OS 레벨)**: 강력하지만 코딩하기 너무 까다로움.
-  2. **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) (언어 레벨)**: Concurrent Pascal, Java, C# 등 최신 객체 지향 언어들이 언어 스펙으로 채택하여 개발 생산성을 극대화.
+  1. <strong>뮤텍스 / <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> (OS 레벨)</strong>: 강력하지만 코딩하기 너무 까다로움.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> (언어 레벨)</strong>: Concurrent Pascal, Java, C# 등 최신 객체 지향 언어들이 언어 스펙으로 채택하여 개발 생산성을 극대화.
 
 - **📢 섹션 요약 비유**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 자동차의 수동 변속기(클러치 밟고 기어 변속)라면, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 오토매틱(자동 변속기)입니다. 엑셀([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))만 밟으면 기어 변속(락 획득/반납)은 차(언어)가 알아서 해줍니다.
 
@@ -44,32 +44,28 @@ tags = ["studynote-operating-system"]
 
 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 방(Room)이 하나뿐인 병원 진료실과 같다. 이 진료실을 굴리기 위해 두 가지 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))이 존재한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 모니터(Monitor)의 내부 아키텍처 및 큐(Queue) 구조        │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [ 1. 진입 큐 (Entry Queue) ] ◀── "상호 배제(Mutex)를 위한 줄"       │
-  │   - 스레드 A, B, C가 모니터 함수를 호출하면, 1명만 통과하고 나머지는 여기서 대기.│
-  │                                                                   │
-  │  ======================= [ 모니터 내부 (진료실) ] =====================│
-  │                                                                   │
-  │   [ 공유 데이터 (Shared Data) ]                                      │
-  │     int count = 0;                                                │
-  │                                                                   │
-  │   [ 모니터 함수 (Methods) ]                                          │
-  │     function add() { ... }                                        │
-  │     function remove() { ... }                                     │
-  │                                                                   │
-  │   [ 2. 조건 변수 큐 (Condition Variable Queue) ] ◀── "wait/notify 큐"│
-  │     - 조건 변수 `NotEmpty` 큐: 스레드 D, E가 자고 있음                  │
-  │     - 조건 변수 `NotFull`  큐: 텅 비어 있음                           │
-  │                                                                   │
-  │  =================================================================│
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 진입 큐(Entry [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 화장실 밖에서 기다리는 줄이다. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 보장한다. [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 이미 화장실 안으로 들어오긴 했는데, 휴지가 없어서(조건 불만족) 변기에 앉지 못하고 **화장실 구석에 쪼그려 자면서(wait) 누군가 밖에서 휴지를 던져주기(notify)를 기다리는 줄**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터(Monitor)의 내부 아키텍처 및 큐(Queue) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 진입 큐 (Entry Queue)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "상호 배제(Mutex)를 위한 줄"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 A, B, C가 모니터 함수를 호출하면, 1명만 통과하고 나머지는 여기서 대기.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======================</div><div class="kb-diagram-node">모니터 내부 (진료실)</div><div class="kb-diagram-note">=====================</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 데이터 (Shared Data)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int count = 0;</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 함수 (Methods)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function add() { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function remove() { ... }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 조건 변수 큐 (Condition Variable Queue)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "wait/notify 큐"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 변수 <code>NotEmpty</code> 큐: 스레드 D, E가 자고 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 변수 <code>NotFull</code> 큐: 텅 비어 있음</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 진입 큐(Entry [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 화장실 밖에서 기다리는 줄이다. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 보장한다. [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 이미 화장실 안으로 들어오긴 했는데, 휴지가 없어서(조건 불만족) 변기에 앉지 못하고 <strong>화장실 구석에 쪼그려 자면서(wait) 누군가 밖에서 휴지를 던져주기(notify)를 기다리는 줄</strong>이다.
 
 ---
 
@@ -77,13 +73,13 @@ tags = ["studynote-operating-system"]
 
 생산자-소비자 문제에서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 어떻게 우아하게 작동하는지 보자.
 
-- **`wait()` 의 마법**: 
+- <strong><code>wait()</code> 의 마법</strong>: 
   - 소비자가 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어왔는데(락 획득 성공), 버퍼가 텅 비어있다. 
   - 소비자는 `wait()`를 부른다. 
-  - **이 순간, 소비자는 자기가 꽉 쥐고 있던 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 스스로 풀고! [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(구석탱이)로 가서 잠이 든다.** 
+  - <strong>이 순간, 소비자는 자기가 꽉 쥐고 있던 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>의 락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 스스로 풀고! <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/">조건 변수</a> 큐(구석탱이)로 가서 잠이 든다.</strong> 
   - 락이 풀렸으므로 밖에서 기다리던 생산자가 드디어 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 안으로 들어올 수 있게 된다! (이것이 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 짜기 제일 헷갈리는 부분인데, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)가 완벽하게 처리해 준다.)
   
-- **`notify() / signal()` 의 마법**:
+- <strong><code>notify() / signal()</code> 의 마법</strong>:
   - 새로 들어온 생산자가 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채운다.
   - 생산자가 `notify()`를 부른다.
   - 구석에서 자고 있던 소비자 1명이 깨어난다. (하지만 아직 락은 생산자가 쥐고 있으므로 즉시 실행되진 않고 다시 진입 큐로 이동한다.)
@@ -102,7 +98,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **소속 계층** | OS 커널이 제공하는 시스템 콜 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 프로그래밍 언어와 컴파일러가 제공하는 기능 |
 | **은닉성 (Encapsulation)**| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 락이 분리되어 있어 실수하기 쉬움 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드가 캡슐화되어 있어 100% 안전 |
-| **Signaling의 특성** | `V()`를 부르면 카운터가 증가해 흔적이 남음(Stateful) | **`notify()`를 불렀을 때 자는 놈이 없으면 신호가 허공에 증발함([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))** |
+| **Signaling의 특성** | `V()`를 부르면 카운터가 증가해 흔적이 남음(Stateful) | <strong><code>notify()</code>를 불렀을 때 자는 놈이 없으면 신호가 허공에 증발함(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> |
 | **코딩 난이도** | 데드락 유발 가능성 매우 높음 | **초보자도 직관적이고 안전하게 코딩 가능** |
 
 ### 과목 융합 관점
@@ -118,42 +114,41 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — 자바 `wait()` 호출 시 락 해제의 오해로 인한 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `synchronized` 블록([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 안에 진입한 후, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답을 기다리겠다며 `Thread.sleep(1000)`을 호출함.
-   - **원인 분석**: `wait()`와 `sleep()`의 차이를 모르는 주니어의 치명적 실수다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부에서 `wait()`를 부르면 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락을 예쁘게 풀고 대기실로 가서 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들어올 수 있게 양보한다. 하지만 `sleep()`은 **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락(자물쇠)을 꽉 쥔 채로 침을 흘리며 자버리는 행위**다. 1초 동안 다른 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 못 들어오고 전체 서버의 트래픽이 멈춰 선다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
+1. <strong>시나리오 — 자바 <code>wait()</code> 호출 시 락 해제의 오해로 인한 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `synchronized` 블록([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)) 안에 진입한 후, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답을 기다리겠다며 `Thread.sleep(1000)`을 호출함.
+   - **원인 분석**: `wait()`와 `sleep()`의 차이를 모르는 주니어의 치명적 실수다. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 내부에서 `wait()`를 부르면 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락을 예쁘게 풀고 대기실로 가서 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들어올 수 있게 양보한다. 하지만 `sleep()`은 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> 락(자물쇠)을 꽉 쥔 채로 침을 흘리며 자버리는 행위</strong>다. 1초 동안 다른 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 못 들어오고 전체 서버의 트래픽이 멈춰 선다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
    - **대응 (기술사적 가이드)**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 내부에서는 절대로 `sleep()`이나 동기식 네트워크 I/O를 호출해서는 안 된다. 대기가 필요하다면 무조건 `wait()`를 통해 락을 풀고 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)로 빠져야 한다.
 
-2. **시나리오 — `notify()`의 허공 증발 (Lost Wake-up Problem)**: 
+2. <strong>시나리오 — <code>notify()</code>의 허공 증발 (Lost Wake-up Problem)</strong>: 
    - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 날려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A를 깨우려 했다.
    - 그런데 우연한 타이밍 문제([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))로 인해, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `wait()`를 호출하며 잠들기 0.001초 전에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `notify()`를 먼저 불렀다.
-   - **원인 분석**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 $S$라는 숫자를 +1 올려두기 때문에 나중에 온 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 통과한다. 하지만 **[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 `notify()`는 상태(숫자)를 저장하지 않는다.** 깨울 놈이 없으면 그냥 허공에 흩어지고 끝이다. 0.001초 뒤에 잠든 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 영원히 깨워줄 사람이 없어 무한 수면에 빠진다(Lost Wake-up).
-   - **아키텍처 적용**: 이 버그를 막기 위해 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 패턴에서는 반드시 `wait()`를 **`while` 루프 안에서 조건문과 함께 검사**해야 한다. `if`문이 아니라 `while (count == 0) { wait(); }` 처럼 짜야, 자다 깼을 때 진짜 밥이 나왔는지 다시 확인하고, 밥이 늦게 나와도 오류를 막을 수 있다 (Spurious Wakeup 방어).
+   - **원인 분석**: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 $S$라는 숫자를 +1 올려두기 때문에 나중에 온 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 통과한다. 하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>의 <code>notify()</code>는 상태(숫자)를 저장하지 않는다.</strong> 깨울 놈이 없으면 그냥 허공에 흩어지고 끝이다. 0.001초 뒤에 잠든 A [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 영원히 깨워줄 사람이 없어 무한 수면에 빠진다(Lost Wake-up).
+   - **아키텍처 적용**: 이 버그를 막기 위해 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 패턴에서는 반드시 `wait()`를 <strong><code>while</code> 루프 안에서 조건문과 함께 검사</strong>해야 한다. `if`문이 아니라 `while (count == 0) { wait(); }` 처럼 짜야, 자다 깼을 때 진짜 밥이 나왔는지 다시 확인하고, 밥이 늦게 나와도 오류를 막을 수 있다 (Spurious Wakeup 방어).
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 조건 변수(Condition Variable) 대기/알림 설계 플로우       │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [생산자-소비자 큐, 커넥션 풀 등의 자료구조 내부에 동기화를 구현할 때]             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      자원을 반납하는 스레드가 누굴 깨울 때 `notify()`를 쓸까 `notifyAll()`을 쓸까?│
-  │          ├─ `notify()` (한 놈만 깨움)                               │
-  │          │    - 장점: Thundering Herd(수백 명이 동시에 깨어남) 방지로 CPU 아낌│
-  │          │    - 단점: 소비자가 생산자를 깨워야 하는데, 엄한 다른 소비자를 깨울 │
-  │          │            위험이 있음 (Signal Hijacking) -> 데드락 위험!   │
-  │          │                                                        │
-  │          └─ `notifyAll()` (다 깨움) ◀── [아키텍트 권장 기본값]         │
-  │               - 장점: 무조건 올바른 놈이 깨어나서 일하므로 100% 안전함.      │
-  │               - 성능이 약간 떨어져도 데드락이 없는 것이 백만 배 중요함.      │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 변수(Condition Variable) 대기/알림 설계 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">생산자-소비자 큐, 커넥션 풀 등의 자료구조 내부에 동기화를 구현할 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원을 반납하는 스레드가 누굴 깨울 때 <code>notify()</code>를 쓸까 <code>notifyAll()</code>을 쓸까?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ <code>notify()</code> (한 놈만 깨움)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: Thundering Herd(수백 명이 동시에 깨어남) 방지로 CPU 아낌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 소비자가 생산자를 깨워야 하는데, 엄한 다른 소비자를 깨울</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험이 있음 (Signal Hijacking) -&gt; 데드락 위험!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">아키텍트 권장 기본값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: 무조건 올바른 놈이 깨어나서 일하므로 100% 안전함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 성능이 약간 떨어져도 데드락이 없는 것이 백만 배 중요함.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 초보 개발자는 CPU를 아끼겠다며 `notify()` 하나만 날린다. 하지만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 10개 자고 있을 때 누가 깰지는 OS 맘이다. 빵이 없어서 자고 있던 소비자 A가, 빵이 생겨서 깼다가 빵이 꽉 차서 자고 있는 생산자 B를 깨워야 하는데, 엉뚱하게 소비자 C를 깨우면 둘 다 빵이 없어서 다시 잠들고 전 우주가 멈춘다. `notifyAll()`로 일단 다 깨우고(Broadcasting), 각자 `while` 문으로 상황을 파악해 다시 자게 만드는 것이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 코딩의 바이블이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **Reentrant Lock과 다중 Condition**: 자바의 기본 `synchronized` (내장 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 대기실(Wait Set)이 딱 1개밖에 없다. 생산자와 소비자가 하나의 대기실에 섞여 자는 불상사를 막기 위해, 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법인 `ReentrantLock`을 사용하여 `newCondition()`으로 **생산자 전용 대기실**과 **소비자 전용 대기실**을 두 개 뚫어서 정확한 타겟에게만 `Signal()`을 쏘도록 최적화했는가?
+- **Reentrant Lock과 다중 Condition**: 자바의 기본 `synchronized` (내장 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 대기실(Wait Set)이 딱 1개밖에 없다. 생산자와 소비자가 하나의 대기실에 섞여 자는 불상사를 막기 위해, 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법인 `ReentrantLock`을 사용하여 `newCondition()`으로 <strong>생산자 전용 대기실</strong>과 <strong>소비자 전용 대기실</strong>을 두 개 뚫어서 정확한 타겟에게만 `Signal()`을 쏘도록 최적화했는가?
 
 - **📢 섹션 요약 비유**: 대기실이 하나일 때는 "김 대리 나와!" 했을 때 박 대리가 깨서 나오는 실수가 생깁니다. 대기실을 여러 개 뚫어놓고(다중 [Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)) "생산자 방 기상!", "소비자 방 기상!"을 따로 외치는 것이 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 튜닝입니다.
 
@@ -190,15 +185,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[세마포어 P, V 연산]
-    │
-    ▼
-[모니터 (Monitor) 동기화 추상화]
-    │
-    ├──▶ [생산자 소비자 유한 버퍼]
-    └──▶ [식사하는 철학자 교착 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어 P, V 연산</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 (Monitor) 동기화 추상화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">생산자 소비자 유한 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식사하는 철학자 교착 문제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

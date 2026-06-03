@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**:테스트이/가적 실행 지침만 제공하는 경우, 실제 실행할 때 실행자마다 접근 방식이 다를 수 있다. 테스트 절차는 이러한 variability를 방지하여 동일한 결과를 재현할 수 있게 한다. 특히 규제(항공, 의료, 금융)에서는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 테스트 절차 문서가 필수적이다.
 
-- **💡 비유**: 테스트 절차는 **' '**과 같다. MRI 에는 "1. 환자를 스캔에 눕힌다", "2. 스캔를 레이저로 맞춤다", "3. 스캔 시작 버튼을 누른다" 등 순차적 지침이 포함된다. 소프트웨어 테스트 절차도 마찬가지로, 각 단계가 순서대로 명확히 기록되어 있어,자 누구든 동일한 결과를 얻을 수 있다.
+- **💡 비유**: 테스트 절차는 <strong>' '</strong>과 같다. MRI 에는 "1. 환자를 스캔에 눕힌다", "2. 스캔를 레이저로 맞춤다", "3. 스캔 시작 버튼을 누른다" 등 순차적 지침이 포함된다. 소프트웨어 테스트 절차도 마찬가지로, 각 단계가 순서대로 명확히 기록되어 있어,자 누구든 동일한 결과를 얻을 수 있다.
 
 - **등장 배경 및 발전 과정**:
 1. **1980년대**: 공식 테스트 문서화 표준( military, aerospace)에서 테스트 절차 개념 정립
@@ -31,24 +31,23 @@ tags = ["studynote-software-engineering"]
 3. **2000년대**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 자동화 프레임워크(Selenium, JUnit) 대중화
 4. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서 테스트 자동화가 표준으로 정착
 
-- **📢 섹션 요약 비유**: 테스트 절차는 **'평행우는길 찾기 내비게이션'**과 같다. 내비게이션은 "500m 직진 → 신호가 있는 교차로에서 우회전 → 1km 후 좌회전"처럼 단계별로 정확한 길을 안내한다. 소프트웨어 테스트 절차도 마찬가지로 "①로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속 → ②사용자명 입력 → ③비밀번호 입력 → ④로그인 버튼 클릭"과 같이 정확한 단계별 지침을 제공하여, 사용자(테스터)들이 동일한 목적지(테스트 결과)에 도달할 수 있게 한다.
+- **📢 섹션 요약 비유**: 테스트 절차는 <strong>'평행우는길 찾기 내비게이션'</strong>과 같다. 내비게이션은 "500m 직진 → 신호가 있는 교차로에서 우회전 → 1km 후 좌회전"처럼 단계별로 정확한 길을 안내한다. 소프트웨어 테스트 절차도 마찬가지로 "①로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 접속 → ②사용자명 입력 → ③비밀번호 입력 → ④로그인 버튼 클릭"과 같이 정확한 단계별 지침을 제공하여, 사용자(테스터)들이 동일한 목적지(테스트 결과)에 도달할 수 있게 한다.
 
 ---
 
 다음은 테스트 절차 (Test Procedu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 테스트 절차 (Test Procedu │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 절차 (Test Procedu</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 테스트 절차 (Test Procedu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

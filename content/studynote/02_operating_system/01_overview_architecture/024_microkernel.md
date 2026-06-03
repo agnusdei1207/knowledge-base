@@ -22,19 +22,20 @@ tags = ["studynote-operating-system"]
 
 핵심 철학: "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 최소한의 메커니즘만 제공하고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 사용자 공간에서 결정한다."
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        모놀리식 커널 vs 마이크로커널 구조 비교                  │
-├─────────────────────────┬────────────────────────────────────┤
-│    모놀리식 커널          │        마이크로커널                  │
-├─────────────────────────┼────────────────────────────────────┤
-│ [사용자 프로세스]          │ [파일서버] [드라이버서버] [네트워크]  │
-│          │               │      │ 사용자 공간(User Space)       │
-│ ─────────────────────   │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
-│ [커널: FS+Driver+Net     │ [마이크로커널: IPC+메모리+스케줄러]  │
-│  +Memory+Scheduler]     │      커널 공간(Kernel Space)        │
-└─────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 커널 vs 마이크로커널 구조 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 커널</div><div class="kb-diagram-cell">마이크로커널</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 프로세스</div><div class="kb-diagram-node">파일서버</div><div class="kb-diagram-node">드라이버서버</div><div class="kb-diagram-node">네트워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 공간(User Space)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[커널: FS+Driver+Net</div><div class="kb-diagram-node">마이크로커널: IPC+메모리+스케줄러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+Memory+Scheduler]</div><div class="kb-diagram-cell">커널 공간(Kernel Space)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)은 모든 기능이 한 방에 있는 대형 마트이고, 마이크로커널은 핵심 계산대([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), 메모리)만 중앙에 두고 각 가게([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템, 드라이버)는 별도 건물에 있는 복합쇼핑몰이다. 편의성 vs 유연성의 트레이드오프다.
 
@@ -53,17 +54,19 @@ tags = ["studynote-operating-system"]
 
 ### [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메시지 패싱 흐름
 
-```text
-[App] → send(msg) → [마이크로커널 IPC]
-                         │
-                    메시지 라우팅
-                         │
-                    [파일서버(User)] ← recv(msg)
-                         │
-                    응답 → [마이크로커널 IPC] → [App]
 
-Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">App</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">마이크로커널 IPC</div></div>
+<div class="kb-diagram-note">메시지 라우팅</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일서버(User)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">recv(msg)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">마이크로커널 IPC</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">App</div></div>
+<div class="kb-diagram-note">Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)</div>
+</div>
+</div>
+
+
 
 [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) 시스템 콜: 1회 [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) (User→[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)→User)
 
@@ -75,8 +78,8 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 | 항목 | [모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/) | 마이크로커널 | [하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/) |
 |:---|:---|:---|:---|
-| **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기** | 크다 (수백만 줄) | 작다 (수만 줄) | 중간 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 빠름 ([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)) | 느림 ([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 오버헤드) | 중간 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 크기</strong> | 크다 (수백만 줄) | 작다 (수만 줄) | 중간 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 빠름 ([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)) | 느림 ([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 오버헤드) | 중간 |
 | **안정성** | 드라이버 버그 → 크래시 | 서버 격리 → 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 중간 |
 | **사례** | Linux, Unix | QNX, L4, MINIX | macOS(XNU), Windows NT |
 
@@ -106,8 +109,8 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 | 기대효과 | 내용 |
 |:---|:---|
 | **고가용성** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버 장애 격리·자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)** | 최소 권한([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) |
-| **[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)** | 서버 독립 업데이트·교체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 최소 권한([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong> | 서버 독립 업데이트·교체 |
 
 마이크로커널 아키텍처는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·자율주행·항공 임베디드 분야에서 기능 안전(Functional Safety) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(ISO 26262, DO-178C) 획득을 위한 표준 선택지다. SEL4처럼 수학적으로 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Formal Verification](/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/))된 마이크로커널이 등장하여 "증명 가능한 안전성"이 미래 방향이다.
 
@@ -119,29 +122,31 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)** | 마이크로커널의 비교 대안; Linux 대표 |
-| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) ([프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))** | 마이크로커널 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청의 핵심 메커니즘 |
-| **[하이브리드 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/)** | 마이크로커널 + 모놀리식 절충; macOS XNU |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/">모놀리식 커널</a></strong> | 마이크로커널의 비교 대안; Linux 대표 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">프로세스 간 통신</a>)</strong> | 마이크로커널 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청의 핵심 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/025_hybrid_kernel/">하이브리드 커널</a></strong> | 마이크로커널 + 모놀리식 절충; macOS XNU |
 | **QNX / L4** | 대표적인 산업용 마이크로커널 OS |
-| **형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (seL4)** | 수학적으로 안전성이 증명된 마이크로커널 |
+| <strong>형식 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (seL4)</strong> | 수학적으로 안전성이 증명된 마이크로커널 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모놀리식 커널 — 단일 주소공간, 고성능, 낮은 안정성]
-    │
-    ▼
-[마이크로커널 — 최소 커널 + 사용자 공간 서버, IPC 기반]
-    │
-    ▼
-[하이브리드 커널 — 성능/안정성 절충 (macOS, Windows NT)]
-    │
-    ▼
-[형식 검증 마이크로커널 — seL4, 수학적 안전성 증명]
-    │
-    ▼
-[임베디드/자율주행 OS — 기능 안전 인증 (ISO 26262)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 커널 — 단일 주소공간, 고성능, 낮은 안정성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로커널 — 최소 커널 + 사용자 공간 서버, IPC 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 커널 — 성능/안정성 절충 (macOS, Windows NT)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형식 검증 마이크로커널 — seL4, 수학적 안전성 증명</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임베디드/자율주행 OS — 기능 안전 인증 (ISO 26262)</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

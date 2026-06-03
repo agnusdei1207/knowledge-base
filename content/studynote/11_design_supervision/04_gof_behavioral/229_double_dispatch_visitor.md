@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Double Dispatch (더블 디스패치)는 메서드 호출이 **두 객체의 런타임 타입** 모두를 기반으로 결정되는 메커니즘이며, [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 Java의 단일 디스패치(Single Dispatch) 한계를 `accept(visitor) → visitor.visit(this)` 두 번의 가상 호출(Virtual [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))로 더블 디스패치를 구현하는 GoF 패턴이다.
-> 2. **가치**: 요소(Element) 클래스 계층을 변경하지 않고 새로운 연산([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 추가할 수 있어, **Open/Closed Principle([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/))** 을 지키면서 타입별 동작을 확장한다.
+> 2. **가치**: 요소(Element) 클래스 계층을 변경하지 않고 새로운 연산([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 추가할 수 있어, <strong>Open/Closed Principle(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/">개방-폐쇄 원칙</a>)</strong> 을 지키면서 타입별 동작을 확장한다.
 > 3. **판단 포인트**: 요소 타입은 고정적이지만 연산이 자주 추가되는 경우 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) — 반대로 연산은 고정적이지만 타입이 자주 추가되는 경우 Visitor는 부적합 (모든 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스 수정 필요).
 
 ---
@@ -38,54 +38,60 @@ renderer.render(shape);     // 컴파일 타임 타입: Shape → render(Shape) 
 
 **문제**: 인수 타입에 대한 런타임 다형성이 필요한데, Java 오버로딩은 컴파일 타임에 결정된다.
 
-```
-1번 디스패치: shape.accept(visitor)
-  → shape의 런타임 타입(Circle)이 Circle::accept를 호출
 
-2번 디스패치: visitor.visit(this)
-  → this의 컴파일 타입이 Circle → visitor.visit(Circle)을 호출
-  → 이 시점의 this는 확실히 Circle 타입 → 오버로딩 정확히 해결!
-```
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1번 디스패치: shape.accept(visitor)</div>
+<div class="kb-diagram-note">→ shape의 런타임 타입(Circle)이 Circle::accept를 호출</div>
+<div class="kb-diagram-note">2번 디스패치: visitor.visit(this)</div>
+<div class="kb-diagram-note">→ this의 컴파일 타입이 Circle → visitor.visit(Circle)을 호출</div>
+<div class="kb-diagram-note">→ 이 시점의 this는 확실히 Circle 타입 → 오버로딩 정확히 해결!</div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 더블 디스패치는 두 번의 악수로 신원을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "나는 Circle이에요(1번 디스패치: accept)" → "그럼 Circle용 처리를 할게요(2번 디스패치: visit(Circle))"
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌────────────────────────────────────────────────────────────────┐
-│                    Visitor Pattern 구조                        │
-│                                                                │
-│  <<interface>>          <<interface>>                         │
-│  Element                Visitor                               │
-│  ┌──────────────┐       ┌────────────────────────┐            │
-│  │ +accept(v:V) │       │ +visit(c:Circle): void  │           │
-│  └──────┬───────┘       │ +visit(s:Square): void  │           │
-│         │               │ +visit(t:Triangle): void│           │
-│    ┌────┴────┐          └──────────┬──────────────┘           │
-│    │         │                ┌────┴────┐                     │
-│  Circle   Square          DrawVisitor  AreaVisitor            │
-│  ┌──────┐ ┌──────┐        ┌─────────┐ ┌─────────┐            │
-│  │accept│ │accept│        │visit(c) │ │visit(c) │            │
-│  │(v){  │ │(v){  │        │visit(s) │ │visit(s) │            │
-│  │ v.visit│ │ v.visit│     │visit(t) │ │visit(t) │            │
-│  │ (this)│ │ (this)│      └─────────┘ └─────────┘            │
-│  │}     │ │}     │                                            │
-│  └──────┘ └──────┘                                            │
-│                                                                │
-│  호출 흐름:                                                     │
-│  shape.accept(drawVisitor)                                     │
-│    → Circle::accept(drawVisitor)  [1번 디스패치: shape 타입]   │
-│    → drawVisitor.visit(this)      [2번 디스패치: this=Circle]  │
-│    → DrawVisitor::visit(Circle)   [Circle 특화 처리]           │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Visitor Pattern 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt; &lt;&lt;interface&gt;&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Element Visitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+accept(v:V)</div><div class="kb-diagram-cell">+visit(c:Circle): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+visit(s:Square): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+visit(t:Triangle): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circle Square DrawVisitor AreaVisitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">accept</div><div class="kb-diagram-cell">accept</div><div class="kb-diagram-cell">visit(c)</div><div class="kb-diagram-cell">visit(c)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v){</div><div class="kb-diagram-cell">(v){</div><div class="kb-diagram-cell">visit(s)</div><div class="kb-diagram-cell">visit(s)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v.visit</div><div class="kb-diagram-cell">v.visit</div><div class="kb-diagram-cell">visit(t)</div><div class="kb-diagram-cell">visit(t)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(this)</div><div class="kb-diagram-cell">(this)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출 흐름:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shape.accept(drawVisitor)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1번 디스패치: shape 타입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2번 디스패치: this=Circle</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Circle 특화 처리</div></div>
+</div>
+</div>
+
+
 
 ```java
 // Element 인터페이스
@@ -231,7 +237,7 @@ class TypeChecker implements AstVisitor {
 - 캡슐화 약화: Element의 내부 상태를 Visitor에 노출해야 함
 - 보일러플레이트 코드 증가
 
-기술사 시험에서는 **더블 디스패치의 메커니즘(두 번의 가상 호출)**, **[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴의 구조(Element + [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 인터페이스)**, **적합/부적합 시나리오(연산 추가 ↔ 타입 추가)**를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 **더블 디스패치의 메커니즘(두 번의 가상 호출)**, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 패턴의 구조(Element + <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 인터페이스)</strong>, <strong>적합/부적합 시나리오(연산 추가 ↔ 타입 추가)</strong>를 명확히 서술하는 것이 핵심이다.
 
 확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 

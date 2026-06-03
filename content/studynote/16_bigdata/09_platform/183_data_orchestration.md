@@ -21,19 +21,22 @@ tags = ["studynote-bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 Extract, Transform, Load ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))이나 Extract, Load, Transform ([ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)) 작업을 "시간이 되면 실행한다" 수준에서 "의존성과 상태를 가진 운영 시스템"으로 끌어올리는 개념이다. 빅데이터 플랫폼에서는 수집, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 변환, 적재, 품질 검사, 알림, 모델 재학습까지 이어지는 단계가 많아지므로, 단순 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)만으로는 흐름을 안정적으로 제어하기 어렵다.
 
-예전에는 cron으로도 어느 정도 버틸 수 있었다. 하지만 스크립트 A가 늦게 끝났는데 스크립트 B가 먼저 시작되거나, 실패한 작업을 사람이 새벽에 다시 돌리거나, 어떤 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 비었는지 추적하지 못하는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 빠르게 불투명해진다. 결국 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)이 필요한 이유는 "자동 실행" 때문이 아니라, **복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능하고 설명 가능하게 만들기 위해서**다.
+예전에는 cron으로도 어느 정도 버틸 수 있었다. 하지만 스크립트 A가 늦게 끝났는데 스크립트 B가 먼저 시작되거나, 실패한 작업을 사람이 새벽에 다시 돌리거나, 어떤 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 비었는지 추적하지 못하는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 빠르게 불투명해진다. 결국 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)이 필요한 이유는 "자동 실행" 때문이 아니라, <strong>복잡한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름을 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능하고 설명 가능하게 만들기 위해서</strong>다.
 
 아래 그림은 단순 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 차이를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From job scheduling to orchestration                               │
-├────────────────────────────────────────────────────────────────────┤
-│ cron      : run A at 00:00, B at 01:00, hope A finished           │
-│ orchestral: extract -> validate -> transform -> publish           │
-│             with retries, state, alerts, backfill, lineage        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From job scheduling to orchestration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cron : run A at 00:00, B at 01:00, hope A finished</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">orchestral: extract -&gt; validate -&gt; transform -&gt; publish</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">with retries, state, alerts, backfill, lineage</div></div>
+</div>
+</div>
+
+
 
 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 빅데이터 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 "자동 실행 버튼"이 아니라, 실패와 재실행을 견딜 수 있게 만드는 운영 규칙 모음이다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수가 늘수록 이 제어 평면의 품질이 곧 플랫폼 성숙도를 결정한다.
 
@@ -56,19 +59,19 @@ tags = ["studynote-bigdata"]
 
 아래 구조는 오케스트레이터가 제어하는 공통 실행 경로를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Data orchestration control plane                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ event / schedule -> scheduler -> task queue -> workers / pods     │
-│                        │                           │                │
-│                        └------ metadata DB <-------┘                │
-│                                 │                                   │
-│                           states / logs / retries                   │
-│                                 │                                   │
-│                      backfill / alerts / lineage                    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data orchestration control plane</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">event / schedule -&gt; scheduler -&gt; task queue -&gt; workers / pods</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------ metadata DB &lt;-------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">states / logs / retries</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backfill / alerts / lineage</div></div>
+</div>
+</div>
+
+
 
 모델링 방식은 도구에 따라 조금씩 다르다.
 
@@ -103,7 +106,7 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 | Orchestrator | 작업 순서·상태·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·가시성 관리 | 실제 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리는 외부 엔진에 위임 |
 | [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) Processor | 레코드 단위 실시간 처리 | 배포 순서, 백필, 운영 승인 흐름은 별도 필요 |
 
-이 비교가 중요한 이유는 오케스트레이터가 모든 문제를 해결하지 않기 때문이다. dbt, Spark, Flink, 웨어하우스 SQL, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습기는 실제 계산을 담당하고, 오케스트레이터는 그 계산들이 **일관된 운영 절차**를 따르도록 묶는다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 엔진의 대체재가 아니라, 서로 다른 엔진을 연결하는 공통 운영 언어다.
+이 비교가 중요한 이유는 오케스트레이터가 모든 문제를 해결하지 않기 때문이다. dbt, Spark, Flink, 웨어하우스 SQL, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습기는 실제 계산을 담당하고, 오케스트레이터는 그 계산들이 <strong>일관된 운영 절차</strong>를 따르도록 묶는다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 엔진의 대체재가 아니라, 서로 다른 엔진을 연결하는 공통 운영 언어다.
 
 - **📢 섹션 요약 비유**: Airflow·Dagster·Prefect의 차이는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도, 창고 재고도, 배송 관제 앱의 차이와 비슷하다. 모두 물류를 돕지만, 무엇을 중심으로 세상을 보느냐가 다르다.
 
@@ -130,7 +133,7 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 첫째, 하나의 거대 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 안에 수십 개 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 몰아 넣어 변경 위험을 키우는 방식이다. 둘째, 오케스트레이터 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소처럼 써서 대용량 중간 결과를 밀어 넣는 방식이다. 셋째, 센서가 끝없이 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하며 워커 슬롯을 잡아먹는 방식이다. 넷째, 스트리밍 레코드 한 건 한 건을 오케스트레이터가 직접 지휘하려는 방식이다.
 
-따라서 기술사 답안에서는 "도구 이름 나열"로 끝내지 말고, **제어 평면/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 분리, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 백필, 실행 모델 선택, 자산 계보**까지 설명해야 아키텍처 판단이 된다.
+따라서 기술사 답안에서는 "도구 이름 나열"로 끝내지 말고, <strong>제어 평면/<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 분리, <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a>, 백필, 실행 모델 선택, 자산 계보</strong>까지 설명해야 아키텍처 판단이 된다.
 
 - **📢 섹션 요약 비유**: 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 설계는 식당 주문서를 깔끔하게 나누는 것과 같다. 조리 순서, 재조리 규칙, 재료 위치가 정리되어 있어야 바쁜 시간에도 주문이 꼬이지 않는다.
 
@@ -142,7 +145,7 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 
 하지만 한계도 분명하다. 오케스트레이터는 Spark처럼 빠른 계산 엔진이 아니고, Flink처럼 레코드 단위 스트리밍 처리를 대신하지도 않는다. 또 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 설계가 나쁘면 어떤 도구를 써도 거대한 DAG와 잦은 재실행, 느린 센서 지옥에 빠질 수 있다.
 
-결론적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 "작업 자동 실행 도구"가 아니라, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 시간·의존성·실패를 관리하는 운영 백본**으로 기억해야 한다. 도구 선택보다 더 중요한 것은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 자산 경계, 제어 평면 분리 같은 설계 원칙이다.
+결론적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 "작업 자동 실행 도구"가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플랫폼의 시간·의존성·실패를 관리하는 운영 백본</strong>으로 기억해야 한다. 도구 선택보다 더 중요한 것은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 자산 경계, 제어 평면 분리 같은 설계 원칙이다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 연주를 대신하는 악기가 아니라 지휘자다. 악기가 좋아도 지휘가 엉키면 곡이 무너지고, 지휘가 좋으면 여러 악기가 같은 박자로 맞아떨어진다.
 
@@ -162,21 +165,23 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-cron 기반 스크립트 실행
-    │
-    ▼
-DAG 기반 워크플로우 제어
-    │
-    ▼
-재시도 · 상태 추적 · 백필
-    │
-    ▼
-Asset 중심 계보 · 품질 관리
-    │
-    ▼
-플랫폼 수준 데이터 오케스트레이션
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">cron 기반 스크립트 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DAG 기반 워크플로우 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재시도 · 상태 추적 · 백필</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Asset 중심 계보 · 품질 관리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플랫폼 수준 데이터 오케스트레이션</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 시간 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이 점차 상태 관리와 자산 관리로 확장되며, 결국 플랫폼 운영의 핵심 제어 계층이 되는 과정을 보여 준다.
 

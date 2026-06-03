@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 클린 아키텍처 (Clean Archi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클린 아키텍처 (Clean Archi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클린 아키텍처 (Clean Archi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 클린 아키텍처 (Clean Archi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스템의 관심사(관심 영역)를 명확한 계층(Layer)으로 완벽하게 분리하고, **시스템의 가장 핵심인 비즈니스 규칙([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 중심에 두어, UI, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 웹 프레임워크 같은 외부의 세부적인 기술(변동성이 큰 것들)로부터 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 100% 철저하게 독립(격리)시키는 소프트웨어 설계 철학**입니다.
+- **개념**: 시스템의 관심사(관심 영역)를 명확한 계층(Layer)으로 완벽하게 분리하고, <strong>시스템의 가장 핵심인 비즈니스 규칙(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)을 중심에 두어, UI, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>, 웹 프레임워크 같은 외부의 세부적인 기술(변동성이 큰 것들)로부터 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>을 100% 철저하게 독립(격리)시키는 소프트웨어 설계 철학</strong>입니다.
 
 - **📢 섹션 요약 비유**: 클린 아키텍처 (Clean [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -64,8 +63,8 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 - **의존성 규칙 (The Dependency Rule)**: 
-  - **"모든 소스 코드의 의존성(화살표, Import 문)은 반드시 밖에서 안으로, 오직 고수준의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(중심부)을 향해서만 가리켜야 한다!"**
-  - 바깥쪽 원(프레임워크)에 있는 클래스, 함수, 변수의 이름을 안쪽 원(엔티티, 유스케이스)에 있는 코드에서 단 한 번이라도 언급(Import)하거나 호출하면 그 즉시 **사형**입니다.
+  - <strong>"모든 소스 코드의 의존성(화살표, Import 문)은 반드시 밖에서 안으로, 오직 고수준의 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(중심부)을 향해서만 가리켜야 한다!"</strong>
+  - 바깥쪽 원(프레임워크)에 있는 클래스, 함수, 변수의 이름을 안쪽 원(엔티티, 유스케이스)에 있는 코드에서 단 한 번이라도 언급(Import)하거나 호출하면 그 즉시 <strong>사형</strong>입니다.
 
 - **📢 섹션 요약 비유**: 클린 아키텍처 (Clean [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -85,10 +84,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-- **장점**: 프레임워크 독립성(Spring을 내일 당장 Django로 바꿔도 1, 2번 껍질은 무사함), UI 독립성, DB 독립성, 그리고 **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쇳덩어리 없이도 1, 2번 껍질만 쏙 빼서 1초 만에 수만 번의 유닛 테스트를 돌릴 수 있는 미친 테스트 용이성([Testability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/285_testability_tactics/))**을 가집니다.
+- **장점**: 프레임워크 독립성(Spring을 내일 당장 Django로 바꿔도 1, 2번 껍질은 무사함), UI 독립성, DB 독립성, 그리고 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 쇳덩어리 없이도 1, 2번 껍질만 쏙 빼서 1초 만에 수만 번의 유닛 테스트를 돌릴 수 있는 미친 테스트 용이성(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/285_testability_tactics/">Testability</a>)</strong>을 가집니다.
 - **단점**: "버튼 누르면 DB에 1 더하기"라는 단순한 기능 하나 만들 때도, 껍질을 관통하는 클래스와 인터페이스([어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 파일을 5개 이상 쪼개서 만들어야 하므로, 초보 개발자는 멘탈이 나가고 타자 치다 손가락이 부러집니다([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 개발 속도 극악).
 
-> 📢 **섹션 요약 비유**: **클린 아키텍처(Clean [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**는 국가의 심장인 **'대통령(엔티티)'을 보호하는 4중 철통 벙커 시스템**입니다. 가장 깊은 지하 1층에는 국가 통치 철학(핵심 로직)만 고민하는 대통령(엔티티)이 있습니다. 지하 2층에는 대통령의 명령을 각 부서로 전달하는 비서실장(유스케이스)이 있습니다. 지하 3층에는 외부에서 오는 영어, 불어 문서를 한국어로 번역해서 비서실장에게 올려주는 통역사(인터페이스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))들이 대기합니다. 그리고 지상 1층(프레임워크)에는 인터넷, 팩스, 오토바이 배달부 같은 외부 통신 기계들이 널려 있습니다. 이 벙커의 절대 규칙(의존성 규칙)은 **"모든 결재 서류(화살표)는 지상 1층에서 시작해 무조건 지하 1층(안쪽)으로만 내려가야 한다"**는 것입니다. 대통령(엔티티)이 지상 1층의 배달부(DB) 이름을 직접 부르며 전화를 거는 짓(밖을 가리키는 의존성)은 헌법으로 금지됩니다. 지상 1층의 통신망이 팩스에서 카카오톡으로 바뀌든(프레임워크 교체), 러시아가 쳐들어오든 지하 1층의 대통령은 바깥세상의 소음을 1도 모르고 영원히 평화롭게 국가(핵심 로직)를 다스릴 수 있는 궁극의 격리 요새입니다.
+> 📢 **섹션 요약 비유**: <strong>클린 아키텍처(Clean <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>는 국가의 심장인 <strong>'대통령(엔티티)'을 보호하는 4중 철통 벙커 시스템</strong>입니다. 가장 깊은 지하 1층에는 국가 통치 철학(핵심 로직)만 고민하는 대통령(엔티티)이 있습니다. 지하 2층에는 대통령의 명령을 각 부서로 전달하는 비서실장(유스케이스)이 있습니다. 지하 3층에는 외부에서 오는 영어, 불어 문서를 한국어로 번역해서 비서실장에게 올려주는 통역사(인터페이스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))들이 대기합니다. 그리고 지상 1층(프레임워크)에는 인터넷, 팩스, 오토바이 배달부 같은 외부 통신 기계들이 널려 있습니다. 이 벙커의 절대 규칙(의존성 규칙)은 <strong>"모든 결재 서류(화살표)는 지상 1층에서 시작해 무조건 지하 1층(안쪽)으로만 내려가야 한다"</strong>는 것입니다. 대통령(엔티티)이 지상 1층의 배달부(DB) 이름을 직접 부르며 전화를 거는 짓(밖을 가리키는 의존성)은 헌법으로 금지됩니다. 지상 1층의 통신망이 팩스에서 카카오톡으로 바뀌든(프레임워크 교체), 러시아가 쳐들어오든 지하 1층의 대통령은 바깥세상의 소음을 1도 모르고 영원히 평화롭게 국가(핵심 로직)를 다스릴 수 있는 궁극의 격리 요새입니다.
 
 - **📢 섹션 요약 비유**: 클린 아키텍처 (Clean [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -107,21 +106,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클린 아키텍처 (Clean Architecture) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클린 아키텍처 (Clean Architecture) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,14 +22,19 @@ tags = ["studynote-data-engineering"]
 
 차원이 증가할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트 간 거리가 모두 비슷해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 희소해져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 역설적으로 저하된다.
 
-```
-차원 수 │ 단위 정육면체에서 전체 부피의 1% 커버하는 변 길이
-─────────┼────────────────────────────────────────────────
-2 │ 0.10 (10%)
-10 │ 0.63 (63%)
-100 │ 0.955 (95.5%)
-1000 │ 0.995 (99.5%)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">차원 수 │ 단위 정육면체에서 전체 부피의 1% 커버하는 변 길이</div>
+<div class="kb-diagram-note">2 │ 0.10 (10%)</div>
+<div class="kb-diagram-note">10 │ 0.63 (63%)</div>
+<div class="kb-diagram-note">100 │ 0.955 (95.5%)</div>
+<div class="kb-diagram-note">1000 │ 0.995 (99.5%)</div>
+</div>
+</div>
+
+
 
 → 고차원에서는 "근접 이웃"의 의미가 약해지고, [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)·클러스터링·회귀 모두 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 
@@ -43,71 +48,77 @@ tags = ["studynote-data-engineering"]
 
 PCA는 비지도(Unsupervised) 선형 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)다. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 가장 크게 보존되는 방향(주성분, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))으로 새 축을 정의한다.
 
-```
-PCA 알고리즘 흐름:
-────────────────────────────────────────────────────────
-① 데이터 중심화 (평균 빼기, Mean Centering)
-↓
-② 공분산 행렬 계산 (Covariance Matrix)
-↓
-③ 고유값 분해 (Eigenvalue Decomposition) 또는 SVD
-↓
-④ 고유벡터(Eigenvector) = 주성분 방향 축
-고유값(Eigenvalue) = 해당 축의 설명 분산량
-↓
-⑤ 설명 분산 누적 비율 확인 (Explained Variance Ratio)
-보통 PC들이 95% 이상 설명하는 수까지 선택
-↓
-⑥ 원본 데이터를 선택된 PC 공간으로 투영
-────────────────────────────────────────────────────────
 
-Scree Plot (스크리 플롯):
-설명 분산
-│
-80%│ ●
-│ ●
-40%│ ●
-│ ●──●──●──●
-└──────────────────
-PC1 PC2 PC3 PC4 (엘보우 이후 완만 → 거기서 자름)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">PCA 알고리즘 흐름:</div>
+<div class="kb-diagram-note">① 데이터 중심화 (평균 빼기, Mean Centering)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">② 공분산 행렬 계산 (Covariance Matrix)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">③ 고유값 분해 (Eigenvalue Decomposition) 또는 SVD</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">④ 고유벡터(Eigenvector) = 주성분 방향 축</div>
+<div class="kb-diagram-note">고유값(Eigenvalue) = 해당 축의 설명 분산량</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">⑤ 설명 분산 누적 비율 확인 (Explained Variance Ratio)</div>
+<div class="kb-diagram-note">보통 PC들이 95% 이상 설명하는 수까지 선택</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">⑥ 원본 데이터를 선택된 PC 공간으로 투영</div>
+<div class="kb-diagram-note">Scree Plot (스크리 플롯):</div>
+<div class="kb-diagram-note">설명 분산</div>
+<div class="kb-diagram-note">80%│ ●</div>
+<div class="kb-diagram-note">●</div>
+<div class="kb-diagram-note">40%│ ●</div>
+<div class="kb-diagram-note">●──●──●──●</div>
+<div class="kb-diagram-note">PC1 PC2 PC3 PC4 (엘보우 이후 완만 → 거기서 자름)</div>
+</div>
+</div>
+
+
 
 ### 2-2. LDA (Linear Discriminant Analysis, [선형 판별 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/082_lda_linear_discriminant_analysis_classification/))
 
 LDA는 지도(Supervised) 선형 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)다. 클래스 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Between-Class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 최대화하고 클래스 내 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Within-Class [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 최소화하는 축을 찾는다.
 
-```
-LDA 목표:
-클래스 간 분산 (SB)
-최대화: ─────────────────────
-클래스 내 분산 (SW)
 
-PCA와의 차이:
-┌─────────────────────────────────────────────────────┐
-│ PCA: 레이블 무관, 전체 분산 최대화 (비지도) │
-│ LDA: 레이블 사용, 클래스 분리 최대화 (지도) │
-└─────────────────────────────────────────────────────┘
 
-최대 축 수: min(클래스 수 - 1, 특성 수)
-→ 클래스가 3개이면 최대 2개의 판별 축 가능
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LDA 목표:</div>
+<div class="kb-diagram-note">클래스 간 분산 (SB)</div>
+<div class="kb-diagram-note">최대화:</div>
+<div class="kb-diagram-note">클래스 내 분산 (SW)</div>
+<div class="kb-diagram-note">PCA와의 차이:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCA: 레이블 무관, 전체 분산 최대화 (비지도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDA: 레이블 사용, 클래스 분리 최대화 (지도)</div></div>
+<div class="kb-diagram-note">최대 축 수: min(클래스 수 - 1, 특성 수)</div>
+<div class="kb-diagram-note">→ 클래스가 3개이면 최대 2개의 판별 축 가능</div>
+</div>
+</div>
+
+
 
 ### 2-3. t-SNE (t-Distributed Stochastic Neighbor [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))
 
 t-SNE는 비선형 비지도 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 전용 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)다. 고차원에서의 이웃 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 저차원(2D/3D)에서 재현한다.
 
-```
-t-SNE 핵심 아이디어:
-────────────────────────────────────────────────────────
-① 고차원: 데이터 포인트 간 유사도를 가우시안 확률로 계산
-② 저차원: 유사도를 t-분포(꼬리 두터운 분포)로 표현
-③ KL Divergence를 최소화하여 고·저차원 확률 분포 정렬
-────────────────────────────────────────────────────────
 
-t-분포를 쓰는 이유:
-고차원→저차원 시 "군집 간 거리가 찌그러지는 문제(Crowding Problem)"를
-t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">t-SNE 핵심 아이디어:</div>
+<div class="kb-diagram-note">① 고차원: 데이터 포인트 간 유사도를 가우시안 확률로 계산</div>
+<div class="kb-diagram-note">② 저차원: 유사도를 t-분포(꼬리 두터운 분포)로 표현</div>
+<div class="kb-diagram-note">③ KL Divergence를 최소화하여 고·저차원 확률 분포 정렬</div>
+<div class="kb-diagram-note">t-분포를 쓰는 이유:</div>
+<div class="kb-diagram-note">고차원→저차원 시 "군집 간 거리가 찌그러지는 문제(Crowding Problem)"를</div>
+<div class="kb-diagram-note">t-분포의 긴 꼬리(Heavy Tail)가 완화한다.</div>
+</div>
+</div>
+
+
 
 ### 2-4. 방법별 종합 비교
 
@@ -128,22 +139,23 @@ t-분포의 긴 꼬리(Heavy Tail)가 완화한다.
 
 ### 3-1. 언제 어떤 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)를 쓰는가?
 
-```
-목적별 선택 기준
-────────────────────────────────────────────────────────
-고차원 전처리 → 모델 성능 개선 : PCA
-(선형 관계 가정, 빠른 변환 필요)
 
-분류 전 특성 변환 : LDA
-(클래스 레이블 있고 선형 분리 가정)
 
-데이터 탐색·시각화 : t-SNE 또는 UMAP
-(군집 구조 발견, 이상점 탐지)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">목적별 선택 기준</div>
+<div class="kb-diagram-note">고차원 전처리 → 모델 성능 개선 : PCA</div>
+<div class="kb-diagram-note">(선형 관계 가정, 빠른 변환 필요)</div>
+<div class="kb-diagram-note">분류 전 특성 변환 : LDA</div>
+<div class="kb-diagram-note">(클래스 레이블 있고 선형 분리 가정)</div>
+<div class="kb-diagram-note">데이터 탐색·시각화 : t-SNE 또는 UMAP</div>
+<div class="kb-diagram-note">(군집 구조 발견, 이상점 탐지)</div>
+<div class="kb-diagram-note">대용량 데이터 + 빠른 속도 : UMAP</div>
+<div class="kb-diagram-note">(t-SNE보다 10~100× 빠름, 전역 구조 보존)</div>
+</div>
+</div>
 
-대용량 데이터 + 빠른 속도 : UMAP
-(t-SNE보다 10~100× 빠름, 전역 구조 보존)
-────────────────────────────────────────────────────────
-```
+
 
 ### 3-2. PCA와 SVD의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
@@ -177,37 +189,44 @@ PCA 주성분 = V의 열벡터
 
 ### 4-1. 이미지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 시나리오 ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 적용)
 
-```
-[입력] 100×100 픽셀 얼굴 이미지 = 10,000 차원
 
-[PCA 적용]
-① 10,000 차원 → PCA → 상위 50개 주성분 선택
-② 설명 분산: PC1~PC50 = 95.2% 설명
-③ 압축 비율: 10,000 → 50 = 200배 압축
 
-[활용]
-- Eigenface (고유얼굴): 얼굴 인식의 고전 방법
-- 차원 축소 후 SVM·로지스틱 회귀 성능 향상
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">100×100 픽셀 얼굴 이미지 = 10,000 차원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCA 적용</div></div>
+<div class="kb-diagram-note">① 10,000 차원 → PCA → 상위 50개 주성분 선택</div>
+<div class="kb-diagram-note">② 설명 분산: PC1~PC50 = 95.2% 설명</div>
+<div class="kb-diagram-note">③ 압축 비율: 10,000 → 50 = 200배 압축</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">활용</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">Eigenface (고유얼굴): 얼굴 인식의 고전 방법</div>
+<div class="kb-diagram-tree-item" style="--depth:0">차원 축소 후 SVM·로지스틱 회귀 성능 향상</div>
+</div>
+</div>
+
+
 
 ### 4-2. 고객 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) (t-SNE 적용)
 
-```
-[입력] 고객 행동 특성 50개 차원 (클릭·구매·방문 패턴)
 
-[t-SNE 적용]
-50차원 → t-SNE → 2차원 시각화
 
-[결과]
-2D 산점도에서 5개 군집 발견:
-● 충성 고객 군집
-● 가격 민감 군집
-● 휴면 고객 군집
-● 신규 고객 군집
-● 고가치 VIP 군집
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">고객 행동 특성 50개 차원 (클릭·구매·방문 패턴)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">t-SNE 적용</div></div>
+<div class="kb-diagram-note">50차원 → t-SNE → 2차원 시각화</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div></div>
+<div class="kb-diagram-note">2D 산점도에서 5개 군집 발견:</div>
+<div class="kb-diagram-note">● 충성 고객 군집</div>
+<div class="kb-diagram-note">● 가격 민감 군집</div>
+<div class="kb-diagram-note">● 휴면 고객 군집</div>
+<div class="kb-diagram-note">● 신규 고객 군집</div>
+<div class="kb-diagram-note">● 고가치 VIP 군집</div>
+<div class="kb-diagram-note">→ 각 군집에 맞는 맞춤형 마케팅 전략 수립</div>
+</div>
+</div>
 
-→ 각 군집에 맞는 맞춤형 마케팅 전략 수립
-```
+
 
 📢 **섹션 요약 비유**: t-SNE로 고객을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 것은 "수백 가지 특성의 고객들을 2D 지도에 비슷한 고객끼리 가깝게 배치하는 것"이다. 지도를 보면 어느 고객 동네가 어디 있는지 한눈에 파악된다.
 
@@ -227,7 +246,7 @@ PCA 주성분 = V의 열벡터
 | 대규모 [데이터 시각화](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/)·전처리 | UMAP |
 | 비지도 탐색 + 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 | UMAP |
 
-기술사 시험에서 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 **"[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최대화)·LDA(클래스 분리)·t-SNE(이웃 보존)의 목적 차이 + 차원의 저주 해결 맥락"** 을 중심으로 서술해야 한다.
+기술사 시험에서 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 최대화)·LDA(클래스 분리)·t-SNE(이웃 보존)의 목적 차이 + 차원의 저주 해결 맥락"</strong> 을 중심으로 서술해야 한다.
 
 📢 **섹션 요약 비유**: [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)는 "수백 개 특성으로 정의된 사람을 핵심 키워드 3개로 요약하는 것"이다. 정보 손실은 있지만, 핵심은 유지하고 훨씬 다루기 쉬워진다.
 
@@ -256,18 +275,22 @@ PCA 주성분 = V의 열벡터
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고차원 데이터 (차원의 저주)
-│
-▼
-차원 축소
-├─► PCA: 분산 최대화 선형 투영 (비지도)
-├─► LDA: 클래스 분리 최대화 투영 (지도)
-└─► t-SNE / UMAP: 비선형 시각화 (2D/3D)
-│
-▼
-응용: 시각화 · 노이즈 제거 · 피처 압축
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고차원 데이터 (차원의 저주)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">차원 축소</div>
+<div class="kb-diagram-tree-item" style="--depth:0">PCA: 분산 최대화 선형 투영 (비지도)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">LDA: 클래스 분리 최대화 투영 (지도)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">t-SNE / UMAP: 비선형 시각화 (2D/3D)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응용: 시각화 · 노이즈 제거 · 피처 압축</div>
+</div>
+</div>
+
+
 2. LDA는 "고양이와 개를 가장 잘 구분하는 방향으로 그림자를 만드는 것"으로, 처음부터 어떤 동물인지 알고 시작한다.
 3. t-SNE는 "비슷한 친구끼리 가깝게, 다른 친구끼리 멀게 자리를 배치하는 것"인데, 2D 지도로 만들어주기 때문에 눈으로 군집을 바로 볼 수 있다.
 

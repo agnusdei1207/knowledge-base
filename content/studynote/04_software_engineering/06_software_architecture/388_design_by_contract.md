@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 전통적인 프로그래밍에서는 메서드가 "아무 입력이나 받아들인다"는 암묵적 가정하에 작성되어, 예기치 않은 입력에 대해 예측 불가능한 행동을 보였다. 디자인 바이 컨트랙트는 이러한 불명확한 계약을 명시적으로 정의하여, 입력 값의 범위, 출력의 기대값, 객체 상태의 불변성을 문서화하고 자동으로 검증한다.
 
-- **💡 비유**: 디자인 바이 컨트랙트는 **'법적 계약서'**와 같다. 부동산 매매 계약에는 "판매자는 등기부등본상 소유권 이전이 가능한 상태여야 하고(불변조건), 구매자는 대금 지급 시 소유권을 이전받는다(사후조건), 계약 체결 시 구매자는 일정 금액을 계약금으로 지급해야 한다(사전조건)". 소프트웨어의 메서드 계약도 마찬가지로, 호출자와 피호출자 간의 의무와 결과를 명시적으로 정의한다.
+- **💡 비유**: 디자인 바이 컨트랙트는 <strong>'법적 계약서'</strong>와 같다. 부동산 매매 계약에는 "판매자는 등기부등본상 소유권 이전이 가능한 상태여야 하고(불변조건), 구매자는 대금 지급 시 소유권을 이전받는다(사후조건), 계약 체결 시 구매자는 일정 금액을 계약금으로 지급해야 한다(사전조건)". 소프트웨어의 메서드 계약도 마찬가지로, 호출자와 피호출자 간의 의무와 결과를 명시적으로 정의한다.
 
 - **등장 배경 및 발전 과정**:
 1. **1988년**: 베르트랑 메이어(Bertrand Meyer)가 Eiffel 언어솔선하여
@@ -31,24 +31,23 @@ tags = ["studynote-software-engineering"]
 3. **2000년대**: Java(Bean [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), .NET([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Contract), Python(prophecy) 등 언어별 구현 확산
 4. **현재**: Runtime Assertion Checking, Formally Verified Software에서 지속 활용
 
-- **📢 섹션 요약 비유**: 디자인 바이 컨트랙트는 **'승객과 항공사의 계약'**과 같다. 항공사는 "귀하의 수하물은 23kg 이내여야 합니다(사전조건), 당사는 목적지까지 안전하게 도착시켜 드립니다(사후조건), 좌석은 이코노미 클래스가 기본입니다(불변조건)". 소프트웨어에서도 메서드가 기대하는 입력과 약속하는 출력을 계약으로 명확히 함으로써,。의 기대 불일치로 인한 분쟁(버그)을 사전에방지할 수 있다.
+- **📢 섹션 요약 비유**: 디자인 바이 컨트랙트는 <strong>'승객과 항공사의 계약'</strong>과 같다. 항공사는 "귀하의 수하물은 23kg 이내여야 합니다(사전조건), 당사는 목적지까지 안전하게 도착시켜 드립니다(사후조건), 좌석은 이코노미 클래스가 기본입니다(불변조건)". 소프트웨어에서도 메서드가 기대하는 입력과 약속하는 출력을 계약으로 명확히 함으로써,。의 기대 불일치로 인한 분쟁(버그)을 사전에방지할 수 있다.
 
 ---
 
 다음은 디자인 바이 컨트랙트 (Design 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 디자인 바이 컨트랙트 (Design │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 바이 컨트랙트 (Design</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 디자인 바이 컨트랙트 (Design 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-디자인 바이 컨트랙트 (Design by Contract)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+디자인 바이 컨트랙트 (Design by Contract)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 디자인 바이 컨트랙트 (Design by Contract)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-디자인 바이 컨트랙트 (Design by Contract) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디자인 바이 컨트랙트 (Design by Contract) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

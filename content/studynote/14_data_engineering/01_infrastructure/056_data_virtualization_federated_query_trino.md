@@ -31,22 +31,28 @@ tags = ["studynote-data-engineering"]
 
 [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 엔진은 질문을 해석하고, 필요한 일을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 나눠 보낸다.
 
-```text
-클라이언트 SQL
-      ↓
-Coordinator
-      ↓
-Connectors ──> MySQL / PostgreSQL / S3 / 로그 저장소
-      ↓
-Workers
-      ↓
-결과 병합
-```
 
-- **[Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/)**는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 분석하고 작업을 쪼갠다.
-- **Connector**는 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스와 통신하는 어댑터다.
-- **Worker**는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행과 결과 집계를 담당한다.
-- **Predicate Pushdown**은 가능한 필터를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 쪽으로 내려 보내서 불필요한 이동을 줄인다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클라이언트 SQL</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Coordinator</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Connectors ──&gt; MySQL / PostgreSQL / S3 / 로그 저장소</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Workers</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">결과 병합</div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a></strong>는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 분석하고 작업을 쪼갠다.
+- <strong>Connector</strong>는 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스와 통신하는 어댑터다.
+- <strong>Worker</strong>는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행과 결과 집계를 담당한다.
+- <strong>Predicate Pushdown</strong>은 가능한 필터를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 쪽으로 내려 보내서 불필요한 이동을 줄인다.
 
 - **📢 섹션 요약 비유**: 총괄 안내원이 질문을 분해해서 각 부서에 나눠 보내고, 답만 다시 모아 주는 구조다.
 
@@ -102,15 +108,21 @@ Workers
 
 ## 관련 개념 맵
 
-```text
-원본 데이터 소스
-      ↓
-Connector / Coordinator / Worker
-      ↓
-분산 실행 + Pushdown
-      ↓
-통합 SQL 결과
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">원본 데이터 소스</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Connector / Coordinator / Worker</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">분산 실행 + Pushdown</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">통합 SQL 결과</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay/[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 내 목소리가 상대방에게 도착할 때까지 걸리는 절대적인 시간. (예: 모두 50ms씩 늦게 옴 ➜ 대화가 늦어질 뿐 소리가 깨지진 않음).
-- **지터 (Jitter / [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변이)**: **패킷들이 도착하는 '[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간의 차이(편차, Variation)'가 들쭉날쭉한 현상**입니다. (808번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay/<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 내 목소리가 상대방에게 도착할 때까지 걸리는 절대적인 시간. (예: 모두 50ms씩 늦게 옴 ➜ 대화가 늦어질 뿐 소리가 깨지진 않음).
+- <strong>지터 (Jitter / <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 변이)</strong>: <strong>패킷들이 도착하는 '<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 차이(편차, Variation)'가 들쭉날쭉한 현상</strong>입니다. (808번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
   - 1번 패킷은 50ms 만에 오고, 2번 패킷은 라우터에서 길이 막혀 150ms 만에 오고, 3번 패킷은 20ms 만에 쏟아져 들어옵니다(무작위성). 
   - VoIP(인터넷 전화)나 화상 회의에서 이 간격의 널뛰기는 음성 왜곡, 기계음, 모자이크(깍두기) 화면 깨짐의 100% 근본 원인이 됩니다.
 
-```text
-[CMAF]
-    │
-    ▼
-[화상 회의 지터 버퍼]
-    │
-    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,21 +43,25 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 수신 측 단말기(스마트폰 줌 앱, IP 전화기)의 램(RAM) 메모리에 만들어둔 **임시 패킷 대기실(완충 저장소)**입니다. 네트워크를 타고 불규칙하게 쏟아져 들어오는 패킷들을 스피커로 바로 쏘지 않고, 이 대기실에 잠시 가둬두고 순서를 예쁘게 정렬한 뒤 **완벽하게 일정한 타이밍(간격)으로 하나씩 꺼내어 스피커(재생기)로 보내는 충격 흡수 쇼바(완충기)** 역할을 합니다.
+- **개념**: 수신 측 단말기(스마트폰 줌 앱, IP 전화기)의 램(RAM) 메모리에 만들어둔 <strong>임시 패킷 대기실(완충 저장소)</strong>입니다. 네트워크를 타고 불규칙하게 쏟아져 들어오는 패킷들을 스피커로 바로 쏘지 않고, 이 대기실에 잠시 가둬두고 순서를 예쁘게 정렬한 뒤 **완벽하게 일정한 타이밍(간격)으로 하나씩 꺼내어 스피커(재생기)로 보내는 충격 흡수 쇼바(완충기)** 역할을 합니다.
 
 ### 완충 재생 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Playout Delay)의 원리
 1. 패킷들이 "우르르-뚝-우르르" 지멋대로 도착합니다.
 2. 지터 버퍼가 패킷 헤더에 적힌 타임스탬프([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) 헤더 등)를 보고 1번, 2번, 3번 순서대로 바구니에 예쁘게 줄을 세웁니다.
 3. **핵심 딜레마**: 바구니에 패킷을 너무 짧게 머물게 하면, 지각하는 3번 패킷을 기다려주지 못해 소리가 끊깁니다([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)). 반대로 3번을 무작정 기다려주려고 바구니 대기 시간(지터 버퍼 사이즈)을 너무 길게(예: 3초) 잡아두면? 상무님 목소리가 스피커에서 3초 뒤에 나와 대화가 불가능해집니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렉 폭발).
 
-```text
-[CMAF]
-    │
-    ▼
-[화상 회의 지터 버퍼]
-    │
-    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 
 고정된 크기의 바구니로는 널뛰는 인터넷을 감당할 수 없어 AI와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 섞은 똑똑한 고무줄 바구니를 씁니다.
 
-- **적응형 크기 조절 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**:
+- <strong>적응형 크기 조절 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
   - 앱(수신기)이 네트워크 핑(Ping) 상태를 실시간 감시합니다.
   - **인터넷이 쌩쌩할 때**: "오, 패킷들 지각 안 하고 따박따박 잘 오네!" ➜ **지터 버퍼 크기를 10ms로 팍 줄여버립니다.** 대화 딜레이가 0이 되어 면대면 대화처럼 빠릿빠릿해집니다.
   - **인터넷이 불안정(지터 폭증)할 때**: "야, 패킷 놈들 엄청 지각하고 널뛰기 시작한다!" ➜ **지터 버퍼 크기를 100ms, 200ms로 고무줄처럼 쫘악 늘립니다.** 딜레이(렉)는 좀 심해지더라도, 목소리가 로봇처럼 찢어지는 치명적인 왜곡만큼은 100% 방어해 내는(버티는) 동적 최신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 체계입니다.
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 지터 버퍼를 아무리 200ms로 길게 열어두고 기다려도, 끝끝내 지각해서 못 들어온 3번 패킷이 있습니다. 이 놈은 버퍼 타임오버로 가차 없이 버려집니다(버퍼 드랍). 
-- 이때 3번 패킷의 빈자리 때문에 스피커에서 "뚝!" 소리가 나는 걸 막기 위해, 2번 패킷과 4번 패킷의 소리 파장을 인공지능이 분석해 **가짜 3번 목소리 파형을 마술처럼 그려서 빈 공간을 부드럽게 메꿔버리는 기술**이 바로 다음 908번 문서의 **손실 은닉(FEC/[PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))** 기법입니다.
+- 이때 3번 패킷의 빈자리 때문에 스피커에서 "뚝!" 소리가 나는 걸 막기 위해, 2번 패킷과 4번 패킷의 소리 파장을 인공지능이 분석해 <strong>가짜 3번 목소리 파형을 마술처럼 그려서 빈 공간을 부드럽게 메꿔버리는 기술</strong>이 바로 다음 908번 문서의 <strong>손실 은닉(FEC/<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/">PLC</a>)</strong> 기법입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 지터 버퍼(Jitter Buffer)는 댐의 '수량 조절 저수지'입니다. 하늘(인터넷)에서 비가 어떨 땐 찔끔 오고 어떨 땐 폭우처럼 쏟아집니다(패킷 도착 간격의 지터). 이 미친 듯이 널뛰는 빗물을 하류 마을(스피커 재생)로 바로 흘려보내면 냇물이 말랐다가 홍수가 나기를 반복해 마을이 쑥대밭(소리 찢어짐)이 됩니다. **지터 버퍼**는 상류에 튼튼한 '저수지(대기 바구니)'를 지어두고 널뛰는 빗물을 싹 가둡니다. 그리고 저수지 수문(재생 타이밍)을 아주 일정하고 평온하게 찔끔찔끔 일정량만 열어서, 하류 마을에 1년 365일 잔잔하고 부드러운 시냇물(부드럽고 완벽한 음성/영상)만 흐르게 만들어주는 완벽한 충격 흡수 완충 장치입니다.
+- **📢 섹션 요약 비유**: 지터 버퍼(Jitter Buffer)는 댐의 '수량 조절 저수지'입니다. 하늘(인터넷)에서 비가 어떨 땐 찔끔 오고 어떨 땐 폭우처럼 쏟아집니다(패킷 도착 간격의 지터). 이 미친 듯이 널뛰는 빗물을 하류 마을(스피커 재생)로 바로 흘려보내면 냇물이 말랐다가 홍수가 나기를 반복해 마을이 쑥대밭(소리 찢어짐)이 됩니다. <strong>지터 버퍼</strong>는 상류에 튼튼한 '저수지(대기 바구니)'를 지어두고 널뛰는 빗물을 싹 가둡니다. 그리고 저수지 수문(재생 타이밍)을 아주 일정하고 평온하게 찔끔찔끔 일정량만 열어서, 하류 마을에 1년 365일 잔잔하고 부드러운 시냇물(부드럽고 완벽한 음성/영상)만 흐르게 만들어주는 완벽한 충격 흡수 완충 장치입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CMAF]
-    │
-    ▼
-[현재 개념: 화상 회의 지터 버퍼]
-    │
-    ├──▶ [확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CMAF</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화상 회의 지터 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 화상 회의 지터 버퍼는 CMAF에서 출발해 현재 메커니즘을 정교화하고, 이후 FEC 실시간 비디오 손실 은닉 기법 미디어…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

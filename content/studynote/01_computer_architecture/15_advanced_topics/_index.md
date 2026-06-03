@@ -19,30 +19,24 @@ tags = ["computer_architecture"]
 
 지난 수십 년간 컴퓨팅 성능을 견인해 온 무어의 법칙 (Moore's Law)과 데나드 스케일링 (Dennard Scaling)은 물리적 임계점에 도달했다. 트랜지스터의 크기는 이제 원자 단위에 육박하여 양자 터널링 효과로 인한 누설 전류를 막기 어려워졌으며, 단일 칩의 집적도 향상은 발열과 비용 문제로 정체되고 있다.
 
-심화 및 미래 기술이 필요한 이유는 세 가지이다. 첫째, **폰 노이만 병목의 근본적 해결**을 위해서이다. 연산 장치로 데이터를 옮기는 방식 자체를 바꿔야 한다. 둘째, AI 모델의 폭발적인 성장으로 인한 **연산량 갈증**을 해소하기 위해서이며, 셋째, 실리콘 이후 (Post-Silicon)의 **신소재 및 비정형 연산 모델**을 확보하여 국가적 기술 패권을 유지하기 위함이다.
+심화 및 미래 기술이 필요한 이유는 세 가지이다. 첫째, <strong>폰 노이만 병목의 근본적 해결</strong>을 위해서이다. 연산 장치로 데이터를 옮기는 방식 자체를 바꿔야 한다. 둘째, AI 모델의 폭발적인 성장으로 인한 <strong>연산량 갈증</strong>을 해소하기 위해서이며, 셋째, 실리콘 이후 (Post-Silicon)의 <strong>신소재 및 비정형 연산 모델</strong>을 확보하여 국가적 기술 패권을 유지하기 위함이다.
 
 이 그림은 고전적 아키텍처에서 미래형 아키텍처로의 진화 방향을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Evolution toward Future Architectures          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Legacy ] : CPU-Memory 분리 (Von Neumann)                │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Intermediate ] : Heterogeneous / Accelerator (GPU, NPU) │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Future 1 ] : Data-Centric / PIM (Processing-In-Memory)  │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Future 2 ] : Non-Von Neumann (Neuromorphic, Quantum)    │
-│                                                             │
-│   * 핵심: 데이터의 이동은 줄이고, 연산의 방식은 혁신함      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evolution toward Future Architectures</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy</div><div class="kb-diagram-note">: CPU-Memory 분리 (Von Neumann)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Intermediate</div><div class="kb-diagram-note">: Heterogeneous / Accelerator (GPU, NPU)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Future 1</div><div class="kb-diagram-note">: Data-Centric / PIM (Processing-In-Memory)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Future 2</div><div class="kb-diagram-note">: Non-Von Neumann (Neuromorphic, Quantum)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 데이터의 이동은 줄이고, 연산의 방식은 혁신함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '데이터와 연산의 물리적 결합'이다. 더 이상 데이터를 연산기로 부르지 않고, 데이터가 있는 곳 (메모리, 스토리지)에서 직접 연산을 수행하는 구조가 미래 아키텍처의 핵심이다. 실무에서는 이러한 변화가 기존의 프로그래밍 모델 (Software Stack)을 완전히 뒤흔드는 파괴적 혁신이 될 것이다.
 
@@ -73,27 +67,21 @@ tags = ["computer_architecture"]
 
 이 구조도는 칩렛 아키텍처의 물리적 결합 방식을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Chiplet Architecture with UCIe              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                 [ Package Substrate ]               │   │
-│   │                                                     │   │
-│   │  ┌──────┐       ┌────────────┐       ┌──────┐       │   │
-│   │  │ CPU  │ ◀───▶ │  I/O Die   │ ◀───▶ │ GPU  │       │   │
-│   │  │Die 1 │ (UCIe)│ (Control)  │ (UCIe)│Die 2 │       │   │
-│   │  └──────┘       └────────────┘       └──────┘       │   │
-│   │                                                     │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│   * 장점: 공정 최적화 (7nm + 5nm 혼용), 수율 향상, 비용 ↓  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '이기종 다이의 공존'이다. 연산 코어는 비싼 미세 공정으로 만들고, I/O나 메모리 컨트롤러는 저렴한 구형 공정으로 만들어 합침으로써 가성비를 극대화한다. 실무에서는 이 칩렛들 사이의 통신 규격인 **UCIe**가 미래 반도체 생태계의 '제2의 USB'와 같은 위상을 갖게 될 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chiplet Architecture with UCIe</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Package Substrate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">I/O Die</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">GPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Die 1</div><div class="kb-diagram-cell">(UCIe)</div><div class="kb-diagram-cell">(Control)</div><div class="kb-diagram-cell">(UCIe)</div><div class="kb-diagram-cell">Die 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 공정 최적화 (7nm + 5nm 혼용), 수율 향상, 비용 ↓</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '이기종 다이의 공존'이다. 연산 코어는 비싼 미세 공정으로 만들고, I/O나 메모리 컨트롤러는 저렴한 구형 공정으로 만들어 합침으로써 가성비를 극대화한다. 실무에서는 이 칩렛들 사이의 통신 규격인 <strong>UCIe</strong>가 미래 반도체 생태계의 '제2의 USB'와 같은 위상을 갖게 될 것이다.
 
 📢 **섹션 요약 비유**: 칩렛 아키텍처는 '레고 블록 조립'과 같습니다. 커다란 로봇을 통째로 찍어내는 대신, 팔, 다리, 몸통을 가장 잘 만드는 공장에서 가져와 튼튼하게 조립하는 방식입니다.
 
@@ -131,27 +119,24 @@ tags = ["computer_architecture"]
 - **판단**: 단순한 DRAM 증설은 정답이 아니다. 연산 집약적인 레이어를 메모리 내부에서 처리하는 **PIM 지원 메모리 (HBM-PIM 등)** 도입을 검토한다. 또한 서버 간 메모리를 공유할 수 있는 **CXL 메모리 풀링** 환경을 구축하여, 유휴 메모리 자원을 특정 AI 연산 노드에 동적으로 집중시키는 자원 최적화 설계를 제안한다.
 
 **시나리오 2: 초저전력 상시 감시 IoT 보안 시스템 설계**
-- **판단**: 일반 MCU는 전력 소모를 감당할 수 없다. 이벤트가 발생할 때만 스파이크를 발생시켜 연산하는 **뉴로모픽 가속기 (Intel Loihi 등)**를 주 연산 장치로 채택한다. 평상시에는 0에 가까운 대기 전력을 유지하다가, 침입 징후가 포착될 때만 지능적으로 반응하는 'Always-on Low-power' 아키텍처를 구성한다.
+- **판단**: 일반 MCU는 전력 소모를 감당할 수 없다. 이벤트가 발생할 때만 스파이크를 발생시켜 연산하는 <strong>뉴로모픽 가속기 (Intel Loihi 등)</strong>를 주 연산 장치로 채택한다. 평상시에는 0에 가까운 대기 전력을 유지하다가, 침입 징후가 포착될 때만 지능적으로 반응하는 'Always-on Low-power' 아키텍처를 구성한다.
 
 이 도식은 양자 컴퓨팅이 비즈니스 문제를 해결하는 가속화 모델을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Quantum Acceleration Model                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Problem Space ] : 2^N States (지수적 복잡도)            │
-│          │                                                  │
-│   [ Classical ] ──▶ 순차 탐색 (수조 년 소요)                │
-│                                                             │
-│   [ Quantum ]   ──▶ [ Superposition ] (모든 상태 동시 존재) │
-│                        │                                    │
-│                     [ Interference ] (정답 확률 증폭)       │
-│                        │                                    │
-│                     [ Measurement ] (정답 도출 - 수 초!)    │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quantum Acceleration Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Problem Space</div><div class="kb-diagram-note">: 2^N States (지수적 복잡도)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Classical</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">순차 탐색 (수조 년 소요)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Quantum</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Superposition</div><div class="kb-diagram-note">(모든 상태 동시 존재)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Interference</div><div class="kb-diagram-note">(정답 확률 증폭)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Measurement</div><div class="kb-diagram-note">(정답 도출 - 수 초!)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 심화 판단은 '지도에 없는 길을 찾는 탐험'과 같습니다. 기존의 상식(실리콘/폰 노이만)으로는 풀 수 없는 문제를 해결하기 위해, 양자나 뉴로모픽이라는 새로운 대륙으로 가는 배(아키텍처)를 띄우는 결단이 필요합니다.
 
@@ -166,7 +151,7 @@ tags = ["computer_architecture"]
 
 ### 결론: 인간을 닮아가는 컴퓨터, 우주를 담는 연산
 
-미래의 컴퓨터 구조는 인간의 뇌처럼 유연해지고 (Neuromorphic), 자연의 근본 원리인 양자 역학을 담아내게 될 것이다 (Quantum). 기술사는 하드웨어의 미세한 물리적 특성 변화가 어떻게 거대한 소프트웨어 생태계를 뒤바꾸는지 그 파동을 읽어내야 한다. 단순히 '빠른 기계'를 만드는 시대를 넘어, 인류의 인지 능력을 확장하고 지구의 복잡한 시스템을 관리하는 **'지능형 존재로서의 컴퓨터'**를 설계하는 것이 우리 시대 아키텍트의 최종 임무이다.
+미래의 컴퓨터 구조는 인간의 뇌처럼 유연해지고 (Neuromorphic), 자연의 근본 원리인 양자 역학을 담아내게 될 것이다 (Quantum). 기술사는 하드웨어의 미세한 물리적 특성 변화가 어떻게 거대한 소프트웨어 생태계를 뒤바꾸는지 그 파동을 읽어내야 한다. 단순히 '빠른 기계'를 만드는 시대를 넘어, 인류의 인지 능력을 확장하고 지구의 복잡한 시스템을 관리하는 <strong>'지능형 존재로서의 컴퓨터'</strong>를 설계하는 것이 우리 시대 아키텍트의 최종 임무이다.
 
 📢 **섹션 요약 비유**: 미래의 컴퓨터는 '생각하는 생명체'와 '우주의 문법'을 합쳐놓은 모습이 될 것입니다. 우리는 그 거대한 지능의 파도 위에서 인류를 더 좋은 곳으로 인도하는 항해사가 되어야 합니다.
 

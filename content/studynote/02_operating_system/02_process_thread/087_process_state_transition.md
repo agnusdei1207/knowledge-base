@@ -39,13 +39,17 @@ tags = ["studynote-operating-system"]
 | Waiting / Blocked | I/O나 이벤트를 기다리는 상태 | I/O 요청 |
 | Terminated | 실행이 끝난 상태 | exit |
 
-```text
-New ──admit──► Ready ──dispatch──► Running ──exit──► Terminated
-                 ▲                   │
-                 │                   ├──I/O 요청──► Waiting
-                 │                   │                  │
-                 └──event complete───┴────ready─────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">New ──admit──► Ready ──dispatch──► Running ──exit──► Terminated</div>
+<div class="kb-diagram-note">──I/O 요청──► Waiting</div>
+<div class="kb-diagram-tree-item" style="--depth:8">event complete ready</div>
+</div>
+</div>
+
+
 
 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 단순한 라벨이 아니라, 큐 이동과 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 포함한 스케줄링 계약이다.
 

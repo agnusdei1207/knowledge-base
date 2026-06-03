@@ -18,7 +18,7 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
-마틴 파울러 (Martin Fowler) 와 켄트 벡 (Kent Beck) 이 체계화한 개념으로, "코드에서 나는 나쁜 냄새"를 의미한다. 스멜은 그 자체가 결함은 아니지만, **[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 필요함을 나타내는 표면적 지시자**다.
+마틴 파울러 (Martin Fowler) 와 켄트 벡 (Kent Beck) 이 체계화한 개념으로, "코드에서 나는 나쁜 냄새"를 의미한다. 스멜은 그 자체가 결함은 아니지만, <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>이 필요함을 나타내는 표면적 지시자</strong>다.
 
 | # | 스멜 이름 | 한국어 | 핵심 증상 |
 |:---:|:---|:---|:---|
@@ -28,45 +28,48 @@ tags = ["studynote-design-supervision"]
 | 4 | Shotgun Surgery | 샷건 수술 | 변경 1개에 수십 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정 필요 |
 | 5 | Feature Envy | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비 | 메서드가 다른 클래스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 집착 |
 
-스멜을 방치하면 **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))** 가 복리로 쌓인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견 시 수정 비용 대비 후기 발견 시 수정 비용은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 차이가 난다고 알려져 있다.
+스멜을 방치하면 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong> 가 복리로 쌓인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견 시 수정 비용 대비 후기 발견 시 수정 비용은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 차이가 난다고 알려져 있다.
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 냄새나는 음식은 먹으면 탈이 나기 전에 버려야 한다 — [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)도 버그가 터지기 전에 제거해야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌──────────────────────────────────────────────────────────┐
-│                   코드 스멜 분류 체계                    │
-├──────────────────┬───────────────────────────────────────┤
-│  스멜 유형       │  영향 범위                            │
-├──────────────────┼───────────────────────────────────────┤
-│ Long Method      │  단일 메서드 내부                     │
-│ Large Class      │  단일 클래스 내부                     │
-│ Primitive        │  타입 시스템 전체                     │
-│ Obsession        │                                       │
-│ Shotgun Surgery  │  시스템 전체 (변경 시 파급 효과)      │
-│ Feature Envy     │  클래스 간 의존 관계                  │
-└──────────────────┴───────────────────────────────────────┘
 
-[ 피처 엔비 (Feature Envy) 예시 ]
-┌─────────────┐        ┌─────────────────────────┐
-│  Order      │        │  Customer               │
-│             │        │  - name                 │
-│ printLabel()│──많이──▶│  - address              │
-│  (이 메서드가│  접근   │  - postalCode           │
-│  Customer   │        │  - country              │
-│  데이터에   │        │                         │
-│  집착)      │        │                         │
-└─────────────┘        └─────────────────────────┘
-        → printLabel()을 Customer로 이동해야 함
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 스멜 분류 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스멜 유형</div><div class="kb-diagram-cell">영향 범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long Method</div><div class="kb-diagram-cell">단일 메서드 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Large Class</div><div class="kb-diagram-cell">단일 클래스 내부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primitive</div><div class="kb-diagram-cell">타입 시스템 전체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Obsession</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shotgun Surgery</div><div class="kb-diagram-cell">시스템 전체 (변경 시 파급 효과)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Envy</div><div class="kb-diagram-cell">클래스 간 의존 관계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피처 엔비 (Feature Envy) 예시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">Customer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">printLabel()</div><div class="kb-diagram-cell">──많이──▶</div><div class="kb-diagram-cell">- address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 메서드가</div><div class="kb-diagram-cell">접근</div><div class="kb-diagram-cell">- postalCode</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">- country</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집착)</div></div>
+<div class="kb-diagram-note">→ printLabel()을 Customer로 이동해야 함</div>
+</div>
+</div>
+
+
 
 **① 롱 메서드 (Long Method)**
 - 진단: 메서드 길이 > 20줄, 들여쓰기 > 3단
@@ -84,7 +87,7 @@ tags = ["studynote-design-supervision"]
 - 진단: 기능 1개 변경 시 10개+ 클래스 수정 필요
 - 처방: 메서드 이동 (Move Method), 클래스 합병 (Inline Class)
 
-**⑤ [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비 (Feature Envy)**
+<strong>⑤ <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔비 (Feature Envy)</strong>
 - 진단: 메서드 내 다른 클래스 getter 5회+ 연속 호출
 - 처방: 메서드 이동 (Move Method), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 행동을 같은 클래스로
 
@@ -107,19 +110,20 @@ tags = ["studynote-design-supervision"]
 | 샷건 수술 (Shotgun Surgery) | 메서드/필드 이동 | 클래스 합병 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비 (Feature Envy) | 메서드 이동 (Move Method) | 함수 추출 후 이동 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/), [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) |
 
-```
-프리미티브 강박
-    │
-    ▼
-데이터 클럼프 (Data Clumps) ──▶ 라지 클래스
-    │                               │
-    ▼                               ▼
-파라미터 목록 과다 ──────────▶ 롱 메서드
-    │                               │
-    └───────────────────────────────┘
-                                    ▼
-                            샷건 수술 / 피처 엔비
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프리미티브 강박</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 클럼프 (Data Clumps) ──▶ 라지 클래스</div>
+<div class="kb-diagram-note">파라미터 목록 과다 ▶ 롱 메서드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">샷건 수술 / 피처 엔비</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 감기→폐렴→패혈증처럼 스멜도 방치하면 연쇄 악화한다 — [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡는 것이 최선이다.
 
@@ -162,7 +166,7 @@ tags = ["studynote-design-supervision"]
 | 클래스 평균 라인 수 | 650줄 | 180줄 |
 | 빌드 후 발생 버그 수 (월) | 12건 | 3건 |
 
-[코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/) Diagnosis) 은 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 **나침반**이다. 스멜 없이는 무엇을, 어디서, 왜 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)해야 하는지 논증할 수 없다. 팀이 스멜 어휘를 공유하면 코드 리뷰가 감정이 아닌 **객관적 기준** 위에 서게 되고, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 전환된다.
+[코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) 진단 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/) Diagnosis) 은 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 <strong>나침반</strong>이다. 스멜 없이는 무엇을, 어디서, 왜 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)해야 하는지 논증할 수 없다. 팀이 스멜 어휘를 공유하면 코드 리뷰가 감정이 아닌 **객관적 기준** 위에 서게 되고, [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 관리가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 전환된다.
 
 확장 방향은 ① [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 자동화, ② 아키텍처 적합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ 작은 단위의 상시 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 문화 정착이다.
 

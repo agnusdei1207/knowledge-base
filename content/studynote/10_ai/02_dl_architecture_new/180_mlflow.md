@@ -19,9 +19,9 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 개발은 일반 애플리케이션 개발보다 "어제 무엇을 했는지"를 잃어버리기 쉽다. 소스 코드는 Git으로 남길 수 있지만, 실제 결과는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 특성 전처리, 하이퍼파라미터, 난수 시드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 따라 크게 달라진다. 즉 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 코드 한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라 **실험 맥락 전체**로 결정된다.
+[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 개발은 일반 애플리케이션 개발보다 "어제 무엇을 했는지"를 잃어버리기 쉽다. 소스 코드는 Git으로 남길 수 있지만, 실제 결과는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 특성 전처리, 하이퍼파라미터, 난수 시드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 따라 크게 달라진다. 즉 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 코드 한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라 <strong>실험 맥락 전체</strong>로 결정된다.
 
-이 문제는 팀 규모가 커질수록 심해진다. 각자 노트북에서 훈련하고 로컬 폴더에 결과를 남기면 "가장 좋았던 모델이 무엇이었는가", "그 모델을 어떤 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 다시 만들 수 있는가", "운영에 배포된 모델의 근거는 무엇인가"를 빠르게 답하기 어렵다. 이 때문에 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 조직은 모델을 잘 만드는 문제만큼, **실험을 잃지 않는 문제**와 싸우게 된다.
+이 문제는 팀 규모가 커질수록 심해진다. 각자 노트북에서 훈련하고 로컬 폴더에 결과를 남기면 "가장 좋았던 모델이 무엇이었는가", "그 모델을 어떤 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 다시 만들 수 있는가", "운영에 배포된 모델의 근거는 무엇인가"를 빠르게 답하기 어렵다. 이 때문에 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 조직은 모델을 잘 만드는 문제만큼, <strong>실험을 잃지 않는 문제</strong>와 싸우게 된다.
 
 MLflow는 이 혼란을 줄이기 위해 등장했다. 핵심은 실험마다 Run 단위를 만들어 파라미터, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/), 코드 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 환경 정보를 자동 또는 반자동으로 남기고, 의미 있는 모델은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에서 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 상태를 관리하게 하는 것이다. 즉 MLflow의 필요성은 편한 대시보드에 있지 않고, **모델 개발을 개인 메모 수준에서 운영 가능한 기록 체계로 끌어올리는 데** 있다.
 
@@ -44,28 +44,26 @@ MLflow의 중심 구성은 Tracking, Projects, Models, Model Registry다. Tracki
 
 아래 그림은 일반적인 MLflow 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ MLflow lifecycle                                                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Training code / notebook                                             │
-│   │                                                                  │
-│   ├─ log_param / log_metric / log_artifact                           │
-│   ▼                                                                  │
-│ MLflow Tracking Server                                               │
-│   ├─ Backend Store  -> run metadata, tags, metrics history           │
-│   └─ Artifact Store -> model file, plots, checkpoints                │
-│                                                                      │
-│ Best run selected                                                    │
-│   ▼                                                                  │
-│ Model Registry                                                       │
-│   ├─ versioning                                                      │
-│   ├─ stage or alias promotion                                        │
-│   └─ approval / rollback history                                     │
-│                                                                      │
-│ Serving pipeline / deployment                                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow lifecycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training code / notebook</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ log_param / log_metric / log_artifact</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow Tracking Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Backend Store -&gt; run metadata, tags, metrics history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Artifact Store -&gt; model file, plots, checkpoints</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best run selected</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ versioning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stage or alias promotion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ approval / rollback history</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serving pipeline / deployment</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 "실험의 모든 변경점을 Run 단위로 기록하고, 배포 대상은 [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 단위로 관리한다"는 분리다. Tracking은 수많은 시도를 빠르게 비교하게 해 주고, Registry는 그중 어떤 모델을 조직이 공식적으로 채택했는지 보여 준다. 그래서 MLflow는 연구용 노트와 운영용 등기부를 함께 제공하는 셈이다.
 
@@ -77,7 +75,7 @@ MLflow의 중심 구성은 Tracking, Projects, Models, Model Registry다. Tracki
 
 ## Ⅲ. 비교 및 연결
 
-MLflow는 Kubeflow나 Apache Airflow와 자주 비교되지만, 사실 초점이 다르다. MLflow는 **무엇을 실험했고 무엇을 배포했는가**에 강하고, Kubeflow나 Airflow는 **어떤 순서로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 실행할 것인가**에 강하다.
+MLflow는 Kubeflow나 Apache Airflow와 자주 비교되지만, 사실 초점이 다르다. MLflow는 <strong>무엇을 실험했고 무엇을 배포했는가</strong>에 강하고, Kubeflow나 Airflow는 <strong>어떤 순서로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인을 실행할 것인가</strong>에 강하다.
 
 | 비교 축 | MLflow | [Kubeflow](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/) | [Apache Airflow](/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/) |
 | :--- | :--- | :--- | :--- |
@@ -120,7 +118,7 @@ MLflow 도입의 첫 판단 기준은 "실험이 반복되는가"다. 모델이 
 - Registry를 배포 도구로 오해해 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·승인 절차 없이 곧바로 운영 반영하는 설계
 - MLflow를 도입했지만 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 비워 둔 반쪽 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/)
 
-기술사 답안에서는 **"MLflow는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 생명주기 중 실험 추적과 모델 거버넌스를 담당하는 도구이며, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)과 결합할 때 재현성·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성·배포 통제가 극대화된다"**라고 정리하면 적절하다.
+기술사 답안에서는 <strong>"MLflow는 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 생명주기 중 실험 추적과 모델 거버넌스를 담당하는 도구이며, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>과 결합할 때 재현성·<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능성·배포 통제가 극대화된다"</strong>라고 정리하면 적절하다.
 
 - **📢 섹션 요약 비유**: MLflow를 잘 쓰는 팀은 시험을 본 뒤 점수만 보는 게 아니라, 어떤 교재로 어떻게 공부했는지까지 함께 적어 두는 반 전체 학습 기록장을 가진 셈이다.
 
@@ -130,7 +128,7 @@ MLflow 도입의 첫 판단 기준은 "실험이 반복되는가"다. 모델이 
 
 MLflow의 가장 큰 효과는 모델 개발을 "개인의 감"에서 "조직의 기록"으로 바꾼다는 점이다. 덕분에 좋은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸 실험을 빠르게 다시 만들 수 있고, 실패한 시도도 자산으로 남는다. 여러 프레임워크와 팀이 공존하는 조직에서도 비교 기준을 통일할 수 있다는 점은 특히 큰 장점이다.
 
-하지만 MLflow만으로 MLOps가 완성되지는 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 재현성, 운영 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 배포 자동화는 별도 체계가 필요하다. 따라서 MLflow는 만능 플랫폼이라기보다, **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 조직이 반드시 가져야 할 기록·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·승인 계층**으로 보는 편이 정확하다.
+하지만 MLflow만으로 MLOps가 완성되지는 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 재현성, 운영 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 배포 자동화는 별도 체계가 필요하다. 따라서 MLflow는 만능 플랫폼이라기보다, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 조직이 반드시 가져야 할 기록·<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>·승인 계층</strong>으로 보는 편이 정확하다.
 
 결론적으로 MLflow는 "어떤 모델이 좋았는가"를 넘어, "왜 그 모델을 믿고 언제 어떤 근거로 운영에 올렸는가"까지 답하게 만드는 도구다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)을 실험에서 운영으로 끌어올릴 때, 이 질문에 답하는 능력이 곧 조직의 성숙도가 된다.
 
@@ -151,22 +149,24 @@ MLflow의 가장 큰 효과는 모델 개발을 "개인의 감"에서 "조직의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Notebook-based ad hoc experiments
-        │
-        ▼
-Central experiment tracking
-        │
-        ├─ params / metrics / artifacts
-        ├─ code and environment capture
-        └─ reproducible run history
-        │
-        ▼
-Model Registry and promotion governance
-        │
-        ▼
-Serving, monitoring, and retraining loops in MLOps
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Notebook-based ad hoc experiments</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Central experiment tracking</div>
+<div class="kb-diagram-tree-item" style="--depth:4">params / metrics / artifacts</div>
+<div class="kb-diagram-tree-item" style="--depth:4">code and environment capture</div>
+<div class="kb-diagram-tree-item" style="--depth:4">reproducible run history</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Model Registry and promotion governance</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Serving, monitoring, and retraining loops in MLOps</div>
+</div>
+</div>
+
+
 
 이 흐름은 MLflow가 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장을 넘어, 모델 승인과 운영 연결의 기준점을 제공하는 방향으로 확장됨을 보여 준다.
 

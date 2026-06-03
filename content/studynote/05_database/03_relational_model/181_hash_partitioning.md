@@ -19,27 +19,28 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용한 뒤, 그 결과를 기준으로 행을 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장하는 방식이다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/))이 날짜나 금액처럼 **순서가 있는 값의 경계**를 활용한다면, 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 값의 의미를 내려놓고 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 균형**을 우선시한다. 즉 "어느 기간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가"보다 "여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 얼마나 고르게 퍼지게 할 것인가"를 먼저 묻는 설계다.
+해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 ([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))에 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용한 뒤, 그 결과를 기준으로 행을 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장하는 방식이다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/))이 날짜나 금액처럼 <strong>순서가 있는 값의 경계</strong>를 활용한다면, 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 값의 의미를 내려놓고 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>의 균형</strong>을 우선시한다. 즉 "어느 기간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가"보다 "여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 얼마나 고르게 퍼지게 할 것인가"를 먼저 묻는 설계다.
 
 이 방식이 필요한 이유는 대용량 테이블에서 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 하나에 입력과 조회가 몰리는 현상 때문이다. 예를 들어 최근 월 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 계속 커지는 이력성 테이블, 특정 지역 코드에만 사용자가 몰리는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 연속 증가 키가 한 세그먼트에 집중되는 구조에서는 저장 장치와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경로가 금방 핫스폿이 된다. 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 이런 쏠림을 완화해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 부하를 여러 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 나누는 데 유리하다.
 
 아래 그림은 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 "정렬 의미" 대신 "부하 균형"을 택하는 구조임을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Business meaning vs physical balance                               │
-├────────────────────────────────────────────────────────────────────┤
-│ order_no values : 1001 1002 1003 1004 1005 1006 1007 1008          │
-│                                                                    │
-│ range layout  : P_recent[1001 1002 1003 1004 1005 1006 1007 1008]  │
-│ hash layout   : P0[1001 1005] P1[1002 1006] P2[1003 1007]          │
-│                 P3[1004 1008]                                      │
-│                                                                    │
-│ result        : order meaning is weaker, load balance is stronger  │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 해시가 무작위 저장처럼 보이지만, 실제로는 **같은 키가 항상 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 가는 결정적 (Deterministic) 규칙**이라는 점이다. 그래서 `customer_id = 12345` 같은 동등 조건은 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 좁힐 수 있지만, `BETWEEN` 같은 범위 조건은 의미를 잃기 쉽다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business meaning vs physical balance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order_no values : 1001 1002 1003 1004 1005 1006 1007 1008</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">range layout : P_recent</div><div class="kb-diagram-node">1001 1002 1003 1004 1005 1006 1007 1008</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">hash layout : P0</div><div class="kb-diagram-node">1001 1005</div><div class="kb-diagram-note">P1</div><div class="kb-diagram-node">1002 1006</div><div class="kb-diagram-note">P2</div><div class="kb-diagram-node">1003 1007</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">P3</div><div class="kb-diagram-node">1004 1008</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : order meaning is weaker, load balance is stronger</div></div>
+</div>
+</div>
+
+
+
+핵심은 해시가 무작위 저장처럼 보이지만, 실제로는 <strong>같은 키가 항상 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 가는 결정적 (Deterministic) 규칙</strong>이라는 점이다. 그래서 `customer_id = 12345` 같은 동등 조건은 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 좁힐 수 있지만, `BETWEEN` 같은 범위 조건은 의미를 잃기 쉽다.
 
 - **📢 섹션 요약 비유**: 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 손님을 지역별로 앉히는 식당이 아니라, 번호표 기계로 여러 창구에 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 은행과 같다. 누가 어느 동네 사람인지는 덜 중요해지지만, 한 창구만 줄이 폭발하는 문제는 크게 줄어든다.
 
@@ -49,27 +50,23 @@ tags = ["studynote-database"]
 
 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 내부 동작은 "키 추출 → 해시 계산 → 버킷 매핑 → 물리 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 저장"의 흐름으로 이해하면 된다. 새 행이 들어오면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 엔진은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 값을 읽고, 내부 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용해 정수 값으로 바꾼다. 그런 다음 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수 또는 내부 버킷 맵에 따라 어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 넣을지 결정한다.
 
-여기서 중요한 점은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)마다 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 다를 수 있다는 것이다. 설계자는 보통 `hash(key) mod N`처럼 개념적으로 이해하면 충분하지만, 실제 구현은 벤더가 숨긴 내부 버킷 구조를 쓸 수 있다. 중요한 것은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이름이 아니라 **같은 키가 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 안정적으로 매핑되고, 전체 분포가 한쪽으로 지나치게 치우치지 않는가**다.
+여기서 중요한 점은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)마다 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 다를 수 있다는 것이다. 설계자는 보통 `hash(key) mod N`처럼 개념적으로 이해하면 충분하지만, 실제 구현은 벤더가 숨긴 내부 버킷 구조를 쓸 수 있다. 중요한 것은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이름이 아니라 <strong>같은 키가 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 안정적으로 매핑되고, 전체 분포가 한쪽으로 지나치게 치우치지 않는가</strong>다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Deterministic routing and pruning                                  │
-├────────────────────────────────────────────────────────────────────┤
-│ incoming row : customer_id = 1005                                  │
-│        │                                                           │
-│        ▼                                                           │
-│ hash(customer_id) = 84291                                          │
-│        │                                                           │
-│        ▼                                                           │
-│ bucket mapping -> partition 3                                      │
-│        │                                                           │
-│        ▼                                                           │
-│ store in P3                                                        │
-│                                                                    │
-│ query customer_id = 1005  -> probe P3 first                        │
-│ query customer_id BETWEEN ... -> often scan many or all partitions │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deterministic routing and pruning</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">incoming row : customer_id = 1005</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash(customer_id) = 84291</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bucket mapping -&gt; partition 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store in P3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query customer_id = 1005 -&gt; probe P3 first</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query customer_id BETWEEN ... -&gt; often scan many or all partitions</div></div>
+</div>
+</div>
+
+
 
 실무 구성 요소를 정리하면 다음과 같다.
 
@@ -81,7 +78,7 @@ tags = ["studynote-database"]
 | 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 탐색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 유지보수는 쉽지만 전역 유일성은 별도 검토 필요 |
 | 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Global Index](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/)) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 넘는 전역 탐색/제약 지원 | 관리 비용이 늘 수 있어 채택 이유를 분명히 해야 함 |
 
-해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 특히 `=`와 `IN` 조건에서 효과가 잘 드러난다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 조건값에 같은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용해 대상 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 빠르게 추정할 수 있기 때문이다. 반대로 시간 범위, 금액 범위, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폐기처럼 **순서와 생애주기**가 중요한 작업에서는 해시만으로는 설계 의도를 표현하기 어렵다.
+해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 특히 `=`와 `IN` 조건에서 효과가 잘 드러난다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 조건값에 같은 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 적용해 대상 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 빠르게 추정할 수 있기 때문이다. 반대로 시간 범위, 금액 범위, 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폐기처럼 <strong>순서와 생애주기</strong>가 중요한 작업에서는 해시만으로는 설계 의도를 표현하기 어렵다.
 
 - **📢 섹션 요약 비유**: 택배 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 송장 번호를 읽고 자동 레일로 상자를 흩뿌리는 것과 같다. 번호가 같으면 늘 같은 레일로 가서 찾기 쉽지만, "이번 달 주문 상자만 모아라" 같은 요구에는 번호만으로 답하기 어렵다.
 
@@ -89,7 +86,7 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 비교 및 연결
 
-해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 제대로 이해하려면 다른 분할 방식과 비교해 경계를 잡아야 한다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/)은 시간축과 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 강하고, [리스트 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) ([List Partitioning](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/))은 지역·채널·상태처럼 의미가 분명한 코드값 분리에 강하다. 반면 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 **업무 의미보다 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 더 중요할 때** 힘을 발휘한다.
+해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 제대로 이해하려면 다른 분할 방식과 비교해 경계를 잡아야 한다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/)은 시간축과 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 강하고, [리스트 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) ([List Partitioning](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/))은 지역·채널·상태처럼 의미가 분명한 코드값 분리에 강하다. 반면 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 <strong>업무 의미보다 부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 더 중요할 때</strong> 힘을 발휘한다.
 
 | 방식 | 강한 지점 | 약한 지점 | 대표 활용 |
 | :--- | :--- | :--- | :--- |
@@ -108,7 +105,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 **동등 조건 조회가 많고 입력 집중이 심한 테이블**에서 먼저 검토한다. 예를 들어 회원, 계정, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 주문 헤더처럼 `id` 기반 단건 조회가 많고 초당 삽입량이 높은 시스템은 특정 세그먼트 병목을 피하는 것이 중요하다. 이런 경우 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 저장과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 부담을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율을 높인다.
+실무에서 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 <strong>동등 조건 조회가 많고 입력 집중이 심한 테이블</strong>에서 먼저 검토한다. 예를 들어 회원, 계정, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 주문 헤더처럼 `id` 기반 단건 조회가 많고 초당 삽입량이 높은 시스템은 특정 세그먼트 병목을 피하는 것이 중요하다. 이런 경우 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 저장과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 부담을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율을 높인다.
 
 반대로 월별 정산, 기간별 통계, 오래된 이력 삭제가 핵심이라면 해시 단독 설계는 불리하다. 이런 요구는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 퍼뜨릴까"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떤 기간 단위로 관리할까"가 더 중요하기 때문이다. 따라서 보관 주기와 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 모두 필요하면 `Range + Hash` 복합 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 더 현실적인 선택이 된다.
 
@@ -127,7 +124,7 @@ tags = ["studynote-database"]
 - [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 증가가 쉬울 것이라 가정하고 재배치 비용을 과소평가하는 경우
 - 해시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 믿고 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는 경우
 
-기술사 답안에서는 "해시는 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"이라는 한 문장으로 끝내면 부족하다. **동등 검색 최적화, 범위 검색 제약, 보관성 약점, 복합 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 보완**까지 함께 말해야 실제 설계 판단으로 인정받는다.
+기술사 답안에서는 "해시는 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"이라는 한 문장으로 끝내면 부족하다. <strong>동등 검색 최적화, 범위 검색 제약, 보관성 약점, 복합 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> 보완</strong>까지 함께 말해야 실제 설계 판단으로 인정받는다.
 
 - **📢 섹션 요약 비유**: 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 학교 급식 줄을 반별로 세우는 게 아니라 번호표 순서로 여러 창구에 흩어 세우는 방식이다. 빨리 나눌 수는 있지만, "3학년만 따로 모여" 같은 요구에는 별도 정리가 필요하다.
 
@@ -137,7 +134,7 @@ tags = ["studynote-database"]
 
 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 잘 맞으면 입력 부하와 저장 I/O가 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에만 몰리던 병목이 줄어든다. 그 결과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 효율, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 경쟁 완화, 고동시성 처리 안정성이 함께 좋아질 수 있다. 특히 키 기반 단건 조회와 대량 입력이 동시에 많은 업무에서는 "고르게 나눠 담는 것" 자체가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 된다.
 
-하지만 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간 의미나 업무 의미가 약해지므로 범위 검색과 보관 주기 운영에는 불리하다. 또한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수 변경, 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지, 키 선택 실수는 오히려 관리 복잡성을 키울 수 있다. 따라서 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 **정렬 가능성보다 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 더 중요한가**라는 질문에 대한 답으로 기억하는 편이 맞다.
+하지만 한계도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간 의미나 업무 의미가 약해지므로 범위 검색과 보관 주기 운영에는 불리하다. 또한 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 개수 변경, 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지, 키 선택 실수는 오히려 관리 복잡성을 키울 수 있다. 따라서 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 <strong>정렬 가능성보다 균등 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>이 더 중요한가</strong>라는 질문에 대한 답으로 기억하는 편이 맞다.
 
 결국 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 핵심은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이해하기 좋게 나누는 방법"이 아니라 "시스템이 버티기 좋게 나누는 방법"이다. 시간 축이 중요하면 레인지, 코드 의미가 중요하면 리스트, 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 중요하면 해시라는 구분을 명확히 잡아 두면 설계 판단이 선명해진다.
 
@@ -159,22 +156,24 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-입력 집중 · 데이터 쏠림 문제
-        │
-        ▼
-높은 카디널리티 키 선정
-        │
-        ▼
-해시 함수 + 버킷 매핑
-        │
-        ▼
-해시 파티셔닝 (Hash Partitioning)
-        │
-        ├──────────────► 동등 조건 프루닝 (=, IN)
-        ├──────────────► 병렬 입출력 · 쓰기 분산
-        └──────────────► Range + Hash 복합 파티셔닝 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 집중 · 데이터 쏠림 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">높은 카디널리티 키 선정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시 함수 + 버킷 매핑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해시 파티셔닝 (Hash Partitioning)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">동등 조건 프루닝 (=, IN)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">병렬 입출력 · 쓰기 분산</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Range + Hash 복합 파티셔닝 확장</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

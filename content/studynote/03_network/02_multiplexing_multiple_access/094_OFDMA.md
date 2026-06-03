@@ -37,24 +37,25 @@ OFDMA의 아키텍처는 PRB (Physical Resource Block)라는 2차원 격자 블�
 
 기지국이 단말에게 자원을 나눠주는 가장 작은 티켓인 PRB (Physical Resource Block)는 12개의 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/)와 7개의 심볼(1 Slot, 0.5ms)로 이루어져 있다. 이를 통해 기지국은 각 단말이 겪는 주파수 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) 환경을 1ms마다 파악하여 가장 전파가 깨끗한 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 타일만 골라주는 주파수 선택적 스케줄링 (Frequency Selective Scheduling)을 수행한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           LTE/5G OFDMA Resource Grid (자원 격자) 아키텍처          │
-├──────────────────────────────────────────────────────────────┤
-│ 주파수 (Freq)                                                 │
-│   ▲                                                          │
-│   │ ┌──┬──┬──┬──┬──┬──┬──┐ <- 1개 RE (Resource Element)         │
-│   │ ├──┼──┼──┼──┼──┼──┼──┤                                   │
-│ 12│ ├──┼──┼──┼──┼──┼──┼──┤     이 전체 블록 (12개 부반송파 x 7개 심볼)│
-│ 개│ ├──┼──┼──┼──┼──┼──┼──┤   ▶ 1개의 PRB (Physical Resource Block) │
-│ 부│ ├──┼──┼──┼──┼──┼──┼──┤      (기지국 스케줄러의 최소 할당 단위)     │
-│ 반│ ├──┼──┼──┼──┼──┼──┼──┤                                   │
-│ 송│ ├──┼──┼──┼──┼──┼──┼──┤                                   │
-│ 파│ └──┴──┴──┴──┴──┴──┴──┘                                   │
-│   └───────────────────────────► 시간 (Time)                │
-│      <--- 1 Slot (7 Symbols) --->                            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTE/5G OFDMA Resource Grid (자원 격자) 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 (Freq)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── ── ── ── ── ── &lt;- 1개 RE (Resource Element)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">── ── ── ── ── ── ── 이 전체 블록 (12개 부반송파 x 7개 심볼)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개</div><div class="kb-diagram-cell">── ── ── ── ── ── ── ▶ 1개의 PRB (Physical Resource Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부</div><div class="kb-diagram-cell">── ── ── ── ── ── ── (기지국 스케줄러의 최소 할당 단위)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반</div><div class="kb-diagram-cell">── ── ── ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송</div><div class="kb-diagram-cell">── ── ── ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파</div><div class="kb-diagram-cell">── ── ── ── ── ── ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► 시간 (Time)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;--- 1 Slot (7 Symbols) ---&gt;</div></div>
+</div>
+</div>
+
+
 
 이 매트릭스 다이어그램처럼 수십 명의 사용자가 기지국으로부터 테트리스 블록 같은 수만 개의 자원을 실시간으로 조각내어 부여받아, 간섭 없이 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리한다.
 
@@ -68,7 +69,7 @@ OFDMA는 탁월하지만 CDMA나 파생 기술과 극명한 트레이드오프�
 
 | 항목 | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (3G) | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) |
 |:---|:---|:---|
-| **[다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 분리 기준** | 코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | 주파수 타일과 시간 (Freq & Time Grid) |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a> 분리 기준</strong> | 코드 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) | 주파수 타일과 시간 (Freq & Time Grid) |
 | **셀 커버리지 특성** | 가입자가 몰리면 수축 ([셀 호흡](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/093_셀_호흡_현상/)) | 직교 할당으로 커버리지가 직관적이고 안정적 |
 | **PAPR (최대 전력비)** | 상대적으로 낮음 | **매우 높음 (수천 개 파형 중첩 시 피크 전력 치솟음)** |
 | **스케줄링 복잡도** | 단순 전력 제어 위주 | 1ms 단위 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 2차원 자원 할당으로 복잡도 최상 |
@@ -104,35 +105,37 @@ OFDMA는 [보호 대역](/knowledge-base/studynote/03_network/02_multiplexing_mu
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **SC-[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/)** | 높은 피크 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(PAPR)으로 인한 단말기 배터리 방전을 해결하기 위해 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 업링크에 도입된 싱글 캐리어 접속 방식 |
+| <strong>SC-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a></strong> | 높은 피크 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(PAPR)으로 인한 단말기 배터리 방전을 해결하기 위해 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 업링크에 도입된 싱글 캐리어 접속 방식 |
 | **PRB (Physical Resource Block)** | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 환경에서 기지국 스케줄러가 단말에게 발급하는 시간-주파수 2차원 자원의 최소 할당 단위 블록 |
-| **[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))** | 다중 경로를 거치며 발생한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다음 심볼을 덮쳐 침범하지 않도록 심볼 앞에 붙이는 잉여 복사본 버퍼 |
+| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">CP</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">Cyclic Prefix</a>)</strong> | 다중 경로를 거치며 발생한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다음 심볼을 덮쳐 침범하지 않도록 심볼 앞에 붙이는 잉여 복사본 버퍼 |
 | **Flexible Numerology** | 5G에서 사용자 이동 속도에 따라 도플러 천이에 버티도록 [부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/) 간격(15, 30, 60kHz)을 유연하게 늘리거나 줄이는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CDMA 대역폭 포화 · 셀 호흡 등 한계 발생
-    │
-    ▼
-OFDM (다중 반송파 분할 전송, 직교성 기반)
-    │
-    ▼
-OFDMA (OFDM을 여러 사용자의 다중 접속으로 확장)
-    │
-    ▼
-SC-FDMA (업링크 PAPR 극복) · ICIC (셀 경계 간섭 회피)
-    │
-    ▼
-NOMA (비직교 다중 접속 융합) 및 5G Flexible Numerology 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CDMA 대역폭 포화 · 셀 호흡 등 한계 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OFDM (다중 반송파 분할 전송, 직교성 기반)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OFDMA (OFDM을 여러 사용자의 다중 접속으로 확장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SC-FDMA (업링크 PAPR 극복) · ICIC (셀 경계 간섭 회피)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NOMA (비직교 다중 접속 융합) 및 5G Flexible Numerology 확장</div>
+</div>
+</div>
+
+
 
 이 흐름도는 코드로 구분하던 3G 시대를 끝내고, 수학적 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)으로 주파수와 시간을 완벽히 조각내는 현재의 아키텍처로 진화한 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날 통신은 큰 운동장에서 수십 명이 섞여서 동시에 대화하니까 조금만 늘어나도 너무 시끄러웠어요 ([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)).
-2. **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)**는 이 운동장에 수천 개의 좁고 투명한 방음 칸막이([부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))를 치고, 기지국 선생님이 "넌 1번 칸, 넌 2번 칸!" 하고 정확히 시간을 정해 자리를 나눠주는 방식이에요.
+2. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong>는 이 운동장에 수천 개의 좁고 투명한 방음 칸막이([부반송파](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/))를 치고, 기지국 선생님이 "넌 1번 칸, 넌 2번 칸!" 하고 정확히 시간을 정해 자리를 나눠주는 방식이에요.
 3. 벽이 아주 튼튼해서 옆 사람 소리가 안 들리기 때문에([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)), 스마트폰으로 영화를 아주 빠르게 끊김 없이 볼 수 있게 된 거랍니다!
 
 ---

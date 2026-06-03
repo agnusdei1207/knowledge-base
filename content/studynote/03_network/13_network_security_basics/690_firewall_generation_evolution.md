@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 내부의 사내망(신뢰 네트워크)과 외부의 인터넷망(비신뢰 네트워크) 사이의 길목에 설치되어, 통과하는 모든 패킷을 검사하고 **미리 정해진 보안 규칙(Rule/[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 따라 통과(Allow)시킬지 차단(Drop)할지 결정하는 가장 기초적인 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 관문 장비**입니다.
+- 내부의 사내망(신뢰 네트워크)과 외부의 인터넷망(비신뢰 네트워크) 사이의 길목에 설치되어, 통과하는 모든 패킷을 검사하고 <strong>미리 정해진 보안 규칙(Rule/<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)에 따라 통과(Allow)시킬지 차단(Drop)할지 결정하는 가장 기초적인 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a> 관문 장비</strong>입니다.
 
-```text
-[양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    ▼
-[방화벽 필터링 1,2,3 세대 진화]
-    │
-    └──▶ [패킷 필터, 애플리케이션 상태 필터 및 프록…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 방화벽 필터링 1,2,3 세대 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,14 +46,18 @@ tags = ["studynote-network"]
   - 예시: "출발지 IP 123.x.x.x에서 들어오는 80번([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근은 허용, 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 무조건 차단!"
 - **한계점 (기억상실증)**: 패킷을 단 1개 단위로 독립적으로 검사합니다([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)). 아까 내가 웹서버로 요청을 보낸 적도 없는데, 갑자기 네이버 IP로 둔갑(위조)한 해커의 정상 패킷이 쏟아져 들어오면 방화벽은 "오 정상 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)네?" 하고 다 통과시켜버리는 치명적 멍청함을 보였습니다.
 
-```text
-[양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    ▼
-[방화벽 필터링 1,2,3 세대 진화]
-    │
-    └──▶ [패킷 필터, 애플리케이션 상태 필터 및 프록…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 방화벽 필터링 1,2,3 세대 진화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **개념**: 체크포인트(Check Point) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 발명한 기술로, 1세대의 기억상실증을 치료하기 위해 **방화벽 내부에 '상태 테이블([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Table/메모리)'을 만든 똑똑한 방화벽**입니다. (현재 우리가 쓰는 대부분의 일반 방화벽 원리)
+- **개념**: 체크포인트(Check Point) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 발명한 기술로, 1세대의 기억상실증을 치료하기 위해 <strong>방화벽 내부에 '상태 테이블(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Table/메모리)'을 만든 똑똑한 방화벽</strong>입니다. (현재 우리가 쓰는 대부분의 일반 방화벽 원리)
 - **원리 (문맥 이해)**: 
   - 내부 직원이 네이버로 `[SYN]` 패킷을 보냅니다. 방화벽은 이를 상태 테이블 장부에 "내부 IP A가 네이버 IP B로 연결을 요청했음"이라고 적어둡니다.
   - 잠시 후 네이버 IP에서 `[SYN+ACK]` 패킷이 돌아옵니다. 방화벽은 장부를 뒤져보고 "아, 아까 우리 직원이 요청했던 그 정상적인 대화의 연장선([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이구나!" 하고 바로 통과시켜 줍니다.
@@ -78,13 +86,13 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **작동 계층**: OSI 7계층 (응용 계층)
-- **원리**: 겉면 송장(IP, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 보는 게 아니라, **택배 상자를 칼로 완전히 뜯어서 내용물(Payload)까지 샅샅이 뒤져보는(Deep Packet Inspection) 집요한 검열관**입니다.
+- **원리**: 겉면 송장(IP, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 보는 게 아니라, <strong>택배 상자를 칼로 완전히 뜯어서 내용물(Payload)까지 샅샅이 뒤져보는(Deep Packet Inspection) 집요한 검열관</strong>입니다.
 - **특징**: 내부 직원과 외부 해커가 직접 연결([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))되도록 두지 않습니다. 
   - 방화벽([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))이 중간에서 대리인 역할을 하여 외부에서 온 패킷을 대신 받고, 7계층 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 페이로드를 뜯어서 그 안에 '악성 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 코딩'이나 '[바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 첨부파일'이 있는지 내용물을 100% 엑스레이 검사한 뒤, 깨끗하면 다시 포장해서 내부로 전달합니다. (보안은 최강이지만 속도가 너무 느려지는 병목이 심했습니다.)
 
-> 1. **[패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/)링**: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바생입니다. 편지 봉투에 '수취인: 사장님'이라고 적혀있으면 묻지도 따지지도 않고 무조건 사장님 책상으로 보냅니다. (안에 폭탄이 들어있든 말든 관심 없음)
-> 2. **[상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/)**: 비서입니다. 수첩을 펴놓고, "사장님이 어제 다방에 짜장면 배달을 시켰음"이라고 적어둡니다. 오늘 다방에서 짬뽕 배달부가 오면 "사장님은 짜장면 시켰는데, 넌 누구냐!"라며 사기꾼 배달부를 돌려보내는 똑똑함을 갖췄습니다.
-> 3. **애플리케이션 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**: 대통령 경호원입니다. 우편물이 오면 발신인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 물론이고, 아예 편지를 칼로 찢어서 안에 폭탄 가루(악성코드)가 있는지 내용물(Payload)을 끝까지 다 까서 화학 분석을 마친 뒤에야 다시 예쁘게 밀봉해서 대통령에게 전달하는 가장 느리지만 철저한 방어막입니다.
+> 1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/">패킷 필터</a>링</strong>: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바생입니다. 편지 봉투에 '수취인: 사장님'이라고 적혀있으면 묻지도 따지지도 않고 무조건 사장님 책상으로 보냅니다. (안에 폭탄이 들어있든 말든 관심 없음)
+> 2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/">상태 기반 감시</a></strong>: 비서입니다. 수첩을 펴놓고, "사장님이 어제 다방에 짜장면 배달을 시켰음"이라고 적어둡니다. 오늘 다방에서 짬뽕 배달부가 오면 "사장님은 짜장면 시켰는데, 넌 누구냐!"라며 사기꾼 배달부를 돌려보내는 똑똑함을 갖췄습니다.
+> 3. <strong>애플리케이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>: 대통령 경호원입니다. 우편물이 오면 발신인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 물론이고, 아예 편지를 칼로 찢어서 안에 폭탄 가루(악성코드)가 있는지 내용물(Payload)을 끝까지 다 까서 화학 분석을 마친 뒤에야 다시 예쁘게 밀봉해서 대통령에게 전달하는 가장 느리지만 철저한 방어막입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 양자 내성 암호 체계 및 통신망 교환 표준]
-    │
-    ▼
-[현재 개념: 방화벽 필터링 1,2,3 세대 진화]
-    │
-    ├──▶ [확장 A: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 내성 암호 체계 및 통신망 교환 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 방화벽 필터링 1,2,3 세대 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 방화벽 필터링 1,2,3 세대 진화는 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/), 애플리케이션 상태 필터 및 프록…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

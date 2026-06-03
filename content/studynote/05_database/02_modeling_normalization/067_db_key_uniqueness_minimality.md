@@ -28,15 +28,21 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Tuple
-  ↓
-Uniqueness
-  ↓
-Minimality
-  ↓
-Key
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Tuple</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Uniqueness</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Minimality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Key</div>
+</div>
+</div>
+
+
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -104,29 +110,41 @@ Key
 
 ## 관련 개념 맵
 
-```text
-Relation
-  ↓
-Key
-  ↓
-Candidate / Primary / Foreign Key
-  ↓
-Referential Integrity
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Relation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Candidate / Primary / Foreign Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Referential Integrity</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Uniqueness
-  ↓
-Minimality
-  ↓
-Key
-  ↓
-Normalization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Uniqueness</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Minimality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Normalization</div>
+</div>
+</div>
+
+
 
 ---
 

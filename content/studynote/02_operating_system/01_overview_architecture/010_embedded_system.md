@@ -26,30 +26,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 집적 기술의 발전으로 하나의 칩에 CPU, 메모리, 주변 장치를 모두 담은 MCU (Micro Controller Unit)가 등장하면서 임베디드 시스템의 대중화가 시작되었다. 이후 연결성(Connectivity)이 중요해지며 단순 제어기에서 스마트 기기로 진화하였고, 최근에는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 연산까지 처리하는 고성능 임베디드 시스템으로 발전하고 있다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │           임베디드 시스템의 기본 동작 루프 (Sense-Think-Act) │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │     [ External Environment ]                                 │
-  │           │                                                  │
-  │           ▼ (Physical Signal)                                │
-  │  ┌─────────────────┐                                         │
-  │  │   Sensors       │ (온도, 가속도, 영상 등)                 │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Digital Data)                                   │
-  │  ┌─────────────────┐                                         │
-  │  │ Embedded System │ [ MCU / Processor ]                     │
-  │  │ (SW Processing) │ [ RTOS / Firmware ]                     │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Control Signal)                                 │
-  │  ┌─────────────────┐                                         │
-  │  │   Actuators     │ (모터, LED, 스피커 등)                  │
-  │  └────────┬────────┘                                         │
-  │           ▼ (Physical Action)                                │
-  │     [ Control Result ]                                       │
-  └──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베디드 시스템의 기본 동작 루프 (Sense-Think-Act)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">External Environment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Physical Signal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors</div><div class="kb-diagram-cell">(온도, 가속도, 영상 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Digital Data)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ Embedded System</div><div class="kb-diagram-node">MCU / Processor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ (SW Processing)</div><div class="kb-diagram-node">RTOS / Firmware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Control Signal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actuators</div><div class="kb-diagram-cell">(모터, LED, 스피커 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Physical Action)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Control Result</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 임베디드 시스템은 외부 환경과 끊임없이 소통하는 '폐루프(Closed-loop) 시스템'의 전형이다. 센서를 통해 현실 세계의 물리량을 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 받아들이고(Sense), 내장된 소프트웨어가 상황을 판단하며(Think), 그 결과에 따라 모터나 밸브 등을 움직여 물리적인 변화를 만들어낸다(Act). 이 모든 과정이 수 밀리초(ms) 내에 반복되며 기계가 마치 살아있는 것처럼 동작하게 만든다. 여기서 중요한 실무적 포인트는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 노이즈 제거와 액추에이터 제어의 정밀도이며, 이 과정에서 발생하는 시간 지연을 최소화하는 것이 임베디드 엔지니어의 핵심 역량이다.
 
@@ -75,30 +70,25 @@ tags = ["studynote-operating-system"]
 
 임베디드 시스템은 스스로 개발 환경을 구축할 수 없으므로, 강력한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 호스트 PC에서 개발하여 타겟 장치로 내려보내는 특수한 과정을 거친다.
 
-```text
- ┌───────────────────────────────────────────────────────────────┐
- │               임베디드 시스템 교차 개발 (Cross Development)   │
- ├───────────────────────────────────────────────────────────────┤
- │                                                               │
- │   [ Host PC (x86/ARM64) ]          [ Target (MCU/MPU) ]       │
- │   ┌─────────────────┐              ┌──────────────────┐       │
- │   │  Source Code    │              │                  │       │
- │   └────────┬────────┘              │                  │       │
- │            ▼ (1) Compile           │                  │       │
- │   ┌─────────────────┐              │                  │       │
- │   │ Cross Compiler  │              │                  │       │
- │   └────────┬────────┘              │                  │       │
- │            ▼ (2) Binary Image      │                  │       │
- │   ┌─────────────────┐ (3) Download │  ┌────────────┐  │       │
- │   │ Executable Bin  │ ────────────▶│  │ Flash Mem  │  │       │
- │   └────────┬────────┘  (JTAG/USB)  │  └─────┬──────┘  │       │
- │            │                       │        ▼         │       │
- │            └────── (4) Debugging ──┤  ┌────────────┐  │       │
- │                    (In-Circuit)    │  │  Processor │  │       │
- │                                    │  └────────────┘          │
- │                                    └──────────────────┘       │
- └───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베디드 시스템 교차 개발 (Cross Development)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Host PC (x86/ARM64)</div><div class="kb-diagram-node">Target (MCU/MPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (1) Compile</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross Compiler</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (2) Binary Image</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) Download</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executable Bin</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Flash Mem</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JTAG/USB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) Debugging ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(In-Circuit)</div><div class="kb-diagram-cell">Processor</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 임베디드 개발의 독특함은 '내가 실행될 곳과 내가 만들어지는 곳이 다르다'는 점에 있다. 호스트 PC에서 돌아가는 크로스 컴파일러(Cross Compiler)는 타겟 장치의 CPU 아키텍처(예: ARM)에 맞는 이진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Binary)을 생성한다. 이렇게 생성된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 JTAG이나 SWD 같은 전용 인터페이스를 통해 타겟의 플래시 메모리에 구워진다(Flash Writing). 실무에서 가장 어려운 지점은 '디버깅'인데, 타겟 장치에는 화면이 없기 때문에 호스트 PC의 디버거가 타겟 내부의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 실시간으로 훔쳐보는 인서킷 에뮬레이션(In-Circuit Emulation) 기술이 사용된다. 이 과정에서 타이밍 이슈나 하드웨어 의존적인 버그를 잡아내는 것이 임베디드 개발의 묘미이자 난관이다.
 
@@ -108,14 +98,19 @@ tags = ["studynote-operating-system"]
 
 임베디드 시스템, 특히 배터리로 구동되는 기기들은 전력 효율이 생명이다.
 
-```text
- [ Active Mode ] ──▶ [ Sleep Mode ] ──▶ [ Deep Sleep Mode ]
-  - CPU: Running      - CPU: Halted      - CPU: Power Off
-  - Clock: Full       - Clock: Gated     - Clock: Only RTC
-  - Power: Max        - Power: Low       - Power: Ultra Low
-       ▲                   │                   │
-       └───── [Wakeup Event] ──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Active Mode</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sleep Mode</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Deep Sleep Mode</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">CPU: Running - CPU: Halted - CPU: Power Off</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Clock: Full - Clock: Gated - Clock: Only RTC</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Power: Max - Power: Low - Power: Ultra Low</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wakeup Event</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 임베디드 시스템은 99%의 시간을 자면서 보낸다. 센서가 특정 값을 감지하거나 타이머가 울릴 때만 잠깐 깨어나(Wakeup) 일을 하고 즉시 다시 잠든다(Sleep). 이를 위해 MCU는 여러 단계의 절전 모드를 제공하며, 엔지니어는 미사용 주변 장치의 클럭을 끄는 '[Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)'이나 전압을 낮추는 'Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) Scaling' 기법을 사용한다. 실무적으로는 수 마이크로암페어(uA) 단위의 누설 전류까지 잡아야 배터리 수명을 년 단위로 보장할 수 있다.
 
@@ -156,7 +151,7 @@ tags = ["studynote-operating-system"]
 - **환경 적응성**: 동작 온도 범위(-40도 ~ 85도 등)가 실제 설치 환경의 극한 조건을 만족하는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **과도한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 의존**: 범용 OS용으로 만들어진 무거운 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 임베디드에 그대로 가져오면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 메모리 부족으로 시스템이 붕괴된다.
+- <strong>과도한 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 의존</strong>: 범용 OS용으로 만들어진 무거운 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 임베디드에 그대로 가져오면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 메모리 부족으로 시스템이 붕괴된다.
 - **하드웨어 직접 제어 코드의 파편화**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 제어 코드가 애플리케이션 곳곳에 흩어져 있으면 MCU가 바뀔 때마다 코드를 새로 짜야 한다. 반드시 [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)을 통해 하드웨어를 추상화해야 한다.
 
 - **📢 섹션 요약 비유**: 좁은 집에 가구를 가득 들여놓으면 사람이 움직일 수 없는 것처럼, 작은 메모리에 무거운 프로그램을 억지로 넣으려다 시스템이 멈추는 상황을 피해야 합니다.
@@ -174,7 +169,7 @@ tags = ["studynote-operating-system"]
 | **유연성** | 하드웨어 변경 없이 기능 수정 불가 | 소프트웨어 업데이트로 기능 개선 | 제품 개발 주기(Time-to-market) 단축 |
 
 ### 미래 전망
-임베디드 시스템은 이제 **소프트웨어 정의 (Software Defined)** 시대로 가고 있다. 자동차가 하드웨어가 아닌 소프트웨어 업데이트로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아지는 SDV (Software Defined Vehicle)가 대표적이다. 또한, 클라우드에 의존하지 않고 기기 자체에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 **[On-device AI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/)** 기술이 발전하면서, 임베디드 시스템은 더욱 강력한 연산 능력과 저전력 특성을 동시에 요구받게 될 것이다.
+임베디드 시스템은 이제 **소프트웨어 정의 (Software Defined)** 시대로 가고 있다. 자동차가 하드웨어가 아닌 소프트웨어 업데이트로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아지는 SDV (Software Defined Vehicle)가 대표적이다. 또한, 클라우드에 의존하지 않고 기기 자체에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/">On-device AI</a></strong> 기술이 발전하면서, 임베디드 시스템은 더욱 강력한 연산 능력과 저전력 특성을 동시에 요구받게 될 것이다.
 
 - **📢 섹션 요약 비유**: 예전에는 한 번 사면 끝이었던 기계가, 이제는 소프트웨어를 통해 자라나는 아이처럼 계속 똑똑해지는 시대로 변하고 있습니다.
 
@@ -185,37 +180,38 @@ tags = ["studynote-operating-system"]
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
 | **MCU (Micro Controller Unit)** | 임베디드 시스템의 물리적 실체이자 핵심 하드웨어 |
-| **[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/))** | 하드웨어에 밀착되어 특정 기능을 수행하는 임베디드 소프트웨어 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">Firmware</a>)</strong> | 하드웨어에 밀착되어 특정 기능을 수행하는 임베디드 소프트웨어 |
 | **RTOS (Real-time OS)** | 임베디드 시스템에서 시간 제약 조건을 만족시키기 위한 핵심 소프트웨어 |
-| **[HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)** | 하드웨어 의존성을 제거하여 소프트웨어 재사용성을 높이는 계층 |
-| **[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things)** | 임베디드 시스템이 네트워크로 연결되어 거대한 정보를 형성하는 상위 개념 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/">HAL</a> (Hardware <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> Layer)</strong> | 하드웨어 의존성을 제거하여 소프트웨어 재사용성을 높이는 계층 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong> | 임베디드 시스템이 네트워크로 연결되어 거대한 정보를 형성하는 상위 개념 |
 
 ---
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[펌웨어 (Firmware) — 하드웨어 초기화·부트로더]
-    │
-    ▼
-[RTOS (실시간 운영체제) — 결정적 스케줄링 보장]
-    │
-    ▼
-[임베디드 리눅스 (Embedded Linux) — 풍부한 기능·복잡도]
-    │
-    ▼
-[HAL (Hardware Abstraction Layer) — 드라이버 이식성 확보]
-    │
-    ▼
-[IoT 엣지 디바이스 — 클라우드 연결 임베디드 확장]
-    │
-    ▼
-[AIoT — ML 추론 탑재 임베디드 AI 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">펌웨어 (Firmware) — 하드웨어 초기화·부트로더</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RTOS (실시간 운영체제) — 결정적 스케줄링 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임베디드 리눅스 (Embedded Linux) — 풍부한 기능·복잡도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HAL (Hardware Abstraction Layer) — 드라이버 이식성 확보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 엣지 디바이스 — 클라우드 연결 임베디드 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIoT — ML 추론 탑재 임베디드 AI 시스템</div></div>
+</div>
+</div>
+
+
 임베디드 시스템은 단순 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 제어에서 RTOS → 임베디드 리눅스 → [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 → AIoT로 발전하며 점점 더 지능화·연결화되고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 임베디드 시스템은 **"장난감이나 가전제품 속에 들어있는 아주 작은 컴퓨터 뇌"**예요.
+1. 임베디드 시스템은 <strong>"장난감이나 가전제품 속에 들어있는 아주 작은 컴퓨터 뇌"</strong>예요.
 2. 밥솥이 밥을 맛있게 하거나 로봇 청소기가 길을 찾는 것처럼, 딱 한 가지 일을 아주 잘하도록 만들어졌어요.
 3. 전기를 아주 조금만 먹으면서도 쉬지 않고 일하는, 기계 친구들의 작지만 똑똑한 마음 같은 존재랍니다!
 

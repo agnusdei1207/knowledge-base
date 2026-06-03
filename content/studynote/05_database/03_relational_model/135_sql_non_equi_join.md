@@ -10,9 +10,9 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Non-Equi JOIN은 **등호(=) 대신 부등호(<, >, BETWEEN)로 조인 조건을 지정**하는 것이며, Self JOIN은 **같은 테이블을 자기 자신과 조인**하여 계층·순위·비교를 수행한다.
-> 2. **가치**: "급여 등급 테이블과 직원 급여를 범위 매칭"(Non-Equi), "직원과 그 상사를 같은 테이블에서 결합"(Self)은 **Equi JOIN으로 불가능한 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)**이다.
-> 3. **판단 포인트**: Self JOIN은 **반드시 별칭(Alias)을 사용**해야 하며, Non-Equi는 **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 최적화가 어려워** 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 주의가 필요하다.
+> 1. **본질**: Non-Equi JOIN은 **등호(=) 대신 부등호(<, >, BETWEEN)로 조인 조건을 지정**하는 것이며, Self JOIN은 <strong>같은 테이블을 자기 자신과 조인</strong>하여 계층·순위·비교를 수행한다.
+> 2. **가치**: "급여 등급 테이블과 직원 급여를 범위 매칭"(Non-Equi), "직원과 그 상사를 같은 테이블에서 결합"(Self)은 <strong>Equi JOIN으로 불가능한 핵심 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong>이다.
+> 3. **판단 포인트**: Self JOIN은 <strong>반드시 별칭(Alias)을 사용</strong>해야 하며, Non-Equi는 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 최적화가 어려워</strong> 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 주의가 필요하다.
 
 ---
 
@@ -31,7 +31,7 @@ Self:     SELECT e.name, m.name AS manager
 
 ## Ⅱ~Ⅴ. 결론
 
-Non-Equi·Self JOIN은 **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 필수 기법**이며, 계층 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·범위 매칭에 핵심이다.
+Non-Equi·Self JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석의 필수 기법</strong>이며, 계층 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·범위 매칭에 핵심이다.
 
 ---
 
@@ -40,23 +40,29 @@ Non-Equi·Self JOIN은 **[관계](/knowledge-base/studynote/05_database/02_model
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Non-Equi** | 범위 조건 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) |
-| **Self [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)** | 자기 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (계층) |
+| <strong>Self <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">JOIN</a></strong> | 자기 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (계층) |
 | **Alias** | Self [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 필수 |
 | **BETWEEN** | Non-Equi 대표 조건 |
-| **계층 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)** | Self [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활용 |
+| <strong>계층 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a></strong> | Self [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Equi JOIN (기본)] → [Non-Equi JOIN (범위)]
-    → [Self JOIN (자기 참조)] → [Recursive CTE (계층 대체)]
-    → [현재: Graph Query — 계층·관계 전용 쿼리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Equi JOIN (기본)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Non-Equi JOIN (범위)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Self JOIN (자기 참조)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Recursive CTE (계층 대체)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Graph Query — 계층·관계 전용 쿼리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Non-Equi는 **"키가 150~160이면 M사이즈"**처럼 범위로 매칭해요.
-2. Self JOIN은 **같은 사진에서 부모와 자식**을 찾는 거예요.
-3. 같은 테이블을 **두 번 사용**하되 **이름(별칭)을 다르게** 붙여요!
+1. Non-Equi는 <strong>"키가 150~160이면 M사이즈"</strong>처럼 범위로 매칭해요.
+2. Self JOIN은 <strong>같은 사진에서 부모와 자식</strong>을 찾는 거예요.
+3. 같은 테이블을 <strong>두 번 사용</strong>하되 **이름(별칭)을 다르게** 붙여요!
 
 ---
 

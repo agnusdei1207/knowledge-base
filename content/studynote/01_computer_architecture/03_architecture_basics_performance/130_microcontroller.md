@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 마이크로컨트롤러 (Microcontroller, MCU)는 중앙처리장치, 메모리, 입출력 제어기를 한 칩에 묶어 **센서 입력을 즉시 받아 물리 세계를 제어하는 단일 칩 컴퓨터**다.
-> 2. **가치**: 범용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 **예측 가능한 반응시간, 낮은 전력, 낮은 비용**이 중요할 때 MCU가 [마이크로프로세서](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) ([Microprocessor](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/), MPU)보다 훨씬 적합하다.
-> 3. **판단 포인트**: MCU 선택의 핵심은 클럭 숫자 자체가 아니라 **실시간성, 내장 메모리 크기, 주변장치 구성, 전력 예산**이 요구사항과 맞는지에 있다.
+> 1. **본질**: 마이크로컨트롤러 (Microcontroller, MCU)는 중앙처리장치, 메모리, 입출력 제어기를 한 칩에 묶어 <strong>센서 입력을 즉시 받아 물리 세계를 제어하는 단일 칩 컴퓨터</strong>다.
+> 2. **가치**: 범용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 <strong>예측 가능한 반응시간, 낮은 전력, 낮은 비용</strong>이 중요할 때 MCU가 [마이크로프로세서](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) ([Microprocessor](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/), MPU)보다 훨씬 적합하다.
+> 3. **판단 포인트**: MCU 선택의 핵심은 클럭 숫자 자체가 아니라 <strong>실시간성, 내장 메모리 크기, 주변장치 구성, 전력 예산</strong>이 요구사항과 맞는지에 있다.
 
 ---
 
@@ -35,26 +35,20 @@ MCU의 핵심은 "외부 도움을 최소화한 온칩 제어"다. 중앙처리�
 
 아래 그림은 MCU가 왜 "단일 칩 제어기"라고 불리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 MCU 내부의 기본 제어 경로와 주변장치 구성           │
-├──────────────────────────────────────────────────────────────────────┤
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐                         │
-│  │ Flash    │   │   CPU    │   │  SRAM    │                         │
-│  │ Firmware │◀─▶│  Core    │◀─▶│ Runtime  │                         │
-│  └────┬─────┘   └────┬─────┘   └────┬─────┘                         │
-│       │              │              │                               │
-│  ─────┴──────────────┴──────────────┴────────────────────           │
-│                  Internal Bus / Interconnect                        │
-│  ─────┬──────────────┬──────────────┬──────────────┬────           │
-│       │              │              │              │                │
-│   ┌───▼───┐      ┌───▼───┐      ┌───▼───┐      ┌───▼───┐            │
-│   │ GPIO  │      │ ADC   │      │ Timer │      │ UART  │            │
-│   └───┬───┘      └───┬───┘      └───┬───┘      └───┬───┘            │
-│       │              │              │              │                │
-│   버튼·LED       온도·전압 센서      PWM 모터         디버그·통신      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCU 내부의 기본 제어 경로와 주변장치 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flash</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">SRAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firmware</div><div class="kb-diagram-cell">◀─▶</div><div class="kb-diagram-cell">Core</div><div class="kb-diagram-cell">◀─▶</div><div class="kb-diagram-cell">Runtime</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Internal Bus / Interconnect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPIO</div><div class="kb-diagram-cell">ADC</div><div class="kb-diagram-cell">Timer</div><div class="kb-diagram-cell">UART</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버튼·LED 온도·전압 센서 PWM 모터 디버그·통신</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 항상 같은 경로로 흐른다는 것이다. 예를 들어 센서 전압은 ADC를 통해 수치로 변환되고, CPU는 그 값을 기준치와 비교한 뒤, 타이머와 PWM으로 모터 듀티비를 조정한다. 외부 칩과 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 매번 거치지 않기 때문에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 작고, 동작 시간이 상대적으로 예측 가능하다.
 
@@ -103,7 +97,7 @@ MCU를 정확히 이해하려면 MPU, 그리고 시스템 온 칩 ([System on Ch
 2. **실시간 응답을 보장할 수 있는가**: 가장 긴 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 주기 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 실행시간, 통신 프레임 처리시간이 요구 마감시간 안에 들어와야 한다.
 3. **주변장치가 이미 내장되어 있는가**: 외부 ADC, 모터 드라이버 인터페이스, CAN, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), 암호화 엔진이 필요하면 내장 유무가 보드 복잡도와 비용을 크게 바꾼다.
 4. **전력 상태 전환이 적절한가**: 수면모드 진입/복귀 시간이 길면 평균 소비전력은 낮아도 실제 사용자 체감 반응은 나빠질 수 있다.
-5. **개발·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계가 갖춰지는가**: 공동 시험 동작 그룹 (Joint Test Action Group, JTAG) 또는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 와이어 디버그 ([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Wire Debug, SWD), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 장애 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 구조가 없으면 현장 유지보수가 어렵다.
+5. <strong>개발·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계가 갖춰지는가</strong>: 공동 시험 동작 그룹 (Joint Test Action Group, JTAG) 또는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 와이어 디버그 ([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Wire Debug, SWD), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 장애 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 구조가 없으면 현장 유지보수가 어렵다.
 
 ### 대표 적용 시나리오
 
@@ -145,25 +139,27 @@ MCU의 가장 큰 효과는 제어 기능을 작고 싸고 안정적으로 현�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-릴레이·전용 제어회로
-    │
-    ▼
-단일 칩 제어기 등장
-(MCU: CPU + Flash + SRAM + GPIO)
-    │
-    ▼
-실시간 제어 고도화
-(Timer / PWM / Interrupt / RTOS)
-    │
-    ▼
-초저전력·무선 센서 노드
-(IoT / Battery Operation)
-    │
-    ▼
-보안·TinyML 결합형 지능형 MCU
-(Secure Boot / Hardware Cryptography / Edge Artificial Intelligence)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">릴레이·전용 제어회로</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단일 칩 제어기 등장</div>
+<div class="kb-diagram-note">(MCU: CPU + Flash + SRAM + GPIO)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실시간 제어 고도화</div>
+<div class="kb-diagram-note">(Timer / PWM / Interrupt / RTOS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">초저전력·무선 센서 노드</div>
+<div class="kb-diagram-note">(IoT / Battery Operation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안·TinyML 결합형 지능형 MCU</div>
+<div class="kb-diagram-note">(Secure Boot / Hardware Cryptography / Edge Artificial Intelligence)</div>
+</div>
+</div>
+
+
 
 이 흐름은 MCU가 단순 제어 회로의 대체재에서 출발해, 오늘날에는 저전력 엣지 지능 장치의 핵심으로 확장되고 있음을 보여준다.
 

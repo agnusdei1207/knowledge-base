@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 방대한 네트워크 장비와 서버에서 매일 쏟아지는 테라바이트급 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 알람을 **[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)/딥러닝) 모델이 실시간으로 수집 및 분석하여, 사람을 대신해 네트워크의 이상 징후를 탐지하고 자동으로 문제를 해결(자동화)하는 차세대 IT 운영 관리 체계**입니다.
-- 통신망(Network)에 적용되면 **'자율 주행 네트워크(Autonomous Network)'**의 두뇌가 됩니다.
+- **개념**: 방대한 네트워크 장비와 서버에서 매일 쏟아지는 테라바이트급 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 알람을 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>/딥러닝) 모델이 실시간으로 수집 및 분석하여, 사람을 대신해 네트워크의 이상 징후를 탐지하고 자동으로 문제를 해결(자동화)하는 차세대 IT 운영 관리 체계</strong>입니다.
+- 통신망(Network)에 적용되면 <strong>'자율 주행 네트워크(Autonomous Network)'</strong>의 두뇌가 됩니다.
 
-```text
-[네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
-[자율 주행 넷망]
-    │
-    └──▶ [AI 내재화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 내재화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,18 +44,22 @@ tags = ["studynote-network"]
 AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니다.
 
 - **기존 SDN의 한계**: 관리자가 장비에 대고 "IP A에서 온 건 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1로 보내"라고 기계어(CLI)로 하나하나 쳐줘야 했습니다(명령적 방식, Imperative).
-- **[IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) ([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/)-Based Networking) 혁명**:
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/">IBN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>-Based Networking) 혁명</strong>:
   - 관리자는 시스템에 기계어 대신 사람이 쓰는 말(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))을 던집니다. **"이번 주말 콘서트장에 홀로그램 영상망(VIP) 절대 안 끊기게 보장해 줘!"** (선언적 방식, [Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)).
-  - IBN의 두뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 이 '의도'를 스스로 해석하여, "음, 콘서트장이니까 B 라우터를 켜고 C [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수정해야겠군" 하고 **수백 대의 장비 세팅 값을 AI가 스스로 다 짜서 자동으로 밀어 넣습니다(Translation & [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)).**
+  - IBN의 두뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 이 '의도'를 스스로 해석하여, "음, 콘서트장이니까 B 라우터를 켜고 C [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수정해야겠군" 하고 <strong>수백 대의 장비 세팅 값을 AI가 스스로 다 짜서 자동으로 밀어 넣습니다(Translation &amp; <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
 
-```text
-[네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
-[자율 주행 넷망]
-    │
-    └──▶ [AI 내재화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 내재화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,9 +70,9 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 사람의 손(Touch)이 1%도 개입하지 않는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통합 자력 제어 모델입니다.
 
 1. **상태 모니터링 (Telemtry)**: AI가 1밀리초 단위로 망의 트래픽을 감시합니다.
-2. **이상 예측 ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))**: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
+2. <strong>이상 예측 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a>)</strong>: "어? 콘서트장에 사람들이 몰리면서 3번 라우터 온도가 올라가네? 10분 뒤에 터지겠군."
 3. **자동 치유 체계 (Self-Healing)**: AI가 사람에게 묻지 않고 스스로 판단합니다. "3번 라우터 트래픽을 4번으로 우회시켜!" 그리고 장비에 자동으로 명령을 쏴서 고장을 미연에 100% 방어해 냅니다.
-4. **지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (Assurance)**: 관리자의 '의도(홀로그램 무중단)'가 잘 지켜지고 있는지 스스로 24시간 피드백 루프를 돌립니다.
+4. <strong>지속 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Assurance)</strong>: 관리자의 '의도(홀로그램 무중단)'가 잘 지켜지고 있는지 스스로 24시간 피드백 루프를 돌립니다.
 
 자율 주행 넷망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…가 기반 조건을 만든다면, 자율 주행 넷망은 그 위에서 핵심 메커니즘을 구현하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -112,15 +120,19 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    │
-    ▼
-[현재 개념: 자율 주행 넷망]
-    │
-    ├──▶ [확장 A: AI 내재화]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자율 주행 넷망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AI 내재화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 자율 주행 넷망는 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…에서 출발해 현재 메커니즘을 정교화하고, 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

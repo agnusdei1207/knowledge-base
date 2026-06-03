@@ -32,29 +32,28 @@ tags = ["studynote-ict-convergence"]
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체급 | 커버리지 | 전송 속도 | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) | 대표 기술 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 | :--- | :--- | :--- | :--- | :--- |
-| **[WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) (Personal Area)** | 10m 이내 | 중간 ~ 낮음 | 매우 낮음 | [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)), [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), NFC |
-| **[WLAN](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/) (Local Area)** | 100m 내외 | 매우 높음 (Gbps급) | 높음 (상시 전원 권장) | Wi-Fi (IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) |
-| **[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) (Wide Area)** | 10km 이상 | 매우 낮음 (수 kbps) | 극도로 낮음 (10년 배터리) | [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/">WPAN</a> (Personal Area)</strong> | 10m 이내 | 중간 ~ 낮음 | 매우 낮음 | [Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)), [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), NFC |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a> (Local Area)</strong> | 100m 내외 | 매우 높음 (Gbps급) | 높음 (상시 전원 권장) | Wi-Fi (IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> (Wide Area)</strong> | 10km 이상 | 매우 낮음 (수 kbps) | 극도로 낮음 (10년 배터리) | [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           IoT 무선 통신망의 거리와 속도 트레이드오프(Trade-off)        │
-├──────────────────────────────────────────────────────────────┤
-│  전송 속도 (Data Rate)                                        │
-│    ▲                                                         │
-│    │  [WLAN]                                                 │
-│    │  Wi-Fi (고화질 영상 스트리밍) - 전원 플러그 필수!              │
-│    │                                                         │
-│    │       [WPAN]                                            │
-│    │       Bluetooth, Zigbee (스마트홈, 웨어러블)               │
-│    │                                                         │
-│    │                               [LPWAN]                   │
-│    │                               LoRa, NB-IoT (가로등, 미터기)│
-│    └───────────────────────────────────────────────────────▶ │
-│      (10m)                 (100m)                  (10km)    │
-│                                                  전송 거리 (Range)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 무선 통신망의 거리와 속도 트레이드오프(Trade-off)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 속도 (Data Rate)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WLAN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wi-Fi (고화질 영상 스트리밍) - 전원 플러그 필수!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bluetooth, Zigbee (스마트홈, 웨어러블)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRa, NB-IoT (가로등, 미터기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10m) (100m) (10km)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 거리 (Range)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '속도'와 '거리'를 동시에 만족하면서 '초저전력'까지 달성하는 마법의 통신망은 물리학적으로 존재하지 않는다는 점이다. LPWAN은 배터리를 아끼고 10km를 날아가기 위해 속도를 포기(하루에 10바이트만 전송)했고, WLAN은 Gbps급 속도를 위해 상시 전원을 요구한다.
 
@@ -111,34 +110,36 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) ([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))** | WPAN의 대표 주자로, 페어링 기반의 근거리 초저전력 통신을 통해 웨어러블과 비콘 생태계를 지배함. |
-| **[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([Long Range](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))** | 비면허 주파수 대역을 사용하여 누구나 무료로 광역 기지국을 세울 수 있게 해주는 LPWAN의 오픈 생태계. |
-| **[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워크 ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))** | [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 등 [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) 단말기들이 서로의 전파를 릴레이로 징검다리 삼아 통신 거리를 확장하는 분산형 아키텍처. |
-| **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)** | 이동통신사가 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국 망을 활용해 면허 대역에서 고신뢰성으로 제공하는 산업용 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/). |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>)</strong> | WPAN의 대표 주자로, 페어링 기반의 근거리 초저전력 통신을 통해 웨어러블과 비콘 생태계를 지배함. |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">Long Range</a>)</strong> | 비면허 주파수 대역을 사용하여 누구나 무료로 광역 기지국을 세울 수 있게 해주는 LPWAN의 오픈 생태계. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a> 네트워크 (<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>)</strong> | [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 등 [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/) 단말기들이 서로의 전파를 릴레이로 징검다리 삼아 통신 거리를 확장하는 분산형 아키텍처. |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a></strong> | 이동통신사가 기존 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국 망을 활용해 면허 대역에서 고신뢰성으로 제공하는 산업용 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/). |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-유선 LAN 시대 (물리적 케이블의 한계)
-    │
-    ▼
-WLAN (Wi-Fi)의 보급 (노트북/스마트폰 등 고속/상시전원 기기의 무선화 달성)
-    │
-    ▼
-WPAN (Bluetooth/Zigbee)의 등장 (웨어러블/스마트홈 등 근거리 저전력 개인화 기기 연결)
-    │
-    ▼
-IoT 폭발과 전력 한계 직면 (야외, 산속, 지하의 수백만 개 센서는 기존 망으로 커버 불가)
-    │
-    ▼
-LPWAN (LoRa, NB-IoT) 혁명 (초광역, 초저전력, 저비용 기반의 진정한 만물인터넷 인프라 완성)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">유선 LAN 시대 (물리적 케이블의 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WLAN (Wi-Fi)의 보급 (노트북/스마트폰 등 고속/상시전원 기기의 무선화 달성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WPAN (Bluetooth/Zigbee)의 등장 (웨어러블/스마트홈 등 근거리 저전력 개인화 기기 연결)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoT 폭발과 전력 한계 직면 (야외, 산속, 지하의 수백만 개 센서는 기존 망으로 커버 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LPWAN (LoRa, NB-IoT) 혁명 (초광역, 초저전력, 저비용 기반의 진정한 만물인터넷 인프라 완성)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/)**은 짝꿍이랑 귓속말로 속닥거리는 거예요. 힘은 하나도 안 들지만 멀리 있는 친구에겐 안 들려요.
-2. **[WLAN](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/)**은 교실 앞 스피커로 크게 말하는 거예요. 정보는 엄청 많이 줄 수 있지만 건전지가 엄청나게 빨리 닳아요.
-3. **[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)**은 산봉우리에서 연기를 피워 올리는 거예요. 아주 짧은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)밖에 못 주지만, 밥(전기)을 거의 안 먹고도 엄청 멀리까지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보낼 수 있답니다!
+1. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/">WPAN</a></strong>은 짝꿍이랑 귓속말로 속닥거리는 거예요. 힘은 하나도 안 들지만 멀리 있는 친구에겐 안 들려요.
+2. <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a></strong>은 교실 앞 스피커로 크게 말하는 거예요. 정보는 엄청 많이 줄 수 있지만 건전지가 엄청나게 빨리 닳아요.
+3. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a></strong>은 산봉우리에서 연기를 피워 올리는 거예요. 아주 짧은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)밖에 못 주지만, 밥(전기)을 거의 안 먹고도 엄청 멀리까지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보낼 수 있답니다!
 
 ---
 

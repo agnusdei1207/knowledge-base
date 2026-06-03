@@ -11,8 +11,8 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SBT([Soulbound Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/), 소울바운드 토큰)는 비탈릭 부테린이 2022년 제안한 **양도·전송 불가(Non-Transferable) NFT**로, 개인의 성취·자격·소속을 온체인에 영구 기록하는 신원 증명 도구다.
-> 2. **가치**: 학위증·자격증·의료기록·신용 이력을 오프체인 VC(Verifiable Credential)가 아닌 온체인에 기록함으로써 투명성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 편의성을 높이지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 투명성으로 인한 **프라이버시 우려**가 핵심 트레이드오프다.
+> 1. **본질**: SBT([Soulbound Token](/knowledge-base/studynote/06_ict_convergence/01_blockchain/050_sbt_soulbound_token/), 소울바운드 토큰)는 비탈릭 부테린이 2022년 제안한 <strong>양도·전송 불가(Non-Transferable) NFT</strong>로, 개인의 성취·자격·소속을 온체인에 영구 기록하는 신원 증명 도구다.
+> 2. **가치**: 학위증·자격증·의료기록·신용 이력을 오프체인 VC(Verifiable Credential)가 아닌 온체인에 기록함으로써 투명성과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 편의성을 높이지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 투명성으로 인한 <strong>프라이버시 우려</strong>가 핵심 트레이드오프다.
 > 3. **판단 포인트**: SBT(온체인·공개·영구)와 VC(오프체인·선택적공개·폐기 가능)의 설계 철학 차이를 이해하면 신원 시스템 설계에서 어느 방식이 더 적합한지 논리적으로 판단할 수 있다.
 
 ---
@@ -23,7 +23,7 @@ tags = ["studynote-ict-convergence"]
 
 기존 NFT(ERC-721)는 전송이 가능하여 자격증·신원 증명에 부적합하다. 돈으로 자격증을 구매하거나, 자격증 보유자가 아닌 자가 타인 지갑에서 사용하는 문제가 발생한다.
 
-SBT는 **영혼(Soul) 지갑에 영구 귀속**된다는 개념으로, 디지털 신원의 Web3 버전을 제안한다.
+SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으로, 디지털 신원의 Web3 버전을 제안한다.
 
 **SBT 특성**:
 - 발급(Mint)은 Issuer만 가능
@@ -39,24 +39,24 @@ SBT는 **영혼(Soul) 지갑에 영구 귀속**된다는 개념으로, 디지털
 
 ### SBT 발급·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 구조
 
-```
-┌────────────────────────────────────────────────────┐
-│                SBT 생명주기                         │
-│                                                    │
-│  Issuer (발급자: 대학, 기업, 정부)                  │
-│    │ mint(soulAddress, tokenId, metadata)          │
-│    ▼                                               │
-│  Soul 지갑 (수신자 주소, 변경 불가 귀속)             │
-│    │ transfer() → REVERT (전송 불가)                │
-│    │                                               │
-│  Verifier (검증자)                                  │
-│    │ 블록체인에서 직접 조회                          │
-│    │ ownerOf(tokenId) → Soul 주소 확인              │
-│    │ tokenURI → 자격증 메타데이터 확인               │
-│    ▼                                               │
-│  검증 완료 (오프체인 API 없이 온체인 직접)           │
-└────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBT 생명주기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issuer (발급자: 대학, 기업, 정부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mint(soulAddress, tokenId, metadata)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Soul 지갑 (수신자 주소, 변경 불가 귀속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transfer() → REVERT (전송 불가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verifier (검증자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인에서 직접 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ownerOf(tokenId) → Soul 주소 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tokenURI → 자격증 메타데이터 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 완료 (오프체인 API 없이 온체인 직접)</div></div>
+</div>
+</div>
+
+
 
 ### SBT vs VC(Verifiable Credential) 비교
 
@@ -67,7 +67,7 @@ SBT는 **영혼(Soul) 지갑에 영구 귀속**된다는 개념으로, 디지털
 | **폐기 가능** | 어렵거나 복잡 | 간단히 폐기 |
 | **선택적 공개** | 불가 | 가능 ([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 연계) |
 | **프라이버시** | 낮음 | 높음 |
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 편의** | 온체인 직접 | Issuer 서버 필요 가능 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 편의</strong> | 온체인 직접 | Issuer 서버 필요 가능 |
 | **표준** | ERC-5192 | W3C VC [Data Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) |
 
 - **📢 섹션 요약 비유**: — "SBT는 공개 게시판에 내 수상 기록을 영구 게시하는 것, VC는 내 지갑에 수상증서를 보관하고 필요할 때만 꺼내 보여주는 것이다.
@@ -84,10 +84,10 @@ SBT는 **영혼(Soul) 지갑에 영구 귀속**된다는 개념으로, 디지털
 - 지갑 주소와 오프체인 신원 연결 시 완전한 디지털 발자국 노출
 
 **완화 방안**:
-1. **[ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 연계**: SBT 보유 증명은 하되 구체적 내용 비공개
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/">ZKP</a> 연계</strong>: SBT 보유 증명은 하되 구체적 내용 비공개
 2. **프라이빗 체인**: 허가형 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 SBT 발급
 3. **선택적 공개**: 조회 접근 제어 레이어 추가
-4. **[DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) + SBT 조합**: DID로 익명화된 Soul 주소 사용
+4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a> + SBT 조합</strong>: DID로 익명화된 Soul 주소 사용
 
 ### ERC-5192 표준
 
@@ -117,9 +117,9 @@ interface IERC5192 {
 
 ### 기술사 핵심 판단
 1. **"VC vs SBT 언제 쓰나?"**: 공개 무방한 자격증 → SBT 적합, 민감 정보 → VC + [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 적합
-2. **[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 충돌**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 vs 잊힐 권리 → SBT의 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
+2. <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 충돌</strong>: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성 vs 잊힐 권리 → SBT의 법적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
 3. **Soul 지갑 분실**: SBT는 Soul 주소에 귀속 → 주소 분실 시 자격 증명 접근 불가 → 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요
-4. **DeSoc([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 사회)**: 비탈릭 부테린의 장기 비전, SBT 기반 신용·평판 시스템
+4. <strong>DeSoc(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 사회)</strong>: 비탈릭 부테린의 장기 비전, SBT 기반 신용·평판 시스템
 
 - **📢 섹션 요약 비유**: — "SBT는 공개 벽에 내 이름을 새기는 것 — 자랑스러운 내용은 좋지만, 부끄러운 내용도 지우지 못한다는 것을 기억해야 한다.
 
@@ -129,7 +129,7 @@ interface IERC5192 {
 
 | 효과 항목 | 내용 |
 |:---|:---|
-| **투명한 자격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** | Issuer 서버 없이 온체인 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong>투명한 자격 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | Issuer 서버 없이 온체인 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **위조 방지** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 불변성으로 자격증 위조 원천 차단 |
 | **DeSoc 기반** | 온체인 신원 기반 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 사회 설계 |
 | **프라이버시 과제** | 민감 정보 공개 방지를 위한 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 연계 필요 |

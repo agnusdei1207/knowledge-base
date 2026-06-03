@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 일반적인 2D 게임이나 유튜브 영상은 핑([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 100ms(0.1초) 정도 튀어도 사용자가 크게 불편함을 느끼지 않는다. 하지만 VR 기기([HMD](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/177_hmd_eye_tracking_foveated_rendering/))를 쓴 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 환경에서는 0.1초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 곧 '가상 현실 병(VR Sickness, 멀미)'으로 직결된다. 내가 고개를 돌렸는데, 화면은 0.1초 뒤에 늦게 따라오면 인간의 전정기관과 시각 정보가 충돌하여 구토를 유발하기 때문이다.
 
-이 멀미를 없애려면 **MTP (Motion-to-Photon)** [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 **20ms 이하**로 유지해야 한다. 하지만 머리에 쓰는 얇은 VR 기기 안에는 최신형 고성능 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 넣을 수 없다. 발열과 배터리 문제 때문이다.
+이 멀미를 없애려면 **MTP (Motion-to-Photon)** [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 <strong>20ms 이하</strong>로 유지해야 한다. 하지만 머리에 쓰는 얇은 VR 기기 안에는 최신형 고성능 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 넣을 수 없다. 발열과 배터리 문제 때문이다.
 
-결국 가벼운 VR 기기만으로도 초고화질의 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)를 즐기려면, **무거운 3D 렌더링(그리기) 연산을 기기 밖(클라우드나 엣지)으로 빼서 처리하고, 그 화면을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 네트워크를 통해 실시간으로 스트리밍받는 구조**가 필수불가결해졌다.
+결국 가벼운 VR 기기만으로도 초고화질의 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)를 즐기려면, <strong>무거운 3D 렌더링(그리기) 연산을 기기 밖(클라우드나 엣지)으로 빼서 처리하고, 그 화면을 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 네트워크를 통해 실시간으로 스트리밍받는 구조</strong>가 필수불가결해졌다.
 
 - **📢 섹션 요약 비유**: [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)는 거대한 3D 그림을 그리는 미술 대회다. 꼬마(VR 기기)가 무거운 물감([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))을 짊어지고 뛸 수 없으니, 꼬마는 맨몸으로 달리기만 하고 밖에서 화가(클라우드)가 대신 그림을 그려서 꼬마의 안경에 빛의 속도로 빔을 쏴주는 기술이 필요하다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 렌더링 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 단축 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  메타버스 네트워크 렌더링 지연 단축                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타버스 네트워크 렌더링 지연 단축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 렌더링 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 단축 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | 렌더링 방식 | 로컬 렌더링 (Local) | 클라우드 렌더링 (Cloud) | 분할 렌더링 (Split) |
 |:---|:---|:---|:---|
 | **렌더링 주체** | VR 기기 ([HMD](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/177_hmd_eye_tracking_foveated_rendering/)) 자체 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | AWS 등 중앙 클라우드 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | 엣지 서버 + VR 기기 분업 |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** | **매우 낮음 (즉시 반응)** | 매우 높음 (네트워크 타야 함) | **중간 (타협점)** |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> | **매우 낮음 (즉시 반응)** | 매우 높음 (네트워크 타야 함) | **중간 (타협점)** |
 | **그래픽 품질** | 기기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계로 낮음 (폴리곤 수 제한) | **영화 CG급 초고화질 가능** | 고화질 배경은 엣지, 내 손은 로컬 |
 | **배터리 / 발열** | 최악 (1시간 만에 방전, 기기 불덩이) | 좋음 (동영상 재생 수준) | 좋음 |
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 이러한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 단축 및 렌더링 최적화 기술들이 결합하면, 사용자는 무겁고 비싼 컴퓨터와 선이 연결되지 않은 '가벼운 무선 안경([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) VR)'만 쓰고도 영화 레디 플레이어 원(Ready Player One) 같은 초고화질 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 세상을 어지러움 없이 활보할 수 있게 된다.
 
-결론적으로 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)의 핵심은 화려한 3D 그래픽이 아니다. **"나의 움직임과 화면의 갱신 사이의 시간 차이를 0.02초 이내로 줄이기 위해 인류의 모든 통신([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)), 인프라(Edge), 렌더링([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 기술을 총동원하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과의 전쟁"**이다. 기술사는 이 병목을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처로 어떻게 우회할 것인지 설계하는 뇌관 역할을 맡아야 한다.
+결론적으로 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)의 핵심은 화려한 3D 그래픽이 아니다. <strong>"나의 움직임과 화면의 갱신 사이의 시간 차이를 0.02초 이내로 줄이기 위해 인류의 모든 통신(<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>), 인프라(Edge), 렌더링(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>) 기술을 총동원하는 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과의 전쟁"</strong>이다. 기술사는 이 병목을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처로 어떻게 우회할 것인지 설계하는 뇌관 역할을 맡아야 한다.
 
 - **📢 섹션 요약 비유**: 완벽한 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)는 인간의 뇌를 속이는 고도의 사기극이다. 뇌가 "어? 뭔가 가짜 같은데?"라고 눈치채는 시간이 0.02초다. 아키텍트는 0.01초 만에 다음 그림을 완벽하게 그려내어 뇌가 영원히 가상 현실 속에서 속고 있게 만드는 최고의 마술사가 되어야 한다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-메타버스 네트워크 렌더링 지연 단축 기술 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메타버스 네트워크 렌더링 지연 단축 기술 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

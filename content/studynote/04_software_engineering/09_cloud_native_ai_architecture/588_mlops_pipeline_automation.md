@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))**: "개발팀이 짠 코드 ➡ [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 빌드 ➡ 실서버 배포 쾅!" (코드만 다루는 1차원 배포술).
-  - **[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) (엠엘옵스)**: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 ➡ 10만 장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) ➡ 1주일간 GPU로 모델 뇌 훈련 ➡ 모델 엑기스 추출([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)) ➡ 실서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Serving) 띄워서 배포 쾅! ➡ 버그 나면 처음으로 무한 루프!" (코드 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 모델 3차원 짬뽕 배포술).
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">데브옵스</a>)</strong>: "개발팀이 짠 코드 ➡ [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 빌드 ➡ 실서버 배포 쾅!" (코드만 다루는 1차원 배포술).
+  - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> (엠엘옵스)</strong>: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 ➡ 10만 장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전처리([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) ➡ 1주일간 GPU로 모델 뇌 훈련 ➡ 모델 엑기스 추출([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)) ➡ 실서버 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(Serving) 띄워서 배포 쾅! ➡ 버그 나면 처음으로 무한 루프!" (코드 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 모델 3차원 짬뽕 배포술).
 
-- **필요성 (주피터 노트북의 재앙과 모델 부패의 공포)**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스타트업에서 천재 박사님이 3달 걸려 미친 추천 모델(`.pkl`)을 만들었다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어한테 메일로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져주며 "이거 서버에 올려주셈 ㅋ" 했다. 엔지니어가 파이썬 서버에 올렸더니 파이썬 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌 나서 에러 뿜고 뻗었다(환경 불일치). 1달 뒤 간신히 띄웠더니, 계절이 가을로 바뀐 탓에 여름옷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 헛소리를 치며 추천 클릭률이 바닥으로 처박혔다([Model Drift](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)). 다시 모델 굽게 최신 가을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뽑아달라고 박사님한테 갔더니 "아씨 나 어제 퇴사했는데 인수인계 문서 없음 ㅋ" (재현 불가 지옥). **"아 ㅆㅂ! 모델 만드는 건 박사님 혼자 할 수 있어도, 그 모델을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버에 올리고, 썩으면 다시 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 알아서 업데이트 치는 '자동화된 기계 공장(Automation)' 없이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비즈니스는 3달 만에 파산한다!!"** 이 절박함이 MLOps라는 새로운 학문을 열어젖혔다.
+- **필요성 (주피터 노트북의 재앙과 모델 부패의 공포)**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 스타트업에서 천재 박사님이 3달 걸려 미친 추천 모델(`.pkl`)을 만들었다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어한테 메일로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져주며 "이거 서버에 올려주셈 ㅋ" 했다. 엔지니어가 파이썬 서버에 올렸더니 파이썬 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌 나서 에러 뿜고 뻗었다(환경 불일치). 1달 뒤 간신히 띄웠더니, 계절이 가을로 바뀐 탓에 여름옷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 헛소리를 치며 추천 클릭률이 바닥으로 처박혔다([Model Drift](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/)). 다시 모델 굽게 최신 가을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뽑아달라고 박사님한테 갔더니 "아씨 나 어제 퇴사했는데 인수인계 문서 없음 ㅋ" (재현 불가 지옥). <strong>"아 ㅆㅂ! 모델 만드는 건 박사님 혼자 할 수 있어도, 그 모델을 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 서버에 올리고, 썩으면 다시 최신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 알아서 업데이트 치는 '자동화된 기계 공장(Automation)' 없이는 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 비즈니스는 3달 만에 파산한다!!"</strong> 이 절박함이 MLOps라는 새로운 학문을 열어젖혔다.
 
-- **💡 비유**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)(코드 배포)가 **'플라스틱 장난감 찍어내는 붕어빵 기계'**라면, MLOps는 **'살아 숨 쉬는 고급 빵(생물)을 매일 굽는 베이커리 자동화 공장'**입니다. 플라스틱 장난감(코드)은 한 번 찍어두면 1년이 지나도 썩지 않습니다. 하지만 빵([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)은 어제 짱 맛있게 구웠어도(99% 정확도), 3일만 지나면 상해서 곰팡이([Model Drift](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 헛소리)가 핍니다. 매일 새벽 신선한 밀가루(최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 가져다 반죽하고 뜨거운 오븐([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 학습)에 돌려 매일 아침 진열대(Serving)에 갓 구운 빵을 올리는 자동화 컨베이어 벨트가 없다면 빵집은 식중독으로 문을 닫습니다.
+- **💡 비유**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)(코드 배포)가 <strong>'플라스틱 장난감 찍어내는 붕어빵 기계'</strong>라면, MLOps는 <strong>'살아 숨 쉬는 고급 빵(생물)을 매일 굽는 베이커리 자동화 공장'</strong>입니다. 플라스틱 장난감(코드)은 한 번 찍어두면 1년이 지나도 썩지 않습니다. 하지만 빵([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)은 어제 짱 맛있게 구웠어도(99% 정확도), 3일만 지나면 상해서 곰팡이([Model Drift](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/468_model_drift_retraining/) 헛소리)가 핍니다. 매일 새벽 신선한 밀가루(최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 가져다 반죽하고 뜨거운 오븐([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 학습)에 돌려 매일 아침 진열대(Serving)에 갓 구운 빵을 올리는 자동화 컨베이어 벨트가 없다면 빵집은 식중독으로 문을 닫습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Hidden [Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) (2015)**: 구글이 전설의 논문을 발표. "니들 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩하는 시간은 전체 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 딱 5% 쪼가리에 불과해!! 나머지 95%는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 뚫고, 서버 인프라 깔고, 모니터링하는 씹노가다([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) 덩어리다!!" 전 세계 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 업계 뼈를 박살 냄.
+  1. <strong>Hidden <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a> (2015)</strong>: 구글이 전설의 논문을 발표. "니들 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코딩하는 시간은 전체 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 딱 5% 쪼가리에 불과해!! 나머지 95%는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 뚫고, 서버 인프라 깔고, 모니터링하는 씹노가다([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) 덩어리다!!" 전 세계 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 업계 뼈를 박살 냄.
   2. **수동 핸드오프 시대 (과거)**: 모델러가 쥬피터에서 구운 모델(`.h5`) 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 슬랙으로 던지면 벡엔드 개발자가 Flask 서버로 억지로 싸서 K8s에 배포하던 끔찍한 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 단절 시대.
-  3. **[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 통합 인프라 시대 (현재)**: `Kubeflow`, `MLflow` 같은 K8s 기반 괴물 인프라가 뜨면서, 파이프라인 코드 1줄이면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뽑기부터 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 배포까지 10단계가 우주 전함처럼 1방에 쫙 돌아가는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 무인 팩토리 시대 완성.
+  3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> 통합 인프라 시대 (현재)</strong>: `Kubeflow`, `MLflow` 같은 K8s 기반 괴물 인프라가 뜨면서, 파이프라인 코드 1줄이면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뽑기부터 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 배포까지 10단계가 우주 전함처럼 1방에 쫙 돌아가는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 무인 팩토리 시대 완성.
 
-- **📢 섹션 요약 비유**: 이 혁명은 **'장인 1명의 수제 구두 공방'**에서 **'나이키(Nike) 스마트 자동화 팩토리'**로의 진화입니다. 장인 박사님 1명이 땀 흘려 가죽을 깎고 본드 칠해 1켤레 완벽한 신발(모델)을 만드는 건 예술입니다. 하지만 전 세계 1,000만 명에게 내일 당장 바뀐 유행에 맞춰 1,000만 켤레를 뿌리려면 장인의 예술 따윈 필요 없습니다. 설계도(코드), 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 프레스기(학습)가 버튼 1개 딸깍에 맞물려 돌아가는 '무자비한 공장 라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))'만이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 대량 생산 기업의 생존법입니다.
+- **📢 섹션 요약 비유**: 이 혁명은 <strong>'장인 1명의 수제 구두 공방'</strong>에서 <strong>'나이키(Nike) 스마트 자동화 팩토리'</strong>로의 진화입니다. 장인 박사님 1명이 땀 흘려 가죽을 깎고 본드 칠해 1켤레 완벽한 신발(모델)을 만드는 건 예술입니다. 하지만 전 세계 1,000만 명에게 내일 당장 바뀐 유행에 맞춰 1,000만 켤레를 뿌리려면 장인의 예술 따윈 필요 없습니다. 설계도(코드), 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 프레스기(학습)가 버튼 1개 딸깍에 맞물려 돌아가는 '무자비한 공장 라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))'만이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 대량 생산 기업의 생존법입니다.
 
 ---
 
 다음은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  MLOps 파이프라인                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-MLOps 파이프라인 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MLOps 파이프라인 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

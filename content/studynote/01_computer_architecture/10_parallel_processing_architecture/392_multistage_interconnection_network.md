@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 MIN은 이 두 극단 사이의 절충안이다. 큰 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나를 두는 대신, 작은 $2 \times 2$ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 여러 단계로 나누어 배치한다. 그 결과 한 번에 도달하는 직통성은 줄어들지만, 훨씬 적은 비용으로 꽤 높은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 확보할 수 있다. 즉 MIN은 "모든 길을 한 번에 뚫는 구조"가 아니라 "적당한 환승을 허용해 전체 도로망을 싸게 만드는 구조"라고 이해하면 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       왜 MIN이 필요한가: 버스와 크로스바 사이의 절충         │
-├─────────────────────┬──────────────────────┬─────────────────┤
-│ 공유 버스           │ 크로스바 스위치      │ 다단 연결망     │
-├─────────────────────┼──────────────────────┼─────────────────┤
-│ 비용 낮음           │ 성능 높음            │ 비용/성능 절충  │
-│ 구조 단순           │ 동시 통신 우수       │ 단계적 확장 가능│
-│ 병목 심함           │ 비용 O(N^2)          │ 블로킹 가능     │
-└─────────────────────┴──────────────────────┴─────────────────┘
-```
 
-이 그림이 보여 주는 핵심은 MIN이 "최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라 "현실적인 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"을 목표로 등장했다는 점이다. 따라서 MIN을 이해할 때는 속도 자체보다 **비용 대비 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**이라는 관점을 먼저 잡아야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 MIN이 필요한가: 버스와 크로스바 사이의 절충</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 버스</div><div class="kb-diagram-cell">크로스바 스위치</div><div class="kb-diagram-cell">다단 연결망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 낮음</div><div class="kb-diagram-cell">성능 높음</div><div class="kb-diagram-cell">비용/성능 절충</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조 단순</div><div class="kb-diagram-cell">동시 통신 우수</div><div class="kb-diagram-cell">단계적 확장 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 심함</div><div class="kb-diagram-cell">비용 O(N^2)</div><div class="kb-diagram-cell">블로킹 가능</div></div>
+</div>
+</div>
+
+
+
+이 그림이 보여 주는 핵심은 MIN이 "최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라 "현실적인 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"을 목표로 등장했다는 점이다. 따라서 MIN을 이해할 때는 속도 자체보다 <strong>비용 대비 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>이라는 관점을 먼저 잡아야 한다.
 
 - **📢 섹션 요약 비유**: 모든 집 사이에 전용 도로를 깔면 가장 빠르지만 너무 비싸다. MIN은 동네마다 작은 교차로를 여러 번 거치게 해서, 약간 돌아가더라도 도시 전체를 훨씬 싸게 연결하는 도로 설계와 같다.
 
@@ -58,21 +60,24 @@ MIN의 기본 재료는 작은 [스위치](/knowledge-base/studynote/03_network/
 
 아래 그림은 8입력 8출력 오메가 망의 개념을 단순화한 것이다. 목적지 `101`을 향하는 패킷은 단계마다 `1 → 0 → 1` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 순서대로 해석하며 경로를 바꾼다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        8×8 오메가 망의 개념: 목적지 비트로 단계별 진로 결정   │
-├──────────────────────────────────────────────────────────────┤
-│ 입력      Stage 0         Stage 1         Stage 2      출력  │
-│  I0 ───┐   ┌──────┐       ┌──────┐       ┌──────┐      O0    │
-│  I1 ───┼──▶│ 2×2  │──┐ ┌─▶│ 2×2  │──┐ ┌─▶│ 2×2  │────▶ O1    │
-│  I2 ───┼──▶│ sw   │  │ │  │ sw   │  │ │  │ sw   │────▶ O2    │
-│  I3 ───┼──▶│      │──┘ │  │      │──┘ │  │      │────▶ O3    │
-│  I4 ───┼──▶│ bit0 │────┼─▶│ bit1 │────┼─▶│ bit2 │────▶ O4    │
-│  I5 ───┼──▶│ 판정 │────┘  │ 판정 │────┘  │ 판정 │────▶ O5    │
-│  I6 ───┼──▶│      │       │      │       │      │────▶ O6    │
-│  I7 ───┘   └──────┘       └──────┘       └──────┘────▶ O7    │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8×8 오메가 망의 개념: 목적지 비트로 단계별 진로 결정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 Stage 0 Stage 1 Stage 2 출력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I0 O0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1 ──▶</div><div class="kb-diagram-cell">2×2</div><div class="kb-diagram-cell">── ─▶</div><div class="kb-diagram-cell">2×2</div><div class="kb-diagram-cell">── ─▶</div><div class="kb-diagram-cell">2×2</div><div class="kb-diagram-cell">▶ O1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2 ──▶</div><div class="kb-diagram-cell">sw</div><div class="kb-diagram-cell">sw</div><div class="kb-diagram-cell">sw</div><div class="kb-diagram-cell">▶ O2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I3 ──▶</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">▶ O3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I4 ──▶</div><div class="kb-diagram-cell">bit0</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">bit1</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">bit2</div><div class="kb-diagram-cell">▶ O4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I5 ──▶</div><div class="kb-diagram-cell">판정</div><div class="kb-diagram-cell">판정</div><div class="kb-diagram-cell">판정</div><div class="kb-diagram-cell">▶ O5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I6 ──▶</div><div class="kb-diagram-cell">▶ O6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I7 ▶ O7</div></div>
+</div>
+</div>
+
+
 
 다만 단계가 존재한다는 것은 곧 홉(Hop) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 존재한다는 뜻이다. 크로스바가 1단에 가까운 직통 구조라면, MIN은 $\log_2 N$ 단계 정도를 지나야 하므로 기본 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 더 크다. 또한 두 요청이 중간 단계의 같은 링크를 동시에 요구하면 내부 블로킹이 발생할 수 있다. 그래서 MIN의 핵심 원리는 "작은 비용으로 넓은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"이지, "항상 완전한 비차단"은 아니다.
 
@@ -82,7 +87,7 @@ MIN의 기본 재료는 작은 [스위치](/knowledge-base/studynote/03_network/
 
 ## Ⅲ. 비교 및 연결
 
-MIN의 특징은 다른 연결망과 비교할 때 더 선명해진다. 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 가장 싸지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 약하고, 크로스바는 가장 빠르지만 너무 비싸다. MIN은 그 사이에서 비용을 줄이되, 일정 수준의 동시 통신을 확보하는 구조다. 따라서 단순히 "좋다/나쁘다"가 아니라 **무엇을 희생해 무엇을 얻는가**로 읽어야 한다.
+MIN의 특징은 다른 연결망과 비교할 때 더 선명해진다. 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 가장 싸지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 약하고, 크로스바는 가장 빠르지만 너무 비싸다. MIN은 그 사이에서 비용을 줄이되, 일정 수준의 동시 통신을 확보하는 구조다. 따라서 단순히 "좋다/나쁘다"가 아니라 <strong>무엇을 희생해 무엇을 얻는가</strong>로 읽어야 한다.
 
 | 비교 항목 | 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Shared [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) | [크로스바 스위치](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/) ([Crossbar Switch](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)) | 다단 연결망 (MIN) |
 | :-- | :-- | :-- | :-- |
@@ -96,15 +101,20 @@ MIN의 특징은 다른 연결망과 비교할 때 더 선명해진다. 공유 [
 
 또한 MIN의 철학은 고전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨터를 넘어 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 네트워크로도 이어진다. 클로스 망 (Clos Network), 팻 트리 (Fat-tree), 스파인-리프 (Spine-Leaf) 구조는 모두 "작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 여러 계층으로 엮어 큰 비차단 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 싸게 만든다"는 점에서 MIN의 확장된 응용으로 볼 수 있다. 즉 시험에서는 고전 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조로, 실무에서는 대규모 네트워크 패브릭의 조상 개념으로 연결해 이해하면 좋다.
 
-```text
-클래식 병렬 컴퓨터 관점
-버스 ──▶ 크로스바 ──▶ MIN
-          비용 문제      절충안
 
-현대 네트워크 관점
-MIN 철학 ──▶ Clos ──▶ Fat-tree / Spine-Leaf
-          계층 스위칭   대규모 데이터센터 패브릭
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클래식 병렬 컴퓨터 관점</div>
+<div class="kb-diagram-note">버스 ──▶ 크로스바 ──▶ MIN</div>
+<div class="kb-diagram-note">비용 문제 절충안</div>
+<div class="kb-diagram-note">현대 네트워크 관점</div>
+<div class="kb-diagram-note">MIN 철학 ──▶ Clos ──▶ Fat-tree / Spine-Leaf</div>
+<div class="kb-diagram-note">계층 스위칭 대규모 데이터센터 패브릭</div>
+</div>
+</div>
+
+
 
 이 흐름에서 중요한 점은 MIN이 단지 옛날 교과서 용어가 아니라는 사실이다. 형태는 달라졌어도, 계층형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭이라는 발상은 여전히 초대형 시스템의 핵심 설계 원리로 살아 있다.
 
@@ -149,7 +159,7 @@ MIN의 가장 큰 효과는 대규모 시스템에서 연결 비용을 통제하
 
 물론 한계도 분명하다. 단계 수만큼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적되고, 내부 블로킹이 발생할 수 있으며, 특정 트래픽 패턴에서는 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 떨어질 수 있다. 그래서 현대 시스템은 단순 MIN을 그대로 쓰기보다, 여분 경로를 두거나 상위 계층 토폴로지로 확장해 비차단성에 가깝게 개선하는 방향으로 발전해 왔다.
 
-앞으로도 이 개념은 사라지지 않는다. 칩 내부 네트워크, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터 패브릭, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스위칭 구조 등에서 "작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 계층화"라는 철학은 계속 응용된다. 따라서 다단 연결망은 하나의 고전 토폴로지가 아니라, **비용과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 동시에 설계하는 사고방식**으로 기억하는 것이 가장 정확하다.
+앞으로도 이 개념은 사라지지 않는다. 칩 내부 네트워크, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클러스터 패브릭, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스위칭 구조 등에서 "작은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 계층화"라는 철학은 계속 응용된다. 따라서 다단 연결망은 하나의 고전 토폴로지가 아니라, <strong>비용과 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 동시에 설계하는 사고방식</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: MIN은 최고급 리무진 한 대를 사는 대신, 환승이 잘 되는 대중교통망을 만드는 선택에 가깝다. 조금 돌아갈 수는 있어도 훨씬 많은 사람을 현실적인 비용으로 움직이게 해 준다.
 
@@ -168,25 +178,26 @@ MIN의 가장 큰 효과는 대규모 시스템에서 연결 비용을 통제하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스의 병목
-    │
-    ▼
-크로스바 스위치의 고비용 문제
-    │
-    ▼
-다단 연결망 (MIN, Multistage Interconnection Network)
-    │
-    ├─ 오메가 망 (Omega Network)
-    ├─ 버터플라이 망 (Butterfly Network)
-    └─ 벤얀 망 (Banyan Network)
-    │
-    ▼
-클로스 망 (Clos Network) · 팻 트리 (Fat-tree)
-    │
-    ▼
-스파인-리프 (Spine-Leaf) · 현대 데이터센터 패브릭
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스의 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">크로스바 스위치의 고비용 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단 연결망 (MIN, Multistage Interconnection Network)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">오메가 망 (Omega Network)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">버터플라이 망 (Butterfly Network)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">벤얀 망 (Banyan Network)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클로스 망 (Clos Network) · 팻 트리 (Fat-tree)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스파인-리프 (Spine-Leaf) · 현대 데이터센터 패브릭</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,15 +25,20 @@ tags = ["studynote-network"]
 
 다음은 평행선 구조와 동축 구조의 전자기장 방사 차이를 보여주는 비교도이다.
 
-```text
-[평행 2선 케이블 (Twin-lead)]       [동축 케이블 (Coaxial)]
-    + 신호        - 신호
-    (●)  <----->  (●)               (●) <--- 중심 도체 (+ 신호)
-     \           /                   |   (전기장이 절연체 내에 갇힘)
-      \         /                   (○) <--- 외부 도체 (- 신호, 쉴드)
-       \       /                     |
-   ((  전자기파 방사  ))             외부 방사 차단 (노이즈 Free)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">평행 2선 케이블 (Twin-lead)</div><div class="kb-diagram-node">동축 케이블 (Coaxial)</div></div>
+<div class="kb-diagram-note">+ 신호 - 신호</div>
+<div class="kb-diagram-note">(●) &lt;-----&gt; (●) (●) &lt;--- 중심 도체 (+ 신호)</div>
+<div class="kb-diagram-note">\ / | (전기장이 절연체 내에 갇힘)</div>
+<div class="kb-diagram-note">\ / (○) &lt;--- 외부 도체 (- 신호, 쉴드)</div>
+<div class="kb-diagram-note">(( 전자기파 방사 )) 외부 방사 차단 (노이즈 Free)</div>
+</div>
+</div>
+
+
 *이 그림의 핵심은 평행선은 두 선 사이에 형성된 전자기장이 밖으로 새어 나가 간섭을 일으키는 반면, 동축 케이블은 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)가 내부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)를 완전히 둘러싸 전기장을 완벽하게 차폐(Shielding)한다는 점이다. 이런 구조적 배치는 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 손실을 극적으로 줄여주며, 따라서 장거리 전송과 높은 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 성능에 직접적인 영향을 준다. 실무에서는 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)가 접지(Ground) 역할을 겸하므로 끝단에서의 완벽한 커넥터 결착과 접지 처리가 안 되면 오히려 노이즈의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 되는 부작용이 있다.*
 
 - **📢 섹션 요약 비유**: 야외에서 소리를 지르면 소리가 사방으로 퍼져 멀리 안 들리지만(평행선), 긴 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)) 속에서 소리를 지르면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 밖으로 소리가 새지 않아 아주 멀리까지 뚜렷하게 들리는(동축 케이블) 것과 같습니다.
@@ -46,29 +51,34 @@ tags = ["studynote-network"]
 
 | 구성 요소 | 역할 | 내부 동작 특성 | 실무 주요 재질 | 비유 |
 |:---|:---|:---|:---|:---|
-| **내부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) (Core)** | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/영상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전송 | 고주파수일수록 표면을 타고 흐르는 표피 효과(Skin Effect) 발생 | 단선 구리, 구리 도금 강선(CCS) | 도로의 주행 차선 |
-| **[절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) (Dielectric)** | 내부와 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)의 이격 거리 유지 및 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) 결정 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠를 줄이고 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)를 고정 (75Ω, 50Ω 등) | 발포 폴리에틸렌 (PE), 테플론 | 차선을 나누는 완충 지대 |
-| **외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/) (Shield)** | 외부 전자기파 차단 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 귀환(Return) 경로 | 내부 전기장을 가두고 외부 간섭파 반사/흡수 | 알루미늄 포일 + 구리 편조(Braid) | 도로를 덮는 터널 외벽 |
+| <strong>내부 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/">도체</a> (Core)</strong> | 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/영상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전송 | 고주파수일수록 표면을 타고 흐르는 표피 효과(Skin Effect) 발생 | 단선 구리, 구리 도금 강선(CCS) | 도로의 주행 차선 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/">절연체</a> (Dielectric)</strong> | 내부와 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)의 이격 거리 유지 및 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) 결정 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠를 줄이고 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/)를 고정 (75Ω, 50Ω 등) | 발포 폴리에틸렌 (PE), 테플론 | 차선을 나누는 완충 지대 |
+| <strong>외부 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/">도체</a> (Shield)</strong> | 외부 전자기파 차단 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 귀환(Return) 경로 | 내부 전기장을 가두고 외부 간섭파 반사/흡수 | 알루미늄 포일 + 구리 편조(Braid) | 도로를 덮는 터널 외벽 |
 | **외부 피복 (Jacket)** | 물리적 손상 및 습기로부터 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 옥외용, 난연성, 자외선(UV) 차단 기능 제공 | [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/), 난연성 LSZH | 터널의 방수 코팅 |
 
 이러한 케이블을 장비와 연결하는 핵심 부품이 **BNC (Bayonet Neill-Concelman)** 커넥터이다.
 다음은 동축 케이블의 절단면과 BNC 커넥터의 결합 메커니즘을 나타낸 구조도이다.
 
-```text
-[동축 케이블 내부 구조]
-=========================[피복 (Jacket)]
-  =======================[외부 도체 편조 (Braid Shield)]
-    =====================[절연체 (Dielectric)]
-      -------------------[내부 구리선 (Center Core)]
 
-[BNC 커넥터 결착 방식: Bayonet (총검) 마운트]
-[케이블 단] ──(+)──▶ [BNC 수 커넥터]  ====>  [BNC 암 커넥터 (장비 측)]
-                   (핀 돌출부)                (걸쇠 핀 홈)
-                                    "Push & Twist (누르고 돌림)"
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동축 케이블 내부 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">피복 (Jacket)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======================</div><div class="kb-diagram-node">외부 도체 편조 (Braid Shield)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=====================</div><div class="kb-diagram-node">절연체 (Dielectric)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">-------------------</div><div class="kb-diagram-node">내부 구리선 (Center Core)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BNC 커넥터 결착 방식: Bayonet (총검) 마운트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 단</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BNC 수 커넥터</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">BNC 암 커넥터 (장비 측)</div></div>
+<div class="kb-diagram-note">(핀 돌출부) (걸쇠 핀 홈)</div>
+<div class="kb-diagram-note">"Push &amp; Twist (누르고 돌림)"</div>
+</div>
+</div>
+
+
 *이 구조도의 핵심은 BNC 커넥터가 단순히 선을 맞닿게 하는 것을 넘어, 플러그를 꽂고 비틀어 잠그는 총검(Bayonet) 방식을 통해 외부 충격이나 진동에도 절대 빠지지 않는 견고한 결합을 보장한다는 점이다. 이런 배치는 전기적 접촉 불량으로 인한 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 미스매칭(반사파 발생)을 원천 차단하기 때문이며, 따라서 방송국 장비나 이동 잦은 산업용 장비의 안정성에 지대한 영향을 준다. 실무에서는 케이블 가공 시 중심 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)의 길이를 정확히 재단하지 않으면 커넥터 핀이 손상되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 단절된다.*
 
-**특성 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) (Characteristic [Impedance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/))**
+<strong>특성 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> (Characteristic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a>)</strong>
 - **50옴 (50Ω)**: 전력 전송이 최대로 이루어지는 저항값. 무선 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 연결, 과거 10BASE2 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/전력 통신에 주로 사용.
 - **75옴 (75Ω)**: [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠가 최소화되는 저항값. 영상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 유선 방송(CATV), 광대역 통신망(DOCSIS) 등 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 보존 목적에 사용.
 
@@ -82,7 +92,7 @@ tags = ["studynote-network"]
 
 | 항목 | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블 (Cat 6) | 동축 케이블 (RG-6 / 75Ω) | [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/) ([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/)) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
-| **전송 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)** | 차동 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) ([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) | 고주파 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Broadband) | 빛 (레이저/[LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 파장) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 및 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 변환기 필요성 |
+| <strong>전송 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong> | 차동 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) ([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) | 고주파 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Broadband) | 빛 (레이저/[LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 파장) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 및 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 변환기 필요성 |
 | **노이즈 내성**| 낮음 (쌍꼬임으로 상쇄) | 높음 (외부 쉴드 완벽 차폐) | 완벽함 (빛이므로 EMI 무관) | 공장 등 전자기 간섭 환경 |
 | **전송 거리** | 최대 100m | 수백 m (영상: 300~500m) | 수십 km 이상 | 백본망 vs 액세스망 |
 | **포설 난이도**| 쉬움 (가볍고 유연함) | 어려움 (무겁고 구부리기 힘듦) | 매우 어려움 (유리 깨짐 주의) | 배관 사이즈 및 작업 비용 |
@@ -100,27 +110,27 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 다음은 영상 관제([CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)) 시스템 구축 시 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 선택을 위한 운영 의사결정 트리이다.
 
-```text
-[영상/데이터 전송 요구사항 분석]
-            │
-            ├─▶ (카메라와 NVR(녹화기) 거리가 100m 이내인가?) ── Yes ──▶ [UTP 케이블 + IP 카메라 구축 (PoE 활용)]
-            │
-            No
-            │
-            ▼
-[장거리 전송 및 예산 조건]
-            │
-            ├─▶ (거리가 300m 수준이며 IP 장비 교체 예산이 부족한가?) ── Yes ──▶ [동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라]
-            │
-            No (거리가 500m 이상이거나 초고대역폭 필요)
-            │
-            ▼
-     [광케이블(Fiber) 및 광 컨버터 포설로 전환]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">영상/데이터 전송 요구사항 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UTP 케이블 + IP 카메라 구축 (PoE 활용)</div></div>
+<div class="kb-diagram-note">No</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 전송 및 예산 조건</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라</div></div>
+<div class="kb-diagram-note">No (거리가 500m 이상이거나 초고대역폭 필요)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광케이블(Fiber) 및 광 컨버터 포설로 전환</div></div>
+</div>
+</div>
+
+
 *이 흐름의 핵심은 동축 케이블이 과거의 레거시(Legacy) 기술로 치부될 수 있으나, IP 기반 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 네트워크가 100m 거리 제한에 걸리는 현장에서는 추가적인 리피터 스위치나 광컨버터 없이 직결할 수 있는 가성비 높은 대안이 된다는 점이다. 실무에서는 아파트나 대형 공장의 구형 아날로그 선로(동축)를 걷어내는 공사비가 너무 크기 때문에, 선로를 유지한 채 양단 장비만 바꾸어 HD급 영상을 전송하는 EoC ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) over Coax) 기술을 적용하는 것이 비용 효율적이다.*
 
-**실무 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 사례)**
-- **[임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 사용**: 75옴(영상용) 장비 포트에 50옴(통신용) BNC 커넥터와 케이블을 혼용 결착. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 종단에서 반사되어(정재파비 상승) 영상에 고스트 현상(이중 잔상)이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 유실이 심각하게 발생한다.
+<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> 불일치 사용</strong>: 75옴(영상용) 장비 포트에 50옴(통신용) BNC 커넥터와 케이블을 혼용 결착. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 종단에서 반사되어(정재파비 상승) 영상에 고스트 현상(이중 잔상)이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 유실이 심각하게 발생한다.
 - **예각 구부림(Sharp Bending)**: 동축 케이블을 90도로 꺾어 포설하면 내부 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)가 눌리면서 코어와 쉴드 간격이 좁아져 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 특성이 붕괴된다. 감쇠가 급격히 발생하므로 정해진 곡률 반경을 준수해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -139,8 +149,8 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 | 지표 | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 기반 망 전환 한계 극복 | HFC 망 진화 활용 |
 |:---|:---|:---|
-| **장거리 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 100m 리피터 전력 공급 문제 회피 | 수백 미터의 종단(Last Mile) 커버리지 확보 |
-| **비용 절감 ([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))** | 기존 건물 벽체에 매설된 동축 선로 100% 재활용 | DOCSIS 3.1/4.0 표준으로 구리선 교체 없이 기가급 속도 달성 |
+| <strong>장거리 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 100m 리피터 전력 공급 문제 회피 | 수백 미터의 종단(Last Mile) 커버리지 확보 |
+| <strong>비용 절감 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong> | 기존 건물 벽체에 매설된 동축 선로 100% 재활용 | DOCSIS 3.1/4.0 표준으로 구리선 교체 없이 기가급 속도 달성 |
 
 **미래 전망**
 신규 구축되는 건물에서는 점차 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)(Cat 6a 이상)와 광케이블로 전면 대체되는 추세이지만, 전 세계에 이미 깔려 있는 천문학적 규모의 동축 케이블 인프라는 쉽게 버려지지 않는다. 케이블 TV망은 DOCSIS([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Over Cable [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Interface [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 프로토콜을 고도화하여 동축 케이블 하나로 수 Gbps의 양방향 인터넷을 제공하며 생명력을 연장하고 있다. 동축 케이블은 완전한 FTTH(Fiber to the Home) 시대가 오기 전까지 광통신과 융합된 '라스트 마일'의 든든한 가교 역할을 수행할 것이다.
@@ -161,15 +171,19 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: UTP 카테고리]
-    │
-    ▼
-[현재 개념: 동축 케이블]
-    │
-    ├──▶ [확장 A: 광섬유 케이블]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTP 카테고리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 동축 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광섬유 케이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 동축 케이블는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

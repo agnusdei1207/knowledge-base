@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-차세대 무선 LAN 표준으로, [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)(AR/VR), 클라우드 게이밍, 8K 무압축 스트리밍 등 극강의 전송량과 **'유선망 수준의 초저지연(Extremely High [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), EHT)'**을 무선으로 구현하는 것을 목표로 한 궁극의 와이파이 규격입니다. 최대 이론 속도는 무려 **46Gbps**에 달합니다.
+차세대 무선 LAN 표준으로, [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)(AR/VR), 클라우드 게이밍, 8K 무압축 스트리밍 등 극강의 전송량과 <strong>'유선망 수준의 초저지연(Extremely High <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>, EHT)'</strong>을 무선으로 구현하는 것을 목표로 한 궁극의 와이파이 규격입니다. 최대 이론 속도는 무려 <strong>46Gbps</strong>에 달합니다.
 
-```text
-[11ax 6GHz]
-    │
-    ▼
-[11be]
-    │
-    └──▶ [무선 LAN 보안 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11ax 6GHz</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 11be는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,28 +42,32 @@ tags = ["studynote-network"]
 
 ### 1. 320MHz 초광대역폭 채널 지원
 - Wi-Fi 6E에서 개통된 6GHz의 넓은 영토를 극한까지 끌어다 씁니다. 
-- 기존 최대 차선 폭이던 160MHz 채널 두 개를 이어 붙여서, 한 번에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아붓는 도로 폭을 무려 **320MHz**까지 확장했습니다. (도로 폭이 2배 넓어지니 기본 속도도 2배가 됨)
+- 기존 최대 차선 폭이던 160MHz 채널 두 개를 이어 붙여서, 한 번에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아붓는 도로 폭을 무려 <strong>320MHz</strong>까지 확장했습니다. (도로 폭이 2배 넓어지니 기본 속도도 2배가 됨)
 
 ### 2. 4K-QAM (4096-QAM) 고밀도 변조
 - 전파의 파형을 찌그러뜨리고 쪼개어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 욱여넣을 수 있는지 결정하는 변조 기술입니다.
-- Wi-Fi 6의 1024-QAM을 넘어서, **4096개의 신호점(4K-QAM)**을 사용하여 전파를 한 번 깜빡일 때마다 12비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송합니다. 전작 대비 동일 대역폭에서 속도가 20% 더 상승합니다. (단, 매우 맑고 가까운 전파 환경에서만 동작)
+- Wi-Fi 6의 1024-QAM을 넘어서, <strong>4096개의 신호점(4K-QAM)</strong>을 사용하여 전파를 한 번 깜빡일 때마다 12비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송합니다. 전작 대비 동일 대역폭에서 속도가 20% 더 상승합니다. (단, 매우 맑고 가까운 전파 환경에서만 동작)
 
 ### 3. MLO (Multi-Link [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) - 대혁명 🌟
 가장 핵심적이고 체감 성능이 큰 변화입니다.
-- **과거의 한계**: 듀얼/[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 밴드 공유기라도, 스마트폰은 2.4GHz나 5GHz 중 **오직 한 개의 주파수(링크)에만 연결**되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아야 했습니다.
-- **MLO 기술**: 스마트폰과 공유기가 **2.4GHz, 5GHz, 6GHz 주파수 대역에 '동시에 다중(Multi)으로' [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Link)를 꽂아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합하여 주고받습니다.**
+- **과거의 한계**: 듀얼/[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 밴드 공유기라도, 스마트폰은 2.4GHz나 5GHz 중 <strong>오직 한 개의 주파수(링크)에만 연결</strong>되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아야 했습니다.
+- **MLO 기술**: 스마트폰과 공유기가 <strong>2.4GHz, 5GHz, 6GHz 주파수 대역에 '동시에 다중(Multi)으로' <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(Link)를 꽂아서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 결합하여 주고받습니다.</strong>
 - **효과**: 
   - **속도 뻥튀기**: 5GHz로 영화 절반을, 6GHz로 나머지 절반을 동시에 다운받아 속도가 합산됩니다.
   - **초저지연 보장**: 5GHz 차선에 갑자기 간섭(노이즈)이 생겨 막히면, 대기하지 않고 즉시 뚫려있는 6GHz 차선으로 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져버립니다. 이 덕분에 핑(Ping)이 생명인 클라우드 게임에서 유선 랜선과 똑같은 1ms 대의 초저지연을 무선으로 달성합니다.
 
-```text
-[11ax 6GHz]
-    │
-    ▼
-[11be]
-    │
-    └──▶ [무선 LAN 보안 진화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">11ax 6GHz</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 음료수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 빨리 마시는 대회입니다. Wi-Fi 6까지는 지름이 1cm인 빨대(5GHz)를 하나 물고 쭈욱 빨거나, 지름이 2cm인 빨대(6GHz)로 바꿔 물고 빠는 식(둘 중 하나만 선택)이었습니다. Wi-Fi 7(MLO 기술)은 입에 1cm, 2cm, 0.5cm짜리 빨대 3개를 동시에 다 꽂아버리고(다중 링크), 음료수를 폐활량 한계치까지 한 번에 맹렬하게 흡입하는 완벽한 반칙 기술입니다.
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 11ax 6GHz]
-    │
-    ▼
-[현재 개념: 11be]
-    │
-    ├──▶ [확장 A: 무선 LAN 보안 진화]
-    └──▶ [확장 B: 지능형 무선 자원 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11ax 6GHz</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11be</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무선 LAN 보안 진화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
+</div>
+</div>
+
+
 
 11be는 [11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 6GHz에서 출발해 현재 메커니즘을 정교화하고, 이후 무선 LAN 보안 진화와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

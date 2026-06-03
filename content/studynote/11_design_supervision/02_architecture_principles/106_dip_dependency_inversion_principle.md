@@ -23,22 +23,22 @@ DIP는 로버트 마틴(Robert C. Martin)이 정립한 [SOLID](/knowledge-base/s
 
 DIP가 없으면 시스템은 "구현 세부 사항의 노예"가 된다. 인프라 기술이 바뀔 때마다 테스트를 다시 작성해야 하고, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))에서 실제 DB 연결이 필수가 되는 불합리한 상황이 생긴다. DIP는 인터페이스라는 계약을 중간에 삽입하여 이 의존성의 방향을 역전시킨다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             DIP 적용 전후 의존성 방향 비교                    │
-├──────────────────────────────────────────────────────────────┤
-│ [Before] 고수준 → 저수준 직접 의존 (강결합)                  │
-│                                                              │
-│  OrderService ────────────────────▶ MySQLRepository          │
-│  (비즈니스 정책)                      (인프라 구현체)         │
-│                                                              │
-│ [After]  고수준 → 추상화 ← 저수준 구현 (의존성 역전)          │
-│                                                              │
-│  OrderService ──▶ <<interface>>                              │
-│  (비즈니스 정책)   OrderRepository ◀── MySQLRepository       │
-│                   (추상화 계약)         (저수준 구현체)        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIP 적용 전후 의존성 방향 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">저수준 직접 의존 (강결합)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ▶ MySQLRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 정책) (인프라 구현체)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">After</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">추상화 ← 저수준 구현 (의존성 역전)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ &lt;&lt;interface&gt;&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 정책) OrderRepository ◀── MySQLRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추상화 계약) (저수준 구현체)</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 `OrderService`는 인터페이스만 바라보며, 어떤 구현체가 연결되든 무관하다. 의존성의 화살표가 제어 흐름(고수준 → 저수준)과 반대 방향으로 역전된 것이 핵심이다.
 
@@ -57,21 +57,20 @@ DIP를 실현하는 데는 두 단계가 필요하다. 첫째, 고수준 [모듈
 | 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 구체적 기술 구현 | 인터페이스를 구현·교체 가능 |
 | IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 런타임에 구현체 주입 | Spring, Guice 등 프레임워크 활용 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          DIP + DI 런타임 흐름도                              │
-├─────────────────────────────────────────────────────────────┤
-│  [IoC 컨테이너]                                             │
-│        │ 의존성 주입(DI)                                    │
-│        ▼                                                    │
-│  [OrderService]──uses──▶[OrderRepository Interface]         │
-│                                  ▲                          │
-│                    ┌─────────────┴──────────────┐           │
-│                    │                            │           │
-│           [MySQLRepository]          [MockRepository]       │
-│           (실제 운영 환경)             (단위 테스트 환경)    │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIP + DI 런타임 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IoC 컨테이너</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 주입(DI)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OrderService</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OrderRepository Interface</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MySQLRepository</div><div class="kb-diagram-node">MockRepository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실제 운영 환경) (단위 테스트 환경)</div></div>
+</div>
+</div>
+
+
 
 컴파일 시점에는 `OrderService`가 `OrderRepository` 인터페이스에만 의존하고, 런타임에 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 `MySQLRepository`를 주입한다. 테스트 시에는 동일 인터페이스를 구현한 `MockRepository`를 주입하여 DB 없이 빠른 검증이 가능해진다.
 
@@ -86,7 +85,7 @@ DIP를 IoC·DI와 정확히 구분하는 것이 기술사 시험의 핵심 판�
 |:---|:---|:---|
 | **정의** | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)에 의존하라는 설계 원칙 | 제어의 흐름을 역전시키는 패턴 / 의존 객체를 외부에서 주입하는 기법 |
 | **수준** | 설계 원칙(what) | 아키텍처 패턴(why) / 구현 메커니즘(how) |
-| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | IoC의 철학적 기반 | DIP를 달성하는 패턴 / IoC 실현을 위한 구체 기법 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | IoC의 철학적 기반 | DIP를 달성하는 패턴 / IoC 실현을 위한 구체 기법 |
 | **적용 결과** | 의존성 역전 | 제어 흐름 역전 / 런타임 객체 연결 |
 
 DIP는 [헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/)([Hexagonal Architecture](/knowledge-base/studynote/11_design_supervision/06_exam_summary/366_process/))에서 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))로 구체화되고, [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)([Clean Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/))에서는 의존성 규칙(Dependency Rule)의 핵심 근거가 된다. [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 없이는 이 두 아키텍처 모두 성립하지 않는다.

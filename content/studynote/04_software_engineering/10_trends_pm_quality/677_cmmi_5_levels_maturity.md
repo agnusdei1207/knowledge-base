@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 소프트웨어 프로젝트는 뛰어난 개발자 한두 명의 역량에 크게 의존했다. 영웅적 개발자가 있을 때는 성공하지만 그가 퇴사하면 프로젝트가 무너지는 일(Hero Worship)이 빈번했다. **[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration)**는 이러한 개인 의존성을 탈피하여, '조직 전체의 시스템과 프로세스'로 고품질의 소프트웨어를 반복적으로 생산하기 위해 등장했다.
+과거의 소프트웨어 프로젝트는 뛰어난 개발자 한두 명의 역량에 크게 의존했다. 영웅적 개발자가 있을 때는 성공하지만 그가 퇴사하면 프로젝트가 무너지는 일(Hero Worship)이 빈번했다. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> (Capability <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/">Maturity Model</a> Integration)</strong>는 이러한 개인 의존성을 탈피하여, '조직 전체의 시스템과 프로세스'로 고품질의 소프트웨어를 반복적으로 생산하기 위해 등장했다.
 
 프로세스가 성숙하지 않은 조직은 일정이 지연되고 예산이 초과되며 품질을 예측할 수 없다. CMMI는 조직의 현재 상태를 진단하고 다음 단계로 넘어가기 위해 무엇을 개선해야 하는지 알려주는 나침반 역할을 한다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  CMMI 성숙도 5단계 (초기-관리-                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMMI 성숙도 5단계 (초기-관리-</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 성숙도 5단계 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,31 +51,30 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CMMI는 연속적 표현(Continuous Representation)과 단계적 표현(Staged Representation)을 제공하며, 조직 성숙도를 평가할 때는 주로 **단계적 표현의 5단계(Maturity Levels)**를 사용한다.
+CMMI는 연속적 표현(Continuous Representation)과 단계적 표현(Staged Representation)을 제공하며, 조직 성숙도를 평가할 때는 주로 <strong>단계적 표현의 5단계(Maturity Levels)</strong>를 사용한다.
 
 | 성숙도 단계 | 명칭 | 핵심 특징 | 핵심 프로세스 영역 ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Areas) |
 |:---|:---|:---|:---|
-| **레벨 1** | **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) (Initial)** | 임기응변, 영웅적 노력 의존, 예측 불가 | (정의된 프로세스 없음) |
+| **레벨 1** | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> (Initial)</strong> | 임기응변, 영웅적 노력 의존, 예측 불가 | (정의된 프로세스 없음) |
 | **레벨 2** | **관리 (Managed)** | 프로젝트 단위의 기본적 관리, 유사 프로젝트 반복 성공 | [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/), 프로젝트 계획, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) |
 | **레벨 3** | **정의 (Defined)** | 조직 전체의 표준 프로세스 확립, 테일러링 | 조직 프로세스 초점, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 |
 | **레벨 4** | **정량적 관리 (Quantitatively Managed)** | 통계적 기법을 활용한 성과 예측 및 통제 | 조직 프로세스 성과, 정량적 프로젝트 관리 |
 | **레벨 5** | **최적화 (Optimizing)** | 지속적 개선, 신기술 도입, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 원인 분석 및 예방 | 원인 분석 및 해결, 조직 성과 혁신 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  CMMI 성숙도 5단계 진화 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ [Lv.5 최적화] 지속적 개선 ────▶ (미래를 대비하는 조직)       │
-│      ▲                                                       │
-│ [Lv.4 정량적] 통계적 통제 ────▶ (숫자로 말하는 조직)        │
-│      ▲                                                       │
-│ [Lv.3 정 의] 조직 표준화 ────▶ (매뉴얼로 일하는 조직)       │
-│      ▲                                                       │
-│ [Lv.2 관 리] 프로젝트 통제 ──▶ (기본은 지키는 팀)          │
-│      ▲                                                       │
-│ [Lv.1 초 기] 임기응변 ───────▶ (혼돈의 카오스)            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMMI 성숙도 5단계 진화 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lv.5 최적화</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(미래를 대비하는 조직)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lv.4 정량적</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(숫자로 말하는 조직)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lv.3 정 의</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(매뉴얼로 일하는 조직)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lv.2 관 리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(기본은 지키는 팀)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lv.1 초 기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(혼돈의 카오스)</div></div>
+</div>
+</div>
+
+
 
 단계가 올라갈수록 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 감소하고, 생산성과 품질의 예측 가능성은 높아진다. 각 단계는 하위 단계의 목표를 모두 달성해야만 인정받을 수 있다.
 
@@ -152,21 +150,23 @@ CMMI를 성공적으로 내재화하면 프로젝트의 납기 준수율이 획�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-CMMI 성숙도 5단계 (초기-관리-정의-정량-최적) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CMMI 성숙도 5단계 (초기-관리-정의-정량-최적) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 정부에서 조 단위 돈을 주고 산 면허 주파수는 폭이 너무 좁습니다.
 - 무제한 요금제 가입자가 늘어나며 트래픽이 폭증([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Tsunami)하자, 통신사가 강남 바닥에 수억 원짜리 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 중계기를 100대 더 세워야 하는 무식한 인프라 공사비(CAPEX) 파산 위기에 처했습니다.
 
-```text
-[LAA]
-    │
-    ▼
-[와이파이 오프로딩]
-    │
-    └──▶ [밀리미터파 전파 감쇠]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **통신사(SKT, KT)의 코어 셀룰러망(3G/4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))에 미친 듯이 집중되는 과부하 트래픽([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Traffic)의 일부를, 통신사가 길거리나 건물에 자체적으로 깔아둔 '비면허 대역의 캐리어급 Wi-Fi 통신망'으로 몰래 우회시켜 짐을 떠넘기고([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 이종망 통신 하중 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기술**입니다.
+- **개념**: <strong>통신사(SKT, KT)의 코어 셀룰러망(3G/4G/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)에 미친 듯이 집중되는 과부하 트래픽(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Traffic)의 일부를, 통신사가 길거리나 건물에 자체적으로 깔아둔 '비면허 대역의 캐리어급 Wi-Fi 통신망'으로 몰래 우회시켜 짐을 떠넘기고(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시키는 이종망 통신 하중 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 기술</strong>입니다.
 
-```text
-[LAA]
-    │
-    ▼
-[와이파이 오프로딩]
-    │
-    └──▶ [밀리미터파 전파 감쇠]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,17 +66,17 @@ tags = ["studynote-network"]
 
 ### 1. ANDSF (액세스망 탐색 및 선택 기능) - "똑똑한 뇌"
 - 폰이 LTE를 쓰다가 무조건 와이파이로 잡으면 쓰레기 와이파이를 잡아 카톡이 안 가는 대참사가 터집니다(핑퐁 현상).
-- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준인 **ANDSF (Access Network Discovery and [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Function)** 서버가 폰을 지배합니다. 
-- 이 중앙 서버가 내 폰 위치를 파악하고 룰을 꽂아 줍니다. "야! 지금 넌 강남역 1번 출구인데, 여기 SKT 와이파이가 속도가 빵빵하게 비어있다! 지금 즉시 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 끄고 와이파이 3번 AP로 갈아타라!" 라고 **망 상태를 실시간 측정하여 최적의 와이파이 접속 타이밍을 강제 통제(지능형 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))**해 줍니다.
+- [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준인 <strong>ANDSF (Access Network Discovery and <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a> Function)</strong> 서버가 폰을 지배합니다. 
+- 이 중앙 서버가 내 폰 위치를 파악하고 룰을 꽂아 줍니다. "야! 지금 넌 강남역 1번 출구인데, 여기 SKT 와이파이가 속도가 빵빵하게 비어있다! 지금 즉시 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 끄고 와이파이 3번 AP로 갈아타라!" 라고 <strong>망 상태를 실시간 측정하여 최적의 와이파이 접속 타이밍을 강제 통제(지능형 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>)</strong>해 줍니다.
 
 ### 2. SIM 기반 자동 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) (EAP-AKA)
 - 스타벅스 와이파이는 비밀번호를 수동으로 쳐야 합니다. 하지만 지하철 'T-Wifi_Secure'를 잡을 땐 비번을 안 쳐도 자물쇠가 스르륵 열립니다.
-- 내 폰 안에 박힌 **USIM(유심칩)의 고유 암호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보(EAP-AKA)**를 와이파이 공유기가 스캔하여, SKT 가입자가 맞는지 0.1초 만에 묻지도 따지지도 않고 자동으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해 문을 열어줍니다(심리스 횡단).
+- 내 폰 안에 박힌 <strong>USIM(유심칩)의 고유 암호 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 정보(EAP-AKA)</strong>를 와이파이 공유기가 스캔하여, SKT 가입자가 맞는지 0.1초 만에 묻지도 따지지도 않고 자동으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)해 문을 열어줍니다(심리스 횡단).
 
 ### 3. 코어망 융합 연동 (ePDG 게이트웨이) 🌟 핵심 🌟
 이게 왜 대단할까요? 와이파이로 넘어갔는데도 내 IP 주소가 바뀌지 않기 때문입니다.
-- 통신사 전산실에 **ePDG (ePacket [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gateway)**라는 거대한 문지기를 세워둡니다.
-- 내 폰이 와이파이에 접속하면, 그 와이파이 공유기가 인터넷으로 바로 나가지 않고, ePDG를 향해 암호화된 **[IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널(979번)**을 철컥 뚫어버립니다.
+- 통신사 전산실에 <strong>ePDG (ePacket <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Gateway)</strong>라는 거대한 문지기를 세워둡니다.
+- 내 폰이 와이파이에 접속하면, 그 와이파이 공유기가 인터넷으로 바로 나가지 않고, ePDG를 향해 암호화된 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPSec</a> 터널(979번)</strong>을 철컥 뚫어버립니다.
 - 내 유튜브 패킷은 와이파이를 타고 ➜ 1만 킬로 터널을 지나 ➜ SKT 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 심장부로 다시 돌아와서 나갑니다. 즉, 폰은 와이파이를 쓰지만 뇌는 여전히 통신사 코어망에 100% 엮여 있어서(Seamless [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)) IP가 안 바뀌고 게임이 안 끊기는 마법입니다.
 
 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. LAA가 기반 조건을 만든다면, 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 그 위에서 핵심 메커니즘을 구현하고, [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -85,7 +93,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 요즘은 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(전환)을 넘어, 아예 LTE망과 와이파이망 2개를 동시에 터널로 뚫고 데이터를 반반씩 쪼개서 다운받는 **[MPTCP](/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/)(멀티패스 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))** 융합 가속 기술로 진화하여, 통신사 짐도 덜어주고 속도도 2배로 뻥튀기시키는 혁명을 완성했습니다.
+- 요즘은 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(전환)을 넘어, 아예 LTE망과 와이파이망 2개를 동시에 터널로 뚫고 데이터를 반반씩 쪼개서 다운받는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/446_mptcp_multipath_tcp_handover/">MPTCP</a>(멀티패스 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong> 융합 가속 기술로 진화하여, 통신사 짐도 덜어주고 속도도 2배로 뻥튀기시키는 혁명을 완성했습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 통신사 기지국(LTE망)은 출퇴근 시간 미어터지는 **'유료 고속도로 톨게이트'**입니다. 수만 대의 차가 몰려와 고속도로가 터지기 일보 직전입니다. 이때 통신사가 쓰는 꼼수 **'와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Wi-Fi [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))'**은 고속도로 바로 옆에 **'우회용 샛길 국도(통신사 와이파이망)'**를 수만 개 깔아두는 것입니다. 내비게이션 중앙 서버(ANDSF)가 고속도로 CCTV를 보고 있다가 차가 막히기 시작하면, 내 폰 내비게이션 화면을 조작합니다. "야! 지금 앞 톨게이트 터진다! 너 당장 핸들 꺾어서 오른쪽 강남역 3번 출구 샛길(Wi-Fi [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))로 우회해서 빠져나가!" 이 샛길 입구에는 '유심칩(USIM)' 프리패스 인식기가 달려 있어 요금소 정차 없이 1초 만에 바리케이드가 스르륵 열립니다. 결국 내 차는 막히는 고속도로 대신 텅 빈 국도를 타고 빙 돌아가지만([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 샛길의 끝은 다시 고속도로 본선(ePDG 게이트웨이 코어망)과 연결되어 목적지까지 아무 끊김 없이 도착해 고속도로 체증을 완벽하게 덜어주는 마법의 우회 통제 시스템입니다.
+- **📢 섹션 요약 비유**: 통신사 기지국(LTE망)은 출퇴근 시간 미어터지는 <strong>'유료 고속도로 톨게이트'</strong>입니다. 수만 대의 차가 몰려와 고속도로가 터지기 일보 직전입니다. 이때 통신사가 쓰는 꼼수 <strong>'와이파이 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>(Wi-Fi <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>)'</strong>은 고속도로 바로 옆에 <strong>'우회용 샛길 국도(통신사 와이파이망)'</strong>를 수만 개 깔아두는 것입니다. 내비게이션 중앙 서버(ANDSF)가 고속도로 CCTV를 보고 있다가 차가 막히기 시작하면, 내 폰 내비게이션 화면을 조작합니다. "야! 지금 앞 톨게이트 터진다! 너 당장 핸들 꺾어서 오른쪽 강남역 3번 출구 샛길(Wi-Fi [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))로 우회해서 빠져나가!" 이 샛길 입구에는 '유심칩(USIM)' 프리패스 인식기가 달려 있어 요금소 정차 없이 1초 만에 바리케이드가 스르륵 열립니다. 결국 내 차는 막히는 고속도로 대신 텅 빈 국도를 타고 빙 돌아가지만([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)), 샛길의 끝은 다시 고속도로 본선(ePDG 게이트웨이 코어망)과 연결되어 목적지까지 아무 끊김 없이 도착해 고속도로 체증을 완벽하게 덜어주는 마법의 우회 통제 시스템입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LAA]
-    │
-    ▼
-[현재 개념: 와이파이 오프로딩]
-    │
-    ├──▶ [확장 A: 밀리미터파 전파 감쇠]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LAA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 와이파이 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 밀리미터파 전파 감쇠</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 LAA에서 출발해 현재 메커니즘을 정교화하고, 이후 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 현재 인터넷을 지키는 1010번 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 같은 비대칭 키 암호는 **"2,048자리 숫자를 소인수 분해하려면 슈퍼컴퓨터로 1만 년 걸린다"**는 수학적 복잡도에 의존합니다.
-- **쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))**: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 등장하면 1만 년 걸리던 소인수 분해를 단 몇 초 만에 다 풀어버려 기존 인터넷의 자물쇠가 모조리 휴지조각이 되는 재앙([Q-Day](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/))이 예고되어 있습니다.
+- 현재 인터넷을 지키는 1010번 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 같은 비대칭 키 암호는 <strong>"2,048자리 숫자를 소인수 분해하려면 슈퍼컴퓨터로 1만 년 걸린다"</strong>는 수학적 복잡도에 의존합니다.
+- <strong>쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Shor's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 등장하면 1만 년 걸리던 소인수 분해를 단 몇 초 만에 다 풀어버려 기존 인터넷의 자물쇠가 모조리 휴지조각이 되는 재앙([Q-Day](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/))이 예고되어 있습니다.
 
-```text
-[디지털 트윈 및 관제 시스템 연동]
-    │
-    ▼
-[양자 암호 키 분배]
-    │
-    └──▶ [BGP RPKI 라우팅 보안 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양자 암호 키 분배는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - 수학이 무너졌으니 물리학으로 넘어갑니다.
-- **개념**: 통신을 주고받는 송신자(A)와 수신자(B)가 쓸 **'절대 풀리지 않는 일회용 비밀번호(대칭 키)'를, 양자 역학의 물리적 특성을 가진 빛의 알갱이(단일 광자, Photon)에 담아 광케이블을 통해 안전하게 배달(분배)해 주는 우주 최강의 하드웨어 보안 통신망**입니다.
+- **개념**: 통신을 주고받는 송신자(A)와 수신자(B)가 쓸 <strong>'절대 풀리지 않는 일회용 비밀번호(대칭 키)'를, 양자 역학의 물리적 특성을 가진 빛의 알갱이(단일 광자, Photon)에 담아 광케이블을 통해 안전하게 배달(분배)해 주는 우주 최강의 하드웨어 보안 통신망</strong>입니다.
 
-```text
-[디지털 트윈 및 관제 시스템 연동]
-    │
-    ▼
-[양자 암호 키 분배]
-    │
-    └──▶ [BGP RPKI 라우팅 보안 망]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 암호 키 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 양자 암호 키 분배의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -63,7 +71,7 @@ tags = ["studynote-network"]
 
 ### 2. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 불가능성 정리 (No-Cloning Theorem)
 - 기존 해커는 중간에 공유기를 달아 패킷을 '복사(Copy)'해서 원본은 목적지로 보내고 복사본을 지가 읽었습니다.
-- **절대 룰**: 양자 역학에서는 **알려지지 않은 양자의 상태를 완벽하게 똑같이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하는 것은 우주 물리 법칙상 100% 불가능**합니다. 해커가 가짜 광자를 만들어서 목적지에 대신 보낼 수가 없습니다.
+- **절대 룰**: 양자 역학에서는 <strong>알려지지 않은 양자의 상태를 완벽하게 똑같이 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 것은 우주 물리 법칙상 100% 불가능</strong>합니다. 해커가 가짜 광자를 만들어서 목적지에 대신 보낼 수가 없습니다.
 
 ### 3. 즉각적인 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지와 [키 폐기](/knowledge-base/studynote/09_security/03_network_security/155_key_destruction_crypto_shredding/) (해커 아사)
 - 목적지(수신자 B)에 광자가 도착했는데 상태가 깨져있습니다. B는 즉시 압니다. **"아! 중간에 누군가 이 암호 키를 훔쳐봤다! (관측 붕괴)"**
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 
 - **거리의 저주**: 빛의 알갱이 하나(단일 광자)를 광케이블로 쏘기 때문에 빛이 너무 미세해서, 100km쯤 날아가면 광케이블 안에서 소멸해 버립니다.
 - 일반 증폭기로 빛을 키우면 '[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)'가 되어서 양자 법칙이 깨져 쓸 수 없습니다.
-- **해결책**: 100km마다 완벽하게 믿을 수 있는 **신뢰 노드(Trusted Node)**라는 장갑차 벙커를 세워두고, 여기서 암호를 풀었다가 다시 다른 광자로 바꿔 쏘는 징검다리 릴레이 공사(SKT 주도)를 국가망 단위로 깔고 있습니다. (궁극적으로는 우주에서 양자를 쏘는 '양자 위성통신'으로 넘어가는 중입니다.)
+- **해결책**: 100km마다 완벽하게 믿을 수 있는 <strong>신뢰 노드(Trusted Node)</strong>라는 장갑차 벙커를 세워두고, 여기서 암호를 풀었다가 다시 다른 광자로 바꿔 쏘는 징검다리 릴레이 공사(SKT 주도)를 국가망 단위로 깔고 있습니다. (궁극적으로는 우주에서 양자를 쏘는 '양자 위성통신'으로 넘어가는 중입니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -94,7 +102,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 수학 기반 암호([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 **'엄청나게 복잡한 퍼즐이 달린 철가방'**에 비밀번호를 넣어 배달하는 것입니다. 튼튼해 보이지만, 해커가 퍼즐 푸는 기계([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))를 발명하면 1초 만에 철가방이 털립니다. 반면 **[QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/)(양자 암호 키 분배)**는 비밀번호를 철가방 대신 **'우주에서 가장 예민한 얇은 비눗방울([양자 중첩](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) 광자)'** 속에 둥둥 띄워 보내는 미친 배달법입니다. 비눗방울이 날아가는 도중, 중간에 해커가 이 비밀번호를 훔쳐보려고 손가락이나 돋보기를 대는(관측) 순간! 물리 법칙에 의해 비눗방울이 "톡!" 하고 터져버려(붕괴) 안의 정보가 날아갑니다. 목적지에 도착한 수신자는 비눗방울이 터져서 비눗물만 남은 것을 보고 "아! 중간에 도둑놈이 훔쳐봤네! 이 비밀번호는 버리자!"라고 즉시 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)을 100% 인지합니다. 오직 아무도 안 건드려서 안전하게 살아서 도착한 비눗방울 속 번호만 모아서 진짜 금고 비밀번호로 쓰는, 해킹(관측) 시도 자체가 자신의 범죄를 알람으로 울리게 만드는 자연계 물리 법칙의 극강 보안 방패입니다.
+- **📢 섹션 요약 비유**: 기존 수학 기반 암호([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 <strong>'엄청나게 복잡한 퍼즐이 달린 철가방'</strong>에 비밀번호를 넣어 배달하는 것입니다. 튼튼해 보이지만, 해커가 퍼즐 푸는 기계([양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/))를 발명하면 1초 만에 철가방이 털립니다. 반면 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">QKD</a>(양자 암호 키 분배)</strong>는 비밀번호를 철가방 대신 <strong>'우주에서 가장 예민한 얇은 비눗방울(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">양자 중첩</a> 광자)'</strong> 속에 둥둥 띄워 보내는 미친 배달법입니다. 비눗방울이 날아가는 도중, 중간에 해커가 이 비밀번호를 훔쳐보려고 손가락이나 돋보기를 대는(관측) 순간! 물리 법칙에 의해 비눗방울이 "톡!" 하고 터져버려(붕괴) 안의 정보가 날아갑니다. 목적지에 도착한 수신자는 비눗방울이 터져서 비눗물만 남은 것을 보고 "아! 중간에 도둑놈이 훔쳐봤네! 이 비밀번호는 버리자!"라고 즉시 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)을 100% 인지합니다. 오직 아무도 안 건드려서 안전하게 살아서 도착한 비눗방울 속 번호만 모아서 진짜 금고 비밀번호로 쓰는, 해킹(관측) 시도 자체가 자신의 범죄를 알람으로 울리게 만드는 자연계 물리 법칙의 극강 보안 방패입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 디지털 트윈 및 관제 시스템 연동]
-    │
-    ▼
-[현재 개념: 양자 암호 키 분배]
-    │
-    ├──▶ [확장 A: BGP RPKI 라우팅 보안 망]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디지털 트윈 및 관제 시스템 연동</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 암호 키 분배</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP RPKI 라우팅 보안 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 양자 암호 키 분배는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

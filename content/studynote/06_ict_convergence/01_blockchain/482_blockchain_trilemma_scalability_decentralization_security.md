@@ -11,9 +11,9 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Trilemma)는 확장성(Scalability)·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 세 가지를 **동시에 완벽히 달성하는 단일 체인은 존재하지 않는다**는 원칙이다.
+> 1. **본질**: [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Trilemma)는 확장성(Scalability)·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))·보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 세 가지를 <strong>동시에 완벽히 달성하는 단일 체인은 존재하지 않는다</strong>는 원칙이다.
 > 2. **가치**: 이 트릴레마의 이해를 통해 비트코인(보안+[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)), 솔라나(확장성+보안), BNB Chain(확장성+보안, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 희생)의 설계 철학과 트레이드오프를 명확히 설명할 수 있다.
-> 3. **판단 포인트**: L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))은 계층 분리로 트릴레마를 **우회**하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, 각 계층이 서로 다른 두 속성을 최적화하는 구조다.
+> 3. **판단 포인트**: L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))은 계층 분리로 트릴레마를 <strong>우회</strong>하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이며, 각 계층이 서로 다른 두 속성을 최적화하는 구조다.
 
 ---
 
@@ -21,10 +21,10 @@ tags = ["studynote-ict-convergence"]
 
 ### 트릴레마의 정의
 
-비탈릭 부테린이 제시한 [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)는 세 가지 핵심 성질 중 **최대 두 가지만 동시에 최적화 가능**하다는 주장이다.
+비탈릭 부테린이 제시한 [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)는 세 가지 핵심 성질 중 <strong>최대 두 가지만 동시에 최적화 가능</strong>하다는 주장이다.
 
 - **확장성**: 높은 TPS, 낮은 레이턴시, 저렴한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용
-- **[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)**: 많은 노드, 낮은 진입 장벽, 누구나 참여 가능
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong>: 많은 노드, 낮은 진입 장벽, 누구나 참여 가능
 - **보안**: 51% 공격·비잔틴 장애에 대한 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)성
 
 - **📢 섹션 요약 비유**: — "빠르고(Speed), 안전하고(Safety), 저렴한(Cost) 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 세 가지 동시 만족은 불가능하다. 두 가지를 고르면 하나를 희생해야 한다.
@@ -35,20 +35,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 트릴레마 삼각형
 
-```
-                  보안(Security)
-                       ▲
-                      / \
-                     /   \
-                    /     \
-                   /  ???  \
-         비트코인  /         \ 솔라나
-         이더리움 /           \
-                ▼─────────────▼
-    탈중앙화                확장성
- (Decentralization)      (Scalability)
-          BNB Chain (확장성+보안 우선)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보안(Security)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">/ ??? \</div>
+<div class="kb-diagram-note">비트코인 / \ 솔라나</div>
+<div class="kb-diagram-note">이더리움 / \</div>
+<div class="kb-diagram-note">탈중앙화 확장성</div>
+<div class="kb-diagram-note">(Decentralization) (Scalability)</div>
+<div class="kb-diagram-note">BNB Chain (확장성+보안 우선)</div>
+</div>
+</div>
+
+
 
 ### 주요 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 트릴레마 포지셔닝
 
@@ -62,11 +64,17 @@ tags = ["studynote-ict-convergence"]
 
 ### [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) ↔ 확장성 트레이드오프 메커니즘
 
-```
-노드 수 증가 → 메시지 전파 지연 증가 → 합의 속도 하락
-블록 크기 증가 → 다운로드/처리 부담 증가 → 일반 노드 탈락 → 탈중앙화 약화
-블록 시간 감소 → 고성능 노드 필요 → 탈중앙화 약화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">노드 수 증가 → 메시지 전파 지연 증가 → 합의 속도 하락</div>
+<div class="kb-diagram-note">블록 크기 증가 → 다운로드/처리 부담 증가 → 일반 노드 탈락 → 탈중앙화 약화</div>
+<div class="kb-diagram-note">블록 시간 감소 → 고성능 노드 필요 → 탈중앙화 약화</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: — "솔라나는 F1 경주차 — 매우 빠르지만 일반인이 운전([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 참여가 어렵고, 비트코인은 자전거 — 느리지만 누구나 탈 수 있다.
 
@@ -78,9 +86,9 @@ tags = ["studynote-ict-convergence"]
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 방법 | 트릴레마 해결 |
 |:---|:---|:---|
-| **L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)** | 실행 L2, 보안 L1 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) L1 활용 |
-| **[모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)** | 실행/합의/[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층 분리 | 각 계층이 전문화로 최적화 |
-| **[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)** | L1 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 유지 시도 |
+| <strong>L2 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/">롤업</a></strong> | 실행 L2, 보안 L1 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) L1 활용 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/">모듈러 블록체인</a></strong> | 실행/합의/[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 계층 분리 | 각 계층이 전문화로 최적화 |
+| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | L1 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 | 확장성 ↑, 보안·[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 유지 시도 |
 | **앱체인(App-chain)** | 전용 체인 + 보안 임대 | 확장성 ↑, 보안 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) |
 
 ### Nakamoto 계수(Nakamoto Coefficient)
@@ -106,14 +114,14 @@ tags = ["studynote-ict-convergence"]
 → 보안+[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 우선 → Ethereum L1 또는 Tendermint 기반 허가형
 → 이유: 낮은 TPS 감수, 검열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)·보안 최우선
 
-**시나리오 3: 기업 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리**
+<strong>시나리오 3: 기업 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 관리</strong>
 → 효율성 우선 → [Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/) (허가형)
 → 이유: [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 희생, 고성능·프라이버시 확보
 
 ### 트릴레마 너머 — 추가 고려 요소
 - **프라이버시(Privacy)**: 공개 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 투명성 vs 기업 기밀
 - **규제 준수**: 허가형 vs 비허가형 선택에 결정적
-- **[상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)**: 크로스체인 브릿지의 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/">상호운용성</a></strong>: 크로스체인 브릿지의 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
 
 - **📢 섹션 요약 비유**: — "트릴레마는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 나침반 — '왜 이 체인이 이런 선택을 했나?'에 대한 가장 명확한 설명 틀이다.
 

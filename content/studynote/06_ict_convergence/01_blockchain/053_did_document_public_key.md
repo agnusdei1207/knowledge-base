@@ -31,13 +31,19 @@ tags = ["studynote-ict-convergence"]
 
 DID는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)이고, [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 문서는 그 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)에 대한 상세 설명서다. Resolver가 DID를 조회하면 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 문서가 나오고, 그 안의 [verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) method로 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다.
 
-```text
-DID → DID Resolver → DID Document
-                     ├─ verificationMethod (public key)
-                     ├─ authentication
-                     ├─ assertionMethod
-                     └─ service
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DID → DID Resolver → DID Document</div>
+<div class="kb-diagram-tree-item" style="--depth:8">verificationMethod (public key)</div>
+<div class="kb-diagram-tree-item" style="--depth:8">authentication</div>
+<div class="kb-diagram-tree-item" style="--depth:8">assertionMethod</div>
+<div class="kb-diagram-tree-item" style="--depth:8">service</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 예시 |
 | :--- | :--- | :--- |
@@ -115,18 +121,21 @@ DID → DID Resolver → DID Document
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ID / Password
-    │
-    ▼
-PKI / Certificate
-    │
-    ▼
-DID
-    │
-    ▼
-DID Document / VC / VP
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ID / Password</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PKI / Certificate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DID</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DID Document / VC / VP</div>
+</div>
+</div>
+
+
 
 이 흐름은 중앙 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에서 주체 중심 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 이동하는 과정을 보여준다.
 

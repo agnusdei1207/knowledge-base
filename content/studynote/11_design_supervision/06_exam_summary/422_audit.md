@@ -23,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 중요한 것은 “메모리를 많이 쓴다”와 “메모리가 새고 있다”를 구분하는 일이다. 캐시가 의도적으로 커지는 경우, 순간 트래픽 급증으로 힙이 일시 상승하는 경우, 배치 작업이 끝나면 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되는 경우는 누수가 아닐 수 있다. 반면 GC 이후에도 점유율이 계속 높고, 동일 유형 객체가 계속 살아남는다면 누수를 의심해야 한다.
 
-감리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)진단 관점에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 부하시험 결과, 힙 덤프, [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 결과를 **[객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)**로 묶어 설명해야 한다. 단순 체감이나 모니터링 화면 한 장만으로는 원인 진단이 어렵기 때문이다.
+감리·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)진단 관점에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 부하시험 결과, 힙 덤프, [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 결과를 <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/">객관적 증거</a></strong>로 묶어 설명해야 한다. 단순 체감이나 모니터링 화면 한 장만으로는 원인 진단이 어렵기 때문이다.
 
 - **📢 섹션 요약 비유**: 물통에 물을 쓰고도 배수구가 막혀 있으면 조금씩 넘치듯, 프로그램도 해제가 안 되면 겉으론 멀쩡해 보여도 결국 넘쳐 버린다.
 
@@ -31,14 +31,18 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-동적 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 보통 **부하 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) → 메모리 관찰 → 증거 수집 → 원인 추적** 순서로 진행된다. 먼저 장시간 또는 반복성 부하를 걸어 문제가 재현되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그다음 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 지표, GC [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 힙 덤프, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 통해 메모리 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 패턴을 본다. 이후 유지 객체의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 경로를 따라가며 실제 누수 지점을 찾는다.
+동적 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 보통 <strong>부하 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a> → 메모리 관찰 → 증거 수집 → 원인 추적</strong> 순서로 진행된다. 먼저 장시간 또는 반복성 부하를 걸어 문제가 재현되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그다음 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리 ([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/), [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 지표, GC [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 힙 덤프, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 통해 메모리 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 패턴을 본다. 이후 유지 객체의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 경로를 따라가며 실제 누수 지점을 찾는다.
 
-```text
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ 부하 인가     │──▶│ 메모리 상승    │──▶│ GC 후 회복 여부 │──▶│ 누수 원인 추적 │
-│ 장시간 반복    │   │ Heap / RSS 관찰│   │ 잔존 객체 분석   │   │ Heap Dump 분석 │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 인가</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">메모리 상승</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">GC 후 회복 여부</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">누수 원인 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장시간 반복</div><div class="kb-diagram-cell">Heap / RSS 관찰</div><div class="kb-diagram-cell">잔존 객체 분석</div><div class="kb-diagram-cell">Heap Dump 분석</div></div>
+</div>
+</div>
+
+
 
 | 관찰 지표 | 의미 | 대표 증거 | 조치 방향 |
 | :--- | :--- | :--- | :--- |
@@ -48,7 +52,7 @@ tags = ["studynote-design-supervision"]
 | 네이티브 자원 증가 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 핸들, [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 버퍼 누수 여부 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 지표, 핸들 수 | close 누락, 풀 반환 누락 점검 |
 | 장시간 패턴 | 짧은 테스트에서 안 보이는 누수 탐지 | 내구성 시험 결과 | 재현 시나리오 확보 |
 
-[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)는 애플리케이션 코드에서만 발생하지 않는다. 커넥션 풀 반환 누락, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 축적, 리스너 해제 실패, 캐시 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 부재, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) close 누락, 네이티브 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 문제 등 원인이 다양하다. 따라서 진단은 “힙만 본다”가 아니라 **객체·자원·시간 축을 함께 보는 다면 분석**이어야 한다.
+[메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)는 애플리케이션 코드에서만 발생하지 않는다. 커넥션 풀 반환 누락, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 축적, 리스너 해제 실패, 캐시 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 부재, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) close 누락, 네이티브 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 문제 등 원인이 다양하다. 따라서 진단은 “힙만 본다”가 아니라 <strong>객체·자원·시간 축을 함께 보는 다면 분석</strong>이어야 한다.
 
 - **📢 섹션 요약 비유**: 건강검진에서 체중 숫자만 보는 것이 아니라 혈압, 맥박, 검사 기록을 함께 봐야 진짜 원인을 아는 것과 같다.
 
@@ -56,7 +60,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-실무에서 가장 많이 헷갈리는 것은 정상적인 메모리 증가와 실제 누수를 구분하지 못하는 경우다. 따라서 메모리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모양, GC 후 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 정도, 업무 종료 후 잔존 여부를 비교해 해석해야 한다. 아래 표처럼 **패턴 비교**가 진단 정확도를 높인다.
+실무에서 가장 많이 헷갈리는 것은 정상적인 메모리 증가와 실제 누수를 구분하지 못하는 경우다. 따라서 메모리 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모양, GC 후 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 정도, 업무 종료 후 잔존 여부를 비교해 해석해야 한다. 아래 표처럼 <strong>패턴 비교</strong>가 진단 정확도를 높인다.
 
 | 비교 항목 | 정상 캐시 증가 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) | 일시적 부하 버스트 |
 | :--- | :--- | :--- | :--- |
@@ -99,7 +103,7 @@ tags = ["studynote-design-supervision"]
 
 동적 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단을 체계화하면 장애의 잠복기를 줄이고, 장시간 운영 안정성을 크게 높일 수 있다. 또한 단순 용량 증설보다 원인 제거에 집중하게 되어 인프라 비용과 장애 대응 비용을 함께 절감할 수 있다. 무엇보다 같은 유형의 누수가 재발하지 않도록 코드·운영 표준을 개선하는 계기가 된다.
 
-결론적으로 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석이면서 동시에 운영 감리 활동이다. 핵심은 “메모리가 많다/적다”가 아니라 **왜 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)되지 않는가를 증거로 설명하는 것**이다. 기술사 답안에서는 패턴 구분, 증거 수집, 원인 추적, 근본 조치의 흐름으로 정리하면 실무성이 높다.
+결론적으로 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석이면서 동시에 운영 감리 활동이다. 핵심은 “메모리가 많다/적다”가 아니라 <strong>왜 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>되지 않는가를 증거로 설명하는 것</strong>이다. 기술사 답안에서는 패턴 구분, 증거 수집, 원인 추적, 근본 조치의 흐름으로 정리하면 실무성이 높다.
 
 - **📢 섹션 요약 비유**: 자동차 연비가 나빠졌다고 기름통만 키우는 것이 아니라, 어디서 새는지 찾아 막아야 오래 달릴 수 있는 것과 같다.
 
@@ -118,21 +122,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단기 기능 시험 통과
-        │
-        ▼
-장시간 부하 · 내구성 시험 수행
-        │
-        ▼
-APM · GC 로그 · 힙 덤프 확보
-        │
-        ▼
-유지 객체·자원 누수 경로 추적
-        │
-        ▼
-코드 수정 · 회귀 검증 · 운영 기준 반영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단기 기능 시험 통과</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장시간 부하 · 내구성 시험 수행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">APM · GC 로그 · 힙 덤프 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유지 객체·자원 누수 경로 추적</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코드 수정 · 회귀 검증 · 운영 기준 반영</div>
+</div>
+</div>
+
+
 
 이 흐름은 눈에 보이지 않던 잠복형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 재현하고, 증거를 모아, 근본 수정으로 닫는 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 진단의 전형적 절차를 보여 준다.
 

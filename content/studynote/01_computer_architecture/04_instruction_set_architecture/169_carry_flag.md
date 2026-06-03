@@ -35,22 +35,21 @@ CF는 보통 ALU의 최상위 [비트](/knowledge-base/studynote/01_computer_arc
 
 아래 그림은 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)의 자리올림이 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 계산으로 전달되는 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          fixed-width adder + CF = wider arithmetic          │
-├──────────────────────────────────────────────────────────────┤
-│ 하위 32비트: 1111...1111 + 0000...0001                      │
-│                     │                                        │
-│                     ├──── 결과 = 0000...0000                │
-│                     └──── carry-out = 1 ───▶ CF = 1         │
-│                                                              │
-│ 상위 32비트: upperA + upperB + CF                            │
-│                     │                                        │
-│                     └──── ADC (Add with Carry) 수행          │
-│                                                              │
-│ 결과: 32비트 가산기 두 번으로 64비트 합산 완성               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fixed-width adder + CF = wider arithmetic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 32비트: 1111...1111 + 0000...0001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 = 0000...0000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">carry-out = 1 ▶ CF = 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 32비트: upperA + upperB + CF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADC (Add with Carry) 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 32비트 가산기 두 번으로 64비트 합산 완성</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 `ADD`와 `ADC (Add with Carry)`는 짝을 이룬다. 첫 번째 연산이 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 합과 CF를 만들고, 두 번째 연산은 그 CF를 세 번째 입력처럼 받아 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)에 반영한다. 반대로 감산에서는 `SUB`와 `SBB (Subtract with Borrow)`가 같은 역할을 한다.
 
@@ -92,9 +91,9 @@ CF를 이해할 때 가장 중요한 비교는 OF와의 구분이다. CF는 어�
 
 ### 실무 시나리오
 
-1. **암호 연산 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)**: 32비트 마이크로컨트롤러에서 256비트 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 중간값을 더할 때 `ADCS` 계열 명령으로 CF를 연쇄 전달하면, 분기 없이 고정 시간 연산을 구현하기 쉽다.
+1. <strong>암호 연산 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a></strong>: 32비트 마이크로컨트롤러에서 256비트 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 중간값을 더할 때 `ADCS` 계열 명령으로 CF를 연쇄 전달하면, 분기 없이 고정 시간 연산을 구현하기 쉽다.
 2. **네트워크 시퀀스 번호 비교**: unsigned 시퀀스 넘버를 뺀 뒤 CF를 해석하면 wrap-around 경계 조건을 효율적으로 판단할 수 있다.
-3. **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 회전 최적화**: [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/), 해시, [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 구현에서 `RCR`, `RCL` 같은 rotate-through-carry 명령은 끝 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 잃지 않고 다음 단계로 넘기는 데 유용하다.
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 회전 최적화</strong>: [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/), 해시, [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 구현에서 `RCR`, `RCL` 같은 rotate-through-carry 명령은 끝 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 잃지 않고 다음 단계로 넘기는 데 유용하다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,21 +135,24 @@ CF를 올바르게 활용하면 CPU는 작은 가산기만으로도 넓은 정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 비트폭 레지스터
-    │
-    ▼
-ALU 최상위 carry-out 검출
-    │
-    ▼
-Carry Flag (CF)
-    │
-    ├──────────────▶ unsigned overflow / borrow 판단
-    ├──────────────▶ ADC · SBB 기반 다중 정밀도 연산
-    ├──────────────▶ JC · JB 계열 조건 분기
-    ▼
-rotate-through-carry · big integer 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 비트폭 레지스터</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ALU 최상위 carry-out 검출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Carry Flag (CF)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ unsigned overflow / borrow 판단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ ADC · SBB 기반 다중 정밀도 연산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ JC · JB 계열 조건 분기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">rotate-through-carry · big integer 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 고정 폭 한계를 감지한 1비트 정보가 비교, 확장 산술, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작으로 이어지는 경로를 보여준다.
 

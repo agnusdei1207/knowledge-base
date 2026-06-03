@@ -31,15 +31,21 @@ ITO는 서버 운영, 네트워크, 유지보수, 애플리케이션 운영 같�
 
 아웃소싱은 단순 외주가 아니라, 범위·책임·성과를 계약으로 나누는 운영 모델이다.
 
-```text
-핵심 역량
-   ↓
-내부 유지 / 외부 위탁 판단
-   ├─ ITO: IT 운영·개발
-   └─ BPO: 회계·인사·콜센터
-        ↓
-SLA / KPI / 보안 / 정산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">핵심 역량</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">내부 유지 / 외부 위탁 판단</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ITO: IT 운영·개발</div>
+<div class="kb-diagram-tree-item" style="--depth:1">BPO: 회계·인사·콜센터</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SLA / KPI / 보안 / 정산</div>
+</div>
+</div>
+
+
 
 | 구분 | [ITO](/knowledge-base/studynote/12_it_management/01_governance_strategy/043_it_outsourcing_ito_strategy/) | [BPO](/knowledge-base/studynote/12_it_management/01_governance_strategy/044_bpo_business_process_outsourcing/) |
 | :-- | :-- | :-- |
@@ -110,31 +116,43 @@ ITO와 BPO는 비용 절감만이 아니라, 자원을 [전략](/knowledge-base/
 
 ## 관련 개념 맵
 
-```text
-핵심 역량
-   ↓
-ITO / BPO 판단
-   ↓
-SLA / KPI / 보안
-   ↓
-벤더 관리 / 지식 이전
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">핵심 역량</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ITO / BPO 판단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SLA / KPI / 보안</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">벤더 관리 / 지식 이전</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-인하우스 운영
-   ↓
-ITO (IT Outsourcing)
-   ↓
-BPO (Business Process Outsourcing)
-   ↓
-SLA / Managed Service
-   ↓
-거버넌스와 벤더 전환 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인하우스 운영</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">ITO (IT Outsourcing)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">BPO (Business Process Outsourcing)</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SLA / Managed Service</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">거버넌스와 벤더 전환 관리</div>
+</div>
+</div>
+
+
 
 ---
 

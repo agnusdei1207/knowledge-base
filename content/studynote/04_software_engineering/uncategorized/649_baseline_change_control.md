@@ -30,34 +30,29 @@ tags = ["studynote-software-engineering"]
 
   [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 부재 환경에서 발생하는 '덮어쓰기 문제'를 시각화하면, 변경 통제가 없는 상태가 어떻게 소스 코드의 유실과 혼란을 초래하는지 명확히 이해할 수 있다. 
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         형상 관리 부재 환경의 문제: 분산된 변경 충돌          │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │  [개발자 A]                          [개발자 B]             │
-  │     │                                   │                   │
-  │  ① 파일 읽기 (v1.0)                    │                   │
-  │     │                                ① 파일 읽기 (v1.0)    │
-  │     ▼                                   ▼                   │
-  │  ② 버그 수정 중 (시간 소요)            │                   │
-  │     │                                ② 기능 추가 완료      │
-  │     │                                   │                   │
-  │     │                                   ▼                   │
-  │     │                                ③ 서버에 저장 (v1.1)  │
-  │     ▼                                   │                   │
-  │  ③ 서버에 저장 (v1.2)                  │                   │
-  │                                                             │
-  │  ─────────────────────────────────────────────────────────  │
-  │   결과: 개발자 B가 추가한 기능은 A의 저장으로 인해 완전히 삭제됨  │
-  │         (Lost Update Problem)                               │
-  └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 관리 부재 환경의 문제: 분산된 변경 충돌</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 A</div><div class="kb-diagram-node">개발자 B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 파일 읽기 (v1.0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 파일 읽기 (v1.0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 버그 수정 중 (시간 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 기능 추가 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 서버에 저장 (v1.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 서버에 저장 (v1.2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 개발자 B가 추가한 기능은 A의 저장으로 인해 완전히 삭제됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Lost Update Problem)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** 이 도식은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 통제 시스템과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 존재하지 않을 때 발생하는 전형적인 '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/) ([갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))' 문제를 보여준다. 개발자 A와 B가 동일한 소스를 복사하여 각자 수정한 뒤, 중앙 서버에 덮어쓰기를 수행한다. 이 구조에서는 나중에 저장한 사람의 코드만 남게 되며, 시스템 수준에서 변경이 통합되지 않아 치명적인 논리적 결함을 유발한다. 따라서 단일 진실 공급원 (SSOT, Single Source of Truth)으로서의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 확립과 이를 수정할 때 충돌을 제어하는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 또는 병합(Merge) 통제 장치가 필수적으로 요구된다.
 
-  2. **[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) 체계의 확립**: 국방 및 항공우주 산업과 같이 실패 비용이 극도로 높은 도메인에서, 변경의 이력을 남기고(추적성) 이전 상태로 롤백할 수 있는([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성) [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 체계가 수립되었다. 
-  3. **[CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board)의 제도화**: 변경이 미치는 영향을 단일 개발자가 판단하지 않고, 아키텍트, PM, QA가 모여 다각도로 분석하는 변경 통제 위원회가 제도화되었다.
+  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/">Configuration Management</a>) 체계의 확립</strong>: 국방 및 항공우주 산업과 같이 실패 비용이 극도로 높은 도메인에서, 변경의 이력을 남기고(추적성) 이전 상태로 롤백할 수 있는([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성) [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 체계가 수립되었다. 
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/">Configuration Control</a> Board)의 제도화</strong>: 변경이 미치는 영향을 단일 개발자가 판단하지 않고, 아키텍트, PM, QA가 모여 다각도로 분석하는 변경 통제 위원회가 제도화되었다.
 
 - **📢 섹션 요약 비유**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립과 변경 통제는 마치 거대한 교향악단에서 지휘자([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))가 확정된 악보([기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))를 기반으로만 연주하게 통제하여, 단원(개발자)들이 임의로 음표를 바꿔 불협화음(버그)을 내는 것을 막는 체계와 같습니다.
 
@@ -80,7 +75,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -156,21 +151,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-기준선 (Baseline) 수립 변경 통제 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기준선 (Baseline) 수립 변경 통제 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -17,29 +17,26 @@ tags = ["enterprise_systems"]
 
 ### 엔터프라이즈 시스템 시험 핵심 출제 경향 분석
 
-엔터프라이즈 시스템 분야의 기술사(정보관리) 시험은 **"비즈니스 가치와 기술 아키텍처의 결합"**을 묻는 문제가 핵심이다. 단순히 솔루션 (SAP, Salesforce 등)의 명칭을 나열하는 것이 아니라, "특정 산업군에서 어떻게 공급망의 채찍 효과를 방어하고, 이기종 시스템을 표준 방식으로 통합할 것인가?"에 대한 논리적 통찰력을 요구한다.
+엔터프라이즈 시스템 분야의 기술사(정보관리) 시험은 <strong>"비즈니스 가치와 기술 아키텍처의 결합"</strong>을 묻는 문제가 핵심이다. 단순히 솔루션 (SAP, Salesforce 등)의 명칭을 나열하는 것이 아니라, "특정 산업군에서 어떻게 공급망의 채찍 효과를 방어하고, 이기종 시스템을 표준 방식으로 통합할 것인가?"에 대한 논리적 통찰력을 요구한다.
 
-최근의 주요 화두는 **인메모리 기반의 실시간 결산 (S/4HANA)**, **마이크로서비스 (MSA)로의 엔터프라이즈 전환**, 그리고 **데이터 메시 (Data Mesh)** 기반의 분산 거버넌스이다. 또한 **Saga 패턴**을 이용한 분산 트랜잭션 처리와 **RPA**를 연계한 프로세스 자동화 시나리오가 단골 출제 키워드이다.
+최근의 주요 화두는 **인메모리 기반의 실시간 결산 (S/4HANA)**, **마이크로서비스 (MSA)로의 엔터프라이즈 전환**, 그리고 **데이터 메시 (Data Mesh)** 기반의 분산 거버넌스이다. 또한 <strong>Saga 패턴</strong>을 이용한 분산 트랜잭션 처리와 <strong>RPA</strong>를 연계한 프로세스 자동화 시나리오가 단골 출제 키워드이다.
 
 이 그림은 엔터프라이즈 시스템의 전체 지식 체계를 시험 관점에서 구조화한 것이다. ERP를 심장으로 하고 각 시스템들이 동맥(ESB)으로 연결된 형상을 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             엔터프라이즈 시스템 시험 핵심 지식 체계         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       [ 분석/활용 ] ◀─────▶ [ 연동/통합 ] ◀─────▶ [ 고객/채널 ] │
-│       (BI, Big Data)       (EAI, ESB, MSA)    (CRM, SCM)    │
-│             ▲                     ▲                 ▲       │
-│             └───────┬─────────────┴────────┬────────┘       │
-│                     │                      │                │
-│               [ 핵심 자원 관리 ] ◀────▶ [ 인프라/보안 ]       │
-│               (ERP, BPR, BPM)      (Cloud, Security)        │
-│                                                             │
-│               [ 전략/거버넌스 ] (EA, ISP, ROI)              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 시스템 시험 핵심 지식 체계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분석/활용</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">연동/통합</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">고객/채널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BI, Big Data) (EAI, ESB, MSA) (CRM, SCM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 자원 관리</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">인프라/보안</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ERP, BPR, BPM) (Cloud, Security)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전략/거버넌스</div><div class="kb-diagram-note">(EA, ISP, ROI)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '통합 (Integration)'이다. 각 시스템은 독립적으로 존재할 수 없으며, 반드시 데이터를 주고받는 인터페이스와 트랜잭션 무결성 원리를 함께 서술해야 한다. 기술사는 비즈니스 프로세스(BA)와 데이터(DA)가 어떻게 기술(TA)로 승화되는지 계층적으로 설명해야 한다.
 
@@ -88,27 +85,24 @@ tags = ["enterprise_systems"]
 - 기술사는 무분별한 커스터마이징이 '업그레이드의 재앙'임을 경고해야 한다. 최대한 솔루션의 표준 프로세스를 수용하고, 꼭 필요한 기능은 시스템 외부에서 구현하는 **'Side-by-Side Extensibility'** 전략 (Cloud SDK 활용)을 대안으로 제시해야 한다.
 
 **2. 모놀리식 ERP와 MSA의 공존**
-- 거대 ERP를 하루아침에 MSA로 바꿀 수는 없다. 코어 (재무, 인사)는 안정적인 모놀리식 패키지로 유지하고, 채널 (영업, 마케팅)은 민첩한 MSA로 개발하여 **API Gateway**로 묶는 '2-Speed IT' 아키텍처가 현실적인 정답이다.
+- 거대 ERP를 하루아침에 MSA로 바꿀 수는 없다. 코어 (재무, 인사)는 안정적인 모놀리식 패키지로 유지하고, 채널 (영업, 마케팅)은 민첩한 MSA로 개발하여 <strong>API Gateway</strong>로 묶는 '2-Speed IT' 아키텍처가 현실적인 정답이다.
 
 이 구조도는 엔터프라이즈 시스템의 현대적 진화인 **'컴포저블 비즈니스 (Composable Business)'** 개념을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Modern Composable Architecture              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Core Legacy ] ──▶ [ API Layer ] ◀── [ SaaS Modules ]    │
-│   (Heavy ERP)           (Orch.)         (CRM, SCM, etc.)    │
-│                               │                             │
-│          ┌────────────────────┴────────────────────┐        │
-│          ▼                                         ▼        │
-│   [ Packaged Biz Capabilities ] ──▶ [ Real-time Analytics ] │
-│   (PBCs: 쪼개진 서비스들)           (AI-driven Decision)    │
-│                                                             │
-│   * 핵심: 필요할 때마다 모듈을 조립하여 비즈니스 완성       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Composable Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core Legacy</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">API Layer</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">SaaS Modules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Heavy ERP) (Orch.) (CRM, SCM, etc.)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Packaged Biz Capabilities</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Real-time Analytics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PBCs: 쪼개진 서비스들) (AI-driven Decision)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 필요할 때마다 모듈을 조립하여 비즈니스 완성</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 통찰은 '도시의 지하철 노선 설계'와 같습니다. 낡은 호선(레거시)을 무조건 폐쇄하지 않고, 새로운 호선(MSA)과 환승역(API)으로 연결하여 도시 전체의 이동 효율을 극대화하는 전문가입니다.
 
@@ -119,29 +113,27 @@ tags = ["enterprise_systems"]
 ### 기술사적 판단: 장애 진단 및 시스템 현대화 시나리오
 
 **시나리오 1: ERP 시스템 결산 중 특정 테이블의 'Lock 경합'으로 업무 마비**
-- **판단**: 트랜잭션의 입도가 너무 크다. 배치 작업을 소규모 단위로 쪼개는 **'Chunk Processing'**을 적용한다. 기술적으로는 DB의 격리 수준 (Isolation Level)을 점검하고, 조회 쿼리가 쓰기를 막지 않도록 **MVCC** 설정을 최적화한다. 근본적으로는 긴 트랜잭션을 수반하는 복잡한 계산 로직을 DB 밖의 **Application 서버**나 별도 분석계로 오프로딩 (Offloading)하는 리팩토링을 수행한다.
+- **판단**: 트랜잭션의 입도가 너무 크다. 배치 작업을 소규모 단위로 쪼개는 <strong>'Chunk Processing'</strong>을 적용한다. 기술적으로는 DB의 격리 수준 (Isolation Level)을 점검하고, 조회 쿼리가 쓰기를 막지 않도록 **MVCC** 설정을 최적화한다. 근본적으로는 긴 트랜잭션을 수반하는 복잡한 계산 로직을 DB 밖의 <strong>Application 서버</strong>나 별도 분석계로 오프로딩 (Offloading)하는 리팩토링을 수행한다.
 
 **시나리오 2: 이기종 시스템 연동 실패로 인한 데이터 불일치 사고 발생**
 - **판단**: **'멱등성 (Idempotency)'** 설계의 부재이다. 연동 인터페이스에 고유 트랜잭션 ID를 부여하고, 중복 수신 시 자동으로 무시하는 로직을 추가한다. 또한 시스템 간 상태 차이를 자동으로 보정하는 **'Reconciliation (대사)'** 배치 프로그램을 구축하고, 분산 환경의 데이터 정합성을 위해 **Saga 패턴 (보상 트랜잭션)** 도입을 의무화한다.
 
 이 도식은 기술사가 주도하는 '엔터프라이즈 시스템 현대화 판단 트리'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Modernization Strategy Decision Tree          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Legacy Issue ] ──▶ [ Maintenance Cost High? ] ──▶ [YES] ──┐
-│          │                                             │      │
-│        [NO] ──▶ [ Business Change Fast? ] ──▶ [YES] ──▶ [ Refactor ]│
-│                   │                                    │      │
-│                 [NO] ──▶ [ Keep & Encapsulate ] ◀──────┘      │
-│                                                             │
-│   * 핵심: "바꾸는 비용"보다 "안 바꿨을 때의 손실"이 클 때   │
-│     과감히 아키텍처를 뒤엎어야 함 (Decision Making)         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modernization Strategy Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy Issue</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Maintenance Cost High?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Business Change Fast?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Refactor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Keep &amp; Encapsulate</div><div class="kb-diagram-connector">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: "바꾸는 비용"보다 "안 바꿨을 때의 손실"이 클 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과감히 아키텍처를 뒤엎어야 함 (Decision Making)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 진단은 '건물 안전 진단'과 같습니다. 겉벽이 낡았다고 건물을 허물지 않고, 골조(데이터 무결성)가 튼튼하다면 배관(인터페이스)과 인테리어(UI/UX)만 바꿔서 수명을 연장하는 경제적 판단을 내립니다.
 
@@ -151,9 +143,9 @@ tags = ["enterprise_systems"]
 
 ### 엔터프라이즈 공학의 미래 전망
 
-앞으로의 기업 시스템은 정적인 패키지를 넘어 **'자율 운영 기업 (Autonomous Enterprise)'**으로 진화할 것이다. AI 에이전트가 실시간으로 공급망 위기를 감지하여 발주를 조절하고, 재무 데이터를 학습하여 최적의 투자 포트폴리오를 경영진에게 제안하는 시대가 올 것이다.
+앞으로의 기업 시스템은 정적인 패키지를 넘어 <strong>'자율 운영 기업 (Autonomous Enterprise)'</strong>으로 진화할 것이다. AI 에이전트가 실시간으로 공급망 위기를 감지하여 발주를 조절하고, 재무 데이터를 학습하여 최적의 투자 포트폴리오를 경영진에게 제안하는 시대가 올 것이다.
 
-기술사는 이러한 자동화의 파도 속에서 **'데이터의 신뢰성'**과 **'비즈니스 윤리'**를 지키는 최종 파수꾼이 되어야 한다. 시스템의 화려함보다 비즈니스의 본질적인 가치를 기술로 구현해내는 **'가치 지향적 아키텍트'**가 미래 기술사의 진정한 모습이다.
+기술사는 이러한 자동화의 파도 속에서 <strong>'데이터의 신뢰성'</strong>과 <strong>'비즈니스 윤리'</strong>를 지키는 최종 파수꾼이 되어야 한다. 시스템의 화려함보다 비즈니스의 본질적인 가치를 기술로 구현해내는 <strong>'가치 지향적 아키텍트'</strong>가 미래 기술사의 진정한 모습이다.
 
 📢 **섹션 요약 비유**: 미래의 엔터프라이즈 시스템은 '지능형 우주선'과 같아질 것입니다. 모든 부품이 서로 소통하며 스스로 고장 난 곳을 고치고, 가장 안전하고 빠른 경로로 비즈니스를 이끌어 가겠지만, 그 우주선이 인류를 위해 어느 행성으로 향할지 결정하는 것은 여전히 사령관(기술사)의 몫입니다.
 

@@ -31,10 +31,16 @@ tags = ["studynote-cloud-architecture"]
 
 Deployment는 ReplicaSet을 통해 원하는 수의 Pod를 유지하고, Service는 label selector로 Pod를 묶어 안정적인 네트워크 엔드포인트를 제공한다.
 
-```text
-Deployment → ReplicaSet → Pod
-Service ────────────────▶ Pod (via selector)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment → ReplicaSet → Pod</div>
+<div class="kb-diagram-note">Service ▶ Pod (via selector)</div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -110,21 +116,23 @@ Service와 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-이미지 빌드
-    │
-    ▼
-Pod 생성
-    │
-    ▼
-Deployment / ReplicaSet
-    │
-    ▼
-Service / DNS
-    │
-    ▼
-Rolling Update / Autoscaling
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이미지 빌드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pod 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Deployment / ReplicaSet</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Service / DNS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Rolling Update / Autoscaling</div>
+</div>
+</div>
+
+
 
 이 흐름은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행에서 무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영으로 발전하는 과정을 보여준다.
 

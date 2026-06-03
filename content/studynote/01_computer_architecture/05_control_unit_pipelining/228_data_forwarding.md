@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 문제의 핵심은 값이 "존재하지 않아서"가 아니라 "아직 공식 저장 단계까지 도달하지 않아서"다. 예를 들어 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 결과는 EX (Execute) 단계 끝에서 이미 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 출력으로 만들어진다. 그런데 단순한 순차 기록 구조만 고집하면 그 값을 MEM (Memory Access), WB ([Write Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/))까지 기다렸다가 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴 뒤 다시 읽어야 하므로, 실제로는 준비된 값을 일부러 늦게 쓰는 셈이 된다.
 
-따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩의 필요성은 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 아니라 **불필요한 대기 제거**에 있다. 즉 논리적 실행 순서는 유지하되, 물리적 전달 경로만 짧게 만들어 정답과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 지키는 것이 목적이다.
+따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩의 필요성은 단순한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 아니라 <strong>불필요한 대기 제거</strong>에 있다. 즉 논리적 실행 순서는 유지하되, 물리적 전달 경로만 짧게 만들어 정답과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 지키는 것이 목적이다.
 
 - **📢 섹션 요약 비유**: 보고서가 이미 작성 완료되었는데 결재함에 꽂힐 때까지 기다렸다가 다시 꺼내 읽는 것은 비효율적이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩은 작성자가 바로 옆 사람에게 초안을 손에서 손으로 넘겨 주는 방식이다.
 
@@ -43,28 +43,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 포워딩이 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 건너뛰는 지름길"인지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                데이터 포워딩의 핵심: 기록 대기 대신 직접 우회                │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ I1: ADD R1,R2,R3                                                            │
-│   IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB                                            │
-│                 │                                                            │
-│                 └──── R1 결과 생성                                           │
-│                          │                                                   │
-│                          ▼                                                   │
-│                    EX/MEM 레지스터                                           │
-│                          │                                                   │
-│                          ├──────────────▶ Forwarding MUX ──▶ I2의 ALU 입력   │
-│                          │                                                   │
-│                          └──────────────▶ (나중에) Register File 기록         │
-│                                                                            │
-│ I2: SUB R4,R1,R5                                                            │
-│        IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB                                       │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 메커니즘의 본질은 "값의 생산 시점"과 "값의 공식 기록 시점"을 구분하는 데 있다. 산술 결과처럼 EX 종료 직후 준비되는 값은 EX→EX 포워딩으로 거의 즉시 넘길 수 있고, 메모리에서 읽은 값처럼 MEM 종료 후에야 준비되는 값은 MEM→EX 포워딩까지만 가능하다. 결국 포워딩은 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애는 기술이 아니라, **이미 생긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 빠른 경로로 쓰게 하는 기술**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 포워딩의 핵심: 기록 대기 대신 직접 우회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1: ADD R1,R2,R3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 결과 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EX/MEM 레지스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Forwarding MUX ──▶ I2의 ALU 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ (나중에) Register File 기록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2: SUB R4,R1,R5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF ──▶ ID ──▶ EX ──▶ MEM ──▶ WB</div></div>
+</div>
+</div>
+
+
+
+이 메커니즘의 본질은 "값의 생산 시점"과 "값의 공식 기록 시점"을 구분하는 데 있다. 산술 결과처럼 EX 종료 직후 준비되는 값은 EX→EX 포워딩으로 거의 즉시 넘길 수 있고, 메모리에서 읽은 값처럼 MEM 종료 후에야 준비되는 값은 MEM→EX 포워딩까지만 가능하다. 결국 포워딩은 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 없애는 기술이 아니라, <strong>이미 생긴 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 가장 빠른 경로로 쓰게 하는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 공장 창고에 정식 입고되기 전에 검사대를 막 통과한 부품을 옆 조립 라인으로 바로 보내는 것과 같다. 부품이 이미 만들어졌다면 창고를 들렀다 갈 이유가 없다.
 
@@ -85,20 +82,21 @@ tags = ["studynote-computer-architecture"]
 
 이 지점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포워딩은 [파이프라인 스톨](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/229_pipeline_stall/), 해저드 탐지 유닛, 컴파일러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스케줄링과 연결된다. 포워딩은 1차 방어선이고, 해저드 탐지 유닛은 포워딩이 안 되는 경우를 잡아내며, 컴파일러는 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 사이에 넣어 그 1사이클 공백을 다른 일로 메운다. 더 나아가 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO)은 의존성 없는 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행해 포워딩만으로 해결되지 않는 정체까지 줄인다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│             포워딩 가능 경계와 불가능 경계의 차이                            │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 산술 결과:   EX 완료 ─────────────▶ 다음 EX에 전달 가능                      │
-│ 로드 결과:          MEM 완료 ─────▶ 다음 EX에 전달 가능                      │
-│                                                                            │
-│ Cycle      1        2        3        4        5        6                   │
-│ LOAD       IF ───▶  ID ───▶  EX ───▶  MEM ──▶  WB                           │
-│ ADD                 IF ───▶  ID ───▶ Stall ▶  EX ───▶ MEM                   │
-│                                                                            │
-│ 이유: ADD의 EX 시작 시점에는 LOAD 데이터가 아직 MEM에서 돌아오지 않았다.    │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포워딩 가능 경계와 불가능 경계의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 결과: EX 완료 ▶ 다음 EX에 전달 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드 결과: MEM 완료 ▶ 다음 EX에 전달 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOAD IF ▶ ID ▶ EX ▶ MEM ──▶ WB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD IF ▶ ID ▶ Stall ▶ EX ▶ MEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: ADD의 EX 시작 시점에는 LOAD 데이터가 아직 MEM에서 돌아오지 않았다.</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 이미 구워진 빵은 오븐 앞에서 바로 건네줄 수 있지만, 아직 오븐 안에 있는 빵은 아무리 급해도 미리 전달할 수 없다. 포워딩은 완성품 지름길이지, 미완성품 마법이 아니다.
 
@@ -153,25 +151,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-명령어 파이프라이닝 (Instruction Pipelining)
-        │
-        ▼
-데이터 해저드 (Data Hazard)
-        │
-        ▼
-RAW (Read After Write) 분석
-        │
-        ▼
-데이터 포워딩 (Data Forwarding / Bypassing)
-        │
-        ├──▶ EX→EX / MEM→EX 우회 경로
-        │
-        ├──▶ Load-Use 한계 → 스톨 (Stall)
-        │
-        ▼
-명령어 스케줄링 · 비순차 실행 (OoO)로 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 해저드 (Data Hazard)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAW (Read After Write) 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 포워딩 (Data Forwarding / Bypassing)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ EX→EX / MEM→EX 우회 경로</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Load-Use 한계 → 스톨 (Stall)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명령어 스케줄링 · 비순차 실행 (OoO)로 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 파이프라인의 진성 의존성 문제에서 출발해, 우회 전달과 동적 스케줄링으로 발전하는 연결 구조를 보여준다.
 

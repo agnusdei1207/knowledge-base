@@ -13,17 +13,17 @@ tags = ["studynote-database"]
 
 > 1. **본질**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) (RDBMS, Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 여러 컬럼을 **하나의 정렬 키 순서로 묶어** 탐색 경로를 만드는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다.
 > 2. **가치**: 자주 함께 등장하는 `WHERE` 조건과 `ORDER BY`를 한 번에 처리해, 단일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 여러 개를 합치는 비용과 불필요한 랜덤 입출력 (Random I/O)을 줄일 수 있다.
-> 3. **판단 포인트**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 성패는 컬럼 개수보다 **선행 컬럼 (Leading Column) 순서**에 달려 있으며, 첫 컬럼을 건너뛰는 순간 효과가 급격히 떨어질 수 있다.
+> 3. **판단 포인트**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 성패는 컬럼 개수보다 <strong>선행 컬럼 (Leading Column) 순서</strong>에 달려 있으며, 첫 컬럼을 건너뛰는 순간 효과가 급격히 떨어질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 두 개 이상의 컬럼을 하나의 B+트리 (B+Tree) 키로 묶어 관리하는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다. 단일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 컬럼 하나 기준의 목차라면, 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 `부서-직급-입사일`처럼 **복합 조건을 전제로 한 목차**라고 볼 수 있다. 실무 조회는 한 컬럼만으로 끝나지 않고, 여러 조건이 동시에 붙는 경우가 많기 때문에 이런 구조가 필요해졌다.
+결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 두 개 이상의 컬럼을 하나의 B+트리 (B+Tree) 키로 묶어 관리하는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)다. 단일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 컬럼 하나 기준의 목차라면, 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 `부서-직급-입사일`처럼 <strong>복합 조건을 전제로 한 목차</strong>라고 볼 수 있다. 실무 조회는 한 컬럼만으로 끝나지 않고, 여러 조건이 동시에 붙는 경우가 많기 때문에 이런 구조가 필요해졌다.
 
 이 개념이 중요한 이유는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) ([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))가 항상 여러 단일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 예쁘게 합쳐 주지는 않기 때문이다. `부서='영업' AND 직급='대리'` 같은 질의가 반복되면, 각각의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 읽고 교집합을 계산하는 것보다 처음부터 `(부서, 직급)` 순서로 정렬된 길이 훨씬 효율적이다. 특히 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) 시스템에서는 짧고 반복적인 다중 조건 조회가 많아 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 자주 쓰인다.
 
-반대로 이런 준비가 없으면 조회는 느려지고, 정렬과 필터링을 메모리에서 다시 해야 하며, 결과적으로 응답시간과 서버 부하가 함께 증가한다. 따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "컬럼을 많이 묶는 기술"이 아니라, **자주 사용하는 검색 패턴을 물리 구조로 고정하는 기술**로 이해해야 한다.
+반대로 이런 준비가 없으면 조회는 느려지고, 정렬과 필터링을 메모리에서 다시 해야 하며, 결과적으로 응답시간과 서버 부하가 함께 증가한다. 따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "컬럼을 많이 묶는 기술"이 아니라, <strong>자주 사용하는 검색 패턴을 물리 구조로 고정하는 기술</strong>로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 도서관에서 책을 "분야 → 저자 → 연도" 순서로 정리한 안내표와 같다. 손님이 이 순서대로 물으면 바로 찾지만, 첫 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 빼고 중간 정보만 말하면 안내표의 힘이 크게 줄어든다.
 
@@ -31,28 +31,28 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심은 컬럼들이 **동등한 비중으로 나열되는 것이 아니라, 앞에서 뒤로 갈수록 종속적으로 정렬**된다는 점이다. 예를 들어 `(department, grade, hire_date)` [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 먼저 `department`로 1차 정렬되고, 같은 `department` 안에서 `grade`, 그다음 `hire_date` 순으로 정렬된다. 그래서 선행 컬럼 조건이 있을 때는 탐색 범위를 빠르게 줄일 수 있지만, 선행 컬럼이 빠지면 뒤 컬럼만으로는 정렬 구조를 충분히 활용하기 어렵다.
+결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 핵심은 컬럼들이 <strong>동등한 비중으로 나열되는 것이 아니라, 앞에서 뒤로 갈수록 종속적으로 정렬</strong>된다는 점이다. 예를 들어 `(department, grade, hire_date)` [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 먼저 `department`로 1차 정렬되고, 같은 `department` 안에서 `grade`, 그다음 `hire_date` 순으로 정렬된다. 그래서 선행 컬럼 조건이 있을 때는 탐색 범위를 빠르게 줄일 수 있지만, 선행 컬럼이 빠지면 뒤 컬럼만으로는 정렬 구조를 충분히 활용하기 어렵다.
 
 아래 그림은 선행 컬럼 규칙이 왜 중요한지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           결합 인덱스의 정렬 순서와 선행 컬럼 규칙                 │
-├────────────────────────────────────────────────────────────────────┤
-│ Index definition: (department, grade, hire_date)                  │
-│                                                                    │
-│ department='영업'                                                  │
-│    └─ grade='대리'                                                 │
-│        └─ hire_date BETWEEN '2026-01-01' AND '2026-01-31'         │
-│           -> 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능        │
-│                                                                    │
-│ grade='대리' only                                                   │
-│    -> department 경계가 없어 여러 묶음을 동시에 뒤져야 함          │
-│                                                                    │
-│ 핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면            │
-│      탐색 시작점이 흐려진다                                         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합 인덱스의 정렬 순서와 선행 컬럼 규칙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index definition: (department, grade, hire_date)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">department='영업'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ grade='대리'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hire_date BETWEEN '2026-01-01' AND '2026-01-31'</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">grade='대리' only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; department 경계가 없어 여러 묶음을 동시에 뒤져야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 시작점이 흐려진다</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 컬럼 순서는 보통 **동등 조건을 먼저, 범위 조건을 뒤로** 배치하는 것이 유리하다. `=` 조건은 탐색 범위를 강하게 줄여 주지만, `BETWEEN`, `<`, `LIKE 'A%'` 같은 범위 조건은 그 시점부터 스캔 구간을 넓힌다. 그래서 범위 조건 컬럼이 너무 앞에 오면 뒤 컬럼의 정밀한 탐색 효과가 약해질 수 있다.
 
@@ -64,7 +64,7 @@ tags = ["studynote-database"]
 | `직급='대리'` | 낮음 | 선행 컬럼 누락으로 효율 급감 |
 | `입사일 BETWEEN ...` | 매우 낮음 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 의도와 맞지 않음 |
 
-즉 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 단순히 여러 컬럼을 한 덩어리로 붙여 놓은 것이 아니라, **앞 컬럼이 뒤 컬럼의 탐색 가능성을 열어 주는 계층 구조**다. 이 점을 이해해야 선행 컬럼, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), 정렬 회피, 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)까지 자연스럽게 연결된다.
+즉 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 단순히 여러 컬럼을 한 덩어리로 붙여 놓은 것이 아니라, <strong>앞 컬럼이 뒤 컬럼의 탐색 가능성을 열어 주는 계층 구조</strong>다. 이 점을 이해해야 선행 컬럼, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), 정렬 회피, 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)까지 자연스럽게 연결된다.
 
 - **📢 섹션 요약 비유**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 아파트 동·호수 체계와 같다. 먼저 동을 알아야 그 안에서 호수를 빠르게 찾을 수 있고, 동 정보가 없으면 경비실은 여러 동을 돌아다니며 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
@@ -83,7 +83,7 @@ tags = ["studynote-database"]
 
 또한 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Seek/Range Scan, `ORDER BY` 최적화와도 직접 연결된다. 예를 들어 `(고객ID, 주문일시)` [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 특정 고객의 주문 목록을 최신순으로 보여 줄 때, 필터링과 정렬을 동시에 처리할 수 있다. 반대로 화면이 `고객ID`, `상품ID`, `주문일시`, `지역`을 제각각 선택 조건으로 허용한다면, 하나의 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 모든 경우를 커버하려는 시도는 오히려 비효율적일 수 있다.
 
-따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "많이 묶을수록 좋다"가 아니라, **업무 질의의 대표 동선이 얼마나 안정적인가**에 따라 가치가 갈린다. [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링, 화면 검색 조건, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석이 함께 맞아떨어질 때 가장 큰 효과를 낸다.
+따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "많이 묶을수록 좋다"가 아니라, <strong>업무 질의의 대표 동선이 얼마나 안정적인가</strong>에 따라 가치가 갈린다. [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링, 화면 검색 조건, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석이 함께 맞아떨어질 때 가장 큰 효과를 낸다.
 
 - **📢 섹션 요약 비유**: 단일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 여러 개는 여러 개의 개별 지도이고, 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 출퇴근 전용 최단 경로 지도다. 목적지가 자주 바뀌면 개별 지도가 낫고, 같은 길을 반복하면 전용 경로가 더 빠르다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 설계할 때는 "어떤 컬럼이 가장 중요해 보이는가"보다 **어떤 조건이 가장 먼저, 가장 자주, 가장 안정적으로 들어오는가**를 봐야 한다. 예를 들어 관리자 검색 화면이 항상 `회사코드 = ?`를 포함하고 그다음 `상태`, `등록일 범위`를 붙인다면, `(회사코드, 상태, 등록일)` 순서가 자연스럽다. 반대로 첫 조건이 선택 사항이라면 선행 컬럼으로 두는 순간 활용률이 떨어질 수 있다.
+실무에서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 설계할 때는 "어떤 컬럼이 가장 중요해 보이는가"보다 <strong>어떤 조건이 가장 먼저, 가장 자주, 가장 안정적으로 들어오는가</strong>를 봐야 한다. 예를 들어 관리자 검색 화면이 항상 `회사코드 = ?`를 포함하고 그다음 `상태`, `등록일 범위`를 붙인다면, `(회사코드, 상태, 등록일)` 순서가 자연스럽다. 반대로 첫 조건이 선택 사항이라면 선행 컬럼으로 두는 순간 활용률이 떨어질 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -107,7 +107,7 @@ tags = ["studynote-database"]
 - 선행 컬럼이 자주 비어 있는데도 관성적으로 앞에 두는 설계
 - 반환 컬럼까지 모두 넣어 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 과도하게 비대하게 만드는 설계
 
-기술사 관점에서 중요한 판단은 "선행 컬럼 규칙을 이해했는가"와 "질의 패턴을 근거로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 설명할 수 있는가"다. 단순히 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 컬럼을 앞에 둔다는 암기식 답변보다, **사용자 화면과 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 연결해 설명하는 답변**이 훨씬 설득력이 있다.
+기술사 관점에서 중요한 판단은 "선행 컬럼 규칙을 이해했는가"와 "질의 패턴을 근거로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 설명할 수 있는가"다. 단순히 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높은 컬럼을 앞에 둔다는 암기식 답변보다, <strong>사용자 화면과 <a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a>을 연결해 설명하는 답변</strong>이 훨씬 설득력이 있다.
 
 - **📢 섹션 요약 비유**: 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 창고 선반에 라벨을 붙이는 일과 같다. 물건을 찾는 직원의 실제 동선을 모르고 라벨만 예쁘게 붙이면, 창고는 정리되어 보여도 작업은 느려진다.
 
@@ -117,9 +117,9 @@ tags = ["studynote-database"]
 
 잘 설계된 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 다중 조건 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이고, 정렬 비용을 줄이며, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 더 예측 가능하게 만든다. 특히 핵심 업무 화면에서 반복되는 대표 질의에 대해 안정적인 응답시간을 제공한다는 점이 크다. 이는 단순 속도 향상뿐 아니라 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버의 CPU와 I/O 사용량 안정화로도 이어진다.
 
-물론 한계도 분명하다. 질의 패턴이 자주 바뀌거나, 선행 컬럼이 선택 조건이 아닌 경우, 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비중이 매우 큰 시스템에서는 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 오히려 유지 비용만 늘릴 수 있다. 따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 만능 해결책이 아니라, **대표 질의를 물리 구조에 반영하는 선택적 최적화 수단**으로 기억하는 것이 맞다.
+물론 한계도 분명하다. 질의 패턴이 자주 바뀌거나, 선행 컬럼이 선택 조건이 아닌 경우, 또는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비중이 매우 큰 시스템에서는 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 오히려 유지 비용만 늘릴 수 있다. 따라서 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 만능 해결책이 아니라, <strong>대표 질의를 물리 구조에 반영하는 선택적 최적화 수단</strong>으로 기억하는 것이 맞다.
 
-결론적으로 이 개념은 "컬럼 여러 개를 묶는 기법"이 아니라, **선행 컬럼을 중심으로 탐색 경로를 설계하는 규칙**이다. 시험과 실무 모두에서 이 관점을 잡고 있으면, 왜 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 잘 타고 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 그렇지 않은지 명확히 설명할 수 있다.
+결론적으로 이 개념은 "컬럼 여러 개를 묶는 기법"이 아니라, <strong>선행 컬럼을 중심으로 탐색 경로를 설계하는 규칙</strong>이다. 시험과 실무 모두에서 이 관점을 잡고 있으면, 왜 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 잘 타고 어떤 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 그렇지 않은지 명확히 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 자주 다니는 길에 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 최적화한 도로와 같다. 출발점이 분명할 때는 빠르지만, 진입점이 제멋대로면 도로의 장점이 잘 살아나지 않는다.
 
@@ -137,21 +137,23 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 컬럼 검색 최적화
-    │
-    ▼
-결합 인덱스 (Composite Index)
-    │
-    ▼
-선행 컬럼 (Leading Column) · Range Scan
-    │
-    ▼
-ORDER BY 최적화 · 커버링 인덱스
-    │
-    ▼
-실행 계획 기반 인덱스 튜닝
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 컬럼 검색 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결합 인덱스 (Composite Index)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선행 컬럼 (Leading Column) · Range Scan</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ORDER BY 최적화 · 커버링 인덱스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실행 계획 기반 인덱스 튜닝</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단일 검색 → 다중 조건 → 순서 규칙 → 추가 최적화 → 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 이해가 확장되는 과정을 보여준다.
 
@@ -159,7 +161,7 @@ ORDER BY 최적화 · 커버링 인덱스
 
 1. 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 서랍에 이름표를 하나만 붙이는 게 아니라, "반-번호-이름"처럼 차례대로 붙여 두는 거예요.
 2. 그래서 첫 번째 이름표부터 말하면 금방 찾지만, 중간 이름표만 말하면 선생님이 여러 서랍을 다시 열어 봐야 해요.
-3. 즉 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 많이 적는 게 중요한 게 아니라, **어떤 순서로 적어 두느냐**가 더 중요해요.
+3. 즉 결합 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 많이 적는 게 중요한 게 아니라, <strong>어떤 순서로 적어 두느냐</strong>가 더 중요해요.
 
 ---
 

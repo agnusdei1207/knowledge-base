@@ -24,18 +24,22 @@ tags = ["studynote-network"]
 결과적으로 UTP는 극강의 유연성, RJ-45 플러그의 체결 편의성, 압도적인 경제성을 앞세워 전 세계 구내 통신망의 99%를 장악하는 사실상(De facto) 물리 계층 표준으로 자리매김했다.
 
 이 다이어그램은 네트워크 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 진화 과정에서 UTP가 기존 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)들의 단점을 어떻게 혁신적으로 해결했는지 그 포지셔닝을 보여준다.
-```text
-┌─────────────── 과거 매체의 한계 ────────────────┐
-│ [동축 케이블] : 차폐 완벽, 하지만 너무 굵고 비쌈│
-│ [STP 케이블]  : 꼬임+차폐 완벽, 하지만 접지 복잡│
-└───────────────────────┬─────────────────────────┘
-                        ▼ (혁신적 발상의 전환)
-┌─────────────── [ UTP 케이블 등장 ] ─────────────┐
-│ 1. 금속 쉴드 제거 ──> 무게/비용 급감, 극강의 유연성 │
-│ 2. 접지 불필요 ──> 설치 난이도 하락, 그라운드 루프 0│
-│ 3. 꼬임밀도 상승 ──> 물리적 구조만으로 노이즈 상쇄 │
-└───────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">과거 매체의 한계</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동축 케이블</div><div class="kb-diagram-note">: 차폐 완벽, 하지만 너무 굵고 비쌈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">STP 케이블</div><div class="kb-diagram-note">: 꼬임+차폐 완벽, 하지만 접지 복잡</div></div>
+<div class="kb-diagram-note">▼ (혁신적 발상의 전환)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 케이블 등장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 금속 쉴드 제거 ──&gt; 무게/비용 급감, 극강의 유연성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 접지 불필요 ──&gt; 설치 난이도 하락, 그라운드 루프 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 꼬임밀도 상승 ──&gt; 물리적 구조만으로 노이즈 상쇄</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 UTP가 방어력(Shielding)을 포기한 것이 아니라, 방어의 메커니즘을 외부 장갑(금속망)에서 내부의 회피기동(꼬임 구조 상쇄)으로 완전히 패러다임 전환을 이뤄냈다는 것이다. 이 덕분에 현장 인부들이 쉽게 구부려 배관을 통과시키고 가위로 쉽게 피복을 벗길 수 있는 궁극의 작업성을 확보하여 폭발적인 보급을 달성할 수 있었다.
 
 - **📢 섹션 요약 비유**: 무겁고 비싼 강철 갑옷(동축/[STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))을 벗어던지고, 가볍고 땀이 잘 통하는 최첨단 특수 섬유(꼬임 구조만 채택한 UTP)를 입어 민첩성과 활동성을 극대화한 스포츠 선수의 진화와 같습니다.
@@ -56,20 +60,25 @@ UTP 케이블이 금속 차폐막 없이 기가비트급의 데이터를 손실 
 1Gbps ([1000BASE-T](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)) 이상의 속도를 구현하기 위해 UTP는 송수신 아키텍처에 근본적인 혁신을 단행했다. 
 
 아래 다이어그램은 100Mbps 환경과 1Gbps 환경에서 UTP 내부 8가닥(4쌍) 선로의 송수신(Tx/Rx) 활용 방식이 어떻게 진화했는지 보여준다.
-```text
-[ 100BASE-TX (Fast Ethernet)의 선로 사용 구조 ]
- 송신(Tx) 전용  : Pair 2 (주황), Pair 3 (녹색)  --- (2쌍만 사용)
- 수신(Rx) 전용  : 
- (미사용 예비)  : Pair 1 (파랑), Pair 4 (갈색)  --- (놀고 있음)
- => 단순하고 충돌(Collision) 위험 없음.
 
-[ 1000BASE-T (Gigabit Ethernet)의 선로 사용 구조 ]
- 송수신 동시(Bi-di) : Pair 1 (파랑)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 2 (주황)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 3 (녹색)   ◀======▶ 양방향 동시 250Mbps 전송
- 송수신 동시(Bi-di) : Pair 4 (갈색)   ◀======▶ 양방향 동시 250Mbps 전송
- => 4쌍을 전부 양방향으로 동시 송수신. 복잡한 에코 캔슬러(Echo Canceller) 회로 필수.
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">100BASE-TX (Fast Ethernet)의 선로 사용 구조</div></div>
+<div class="kb-diagram-note">송신(Tx) 전용 : Pair 2 (주황), Pair 3 (녹색) --- (2쌍만 사용)</div>
+<div class="kb-diagram-note">수신(Rx) 전용 :</div>
+<div class="kb-diagram-note">(미사용 예비) : Pair 1 (파랑), Pair 4 (갈색) --- (놀고 있음)</div>
+<div class="kb-diagram-note">=&gt; 단순하고 충돌(Collision) 위험 없음.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T (Gigabit Ethernet)의 선로 사용 구조</div></div>
+<div class="kb-diagram-note">송수신 동시(Bi-di) : Pair 1 (파랑) ◀======▶ 양방향 동시 250Mbps 전송</div>
+<div class="kb-diagram-note">송수신 동시(Bi-di) : Pair 2 (주황) ◀======▶ 양방향 동시 250Mbps 전송</div>
+<div class="kb-diagram-note">송수신 동시(Bi-di) : Pair 3 (녹색) ◀======▶ 양방향 동시 250Mbps 전송</div>
+<div class="kb-diagram-note">송수신 동시(Bi-di) : Pair 4 (갈색) ◀======▶ 양방향 동시 250Mbps 전송</div>
+<div class="kb-diagram-note">=&gt; 4쌍을 전부 양방향으로 동시 송수신. 복잡한 에코 캔슬러(Echo Canceller) 회로 필수.</div>
+</div>
+</div>
+
+
 이 도식에서 핵심은 기가비트 속도를 위해 UTP가 남는 페어를 모두 동원할 뿐만 아니라, 하나의 페어 안에서 송신과 수신을 동시에 수행하는 전이중(Full Duplex / Bi-directional) 방식으로 구동된다는 점이다. 이럴 경우 내가 보낸 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 수신 측으로 꺾여 들어오는 치명적인 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)(Echo) 간섭이 발생하는데, 기가비트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋 내부의 고도화된 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기)가 [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/) 캔슬링 알고리즘을 수행하여 이 혼돈 상태를 실시간으로 정돈해낸다. 즉, UTP [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체의 빈약한 방어력을 종단 장비의 미친듯한 수학적 연산력(DSP)으로 보상하여 속도를 끌어올린 것이다.
 
 - **📢 섹션 요약 비유**: 과거에는 4차선 도로 중 2차선만 편도-왕복으로 안전하게 쓰다가, 속도를 높이려고 4차선 전체를 중앙선 구별 없이 양방향 차들이 아슬아슬하게 질주하게 만든 뒤 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(DSP)으로 사고를 막아내는 원리와 같습니다.
@@ -87,7 +96,7 @@ UTP 케이블이 금속 차폐막 없이 기가비트급의 데이터를 손실 
 | **Cat.6** | 250 MHz | 1 Gbps (55m 이내 10Gbps) | 중심에 십자 격벽(Cross-filler) 투입하여 내부 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(NEXT) 억제력 대폭 향상. |
 | **Cat.6a** | 500 MHz | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps (10GBASE-T) | 100m 풀거리 10G 보장. 도선 굵기 증가. 인접 케이블 간 간섭(Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 방지 강화. |
 
-Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리적 장벽은 **주파수 증가에 따른 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 에너지의 폭증**이다.
+Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리적 장벽은 <strong>주파수 증가에 따른 <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">누화</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>) 에너지의 폭증</strong>이다.
 높은 주파수(250MHz 이상)의 파동은 마치 고속도로를 과속으로 달리는 트럭처럼 궤도(도선)를 조금만 이탈해도 옆 차선(인접 페어)을 강하게 타격한다. UTP는 쉴드가 없으므로, 이를 막기 위해 Cat.6부터는 케이블 한가운데에 딱딱한 플라스틱 뼈대(십자 격벽)를 넣어 4쌍의 페어가 물리적으로 절대 가까워질 수 없도록 물리적 거리를 강제한다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(전자공학)의 한계를 구조 디자인(기계/재료공학)으로 극복한 융합적 산물인 것이다.
 
 - **📢 섹션 요약 비유**: 좁은 왕복 도로(Cat.5e)에서 차들이 저속으로 달릴 때는 중앙선 페인트만 그어놔도 괜찮지만, 슈퍼카들이 250km/h로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 질주하는 도로(Cat.6)에서는 차가 조금만 미끄러져도 대형 사고가 나므로 중앙분리대 콘크리트 벽(십자 격벽)을 아예 세워버린 것입니다.
@@ -98,24 +107,29 @@ Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리�
 
 실제 현장에서 UTP 케이블을 설계하고 포설할 때, 시공 품질이 통신 속도를 결정짓는 치명적인 변수가 된다. 카테고리 등급은 케이블 자체의 스펙일 뿐 완성된 선로의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장하지 않는다.
 
-1. **에일리언 크로스토크 (Alien [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), AXT) 병목**
+1. <strong>에일리언 크로스토크 (Alien <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>, AXT) 병목</strong>
    - **상황**: IDC([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) 랙을 정리하면서 수십 가닥의 Cat.6 UTP 케이블을 한 다발로 단단히 묶어 케이블 트레이에 쑤셔 넣음. 10Gbps 통신 시도 시 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러 대량 발생.
    - **원인/결과**: 한 다발로 묶인 케이블들 간에 서로 전자기파를 내뿜어 간섭하는 에일리언 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)가 발생. 쉴드가 없는 UTP의 가장 큰 약점이다.
    - **판단**: 10GBASE-T 환경 구축 시 UTP 다발을 너무 꽉 조이지 말고 느슨하게 배치하거나, 부득이 밀집도가 극도로 높다면 UTP 대신 F/UTP(부분 차폐)나 차라리 광케이블(SFP+)로 우회 설계하는 것이 기술사적 정답이다.
-2. **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 텐션 (Pulling Tension) 초과 금지**
+2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 텐션 (Pulling Tension) 초과 금지</strong>
    - **문제**: 천장 배관으로 UTP를 잡아끌어 뺄 때 인부들이 11kg(25lbs) 이상의 장력으로 케이블을 억지로 잡아당김.
    - **결과**: 내부 구리선이 늘어나면서 굵기(AWG)가 얇아지고, 생명과도 같은 꼬임 주기가 풀려 늘어짐. 겉보기엔 멀쩡해도 Fluke 측정 장비로 물려보면 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 및 반사 손실로 불합격 처리됨. 포설 시 무리한 당김은 절대 금기 사항이다.
 
 이 의사결정 트리는 신규 건물 사무실망 구축 시 UTP 스펙(카테고리) 선정 기준을 제시한다.
-```text
-[오피스 수평 배선망 설계] ──> 사용 목적 및 AP 요구 대역폭 판단
-                             ├─ 단말 PC 단순 웹서핑, 1Gbps 이내 ──> [Cat.5e 적용] (가성비 최우선, 시공 유연성 극대화)
-                             │
-                             └─ 무선 AP 백홀 (Wi-Fi 6/7 적용), 대용량 그래픽 단말
-                                  ├─ 향후 5년 내 10G 업그레이드 예상 여부
-                                  │   ├─ No  ──> [Cat.6 적용] (안정적 1Gbps, 격벽 기반 노이즈 방어)
-                                  │   └─ Yes ──> [Cat.6a 적용] (100m 10Gbps 보장, 굵기가 굵어 관로 여유 공간 확보 필수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">오피스 수평 배선망 설계</div><div class="kb-diagram-note">──&gt; 사용 목적 및 AP 요구 대역폭 판단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ 단말 PC 단순 웹서핑, 1Gbps 이내 ──&gt;</div><div class="kb-diagram-node">Cat.5e 적용</div><div class="kb-diagram-note">(가성비 최우선, 시공 유연성 극대화)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">무선 AP 백홀 (Wi-Fi 6/7 적용), 대용량 그래픽 단말</div>
+<div class="kb-diagram-tree-item" style="--depth:8">향후 5년 내 10G 업그레이드 예상 여부</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">Cat.6 적용</div><div class="kb-diagram-note">(안정적 1Gbps, 격벽 기반 노이즈 방어)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">Cat.6a 적용</div><div class="kb-diagram-note">(100m 10Gbps 보장, 굵기가 굵어 관로 여유 공간 확보 필수)</div></div>
+</div>
+</div>
+
+
 이 흐름에서 기술사적 함의는 무조건 높은 등급(Cat.6a)이 정답이 아니라는 점이다. Cat.6a는 내부 심선이 굵고 피복이 매우 단단하여 굴곡 반경(Bending [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))이 크다. 기존 얇은 배관이 매설된 구형 건물에 무리하게 Cat.6a를 밀어 넣으면 케이블이 꺾여버리거나 관로가 꽉 막혀 방열/추가 배선이 불가능해지는 최악의 병목을 초래하므로, 현장 실측을 통한 관로 용적률(Fill Ratio) 계산이 선행되어야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -153,15 +167,19 @@ Cat.5e에서 Cat.6 이상으로 넘어가면서 직면하는 가장 큰 물리�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 꼬임 쌍선 케이블]
-    │
-    ▼
-[현재 개념: UTP]
-    │
-    ├──▶ [확장 A: STP / FTP]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 꼬임 쌍선 케이블</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: STP / FTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 UTP는 꼬임 쌍선 케이블에서 출발해 현재 메커니즘을 정교화하고, 이후 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) / FTP와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

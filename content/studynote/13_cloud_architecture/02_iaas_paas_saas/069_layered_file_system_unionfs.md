@@ -104,29 +104,41 @@ Merged View
 
 ## 관련 개념 맵
 
-```text
-Layer
-  ↓
-UnionFS / OverlayFS
-  ↓
-Copy-on-Write
-  ↓
-Docker Image
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Layer</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">UnionFS / OverlayFS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Copy-on-Write</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Docker Image</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Filesystem
-  ↓
-Layered FS
-  ↓
-CoW
-  ↓
-Container Image
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Filesystem</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Layered FS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CoW</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Container Image</div>
+</div>
+</div>
+
+
 
 ---
 

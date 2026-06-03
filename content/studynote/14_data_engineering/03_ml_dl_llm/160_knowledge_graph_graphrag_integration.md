@@ -20,7 +20,7 @@ tags = ["studynote-data-engineering"]
 
 대표적 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/): Google Knowledge [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/), Wikidata, DBpedia, 기업 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) KG
 
-**지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기본 구성**
+<strong>지식 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 기본 구성</strong>
 - 엔티티 (Entity): 노드 — 사람, 조직, 제품, 개념
 - [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) ([Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)): 엣지 — 소속, 제조, 의존, 포함
 - 삼중쌍 (Triple): (삼성전자, CEO, 이재용) — 주어-술어-목적어
@@ -38,57 +38,49 @@ tags = ["studynote-data-engineering"]
 | 링크 예측 | 누락된 삼중쌍 예측 (지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 완성) |
 | Neo4j, GraphDB | 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 저장 시스템 |
 
-```
-[지식 그래프 + GraphRAG 구조]
 
-지식 그래프 예시:
-  삼성전자 ──[CEO]──▶ 이재용
-  삼성전자 ──[소재지]──▶ 서울
-  삼성전자 ──[제품]──▶ 갤럭시 시리즈
-  이재용 ──[학력]──▶ 하버드 대학원
-  이재용 ──[국적]──▶ 대한민국
 
-GraphRAG 질의: "삼성전자 CEO가 다닌 학교는?"
-                    │
-        ①삼성전자 노드 검색
-                    │
-        ②CEO 관계 따라 이재용
-                    │
-        ③이재용의 학력 관계 탐색
-                    │
-        ④하버드 대학원 반환
-                    │
-        LLM이 자연어로 응답 생성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 + GraphRAG 구조</div></div>
+<div class="kb-diagram-note">지식 그래프 예시:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">삼성전자 ──</div><div class="kb-diagram-node">CEO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">이재용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">삼성전자 ──</div><div class="kb-diagram-node">소재지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">서울</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">삼성전자 ──</div><div class="kb-diagram-node">제품</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">갤럭시 시리즈</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">이재용 ──</div><div class="kb-diagram-node">학력</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">하버드 대학원</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">이재용 ──</div><div class="kb-diagram-node">국적</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">대한민국</div></div>
+<div class="kb-diagram-note">GraphRAG 질의: "삼성전자 CEO가 다닌 학교는?"</div>
+<div class="kb-diagram-note">①삼성전자 노드 검색</div>
+<div class="kb-diagram-note">②CEO 관계 따라 이재용</div>
+<div class="kb-diagram-note">③이재용의 학력 관계 탐색</div>
+<div class="kb-diagram-note">④하버드 대학원 반환</div>
+<div class="kb-diagram-note">LLM이 자연어로 응답 생성</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GraphRAG vs 표준 RAG 비교</div></div>
+<div class="kb-diagram-note">표준 RAG:</div>
+<div class="kb-diagram-note">"삼성전자 CEO 학력" ─▶ 벡터 검색 ─▶ 관련 문서 반환</div>
+<div class="kb-diagram-note">→ 문서에 명시된 경우만 답변 가능</div>
+<div class="kb-diagram-note">GraphRAG (Microsoft):</div>
+<div class="kb-diagram-note">"삼성전자 CEO 학력" ─▶ 엔티티 추출 ─▶ 그래프 탐색</div>
+<div class="kb-diagram-tree-item" style="--depth:0">▶ 다단계 관계 추론 ─▶ 정확한 구조적 답변</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GraphRAG 파이프라인 (Microsoft)</div></div>
+<div class="kb-diagram-note">문서</div>
+<div class="kb-diagram-note">정보 추출 (LLM 활용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엔티티 &amp; 관계 추출</div>
+<div class="kb-diagram-note">그래프 구축 (Neo4j 등)</div>
+<div class="kb-diagram-note">커뮤니티 탐지 (Leiden 알고리즘)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">글로벌/로컬 요약 생성</div>
+<div class="kb-diagram-note">질의 처리:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">글로벌 질의: 커뮤니티 요약 활용</div>
+<div class="kb-diagram-tree-item" style="--depth:1">로컬 질의: 관련 서브그래프 탐색</div>
+<div class="kb-diagram-note">LLM 최종 응답 생성</div>
+</div>
+</div>
 
-[GraphRAG vs 표준 RAG 비교]
 
-표준 RAG:
-"삼성전자 CEO 학력" ─▶ 벡터 검색 ─▶ 관련 문서 반환
-→ 문서에 명시된 경우만 답변 가능
 
-GraphRAG (Microsoft):
-"삼성전자 CEO 학력" ─▶ 엔티티 추출 ─▶ 그래프 탐색
-─▶ 다단계 관계 추론 ─▶ 정확한 구조적 답변
-
-[GraphRAG 파이프라인 (Microsoft)]
-문서
-  │ 정보 추출 (LLM 활용)
-  ▼
-엔티티 & 관계 추출
-  │
-그래프 구축 (Neo4j 등)
-  │ 커뮤니티 탐지 (Leiden 알고리즘)
-  ▼
-글로벌/로컬 요약 생성
-  │
-질의 처리:
-  ├── 글로벌 질의: 커뮤니티 요약 활용
-  └── 로컬 질의: 관련 서브그래프 탐색
-          │
-    LLM 최종 응답 생성
-```
-
-**지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 기법**
+<strong>지식 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 기법</strong>
 
 | 방법 | 수식 | 특징 |
 |:---|:---|:---|
@@ -110,7 +102,7 @@ GraphRAG (Microsoft):
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정확도 | 보통 | ✅ | ✅ |
 | 비용 | 낮음 | 높음 (KG 구축) | 중간 |
 
-**[GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) 활용 사례**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/">GraphRAG</a> 활용 사례</strong>
 - 의료: 약물-질병-유전자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추론 (생물의학 KG)
 - 법률: 판례-법령-당사자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 검색
 - 기업: 조직도·인사·프로젝트 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 질의
@@ -120,14 +112,14 @@ GraphRAG (Microsoft):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구축 파이프라인**
+<strong>지식 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 구축 파이프라인</strong>
 1. 소스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 문서, DB, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
 2. 정보 추출: [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/) ([개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)), RE ([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추출) — [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 활용 가능
 3. 온톨로지 설계: 엔티티 유형, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 정의
 4. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 저장: Neo4j, Amazon Neptune
 5. 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 완전성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-**[GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/) 구현 (Microsoft [GraphRAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/))**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/">GraphRAG</a> 구현 (Microsoft <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/530_graph_rag/">GraphRAG</a>)</strong>
 ```bash
 # 설치
 pip install graphrag
@@ -170,25 +162,27 @@ Microsoft GraphRAG는 2024년 오픈소스로 공개되어 기업 내 문서를 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-구조화 지식: 트리플 (주어, 술어, 목적어)
-    │
-    ▼
-지식 그래프 (KG) 구축
-    ├─► 수동: Wikidata · DBpedia
-    └─► 자동: LLM 기반 엔티티/관계 추출
-    │
-    ▼
-지식 그래프 임베딩 (TransE · RotatE · ComplEx)
-    │
-    ▼
-GraphRAG (Microsoft, 2024)
-    ├─► 문서 → KG 구성 → 커뮤니티 요약
-    └─► 글로벌 검색 + 로컬 검색 결합
-    │
-    ▼
-LLM + KG → 환각 감소 · 사실 기반 추론 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">구조화 지식: 트리플 (주어, 술어, 목적어)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지식 그래프 (KG) 구축</div>
+<div class="kb-diagram-tree-item" style="--depth:2">수동: Wikidata · DBpedia</div>
+<div class="kb-diagram-tree-item" style="--depth:2">자동: LLM 기반 엔티티/관계 추출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지식 그래프 임베딩 (TransE · RotatE · ComplEx)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GraphRAG (Microsoft, 2024)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">문서 → KG 구성 → 커뮤니티 요약</div>
+<div class="kb-diagram-tree-item" style="--depth:2">글로벌 검색 + 로컬 검색 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM + KG → 환각 감소 · 사실 기반 추론 강화</div>
+</div>
+</div>
+
+
 
 ---
 

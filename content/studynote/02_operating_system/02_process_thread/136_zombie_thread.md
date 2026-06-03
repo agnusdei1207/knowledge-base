@@ -24,41 +24,31 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태 전이와 좀비 상태의 발생 조건을 상태 다이어그램으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
-```text
-                    pthread_create()
-                                                                   │
-                         ▼
-    ┌────────┐    ┌─────────────┐    ┌──────────┐    ┌─────────────┐
-    │ 생성됨  │───▶│  실행 가능   │───▶│  실행 중  │───▶│  블로킹  │
-    │(init)  │    │ (Runnable)  │    │(Running) │    │(Blocked)    │
-    └────────┘    └─────────────┘    └────┬─────┘    └────┬────────┘
-                                            │                      │
-                    ┌─────────────┐          │                     │
-                    │  실행 가능   │◀─────────┘                    │
-                    │ (Runnable)  │◀───────────────────────────────┘
-                    └──────┬──────┘     (블로킹 해제)
-                                                                   │
-              pthread_exit() / return
-                                                                   │
-                           ▼
-                   ┌───────────────────────────────────────────────┐
-                   │   종료됨                                      │
-                   │ (Terminated)                                  │
-                   └──────┬────────────────────────────────────────┘
-                                                                   │
-              ┌───────────┴────────────────────────────────────────┐
-              │                                                    │
-              ▼                       ▼
-    ┌──────────────┐         ┌─────────────────────────────────────┐
-    │ pthread_join()│         │ join() 미호출                      │
-    │   호출됨      │         │                                    │
-    │              │         │                                     │
-    │ [TCB 해제]   │         │  좀비 상태!                         │
-    │ [스택 회수]  │         │  [TCB 잔류]                         │
-    │ [상태 수집]  │         │  [스택 잔류]                        │
-    │  ✅ 정상 종료 │         │  ❌ 자원 누수                      │
-    └──────────────┘         └─────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">pthread_create()</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성됨</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">실행 가능</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">실행 중</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">블로킹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(init)</div><div class="kb-diagram-cell">(Runnable)</div><div class="kb-diagram-cell">(Running)</div><div class="kb-diagram-cell">(Blocked)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 가능</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Runnable)</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">(블로킹 해제)</div>
+<div class="kb-diagram-note">pthread_exit() / return</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종료됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Terminated)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_join()</div><div class="kb-diagram-cell">join() 미호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출됨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCB 해제</div><div class="kb-diagram-note">│ 좀비 상태!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스택 회수</div><div class="kb-diagram-node">TCB 잔류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 수집</div><div class="kb-diagram-node">스택 잔류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 정상 종료</div><div class="kb-diagram-cell">❌ 자원 누수</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 상태 다이어그램은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 생명주기에서 좀비 상태가 어떤 경로로 발생하는지를 명확히 보여준다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 실행 가능(Runnable), 실행 중(Running), 블로킹(Blocked) 상태를 순환하다가, `pthread_exit()` 호출이나 함수 `return`에 의해 종료됨(Terminated) 상태로 전이한다. 이 시점에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 코드 실행은 완전히 중단되지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리를 유지하면서 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 `pthread_join()` 호출을 대기한다. 부모가 `pthread_join()`을 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 종료 상태를 반환하고 모든 자원을 회수하지만, 호출이 누락되면 TCB와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 영구적으로 잔류하게 된다. [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)와 달리, `ps` 명령어로 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 직접 관찰하기 어려우므로 `/proc/<pid>/task/` 디렉토리나 `top -H` 명령으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 모니터링하여 간접적으로 탐지해야 한다.
 
@@ -74,48 +64,42 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|:---|
 | **pthread_join()** | 자식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 대기 및 상태 수집 | 호출자를 블로킹하고, 대상 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 시 상태를 반환 후 자원 회수 | wait(), waitpid() | 유언장 수령 |
 | **pthread_detach()** | 자원 회수를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 위임 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 분리(Detach) 상태로 전이하여 종료 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 자원 회수 | 자동 청소 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| **TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소 | 종료 상태, 반환값, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프 등을 보관 | 좀비 상태에서 잔류 | 사원증 |
-| **[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))** | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실행 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리 | 기본 2~8MB, 좀비 상태에서 해제되지 않음 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 원인 | 사물함 |
+| <strong>TCB (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Control Block)</strong> | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소 | 종료 상태, 반환값, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덤프 등을 보관 | 좀비 상태에서 잔류 | 사원증 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실행 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리 | 기본 2~8MB, 좀비 상태에서 해제되지 않음 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 원인 | 사물함 |
 
 `pthread_join()`과 `pthread_detach()`의 동작 차이를 타이밍 다이어그램으로 시각화할 수 있다.
 
-```text
-  [pthread_join() 사용 — 정상 종료]
 
-  부모 스레드              자식 스레드              커널
-     │                      │                         │
-     ├── pthread_create()─▶│                          │
-     │                      │                         │
-     ├── pthread_join()────▶│                         │
-     │   [부모 블로킹!]     │   [작업 실행 중...]     │
-     │                      │                         │
-     │                      ├── pthread_exit(42)──▶   │
-     │                      │   [종료 상태: 42]       │
-     │                      │   [좀비 상태 진입]      │
-     │◀───────────────────────────────────────────────┤
-     │   [join 반환: 42]    │                         │
-     │   [TCB 해제, 스택 회수]                        │
-     │   ✅ 자원 정상 정리     │                      │
 
-  [pthread_detach() 사용 — 자동 정리]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">pthread_join() 사용 — 정상 종료</div></div>
+<div class="kb-diagram-note">부모 스레드 자식 스레드 커널</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_create()─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_join() ▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부모 블로킹!</div><div class="kb-diagram-node">작업 실행 중...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_exit(42)──▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 상태: 42</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 상태 진입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">join 반환: 42</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TCB 해제, 스택 회수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 자원 정상 정리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">pthread_detach() 사용 — 자동 정리</div></div>
+<div class="kb-diagram-note">부모 스레드 자식 스레드 커널</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_create()─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_detach()──▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분리 상태 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부모 비블로킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부모 계속 실행</div><div class="kb-diagram-node">작업 실행 중...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pthread_exit(42)──▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──</div><div class="kb-diagram-node">자동 TCB 해제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──</div><div class="kb-diagram-node">자동 스택 회수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">상태 42 폐기!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 자동 정리</div></div>
+</div>
+</div>
 
-  부모 스레드              자식 스레드              커널
-     │                      │                         │
-     ├── pthread_create()─▶│                          │
-     │                      │                         │
-     ├── pthread_detach()──▶│                         │
-     │   [분리 상태 전이]    │                        │
-     │   [부모 비블로킹]    │                         │
-     │                      │                         │
-     │   [부모 계속 실행]    │   [작업 실행 중...]    │
-     │                      │                         │
-     │                      ├── pthread_exit(42)──▶   │
-     │                      │                         │
-     │                      │                      ├── [자동 TCB 해제]
-     │                      │                      ├── [자동 스택 회수]
-     │                      │                      │ [상태 42 폐기!]
-     │                      │                      │ ✅ 자동 정리
-```
+
 
 **[다이어그램 해설]** 이 두 흐름도는 `pthread_join()`과 `pthread_detach()`가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 후의 자원 회수를 어떻게 다르게 처리하는지를 대비적으로 보여준다. `pthread_join()`은 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 블로킹(Block) 상태로 만들고, 자식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 종료하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 종료 상태(값 42)를 부모에게 반환한 뒤 TCB와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 해제한다. 반면 `pthread_detach()`는 부모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 자식의 종료를 기다리지 않아도 되도록 "분리(Detach)" 상태로 전이시킨다. 분리된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 종료하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 자원을 회수하며, 종료 상태는 폐기된다. 따라서 `detach`된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 반환값은 `pthread_join()`으로 수집할 수 없다. 핵심은 개발자가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 종료 상태를 반드시 수집해야 한다면 `join`을, 수집할 필요가 없다면 `detach`를 선택해야 한다는 점이다. 둘 중 하나도 선택하지 않으면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 발생한다.
 
@@ -137,36 +121,32 @@ tags = ["studynote-operating-system"]
 
 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)의 자원 잔류 방식을 구조적으로 비교할 수 있다.
 
-```text
-  [좀비 프로세스의 자원 잔류]
 
-  ┌── 부모 프로세스 (PPID: 1000) ──┐
-  │                                   │
-  │  ┌── 좀비 자식 (PID: 1001) ──┐    │
-  │  │  상태: Z (Zombie)          │   │
-  │  │  PCB: 유지 (커널 공간)      │  │
-  │  │  물리 메모리: 0 (모두 반납)  │ │
-  │  │  PID: 점유 중!              │  │
-  │  └────────────────────────────┘   │
-  └───────────────────────────────────┘
 
-  [좀비 스레드의 자원 잔류]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 프로세스의 자원 잔류</div></div>
+<div class="kb-diagram-note">── 부모 프로세스 (PPID: 1000) ──</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 좀비 자식 (PID: 1001) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태: Z (Zombie)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB: 유지 (커널 공간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리: 0 (모두 반납)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 점유 중!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 스레드의 자원 잔류</div></div>
+<div class="kb-diagram-note">── 프로세스 (PID: 1000)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 스레드 (TID: 1000) - 정상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 좀비 스레드 (TID: 1001) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCB: 유지 (커널 공간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택: 유지! (2~8MB 잔류)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 공유 (부모와 동일)</div></div>
+</div>
+</div>
 
-  ┌── 프로세스 (PID: 1000) ───────────┐
-  │                                   │
-  │  메인 스레드 (TID: 1000) - 정상   │
-  │                                   │
-  │  ┌── 좀비 스레드 (TID: 1001) ─┐   │
-  │  │  TCB: 유지 (커널 공간)      │  │
-  │  │  스택: 유지! (2~8MB 잔류)   │  │
-  │  │  PID: 공유 (부모와 동일)     │ │
-  │  └─────────────────────────────┘  │
-  └───────────────────────────────────┘
-```
+
 
 **[다이어그램 해설]** 이 비교 도식은 두 좀비 유형의 결정적 차이를 보여준다. [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 물리 메모리를 모두 반납하므로 메모리 소모 문제가 적지만, PID ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) ID)를 계속 점유하므로 대량 발생 시 시스템의 최대 프로세스 수(`pid_max`, 기본 32768)에 도달할 수 있다. 반면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(일반적으로 2~8MB)을 물리 메모리상에 계속 점유하므로, 단일 프로세스 내에서 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 수백 개 누적되면 수 GB의 메모리가 소모될 수 있다. 또한 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 `init` 프로세스(PID 1)가 부모로 재선정(Reparent)되어 자동 수거되지만, 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시에만 일괄 정리되므로 장기 실행 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 더 위험하다.
 
-- **[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) (SE, [Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) 관점**: RAII (Resource [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Is Initialization) 패턴을 활용하면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문제를 방지할 수 있다. C++에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핸들을 RAII 래퍼로 감싸면 소멸자(Destructor)에서 자동으로 `pthread_join()`이나 `pthread_detach()`가 호출되므로, 개발자가 수동으로 자원 해제 코드를 작성할 필요가 없다. Go 언어의 `go` 키워드나 Rust의 `std::thread::spawn`은 기본적으로 분리된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로 이 문제가 원천적으로 발생하지 않는다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a> (SE, <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">Software Engineering</a>) 관점</strong>: RAII (Resource [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Is Initialization) 패턴을 활용하면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문제를 방지할 수 있다. C++에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 핸들을 RAII 래퍼로 감싸면 소멸자(Destructor)에서 자동으로 `pthread_join()`이나 `pthread_detach()`가 호출되므로, 개발자가 수동으로 자원 해제 코드를 작성할 필요가 없다. Go 언어의 `go` 키워드나 Rust의 `std::thread::spawn`은 기본적으로 분리된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하므로 이 문제가 원천적으로 발생하지 않는다.
 
 - **📢 섹션 요약 비유**: [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 집(물리 메모리)은 비웠지만 문패(PID)만 남은 빈 집이고, 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 집([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리)까지 짐을 다 남겨둔 채 퇴거한 것이에요. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 쪽이 훨씬 더 메모리를 낭비해요.
 
@@ -176,42 +156,43 @@ tags = ["studynote-operating-system"]
 
 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 장기 실행 서버 애플리케이션에서 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)의 은밀한 원인이 된다.
 
-**실무 시나리오 1. 웹 서버의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에서 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 누적**:
+<strong>실무 시나리오 1. 웹 서버의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 풀에서 좀비 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 누적</strong>:
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청을 처리하기 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 빌려주는 웹 서버 환경. 요청 처리가 완료된 후 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 풀에 반환할 때, 이전 세션의 자식 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 대해 `pthread_join()`을 호출하지 않으면 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 누적된다. 1회 누수당 8MB의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 잔류하므로, 하루에 수천 건의 요청을 처리하면 수십 GB의 메모리가 소모되어 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 킬러가 활성화된다.
 
-**실무 시나리오 2. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)-소멸 패턴에서의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 탐지**:
+<strong>실무 시나리오 2. <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>-소멸 패턴에서의 <a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a> 탐지</strong>:
 단기 작업을 위해 매번 `pthread_create()`로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 종료하는 패턴은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀에 비해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 오버헤드가 크다. 더 심각한 문제는 `pthread_join()`을 누락할 경우 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 누적된다는 점이다. Valgrind의 Helgrind 도구나 AddressSanitizer (ASan)를 사용하면 런타임에 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 누수를 탐지할 수 있다.
 
 개발자는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 라이프사이클 관리 전략을 체계적으로 수립해야 한다.
 
-```text
-   [ 스레드 라이프사이클 관리 전략 ]
-                                                    │
-                ▼
-     자식 스레드의 종료 상태(반환값)가 필요한가?
-        ├── 예 ──▶ pthread_join() 사용
-        │          (부모가 명시적으로 대기 및 상태 수집)
-        │          ※ 블로킹되므로 타임아웃 고려 필요
-                                                    │
-        └── 아니오 ──▶ pthread_detach() 사용
-                       (스레드 생성 직후 분리)
-                       ※ 종료 시 커널이 자동 정리
-                       ※ 또는 스레드 속성으로
-                         PTHREAD_CREATE_DETACHED 지정
-                                                    │
-                ▼
-     [최선의 실무 관행]
-     ┌──────────────────────────────────────────────┐
-     │ C++: RAII 래퍼 (소멸자에서 join/detach)      │
-     │ Go:   goroutine (기본 분리, GC가 정리)       │
-     │ Rust: std::thread::spawn (join handle 또는   │
-     │        detach 명시적 선택)                   │
-     └──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 라이프사이클 관리 전략</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자식 스레드의 종료 상태(반환값)가 필요한가?</div>
+<div class="kb-diagram-tree-item" style="--depth:4">예 ──▶ pthread_join() 사용</div>
+<div class="kb-diagram-note">(부모가 명시적으로 대기 및 상태 수집)</div>
+<div class="kb-diagram-note">※ 블로킹되므로 타임아웃 고려 필요</div>
+<div class="kb-diagram-tree-item" style="--depth:4">아니오 ──▶ pthread_detach() 사용</div>
+<div class="kb-diagram-note">(스레드 생성 직후 분리)</div>
+<div class="kb-diagram-note">※ 종료 시 커널이 자동 정리</div>
+<div class="kb-diagram-note">※ 또는 스레드 속성으로</div>
+<div class="kb-diagram-note">PTHREAD_CREATE_DETACHED 지정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최선의 실무 관행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C++: RAII 래퍼 (소멸자에서 join/detach)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Go: goroutine (기본 분리, GC가 정리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rust: std::thread::spawn (join handle 또는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">detach 명시적 선택)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 의사결정 트리는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 종료 상태의 필요성에 따라 `join`과 `detach`를 선택하는 기준을 제시한다. 종료 상태가 필요한 경우(예: 작업 결과 수집, 에러 코드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에는 `pthread_join()`을 사용해야 하지만, 블로킹되므로 타임아웃을 설정하거나 비블로킹 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)([Condition Variable](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))와 조합해야 한다. 종료 상태가 불필요한 "발사 후 잊어버리기(Fire-and-Forget)" 패턴의 경우에는 반드시 `pthread_detach()`를 사용해야 한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))에 `PTHREAD_CREATE_DETACHED`를 설정하면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점에 자동 분리되므로, 개발자가 매번 `detach()`를 호출하는 것을 잊는 실수를 방지할 수 있다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**:
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 - 모든 `pthread_create()` 호출에 대해 대응하는 `pthread_join()` 또는 `pthread_detach()`가 존재하는가?
 - `pthread_join()` 사용 시 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 방지하기 위해 타임아웃이 설정되었는가?
 - Valgrind/Helgrind 또는 AddressSanitizer로 빌드하여 좀비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 누수를 정기적으로 검사하고 있는가?
@@ -256,15 +237,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[안드로이드 바인더 (Android Binder)]
-    │
-    ▼
-[좀비 스레드 (Zombie Thread)]
-    │
-    ├──▶ [멀티프로세스 아키텍처 (크롬 브라우저 등)]
-    └──▶ [멀티스레드 아키텍처 오버헤드 (락 경합 등)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 바인더 (Android Binder)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 스레드 (Zombie Thread)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티프로세스 아키텍처 (크롬 브라우저 등)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티스레드 아키텍처 오버헤드 (락 경합 등)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

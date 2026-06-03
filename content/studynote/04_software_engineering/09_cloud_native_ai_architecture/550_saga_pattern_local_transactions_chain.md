@@ -19,34 +19,33 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: '[사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))'는 원래 장편 대서사시를 뜻하는 단어다. 1초 만에 쾅 찍고 끝나는 원시적 DB 쿼리가 아니라, 주문 ➡ 결제 ➡ 포장 ➡ 배송으로 이어지는 기나긴 여정(Long-lived [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 쪼개어 놓은 것이다. 1번 앱이 자기 DB에 저장(Commit)하고 Kafka에 이벤트를 쏘면 ➡ 2번 앱이 주워 먹고 저장하고 쏘고 ➡ 3번 앱이 주워 먹는, **서로 100% 격리된 '[로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)들의 연속된 체인'**이다.
+- **개념**: '[사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))'는 원래 장편 대서사시를 뜻하는 단어다. 1초 만에 쾅 찍고 끝나는 원시적 DB 쿼리가 아니라, 주문 ➡ 결제 ➡ 포장 ➡ 배송으로 이어지는 기나긴 여정(Long-lived [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 쪼개어 놓은 것이다. 1번 앱이 자기 DB에 저장(Commit)하고 Kafka에 이벤트를 쏘면 ➡ 2번 앱이 주워 먹고 저장하고 쏘고 ➡ 3번 앱이 주워 먹는, <strong>서로 100% 격리된 '<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/">로컬 트랜잭션</a>들의 연속된 체인'</strong>이다.
 
 - **필요성**: 이전 장(549장)에서 [2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))가 클라우드 환경의 네트워크 딜레이를 만나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모놀리스를 낳으며 무참히 멸망했다는 것을 보았다. "아니, 여러 대의 서버 DB를 동시에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 묶으니까 다 같이 렉이 걸려 뻗어버리잖아! 그럼 락을 다 풀어버려! 그냥 지 로컬 DB에만 빠르게 저장하고 다음 놈한테 메시지 카톡으로 던지고 신경 끄자!" 이 발상의 전환이 무정지([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) MSA를 위해 반드시 필요했다.
 
-- **💡 비유**: [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 아마존(AWS)의 **'택배 배달 릴레이'**와 똑같습니다. 옛날([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))엔 판매자, 포장 직원, 배달부 3명이 한 줄로 서서 동시에 손을 잡고 물건을 넘겨야만 했습니다. 한 명이 똥 싸러 가면 전체가 멈췄죠. [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 그냥 판매자가 물건을 박스에 넣고 허공(컨베이어 벨트)에 툭 던져버립니다(Commit 쾅! 락 없음). 포장 직원이 자기 편할 때 그걸 주워다 포장하고 던집니다. 배달부가 오토바이 타다 넘어졌나요? 그럼 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 게 아니라 반송 딱지([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))를 붙여서 거꾸로 컨베이어 벨트에 태워 환불 처리하면 끝입니다. 아무도 서로를 무식하게 기다리지 않습니다.
+- **💡 비유**: [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 아마존(AWS)의 <strong>'택배 배달 릴레이'</strong>와 똑같습니다. 옛날([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))엔 판매자, 포장 직원, 배달부 3명이 한 줄로 서서 동시에 손을 잡고 물건을 넘겨야만 했습니다. 한 명이 똥 싸러 가면 전체가 멈췄죠. [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 그냥 판매자가 물건을 박스에 넣고 허공(컨베이어 벨트)에 툭 던져버립니다(Commit 쾅! 락 없음). 포장 직원이 자기 편할 때 그걸 주워다 포장하고 던집니다. 배달부가 오토바이 타다 넘어졌나요? 그럼 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 게 아니라 반송 딱지([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))를 붙여서 거꾸로 컨베이어 벨트에 태워 환불 처리하면 끝입니다. 아무도 서로를 무식하게 기다리지 않습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Hector Garcia-Molina 논문 (1987)**: 30년 전에 이미 "졸라 긴 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 중간에 락 걸지 말고 걍 쪼개서 실행하다 터지면 반대 로직(보상)으로 수습해!"라는 미친 논문이 나왔지만, DB 1대 짜리 시절이라 다들 무시했다.
   2. **Microservices의 대유행 (2010s)**: DB가 서비스마다 찢어지자 글로벌 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))이 물리적으로 불가능해졌다. 옛날 1987년 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 논문이 부활하며 "아, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에선 락을 걸면 죽는구나. 이벤트 기반의 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)만이 유일한 생명줄이구나!"라며 클라우드의 표준으로 채택됐다.
 
-- **📢 섹션 요약 비유**: [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)(모놀리식)이 **'도미노 1만 개를 단 1초 만에 마법처럼 다 넘어뜨리는 신의 손짓'**이라면, [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 **'사람 5명이 한 줄로 서서 도미노를 한 블록씩 릴레이로 넘어뜨려 가는 인간의 노가다'**입니다. 3번째 사람이 실수해서 도미노가 끊어지면? 1번 사람이 신의 마법처럼 시간을 되돌릴 순 없으니, 그냥 뒤로 걸어가면서 쓰러진 도미노를 다시 하나씩 손으로 직접 세워놓는 눈물겨운 뒷수습([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) 릴레이가 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)의 민낯이자 위대함입니다.
+- **📢 섹션 요약 비유**: [로컬 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/548_local_vs_distributed_transactions/)(모놀리식)이 <strong>'도미노 1만 개를 단 1초 만에 마법처럼 다 넘어뜨리는 신의 손짓'</strong>이라면, [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)은 <strong>'사람 5명이 한 줄로 서서 도미노를 한 블록씩 릴레이로 넘어뜨려 가는 인간의 노가다'</strong>입니다. 3번째 사람이 실수해서 도미노가 끊어지면? 1번 사람이 신의 마법처럼 시간을 되돌릴 순 없으니, 그냥 뒤로 걸어가면서 쓰러진 도미노를 다시 하나씩 손으로 직접 세워놓는 눈물겨운 뒷수습([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)) 릴레이가 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)의 민낯이자 위대함입니다.
 
 ---
 
 다음은 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사가 패턴 (Saga Pattern)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사가 패턴 (Saga Pattern)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -67,7 +66,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -143,21 +142,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사가 패턴 (Saga Pattern) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사가 패턴 (Saga Pattern) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

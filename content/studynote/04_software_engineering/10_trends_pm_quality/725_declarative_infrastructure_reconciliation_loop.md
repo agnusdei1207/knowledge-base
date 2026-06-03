@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 이 방식은 치명적인 한계가 있었다. 서버가 100대, 1,000대로 늘어나면, 어떤 서버가 켜져 있고 꺼져 있는지 인간이 다 추적할 수 없었다. 스크립트 실행 도중 에러가 나면 서버 50대만 켜지고 멈춰버리는 등, 인프라의 상태가 꼬여버리는 일이 잦았다.
 
-이 문제를 해결하기 위해 구글(Borg/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 개발팀)은 사고방식을 완전히 뒤집었다. **"인간은 그저 '나는 웹서버 3대가 켜져 있길 원한다'라고 선언(Declare)만 해라. 그러면 똑똑한 제어 루프(Control Loop) 기계가 24시간 감시하면서, 서버가 2대면 1대를 더 켜고, 4대면 1대를 꺼서 항상 3대로 맞춰주겠다."** 이것이 바로 **선언적 인프라와 상태 일치 루프(Reconciliation Loop)**의 탄생이다.
+이 문제를 해결하기 위해 구글(Borg/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 개발팀)은 사고방식을 완전히 뒤집었다. **"인간은 그저 '나는 웹서버 3대가 켜져 있길 원한다'라고 선언(Declare)만 해라. 그러면 똑똑한 제어 루프(Control Loop) 기계가 24시간 감시하면서, 서버가 2대면 1대를 더 켜고, 4대면 1대를 꺼서 항상 3대로 맞춰주겠다."** 이것이 바로 <strong>선언적 인프라와 상태 일치 루프(Reconciliation Loop)</strong>의 탄생이다.
 
 - **📢 섹션 요약 비유**: 명령형(과거)은 "보일러 스위치를 켜라, 30분이 지나면 꺼라"라고 일일이 지시하는 것이고, 선언적(현재) 방식은 온도조절기에 "나는 방 온도가 24도이길 원해"라고 맞춰두기만 하는 것이다. 그러면 보일러(루프)가 알아서 켜지고 꺼지며 24도를 유지한다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 선언적 인프라 상태 일치 루프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  선언적 인프라 상태 일치 루프                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선언적 인프라 상태 일치 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 선언적 인프라 상태 일치 루프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 명령형 프로그래밍 (Imperative) | 선언적 프로그래밍 ([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)) |
 |:---|:---|:---|
-| **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형태** | `run_server.sh` (실행해라!) | `replica: 3` (3개로 존재하라!) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 형태</strong> | `run_server.sh` (실행해라!) | `replica: 3` (3개로 존재하라!) |
 | **장애 대처 (1대가 죽었을 때)**| 스크립트를 수동으로 다시 실행해야 함 | **가만히 둬도 루프가 알아서 1대를 다시 살림 (Self-Healing)** |
-| **[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))** | 보장 안 됨 (스크립트를 두 번 누르면 에러가 나거나 서버가 6대가 됨) | **100% 보장 (몇 번을 덮어써도 결국 3대만 유지됨)** |
-| **대표 기술** | Bash Script, Chef, Puppet | **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), ArgoCD** |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (<a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/">Idempotency</a>)</strong> | 보장 안 됨 (스크립트를 두 번 누르면 에러가 나거나 서버가 6대가 됨) | **100% 보장 (몇 번을 덮어써도 결국 3대만 유지됨)** |
+| **대표 기술** | Bash Script, Chef, Puppet | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a>, <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>, ArgoCD</strong> |
 
 선언적 인프라는 '[멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))'이라는 절대 규칙 위에서만 돌아간다. 조치(Act)를 100번 반복해도 결과가 한 번 실행한 것과 똑같아야만 루프가 무한히 돌 수 있기 때문이다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 선언적 인프라와 상태 일치 루프를 내재화하면, 개발팀은 밤새워 알람을 끄거나 죽은 서버를 살려내기 위해 새벽에 일어날 필요가 없다. 시스템 스스로가 치유(Self-healing)하고 인프라의 상태를 유지하는 궁극의 **'NoOps(운영 없는 운영)'** 환경이 만들어지기 때문이다.
 
-결론적으로 이 루프는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)이 그토록 원했던 '예측 가능성'과 '재현성'을 인프라 영역에 완벽하게 구현해 낸 메커니즘이다. 기술 리더는 시스템 아키텍처를 설계할 때 "어떻게 배포할 것인가?"를 묻지 말고, **"우리가 원하는 인프라의 최종 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 어디에(Git), 어떻게 선언해 둘 것인가?"**로 질문의 패러다임을 바꿔야 한다.
+결론적으로 이 루프는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)이 그토록 원했던 '예측 가능성'과 '재현성'을 인프라 영역에 완벽하게 구현해 낸 메커니즘이다. 기술 리더는 시스템 아키텍처를 설계할 때 "어떻게 배포할 것인가?"를 묻지 말고, <strong>"우리가 원하는 인프라의 최종 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 어디에(Git), 어떻게 선언해 둘 것인가?"</strong>로 질문의 패러다임을 바꿔야 한다.
 
 - **📢 섹션 요약 비유**: 이 시스템은 식물을 키우는 스마트 온실과 같다. 농부는 물을 주거나 온풍기를 켜는 일(명령)을 하지 않는다. 그저 "온도 20도, 습도 60%"라고 세팅(선언)만 해두면, 온실의 센서와 기계(루프)가 알아서 24시간 식물이 죽지 않게 완벽한 환경을 맞춰준다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-선언적 인프라 상태 일치 루프 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선언적 인프라 상태 일치 루프 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

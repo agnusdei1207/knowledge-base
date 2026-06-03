@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **SSG (Static Site Generation)**: 서버(Node.js) 없이 배포하는 기술. 소스 코드를 짤 때 `npm run build`를 치면, 툴(Gatsby/Next.js)이 빌드하는 그 1분의 시간 동안 마크다운(MD)이나 DB를 다 긁어와서 완벽하게 예쁜 `index.html`, `about.html` 수천 장을 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 찍어낸다. 그걸 그냥 Nginx나 S3+CDN에 올려두고 퇴근하면 끝.
-  - **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) (Incremental Static Regeneration)**: SSG로 10만 장을 올렸는데 가격이 바뀌면? 10만 장 다시 구우려면 30분 걸린다! 그래서 도입된 마술. "기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 걍 내비둬! 10초 쿨타임 걸어두고, 유저가 새로 접속하면 일단 낡은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져주면서 뒤에선 봇(Bot)이 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 딱 그 '1장'만 몰래 다시 구워서 바꿔치기(Regeneration)해!"
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (Incremental Static Regeneration)</strong>: SSG로 10만 장을 올렸는데 가격이 바뀌면? 10만 장 다시 구우려면 30분 걸린다! 그래서 도입된 마술. "기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 걍 내비둬! 10초 쿨타임 걸어두고, 유저가 새로 접속하면 일단 낡은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져주면서 뒤에선 봇(Bot)이 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 딱 그 '1장'만 몰래 다시 구워서 바꿔치기(Regeneration)해!"
 
-- **필요성 ([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/) 렌더링 서버 요금 폭탄과 빌드 지옥의 딜레마)**: 이전 장(577장)에서 SSR이 짱짱이라고 배웠다. 근데 내 개인 블로그에 굳이 유저 1명이 접속할 때마다 Node.js 서버가 쌩쌩 돌며 마크다운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 파싱해서 HTML을 실시간으로 구워줄([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 필요가 있나? [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어제나 오늘이나 100% 똑같은데 쓸데없는 서버 CPU 낭비다. "아싸리 그냥 빌드할 때 1번 다 구워서 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 텍스트로 저장해 두고 뿌리자(SSG)!" 그런데, 당근마켓 상품 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1,000만 개를 SSG로 굽다가 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 빌드 타임이 5시간이 넘어가 빌드가 뻗어버렸다. **"미리 굽는 속도(SSG)의 꿀은 빨고 싶은데, 수천만 장 빌드 렉은 피하고 최신화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Dynamic)를 실시간 반영해 줄 꼼수 없을까?"** 이 아키텍트들의 미친 탐욕이 ISR이라는 변종을 낳았다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> 렌더링 서버 요금 폭탄과 빌드 지옥의 딜레마)</strong>: 이전 장(577장)에서 SSR이 짱짱이라고 배웠다. 근데 내 개인 블로그에 굳이 유저 1명이 접속할 때마다 Node.js 서버가 쌩쌩 돌며 마크다운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 파싱해서 HTML을 실시간으로 구워줄([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)) 필요가 있나? [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어제나 오늘이나 100% 똑같은데 쓸데없는 서버 CPU 낭비다. "아싸리 그냥 빌드할 때 1번 다 구워서 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 텍스트로 저장해 두고 뿌리자(SSG)!" 그런데, 당근마켓 상품 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1,000만 개를 SSG로 굽다가 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)) 빌드 타임이 5시간이 넘어가 빌드가 뻗어버렸다. <strong>"미리 굽는 속도(SSG)의 꿀은 빨고 싶은데, 수천만 장 빌드 렉은 피하고 최신화된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Dynamic)를 실시간 반영해 줄 꼼수 없을까?"</strong> 이 아키텍트들의 미친 탐욕이 ISR이라는 변종을 낳았다.
 
-- **💡 비유**: [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)(서버 렌더링)은 **'손님이 짬뽕을 시킬 때마다 주방장이 웍을 돌려 즉석에서 끓여 내주는 고급 중식당(서버 터짐)'**입니다. SSG(정적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))는 **'공장에서 아침에 컵라면 10만 개를 쫙 다 끓여서 포장해 놓고(빌드 타임), 손님 오면 1초 만에 툭툭 던져주는 라면 공장'**입니다. 짱 빠르지만 라면 맛이 식으면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경) 처음부터 다시 10만 개를 끓여야 하죠. ISR은 라면 공장이지만 **'손님이 식은 라면을 집어갈 때, 뒤에서 몰래 알바생이 새 뜨거운 라면 1개만 후딱 끓여서 매대(캐시)를 몰래 갈아 끼워 놓는(백그라운드 갱신) 최첨단 눈속임 라면 자판기'**입니다.
+- **💡 비유**: [SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)(서버 렌더링)은 <strong>'손님이 짬뽕을 시킬 때마다 주방장이 웍을 돌려 즉석에서 끓여 내주는 고급 중식당(서버 터짐)'</strong>입니다. SSG(정적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))는 <strong>'공장에서 아침에 컵라면 10만 개를 쫙 다 끓여서 포장해 놓고(빌드 타임), 손님 오면 1초 만에 툭툭 던져주는 라면 공장'</strong>입니다. 짱 빠르지만 라면 맛이 식으면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경) 처음부터 다시 10만 개를 끓여야 하죠. ISR은 라면 공장이지만 <strong>'손님이 식은 라면을 집어갈 때, 뒤에서 몰래 알바생이 새 뜨거운 라면 1개만 후딱 끓여서 매대(캐시)를 몰래 갈아 끼워 놓는(백그라운드 갱신) 최첨단 눈속임 라면 자판기'</strong>입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **Jekyll / Hugo 1세대 (2010s 초반)**: 마크다운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 던져놓으면 루비(Ruby) 엔진이 HTML로 찍어주던 블로그 전용 단순 SSG 툴의 낭만 시대. (잼스택 Jamstack의 시작).
   2. **Gatsby / Next.js Export (2010s 중반)**: 리액트(React)를 접목해, 처음엔 쌩 정적 HTML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(SSG)로 엄청 빨리 뜨고, 뒤에선 리액트 앱(SPA)으로 변신하는 흑마법(Hydration) 상용화. 이커머스가 군침을 흘리기 시작함.
-  3. **Next.js [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 혁명 (현재)**: "SSG 좋긴 한데 빌드 타임 30분 미쳤어! 상점 상품 품절 띄우는 데 30분 걸려!" 빡친 개발자들을 위해 Vercel 형님들이 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 흑마법을 발표, 정적(Static)과 동적(Dynamic)의 벽을 완전히 허물며 천하를 통일함.
+  3. <strong>Next.js <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> 혁명 (현재)</strong>: "SSG 좋긴 한데 빌드 타임 30분 미쳤어! 상점 상품 품절 띄우는 데 30분 걸려!" 빡친 개발자들을 위해 Vercel 형님들이 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 흑마법을 발표, 정적(Static)과 동적(Dynamic)의 벽을 완전히 허물며 천하를 통일함.
 
-- **📢 섹션 요약 비유**: 이 렌더링 역사는 **'뉴스 신문 배달'**과 같습니다. SSR은 **'독자가 전화하면 그때그때 기자가 기사를 써서 읽어주는 생방송(느림)'**입니다. SSG는 **'아침 6시에 윤전기로 100만 부를 일괄 인쇄(빌드)해서 가판대([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에 쫙 깔아두는 것(1초 컷 판매)'**입니다. 하지만 아침 10시에 속보가 터지면 신문 전체를 다시 인쇄(100만 부 빌드)해야 해서 멸망하죠. ISR은 **'디지털 전자 신문'**입니다. 아침에 깔아둔 신문 뼈대는 그대로 두되, 속보가 터진 딱 '그 기사 한 칸'만 백그라운드 잉크(Regenerate)로 몰래 스윽 바꿔치기해서 다음 독자한테 보여주는 완벽한 무결점 꼼수입니다.
+- **📢 섹션 요약 비유**: 이 렌더링 역사는 <strong>'뉴스 신문 배달'</strong>과 같습니다. SSR은 <strong>'독자가 전화하면 그때그때 기자가 기사를 써서 읽어주는 생방송(느림)'</strong>입니다. SSG는 <strong>'아침 6시에 윤전기로 100만 부를 일괄 인쇄(빌드)해서 가판대(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a>)에 쫙 깔아두는 것(1초 컷 판매)'</strong>입니다. 하지만 아침 10시에 속보가 터지면 신문 전체를 다시 인쇄(100만 부 빌드)해야 해서 멸망하죠. ISR은 <strong>'디지털 전자 신문'</strong>입니다. 아침에 깔아둔 신문 뼈대는 그대로 두되, 속보가 터진 딱 '그 기사 한 칸'만 백그라운드 잉크(Regenerate)로 몰래 스윽 바꿔치기해서 다음 독자한테 보여주는 완벽한 무결점 꼼수입니다.
 
 ---
 
 다음은 정적 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (SSG) / 증분의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  정적 사이트 생성 (SSG) / 증분                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 사이트 생성 (SSG) / 증분</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 정적 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (SSG) / 증분가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-정적 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (SSG) / 증분 정적 재생성 ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+정적 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (SSG) / 증분 정적 재생성 ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 정적 사이트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (SSG) / 증분 정적 재생성 ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-정적 사이트 생성 (SSG) / 증분 정적 재생성 (ISR) 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 사이트 생성 (SSG) / 증분 정적 재생성 (ISR) 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

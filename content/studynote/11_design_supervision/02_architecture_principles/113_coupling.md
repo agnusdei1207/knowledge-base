@@ -23,24 +23,27 @@ tags = ["studynote-design-supervision"]
 
 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 핵심 목표 중 하나가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 최소화하여 독립적 배포를 달성하는 것이다. 반대로 모놀리식(Monolithic) 시스템에서 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 높아지면 어느 한 부분의 배포가 전체 시스템 재시작을 필요로 하게 된다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│        결합도 6단계: 최악 → 최선                             │
-├─────────────────────────────────────────────────────────────┤
-│  1. 내용 결합도 (Content Coupling) ← 가장 나쁨              │
-│     └─ 다른 모듈의 내부 데이터·코드에 직접 접근             │
-│  2. 공통 결합도 (Common Coupling)                           │
-│     └─ 전역 변수(global variable) 공유                      │
-│  3. 외부 결합도 (External Coupling)                         │
-│     └─ 외부 데이터 형식·통신 프로토콜 공유                  │
-│  4. 제어 결합도 (Control Coupling)                          │
-│     └─ 제어 플래그(flag)를 전달하여 실행 흐름 제어          │
-│  5. 스탬프 결합도 (Stamp Coupling)                          │
-│     └─ 필요 이상의 데이터 구조(객체 전체)를 전달             │
-│  6. 데이터 결합도 (Data Coupling) ← 가장 좋음               │
-│     └─ 필요한 데이터만 매개변수로 전달                       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합도 6단계: 최악 → 최선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 내용 결합도 (Content Coupling) ← 가장 나쁨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 다른 모듈의 내부 데이터·코드에 직접 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 공통 결합도 (Common Coupling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전역 변수(global variable) 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 외부 결합도 (External Coupling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 외부 데이터 형식·통신 프로토콜 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 제어 결합도 (Control Coupling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 제어 플래그(flag)를 전달하여 실행 흐름 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 스탬프 결합도 (Stamp Coupling)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 필요 이상의 데이터 구조(객체 전체)를 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 데이터 결합도 (Data Coupling) ← 가장 좋음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 필요한 데이터만 매개변수로 전달</div></div>
+</div>
+</div>
+
+
 
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 개념 없이 설계하면 "스파게티 코드(spaghetti [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))"가 형성되어, 어디서 어디가 의존하는지 파악할 수 없는 상태가 된다. 이는 새 기능 추가 시 어디를 건드려야 할지 모르는 상황으로 이어진다.
 
@@ -59,21 +62,22 @@ tags = ["studynote-design-supervision"]
 | [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 네트워크 수준 | [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 표준 인터페이스 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│      이벤트 기반 결합도 감소: 직접 호출 → 이벤트 발행       │
-├─────────────────────────────────────────────────────────────┤
-│ [강결합 - 직접 호출]                                        │
-│  OrderService ──▶ InventoryService (직접 의존)              │
-│  OrderService ──▶ NotificationService (직접 의존)           │
-│                                                             │
-│ [약결합 - 이벤트 발행]                                      │
-│  OrderService ──▶ EventBus ◀── InventoryService (구독)      │
-│                       ◀── NotificationService (구독)        │
-│                                                             │
-│  결과: OrderService는 다른 서비스를 전혀 알지 못함           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 기반 결합도 감소: 직접 호출 → 이벤트 발행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">강결합 - 직접 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ InventoryService (직접 의존)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ NotificationService (직접 의존)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">약결합 - 이벤트 발행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ EventBus ◀── InventoryService (구독)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── NotificationService (구독)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: OrderService는 다른 서비스를 전혀 알지 못함</div></div>
+</div>
+</div>
+
+
 
 측정 지표로 구심성(Afferent [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), [Ca](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))과 원심성(Efferent [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/), Ce)이 있다. Ca는 해당 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 의존하는 외부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수, Ce는 해당 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 의존하는 외부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수다. 불안정도(Instability) = Ce / ([Ca](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) + Ce) 공식으로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 변경 취약성을 정량화할 수 있다.
 

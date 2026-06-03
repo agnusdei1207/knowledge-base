@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 그런데 막상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 열어보면 `[Error] Database Connection Failed`라는 딱 한 줄만 적혀 있는 경우가 태반이다. 이 에러가 오늘 새벽 2시에 터진 건지, 어떤 유저가 결제를 누를 때 터진 건지 알 수가 없다. 
 
-이런 쓰레기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 막기 위해 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 세계 표준으로 자리 잡은 규칙이 **'[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙'**이다. 또한, 똑똑한 내부자(관리자)나 해커가 자신의 범죄 기록을 지우기 위해 `rm -rf /var/log`를 치는 것을 물리적으로 막아버리는 **[WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지([무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/))** 기술이 현대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처의 필수 요소로 자리 잡았다.
+이런 쓰레기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 막기 위해 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 세계 표준으로 자리 잡은 규칙이 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 6하 원칙'</strong>이다. 또한, 똑똑한 내부자(관리자)나 해커가 자신의 범죄 기록을 지우기 위해 `rm -rf /var/log`를 치는 것을 물리적으로 막아버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지(<a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a>)</strong> 기술이 현대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처의 필수 요소로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: 비행기의 블랙박스([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 같다. 비행기가 추락했을 때 블랙박스를 열어봤더니 "비행기가 떨어졌음"이라고만 적혀있으면(6하 원칙 누락) 아무 소용이 없다. 그리고 블랙박스는 불에 타거나 충격(해킹)을 받아도 절대 기록이 지워지지 않는 특수 금속([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지)으로 만들어야 한다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 무의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  로그 6하 원칙 WORM 스토리지 무                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 6하 원칙 WORM 스토리지 무</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 무가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,9 +75,9 @@ tags = ["studynote-software-engineering"]
 
 | 구분 | 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (App Log) | [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log) |
 |:---|:---|:---|
-| **목적** | 디버깅 및 에러 추적 (개발자용) | **법적 증거 및 해킹 추적 (보안/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)용)** |
+| **목적** | 디버깅 및 에러 추적 (개발자용) | <strong>법적 증거 및 해킹 추적 (보안/<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>용)</strong> |
 | **포함 내용**| 변수 값, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace) | **6하 원칙에 따른 사용자의 행위(Action)** |
-| **저장 위치**| 일반 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (며칠 뒤 지워져도 무방) | **[WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 (최소 1년 이상 보관 의무)** |
+| **저장 위치**| 일반 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (며칠 뒤 지워져도 무방) | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지 (최소 1년 이상 보관 의무)</strong> |
 | **민감 정보**| 실수로 비밀번호가 남을 수 있어 위험함 | **절대 마스킹(Masking) 필수** |
 
 개발자가 디버깅하려고 남긴 `logger.debug("pw=" + password)` 같은 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와, 누가 결제를 취소했는지 남기는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 같은 취급하면 안 된다.
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-로그 6하 원칙 WORM 스토리지 무결성 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">로그 6하 원칙 WORM 스토리지 무결성 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 따라서 PACF는 AR 모형의 차수 `p`를 정할 때 매우 유용하다. 예를 들어 PACF가 lag 3까지 유의하면 AR(3)을 후보로 고려할 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                PACF: direct effect by lag only              │
-├──────────────────────────────────────────────────────────────┤
-│ x(t) ──direct──▶ x(t-1) ──direct──▶ x(t-2) ──direct──▶ ...   │
-│        ▲ remove indirect paths through intermediate lags     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PACF: direct effect by lag only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x(t) ──direct──▶ x(t-1) ──direct──▶ x(t-2) ──direct──▶ ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ remove indirect paths through intermediate lags</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 친구의 소문이 몇 사람을 거쳐 퍼졌는지 따지지 말고, "내가 그 친구에게 직접 들은 이야기"만 보는 것이다.
 
@@ -49,14 +52,17 @@ PACF는 `x_t`와 `x_{t-k}`의 상관을 보되, `x_{t-1}...x_{t-k+1}`의 영향�
 
 `PACF(k) = Corr(x_t, x_{t-k} | x_{t-1}, ..., x_{t-k+1})`
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             ACF vs PACF in AR Order Selection                │
-├──────────────────────────────────────────────────────────────┤
-│ ACF:  간접 효과까지 포함한 전체 상관                        │
-│ PACF: 중간 시차를 제거한 직접 상관                          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACF vs PACF in AR Order Selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACF: 간접 효과까지 포함한 전체 상관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PACF: 중간 시차를 제거한 직접 상관</div></div>
+</div>
+</div>
+
+
 
 보통 AR(p)에서는 PACF가 p 이후 급격히 작아지고, MA(q)에서는 ACF가 q 이후 끊기는 경향이 있다. 물론 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽하지 않으므로, "딱 끊긴다"보다 "어디까지 유의한가"를 보는 것이 더 정확하다.
 
@@ -104,7 +110,7 @@ PACF는 특히 시계열 예측에서 중요하다. `p`를 과하게 잡으면 �
 
 PACF를 올바르게 쓰면 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/), SARIMA 같은 시계열 모델의 차수 선택이 훨씬 안정적이 된다. 이는 예측 오차를 줄이는 것뿐 아니라, 해석 가능한 모델을 만드는 데도 도움이 된다.
 
-결론적으로 PACF는 **'직접 영향만 남긴 자기상관'**이므로, 우리는 이를 통해 AR 구조의 깊이를 최소한으로, 그러나 충분하게 잡아야 한다.
+결론적으로 PACF는 <strong>'직접 영향만 남긴 자기상관'</strong>이므로, 우리는 이를 통해 AR 구조의 깊이를 최소한으로, 그러나 충분하게 잡아야 한다.
 
 - **📢 섹션 요약 비유**: 거미줄 전체가 아니라, 중심에서 바로 연결된 실만 세어 보는 도구다.
 

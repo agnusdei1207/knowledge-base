@@ -25,19 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 이상적인 비례성 곡선과 현실 서버의 차이가 어디에서 생기는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              부하와 전력이 함께 움직여야 진짜 효율이 높다                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 부하 수준          이상적 시스템            비례성 낮은 시스템             │
-│ 0%                 0% 전력                  35~60% 전력                    │
-│ 20%                20% 전력                 50~65% 전력                    │
-│ 50%                50% 전력                 70~80% 전력                    │
-│ 100%               100% 전력                100% 전력                      │
-│                                                                            │
-│ 핵심 문제: 유휴 전력 바닥(P_idle)이 높으면 낮은 부하 시간이 곧 낭비가 된다 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하와 전력이 함께 움직여야 진짜 효율이 높다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 수준 이상적 시스템 비례성 낮은 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0% 0% 전력 35~60% 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20% 20% 전력 50~65% 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50% 50% 전력 70~80% 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 100% 전력 100% 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 문제: 유휴 전력 바닥(P_idle)이 높으면 낮은 부하 시간이 곧 낭비가 된다</div></div>
+</div>
+</div>
+
+
 
 따라서 에너지 비례성은 단순한 칩 절전 기술이 아니라, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 모델을 바꾸는 질문이다. "서버가 켜져 있는가"보다 "켜져 있을 때도 부하에 맞게 충분히 내려오는가"가 더 중요해진다.
 
@@ -51,24 +53,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 에너지 비례성이 부품, 서버, 클러스터 계층이 함께 움직일 때 만들어진다는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         에너지 비례성을 만드는 3계층 제어: 부품 → 서버 → 클러스터         │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 수요 변화                                                                   │
-│   │                                                                         │
-│   ▼                                                                         │
-│ [클러스터] 오토스케일링 · 빈 패킹 · 일부 노드 OFF                          │
-│   │                                                                         │
-│   ▼                                                                         │
-│ [서버] 팬 제어 · 장치 전원 정책 · 메모리/스토리지 저전력 상태              │
-│   │                                                                         │
-│   ▼                                                                         │
-│ [부품] CPU DVFS · C-state · DRAM Self-Refresh · NIC 링크 절전              │
-│                                                                            │
-│ 결과: 같은 처리량을 더 적은 활성 자원으로 수행 + 유휴 자원의 바닥 전력 축소 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 비례성을 만드는 3계층 제어: 부품 → 서버 → 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수요 변화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터</div><div class="kb-diagram-note">오토스케일링 · 빈 패킹 · 일부 노드 OFF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버</div><div class="kb-diagram-note">팬 제어 · 장치 전원 정책 · 메모리/스토리지 저전력 상태</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부품</div><div class="kb-diagram-note">CPU DVFS · C-state · DRAM Self-Refresh · NIC 링크 절전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 같은 처리량을 더 적은 활성 자원으로 수행 + 유휴 자원의 바닥 전력 축소</div></div>
+</div>
+</div>
+
+
 
 | 계층 | 대표 기법 | 직접 줄이는 전력 | 한계 |
 | :-- | :-- | :-- | :-- |
@@ -105,24 +103,26 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 현장에서 자주 쓰는 저부하 대응 판단 흐름을 압축한 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│          저부하 대응 판단: 남길 것인가, 몰아줄 것인가, 끌 것인가          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 평균 부하 하락                                                               │
-│     │                                                                       │
-│     ├─ 짧은 하락 ───────────────▶ DVFS · C-state 유지                      │
-│     ├─ 수분~수시간 저부하 ───────▶ 워크로드 통합 + 일부 노드 Sleep         │
-│     └─ 장시간 예측 가능한 유휴 ───▶ 노드 OFF · 서버리스/배치 전환          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저부하 대응 판단: 남길 것인가, 몰아줄 것인가, 끌 것인가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 부하 하락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 짧은 하락 ▶ DVFS · C-state 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 수분~수시간 저부하 ▶ 워크로드 통합 + 일부 노드 Sleep</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장시간 예측 가능한 유휴 ▶ 노드 OFF · 서버리스/배치 전환</div></div>
+</div>
+</div>
+
+
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **부하 곡선 측정**: 24시간·7일 기준으로 실제 저부하 시간이 얼마나 긴지 본다.
 2. **유휴 전력 분해**: CPU 외에 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 팬이 차지하는 바닥 전력을 분리해서 본다.
 3. **손익분기 시간 계산**: 절전 상태 진입·복귀 비용보다 유휴 시간이 충분히 긴지 본다.
-4. **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 목표인 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 깨지 않는 범위에서만 통합·전원 차단을 한다.
+4. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 목표인 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 깨지 않는 범위에서만 통합·전원 차단을 한다.
 5. **운영 자동화 준비**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 오토스케일러, 모니터링이 같은 기준으로 움직이는지 확인한다.
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -143,7 +143,7 @@ tags = ["studynote-computer-architecture"]
 
 하지만 한계도 분명하다. 메모리와 네트워크는 CPU만큼 비례적으로 내려가지 않으며, 고가용성 구성을 위해 항상 켜 둬야 하는 최소 자원도 존재한다. 따라서 현실의 목표는 "완벽한 직선"이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 해치지 않으면서 유휴 전력 바닥을 얼마나 낮출 수 있는가에 가깝다.
 
-앞으로는 조합형 인프라, 더 빠른 장치 수면 전환, 수요 예측 기반 오케스트레이션이 에너지 비례성을 더 끌어올릴 것이다. 결국 이 개념은 **고성능 하드웨어를 적게 쓰는 기술**이 아니라, **필요한 순간에만 정확히 켜 두는 운영 철학**으로 기억해야 한다.
+앞으로는 조합형 인프라, 더 빠른 장치 수면 전환, 수요 예측 기반 오케스트레이션이 에너지 비례성을 더 끌어올릴 것이다. 결국 이 개념은 <strong>고성능 하드웨어를 적게 쓰는 기술</strong>이 아니라, <strong>필요한 순간에만 정확히 켜 두는 운영 철학</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 에너지 비례 컴퓨팅은 놀이공원을 하루 종일 같은 밝기로 켜 두는 대신, 손님 수에 맞춰 구역별로 운영 시간을 조정하는 것과 같다. 중요한 것은 최대 밝기가 아니라, 빈 시간에 낭비를 얼마나 줄이느냐다.
 
@@ -162,21 +162,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-항상 켜진 고정 서버
-        │
-        ▼
-CPU DVFS · C-state 기반 절전
-        │
-        ▼
-장치별 파워다운 · 전력 게이팅
-        │
-        ▼
-VM/컨테이너 통합 · 오토스케일링
-        │
-        ▼
-서버리스 · 조합형 인프라 기반 수요 비례 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">항상 켜진 고정 서버</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU DVFS · C-state 기반 절전</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장치별 파워다운 · 전력 게이팅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VM/컨테이너 통합 · 오토스케일링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버리스 · 조합형 인프라 기반 수요 비례 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 "부품 절전"에서 출발해 "클러스터 전체가 부하에 따라 줄어드는 운영"으로 사고가 확장되는 과정을 보여준다.
 

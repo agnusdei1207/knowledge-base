@@ -31,11 +31,16 @@ tags = ["studynote-security"]
 
 AES의 키 확장은 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)([word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)) 단위로 진행된다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128은 16바이트 키를 44개 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)로, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-192는 52개 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)로, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256은 60개 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)로 늘려 라운드 키를 만든다. 핵심 연산은 `RotWord`(한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 회전), `SubWord`(S-box 대입), `Rcon`(라운드 상수 XOR), 그리고 이전 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)와의 XOR 체인이다.
 
-```text
-Master Key -> Word Split -> RotWord -> SubWord(S-box) -> Rcon XOR -> Round Keys
-                         \_______________________________________________/
-                                      previous word XOR
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Master Key -&gt; Word Split -&gt; RotWord -&gt; SubWord(S-box) -&gt; Rcon XOR -&gt; Round Keys</div>
+<div class="kb-diagram-note">previous word XOR</div>
+</div>
+</div>
+
+
 
 | 키 길이 | 라운드 수 | 확장 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 수 | 특징 |
 | --- | --- | --- | --- |
@@ -98,17 +103,23 @@ Master Key -> Word Split -> RotWord -> SubWord(S-box) -> Rcon XOR -> Round Keys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-마스터 키
-   ↓
-워드 분해
-   ↓
-RotWord / SubWord / Rcon
-   ↓
-라운드 키 생성
-   ↓
-AES 라운드 암호화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">마스터 키</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">워드 분해</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RotWord / SubWord / Rcon</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">라운드 키 생성</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">AES 라운드 암호화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

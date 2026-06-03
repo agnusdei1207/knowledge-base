@@ -42,79 +42,83 @@ tags = ["studynote-algorithm"]
 
 ### 컴파일 파이프라인
 
-```
-정규 표현식 패턴
-        │
-        ▼
-┌───────────────────┐
-│  파싱 (Parsing)   │  → 추상 구문 트리 (AST)
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ Thompson 구성법   │  → NFA (Non-deterministic FA)
-│ (NFA 구축)        │
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ 부분집합 구성법   │  → DFA (Deterministic FA)
-│ (Subset Const.)   │
-└───────────────────┘
-        │
-        ▼
-┌───────────────────┐
-│ DFA 최소화        │  → 최소 DFA (상태 수 최소화)
-└───────────────────┘
-        │
-        ▼
-     텍스트 매칭: O(n)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정규 표현식 패턴</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파싱 (Parsing)</div><div class="kb-diagram-cell">→ 추상 구문 트리 (AST)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thompson 구성법</div><div class="kb-diagram-cell">→ NFA (Non-deterministic FA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NFA 구축)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분집합 구성법</div><div class="kb-diagram-cell">→ DFA (Deterministic FA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Subset Const.)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DFA 최소화</div><div class="kb-diagram-cell">→ 최소 DFA (상태 수 최소화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">텍스트 매칭: O(n)</div>
+</div>
+</div>
+
+
 
 ### NFA 예시: "a(b|c)*d" 패턴
 
-```
-NFA (ε = 엡실론 전이):
 
-      ε         ε    b    ε
-  ───→[q0]─a─▶[q1]─────▶[q2]────▶[q4]─d─▶[q5]*
-                │    c              ▲
-                └──────────▶[q3]───┘
-                            ε 전이 허용 → 비결정성
 
-NFA 특성:
-- 동일 상태에서 같은 입력으로 여러 전이 가능
-- ε (엡실론) 전이: 입력 소비 없이 상태 전이
-- 상태 수 O(m), 시뮬레이션 O(mn)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">NFA (ε = 엡실론 전이):</div>
+<div class="kb-diagram-note">ε ε b ε</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">q0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">q1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">q2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">q4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">q5</div><div class="kb-diagram-note">*</div></div>
+<div class="kb-diagram-note">c ▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">q3</div></div>
+<div class="kb-diagram-note">ε 전이 허용 → 비결정성</div>
+<div class="kb-diagram-note">NFA 특성:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">동일 상태에서 같은 입력으로 여러 전이 가능</div>
+<div class="kb-diagram-tree-item" style="--depth:0">ε (엡실론) 전이: 입력 소비 없이 상태 전이</div>
+<div class="kb-diagram-tree-item" style="--depth:0">상태 수 O(m), 시뮬레이션 O(mn)</div>
+</div>
+</div>
+
+
 
 ### DFA 예시: 동일 패턴
 
-```
-DFA (결정적):
 
-        a         b,c        d
-  ─→[S]───▶[A]───────▶[B]*───▶[C]*
-                 ↑    |
-                 └────┘ (b 또는 c 반복)
 
-DFA 특성:
-- 각 상태에서 각 입력에 대해 정확히 하나의 전이
-- 상태 수 최악 O(2^m) (부분집합 구성)
-- 매칭: O(n) ← 각 텍스트 문자당 상태 전이 1회
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DFA (결정적):</div>
+<div class="kb-diagram-note">a b,c d</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">S</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">*</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">(b 또는 c 반복)</div>
+<div class="kb-diagram-note">DFA 특성:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">각 상태에서 각 입력에 대해 정확히 하나의 전이</div>
+<div class="kb-diagram-tree-item" style="--depth:0">상태 수 최악 O(2^m) (부분집합 구성)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">매칭: O(n) ← 각 텍스트 문자당 상태 전이 1회</div>
+</div>
+</div>
+
+
 
 ### 탐욕적 vs 게으른 수량자
 
-```
-텍스트: "<h1>제목</h1>"
 
-탐욕적 (Greedy): <.*>
-  가능한 한 많이 매칭 → "<h1>제목</h1>" 전체
 
-게으른 (Lazy): <.*?>
-  가능한 한 적게 매칭 → "<h1>" 첫 태그만
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">텍스트: "&lt;h1&gt;제목&lt;/h1&gt;"</div>
+<div class="kb-diagram-note">탐욕적 (Greedy): &lt;.*&gt;</div>
+<div class="kb-diagram-note">가능한 한 많이 매칭 → "&lt;h1&gt;제목&lt;/h1&gt;" 전체</div>
+<div class="kb-diagram-note">게으른 (Lazy): &lt;.*?&gt;</div>
+<div class="kb-diagram-note">가능한 한 적게 매칭 → "&lt;h1&gt;" 첫 태그만</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: NFA는 여러 경로를 동시에 시도하는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐험대, DFA는 미리 최적 경로를 외운 안내원—DFA가 텍스트를 더 빠르게 통과하지만 지도(상태) 크기가 더 크다.
 
@@ -134,34 +138,42 @@ DFA 특성:
 
 ### [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) (Regular Expression Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
-```
-패턴: (a+)+  (중첩된 탐욕적 수량자)
-텍스트: "aaaaab"
 
-백트래킹:
-  "aaaaab" → 매칭 실패 시 가능한 모든 분할 시도
-  a|aaaa, aa|aaa, ...
-  → 지수적 백트래킹 O(2^n)
 
-실제 공격: Cloudflare 2019년 장애의 원인 중 하나
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">패턴: (a+)+ (중첩된 탐욕적 수량자)</div>
+<div class="kb-diagram-note">텍스트: "aaaaab"</div>
+<div class="kb-diagram-note">백트래킹:</div>
+<div class="kb-diagram-note">"aaaaab" → 매칭 실패 시 가능한 모든 분할 시도</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a</div><div class="kb-diagram-cell">aaaa, aa</div><div class="kb-diagram-cell">aaa, ...</div></div>
+<div class="kb-diagram-note">→ 지수적 백트래킹 O(2^n)</div>
+<div class="kb-diagram-note">실제 공격: Cloudflare 2019년 장애의 원인 중 하나</div>
+<div class="kb-diagram-note">방어:</div>
+<div class="kb-diagram-note">1. 역참조·중첩 수량자 금지</div>
+<div class="kb-diagram-note">2. DFA 기반 엔진 사용 (RE2, Go regexp)</div>
+<div class="kb-diagram-note">3. 매칭 타임아웃 설정</div>
+</div>
+</div>
 
-방어:
-  1. 역참조·중첩 수량자 금지
-  2. DFA 기반 엔진 사용 (RE2, Go regexp)
-  3. 매칭 타임아웃 설정
-```
+
 
 ### 표현력: Chomsky 계층
 
-```
-정규 언어 (Regular)     ← 정규 표현식 커버 범위
-  ⊂ 문맥 자유 언어 (Context-Free)  ← CFG, 파서
-    ⊂ 문맥 민감 언어 (Context-Sensitive)
-      ⊂ 재귀 가산 언어 (Recursively Enumerable)
 
-중첩 괄호 "(((a)))"는 정규 언어가 아님
-→ 정규 표현식으로 완전히 처리 불가 (파서 필요)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정규 언어 (Regular) ← 정규 표현식 커버 범위</div>
+<div class="kb-diagram-note">⊂ 문맥 자유 언어 (Context-Free) ← CFG, 파서</div>
+<div class="kb-diagram-note">⊂ 문맥 민감 언어 (Context-Sensitive)</div>
+<div class="kb-diagram-note">⊂ 재귀 가산 언어 (Recursively Enumerable)</div>
+<div class="kb-diagram-note">중첩 괄호 "(((a)))"는 정규 언어가 아님</div>
+<div class="kb-diagram-note">→ 정규 표현식으로 완전히 처리 불가 (파서 필요)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 역참조가 포함된 정규 표현식은 단순 패턴 필터에 "과거를 기억하는 능력"을 추가한 것—이 기억이 정규 언어의 경계를 넘어 지수 복잡도 함정을 만든다.
 
@@ -172,20 +184,26 @@ DFA 특성:
 ### 주요 활용 사례
 
 - **입력 유효성 검사**: 이메일·전화번호·URL·우편번호 형식 체크
-- **[로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) (Log Parsing)**: 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 에러 패턴·IP·시간 추출
-- **코드 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)**: IDE의 정규 표현식 찾기/바꾸기
+- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a> (Log Parsing)</strong>: 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 에러 패턴·IP·시간 추출
+- <strong>코드 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong>: IDE의 정규 표현식 찾기/바꾸기
 - **컴파일러 렉서 (Lexer)**: 토큰 인식에 DFA 기반 패턴 매칭
-- **[네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)**: [Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) 규칙의 페이로드 패턴 매칭
+- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a></strong>: [Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) 규칙의 페이로드 패턴 매칭
 
 ### 기술사 판단 기준
 
-```
-단순 패턴 검색 (역참조 없음)      →  정규 표현식 O(n) 보장
-중첩 수량자·역참조 필요           →  ReDoS 위험, 타임아웃 설정
-중첩 괄호·재귀 구조 파싱          →  CFG 파서 (정규 표현식 한계)
-다중 패턴 동시 매칭               →  아호-코라식 (Aho-Corasick)
-안전한 RE 엔진 필요 (서비스)      →  RE2 또는 Go regexp (DFA 기반)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 패턴 검색 (역참조 없음) → 정규 표현식 O(n) 보장</div>
+<div class="kb-diagram-note">중첩 수량자·역참조 필요 → ReDoS 위험, 타임아웃 설정</div>
+<div class="kb-diagram-note">중첩 괄호·재귀 구조 파싱 → CFG 파서 (정규 표현식 한계)</div>
+<div class="kb-diagram-note">다중 패턴 동시 매칭 → 아호-코라식 (Aho-Corasick)</div>
+<div class="kb-diagram-note">안전한 RE 엔진 필요 (서비스) → RE2 또는 Go regexp (DFA 기반)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 정규 표현식의 ReDoS는 문어발 수량자로 작성한 패턴이 텍스트를 분석할 때 미로를 헤매는 것—안전한 DFA 엔진(RE2)은 미로 대신 일직선 길을 제공한다.
 
@@ -214,21 +232,23 @@ DFA 특성:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정규 언어 (Regular Language) — 유한 오토마타(FA)로 인식 가능한 패턴 집합]
-    │
-    ▼
-[NFA (Nondeterministic Finite Automaton) — 정규 표현식을 자동 변환]
-    │
-    ▼
-[DFA (Deterministic Finite Automaton) — NFA를 결정적 오토마타로 변환, 매칭 수행]
-    │
-    ▼
-[PCRE (Perl Compatible Regular Expressions) — 역참조·룩어헤드 확장, 실무 표준]
-    │
-    ▼
-[ReDoS (정규식 서비스 거부) 취약점 — 지수적 백트래킹 악용 보안 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정규 언어 (Regular Language) — 유한 오토마타(FA)로 인식 가능한 패턴 집합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFA (Nondeterministic Finite Automaton) — 정규 표현식을 자동 변환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DFA (Deterministic Finite Automaton) — NFA를 결정적 오토마타로 변환, 매칭 수행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PCRE (Perl Compatible Regular Expressions) — 역참조·룩어헤드 확장, 실무 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ReDoS (정규식 서비스 거부) 취약점 — 지수적 백트래킹 악용 보안 위협 대응</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 이론적 정규 언어에서 실무 PCRE 표준, 보안 위협까지 정규 표현식의 이론-실무-보안 연결 고리를 나타낸다.
 

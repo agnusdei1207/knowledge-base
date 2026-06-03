@@ -77,15 +77,21 @@ f_folding = f_s / 2
 
 ## 관련 개념 맵
 
-```text
-샘플링 주파수
-   ↓
-폴딩 주파수
-   ↓
-에일리어싱 경계
-   ↓
-필터 / 오버샘플링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">샘플링 주파수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">폴딩 주파수</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">에일리어싱 경계</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">필터 / 오버샘플링</div>
+</div>
+</div>
+
+
 
 ---
 

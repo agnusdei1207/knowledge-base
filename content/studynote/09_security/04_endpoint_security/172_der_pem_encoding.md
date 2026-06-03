@@ -25,21 +25,22 @@ DER / PEM 인코딩은 [인증](/knowledge-base/studynote/04_software_engineerin
 
 아래 그림은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조"와 "전달 형식"이 어떻게 구분되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Logical certificate vs wire/file representation                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ X.509 fields                                                        │
-│ ├─ Subject                                                          │
-│ ├─ Issuer                                                           │
-│ ├─ Validity                                                         │
-│ └─ Subject Public Key Info                                          │
-│        │                                                            │
-│        ├─ DER encode -> canonical binary bytes                      │
-│        │                                                            │
-│        └─ PEM armor -> Base64 text with BEGIN/END markers           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical certificate vs wire/file representation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X.509 fields</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Issuer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Validity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject Public Key Info</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DER encode -&gt; canonical binary bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PEM armor -&gt; Base64 text with BEGIN/END markers</div></div>
+</div>
+</div>
+
+
 
 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 의미가 DER와 PEM 사이에서 바뀌지 않는다는 점이다. 바뀌는 것은 사람이 다루기 쉬운가, 기계가 바로 읽기 쉬운가 하는 외피다.
 
@@ -51,7 +52,7 @@ DER / PEM 인코딩은 [인증](/knowledge-base/studynote/04_software_engineerin
 
 DER의 핵심은 ASN.1 객체를 태그-길이-값 (TLV, Tag-Length-Value) 구조로 **한 가지 방식만** 허용해 적는 데 있다. 예를 들어 정수 앞에 붙는 태그, 길이를 적는 방식, 불필요한 0 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 처리 방식이 모두 고정된다. 그래서 DER로 직렬화된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 "같은 구조면 같은 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)"을 보장받는다. 이 특성 덕분에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 핀닝, 해시 계산 같은 작업이 안정적으로 이뤄진다.
 
-PEM은 이 DER [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 그대로 보관하지 않고, Base64로 변환한 뒤 용도에 맞는 머리말과 꼬리말을 붙인다. 예를 들면 `-----BEGIN CERTIFICATE-----`, `-----BEGIN PRIVATE KEY-----`, `-----BEGIN CERTIFICATE REQUEST-----` 같은 식이다. 즉 PEM은 암호화 형식이 아니라 **텍스트 운반용 포장지**다.
+PEM은 이 DER [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 그대로 보관하지 않고, Base64로 변환한 뒤 용도에 맞는 머리말과 꼬리말을 붙인다. 예를 들면 `-----BEGIN CERTIFICATE-----`, `-----BEGIN PRIVATE KEY-----`, `-----BEGIN CERTIFICATE REQUEST-----` 같은 식이다. 즉 PEM은 암호화 형식이 아니라 <strong>텍스트 운반용 포장지</strong>다.
 
 | 항목 | DER | PEM |
 | :--- | :--- | :--- |
@@ -63,24 +64,23 @@ PEM은 이 DER [바이트](/knowledge-base/studynote/01_computer_architecture/02
 
 아래 그림은 동일한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 두 형식으로 표현되는 흐름을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ One certificate, two representations                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ ASN.1 Certificate                                                   │
-│        │                                                            │
-│        ▼                                                            │
-│ DER bytes                                                           │
-│ 30 82 04 F1 30 82 03 D9 ...                                         │
-│        │                                                            │
-│        └─ Base64 armor                                               │
-│                 ▼                                                    │
-│ -----BEGIN CERTIFICATE-----                                         │
-│ MIID8TCCAtmgAwIBAgIU...                                              │
-│ ...                                                                 │
-│ -----END CERTIFICATE-----                                           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One certificate, two representations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASN.1 Certificate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DER bytes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30 82 04 F1 30 82 03 D9 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Base64 armor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----BEGIN CERTIFICATE-----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIID8TCCAtmgAwIBAgIU...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----END CERTIFICATE-----</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 오해 하나를 바로잡아야 한다. PEM은 보기 쉬워졌을 뿐 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높아진 것이 아니다. 개인키를 PEM으로 저장해도 암호화를 별도로 하지 않았다면, 그것은 "읽기 쉬운 평문 비밀"일 뿐이다.
 
@@ -134,7 +134,7 @@ openssl x509 -inform der -in cert.der -out cert.pem
 openssl x509 -outform der -in cert.pem -out cert.der
 ```
 
-기술사 답안에서는 "DER는 표준화된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 표현, PEM은 운영 친화적 텍스트 포장"이라고 정리하면 좋다. 그리고 선택 기준은 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 우열이 아니라 **표현 방식, [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 배포 방식**임을 함께 적어야 설득력이 높다.
+기술사 답안에서는 "DER는 표준화된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 표현, PEM은 운영 친화적 텍스트 포장"이라고 정리하면 좋다. 그리고 선택 기준은 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 우열이 아니라 <strong>표현 방식, <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>, 배포 방식</strong>임을 함께 적어야 설득력이 높다.
 
 - **📢 섹션 요약 비유**: 택배센터는 바코드 박스를 좋아하고, 현장 직원은 설명이 붙은 라벨 상자를 좋아한다. 중요한 것은 상자 모양을 고집하는 것이 아니라, 받는 쪽이 가장 덜 실수하는 포장을 고르는 일이다.
 
@@ -144,7 +144,7 @@ openssl x509 -outform der -in cert.pem -out cert.der
 
 DER / PEM을 정확히 구분하면 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 운영에서 가장 흔한 혼선인 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 있는데 왜 안 읽히지?" 문제를 크게 줄일 수 있다. DER는 정규화된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 표현이기 때문에 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 교환에서 강하고, PEM은 사람이 읽고 배포하고 체인을 묶기 쉬워 운영 자동화에 잘 맞는다. 즉 둘은 경쟁 관계가 아니라, 같은 객체를 서로 다른 작업 맥락에 맞게 표현한 짝이다.
 
-한계도 분명하다. DER와 PEM은 어디까지나 표현 형식이지, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 신뢰성이나 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 자동으로 높여 주는 기술이 아니다. 신뢰 여부는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 폐지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 키 보관 정책이 결정한다. 따라서 좋은 설계는 "어떤 형식이 더 멋진가"가 아니라, **[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명주기 전체에서 가장 적은 실수와 가장 높은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 만드는 형식 조합**을 고르는 설계다.
+한계도 분명하다. DER와 PEM은 어디까지나 표현 형식이지, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 신뢰성이나 개인키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 자동으로 높여 주는 기술이 아니다. 신뢰 여부는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 폐지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 키 보관 정책이 결정한다. 따라서 좋은 설계는 "어떤 형식이 더 멋진가"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 수명주기 전체에서 가장 적은 실수와 가장 높은 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>을 만드는 형식 조합</strong>을 고르는 설계다.
 
 - **📢 섹션 요약 비유**: 같은 책도 인쇄본, 전자책, 스캔본으로 나눠 보관할 수 있다. 중요한 것은 이야기가 바뀌는 게 아니라, 읽는 사람과 읽는 장소에 맞는 판형을 고르는 일이다.
 
@@ -163,19 +163,22 @@ DER / PEM을 정확히 구분하면 [인증](/knowledge-base/studynote/04_softwa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-ASN.1 data model
-        │
-        ▼
-DER canonical binary encoding
-        │
-        ▼
-PEM text armor for transport
-        │
-        ├─ certificate chain handling
-        ├─ web server configuration
-        └─ automation with OpenSSL / ACME
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ASN.1 data model</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DER canonical binary encoding</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PEM text armor for transport</div>
+<div class="kb-diagram-tree-item" style="--depth:4">certificate chain handling</div>
+<div class="kb-diagram-tree-item" style="--depth:4">web server configuration</div>
+<div class="kb-diagram-tree-item" style="--depth:4">automation with OpenSSL / ACME</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조 정의 → 정규 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 표현 → 텍스트 포장 → 운영 자동화"로 DER와 PEM이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명주기 안에서 이어진다는 점을 보여 준다.
 

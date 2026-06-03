@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기술을 네트워크 생애 주기(기획, 배포, 운영, 유지보수) 전체에 융합시켜, **인간의 개입(Human Intervention)을 0으로 수렴하게 만들고, 네트워크가 스스로 의사 결정을 내려 트래픽을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 해킹을 차단하며, 고장을 치료하는 궁극의 '완전 자율형 지능형 통신망 아키텍처 비전'**입니다.
+- **개념**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기술을 네트워크 생애 주기(기획, 배포, 운영, 유지보수) 전체에 융합시켜, <strong>인간의 개입(Human Intervention)을 0으로 수렴하게 만들고, 네트워크가 스스로 의사 결정을 내려 트래픽을 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>하고, 해킹을 차단하며, 고장을 치료하는 궁극의 '완전 자율형 지능형 통신망 아키텍처 비전'</strong>입니다.
 
-```text
-[AIOps]
-    │
-    ▼
-[자율-구동 네트워크]
-    │
-    └──▶ [디지털 트윈 네트워크 실시간 토폴로지 동기…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자율-구동 네트워크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,14 +49,18 @@ tags = ["studynote-network"]
 - **L4 (고도 자율, High Autonomous)**: 시스템이 스스로 학습하여 인간이 예측하지 못한 복잡한 에러도 자체 분석([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/))하여 90% 이상 자가 치유(Self-Healing)합니다. 인간은 그냥 보고서만 읽으며 "음, 잘 고쳤군" 하고 승인(결단 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))만 합니다.
 - **L5 (완전 자율 구동, Full Autonomous Network) 🌟 궁극기 🌟**: 인간이 운영 시스템에서 완전히 퇴출됩니다(Zero-Touch). AI가 트래픽 폭증을 1시간 전에 예측하고, 알아서 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 전파 각도([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 틸트)를 꺾고, 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1만 개를 증설한 뒤, 신종 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 해커가 쳐들어오자 스스로 역방향 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([허니팟](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/694_honey_pot/))을 파서 가두어 버리는 신(God)의 경지입니다. 통신사의 최종 목표입니다.
 
-```text
-[AIOps]
-    │
-    ▼
-[자율-구동 네트워크]
-    │
-    └──▶ [디지털 트윈 네트워크 실시간 토폴로지 동기…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자율-구동 네트워크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **자율 구동 네트워크(ADN Level 5)**는 네트워크 전산실을 통째로 완벽한 'SF 영화의 무인 우주선 제어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(자비스, 스카이넷)'로 갈아치우는 궁극의 혁명입니다. 옛날엔 우주선이 소행성 파편(디도스 공격)을 만나면 인간 선장들이 비상벨을 누르고 허둥지둥 조종간을 돌리다 배가 부서졌습니다(L0). 5G의 SDN과 IBN이 들어오며 선장이 "소행성 피해!(의도)"라고 소리치면 기계가 스스로 피하는 수준(L3)까지 발전했습니다. **ADN 레벨 5**가 도래하면 인간 선장은 우주선에 탑승할 필요조차 없습니다. 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 함장이 전 우주의 레이더 궤적을 스스로 학습하고, 1시간 뒤 날아올 소행성을 미리 예측하여 우주선의 엔진 각도(트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 틀고 실드([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단 룰)를 쳐서 무사고로 항해를 완수해 내는 궁극의 생존 머신 인프라 통제 철학입니다.
+- **📢 섹션 요약 비유**: <strong>자율 구동 네트워크(ADN Level 5)</strong>는 네트워크 전산실을 통째로 완벽한 'SF 영화의 무인 우주선 제어 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(자비스, 스카이넷)'로 갈아치우는 궁극의 혁명입니다. 옛날엔 우주선이 소행성 파편(디도스 공격)을 만나면 인간 선장들이 비상벨을 누르고 허둥지둥 조종간을 돌리다 배가 부서졌습니다(L0). 5G의 SDN과 IBN이 들어오며 선장이 "소행성 피해!(의도)"라고 소리치면 기계가 스스로 피하는 수준(L3)까지 발전했습니다. <strong>ADN 레벨 5</strong>가 도래하면 인간 선장은 우주선에 탑승할 필요조차 없습니다. 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 함장이 전 우주의 레이더 궤적을 스스로 학습하고, 1시간 뒤 날아올 소행성을 미리 예측하여 우주선의 엔진 각도(트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 틀고 실드([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단 룰)를 쳐서 무사고로 항해를 완수해 내는 궁극의 생존 머신 인프라 통제 철학입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: AIOps]
-    │
-    ▼
-[현재 개념: 자율-구동 네트워크]
-    │
-    ├──▶ [확장 A: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AIOps</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자율-구동 네트워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 자율-구동 네트워크는 AIOps에서 출발해 현재 메커니즘을 정교화하고, 이후 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

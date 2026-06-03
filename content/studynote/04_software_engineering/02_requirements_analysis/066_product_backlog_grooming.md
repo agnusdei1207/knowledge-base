@@ -28,15 +28,21 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Ideas / Bugs / Enhancements
-  ↓
-Product Backlog
-  ↓
-Refinement / Grooming
-  ↓
-Sprint Planning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Ideas / Bugs / Enhancements</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Product Backlog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Refinement / Grooming</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sprint Planning</div>
+</div>
+</div>
+
+
 
 | 항목 | 역할 |
 | :-- | :-- |
@@ -106,29 +112,41 @@ Sprint Planning
 
 ## 관련 개념 맵
 
-```text
-Product Vision
-  ↓
-Product Backlog
-  ↓
-Grooming / Refinement
-  ↓
-Sprint Planning
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Product Vision</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Product Backlog</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Grooming / Refinement</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sprint Planning</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 수집
-  ↓
-제품 백로그
-  ↓
-그루밍
-  ↓
-스프린트 계획
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 수집</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">제품 백로그</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">그루밍</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스프린트 계획</div>
+</div>
+</div>
+
+
 
 ---
 

@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 클러스터 망은 여러 대의 범용 서버를 네트워크로 묶어, **노드를 추가하면서 성능과 용량을 늘리는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 백플레인**이다.
+> 1. **본질**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 클러스터 망은 여러 대의 범용 서버를 네트워크로 묶어, <strong>노드를 추가하면서 성능과 용량을 늘리는 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>의 백플레인</strong>이다.
 > 2. **가치**: 클로스 (Clos)·스파인-리프 (Spine-Leaf) 구조와 동급 비용 다중 경로 ([ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/), [Equal-Cost Multi-Path](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/))는 동서 방향 트래픽 병목을 줄여, 수천 노드 환경에서도 예측 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 확장성을 제공한다.
 > 3. **판단 포인트**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 네트워크만 좋다고 성공하지 않으며, 워크로드가 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·장애 격리를 소프트웨어 차원에서 수용할 수 있어야 진짜 효율이 난다.
 
@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이런 구조가 폭발적으로 중요해진 배경은 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 클라우드 플랫폼, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습이 모두 수평 확장에 의존하기 때문이다. 한 대의 장비는 언젠가 CPU, 메모리, 전력, 가격 한계에 부딪히지만, 클러스터는 랙과 노드를 계속 늘릴 수 있다. 또한 노드 일부가 고장 나더라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 유지할 수 있어, 대규모 운영에서 장애 허용성이 훨씬 높다.
 
-하지만 서버만 많이 늘리면 끝나는 것이 아니다. 노드 간 통신량이 커질수록 중앙 코어 장비나 계층형 병목이 곧바로 전체 성능을 잡아먹는다. 그래서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)에서는 CPU보다 먼저 **클러스터 망의 토폴로지와 경로 설계**를 고민해야 한다.
+하지만 서버만 많이 늘리면 끝나는 것이 아니다. 노드 간 통신량이 커질수록 중앙 코어 장비나 계층형 병목이 곧바로 전체 성능을 잡아먹는다. 그래서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)에서는 CPU보다 먼저 <strong>클러스터 망의 토폴로지와 경로 설계</strong>를 고민해야 한다.
 
 - **📢 섹션 요약 비유**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 슈퍼카 한 대를 사는 대신 배달 오토바이 수백 대를 운영하는 모델과 같다. 오토바이가 많아질수록 차고보다 도로망과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계가 더 중요해진다.
 
@@ -42,23 +42,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 스파인-리프 구조에서 동서 방향 트래픽이 어떻게 균등한 경로를 갖는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│         Spine-Leaf fabric: east-west traffic uses equal-cost uplinks      │
-├────────────────────────────────────────────────────────────────────────────┤
-│                [Spine1]      [Spine2]      [Spine3]                       │
-│                   │  ╲          │          ╱  │                           │
-│                   │   ╲         │         ╱   │                           │
-│                [Leaf1] [Leaf2] [Leaf3] [Leaf4]                            │
-│                  / \     / \     / \     / \                              │
-│               N1  N2   N3  N4   N5  N6   N7  N8                           │
-│                                                                            │
-│  Any path ≈ Node -> Leaf -> Spine -> Leaf -> Node                         │
-│  ECMP spreads flows across multiple uplinks                               │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-고성능 환경에서는 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))이나 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))를 활용해 CPU 개입을 줄이기도 한다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 클러스터나 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/))에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다도 **혼잡 시 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 얼마나 튀는지**, 그리고 대규모 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구간에서 패킷 손실이 얼마나 적은지가 핵심 품질 지표가 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spine-Leaf fabric: east-west traffic uses equal-cost uplinks</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spine1</div><div class="kb-diagram-node">Spine2</div><div class="kb-diagram-node">Spine3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Leaf1</div><div class="kb-diagram-node">Leaf2</div><div class="kb-diagram-node">Leaf3</div><div class="kb-diagram-node">Leaf4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N1 N2 N3 N4 N5 N6 N7 N8</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Any path ≈ Node -&gt; Leaf -&gt; Spine -&gt; Leaf -&gt; Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECMP spreads flows across multiple uplinks</div></div>
+</div>
+</div>
+
+
+
+고성능 환경에서는 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))이나 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))를 활용해 CPU 개입을 줄이기도 한다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 클러스터나 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/))에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다도 <strong>혼잡 시 꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 얼마나 튀는지</strong>, 그리고 대규모 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구간에서 패킷 손실이 얼마나 적은지가 핵심 품질 지표가 된다.
 
 - **📢 섹션 요약 비유**: 스파인-리프는 어느 동네에서 출발해도 비슷한 개수의 고속도로 진입로를 타게 만든 도시 설계와 같다. 길 찾기가 단순할수록 교통 체증도 예측하고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하기 쉽다.
 
@@ -84,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망은 웹 프런트엔드, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시, 객체 스토리지, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습과 같이 수평 확장이 자연스러운 시스템에서 가장 효과적이다. 반대로 글로벌 락이 많거나 모든 요청이 한 메모리 공간을 강하게 공유해야 하는 업무는 네트워크 왕복이 늘수록 효율이 급격히 떨어진다. 즉, 네트워크 설계와 함께 **애플리케이션을 얼마나 잘 쪼갤 수 있는가**가 채택의 핵심 조건이다.
+[스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망은 웹 프런트엔드, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시, 객체 스토리지, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습과 같이 수평 확장이 자연스러운 시스템에서 가장 효과적이다. 반대로 글로벌 락이 많거나 모든 요청이 한 메모리 공간을 강하게 공유해야 하는 업무는 네트워크 왕복이 늘수록 효율이 급격히 떨어진다. 즉, 네트워크 설계와 함께 <strong>애플리케이션을 얼마나 잘 쪼갤 수 있는가</strong>가 채택의 핵심 조건이다.
 
 설계 판단 시에는 다음 질문을 먼저 확인해야 한다.
 
@@ -93,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 3. 인캐스트 (Incast), 마이크로버스트, 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 관측할 도구가 있는가?
 4. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)·고성능 컴퓨팅이라면 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), 혼잡 제어, 무손실 패브릭이 필요한가?
 
-흔한 실패는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에 적합하지 않은 애플리케이션을 억지로 여러 노드에 올린 뒤, 모든 요청이 서로를 기다리게 만드는 것이다. 또 다른 실패는 값싼 네트워크를 선택해 대역폭만 보고 안심하는 것이다. [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 서버 수를 늘리는 방식이므로, **네트워크 품질이 곧 시스템 품질**이라는 사실을 잊으면 안 된다.
+흔한 실패는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에 적합하지 않은 애플리케이션을 억지로 여러 노드에 올린 뒤, 모든 요청이 서로를 기다리게 만드는 것이다. 또 다른 실패는 값싼 네트워크를 선택해 대역폭만 보고 안심하는 것이다. [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 서버 수를 늘리는 방식이므로, <strong>네트워크 품질이 곧 시스템 품질</strong>이라는 사실을 잊으면 안 된다.
 
 - **📢 섹션 요약 비유**: 사람을 많이 뽑는다고 회사가 빨라지지 않는 것처럼, 서버를 많이 놓는다고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자동으로 빨라지지는 않는다. 전달 체계와 역할 분담이 정리돼야 팀 전체가 속도를 낸다.
 
@@ -103,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 
 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망의 가장 큰 장점은 점진적 확장과 장애 격리다. 필요할 때 랙과 노드를 추가해 용량을 늘릴 수 있고, 일부 노드가 실패해도 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 계속 운영할 수 있다. 이 덕분에 클라우드, 대형 검색, 스트리밍, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지가 모두 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 기본 전략으로 채택했다.
 
-그러나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재복제, 관측성, 네트워크 혼잡 제어까지 모두 운영해야 하므로 소프트웨어와 운영 복잡도는 높아진다. 앞으로는 400/800GbE, 광 패브릭, 프로그래머블 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 오프로딩이 클러스터 망의 다음 단계가 될 가능성이 크다. 기억할 핵심은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 "싼 서버를 많이 붙이는 방법"이 아니라, **네트워크를 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체의 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)로 승격시키는 방식**이라는 점이다.
+그러나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재복제, 관측성, 네트워크 혼잡 제어까지 모두 운영해야 하므로 소프트웨어와 운영 복잡도는 높아진다. 앞으로는 400/800GbE, 광 패브릭, 프로그래머블 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 오프로딩이 클러스터 망의 다음 단계가 될 가능성이 크다. 기억할 핵심은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 "싼 서버를 많이 붙이는 방법"이 아니라, <strong>네트워크를 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 전체의 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a>로 승격시키는 방식</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 벽돌 한 장보다 시 전체 도로망이 중요한 도시 건설과 같다. 도시가 커질수록 집보다 길 설계가 경쟁력이 된다.
 
@@ -121,21 +122,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 증설 중심 운영
-    │
-    ▼
-랙 단위 서버 군집화
-    │
-    ▼
-Clos · Spine-Leaf 패브릭
-    │
-    ▼
-ECMP · 분산 스토리지 · Kubernetes
-    │
-    ▼
-RDMA 기반 AI/HPC 초대형 클러스터
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 증설 중심 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">랙 단위 서버 군집화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Clos · Spine-Leaf 패브릭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ECMP · 분산 스토리지 · Kubernetes</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RDMA 기반 AI/HPC 초대형 클러스터</div>
+</div>
+</div>
+
+
 
 이 흐름은 확장의 중심이 "서버 사양"에서 "네트워크로 연결된 노드 집합"으로 이동해 왔음을 보여준다.
 

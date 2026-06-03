@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Standard [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))은 100MB짜리 **프로세스 전체**를 통째로 디스크와 메모리 사이로 이동시키는 무식하고 고전적인 방식이며, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) System [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))은 전체 중 당장 필요한 **4KB 크기의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각**만 잘게 썰어서 이동시키는 현대적인 정밀 기법이다.
+> 1. **본질**: 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Standard [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))은 100MB짜리 <strong>프로세스 전체</strong>를 통째로 디스크와 메모리 사이로 이동시키는 무식하고 고전적인 방식이며, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) System [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))은 전체 중 당장 필요한 <strong>4KB 크기의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 조각</strong>만 잘게 썰어서 이동시키는 현대적인 정밀 기법이다.
 > 2. **가치**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 한 번에 이동하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양을 극적으로 줄여, [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 시 발생하는 치명적인 디스크 I/O 병목(Stuttering)을 해결하고 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 효율을 한 차원 끌어올렸다.
 > 3. **융합**: 오늘날 우리가 부르는 리눅스나 윈도우의 "[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Swap)"은 100% [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out / [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-in)을 의미하며, 이는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 아키텍처와 완벽하게 융합되어 동작한다.
 
@@ -19,30 +19,30 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 메모리가 꽉 찼을 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드디스크(백킹 스토어)로 쫓아내는 철학은 같지만, '어떤 단위(Unit)로 쫓아낼 것인가'에 따라 **전체 프로세스 단위**의 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)과 **고정 크기 블록 단위**의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 나뉜다.
+- **개념**: 메모리가 꽉 찼을 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드디스크(백킹 스토어)로 쫓아내는 철학은 같지만, '어떤 단위(Unit)로 쫓아낼 것인가'에 따라 <strong>전체 프로세스 단위</strong>의 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)과 <strong>고정 크기 블록 단위</strong>의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 나뉜다.
 - **필요성**: 1970년대 초창기 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 프로그램이 연속된 하나의 덩어리로 메모리에 적재되어야만 실행 가능했다. 따라서 쫓아낼 때도 통째로 쫓아내야(표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 했다. 그러나 프로그램 덩치가 수백 MB, 수 GB로 커지면서, 1GB를 통째로 디스크에 쓰고 읽는 데 수 초~수십 초가 걸려 시스템이 사실상 멈춰버리는 끔찍한 오버헤드가 발생했다. 전송 시간을 줄이기 위해 '필요한 부분만 쪼개서 옮기자'는 혁명적 아이디어가 필요했다.
 
 - **등장 배경 및 아키텍처 진화**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) (표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))**: 베이스/[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)만 있던 시절, 메모리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 해결하거나 메모리를 비우려면 프로세스 전체 덩어리를 디스크로 [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 해야 했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> (표준 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a>)</strong>: 베이스/[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/)만 있던 시절, 메모리 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 해결하거나 메모리를 비우려면 프로세스 전체 덩어리를 디스크로 [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 해야 했다.
   2. **오버헤드의 한계**: CPU 속도는 비약적으로 빨라진 반면, 물리적 회전 원판을 쓰는 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 속도는 거의 제자리였다. I/O 대기 시간([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))이 시스템 성능의 99%를 갉아먹었다.
-  3. **현대 ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반)**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어의 발전으로 메모리를 4KB 단위의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 쪼개어 관리하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 도입되었다. 이에 따라 쫓아낼 때도 최근에 사용하지 않은 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각' 단위로만 스왑 영역(Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 쫓아내는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Out / [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) In)이 업계의 표준이 되었다.
+  3. <strong>현대 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 기반)</strong>: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어의 발전으로 메모리를 4KB 단위의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 쪼개어 관리하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 도입되었다. 이에 따라 쫓아낼 때도 최근에 사용하지 않은 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각' 단위로만 스왑 영역(Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))으로 쫓아내는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Out / [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) In)이 업계의 표준이 되었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│         표준 스와핑 vs 페이징 시스템 스와핑 크기 체감 비교         │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [ 프로세스 크기: 100MB, 하드디스크 속도: 10MB/s 가정 ]             │
-│                                                                    │
-│ ▶ 표준 스와핑 (프로세스 통째로 Swap Out)                           │
-│    [██████████ 100MB 덩어리 ██████████]                            │
-│    I/O 소요 시간: 10초 (10초 동안 컴퓨터 화면 멈춤 렉 발생)        │
-│                                                                    │
-│ ▶ 페이징 시스템 스와핑 (페이지 단위 Swap Out)                      │
-│    [█ 4KB █][█ 4KB █] ... (가장 안 쓴 페이지 2개만 쫓아냄)         │
-│    I/O 소요 시간: 0.0008초 (사용자가 전혀 눈치채지 못함)           │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 스와핑 vs 페이징 시스템 스와핑 크기 체감 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 크기: 100MB, 하드디스크 속도: 10MB/s 가정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 표준 스와핑 (프로세스 통째로 Swap Out)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">██████████ 100MB 덩어리 ██████████</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 소요 시간: 10초 (10초 동안 컴퓨터 화면 멈춤 렉 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이징 시스템 스와핑 (페이지 단위 Swap Out)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">█ 4KB █</div><div class="kb-diagram-node">█ 4KB █</div><div class="kb-diagram-note">... (가장 안 쓴 페이지 2개만 쫓아냄)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 소요 시간: 0.0008초 (사용자가 전혀 눈치채지 못함)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 단순한 산수가 왜 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)을 버리고 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 넘어왔는지를 완벽하게 증명한다. 메모리를 비우기 위해 10초를 낭비하면 실시간 상호작용이 불가능해진다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반에서는 전체 100MB 중 지금 당장 화면 렌더링에 쓰이지 않는 백그라운드 탭 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 4KB 조각들만 핀셋으로 집어내듯 디스크로 넘긴다.
 
 - **📢 섹션 요약 비유**: 수박 한 통을 먹기 위해 수박 전체를 한입에 우겨넣으려다 숨이 막히는 것(표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))과, 깍둑썰기해서 먹고 싶은 조각만 포크로 집어먹는 것([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))의 차이입니다.
@@ -58,32 +58,33 @@ tags = ["studynote-operating-system"]
 | **교환 단위** | 프로세스 전체 (Entire [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각 단위 (보통 4KB [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) | 통돼지 바베큐 vs 삼겹살 1인분 |
 | **메모리 할당** | [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) (Contiguous) | [비연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) (Non-contiguous) | 식당 통대관 vs 빈자리 흩어져 앉기 |
 | **하드웨어 지원** | 베이스/[한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/) | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) | 나침반 하나 vs 정밀 GPS 지도 |
-| **발생 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)** | 없음 (OS 스케줄러가 강제 수행) | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 | 사장님의 강제 퇴장 vs 손님의 호출 |
+| <strong>발생 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a></strong> | 없음 (OS 스케줄러가 강제 수행) | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 | 사장님의 강제 퇴장 vs 손님의 호출 |
 
 ---
 
 ### 동작 메커니즘의 차이: Swap-out vs [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 용어에서도 이 둘을 엄격히 구분한다. 통째로 쫓아내는 것은 **Swap-out / Swap-in**이라 부르고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 쫓아내는 것은 **[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out / [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-in**이라 부른다. (다만 오늘날엔 두 단어를 혼용해서 쓰기도 한다.)
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 용어에서도 이 둘을 엄격히 구분한다. 통째로 쫓아내는 것은 <strong>Swap-out / Swap-in</strong>이라 부르고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 쫓아내는 것은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>-out / <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>-in</strong>이라 부른다. (다만 오늘날엔 두 단어를 혼용해서 쓰기도 한다.)
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│             표준 스와핑과 페이징 스와핑의 런타임 아키텍처                 │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ [ 1. 표준 스와핑 아키텍처 ]                                               │
-│  [ CPU ] ──요청──▶ [ 메모리가 꽉 참 ]                                     │
-│  중기 스케줄러 개입: "메모리가 없네. 프로세스 B(1GB) 전체를 디스크로 빼!" │
-│  결과: 시스템 버스 100% 점유, 타 작업 올스톱 (비효율의 극치)              │
-│                                                                           │
-│ [ 2. 페이징 스와핑 (가상 메모리) 아키텍처 ]                               │
-│  [ CPU ] ──요청──▶ [ 메모리 공간 부족 (Free frame 부족) ]                 │
-│  페이지 교체 알고리즘(LRU 등) 작동:                                       │
-│   "프로세스 A, B, C가 가진 수만 개의 4KB 페이지 중,                       │
-│    가장 오랫동안 안 쓴 페이지 10개만 골라서 디스크(Swap Area)로 버려"     │
-│  결과: 단 40KB의 I/O만 발생. 다른 프로세스들은 전혀 방해받지 않고 실행.   │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 스와핑과 페이징 스와핑의 런타임 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 표준 스와핑 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리가 꽉 참</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중기 스케줄러 개입: "메모리가 없네. 프로세스 B(1GB) 전체를 디스크로 빼!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 시스템 버스 100% 점유, 타 작업 올스톱 (비효율의 극치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 페이징 스와핑 (가상 메모리) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 공간 부족 (Free frame 부족)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 교체 알고리즘(LRU 등) 작동:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"프로세스 A, B, C가 가진 수만 개의 4KB 페이지 중,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 오랫동안 안 쓴 페이지 10개만 골라서 디스크(Swap Area)로 버려"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 단 40KB의 I/O만 발생. 다른 프로세스들은 전혀 방해받지 않고 실행.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 두 번째 구조([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))가 현대의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리(Virtual [Memory Management](/knowledge-base/studynote/09_security/uncategorized/610_memory_management/))의 척추다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 프로세스 간의 불공평을 해소한다. 덩치가 큰 프로세스라고 무조건 쫓겨나는 것이 아니라, 어떤 프로세스 소속이든 관계없이 '오래 안 쓴 게으른 조각([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'들만 선별적으로 추출([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out)되어 공간을 확보한다. 
 
@@ -92,9 +93,9 @@ tags = ["studynote-operating-system"]
 ### [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))과의 결합
 
 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)은 스왑 인(Swap In)을 할 때도 극강의 효율을 발휘한다.
-- 쫓겨난 조각이 다시 필요해지면, CPU는 메모리에 없다는 것을 깨닫고 **[페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))** 트랩을 발생시킨다.
+- 쫓겨난 조각이 다시 필요해지면, CPU는 메모리에 없다는 것을 깨닫고 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)</strong> 트랩을 발생시킨다.
 - OS는 디스크에서 그 4KB 조각 하나만 딱 읽어서 메모리의 빈 프레임(Frame)에 꽂아 넣는다.
-- 이를 **[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))**이라 하며, "네가 부르기(Demand) 전까지는 절대 디스크에서 메모리로 올리지 않겠다"는 궁극의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재([Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)) 철학이다.
+- 이를 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)</strong>이라 하며, "네가 부르기(Demand) 전까지는 절대 디스크에서 메모리로 올리지 않겠다"는 궁극의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재([Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/)) 철학이다.
 
 - **📢 섹션 요약 비유**: 두꺼운 백과사전 전체를 가방에 넣고 빼는(표준 스왑) 대신, 백과사전을 링바인더로 분해해 오늘 수업에 필요한 종이 3장만 빼서 파일철에 끼워 넣는([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 스왑) 혁신입니다.
 
@@ -108,22 +109,25 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **메모리 반환 시** | 100MB 프로세스가 [Swap Out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 되면, 100MB짜리 거대한 구멍 1개가 생김 | 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Out 되면, 4KB짜리 작은 구멍 1개가 생김 |
 | **재적재 시 문제** | 디스크에서 다시 Swap In 될 때, 연속된 100MB 빈 공간이 없으면 (구멍들이 쪼개져 있으면) 적재 불가! | 빈 공간이 흩어져 있어도 상관없음. 빈 4KB 프레임 아무 곳에나 찔러넣으면 됨 |
-| **결론** | **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 악몽** 발생, 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 추가 비용 발생 | **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 원천 제거**, 공간 활용률 극대화 |
+| **결론** | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 악몽</strong> 발생, 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 추가 비용 발생 | <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 원천 제거</strong>, 공간 활용률 극대화 |
 
 ### 비교 2: I/O 디바이스 대기 상태(Waiting for I/O)에서의 안정성
 
 표준 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)에서는 하드웨어가 DMA로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 중일 때 프로세스를 통째로 날려버리면 끔찍한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴가 일어난다고 앞서 배웠다. 
-- 하지만 **[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)**에서는 I/O 전송이 걸려있는 특정 4KB 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 핀(Pinning / 락)을 걸어두고 절대 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 되지 않도록 잠근다.
+- 하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a></strong>에서는 I/O 전송이 걸려있는 특정 4KB 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 핀(Pinning / 락)을 걸어두고 절대 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 되지 않도록 잠근다.
 - 그리고 나머지 수만 개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들은 자유롭게 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/) 시킨다. 훨씬 더 세밀하고 유연한 방어벽 구축이 가능하다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────┐
-│ 스와핑 방식│ 전송 소요 시간│ 단편화 발생  │ I/O 락(Pin)단위   │
-├──────────┼────────────┼────────────┼──────────────────────────┤
-│ 표준 스왑  │ 초 단위 (느림)│ 외부 단편화 심각│ 프로세스 전체  │
-│ 페이징 스왑│ 밀리초 (빠름)│ 내부 단편화 존재│ 4KB 페이지 1장  │
-└──────────┴────────────┴────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스와핑 방식</div><div class="kb-diagram-cell">전송 소요 시간</div><div class="kb-diagram-cell">단편화 발생</div><div class="kb-diagram-cell">I/O 락(Pin)단위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 스왑</div><div class="kb-diagram-cell">초 단위 (느림)</div><div class="kb-diagram-cell">외부 단편화 심각</div><div class="kb-diagram-cell">프로세스 전체</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징 스왑</div><div class="kb-diagram-cell">밀리초 (빠름)</div><div class="kb-diagram-cell">내부 단편화 존재</div><div class="kb-diagram-cell">4KB 페이지 1장</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 완벽해 보이는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에도 약점은 있다. 4KB 단위로 고정해서 자르다 보니, 1KB만 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 4KB를 할당받아 공간이 낭비되는 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))'가 발생한다. 하지만 수십 MB가 버려지는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 비하면 이 정도 낭비는 현대 대용량 램 환경에서는 애교 수준이며, 속도적 이점이 이 모든 단점을 압살한다.
 
 - **📢 섹션 요약 비유**: 주차장에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(표준 프로세스)를 댈 때는 세 칸이 연속으로 비어있어야 하지만, 오토바이([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 아무 빈칸 하나에나 구겨 넣으면 되므로 주차장(메모리) 공간 효율이 차원이 달라집니다.
@@ -134,7 +138,7 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 현대 리눅스의 [vm](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/).swappiness 튜닝
 1. **상황**: 백엔드 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버(MySQL, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 운영 중이다. 이들은 메모리에 캐시를 꽉 채워두고 초고속으로 응답하는 것이 생명이다.
-2. **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 아웃([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out)의 역효과**:
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 아웃(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>-out)의 역효과</strong>:
    - [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(리눅스)는 똑똑한 척하며 "어? DB가 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 올려놓고 한참 동안 안 읽네? 디스크로 쫓아내고 남는 램을 딴 데 써야지"라며 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 아웃을 시켜버린다.
    - 갑자기 유저가 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요청하면 디스크에서 읽어오느라([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-in) 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) Spikes)이 발생한다.
 3. **실무적 의사결정**:
@@ -143,7 +147,7 @@ tags = ["studynote-operating-system"]
 
 ### 모바일 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 선택 (안드로이드)
 안드로이드 스마트폰은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기반 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)조차 디스크([플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)) 수명을 갉아먹는다고 판단했다.
-대신 RAM 안의 공간을 떼어내어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 **zRAM([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑 영역)**을 만들어, 디스크로 보내지 않고 메모리 내부에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out to zRAM)하고 해제([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-in from zRAM)하는 기법으로 CPU를 조금 더 쓰고 디스크 I/O를 원천 차단하는 기조를 택했다.
+대신 RAM 안의 공간을 떼어내어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 <strong>zRAM(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 스왑 영역)</strong>을 만들어, 디스크로 보내지 않고 메모리 내부에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-out to zRAM)하고 해제([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)-in from zRAM)하는 기법으로 CPU를 조금 더 쓰고 디스크 I/O를 원천 차단하는 기조를 택했다.
 
 - **📢 섹션 요약 비유**: 직원이 자주 안 쓰는 물건을 창고(디스크)로 빼려고 할 때, 사장님이 "그건 창고로 빼지 말고 그냥 책상 서랍에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩(zRAM)으로 묶어둬. 손님 오면 1초 만에 꺼내야 해!"라고 지시(swappiness 튜닝)하는 것과 같습니다.
 
@@ -156,7 +160,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **디스크 I/O 병목 해소**| 수백 MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 오버헤드를 4KB 수준으로 쪼개어 시스템 중단(Stuttering) 현상 방지 |
-| **[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 극대화**| 프로세스의 필수 조각([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 메모리에 남겨두어, 동시 실행 프로그램 수를 압도적으로 늘림 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 극대화</strong>| 프로세스의 필수 조각([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 메모리에 남겨두어, 동시 실행 프로그램 수를 압도적으로 늘림 |
 | **메모리 파편화 해결** | 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))과 결합하여, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 연산 비용을 제거 |
 
 ### 결론 및 미래 전망
@@ -178,15 +182,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스왑 아웃 (Swap out) / 스왑 인 (Swap in)]
-    │
-    ▼
-[표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)]
-    │
-    ├──▶ [연속 메모리 할당 (Contiguous Memory Allocation)]
-    └──▶ [고정 분할 방식 (Fixed Partition)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 아웃 (Swap out) / 스왑 인 (Swap in)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연속 메모리 할당 (Contiguous Memory Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고정 분할 방식 (Fixed Partition)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

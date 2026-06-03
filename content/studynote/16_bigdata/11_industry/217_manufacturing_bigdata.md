@@ -11,7 +11,7 @@ tags = ["studynote-bigdata"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 제조 빅데이터의 핵심 가치는 **계획되지 않은 다운타임(Unplanned Downtime) 제거**에 있다. 설비 1시간 정지 손실이 수억 원인 산업에서 예지정비는 투자 대비 효과가 가장 높다.
+- 제조 빅데이터의 핵심 가치는 <strong>계획되지 않은 다운타임(Unplanned Downtime) 제거</strong>에 있다. 설비 1시간 정지 손실이 수억 원인 산업에서 예지정비는 투자 대비 효과가 가장 높다.
 - [PdM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/) (Predictive Maintenance, 예지정비)은 "고장 나면 수리"에서 "고장 나기 전에 교체"로 정비 패러다임을 전환한다.
 - [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) (Industrial [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 산업사물인터넷) + 시계열 DB + [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 결합이 제조 빅데이터 아키텍처의 표준 구성이다.
 
@@ -23,31 +23,27 @@ tags = ["studynote-bigdata"]
 
 ### 정비 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 진화
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    정비 전략의 진화                               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  사후 정비 (Reactive)                                            │
-│  "고장이 나면 고친다" → 최대 다운타임, 최소 계획 가능성           │
-│                │                                                 │
-│                ▼                                                 │
-│  예방 정비 (Preventive)                                          │
-│  "일정 주기마다 교체" → 과잉 정비 비용, 잔여 수명 낭비            │
-│                │                                                 │
-│                ▼                                                 │
-│  예지 정비 (Predictive, PdM)                                     │
-│  "데이터 이상 감지 시 교체" → 최적 타이밍, 비용 최소화           │
-│                │                                                 │
-│                ▼                                                 │
-│  처방 정비 (Prescriptive)                                        │
-│  "무엇을 어떻게 수리할지 AI가 권고" → 자율 최적화 목표            │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정비 전략의 진화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사후 정비 (Reactive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"고장이 나면 고친다" → 최대 다운타임, 최소 계획 가능성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예방 정비 (Preventive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"일정 주기마다 교체" → 과잉 정비 비용, 잔여 수명 낭비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예지 정비 (Predictive, PdM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"데이터 이상 감지 시 교체" → 최적 타이밍, 비용 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처방 정비 (Prescriptive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"무엇을 어떻게 수리할지 AI가 권고" → 자율 최적화 목표</div></div>
+</div>
+</div>
+
+
 
 ### OEE (Overall Equipment Effectiveness, 종합설비효율)
 
-- **OEE = 가동률 × [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)률 × 품질률**
+- <strong>OEE = 가동률 × <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>률 × 품질률</strong>
 - 세계 평균 OEE: 약 60%, 우수 기업: 85% 이상
 - 빅데이터 목표: OEE를 1~5%p 개선 → 수십억 원 가치
 
@@ -59,48 +55,31 @@ tags = ["studynote-bigdata"]
 
 ### [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 기반 예지정비 아키텍처
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  IIoT 예지정비 플랫폼                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  [현장 설비]                                                      │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐                         │
-│  │ 진동 센서 │ │ 온도 센서 │ │ 전류 센서 │                        │
-│  └────┬─────┘ └────┬─────┘ └────┬─────┘                         │
-│       └────────────┴────────────┘                               │
-│                    │  (MQTT / OPC-UA)                           │
-│                    ▼                                             │
-│  [엣지 레이어]                                                    │
-│  ┌─────────────────────────────────┐                            │
-│  │ 엣지 서버 (Edge Computing)       │                            │
-│  │ - 1차 이상 감지 (규칙 기반)      │                            │
-│  │ - 데이터 압축 · 전처리           │                            │
-│  │ - 로컬 알람 (네트워크 단절 대비) │                            │
-│  └─────────────┬───────────────────┘                            │
-│                │                                                 │
-│                ▼                                                 │
-│  [클라우드/온프레미스 레이어]                                      │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │ 시계열 DB (InfluxDB / TimescaleDB)                        │   │
-│  │ - 수천 태그 × 1초 간격 데이터 저장                        │   │
-│  └─────────────────┬────────────────────────────────────────┘   │
-│                    │                                             │
-│           ┌────────┴──────────┐                                 │
-│           ▼                   ▼                                 │
-│  ┌──────────────────┐ ┌─────────────────────────┐              │
-│  │ 이상 탐지 모델    │ │ RUL 예측 모델            │              │
-│  │ - Isolation Forest│ │ (Remaining Useful Life)  │              │
-│  │ - Autoencoder    │ │ - LSTM / Prophet          │              │
-│  └──────────────────┘ └──────────┬──────────────┘              │
-│                                  │                              │
-│                                  ▼                              │
-│                       ┌──────────────────────┐                 │
-│                       │ 정비 작업 지시 (CMMS) │                 │
-│                       │ 부품 조달 자동 발주   │                 │
-│                       └──────────────────────┘                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IIoT 예지정비 플랫폼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현장 설비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진동 센서</div><div class="kb-diagram-cell">온도 센서</div><div class="kb-diagram-cell">전류 센서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MQTT / OPC-UA)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 서버 (Edge Computing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1차 이상 감지 (규칙 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 압축 · 전처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로컬 알람 (네트워크 단절 대비)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드/온프레미스 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 DB (InfluxDB / TimescaleDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수천 태그 × 1초 간격 데이터 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 탐지 모델</div><div class="kb-diagram-cell">RUL 예측 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Isolation Forest</div><div class="kb-diagram-cell">(Remaining Useful Life)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Autoencoder</div><div class="kb-diagram-cell">- LSTM / Prophet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정비 작업 지시 (CMMS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부품 조달 자동 발주</div></div>
+</div>
+</div>
+
+
 
 ### 불량 감지 (Quality Control) — 컴퓨터 비전
 
@@ -111,7 +90,7 @@ tags = ["studynote-bigdata"]
 | 시간당 제한 검사량 | 라인 속도와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 병목 제거 |
 | 주관적 판정 기준 | 정량적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 기준 표준화 |
 
-**[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 불량 탐지 구조**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> 불량 탐지 구조</strong>:
 - 입력: 고해상도 카메라 이미지 (4K, >100fps)
 - 모델: [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) / EfficientNet 전이학습 + [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)
 - 출력: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) + 위치 바운딩박스
@@ -149,7 +128,7 @@ tags = ["studynote-bigdata"]
 
 **환경**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/)(Chemical Mechanical Planarization) 장비. 장비 1대 정지 손실 = 시간당 수억 원.
 
-**[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링**:
+<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링</strong>:
 
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 | 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 |:---|:---|:---|
@@ -198,24 +177,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[:---]
-    │
-    ▼
-[PdM (예지정비)]
-    │
-    ▼
-[OEE (종합설비효율)]
-    │
-    ▼
-[IIoT (산업사물인터넷)]
-    │
-    ▼
-[컴퓨터 비전 검사]
-    │
-    ▼
-[시계열 DB]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PdM (예지정비)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OEE (종합설비효율)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IIoT (산업사물인터넷)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴퓨터 비전 검사</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 DB</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 :---에서 출발해 시계열 DB까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

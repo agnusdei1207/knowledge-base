@@ -52,32 +52,33 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
 
-```
-Optimistic Rollup 동작:
 
-원리: "낙관적으로 처리 (유효하다고 가정)"
-  트랜잭션을 묶어서 처리
-  처리 결과(State Root)를 L1에 게시
-  7일 챌린지 기간: 누구든 사기 증명 제출 가능
 
-처리 흐름:
-  사용자 -> L2 Sequencer (트랜잭션 처리)
-  Sequencer -> L1 (배치 커밋, 압축 calldata)
-  검증자: 배치 검토 -> 사기 발견 시 챌린지
-  7일 후 이의 없음 -> 최종 확정
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Optimistic Rollup 동작:</div>
+<div class="kb-diagram-note">원리: "낙관적으로 처리 (유효하다고 가정)"</div>
+<div class="kb-diagram-note">트랜잭션을 묶어서 처리</div>
+<div class="kb-diagram-note">처리 결과(State Root)를 L1에 게시</div>
+<div class="kb-diagram-note">7일 챌린지 기간: 누구든 사기 증명 제출 가능</div>
+<div class="kb-diagram-note">처리 흐름:</div>
+<div class="kb-diagram-note">사용자 -&gt; L2 Sequencer (트랜잭션 처리)</div>
+<div class="kb-diagram-note">Sequencer -&gt; L1 (배치 커밋, 압축 calldata)</div>
+<div class="kb-diagram-note">검증자: 배치 검토 -&gt; 사기 발견 시 챌린지</div>
+<div class="kb-diagram-note">7일 후 이의 없음 -&gt; 최종 확정</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-note">EVM 호환성 높음 (기존 Ethereum 앱 그대로 이식)</div>
+<div class="kb-diagram-note">구현 상대적으로 간단</div>
+<div class="kb-diagram-note">단점:</div>
+<div class="kb-diagram-note">인출 대기: 7일 (L2 -&gt; L1 자금 이동)</div>
+<div class="kb-diagram-note">사기 증명 비용 (챌린저 필요)</div>
+<div class="kb-diagram-note">대표:</div>
+<div class="kb-diagram-note">Arbitrum One (TVL 1위, EVM 완전 호환)</div>
+<div class="kb-diagram-note">Optimism (OP Stack, Coinbase Base 기반)</div>
+</div>
+</div>
 
-장점:
-  EVM 호환성 높음 (기존 Ethereum 앱 그대로 이식)
-  구현 상대적으로 간단
-  
-단점:
-  인출 대기: 7일 (L2 -> L1 자금 이동)
-  사기 증명 비용 (챌린저 필요)
-  
-대표:
-  Arbitrum One (TVL 1위, EVM 완전 호환)
-  Optimism (OP Stack, Coinbase Base 기반)
-```
+
 
 > 📢 **섹션 요약 비유**: Optimistic Rollup은 온라인 경매 7일 환불 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) — 판매자는 즉시 결제 수령, 구매자는 7일 내 사기 신고 가능.
 

@@ -35,22 +35,23 @@ tags = ["enterprise_systems"]
 | 핵심 요소 | 역할 | 필수 IT 기술 |
 |:---|:---|:---|
 | **사전 정보 공유** | 짐이 도착하기 전, 어떤 물건이 언제 오는지 센터가 미리 파악 | EDI (Electronic [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange), ASN (Advanced Shipping Notice) |
-| **고속 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 자동화** | 박스를 열지 않고 바코드/RFID만으로 0.1초 만에 행선지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 자동 스캐너, 고속 소터 (Cross-belt Sorter) |
-| **정밀 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링** | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
+| <strong>고속 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 자동화</strong> | 박스를 열지 않고 바코드/RFID만으로 0.1초 만에 행선지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 자동 스캐너, 고속 소터 (Cross-belt Sorter) |
+| <strong>정밀 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong> | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             크로스 도킹 (Cross-Docking) 물류 흐름              │
-├──────────────────────────────────────────────────────────────┤
-│ [공급처 트럭]                                   [고객 배송 트럭] │
-│      │        (창고 보관, 적치, 피킹 과정 삭제!)        ▲      │
-│      ▼        ================================       │      │
-│ ┌─────────┐   │ [초고속 자동 분류 컨베이어]  │    ┌─────────┐ │
-│ │ 입고 도크 │ ──▶ [바코드 스캔] ─▶ [행선지 분류] ──▶ │ 출고 도크 │ │
-│ └─────────┘   ================================    └─────────┘ │
-│ (Inbound)        머무는 시간: 보통 24시간 이내         (Outbound)│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크로스 도킹 (Cross-Docking) 물류 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">공급처 트럭</div><div class="kb-diagram-node">고객 배송 트럭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(창고 보관, 적치, 피킹 과정 삭제!) ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">초고속 자동 분류 컨베이어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">바코드 스캔</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">행선지 분류</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">출고 도크 │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inbound) 머무는 시간: 보통 24시간 이내 (Outbound)</div></div>
+</div>
+</div>
+
+
 
 그림에서 보듯 가운데 존재해야 할 거대한 선반 창고 구역이 통째로 삭제되고, 입고와 출고가 컨베이어 벨트를 통해 하나의 직선 흐름으로 직결된다.
 
@@ -67,7 +68,7 @@ tags = ["enterprise_systems"]
 | **핵심 목적** | 재고 확보를 통한 수요 불확실성 대응 | 리드타임 단축 및 보관/하역 비용 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 | **주요 비용 요소** | 창고 임대료, 지게차, 보관/피킹 인건비 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IT 인프라 구축, 자동화 컨베이어 설비 |
 | **적합한 품목** | 수요 예측이 어려운 상품, 안전재고 필요 상품 | 신선 식품, 판매량이 일정하고 예측 가능한 상품 |
-| **치명적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 재고 노후화, 보관 비용 눈덩이 증가 | 트럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(교통체증) 시 물류센터 전체 마비 |
+| <strong>치명적 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 재고 노후화, 보관 비용 눈덩이 증가 | 트럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(교통체증) 시 물류센터 전체 마비 |
 
 크로스 도킹은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 및 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 긴밀히 연결된다. 공급업체의 생산 일정, 물류센터의 컨베이어 속도, 각 매장의 실시간 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(POS)가 하나의 신경망처럼 연결되어 있어야만 크로스 도킹의 타이밍을 맞출 수 있다.
 
@@ -85,7 +86,7 @@ tags = ["enterprise_systems"]
    - 공급사에서 ASN (Advanced Shipping Notice)을 전송할 능력이 없고, 박스 규격표준화 및 바코드 부착이 엉망이라면 도입을 철회해야 한다. 하역장에서 알바생이 박스를 열어 수작업으로 검수하는 순간 크로스 도킹은 실패다.
 2. **취급 품목에 따른 채택 여부**
    - 부패하기 쉬운 신선식품(우유, 채소)이나, 프로모션으로 대량 출고가 확정된 상품에 최우선 적용한다. 수요가 들쭉날쭉한 롱테일(Long-tail) 상품에는 기존 창고 방식을 유지하는 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞다.
-3. **물류 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 대비**
+3. <strong>물류 병목 (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 대비</strong>
    - 눈폭풍이나 교통사고로 출고 트럭 도착이 2시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면, 입하된 물건이 컨베이어벨트 밖으로 넘쳐 흐른다. 버퍼 공간과 비상 보관 시나리오를 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 서커스에서 공중그네를 타는 것과 같습니다. 서로 뛰어내리고 잡아주는 타이밍(IT [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링)이 0.1초라도 어긋나면 그네(수익)를 놓치고 바닥으로 추락하게 되니, 파트너 간의 신뢰와 연습이 절대적입니다.
@@ -113,21 +114,23 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 보관 중심 창고 (Warehousing)
-    │
-    ▼
-바코드/RFID 및 EDI/ASN 정보 인프라 확충
-    │
-    ▼
-크로스 도킹 (Cross-Docking) 도입 (보관 시간 최소화)
-    │
-    ▼
-물류센터 자동화 (고속 Sorter, 무인 AGV 결합)
-    │
-    ▼
-데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 보관 중심 창고 (Warehousing)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">바코드/RFID 및 EDI/ASN 정보 인프라 확충</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">크로스 도킹 (Cross-Docking) 도입 (보관 시간 최소화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">물류센터 자동화 (고속 Sorter, 무인 AGV 결합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 과거의 '보관' 중심에서 정보 인프라를 바탕으로 '통과' 중심으로 진화하고, 궁극적으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화와 결합하여 무재고 풀필먼트로 나아가는 물류의 진보를 보여준다.
 

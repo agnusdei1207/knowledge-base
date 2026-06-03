@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: IP 패킷의 크기가 통과해야 할 링크의 최대 전송 단위(MTU)보다 클 때, 패킷을 여러 개의 더 작은 IP 패킷으로 쪼개는 3계층의 동작 메커니즘.
 - **필요성**: 세상의 모든 네트워크가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(MTU 1500)이라면 좋겠지만, 구형 망인 X.25(MTU 576), [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)(MTU 4464) 등 선로마다 허용하는 짐의 크기가 제각각이다. 4000바이트 크기의 패킷이 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)을 잘 가다가 갑자기 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구간을 만나면, 문이 1500바이트밖에 안 돼서 꽉 끼어버린다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버릴 순 없으니, 라우터가 땀을 뻘뻘 흘리며 4000바이트짜리 짐을 1500, 1500, 1000 사이즈로 찢어서 3개의 새로운 IP 패킷 봉투에 나눠 담는 수고가 필수적이었다.
 
-- **💡 비유**: 단편화는 이사할 때 **"큰 장롱을 좁은 방문으로 빼내는 작업"**과 같습니다. 장롱이 문에 걸리면 일꾼(라우터)이 드라이버를 가져와 장롱을 3조각으로 분해(Fragmentation)해서 옮깁니다. 이삿짐이 새 집에 도착하면 집주인(수신 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 설명서(Offset)를 보고 다시 장롱을 원래대로 조립(Reassembly)해야 합니다.
+- **💡 비유**: 단편화는 이사할 때 <strong>"큰 장롱을 좁은 방문으로 빼내는 작업"</strong>과 같습니다. 장롱이 문에 걸리면 일꾼(라우터)이 드라이버를 가져와 장롱을 3조각으로 분해(Fragmentation)해서 옮깁니다. 이삿짐이 새 집에 도착하면 집주인(수신 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 설명서(Offset)를 보고 다시 장롱을 원래대로 조립(Reassembly)해야 합니다.
 
-```text
-[DF 비트 / MF 비트]
-    │
-    ▼
-[단편화 및 재조립]
-    │
-    └──▶ [패킷 캡슐화, MTU]
-```
 
-- **📢 섹션 요약 비유**: ** 라우터는 통과 구멍이 작은 우체통 앞에서, 고객이 보낸 거대한 택배 박스를 가차 없이 칼로 찢어 **여러 개의 작은 박스로 재포장해 구겨 넣는 "무자비한 포장 센터"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DF 비트 / MF 비트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단편화 및 재조립</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 캡슐화, MTU</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 라우터는 통과 구멍이 작은 우체통 앞에서, 고객이 보낸 거대한 택배 박스를 가차 없이 칼로 찢어 </strong>여러 개의 작은 박스로 재포장해 구겨 넣는 "무자비한 포장 센터"**입니다.
 
 ---
 
@@ -47,30 +51,30 @@ tags = ["studynote-network"]
 ### 2. 재조립 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) (Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))
 목적지 PC가 3개의 조각을 받아야 재조립이 완성되는데, 1번과 2번 조각만 오고 3번 조각이 인터넷 어딘가에서 증발(Drop)해 버렸다.
 - PC는 "언젠가 3번이 오겠지?"라며 버퍼 메모리에 1, 2번을 들고 무작정 기다린다.
-- 시간이 15초 이상 흐르면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), PC는 **"기다리다 지쳤다! 이 조각들은 다 쓸모없어!"라며 1, 2번 조각마저 쓰레기통에 폐기**해 버린다.
+- 시간이 15초 이상 흐르면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), PC는 <strong>"기다리다 지쳤다! 이 조각들은 다 쓸모없어!"라며 1, 2번 조각마저 쓰레기통에 폐기</strong>해 버린다.
 - TCP는 원본 패킷이 안 온 줄 알고 원본 4000바이트 전체를 처음부터 다시 재전송한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                단편화의 '전부 아니면 무(All or Nothing)' 딜레마   │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 송신자 ] ──▶ (원본 4000B 전송) ──▶ [ 라우터 (MTU 1500) ]  │
- │                                             │               │
- │                      ┌─ (조각 1) ── (조립 대기 중) ─┐           │
- │   [ 수신자 PC ] ◀────┼─ (조각 2) ── (조립 대기 중) ─┤           │
- │                      └─ (조각 3) ── (X 분실 X)    ─┘           │
- │                                                             │
- │   * 결과: 조각 3 하나만 잃어버렸는데, 수신자 PC는 15초 뒤에 조각 1, 2  │
- │          마저 폐기해 버림. 결국 4000B "통째로 다시 보내라"고 윽박지름.  │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단편화의 '전부 아니면 무(All or Nothing)' 딜레마</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 (MTU 1500)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (조각 1) ── (조립 대기 중) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 PC</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (조각 2) ── (조립 대기 중) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (조각 3) ── (X 분실 X) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 조각 3 하나만 잃어버렸는데, 수신자 PC는 15초 뒤에 조각 1, 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마저 폐기해 버림. 결국 4000B "통째로 다시 보내라"고 윽박지름.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 현대 네트워크의 회피 전술
 단편화는 라우터의 CPU를 갉아먹고(라우터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하), 패킷 하나만 분실돼도 망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체를 낭비하는 재앙을 부른다. 
-그래서 현대의 컴퓨터와 서버들은 아예 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신을 시작할 때, 목적지까지 가는 길목 중 가장 좁은 문(Path MTU)을 미리 알아낸 다음, 처음부터 **단편화가 발생하지 않을 크기(보통 1460 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 이하)로 미리 잘게 썰어서** 패킷을 쏘는 방식을 채택했다. 이를 통해 라우터가 칼질하는 수고를 원천적으로 없앴다.
+그래서 현대의 컴퓨터와 서버들은 아예 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신을 시작할 때, 목적지까지 가는 길목 중 가장 좁은 문(Path MTU)을 미리 알아낸 다음, 처음부터 <strong>단편화가 발생하지 않을 크기(보통 1460 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 이하)로 미리 잘게 썰어서</strong> 패킷을 쏘는 방식을 채택했다. 이를 통해 라우터가 칼질하는 수고를 원천적으로 없앴다.
 
-- **📢 섹션 요약 비유**: ** 단편화는 3조각으로 나뉜 보물지도와 같습니다. 2조각을 먼저 찾아도 마지막 1조각을 잃어버리면 보물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 찾을 수 없으므로, 여태껏 힘들게 찾은 2조각마저 찢어버리고 지도를 **처음부터 통째로 다시 그려야 하는 엄청난 삽질**을 유발합니다.
+- **📢 섹션 요약 비유**: <strong> 단편화는 3조각으로 나뉜 보물지도와 같습니다. 2조각을 먼저 찾아도 마지막 1조각을 잃어버리면 보물(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 찾을 수 없으므로, 여태껏 힘들게 찾은 2조각마저 찢어버리고 지도를 </strong>처음부터 통째로 다시 그려야 하는 엄청난 삽질**을 유발합니다.
 
 ---
 
@@ -126,15 +130,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DF 비트 / MF 비트]
-    │
-    ▼
-[현재 개념: 단편화 및 재조립]
-    │
-    ├──▶ [확장 A: 패킷 캡슐화, MTU]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DF 비트 / MF 비트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 단편화 및 재조립</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 캡슐화, MTU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 단편화 및 재조립는 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 캡슐화, MTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

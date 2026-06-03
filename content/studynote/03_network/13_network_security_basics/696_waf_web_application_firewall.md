@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **기존 장비의 맹점**: 네트워크 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(L3/L4)은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 봅니다. IPS는 수만 가지 잡다한 네트워크 해킹(DDoS, 웜)은 막아내지만, HTTP라는 깊은 우물 속까지 꼼꼼하게 뒤져볼 여력이 없습니다.
-- **WAF의 개념**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 IPS가 놓친 틈을 파고드는 **SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)), [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/)([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/)), 웹 셸 업로드 등 오직 "웹 응용 계층(L7, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))"의 취약점만을 집요하게 파고드는 공격을 탐지하고 차단하는 데 올인한 웹 특화 전용 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)**입니다.
+- **WAF의 개념**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 IPS가 놓친 틈을 파고드는 <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">Injection</a>), <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/">크로스 사이트 스크립팅</a>(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a>), 웹 셸 업로드 등 오직 "웹 응용 계층(L7, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)"의 취약점만을 집요하게 파고드는 공격을 탐지하고 차단하는 데 올인한 웹 특화 전용 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a></strong>입니다.
 
-```text
-[IPS 차단 아키텍처]
-    │
-    ▼
-[WAF]
-    │
-    └──▶ [UTM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UTM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WAF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,17 +42,21 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 WAF가 막아내야 할 주적(Target)은 전 세계 웹 해킹 방어 표준 기구인 OWASP에서 매년 발표하는 '웹 취약점 Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)' 명단입니다.
-1. **SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) ([SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/))**: 네이버 아이디 입력창에 `admin' OR '1'='1` 이라는 해킹 코드를 적어서 서버의 DB를 털어버리는 공격. WAF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Payload(입력값) 안에 이런 특수문자가 들어오면 기가 막히게 필터링하여 잘라냅니다.
-2. **[XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) ([크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/))**: 게시판 글에 악성 자바스크립트를 몰래 적어두어, 그걸 클릭한 다른 사용자의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(로그인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 훔쳐 가는 공격.
+1. <strong>SQL <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">인젝션</a> (<a href="/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/">SQL Injection</a>)</strong>: 네이버 아이디 입력창에 `admin' OR '1'='1` 이라는 해킹 코드를 적어서 서버의 DB를 털어버리는 공격. WAF는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Payload(입력값) 안에 이런 특수문자가 들어오면 기가 막히게 필터링하여 잘라냅니다.
+2. <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> (<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/">크로스 사이트 스크립팅</a>)</strong>: 게시판 글에 악성 자바스크립트를 몰래 적어두어, 그걸 클릭한 다른 사용자의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(로그인 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 훔쳐 가는 공격.
 
-```text
-[IPS 차단 아키텍처]
-    │
-    ▼
-[WAF]
-    │
-    └──▶ [UTM]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UTM</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: WAF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -56,7 +64,7 @@ WAF가 막아내야 할 주적(Target)은 전 세계 웹 해킹 방어 표준 �
 
 ## Ⅲ. 비교 및 연결
 
-- 기존 IPS의 가장 큰 약점은, 요즘 웹의 90% 이상이 **[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화)**로 암호화되어 있어 패킷 내용물을 깔 수가 없는 까막눈이 되었다는 점입니다.
+- 기존 IPS의 가장 큰 약점은, 요즘 웹의 90% 이상이 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화)</strong>로 암호화되어 있어 패킷 내용물을 깔 수가 없는 까막눈이 되었다는 점입니다.
 - **WAF의 무기**: WAF 장비 안에 아예 웹서버의 'SSL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 개인키'를 이식해 버립니다. 즉, 암호화된 트래픽이 들어오면 WAF가 서버 대신 암호를 싹 다 풀어서(복호화) 알맹이의 SQL 코드를 다 엑스레이 검사한 뒤, 이상이 없으면 다시 예쁘게 암호화해서 웹서버로 넘겨줍니다. ([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 아키텍처 기반)
 
 WAF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처가 기반 조건을 만든다면, WAF는 그 위에서 핵심 메커니즘을 구현하고, UTM는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -74,8 +82,8 @@ WAF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 그래서 오늘날 큰 기업의 서버실 앞에는 장비가 3중으로 겹겹이 세워져 있습니다.
-1. **1차선 ([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), FW)**: "중국 IP, 북한 IP 다 막고, 웹(80, 443) 빼고 쓸데없는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 싹 다 닫아!" (거름망)
-2. **2차선 ([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))**: "허용된 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오긴 했는데, 패킷 모양이 이상한 디도스나 악성 웜 찌꺼기면 여기서 다 불태워 버려!" (정수기 필터)
+1. <strong>1차선 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, FW)</strong>: "중국 IP, 북한 IP 다 막고, 웹(80, 443) 빼고 쓸데없는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 싹 다 닫아!" (거름망)
+2. <strong>2차선 (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a>)</strong>: "허용된 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오긴 했는데, 패킷 모양이 이상한 디도스나 악성 웜 찌꺼기면 여기서 다 불태워 버려!" (정수기 필터)
 3. **3차선 (WAF)**: "드디어 순수한 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청만 남았군. 이제 돋보기를 끼고 사용자가 게시판 검색창에 나쁜 코드(SQL)를 썼나 안 썼나 단어 하나하나 글자 검사를 시작하지!" (마이크로 필터)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -107,15 +115,19 @@ WAF는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IPS 차단 아키텍처]
-    │
-    ▼
-[현재 개념: WAF]
-    │
-    ├──▶ [확장 A: UTM]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPS 차단 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WAF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UTM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 WAF는 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 UTM와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

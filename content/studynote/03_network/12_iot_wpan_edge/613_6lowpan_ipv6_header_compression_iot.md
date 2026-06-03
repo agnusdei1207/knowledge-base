@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **풀네임**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) over Low-[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wireless Personal Area Networks
-- **개념**: 속도가 극도로 느리고 패킷 크기가 매우 작은 저전력 무선 통신망(IEEE 802.15.4 기반, 예: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 위에서, **덩치가 큰 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷을 원활하게 주고받을 수 있도록 중간에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 쪼개주는(적응 계층, Adaptation Layer) [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 기술**입니다.
+- **개념**: 속도가 극도로 느리고 패킷 크기가 매우 작은 저전력 무선 통신망(IEEE 802.15.4 기반, 예: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 위에서, <strong>덩치가 큰 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 패킷을 원활하게 주고받을 수 있도록 중간에서 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하고 쪼개주는(적응 계층, Adaptation Layer) <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/">IETF</a> 표준 기술</strong>입니다.
 
-```text
-[Matter 보안 통일 표준]
-    │
-    ▼
-[6LoWPAN]
-    │
-    └──▶ [RPL]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6LoWPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RPL</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 6LoWPAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **IPv6의 요구사항**: 인터넷 통신을 하려면 패킷의 최소 크기(MTU)가 **1,280바이트**는 되어야 한다고 규정하고 있습니다. 게다가 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 자체 헤더(주소표표)만 무려 40바이트를 차지합니다.
-- **802.15.4 무선망의 한계**: 그런데 저전력 무선망은 한 번에 쏠 수 있는 최대 패킷 크기(MTU)가 고작 **127바이트**밖에 안 됩니다. 이 중 물리 계층 헤더 25바이트, 보안 암호 21바이트를 빼고, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 40바이트까지 빼버리면, 실제 온도를 측정한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이'를 실을 공간이 30바이트도 남지 않는 끔찍한 비효율이 발생합니다.
+- **IPv6의 요구사항**: 인터넷 통신을 하려면 패킷의 최소 크기(MTU)가 <strong>1,280바이트</strong>는 되어야 한다고 규정하고 있습니다. 게다가 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 자체 헤더(주소표표)만 무려 40바이트를 차지합니다.
+- **802.15.4 무선망의 한계**: 그런데 저전력 무선망은 한 번에 쏠 수 있는 최대 패킷 크기(MTU)가 고작 <strong>127바이트</strong>밖에 안 됩니다. 이 중 물리 계층 헤더 25바이트, 보안 암호 21바이트를 빼고, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 40바이트까지 빼버리면, 실제 온도를 측정한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이'를 실을 공간이 30바이트도 남지 않는 끔찍한 비효율이 발생합니다.
 
-```text
-[Matter 보안 통일 표준]
-    │
-    ▼
-[6LoWPAN]
-    │
-    └──▶ [RPL]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">6LoWPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RPL</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 6LoWPAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 ### 1. 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Header [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) - 뼈 깎는 다이어트
 - [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 40바이트 중, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정보나 출발지/목적지 IP 주소의 앞부분 등 '뻔하게 겹치는 내용(공통 접두사, Prefix)'을 모조리 생략해 버립니다.
-- 주변 노드끼리 통신할 때는 긴 IP 주소 대신 이미 알고 있는 짧은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 유추하게 만들어, **40바이트짜리 뚱뚱한 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더를 불과 2바이트~7바이트 수준으로 극한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**해 버립니다. 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이를 실을 공간이 빵빵해집니다.
+- 주변 노드끼리 통신할 때는 긴 IP 주소 대신 이미 알고 있는 짧은 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 유추하게 만들어, <strong>40바이트짜리 뚱뚱한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 헤더를 불과 2바이트~7바이트 수준으로 극한 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>해 버립니다. 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 알맹이를 실을 공간이 빵빵해집니다.
 
 ### 2. [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 및 재조립 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) & Reassembly) - 잘게 썰기
 - 외부 인터넷망에서 1,280바이트짜리 거대한 패킷 덩어리가 들어오면, 이를 802.15.4 규격에 맞게 100바이트 남짓의 작은 조각으로 여러 번 잘게 썹니다([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)).
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Matter 보안 통일 표준]
-    │
-    ▼
-[현재 개념: 6LoWPAN]
-    │
-    ├──▶ [확장 A: RPL]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Matter 보안 통일 표준</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 6LoWPAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RPL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 6LoWPAN는 [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 보안 통일 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 RPL와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: "[Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)"는 본래 긴 서사시나 연대기를 뜻한다. 한 방에 짧게 끝나는 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(`BEGIN-COMMIT`)을 쓰지 못하니, 긴 시간을 들여 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 로컬 DB를 순서대로 변경해 나가는 긴 여정([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))을 의미한다.
 
-- **필요성**: [1. 고객의 돈을 차감한다] -> [2. 재고를 줄인다] -> [3. 배달을 요청한다]. 3번 배달 요청을 보내려다 에러가 났다. 모놀리식 시절에는 DB가 하나라서 `Rollback` 한 줄 치면 1, 2번 데이터가 마법처럼 되돌아갔다. 하지만 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 `결제 DB`와 `재고 DB`가 물리적으로 남남이다. 이미 커밋(Commit)되어 버린 남의 집 DB를 어떻게 되돌릴 것인가? 누군가가 결제 서버에 "아까 뺀 돈 다시 더해놔(+)", 재고 서버에 "아까 뺀 재고 다시 더해놔(+)"라고 **역방향 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))**를 날려주어야만 시스템이 망가지지 않는다.
+- **필요성**: [1. 고객의 돈을 차감한다] -> [2. 재고를 줄인다] -> [3. 배달을 요청한다]. 3번 배달 요청을 보내려다 에러가 났다. 모놀리식 시절에는 DB가 하나라서 `Rollback` 한 줄 치면 1, 2번 데이터가 마법처럼 되돌아갔다. 하지만 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 `결제 DB`와 `재고 DB`가 물리적으로 남남이다. 이미 커밋(Commit)되어 버린 남의 집 DB를 어떻게 되돌릴 것인가? 누군가가 결제 서버에 "아까 뺀 돈 다시 더해놔(+)", 재고 서버에 "아까 뺀 재고 다시 더해놔(+)"라고 <strong>역방향 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/">보상 트랜잭션</a>)</strong>를 날려주어야만 시스템이 망가지지 않는다.
 
-- **💡 비유**: 호텔 방, 비행기, 렌터카를 세 군데 예약 사이트에서 차례대로 예약하는 것과 같습니다. 호텔과 비행기는 성공했는데, 마지막 렌터카 예약이 매진으로 취소됐습니다. 이때 시스템이 알아서 **호텔에 "아까 예약한 거 취소해주세요", 비행기에 "아까 끊은 표 환불해주세요"라고 차례대로 역주문을 넣어주는 구조**가 바로 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴의 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)입니다.
+- **💡 비유**: 호텔 방, 비행기, 렌터카를 세 군데 예약 사이트에서 차례대로 예약하는 것과 같습니다. 호텔과 비행기는 성공했는데, 마지막 렌터카 예약이 매진으로 취소됐습니다. 이때 시스템이 알아서 <strong>호텔에 "아까 예약한 거 취소해주세요", 비행기에 "아까 끊은 표 환불해주세요"라고 차례대로 역주문을 넣어주는 구조</strong>가 바로 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴의 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/)([Two-Phase Commit](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))의 한계**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 환경에선 중앙 코디네이터가 모든 DB에게 "커밋할 준비 됐어?" 묻고, 100% "네" 할 때까지 모든 시스템에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어두는 2PC를 썼다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수십 개가 얽히자 이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 때문에 시스템이 극도로 느려져 폐기되었다.
-  2. **1987년 Hector Garcia-Molina의 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 논문**: 긴 수명의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 다루기 위해 하위 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 보상(취소) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 쌍을 제안한 고전 논문이 발굴되었다.
-  3. **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 구원자로 등극**: 클라우드 시대에 [데이터베이스 퍼 서비스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)(DB per [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 패턴이 강제되면서, NoSQL이나 다양한 이기종 DB를 느슨하게 묶어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 일치시키는 유일한 탈출구로 사가 패턴이 부활했다.
+  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">2PC</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/">Two-Phase Commit</a>)의 한계</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 환경에선 중앙 코디네이터가 모든 DB에게 "커밋할 준비 됐어?" 묻고, 100% "네" 할 때까지 모든 시스템에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어두는 2PC를 썼다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수십 개가 얽히자 이 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 때문에 시스템이 극도로 느려져 폐기되었다.
+  2. <strong>1987년 Hector Garcia-Molina의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> 논문</strong>: 긴 수명의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 다루기 위해 하위 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 보상(취소) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 쌍을 제안한 고전 논문이 발굴되었다.
+  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 구원자로 등극</strong>: 클라우드 시대에 [데이터베이스 퍼 서비스](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)(DB per [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 패턴이 강제되면서, NoSQL이나 다양한 이기종 DB를 느슨하게 묶어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 일치시키는 유일한 탈출구로 사가 패턴이 부활했다.
 
 - **📢 섹션 요약 비유**: 옛날엔 3명의 친구가 동시에 점프해야만 성공하는 '줄넘기([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))'였다면, 사가 패턴은 1번 친구 뛰고, 2번 뛰고, 3번 뛰는 '징검다리 릴레이'입니다. 중간에 3번이 넘어지면 2번, 1번 친구가 뒤로 한 칸씩 다시 물러서서(보상) 처음 상태로 예쁘게 되돌려 놓는 영리한 룰입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 사가 ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴의 코레오그래피의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사가 (Saga) 패턴의 코레오그래피                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사가 (Saga) 패턴의 코레오그래피</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 사가 ([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴의 코레오그래피가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -141,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사가 (Saga) 패턴의 코레오그래피 (Choreography) vs 오케스트레이션 (Orchestration) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사가 (Saga) 패턴의 코레오그래피 (Choreography) vs 오케스트레이션 (Orchestration) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,29 +19,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-변위 주소 지정은 **"큰 주소는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 두고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에는 그 기준점에서 얼마나 떨어져 있는지만 적는"** 방식이다. 예를 들어 `LOAD R0, 12(R3)`라면 `R3`가 가리키는 기준 주소에 12를 더해 실제 메모리 위치를 찾는다. 절대 위치를 매번 적는 대신, 기준점과 거리라는 두 조각으로 주소를 표현하는 셈이다.
+변위 주소 지정은 <strong>"큰 주소는 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>에 두고, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>에는 그 기준점에서 얼마나 떨어져 있는지만 적는"</strong> 방식이다. 예를 들어 `LOAD R0, 12(R3)`라면 `R3`가 가리키는 기준 주소에 12를 더해 실제 메모리 위치를 찾는다. 절대 위치를 매번 적는 대신, 기준점과 거리라는 두 조각으로 주소를 표현하는 셈이다.
 
-이 방식이 필요한 이유는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수는 제한되어 있는데 메모리 주소 공간은 점점 커지기 때문이다. [직접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) ([Direct Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))은 해석은 단순하지만 주소 필드가 길어질수록 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 무거워진다. 반대로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/))은 유연하지만, 같은 객체 안의 여러 필드를 다룰 때는 정확한 주소를 매번 따로 계산하거나 갱신해야 한다. 변위 주소 지정은 **기준 주소는 한 번 잡고, 근처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 작은 오프셋으로 계속 접근**하게 해 주어 이 둘 사이의 간극을 메운다.
+이 방식이 필요한 이유는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수는 제한되어 있는데 메모리 주소 공간은 점점 커지기 때문이다. [직접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) ([Direct Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))은 해석은 단순하지만 주소 필드가 길어질수록 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 무거워진다. 반대로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/))은 유연하지만, 같은 객체 안의 여러 필드를 다룰 때는 정확한 주소를 매번 따로 계산하거나 갱신해야 한다. 변위 주소 지정은 <strong>기준 주소는 한 번 잡고, 근처 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 작은 오프셋으로 계속 접근</strong>하게 해 주어 이 둘 사이의 간극을 메운다.
 
 아래 그림은 왜 "절대 주소 반복"보다 "기준점 + 거리"가 더 실용적인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why displacement addressing exists                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ large memory space                                                 │
-│ 0x0000_0000 ........................................ 0xFFFF_FFFF   │
-│                                                                    │
-│ direct addressing  : instruction must carry full target address    │
-│ register indirect  : register must already hold exact target       │
-│ displacement       : register holds region base, instruction says  │
-│                      only "how far from the base?"                 │
-│                                                                    │
-│ result : shorter instruction + flexible access to nearby objects   │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 **주소를 둘로 쪼개는 것**이다. 큰 기준점은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 맡고, 자주 바뀌지 않는 짧은 상대 거리는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 맡는다. 그래서 함수의 지역 변수, 객체의 멤버, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 내부 슬롯처럼 "같은 기준점 주변의 값들"을 읽을 때 특히 효율적이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why displacement addressing exists</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">large memory space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0000_0000 ........................................ 0xFFFF_FFFF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">direct addressing : instruction must carry full target address</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register indirect : register must already hold exact target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">displacement : register holds region base, instruction says</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">only "how far from the base?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : shorter instruction + flexible access to nearby objects</div></div>
+</div>
+</div>
+
+
+
+핵심은 <strong>주소를 둘로 쪼개는 것</strong>이다. 큰 기준점은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 맡고, 자주 바뀌지 않는 짧은 상대 거리는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 맡는다. 그래서 함수의 지역 변수, 객체의 멤버, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 내부 슬롯처럼 "같은 기준점 주변의 값들"을 읽을 때 특히 효율적이다.
 
 - **📢 섹션 요약 비유**: 변위 주소 지정은 "서울역(Base)에서 3번 출구 쪽으로 20m"라고 말하는 길찾기와 같다. 큰 위치는 한 번만 잡고, 나머지는 짧은 거리 설명으로 충분해진다.
 
@@ -49,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-변위 주소 지정의 핵심 수식은 단순하다. **`EA = Base + Displacement`** 다. 여기서 `Base`는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 안의 기준 주소이고, `Displacement`는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 상수다. 변위가 음수일 수도 있으므로, 하드웨어는 보통 부호 확장 (Sign Extension)을 거친 뒤 주소 가산기에서 더한다.
+변위 주소 지정의 핵심 수식은 단순하다. <strong><code>EA = Base + Displacement</code></strong> 다. 여기서 `Base`는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 안의 기준 주소이고, `Displacement`는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 상수다. 변위가 음수일 수도 있으므로, 하드웨어는 보통 부호 확장 (Sign Extension)을 거친 뒤 주소 가산기에서 더한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -61,29 +62,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전형적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Example: LOAD R0, -16(R5)                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ instruction field      register file                               │
-│   disp = -16  ─────┐    R5 = 0x7FFF_FF20                           │
-│                    │            │                                  │
-│                    ▼            ▼                                  │
-│               sign extension   base read                           │
-│                    └──────┬─────┘                                  │
-│                           ▼                                        │
-│                  AGU / address adder                               │
-│               EA = 0x7FFF_FF20 + (-16)                             │
-│                           │                                        │
-│                           ▼                                        │
-│                     Cache / Memory                                 │
-│                           │                                        │
-│                           ▼                                        │
-│                         R0 <- data                                 │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조는 특히 **지역성이 강한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**에 잘 맞는다. [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 주변에 지역 변수가 몰려 있고, 객체의 필드는 객체 시작 주소 근처에 연속 배치되며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소도 기준 주소에서 일정한 간격으로 이어진다. CPU는 이런 구조를 이용해 "기준점은 크게, 세부 위치는 작게" 표현함으로써 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 짧게 유지한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example: LOAD R0, -16(R5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction field register file</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">disp = -16 R5 = 0x7FFF_FF20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sign extension base read</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AGU / address adder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA = 0x7FFF_FF20 + (-16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache / Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R0 &lt;- data</div></div>
+</div>
+</div>
+
+
+
+이 구조는 특히 <strong>지역성이 강한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>에 잘 맞는다. [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 시 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 주변에 지역 변수가 몰려 있고, 객체의 필드는 객체 시작 주소 근처에 연속 배치되며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소도 기준 주소에서 일정한 간격으로 이어진다. CPU는 이런 구조를 이용해 "기준점은 크게, 세부 위치는 작게" 표현함으로써 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 짧게 유지한다.
 
 또한 변위 주소 지정은 단순한 편의 기능이 아니라 파이프라인 친화적인 설계다. 현대 CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독과 동시에 AGU가 EA를 계산하도록 설계하여, 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))와 주소 계산을 일부 병렬화한다. 그래서 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 설계자는 변위 폭을 크게 넓히고 싶은 유혹과, AGU 지연과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인코딩 비용을 줄이고 싶은 요구 사이에서 균형을 잡아야 한다.
 
@@ -93,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-변위 주소 지정은 단일 기법이라기보다 **"기준점 + 상대 거리"라는 공통 철학**에 가깝다. 무엇을 기준점으로 쓰느냐에 따라 여러 주소 지정 방식으로 분화된다. 이 관점으로 보면 변위 주소 지정은 뒤이어 나오는 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/), 상대 주소 지정의 상위 개념이다.
+변위 주소 지정은 단일 기법이라기보다 <strong>"기준점 + 상대 거리"라는 공통 철학</strong>에 가깝다. 무엇을 기준점으로 쓰느냐에 따라 여러 주소 지정 방식으로 분화된다. 이 관점으로 보면 변위 주소 지정은 뒤이어 나오는 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), [인덱스 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/), 상대 주소 지정의 상위 개념이다.
 
 | 방식 | 유효 주소 계산 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -106,15 +102,20 @@ tags = ["studynote-computer-architecture"]
 
 다른 방식과의 경계도 중요하다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)은 "정확한 주소가 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 안에 이미 있다"는 가정에 강하지만, 변위 주소 지정은 "정확한 주소까지는 아니어도 기준점은 알고 있다"는 상황에 강하다. 그래서 구조체 필드 접근처럼 멤버 위치가 컴파일 시점에 정해져 있을 때는 변위 주소 지정이 더 자연스럽다.
 
-반대로 동적으로 `i`가 계속 바뀌는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회는 순수 변위만으로는 부족하고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 스케일드 인덱싱과 결합해야 한다. 또 분기 명령은 보통 PC를 기준점으로 삼는 상대 주소 지정을 사용한다. 즉 변위 주소 지정은 **메모리 주소 계산의 중심 원리**이고, 실제 ISA는 그 원리를 용도별로 특화한 파생형을 제공한다.
+반대로 동적으로 `i`가 계속 바뀌는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회는 순수 변위만으로는 부족하고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 스케일드 인덱싱과 결합해야 한다. 또 분기 명령은 보통 PC를 기준점으로 삼는 상대 주소 지정을 사용한다. 즉 변위 주소 지정은 <strong>메모리 주소 계산의 중심 원리</strong>이고, 실제 ISA는 그 원리를 용도별로 특화한 파생형을 제공한다.
 
-```text
-EA = anchor + displacement
-        │
-        ├─ anchor = base register  -> base register addressing
-        ├─ anchor = PC             -> relative addressing
-        └─ anchor = object/frame   -> field or stack access
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">EA = anchor + displacement</div>
+<div class="kb-diagram-tree-item" style="--depth:4">anchor = base register -&gt; base register addressing</div>
+<div class="kb-diagram-tree-item" style="--depth:4">anchor = PC -&gt; relative addressing</div>
+<div class="kb-diagram-tree-item" style="--depth:4">anchor = object/frame -&gt; field or stack access</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 변위 주소 지정은 "어디를 출발점으로 삼느냐만 다를 뿐, 남은 길은 몇 걸음 가는가로 설명한다"는 공통 규칙과 같다. 학교를 기준으로 가면 통학길이 되고, 집을 기준으로 가면 동네 길찾기가 되는 셈이다.
 
@@ -133,19 +134,22 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 
 아래 흐름은 어떤 주소 지정이 더 자연스러운지 가르는 실무적 기준이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing an addressing style                                       │
-├────────────────────────────────────────────────────────────────────┤
-│ Is the target near a known base?                                   │
-│   ├─ yes -> displacement addressing                                │
-│   │         ├─ same object/frame fields? -> fixed offset           │
-│   │         └─ branch near current code? -> PC-relative            │
-│   └─ no                                                            │
-│        ├─ exact pointer already in register? -> register indirect  │
-│        └─ element index changes every iteration? -> indexed mode   │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing an addressing style</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is the target near a known base?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; displacement addressing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ same object/frame fields? -&gt; fixed offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ branch near current code? -&gt; PC-relative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exact pointer already in register? -&gt; register indirect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ element index changes every iteration? -&gt; indexed mode</div></div>
+</div>
+</div>
+
+
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -153,7 +157,7 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 - 변위 범위가 좁다는 이유만으로 프로그램 전체를 여러 기준 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 잘게 쪼개 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박을 키우는 것
 - 변위 주소 지정이 "메모리 접근 자체를 없애 준다"고 오해하는 것
 
-변위 주소 지정이 빠른 이유는 **주소 표현과 계산이 효율적이기 때문**이지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시와 메모리를 거치지 않아서가 아니다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 지역성을 함께 설계해야 진짜 이점이 살아난다.
+변위 주소 지정이 빠른 이유는 <strong>주소 표현과 계산이 효율적이기 때문</strong>이지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 캐시와 메모리를 거치지 않아서가 아니다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 지역성을 함께 설계해야 진짜 이점이 살아난다.
 
 - **📢 섹션 요약 비유**: 변위 주소 지정은 창고 물건을 "A구역 4번째 칸"처럼 찾게 하는 방식과 같다. 구역 배치가 좋으면 빨라지지만, 창고 자체가 엉망이면 표기법만 바꿔도 속도는 한계가 있다.
 
@@ -161,11 +165,11 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 
 ## Ⅴ. 기대효과 및 결론
 
-변위 주소 지정의 가장 큰 효과는 **코드 밀도와 메모리 유연성을 동시에 잡는 것**이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧게 유지하면서도 큰 주소 공간을 다룰 수 있고, 프로그램이 메모리 어디에 적재되더라도 기준점만 맞으면 동일한 기계어를 재사용할 수 있다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근, 객체 필드 접근, 재배치 가능한 코드, 현대 Load-Store 설계의 거의 모든 곳에서 기본 도구가 된다.
+변위 주소 지정의 가장 큰 효과는 <strong>코드 밀도와 메모리 유연성을 동시에 잡는 것</strong>이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧게 유지하면서도 큰 주소 공간을 다룰 수 있고, 프로그램이 메모리 어디에 적재되더라도 기준점만 맞으면 동일한 기계어를 재사용할 수 있다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근, 객체 필드 접근, 재배치 가능한 코드, 현대 Load-Store 설계의 거의 모든 곳에서 기본 도구가 된다.
 
 하지만 한계도 분명하다. 변위 폭이 부족하면 추가 주소 계산 명령이 늘고, AGU가 복잡해지면 하드웨어 비용이 커진다. 특히 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열처럼 Base + [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) + Scale + Displacement를 동시에 허용할수록 표현력은 높아지지만 디코딩과 주소 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 경로가 무거워진다. 결국 좋은 설계는 "무엇이 자주 쓰이는 패턴인가"를 보고, 그 패턴에 딱 맞는 정도의 변위 표현력만 제공하는 것이다.
 
-정리하면 변위 주소 지정은 **큰 주소를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에, 작은 거리 정보를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 나누어 담아 유효 주소를 만드는 핵심 주소 계산 원리**다. 기억할 핵심은 단순하다. **절대 주소를 매번 말하지 않고도, 기준점 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르고 짧게 다루게 만드는 메모리 주소 설계의 중심축**이라는 점이다.
+정리하면 변위 주소 지정은 <strong>큰 주소를 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>에, 작은 거리 정보를 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>에 나누어 담아 유효 주소를 만드는 핵심 주소 계산 원리</strong>다. 기억할 핵심은 단순하다. <strong>절대 주소를 매번 말하지 않고도, 기준점 주변 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 빠르고 짧게 다루게 만드는 메모리 주소 설계의 중심축</strong>이라는 점이다.
 
 - **📢 섹션 요약 비유**: 변위 주소 지정은 지도 전체를 매번 펼치는 대신, "지금 서 있는 곳"을 먼저 찍고 그 주변 몇 블록만 읽는 길찾기와 같다. 기준점이 잡히면 나머지 설명은 짧아지고 실용적이 된다.
 
@@ -185,19 +189,22 @@ ISA를 설계하거나 평가할 때는 다음 판단이 중요하다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-직접 주소 지정의 주소 비트 한계
-        │
-        ▼
-기준 주소를 레지스터에 보관
-        │
-        ▼
-변위 주소 지정 (Base + Offset)
-        │
-        ├──────────────▶ 베이스 레지스터 주소 지정
-        ├──────────────▶ 인덱스 / 스케일 확장
-        └──────────────▶ PC-relative와 위치 독립 코드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">직접 주소 지정의 주소 비트 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기준 주소를 레지스터에 보관</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">변위 주소 지정 (Base + Offset)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 베이스 레지스터 주소 지정</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 인덱스 / 스케일 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ PC-relative와 위치 독립 코드</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "긴 절대 주소를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 넣기 어렵다"는 문제에서 출발해, 변위 주소 지정이 여러 현대 주소 지정 방식의 공통 뿌리가 되었음을 보여 준다.
 

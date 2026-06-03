@@ -23,24 +23,26 @@ tags = ["studynote-design-supervision"]
 
 [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 불변 부분(공통 흐름)을 `final` 메서드로 상위 클래스에 정의하고, 가변 부분을 추상 메서드(또는 훅 메서드)로 서브클래스에 위임한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          템플릿 메서드 패턴 구조                             │
-├─────────────────────────────────────────────────────────────┤
-│  AbstractClass (상위 클래스)                                │
-│  + templateMethod(): void {  // final - 서브클래스 오버라이드 금지│
-│      step1();  // 공통 구현                                 │
-│      step2();  // abstract - 서브클래스 구현 필수           │
-│      step3();  // hook - 서브클래스 선택적 오버라이드       │
-│  }                                                          │
-│  + step1(): void { 공통 구현 }                              │
-│  # abstract step2(): void                                   │
-│  + step3(): void { 기본 구현 (훅) }                         │
-│       ▲                                                     │
-│  ConcreteClassA              ConcreteClassB                 │
-│  # step2(): void { A 구현 }  # step2(): void { B 구현 }    │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">템플릿 메서드 패턴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractClass (상위 클래스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ templateMethod(): void { // final - 서브클래스 오버라이드 금지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step1(); // 공통 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step2(); // abstract - 서브클래스 구현 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step3(); // hook - 서브클래스 선택적 오버라이드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ step1(): void { 공통 구현 }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># abstract step2(): void</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ step3(): void { 기본 구현 (훅) }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteClassA ConcreteClassB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># step2(): void { A 구현 } # step2(): void { B 구현 }</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 레시피([템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 기본 단계(재료 준비, 가열, 담기)는 고정이지만, 각 요리사(서브클래스)가 자신만의 방식으로 특정 단계(가열 방법)를 구현한다.
 
@@ -56,21 +58,24 @@ tags = ["studynote-design-supervision"]
 | 추상 메서드 | 서브클래스 필수 구현 | RowMapper.mapRow() |
 | 훅 메서드 | 서브클래스 선택적 오버라이드 | 기본 구현 있는 protected 메서드 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       JdbcTemplate 템플릿 메서드 동작                       │
-├─────────────────────────────────────────────────────────────┤
-│  JdbcTemplate.query(sql, rowMapper) {                       │
-│    Connection conn = dataSource.getConnection(); // 공통    │
-│    PreparedStatement ps = conn.prepareStatement(sql);       │
-│    ResultSet rs = ps.executeQuery();                        │
-│    while (rs.next()) {                                      │
-│      rowMapper.mapRow(rs, rowNum); // 개발자 구현 부분      │
-│    }                                                        │
-│    conn.close(); // 공통 (예외 처리 포함)                   │
-│  }                                                          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JdbcTemplate 템플릿 메서드 동작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JdbcTemplate.query(sql, rowMapper) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Connection conn = dataSource.getConnection(); // 공통</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PreparedStatement ps = conn.prepareStatement(sql);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResultSet rs = ps.executeQuery();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (rs.next()) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rowMapper.mapRow(rs, rowNum); // 개발자 구현 부분</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">conn.close(); // 공통 (예외 처리 포함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 햄버거 조리 매뉴얼([템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))이 굽기·조립·포장 단계를 정의하고, 패티 굽기 방식(추상 메서드)만 각 지점(서브클래스)이 결정한다.
 

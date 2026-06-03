@@ -23,18 +23,21 @@ tags = ["studynote-cloud"]
 
 Control Plane이 없으면 배치, 재시작, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 스케일 조정이 모두 수작업이 된다. 그래서 대규모 운영에서는 "어떤 Pod가 어디서 떠야 하는가"를 정하는 제어층과 "실제로 실행하는가"를 맡는 워커층을 분리한다.
 
-```text
-kubectl
-  │
-  ▼
-API Server ───▶ etcd
-  │               ▲
-  ├──▶ Scheduler  │ desired state
-  └──▶ Controller Manager
-        │
-        ▼
-     kubelet ───▶ Pod
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">kubectl</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Server ▶ etcd</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ Scheduler │ desired state</div>
+<div class="kb-diagram-tree-item" style="--depth:1">▶ Controller Manager</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">kubelet ▶ Pod</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 모든 변경이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server를 거쳐야 한다는 점이다. 그러면 상태가 기록되고, 다시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있다.
 
@@ -121,21 +124,23 @@ Control Plane이 안정적이면 [쿠버네티스](/knowledge-base/studynote/06_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 서버 운영
-    │
-    ▼
-선언형 배포(YAML)
-    │
-    ▼
-API Server / etcd / Scheduler / Controller
-    │
-    ▼
-self-healing / autoscaling / HA
-    │
-    ▼
-관리형 K8s(EKS, GKE)와 Control Plane 추상화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 서버 운영</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">선언형 배포(YAML)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API Server / etcd / Scheduler / Controller</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">self-healing / autoscaling / HA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관리형 K8s(EKS, GKE)와 Control Plane 추상화</div>
+</div>
+</div>
+
+
 
 이 흐름은 실행 중심 운영에서 상태 중심 운영으로의 진화를 보여준다. 다음 단계는 Control Plane 자체를 관리형 서비스로 맡기고, 사용자는 더 높은 수준의 정책에 집중하는 것이다.
 

@@ -30,18 +30,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 마틴 파울러 사분면의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  기술 부채 마틴 파울러 사분면                            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 부채 마틴 파울러 사분면</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 마틴 파울러 사분면가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -62,7 +61,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 마틴 파울러 사분면의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 마틴 파울러 사분면의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 마틴 파울러 사분면의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -109,8 +108,8 @@ tags = ["studynote-software-engineering"]
 
 마틴 파울러의 사분면 모델은 십수 년이 지난 지금도 클라우드 아키텍처 세계에서 "인프라 부채(Infrastructure Debt)"나 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부채([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Debt)" 개념으로 확장 적용되고 있다.
 
-1. **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 부채**: 과거의 모놀리식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 결합 부채는 이제 네트워크를 타고 넘나드는 MSA의 엉성한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신과 중복 관리(무모하고 무의도적)의 부채로 진화해 해결 난이도가 수직 상승했다.
-2. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에 의한 부채 생성과 소멸**: 최근 깃허브 코파일럿(GitHub Copilot) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발툴의 남용은, 개발자가 이해하지 못하는 수만 줄의 외계 코드 조각에 의존하게 되면서 전례 없이 거대한 "무모하고 무의도적인" 코드 부채를 증폭시킬 잠재적 위협이 되고 있다. 동시에, AI는 레거시 코드를 순식간에 분석해 최신 패턴으로 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하는 상환 도구로서의 구원자 역할도 병행하게 될 것이다.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>) 부채</strong>: 과거의 모놀리식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 결합 부채는 이제 네트워크를 타고 넘나드는 MSA의 엉성한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신과 중복 관리(무모하고 무의도적)의 부채로 진화해 해결 난이도가 수직 상승했다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a>)에 의한 부채 생성과 소멸</strong>: 최근 깃허브 코파일럿(GitHub Copilot) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 개발툴의 남용은, 개발자가 이해하지 못하는 수만 줄의 외계 코드 조각에 의존하게 되면서 전례 없이 거대한 "무모하고 무의도적인" 코드 부채를 증폭시킬 잠재적 위협이 되고 있다. 동시에, AI는 레거시 코드를 순식간에 분석해 최신 패턴으로 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)하는 상환 도구로서의 구원자 역할도 병행하게 될 것이다.
 
 ---
 
@@ -118,16 +117,16 @@ tags = ["studynote-software-engineering"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| **[리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))** | 외부 동작은 그대로 유지하면서 내부 구조를 개선하여, 과거의 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 적극 상환하는 행위 자체를 뜻한다. |
-| **[코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))** | 무의도적으로 누적된 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 시스템 겉으로 드러나는 징후. 과도하게 긴 함수, 중복 코드, [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 등. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/">Refactoring</a>)</strong> | 외부 동작은 그대로 유지하면서 내부 구조를 개선하여, 과거의 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 적극 상환하는 행위 자체를 뜻한다. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/">코드 스멜</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/">Code Smell</a>)</strong> | 무의도적으로 누적된 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 시스템 겉으로 드러나는 징후. 과도하게 긴 함수, 중복 코드, [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 등. |
 | **빅 뱅 재구축 (Big-Bang Rewrite)** | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 이자가 한계치를 넘어 (파산), 도저히 상환 불가능할 때 기존 시스템을 포기하고 처음부터 다 바꾸는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). |
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | 워터폴(Waterfall)과 달리 짧은 주기마다 검토를 통해 신중하고 무의도적인 부채를 조기에 발견하고 대응하는 사상. |
-| **지속적인 통합 ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))** | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 발생해도 자동화 테스트를 통해 메인 브랜치 오염을 최소화하는 기술적 안전장치다. |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | 워터폴(Waterfall)과 달리 짧은 주기마다 검토를 통해 신중하고 무의도적인 부채를 조기에 발견하고 대응하는 사상. |
+| <strong>지속적인 통합 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>, <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>)</strong> | [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 발생해도 자동화 테스트를 통해 메인 브랜치 오염을 최소화하는 기술적 안전장치다. |
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
-1. **[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)**는 레고로 성을 지을 때 튼튼한 밑판을 찾기 귀찮아서 그냥 대충 흙바닥 위에 쌓아 올린 상황과 같아요.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a></strong>는 레고로 성을 지을 때 튼튼한 밑판을 찾기 귀찮아서 그냥 대충 흙바닥 위에 쌓아 올린 상황과 같아요.
 2. "당장 놀아야 하니까 그냥 쌓자!(의도적/신중함)" 하고 일단 놀 순 있지만, 나중에 더 높이 지으려면 성이 와르르 무너지겠죠?
 3. 그러면 우리는 잠시 노는 걸 멈추고 흙을 살짝살짝 치워가며 튼튼한 바닥([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))을 다시 깔아줘야만 성이 박살나지 않는답니다!
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-기술 부채 마틴 파울러 사분면 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기술 부채 마틴 파울러 사분면 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

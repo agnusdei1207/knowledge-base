@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정전용량 (Capacitance, $C$)은 유전체를 사이에 둔 두 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가했을 때 얼마나 많은 전하(Charge)를 구속하여 저장할 수 있는지를 나타내는 물리량($C = Q/V$)이다.
-> 2. **가치**: 메모리 아키텍처에서는 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃어버리지 않게 지켜주는 든든한 댐의 크기지만, 로직 배선에서는 스위칭 속도를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 **기생 커패시턴스 (Parasitic Capacitance)**로 흑화한다.
+> 2. **가치**: 메모리 아키텍처에서는 1비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃어버리지 않게 지켜주는 든든한 댐의 크기지만, 로직 배선에서는 스위칭 속도를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시키는 <strong>기생 커패시턴스 (Parasitic Capacitance)</strong>로 흑화한다.
 > 3. **판단 포인트**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 미세화 시 메모리 셀은 정전용량을 극대화하기 위해 High-K 유전체를 도입하고, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 배선은 정전용량을 극소화하기 위해 Low-K나 [에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)(Air-Gap)을 도입하는 모순적 최적화가 필수적이다.
 
 ---
@@ -20,7 +20,7 @@ tags = ["studynote-computer-architecture"]
 
 정전용량은 단위 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)당 저장되는 전하의 양을 의미하며 패럿(F)을 단위로 사용한다. 물리적으로는 전극판의 면적($A$)이 넓을수록, 두 판 사이의 거리($d$)가 가까울수록, 중간 매질의 유전 상수($\epsilon$)가 클수록 정전용량 공식($C = \epsilon A / d$)에 따라 용량이 커진다.
 
-마이크로아키텍처에서 정전용량은 극단적인 이중성을 띤다. **[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)** 셀은 소프트 에러를 막고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 명확히 판별하기 위해 최소 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~$25fF$ 이상의 절대적인 정전용량을 무조건 확보해야 한다. 반면, 칩 내부의 금속 배선 폭이 나노미터 단위로 좁아지면서 배선들 사이에 가상의 커패시터가 생겨나는 기생 정전용량이 폭발했다. 이 기생 성분은 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)과 결합하여 **RC (Resistor-Capacitor) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)**을 일으켜 칩의 클럭 주파수를 갉아먹는 주범이 되었다.
+마이크로아키텍처에서 정전용량은 극단적인 이중성을 띤다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> (Dynamic Random Access Memory)</strong> 셀은 소프트 에러를 막고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 명확히 판별하기 위해 최소 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~$25fF$ 이상의 절대적인 정전용량을 무조건 확보해야 한다. 반면, 칩 내부의 금속 배선 폭이 나노미터 단위로 좁아지면서 배선들 사이에 가상의 커패시터가 생겨나는 기생 정전용량이 폭발했다. 이 기생 성분은 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)과 결합하여 <strong>RC (Resistor-Capacitor) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>을 일으켜 칩의 클럭 주파수를 갉아먹는 주범이 되었다.
 
 - **📢 섹션 요약 비유**: 정전용량은 물탱크의 넓이와 같다. 수돗물을 안정적으로 공급하려면 큰 물탱크([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))가 필요하지만, 좁은 골목길(배선)에 거대한 물탱크들이 빽빽하게 들어서면 지나가는 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 발목을 잡아 전체 통행을 마비시킨다.
 
@@ -30,26 +30,26 @@ tags = ["studynote-computer-architecture"]
 
 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 내에서 정전용량을 다루는 방식은 '의도된 저장'과 '의도치 않은 기생'의 두 가지 메커니즘으로 나뉜다. 
 
-DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 설계자들은 좁은 면적에서 정전용량을 잃지 않기 위해 필사적이다. 평면(2D) 스케일링이 한계에 부딪히자, 실린더 모양으로 밑바닥에 깊은 우물을 파거나 아예 아파트처럼 수직으로 쌓아 올리는 3D NAND **CTF (Charge [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Flash)** 아키텍처를 도입하여 전극판의 면적($A$)을 강제로 확보했다.
+DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 설계자들은 좁은 면적에서 정전용량을 잃지 않기 위해 필사적이다. 평면(2D) 스케일링이 한계에 부딪히자, 실린더 모양으로 밑바닥에 깊은 우물을 파거나 아예 아파트처럼 수직으로 쌓아 올리는 3D NAND <strong>CTF (Charge <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> Flash)</strong> 아키텍처를 도입하여 전극판의 면적($A$)을 강제로 확보했다.
 
 반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 배선에서는 기생 정전용량을 박살 내야 한다. 
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           마이크로 배선 간 기생 커패시턴스 발생 원리         │
-├──────────────────────────────────────────────────────────────┤
-│  [ 배선 단면도: 미세 공정화에 따른 거리(d) 축소 ]                 │
-│                                                              │
-│     <--폭-->          [ 유전체: SiO2 ]         <--폭-->         │
-│    ┌────────┐                                 ┌────────┐       │
-│    │ 금속선 1 │◀────── 거리(d) 나노미터 축소 ──────▶│ 금속선 2 │ ▲   │
-│    │ (Signal)│                                 │ (Signal)│ │   │
-│    └────────┘    【 공식: C = 유전율 × 면적 / d 】  └────────┘ ▼   │
-│                                                              │
-│  * 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.                  │
-│  * 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생! │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 배선 간 기생 커패시턴스 발생 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">배선 단면도: 미세 공정화에 따른 거리(d) 축소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">유전체: SiO2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">폭--&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금속선 1</div><div class="kb-diagram-cell">◀ 거리(d) 나노미터 축소 ▶</div><div class="kb-diagram-cell">금속선 2</div><div class="kb-diagram-cell">▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Signal)</div><div class="kb-diagram-cell">(Signal)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【 공식: C = 유전율 × 면적 / d 】 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생!</div></div>
+</div>
+</div>
+
+
 
 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 1번과 2번이 가까워지면 두 선이 마치 거대한 커패시터의 양극판처럼 동작한다. 한쪽 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 바뀔 때 발생하는 전기장이 반대쪽 선의 전자를 끌어당겨 0을 1로 착각하게 만드는 크로스톡([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 간섭 노이즈가 발생하게 된다.
 
@@ -63,8 +63,8 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 | [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 구역 | 정전용량 목표 | 아키텍처 물리적 변형 ($C = \epsilon A/d$) | 해결하는 과제 |
 |:---|:---|:---|:---|
-| **[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) / 낸드 셀** | **$C$ 극대화** | 면적 $A$ 수직 확장, $\epsilon$ 초고유전 물질(High-K) 도입 | 전하 누설에 의한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러 증발 방어 |
-| **코어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 글로벌 배선**| **기생 $C$ 극소화** | $\epsilon$ 초저유전 [에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)(Air-Gap) 및 Low-K [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) 도입 | RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 타파 및 스위칭 상승 시간 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/">DRAM</a> / 낸드 셀</strong> | **$C$ 극대화** | 면적 $A$ 수직 확장, $\epsilon$ 초고유전 물질(High-K) 도입 | 전하 누설에 의한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러 증발 방어 |
+| <strong>코어 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 글로벌 배선</strong>| **기생 $C$ 극소화** | $\epsilon$ 초저유전 [에어 갭](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/102_air_gapped_cicd_tarball_delivery/)(Air-Gap) 및 Low-K [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) 도입 | RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 타파 및 스위칭 상승 시간 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) |
 | **PDN (전원 분배망)** | **타겟 $C$ 극대화** | 코어 가까운 층에 초박형 유전체 삽입 | 순간 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 폭발 시 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 댐핑(방어) |
 
 정전용량의 제어는 하드웨어를 넘어 시스템 외부 인터페이스와도 직결된다. 스마트폰의 정전식 터치스크린은 손가락([도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/))이 유전체 판에 닿을 때 발생하는 미세한 정전용량($\Delta C$)의 변화를 그리드 컨트롤러가 스캔하여, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 좌표 인터럽트로 변환하는 대표적인 융합 아키텍처다.
@@ -104,24 +104,27 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **기생 커패시턴스 (Parasitic C)** | 도선들끼리 나란히 눕거나 겹쳐질 때 의도치 않게 형성되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유발하는 마찰 요인 |
-| **Low-K / High-K [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/)** | 배선의 기생 C를 줄이기 위한 저유전 물질과, 메모리 축전량을 늘리기 위한 고유전 물질의 대비 |
-| **크로스톡 ([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))** | 인접한 배선 사이의 정전용량 결합으로 인해 한쪽의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다른 쪽에 노이즈를 일으키는 현상 |
-| **RC [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (RC Delay)** | 배선의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R)과 기생 커패시턴스(C)가 곱해져 디지털 펄스의 상승/하강을 눕혀버리는 타이밍 에러 |
+| <strong>Low-K / High-K <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/">절연체</a></strong> | 배선의 기생 C를 줄이기 위한 저유전 물질과, 메모리 축전량을 늘리기 위한 고유전 물질의 대비 |
+| <strong>크로스톡 (<a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a>)</strong> | 인접한 배선 사이의 정전용량 결합으로 인해 한쪽의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다른 쪽에 노이즈를 일으키는 현상 |
+| <strong>RC <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (RC Delay)</strong> | 배선의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)(R)과 기생 커패시턴스(C)가 곱해져 디지털 펄스의 상승/하강을 눕혀버리는 타이밍 에러 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[정전용량 (Capacitance)]
-    │
-    ▼
-[기생 커패시턴스 (Parasitic Capacitance)]
-    │
-    ▼
-[RC 지연 (RC Delay)]
-    │
-    ▼
-[에어갭 (Air-Gap)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">정전용량 (Capacitance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기생 커패시턴스 (Parasitic Capacitance)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RC 지연 (RC Delay)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">에어갭 (Air-Gap)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 정전용량이 회로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 배선 최적화 문제로 확장되는 과정을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

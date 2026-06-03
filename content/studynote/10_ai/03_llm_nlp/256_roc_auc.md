@@ -21,21 +21,24 @@ tags = ["studynote-ai"]
 
 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(Binary Classifier)는 내부적으로 0~1 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값을 출력하고, 특정 임계값(Threshold)을 기준으로 Positive/Negative를 결정한다. 임계값을 0.1부터 0.9까지 변화시키면 각 점에서의 TPR(True Positive Rate)과 FPR(False Positive Rate)이 달라진다.
 
-**ROC 곡선**은 이 모든 임계값에서의 (FPR, TPR) 쌍을 연결한 궤적이다.
+<strong>ROC 곡선</strong>은 이 모든 임계값에서의 (FPR, TPR) 쌍을 연결한 궤적이다.
 
 - **TPR (True Positive Rate)** = [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) = Sensitivity = TP / (TP + FN)
 - **FPR (False Positive Rate)** = 1 - Specificity = [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) / ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) + TN)
 
-**AUC(Area Under the Curve)**는 ROC 곡선 아래의 넓이로, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 임의로 선택한 양성 샘플을 음성 샘플보다 높게 순위 매길 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 동일하다.
+<strong>AUC(Area Under the Curve)</strong>는 ROC 곡선 아래의 넓이로, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 임의로 선택한 양성 샘플을 음성 샘플보다 높게 순위 매길 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 동일하다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ROC 곡선은 "의심 수준을 어느 정도로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하느냐에 따라 탐지율과 오경보율이 어떻게 변하는지" 보여주는 지도다. AUC는 그 지도의 품질 점수다.
 
@@ -45,25 +48,29 @@ tags = ["studynote-ai"]
 
 ### ROC 공간과 곡선
 
-```
-  TPR (재현율 / 민감도)
-   1.0 ┤         ●───────── 완벽한 모델
-       │       ╱
-   0.8 ┤      ╱    ← 좋은 모델 (AUC ≈ 0.9)
-       │    ╱
-   0.6 ┤  ╱
-       │╱              ← 평균적 모델 (AUC ≈ 0.7)
-   0.4 ┤    ╲
-       │─────╲────── 랜덤 모델 (AUC = 0.5, 대각선)
-   0.2 ┤
-       │
-   0.0 ┼────────────────────── FPR (1 - 특이도)
-       0.0  0.2  0.4  0.6  0.8  1.0
 
-  ● 완벽한 모델: (FPR=0, TPR=1) 꼭짓점 통과
-  ─ 랜덤 모델: 대각선 (AUC=0.5)
-  ╱ 좋은 모델: 왼쪽 위로 볼록한 곡선
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">TPR (재현율 / 민감도)</div>
+<div class="kb-diagram-note">1.0 ● 완벽한 모델</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-note">0.8 ╱ ← 좋은 모델 (AUC ≈ 0.9)</div>
+<div class="kb-diagram-note">╱</div>
+<div class="kb-diagram-note">0.6 ╱</div>
+<div class="kb-diagram-note">╱ ← 평균적 모델 (AUC ≈ 0.7)</div>
+<div class="kb-diagram-note">0.4 ╲</div>
+<div class="kb-diagram-note">╲ 랜덤 모델 (AUC = 0.5, 대각선)</div>
+<div class="kb-diagram-note">0.2</div>
+<div class="kb-diagram-note">0.0 FPR (1 - 특이도)</div>
+<div class="kb-diagram-note">0.0 0.2 0.4 0.6 0.8 1.0</div>
+<div class="kb-diagram-note">● 완벽한 모델: (FPR=0, TPR=1) 꼭짓점 통과</div>
+<div class="kb-diagram-tree-item" style="--depth:1">랜덤 모델: 대각선 (AUC=0.5)</div>
+<div class="kb-diagram-note">╱ 좋은 모델: 왼쪽 위로 볼록한 곡선</div>
+</div>
+</div>
+
+
 
 ### AUC 해석 기준
 
@@ -79,13 +86,18 @@ tags = ["studynote-ai"]
 
 ### 임계값 변화와 곡선 이동
 
-```
-  임계값 낮춤 → FPR·TPR 모두 증가 → 곡선 오른쪽 위로 이동
-  임계값 높임 → FPR·TPR 모두 감소 → 곡선 왼쪽 아래로 이동
 
-  최적 운영점: 곡선에서 (0,1)까지 거리가 가장 짧은 점
-  (유덴 지수, Youden's J = Sensitivity + Specificity - 1 최대화)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">임계값 낮춤 → FPR·TPR 모두 증가 → 곡선 오른쪽 위로 이동</div>
+<div class="kb-diagram-note">임계값 높임 → FPR·TPR 모두 감소 → 곡선 왼쪽 아래로 이동</div>
+<div class="kb-diagram-note">최적 운영점: 곡선에서 (0,1)까지 거리가 가장 짧은 점</div>
+<div class="kb-diagram-note">(유덴 지수, Youden's J = Sensitivity + Specificity - 1 최대화)</div>
+</div>
+</div>
+
+
 
 ### [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) Curve)과 비교
 
@@ -117,19 +129,21 @@ AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
 ### ROC 곡선 vs 다른 평가 지표 통합
 
-```
-  ┌─────────────────────────────────────────────────────┐
-  │            평가 지표 선택 가이드                     │
-  ├────────────────┬────────────────────────────────────┤
-  │ 지표           │ 사용 시점                           │
-  ├────────────────┼────────────────────────────────────┤
-  │ Accuracy       │ 클래스 균형, 단순 벤치마크           │
-  │ F1 Score       │ 불균형, 단일 숫자 요약              │
-  │ AUC-ROC        │ 임계값 독립적 비교, 균형 데이터     │
-  │ AUC-PR         │ 극단적 불균형, 소수 클래스 중요      │
-  │ Log Loss       │ 확률 보정 품질 평가                 │
-  └────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표 선택 가이드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지표</div><div class="kb-diagram-cell">사용 시점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Accuracy</div><div class="kb-diagram-cell">클래스 균형, 단순 벤치마크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F1 Score</div><div class="kb-diagram-cell">불균형, 단일 숫자 요약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUC-ROC</div><div class="kb-diagram-cell">임계값 독립적 비교, 균형 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUC-PR</div><div class="kb-diagram-cell">극단적 불균형, 소수 클래스 중요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log Loss</div><div class="kb-diagram-cell">확률 보정 품질 평가</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AUC-ROC는 "모든 가능한 심판 기준에서 선수가 얼마나 잘 하는가"를 보는 거고, AUC-PR은 "정말 중요한 득점 상황에서만 평가"하는 것이다.
 
@@ -141,27 +155,30 @@ AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
 1. **유덴 지수 최대화**: Sensitivity + Specificity - 1이 최대인 지점 → 의학 진단
 2. **비용 함수 최소화**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 비용과 FN 비용을 고려한 가중 오류율 최소화 → 금융
-3. **목표 [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 고정**: 특정 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)(예: 0.95) 달성 시 FPR 최소화 → 보안 시스템
+3. <strong>목표 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a> 고정</strong>: 특정 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)(예: 0.95) 달성 시 FPR 최소화 → 보안 시스템
 
 ### 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서의 주의점
 
-```
-  극단적 불균형 예시 (양성 1%, 음성 99%)
-  ┌──────────────────────────────────────────────┐
-  │ 더미 모델: 항상 음성 예측                    │
-  │   ROC-AUC ≈ 0.5 (랜덤과 동일하게 측정됨)    │
-  │   PR-AUC  ≈ 0.01 (양성 클래스 비율 수준)    │
-  │                                              │
-  │ → 불균형 데이터에선 AUC-PR 우선 확인!        │
-  └──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">극단적 불균형 예시 (양성 1%, 음성 99%)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더미 모델: 항상 음성 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROC-AUC ≈ 0.5 (랜덤과 동일하게 측정됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PR-AUC ≈ 0.01 (양성 클래스 비율 수준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 불균형 데이터에선 AUC-PR 우선 확인!</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 답안 포인트
 
 - **ROC 곡선의 수학적 의미**: 임계값 θ ∈ [0,1]에 대한 매개변수 곡선 (FPR(θ), TPR(θ))
 - **AUC 계산법**: 사다리꼴 공식(Trapezoidal Rule) 또는 Mann-Whitney U 통계량
 - **모델 비교 방법**: AUC가 높은 모델이 임계값 선택과 무관하게 더 좋은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기
-- **[교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)에서 AUC**: `roc_auc_score`를 `cross_val_score` 지표로 사용
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a>에서 AUC</strong>: `roc_auc_score`를 `cross_val_score` 지표로 사용
 
 - **📢 섹션 요약 비유**: AUC는 레스토랑 평점처럼 "어떤 날 가도(어떤 임계값에서도) 평균적으로 좋은 식당인가"를 나타낸다. 특정 날 하루만 잘 하는 식당보다 항상 안정적인 식당이 AUC가 높다.
 
@@ -174,9 +191,9 @@ ROC 곡선과 AUC를 올바르게 활용하면:
 1. **임계값 독립적 모델 비교**: 여러 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 공정하게 비교하는 단일 기준 제공
 2. **최적 임계값 결정 근거**: 비즈니스 비용 구조에 맞는 운영 임계값 선정
 3. **모델 개선 방향 파악**: AUC 곡선 형태로 어떤 영역에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 부족한지 진단
-4. **표준화된 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보고**: 학술 논문 및 기업 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보고서의 표준 지표
+4. <strong>표준화된 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 보고</strong>: 학술 논문 및 기업 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보고서의 표준 지표
 
-기술사 시험에서 ROC/AUC는 **[혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) → TPR/FPR 정의 → 곡선 그리기 → AUC 해석 → 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주의사항** 순서로 완성도 있게 서술해야 한다.
+기술사 시험에서 ROC/AUC는 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> → TPR/FPR 정의 → 곡선 그리기 → AUC 해석 → 불균형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주의사항</strong> 순서로 완성도 있게 서술해야 한다.
 
 - **📢 섹션 요약 비유**: AUC는 마치 육상 선수의 "모든 날씨·조건에서의 평균 기록"과 같다. 좋은 날만 잘하는 선수보다 어떤 조건에서도 안정적인 선수가 진짜 실력자다.
 

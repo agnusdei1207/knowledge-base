@@ -20,26 +20,27 @@ tags = ["studynote-bigdata"]
 
 ### Polyglot Persistence의 딜레마
 
-```text
-전통적 Polyglot Persistence 아키텍처:
 
-  마이크로서비스
-  ┌──────────────────────────────────────────────────────┐
-  │  사용자 서비스 → MongoDB  (문서형)                    │
-  │  관계 서비스  → Neo4j    (그래프)                    │
-  │  세션 서비스  → Redis    (키-값)                     │
-  │  검색 서비스  → Elasticsearch (검색)                 │
-  └──────────────────────────────────────────────────────┘
 
-  문제점:
-  ① 4개 DB의 별도 운영·모니터링·백업
-  ② DB 간 데이터 동기화·일관성 유지
-  ③ 팀원이 4개 DB 모두 숙달해야 함
-  ④ 네트워크 홉 증가 → 지연 누적
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 Polyglot Persistence 아키텍처:</div>
+<div class="kb-diagram-note">마이크로서비스</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 서비스 → MongoDB (문서형)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관계 서비스 → Neo4j (그래프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세션 서비스 → Redis (키-값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검색 서비스 → Elasticsearch (검색)</div></div>
+<div class="kb-diagram-note">문제점:</div>
+<div class="kb-diagram-note">① 4개 DB의 별도 운영·모니터링·백업</div>
+<div class="kb-diagram-note">② DB 간 데이터 동기화·일관성 유지</div>
+<div class="kb-diagram-note">③ 팀원이 4개 DB 모두 숙달해야 함</div>
+<div class="kb-diagram-note">④ 네트워크 홉 증가 → 지연 누적</div>
+<div class="kb-diagram-note">Multi-Model DB 해결책:</div>
+<div class="kb-diagram-note">마이크로서비스 → ArangoDB (모든 모델 통합)</div>
+</div>
+</div>
 
-Multi-Model DB 해결책:
-  마이크로서비스 → ArangoDB (모든 모델 통합)
-```
+
 
 ### 대표 솔루션 비교
 
@@ -59,26 +60,21 @@ Multi-Model DB 해결책:
 
 ### ArangoDB 내부 아키텍처
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│              ArangoDB 통합 아키텍처                        │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐  │
-│  │                  AQL 쿼리 엔진                       │  │
-│  │  문서 쿼리 │ 그래프 탐색 │ KV 연산 통합 처리           │  │
-│  └────────────────────────────────────────────────────┘  │
-│                           │                              │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │           단일 VelocyPack 스토리지 엔진              │ │
-│  │  ┌──────────────┐  ┌─────────────┐  ┌───────────┐  │ │
-│  │  │  Collections │  │ Edge Colls  │  │  KV 컨테이너│  │ │
-│  │  │  (문서 저장)  │  │ (그래프 관계)│  │  (키-값)   │  │ │
-│  │  └──────────────┘  └─────────────┘  └───────────┘  │ │
-│  └─────────────────────────────────────────────────────┘ │
-│                                                          │
-│  RocksDB (기본 스토리지) + MMFiles (선택)                  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ArangoDB 통합 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AQL 쿼리 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 쿼리</div><div class="kb-diagram-cell">그래프 탐색</div><div class="kb-diagram-cell">KV 연산 통합 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 VelocyPack 스토리지 엔진</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collections</div><div class="kb-diagram-cell">Edge Colls</div><div class="kb-diagram-cell">KV 컨테이너</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문서 저장)</div><div class="kb-diagram-cell">(그래프 관계)</div><div class="kb-diagram-cell">(키-값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RocksDB (기본 스토리지) + MMFiles (선택)</div></div>
+</div>
+</div>
+
+
 
 ### AQL (ArangoDB Query Language) 예시
 
@@ -99,40 +95,45 @@ FOR product IN products
 
 ### SurrealDB 핵심 특징
 
-```text
-SurrealDB (2022년 출시, 차세대 Multi-Model):
 
-  1. 서버리스 + 임베디드 모두 지원
-     (Node.js 내장, WebAssembly 빌드 가능)
 
-  2. 실시간 쿼리 (LIVE SELECT)
-     LIVE SELECT * FROM orders WHERE status = 'pending'
-     → 새 주문 발생 시 자동 알림
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SurrealDB (2022년 출시, 차세대 Multi-Model):</div>
+<div class="kb-diagram-note">1. 서버리스 + 임베디드 모두 지원</div>
+<div class="kb-diagram-note">(Node.js 내장, WebAssembly 빌드 가능)</div>
+<div class="kb-diagram-note">2. 실시간 쿼리 (LIVE SELECT)</div>
+<div class="kb-diagram-note">LIVE SELECT * FROM orders WHERE status = 'pending'</div>
+<div class="kb-diagram-note">→ 새 주문 발생 시 자동 알림</div>
+<div class="kb-diagram-note">3. 그래프 관계 표현 (SQL 내장)</div>
+<div class="kb-diagram-note">RELATE user:john-&gt;purchased-&gt;product:phone</div>
+<div class="kb-diagram-note">SELECT -&gt;purchased-&gt;product.* FROM user:john</div>
+<div class="kb-diagram-note">4. 레코드 링크 (JOIN 없는 참조)</div>
+<div class="kb-diagram-note">SELECT *, -&gt;friends-&gt;user.name AS friendNames</div>
+<div class="kb-diagram-note">FROM user:alice</div>
+</div>
+</div>
 
-  3. 그래프 관계 표현 (SQL 내장)
-     RELATE user:john->purchased->product:phone
-     SELECT ->purchased->product.* FROM user:john
 
-  4. 레코드 링크 (JOIN 없는 참조)
-     SELECT *, ->friends->user.name AS friendNames
-     FROM user:alice
-```
 
 ### 다중 모델 통합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 아키텍처
 
-```text
-단일 AQL 쿼리 처리 흐름:
 
-쿼리: "특정 사용자의 친구(그래프)가 구매한 상품(문서)의 카테고리 집계"
 
-1. 사용자 문서 조회    (Document Model)
-2. 친구 관계 탐색      (Graph Model: 1홉)
-3. 친구별 구매 목록    (Document Model)
-4. 카테고리 집계       (Analytics)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 AQL 쿼리 처리 흐름:</div>
+<div class="kb-diagram-note">쿼리: "특정 사용자의 친구(그래프)가 구매한 상품(문서)의 카테고리 집계"</div>
+<div class="kb-diagram-note">1. 사용자 문서 조회 (Document Model)</div>
+<div class="kb-diagram-note">2. 친구 관계 탐색 (Graph Model: 1홉)</div>
+<div class="kb-diagram-note">3. 친구별 구매 목록 (Document Model)</div>
+<div class="kb-diagram-note">4. 카테고리 집계 (Analytics)</div>
+<div class="kb-diagram-note">→ 네트워크 홉 0 (단일 DB 내부 처리)</div>
+<div class="kb-diagram-note">→ 일관된 트랜잭션 (ACID 보장)</div>
+</div>
+</div>
 
-→ 네트워크 홉 0 (단일 DB 내부 처리)
-→ 일관된 트랜잭션 (ACID 보장)
-```
+
 
 📢 **섹션 요약 비유**
 > AQL의 크로스모델 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 한 번의 쇼핑으로 백화점(문서), 주차장([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)), 편의점(KV)을 모두 들르는 것과 같다. 각 층을 따로 다니는 것(별도 DB 호출)보다 훨씬 빠르고, 계산도 한 번에 끝난다.
@@ -145,26 +146,31 @@ SurrealDB (2022년 출시, 차세대 Multi-Model):
 
 | 관점 | Multi-Model DB | 전용 DB 조합 |
 |:---:|:---:|:---:|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 각 모델의 70~90% | 각 모델 100% |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 각 모델의 70~90% | 각 모델 100% |
 | **운영 복잡도** | 낮음 (1개 DB) | 높음 (N개 DB) |
-| **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 가능 | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 필요 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 가능 | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 필요 |
 | **팀 러닝 커브** | 1개 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 | N개 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
 | **비용** | 라이선스 단순화 | DB별 라이선스 |
 | **적합 규모** | 중소~중대형 | 대형 (모델별 극한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) |
 
 ### Azure Cosmos DB의 Multi-Model 접근
 
-```text
-Azure Cosmos DB 다중 API:
-  - Core (SQL) API  → 문서형
-  - MongoDB API     → MongoDB 호환
-  - Cassandra API   → CQL 호환
-  - Gremlin API     → 그래프 탐색
-  - Table API       → 키-값
 
-공통: 글로벌 분산, 5가지 일관성 수준, 99.999% SLA
-→ 기존 MongoDB/Cassandra 앱을 마이그레이션 용이
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Azure Cosmos DB 다중 API:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Core (SQL) API → 문서형</div>
+<div class="kb-diagram-tree-item" style="--depth:1">MongoDB API → MongoDB 호환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Cassandra API → CQL 호환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Gremlin API → 그래프 탐색</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Table API → 키-값</div>
+<div class="kb-diagram-note">공통: 글로벌 분산, 5가지 일관성 수준, 99.999% SLA</div>
+<div class="kb-diagram-note">→ 기존 MongoDB/Cassandra 앱을 마이그레이션 용이</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > Cosmos DB의 멀티 API는 같은 원어민 선생님이 한국어, 영어, 일본어로 동시에 강의하는 것과 같다. 학생(기존 앱)은 자신이 익숙한 언어([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 소통하면 되고, 선생님(Cosmos DB)은 내부에서 하나의 스토리지를 공유한다.
@@ -222,7 +228,7 @@ router.get('/recommendations/:userId', function(req, res) {
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장 | [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 복잡 | 단일 ACID | — |
 
 ### 결론
-Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 줄이는 실용적 대안이다. ArangoDB의 성숙도와 SurrealDB의 혁신적 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 지원으로 선택 폭이 넓어지고 있다. 기술사 시험에서는 **[Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/) 문제점**, **Multi-Model DB의 크로스-모델 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 이점**, **AQL 문법의 문서+[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 통합 원리**, **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 판단 기준**이 핵심 논점이다.
+Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 줄이는 실용적 대안이다. ArangoDB의 성숙도와 SurrealDB의 혁신적 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 지원으로 선택 폭이 넓어지고 있다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/">Polyglot Persistence</a> 문제점</strong>, <strong>Multi-Model DB의 크로스-모델 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 이점</strong>, <strong>AQL 문법의 문서+<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 통합 원리</strong>, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 트레이드오프 판단 기준</strong>이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > Multi-Model DB를 도입하는 팀은 여러 언어를 구사하는 통역사 없이 직접 소통하는 글로벌 팀과 같다. 처음에는 "한 DB가 모든 걸 잘 할 수 있을까?" 의심하지만, 중간 규모의 비즈니스에서는 통역사 비용(운영 복잡도)을 줄이는 것이 전문성의 일부를 포기하는 것보다 훨씬 가치 있다.
@@ -242,21 +248,23 @@ Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[폴리글롯 퍼시스턴스 (Polyglot Persistence) — 용도별 최적 DB를 따로 운영, 운영 복잡도↑]
-    │
-    ▼
-[다중 모델 DB (Multi-Model DB) — 단일 엔진에서 도큐먼트·그래프·키-값 통합 처리]
-    │
-    ▼
-[ArangoDB — AQL 통합 쿼리 언어로 3가지 모델 일관성 있게 접근]
-    │
-    ▼
-[SurrealDB — SurrealQL로 레코드·그래프·스키마리스를 단일 플랫폼에서 처리]
-    │
-    ▼
-[엣지 AI + 다중 모델 DB — IoT 엣지에서 그래프+시계열+도큐먼트를 경량 DB 하나로 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">폴리글롯 퍼시스턴스 (Polyglot Persistence) — 용도별 최적 DB를 따로 운영, 운영 복잡도↑</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 모델 DB (Multi-Model DB) — 단일 엔진에서 도큐먼트·그래프·키-값 통합 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ArangoDB — AQL 통합 쿼리 언어로 3가지 모델 일관성 있게 접근</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SurrealDB — SurrealQL로 레코드·그래프·스키마리스를 단일 플랫폼에서 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 AI + 다중 모델 DB — IoT 엣지에서 그래프+시계열+도큐먼트를 경량 DB 하나로 통합</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 폴리글롯 퍼시스턴스의 운영 복잡도를 해소하기 위해 다중 모델 DB가 등장하고, ArangoDB·SurrealDB가 통합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어로 구현 복잡도를 낮추며, 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 환경에서 경량 통합 DB로 진화하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 통합 아키텍처의 핵심 계보를 보여준다.
 

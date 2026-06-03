@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-앞선 713번 문서에서 스머프(Smurfing) 공격의 핵심 무기가 **'지정 브로드캐스트(IP Directed Broadcast)'**의 악용이라고 배웠습니다.
+앞선 713번 문서에서 스머프(Smurfing) 공격의 핵심 무기가 <strong>'지정 브로드캐스트(IP Directed Broadcast)'</strong>의 악용이라고 배웠습니다.
 
 - 원래 우리 집 안(LAN)에서 "255.255.255.255"로 뿌리는 방송(Local Broadcast)은 라우터가 밖으로 안 내보내고 집안에서만 돕니다.
-- 하지만 외부 인터넷에 있는 해커가 아예 `192.168.10.255` 처럼 **특정 네트워크 대역의 끝자리(255, [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/))**를 딱 찍어서 패킷을 던지면? 구형 라우터는 이걸 받아서 자기 밑에 딸려 있는 `192.168.10.1`부터 `192.168.10.254`까지의 모든 PC에 무지성으로 전단지를 쫙 복사해서 뿌려주었습니다. (증폭의 폭발점)
+- 하지만 외부 인터넷에 있는 해커가 아예 `192.168.10.255` 처럼 <strong>특정 네트워크 대역의 끝자리(255, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a>)</strong>를 딱 찍어서 패킷을 던지면? 구형 라우터는 이걸 받아서 자기 밑에 딸려 있는 `192.168.10.1`부터 `192.168.10.254`까지의 모든 PC에 무지성으로 전단지를 쫙 복사해서 뿌려주었습니다. (증폭의 폭발점)
 
-```text
-[랜섬웨어]
-    │
-    ▼
-[스머프 공격 방어를 위한 no ip dire…]
-    │
-    └──▶ [스키밍 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜섬웨어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스머프 공격 방어를 위한 no ip dire…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스키밍 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,17 +51,21 @@ tags = ["studynote-network"]
 - **결과**: 해커가 아무리 가짜 출발지 IP를 적고 스머프 핑 패킷을 쏴도, 증폭기 역할을 해야 할 라우터 입구에서 막혀버리므로, 마을 안의 250대 PC는 핑 패킷을 아예 받지도 못하게 되고 당연히 응답도 하지 않아 스머프 공격이 완벽히 무력화됩니다.
 
 ### 2. 현대 네트워크의 기본값 (Default)
-- 과거(1990년대)에는 이 기능이 활성화(On)되어 있었지만, 스머프 공격으로 전 세계 인터넷이 초토화된 이후, 2000년대 초반([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) IOS 12.0 이후)부터 출고되는 **지구상의 모든 라우터는 아예 공장에서부터 `no ip directed-broadcast`가 기본값(Default)으로 강제 적용**되어 나옵니다.
+- 과거(1990년대)에는 이 기능이 활성화(On)되어 있었지만, 스머프 공격으로 전 세계 인터넷이 초토화된 이후, 2000년대 초반([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) IOS 12.0 이후)부터 출고되는 <strong>지구상의 모든 라우터는 아예 공장에서부터 <code>no ip directed-broadcast</code>가 기본값(Default)으로 강제 적용</strong>되어 나옵니다.
 - 그래서 오늘날에는 스머프 공격이 현실 세계의 인터넷에서 완전히 멸종한 전설 속의 고전 해킹 기법이 된 것입니다.
 
-```text
-[랜섬웨어]
-    │
-    ▼
-[스머프 공격 방어를 위한 no ip dire…]
-    │
-    └──▶ [스키밍 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜섬웨어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스머프 공격 방어를 위한 no ip dire…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스키밍 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 라우터가 혹시나 뚫렸을 때를 대비해 타겟 서버나 개별 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 단에서도 방어벽을 하나 더 칩니다.
-- 리눅스나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 **"목적지 IP가 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)로 되어 날아온 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)(핑) 요청에는 절대 응답(Echo Reply)하지 마라"**라는 룰을 켭니다. (예: 리눅스의 `icmp_echo_ignore_broadcasts = 1`)
+- 리눅스나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 <strong>"목적지 IP가 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a>로 되어 날아온 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a>(핑) 요청에는 절대 응답(Echo Reply)하지 마라"</strong>라는 룰을 켭니다. (예: 리눅스의 `icmp_echo_ignore_broadcasts = 1`)
 
 스머프 공격 방어를 위한 no ip dire…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)가 기반 조건을 만든다면, 스머프 공격 방어를 위한 no ip dire…는 그 위에서 핵심 메커니즘을 구현하고, [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -118,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 랜섬웨어]
-    │
-    ▼
-[현재 개념: 스머프 공격 방어를 위한 no ip dire…]
-    │
-    ├──▶ [확장 A: 스키밍 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 랜섬웨어</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스머프 공격 방어를 위한 no ip dire…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스키밍 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 스머프 공격 방어를 위한 no ip dire…는 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

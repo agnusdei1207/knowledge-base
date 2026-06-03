@@ -23,18 +23,20 @@ tags = ["studynote-bigdata"]
 
 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 모델은 하드웨어를 직접 보유하고 네트워크, 보안, 저장 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 세밀하게 통제할 수 있다는 장점이 있다. 반면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구축비가 크고, 수요 예측을 잘못하면 과잉 투자나 용량 부족이 동시에 발생한다. 클라우드는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입장벽이 낮고 수분 단위 확장이 가능하지만, 장기적 비용 최적화와 [데이터 이동 비용](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/), [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성 문제를 함께 고민해야 한다.
 
-즉 이 비교의 핵심 질문은 "어디가 더 현대적인가"가 아니다. 오히려 **우리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 얼마나 고정적인가, 얼마나 빨리 늘어나는가, 얼마나 강하게 통제해야 하는가**에 가깝다. 잘못 고르면 저장은 싸도 연산이 비싸지거나, 반대로 통제는 강하지만 민첩성이 급감하는 구조가 된다.
+즉 이 비교의 핵심 질문은 "어디가 더 현대적인가"가 아니다. 오히려 <strong>우리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 얼마나 고정적인가, 얼마나 빨리 늘어나는가, 얼마나 강하게 통제해야 하는가</strong>에 가깝다. 잘못 고르면 저장은 싸도 연산이 비싸지거나, 반대로 통제는 강하지만 민첩성이 급감하는 구조가 된다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      플랫폼 선택은 서버 위치보다 운영 방식의 선택에 가깝다     │
-├──────────────────────────────────────────────────────────────┤
-│ 온프레미스: 장비 구매 ─▶ 설치 ─▶ 수년 단위 운영 계획          │
-│ 클라우드  : 서비스 선택 ─▶ 즉시 사용 ─▶ 사용량 기반 재조정     │
-│                                                              │
-│ 기술보다 비용 구조와 조직 속도가 함께 달라짐                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 선택은 서버 위치보다 운영 방식의 선택에 가깝다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스: 장비 구매 ─▶ 설치 ─▶ 수년 단위 운영 계획</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 : 서비스 선택 ─▶ 즉시 사용 ─▶ 사용량 기반 재조정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술보다 비용 구조와 조직 속도가 함께 달라짐</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드의 차이는 단순히 창고를 어디 두느냐가 아니라, 창고를 직접 지어 운영할지 아니면 필요한 만큼 빌려 쓰는 물류 체계를 쓸지 결정하는 것과 같다.
 
@@ -46,22 +48,20 @@ tags = ["studynote-bigdata"]
 
 클라우드 빅데이터는 반대로 저장과 계산을 분리한다. Amazon Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (S3), Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) (ADLS), Google Cloud Storage (GCS) 같은 객체 스토리지가 장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맡고, Spark·Presto·[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 같은 계산 엔진은 필요할 때만 확장된다. 이 구조는 유연하지만, 저장소와 계산 노드가 분리되어 있으므로 네트워크 입출력(Input/Output, I/O)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 최적화가 더 중요해진다.
 
-```text
-┌──────────────────────────────┐      ┌──────────────────────────────┐
-│      온프레미스 Hadoop        │      │      클라우드 빅데이터        │
-├──────────────────────────────┤      ├──────────────────────────────┤
-│ Client / Analytics Tool      │      │ Client / Analytics Tool      │
-│        │                     │      │        │                     │
-│        ▼                     │      │        ▼                     │
-│   YARN / Spark Cluster       │      │ Managed / Elastic Compute    │
-│        │                     │      │        │                     │
-│        ▼                     │      │        ▼                     │
-│ DataNode + Compute           │      │ Object Storage               │
-│ HDFS block + task locality   │      │ S3 / ADLS / GCS              │
-│        │                     │      │        │                     │
-│  저장과 계산이 같은 풀        │      │  저장과 계산이 분리된 풀      │
-└──────────────────────────────┘      └──────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스 Hadoop</div><div class="kb-diagram-cell">클라우드 빅데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Analytics Tool</div><div class="kb-diagram-cell">Client / Analytics Tool</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YARN / Spark Cluster</div><div class="kb-diagram-cell">Managed / Elastic Compute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode + Compute</div><div class="kb-diagram-cell">Object Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS block + task locality</div><div class="kb-diagram-cell">S3 / ADLS / GCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장과 계산이 같은 풀</div><div class="kb-diagram-cell">저장과 계산이 분리된 풀</div></div>
+</div>
+</div>
+
+
 
 | 비교 축 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) | 클라우드 빅데이터 |
 | :--- | :--- | :--- |
@@ -89,7 +89,7 @@ tags = ["studynote-bigdata"]
 
 이 비교에서 자주 등장하는 개념이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Gravity)이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 장소에 많이 쌓일수록 애플리케이션과 분석 도구가 그 주변으로 끌려오는 현상이다. 그래서 클라우드 이전은 계산 엔진 이전보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 체계가 더 중요하다.
 
-또 다른 연결 축은 거버넌스다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)는 세밀한 보안 통제를 직접 설계하는 대신 운영 부담을 진다. 클라우드는 기본 제공 보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기능을 활용하기 쉽지만, 계정·리전·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 복잡해지면 오히려 관리 규칙을 재설계해야 한다. 결국 비교의 핵심은 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)보다 **운영 모델의 재배치**다.
+또 다른 연결 축은 거버넌스다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)는 세밀한 보안 통제를 직접 설계하는 대신 운영 부담을 진다. 클라우드는 기본 제공 보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 기능을 활용하기 쉽지만, 계정·리전·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 복잡해지면 오히려 관리 규칙을 재설계해야 한다. 결국 비교의 핵심은 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)보다 <strong>운영 모델의 재배치</strong>다.
 
 - **📢 섹션 요약 비유**: 단순 이전은 오래 살던 집의 가구를 새 집에 그대로 밀어 넣는 일이고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 전환은 집 구조에 맞게 가구 배치와 생활 동선을 다시 설계하는 일에 가깝다.
 
@@ -110,8 +110,8 @@ tags = ["studynote-bigdata"]
 ### 현실적인 전환 패턴
 
 1. **하이브리드 아카이브**: 자주 안 쓰는 [콜드 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/676_cold_data_archiving/)만 클라우드 객체 스토리지로 이동
-2. **신규 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 클라우드 우선**: 기존 배치는 유지하되, 새 분석 업무부터 클라우드에서 시작
-3. **연합 질의([Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/))**: Trino/Presto로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드를 동시에 질의
+2. <strong>신규 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 클라우드 우선</strong>: 기존 배치는 유지하되, 새 분석 업무부터 클라우드에서 시작
+3. <strong>연합 질의(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/">Federated Query</a>)</strong>: Trino/Presto로 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드를 동시에 질의
 4. **재설계 전환**: 단순 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 마이그레이션이 아니라 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 질의 엔진으로 운영모델 변경
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -133,7 +133,7 @@ tags = ["studynote-bigdata"]
 
 향후 방향은 완전한 이분법보다 하이브리드와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 중심으로 갈 가능성이 크다. 규제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 현장이나 전용 리전에 두고, burst성 분석과 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습은 클라우드로 넘기는 모델이 현실적이다. 동시에 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)와 거버넌스를 통합해, 저장 위치가 달라도 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼처럼 보이게 만드는 설계가 중요해진다.
 
-결론적으로 이 주제는 "[하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)을 어디에 설치할까"가 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 계산, 비용과 통제, 민첩성과 거버넌스를 어떻게 균형 잡을까**라는 질문으로 기억해야 한다. 그 균형점을 설명할 수 있어야 실무와 시험 모두에서 설득력이 생긴다.
+결론적으로 이 주제는 "[하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)을 어디에 설치할까"가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 계산, 비용과 통제, 민첩성과 거버넌스를 어떻게 균형 잡을까</strong>라는 질문으로 기억해야 한다. 그 균형점을 설명할 수 있어야 실무와 시험 모두에서 설득력이 생긴다.
 
 - **📢 섹션 요약 비유**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드의 선택은 집을 살지 임대할지 고르는 일과 비슷하다. 오래 머물며 구조를 마음대로 바꾸고 싶으면 소유가 유리하고, 상황 변화에 빨리 대응해야 하면 유연한 임대가 유리하다.
 
@@ -152,21 +152,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-온프레미스 Hadoop
-    │
-    ▼
-관리형 Hadoop 서비스
-    │
-    ▼
-객체 스토리지 기반 저장·계산 분리
-    │
-    ▼
-Lakehouse · Serverless Analytics
-    │
-    ▼
-Hybrid Data Platform · Federated Governance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">온프레미스 Hadoop</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">관리형 Hadoop 서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 스토리지 기반 저장·계산 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lakehouse · Serverless Analytics</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid Data Platform · Federated Governance</div>
+</div>
+</div>
+
+
 
 이 흐름은 클러스터 중심 사고에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합형 플랫폼과 하이브리드 거버넌스로 이동하는 발전 방향을 보여준다.
 

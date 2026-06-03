@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블로 전송되는 모든 프레임의 맨 앞에는 8바이트(64비트) 크기의 워밍업 신호가 붙는다. 앞 7바이트를 프리앰블(Preamble), 마지막 1바이트를 SFD(Start of Frame Delimiter)라고 부른다.
 - **필요성**: 컴퓨터의 내부 클럭(시계) 속도는 완벽하게 동일하지 않다. 송신자가 초당 1억 개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(100Mbps)를 쏠 때, 수신자가 정확히 어느 순간에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어들여야 할지 박자가 어긋나면 0을 1로 잘못 읽는 치명적 오류가 발생한다. 프리앰블은 수신자에게 메트로놈처럼 박자를 맞춰주는 "하나, 둘, 셋, 넷!" 하는 카운트다운 신호다.
 
-- **💡 비유**: 오케스트라 지휘자가 연주([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 시작하기 전에 지휘봉을 허공에 휘저으며 **"원, 투, 쓰리, 포! (10101010... 프리앰블)"** 하고 박자를 맞춰주다가, 마지막 순간에 지휘봉을 강하게 내리찍으며 **"큐! (10101011 SFD)"**라고 사인을 주는 것과 완벽히 동일합니다.
+- **💡 비유**: 오케스트라 지휘자가 연주([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 시작하기 전에 지휘봉을 허공에 휘저으며 **"원, 투, 쓰리, 포! (10101010... 프리앰블)"** 하고 박자를 맞춰주다가, 마지막 순간에 지휘봉을 강하게 내리찍으며 <strong>"큐! (10101011 SFD)"</strong>라고 사인을 주는 것과 완벽히 동일합니다.
 
-```text
-[이더넷 프레임 포맷]
-    │
-    ▼
-[Preamble & SFD]
-    │
-    └──▶ [Type 필드 / Length 필드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 프레임 포맷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Preamble &amp; SFD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Type 필드 / Length 필드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 프리앰블은 100m 달리기 시합에서 심판이 **"제자리에~(Preamble) 차렷~(Preamble)"** 하고 예열을 시키다가, 마지막에 **"탕!(SFD)"** 하고 총을 쏴서 출발선([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 알리는 신호탄입니다.
 
@@ -43,32 +47,27 @@ tags = ["studynote-network"]
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 내부의 PHY(물리 계층) 칩은 프레임을 내보내기 전에 하드웨어적으로 이 패턴을 삽입한다.
 
 - **Preamble (7 Bytes)**: `10101010` x 7번 반복 (총 56비트). 1과 0이 계속 교차하면서 전압의 변화(Transition)를 만들어내어, 수신 측의 PLL(Phase-Locked Loop) 회로가 송신 측의 클럭 속도에 정확히 동기화되도록 예열한다.
-- **SFD (1 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))**: `10101011` 패턴. 프리앰블과 똑같이 1010...으로 가다가 마지막 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `11`로 연속해서 나타난다. 수신기는 이 `11`이 나타나는 순간 "예열 끝! 다음 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)부터가 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 시작이구나!"라고 판단하여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 컨트롤러([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩)로 올려보내기 시작한다.
+- <strong>SFD (1 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a>)</strong>: `10101011` 패턴. 프리앰블과 똑같이 1010...으로 가다가 마지막 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `11`로 연속해서 나타난다. 수신기는 이 `11`이 나타나는 순간 "예열 끝! 다음 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)부터가 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 시작이구나!"라고 판단하여 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 컨트롤러([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 칩)로 올려보내기 시작한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                Preamble과 SFD의 비트 타이밍 구조              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   Byte 1    Byte 2         Byte 7     Byte 8 (SFD)          │
- │  10101010  10101010  ...  10101010   10101011               │
- │  └───┬───┘ └───┬───┘      └───┬───┘  └───┬───┘              │
- │      │         │              │          │                  │
- │      └─────────┴──────────────┴──────────┘                  │
- │          Preamble (7 Bytes) : 수신기 클럭 예열               │
- │                                                             │
- │   ...1 0 1 0 1 0 1 1 │ 0 0 1 0 1 0 1 1 ...                  │
- │   ─────────┬──────── ┼ ───────┬───────                      │
- │           SFD        │   목적지 MAC 주소의 첫 번째 Byte       │
- │      (마지막이 11)    │                                     │
- │                      ▼                                     │
- │           여기서부터가 MAC 계층의 진짜 프레임!                    │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preamble과 SFD의 비트 타이밍 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Byte 1 Byte 2 Byte 7 Byte 8 (SFD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10101010 10101010 ... 10101010 10101011</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preamble (7 Bytes) : 수신기 클럭 예열</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...1 0 1 0 1 0 1 1</div><div class="kb-diagram-cell">0 0 1 0 1 0 1 1 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFD</div><div class="kb-diagram-cell">목적지 MAC 주소의 첫 번째 Byte</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(마지막이 11)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기서부터가 MAC 계층의 진짜 프레임!</div></div>
+</div>
+</div>
+
+
 
 ### 2. 패킷 캡처 도구(Wireshark)에서 보이지 않는 이유
-PC에서 와이어샤크(Wireshark)로 패킷을 캡처하면 Preamble, SFD, 그리고 꼬리의 FCS(에러 검출 필드)는 보이지 않는다. 그 이유는 랜카드의 1계층(PHY) 칩이 Preamble을 이용해 동기화를 맞춘 뒤, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 부분)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때는 이 8바이트를 **하드웨어적으로 잘라내어 버리기(Strip) 때문**이다. OS와 와이어샤크는 이미 예쁘게 잘려진 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소부터만 볼 수 있다.
+PC에서 와이어샤크(Wireshark)로 패킷을 캡처하면 Preamble, SFD, 그리고 꼬리의 FCS(에러 검출 필드)는 보이지 않는다. 그 이유는 랜카드의 1계층(PHY) 칩이 Preamble을 이용해 동기화를 맞춘 뒤, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 부분)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때는 이 8바이트를 <strong>하드웨어적으로 잘라내어 버리기(Strip) 때문</strong>이다. OS와 와이어샤크는 이미 예쁘게 잘려진 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소부터만 볼 수 있다.
 
 - **📢 섹션 요약 비유**: ** 편지(프레임)를 담은 봉투가 목적지에 도착하면, 우체국 기계가 **"가위로 봉투의 양끝(Preamble과 FCS)을 잘라내고"** 알맹이 편지만 사용자([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))에게 건네주는 것과 같습니다. 사용자는 잘려 나간 종이 부스러기를 볼 수 없습니다.
 
@@ -126,15 +125,19 @@ Preamble & SFD는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 이더넷 프레임 포맷]
-    │
-    ▼
-[현재 개념: Preamble & SFD]
-    │
-    ├──▶ [확장 A: Type 필드 / Length 필드]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이더넷 프레임 포맷</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Preamble &amp; SFD</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Type 필드 / Length 필드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 Preamble & SFD는 [이더넷 프레임 포맷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Type 필드 / Length 필드와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

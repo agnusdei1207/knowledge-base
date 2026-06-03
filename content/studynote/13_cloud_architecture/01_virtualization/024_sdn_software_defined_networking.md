@@ -22,20 +22,23 @@ tags = ["studynote-cloud-architecture"]
 
 SDN은 이 제어 로직을 중앙 컨트롤러로 추출하여 "소프트웨어처럼" 관리한다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│            SDN 3계층 아키텍처                               │
-├────────────────────────────────────────────────────────────┤
-│  애플리케이션 레이어 (Application Layer)                     │
-│  [네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링]           │
-│       │ 노스바운드 API (Northbound API, REST)               │
-│  제어 레이어 (Control Layer)                                │
-│  [SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI]             │
-│       │ 사우스바운드 API (Southbound API, OpenFlow)         │
-│  인프라 레이어 (Infrastructure/Data Layer)                  │
-│  [물리·가상 스위치: 패킷 포워딩만 담당]                        │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN 3계층 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레이어 (Application Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노스바운드 API (Northbound API, REST)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 레이어 (Control Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사우스바운드 API (Southbound API, OpenFlow)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 레이어 (Infrastructure/Data Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리·가상 스위치: 패킷 포워딩만 담당</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 전통 네트워크는 각 교통경찰이 자기 교차로를 독립 관리하는 것이고, SDN은 중앙 교통 관제센터(컨트롤러)가 도시 모든 신호를 소프트웨어로 일괄 제어하는 것이다.
 
@@ -57,9 +60,9 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 | 항목 | 전통 네트워크 | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) |
 |:---|:---|:---|
 | **제어 방식** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (장비별) | 중앙 집중 (컨트롤러) |
-| **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경** | 장비별 CLI 접속 | 컨트롤러 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 1회 호출 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 변경</strong> | 장비별 CLI 접속 | 컨트롤러 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 1회 호출 |
 | **프로그래밍** | 제한적 (CLI/[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/)) | 완전 프로그래밍 가능 |
-| **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험** | 없음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 있음 (컨트롤러) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> 위험</strong> | 없음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 있음 (컨트롤러) |
 | **주요 활용** | 전통 엔터프라이즈 | 클라우드 DC, [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) |
 
 - **📢 섹션 요약 비유**: SDN은 항공 관제 시스템과 같다. 각 비행기(패킷)가 스스로 항로를 결정하는 대신, 관제탑(컨트롤러)이 모든 비행기의 경로를 통합 관리한다. 효율적이지만 관제탑이 고장나면 전체가 위험하다.
@@ -70,10 +73,10 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 
 | 기술 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| **[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) (Network Function [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))** | SDN의 보완 기술 | 네트워크 기능([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 등)을 VM으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) |
-| **[OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)** | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 사우스바운드 표준 | 컨트롤러-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)** | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 응용 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹에 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 원리 적용 |
-| **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)** | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 | L2 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/); SDN과 결합 |
+| <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> (Network Function <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)</strong> | SDN의 보완 기술 | 네트워크 기능([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 등)을 VM으로 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) |
+| <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a></strong> | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 사우스바운드 표준 | 컨트롤러-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a></strong> | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 응용 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹에 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 원리 적용 |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a></strong> | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 | L2 오버레이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/); SDN과 결합 |
 
 클라우드에서 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) ([Virtual Private Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/))의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·보안그룹 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 원리로 구현되며, AWS [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/), Azure Virtual Network 모두 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 기반이다.
 
@@ -87,7 +90,7 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 1,000개 서버 규모 클라우드 DC에서 신규 테넌트 네트워크 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 자동화.
 
 1. **기존 방식**: 네트워크 엔지니어가 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·ACL을 장비별 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 2주 소요.
-2. **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 도입 ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI)**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) + ACI API로 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 도입 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> ACI)</strong>: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) + ACI API로 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화.
 3. **자동화 결과**: 신규 테넌트 네트워크 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 2주 → 15분 단축 (99% 감소).
 4. **추가 효과**: 네트워크 오설정 사고 70% 감소 (코드 검토·테스트 가능).
 
@@ -116,29 +119,31 @@ SDN은 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_arc
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)** | SDN의 표준 사우스바운드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| **[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)** | SDN과 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/); [네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) |
-| **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)** | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 원리의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워크 적용 |
-| **[SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))** | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 HA 구성 필요 이유 |
-| **[O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/)** | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국에 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 적용한 개방형 무선망 |
+| <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a></strong> | SDN의 표준 사우스바운드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a></strong> | SDN과 보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/); [네트워크 기능 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a></strong> | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 원리의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워크 적용 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)</strong> | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 HA 구성 필요 이유 |
+| <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/">O-RAN</a></strong> | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국에 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 적용한 개방형 무선망 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 네트워크 — 분산 제어, 장비별 독립 설정]
-    │
-    ▼
-[SDN — 제어/데이터 평면 분리, 중앙 컨트롤러]
-    │
-    ▼
-[NFV + SDN — 네트워크 기능 가상화 결합]
-    │
-    ▼
-[클라우드 네트워킹 — VPC, Kubernetes CNI]
-    │
-    ▼
-[AI 자율 네트워킹 — ML 기반 자동 트래픽 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 네트워크 — 분산 제어, 장비별 독립 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDN — 제어/데이터 평면 분리, 중앙 컨트롤러</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFV + SDN — 네트워크 기능 가상화 결합</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네트워킹 — VPC, Kubernetes CNI</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자율 네트워킹 — ML 기반 자동 트래픽 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

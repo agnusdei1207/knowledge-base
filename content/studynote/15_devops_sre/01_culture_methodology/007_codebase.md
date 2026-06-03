@@ -26,34 +26,35 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 코드베이스 원칙 위반과 준수의 차이를 명확히 보여준다.
 
-```text
-[코드베이스 원칙 위반 vs 준수 아키텍처]
 
-❌ 안티패턴 (다대다 얽힘)
-[Repo A] ─┐ ┌─▶ App 1 (Production)
-├─(빌드)───┤
-[Repo B] ─┤ ├─▶ App 2 (Staging)
-│ │
-[Repo C] ─┘ └─▶ App 3 (Development)
 
-문제점:
-- Repo A의 코드가 App 1, 2에 중복 적용 → 버전 불일치
-- 특정 환경만 수동 패치 → "Production만 다르다" 현상
-- 어떤Repo가 어떤 App에 해당하는지 추적 불가
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드베이스 원칙 위반 vs 준수 아키텍처</div></div>
+<div class="kb-diagram-note">❌ 안티패턴 (다대다 얽힘)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 1 (Production)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(빌드)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 2 (Staging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 3 (Development)</div></div>
+<div class="kb-diagram-note">문제점:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Repo A의 코드가 App 1, 2에 중복 적용 → 버전 불일치</div>
+<div class="kb-diagram-tree-item" style="--depth:0">특정 환경만 수동 패치 → "Production만 다르다" 현상</div>
+<div class="kb-diagram-tree-item" style="--depth:0">어떤Repo가 어떤 App에 해당하는지 추적 불가</div>
+<div class="kb-diagram-note">✓ 준수 패턴 (1:1 매핑)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 1 (Dev → Staging → Prod)</div></div>
+<div class="kb-diagram-note">설정(Config)만 환경별 다름</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 2</div></div>
+<div class="kb-diagram-note">설정(Config)만 환경별 다름</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Repo C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">App 3</div></div>
+<div class="kb-diagram-note">설정(Config)만 환경별 다름</div>
+<div class="kb-diagram-note">장점:</div>
+<div class="kb-diagram-tree-item" style="--depth:0">각 앱의 코드는 단일 Repo에서 관리 → 추적 용이</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설정만 분리하여 환경별 배포 →Reproducibility 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:0">VCS 히스토리로 언제든 이전 버전으로Rollback 가능</div>
+</div>
+</div>
 
-✓ 준수 패턴 (1:1 매핑)
-[Repo A] ──────────────────▶ App 1 (Dev → Staging → Prod)
-│ 설정(Config)만 환경별 다름
-[Repo B] ──────────────────▶ App 2
-│ 설정(Config)만 환경별 다름
-[Repo C] ──────────────────▶ App 3
-│ 설정(Config)만 환경별 다름
 
-장점:
-- 각 앱의 코드는 단일 Repo에서 관리 → 추적 용이
-- 설정만 분리하여 환경별 배포 →Reproducibility 보장
-- VCS 히스토리로 언제든 이전 버전으로Rollback 가능
-```
 
 이 그림의 핵심은"앱"과"코드베이스"의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 1:1이어야 한다는 점이다.히 패턴에서 보면, Repo A의 코드가 App 1, 2, 3에 동시에 배포되고 있었다는 것은 Repo A가 세 개의 앱을 동시에 represent하고 있다는 뜻이다. 이는 Repo A의 코드 변경이 세 개의 앱 모두에 영향을 미치므로, 세 앱의 배포 주기가된다. 코드베이스 원칙을 준수하면, 각 앱은 독립된 Repo에서 관리되어 독립된 배포 주기를 가질 수 있다.
 
@@ -70,50 +71,36 @@ tags = ["devops_sre"]
 | **구조** | 단일 중앙 서버, рабочая копия만 로컬 | 전체 히스토리가 로컬에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | Git이 코드베이스 원칙에 더 적합 |
 | **오프라인 작업** | 중앙 서버 필수 | 로컬에서 대부분의 작업 가능 | Git이 더 나은 [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/) 제공 |
 | **브랜칭/머징** | 가능한 하나 결합이 | lightweight 브랜칭, 빠른 병합 | Git이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 친화적 |
-| **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발** | 어려움 | 여러 브랜치에서 동시 개발 가능 | Git이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 개발에 유리 |
+| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 개발</strong> | 어려움 | 여러 브랜치에서 동시 개발 가능 | Git이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 개발에 유리 |
 
 아래는 Git 기반 코드베이스 관리와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 연동을 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
-```text
-[Git 기반 코드베이스 + CI/CD 파이프라인 연동]
 
-┌─────────────────────────────────────────────────────────────┐
-│ Git Repository (코드베이스) │
-│ │
-│ main ──────────────────────────────────────────────────▶ │
-│ │ │
-│ │ feature/user-auth ────────────────────────────────────│
-│ │ │ │
-│ │ └── Pull Request (Code Review) ──────────────────▶│
-│ │ │
-│ └── hotfix/critical-bug ────────────────────────────────│
-│ │
-└─────────────────────────────────────────────────────────────┘
-│
-│ Webhook (Push Event)
-▼
-┌─────────────────────────────────────────────────────────────┐
-│ CI/CD Pipeline │
-│ │
-│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
-│ │ Build │─▶│ Test │─▶│ Package │─▶│ Deploy │ │
-│ │ (소스 │ │ (단위/ │ │ (Docker │ │ (Dev/ │ │
-│ │ 컴파일) │ │ 통합) │ │ 이미지) │ │ Stag/ │ │
-│ │ │ │ │ │ │ │ Prod) │ │
-│ └─────────┘ └─────────┘ └─────────┘ └─────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────┐
-│ 환경별 배포 (동일 코드베이스) │
-│ │
-│ [Dev Environment] [Staging Environment] [Prod Env] │
-│ 설정: 개발용 DB 설정: 테스트용 DB 설정: 운영용 DB│
-│ 코드: 동일 (main) 코드: 동일 (main) 코드: 동일 (main)│
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Git 기반 코드베이스 + CI/CD 파이프라인 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Repository (코드베이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">main ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feature/user-auth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Pull Request (Code Review) ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── hotfix/critical-bug</div></div>
+<div class="kb-diagram-note">Webhook (Push Event)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Test</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Package</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Deploy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(소스</div><div class="kb-diagram-cell">(단위/</div><div class="kb-diagram-cell">(Docker</div><div class="kb-diagram-cell">(Dev/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일)</div><div class="kb-diagram-cell">통합)</div><div class="kb-diagram-cell">이미지)</div><div class="kb-diagram-cell">Stag/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prod)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경별 배포 (동일 코드베이스)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dev Environment</div><div class="kb-diagram-node">Staging Environment</div><div class="kb-diagram-node">Prod Env</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설정: 개발용 DB 설정: 테스트용 DB 설정: 운영용 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드: 동일 (main) 코드: 동일 (main) 코드: 동일 (main)</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 동일한 코드베이스(main 브랜치)에서 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 달리하여 세 환경에 배포된다는 점이다. 코드 자체는 환경에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 동일하므로"코드의 불일치"로 인한 버그는 원천적으로 발생할 수 없다. 환경 간 차이는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))에만 존재하며, 이것은 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)를 통해 코드와 분리되어 관리된다. [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 통해 코드 변경이 발생하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동으로 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)되어 모든 환경에 일관된 배포가 이루어진다.
 
@@ -127,47 +114,42 @@ tags = ["devops_sre"]
 
 | 관련 개념 | 코드베이스 원칙과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 시너지 효과 |
 |:---|:---|:---|
-| **[마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))** | MSA는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 독립적Repo보유 → 코드베이스 1:1 원칙적 준수 | 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영 가능 |
-| **[모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/)** | 모놀리스는 단일Repo에 전체 코드 → 1:1 원칙은 준수하지만 규모 확장에 한계 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 코드베이스 분리 필요 |
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | Git Repo = 단일 진실 공급원 = 코드베이스 원칙의 | Git에 목표 상태를 선언하면 자동 Sync |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화 ([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 코드베이스의 불변 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 동일한 이미지로 Dev/Prod 환경 동일성 보장 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)와 앱 코드는 분리된 Repo관리이/가 | 인프라 변경과 앱 변경의 분리된 코드베이스 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong> | MSA는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 독립적Repo보유 → 코드베이스 1:1 원칙적 준수 | 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 운영 가능 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/">모놀리식 아키텍처</a></strong> | 모놀리스는 단일Repo에 전체 코드 → 1:1 원칙은 준수하지만 규모 확장에 한계 | [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 코드베이스 분리 필요 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | Git Repo = 단일 진실 공급원 = 코드베이스 원칙의 | Git에 목표 상태를 선언하면 자동 Sync |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>화 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>)</strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 코드베이스의 불변 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 동일한 이미지로 Dev/Prod 환경 동일성 보장 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)와 앱 코드는 분리된 Repo관리이/가 | 인프라 변경과 앱 변경의 분리된 코드베이스 |
 
 코드베이스 원칙과 GitOps의 결합은 현대 DevOps에서 가장 강력한 배포 자동화 패턴으로 자리 잡았다. Git Repo의 main 브랜치에 코드를하면, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구(ArgoCD, FluxCD)가 이를 감지하여 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에 자동으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
-```text
-[코드베이스 원칙 + GitOps 결합]
 
-Git Repository (Codebase)
-│
-│ main 브랜치 Push
-▼
-┌───────────────────┐
-│ CI Pipeline │
-│ (Build & Test) │
-└─────────┬─────────┘
-│ Docker Image Push
-▼
-┌───────────────────┐
-│ Artifact Registry │ ◀── 이미지 태그 = 코드 버전
-│ (Docker Hub, ECR) │
-└─────────┬─────────┘
-│ Pull (GitOps)
-▼
-┌───────────────────────────────────┐
-│ ArgoCD / FluxCD │
-│ (클러스터 내부 에이전트) │
-│ - Git의 목표 상태 감시 │
-│ - 현재 상태와 비교 │
-│ - 불일치 시 자동 동기화 │
-└─────────┬─────────────────────────┘
-│
-▼
-┌───────────────────────────────────┐
-│ Kubernetes Cluster │
-│ (Production) │
-└───────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드베이스 원칙 + GitOps 결합</div></div>
+<div class="kb-diagram-note">Git Repository (Codebase)</div>
+<div class="kb-diagram-note">main 브랜치 Push</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Build &amp; Test)</div></div>
+<div class="kb-diagram-note">Docker Image Push</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Artifact Registry</div><div class="kb-diagram-cell">◀── 이미지 태그 = 코드 버전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Docker Hub, ECR)</div></div>
+<div class="kb-diagram-note">Pull (GitOps)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ArgoCD / FluxCD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클러스터 내부 에이전트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Git의 목표 상태 감시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 상태와 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 불일치 시 자동 동기화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Cluster</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Production)</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 코드베이스 원칙과 GitOps의 결합은"음식 배달 시스템"과 같다.(코드베이스)에서 동일한 레시피로 만든 요리를([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지)하고, 배달 앱([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/))이 고객 주소([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터)까지 최적 경로로 자동 배달한다. 의 레시피가바르면(코드 변경) 모든 고객의 요리가업데이트되고, 배달 속도([GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Sync 주기)가 빨라질수록 고객 만족도가 높아진다.
 
@@ -178,29 +160,31 @@ Git Repository (Codebase)
 코드베이스 원칙을 실무에 적용할 때 흔히 마주치는 상황과 의사결정 포인트를 분석한다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: 기존 모놀리스 앱이 여러 환경에 서로 다른 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 배포되고 있음**
+- <strong>시나리오 A: 기존 모놀리스 앱이 여러 환경에 서로 다른 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>으로 배포되고 있음</strong>
 - **상황**: 한 회사에 5년 된 모놀리스 앱이 있으며, 개발 환경, 스테이징, 프로덕션이 모두 다른Git Commit을 기반으로 배포되어 있음.
 - **판단**: 이것은 코드베이스 원칙의 명백한 위반이다. 먼저 모든 환경을 동일한 main 브랜치로 정렬하고, 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이는 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 분리해야 한다. 이를 위해 Feature Flag를 활용하면 코드 변경과 배포를 분리할 수 있어 점진적 전환이 가능하다.
 
-- **시나리오 B: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환 시 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의Repo 관리 방식 결정**
+- <strong>시나리오 B: <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 전환 시 각 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의Repo 관리 방식 결정</strong>
 - **상황**: MSA로 전환하려고 하며, 각 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)마다Repo를 어떻게 구성할지 결정해야 함.
 - **판단**: 원칙적으로 각 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 독립된Repo보유해야 한다. 다만 조직 규모가 크면 모노레포(Monorepo) 패턴을 고려할 수 있다. 모노레포는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 코드를 하나의 Repo에서관리하지만, 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 배포는 독립적으로 이루어진다. 다만 이는 빌드 시스템의 복잡성 증가를 감수해야 한다.
 
-```text
-[코드베이스Repo 전략 선택 기준]
 
-조직 규모 | 서비스 수 | 권장Repo 전략 | Trade-off
-────────────────────────────────────────────────────────
-소규모 | 1-5개 | 서비스별Repo | 단순하지만 분리는 어려움
-| | (Polyrepo) |
-────────────────────────────────────────────────────────
-중규모 | 5-20개 | 모노레포 | 일관된 tooling 가능
-| | (Monorepo) | 하지만 빌드 복잡성 증가
-────────────────────────────────────────────────────────
-대규모 | 20개 이상 | 모노레포 + | 확장성 최고
-| | 자동화된 | 하지만 초기 설정 비용
-| | 빌드 시스템 | 높음
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드베이스Repo 전략 선택 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조직 규모</div><div class="kb-diagram-cell">서비스 수</div><div class="kb-diagram-cell">권장Repo 전략</div><div class="kb-diagram-cell">Trade-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소규모</div><div class="kb-diagram-cell">1-5개</div><div class="kb-diagram-cell">서비스별Repo</div><div class="kb-diagram-cell">단순하지만 분리는 어려움</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Polyrepo)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중규모</div><div class="kb-diagram-cell">5-20개</div><div class="kb-diagram-cell">모노레포</div><div class="kb-diagram-cell">일관된 tooling 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Monorepo)</div><div class="kb-diagram-cell">하지만 빌드 복잡성 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모</div><div class="kb-diagram-cell">20개 이상</div><div class="kb-diagram-cell">모노레포 +</div><div class="kb-diagram-cell">확장성 최고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화된</div><div class="kb-diagram-cell">하지만 초기 설정 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빌드 시스템</div><div class="kb-diagram-cell">높음</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 코드베이스Repo [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은"부엌 식재료 관리"와 같다. 소규모 식당(소규모 조직)에서는 식재료마다 다른 창고([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별Repo)를 쓰면관리가하지만, 수백 가지 식재료를 대규모 중앙(대규모 조직)에서는 모든 식재료를 한 번에관리하는 모노레포가이다. 그러나 모노레포는 식재료 도난 감시(빌드 최적화)가 더 сложный이 된다.
 
@@ -212,11 +196,11 @@ Git Repository (Codebase)
 
 | 관점 | 코드베이스 원칙 미준수 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 코드베이스 원칙 준수 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
-| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 추적** | 환경별 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 | 모든 환경, 모든 변경을Git으로 추적 | 변경 추적 가능성 100% |
-| **배포 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)** | "특정 환경만 다르다" 현상 | 환경 무관 일관된 배포 | 배포 실패율 감소 |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도** | 환경별 수동Rollback | Git Commit으로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 추적</strong> | 환경별 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 | 모든 환경, 모든 변경을Git으로 추적 | 변경 추적 가능성 100% |
+| <strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | "특정 환경만 다르다" 현상 | 환경 무관 일관된 배포 | 배포 실패율 감소 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 속도</strong> | 환경별 수동Rollback | Git Commit으로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 |
 | **개발자 협업** |Repo 충돌 잦음, 병합 어려움 | 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 체계적 협업 | [병합 충돌](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) 해결 시간 단축 |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 효과** | 환경별 별도 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 | 빌드 시간 50% 단축 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 효과</strong> | 환경별 별도 빌드 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 | 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 환경별 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)만 | 빌드 시간 50% 단축 |
 
 **미래 전망 및 결론**:
 코드베이스 원칙은 12팩터 앱 중에서도 가장 기본이 되는 원칙으로, [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/)의 근본이다. 현대에는 Git의 탄생과 함께 코드베이스 원칙은 더욱 쉽게 가능해졌으며, GitHub, GitLab 등의 플랫폼은 코드베이스 관리를 위한 풍부한 도구를 제공한다.
@@ -231,31 +215,32 @@ Git Repository (Codebase)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 시스템 ([VCS](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/), [Version Control System](/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/))** | 모든 변경을 추적하고 되돌리는 기반 저장소 |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리 시스템 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/">VCS</a>, <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/026_version_control_system/">Version Control System</a>)</strong> | 모든 변경을 추적하고 되돌리는 기반 저장소 |
 | **단일 코드베이스 (Single Codebase)** | 하나의 앱을 하나의 저장소와 1:1로 묶는 원칙 |
-| **12팩터 앱 ([12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/))** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 코드를 분리해 환경 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하는 운영 원칙 |
-| **[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/Delivery) / [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | 동일한 코드에서 자동 빌드·배포를 확장하는 실행 방식 |
+| <strong>12팩터 앱 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a>)</strong> | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 코드를 분리해 환경 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장하는 운영 원칙 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>/Delivery) / <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 동일한 코드에서 자동 빌드·배포를 확장하는 실행 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[버전 관리 시스템 (VCS, Version Control System)]
-│
-▼
-[단일 코드베이스 (Single Codebase)]
-│
-▼
-[12팩터 앱 (12-Factor App)]
-│
-▼
-[브랜치 전략 (Branching Strategy)]
-│
-▼
-[CI/CD 파이프라인 (Continuous Integration/Delivery)]
-│
-▼
-[GitOps]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">버전 관리 시스템 (VCS, Version Control System)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 코드베이스 (Single Codebase)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">12팩터 앱 (12-Factor App)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">브랜치 전략 (Branching Strategy)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 파이프라인 (Continuous Integration/Delivery)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps</div></div>
+</div>
+</div>
+
+
 
 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리에서 단일 코드베이스 원칙이 12팩터 앱의 기반이 되고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·GitOps로 이어지는 현대 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 흐름이다.
 

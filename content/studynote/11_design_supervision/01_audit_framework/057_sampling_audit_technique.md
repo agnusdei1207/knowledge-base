@@ -95,15 +95,21 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-```text
-모집단
-   ↓
-표본 추출
-   ↓
-표본 검사
-   ↓
-전체 품질 추정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모집단</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표본 추출</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">표본 검사</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">전체 품질 추정</div>
+</div>
+</div>
+
+
 
 ---
 

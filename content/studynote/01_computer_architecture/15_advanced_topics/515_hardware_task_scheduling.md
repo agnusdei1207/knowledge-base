@@ -19,11 +19,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-작업 스케줄링 하드웨어 지원은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)나 런타임이 하던 일부 스케줄링 결정을 전용 큐, 중재기, 스코어보드 같은 회로로 옮겨, 다음 작업을 훨씬 빠르게 선택하게 만드는 구조다. 핵심은 "무엇을 실행할지"에 대한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 전체를 하드웨어화하는 것이 아니라, **반복적으로 발생하는 준비 작업 선택과 배분 비용**을 크게 줄이는 데 있다.
+작업 스케줄링 하드웨어 지원은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)나 런타임이 하던 일부 스케줄링 결정을 전용 큐, 중재기, 스코어보드 같은 회로로 옮겨, 다음 작업을 훨씬 빠르게 선택하게 만드는 구조다. 핵심은 "무엇을 실행할지"에 대한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 전체를 하드웨어화하는 것이 아니라, <strong>반복적으로 발생하는 준비 작업 선택과 배분 비용</strong>을 크게 줄이는 데 있다.
 
 이 지원이 필요한 이유는 작업이 충분히 작아지면, 실제 연산보다 스케줄링 오버헤드가 더 비싸지기 때문이다. 워프 단위 연산을 다루는 그래픽 처리 장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 패킷을 처리하는 네트워크 가속기, 큐 기반으로 요청을 소화하는 스토리지 컨트롤러는 매번 소프트웨어가 인터럽트와 문맥 전환을 거쳐 다음 일을 배정하면 실행 유닛이 자주 빈다. 결국 병목은 연산기가 아니라 "다음 일을 누구에게 줄지 고르는 속도"가 된다.
 
-따라서 작업 스케줄링 하드웨어 지원의 목적은 범용 중앙 처리 장치 (Central Processing Unit, CPU) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 완전히 대체하는 데 있지 않다. 그보다 좁은 영역에서, **짧고 반복적인 디스패치 경로를 회로 속도로 처리**해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 응답성을 높이는 데 있다.
+따라서 작업 스케줄링 하드웨어 지원의 목적은 범용 중앙 처리 장치 (Central Processing Unit, CPU) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 완전히 대체하는 데 있지 않다. 그보다 좁은 영역에서, <strong>짧고 반복적인 디스패치 경로를 회로 속도로 처리</strong>해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 응답성을 높이는 데 있다.
 
 - **📢 섹션 요약 비유**: 이 기술은 반장이 숙제를 한 명씩 나눠 주는 대신, 자동 분배기가 남은 숙제를 바로바로 빈 자리 학생에게 건네주는 교실 운영과 같다. 설명은 선생님이 해도, 나눠 주는 일은 기계가 더 빠르다.
 
@@ -33,27 +33,23 @@ tags = ["studynote-computer-architecture"]
 
 일반적인 하드웨어 지원 경로는 작업 기술자 큐, 우선순위·나이 기반 중재기, 의존성 스코어보드, 디스패치 경로, 완료 피드백으로 구성된다. 소프트웨어나 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 엔진이 작업 기술자를 큐에 넣으면, 하드웨어는 준비된 작업만 골라 가장 적절한 실행 유닛에 보낸다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Hardware-assisted task dispatch                                         │
-├──────────────────────────────────────────────────────────────────────────┤
-│ Producer Software / DMA -> Doorbell                                     │
-│        │                                                                 │
-│        ▼                                                                 │
-│   [Ready Queues] -> [Priority + Age Arbiter] -> [Dependency Scoreboard] │
-│                                                   │                      │
-│                                                   ▼                      │
-│                                            [Dispatch Crossbar]           │
-│                                          /        |        \             │
-│                                       Core0     Core1    EngineN         │
-│                                          \        |        /             │
-│                                           [Completion + Credits]         │
-│                                                     │                    │
-│                                                     └─ wake next task    │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림이 보여 주는 핵심은 스케줄링이 단일 명령이 아니라, **준비 상태 판별 → 우선순위 선택 → 의존성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 자원 배정 → 완료 회수**로 이어지는 파이프라인이라는 점이다. 하드웨어화의 효과는 이 각 단계를 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 연결하는 데서 나온다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware-assisted task dispatch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Software / DMA -&gt; Doorbell</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queues</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Priority + Age Arbiter</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Dependency Scoreboard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Dispatch Crossbar</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 Core1 EngineN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Completion + Credits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wake next task</div></div>
+</div>
+</div>
+
+
+
+이 그림이 보여 주는 핵심은 스케줄링이 단일 명령이 아니라, <strong>준비 상태 판별 → 우선순위 선택 → 의존성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → 자원 배정 → 완료 회수</strong>로 이어지는 파이프라인이라는 점이다. 하드웨어화의 효과는 이 각 단계를 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 연결하는 데서 나온다.
 
 | 블록 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -71,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-작업 스케줄링 하드웨어 지원은 범용 소프트웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 완전한 하드웨어 자율 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 중간 지점에 있다. 소프트웨어는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 유연하게 바꿀 수 있지만 느리고, 완전 하드웨어 자율 방식은 빠르지만 바꾸기 어렵다. 하드웨어 지원은 그 사이에서 **반복적인 빠른 경로만 회로로 빼내는 타협안**이다.
+작업 스케줄링 하드웨어 지원은 범용 소프트웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 완전한 하드웨어 자율 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 중간 지점에 있다. 소프트웨어는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 유연하게 바꿀 수 있지만 느리고, 완전 하드웨어 자율 방식은 빠르지만 바꾸기 어렵다. 하드웨어 지원은 그 사이에서 <strong>반복적인 빠른 경로만 회로로 빼내는 타협안</strong>이다.
 
 | 항목 | 소프트웨어 스케줄링 | 작업 스케줄링 하드웨어 지원 | 완전 하드웨어 자율 |
 | :-- | :-- | :-- | :-- |
@@ -83,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 이 주제는 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) (Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))과도 연결된다. [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 한 코어 내부 명령 슬롯을 누가 차지할지 결정하는 미시적 스케줄링이고, 작업 스케줄링 하드웨어 지원은 그보다 큰 단위의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), 워프, 패킷, 요청을 어느 실행 유닛에 줄지 고르는 거시적 스케줄링이다.
 
-그래서 현대 시스템은 보통 다층 구조를 쓴다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 큰 작업 묶음을 장치에 위임하고, 장치 내부에서는 하드웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 세부 작업을 다시 분배한다. 즉 하드웨어 지원은 소프트웨어를 지우는 것이 아니라, **스케줄링 계층을 더 잘게 쪼개는 방향**으로 이해하는 것이 맞다.
+그래서 현대 시스템은 보통 다층 구조를 쓴다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 큰 작업 묶음을 장치에 위임하고, 장치 내부에서는 하드웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 세부 작업을 다시 분배한다. 즉 하드웨어 지원은 소프트웨어를 지우는 것이 아니라, <strong>스케줄링 계층을 더 잘게 쪼개는 방향</strong>으로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 도시 전체 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선을 짜는 시청이라면, 하드웨어 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 정류장에 도착한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 어떤 승강장에 붙일지 즉시 결정하는 현장 관제실과 같다.
 
@@ -107,7 +103,7 @@ tags = ["studynote-computer-architecture"]
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 먼 유닛에 무작정 작업을 보내 캐시·메모리 지역성을 깨는 배치
 - 빠른 디스패치만 강조하고 디버깅 카운터와 강제 비우기 인터페이스를 생략한 구현
 
-기술사 답안에서는 "하드웨어가 더 빠르다"보다, **무엇을 하드웨어에 맡기고 무엇을 소프트웨어에 남길지**를 말해야 한다. 그 경계가 잘 잡혀야 성능도 얻고 제어권도 잃지 않는다.
+기술사 답안에서는 "하드웨어가 더 빠르다"보다, <strong>무엇을 하드웨어에 맡기고 무엇을 소프트웨어에 남길지</strong>를 말해야 한다. 그 경계가 잘 잡혀야 성능도 얻고 제어권도 잃지 않는다.
 
 - **📢 섹션 요약 비유**: 이 기술의 설계는 식당에서 서빙 로봇을 도입하는 판단과 같다. 물건 나르는 일은 로봇이 잘하지만, 손님 우선순위와 예외 대응은 여전히 매니저가 맡아야 매장이 안정적이다.
 
@@ -117,9 +113,9 @@ tags = ["studynote-computer-architecture"]
 
 작업 스케줄링 하드웨어 지원은 실행 유닛의 놀고 있는 시간을 줄여 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 전력 효율을 함께 개선한다. 특히 미세 작업이 폭발적으로 많은 가속기 환경에서는, 스케줄링 자체를 빠르게 만드는 것만으로도 전체 시스템 효율이 크게 오른다. 또한 CPU가 세부 배분에서 벗어나 더 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 후처리에 집중할 수 있다는 점도 중요하다.
 
-한계도 분명하다. 회로에 박힌 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 바꾸기 어렵고, 선점·디버깅·예외 처리까지 모두 하드웨어에 몰아넣으면 복잡도와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 급증한다. 그래서 향후 방향은 하드웨어가 로컬·반복적 결정을 맡고, 소프트웨어가 장기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 조정하는 **계층형 스케줄링**에 가깝다.
+한계도 분명하다. 회로에 박힌 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 바꾸기 어렵고, 선점·디버깅·예외 처리까지 모두 하드웨어에 몰아넣으면 복잡도와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 급증한다. 그래서 향후 방향은 하드웨어가 로컬·반복적 결정을 맡고, 소프트웨어가 장기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 조정하는 <strong>계층형 스케줄링</strong>에 가깝다.
 
-결론적으로 작업 스케줄링 하드웨어 지원은 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 없애는 기술"이 아니라, **작업 분배의 빠른 경로를 회로로 끌어내 실행 자원을 덜 놀리게 만드는 기술**로 기억해야 한다.
+결론적으로 작업 스케줄링 하드웨어 지원은 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 없애는 기술"이 아니라, <strong>작업 분배의 빠른 경로를 회로로 끌어내 실행 자원을 덜 놀리게 만드는 기술</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 이 기술은 모든 운전자를 없애는 자율도시가 아니라, 막히는 교차로에 스마트 신호등을 달아 차량 흐름을 훨씬 매끄럽게 만드는 교통 개선책과 같다.
 
@@ -138,24 +134,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 시분할 스케줄링
-    │
-    ▼
-코어 내부 하드웨어 스레드 선택
-    │
-    ▼
-워프 · 요청 단위 하드웨어 디스패치
-    │
-    ▼
-큐 기반 가속기 스케줄링 지원
-    │
-    ▼
-이종 장치 통합 디스패치
-    │
-    ▼
-정책-기구 분리형 계층 스케줄링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 시분할 스케줄링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코어 내부 하드웨어 스레드 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워프 · 요청 단위 하드웨어 디스패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">큐 기반 가속기 스케줄링 지원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이종 장치 통합 디스패치</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정책-기구 분리형 계층 스케줄링</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 소프트웨어 결정 → 장치 내부 빠른 경로 하드웨어화 → 이종 시스템 전체 조율"로 스케줄링이 진화하는 방향을 보여 준다.
 

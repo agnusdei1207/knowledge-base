@@ -25,20 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 결정론적 PRNG (Pseudo Random Number Generator)만으로는 부족한지, 그리고 TRNG가 어느 지점에서 개입하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ PRNG alone vs. physical entropy                                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ PRNG path                                                                   │
-│  seed -> algorithm -> repeatable sequence                                   │
-│                                                                            │
-│ TRNG path                                                                   │
-│  physical noise -> sampling -> fresh entropy bits                           │
-│                                                                            │
-│ Hybrid path                                                                 │
-│  TRNG seed -> secure expander -> high-speed cryptographic random stream     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PRNG alone vs. physical entropy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PRNG path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seed -&gt; algorithm -&gt; repeatable sequence</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TRNG path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">physical noise -&gt; sampling -&gt; fresh entropy bits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TRNG seed -&gt; secure expander -&gt; high-speed cryptographic random stream</div></div>
+</div>
+</div>
+
+
 
 따라서 TRNG의 존재 이유는 "더 랜덤해 보이는 숫자"가 아니라 "공격자가 시작 상태를 알 수 없게 만드는 것"이다. 특히 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) ([Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)), [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)), CPU (Central Processing Unit) 내장 보안 기능은 모두 이 첫 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)의 품질에 기대고 있다.
 
@@ -62,19 +63,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 현대 CPU나 보안 칩이 주로 사용하는 하드웨어 난수 파이프라인이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Typical hardware random pipeline                                           │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Noise source -> sampler -> conditioner -> health tests -> entropy pool     │
-│ (jitter,       (sampler /   (bias removal)   repetition /       -> DRBG    │
-│ thermal,        latch)                      adaptive tests)     / CSPRNG    │
-│ metastable)                                                                │
-│                                                                            │
-│ Raw analog noise is never the final output; it must be filtered and        │
-│ continuously monitored before software consumes it.                        │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical hardware random pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Noise source -&gt; sampler -&gt; conditioner -&gt; health tests -&gt; entropy pool</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(jitter, (sampler / (bias removal) repetition / -&gt; DRBG</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">thermal, latch) adaptive tests) / CSPRNG</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metastable)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw analog noise is never the final output; it must be filtered and</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">continuously monitored before software consumes it.</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 TRNG는 느린 물리 현상과 빠른 소프트웨어 요구를 동시에 맞춘다. 진짜 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 상대적으로 천천히 나오더라도, 일단 품질 좋은 seed가 확보되면 DRBG가 대량 난수를 공급할 수 있다. 그래서 현대 시스템은 "TRNG만" 또는 "PRNG만"이 아니라 두 계층을 결합한 혼합 구조가 기본이다.
 
@@ -107,11 +110,11 @@ TRNG를 다른 난수 기술과 비교하면 경계가 분명해진다. PRNG는 
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스가 NIST (National Institute of Standards and Technology) [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-90B 같은 기준에 따라 평가되었는가?
-2. **후처리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) bit를 그대로 내보내지 않고 conditioner를 거치는가?
+1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스가 NIST (National Institute of Standards and Technology) [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-90B 같은 기준에 따라 평가되었는가?
+2. <strong>후처리 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) bit를 그대로 내보내지 않고 conditioner를 거치는가?
 3. **건강성 검사**: 반복 패턴, stuck 상태, 과도한 편향을 감지하는 연속 테스트가 있는가?
 4. **운영 연계**: 운영체제나 보안 모듈이 하드웨어 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 자체 난수 풀과 안전하게 결합하는가?
-5. **재시드 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**: 장시간 실행 시 DRBG가 주기적으로 재시드되는가?
+5. <strong>재시드 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: 장시간 실행 시 DRBG가 주기적으로 재시드되는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -129,7 +132,7 @@ TRNG를 다른 난수 기술과 비교하면 경계가 분명해진다. PRNG는 
 
 좋은 TRNG는 암호 키 예측 가능성을 낮추고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 값을 신뢰할 수 있게 만들며, 보안 칩 전체에 신선한 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 공급한다. 그 결과 대칭키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰 발행, 원격 증명 [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 디스크 암호화 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 과정이 모두 더 튼튼해진다. 이 한 층이 약하면 위의 복잡한 암호 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)도 쉽게 흔들린다.
 
-물론 TRNG는 "붙이면 끝"인 기능이 아니다. 아날로그 회로는 공정 편차와 환경 변화에 민감하고, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 저하가 소리 없이 진행될 수 있다. 그래서 미래 방향은 더 좋은 물리 소스 자체보다, 칩 내 자가 진단, 다중 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 결합, QRNG와의 하이브리드 연계처럼 품질을 지속적으로 증명하는 방향에 가깝다. 결론적으로 TRNG는 난수 편의 기능이 아니라, **암호 시스템에 현실 세계의 불확실성을 주입하는 첫 관문**으로 기억해야 한다.
+물론 TRNG는 "붙이면 끝"인 기능이 아니다. 아날로그 회로는 공정 편차와 환경 변화에 민감하고, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 저하가 소리 없이 진행될 수 있다. 그래서 미래 방향은 더 좋은 물리 소스 자체보다, 칩 내 자가 진단, 다중 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 결합, QRNG와의 하이브리드 연계처럼 품질을 지속적으로 증명하는 방향에 가깝다. 결론적으로 TRNG는 난수 편의 기능이 아니라, <strong>암호 시스템에 현실 세계의 불확실성을 주입하는 첫 관문</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: TRNG는 컴퓨터가 바깥세상의 바람 소리와 동전 튀는 소리를 들으며 숫자를 배우는 창문과 같다. 창문이 닫혀 있으면 컴퓨터는 자기 머릿속 규칙만 반복하게 된다.
 
@@ -148,24 +151,25 @@ TRNG를 다른 난수 기술과 비교하면 경계가 분명해진다. PRNG는 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 PRNG
-        │
-        ▼
-예측 가능한 seed 문제
-        │
-        ▼
-TRNG (True Random Number Generator)
-        │
-        ▼
-conditioning · health test · 엔트로피 추정
-        │
-        ▼
-DRBG / CSPRNG 재시드
-        │
-        ▼
-CPU · TPM · HSM 내장 난수 인프라
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 PRNG</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 가능한 seed 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TRNG (True Random Number Generator)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">conditioning · health test · 엔트로피 추정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DRBG / CSPRNG 재시드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CPU · TPM · HSM 내장 난수 인프라</div>
+</div>
+</div>
+
+
 
 이 흐름은 "수학적 난수"에서 "물리적 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 확보"로, 다시 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 난수 인프라"로 확장되는 보안 진화를 보여 준다.
 

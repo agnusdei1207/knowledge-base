@@ -29,19 +29,25 @@ IaC는 이 문제를 코드와 [버전](/knowledge-base/studynote/03_network/06_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Git / HCL / YAML
-  ↓
-Plan
-  ↓
-Apply
-  ↓
-Provider
-  ↓
-Cloud API
-  ↓
-Resources
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Git / HCL / YAML</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Plan</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Apply</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Provider</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cloud API</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Resources</div>
+</div>
+</div>
+
+
 
 | 핵심 개념 | 역할 | 없으면 생기는 문제 |
 | :-- | :-- | :-- |
@@ -115,31 +121,43 @@ IaC가 자리 잡으면 환경 [생성](/knowledge-base/studynote/02_operating_s
 
 ## 관련 개념 맵
 
-```text
-Git
-  ↓
-IaC Code
-  ↓
-Plan / Apply
-  ↓
-State / Provider
-  ↓
-Cloud Resources
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Git</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">IaC Code</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Plan / Apply</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">State / Provider</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Cloud Resources</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-수동 운영
-  ↓
-스크립트 자동화
-  ↓
-IaC
-  ↓
-GitOps / Policy as Code
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 운영</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스크립트 자동화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">IaC</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">GitOps / Policy as Code</div>
+</div>
+</div>
+
+
 
 ---
 

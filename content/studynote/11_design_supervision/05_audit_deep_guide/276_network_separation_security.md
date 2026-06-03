@@ -20,26 +20,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 보안 감리는 업무망과 인터넷망 분리를 중심으로 한 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)([Network Separation](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)) 보안 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 클라우드와 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 구조가 확대되면서 경계 보안보다 최소 권한, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 탐지·대응까지 포함한 보안 운영이 중요해졌다. 특히 보안 영역화가 기준선으로 정리되지 않으면 자료 반출입은 사람 의존 절차로 흩어지고, 최종적으로 예외 승인이 남지 않아 의사결정이 감각에 의존하게 된다. 이를 놓치면 단일 취약점이 침해 사고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단, 법적 책임으로 확대된다.
 
-```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 보안 영역화 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 자료 반출입 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 예외 승인 증적 확보 │
-└──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 영역화 기준 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자료 반출입 설계 반영</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 승인 증적 확보</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 보안 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -53,16 +48,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | 자료 반출입을 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 예외 승인을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: 보안 영역화, 자료 반출입, 예외 승인은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

@@ -18,7 +18,7 @@ tags = ["studynote-data-engineering"]
 
 ### 탐색(Search) 문제의 본질
 
-AI가 해결해야 하는 많은 문제는 **상태 공간([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Space) 탐색**으로 표현된다: 현재 상태에서 목표 상태까지 최적 경로를 찾는 것이다.
+AI가 해결해야 하는 많은 문제는 <strong>상태 공간(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space) 탐색</strong>으로 표현된다: 현재 상태에서 목표 상태까지 최적 경로를 찾는 것이다.
 
 | 문제 | 상태 | 행동 | 목표 |
 |:---|:---|:---|:---|
@@ -27,7 +27,7 @@ AI가 해결해야 하는 많은 문제는 **상태 공간([State](/knowledge-ba
 | 퍼즐 (8-Puzzle) | 타일 배치 | 타일 이동 | 정렬 완성 |
 | 게임 나무 | 게임 상태 | 플레이어 이동 | 최대 점수 |
 
-탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 효율성은 **[시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)**와 **최적성(Optimality)**의 트레이드오프로 결정된다.
+탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 효율성은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/">시간 복잡도</a></strong>와 <strong>최적성(Optimality)</strong>의 트레이드오프로 결정된다.
 
 📢 **섹션 요약 비유**: 탐색 문제는 미로 찾기다. BFS는 모든 방향을 동시에 확인하고, DFS는 한 방향으로 끝까지 가보며, A*는 "출구가 저 방향일 것 같다"는 직관으로 효율적으로 찾아간다.
 
@@ -46,88 +46,95 @@ AI가 해결해야 하는 많은 문제는 **상태 공간([State](/knowledge-ba
 
 ### A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([A-Star Algorithm](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/038_a_star_algorithm/))
 
-```
-평가 함수: f(n) = g(n) + h(n)
 
-  g(n): 시작 노드에서 n까지의 실제 비용 (알려진 값)
-  h(n): n에서 목표까지의 추정 비용 (휴리스틱)
-  f(n): 경로 전체 예상 비용
 
-허용적 휴리스틱 (Admissible Heuristic):
-  h(n) ≤ h*(n)  (실제 비용 이하)
-  → 과소 추정 → 최적 경로 보장
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">평가 함수: f(n) = g(n) + h(n)</div>
+<div class="kb-diagram-note">g(n): 시작 노드에서 n까지의 실제 비용 (알려진 값)</div>
+<div class="kb-diagram-note">h(n): n에서 목표까지의 추정 비용 (휴리스틱)</div>
+<div class="kb-diagram-note">f(n): 경로 전체 예상 비용</div>
+<div class="kb-diagram-note">허용적 휴리스틱 (Admissible Heuristic):</div>
+<div class="kb-diagram-note">h(n) ≤ h*(n) (실제 비용 이하)</div>
+<div class="kb-diagram-note">→ 과소 추정 → 최적 경로 보장</div>
+<div class="kb-diagram-note">대표 휴리스틱:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맨하탄 거리:</div><div class="kb-diagram-cell">x1-x2</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">y1-y2</div><div class="kb-diagram-cell">(격자 이동)</div></div>
+<div class="kb-diagram-note">유클리드 거리: √((x1-x2)² + (y1-y2)²) (직선 이동)</div>
+</div>
+</div>
 
-대표 휴리스틱:
-  맨하탄 거리: |x1-x2| + |y1-y2|  (격자 이동)
-  유클리드 거리: √((x1-x2)² + (y1-y2)²)  (직선 이동)
-```
+
 
 **A* 탐색 과정 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)**
-```
-  S = 시작, G = 목표, 숫자 = g(n), 괄호 = h(n)
 
-  S ──3──> A ──4──> G
-  │       (4)      (0)
-  │(7)
-  └──5──> B ──2──> C ──1──> G
-         (3)      (1)
 
-  A*가 선택하는 경로:
-    S→A: f = g(3)+h(4) = 7
-    S→B: f = g(5)+h(3) = 8
-    → S→A 먼저 탐색
-    A→G: f = g(7)+h(0) = 7  ← 최적!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">S = 시작, G = 목표, 숫자 = g(n), 괄호 = h(n)</div>
+<div class="kb-diagram-note">S ──3──&gt; A ──4──&gt; G</div>
+<div class="kb-diagram-note">(4) (0)</div>
+<div class="kb-diagram-note">(7)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">5──&gt; B ──2──&gt; C ──1──&gt; G</div>
+<div class="kb-diagram-note">(3) (1)</div>
+<div class="kb-diagram-note">A*가 선택하는 경로:</div>
+<div class="kb-diagram-note">S→A: f = g(3)+h(4) = 7</div>
+<div class="kb-diagram-note">S→B: f = g(5)+h(3) = 8</div>
+<div class="kb-diagram-note">→ S→A 먼저 탐색</div>
+<div class="kb-diagram-note">A→G: f = g(7)+h(0) = 7 ← 최적!</div>
+</div>
+</div>
+
+
 
 ### [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) ([Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 2인 제로섬 게임에서 자신은 점수를 최대화(MAX), 상대는 최소화(MIN)한다고 가정하고 게임 트리 전체를 탐색한다.
 
-```
-                  루트 (내 차례: MAX)
-                 /         \
-             [3]             [5]
-            /   \           /   \
-MAX →    [3]   [12]      [8]   [5]
-         / \   / \       / \   / \
-MIN →   3  5 12  2     8  9  5   7
-                                     ← 단말 노드 (점수)
 
-알파-베타 가지치기 (Alpha-Beta Pruning):
-  MAX 노드: α = 현재 최대값
-  MIN 노드: β = 현재 최소값
 
-  β ≤ α이면 해당 가지 탐색 중단 (가지치기)
-  → 최악 O(b^m) → 최적 O(b^(m/2)) 개선
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">루트 (내 차례: MAX)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-node">5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">8</div><div class="kb-diagram-node">5</div></div>
+<div class="kb-diagram-note">MIN → 3 5 12 2 8 9 5 7</div>
+<div class="kb-diagram-note">← 단말 노드 (점수)</div>
+<div class="kb-diagram-note">알파-베타 가지치기 (Alpha-Beta Pruning):</div>
+<div class="kb-diagram-note">MAX 노드: α = 현재 최대값</div>
+<div class="kb-diagram-note">MIN 노드: β = 현재 최소값</div>
+<div class="kb-diagram-note">β ≤ α이면 해당 가지 탐색 중단 (가지치기)</div>
+<div class="kb-diagram-note">→ 최악 O(b^m) → 최적 O(b^(m/2)) 개선</div>
+</div>
+</div>
+
+
 
 ### [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) (Monte Carlo Tree Search) 4단계
 
 AlphaGo에서 핵심적으로 사용된 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                MCTS 4단계 반복 루프                          │
-│                                                            │
-│  1. 선택 (Selection)                                       │
-│     UCT 공식으로 가장 유망한 노드 선택                        │
-│     UCT(n) = Q(n)/N(n) + C × √(ln(N_parent)/N(n))         │
-│                 탐욕         탐색 보너스                     │
-│                                                            │
-│  2. 확장 (Expansion)                                       │
-│     선택된 노드에서 새 자식 노드 추가                         │
-│                                                            │
-│  3. 시뮬레이션 (Simulation/Rollout)                         │
-│     무작위 혹은 정책 기반으로 게임 끝까지 플레이               │
-│     결과: 승(+1) / 패(-1) / 무(0)                           │
-│                                                            │
-│  4. 역전파 (Backpropagation)                               │
-│     시뮬레이션 결과를 루트까지 역방향으로 업데이트              │
-│     N(n) += 1, Q(n) += 결과                                │
-│                                                            │
-│  → 수천~수만 번 반복 후 방문 횟수 가장 많은 수 선택            │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCTS 4단계 반복 루프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 선택 (Selection)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UCT 공식으로 가장 유망한 노드 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UCT(n) = Q(n)/N(n) + C × √(ln(N_parent)/N(n))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐욕 탐색 보너스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 확장 (Expansion)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택된 노드에서 새 자식 노드 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 시뮬레이션 (Simulation/Rollout)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위 혹은 정책 기반으로 게임 끝까지 플레이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 승(+1) / 패(-1) / 무(0)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 역전파 (Backpropagation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이션 결과를 루트까지 역방향으로 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N(n) += 1, Q(n) += 결과</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 수천~수만 번 반복 후 방문 횟수 가장 많은 수 선택</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: MCTS는 미로에서 길을 찾을 때 "많이 탐험해서 자주 목적지에 도달한 경로"를 선택하는 방법이다. 개별 탐험은 무작위이지만 통계가 쌓이면 최선의 길이 드러난다.
 
@@ -135,19 +142,23 @@ AlphaGo에서 핵심적으로 사용된 [알고리즘](/knowledge-base/studynote
 
 ### A* vs [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 핵심 차이
 
-```
-다익스트라 (Dijkstra):
-  모든 방향을 균등하게 탐색
-  → 목표 방향을 모름
 
-A* 알고리즘:
-  휴리스틱으로 목표 방향 편향 탐색
-  → 훨씬 빠르게 목표 도달
 
-탐색 영역 비교 (격자 맵):
-  다익스트라: 원형으로 전방향 탐색 (넓음)
-  A*:         방향성 있는 탐색 (좁음, 효율적)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다익스트라 (Dijkstra):</div>
+<div class="kb-diagram-note">모든 방향을 균등하게 탐색</div>
+<div class="kb-diagram-note">→ 목표 방향을 모름</div>
+<div class="kb-diagram-note">A* 알고리즘:</div>
+<div class="kb-diagram-note">휴리스틱으로 목표 방향 편향 탐색</div>
+<div class="kb-diagram-note">→ 훨씬 빠르게 목표 도달</div>
+<div class="kb-diagram-note">탐색 영역 비교 (격자 맵):</div>
+<div class="kb-diagram-note">다익스트라: 원형으로 전방향 탐색 (넓음)</div>
+<div class="kb-diagram-note">A*: 방향성 있는 탐색 (좁음, 효율적)</div>
+</div>
+</div>
+
+
 
 ### [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/) 효과
 
@@ -162,20 +173,21 @@ A* 알고리즘:
 
 ### AlphaGo 구조 ([MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) + 딥러닝)
 
-```
-┌─────────────────────────────────────────────┐
-│              AlphaGo (2016)                  │
-│                                             │
-│  정책 네트워크 (Policy Network)              │
-│  → 다음 수 확률 분포 예측 (MCTS 선택 안내)  │
-│                                             │
-│  가치 네트워크 (Value Network)              │
-│  → 현재 상태 승률 예측 (시뮬레이션 대체)    │
-│                                             │
-│  MCTS + Policy + Value 통합                 │
-│  → 이세돌 9단 4:1 승리                     │
-└─────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AlphaGo (2016)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 네트워크 (Policy Network)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다음 수 확률 분포 예측 (MCTS 선택 안내)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가치 네트워크 (Value Network)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 현재 상태 승률 예측 (시뮬레이션 대체)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCTS + Policy + Value 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이세돌 9단 4:1 승리</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)는 미리 "이 길은 절대 최선이 될 수 없다"고 판단해 탐색을 건너뛰는 것이다. 체스 선수가 "이 수는 분명 질 것 같으니 생각도 안 해"라고 하는 것과 같다.
 
@@ -219,7 +231,7 @@ A* 알고리즘:
 
 ### 결론
 
-A*, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/), MCTS는 각각 경로 찾기, 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 복잡 게임이라는 서로 다른 문제를 위해 최적화된 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 공통점은 **탐색 효율성과 최적성의 트레이드오프를 어떻게 다루느냐**다. A*는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)으로, 알파-베타는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로, MCTS는 확률적 샘플링으로 각각 무한한 탐색 공간을 현실적 범위로 줄인다.
+A*, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/), MCTS는 각각 경로 찾기, 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 복잡 게임이라는 서로 다른 문제를 위해 최적화된 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 공통점은 <strong>탐색 효율성과 최적성의 트레이드오프를 어떻게 다루느냐</strong>다. A*는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)으로, 알파-베타는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로, MCTS는 확률적 샘플링으로 각각 무한한 탐색 공간을 현실적 범위로 줄인다.
 
 📢 **섹션 요약 비유**: A*, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/), MCTS는 각각 영리한 탐험가, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 체스 선수, 통계에 능한 바둑 기사다. 같은 "최선을 찾는다"는 목표이지만 전혀 다른 방법으로 접근한다.
 
@@ -241,18 +253,21 @@ A*, [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-완전 탐색: BFS · DFS (최적 보장 but 느림)
-    │
-    ▼
-A*: g(n) + h(n) 휴리스틱 탐색 (최적 + 효율)
-    │
-    ▼
-게임 AI: Minimax · α-β 가지치기 · MCTS
-    │
-    ▼
-AlphaGo: MCTS + 딥러닝 정책/가치 네트워크
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">완전 탐색: BFS · DFS (최적 보장 but 느림)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">A*: g(n) + h(n) 휴리스틱 탐색 (최적 + 효율)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">게임 AI: Minimax · α-β 가지치기 · MCTS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AlphaGo: MCTS + 딥러닝 정책/가치 네트워크</div>
+</div>
+</div>
+
+
 2. [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)는 두 사람이 번갈아 두는 보드게임에서 "상대방은 나쁜 수를 두지 않는다"고 가정하고 내가 가장 유리한 수를 계산하는 방법이다.
 3. MCTS는 바둑에서 "이 자리에 두면 어떻게 될까"를 수천 번 상상으로 빠르게 대국해보고 가장 많이 이긴 자리에 두는 방법이다.
 

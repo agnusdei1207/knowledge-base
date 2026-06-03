@@ -11,8 +11,8 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모델 역산 공격 ([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/) Attack)은 모델 출력이나 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 거꾸로 추정하는 공격이며, DP-SGD (Differentially Private [Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 **기울기 민감도 상한 + 노이즈 주입**으로 이 누출 가능성을 수학적으로 제한한다.
-> 2. **가치**: 의료, 금융, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도가 높은 환경에서는 정확도만 높은 모델보다 **개별 레코드가 드러나지 않도록 보장된 모델**이 더 중요하다.
+> 1. **본질**: 모델 역산 공격 ([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/) Attack)은 모델 출력이나 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 거꾸로 추정하는 공격이며, DP-SGD (Differentially Private [Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 <strong>기울기 민감도 상한 + 노이즈 주입</strong>으로 이 누출 가능성을 수학적으로 제한한다.
+> 2. **가치**: 의료, 금융, [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도가 높은 환경에서는 정확도만 높은 모델보다 <strong>개별 레코드가 드러나지 않도록 보장된 모델</strong>이 더 중요하다.
 > 3. **판단 포인트**: 클리핑 임계값 `C`, 노이즈 배수 `σ`, 프라이버시 예산 `(ε, δ)`의 균형이 핵심이며, 노이즈를 과도하게 넣으면 모델 효용이 급락하므로 공격 위험도와 규제 수준을 함께 고려해야 한다.
 
 ---
@@ -21,19 +21,20 @@ tags = ["studynote-ai"]
 
 모델 역산 공격은 "이 모델이 무엇을 배웠는가"를 넘어서 "훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 어떤 사람이 들어 있었는가"까지 파고드는 공격이다. 얼굴 인식 모델에서 특정 개인의 얼굴 윤곽을 재구성하거나, 의료 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기에서 질병 집단의 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 추정하는 식으로 악용될 수 있다.
 
-문제의 핵심은 학습 과정이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흔적을 남긴다는 점이다. 모델 파라미터와 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 심지어 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))에서 공유되는 기울기조차 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 자취를 품고 있다. 따라서 보안을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 접근 제어 수준에서만 생각하면 불충분하고, **학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 정보 누출에 둔감하도록** 설계되어야 한다.
+문제의 핵심은 학습 과정이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흔적을 남긴다는 점이다. 모델 파라미터와 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), 심지어 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))에서 공유되는 기울기조차 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 자취를 품고 있다. 따라서 보안을 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이나 접근 제어 수준에서만 생각하면 불충분하고, <strong>학습 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 자체가 정보 누출에 둔감하도록</strong> 설계되어야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          민감 정보 누출의 경로: 데이터가 학습 흔적을 남김      │
-├──────────────────────────────────────────────────────────────┤
-│ 훈련 데이터 → 기울기/파라미터 업데이트 → 학습된 모델          │
-│                                 │                            │
-│                                 └→ 출력 확률, gradient 공유    │
-│                                              │               │
-│                                              └→ 역산 공격 시도 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민감 정보 누출의 경로: 데이터가 학습 흔적을 남김</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 데이터 → 기울기/파라미터 업데이트 → 학습된 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 출력 확률, gradient 공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 역산 공격 시도</div></div>
+</div>
+</div>
+
+
 
 이 그림이 말하는 것은 단순하다. 공격자는 원본 DB를 훔치지 않아도 된다. 모델이 남긴 업데이트 흔적만으로도 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 추정할 수 있다. DP-SGD는 바로 이 흔적의 세기를 통제하는 방패다.
 
@@ -56,25 +57,24 @@ $$
 | 요소                        | 역할                 | 보안 의미                |
 | :-------------------------- | :------------------- | :----------------------- |
 | **Per-sample Gradient**     | 샘플별 영향 측정     | 개별 레코드 민감도 계산  |
-| **[Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/) `C`**            | 기울기 상한 제한     | 특정 샘플 과도 영향 차단 |
-| **Noise `σ`**               | 가우시안 노이즈 주입 | 역추정 난이도 증가       |
-| **Privacy Budget `(ε, δ)`** | 누출 한계 추적       | 규제/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 근거      |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/">Clipping</a> <code>C</code></strong>            | 기울기 상한 제한     | 특정 샘플 과도 영향 차단 |
+| <strong>Noise <code>σ</code></strong>               | 가우시안 노이즈 주입 | 역추정 난이도 증가       |
+| <strong>Privacy Budget <code>(ε, δ)</code></strong> | 누출 한계 추적       | 규제/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응 근거      |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  DP-SGD 업데이트 파이프라인                 │
-├──────────────────────────────────────────────────────────────┤
-│ Mini-batch                                                   │
-│    │                                                         │
-│    ├─> sample gradients g1, g2, ... , gL                    │
-│    │                                                         │
-│    ├─> clip each gradient to norm C                          │
-│    │                                                         │
-│    ├─> sum clipped gradients + Gaussian noise                │
-│    │                                                         │
-│    └─> optimizer update + privacy accountant                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP-SGD 업데이트 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mini-batch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; sample gradients g1, g2, ... , gL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; clip each gradient to norm C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; sum clipped gradients + Gaussian noise</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; optimizer update + privacy accountant</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 "완벽한 비밀"이 아니라 "영향력 상한"이다. 어떤 샘플 하나가 있어도 되고 없어도 되게 학습 결과를 흐리게 만들어, 공격자가 특정 개인 정보를 강하게 복원하지 못하게 한다. 즉, 정보 누출을 0으로 만드는 게 아니라 **정량 가능한 위험 상한** 안으로 밀어 넣는 것이다.
 
@@ -87,7 +87,7 @@ $$
 | 방법                               | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상               | 장점                   | 한계                            |
 | :--------------------------------- | :---------------------- | :--------------------- | :------------------------------ |
 | **DP-SGD**                         | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개별 레코드 | 수학적 프라이버시 보장 | 정확도 저하 가능                |
-| **일반 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)**                    | 과적합 완화             | 구현 쉬움              | 프라이버시 보장 없음            |
+| <strong>일반 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong>                    | 과적합 완화             | 구현 쉬움              | 프라이버시 보장 없음            |
 | **출력 제한/탑-K 공개**            | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 노출 축소           | 추론 단계 방어         | 학습 누출 방어는 약함           |
 | **보안 집계 (Secure Aggregation)** | 통신 구간 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)          | [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 전송 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)    | 모델 자체 누출은 별도 대응 필요 |
 
@@ -127,7 +127,7 @@ DP-SGD는 규제 대응 근거가 필요한 환경에서 특히 강하다. 모�
 
 ## Ⅴ. 기대효과 및 결론
 
-DP-SGD를 적용하면 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습에서 "모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"만이 아니라 "정보 누출 상한"까지 함께 관리할 수 있다. 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 단순한 예측기에서 **[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 체계**로 끌어올리는 효과가 있다.
+DP-SGD를 적용하면 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습에서 "모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"만이 아니라 "정보 누출 상한"까지 함께 관리할 수 있다. 이는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 단순한 예측기에서 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 가능한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 체계</strong>로 끌어올리는 효과가 있다.
 
 결론적으로 모델 역산 공격 방어의 본질은 공격을 막는 사후 필터가 아니라, 학습 과정에서부터 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흔적을 약하게 만드는 것이다. DP-SGD는 그 요구를 가장 정교하게 만족시키는 대표 기법이며, 우리는 정확도와 프라이버시 예산 사이의 균형점을 설계해야 한다.
 

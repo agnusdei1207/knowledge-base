@@ -34,22 +34,22 @@ CRM 시스템은 단절된 부서 간의 [데이터](/knowledge-base/studynote/0
 | :--- | :--- | :--- |
 | **마케팅 자동화 (MA)** | 잠재 고객 발굴(Lead Generation) 및 맞춤형 타겟 마케팅 | 특정 상품 조회 고객에게 할인 쿠폰 자동 이메일 발송 |
 | **영업 자동화 (SFA)** | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 관리, 계약 성공률 예측, 영업 사원 일정 최적화 | 고객 미팅 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)을 통한 이번 달 예상 매출액 산출 |
-| **고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (CS)** | [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) 고객 지원, 불만 분석, 이탈 징후 사전 감지 | 3개월 미접속 VIP 고객에게 컴백 프로모션 알림 |
+| <strong>고객 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (CS)</strong> | [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/) 고객 지원, 불만 분석, 이탈 징후 사전 감지 | 3개월 미접속 VIP 고객에게 컴백 프로모션 알림 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                CRM 통합 데이터 흐름 및 가치 창출             │
-├──────────────────────────────────────────────────────────────┤
-│ [접점] 웹사이트 방문 ─▶ [마케팅] 캠페인 반응 ─▶ (잠재 고객)│
-│            ▼                        ▼                       │
-│      [통합 고객 DB (360도 뷰: 취향, 불만, 구매 이력)]        │
-│            ▼                        ▼                       │
-│ [접점] 모바일 앱 구매 ◀─ [영  업] 교차/상향 판매 ◀─ (기존 고객)│
-│            ▼                        ▼                       │
-│ [접점] 콜센터 클레임 ──▶ [서비스] 이탈 방어 대응 ──▶ (충성 고객)│
-└──────────────────────────────────────────────────────────────┘
-```
-이 그림의 핵심은 고객이 어떤 채널(웹, 앱, 전화)로 들어오든, 그리고 기업의 어떤 부서(마케팅, 영업, CS)를 만나든 **단일화된 360도 뷰(Single [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))**를 통해 일관되고 맥락 있는 대접을 받는다는 것이다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM 통합 데이터 흐름 및 가치 창출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접점</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마케팅</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(잠재 고객)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통합 고객 DB (360도 뷰: 취향, 불만, 구매 이력)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접점</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">영  업</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (기존 고객)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">접점</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(충성 고객)</div></div>
+</div>
+</div>
+
+
+이 그림의 핵심은 고객이 어떤 채널(웹, 앱, 전화)로 들어오든, 그리고 기업의 어떤 부서(마케팅, 영업, CS)를 만나든 <strong>단일화된 360도 뷰(Single <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>를 통해 일관되고 맥락 있는 대접을 받는다는 것이다.
 
 - **📢 섹션 요약 비유**: 훌륭한 CRM은 뛰어난 '호텔 컨시어지 팀'과 같다. 식당 직원이 고객의 알레르기 정보를 메모하면, 객실 청소 담당자와 로비 매니저가 그 메모를 실시간으로 공유받아 호텔 어디서든 고객을 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 대접한다.
 
@@ -63,7 +63,7 @@ CRM은 기업 내부의 자원을 관리하는 ERP와 자주 비교되나, 그 �
 | :--- | :--- | :--- |
 | **핵심 목적** | 기업 내부 프로세스 효율화, 비용 절감 | 고객 만족도 향상, 매출 및 충성도 증대 |
 | **주요 대상** | 재무, 인사, 생산, 물류 (Back-office) | 마케팅, 세일즈, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Front-office) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격** | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) (원가, 재고량 등) | 정형 + [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) (구매 이력, 리뷰, 행동 패턴) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 성격</strong> | [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) (원가, 재고량 등) | 정형 + [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) (구매 이력, 리뷰, 행동 패턴) |
 | **성공 지표** | 원가 절감률, 재고 회전율 | 고객 평생 가치([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)), 고객 유지율([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) Rate) |
 
 최근에는 ERP에서 생산된 재고 정보와 CRM의 고객 수요 정보를 실시간으로 연동하여, 고객이 원하는 물건을 재고 부족 없이 즉시 배송하는 완벽한 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리) 통합으로 진화하고 있다.
@@ -76,8 +76,8 @@ CRM은 기업 내부의 자원을 관리하는 ERP와 자주 비교되나, 그 �
 
 CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 접근하기 때문이다. 
 
-**[ CRM 구축 및 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) ]**
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 철폐**: 영업팀의 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 CS팀의 콜센터 녹취록이 하나의 DB로 통합되었는가?
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/"> CRM 구축 및 운영 [체크리스트</a> ]</strong>
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>) 철폐</strong>: 영업팀의 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 CS팀의 콜센터 녹취록이 하나의 DB로 통합되었는가?
 2. **교차 판매(Cross-sell) 및 상향 판매(Up-sell) 시나리오**: 고객의 구매 패턴을 분석해 햄버거를 산 사람에게 감자튀김을 권하는 정교한 추천 로직이 있는가?
 3. **가비지 인 가비지 아웃 (GIGO)**: 영업 사원이 현장의 생생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CRM에 입력하도록 동기를 부여하고 있는가? (입력이 불편하면 시스템은 죽은 장부가 된다)
 
@@ -109,21 +109,23 @@ CRM 프로젝트의 실패율이 높은 이유는 IT 솔루션 관점으로만 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-대량 마케팅 (Mass Marketing, 불특정 다수)
-    │
-    ▼
-파레토 법칙 체감 및 고객 유지(Retention)의 중요성 대두
-    │
-    ▼
-CRM (데이터 통합 기반의 영업/마케팅/CS 자동화)
-    │
-    ▼
-SaaS 기반 클라우드 CRM (Salesforce 등) 확산
-    │
-    ▼
-지능형 CX (Customer Experience) 플랫폼 및 AI 예측 분석
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대량 마케팅 (Mass Marketing, 불특정 다수)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파레토 법칙 체감 및 고객 유지(Retention)의 중요성 대두</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CRM (데이터 통합 기반의 영업/마케팅/CS 자동화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SaaS 기반 클라우드 CRM (Salesforce 등) 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 CX (Customer Experience) 플랫폼 및 AI 예측 분석</div>
+</div>
+</div>
+
+
 
 이 흐름도는 무차별 광고에서 개별 맞춤 관리로, 그리고 인간의 분석에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 사전 예측 기반 경험 관리로 고객 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 고도화됨을 보여준다.
 

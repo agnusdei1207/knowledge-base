@@ -22,24 +22,24 @@ tags = ["studynote-bigdata"]
 
 개인화 없이는 수백만 개의 상품·영화·노래 중에서 사용자가 원하는 것을 스스로 찾아야 한다. 이는 정보 과부하(Information Overload)로 이어지고, 사용자는 불만족 후 이탈한다. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 이 탐색 비용을 대신 부담함으로써 플랫폼의 체류 시간(Engagement)과 전환율(Conversion)을 극적으로 향상시킨다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│            추천 시스템 3대 알고리즘 유형                       │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  1. 협업 필터링 (CF)                                        │
-│     "나와 비슷한 사용자가 좋아한 것을 추천"                   │
-│     └─ User-Based CF, Item-Based CF, Matrix Factorization  │
-│                                                            │
-│  2. 콘텐츠 기반 필터링 (CBF)                                 │
-│     "내가 좋아한 것과 비슷한 속성의 아이템을 추천"             │
-│     └─ TF-IDF, 코사인 유사도, 아이템 프로필                   │
-│                                                            │
-│  3. 하이브리드 (Hybrid)                                     │
-│     CF + CBF 혼합으로 각 방식의 단점 보완                    │
-│     └─ Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델         │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추천 시스템 3대 알고리즘 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 협업 필터링 (CF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나와 비슷한 사용자가 좋아한 것을 추천"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ User-Based CF, Item-Based CF, Matrix Factorization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 콘텐츠 기반 필터링 (CBF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내가 좋아한 것과 비슷한 속성의 아이템을 추천"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TF-IDF, 코사인 유사도, 아이템 프로필</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하이브리드 (Hybrid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF + CBF 혼합으로 각 방식의 단점 보완</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 도서관 사서와 같다. "당신이 읽은 책들을 보니, 이런 책들도 좋아하실 것 같아요"라고 개인 맞춤으로 골라주는 지식 큐레이터다.
 
@@ -49,26 +49,27 @@ tags = ["studynote-bigdata"]
 
 ### [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) 핵심: [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│          사용자-아이템 행렬과 잠재 요인 분해                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  원래 행렬 (희소):          분해 후:                        │
-│         A  B  C  D          User Matrix × Item Matrix   │
-│  User1  5  ?  3  ?          [잠재 요인 k개]으로 압축       │
-│  User2  ?  4  ?  5                                       │
-│  User3  2  ?  ?  3          SVD / ALS / SGD로 최적화      │
-│                                                          │
-│  "?"를 예측 → 높은 예측값 = 추천                            │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자-아이템 행렬과 잠재 요인 분해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원래 행렬 (희소): 분해 후:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B C D User Matrix × Item Matrix</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">User1 5 ? 3 ?</div><div class="kb-diagram-node">잠재 요인 k개</div><div class="kb-diagram-note">으로 압축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User2 ? 4 ? 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User3 2 ? ? 3 SVD / ALS / SGD로 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"?"를 예측 → 높은 예측값 = 추천</div></div>
+</div>
+</div>
+
+
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 강점 | 한계 |
 |:---|:---|:---|:---|
 | **User-Based CF** | 유사 사용자 기반 | 직관적 | 사용자 수 증가 시 O(n²) 확장 불가 |
 | **Item-Based CF** | 유사 아이템 기반 | 안정적, 오프라인 계산 가능 | 아이템 다양성 감소 |
-| **ALS (교대 [최소 제곱법](/knowledge-base/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/))** | [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) | 암묵적 피드백 처리 | 잠재 요인 수 k 조정 필요 |
+| <strong>ALS (교대 <a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/327_ordinary_least_squares_ols/">최소 제곱법</a>)</strong> | [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) | 암묵적 피드백 처리 | 잠재 요인 수 k 조정 필요 |
 | **딥러닝 (NCF, Two-Tower)** | 비선형 상호작용 | 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 계산 비용 높음, 해석 어려움 |
 
 - **📢 섹션 요약 비유**: [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)는 사용자와 아이템의 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 "장르 선호도"나 "가격 민감도"같은 숨은 취향(잠재 요인)으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것과 같다. 명시되지 않은 취향을 수학으로 발굴한다.
@@ -79,10 +80,10 @@ tags = ["studynote-bigdata"]
 
 | 문제 | 원인 | 해결책 |
 |:---|:---|:---|
-| **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) (신규 사용자)** | 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없음 | CBF, 인기 순위, 콘텐츠 온보딩 설문 |
-| **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/) (신규 아이템)** | 평점 없음 | CBF, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반 추천 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> (신규 사용자)</strong> | 이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없음 | CBF, 인기 순위, 콘텐츠 온보딩 설문 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a> (신규 아이템)</strong> | 평점 없음 | CBF, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반 추천 |
 | **희소성 (Sparsity)** | 대부분 평점 없음 | [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/), 암묵적 피드백 활용 |
-| **인기 편중 (Popularity [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))** | 인기 아이템만 추천 | 다양성(Diversity) 지표 추가, Re-ranking |
+| <strong>인기 편중 (Popularity <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong> | 인기 아이템만 추천 | 다양성(Diversity) 지표 추가, Re-ranking |
 | **필터 버블 (Filter Bubble)** | 편식 추천 | 탐색([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)) + 활용(Exploitation) 균형 |
 
 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 Spark MLlib의 ALS [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 결합하여 수억 건의 사용자 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하는 빅데이터 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 운영된다.
@@ -96,7 +97,7 @@ tags = ["studynote-bigdata"]
 ### 실무 시나리오: 이커머스 개인화 추천 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 일 5,000만 사용자의 행동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(클릭·구매·체류 시간)를 기반으로 실시간 추천을 구현한다.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집**: Kafka로 사용자 행동 스트림 수집.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집</strong>: Kafka로 사용자 행동 스트림 수집.
 2. **배치 모델 학습**: Spark ALS로 일 단위 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) 모델 학습, 사용자/아이템 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 저장.
 3. **실시간 서빙**: Redis에 사용자 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 저장, 아이템 검색은 Faiss(벡터 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/))로 100ms 내 응답.
 4. **A/B 테스트**: CF 모델 vs Two-Tower 딥러닝 모델 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)(클릭률) 비교.
@@ -131,34 +132,36 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF)** | 유사 사용자/아이템 기반 추천; [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)로 확장성 확보 |
-| **[행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) (ALS/[SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/))** | 희소 사용자-아이템 행렬을 저차원 잠재 요인으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/">협업 필터링</a> (CF)</strong> | 유사 사용자/아이템 기반 추천; [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)로 확장성 확보 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a> (ALS/<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/">SVD</a>)</strong> | 희소 사용자-아이템 행렬을 저차원 잠재 요인으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | **Faiss** | 수억 개 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터의 빠른 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| **[Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)** | 이력 없는 신규 사용자/아이템 추천의 핵심 과제 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a></strong> | 이력 없는 신규 사용자/아이템 추천의 핵심 과제 |
 | **A/B 테스트** | 추천 모델의 실제 비즈니스 효과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 온라인 실험 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[콘텐츠 기반 필터링 — 아이템 속성 유사도]
-    │
-    ▼
-[협업 필터링 (User/Item CF) — 사용자 행동 유사도]
-    │
-    ▼
-[행렬 분해 (ALS/SVD) — 잠재 요인 추출, 빅데이터 확장]
-    │
-    ▼
-[딥러닝 추천 (NCF, Two-Tower, BERT4Rec) — 비선형 패턴]
-    │
-    ▼
-[LLM 기반 대화형 추천 — 자연어 맥락 이해 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠 기반 필터링 — 아이템 속성 유사도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링 (User/Item CF) — 사용자 행동 유사도</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">행렬 분해 (ALS/SVD) — 잠재 요인 추출, 빅데이터 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 추천 (NCF, Two-Tower, BERT4Rec) — 비선형 패턴</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 기반 대화형 추천 — 자연어 맥락 이해 추천</div></div>
+</div>
+</div>
+
+
 콘텐츠 기반에서 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/), [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/), 딥러닝을 거쳐 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 대화형 추천으로 진화하는 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 **눈치 빠른 도서관 사서**예요 — "지난번에 이 책 읽었으니까, 이 책도 좋아하실 것 같아요!"라고 먼저 가져다준답니다.
+1. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 <strong>눈치 빠른 도서관 사서</strong>예요 — "지난번에 이 책 읽었으니까, 이 책도 좋아하실 것 같아요!"라고 먼저 가져다준답니다.
 2. 수백만 명의 독서 기록을 분석해서 "비슷한 취향의 사람들이 좋아한 책"을 골라주는 수학적 마법이에요.
 3. 넷플릭스, 유튜브, 쇼핑몰에서 "이런 것도 좋아하실 수 있어요!" 라고 뜨는 것들이 모두 이 기술 덕분이에요!
 

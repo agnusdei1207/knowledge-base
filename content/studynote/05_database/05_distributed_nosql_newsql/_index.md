@@ -19,30 +19,26 @@ tags = ["database"]
 
 전통적인 RDBMS는 단일 서버의 성능을 높이는 스케일업 (Scale-up) 방식에 의존했다. 그러나 구글, 아마존, 페이스북과 같은 하이퍼스케일 서비스가 등장하면서, 한 대의 서버로는 폭증하는 데이터와 트래픽을 감당할 수 없게 되었다. 이에 따라 저렴한 서버 수천 대를 묶어 하나의 거대한 DB처럼 사용하는 **분산 데이터베이스** 기술이 필수적으로 요구되었다.
 
-분산 DB 및 신기술이 필요한 이유는 세 가지이다. 첫째, **무한 확장성**을 확보하기 위해서이다. 데이터가 늘어나는 만큼 서버만 추가하면 된다. 둘째, **고가용성**을 보장하기 위해서이다. 일부 노드가 고장 나도 전체 서비스는 중단되지 않아야 한다. 셋째, **비정형 데이터의 처리**를 위함이다. 고정된 테이블 구조로는 담기 힘든 로그, 소셜 데이터, 이미지 정보를 효율적으로 저장해야 한다.
+분산 DB 및 신기술이 필요한 이유는 세 가지이다. 첫째, <strong>무한 확장성</strong>을 확보하기 위해서이다. 데이터가 늘어나는 만큼 서버만 추가하면 된다. 둘째, <strong>고가용성</strong>을 보장하기 위해서이다. 일부 노드가 고장 나도 전체 서비스는 중단되지 않아야 한다. 셋째, <strong>비정형 데이터의 처리</strong>를 위함이다. 고정된 테이블 구조로는 담기 힘든 로그, 소셜 데이터, 이미지 정보를 효율적으로 저장해야 한다.
 
-이 그림은 분산 시스템의 근본적 제약 조건인 **CAP 이론**을 보여준다.
+이 그림은 분산 시스템의 근본적 제약 조건인 <strong>CAP 이론</strong>을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 CAP Theorem: The Trade-off                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│             Consistency (일관성)                            │
-│                 /        \                                  │
-│                /    CP    \                                 │
-│               /            \                                │
-│   Availability (가용성) --- Partition Tolerance (분할 내성)  │
-│               \     AP     /                                │
-│                \          /                                 │
-│                 \________/                                  │
-│                                                             │
-│   * CP: 정합성이 중요 (RDBMS, HBase)                        │
-│   * AP: 끊김 없는 서비스가 중요 (Cassandra, DynamoDB)       │
-│   * 핵심: 세 가지를 동시에 완벽히 만족할 수는 없음          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAP Theorem: The Trade-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consistency (일관성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ CP \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availability (가용성) --- Partition Tolerance (분할 내성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ AP /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CP: 정합성이 중요 (RDBMS, HBase)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* AP: 끊김 없는 서비스가 중요 (Cassandra, DynamoDB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 세 가지를 동시에 완벽히 만족할 수는 없음</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '선택과 집중'이다. 모든 노드가 항상 똑같은 데이터를 보여줄 것인지 (Consistency), 아니면 느리더라도 일단 응답을 줄 것인지 (Availability) 비즈니스 성격에 따라 결정해야 한다. 실무에서는 이러한 한계를 보완하기 위해 '최종 일관성 (Eventual Consistency)' 모델을 사용하는 **BASE** 철학이 NoSQL의 근간이 된다.
 
@@ -75,26 +71,21 @@ tags = ["database"]
 
 이 구조도는 NoSQL의 수평 확장성 (Scale-out) 아키텍처를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Shared-Nothing Distributed Architecture     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Client / Application ]                                  │
-│          │                                                  │
-│   ┌──────▼──────┐ (Request Routing / Consistent Hashing)    │
-│   │ Load Balancer│                                          │
-│   └──────┬──────┘                                           │
-│          │                                                  │
-│   ┌──────┴──────┬─────────────┬─────────────┐               │
-│   ▼             ▼             ▼             ▼               │
-│ [ Node 1 ]    [ Node 2 ]    [ Node 3 ]    [ Node 4 ]        │
-│ (Shard A)     (Shard B)     (Shard C)     (Shard D)         │
-│                                                             │
-│   * 장점: 노드를 추가하는 만큼 선형적으로 성능 향상         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared-Nothing Distributed Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Request Routing / Consistent Hashing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load Balancer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1</div><div class="kb-diagram-node">Node 2</div><div class="kb-diagram-node">Node 3</div><div class="kb-diagram-node">Node 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shard A) (Shard B) (Shard C) (Shard D)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 노드를 추가하는 만큼 선형적으로 성능 향상</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '중앙 집중 장치의 배제 (Shared-Nothing)'이다. 각 노드가 독립적인 자원을 가지므로 병목이 없으며, **Consistent Hashing** 기술을 통해 노드 추가/제거 시 데이터 이동을 최소화한다. 실무에서는 데이터가 한쪽 노드에 쏠리는 **Hotspot** 현상을 방지하는 키 설계가 시스템의 성패를 가른다.
 
@@ -115,7 +106,7 @@ tags = ["database"]
 
 ### NewSQL의 탄생: 양쪽 세계의 장점 융합
 
-NewSQL은 RDBMS의 강력한 무기인 **SQL과 ACID**를 버리지 않으면서, NoSQL의 **수평 확장성**을 하드웨어적으로 또는 분산 프로토콜 (Raft/Paxos)로 해결한다.
+NewSQL은 RDBMS의 강력한 무기인 <strong>SQL과 ACID</strong>를 버리지 않으면서, NoSQL의 <strong>수평 확장성</strong>을 하드웨어적으로 또는 분산 프로토콜 (Raft/Paxos)로 해결한다.
 - **Synergy**: 클라우드 환경에서 전 세계 어디서 결제해도 중복 결제가 발생하지 않으면서 (ACID), 수억 명의 유저를 동시에 수용 (Scale-out)할 수 있는 꿈의 DB를 실현한다.
 
 📢 **섹션 요약 비유**: ACID가 '매 순간 장부를 맞추는 은행'이라면, BASE는 '일단 주문을 받고 나중에 재고를 맞추는 쇼핑몰'입니다. NewSQL은 '은행의 꼼꼼함을 가진 초거대 쇼핑몰'과 같습니다.
@@ -127,28 +118,26 @@ NewSQL은 RDBMS의 강력한 무기인 **SQL과 ACID**를 버리지 않으면서
 ### 기술사적 판단: 요구사항에 따른 데이터베이스 기술 선정 전략
 
 **시나리오 1: 실시간 채팅 및 알림 서비스 인프라 설계**
-- **판단**: 메시지 발생 속도가 매우 빠르고 데이터의 구조가 단순하므로 **Key-Value (Redis)** 또는 **Column-family (Cassandra)** NoSQL을 선정한다. 정합성보다는 **가용성 (AP)**이 중요하므로 최종 일관성 모델을 수용하고, 노드 확장이 자유로운 아키텍처를 구성한다.
+- **판단**: 메시지 발생 속도가 매우 빠르고 데이터의 구조가 단순하므로 **Key-Value (Redis)** 또는 **Column-family (Cassandra)** NoSQL을 선정한다. 정합성보다는 <strong>가용성 (AP)</strong>이 중요하므로 최종 일관성 모델을 수용하고, 노드 확장이 자유로운 아키텍처를 구성한다.
 
 **시나리오 2: 글로벌 통합 결제 플랫폼의 클라우드 마이그레이션**
 - **판단**: 전 세계 노드 간의 데이터 정합성이 필수이므로 일반 NoSQL은 부적합하다. 분산 환경에서 외부 일관성을 보장하는 **NewSQL (Google Spanner, CockroachDB)** 도입을 제안한다. 합의 알고리즘 (Paxos)을 통해 다수결로 트랜잭션을 확정함으로써 네트워크 지연을 극복하고 강력한 ACID를 유지한다.
 
 이 도식은 데이터베이스 선정 시 기술사가 사용하는 '의사결정 트리'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               DB Selection Decision Tree                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   정밀한 트랜잭션이 필수인가? ──▶ [YES] ──▶ [RDBMS / NewSQL] │
-│          │                                                  │
-│        [NO] ──▶ 데이터 구조가 유연한가? ──▶ [YES] ──▶ [NoSQL]│
-│                                                             │
-│   초대용량(PB급) 확장성이 필수인가? ──▶ [YES] ──▶ [Scale-out DB]│
-│          │                                                  │
-│        [NO] ──▶ [Legacy RDBMS]                              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB Selection Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDBMS / NewSQL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NoSQL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Scale-out DB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Legacy RDBMS</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 DB 판단은 '맞춤형 금고 설계'와 같습니다. 보석(돈)을 보관할지, 편지(로그)를 보관할지에 따라 금고의 두께(정합성)와 창고의 크기(확장성)를 다르게 가져가야 합니다.
 
@@ -163,7 +152,7 @@ NewSQL은 RDBMS의 강력한 무기인 **SQL과 ACID**를 버리지 않으면서
 
 ### 미래 전망: 서버리스 DB와 AI 인지 저장소
 
-향후 데이터베이스는 인프라 관리가 완전히 사라지는 **Serverless Database** (Aurora, DynamoDB)와 결합될 것이다. 또한 생성형 AI를 지원하기 위한 **벡터 데이터베이스 (Vector DB)**가 분산 아키텍처의 새로운 주류로 편입될 것이다. 기술사는 저장 장치의 물리적 구조를 넘어, 데이터가 스스로 위치를 최적화하고 지능적으로 검색되는 '데이터 인텔리전스 레이어'로서의 DB를 설계할 수 있어야 한다.
+향후 데이터베이스는 인프라 관리가 완전히 사라지는 **Serverless Database** (Aurora, DynamoDB)와 결합될 것이다. 또한 생성형 AI를 지원하기 위한 <strong>벡터 데이터베이스 (Vector DB)</strong>가 분산 아키텍처의 새로운 주류로 편입될 것이다. 기술사는 저장 장치의 물리적 구조를 넘어, 데이터가 스스로 위치를 최적화하고 지능적으로 검색되는 '데이터 인텔리전스 레이어'로서의 DB를 설계할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 데이터베이스는 '전 세계를 연결하는 거대한 지능형 바다'와 같아질 것입니다. 어디서든 데이터를 던져 넣고 뽑아 쓸 수 있으며, 바다가 스스로 파도를 조절하듯 시스템이 알아서 성능과 안전을 지키는 세상이 올 것입니다.
 

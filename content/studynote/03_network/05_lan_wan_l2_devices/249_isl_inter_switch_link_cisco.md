@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: 여러 개의 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 데이터를 하나의 링크로 섞어 보낼 때 사용하는 시스코 고유(Proprietary)의 트렁킹 포맷이다.
 - **필요성**: 1990년대 초반, 네트워크에 VLAN이라는 개념이 처음 등장했을 때 아직 전 세계가 합의한 802.1Q 국제 표준은 나오지 않은 상태였다. 시스코는 당장 자사 고객들에게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 분리 기능을 제공해야 했기에, 급한 대로 자기들끼리만 알아듣는 독자적인 트렁킹 규격(ISL)을 만들어 팔았다.
 
-- **💡 비유**: 한국 회사([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 자기들끼리만 통신할 요량으로 **"한글로 적은 택배 송장(ISL)"**을 만들어 썼습니다. 한국 사람들끼리는 잘 통했지만, 나중에 전 세계 우체국이 **"만국 공통 바코드 표준(802.1Q)"**을 도입하자, 굳이 한글 송장을 고집할 이유가 없어져 자연스럽게 도태된 것과 같습니다.
+- **💡 비유**: 한국 회사([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 자기들끼리만 통신할 요량으로 <strong>"한글로 적은 택배 송장(ISL)"</strong>을 만들어 썼습니다. 한국 사람들끼리는 잘 통했지만, 나중에 전 세계 우체국이 <strong>"만국 공통 바코드 표준(802.1Q)"</strong>을 도입하자, 굳이 한글 송장을 고집할 이유가 없어져 자연스럽게 도태된 것과 같습니다.
 
-```text
-[DTP / VTP]
-    │
-    ▼
-[ISL]
-    │
-    └──▶ [Native VLAN]
-```
 
-- **📢 섹션 요약 비유**: ** ISL은 국제 표준(802.1Q)이라는 "돼지코 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)"가 나오기 전에 썼던, 시스코 장비에만 꽂을 수 있는 **"110V 전용 구형 플러그"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTP / VTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Native VLAN</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> ISL은 국제 표준(802.1Q)이라는 "돼지코 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>"가 나오기 전에 썼던, 시스코 장비에만 꽂을 수 있는 </strong>"110V 전용 구형 플러그"**입니다.
 
 ---
 
@@ -43,36 +47,29 @@ tags = ["studynote-network"]
 가장 큰 기술적 차이는 원본 프레임을 다루는 방식에 있다.
 
 - **802.1Q 방식 (삽입)**: 원본 프레임 내부에 4바이트 태그만 쏙 밀어 넣는다 (오버헤드 4바이트).
-- **ISL 방식 (캡슐화)**: 원본 프레임을 절대 건드리지 않고, 그 바깥에다 무려 **26바이트 크기의 거대한 ISL 헤더**를 씌우고, 꼬리에도 독자적인 **4바이트 ISL FCS**를 덧붙인다 (오버헤드 총 30바이트).
+- **ISL 방식 (캡슐화)**: 원본 프레임을 절대 건드리지 않고, 그 바깥에다 무려 <strong>26바이트 크기의 거대한 ISL 헤더</strong>를 씌우고, 꼬리에도 독자적인 <strong>4바이트 ISL FCS</strong>를 덧붙인다 (오버헤드 총 30바이트).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IEEE 802.1Q와 Cisco ISL 구조 비교              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 오리지널 이더넷 프레임 ]                                     │
- │   [ 목적지 | 출발지 | Type |     Payload     | FCS ]        │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ IEEE 802.1Q ] : 내부 삽입 (Internal Tagging)              │
- │   [ 목적지 | 출발지 | TAG(4B) | Type | Payload | FCS(재계산)]   │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ Cisco ISL ] : 전체 캡슐화 (Double Encapsulation)           │
- │   ┌─────┐ ┌─────────────────────────────────────────┐ ┌───┐ │
- │   │ ISL │ │ 목적지 | 출발지 | Type | Payload | FCS  │ │ISL│ │
- │   │헤더 │ │ (원본 프레임을 하나도 건드리지 않고 그대로 넣음)   │ │FCS│ │
- │   │(26B)│ └─────────────────────────────────────────┘ │(4B)││
- │   └─────┘                                             └───┘ │
- │   (총 30바이트의 쓸데없는 추가 오버헤드 발생!)                       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.1Q와 Cisco ISL 구조 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오리지널 이더넷 프레임</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목적지 | 출발지 | Type |     Payload     | FCS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.1Q</div><div class="kb-diagram-note">: 내부 삽입 (Internal Tagging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목적지 | 출발지 | TAG(4B) | Type | Payload | FCS(재계산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Cisco ISL</div><div class="kb-diagram-note">: 전체 캡슐화 (Double Encapsulation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISL</div><div class="kb-diagram-cell">목적지</div><div class="kb-diagram-cell">출발지</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Payload</div><div class="kb-diagram-cell">FCS</div><div class="kb-diagram-cell">ISL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더</div><div class="kb-diagram-cell">(원본 프레임을 하나도 건드리지 않고 그대로 넣음)</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(26B)</div><div class="kb-diagram-cell">(4B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(총 30바이트의 쓸데없는 추가 오버헤드 발생!)</div></div>
+</div>
+</div>
+
+
 
 ### 2. ISL의 구조적 한계와 소멸
-- **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비**: ISL은 프레임 하나당 30바이트나 되는 엄청난 쓰레기 패딩을 달고 다니므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(효율성) 낭비가 너무 심했다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비</strong>: ISL은 프레임 하나당 30바이트나 되는 엄청난 쓰레기 패딩을 달고 다니므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(효율성) 낭비가 너무 심했다. 
 - **비호환성**: 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 다른 브랜드(예: 주니퍼, 알카텔) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 트렁크로 연결하면, 타사 장비는 ISL 헤더를 이해하지 못해 통신이 완전히 박살 났다.
 - **최후**: 결국 시스코마저도 최신 넥서스(Nexus) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 카탈리스트 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 라인업에서 ISL 지원을 아예 삭제해버렸고, `switchport trunk encapsulation dot1q` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나만 남게 되며 완벽한 역사의 뒤안길로 사라졌다.
 
@@ -132,15 +129,19 @@ ISL는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DTP / VTP]
-    │
-    ▼
-[현재 개념: ISL]
-    │
-    ├──▶ [확장 A: Native VLAN]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DTP / VTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ISL</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Native VLAN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 ISL는 [DTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/248_dtp_and_vtp_cisco_dynamic_trunking/) / VTP에서 출발해 현재 메커니즘을 정교화하고, 이후 Native VLAN와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

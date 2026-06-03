@@ -30,29 +30,26 @@ tags = ["studynote-operating-system"]
 
 정상 종료 시, 프로세스는 런타임 라이브러리의 사용자 수준 정리를 거친 후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 진입하여 완전히 해체된다. 반면 비정상 종료는 앞단을 무시하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉각 목을 쳐버린다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           프로세스 종료 파이프라인 (exit() vs SIGKILL)          │
-├──────────────────────────────────────────────────────────────┤
-│  [정상 종료 경로: exit(status) 호출]                             │
-│       │                                                      │
-│       ▼                                                      │
-│  [1. 사용자 수준 정리 (C Runtime)]                              │
-│   - atexit() 등록 핸들러 실행                                  │
-│   - stdio 버퍼 플러시 (파일 쓰기 완료)                           │
-│       │                                                      │
-│       ▼  (_exit 시스템 콜로 커널 진입)                           │
-│                                                              │
-│  [2. 커널 수준 정리 (OS Kernel)] ◀─ (SIGKILL 비정상 종료 시 이리로 직행)│
-│   - 메모리 영역 할당 해제 및 파일 디스크립터 닫기                   │
-│   - 상태를 좀비 (ZOMBIE)로 변경하고 종료 상태(Exit Status) 저장     │
-│   - 부모 프로세스에 SIGCHLD 시그널 전송                           │
-│       │                                                      │
-│       ▼                                                      │
-│  [3. 부모의 수거 (wait)]                                        │
-│   - 부모가 wait() 호출 시 PCB까지 최종 삭제 (완전 소멸)            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 종료 파이프라인 (exit() vs SIGKILL)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정상 종료 경로: exit(status) 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 사용자 수준 정리 (C Runtime)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- atexit() 등록 핸들러 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- stdio 버퍼 플러시 (파일 쓰기 완료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (_exit 시스템 콜로 커널 진입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 커널 수준 정리 (OS Kernel)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (SIGKILL 비정상 종료 시 이리로 직행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리 영역 할당 해제 및 파일 디스크립터 닫기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태를 좀비 (ZOMBIE)로 변경하고 종료 상태(Exit Status) 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부모 프로세스에 SIGCHLD 시그널 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 부모의 수거 (wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부모가 wait() 호출 시 PCB까지 최종 삭제 (완전 소멸)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 비정상 종료의 위험성을 명확히 보여준다. `SIGKILL(9)` 시그널을 받으면 1단계인 사용자 수준 정리(버퍼 플러시 등)를 건너뛰고 2단계로 직행한다. 메모리나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓰려던 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 허공으로 증발해버리는 것이다. 따라서 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 전이는 자원 누수를 막는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 방어 메커니즘과 직결된다.
 
@@ -66,8 +63,8 @@ tags = ["studynote-operating-system"]
 
 | 상태 명칭 | 원인 메커니즘 | 자원 점유 상태 | 해결책 (OS 개입) |
 |:---|:---|:---|:---|
-| **[좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/))** | 자식은 종료되었으나, 부모가 `wait()`를 호출하지 않음 | 물리 메모리나 FD는 반환됨. 단, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 **PCB([프로세스 제어 블록](/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/))** 1개 공간만 차지함 | 부모가 `wait()`를 호출하거나, 부모를 죽여 고아로 만들어 init이 수거하게 함 |
-| **[고아 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/) ([Orphan Process](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/))** | 자식보다 부모가 먼저 종료되어버림 | 자식이 고아가 됨 | OS 최상단 프로세스인 `init (PID=1)`이 양자로 입양해 대신 `wait()`로 치워줌 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">좀비 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/">Zombie Process</a>)</strong> | 자식은 종료되었으나, 부모가 `wait()`를 호출하지 않음 | 물리 메모리나 FD는 반환됨. 단, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 <strong>PCB(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/090_pcb_tcb/">프로세스 제어 블록</a>)</strong> 1개 공간만 차지함 | 부모가 `wait()`를 호출하거나, 부모를 죽여 고아로 만들어 init이 수거하게 함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">Orphan Process</a>)</strong> | 자식보다 부모가 먼저 종료되어버림 | 자식이 고아가 됨 | OS 최상단 프로세스인 `init (PID=1)`이 양자로 입양해 대신 `wait()`로 치워줌 |
 
 종료라는 이벤트를 기점으로 좀비와 고아는 상반된 개념으로 전개된다. 둘 다 부모-자식 트리의 생명주기 불일치에서 오지만, [고아 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/)는 OS가 `init`을 통해 알아서 안전하게 회수해 주는 반면 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)는 무한정 누적되면 PID 공간을 고갈시켜 새 프로세스 생성을 막는 심각한 장애를 유발한다.
 
@@ -84,7 +81,7 @@ tags = ["studynote-operating-system"]
 2. **부모 프로세스의 SIGCHLD 핸들링**: 백그라운드 워커를 수십 개 띄우는 데몬 (Daemon) 프로그램 설계 시, 자식 프로세스가 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 종료될 때 나오는 `SIGCHLD` 시그널을 잡아 즉시 `waitpid()`를 호출하는 로직이 없다면 서버는 며칠 내로 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)로 가득 차 뻗어버릴 것이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **운영 중 `kill -9` 남용**: 로그가 멈췄다고 무조건 `kill -9`부터 날리면 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 락 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 해제되지 않아, 다음에 프로세스를 띄울 때 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 걸리는 참사가 빚어진다. `kill -15`를 먼저 날리고, 일정 시간(예: 30초) 뒤에도 안 죽으면 그때 최후 수단으로 `kill -9`를 쓰는 투스텝 파이프라인을 강제해야 한다.
+- <strong>운영 중 <code>kill -9</code> 남용</strong>: 로그가 멈췄다고 무조건 `kill -9`부터 날리면 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 락 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 해제되지 않아, 다음에 프로세스를 띄울 때 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 걸리는 참사가 빚어진다. `kill -15`를 먼저 날리고, 일정 시간(예: 30초) 뒤에도 안 죽으면 그때 최후 수단으로 `kill -9`를 쓰는 투스텝 파이프라인을 강제해야 한다.
 
 - **📢 섹션 요약 비유**: 건물을 부술 때 다짜고짜 다이너마이트(SIGKILL)부터 터트리면 안에 있는 귀중품(작업 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 날아간다. 반드시 대피 방송(SIGTERM)을 먼저 해서 물건을 뺄 시간을 넉넉히 준 뒤에 건물을 날려야 한다.
 
@@ -104,31 +101,32 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))** | 프로세스에게 "죽어라!" 혹은 "멈춰라!" 등 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 명령을 전달하는 OS의 메시지 체계 |
+| <strong>시그널 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)</strong> | 프로세스에게 "죽어라!" 혹은 "멈춰라!" 등 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 명령을 전달하는 OS의 메시지 체계 |
 | **wait() / waitpid() 시스템 콜** | 부모가 자식의 종료(exit)까지 대기하며, 좀비를 방지하는 필수 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 수단 |
-| **PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)** | 프로세스가 끝난 뒤 메모리가 다 털려도, 부모가 확인할 때까지 끝까지 살아남는 최소한의 진료 기록부 |
-| **[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) preStop 훅** | 프로세스가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 강제 종료되기 전에 애플리케이션 단의 클린업 스크립트를 꽂아 넣는 클라우드 확장판 |
+| <strong>PCB (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> Control Block)</strong> | 프로세스가 끝난 뒤 메모리가 다 털려도, 부모가 확인할 때까지 끝까지 살아남는 최소한의 진료 기록부 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> preStop 훅</strong> | 프로세스가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에서 강제 종료되기 전에 애플리케이션 단의 클린업 스크립트를 꽂아 넣는 클라우드 확장판 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-프로세스 수명 마감
-    │
-    ▼
-exit() 시스템 콜 · 시그널 (Signal) 종료
-    │
-    ▼
-상태 반환 및 자원 회수 대기
-    │
-    ▼
-좀비/고아 프로세스 발생 방지 · wait() 동기화
-    │
-    ▼
-우아한 종료 (Graceful Shutdown)
-    │
-    ▼
-클라우드 컨테이너의 파드 라이프사이클 융합 (SIGTERM/SIGKILL 파이프라인)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로세스 수명 마감</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">exit() 시스템 콜 · 시그널 (Signal) 종료</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 반환 및 자원 회수 대기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">좀비/고아 프로세스 발생 방지 · wait() 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">우아한 종료 (Graceful Shutdown)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 컨테이너의 파드 라이프사이클 융합 (SIGTERM/SIGKILL 파이프라인)</div>
+</div>
+</div>
+
+
 이 흐름도는 단순한 개별 프로그램의 종료 메커니즘이 대규모 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 시스템의 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 관리 기능으로 스케일업되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

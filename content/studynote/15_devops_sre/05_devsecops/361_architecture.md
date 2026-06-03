@@ -31,23 +31,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│            Team Topologies 4가지 팀 유형                         │
-├──────────────────────────────────────────────────────────────────┤
-│  스트림 정렬 팀        │ 특정 제품/서비스 비즈니스 흐름 담당      │
-│  (Stream-Aligned)     │ 자율적 배포·운영, 인지 부하 최소화       │
-├──────────────────────────────────────────────────────────────────┤
-│  인에이블링 팀         │ 스트림 팀이 새 역량 습득 돕는 임시 지원  │
-│  (Enabling)           │ 컨설팅·교육 후 철수, 의존성 생성 금지     │
-├──────────────────────────────────────────────────────────────────┤
-│  복잡 서브시스템 팀    │ 전문 도메인(ML, DSP) 개발·유지           │
-│  (Complicated-SS)     │ 소수 전문가, 다른 팀에 컴포넌트 제공      │
-├──────────────────────────────────────────────────────────────────┤
-│  플랫폼 팀            │ IDP(내부 개발자 플랫폼) 제공              │
-│  (Platform)           │ X-as-a-Service로 셀프 서비스 제공         │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team Topologies 4가지 팀 유형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림 정렬 팀</div><div class="kb-diagram-cell">특정 제품/서비스 비즈니스 흐름 담당</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stream-Aligned)</div><div class="kb-diagram-cell">자율적 배포·운영, 인지 부하 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인에이블링 팀</div><div class="kb-diagram-cell">스트림 팀이 새 역량 습득 돕는 임시 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Enabling)</div><div class="kb-diagram-cell">컨설팅·교육 후 철수, 의존성 생성 금지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡 서브시스템 팀</div><div class="kb-diagram-cell">전문 도메인(ML, DSP) 개발·유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Complicated-SS)</div><div class="kb-diagram-cell">소수 전문가, 다른 팀에 컴포넌트 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 팀</div><div class="kb-diagram-cell">IDP(내부 개발자 플랫폼) 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Platform)</div><div class="kb-diagram-cell">X-as-a-Service로 셀프 서비스 제공</div></div>
+</div>
+</div>
+
+
 
 | 인터랙션 모드            | 설명                                      | 적합 상황                         |
 | :----------------------- | :---------------------------------------- | :-------------------------------- |
@@ -55,7 +55,7 @@ tags = ["studynote-devops-sre"]
 | X-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-a-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)           | 한 팀이 API로 다른 팀에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공         | 명확한 인터페이스가 정의된 경우   |
 | 촉진 (Facilitating)      | 인에이블링 팀이 일시적으로 지원            | 새 기술 도입·역량 강화 시         |
 
-**[인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) ([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))** 는 팀이 감당할 수 있는 복잡도 한계다. 스트림 정렬 팀의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)가 초과되면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 분리해야 한다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 단일 팀이 책임지는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수가 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)의 척도가 된다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>)</strong> 는 팀이 감당할 수 있는 복잡도 한계다. 스트림 정렬 팀의 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)가 초과되면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계를 분리해야 한다는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 단일 팀이 책임지는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 수가 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)의 척도가 된다.
 
 - 📢 섹션 요약 비유: Team Topologies는 축구 포지션과 같다. 공격수(스트림 팀), 코치(인에이블링 팀), 전술 전문가(복잡 서브시스템 팀), 구장 관리팀(플랫폼 팀)이 각자 역할을 맡아야 경기가 잘 돌아간다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**팀 구조 재설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong>팀 구조 재설계 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 팀이 2-Pizza Rule(6~10명)을 준수하는가? 초과 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 재검토
 2. 단일 팀이 3개 이상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 소유 시 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 초과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
 3. 팀 간 커뮤니케이션 채널이 API로 대체 가능한가? (X-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-a-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전환 검토)
@@ -91,7 +91,7 @@ tags = ["studynote-devops-sre"]
 - 모놀리스가 적합한 경우: 팀 규모 소규모(10명 이하), [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 단순, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 스타트업
 - [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/) 탈출: 팀 경계와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - "[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 도입"을 기술 과제로만 추진, 팀 구조 유지 → [분산 모놀리스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/537_distributed_monolith_antipattern/)
 - 플랫폼 팀이 스트림 팀에 "게이트키퍼"처럼 통제 → 개발 속도 병목
 - 인에이블링 팀이 장기화되어 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 형성 → 스트림 팀 자립 실패
@@ -125,24 +125,25 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-컨웨이의 법칙 (1968) — 커뮤니케이션 구조 = 시스템 구조
-    │
-    ▼
-역 컨웨이 조작 — 목표 아키텍처 → 팀 구조 역방향 설계
-    │
-    ▼
-Team Topologies — 4가지 팀 유형 + 3가지 인터랙션 모드
-    │
-    ▼
-인지 부하 측정 — 팀 서비스 경계 결정 기준
-    │
-    ▼
-플랫폼 엔지니어링 / IDP — 스트림 팀 자율성 극대화
-    │
-    ▼
-AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컨웨이의 법칙 (1968) — 커뮤니케이션 구조 = 시스템 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">역 컨웨이 조작 — 목표 아키텍처 → 팀 구조 역방향 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Team Topologies — 4가지 팀 유형 + 3가지 인터랙션 모드</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인지 부하 측정 — 팀 서비스 경계 결정 기준</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">플랫폼 엔지니어링 / IDP — 스트림 팀 자율성 극대화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)</div>
+</div>
+</div>
+
+
 
 흐름은 "조직-기술 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리 → 의도적 설계 → [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 관리 → 플랫폼화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통합"으로 발전한다.
 

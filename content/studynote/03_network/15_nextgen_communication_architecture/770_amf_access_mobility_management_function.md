@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 네트워크([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 제어 평면(Control Plane)에서, **가입자의 네트워크 접속 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Access)과 단말기의 실시간 위치 추적 및 기지국 간 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)(Mobility)만을 전문적으로 전담하는 소프트웨어 기능(NF) 블록**입니다.
-- **역사적 매칭**: 4G LTE의 중앙 제어 두뇌였던 **[MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/)(754번 문서)를 정확히 반으로 쪼갰을 때, '위치 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 관리 파트'를 그대로 물려받은 5G의 적통 후계자**입니다. (나머지 반쪽인 '인터넷 길 뚫기([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))' 파트는 다음 문서인 SMF에게 완전히 넘겨주었습니다.)
+- **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 네트워크([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 제어 평면(Control Plane)에서, <strong>가입자의 네트워크 접속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Access)과 단말기의 실시간 위치 추적 및 기지국 간 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>(Mobility)만을 전문적으로 전담하는 소프트웨어 기능(NF) 블록</strong>입니다.
+- **역사적 매칭**: 4G LTE의 중앙 제어 두뇌였던 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>(754번 문서)를 정확히 반으로 쪼갰을 때, '위치 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 관리 파트'를 그대로 물려받은 5G의 적통 후계자</strong>입니다. (나머지 반쪽인 '인터넷 길 뚫기([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))' 파트는 다음 문서인 SMF에게 완전히 넘겨주었습니다.)
 
-```text
-[SBA]
-    │
-    ▼
-[AMF]
-    │
-    └──▶ [SMF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AMF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,17 +47,21 @@ tags = ["studynote-network"]
 - 통과가 되면 무선 해킹(스니핑)을 막기 위해 단말기와 AMF 사이에 쓸 강력한 임시 암호화 키를 발급해 통신 터널을 깐깐하게 잠급니다. ([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 암호화 제어)
 
 ### 2. 완벽한 레이더 추적기 ([Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)) 🌟
-- **[Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 호출)**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰은 배터리를 아끼려고 쉴 새 없이 화면을 끄고 잠([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 모드)을 잡니다. AMF는 이 자는 폰이 어느 동네(Registration Area)에 있는지 엑셀에 꼬박꼬박 적어둡니다. 카톡 데이터가 밀려오면, AMF가 그 동네 기지국 수십 개에 냅다 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 때려 폰을 흔들어 깨웁니다.
-- **[Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 통제)**: KTX를 타고 강남 기지국에서 수원 기지국, 부산 기지국으로 전파의 바통을 휙휙 넘길 때, 이 릴레이가 단 1ms라도 어긋나서 통신이 끊기지 않도록 뒤에서 "넘겨! 받아!"라고 스위칭 싸인을 조율하는 관제탑 역할을 합니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 호출)</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰은 배터리를 아끼려고 쉴 새 없이 화면을 끄고 잠([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 모드)을 잡니다. AMF는 이 자는 폰이 어느 동네(Registration Area)에 있는지 엑셀에 꼬박꼬박 적어둡니다. 카톡 데이터가 밀려오면, AMF가 그 동네 기지국 수십 개에 냅다 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 때려 폰을 흔들어 깨웁니다.
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 통제)</strong>: KTX를 타고 강남 기지국에서 수원 기지국, 부산 기지국으로 전파의 바통을 휙휙 넘길 때, 이 릴레이가 단 1ms라도 어긋나서 통신이 끊기지 않도록 뒤에서 "넘겨! 받아!"라고 스위칭 싸인을 조율하는 관제탑 역할을 합니다.
 
-```text
-[SBA]
-    │
-    ▼
-[AMF]
-    │
-    └──▶ [SMF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: AMF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,9 +70,9 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **자율주행과 IoT의 폭발 (트래픽 분리의 미학)**:
-  - 고속버스를 타고 달리는 수십만 명의 출근족들은 유튜브 창 하나([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 1개)만 켜둔 채 1시간 동안 기지국을 100번 넘게 갈아탑니다. 즉, **"[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 처리량은 0인데, 이동성 처리량만 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배로 폭증(이동성 과부하)"**합니다.
-  - 반면 집안에 콱 처박혀있는 스마트 홈 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 밸브 100만 대는 평생 움직이질 않습니다. 하지만 수시로 인터넷 문을 닫았다 열었다([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 폭주) 합니다. 즉, **"이동성 처리량은 0인데, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 처리량만 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000배 폭증"**합니다.
-- **[5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/) 클라우드의 기적**: 이 둘을 분리해 두었기에(AMF 독립), 출근 시간엔 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드에 AMF 컨테이너만 1,000개 복제해서 대응하고, 밤이 되어 집에선 스마트홈 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 트래픽이 폭주하면 [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 컨테이너만 1,000개 복제해서 막아내는 소름 돋는 컴퓨터 자원 최적화가 가능해졌습니다.
+  - 고속버스를 타고 달리는 수십만 명의 출근족들은 유튜브 창 하나([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 1개)만 켜둔 채 1시간 동안 기지국을 100번 넘게 갈아탑니다. 즉, <strong>"<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 처리량은 0인데, 이동성 처리량만 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000배로 폭증(이동성 과부하)"</strong>합니다.
+  - 반면 집안에 콱 처박혀있는 스마트 홈 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 밸브 100만 대는 평생 움직이질 않습니다. 하지만 수시로 인터넷 문을 닫았다 열었다([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 폭주) 합니다. 즉, <strong>"이동성 처리량은 0인데, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 처리량만 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000배 폭증"</strong>합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a> 클라우드의 기적</strong>: 이 둘을 분리해 두었기에(AMF 독립), 출근 시간엔 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 클라우드에 AMF 컨테이너만 1,000개 복제해서 대응하고, 밤이 되어 집에선 스마트홈 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 트래픽이 폭주하면 [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) 컨테이너만 1,000개 복제해서 막아내는 소름 돋는 컴퓨터 자원 최적화가 가능해졌습니다.
 
 AMF를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SBA가 기반 조건을 만든다면, AMF는 그 위에서 핵심 메커니즘을 구현하고, SMF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -116,15 +124,19 @@ AMF는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SBA]
-    │
-    ▼
-[현재 개념: AMF]
-    │
-    ├──▶ [확장 A: SMF]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SBA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AMF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SMF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 AMF는 SBA에서 출발해 현재 메커니즘을 정교화하고, 이후 SMF와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

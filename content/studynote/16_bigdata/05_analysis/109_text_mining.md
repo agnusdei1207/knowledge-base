@@ -28,41 +28,34 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                텍스트 마이닝 전체 파이프라인                        │
-├────────────────────────────────────────────────────────────────────┤
-│  [원시 텍스트] "오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"  │
-│          │                                                          │
-│          ▼                                                          │
-│  [1단계: 전처리 (Preprocessing)]                                    │
-│   형태소 분석 → 품사 태깅 → 불용어 제거 → 정규화/소문자화           │
-│   KoNLPy(Okt/Mecab) / NLTK / spaCy                                 │
-│          │                                                          │
-│          ▼                                                          │
-│  [2단계: 특성 추출 (Feature Extraction)]                            │
-│   ┌──────────────┬────────────────┬──────────────────────────┐     │
-│   │  Bag-of-Words│   TF-IDF       │  Word2Vec / BERT          │     │
-│   │  단어 빈도   │  중요도 가중치 │  의미적 임베딩 벡터       │     │
-│   └──────────────┴────────────────┴──────────────────────────┘     │
-│          │                                                          │
-│          ▼                                                          │
-│  [3단계: 분석 태스크]                                               │
-│   ┌──────────┬──────────┬──────────┬──────────┬──────────────┐     │
-│   │  분류    │  군집화  │  요약    │  NER     │  감성 분석   │     │
-│   └──────────┴──────────┴──────────┴──────────┴──────────────┘     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 마이닝 전체 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원시 텍스트</div><div class="kb-diagram-note">"오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 전처리 (Preprocessing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형태소 분석 → 품사 태깅 → 불용어 제거 → 정규화/소문자화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KoNLPy(Okt/Mecab) / NLTK / spaCy</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 특성 추출 (Feature Extraction)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bag-of-Words</div><div class="kb-diagram-cell">TF-IDF</div><div class="kb-diagram-cell">Word2Vec / BERT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단어 빈도</div><div class="kb-diagram-cell">중요도 가중치</div><div class="kb-diagram-cell">의미적 임베딩 벡터</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 분석 태스크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류</div><div class="kb-diagram-cell">군집화</div><div class="kb-diagram-cell">요약</div><div class="kb-diagram-cell">NER</div><div class="kb-diagram-cell">감성 분석</div></div>
+</div>
+</div>
+
+
 
 ### 텍스트 표현 방법 진화
 
 | 방법 | 원리 | 특징 | 단점 |
 |:---|:---|:---|:---|
 | **Bag-of-Words** | 단어 출현 빈도 벡터 | 단순, 빠름 | 순서·의미 무시 |
-| **[TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/)** | 단어 빈도 × 역문서 빈도 | 희귀 단어 중요도 강조 | 의미적 유사성 미반영 |
-| **[Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현, 의미적 유사 단어가 가까운 벡터 | 유추 가능 (왕-남성+여성=여왕) | 동음이의어 구분 불가 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/">TF-IDF</a></strong> | 단어 빈도 × 역문서 빈도 | 희귀 단어 중요도 강조 | 의미적 유사성 미반영 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/">Word2Vec</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현, 의미적 유사 단어가 가까운 벡터 | 유추 가능 (왕-남성+여성=여왕) | 동음이의어 구분 불가 |
 | **FastText** | 서브워드 단위 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 신조어·오타에 강함 | Word2Vec보다 느림 |
-| **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)** | 양방향 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 동음이의어·맥락 완벽 처리 | 추론 비용 높음 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a></strong> | 양방향 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 동음이의어·맥락 완벽 처리 | 추론 비용 높음 |
 
 ### [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 공식
 
@@ -80,7 +73,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 | 항목 | 전통 NLP ([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) + ML) | 딥러닝 NLP ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)) |
 |:---|:---|:---|
-| **학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 소규모 가능 | 대규모 레이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 파인튜닝 |
+| <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 소규모 가능 | 대규모 레이블 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 또는 파인튜닝 |
 | **계산 비용** | 낮음 | 높음 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 필요) |
 | **해석 가능성** | 높음 (특성 중요도 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능) | 낮음 (블랙박스) |
 | **맥락 이해** | 제한적 | 우수 (양방향 어텐션) |
@@ -88,7 +81,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 한국어 텍스트 마이닝 도구 생태계:
 - **KoNLPy**: Okt (Open Korean Text), Komoran, Mecab 등 래핑
-- **KoBERT / klue-[bert](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)**: 한국어 사전학습 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모델
+- <strong>KoBERT / klue-<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">bert</a></strong>: 한국어 사전학습 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모델
 - **kiwipiepy**: 경량화 한국어 형태소 분석기
 
 - **📢 섹션 요약 비유**: 전통 NLP는 잘 훈련된 사전 편찬자가 단어를 세는 방식이고, BERT는 책을 전부 읽고 문맥으로 의미를 이해하는 방식이다. 사전 편찬자가 빠르지만 "배가 아프다"와 "배를 먹는다"의 '배'를 구분하지 못한다.
@@ -99,7 +92,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 ### 적용 시나리오
 
-1. **법률 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)**: 수십만 건의 판결문을 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) + SVM으로 판례 유형 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+1. <strong>법률 문서 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>: 수십만 건의 판결문을 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) + SVM으로 판례 유형 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 2. **고객 상담 자동화**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반 의도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)로 챗봇 정확도 향상
 3. **특허 분석**: [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/) 기반 유사 특허 클러스터링으로 기술 트렌드 파악
 4. **뉴스 분석**: 기사 [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 벡터로 주제 클러스터링 후 실시간 이슈 트래킹
@@ -146,24 +139,25 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[비정형 텍스트 (Unstructured Text) — 원시 자연어 데이터]
-    │
-    ▼
-[전처리 (Preprocessing) — 토큰화·불용어 제거·정규화]
-    │
-    ▼
-[TF-IDF / BoW — 텍스트 수치 벡터화]
-    │
-    ▼
-[NLP (자연어 처리) — 형태소 분석·개체명 인식·감성 분석]
-    │
-    ▼
-[워드 임베딩 (Word Embedding) — Word2Vec·GloVe 의미 벡터화]
-    │
-    ▼
-[LLM 기반 텍스트 분석 — BERT·GPT 사전학습 모델 응용]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 텍스트 (Unstructured Text) — 원시 자연어 데이터</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 (Preprocessing) — 토큰화·불용어 제거·정규화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TF-IDF / BoW — 텍스트 수치 벡터화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NLP (자연어 처리) — 형태소 분석·개체명 인식·감성 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">워드 임베딩 (Word Embedding) — Word2Vec·GloVe 의미 벡터화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 기반 텍스트 분석 — BERT·GPT 사전학습 모델 응용</div></div>
+</div>
+</div>
+
+
 텍스트 마이닝은 규칙 기반 전처리에서 출발해 통계적 벡터화 → 딥러닝 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전하며 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 가치화의 핵심 기술이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 리틀 엔디안(Little-Endian)은 여러 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 된 데이터를 메모리에 적재할 때, **가장 낮은 가중치를 가진 최하위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))를 가장 낮은 메모리 주소(맨 앞)에 역순으로 쑤셔 넣는** 아키텍처 규격이다.
+> 1. **본질**: 리틀 엔디안(Little-Endian)은 여러 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)로 된 데이터를 메모리에 적재할 때, <strong>가장 낮은 가중치를 가진 최하위 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/">LSB</a>)를 가장 낮은 메모리 주소(맨 앞)에 역순으로 쑤셔 넣는</strong> 아키텍처 규격이다.
 > 2. **가치**: 덧셈 시 자리올림(Carry)이 발생하는 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)부터 ALU에 즉시 공급할 수 있고, 타입 캐스팅(예: 32비트 ➔ 16비트) 시 메모리 시작 주소를 바꿀 필요가 없어 하드웨어 회로 설계의 극단적인 효율을 달성한다.
 > 3. **판단 포인트**: 메모리 덤프 시 숫자가 180도 뒤집혀 보여 인간의 직관을 거스르지만, 인텔(x86) 아키텍처가 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시장을 통일하면서 현대 데스크톱 하드웨어의 지배적인 표준으로 군림하게 되었다.
 
@@ -31,23 +31,23 @@ tags = ["studynote-computer-architecture"]
 ### 메모리 레이아웃 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 32비트 정수 `0x12345678`을 주소 `0x00`부터 저장해 보자. `78`이 가장 작은 꼬리 값([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))이다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           리틀 엔디안 (Little-Endian) 메모리 맵핑 구조     │
-├────────────────────────────────────────────────────────┤
-│   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           │
-│                                                        │
-│   메모리 주소 │ 저장된 바이트 │ 하드웨어적 우위 분석            │
-│   ─────────┼───────────┼────────────────────────        │
-│    0x00    │    78     │ ◀ LSB (제일 먼저 더할 놈이 대기)   │
-│    0x01    │    56     │                                │
-│    0x02    │    34     │                                │
-│    0x03    │    12     │ ◀ MSB (가장 나중에 더해질 놈)      │
-│                                                        │
-│ * 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.       │
-│   인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!   │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리틀 엔디안 (Little-Endian) 메모리 맵핑 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 0x 12 34 56 78 (12가 머리, 78이 꼬리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소</div><div class="kb-diagram-cell">저장된 바이트</div><div class="kb-diagram-cell">하드웨어적 우위 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00</div><div class="kb-diagram-cell">78</div><div class="kb-diagram-cell">◀ LSB (제일 먼저 더할 놈이 대기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x01</div><div class="kb-diagram-cell">56</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x02</div><div class="kb-diagram-cell">34</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x03</div><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">◀ MSB (가장 나중에 더해질 놈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!</div></div>
+</div>
+</div>
+
+
 
 ### 타입 캐스팅(Casting)의 마법
 리틀 엔디안의 진가는 변수 크기를 자르거나 늘릴 때 폭발한다. C 언어에서 32비트 변수를 16비트로 다운캐스팅할 때, [빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 시스템은 메모리의 시작 포인터 주소를 `+2` 만큼 뒤로 강제 이동시켜야만 올바른 하위 16비트(`5678`)를 가리킬 수 있다.
@@ -64,10 +64,10 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 
 | 특성 | 리틀 엔디안 (Little-Endian) | [빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) ([Big-Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/)) |
 |:---|:---|:---|
-| **메모리 시작점** | **가장 작은 단위 ([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))** | 가장 큰 단위 ([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) |
-| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 덧셈 효율** | 최고 (일의 자리부터 즉각 연산 가능) | 최악 (끝자리까지 다 읽어야 연산 가능) |
-| **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 확장/축소**| 시작 주소(Pointer) 변경 없음 | 시작 주소를 인위적으로 계산해 밀어줘야 함 |
-| **네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)**| 최악 (꼬리부터 와서 주소 파악 느림) | 최고 (IP 주소 앞단부터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능) |
+| **메모리 시작점** | <strong>가장 작은 단위 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/">LSB</a>)</strong> | 가장 큰 단위 ([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> 덧셈 효율</strong> | 최고 (일의 자리부터 즉각 연산 가능) | 최악 (끝자리까지 다 읽어야 연산 가능) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 확장/축소</strong>| 시작 주소(Pointer) 변경 없음 | 시작 주소를 인위적으로 계산해 밀어줘야 함 |
+| <strong>네트워크 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>| 최악 (꼬리부터 와서 주소 파악 느림) | 최고 (IP 주소 앞단부터 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능) |
 | **지배 생태계** | 인텔(x86) 데스크톱/서버 CPU | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 인터넷 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 기계(CPU) 안에서 덧셈 연산을 하고 변수 크기를 바꿀 때는 리틀 엔디안이 압도적으로 빠르다. 그러나 이 데이터를 외부 인터넷선(라우터)으로 쏘는 순간, 라우터는 꼬리(리틀 엔디안)부터 들어오는 패킷의 목적지를 찾지 못해 병목에 걸린다. 이 때문에 CPU와 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 사이에는 항상 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 뒤집어주는 환전소([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))가 존재하게 되었다.
@@ -79,11 +79,11 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **리버싱 및 바이너리 해킹 ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))**: 보안 해커나 리버서(Reverser)가 GDB로 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리를 까보면, 메모리 주소 `0x08048321`로 점프하라는 어셈블리 코드가 헥스창에 `21 83 04 08`로 기괴하게 뒤집혀 있다. 해커가 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/))를 작성해 리턴 어드레스(RET)를 덮어씌울 때, 주소를 인간의 머리 방향 그대로 입력하면 100% 해킹에 실패한다. 반드시 리틀 엔디안 룰에 맞춰 주소를 1바이트씩 쪼개 역순으로 밀어 넣는(Payload [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)) 뇌지컬 훈련이 필수다.
-2. **포인터 앨리어싱(Pointer [Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) 트릭**: 임베디드 C 개발자는 리틀 엔디안의 포인터 고정 특성을 악용해, `int` 배열을 `char*` 포인터로 덮어 씌워 하위 1바이트의 상태만 초고속으로 검사하는 극단적인 최적화 코드를 짜기도 한다. (단, 이식성을 훼손하므로 위험한 양날의 검이다)
+1. <strong>리버싱 및 바이너리 해킹 (<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a>)</strong>: 보안 해커나 리버서(Reverser)가 GDB로 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리를 까보면, 메모리 주소 `0x08048321`로 점프하라는 어셈블리 코드가 헥스창에 `21 83 04 08`로 기괴하게 뒤집혀 있다. 해커가 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/))를 작성해 리턴 어드레스(RET)를 덮어씌울 때, 주소를 인간의 머리 방향 그대로 입력하면 100% 해킹에 실패한다. 반드시 리틀 엔디안 룰에 맞춰 주소를 1바이트씩 쪼개 역순으로 밀어 넣는(Payload [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)) 뇌지컬 훈련이 필수다.
+2. <strong>포인터 앨리어싱(Pointer <a href="/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/">Aliasing</a>) 트릭</strong>: 임베디드 C 개발자는 리틀 엔디안의 포인터 고정 특성을 악용해, `int` 배열을 `char*` 포인터로 덮어 씌워 하위 1바이트의 상태만 초고속으로 검사하는 극단적인 최적화 코드를 짜기도 한다. (단, 이식성을 훼손하므로 위험한 양날의 검이다)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)([Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)) 하드코딩 독점**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시그니처나 식별자를 하드코딩할 때 `#define MAGIC 0x12345678`로 박아두고, 메모리 블록 단위로 덤프 떠서 비교하는 행위. 이 코드를 ARM([빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 세팅 가능) 기반 셋톱박스에 올리는 순간 비교문이 영원히 `False`를 뱉어내 시스템이 뻗어버린다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">매직 넘버</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/">Magic Number</a>) 하드코딩 독점</strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시그니처나 식별자를 하드코딩할 때 `#define MAGIC 0x12345678`로 박아두고, 메모리 블록 단위로 덤프 떠서 비교하는 행위. 이 코드를 ARM([빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 세팅 가능) 기반 셋톱박스에 올리는 순간 비교문이 영원히 `False`를 뱉어내 시스템이 뻗어버린다.
 
 - **📢 섹션 요약 비유**: 메모리 덤프에서 주소를 거꾸로 읽는 것은, 거울 속의 글씨를 읽는 훈련과 같다. 해커와 디버거 개발자는 거울(리틀 엔디안 메모리)을 보고도 머릿속에서 글자를 정상으로 뒤집어 읽어내는 동체시력을 갖춰야만 x86의 심장을 해부할 수 있다.
 
@@ -103,27 +103,29 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) ([Big-Endian](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/))** | 리틀 엔디안의 반대 규격. 메모리에 앞([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))부터 욱여넣어 인간이 디버깅하기 편하고 라우터가 주소 찾기 편한 네트워크 황제 |
-| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 캐리 전파 (Carry Propagation)** | 덧셈 연산 시 일의 자리에서 십의 자리로 올림수(Carry)가 넘어가는 현상. 리틀 엔디안이 가장 사랑하는 연산 메커니즘 |
-| **[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))** | x86 기계가 인터넷 세상으로 데이터를 던지기 전에 거꾸로 된 숫자를 다시 정방향으로 뒤집어주는(`ntohl`, `htonl`) 통역 검문소 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/">빅 엔디안</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/">Big-Endian</a>)</strong> | 리틀 엔디안의 반대 규격. 메모리에 앞([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))부터 욱여넣어 인간이 디버깅하기 편하고 라우터가 주소 찾기 편한 네트워크 황제 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> 캐리 전파 (Carry Propagation)</strong> | 덧셈 연산 시 일의 자리에서 십의 자리로 올림수(Carry)가 넘어가는 현상. 리틀 엔디안이 가장 사랑하는 연산 메커니즘 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">Byte</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>)</strong> | x86 기계가 인터넷 세상으로 데이터를 던지기 전에 거꾸로 된 숫자를 다시 정방향으로 뒤집어주는(`ntohl`, `htonl`) 통역 검문소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면
-    │
-    ▼
-자리올림(Carry) 처리에 유리한 데이터 배치 고민
-    │
-    ▼
-리틀 엔디안 (Little-Endian) 도입 (꼬리인 LSB를 맨 앞 메모리에 저장)
-    │
-    ▼
-비트 캐스팅(확장/축소) 시 포인터 주소 고정을 통한 오버헤드 소멸
-    │
-    ▼
-인텔 x86 아키텍처의 데스크톱/서버 메모리 표준 규격 제패
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자리올림(Carry) 처리에 유리한 데이터 배치 고민</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리틀 엔디안 (Little-Endian) 도입 (꼬리인 LSB를 맨 앞 메모리에 저장)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비트 캐스팅(확장/축소) 시 포인터 주소 고정을 통한 오버헤드 소멸</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인텔 x86 아키텍처의 데스크톱/서버 메모리 표준 규격 제패</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 포기 → 연산 효율 극대화 → [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 최적화 도달 → [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시장 하드웨어 표준 점령"으로 귀결된 리틀 엔디안의 진화 과정을 보여준다.
 

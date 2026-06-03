@@ -22,13 +22,13 @@ tags = ["studynote-software-engineering"]
 "이번 주 금요일 런칭인데, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 1만 개 짤 시간 없어요! 어떡하죠?"
 
 테스트 공학 교과서에는 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 등 우아하고 수학적인 테스트 기법들이 가득하지만, 현실의 소프트웨어 프로젝트는 항상 시간에 쫓긴다. 기획서는 부실하고 테스트 스크립트를 짤 시간조차 없을 때 QA 팀장은 결단을 내린다.
-"우리 회사가 지난 3년 동안 쇼핑몰 만들면서 가장 많이 터졌던 버그 50개만 뽑아서 **체크리스트(Checklist)**를 만들어! 이것만 확인하고 오픈한다!"
+"우리 회사가 지난 3년 동안 쇼핑몰 만들면서 가장 많이 터졌던 버그 50개만 뽑아서 <strong>체크리스트(Checklist)</strong>를 만들어! 이것만 확인하고 오픈한다!"
 
 - [ ] 결제 취소 버튼을 연타했을 때 돈이 두 번 환불되지 않는가?
 - [ ] 아이디 칸에 특수문자 `<script>`를 넣었을 때 에러가 안 나는가?
 - [ ] 뒤로 가기 버튼을 눌렀을 때 장바구니가 날아가지 않는가?
 
-이처럼 **경험과 직관, 그리고 과거의 오답 노트**를 무기 삼아 시스템의 급소를 빠르게 찌르는 것이 바로 체크리스트 기반 테스팅이다.
+이처럼 <strong>경험과 직관, 그리고 과거의 오답 노트</strong>를 무기 삼아 시스템의 급소를 빠르게 찌르는 것이 바로 체크리스트 기반 테스팅이다.
 
 > 📢 **섹션 요약 비유**: 비행기가 이륙하기 전 조종사가 수백 쪽짜리 매뉴얼을 다 읽을 시간은 없습니다. 대신 "엔진 온도 정상? 윙 플랩 각도 정상? 무전기 켜짐?"이라고 쓰인 딱 한 장짜리 체크리스트(Checklist) 팻말을 들고 O/X를 쳐가며 치명적인 사고를 5분 만에 예방하는 것과 정확히 같습니다.
 
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 체크리스트 (Checklist) 기반의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  체크리스트 (Checklist) 기반                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체크리스트 (Checklist) 기반</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 체크리스트 (Checklist) 기반가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-체크리스트 (Checklist) 기반 테스팅의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+체크리스트 (Checklist) 기반 테스팅의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 체크리스트 (Checklist) 기반 테스팅의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -82,7 +81,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-체크리스트 테스팅의 단점(리스트에 없는 건 못 찾음)을 보완하기 위해, 실무에서는 자유도를 극한으로 끌어올린 **[탐색적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/)([Exploratory Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/))**과 결합하여 사용한다.
+체크리스트 테스팅의 단점(리스트에 없는 건 못 찾음)을 보완하기 위해, 실무에서는 자유도를 극한으로 끌어올린 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/">탐색적 테스팅</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/433_exploratory_testing/">Exploratory Testing</a>)</strong>과 결합하여 사용한다.
 
 - **차터 (Charter) 기반 탐색**: "오늘은 '결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)'에 대해서만 자유롭게 버그를 사냥해 보자!"
 - **체크리스트의 가이드 역할**: 테스터는 자유롭게 결제 화면을 누르며 버그를 찾되, 옆에 조그만 체크리스트를 띄워두고 "아, 맞다! 뒤로가기 버튼 연타하는 거 잊지 말고 해봐야지!" 하고 길을 잃지 않는 용도(가이드레일)로만 체크리스트를 활용한다.
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-체크리스트 (Checklist) 기반 테스팅 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">체크리스트 (Checklist) 기반 테스팅 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Prevention)은 데드락 발생의 4가지 필요조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 중 **단 하나라도 시스템 차원에서 원천적으로 부정(Denial)하거나 구조적으로 성립하지 못하도록 강제**하는 방어 설계 패러다임이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Prevention)은 데드락 발생의 4가지 필요조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 중 <strong>단 하나라도 시스템 차원에서 원천적으로 부정(Denial)하거나 구조적으로 성립하지 못하도록 강제</strong>하는 방어 설계 패러다임이다.
 > 2. **가치**: 데드락 발생 확률을 수학적/[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적으로 완벽한 0%로 만들 수 있는 가장 확실하고 안전한([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) 기제이므로, 우주항공 소프트웨어나 RTOS(Real-Time OS) 등 생명과 직결된 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 최우선 시스템에서 핵심 교리로 작동한다.
-> 3. **융합**: 그러나 조건을 파괴하는 대가로 막대한 자원 낭비(기아 현상, 효율성 극저하)가 수반되므로, 현대 범용 환경에서는 1~3조건 파괴를 포기하고 유일하게 프로그래머 통제가 가능한 **'[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))'** 테크닉과 융합하여 실리적인 예방 프레임워크를 구축하고 있다.
+> 3. **융합**: 그러나 조건을 파괴하는 대가로 막대한 자원 낭비(기아 현상, 효율성 극저하)가 수반되므로, 현대 범용 환경에서는 1~3조건 파괴를 포기하고 유일하게 프로그래머 통제가 가능한 <strong>'<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/">순환 대기 부정</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)'</strong> 테크닉과 융합하여 실리적인 예방 프레임워크를 구축하고 있다.
 
 ---
 
@@ -21,32 +21,31 @@ tags = ["studynote-operating-system"]
 
 암세포가 몸짓을 키워 파괴(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하기 전에, 아예 암세포가 생길 수 없는(Prevent) 무균실 유전자로 인간을 개조한다면 어떨까? 
 
-**[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방**은 바로 데드락의 씨앗인 4개 조건 연합을 타격하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 범죄 발생의 4요소(의도, 수단, 대상, 기회) 중 단 하나라도 사라지면 범죄가 성립하지 못하듯, 데드락 역시 4가지 조건이 `AND`로 결합해야만 발동하므로, OS 구조를 뜯어고쳐 그중 하나를 `False`로 고정시켜버린다. 
+<strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a> 예방</strong>은 바로 데드락의 씨앗인 4개 조건 연합을 타격하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 범죄 발생의 4요소(의도, 수단, 대상, 기회) 중 단 하나라도 사라지면 범죄가 성립하지 못하듯, 데드락 역시 4가지 조건이 `AND`로 결합해야만 발동하므로, OS 구조를 뜯어고쳐 그중 하나를 `False`로 고정시켜버린다. 
 
 **💡 비유**: 교차로 4방향 꼬리물기(데드락) 예방. "차는 무조건 직진만 해! 좌회전 절대 금지!"(조건 부정)라고 룰을 강제하면 절대 교차로 중앙에서 꼬리가 물릴 수가 없다. 다만, 운전자는 목적지까지 몇 바퀴를 우회하며 엄청난 비효율(오버헤드)을 감수해야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         교착 상태 예방의 4가지 타격점(Denial Points)         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [조건 1] 상호 배제 (Mutual Exclusion) 부정                  │
-│  - 타격법: "모든 걸 같이 쓰자! 락(Lock) 금지!"               │
-│  - 한계: 프린터 조각 인쇄, DB 동시 수정 파괴 등 논리적 불가. │
-│                                                              │
-│  [조건 2] 점유 대기 (Hold and Wait) 부정                     │
-│  - 타격법: "시작할 때 모든 자원을 선점하거나, 빈손만 요청!"  │
-│  - 한계: 10시간 중 1분 쓸 자원을 10시간 전세 냄. 엄청난 낭비.│
-│                                                              │
-│  [조건 3] 비선점 (No Preemption) 부정                        │
-│  - 타격법: "기다려야 하면 내가 쥔 걸 다 강제 반납해!"        │
-│  - 한계: 중간까지 진행된 트랜잭션 수동 롤백 복잡도 폭발.     │
-│                                                              │
-│  [조건 4] 순환 대기 (Circular Wait) 부정 (★가장 현실적)      │
-│  - 타격법: "모든 락에 번호를 매기고, 오름차순으로만 집어!"   │
-│  - 돌파구: O(N) 검증으로 사이클 100% 방어. 업계 표준 락 위계.│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 예방의 4가지 타격점(Denial Points)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 1</div><div class="kb-diagram-note">상호 배제 (Mutual Exclusion) 부정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "모든 걸 같이 쓰자! 락(Lock) 금지!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 프린터 조각 인쇄, DB 동시 수정 파괴 등 논리적 불가.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 2</div><div class="kb-diagram-note">점유 대기 (Hold and Wait) 부정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "시작할 때 모든 자원을 선점하거나, 빈손만 요청!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 10시간 중 1분 쓸 자원을 10시간 전세 냄. 엄청난 낭비.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 3</div><div class="kb-diagram-note">비선점 (No Preemption) 부정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "기다려야 하면 내가 쥔 걸 다 강제 반납해!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 중간까지 진행된 트랜잭션 수동 롤백 복잡도 폭발.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조건 4</div><div class="kb-diagram-note">순환 대기 (Circular Wait) 부정 (★가장 현실적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "모든 락에 번호를 매기고, 오름차순으로만 집어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 돌파구: O(N) 검증으로 사이클 100% 방어. 업계 표준 락 위계.</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 벌이 꽃에 오지 못하게 막는 예방(Prevention) — 가장 확실한 건 꽃을 다 뽑아버리거나(1~3번 부정), 그물망을 씌워(4번 부정) 아예 접근 루트를 하드코어하게 차단하는 겁니다.
 
@@ -56,7 +55,7 @@ tags = ["studynote-operating-system"]
 
 ### 예방 모델의 구조적 경직성 (Over-restriction)
 
-각 조건을 깨부수는 아키텍처는 필연적으로 시스템의 자연스러운 **[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 타이밍([Resource Allocation](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) Timing)을 왜곡**시킨다.
+각 조건을 깨부수는 아키텍처는 필연적으로 시스템의 자연스러운 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> 타이밍(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">Resource Allocation</a> Timing)을 왜곡</strong>시킨다.
 
 - 프로세스는 자신이 언제 무슨 파일과 디바이스를 필요로 할지 런타임 유저 입력에 따라 달라진다. 
 - 그런데 2번 [점유 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/294_deny_hold_and_wait/) 원칙은 "시작 전에 메뉴판에 있는 걸 다 시키고 결제해 둬!(Static Allocation)"라고 강박을 준다.
@@ -72,7 +71,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | **예방 (Prevention)** | `0%` (원천 불가) | 극악 (병목 유발 잦음) | 생명/재산 직결 핵 제어계 |
 | **회피 (Avoidance)** | `0%` (피해 감) | 나쁨 (안전할 때만 자원 지급) | 연산 오버헤드로 이론상 전락 |
-| **탐지/무시 ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))**| `발생 허용` | **최상** (일단 다 주고 터지면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) | 현대 리눅스, 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 계층 |
+| <strong>탐지/무시 (<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)</strong>| `발생 허용` | **최상** (일단 다 주고 터지면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) | 현대 리눅스, 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 계층 |
 
 **📢 섹션 요약 비유**: 예방(Prevention)은 사고를 막기 위해 아예 수영장 문을 폐쇄하는 것(안전 100%, 재미 0%), 무시(Ignore)는 알아서 놀다가 물에 빠지면 라이프가드([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))가 출동하는 것(안전 99%, 재미 100%).
 
@@ -81,11 +80,11 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 [Lock Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/) ([순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/))**: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트리 내 수천 개의 락. 예방 규칙 중 유일하게 실용성이 있는 "[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)(번호 순서대로 락 획득)" 규칙 하나만은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 수명 코딩 규칙(Coding Standard)으로 철저히 지킨다. 이를 통해 어플리케이션이 아닌 OS 자체의 치명적 크래시([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))를 예방한다.
-2. **비관적 락(Pessimistic [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**: 예방 철학의 마이너 버전업. 트랜잭션에서 충돌할 게 빤히 보이면, `SELECT ... FOR UPDATE`로 시작부터 강제로 락을 잡아버려 데드락이 꼬이기 전 선점한다. ([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 조건 일부 응용 회피). 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨의 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/">Lock Hierarchy</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/">순환 대기 부정</a>)</strong>: Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 트리 내 수천 개의 락. 예방 규칙 중 유일하게 실용성이 있는 "[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)(번호 순서대로 락 획득)" 규칙 하나만은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 수명 코딩 규칙(Coding Standard)으로 철저히 지킨다. 이를 통해 어플리케이션이 아닌 OS 자체의 치명적 크래시([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))를 예방한다.
+2. <strong>비관적 락(Pessimistic <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 예방 철학의 마이너 버전업. 트랜잭션에서 충돌할 게 빤히 보이면, `SELECT ... FOR UPDATE`로 시작부터 강제로 락을 잡아버려 데드락이 꼬이기 전 선점한다. ([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/) 조건 일부 응용 회피). 
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **자원 사전 확보 강박 ([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) 부정 설계)**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 "모든 외부 DB와 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 4개를 다 쥐어야만 1단계 로직을 시작한다"는 설계. 특정 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 느리면, 쥐고 있는 다른 3개 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)마저 1시간 대기하며 전체 서버 풀이 순식간에 녹아내린다. "필요할 때 짧게 잡고 놓아주는(Release)" 현대화된 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 락 방식에 완전한 역행.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>자원 사전 확보 강박 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/">Hold-and-Wait</a> 부정 설계)</strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 "모든 외부 DB와 통신 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 4개를 다 쥐어야만 1단계 로직을 시작한다"는 설계. 특정 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 느리면, 쥐고 있는 다른 3개 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)마저 1시간 대기하며 전체 서버 풀이 순식간에 녹아내린다. "필요할 때 짧게 잡고 놓아주는(Release)" 현대화된 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) 락 방식에 완전한 역행.
 
 **📢 섹션 요약 비유**: 필요할 때만 그때그때 사다 쓰는 배달 시대(현대 코드)에, 데드락 무섭다고 한 달 치 식량을 미리 마트에서 쓸어 모아 썩히는(낭비 예방) [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 경계해야 합니다.
 
@@ -99,7 +98,7 @@ tags = ["studynote-operating-system"]
 | 시스템 퍼포먼스 | 과도한 빗장 걸기로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 급감 | 임계치가 올 때까지 시스템 100% 폭주 가동 |
 | 에러 핸들링 파급 | 없음 (발생을 안 하니까) | 죽인 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 복원 잔업 발생 |
 
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Prevention)은 이론적으로 가장 우아해 보이지만, 현실의 물리적 한계와 비효율 앞에 1(배제), 2(점유), 3([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))번의 타격 지점을 포기할 수밖에 없었던 서글픈 공학의 역사다. 유일하게 살아남은 유산인 **"[순환 대기 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/)([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Order 위계화)"** 만이 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락(Distributed [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 등에서 불멸의 모범 룰로 계승되어 내려오고 있다.
+[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 예방([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) Prevention)은 이론적으로 가장 우아해 보이지만, 현실의 물리적 한계와 비효율 앞에 1(배제), 2(점유), 3([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))번의 타격 지점을 포기할 수밖에 없었던 서글픈 공학의 역사다. 유일하게 살아남은 유산인 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/296_deny_circular_wait/">순환 대기 부정</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> Order 위계화)"</strong> 만이 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락(Distributed [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 등에서 불멸의 모범 룰로 계승되어 내려오고 있다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -116,15 +115,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[타조 알고리즘 (Ostrich Algorithm)]
-    │
-    ▼
-[교착 상태 예방 (Deadlock Prevention)]
-    │
-    ├──▶ [상호 배제 부정]
-    └──▶ [점유 대기 부정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제 부정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유 대기 부정</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

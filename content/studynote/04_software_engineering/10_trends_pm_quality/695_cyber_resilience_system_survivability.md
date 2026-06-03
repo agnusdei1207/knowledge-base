@@ -21,7 +21,7 @@ tags = ["studynote-software-engineering"]
 
 수십 년간 정보 보안의 궁극적 목표는 '성벽을 무조건 높게 쌓아 단 한 명의 적도 들이지 않는 것(Perfect Defense)'이었다. 하지만 해킹 기술의 고도화, [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/)) 취약점, 그리고 내부자 위협 앞에서 완벽한 방어는 환상임이 입증되었다.
 
-특히 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격이 고도화되면서 기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체가 암호화되어 수일 동안 업무가 마비되는 사태가 속출했다. 이에 따라 기업과 국가 기관들은 방어([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 넘어, **"만약 뚫렸을 때, 어떻게 시스템을 살려내고 비즈니스를 이어갈 것인가?"**라는 질문에 답해야 했다. 이렇게 탄생한 개념이 **[사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/)([Cyber Resilience](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/))**다.
+특히 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격이 고도화되면서 기업의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체가 암호화되어 수일 동안 업무가 마비되는 사태가 속출했다. 이에 따라 기업과 국가 기관들은 방어([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))를 넘어, <strong>"만약 뚫렸을 때, 어떻게 시스템을 살려내고 비즈니스를 이어갈 것인가?"</strong>라는 질문에 답해야 했다. 이렇게 탄생한 개념이 <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/">사이버 레질리언스</a>(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/">Cyber Resilience</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 복싱 경기에서 '보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))'이 주먹을 피하거나 가드로 막는 기술이라면, '레질리언스(Resilience)'는 턱에 정타를 맞고 쓰러졌을 때 카운트 텐([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 안에 다시 일어나는 맷집과 회복력이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/) 시스템 생존성의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  사이버 레질리언스 시스템 생존성                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이버 레질리언스 시스템 생존성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/) 시스템 생존성가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 | **기본 전제** | "시스템은 뚫리지 않아야 한다." | "시스템은 **언젠가 뚫린다(Assume Breach).**" |
 | **핵심 목표** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출, 시스템 침투 차단 | 비즈니스 연속성 유지, 다운타임 최소화 |
 | **관심 영역** | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 암호화, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 탐지([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)) | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 격리 |
-| **성공 지표** | 공격 시도 대비 방어 횟수 | **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)** (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
+| **성공 지표** | 공격 시도 대비 방어 횟수 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a></strong> (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간) |
 
 사이버 보안이 IT 부서의 기술적 목표라면, [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/)는 이사회(Board) 수준에서 다뤄야 하는 기업의 비즈니스 생존 목표다.
 
@@ -93,7 +92,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 해커들은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔치는 것에 그치지 않고, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 막기 위해 **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 서버부터 먼저 파괴**한다. 따라서 전통적인 테이프 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만으로는 레질리언스를 보장할 수 없다.
+최근 해커들은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔치는 것에 그치지 않고, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 막기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 서버부터 먼저 파괴</strong>한다. 따라서 전통적인 테이프 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)만으로는 레질리언스를 보장할 수 없다.
 
 - **📢 섹션 요약 비유**: [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/) 시스템 생존성은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -107,7 +106,7 @@ tags = ["studynote-software-engineering"]
 
 [사이버 레질리언스](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/519_cyber_resilience_architecture/)가 확보된 기업은 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격이나 대규모 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 사태 속에서도 최소한의 다운타임으로 비즈니스를 이어감으로써, 멈춰버린 경쟁사들의 고객을 흡수하여 오히려 시장 점유율을 늘리는 전화위복의 기회를 얻는다.
 
-결론적으로 현대의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 '어떻게 막을 것인가'에 머무르면 안 된다. 모든 설계의 끝에 항상 **"그래서 이 모듈이 죽으면 어떻게 시스템을 살려낼 것인가?"**를 질문해야 한다. 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 시스템 생존성을 보장하는 진정한 아키텍트의 자세다.
+결론적으로 현대의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 '어떻게 막을 것인가'에 머무르면 안 된다. 모든 설계의 끝에 항상 <strong>"그래서 이 모듈이 죽으면 어떻게 시스템을 살려낼 것인가?"</strong>를 질문해야 한다. 이것이 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 시대에 시스템 생존성을 보장하는 진정한 아키텍트의 자세다.
 
 - **📢 섹션 요약 비유**: 레질리언스는 터미네이터와 같다. 몸의 일부가 부서지고 팔이 떨어져 나가도, 목표(비즈니스)를 달성하기 위해 멈추지 않고 스스로를 수리하며 전진하는 불사신의 능력이다.
 
@@ -130,21 +129,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-사이버 레질리언스 시스템 생존성 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이버 레질리언스 시스템 생존성 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

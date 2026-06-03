@@ -20,17 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 해커의 가장 치명적인 타겟 공격([APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/), [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)) 시나리오는 정문을 바로 부수는 것이 아닙니다.
-- **공격 흐름**: 보안이 허술한 말단 신입사원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(교두보)에 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일을 보내 하나만 감염시킵니다. 그리고 이 PC를 숙주 삼아, **사내망 내부(East-West 트래픽)를 옆으로, 옆으로 기어 다니며 이 서버 저 서버를 조용히 찔러보고 감염을 퍼뜨려 나가는 악질적인 확산 기법**이 횡적 확산(Lateral Movement)입니다.
+- **공격 흐름**: 보안이 허술한 말단 신입사원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(교두보)에 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일을 보내 하나만 감염시킵니다. 그리고 이 PC를 숙주 삼아, <strong>사내망 내부(East-West 트래픽)를 옆으로, 옆으로 기어 다니며 이 서버 저 서버를 조용히 찔러보고 감염을 퍼뜨려 나가는 악질적인 확산 기법</strong>이 횡적 확산(Lateral Movement)입니다.
 - **기존망의 맹점**: 기존 사내망은 "우리는 한식구"라며 같은 대역(서브넷) 안에서는 서버들끼리 아무런 통제 없이 평문으로 쌩쌩 통신이 가능했기 때문에 해커가 한 번 들어오면 막을 방법이 없었습니다.
 
-```text
-[제로 트러스트 보안]
-    │
-    ▼
-[마이크로 세그멘테이션]
-    │
-    └──▶ [SASE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(클라우드) 내부의 네트워크를 크게 덩어리([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 짓는 것을 넘어서, **서버 1대, 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 1대, 심지어 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 1개 단위의 극단적으로 작은 조각(Micro)으로 쪼개어, 각 조각들 사이에 엄격한 소형 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 겹겹이 세우는 최첨단 네트워크 격리 기술**입니다. ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처의 핵심 구현체)
+- **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(클라우드) 내부의 네트워크를 크게 덩어리([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 짓는 것을 넘어서, <strong>서버 1대, 가상 머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) 1대, 심지어 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>) 1개 단위의 극단적으로 작은 조각(Micro)으로 쪼개어, 각 조각들 사이에 엄격한 소형 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(통제 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)을 겹겹이 세우는 최첨단 네트워크 격리 기술</strong>입니다. ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처의 핵심 구현체)
 
-```text
-[제로 트러스트 보안]
-    │
-    ▼
-[마이크로 세그멘테이션]
-    │
-    └──▶ [SASE]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,7 +66,7 @@ tags = ["studynote-network"]
 물리적으로 랜선을 다 자를 수는 없습니다. 100% 소프트웨어의 마법으로 해결합니다.
 
 ### 1. 소프트웨어 정의 네트워크 ([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) 기술 활용
-- VMWare NSX, [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI 같은 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 기술을 사용하여, 서버실에 있는 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 하나하나마다 투명한 **'논리적 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Distributed [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))'**을 캡슐처럼 씌워버립니다. 
+- VMWare NSX, [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI 같은 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 기술을 사용하여, 서버실에 있는 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 하나하나마다 투명한 <strong>'논리적 미니 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(Distributed <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">Firewall</a>)'</strong>을 캡슐처럼 씌워버립니다. 
 - 이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 IP 주소가 바뀌든 서버가 물리적으로 옆방으로 이사가든 상관없이, 꼬리표(Tag)처럼 평생 서버를 따라다니며 경호원 역할을 합니다.
 
 마이크로 세그멘테이션을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)이 기반 조건을 만든다면, 마이크로 세그멘테이션은 그 위에서 핵심 메커니즘을 구현하고, SASE는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 조각난 서버들 사이의 통신은 기본적으로 **'All Deny (전면 차단)'**입니다.
+- 조각난 서버들 사이의 통신은 기본적으로 <strong>'All Deny (전면 차단)'</strong>입니다.
 - 관리자가 "A 웹 서버(웹)는 오직 B [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버(DB)의 3306 포트로만 말을 걸 수 있다"라고 화이트리스트를 허락해 줍니다.
 - 만약 해커가 A 웹 서버를 장악한 뒤, 옆에 있는 C 인사팀 서버나 D 재무팀 서버로 악성코드를 쏘려고 찔러보면? A 서버를 감싸고 있던 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 "DB 서버 가는 길 말고는 다 막혀있어!"라며 해커의 패킷을 그 자리에서 찢어발겨 버립니다.
 
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 제로 트러스트 보안]
-    │
-    ▼
-[현재 개념: 마이크로 세그멘테이션]
-    │
-    ├──▶ [확장 A: SASE]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 제로 트러스트 보안</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SASE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 마이크로 세그멘테이션는 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SASE와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

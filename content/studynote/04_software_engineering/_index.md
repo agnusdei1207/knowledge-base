@@ -20,8 +20,8 @@ tags = ["studynote-software-engineering"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-1960년대, 하드웨어 성능이 급증하면서 요구되는 소프트웨어의 규모도 기하급수적으로 팽창했다. 그러나 주먹구구식 코딩 기예(Art)에 의존하던 당시의 방식은 잦은 납기 지연, 예산 초과, 끔찍한 버그를 초래하며 이른바 **'소프트웨어 위기(Software Crisis)'**를 촉발시켰다.
-**소프트웨어 공학(Software Engineering)**은 이 위기를 돌파하기 위해 탄생했다. 소프트웨어 개발을 벽돌을 쌓아 건물을 짓는 물리적 공학(Engineering)의 궤도로 끌어올리기 위해, 엄격한 프로세스(Process), 방법론(Methodologies), 정량적 품질 측정(Metrics)의 3대 요소를 도입했다. 오늘날의 소프트웨어 공학은 단순히 코드를 짜는 행위를 넘어, 고객의 모호한 비즈니스 요구를 정확히 추출(Requirements)하고, 변경에 유연한 아키텍처(Design)를 수립하며, 자동화된 검증(Testing)을 통해 시스템의 생명력을 연장하는 거대한 철학이다.
+1960년대, 하드웨어 성능이 급증하면서 요구되는 소프트웨어의 규모도 기하급수적으로 팽창했다. 그러나 주먹구구식 코딩 기예(Art)에 의존하던 당시의 방식은 잦은 납기 지연, 예산 초과, 끔찍한 버그를 초래하며 이른바 <strong>'소프트웨어 위기(Software Crisis)'</strong>를 촉발시켰다.
+<strong>소프트웨어 공학(Software Engineering)</strong>은 이 위기를 돌파하기 위해 탄생했다. 소프트웨어 개발을 벽돌을 쌓아 건물을 짓는 물리적 공학(Engineering)의 궤도로 끌어올리기 위해, 엄격한 프로세스(Process), 방법론(Methodologies), 정량적 품질 측정(Metrics)의 3대 요소를 도입했다. 오늘날의 소프트웨어 공학은 단순히 코드를 짜는 행위를 넘어, 고객의 모호한 비즈니스 요구를 정확히 추출(Requirements)하고, 변경에 유연한 아키텍처(Design)를 수립하며, 자동화된 검증(Testing)을 통해 시스템의 생명력을 연장하는 거대한 철학이다.
 
 ---
 
@@ -41,30 +41,37 @@ tags = ["studynote-software-engineering"]
 #### 2. V-Model 테스트 아키텍처 및 애자일 스크럼(ASCII)
 #### 2. V-Model Testing Architecture & Agile Scrum (ASCII)
 전통적인 폭포수 기반의 검증 모델(V-Model)은 각 개발 단계가 테스트 단계와 정확히 1:1로 결착되는 완벽한 대칭 구조를 가진다.
-```text
-    [ V-Model Testing Architecture ]
-    [ V-모델 테스트 아키텍처 ]
-    
-    (요구사항 분석 / Requirements) ---------------------------> (인수 테스트 / Acceptance)
-             \                                                /
-      (시스템 설계 / System Design) ------------------> (시스템 테스트 / System Testing)
-               \                                          /
-           (상세 설계 / Component Design) ----------> (통합 테스트 / Integration)
-                 \                                    /
-                  (단위 설계 / Unit Design) ----> (단위 테스트 / Unit Testing)
-                           \                  /
-                           [ 구현 / Implementation (Code) ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-Model Testing Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델 테스트 아키텍처</div></div>
+<div class="kb-diagram-note">(요구사항 분석 / Requirements) ---------------------------&gt; (인수 테스트 / Acceptance)</div>
+<div class="kb-diagram-note">(시스템 설계 / System Design) ------------------&gt; (시스템 테스트 / System Testing)</div>
+<div class="kb-diagram-note">(상세 설계 / Component Design) ----------&gt; (통합 테스트 / Integration)</div>
+<div class="kb-diagram-note">(단위 설계 / Unit Design) ----&gt; (단위 테스트 / Unit Testing)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구현 / Implementation (Code)</div></div>
+</div>
+</div>
+
+
 최신의 애자일 스크럼(Scrum) 아키텍처는 위 V-Model을 1~4주 단위(Sprint)로 끊임없이 반복하여 점진적 가치를 창출한다.
-```text
-    [ Agile Scrum Loop ]
-    [ 애자일 스크럼 루프 ]
-    [Product Backlog] -> (Sprint Planning) -> [Sprint Backlog] -> [ 2-Week Sprint (Daily Standup) ] -> (Review) -> [Shippable Product]
-    (제품 백로그)         (스프린트 계획)       (스프린트 백로그)     (2주 스프린트 / 데일리 스탠드업)   (검토)       (출시 가능 제품)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Agile Scrum Loop</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 스크럼 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Product Backlog</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sprint Backlog</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2-Week Sprint (Daily Standup)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Shippable Product</div></div>
+<div class="kb-diagram-note">(제품 백로그) (스프린트 계획) (스프린트 백로그) (2주 스프린트 / 데일리 스탠드업) (검토) (출시 가능 제품)</div>
+</div>
+</div>
+
+
 
 #### 3. 객체지향 설계 원칙 (SOLID) 및 응집도/결합도 수식화
-아키텍처의 품질을 결정하는 가장 중요한 원리는 **"응집도(Cohesion)는 최대화하고, 결합도(Coupling)는 최소화하라"**이다.
+아키텍처의 품질을 결정하는 가장 중요한 원리는 <strong>"응집도(Cohesion)는 최대화하고, 결합도(Coupling)는 최소화하라"</strong>이다.
 - **S (SRP)**: 단일 책임 원칙 (클래스는 단 하나의 변경 이유만 가져야 함).
 - **O (OCP)**: 개방-폐쇄 원칙 (확장에는 열려있고, 변경에는 닫혀있어야 함 - Interface 활용).
 - **L (LSP)**: 리스코프 치환 원칙 (자식 클래스는 부모 클래스를 완벽히 대체 가능해야 함).
@@ -98,11 +105,11 @@ tags = ["studynote-software-engineering"]
 
 **시나리오 1: 금융 코어 뱅킹 시스템의 MSA 차세대 전환**
 - **문제 상황**: 20년 된 C/Java 기반의 모놀리식 코어 뱅킹 시스템이 수백만 줄의 스파게티 코드로 변질되어, 신규 대출 상품 하나를 출시하는 데 6개월이 소요됨.
-- **기술사적 결단**: 무리한 빅뱅(Big-bang) 방식의 전면 재구축을 배제하고, **스트랭글러 피그(Strangler Fig) 패턴**을 도입한다. DDD(Domain-Driven Design)를 통해 비핵심 도메인(알림, 마이데이터 등)부터 점진적으로 분리하여 마이크로서비스로 전환하며, API Gateway를 앞단에 두어 레거시와 신규 시스템 간의 트래픽을 정교하게 라우팅하는 무중단 마이그레이션 아키텍처를 강제한다.
+- **기술사적 결단**: 무리한 빅뱅(Big-bang) 방식의 전면 재구축을 배제하고, <strong>스트랭글러 피그(Strangler Fig) 패턴</strong>을 도입한다. DDD(Domain-Driven Design)를 통해 비핵심 도메인(알림, 마이데이터 등)부터 점진적으로 분리하여 마이크로서비스로 전환하며, API Gateway를 앞단에 두어 레거시와 신규 시스템 간의 트래픽을 정교하게 라우팅하는 무중단 마이그레이션 아키텍처를 강제한다.
 
 **시나리오 2: 글로벌 이커머스 플랫폼의 배포 병목 타파**
 - **문제 상황**: 개발팀과 운영팀의 사일로(Silo)로 인해 정기 배포일마다 밤샘 작업과 치명적 롤백(Rollback)이 반복됨.
-- **기술사적 결단**: 애자일 방법론과 DevOps 문화를 융합한다. GitHub Actions와 ArgoCD를 결합한 **GitOps 기반의 CI/CD 자동화 파이프라인**을 구축. 정적 코드 분석(SonarQube)과 80% 이상의 단위 테스트 커버리지를 통과하지 못하면 Merge를 원천 차단(Quality Gate)하고, **카나리(Canary) 배포**를 통해 1%의 유저에게만 선배포하여 에러를 관측(Observability)하는 안전망을 확보한다.
+- **기술사적 결단**: 애자일 방법론과 DevOps 문화를 융합한다. GitHub Actions와 ArgoCD를 결합한 <strong>GitOps 기반의 CI/CD 자동화 파이프라인</strong>을 구축. 정적 코드 분석(SonarQube)과 80% 이상의 단위 테스트 커버리지를 통과하지 못하면 Merge를 원천 차단(Quality Gate)하고, <strong>카나리(Canary) 배포</strong>를 통해 1%의 유저에게만 선배포하여 에러를 관측(Observability)하는 안전망을 확보한다.
 
 **도입 시 고려사항 (안티패턴)**
 - **분산 시스템의 Fallacy 무시**: 네트워크는 항상 신뢰할 수 있고 지연이 0이라고 가정하는 안티패턴. 마이크로서비스 도입 시 서비스 간 동기식 HTTP 호출이 연쇄적으로 물려 있으면 타임아웃 폭풍(Cascading Failure)이 발생한다. 반드시 이벤트 기반(Kafka) 비동기 아키텍처와 서킷 브레이커(Circuit Breaker) 패턴을 조합해야 한다.

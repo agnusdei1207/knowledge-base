@@ -31,13 +31,19 @@ tags = ["studynote-ai"]
 
 SVM의 경계는 초평면(Hyperplane)이다. 2차원에서는 선, 3차원 이상에서는 면으로 생각하면 된다.
 
-```text
-클래스 A  ● ● ●
-            ↑ 마진
-         ─── 초평면 ───
-            ↓ 마진
-클래스 B  ▲ ▲ ▲
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">클래스 A ● ● ●</div>
+<div class="kb-diagram-note">↑ 마진</div>
+<div class="kb-diagram-tree-item" style="--depth:4">초평면</div>
+<div class="kb-diagram-note">↓ 마진</div>
+<div class="kb-diagram-note">클래스 B ▲ ▲ ▲</div>
+</div>
+</div>
+
+
 
 마진이 넓을수록 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어와도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 흔들릴 가능성이 줄어든다.
 
@@ -81,15 +87,21 @@ SVM은 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 ## 관련 개념 맵
 
-```text
-데이터 포인트
-   ↓
-초평면
-   ↓
-마진 최대화
-   ↓
-서포트 벡터 / 커널 트릭
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 포인트</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">초평면</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">마진 최대화</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서포트 벡터 / 커널 트릭</div>
+</div>
+</div>
+
+
 
 ---
 

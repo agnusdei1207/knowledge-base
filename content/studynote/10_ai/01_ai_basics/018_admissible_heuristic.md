@@ -25,26 +25,25 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 이 도식은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수가 과대평가되었을 때 시스템이 어떻게 진짜 지름길을 누락([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) Error)하는지 그 병목과 한계를 보여준다.
 
-```text
-[과대평가(Overestimation)에 의한 최적해 누락 구조]
 
-               (Start) S 
-             /          \
-  실제비용:10 /            \ 실제비용:100
-           /              \
-         (A)              (B) 
-          |                |
-  실제비용:5|                | 실제비용:5
-          |                |
-         (Goal)          (Goal)
 
-[만약 h(A) = 150 으로 과대평가 했다면?]
- - f(A) = g(A) + h(A) = 10 + 150 = 160
- - f(B) = g(B) + h(B) = 100 + 5 = 105
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">과대평가(Overestimation)에 의한 최적해 누락 구조</div></div>
+<div class="kb-diagram-note">(Start) S</div>
+<div class="kb-diagram-note">실제비용:10 / \ 실제비용:100</div>
+<div class="kb-diagram-note">(A) (B)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제비용:5</div><div class="kb-diagram-cell">실제비용:5</div></div>
+<div class="kb-diagram-note">(Goal) (Goal)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">만약 h(A) = 150 으로 과대평가 했다면?</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">f(A) = g(A) + h(A) = 10 + 150 = 160</div>
+<div class="kb-diagram-tree-item" style="--depth:0">f(B) = g(B) + h(B) = 100 + 5 = 105</div>
+<div class="kb-diagram-note">결과: S는 f값이 더 작아보이는 B 방향(총 105 지연)으로 잘못된 탐색을 확정!</div>
+<div class="kb-diagram-note">(실제 최소비용은 S-&gt;A-&gt;Goal인 15임에도 불구하고 우회함)</div>
+</div>
+</div>
 
-결과: S는 f값이 더 작아보이는 B 방향(총 105 지연)으로 잘못된 탐색을 확정!
-(실제 최소비용은 S->A->Goal인 15임에도 불구하고 우회함)
-```
+
 
 이 구조도의 핵심은 \(h(A)\)가 실제 비용인 5보다 훨씬 큰 150으로 잡히는 순간, 훌륭한 노드인 A의 전체 평가액 \(f(A)\)가 오염되어 우선순위 대기열 뒤로 밀려버린다는 점이다. 결국 시스템은 가짜 최적해인 B를 먼저 도달하게 된다. 실무에서는 이처럼 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 실제를 초과하는 순간 탐색 로직의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 붕괴된다.
 
@@ -66,29 +65,30 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 위 조건이 유지될 때, A*가 최적해를 찾는 증명 과정 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 트리상에서 완벽하게 보장된다.
 
-```text
-[최적해 보장 증명 메커니즘 흐름도]
 
-[전제 조건]
-- G_opt : 진짜 최적의 목표 노드 (실제비용 f*)
-- G_sub : 가짜 목표 노드 (더 비용이 큼. g(G_sub) > f*)
-- N : G_opt로 가는 길목에 있는 현재 노드
 
-[검증 단계]
-  ① G_sub 평가치 산출 : h(G_sub) = 0 이므로 f(G_sub) = g(G_sub) > f*
-           │
-           ▼
-  ② 노드 N 평가치 산출 : f(N) = g(N) + h(N)
-           │
-           ▼
-  ③ 허용적 성질 대입 : h(N) <= h*(N) 이므로,
-    f(N) = g(N) + h(N) <= g(N) + h*(N) = f*
-           │
-           ▼
-  ④ 최종 비교 판단 : f(N) <= f* < f(G_sub)
-    => 결과: 알고리즘은 언제나 가짜 목표 G_sub를 선택하기 전에, 
-       반드시 노드 N을 먼저 확장(Expand)하게 된다. (최적해 우회 원천 차단)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">최적해 보장 증명 메커니즘 흐름도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">G_opt : 진짜 최적의 목표 노드 (실제비용 f*)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">G_sub : 가짜 목표 노드 (더 비용이 큼. g(G_sub) &gt; f*)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">N : G_opt로 가는 길목에 있는 현재 노드</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증 단계</div></div>
+<div class="kb-diagram-note">① G_sub 평가치 산출 : h(G_sub) = 0 이므로 f(G_sub) = g(G_sub) &gt; f*</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">② 노드 N 평가치 산출 : f(N) = g(N) + h(N)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">③ 허용적 성질 대입 : h(N) &lt;= h*(N) 이므로,</div>
+<div class="kb-diagram-note">f(N) = g(N) + h(N) &lt;= g(N) + h*(N) = f*</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">④ 최종 비교 판단 : f(N) &lt;= f* &lt; f(G_sub)</div>
+<div class="kb-diagram-note">=&gt; 결과: 알고리즘은 언제나 가짜 목표 G_sub를 선택하기 전에,</div>
+<div class="kb-diagram-note">반드시 노드 N을 먼저 확장(Expand)하게 된다. (최적해 우회 원천 차단)</div>
+</div>
+</div>
+
+
 
 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 흐름의 핵심은 가짜 목표 노드(G_sub)가 큐에서 추출되기 전에, 무조건 진짜 경로에 있는 노드(N)가 더 작은 평가값을 가져 우선순위에서 앞선다는 점이다. 이는 허용적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 A* 내부의 정렬 로직을 지배하는 브레이크 장치임을 수학적으로 확정해 준다.
 
@@ -116,18 +116,24 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 실무 게임 엔진이나 자율 배송 로봇 설계 시, 환경에 맞는 올바른 \(h(n)\) 수식을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 것이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화의 전부라고 해도 과언이 아니다. 장애물이 아예 없다고 가정한 '직선거리'가 가장 훌륭한 허용적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 예이다.
 
-**도입 및 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) ([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 함수 설계)**
-```text
-[맵 구조에 따른 휴리스틱 함수 결정]
-[이동 형태: 격자(Grid)형 타일 맵인가?]
- ├─ [Yes] ─► [대각선 이동이 허용되는가?]
- │            ├─ [No (상하좌우만)] ─► 맨해튼 거리 (Manhattan Distance) 적용
- │            │                       h = |x1-x2| + |y1-y2|
- │            └─ [Yes (대각선가능)] ─► 체비셰프 거리 (Chebyshev Distance) 적용
- │                                    h = max(|x1-x2|, |y1-y2|)
- └─ [No (자유 각도 공간)] ─► 유클리디안 거리 (Euclidean Distance) 적용
-                             h = sqrt((x1-x2)^2 + (y1-y2)^2)
-```
+<strong>도입 및 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">의사결정 트리</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 함수 설계)</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">맵 구조에 따른 휴리스틱 함수 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이동 형태: 격자(Grid)형 타일 맵인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">대각선 이동이 허용되는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No (상하좌우만)</div><div class="kb-diagram-note">─► 맨해튼 거리 (Manhattan Distance) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h =</div><div class="kb-diagram-cell">x1-x2</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">y1-y2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes (대각선가능)</div><div class="kb-diagram-note">─► 체비셰프 거리 (Chebyshev Distance) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h = max(</div><div class="kb-diagram-cell">x1-x2</div><div class="kb-diagram-cell">,</div><div class="kb-diagram-cell">y1-y2</div><div class="kb-diagram-cell">)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No (자유 각도 공간)</div><div class="kb-diagram-note">─► 유클리디안 거리 (Euclidean Distance) 적용</div></div>
+<div class="kb-diagram-note">h = sqrt((x1-x2)^2 + (y1-y2)^2)</div>
+</div>
+</div>
+
+
 
 이 결정 트리의 핵심은 채택된 모든 거리가 "장애물을 무시한 상태의 물리적 최소 거리"라는 점이다. 장애물을 돌아가는 실제 거리 \(h^*(n)\)은 무조건 직선거리보다 길 수밖에 없으므로, 위 세 공식은 태생적으로 과대평가를 원천 차단하여 허용적(Admissible) 조건을 우아하게 만족한다.
 
@@ -148,7 +154,7 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)** | 허용적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 조건 하에서 완성되는 가장 대표적인 지향성 탐색 기법
-- **일관적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) (Consistent [Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))** | 허용적 성질을 포함하며, 노드 간 이동 시 삼각 부등식을 만족하는 더 강력한 조건
+- <strong>일관적 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (Consistent <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> | 허용적 성질을 포함하며, 노드 간 이동 시 삼각 부등식을 만족하는 더 강력한 조건
 - **맨해튼 거리 (Manhattan)** | 격자 맵에서 과대평가가 발생하지 않음을 증명한 대표적 허용적 함수
 - **과대평가 (Overestimation)** | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)이 허용성을 상실하여 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최적해 도출을 실패하게 만드는 원인
 - **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) A* (Weighted A*)** | 실시간 처리를 위해 고의로 허용성을 포기하고 h(n)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 곱해 탐색 속도를 높이는 타협안
@@ -156,21 +162,23 @@ A* ([A-Star](/knowledge-base/studynote/10_ai/01_ai_basics/017_a_star_algorithm/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[맹목적 탐색 (Blind Search: BFS/DFS) — 휴리스틱 없음, 전수 탐색]
-    │
-    ▼
-[정보 탐색 (Informed Search) — 휴리스틱 함수 h(n) 활용]
-    │
-    ▼
-[허용적 휴리스틱 (Admissible Heuristic) — h(n) ≤ h*(n), 과대평가 금지]
-    │
-    ▼
-[A* 알고리즘 (A* Search) — f(n)=g(n)+h(n), 최적해 보장]
-    │
-    ▼
-[일관적 휴리스틱 (Consistent Heuristic) — 삼각 부등식, A* 효율 극대화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">맹목적 탐색 (Blind Search: BFS/DFS) — 휴리스틱 없음, 전수 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보 탐색 (Informed Search) — 휴리스틱 함수 h(n) 활용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">허용적 휴리스틱 (Admissible Heuristic) — h(n) ≤ h*(n), 과대평가 금지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 (A* Search) — f(n)=g(n)+h(n), 최적해 보장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일관적 휴리스틱 (Consistent Heuristic) — 삼각 부등식, A* 효율 극대화</div></div>
+</div>
+</div>
+
+
 허용적 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)은 A*가 최적해를 보장하기 위한 필수 조건으로, 실제 비용을 절대 과대평가하지 않는 추정 함수의 성질이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 내가 도착지까지 "[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 발자국"이 남았다고 상상해볼까요?

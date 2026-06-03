@@ -51,7 +51,7 @@ UFP(Unadjusted [FP](/knowledge-base/studynote/12_it_management/05_security_compl
 
 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(요구사항 불명확) → 상세 분석 없이 기능 유형만 카운트.
 
-**평균 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 적용**:
+<strong>평균 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 적용</strong>:
 UFP_간이 = EI×4 + EO×5 + EQ×4 + ILF×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) + EIF×7
 
 ### 2.2 장단점
@@ -151,42 +151,54 @@ ISBSG(International Software [Benchmarking](/knowledge-base/studynote/07_enterpr
 
 ## 📌 관련 개념 맵
 
-```
-기능점수 (FP)
-├── IFPUG 방식
-│   ├── UFP (EI, EO, EQ, ILF, EIF)
-│   ├── VAF (14 GSC × 영향도)
-│   └── AFP = UFP × VAF
-├── COSMIC (ISO 19761)
-│   └── E, X, R, W 데이터 이동
-├── 비교 방법론
-│   ├── 간이법 (평균 가중치)
-│   └── 상세법 (복잡도 판별)
-└── 활용 지표
-    ├── 생산성 (FP/PM)
-    ├── 비용 (원/FP)
-    └── 결함 밀도 (결함/FP)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기능점수 (FP)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">IFPUG 방식</div>
+<div class="kb-diagram-note">── UFP (EI, EO, EQ, ILF, EIF)</div>
+<div class="kb-diagram-note">── VAF (14 GSC × 영향도)</div>
+<div class="kb-diagram-note">── AFP = UFP × VAF</div>
+<div class="kb-diagram-tree-item" style="--depth:0">COSMIC (ISO 19761)</div>
+<div class="kb-diagram-note">── E, X, R, W 데이터 이동</div>
+<div class="kb-diagram-tree-item" style="--depth:0">비교 방법론</div>
+<div class="kb-diagram-note">── 간이법 (평균 가중치)</div>
+<div class="kb-diagram-note">── 상세법 (복잡도 판별)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">활용 지표</div>
+<div class="kb-diagram-tree-item" style="--depth:2">생산성 (FP/PM)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">비용 (원/FP)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">결함 밀도 (결함/FP)</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-LOC 기반 측정 (1960s) — 기술 종속적
-     │  사용자 관점 필요
-     ▼
-Function Point — Albrecht (IBM, 1979)
-     │  복잡도 조정 필요
-     ▼
-IFPUG FP (VAF, 1984 ~) — 비즈니스 정보 시스템 표준
-     │  실시간/임베디드 한계
-     ▼
-COSMIC FP (ISO 19761, 2003) — 데이터 이동 기반
-     │  AI/ML 크기 측정 한계
-     ▼
-SNAP (비기능 요구사항 포인트) + FP 혼용 (현재)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">LOC 기반 측정 (1960s) — 기술 종속적</div>
+<div class="kb-diagram-note">사용자 관점 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Function Point — Albrecht (IBM, 1979)</div>
+<div class="kb-diagram-note">복잡도 조정 필요</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IFPUG FP (VAF, 1984 ~) — 비즈니스 정보 시스템 표준</div>
+<div class="kb-diagram-note">실시간/임베디드 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">COSMIC FP (ISO 19761, 2003) — 데이터 이동 기반</div>
+<div class="kb-diagram-note">AI/ML 크기 측정 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SNAP (비기능 요구사항 포인트) + FP 혼용 (현재)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: UFP, VAF, AFP, GSC, COSMIC, CFP, ISBSG, 생산성
 

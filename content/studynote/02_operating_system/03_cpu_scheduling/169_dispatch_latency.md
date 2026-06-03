@@ -35,23 +35,24 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 디스패치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디서 생기는지 시간축으로 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              dispatch latency on a context switch           │
-├──────────────────────────────────────────────────────────────┤
-│ Running T0                                                   │
-│    │ timer interrupt / wake-up                               │
-│    ▼                                                         │
-│ [kernel entry]                                               │
-│    ├─ save old context                                       │
-│    ├─ wait for preemption-safe point / lock release          │
-│    ├─ choose next runnable task                              │
-│    ├─ restore new context + address space                    │
-│    └─ return to user mode ───────────────▶ Running T1        │
-│                                                              │
-│ <------------------- dispatch latency ---------------------> │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch latency on a context switch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Running T0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">timer interrupt / wake-up</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">kernel entry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ save old context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wait for preemption-safe point / lock release</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ choose next runnable task</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ restore new context + address space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ return to user mode ▶ Running T1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------------- dispatch latency ---------------------&gt;</div></div>
+</div>
+</div>
+
+
 
 디스패치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 핵심 비용은 크게 네 가지다. 첫째, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 저장·복원 비용이다. 둘째, 메모리 관리 장치 ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))와 변환 색인 버퍼 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 관련 비용이다. 셋째, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락 때문에 즉시 선점하지 못하는 대기 시간이다. 넷째, 전환 후 캐시가 차가워져 원래 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 복귀하기까지의 숨은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이다.
 
@@ -94,7 +95,7 @@ tags = ["studynote-operating-system"]
 
 1. **실시간 오디오 처리**: 48kHz 오디오에서 버퍼가 128샘플이면 대략 2.67ms마다 처리해야 한다. 이때 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스파이크가 버퍼 주기를 넘으면 드롭아웃이 발생하므로 `PREEMPT_RT` 같은 저지연 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유리하다.
 2. **산업 제어 장비**: 센서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 후 100μs 안에 제어 스레드를 깨워야 한다면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락 길이와 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 측정이 평균 CPU 이용률보다 더 중요하다.
-3. **고속 네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면**: 100GbE 수준에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디스패치 자체가 병목이 될 수 있어, [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스 전략을 선택하기도 한다.
+3. <strong>고속 네트워크 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면</strong>: 100GbE 수준에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디스패치 자체가 병목이 될 수 있어, [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스 전략을 선택하기도 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,22 +137,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-타이머 인터럽트 · wake-up 이벤트
-    │
-    ▼
-커널 진입
-    │
-    ▼
-문맥 저장 · 스케줄러 선택 · 문맥 복원
-    │
-    ▼
-Dispatch Latency 측정
-    │
-    ├──────────────▶ 선점 커널 최적화
-    ├──────────────▶ CPU affinity · cache locality 개선
-    └──────────────▶ RTOS · Kernel Bypass 선택
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">타이머 인터럽트 · wake-up 이벤트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 진입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">문맥 저장 · 스케줄러 선택 · 문맥 복원</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dispatch Latency 측정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 선점 커널 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CPU affinity · cache locality 개선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ RTOS · Kernel Bypass 선택</div>
+</div>
+</div>
+
+
 
 이 흐름도는 이벤트 반응이 단순 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리에서 끝나지 않고, 실제 실행 전환과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최적화 문제로 확장되는 구조를 보여준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스토어 앤 포워드 (Store-and-[forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) 방식은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 머리부터 끝 꼬리(FCS)까지 **전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 버퍼(메모리)에 완전히 다 받아들인 후에만 포워딩을 시작하는 가장 안정적인 전송 방식**이다.
+> 1. **본질**: 스토어 앤 포워드 (Store-and-[forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) 방식은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 머리부터 끝 꼬리(FCS)까지 <strong>전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 내부 버퍼(메모리)에 완전히 다 받아들인 후에만 포워딩을 시작하는 가장 안정적인 전송 방식</strong>이다.
 > 2. **가치**: 전체 프레임을 다 받았기 때문에 꼬리에 있는 FCS(에러 검출 코드)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송 중 깨졌는지([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러) 완벽히 검사할 수 있으며, 불량 프레임이나 너무 작은 찌꺼기 프레임(Runt)은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선에서 즉시 폐기해 버린다.
-> 3. **판단 포인트**: 프레임이 클수록 버퍼에 담아두고 기다려야 하는 시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 길어지지만, 오늘날 대부분의 일반적인 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터가 채택하고 있는 **사실상의 업계 표준 스위칭 방식**이다.
+> 3. **판단 포인트**: 프레임이 클수록 버퍼에 담아두고 기다려야 하는 시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 길어지지만, 오늘날 대부분의 일반적인 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터가 채택하고 있는 <strong>사실상의 업계 표준 스위칭 방식</strong>이다.
 
 ---
 
@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 가장 기본적이고 꼼꼼한 방식이다. "일단 다 담아놓고(Store), 검사한 뒤에 보낸다([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))".
 - **필요성**: 컷스루(Cut-through)처럼 빨리빨리 대충 보내버리면, 네트워크에 깨진 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 돌아다니며 대역폭을 갉아먹는다. 특히 속도가 다른 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 간(예: 100Mbps [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 1Gbps [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘길 때는, 속도 차이 때문에 물리적으로 프레임을 잠시 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 메모리에 완충(Buffer)시켜야만 전송이 가능하다. 스토어 앤 포워드는 이 두 가지 문제를 모두 해결한다.
 
-- **💡 비유**: 스토어 앤 포워드는 **"꼼꼼한 세관원"**과 같습니다. 화물(프레임)이 도착하면 박스를 열어 물건의 개수와 품목이 송장과 정확히 일치하는지, 파손된 곳은 없는지(FCS 검사) **처음부터 끝까지 싹 다 뜯어보고(Store)**, 문제가 없을 때만 다음 장소로 **통과([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))**시킵니다.
+- **💡 비유**: 스토어 앤 포워드는 <strong>"꼼꼼한 세관원"</strong>과 같습니다. 화물(프레임)이 도착하면 박스를 열어 물건의 개수와 품목이 송장과 정확히 일치하는지, 파손된 곳은 없는지(FCS 검사) **처음부터 끝까지 싹 다 뜯어보고(Store)**, 문제가 없을 때만 다음 장소로 <strong>통과(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>)</strong>시킵니다.
 
-```text
-[스위칭 방식]
-    │
-    ▼
-[스위칭 방식]
-    │
-    └──▶ [스위칭 방식]
-```
 
-- **📢 섹션 요약 비유**: ** 택배 상자가 파손되었는지(에러) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려면, 택배 박스가 컨베이어 벨트를 통해 **"완전히 내 손에 다 들어와야만"** 박스 바닥(FCS)까지 돌려볼 수 있습니다. 컷스루처럼 박스 앞부분만 잡고 냅다 던져버리면 바닥이 찢어진 줄 모릅니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스위칭 방식</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 택배 상자가 파손되었는지(에러) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하려면, 택배 박스가 컨베이어 벨트를 통해 </strong>"완전히 내 손에 다 들어와야만"** 박스 바닥(FCS)까지 돌려볼 수 있습니다. 컷스루처럼 박스 앞부분만 잡고 냅다 던져버리면 바닥이 찢어진 줄 모릅니다.
 
 ---
 
@@ -44,30 +48,29 @@ tags = ["studynote-network"]
 - 만약 값이 다르면(전송 중 노이즈로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨짐), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 즉각 해당 프레임을 **버린다(Drop)**. 
 - 최소 크기인 64바이트가 안 되는 충돌 찌꺼기(Runt Frame)나 1518바이트를 넘는 비정상 프레임(Giant Frame)도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 선에서 여과(Filtering)되어, 목적지 PC는 항상 "100% 정상적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 받을 수 있게 보호받는다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                스토어 앤 포워드 (Store-and-forward)             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 전체 프레임 수신 (기다림의 시간 발생)                           │
- │   들어오는 중 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     │
- │                                                             │
- │   2. 스위치 버퍼 메모리에 전체 100% 로드 완료 (Store)               │
- │   스위치 내부 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]     │
- │                   └─── 에러 검사(CRC) 진행 ───┘                 │
- │                                                             │
- │   3. 에러가 없으면 그제야 목적지 포트로 출발 (Forward)                 │
- │   나가는 중 ──▶ [ FCS | Payload | 출발지 MAC | 목적지 MAC ]       │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토어 앤 포워드 (Store-and-forward)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전체 프레임 수신 (기다림의 시간 발생)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCS | Payload | 출발지 MAC | 목적지 MAC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스위치 버퍼 메모리에 전체 100% 로드 완료 (Store)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCS | Payload | 출발지 MAC | 목적지 MAC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 검사(CRC) 진행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 에러가 없으면 그제야 목적지 포트로 출발 (Forward)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCS | Payload | 출발지 MAC | 목적지 MAC</div></div>
+</div>
+</div>
+
+
 
 ### 2. 가변적 레이턴시 (Variable [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
 스토어 앤 포워드의 가장 큰 단점은 딜레이([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))다.
 프레임 크기가 최소 64바이트일 때는 금방 버퍼에 차지만, 최대 1518바이트일 때는 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다 들어올 때까지 기다려야 하므로 컷스루 방식에 비해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 훨씬 길어진다. 프레임 크기에 비례하여 레이턴시가 널뛰기(가변적)한다.
 
 ### 3. 이기종 속도 간의 스위칭 필수 조건
-이 방식은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 단점에도 불구하고 절대 버릴 수 없다. 입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 10Mbps고 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1Gbps일 경우, 들어오는 속도보다 나가는 속도가 압도적으로 빠르다. 컷스루를 쓰면 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 안 들어왔는데 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구하는 '언더런(Underrun)' 현상이 발생한다. **속도가 다른 두 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 간의 통신에서는 반드시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 완전히 받아놓고(Store) 쏘는([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) 방식이 필수적**이다.
+이 방식은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 단점에도 불구하고 절대 버릴 수 없다. 입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 10Mbps고 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1Gbps일 경우, 들어오는 속도보다 나가는 속도가 압도적으로 빠르다. 컷스루를 쓰면 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 안 들어왔는데 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요구하는 '언더런(Underrun)' 현상이 발생한다. <strong>속도가 다른 두 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 간의 통신에서는 반드시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 메모리에 완전히 받아놓고(Store) 쏘는(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>) 방식이 필수적</strong>이다.
 
 - **📢 섹션 요약 비유**: ** 스토어 앤 포워드 방식은 **"속도보다는 완벽주의를 추구하는 장인"**입니다. 비록 배송은 1초 늦어질지라도, 불량품(에러)이 고객에게 넘어가는 꼴은 절대 보지 못하며, 오늘날 우리가 쓰는 대부분의 인터넷 장비에 기본 탑재된 신뢰의 상징입니다.
 
@@ -123,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 스위칭 방식]
-    │
-    ▼
-[현재 개념: 스위칭 방식]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 스위칭 방식는 스위칭 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 스위칭 방식와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,24 +31,24 @@ tags = ["studynote-it-management"]
 
 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 포털이 제대로 작동하려면 눈에 보이는 UI 뒤에서 복잡한 IT 자동화 프로세스가 톱니바퀴처럼 맞물려 돌아가야 한다.
 
-핵심 구성 요소는 **[서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/) ([Service Catalog](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/))**, **지식 기반 ([Knowledge Base](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))**, 그리고 **[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 자동화 엔진 ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Engine)**이다. 사용자가 포털에서 요구사항을 클릭하면, 이는 즉시 티켓으로 변환되고 사전에 정의된 결재 및 실행 스크립트가 백그라운드에서 동작한다.
+핵심 구성 요소는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/">서비스 카탈로그</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_service_catalog/">Service Catalog</a>)</strong>, <strong>지식 기반 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/">Knowledge Base</a>)</strong>, 그리고 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> 자동화 엔진 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a> Engine)</strong>이다. 사용자가 포털에서 요구사항을 클릭하면, 이는 즉시 티켓으로 변환되고 사전에 정의된 결재 및 실행 스크립트가 백그라운드에서 동작한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          셀프 서비스 포털의 Zero-Touch 자동화 워크플로          │
-├─────────────────────────────────────────────────────────────┤
-│  [사용자] "새 노트북 및 VPN 신청" 장바구니 담기 (Service Catalog) │
-│     │                                                       │
-│     ▼ (클릭)                                                │
-│  [포털 엔진] ─▶ 자동 결재 상신 (부서장 확인)                  │
-│     │                                                       │
-│     ▼ (승인 완료)                                           │
-│  [오케스트레이션 엔진] ─▶ AD (Active Directory) 권한 부여 스크립트 │
-│     │               ─▶ 자산 관리 DB (CMDB) 최신화           │
-│     ▼                                                       │
-│  [완료 통보] 1분 만에 "VPN 접속이 승인/할당되었습니다"          │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프 서비스 포털의 Zero-Touch 자동화 워크플로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자</div><div class="kb-diagram-note">"새 노트북 및 VPN 신청" 장바구니 담기 (Service Catalog)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (클릭)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포털 엔진</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">자동 결재 상신 (부서장 확인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (승인 완료)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오케스트레이션 엔진</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">AD (Active Directory) 권한 부여 스크립트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 자산 관리 DB (CMDB) 최신화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완료 통보</div><div class="kb-diagram-note">1분 만에 "VPN 접속이 승인/할당되었습니다"</div></div>
+</div>
+</div>
+
+
 
 가장 이상적인 형태는 IT 직원의 수동 개입이 전혀 없는 Zero-Touch 방식이다. 또한 지식 기반(FAQ) 시스템은 사용자가 증상을 검색할 때 해결책(문서)을 먼저 제시하여 티켓 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 자체를 방지([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Deflection)하는 필터 역할을 수행한다.
 
@@ -78,9 +78,9 @@ tags = ["studynote-it-management"]
 시스템 구축보다 더 어려운 것은 조직의 변화 관리다. 제아무리 비싼 솔루션(ServiceNow, Jira [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) 등)을 도입해도 사용자가 쓰지 않으면 실패한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 도입 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
-1. **[Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 강제화**: 포털 오픈 이후에는 IT 부서의 직통 전화번호를 없애거나 제한하고, 이메일 접수를 중단하여 사용자가 포털을 사용하도록 유도하는 강력한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))이 동반되어야 한다.
+1. <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/">Shift-Left</a> 강제화</strong>: 포털 오픈 이후에는 IT 부서의 직통 전화번호를 없애거나 제한하고, 이메일 접수를 중단하여 사용자가 포털을 사용하도록 유도하는 강력한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))이 동반되어야 한다.
 2. **소비재 수준의 UX/UI**: 임직원들은 이미 쿠팡이나 아마존의 편리한 화면에 익숙하다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 메뉴가 직관적인지, 결재 장바구니 기능이 원활한지 등 B2C 수준의 인터페이스를 제공하지 못하면 외면받는다.
-3. **자동화 스크립트의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: 사용자가 포털에서 버튼을 눌러 스크립트가 실행될 때, 잘못된 권한 부여나 보안 구멍이 뚫리지 않도록 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Directory와 연동된 정교한 런북(Runbook) 사전 검증이 필수적이다.
+3. <strong>자동화 스크립트의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: 사용자가 포털에서 버튼을 눌러 스크립트가 실행될 때, 잘못된 권한 부여나 보안 구멍이 뚫리지 않도록 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Directory와 연동된 정교한 런북(Runbook) 사전 검증이 필수적이다.
 
 - **📢 섹션 요약 비유**: 무인 키오스크를 매장에 들여놨다면, 초기에는 손님들이 어색해하더라도 직접 버튼을 누르도록 옆에서 친절히 가르쳐주며(변화 관리) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 주문을 서서히 닫아야 한다. 기계가 있다고 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 주문을 계속 받아주면 키오스크는 비싼 고철 덩어리가 된다.
 
@@ -90,7 +90,7 @@ tags = ["studynote-it-management"]
 
 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 포털은 단순한 IT 지원 도구가 아니라 전사적 디지털 혁신의 시작점이다. 티켓 처리 비용(Cost per Ticket)을 극적으로 낮추고, 섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))를 방지하며, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청 이력을 데이터화하여 향후 인프라 용량 산정과 예산 계획의 강력한 근거로 활용할 수 있다.
 
-앞으로는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI가 포털과 결합되어, 사용자가 구체적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명을 몰라도 "내일 출장 가는데 필요한 세팅 다 해줘"라는 한마디면 항공권 신청부터 사내 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 발급, 보안 교육 이수 처리까지 한 번에 완료되는 **[초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)(Hyper-automation)** 포털 플랫폼으로 진화할 것이다.
+앞으로는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI가 포털과 결합되어, 사용자가 구체적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)명을 몰라도 "내일 출장 가는데 필요한 세팅 다 해줘"라는 한마디면 항공권 신청부터 사내 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 발급, 보안 교육 이수 처리까지 한 번에 완료되는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">초자동화</a>(Hyper-automation)</strong> 포털 플랫폼으로 진화할 것이다.
 
 - **📢 섹션 요약 비유**: 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 포털은 IT 부서의 든든한 무인 경비원이자 안내 데스크다. 뻔하고 반복적인 질문은 무인 데스크가 24시간 친절하게 다 처리해 주므로, 진짜 요원들은 숨겨진 거대한 폭탄(핵심 장애)을 해체하는 일에만 온전히 집중할 수 있게 된다.
 
@@ -107,22 +107,24 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 L1 헬프데스크 (전화/이메일 의존)
-    │
-    ▼
-단순 웹 기반 헬프데스크 게시판 (티켓 시스템)
-    │
-    ▼
-셀프 서비스 포털 (Self-Service Portal)
-(서비스 카탈로그 + 런북 자동화 결합)
-    │
-    ▼
-Shift-Left 전략 · 지식 기반(KB) 연동 자가 해결
-    │
-    ▼
-AI 기반 가상 에이전트 (Virtual Agent) 및 초자동화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 L1 헬프데스크 (전화/이메일 의존)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단순 웹 기반 헬프데스크 게시판 (티켓 시스템)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셀프 서비스 포털 (Self-Service Portal)</div>
+<div class="kb-diagram-note">(서비스 카탈로그 + 런북 자동화 결합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shift-Left 전략 · 지식 기반(KB) 연동 자가 해결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 가상 에이전트 (Virtual Agent) 및 초자동화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 수동적인 전화 응대에서 벗어나, 웹 포털 자동화를 거쳐 AI가 사용자의 의도를 선제적으로 처리해 주는 스마트 ITSM으로 진화하는 과정을 보여준다.
 

@@ -19,19 +19,23 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-VTEP은 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 가상 터널이 시작되고 끝나는 **양쪽 끝단의 포장/해체 전담 장치(또는 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))**입니다.
+VTEP은 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 가상 터널이 시작되고 끝나는 <strong>양쪽 끝단의 포장/해체 전담 장치(또는 소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)</strong>입니다.
 
 - **Encapsulation (포장하기)**: 1번 서버(가상머신)가 그냥 평범한 L2 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 패킷을 위로 올려보냅니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 VTEP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 이걸 낚아채서 겉면에 `VXLAN 헤더(VNI 100번) + UDP + IP 헤더`를 미친 듯이 칭칭 감싸서 외부 인터넷(언더레이 망)으로 뻥 차버립니다.
 - **Decapsulation (포장 벗기기)**: 반대편 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 VTEP이 외부에서 날아온 뚱뚱한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 박스를 받습니다. 겉봉투를 북북 찢어버리고, 그 안에 들어있던 오리지널 L2 패킷만 쏙 빼서 자기 밑에 있는 서버로 조용히 넘겨줍니다.
 
-```text
-[퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
-[BDI와 VTEP]
-    │
-    └──▶ [BUM 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BDI와 VTEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BUM 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BDI와 VTEP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,22 +45,26 @@ VTEP은 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vx
 
 VTEP이 박스를 뜯고 나면, 알맹이 패킷(L2)을 만납니다. 근데 이 패킷이 같은 방(서브넷) 애들끼리 노는 건지, 아니면 아예 다른 IP 대역([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))으로 넘어가야 하는 놈인지 어떻게 처리할까요? 이때 BDI가 나섭니다.
 
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에서 옛날의 낡은 VLAN을 대체하는 더 유연한 **가상의 논리적 방(L2 방송 구역, Broadcast [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))** 단위입니다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에서 옛날의 낡은 VLAN을 대체하는 더 유연한 <strong>가상의 논리적 방(L2 방송 구역, Broadcast <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a>)</strong> 단위입니다.
 - **VNI 매핑**: 관리자는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 "[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 이름표 VNI 100번을 달고 온 놈들은, 전부 우리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안의 10번 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방으로 싹 다 모아라!"라고 맵핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))을 설정해 둡니다.
 
 ### 2. BDI (인터페이스)의 마법 (L2 ➜ L3 점프)
-- BDI는 이 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방에 달린 **논리적인 가상 IP 라우터 문(SVI의 진화형)**입니다.
+- BDI는 이 [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 방에 달린 <strong>논리적인 가상 IP 라우터 문(SVI의 진화형)</strong>입니다.
 - **동작**: 같은 VNI 100번(같은 서브넷)끼리 통신할 때는 그냥 방 안에서 스위칭(L2)으로 끝냅니다. 
-- 그런데 100번 방에 있던 서버가 200번 방(다른 IP 대역)에 있는 서버랑 대화하고 싶어 합니다! 이때 패킷이 방 천장에 있는 가상의 문 **BDI (가상 게이트웨이 IP, 예: 192.168.1.1)**를 쾅 치고 올라가면, BDI가 이를 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(L3) 패킷으로 변환하여 다른 VNI 대역으로 마법처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 점프를 튕겨줍니다. ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 환경의 핵심 라우터 엔진)
+- 그런데 100번 방에 있던 서버가 200번 방(다른 IP 대역)에 있는 서버랑 대화하고 싶어 합니다! 이때 패킷이 방 천장에 있는 가상의 문 <strong>BDI (가상 게이트웨이 IP, 예: 192.168.1.1)</strong>를 쾅 치고 올라가면, BDI가 이를 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(L3) 패킷으로 변환하여 다른 VNI 대역으로 마법처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 점프를 튕겨줍니다. ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 환경의 핵심 라우터 엔진)
 
-```text
-[퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
-[BDI와 VTEP]
-    │
-    └──▶ [BUM 트래픽]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BDI와 VTEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BUM 트래픽</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: BDI와 VTEP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,8 +74,8 @@ VTEP이 박스를 뜯고 나면, 알맹이 패킷(L2)을 만납니다. 근데 �
 
 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(802번) 내부에서 일어나는 일격 필살 콤보입니다.
 
-1. **인바운드 (서버 ➜ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))**: 밑에 있는 서버 A가 데이터를 쏩니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이를 받아 **BDI**를 거쳐 어느 가상망(VNI)으로 보낼지 정합니다. 그 후 **VTEP**이 박스 포장을 해서(Encap) Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위로 쏴버립니다.
-2. **아웃바운드 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ 서버)**: 허공에서 날아온 택배 박스를 **VTEP**이 뜯습니다(Decap). 까보니 VNI 100번이 적혀 있습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이를 100번 **[Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** 방으로 던집니다. 패킷은 그 방에 꽂혀있는 진짜 물리적 서버 B로 무사히 도달합니다.
+1. <strong>인바운드 (서버 ➜ <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 밑에 있는 서버 A가 데이터를 쏩니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이를 받아 <strong>BDI</strong>를 거쳐 어느 가상망(VNI)으로 보낼지 정합니다. 그 후 <strong>VTEP</strong>이 박스 포장을 해서(Encap) Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위로 쏴버립니다.
+2. <strong>아웃바운드 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> ➜ 서버)</strong>: 허공에서 날아온 택배 박스를 <strong>VTEP</strong>이 뜯습니다(Decap). 까보니 VNI 100번이 적혀 있습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이를 100번 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a></strong> 방으로 던집니다. 패킷은 그 방에 꽂혀있는 진짜 물리적 서버 B로 무사히 도달합니다.
 
 BDI와 VTEP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…가 기반 조건을 만든다면, BDI와 VTEP는 그 위에서 핵심 메커니즘을 구현하고, BUM 트래픽은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -77,7 +85,7 @@ BDI와 VTEP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: VTEP과 BDI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 있는 '물류 택배 분류장'입니다. **VTEP**은 건물 정문에 서 있는 '포장/해체 전담 알바생'입니다. 택배차가 오면 큰 박스를 뜯어(Decap) 내용물을 꺼내고, 밖으로 짐이 나갈 때는 튼튼한 국제 택배 상자에 포장(Encap)해 줍니다. 박스를 뜯고 나면 안에 편지(L2 패킷)들이 쏟아지는데, 이걸 동네별로 배달해 줘야 합니다. 이때 **BDI(가상 우체통 구멍)**가 나섭니다. BDI는 편지 내용물을 보고, "이건 같은 강남구(같은 VNI) 편지니까 그냥 오토바이로 돌려!" 하고 L2 배달을 시키고, "어? 이건 부산(다른 VNI IP)으로 가는 거네?" 싶으면 편지를 BDI라는 마법의 구멍(L3 라우터)으로 쑥 밀어 넣어 다른 지역망으로 점프시켜 버리는 완벽한 사내 우편 분류소의 핵심 기어입니다.
+- **📢 섹션 요약 비유**: VTEP과 BDI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 있는 '물류 택배 분류장'입니다. <strong>VTEP</strong>은 건물 정문에 서 있는 '포장/해체 전담 알바생'입니다. 택배차가 오면 큰 박스를 뜯어(Decap) 내용물을 꺼내고, 밖으로 짐이 나갈 때는 튼튼한 국제 택배 상자에 포장(Encap)해 줍니다. 박스를 뜯고 나면 안에 편지(L2 패킷)들이 쏟아지는데, 이걸 동네별로 배달해 줘야 합니다. 이때 <strong>BDI(가상 우체통 구멍)</strong>가 나섭니다. BDI는 편지 내용물을 보고, "이건 같은 강남구(같은 VNI) 편지니까 그냥 오토바이로 돌려!" 하고 L2 배달을 시키고, "어? 이건 부산(다른 VNI IP)으로 가는 거네?" 싶으면 편지를 BDI라는 마법의 구멍(L3 라우터)으로 쑥 밀어 넣어 다른 지역망으로 점프시켜 버리는 완벽한 사내 우편 분류소의 핵심 기어입니다.
 
 ---
 
@@ -119,15 +127,19 @@ BDI와 VTEP는 [데이터센터](/knowledge-base/studynote/03_network/16_data_ce
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
-    │
-    ▼
-[현재 개념: BDI와 VTEP]
-    │
-    ├──▶ [확장 A: BUM 트래픽]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BDI와 VTEP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BUM 트래픽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 BDI와 VTEP는 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…에서 출발해 현재 메커니즘을 정교화하고, 이후 BUM 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

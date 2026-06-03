@@ -33,24 +33,25 @@ L1/L2 규제 ([Regularization](/knowledge-base/studynote/14_data_engineering/03_
 
 | 구성 요소 | 수학적 의미 | 모델에 미치는 영향 |
 | :--- | :--- | :--- |
-| **기존 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)** | 정답과 예측값의 오차 ([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/), [Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 등) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 적합도 향상 |
+| <strong>기존 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a></strong> | 정답과 예측값의 오차 ([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/), [Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 등) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 적합도 향상 |
 | **L1 규제항** | $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \sum \|W\|$ ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값의 합, [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | 덜 중요한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 '0'으로 만듦 (희소성) |
 | **L2 규제항** | $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \sum W^2$ ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱의 합, Ridge) | 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 강하게 억눌러 '0'에 가깝게 평탄화 (감쇠) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│             규제 기법에 따른 가중치 최적화 경로             │
-├──────────────────────────────────────────────────────────────┤
-│ [오차 최소화 구역]                    [가중치 패널티 구역] │
-│                                                            │
-│ 손실(Loss) 작아짐  ◀──── 갈등 ────▶ 가중치(W) 커지려 함   │
-│                                                            │
-│ L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 ─▶ 가중치 = 0   │
-│ L2 규제 (원 꼴)     : 교점이 중간에서 발생  ─▶ 가중치 억제  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-딥러닝에서는 주로 L2 규제를 사용하며, 이를 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠 ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Decay)**라고 부른다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트할 때마다 기존 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 값에서 일정 비율을 강제로 덜어냄으로써(Decay), 어떤 뉴런 하나가 독단적으로 결과값을 지배하지 못하게 모든 뉴런이 골고루 책임을 나누도록 만든다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제 기법에 따른 가중치 최적화 경로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오차 최소화 구역</div><div class="kb-diagram-node">가중치 패널티 구역</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실(Loss) 작아짐 ◀ 갈등 ▶ 가중치(W) 커지려 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 ─▶ 가중치 = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 규제 (원 꼴) : 교점이 중간에서 발생 ─▶ 가중치 억제</div></div>
+</div>
+</div>
+
+
+
+딥러닝에서는 주로 L2 규제를 사용하며, 이를 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 감쇠 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Decay)</strong>라고 부른다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트할 때마다 기존 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 값에서 일정 비율을 강제로 덜어냄으로써(Decay), 어떤 뉴런 하나가 독단적으로 결과값을 지배하지 못하게 모든 뉴런이 골고루 책임을 나누도록 만든다.
 
 - **📢 섹션 요약 비유**: L1은 성과가 안 나오는 직원의 책상을 완전히 빼버리는 극단적 구조조정([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0)이고, L2는 100억씩 독식하는 임원들의 연봉을 대폭 깎아서 모두가 적당한 연봉을 받게 만드는 체질 개선([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 평탄화)이다.
 
@@ -65,9 +66,9 @@ L1 규제([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/1
 | **제약 형태** | 절댓값 (마름모 형태 경계) | 제곱합 (원 형태 경계) |
 | **특성 선택 기능** | 있음 (중요치 않은 변수의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0이 됨) | 없음 (0에 한없이 가까워질 뿐 0이 되진 않음) |
 | **장점** | 불필요한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 제거하여 모델 해석력(희소성) 증가 | 미분이 수월하며 전체적인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 크기를 안정적으로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| **딥러닝 활용도** | 미분 불가능 지점과 정보 유실 문제로 잘 안 쓰임 | **딥러닝 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 절대 표준 ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Decay)** |
+| **딥러닝 활용도** | 미분 불가능 지점과 정보 유실 문제로 잘 안 쓰임 | <strong>딥러닝 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>의 절대 표준 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Decay)</strong> |
 
-L1 규제는 수만 개의 변수 중 진짜 핵심만 남기는 희소 모델(Sparse Model)이 필요할 때 적합하다. 반면, L2 규제는 이미지 픽셀처럼 모든 입력 정보가 서로 연관되어 조금씩 기여해야 하는 환경에서 특정 노이즈 픽셀이 결과를 지배하는 현상을 완화하는 데 탁월하다. 이 둘을 혼합한 **[엘라스틱 넷](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) ([Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/))**이라는 기법도 존재한다.
+L1 규제는 수만 개의 변수 중 진짜 핵심만 남기는 희소 모델(Sparse Model)이 필요할 때 적합하다. 반면, L2 규제는 이미지 픽셀처럼 모든 입력 정보가 서로 연관되어 조금씩 기여해야 하는 환경에서 특정 노이즈 픽셀이 결과를 지배하는 현상을 완화하는 데 탁월하다. 이 둘을 혼합한 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">엘라스틱 넷</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/">Elastic Net</a>)</strong>이라는 기법도 존재한다.
 
 - **📢 섹션 요약 비유**: L1 규제는 짐이 무거울 때 쓸모없는 물건을 바다에 던져버리는(0으로 만듦) 선장이고, L2 규제는 모든 짐을 조금씩 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서(평탄화) 배 전체의 무게 중심을 고르게 맞추는 항해사와 같다.
 
@@ -80,7 +81,7 @@ L1 규제는 수만 개의 변수 중 진짜 핵심만 남기는 희소 모델(S
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **과적합 징후가 명확한가?** 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정확도와 실전(Test) 정확도의 격차가 비정상적으로 크다면 L2 규제 파라미터([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Decay)를 추가한다.
 2. **하이퍼파라미터 $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$ 값이 적절한가?** $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$가 너무 크면 모델이 너무 단순해지는 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/))이 발생하고, 너무 작으면 규제 효과가 없다.
-3. **입력 변수 중 의미 없는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많은가?** 유전자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)는 수백만 개인데 정답과 무관한 노이즈가 대부분이라면 L1 규제를 통해 변수를 과감히 쳐낸다.
+3. <strong>입력 변수 중 의미 없는 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 많은가?</strong> 유전자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)는 수백만 개인데 정답과 무관한 노이즈가 대부분이라면 L1 규제를 통해 변수를 과감히 쳐낸다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 딥러닝에서 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))과 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))를 적용하면서 무작정 큰 L2 규제를 중복해서 걸어버리는 설계. (규제가 중첩되면 학습이 아예 멈춰버리는 언더피팅의 늪에 빠진다.)
@@ -104,29 +105,28 @@ L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_dat
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))** | 규제 기법이 해결하고자 하는 가장 근본적인 문제 현상 |
+| <strong>과적합 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong> | 규제 기법이 해결하고자 하는 가장 근본적인 문제 현상 |
 | **비용 함수 (Cost Function)** | 오차(Loss)와 규제항(Penalty)이 더해져 최종적으로 최소화해야 할 수학적 목표 |
-| **[드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/))** | 수식을 변형하는 L1/L2와 달리, 학습 중 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 꺼서 과적합을 막는 아키텍처적 규제 기법 |
-| **[배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 고르게 만들어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 폭발을 간접적으로 막는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 보조 수단 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/">드롭아웃</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/">Dropout</a>)</strong> | 수식을 변형하는 L1/L2와 달리, 학습 중 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 꺼서 과적합을 막는 아키텍처적 규제 기법 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 고르게 만들어 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 폭발을 간접적으로 막는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 보조 수단 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-오차 최소화 집착 (과적합 발생)
-    │
-    ▼
-손실 함수 + 패널티 항 도입 (Regularization)
-    │
-    ├─────────┬─────────┐
-    ▼         ▼         ▼
-  L1 규제   L2 규제   Elastic Net
- (Lasso)   (Ridge)  (L1+L2 혼합)
-    │         │
- 희소모델   가중치감쇠
-    │         │
-    ▼         ▼
-최신 딥러닝의 일반화 최적화 (Dropout, Batch Norm과 결합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">오차 최소화 집착 (과적합 발생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">손실 함수 + 패널티 항 도입 (Regularization)</div>
+<div class="kb-diagram-note">L1 규제 L2 규제 Elastic Net</div>
+<div class="kb-diagram-note">(Lasso) (Ridge) (L1+L2 혼합)</div>
+<div class="kb-diagram-note">희소모델 가중치감쇠</div>
+<div class="kb-diagram-note">최신 딥러닝의 일반화 최적화 (Dropout, Batch Norm과 결합)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

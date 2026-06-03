@@ -25,7 +25,7 @@ tags = ["studynote-ict-convergence"]
 - **최적성 불보장**: 인간의 직관으로 최적 프롬프트 탐색 불가
 - **유지보수 부담**: 모델 업데이트 시 모든 프롬프트 재검토 필요
 
-DSPy(Stanford NLP, 2023)는 이 문제를 컴파일러 패러다임으로 해결한다: **프로그램 = 선언(Signature) + [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))**, 최적화는 Teleprompter(최적화기)가 담당.
+DSPy(Stanford NLP, 2023)는 이 문제를 컴파일러 패러다임으로 해결한다: <strong>프로그램 = 선언(Signature) + <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>)</strong>, 최적화는 Teleprompter(최적화기)가 담당.
 
 - **📢 섹션 요약 비유**: DSPy는 어셈블리(프롬프트)를 직접 짜는 대신 고수준 언어(Signature)로 의도를 선언하면 컴파일러가 최적 어셈블리를 생성하는 방식이다.
 
@@ -33,30 +33,25 @@ DSPy(Stanford NLP, 2023)는 이 문제를 컴파일러 패러다임으로 해결
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌────────────────────────────────────────────────────┐
-│                DSPy 아키텍처                        │
-│                                                    │
-│  개발자 선언                                        │
-│  ┌─────────────────────────────────────┐           │
-│  │  Signature: "질문 → 답변"            │           │
-│  │  Module: ChainOfThought, Predict    │           │
-│  └──────────────┬──────────────────────┘           │
-│                 │                                  │
-│  최적화기(Teleprompter)                             │
-│  ┌──────────────▼──────────────────────┐           │
-│  │  BootstrapFewShot: 자동 예제 생성   │           │
-│  │  MIPRO: 명령어+예제 동시 최적화     │           │
-│  └──────────────┬──────────────────────┘           │
-│                 │                                  │
-│  컴파일된 프로그램(Compiled Program)                │
-│  ┌──────────────▼──────────────────────┐           │
-│  │  최적 프롬프트 + 퓨샷 예제 + 구조  │           │
-│  └─────────────────────────────────────┘           │
-└────────────────────────────────────────────────────┘
-```
 
-**핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DSPy 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 선언</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signature: "질문 → 답변"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module: ChainOfThought, Predict</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화기(Teleprompter)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BootstrapFewShot: 자동 예제 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPRO: 명령어+예제 동시 최적화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일된 프로그램(Compiled Program)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 프롬프트 + 퓨샷 예제 + 구조</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
 
 **Signature(서명)**: 입출력 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 선언
 ```python
@@ -66,7 +61,7 @@ class QA(dspy.Signature):
     answer: str = dspy.OutputField()
 ```
 
-**[Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))**: 실행 단계 선언
+<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>)</strong>: 실행 단계 선언
 - `dspy.Predict`: 단순 예측
 - `dspy.ChainOfThought`: 단계별 추론([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))
 - `dspy.ReAct`: 도구 사용 에이전트
@@ -95,7 +90,7 @@ class QA(dspy.Signature):
 | 학습 곡선 | 중간 | 낮음 | 낮음 |
 | 주요 강점 | 자동 최적화, 연구 | 빠른 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 특화 |
 
-**DSPy [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 예시**
+<strong>DSPy <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 예시</strong>
 
 ```python
 class RAG(dspy.Module):
@@ -118,7 +113,7 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 파이프라인 통합**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/">LLMOps</a> 파이프라인 통합</strong>
 
 1. **개발 단계**: Signature + Module로 로직 선언 → [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
 2. **최적화 단계**: Trainset + [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의 → Teleprompter로 오프라인 컴파일
@@ -128,7 +123,7 @@ compiled_rag = teleprompter.compile(RAG(), trainset=trainset)
 **기술사 판단 포인트**
 
 1. **최적화 비용**: MIPRO는 수백~수천 회 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 호출 → 비용 예산 수립 필수
-2. **[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계**: DSPy 최적화 품질은 평가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에 완전히 의존 → 비즈니스 목표와 직결된 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의
+2. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 설계</strong>: DSPy 최적화 품질은 평가 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에 완전히 의존 → 비즈니스 목표와 직결된 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 정의
 3. **모델 교체 대응**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 동일 Trainset으로 재컴파일 → 수동 재작업 불필요
 4. **연구/프로덕션 갭**: DSPy는 연구 환경에서 검증됨 → 대규모 트래픽 환경은 추가 엔지니어링 필요
 

@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 사용자가 직접 관리하는 영역을 어디까지 두느냐에 따라 계층적으로 분류된다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(On-Premises)에서는 하드웨어부터 애플리케이션까지 모두 직접 관리하지만, 클라우드로 이동할수록 벤더가 더 많은 계층을 대신 운영한다.
 
-**[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 스펙트럼**:
+<strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 모델 스펙트럼</strong>:
 - [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)(Infrastructure [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): CPU, 메모리, 스토리지, 네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 제공
 - [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)(Platform [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 런타임, 미들웨어, DB, 배포 파이프라인 제공
 - [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)(Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)): 완성된 애플리케이션을 구독 방식으로 제공
@@ -38,20 +38,22 @@ tags = ["studynote-ict-convergence"]
 
 **책임 공유 모델(Shared Responsibility Model)**:
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│            On-Premises → IaaS → PaaS → SaaS → FaaS          │
-├───────────────┬──────────────────────────────────────────────┤
-│  계층          │  On-Prem  IaaS   PaaS   SaaS   FaaS         │
-├───────────────┼──────────────────────────────────────────────┤
-│  Application  │  고객      고객    고객    벤더    벤더         │
-│  Runtime      │  고객      고객    벤더    벤더    벤더         │
-│  OS           │  고객      고객    벤더    벤더    벤더         │
-│  Virtualize   │  고객      벤더    벤더    벤더    벤더         │
-│  Hardware     │  고객      벤더    벤더    벤더    벤더         │
-└───────────────┴──────────────────────────────────────────────┘
-  고객 관리 ◀──────────────────────────── 벤더 관리 ▶
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Premises → IaaS → PaaS → SaaS → FaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층</div><div class="kb-diagram-cell">On-Prem IaaS PaaS SaaS FaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div><div class="kb-diagram-cell">고객 고객 고객 벤더 벤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">고객 고객 벤더 벤더 벤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">고객 고객 벤더 벤더 벤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtualize</div><div class="kb-diagram-cell">고객 벤더 벤더 벤더 벤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware</div><div class="kb-diagram-cell">고객 벤더 벤더 벤더 벤더</div></div>
+<div class="kb-diagram-note">고객 관리 ◀ 벤더 관리 ▶</div>
+</div>
+</div>
+
+
 
 | 모델 | 제어권 | 관리 부담 | 대표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 적합 사례 |
 |:---|:---:|:---:|:---|:---|
@@ -69,11 +71,11 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 
 ## Ⅲ. 비교 및 연결
 
-**[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) vs [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 선택 기준**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> vs <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/">PaaS</a> 선택 기준</strong>:
 - 실행 시간이 짧고(< 15분), 이벤트 기반 → [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)
 - 장기 실행 프로세스, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 유지 필요 → [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) 또는 CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
-**BaaS와 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 결합** = [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 풀스택: 프론트엔드는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), 백엔드는 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) + [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) + Cognito 조합으로 서버 관리 없이 완전한 앱 구성 가능.
+<strong>BaaS와 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a> 결합</strong> = [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 풀스택: 프론트엔드는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), 백엔드는 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) + [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) + Cognito 조합으로 서버 관리 없이 완전한 앱 구성 가능.
 
 - **📢 섹션 요약 비유**: FaaS와 PaaS의 차이는 대리운전(호출 시만 요금)과 전속 기사(월 고정급) 차이다.
 
@@ -100,7 +102,7 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 - **민첩성 향상**: [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 활용으로 배포 주기 단축(주 → 시간 단위)
 - **보안 명확성**: 책임 공유 모델로 보안 공백 방지
 
-결국 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/) 선택은 **기술 문제가 아닌 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 결정**이다.
+결국 [클라우드 서비스 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/201_cloud_service_models_iaas_paas_saas/) 선택은 <strong>기술 문제가 아닌 비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 결정</strong>이다.
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 도구 선택이다. 못 박기에 드릴을 쓰지 않듯, 워크로드에 맞는 모델을 골라야 비용과 복잡성을 동시에 잡는다.
 

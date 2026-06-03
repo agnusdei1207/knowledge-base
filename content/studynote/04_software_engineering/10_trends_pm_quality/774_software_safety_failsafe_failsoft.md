@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 과거에는 소프트웨어가 화면에 그림을 그리고 계산을 하는 용도로 쓰였지만, 오늘날에는 자율주행 자동차의 브레이크를 제어하고 심장 박동기를 멈추게 할 수 있다. 소프트웨어의 버그가 사람을 직접 죽이는 시대가 온 것이다.
 
-그래서 엔지니어들은 기계 공학에서 쓰던 '안전(Safety)' 개념을 소프트웨어로 가져왔다. **"우리 코드는 무조건 고장 날 것이다. 그렇다면 고장 나는 그 순간, 이 코드를 어떻게 행동하게 만들 것인가?"** 이것이 고신뢰성 소프트웨어가 갖춰야 할 **안전성(Safety) 아키텍처**의 출발점이다.
+그래서 엔지니어들은 기계 공학에서 쓰던 '안전(Safety)' 개념을 소프트웨어로 가져왔다. **"우리 코드는 무조건 고장 날 것이다. 그렇다면 고장 나는 그 순간, 이 코드를 어떻게 행동하게 만들 것인가?"** 이것이 고신뢰성 소프트웨어가 갖춰야 할 <strong>안전성(Safety) 아키텍처</strong>의 출발점이다.
 
 - **📢 섹션 요약 비유**: 건물에 불이 나는 것을 100% 막을 수는 없다(버그 발생). 하지만 불이 났을 때 스프링클러가 터지고 엘리베이터가 1층으로 내려와 문이 열리도록([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 진입) 건물을 미리 설계해 두면 사람들은 살 수 있다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 소프트웨어 안전성 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/),의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 안전성 Fail-Safe,                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 안전성 Fail-Safe,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 소프트웨어 안전성 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/),가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ tags = ["studynote-software-engineering"]
 
 | 비교 항목 | 안전성 (Safety) - 예: [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) | 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) - 예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) |
 |:---|:---|:---|
-| **[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상** | **시스템으로부터 사람/환경을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | **해커/외부로부터 시스템을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | <strong>시스템으로부터 사람/환경을 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | <strong>해커/외부로부터 시스템을 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> |
 | **위협의 근원** | 내부의 버그, 기계적 고장 (의도 없음) | 악의적인 해커, [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) (의도 있음) |
 | **실패 시 결과**| 기계 오작동에 의한 물리적 부상, 인명 피해 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염 |
 | **주요 적용처** | 자동차, 항공기, 원자력 발전, 의료 기기 | 웹 서버, 금융 DB, 스마트폰 앱 |
 
-하지만 최근 해커가 자동차를 해킹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 뚫림)해서 브레이크를 원격으로 잠가버리는(Safety 파괴) 사고가 발생하면서, 보안과 안전성이 융합된 **사이버-물리 시스템([CPS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/)) 아키텍처**가 대세로 자리 잡고 있다.
+하지만 최근 해커가 자동차를 해킹([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 뚫림)해서 브레이크를 원격으로 잠가버리는(Safety 파괴) 사고가 발생하면서, 보안과 안전성이 융합된 <strong>사이버-물리 시스템(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/167_cps_cyber_physical_system/">CPS</a>) 아키텍처</strong>가 대세로 자리 잡고 있다.
 
 - **📢 섹션 요약 비유**: 안전성(Safety)은 우리 집 사나운 개가 가족을 물지 못하게 목줄을 채우는 것이고, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 밖에서 도둑이 우리 집에 들어오지 못하게 담장을 높이는 것이다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 시스템에 Fail-Safe와 [Fail-Soft](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/460_fail_soft/) 아키텍처를 적재적소에 배치하면, 부분적인 장애가 전체 시스템의 마비(Cascading Failure)로 이어지는 도미노 현상을 완벽하게 끊어낼 수 있다.
 
-결론적으로 기술 리더는 완벽한 소프트웨어를 만들겠다는 오만을 버려야 한다. 우주선과 원자력 발전소의 코드를 짜는 마인드로, **"이 코드가 0.1초 뒤에 알 수 없는 이유로 터졌을 때, 우리 고객과 시스템이 가장 안전하게 착륙할 수 있는 매트릭스(안전망)가 깔려있는가?"**를 묻고 또 물어야 한다. 그것이 진정한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '책임감'이다.
+결론적으로 기술 리더는 완벽한 소프트웨어를 만들겠다는 오만을 버려야 한다. 우주선과 원자력 발전소의 코드를 짜는 마인드로, <strong>"이 코드가 0.1초 뒤에 알 수 없는 이유로 터졌을 때, 우리 고객과 시스템이 가장 안전하게 착륙할 수 있는 매트릭스(안전망)가 깔려있는가?"</strong>를 묻고 또 물어야 한다. 그것이 진정한 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '책임감'이다.
 
 - **📢 섹션 요약 비유**: 서커스에서 공중그네를 타는 묘기(비즈니스 기능)도 중요하지만, 진짜 관객이 안심하고 볼 수 있는 이유는 그네 밑에 튼튼하고 넓게 쳐진 안전그물([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) 때문이다. 아키텍트는 묘기를 부리기 전에 안전그물부터 설계해야 한다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 안전성 Fail-Safe, Fail-Soft 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 안전성 Fail-Safe, Fail-Soft 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

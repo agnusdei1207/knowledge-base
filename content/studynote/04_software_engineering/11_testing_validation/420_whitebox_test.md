@@ -20,23 +20,25 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 소프트웨어를 테스트하는 방법은 두 가지 관점으로 나뉩니다.
-바깥에서 명세서만 보고 결과물을 확인하는 것이 블랙박스(Black-box)라면, 아예 뚜껑을 열어 속이 다 비치는 유리상자(Glass-box 또는 Clear-box)로 취급하고 **개발자가 짠 제어 흐름([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Flow)** 하나하나에 전기를 통과시켜 보는 기법이 바로 **화이트박스 테스팅(White-box Testing)**입니다.
+바깥에서 명세서만 보고 결과물을 확인하는 것이 블랙박스(Black-box)라면, 아예 뚜껑을 열어 속이 다 비치는 유리상자(Glass-box 또는 Clear-box)로 취급하고 <strong>개발자가 짠 제어 흐름(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>)과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Flow)</strong> 하나하나에 전기를 통과시켜 보는 기법이 바로 <strong>화이트박스 테스팅(White-box Testing)</strong>입니다.
 
 현대 시스템에서는 블랙박스 테스트만 통과했다고 해서 배포할 수 없습니다. 왜냐하면, 블랙박스는 "어쨌든 잘 돌아감!"이라는 결과를 보장하지만, 속 코드는 `if(a=1) { ... }` 괄호 하나가 실수로 비워져 있거나, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))가 발생하는 더러운 스파게티 코드로 떡칠되어 있을 수 있기 때문입니다. 언젠가 시스템은 내부 무게를 못 이기고 붕괴합니다. 화이트박스는 이 내부 건물의 철근과 콘크리트 상태를 X-ray로 단층촬영하는 것과 같습니다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                화이트박스 테스트 vs 블랙박스 테스트 비교             │
-├──────────────────────────────────────────────────────────────┤
-│ [블랙박스 테스트 (명세 기반)]           [화이트박스 테스트 (구조 기반)] │
-│                                                              │
-│ - 기준: 기획자의 요구사항 명세서      - 기준: 개발자의 소스코드 (C, Java) │
-│ - 주체: QA, 비즈니스 사용자          - 주체: 개발자 자신, 화이트박스 QA│
-│ - 도구: 동등분할, 경계값 분석        - 도구: 제어흐름, 커버리지 툴(JaCoCo)│
-│ - 관심: "음료수가 버튼 누르면 나옴?"  - 관심: "내부 모터가 5바퀴 정확히 돎?"│
-│ - 오류: 명세 불일치(Specification)   - 오류: 논리(Logic) 및 문법, 무한루프│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화이트박스 테스트 vs 블랙박스 테스트 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블랙박스 테스트 (명세 기반)</div><div class="kb-diagram-node">화이트박스 테스트 (구조 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기준: 기획자의 요구사항 명세서 - 기준: 개발자의 소스코드 (C, Java)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주체: QA, 비즈니스 사용자 - 주체: 개발자 자신, 화이트박스 QA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 도구: 동등분할, 경계값 분석 - 도구: 제어흐름, 커버리지 툴(JaCoCo)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관심: "음료수가 버튼 누르면 나옴?" - 관심: "내부 모터가 5바퀴 정확히 돎?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오류: 명세 불일치(Specification) - 오류: 논리(Logic) 및 문법, 무한루프</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 좋은 레스토랑인지 알기 위해 블랙박스는 "테이블에 앉아 스테이크를 먹어보고 맛있네!" 하고 평가하는 손님이라면, 화이트박스는 주방 안으로 치고 들어가서 "고기 숙성고 온도는 맞는지, 도마는 깨끗한지, 타이머는 5분에 세팅되어 있는지" 깐깐하게 요리 과정을 위생 검열하는 식약처 직원입니다.
 
@@ -52,10 +54,10 @@ tags = ["studynote-software-engineering"]
 
 화이트박스는 소스코드를 분석하기 위해 코드를 '[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))'로 치환하여 추적합니다.
 
-1. **제어 흐름 테스팅 ([Control Flow Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/421_control_flow_testing/))**
+1. <strong>제어 흐름 테스팅 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/421_control_flow_testing/">Control Flow Testing</a>)</strong>
    - 프로그램 내 `if-else`, `while`, `switch`문이 만들어내는 분기점(Node)과 논리의 흐름(Edge)을 그립니다. 모든 논리적인 길(Path)을 소독차 뿜듯이 한 번 이상 지나갔는지 측정합니다. [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/), 분기 커버리지 등이 이에 속합니다.
-2. **[데이터 흐름 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/) ([Data Flow Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/))**
-   - 제어가 아니라 **'변수(Variable)'**의 생애 주기를 쫓아다닙니다. "변수 `x`가 방금 선언(Defined)되었는데 아무 데서도 안 쓰이고(Used) 프로그램이 끝난다!(잉여 메모리)" 또는 "선언도 안 했는데 갑자기 쓰였다!(널 포인터 크래시)" 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기형 징후를 박살 냅니다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/">데이터 흐름 테스팅</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/">Data Flow Testing</a>)</strong>
+   - 제어가 아니라 <strong>'변수(Variable)'</strong>의 생애 주기를 쫓아다닙니다. "변수 `x`가 방금 선언(Defined)되었는데 아무 데서도 안 쓰이고(Used) 프로그램이 끝난다!(잉여 메모리)" 또는 "선언도 안 했는데 갑자기 쓰였다!(널 포인터 크래시)" 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기형 징후를 박살 냅니다.
 
 - **📢 섹션 요약 비유**: 혈관 검사를 할 때, 제어 흐름 테스팅이 "동맥과 정맥이라는 길이 안 막히고 심장(루프)까지 잘 다 뚫려있는가?"를 보는 네비게이션이라면, [데이터 흐름 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/429_data_flow_testing/)은 "피 속에 주사한 영양제(변수값) 성분이 뇌까지 안 흘리고 잘 퍼져 나가는가?"를 쫓아다니는 성분 추적 검사입니다.
 
@@ -78,7 +80,7 @@ tags = ["studynote-software-engineering"]
 화이트박스 테스팅을 해야만 하는 가장 절대적인 이유 중 하나는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 증명입니다.
 예를 들어 `if (age < 0)` 이라는 로직을 짰다면, 블랙박스 테스터는 나이 입력 창에 음수 입력이 안 막혀있으니 당연히 음수를 넣어보고 에러를 발견할 수 있습니다. 
 
-그러나, 소스코드 어딘가에 `if (user_id == "hacker123") { DB_DROP(); }` 같은 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/))나, `while(true)`로 쓰레기 메모리를 갉아먹고 있는 구간, অথবা 아예 어떤 외부 클릭으로도 영원히 닿을 수 없는 미스터리 구역인 **데드 코드(Dead [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))**가 있다면?
+그러나, 소스코드 어딘가에 `if (user_id == "hacker123") { DB_DROP(); }` 같은 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/))나, `while(true)`로 쓰레기 메모리를 갉아먹고 있는 구간, অথবা 아예 어떤 외부 클릭으로도 영원히 닿을 수 없는 미스터리 구역인 <strong>데드 코드(Dead <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>가 있다면?
 이것들은 겉에서 버튼을 눌러보는 테스트로는 1만 년이 지나도 발견되지 않습니다. 오직 화이트박스 커버리지 도구(Coverage Analyzer)를 돌려봤을 때 "어라? 이 30줄짜리 코드 뭉치는 전체 테스트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 단 1번도 불이 안 들어왔네?"라고 탐지(Unreachable [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 탐지)해 주어야만 시스템 내부의 잠재 폭탄을 해체할 수 있습니다.
 
 - **📢 섹션 요약 비유**: 건물 유리창만 잘 닦였는지 쳐다보는 검사관(블랙박스)은 10층 창고 구석 안 보이는 곳에 폭탄이 자라는 걸 모릅니다. 오직 건물 내부의 모든 방에 불을 껐다 켰다 돌며 확인하는 경비원(화이트박스)만이 그 다락방 폭탄을 찾아내어 밖으로 던질 수 있습니다.
@@ -94,7 +96,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 실무에서는 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/)를 별도의 QA 부서에 던지지 않습니다. 코드를 해독하려면 작성자 본인이거나 동료 개발자여야 하기 때문입니다.
-현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 패러다임에서 화이트박스는 **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)(Unit Testing)**의 피와 살이 되며, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) 철학과 완전히 한 몸이 됩니다. 
+현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 패러다임에서 화이트박스는 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(Unit Testing)</strong>의 피와 살이 되며, [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/)) 철학과 완전히 한 몸이 됩니다. 
 
 개발자는 코드를 짜면서 동시에 JUnit, NUnit, pytest 같은 도구로 자기 함수 내부를 찢어발기는 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/) 스크립트를 작성합니다. 코드를 커밋(Commit)하면 [소나큐브](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))나 자코코(JaCoCo) 같은 정적/동적 커버리지 측정 서버가 코드를 물어갑니다. 그리고 "당신의 커밋이 화이트박스 커버리지 80% 미만입니다. 이 쓰레기 코드는 머지(Merge)될 수 없습니다." 라며 매섭게 롤백시켜버립니다. 이것이 바로 선진 IT 기업의 "테스트 강제화 통제(Test Gate)"입니다.
 
@@ -111,7 +113,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅴ. 기대효과 및 결론
 
 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/)는 단순히 코드를 쳐다보는 행위를 넘어, 소프트웨어 품질을 '수학적 퍼센트'로 계량 증명할 수 있는 이과 공학도의 결실입니다.
-항공기 조종, 원자력 발전소 제어, 자율주행 자동차(ISO 26262 기준) 등 소스코드 논리의 단 1%의 미수행(Uncovered)이 수백 명의 목숨을 앗아갈 수 있는 극단적 환경에서 화이트박스는 생명선입니다. 블랙박스가 "고객을 기쁘게 하는가?"를 묻는다면, 화이트박스는 **"코드가 수명을 다할 때까지 스스로 무너지거나 썩지 않고 논리적 결백을 유지할 수 있는가?"**를 심문하는 시스템 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 최후 변호사입니다.
+항공기 조종, 원자력 발전소 제어, 자율주행 자동차(ISO 26262 기준) 등 소스코드 논리의 단 1%의 미수행(Uncovered)이 수백 명의 목숨을 앗아갈 수 있는 극단적 환경에서 화이트박스는 생명선입니다. 블랙박스가 "고객을 기쁘게 하는가?"를 묻는다면, 화이트박스는 <strong>"코드가 수명을 다할 때까지 스스로 무너지거나 썩지 않고 논리적 결백을 유지할 수 있는가?"</strong>를 심문하는 시스템 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 최후 변호사입니다.
 
 - **📢 섹션 요약 비유**: 밖에서 보기에 예쁘고 빠르게 달리는 스포츠카(블랙박스 통과)라도, 엔진 내부 밸브가 잘못 깎여 들어가 있다면 고속도로 한가운데서 폭발합니다. 화이트박스는 자동차를 다 분해해서 피스톤 마모도와 톱니바퀴 이빨이 100% 맞물리는지 설계 도면과 대조하는 무자비한 분해 정비입니다.
 
@@ -134,21 +136,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-화이트박스 테스트 (White-box Test / 구조 기반 테스트) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">화이트박스 테스트 (White-box Test / 구조 기반 테스트) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

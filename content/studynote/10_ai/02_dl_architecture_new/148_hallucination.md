@@ -30,28 +30,28 @@ tags = ["studynote-ai"]
 
 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)이 발생하는 근본 원인은 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 아키텍처를 기반으로 한 언어 모델의 수학적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메커니즘 그 자체에 내재되어 있다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│           LLM의 확률적 토큰 생성과 할루시네이션 발생 원리          │
-├─────────────────────────────────────────────────────────────┤
-│  [사용자 프롬프트]: "대한민국의 제100대 대통령은 누구인가?"          │
-│                                                             │
-│  [ 모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!) ]             │
-│    1. "대한민국의" ─▶ 2. "제100대" ─▶ 3. "대통령은"              │
-│                                                             │
-│  [ 확률적 연결 (통계적 말 이어붙이기) ]                           │
-│   ──▶ "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)             │
-│                                                             │
-│  [ 최종 출력 ]: "대한민국의 제100대 대통령은 이순신입니다."        │
-│   * 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운  │
-│     단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.         │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM의 확률적 토큰 생성과 할루시네이션 발생 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 프롬프트</div><div class="kb-diagram-note">: "대한민국의 제100대 대통령은 누구인가?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "대한민국의" ─▶ 2. "제100대" ─▶ 3. "대통령은"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">확률적 연결 (통계적 말 이어붙이기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 출력</div><div class="kb-diagram-note">: "대한민국의 제100대 대통령은 이순신입니다."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.</div></div>
+</div>
+</div>
+
+
 
 **발생 원인 분석**:
-1. **오토레그레시브([Auto-Regressive](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/)) 구조의 한계**: LLM은 팩트를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 게 아니라 그저 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 다음 단어를 예측한다. 한 번 엉뚱한 단어를 내뱉으면 그 뒤 문장 전체가 거짓말을 정당화하는 방향으로 소설을 쓰게 된다(Snowball Effect).
-2. **학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 오염 및 편향**: 학습한 인터넷 텍스트 자체가 거짓 정보나 편향을 담고 있으면 모델은 이를 진실로 학습한다.
-3. **정보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 손실 (Parametric Memory)**: 페타바이트급 지식을 신경망 파라미터([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))라는 좁은 공간에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 기억하다 보니, 세부 사실들이 뭉개지고 왜곡되어 저장된다.
+1. <strong>오토레그레시브(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/">Auto-Regressive</a>) 구조의 한계</strong>: LLM은 팩트를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 게 아니라 그저 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 다음 단어를 예측한다. 한 번 엉뚱한 단어를 내뱉으면 그 뒤 문장 전체가 거짓말을 정당화하는 방향으로 소설을 쓰게 된다(Snowball Effect).
+2. <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 오염 및 편향</strong>: 학습한 인터넷 텍스트 자체가 거짓 정보나 편향을 담고 있으면 모델은 이를 진실로 학습한다.
+3. <strong>정보 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>의 손실 (Parametric Memory)</strong>: 페타바이트급 지식을 신경망 파라미터([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))라는 좁은 공간에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 기억하다 보니, 세부 사실들이 뭉개지고 왜곡되어 저장된다.
 
 - **📢 섹션 요약 비유**: [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 눈을 감고 지도를 더듬어가며 목적지를 찾아가는 것과 같습니다. 중간에 길이 끊겨도 멈추지 않고 그냥 감각([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))에 의존해 길을 뚫어버리다 보니, 결국 지도에 없는 가짜 목적지에 당당히 도착하게 됩니다.
 
@@ -63,7 +63,7 @@ tags = ["studynote-ai"]
 
 | 비교 항목 | 내재적 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) (Intrinsic [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | 외재적 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) (Extrinsic [Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) |
 | :--- | :--- | :--- |
-| **정의** | 프롬프트로 주어진 원본 정보와 **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 모순**되는 답변 | 프롬프트에 없는 내용을 모델이 **임의로 지어낸** 답변 |
+| **정의** | 프롬프트로 주어진 원본 정보와 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 모순</strong>되는 답변 | 프롬프트에 없는 내용을 모델이 **임의로 지어낸** 답변 |
 | **발생 예시**| "A는 10명, B는 5명이다" 문서를 읽고 "B가 A보다 많다"고 요약 | 최근 사건을 물어봤을 때 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 엮어 소설을 씀 |
 | **위험도 및 탐지**| 주어진 문맥 안에서 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)이 가능하므로 **상대적으로 탐지 쉬움** | 모델 내부의 사전 지식(환상)에 의존하므로 **팩트 체크 없이 탐지 불가** |
 | **발생 원인**| 어텐션(Attention) 메커니즘의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 에러 및 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 추론 실패 | 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부재, 과도한 추론(Over-generation) |
@@ -79,12 +79,12 @@ tags = ["studynote-ai"]
 엔터프라이즈(B2B) 환경에 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI를 도입할 때 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 통제하지 못하면 프로젝트는 100% 실패한다.
 
 ### 실무 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/) / [검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 아키텍처 융합**: AI에게 쌩으로 질문하지 마라! 질문이 들어오면 사내 DB나 사규 위키에서 정확한 팩트 문서(PDF, [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))를 먼저 검색(Retrieval)해 온다. 그리고 그 문서를 프롬프트에 같이 욱여넣으며 "반드시 이 문서 안에서만 대답하고, 없으면 모른다고 해라!"라고 강제(Grounding)해야 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 99% 차단할 수 있다.
-2. **[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) (온도) 파라미터 튜닝**: 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 무작위성(창의성)을 결정하는 하이퍼파라미터인 [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) 값을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))에 가깝게 낮춰야 한다. 값이 높으면 소설을 쓰고, 값이 0이면 가장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 팩트 위주의 굳건한 단어만 보수적으로 선택한다.
-3. **출처([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 표기 UI/UX 강제**: 챗봇이 답변할 때 반드시 "이 답변은 사규 제3조 2항을 참고했습니다 [링크]" 형태로 출처를 박아주어, 최종 의사결정권자(인간)가 팩트 체크를 할 수 있는 탈출구를 열어두어야 한다.
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/">Retrieval-Augmented Generation</a> / <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>) 아키텍처 융합</strong>: AI에게 쌩으로 질문하지 마라! 질문이 들어오면 사내 DB나 사규 위키에서 정확한 팩트 문서(PDF, [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))를 먼저 검색(Retrieval)해 온다. 그리고 그 문서를 프롬프트에 같이 욱여넣으며 "반드시 이 문서 안에서만 대답하고, 없으면 모른다고 해라!"라고 강제(Grounding)해야 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 99% 차단할 수 있다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> (온도) 파라미터 튜닝</strong>: 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 무작위성(창의성)을 결정하는 하이퍼파라미터인 [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) 값을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))에 가깝게 낮춰야 한다. 값이 높으면 소설을 쓰고, 값이 0이면 가장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높은 팩트 위주의 굳건한 단어만 보수적으로 선택한다.
+3. <strong>출처(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a>) 표기 UI/UX 강제</strong>: 챗봇이 답변할 때 반드시 "이 답변은 사규 제3조 2항을 참고했습니다 [링크]" 형태로 출처를 박아주어, 최종 의사결정권자(인간)가 팩트 체크를 할 수 있는 탈출구를 열어두어야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **의료/법률/금융 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 통제 없는 단독 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 도입**: 정확도가 100%여야 하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 RAG나 전문가의 중간 검토(Human-in-the-loop) 없이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 다이렉트 챗봇을 배포하는 행위. 한 번의 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 오진이나 잘못된 판례 제시가 소송과 기업 파산으로 이어진다.
+- <strong>의료/법률/금융 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>에 통제 없는 단독 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 도입</strong>: 정확도가 100%여야 하는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 RAG나 전문가의 중간 검토(Human-in-the-loop) 없이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 다이렉트 챗봇을 배포하는 행위. 한 번의 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 오진이나 잘못된 판례 제시가 소송과 기업 파산으로 이어진다.
 
 - **📢 섹션 요약 비유**: 의사가 진단할 때 "아마도 이 병인 것 같다"며 확실치 않은 약을 대충 처방하면 큰일 납니다. 전문 시스템에 AI를 쓸 때는 의학사전([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))을 펴놓고 보게 해야 하며, 모르는 것은 솔직히 "모른다"고 답하도록 훈련시켜야 치명적 사고를 막을 수 있습니다.
 
@@ -94,7 +94,7 @@ tags = ["studynote-ai"]
 
 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)의 존재를 명확히 인지하고 아키텍처로 통제하면, AI는 창의성을 잃지 않으면서도 신뢰할 수 있는 비서가 된다. 모델이 허위 정보를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 것은 역설적으로 주어진 단어들을 뛰어넘어 '새로운 연결'을 만들어내는 창의적 조합 능력이 뛰어나다는 방증이기도 하다. 시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 마케팅 문구 작성, 브레인스토밍에서는 오히려 이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 유용한 창의성(Creativity)으로 작용한다.
 
-현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 업계는 이 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위해 외부 문서를 검색해 팩트로 삼는 **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)**, 인간이 "그건 거짓말이야"라고 채점하여 모델을 교정하는 **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/))**, 그리고 답변을 스스로 한 번 더 비판하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 셀프 리플렉션(Self-Reflection) 에이전트 구조로 진화하고 있다. 결론적으로 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 완벽히 박멸할 수 있는 '버그'라기보다는, 구조적 장치를 통해 잘 길들여야 할 딥러닝의 본질적 '특성'이다.
+현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 업계는 이 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하기 위해 외부 문서를 검색해 팩트로 삼는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a></strong>, 인간이 "그건 거짓말이야"라고 채점하여 모델을 교정하는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/">인간 피드백 기반 강화학습</a>)</strong>, 그리고 답변을 스스로 한 번 더 비판하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 셀프 리플렉션(Self-Reflection) 에이전트 구조로 진화하고 있다. 결론적으로 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 완벽히 박멸할 수 있는 '버그'라기보다는, 구조적 장치를 통해 잘 길들여야 할 딥러닝의 본질적 '특성'이다.
 
 - **📢 섹션 요약 비유**: [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 맹수(야생 동물)의 본능과 같습니다. 그냥 길거리에 풀어두면 사람을 물고 해치지만, 튼튼한 우리([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 치고 유능한 조련사(프롬프트 엔지니어)가 잘 통제하면 세상에서 가장 멋진 서커스 쇼(창의적 결과물)를 만들어낼 수 있습니다.
 
@@ -104,32 +104,34 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))** | [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)을 물리적으로 틀어막는 최고의 백신. 외부 사내 DB에서 정확한 팩트를 먼저 검색해 프롬프트에 주입하는 아키텍처. |
-| **[프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)** | "제시된 문서에 답이 없으면 절대 지어내지 말고 모른다고 답해라" 등 강력한 제약 조건(Guardrail)을 주입해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 통제하는 기법. |
-| **[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) (인간 피드백 강화학습)** | LLM이 소설을 쓰거나 윤리적이지 않은 거짓말을 할 때 패널티를 주어, 인간의 의도에 맞게 정렬(Alignment)시키는 훈련법. |
-| **[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) (온도 파라미터)** | 모델의 무작위성을 결정하는 변수. 0에 가까울수록 팩트 위주의 딱딱한 답변을, 1에 가까울수록 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 섞인 창의적 소설을 쓴다. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>)</strong> | [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)을 물리적으로 틀어막는 최고의 백신. 외부 사내 DB에서 정확한 팩트를 먼저 검색해 프롬프트에 주입하는 아키텍처. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a></strong> | "제시된 문서에 답이 없으면 절대 지어내지 말고 모른다고 답해라" 등 강력한 제약 조건(Guardrail)을 주입해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 통제하는 기법. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (인간 피드백 강화학습)</strong> | LLM이 소설을 쓰거나 윤리적이지 않은 거짓말을 할 때 패널티를 주어, 인간의 의도에 맞게 정렬(Alignment)시키는 훈련법. |
+| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> (온도 파라미터)</strong> | 모델의 무작위성을 결정하는 변수. 0에 가까울수록 팩트 위주의 딱딱한 답변을, 1에 가까울수록 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 섞인 창의적 소설을 쓴다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RNN / LSTM 기반 초기 언어 모델 / 짧은 문장 생성, 기억력 한계로 금방 엉뚱한 소리 시전
-    │
-    ▼
-Transformer 및 LLM (GPT) 등장 / 방대한 파라미터로 유창성(Fluency)은 극대화됨
-    │
-    ▼
-할루시네이션 (Hallucination) 부작용 폭발 / 팩트 체크 불가능, 거짓 정보 양산의 위협
-    │
-    ▼
-RLHF (인간 피드백 강화학습) 도입 / 거짓말과 유해한 답변을 억제하는 미세 조정(Fine-tuning)
-    │
-    ▼
-RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를 연동하여 팩트 기반의 생성 강제 (환각 최소화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RNN / LSTM 기반 초기 언어 모델 / 짧은 문장 생성, 기억력 한계로 금방 엉뚱한 소리 시전</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Transformer 및 LLM (GPT) 등장 / 방대한 파라미터로 유창성(Fluency)은 극대화됨</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">할루시네이션 (Hallucination) 부작용 폭발 / 팩트 체크 불가능, 거짓 정보 양산의 위협</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RLHF (인간 피드백 강화학습) 도입 / 거짓말과 유해한 답변을 억제하는 미세 조정(Fine-tuning)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를 연동하여 팩트 기반의 생성 강제 (환각 최소화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇이 모르는 질문을 받았을 때 "몰라요"라고 말하기 부끄러워서 아무렇게나 그럴싸한 **'거짓말'**을 꾸며내는 병이에요.
+1. [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 로봇이 모르는 질문을 받았을 때 "몰라요"라고 말하기 부끄러워서 아무렇게나 그럴싸한 <strong>'거짓말'</strong>을 꾸며내는 병이에요.
 2. 로봇은 사실을 도서관에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 말하는 게 아니라, 그냥 자기가 아는 단어들을 멋지게 이어 붙이는 게임을 하고 있어서 자기가 거짓말을 하는지도 몰라요.
 3. 그래서 로봇에게 "모르면 꼭 모른다고 말해!"라고 단단히 약속을 시키고, 참고할 수 있는 진짜 백과사전을 옆에 놔주어 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하게 도와줘야 한답니다!
 

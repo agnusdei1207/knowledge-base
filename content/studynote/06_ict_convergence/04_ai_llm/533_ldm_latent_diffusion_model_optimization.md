@@ -21,8 +21,8 @@ tags = ["studynote-ict-convergence"]
 
 픽셀 공간 디퓨전(DDPM, Imagen)은 1024×1024 이미지에서 직접 노이즈 제거를 반복하므로 메모리 수요가 방대하고, 학습 비용이 수백~수천만 달러에 달한다. LDM은 이 병목을 잠재 공간으로의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 해결했다.
 
-**[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 기본 원리**
-- **순방향([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) 확산**: 원본 이미지 x₀에 단계별 가우시안 노이즈 추가 → xₜ (순수 노이즈)
+<strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/">디퓨전 모델</a> 기본 원리</strong>
+- <strong>순방향(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a>) 확산</strong>: 원본 이미지 x₀에 단계별 가우시안 노이즈 추가 → xₜ (순수 노이즈)
 - **역방향(Reverse) 확산**: 노이즈 xₜ에서 출발해 U-Net으로 반복적 노이즈 제거 → x₀ 복원
 
 - **📢 섹션 요약 비유**: LDM은 조각상을 원래 크기로 조각하지 않고 1/8 크기 미니어처를 먼저 완성한 후 크게 확대하는 방식 — 시간과 재료(메모리)를 크게 절약한다.
@@ -31,36 +31,31 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  LDM/Stable Diffusion 구조               │
-│                                                         │
-│  텍스트 프롬프트                                          │
-│  ┌──────────┐                                           │
-│  │CLIP 텍스트│                                           │
-│  │인코더    │                                           │
-│  └────┬─────┘                                           │
-│       │ 텍스트 임베딩                                     │
-│       ▼                                                 │
-│  ┌───────────────────────────────────┐                  │
-│  │         U-Net (잠재 공간)          │ ← 노이즈 예측    │
-│  │  Cross-Attention(텍스트 조건화)   │                  │
-│  └────────────┬──────────────────────┘                  │
-│               │ 잠재 벡터 z (64×64×4)                   │
-│  ┌────────────▼──────────────────────┐                  │
-│  │     VAE Decoder                   │                  │
-│  │     z (64×64) → 픽셀 (512×512)   │                  │
-│  └───────────────────────────────────┘                  │
-│                                                         │
-│  [인코딩] 입력이미지 → VAE Encoder → 잠재 z              │
-└─────────────────────────────────────────────────────────┘
-```
 
-**핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)**
 
-1. **[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/))**: 픽셀(512×512×3) ↔ 잠재 벡터(64×64×4) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/복원. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 48×.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDM/Stable Diffusion 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 프롬프트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLIP 텍스트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 임베딩</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U-Net (잠재 공간)</div><div class="kb-diagram-cell">← 노이즈 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross-Attention(텍스트 조건화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잠재 벡터 z (64×64×4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VAE Decoder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z (64×64) → 픽셀 (512×512)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인코딩</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">VAE Encoder → 잠재 z</div></div>
+</div>
+</div>
+
+
+
+<strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
+
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/">Variational Autoencoder</a>)</strong>: 픽셀(512×512×3) ↔ 잠재 벡터(64×64×4) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/복원. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)비 48×.
 2. **U-Net**: 잠재 공간에서 노이즈 예측. Cross-Attention으로 텍스트 조건화.
-3. **[CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 텍스트 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)**: 텍스트 → 77×768 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/). U-Net에 Cross-Attention으로 주입.
+3. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> 텍스트 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a></strong>: 텍스트 → 77×768 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/). U-Net에 Cross-Attention으로 주입.
 
 ### 샘플링 최적화 기법 비교
 
@@ -117,8 +112,8 @@ tags = ["studynote-ict-convergence"]
 
 **기술사 판단 포인트**
 
-1. **[저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 불분명 → 상업적 사용 시 라이선스 검토 필수
-2. **[딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/)/악용**: 인물 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 워터마킹, [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준 적용
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 불분명 → 상업적 사용 시 라이선스 검토 필수
+2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/">딥페이크</a>/악용</strong>: 인물 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 워터마킹, [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 표준 적용
 3. **추론 비용**: SDXL 1024px, 50 스텝 → A100 1초 내외 → DPM-Solver 20스텝으로 절감
 4. **프라이빗 배포**: Hugging Face Space, ComfyUI 자체 서버 구축으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의존성 제거
 

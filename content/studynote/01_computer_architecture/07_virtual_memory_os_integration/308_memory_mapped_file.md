@@ -19,27 +19,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/) (Memory-Mapped [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부 또는 전체를 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)에 매핑하여, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근을 메모리 접근처럼 보이게 만드는 방식이다. 즉 응용 프로그램은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 "버퍼에 복사해 둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아니라, 포인터로 바로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있는 주소 범위로 인식한다. 여기서 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 메모리의 경계를 없애는 것이 아니라, **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 그 경계를 뒤에서 대신 관리한다는 점**이다.
+[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/) (Memory-Mapped [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))은 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부 또는 전체를 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)에 매핑하여, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근을 메모리 접근처럼 보이게 만드는 방식이다. 즉 응용 프로그램은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 "버퍼에 복사해 둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아니라, 포인터로 바로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)할 수 있는 주소 범위로 인식한다. 여기서 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 메모리의 경계를 없애는 것이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 그 경계를 뒤에서 대신 관리한다는 점</strong>이다.
 
 이 개념이 필요한 이유는 전통적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력이 두 가지 비용을 반복해서 만들기 때문이다. 첫째, 사용자 코드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환과 시스템 콜 오버헤드가 생긴다. 둘째, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)에 올라온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 사용자 버퍼로 복사해야 하므로, 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 무작위 접근에서는 CPU (Central Processing Unit)와 메모리 대역폭이 불필요하게 소모된다. [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 이 과정을 "필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 필요한 시점에 주소 공간으로 연결"하는 방식으로 바꿔 낭비를 줄인다.
 
-특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 이미지 처리처럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부분을 자주 건너뛰며 읽는 작업에서 효과가 크다. 반대로 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잠깐 읽고 끝내는 단순 작업에서는 매핑 설정과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 관리 비용이 오히려 더 비쌀 수 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 만능 입출력 기법이 아니라, **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 강점을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템까지 확장하는 선택지**로 이해해야 한다.
+특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 이미지 처리처럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부분을 자주 건너뛰며 읽는 작업에서 효과가 크다. 반대로 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잠깐 읽고 끝내는 단순 작업에서는 매핑 설정과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 관리 비용이 오히려 더 비쌀 수 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 만능 입출력 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 강점을 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템까지 확장하는 선택지</strong>로 이해해야 한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│            왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ 전통적 read()                                                               │
-│   디스크 ─▶ 페이지 캐시 ─▶ 사용자 버퍼 ─▶ 애플리케이션 해석                │
-│             (커널 관리)     (한 번 더 복사)                                 │
-│                                                                             │
-│ 메모리 맵 파일                                                              │
-│   디스크 ─▶ 페이지 캐시 ─▶ 가상 주소 공간에 매핑 ─▶ 애플리케이션 접근       │
-│             (커널 관리)       (포인터처럼 참조)                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 포인트는 "디스크가 RAM으로 바뀐다"가 아니라, 응용 프로그램이 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시를 주소 공간의 일부처럼 바라보게 된다**는 데 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기술이면서 동시에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 read()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 ─▶ 페이지 캐시 ─▶ 사용자 버퍼 ─▶ 애플리케이션 해석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 관리) (한 번 더 복사)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 파일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 ─▶ 페이지 캐시 ─▶ 가상 주소 공간에 매핑 ─▶ 애플리케이션 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 관리) (포인터처럼 참조)</div></div>
+</div>
+</div>
+
+
+
+이 그림의 포인트는 "디스크가 RAM으로 바뀐다"가 아니라, 응용 프로그램이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시를 주소 공간의 일부처럼 바라보게 된다</strong>는 데 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기술이면서 동시에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술이다.
 
 - **📢 섹션 요약 비유**: [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 창고 물건을 매번 복사해 책상 위에 올리는 대신, 책상 옆에 창고 선반을 바로 붙여 놓는 것과 같다. 물건을 가지러 다니는 수고가 줄지만, 선반 정리 규칙은 여전히 창고 관리자가 맡는다.
 
@@ -49,43 +51,30 @@ tags = ["studynote-computer-architecture"]
 
 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 핵심 구성 요소는 프로세스의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 영역, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시, 그리고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다. `mmap()` 호출이 일어나는 순간 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체가 RAM (Random Access Memory)에 올라오는 것은 아니다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 "이 주소 구간은 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 몇 번째 오프셋과 연결된다"는 메타데이터를 먼저 만들고, 실제 내용은 접근 시점에 늦게 가져온다.
 
-이 때문에 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))과 같은 흐름으로 동작한다. 프로세스가 아직 적재되지 않은 매핑 영역을 읽거나 쓰면 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 발생하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시에 올린 뒤 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 갱신한다. 그다음 같은 주소를 다시 실행하면 CPU는 이를 평범한 메모리 접근처럼 처리한다. 즉 `mmap()`의 빠름은 "초기에 다 읽어서 빠른 것"이 아니라, **필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 늦게 읽고 이후에는 주소 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 재사용하기 때문에 빠른 것**이다.
+이 때문에 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))과 같은 흐름으로 동작한다. 프로세스가 아직 적재되지 않은 매핑 영역을 읽거나 쓰면 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 발생하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시에 올린 뒤 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 갱신한다. 그다음 같은 주소를 다시 실행하면 CPU는 이를 평범한 메모리 접근처럼 처리한다. 즉 `mmap()`의 빠름은 "초기에 다 읽어서 빠른 것"이 아니라, <strong>필요한 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>만 늦게 읽고 이후에는 주소 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>로 재사용하기 때문에 빠른 것</strong>이다.
 
 아래 다이어그램은 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 실제 처리 경로를 보여 준다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중         │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Application                                                                  │
-│    │                                                                          │
-│    ├─ mmap(fd, offset, length)                                                │
-│    ▼                                                                          │
-│ Virtual Memory Area 생성                                                      │
-│    │                                                                          │
-│    ▼                                                                          │
-│ Page Table에 "파일과 연결된 주소 범위" 등록                                   │
-│    │                                                                          │
-│    ▼                                                                          │
-│ 첫 접근(load/store)                                                           │
-│    │                                                                          │
-│    ├─ page present ───────────────────────────────────────────────▶ 바로 접근  │
-│    │                                                                          │
-│    └─ page absent                                                             │
-│          │                                                                    │
-│          ▼                                                                    │
-│     Page Fault                                                                │
-│          │                                                                    │
-│          ▼                                                                    │
-│     OS Kernel이 파일 오프셋 확인                                               │
-│          │                                                                    │
-│          ▼                                                                    │
-│     Page Cache 적재 + Page Table 갱신                                          │
-│          │                                                                    │
-│          ▼                                                                    │
-│     명령 재시작 후 메모리처럼 접근                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mmap(fd, offset, length)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Memory Area 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table에 "파일과 연결된 주소 범위" 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">첫 접근(load/store)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page present ▶ 바로 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page absent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Fault</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel이 파일 오프셋 확인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Cache 적재 + Page Table 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 재시작 후 메모리처럼 접근</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 의미 |
 | :--- | :--- | :--- |
@@ -95,7 +84,7 @@ tags = ["studynote-computer-architecture"]
 | [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리기 | 미적재 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 불러옴 | 최초 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 원인 |
 | `msync()` 또는 언매핑 | 변경 내용을 디스크와 정합 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 내구성 판단 포인트 |
 
-여기서 중요한 기술적 차이는 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 의미다. 읽기 매핑은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 그대로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한 공유 매핑은 Dirty Page를 만들어 나중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 반영할 수 있다. 반대로 사적 매핑은 복사-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 이용해 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 바꾸지 않고 프로세스 내부 변경만 유지한다. 따라서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근"을 넘어, **공유할 것인지, 격리할 것인지, 언제 영속화할 것인지까지 선택하는 메커니즘**이다.
+여기서 중요한 기술적 차이는 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 의미다. 읽기 매핑은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용을 그대로 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지만, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능한 공유 매핑은 Dirty Page를 만들어 나중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 반영할 수 있다. 반대로 사적 매핑은 복사-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))를 이용해 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 바꾸지 않고 프로세스 내부 변경만 유지한다. 따라서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근"을 넘어, <strong>공유할 것인지, 격리할 것인지, 언제 영속화할 것인지까지 선택하는 메커니즘</strong>이다.
 
 - **📢 섹션 요약 비유**: [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 대형 쇼핑몰 안내도와 같다. 지도를 받아 두는 순간 모든 가게 물건이 집으로 오는 것은 아니고, 실제로 그 층에 가 봐야 물건을 보게 된다. 하지만 한 번 길을 익히면 다음부터는 매번 안내 데스크에 묻지 않아도 된다.
 
@@ -103,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)을 이해하려면 전통적인 `read()`/`write()` 방식, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩과 함께 봐야 한다. 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근이라도 접근 패턴과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식이 다르면 장점과 위험이 완전히 달라지기 때문이다. 특히 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 진짜 강점은 "순차 읽기 최적화"보다 **무작위 접근과 공유된 주소 해석**에 있다.
+[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)을 이해하려면 전통적인 `read()`/`write()` 방식, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩과 함께 봐야 한다. 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근이라도 접근 패턴과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식이 다르면 장점과 위험이 완전히 달라지기 때문이다. 특히 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 진짜 강점은 "순차 읽기 최적화"보다 <strong>무작위 접근과 공유된 주소 해석</strong>에 있다.
 
 | 비교 축 | `read()` / `write()` 기반 I/O | [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/) (Memory-Mapped [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) |
 | :--- | :--- | :--- |
@@ -114,9 +103,9 @@ tags = ["studynote-computer-architecture"]
 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 예측 | 비교적 명시적 | [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 시 급격한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 가능 |
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 책임 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 경계가 분명 | 메모리 공유처럼 보이므로 더 주의 필요 |
 
-이 차이는 다른 컴퓨터구조 개념과도 이어진다. [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 MMU와 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 없이는 성립하지 않으며, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) ([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))가 커지면 한 번의 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 가져오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양도 달라진다. 또한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 심한 환경에서는 `mmap()`이 오히려 폭발적인 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)를 일으켜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 나쁘게 만들 수 있다. 즉 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 독립적인 입출력 API가 아니라, **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 그대로 끌어안는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+이 차이는 다른 컴퓨터구조 개념과도 이어진다. [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 MMU와 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 없이는 성립하지 않으며, [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) ([Page Size](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))가 커지면 한 번의 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 가져오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양도 달라진다. 또한 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 심한 환경에서는 `mmap()`이 오히려 폭발적인 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)를 일으켜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 나쁘게 만들 수 있다. 즉 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 독립적인 입출력 API가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 그대로 끌어안는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 접근 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩이 대표적 사례다. 프로그램을 실행할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 바이너리 전체를 복사해 두기보다, 코드 섹션과 라이브러리를 메모리 맵 형태로 걸어 놓고 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 적재한다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 검색 엔진도 비슷하게 대형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 매핑해 두고 필요한 노드만 건드린다. 결국 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 메모리로 바꾼다"기보다, **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 주소 공간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 안으로 편입시킨다**고 보는 편이 더 정확하다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩이 대표적 사례다. 프로그램을 실행할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 바이너리 전체를 복사해 두기보다, 코드 섹션과 라이브러리를 메모리 맵 형태로 걸어 놓고 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 적재한다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 검색 엔진도 비슷하게 대형 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 매핑해 두고 필요한 노드만 건드린다. 결국 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 메모리로 바꾼다"기보다, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위 주소 공간 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 안으로 편입시킨다</strong>고 보는 편이 더 정확하다.
 
 - **📢 섹션 요약 비유**: `read()`가 필요한 재료를 주문할 때마다 소포로 받아 보는 방식이라면, [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 마트 진열대를 우리 주방 통로와 직접 연결해 놓는 방식이다. 대신 누가 먼저 집어 가고 언제 재고를 채울지까지 같이 신경 써야 한다.
 
@@ -132,18 +121,18 @@ tags = ["studynote-computer-architecture"]
 
 1. **접근 패턴이 무작위적인가, 순차적인가?**  
    무작위 탐색이 많을수록 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 주소 기반 접근 이점이 커진다.
-2. **[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 허용할 수 있는가?**  
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 허용할 수 있는가?</strong>  
    초저지연 시스템이면 사전 적재, `mlock`, 일반 I/O, 전용 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 검토해야 한다.
 3. **여러 프로세스가 공유 수정하는가?**  
    그렇다면 락, [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), flush [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 일관성을 먼저 설계해야 한다.
-4. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)에 비해 충분히 큰가?**  
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 크기가 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>에 비해 충분히 큰가?</strong>  
    64비트 환경에서는 유리하지만, 주소 공간 압박이 있는 환경에서는 매핑 단위를 쪼개야 한다.
 
 ### 대표 적용 사례
 
-- **실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩**: 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 공유 라이브러리를 필요 시점에만 적재해 시작 비용을 낮춘다.
-- **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)**: B+트리 (B+ Tree)나 [LSM-tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) (Log-Structured Merge Tree) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색에서 임의 접근 비용을 줄인다.
-- **대형 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/[이미지 분석](/knowledge-base/studynote/16_bigdata/05_analysis/118_image_analysis/)**: 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 없이 특정 구간만 슬라이싱하듯 접근한다.
+- <strong>실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 로딩</strong>: 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 공유 라이브러리를 필요 시점에만 적재해 시작 비용을 낮춘다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>: B+트리 (B+ Tree)나 [LSM-tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) (Log-Structured Merge Tree) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색에서 임의 접근 비용을 줄인다.
+- <strong>대형 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>/<a href="/knowledge-base/studynote/16_bigdata/05_analysis/118_image_analysis/">이미지 분석</a></strong>: 전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 없이 특정 구간만 슬라이싱하듯 접근한다.
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -151,7 +140,7 @@ tags = ["studynote-computer-architecture"]
 - 공유 매핑을 쓰면서도 `msync()`·flush [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 내구성을 가정하는 것
 - 메모리 사용량을 RSS (Resident Set Size)만 보고 판단해, 매핑된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 실제 압박을 과소평가하는 것
 
-기술사 답안 관점에서는 "[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 지향의 고속 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 기법"에서 멈추면 부족하다. 더 정확한 답은 **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 메커니즘을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근에 재사용하는 구조이며, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득은 접근 패턴과 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 관리가 받쳐 줄 때만 현실화된다**는 것이다.
+기술사 답안 관점에서는 "[메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 지향의 고속 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 기법"에서 멈추면 부족하다. 더 정확한 답은 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 메커니즘을 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 접근에 재사용하는 구조이며, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 이득은 접근 패턴과 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">페이지 부재</a> 관리가 받쳐 줄 때만 현실화된다</strong>는 것이다.
 
 - **📢 섹션 요약 비유**: [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 고속도로 직결 진입로와 같다. 맞는 차와 맞는 길에서는 엄청 빠르지만, 골목길 배달 오토바이까지 모두 올리면 오히려 사고와 정체가 늘어난다.
 
@@ -161,7 +150,7 @@ tags = ["studynote-computer-architecture"]
 
 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)을 적절히 사용하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근이 더 단순하고 더 빠르게 느껴진다. 개발자는 버퍼 관리 코드를 줄이고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시와 주소 변환 장치를 이용해 필요한 부분만 적재하며, 여러 프로세스는 동일한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중복 복사 없이 공유할 수 있다. 이 덕분에 대용량 정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리, 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩, 분석 시스템에서 높은 생산성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 얻는다.
 
-하지만 한계도 분명하다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 결국 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨겨 두는 방식이므로, 접근 패턴이 나쁘거나 메모리 압박이 크면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 흔들린다. 공유 매핑은 빠른 대신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 내구성 책임을 응용 프로그램 쪽으로 더 많이 밀어낸다. 즉 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "복사가 적으니 무조건 빠르다"가 아니라, **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 메모리처럼 다루는 대신 메모리 계층의 위험도 함께 받아들이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+하지만 한계도 분명하다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)는 결국 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨겨 두는 방식이므로, 접근 패턴이 나쁘거나 메모리 압박이 크면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 흔들린다. 공유 매핑은 빠른 대신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 내구성 책임을 응용 프로그램 쪽으로 더 많이 밀어낸다. 즉 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 "복사가 적으니 무조건 빠르다"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 메모리처럼 다루는 대신 메모리 계층의 위험도 함께 받아들이는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 앞으로도 이 기법의 중요성은 유지된다. [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 저장장치, 대용량 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 사용자 공간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 최적화가 발전해도, 결국 필요한 것은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 언제 어떤 단위로 주소 공간에 편입할 것인가"라는 판단이기 때문이다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력 기법이라기보다, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 컴퓨터구조가 만나는 접점으로 기억하는 것이 가장 정확하다.
 
@@ -182,25 +171,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-파일 시스템 버퍼 I/O
-    │
-    ▼
-페이지 캐시 (Page Cache) 공유
-    │
-    ▼
-메모리 맵 파일 (Memory-Mapped File)
-    │
-    ├─▶ 요구 페이징 (Demand Paging)
-    │
-    ├─▶ 공유 매핑 · IPC (Inter-Process Communication)
-    │
-    ▼
-복사-쓰기 (Copy-on-Write) · 실행 파일 지연 로딩
-    │
-    ▼
-대용량 데이터베이스 · 분석 엔진 · 고성능 파일 접근
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파일 시스템 버퍼 I/O</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페이지 캐시 (Page Cache) 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 맵 파일 (Memory-Mapped File)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 요구 페이징 (Demand Paging)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 공유 매핑 · IPC (Inter-Process Communication)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">복사-쓰기 (Copy-on-Write) · 실행 파일 지연 로딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대용량 데이터베이스 · 분석 엔진 · 고성능 파일 접근</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 버퍼 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기에서 출발해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 주소 공간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 통합하면서 고성능 공유와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재로 확장되는 과정을 보여 준다.
 

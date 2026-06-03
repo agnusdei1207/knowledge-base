@@ -19,25 +19,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 설계에서 **하나의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부에 존재하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 함수들이 서로 얼마나 밀접하게 연관되어 있는지**를 나타내는 응집의 정도입니다. 
-[객체지향 설계 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/)([SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))의 **'[단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))'** 과 완벽하게 결을 같이 하는 개념입니다.
+소프트웨어 설계에서 <strong>하나의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 내부에 존재하는 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, 함수들이 서로 얼마나 밀접하게 연관되어 있는지</strong>를 나타내는 응집의 정도입니다. 
+[객체지향 설계 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/)([SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))의 <strong>'<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a>, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">Single Responsibility Principle</a>)'</strong> 과 완벽하게 결을 같이 하는 개념입니다.
 
 - **📢 섹션 요약 비유**: 응집도 (Cohesion)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 응집도 (Cohesion)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  응집도 (Cohesion)                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응집도 (Cohesion)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 응집도 (Cohesion)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -45,7 +44,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-응집도가 높은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 딱 **한 가지 일만 잘하는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)**입니다.
+응집도가 높은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 딱 <strong>한 가지 일만 잘하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>입니다.
 - **재사용성 향상**: 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 딱 '결제 로직'만 들고 있으면 다른 쇼핑몰 프로젝트에 그대로 복사해서 쓸 수 있습니다.
 - **유지보수 용이**: 결제에 에러가 나면 무조건 '결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)' 하나만 열어보면 되므로 버그 추적이 매우 쉽습니다.
 
@@ -77,11 +76,11 @@ tags = ["studynote-software-engineering"]
 2. **논리적 (Logical) 응집도**
    - 유사한 성격의 기능들을 논리적으로 묶어둔 상태입니다. (예: 육로 배송, 해상 배송, 항공 배송 함수를 하나로 묶고 if문으로 분기)
 3. **시간적 (Temporal) 응집도**
-   - 연관성은 없지만, 단순히 **같은 시간에 실행되어야 한다는 이유**로 묶인 상태입니다. (예: `시스템_시작()` 함수 안에 DB [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 정리가 다 섞임)
+   - 연관성은 없지만, 단순히 <strong>같은 시간에 실행되어야 한다는 이유</strong>로 묶인 상태입니다. (예: `시스템_시작()` 함수 안에 DB [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시 정리가 다 섞임)
 4. **절차적 (Procedural) 응집도**
    - 함수들이 실행되는 '순서'가 있어서 묶어놓은 상태입니다.
 5. **통신적 (Communicational) 응집도**
-   - 동일한 **입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**를 다루는 기능들을 묶은 상태입니다. (예: `게시글` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가지고 '게시글 저장', '게시글 수정' 함수가 묶임)
+   - 동일한 <strong>입력 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>나 출력 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 다루는 기능들을 묶은 상태입니다. (예: `게시글` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가지고 '게시글 저장', '게시글 수정' 함수가 묶임)
 6. **순차적 (Sequential) 응집도**
    - 앞 함수의 출력 결과가 바로 다음 함수의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 물고 들어가는 상태입니다.
 7. **기능적 (Functional) 응집도 - [최고 🌟]**
@@ -124,21 +123,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-응집도 (Cohesion) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응집도 (Cohesion) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

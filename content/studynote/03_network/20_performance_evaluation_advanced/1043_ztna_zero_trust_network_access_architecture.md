@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **M&M (Marshmallow & Macaroni) 보안**: 겉([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 딱딱하지만, 속(내부망)은 마시멜로처럼 뚫리면 끝장나는 물렁물렁한 구조였습니다.
 - 해커는 악성 메일([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/))로 말단 직원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(내부망) 1대를 감염시킵니다. 이미 성벽 안에 들어왔으니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 무용지물입니다. 해커는 내부망에서 왕처럼 돌아다니며(Lateral Movement, 횡적 이동) 인사 서버, DB 서버를 야금야금 다 털어갑니다.
 
-```text
-[SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
-[제로 트러스트 구조]
-    │
-    └──▶ [마이크로 세그멘테이션]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,25 +42,29 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 2010년 포레스터 리서치(Forrester Research)의 존 킨더박이 주창했습니다.
-- **"Never Trust, Always Verify" (절대 믿지 말고, 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하라)**
+- <strong>"Never Trust, Always Verify" (절대 믿지 말고, 항상 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하라)</strong>
 - 네트워크 내부냐 외부냐(위치)는 아무런 의미가 없습니다. 회사 빌딩 안에서 꽂은 랜선이든, 카페 와이파이든 똑같이 "가장 위험한 적성 구역"으로 간주합니다.
 
 NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
-- **PEP ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 실행 지점)**: 사용자와 서버 사이의 진짜 문지기입니다. (예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 게이트웨이)
-- **PDP ([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 지점)**: "홍길동 들여보내 줄까?" 판단하는 뇌입니다.
-  - **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 (PE)**: 신뢰도를 계산합니다. (위치, 비밀번호 등 점수화)
-  - **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리자 (PA)**: PE의 결정을 받고 PEP에게 "문 열어라!" 명령을 내립니다.
+- <strong>PEP (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 실행 지점)</strong>: 사용자와 서버 사이의 진짜 문지기입니다. (예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 게이트웨이)
+- <strong>PDP (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 결정 지점)</strong>: "홍길동 들여보내 줄까?" 판단하는 뇌입니다.
+  - <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 엔진 (PE)</strong>: 신뢰도를 계산합니다. (위치, 비밀번호 등 점수화)
+  - <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 관리자 (PA)</strong>: PE의 결정을 받고 PEP에게 "문 열어라!" 명령을 내립니다.
 
-```text
-[SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
-[제로 트러스트 구조]
-    │
-    └──▶ [마이크로 세그멘테이션]
-```
 
-- **📢 섹션 요약 비유**: 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안은 **'클럽 입구의 기도(가드)'**였습니다. 신분증 내고 한 번 클럽 안에 들어가면, 그 안에서 VIP 룸을 가든 화장실을 가든 춤을 추든 아무도 검사하지 않았습니다(내부망 무한 신뢰). 해커([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/))가 환풍구로 클럽 안에 떨어지기만 하면 VIP 금고를 마음대로 털 수 있었습니다. **[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))**는 클럽 안을 **'수만 개의 레이저 보안 철창([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/))'**으로 다 쪼개버린 미친 교도소입니다. 클럽에 들어와서 1번 테이블에서 2번 테이블로 1미터만 이동하려 해도, 테이블 사이의 가드가 튀어나와 "신분증 내놔! 홍채 인식해!(지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"라고 총을 들이밉니다. 게다가 내 신분으론 1번 테이블만 보이게 허락되었고(최소 권한), 2번 테이블 너머는 아예 투명 망토를 씌워 보이지도 않게 만들어 해커가 침투해도 단 한 발짝도 나아가지 못하고 굶어 죽게 만드는 극강의 내부 감시 아키텍처입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안은 <strong>'클럽 입구의 기도(가드)'</strong>였습니다. 신분증 내고 한 번 클럽 안에 들어가면, 그 안에서 VIP 룸을 가든 화장실을 가든 춤을 추든 아무도 검사하지 않았습니다(내부망 무한 신뢰). 해커([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/))가 환풍구로 클럽 안에 떨어지기만 하면 VIP 금고를 마음대로 털 수 있었습니다. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)</strong>는 클럽 안을 <strong>'수만 개의 레이저 보안 철창(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>)'</strong>으로 다 쪼개버린 미친 교도소입니다. 클럽에 들어와서 1번 테이블에서 2번 테이블로 1미터만 이동하려 해도, 테이블 사이의 가드가 튀어나와 "신분증 내놔! 홍채 인식해!(지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))"라고 총을 들이밉니다. 게다가 내 신분으론 1번 테이블만 보이게 허락되었고(최소 권한), 2번 테이블 너머는 아예 투명 망토를 씌워 보이지도 않게 만들어 해커가 침투해도 단 한 발짝도 나아가지 못하고 굶어 죽게 만드는 극강의 내부 감시 아키텍처입니다.
 
 ---
 
@@ -69,7 +77,7 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 ### 2. 최소 권한의 원칙 ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))
 - 옛날 VPN은 접속하면 회사 네트워크 전체의 로컬 IP(192.168.x.x) 대역을 통째로 뚫어주어 이방 저방 다 볼 수 있었습니다.
-- **[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 네트워크 접속)**: 접속해도 네트워크 전체를 안 보여줍니다. 홍길동 대리에게는 오직 **'사내 그룹웨어 웹페이지 1개(애플리케이션)'에만 접속할 수 있는 바늘구멍 같은 단 1개의 통로**만 열어주고, 옆에 있는 회계 서버나 DB 서버는 아예 IP 자체를 캄캄하게 숨겨버려(Dark Cloud) 해커의 횡적 이동을 원천 차단합니다.
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> 네트워크 접속)</strong>: 접속해도 네트워크 전체를 안 보여줍니다. 홍길동 대리에게는 오직 <strong>'사내 그룹웨어 웹페이지 1개(애플리케이션)'에만 접속할 수 있는 바늘구멍 같은 단 1개의 통로</strong>만 열어주고, 옆에 있는 회계 서버나 DB 서버는 아예 IP 자체를 캄캄하게 숨겨버려(Dark Cloud) 해커의 횡적 이동을 원천 차단합니다.
 
 ### 3. [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) ([Micro-segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 🌟 (1044번 연계)
 - 하나의 거대한 회사 내부망(서브넷)을 잘근잘근 다져버립니다.
@@ -126,15 +134,19 @@ NIST(미국 국립표준기술연구소)에서 정의한 뼈대입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SASE 네트워킹/보안 융합 클라우드]
-    │
-    ▼
-[현재 개념: 제로 트러스트 구조]
-    │
-    ├──▶ [확장 A: 마이크로 세그멘테이션]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 제로 트러스트 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구조는 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,23 +18,26 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-데이터 민주화 이전 (데이터 사일로):
-  비즈니스 팀 → IT/데이터팀에 분석 요청 → 수일 대기 → 결과 수령
-  
-  문제:
-  - IT 병목: 모든 분석 요청이 데이터팀에 집중
-  - 맥락 손실: IT가 비즈니스 문맥을 모름
-  - 속도: 의사결정이 느려짐
 
-데이터 민주화 이후:
-  비즈니스 팀 → 셀프서비스 도구 → 즉시 분석 → 즉시 결정
-  
-  효과:
-  - 데이터팀은 인프라·거버넌스에 집중
-  - 비즈니스팀이 데이터로 직접 결정
-  - 의사결정 속도 대폭 향상
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 민주화 이전 (데이터 사일로):</div>
+<div class="kb-diagram-note">비즈니스 팀 → IT/데이터팀에 분석 요청 → 수일 대기 → 결과 수령</div>
+<div class="kb-diagram-note">문제:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">IT 병목: 모든 분석 요청이 데이터팀에 집중</div>
+<div class="kb-diagram-tree-item" style="--depth:1">맥락 손실: IT가 비즈니스 문맥을 모름</div>
+<div class="kb-diagram-tree-item" style="--depth:1">속도: 의사결정이 느려짐</div>
+<div class="kb-diagram-note">데이터 민주화 이후:</div>
+<div class="kb-diagram-note">비즈니스 팀 → 셀프서비스 도구 → 즉시 분석 → 즉시 결정</div>
+<div class="kb-diagram-note">효과:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터팀은 인프라·거버넌스에 집중</div>
+<div class="kb-diagram-tree-item" style="--depth:1">비즈니스팀이 데이터로 직접 결정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">의사결정 속도 대폭 향상</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소와 같다. 이전에는 주유원(IT팀)이 해줬지만, 셀프 주유기(셀프서비스 분석 도구)가 생기면서 누구나 스스로 주유([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)할 수 있게 됐다.
 
@@ -50,7 +53,7 @@ tags = ["studynote-bigdata"]
 | **2단계 도구** | BI 도구·대시보드 제공 |
 | **3단계 셀프서비스** | 노코드 분석 환경 구축 |
 | **4단계 문화** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 문화 정착 |
-| **5단계 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조** | GenAI 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 |
+| <strong>5단계 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조</strong> | GenAI 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 |
 
 ### [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)
 
@@ -88,18 +91,22 @@ tags = ["studynote-bigdata"]
 
 ### GenAI 기반 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의
 
-```text
-기존: SELECT AVG(revenue) FROM sales WHERE year=2024
-      ↓ SQL 지식 필요
 
-GenAI 질의: "2024년 평균 매출이 얼마야?"
-      ↓ LLM이 SQL 자동 생성
-      ↓ 데이터베이스 실행
-      ↓ 결과 자연어로 설명
 
-도구: AWS QuickSight Q, Google Looker AI,
-      Tableau Pulse, Power BI Copilot
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존: SELECT AVG(revenue) FROM sales WHERE year=2024</div>
+<div class="kb-diagram-note">↓ SQL 지식 필요</div>
+<div class="kb-diagram-note">GenAI 질의: "2024년 평균 매출이 얼마야?"</div>
+<div class="kb-diagram-note">↓ LLM이 SQL 자동 생성</div>
+<div class="kb-diagram-note">↓ 데이터베이스 실행</div>
+<div class="kb-diagram-note">↓ 결과 자연어로 설명</div>
+<div class="kb-diagram-note">도구: AWS QuickSight Q, Google Looker AI,</div>
+<div class="kb-diagram-note">Tableau Pulse, Power BI Copilot</div>
+</div>
+</div>
+
+
 
 ### [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리
 
@@ -121,7 +128,7 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 | 기대효과 | 내용 |
 |:---|:---|
 | **의사결정 속도** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요청 대기 없이 즉시 분석 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 문화** | 전 조직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문화</strong> | 전 조직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 |
 | **IT 병목 해소** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 고부가 작업 집중 |
 
 2025년 이후 GenAI 자연어 질의 도구가 [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)의 최전선이 되고 있다. SQL을 모르는 경영진도 "지난 분기 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 고객의 재구매율은?"을 자연어로 물으면 LLM이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)까지 자동으로 제공한다. 이는 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 장벽을 사실상 제거하는 변화다.
@@ -135,28 +142,30 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **셀프서비스 분석** | [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 핵심 도구 |
-| **[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견·신뢰 인프라 |
-| **[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 아키텍처 |
-| **시민 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자** | 비전문가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견·신뢰 인프라 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 아키텍처 |
+| <strong>시민 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자</strong> | 비전문가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
 | **GenAI 질의** | 자연어 기반 극한 민주화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 사일로 — IT팀 독점, 비즈니스 대기]
-    │
-    ▼
-[셀프서비스 BI — Tableau·Power BI 노코드 분석]
-    │
-    ▼
-[데이터 카탈로그 — 데이터 발견·품질·계보 관리]
-    │
-    ▼
-[데이터 메시 — 도메인별 데이터 자치·연합 거버넌스]
-    │
-    ▼
-[GenAI 자연어 질의 — SQL 없이 데이터와 대화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 — IT팀 독점, 비즈니스 대기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셀프서비스 BI — Tableau·Power BI 노코드 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 — 데이터 발견·품질·계보 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 — 도메인별 데이터 자치·연합 거버넌스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GenAI 자연어 질의 — SQL 없이 데이터와 대화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

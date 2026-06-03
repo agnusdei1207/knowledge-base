@@ -11,7 +11,7 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컷스루 (Cut-through) 스위칭은 들어오는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 끝까지 다 받기도 전에, 프레임 맨 앞의 **목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(앞 6바이트)만 딱 읽고 곧바로 포워딩을 시작하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 전송 방식**이다.
+> 1. **본질**: 컷스루 (Cut-through) 스위칭은 들어오는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임을 끝까지 다 받기도 전에, 프레임 맨 앞의 <strong>목적지 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소(앞 6바이트)만 딱 읽고 곧바로 포워딩을 시작하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 전송 방식</strong>이다.
 > 2. **가치**: 프레임 전체가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 버퍼로 들어오길 기다릴 필요가 없으므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통과할 때 발생하는 [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 3가지 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/) 중 가장 짧다(가장 빠르다).
 > 3. **판단 포인트**: 에러가 발생했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 FCS 필드가 프레임 맨 끝에 있기 때문에, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 에러 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기도 전에 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밖으로 쏘아버린 상태가 된다. 즉, 깨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(에러)까지도 그대로 전달해 버리는 치명적 단점이 있다.
 
@@ -22,18 +22,22 @@ tags = ["studynote-network"]
 - **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 넘겨줄 때(Switching), "얼마만큼 읽어보고 넘길 것인가?"를 결정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 중 하나다. 컷스루 방식은 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소까지만 수신하면 즉시 내보내기 시작한다.
 - **필요성**: 금융권의 초단타 매매(HFT) 네트워크나 고성능 컴퓨팅([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)) 환경에서는 0.001초(밀리초) 단위의 레이턴시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 막대한 손실로 이어진다. 이런 환경에서는 프레임 전체를 메모리에 담는 시간조차 아까우므로, 무조건 1순위로 "빨리 넘기는 것"이 필요했다.
 
-- **💡 비유**: 컷스루는 **"수업 시간 쪽지 전달"**과 같습니다. 뒤에서 넘어온 쪽지를 펼쳐서 내용이 맞는지 틀린지 끝까지 다 읽어보지 않고, 겉면에 적힌 **"철수에게"라는 이름만 보고 즉시 앞자리 철수에게 휙 던져주는 것**입니다. 속도는 제일 빠르지만, 쪽지 내용이 찢어져 있어도 그대로 전달하고 맙니다.
+- **💡 비유**: 컷스루는 <strong>"수업 시간 쪽지 전달"</strong>과 같습니다. 뒤에서 넘어온 쪽지를 펼쳐서 내용이 맞는지 틀린지 끝까지 다 읽어보지 않고, 겉면에 적힌 <strong>"철수에게"라는 이름만 보고 즉시 앞자리 철수에게 휙 던져주는 것</strong>입니다. 속도는 제일 빠르지만, 쪽지 내용이 찢어져 있어도 그대로 전달하고 맙니다.
 
-```text
-[에이징 / 포트 미러링]
-    │
-    ▼
-[스위칭 방식]
-    │
-    └──▶ [스위칭 방식]
-```
 
-- **📢 섹션 요약 비유**: ** 컷스루 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 물류 창고에서 택배 박스의 **"송장(목적지 주소)만 스캔하자마자 컨베이어 벨트를 멈추지 않고 바로 배송 트럭으로 밀어 넣는 초스피드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"**입니다. 내용물 파손 여부는 아예 검사하지 않습니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에이징 / 포트 미러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스위칭 방식</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 컷스루 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>는 물류 창고에서 택배 박스의 </strong>"송장(목적지 주소)만 스캔하자마자 컨베이어 벨트를 멈추지 않고 바로 배송 트럭으로 밀어 넣는 초스피드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"**입니다. 내용물 파손 여부는 아예 검사하지 않습니다.
 
 ---
 
@@ -41,31 +45,30 @@ tags = ["studynote-network"]
 
 ### 1. 최소 대기 시간: 14 Bytes
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 맨 앞은 Preamble(8B) → 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) → 출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(6B) 순으로 들어온다.
-- 컷스루 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 Preamble로 박자를 맞추고, 바로 뒤따라오는 **목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 6바이트만 읽자마자** 자신의 CAM 테이블을 뒤져 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 찾아낸다.
+- 컷스루 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 Preamble로 박자를 맞추고, 바로 뒤따라오는 <strong>목적지 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 6바이트만 읽자마자</strong> 자신의 CAM 테이블을 뒤져 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 찾아낸다.
 - 그리고 나머지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 페이로드, FCS)가 아직 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안으로 질금질금 들어오고 있는 와중에, 앞머리를 이미 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 뿜어내기 시작한다(Streaming).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                    컷스루 (Cut-through) 동작 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. 프레임이 스위치로 들어옴 (오른쪽에서 왼쪽으로 이동)                 │
- │   [ FCS(4B) | Payload(1500B) | 출발지 MAC(6B) | 목적지 MAC(6B) ] │
- │                                              └─── 이만큼만 ───┘ │
- │                                                  스위치가 수신   │
- │                                                             │
- │   2. 목적지 MAC(6B)을 읽은 직후 (스위치 내부)                     │
- │   스위치: "오케이, 목적지 확인 완료. 에러 검사 안 함. 바로 출발시켜!"      │
- │                                                             │
- │   3. 프레임이 출력 포트로 나가기 시작 (동시 진행)                    │
- │   들어오는 중인 꼬리부분 ──▶ 스위치 ──▶ 이미 나가고 있는 머리부분      │
- │   [ FCS | Payload ...             ... 출발지 MAC | 목적지 MAC ] │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컷스루 (Cut-through) 동작 도식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 프레임이 스위치로 들어옴 (오른쪽에서 왼쪽으로 이동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCS(4B) | Payload(1500B) | 출발지 MAC(6B) | 목적지 MAC(6B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이만큼만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치가 수신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 목적지 MAC(6B)을 읽은 직후 (스위치 내부)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치: "오케이, 목적지 확인 완료. 에러 검사 안 함. 바로 출발시켜!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 프레임이 출력 포트로 나가기 시작 (동시 진행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">들어오는 중인 꼬리부분 ──▶ 스위치 ──▶ 이미 나가고 있는 머리부분</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCS | Payload ...             ... 출발지 MAC | 목적지 MAC</div></div>
+</div>
+</div>
+
+
 
 ### 2. 레이턴시([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))와 에러율의 Trade-off
-- **장점 (가장 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간)**: 프레임 크기가 최소 64바이트든 최대 1518바이트든 상관없이, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 묶어두는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간은 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 읽는 짧은 시간에 불과하여 항상 일정하고 빠르다.
+- <strong>장점 (가장 낮은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간)</strong>: 프레임 크기가 최소 64바이트든 최대 1518바이트든 상관없이, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 묶어두는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간은 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 읽는 짧은 시간에 불과하여 항상 일정하고 빠르다.
 - **단점 (오류 확산)**: 회선 품질이 나빠 충돌 찌꺼기(Runt)가 날아오거나 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 에러(FCS 검사 실패)가 발생한 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 목적지까지 배달해 버린다. 이는 최종 수신자인 PC가 직접 에러를 계산하고 버려야 하므로, 전체 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 헛되게 낭비하는 결과를 낳는다.
 
 - **📢 섹션 요약 비유**: ** 컷스루 방식은 **"속도(Speed)를 위해 품질 검수(QA)를 완전히 포기한 공장"**입니다. 물건이 빛의 속도로 출고되지만 불량품 찌꺼기까지 섞여 나가기 때문에, 회선 자체가 튼튼하고 깨끗한 환경(광케이블 등)에서만 쓸 수 있는 극단적인 세팅입니다.
@@ -123,15 +126,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 에이징 / 포트 미러링]
-    │
-    ▼
-[현재 개념: 스위칭 방식]
-    │
-    ├──▶ [확장 A: 스위칭 방식]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 에이징 / 포트 미러링</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위칭 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) / [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

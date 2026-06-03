@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 통신을 개시하기 전에, 양단 간에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/), 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등을 동적으로 협상하고 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 안전하게 교환하여 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Association)를 설립하는 프레임워크 (RFC 2409, 7296). [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사용.
-- **필요성**: 나(서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))와 너(부산 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))가 암호화 통신([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))을 하려면 똑같은 암호 키(열쇠)를 가져야 한다. 예전엔 관리자가 서울 가서 키 치고, 부산 가서 키 치는 수동 작업을 했다(Manual [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)). 장비가 100대가 되면? 키가 유출되면? 수동으로는 절대 관리가 안 된다. **"컴퓨터 지들끼리 알아서 만나서 협상하고, 주기적으로 1시간마다 새로운 해킹 불가 열쇠(디피-헬만 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))로 자동 교체하게 만들자!"** 이것이 IKE의 존재 이유다.
+- **필요성**: 나(서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))와 너(부산 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))가 암호화 통신([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))을 하려면 똑같은 암호 키(열쇠)를 가져야 한다. 예전엔 관리자가 서울 가서 키 치고, 부산 가서 키 치는 수동 작업을 했다(Manual [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)). 장비가 100대가 되면? 키가 유출되면? 수동으로는 절대 관리가 안 된다. <strong>"컴퓨터 지들끼리 알아서 만나서 협상하고, 주기적으로 1시간마다 새로운 해킹 불가 열쇠(디피-헬만 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)로 자동 교체하게 만들자!"</strong> 이것이 IKE의 존재 이유다.
 
-- **💡 비유**: IKE는 국가 정상회담의 **"사전 실무진 조율 회의"**와 같습니다.
+- **💡 비유**: IKE는 국가 정상회담의 <strong>"사전 실무진 조율 회의"</strong>와 같습니다.
   - 대통령(실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))이 만나서 회의를 하기 전에, 실무진(IKE)이 먼저 만나 **"통역사는 누구로 할지, 경호원은 몇 명 배치할지, 비밀번호는 뭘 쓸지"** 룰을 다 정합니다.
-  - 합의가 다 끝나서 **최종 싸인된 합의문**이 바로 **[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)(보안 연관)**입니다.
+  - 합의가 다 끝나서 <strong>최종 싸인된 합의문</strong>이 바로 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(보안 연관)</strong>입니다.
   - 합의문([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))이 찢어지거나 유효기간(Lifetime)이 다 지나면 통신은 즉각 끊어집니다.
 
-```text
-[ESP]
-    │
-    ▼
-[IKE, ISAKMP, SA]
-    │
-    └──▶ [NAT-T]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ESP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IKE, ISAKMP, SA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT-T</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** ESP가 적진을 돌파하는 "방탄 트럭"이라면, IKE와 SA는 그 트럭이 출발하기 전에 정비공과 군인들이 모여 **"차문 비밀번호는 뭐로 하고, 타이어는 방탄으로 끼울지 합의하고 서류에 싸인하는 엄격한 출정 준비 과정"**입니다.
 
@@ -45,37 +49,36 @@ tags = ["studynote-network"]
 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 트러블슈팅의 99%는 이 IKE 협상 단계에서 터진다. 왜 굳이 두 번이나 협상할까? "진짜 중요한 회의를 하려면, 그 회의실부터 도청이 안 되게 막아야 하기 때문"이다.
 
 ### 1. Phase 1 (메인 모드 / 어그레시브 모드) - 텐트 치기
-- **목표**: 앞으로 진행할 Phase 2 협상 내용(진짜 열쇠 교환)을 해커가 훔쳐보지 못하도록, **양쪽 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)끼리 안전한 보안 텐트(ISAKMP [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))를 하나 치는 것**이다.
+- **목표**: 앞으로 진행할 Phase 2 협상 내용(진짜 열쇠 교환)을 해커가 훔쳐보지 못하도록, <strong>양쪽 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>끼리 안전한 보안 텐트(ISAKMP <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>)를 하나 치는 것</strong>이다.
 - **협상 항목**: 
   - 서로 내가 진짜 서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 맞다는 신분증 검사 (Pre-Shared [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 방식이나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 방식).
   - 텐트를 칠 때 쓸 암호화([DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)), 해시([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA) 방식 합의.
 - **결과물**: 해커가 절대 도청할 수 없는 튼튼한 1차 보안 채널(ISAKMP [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))이 하나 뚫린다. (이 터널 뚫는 데 쓰는 게 디피-헬만(Diffie-Hellman) 키 교환 마법이다).
 
 ### 2. Phase 2 (퀵 모드) - 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)용 룰 정하기
-- **목표**: Phase 1에서 쳐둔 안전한 텐트 안에서, **실제 직원들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))를 어떻게 암호화해서 날려 보낼지 진짜 룰([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))을 합의하는 것**이다.
+- **목표**: Phase 1에서 쳐둔 안전한 텐트 안에서, <strong>실제 직원들의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/">ESP</a>)를 어떻게 암호화해서 날려 보낼지 진짜 룰(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>)을 합의하는 것</strong>이다.
 - **협상 항목**: 
   - "직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256으로 암호화하자."
   - "보호해야 할 사내망 대역은 192.168.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 대역이다. ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ID)"
 - **결과물**: 실제로 패킷이 날아다닐 2개의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 터널(가는 터널 1개, 오는 터널 1개)이 완성된다. 드디어 핑(Ping)이 나간다!
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IPsec IKE 협상 (Phase 1 & 2) 2중 터널 도식       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 서울 방화벽 ] ══════════════════════════════▶ [ 부산 방화벽 ] │
- │                                                             │
- │   ================== [ Phase 1 보안 텐트 (ISAKMP SA) ] =========== │
- │   ║                                                         ┃ │
- │   ║  ───────── [ Phase 2 (서울->부산 IPsec SA 터널) ] ──────▶  ┃ │
- │   ║  ◀───────── [ Phase 2 (부산->서울 IPsec SA 터널) ] ──────  ┃ │
- │   ║                                                         ┃ │
- │   =========================================================== │
- │                                                             │
- │   * 만약 Phase 1 텐트가 안 쳐지면? -> Phase 2는 시작조차 못 하고 터짐. │
- │   * T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPsec IKE 협상 (Phase 1 &amp; 2) 2중 터널 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서울 방화벽</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부산 방화벽</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">==================</div><div class="kb-diagram-node">Phase 1 보안 텐트 (ISAKMP SA)</div><div class="kb-diagram-note">===========</div></div>
+<div class="kb-diagram-note">║ ┃</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">║</div><div class="kb-diagram-node">Phase 2 (서울-&gt;부산 IPsec SA 터널)</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Phase 2 (부산-&gt;서울 IPsec SA 터널)</div><div class="kb-diagram-note">┃</div></div>
+<div class="kb-diagram-note">║ ┃</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 만약 Phase 1 텐트가 안 쳐지면? -&gt; Phase 2는 시작조차 못 하고 터짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IKE, ISAKMP, SA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -98,9 +101,9 @@ IKE, ISAKMP, SA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어의 숙명이다. IKE 협상이 깨지는 3대 원인은 다음과 같다.
-1. **Pre-Shared [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(비밀번호) 오타**: 서울은 `Cisco123`인데 부산은 `cisco123`으로 쳤다. (Phase 1 실패).
+1. <strong>Pre-Shared <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>(비밀번호) 오타</strong>: 서울은 `Cisco123`인데 부산은 `cisco123`으로 쳤다. (Phase 1 실패).
 2. **제안서(Proposal) 불일치**: 서울은 최신 암호 `AES-256`을 던졌는데, 낡은 부산 장비는 `DES`밖에 모른다. 합의 결렬. (Phase 1/2 실패).
-3. **[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ID 불일치**: 서울은 "우리 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 망이랑 저쪽 20.x 망 통신하자"고 했는데, 부산은 "어? 난 30.x 망이랑 통신할 건데?" 라며 보호할 대상이 다를 때 결렬. (Phase 2 실패).
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> ID 불일치</strong>: 서울은 "우리 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 망이랑 저쪽 20.x 망 통신하자"고 했는데, 부산은 "어? 난 30.x 망이랑 통신할 건데?" 라며 보호할 대상이 다를 때 결렬. (Phase 2 실패).
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -108,7 +111,7 @@ IKE, ISAKMP, SA를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** IKE 협상은 두 마피아 보스가 거래할 때, 1단계로 부하들을 보내 비밀번호를 대고 **안전한 밀실(Phase 1)**을 확보한 뒤, 2단계로 보스들이 그 밀실 안에서 만나 **진짜 무기 거래 조건(Phase 2)**을 도장 찍는 고도로 치밀한 이중 보안 프로세스입니다.
+- **📢 섹션 요약 비유**: <strong> IKE 협상은 두 마피아 보스가 거래할 때, 1단계로 부하들을 보내 비밀번호를 대고 </strong>안전한 밀실(Phase 1)<strong>을 확보한 뒤, 2단계로 보스들이 그 밀실 안에서 만나 </strong>진짜 무기 거래 조건(Phase 2)**을 도장 찍는 고도로 치밀한 이중 보안 프로세스입니다.
 
 ---
 
@@ -131,15 +134,19 @@ IKE, ISAKMP, SA는 [라우팅](/knowledge-base/studynote/03_network/07_network_l
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ESP]
-    │
-    ▼
-[현재 개념: IKE, ISAKMP, SA]
-    │
-    ├──▶ [확장 A: NAT-T]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ESP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IKE, ISAKMP, SA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAT-T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 IKE, ISAKMP, SA는 ESP에서 출발해 현재 메커니즘을 정교화하고, 이후 NAT-T와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

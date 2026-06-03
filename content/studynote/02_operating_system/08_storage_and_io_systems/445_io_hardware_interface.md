@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU(소프트웨어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))와 I/O 디바이스(프린터, 하드디스크 등 물리적 기계)가 대화하기 위해 기계의 제어판(Controller)에 뚫어놓은 **3가지 필수 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/우체통 세트([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 상태, 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))**다.
+> 1. **본질**: CPU(소프트웨어 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))와 I/O 디바이스(프린터, 하드디스크 등 물리적 기계)가 대화하기 위해 기계의 제어판(Controller)에 뚫어놓은 <strong>3가지 필수 하드웨어 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>/우체통 세트(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, 상태, 제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>다.
 > 2. **가치**: 이 3개의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))에 0과 1의 전기 신호를 읽고 쓰는 것만으로, 복잡한 기계 모터를 돌리거나 레이저를 쏘는 짓을 **단순한 C언어 메모리 변수 조작(`*ptr = 1`)으로 완벽하게 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))**하여 디바이스 드라이버 코딩을 가능케 한다.
-> 3. **융합**: OS는 **'상태'**를 보고 기계가 바쁜지 파악한 뒤, **'제어'**를 통해 명령([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 내리고, **'[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'**를 통해 실제 물건을 밀어 넣는 3박자 핸드셰이크(Handshake)를 통해 야생의 하드웨어와 논리적 소프트웨어의 위대한 융합을 이뤄낸다.
+> 3. **융합**: OS는 <strong>'상태'</strong>를 보고 기계가 바쁜지 파악한 뒤, <strong>'제어'</strong>를 통해 명령([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 내리고, <strong>'<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>'</strong>를 통해 실제 물건을 밀어 넣는 3박자 핸드셰이크(Handshake)를 통해 야생의 하드웨어와 논리적 소프트웨어의 위대한 융합을 이뤄낸다.
 
 ---
 
@@ -22,38 +22,37 @@ tags = ["studynote-operating-system"]
 - **개념**: 컴퓨터에 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 프린터를 꽂았다고 치자. CPU가 프린터 내부의 잉크 모터나 롤러 기계를 어떻게 움직일까? 프린터 안에는 '디바이스 컨트롤러(Device Controller)'라는 작은 두뇌 칩셋이 있다. 이 칩셋에는 CPU가 전기를 쏴서 값을 적거나 읽을 수 있는 3개의 작은 메모리 공간([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))이 있다. 이 3개의 구멍([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 상태, 제어)이 바로 CPU와 프린터가 대화하는 유일한 창구다.
 - **필요성**: CPU는 오로지 "메모리 주소에 0101 전기 쏘기"밖에 할 줄 모르는 순수한 계산기다. 프린터 종이를 말아 올리거나 디스크 바늘(Arm)을 5cm 옮기는 복잡한 '물리적 기계 제어'를 CPU가 직접 할 수는 없다. "나는 그냥 램(RAM) 쓰듯이 숫자 1, 2, 3을 적어 던질 테니, 네가 그 숫자 보고 기계 모터 좀 알아서 돌려라!"라며 명령과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 번역해 줄 중간 통역사([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 창구)가 절대적으로 필요했다.
 
-  1. **[상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/) (Status)**: 주방 입구에 달린 '신호등'이다. 빨간불이면 주방장이 요리 중(Busy), 파란불이면 쉬는 중(Ready). 매니저는 파란불일 때만 주문을 넣는다.
-  2. **제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Control)**: 매니저가 주방장에게 "스테이크 구워라!", "치킨 튀겨라!"라고 누르는 '명령 버튼([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))'이다.
-  3. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))**: 요리에 쓸 날고기 1kg(프린트할 글자들)을 쓱 밀어 넣어주는 '음식물 배식구'다. 이 3개만 있으면 매니저가 직접 칼질을 안 해도 식당(컴퓨터)이 완벽하게 굴러간다.
+  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a> (Status)</strong>: 주방 입구에 달린 '신호등'이다. 빨간불이면 주방장이 요리 중(Busy), 파란불이면 쉬는 중(Ready). 매니저는 파란불일 때만 주문을 넣는다.
+  2. <strong>제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (Control)</strong>: 매니저가 주방장에게 "스테이크 구워라!", "치킨 튀겨라!"라고 누르는 '명령 버튼([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))'이다.
+  3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: 요리에 쓸 날고기 1kg(프린트할 글자들)을 쓱 밀어 넣어주는 '음식물 배식구'다. 이 3개만 있으면 매니저가 직접 칼질을 안 해도 식당(컴퓨터)이 완벽하게 굴러간다.
 
 - **등장 배경 및 복잡성의 은닉**:
   1. **물리 기계의 난해함**: 초기엔 CPU가 직접 모터의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 타이밍까지 맞춰가며 제어하느라 CPU가 뻗어버렸다.
   2. **컨트롤러(Controller)의 분리 독립**: 각 디바이스에 작은 칩셋(컨트롤러)을 달아서, 기계 제어 노가다는 이 칩셋이 전담하게 만듦.
-  3. **표준 인터페이스(3대 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) 확립**: CPU는 이 컨트롤러에 달린 3개의 1바이트짜리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(구멍)만 콕콕 찌르면 끝나는 초간단 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 아키텍처가 완성됨.
+  3. <strong>표준 인터페이스(3대 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>) 확립</strong>: CPU는 이 컨트롤러에 달린 3개의 1바이트짜리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(구멍)만 콕콕 찌르면 끝나는 초간단 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 아키텍처가 완성됨.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        CPU와 프린터(I/O 디바이스)의 3대 레지스터 통신 런타임 시각화  │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [ 1. OS(CPU)의 눈치 보기: Status 쳐다보기 ]                          │
-│  - CPU가 프린터의 [ 상태 레지스터 (Status) ]를 읽어봄.               │
-│  - "음, 0번 비트가 '0(Ready)'이네? 지금 놀고 있구나. 주문 넣자!"     │
-│                                                                      │
-│ [ 2. 음식물 밀어 넣기: Data 전송 ]                                   │
-│  - CPU가 [ 데이터 레지스터 (Data-out) ] 칸에 'A' 글자 1바이트를      │
-│    쑤셔 넣음. "이거 프린트해라!"                                     │
-│                                                                      │
-│ [ 3. 명령 버튼 꾹 누르기: Control 조작 ]                             │
-│  - CPU가 [ 제어 레지스터 (Control) ] 의 '인쇄 시작 비트'에           │
-│    '1'을 띡 써서(Write) 전기 스위치를 켬!                            │
-│                                                                      │
-│ [ 4. 디바이스 컨트롤러의 노가다 시작 ]                               │
-│  - 프린터가 명령을 받고 모터를 징징 돌려 'A'를 종이에 찍기 시작.     │
-│  - 이 동안 프린터는 지 스스로 [ 상태 레지스터 ]를 '1(Busy)'로 바꿈.  │
-│  - 다 찍으면 다시 '0(Ready)'으로 바꾸거나 CPU에 인터럽트를 날림!     │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU와 프린터(I/O 디바이스)의 3대 레지스터 통신 런타임 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. OS(CPU)의 눈치 보기: Status 쳐다보기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가 프린터의</div><div class="kb-diagram-node">상태 레지스터 (Status)</div><div class="kb-diagram-note">를 읽어봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "음, 0번 비트가 '0(Ready)'이네? 지금 놀고 있구나. 주문 넣자!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 음식물 밀어 넣기: Data 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가</div><div class="kb-diagram-node">데이터 레지스터 (Data-out)</div><div class="kb-diagram-note">칸에 'A' 글자 1바이트를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쑤셔 넣음. "이거 프린트해라!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 명령 버튼 꾹 누르기: Control 조작</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가</div><div class="kb-diagram-node">제어 레지스터 (Control)</div><div class="kb-diagram-note">의 '인쇄 시작 비트'에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'1'을 띡 써서(Write) 전기 스위치를 켬!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 디바이스 컨트롤러의 노가다 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프린터가 명령을 받고 모터를 징징 돌려 'A'를 종이에 찍기 시작.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 이 동안 프린터는 지 스스로</div><div class="kb-diagram-node">상태 레지스터</div><div class="kb-diagram-note">를 '1(Busy)'로 바꿈.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다 찍으면 다시 '0(Ready)'으로 바꾸거나 CPU에 인터럽트를 날림!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 3박자 통신은 전 세계 모든 디바이스 드라이버 소스코드(C언어)의 뼈대다. 마우스든, 100G 랜카드든 껍데기를 다 벗겨보면 결국 OS가 "기계 바쁘냐?(Status 검사) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줄게([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) -> 쏴라!(Control [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))" 이 무한 루프를 돌고 있는 것에 불과하다. 이토록 복잡한 기계들을 고작 3개의 변수([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))로 퉁쳐버린 컴퓨터 공학의 극강의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))다.
 
 - **📢 섹션 요약 비유**: 세탁기 돌리는 것과 완벽히 똑같습니다. "세탁기가 다 돌아가서 불이 꺼졌는지(Status) 확인하고 -> 더러운 옷과 세제를 통([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 쑤셔 넣은 뒤 -> 동작 버튼(Control)을 띡 누른다!" 사용자가 세탁기 안의 모터가 어떻게 도는지 1도 알 필요 없이 빨래(I/O)를 끝낼 수 있는 마법의 인터페이스입니다.
@@ -93,28 +92,31 @@ CPU가 디바이스의 동작 모드를 바꾸거나 기계에 명령을 하달�
 
 | 통신 방식 | 찌르는 방법론 | C언어 드라이버 코드 예시 | 하드웨어 특징 |
 |:---|:---|:---|:---|
-| **[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)-Mapped I/O (구형)**| I/O 전용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소와 `IN/OUT` 특권 어셈블리어 사용 | `outb(PORT_ADDRESS, 0xFF);` | 램과 족보가 분리됨. 낡은 키보드/마우스용 |
-| **Memory-Mapped I/O (현대)**| 램 주소(RAM)에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 덮어씌워 **일반 포인터**로 찌름 | `*status_ptr = 0x01;` | **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 그래픽카드, 랜카드, SSD의 대세** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>-Mapped I/O (구형)</strong>| I/O 전용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 주소와 `IN/OUT` 특권 어셈블리어 사용 | `outb(PORT_ADDRESS, 0xFF);` | 램과 족보가 분리됨. 낡은 키보드/마우스용 |
+| **Memory-Mapped I/O (현대)**| 램 주소(RAM)에 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 덮어씌워 <strong>일반 포인터</strong>로 찌름 | `*status_ptr = 0x01;` | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 그래픽카드, 랜카드, SSD의 대세</strong> |
 
 ### [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) ([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))의 병목과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))의 진화
 
 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)(Status)를 쳐다보는 방식이 시스템 성능을 천국과 지옥으로 나눈다.
-- **[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) ([바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/), [Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a>, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)</strong>:
   - CPU가 `while (status_reg == BUSY) {}` 무한 루프를 돌면서 프린터가 쉴 때까지 계~속 쳐다보고 있는다.
   - 디스크가 8ms 동안 바쁘면, CPU는 8ms 동안 천만 번의 연산 기회를 깡그리 날려먹고 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)만 보고 있어야 한다. (극악의 비효율).
-- **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong>:
   - CPU: "프린터야, 나 다른 앱(엑셀) 일하러 간다. 너 다 찍고 Status [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) `Ready`로 바뀌면 나한테 전기 충격(IRQ) 날려!"
   - 프린터가 일을 다 끝내고 전기 핀을 튕기면, CPU가 엑셀을 멈추고 휙 돌아와서 다음 명령을 준다.
   - 이것이 현대 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) OS가 숨통을 트이게 된 가장 기적적인 하드웨어-소프트웨어 융합 설계다.
 
-```text
-┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
-│ 방식       │ CPU 행동    │ 상태(Status) 확인│ 성능 체감                   │
-├──────────┼────────────┼────────────┼──────────────────────────────────────┤
-│ 폴링(Polling)│ 아무것도 못함 ☠️│ CPU가 1초에 만번 물어봄│ 렉 걸리고 멈춤  │
-│ 인터럽트(IRQ)│ 딴 일 쌩쌩 함 🚀│ 기계가 끝났다고 알려줌│ 극강의 멀티태스킹│
-└──────────┴────────────┴────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">CPU 행동</div><div class="kb-diagram-cell">상태(Status) 확인</div><div class="kb-diagram-cell">성능 체감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링(Polling)</div><div class="kb-diagram-cell">아무것도 못함 ☠️</div><div class="kb-diagram-cell">CPU가 1초에 만번 물어봄</div><div class="kb-diagram-cell">렉 걸리고 멈춤</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트(IRQ)</div><div class="kb-diagram-cell">딴 일 쌩쌩 함 🚀</div><div class="kb-diagram-cell">기계가 끝났다고 알려줌</div><div class="kb-diagram-cell">극강의 멀티태스킹</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 초보 드라이버 개발자들이 가장 많이 내는 사고가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 루프를 잘못 짜서 CPU 코어 하나를 100% 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸리게 만들어버리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이다. 하지만 예외적으로 초당 1000만 개가 쏟아지는 최신 10Gbps 랜카드에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 너무 많이 터져서 오히려 CPU가 뻗어버리므로, 다시 일부러 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(NAPI) 모드로 회귀하는 역설적인 상황도 실무에서 펼쳐진다.
 
 - **📢 섹션 요약 비유**: 짜장면 시키고 언제 오나 문 앞에서 계속 배달부만 기다리느라 1시간 동안 아무 일도 못 하는 바보가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))입니다. 똑똑한 사람([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))은 넷플릭스 보다가 딩동! 하고 초인종 소리(IRQ)가 날 때만 1초 나가서 짜장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 받아와 다시 넷플릭스를 봅니다.
@@ -127,16 +129,16 @@ CPU가 디바이스의 동작 모드를 바꾸거나 기계에 명령을 하달�
 리눅스 서버단에서는 이 3대 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 VFS라는 수십 겹의 이불에 싸여있어 보이지 않지만, 아두이노나 라즈베리파이([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 개발자들은 매일 이 쌩얼과 마주하며 피눈물을 흘린다.
 1. **문제의 발단**: [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구 하나를 켜고 싶다.
 2. **Datasheet (매뉴얼) 뒤지기**:
-   - 하드웨어 매뉴얼을 펴서, 이 칩셋의 **제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(Control)** 주소가 `0x40020000`이고, 5번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) On/Off [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 것을 찾아낸다.
+   - 하드웨어 매뉴얼을 펴서, 이 칩셋의 <strong>제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(Control)</strong> 주소가 `0x40020000`이고, 5번 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) On/Off [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라는 것을 찾아낸다.
 3. **포인터 흑마술 코딩**:
    - C언어로 `*(volatile unsigned int *)0x40020000 |= (1 << 5);` 이라는 암호 같은 포인터 코드를 박아 넣는다.
    - 이 한 줄이 실행되는 순간, 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 5번 방이 1로 바뀌고 하드웨어 칩셋이 전기를 쏴서 LED에 불이 확! 들어온다.
-4. **결론**: 세상 모든 화려한 게임 엔진과 스마트폰 앱의 화려한 그래픽도, 밑바닥으로 수십 계단을 파고 내려가면 결국 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커가 **"메모리 맵핑된 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0에서 1로 켜주는 C언어 포인터 노가다"**에 지나지 않는다는 것이 시스템 엔지니어링의 위대한 민낯이다.
+4. **결론**: 세상 모든 화려한 게임 엔진과 스마트폰 앱의 화려한 그래픽도, 밑바닥으로 수십 계단을 파고 내려가면 결국 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커가 <strong>"메모리 맵핑된 제어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>의 특정 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 0에서 1로 켜주는 C언어 포인터 노가다"</strong>에 지나지 않는다는 것이 시스템 엔지니어링의 위대한 민낯이다.
 
 ### volatile 키워드의 존재 이유
 디바이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 다룰 때 C언어 포인터 앞에 `volatile`을 안 붙이면 대참사가 난다.
 똑똑한 C 컴파일러(GCC)는 `while (*status_reg == BUSY);` 라는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 코드를 보고, "어? 루프 안에서 변수값이 바뀔 리가 없네? 무한루프(버그)군. 내가 최적화해서 저 코드를 아예 삭제(Bypass)해 줄게!"라며 맘대로 코드를 지워버린다. (소프트웨어적 착각).
-하지만 저 변수는 램이 아니라 하드웨어(프린터)의 기계가 수시로 바꾸는(Volatile) 예측 불허의 외부 공간이다. `volatile`을 붙여서 **"컴파일러 놈아, 이 주소는 하드웨어가 맘대로 바꾸는 신성한 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)(Status)니까 네 맘대로 캐싱하거나 최적화하지 말고 매 클럭마다 정직하게 물리 램(칩셋)까지 가서 읽어와!"**라고 멱살을 잡고 명령해야만 하드웨어 통신이 뻗지 않고 돌아간다.
+하지만 저 변수는 램이 아니라 하드웨어(프린터)의 기계가 수시로 바꾸는(Volatile) 예측 불허의 외부 공간이다. `volatile`을 붙여서 <strong>"컴파일러 놈아, 이 주소는 하드웨어가 맘대로 바꾸는 신성한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/">상태 레지스터</a>(Status)니까 네 맘대로 캐싱하거나 최적화하지 말고 매 클럭마다 정직하게 물리 램(칩셋)까지 가서 읽어와!"</strong>라고 멱살을 잡고 명령해야만 하드웨어 통신이 뻗지 않고 돌아간다.
 
 - **📢 섹션 요약 비유**: 방 안의 온도계(변수)를 보는데, 똑똑한 비서(컴파일러)가 "아까 24도였으니 지금도 당연히 24도겠지"라며 밖에 나가보지도 않고 계속 24도라고 보고합니다. 그동안 밖에서는 에어컨(하드웨어)이 돌아 온도가 10도까지 떨어져 얼어 죽습니다. `volatile`은 비서에게 "내 뇌피셜(최적화 캐시) 믿지 말고 귀찮아도 무조건 1초마다 진짜 온도계 눈금을 눈으로 직접 보고 와서(직접 메모리 읽기) 보고해!"라고 호통치는 안전 수칙입니다.
 
@@ -148,8 +150,8 @@ CPU가 디바이스의 동작 모드를 바꾸거나 기계에 명령을 하달�
 
 | 구분 | 내용 |
 |:---|:---|
-| **하드웨어 제어의 S/W [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)** | 복잡한 물리적 타이밍과 모터 제어를 단 3개의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Status, Control) 템플릿으로 퉁쳐, 드라이버 코딩 생산성 100배 향상 |
-| **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 범용성(Portability) 확립** | 새 하드웨어가 나와도, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 고치지 않고 제조사가 저 3개 규격에 맞춘 드라이버 코드만 꽂으면(Plug & Play) 무한한 확장 가능 |
+| <strong>하드웨어 제어의 S/W <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong> | 복잡한 물리적 타이밍과 모터 제어를 단 3개의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), Status, Control) 템플릿으로 퉁쳐, 드라이버 코딩 생산성 100배 향상 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 범용성(Portability) 확립</strong> | 새 하드웨어가 나와도, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 고치지 않고 제조사가 저 3개 규격에 맞춘 드라이버 코드만 꽂으면(Plug & Play) 무한한 확장 가능 |
 | **I/O 병목 돌파의 교두보** | 이 단순한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 인터페이스를 바탕으로, CPU 대신 짐을 나르는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 칩셋 같은 궁극의 최적화 기술이 잉태됨 |
 
 ### 결론 및 미래 전망
@@ -171,15 +173,19 @@ I/O 하드웨어 인터페이스 요소 ([Data](/knowledge-base/studynote/05_dat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[네트워크 장치 (소켓 인터페이스)]
-    │
-    ▼
-[I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)]
-    │
-    ├──▶ [포트 (Port) / 버스 (Bus)]
-    └──▶ [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

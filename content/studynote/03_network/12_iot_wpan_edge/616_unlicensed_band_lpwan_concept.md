@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-국가(전파관리소)에 주파수 사용료를 내지 않고, 출력 기준 등 정해진 규격만 지키면 **누구나 공짜로 무선 기기를 만들어 통신할 수 있도록 허방된 주파수 대역**입니다. (예: 와이파이가 쓰는 2.4GHz, 5GHz 등 ISM 대역). LPWAN은 전파 도달 거리를 극대화하기 위해 보통 1GHz 미만의 낮은 주파수 대역(Sub-1GHz, 한국은 주로 900MHz 대역)을 활용합니다.
+국가(전파관리소)에 주파수 사용료를 내지 않고, 출력 기준 등 정해진 규격만 지키면 <strong>누구나 공짜로 무선 기기를 만들어 통신할 수 있도록 허방된 주파수 대역</strong>입니다. (예: 와이파이가 쓰는 2.4GHz, 5GHz 등 ISM 대역). LPWAN은 전파 도달 거리를 극대화하기 위해 보통 1GHz 미만의 낮은 주파수 대역(Sub-1GHz, 한국은 주로 900MHz 대역)을 활용합니다.
 
-```text
-[LPWAN 개요]
-│
-▼
-[비면허 대역 LPWAN 분야]
-│
-└──▶ [LoRa / LoRaWAN 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,14 +50,18 @@ tags = ["studynote-network"]
 - **낮은 전송 속도**: 100bps ~ 수 Kbps로 매우 느려, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 원격 업데이트(FOTA) 등 약간 덩치가 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 사실상 불가능합니다.
 - **지역별 법적 한계 (LBT 제약)**: 전파 독점을 막기 위해, 한 번 전파를 쏘고 나면 법적으로 일정 시간 동안 쉬어야 하는 의무(LBT: Listen Before Talk 또는 Duty Cycle 규제)가 있어 실시간 통제가 불가능에 가깝습니다.
 
-```text
-[LPWAN 개요]
-│
-▼
-[비면허 대역 LPWAN 분야]
-│
-└──▶ [LoRa / LoRaWAN 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,8 +70,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 이 무료 주파수 세계를 평정하기 위해 유럽발 기술들이 각축전을 벌였습니다.
-1. **[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/))**: 가장 널리 퍼진 개방형 생태계 (자세한 내용은 617번 문서)
-2. **[Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) ([시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/))**: 가장 극단적으로 속도를 줄이고 극초저전력을 이룬 기술 (자세한 내용은 618번 문서)
+1. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>)</strong>: 가장 널리 퍼진 개방형 생태계 (자세한 내용은 617번 문서)
+2. <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">Sigfox</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">시그폭스</a>)</strong>: 가장 극단적으로 속도를 줄이고 극초저전력을 이룬 기술 (자세한 내용은 618번 문서)
 3. **기타**: Weightless, Wi-SUN 등
 
 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요가 기반 조건을 만든다면, 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 그 위에서 핵심 메커니즘을 구현하고, [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: LPWAN 개요]
-│
-▼
-[현재 개념: 비면허 대역 LPWAN 분야]
-│
-├──▶ [확장 A: LoRa / LoRaWAN 표준]
-└──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LPWAN 개요</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LoRa / LoRaWAN 표준</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

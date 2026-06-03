@@ -20,17 +20,17 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Transit)**: 클라이언트와 서버, 또는 서버와 서버 사이를 날아다니는(네트워크 케이블) 패킷을 암호화하여 스니핑(Sniffing, 엿보기)을 막는 패턴 (예: [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)).
-  - **저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))**: 하드 디스크, DB 테이블, S3 스토리지에 기록된 정적인 파일을 암호화하여 디스크 자체를 훔쳐 가도 못 열어보게 막는 패턴.
+  - <strong>전송 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> in Transit)</strong>: 클라이언트와 서버, 또는 서버와 서버 사이를 날아다니는(네트워크 케이블) 패킷을 암호화하여 스니핑(Sniffing, 엿보기)을 막는 패턴 (예: [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)).
+  - <strong>저장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 암호화 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> at <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">Rest</a>)</strong>: 하드 디스크, DB 테이블, S3 스토리지에 기록된 정적인 파일을 암호화하여 디스크 자체를 훔쳐 가도 못 열어보게 막는 패턴.
 
 - **필요성**: 카페에서 무료 와이파이를 잡고 은행 앱으로 송금을 했다. 만약 평문(Plain text)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈다면, 같은 와이파이에 붙은 해커는 내 아이디와 비밀번호를 그대로 볼 수 있다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) in Transit 방어 실패). 반대로 통신망을 아무리 완벽하게 암호화해도, 클라우드 DB에 주민등록번호가 쌩얼 그대로 저장되어 있다면, 회사 내부 직원이 DB를 몰래 USB에 복사해서 팔아넘기는 순간 끝장이다([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 방어 실패). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때는 이 '움직임'과 '멈춤'의 두 상태를 모두 자물쇠로 잠가야 한다.
 
-- **💡 비유**: 금괴를 다른 도시로 옮길 때, 금괴를 속이 보이지 않는 튼튼한 장갑차에 실어 보내는 것이 **'전송 암호화'**입니다(중간에 강도가 길을 막아도 금괴를 볼 수 없음). 그리고 목적지에 도착한 금괴를 아무나 못 열어보는 비밀번호가 달린 거대한 티타늄 금고 속에 꽉 잠가두는 것이 **'저장 암호화'**입니다.
+- **💡 비유**: 금괴를 다른 도시로 옮길 때, 금괴를 속이 보이지 않는 튼튼한 장갑차에 실어 보내는 것이 <strong>'전송 암호화'</strong>입니다(중간에 강도가 길을 막아도 금괴를 볼 수 없음). 그리고 목적지에 도착한 금괴를 아무나 못 열어보는 비밀번호가 달린 거대한 티타늄 금고 속에 꽉 잠가두는 것이 <strong>'저장 암호화'</strong>입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **HTTP와 스니핑의 공포**: 90년대 인터넷은 평문 HTTP로 텍스트를 날렸고, [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MITM) 한방에 모든 비밀번호가 털렸다. 넷스케이프(Netscape)가 SSL(지금의 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 발명하며 웹 암호화의 막이 올랐다.
-  2. **DB 보안 및 법제화 ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/))**: 디스크를 빼가는 도둑이 늘자, 오라클 등 DB 벤더들은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수정 없이 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 직전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하는 투명한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)) 기능을 내장하기 시작했고, 각국 정부는 주민번호 암호화를 법으로 강제했다.
-  3. **[KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 클라우드화**: "암호화를 아무리 잘해도 암호를 푸는 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 소스 코드에 하드코딩해서 털리면 말짱 도루묵이다"라는 뼈아픈 교훈을 얻은 뒤, 현대 클라우드는 키 자체를 철저히 격리 보관하는 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) 아키텍처로 진화했다.
+  2. <strong>DB 보안 및 법제화 (<a href="/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/">개인정보보호법</a>)</strong>: 디스크를 빼가는 도둑이 늘자, 오라클 등 DB 벤더들은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수정 없이 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 직전에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화하는 투명한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)) 기능을 내장하기 시작했고, 각국 정부는 주민번호 암호화를 법으로 강제했다.
+  3. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/">KMS</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)의 클라우드화</strong>: "암호화를 아무리 잘해도 암호를 푸는 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 소스 코드에 하드코딩해서 털리면 말짱 도루묵이다"라는 뼈아픈 교훈을 얻은 뒤, 현대 클라우드는 키 자체를 철저히 격리 보관하는 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) 아키텍처로 진화했다.
 
 - **📢 섹션 요약 비유**: 암호화는 도둑에게 훔쳐 갈 물건 대신 조각난 1만 피스짜리 퍼즐(쓰레기)을 안겨주는 기술입니다. 퍼즐을 맞출 유일한 설명서(키)는 아예 다른 은행([KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/))에 맡겨둠으로써 도둑을 완벽하게 절망시킵니다.
 
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 전송 및 저장 패턴의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  데이터 암호화 전송 및 저장 패턴                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 암호화 전송 및 저장 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 전송 및 저장 패턴가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 전송 및 저장 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 전송 및 저장 패턴의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 전송 및 저장 패턴의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-데이터 암호화 전송 및 저장 패턴 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데이터 암호화 전송 및 저장 패턴 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,14 +25,18 @@ tags = ["studynote-network"]
 - **East-West (동서 횡적) 트래픽 🌟**: 우리 회사 내부망 안에서 웹 서버 ➜ WAS 서버 ➜ DB 서버끼리 데이터를 주고받는 내부 트래픽입니다. 옛날엔 "우리 식구끼리 뭐 어때" 하고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 없이 그냥 고속도로를 뻥 뚫어놨습니다.
 - **재앙(Lateral Movement)**: 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 인사팀 말단 직원 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대를 감염시킵니다(성문 통과). 그 뒤 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 없는 내부 고속도로(East-West)를 타고 횡적 이동하여 중앙 DB 서버까지 광속으로 돌진해 기밀을 통째로 털어갑니다.
 
-```text
-[제로 트러스트 구조]
-    │
-    ▼
-[마이크로 세그멘테이션]
-    │
-    └──▶ [eBPF 커널 네트워킹 후킹 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,16 +44,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 하나의 거대한 내부 네트워크 서브넷 대역을 무수히 많고 미세한 조각(Micro [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))으로 잘게 쪼개고, 그 **쪼개진 조각(서버나 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 단위)마다 각각 독립적인 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 씌워 서로 간의 통신을 물리적/논리적으로 완벽하게 격리시키는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 핵심 보안 기술**입니다.
+- **개념**: 하나의 거대한 내부 네트워크 서브넷 대역을 무수히 많고 미세한 조각(Micro [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))으로 잘게 쪼개고, 그 <strong>쪼개진 조각(서버나 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 단위)마다 각각 독립적인 가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)을 씌워 서로 간의 통신을 물리적/논리적으로 완벽하게 격리시키는 <a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)의 핵심 보안 기술</strong>입니다.
 
-```text
-[제로 트러스트 구조]
-    │
-    ▼
-[마이크로 세그멘테이션]
-    │
-    └──▶ [eBPF 커널 네트워킹 후킹 시스템]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,13 +69,13 @@ tags = ["studynote-network"]
 
 ### 1. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))의 기적
 - 답은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(소프트웨어)입니다. 850번 SDN과 VMware NSX 같은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 솔루션이 이 마법을 부립니다.
-- 하나의 거대한 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 서버 100대가 꽂혀있어도, 중앙의 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(뇌)가 **서버 1대의 랜카드(vNIC) 바로 코앞에 '눈에 보이지 않는 논리적 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 조각' 100개를 소프트웨어로 찍어내어 코팅**해 버립니다.
+- 하나의 거대한 물리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 서버 100대가 꽂혀있어도, 중앙의 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(뇌)가 <strong>서버 1대의 랜카드(vNIC) 바로 코앞에 '눈에 보이지 않는 논리적 미니 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 조각' 100개를 소프트웨어로 찍어내어 코팅</strong>해 버립니다.
 - 웹 서버 VM과 DB 서버 VM이 같은 기계, 같은 IP 대역 안에 있더라도, 컨트롤러가 통신을 막아버리면 둘은 평생 서로의 얼굴을 볼 수 없는 완벽한 단절 상태가 됩니다.
 
 ### 2. 레이블 기반의 마이크로 통제 (IP에서 벗어나라)
 - 옛날 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰: "192.168.1.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 은 192.168.2.20 에 접속 금지!" (IP가 바뀌면 룰이 깨짐)
 - 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 룰: "태그 이름이 `[DB 서버]`인 놈은 `[웹 서버]`인 놈 빼고 아무랑도 대화 불가!" 
-- 클라우드에서 서버 IP가 하루에 100번이 바뀌든, 서버가 서울에서 부산 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이동)을 하든, **가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 IP가 아니라 '태그(이름표)'를 따라다니며 서버의 영혼에 영원히 들러붙어 감시합니다.**
+- 클라우드에서 서버 IP가 하루에 100번이 바뀌든, 서버가 서울에서 부산 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)로 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이동)을 하든, <strong>가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>은 IP가 아니라 '태그(이름표)'를 따라다니며 서버의 영혼에 영원히 들러붙어 감시합니다.</strong>
 
 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)가 기반 조건을 만든다면, 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 그 위에서 핵심 메커니즘을 구현하고, [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부망(East-West)은 **'수영장 탈의실'**이었습니다. 입구 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 옷장 열쇠를 받아 탈의실 안에만 들어오면, 그 거대한 방 안에서는 100명의 사람이 칸막이 없이 발가벗고 자유롭게 돌아다니며 서로 대화할 수 있었습니다. 해커(전염병 환자) 1명만 탈의실에 들어오면 100명 전체가 즉시 감염됐습니다. **마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)**은 이 거대한 탈의실 안에 **'1인용 밀폐 유리관 100개(논리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))'**를 소프트웨어로 하늘에서 내려 씌운 것입니다. 1번 유리관에 들어간 사람은 2번 유리관 사람과 절대 손을 잡을 수 없고 공기도 섞이지 않습니다(완벽한 횡적 격리). 전염병 해커가 1번 유리관 안에 침투하더라도, 유리관을 깨고 나오지 못해 옆 사람(DB 서버)에게 병을 퍼뜨리지 못하고 그 좁은 방 안에서 혼자 갇혀 죽게 만드는 궁극의 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 감옥 시스템입니다.
+- **📢 섹션 요약 비유**: 과거의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부망(East-West)은 <strong>'수영장 탈의실'</strong>이었습니다. 입구 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 옷장 열쇠를 받아 탈의실 안에만 들어오면, 그 거대한 방 안에서는 100명의 사람이 칸막이 없이 발가벗고 자유롭게 돌아다니며 서로 대화할 수 있었습니다. 해커(전염병 환자) 1명만 탈의실에 들어오면 100명 전체가 즉시 감염됐습니다. <strong>마이크로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong>은 이 거대한 탈의실 안에 <strong>'1인용 밀폐 유리관 100개(논리적 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)'</strong>를 소프트웨어로 하늘에서 내려 씌운 것입니다. 1번 유리관에 들어간 사람은 2번 유리관 사람과 절대 손을 잡을 수 없고 공기도 섞이지 않습니다(완벽한 횡적 격리). 전염병 해커가 1번 유리관 안에 침투하더라도, 유리관을 깨고 나오지 못해 옆 사람(DB 서버)에게 병을 퍼뜨리지 못하고 그 좁은 방 안에서 혼자 갇혀 죽게 만드는 궁극의 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 감옥 시스템입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 제로 트러스트 구조]
-    │
-    ▼
-[현재 개념: 마이크로 세그멘테이션]
-    │
-    ├──▶ [확장 A: eBPF 커널 네트워킹 후킹 시스템]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 제로 트러스트 구조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 세그멘테이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: eBPF 커널 네트워킹 후킹 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)는 [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

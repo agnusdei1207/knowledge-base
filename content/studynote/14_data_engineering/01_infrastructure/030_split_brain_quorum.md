@@ -18,26 +18,27 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-스플릿 브레인 시나리오:
 
-  정상:
-  [Node1(M)] ── [Node2] ── [Node3]
-  M = Master, 모두 연결
 
-  네트워크 파티션:
-  [Node1(M)] ✗✗✗✗✗ [Node2(M)] ── [Node3]
-      │                    │
-      │                    │
-  "내가 마스터!"        "내가 마스터!"
-  독립 쓰기 수행        독립 쓰기 수행
-  → 데이터 충돌!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스플릿 브레인 시나리오:</div>
+<div class="kb-diagram-note">정상:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node1(M)</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Node2</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Node3</div></div>
+<div class="kb-diagram-note">M = Master, 모두 연결</div>
+<div class="kb-diagram-note">네트워크 파티션:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Node1(M)</div><div class="kb-diagram-note">✗✗✗✗✗</div><div class="kb-diagram-node">Node2(M)</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Node3</div></div>
+<div class="kb-diagram-note">"내가 마스터!" "내가 마스터!"</div>
+<div class="kb-diagram-note">독립 쓰기 수행 독립 쓰기 수행</div>
+<div class="kb-diagram-note">→ 데이터 충돌!</div>
+<div class="kb-diagram-note">쿼럼 해결:</div>
+<div class="kb-diagram-note">3노드 클러스터 쿼럼 = 2</div>
+<div class="kb-diagram-note">Node1 단독: 쿼럼 없음 → 읽기 전용</div>
+<div class="kb-diagram-note">Node2+3: 쿼럼 있음 → 정상 운영</div>
+</div>
+</div>
 
-쿼럼 해결:
-  3노드 클러스터 쿼럼 = 2
-  Node1 단독: 쿼럼 없음 → 읽기 전용
-  Node2+3: 쿼럼 있음 → 정상 운영
-```
+
 
 - **📢 섹션 요약 비유**: [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)은 전화 불통된 두 지사가 각자 독립적으로 결정하는 것이다. 둘 다 "내가 본사 지시를 받은 책임자"라고 주장하며 다른 결정을 내리면 혼란이 생긴다.
 
@@ -56,19 +57,24 @@ tags = ["studynote-data-engineering"]
 
 ### [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) (쿼럼 기반)
 
-```text
-리더 선출:
-  1. 팔로워 타임아웃 → 후보자 전환
-  2. 후보자가 전체에 투표 요청
-  3. 과반수 투표 획득 → 리더 선출
-  4. 리더가 하트비트 전송 (팔로워 안정화)
 
-로그 복제:
-  1. 클라이언트 → 리더에 쓰기 요청
-  2. 리더 → 팔로워에 로그 항목 복제
-  3. 과반수 수신 확인 → 커밋
-  4. 리더 → 클라이언트에 성공 응답
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">리더 선출:</div>
+<div class="kb-diagram-note">1. 팔로워 타임아웃 → 후보자 전환</div>
+<div class="kb-diagram-note">2. 후보자가 전체에 투표 요청</div>
+<div class="kb-diagram-note">3. 과반수 투표 획득 → 리더 선출</div>
+<div class="kb-diagram-note">4. 리더가 하트비트 전송 (팔로워 안정화)</div>
+<div class="kb-diagram-note">로그 복제:</div>
+<div class="kb-diagram-note">1. 클라이언트 → 리더에 쓰기 요청</div>
+<div class="kb-diagram-note">2. 리더 → 팔로워에 로그 항목 복제</div>
+<div class="kb-diagram-note">3. 과반수 수신 확인 → 커밋</div>
+<div class="kb-diagram-note">4. 리더 → 클라이언트에 성공 응답</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 리더 선출은 반장 선거다. 아무도 없으면 후보가 손 들고, 반 과반수 이상의 동의를 받으면 반장(리더)이 된다. 과반수 없이는 아무도 반장이 될 수 없다.
 
@@ -91,17 +97,21 @@ tags = ["studynote-data-engineering"]
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sentinel [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어
 
-```text
-min-replicas-to-write 1
-min-replicas-max-lag 10
 
-→ 최소 1개 복제본이 10초 이내 응답해야 쓰기 허용
-→ 마스터 고립 시 쓰기 거부 (스플릿 브레인 방지)
 
-Sentinel 쿼럼:
-  3 Sentinel → 2개 동의 시 마스터 다운 판단
-  → 페일오버 수행
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">min-replicas-to-write 1</div>
+<div class="kb-diagram-note">min-replicas-max-lag 10</div>
+<div class="kb-diagram-note">→ 최소 1개 복제본이 10초 이내 응답해야 쓰기 허용</div>
+<div class="kb-diagram-note">→ 마스터 고립 시 쓰기 거부 (스플릿 브레인 방지)</div>
+<div class="kb-diagram-note">Sentinel 쿼럼:</div>
+<div class="kb-diagram-note">3 Sentinel → 2개 동의 시 마스터 다운 판단</div>
+<div class="kb-diagram-note">→ 페일오버 수행</div>
+</div>
+</div>
+
+
 
 ### [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 쿼럼 실패 대응
 
@@ -123,9 +133,9 @@ Sentinel 쿼럼:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)으로 인한 충돌 방지 |
-| **자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 쿼럼 기반 마스터 자동 선출 |
-| **[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 안정성** | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 쿼럼이 클러스터 제어 보장 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/)으로 인한 충돌 방지 |
+| <strong>자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 쿼럼 기반 마스터 자동 선출 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> 안정성</strong> | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 쿼럼이 클러스터 제어 보장 |
 
 차세대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)으로 HotStuff·Tendermint·[BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)(Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 변형들이 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)·Web3 환경에서 주목받고 있다. 악의적 노드(Byzantine 노드)까지 허용하는 BFT는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)의 이론적 기반이 된다.
 
@@ -137,29 +147,31 @@ Sentinel 쿼럼:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리** | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 C vs A 선택 |
-| **[Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)/Paxos** | 쿼럼 기반 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) |
-| **[etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)** | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 쿼럼 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) KV 저장소 |
-| **[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Sentinel** | 쿼럼 기반 마스터 자동 페일오버 |
-| **[BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)** | 악의적 노드 포함 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리</strong> | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 C vs A 선택 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a>/Paxos</strong> | 쿼럼 기반 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/">etcd</a></strong> | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 쿼럼 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) KV 저장소 |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Sentinel</strong> | 쿼럼 기반 마스터 자동 페일오버 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/">BFT</a></strong> | 악의적 노드 포함 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스플릿 브레인 — 네트워크 파티션 시 독립 동작 충돌]
-    │
-    ▼
-[쿼럼 — 과반수 합의로 단일 파티션 활성화]
-    │
-    ▼
-[Paxos/Raft — 쿼럼 기반 분산 합의 알고리즘]
-    │
-    ▼
-[etcd/ZooKeeper — 쿼럼 기반 분산 코디네이션 서비스]
-    │
-    ▼
-[BFT/HotStuff — 블록체인 Byzantine 내성 합의]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스플릿 브레인 — 네트워크 파티션 시 독립 동작 충돌</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">쿼럼 — 과반수 합의로 단일 파티션 활성화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Paxos/Raft — 쿼럼 기반 분산 합의 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">etcd/ZooKeeper — 쿼럼 기반 분산 코디네이션 서비스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BFT/HotStuff — 블록체인 Byzantine 내성 합의</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

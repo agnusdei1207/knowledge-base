@@ -25,25 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 스펙터의 큰 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Spectre overview: train predictor, trigger victim, read cache trail       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Attacker training                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Predictor expects "safe path"                                              │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Victim executes wrong transient path                                       │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Secret-dependent cache footprint                                           │
-│      │                                                                     │
-│      ▼                                                                     │
-│ Timing measurement -> secret inference                                     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spectre overview: train predictor, trigger victim, read cache trail</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker training</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predictor expects "safe path"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim executes wrong transient path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret-dependent cache footprint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timing measurement -&gt; secret inference</div></div>
+</div>
+</div>
+
+
 
 즉 스펙터의 본질은 권한 검사를 정면으로 깨는 것이 아니라, "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 믿고 있던 예측"을 공격면으로 바꾸는 데 있다. 이 때문에 스펙터는 단순 취약점이 아니라 현대 고성능 프로세서의 설계 철학과 보안 모델이 충돌한 사건으로 기억된다.
 
@@ -65,28 +60,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 가장 전형적인 v1 흐름을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Spectre v1 flow: transient path turns secret into cache state             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 1) Train with in-bounds index                                              │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 2) Predictor learns branch as taken                                        │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 3) Malicious out-of-bounds index arrives                                   │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 4) Victim transiently reads secret byte S                                  │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 5) probe[S * 4096] touched in cache                                        │
-│        │                                                                   │
-│        ▼                                                                   │
-│ 6) Attacker times probe array and learns S                                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spectre v1 flow: transient path turns secret into cache state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Train with in-bounds index</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Predictor learns branch as taken</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Malicious out-of-bounds index arrives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Victim transiently reads secret byte S</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">5) probe</div><div class="kb-diagram-node">S * 4096</div><div class="kb-diagram-note">touched in cache</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6) Attacker times probe array and learns S</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 스펙터는 단순히 예측기를 끄면 끝나는 문제가 아니다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실이 너무 크고, 실제 시스템은 브랜치와 간접 호출에 깊게 의존한다. 그래서 실무에서는 "예측기 자체", "피해자 코드 패턴", "타이밍 측정 수단"을 동시에 줄이는 다층 대응이 필요하다.
 
@@ -120,9 +108,9 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **[가젯](/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)**: 공격자 입력이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사, 함수 포인터, 간접 분기와 만나는 코드 경로를 찾았는가?
+1. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/345_gadget_rop/">가젯</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 공격자 입력이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사, 함수 포인터, 간접 분기와 만나는 코드 경로를 찾았는가?
 2. **컴파일러 완화**: [Retpoline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/580_retpoline/), LFENCE, bounds masking 같은 옵션이 민감 바이너리에 적용되었는가?
-3. **마이크로코드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: IBRS ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Restricted Speculation), [IBPB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/) ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor Barrier), STIBP (Single [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictors) 같은 제어 기능이 필요한 환경에서 활성화되었는가?
+3. <strong>마이크로코드 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: IBRS ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Restricted Speculation), [IBPB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/) ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor Barrier), STIBP (Single [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictors) 같은 제어 기능이 필요한 환경에서 활성화되었는가?
 4. **런타임 격리**: 브라우저 사이트 격리, 샌드박스 강화, 다중 테넌트 코어 공유 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 점검되었는가?
 5. **측정 수단 축소**: 고해상도 타이머, 정밀 캐시 관찰, 공격자 코드와 비밀 코드의 동시 배치를 줄였는가?
 
@@ -162,19 +150,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-깊은 파이프라인 · 분기 예측
-        │
-        ▼
-추측 실행 (Speculative Execution)
-        │
-        ▼
-스펙터 (Spectre)
-        │
-        ├────────▶ Retpoline · LFENCE · IBRS
-        │
-        └────────▶ 사이트 격리 · 타이머 축소 · 예측기 분할
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">깊은 파이프라인 · 분기 예측</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">추측 실행 (Speculative Execution)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스펙터 (Spectre)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Retpoline · LFENCE · IBRS</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 사이트 격리 · 타이머 축소 · 예측기 분할</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위한 예측"이 "보안 위험"으로 바뀌고, 다시 소프트웨어와 하드웨어가 함께 추측의 범위를 다듬는 방향으로 발전한 과정을 보여 준다.
 

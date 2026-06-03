@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 시스템은 시간이 지날수록 부패한다. 그 부패의 가장 큰 원인은 '스파게티 의존성'이다. 비즈니스 로직(할인율 계산)을 짜다가 DB에 저장해야 하니 SQL 쿼리를 섞어 짜고, 화면에 보여줘야 하니 HTML 렌더링 코드를 섞어 짠다.
 
-전통적인 3계층(N-Tier) 아키텍처는 'UI $\rightarrow$ 비즈니스 로직 $\rightarrow$ DB' 순서로 의존성이 흘러갔다. 결국 모든 코드가 맨 밑바닥에 있는 DB에 의존하게 되어, DB 스키마가 바뀌면 비즈니스 로직도 무조건 수정해야 하는 **'DB 주도 설계(Database-Driven Design)'의 노예**가 되었다.
+전통적인 3계층(N-Tier) 아키텍처는 'UI $\rightarrow$ 비즈니스 로직 $\rightarrow$ DB' 순서로 의존성이 흘러갔다. 결국 모든 코드가 맨 밑바닥에 있는 DB에 의존하게 되어, DB 스키마가 바뀌면 비즈니스 로직도 무조건 수정해야 하는 <strong>'DB 주도 설계(Database-Driven Design)'의 노예</strong>가 되었다.
 
-이 사슬을 끊기 위해 등장한 것이 **[어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)([Onion Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/))**다. "데이터베이스는 핵심이 아니라 그저 데이터를 저장하는 세부 부품일 뿐이다. 진짜 핵심은 우리의 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이며, 이것을 양파의 가장 깊은 곳에 숨겨두자"는 선언이다.
+이 사슬을 끊기 위해 등장한 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/">어니언 아키텍처</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/">Onion Architecture</a>)</strong>다. "데이터베이스는 핵심이 아니라 그저 데이터를 저장하는 세부 부품일 뿐이다. 진짜 핵심은 우리의 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이며, 이것을 양파의 가장 깊은 곳에 숨겨두자"는 선언이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 은행 금고(DB)를 중심에 두고 은행 시스템(로직)을 설계했다면, [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)는 '은행의 이자율 계산 규칙([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))'을 가장 깊은 중심에 두고, 금고나 창구 직원은 껍질 밖에서 그 규칙을 가져다 쓰기만 하도록 구조를 뒤집은 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어 격리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  어니언 아키텍처 도메인 코어 격리                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어니언 아키텍처 도메인 코어 격리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어 격리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)는 이름 그대로 양파 껍질 구조를 가진다. 핵심 규칙은 **"의존성은 오직 밖에서 안으로만 향해야 한다"**는 것이다.
+[어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)는 이름 그대로 양파 껍질 구조를 가진다. 핵심 규칙은 <strong>"의존성은 오직 밖에서 안으로만 향해야 한다"</strong>는 것이다.
 
 - **📢 섹션 요약 비유**: [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어 격리은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -76,11 +75,11 @@ tags = ["studynote-software-engineering"]
 
 | 아키텍처 | 핵심 강조점 | 차이점 및 특징 |
 |:---|:---|:---|
-| **[헥사고날 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/)** (2005) | **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)** | 외부와의 소통을 '[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터페이스)'와 '[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(구현체)'라는 명확한 규격으로 분리하는 데 집중. |
-| **[어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)** (2008) | **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 코어의 격리**| 헥사고날을 바탕으로, 내부를 **'[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델'과 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'로 더 세밀하게 쪼개어** 객체지향 설계를 강조. |
-| **[클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)** (2012) | **통합 및 완성** | 헥사고날과 어니언의 사상을 모두 집대성하고, 유스케이스(Usecase)라는 명칭을 대중화시킴. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/216_hexagonal_architecture_ports_and_adapters/">헥사고날 아키텍처</a></strong> (2005) | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a></strong> | 외부와의 소통을 '[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터페이스)'와 '[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(구현체)'라는 명확한 규격으로 분리하는 데 집중. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/">어니언 아키텍처</a></strong> (2008) | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 코어의 격리</strong>| 헥사고날을 바탕으로, 내부를 <strong>'<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델'과 '<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>'로 더 세밀하게 쪼개어</strong> 객체지향 설계를 강조. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/">클린 아키텍처</a></strong> (2012) | **통합 및 완성** | 헥사고날과 어니언의 사상을 모두 집대성하고, 유스케이스(Usecase)라는 명칭을 대중화시킴. |
 
-세 아키텍처 모두 **"의존성 역전([DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/))을 통해 비즈니스 로직을 외부 인프라로부터 보호한다"**는 궁극적인 목표가 정확히 일치한다.
+세 아키텍처 모두 <strong>"의존성 역전(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)을 통해 비즈니스 로직을 외부 인프라로부터 보호한다"</strong>는 궁극적인 목표가 정확히 일치한다.
 
 - **📢 섹션 요약 비유**: 헥사고날이 "집에 들어오려면 무조건 이 규격의 멀티탭([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 써라!"라고 강조한다면, [어니언 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/218_onion_architecture_domain_centric_design/)는 "멀티탭을 쓰는 건 당연하고, 집 안의 침실([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)과 거실([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 깔끔하게 나눠서 쓰자"라고 집 내부의 객체지향 인테리어를 더 강조한 것이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-어니언 아키텍처 도메인 코어 격리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">어니언 아키텍처 도메인 코어 격리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

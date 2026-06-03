@@ -54,11 +54,11 @@ tags = ["studynote-operating-system"]
 ### 주요 유형
 | 유형 | 설명 | 위험 수준 |
 |---|---|---|
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 감염 virus** | 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe, .com 등)에 부착 | 높음 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 감염 virus</strong> | 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe, .com 등)에 부착 | 높음 |
 | **부트 섹터 virus** | [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)/부트 섹터에 감염 | 중간~높음 |
 | **매크로 virus** | [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)/Excel VBA 매크로 활용 | 중간 |
 | **스크립트 virus** | PowerShell, JavaScript 등 | 중간 |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)리스 virus** | 메모리 내에서만 동작 | 높음 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>리스 virus</strong> | 메모리 내에서만 동작 | 높음 |
 | **다형성 virus** | 매번 코드를 변형 | 높음 |
 | **메타모르픽 virus** | 전체 코드 변형 | 매우 높음 |
 
@@ -68,22 +68,21 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-```text
-[비교 다이어그램]
 
-+--------+
-| Malware|
-+---+----+
-|
-+-----+------+-----+
-| | |
-Virus Worm Trojan
-| | |
-v v v
-기생적 자율적 위장
-자기복제 네트워크전파 가짜선물
-숙주필요 비호스트 수동실행
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비교 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Malware</div></div>
+<div class="kb-diagram-note">Virus Worm Trojan</div>
+<div class="kb-diagram-note">v v v</div>
+<div class="kb-diagram-note">기생적 자율적 위장</div>
+<div class="kb-diagram-note">자기복제 네트워크전파 가짜선물</div>
+<div class="kb-diagram-note">숙주필요 비호스트 수동실행</div>
+</div>
+</div>
+
+
 
 | 구분 |virus|[Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)|Trojan|
 |---|---|---|---|
@@ -118,7 +117,7 @@ v v v
 |---|---|---|---|
 | **0-day virus 탐지** | < 15% | 65~80% | 크게 향상 |
 | **감염 확산 시간** | 수시간~수일 | 즉시 차단 | 최소화 |
-| **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간** | 수일~수주 | 수시간 | 단축 |
+| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong> | 수일~수주 | 수시간 | 단축 |
 
 ### 향후 전망
 - 다형성 및 메타모르픽virus 증가로 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 탐지의 중요성 확대
@@ -140,15 +139,19 @@ v v v
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[로직 밤 (Logic Bomb) / 타이머 밤]
-│
-▼
-[바이러스 (Virus)]
-│
-├──▶ [웜 (Worm)]
-└──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로직 밤 (Logic Bomb) / 타이머 밤</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">바이러스 (Virus)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웜 (Worm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 (Buffer Overflow) 원리</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,7 +18,7 @@ tags = ["studynote-design"]
 
 ## Ⅰ. 웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)의 정의와 POUR 원칙
 
-웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(Web [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))은 **장애 유형과 관계없이 모든 사람이 웹을 이용할 수 있도록 하는 설계 원칙**이다.
+웹 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(Web [Accessibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))은 <strong>장애 유형과 관계없이 모든 사람이 웹을 이용할 수 있도록 하는 설계 원칙</strong>이다.
 
 ### WCAG 2.1 POUR 4대 원칙
 
@@ -32,7 +32,7 @@ tags = ["studynote-design"]
 ### WCAG 적합성 수준
 
 - **A 수준**: 최소 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 요건 (필수)
-- **[AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) 수준**: 권장·법적 기준 (대부분 국가)
+- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/">AA</a> 수준</strong>: 권장·법적 기준 (대부분 국가)
 - **AAA 수준**: 최고 수준 (일부 콘텐츠)
 
 📢 **섹션 요약 비유**: POUR 원칙은 건물 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)이다 — 볼 수 있는(인지), 들어갈 수 있는(운용), 이해할 수 있는 표지판(이해), 모든 기기와 호환(견고).
@@ -141,47 +141,54 @@ tags = ["studynote-design"]
 
 ## 📌 관련 개념 맵
 
-```
-웹 접근성 진단 (Web Accessibility Diagnosis)
-├── 국제 표준
-│   ├── WCAG 2.1 (W3C)
-│   └── POUR 4대 원칙
-├── 국내 기준
-│   ├── KWCAG 2.1
-│   └── 웹 접근성 인증마크 (WA)
-├── 자동화 도구
-│   ├── axe DevTools
-│   ├── WAVE
-│   └── Lighthouse
-└── 수동 진단
-    ├── 스크린 리더 (NVDA·JAWS·VoiceOver)
-    └── 키보드 네비게이션 테스트
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">웹 접근성 진단 (Web Accessibility Diagnosis)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">국제 표준</div>
+<div class="kb-diagram-note">── WCAG 2.1 (W3C)</div>
+<div class="kb-diagram-note">── POUR 4대 원칙</div>
+<div class="kb-diagram-tree-item" style="--depth:0">국내 기준</div>
+<div class="kb-diagram-note">── KWCAG 2.1</div>
+<div class="kb-diagram-note">── 웹 접근성 인증마크 (WA)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">자동화 도구</div>
+<div class="kb-diagram-note">── axe DevTools</div>
+<div class="kb-diagram-note">── WAVE</div>
+<div class="kb-diagram-note">── Lighthouse</div>
+<div class="kb-diagram-tree-item" style="--depth:0">수동 진단</div>
+<div class="kb-diagram-tree-item" style="--depth:2">스크린 리더 (NVDA·JAWS·VoiceOver)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">키보드 네비게이션 테스트</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              웹 접근성 발전 흐름                                 │
-├──────────────┬────────────────────┬─────────────────────────────┤
-│ 1999년       │ WCAG 1.0 (W3C)    │ 최초 웹 접근성 지침          │
-│ 2008년       │ WCAG 2.0          │ POUR 원칙 체계화              │
-│ 2015년       │ KWCAG 2.1 (한국)  │ 국내 법적 의무화 기준         │
-│ 2018년       │ WCAG 2.1          │ 모바일·인지 장애 지침 추가   │
-│ 2021년       │ 장애인차별금지법  │ 민간까지 접근성 의무 확대     │
-│ 2023년       │ WCAG 2.2          │ Focus 가시성·터치 타겟 강화  │
-└──────────────┴────────────────────┴─────────────────────────────┘
 
-핵심 키워드 연결:
-POUR 원칙 → WCAG 2.1 → KWCAG 2.1 → WA 인증
-    ↓           ↓            ↓           ↓
-인지/운용   A/AA/AAA     국내 법적    연간 갱신
-  이해/견고  적합수준     의무 기준
-    ↓
-자동화(axe) + 수동(SR) → CI/CD 통합 → 지속적 접근성
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 접근성 발전 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1999년</div><div class="kb-diagram-cell">WCAG 1.0 (W3C)</div><div class="kb-diagram-cell">최초 웹 접근성 지침</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2008년</div><div class="kb-diagram-cell">WCAG 2.0</div><div class="kb-diagram-cell">POUR 원칙 체계화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">KWCAG 2.1 (한국)</div><div class="kb-diagram-cell">국내 법적 의무화 기준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">WCAG 2.1</div><div class="kb-diagram-cell">모바일·인지 장애 지침 추가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021년</div><div class="kb-diagram-cell">장애인차별금지법</div><div class="kb-diagram-cell">민간까지 접근성 의무 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2023년</div><div class="kb-diagram-cell">WCAG 2.2</div><div class="kb-diagram-cell">Focus 가시성·터치 타겟 강화</div></div>
+<div class="kb-diagram-note">핵심 키워드 연결:</div>
+<div class="kb-diagram-note">POUR 원칙 → WCAG 2.1 → KWCAG 2.1 → WA 인증</div>
+<div class="kb-diagram-note">인지/운용 A/AA/AAA 국내 법적 연간 갱신</div>
+<div class="kb-diagram-note">이해/견고 적합수준 의무 기준</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">자동화(axe) + 수동(SR) → CI/CD 통합 → 지속적 접근성</div>
+</div>
+</div>
+
+
 
 ---
 

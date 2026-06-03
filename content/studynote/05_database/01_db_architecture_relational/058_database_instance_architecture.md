@@ -30,9 +30,9 @@ tags = ["database"]
 
 [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 계열 DB를 기준으로 보면 인스턴스의 핵심 메모리는 SGA (System Global Area)다.
 
-- **[Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)**: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 담는다.
-- **[Shared Pool](/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/)**: SQL과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 재사용한다.
-- **[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) Log Buffer**: 변경 이력을 임시 저장한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a></strong>: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 담는다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/057_shared_pool_oracle_sga/">Shared Pool</a></strong>: SQL과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 재사용한다.
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a> Log Buffer</strong>: 변경 이력을 임시 저장한다.
 
 이 메모리 구조가 있어야 빠른 조회와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능하다.
 
@@ -44,10 +44,10 @@ tags = ["database"]
 
 인스턴스는 여러 백그라운드 프로세스가 함께 움직여야 완성된다.
 
-- **DBWR ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Writer)**: 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴다.
+- <strong>DBWR (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> Writer)</strong>: 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓴다.
 - **LGWR (Log Writer)**: [리두](/knowledge-base/studynote/05_database/07_exam_summary/455_redo_log_archive/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기록한다.
-- **SMON (System [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))**: 장애 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 돕는다.
-- **PMON ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))**: 죽은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 자원을 정리한다.
+- <strong>SMON (System <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>: 장애 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 돕는다.
+- <strong>PMON (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>: 죽은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)과 자원을 정리한다.
 - **CKPT (Checkpoint)**: 체크포인트 정보를 맞춘다.
 - **ARCH (Archiver)**: 아카이브 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 만든다.
 
@@ -61,15 +61,21 @@ tags = ["database"]
 
 인스턴스는 시작되면 메모리를 잡고 백그라운드 프로세스를 띄운다. 그 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능해진다.
 
-```text
-Instance 시작
-   ↓
-메모리 할당
-   ↓
-백그라운드 프로세스 기동
-   ↓
-Database 열기
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Instance 시작</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">메모리 할당</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">백그라운드 프로세스 기동</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Database 열기</div>
+</div>
+</div>
+
+
 
 장애가 나면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 정보를 이용해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행한다.
 
@@ -89,15 +95,21 @@ Database 열기
 
 ## 관련 개념 맵
 
-```text
-Database 파일
-   ↓
-Instance
-   ├─ SGA
-   └─ Background Processes
-   ↓
-서비스 동작 / 복구
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Database 파일</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Instance</div>
+<div class="kb-diagram-tree-item" style="--depth:1">SGA</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Background Processes</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서비스 동작 / 복구</div>
+</div>
+</div>
+
+
 
 ---
 

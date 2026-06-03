@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 객체지향 초보들은 기능이 추가될 때마다 부모 클래스 밑에 자식 클래스를 덧붙이는(extends) **'[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)'**을 미친 듯이 씁니다.
+- 객체지향 초보들은 기능이 추가될 때마다 부모 클래스 밑에 자식 클래스를 덧붙이는(extends) <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>'</strong>을 미친 듯이 씁니다.
 - **비극의 상황**: `모양(Shape)`이라는 부모가 있습니다. 자식으로 `원`, `네모`가 있습니다. 여기에 `색깔` 기능을 추가하려 합니다.
 - 멍청한 설계: `빨간원`, `파란원`, `빨간네모`, `파란네모`. 기능(모양)과 구현(색깔)이 한 핏줄([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))로 강하게 얽혀있습니다. 
 - 만약 모양에 '세모'가 추가되고 색깔에 '노란색'이 추가되면? `3(모양) x 3(색깔) = 9개`의 클래스 파일이 우수수 떨어집니다. 수정과 확장이 지옥이 됩니다.
@@ -28,18 +28,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 브리지 (Bridge)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  브리지 (Bridge)                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브리지 (Bridge)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 브리지 (Bridge)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 기능의 껍데기 계층([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))과 실제 속살을 동작시키는 계층(구현 Implementation)을 하나의 뚱뚱한 족보([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))로 묶지 않고, **물리적으로 완전히 독립된 두 개의 클래스 가계도로 찢어 분리한 뒤, 둘 사이를 객체 위임(합성, Bridge)으로 느슨하게 연결하여 두 계층이 서로 독립적으로 무한 확장(진화)할 수 있게 만드는 패턴**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 기능의 껍데기 계층([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))과 실제 속살을 동작시키는 계층(구현 Implementation)을 하나의 뚱뚱한 족보([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))로 묶지 않고, <strong>물리적으로 완전히 독립된 두 개의 클래스 가계도로 찢어 분리한 뒤, 둘 사이를 객체 위임(합성, Bridge)으로 느슨하게 연결하여 두 계층이 서로 독립적으로 무한 확장(진화)할 수 있게 만드는 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 브리지 (Bridge)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -91,10 +90,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 껍데기는 변하지 않는데, 그 속에서 돌아가는 **구동 환경([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), DB 등)이 미친 듯이 여러 개로 나뉘고 계속 추가될 때** 씁니다.
+- 껍데기는 변하지 않는데, 그 속에서 돌아가는 <strong>구동 환경(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>, DB 등)이 미친 듯이 여러 개로 나뉘고 계속 추가될 때</strong> 씁니다.
 - 예: 게임 앱(껍데기)은 1개인데, 이게 `Windows용`, `Mac용`, `Linux용` 등 플랫폼(알맹이)에 맞춰서 렌더링을 3가지로 다르게 해야 할 때. 플랫폼이 10개로 늘어나도 껍데기 게임 코드는 1줄도 고치지 않기 위해 브리지의 다리를 놓습니다.
 
-> 📢 **섹션 요약 비유**: **브리지(Bridge) 패턴**은 스마트폰 제조사의 **'기기 껍데기와 통신사 유심(USIM)칩의 완벽한 이혼 서류'**와 같습니다. 옛날 바보 같은 제조사([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠)는 폰 안에 통신사 모듈을 용접해 버렸습니다. "SKT용 아이폰", "KT용 아이폰", "LG용 아이폰" 이렇게 물리적으로 다른 폰 3대를 찍어내야(클래스 3개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 했습니다. 만약 '아이폰 미니' 모델이 추가되면 폰 공장은 `2개 모델 x 3개 통신사 = 6대`의 다른 기계를 생산해야 하는 지옥([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 폭발)이 열렸습니다. 빡친 애플([브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/))은 폰과 통신 모듈을 완전히 쪼개버립니다(분리). 애플은 오직 **'껍데기 기기([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 추상층)'**만 죽어라 찍어냅니다. 그리고 폰 옆구리에 작은 **'유심칩 트레이(Bridge 다리)'**만 텅 빈 채로 뚫어놓습니다. 통신사들은 애플 눈치 볼 필요 없이 자기들끼리 마음대로 규격에 맞는 **'유심칩(Implementation 구현층)'**만 100만 개를 찍어냅니다(독립적 확장). 소비자는 그냥 예쁜 아이폰(껍데기)을 하나 사고, 자기가 원하는 SKT 유심칩(속살)을 트레이에 '찰칵' 끼워 넣기(위임 연결)만 하면 전화가 터집니다! 폰 껍데기 라인업이 100개로 늘든, 통신사가 100개로 늘든 서로의 공장은 단 1%의 타격도 받지 않고 평생 독자적으로 무한 진화([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))할 수 있는 조립식 생태계의 기적입니다.
+> 📢 **섹션 요약 비유**: <strong>브리지(Bridge) 패턴</strong>은 스마트폰 제조사의 <strong>'기기 껍데기와 통신사 유심(USIM)칩의 완벽한 이혼 서류'</strong>와 같습니다. 옛날 바보 같은 제조사([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠)는 폰 안에 통신사 모듈을 용접해 버렸습니다. "SKT용 아이폰", "KT용 아이폰", "LG용 아이폰" 이렇게 물리적으로 다른 폰 3대를 찍어내야(클래스 3개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 했습니다. 만약 '아이폰 미니' 모델이 추가되면 폰 공장은 `2개 모델 x 3개 통신사 = 6대`의 다른 기계를 생산해야 하는 지옥([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 폭발)이 열렸습니다. 빡친 애플([브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/))은 폰과 통신 모듈을 완전히 쪼개버립니다(분리). 애플은 오직 <strong>'껍데기 기기(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> 추상층)'</strong>만 죽어라 찍어냅니다. 그리고 폰 옆구리에 작은 <strong>'유심칩 트레이(Bridge 다리)'</strong>만 텅 빈 채로 뚫어놓습니다. 통신사들은 애플 눈치 볼 필요 없이 자기들끼리 마음대로 규격에 맞는 <strong>'유심칩(Implementation 구현층)'</strong>만 100만 개를 찍어냅니다(독립적 확장). 소비자는 그냥 예쁜 아이폰(껍데기)을 하나 사고, 자기가 원하는 SKT 유심칩(속살)을 트레이에 '찰칵' 끼워 넣기(위임 연결)만 하면 전화가 터집니다! 폰 껍데기 라인업이 100개로 늘든, 통신사가 100개로 늘든 서로의 공장은 단 1%의 타격도 받지 않고 평생 독자적으로 무한 진화([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))할 수 있는 조립식 생태계의 기적입니다.
 
 - **📢 섹션 요약 비유**: 브리지 (Bridge)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -139,21 +138,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-브리지 (Bridge) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">브리지 (Bridge) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,18 +18,23 @@ tags = ["studynote-design-supervision"]
 
 ## I. 전통 감리 vs 클라우드 감리
 
-```
-전통 감리:
-  현장 방문 -> 서버실·문서 확인
-  물리적 환경 검토 가능
-  산출물: 소스코드, 설계서, 테스트 결과서
 
-클라우드 감리:
-  원격 접속 -> 클라우드 콘솔·API
-  물리적 접근 불가 (CSP 관리)
-  산출물: IaC 코드, CI/CD 로그, CSPM 보고서
-           CSP 감사 인증 (SOC 2, ISO 27001)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 감리:</div>
+<div class="kb-diagram-note">현장 방문 -&gt; 서버실·문서 확인</div>
+<div class="kb-diagram-note">물리적 환경 검토 가능</div>
+<div class="kb-diagram-note">산출물: 소스코드, 설계서, 테스트 결과서</div>
+<div class="kb-diagram-note">클라우드 감리:</div>
+<div class="kb-diagram-note">원격 접속 -&gt; 클라우드 콘솔·API</div>
+<div class="kb-diagram-note">물리적 접근 불가 (CSP 관리)</div>
+<div class="kb-diagram-note">산출물: IaC 코드, CI/CD 로그, CSPM 보고서</div>
+<div class="kb-diagram-note">CSP 감사 인증 (SOC 2, ISO 27001)</div>
+</div>
+</div>
+
+
 
 | 감리 항목    | 전통 감리          | 클라우드 감리             |
 |-----------|------------------|--------------------------|

@@ -25,18 +25,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [소프트웨어 제품 라인](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) (SPL) 요구의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  소프트웨어 제품 라인 (SPL) 요구                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 제품 라인 (SPL) 요구</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [소프트웨어 제품 라인](/knowledge-base/studynote/04_software_engineering/01_overview_principles/019_software_product_line/) (SPL) 요구가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -46,7 +45,7 @@ tags = ["studynote-software-engineering"]
 
 SPL은 공장(플랫폼)을 짓는 일과, 그 공장에서 물건을 찍어내는 두 가지 활동으로 나뉩니다.
 
-1. **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 공학 ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Engineering)**: 공장 짓기 (Core Asset 개발)
+1. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 공학 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Engineering)</strong>: 공장 짓기 (Core Asset 개발)
    - 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(예: 스마트폰 OS, 내비게이션 앱)의 시장을 분석하여 모든 제품에 들어갈 **공통성(Commonality)** 과 제품마다 달라질 **가변성(Variability)** 을 식별합니다.
    - 이를 바탕으로 재사용 가능한 핵심 아키텍처와 코어 자산을 튼튼하게 구축합니다.
 2. **응용 공학 (Application Engineering)**: 제품 찍어내기 (Product 개발)
@@ -117,21 +116,23 @@ SPL은 공장(플랫폼)을 짓는 일과, 그 공장에서 물건을 찍어내�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

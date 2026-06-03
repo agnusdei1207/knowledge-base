@@ -27,25 +27,24 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 정보화 사업에서 감리가 부재할 때 발생하는 정보 비대칭성과 위험 증폭의 구조를 보여준다. 감리라는 필터가 없을 때, 사업자의 숨겨진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 그대로 발주자의 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)로 직결된다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [감리 부재 시 리스크 전파 매커니즘]                     │
-│                                                         │
-│  [사업자 (Auditee)]            [발주자 (Client)]        │
-│  ┌──────────────┐              ┌──────────────┐         │
-│  │ 기술적 복잡성  │  (블랙박스)  │ 요구사항 불일치│         │
-│  │ 숨겨진 결함    ├─ 결함 전파 ─>│ 예산 초과/지연 │         │
-│  │ 아키텍처 한계  │              │ 비즈니스 중단  │         │
-│  └──────┬───────┘              └──────┬───────┘         │
-│         │                               │                │
-│         ▼                               ▼                │
-│  [운영 단계 장애 발생] =======> [대규모 손실 / 소송]    │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 부재 시 리스크 전파 매커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업자 (Auditee)</div><div class="kb-diagram-node">발주자 (Client)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 복잡성</div><div class="kb-diagram-cell">(블랙박스)</div><div class="kb-diagram-cell">요구사항 불일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숨겨진 결함 ─ 결함 전파 ─&gt;</div><div class="kb-diagram-cell">예산 초과/지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 한계</div><div class="kb-diagram-cell">비즈니스 중단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영 단계 장애 발생</div><div class="kb-diagram-connector">=======&gt;</div><div class="kb-diagram-node">대규모 손실 / 소송</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 감리가 개입하지 않은 프로젝트는 본질적으로 블랙박스(Black Box) 상태에 놓인다는 점이다. 발주자는 기술적 전문성이 부족하여 사업자의 진척 보고를 그대로 수용할 수밖에 없고, 이는 종반부 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 단계에서 대규모 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 폭발로 이어진다. 따라서 프로젝트 규모가 클수록, 내부 아키텍처가 복잡할수록 감리의 독립적 시야각이 절대적으로 요구된다.
 
-📢 **섹션 요약 비유**: [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)는 마치 복잡한 건물 건축 시, 시공사(사업자)와 건축주(발주자) 사이에 서서 철근이 도면대로 들어갔는지 엑스레이로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 **'건축 감리'**와 완벽히 동일한 역할을 하여 붕괴를 막습니다.
+📢 **섹션 요약 비유**: [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/)는 마치 복잡한 건물 건축 시, 시공사(사업자)와 건축주(발주자) 사이에 서서 철근이 도면대로 들어갔는지 엑스레이로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong>'건축 감리'</strong>와 완벽히 동일한 역할을 하여 붕괴를 막습니다.
 
 ---
 
@@ -61,21 +60,27 @@ tags = ["design_supervision"]
 
 감리의 수행 흐름은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 지시가 아닌, 점검-지적-조치-[확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 폐쇄 루프(Closed-loop) 사이클을 형성한다.
 
-```text
-[감리 계획 수립]
-   ↓ (과업내용서, 제안서 기준 Baseline 설정)
-[현장 실지 감리] => (문서 검토, 인터뷰, 소스코드 정적 분석, DB 튜닝 검사)
-   ↓
-[결함/개선점 도출] --(상충점 조율/Exit Meeting)--> [감리 보고서 초안 발행]
-   ↓
-[피감리인 조치] => (소스 수정, 설계 보완, 인프라 증설)
-   ↓
-[시정 조치 확인] --(증빙 데이터 기반 재테스트)--> [최종 적합/부적합 판정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 수립</div></div>
+<div class="kb-diagram-note">↓ (과업내용서, 제안서 기준 Baseline 설정)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현장 실지 감리</div><div class="kb-diagram-note">=&gt; (문서 검토, 인터뷰, 소스코드 정적 분석, DB 튜닝 검사)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결함/개선점 도출</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">감리 보고서 초안 발행</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피감리인 조치</div><div class="kb-diagram-note">=&gt; (소스 수정, 설계 보완, 인프라 증설)</div></div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 확인</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">최종 적합/부적합 판정</div></div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 단순 지적에서 끝나는 것이 아니라, 시정 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이라는 강력한 후행 통제 장치가 존재한다는 점이다. 사업자는 감리인의 지적을 무시할 수 없으며, 반드시 조치 결과를 증빙해야 한다. 따라서 시스템의 최종 품질은 감리인의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 능력과 사업자의 조치 역량의 곱으로 결정된다. 실무에서는 이 과정에서 잦은 이견이 발생하므로, [객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)([Objective Evidence](/knowledge-base/studynote/11_design_supervision/01_audit_framework/056_objective_evidence_collection/)) 수집 능력이 감리원의 가장 중요한 역량이다.
 
-📢 **섹션 요약 비유**: 감리 프로세스는 마치 종합 병원의 **'정밀 건강 검진 사이클'**과 같아서, 문진(계획)부터 MRI 촬영(실지 감리), 처방전 발행(보고서), 그리고 재진(시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))까지 빈틈없는 프로세스로 중증 질환(시스템 장애)을 막습니다.
+📢 **섹션 요약 비유**: 감리 프로세스는 마치 종합 병원의 <strong>'정밀 건강 검진 사이클'</strong>과 같아서, 문진(계획)부터 MRI 촬영(실지 감리), 처방전 발행(보고서), 그리고 재진(시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))까지 빈틈없는 프로세스로 중증 질환(시스템 장애)을 막습니다.
 
 ---
 
@@ -83,7 +88,7 @@ tags = ["design_supervision"]
 
 IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)(프로젝트 관리 사무국)와 QA(품질 보증) 조직이 활동한다. 이들의 역할 경계와 시너지를 명확히 이해하는 것은 거버넌스 설계의 핵심이다.
 
-**[정보시스템 감리 vs [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) vs QA 비교 매트릭스]**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/">정보시스템 감리 vs [PMO</a> vs QA 비교 매트릭스]</strong>
 
 | 비교 항목 | [정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) (IS [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) (프로젝트 관리 조직) | QA (품질 보증 파트) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
@@ -94,22 +99,24 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 이 비교 표는 각 주체가 품질을 바라보는 스탠스의 차이를 극명하게 보여준다. 감리 조직은 사법부처럼 독립적으로 판결을 내리는 반면, PMO는 행정부처럼 프로젝트를 직접 끌고 나가고, QA는 실무 부서로서 버그를 잡는다.
 
-```text
-┌──────────────── 품질 통제 3중 방어선 아키텍처 ──────────────┐
-│                                                           │
-│  [제3선: 독립적 보증] ====> 정보시스템 감리법인 (Auditor) │
-│       ▲ (감사/지적)                                       │
-│       │                                                   │
-│  [제2선: 관리적 통제] ====> 발주처 및 PMO (Management)    │
-│       ▲ (보고/승인)                                       │
-│       │                                                   │
-│  [제1선: 실무적 수행] ====> 사업자 개발팀 & QA (Maker)    │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">품질 통제 3중 방어선 아키텍처</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제3선: 독립적 보증</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-note">정보시스템 감리법인 (Auditor)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (감사/지적)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제2선: 관리적 통제</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-note">발주처 및 PMO (Management)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (보고/승인)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제1선: 실무적 수행</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-note">사업자 개발팀 &amp; QA (Maker)</div></div>
+</div>
+</div>
+
+
 
 이 3중 방어선 도식은 금융권의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 모델을 IT 정보화 사업에 매핑한 것이다. 1선(사업자 QA)이 무너지면 2선([PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))이 막고, 2선마저 놓친 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 3선(감리)이 잡아내야 한다. 어느 한 계층이라도 무력화되면 프로젝트는 재앙을 맞이한다. 실무에서는 특히 1선인 사업자의 자체 QA를 감리가 얼마나 신뢰할 수 있느냐에 따라 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 감리의 밀도가 결정된다.
 
-📢 **섹션 요약 비유**: 감리-[PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)-QA의 관계는 축구에 비유하면, QA는 팀의 **'수비수'**, PMO는 전술을 짜고 팀을 이끄는 **'감독'**, 감리는 규칙 위반을 냉정하게 판정하는 **'심판(VAR)'**의 완벽한 3각 편대입니다.
+📢 **섹션 요약 비유**: 감리-[PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)-QA의 관계는 축구에 비유하면, QA는 팀의 **'수비수'**, PMO는 전술을 짜고 팀을 이끄는 **'감독'**, 감리는 규칙 위반을 냉정하게 판정하는 <strong>'심판(VAR)'</strong>의 완벽한 3각 편대입니다.
 
 ---
 
@@ -117,32 +124,34 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 실제 현장에서 감리를 성공적으로 수행하기 위해서는 기술적 깊이뿐만 아니라 고도의 의사결정 전략이 필요하다.
 
-**1. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 프로젝트에서의 감리 한계와 대응**
+<strong>1. <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) 프로젝트에서의 감리 한계와 대응</strong>
 전통적인 감리는 폭포수(Waterfall) 모델의 단계별 산출물 확정을 전제로 한다. 그러나 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프로젝트에서는 요구사항이 지속적으로 변하므로 기존의 요구-설계-종료 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 잣대를 들이대면 마찰이 발생한다.
 *   **기술사적 판단**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서는 산출물 중심이 아닌 '동작하는 소프트웨어' 중심의 런타임(Runtime) 감리가 필요하다. [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위의 상주 감리를 도입하거나, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 도구를 통합하여 자동화된 감리 지표([코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/), 보안 취약점 등)를 상시 모니터링하는 지속적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)) 체계로 전환해야 한다.
 
-**2. [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/)([BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/)) 결과 이견 조율**
+<strong>2. <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/">성능 테스트</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/">BMT</a>) 결과 이견 조율</strong>
 종료 감리 시 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(초당 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 응답시간)이 목표치에 미달할 경우, 사업자는 인프라 한계를 주장하고 발주자는 코드 비효율을 탓하는 핑퐁 게임이 발생한다.
 *   **기술사적 판단**: 감리인은 리틀의 법칙(L = λW)과 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)([Application Performance Management](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)) 도구의 트레이스오스를 분석하여 병목의 정확한 위치(DB [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜 등)를 객관적으로 짚어내야 한다.
 
-```text
-[감리 결함 발견]
-   │
-   ├─ (YES) 시스템 오픈에 치명적인가? (보안, 결제 오류 등)
-   │    └───> [필수 조치 (Major)] => 조치 완료 전 오픈 불가 (Go/No-Go 통제)
-   │
-   └─ (NO) 유지보수 단계에서 수정 가능한가? (단순 UI, 비핵심 기능)
-        │
-        ├─ (YES) 일정 내 조치 가능한가?
-        │    └───> [일반 조치] => 종료 감리 전까지 수정 확인
-        │
-        └─ (NO) 시간/비용 부족
-             └───> [권고 사항 (Minor) / 베이스라인 이관] => 향후 고도화 예산 반영 권고
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 결함 발견</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">(YES) 시스템 오픈에 치명적인가? (보안, 결제 오류 등)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">필수 조치 (Major)</div><div class="kb-diagram-note">=&gt; 조치 완료 전 오픈 불가 (Go/No-Go 통제)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">(NO) 유지보수 단계에서 수정 가능한가? (단순 UI, 비핵심 기능)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">(YES) 일정 내 조치 가능한가?</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">일반 조치</div><div class="kb-diagram-note">=&gt; 종료 감리 전까지 수정 확인</div></div>
+<div class="kb-diagram-tree-item" style="--depth:4">(NO) 시간/비용 부족</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">권고 사항 (Minor) / 베이스라인 이관</div><div class="kb-diagram-note">=&gt; 향후 고도화 예산 반영 권고</div></div>
+</div>
+</div>
+
+
 
 이 의사결정 트리의 핵심은 감리인이 모든 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 동일한 가중치로 취급하지 않는다는 것이다. 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Major)은 시스템 오픈을 막는 강력한 제동 장치가 되며, 사소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Minor)은 비즈니스 적시성(Time-to-Market)을 고려하여 이관된다.
 
-📢 **섹션 요약 비유**: 감리인의 의사결정은 응급실 의사의 **'트리아지(Triage, 환자 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))'**와 같습니다. 즉시 수술해야 할 치명적 버그와, 연고만 바르고 나중에 치료해도 될 가벼운 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 빠르고 정확하게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 생명을 살립니다.
+📢 **섹션 요약 비유**: 감리인의 의사결정은 응급실 의사의 <strong>'트리아지(Triage, 환자 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>)'</strong>와 같습니다. 즉시 수술해야 할 치명적 버그와, 연고만 바르고 나중에 치료해도 될 가벼운 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 빠르고 정확하게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 생명을 살립니다.
 
 ---
 
@@ -159,7 +168,7 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 **미래 전망:**
 미래의 감리는 사람이 문서를 눈으로 읽는 아날로그 방식에서 벗어나, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 코드 분석, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반의 산출물 위변조 방지, 클라우드 워크로드에 대한 동적 진단 기술이 접목된 스마트 감리(Smart [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))로 진화할 것이다. 또한 [IEEE 1471](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/082_ieee_1471_architecture_description_standard/)(ISO/IEC 42010) 아키텍처 명세 표준 등 글로벌 컴플라이언스와 결합하여 그 전문성이 더욱 고도화될 전망이다.
 
-📢 **섹션 요약 비유**: 감리는 IT 생태계라는 거대한 고속도로에서 차들이 사고 없이 쾌속 질주할 수 있도록 지켜주는 **'스마트 과속 단속 카메라 및 안전 가드레일'**으로서, 시스템의 지속 가능한 미래를 담보합니다.
+📢 **섹션 요약 비유**: 감리는 IT 생태계라는 거대한 고속도로에서 차들이 사고 없이 쾌속 질주할 수 있도록 지켜주는 <strong>'스마트 과속 단속 카메라 및 안전 가드레일'</strong>으로서, 시스템의 지속 가능한 미래를 담보합니다.
 
 ---
 
@@ -172,18 +181,21 @@ IT 프로젝트의 품질 보증을 위해 감리 외에도 [PMO](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[ISACA / CISA]
-    │
-    ▼
-[ITA / EA (Enterprise Architecture)]
-    │
-    ▼
-[기능점수 (Function Point)]
-    │
-    ▼
-[베이스라인 (Baseline)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISACA / CISA</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ITA / EA (Enterprise Architecture)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기능점수 (Function Point)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이스라인 (Baseline)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

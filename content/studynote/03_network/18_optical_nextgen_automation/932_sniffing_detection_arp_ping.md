@@ -11,7 +11,7 @@ tags = ["studynote-network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 해커가 네트워크 패킷을 몰래 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing)하려면, 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))를 자신에게 오지 않은 패킷까지 전부 빨아들이는 **'난잡 모드(Promiscuous Mode)'**로 강제 전환해야만 한다.
+> 1. **본질**: 해커가 네트워크 패킷을 몰래 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)(Sniffing)하려면, 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))를 자신에게 오지 않은 패킷까지 전부 빨아들이는 <strong>'난잡 모드(Promiscuous Mode)'</strong>로 강제 전환해야만 한다.
 > 2. **가치**: 스니퍼는 패킷을 "듣기만" 하므로 네트워크에 흔적([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 남기지 않아 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 잡기 어렵다. 따라서 네트워크 관리자는 엉뚱한 가짜 패킷(가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 등)을 던져보고 누가 반응하는지 살펴보는 탐정 같은 함정 수사로 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자를 색출해 낸다.
 > 3. **판단 포인트**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Ping 테스트를 통한 비정상 응답 유도, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Lookup 모니터링, 그리고 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 패킷 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)차([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)) 분석 등이 대표적인 탐지 메커니즘이다.
 
@@ -19,20 +19,24 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-정상적인 컴퓨터의 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 날아오는 수많은 패킷 중, **"목적지가 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소인 것"**만 받아들이고 나머지는 쓰레기통에 버린다(Drop). 
+정상적인 컴퓨터의 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 날아오는 수많은 패킷 중, <strong>"목적지가 내 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소인 것"</strong>만 받아들이고 나머지는 쓰레기통에 버린다(Drop). 
 
-하지만 해커가 와이어샤크(Wireshark) 같은 스니핑 도구를 켜면, 랜카드의 설정을 **'Promiscuous Mode(난잡 모드 / 무차별 수신 모드)'**로 바꿔버린다. 이제 랜카드는 목적지가 내가 아니어도 네트워크에 떠돌아다니는 모든 패킷을 CPU로 올려보내서 남의 카톡 내용이나 비밀번호를 훔쳐본다.
+하지만 해커가 와이어샤크(Wireshark) 같은 스니핑 도구를 켜면, 랜카드의 설정을 <strong>'Promiscuous Mode(난잡 모드 / 무차별 수신 모드)'</strong>로 바꿔버린다. 이제 랜카드는 목적지가 내가 아니어도 네트워크에 떠돌아다니는 모든 패킷을 CPU로 올려보내서 남의 카톡 내용이나 비밀번호를 훔쳐본다.
 
 문제는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 행위 자체가 패킷을 쏘는 게 아니라 그저 '수신'만 하는 수동적(Passive) 공격이라, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비에 알람이 뜨지 않는다는 점이다. 보이지 않는 유령을 잡기 위해 엔지니어들은 특수한 '함정 패킷'을 설계했다.
 
-```text
-[EMP]
-    │
-    ▼
-[스니핑 탐지]
-    │
-    └──▶ [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EMP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스니핑 탐지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 우체국에서 정상적인 사람은 자기 이름이 적힌 편지만 가져갑니다. 하지만 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자(Promiscuous Mode)는 남의 이름이 적힌 편지까지 다 뜯어봅니다. 경비원(탐지기)은 이 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자를 잡기 위해 "가짜 이름"이 적힌 함정 편지를 던져보고, 누가 그 가짜 편지에 반응하는지 몰래 지켜봅니다.
 
@@ -43,21 +47,25 @@ tags = ["studynote-network"]
 #### 1. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Ping (가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테스트)
 - 가장 대표적이고 확실한 방법이다.
 - 정상적인 기기는 `IP는 맞지만, MAC 주소가 이상한` 패킷이 오면 랜카드 하드웨어 단에서 버려버린다. (CPU까지 안 올라감)
-- 하지만 Promiscuous 모드에 빠진 해커의 PC는 랜카드가 모든 패킷을 위(OS)로 올려보낸다. OS는 "어? IP가 내 거네? 대답해야지!" 하고 **응답([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply)을 보내버린다.**
-- 즉, **네트워크에 가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(FF:FF:FF:FF:FF:FE 등)를 조합한 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 핑을 뿌렸을 때, 대답을 하는 PC가 있다면 100% [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자**다. (가짜 편지를 뜯어본 범인 검거)
+- 하지만 Promiscuous 모드에 빠진 해커의 PC는 랜카드가 모든 패킷을 위(OS)로 올려보낸다. OS는 "어? IP가 내 거네? 대답해야지!" 하고 <strong>응답(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> Reply)을 보내버린다.</strong>
+- 즉, <strong>네트워크에 가짜 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소(FF:FF:FF:FF:FF:FE 등)를 조합한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 핑을 뿌렸을 때, 대답을 하는 PC가 있다면 100% <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>자</strong>다. (가짜 편지를 뜯어본 범인 검거)
 
 #### 2. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 역방향 조회 (Reverse [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Lookup) 감시
-- 해커의 스니퍼 프로그램은 훔쳐본 IP 주소가 어떤 사이트인지 보기 편하게 하려고(142.250... -> google.com), 내부적으로 IP를 도메인으로 바꾸는 **역방향 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(PTR 레코드)**를 미친 듯이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버로 보낸다.
+- 해커의 스니퍼 프로그램은 훔쳐본 IP 주소가 어떤 사이트인지 보기 편하게 하려고(142.250... -> google.com), 내부적으로 IP를 도메인으로 바꾸는 <strong>역방향 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>(PTR 레코드)</strong>를 미친 듯이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버로 보낸다.
 - 관리자는 사내 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 감시하다가, 유독 특정 PC가 역방향 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 비정상적으로 많이 쏘고 있다면 그 PC를 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자(스니퍼)로 의심할 수 있다.
 
-```text
-[EMP]
-    │
-    ▼
-[스니핑 탐지]
-    │
-    └──▶ [패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">EMP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스니핑 탐지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 스니핑 탐지의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,34 +75,31 @@ tags = ["studynote-network"]
 
 - 정상 PC는 자신에게 온 패킷만 처리하므로 CPU가 여유롭다.
 - [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자의 PC는 남의 패킷까지 수만 개를 전부 열어보고 분석(소프트웨어 처리)하느라 CPU와 OS 네트워크 스택에 엄청난 부하가 걸린다.
-- 관리자가 엄청난 양의 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ping)를 해당 대역에 쏟아부은 뒤, 각 PC에 Ping을 때려본다. 유독 **[응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(응답성 시간차)이 심각하게 느려지거나 패킷을 흘리는(Drop) [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)**가 있다면, 그 PC가 지금 남의 패킷을 엿듣느라 헥헥대고 있다는 증거다.
+- 관리자가 엄청난 양의 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ping)를 해당 대역에 쏟아부은 뒤, 각 PC에 Ping을 때려본다. 유독 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a>(응답성 시간차)이 심각하게 느려지거나 패킷을 흘리는(Drop) <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a></strong>가 있다면, 그 PC가 지금 남의 패킷을 엿듣느라 헥헥대고 있다는 증거다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│           스니핑(Promiscuous Mode) 탐지 - ARP 핑 함정 시각화                    │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│ [ 탐지기 (보안 담당자) ] : "가짜 MAC 주소(FF:FF...FE)로 ARP 핑 쏜다!"           │
-│     │                                                                           │
-│     ▼                                                                           │
-│  일반 PC A (정상)                               해커 PC B (도청 중!)            │
-│  (랜카드 설정: 정상 모드)                  (랜카드: Promiscuous 모드)           │
-│                                                                                 │
-│ "어? 내 MAC 주소 아니네? 휙 버려~"     "MAC이 뭐든 일단 OS로 다 올려!"          │
-│  (랜카드 칩에서 조용히 버려짐)               (OS: 어? IP는 내꺼네? 대답해야지)  │
-│                                                                                 │
-│   ❌ (침묵, 대답 없음)                    🚨 "저 여기 있습니다!!" (응답함)      │
-│                                                                                 │
-│             [ 탐지기: "잡았다 요놈! B가 도청하고 있구나!" ]                     │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스니핑(Promiscuous Mode) 탐지 - ARP 핑 함정 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">탐지기 (보안 담당자)</div><div class="kb-diagram-note">: "가짜 MAC 주소(FF:FF...FE)로 ARP 핑 쏜다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 PC A (정상) 해커 PC B (도청 중!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(랜카드 설정: 정상 모드) (랜카드: Promiscuous 모드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 내 MAC 주소 아니네? 휙 버려~" "MAC이 뭐든 일단 OS로 다 올려!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(랜카드 칩에서 조용히 버려짐) (OS: 어? IP는 내꺼네? 대답해야지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ (침묵, 대답 없음) 🚨 "저 여기 있습니다!!" (응답함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">탐지기: "잡았다 요놈! B가 도청하고 있구나!"</div></div>
+</div>
+</div>
+
+
 
 탐지 이전에 아예 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 자체를 어렵게 만드는 인프라 설계가 필수적이다.
 
-1. **[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))의 폐기 및 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 사용**
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)의 폐기 및 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 사용</strong>
    - 옛날의 '[더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)'는 A가 B에게 보내는 패킷을 무식하게 C, D에게도 다 뿌렸다 (브로드캐스트). 스니핑의 천국이었다.
-   - 최신 **L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))**는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블을 기억하고, A가 B에게 보내면 B 포트로만 패킷을 쏴준다. 해커 C는 물리적으로 패킷을 아예 받을 수 없어 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)이 원천 차단된다.
-2. **[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 방어 (Dynamic [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Inspection, DAI)**
+   - 최신 <strong>L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블을 기억하고, A가 B에게 보내면 B 포트로만 패킷을 쏴준다. 해커 C는 물리적으로 패킷을 아예 받을 수 없어 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)이 원천 차단된다.
+2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a> 방어 (Dynamic <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> Inspection, DAI)</strong>
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서도 해커는 공유기인 척 속이는 '[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))'을 통해 패킷을 강제로 자기 쪽으로 끌어온다. 이를 막기 위해 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 DAI 설정을 걸어 가짜 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 패킷을 차단해야 한다.
 3. **암호화 통신 (가장 강력한 무기)**
    - 아무리 엿들어도 내용을 못 보게 만드는 것이 궁극의 방어다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 대신 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 대신 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/), 텔넷 대신 SSH를 써서 패킷을 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)하더라도 깨진 외계어만 보이게 만들어야 한다.
@@ -137,15 +142,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: EMP]
-    │
-    ▼
-[현재 개념: 스니핑 탐지]
-    │
-    ├──▶ [확장 A: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EMP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스니핑 탐지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 스니핑 탐지는 EMP에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

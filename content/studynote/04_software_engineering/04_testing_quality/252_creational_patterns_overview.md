@@ -21,24 +21,23 @@ tags = ["studynote-software-engineering"]
 
 - **비극**: `Car myCar = new Avante();` 처럼 코드를 짜는 순간, 내 클래스(고수준)와 `Avante`(저수준 구체물)는 **콘크리트로 찰싹 달라붙어버립니다(강한 결합).** 
 - 내일 차 종이 바뀌면 내 코드를 찢어발기고 뜯어고쳐야 합니다. (244번 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙, 247번 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) 원칙 완벽 위배)
-- 즉, **"객체를 누가 언제 어떻게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 것인가?"**를 고민 없이 짜면 시스템 확장이 아예 불가능해집니다.
+- 즉, <strong>"객체를 누가 언제 어떻게 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>할 것인가?"</strong>를 고민 없이 짜면 시스템 확장이 아예 불가능해집니다.
 
 - **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Pa의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  생성 패턴 (Creational Pa                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성 패턴 (Creational Pa</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Pa가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF의 23가지 패턴 중 **'객체의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creation)과 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 과정'을 캡슐화(은닉)하여, 시스템이 어떤 구체적인 클래스에 의존하지 않게(느슨한 결합) 만들어주는 5가지 패턴의 모음**입니다.
+- **개념**: GoF의 23가지 패턴 중 <strong>'객체의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Creation)과 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 과정'을 캡슐화(은닉)하여, 시스템이 어떤 구체적인 클래스에 의존하지 않게(느슨한 결합) 만들어주는 5가지 패턴의 모음</strong>입니다.
 - **핵심 목표**: 내 코드 밖에서 객체를 알아서 찍어내게 만들어서, 나중에 조립할 부품(클래스)이 바뀌어도 내 코드는 단 1줄도 수정되지 않게 보호하는 것입니다.
 
 - **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -71,11 +70,11 @@ tags = ["studynote-software-engineering"]
 
 정보처리기사 시험에서 "다음 중 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이 아닌 것은?"으로 100% 출제됩니다. (각 패턴의 디테일은 253~257번에서 파고듭니다.)
 
-1. **[싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) ([Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/))**: "야! DB 연결 객체 1만 개 찍어내면 메모리 터져! 우주에 무조건 **딱 1개만** 만들어서 다 같이 돌려 써!"
-2. **[팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))**: "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 부모가 안 해! [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한(결정권)을 **자식 클래스한테 짬처리(위임)** 시켜버려!"
-3. **[추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) ([Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/))**: "공장 1개가 아니라, 윈도우용 버튼/스크롤 공장, 맥용 버튼/스크롤 공장처럼 **연관된 부품(군)들을 통째로 묶어서** 찍어내는 거대 복합 공장이야!"
-4. **[빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) ([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))**: "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 매개변수 10개 던지다 헷갈려 죽겠다! 피자 만들 때 빵 고르고, 토핑 얹고, 소스 뿌리듯 **단계별로 차근차근 조립해서** 찍어내!"
-5. **[프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) ([Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))**: "DB 긁어서 객체 1개 만드는데 10초 걸리네? 두 번째 똑같은 놈 만들 때는 DB 가지 말고, 만들어진 **원본 놈을 Ctrl+C, Ctrl+V([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))** 해서 1초 만에 쑴풍쑴풍 찍어내!"
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">싱글톤</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>)</strong>: "야! DB 연결 객체 1만 개 찍어내면 메모리 터져! 우주에 무조건 **딱 1개만** 만들어서 다 같이 돌려 써!"
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">팩토리 메서드</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/">Factory Method</a>)</strong>: "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 부모가 안 해! [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한(결정권)을 **자식 클래스한테 짬처리(위임)** 시켜버려!"
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">추상 팩토리</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">Abstract Factory</a>)</strong>: "공장 1개가 아니라, 윈도우용 버튼/스크롤 공장, 맥용 버튼/스크롤 공장처럼 **연관된 부품(군)들을 통째로 묶어서** 찍어내는 거대 복합 공장이야!"
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">빌더</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a>)</strong>: "객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 매개변수 10개 던지다 헷갈려 죽겠다! 피자 만들 때 빵 고르고, 토핑 얹고, 소스 뿌리듯 **단계별로 차근차근 조립해서** 찍어내!"
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/">프로토타입</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/">Prototype</a>)</strong>: "DB 긁어서 객체 1개 만드는데 10초 걸리네? 두 번째 똑같은 놈 만들 때는 DB 가지 말고, 만들어진 <strong>원본 놈을 Ctrl+C, Ctrl+V(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>)</strong> 해서 1초 만에 쑴풍쑴풍 찍어내!"
 
 - **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,9 +88,9 @@ tags = ["studynote-software-engineering"]
 
 - 건물을 지으려면 일단 '벽돌(객체)'을 가져와야 합니다.
 - 근데 내가 찰흙([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))으로 매번 벽돌을 굽고 있으면 집이 엉망이 됩니다. 
-- 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 5인방은 내가 찰흙을 만지지 않고, 외부의 '스마트 공장'에 전화를 걸어 100% 규격이 일치하는 벽돌(객체)을 안전하게 배달받도록 만들어주는 **가장 우아한 팩토리 시스템의 기초**입니다.
+- 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 5인방은 내가 찰흙을 만지지 않고, 외부의 '스마트 공장'에 전화를 걸어 100% 규격이 일치하는 벽돌(객체)을 안전하게 배달받도록 만들어주는 <strong>가장 우아한 팩토리 시스템의 기초</strong>입니다.
 
-> 📢 **섹션 요약 비유**: **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴(Creational Patterns)**은 레스토랑의 **'요리 주문과 제조의 철저한 분리 원칙'**입니다. 하수 식당([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 하드코딩)은 홀서빙 직원이 손님 주문을 받으면 자기가 직접 주방에 들어가서 프라이팬을 들고 스파게티(`new 스파게티()`)를 만듭니다(강한 결합). 만약 내일부터 메뉴가 우동으로 바뀌면 서빙 직원이 우동 요리법까지 새로 배워야 하는 쌩고생을 합니다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 수정). 이를 깨부순 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴은 식당에 **'거대한 밀폐 주방(Factory 캡슐화)'**을 하나 지어버립니다. 홀서빙 직원은 이제 절대 주방([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정)에 들어가지 않습니다! 손님이 주문하면 그냥 주방 문틈(인터페이스)으로 "면 요리 하나 주세요!" 라고 추상적인 주문(요청)만 쓱 밀어 넣고 돌아섭니다. 그럼 밀폐된 주방 안에서 주방장([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)나 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 오늘 메뉴에 맞춰서 알아서 스파게티를 볶든 우동을 삶든 뚝딱 찍어내서 접시에 담아 내보내 줍니다. 서빙 직원은 접시에 담긴 게 면이기만 하면 그냥 쿨하게 손님상에 내면 끝나는, '무엇(What)을 쓸지만 생각하고 어떻게(How) 찍어낼지는 완전히 남에게 미뤄버리는' 객체지향 1원칙의 실사판입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 패턴(Creational Patterns)</strong>은 레스토랑의 <strong>'요리 주문과 제조의 철저한 분리 원칙'</strong>입니다. 하수 식당([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 하드코딩)은 홀서빙 직원이 손님 주문을 받으면 자기가 직접 주방에 들어가서 프라이팬을 들고 스파게티(`new 스파게티()`)를 만듭니다(강한 결합). 만약 내일부터 메뉴가 우동으로 바뀌면 서빙 직원이 우동 요리법까지 새로 배워야 하는 쌩고생을 합니다([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 수정). 이를 깨부순 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴은 식당에 <strong>'거대한 밀폐 주방(Factory 캡슐화)'</strong>을 하나 지어버립니다. 홀서빙 직원은 이제 절대 주방([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정)에 들어가지 않습니다! 손님이 주문하면 그냥 주방 문틈(인터페이스)으로 "면 요리 하나 주세요!" 라고 추상적인 주문(요청)만 쓱 밀어 넣고 돌아섭니다. 그럼 밀폐된 주방 안에서 주방장([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)나 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 오늘 메뉴에 맞춰서 알아서 스파게티를 볶든 우동을 삶든 뚝딱 찍어내서 접시에 담아 내보내 줍니다. 서빙 직원은 접시에 담긴 게 면이기만 하면 그냥 쿨하게 손님상에 내면 끝나는, '무엇(What)을 쓸지만 생각하고 어떻게(How) 찍어낼지는 완전히 남에게 미뤄버리는' 객체지향 1원칙의 실사판입니다.
 
 - **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴 (Creational Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -136,21 +135,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-생성 패턴 (Creational Patterns) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">생성 패턴 (Creational Patterns) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

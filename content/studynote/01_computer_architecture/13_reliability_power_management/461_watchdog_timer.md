@@ -37,25 +37,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 워치독이 "시간 초과 감지 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 실행"까지 이어지는 경로를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│               워치독 타이머의 기본 감시-복구 흐름                   │
-├──────────────────────────────────────────────────────────────────────┤
-│  정상 경로                                                           │
-│  애플리케이션 진행 ──▶ 상태 확인 ──▶ 워치독 갱신(kick) ─▶ 카운터 재시작 │
-│      ▲                                                              │
-│      └────────────── 주기 내 완료되면 반복 ──────────────────────────┘
-│                                                                      │
-│  장애 경로                                                           │
-│  무한 루프/교착/버스 정지 ──▶ 워치독 갱신 실패 ──▶ 타임아웃 만료      │
-│                                                   │                  │
-│                                                   ▼                  │
-│                                   인터럽트/로그 저장(선택)           │
-│                                                   │                  │
-│                                                   ▼                  │
-│                                        하드웨어 리셋 또는 전원 재인가 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워치독 타이머의 기본 감시-복구 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 진행 ──▶ 상태 확인 ──▶ 워치독 갱신(kick) ─▶ 카운터 재시작</div></div>
+<div class="kb-diagram-note">주기 내 완료되면 반복</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무한 루프/교착/버스 정지 ──▶ 워치독 갱신 실패 ──▶ 타임아웃 만료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트/로그 저장(선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 리셋 또는 전원 재인가</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘의 핵심은 "단순 주기"가 아니라 "의미 있는 진전"이다. 예를 들어 메인 루프가 센서 읽기, 제어 계산, 출력 반영까지 끝냈을 때만 워치독을 갱신해야 실제 시스템 건강을 검증할 수 있다. 반대로 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 자동으로 계속 갱신해 버리면, 애플리케이션이 죽어도 워치독은 정상으로 오판한다.
 
@@ -103,9 +100,9 @@ tags = ["studynote-computer-architecture"]
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **갱신 기준**: 단순 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 아니라 실제 업무 완료 후에 갱신하는가?
-2. **[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 여유**: 최악의 정상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), 플래시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 통신 재시도 시간을 반영했는가?
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 여유</strong>: 최악의 정상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/), 플래시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 통신 재시도 시간을 반영했는가?
 3. **리셋 원인 기록**: 부팅 후 워치독 리셋 여부를 진단 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 남기는가?
-4. **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층 분리**: 프로세스 재시작으로 충분한지, 보드 리셋이 필요한지 단계별 정책이 있는가?
+4. <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 계층 분리</strong>: 프로세스 재시작으로 충분한지, 보드 리셋이 필요한지 단계별 정책이 있는가?
 5. **윈도우 모드 필요성**: 폭주 루프까지 잡아야 하는 안전 시스템인가?
 
 ### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -145,25 +142,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 타임아웃 감시
-    │
-    ▼
-워치독 타이머 (Watchdog Timer)
-    │
-    ├──▶ 윈도우 워치독 (Windowed Watchdog)
-    │
-    ├──▶ 리셋 원인 기록 · 프리타임아웃 인터럽트
-    │
-    ▼
-보드 수준 자율 복구 · MTTR 단축
-    │
-    ▼
-소프트웨어 워치독 · 하트비트 · Liveness Probe
-    │
-    ▼
-안전 아일랜드 기반 자율주행 · 산업 제어 감시 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 타임아웃 감시</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">워치독 타이머 (Watchdog Timer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 윈도우 워치독 (Windowed Watchdog)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 리셋 원인 기록 · 프리타임아웃 인터럽트</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보드 수준 자율 복구 · MTTR 단축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소프트웨어 워치독 · 하트비트 · Liveness Probe</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안전 아일랜드 기반 자율주행 · 산업 제어 감시 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 시간 초과 검출이 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헬스체크, 그리고 안전 제어 아키텍처로 확장되는 과정을 보여준다.
 

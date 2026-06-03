@@ -48,34 +48,35 @@ P (Partition Tolerance, 파티션 내성):
 
 ## Ⅱ. [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템
 
-```
-CP (Consistency + Partition Tolerance):
 
-특성:
-  파티션 발생 시 -> 가용성 희생
-  일부 요청에 "오류/타임아웃" 반환
-  -> 잘못된 데이터 반환보다 오류 선호
 
-대표 시스템:
-  HBase:
-    HDFS 기반 컬럼 스토어
-    강한 일관성 (단일 리전)
-    Zookeeper로 분산 코디네이션
-    
-  MongoDB (기본 설정):
-    Primary-Secondary 복제
-    Primary 장애 시 쓰기 차단 (일시적)
-    
-  ZooKeeper:
-    분산 코디네이션 서비스
-    리더 선출, 설정 관리
-    Paxos 합의 알고리즘 기반
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CP (Consistency + Partition Tolerance):</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">파티션 발생 시 -&gt; 가용성 희생</div>
+<div class="kb-diagram-note">일부 요청에 "오류/타임아웃" 반환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">잘못된 데이터 반환보다 오류 선호</div>
+<div class="kb-diagram-note">대표 시스템:</div>
+<div class="kb-diagram-note">HBase:</div>
+<div class="kb-diagram-note">HDFS 기반 컬럼 스토어</div>
+<div class="kb-diagram-note">강한 일관성 (단일 리전)</div>
+<div class="kb-diagram-note">Zookeeper로 분산 코디네이션</div>
+<div class="kb-diagram-note">MongoDB (기본 설정):</div>
+<div class="kb-diagram-note">Primary-Secondary 복제</div>
+<div class="kb-diagram-note">Primary 장애 시 쓰기 차단 (일시적)</div>
+<div class="kb-diagram-note">ZooKeeper:</div>
+<div class="kb-diagram-note">분산 코디네이션 서비스</div>
+<div class="kb-diagram-note">리더 선출, 설정 관리</div>
+<div class="kb-diagram-note">Paxos 합의 알고리즘 기반</div>
+<div class="kb-diagram-note">사용 케이스:</div>
+<div class="kb-diagram-note">금융 거래 (이중 인출 방지 필수)</div>
+<div class="kb-diagram-note">재고 관리 (마이너스 재고 방지)</div>
+<div class="kb-diagram-note">예약 시스템 (중복 예약 방지)</div>
+</div>
+</div>
 
-사용 케이스:
-  금융 거래 (이중 인출 방지 필수)
-  재고 관리 (마이너스 재고 방지)
-  예약 시스템 (중복 예약 방지)
-```
+
 
 > 📢 **섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템은 보수적인 은행 창구 — 시스템 점검 중에는 "잠시 후 다시 오세요"라고 하지만 실수로 이중 인출은 절대 안 한다.
 
@@ -153,33 +154,34 @@ PACELC:
 
 ## Ⅴ. 실무 시나리오 — E-commerce 시스템 설계
 
-```
-이커머스 데이터베이스 설계 CAP 선택:
 
-요구사항 분석:
-  주문/결제: 절대 이중 처리 불가 -> CP 선택
-  상품 재고: 마이너스 재고 방지 -> CP 선택
-  장바구니: 약간의 불일치 허용 -> AP 선택
-  상품 조회: 최신 가격 아니어도 OK -> AP 선택
-  리뷰/댓글: 결과적 일관성 충분 -> AP 선택
 
-데이터 저장소 선택:
-  주문 DB: PostgreSQL (RDBMS, 강한 일관성)
-  재고 DB: Redis + 분산 락 (Redlock)
-  장바구니: DynamoDB (AP, 고가용성)
-  상품 카탈로그: Elasticsearch (검색, AP)
-  세션: Redis Cluster
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이커머스 데이터베이스 설계 CAP 선택:</div>
+<div class="kb-diagram-note">요구사항 분석:</div>
+<div class="kb-diagram-note">주문/결제: 절대 이중 처리 불가 -&gt; CP 선택</div>
+<div class="kb-diagram-note">상품 재고: 마이너스 재고 방지 -&gt; CP 선택</div>
+<div class="kb-diagram-note">장바구니: 약간의 불일치 허용 -&gt; AP 선택</div>
+<div class="kb-diagram-note">상품 조회: 최신 가격 아니어도 OK -&gt; AP 선택</div>
+<div class="kb-diagram-note">리뷰/댓글: 결과적 일관성 충분 -&gt; AP 선택</div>
+<div class="kb-diagram-note">데이터 저장소 선택:</div>
+<div class="kb-diagram-note">주문 DB: PostgreSQL (RDBMS, 강한 일관성)</div>
+<div class="kb-diagram-note">재고 DB: Redis + 분산 락 (Redlock)</div>
+<div class="kb-diagram-note">장바구니: DynamoDB (AP, 고가용성)</div>
+<div class="kb-diagram-note">상품 카탈로그: Elasticsearch (검색, AP)</div>
+<div class="kb-diagram-note">세션: Redis Cluster</div>
+<div class="kb-diagram-note">Black Friday 트래픽 시나리오:</div>
+<div class="kb-diagram-note">상품 조회 트래픽 100배 급증</div>
+<div class="kb-diagram-tree-item" style="--depth:1">AP 카탈로그 DB: 문제 없이 확장</div>
+<div class="kb-diagram-note">재고 차감 동시 요청 급증</div>
+<div class="kb-diagram-tree-item" style="--depth:1">CP 재고 DB: 락 경합 증가 -&gt; 일부 지연</div>
+<div class="kb-diagram-tree-item" style="--depth:1">해결: 재고 사전 예약 + 배치 차감</div>
+<div class="kb-diagram-note">결론: 데이터 성격별 CP/AP 혼합 아키텍처</div>
+</div>
+</div>
 
-Black Friday 트래픽 시나리오:
-  상품 조회 트래픽 100배 급증
-  -> AP 카탈로그 DB: 문제 없이 확장
-  
-  재고 차감 동시 요청 급증
-  -> CP 재고 DB: 락 경합 증가 -> 일부 지연
-  -> 해결: 재고 사전 예약 + 배치 차감
 
-결론: 데이터 성격별 CP/AP 혼합 아키텍처
-```
 
 > 📢 **섹션 요약 비유**: E-commerce [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 선택은 식당 음식 준비 — 계산서(결제)는 정확해야 하고([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)), 오늘의 메뉴판([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))은 잠깐 틀려도 OK([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)).
 

@@ -25,22 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 수동 RTL과 HLS의 차이를 "누가 구조를 직접 책임지는가" 관점에서 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Manual RTL vs HLS: who builds the structure?            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Algorithm idea                                                            │
-│     │                                                                     │
-│     ├─ Manual RTL -> engineer writes states, registers, handshakes        │
-│     │                                                                     │
-│     └─ HLS        -> engineer writes behavior + constraints               │
-│                     tool builds schedule, datapath, controller, interface │
-│                                                                           │
-│ Result quality still depends on dependency graph and memory access shape. │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-즉 HLS의 핵심은 RTL을 없애는 것이 아니라, RTL을 더 늦은 단계에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하게 만드는 것이다. 사람이 고민해야 할 축이 배선 세부에서 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 구조**로 올라간다고 이해하면 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manual RTL vs HLS: who builds the structure?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm idea</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Manual RTL -&gt; engineer writes states, registers, handshakes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HLS -&gt; engineer writes behavior + constraints</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tool builds schedule, datapath, controller, interface</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result quality still depends on dependency graph and memory access shape.</div></div>
+</div>
+</div>
+
+
+
+즉 HLS의 핵심은 RTL을 없애는 것이 아니라, RTL을 더 늦은 단계에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하게 만드는 것이다. 사람이 고민해야 할 축이 배선 세부에서 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>도와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 구조</strong>로 올라간다고 이해하면 정확하다.
 
 - **📢 섹션 요약 비유**: 전통적 RTL이 벽돌 한 장까지 직접 쌓는 수작업 건축이라면, HLS는 건물 용도와 하중 조건을 넣고 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 배치를 자동 설계하는 공장식 건축에 가깝다. 다만 방 배치를 잘못 잡으면 자동으로 지어도 불편한 건물밖에 안 나온다.
 
@@ -48,7 +48,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-HLS 도구는 코드를 그냥 "번역"하지 않는다. 먼저 연산 사이의 의존성을 읽고, 이어서 어느 연산을 몇 번째 사이클에 둘지 정하고, 그다음 어떤 연산기를 몇 개 둘지 배정하며, 마지막으로 스트리밍·메모리 맵 같은 인터페이스를 합성한다. 그래서 HLS 결과를 이해하려면 구문보다 **스케줄링, 자원 바인딩, 메모리 아키텍처**를 먼저 봐야 한다.
+HLS 도구는 코드를 그냥 "번역"하지 않는다. 먼저 연산 사이의 의존성을 읽고, 이어서 어느 연산을 몇 번째 사이클에 둘지 정하고, 그다음 어떤 연산기를 몇 개 둘지 배정하며, 마지막으로 스트리밍·메모리 맵 같은 인터페이스를 합성한다. 그래서 HLS 결과를 이해하려면 구문보다 <strong>스케줄링, 자원 바인딩, 메모리 아키텍처</strong>를 먼저 봐야 한다.
 
 | 단계 | HLS가 하는 일 | 설계자가 봐야 할 질문 |
 | :--- | :--- | :--- |
@@ -60,24 +60,22 @@ HLS 도구는 코드를 그냥 "번역"하지 않는다. 먼저 연산 사이의
 
 이 그림은 HLS 내부 흐름과 결과 보고서에서 봐야 할 포인트를 한 번에 묶은 것이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    HLS flow: behavior -> structure -> reports             │
-├────────────────────────────────────────────────────────────────────────────┤
-│ C/C++ / SystemC                                                           │
-│      │                                                                    │
-│      ▼                                                                    │
-│   CDFG analysis                                                           │
-│      │                                                                    │
-│      ├─ schedule with target clock                                        │
-│      ├─ bind operations to arithmetic units                               │
-│      ├─ shape memories / banks / local buffers                            │
-│      └─ synthesize interfaces                                             │
-│      │                                                                    │
-│      ▼                                                                    │
-│   RTL + latency report + II report + resource report                      │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HLS flow: behavior -&gt; structure -&gt; reports</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C/C++ / SystemC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDFG analysis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ schedule with target clock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bind operations to arithmetic units</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shape memories / banks / local buffers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ synthesize interfaces</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTL + latency report + II report + resource report</div></div>
+</div>
+</div>
+
+
 
 실무에서 많이 쓰는 제어 수단도 결국 이 흐름에 대응한다. 파이프라인은 `II`를 줄여 처리량을 올리고, 언롤은 연산기를 복제해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도를 높이며, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 분할은 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌을 줄인다. 예를 들어 목표 주파수가 같다면 처리량은 대략 `f_clk / II`에 비례하므로, II가 4에서 1로 내려가면 같은 클럭에서도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 바뀐다. 반대로 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 1개뿐이면 언롤을 많이 걸어도 연산기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 못 받아 놀 수 있다.
 
@@ -89,7 +87,7 @@ HLS 도구는 코드를 그냥 "번역"하지 않는다. 먼저 연산 사이의
 
 ## Ⅲ. 비교 및 연결
 
-HLS의 경계는 수동 RTL과 소프트웨어 실행 사이에 있다. 소프트웨어 컴파일러는 같은 명령 집합 위에서 코드를 더 빠르게 배치하지만, HLS는 아예 실행 하드웨어 구조 자체를 만든다. 반면 수동 RTL은 가장 세밀한 제어가 가능하지만, 구조 변경 비용이 크다. 따라서 HLS는 **유연성과 최적화 자유도 사이의 절충점**으로 보는 것이 맞다.
+HLS의 경계는 수동 RTL과 소프트웨어 실행 사이에 있다. 소프트웨어 컴파일러는 같은 명령 집합 위에서 코드를 더 빠르게 배치하지만, HLS는 아예 실행 하드웨어 구조 자체를 만든다. 반면 수동 RTL은 가장 세밀한 제어가 가능하지만, 구조 변경 비용이 크다. 따라서 HLS는 <strong>유연성과 최적화 자유도 사이의 절충점</strong>으로 보는 것이 맞다.
 
 | 관점 | 소프트웨어 컴파일 | HLS | 수동 RTL |
 | :--- | :--- | :--- | :--- |
@@ -100,7 +98,7 @@ HLS의 경계는 수동 RTL과 소프트웨어 실행 사이에 있다. 소프�
 
 이 비교가 중요한 이유는 HLS가 모든 블록을 대체하지 않기 때문이다. 예를 들어 메모리 컨트롤러, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크, 복잡한 [클럭 도메인 교차](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 경계는 여전히 수동 RTL이 더 명확한 경우가 많다. 반대로 행렬 곱, 필터, 비디오 파이프라인 같은 규칙적 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 HLS가 훨씬 빠르게 구조 탐색을 돌릴 수 있다.
 
-또한 HLS는 그 자체로 끝나는 기술이 아니다. HLS로 만든 연산 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 동적 재구성 영역에 올리거나, 주변 입출력은 수동 RTL로 감싸고, 스트림 경계는 비동기 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (Asynchronous [First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/), [Async FIFO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/))로 완충하는 식으로 다른 주제들과 자연스럽게 연결된다. 즉 HLS는 "칩 전체를 다 만드는 만능기"가 아니라, **계산 중심 블록을 빠르게 설계하는 상위 레벨 진입점**이다.
+또한 HLS는 그 자체로 끝나는 기술이 아니다. HLS로 만든 연산 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 동적 재구성 영역에 올리거나, 주변 입출력은 수동 RTL로 감싸고, 스트림 경계는 비동기 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) (Asynchronous [First-In First-Out](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/), [Async FIFO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/608_async_fifo/))로 완충하는 식으로 다른 주제들과 자연스럽게 연결된다. 즉 HLS는 "칩 전체를 다 만드는 만능기"가 아니라, <strong>계산 중심 블록을 빠르게 설계하는 상위 레벨 진입점</strong>이다.
 
 - **📢 섹션 요약 비유**: HLS는 맞춤 정장을 손바느질로 전부 만드는 것과 기성복만 입는 것의 중간쯤이다. 몸에 맞는 큰 틀은 빠르게 잡아 주지만, 단추 위치까지 극단적으로 다듬는 일은 여전히 장인의 손이 필요할 수 있다.
 
@@ -110,7 +108,7 @@ HLS의 경계는 수동 RTL과 소프트웨어 실행 사이에 있다. 소프�
 
 실무에서 HLS가 가장 잘 맞는 곳은 계산 패턴이 반복되고, 요구사항이 자주 바뀌며, "정답 구조 하나"보다 "후보 구조 여러 개"를 빨리 비교해야 하는 환경이다. 영상 전처리, 통신 필터, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/복호화, 행렬 연산, 센서 융합 가속기가 대표적이다. 이 경우 C 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 HLS 보고서를 연결해 빠르게 설계를 돌릴 수 있다.
 
-반대로 포인터 추적이 심한 불규칙 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 동적 메모리 할당, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/), 복잡한 예외 처리, 클럭·리셋 경계가 많은 제어 블록은 HLS 효율이 급격히 떨어질 수 있다. 이런 코드는 합성은 되더라도 면적이 비대해지거나 II가 커져 기대만큼 빨라지지 않는다. 따라서 기술사 답안에서도 "HLS 사용 여부"는 생산성 찬양이 아니라, **패턴 규칙성·메모리 접근·인터페이스 제약**을 근거로 판단해야 한다.
+반대로 포인터 추적이 심한 불규칙 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 동적 메모리 할당, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/), 복잡한 예외 처리, 클럭·리셋 경계가 많은 제어 블록은 HLS 효율이 급격히 떨어질 수 있다. 이런 코드는 합성은 되더라도 면적이 비대해지거나 II가 커져 기대만큼 빨라지지 않는다. 따라서 기술사 답안에서도 "HLS 사용 여부"는 생산성 찬양이 아니라, <strong>패턴 규칙성·메모리 접근·인터페이스 제약</strong>을 근거로 판단해야 한다.
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -139,7 +137,7 @@ HLS를 잘 쓰면 설계 반복 속도가 빨라지고, 같은 [알고리즘](/k
 
 한계도 분명하다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 RTL이 항상 최적은 아니며, 메모리 구조를 잘못 잡으면 수동 RTL보다 비효율적일 수 있다. 또한 디버깅 관점에서는 C 코드, HLS 중간 보고서, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) RTL, 실제 배치배선 결과를 함께 봐야 하므로 추상화가 올라간 만큼 관찰 계층도 늘어난다. 앞으로는 자동 pragma 탐색, 기계학습 기반 설계 공간 탐색, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 언어와의 결합이 더 중요해질 가능성이 크다.
 
-결론적으로 HLS는 **"소프트웨어를 칩으로 바꾸는 번역기"가 아니라, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 하드웨어 아키텍처 후보군으로 변환하는 설계 컴파일러**로 기억하는 것이 가장 정확하다. 이 관점을 잡으면 왜 코드 품질보다 의존성, [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 더 중요하게 다뤄지는지 자연스럽게 이해된다.
+결론적으로 HLS는 <strong>"소프트웨어를 칩으로 바꾸는 번역기"가 아니라, <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 하드웨어 아키텍처 후보군으로 변환하는 설계 컴파일러</strong>로 기억하는 것이 가장 정확하다. 이 관점을 잡으면 왜 코드 품질보다 의존성, [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 더 중요하게 다뤄지는지 자연스럽게 이해된다.
 
 - **📢 섹션 요약 비유**: HLS는 만능 자동 통역기가 아니라, 회의 내용을 들으면 곧바로 조직도를 짜 주는 운영 설계자에 가깝다. 말을 옮기는 것보다 누가 어떤 일을 동시에 할지를 정하는 능력이 더 중요하다.
 
@@ -158,24 +156,25 @@ HLS를 잘 쓰면 설계 반복 속도가 빨라지고, 같은 [알고리즘](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 RTL 중심 설계
-      │
-      ▼
-C 모델 기반 기능 검증
-      │
-      ▼
-HLS 스케줄링 · 자원 바인딩
-      │
-      ▼
-파이프라인 · 언롤 · 데이터플로 최적화
-      │
-      ▼
-FPGA 가속기 설계 공간 탐색
-      │
-      ▼
-도메인 특화 언어 · 자동 튜닝 기반 하드웨어 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 RTL 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">C 모델 기반 기능 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HLS 스케줄링 · 자원 바인딩</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프라인 · 언롤 · 데이터플로 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FPGA 가속기 설계 공간 탐색</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">도메인 특화 언어 · 자동 튜닝 기반 하드웨어 생성</div>
+</div>
+</div>
+
+
 
 이 흐름은 하드웨어 설계가 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 직접 쓰는 단계"에서 출발해, 이제는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 모델을 여러 하드웨어 후보로 빠르게 펼쳐 보는 방향으로 진화하고 있음을 보여 준다.
 

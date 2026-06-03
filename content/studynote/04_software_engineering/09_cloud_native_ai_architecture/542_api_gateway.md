@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 거대한 아파트 단지의 '경비실 겸 로비 안내데스크'다. 외부 손님(스마트폰 앱)이 104동 302호(결제 서버)로 다이렉트로 들어갈 수 없다. 무조건 로비([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)에 들어와서 신분증([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰)을 찍어야 한다. 통과하면 안내데스크가 "결제 서버는 저쪽 길([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))입니다"라고 길을 뚫어주고, 한 번에 데이터를 많이 긁어모아 오고 싶으면 안내원이 대신 3개 동을 뛰어가서 짐을 1박스(Aggregation)로 뭉쳐서 손님에게 전달해 준다.
 
-- **필요성**: MSA로 찢으면 개발자는 행복하지만 프론트엔드(모바일 앱) 개발자는 피눈물을 흘린다. 화면 1개 띄우려는데 `결제서버(10.0.0.1)`, `리뷰서버(10.0.0.2)`, `장바구니서버(10.0.0.3)` 3군데로 각자 전화를 걸어야 한다. 모바일 배터리는 광탈하고, 서버 IP 하나 바뀌면 앱을 업데이트해야 한다. 더 최악은 50개의 서버에 각자 '로그인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 코드'를 복붙해서 넣어야 한다는 것이다. **"클라이언트(모바일)의 통신 피로도를 파괴하고, 수십 개 서버에 흩어진 똥(중복된 보안 코드)을 하나로 치워버릴 거대한 우산([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))"**이 없으면 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 생태계는 1달 만에 붕괴한다.
+- **필요성**: MSA로 찢으면 개발자는 행복하지만 프론트엔드(모바일 앱) 개발자는 피눈물을 흘린다. 화면 1개 띄우려는데 `결제서버(10.0.0.1)`, `리뷰서버(10.0.0.2)`, `장바구니서버(10.0.0.3)` 3군데로 각자 전화를 걸어야 한다. 모바일 배터리는 광탈하고, 서버 IP 하나 바뀌면 앱을 업데이트해야 한다. 더 최악은 50개의 서버에 각자 '로그인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 코드'를 복붙해서 넣어야 한다는 것이다. <strong>"클라이언트(모바일)의 통신 피로도를 파괴하고, 수십 개 서버에 흩어진 똥(중복된 보안 코드)을 하나로 치워버릴 거대한 우산(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">Facade</a>)"</strong>이 없으면 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 생태계는 1달 만에 붕괴한다.
 
-- **💡 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 50명의 장인(서버)이 일하는 공방의 유일한 **'수석 매니저(프론트데스크)'**와 똑같습니다. 옛날(게이트웨이 없음)엔 손님이 신발 장인, 가죽 장인, 염색 장인 50명에게 일일이 전화를 돌리고 각자 돈을 입금(복잡한 통신)해야 했습니다. 장인들은 전화받느라 신발을 못 만듭니다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 두면 손님은 오직 '수석 매니저' 1명에게만 "빨간 가죽 구두 하나 줘!"라고 주문(1번의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)합니다. 매니저가 뒤돌아서 장인 50명에게 일을 쫙 분배([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))하고, 신발이 완성되면 한 상자에 예쁘게 담아(통합) 손님에게 건네줍니다. 장인은 구두(비즈니스)만 만들고, 매니저는 진상 손님을 막고 돈(보안/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 걷는 완벽한 역할 분리입니다.
+- **💡 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 50명의 장인(서버)이 일하는 공방의 유일한 <strong>'수석 매니저(프론트데스크)'</strong>와 똑같습니다. 옛날(게이트웨이 없음)엔 손님이 신발 장인, 가죽 장인, 염색 장인 50명에게 일일이 전화를 돌리고 각자 돈을 입금(복잡한 통신)해야 했습니다. 장인들은 전화받느라 신발을 못 만듭니다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 두면 손님은 오직 '수석 매니저' 1명에게만 "빨간 가죽 구두 하나 줘!"라고 주문(1번의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)합니다. 매니저가 뒤돌아서 장인 50명에게 일을 쫙 분배([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))하고, 신발이 완성되면 한 상자에 예쁘게 담아(통합) 손님에게 건네줍니다. 장인은 구두(비즈니스)만 만들고, 매니저는 진상 손님을 막고 돈(보안/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 걷는 완벽한 역할 분리입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **모놀리식의 정문 (과거)**: 서버가 1통짜리였을 땐 `Apache`나 `Nginx`로 L4 로드밸런싱(단순 트래픽 쪼개기)만 해주면 끝났다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 껍데기는 필요 없었다.
   2. **넷플릭스 Zuul의 영광 (2010s)**: 넷플릭스가 서버를 500개로 찢으면서 "야, 앱에서 500군데 찌르는 건 미친 짓이야!"라며 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway `Zuul`을 만들었다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 중앙 1곳에서 자바 코드로 씹어 먹는 1세대 게이트웨이 전성기가 열렸다.
-  3. **비동기 논블로킹(Non-blocking)과 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 대통일 (현재)**: Zuul 1세대는 동기식(1요청 1스레드)이라 트래픽이 폭주하면 뻗어버렸다. 스프링 진영은 아예 뼈대를 비동기(WebFlux)로 뜯어고친 `Spring Cloud Gateway`를 내놓았고, 인프라 진영은 `Kong`, `AWS API Gateway` 같은 극강의 상용 C/Go 기반 초음속 톨게이트를 내놓아 현재 클라우드의 심장부를 점령했다.
+  3. <strong>비동기 논블로킹(Non-blocking)과 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 대통일 (현재)</strong>: Zuul 1세대는 동기식(1요청 1스레드)이라 트래픽이 폭주하면 뻗어버렸다. 스프링 진영은 아예 뼈대를 비동기(WebFlux)로 뜯어고친 `Spring Cloud Gateway`를 내놓았고, 인프라 진영은 `Kong`, `AWS API Gateway` 같은 극강의 상용 C/Go 기반 초음속 톨게이트를 내놓아 현재 클라우드의 심장부를 점령했다.
 
-- **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 50개의 복잡한 마이크로서비스라는 지저분한 주방의 내장을, 예쁜 메뉴판 딱 하나로 가려주는 **'식당의 깔끔한 홀(Hall)'**입니다. 손님(모바일 앱)은 주방에서 웍이 날아다니고 불이 나는 끔찍한 과정([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복잡성)을 1도 알 필요 없이, 그냥 예쁜 메뉴판([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 주소) 하나만 보고 우아하게 밥을 시켜 먹으면 되는 압도적 편의성([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 완성입니다.
+- **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 50개의 복잡한 마이크로서비스라는 지저분한 주방의 내장을, 예쁜 메뉴판 딱 하나로 가려주는 <strong>'식당의 깔끔한 홀(Hall)'</strong>입니다. 손님(모바일 앱)은 주방에서 웍이 날아다니고 불이 나는 끔찍한 과정([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 복잡성)을 1도 알 필요 없이, 그냥 예쁜 메뉴판([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 주소) 하나만 보고 우아하게 밥을 시켜 먹으면 되는 압도적 편의성([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 완성입니다.
 
 ---
 
 다음은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gatew의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  API 게이트웨이 (API Gatew                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 게이트웨이 (API Gatew</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gatew가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-API 게이트웨이 (API Gateway) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API 게이트웨이 (API Gateway) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

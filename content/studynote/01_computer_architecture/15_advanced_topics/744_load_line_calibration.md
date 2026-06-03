@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 중앙처리장치 (Central Processing Unit, CPU) [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 고정되어 있지 않다. 유휴 상태에서 수십 암페어 수준이던 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가, 작업이 시작되는 순간 수 마이크로초 안에 수백 암페어 가까이 뛰기도 한다. 이때 배선 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 패키지 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/), [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/) 에너지 전달 한계 때문에 출력 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간적으로 내려가는데, 이를 보통 Vdroop이라고 부른다. 중요한 점은 이 현상이 단순한 "불량"만은 아니라는 것이다.
 
-CPU 제조사는 오히려 일정한 부하선, 즉 로드 라인을 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 규격에 포함해 두는 경우가 많다. 부하가 걸릴 때 약간 떨어지도록 허용하면, 반대로 부하가 갑자기 사라질 때 생기는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 오버슛을 더 안전하게 제어할 수 있기 때문이다. 즉 로드 라인은 낮은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 싫어서 없애야 할 대상만이 아니라, **과도 응답을 안전하게 만들기 위한 완충 장치**이기도 하다.
+CPU 제조사는 오히려 일정한 부하선, 즉 로드 라인을 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 규격에 포함해 두는 경우가 많다. 부하가 걸릴 때 약간 떨어지도록 허용하면, 반대로 부하가 갑자기 사라질 때 생기는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 오버슛을 더 안전하게 제어할 수 있기 때문이다. 즉 로드 라인은 낮은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 싫어서 없애야 할 대상만이 아니라, <strong>과도 응답을 안전하게 만들기 위한 완충 장치</strong>이기도 하다.
 
 그럼에도 오버클러킹이나 빡빡한 안정성 조건에서는 기본 로드 라인이 너무 크게 느껴질 수 있다. 이때 기본 입출력 시스템 (Basic Input/Output System, BIOS)에서 조정하는 기능이 바로 LLC다.
 - **📢 섹션 요약 비유**: 무거운 짐을 갑자기 실으면 트럭 차체가 조금 내려앉는 것은 자연스럽다. 차체가 전혀 안 내려앉게만 만들면, 짐을 갑자기 내릴 때 오히려 반대로 크게 튀어 오를 수 있다.
@@ -32,7 +32,7 @@ CPU 제조사는 오히려 일정한 부하선, 즉 로드 라인을 [전압](/k
 
 LLC는 목표 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 자체를 바꾸는 기능이라기보다, 부하 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)에 따라 출력 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 얼마나 기울어질지를 조정하는 기능이다. 단순화하면 부하 상태의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 대략 `Vload ≈ Vset - Iload × RLL`로 생각할 수 있는데, 여기서 `RLL`이 로드 라인의 기울기다. LLC를 높이면 유효 `RLL`이 작아져서 풀로드 시 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 줄고, LLC를 낮추면 규격에 가까운 드룹이 유지된다.
 
-문제는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 줄어드는 순간이다. [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)와 커패시터에 저장된 에너지는 즉시 사라지지 않으므로, 방금까지 강하게 밀어 넣던 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간적으로 위로 튈 수 있다. 따라서 LLC는 **드룹을 줄이는 대신 오버슛 가능성을 키우는 트레이드오프 조정기**다. 이 때문에 제조사마다 LLC 단계가 여러 레벨로 제공되지만, 숫자가 높을수록 강한지 낮을수록 강한지는 보드마다 다를 수 있다.
+문제는 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 줄어드는 순간이다. [인덕터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/007_inductor/)와 커패시터에 저장된 에너지는 즉시 사라지지 않으므로, 방금까지 강하게 밀어 넣던 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간적으로 위로 튈 수 있다. 따라서 LLC는 <strong>드룹을 줄이는 대신 오버슛 가능성을 키우는 트레이드오프 조정기</strong>다. 이 때문에 제조사마다 LLC 단계가 여러 레벨로 제공되지만, 숫자가 높을수록 강한지 낮을수록 강한지는 보드마다 다를 수 있다.
 
 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 성향 | 풀로드 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) | 부하 해제 시 오버슛 | 일반적 용도 |
 | :--- | :--- | :--- | :--- |
@@ -42,18 +42,20 @@ LLC는 목표 [전압](/knowledge-base/studynote/01_computer_architecture/01_bas
 
 이 그림은 LLC가 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 무조건 올리는 기능"이 아니라, 부하 인가와 해제의 기울기를 바꾸는 조정기라는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        LLC changes the trade-off between droop under load and overshoot   │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Vcore                                                                      │
-│ 1.30V ─ aggressive LLC ──────┐                    /\ overshoot risk        │
-│ 1.25V ─ balanced LLC ──────\  └──── heavy load --/  \────                  │
-│ 1.20V ─ spec load-line ─────\____________________/                         │
-│                                                                            │
-│          idle                 load applied          load released          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLC changes the trade-off between droop under load and overshoot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vcore</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.30V ─ aggressive LLC /\ overshoot risk</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.25V ─ balanced LLC \ heavy load --/ \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.20V ─ spec load-line \____________________/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">idle load applied load released</div></div>
+</div>
+</div>
+
+
 
 실제로 소프트웨어 모니터링 툴은 빠른 스파이크를 다 보지 못할 수 있다. 따라서 정밀 평가는 오실로스코프 기반 측정이 가장 정확하고, 일반 사용자는 장기 스트레스 테스트와 실제 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 피크, 발열, 오류 로그를 함께 보며 보수적으로 접근해야 한다.
 - **📢 섹션 요약 비유**: 약간 느슨한 스프링은 눌렀다가 놓을 때 덜 튀지만, 너무 빡빡한 스프링은 눌릴 때는 단단해 보여도 놓는 순간 크게 튀어 오른다.
@@ -98,7 +100,7 @@ LLC는 [다상 전원부](/knowledge-base/studynote/01_computer_architecture/15_
 - 높은 고정 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에 최고 LLC를 겹쳐 실리콘에 과도한 스트레스를 주는 것
 - 제조사마다 다른 LLC 레벨 체계를 같은 숫자로 비교하는 것
 
-기술사 답안에서는 LLC를 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 없애는 마법"이 아니라, **Vdroop과 Overshoot 사이의 균형을 조절하는 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**으로 설명해야 한다. 이 한 문장만 정확히 잡아도 수준 있는 답안이 된다.
+기술사 답안에서는 LLC를 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하를 없애는 마법"이 아니라, <strong>Vdroop과 Overshoot 사이의 균형을 조절하는 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/">VRM</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 설명해야 한다. 이 한 문장만 정확히 잡아도 수준 있는 답안이 된다.
 - **📢 섹션 요약 비유**: 브레이크를 너무 예민하게 맞추면 멈출 때는 딱 좋아 보여도, 발을 떼는 순간 차가 덜컥 튈 수 있다. 적당한 여유가 오히려 더 안전한 경우가 있다.
 
 ---
@@ -109,7 +111,7 @@ LLC는 [다상 전원부](/knowledge-base/studynote/01_computer_architecture/15_
 
 그러나 LLC는 항상 대가를 동반한다. 드룹을 줄일수록 오버슛, 발열, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), 실리콘 스트레스가 커질 수 있고, 제조사별 구현 차이 때문에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 이식성도 낮다. 그래서 장기 안정성과 수명을 우선하는 시스템일수록 규격에 가까운 보수적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 합리적이며, 공격적 LLC는 짧은 기록 경쟁 같은 특수 목적에 더 가깝다.
 
-앞으로는 디지털 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) 제어와 텔레메트리 고도화로, workload와 온도 변화에 따라 로드 라인을 더 세밀하게 조정하는 적응형 방식이 늘어날 가능성이 크다. 결론적으로 LLC는 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 더 주는 옵션"이 아니라, **부하 과도 응답의 기울기를 어디에 둘지 결정하는 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 레버**로 기억해야 한다.
+앞으로는 디지털 [VRM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/742_vrm/) 제어와 텔레메트리 고도화로, workload와 온도 변화에 따라 로드 라인을 더 세밀하게 조정하는 적응형 방식이 늘어날 가능성이 크다. 결론적으로 LLC는 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 더 주는 옵션"이 아니라, <strong>부하 과도 응답의 기울기를 어디에 둘지 결정하는 전원 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 레버</strong>로 기억해야 한다.
 - **📢 섹션 요약 비유**: 줄다리기에서 한쪽 힘을 너무 세게 주면 당기는 순간은 좋아 보여도, 상대가 갑자기 힘을 놓는 순간 뒤로 넘어질 수 있다. LLC는 그 힘의 균형을 조절하는 손잡이다.
 
 ---
@@ -127,21 +129,23 @@ LLC는 [다상 전원부](/knowledge-base/studynote/01_computer_architecture/15_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 전압 설정 중심 오버클럭
-        │
-        ▼
-제조사 규격 기반 Load Line 개념 정착
-        │
-        ▼
-BIOS LLC 단계별 조정
-        │
-        ▼
-디지털 VRM의 세밀한 과도 응답 제어
-        │
-        ▼
-텔레메트리 기반 적응형 Load Line 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 전압 설정 중심 오버클럭</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제조사 규격 기반 Load Line 개념 정착</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BIOS LLC 단계별 조정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">디지털 VRM의 세밀한 과도 응답 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">텔레메트리 기반 적응형 Load Line 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 튜닝이 단순 정적 수치 조정에서 출발해, 이제는 부하 변화와 과도 현상까지 함께 다루는 동적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어로 발전하고 있음을 보여 준다.
 

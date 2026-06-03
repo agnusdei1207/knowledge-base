@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 생산자-소비자(Producer-Consumer) 문제는 멀티스레드 환경에서 한쪽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들고(생산) 다른 한쪽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리(소비)할 때, **크기가 제한된 유한 버퍼(Bounded Buffer)**를 안전하게 공유하기 위한 고전적인 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 난제다.
-> 2. **2가지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 과제**: 이 문제는 "두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 건드리면 안 된다"는 **[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))**와, "버퍼가 꽉 차면 생산자는 자야 하고, 버퍼가 비면 소비자는 자야 한다"는 **실행 순서 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Condition [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))**를 동시에 요구한다.
+> 1. **본질**: 생산자-소비자(Producer-Consumer) 문제는 멀티스레드 환경에서 한쪽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들고(생산) 다른 한쪽은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리(소비)할 때, <strong>크기가 제한된 유한 버퍼(Bounded Buffer)</strong>를 안전하게 공유하기 위한 고전적인 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 난제다.
+> 2. <strong>2가지 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 과제</strong>: 이 문제는 "두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 건드리면 안 된다"는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)</strong>와, "버퍼가 꽉 차면 생산자는 자야 하고, 버퍼가 비면 소비자는 자야 한다"는 <strong>실행 순서 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Condition <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>를 동시에 요구한다.
 > 3. **해결책**: 이를 완벽하게 해결하기 위해 보통 1개의 뮤텍스([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)용)와 2개의 [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/)(`empty`, `full`)를 조합하여 버퍼의 상태를 추적하고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들을 재우거나 깨우는 아키텍처를 설계한다.
 
 ---
@@ -36,9 +36,9 @@ tags = ["studynote-operating-system"]
   - 그리고 주방장과 손님이 빵을 놓거나 집어갈 때, 서로 손이 부딪히지 않도록([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 빵집의 집게는 딱 1개([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))만 둔다.
 
 - **발전 과정**:
-  1. **단순 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) (무한 루프)**: `while(count == MAX)` 방식으로 CPU를 낭비하며 기다림.
-  2. **[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 활용**: 3개의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), empty, full)를 이용해 CPU 낭비 없이 완벽하게 해결.
-  3. **고수준 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**: Java의 `BlockingQueue`, Go의 `Channel` 등 언어 차원에서 내장 클래스로 제공되어 개발자가 직접 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 짤 필요가 없어짐.
+  1. <strong>단순 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (무한 루프)</strong>: `while(count == MAX)` 방식으로 CPU를 낭비하며 기다림.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> 활용</strong>: 3개의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), empty, full)를 이용해 CPU 낭비 없이 완벽하게 해결.
+  3. <strong>고수준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: Java의 `BlockingQueue`, Go의 `Channel` 등 언어 차원에서 내장 클래스로 제공되어 개발자가 직접 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 짤 필요가 없어짐.
 
 - **📢 섹션 요약 비유**: 물탱크(버퍼)에 물을 붓는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(생산자)와 물을 빼 쓰는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(소비자)가 있습니다. 물탱크가 넘치거나 바닥나지 않도록 수위 센서([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))를 달아 양쪽 밸브를 자동으로 열고 닫는 완벽한 수자원 관리 시스템입니다.
 
@@ -51,8 +51,8 @@ tags = ["studynote-operating-system"]
 생산자-소비자 문제를 해결하기 위한 가장 고전적이고 완벽한 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) 설계다.
 
 - `mutex = 1` : 버퍼에 동시에 손을 넣는 것을 막는 [이진 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/225_binary_semaphore/). (자물쇠)
-- `empty = N` : 버퍼에 **비어있는 칸의 개수**를 세는 [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/). (생산자가 소비함)
-- `full = 0` : 버퍼에 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 차 있는 칸의 개수**를 세는 [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/). (소비자가 소비함)
+- `empty = N` : 버퍼에 <strong>비어있는 칸의 개수</strong>를 세는 [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/). (생산자가 소비함)
+- `full = 0` : 버퍼에 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 차 있는 칸의 개수</strong>를 세는 [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/). (소비자가 소비함)
 
 ```c
 /* 생산자 (Producer) 코드 */
@@ -82,7 +82,7 @@ while (true) {
 }
 ```
 
-**[다이어그램 해설]** 이 코드의 천재성은 **"순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))"**와 **"[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))"**를 분리했다는 데 있다. 생산자는 `empty`라는 입장권을 내야만 버퍼 텐트에 들어갈 수 있고, 소비자는 `full`이라는 입장권을 내야만 들어갈 수 있다. 
+**[다이어그램 해설]** 이 코드의 천재성은 <strong>"순서(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)"</strong>와 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)"</strong>를 분리했다는 데 있다. 생산자는 `empty`라는 입장권을 내야만 버퍼 텐트에 들어갈 수 있고, 소비자는 `full`이라는 입장권을 내야만 들어갈 수 있다. 
 **주의할 점**: `wait(empty)`와 `wait(mutex)`의 순서를 바꾸면 치명적인 데드락에 빠진다. 생산자가 락(`mutex`)을 먼저 쥐고 텐트에 들어갔는데 빈칸(`empty`)이 없어서 텐트 안에서 자버리면, 소비자는 빵을 먹고 싶어도 생산자가 텐트 문을 잠그고 안에서 자고 있기 때문에 들어갈 수가 없다!
 
 ---
@@ -128,11 +128,11 @@ public synchronized int get() {
 | **버퍼 크기** | 메모리가 허용하는 한 무한대 (LinkedList 등) | 고정된 크기 N (주로 [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 원형 큐) |
 | **생산자 대기 여부**| 생산자는 꽉 차는 일이 없으므로 절대 대기(Block) 안 함 | **버퍼가 꽉 차면 생산자도 대기해야 함** |
 | **소비자 대기 여부**| 버퍼가 비면 대기해야 함 | 버퍼가 비면 대기해야 함 |
-| **실제 사용처** | 로깅 시스템 (일단 다 받고 봄, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 위험) | **메시지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ), [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 워커** |
+| **실제 사용처** | 로깅 시스템 (일단 다 받고 봄, [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 위험) | <strong>메시지 큐(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>, RabbitMQ), <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a> 워커</strong> |
 
 ### 과목 융합 관점
 
-- **자료구조 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)**: 유한 버퍼는 100% **원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))**로 구현된다. 큐의 `in`(생산 위치)과 `out`(소비 위치) 포인터가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝에 도달하면 다시 0번 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 돌아간다. 이 큐 구조 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이동(복사) 없이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 조작만으로 메모리를 무한히 재활용할 수 있다.
+- <strong>자료구조 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Structure)</strong>: 유한 버퍼는 100% <strong>원형 큐(Circular <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>로 구현된다. 큐의 `in`(생산 위치)과 `out`(소비 위치) 포인터가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝에 도달하면 다시 0번 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 돌아간다. 이 큐 구조 덕분에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이동(복사) 없이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 조작만으로 메모리를 무한히 재활용할 수 있다.
 - **네트워크 (NW)**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신의 **슬라이딩 윈도우(Sliding Window)** 메커니즘도 거대한 생산자-소비자 문제다. 송신자(생산자)는 수신자(소비자)의 '수신 버퍼(여유 공간)' 크기만큼만 패킷을 밀어 넣을 수 있으며, 수신 버퍼가 0([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)=0)이 되면 송신자는 패킷 전송을 멈추고 기다려야 한다.
 
 - **📢 섹션 요약 비유**: 무한 버퍼는 넓은 들판에 물건을 무작정 던져놓는 것이라 버릴 공간이 떨어지면 세상이 멸망([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))합니다. 유한 버퍼는 10칸짜리 회전초밥 레일입니다. 접시가 꽉 차면 주방장은 요리를 멈춰야 레일이 고장 나지 않습니다.
@@ -143,46 +143,43 @@ public synchronized int get() {
 
 ### 실무 시나리오
 
-1. **시나리오 — [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 비동기 메시지 큐 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)**: 주문 서버(생산자)에서 초당 1만 건의 주문이 떨어지는데, 결제 서버(소비자)는 초당 1,000건밖에 처리를 못 한다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 간 비동기 메시지 큐 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>, RabbitMQ)</strong>: 주문 서버(생산자)에서 초당 1만 건의 주문이 떨어지는데, 결제 서버(소비자)는 초당 1,000건밖에 처리를 못 한다.
    - **아키텍처 적용**: 두 서버를 동기식([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))으로 직접 연결하면 결제 서버가 죽으면서 주문 서버까지 타임아웃으로 같이 죽어버린다(장애 전파). 
-   - 이 둘 사이에 **[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) (거대한 유한 버퍼)**를 둔다. 주문 서버는 Kafka에 주문을 밀어 넣고 즉시 "주문 접수 완료"를 띄운다(빠른 응답). 결제 서버는 자기 페이스에 맞춰 Kafka에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙쏙 빼간다. 만약 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 버퍼마저 꽉 차면(생산 속도 > 소비 속도), Kafka는 주문 서버에 Backpressure(배압) 신호를 보내 잠시 생산을 멈추게(Wait) 하여 전체 시스템의 붕괴를 막는다.
+   - 이 둘 사이에 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> (거대한 유한 버퍼)</strong>를 둔다. 주문 서버는 Kafka에 주문을 밀어 넣고 즉시 "주문 접수 완료"를 띄운다(빠른 응답). 결제 서버는 자기 페이스에 맞춰 Kafka에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏙쏙 빼간다. 만약 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 버퍼마저 꽉 차면(생산 속도 > 소비 속도), Kafka는 주문 서버에 Backpressure(배압) 신호를 보내 잠시 생산을 멈추게(Wait) 하여 전체 시스템의 붕괴를 막는다.
 
-2. **시나리오 — [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))의 작업 큐 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방어**: Java Spring Boot 웹 서버에 트래픽이 몰려서 톰캣의 MaxThreads(200개)가 다 차버렸다. 이후 들어오는 요청들은 내부의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓이기 시작한다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)의 작업 큐 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> 방어</strong>: Java Spring Boot 웹 서버에 트래픽이 몰려서 톰캣의 MaxThreads(200개)가 다 차버렸다. 이후 들어오는 요청들은 내부의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 쌓이기 시작한다.
    - **원인 분석**: 톰캣의 이 대기 큐는 기본적으로 `Bounded Buffer`로 설정되어 있다(예: accept-count 100). 이 100칸짜리 버퍼마저 꽉 차면, 이후에 들어오는 클라이언트(생산자)의 연결 요청은 OS 단에서 `Connection Refused` 에러를 맞고 튕겨 나간다.
    - **기술사적 가이드**: 만약 이 큐를 `Unbounded(무한)`로 설정하면 당장 에러는 안 나겠지만, 큐에 수만 개의 요청 객체가 쌓여 메모리가 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))되어 서버 자체가 죽는다. 따라서 트래픽 폭주 시 서버를 살리려면 반드시 큐의 사이즈를 한정(Bounded)하고, 초과분에 대해서는 과감하게 에러(429 Too Many Requests)를 던져 깎아내는 버퍼 튜닝이 필수적이다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 생산자-소비자 파이프라인(버퍼) 용량 산정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [데이터를 생산하는 속도(P)와 소비하는 속도(C)의 불균형 발생]               │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      장기적으로 봤을 때 평균 소비 속도(C)가 생산 속도(P)를 따라갈 수 있는가?  │
-  │          ├─ 아니오 ──▶ [시스템 아키텍처 붕괴 상태]                      │
-  │          │            대책: 버퍼를 아무리 늘려봐야 언젠간 터짐.            │
-  │          │            소비자(Consumer) 서버 대수를 Scale-out 하거나,    │
-  │          │            생산자의 데이터를 샘플링(Drop)해서 줄여야 함.         │
-  │          └─ 예 (평소엔 C가 빠르지만, 특정 시간대에만 P가 폭주한다)         │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      그 '특정 폭주 시간' 동안 쌓이는 데이터를 모두 저장할 수 있는 메모리가 있나?│
-  │          ├─ 예 ─────▶ [메모리/디스크 기반 Bounded Buffer 크기 넉넉히 산정]│
-  │          │            (예: 1시간 폭주분 = 100GB. Kafka 파티션 용량 확보)   │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [Backpressure (배압) 메커니즘 도입]             │
-  │                         버퍼가 80% 차면 생산자에게 "속도 줄여!"라고 신호를 보내어│
-  │                         생산자 쓰로틀링(Throttling) 유도                │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자-소비자 파이프라인(버퍼) 용량 산정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터를 생산하는 속도(P)와 소비하는 속도(C)의 불균형 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장기적으로 봤을 때 평균 소비 속도(C)가 생산 속도(P)를 따라갈 수 있는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 아키텍처 붕괴 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 버퍼를 아무리 늘려봐야 언젠간 터짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자(Consumer) 서버 대수를 Scale-out 하거나,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자의 데이터를 샘플링(Drop)해서 줄여야 함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 (평소엔 C가 빠르지만, 특정 시간대에만 P가 폭주한다)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 '특정 폭주 시간' 동안 쌓이는 데이터를 모두 저장할 수 있는 메모리가 있나?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리/디스크 기반 Bounded Buffer 크기 넉넉히 산정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 1시간 폭주분 = 100GB. Kafka 파티션 용량 확보)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Backpressure (배압) 메커니즘 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼가 80% 차면 생산자에게 "속도 줄여!"라고 신호를 보내어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자 쓰로틀링(Throttling) 유도</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 버퍼(Buffer)는 속도를 빠르게 해주는 도구가 아니다. 속도 차이로 인해 톱니바퀴가 부서지는 것을 막아주는 '스펀지(완충재)'다. 스펀지가 흡수할 수 있는 물의 양에는 한계가 있다. 아키텍트는 버퍼의 크기를 무한정 늘리는 게 아니라, 버퍼가 가득 찼을 때 생산자를 어떻게 부드럽게 재울 것인지([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) or Backpressure)를 설계하는 데 목숨을 걸어야 한다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) Queue의 유혹**: 생산자 1명, 소비자 1명(1:1)인 환경에서는 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 락을 걸 필요 없이 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터만 분리하여 **[Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 원형 큐(Disruptor 패턴 등)**를 만들 수 있다. 극강의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(수천만 TPS)이 필요할 때 락 없는 버퍼 설계를 검토했는가?
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> Queue의 유혹</strong>: 생산자 1명, 소비자 1명(1:1)인 환경에서는 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 락을 걸 필요 없이 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터만 분리하여 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 원형 큐(Disruptor 패턴 등)</strong>를 만들 수 있다. 극강의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(수천만 TPS)이 필요할 때 락 없는 버퍼 설계를 검토했는가?
 
 - **📢 섹션 요약 비유**: 댐(유한 버퍼)은 비(생산)가 많이 올 때 물을 가둬두어 홍수를 막고, 가물 때 물을 풀어 농사(소비)를 짓게 해주는 최고의 발명품입니다. 하지만 댐 용량을 넘는 비가 오면 상류(생산자)에 물을 더 보내지 말라고 막아야지, 댐을 터뜨리면 하류 마을이 다 날아갑니다.
 
@@ -195,7 +192,7 @@ public synchronized int get() {
 | 구분 | 동기식(직결) 통신 | 생산자-소비자 Bounded Buffer 도입 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (가동률)** | 소비자가 멈추면 생산자도 멈춤 | 버퍼 공간만큼 생산자는 독립적으로 일함 | CPU 및 자원 활용률 극대화 |
-| **정성 ([결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))** | 양쪽 컴포넌트가 강하게 결합됨 | 버퍼를 통해 완전한 느슨한 결합(Decoupling) | 코드 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 및 확장성([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 확보 |
+| <strong>정성 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>)</strong> | 양쪽 컴포넌트가 강하게 결합됨 | 버퍼를 통해 완전한 느슨한 결합(Decoupling) | 코드 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 및 확장성([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) 확보 |
 | **정량 (트래픽 방어)**| 갑작스런 폭주 시 시스템 즉사 | 버퍼가 트래픽 충격을 흡수 (Shock Absorbing) | 순간적인 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 워크로드 완벽 방어 |
 
 ### 미래 전망
@@ -220,15 +217,19 @@ public synchronized int get() {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모니터 (Monitor) 동기화 추상화]
-    │
-    ▼
-[생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)]
-    │
-    ├──▶ [식사하는 철학자 교착 문제]
-    └──▶ [교착 상태 4가지 조건]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 (Monitor) 동기화 추상화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식사하는 철학자 교착 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 4가지 조건</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

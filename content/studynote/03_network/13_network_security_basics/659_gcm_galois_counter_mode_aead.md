@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - AES의 가장 흔한 엮기 방식인 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 패킷 내용을 해커가 못 보게([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 막아주지만, 해커가 암호화된 쓰레기 패킷 중간을 강제로 변조해 버리면 수신자는 쓰레기를 그대로 복호화해서 받아들이게 됩니다([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손).
-- 이를 막기 위해 과거에는 **[데이터 암호화]를 한 바퀴 돌리고, 다시 그 위에 [무결성 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 해시)]을 쾅 찍기 위해 한 바퀴를 또 돌리는 무거운 방식([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)-then-Encrypt 등)**을 썼습니다.
+- 이를 막기 위해 과거에는 <strong>[데이터 암호화]를 한 바퀴 돌리고, 다시 그 위에 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">무결성 도장([MAC</a>, 해시)]을 쾅 찍기 위해 한 바퀴를 또 돌리는 무거운 방식(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-then-Encrypt 등)</strong>을 썼습니다.
 
-```text
-[블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
-[GCM 모드]
-    │
-    └──▶ [비대칭키/공개키 암호화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: GCM 모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **암호화(Encryption, [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))**와 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장 찍기)**을 두 번 따로 하지 않고, **수학적인 최적화 공식을 통해 단 한 번의 연산으로 동시에 묶어서 끝내버리는 고도의 보안 기법**입니다.
+- **개념**: <strong>암호화(Encryption, <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>)</strong>와 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 도장 찍기)</strong>을 두 번 따로 하지 않고, <strong>수학적인 최적화 공식을 통해 단 한 번의 연산으로 동시에 묶어서 끝내버리는 고도의 보안 기법</strong>입니다.
 - 현대 암호학에서 가장 권장하는 방식으로, 속도와 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 두 마리 토끼를 완벽하게 잡아냈습니다.
 
-```text
-[블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
-[GCM 모드]
-    │
-    └──▶ [비대칭키/공개키 암호화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: GCM 모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,12 +63,12 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-AEAD를 실제로 구현한 가장 대표적이고 완벽한 운영 모드입니다. **현재 인터넷 웹 서핑([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3)의 99%가 이 AES-GCM 모드를 사용**하여 돌아가고 있습니다.
+AEAD를 실제로 구현한 가장 대표적이고 완벽한 운영 모드입니다. <strong>현재 인터넷 웹 서핑(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3)의 99%가 이 AES-GCM 모드를 사용</strong>하여 돌아가고 있습니다.
 
-1. **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 모드로 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 암호화"**:
-   - 앞선 문서에서 배운 **[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드**를 가져와서, 순서대로 기다릴 필요 없이 100개의 조각을 CPU 멀티코어로 동시에 병렬로 암호화해 속도를 미친 듯이 뽑아냅니다.
-2. **갈루아 함수(Galois)로 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장 찍기"**:
-   - 병렬로 튀어나온 암호문 조각들을 **'갈루아 유한체(GF)'**라는 매우 가벼운 수학적 곱셈 법칙에 쏟아 넣고 한 번 휙 섞어줍니다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>(<a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>) 모드로 "<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 암호화"</strong>:
+   - 앞선 문서에서 배운 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 모드</strong>를 가져와서, 순서대로 기다릴 필요 없이 100개의 조각을 CPU 멀티코어로 동시에 병렬로 암호화해 속도를 미친 듯이 뽑아냅니다.
+2. <strong>갈루아 함수(Galois)로 "<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 도장 찍기"</strong>:
+   - 병렬로 튀어나온 암호문 조각들을 <strong>'갈루아 유한체(GF)'</strong>라는 매우 가벼운 수학적 곱셈 법칙에 쏟아 넣고 한 번 휙 섞어줍니다.
    - 그러면 1나노초 만에 "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 절대로 변조되지 않았다!"라는 16바이트짜리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) Tag)가 뚝딱 튀어나옵니다. 해시 함수를 돌리는 것보다 하드웨어적으로 훨씬 빠릅니다.
 
 GCM 모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…가 기반 조건을 만든다면, GCM 모드는 그 위에서 핵심 메커니즘을 구현하고, 비대칭키/공개키 암호화는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -77,8 +85,8 @@ GCM 모드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 최신 웹 브라우저 보안 표준인 **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3**에서는 낡고 구린 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드나 낡은 해시 조합 방식의 지원을 아예 법으로 폐지해 버렸습니다.
-- 오직 **AES-GCM (또는 앞서 배운 ChaCha20-Poly1305)**과 같은 최첨단 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 기반 운영 모드만 통신에 사용할 수 있도록 강제하여 전 세계 인터넷의 속도와 보안을 한 단계 끌어올렸습니다.
+- 최신 웹 브라우저 보안 표준인 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3</strong>에서는 낡고 구린 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드나 낡은 해시 조합 방식의 지원을 아예 법으로 폐지해 버렸습니다.
+- 오직 <strong>AES-GCM (또는 앞서 배운 ChaCha20-Poly1305)</strong>과 같은 최첨단 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 기반 운영 모드만 통신에 사용할 수 있도록 강제하여 전 세계 인터넷의 속도와 보안을 한 단계 끌어올렸습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -109,15 +117,19 @@ GCM 모드는 [네트워크 보안](/knowledge-base/studynote/03_network/20_perf
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 블록 암호 운영 모드, CFB, OFB, C…]
-    │
-    ▼
-[현재 개념: GCM 모드]
-    │
-    ├──▶ [확장 A: 비대칭키/공개키 암호화]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록 암호 운영 모드, CFB, OFB, C…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GCM 모드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비대칭키/공개키 암호화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 GCM 모드는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…에서 출발해 현재 메커니즘을 정교화하고, 이후 비대칭키/공개키 암호화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

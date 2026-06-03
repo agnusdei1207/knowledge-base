@@ -24,17 +24,17 @@ tags = ["studynote-software-engineering"]
 - **필요성**: [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 시스템의 외부 동작만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면, 화이트박스 테스트는 코드 레벨에서 내부 로직이 정확한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 예를 들어, "입력값이 10보다 크면 '양수'를 출력한다"라는 요구사항에 대해 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)는 입력값 15를 넣었을 때 '양수'가 나오면 통과하지만, 내부에서 "if (x > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"을 "if (x >= [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))"으로 잘못 구현했더라도 테스트를 통과한다. 화이트박스 테스트는 이러한 내부 구현 오류도 발견할 수 있다.
 
 - **블랙박스 vs 화이트박스**:
-- **[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)**: 시스템의 외부 동작(입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 내부 구조 불문
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a></strong>: 시스템의 외부 동작(입력-출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 내부 구조 불문
 - **화이트박스 테스트**: 내부 구조, 코드, 로직을 분석하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 구현 Knowledge 필요
 
-- **비유**: 화이트박스 테스트는 **'자동차 엔진분해 검사'**와 같다. [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 자동차를 굴려본다(운전해본다)면, 화이트박스 테스트는 엔진 hood 열어 엔진 내부(구조)를 직접하는 것이다. 엔진 내부의피스톤, 캠샤프트 등이 제 기능을 하는지 확인하듯, 화이트박스 테스트도 코드의 내부 구성요소가 올바르게 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+- **비유**: 화이트박스 테스트는 <strong>'자동차 엔진분해 검사'</strong>와 같다. [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)가 자동차를 굴려본다(운전해본다)면, 화이트박스 테스트는 엔진 hood 열어 엔진 내부(구조)를 직접하는 것이다. 엔진 내부의피스톤, 캠샤프트 등이 제 기능을 하는지 확인하듯, 화이트박스 테스트도 코드의 내부 구성요소가 올바르게 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 - **등장 배경 및 발전 과정**:
 1. **1970년대**: 구조적 프로그래밍 개념의 발전과 함께 화이트박스 테스트 기법 등장
 2. **1990년대**:JUnit 등 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 프레임워크의 보급으로 화이트박스 테스트 대중화
 3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 자동화된 화이트박스 테스트가 필수적
 
-- **섹션 요약 비유**: 화이트박스 테스트는 **'을/를설계대로 시공했는지검사'**와 같다. 건축 감사자가 건물 외관(블랙박스)만 보는 것이 아니라, 설계도(구조)를보고 기둥, 배선, 배관 등이 설계대로 시공되었는지 직접 확인하는 것이다. 소프트웨어에서도 마찬가지로 소스코드(설계)를 보고 구현(시공)이 정확한지하다。
+- **섹션 요약 비유**: 화이트박스 테스트는 <strong>'을/를설계대로 시공했는지검사'</strong>와 같다. 건축 감사자가 건물 외관(블랙박스)만 보는 것이 아니라, 설계도(구조)를보고 기둥, 배선, 배관 등이 설계대로 시공되었는지 직접 확인하는 것이다. 소프트웨어에서도 마찬가지로 소스코드(설계)를 보고 구현(시공)이 정확한지하다。
 
 ---
 
@@ -42,18 +42,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 화이트박스 테스트 (White-box의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 화이트박스 테스트 (White-box │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화이트박스 테스트 (White-box</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 화이트박스 테스트 (White-box가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,7 +73,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-화이트박스 테스트 (White-box Test / 구조 기반 테스트)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+화이트박스 테스트 (White-box Test / 구조 기반 테스트)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 화이트박스 테스트 (White-box Test / 구조 기반 테스트)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -150,21 +149,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-화이트박스 테스트 (White-box Test / 구조 기반 테스트) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">화이트박스 테스트 (White-box Test / 구조 기반 테스트) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)에서 입력 조건이 많아질수록 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수는 기하급수적으로 늘어난다. 예를 들어 브라우저, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 권한, 결제수단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 모두 조합하면 전수 조합은 곧바로 실무 한계를 넘는다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 바로 이 **조합 폭발**을 통제하기 위한 대표적인 축소 기법이다.
+[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)에서 입력 조건이 많아질수록 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수는 기하급수적으로 늘어난다. 예를 들어 브라우저, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 권한, 결제수단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태를 모두 조합하면 전수 조합은 곧바로 실무 한계를 넘는다. [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 바로 이 <strong>조합 폭발</strong>을 통제하기 위한 대표적인 축소 기법이다.
 
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)의 핵심 가정은 “많은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 두 인자 간 상호작용에서 드러난다”는 점이다. 따라서 모든 조합을 다 시험하지 않더라도, 각 인자 쌍이 적어도 한 번씩 등장하도록 케이스를 구성하면 높은 효율을 얻을 수 있다. 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 각 수준이 균형 있게 배치되도록 구성해 편향을 줄이고 분석 가능성을 높인다.
 
@@ -33,12 +33,16 @@ tags = ["studynote-design-supervision"]
 
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)·직교배열 기반 축소는 무작정 케이스를 줄이는 작업이 아니다. 먼저 테스트 대상을 **요인(Factor)** 과 **수준(Level)** 으로 분해하고, 그다음 상호작용을 커버하는 최소 세트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤, 마지막으로 업무상 금지 조합과 고위험 예외를 보정한다. 즉 “모델링 → 조합 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 위험 보완”의 3단계가 핵심이다.
 
-```text
-┌─────────────────┐    ┌──────────────────┐    ┌────────────────────┐
-│ 요인·수준 식별   │──▶│ Pairwise / OA 생성 │──▶│ 제약 반영·보정 케이스 │
-│ Browser, Role… │    │ 2-way 균형 커버    │    │ 금지 조합·고위험 추가 │
-└─────────────────┘    └──────────────────┘    └────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요인·수준 식별</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Pairwise / OA 생성</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">제약 반영·보정 케이스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser, Role…</div><div class="kb-diagram-cell">2-way 균형 커버</div><div class="kb-diagram-cell">금지 조합·고위험 추가</div></div>
+</div>
+</div>
+
+
 
 | 핵심 요소 | 설명 | 기술사 포인트 |
 | :--- | :--- | :--- |
@@ -66,7 +70,7 @@ tags = ["studynote-design-supervision"]
 | 한계 | 시간·인력 부담 큼 | 3-way 이상 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 누락 가능 | 수준 수가 맞지 않으면 적용 제약 |
 | 적합 영역 | 안전·규제상 전수 필요 구간 | 화면·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·환경 조합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 반복 실험형 조합 설계, 품질 비교 |
 
-이 기법은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), 의사결정 테이블 테스트와 자연스럽게 연결된다. [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)과 [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)으로 각 수준을 잘 정의한 뒤, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)나 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 조합 수를 줄이면 훨씬 실무적인 테스트 설계가 된다. 즉 축소 기법은 독립 기법이 아니라 **다른 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) 기법을 운영 가능하게 만드는 결합 기술**이다.
+이 기법은 [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/), [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/), 의사결정 테이블 테스트와 자연스럽게 연결된다. [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)과 [경계값 분석](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/)으로 각 수준을 잘 정의한 뒤, [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)나 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 조합 수를 줄이면 훨씬 실무적인 테스트 설계가 된다. 즉 축소 기법은 독립 기법이 아니라 <strong>다른 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a> 기법을 운영 가능하게 만드는 결합 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 모든 옷 조합을 다 입어 보는 건 전수 조합이고, 상의·하의·신발이 적어도 한 번씩 어울리게 입어 보는 건 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)에 가깝다.
 
@@ -99,7 +103,7 @@ tags = ["studynote-design-supervision"]
 
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)와 직교 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 올바르게 적용하면 테스트 설계 시간이 짧아지고, 실행 가능한 범위 안에서 상호작용 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 효과적으로 찾을 수 있다. 특히 다중 환경, 옵션 조합, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 테이블이 많은 서비스에서 비용 절감 효과가 크다. 또한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 수가 줄어들면 자동화 유지보수 부담도 함께 낮아진다.
 
-다만 축소는 품질을 희생하는 절감이 아니라, **위험을 관리 가능한 범위로 재배치하는 설계 행위**여야 한다. 따라서 기술사 답안의 결론은 “전수 조합의 대안”에서 끝나지 않고, “위험 기반 보완과 함께 쓰는 실무형 조합 최적화 기법”으로 정리하는 것이 적절하다.
+다만 축소는 품질을 희생하는 절감이 아니라, <strong>위험을 관리 가능한 범위로 재배치하는 설계 행위</strong>여야 한다. 따라서 기술사 답안의 결론은 “전수 조합의 대안”에서 끝나지 않고, “위험 기반 보완과 함께 쓰는 실무형 조합 최적화 기법”으로 정리하는 것이 적절하다.
 
 - **📢 섹션 요약 비유**: 짐이 많다고 여행 가방을 무작정 줄이는 것이 아니라, 꼭 필요한 물건을 남기고 겹치는 물건만 빼는 일이 조합 축소의 본질이다.
 
@@ -118,21 +122,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-동등 분할 · 경계값 분석
-        │
-        ▼
-입력 요인·수준 모델링
-        │
-        ▼
-페어와이즈 (2-way) 조합 축소
-        │
-        ▼
-직교 배열 (OA) 기반 균형 설계
-        │
-        ▼
-제약 처리 · 고위험 조합 보강 · t-way 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">동등 분할 · 경계값 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">입력 요인·수준 모델링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">페어와이즈 (2-way) 조합 축소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">직교 배열 (OA) 기반 균형 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제약 처리 · 고위험 조합 보강 · t-way 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) 기초 기법에서 시작해, 조합 폭발을 줄이고, 다시 위험 기반 보완으로 확장되는 실무 적용 순서를 보여 준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: 스마트 그리드 (Smart Grid)는 전력망에 정보통신기술 (ICT, Information and Communications Technology)을 결합해 **전력 흐름과 정보 흐름을 동시에 제어하는 지능형 전력 인프라**다.
+> 1. **본질**: 스마트 그리드 (Smart Grid)는 전력망에 정보통신기술 (ICT, Information and Communications Technology)을 결합해 <strong>전력 흐름과 정보 흐름을 동시에 제어하는 지능형 전력 인프라</strong>다.
 > 2. **가치**: 발전-송배전-소비 전 구간을 실시간으로 관측하고 조정해, 피크 전력 완화·신재생 수용·장애 대응·에너지 효율 향상을 함께 달성할 수 있다.
-> 3. **판단 포인트**: 스마트 그리드는 계량기만 똑똑해지는 사업이 아니라, 계측·통신·제어·보안·요금제까지 함께 바뀌어야 효과가 나는 **시스템 아키텍처 전환**이다.
+> 3. **판단 포인트**: 스마트 그리드는 계량기만 똑똑해지는 사업이 아니라, 계측·통신·제어·보안·요금제까지 함께 바뀌어야 효과가 나는 <strong>시스템 아키텍처 전환</strong>이다.
 
 ---
 
@@ -23,7 +23,7 @@ tags = ["studynote-ict-convergence"]
 
 이 개념이 필요해진 배경은 세 가지다. 첫째, 피크 시간대 전력 수요가 커지면서 설비를 최대 수요에 맞춰 과잉 투자해야 했다. 둘째, 태양광·풍력 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 에너지원은 출력이 변동적이어서 실시간 관측과 제어 없이는 계통 운영이 어렵다. 셋째, 전기자동차 ([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Electric Vehicle), 에너지 저장 장치 ([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), [Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/)), 가정용 태양광처럼 소비자가 동시에 생산자 역할도 하는 환경이 확대되었다.
 
-따라서 스마트 그리드의 출발점은 "전기를 더 많이 만드는 것"이 아니라, **이미 있는 전기를 더 똑똑하게 관측하고 배분하는 것**이다. 전력망이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 못하면 수요 반응 ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Demand Response)도, 실시간 요금도, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 연계도 제대로 작동할 수 없다.
+따라서 스마트 그리드의 출발점은 "전기를 더 많이 만드는 것"이 아니라, <strong>이미 있는 전기를 더 똑똑하게 관측하고 배분하는 것</strong>이다. 전력망이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 못하면 수요 반응 ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Demand Response)도, 실시간 요금도, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 연계도 제대로 작동할 수 없다.
 
 - **📢 섹션 요약 비유**: 기존 전력망이 물만 보내는 수도관이라면, 스마트 그리드는 유량 센서와 자동 밸브가 붙어 상황에 따라 물길을 조절하는 똑똑한 수도망과 같다.
 
@@ -35,22 +35,21 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 스마트 그리드의 기본 아키텍처를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    스마트 그리드의 양방향 구조                    │
-├────────────────────────────────────────────────────────────────────┤
-│ [발전/ESS/태양광] --전력--> [송배전망] --전력--> [가정·공장·EV]    │
-│        ▲                           │                    │          │
-│        │                           │                    │          │
-│   출력 정보                    계통 상태 정보         사용량 정보 │
-│        │                           ▼                    ▼          │
-│   [운영 센터/EMS] <---- 통신망 ---- [AMI/DCU] <---- 스마트 미터   │
-│        │                                                            │
-│        └---- 요금 신호 · 수요 반응 제어 · 충전 스케줄 ---->          │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 점은 전기가 한쪽으로 흐르더라도 **정보는 양방향으로 순환**한다는 것이다. 운영 센터는 단순 검침 서버가 아니라, 수요 예측, 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 고장 탐지, 신재생 출력 관리까지 담당하는 의사결정 허브가 된다. 즉 스마트 그리드는 "계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집"이 아니라 **센싱-분석-제어 폐루프 (Closed Loop)** 를 만드는 아키텍처다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 그리드의 양방향 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">발전/ESS/태양광</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">송배전망</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">가정·공장·EV</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 정보 계통 상태 정보 사용량 정보</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">운영 센터/EMS</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">AMI/DCU</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-- 스마트 미터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---- 요금 신호 · 수요 반응 제어 · 충전 스케줄 ----&gt;</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 점은 전기가 한쪽으로 흐르더라도 <strong>정보는 양방향으로 순환</strong>한다는 것이다. 운영 센터는 단순 검침 서버가 아니라, 수요 예측, 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 고장 탐지, 신재생 출력 관리까지 담당하는 의사결정 허브가 된다. 즉 스마트 그리드는 "계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집"이 아니라 **센싱-분석-제어 폐루프 (Closed Loop)** 를 만드는 아키텍처다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -60,7 +59,7 @@ tags = ["studynote-ict-convergence"]
 | DER | 태양광·풍력 등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 | 계통 연계와 출력 변동 관리 |
 | 운영 시스템 | 분석·예측·제어 | 계통 안정성과 경제성 동시 확보 |
 
-결국 스마트 그리드의 핵심 원리는 "많이 생산해서 맞춘다"가 아니라, **정확히 보고 빠르게 조절해서 맞춘다**는 것이다. 그래서 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 사이버 보안이 전력 설비 못지않게 중요해진다.
+결국 스마트 그리드의 핵심 원리는 "많이 생산해서 맞춘다"가 아니라, <strong>정확히 보고 빠르게 조절해서 맞춘다</strong>는 것이다. 그래서 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 사이버 보안이 전력 설비 못지않게 중요해진다.
 
 - **📢 섹션 요약 비유**: 스마트 그리드는 그냥 전선이 많은 도시가 아니라, 교통 센서와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어가 연결된 스마트 교차로 체계와 같다. 차가 어디에 몰리는지 알아야 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)도 똑똑하게 바꿀 수 있다.
 
@@ -80,7 +79,7 @@ tags = ["studynote-ict-convergence"]
 
 또한 스마트 그리드는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) ([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things), 클라우드 분석, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 수요 예측, 전기차 충전 인프라, [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)와도 깊게 연결된다. 예를 들어 [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)는 스마트 그리드의 축소판처럼 동작하며, 지역 단위 에너지 자립과 계통 복원력 향상에 기여할 수 있다. 반대로 ICT가 불안정하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준이 맞지 않으면, 장비를 많이 설치해도 전체 시스템은 서로 말이 통하지 않는 섬처럼 남는다.
 
-따라서 스마트 그리드는 전력공학만의 주제가 아니라, **전력 시스템과 정보 시스템의 융합 설계 문제**다. 이 관점이 있어야 단순 장비 도입을 넘어 전체 아키텍처를 설명할 수 있다.
+따라서 스마트 그리드는 전력공학만의 주제가 아니라, <strong>전력 시스템과 정보 시스템의 융합 설계 문제</strong>다. 이 관점이 있어야 단순 장비 도입을 넘어 전체 아키텍처를 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 기존 전력망이 정해진 시간표로만 움직이는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선이라면, 스마트 그리드는 승객 수와 교통량을 보고 배차를 조정하는 실시간 대중교통 시스템과 같다.
 
@@ -88,7 +87,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 스마트 그리드를 도입할 때는 "스마트 미터를 얼마나 많이 설치했는가"보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제 제어와 운영 판단에 연결되는가**를 먼저 봐야 한다. 검침 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 쌓고 요금제, 수요 반응, 배전 자동화가 연계되지 않으면 기대 효과가 제한적이다. 특히 국가 전력망 수준에서는 장비 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 통신 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 사이버 공격 대응이 사업 성패를 좌우한다.
+실무에서 스마트 그리드를 도입할 때는 "스마트 미터를 얼마나 많이 설치했는가"보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 실제 제어와 운영 판단에 연결되는가</strong>를 먼저 봐야 한다. 검침 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 쌓고 요금제, 수요 반응, 배전 자동화가 연계되지 않으면 기대 효과가 제한적이다. 특히 국가 전력망 수준에서는 장비 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 통신 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 사이버 공격 대응이 사업 성패를 좌우한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -104,7 +103,7 @@ tags = ["studynote-ict-convergence"]
 - 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모으면서도 요금제와 제어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 정적 규칙에 머무는 구조
 - 보안을 뒤늦게 붙여 현장 장비가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 없이 네트워크에 노출되는 설계
 
-기술사 답안에서는 "효율 향상"만 쓰는 것으로는 부족하다. 어떤 계층에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하고, 누가 판단하고, 어떤 제어가 되돌아가는지까지 설명해야 한다. 즉 스마트 그리드는 **계측 인프라 + 통신 인프라 + 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) + 보안 체계**를 함께 보는 문제다.
+기술사 답안에서는 "효율 향상"만 쓰는 것으로는 부족하다. 어떤 계층에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하고, 누가 판단하고, 어떤 제어가 되돌아가는지까지 설명해야 한다. 즉 스마트 그리드는 <strong>계측 인프라 + 통신 인프라 + 운영 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> + 보안 체계</strong>를 함께 보는 문제다.
 
 - **📢 섹션 요약 비유**: 스마트 그리드 구축은 온도계만 붙인다고 끝나는 스마트팜과 다르다. 센서, 환기 장치, 물 공급, 경보 체계가 함께 연결되어야 진짜로 똑똑해진다.
 
@@ -114,9 +113,9 @@ tags = ["studynote-ict-convergence"]
 
 스마트 그리드가 제대로 작동하면 피크 부하를 낮추고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 에너지 자원을 안정적으로 수용하며, 정전 대응 시간을 줄이고, 소비자 참여형 에너지 관리까지 확장할 수 있다. 이는 단순한 에너지 절감 효과를 넘어, 설비 투자 최적화와 탄소 저감, 전력 시장 유연성 강화로 이어진다. 특히 전기차와 재생에너지 비중이 커질수록 이런 효과는 더 중요해진다.
 
-하지만 전제조건도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나, 통신망이 불안정하거나, 보안이 취약하면 스마트 그리드는 오히려 복잡성만 늘린다. 따라서 이 기술은 장비 구매 프로젝트가 아니라, **전력 운영 방식을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 재설계하는 장기 아키텍처 전환**으로 봐야 한다.
+하지만 전제조건도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나, 통신망이 불안정하거나, 보안이 취약하면 스마트 그리드는 오히려 복잡성만 늘린다. 따라서 이 기술은 장비 구매 프로젝트가 아니라, <strong>전력 운영 방식을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반으로 재설계하는 장기 아키텍처 전환</strong>으로 봐야 한다.
 
-결론적으로 스마트 그리드는 "전기를 양방향으로 주고받는 망"을 넘어서, **전력과 정보를 함께 최적화하는 운영 체계**로 기억하는 것이 맞다. 그 본질을 이해해야 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/), [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), DER, [V2G](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) ([Vehicle to Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/)) 같은 세부 기술도 한 흐름 안에서 설명할 수 있다.
+결론적으로 스마트 그리드는 "전기를 양방향으로 주고받는 망"을 넘어서, <strong>전력과 정보를 함께 최적화하는 운영 체계</strong>로 기억하는 것이 맞다. 그 본질을 이해해야 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/), [ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), DER, [V2G](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/) ([Vehicle to Grid](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/165_v2g_vehicle_to_grid/)) 같은 세부 기술도 한 흐름 안에서 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 스마트 그리드는 단순한 전선 업그레이드가 아니라, 도시 전체를 실시간으로 읽고 조절하는 교통 관제 시스템 같은 변화다. 길만 넓힌다고 해결되지 않고, 흐름을 읽는 두뇌가 함께 필요하다.
 
@@ -134,21 +133,23 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단방향 전력망
-    │
-    ▼
-스마트 미터 · AMI
-    │
-    ▼
-수요 반응 (DR) · 실시간 요금제
-    │
-    ▼
-ESS · DER · EV 연계
-    │
-    ▼
-마이크로그리드 · 지능형 에너지 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단방향 전력망</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스마트 미터 · AMI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수요 반응 (DR) · 실시간 요금제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ESS · DER · EV 연계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로그리드 · 지능형 에너지 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 "검침 자동화 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 제어 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 통합 → 자율 운영"으로 스마트 그리드가 확장되는 과정을 나타낸다.
 

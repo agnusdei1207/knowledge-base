@@ -21,9 +21,9 @@ tags = ["studynote-software-engineering"]
 
 자동차 회사가 새로 만든 '엔진'을 테스트하고 싶다. 그런데 아직 자동차의 뼈대(바디)도 안 만들어졌고, 바퀴도 없다. 엔진만 바닥에 덩그러니 놓고 테스트할 수는 없다. 
 
-이때 엔지니어는 엔진을 고정하는 거치대를 만들고, 가짜로 기름을 쏴주는 파이프를 연결하고, 바퀴 대신 헛도는 롤러를 달아 엔진이 '마치 자동차 안에 있는 것처럼' 착각하게 만든 뒤 시동을 건다. 이 **'엔진을 감싸는 테스트용 거치대와 장비들'을 하네스(Harness, 마구/안전벨트)**라고 부른다.
+이때 엔지니어는 엔진을 고정하는 거치대를 만들고, 가짜로 기름을 쏴주는 파이프를 연결하고, 바퀴 대신 헛도는 롤러를 달아 엔진이 '마치 자동차 안에 있는 것처럼' 착각하게 만든 뒤 시동을 건다. 이 <strong>'엔진을 감싸는 테스트용 거치대와 장비들'을 하네스(Harness, 마구/안전벨트)</strong>라고 부른다.
 
-소프트웨어 개발도 똑같다. 백엔드 개발자가 로직을 다 짰는데, 프론트엔드 화면(UI)이 안 만들어졌거나 결제사(PG사) 서버가 닫혀있으면 테스트를 못 한다. 이 불가능을 가능하게 만들어주는 **'가짜 부품들과 테스트 실행 도구들의 집합'**이 바로 소프트웨어 **테스트 하네스(Test Harness)**다.
+소프트웨어 개발도 똑같다. 백엔드 개발자가 로직을 다 짰는데, 프론트엔드 화면(UI)이 안 만들어졌거나 결제사(PG사) 서버가 닫혀있으면 테스트를 못 한다. 이 불가능을 가능하게 만들어주는 <strong>'가짜 부품들과 테스트 실행 도구들의 집합'</strong>이 바로 소프트웨어 <strong>테스트 하네스(Test Harness)</strong>다.
 
 - **📢 섹션 요약 비유**: 우주비행사가 우주로 나가기 전에, 지구에서 무중력 상태를 흉내 낸 커다란 수조(가짜 환경)에 들어가서 훈련하는 것과 같다. 우주(실서버)에 직접 가지 않고도 완벽하게 훈련(테스트)할 수 있게 해주는 거대한 장치가 바로 테스트 하네스다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 테스트 하네스 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 드라이버, 슈트의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  테스트 하네스 스텁, 드라이버, 슈트                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 하네스 스텁, 드라이버, 슈트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 테스트 하네스 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/), 드라이버, 슈트가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ tags = ["studynote-software-engineering"]
 
 | [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 뼈대 흐름 | 주로 필요한 가짜 객체 | 장단점 |
 |:---|:---|:---|:---|
-| **하향식 ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/))** | 최상위 메인 함수부터 짜고 밑으로 내려감 | **[스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))** 필수 | 주요 구조(뼈대)를 빨리 볼 수 있으나, 밑바닥 로직 테스트가 늦어짐 |
-| **상향식 ([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))** | 최하위 DB 접근 함수부터 짜고 위로 올라감 | **드라이버 (Driver)** 필수 | 밑바닥부터 튼튼하게 짜 올라가지만, 전체 시스템의 완성된 모습은 막판에야 볼 수 있음 |
+| <strong>하향식 (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/">Top-Down</a>)</strong> | 최상위 메인 함수부터 짜고 밑으로 내려감 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a>)</strong> 필수 | 주요 구조(뼈대)를 빨리 볼 수 있으나, 밑바닥 로직 테스트가 늦어짐 |
+| <strong>상향식 (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>)</strong> | 최하위 DB 접근 함수부터 짜고 위로 올라감 | **드라이버 (Driver)** 필수 | 밑바닥부터 튼튼하게 짜 올라가지만, 전체 시스템의 완성된 모습은 막판에야 볼 수 있음 |
 | **빅뱅 (Big-Bang)** | 다 짜놓고 한 번에 합침 | 필요 없음 | 에러 나면 어디서 났는지 절대 못 찾음 (재앙) |
 
 - **📢 섹션 요약 비유**: 하향식은 나무의 몸통부터 그리고 나뭇잎([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))을 나중에 그리는 것이고, 상향식은 뿌리부터 그리고 줄기(드라이버)를 나중에 그리는 것이다. 상황에 따라 두 방식을 섞어 쓰는(샌드위치 방식) 것이 베스트다.
@@ -106,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 완벽한 테스트 하네스 위에서 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/))를 수행하면, 개발자는 외부 요인(네트워크 끊김, DB 다운, 타 팀의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))에 전혀 스트레스받지 않고 오직 순수한 '자신의 비즈니스 로직' 검증에만 100% 몰입할 수 있다.
 
-결론적으로 테스트 하네스는 단순히 테스트를 돕는 도구가 아니라, **소프트웨어를 설계할 때 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 '[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))'를 억지로 끊어내게 만드는 훌륭한 교정기**다. 내 코드를 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)이나 드라이버로 쉽게 찔러볼 수 없다는 것은 코드가 외부 환경과 너무 끈끈하게 묶여(스파게티) 있다는 증거이기 때문이다. 하네스 구축의 고통은 곧 아키텍처의 건강함과 비례한다.
+결론적으로 테스트 하네스는 단순히 테스트를 돕는 도구가 아니라, <strong>소프트웨어를 설계할 때 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 간의 '<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">Coupling</a>)'를 억지로 끊어내게 만드는 훌륭한 교정기</strong>다. 내 코드를 [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)이나 드라이버로 쉽게 찔러볼 수 없다는 것은 코드가 외부 환경과 너무 끈끈하게 묶여(스파게티) 있다는 증거이기 때문이다. 하네스 구축의 고통은 곧 아키텍처의 건강함과 비례한다.
 
 - **📢 섹션 요약 비유**: 테스트 하네스는 아기 자전거의 '보조 바퀴'다. 내가 페달을 밟는 법(코딩)을 완벽하게 익힐 때까지 넘어지지 않게 꽉 잡아준다. 보조 바퀴 덕분에 자전거 타는 법을 다 익히고 나면, 떼어내고 진짜 도로(실서버)를 쌩쌩 달릴 수 있다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-테스트 하네스 스텁, 드라이버, 슈트 포괄 환경 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">테스트 하네스 스텁, 드라이버, 슈트 포괄 환경 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

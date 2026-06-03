@@ -32,24 +32,26 @@ tags = ["network"]
 
 기지국 간 동기를 맞출 수 있느냐 없느냐에 따라 단말기가 기지국을 찾고 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 아키텍처 자체가 완전히 바뀐다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           동기식 CDMA vs 비동기식 WCDMA 아키텍처             │
-├──────────────────────────────────────────────────────────────┤
-│ [동기식 시스템 (CDMA2000 등)]                                │
-│ - 동기화 소스: 외부 GPS 위성 신호 (절대 시간 공유)           │
-│ - 기지국 식별: 동일한 PN 코드 + 각기 다른 시간차 (Offset)    │
-│ - 셀 탐색: 하나의 코드를 시간차로 탐색 (매우 빠름)           │
-│                                                              │
-│ [비동기식 시스템 (WCDMA)]                                    │
-│ - 동기화 소스: 기지국 자체 클럭 (서로 타이밍 다름)           │
-│ - 기지국 식별: 512개의 서로 다른 고유 Scrambling Code        │
-│ - 셀 탐색 (3단계 절차 필요):                                 │
-│   1) P-SCH: 슬롯 동기(타이밍) 파악                           │
-│   2) S-SCH: 프레임 동기 및 코드 그룹 파악                    │
-│   3) CPICH: 그룹 내 최종 고유 스크램블링 코드 확정           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기식 CDMA vs 비동기식 WCDMA 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">동기식 시스템 (CDMA2000 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동기화 소스: 외부 GPS 위성 신호 (절대 시간 공유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기지국 식별: 동일한 PN 코드 + 각기 다른 시간차 (Offset)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셀 탐색: 하나의 코드를 시간차로 탐색 (매우 빠름)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식 시스템 (WCDMA)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동기화 소스: 기지국 자체 클럭 (서로 타이밍 다름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기지국 식별: 512개의 서로 다른 고유 Scrambling Code</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셀 탐색 (3단계 절차 필요):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) P-SCH: 슬롯 동기(타이밍) 파악</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) S-SCH: 프레임 동기 및 코드 그룹 파악</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) CPICH: 그룹 내 최종 고유 스크램블링 코드 확정</div></div>
+</div>
+</div>
+
+
 
 동기식에서는 모든 기지국이 동일한 패턴의 코드를 사용하되, 방송 시작 시간을 조금씩 비틀어(Offset) 단말기가 거리와 기지국을 구분하게 한다. 반면 비동기식 WCDMA에서는 단말기가 기지국의 시간 기준을 모르기 때문에 다짜고짜 전체 코드를 뒤질 수 없다. 따라서 3단계 셀 탐색 과정(Cell Search)을 통해 범위를 좁혀나가며 최종적으로 기지국의 고유한 골드 코드(Gold [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 특정하는 방식을 채택했다. 이로 인해 단말기의 DSP(Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor) 구조는 훨씬 복잡해졌다.
 
@@ -64,9 +66,9 @@ tags = ["network"]
 | 비교 항목 | 동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (CDMA2000) | 비동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) (WCDMA) | 결과적 시스템 차이 |
 | :--- | :--- | :--- | :--- |
 | **GPS 의존 여부** | 필수 (의존도 100%) | 불필요 | 지하 및 실내망 구축 난이도 결정 |
-| **단말 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 속도** | 매우 빠름 | 3단계 절차로 인해 상대적 느림 | 배터리 소모 및 설계 복잡도 차이 |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))** | 1.2288 MHz (협대역) | 5 MHz (광대역) | WCDMA가 다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/))에 더 강함 |
-| **[핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))** | 단순한 Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | Soft + 비동기 보정 [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | 비동기망은 두 기지국 간 타이밍 차이를 단말이 자체 계산 |
+| <strong>단말 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 접속 속도</strong> | 매우 빠름 | 3단계 절차로 인해 상대적 느림 | 배터리 소모 및 설계 복잡도 차이 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong> | 1.2288 MHz (협대역) | 5 MHz (광대역) | WCDMA가 다중경로 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/))에 더 강함 |
+| <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>)</strong> | 단순한 Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | Soft + 비동기 보정 [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) | 비동기망은 두 기지국 간 타이밍 차이를 단말이 자체 계산 |
 
 동기식 시스템은 GPS라는 완벽한 지휘자가 중앙 통제하는 구조라 네트워크 장애 전파([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure) 위험을 안고 있다. 외부 전파 교란(Jamming)으로 GPS가 마비되면 전체 통신 셀이 붕괴할 수 있다. 비동기식 WCDMA는 이러한 마스터 노드를 제거하고 노드 간 타이밍 분산을 허용함으로써 훨씬 높은 생존성을 확보하는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 모델과 같다.
 
@@ -80,7 +82,7 @@ tags = ["network"]
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 판단
 1. **인빌딩(In-building) 커버리지 솔루션 채택**: GPS [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 수신이 불가능한 대형 벙커나 지하철 터널에 커버리지를 뚫을 때, 동기식을 쓴다면 외부 안테나를 옥상에 세우고 수십 미터의 값비싼 광케이블을 깔아야 하므로 경제성이 없다. 비동기식을 도입해 자체 클럭과 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)) 전송망만으로 유연하게 구축하는 것이 정답이다.
-2. **코드 플래닝 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Planning) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 확보**: WCDMA 실무에서는 기지국 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자인 스크램블링 코드를 인접 지역에 재사용할 때 거리를 충분히 띄워야 한다. 그렇지 않으면 두 기지국의 코드가 겹치면서 '파일럿 오염 (Pilot Pollution)' 간섭 현상이 터져 통화 단절이 대규모로 발생한다.
+2. <strong>코드 플래닝 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Planning) <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 확보</strong>: WCDMA 실무에서는 기지국 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자인 스크램블링 코드를 인접 지역에 재사용할 때 거리를 충분히 띄워야 한다. 그렇지 않으면 두 기지국의 코드가 겹치면서 '파일럿 오염 (Pilot Pollution)' 간섭 현상이 터져 통화 단절이 대규모로 발생한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **동기식 망에서의 불량 중계기 방치**: 동기식 망에서 케이블 딜레이 캘리브레이션(보정) 없이 아날로그 중계기를 길게 달아버리면, 지연된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 단말기에 다른 기지국의 시간차(Offset)로 잘못 인식되어 'PN Pollution' 오류를 일으키는 가장 흔한 망 설계 실수다.
@@ -103,28 +105,30 @@ tags = ["network"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) (Pseudo-Noise [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 망에서 시간차(Offset) 조정을 통해 기지국과 채널을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기본 잡음 코드 |
-| **Scrambling [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)** | 비동기식 WCDMA 망에서 기지국과 단말의 고유성을 부여해 서로를 구분하는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드 (시간차 불필요) |
-| **Soft [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)** | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 방식의 꽃. 원래 기지국과의 연결을 끊기 전에 새로운 기지국과 먼저 무선 링크를 맺는 무단절 교체 기술 |
-| **[3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) (3rd Generation Partnership [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/))** | 비동기식 WCDMA를 밀어붙이며 현재까지 전 세계 이동통신 기술 표준을 사실상 독점하고 있는 기구 |
+| <strong>PN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> (Pseudo-Noise <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 동기식 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 망에서 시간차(Offset) 조정을 통해 기지국과 채널을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기본 잡음 코드 |
+| <strong>Scrambling <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a></strong> | 비동기식 WCDMA 망에서 기지국과 단말의 고유성을 부여해 서로를 구분하는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 코드 (시간차 불필요) |
+| <strong>Soft <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a></strong> | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 방식의 꽃. 원래 기지국과의 연결을 끊기 전에 새로운 기지국과 먼저 무선 링크를 맺는 무단절 교체 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> (3rd Generation Partnership <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/">Project</a>)</strong> | 비동기식 WCDMA를 밀어붙이며 현재까지 전 세계 이동통신 기술 표준을 사실상 독점하고 있는 기구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IS-95 2G CDMA (동기식) · 초기 GPS 기반 동기 확립
-    │
-    ▼
-WCDMA (비동기식) · 3단계 셀 탐색 아키텍처 확립
-    │
-    ▼
-글로벌 3G 로밍 단일화 · 인프라 제약(SPOF) 완전 해소
-    │
-    ▼
-LTE (OFDM 기반 비동기 네트워크) · PSS/SSS 동기 메커니즘 계승
-    │
-    ▼
-5G NR (New Radio) · 초광대역 유연성 기반 비동기 설계 성숙
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IS-95 2G CDMA (동기식) · 초기 GPS 기반 동기 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WCDMA (비동기식) · 3단계 셀 탐색 아키텍처 확립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">글로벌 3G 로밍 단일화 · 인프라 제약(SPOF) 완전 해소</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LTE (OFDM 기반 비동기 네트워크) · PSS/SSS 동기 메커니즘 계승</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">5G NR (New Radio) · 초광대역 유연성 기반 비동기 설계 성숙</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,24 +22,25 @@ Planning Poker는 사용자 스토리를 상대적으로 산정하기 위한 협
 
 절대 시간 추정보다 상대 추정이 유리한 이유는 사람의 감각이 "몇 시간"보다 "이 기능이 기준 스토리보다 큰가 작은가"를 더 잘 비교하기 때문이다. 그래서 Planning Poker는 정답을 맞히는 게임이 아니라, 스토리의 난이도와 불확실성을 팀 전체가 같은 그림으로 보게 만드는 과정이다.
 
-```text
-사용자 스토리 설명
-       │
-       ▼
-각자 카드 선택
-       │
-       ▼
-    동시 공개
-       │
-       ▼
-   차이 토론
-       │
-       ▼
-    재투표
-       │
-       ▼
-  합의된 점수
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 스토리 설명</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">각자 카드 선택</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">동시 공개</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">차이 토론</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재투표</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">합의된 점수</div>
+</div>
+</div>
+
+
 
 결국 Planning Poker가 필요한 이유는 추정의 정확도보다 추정의 합의 품질이 더 중요하기 때문이다. 스토리 포인트가 같아야 계획, 속도, 번다운 차트가 같은 언어로 연결된다.
 
@@ -58,27 +59,23 @@ Planning Poker의 핵심은 비밀 투표와 동시 공개다. 참여자는 스�
 | ? | 정보가 부족함 |
 | ∞ | 너무 커서 쪼개야 함 |
 
-```text
-┌──────────────┐
-│ 스토리 설명  │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 카드 비밀 선택│
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 동시 공개    │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 근거 토론    │
-└──────┬───────┘
-       ▼
-┌──────────────┐
-│ 재투표      │
-└──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리 설명</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카드 비밀 선택</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 공개</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근거 토론</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재투표</div></div>
+</div>
+</div>
+
+
 
 피보나치 수열 (Fibonacci Sequence) 형태를 쓰는 이유는 작은 일은 촘촘히, 큰 일은 거칠게 구분하도록 유도하기 위해서다. 숫자 간격이 커질수록 큰 작업의 오차를 지나치게 세밀하게 나누지 않게 되어, 오히려 팀 토론이 빨라진다.
 
@@ -146,21 +143,23 @@ Planning Poker의 기대효과는 팀 내 이해 차이 축소, 산정 편향 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사용자 스토리
-    │
-    ▼
-기준 스토리 설정
-    │
-    ▼
-Planning Poker
-    │
-    ▼
-Story Point 합의
-    │
-    ▼
-Velocity / Burndown Chart
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 스토리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기준 스토리 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Planning Poker</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Story Point 합의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Velocity / Burndown Chart</div>
+</div>
+</div>
+
+
 
 이 흐름은 "스토리 이해 → 상대 비교 → 팀 합의 → 반복 예측"으로 이어진다.
 

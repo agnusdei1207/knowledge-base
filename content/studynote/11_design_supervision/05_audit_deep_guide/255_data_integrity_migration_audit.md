@@ -31,43 +31,40 @@ tags = ["studynote-design-supervision"]
 - **이행 중(During)**: 실시간 오류 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 모니터링
 - **이행 후(After)**: 소스-타겟 비교 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (100% 일치 목표)
 
-```text
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
-└──────────────┘    └──────────────┘    └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행 감리는 "이삿짐 센터가 물건을 다 옮겼다고 했을 때, 목록을 보고 하나씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것"이다. 트럭이 두 번 다녀간다고 해서 모든 물건이 도착했다고 볼 수 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-```
-┌─────────────────────────────────────────────────────────────┐
-│              데이터 이행 무결성 검증 파이프라인               │
-│                                                             │
-│  ┌──────────────┐   ETL   ┌──────────────┐                  │
-│  │  소스 DB      │ ──────► │  타겟 DB      │                  │
-│  │  (Source)    │         │  (Target)    │                  │
-│  └──────┬───────┘         └──────┬───────┘                  │
-│         │                        │                         │
-│         ▼                        ▼                         │
-│  ┌──────────────┐         ┌──────────────┐                  │
-│  │ 소스 체크섬   │         │ 타겟 체크섬   │                  │
-│  │ Count: 1,200 │         │ Count: 1,200 │                  │
-│  │ Sum(금액):   │         │ Sum(금액):   │                  │
-│  │  98,450,000  │         │  98,450,000  │ ← 일치 ✅         │
-│  │ NULL비율: 0% │         │ NULL비율: 0% │                  │
-│  └──────┬───────┘         └──────┬───────┘                  │
-│         │                        │                         │
-│         └──────────┬─────────────┘                         │
-│                    ▼                                        │
-│           ┌──────────────────┐                              │
-│           │  비교 결과 보고서  │                              │
-│           │  (Reconciliation)│                              │
-│           └──────────────────┘                              │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 이행 무결성 검증 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">타겟 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source)</div><div class="kb-diagram-cell">(Target)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 체크섬</div><div class="kb-diagram-cell">타겟 체크섬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Count: 1,200</div><div class="kb-diagram-cell">Count: 1,200</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sum(금액):</div><div class="kb-diagram-cell">Sum(금액):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">98,450,000</div><div class="kb-diagram-cell">98,450,000</div><div class="kb-diagram-cell">← 일치 ✅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL비율: 0%</div><div class="kb-diagram-cell">NULL비율: 0%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 결과 보고서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Reconciliation)</div></div>
+</div>
+</div>
+
+
 
 ```sql
 -- 소스 DB 기준선 측정
@@ -84,30 +81,30 @@ WHERE year = 2025;
 -- 모든 항목 100% 일치 여부 확인
 ```
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│           이행 오류 유형 및 감지 방법                         │
-│                                                             │
-│  ① 누락 (Missing)                                           │
-│     SELECT s.id FROM source s                               │
-│     LEFT JOIN target t ON s.id = t.id                       │
-│     WHERE t.id IS NULL;  ← 타겟에 없는 소스 레코드           │
-│                                                             │
-│  ② 중복 (Duplicate)                                         │
-│     SELECT id, COUNT(*) FROM target                         │
-│     GROUP BY id HAVING COUNT(*) > 1;                        │
-│                                                             │
-│  ③ 값 불일치 (Value Mismatch)                               │
-│     SELECT s.id, s.amount, t.amount                         │
-│     FROM source s JOIN target t ON s.id = t.id              │
-│     WHERE s.amount <> t.amount;                             │
-│                                                             │
-│  ④ 참조 무결성 위반 (Orphan Record)                         │
-│     SELECT o.id FROM orders o                               │
-│     LEFT JOIN customers c ON o.cust_id = c.id               │
-│     WHERE c.id IS NULL;  ← 고아 주문 레코드                  │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행 오류 유형 및 감지 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 누락 (Missing)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT s.id FROM source s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LEFT JOIN target t ON s.id = t.id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE t.id IS NULL; ← 타겟에 없는 소스 레코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 중복 (Duplicate)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT id, COUNT(*) FROM target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GROUP BY id HAVING COUNT(*) &gt; 1;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 값 불일치 (Value Mismatch)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT s.id, s.amount, t.amount</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FROM source s JOIN target t ON s.id = t.id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE s.amount &lt;&gt; t.amount;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 참조 무결성 위반 (Orphan Record)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT o.id FROM orders o</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LEFT JOIN customers c ON o.cust_id = c.id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE c.id IS NULL; ← 고아 주문 레코드</div></div>
+</div>
+</div>
+
+
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -152,7 +149,7 @@ WHERE year = 2025;
 
 - **체크포인트(Checkpoint)**: 이행 중 장애 시 전체 재시작 방지를 위한 중간 저장 지점 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - **이행 윈도우(Migration Window)**: 업무 영향을 최소화하는 이행 시간대(새벽 2~6시) 선정
-- **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리(Parallel [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))**: 대용량 테이블 분할 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 이행 시 순서 의존성 고려
+- <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리(Parallel <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a>)</strong>: 대용량 테이블 분할 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 이행 시 순서 의존성 고려
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?

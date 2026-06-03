@@ -40,16 +40,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 BPM이 단순 선형 절차가 아니라, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다시 설계 자산으로 돌아오는 닫힌 루프임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                BPM Lifecycle: closed feedback loop                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Design ─────▶ Execute ─────▶ Monitor ─────▶ Optimize                │
-│ BPMN        Engine/API      KPI/BAM       Mining & BPR             │
-│   ▲                                                          │      │
-│   └──────────── updated model, rule, ownership ──────────────┘      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPM Lifecycle: closed feedback loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design ▶ Execute ▶ Monitor ▶ Optimize</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPMN Engine/API KPI/BAM Mining &amp; BPR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">updated model, rule, ownership</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 중요한 병목은 보통 두 곳에서 발생한다. 첫째, 설계 모델이 실제 조직 책임과 다르면 실행 단계에서 승인 대기 시간이 급증한다. 둘째, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 단순 건수 집계에 머물면 왜 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겼는지 알 수 없어 최적화가 감에 의존하게 된다. 따라서 BPM은 프로세스를 그리는 기술이 아니라, 모델·엔진·측정 지표를 함께 운영하는 체계로 이해해야 한다.
 
@@ -116,21 +118,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-업무 표준화
-    │
-    ▼
-BPMN 모델링
-    │
-    ▼
-WfMS 실행 · BAM 모니터링
-    │
-    ▼
-프로세스 마이닝 · Conformance Checking
-    │
-    ▼
-Hyperautomation · Continuous Improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">업무 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BPMN 모델링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WfMS 실행 · BAM 모니터링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 마이닝 · Conformance Checking</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hyperautomation · Continuous Improvement</div>
+</div>
+</div>
+
+
 
 이 흐름은 프로세스를 "그림으로 정의"하는 단계에서 시작해, "실행·관측·자동 개선"으로 확장되는 방향을 보여준다.
 

@@ -27,24 +27,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 캐시가 필요한지, 그리고 어디서 시간 차이가 발생하는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                CPU와 메모리 사이의 속도 차이 완충 구조                    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ CPU 요청                                                                  │
-│   │                                                                        │
-│   ▼                                                                        │
-│ L1 캐시 (Level 1 Cache)   : 매우 작음 / 매우 빠름 / 수 ns 이하            │
-│   │ miss                                                                   │
-│   ▼                                                                        │
-│ L2·L3 캐시                  : 더 큼 / 더 느림 / 수~수십 ns                │
-│   │ miss                                                                   │
-│   ▼                                                                        │
-│ DRAM                        : 매우 큼 / 훨씬 느림 / 수십~수백 ns          │
-│                                                                            │
-│ 핵심 효과: 자주 쓰는 데이터가 위 계층에 남아 있으면 평균 접근시간이 감소 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU와 메모리 사이의 속도 차이 완충 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 캐시 (Level 1 Cache) : 매우 작음 / 매우 빠름 / 수 ns 이하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2·L3 캐시 : 더 큼 / 더 느림 / 수~수십 ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM : 매우 큼 / 훨씬 느림 / 수십~수백 ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 효과: 자주 쓰는 데이터가 위 계층에 남아 있으면 평균 접근시간이 감소</div></div>
+</div>
+</div>
+
+
 
 캐시가 없다면 CPU는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나를 수행할 때마다 바깥 창고까지 왕복해야 한다. 캐시가 있으면 작업대 옆 서랍에서 먼저 찾고, 없을 때만 창고로 간다. 즉 캐시는 저장장치의 절대 속도를 바꾸는 장치가 아니라, 느린 계층으로 내려가는 횟수를 줄여 평균 속도를 높이는 장치다.
 
@@ -60,23 +58,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 CPU 주소가 캐시에서 어떻게 판정되는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  주소 → 세트 선택 → 태그 비교 → 히트 판정                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 메모리 주소                                                                │
-│ ┌──────────────┬──────────────┬────────────────┐                           │
-│ │ Tag          │ Index        │ Block Offset   │                           │
-│ └──────────────┴──────────────┴────────────────┘                           │
-│         │              │                    │                              │
-│         │              │                    └─▶ 캐시 라인 내부 바이트 선택 │
-│         │              └─▶ 해당 세트(Set) 선택                             │
-│         └─▶ 세트 안 여러 웨이(Way)의 태그와 비교                           │
-│                                                                            │
-│ 태그 일치 + 유효 비트(Valid Bit) = Hit                                     │
-│ 불일치                          = Miss → 하위 계층에서 블록 반입           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 → 세트 선택 → 태그 비교 → 히트 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag</div><div class="kb-diagram-cell">Index</div><div class="kb-diagram-cell">Block Offset</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 캐시 라인 내부 바이트 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 해당 세트(Set) 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 세트 안 여러 웨이(Way)의 태그와 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태그 일치 + 유효 비트(Valid Bit) = Hit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불일치 = Miss → 하위 계층에서 블록 반입</div></div>
+</div>
+</div>
+
+
 
 설계자는 크게 세 가지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정해야 한다.
 
@@ -166,24 +163,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조 지역성 (Locality of Reference)
-        │
-        ▼
-캐시 라인 (Cache Line) · 적중/미스 (Hit/Miss)
-        │
-        ▼
-배치 정책 · 교체 정책 · 쓰기 정책
-        │
-        ▼
-다단계 캐시 (L1/L2/L3) · AMAT 최적화
-        │
-        ▼
-캐시 일관성 (Cache Coherence) · False Sharing
-        │
-        ▼
-프리페치 · 3D 적층 캐시 · 메모리 계층 공동 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조 지역성 (Locality of Reference)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 라인 (Cache Line) · 적중/미스 (Hit/Miss)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">배치 정책 · 교체 정책 · 쓰기 정책</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 캐시 (L1/L2/L3) · AMAT 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) · False Sharing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프리페치 · 3D 적층 캐시 · 메모리 계층 공동 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 캐시를 "지역성 활용"에서 출발해 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계", "계층 확대", "멀티코어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)", "차세대 최적화"로 이해하는 순서를 보여준다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 우리가 컴퓨터 윈도우 우측 하단 시계를 맞출 때 쓰는 **1049번 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) ([Network Time Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/))**는 서버에서 시간을 쏴줍니다.
-- 하지만 패킷이 인터넷 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터를 통과할 때 차가 막혀 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 대기하는 **가변 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter)** 때문에, 최종 도착한 시간이 진짜 맞는지 수 밀리초(ms, 0.001초)의 오차가 발생합니다. 공장 로봇이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 타이밍 제어에는 쓸 수 없는 쓰레기 오차율입니다.
+- 우리가 컴퓨터 윈도우 우측 하단 시계를 맞출 때 쓰는 <strong>1049번 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">Network Time Protocol</a>)</strong>는 서버에서 시간을 쏴줍니다.
+- 하지만 패킷이 인터넷 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터를 통과할 때 차가 막혀 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 대기하는 <strong>가변 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Jitter)</strong> 때문에, 최종 도착한 시간이 진짜 맞는지 수 밀리초(ms, 0.001초)의 오차가 발생합니다. 공장 로봇이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 타이밍 제어에는 쓸 수 없는 쓰레기 오차율입니다.
 
-```text
-[타임 센시티브 네트워킹]
-    │
-    ▼
-[IEEE 1588 PTP 시각 동기망]
-    │
-    └──▶ [NTP / GPS 동기화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IEEE 1588 PTP 시각 동기망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 
 - **개념**: 마이크로초($\mu s$)를 넘어 **나노초($ns$, 10억분의 1초)** 수준의 극한의 정밀도로 네트워크에 물린 수만 대 기기의 하드웨어 시계([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))를 완벽하게 동일하게 맞추는 산업용/통신용 초정밀 시각 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 프로토콜입니다. 1047번 TSN망과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 프론트홀망을 굴리는 심장부입니다.
 
-```text
-[타임 센시티브 네트워킹]
-    │
-    ▼
-[IEEE 1588 PTP 시각 동기망]
-    │
-    └──▶ [NTP / GPS 동기화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IEEE 1588 PTP 시각 동기망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -54,7 +62,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-NTP는 그냥 소프트웨어로 시간을 쏘지만, PTP는 **[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 기계 자체(하드웨어)**가 시계 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 작업에 적극적으로 뼈를 깎으며 참여합니다.
+NTP는 그냥 소프트웨어로 시간을 쏘지만, PTP는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>) 기계 자체(하드웨어)</strong>가 시계 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 작업에 적극적으로 뼈를 깎으며 참여합니다.
 
 ### 1. 그랜드마스터 클럭 (Grandmaster [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) - "절대 시계"
 - 네트워크 꼭대기에 있는 왕입니다. GPS 위성에서 원자시계 급의 절대 시간을 직빵으로 받아와서, 이 완벽한 시간을 밑에 있는 쫄따구(Slave) 기기들에게 뿌려주는 역할을 합니다.
@@ -63,7 +71,7 @@ NTP는 그냥 소프트웨어로 시간을 쏘지만, PTP는 **[스위치](/know
 이게 PTP가 나노초를 달성하는 결정적 마법입니다.
 - 그랜드마스터가 `[지금 9시 정각!]`이라는 시계 패킷을 쏴서 중간에 있는 '투명 클럭([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))' 기계를 통과합니다.
 - 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 패킷이 들어올 때의 시간과, 차가 막혀 큐에서 대기하다가 나갈 때의 시간을 기계적으로 측정합니다. "음, 내 뱃속에서 0.000001초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됐네."
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 **패킷이 나가는 찰나에, 껍데기(Correction Field)에 `+ 0.000001초`라는 체류 시간([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 영수증)을 도장 찍듯 누적해서 박아버립니다.** 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 10개를 거치면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 꼬리표에 계속 누적 합산됩니다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>패킷이 나가는 찰나에, 껍데기(Correction Field)에 <code>+ 0.000001초</code>라는 체류 시간(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 영수증)을 도장 찍듯 누적해서 박아버립니다.</strong> 패킷이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 10개를 거치면 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 꼬리표에 계속 누적 합산됩니다.
 
 ### 3. 경계 클럭 (Boundary [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/), BC) - "부대장 시계"
 - 네트워크가 너무 커지면 그랜드마스터 하나로 수백만 대에 패킷을 쏘기 힘듭니다.
@@ -93,7 +101,7 @@ IEEE 1588 PTP 시각 동기망을 볼 때는 앞뒤 개념과의 경계를 함�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 서울 시청에서 **"지금 시간 오후 1시!"라고 쓴 편지를 우편 배달부에게 들려 부산 공장으로 보내는 것**입니다. 부산 공장장이 편지를 받았을 땐 배달부가 오느라 2시간이 걸려서 진짜 시간은 오후 3시인데, 공장장은 멍청하게 자기 시계를 오후 1시로 맞춰버리는 치명적 딜레이 오차가 생깁니다. **PTP (IEEE 1588 시각 동기망)**는 편지가 거쳐가는 모든 고속도로 톨게이트와 휴게소([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계인 투명 클럭)에 **'타임 스탬프 도장 기계'**를 의무적으로 달아놓은 혁명입니다. 편지가 천안 휴게소를 지날 때 휴게소 직원이 "여기서 똥 싼다고 30분 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨" 도장을 찍어주고, 대전 톨게이트에서 "차 막혀서 1시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨" 도장을 누적해서 찍어줍니다. 부산 공장장이 최종적으로 편지를 받으면, "아~ 1시에 출발했는데 도장 찍힌 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)들(1시간 30분) 다 더해보니 지금은 정확히 2시 30분이구나!"라고 완벽하게 역추산(오차 소거)을 해내어, 모든 로봇의 시계를 나노초 오차 하나 없이 똑같이 맞추는 공장/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망의 절대 심박수 교정기입니다.
+- **📢 섹션 요약 비유**: 기존 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 서울 시청에서 <strong>"지금 시간 오후 1시!"라고 쓴 편지를 우편 배달부에게 들려 부산 공장으로 보내는 것</strong>입니다. 부산 공장장이 편지를 받았을 땐 배달부가 오느라 2시간이 걸려서 진짜 시간은 오후 3시인데, 공장장은 멍청하게 자기 시계를 오후 1시로 맞춰버리는 치명적 딜레이 오차가 생깁니다. <strong>PTP (IEEE 1588 시각 동기망)</strong>는 편지가 거쳐가는 모든 고속도로 톨게이트와 휴게소([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계인 투명 클럭)에 <strong>'타임 스탬프 도장 기계'</strong>를 의무적으로 달아놓은 혁명입니다. 편지가 천안 휴게소를 지날 때 휴게소 직원이 "여기서 똥 싼다고 30분 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨" 도장을 찍어주고, 대전 톨게이트에서 "차 막혀서 1시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨" 도장을 누적해서 찍어줍니다. 부산 공장장이 최종적으로 편지를 받으면, "아~ 1시에 출발했는데 도장 찍힌 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)들(1시간 30분) 다 더해보니 지금은 정확히 2시 30분이구나!"라고 완벽하게 역추산(오차 소거)을 해내어, 모든 로봇의 시계를 나노초 오차 하나 없이 똑같이 맞추는 공장/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망의 절대 심박수 교정기입니다.
 
 ---
 
@@ -116,15 +124,19 @@ IEEE 1588 PTP 시각 동기망은 [성능](/knowledge-base/studynote/04_software
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 타임 센시티브 네트워킹]
-    │
-    ▼
-[현재 개념: IEEE 1588 PTP 시각 동기망]
-    │
-    ├──▶ [확장 A: NTP / GPS 동기화]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 타임 센시티브 네트워킹</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IEEE 1588 PTP 시각 동기망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NTP / GPS 동기화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 IEEE 1588 PTP 시각 동기망는 [타임 센시티브 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

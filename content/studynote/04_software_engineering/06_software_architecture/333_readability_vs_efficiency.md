@@ -26,12 +26,12 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 1970년대 아폴로 우주선 코드를 짤 때 램(RAM)은 고작 4KB였다. 변수명 길이를 한 글자라도 줄이고, 함수 분리([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))조차 사치라 하나로 길게 뭉쳐 짜는 '극한의 효율성'만이 살길이었다. 그러나 2020년대 클라우드 시대에는 램 16GB가 기본이다. 그런데도 어떤 개발자는 0.01초를 아끼겠다며 삼항 연산자를 3개씩 겹쳐 쓴 외계어 암호문(효율성)을 짰다. 본인은 뿌듯해했지만, 6개월 뒤 치명적 버그가 터졌을 때 그 암호를 해독하느라 다른 개발자가 밤을 새워야 했고, 회사는 수천만 원의 손해를 봤다. **"하드웨어(기계)는 싸졌지만, 프로그래머(인간)의 인건비는 금값이 되었다."** 패러다임의 극적인 전환이 필요했다.
 
 - **💡 비유**: 
-  - **효율성 몰빵 코드**는 짐을 테트리스처럼 꽉꽉 빈틈없이 눌러 담아 테이프로 둘둘 말아버린 **'이사 박스'**입니다. 트럭(메모리) 하나에 완벽하게 다 들어가지만(고효율), 나중에 거기서 칫솔 하나만 찾아 꺼내려면 박스를 다 찢고 난장판(유지보수 지옥)을 만들어야 합니다.
-  - **가독성 몰빵 코드**는 칸막이가 다 쳐진 투명한 **'서랍장'**입니다. 빈 공간(낭비)이 많아서 트럭을 2대 부르느라 돈(컴퓨터 자원)은 더 들지만, 나중에 눈 감고도 1초 만에 칫솔(특정 로직)을 꺼내고 교체(유지보수)할 수 있습니다.
+  - <strong>효율성 몰빵 코드</strong>는 짐을 테트리스처럼 꽉꽉 빈틈없이 눌러 담아 테이프로 둘둘 말아버린 <strong>'이사 박스'</strong>입니다. 트럭(메모리) 하나에 완벽하게 다 들어가지만(고효율), 나중에 거기서 칫솔 하나만 찾아 꺼내려면 박스를 다 찢고 난장판(유지보수 지옥)을 만들어야 합니다.
+  - <strong>가독성 몰빵 코드</strong>는 칸막이가 다 쳐진 투명한 <strong>'서랍장'</strong>입니다. 빈 공간(낭비)이 많아서 트럭을 2대 부르느라 돈(컴퓨터 자원)은 더 들지만, 나중에 눈 감고도 1초 만에 칫솔(특정 로직)을 꺼내고 교체(유지보수)할 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **초창기 (Efficiency Is King)**: C언어, 어셈블리의 시대. 기계 자원이 극도로 귀해서 해커들의 '트릭(Bitwise 연산 등)'이 찬양받았다.
-  2. **유지보수의 위기 ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))**: 효율만 쥐어짜서 만든 10만 줄의 스파게티 시스템에 버그가 나자 아무도 고치지 못하고 버려지는 대참사가 잇달아 터졌다.
+  2. <strong>유지보수의 위기 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/">Software Crisis</a>)</strong>: 효율만 쥐어짜서 만든 10만 줄의 스파게티 시스템에 버그가 나자 아무도 고치지 못하고 버려지는 대참사가 잇달아 터졌다.
   3. **클린 코드와 객체지향의 반격 (현재)**: 밥 마틴(Bob Martin)의 『[Clean Code](/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/)』가 바이블이 되며, "컴퓨터가 이해하는 코드는 바보도 짤 수 있다. 훌륭한 프로그래머는 인간이 이해할 수 있는 코드를 짠다"는 명언 아래 가독성이 현대 공학의 절대 왕좌를 차지했다.
 
 - **📢 섹션 요약 비유**: 이 딜레마는 레이싱카(효율성)와 패밀리 밴(가독성)의 싸움입니다. 1초를 다투는 F1 그랑프리(게임 엔진, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서는 레이싱카가 정답입니다. 하지만 매주 요구사항이 바뀌며 아이와 짐을 싣고 마트를 가야 하는 일반 기업(비즈니스 앱)에서 레이싱카를 타면 모두가 불편해 미쳐버립니다. 넓고 편안한 밴(가독성)을 타야 오래 멀리 갈 수 있습니다.
@@ -40,18 +40,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 가독성 (Readability) vs의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  가독성 (Readability) vs                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가독성 (Readability) vs</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 가독성 (Readability) vs가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가독성 (Readability) vs 효율성 (Efficiency) 트레이드오프 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

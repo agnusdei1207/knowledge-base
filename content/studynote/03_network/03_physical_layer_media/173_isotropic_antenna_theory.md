@@ -24,15 +24,18 @@ tags = ["network"]
 
 아래 그림은 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 무엇을 이상화하는지를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Ideal isotropic radiator                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ total power Pt spreads uniformly over a sphere radius r           │
-│ power density S(r) = Pt / (4πr^2) in every direction              │
-│ no preferred azimuth, elevation, or beam axis                     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ideal isotropic radiator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">total power Pt spreads uniformly over a sphere radius r</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">power density S(r) = Pt / (4πr^2) in every direction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no preferred azimuth, elevation, or beam axis</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 "전력이 구면 전체에 균등하게 퍼진다"는 점이다. 거리가 두 배가 되면 표면적이 네 배가 되어 전력 밀도는 `1 / r^2`로 감소한다. 따라서 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 방사 패턴과 전파 감쇠를 가장 단순한 형태로 모델링하는 출발점이 된다.
 
@@ -63,15 +66,18 @@ tags = ["network"]
 
 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)와 자주 혼동되지만 같은 개념이 아니다. 등방성은 위아래와 좌우를 포함한 3차원 전 방향에 동일하게 방사하는 이상 모델이고, [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)는 보통 수평면 360도 커버리지를 목표로 하지만 위아래는 약한 도넛형 패턴을 갖는다. 또한 반파장 다이폴 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) (Half-Wave Dipole)는 현실적인 기준 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 자주 쓰이며, 0 dBd (decibels relative to dipole)는 약 2.15 dBi에 해당한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Pattern intuition                                                 │
-├────────────────────────────────────────────────────────────────────┤
-│ isotropic   : sphere   -> equal in azimuth and elevation          │
-│ omni        : donut    -> wide azimuth, weak above/below          │
-│ directional : beam     -> narrow lobe, high gain                 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pattern intuition</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">isotropic : sphere -&gt; equal in azimuth and elevation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">omni : donut -&gt; wide azimuth, weak above/below</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">directional : beam -&gt; narrow lobe, high gain</div></div>
+</div>
+</div>
+
+
 
 | 비교 대상 | 방사 패턴 | 현실성 | 주 용도 |
 | :--- | :--- | :--- | :--- |
@@ -90,17 +96,20 @@ tags = ["network"]
 
 실무에서 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 직접 설치 대상이 아니라 계산과 규제의 기준점으로 등장한다. 링크 버짓을 계산할 때 송신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)과 수신 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)을 dBi로 넣어 EIRP와 예상 수신 전력을 산정하고, 규제 검토 시에도 허용 EIRP 한도를 등방성 기준으로 확인한다. 즉 장비 선택보다 "스펙 해석" 단계에서 더 자주 쓰이는 개념이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ How to use isotropic reference in practice                        │
-├────────────────────────────────────────────────────────────────────┤
-│ reading antenna spec?                                             │
-│   ├─ unit = dBi -> compare directly                              │
-│   ├─ unit = dBd -> convert to dBi (+2.15 dB)                     │
-│   └─ no unit   -> do not compare blindly                         │
-│ then combine Tx power + gain - losses -> EIRP / link budget      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How to use isotropic reference in practice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reading antenna spec?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unit = dBi -&gt; compare directly</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unit = dBd -&gt; convert to dBi (+2.15 dB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no unit -&gt; do not compare blindly</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then combine Tx power + gain - losses -&gt; EIRP / link budget</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
@@ -115,7 +124,7 @@ tags = ["network"]
 - [무지향성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/172_omni_directional_vs_directional_antenna/)를 등방성과 같다고 보고 위·아래 층 커버리지를 과대평가하는 것
 - 제조사 스펙의 기준 단위를 확인하지 않고 dBi와 dBd를 섞어 비교하는 것
 
-기술사 답안에서는 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 "가상의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"라고만 적기보다, **왜 그 가상이 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)·EIRP·링크 버짓의 공통 기준이 되는지**까지 연결해 설명해야 완성도가 높다.
+기술사 답안에서는 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 "가상의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"라고만 적기보다, <strong>왜 그 가상이 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/">안테나 이득</a>·EIRP·링크 버짓의 공통 기준이 되는지</strong>까지 연결해 설명해야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 등방성 기준을 쓰는 일은 자를 대기 전에 기준 눈금을 맞추는 것과 같아서, 기준이 흔들리면 이후 길이 비교도 모두 흔들린다.
 
@@ -127,7 +136,7 @@ tags = ["network"]
 
 물론 한계는 명확하다. 현실의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 급전 구조, 편파, 지면 반사, 설치 위치, 하우징 영향 때문에 결코 등방적일 수 없다. 따라서 등방성 모델은 실제 배치를 대체하는 설계안이 아니라, 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이해하기 위한 기준 좌표계로 봐야 한다.
 
-결론적으로 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 "없는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"이지만, 그래서 오히려 가장 중요한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다. 실제로 쓰지는 않지만, **모든 실제 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 같은 눈금으로 읽게 해 주는 원점**이기 때문이다.
+결론적으로 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 "없는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)"이지만, 그래서 오히려 가장 중요한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)다. 실제로 쓰지는 않지만, <strong>모든 실제 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>를 같은 눈금으로 읽게 해 주는 원점</strong>이기 때문이다.
 
 - **📢 섹션 요약 비유**: 지도 위의 북극점처럼 실제로 거기서 길을 출발하지는 않아도, 방향과 거리를 읽는 기준점으로는 꼭 필요한 존재와 같다.
 
@@ -146,20 +155,23 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-uniform spherical reference
-    │
-    ▼
-0 dBi baseline
-    │
-    ├──────────────▶ antenna gain comparison
-    ├──────────────▶ dBi / dBd interpretation
-    ▼
-EIRP and link budget
-    │
-    ▼
-real coverage design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">uniform spherical reference</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">0 dBi baseline</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ antenna gain comparison</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ dBi / dBd interpretation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EIRP and link budget</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">real coverage design</div>
+</div>
+</div>
+
+
 
 이 흐름도는 등방성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 이론적 기준으로 시작해, 실제 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/) 해석과 링크 설계로 이어지는 출발점임을 보여준다.
 

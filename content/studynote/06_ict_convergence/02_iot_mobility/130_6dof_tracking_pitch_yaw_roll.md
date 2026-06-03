@@ -10,8 +10,8 @@ tags = ["studynote-ict-convergence"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 6DoF(Six Degrees of Freedom)는 **3축 회전(Pitch·Yaw·Roll) + 3축 이동(X·Y·Z)**의 6가지 자유도 추적이며, XR/공간 컴퓨팅에서 사용자의 머리·손·물체 위치를 정밀하게 파악한다.
-> 2. **가치**: 3DoF(회전만)는 고개만 돌릴 수 있지만, 6DoF는 **걸어다니며 가상 물체에 가까이 다가가는** 등 실제 공간 이동이 반영되어 **높은 몰입감·자연스러운 상호작용**을 제공한다.
+> 1. **본질**: 6DoF(Six Degrees of Freedom)는 <strong>3축 회전(Pitch·Yaw·Roll) + 3축 이동(X·Y·Z)</strong>의 6가지 자유도 추적이며, XR/공간 컴퓨팅에서 사용자의 머리·손·물체 위치를 정밀하게 파악한다.
+> 2. **가치**: 3DoF(회전만)는 고개만 돌릴 수 있지만, 6DoF는 **걸어다니며 가상 물체에 가까이 다가가는** 등 실제 공간 이동이 반영되어 <strong>높은 몰입감·자연스러운 상호작용</strong>을 제공한다.
 > 3. **판단 포인트**: Inside-Out 트래킹(헤드셋 카메라로 추적, Quest·Vision Pro)이 현재 주류이며, [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)(동시 위치 추정·지도 작성) 알고리즘이 핵심 기술이다.
 
 ---
@@ -41,7 +41,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ~Ⅴ. 결론
 
-6DoF는 **공간 컴퓨팅의 필수 기반 기술**이며, Inside-Out + SLAM이 현재 표준이다.
+6DoF는 <strong>공간 컴퓨팅의 필수 기반 기술</strong>이며, Inside-Out + SLAM이 현재 표준이다.
 
 ---
 
@@ -50,19 +50,25 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **6DoF** | 6자유도 추적 |
-| **[SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)** | 동시 위치 추정·지도 작성 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a></strong> | 동시 위치 추정·지도 작성 |
 | **Inside-Out** | 헤드셋 카메라 기반 추적 |
 | **Pitch/Yaw/Roll** | 3축 회전 |
 | **공간 앵커** | 6DoF 기반 가상 객체 고정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[3DoF (Google Cardboard, 2014)] → [Outside-In 6DoF (Vive, 2016)]
-    → [Inside-Out 6DoF (Quest, 2019)]
-    → [손·눈 추적 + 6DoF (Vision Pro, 2024)]
-    → [현재: 밀리미터 정밀도 6DoF — AR 글래스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">3DoF (Google Cardboard, 2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Outside-In 6DoF (Vive, 2016)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Inside-Out 6DoF (Quest, 2019)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">손·눈 추적 + 6DoF (Vision Pro, 2024)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 밀리미터 정밀도 6DoF — AR 글래스</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 3DoF는 **의자에 앉아 고개만** 돌리는 거예요.

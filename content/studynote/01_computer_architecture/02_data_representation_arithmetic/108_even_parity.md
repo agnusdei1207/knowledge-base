@@ -11,8 +11,8 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 짝수 패리티(Even Parity)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들 사이의 1의 개수를 무조건 '짝수(Even)'로 맞추기 위해, 1의 개수가 홀수 개면 제일 끝에 `1`을 붙이고 합이 짝수 개면 `0`을 붙이는 하드웨어 게이트 레벨 통신 약속이다.
-> 2. **가치/영향**: 논리회로에서 수십 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결할 때, 오직 **가장 단순하고 가벼운 배타적 논리합(XOR) 게이트들의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)연결 트리(Tree)** 하나만으로 오류 검출을 완성하는 초극강의 비용 절감(Low-cost) 회로 설계의 정점이다.
-> 3. **판단 포인트**: 선이 뚝 끊어져 전압이 $0V(00000000)$로 떨어졌을 때, 이를 "1이 0개니 짝수네!" 라며 **정상적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 오판(False Positive)하고 시스템에 치명적인 값을 통과시켜 버리는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)**을 지니고 있다.
+> 2. **가치/영향**: 논리회로에서 수십 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결할 때, 오직 <strong>가장 단순하고 가벼운 배타적 논리합(XOR) 게이트들의 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>연결 트리(Tree)</strong> 하나만으로 오류 검출을 완성하는 초극강의 비용 절감(Low-cost) 회로 설계의 정점이다.
+> 3. **판단 포인트**: 선이 뚝 끊어져 전압이 $0V(00000000)$로 떨어졌을 때, 이를 "1이 0개니 짝수네!" 라며 <strong>정상적인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 오판(False Positive)하고 시스템에 치명적인 값을 통과시켜 버리는 구조적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>을 지니고 있다.
 
 ---
 
@@ -22,7 +22,7 @@ tags = ["studynote-computer-architecture"]
 
 초창기 컴퓨터 통신에서 ALU가 에러 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 코드를 일일이 덧셈(+1, +2...)하거나 나눗셈([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))하면 통신 속도가 바닥을 쳤다. 짝수 패리티는 소프트웨어(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 도움를 구하지 않고 그냥 전선 중간에 XOR 칩 하나만 딱 박아놓으면, 흘러가는 전기에 맞춰 "너 짝수 파동이지? 통과!"를 실시간(빛의 속도)으로 가려내기 위해 채택된 가장 날것의 하드웨어 친화적(Hardware-Friendly) 논리다. 이 규칙은 1960년대 비동기(Asynchronous) 통신망을 짤 때 에러 점검 회로의 단가를 단 몇 센트로 후려치기 위해 글로벌 표준으로 박혀버렸다.
 
-- **📢 섹션 요약 비유**: 짝수 패리티는 **'양팔 저울 수평 맞추기'**와 같다. 전선 위를 달리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들의 무게(1의 개수)가 홀수 단이라서 저울 한쪽이 덜컹 내려가면, 기판 끝에서 기계가 자동으로 $1kg$짜리 추([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) 1)를 던져 올려 양쪽 저울의 균형(짝수)을 칼같이 수평으로 복원한 채 수신자에게 보내주는 시스템이다.
+- **📢 섹션 요약 비유**: 짝수 패리티는 <strong>'양팔 저울 수평 맞추기'</strong>와 같다. 전선 위를 달리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들의 무게(1의 개수)가 홀수 단이라서 저울 한쪽이 덜컹 내려가면, 기판 끝에서 기계가 자동으로 $1kg$짜리 추([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) 1)를 던져 올려 양쪽 저울의 균형(짝수)을 칼같이 수평으로 복원한 채 수신자에게 보내주는 시스템이다.
 
 ---
 
@@ -30,36 +30,34 @@ tags = ["studynote-computer-architecture"]
 
 소프트웨어를 완전히 배제하고 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 쪼가리만으로 에러를 잡아내는 마법을 해부한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         The Hardware XOR Tree: 짝수 패리티 생성기의 본질             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [ Payload: 4-Bits to Send -> B3 B2 B1 B0 ]                  │
-│  원본 데이터: 1 1 0 1  (1이 3개 -> 홀수. 짝수로 고쳐야 함!)            │
-│                                                              │
-│  [ The XOR Gate Magic ]                                      │
-│  XOR의 성질: 두 비트가 다를 때만 1을 뱉는다.                         │
-│  - 0 XOR 0 = 0 (짝수)  |  1 XOR 1 = 0 (짝수)                   │
-│  - 1 XOR 0 = 1 (홀수)  |  0 XOR 1 = 1 (홀수)                   │
-│                                                              │
-│  하드웨어 폭포 트리 (나노초 스케일):                               │
-│                                                              │
-│  B3 (1) ─┐                                                   │
-│          ├─ (XOR 1) ─▶ [0] ─┐                                │
-│  B2 (1) ─┘                   │                               │
-│                              ├─ (최종 XOR) ─▶ [1]            │
-│  B1 (0) ─┐                   │   결과 패리티 비트는 1 !!          │
-│          ├─ (XOR 2) ─▶ [1] ─┘                                │
-│  B0 (1) ─┘                                                   │
-│                                                              │
-│  전선으로 날아가는 최종 패킷:  [1] 1 1 0 1  (1의 총합 = 4. 완벽 짝수!) │
-└──────────────────────────────────────────────────────────────┘
-```
 
-컴퓨터가 왜 '짝수(Even)'를 그토록 사랑했는지 보여주는 극적인 하드웨어 설계도다. XOR 게이트의 동작 속성을 보면 자기 자신이 이미 완벽한 **'홀수 감별기'**다. 두 개의 입력 중에 1이 1개(홀수)면 $1$을 뿜고, 1이 2개(짝수) 거나 0개(짝수)면 $0$을 뿜는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신망 선을 2가닥씩 묶어서 파동을 XOR 게이트에 물리면, 최종적으로 나무(Tree) 끝자락에서 떨어지는 결과물이 그 자체로 "짝수 패리티를 유지하기 위해 채워야 할 완벽한 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)값"이 된다. CPU [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산을 안 거치고 구리선 회로 박스를 관통만 해도 값이 채워지는 $0$ 클럭 릴레이 연산이다.
 
-- **📢 섹션 요약 비유**: 이 XOR 트리 회로는 **'깔때기 수로 공학'**이다. 물방울들을 깔때기(XOR 게이트)로 2개씩 짝지어 모아 보낸다. 물방울이 1개면 구멍을 통과하고, 물방울이 2개가 합쳐지면 짝이 맞아 증발(0)해버리는 특수 깔때기다. 수많은 관을 타고 마지막 출구로 툭 떨어지는 물방울이 있다면 "아! 홀수 개였으니 1방울이 남았네(1)"고, 아무것도 안 떨어지면 "아! 다 짝을 맞춰 증발했으니 짝수였네(0)"라고 0.1초 만에 판독해 버린다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Hardware XOR Tree: 짝수 패리티 생성기의 본질</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Payload: 4-Bits to Send -&gt; B3 B2 B1 B0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터: 1 1 0 1 (1이 3개 -&gt; 홀수. 짝수로 고쳐야 함!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">The XOR Gate Magic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XOR의 성질: 두 비트가 다를 때만 1을 뱉는다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 0 XOR 0 = 0 (짝수)</div><div class="kb-diagram-cell">1 XOR 1 = 0 (짝수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1 XOR 0 = 1 (홀수)</div><div class="kb-diagram-cell">0 XOR 1 = 1 (홀수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 폭포 트리 (나노초 스케일):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B3 (1) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2 (1) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B1 (0) ─</div><div class="kb-diagram-cell">결과 패리티 비트는 1 !!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B0 (1) ─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">전선으로 날아가는 최종 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 1 0 1 (1의 총합 = 4. 완벽 짝수!)</div></div>
+</div>
+</div>
+
+
+
+컴퓨터가 왜 '짝수(Even)'를 그토록 사랑했는지 보여주는 극적인 하드웨어 설계도다. XOR 게이트의 동작 속성을 보면 자기 자신이 이미 완벽한 <strong>'홀수 감별기'</strong>다. 두 개의 입력 중에 1이 1개(홀수)면 $1$을 뿜고, 1이 2개(짝수) 거나 0개(짝수)면 $0$을 뿜는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신망 선을 2가닥씩 묶어서 파동을 XOR 게이트에 물리면, 최종적으로 나무(Tree) 끝자락에서 떨어지는 결과물이 그 자체로 "짝수 패리티를 유지하기 위해 채워야 할 완벽한 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)값"이 된다. CPU [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 연산을 안 거치고 구리선 회로 박스를 관통만 해도 값이 채워지는 $0$ 클럭 릴레이 연산이다.
+
+- **📢 섹션 요약 비유**: 이 XOR 트리 회로는 <strong>'깔때기 수로 공학'</strong>이다. 물방울들을 깔때기(XOR 게이트)로 2개씩 짝지어 모아 보낸다. 물방울이 1개면 구멍을 통과하고, 물방울이 2개가 합쳐지면 짝이 맞아 증발(0)해버리는 특수 깔때기다. 수많은 관을 타고 마지막 출구로 툭 떨어지는 물방울이 있다면 "아! 홀수 개였으니 1방울이 남았네(1)"고, 아무것도 안 떨어지면 "아! 다 짝을 맞춰 증발했으니 짝수였네(0)"라고 0.1초 만에 판독해 버린다.
 
 ---
 
@@ -70,13 +68,13 @@ tags = ["studynote-computer-architecture"]
 | 에러 시나리오 | 짝수 패리티의 하드웨어 판별 행동 | 아키텍처적 결과 및 재앙의 크기 |
 |:---|:---|:---|
 | **1비트 에러 (Single Flip)** | 1의 개수가 홀수로 바뀜 $\rightarrow$ 에러 발생(1) 출력 | 완벽한 패킷 드랍 및 에러 방어 성공 |
-| **2비트 동시 에러 (Burst)** | **1이 2개 바뀌어 다시 짝수가 됨 $\rightarrow$ 정상(0) 통과!**| **침묵의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 (Silent [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Corruption)** |
-| **통신 선 절단 (All Zeros)** | **전압이 0V로 꺼짐($0000000$) $\rightarrow$ 정상(0) 통과!** | **고장을 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 속아 넘어가 시스템 파괴** |
+| **2비트 동시 에러 (Burst)** | **1이 2개 바뀌어 다시 짝수가 됨 $\rightarrow$ 정상(0) 통과!**| <strong>침묵의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 오염 (Silent <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Corruption)</strong> |
+| **통신 선 절단 (All Zeros)** | **전압이 0V로 꺼짐($0000000$) $\rightarrow$ 정상(0) 통과!** | <strong>고장을 정상 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 속아 넘어가 시스템 파괴</strong> |
 
 1960년대 통신 시절엔 에러가 동시에 2개 날 확률이 벼락 맞기보다 낮았다(희소 에러 모델). 그러나 기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(광랜) 등 고주파 통신망에서는 노이즈 한 번 스치면 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 2, 3개가 뭉텅이로 으스러진다. 짝수 패리티는 에러가 2개 껴버리면(1이 0으로 두 개 바뀌든, 0이 1로 두 개 바뀌든) 이 에러들의 파동이 서로 상쇄되면서 최종 검사 합을 다시 '짝수' 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시켜버린다. 수신단은 이것이 에러인 줄도 모르고 정상 객체로 통과(False Positive) 시킨다. 
 더 끔찍한 건 선이 끊어졌을 때다. 전압이 $0V$가 되어 `0000000`이 꽂히면, 1의 개수가 0개이므로 짝수 검사기는 "오, 짝수네! 정상 0 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통과!" 라며 단선 사고를 시스템 코어까지 밀어 넣어버린다.
 
-- **📢 단점 요약 비유**: 이 2비트 에러 스킵 현상은 **'안경의 근시와 원시 상쇄 불량'**과 같다. 원래 렌즈가 한쪽 면만 잘못 휘어지면 상이 흐려져 "안경 불량이네!" 하고 잡지만, 공장에서 렌즈 앞면엔 근시 굴절 에러($+1$), 뒷면엔 원시 굴절 에러($-1$)를 기가 막히게 동시에 흠집 내서 깎아놓으면 합쳐서 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 0(정상)이 되어 얼핏 보면 완벽한 안경으로 둔갑해버리는 치명적 품질 검수 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다.
+- **📢 단점 요약 비유**: 이 2비트 에러 스킵 현상은 <strong>'안경의 근시와 원시 상쇄 불량'</strong>과 같다. 원래 렌즈가 한쪽 면만 잘못 휘어지면 상이 흐려져 "안경 불량이네!" 하고 잡지만, 공장에서 렌즈 앞면엔 근시 굴절 에러($+1$), 뒷면엔 원시 굴절 에러($-1$)를 기가 막히게 동시에 흠집 내서 깎아놓으면 합쳐서 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 0(정상)이 되어 얼핏 보면 완벽한 안경으로 둔갑해버리는 치명적 품질 검수 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다.
 
 ---
 
@@ -85,11 +83,11 @@ tags = ["studynote-computer-architecture"]
 이 허술한 장치가 여전히 현역으로 돌아가는 저수준 통신 레이어다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **아두이노/임베디드 시리얼 통신 (UART [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)**: 무인 드론이나 3D 프린터의 마더보드 통신 칩 세팅 창에 들어가면 `Baud Rate 9600, 8-E-1` 이라는 통신 포맷이 있다. 여기서 `E`가 바로 짝수 패리티(Even)를 의미한다. 마이크로 컨트롤러(MCU) CPU 단의 C언어 코드에서 에러 검출 로직을 직접 `for`문으로 빙빙 돌리며 짜면 배터리가 남아나질 않는다. 날리기 직전 하드웨어 쉬프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 단에서 1비트를 맨 끝에 우겨넣어 전송하도록 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 하단 칩셋 레벨(Physical Layer) 스위치에 에러 감지 로직을 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 위임하여 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 지연과 전력을 사수했는가?
-2. **리눅스 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/)) 콘솔 드라이버 계층 스위칭**: 리눅스 우분투 시스템 I/O 제어기 `termios.h` 코어를 까보면, 파라미터 중에 `PARENB`(패리티 활성화)가 있다. 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹으로 `c_cflag |= PARENB; c_cflag &= ~PARODD;` 를 주면 시스템 I/O 칩 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 짝수(Even) 모드로 하드웨어 변신한다. C언어 소프트웨어가 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 거쳐 마더보드의 물리적 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 게이트(XOR) 구성 모드를 직접 활성화(Trigger)시키는 소프트웨어-물리 계층 융합의 교본이다.
+1. <strong>아두이노/임베디드 시리얼 통신 (UART <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong>: 무인 드론이나 3D 프린터의 마더보드 통신 칩 세팅 창에 들어가면 `Baud Rate 9600, 8-E-1` 이라는 통신 포맷이 있다. 여기서 `E`가 바로 짝수 패리티(Even)를 의미한다. 마이크로 컨트롤러(MCU) CPU 단의 C언어 코드에서 에러 검출 로직을 직접 `for`문으로 빙빙 돌리며 짜면 배터리가 남아나질 않는다. 날리기 직전 하드웨어 쉬프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 단에서 1비트를 맨 끝에 우겨넣어 전송하도록 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 하단 칩셋 레벨(Physical Layer) 스위치에 에러 감지 로직을 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 위임하여 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 지연과 전력을 사수했는가?
+2. <strong>리눅스 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/">Serial</a>) 콘솔 드라이버 계층 스위칭</strong>: 리눅스 우분투 시스템 I/O 제어기 `termios.h` 코어를 까보면, 파라미터 중에 `PARENB`(패리티 활성화)가 있다. 개발자가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹으로 `c_cflag |= PARENB; c_cflag &= ~PARODD;` 를 주면 시스템 I/O 칩 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 짝수(Even) 모드로 하드웨어 변신한다. C언어 소프트웨어가 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 거쳐 마더보드의 물리적 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 게이트(XOR) 구성 모드를 직접 활성화(Trigger)시키는 소프트웨어-물리 계층 융합의 교본이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **구형 의료기기 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(RS-232C) 짝수/[홀수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/) 물리적 불일치 방치**: 병원 혈압계 머신에서 PC의 시리얼 콘솔망(`COM1`)으로 심박수를 쏘는데, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면에 숫자 대신 `?&^$` 같은 깨진 외계인 문자가 터져 나오는 현상. 의료기기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 혐오하므로 내부 설정이 `9600-8-E-1`(Even Parity)로 세팅되어 9비트를 뿜고 있었다. 하지만 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) OS는 디폴트인 `9600-8-N-1`(None Parity) 설정으로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열었다. 환자의 혈압(`0x41(A)`, 1000001)이 꼬리표 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) `0`과 함께 `010000010` 으로 날아오자, PC는 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) `0`까지 몽땅 '순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)'로 착각하여 문자열 파서를 뒤틀어 해석해 버린 프레임 시프트(Frame Shift) 오류다.
+- <strong>구형 의료기기 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(RS-232C) 짝수/<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/">홀수 패리티</a> 물리적 불일치 방치</strong>: 병원 혈압계 머신에서 PC의 시리얼 콘솔망(`COM1`)으로 심박수를 쏘는데, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면에 숫자 대신 `?&^$` 같은 깨진 외계인 문자가 터져 나오는 현상. 의료기기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 혐오하므로 내부 설정이 `9600-8-E-1`(Even Parity)로 세팅되어 9비트를 뿜고 있었다. 하지만 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) OS는 디폴트인 `9600-8-N-1`(None Parity) 설정으로 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열었다. 환자의 혈압(`0x41(A)`, 1000001)이 꼬리표 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) `0`과 함께 `010000010` 으로 날아오자, PC는 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) `0`까지 몽땅 '순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)'로 착각하여 문자열 파서를 뒤틀어 해석해 버린 프레임 시프트(Frame Shift) 오류다.
 
 - **📢 섹션 요약 비유**: 이 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은, 택배기사(의료기기)가 내용물 8박스에 '확인증([패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)) 1장'을 덧붙여서 총 9개의 물건을 줬는데, 받는 사람([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))은 확인증이라는 개념을 아예 모르고 **"아, 이 박스는 9개짜리 물건이구나"** 라고 통째로 잘못 조립해 버려 완전히 기괴한 로봇(깨진 외계어)을 만들어버리는 참사입니다. 양쪽의 통신 룰([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 세팅을 무조건 동일하게 통일해야만 방어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 걸러낼 수 있습니다.
 
@@ -97,11 +95,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-짝수 패리티(Even Parity)는 인류가 진공관과 전선을 가지고 컴퓨터 네트워킹을 처음 태동시키려 할 때, **"복잡한 덧셈 나눗셈(소프트웨어 연산) 없이 그 은빛 구리선에 배타적 논리합(XOR) 게이트 하나만 물리적으로 용접해 넣으면 초고속으로 오염된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 필터링할 수 있다"**는 하드웨어 엔지니어들의 극강의 효율주의가 낳은 조형 공학이다.
+짝수 패리티(Even Parity)는 인류가 진공관과 전선을 가지고 컴퓨터 네트워킹을 처음 태동시키려 할 때, <strong>"복잡한 덧셈 나눗셈(소프트웨어 연산) 없이 그 은빛 구리선에 배타적 논리합(XOR) 게이트 하나만 물리적으로 용접해 넣으면 초고속으로 오염된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 필터링할 수 있다"</strong>는 하드웨어 엔지니어들의 극강의 효율주의가 낳은 조형 공학이다.
 
 전선의 스파크(노이즈)가 하나의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 파괴할 때 그 뒤틀린 짝수의 파동을 0.1나노초도 안 되어 캐치해 잡아내는 이 마법은, 마이크로소프트의 윈도우 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 임베디드 리눅스의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 맨 밑바닥에 묻혀 현재까지도 수백만 대의 장비를 소리 없이 감시하고 있다. 선이 뚝 끊겨 0V의 지옥이 도래할 때는 고장을 알아채지 못해 [홀수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/)(Odd)에 그 자리를 내어준다는 치명적 약점을 품고 있지만, 실리콘 게이트 비용 최적화와 에러 검출의 마지노선 융합 교과서로서 언제나 그 가치를 발하고 있다.
 
-- **📢 섹션 요약 비유**: 짝수 패리티는 수백만 개의 톱니바퀴 장치가 맞물려 돌아가는 시계 공장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시스템)에 둔 **'단순 막대기 거름망'**과 같다. 복잡한 센서 카메라 없이, 그냥 컨베이어 벨트 위에 기계 막대기(XOR 게이트)를 박아두고, 불량품 패턴(홀수 파동)이 튀어나오면 막대기에 물리적으로 팅! 하고 튕겨 나가게 만들어진, 가장 원시적이면서도 CPU 배터리를 단 1%도 낭비하지 않는 태엽 장치 천재 공학의 극한상이다.
+- **📢 섹션 요약 비유**: 짝수 패리티는 수백만 개의 톱니바퀴 장치가 맞물려 돌아가는 시계 공장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시스템)에 둔 <strong>'단순 막대기 거름망'</strong>과 같다. 복잡한 센서 카메라 없이, 그냥 컨베이어 벨트 위에 기계 막대기(XOR 게이트)를 박아두고, 불량품 패턴(홀수 파동)이 튀어나오면 막대기에 물리적으로 팅! 하고 튕겨 나가게 만들어진, 가장 원시적이면서도 CPU 배터리를 단 1%도 낭비하지 않는 태엽 장치 천재 공학의 극한상이다.
 
 ---
 
@@ -109,28 +107,31 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[홀수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/) ([Odd Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/))** | 형(짝수 패리티)이 선이 끊어지는 아찔한 단선 사고($0V \rightarrow 0$ 짝수로 맹신 통과)를 못 막아서, 0V가 들어와도 무조건 비정상으로 잡게 만든 [동기식 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 방패 동생 포맷 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/">홀수 패리티</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/">Odd Parity</a>)</strong> | 형(짝수 패리티)이 선이 끊어지는 아찔한 단선 사고($0V \rightarrow 0$ 짝수로 맹신 통과)를 못 막아서, 0V가 들어와도 무조건 비정상으로 잡게 만든 [동기식 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) 방패 동생 포맷 |
 | **XOR 게이트 (Exclusive-OR Gate)** | 짝수 패리티 시스템 그 자체. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 다를 때만 1을 뱉는 속성이, 수십 개를 연달아 나열했을 때 완벽한 '홀수 검출기'로 둔갑하는 마법의 디지털 회로 소자 |
 | **Baud Rate & RS-232** | 아날로그 장비와 임베디드 보드가 비동기로 대화할 때 전송 속도와 함께 패리티의 홀/짝 규칙을 반드시 일치시켜야 손뼉이 마주치는 가장 낡은 피지컬 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-초기 비동기 통신 (에러 검출 부재)
-    │
-    ▼
-홀/짝수 패리티 비트 (1비트 오류 검출, 하드웨어 XOR 트리)
-    │
-    ▼
-순환 중복 검사 (CRC) (블록 단위 버스트 에러 검출)
-    │
-    ▼
-해밍 코드 (Hamming Code) / ECC (오류 검출을 넘어선 1비트 교정)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">초기 비동기 통신 (에러 검출 부재)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">홀/짝수 패리티 비트 (1비트 오류 검출, 하드웨어 XOR 트리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">순환 중복 검사 (CRC) (블록 단위 버스트 에러 검출)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">해밍 코드 (Hamming Code) / ECC (오류 검출을 넘어선 1비트 교정)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 짝수 패리티는 로봇들이 장난감을 택배로 보낼 때, 상자 안의 장난감 개수를 무조건 꼭꼭 **"짝수(2, 4, 6...)"**로만 맞춰서 포장하는 기계들의 비밀 약속이에요!
+1. 짝수 패리티는 로봇들이 장난감을 택배로 보낼 때, 상자 안의 장난감 개수를 무조건 꼭꼭 <strong>"짝수(2, 4, 6...)"</strong>로만 맞춰서 포장하는 기계들의 비밀 약속이에요!
 2. 만약 장난감이 $3$개(홀수)면 가짜 장난감 돌멩이 $1$개를 억지로 더 집어넣어서 $4$개(짝수)로 만들어서 보내죠. 중간에 나쁜 파리가 껴서 장난감을 훔쳐 가면 개수가 홀수로 삐뚤어지니 로봇이 "에러다!" 하고 박스를 바로 쓰레기통에 버려요.
 3. 머리 아픈 숫자 덧셈이나 곱셈을 안 하고, 그냥 두 개씩 짝만 묶어보는 아주 간단하고 빠른 거름망이라서 작은 꼬마 로봇 칩들도 전기를 아주 적게 먹으면서 편안하게 에러를 잡는답니다!
 

@@ -23,19 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: 보통 컴퓨터는 하드디스크에 `192.168.0.10`이라고 자기 IP가 저장되어 있다. 그런데 1980년대 멍텅구리 씬 클라이언트(하드디스크가 없는 깡통 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))들은 전원을 켜면 자기가 뉘신지 IP가 없었다. 통신을 하려면 3계층 IP가 무조건 있어야 한다. 깡통 PC가 아는 건 오직 자기 랜카드에 공장에서 지져서 나온 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소뿐이었다. "저기요 RARP 서버님! 제 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB:CC인데요, 제 IP가 뭐였죠?"라고 물어볼 수단이 절실했다.
 
 - **💡 비유**: 
-  - **[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)**: 친구의 **'이름(IP)'**은 아는데 **'전화번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))'**를 몰라서 114에 물어보는 것.
-  - **RARP**: 내가 기억상실증에 걸려서, 내 호주머니에 있는 **'주민등록증([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))'**을 경찰서(서버)에 내밀며 **"제 이름(IP)이 뭔가요?"**라고 역으로 물어보는 것.
+  - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a></strong>: 친구의 <strong>'이름(IP)'</strong>은 아는데 <strong>'전화번호(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)'</strong>를 몰라서 114에 물어보는 것.
+  - **RARP**: 내가 기억상실증에 걸려서, 내 호주머니에 있는 <strong>'주민등록증(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)'</strong>을 경찰서(서버)에 내밀며 <strong>"제 이름(IP)이 뭔가요?"</strong>라고 역으로 물어보는 것.
 
-```text
-[ARP 프레임]
-    │
-    ▼
-[RARP]
-    │
-    └──▶ [Proxy ARP]
-```
 
-- **📢 섹션 요약 비유**: ** RARP는 전입신고 센터입니다. 집([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)은 샀는데 아직 도로명 주소(IP 주소)를 부여받지 못한 신축 아파트가, 관공서에 달려가서 **"이 집터에 배정된 주소가 뭔가요?"**라고 물어보고 문패를 달아오는 과정입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 프레임</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Proxy ARP</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> RARP는 전입신고 센터입니다. 집(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)은 샀는데 아직 도로명 주소(IP 주소)를 부여받지 못한 신축 아파트가, 관공서에 달려가서 </strong>"이 집터에 배정된 주소가 뭔가요?"**라고 물어보고 문패를 달아오는 과정입니다.
 
 ---
 
@@ -52,31 +56,30 @@ RARP 메시지 구조는 [ARP](/knowledge-base/studynote/03_network/06_network_l
 1. **RARP Request (요청)**: 깡통 PC가 켠다. 브로드캐스트(`FF:FF...`)로 프레임을 쏜다. Opcode는 `3`이다. 내용은 "내 MAC은 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):AA고, 내 IP는 몰라(빈칸)! RARP 서버님 빈칸 좀 채워주세요!"다.
 2. **RARP Reply (응답)**: RARP 서버가 이걸 받는다. "음, 내 장부에 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):AA는 10번 IP라고 적혀있네." 서버는 빈칸을 채우고 Opcode를 `4`로 바꾼 뒤 유니캐스트로 던져준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RARP 요청과 DHCP의 차이점                       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 깡통 PC ] ──── "내 MAC이 AA:BB야. 내 IP가 뭐지?" ─────▶     │
- │                                                             │
- │   [ RARP 서버 ] "음... 장부(DB)를 보니 10번이네. 옛다 10번!"       │
- │                (※ 단점: 수동으로 장부에 적힌 MAC에게만 IP를 줌)    │
- │                                                             │
- │   * RARP의 한계:                                              │
- │   - 오직 "IP 주소 딱 1개"만 알려준다.                            │
- │   - 서브넷 마스크? 안 알려줌.                                   │
- │   - 게이트웨이? 안 알려줌.                                      │
- │   - DNS 서버 주소? 안 알려줌.                                   │
- │                                                             │
- │   ▶ 인터넷을 하려면 마스크랑 게이트웨이도 필수인데, 달랑 IP 1개만    │
- │      주니까 통신이 불가능했다. 그래서 DHCP로 빠르게 대체되었다.       │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RARP 요청과 DHCP의 차이점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">깡통 PC</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RARP 서버</div><div class="kb-diagram-note">"음... 장부(DB)를 보니 10번이네. 옛다 10번!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 단점: 수동으로 장부에 적힌 MAC에게만 IP를 줌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RARP의 한계:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오직 "IP 주소 딱 1개"만 알려준다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서브넷 마스크? 안 알려줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 게이트웨이? 안 알려줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DNS 서버 주소? 안 알려줌.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 인터넷을 하려면 마스크랑 게이트웨이도 필수인데, 달랑 IP 1개만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주니까 통신이 불가능했다. 그래서 DHCP로 빠르게 대체되었다.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 역사적 퇴장과 진화
 - RARP는 너무 단순해서 쓸모가 없었다. 
 - 이를 개선하여 BOOTP(Bootstrap [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))가 나왔고, IP뿐만 아니라 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/), 게이트웨이 주소, 부팅 파일의 이름까지 넘겨줄 수 있게 되었다.
-- BOOTP마저 관리자가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 일일이 쳐야 하는 귀찮음이 있자, "그냥 꽂으면 랜덤으로 남는 IP 빌려주면(Lease) 안 돼?"라며 끝판왕인 **[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)**가 등장했고 RARP는 교과서에서나 볼 수 있는 화석이 되었다.
+- BOOTP마저 관리자가 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 일일이 쳐야 하는 귀찮음이 있자, "그냥 꽂으면 랜덤으로 남는 IP 빌려주면(Lease) 안 돼?"라며 끝판왕인 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a></strong>가 등장했고 RARP는 교과서에서나 볼 수 있는 화석이 되었다.
 
 - **📢 섹션 요약 비유**: ** RARP는 식당에서 **"단일 메뉴(IP 주소 딱 하나)"**만 주는 고집불통 주방장입니다. 반면 현대의 DHCP는 **"밥(IP), 국([서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)), 반찬(게이트웨이), 후식([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))"을 한 번에 다 차려주는 완벽한 뷔페 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
 
@@ -134,15 +137,19 @@ RARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: ARP 프레임]
-    │
-    ▼
-[현재 개념: RARP]
-    │
-    ├──▶ [확장 A: Proxy ARP]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 프레임</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Proxy ARP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 RARP는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임에서 출발해 현재 메커니즘을 정교화하고, 이후 [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

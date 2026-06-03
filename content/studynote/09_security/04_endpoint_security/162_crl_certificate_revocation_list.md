@@ -11,9 +11,9 @@ tags = ["studynote-security"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))은 인증서가 만료되기 전이라도 더 이상 신뢰하면 안 되는 인증서의 일련번호를 **인증기관이 서명해 배포하는 폐지 목록**이다.
-> 2. **가치**: 개인키 유출, 조직 퇴사, 장비 폐기 같은 사건이 발생했을 때, 유효기간이 남은 인증서라도 **즉시 신뢰에서 제외할 수 있는 최소한의 사후 통제 장치**가 된다.
-> 3. **판단 포인트**: CRL은 구조가 단순하고 오프라인 배포에 유리하지만, 목록 크기와 갱신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계가 있어 **대규모 공개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) (Online Certificate Status [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 등과 함께 판단**해야 한다.
+> 1. **본질**: [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Certificate Revocation List](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))은 인증서가 만료되기 전이라도 더 이상 신뢰하면 안 되는 인증서의 일련번호를 <strong>인증기관이 서명해 배포하는 폐지 목록</strong>이다.
+> 2. **가치**: 개인키 유출, 조직 퇴사, 장비 폐기 같은 사건이 발생했을 때, 유효기간이 남은 인증서라도 <strong>즉시 신뢰에서 제외할 수 있는 최소한의 사후 통제 장치</strong>가 된다.
+> 3. **판단 포인트**: CRL은 구조가 단순하고 오프라인 배포에 유리하지만, 목록 크기와 갱신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계가 있어 <strong>대규모 공개 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>에서는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/">OCSP</a> (Online Certificate Status <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 등과 함께 판단</strong>해야 한다.
 
 ---
 
@@ -35,17 +35,18 @@ CRL의 기본 원리는 단순하다. 인증기관은 폐지된 인증서의 일
 
 아래 그림은 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 기반 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    CRL 기반 인증서 상태 검증 흐름                  │
-├────────────────────────────────────────────────────────────────────┤
-│ [CA] -- 폐지 목록 서명/배포 --> [CRL 저장소]                       │
-│   │                                                                │
-│   └-- 인증서에 CDP 포함                                            │
-│                                                                    │
-│ [검증자] -- 인증서 수신 --> 일련번호 확인 --> CRL 조회 --> 허용/차단 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRL 기반 인증서 상태 검증 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CA</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CRL 저장소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 인증서에 CDP 포함</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">검증자</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">일련번호 확인 --&gt; CRL 조회 --&gt; 허용/차단</div></div>
+</div>
+</div>
+
+
 
 이 구조의 강점은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 실시간 질의 없이도 일정 주기로 목록을 내려받아 사용할 수 있다는 점이다. 반면 목록 전체를 받아야 하므로, 폐지 건수가 많아질수록 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기와 배포 부담이 커질 수 있다. 이를 보완하기 위해 델타 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) ([Delta CRL](/knowledge-base/studynote/09_security/04_endpoint_security/196_delta_crl_efficiency_improvement/))처럼 변경분만 배포하는 방식도 사용된다.
 
@@ -75,7 +76,7 @@ CRL의 경계는 OCSP와 비교할 때 분명해진다. CRL은 일정 시점의 
 
 또한 CRL은 X.509 인증서 체계, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)/[RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) ([Registration Authority](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)), [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링, 인증서 투명성 ([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/))과도 연결된다. CRL만으로 모든 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 문제를 해결할 수는 없지만, 여전히 많은 환경에서 기본적인 폐지 메커니즘으로 남아 있다. 특히 실시간 외부 질의가 어려운 망에서는 CRL의 존재 가치가 크다.
 
-결국 CRL은 오래된 기술이 아니라, **단순성과 배치 배포라는 장점을 가진 기본 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식**으로 이해하는 것이 적절하다. 이 관점이 있어야 왜 현대 환경에서 OCSP와 병행되는지도 설명된다.
+결국 CRL은 오래된 기술이 아니라, <strong>단순성과 배치 배포라는 장점을 가진 기본 상태 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 방식</strong>으로 이해하는 것이 적절하다. 이 관점이 있어야 왜 현대 환경에서 OCSP와 병행되는지도 설명된다.
 
 - **📢 섹션 요약 비유**: CRL이 매일 배포되는 금지 명단이라면, OCSP는 특정 번호 하나를 즉석에서 조회하는 고객센터 전화 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 같다.
 
@@ -109,7 +110,7 @@ CRL의 경계는 OCSP와 비교할 때 분명해진다. CRL은 일정 시점의 
 
 CRL을 적절히 운영하면 만료 전 사고가 난 인증서를 신속히 신뢰 체계에서 제외할 수 있고, 폐쇄망이나 배치 중심 환경에서도 비교적 단순하게 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 구현할 수 있다. 또한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 일정 주기로 목록을 관리하므로, 외부 실시간 연결이 불안정한 곳에서도 기본적인 보안 통제를 유지할 수 있다. 이런 점에서 CRL은 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 운영의 기초 체력을 담당한다.
 
-하지만 목록이 커질수록 배포 효율이 떨어지고, 갱신 간격이 길수록 최신성 공백이 생긴다. 그래서 현대 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링, 델타 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 같은 보완책을 함께 사용한다. 결국 CRL은 "낡은 방식"이 아니라, **단순성과 배치 운영에 강한 기본 메커니즘**으로 기억하는 것이 맞다.
+하지만 목록이 커질수록 배포 효율이 떨어지고, 갱신 간격이 길수록 최신성 공백이 생긴다. 그래서 현대 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/), [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링, 델타 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 같은 보완책을 함께 사용한다. 결국 CRL은 "낡은 방식"이 아니라, <strong>단순성과 배치 운영에 강한 기본 메커니즘</strong>으로 기억하는 것이 맞다.
 
 결론적으로 CRL은 인증서의 중도 폐기를 조직적으로 공유하는 목록 기반 통제 수단이다. 이 본질을 이해하면 왜 PKI에서 발급만큼 폐지가 중요한지, 왜 실시간 질의형 기술이 뒤이어 등장했는지도 자연스럽게 정리된다.
 
@@ -129,21 +130,23 @@ CRL을 적절히 운영하면 만료 전 사고가 난 인증서를 신속히 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-인증서 발급
-    │
-    ▼
-중도 폐기 필요 발생
-    │
-    ▼
-CRL (Certificate Revocation List)
-    │
-    ▼
-델타 CRL · 캐시 최적화
-    │
-    ▼
-OCSP · OCSP 스테이플링
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">인증서 발급</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">중도 폐기 필요 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CRL (Certificate Revocation List)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">델타 CRL · 캐시 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCSP · OCSP 스테이플링</div>
+</div>
+</div>
+
+
 
 이 흐름은 "발급 중심 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) → 폐지 목록 관리 → 최신성 보완"으로 인증서 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술이 발전하는 방향을 보여준다.
 

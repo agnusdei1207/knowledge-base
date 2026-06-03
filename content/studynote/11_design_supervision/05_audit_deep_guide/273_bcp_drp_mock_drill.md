@@ -20,26 +20,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 BCP/DRP 모의훈련 감리는 업무연속성계획(Business Continuity Plan, BCP)과 재해복구계획(Disaster [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Plan, DRP) 모의훈련 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 재해·[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 장애가 빈번해지면서 문서형 계획보다 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 운영이 중요해졌다. 특히 훈련 시나리오가 기준선으로 정리되지 않으면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 시점·시간은 사람 의존 절차로 흩어지고, 최종적으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 증적이 남지 않아 의사결정이 감각에 의존하게 된다. 훈련과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없으면 계획 문서가 있어도 실제 사고 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈춘다.
 
-```text
-┌──────────────────┐
-│ 요구사항·위험 인식 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 훈련 시나리오 기준 수립 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 복구 목표 시점·시간 설계 반영 │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│ 복구 증적 증적 확보 │
-└──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 시나리오 기준 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복구 목표 시점·시간 설계 반영</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복구 증적 증적 확보</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: BCP/DRP 모의훈련 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -53,16 +48,16 @@ BCP/DRP 모의훈련 감리의 핵심 원리는 기준, 실행, 증적을 하나
 | 실행 메커니즘 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 시점·시간을 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 증적을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-```text
-┌──────────────────┐      ┌──────────────────┐
-│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
-└────────┬─────────┘      └────────┬─────────┘
-         │                           │
-         ▼                           ▼
-┌──────────────────┐ ◀──── ┌──────────────────┐
-│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
-└──────────────────┘      └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
+</div>
+</div>
+
+
 - **📢 섹션 요약 비유**: 훈련 시나리오, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 시점·시간, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 증적은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

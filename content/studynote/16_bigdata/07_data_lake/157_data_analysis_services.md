@@ -10,8 +10,8 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. 클라우드 관리형 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Amazon EMR, Azure HDInsight, GCP Dataproc)는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/Spark 클러스터를 수 분 내에 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하고, 운영 완료 후 즉시 종료하여 **사용한 시간만큼만 비용을 지불**하는 탄력적 컴퓨팅을 제공한다.
-2. 세 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모두 **컴퓨팅과 스토리지를 분리(Decoupled [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))**하여 S3/ADLS/GCS에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 클러스터가 독립적으로 처리할 수 있어 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 자연스럽게 통합된다.
+1. 클라우드 관리형 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Amazon EMR, Azure HDInsight, GCP Dataproc)는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)/Spark 클러스터를 수 분 내에 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)하고, 운영 완료 후 즉시 종료하여 <strong>사용한 시간만큼만 비용을 지불</strong>하는 탄력적 컴퓨팅을 제공한다.
+2. 세 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모두 <strong>컴퓨팅과 스토리지를 분리(Decoupled <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>하여 S3/ADLS/GCS에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 클러스터가 독립적으로 처리할 수 있어 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처와 자연스럽게 통합된다.
 3. 클러스터 시작 시간(수 분), 생태계 통합 깊이, 비용 모델(EC2 vs SKU)이 세 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 핵심 차별 요소이며, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 옵션(EMR [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), Dataproc [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))이 운영 오버헤드를 더욱 낮추고 있다.
 
 ---
@@ -34,38 +34,30 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│          클라우드 관리형 빅데이터 서비스 아키텍처                  │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  객체 스토리지 (영구 저장)                                  │   │
-│  │  AWS S3  /  Azure ADLS Gen2  /  GCS                      │   │
-│  │  (Delta Lake / Iceberg / Parquet 파일)                    │   │
-│  └────────────────────────┬─────────────────────────────────┘   │
-│                           │ 읽기/쓰기 (HDFS 커넥터)              │
-│  ┌────────────────────────▼─────────────────────────────────┐   │
-│  │  클러스터 (임시, 작업 중만 실행)                             │   │
-│  │                                                          │   │
-│  │  Amazon EMR          Azure HDInsight    GCP Dataproc     │   │
-│  │  ┌─────────────┐    ┌───────────────┐  ┌─────────────┐  │   │
-│  │  │ Master Node │    │ Head Node     │  │ Master Node │  │   │
-│  │  │ Core Nodes  │    │ Worker Nodes  │  │ Worker Node │  │   │
-│  │  │ Task Nodes  │    │ (auto-scale)  │  │ (Preemptible│  │   │
-│  │  │ (Spot 가능) │    │               │  │  VM 가능)   │  │   │
-│  │  └─────────────┘    └───────────────┘  └─────────────┘  │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                           │                                     │
-│  ┌────────────────────────▼─────────────────────────────────┐   │
-│  │  주변 서비스 연동                                           │   │
-│  │  EMR: Glue/Athena/SageMaker  │  Dataproc: BigQuery/Vertex│   │
-│  │  HDInsight: Synapse/ML Studio│                            │   │
-│  └──────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────┘
-```
 
-**3대 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상세 비교**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 관리형 빅데이터 서비스 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 (영구 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS S3 / Azure ADLS Gen2 / GCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Delta Lake / Iceberg / Parquet 파일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기/쓰기 (HDFS 커넥터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클러스터 (임시, 작업 중만 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amazon EMR Azure HDInsight GCP Dataproc</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master Node</div><div class="kb-diagram-cell">Head Node</div><div class="kb-diagram-cell">Master Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Nodes</div><div class="kb-diagram-cell">Worker Nodes</div><div class="kb-diagram-cell">Worker Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Nodes</div><div class="kb-diagram-cell">(auto-scale)</div><div class="kb-diagram-cell">(Preemptible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Spot 가능)</div><div class="kb-diagram-cell">VM 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주변 서비스 연동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMR: Glue/Athena/SageMaker</div><div class="kb-diagram-cell">Dataproc: BigQuery/Vertex</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDInsight: Synapse/ML Studio</div></div>
+</div>
+</div>
+
+
+
+<strong>3대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 상세 비교</strong>
 
 | 항목 | Amazon EMR | Azure HDInsight | GCP Dataproc |
 |:---|:---|:---|:---|
@@ -83,7 +75,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. 비교 및 연결
 
-**자체 관리 클러스터 vs 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) vs [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)**
+<strong>자체 관리 클러스터 vs 관리형 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong>
 
 | 항목 | 자체 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) | 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) (EMR/Dataproc) |
 |:---|:---|:---|:---|
@@ -92,9 +84,9 @@ tags = ["studynote-bigdata"]
 | 비용 최적화 | 어려움 | Spot 인스턴스 활용 | 사용량 기반 완전 종량 |
 | 적합 워크로드 | 상시 대용량 | 정기 배치, 중간 규모 | 간헐적 소규모~대규모 |
 
-**[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 통합 패턴**
+<strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 통합 패턴</strong>
 
-- **EMR + S3 + [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)**: EMR 클러스터에서 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 테이블 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)
+- <strong>EMR + S3 + <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: EMR 클러스터에서 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 테이블 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)
 - **Dataproc + GCS + Iceberg**: Spark on Dataproc으로 Iceberg 테이블 처리
 - **HDInsight + ADLS Gen2 + Hudi**: HDInsight Spark로 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) upsert
 
@@ -104,7 +96,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**비용 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong>비용 최적화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 설명 | 절감 효과 |
 |:---|:---|:---|
@@ -135,7 +127,7 @@ tags = ["studynote-bigdata"]
 | 최신 기술 즉시 활용 | Spark [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드가 클러스터 교체로 즉시 가능 |
 | 비용 투명성 | 사용 시간·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기반 정확한 비용 집계 |
 
-클라우드 관리형 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자체 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 운영 부담을 제거하고, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 컴퓨팅 레이어를 탄력적으로 제공한다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 방향으로의 진화가 가속화되면서 2025년 이후 간헐적 배치 작업은 대부분 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)로 전환될 것으로 전망된다. 기술사 시험에서는 **3대 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비교(시작 시간·생태계·비용)**, **컴퓨팅-스토리지 분리 이유**, **Spot [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 트레이드오프**가 핵심 논점이다.
+클라우드 관리형 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자체 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 운영 부담을 제거하고, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 컴퓨팅 레이어를 탄력적으로 제공한다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 방향으로의 진화가 가속화되면서 2025년 이후 간헐적 배치 작업은 대부분 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)로 전환될 것으로 전망된다. 기술사 시험에서는 <strong>3대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 비교(시작 시간·생태계·비용)</strong>, **컴퓨팅-스토리지 분리 이유**, <strong>Spot <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 트레이드오프</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: 관리형 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 클라우드 시대의 공유 주방이다. 내 주방(자체 서버)이 없어도 필요할 때 전문 주방(클러스터)을 빌려 요리(분석)하고, 끝나면 깨끗이 반납한다.
 
@@ -157,21 +149,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[온프레미스 하둡 클러스터 — 자체 서버 구축·운영, 높은 초기 비용과 확장성 한계]
-    │
-    ▼
-[클라우드 매니지드 하둡 (EMR·HDInsight·Dataproc) — 클러스터 프로비저닝 자동화, 분 단위 과금]
-    │
-    ▼
-[컴퓨팅-스토리지 분리 아키텍처 — S3·ADLS·GCS에 데이터, 클러스터 종료 후도 데이터 보존]
-    │
-    ▼
-[Spot/Preemptible VM 활용 — Task 노드 비용 60~80% 절감, 내결함성 설계 필수]
-    │
-    ▼
-[서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 하둡 클러스터 — 자체 서버 구축·운영, 높은 초기 비용과 확장성 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 매니지드 하둡 (EMR·HDInsight·Dataproc) — 클러스터 프로비저닝 자동화, 분 단위 과금</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컴퓨팅-스토리지 분리 아키텍처 — S3·ADLS·GCS에 데이터, 클러스터 종료 후도 데이터 보존</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spot/Preemptible VM 활용 — Task 노드 비용 60~80% 절감, 내결함성 설계 필수</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 운영 부담을 [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/)로 해소하고, 컴퓨팅-스토리지 분리로 비용 효율을 높이며, Spot [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 활용을 거쳐 클러스터 없이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하는 [서버리스 빅데이터](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) 분석으로 진화하는 클라우드 빅데이터 아키텍처의 핵심 계보를 보여준다.
 

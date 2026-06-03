@@ -17,32 +17,28 @@ tags = ["enterprise_systems"]
 
 ### 숫자의 뒤에 숨은 진실을 찾는 창: BI의 역할
 
-기업에는 매일 수조 건의 데이터가 쌓인다. 하지만 가공되지 않은 데이터는 소음일 뿐이다. **비즈니스 인텔리전스 (BI)**는 이 소음 속에서 비즈니스의 승패를 가르는 신호를 찾아내는 '경영의 망원경'이다. 엑셀 수천 장을 보지 않아도, 잘 설계된 대시보드 한 장이 기업이 나아갈 올바른 방향을 지시해준다.
+기업에는 매일 수조 건의 데이터가 쌓인다. 하지만 가공되지 않은 데이터는 소음일 뿐이다. <strong>비즈니스 인텔리전스 (BI)</strong>는 이 소음 속에서 비즈니스의 승패를 가르는 신호를 찾아내는 '경영의 망원경'이다. 엑셀 수천 장을 보지 않아도, 잘 설계된 대시보드 한 장이 기업이 나아갈 올바른 방향을 지시해준다.
 
-BI 시스템이 필요한 이유는 세 가지이다. 첫째, **정보의 격차 해소**를 위해서이다. 현장의 실무자와 경영진이 동일한 데이터 팩트 (Single Version of Truth)를 보고 대화하게 한다. 둘째, **의사결정 속도 향상**을 위해서이며, 셋째, **잠재된 문제의 조기 발견**을 위해서이다 (예: 특정 지역 매출 급감 원인 파악).
+BI 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>정보의 격차 해소</strong>를 위해서이다. 현장의 실무자와 경영진이 동일한 데이터 팩트 (Single Version of Truth)를 보고 대화하게 한다. 둘째, <strong>의사결정 속도 향상</strong>을 위해서이며, 셋째, <strong>잠재된 문제의 조기 발견</strong>을 위해서이다 (예: 특정 지역 매출 급감 원인 파악).
 
 이 그림은 원천 데이터가 정제되어 최종적인 비즈니스 지혜로 변모하는 단계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Data to Wisdom Pyramid (DIKW)               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│           /      [ Wisdom ]      \  ──▶ "어떻게 대응할까?"  │
-│          /────────────────────────\                         │
-│         /      [ Insight ]         \ ──▶ "왜 일어났나?"     │
-│        /────────────────────────────\                       │
-│       /      [ Knowledge ]           \──▶ "어떤 패턴인가?"  │
-│      /────────────────────────────────\                     │
-│     /        [ Information ]           \──▶ "무슨 일인가?"  │
-│    /────────────────────────────────────\                   │
-│   /            [ Data ]                  \──▶ "그냥 숫자"   │
-│  /────────────────────────────────────────\                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '가공의 수준'이다. 단순히 정보를 나열하는 것은 BI의 초기 단계일 뿐이다. 진정한 BI는 데이터 사이의 인과 관계를 밝혀내고 (Insight), 그에 따른 전략적 대안을 제시하는 (Wisdom) 수준까지 도달해야 한다. 실무에서는 이를 위해 **OLAP**과 **시각화 분석** 기술이 핵심적으로 쓰인다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data to Wisdom Pyramid (DIKW)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Wisdom</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"어떻게 대응할까?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Insight</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"왜 일어났나?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Knowledge</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"어떤 패턴인가?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Information</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"무슨 일인가?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"그냥 숫자"</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '가공의 수준'이다. 단순히 정보를 나열하는 것은 BI의 초기 단계일 뿐이다. 진정한 BI는 데이터 사이의 인과 관계를 밝혀내고 (Insight), 그에 따른 전략적 대안을 제시하는 (Wisdom) 수준까지 도달해야 한다. 실무에서는 이를 위해 <strong>OLAP</strong>과 **시각화 분석** 기술이 핵심적으로 쓰인다.
 
 ### BI 시스템의 주요 구성 요소
 
@@ -71,24 +67,21 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, **정보의 격차
 - **Data-Ink Ratio**: 불필요한 장식을 제거하고 데이터 정보를 담은 잉크의 비중을 높임. (단순함이 최고)
 - **Visual Encoding**: 값의 크기를 길이, 넓이, 색상 등 적절한 시각적 속성에 매핑.
 
-이 구조도는 현대적인 **Cloud BI 아키텍처**의 흐름을 보여준다.
+이 구조도는 현대적인 <strong>Cloud BI 아키텍처</strong>의 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Modern Cloud BI Pipeline                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Data Lake / DW ] ──▶ [ Semantic Layer ] ──▶ [ UI / UX ] │
-│   (BigQuery/Snowflake)   (Metrics Store)        (Tableau)   │
-│                                 │                   │       │
-│          ┌──────────────────────┴───────────────────┘       │
-│          ▼                                                  │
-│   [ Augmented Analytics ] ──▶ AI가 통계적 특이점 자동 발견  │
-│                                                             │
-│   * 핵심: 전처리된 데이터를 누구나 SQL 없이 분석 가능하게 함│
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Cloud BI Pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake / DW</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Semantic Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI / UX</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BigQuery/Snowflake) (Metrics Store) (Tableau)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Augmented Analytics</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">AI가 통계적 특이점 자동 발견</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 전처리된 데이터를 누구나 SQL 없이 분석 가능하게 함</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '시맨틱 레이어 (Semantic Layer)'이다. 복잡한 DB 컬럼명을 현업이 이해하기 쉬운 비즈니스 용어 (예: '순매출액')로 미리 정의해두어, 누구나 클릭만으로 보고서를 만들게 한다. 실무에서는 이 레이어의 표준화가 '셀프 서비스 BI' 성공의 관건이다.
 
@@ -125,23 +118,24 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, **정보의 격차
 - **판단**: **'예외 관리 (Exception Mgmt)'** 원칙을 적용한다. 모든 수치를 다 보여주는 대신, 목표 대비 편차가 큰 항목이나 이상 징후 (Anomaly)가 있는 데이터만 강조하여 보여주는 'Highlighting' 기법을 사용한다. 또한 정보의 계층화 (Progressive Disclosure)를 통해, 처음에는 전체 요약을 보여주고 클릭 시에만 상세 정보를 노출하는 'Drill-through' 아키텍처를 설계한다.
 
 **시나리오 2: 현업 분석가들이 매번 IT 팀에 쿼리를 요청하여 분석 리드 타임 지연**
-- **판단**: **'셀프 서비스 BI (Self-service BI)'** 체계로 전면 전환한다. 데이터 거버넌스가 확보된 **데이터 카탈로그**를 제공하고, **시맨틱 모델**을 사전에 구축하여 현업이 SQL을 몰라도 분석할 수 있는 환경을 마련한다. 또한 데이터 오용 방지를 위해 사용자별 데이터 접근 권한 (Row-level Security)을 철저히 관리하는 '안전한 분석 민주화' 전략을 수립한다.
+- **판단**: **'셀프 서비스 BI (Self-service BI)'** 체계로 전면 전환한다. 데이터 거버넌스가 확보된 <strong>데이터 카탈로그</strong>를 제공하고, <strong>시맨틱 모델</strong>을 사전에 구축하여 현업이 SQL을 몰라도 분석할 수 있는 환경을 마련한다. 또한 데이터 오용 방지를 위해 사용자별 데이터 접근 권한 (Row-level Security)을 철저히 관리하는 '안전한 분석 민주화' 전략을 수립한다.
 
 이 도식은 기술사가 주도하는 '성공적인 BI 대시보드 설계 원칙'을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               The 5 Golden Rules of BI Design               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. Know your Audience: 누구를 위한 보고서인가?            │
-│   2. Single Version of Truth: 검증된 데이터만 사용          │
-│   3. Less is More: 3초 안에 핵심 지표가 보여야 함           │
-│   4. Provide Context: 과거/목표 대비 수치 비교 필수         │
-│   5. Actionable: 보고 나서 무엇을 할지 결정할 수 있어야 함  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The 5 Golden Rules of BI Design</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Know your Audience: 누구를 위한 보고서인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Single Version of Truth: 검증된 데이터만 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Less is More: 3초 안에 핵심 지표가 보여야 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Provide Context: 과거/목표 대비 수치 비교 필수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Actionable: 보고 나서 무엇을 할지 결정할 수 있어야 함</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 BI 판단은 '큐레이터'의 역할과 같습니다. 수만 점의 작품(데이터) 중에서 지금 손님(경영진)이 가장 보고 싶어 할 작품을 골라, 가장 보기 좋은 위치(시각화)에 설명(인사이트)과 함께 전시하는 전문가입니다.
 
@@ -156,7 +150,7 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, **정보의 격차
 
 ### 미래 전망: 생성형 BI와 메타버스 시각화
 
-향후 BI는 사람이 차트를 그리는 시대를 지나, AI와 대화하며 실시간으로 분석 시나리오를 생성하는 **'Generative BI'**가 지배할 것이다. 또한 2D 대시보드를 넘어 공간 정보를 활용한 **메타버스/디지털 트윈 시각화**를 통해 실제 공장이나 매장 상황을 3D로 경험하며 의사결정하는 시대가 올 것이다. 기술사는 정적인 리포팅 기술을 넘어, 데이터가 이야기 (Storytelling)를 전하고 실제 행동으로 연결되게 만드는 '비즈니스 스토리텔러'로서의 역량을 극대화해야 한다.
+향후 BI는 사람이 차트를 그리는 시대를 지나, AI와 대화하며 실시간으로 분석 시나리오를 생성하는 <strong>'Generative BI'</strong>가 지배할 것이다. 또한 2D 대시보드를 넘어 공간 정보를 활용한 <strong>메타버스/디지털 트윈 시각화</strong>를 통해 실제 공장이나 매장 상황을 3D로 경험하며 의사결정하는 시대가 올 것이다. 기술사는 정적인 리포팅 기술을 넘어, 데이터가 이야기 (Storytelling)를 전하고 실제 행동으로 연결되게 만드는 '비즈니스 스토리텔러'로서의 역량을 극대화해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 BI는 '아이언맨의 자비스'와 같아질 것입니다. 우리가 묻지 않아도 주변의 위협과 기회를 실시간으로 분석하여 홀로그램으로 띄워주고, 우리는 그저 "그렇게 해"라고 말하기만 하면 되는 완벽한 지능형 조력자가 될 것입니다.
 

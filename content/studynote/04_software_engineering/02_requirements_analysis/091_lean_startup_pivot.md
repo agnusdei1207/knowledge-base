@@ -31,31 +31,24 @@ tags = ["studynote-software-engineering"]
 
 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)은 단순히 아이템을 아무렇게나 던지고 포기하는 '패배'가 아니다. 기업의 미션(축)을 단단히 고정하고 전술(방향)만 바꾸는 구조적인 방법론이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           린 스타트업의 피벗 (Pivot) 의사결정 사이클         │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│       [ 비전(Vision) 고정 ] : "세상의 소통 방식을 바꾼다"    │
-│                 │                                            │
-│                 ▼                                            │
-│  ┌─────────────────────────────┐    [ 데이터 수집/측정 ] │
-│  │ MVP (Minimum Viable Product)│ ──────▶ 유저 이탈률 90%  │
-│  │ 출시 (가설 1: 데이팅 앱)    │          특정 기능만 사용 │
-│  └─────────────────────────────┘                         │
-│                 ▲                                            │
-│                 │                                            │
-│                 ├───────── ❌ 고집 (Runway 소진, 파산)       │
-│  [ 피벗 (Pivot) 결단 ]                                       │
-│                 ├───────── 🔄 전략 변경 (가설 2 제안)        │
-│                 │                                            │
-│                 ▼                                            │
-│  ┌─────────────────────────────┐                             │
-│  │ 새로운 MVP 런칭 (가설 2)    │ ──────▶ PMF 도달, 성장      │
-│  │ (예: 동영상 공유 플랫폼)    │                             │
-│  └─────────────────────────────┘                             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린 스타트업의 피벗 (Pivot) 의사결정 사이클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비전(Vision) 고정</div><div class="kb-diagram-note">: "세상의 소통 방식을 바꾼다"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집/측정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVP (Minimum Viable Product)</div><div class="kb-diagram-cell">▶ 유저 이탈률 90%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출시 (가설 1: 데이팅 앱)</div><div class="kb-diagram-cell">특정 기능만 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 고집 (Runway 소진, 파산)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">피벗 (Pivot) 결단</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔄 전략 변경 (가설 2 제안)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 MVP 런칭 (가설 2)</div><div class="kb-diagram-cell">▶ PMF 도달, 성장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 동영상 공유 플랫폼)</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 최소 요건 제품 ([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))을 통해 시장의 반응을 최대한 빨리, 적은 비용으로 테스트하는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 측정한 후 "고집(Persevere)할 것인가, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))할 것인가"를 체계적인 미팅을 통해 결정한다. 축이 고정되어 있지 않은 무분별한 사업 전환은 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이 아니라 단순한 '아이템 널뛰기'일 뿐이다.
 
@@ -69,10 +62,10 @@ tags = ["studynote-software-engineering"]
 
 | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)의 주요 유형 | 전환의 핵심 내용 | 실제 성공 사례와 비교 |
 | :--- | :--- | :--- |
-| **줌인 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) (Zoom-in [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))** | 제품의 여러 기능 중 고객이 유독 열광하는 단일 기능만 남겨서 그것을 메인 제품으로 독립시킴 | 복잡한 체크인 앱의 '사진 필터'만 떼어내서 만든 **인스타그램** |
-| **줌아웃 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) (Zoom-out [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))** | 단일 기능만으로는 시장성이 부족해, 제품을 더 큰 범용 플랫폼의 한 요소로 통합시킴 | 단순한 문서 작성 툴에서 엔터프라이즈 포털로 확장 |
-| **고객 세분화 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))** | 제품 자체는 괜찮은데 타겟 고객이 틀려, 원래 의도와 전혀 다른 고객층으로 마케팅 방향을 틈 | B2C 모델 실패 후 기업용 B2B (Business to Business)로 전환 |
-| **가치 획득 (Value Capture [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))** | 수익을 창출하는 모델을 변경함 | 유료 구독 모델 ➔ 무료 배포 후 광고 수익 모델로 전환 |
+| <strong>줌인 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (Zoom-in <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | 제품의 여러 기능 중 고객이 유독 열광하는 단일 기능만 남겨서 그것을 메인 제품으로 독립시킴 | 복잡한 체크인 앱의 '사진 필터'만 떼어내서 만든 **인스타그램** |
+| <strong>줌아웃 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">피벗</a> (Zoom-out <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | 단일 기능만으로는 시장성이 부족해, 제품을 더 큰 범용 플랫폼의 한 요소로 통합시킴 | 단순한 문서 작성 툴에서 엔터프라이즈 포털로 확장 |
+| <strong>고객 세분화 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a>)</strong> | 제품 자체는 괜찮은데 타겟 고객이 틀려, 원래 의도와 전혀 다른 고객층으로 마케팅 방향을 틈 | B2C 모델 실패 후 기업용 B2B (Business to Business)로 전환 |
+| <strong>가치 획득 (Value Capture <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>)</strong> | 수익을 창출하는 모델을 변경함 | 유료 구독 모델 ➔ 무료 배포 후 광고 수익 모델로 전환 |
 
 전통적인 폭포수 (Waterfall) 개발론에서는 계획의 변경 자체가 비용이자 실패로 간주되지만, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 환경에서는 계획의 변경([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))이 제품의 시장 적합성을 찾아가는 가장 효율적인 고속도로가 된다. 
 
@@ -89,7 +82,7 @@ tags = ["studynote-software-engineering"]
 2. **기술적 부채의 청산 및 재활용성 판단**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 선언했다면 기존 MVP에 붙어있던 스파게티 코드는 미련 없이 잘라내야 한다. B2C에서 B2B [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)할 경우, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스키마의 다중 테넌트([Multi-Tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) 구조 같은 완전히 다른 아키텍처 요구사항이 발생하므로 재설계 비용을 철저히 산정해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **좀비 상태 방치 (No [Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/), No Growth)**: 확실히 시장 반응이 없음에도 창업자의 고집이나 매몰 비용(Sunk Cost)에 대한 미련 때문에 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 미팅을 회피하며, 회사 자금이 완전히 바닥날 때까지 산소호흡기만 꽂고 버티는 최악의 행위.
+- <strong>좀비 상태 방치 (No <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/">Pivot</a>, No Growth)</strong>: 확실히 시장 반응이 없음에도 창업자의 고집이나 매몰 비용(Sunk Cost)에 대한 미련 때문에 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 미팅을 회피하며, 회사 자금이 완전히 바닥날 때까지 산소호흡기만 꽂고 버티는 최악의 행위.
 
 - **📢 섹션 요약 비유**: 자동차 내비게이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지표)이 계속 "경로를 이탈했습니다, 유턴하세요([피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))"라고 소리치는데, 운전자가 "내가 지도를 더 잘 알아!"라며 고집을 피우고 직진하다 결국 낭떠러지로 떨어지는 것이 전형적인 스타트업의 멸망 패턴이다.
 
@@ -109,28 +102,30 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/) ([Lean Startup](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/))** | 군더더기 없이 최소한의 기능([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))만 만들어 시장의 반응을 살피고 기민하게 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 수행하는 경영 방법론 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">린 스타트업</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/">Lean Startup</a>)</strong> | 군더더기 없이 최소한의 기능([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))만 만들어 시장의 반응을 살피고 기민하게 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)을 수행하는 경영 방법론 |
 | **PMF (Product-Market Fit)** | 회사의 제품이 강력한 수요가 존재하는 시장의 문제를 완벽히 해결하여, [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 없이 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))에 집중해도 되는 상태 |
-| **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이라는 잦은 방향 전환 요구를 견뎌내기 위해 소프트웨어를 짧은 주기로 반복 개발하고 배포하는 개발 철학 |
-| **[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) ([Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))** | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 여부를 결정할 가장 핵심적인 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으기 위해 만들어진 최소 기능의 시제품 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>)</strong> | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)이라는 잦은 방향 전환 요구를 견뎌내기 위해 소프트웨어를 짧은 주기로 반복 개발하고 배포하는 개발 철학 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">Minimum Viable Product</a>)</strong> | [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 여부를 결정할 가장 핵심적인 시장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으기 위해 만들어진 최소 기능의 시제품 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-사업 가설 수립 및 MVP 구축 (Build)
-    │
-    ▼
-고객 반응 수집 및 핵심 지표 측정 (Measure)
-    │
-    ▼
-실패 데이터 확인 및 가설 기각 (Learn)
-    │
-    ▼
-피벗 (Pivot) · 줌인, 고객 세분화 등 방향 전환 결단
-    │
-    ▼
-시장 적합성 (PMF) 달성 및 스케일업 (Scale-up)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사업 가설 수립 및 MVP 구축 (Build)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고객 반응 수집 및 핵심 지표 측정 (Measure)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실패 데이터 확인 및 가설 기각 (Learn)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">피벗 (Pivot) · 줌인, 고객 세분화 등 방향 전환 결단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시장 적합성 (PMF) 달성 및 스케일업 (Scale-up)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -29,16 +29,20 @@ tags = ["studynote-network"]
   - ➔ **$x^3 + x + 1$** (이것이 1011의 다항식 표현입니다!)
 
 거꾸로 다항식 **$x^4 + x^2 + x + 1$**을 이진수로 바꾸면?
-- 4승(1), 3승(없음=0), 2승(1), 1승(1), 0승(1) ➔ **`10111`** 이 됩니다.
+- 4승(1), 3승(없음=0), 2승(1), 1승(1), 0승(1) ➔ <strong><code>10111</code></strong> 이 됩니다.
 
-```text
-[CRC]
-    │
-    ▼
-[다항식 연산 / 생성 다항식]
-    │
-    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,22 +50,26 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식에서 가장 높은 차수(최고차항, 윗 예시의 $x^4$)는 앞으로 송신기가 프레임 뒤에다 갖다 붙일 **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 꼬리표(나머지)의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 길이**를 결정합니다.
+[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식에서 가장 높은 차수(최고차항, 윗 예시의 $x^4$)는 앞으로 송신기가 프레임 뒤에다 갖다 붙일 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> 꼬리표(나머지)의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 길이</strong>를 결정합니다.
 
 - 만약 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식이 $x^3 + x + 1$ 이라면 (최고차항 = 3):
   - 나누는 숫자(제수)는 `1011` (4자리)입니다.
   - 수학적으로 4자리 숫자로 나누면 그 나머지는 무조건 3자리가 나옵니다.
-  - 따라서 **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)(FCS)의 크기는 최고차항과 똑같은 3비트**가 됩니다.
+  - 따라서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a>(FCS)의 크기는 최고차항과 똑같은 3비트</strong>가 됩니다.
   - 송신기는 나눗셈을 하기 전에, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리에 이 차수만큼 **'0'을 3개 미리 붙여놓고** 연산을 시작합니다. (★계산 문제 핵심 포인트).
 
-```text
-[CRC]
-    │
-    ▼
-[다항식 연산 / 생성 다항식]
-    │
-    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,10 +79,10 @@ tags = ["studynote-network"]
 
 아무 다항식이나 대충 골라서 나누면 에러를 잘 못 잡습니다. 수십 년간 수학자들이 컴퓨터를 돌려 '가장 완벽하게 웬만한 에러를 다 걸러내는 신비한 숫자(다항식)'를 찾아내 국제 표준으로 박아두었습니다.
 
-- **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16**: $x^{16} + x^{15} + x^2 + 1$
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a>-16</strong>: $x^{16} + x^{15} + x^2 + 1$
   - 블루투스나 구형 모뎀에서 씁니다. [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 꼬리표가 16비트(2바이트) 달립니다.
-- **[CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32**: $x^{32} + x^{26} + x^{23} + ... + 1$
-  - 우리가 매일 쓰는 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(LAN), Wi-Fi, 압축파일(ZIP)**에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지키는 표준 다항식입니다. 프레임 끝에 32비트(4바이트)의 FCS가 붙어 무적의 에러 검출력을 자랑합니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a>-32</strong>: $x^{32} + x^{26} + x^{23} + ... + 1$
+  - 우리가 매일 쓰는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(LAN), Wi-Fi, 압축파일(ZIP)</strong>에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지키는 표준 다항식입니다. 프레임 끝에 32비트(4바이트)의 FCS가 붙어 무적의 에러 검출력을 자랑합니다.
 
 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CRC가 기반 조건을 만든다면, 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식은 그 위에서 핵심 메커니즘을 구현하고, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식은 공항 검색대의 **'탐지 센서(X-ray)'의 스펙**입니다. 대충 만든 다항식을 쓰면 권총(에러)을 못 잡고 통과시킵니다. 하지만 수학자들이 평생을 바쳐 조율한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32라는 완벽한 다항식(탐지기)을 문에 걸어놓으면, 캐리어 안의 손톱깎이(단 1비트의 에러)나 연속된 칼뭉치([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))까지 99.999% 확률로 소리를 울리며 완벽히 걸러내는 무적의 보안 검색대가 됩니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 다항식은 공항 검색대의 </strong>'탐지 센서(X-ray)'의 스펙**입니다. 대충 만든 다항식을 쓰면 권총(에러)을 못 잡고 통과시킵니다. 하지만 수학자들이 평생을 바쳐 조율한 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32라는 완벽한 다항식(탐지기)을 문에 걸어놓으면, 캐리어 안의 손톱깎이(단 1비트의 에러)나 연속된 칼뭉치([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))까지 99.999% 확률로 소리를 울리며 완벽히 걸러내는 무적의 보안 검색대가 됩니다.
 
 ---
 
@@ -126,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: CRC]
-    │
-    ▼
-[현재 개념: 다항식 연산 / 생성 다항식]
-    │
-    ├──▶ [확장 A: CRC-16, CRC-32, CRC-CCIT…]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CRC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다항식 연산 / 생성 다항식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRC-16, CRC-32, CRC-CCIT…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식는 CRC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

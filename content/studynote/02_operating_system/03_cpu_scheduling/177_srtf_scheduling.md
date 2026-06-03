@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SRTF (Shortest Remaining Time First)는 현재 실행 중인 작업까지 포함해 **남은 CPU (Central Processing Unit) 실행 시간이 가장 짧은 프로세스**를 즉시 선택하는 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)이다.
+> 1. **본질**: SRTF (Shortest Remaining Time First)는 현재 실행 중인 작업까지 포함해 <strong>남은 CPU (Central Processing Unit) 실행 시간이 가장 짧은 프로세스</strong>를 즉시 선택하는 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/)이다.
 > 2. **가치**: 남은 시간이 정확히 알려진다는 이상 조건에서는 평균 대기 시간과 평균 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)을 가장 작게 만들어, 짧은 상호작용 작업에 매우 빠른 응답을 제공한다.
 > 3. **판단 포인트**: 실제 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 남은 시간을 예측해야 하고 긴 작업 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 제어해야 하므로, 교과서적 SRTF를 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 그 철학만 부분적으로 차용한다.
 
@@ -25,21 +25,22 @@ SRTF는 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/17
 
 아래 그림은 비선점형 SJF와 SRTF의 차이가 왜 중요한지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Why SRTF exists                                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ time 0       1                              8                      │
-│                                                                    │
-│ SJF  : [P1 running.........................][P2]                   │
-│        short P2 waits because P1 already owns CPU                  │
-│                                                                    │
-│ SRTF : [P1][P2][P1.........................]                       │
-│        at t=1, P2 arrives and preempts because 2 < 7              │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 SRTF가 단순히 "짧은 작업을 먼저 고른다"에서 끝나지 않고, **상황이 바뀌는 순간 현재 선택을 뒤집을 수 있다**는 데 있다. 그래서 이 알고리즘은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 줄이는 이론적 최적점으로 자주 등장한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SRTF exists</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time 0 1 8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">SJF :</div><div class="kb-diagram-node">P1 running.........................</div><div class="kb-diagram-node">P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short P2 waits because P1 already owns CPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">SRTF :</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P1.........................</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=1, P2 arrives and preempts because 2 &lt; 7</div></div>
+</div>
+</div>
+
+
+
+핵심은 SRTF가 단순히 "짧은 작업을 먼저 고른다"에서 끝나지 않고, <strong>상황이 바뀌는 순간 현재 선택을 뒤집을 수 있다</strong>는 데 있다. 그래서 이 알고리즘은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 줄이는 이론적 최적점으로 자주 등장한다.
 
 - **📢 섹션 요약 비유**: SRTF는 줄 서 있는 손님만 보는 계산대가 아니라, 지금 계산 중이어도 바로 끝날 손님이 오면 잠깐 먼저 처리해 주는 계산대와 같다.
 
@@ -64,18 +65,20 @@ SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running �
 | P2 | 1 ms | 4 ms |
 | P3 | 2 ms | 2 ms |
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ SRTF timeline                                                      │
-├────────────────────────────────────────────────────────────────────┤
-│ time : 0    1    2      4        7                14              │
-│ run  : | P1 | P2 |  P3  |   P2   |       P1       |               │
-│                                                                    │
-│ at t=1 : P2(4) arrives, P1 has 7 left -> preempt P1               │
-│ at t=2 : P3(2) arrives, P2 has 3 left -> preempt P2               │
-│ finish : P3 first, then P2, then P1                               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRTF timeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time : 0 1 2 4 7 14</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">run :</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=1 : P2(4) arrives, P1 has 7 left -&gt; preempt P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=2 : P3(2) arrives, P2 has 3 left -&gt; preempt P2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">finish : P3 first, then P2, then P1</div></div>
+</div>
+</div>
+
+
 
 이때 대기 시간은 `P1 = 14 - 0 - 8 = 6 ms`, `P2 = 7 - 1 - 4 = 2 ms`, `P3 = 4 - 2 - 2 = 0 ms`가 되어 평균 2.67 ms가 된다. 같은 입력을 비선점형 SJF로 처리하면 `P1`이 먼저 8 ms를 다 쓰고 난 뒤 `P3`, `P2`가 실행되어 평균 대기 시간이 5.0 ms까지 늘어난다. 즉 SRTF는 짧은 작업을 더 빨리 배출해 전체 평균을 줄인다.
 
@@ -96,7 +99,7 @@ SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/knowledge-base/studyn
 | [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 예 | 공정한 시간 분할 | 응답성·공정성 양호 | 평균 대기 시간은 비효율 가능 |
 | CFS (Completely Fair Scheduler) 계열 | 예 | 장기 공정성 | 기아 완화, 현실 적합 | 이론적 최단 평균은 아님 |
 
-여기서 중요한 경계는 **최적성 대 공정성**이다. SRTF는 짧은 작업의 평균 지연을 극적으로 줄이지만, 긴 CPU 바운드 작업은 계속 뒤로 밀릴 수 있다. 반면 RR이나 CFS는 평균 대기 시간을 조금 희생해도 "아무도 영원히 굶지 않게" 만드는 쪽에 무게를 둔다.
+여기서 중요한 경계는 <strong>최적성 대 공정성</strong>이다. SRTF는 짧은 작업의 평균 지연을 극적으로 줄이지만, 긴 CPU 바운드 작업은 계속 뒤로 밀릴 수 있다. 반면 RR이나 CFS는 평균 대기 시간을 조금 희생해도 "아무도 영원히 굶지 않게" 만드는 쪽에 무게를 둔다.
 
 또한 SRTF는 단순 CPU 스케줄링 개념을 넘어, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의 처리나 서버 요청 스케줄링의 Shortest Remaining Processing Time (SRPT) 아이디어와도 연결된다. 즉 "남은 일이 적은 것을 빨리 비워 전체 평균을 낮춘다"는 철학은 여러 시스템 영역에서 반복된다.
 
@@ -112,24 +115,27 @@ SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/knowledge-base/studyn
 
 아래 흐름은 SRTF를 직접 쓰거나 유사 철학을 차용할지 판단하는 기준이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Should you use an SRTF-like policy?                               │
-├────────────────────────────────────────────────────────────────────┤
-│ can remaining service time be estimated reasonably well?          │
-│   ├─ yes                                                          │
-│   │   ├─ short-job latency is critical? -> SRTF-like is useful    │
-│   │   └─ fairness is stricter? -> add aging / fair-share control  │
-│   └─ no -> prefer CFS, MLFQ, or deadline-specific policies        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Should you use an SRTF-like policy?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">can remaining service time be estimated reasonably well?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ short-job latency is critical? -&gt; SRTF-like is useful</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fairness is stricter? -&gt; add aging / fair-share control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; prefer CFS, MLFQ, or deadline-specific policies</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **실행 시간 예측이 가능한가?** 웹 요청 크기, 배치 작업 크기처럼 예측 가능한 환경이면 적용 가치가 높다.
 2. **짧은 작업 응답성이 핵심인가?** 사용자 입력, I/O 복귀 작업이 많으면 SRTF 철학이 효과적이다.
-3. **[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)를 제어할 장치가 있는가?** [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 최대 대기 한도, fair-share 보완이 필요하다.
-4. **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 작은가?** 선점 빈도가 높으면 오히려 처리량이 떨어질 수 있다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>를 제어할 장치가 있는가?</strong> [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/), 최대 대기 한도, fair-share 보완이 필요하다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> 비용이 작은가?</strong> 선점 빈도가 높으면 오히려 처리량이 떨어질 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -147,7 +153,7 @@ SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공�
 
 하지만 운영 환경은 이 가정을 쉽게 허용하지 않는다. 남은 시간을 틀리게 예측하면 잘못된 선점이 일어나고, 선점이 잦으면 CPU 캐시와 파이프라인의 지역성이 깨지며, 긴 작업은 공정성 측면에서 손해를 본다. 따라서 실무에서는 SRTF를 그대로 채택하기보다, 그 장점을 살리면서 공정성과 오버헤드를 보완한 현실형 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 변형해 사용한다.
 
-정리하면 SRTF는 "항상 가장 빨리 끝날 일을 먼저 끝낸다"는 단순하지만 강력한 원리를 가진다. 기억할 핵심은 분명하다. **평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에는 매우 강하지만, 정확한 예측과 공정성 보완 없이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기본 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 되기 어렵다**는 점이다.
+정리하면 SRTF는 "항상 가장 빨리 끝날 일을 먼저 끝낸다"는 단순하지만 강력한 원리를 가진다. 기억할 핵심은 분명하다. <strong>평균 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>에는 매우 강하지만, 정확한 예측과 공정성 보완 없이는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>의 기본 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 되기 어렵다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: SRTF는 전체 줄을 가장 빨리 줄이는 계산 방식이지만, 맨 뒤에서 오래 기다리는 손님이 생기지 않도록 별도의 배려 규칙이 함께 있어야 진짜 좋은 가게가 된다.
 
@@ -166,22 +172,23 @@ SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-unknown future CPU burst
-          │
-          ▼
-estimate service time
-          │
-          ▼
-compare remaining time continuously
-          │
-          ▼
-SRTF preemption
-          │
-          ├──────────────▶ fast response for short jobs
-          │
-          └──────────────▶ need starvation / context-switch control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">unknown future CPU burst</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">estimate service time</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">compare remaining time continuously</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRTF preemption</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ fast response for short jobs</div>
+<div class="kb-diagram-tree-item" style="--depth:5">▶ need starvation / context-switch control</div>
+</div>
+</div>
+
+
 
 이 흐름도는 SRTF가 "실행 시간 예측"에서 출발해 "남은 시간 비교"로 이어지고, 결국 응답성 향상과 공정성 보완이라는 두 갈래 판단으로 연결된다는 점을 보여 준다.
 

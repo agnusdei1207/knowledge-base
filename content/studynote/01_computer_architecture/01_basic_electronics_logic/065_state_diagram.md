@@ -97,29 +97,41 @@ State A --input--> State B
 
 ## 관련 개념 맵
 
-```text
-State
-  ↓
-Transition
-  ↓
-State Diagram
-  ↓
-FSM / Control Logic
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">State</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Transition</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">State Diagram</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">FSM / Control Logic</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-상태
-  ↓
-전이
-  ↓
-상태도
-  ↓
-상태표
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상태</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">전이</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">상태도</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">상태표</div>
+</div>
+</div>
+
+
 
 ---
 

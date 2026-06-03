@@ -78,28 +78,29 @@ tags = ["studynote-security"]
 
 ## III. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)
 
-```
-위험 수용 결정을 위한 수치 계산:
 
-SLE (Single Loss Expectancy, 단일 손실 예상):
-  = Asset Value × Exposure Factor
-  예: 서버 자산 가치 5,000만원 × 노출 계수 0.4
-  = 2,000만원
 
-ARO (Annualized Rate of Occurrence, 연간 발생률):
-  예: 보안 침해 연 0.5회 예상
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 수용 결정을 위한 수치 계산:</div>
+<div class="kb-diagram-note">SLE (Single Loss Expectancy, 단일 손실 예상):</div>
+<div class="kb-diagram-note">= Asset Value × Exposure Factor</div>
+<div class="kb-diagram-note">예: 서버 자산 가치 5,000만원 × 노출 계수 0.4</div>
+<div class="kb-diagram-note">= 2,000만원</div>
+<div class="kb-diagram-note">ARO (Annualized Rate of Occurrence, 연간 발생률):</div>
+<div class="kb-diagram-note">예: 보안 침해 연 0.5회 예상</div>
+<div class="kb-diagram-note">ALE (Annual Loss Expectancy, 연간 손실 예상):</div>
+<div class="kb-diagram-note">= SLE × ARO = 2,000만원 × 0.5 = 1,000만원</div>
+<div class="kb-diagram-note">통제 비용: 연간 500만원</div>
+<div class="kb-diagram-note">결정:</div>
+<div class="kb-diagram-note">ALE 1,000만원 &gt; 통제 비용 500만원</div>
+<div class="kb-diagram-tree-item" style="--depth:1">완화(통제) 선택이 경제적</div>
+<div class="kb-diagram-note">만약 통제 비용이 1,500만원이면:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">수용이 경제적 (손실 1,000만원 &lt; 비용 1,500만원)</div>
+</div>
+</div>
 
-ALE (Annual Loss Expectancy, 연간 손실 예상):
-  = SLE × ARO = 2,000만원 × 0.5 = 1,000만원
 
-통제 비용: 연간 500만원
-결정:
-  ALE 1,000만원 > 통제 비용 500만원
-  -> 완화(통제) 선택이 경제적
-  
-  만약 통제 비용이 1,500만원이면:
-  -> 수용이 경제적 (손실 1,000만원 < 비용 1,500만원)
-```
 
 > 📢 **섹션 요약 비유**: 홍수 피해 예상액이 100만원인데 방수 공사 비용이 500만원이면 그냥 홍수 대비 저축을 하는 게 낫다 — 이것이 수용의 경제학.
 

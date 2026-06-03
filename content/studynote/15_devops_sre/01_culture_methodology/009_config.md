@@ -36,51 +36,41 @@ API_KEY = "sk_live_abcdef123456"
 
 아래 다이어그램은 하드코딩된 설정과 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정의 차이를 보여준다.
 
-```text
-[하드코딩된 설정 vs 환경 변수 기반 설정]
 
-❌ 하드코딩된 설정 (환경마다 다른 코드 필요)
-┌─────────────────────────────────────────────────────────────┐
-│ Development 코드 │ Production 코드 │
-│ ┌─────────────────────┐ │ ┌─────────────────────┐ │
-│ │ DB_HOST = "localhost"│ │ │ DB_HOST = "prod.db"│ │
-│ │ DB_PASS = "dev123" │ │ │ DB_PASS = "보안"│ │
-│ │ API_KEY = "test_key" │ │ │ API_KEY = "sk_live_"│ │
-│ └─────────────────────┘ │ └─────────────────────┘ │
-│ 문제: │ 문제: │
-│ - 코드 복사/수정 필요 │ - 민감 정보가 코드에 포함 │
-│ - 버전 관리 곤란 │ - 배포 실수 위험 │
-└─────────────────────────────────────────────────────────────┘
 
-✓ 환경 변수 기반 설정 (환경마다 같은 코드)
-┌─────────────────────────────────────────────────────────────┐
-│ 코드 (모든 환경 동일) │
-│ ┌─────────────────────────────────────────────────────┐ │
-│ │ import os │ │
-│ │ │ │
-│ │ DB_HOST = os.environ.get("DB_HOST") │ │ ← 코드 수정 불필요
-│ │ DB_PASS = os.environ.get("DB_PASSWORD") │ │
-│ │ API_KEY = os.environ.get("API_KEY") │ │
-│ └─────────────────────────────────────────────────────┘ │
-│ │
-│ 환경 변수 (환경마다 다른 값) │
-│ ┌───────────────┬───────────────┬───────────────┐ │
-│ │ Development │ Staging │ Production │ │
-│ │ ─────────── │ ────────── │ ─────────── │ │
-│ │ DB_HOST= │ DB_HOST= │ DB_HOST= │ │
-│ │ localhost │ stag.db │ prod.db │ │
-│ │ DB_PASS= │ DB_PASS= │ DB_PASS= │ │
-│ │ dev123 │ stag_pass │ ********** │ │
-│ │ API_KEY= │ API_KEY= │ API_KEY= │ │
-│ │ test_key │ stag_key │ sk_live_***│ │
-│ └───────────────┴───────────────┴───────────────┘ │
-│ │
-│ 장점: │
-│ ✓ 동일한 코드베이스 → 버전 관리 용이 │
-│ ✓ 민감 정보 분리 → 보안 강화 │
-│ ✓ 설정 변경 시 코드 배포 불필요 → 민첩성 향상 │
-└─────────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드코딩된 설정 vs 환경 변수 기반 설정</div></div>
+<div class="kb-diagram-note">❌ 하드코딩된 설정 (환경마다 다른 코드 필요)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Development 코드</div><div class="kb-diagram-cell">Production 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_HOST = "localhost"</div><div class="kb-diagram-cell">DB_HOST = "prod.db"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASS = "dev123"</div><div class="kb-diagram-cell">DB_PASS = "보안"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY = "test_key"</div><div class="kb-diagram-cell">API_KEY = "sk_live_"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div><div class="kb-diagram-cell">문제:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 복사/수정 필요</div><div class="kb-diagram-cell">- 민감 정보가 코드에 포함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버전 관리 곤란</div><div class="kb-diagram-cell">- 배포 실수 위험</div></div>
+<div class="kb-diagram-note">✓ 환경 변수 기반 설정 (환경마다 같은 코드)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 (모든 환경 동일)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">import os</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_HOST = os.environ.get("DB_HOST")</div><div class="kb-diagram-cell">← 코드 수정 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASS = os.environ.get("DB_PASSWORD")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY = os.environ.get("API_KEY")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 변수 (환경마다 다른 값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Development</div><div class="kb-diagram-cell">Staging</div><div class="kb-diagram-cell">Production</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_HOST=</div><div class="kb-diagram-cell">DB_HOST=</div><div class="kb-diagram-cell">DB_HOST=</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">localhost</div><div class="kb-diagram-cell">stag.db</div><div class="kb-diagram-cell">prod.db</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASS=</div><div class="kb-diagram-cell">DB_PASS=</div><div class="kb-diagram-cell">DB_PASS=</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dev123</div><div class="kb-diagram-cell">stag_pass</div><div class="kb-diagram-cell">**********</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY=</div><div class="kb-diagram-cell">API_KEY=</div><div class="kb-diagram-cell">API_KEY=</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">test_key</div><div class="kb-diagram-cell">stag_key</div><div class="kb-diagram-cell">sk_live_***</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 동일한 코드베이스 → 버전 관리 용이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 민감 정보 분리 → 보안 강화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 설정 변경 시 코드 배포 불필요 → 민첩성 향상</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 설정이 코드에서 분리되면, 동일한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 환경에 따라 다른 동작을 한다는 점이다. 이것은 물리적으로동일의 але в зависимости от окружения выполняет разные действия, because settings are injected externally through [environment variables](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/). 개발 환경에서는 테스트용 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하고, 프로덕션에서는 본래 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 연결하는 것이 가능하다.
 
@@ -95,63 +85,49 @@ API_KEY = "sk_live_abcdef123456"
 | 설정 유형 | 설명 | [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 예시 | 관리 방법 |
 |:---|:---|:---|:---|
 | **환경별 상수** | 환경에 따라 다른 값 | `DB_HOST`, `API_URL` | [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/), .env [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
-| **[시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)/민감 정보** | 암호, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키 등 노출 금지 | `DB_PASSWORD`, `API_KEY` | [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) ([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager) |
-| **[플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)/토글** | 기능 활성화 여부 | `FEATURE_NEW_UI=true` | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 시스템 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a>/민감 정보</strong> | 암호, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키 등 노출 금지 | `DB_PASSWORD`, `API_KEY` | [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) ([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager) |
+| <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>/토글</strong> | 기능 활성화 여부 | `FEATURE_NEW_UI=true` | [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 시스템 |
 | **리소스 크기** | 메ory, CPU 등 | `MAX_WORKERS=10` | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 리소스 설정 |
 
 아래는 다양한 환경에서의 설정 주입 메커니즘을 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
-```text
-[설정 주입 메커니즘: 개발 → CI/CD → 쿠버네티스]
 
-1. 개발 환경 (.env 파일)
-┌──────────────────────────────────────┐
-│ .env │
-│ ┌────────────────────────────────┐ │
-│ │ DATABASE_URL=postgres://local │ │
-│ │ API_KEY=dev_secret_123 │ │
-│ │ LOG_LEVEL=debug │ │
-│ └────────────────────────────────┘ │
-│ │ dotenv 라이브러리 로드 │
-│ ▼ │
-│ 애플리케이션이 환경 변수 접근 │
-└──────────────────────────────────────┘
 
-2. CI/CD 환경 (파이프라인 secrets)
-┌──────────────────────────────────────┐
-│ GitHub Actions Secrets / Variables │
-│ ┌────────────────────────────────┐ │
-│ │ DB_PASSWORD: ************ │ │
-│ │ API_KEY: sk_live_******** │ │
-│ └────────────────────────────────┘ │
-│ │ 파이프라인 실행 시 주입 │
-│ ▼ │
-│ docker build --build-arg / │
-│ docker run -e │
-└──────────────────────────────────────┘
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">설정 주입 메커니즘: 개발 → CI/CD → 쿠버네티스</div></div>
+<div class="kb-diagram-note">1. 개발 환경 (.env 파일)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.env</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATABASE_URL=postgres://local</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY=dev_secret_123</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOG_LEVEL=debug</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dotenv 라이브러리 로드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 환경 변수 접근</div></div>
+<div class="kb-diagram-note">2. CI/CD 환경 (파이프라인 secrets)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions Secrets / Variables</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASSWORD: ************</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY: sk_live_********</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인 실행 시 주입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">docker build --build-arg /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">docker run -e</div></div>
+<div class="kb-diagram-note">3. 쿠버네티스 환경 (ConfigMap + Secret)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConfigMap (일반 설정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: ConfigMap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATABASE_URL: "postgres://..."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOG_LEVEL: "info"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret (민감 정보 - Base64 인코딩)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: v1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Secret</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">type: Opaque</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASSWORD: bXktcGFzc3dvcmQ=</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_KEY: c2tfbGl2ZV8xMjM0NQ==</div></div>
+</div>
+</div>
 
-3. 쿠버네티스 환경 (ConfigMap + Secret)
-┌──────────────────────────────────────┐
-│ ConfigMap (일반 설정) │
-│ ┌────────────────────────────────┐ │
-│ │ apiVersion: v1 │ │
-│ │ kind: ConfigMap │ │
-│ │ data: │ │
-│ │ DATABASE_URL: "postgres://..."│ │
-│ │ LOG_LEVEL: "info" │ │
-│ └────────────────────────────────┘ │
-│ │
-│ Secret (민감 정보 - Base64 인코딩) │
-│ ┌────────────────────────────────┐ │
-│ │ apiVersion: v1 │ │
-│ │ kind: Secret │ │
-│ │ type: Opaque │ │
-│ │ data: │ │
-│ │ DB_PASSWORD: bXktcGFzc3dvcmQ=││
-│ │ API_KEY: c2tfbGl2ZV8xMjM0NQ== ││
-│ └────────────────────────────────┘ │
-└──────────────────────────────────────┘
-```
+
 
 > 📢 **섹션 요약 비유**: [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 기반 설정은"영화 촬영의 장면 설정"과 같다. 같은 영화(코드)라도 장면 번호(환경)에 따라 조명(설정)이 다르고, 소품([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 정보)이 다르다. 조명(개발자)가 조명값(일반 설정)을 알고 소품 담당(운영자)이 비밀 소품([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))의만 알고 있으면, 영화는이나에된다. 만약 모든 설정이 스크립트(코드)에 written 있으면(하드코딩) 촬영 중 조명값을 변경하려면을/를해야 하며, 비밀 소품 정보가누출될 위험이 있다.
 
@@ -163,40 +139,35 @@ API_KEY = "sk_live_abcdef123456"
 
 | 관련 도구/개념 | 설정 원칙과의 결합 방식 | 기대 효과 |
 |:---|:---|:---|
-| **[GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/)** | Git Repo에 Config YAML 저장 → ArgoCD가 클러스터에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 설정 변경도 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [audit trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))** | tfvars [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 환경별 tf 설정 분리 | 인프라 설정도 코드화 |
-| **[시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)** | [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager에서 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 발급 | 런타임 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 역취 |
-| **[컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)** | K8s [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/Secret을 Pod에 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) | 애플리케이션 설정을 런타임에 주입 |
-| **[Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)** | values.yaml로 차트별 설정 템플릿화 | 차트 재사용성 향상 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | Git Repo에 Config YAML 저장 → ArgoCD가 클러스터에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 설정 변경도 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [audit trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>)</strong> | tfvars [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 환경별 tf 설정 분리 | 인프라 설정도 코드화 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/">시크릿 매니저</a></strong> | [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager에서 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 발급 | 런타임 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 역취 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">컨테이너 오케스트레이션</a></strong> | K8s [ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/)/Secret을 Pod에 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) | 애플리케이션 설정을 런타임에 주입 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a></strong> | values.yaml로 차트별 설정 템플릿화 | 차트 재사용성 향상 |
 
 특히 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)와의 결합은 중요한 보안 관행이다. [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을직접, 해당 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 프로세스의 메모리에 평문으로 존재하게 되므로 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 누출될 수 있다. 반면 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)를 사용하면 애플리케이션이 런타임에 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 요청하고, [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)가 지원하는 임시 자격증명( [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 발급받아 사용하게 된다.
 
-```text
-[시크릿 관리: 환경 변수 → 시크릿 매니저]
 
-전: 환경 변수 직접 사용 (보안 취약)
-┌──────────────────────────────────────┐
-│ .env 파일 (Git에 포함 ❌) │
-│ DB_PASSWORD=admin123 │
-│ │ │
-│ ▼ │
-│ 애플리케이션 메모리에 평문 저장 │
-│ → 로그, 코어 덤프에서 누출 가능 │
-└──────────────────────────────────────┘
 
-후: 시크릿 매니저 사용 (보안 강화)
-┌──────────────────────────────────────┐
-│ 시크릿 매니저 (Vault, AWS Secrets) │
-│ ┌────────────────────────────────┐ │
-│ │ DB_PASSWORD: admin123 (암호화) │ │
-│ │ TTL: 1시간 (임시 자격증명) │ │
-│ └────────────────────────────────┘ │
-│ │ 런타임 요청 │
-│ ▼ │
-│ 애플리케이션: 시크릿을에 │
-│ → 메모리에만 존재, TTL 후 만료 │
-└──────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시크릿 관리: 환경 변수 → 시크릿 매니저</div></div>
+<div class="kb-diagram-note">전: 환경 변수 직접 사용 (보안 취약)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.env 파일 (Git에 포함 ❌)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASSWORD=admin123</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 메모리에 평문 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 로그, 코어 덤프에서 누출 가능</div></div>
+<div class="kb-diagram-note">후: 시크릿 매니저 사용 (보안 강화)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시크릿 매니저 (Vault, AWS Secrets)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_PASSWORD: admin123 (암호화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL: 1시간 (임시 자격증명)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션: 시크릿을에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메모리에만 존재, TTL 후 만료</div></div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: [시크릿 관리](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/177_secrets_management_vault_kubernetes/)는"호텔 카드 키 시스템"과 같다. 옛날 방식([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/) 직접 사용)은 체크인할 때마다 master 키를 받아 방 키를 직접 만들며(평문 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 만약 그 키를 잃어버리면(정보 누출) 큰문제가 발생한다. 반면 현대식 방식([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))은 체크인할 때 카드키를 받아 문 앞에 가면 그때마다 새로운 임시 키를 발급받고(동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)), 일정 시간이 지나면 자동으로 만료되는([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))보안 시스템이다.
 
@@ -211,37 +182,38 @@ API_KEY = "sk_live_abcdef123456"
 - **상황**: 레거시 앱에 설정이 수백 개 흩어져 있어, 어떤 설정이 환경별로 다른 값을/를이나관리.
 - **판단**: 먼저 설정의 부터, 일반 설정(환경별 다른 값)과 설정(모든 환경 공통)을 구분한다. 그 후 일반 설정을관리하기 위해 설정 문서화 도구(ConfigEye, etc.)를 활용하거나, 환경별 설정 차이를 테스트하는 스크립트를 작성하여한다.
 
-- **시나리오 B: 민감 정보가 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret에 Base64로 저장되어 있는데 이것도보안[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?**
+- <strong>시나리오 B: 민감 정보가 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> Secret에 Base64로 저장되어 있는데 이것도보안<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>?</strong>
 - **판단**: K8s Secret의 Base64 인코딩은 가변이 아니라암호화이다. 누군가 YAML을 볼 수 있으면 easily 디코딩할 수 있다. 따라서 K8s Secret는 반드시 RBAC으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, 더 강한 보안을 위해 외부 [시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/)([Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/), AWS Secrets Manager)와의 연동을 통해 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 활용하는 것이 좋다.
 
-```text
-[설정 관리 모델]
 
-Level 1: 하드코딩
-- 설정이 코드에직접
-- 환경마다 코드 복사/수정
-→ 보안 위험 + 관리 곤란
 
-Level 2: 환경 변수 도입
-- 설정 → 환경 변수로 분리
-- .env 파일로 관리
-→ 기본적인 설정 분리 달성
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">설정 관리 모델</div></div>
+<div class="kb-diagram-note">Level 1: 하드코딩</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설정이 코드에직접</div>
+<div class="kb-diagram-tree-item" style="--depth:0">환경마다 코드 복사/수정</div>
+<div class="kb-diagram-note">→ 보안 위험 + 관리 곤란</div>
+<div class="kb-diagram-note">Level 2: 환경 변수 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설정 → 환경 변수로 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">.env 파일로 관리</div>
+<div class="kb-diagram-note">→ 기본적인 설정 분리 달성</div>
+<div class="kb-diagram-note">Level 3: 시크릿 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">민감 정보는 시크릿 매니저로 분리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">일반 설정은 ConfigMap/환경 변수</div>
+<div class="kb-diagram-note">→ 보안 강화</div>
+<div class="kb-diagram-note">Level 4: 동적 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:0">런타임에 설정을에</div>
+<div class="kb-diagram-tree-item" style="--depth:0">시크릿은 동적 자격증명 활용</div>
+<div class="kb-diagram-note">→ 보안 + 유연성</div>
+<div class="kb-diagram-note">Level 5: 설정 sebagai 코드</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설정도 Git에서 버전 관리</div>
+<div class="kb-diagram-tree-item" style="--depth:0">변경은 PR로 처리</div>
+<div class="kb-diagram-note">→ Audit trail + reproducibility</div>
+</div>
+</div>
 
-Level 3: 시크릿 분리
-- 민감 정보는 시크릿 매니저로 분리
-- 일반 설정은 ConfigMap/환경 변수
-→ 보안 강화
 
-Level 4: 동적 설정
-- 런타임에 설정을에
-- 시크릿은 동적 자격증명 활용
-→ 보안 + 유연성
-
-Level 5: 설정 sebagai 코드
-- 설정도 Git에서 버전 관리
-- 변경은 PR로 처리
-→ Audit trail + reproducibility
-```
 
 > 📢 **섹션 요약 비유**: 설정 관리는"집 열쇠 관리"와 같다. Level 1은 열쇠를 집 바닥에(하드코딩) 것으로,는 찾기가 어렵고 도둑에게 쉽게 발견된다. Level 2는 열쇠를 자물쇠 BOX([환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/))에 넣어 문 옆에두는 것이며, Level 3은 열쇠를 은행 금고([시크릿 매니저](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/))에 넣어두고 필요할 때만 출납 증명서를받고 가는 방식이다. Level 4는 인식으로 매번 새로운 임시 접근 권한을 받는 것이며, Level 5는 열쇠 사용 내역을하는 것이다.
 
@@ -270,21 +242,23 @@ Level 5: 설정 sebagai 코드
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 서버 설정]
-│
-▼
-[형상 관리 도구(Ansible/Chef)]
-│
-▼
-[IaC(Infrastructure as Code)]
-│
-▼
-[GitOps]
-│
-▼
-[드리프트 감지/자동 복구]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 서버 설정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">형상 관리 도구(Ansible/Chef)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IaC(Infrastructure as Code)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">드리프트 감지/자동 복구</div></div>
+</div>
+</div>
+
+
 
 설정 관리는 수동 서버 설정에서 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 진화한 흐름이다.
 

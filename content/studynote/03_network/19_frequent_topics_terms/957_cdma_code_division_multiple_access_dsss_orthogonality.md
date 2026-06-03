@@ -19,18 +19,22 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (1G)**: 주파수를 차선별로 잘라서 나눠줌 (낭비 심함).
-- **[TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (2G)**: 주파수는 같이 쓰는데, 1초씩 번갈아 가며 말함 (사람 많아지면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 터짐).
-- **CDMA ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/), 3G) 🌟**: 시간과 주파수를 전혀 쪼개지 않습니다. **모든 사용자가 동일한 주파수 대역을, 동일한 시간에 한꺼번에 씁니다. 대신 사용자마다 서로 섞이지 않는 '고유한 암호 코드(직교 코드)'를 부여하여 신호를 얇게 펴서 쏘고([DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) 확산), 수신자가 자기 코드만 추출해 내는 마법의 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식**입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/">FDMA</a> (1G)</strong>: 주파수를 차선별로 잘라서 나눠줌 (낭비 심함).
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (2G)</strong>: 주파수는 같이 쓰는데, 1초씩 번갈아 가며 말함 (사람 많아지면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 터짐).
+- <strong>CDMA (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a>, 3G) 🌟</strong>: 시간과 주파수를 전혀 쪼개지 않습니다. <strong>모든 사용자가 동일한 주파수 대역을, 동일한 시간에 한꺼번에 씁니다. 대신 사용자마다 서로 섞이지 않는 '고유한 암호 코드(직교 코드)'를 부여하여 신호를 얇게 펴서 쏘고(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> 확산), 수신자가 자기 코드만 추출해 내는 마법의 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a> 방식</strong>입니다.
 
-```text
-[DSSS]
-    │
-    ▼
-[코드 분할 다중 접속]
-    │
-    └──▶ [VLAN 트렁킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 트렁킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,7 +42,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) (직접 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/))** 기술 위에 '직교 수학'을 얹어 다수결 통신을 만든 것입니다.
+CDMA는 앞서 배운 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (직접 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a>)</strong> 기술 위에 '직교 수학'을 얹어 다수결 통신을 만든 것입니다.
 
 1. **송신 (코드 씌우기)**: 철수와 영희가 동시에 전화를 겁니다.
    - 폰은 철수의 음성에 'A라는 직교 암호 코드(칩)'를 100만 번 곱해서 파동을 안개처럼 확 넓힙니다. 
@@ -47,17 +51,21 @@ CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_
    - 철수의 안개 파동과 영희의 안개 파동이 공중(같은 주파수)에서 쾅 부딪혀 한 덩어리의 쓰레기 잡음(백색 소음)으로 뭉개집니다. 
 3. **수신 (역확산 핀셋 추출) 🌟**:
    - 기지국이 이 거대한 쓰레기 잡음 덩어리를 뜰채로 받습니다. 
-   - 기지국은 철수의 목소리를 찾기 위해 믹서기(수신기)에 쓰레기 덩어리를 넣고 **'철수의 A 암호 코드'**를 다시 곱해버립니다(역확산).
+   - 기지국은 철수의 목소리를 찾기 위해 믹서기(수신기)에 쓰레기 덩어리를 넣고 <strong>'철수의 A 암호 코드'</strong>를 다시 곱해버립니다(역확산).
    - **기적**: 철수의 암호와 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(서로 수학적 각도가 90도로 어긋남)을 가진 영희의 B 데이터는 믹서기에 갈리면서 바닥의 0(먼지)으로 짓눌려 사라져버립니다. **오직 철수의 A 데이터만이 산봉우리처럼 뾰족하게 확 살아나 100% 복원됩니다.**
 
-```text
-[DSSS]
-    │
-    ▼
-[코드 분할 다중 접속]
-    │
-    └──▶ [VLAN 트렁킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 트렁킹</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,9 +73,9 @@ CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_
 
 ## Ⅲ. 비교 및 연결
 
-- **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) (스니핑 불가)**: 해커가 공중 전파를 도청해도 100명의 목소리가 섞인 쓰레기(치직거리는 백색 소음)로만 들립니다. 국방부급 암호 코드를 모르면 절대 한 명의 통화 내용을 풀 수 없습니다.
-- **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(용량) 한계 돌파**: TDMA처럼 시간 칸막이가 없기 때문에, 암호 코드만 다르게 주면 이론상 수십, 수백 명이 똑같은 방(주파수)에서 통화를 미친 듯이 욱여넣을 수 있어 통신사 돈벌이에 최고였습니다. (Soft Capacity)
-- **[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) (끊김 없는 통화)**: 1번 안테나에서 2번 안테나로 차를 타고 넘어갈 때, 주파수가 똑같기 때문에 전화가 살짝 겹쳤다가 스무스하게 넘어갑니다(Make-before-break). 2G 시절 툭툭 끊기던 통화가 3G에서 완벽히 부드러워진 이유입니다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (스니핑 불가)</strong>: 해커가 공중 전파를 도청해도 100명의 목소리가 섞인 쓰레기(치직거리는 백색 소음)로만 들립니다. 국방부급 암호 코드를 모르면 절대 한 명의 통화 내용을 풀 수 없습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(용량) 한계 돌파</strong>: TDMA처럼 시간 칸막이가 없기 때문에, 암호 코드만 다르게 주면 이론상 수십, 수백 명이 똑같은 방(주파수)에서 통화를 미친 듯이 욱여넣을 수 있어 통신사 돈벌이에 최고였습니다. (Soft Capacity)
+- <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/">소프트 핸드오버</a> (끊김 없는 통화)</strong>: 1번 안테나에서 2번 안테나로 차를 타고 넘어갈 때, 주파수가 똑같기 때문에 전화가 살짝 겹쳤다가 스무스하게 넘어갑니다(Make-before-break). 2G 시절 툭툭 끊기던 통화가 3G에서 완벽히 부드러워진 이유입니다.
 
 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DSSS가 기반 조건을 만든다면, 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)은 그 위에서 핵심 메커니즘을 구현하고, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **문제**: A는 기지국 바로 밑에 있고, B는 1km 떨어져서 똑같이 소리를 지르면, A의 전파가 너무 강력해서 기지국의 귀를 멀게 만들어 B의 소리가 다 씹혀 죽어버립니다.
-- **해결책 (전력 제어 통제)**: CDMA 기지국은 1초에 800번씩 폰에게 명령을 쏩니다. "야 A! 너 나랑 너무 가까워! 전파 파워 확 줄여! B는 파워 확 높여!" 100명의 폰 배터리 파워를 똑같은 크기로 기지국에 도달하게 통제하는 **정밀 전력 제어 기술**이 CDMA 생명 연장의 절대 뼈대입니다. (이 한계 때문에 결국 4G LTE에서 945번 OFDMA로 자리를 넘겨주게 됩니다.)
+- **해결책 (전력 제어 통제)**: CDMA 기지국은 1초에 800번씩 폰에게 명령을 쏩니다. "야 A! 너 나랑 너무 가까워! 전파 파워 확 줄여! B는 파워 확 높여!" 100명의 폰 배터리 파워를 똑같은 크기로 기지국에 도달하게 통제하는 <strong>정밀 전력 제어 기술</strong>이 CDMA 생명 연장의 절대 뼈대입니다. (이 한계 때문에 결국 4G LTE에서 945번 OFDMA로 자리를 넘겨주게 됩니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -92,7 +100,7 @@ CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 통신([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))은 10명이 모인 회의실(주파수)에서 한 명씩 발언권(시간)을 얻어 돌아가며 한국어로 말하는 룰이었습니다. 사람이 늘면 말할 기회가 안 와 답답합니다. **CDMA(코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))**는 혁명입니다. 100명이 똑같은 회의실에 모여서 1초도 쉬지 않고 **"동시에 다 같이 소리를 지르는" 시장 바닥**입니다. 그런데 조건이 있습니다. 1번 손님은 한국어, 2번은 아랍어, 3번은 불어 등 100명 모두가 서로 완벽히 다른 외계어(직교 암호 코드)를 씁니다. 회의실 천장에 달린 마이크(기지국) 안에는 한국어 전담 통역사(역확산 수신기)가 들어있습니다. 통역사의 귀에는 아랍어나 불어가 그냥 '시끄러운 웅성거림(백색 소음)'으로 뇌에서 완벽히 무시([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 필터링)되고, 오직 한국어로 외치는 1번 손님의 목소리만 크리스털처럼 맑게 핀셋으로 뽑혀 들리게 되는 궁극의 언어 분할 융합 통신술입니다.
+- **📢 섹션 요약 비유**: 과거 통신([TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/))은 10명이 모인 회의실(주파수)에서 한 명씩 발언권(시간)을 얻어 돌아가며 한국어로 말하는 룰이었습니다. 사람이 늘면 말할 기회가 안 와 답답합니다. <strong>CDMA(코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong>는 혁명입니다. 100명이 똑같은 회의실에 모여서 1초도 쉬지 않고 <strong>"동시에 다 같이 소리를 지르는" 시장 바닥</strong>입니다. 그런데 조건이 있습니다. 1번 손님은 한국어, 2번은 아랍어, 3번은 불어 등 100명 모두가 서로 완벽히 다른 외계어(직교 암호 코드)를 씁니다. 회의실 천장에 달린 마이크(기지국) 안에는 한국어 전담 통역사(역확산 수신기)가 들어있습니다. 통역사의 귀에는 아랍어나 불어가 그냥 '시끄러운 웅성거림(백색 소음)'으로 뇌에서 완벽히 무시([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/) 필터링)되고, 오직 한국어로 외치는 1번 손님의 목소리만 크리스털처럼 맑게 핀셋으로 뽑혀 들리게 되는 궁극의 언어 분할 융합 통신술입니다.
 
 ---
 
@@ -115,15 +123,19 @@ CDMA는 앞서 배운 **[DSSS](/knowledge-base/studynote/03_network/19_frequent_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DSSS]
-    │
-    ▼
-[현재 개념: 코드 분할 다중 접속]
-    │
-    ├──▶ [확장 A: VLAN 트렁킹]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DSSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 코드 분할 다중 접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VLAN 트렁킹</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)는 DSSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

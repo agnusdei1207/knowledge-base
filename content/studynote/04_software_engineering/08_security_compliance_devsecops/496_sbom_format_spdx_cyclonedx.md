@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)([BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))는 원래 제조업(현대자동차 등)에서 쓰는 '자재 명세서'다. "소나타 1대 = 엔진 1개 + 타이어 4개 + [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 1만 개" 라고 부품 내역을 쫙 적어놓은 장부다. 이걸 소프트웨어에 들고 온 것이 SBOM이다. "이 쇼핑몰 앱 = 내가 짠 코드 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% + Spring Framework v5.0 + Log4j v2.14 + ..." 라며, 눈에 보이지 않는 수천 개의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 부품([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))들을 트리(Tree) 구조의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나로 싹 다 뽑아낸 영수증 쪼가리다.
 
-- **필요성**: 2020년 미국 펜타곤을 털어버린 사상 최악의 '솔라윈즈(SolarWinds) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 해킹 사태'가 터졌다. 미국 정부는 분노했다. "니들 앱 안에 중국산 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 부품이 섞여 있는지, 해킹당한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)가 섞여 있는지 까보지도 않고 무지성으로 국가망에 납품했어?!" 이를 계기로 바이든 대통령은 행정명령을 내렸다. **"앞으로 소프트웨어를 팔 때는, 그 안에 무슨 부품([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))을 썼는지 완벽하게 적힌 '영수증([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/))'을 같이 제출해라. 영수증 없으면 불법이다!"** 개발자의 편의를 넘어 국가 안보와 생존의 법적 규제로 돌변한 절대적 필요성이다.
+- **필요성**: 2020년 미국 펜타곤을 털어버린 사상 최악의 '솔라윈즈(SolarWinds) [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 해킹 사태'가 터졌다. 미국 정부는 분노했다. "니들 앱 안에 중국산 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 부품이 섞여 있는지, 해킹당한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)가 섞여 있는지 까보지도 않고 무지성으로 국가망에 납품했어?!" 이를 계기로 바이든 대통령은 행정명령을 내렸다. <strong>"앞으로 소프트웨어를 팔 때는, 그 안에 무슨 부품(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>)을 썼는지 완벽하게 적힌 '영수증(<a href="/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/">SBOM</a>)'을 같이 제출해라. 영수증 없으면 불법이다!"</strong> 개발자의 편의를 넘어 국가 안보와 생존의 법적 규제로 돌변한 절대적 필요성이다.
 
-- **💡 비유**: SBOM은 과자 봉지 뒤에 적힌 **'식품 영양 성분 및 알레르기 유발 물질 표시표'**와 똑같습니다. 소비자는 과자(앱) 겉봉투만 보고는 안에 땅콩(취약한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))이 들어있는지 죽어도 모릅니다. 땅콩 알레르기(해킹)가 있는 사람이 먹으면 즉사합니다. 그래서 법으로 "이 과자에는 밀가루 50%, 땅콩버터 2%가 들어갔음"이라고 겉에 강제로 박아두게 한 것입니다. 나중에 "땅콩버터에서 독극물 발견!" 뉴스가 뜨면, 우리는 과자를 뜯어보지 않고 봉투 뒷면([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) 글씨만 쓱 읽어보고 1초 만에 쓰레기통에 버려 목숨을 건질 수 있습니다.
+- **💡 비유**: SBOM은 과자 봉지 뒤에 적힌 <strong>'식품 영양 성분 및 알레르기 유발 물질 표시표'</strong>와 똑같습니다. 소비자는 과자(앱) 겉봉투만 보고는 안에 땅콩(취약한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))이 들어있는지 죽어도 모릅니다. 땅콩 알레르기(해킹)가 있는 사람이 먹으면 즉사합니다. 그래서 법으로 "이 과자에는 밀가루 50%, 땅콩버터 2%가 들어갔음"이라고 겉에 강제로 박아두게 한 것입니다. 나중에 "땅콩버터에서 독극물 발견!" 뉴스가 뜨면, 우리는 과자를 뜯어보지 않고 봉투 뒷면([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)) 글씨만 쓱 읽어보고 1초 만에 쓰레기통에 버려 목숨을 건질 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **라이선스 소송의 피눈물 (과거)**: 초창기엔 해킹 때문이 아니었다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(GPL) 썼다가 소스코드를 강제 공개 당하는 법적 소송(License [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))을 피하려고, 변호사들이 "개발자들 무슨 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 쓰는지 엑셀로 다 적어 놔!"라며 손으로 만든 수동 장부였다.
-  2. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 폭발과 수동 관리의 한계**: 의존성이 수백 개로 꼬리를 물고 다운받아지는(NPM, Maven) 시대가 오자, 인간의 엑셀 타이핑으로는 절대 추적(Transitive Dependency)이 불가능해졌다.
-  3. **표준 규격의 탄생과 자동화 (현재)**: "기계가 뽑고 기계가 읽게 포맷을 통일하자!"라며 Linux 재단의 **`SPDX`**와 OWASP 재단의 **`CycloneDX`**라는 글로벌 양대 산맥 포맷이 탄생했다. 이제 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 빌드할 때 스캐너가 자동으로 1초 만에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 족보를 뱉어내는 완벽한 자동화 시대로 진입했다.
+  2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>의 폭발과 수동 관리의 한계</strong>: 의존성이 수백 개로 꼬리를 물고 다운받아지는(NPM, Maven) 시대가 오자, 인간의 엑셀 타이핑으로는 절대 추적(Transitive Dependency)이 불가능해졌다.
+  3. **표준 규격의 탄생과 자동화 (현재)**: "기계가 뽑고 기계가 읽게 포맷을 통일하자!"라며 Linux 재단의 <strong><code>SPDX</code></strong>와 OWASP 재단의 <strong><code>CycloneDX</code></strong>라는 글로벌 양대 산맥 포맷이 탄생했다. 이제 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 빌드할 때 스캐너가 자동으로 1초 만에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 족보를 뱉어내는 완벽한 자동화 시대로 진입했다.
 
-- **📢 섹션 요약 비유**: 옛날 소프트웨어는 **'마녀의 가마솥 짬뽕 수프'**였습니다. 맛(기능)은 기가 막힌데, 주방장도 안에 뱀 허물(취약점)이 들어갔는지 개구리 다리(라이선스 위반)가 들어갔는지 기억을 못 합니다. 먹고 탈 나면 위장을 다 까봐야 알죠. SBOM은 그 마녀의 수프 레시피를 **'전 세계 공용 바코드 스티커'**로 예쁘게 찍어서 냄비 겉면에 딱 붙여버리는 투명성의 마법입니다.
+- **📢 섹션 요약 비유**: 옛날 소프트웨어는 <strong>'마녀의 가마솥 짬뽕 수프'</strong>였습니다. 맛(기능)은 기가 막힌데, 주방장도 안에 뱀 허물(취약점)이 들어갔는지 개구리 다리(라이선스 위반)가 들어갔는지 기억을 못 합니다. 먹고 탈 나면 위장을 다 까봐야 알죠. SBOM은 그 마녀의 수프 레시피를 <strong>'전 세계 공용 바코드 스티커'</strong>로 예쁘게 찍어서 냄비 겉면에 딱 붙여버리는 투명성의 마법입니다.
 
 ---
 
 다음은 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software Bill 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SBOM (Software Bill                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM (Software Bill</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software Bill 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) 포맷의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) 포맷의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) (Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) 포맷의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SBOM (Software Bill of Materials) 포맷 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SBOM (Software Bill of Materials) 포맷 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -36,14 +36,18 @@ TIA/EIA 표준에서는 [UTP](/knowledge-base/studynote/03_network/03_physical_l
 T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서로 바꾼 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)입니다. 주로 미국 연방 정부 기관 등에서 쓰입니다.
 - [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/): **흰녹, 녹색, 흰주**, 파랑, 흰파, **주황**, 흰갈, 갈색
 
-```text
-[Auto-MDIX]
-    │
-    ▼
-[케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    └──▶ [DSU / CSU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auto-MDIX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSU / CSU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,20 +55,24 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **제작 방법**: 케이블의 **양쪽 끝단을 모두 똑같은 규격(보통 양쪽 다 T568B)**으로 찍어서(압착하여) 만듭니다. (핀 1번은 1번으로, 2번은 2번으로 직결됨)
-- **용도**: **"서로 다른 성격의 장비(MDI ↔ MDI-X)"**를 연결할 때 사용합니다.
+- **제작 방법**: 케이블의 <strong>양쪽 끝단을 모두 똑같은 규격(보통 양쪽 다 T568B)</strong>으로 찍어서(압착하여) 만듭니다. (핀 1번은 1번으로, 2번은 2번으로 직결됨)
+- **용도**: <strong>"서로 다른 성격의 장비(MDI ↔ MDI-X)"</strong>를 연결할 때 사용합니다.
   - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))
   - 라우터 ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))
 - **작동 원리**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 자체가 내부적으로 1,2번과 3,6번을 꼬아놓았기 때문에, 케이블은 일직선(Straight)으로 뻗어 있어도 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 교차되어 잘 전달됩니다.
 
-```text
-[Auto-MDIX]
-    │
-    ▼
-[케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    └──▶ [DSU / CSU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auto-MDIX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSU / CSU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 케이블 배선: 다이렉트 케이블 vs 크로스오…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -73,7 +81,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 ## Ⅲ. 비교 및 연결
 
 - **제작 방법**: 케이블의 **한쪽 끝은 T568B로, 반대쪽 끝은 T568A로** 다르게 찍어서 만듭니다. 이렇게 하면 1,2번 핀(Tx)이 반대쪽의 3,6번 핀(Rx)으로 물리적으로 교차되어 들어갑니다.
-- **용도**: **"서로 같은 성격의 장비(MDI ↔ MDI 또는 MDI-X ↔ MDI-X)"**를 연결할 때 사용합니다.
+- **용도**: <strong>"서로 같은 성격의 장비(MDI ↔ MDI 또는 MDI-X ↔ MDI-X)"</strong>를 연결할 때 사용합니다.
   - [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ↔ [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (랜선으로 1:1 직접 연결할 때)
   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ↔ [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)
   - [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ↔ [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
@@ -90,7 +98,7 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 다이렉트 케이블은 1차선은 1차선으로, 2차선은 2차선으로 **직진만 하는 고속도로**입니다. 반면 크로스오버 케이블은 정면충돌을 막기 위해 중간에 고가도로를 세워 상행선과 하행선을 **X자로 교차시켜 놓은 입체 교차로**입니다.
+- **📢 섹션 요약 비유**: <strong> 다이렉트 케이블은 1차선은 1차선으로, 2차선은 2차선으로 </strong>직진만 하는 고속도로<strong>입니다. 반면 크로스오버 케이블은 정면충돌을 막기 위해 중간에 고가도로를 세워 상행선과 하행선을 </strong>X자로 교차시켜 놓은 입체 교차로**입니다.
 
 ---
 
@@ -132,15 +140,19 @@ T568B에서 주황색 그룹(1,2번)과 녹색 그룹(3,6번)의 위치를 서�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Auto-MDIX]
-    │
-    ▼
-[현재 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
-    │
-    ├──▶ [확장 A: DSU / CSU]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Auto-MDIX</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DSU / CSU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 케이블 배선: 다이렉트 케이블 vs 크로스오…는 Auto-MDIX에서 출발해 현재 메커니즘을 정교화하고, 이후 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

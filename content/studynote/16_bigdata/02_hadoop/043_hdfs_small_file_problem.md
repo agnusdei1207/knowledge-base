@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제**는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) HDFS에서 수많은 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 메모리([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 과도하게 점유하여 클러스터 확장성을 저해하는 현상이다.
+1. <strong>작은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 문제</strong>는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) HDFS에서 수많은 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 메모리([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 과도하게 점유하여 클러스터 확장성을 저해하는 현상이다.
 2. [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 메모리에 로드하므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 및 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 장애가 발생한다.
 3. 이를 해결하기 위해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 합치기(HAR), Sequence [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변환, 또는 애플리케이션 단의 적절한 배치(Batch) 적재 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적이다.
 
@@ -23,30 +23,29 @@ tags = ["studynote-bigdata"]
   - **Memory Pressure**: [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)/블록 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 당 약 150바이트를 메모리에 상주시킨다.
   - **I/O Inefficiency**: [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 작업 시 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 하나의 Map Task가 되어 과도한 오버헤드(JVM 구동 시간 등)가 발생한다.
 
-```text
-[HDFS Small File vs Large File Efficiency]
 
-(Large File) 1GB File           (Small Files) 1,000,000 x 1KB Files
-+-----------------------+      +---+ +---+ +---+ ... +---+
-| [Block 1] [Block 2]   |      |1KB| |1KB| |1KB|     |1KB| (Metadata Flood!)
-| [Block 3] ...         |      +---+ +---+ +---+ ... +---+
-+-----------------------+               ||
-           ||                           \/
-+-----------------------+      +-----------------------------------------+
-|     NameNode Mem      |      |           NameNode Memory               |
-|  (Minimal Metadata)   |      | [Metadata1][Metadata2]...[Metadata1M]   |
-+-----------------------+      +-----------------------------------------+
-           ||                           ||
-           \/                           \/
-   (High Performance)             (Memory Crash & Slow MapReduce)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Small File vs Large File Efficiency</div></div>
+<div class="kb-diagram-note">(Large File) 1GB File (Small Files) 1,000,000 x 1KB Files</div>
+<div class="kb-diagram-note">+-----------------------+ +---+ +---+ +---+ ... +---+</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Block 1</div><div class="kb-diagram-node">Block 2</div><div class="kb-diagram-note">|1KB| |1KB| |1KB| |1KB| (Metadata Flood!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Block 3</div><div class="kb-diagram-note">... | +---+ +---+ +---+ ... +---+</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode Mem</div><div class="kb-diagram-cell">NameNode Memory</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(Minimal Metadata) |</div><div class="kb-diagram-node">Metadata1</div><div class="kb-diagram-node">Metadata2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Metadata1M</div></div>
+<div class="kb-diagram-note">(High Performance) (Memory Crash &amp; Slow MapReduce)</div>
+</div>
+</div>
+
+
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
 | 해결 방안 | 핵심 메커니즘 | 장점 | 단점 |
 | :--- | :--- | :--- | :--- |
-| **HAR ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) Archive)** | 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 하나의 아카이브로 묶음 | [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 절감 효과 큼 | 읽기 시 두 단계([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 조회 오버헤드 |
-| **Sequence [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** | ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 구조의 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 통합 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 높음, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 호환 | 비바이너리 툴에서 읽기 불편 |
+| <strong>HAR (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">Hadoop</a> Archive)</strong> | 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 하나의 아카이브로 묶음 | [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 절감 효과 큼 | 읽기 시 두 단계([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 조회 오버헤드 |
+| <strong>Sequence <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a></strong> | ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 구조의 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 통합 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 높음, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 호환 | 비바이너리 툴에서 읽기 불편 |
 | **CombineFileInputFormat** | [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 시 여러 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 묶어 처리 | 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 오버헤드 감소 | [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 문제는 해결 못함 |
 | **Apache Ozone** | 차세대 객체 스토리지 (S3 호환) | 수십억 개 이상의 객체 지원 | [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 업그레이드 부담 |
 
@@ -59,31 +58,33 @@ tags = ["studynote-bigdata"]
 - **결론**: 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 고전적인 숙제이며, 최근에는 Iceberg나 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 같은 최신 테이블 포맷이 백그라운드에서 자동으로 '[Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'을 수행하며 이 문제를 현대적으로 해결하고 있다.
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-1. **[Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이름, 권한, 블록 위치 등의 정보
-2. **[NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)**: [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) 장애 시 전체 시스템 중단 위험
-3. **[Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**: 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 병합하는 주기적 관리 작업
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a></strong>: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 이름, 권한, 블록 위치 등의 정보
+2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a></strong>: [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/) 장애 시 전체 시스템 중단 위험
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a></strong>: 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 병합하는 주기적 관리 작업
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[HDFS 아키텍처 (NameNode 메타데이터 + DataNode 블록)]
-    │
-    ▼
-[작은 파일 문제 (NameNode 메모리 폭증 → 성능 병목)]
-    │
-    ▼
-[HAR / Sequence File / CombineFileInputFormat — 단기 완화]
-    │
-    ▼
-[Apache Ozone (차세대 객체 스토리지 — 수십억 파일 지원)]
-    │
-    ▼
-[Delta Lake / Apache Iceberg Compaction — 현대적 자동 해결]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 아키텍처 (NameNode 메타데이터 + DataNode 블록)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">작은 파일 문제 (NameNode 메모리 폭증 → 성능 병목)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HAR / Sequence File / CombineFileInputFormat — 단기 완화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ozone (차세대 객체 스토리지 — 수십억 파일 지원)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake / Apache Iceberg Compaction — 현대적 자동 해결</div></div>
+</div>
+</div>
+
+
 HDFS의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제는 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 힙 메모리 한계에서 비롯되며, 단기 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법에서 Apache Ozone, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg의 자동 Compaction까지 세대별 해결책이 존재한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제**: 커다란 장난감 상자에 커다란 블록을 넣어야 하는데, 아주 작은 모래알들을 하나씩 따로 포장해서 넣는 것과 같아요.
+1. <strong>작은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 문제</strong>: 커다란 장난감 상자에 커다란 블록을 넣어야 하는데, 아주 작은 모래알들을 하나씩 따로 포장해서 넣는 것과 같아요.
 2. **이유**: 모래알마다 이름표([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 붙이다 보니, 이름표를 적어둔 수첩([네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))이 꽉 차서 더 이상 글을 쓸 수 없게 되는 거예요.
 3. **결론**: 모래알들을 커다란 한 봉지에 담아서 정리하면 이름표를 하나만 써도 되니까 훨씬 편해진다는 뜻이에요.
 

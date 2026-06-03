@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피는 시스템 수명 주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계(요구사항, 설계, 구현)'에 자원과 엄격한 통제를 쏟아부어, 버그라는 불순물이 생성될 환경 자체를 차단(Avoid)하는 기법이다.
 
-- **필요성**: 화성에 보내는 탐사선 큐리오시티를 개발한다고 치자. 탐사선이 화성에 도착했는데 소프트웨어에 널 포인터 예외(Null Pointer Exception) 버그가 터졌다. 서버를 재부팅하거나 엔지니어가 SSH로 접속해서 코드를 고칠 수 있는가? 화성은 지구에서 2억 km 떨어져 있다. 패치 불가능하다. 이런 시스템은 고장이 나면 버티는 것([결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/))도 중요하지만, **애초에 지구를 떠나기 전에 단 하나의 먼지 같은 버그도 코드에 섞여 들어가지 못하게 하는 완벽주의적 멸균실([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피)**이 훨씬 더 절실하다.
+- **필요성**: 화성에 보내는 탐사선 큐리오시티를 개발한다고 치자. 탐사선이 화성에 도착했는데 소프트웨어에 널 포인터 예외(Null Pointer Exception) 버그가 터졌다. 서버를 재부팅하거나 엔지니어가 SSH로 접속해서 코드를 고칠 수 있는가? 화성은 지구에서 2억 km 떨어져 있다. 패치 불가능하다. 이런 시스템은 고장이 나면 버티는 것([결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/))도 중요하지만, <strong>애초에 지구를 떠나기 전에 단 하나의 먼지 같은 버그도 코드에 섞여 들어가지 못하게 하는 완벽주의적 멸균실(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 회피)</strong>이 훨씬 더 절실하다.
 
-- **💡 비유**: 건강을 지키는 두 가지 방법과 같습니다. 암에 걸린 뒤 수술과 항암 치료로 이겨내는 것([결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/))도 훌륭하지만, 애초에 매일 유기농 채소를 먹고, 운동하고, 담배를 피우지 않아 **암세포가 몸에 생길 환경 자체를 아예 안 만드는 것([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피)**이 가장 근본적이고 위대한 건강 관리법입니다.
+- **💡 비유**: 건강을 지키는 두 가지 방법과 같습니다. 암에 걸린 뒤 수술과 항암 치료로 이겨내는 것([결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/))도 훌륭하지만, 애초에 매일 유기농 채소를 먹고, 운동하고, 담배를 피우지 않아 <strong>암세포가 몸에 생길 환경 자체를 아예 안 만드는 것(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 회피)</strong>이 가장 근본적이고 위대한 건강 관리법입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 우주 및 군사 공학**: 버그 하나가 로켓 폭발(수천억 원 증발)로 이어지는 NASA나 군사 록히드 마틴 등에서, 천재 프로그래머의 감에 의존하지 않고 수학적으로 완벽함을 증명(정형 기법)하는 방향으로 발달했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 우주 및 군사 공학</strong>: 버그 하나가 로켓 폭발(수천억 원 증발)로 이어지는 NASA나 군사 록히드 마틴 등에서, 천재 프로그래머의 감에 의존하지 않고 수학적으로 완벽함을 증명(정형 기법)하는 방향으로 발달했다.
   2. **코딩 표준의 제정**: 자동차 제어 장치(ECU)가 급발진하는 것을 막기 위해, C언어에서 위험한 문법(`goto` 문, 동적 메모리 할당 `malloc` 등)을 아예 쓰지 못하게 법으로 금지하는 MISRA C 등의 가이드라인이 탄생했다.
-  3. **현대 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 린트(Lint)**: 오늘날 일반적인 웹 개발에서도 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 `if`문 안에 괄호가 빠지면 빌드 자체를 실패(Fail)하게 만들어, 개발자의 실수를 코드 저장소 입구에서 막아내는 대중적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 전술로 정착했다.
+  3. <strong>현대 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 파이프라인의 린트(Lint)</strong>: 오늘날 일반적인 웹 개발에서도 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 `if`문 안에 괄호가 빠지면 빌드 자체를 실패(Fail)하게 만들어, 개발자의 실수를 코드 저장소 입구에서 막아내는 대중적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 전술로 정착했다.
 
 - **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피는 수술실에 들어가기 전에 의사가 손을 30분 동안 박박 씻고, 세균을 99.9% 죽이는 소독실을 거치는 과정입니다. 수술 중 감염(버그)이 일어난 뒤에 항생제(디버깅)를 쏟아붓는 짓을 피하기 위한 고도의 결벽증입니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidan의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  결함 회피 (Fault Avoidan                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 회피 (Fault Avoidan</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidan가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidance) 기법의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidance) 기법의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 회피 (Fault Avoidance) 기법의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-결함 회피 (Fault Avoidance) 기법 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결함 회피 (Fault Avoidance) 기법 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

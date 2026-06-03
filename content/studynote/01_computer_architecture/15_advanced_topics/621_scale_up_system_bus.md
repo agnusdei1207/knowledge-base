@@ -11,8 +11,8 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스케일 업 (Scale-Up) [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 여러 CPU [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)과 대용량 메모리를 하나의 서버 이미지로 묶어, **[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반의 단일 대형 시스템**처럼 동작하게 하는 내부 상호연결 구조다.
-> 2. **가치**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 잘게 쪼개기 어려운 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 인메모리 분석, 대형 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트는 노드 간 네트워크보다 **[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장형 고속 연결**에서 더 높은 실효 성능을 얻는다.
+> 1. **본질**: 스케일 업 (Scale-Up) [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 여러 CPU [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)과 대용량 메모리를 하나의 서버 이미지로 묶어, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> 기반의 단일 대형 시스템</strong>처럼 동작하게 하는 내부 상호연결 구조다.
+> 2. **가치**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 잘게 쪼개기 어려운 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 인메모리 분석, 대형 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 호스트는 노드 간 네트워크보다 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 간 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 보장형 고속 연결</strong>에서 더 높은 실효 성능을 얻는다.
 > 3. **판단 포인트**: 코어 수만 늘린다고 성능이 선형 증가하지 않으며, 비균일 메모리 접근 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 애플리케이션이 함께 감당할 수 있어야 한다.
 
 ---
@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 이런 구조가 필요한 이유는 모든 워크로드가 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) ([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))으로 예쁘게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되지 않기 때문이다. 대형 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 전사적 자원 관리 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 대규모 메모리 공유형 분석은 상태 공유와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 많아 노드 간 네트워크 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비용이 급격히 커진다. 이때는 여러 대의 작은 서버보다, 한 대의 큰 서버 안에서 메모리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 유지하며 처리하는 편이 단순하고 빠르다.
 
-[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)가 약하면 많은 CPU를 꽂아도 실제로는 메모리 병목 때문에 성능이 늘지 않는다. 결국 스케일 업의 핵심은 "CPU 개수"가 아니라, **[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 캐시 상태를 얼마나 빠르고 일관되게 주고받을 수 있는가**에 있다.
+[시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)가 약하면 많은 CPU를 꽂아도 실제로는 메모리 병목 때문에 성능이 늘지 않는다. 결국 스케일 업의 핵심은 "CPU 개수"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 캐시 상태를 얼마나 빠르고 일관되게 주고받을 수 있는가</strong>에 있다.
 
 - **📢 섹션 요약 비유**: 스케일 업은 직원 수만 늘린 회의가 아니라, 모두가 같은 전광판을 즉시 보는 지휘실에 가깝다. 전광판 연결이 느리면 사람은 많아도 회의가 굴러가지 않는다.
 
@@ -42,25 +42,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 4소켓 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 서버에서 "로컬 메모리"와 "원격 메모리" 경로가 어떻게 달라지는지 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│        4-Socket NUMA: local DRAM is near, remote DRAM crosses links       │
-├────────────────────────────────────────────────────────────────────────────┤
-│  [CPU0]──UPI/IF──[CPU1]                                                   │
-│    │              │                                                       │
-│  DRAM0          DRAM1                                                     │
-│    │              │                                                       │
-│  [CPU2]──UPI/IF──[CPU3]                                                   │
-│    │              │                                                       │
-│  DRAM2          DRAM3                                                     │
-│                                                                            │
-│  Local path  : CPU0 -> DRAM0                                              │
-│  Remote path : CPU0 -> UPI/IF -> CPU1 -> DRAM1                            │
-│  Coherence   : cache state must be checked before remote data is used     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
 
-실제 운영에서는 로컬 메모리 접근이 대략 수십에서 100ns 안팎인 반면, 원격 메모리는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 홉과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 추가되어 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 보인다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 가상 머신 메모리, 분석 엔진 스레드를 해당 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치하는 것이 중요하다. 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 결국 "모든 CPU를 한 방에 모으는 기술"이 아니라, **멀어진 메모리 거리를 인터커넥트와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제어로 견디게 만드는 기술**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Socket NUMA: local DRAM is near, remote DRAM crosses links</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU0</div><div class="kb-diagram-note">──UPI/IF──</div><div class="kb-diagram-node">CPU1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM0 DRAM1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU2</div><div class="kb-diagram-note">──UPI/IF──</div><div class="kb-diagram-node">CPU3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM2 DRAM3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local path : CPU0 -&gt; DRAM0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote path : CPU0 -&gt; UPI/IF -&gt; CPU1 -&gt; DRAM1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Coherence : cache state must be checked before remote data is used</div></div>
+</div>
+</div>
+
+
+
+실제 운영에서는 로컬 메모리 접근이 대략 수십에서 100ns 안팎인 반면, 원격 메모리는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 홉과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 추가되어 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 보인다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 가상 머신 메모리, 분석 엔진 스레드를 해당 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치하는 것이 중요하다. 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 결국 "모든 CPU를 한 방에 모으는 기술"이 아니라, <strong>멀어진 메모리 거리를 인터커넥트와 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 제어로 견디게 만드는 기술</strong>이다.
 
 - **📢 섹션 요약 비유**: 각 팀원 책상 옆에 개인 서랍이 있고, 남의 서랍을 열려면 복도를 뛰어가 관리대장까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 사무실과 같다. 복도와 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차가 빠를수록 대형 사무실도 효율적으로 움직인다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)와 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망의 가장 큰 차이는 **공유 방식**이다. 스케일 업은 하드웨어가 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)을 보장하는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델을 제공하지만, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 네트워크 위에서 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 소프트웨어가 직접 다룬다. 따라서 같은 "확장"이라도 프로그래밍 모델, 장애 범위, 운영 전략이 완전히 달라진다.
+스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)와 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망의 가장 큰 차이는 <strong>공유 방식</strong>이다. 스케일 업은 하드웨어가 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)을 보장하는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델을 제공하지만, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 네트워크 위에서 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 소프트웨어가 직접 다룬다. 따라서 같은 "확장"이라도 프로그래밍 모델, 장애 범위, 운영 전략이 완전히 달라진다.
 
 | 항목 | 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 클러스터 망 |
 | :-- | :-- | :-- |
@@ -95,7 +94,7 @@ tags = ["studynote-computer-architecture"]
 3. 4소켓, 8소켓으로 올라갈수록 늘어나는 전력, 라이선스, 장애 영향 범위를 감당할 수 있는가?
 4. 가상 머신 CPU pinning, 메모리 locality, 인터리빙 정책을 운영 팀이 유지할 역량이 있는가?
 
-흔한 안티패턴은 "코어 수가 많으니 무조건 빠르다"고 믿고 NUMA를 숨긴 채 가상 머신을 무작위로 배치하는 것이다. 이 경우 원격 메모리와 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 트래픽이 폭증해, 8소켓 서버가 기대보다 느린 비싼 장비가 되기 쉽다. 스케일 업은 하드웨어를 사는 행위가 아니라, **[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 친화적 배치 정책까지 함께 설계하는 행위**로 봐야 한다.
+흔한 안티패턴은 "코어 수가 많으니 무조건 빠르다"고 믿고 NUMA를 숨긴 채 가상 머신을 무작위로 배치하는 것이다. 이 경우 원격 메모리와 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 트래픽이 폭증해, 8소켓 서버가 기대보다 느린 비싼 장비가 되기 쉽다. 스케일 업은 하드웨어를 사는 행위가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 친화적 배치 정책까지 함께 설계하는 행위</strong>로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 대형 도서관을 짓는다고 자동으로 공부가 잘되지는 않는다. 자주 보는 책을 자기 자리 가까이에 놓고, 동선을 설계해야 큰 건물의 장점이 살아난다.
 
@@ -105,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 
 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)가 잘 설계되면 단일 시스템 이미지, 대용량 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/), 낮은 내부 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 강점을 얻는다. 그 결과 애플리케이션 구조를 크게 바꾸지 않고도 성능을 높일 수 있고, 운영자도 여러 노드가 아니라 하나의 큰 서버를 기준으로 자원을 관리할 수 있다. 특히 메모리 집약형 상용 워크로드에서는 이런 단순성이 큰 경쟁력이 된다.
 
-그러나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 수가 늘수록 비용과 소비전력, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 오버헤드, 장애 파급 범위도 함께 커진다. 그래서 최근에는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 고속 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 인터커넥트, 계산 익스프레스 링크 ([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장처럼 "한 대를 더 크게 만들되, 메모리와 가속기를 더 유연하게 붙이는 방향"으로 진화하고 있다. 결국 이 주제는 **CPU를 많이 꽂는 법**이 아니라, **한 대의 서버를 어디까지 일관된 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기계로 유지할 수 있는가**로 기억하는 것이 정확하다.
+그러나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 수가 늘수록 비용과 소비전력, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 오버헤드, 장애 파급 범위도 함께 커진다. 그래서 최근에는 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 고속 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 인터커넥트, 계산 익스프레스 링크 ([CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 메모리 확장처럼 "한 대를 더 크게 만들되, 메모리와 가속기를 더 유연하게 붙이는 방향"으로 진화하고 있다. 결국 이 주제는 <strong>CPU를 많이 꽂는 법</strong>이 아니라, <strong>한 대의 서버를 어디까지 일관된 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> 기계로 유지할 수 있는가</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 스케일 업은 도시를 무조건 넓히는 것이 아니라, 중심가의 도로와 지하철을 정교하게 깔아 한 도시 안에서 빠르게 움직이게 만드는 일과 같다.
 
@@ -123,21 +122,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스 기반 SMP
-    │
-    ▼
-NUMA + 소켓별 메모리 컨트롤러
-    │
-    ▼
-QPI/UPI · Infinity Fabric
-    │
-    ▼
-NUMA 스케줄링 · 디렉터리 기반 일관성 최적화
-    │
-    ▼
-CXL 기반 메모리 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스 기반 SMP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NUMA + 소켓별 메모리 컨트롤러</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">QPI/UPI · Infinity Fabric</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NUMA 스케줄링 · 디렉터리 기반 일관성 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CXL 기반 메모리 확장</div>
+</div>
+</div>
+
+
 
 이 흐름은 "CPU를 많이 연결하는 문제"가 점차 "메모리와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 얼마나 효율적으로 확장하는가"의 문제로 이동했음을 보여준다.
 

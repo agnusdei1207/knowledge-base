@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: OWASP(Open Web Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/)) 재단이 발표하는 10대 웹 보안 취약점이다. 세상에 해킹 수법이 수만 가지가 있지만, 사실 해커들도 귀찮아서 가장 잘 뚫리고(발견 쉽고), 뚫었을 때 DB를 다 빼가는 대박(피해 큼)을 치는 '가성비 좋은 10가지 해킹'만 하루 종일 찔러댄다. 이 10가지를 순위대로 모아놓은 글로벌 족보다. (최신 버전은 2021년판이다.)
 
-- **필요성**: 신입 개발자에게 "안전하게 코딩해"라고 하면 뭘 해야 할지 모른다. 10만 원짜리 자물쇠를 창문에 달고, 정문은 열어두는 헛발질을 한다. 이때 아키텍트가 "잔말 말고 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 리스트 벽에 붙여놓고 이 10개만 막아내라!"라고 지시한다. **한정된 개발 기간과 예산 속에서 어디를 가장 먼저 콘크리트로 막아야 하는지(우선순위 타겟팅)**를 전 세계 해커들의 빅데이터 통계로 증명해 준 가장 친절하고 완벽한 오답 노트다.
+- **필요성**: 신입 개발자에게 "안전하게 코딩해"라고 하면 뭘 해야 할지 모른다. 10만 원짜리 자물쇠를 창문에 달고, 정문은 열어두는 헛발질을 한다. 이때 아키텍트가 "잔말 말고 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 리스트 벽에 붙여놓고 이 10개만 막아내라!"라고 지시한다. <strong>한정된 개발 기간과 예산 속에서 어디를 가장 먼저 콘크리트로 막아야 하는지(우선순위 타겟팅)</strong>를 전 세계 해커들의 빅데이터 통계로 증명해 준 가장 친절하고 완벽한 오답 노트다.
 
-- **💡 비유**: OWASP Top 10은 **'전국 빈집털이범들의 가장 뻔한 수법 Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 뉴스 보도'**와 같습니다. "1위: 우유 투입구로 손 넣기", "2위: 열린 창문 뜯기", "3위: 화분 밑에 숨겨둔 열쇠 찾기". 집주인(개발자)이 도둑을 막겠다고 마당에 지뢰를 깔거나 지붕에 철조망을 치는 오버(Over-engineering)를 할 필요가 없습니다. 그냥 저 뉴스에 나온 1, 2, 3위 수법들(우유 구멍 막기, 열쇠 숨기지 않기)만 철저히 대비해도 도둑질(해킹)의 90%를 막을 수 있는 가장 훌륭한 맞춤형 방범 매뉴얼입니다.
+- **💡 비유**: OWASP Top 10은 <strong>'전국 빈집털이범들의 가장 뻔한 수법 Top <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 뉴스 보도'</strong>와 같습니다. "1위: 우유 투입구로 손 넣기", "2위: 열린 창문 뜯기", "3위: 화분 밑에 숨겨둔 열쇠 찾기". 집주인(개발자)이 도둑을 막겠다고 마당에 지뢰를 깔거나 지붕에 철조망을 치는 오버(Over-engineering)를 할 필요가 없습니다. 그냥 저 뉴스에 나온 1, 2, 3위 수법들(우유 구멍 막기, 열쇠 숨기지 않기)만 철저히 대비해도 도둑질(해킹)의 90%를 막을 수 있는 가장 훌륭한 맞춤형 방범 매뉴얼입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **해킹의 카오스 시대 (2000년대 초)**: 웹이 막 태동하며 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 해킹이 미친 듯이 터졌지만 방어 기준이 없어 개발자들은 맞으면서 배웠다.
-  2. **[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) 탄생 (2003)**: 전문가들이 빡쳐서 "웹 해킹은 결국 이 10개가 전부다!"라며 최초로 문서를 배포. 이후 전 세계 기업 보안팀의 신흥 종교로 급부상.
-  3. **2017년에서 2021년으로의 진화 (현재)**: 과거엔 단순한 코드 버그(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))가 1, 2위를 다퉜지만, 클라우드와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 오자 **"잘못된 설계([Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/))", "권한 통제 실패([Broken Access Control](/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/))", "클라우드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류([Security Misconfiguration](/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/))"** 같은 아키텍처 레벨과 인프라 레벨의 거대한 결함들이 1위로 치고 올라오는 패러다임 시프트가 일어났다.
+  2. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/">OWASP Top 10</a> 탄생 (2003)</strong>: 전문가들이 빡쳐서 "웹 해킹은 결국 이 10개가 전부다!"라며 최초로 문서를 배포. 이후 전 세계 기업 보안팀의 신흥 종교로 급부상.
+  3. **2017년에서 2021년으로의 진화 (현재)**: 과거엔 단순한 코드 버그(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))가 1, 2위를 다퉜지만, 클라우드와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 오자 <strong>"잘못된 설계(<a href="/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/">Insecure Design</a>)", "권한 통제 실패(<a href="/knowledge-base/studynote/09_security/05_web_app_security/417_broken_access_control/">Broken Access Control</a>)", "클라우드 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 오류(<a href="/knowledge-base/studynote/09_security/05_web_app_security/412_security_misconfiguration/">Security Misconfiguration</a>)"</strong> 같은 아키텍처 레벨과 인프라 레벨의 거대한 결함들이 1위로 치고 올라오는 패러다임 시프트가 일어났다.
 
-- **📢 섹션 요약 비유**: 이 10개의 리스트는 의대생들이 달달 외우는 **'한국인 사망 원인 Top [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 통계'**와 같습니다. 의사(아키텍트)가 환자(시스템)의 생명을 지키고 싶다면, 아프리카 열대병 1개를 연구할 시간에 암, 심장병, 뇌졸중(OWASP 1,2,3위)을 예방하고 수술하는 법을 먼저 뼈저리게 마스터해야만 수백만 명을 살려낼 수 있습니다.
+- **📢 섹션 요약 비유**: 이 10개의 리스트는 의대생들이 달달 외우는 <strong>'한국인 사망 원인 Top <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> 통계'</strong>와 같습니다. 의사(아키텍트)가 환자(시스템)의 생명을 지키고 싶다면, 아프리카 열대병 1개를 연구할 시간에 암, 심장병, 뇌졸중(OWASP 1,2,3위)을 예방하고 수술하는 법을 먼저 뼈저리게 마스터해야만 수백만 명을 살려낼 수 있습니다.
 
 ---
 
 다음은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  OWASP Top 10 (2021 기                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OWASP Top 10 (2021 기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [OWASP Top 10](/knowledge-base/studynote/09_security/05_web_app_security/416_owasp_top_10/) ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/) 기준 주요 취약점)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-OWASP Top 10 (2021 기준 주요 취약점) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OWASP Top 10 (2021 기준 주요 취약점) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

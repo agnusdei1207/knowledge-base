@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 3는 HATEOAS (Hypermedia [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) The Engine Of Application [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통해, 클라이언트가 **응답에 포함된 링크와 행위 정보로 다음 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 발견**하게 만드는 단계다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 3는 HATEOAS (Hypermedia [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) The Engine Of Application [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통해, 클라이언트가 <strong>응답에 포함된 링크와 행위 정보로 다음 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 발견</strong>하게 만드는 단계다.
 > 2. **가치**: 클라이언트가 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 하드코딩하는 정도를 줄여, 서버가 워크플로를 진화시켜도 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고 자기 서술적인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 만들 수 있다.
 > 3. **판단 포인트**: Level 3는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))의 이상형에 가깝지만, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 필요한 것은 아니며 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도와 클라이언트 다양성을 보고 채택 범위를 정해야 한다.
 
@@ -19,9 +19,9 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-Level 3의 핵심은 서버가 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 주는 것이 아니라, **[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서 허용되는 다음 행동의 링크를 함께 제공**한다는 점이다. 예를 들어 주문이 `CREATED` 상태라면 `cancel`, `pay` 링크를 줄 수 있고, 이미 `SHIPPED` 상태라면 `track` 링크만 남길 수 있다. 클라이언트는 문서에 적힌 URI 규칙을 외워 두기보다, 서버가 보내 준 하이퍼미디어를 따라가며 애플리케이션 상태를 이동한다.
+Level 3의 핵심은 서버가 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 주는 것이 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">현재 상태</a>에서 허용되는 다음 행동의 링크를 함께 제공</strong>한다는 점이다. 예를 들어 주문이 `CREATED` 상태라면 `cancel`, `pay` 링크를 줄 수 있고, 이미 `SHIPPED` 상태라면 `track` 링크만 남길 수 있다. 클라이언트는 문서에 적힌 URI 규칙을 외워 두기보다, 서버가 보내 준 하이퍼미디어를 따라가며 애플리케이션 상태를 이동한다.
 
-이 단계가 필요한 이유는 Level 2에서도 여전히 클라이언트가 많은 업무 흐름을 코드에 하드코딩하기 쉽기 때문이다. `POST /orders/{id}/cancel` 같은 엔드포인트를 클라이언트가 직접 알고 있어야 한다면, URI 구조나 허용 가능한 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 바뀔 때마다 앱 수정과 재배포가 뒤따른다. HATEOAS는 이 문제를 줄이기 위해, **워크플로의 일부를 응답 안에 노출**한다.
+이 단계가 필요한 이유는 Level 2에서도 여전히 클라이언트가 많은 업무 흐름을 코드에 하드코딩하기 쉽기 때문이다. `POST /orders/{id}/cancel` 같은 엔드포인트를 클라이언트가 직접 알고 있어야 한다면, URI 구조나 허용 가능한 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 바뀔 때마다 앱 수정과 재배포가 뒤따른다. HATEOAS는 이 문제를 줄이기 위해, <strong>워크플로의 일부를 응답 안에 노출</strong>한다.
 
 결국 Level 3는 "링크를 더 붙이는 단계"가 아니라, API가 스스로 사용법을 어느 정도 안내하도록 만드는 단계다. HTML (HyperText Markup Language) 문서에서 사용자가 링크를 클릭하며 다음 화면으로 이동하듯, API도 하이퍼미디어를 통해 다음 행위를 제시하는 것이다.
 
@@ -31,33 +31,33 @@ Level 3의 핵심은 서버가 단순 [데이터](/knowledge-base/studynote/05_d
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-HATEOAS 응답은 보통 리소스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 링크 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(`rel`), 대상 URI, 필요한 경우 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드나 폼 정보로 구성된다. 핵심은 링크가 정적 목록이 아니라 **현재 리소스 상태에 따라 달라진다**는 점이다. 그래서 같은 주문 리소스라도 결제 전과 배송 후의 응답 링크 집합이 달라질 수 있다.
+HATEOAS 응답은 보통 리소스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 링크 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(`rel`), 대상 URI, 필요한 경우 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드나 폼 정보로 구성된다. 핵심은 링크가 정적 목록이 아니라 <strong>현재 리소스 상태에 따라 달라진다</strong>는 점이다. 그래서 같은 주문 리소스라도 결제 전과 배송 후의 응답 링크 집합이 달라질 수 있다.
 
 아래 그림은 주문 상태에 따른 Level 3 응답 개념을 나타낸다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                Level 3 HATEOAS의 상태 전이 구조                   │
-├────────────────────────────────────────────────────────────────────┤
-│ GET /orders/1001                                                  │
-│                                                                    │
-│ state = CREATED                                                    │
-│ links:                                                             │
-│   self    -> /orders/1001                                          │
-│   pay     -> /orders/1001/payment                                  │
-│   cancel  -> /orders/1001/cancel                                   │
-│                                                                    │
-│ state = SHIPPED                                                    │
-│ links:                                                             │
-│   self    -> /orders/1001                                          │
-│   track   -> /orders/1001/tracking                                 │
-│   cancel  -> 제공하지 않음                                         │
-│                                                                    │
-│ 핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다     │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 의미는 "같은 리소스라도 상태가 바뀌면 인터페이스도 함께 바뀐다"는 것이다. 클라이언트는 `cancel` 링크가 없으면 취소가 불가능하다는 사실을 자연스럽게 이해할 수 있다. 이렇게 하면 비즈니스 규칙을 문서 외부가 아니라 **응답 표현 자체**에 더 가깝게 실을 수 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3 HATEOAS의 상태 전이 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /orders/1001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state = CREATED</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">links:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self -&gt; /orders/1001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pay -&gt; /orders/1001/payment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cancel -&gt; /orders/1001/cancel</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state = SHIPPED</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">links:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self -&gt; /orders/1001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">track -&gt; /orders/1001/tracking</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cancel -&gt; 제공하지 않음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다</div></div>
+</div>
+</div>
+
+
+
+이 그림의 의미는 "같은 리소스라도 상태가 바뀌면 인터페이스도 함께 바뀐다"는 것이다. 클라이언트는 `cancel` 링크가 없으면 취소가 불가능하다는 사실을 자연스럽게 이해할 수 있다. 이렇게 하면 비즈니스 규칙을 문서 외부가 아니라 <strong>응답 표현 자체</strong>에 더 가깝게 실을 수 있다.
 
 | 요소 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -86,7 +86,7 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 
 또한 HATEOAS는 HTML 기반 웹의 동작 방식과 닮아 있다. 사용자는 쇼핑몰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 서버가 제공한 버튼과 링크를 눌러 이동하지, 다음 URI를 직접 조합해 입력하지 않는다. 이런 의미에서 Level 3는 웹의 하이퍼미디어 철학을 API로 확장한 것이다. 다만 모바일 앱, 프런트엔드 [단일 페이지 애플리케이션](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/317_spa_single_page_application/) (SPA, Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Application), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 환경에서는 클라이언트 상태 관리와 문서화 방식에 따라 채택 강도가 달라질 수 있다.
 
-즉 Level 3는 "REST를 더 엄격하게 지키는가"만의 문제가 아니라, **클라이언트와 서버의 책임을 어디까지 분리할 것인가**를 결정하는 아키텍처 선택이다.
+즉 Level 3는 "REST를 더 엄격하게 지키는가"만의 문제가 아니라, <strong>클라이언트와 서버의 책임을 어디까지 분리할 것인가</strong>를 결정하는 아키텍처 선택이다.
 
 - **📢 섹션 요약 비유**: Level 2가 잘 정리된 도로 표지판이라면, Level 3는 현재 차량 종류와 도착지에 맞춰 실시간 우회로까지 알려 주는 내비게이션이다.
 
@@ -108,7 +108,7 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 - 문서화 없이 임의 필드명으로 링크를 흩뿌려 오히려 해석 난도를 높이는 경우
 - 단순 CRUD API에 과도한 하이퍼미디어 구조를 넣어 복잡도만 키우는 경우
 
-기술사 관점에서는 "Level 3가 무조건 최고이므로 항상 도입"이라는 답변보다, **[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도 대비 비용과 효과를 따져 채택 범위를 설명하는 답변**이 더 적절하다. 즉 HATEOAS는 이상적인 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 원칙이지만, 실무에서는 선택적 적용이 합리적일 수 있다.
+기술사 관점에서는 "Level 3가 무조건 최고이므로 항상 도입"이라는 답변보다, <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 복잡도 대비 비용과 효과를 따져 채택 범위를 설명하는 답변</strong>이 더 적절하다. 즉 HATEOAS는 이상적인 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 원칙이지만, 실무에서는 선택적 적용이 합리적일 수 있다.
 
 - **📢 섹션 요약 비유**: HATEOAS는 대형 공항의 동선 안내 시스템과 같다. 환승이 복잡한 곳에서는 큰 도움이 되지만, 방 하나짜리 작은 사무실에까지 같은 수준의 안내판을 설치하면 과해질 수 있다.
 
@@ -118,9 +118,9 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 
 Level 3를 적절히 적용하면 클라이언트가 서버의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙을 더 자연스럽게 따라갈 수 있고, URI 변경에 대한 민감도를 낮추며, API를 자기 설명적으로 만들 수 있다. 특히 장기 운영되는 플랫폼 API나 복잡한 워크플로 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 이런 장점이 드러난다. 이는 단순 설계 미학이 아니라, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 클라이언트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 비용을 낮추는 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 될 수 있다.
 
-그러나 응답 크기 증가, 표현 포맷 표준화, 클라이언트 구현 복잡도, 테스트 부담 같은 비용도 분명하다. 따라서 Level 3는 REST의 교과서적 완성형이지만, 실무에서는 **필요한 경계에만 정교하게 적용하는 것이 현실적**이다.
+그러나 응답 크기 증가, 표현 포맷 표준화, 클라이언트 구현 복잡도, 테스트 부담 같은 비용도 분명하다. 따라서 Level 3는 REST의 교과서적 완성형이지만, 실무에서는 <strong>필요한 경계에만 정교하게 적용하는 것이 현실적</strong>이다.
 
-결론적으로 HATEOAS는 "링크를 더 넣는 기법"이 아니라, **서버가 다음 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 안내하는 인터페이스 철학**으로 기억해야 한다. 이 관점을 잡으면 Level 2와의 차이, HTML과의 연결, 실무 채택 기준까지 한 번에 정리할 수 있다.
+결론적으로 HATEOAS는 "링크를 더 넣는 기법"이 아니라, <strong>서버가 다음 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 안내하는 인터페이스 철학</strong>으로 기억해야 한다. 이 관점을 잡으면 Level 2와의 차이, HTML과의 연결, 실무 채택 기준까지 한 번에 정리할 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 HATEOAS API는 사용자가 메뉴판만 봐도 다음에 무엇을 할 수 있는지 알게 해 주는 키오스크와 같다. 버튼이 현재 상황에 맞게 달라져야 진짜 도움이 된다.
 
@@ -138,21 +138,23 @@ Level 3를 적절히 적용하면 클라이언트가 서버의 [상태 전이](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RPC 스타일 API
-    │
-    ▼
-리소스 중심 URI
-    │
-    ▼
-HTTP 메서드 의미 분리
-    │
-    ▼
-HATEOAS (Hypermedia As The Engine Of Application State)
-    │
-    ▼
-자기 서술적 워크플로 API
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RPC 스타일 API</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">리소스 중심 URI</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HTTP 메서드 의미 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HATEOAS (Hypermedia As The Engine Of Application State)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자기 서술적 워크플로 API</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)형 인터페이스 → 리소스화 → 웹 의미 활용 → [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 안내"로 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 발전하는 맥락을 보여준다.
 

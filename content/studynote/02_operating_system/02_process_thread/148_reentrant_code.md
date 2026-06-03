@@ -18,7 +18,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-재진입 가능 코드 (Reentrant [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))란 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 프로세스가 특정 코드를 실행하는 도중에, 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 OS 시그널이 발생하여 해당 코드를 중단하고 **같은 코드를 또다시 진입(호출)하더라도 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엉키지 않고 정상 동작**하는 코드를 말한다.
+재진입 가능 코드 (Reentrant [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))란 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)나 프로세스가 특정 코드를 실행하는 도중에, 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 OS 시그널이 발생하여 해당 코드를 중단하고 <strong>같은 코드를 또다시 진입(호출)하더라도 내부 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 엉키지 않고 정상 동작</strong>하는 코드를 말한다.
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단일 실행 흐름에서는 함수가 끝날 때까지 방해받을 일이 적었지만, 멀티태스킹과 비동기 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경에서는 함수 실행 중 언제든 흐름이 끊길 수 있다. 만약 함수가 내부에 공용 계산기(정적 변수)를 두고 있다면, 첫 번째 실행자가 계산하던 중간에 두 번째 실행자가 난입하여 값을 엎어버릴 것이다. 첫 번째 실행자가 돌아왔을 때 계산기는 이미 망가져 있다. 이를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 생명주기를 철저히 개별 호출([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 단위로 격리하는 재진입성(Reentrancy)이 시스템 안정성의 필수 요건이 되었다.
 
@@ -30,32 +30,30 @@ tags = ["studynote-operating-system"]
 
 재진입성을 보장하려면 코드 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 관리되는지가 가장 중요하다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리       │
-├─────────────────────────────────────────────────────────────┤
-│ [ 비재진입 함수 (Non-Reentrant) ]                           │
-│ int sum() { static int count=0; return ++count; }           │
-│                                                             │
-│ Thread A 호출 ─▶ count=1 ─▶ [인터럽트 발생!] ─┐               │
-│                                           │                 │
-│ Thread B 재진입 ─▶ count=2 반환 (정상) ◀───┘                 │
-│                                                             │
-│ Thread A 복귀 ─▶ 이미 count가 2로 오염됨 ─▶ 엉뚱한 값 반환 💥  │
-│                                                             │
-│ [ 재진입 가능 함수 (Reentrant) ]                            │
-│ int sum(int *count) { return ++(*count); }                  │
-│                                                             │
-│ 각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용           │
-│ ─▶ Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️     │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비재진입 함수 (Non-Reentrant)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int sum() { static int count=0; return ++count; }</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 발생!</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B 재진입 ─▶ count=2 반환 (정상) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A 복귀 ─▶ 이미 count가 2로 오염됨 ─▶ 엉뚱한 값 반환 💥</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">재진입 가능 함수 (Reentrant)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int sum(int *count) { return ++(*count); }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️</div></div>
+</div>
+</div>
+
+
 
 재진입 가능 코드가 되기 위한 절대 조건은 다음과 같다.
-1. **정적/전역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정 금지**: `static` 변수나 전역 변수를 읽고 쓰지 않아야 한다.
+1. <strong>정적/전역 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정 금지</strong>: `static` 변수나 전역 변수를 읽고 쓰지 않아야 한다.
 2. **자체적인 상태 보존 금지**: 이전 호출의 상태를 다음 호출이 기억하게 만들면 안 된다.
 3. **호출자 제공 메모리 사용**: 결과를 저장할 메모리 공간(버퍼)은 호출자가 매개변수로 직접 전달해야 한다.
-4. **안전하지 않은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 금지**: 내부적으로 전역 힙 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 쓰는 `malloc/free`나 정적 버퍼를 쓰는 `printf`, `strtok` 등을 호출하지 않아야 한다.
+4. <strong>안전하지 않은 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 금지</strong>: 내부적으로 전역 힙 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 쓰는 `malloc/free`나 정적 버퍼를 쓰는 `printf`, `strtok` 등을 호출하지 않아야 한다.
 
 - **📢 섹션 요약 비유**: 비재진입 함수가 '게시판에 분필로 글 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'라면, 재진입 함수는 '각자의 공책에 연필로 글 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'입니다. 게시판은 남이 지우면 끝이지만, 공책은 아무리 많은 사람이 동시에 써도 서로 간섭하지 않습니다.
 
@@ -67,10 +65,10 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 재진입 가능 (Reentrant) | [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) | 순수 함수 (Pure Function) |
 | :--- | :--- | :--- | :--- |
-| **핵심 제어 대상** | **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)/시그널 (동일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내 중단 및 재호출)** | **멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) (동시 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 접근)** | **수학적 결정성 (부작용 없음)** |
-| **락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 사용** | **사용하면 위험함** (데드락 발생 가능) | 락을 사용하여 공유 자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 자원 공유 자체를 안 함 |
+| **핵심 제어 대상** | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>/시그널 (동일 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 내 중단 및 재호출)</strong> | <strong>멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (동시 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 접근)</strong> | **수학적 결정성 (부작용 없음)** |
+| <strong>락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>) 사용</strong> | **사용하면 위험함** (데드락 발생 가능) | 락을 사용하여 공유 자원 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 자원 공유 자체를 안 함 |
 | **전역 상태 변경** | 불가 | 락을 통해 안전하게 가능 | 절대 불가 |
-| **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)** | 순수 함수는 100% 재진입 가능함 | 재진입 코드가 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)을 보장하진 않음 | 가장 엄격한 형태의 재진입 코드 |
+| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | 순수 함수는 100% 재진입 가능함 | 재진입 코드가 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)을 보장하진 않음 | 가장 엄격한 형태의 재진입 코드 |
 
 재진입 함수는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 쓰면 안 된다. 시그널 핸들러가 락을 잡은 상태에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸려 동일 함수로 재진입하면, 본인이 잡고 있는 락을 기다리며 영원히 멈추는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠지기 때문이다. 반면 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) 함수는 락을 통해 엉킴을 막는다.
 
@@ -84,10 +82,10 @@ tags = ["studynote-operating-system"]
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (Async-[Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)-Safe)
 1. **시그널 핸들러 설계**: 리눅스에서 `SIGINT`, `SIGTERM` 등의 시그널을 처리하는 핸들러 함수 내부에서는 절대로 `printf()`를 쓰면 안 된다. `printf`는 내부적으로 전역 버퍼에 대한 락을 사용하므로 비재진입 함수다. 대신 재진입이 보장되는 POSIX 시스템 콜인 `write()`를 직접 호출해야 한다.
-2. **표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 교체**: C 언어의 `strtok`, `rand`, `ctime` 같은 고전 함수들은 내부에 정적 변수를 쓴다. 멀티스레딩이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경에서는 호출자가 버퍼를 제공하는 `strtok_r`, `rand_r`, `ctime_r` (여기서 `_r`이 Reentrant의 약자)로 반드시 교체해야 한다.
+2. <strong>표준 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 교체</strong>: C 언어의 `strtok`, `rand`, `ctime` 같은 고전 함수들은 내부에 정적 변수를 쓴다. 멀티스레딩이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 환경에서는 호출자가 버퍼를 제공하는 `strtok_r`, `rand_r`, `ctime_r` (여기서 `_r`이 Reentrant의 약자)로 반드시 교체해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 내의 동적 할당**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리기 안에서 `malloc()`을 호출하는 행위. 전역 힙 메모리를 관리하는 락과 충돌하여 전체 시스템을 교착 상태로 몰아넣는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a>) 내의 동적 할당</strong>: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리기 안에서 `malloc()`을 호출하는 행위. 전역 힙 메모리를 관리하는 락과 충돌하여 전체 시스템을 교착 상태로 몰아넣는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 시그널 핸들러에서 비재진입 함수를 쓰는 것은, 응급실 의사([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))가 긴급 수술을 하다가 병원 공용 전화기(전역 락)로 피자를 시키는 것과 같습니다. 다른 전화가 걸려 오면 선이 엉켜 병원 마비가 옵니다. 응급실에서는 무조건 개인 무전기(재진입 함수)만 써야 합니다.
 
@@ -108,27 +106,29 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **순수 함수 (Pure Function)** | 동일 입력에 동일 출력을 반환하며 외부 상태를 절대 건드리지 않는 함수. 재진입성의 가장 완벽한 교집합. |
-| **[스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/) ([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))** | 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 접근해도 안전함을 의미. 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 사용할 수 있다는 점에서 재진입성과 다르다. |
-| **[인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/))** | 하드웨어 신호를 즉각 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 내의 함수는 100% 재진입 가능해야 시스템 패닉을 막는다. |
-| **데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))** | 비재진입 함수(락 포함)를 시그널 핸들러에서 잘못 호출했을 때, 자기가 자기 락을 기다리며 멈추는 파멸적 상태. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/">스레드 안전</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/">Thread-Safe</a>)</strong> | 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 접근해도 안전함을 의미. 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 사용할 수 있다는 점에서 재진입성과 다르다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">인터럽트 서비스 루틴</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/">ISR</a>)</strong> | 하드웨어 신호를 즉각 처리하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직. [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 내의 함수는 100% 재진입 가능해야 시스템 패닉을 막는다. |
+| <strong>데드락 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)</strong> | 비재진입 함수(락 포함)를 시그널 핸들러에서 잘못 호출했을 때, 자기가 자기 락을 기다리며 멈추는 파멸적 상태. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-절차적 단일 실행 (순차 처리)
-    │
-    ▼
-하드웨어 인터럽트 · 시그널 (Signal) 등장 / 흐름의 비동기적 중단 발생
-    │
-    ▼
-재진입 가능 코드 (Reentrant Code) 도입 / 정적 변수 제거 및 _r 라이브러리
-    │
-    ▼
-멀티스레드 (Multi-Thread) 환경 도래 / 스레드 안전성 (Thread-Safety) 요구
-    │
-    ▼
-함수형 프로그래밍 (Functional Programming) · 순수 함수 (Pure Function) 패러다임 확산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">절차적 단일 실행 (순차 처리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하드웨어 인터럽트 · 시그널 (Signal) 등장 / 흐름의 비동기적 중단 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재진입 가능 코드 (Reentrant Code) 도입 / 정적 변수 제거 및 _r 라이브러리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티스레드 (Multi-Thread) 환경 도래 / 스레드 안전성 (Thread-Safety) 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수형 프로그래밍 (Functional Programming) · 순수 함수 (Pure Function) 패러다임 확산</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

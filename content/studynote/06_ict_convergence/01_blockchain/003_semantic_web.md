@@ -45,36 +45,34 @@ tags = ["ict_convergence"]
 
 ### 시맨틱 웹 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Layered Cake Model)
 
-```
-[사용자 애플리케이션]
-│
-▼
-┌────────────────────────────────────────────────────────┐
-│ 상위 계층: 논리 (Logic) / 온톨로지 (OWL) │
-│ ├─ 추론 규칙 (Inference Rules) │
-│ └─ 지식 검증 (Knowledge Validation) │
-├────────────────────────────────────────────────────────┤
-│ 온톨로지 계층: RDFS / OWL │
-│ ├─ 클래스 정의 (Class Definition) │
-│ ├─ 속성 정의 (Property Definition) │
-│ └─ 관계 규칙 (Relationship Rules) │
-├────────────────────────────────────────────────────────┤
-│ RDF 계층: Subject-Predicate-Object (Triple) │
-│ ├─ 예: <김철수> <졸업한> <서울대학교> │
-│ ├─ 예: <서울대학교> <위치> <서울> │
-│ └─ 예: <컴퓨터공학과> <소속> <서울대학교> │
-├────────────────────────────────────────────────────────┤
-│ RDF Schema: 어휘 목록 (Vocabulary) │
-│ ├─ 클래스 계층 구조 (Class Hierarchy) │
-│ └─ 속성 도메인/레인지 (Domain/Range) │
-├────────────────────────────────────────────────────────┤
-│ URI/IRI: 자원 식별자 │
-│ └─ 전 세계 고유 식별자 (예: http://example.org/서울대)│
-└────────────────────────────────────────────────────────┘
-│
-▼
-[Linked Data (데이터)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 애플리케이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 계층: 논리 (Logic) / 온톨로지 (OWL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 추론 규칙 (Inference Rules)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 지식 검증 (Knowledge Validation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온톨로지 계층: RDFS / OWL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스 정의 (Class Definition)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 속성 정의 (Property Definition)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 관계 규칙 (Relationship Rules)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF 계층: Subject-Predicate-Object (Triple)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;김철수&gt; &lt;졸업한&gt; &lt;서울대학교&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;서울대학교&gt; &lt;위치&gt; &lt;서울&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;컴퓨터공학과&gt; &lt;소속&gt; &lt;서울대학교&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF Schema: 어휘 목록 (Vocabulary)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스 계층 구조 (Class Hierarchy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 속성 도메인/레인지 (Domain/Range)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI/IRI: 자원 식별자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전 세계 고유 식별자 (예: http://example.org/서울대)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Linked Data (데이터)</div></div>
+</div>
+</div>
+
+
 
 ### 온톨로지의 구조
 
@@ -152,56 +150,48 @@ Web 3.0 시대의 시맨틱 웹은 [탈중앙화](/knowledge-base/studynote/06_i
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-```
-+------------------------------------------------------------------+
-| 시맨틱 웹 기술 스택 |
-+------------------------------------------------------------------+
-| |
-| [응용 계층] |
-| ┌────────────────────────────────────────────────────────────┐ │
-| │ 검색 엔진 │ 챗봇 │ 지식 관리 │ 추천 시스템 │ 자동 추론 │ │
-| └────────────────────────────────────────────────────────────┘ │
-| │ |
-│ ┌───────────────────────────▼───────────────────────────────┐ │
-| │ 온톨로지 (OWL) │ │
-| │ ├─ 클래스, 속성, 인스턴스 정의 │ │
-| │ ├─ 추론 규칙 (SubClassOf, SubPropertyOf, EquivalentClass) │ │
-| │ └─ Restrictions (allValuesFrom, someValuesFrom) │ │
-| └────────────────────────────────────────────────────────────┘ │
-| │ |
-| ┌───────────────────────────▼───────────────────────────────┐ │
-| │ RDF (Resource Description Framework) │ │
-| │ Subject ─── Predicate ─── Object │ │
-| │ <김철수> <졸업한> <서울대> │ │
-| │ <서울대> <위치> <서울> │ │
-| └────────────────────────────────────────────────────────────┘ │
-| │ |
-| ┌───────────────────────────▼───────────────────────────────┐ │
-| │ URI/IRI ─── 전 세계 고유 식별자 │ │
-| └────────────────────────────────────────────────────────────┘ │
-+------------------------------------------------------------------+
-| Linked Data 원칙: |
-| ① 모든 자원에 URI 부여 ② Dereference 가능 |
-| ③ 표준 기술 사용 (RDF) ④ 관련 자원과 Link 제공 |
-+------------------------------------------------------------------+
-| 핵심 가치: "기계가 이해할 수 있다 웹" → 검색 정확성·추론 자동화 ↑ |
-+------------------------------------------------------------------+
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 웹 기술 스택</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">응용 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검색 엔진</div><div class="kb-diagram-cell">챗봇</div><div class="kb-diagram-cell">지식 관리</div><div class="kb-diagram-cell">추천 시스템</div><div class="kb-diagram-cell">자동 추론</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온톨로지 (OWL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스, 속성, 인스턴스 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 추론 규칙 (SubClassOf, SubPropertyOf, EquivalentClass)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Restrictions (allValuesFrom, someValuesFrom)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF (Resource Description Framework)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject Predicate Object</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;김철수&gt; &lt;졸업한&gt; &lt;서울대&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;서울대&gt; &lt;위치&gt; &lt;서울&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI/IRI 전 세계 고유 식별자</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linked Data 원칙:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 모든 자원에 URI 부여 ② Dereference 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 표준 기술 사용 (RDF) ④ 관련 자원과 Link 제공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 가치: "기계가 이해할 수 있다 웹" → 검색 정확성·추론 자동화 ↑</div></div>
+</div>
+</div>
+
+
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[온톨로지 (Ontology)]
-│
-▼
-[RDF (Resource Description Framework)]
-│
-▼
-[링크드 데이터 (Linked Data)]
-│
-▼
-[추론 규칙 (Reasoning Rules)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">온톨로지 (Ontology)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RDF (Resource Description Framework)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">링크드 데이터 (Linked Data)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">추론 규칙 (Reasoning Rules)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 온톨로지 (Ontology)와 RDF (Resource Description Framework)가 링크드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Linked [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 추론 규칙 (Reasoning Rules)로 이어지는 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)의 발전 순서를 보여준다.
 

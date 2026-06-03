@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명적 결함인 '단일 패리티 전담 디스크 병목'을 해소하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록과 패리티(복원 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 어레이를 구성하는 **모든 디스크들에 골고루 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Distributed) 교차 순환 기록하는** 패리티 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 아키텍처다.
-> 2. **가치**: [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 돈 낭비(용량 50%)를 걷어내어 오직 1개 디스크 분량의 용량만 잃고도 단일 하드 파손(1 드라이브 [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 무결점 복원하는 **범용성**, 그리고 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O 처리의 **가성비([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))** 와 **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 절충**의 삼박자를 지구상 가장 완벽하게 조화시킨 기업용 스토리지 교과서 레벨이다.
+> 1. **본질**: 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명적 결함인 '단일 패리티 전담 디스크 병목'을 해소하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록과 패리티(복원 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 어레이를 구성하는 <strong>모든 디스크들에 골고루 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Distributed) 교차 순환 기록하는</strong> 패리티 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 아키텍처다.
+> 2. **가치**: [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 돈 낭비(용량 50%)를 걷어내어 오직 1개 디스크 분량의 용량만 잃고도 단일 하드 파손(1 드라이브 [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 무결점 복원하는 **범용성**, 그리고 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O 처리의 <strong>가성비(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>)</strong> 와 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 절충</strong>의 삼박자를 지구상 가장 완벽하게 조화시킨 기업용 스토리지 교과서 레벨이다.
 > 3. **한계**: 하지만 현대 TB 급을 넘어선 20TB 이상 초거대 스핀들 드라이브 생태계에서는 한 개 디스크 고장 시 시스템을 다시 깎아 세우는 재건축(Rebuilding Limit)에 너무 긴 시간과 CPU 부하가 폭주하여, 이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타임라인의 빈틈마저 꿰뚫는 URE 연쇄 사망(2nd [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Fail) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 무한 증가하며 [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) 로 세대 왕좌를 넘겨주고 있다.
 
 ---
@@ -22,32 +22,30 @@ tags = ["studynote-operating-system"]
 - **개념**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 시스템은 3개 이상의 기계적 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 묶어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 단일 볼륨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))을 구축할 때 쓰인다. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `Chunk`(청크/스트라이프 사이즈 단위)로 촥촥촥 뿌릴 때 특정 디스크 하나를 패리티 장부용 조공 디스크로 왕따를 시키지 않고([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 실패), 5번 블록 패리티는 1번 디스크에, 6번의 패리티는 2번 디스크에, 이런 식으로 계단(회전)식으로 회전 분배 배분하는 공학의 걸작이다.
 - **필요성**: 엔터프라이즈 서버(웹 서버, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))는 읽기와 무작위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패턴이 산발적으로 일일이 부딪친다. "저장 용량은 최대한 뽑고 싶고, 돈은 적당히 들여야 하고, 속도도 빨라야겠고, 절대 고장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안 날아가길 바래" 라는 고객들의 까다로운 다중 트레이드오프(Trade-off) 억제를 수학적으로 절충한 **"황금 비율 접합 마법의 3각 지대 교집합"** 자리에 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 태동하여 20년간 세상을 지배했다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 회전 패리티)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깍둑 분배 물리 매핑 구조**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 5 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 회전 패리티)의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 깍둑 분배 물리 매핑 구조</strong>:
 `Parity (P)` [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 식으로 촘촘히 엇갈려 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Distributed)되어 모든 디스크에 배분되는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 5 분산 패리티 (Distributed Parity) 순환 매핑도          │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │   최소 디스크 3개 필요! (아래는 일반적인 4개 구성 디스크 어레이의 예)        │
-  │                                                                              │
-  │         [ 디스크 1 ]      [ 디스크 2 ]      [ 디스크 3 ]      [ 디스크 4 ]   │
-  │ 스트라이프                                                                   │
-  │   1번줄:   Data A        Data B        Data C        [ P 1 ] ──(끝디스크부담)│
-  │   2번줄:   Data D        Data E        [ P 2 ]       Data F                  │
-  │   3번줄:   Data G        [ P 3 ]       Data H        Data I                  │
-  │   4번줄:   [ P 4 ]       Data J        Data K        Data L                  │
-  │                                                                              │
-  │   (※ P 번호 = 해당 줄에 배치된 Data들의 XOR 패리티 힌트 값 엑셀 합계용)      │
-  │                                                                              │
-  │   [ 💥 디스크 2 파손 시 복원 작동 ]                                          │
-  │     - 1번줄의 분실된 Data B = Data A ⊕ Data C ⊕ P 1 으로 즉각 연산 부활!     │
-  │     - 3번줄의 분실된 P 3 패리티값은? 안중요해걍 지우고 A ⊕ H ⊕ I 다시 쓰면됨!│
-  │                                                                              │
-  │   * 효과: 누구 하나 패리티 작성 전담을 강요받지 않으므로 I/O 병단 체증 소멸! │
-  └──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 5 분산 패리티 (Distributed Parity) 순환 매핑도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 디스크 3개 필요! (아래는 일반적인 4개 구성 디스크 어레이의 예)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 3</div><div class="kb-diagram-node">디스크 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트라이프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1번줄: Data A Data B Data C</div><div class="kb-diagram-node">P 1</div><div class="kb-diagram-note">──(끝디스크부담)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2번줄: Data D Data E</div><div class="kb-diagram-node">P 2</div><div class="kb-diagram-note">Data F</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3번줄: Data G</div><div class="kb-diagram-node">P 3</div><div class="kb-diagram-note">Data H Data I</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4번줄:</div><div class="kb-diagram-node">P 4</div><div class="kb-diagram-note">Data J Data K Data L</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ P 번호 = 해당 줄에 배치된 Data들의 XOR 패리티 힌트 값 엑셀 합계용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 디스크 2 파손 시 복원 작동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1번줄의 분실된 Data B = Data A ⊕ Data C ⊕ P 1 으로 즉각 연산 부활!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3번줄의 분실된 P 3 패리티값은? 안중요해걍 지우고 A ⊕ H ⊕ I 다시 쓰면됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 누구 하나 패리티 작성 전담을 강요받지 않으므로 I/O 병단 체증 소멸!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 그림에서 보면 맨 마지막의 패리티 블록(`[ P ]`) 열매 배치가 세로 일렬로 내려가지 않고, 대각선 파도 타기 형태로 4 → 3 → 2 → 1번 디스크로 계속 위치를 엇갈리며 순환(Rotate) 저장되는 것을 알 수 있다. 이 기하학적 엇갈림 구조 덕에 다양한 위치에서 무작위 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다발의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Random [Write Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))가 들어와도, 이 디스크를 썼다가 저 디스크를 썼다가 IO를 산개시켜버리므로 특정 단 한 부분 디스크의 스핀들 축만 모터가 불타며 부하 병목에 걸리는(Spindle Contention) 비극(앞장에서 본 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 4의 치명타)을 원천 차단시켰다. 디스크 1개가 터지더라도 동일한 XOR 복원 수학을 구동해 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 살려낸다.
 
@@ -59,24 +57,24 @@ tags = ["studynote-operating-system"]
 
 ### 1. I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 특성 (Random [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) & Write Penalty Limits)
 
-[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 다재다능하긴 하지만 레이드 0, 1의 각 전공 영역의 스피드에 대적하기 위해선 숨겨진 **[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 패널티 타격 (Write Penalty)** 핸디캡을 여전히 뼈저리게 짊어지고 간다. 이 메커니즘을 명백히 파악해야 현장 인프라 DB 튜닝(IOPS 수식 연산 설계)을 실패하지 않는다.
+[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5가 다재다능하긴 하지만 레이드 0, 1의 각 전공 영역의 스피드에 대적하기 위해선 숨겨진 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 패널티 타격 (Write Penalty)</strong> 핸디캡을 여전히 뼈저리게 짊어지고 간다. 이 메커니즘을 명백히 파악해야 현장 인프라 DB 튜닝(IOPS 수식 연산 설계)을 실패하지 않는다.
 
 | 작업 패턴 워크로드 | [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 아키텍처 반환 체감 및 구동 메커니즘 | 효율 평가 |
 |:---|:---|:---|
-| **큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 (Sequential)** | 모든 디스크들이 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 갈라 들고 한방에 전송함. 패리티도 어차피 줄 단위로 쫘악 계산하면 끝이므로 매우 강력하고 부드러운 전송률 파워 획득! | **매우 훌륭함 (Good)** |
+| <strong>큰 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>/읽기 (Sequential)</strong> | 모든 디스크들이 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 갈라 들고 한방에 전송함. 패리티도 어차피 줄 단위로 쫘악 계산하면 끝이므로 매우 강력하고 부드러운 전송률 파워 획득! | **매우 훌륭함 (Good)** |
 | **랜덤 읽기 (Random Read)** | 흩어진 웹 이미지 조각들을 각 디스크 헤드가 독자적으로 쪼개서 멀티 스레드로 읽어 반환. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적 헤드 탐색 분무기 산개로 디스크 N개만큼의 준수한 스피드 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/). | **매우 우수함 (Excellent)** |
-| **랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) (Random Write / [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Update)** | **치명타!** RMW(Read-Modify-Write) 병목. 1KB만 바꿀라 해도 앞장의 공식인 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 ➔ 기존 P 읽기 ➔ XOR 계산 ➔ 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ➔ 새 P [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 무려 **4번 분노의 I/O 펜대(오버헤드)가 1건마다 발생** | **상당히 나쁨 (Poor)**, DB서버용 단독으론 매우 혐오 |
+| <strong>랜덤 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (Random Write / <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> Update)</strong> | **치명타!** RMW(Read-Modify-Write) 병목. 1KB만 바꿀라 해도 앞장의 공식인 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 ➔ 기존 P 읽기 ➔ XOR 계산 ➔ 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) ➔ 새 P [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 무려 **4번 분노의 I/O 펜대(오버헤드)가 1건마다 발생** | **상당히 나쁨 (Poor)**, DB서버용 단독으론 매우 혐오 |
 
 이 강력한 태생적 오버헤드 락 (Random Write Penalty = $4 \times IOPS$) 규칙 탓에, 초당 수만 건의 Update, Delete [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 빈발하는 거대 Transactional [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) (금융 결제 MariaDB 등) 원본 스토리지 구축에 함부로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 구성을 박으면 DB가 속을 게우며 병목 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Delay)에 크래쉬하기 십상이다 (이때는 이중 돈을 들여서라도 [RAID 10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 으로 이주하는 것이 진리다). 하지만 일반적인 대규모 범용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보관용, 이메일 스토리지, 영상 콜드/웜 [핫 데이터](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/675_hot_data_caching/) 아카이빙에서는 너무나도 가격 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비가 최고존엄을 발휘한다.
 
 ### 2. 가용 용량 효율성과 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership) 매직 
 
-[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 역사적인 가치는 가장 싼 돈으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점을 사는 **디스크 용량 효율 계산식**에 있다.
+[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 역사적인 가치는 가장 싼 돈으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점을 사는 <strong>디스크 용량 효율 계산식</strong>에 있다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 용량 보존 계산식** = `총 디스크 갯수(N) - 패리티 소요 디스크 공간 분할 몫 (1) `
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 용량 보존 계산식</strong> = `총 디스크 갯수(N) - 패리티 소요 디스크 공간 분할 몫 (1) `
 - 만약 10TB 하드 드라이브를 5장 구매했다? (총 투자액 50TB 원석)
-  - [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)(미러)로 짠다면: 무려 50% 반토막인 **실 25TB**만 손에 쥐게 되어 CFO의 지갑 예산이 거덜 남.
-  - **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로 짠다면?**: $10TB \times (5장 - 1)$ = **실제 가용 용량 40TB 획득(80% 효율)!** 
+  - [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)(미러)로 짠다면: 무려 50% 반토막인 <strong>실 25TB</strong>만 손에 쥐게 되어 CFO의 지갑 예산이 거덜 남.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 5로 짠다면?</strong>: $10TB \times (5장 - 1)$ = **실제 가용 용량 40TB 획득(80% 효율)!** 
   - (물론 한 장이 박살 나도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0바이트도 손실되지 않는 무적 방패까지 포함인데 이 가격이다!)
 
 - **📢 섹션 요약 비유**: 패리티가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5는 아주 기가 막힌 자동차 보험 상품입니다. 10대의 차 중 아무 차나 길 가다 퍼져도 보험사가 다 새것(XOR 복원)으로 공짜 수리해 주는데, 보험금 가격(버려지는 공간)은 10대 차량 전체 가격의 단 1대 값어치 분량의 희생금밖에 청구하지 않으니 세상 모든 중소 IT 인프라 기업들이 사랑할 수밖에 없던 기적의 적금 구조입니다.
@@ -88,27 +86,28 @@ tags = ["studynote-operating-system"]
 ### 현대 스토리지 환경에서 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 몰락 임계와 치사율 구조선 (URE)
 
 기업의 영원한 황금 룰이었던 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 레이드 5를, 최근 5년 이래 퍼블릭 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들이 "절대 쓰지 말 것 - [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6나 ZFS [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-Z2로 즉각 하드 마이그레이션 할 것"으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 퇴출 서명령서를 발동하는 끔찍한 치사율 수학의 원인이 발생했다. 
-바로 물리적 하드용량의 뻥튀기 비대화와 그에 따른 **URE (Unrecoverable Read Error - [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능 랜덤 에러 요율)** 의 반란이다.
+바로 물리적 하드용량의 뻥튀기 비대화와 그에 따른 <strong>URE (Unrecoverable Read Error - <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 불가능 랜덤 에러 요율)</strong> 의 반란이다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 대용량 HDD 시대, RAID 5의 무덤 재건축 (Rebuilding) 충격                 │
-  ├─────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                         │
-  │   [ 10년 전 (1TB HDD 8장 RAID 5 환경) ]                                                 │
-  │     1. 고장! ──▶ 2. 핫스왑 디스크 즉각 꼽음 ──▶ 3. 5시간 만에 전체 연산 1TB 리빌딩 완료 │
-  │        (남은 디스크가 견디는 물리적 수명 스트레스가 적어서 버텨줌! 오케이)              │
-  │                                                                                         │
-  │   [ 현재 (20TB 엔터프라이즈 HDD 8장 RAID 5 환경 설계) ]                                 │
-  │     1. 디스크 1장 픽 쓰러짐 (당장 데이터 손실은 없음. 휴 다행..)                        │
-  │     2. 담당자 땀 뻘뻘 흘리며 새 20TB 디스크 박아넣고 리빌딩 코맨드 가동                 │
-  │     3. 미친 듯한 읽기 CPU 부하 연산 개시 ──▶ 볼륨이 워낙 거대해 무려 일주일 넘게 돌림!  │
-  │     4. 💥 일주일 내내 가혹한 I/O 스트레스를 뚜드려 맞던 옆자리 '정상' 디스크가          │
-  │        수면부족(Mechanical Wear) 부하를 못견디고 툭 하고 URE 베드섹터 띄움 (추가 사망)  │
-  │     5. ☠️ RAID 5 어레이에서 2개가 죽었다? = 무결성 역산 소스코드 파괴 사망.             │
-  │        20TB 8장의 전체 데이터 영.원.히 증발 소거 퍼펑 아수라장.                         │
-  └─────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대용량 HDD 시대, RAID 5의 무덤 재건축 (Rebuilding) 충격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">10년 전 (1TB HDD 8장 RAID 5 환경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 고장! ──▶ 2. 핫스왑 디스크 즉각 꼽음 ──▶ 3. 5시간 만에 전체 연산 1TB 리빌딩 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(남은 디스크가 견디는 물리적 수명 스트레스가 적어서 버텨줌! 오케이)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 (20TB 엔터프라이즈 HDD 8장 RAID 5 환경 설계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 디스크 1장 픽 쓰러짐 (당장 데이터 손실은 없음. 휴 다행..)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 담당자 땀 뻘뻘 흘리며 새 20TB 디스크 박아넣고 리빌딩 코맨드 가동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 미친 듯한 읽기 CPU 부하 연산 개시 ──▶ 볼륨이 워낙 거대해 무려 일주일 넘게 돌림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 💥 일주일 내내 가혹한 I/O 스트레스를 뚜드려 맞던 옆자리 '정상' 디스크가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수면부족(Mechanical Wear) 부하를 못견디고 툭 하고 URE 베드섹터 띄움 (추가 사망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. ☠️ RAID 5 어레이에서 2개가 죽었다? = 무결성 역산 소스코드 파괴 사망.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20TB 8장의 전체 데이터 영.원.히 증발 소거 퍼펑 아수라장.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 단일 드라이브 용량이 16TB, 20TB 이상으로 커진 현대 구조체에서 기계의 속도 자체는 늘어나지 않았기에, 리빌딩 (살아남은 디스크 전부의 끝단 구석까지 풀 트래시 읽고 긁어내서 XOR 수학 계산하기) 소요 시간은 수십 시간을 넘어 며칠이 소요된다. 제조사가 보증하는 하드의 에러 방어선 URE 스펙은 통상 `10^14 비트(약 12.5TB)` 긁을 때 운 나쁘게 1비트쯤 읽기 실패 삑사리가 날 수 있다고 선언하는데, 20TB 꽉 막힌 거대 리빌딩을 돌리느라 어장 전체를 수일간 풀파워로 긁다 보면 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 통계법칙 상 매우 높은 리스크로 남아있는 디스크 중 한 개의 무작위 소자가 돌연사해 치명적 2차 폭발 사고가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 거의 명백하게 발동하게 되는 비극([RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5의 재앙 한계점)이 터진다! 
 
@@ -124,7 +123,7 @@ tags = ["studynote-operating-system"]
 - **제약점 한계 봉쇄**: 단, 물리 드라이브당 1~2TB로 자잘하게 구성한 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 환경에서나 5레벨의 생존력이 유지될 뿐, 초거대 섀시 디스크들의 바인딩 어레이로 넘어갈 경우 반드시 Dual Parity (레이드 6 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 체인지) 로 전환해야만 하는 마이그레이션 로드맵 지식을 기술자는 머릿속에 지침으로 박아둬야 한다.
 
 ### 미래 전망
-- 소프트웨어 정의 스토리지 ([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 생태계로 주도권이 넘어감에 따라 낡은 HBA 칩셋 하드웨어 레이드 카드 레이어의 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 파티션들은 급격히 퇴역하는 수순이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 차원의 차세대 포맷 ZFS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 정신을 그대로 계승 발전시킨 **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)-Z1** (가변 스트라이프 및 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) S/W 보안 힐링 추가본) 시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조적 스토리지 풀 소프트웨어 모델 등으로 유전자를 진화 물려주며 엔터프라이즈의 백본 거름망 역할을 다해내고 있다.
+- 소프트웨어 정의 스토리지 ([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 생태계로 주도권이 넘어감에 따라 낡은 HBA 칩셋 하드웨어 레이드 카드 레이어의 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 파티션들은 급격히 퇴역하는 수순이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 차원의 차세대 포맷 ZFS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에서 이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5 정신을 그대로 계승 발전시킨 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a>-Z1</strong> (가변 스트라이프 및 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) S/W 보안 힐링 추가본) 시스템 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 등 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조적 스토리지 풀 소프트웨어 모델 등으로 유전자를 진화 물려주며 엔터프라이즈의 백본 거름망 역할을 다해내고 있다.
 
 결론적으로 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5는 IT 역사의 반세기에서 가장 위대한 수학적 타협안이 비즈니스 필드에서 어떻게 가장 대중적인 "가성비 무결점 저장 무기"로 화려하게 꽃피웠는지를 통찰하게 하는 마스터피스다. 병목과 돈, 생존이라는 복잡계를 하나로 꿰맨 발명품.
 
@@ -151,15 +150,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
-    │
-    ▼
-[RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)]
-    │
-    ├──▶ [RAID 6 (분산 이중 패리티)]
-    └──▶ [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 5 (블록 단위 스트라이핑 + 분산 패리티) (RAID 5 Distributed Parity)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 6 (분산 이중 패리티)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

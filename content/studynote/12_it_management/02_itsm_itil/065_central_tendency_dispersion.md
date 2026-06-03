@@ -29,13 +29,19 @@ Spark는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_vari
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Partition A / B / C
-   ↓   shuffle   ↓
-New Partitions
-   ↓
-Execution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Partition A / B / C</div>
+<div class="kb-diagram-note">↓ shuffle ↓</div>
+<div class="kb-diagram-note">New Partitions</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Execution</div>
+</div>
+</div>
+
+
 
 | 항목 | 역할 |
 | :-- | :-- |
@@ -105,29 +111,41 @@ Execution
 
 ## 관련 개념 맵
 
-```text
-Partition
-  ↓
-Shuffle
-  ↓
-AQE
-  ↓
-Spark Performance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Partition</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Shuffle</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">AQE</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Spark Performance</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-spark.sql.shuffle.partitions
-  ↓
-AQE
-  ↓
-Broadcast Join
-  ↓
-Skew Optimization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">spark.sql.shuffle.partitions</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">AQE</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Broadcast Join</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Skew Optimization</div>
+</div>
+</div>
+
+
 
 ---
 

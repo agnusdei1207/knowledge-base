@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/): [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 프로세스가 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(`fork()`)되거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사할 때 1GB의 물리적 메모리를 무식하게 몽땅 복사하지 않고, **일단 부모와 자식이 같은 물리 프레임을 '공유'하게 매핑만 해둔 뒤, 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)하려고 시도하는 그 찰나의 순간에만 몰래 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만을 뜯어 복사(Copy)해 주는 초고도화된 OS 속임수([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Optimization)**다.
+> 1. **본질**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/): [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 프로세스가 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(`fork()`)되거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사할 때 1GB의 물리적 메모리를 무식하게 몽땅 복사하지 않고, <strong>일단 부모와 자식이 같은 물리 프레임을 '공유'하게 매핑만 해둔 뒤, 누군가 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수정(Write)하려고 시도하는 그 찰나의 순간에만 몰래 해당 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>만을 뜯어 복사(Copy)해 주는 초고도화된 OS 속임수(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Optimization)</strong>다.
 > 2. **가치**: 자식 프로세스를 낳을 때 발생하는 수 밀리초의 메모리 복사 렉(STW)과 램 용량 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 원천 차단하여, **[프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 속도를 나노초 단위의 $O(1)$로 수직 상승시키며 현대 클라우드/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케일링의 근본적 토대를 완성**했다.
-> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 **'[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 매핑' 기술**과 하드웨어 MMU의 **'Read-Only 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))'**가 절묘하게 융합되어, 소프트웨어가 쓰는(Write) 순간 터지는 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 가로채어 복사를 수행하는 예술적 아키텍처다.
+> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 매핑' 기술</strong>과 하드웨어 MMU의 <strong>'Read-Only 권한 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)'</strong>가 절묘하게 융합되어, 소프트웨어가 쓰는(Write) 순간 터지는 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 가로채어 복사를 수행하는 예술적 아키텍처다.
 
 ---
 
@@ -23,33 +23,32 @@ tags = ["studynote-operating-system"]
 - **필요성**: 리눅스에서 새로운 앱(자식)을 띄우려면 `fork()`라는 함수로 현재 돌아가는 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)를 통째로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해야 한다. 만약 카카오톡이 2GB 램을 먹고 있는데 `fork`를 치면, 2GB의 램을 복사(Memcpy)하느라 시스템이 수 초간 얼어붙는다. 더 환장하는 건, 자식은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되자마자 99%의 확률로 `exec()` 함수를 실행하여 복사된 2GB를 모조리 쓰레기통에 버리고 새로운 코드를 덮어쓴다는 점이다. **"어차피 0.1초 뒤에 다 버릴 2GB를 왜 피땀 흘려 복사하고 있어야 하는가?"** 이 멍청한 낭비를 끝내기 위해 인류는 '미룰 수 있을 때까지 복사를 미루는' COW라는 철학을 도입했다.
 
 - **등장 배경 및 낭비의 종말**:
-  1. **무식한 `fork()`의 재앙**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) UNIX는 `fork()`를 치면 진짜로 프로세스 전체 메모리를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 복사했다. 무겁고 느려서 프로세스를 함부로 못 만들었다.
-  2. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 등장**: 페이징이 도입되자 "어? 물리 메모리는 놔두고 장부의 화살표만 2개 꽂아놓으면 공유가 되네?"라는 사실을 깨달음.
+  1. <strong>무식한 <code>fork()</code>의 재앙</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) UNIX는 `fork()`를 치면 진짜로 프로세스 전체 메모리를 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 복사했다. 무겁고 느려서 프로세스를 함부로 못 만들었다.
+  2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>와 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>의 등장</strong>: 페이징이 도입되자 "어? 물리 메모리는 놔두고 장부의 화살표만 2개 꽂아놓으면 공유가 되네?"라는 사실을 깨달음.
   3. **COW의 완성**: [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌을 막기 위해 하드웨어의 권한 제어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 소프트웨어적 예외 처리로 우아하게 받아치는 기법으로 진화.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        COW (Copy-on-Write) 적용 전후의 fork() 동작 시각화             │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 상황: 1GB짜리 프로세스가 fork()를 호출하여 자식을 낳음 ]            │
-│                                                                       │
-│ ▶ 1. 과거의 무식한 fork() (COW 없음)                                  │
-│  부모 장부 ──▶ [ 물리 램: 부모 데이터 1GB ]                           │
-│  자식 장부 ──▶ [ 물리 램: 자식 전용 데이터 1GB 통째로 복사! ]         │
-│  💥 결과: 램 용량 2GB로 2배 폭증. 복사하느라 1초 동안 서버 멈춤.      │
-│                                                                       │
-│ ▶ 2. 현대의 천재적 fork() (COW 적용)                                  │
-│  부모 장부 ──┐ ┌▶ [ 물리 램: 1GB 원본 데이터 (Read-Only) ]            │
-│  자식 장부 ──┴─┘                                                      │
-│  ✅ 결과: 복사 0.001초 컷. 램 용량 1GB 그대로 유지 (100% 절약).       │
-│                                                                       │
-│ [ 3. 자식이 4KB 페이지 1장만 수정(Write)하려고 할 때! ]               │
-│  부모 장부 ──▶ [ 물리 램: 1GB 원본 데이터 ] ◀─ (여전히 공유 중)       │
-│  자식 장부 ──▶ [ 딱 1장만 새로 복사된 4KB 물리 프레임 툭! ]           │
-│  ✅ 1GB 전체가 아니라, 값이 바뀌는 그 4KB 조각 하나만 몰래 복사함.    │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW (Copy-on-Write) 적용 전후의 fork() 동작 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 1GB짜리 프로세스가 fork()를 호출하여 자식을 낳음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거의 무식한 fork() (COW 없음)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램: 부모 데이터 1GB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램: 자식 전용 데이터 1GB 통째로 복사!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 램 용량 2GB로 2배 폭증. 복사하느라 1초 동안 서버 멈춤.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 현대의 천재적 fork() (COW 적용)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램: 1GB 원본 데이터 (Read-Only)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 장부 ── ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 복사 0.001초 컷. 램 용량 1GB 그대로 유지 (100% 절약).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 자식이 4KB 페이지 1장만 수정(Write)하려고 할 때!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램: 1GB 원본 데이터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (여전히 공유 중)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">딱 1장만 새로 복사된 4KB 물리 프레임 툭!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 1GB 전체가 아니라, 값이 바뀌는 그 4KB 조각 하나만 몰래 복사함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 추상화가 부리는 흑마술의 정점이다. 부모와 자식은 각자의 가상 주소 `0x1000` 번지에 자기만의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있다고 100% 굳게 믿고 있다. 뒤로는 OS가 똑같은 물리 프레임에 십자수 놓듯 화살표를 묶어둔 줄은 꿈에도 모른다. 이 거짓말은 누군가 변수의 값을 덮어쓰기(수정) 전까지는 영원히 들통나지 않으며, 시스템 자원을 상상 초월로 아껴준다.
 
 - **📢 섹션 요약 비유**: 회사에서 100페이지짜리 결산 보고서를 10명에게 나눠줄 때, 복사기로 1000장을 뽑아 나눠주는(과거) 게 아니라, 구글 문서(Google Docs) 링크 하나만 딱 띄워주고(공유 매핑), 누군가 오타를 수정(Write)하려고 하면 그 사람 전용으로 사본 만들기(Copy)가 자동으로 눌러지는 스마트 오피스의 혁신입니다.
@@ -62,28 +61,28 @@ tags = ["studynote-operating-system"]
 
 COW는 소프트웨어(OS) 혼자서는 절대 구현할 수 없다. MMU의 권한 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))가 핵심 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(방아쇠) 역할을 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│              하드웨어 Page Fault를 악용한(?) COW 매커니즘                │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│ 1. [ 함정 설치 ] OS가 fork() 시 부모와 자식의 페이지 테이블을 똑같이     │
-│    매핑하고, 해당 페이지들의 권한을 🌟[ Read-Only (읽기 전용) ]으로      │
-│    강제로 다 바꿔버림.                                                   │
-│                                                                          │
-│ 2. [ 함정 발동 ] 자식이 변수 A의 값을 바꾸기 위해 쓰기(Write) 명령 실행. │
-│    MMU: "어라? 이 페이지 R/O 인데 네가 쓴다고? 불법이다!"                │
-│    -> MMU가 CPU를 멈추고 OS에 [ 💥 Page Fault 트랩 ]을 냅다 던짐.        │
-│                                                                          │
-│ 3. [ 흑마술 복구 ] 깨어난 OS가 내부 장부(VMA)를 까봄.                    │
-│    OS: "아, 이거 원래 쓸 수 있는 건데 내가 COW 하려고 일부러 잠가둔 거네"│
-│    -> OS가 빈 물리 프레임 하나를 구해와서 원본 데이터를 4KB 복사해줌.    │
-│    -> 자식의 페이지 테이블 화살표를 새 프레임으로 꽂고, 권한을 [ R/W ]로 │
-│       열어준 뒤, CPU 보고 다시 명령어 실행하라고 놔줌.                   │
-└──────────────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 원래 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램에 없으니 하드디스크에서 가져와라"는 신호다. 하지만 리눅스 커널은 이 하드웨어 에러 신호를 "아! 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰려 하는구나! 이제 복사본을 찢어줄 때가 됐군"이라는 **알람시계**로 재활용([Overloading](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/))하는 천재성을 발휘했다. 하드웨어의 엄격한 보안 락(Read-Only)을 소프트웨어적 최적화의 징검다리로 써먹은 해커들의 걸작이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 Page Fault를 악용한(?) COW 매커니즘</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">함정 설치</div><div class="kb-diagram-note">OS가 fork() 시 부모와 자식의 페이지 테이블을 똑같이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">매핑하고, 해당 페이지들의 권한을 🌟</div><div class="kb-diagram-node">Read-Only (읽기 전용)</div><div class="kb-diagram-note">으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강제로 다 바꿔버림.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">함정 발동</div><div class="kb-diagram-note">자식이 변수 A의 값을 바꾸기 위해 쓰기(Write) 명령 실행.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU: "어라? 이 페이지 R/O 인데 네가 쓴다고? 불법이다!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">💥 Page Fault 트랩</div><div class="kb-diagram-note">을 냅다 던짐.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">흑마술 복구</div><div class="kb-diagram-note">깨어난 OS가 내부 장부(VMA)를 까봄.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아, 이거 원래 쓸 수 있는 건데 내가 COW 하려고 일부러 잠가둔 거네"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; OS가 빈 물리 프레임 하나를 구해와서 원본 데이터를 4KB 복사해줌.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">R/W</div><div class="kb-diagram-note">로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">열어준 뒤, CPU 보고 다시 명령어 실행하라고 놔줌.</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 원래 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램에 없으니 하드디스크에서 가져와라"는 신호다. 하지만 리눅스 커널은 이 하드웨어 에러 신호를 "아! 누군가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰려 하는구나! 이제 복사본을 찢어줄 때가 됐군"이라는 <strong>알람시계</strong>로 재활용([Overloading](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/))하는 천재성을 발휘했다. 하드웨어의 엄격한 보안 락(Read-Only)을 소프트웨어적 최적화의 징검다리로 써먹은 해커들의 걸작이다.
 
 ---
 
@@ -107,7 +106,7 @@ COW는 소프트웨어(OS) 혼자서는 절대 구현할 수 없다. MMU의 권�
 |:---|:---|:---|
 | **복사 시점** | 명령이 떨어진 **즉시 100% 몽땅** 복사 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정(Write)이 발생하는 **미래의 찰나에 4KB씩** 복사 |
 | **메모리(RAM) 낭비** | 복사한 만큼 메모리 점유율 2배, 3배 폭증 | 수정하지 않는 90%의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 영원히 공유되므로 램 낭비 거의 0% |
-| **명령 실행 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | `fork()` 호출 시 1초간 서버 멈춤 (최악) | `fork()`는 1밀리초 컷. 나중에 변수 쓸 때만 살짝 렉 터짐 |
+| <strong>명령 실행 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | `fork()` 호출 시 1초간 서버 멈춤 (최악) | `fork()`는 1밀리초 컷. 나중에 변수 쓸 때만 살짝 렉 터짐 |
 | **주 사용처** | 과거의 유닉스, 무식한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) | 최신 OS의 `fork()`, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 가상 머신 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ([레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)) BGSAVE [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)의 마술
@@ -119,15 +118,18 @@ COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
 - [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)(메인 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))는 유저 요청이 들어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정(Write)할 때만, 딱 그 4KB 조각들만 램에 하나씩 찢어져 복사([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))된다.
 - **결과**: 서버 멈춤 0초. 추가 메모리 소모는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)하는 동안 변경된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몇 MB 수준으로 방어. COW가 없었다면 현대의 인메모리 DB 생태계는 애초에 불가능했다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────────┐
-│ 백업 방식  │ 램 추가 요구량│ 시스템 멈춤 렉 │ DB 성능 타격         │
-├──────────┼────────────┼────────────┼───────────────────────────────┤
-│ Lock 백업 │ 0 GB       │ 백업 내내 멈춤  │ ☠️ 최악 (서비스 마비)   │
-│ 통짜 복사  │ 원본만큼(100G)│ 복사할 때 멈춤  │ ☠️ OOM으로 서버 사망│
-│ COW 백업  │ 수정분만(수MB)│ **없음 (0초)**│ 🚀 평소와 똑같음       │
-└──────────┴────────────┴────────────┴───────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백업 방식</div><div class="kb-diagram-cell">램 추가 요구량</div><div class="kb-diagram-cell">시스템 멈춤 렉</div><div class="kb-diagram-cell">DB 성능 타격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock 백업</div><div class="kb-diagram-cell">0 GB</div><div class="kb-diagram-cell">백업 내내 멈춤</div><div class="kb-diagram-cell">☠️ 최악 (서비스 마비)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통짜 복사</div><div class="kb-diagram-cell">원본만큼(100G)</div><div class="kb-diagram-cell">복사할 때 멈춤</div><div class="kb-diagram-cell">☠️ OOM으로 서버 사망</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW 백업</div><div class="kb-diagram-cell">수정분만(수MB)</div><div class="kb-diagram-cell">없음 (0초)</div><div class="kb-diagram-cell">🚀 평소와 똑같음</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** `fork()`와 COW의 조합은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))을 찍을 때 시공간을 얼려버리는 타임머신과 같다. 부모가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1억 번 수정하더라도, 자식 프로세스가 가리키는 프레임에는 락이 걸려있어 부모가 건드리지 못하고 튕겨 나가므로([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)), 자식은 '새벽 2시 딱 그 순간의 100GB 램 상태'를 영원히 온전하게 보존한 채로 하드디스크에 천천히 기록할 수 있는 것이다.
 
 - **📢 섹션 요약 비유**: 빙하 속에 얼어붙은 매머드(자식 프로세스가 보는 메모리)를 연구소(하드디스크)로 옮겨야 합니다. 빙하를 통째로 얼음틀에 찍어내려면 수백 톤의 얼음(통짜 복사)이 필요하지만, [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 마법을 쓰면 빙하 겉표면만 얇게 코팅(Read-Only)해두고, 날씨가 더워 얼음이 녹으려(Write) 할 때만 그 부분에 드라이아이스를 살짝 뿌려주며 0.1초 만에 완벽한 매머드 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)을 떠내는 예술적 보존술입니다.
@@ -138,16 +140,16 @@ COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
 
 ### 실무 시나리오: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 KSM ([Kernel Samepage Merging](/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/))
 - 클라우드 서버에 1GB짜리 우분투 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 100개 띄우면 100GB가 날아가야 한다. 하지만 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)는 실행될 때 이미 베이스 이미지(Base Image)를 공유하고, `fork()`의 연속으로 파생되므로 수백 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 띄워져도 램 점유율은 몇 기가 오르지 않는다. (COW의 기본기)
-- **KSM (중복 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 병합)**:
+- <strong>KSM (중복 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 병합)</strong>:
    - 여기서 더 나아가, 리눅스 커널은 백그라운드에서 메모리를 스캔하다가 "어? [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A의 10번 프레임과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B의 50번 프레임 내용이 '100% 똑같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'네?" 라는 걸 발견하면 흑마술을 부린다.
-   - 프레임 2개 중 1개를 지워버리고, 두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 남은 1개의 프레임에 묶어버린 뒤 **[COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) (Read-Only)** 락을 걸어버린다!
+   - 프레임 2개 중 1개를 지워버리고, 두 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표를 남은 1개의 프레임에 묶어버린 뒤 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (Read-Only)</strong> 락을 걸어버린다!
    - 훗날 누군가 값을 바꾸면 어차피 COW로 다시 찢어주면 그만이다. 이 미친 "선 공유 후 복사" 기술 덕분에 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 클라우드 호스팅 업체들은 64GB 램 서버에 100GB어치의 손님을 받아 과금하는 창조 경제(Memory Overcommit)를 달성했다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): JVM과 Transparent Huge Pages의 결합
 - COW는 4KB 조각 단위로 복사될 때 가장 가성비가 좋다. 
 - 만약 리눅스의 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)(THP, 2MB 단위)가 켜져 있는데 Redis가 `fork()` [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 쳐서 COW가 걸렸다고 치자.
 - 유저 1명이 들어와서 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 변수 1바이트를 고쳤다(Write).
-- OS는 이 1바이트 락을 풀기 위해 자그마치 **2MB 전체 덩어리([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 통째로 복사**해서 찢어줘야 한다 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 증폭). 1바이트 쓰려다 2MB 복사 렉이 터지는 것이다. 
+- OS는 이 1바이트 락을 풀기 위해 자그마치 <strong>2MB 전체 덩어리(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)를 통째로 복사</strong>해서 찢어줘야 한다 ([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 증폭). 1바이트 쓰려다 2MB 복사 렉이 터지는 것이다. 
 - 이것이 인메모리 DB에서 THP([거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))를 절대 켜면 안 되는 두 번째 핵심 이유다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 폭풍이 터지면 램이 빛의 속도로 갈려 나간다.
 
 - **📢 섹션 요약 비유**: 4KB짜리 A4 용지(일반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 공유하다가 글씨 하나 틀리면 A4 한 장만 복사해주면 됩니다. 하지만 전지 크기의 2MB짜리 대형 캔버스([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 공유하다가 점 하나 찍겠다고 대형 캔버스를 통째로 복사해서 새로 사 오려면 돈(램)과 시간(CPU)이 거덜 나는 재앙입니다.
@@ -162,7 +164,7 @@ COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
 |:---|:---|
 | **[프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 속도 $O(1)$** | `fork()` 시 램 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 없이 수 KB짜리 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 장부만 슥 복사하고 리턴하므로 앱 실행 딜레이 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 | **메모리(RAM) 용량 절약** | 90% 이상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수정되지 않고 읽기만 하므로, 수백 개의 프로세스가 단 1벌의 물리 램을 돌려쓰는 극강의 가성비 달성 |
-| **무중단 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/)) 인프라**| [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ZFS, Btrfs)이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정지(STW) 없이 수십 TB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보존([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))하며 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
+| <strong>무중단 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a>) 인프라</strong>| [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ZFS, Btrfs)이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정지(STW) 없이 수십 TB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보존([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))하며 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
 
 ### 결론 및 미래 전망
 
@@ -183,15 +185,19 @@ COW의 파괴력이 가장 잘 드러나는 백엔드 실무 아키텍처다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파일 지원 메모리 (File-backed Memory)]
-    │
-    ▼
-[쓰기 시 복사 (COW, Copy-on-Write)]
-    │
-    ├──▶ [vfork()]
-    └──▶ [페이지 교체 (Page Replacement)의 필요성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 지원 메모리 (File-backed Memory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 시 복사 (COW, Copy-on-Write)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vfork()</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 (Page Replacement)의 필요성</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -39,22 +39,23 @@ AdaBoost는 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_we
 | 4 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 산출 | `α_t = 1/2 ln((1-ε_t)/ε_t)` |
 | 5 | 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 | 오분류 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 증가 |
 
-```text
-샘플 가중치 w1, w2, ... , wn
-│
-▼
-약한 분류기 h1
-│
-오분류 샘플 가중치 ↑
-│
-▼
-약한 분류기 h2
-│
-오분류 샘플 가중치 ↑
-│
-▼
-최종 결합 sign(Σ αt ht(x))
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">샘플 가중치 w1, w2, ... , wn</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">약한 분류기 h1</div>
+<div class="kb-diagram-note">오분류 샘플 가중치 ↑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">약한 분류기 h2</div>
+<div class="kb-diagram-note">오분류 샘플 가중치 ↑</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최종 결합 sign(Σ αt ht(x))</div>
+</div>
+</div>
+
+
 
 AdaBoost의 핵심은 모든 샘플을 똑같이 보지 않는다는 점이다. 잘 맞힌 샘플보다 못 맞힌 샘플을 더 세게 본 뒤, 다음 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 그 약점을 보완하게 만든다.
 
@@ -112,21 +113,23 @@ AdaBoost는 간단한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-약한 분류기
-│
-▼
-샘플 가중치 조정
-│
-▼
-오분류 샘플 집중
-│
-▼
-약한 분류기 반복 결합
-│
-▼
-강한 분류기 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">약한 분류기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">샘플 가중치 조정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오분류 샘플 집중</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">약한 분류기 반복 결합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">강한 분류기 생성</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

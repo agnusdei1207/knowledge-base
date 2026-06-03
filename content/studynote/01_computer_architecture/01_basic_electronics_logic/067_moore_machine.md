@@ -95,29 +95,41 @@ Moore Machine은 안정적인 출력이 필요한 제어 시스템에서 유용�
 
 ## 관련 개념 맵
 
-```text
-State
-  ↓
-Moore Machine
-  ↓
-Output by State
-  ↓
-Sequential Control
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">State</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Moore Machine</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Output by State</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Sequential Control</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-FSM
-  ↓
-Moore Machine
-  ↓
-Mealy Machine
-  ↓
-Control Logic
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FSM</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Moore Machine</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Mealy Machine</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Control Logic</div>
+</div>
+</div>
+
+
 
 ---
 

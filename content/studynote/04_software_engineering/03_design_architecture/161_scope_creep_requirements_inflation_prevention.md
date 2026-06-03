@@ -44,22 +44,21 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 통제되지 않은 작은 변경이 어떻게 프로젝트 문제로 번지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 how an informal request becomes scope creep                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Approved baseline                                                          │
-│      │                                                                     │
-│      ▼                                                                     │
-│ "Just one more feature"                                                   │
-│      │                                                                     │
-│      ├─ no CCB review                                                      │
-│      ├─ no schedule / cost revision                                        │
-│      └─ no RTM update                                                      │
-│      ▼                                                                     │
-│ Hidden design change ─▶ retest ─▶ rework ─▶ delay / budget overrun         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">how an informal request becomes scope creep</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Approved baseline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Just one more feature"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no CCB review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no schedule / cost revision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no RTM update</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hidden design change ─▶ retest ─▶ rework ─▶ delay / budget overrun</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 요구 추가가 기능 하나로 끝나지 않는다는 점이다. 요구사항 추적 매트릭스인 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))이 갱신되지 않으면 설계와 테스트가 뒤따르지 못하고, 일정과 비용 조정이 없으면 프로젝트는 겉보기 계획만 유지한 채 실제 부채를 쌓게 된다. 결국 범위 크리프는 기능 추가 문제가 아니라 관리 체계의 불일치 문제다.
 
@@ -92,10 +91,10 @@ tags = ["studynote-software-engineering"]
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **이 요구가 현재 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 없는가?** 없다면 먼저 변경인지 범위 내 해석인지 구분해야 한다.
+1. <strong>이 요구가 현재 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/">베이스라인</a>에 없는가?</strong> 없다면 먼저 변경인지 범위 내 해석인지 구분해야 한다.
 2. **일정·비용·테스트 범위가 함께 조정되었는가?** 조정이 없다면 범위 크리프 가능성이 높다.
 3. **승인 책임자와 근거가 기록되었는가?** 기록이 없으면 이후 분쟁의 씨앗이 된다.
-4. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경이라면 현재 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 넣을지, 백로그로 보낼지 결정했는가?** 무조건 즉시 수용하면 팀 집중력이 무너진다.
+4. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 환경이라면 현재 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a>에 넣을지, 백로그로 보낼지 결정했는가?</strong> 무조건 즉시 수용하면 팀 집중력이 무너진다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -131,16 +130,19 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항 정의
-      │
-      ▼
-베이스라인 설정
-      │
-      ├── 공식 변경 요청 + 영향도 분석 ─▶ 통제된 범위 조정
-      │
-      └── 비공식 추가 요구 누적 ─▶ 범위 크리프 ─▶ 지연 / 재작업 / 분쟁
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">베이스라인 설정</div>
+<div class="kb-diagram-tree-item" style="--depth:3">공식 변경 요청 + 영향도 분석 ─▶ 통제된 범위 조정</div>
+<div class="kb-diagram-tree-item" style="--depth:3">비공식 추가 요구 누적 ─▶ 범위 크리프 ─▶ 지연 / 재작업 / 분쟁</div>
+</div>
+</div>
+
+
 
 이 흐름은 같은 추가 요구라도 승인과 재계획이 있으면 변경 관리가 되고, 없으면 범위 크리프로 변한다는 점을 보여 준다.
 

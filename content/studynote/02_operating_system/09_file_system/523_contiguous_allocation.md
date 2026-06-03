@@ -13,44 +13,43 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 때, 영화 1GB 크기만큼의 조각들을 디스크 원판에 흩뿌리지 않고 무조건 1번부터 25만 번까지 **"1개의 거대하고 완전하게 이어진 빈 공간 덩어리"** 에 통째로 밀어 넣어 할당하는 가장 원시적이고 무식한 방식이다.
 > 2. **가치**: 디스크 모터의 바늘(Head)이 물리적으로 단 한 번도 이리저리 점핑(Seek 시간 소모)할 필요 없이, 처음 시작점 1곳에만 착지하면 그 자리에서 윙~ 돌며 영화 전체를 빛의 속도로 긁어 담을 수 있어([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) I/O) 현존하는 모든 할당 방식 중 **"극강의 순차/랜덤 읽기 속도"** 를 자랑한다.
-> 3. **한계**: 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰거나 지우다 보면 디스크 전체에 듬성듬성 100MB 크기의 구멍들이 뚫린다. 합치면 빈 공간이 1TB가 넘는데도, "연속된 2GB" 빈칸 덩어리가 하나도 없어서 겨우 2GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 더 저장하지 못하고 용량 부족 에러가 터지는 끔찍한 **[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)([External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))** 멸망을 야기하는 장본인이다.
+> 3. **한계**: 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰거나 지우다 보면 디스크 전체에 듬성듬성 100MB 크기의 구멍들이 뚫린다. 합치면 빈 공간이 1TB가 넘는데도, "연속된 2GB" 빈칸 덩어리가 하나도 없어서 겨우 2GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 더 저장하지 못하고 용량 부족 에러가 터지는 끔찍한 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong> 멸망을 야기하는 장본인이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **연속 할당 (Contiguous Allocation)** 은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 논리적 블록 크기만큼 1차원 순차 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 묶어, 디스크의 물리적 섹터(Disk Blocks) 상에 반드시 `[블록 번호 b, b+1, b+2 ... b+n-1]` 이 되도록 강제로 이어 붙여(Contiguous) 일렬종대로 욱여넣어 배치하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 매커니즘 정책이다. [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부(FCB)에는 오직 **"시작 블록 주소"** 와 **"[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덩어리의 길이(블록 개수)"** 딱 2개의 변수만 기록하면 게임이 끝난다.
+- **개념**: **연속 할당 (Contiguous Allocation)** 은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 논리적 블록 크기만큼 1차원 순차 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 묶어, 디스크의 물리적 섹터(Disk Blocks) 상에 반드시 `[블록 번호 b, b+1, b+2 ... b+n-1]` 이 되도록 강제로 이어 붙여(Contiguous) 일렬종대로 욱여넣어 배치하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 매커니즘 정책이다. [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부(FCB)에는 오직 **"시작 블록 주소"** 와 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 덩어리의 길이(블록 개수)"</strong> 딱 2개의 변수만 기록하면 게임이 끝난다.
 - **필요성**: 원시 시대 자기 테이프나 초창기 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 모터 플래터(원판) 시절, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 여기저기 담아 두면 모터가 철판을 이동하며 긁는([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 기계적 구동 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 데 너무 오랜 시간이 걸려 I/O가 병목 폭파되었다. "아 모르겠고, 어차피 영상이나 오디오는 한 번 플레이하면 끝까지 순서대로 쭉 읽잖아? 그냥 빈 공간 중에 제일 무식하게 크고 연속된 빈방 하나 잡아서 1바이트부터 끝 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)까지 한 방에 스트레이트(Sequential)로 쫙 부어버려라 무결점 압살!" 이 가장 빠르고 효율적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통치 렌더의 기원으로 장악된 진리였다.
 
   - 극장 자리가 100개가 있고 빈자리가 50개나 남았어요. 근데 꼬마들 10명이 **"우린 무조건 10명 다 일렬로 옹기종기 손잡고 쫙 붙어서 연달아 앉을 거야! 한 명이라도 떨어지기 싫어 징징!"** 하고 고집을 부립니다.
   - 그래서 직원은 "아 제길 10칸이 연속으로 다 빈 덩어리 공간이 없네! 좌석(용량)은 텅텅 비었는데 예매 거부 에러 록백이야!" 하며 이 거대한 애물단지 10명을 극장에 박아 넣지 못하고 쫓아내며 메모리 할당([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 파탄) 위기를 맞는 딜레마 폭발 구조입니다!
 
-- **[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부 통치와 디스크 물리 철판 결속 I/O 렌더 다이어그램**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 장부 통치와 디스크 물리 철판 결속 I/O 렌더 다이어그램</strong>:
 운영체제가 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 리스트 장부표에서 "시작 블록" 1개 번호만 보고 어떻게 디스크 철판 수십 개를 긁어오는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 레이어로 포팅 뷰를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────┐
-  │                 "시작점과 길이" 단 두 수치로 끝내는 무적 포인터 스로틀 렌더  │
-  ├──────────────────────────────────────────────────────────────────────────────┤
-  │                                                                              │
-  │  1️⃣ [ 디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐) ]                    │
-  │   - 파일 이름 : `movie.mp4`                                                  │
-  │   - 시작 블록 : `18번` ◀──── (모터 핀을 18번 트랙으로 보내라 지시)           │
-  │   - 블록 길이 : `4칸 길이` ──┐                                               │
-  │                             │                                                │
-  │  =========================▼===================================               │
-  │                                                                              │
-  │  2️⃣ [ 실제 하드디스크 철판 물리 섹터 깡통 (0번 ~ 31번 방) ]                 │
-  │     [15] [16]   [17]   [[18]] [[19]] [[20]] [[21]]   [22] [23]               │
-  │     (빈칸)(빈칸) (꽉참)  |========= movie.mp4 ========| (빈칸)(빈칸)         │
-  │                           (18+0) (18+1) (18+2) (18+3칸)                      │
-  │   => 렌더 로직: "18+0번" 읽고, 핀 이동 없이 "18+1" 읽고... 우주 광속!        │
-  └──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"시작점과 길이" 단 두 수치로 끝내는 무적 포인터 스로틀 렌더</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 이름 : <code>movie.mp4</code></div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시작 블록 : <code>18번</code> ◀ (모터 핀을 18번 트랙으로 보내라 지시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 길이 : <code>4칸 길이</code> ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 하드디스크 철판 물리 섹터 깡통 (0번 ~ 31번 방)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">15</div><div class="kb-diagram-node">16</div><div class="kb-diagram-node">17</div><div class="kb-diagram-note">[</div><div class="kb-diagram-node">18</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">19</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">20</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">21</div><div class="kb-diagram-note">]</div><div class="kb-diagram-node">22</div><div class="kb-diagram-node">23</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈칸)(빈칸) (꽉참)</div><div class="kb-diagram-cell">========= movie.mp4 ========</div><div class="kb-diagram-cell">(빈칸)(빈칸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(18+0) (18+1) (18+2) (18+3칸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 렌더 로직: "18+0번" 읽고, 핀 이동 없이 "18+1" 읽고... 우주 광속!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 오직 `18번 시작`, `길이 4` 라는 고작 두 단어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 유지([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 장부 오버헤드 거의 0% 압도적 쾌적함)한다! 만약 사용자가 "영화 중간인 19번 블록으로 다이렉트 1방 점프 타격해 줘!" 라고 랜덤 액세스(Seek) 시스템 콜 빔을 쏘면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 복잡하게 포인터를 뒤지지도 않고 단순히 덧셈 산수(`18 + 1 = 19`) 계산식 1줄을 치고 0.1초 만에 19번지 디스크 슬롯으로 레이저 점핑 다이브 컷을 달성한다. 순차 타격 속도 미쳤고, 중간 점프 직접 타격 속도 우주 미쳤으며, 유지할 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 표 포인터 캐시가 아예 없으니 램(RAM) 이 가장 황홀하게 노는(절대 쾌적) 극강 무적 I/O 뼈대 증명이지만, 저렇게 연속으로 블록을 4개 비워두기 위해 디스크가 지우기, 쓰기를 반복하다 보면 돌이킬 수 없는 구멍 뚫린 치즈 상태가 되어버린다.
 
-- **📢 섹션 요약 비유**: 이 연속 할당의 덧셈 직접 계산 빔(Random Access I/O) 우주 점프는 아파트의 **"우편함 동호수 1초 타격 록!"** 이랑 똑같습니다! 1층 우편함이 101호부터 110호까지 **"일렬로 예쁘게 연속으로(Contiguous) 붙어서 철저 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 부착"** 돼있어요! 그래서 우체부(OS 모터)는 "105호 소포다!" 하면 일일이 이름표 5개를 안 읽어보죠!! 그냥 101호 위치에서 시선만 4칸 오른쪽으로 $+4$ 산수 덧셈해서 쓱! 한 번에 돌리면 105호 칸 주소에다 다이렉트 $O(1)$ 레이저 골인을 때려버립니다. 주소 탐색 과정 자체가 수학적 점핑(연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))이 주는 극강의 직접 스왑 통치랍니다!
+- **📢 섹션 요약 비유**: 이 연속 할당의 덧셈 직접 계산 빔(Random Access I/O) 우주 점프는 아파트의 **"우편함 동호수 1초 타격 록!"** 이랑 똑같습니다! 1층 우편함이 101호부터 110호까지 <strong>"일렬로 예쁘게 연속으로(Contiguous) 붙어서 철저 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 부착"</strong> 돼있어요! 그래서 우체부(OS 모터)는 "105호 소포다!" 하면 일일이 이름표 5개를 안 읽어보죠!! 그냥 101호 위치에서 시선만 4칸 오른쪽으로 $+4$ 산수 덧셈해서 쓱! 한 번에 돌리면 105호 칸 주소에다 다이렉트 $O(1)$ 레이저 골인을 때려버립니다. 주소 탐색 과정 자체가 수학적 점핑(연속 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))이 주는 극강의 직접 스왑 통치랍니다!
 
 ---
 
@@ -62,15 +61,15 @@ tags = ["studynote-operating-system"]
 | 연속 할당 시스템 S/W 튜닝 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기전 매커니즘 및 붕괴 방어 연계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 뷰 스펙 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 자원 한계 파탄 락백의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 포팅 |
 |:---|:---|:---|
 | **최고 속도 Random & Sequential 무결 I/O** | `시작 주소 + 뛰고 싶은 offset 길이 덧셈 연산`. 디스크 입장에서 바늘이 단 1구역에서 움직이지 않아도 되므로 **초당 100MB 전송을 풀 가동 스왑!** | IBM 메인프레임이나 VOD 스트리밍 서버(비디오 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)처럼 수정은 없고 읽기만 미친 듯하는 곳)에서는 이 방식이 속도의 유일신 부스트다 통달! |
-| **[External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 이빨 빠짐 현상 지옥) 폭파** | 5칸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쓰고, 3칸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지우고 하다 보면, **전체 빈 공간이 1,000칸이어도 10칸짜리 "연속된 빈 블록" 이 없으면 저장을 못 하고 멈추는 에러 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 거부 빔!** | 윈도우가 "하드 100GB 남았는데 용량 꽉 찼다고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 안 됨 엑박 멸망!" 렉을 먹는 현상. 빈 공간이 모래알처럼 뿔뿔이 산산조각 파편화 늪에 빠짐. |
-| **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 동적 증식 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Grow 확장 불가능의 피로도 랙)** | 내가 문서(.txt) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열고 글을 몇 줄 추가해서 `18번부터 4칸` 짜리를 `5칸` 으로 늘리고 싶다 확장을 때린다(Append 스로틀). | 헉! 바로 뒤칸 22번지에 남의 알맹이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 벽처럼 떡하니 꽉 차 가로막혀 있다!! **증식 확장 실패 포기 멸절 록백 에러 맞음!!** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 이빨 빠짐 현상 지옥) 폭파</strong> | 5칸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쓰고, 3칸 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지우고 하다 보면, <strong>전체 빈 공간이 1,000칸이어도 10칸짜리 "연속된 빈 블록" 이 없으면 저장을 못 하고 멈추는 에러 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 거부 빔!</strong> | 윈도우가 "하드 100GB 남았는데 용량 꽉 찼다고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사 안 됨 엑박 멸망!" 렉을 먹는 현상. 빈 공간이 모래알처럼 뿔뿔이 산산조각 파편화 늪에 빠짐. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 동적 증식 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Grow 확장 불가능의 피로도 랙)</strong> | 내가 문서(.txt) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열고 글을 몇 줄 추가해서 `18번부터 4칸` 짜리를 `5칸` 으로 늘리고 싶다 확장을 때린다(Append 스로틀). | 헉! 바로 뒤칸 22번지에 남의 알맹이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 벽처럼 떡하니 꽉 차 가로막혀 있다!! **증식 확장 실패 포기 멸절 록백 에러 맞음!!** |
 
 ### 2. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 팽창 불가능의 절규와 '[Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) ([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 조각 모음 컷)' 대공사
 위 3번째 칸의 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 뚱뚱해지면 뒤가 막혀서 죽어버린다" 문제를 해결하기 위한 시스템 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) OS 엔지니어의 처절한 2가지 발악 트릭 패턴이 도출된다.
 
-- **방법 1: 무식하게 다른 거대한 빈 공터로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체를 "이사 (Migration 대피 렌더)" 시키기!**
+- <strong>방법 1: 무식하게 다른 거대한 빈 공터로 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 자체를 "이사 (Migration 대피 렌더)" 시키기!</strong>
   - 자리가 모자라면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 어쩔 수 없이 "야 지금 50칸짜리 연속된 빈 공터가 저 산동네 디스크에 있네! 기존 4칸짜리 네놈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전부 복사 떠서 저 멀리 새 공터 산동네로 통째로 OverWrite 덮어 복사 증발 이동 이사 포워딩 결착 고고!!" 를 쏜다. 단 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 추가하려고 수십 기가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 램에 올렸다 다시 복사하는 어마무시한 병목(Overhead) 뻘짓 렉이 발생.
-- **방법 2: 디스크 조각 모음 ([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 깡통 융합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 모터) 재배치 빔 타격!**
+- <strong>방법 2: 디스크 조각 모음 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> 깡통 융합 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 모터) 재배치 빔 타격!</strong>
   - 디스크 전체의 흩뿌려진 파편(이빨 빠진 공간)을 하나로 거대하게 융합 합치기 위해, 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 앞쪽 디스크 구역 0번지부터 1도 빈틈없이 차곡차곡 테트리스 재조립으로 밀어 올려 재배열하는 10시간짜리 대규모 미친 I/O 복사 디스크 갈구기 모터 공사를 뛴다! "디스크가 재배열 조각 모음 중이라 5시간 동안 컴퓨터 사용 불가 마비!!" 라는 악몽이 여기서 파생 마스킹 된다 결착이다.
 
 - **📢 섹션 요약 비유**: 이 외부단편화 조각 파편 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 공사 록백은 명절 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 터미널의 **"단체석 합석을 위한 좌석 빙고 밀어내기 빔"** 랑 같습니다!! 동창생 10명이 고속버스에 한 줄 10연석으로 타려는데, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 안에 1자리씩 띄엄띄엄 아저씨들이 흩어져 낮잠 중([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 늪 파편 객석)입니다! 기사 아저씨(OS)는 안간힘을 쓰며 "아저씨들!! 전부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 맨 앞줄 창가 쪽으로 한 칸씩 딱 붙어서 짐 싸서 자리 옮기세요([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이사 I/O 타격)!!" 라고 아수라장 소리쳐서 뒷줄에 10연석 빈자리를 모아 창조 확보해야 겨우 학생 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포팅 수납할 수 있는 피곤한 뼈대 시스템 S/W SRE랍니다!
@@ -82,16 +81,16 @@ tags = ["studynote-operating-system"]
 ### 게임 다운로드 체제 : "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 미리 거대한 깡통으로 10GB 할당해 버리는 사기 락!"
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰다가 용량이 커져 벽에 막히면(Grow 확장 불가 에러) 연속 할당은 멸망한다. 스팀(Steam) 게임이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 백엔드(MySQL) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 이 파편화 폭발을 절대 막기 위해 신종 꼼수 트릭을 쓴다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 현상 폭파 ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쪼개기 늪 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렌더)**: 게임 클라이언트를 1시간 동안 다운로드 받으면서 1MB씩 디스크에 기록하게 놔두면? OS가 디스크 10만 군데에 1MB 조각 파편을 여기저기 흩뿌려([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 지옥) [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/)으로 저장해 버려, 게임 로딩 속도가 20분이나 걸리는 극악 폭사 스로틀에 걸린다! 최악의 디스크 렌더!
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 (Pre-allocation 선제적 풀 연속 할당 방어막)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 현상 폭파 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 쪼개기 늪 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 렌더)</strong>: 게임 클라이언트를 1시간 동안 다운로드 받으면서 1MB씩 디스크에 기록하게 놔두면? OS가 디스크 10만 군데에 1MB 조각 파편을 여기저기 흩뿌려([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 지옥) [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/)으로 저장해 버려, 게임 로딩 속도가 20분이나 걸리는 극악 폭사 스로틀에 걸린다! 최악의 디스크 렌더!
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 (Pre-allocation 선제적 풀 연속 할당 방어막)</strong>: 
   개발자는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 첨 생성할 때 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 `fallocate(10GB)` 무적 시스템 콜 빔 명령 컷을 먼저 박아 버린다!
   - "OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)아! 지금 내 알맹이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0바이트지만, **미리 디스크 철판에 10GB짜리 거~~대한 빈 깡통으로 이어진 연속 10GB 빈칸 블록 원판을 단독 사전 결착 락백 예약해 박아 놔라!!**"
   - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 어플리케이션이 1년 동안 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 야금야금 키워서 10GB가 될 때까지 단 하나의 파편 찢어짐이나 이사(Migration 뻘짓) 필요 없이! 무조건 자신이 찜해둔 연속된 10GB 프레임 방 안에서 빛의 속도로 다운로드를 쓰고, 빛의 속도로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사를 쾌적 보장 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 렌더링을 지배하게 된다 백본 투하!!
 
 | 스토리지 공간 S/W 아크뷰 | Dynamic Allocation (쓰는 즉시 동적 분할 [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/) 늪) | Pre-Allocation (선제적 공간 고정 독점 빈칸 깡통 할당 렌더) |
 |:---|:---|:---|
-| **정량 (물리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 파편 공간 조율율 Rate 구조)** | 이리저리 산산조각 파편화된 공간에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 삽입 배치. 빈틈 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 낭비를 막음. | 미리 예약 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 그 거대한 구역엔 잡다한 다른 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 못 껴들게 융합 결속 보장. |
-| **정성 (시스템 로딩 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지보수 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 팽창 랙 포팅)** | **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 확장 팽창 시 언제나 자유자재 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) 가능 생존.** 단, 게임 앱 로딩 시 10만 곳 I/O 모터가 뛰어 폭발 레이턴시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 맞음. | 단 1번의 스트레이트(Sequence) 모터 이동으로 로딩 속도 10배 폭발 상승 광속 무결 통달 발동! DB/VOD [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 필수 각인 증거. |
+| <strong>정량 (물리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 파편 공간 조율율 Rate 구조)</strong> | 이리저리 산산조각 파편화된 공간에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 삽입 배치. 빈틈 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 낭비를 막음. | 미리 예약 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 그 거대한 구역엔 잡다한 다른 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 못 껴들게 융합 결속 보장. |
+| <strong>정성 (시스템 로딩 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 유지보수 및 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 팽창 랙 포팅)</strong> | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 확장 팽창 시 언제나 자유자재 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/">동적 연결</a> 가능 생존.</strong> 단, 게임 앱 로딩 시 10만 곳 I/O 모터가 뛰어 폭발 레이턴시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 맞음. | 단 1번의 스트레이트(Sequence) 모터 이동으로 로딩 속도 10배 폭발 상승 광속 무결 통달 발동! DB/VOD [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 필수 각인 증거. |
 
 ### Ⅳ. 기대효과 및 결론
 - '연속 할당 (Contiguous 배치 레이어)' 아키텍처는 논리적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덩어리를 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 원판 트랙에 단 1바이트의 끊어짐이나 포인터(체인 꼬리표 점프) 우회 없이 무식할 정도로 일직선 병합 투하 시키는, 하드디스크 모터 속도([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Access 레이턴시)를 인간이 우주 끝까지 뽑아 먹을 수 있는 역사상 가장 빠르고 파괴적인 단일 스로틀 구조 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 할당 마일스톤이다. 
@@ -135,15 +134,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[파일 할당 방법 (File Allocation Methods)]
-    │
-    ▼
-[연속 할당 (Contiguous Allocation)]
-    │
-    ├──▶ [연결 할당 (Linked Allocation)]
-    └──▶ [FAT (File Allocation Table)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">파일 할당 방법 (File Allocation Methods)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

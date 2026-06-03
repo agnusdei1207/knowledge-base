@@ -17,32 +17,27 @@ tags = ["computer_architecture"]
 
 ### AI 대폭발과 CPU의 한계
 
-인공지능, 특히 딥러닝 모델의 파라미터 수는 최근 수년 사이 수천 배 이상 증가했다. 전통적인 범용 CPU는 복잡한 제어 로직 (Branch Prediction 등)에는 강하지만, 단순 반복적인 **텐서 (Tensor) 연산**을 처리하기에는 산술 연산 장치 (ALU)의 비중이 너무 작아 효율이 극도로 떨어진다.
+인공지능, 특히 딥러닝 모델의 파라미터 수는 최근 수년 사이 수천 배 이상 증가했다. 전통적인 범용 CPU는 복잡한 제어 로직 (Branch Prediction 등)에는 강하지만, 단순 반복적인 <strong>텐서 (Tensor) 연산</strong>을 처리하기에는 산술 연산 장치 (ALU)의 비중이 너무 작아 효율이 극도로 떨어진다.
 
-AI 가속기가 필요한 이유는 세 가지이다. 첫째, **연산 밀도 (Compute Density)**를 높여 단위 면적당 처리량을 극대화하기 위해서이다. 둘째, **데이터 병목 현상**을 해결하기 위해서이다. 메모리에서 데이터를 가져오는 시간이 연산 시간보다 오래 걸리는 문제를 전용 아키텍처로 타격한다. 셋째, 모바일이나 자율주행차 환경에서 요구되는 **초저전력 추론**을 달성하기 위함이다.
+AI 가속기가 필요한 이유는 세 가지이다. 첫째, <strong>연산 밀도 (Compute Density)</strong>를 높여 단위 면적당 처리량을 극대화하기 위해서이다. 둘째, <strong>데이터 병목 현상</strong>을 해결하기 위해서이다. 메모리에서 데이터를 가져오는 시간이 연산 시간보다 오래 걸리는 문제를 전용 아키텍처로 타격한다. 셋째, 모바일이나 자율주행차 환경에서 요구되는 <strong>초저전력 추론</strong>을 달성하기 위함이다.
 
 이 그림은 범용 프로세서 (CPU)와 AI 특화 가속기 (NPU)의 다이 (Die) 면적 사용 차이를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              CPU vs AI Accelerator (NPU) Layout             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU Core ]                    [ AI Accelerator (NPU) ]  │
-│   ┌──────────────┐                ┌──────────────────────┐  │
-│   │   Control    │                │  Matrix Multiplier   │  │
-│   │ (Predictor)  │                │  (Systolic Array)    │  │
-│   ├──────────────┤                │                      │  │
-│   │ ALU | Cache  │                │  Thousands of MACs   │  │
-│   └──────────────┘                │                      │  │
-│                                   ├──────────────────────┤  │
-│                                   │ Local Buffer (SRAM)  │  │
-│                                   └──────────────────────┘  │
-│                                                             │
-│   * CPU: 제어 위주 (Complex)      * NPU: 연산 위주 (Dense)   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU vs AI Accelerator (NPU) Layout</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Core</div><div class="kb-diagram-node">AI Accelerator (NPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control</div><div class="kb-diagram-cell">Matrix Multiplier</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Predictor)</div><div class="kb-diagram-cell">(Systolic Array)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU</div><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">Thousands of MACs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Buffer (SRAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CPU: 제어 위주 (Complex) * NPU: 연산 위주 (Dense)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '연산 유닛의 집적도'이다. NPU는 복잡한 제어 회로를 과감히 걷어내고, 그 자리에 수천 개의 곱셈-누적 (MAC) 연산기를 배치한다. 실무에서는 이러한 하드웨어 구조를 소프트웨어가 직접 제어할 수 있도록 돕는 전용 컴파일러 (TVM 등)와의 정합성이 성능의 핵심 변수가 된다.
 
@@ -76,27 +71,23 @@ AI 가속기가 필요한 이유는 세 가지이다. 첫째, **연산 밀도 (C
 | **FP16 / BF16** | 16bit | 성능과 정밀도의 균형 | 대규모 모델 학습/추론 |
 | **INT8** | 8bit | 연산 속도 극대화, 정밀도 손실 존재 | 모바일/엣지 추론 (Inference) |
 
-이 구조도는 NPU의 핵심인 **MAC (Multiply-Accumulate) 유닛**과 로컬 메모리의 연결 구조를 보여준다.
+이 구조도는 NPU의 핵심인 <strong>MAC (Multiply-Accumulate) 유닛</strong>과 로컬 메모리의 연결 구조를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 NPU Data Path & Local Buffer                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Global Memory ] (DRAM/HBM)                              │
-│          │                                                  │
-│          ▼ (Slow & Heavy)                                   │
-│   [ On-chip Scratchpad Memory ] (SRAM)                      │
-│          │                                                  │
-│          ▼ (Fast & Light)                                   │
-│   ┌──────┴──────┬─────────────┬─────────────┐               │
-│   ▼             ▼             ▼             ▼               │
-│ [ MAC 0 ] ──▶ [ MAC 1 ] ──▶ [ MAC 2 ] ──▶ [ MAC 3 ]         │
-│                                                             │
-│   * 핵심: 데이터 하나를 읽어와서 수많은 연산에 재사용(Reuse) │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPU Data Path &amp; Local Buffer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Global Memory</div><div class="kb-diagram-note">(DRAM/HBM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Slow &amp; Heavy)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">On-chip Scratchpad Memory</div><div class="kb-diagram-note">(SRAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Fast &amp; Light)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 데이터 하나를 읽어와서 수많은 연산에 재사용(Reuse)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '데이터 재사용 (Data Reuse)'이다. 메모리에서 값 하나를 꺼내올 때 드는 에너지는 연산 에너지의 수백 배에 달한다. 따라서 한 번 가져온 데이터를 버리지 않고 옆 연산기로 계속 넘겨주며 계산하는 아키텍처가 전성비의 비결이다.
 
@@ -130,28 +121,26 @@ AI 가속기가 필요한 이유는 세 가지이다. 첫째, **연산 밀도 (C
 ### 기술사적 판단: 워크로드별 하드웨어 가속기 선정 전략
 
 **시나리오 1: 수천억 파라미터 규모의 초거대 언어 모델 (LLM) 학습 환경 구축**
-- **판단**: 유연한 라이브러리 지원과 압도적인 생태계를 갖춘 **NVIDIA GPU (H100/B200)** 클러스터를 제안한다. 특히 모델 전체를 메모리에 올리기 위해 **NVLink** 기반의 GPU 간 직접 통신 아키텍처를 구성하고, 체크포인트 저장 속도를 위해 **NVMe 스토리지 레이어**를 밀결합한다.
+- **판단**: 유연한 라이브러리 지원과 압도적인 생태계를 갖춘 **NVIDIA GPU (H100/B200)** 클러스터를 제안한다. 특히 모델 전체를 메모리에 올리기 위해 **NVLink** 기반의 GPU 간 직접 통신 아키텍처를 구성하고, 체크포인트 저장 속도를 위해 <strong>NVMe 스토리지 레이어</strong>를 밀결합한다.
 
 **시나리오 2: 초저전력 엣지 카메라 내 객체 탐지 솔루션 배포**
-- **판단**: 클라우드 서버 이용은 비용과 지연 시간 문제로 배제한다. 기기에 내장된 **NPU**를 최대한 활용하도록 모델을 **INT8 수준으로 양자화**하고, 레이어 수를 줄이는 **경량화 (Distillation)** 기술을 적용한다. 하드웨어적으로는 온칩 메모리 용량에 맞춰 레이어 실행 순서를 조정하는 **Tiling 최적화**를 수행한다.
+- **판단**: 클라우드 서버 이용은 비용과 지연 시간 문제로 배제한다. 기기에 내장된 <strong>NPU</strong>를 최대한 활용하도록 모델을 <strong>INT8 수준으로 양자화</strong>하고, 레이어 수를 줄이는 **경량화 (Distillation)** 기술을 적용한다. 하드웨어적으로는 온칩 메모리 용량에 맞춰 레이어 실행 순서를 조정하는 <strong>Tiling 최적화</strong>를 수행한다.
 
 이 도식은 AI 모델 배포 시 하드웨어 제약 조건에 따른 의사결정 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               AI Deployment Decision Framework              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   학습(Training)인가? ──▶ [YES] ──▶ GPU / TPU Cluster       │
-│          │                                                  │
-│        [NO: Inference]                                      │
-│          │                                                  │
-│   실시간성(Latency)이 생명인가? ──▶ [YES] ──▶ On-device NPU  │
-│          │                                                  │
-│        [NO] ──▶ Cloud API (GPU Serving)                     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI Deployment Decision Framework</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">GPU / TPU Cluster</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO: Inference</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">On-device NPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud API (GPU Serving)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 하드웨어 판단은 '운송 수단 선택'과 같습니다. 무거운 짐을 멀리 보내려면 큰 트럭(GPU 클러스터)이 필요하고, 좁은 골목길로 빠르게 배달하려면 오토바이(엣지 NPU)가 정답임을 비즈니스 맥락에 맞춰 결정해야 합니다.
 
@@ -166,7 +155,7 @@ AI 가속기가 필요한 이유는 세 가지이다. 첫째, **연산 밀도 (C
 
 ### 미래 전망: 뉴로모픽 (Neuromorphic)과 광학 연산
 
-앞으로의 AI 하드웨어는 인간의 뇌 구조를 모방한 **뉴로모픽 칩**으로 진화할 것이다. 전기 신호 대신 시냅스의 연결 강도로 연산하며, 전력 소모를 0에 가깝게 줄이는 것이 목표이다. 또한 전기 신호의 속도 한계를 극복하기 위해 빛으로 행렬 연산을 수행하는 **광학 가속기 (Optical Computing)** 연구도 활발하다. 기술사는 디지털 게이트 중심의 사고를 넘어, 아날로그와 확률적 연산이 하드웨어에 어떻게 스며드는지 그 융합의 경계를 주시해야 한다.
+앞으로의 AI 하드웨어는 인간의 뇌 구조를 모방한 <strong>뉴로모픽 칩</strong>으로 진화할 것이다. 전기 신호 대신 시냅스의 연결 강도로 연산하며, 전력 소모를 0에 가깝게 줄이는 것이 목표이다. 또한 전기 신호의 속도 한계를 극복하기 위해 빛으로 행렬 연산을 수행하는 **광학 가속기 (Optical Computing)** 연구도 활발하다. 기술사는 디지털 게이트 중심의 사고를 넘어, 아날로그와 확률적 연산이 하드웨어에 어떻게 스며드는지 그 융합의 경계를 주시해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 AI 칩은 '살아있는 생명체의 뇌'와 같아질 것입니다. 밥(전기)을 아주 조금만 먹고도 온종일 생각하고 꿈꾸며, 우리 삶의 모든 순간을 지능적으로 지켜주는 수호천사가 될 것입니다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-ict-convergence"]
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델은 통계적 패턴 학습으로 동작하기 때문에, 그 패턴을 교란하도록 설계된 입력에 매우 취약하다. 자율주행 차량의 정지 표지판 인식 방해, 악성코드 탐지 우회, 얼굴 인식 잠금 해제 등이 실제 위협 시나리오다.
 
-**공격 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준**
+<strong>공격 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 기준</strong>
 
 | 기준 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 |:---:|:---|
@@ -35,34 +35,34 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────┐
-│              AI 공격 분류                            │
-│                                                     │
-│  훈련 단계                     추론 단계             │
-│  ┌──────────────────┐         ┌──────────────────┐  │
-│  │  포이즈닝 공격    │         │  이베이전 공격    │  │
-│  │ (Poisoning)      │         │ (Evasion)        │  │
-│  │                  │         │                  │  │
-│  │ ·악성 샘플 삽입  │         │ ·FGSM 노이즈     │  │
-│  │ ·백도어(Backdoor)│         │ ·PGD 반복 공격   │  │
-│  │ ·클린-라벨 공격  │         │ ·C&W 공격        │  │
-│  └──────────────────┘         └──────────────────┘  │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 공격 분류</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 단계 추론 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포이즈닝 공격</div><div class="kb-diagram-cell">이베이전 공격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Poisoning)</div><div class="kb-diagram-cell">(Evasion)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·악성 샘플 삽입</div><div class="kb-diagram-cell">·FGSM 노이즈</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·백도어(Backdoor)</div><div class="kb-diagram-cell">·PGD 반복 공격</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·클린-라벨 공격</div><div class="kb-diagram-cell">·C&amp;W 공격</div></div>
+</div>
+</div>
+
+
 
 **포이즈닝 공격(Poisoning Attack)**
 훈련 데이터에 악의적으로 조작된 샘플을 삽입해 모델의 일반 성능을 저하시키거나, 특정 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger) 패턴 입력 시 오분류하도록 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 심는다.
 
-- **[백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 공격([Backdoor Attack](/knowledge-base/studynote/09_security/19_ai_advanced_security/949_backdoor_attack/))**: 특정 스티커 패턴이 붙은 정지 표지판을 "속도 무제한"으로 인식하도록 훈련
+- <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/">백도어</a> 공격(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/949_backdoor_attack/">Backdoor Attack</a>)</strong>: 특정 스티커 패턴이 붙은 정지 표지판을 "속도 무제한"으로 인식하도록 훈련
 - **클린-라벨 공격(Clean-Label Attack)**: 라벨 변조 없이 특성 공간만 오염시켜 탐지 회피
 
 **이베이전 공격(Evasion Attack)**
 추론 시 원본 입력에 미세한 노이즈(Perturbation, ε ≤ 0.03)를 추가해 오분류 유도.
 
-- **[FGSM](/knowledge-base/studynote/09_security/19_ai_advanced_security/943_fgsm/)(Fast Gradient Sign Method)**: 손실 함수의 기울기 부호 방향으로 1회 ε만큼 이동
-- **[PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/)([Projected Gradient Descent](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/))**: FGSM을 L∞ 제약 내에서 반복 적용 — 더 강력
-- **[C&W](/knowledge-base/studynote/09_security/19_ai_advanced_security/945_cw_attack/) 공격**: 최소 노이즈로 오분류 달성하는 최적화 문제
+- <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/943_fgsm/">FGSM</a>(Fast Gradient Sign Method)</strong>: 손실 함수의 기울기 부호 방향으로 1회 ε만큼 이동
+- <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/">PGD</a>(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/">Projected Gradient Descent</a>)</strong>: FGSM을 L∞ 제약 내에서 반복 적용 — 더 강력
+- <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/945_cw_attack/">C&W</a> 공격</strong>: 최소 노이즈로 오분류 달성하는 최적화 문제
 
 ### 공격 강도 비교
 
@@ -95,17 +95,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**고위험 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 적용**
+<strong>고위험 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 적용</strong>
 
 - **자율주행**: STOP 표지판에 물리적 스티커 부착 → 인식 오류 → 사고 위험
 - **악성코드 탐지**: 악성코드에 정상 코드 패턴 삽입 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 탐지기 우회(블랙박스 이베이전)
-- **[생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/)**: 얼굴 인식기에 적대적 안경 착용으로 잠금 해제
+- <strong><a href="/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/">생체 인증</a></strong>: 얼굴 인식기에 적대적 안경 착용으로 잠금 해제
 
 **기술사 판단 포인트**
 
 1. **보안 수준별 방어 선택**: 금융·군사 → [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어(Certified Defense) 도입 고려
-2. **[적대적 훈련](/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/) 비용**: 훈련 시간 3~10배 증가 → 모델 업데이트 주기와 하드웨어 계획 수립
-3. **[공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)**: 사전 훈련 모델(Pre-trained Model) 도입 시 포이즈닝 여부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 필요
+2. <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/">적대적 훈련</a> 비용</strong>: 훈련 시간 3~10배 증가 → 모델 업데이트 주기와 하드웨어 계획 수립
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a></strong>: 사전 훈련 모델(Pre-trained Model) 도입 시 포이즈닝 여부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 필요
 4. **평가 기준**: ANSI/IEEE [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안 프레임워크에서 Robustness Accuracy 및 Certified [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 측정
 
 - **📢 섹션 요약 비유**: 보안 카메라를 해킹하는 것처럼, AI도 공격자가 의도한 대로 보이도록 속일 수 있다 — 방어 설계는 필수다.

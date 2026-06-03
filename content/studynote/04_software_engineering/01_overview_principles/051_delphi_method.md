@@ -29,22 +29,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)의 핵심 원칙은 네 가지다. **익명성**, **반복성**, **통제된 피드백**, **통계적 집계**다. 전문가들이 서로의 신분과 발언 강도에 영향을 받지 않게 만들고, 중재자는 라운드마다 요약된 정보만 제공해 판단을 개선하게 한다.
+[델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)의 핵심 원칙은 네 가지다. **익명성**, **반복성**, **통제된 피드백**, <strong>통계적 집계</strong>다. 전문가들이 서로의 신분과 발언 강도에 영향을 받지 않게 만들고, 중재자는 라운드마다 요약된 정보만 제공해 판단을 개선하게 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                델파이 기법의 반복 수렴 구조                  │
-├──────────────────────────────────────────────────────────────┤
-│ 문제 정의                                                   │
-│    │                                                         │
-│    ▼                                                         │
-│ 전문가 1차 응답  →  중재자 요약/통계  →  2차 재응답         │
-│    ^                                   │                    │
-│    └──────────── 필요 시 반복 ──────────┘                    │
-│                                                              │
-│ 최종 산출: 합의 범위, 중앙값/평균, 주요 가정                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">델파이 기법의 반복 수렴 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 정의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전문가 1차 응답 → 중재자 요약/통계 → 2차 재응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 시 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 산출: 합의 범위, 중앙값/평균, 주요 가정</div></div>
+</div>
+</div>
+
+
 
 | 원칙 | 의미 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -121,21 +121,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전문가 판단 (Expert Judgment)
-    │
-    ▼
-델파이 기법 (Delphi Method)
-    │
-    ▼
-Wideband Delphi
-    │
-    ▼
-WBS · PERT · 리스크 분석
-    │
-    ▼
-Monte Carlo 기반 예측 정교화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전문가 판단 (Expert Judgment)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">델파이 기법 (Delphi Method)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Wideband Delphi</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WBS · PERT · 리스크 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Monte Carlo 기반 예측 정교화</div>
+</div>
+</div>
+
+
 
 이 흐름은 직관적 판단을 반복 합의로 다듬고, 이후 정량 분석으로 연결하는 과정을 보여준다.
 

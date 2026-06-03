@@ -22,13 +22,18 @@ tags = ["ict_convergence"]
 
 Permissionless는 비트코인(Bitcoin)과 이더리움(Ethereum)처럼 누구나 노드가 되고 검증에 참여할 수 있는 공개 네트워크다. 반면 Permissioned는 허가받은 참여자만 장부를 보거나 쓸 수 있다.
 
-```text
-Permissionless
-누구나 참여 ─▶ 공개 검증 ─▶ 분산 합의 ─▶ 블록 추가
 
-Permissioned
-신원 확인 ─▶ 허가된 노드 ─▶ 제한 합의 ─▶ 블록 추가
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Permissionless</div>
+<div class="kb-diagram-note">누구나 참여 ─▶ 공개 검증 ─▶ 분산 합의 ─▶ 블록 추가</div>
+<div class="kb-diagram-note">Permissioned</div>
+<div class="kb-diagram-note">신원 확인 ─▶ 허가된 노드 ─▶ 제한 합의 ─▶ 블록 추가</div>
+</div>
+</div>
+
+
 
 이 차이는 단순한 접근 권한이 아니라, 시스템이 신뢰를 만드는 방법의 차이다.
 
@@ -114,19 +119,21 @@ Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공개 원장
-    │
-    ▼
-Permissionless(개방/검열저항)
-    │
-    ├─ PoW / PoS
-    │
-    ▼
-Permissioned(통제/성능)
-    │
-    └─ BFT / 멤버십 서비스 / KYC
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공개 원장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Permissionless(개방/검열저항)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">PoW / PoS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Permissioned(통제/성능)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BFT / 멤버십 서비스 / KYC</div>
+</div>
+</div>
+
+
 
 이 흐름은 "참여 문턱"이 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거버넌스를 결정한다는 점을 보여준다. 앞으로는 공개성과 통제의 중간 지대인 컨소시엄 구조가 실무에서 더 자주 쓰인다.
 

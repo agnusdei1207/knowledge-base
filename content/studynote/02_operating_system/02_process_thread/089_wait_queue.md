@@ -31,20 +31,20 @@ tags = ["studynote-operating-system"]
 
 대기 큐는 중앙 집중식이 아니라 기다리는 대상별(디스크, 네트워크, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 등)로 수많은 큐가 분산되어 존재한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           CPU 자원 절약을 위한 대기 큐 상태 전이             │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│      [Ready Queue] ◀────────── Wakeup ──────────┐          │
-│            │                                    │          │
-│         Dispatch                          Event Occurs     │
-│            │                               (I/O, Lock)     │
-│            ▼                                    │          │
-│       [Running] ─── I/O Request / Wait ───▶ [Wait Queue]   │
-│      (CPU 할당)    (CPU 반납 및 블로킹)        (대기 상태)   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 자원 절약을 위한 대기 큐 상태 전이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queue</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">Wakeup</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatch Event Occurs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(I/O, Lock)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Running</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Wait Queue</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 할당) (CPU 반납 및 블로킹) (대기 상태)</div></div>
+</div>
+</div>
+
+
 
 이 전이도는 프로세스가 시스템 콜을 통해 자발적으로 CPU를 반납하고 대기 큐로 진입하는 과정을 보여준다. 디스크 읽기를 요청한 프로세스는 `Disk Wait Queue`의 끝에 연결된다. 하드웨어 컨트롤러가 작업을 마치고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러가 해당 대기 큐의 맨 앞(또는 특정 [스케줄링 기준](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/))에 있는 프로세스를 떼어내어 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))로 옮기고, 다시 CPU를 획득할 기회를 부여한다. 
 
@@ -60,7 +60,7 @@ tags = ["studynote-operating-system"]
 | :--- | :--- | :--- | :--- |
 | **주요 체류 위치** | 대기 큐 (Wait [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)) 및 Running | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 진단 기준 |
 | **디스패치 빈도** | 매우 잦음 (I/O 요청 시 즉시 블로킹) | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 소진 시 강제 교환 | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 관리 |
-| **[우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/)** | 깨어날 때 높은 우선순위 부여 | 점진적으로 우선순위 강등 | 사용자 체감 반응성 확보 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/">우선순위 스케줄링</a></strong> | 깨어날 때 높은 우선순위 부여 | 점진적으로 우선순위 강등 | 사용자 체감 반응성 확보 |
 
 현대 운영체제는 대기 큐에서 막 깨어난 프로세스(I/O 바운드)에게 높은 우선권을 부여한다. 아주 잠깐만 CPU를 쓰고 다시 대기 큐로 물러나기 때문에, 이들의 빠른 처리가 마우스나 키보드 입력의 딜레이를 없애고 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정짓기 때문이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이나 네트워크 수신 병목 모두 본질적으로 이 대기 큐의 적체 현상으로 귀결된다.
 
@@ -97,27 +97,29 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/) ([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))** | 대기 큐를 쓰지 않고 CPU를 점유하며 루프를 도는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등 매우 짧은 대기에만 예외적으로 쓴다. |
-| **[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))** | 프로세스가 대기 큐에 진입하거나 깨어날 때 발생하는 필수적인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 및 메모리 매핑 교체 비용 |
-| **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))** | 하드웨어 작업 완료를 알리는 트리거로, 대기 큐에 잠든 프로세스를 깨워 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)로 보내는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>)</strong> | 대기 큐를 쓰지 않고 CPU를 점유하며 루프를 도는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)으로, [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등 매우 짧은 대기에만 예외적으로 쓴다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong> | 프로세스가 대기 큐에 진입하거나 깨어날 때 발생하는 필수적인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 및 메모리 매핑 교체 비용 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | 하드웨어 작업 완료를 알리는 트리거로, 대기 큐에 잠든 프로세스를 깨워 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)로 보내는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-바쁜 대기 (Busy Waiting)에 의한 CPU 낭비
-    │
-    ▼
-인터럽트 (Interrupt) 기반의 블로킹 모델 도입
-    │
-    ▼
-대기 큐 (Wait Queue) 및 디바이스 큐의 분산 아키텍처
-    │
-    ▼
-다중 프로세스 경합 해결 (Exclusive Wakeup)
-    │
-    ▼
-제로 오버헤드를 위한 비동기 I/O (AIO, io_uring) 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">바쁜 대기 (Busy Waiting)에 의한 CPU 낭비</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인터럽트 (Interrupt) 기반의 블로킹 모델 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대기 큐 (Wait Queue) 및 디바이스 큐의 분산 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다중 프로세스 경합 해결 (Exclusive Wakeup)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">제로 오버헤드를 위한 비동기 I/O (AIO, io_uring) 진화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 비효율성을 극복하기 위해 등장한 대기 큐가 멀티코어 환경의 경합을 해결하고, 궁극적으로 큐를 우회하는 비동기 모델로 진화하는 과정을 보여준다.
 

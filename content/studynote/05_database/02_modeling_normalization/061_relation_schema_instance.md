@@ -28,16 +28,22 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-릴레이션
-├─ Schema (Intension)
-│  ├─ 속성(Attribute)
-│  ├─ 도메인(Domain)
-│  └─ 키(Key)
-└─ Instance (Extension)
-   ├─ Tuple(행)
-   └─ 값(Value)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">릴레이션</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Schema (Intension)</div>
+<div class="kb-diagram-note">─ 속성(Attribute)</div>
+<div class="kb-diagram-note">─ 도메인(Domain)</div>
+<div class="kb-diagram-note">─ 키(Key)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">Instance (Extension)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Tuple(행)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">값(Value)</div>
+</div>
+</div>
+
+
 
 | 용어 | 뜻 |
 | :-- | :-- |
@@ -47,15 +53,19 @@ tags = ["database"]
 | Degree | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 개수 |
 | Cardinality | [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)의 개수 |
 
-```text
-학생 릴레이션
-┌──────┬──────┬──────┬──────┐
-│ 학번 │ 이름 │ 학년 │ 전공 │  ← Schema
-├──────┼──────┼──────┼──────┤
-│ 1001 │ 김철수│  2   │ 컴공 │
-│ 1002 │ 이영희│  1   │ 경영 │
-└──────┴──────┴──────┴──────┘  ← Instance
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">학생 릴레이션</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">학년</div><div class="kb-diagram-cell">전공</div><div class="kb-diagram-cell">← Schema</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1001</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">컴공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1002</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">경영</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">← Instance</div>
+</div>
+</div>
+
+
 
 릴레이션은 단순한 표가 아니라, 각 열의 의미와 각 행의 유일성이 함께 보장되는 구조다. 그래서 키와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 조건이 매우 중요하다.
 
@@ -118,33 +128,45 @@ tags = ["database"]
 
 ## 관련 개념 맵
 
-```text
-Relation
-   ↓
-Schema / Instance
-   ↓
-Key / Constraint
-   ↓
-Normalization
-   ↓
-RDBMS Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Relation</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Schema / Instance</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Key / Constraint</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Normalization</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RDBMS Design</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-E.F. Codd
-   ↓
-Relational Model
-   ↓
-SQL
-   ↓
-RDBMS
-   ↓
-Modern Data Design
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">E.F. Codd</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Relational Model</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">SQL</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">RDBMS</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Modern Data Design</div>
+</div>
+</div>
+
+
 
 ---
 

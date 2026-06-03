@@ -45,29 +45,29 @@ Pseudoternary: 0 = +V/-V 교번, 1 = 0V
 
 ## Ⅱ. [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 인코딩 원리
 
-```
-AMI (Alternate Mark Inversion):
 
-규칙:
-비트 0 -> 전압 0
-비트 1 -> 이전 1과 반대 극성 (+V or -V 교번)
 
-예시:
-데이터: 1 0 0 1 0 1 1 0 1
-전압: +V 0 0 -V 0 +V -V 0 +V
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AMI (Alternate Mark Inversion):</div>
+<div class="kb-diagram-note">규칙:</div>
+<div class="kb-diagram-note">비트 0 -&gt; 전압 0</div>
+<div class="kb-diagram-note">비트 1 -&gt; 이전 1과 반대 극성 (+V or -V 교번)</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">데이터: 1 0 0 1 0 1 1 0 1</div>
+<div class="kb-diagram-note">전압: +V 0 0 -V 0 +V -V 0 +V</div>
+<div class="kb-diagram-note">파형:</div>
+<div class="kb-diagram-note">+V _ _ _ _ _</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">_____</div><div class="kb-diagram-cell">_____</div><div class="kb-diagram-cell">_____</div><div class="kb-diagram-cell">_</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-V</div></div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">1. DC 성분 0: +V와 -V 교번 -&gt; 평균 0V</div>
+<div class="kb-diagram-note">2. 오류 탐지: 연속 동극성 (예: +V 다음 +V) = 위반 신호</div>
+<div class="kb-diagram-note">3. 대역폭: NRZ-L 대비 낮은 주파수 성분</div>
+</div>
+</div>
 
-파형:
-+V _ _ _ _ _
-| | | | |
-0 |_____| _____| |_____| _
-| | | |
--V | | | |
 
-특성:
-1. DC 성분 0: +V와 -V 교번 -> 평균 0V
-2. 오류 탐지: 연속 동극성 (예: +V 다음 +V) = 위반 신호
-3. 대역폭: NRZ-L 대비 낮은 주파수 성분
-```
 
 > 📢 **섹션 요약 비유**: AMI는 1을 "위, 아래, 위, 아래"처럼 번갈아 전달하는 지그재그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 모두 같은 방향이면 오류 경보!
 
@@ -75,27 +75,30 @@ AMI (Alternate Mark Inversion):
 
 ## Ⅲ. AMI의 한계와 개선: B8ZS, HDB3
 
-```
-AMI 한계:
-연속 0이 많으면 전압 변동 없음
--> 수신기 동기(Clock Recovery) 어려움
--> 장거리 전송 시 타이밍 손실
 
-B8ZS (Bipolar with 8 Zeros Substitution):
-8개 연속 0 -> 특수 패턴으로 치환
-치환 패턴: 000+-0-+ (이전 펄스 +일 때)
-000-+0+- (이전 펄스 -일 때)
-북미 T1 (DS1, 1.544 Mbps)에 사용
 
-HDB3 (High Density Bipolar 3):
-4개 연속 0 -> 특수 패턴 치환
-유럽 E1 (2.048 Mbps)에 사용
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AMI 한계:</div>
+<div class="kb-diagram-note">연속 0이 많으면 전압 변동 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:0">수신기 동기(Clock Recovery) 어려움</div>
+<div class="kb-diagram-tree-item" style="--depth:0">장거리 전송 시 타이밍 손실</div>
+<div class="kb-diagram-note">B8ZS (Bipolar with 8 Zeros Substitution):</div>
+<div class="kb-diagram-note">8개 연속 0 -&gt; 특수 패턴으로 치환</div>
+<div class="kb-diagram-note">치환 패턴: 000+-0-+ (이전 펄스 +일 때)</div>
+<div class="kb-diagram-note">000-+0+- (이전 펄스 -일 때)</div>
+<div class="kb-diagram-note">북미 T1 (DS1, 1.544 Mbps)에 사용</div>
+<div class="kb-diagram-note">HDB3 (High Density Bipolar 3):</div>
+<div class="kb-diagram-note">4개 연속 0 -&gt; 특수 패턴 치환</div>
+<div class="kb-diagram-note">유럽 E1 (2.048 Mbps)에 사용</div>
+<div class="kb-diagram-note">비교:</div>
+<div class="kb-diagram-note">AMI: 단순, 동기화 불안정</div>
+<div class="kb-diagram-note">B8ZS: T1 표준, 8개 연속 0 처리</div>
+<div class="kb-diagram-note">HDB3: E1 표준, 4개 연속 0 처리</div>
+</div>
+</div>
 
-비교:
-AMI: 단순, 동기화 불안정
-B8ZS: T1 표준, 8개 연속 0 처리
-HDB3: E1 표준, 4개 연속 0 처리
-```
+
 
 > 📢 **섹션 요약 비유**: B8ZS/HDB3는 오래 침묵하면 "가짜 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"를 넣어 시계가 계속 돌아가게 유지하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 도우미.
 
@@ -103,26 +106,28 @@ HDB3: E1 표준, 4개 연속 0 처리
 
 ## Ⅳ. Pseudoternary
 
-```
-Pseudoternary (의사 삼진 부호):
 
-규칙 (AMI의 역):
-비트 1 -> 전압 0
-비트 0 -> 이전 0과 반대 극성 교번
 
-예시:
-데이터: 1 0 0 1 0 1 1 0 1
-전압: 0 +V -V 0 +V 0 0 -V 0
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pseudoternary (의사 삼진 부호):</div>
+<div class="kb-diagram-note">규칙 (AMI의 역):</div>
+<div class="kb-diagram-note">비트 1 -&gt; 전압 0</div>
+<div class="kb-diagram-note">비트 0 -&gt; 이전 0과 반대 극성 교번</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">데이터: 1 0 0 1 0 1 1 0 1</div>
+<div class="kb-diagram-note">전압: 0 +V -V 0 +V 0 0 -V 0</div>
+<div class="kb-diagram-note">특성:</div>
+<div class="kb-diagram-note">AMI와 동일한 DC 0, 오류 탐지 특성</div>
+<div class="kb-diagram-note">0이 많은 데이터에서 더 많은 전압 변동</div>
+<div class="kb-diagram-tree-item" style="--depth:0">동기화 유리</div>
+<div class="kb-diagram-note">ISDN BRI (Basic Rate Interface) 사용:</div>
+<div class="kb-diagram-note">S/T 인터페이스: AMI 사용</div>
+<div class="kb-diagram-note">U 인터페이스: 2B1Q (4레벨 PAM) 전환</div>
+</div>
+</div>
 
-특성:
-AMI와 동일한 DC 0, 오류 탐지 특성
-0이 많은 데이터에서 더 많은 전압 변동
--> 동기화 유리
 
-ISDN BRI (Basic Rate Interface) 사용:
-S/T 인터페이스: AMI 사용
-U 인터페이스: 2B1Q (4레벨 PAM) 전환
-```
 
 > 📢 **섹션 요약 비유**: Pseudoternary는 AMI와 같은 규칙이지만 0과 1 역할만 바꾼 쌍둥이 코딩 — 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 자주 오느냐에 따라 유리한 쪽을 선택.
 
@@ -130,29 +135,31 @@ U 인터페이스: 2B1Q (4레벨 PAM) 전환
 
 ## Ⅴ. 실무 시나리오 — ISDN과 디지털 전화망
 
-```
-디지털 전화망 라인 코딩 실무:
 
-T1 (북미 표준, 1.544 Mbps):
-24채널 DS0 (64 kbps) x 24 = 1.536 Mbps + 프레이밍
-라인 코딩: AMI (초기) -> B8ZS (현대)
-물리 매체: 2쌍 꼬임 구리선
 
-E1 (유럽 표준, 2.048 Mbps):
-30채널 + 2 관리 채널 = 32 x 64 kbps
-라인 코딩: AMI -> HDB3
-ITU-T G.703 표준
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">디지털 전화망 라인 코딩 실무:</div>
+<div class="kb-diagram-note">T1 (북미 표준, 1.544 Mbps):</div>
+<div class="kb-diagram-note">24채널 DS0 (64 kbps) x 24 = 1.536 Mbps + 프레이밍</div>
+<div class="kb-diagram-note">라인 코딩: AMI (초기) -&gt; B8ZS (현대)</div>
+<div class="kb-diagram-note">물리 매체: 2쌍 꼬임 구리선</div>
+<div class="kb-diagram-note">E1 (유럽 표준, 2.048 Mbps):</div>
+<div class="kb-diagram-note">30채널 + 2 관리 채널 = 32 x 64 kbps</div>
+<div class="kb-diagram-note">라인 코딩: AMI -&gt; HDB3</div>
+<div class="kb-diagram-note">ITU-T G.703 표준</div>
+<div class="kb-diagram-note">ISDN BRI (Basic Rate Interface):</div>
+<div class="kb-diagram-note">2B + D: 2개의 64 kbps 음성/데이터 + 16 kbps 신호</div>
+<div class="kb-diagram-note">S/T 인터페이스: AMI 사용</div>
+<div class="kb-diagram-note">최대 전송 거리: 1km (증폭기 없이)</div>
+<div class="kb-diagram-note">현재 상황:</div>
+<div class="kb-diagram-note">ISDN -&gt; ADSL -&gt; VDSL -&gt; 광섬유로 대체</div>
+<div class="kb-diagram-note">T1/E1 -&gt; IP화 (VoIP) 진행 중</div>
+<div class="kb-diagram-note">그러나 레거시 기업/통신사에서 여전히 사용</div>
+</div>
+</div>
 
-ISDN BRI (Basic Rate Interface):
-2B + D: 2개의 64 kbps 음성/데이터 + 16 kbps 신호
-S/T 인터페이스: AMI 사용
-최대 전송 거리: 1km (증폭기 없이)
 
-현재 상황:
-ISDN -> ADSL -> VDSL -> 광섬유로 대체
-T1/E1 -> IP화 (VoIP) 진행 중
-그러나 레거시 기업/통신사에서 여전히 사용
-```
 
 > 📢 **섹션 요약 비유**: T1/E1은 고속도로 차선처럼 고정 대역폭을 나눠 쓰는 디지털 전화망 — [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)/HDB3가 각 차선의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 역할.
 

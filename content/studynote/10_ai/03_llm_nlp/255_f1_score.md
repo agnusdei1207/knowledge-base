@@ -19,13 +19,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-F1 스코어는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단일 숫자로 표현하는 지표로, **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)을 동시에 고려**한다.
+F1 스코어는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단일 숫자로 표현하는 지표로, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>와 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a>을 동시에 고려</strong>한다.
 
 $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)} \times \text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)}}{\text{[Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)} + \text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)}}$$
 
 **왜 산술 평균이 아닌 조화 평균인가?**
 
-조화 평균은 두 값 중 **작은 값에 더 민감**하게 반응한다.
+조화 평균은 두 값 중 <strong>작은 값에 더 민감</strong>하게 반응한다.
 
 | [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) | 산술 평균 | 조화 평균(F1) |
 |:---:|:---:|:---:|:---:|
@@ -36,14 +36,17 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 
 한 지표가 0에 가까우면 F1도 0에 수렴한다. 이는 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 아무리 높아도 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 0이면 의미 없다"는 현실을 수학적으로 반영한 것이다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: F1은 두 발이 있는 의자다. 한 발이 짧으면([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 또는 [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 중 하나가 낮으면) 아무리 다른 발이 길어도 의자가 기울어져 쓸 수 없다.
 
@@ -53,41 +56,42 @@ $$F1 = \frac{2 \times \text{[Precision](/knowledge-base/studynote/14_data_engine
 
 ### F1 스코어 계산 구조
 
-```
-  혼동 행렬 (Confusion Matrix)
-  ┌────────────────┬──────────────┬──────────────┐
-  │                │ 예측 Positive│ 예측 Negative│
-  ├────────────────┼──────────────┼──────────────┤
-  │ 실제 Positive  │  TP = 80     │  FN = 20     │
-  ├────────────────┼──────────────┼──────────────┤
-  │ 실제 Negative  │  FP = 10     │  TN = 890    │
-  └────────────────┴──────────────┴──────────────┘
 
-  Precision = 80 / (80+10) = 0.889
-  Recall    = 80 / (80+20) = 0.800
-  F1        = 2 × (0.889 × 0.800) / (0.889 + 0.800) = 0.842
 
-  정확도(Accuracy) = (80+890)/1000 = 0.970  ← 불균형 시 왜곡!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">혼동 행렬 (Confusion Matrix)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 Positive</div><div class="kb-diagram-cell">예측 Negative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 Positive</div><div class="kb-diagram-cell">TP = 80</div><div class="kb-diagram-cell">FN = 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 Negative</div><div class="kb-diagram-cell">FP = 10</div><div class="kb-diagram-cell">TN = 890</div></div>
+<div class="kb-diagram-note">Precision = 80 / (80+10) = 0.889</div>
+<div class="kb-diagram-note">Recall = 80 / (80+20) = 0.800</div>
+<div class="kb-diagram-note">F1 = 2 × (0.889 × 0.800) / (0.889 + 0.800) = 0.842</div>
+<div class="kb-diagram-note">정확도(Accuracy) = (80+890)/1000 = 0.970 ← 불균형 시 왜곡!</div>
+</div>
+</div>
+
+
 
 ### 다중 클래스 F1 (Multi-class F1)
 
 클래스가 3개 이상일 때 F1을 집계하는 방법이 3가지다.
 
-```
-  ┌─────────────────────────────────────────────────────────┐
-  │          다중 클래스 F1 집계 방법                        │
-  ├──────────────┬──────────────────────────────────────────┤
-  │ Macro F1     │ 각 클래스 F1의 단순 평균                  │
-  │              │ → 모든 클래스를 동등하게 취급             │
-  ├──────────────┼──────────────────────────────────────────┤
-  │ Micro F1     │ 전체 TP/FP/FN을 합산 후 F1 계산          │
-  │              │ → 샘플 수가 많은 클래스에 가중치          │
-  ├──────────────┼──────────────────────────────────────────┤
-  │ Weighted F1  │ 각 클래스 F1을 지지도(Support)로 가중     │
-  │              │ → 불균형 데이터에 가장 현실적             │
-  └──────────────┴──────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 클래스 F1 집계 방법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Macro F1</div><div class="kb-diagram-cell">각 클래스 F1의 단순 평균</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모든 클래스를 동등하게 취급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Micro F1</div><div class="kb-diagram-cell">전체 TP/FP/FN을 합산 후 F1 계산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 샘플 수가 많은 클래스에 가중치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weighted F1</div><div class="kb-diagram-cell">각 클래스 F1을 지지도(Support)로 가중</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 불균형 데이터에 가장 현실적</div></div>
+</div>
+</div>
+
+
 
 | 집계 방식 | 수식 | 적합 상황 |
 |:---|:---|:---|
@@ -113,19 +117,23 @@ $$F_\beta = \frac{(1 + \beta^2) \times \text{[Precision](/knowledge-base/studyno
 
 ### F1 vs 정확도(Accuracy) — 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서의 차이
 
-```
-  예시: 암 검진 데이터 (암 환자 1%, 정상 99%)
-  ┌──────────────────────────────────────────────────┐
-  │ 무조건 "정상" 예측하는 더미 모델:                 │
-  │   Accuracy = 99%  ← 매우 높아 보임!              │
-  │   F1       = 0.0  ← 실제로는 완전히 무용지물     │
-  └──────────────────────────────────────────────────┘
-  → 불균형 클래스에서 F1이 Accuracy보다 신뢰할 수 있음
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">예시: 암 검진 데이터 (암 환자 1%, 정상 99%)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 "정상" 예측하는 더미 모델:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Accuracy = 99% ← 매우 높아 보임!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F1 = 0.0 ← 실제로는 완전히 무용지물</div></div>
+<div class="kb-diagram-note">→ 불균형 클래스에서 F1이 Accuracy보다 신뢰할 수 있음</div>
+</div>
+</div>
+
+
 
 ### [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선과 F1의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) Curve)에서 **각 임계값별 F1 최대점**이 최적 운영점(Operating Point)이다.
+[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) Curve)에서 <strong>각 임계값별 F1 최대점</strong>이 최적 운영점(Operating Point)이다.
 
 | 지표 | 강점 | 약점 |
 |:---|:---|:---|
@@ -144,9 +152,9 @@ $$F_\beta = \frac{(1 + \beta^2) \times \text{[Precision](/knowledge-base/studyno
 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에서 F1을 높이는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):
 
 1. **오버샘플링**: [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/)([Synthetic Minority Over-sampling Technique](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/))로 소수 클래스 증강
-2. **클래스 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)**: `class_weight='balanced'` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에서 소수 클래스 강화
+2. <strong>클래스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong>: `class_weight='balanced'` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에서 소수 클래스 강화
 3. **임계값 조정**: 기본 0.5 대신 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 곡선에서 F1 최대 임계값 탐색
-4. **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 활용**: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)·[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)으로 소수 클래스 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 활용</strong>: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)·[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)으로 소수 클래스 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 ### 기술사 답안 포인트
 
@@ -162,12 +170,12 @@ $$F_\beta = \frac{(1 + \beta^2) \times \text{[Precision](/knowledge-base/studyno
 
 F1 스코어를 모델 평가 지표로 채택하면:
 
-1. **왜곡 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정**: 클래스 불균형에도 실질적인 모델 가치를 정확히 반영
+1. <strong>왜곡 없는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 측정</strong>: 클래스 불균형에도 실질적인 모델 가치를 정확히 반영
 2. **비즈니스 목표 정렬**: β 조정을 통해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 요구사항(FN 감소 vs [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감소)을 지표에 직접 반영
-3. **[하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 기준**: F1을 최적화 목표로 삼아 임계값·모델 구조 결정
-4. **의사결정 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상**: 단일 지표로 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 명확히 전달
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/">하이퍼파라미터 튜닝</a> 기준</strong>: F1을 최적화 목표로 삼아 임계값·모델 구조 결정
+4. <strong>의사결정 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 향상</strong>: 단일 지표로 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 명확히 전달
 
-F1 스코어는 **불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일반적인 실무 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템**에서 정확도를 대체하는 핵심 평가 지표로 자리 잡았다.
+F1 스코어는 <strong>불균형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 일반적인 실무 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 시스템</strong>에서 정확도를 대체하는 핵심 평가 지표로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: F1은 축구에서 "골 득실차"와 같다. 단순히 이긴 횟수(정확도)만 보면 약팀과 강팀을 구분 못하지만, 득실 균형(F1)을 보면 진짜 실력이 드러난다.
 

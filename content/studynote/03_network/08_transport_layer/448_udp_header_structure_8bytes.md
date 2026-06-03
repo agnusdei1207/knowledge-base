@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 비연결형, 비신뢰성 전송을 목적으로 하는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷(데이터그램) 앞에 부착되는 최소한의 제어 정보 블록. 고정된 8바이트 길이를 갖는다.
-- **필요성**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 "네이버 IP가 뭐야?"라고 묻는 아주 작은 텍스트를 보낸다. 텍스트는 10바이트인데, 이걸 보내겠다고 TCP의 20바이트짜리 뚱뚱한 헤더를 씌우면 배보다 배꼽이 더 크다. 게다가 잃어버리면 걍 1초 뒤에 한 번 더 물어보면 그만이다. **"야, 순서 보장이나 에러 났다고 다시 보내주는 잡다한 기능 싹 다 빼버려! 그냥 짐을 받을 프로그램의 방 번호([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 껍데기에 달랑 적어서 0.01초라도 빨리 던져버려!!"** 이것이 8바이트 깡통 헤더가 존재하는 유일한 이유다.
+- **필요성**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 "네이버 IP가 뭐야?"라고 묻는 아주 작은 텍스트를 보낸다. 텍스트는 10바이트인데, 이걸 보내겠다고 TCP의 20바이트짜리 뚱뚱한 헤더를 씌우면 배보다 배꼽이 더 크다. 게다가 잃어버리면 걍 1초 뒤에 한 번 더 물어보면 그만이다. <strong>"야, 순서 보장이나 에러 났다고 다시 보내주는 잡다한 기능 싹 다 빼버려! 그냥 짐을 받을 프로그램의 방 번호(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)만 껍데기에 달랑 적어서 0.01초라도 빨리 던져버려!!"</strong> 이것이 8바이트 깡통 헤더가 존재하는 유일한 이유다.
 
-- **💡 비유**: [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더는 동네 전단지의 **"포스트잇 메모"**와 같습니다.
-  - **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더**: 등기 우편 송장입니다. 보내는 사람, 받는 사람, 무게, 파손 주의 스티커, 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 서명란 등 20개의 항목이 빽빽하게 적혀 있어 처리하는 데 한 세월입니다.
-  - **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더**: 전단지 겉면에 대충 붙인 포스트잇 1장입니다. 오직 **"101호에 넣어주세요(목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))"** 한 줄만 달랑 적혀 있습니다. 경비원(라우터)은 그냥 101호 문 밑으로 훅 밀어 넣고 즉시 뒤돌아 갑니다.
+- **💡 비유**: [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더는 동네 전단지의 <strong>"포스트잇 메모"</strong>와 같습니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더</strong>: 등기 우편 송장입니다. 보내는 사람, 받는 사람, 무게, 파손 주의 스티커, 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 서명란 등 20개의 항목이 빽빽하게 적혀 있어 처리하는 데 한 세월입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 헤더</strong>: 전단지 겉면에 대충 붙인 포스트잇 1장입니다. 오직 <strong>"101호에 넣어주세요(목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)"</strong> 한 줄만 달랑 적혀 있습니다. 경비원(라우터)은 그냥 101호 문 밑으로 훅 밀어 넣고 즉시 뒤돌아 갑니다.
 
-```text
-[SCTP]
-    │
-    ▼
-[UDP 헤더 구조]
-    │
-    └──▶ [브로드캐스트 / 멀티캐스트 전송은 UDP만…]
-```
 
-- **📢 섹션 요약 비유**: ** [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조는 F1 레이싱카의 운전석입니다. 빨리 달리기 위해 에어컨, 카오디오, 조수석([흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/), 혼잡 제어 필드)을 모조리 다 떼어내 버리고, 오직 차를 굴러가게 할 **핸들과 액셀([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)) 단 두 개만 달아놓은 뼈대만 앙상한 스피드 머신**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SCTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">UDP 헤더 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 헤더 구조는 F1 레이싱카의 운전석입니다. 빨리 달리기 위해 에어컨, 카오디오, 조수석(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>, 혼잡 제어 필드)을 모조리 다 떼어내 버리고, 오직 차를 굴러가게 할 </strong>핸들과 액셀([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)) 단 두 개만 달아놓은 뼈대만 앙상한 스피드 머신**입니다.
 
 ---
 
@@ -44,38 +48,35 @@ tags = ["studynote-network"]
 이 4개의 필드는 너무 단순해서 필기시험 1번 문제로 주워 먹기 딱 좋다.
 
 ### 1. 4개의 필드 구성 (각 2바이트 = 16비트)
-1. **Source [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 16비트)**: 내 컴퓨터 안에서 이 데이터를 뱉어낸 프로세스의 임시 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/). 만약 답장(Reply)을 받을 필요가 없는 일방적인 통보라면 이 칸마저도 그냥 `0`으로 비워버릴 수 있다.
-2. **Destination [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 16비트) ★제일 중요**: 이 깡통 헤더의 존재 이유다. 80번(웹), 53번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 등 이 데이터가 목적지 서버의 어느 프로그램(프로세스)에게 꽂혀야 하는지 알려주는 이정표다.
+1. <strong>Source <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (출발지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>, 16비트)</strong>: 내 컴퓨터 안에서 이 데이터를 뱉어낸 프로세스의 임시 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/). 만약 답장(Reply)을 받을 필요가 없는 일방적인 통보라면 이 칸마저도 그냥 `0`으로 비워버릴 수 있다.
+2. <strong>Destination <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> (목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>, 16비트) ★제일 중요</strong>: 이 깡통 헤더의 존재 이유다. 80번(웹), 53번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 등 이 데이터가 목적지 서버의 어느 프로그램(프로세스)에게 꽂혀야 하는지 알려주는 이정표다.
 3. **Length (총길이, 16비트)**: [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 8바이트와 실제 알맹이 데이터를 합친 전체 길이. (어차피 밑바닥 IP 헤더에 다 적혀있는 정보지만, 자체 검증용으로 한 번 더 적는다).
-4. **[Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) ([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), 16비트)**: 가다가 비트가 0에서 1로 깨졌는지 수학적으로 검사하는 유일한 에러 방어막. 
+4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>, 16비트)</strong>: 가다가 비트가 0에서 1로 깨졌는지 수학적으로 검사하는 유일한 에러 방어막. 
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                초경량 UDP 8바이트 헤더 구조 시각화              │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   0                   15 16                 31 (Bits)       │
- │   +-----------------------+-----------------------+         │
- │   | Source Port (16)      | Destination Port (16) |  <-- 4B │
- │   +-----------------------+-----------------------+         │
- │   | Length (16)           | Checksum (16)         |  <-- 4B │
- │   +-----------------------+-----------------------+         │
- │   | Data (Payload)...                             |         │
- │   +-----------------------------------------------+         │
- │                                                             │
- │   ▶ "이게 끝이다! 시퀀스 번호(Seq)? 없다! 수신 확인(ACK)? 없다!    │
- │      플래그 비트? 없다! 윈도우 사이즈? 없다! 그래서 미치도록 빠르다!"   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초경량 UDP 8바이트 헤더 구조 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 15 16 31 (Bits)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Port (16)</div><div class="kb-diagram-cell">Destination Port (16)</div><div class="kb-diagram-cell">&lt;-- 4B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Length (16)</div><div class="kb-diagram-cell">Checksum (16)</div><div class="kb-diagram-cell">&lt;-- 4B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data (Payload)...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이게 끝이다! 시퀀스 번호(Seq)? 없다! 수신 확인(ACK)? 없다!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래그 비트? 없다! 윈도우 사이즈? 없다! 그래서 미치도록 빠르다!"</div></div>
+</div>
+</div>
+
+
 
 ### 2. 가상 헤더와 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)의 생략 ([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 한정 꼼수)
 UDP도 TCP와 마찬가지로, [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 돌릴 때 멍청하게 지 몸뚱이만 돌리지 않는다.
-"혹시 중간 라우터가 실수로 엉뚱한 목적지 IP에 쳐넣은 거 아니야?"라는 끔찍한 오배송을 잡아내기 위해, **3계층 IP 헤더의 출발지/목적지 IP 주소를 슬쩍 복사해 온 가상 헤더(Virtual Header)**를 덧붙여서 같이 믹서기에 갈아버린다.
+"혹시 중간 라우터가 실수로 엉뚱한 목적지 IP에 쳐넣은 거 아니야?"라는 끔찍한 오배송을 잡아내기 위해, <strong>3계층 IP 헤더의 출발지/목적지 IP 주소를 슬쩍 복사해 온 가상 헤더(Virtual Header)</strong>를 덧붙여서 같이 믹서기에 갈아버린다.
 
-- **극단의 스피드 튜닝 ([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 0)**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절에는 이 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산마저 귀찮으면 **설정에서 아예 꺼버릴 수 있었다**. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 칸에 `0000 0000 0000 0000`을 적어 보내면, 수신자는 "아, 얜 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 껐네. 계산 안 하고 걍 열어봐야지~" 하고 패스한다. (이것이 진정한 속도광이다).
-- 단, 차세대 IP인 **[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 환경에서는 IP 헤더 자체에 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)이 사라져버렸기 때문에, UDP의 16비트 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 끄는 짓이 절대 금지(필수 사용)로 법이 바뀌었다**.
+- <strong>극단의 스피드 튜닝 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a> 0)</strong>: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절에는 이 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산마저 귀찮으면 **설정에서 아예 꺼버릴 수 있었다**. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 칸에 `0000 0000 0000 0000`을 적어 보내면, 수신자는 "아, 얜 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 껐네. 계산 안 하고 걍 열어봐야지~" 하고 패스한다. (이것이 진정한 속도광이다).
+- 단, 차세대 IP인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 환경에서는 IP 헤더 자체에 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>이 사라져버렸기 때문에, UDP의 16비트 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>을 끄는 짓이 절대 금지(필수 사용)로 법이 바뀌었다</strong>.
 
-- **📢 섹션 요약 비유**: ** UDP의 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 생략 기능은 택배의 **"내용물 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 검수 절차 포기"**입니다. 상자가 찌그러지든 내용물이 부서지든 일일이 열어보고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산)하는 시간을 아끼기 위해, 겉면 송장([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))만 맞으면 묻지도 따지지도 않고 그냥 고객 손에 던져버려 배송 속도를 분초 단위로 앞당기는 극단적 효율주의입니다.
+- **📢 섹션 요약 비유**: <strong> UDP의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a> 생략 기능은 택배의 </strong>"내용물 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 검수 절차 포기"**입니다. 상자가 찌그러지든 내용물이 부서지든 일일이 열어보고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) 계산)하는 시간을 아끼기 위해, 겉면 송장([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))만 맞으면 묻지도 따지지도 않고 그냥 고객 손에 던져버려 배송 속도를 분초 단위로 앞당기는 극단적 효율주의입니다.
 
 ---
 
@@ -131,15 +132,19 @@ UDP도 TCP와 마찬가지로, [체크섬](/knowledge-base/studynote/01_computer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SCTP]
-    │
-    ▼
-[현재 개념: UDP 헤더 구조]
-    │
-    ├──▶ [확장 A: 브로드캐스트 / 멀티캐스트 전송은 UDP만…]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SCTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UDP 헤더 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조는 SCTP에서 출발해 현재 메커니즘을 정교화하고, 이후 브로드캐스트 / [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

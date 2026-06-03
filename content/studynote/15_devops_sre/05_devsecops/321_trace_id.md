@@ -18,15 +18,19 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. Trace와 Span 구조
 
-```
-Trace ID: abc-123
-──────────────────────────────────────────────────────
-Span 1: API Gateway       [0ms ──────────────── 200ms]
-  Span 2: Order Service     [10ms ─────── 180ms]
-    Span 3: Inventory Svc      [20ms ── 80ms]
-    Span 4: DB Query              [90ms ─ 160ms]
-──────────────────────────────────────────────────────
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Trace ID: abc-123</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span 1: API Gateway</div><div class="kb-diagram-node">0ms ──────────────── 200ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span 2: Order Service</div><div class="kb-diagram-node">10ms ─────── 180ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span 3: Inventory Svc</div><div class="kb-diagram-node">20ms ── 80ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span 4: DB Query</div><div class="kb-diagram-node">90ms ─ 160ms</div></div>
+</div>
+</div>
+
+
 
 | 개념       | 정의                                          |
 |------------|-----------------------------------------------|
@@ -109,13 +113,19 @@ Tail Sampling이 더 유용하지만 구현 복잡도가 높다 — [OpenTelemet
 
 ### 관련 키워드 및 발전 흐름도
 
-```
-Distributed Tracing
-    ├── Trace / Span / Trace ID → 기본 데이터 구조
-    ├── W3C Trace Context / B3 → 전파 표준
-    ├── Sampling → Head / Tail / Rate Limiting
-    └── OpenTelemetry → 표준 계측 SDK + Collector
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Distributed Tracing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Trace / Span / Trace ID → 기본 데이터 구조</div>
+<div class="kb-diagram-tree-item" style="--depth:2">W3C Trace Context / B3 → 전파 표준</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Sampling → Head / Tail / Rate Limiting</div>
+<div class="kb-diagram-tree-item" style="--depth:2">OpenTelemetry → 표준 계측 SDK + Collector</div>
+</div>
+</div>
+
+
 
 > 🧒 **어린이 비유**
 > Trace ID는 소포 운송장 번호예요. 물건이 어느 배송센터를 거쳤는지 한 번호로 전부 추적할 수 있어요.

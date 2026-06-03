@@ -23,16 +23,19 @@ SiP는 중앙처리장치, 메모리, 무선 칩, 전력 관리 칩, 수동 부�
 
 이 방식이 부상한 이유는 제품 요구사항이 너무 다양해졌기 때문이다. 웨어러블과 모바일 기기는 극단적 소형화가 필요하고, 차량·통신 장비는 서로 다른 공정의 아날로그·전력·무선 블록을 함께 써야 한다. 하나의 SoC로 모두 해결하려 하면 비용과 개발 기간이 급증하므로, 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 칩과 부품을 패키지에서 조합하는 SiP가 더 현실적인 선택이 된다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ board-level parts → one package system                             │
-├───────────────────────────────┬─────────────────────────────────────┤
-│ PCB board                     │ SiP package                         │
-│ logic wireless power memory   │ [Logic][Wireless][Power][Memory]   │
-│ many traces, large area       │ short traces, small area           │
-│ assembly at board level       │ assembly at package level          │
-└───────────────────────────────┴─────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">board-level parts → one package system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB board</div><div class="kb-diagram-cell">SiP package</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">logic wireless power memory</div><div class="kb-diagram-node">Logic</div><div class="kb-diagram-node">Wireless</div><div class="kb-diagram-node">Power</div><div class="kb-diagram-node">Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many traces, large area</div><div class="kb-diagram-cell">short traces, small area</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">assembly at board level</div><div class="kb-diagram-cell">assembly at package level</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 SiP가 단순히 칩을 많이 넣는 것이 아니라, 보드에서 일어나던 연결과 소형화를 패키지 안으로 끌어오는 구조라는 점이다. 결과적으로 보드 면적, 배선 길이, 전자기 간섭 관리 방식까지 모두 바뀐다.
 
@@ -54,17 +57,19 @@ SiP는 능동 소자와 수동 소자를 한 패키지 구조 안에서 함께 �
 
 SiP는 배치 방식에 따라 2D, 2.5D, 3D, 패키지 온 패키지 ([PoP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/), Package on Package)로 나뉜다. 2D는 나란히 배치해 구조가 단순하고, 2.5D는 인터포저를 사용해 높은 배선 밀도를 확보하며, 3D는 적층으로 공간과 배선 길이를 줄인다. PoP는 이미 패키징된 메모리 패키지를 상부에 올려 모바일처럼 면적이 극도로 제한된 제품에 자주 쓰인다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ SiP cross-section example                                           │
-├─────────────────────────────────────────────────────────────────────┤
-│            [Memory Package]  ← PoP                                  │
-│                   │                                                 │
-│ [Logic Die] [RF Die] [PMIC] [Embedded Passives]                    │
-│            └──── Package Substrate / Interposer ────┘              │
-│                    solder balls → Main Board                        │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SiP cross-section example</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Memory Package</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">PoP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Logic Die</div><div class="kb-diagram-node">RF Die</div><div class="kb-diagram-node">PMIC</div><div class="kb-diagram-node">Embedded Passives</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package Substrate / Interposer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">solder balls → Main Board</div></div>
+</div>
+</div>
+
+
 
 SiP 제조에서 특히 중요한 것은 KGD다. 패키지에 넣기 전에 각 다이가 정상 동작하는지 충분히 검사하지 않으면, 값비싼 패키지 전체를 폐기해야 하는 수율 재앙이 발생한다. 따라서 SiP는 설계만큼 테스트와 조립 공정 관리가 중요한 기술이다.
 
@@ -99,9 +104,9 @@ SiP는 More than Moore를 실제 제품으로 구현하는 대표 도구이기�
 
 1. **공간 제약**: 보드 면적 축소가 핵심 요구사항인가?
 2. **공정 혼합 필요성**: 로직, 무선 주파수, 아날로그, 전력 회로를 서로 다른 노드로 나눌 이점이 큰가?
-3. **테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: KGD 선별, 패키지 후 검사, 고장 분석 체계가 준비되어 있는가?
+3. <strong>테스트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: KGD 선별, 패키지 후 검사, 고장 분석 체계가 준비되어 있는가?
 4. **열·전력 경로**: 적층 구조와 밀집 배치에서 핫스폿을 제어할 수 있는가?
-5. **[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 안정성**: 다수 칩 벤더와 패키징 파트너를 안정적으로 묶을 수 있는가?
+5. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 안정성</strong>: 다수 칩 벤더와 패키징 파트너를 안정적으로 묶을 수 있는가?
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -121,7 +126,7 @@ SiP의 가장 큰 효과는 시스템 소형화와 재사용성의 동시 확보
 
 반면 한계도 분명하다. 패키지 조립 비용, 열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 수리 불가성, 복잡한 테스트는 지속적으로 따라붙는 부담이다. 앞으로는 팬아웃 웨이퍼 레벨 패키지, 하이브리드 본딩, 표준 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 SiP의 한계를 줄이며 더 넓은 영역으로 확장될 가능성이 크다.
 
-결론적으로 SiP는 "칩을 예쁘게 포장하는 기술"이 아니라 **보드 수준 시스템을 패키지 수준으로 끌어내리는 설계 철학**이다. 이 관점을 잡으면 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), More than Moore와의 관계도 자연스럽게 정리된다.
+결론적으로 SiP는 "칩을 예쁘게 포장하는 기술"이 아니라 <strong>보드 수준 시스템을 패키지 수준으로 끌어내리는 설계 철학</strong>이다. 이 관점을 잡으면 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), More than Moore와의 관계도 자연스럽게 정리된다.
 
 - **📢 섹션 요약 비유**: SiP는 여행 가방 하나에 꼭 필요한 옷과 도구를 가장 효율적으로 싸는 기술과 같다. 가방이 작아질수록, 무엇을 어디에 넣을지 더 똑똑하게 결정해야 한다.
 
@@ -140,19 +145,22 @@ SiP의 가장 큰 효과는 시스템 소형화와 재사용성의 동시 확보
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Board-level discrete modules
-        │
-        ▼
-MCM (Multi-Chip Module)
-        │
-        ▼
-SiP (System in Package)
-        │
-        ├────────▶ PoP · Embedded Passives
-        ├────────▶ 2.5D / 3D integration
-        └────────▶ Chiplet-based modular package
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Board-level discrete modules</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MCM (Multi-Chip Module)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SiP (System in Package)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ PoP · Embedded Passives</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ 2.5D / 3D integration</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ Chiplet-based modular package</div>
+</div>
+</div>
+
+
 
 이 흐름은 부품이 보드에서 패키지 안으로 이동하면서, 연결 밀도와 시스템 통합 수준이 점점 높아지는 과정을 보여 준다.
 

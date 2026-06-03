@@ -23,14 +23,18 @@ tags = ["studynote-network"]
 - **고정된 파싱(Parsing) 능력**: 오픈플로우 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 칩셋 설계자가 미리 정해준 약 40가지의 껍데기([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), IP, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등)만 뜯어보고 읽을 줄 알았습니다(Protocol-dependent).
 - **문제점**: 구글이 새로운 형식의 클라우드 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 껍데기(예: 신형 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 등)를 발명해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 던지면, 오픈플로우 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "나 이거 칩셋에 등록 안 된 언어라 못 읽어!" 하고 뻗어버렸습니다. 결국 새로운 규격이 나올 때마다 몇 년을 기다려 새로운 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 또 비싸게 사야 했습니다. (하드웨어 종속성의 부활)
 
-```text
-[NSH]
-    │
-    ▼
-[데이터 평면 프로그래밍 모델]
-    │
-    └──▶ [NETCONF (Network Configu…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NSH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 평면 프로그래밍 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,27 +42,31 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-P4 언어의 핵심은 이름에 들어있는 **'[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 독립적(Protocol-independent)'**이라는 단어에 있습니다.
+P4 언어의 핵심은 이름에 들어있는 <strong>'<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 독립적(Protocol-independent)'</strong>이라는 단어에 있습니다.
 
 ### 1. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 파이프라인의 백지화 (White-box의 극의)
-- P4 지원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩(Tofino 등)을 사면, 안에는 IP를 읽는 법도, MAC을 읽는 법도 없는 **완벽한 백지상태(Blank)**입니다.
-- 개발자가 P4 코딩 언어로 컴파일러에 키보드를 칩니다. **"야, 패킷 들어오면 앞에서부터 14바이트는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 읽어(Parser 코딩). 그다음 20바이트는 IP 주소로 읽어. 어? 근데 넌 내 맘대로 만든 새로운 6G용 특수 패킷(MyProtocol)이니까 남은 바이트는 내 맘대로 읽어!"** 
+- P4 지원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩(Tofino 등)을 사면, 안에는 IP를 읽는 법도, MAC을 읽는 법도 없는 <strong>완벽한 백지상태(Blank)</strong>입니다.
+- 개발자가 P4 코딩 언어로 컴파일러에 키보드를 칩니다. <strong>"야, 패킷 들어오면 앞에서부터 14바이트는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소로 읽어(Parser 코딩). 그다음 20바이트는 IP 주소로 읽어. 어? 근데 넌 내 맘대로 만든 새로운 6G용 특수 패킷(MyProtocol)이니까 남은 바이트는 내 맘대로 읽어!"</strong> 
 - 패킷을 어떻게 썰고(파싱) 읽어 들일지 그 해부 순서(파이프라인) 자체를 인간이 마음대로 100% 찰흙처럼 빚어버립니다.
 
 ### 2. 인 트래픽 텔레메트리 (INT, In-band Network Telemetry) 🌟
 P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실무적인 사기 스킬입니다.
 - 옛날엔 네트워크 핑이 갑자기 느려지면 1번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)부터 10번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 일일이 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인해서 "어디서 밀리냐?" 디버깅([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뒤지기) 하느라 밤을 새웠습니다.
-- **INT 마법**: P4로 코딩을 짜서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 밀어 넣습니다. "야! 패킷이 네 배 속([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩)을 통과할 때마다, 패킷 빈 공간 꼬리표에다가 **'내가 이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 0.5초 동안 줄 서서 대기 탔음'이라는 불만 섞인 편지([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))**를 몰래 써서 계속 이어 붙여라!"
+- **INT 마법**: P4로 코딩을 짜서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 밀어 넣습니다. "야! 패킷이 네 배 속([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩)을 통과할 때마다, 패킷 빈 공간 꼬리표에다가 <strong>'내가 이 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)에서 0.5초 동안 줄 서서 대기 탔음'이라는 불만 섞인 편지(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>)</strong>를 몰래 써서 계속 이어 붙여라!"
 - 도착지에서 패킷에 붙은 이 기나긴 꼬리표 편지만 쏙 뽑아 읽어보면, "아! 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 트래픽이 0.5초 병목 걸렸네!"라고 밀리초 단위로 100% 엑스레이 스캔(가시성 확보)이 끝납니다. 트래픽 흐름을 멈추거나 방해하지 않고(In-band) 완벽한 추적이 가능해집니다.
 
-```text
-[NSH]
-    │
-    ▼
-[데이터 평면 프로그래밍 모델]
-    │
-    └──▶ [NETCONF (Network Configu…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NSH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 평면 프로그래밍 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,8 +74,8 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 
 ## Ⅲ. 비교 및 연결
 
-- 1세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/))은 **"[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 위에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 룰을 심어주는 마법(Control Plane Programmability)"**이었습니다.
-- 2세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(P4)은 **"아예 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 칩셋이 돌아가는 생리적 구조 자체를 뜯어고치는 마법([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Programmability)"**입니다.
+- 1세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/))은 <strong>"<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 위에서 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 룰을 심어주는 마법(Control Plane Programmability)"</strong>이었습니다.
+- 2세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(P4)은 <strong>"아예 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 쇳덩어리(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>) 칩셋이 돌아가는 생리적 구조 자체를 뜯어고치는 마법(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Programmability)"</strong>입니다.
 - 새로운 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신 규약이나 해킹 방어 룰이 나와도 장비를 절대 새로 살 필요 없이, P4 코드만 새로 컴파일해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 다운로드 쓱 밀어 넣으면(재부팅 없이 1초 컷) 그 즉시 새로운 첨단 기계로 진화(탈피)하는 영원불멸의 소프트웨어 심장이 완성됩니다.
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NSH가 기반 조건을 만든다면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델은 그 위에서 핵심 메커니즘을 구현하고, NETCONF (Network Configu…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -78,7 +86,7 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 오픈플로우(1세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 '고급 커피 자판기'입니다. 중앙(컨트롤러)에서 버튼(플로우 룰)을 누르면 아메리카노, 라떼를 기가 막히게 뽑아주지만, 애초에 기계 공장에서 '설탕, 프림, 커피 가루(미리 지정된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))' 3가지 통만 달아놓고 용접해 놔서(Protocol-dependent) 나중에 '녹차 라떼'를 먹고 싶어도 녹차 가루를 넣을 구멍이 없어 자판기를 내다 버려야 했습니다. **P4 모델(2세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))**은 공장에서 아예 내용물이 없는 '텅 빈 만능 제조 파이프라인 기계'를 보내주는 것입니다. 사장님(네트워크 관리자)이 P4 언어로 코딩하여 기계에 "여기에 녹차 가루 통 하나 더 달고, 우유 붓고, 10초 끓이는 순서(새로운 커스텀 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파이프라인)로 동작해라!"라고 설계도를 입력(컴파일)하는 순간, 기계가 지잉~ 소리를 내며 그 자리에서 즉시 완벽한 100% 맞춤형 녹차 라떼 기계로 트랜스포머처럼 변신합니다. 통신 규약이 천 번 만 번 바뀌어도 영원히 진화하며 버티는 쇳덩어리 조작술의 극의입니다.
+- **📢 섹션 요약 비유**: 기존 오픈플로우(1세대 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 '고급 커피 자판기'입니다. 중앙(컨트롤러)에서 버튼(플로우 룰)을 누르면 아메리카노, 라떼를 기가 막히게 뽑아주지만, 애초에 기계 공장에서 '설탕, 프림, 커피 가루(미리 지정된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))' 3가지 통만 달아놓고 용접해 놔서(Protocol-dependent) 나중에 '녹차 라떼'를 먹고 싶어도 녹차 가루를 넣을 구멍이 없어 자판기를 내다 버려야 했습니다. <strong>P4 모델(2세대 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>)</strong>은 공장에서 아예 내용물이 없는 '텅 빈 만능 제조 파이프라인 기계'를 보내주는 것입니다. 사장님(네트워크 관리자)이 P4 언어로 코딩하여 기계에 "여기에 녹차 가루 통 하나 더 달고, 우유 붓고, 10초 끓이는 순서(새로운 커스텀 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파이프라인)로 동작해라!"라고 설계도를 입력(컴파일)하는 순간, 기계가 지잉~ 소리를 내며 그 자리에서 즉시 완벽한 100% 맞춤형 녹차 라떼 기계로 트랜스포머처럼 변신합니다. 통신 규약이 천 번 만 번 바뀌어도 영원히 진화하며 버티는 쇳덩어리 조작술의 극의입니다.
 
 ---
 
@@ -120,15 +128,19 @@ P4가 현업(클라우드 빅테크)에서 미치도록 사랑받는 가장 실�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NSH]
-    │
-    ▼
-[현재 개념: 데이터 평면 프로그래밍 모델]
-    │
-    ├──▶ [확장 A: NETCONF (Network Configu…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NSH</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 데이터 평면 프로그래밍 모델</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NETCONF (Network Configu…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 모델는 NSH에서 출발해 현재 메커니즘을 정교화하고, 이후 NETCONF (Network Configu…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

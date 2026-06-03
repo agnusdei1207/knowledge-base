@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 1,000만 줄짜리 코드가 하나의 거대한 통짜 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Main)에 다 욱여넣어져 있으면, 개발자가 이걸 한 번에 읽고 디버깅하는 것은 인간의 뇌 구조상 절대 불가능합니다.
-- 거대한 소프트웨어 시스템을 개발할 때, **전체를 한 번에 덤벼들어 풀려는 무모함을 버리고, 다루기 쉬운 조각으로 써는 철학**이 필요했습니다.
+- 거대한 소프트웨어 시스템을 개발할 때, <strong>전체를 한 번에 덤벼들어 풀려는 무모함을 버리고, 다루기 쉬운 조각으로 써는 철학</strong>이 필요했습니다.
 
 - **📢 섹션 요약 비유**: 분할과 정복 ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 분할과 정복 (Divide and C의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  분할과 정복 (Divide and C                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할과 정복 (Divide and C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 분할과 정복 (Divide and C가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -61,8 +60,8 @@ tags = ["studynote-software-engineering"]
 
 이 철학이 낳은 위대한 자식들입니다.
 1. **모듈화 (Modularization)**: 분할과 정복을 소스 코드에 적용한 게 모듈화입니다. 코드를 잘게 쪼개어 197번 [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/)/팬아웃, 191번 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)/[응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)를 최적화합니다.
-2. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)**: 개발 '일정'을 쪼갠 것입니다. 1년짜리 프로젝트를 한 번에 하는 게 아니라, 2주 단위의 짧은 폭발([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))로 쪼개어(Divide) 하나씩 정복해 나갑니다.
-3. **[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))**: 거대한 서버 한 대를 1,000개의 작은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 컨테이너로 쪼개어 독립적으로 배포하는 현대 클라우드 아키텍처의 근본입니다.
+2. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a>) <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a></strong>: 개발 '일정'을 쪼갠 것입니다. 1년짜리 프로젝트를 한 번에 하는 게 아니라, 2주 단위의 짧은 폭발([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))로 쪼개어(Divide) 하나씩 정복해 나갑니다.
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)</strong>: 거대한 서버 한 대를 1,000개의 작은 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 컨테이너로 쪼개어 독립적으로 배포하는 현대 클라우드 아키텍처의 근본입니다.
 
 - **📢 섹션 요약 비유**: 분할과 정복 ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -73,7 +72,7 @@ tags = ["studynote-software-engineering"]
 - 모듈을 너무 잘게, 1줄 단위로 미친 듯이 쪼개버리면? 
 - 쪼개는 건 쉬운데, 나중에 그 10만 개의 쪼가리를 다시 합치고 서로 통신하게 만드는 **'통합 비용(Integration Cost / 인터페이스 호출 오버헤드)'이 폭발하여 시스템이 뻗어버립니다.** (적당한 덩어리 크기, 즉 '적정 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)'를 찾는 것이 아키텍트의 몸값입니다.)
 
-> 📢 **섹션 요약 비유**: 소프트웨어의 **분할과 정복([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))**은 **'거대한 100층짜리 레고 성을 조립하는 방법'**입니다. 바닥에 레고 조각 100만 개가 산더미처럼 쌓여있는데, 이걸 혼자서 1층부터 100층까지 통째로 쌓아 올리려다간 중간에 무너져서 평생 완성하지 못합니다(모놀리식의 압도감). 분할과 정복의 지휘관은 100만 개의 조각을 부하 10명에게 10만 개씩 쪼개어 나눠줍니다(Divide). 부하들은 또 자기 팀원 10명에게 1만 개씩 나눠줍니다. 말단 직원은 고작 레고 10조각을 받아들고, 아주 여유롭게 실수 없이 '작은 창문' 하나를 뚝딱 조립합니다(Conquer). 이제 이 완벽한 창문들을 모아 지붕을 덮고(Merge), 지붕들을 모아 층을 올리면, 어느새 에러 하나 없는 100층짜리 거대한 성이 마법처럼 솟아오릅니다. 거대함이 주는 공포를 산산조각 내어 인간의 뇌가 통제할 수 있는 하찮은 부품 사이즈로 억눌러버리는 모든 아키텍처 설계의 가장 위대한 뼈대 철학입니다.
+> 📢 **섹션 요약 비유**: 소프트웨어의 <strong>분할과 정복(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong>은 <strong>'거대한 100층짜리 레고 성을 조립하는 방법'</strong>입니다. 바닥에 레고 조각 100만 개가 산더미처럼 쌓여있는데, 이걸 혼자서 1층부터 100층까지 통째로 쌓아 올리려다간 중간에 무너져서 평생 완성하지 못합니다(모놀리식의 압도감). 분할과 정복의 지휘관은 100만 개의 조각을 부하 10명에게 10만 개씩 쪼개어 나눠줍니다(Divide). 부하들은 또 자기 팀원 10명에게 1만 개씩 나눠줍니다. 말단 직원은 고작 레고 10조각을 받아들고, 아주 여유롭게 실수 없이 '작은 창문' 하나를 뚝딱 조립합니다(Conquer). 이제 이 완벽한 창문들을 모아 지붕을 덮고(Merge), 지붕들을 모아 층을 올리면, 어느새 에러 하나 없는 100층짜리 거대한 성이 마법처럼 솟아오릅니다. 거대함이 주는 공포를 산산조각 내어 인간의 뇌가 통제할 수 있는 하찮은 부품 사이즈로 억눌러버리는 모든 아키텍처 설계의 가장 위대한 뼈대 철학입니다.
 
 - **📢 섹션 요약 비유**: 분할과 정복 ([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -110,21 +109,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-분할과 정복 (Divide and Conquer) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분할과 정복 (Divide and Conquer) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

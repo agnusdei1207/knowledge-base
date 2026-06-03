@@ -31,25 +31,23 @@ IT 시스템이 기업의 비즈니스와 생존에 직결되면서, 서버가 �
 
 ISO 20000 체계는 경영 시스템의 기본인 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 사이클을 엔진으로 삼고, 그 위에 14개 이상의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/) 톱니바퀴들을 맞물려 돌린다. 
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│               ISO/IEC 20000의 PDCA 기반 핵심 프로세스 구조             │
-├────────────────────────────────────────────────────────────────────────┤
-│                           [ Plan (계획) ]                              │
-│                                  │                                     │
-│     ┌────────────────────────────▼───────────────────────────┐         │
-│     │                      [ Do (실행) ]                         │         │
-│     │                                                            │         │
-│     │ 1. 서비스 제공: SLA, 가용성, 용량, 정보보안, 예산/과금     │         │
-│     │ 2. 관계 관리  : 비즈니스 관계, 공급자 관리                 │         │
-│     │ 3. 해결 프로세스: 사고 관리(Incident), 문제 관리(Problem)  │         │
-│     │ 4. 통제 프로세스: 구성 관리(CI), 변경 관리, 릴리스 관리    │         │
-│     └────────────────────────────┬───────────────────────────┘         │
-│                                  │                                     │
-│  [ Act (개선) ] ◀───────────────┴─────────────── [ Check (점검) ] │
-│  (프로세스 최적화)                               (SLA 달성률 모니터링) │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 20000의 PDCA 기반 핵심 프로세스 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Plan (계획)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Do (실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 서비스 제공: SLA, 가용성, 용량, 정보보안, 예산/과금</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 관계 관리 : 비즈니스 관계, 공급자 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 해결 프로세스: 사고 관리(Incident), 문제 관리(Problem)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 통제 프로세스: 구성 관리(CI), 변경 관리, 릴리스 관리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Act (개선)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Check (점검)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(프로세스 최적화) (SLA 달성률 모니터링)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈추지 않고 돌아가기 위한 4대 핵심 영역(제공, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 해결, 통제)을 보여준다. 사고가 나면 해결 프로세스가 작동하고, 서버를 증설할 때는 통제 프로세스의 승인을 받는다. 이 모든 행위는 기록되고 점검(Check)되어 다음 달의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질을 높이는(Act) 거름이 된다.
 
@@ -63,9 +61,9 @@ IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas
 
 | 구분 | 개념 및 역할 | 특징 |
 | :--- | :--- | :--- |
-| **ITSM (IT [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Mgmt.)** | 기업이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 관리하는 **목적과 행위 그 자체** | 철학이자 목표 (What) |
-| **[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) (IT Infra. [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))** | ITSM을 달성하기 위한 전 세계 선배들의 **베스트 프랙티스 모음집** | 가이드라인, 참고서 (How) |
-| **ISO/IEC 20000** | 조직이 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 등 표준에 맞춰 ITSM을 잘 수행하는지 평가하는 **국제 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)** | 심사 기준, 자격증 (Standard) |
+| <strong>ITSM (IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Mgmt.)</strong> | 기업이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 관리하는 **목적과 행위 그 자체** | 철학이자 목표 (What) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a> (IT Infra. <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a>)</strong> | ITSM을 달성하기 위한 전 세계 선배들의 **베스트 프랙티스 모음집** | 가이드라인, 참고서 (How) |
+| **ISO/IEC 20000** | 조직이 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 등 표준에 맞춰 ITSM을 잘 수행하는지 평가하는 <strong>국제 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong> | 심사 기준, 자격증 (Standard) |
 
 또한, ISO 가문 내에서도 다른 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)들과 연계된다. 품질 경영 전반을 다루는 ISO 9001, 정보 보안을 다루는 ISO 27001과 함께 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 취득하면(통합 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 프로세스의 낭비를 줄이고 기업의 대외 신뢰도를 무적 수준으로 끌어올릴 수 있다.
 
@@ -75,11 +73,11 @@ IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업에서 ISO 20000을 도입할 때 기술사가 가장 경계해야 할 안티패턴은 **"[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)만을 위한 서류 작업"**으로 변질되는 것이다. 
+현업에서 ISO 20000을 도입할 때 기술사가 가장 경계해야 할 안티패턴은 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>만을 위한 서류 작업"</strong>으로 변질되는 것이다. 
 
 ### 기술사 판단: 도입 시 핵심 고려사항
-1. **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))의 현실화**: 고객과 맺은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표가 "서버 가동률 100%"처럼 달성 불가능하거나 "고객 만족도"처럼 측정 모호하면 안 된다. "업무 시간 내 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 2시간 이내 99% 달성"처럼 정량적이고 측정 가능해야 한다.
-2. **사고 관리와 [문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/)의 분리**: 서버가 멈췄을 때 즉시 재부팅해서 살리는 것(사고 관리)과, 왜 죽었는지 메모리 덤프를 분석해 근본 원인을 제거하는 것([문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/))을 철저히 분리하여 헬프데스크가 과부하에 걸리지 않게 설계해야 한다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)의 현실화</strong>: 고객과 맺은 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 지표가 "서버 가동률 100%"처럼 달성 불가능하거나 "고객 만족도"처럼 측정 모호하면 안 된다. "업무 시간 내 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 2시간 이내 99% 달성"처럼 정량적이고 측정 가능해야 한다.
+2. <strong>사고 관리와 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/">문제 관리</a>의 분리</strong>: 서버가 멈췄을 때 즉시 재부팅해서 살리는 것(사고 관리)과, 왜 죽었는지 메모리 덤프를 분석해 근본 원인을 제거하는 것([문제 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_problem_management/))을 철저히 분리하여 헬프데스크가 과부하에 걸리지 않게 설계해야 한다.
 3. **도구(Tool) 자동화**: 수십 가지 프로세스를 엑셀로 관리하면 1년 안에 포기하게 된다. JIRA, ServiceNow 같은 ITSM 자동화 솔루션을 도입하여 변경 승인과 사고 접수 워크플로우를 시스템에 강제해야 한다.
 
 - **📢 섹션 요약 비유**: 교통법규 준수 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 받기 위해 심사관이 있을 때만 안전벨트를 매는 척(서류 작업)을 해서는 안 됩니다. 아예 차에 시동을 걸면 안전벨트를 맬 때까지 경고음이 울리도록 시스템을 뜯어고쳐(ITSM 도구 도입) 무의식적으로 법을 지키게 만들어야 합니다.
@@ -100,28 +98,30 @@ ISO/IEC 20000 [인증](/knowledge-base/studynote/04_software_engineering/05_devo
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) ([IT Infrastructure Library](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/))** | ISO 20000 심사 항목의 모태가 되는 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 모범 사례집 |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** | IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간의 품질 수준을 약속한 공식 계약서 |
-| **[PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/))** | ISO 경영 시스템 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 관통하는 지속적 개선 프로세스 사이클 |
-| **[CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/) (Change Advisory Board)** | IT 시스템을 변경(패치, 업그레이드)할 때 위험을 심사하고 승인하는 변경 위원회 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">ITIL</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/">IT Infrastructure Library</a>)</strong> | ISO 20000 심사 항목의 모태가 되는 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리 모범 사례집 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자와 고객 간의 품질 수준을 약속한 공식 계약서 |
+| <strong><a href="/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/">PDCA</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/">Plan-Do-Check-Act</a>)</strong> | ISO 경영 시스템 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 관통하는 지속적 개선 프로세스 사이클 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">CAB</a> (Change Advisory Board)</strong> | IT 시스템을 변경(패치, 업그레이드)할 때 위험을 심사하고 승인하는 변경 위원회 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-IT 운영의 태동 (주먹구구식 장애 처리)
-    │
-    ▼
-ITIL 등장 · 글로벌 베스트 프랙티스의 정립 (가이드라인)
-    │
-    ▼
-BS 15000 · 영국 국가 표준 제정 (심사 기준의 틀 마련)
-    │
-    ▼
-ISO/IEC 20000 · ITSM 국제 표준 인증 발효 (글로벌 잣대)
-    │
-    ▼
-통합 인증체계 진화 · ISO 27001(보안) 등과 연계 및 자동화 솔루션 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 운영의 태동 (주먹구구식 장애 처리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ITIL 등장 · 글로벌 베스트 프랙티스의 정립 (가이드라인)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BS 15000 · 영국 국가 표준 제정 (심사 기준의 틀 마련)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISO/IEC 20000 · ITSM 국제 표준 인증 발효 (글로벌 잣대)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통합 인증체계 진화 · ISO 27001(보안) 등과 연계 및 자동화 솔루션 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

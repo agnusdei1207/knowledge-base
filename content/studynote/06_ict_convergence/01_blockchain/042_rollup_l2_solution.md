@@ -18,31 +18,34 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 롤업 기본 원리
 
-```
-롤업 (Rollup) 작동 원리:
 
-[사용자 트랜잭션] x 수천 개
-      ↓ L2 Sequencer에서 수집
-[L2에서 실행 및 상태 업데이트]
-      ↓ 압축·묶음 처리
-[압축된 배치 데이터]
-      ↓ L1 스마트 컨트랙트에 제출
-[L1 이더리움 메인넷]
-  - 데이터 가용성 보장
-  - 스테이트 루트 기록
-  - 최종 분쟁 해결 (Optimistic)
-  - 유효성 증명 검증 (ZK)
 
-롤업의 핵심 이점:
-  가스비: L1 대비 10~100배 저렴
-  TPS: 이더리움 15 TPS → 롤업 1,000~10,000 TPS
-  보안: L1 이더리움 보안 상속
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">롤업 (Rollup) 작동 원리:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 트랜잭션</div><div class="kb-diagram-note">x 수천 개</div></div>
+<div class="kb-diagram-note">↓ L2 Sequencer에서 수집</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2에서 실행 및 상태 업데이트</div></div>
+<div class="kb-diagram-note">↓ 압축·묶음 처리</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">압축된 배치 데이터</div></div>
+<div class="kb-diagram-note">↓ L1 스마트 컨트랙트에 제출</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L1 이더리움 메인넷</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 가용성 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스테이트 루트 기록</div>
+<div class="kb-diagram-tree-item" style="--depth:1">최종 분쟁 해결 (Optimistic)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">유효성 증명 검증 (ZK)</div>
+<div class="kb-diagram-note">롤업의 핵심 이점:</div>
+<div class="kb-diagram-note">가스비: L1 대비 10~100배 저렴</div>
+<div class="kb-diagram-note">TPS: 이더리움 15 TPS → 롤업 1,000~10,000 TPS</div>
+<div class="kb-diagram-note">보안: L1 이더리움 보안 상속</div>
+<div class="kb-diagram-note">L1 vs L2 vs 사이드체인:</div>
+<div class="kb-diagram-note">L1: 메인넷 (이더리움, 비트코인) — 최고 보안</div>
+<div class="kb-diagram-note">L2: L1 보안 활용 (롤업) — 빠름</div>
+<div class="kb-diagram-note">사이드체인: 독립 체인 — 빠르지만 L1 보안 미상속</div>
+</div>
+</div>
 
-L1 vs L2 vs 사이드체인:
-  L1: 메인넷 (이더리움, 비트코인) — 최고 보안
-  L2: L1 보안 활용 (롤업) — 빠름
-  사이드체인: 독립 체인 — 빠르지만 L1 보안 미상속
-```
+
 
 > 📢 **섹션 요약 비유**: 롤업은 택배 묶음 배송 — 개별 배송(L1 직접) 대신 수천 개 상자를 하나의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(롤업 배치)로 묶어 배송.
 
@@ -83,30 +86,32 @@ ZK Rollup:
 
 ## Ⅲ. [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)
 
-```
-데이터 가용성 (Data Availability):
 
-방식 1: On-chain DA (완전 롤업):
-  모든 L2 트랜잭션 데이터 → L1 calldata 게시
-  안전: L1 보안 = 데이터 가용성 완전 보장
-  단점: L1 calldata 비용 높음
 
-방식 2: Off-chain DA (Validium):
-  트랜잭션 데이터 L1 외부 저장
-  증명만 L1 제출
-  장점: 훨씬 저렴, 빠름
-  단점: 데이터 가용성 위험
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 가용성 (Data Availability):</div>
+<div class="kb-diagram-note">방식 1: On-chain DA (완전 롤업):</div>
+<div class="kb-diagram-note">모든 L2 트랜잭션 데이터 → L1 calldata 게시</div>
+<div class="kb-diagram-note">안전: L1 보안 = 데이터 가용성 완전 보장</div>
+<div class="kb-diagram-note">단점: L1 calldata 비용 높음</div>
+<div class="kb-diagram-note">방식 2: Off-chain DA (Validium):</div>
+<div class="kb-diagram-note">트랜잭션 데이터 L1 외부 저장</div>
+<div class="kb-diagram-note">증명만 L1 제출</div>
+<div class="kb-diagram-note">장점: 훨씬 저렴, 빠름</div>
+<div class="kb-diagram-note">단점: 데이터 가용성 위험</div>
+<div class="kb-diagram-note">EIP-4844 (Proto-Danksharding):</div>
+<div class="kb-diagram-note">이더리움 칸쿤 업그레이드 (2024년 3월)</div>
+<div class="kb-diagram-note">"blob" 데이터 타입 추가</div>
+<div class="kb-diagram-note">롤업 calldata 비용 10~100배 감소</div>
+<div class="kb-diagram-note">→ L2 가스비 대폭 하락</div>
+<div class="kb-diagram-note">궁극적 목표: Full Danksharding</div>
+<div class="kb-diagram-note">이더리움 L1 = DA Layer 최적화</div>
+<div class="kb-diagram-note">롤업 = 실행 레이어</div>
+</div>
+</div>
 
-EIP-4844 (Proto-Danksharding):
-  이더리움 칸쿤 업그레이드 (2024년 3월)
-  "blob" 데이터 타입 추가
-  롤업 calldata 비용 10~100배 감소
-  → L2 가스비 대폭 하락
 
-궁극적 목표: Full Danksharding
-  이더리움 L1 = DA Layer 최적화
-  롤업 = 실행 레이어
-```
 
 > 📢 **섹션 요약 비유**: [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)은 회계 장부 공개 여부 — L1 calldata = 공개 장부, Validium = 내부 장부 (빠르지만 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 불가).
 

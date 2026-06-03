@@ -41,44 +41,36 @@ tags = ["studynote-cloud-architecture"]
 
 다음 그림은 전통적인 온프레미스 환경과 가상화 기반 클라우드 환경의 근본적 차이를 보여준다.동일 하드웨어 위에서 자원이 어떻게 다른 방식으로 활용되는지 주목할 부분이다.
 
-```
-[ 전통적인 온프레미스 환경 ]
-┌──────────────────────────────────────────────────────────┐
-│ Rack #1 │
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │ Server 1 │ │ Server 2 │ │ Server 3 │ │ Server 4 │ │
-│ │ CPU: 15% │ │ CPU: 90% │ │ CPU: 10% │ │ CPU: 85% │ │
-│ │ RAM: 20% │ │ RAM: 95% │ │ RAM: 15% │ │ RAM: 88% │ │
-│ │App: DB │ │App: Web │ │App: Mail │ │App: API │ │
-│ │ (낭비) │ │ (과부하) │ │ (낭비) │ │ (과부하) │ │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
-│ │
-│ 💸 문제: 서버 #1, #3는 유휴 자원이 80% 이상 낭비되고, │
-│ 서버 #2, #4는 CPU/RAM 부족으로 성능 저하 발생 │
-└──────────────────────────────────────────────────────────┘
 
-[ 가상화 기반 클라우드 환경 ]
-┌──────────────────────────────────────────────────────────┐
-│ 물리 서버 (High-end Server: 128 cores, 512GB RAM) │
-│ ┌────────────────────────────────────────────────────┐ │
-│ │ Hypervisor (VMware ESXi / KVM / Hyper-V) │ │
-│ │ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ │ │
-│ │ │ VM #1 │ │ VM #2 │ │ VM #3 │ │ VM #4 │ │ │
-│ │ │ Web App │ │ DB │ │ API │ │ Batch │ │ │
-│ │ │ 32 core │ │ 24 core │ │ 32 core │ │ 40 core │ │ │
-│ │ │128GB RAM│ │192GB RAM│ │128GB RAM│ │ 64GB RAM│ │ │
-│ │ │ 45% CPU │ │ 78% CPU │ │ 55% CPU │ │ 20% CPU │ │ │
-│ │ └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘ │ │
-│ │ │ │ │ │ │ │
-│ └───────┼────────────┼────────────┼────────────┼───────┘ │
-│ │ │ │ │ │
-│ =======═╧════════════╧════════════╧════════════╧============ │
-│ 물리 하드웨어 (공유 ресур스) │
-└──────────────────────────────────────────────────────────┘
-✅ 장점: 유휴 VM의 자원을 필요 VM에 동적으로 재분배 가능
-✅ 장점: 특정 VM 장애가 VM에 영향을 주지 않음 (격리성)
-✅ 장점: 새로운 VM 프로비저닝이 수 시간 → 수 분으로 단축
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 온프레미스 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack #1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server 1</div><div class="kb-diagram-cell">Server 2</div><div class="kb-diagram-cell">Server 3</div><div class="kb-diagram-cell">Server 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 15%</div><div class="kb-diagram-cell">CPU: 90%</div><div class="kb-diagram-cell">CPU: 10%</div><div class="kb-diagram-cell">CPU: 85%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM: 20%</div><div class="kb-diagram-cell">RAM: 95%</div><div class="kb-diagram-cell">RAM: 15%</div><div class="kb-diagram-cell">RAM: 88%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: DB</div><div class="kb-diagram-cell">App: Web</div><div class="kb-diagram-cell">App: Mail</div><div class="kb-diagram-cell">App: API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(낭비)</div><div class="kb-diagram-cell">(과부하)</div><div class="kb-diagram-cell">(낭비)</div><div class="kb-diagram-cell">(과부하)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💸 문제: 서버 #1, #3는 유휴 자원이 80% 이상 낭비되고,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 #2, #4는 CPU/RAM 부족으로 성능 저하 발생</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 기반 클라우드 환경</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 (High-end Server: 128 cores, 512GB RAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (VMware ESXi / KVM / Hyper-V)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM #1</div><div class="kb-diagram-cell">VM #2</div><div class="kb-diagram-cell">VM #3</div><div class="kb-diagram-cell">VM #4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web App</div><div class="kb-diagram-cell">DB</div><div class="kb-diagram-cell">API</div><div class="kb-diagram-cell">Batch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32 core</div><div class="kb-diagram-cell">24 core</div><div class="kb-diagram-cell">32 core</div><div class="kb-diagram-cell">40 core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">128GB RAM</div><div class="kb-diagram-cell">192GB RAM</div><div class="kb-diagram-cell">128GB RAM</div><div class="kb-diagram-cell">64GB RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">45% CPU</div><div class="kb-diagram-cell">78% CPU</div><div class="kb-diagram-cell">55% CPU</div><div class="kb-diagram-cell">20% CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=======═╧ ╧ ╧ ╧============</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 하드웨어 (공유 ресур스)</div></div>
+<div class="kb-diagram-note">✅ 장점: 유휴 VM의 자원을 필요 VM에 동적으로 재분배 가능</div>
+<div class="kb-diagram-note">✅ 장점: 특정 VM 장애가 VM에 영향을 주지 않음 (격리성)</div>
+<div class="kb-diagram-note">✅ 장점: 새로운 VM 프로비저닝이 수 시간 → 수 분으로 단축</div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 이 그림의 핵심은 "자원의적 multiplexing"이다. 전통적인 온프레미스 환경에서는 각 물리 서버가 특정 애플리케이션에1:1로 고정되어, 일부는 90% 이상의 부하가 걸리는 반면 다른 일부는 10% 이하로 유휴 상태로 방치된다. 이러한 "서버별 할당"은 자원의적 비효율과 시간적 부하 불균형을 동시에 초래한다.
@@ -104,43 +96,33 @@ tags = ["studynote-cloud-architecture"]
 
 다음 그림은 Type-1 Hypervisor가 물리 서버 위에 어떻게 여러 VM을 격리하여 구동하는지를 보여준다. 특히 각 VM이가 독립된 하드웨어를 보유한 것처럼 보이는"(illusion)"을 어떻게 구현하는지 주목할 부분이다.
 
-```
-[ Type-1 Hypervisor 아키텍처 (베어메탈 가상화) ]
 
-┌─────────────────────────────────────────────┐
-│ Hardware (물리 서버) │
-│ ┌─────────────────────────────────────────┐ │
-│ │ CPU (128 cores) │ RAM (512GB) │ │
-│ │ NIC (10Gbps) │ Storage (100TB SSD) │ │
-│ └─────────────────────────────────────────┘ │
-└────────────────────┬───────────────────────┘
-│
-┌───────────────────────┴───────────────────────┐
-│ Hypervisor Layer (VMware ESXi / KVM) │
-│ ┌───────────────────────────────────────────┐ │
-│ │ [VM Monitor (VMM)] │ │
-│ │ - CPU Virtualization (VT-x/AMD-V) │ │
-│ │ - Memory Virtualization (EPT/NPT) │ │
-│ │ - I/O Virtualization (VirtIO) │ │
-│ │ - Device Emulation (가상 하드웨어 제공) │ │
-│ └───────────────────────────────────────────┘ │
-└───────┬─────────────────────┬─────────────────┘
-│ │
-┌─────────────────┼───────────────────┼─────────────────┐
-│ │ │ │
-┌─────▼─────┐ ┌─────▼─────┐ ┌─────▼─────┐ ┌─────▼─────┐
-│ VM #1 │ │ VM #2 │ │ VM #3 │ │ VM #4 │
-│ (Web Tier) │ │ (DB Tier) │ │ (API Tier) │ │(Batch Job)│
-│─────────────│ │─────────────│ │─────────────│ │─────────────│
-│ Guest OS: │ │ Guest OS: │ │ Guest OS: │ │ Guest OS: │
-│ Linux │ │ Windows │ │ Linux │ │ Linux │
-│ │ │ Server │ │ │ │ │
-│ App: Nginx │ │ App: SQL │ │ App: gRPC │ │ App: Spark │
-│ │ │ Server │ │ │ │ │
-│ vCPU: 16 │ │ vCPU: 32 │ │ vCPU: 24 │ │ vCPU: 56 │
-│ vRAM: 64GB │ │ vRAM: 256GB│ │ vRAM: 96GB │ │ vRAM: 96GB │
-└────────────┘ └────────────┘ └────────────┘ └────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Type-1 Hypervisor 아키텍처 (베어메탈 가상화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware (물리 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU (128 cores)</div><div class="kb-diagram-cell">RAM (512GB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC (10Gbps)</div><div class="kb-diagram-cell">Storage (100TB SSD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor Layer (VMware ESXi / KVM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM Monitor (VMM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU Virtualization (VT-x/AMD-V)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Memory Virtualization (EPT/NPT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- I/O Virtualization (VirtIO)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Device Emulation (가상 하드웨어 제공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM #1</div><div class="kb-diagram-cell">VM #2</div><div class="kb-diagram-cell">VM #3</div><div class="kb-diagram-cell">VM #4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Web Tier)</div><div class="kb-diagram-cell">(DB Tier)</div><div class="kb-diagram-cell">(API Tier)</div><div class="kb-diagram-cell">(Batch Job)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS:</div><div class="kb-diagram-cell">Guest OS:</div><div class="kb-diagram-cell">Guest OS:</div><div class="kb-diagram-cell">Guest OS:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux</div><div class="kb-diagram-cell">Windows</div><div class="kb-diagram-cell">Linux</div><div class="kb-diagram-cell">Linux</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: Nginx</div><div class="kb-diagram-cell">App: SQL</div><div class="kb-diagram-cell">App: gRPC</div><div class="kb-diagram-cell">App: Spark</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vCPU: 16</div><div class="kb-diagram-cell">vCPU: 32</div><div class="kb-diagram-cell">vCPU: 24</div><div class="kb-diagram-cell">vCPU: 56</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vRAM: 64GB</div><div class="kb-diagram-cell">vRAM: 256GB</div><div class="kb-diagram-cell">vRAM: 96GB</div><div class="kb-diagram-cell">vRAM: 96GB</div></div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 이 구조의 핵심은 Hypervisor가 물리적 하드웨어의 추상화으로서, 각 VM에게 "자신만이 유일한 물리 서버를 보유한 것처럼" 행동하게 만드는 것이다. VM #1의 Nginx 프로세스가 "CPU의 16개 코어이 나를 위한 것"이라고 믿지만, 실제로는 Hypervisor가 128코어 물리 CPU를 시간 분할(Time-slicing)과 공간 분할(Spatial partitioning)을 통해 VM #1~#4에 각각 할당량을 제공한다.
@@ -151,51 +133,38 @@ tags = ["studynote-cloud-architecture"]
 
 다음 그림은 Intel VT-x 기반 CPU 가상화가 어떻게 동작하는지를 보여준다. VM의 비권한 명령어는직접에서hardware에서 실행되고, privileged 명령어만 Hypervisor가 가로채서 처리하는 구조를 시각화한 것이다.
 
-```
-[ Intel VT-x 기반 CPU 가상화 동작 원리 ]
 
-┌─────────────────────────────────────────────────────────────────┐
-│ 물리 CPU (Hardware) │
-│ ┌───────────────────────────────────────────────────────────┐ │
-│ │ Ring 0: VMX root mode (Hypervisor 실행 영역) │ │
-│ │ - Hypervisor 코드 실행 │ │
-│ │ - VMexit 이벤트 처리 │ │
-│ │ - 물리 자원 할당/회수 관리 │ │
-│ │ ───────────────────────────────────────────────────────── │ │
-│ │ Ring 1-3: (사용되지 않음) │ │
-│ │ ───────────────────────────────────────────────────────── │ │
-│ │ Ring 0: VMX non-root mode (VM 실행 영역) │ │
-│ │ - Guest OS/애플리케이션 실행 │ │
-│ │ - 비권한 명령어는 hardware에서 직접 실행 (속도 향상) │ │
-│ │ - privileged 명령어 접근 시 VMexit 트리거 │ │
-│ └───────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
 
-[ VM 실행 흐름 ]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Intel VT-x 기반 CPU 가상화 동작 원리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 CPU (Hardware)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: VMX root mode (Hypervisor 실행 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Hypervisor 코드 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VMexit 이벤트 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 물리 자원 할당/회수 관리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 1-3: (사용되지 않음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: VMX non-root mode (VM 실행 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Guest OS/애플리케이션 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비권한 명령어는 hardware에서 직접 실행 (속도 향상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- privileged 명령어 접근 시 VMexit 트리거</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM 실행 흐름</div></div>
+<div class="kb-diagram-note">(ADD, MOV 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct</div><div class="kb-diagram-cell">hardware에서 직접 실행 (빠름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution</div><div class="kb-diagram-cell">VMexit 발생 없음</div></div>
+<div class="kb-diagram-note">(IN, OUT, HLT, CR3 접근 등)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMexit</div><div class="kb-diagram-cell">Hypervisor가파악하여처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">()</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor</div><div class="kb-diagram-cell">논리적으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 후</div><div class="kb-diagram-cell">VM 상태 복원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM으로 복귀</div></div>
+</div>
+</div>
 
-(ADD, MOV 등)
-│
-▼
-┌────────────┐
-│ Direct │ ──── hardware에서 직접 실행 (빠름)
-│ Execution │ VMexit 발생 없음
-└────────────┘
 
-(IN, OUT, HLT, CR3 접근 등)
-│
-▼
-┌────────────┐
-│ VMexit │ ──── Hypervisor가파악하여처리
-│ () │
-└────────────┘
-│
-▼
-┌────────────┐
-│ Hypervisor │ ──── 논리적으로
-│ 처리 후 │ VM 상태 복원
-│ VM으로 복귀│
-└────────────┘
-```
 
 **다이어그램 해설 (300자+)**:
 이 메커니즘의 핵심은 "불필요한 개입을 제거하는 것"이다. VM에서(메모리 읽기/쓰기, 산술 연산 등)이 실행될 때, Hypervisor는 전혀 관여하지 않고 hardware에서직접실행된다. 이로 인해 가상화로 인한 성능 손실이화된다. 그러나 VM이 privileged 명령어(예: 하드웨어 포트 접근, CR3 레지스터 쓰기 등)를 시도하면, hardware가 자동으로 VMexit를 트리거하여 Hypervisor에게 제어권을 넘긴다.
@@ -206,43 +175,34 @@ tags = ["studynote-cloud-architecture"]
 
 가상화의 복잡한 부분 중 하나는 메모리 주소 변환이다. VM은 주소(Guest Virtual Address)를 사용하고, Hypervisor는물리 주소(Host Physical Address)로 변환해야 한다. Intel EPT(Extended Page Table) 또는 AMD NPT(Nested Page Table)를활용한 2단계 주소 변환 메커니즘을 보여준다.
 
-```
-[ 2단계 메모리 주소 변환 (Intel EPT / AMD NPT) ]
 
-VM 내부 (Guest)
-┌────────────────────────────────────┐
-│ GVA (Guest Virtual Address) │ : 0x0040_1234
-│ │ │
-│ ▼ (MMU - VM의 Page Table) │
-│ GPA (Guest Physical Address) │ : 0x0ABC_D000
-└────────────│───────────────────────┘
-│ ★ VMexit 없음 (hardware 자동 처리)
-▼
-┌────────────────────────────────────┐
-│ EPT/NPT (Extended/Nested Page │
-│ Table - Hypervisor가 관리) │
-│ │ │
-│ ▼ (MMU - hardware 자동 변환)│
-│ HPA (Host Physical Address) │ : 0x1234_5000
-└────────────│───────────────────────┘
-│
-▼
-[실제 DRAM]
 
-[ 주소 변환 과정 상세 ]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 메모리 주소 변환 (Intel EPT / AMD NPT)</div></div>
+<div class="kb-diagram-note">VM 내부 (Guest)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GVA (Guest Virtual Address)</div><div class="kb-diagram-cell">: 0x0040_1234</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (MMU - VM의 Page Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPA (Guest Physical Address)</div><div class="kb-diagram-cell">: 0x0ABC_D000</div></div>
+<div class="kb-diagram-note">★ VMexit 없음 (hardware 자동 처리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPT/NPT (Extended/Nested Page</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table - Hypervisor가 관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (MMU - hardware 자동 변환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HPA (Host Physical Address)</div><div class="kb-diagram-cell">: 0x1234_5000</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실제 DRAM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주소 변환 과정 상세</div></div>
+<div class="kb-diagram-note">GVA GPA HPA</div>
+<div class="kb-diagram-note">0x0040_1234 → 0x0ABC_D000 → 0x1234_5000</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM의</div><div class="kb-diagram-cell">Hypervisor</div><div class="kb-diagram-cell">실제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">의 EPT</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table</div><div class="kb-diagram-cell">Table</div><div class="kb-diagram-cell">어드레스</div></div>
+<div class="kb-diagram-note">※ EPT Violation 발생 시 Hypervisor (VMexit)</div>
+</div>
+</div>
 
-GVA GPA HPA
-0x0040_1234 → 0x0ABC_D000 → 0x1234_5000
-│ │ │
-▼ ▼ ▼
-┌────────┐ ┌──────────┐ ┌──────────┐
-│VM의 │ │ Hypervisor│ │실제 │
-│Page │ → │의 EPT │ → │메모리 │
-│Table │ │Table │ │어드레스 │
-└────────┘ └──────────┘ └──────────┘
 
-※ EPT Violation 발생 시 Hypervisor (VMexit)
-```
 
 **다이어그램 해설 (300자+)**:
 이 2단계 주소 변환의 존재 이유는 "격리성"와 "추상화"를 동시에 보장하기 위함이다. 각 VM은 자신이 전체 물리 메모리를 보유한 것처럼 생각하며, 다른 VM의 메모리에 직접 접근할 수 없어야 한다. 첫 번째 변환(GVA → GPA)은 VM 자신의 Page Table을 통해 수행되며, VM이 인식하는 "물리 주소"는 실제로는 또 다른 " 주소"에 불과하다. 두 번째 변환(GPA → HPA)은 Hypervisor가 관리하는 EPT/NPT를 통해 이루어지며, 이를 통해 Hypervisor는 각 VM의 메모리 접근을 통제하고 다른 VM의 메모리 영역을 침범할 수 없게 만든다.
@@ -285,35 +245,28 @@ Intel EPT는 이 변환을 hardware에서직접처리하여 VMexit를시키지 �
 
 다음 그림은 VM과 컨테이너의 근본적 차이를 architecture적으로 보여준다. 같은 애플리케이션을 각각 어떤 구조로 실행하는지 주목할 부분이다.
 
-```
-[ VM 기반 아키텍처 (Hypervisor) ] [ 컨테이너 기반 아키텍처 ]
 
-┌────────────────────────────────┐ ┌────────────────────────────────┐
-│ Host Hardware │ │ Host Hardware │
-│ (물리 서버) │ │ (물리 서버) │
-└────────────┬───────────────────┘ └────────────┬───────────────────┘
-│ │
-┌────────────▼───────────────────┐ ┌────────────▼───────────────────┐
-│ Hypervisor (ESXi / Hyper-V) │ │ Host Operating System │
-│ [Type-1] │ │ (Linux / Windows) │
-└────────────┬───────────────────┘ └────────────┬───────────────────┘
-│ │
-┌────────────▼────┐ ┌─────────────▼────┐ ┌────▼────┐ ┌────▼────┐ ┌────▼────┐
-│ Guest OS │ │ Guest OS │ │ Container│ │Container│ │Container│
-│ (Ubuntu) │ │ (Windows) │ │ #1 │ │ #2 │ │ #3 │
-│ │ │ │ │ (Web App)│ │ (DB App) │ │(API App)│
-│ ┌─────────┐ │ │ ┌─────────────┐ │ └────┬─────┘ └────┬─────┘ └────┬─────┘
-│ │ App #1A │ │ │ │ App #2A │ │ │ │ │
-│ └─────────┘ │ │ └─────────────┘ │ │ │ │
-│ ┌─────────┐ │ │ ┌─────────────┐ │ ┌──────▼────────────▼────────────▼──────┐
-│ │ App #1B │ │ │ │ App #2B │ │ │ Container Runtime (containerd) │
-│ └─────────┘ │ │ └─────────────┘ │ │ / Docker Engine │
-└───────────────┘ └──────────────────┘ └─────────────────────────────────────────┘
 
-★ 각 VM은 완전한 OS를한다 ★ 컨테이너는 Host OS 커널을 공유한다
-★ 부팅 시간: 30초 ~ 수 분 ★ 부팅 시간: 수 밀리초 ~ 수 초
-★ 자원 오버헤드: 각 VM마다 OS → 5~15% ★ 자원 오버헤드: Host OS 공유 → 1~3%
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM 기반 아키텍처 (Hypervisor)</div><div class="kb-diagram-node">컨테이너 기반 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Hardware</div><div class="kb-diagram-cell">Host Hardware</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(물리 서버)</div><div class="kb-diagram-cell">(물리 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (ESXi / Hyper-V)</div><div class="kb-diagram-cell">Host Operating System</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Type-1</div><div class="kb-diagram-note">│ (Linux / Windows)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS</div><div class="kb-diagram-cell">Guest OS</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div><div class="kb-diagram-cell">Container</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ubuntu)</div><div class="kb-diagram-cell">(Windows)</div><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">#3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Web App)</div><div class="kb-diagram-cell">(DB App)</div><div class="kb-diagram-cell">(API App)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App #1A</div><div class="kb-diagram-cell">App #2A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App #1B</div><div class="kb-diagram-cell">App #2B</div><div class="kb-diagram-cell">Container Runtime (containerd)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Docker Engine</div></div>
+<div class="kb-diagram-note">★ 각 VM은 완전한 OS를한다 ★ 컨테이너는 Host OS 커널을 공유한다</div>
+<div class="kb-diagram-note">★ 부팅 시간: 30초 ~ 수 분 ★ 부팅 시간: 수 밀리초 ~ 수 초</div>
+<div class="kb-diagram-note">★ 자원 오버헤드: 각 VM마다 OS → 5~15% ★ 자원 오버헤드: Host OS 공유 → 1~3%</div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 이 비교의 핵심은 "격리의 수준"과 "공유의 정도" 사이의 트레이드오프이다. VM 기반 환경에서 Guest OS는 완전히 독립된 운영체제처럼 동작하여, Windows VM과 Linux VM이동일 Hypervisor 위에서 각자의 OS를한다. 이 완전한 격리는 강력한 보안 경계를 제공하지만, 각 VM이 독자적으로 OS를 실행해야 하므로 메모리와 CPU의 상당 부분이 OS 자체(카널, 시스템 서비스 등)을 위해 소비된다.
@@ -374,42 +327,34 @@ Intel EPT는 이 변환을 hardware에서직접처리하여 VMexit를시키지 �
 
 다음 그림은 VM의 생성부터 폐기까지의 올바른 수명주기 관리 프로세스를 보여준다. 각 단계에서 어떤 활동을 수행해야 하는지 주목할 부분이다.
 
-```
-[ VM 수명주기 관리 흐름 (Lifecycle Management) ]
 
-┌─────────────────┐
-│ 1. 계획 및 승인 │ ←────────── Business 요구 분석
-│ (Plan & Request)│ ROI 산정, 자원 검토
-└────────┬────────┘
-│ 승인
-┌────────▼────────┐
-│ 2. 프로비저닝 │ ←────────── 템플릿 기반 자동 생성
-│ (Provisioning) │ naming 규칙, 태깅 정책
-└────────┬────────┘
-│ 배포 완료
-┌────────▼────────┐
-│ 3. 운영 및 모니터링 │ ←── ongoing
-│ (Operation & Monitoring) │
-└────────┬────────┘
-│ 사요 명세 변경
-┌────────▼────────┐
-│ 4. 변경 관리 │ ←────────── 변경 검토 및 승인
-│ (Change Mgmt) │ 테스트 환경 검증
-└────────┬────────┘
-│ 종료 요청
-┌────────▼────────┐
-│ 5. 폐기 및 아카이브│ ←────────── 데이터 백업,보존
-│ (Retirement) │ 접속 권한 제거
-└─────────────────┘
 
-⚠️ 안티패턴 체크:
-┌──────────────────────────────────────────────────────────┐
-│ ❌ VM sprawl: 승인 없이 계속 새 VM 생성 → 정리 안 됨 │
-│ ❌ 스냅샷 남용: 스냅샷을 영구 백업으로 사용 → 성능 저하 │
-│ ❌ Over-commit 과다: vCPU 합 > 물리 코어 수 → 스와핑 발생 │
-│ ❌ 패치 미흡: Hypervisor/게스트 OS 패치 누락 → 취약점 노출 │
-└──────────────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM 수명주기 관리 흐름 (Lifecycle Management)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 계획 및 승인</div><div class="kb-diagram-cell">← Business 요구 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Plan &amp; Request)</div><div class="kb-diagram-cell">ROI 산정, 자원 검토</div></div>
+<div class="kb-diagram-note">승인</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로비저닝</div><div class="kb-diagram-cell">← 템플릿 기반 자동 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Provisioning)</div><div class="kb-diagram-cell">naming 규칙, 태깅 정책</div></div>
+<div class="kb-diagram-note">배포 완료</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 운영 및 모니터링</div><div class="kb-diagram-cell">←── ongoing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Operation &amp; Monitoring)</div></div>
+<div class="kb-diagram-note">사요 명세 변경</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경 관리</div><div class="kb-diagram-cell">← 변경 검토 및 승인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Change Mgmt)</div><div class="kb-diagram-cell">테스트 환경 검증</div></div>
+<div class="kb-diagram-note">종료 요청</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 폐기 및 아카이브</div><div class="kb-diagram-cell">← 데이터 백업,보존</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Retirement)</div><div class="kb-diagram-cell">접속 권한 제거</div></div>
+<div class="kb-diagram-note">⚠️ 안티패턴 체크:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ VM sprawl: 승인 없이 계속 새 VM 생성 → 정리 안 됨</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 스냅샷 남용: 스냅샷을 영구 백업으로 사용 → 성능 저하</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ Over-commit 과다: vCPU 합 &gt; 물리 코어 수 → 스와핑 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 패치 미흡: Hypervisor/게스트 OS 패치 누락 → 취약점 노출</div></div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 VM 수명주기 관리의 핵심은 "명확한 소유권"과 "정기적인 감사"이다. 1단계에서 모든 VM은 비즈니스 요구와 ROI 산정에 기반하여 승인되어야 하며, 이것이 없으면 Shadow IT처럼 통제 불능의 VM이한다. 2단계에서는 VM 템플릿을 활용하여 일관된 구성과 태깅(Tag) 정책을 적용하는데, 태그가 없으면 나중에 비용 분석과 보안이 불가능해진다.
@@ -450,26 +395,26 @@ VM 수명주기 관리의 핵심은 "명확한 소유권"과 "정기적인 감�
 
 ### ASCII 다이어그램: 가상화 기술의 진화 로드맵
 
-```
-[ 가상화 기술 진화 로드맵 ]
 
-2000년대 초반 2010년대 2020년대 2030년대 (예측)
-│ │ │ │
-▼ ▼ ▼ ▼
-┌─────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────────┐
-│bare metal│ │Type-1 Hyper-│ │ 컨테이너 │ │DPU/SmartNIC │
-│서버 │ → │visor (IaaS)│ → │ (CaaS/KaaS) │ → │기반 보안 가상화 │
-│(전면 낭비) │ │가상화 폭발 │ │ 격리 │ │ (Bare Metal Cloud│
-│ │ │ │ │ │ │ + GPU 가상화) │
-└─────────┘ └─────────────┘ └─────────────┘ └─────────────────┘
 
-핵심 흐름:
-bare metal 낭비 → 가상화의 등장 → 컨테이너의 보편화 → 성능 최적화를 위한
-↓
-다시 물리 서버 직접 할당 요구 증가
-↓
-GPU/네트워크화 etc 형식의 가상화
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 기술 진화 로드맵</div></div>
+<div class="kb-diagram-note">2000년대 초반 2010년대 2020년대 2030년대 (예측)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bare metal</div><div class="kb-diagram-cell">Type-1 Hyper-</div><div class="kb-diagram-cell">컨테이너</div><div class="kb-diagram-cell">DPU/SmartNIC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">visor (IaaS)</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">(CaaS/KaaS)</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">기반 보안 가상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전면 낭비)</div><div class="kb-diagram-cell">가상화 폭발</div><div class="kb-diagram-cell">격리</div><div class="kb-diagram-cell">(Bare Metal Cloud</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ GPU 가상화)</div></div>
+<div class="kb-diagram-note">핵심 흐름:</div>
+<div class="kb-diagram-note">bare metal 낭비 → 가상화의 등장 → 컨테이너의 보편화 → 성능 최적화를 위한</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">다시 물리 서버 직접 할당 요구 증가</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">GPU/네트워크화 etc 형식의 가상화</div>
+</div>
+</div>
+
+
 
 **다이어그램 해설 (300자+)**:
 이 로드맵의 핵심은 "추상화와성능 사이의 지속적인 트레이드오프"이다. 2000년대에는 물리 서버를와/과활용하는 것이였고, 자원활용률이 10~15%에 불과해도비용이 들었다. 2010년대에 이르러 Type-1 Hypervisor 기반의 가상화가 보편화되면서, 기존에 10대의 물리 서버가 필요했던 작업을 단 2~3대로도실행 가능해졌다. 이는 기술적 진보이지만, Hypervisor의에서로 인한 performance 오버헤드도 동시에 수반했다.

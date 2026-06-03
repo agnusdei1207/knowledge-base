@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 전송하려는 원본 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)에 속도가 엄청나게 빠른 **가짜 난수 암호 코드(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), 칩핑 시퀀스)를 직접 곱해서(XOR 연산), 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 대역폭보다 수십 배 넓은 주파수 대역으로 신호를 얇게 쫙 펴서(확산) 전송하는 방식**입니다.
+- **개념**: 전송하려는 원본 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)에 속도가 엄청나게 빠른 <strong>가짜 난수 암호 코드(PN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>, 칩핑 시퀀스)를 직접 곱해서(XOR 연산), 원래 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 대역폭보다 수십 배 넓은 주파수 대역으로 신호를 얇게 쫙 펴서(확산) 전송하는 방식</strong>입니다.
 - IEEE 802.11b ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Wi-Fi)와 3G 스마트폰 통신([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))의 심장이 된 절대적인 무선 뼈대 기술입니다.
 
-```text
-[FHSS]
-    │
-    ▼
-[DSSS]
-    │
-    └──▶ [코드 분할 다중 접속]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,23 +45,27 @@ tags = ["studynote-network"]
 
 1. **송신 (확산, Spreading)**: 
    - 내가 `1`이라는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딱 1비트를 보내려 합니다 (매우 좁은 주파수 필요).
-   - 시스템은 나와 친구 둘만 아는 엄청나게 빠른 비밀 난수 암호(`10110111`, 이것을 **Chip**이라 부름)를 원본 `1`에 곱해버립니다.
+   - 시스템은 나와 친구 둘만 아는 엄청나게 빠른 비밀 난수 암호(`10110111`, 이것을 <strong>Chip</strong>이라 부름)를 원본 `1`에 곱해버립니다.
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑자기 `10110111`이라는 8비트짜리 긴 엿가락으로 확 늘어납니다. 길이가 길어졌으니(고속 전송) 주파수 대역폭도 8배로 쫙 넓어집니다. 
    - 넓어진 대신 **신호의 솟구치는 힘(전력 밀도)은 1/8로 바닥으로 뚝 떨어져서 안개처럼 깔립니다.**
 
 2. **수신 (역확산, De-spreading) 🌟 핵심 🌟**:
    - 친구의 폰이 이 안개처럼 깔린 쓰레기 뭉치(`10110111`)를 받습니다.
    - 친구 폰은 아까 송신자가 썼던 똑같은 비밀 암호(`10110111`)를 갖고 있습니다. 이 암호를 받은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 **다시 한 번 곱해줍니다(역산).**
-   - 믹서기에서 마법처럼 쓰레기 8비트가 하나로 착 합쳐지며 **원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) `1`이 산봉우리처럼 뾰족하게 확 치솟아 올라옵니다(Processing Gain, 처리 이득).**
+   - 믹서기에서 마법처럼 쓰레기 8비트가 하나로 착 합쳐지며 <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <code>1</code>이 산봉우리처럼 뾰족하게 확 치솟아 올라옵니다(Processing Gain, 처리 이득).</strong>
 
-```text
-[FHSS]
-    │
-    ▼
-[DSSS]
-    │
-    └──▶ [코드 분할 다중 접속]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DSSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,13 +75,13 @@ tags = ["studynote-network"]
 
 ### 1. 스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가 (백색 소음화)
 - 신호를 8배, 10배 넓게 쫙 펴버리면 파동의 높이가 바닥을 칩니다. 
-- 해커가 안테나를 들이대고 전파를 스니핑해도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일반 자연계의 노이즈(백색 소음) 아래에 파묻혀 있어서 "그냥 잡음이네" 하고 지나갑니다. 설령 잡는다 해도 **비밀 암호 코드(Chip)**를 모르면 원본 `1`로 합쳐낼(역확산) 방법이 지구상에 존재하지 않습니다.
+- 해커가 안테나를 들이대고 전파를 스니핑해도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일반 자연계의 노이즈(백색 소음) 아래에 파묻혀 있어서 "그냥 잡음이네" 하고 지나갑니다. 설령 잡는다 해도 <strong>비밀 암호 코드(Chip)</strong>를 모르면 원본 `1`로 합쳐낼(역확산) 방법이 지구상에 존재하지 않습니다.
 
 ### 2. 협대역 간섭(Jamming) 분쇄기
 - 적군이 특정 좁은 주파수에 굉음(방해 전파)을 쏩니다.
 - 하지만 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수십 MHz 넓은 운동장 전체에 퍼져있습니다. 수신자가 수집해서 믹서기(역확산)로 돌릴 때, 진짜 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 산봉우리로 확 치솟고, **적군이 쏜 좁고 강한 방해 전파는 믹서기에 갈리면서 오히려 바닥에 납작한 쓰레기로 확산해 버립니다.** 방해 전파가 셀프 멸망하는 미친 아키텍처입니다.
 
-- **[FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) (955번)**: 좁은 빔을 이리저리 메뚜기처럼 점프시킴. 구현이 싸고 쉽다 ([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)).
+- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a> (955번)</strong>: 좁은 빔을 이리저리 메뚜기처럼 점프시킴. 구현이 싸고 쉽다 ([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)).
 - **DSSS (현재 문서)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부숴서 넓은 운동장 전체에 쫙 안개처럼 펴 바름. 구현이 비싸고 복잡하지만, 속도가 훨씬 빠르고 보안성이 압도적이다 (와이파이, 3G 통신).
 
 DSSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FHSS가 기반 조건을 만든다면, DSSS는 그 위에서 핵심 메커니즘을 구현하고, 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -84,7 +92,7 @@ DSSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 통신은 편지지에 '안녕'이라는 두 글자를 진하게 적어 보내는 것입니다. 적군이 그 글자에 먹물을 한 방울만 떨어뜨려도 글씨가 훼손됩니다(방해 전파 취약). **DSSS(직접 확산)**는 천재적인 암호 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 기술입니다. '안녕'이라는 글자를 가위로 잘게 잘라(칩핑 코드 곱하기) 수백 장의 전단지(쓰레기 글자)와 함께 섞어서 헬기로 도시에 확 뿌려버립니다(주파수 확산). 적군은 이게 쓰레기인지 편지인지 구별도 못 합니다(스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가). 적군이 전단지 무더기에 먹물을 들이부어도, 목적지의 수신자는 '비밀 돋보기(역확산 코드)'를 들고 있습니다. 돋보기로 쓰레기 더미를 비추면, 오직 진짜 조각들만 자석처럼 하나로 찰칵 붙어 오리지널 '안녕'이라는 글자가 뾰족하게 부활하고, 적군이 뿌린 먹물은 투명하게 사라져 버리는 완벽한 잡음 역관광 기술입니다.
+- **📢 섹션 요약 비유**: 기존 통신은 편지지에 '안녕'이라는 두 글자를 진하게 적어 보내는 것입니다. 적군이 그 글자에 먹물을 한 방울만 떨어뜨려도 글씨가 훼손됩니다(방해 전파 취약). <strong>DSSS(직접 확산)</strong>는 천재적인 암호 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 기술입니다. '안녕'이라는 글자를 가위로 잘게 잘라(칩핑 코드 곱하기) 수백 장의 전단지(쓰레기 글자)와 함께 섞어서 헬기로 도시에 확 뿌려버립니다(주파수 확산). 적군은 이게 쓰레기인지 편지인지 구별도 못 합니다(스텔스 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 불가). 적군이 전단지 무더기에 먹물을 들이부어도, 목적지의 수신자는 '비밀 돋보기(역확산 코드)'를 들고 있습니다. 돋보기로 쓰레기 더미를 비추면, 오직 진짜 조각들만 자석처럼 하나로 찰칵 붙어 오리지널 '안녕'이라는 글자가 뾰족하게 부활하고, 적군이 뿌린 먹물은 투명하게 사라져 버리는 완벽한 잡음 역관광 기술입니다.
 
 ---
 
@@ -126,15 +134,19 @@ DSSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FHSS]
-    │
-    ▼
-[현재 개념: DSSS]
-    │
-    ├──▶ [확장 A: 코드 분할 다중 접속]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FHSS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSSS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 코드 분할 다중 접속</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 DSSS는 FHSS에서 출발해 현재 메커니즘을 정교화하고, 이후 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

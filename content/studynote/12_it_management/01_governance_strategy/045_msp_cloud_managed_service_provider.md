@@ -106,50 +106,48 @@ MSP SLA 주요 지표:
 
 ## Ⅲ. FinOps와 비용 최적화
 
-```
-FinOps (Financial Operations for Cloud):
-  클라우드 비용 최적화 체계
-  MSP의 핵심 가치 중 하나
 
-FinOps 3단계:
-  1. 정보화 (Inform):
-     비용 가시성 확보
-     태깅(Tagging) 전략: 팀·서비스·환경별
-     비용 할당 (Cost Allocation)
-     
-  2. 최적화 (Optimize):
-     미사용 리소스 제거 (Idle Resources)
-     사이즈 조정 (Right-sizing)
-     예약 인스턴스 (RI/Savings Plans)
-     스팟 인스턴스 활용
-     
-  3. 운영 (Operate):
-     예산 경보 (Budget Alert)
-     자동 스케일링 최적화
-     비용 이상 감지
 
-비용 절감 사례:
-  진단:
-  EC2 c5.4xlarge (8코어, 32GB) × 20대
-  실제 CPU 사용률: 평균 12%
-  
-  최적화:
-  Right-sizing → c5.xlarge (4코어, 8GB) × 15대
-  예약 인스턴스 (1년) 40% 할인
-  
-  결과:
-  월 $15,000 → $5,500 (63% 절감)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FinOps (Financial Operations for Cloud):</div>
+<div class="kb-diagram-note">클라우드 비용 최적화 체계</div>
+<div class="kb-diagram-note">MSP의 핵심 가치 중 하나</div>
+<div class="kb-diagram-note">FinOps 3단계:</div>
+<div class="kb-diagram-note">1. 정보화 (Inform):</div>
+<div class="kb-diagram-note">비용 가시성 확보</div>
+<div class="kb-diagram-note">태깅(Tagging) 전략: 팀·서비스·환경별</div>
+<div class="kb-diagram-note">비용 할당 (Cost Allocation)</div>
+<div class="kb-diagram-note">2. 최적화 (Optimize):</div>
+<div class="kb-diagram-note">미사용 리소스 제거 (Idle Resources)</div>
+<div class="kb-diagram-note">사이즈 조정 (Right-sizing)</div>
+<div class="kb-diagram-note">예약 인스턴스 (RI/Savings Plans)</div>
+<div class="kb-diagram-note">스팟 인스턴스 활용</div>
+<div class="kb-diagram-note">3. 운영 (Operate):</div>
+<div class="kb-diagram-note">예산 경보 (Budget Alert)</div>
+<div class="kb-diagram-note">자동 스케일링 최적화</div>
+<div class="kb-diagram-note">비용 이상 감지</div>
+<div class="kb-diagram-note">비용 절감 사례:</div>
+<div class="kb-diagram-note">진단:</div>
+<div class="kb-diagram-note">EC2 c5.4xlarge (8코어, 32GB) × 20대</div>
+<div class="kb-diagram-note">실제 CPU 사용률: 평균 12%</div>
+<div class="kb-diagram-note">최적화:</div>
+<div class="kb-diagram-note">Right-sizing → c5.xlarge (4코어, 8GB) × 15대</div>
+<div class="kb-diagram-note">예약 인스턴스 (1년) 40% 할인</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">월 $15,000 → $5,500 (63% 절감)</div>
+<div class="kb-diagram-note">MSP FinOps 도구:</div>
+<div class="kb-diagram-note">AWS Cost Explorer, CloudWatch</div>
+<div class="kb-diagram-note">Azure Cost Management</div>
+<div class="kb-diagram-note">CloudHealth (VMware)</div>
+<div class="kb-diagram-note">Apptio Cloudability</div>
+<div class="kb-diagram-note">MSP 자체 대시보드:</div>
+<div class="kb-diagram-note">고객별 실시간 비용 모니터링</div>
+<div class="kb-diagram-note">이상 지출 자동 알림</div>
+</div>
+</div>
 
-MSP FinOps 도구:
-  AWS Cost Explorer, CloudWatch
-  Azure Cost Management
-  CloudHealth (VMware)
-  Apptio Cloudability
-  
-  MSP 자체 대시보드:
-  고객별 실시간 비용 모니터링
-  이상 지출 자동 알림
-```
+
 
 > 📢 **섹션 요약 비유**: FinOps는 클라우드 가계부 — 돈이 어디 새는지 찾고(정보화), 쓸데없는 지출 자르고(최적화), 예산 지키기(운영). MSP가 전문 회계사 역할!
 
@@ -157,46 +155,44 @@ MSP FinOps 도구:
 
 ## Ⅳ. 공유 책임 모델과 MSP
 
-```
-공유 책임 모델 (Shared Responsibility):
 
-CSP (AWS) 책임:
-  물리 인프라 (데이터센터, 하드웨어)
-  하이퍼바이저
-  네트워크 물리 보안
 
-고객 책임:
-  OS 패치
-  애플리케이션 보안
-  데이터 암호화
-  IAM (접근 관리)
-  네트워크 설정 (VPC, Security Group)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 책임 모델 (Shared Responsibility):</div>
+<div class="kb-diagram-note">CSP (AWS) 책임:</div>
+<div class="kb-diagram-note">물리 인프라 (데이터센터, 하드웨어)</div>
+<div class="kb-diagram-note">하이퍼바이저</div>
+<div class="kb-diagram-note">네트워크 물리 보안</div>
+<div class="kb-diagram-note">고객 책임:</div>
+<div class="kb-diagram-note">OS 패치</div>
+<div class="kb-diagram-note">애플리케이션 보안</div>
+<div class="kb-diagram-note">데이터 암호화</div>
+<div class="kb-diagram-note">IAM (접근 관리)</div>
+<div class="kb-diagram-note">네트워크 설정 (VPC, Security Group)</div>
+<div class="kb-diagram-note">MSP의 역할:</div>
+<div class="kb-diagram-note">고객 책임 영역 대행</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSP 책임</div><div class="kb-diagram-cell">MSP가 대행하는 고객 책임</div><div class="kb-diagram-cell">고객</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라</div><div class="kb-diagram-cell">OS패치, IAM, 모니터링,</div><div class="kb-diagram-cell">비즈니스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안, 비용 최적화,</div><div class="kb-diagram-cell">로직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 설계</div><div class="kb-diagram-cell">데이터</div></div>
+<div class="kb-diagram-note">책임 명확화 필수:</div>
+<div class="kb-diagram-note">계약서에 명시:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">MSP 관리 범위 (특정 서비스 목록)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">고객 직접 관리 범위</div>
+<div class="kb-diagram-tree-item" style="--depth:1">장애 시 에스컬레이션 절차</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 접근 권한 범위</div>
+<div class="kb-diagram-note">주의: "클라우드 관리 다 해주세요" →</div>
+<div class="kb-diagram-note">데이터 주권, 보안 책임 소재 불명확</div>
+<div class="kb-diagram-note">MSSP (Managed Security Service Provider):</div>
+<div class="kb-diagram-note">보안 전문 MSP</div>
+<div class="kb-diagram-note">SOC (Security Operations Center) 운영</div>
+<div class="kb-diagram-note">24×7 위협 모니터링</div>
+<div class="kb-diagram-note">SIEM, SOAR 운영</div>
+</div>
+</div>
 
-MSP의 역할:
-  고객 책임 영역 대행
-  
-  CSP 책임 | MSP가 대행하는 고객 책임 | 고객
-  ─────────┼──────────────────────────┼─────
-  인프라   | OS패치, IAM, 모니터링,   | 비즈니스
-          | 보안, 비용 최적화,       | 로직
-          | 아키텍처 설계            | 데이터
 
-책임 명확화 필수:
-  계약서에 명시:
-  - MSP 관리 범위 (특정 서비스 목록)
-  - 고객 직접 관리 범위
-  - 장애 시 에스컬레이션 절차
-  - 데이터 접근 권한 범위
-  
-  주의: "클라우드 관리 다 해주세요" →
-  데이터 주권, 보안 책임 소재 불명확
-  
-MSSP (Managed Security Service Provider):
-  보안 전문 MSP
-  SOC (Security Operations Center) 운영
-  24×7 위협 모니터링
-  SIEM, SOAR 운영
-```
 
 > 📢 **섹션 요약 비유**: 공유 책임과 MSP는 아파트 관리비 — 건물주([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))는 공용 시설(인프라), 관리소(MSP)는 청소·경비(운영), 집주인(고객)은 내 집 안([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))! 역할이 명확해야 분쟁 없음!
 
@@ -204,44 +200,43 @@ MSSP (Managed Security Service Provider):
 
 ## Ⅴ. 실무 시나리오 — 제조업 MSP 전환
 
-```
-중견 제조업체 On-Premise → AWS MSP 전환:
 
-배경:
-  IDC 자체 운영 서버 200대 → 5년 내 만료
-  IT 인력: 3명 (다재다능이지만 클라우드 미경험)
-  비용: IDC 운영 연 5억원
 
-MSP 선정 과정:
-  RFP 발송 → 5개 업체 제안
-  평가 기준: AWS 파트너십, 제조업 경험, 가격, SLA
-  선정: AWS Premier Partner MSP (연 3.5억원)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">중견 제조업체 On-Premise → AWS MSP 전환:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">IDC 자체 운영 서버 200대 → 5년 내 만료</div>
+<div class="kb-diagram-note">IT 인력: 3명 (다재다능이지만 클라우드 미경험)</div>
+<div class="kb-diagram-note">비용: IDC 운영 연 5억원</div>
+<div class="kb-diagram-note">MSP 선정 과정:</div>
+<div class="kb-diagram-note">RFP 발송 → 5개 업체 제안</div>
+<div class="kb-diagram-note">평가 기준: AWS 파트너십, 제조업 경험, 가격, SLA</div>
+<div class="kb-diagram-note">선정: AWS Premier Partner MSP (연 3.5억원)</div>
+<div class="kb-diagram-note">전환 계획 (12개월):</div>
+<div class="kb-diagram-note">1~3개월: 현황 분석, 마이그레이션 설계</div>
+<div class="kb-diagram-note">4~8개월: 단계적 마이그레이션 (비핵심 → 핵심)</div>
+<div class="kb-diagram-note">9~12개월: 최적화, MSP SLA 안정화</div>
+<div class="kb-diagram-note">MSP 서비스 범위:</div>
+<div class="kb-diagram-note">AWS 인프라 모니터링 (24×7)</div>
+<div class="kb-diagram-note">보안: WAF, GuardDuty, SecurityHub 운영</div>
+<div class="kb-diagram-note">FinOps: 월별 비용 최적화 리포트</div>
+<div class="kb-diagram-note">변경 관리: 배포 지원</div>
+<div class="kb-diagram-note">Well-Architected Review (연 1회)</div>
+<div class="kb-diagram-note">결과 (18개월 후):</div>
+<div class="kb-diagram-note">비용: IDC 5억 → AWS + MSP 3.8억 (24% 절감)</div>
+<div class="kb-diagram-note">가용성: 99.6% → 99.95%</div>
+<div class="kb-diagram-note">보안 인시던트 대응: 72시간 → 4시간</div>
+<div class="kb-diagram-note">IT 팀 업무: 인프라 운영 → 비즈니스 서비스 개발 전환</div>
+<div class="kb-diagram-note">ROI: 1.8억/년 절감 + IT 인력 생산성 30% 향상</div>
+<div class="kb-diagram-note">교훈:</div>
+<div class="kb-diagram-note">MSP 계약 시 "모니터링만? 운영까지?" 명확화</div>
+<div class="kb-diagram-note">FinOps 보고서 월별 검토 필수 (고객 참여)</div>
+<div class="kb-diagram-note">SLA 위반 페널티 조항 반드시 포함</div>
+</div>
+</div>
 
-전환 계획 (12개월):
-  1~3개월: 현황 분석, 마이그레이션 설계
-  4~8개월: 단계적 마이그레이션 (비핵심 → 핵심)
-  9~12개월: 최적화, MSP SLA 안정화
 
-MSP 서비스 범위:
-  AWS 인프라 모니터링 (24×7)
-  보안: WAF, GuardDuty, SecurityHub 운영
-  FinOps: 월별 비용 최적화 리포트
-  변경 관리: 배포 지원
-  Well-Architected Review (연 1회)
-
-결과 (18개월 후):
-  비용: IDC 5억 → AWS + MSP 3.8억 (24% 절감)
-  가용성: 99.6% → 99.95%
-  보안 인시던트 대응: 72시간 → 4시간
-  IT 팀 업무: 인프라 운영 → 비즈니스 서비스 개발 전환
-  
-  ROI: 1.8억/년 절감 + IT 인력 생산성 30% 향상
-
-교훈:
-  MSP 계약 시 "모니터링만? 운영까지?" 명확화
-  FinOps 보고서 월별 검토 필수 (고객 참여)
-  SLA 위반 페널티 조항 반드시 포함
-```
 
 > 📢 **섹션 요약 비유**: 제조업 MSP 전환은 자체 보안팀 → 경비 전문 업체 아웃소싱 — 자체 경비원(IT팀)이 전문 경비 업체(MSP)에 24시간 건물 관리를 맡기고, 본업(제조)에 집중!
 

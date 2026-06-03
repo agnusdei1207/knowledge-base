@@ -38,17 +38,18 @@ tags = ["studynote-devops-sre"]
 | Shared Design System | UX [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 | token, [component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) [versioning](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/) |
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) Layer | 사용자 흐름 추적 | [tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/), JS error correlation |
 
-```text
-┌──────────────┐   route      ┌──────────────┐   compose   ┌──────────────┐
-│ Shell App    │ ───────────▶ │ Product MFE  │ ──────────▶ │ User Screen  │
-└──────────────┘              └──────────────┘             └──────────────┘
-        │                             ▲                            │
-        │ shared auth                 │ shared UI                  │ telemetry
-        ▼                             │                            ▼
-┌──────────────┐              ┌──────────────┐             ┌──────────────┐
-│ Design System│ ───────────▶ │ Cart / My MFE│ ──────────▶ │ Observability│
-└──────────────┘              └──────────────┘             └──────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">route compose</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell App</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Product MFE</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">User Screen</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared auth</div><div class="kb-diagram-cell">shared UI</div><div class="kb-diagram-cell">telemetry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design System</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Cart / My MFE</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Observability</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 “독립성”과 “[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)”의 균형이다. 각 팀이 독립 배포하되, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식·[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙·디자인 토큰·에러 처리 기준은 공통으로 유지해야 한다. 그렇지 않으면 사용자는 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라 서로 다른 사이트를 억지로 붙인 느낌을 받게 된다.
 
@@ -116,18 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Monolithic Frontend
-   │
-   ▼
-Domain-based UI Split
-   │
-   ▼
-Shell + Shared Design System
-   │
-   ▼
-Micro Frontend with Independent Delivery
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Monolithic Frontend</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Domain-based UI Split</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shell + Shared Design System</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Micro Frontend with Independent Delivery</div>
+</div>
+</div>
+
+
 
 이 흐름은 “단일 앱 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리 → 공통 기반 확보 → 독립 배포 프론트엔드”로 성숙하는 과정을 보여준다.
 

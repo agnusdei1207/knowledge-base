@@ -25,23 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 특히 CPU 클럭 상승이 발열 장벽에 막힌 뒤에는 "더 빠른 코어"보다 "한 번에 더 많이 처리하는 코어"가 중요해졌다. SIMD는 같은 코어 안에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭과 실행 유닛을 넓혀 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키우는 현실적인 해법이었고, x86 진영에서는 [SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) (Streaming [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) Extensions)에서 AVX로, ARM 진영에서는 NEON으로 진화했다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│         왜 SIMD가 필요한가: 같은 계산의 반복 비용을 줄이기 위해      │
-├──────────────────────────────────────────────────────────────────────┤
-│ 스칼라 방식                                                          │
-│   LOAD A[0] → ADD B[0] → STORE C[0]                                 │
-│   LOAD A[1] → ADD B[1] → STORE C[1]                                 │
-│   LOAD A[2] → ADD B[2] → STORE C[2]                                 │
-│                                                                      │
-│ SIMD 방식                                                            │
-│   LOAD {A[0..3]} → ADD {B[0..3]} → STORE {C[0..3]}                  │
-│                                                                      │
-│ 같은 수식이라도 "명령 4번"을 "명령 1번"으로 줄여 처리량을 높인다.    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 포인트는 SIMD가 계산 공식을 바꾸는 기술이 아니라, **같은 공식을 묶어서 실행하는 방식**이라는 점이다. 따라서 SIMD의 가치는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 반복 구조에서 먼저 드러난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 SIMD가 필요한가: 같은 계산의 반복 비용을 줄이기 위해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스칼라 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD {A</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-note">}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 수식이라도 "명령 4번"을 "명령 1번"으로 줄여 처리량을 높인다.</div></div>
+</div>
+</div>
+
+
+
+이 그림의 포인트는 SIMD가 계산 공식을 바꾸는 기술이 아니라, <strong>같은 공식을 묶어서 실행하는 방식</strong>이라는 점이다. 따라서 SIMD의 가치는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 반복 구조에서 먼저 드러난다.
 
 - **📢 섹션 요약 비유**: SIMD는 학생 1명씩 불러서 같은 문제를 풀게 하는 대신, 같은 문제지를 한 줄에 앉은 4명에게 동시에 나눠 주는 방식과 같다. 문제는 같고 학생만 많을수록 이 방식의 이점이 커진다.
 
@@ -55,33 +56,25 @@ AVX는 x86 계열에서 벡터 [레지스터](/knowledge-base/studynote/01_compu
 
 아래 구조는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 실행이 왜 스칼라보다 유리한지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                SIMD 레지스터와 레인 단위 병렬 실행 구조              │
-├──────────────────────────────────────────────────────────────────────┤
-│ 입력 벡터 A                                                          │
-│   ┌────────┬────────┬────────┬────────┐                              │
-│   │ A3     │ A2     │ A1     │ A0     │  ← 128-bit register         │
-│   └────────┴────────┴────────┴────────┘                              │
-│                │        │        │        │                          │
-│                ▼        ▼        ▼        ▼                          │
-│              ┌────┐   ┌────┐   ┌────┐   ┌────┐                       │
-│ 입력 벡터 B  │+   │   │+   │   │+   │   │+   │  ← lane ALUs         │
-│   ┌────────┬─┤    ├───┤    ├───┤    ├───┤    │                       │
-│   │ B3     │ │    │   │    │   │    │   │    │                      │
-│   │ B2     │ │    │   │    │   │    │   │    │                      │
-│   │ B1     │ │    │   │    │   │    │   │    │                      │
-│   │ B0     │ │    │   │    │   │    │   │    │                      │
-│   └────────┴─┴────┴───┴────┴───┴────┴───┴────┘                       │
-│                │        │        │        │                          │
-│                ▼        ▼        ▼        ▼                          │
-│   ┌────────┬────────┬────────┬────────┐                              │
-│   │ C3     │ C2     │ C1     │ C0     │  ← 결과 벡터                │
-│   └────────┴────────┴────────┴────────┘                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭만으로 결정되지 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 연속적으로 배치되어 있어야 한 번의 로드로 여러 원소를 가져올 수 있고, 각 원소가 서로 독립이어야 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 성립한다. 그래서 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 최적화는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택 이전에 **[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조, 정렬 (Alignment), 분기 제거, 루프 독립성 확보**가 선행돼야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 레지스터와 레인 단위 병렬 실행 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 벡터 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A3</div><div class="kb-diagram-cell">A2</div><div class="kb-diagram-cell">A1</div><div class="kb-diagram-cell">A0</div><div class="kb-diagram-cell">← 128-bit register</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 벡터 B</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">← lane ALUs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C3</div><div class="kb-diagram-cell">C2</div><div class="kb-diagram-cell">C1</div><div class="kb-diagram-cell">C0</div><div class="kb-diagram-cell">← 결과 벡터</div></div>
+</div>
+</div>
+
+
+
+실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭만으로 결정되지 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 연속적으로 배치되어 있어야 한 번의 로드로 여러 원소를 가져올 수 있고, 각 원소가 서로 독립이어야 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 성립한다. 그래서 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 최적화는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택 이전에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 구조, 정렬 (Alignment), 분기 제거, 루프 독립성 확보</strong>가 선행돼야 한다.
 
 | 항목 | AVX 계열 | NEON |
 | :-- | :-- | :-- |
@@ -99,9 +92,9 @@ AVX는 x86 계열에서 벡터 [레지스터](/knowledge-base/studynote/01_compu
 
 SIMD를 제대로 이해하려면 스칼라 연산, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 그리고 ISA별 구현 차이를 함께 봐야 한다. SIMD는 CPU 내부에서 "적은 제어 비용으로 중간 규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성"을 얻는 기술이다. 즉, GPU처럼 수천 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 돌리는 방식은 아니지만, 일반 스칼라보다 훨씬 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 다룬다.
 
-첫째, **스칼라 vs [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)**의 차이는 명령 수와 제어 오버헤드에서 나온다. 스칼라는 유연하지만 루프와 분기 비용을 계속 지불한다. SIMD는 같은 연산이 반복될 때 강력하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 다른 분기 경로를 타면 효율이 급격히 떨어진다.
+첫째, <strong>스칼라 vs <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a></strong>의 차이는 명령 수와 제어 오버헤드에서 나온다. 스칼라는 유연하지만 루프와 분기 비용을 계속 지불한다. SIMD는 같은 연산이 반복될 때 강력하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 다른 분기 경로를 타면 효율이 급격히 떨어진다.
 
-둘째, **AVX vs NEON**의 차이는 같은 SIMD라도 목표 환경이 다르다는 점이다. AVX는 서버와 고성능 데스크톱의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 방향으로 발전해 왔고, NEON은 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))에서 카메라, 오디오, ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 추론을 안정적으로 가속하는 데 강하다. 같은 벡터 연산이어도 AVX는 최고 속도, NEON은 지속 가능한 효율에 더 무게를 둔다.
+둘째, <strong>AVX vs NEON</strong>의 차이는 같은 SIMD라도 목표 환경이 다르다는 점이다. AVX는 서버와 고성능 데스크톱의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 방향으로 발전해 왔고, NEON은 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))에서 카메라, 오디오, ML (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 추론을 안정적으로 가속하는 데 강하다. 같은 벡터 연산이어도 AVX는 최고 속도, NEON은 지속 가능한 효율에 더 무게를 둔다.
 
 셋째, SIMD는 GPU와 경쟁하기보다 보완 관계에 가깝다. 작은 벡터 연산, 짧은 지연시간, 함수 내부 핫루프 최적화는 CPU SIMD가 유리하다. 반면 대규모 행렬, 고도 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 렌더링, 초대형 텐서 처리는 GPU가 더 적합하다.
 
@@ -124,7 +117,7 @@ SIMD를 제대로 이해하려면 스칼라 연산, [GPU](/knowledge-base/studyn
 
 서버 환경에서는 AVX2가 실용적인 기본 선택이 되는 경우가 많다. 이미지 처리, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 스캔, DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processing) 성격의 작업에서 안정적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 주기 때문이다. 다만 AVX-512는 최대 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 크지만, 일부 CPU에서는 전력과 발열 때문에 전체 클럭이 낮아질 수 있어 지연시간 민감 서비스에서는 오히려 손해가 날 수 있다.
 
-모바일과 임베디드에서는 NEON이 매우 중요하다. 카메라 후처리, 오디오 믹싱, 영상 디코딩, 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론처럼 반복 연산이 많은데, 배터리와 열 예산이 더 엄격하기 때문이다. 이 환경에서는 최고 피크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 **지속 가능한 프레임 처리율과 발열 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)**가 더 중요한 판단 기준이 된다.
+모바일과 임베디드에서는 NEON이 매우 중요하다. 카메라 후처리, 오디오 믹싱, 영상 디코딩, 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론처럼 반복 연산이 많은데, 배터리와 열 예산이 더 엄격하기 때문이다. 이 환경에서는 최고 피크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 <strong>지속 가능한 프레임 처리율과 발열 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>가 더 중요한 판단 기준이 된다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -152,7 +145,7 @@ SIMD를 제대로 이해하려면 스칼라 연산, [GPU](/knowledge-base/studyn
 
 다만 SIMD의 효과는 조건부다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흩어져 있거나, 원소별 분기가 많거나, [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 파편화가 크면 유지보수 비용이 급격히 올라간다. 또한 AVX의 초광폭 벡터는 전력과 발열의 대가를 치를 수 있고, NEON은 안정적이지만 절대 폭에서 한계가 있다.
 
-앞으로의 방향은 단순히 "더 넓은 벡터"만이 아니다. 마스크 연산, gather/scatter, 저정밀도 연산, SVE (Scalable Vector Extension) 같은 가변 길이 벡터가 등장하며, SIMD는 더 유연한 형태로 진화하고 있다. 따라서 이 주제는 "AVX냐 NEON이냐"보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 CPU [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 수준에서 어떻게 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 바꾸는가**의 관점으로 기억하는 것이 중요하다.
+앞으로의 방향은 단순히 "더 넓은 벡터"만이 아니다. 마스크 연산, gather/scatter, 저정밀도 연산, SVE (Scalable Vector Extension) 같은 가변 길이 벡터가 등장하며, SIMD는 더 유연한 형태로 진화하고 있다. 따라서 이 주제는 "AVX냐 NEON이냐"보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 CPU <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 수준에서 어떻게 현실적인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>으로 바꾸는가</strong>의 관점으로 기억하는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: SIMD는 한 명의 요리사가 같은 반찬을 여러 칸 도시락에 동시에 담는 기술과 같다. 반찬이 같고 칸이 잘 정리돼 있으면 엄청 빠르지만, 칸마다 다른 음식을 넣어야 하면 오히려 손이 더 꼬인다.
 
@@ -170,21 +163,23 @@ SIMD를 제대로 이해하려면 스칼라 연산, [GPU](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-스칼라 반복 연산
-    │
-    ▼
-MMX (MultiMedia eXtension) · SSE (Streaming SIMD Extensions)
-    │
-    ▼
-AVX (Advanced Vector Extensions) · NEON (ARM Advanced SIMD)
-    │
-    ▼
-FMA (Fused Multiply-Add) · 마스크 연산 · gather/scatter
-    │
-    ▼
-SVE (Scalable Vector Extension) · 저정밀도 AI 벡터 연산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스칼라 반복 연산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MMX (MultiMedia eXtension) · SSE (Streaming SIMD Extensions)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AVX (Advanced Vector Extensions) · NEON (ARM Advanced SIMD)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FMA (Fused Multiply-Add) · 마스크 연산 · gather/scatter</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SVE (Scalable Vector Extension) · 저정밀도 AI 벡터 연산</div>
+</div>
+</div>
+
+
 
 이 흐름은 "멀티미디어 가속"에서 출발한 SIMD가 이제 서버, 모바일, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전처리까지 확장되는 과정을 보여준다.
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-SNMP의 기본 통신은 관리 시스템(Manager)이 주기적으로(예: 1분마다) 수많은 장비(Agent)들에게 **"너 괜찮아? 온도 몇 도야?"라고 묻고 답을 받는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식**으로 이루어집니다. 이 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 과정에서 사용되는 핵심 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 Get과 Set입니다.
+SNMP의 기본 통신은 관리 시스템(Manager)이 주기적으로(예: 1분마다) 수많은 장비(Agent)들에게 <strong>"너 괜찮아? 온도 몇 도야?"라고 묻고 답을 받는 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>) 방식</strong>으로 이루어집니다. 이 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 과정에서 사용되는 핵심 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 Get과 Set입니다.
 
-```text
-[SNMPv3]
-    │
-    ▼
-[SNMP 명령]
-    │
-    └──▶ [SNMP Trap]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP 명령</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP Trap</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,20 +42,24 @@ SNMP의 기본 통신은 관리 시스템(Manager)이 주기적으로(예: 1분�
 
 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | 방향 | 역할 및 설명 |
 |:---|:---|:---|
-| **GetRequest** | Manager ➔ Agent | **가장 많이 쓰이는 기본 조회 명령**입니다.<br>매니저가 특정 OID(예: CPU 점유율)를 하나 콕 집어서 현재 값을 달라고 요청합니다. |
+| **GetRequest** | Manager ➔ Agent | <strong>가장 많이 쓰이는 기본 조회 명령</strong>입니다.<br>매니저가 특정 OID(예: CPU 점유율)를 하나 콕 집어서 현재 값을 달라고 요청합니다. |
 | **GetNextRequest** | Manager ➔ Agent | **테이블 구조의 데이터를 읽을 때 씁니다.**<br>OID 트리 구조상에서 내가 방금 물어본 OID의 "바로 다음 순서 OID" 값을 달라고 요청합니다. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블처럼 데이터가 몇 개인지 모를 때 반복해서 씁니다. |
-| **SetRequest** | Manager ➔ Agent | **장비의 설정을 변경하는 제어 명령**입니다.<br>매니저가 "장비 이름을 'Router-A'로 바꿔라", 혹은 "특정 인터페이스를 셧다운시켜라"라고 값을 주입합니다. (보안상 매우 위험하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(RW)이 필요함) |
-| **GetResponse** | Agent ➔ Manager | **요청에 대한 응답**입니다.<br>매니저가 보낸 Get이나 Set 명령을 에이전트가 처리한 후 그 결과값(성공, 값, 에러 등)을 담아서 매니저에게 반환합니다. |
+| **SetRequest** | Manager ➔ Agent | <strong>장비의 설정을 변경하는 제어 명령</strong>입니다.<br>매니저가 "장비 이름을 'Router-A'로 바꿔라", 혹은 "특정 인터페이스를 셧다운시켜라"라고 값을 주입합니다. (보안상 매우 위험하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(RW)이 필요함) |
+| **GetResponse** | Agent ➔ Manager | <strong>요청에 대한 응답</strong>입니다.<br>매니저가 보낸 Get이나 Set 명령을 에이전트가 처리한 후 그 결과값(성공, 값, 에러 등)을 담아서 매니저에게 반환합니다. |
 | **GetBulkRequest** | Manager ➔ Agent | *(SNMPv2c부터 추가됨)*<br>GetNext를 수십 번 반복하면 네트워크 부하가 심하므로, **"여기서부터 100개 다 가져와!"** 라고 한 번에 대량의 데이터를 긁어오는 고속 조회 명령입니다. |
 
-```text
-[SNMPv3]
-    │
-    ▼
-[SNMP 명령]
-    │
-    └──▶ [SNMP Trap]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP 명령</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP Trap</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ SNMP의 기본 통신은 관리 시스템(Manager)이 주기적으로(예: 1분�
 
 ## Ⅲ. 비교 및 연결
 
-위에서 설명한 모든 명령(Get, GetNext, Set)과 그에 대한 응답(Response)은 **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 161번**을 통해 이루어집니다.
+위에서 설명한 모든 명령(Get, GetNext, Set)과 그에 대한 응답(Response)은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 161번</strong>을 통해 이루어집니다.
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SNMPv3가 기반 조건을 만든다면, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령은 그 위에서 핵심 메커니즘을 구현하고, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -111,15 +119,19 @@ SNMP의 기본 통신은 관리 시스템(Manager)이 주기적으로(예: 1분�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SNMPv3]
-    │
-    ▼
-[현재 개념: SNMP 명령]
-    │
-    ├──▶ [확장 A: SNMP Trap]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SNMPv3</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMP 명령</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMP Trap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령는 SNMPv3에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

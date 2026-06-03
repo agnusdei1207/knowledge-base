@@ -10,9 +10,9 @@ tags = ["studynote-ai"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: ToT(Tree-of-Thought, 사고 트리)는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))이 문제를 해결할 때 단선(Chain)이 아닌 **트리 구조로 여러 사고 경로를 분기·탐색·[백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))하며 최적 답을 찾는 추론 프레임워크**다.
-> 2. **가치**: [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/), 생각의 연쇄)가 직선으로 한 번만 추론하는 것과 달리, ToT는 **여러 가능성을 동시에 탐색하고 막힌 경로를 포기([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))하며 더 나은 경로를 선택**함으로써 복잡한 다단계 추론 과제에서 정확도를 획기적으로 높인다.
-> 3. **판단 포인트**: ToT는 탐색 비용(토큰·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)이 CoT보다 수배~수십 배 높으므로, **복잡한 퍼즐·수학 증명·[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 계획 수립** 등 오답 비용이 높은 과제에만 선택적으로 적용해야 한다.
+> 1. **본질**: ToT(Tree-of-Thought, 사고 트리)는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/))이 문제를 해결할 때 단선(Chain)이 아닌 <strong>트리 구조로 여러 사고 경로를 분기·탐색·<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/">백트래킹</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/">Backtracking</a>)하며 최적 답을 찾는 추론 프레임워크</strong>다.
+> 2. **가치**: [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/), 생각의 연쇄)가 직선으로 한 번만 추론하는 것과 달리, ToT는 <strong>여러 가능성을 동시에 탐색하고 막힌 경로를 포기(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)하며 더 나은 경로를 선택</strong>함으로써 복잡한 다단계 추론 과제에서 정확도를 획기적으로 높인다.
+> 3. **판단 포인트**: ToT는 탐색 비용(토큰·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출)이 CoT보다 수배~수십 배 높으므로, <strong>복잡한 퍼즐·수학 증명·<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 계획 수립</strong> 등 오답 비용이 높은 과제에만 선택적으로 적용해야 한다.
 
 ---
 
@@ -20,14 +20,14 @@ tags = ["studynote-ai"]
 
 LLM의 추론 능력 향상은 [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)의 핵심 연구 주제다. 표준 프롬프트 방식은 LLM이 질문에 바로 답하지만, 복잡한 문제에서 오류가 많다. [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))는 "단계별로 생각하세요"라고 유도해 중간 추론 과정을 출력하게 함으로써 정확도를 높였다.
 
-그러나 CoT도 한계가 있다: **단 하나의 추론 경로만 탐색**한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잘못된 방향을 잡으면 끝까지 오답을 향해 달려간다. ToT는 이 한계를 극복하기 위해 2023년 Princeton·Google DeepMind 연구진이 제안한 방법으로, LLM의 추론을 **트리 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))** 으로 구조화한다.
+그러나 CoT도 한계가 있다: <strong>단 하나의 추론 경로만 탐색</strong>한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잘못된 방향을 잡으면 끝까지 오답을 향해 달려간다. ToT는 이 한계를 극복하기 위해 2023년 Princeton·Google DeepMind 연구진이 제안한 방법으로, LLM의 추론을 <strong>트리 탐색 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a>/<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong> 으로 구조화한다.
 
 **ToT가 필요한 상황**:
 - 수학 증명, 로직 퍼즐 (24-point 게임 등) — 다양한 시도 후 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 필수
 - 코드 디버깅 — 여러 가설 동시 테스트 후 실패 경로 폐기
 - [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 계획 (여행 일정 최적화) — 분기별 시나리오 탐색
 
-- **📢 섹션 요약 비유**: CoT가 **'모르는 길을 한 방향으로만 걷는 것'** 이라면, ToT는 **'지도 없는 미로에서 갈림길마다 여러 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대를 보내고 막힌 길에서 되돌아와 더 나은 길을 찾는 것'** 입니다. 한 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대가 실패해도, 다른 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대가 올바른 출구를 찾아냅니다.
+- **📢 섹션 요약 비유**: CoT가 **'모르는 길을 한 방향으로만 걷는 것'** 이라면, ToT는 <strong>'지도 없는 미로에서 갈림길마다 여러 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>대를 보내고 막힌 길에서 되돌아와 더 나은 길을 찾는 것'</strong> 입니다. 한 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대가 실패해도, 다른 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대가 올바른 출구를 찾아냅니다.
 
 ---
 
@@ -35,55 +35,55 @@ LLM의 추론 능력 향상은 [프롬프트 엔지니어링](/knowledge-base/st
 
 ### 1. ToT 구조도
 
-```text
-ToT (Tree-of-Thought) 추론 구조
 
-                문제 (Root)
-                    │
-        ┌───────────┼───────────┐
-        │           │           │
-    사고1-A      사고1-B      사고1-C
-    (좋음↑)      (보통)       (나쁨↓ 폐기)
-        │           │
-    ┌───┴───┐   ┌───┴───┐
-    │       │   │       │
-  2-AA   2-AB  2-BA   2-BB
-  (좋음↑) (폐기) (폐기) (좋음↑)
-    │                   │
-  최종 답 A            최종 답 B
-          └──── 평가 → 더 좋은 답 선택 ────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ToT (Tree-of-Thought) 추론 구조</div>
+<div class="kb-diagram-note">문제 (Root)</div>
+<div class="kb-diagram-note">사고1-A 사고1-B 사고1-C</div>
+<div class="kb-diagram-note">(좋음↑) (보통) (나쁨↓ 폐기)</div>
+<div class="kb-diagram-note">2-AA 2-AB 2-BA 2-BB</div>
+<div class="kb-diagram-note">(좋음↑) (폐기) (폐기) (좋음↑)</div>
+<div class="kb-diagram-note">최종 답 A 최종 답 B</div>
+<div class="kb-diagram-tree-item" style="--depth:5">평가 → 더 좋은 답 선택</div>
+</div>
+</div>
+
+
 
 ### 2. ToT 4단계 작동 메커니즘
 
 | 단계 | 역할 | 설명 |
 |:---|:---|:---|
 | **1. 생각 분해 (Thought Decomposition)** | 문제를 중간 사고 단위로 분해 | 단계별로 어떤 수준의 "사고"가 필요한지 정의 |
-| **2. 생각 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Thought Generation)** | 각 노드에서 k개 후보 사고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 샘플링 또는 Propose prompt 사용 |
-| **3. 상태 평가 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Evaluation)** | 각 사고의 품질을 LLM이 스스로 평가 | "이 경로가 문제 해결에 얼마나 유망한가?" |
-| **4. 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Search)** | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/빔 서치로 트리 탐색 | 유망한 경로를 확장, 나쁜 경로는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) |
+| <strong>2. 생각 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Thought Generation)</strong> | 각 노드에서 k개 후보 사고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 샘플링 또는 Propose prompt 사용 |
+| <strong>3. 상태 평가 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Evaluation)</strong> | 각 사고의 품질을 LLM이 스스로 평가 | "이 경로가 문제 해결에 얼마나 유망한가?" |
+| <strong>4. 탐색 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Search)</strong> | [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/빔 서치로 트리 탐색 | 유망한 경로를 확장, 나쁜 경로는 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) |
 
 ### 3. [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) vs. ToT vs. GoT 비교
 
-```text
-사고 구조 진화
 
-  Standard Prompt:  입력 → 출력
-                    (단선, 추론 없음)
 
-  CoT (Chain):      입력 → 생각1 → 생각2 → 생각3 → 출력
-                    (순차 단선)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사고 구조 진화</div>
+<div class="kb-diagram-note">Standard Prompt: 입력 → 출력</div>
+<div class="kb-diagram-note">(단선, 추론 없음)</div>
+<div class="kb-diagram-note">CoT (Chain): 입력 → 생각1 → 생각2 → 생각3 → 출력</div>
+<div class="kb-diagram-note">(순차 단선)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">생각1-A, 생각1-B, 생각1-C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">평가</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">유망한 경로만 확장</div></div>
+<div class="kb-diagram-note">→ 최적 출력</div>
+<div class="kb-diagram-note">(분기·탐색·백트래킹)</div>
+<div class="kb-diagram-note">GoT (Graph): 임의 방향 그래프로 사고 연결</div>
+<div class="kb-diagram-note">(순환 참조, 아이디어 병합 등 가능)</div>
+</div>
+</div>
 
-  ToT (Tree):       입력 → [생각1-A, 생각1-B, 생각1-C]
-                              → [평가] → 유망한 경로만 확장
-                              → 최적 출력
-                    (분기·탐색·백트래킹)
 
-  GoT (Graph):      임의 방향 그래프로 사고 연결
-                    (순환 참조, 아이디어 병합 등 가능)
-```
 
-- **📢 섹션 요약 비유**: CoT와 ToT의 차이는 **'나침반만 들고 직진하는 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))'** 과 **'드론을 여러 대 띄워 동시에 여러 경로를 스캔한 후 최적 경로만 걷는 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)(ToT)'** 의 차이입니다. ToT는 비용이 더 들지만, 복잡한 지형에서 목적지를 확실히 찾아냅니다.
+- **📢 섹션 요약 비유**: CoT와 ToT의 차이는 <strong>'나침반만 들고 직진하는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>)'</strong> 과 <strong>'드론을 여러 대 띄워 동시에 여러 경로를 스캔한 후 최적 경로만 걷는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>(ToT)'</strong> 의 차이입니다. ToT는 비용이 더 들지만, 복잡한 지형에서 목적지를 확실히 찾아냅니다.
 
 ---
 
@@ -103,7 +103,7 @@ ToT (Tree-of-Thought) 추론 구조
 
 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot → Few-Shot → [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) → SC (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) → ToT → GoT → ReAct (추론+행동) → Agentic Reasoning
 
-- **📢 섹션 요약 비유**: 추론 기법의 진화는 **'혼자 문제 푸는 학생(Standard)'** 에서 **'단계별 필기하는 학생([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))'**, **'여러 풀이법을 동시에 시도하는 학생(SC)'**, **'갈림길에서 두 팀을 나눠 탐색하는 팀(ToT)'** 으로 진화한 것입니다.
+- **📢 섹션 요약 비유**: 추론 기법의 진화는 **'혼자 문제 푸는 학생(Standard)'** 에서 <strong>'단계별 필기하는 학생(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>)'</strong>, **'여러 풀이법을 동시에 시도하는 학생(SC)'**, **'갈림길에서 두 팀을 나눠 탐색하는 팀(ToT)'** 으로 진화한 것입니다.
 
 ---
 
@@ -136,15 +136,15 @@ ToT (Tree-of-Thought) 추론 구조
 
 ## Ⅴ. 기대효과 및 결론
 
-ToT는 LLM의 추론 능력을 **[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 탐색**과 결합함으로써, 단순한 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 문제 해결자로 격상시킨다. 24-point 게임(숫자 4개로 24 만들기)에서 표준 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4가 4%의 성공률을 보인 반면, ToT를 적용하면 74%까지 향상된다(원 논문 기준).
+ToT는 LLM의 추론 능력을 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>적 탐색</strong>과 결합함으로써, 단순한 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 문제 해결자로 격상시킨다. 24-point 게임(숫자 4개로 24 만들기)에서 표준 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4가 4%의 성공률을 보인 반면, ToT를 적용하면 74%까지 향상된다(원 논문 기준).
 
 **한계**: ① [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출 비용 급증, ② 탐색 공간이 폭발적으로 증가하는 과제에서 실용적 속도 보장 어려움, ③ 평가 함수([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Evaluator) 설계 품질이 전체 결과를 좌우 — 잘못 설계된 평가 기준은 오히려 오답 경로를 선택.
 
 **미래 방향**: ① [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자체 추론 능력 내재화(o1, o3 계열) — ToT를 모델 훈련에 내재화하는 방향, ② Agentic AI에서 도구 사용과 결합한 ToT, ③ [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) ToT (이미지·코드 포함 사고 트리).
 
-ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, **"LLM이 문제를 푸는 방식을 구조화함으로써 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어내는 것"** 이라는 관점으로 기억해야 한다.
+ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, <strong>"LLM이 문제를 푸는 방식을 구조화함으로써 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 이끌어내는 것"</strong> 이라는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: ToT는 **'LLM에게 미로를 줄 때, 한 방향으로 달려가게 하는 대신 갈림길마다 멈춰 생각하고 나쁜 길은 포기하도록 훈련하는 메타 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'** 입니다. [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자체는 바뀌지 않지만, 문제를 푸는 방식이 체계화되면서 결과가 혁신적으로 달라집니다.
+- **📢 섹션 요약 비유**: ToT는 <strong>'LLM에게 미로를 줄 때, 한 방향으로 달려가게 하는 대신 갈림길마다 멈춰 생각하고 나쁜 길은 포기하도록 훈련하는 메타 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>'</strong> 입니다. [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자체는 바뀌지 않지만, 문제를 푸는 방식이 체계화되면서 결과가 혁신적으로 달라집니다.
 
 ---
 
@@ -152,43 +152,42 @@ ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, **"LLM이 문제를
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) ([Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/))** | ToT의 선행 기법; 단선 추론의 한계를 트리 구조로 극복 |
-| **SC (Self-[Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))** | 여러 [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 경로 샘플링 후 다수결; ToT와 상보 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| **GoT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)-of-Thought)** | ToT의 진화형; [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조로 아이디어 병합·순환 가능 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">Chain-of-Thought</a>)</strong> | ToT의 선행 기법; 단선 추론의 한계를 트리 구조로 극복 |
+| <strong>SC (Self-<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong> | 여러 [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) 경로 샘플링 후 다수결; ToT와 상보 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| <strong>GoT (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a>-of-Thought)</strong> | ToT의 진화형; [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조로 아이디어 병합·순환 가능 |
 | **ReAct** | 추론(Reasoning)과 행동(Action)을 결합한 에이전트 기법 |
-| **[프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)** | ToT를 포함하는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 체계 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a></strong> | ToT를 포함하는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Standard Prompting (단순 QA)
-    │
-    ▼
-Few-Shot Prompting (예시 제공)
-    │
-    ▼
-CoT (Chain-of-Thought) — 단선 추론
-    │
-    ├─► SC (Self-Consistency) — 다중 CoT 다수결
-    │
-    ▼
-ToT (Tree-of-Thought) — 분기·탐색·백트래킹
-    │
-    ▼
-GoT (Graph-of-Thought) — 그래프 구조 사고
-    │
-    ▼
-Agentic Reasoning (도구 사용 + 자율 탐색)
-    │
-    ▼
-LLM 내재화 추론 (o1, o3 계열 모델)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Standard Prompting (단순 QA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Few-Shot Prompting (예시 제공)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CoT (Chain-of-Thought) — 단선 추론</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SC (Self-Consistency) — 다중 CoT 다수결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ToT (Tree-of-Thought) — 분기·탐색·백트래킹</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GoT (Graph-of-Thought) — 그래프 구조 사고</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Agentic Reasoning (도구 사용 + 자율 탐색)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LLM 내재화 추론 (o1, o3 계열 모델)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. ToT(Tree-of-Thought)는 AI가 어려운 문제를 풀 때 **한 방향만 보지 않고 여러 길을 동시에 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)**하는 방법이에요. 미로에서 갈림길마다 여러 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대를 보내는 것처럼요!
-2. [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대 중 막힌 길로 간 팀은 **바로 포기하고 돌아와서([백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))** 다른 길을 탐색해요. 그래서 틀린 방향으로 끝까지 달려가는 실수를 줄일 수 있어요.
-3. 비용(토큰)이 많이 들지만, **수학 증명이나 복잡한 퍼즐처럼 정답을 꼭 맞춰야 하는 문제**에서 훨씬 정확한 답을 찾아낸답니다!
+1. ToT(Tree-of-Thought)는 AI가 어려운 문제를 풀 때 <strong>한 방향만 보지 않고 여러 길을 동시에 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a></strong>하는 방법이에요. 미로에서 갈림길마다 여러 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대를 보내는 것처럼요!
+2. [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)대 중 막힌 길로 간 팀은 <strong>바로 포기하고 돌아와서(<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/">백트래킹</a>)</strong> 다른 길을 탐색해요. 그래서 틀린 방향으로 끝까지 달려가는 실수를 줄일 수 있어요.
+3. 비용(토큰)이 많이 들지만, <strong>수학 증명이나 복잡한 퍼즐처럼 정답을 꼭 맞춰야 하는 문제</strong>에서 훨씬 정확한 답을 찾아낸답니다!
 
 ---
 

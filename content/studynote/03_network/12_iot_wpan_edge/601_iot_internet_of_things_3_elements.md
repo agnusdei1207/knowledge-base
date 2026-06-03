@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 세상에 존재하는 모든 사물(가전제품, 자동차, 시계, 공장 기계 등)에 센서와 통신 기능을 내장하여, 인간의 개입 없이 인터넷으로 연결되어 사물들끼리 서로 정보를 주고받고 스스로 판단하여 동작하는 지능형 기술 및 서비스를 말합니다.
 
-```text
-[RFID / NFC 프로토콜 기본 구상]
-    │
-    ▼
-[사물인터넷의 3대 요소]
-    │
-    └──▶ [사물 통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RFID / NFC 프로토콜 기본 구상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물인터넷의 3대 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사물 통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 사물인터넷의 3대 요소는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,20 +48,24 @@ tags = ["studynote-network"]
 ### 2. 네트워크 (Network / Connectivity) - '혈관과 신경망'
 디바이스가 수집한 데이터를 서버로 보내고, 서버의 명령을 다시 디바이스로 전달해 주는 통신 인프라입니다.
 - [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기들은 배터리가 작고 연산력이 부족한 경우가 많아, 스마트폰처럼 무거운 LTE나 Wi-Fi를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 힘듭니다.
-- 따라서 사용 거리와 데이터양에 맞게 **근거리 저전력 통신([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))**이나 **장거리 초저전력 통신([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/))**을 상황에 맞춰 골라 쓰는 기술이 핵심입니다.
+- 따라서 사용 거리와 데이터양에 맞게 <strong>근거리 저전력 통신(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">ZigBee</a>)</strong>이나 <strong>장거리 초저전력 통신(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>)</strong>을 상황에 맞춰 골라 쓰는 기술이 핵심입니다.
 
 ### 3. 클라우드 플랫폼 (Cloud Platform / [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) - '두뇌'
 수만 개의 디바이스에서 쏟아져 들어오는 센서 데이터를 저장, 분석하고, "어떤 상황에서 어떻게 행동하라"는 지시를 내리는 거대한 중앙 통제소입니다.
 - **역할**: 수집된 온도 빅데이터를 AI로 분석하여 "내일 비가 올 확률이 높으니 보일러를 미리 켜둬라"라고 똑똑한 룰(Rule)을 세우고 디바이스에 명령을 하달합니다. AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Azure [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 플랫폼 등이 대표적입니다.
 
-```text
-[RFID / NFC 프로토콜 기본 구상]
-    │
-    ▼
-[사물인터넷의 3대 요소]
-    │
-    └──▶ [사물 통신]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RFID / NFC 프로토콜 기본 구상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사물인터넷의 3대 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사물 통신</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 사물인터넷의 3대 요소의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,15 +127,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RFID / NFC 프로토콜 기본 구상]
-    │
-    ▼
-[현재 개념: 사물인터넷의 3대 요소]
-    │
-    ├──▶ [확장 A: 사물 통신]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RFID / NFC 프로토콜 기본 구상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 사물인터넷의 3대 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사물 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 사물인터넷의 3대 요소는 RFID / NFC [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기본 구상에서 출발해 현재 메커니즘을 정교화하고, 이후 [사물 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

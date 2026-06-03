@@ -18,26 +18,29 @@ tags = ["studynote-cloud-architecture"]
 
 ## I. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력 원리
 
-```
-데이터 중력 (Dave McCrory, 2010):
-  "데이터는 질량처럼 작용한다"
-  
-  데이터 크기가 클수록:
-    1. 이동 비용(Egress) 증가
-    2. 이동 시간(지연) 증가
-    3. 주변 서비스가 데이터 쪽으로 이동
-    
-예시:
-  S3에 100TB 데이터 축적
-  -> ML 모델 학습: SageMaker (AWS 독점) 사용 유인
-  -> 데이터 분석: Athena, Redshift 자연스럽게 선택
-  -> 이미 AWS 생태계 안에 완전히 포함
-  
-Egress 비용:
-  AWS: $0.09/GB (인터넷 전송)
-  100TB 이전 비용: ~$9,000
-  + 중단 시간, 재검증 비용 추가
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 중력 (Dave McCrory, 2010):</div>
+<div class="kb-diagram-note">"데이터는 질량처럼 작용한다"</div>
+<div class="kb-diagram-note">데이터 크기가 클수록:</div>
+<div class="kb-diagram-note">1. 이동 비용(Egress) 증가</div>
+<div class="kb-diagram-note">2. 이동 시간(지연) 증가</div>
+<div class="kb-diagram-note">3. 주변 서비스가 데이터 쪽으로 이동</div>
+<div class="kb-diagram-note">예시:</div>
+<div class="kb-diagram-note">S3에 100TB 데이터 축적</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ML 모델 학습: SageMaker (AWS 독점) 사용 유인</div>
+<div class="kb-diagram-tree-item" style="--depth:1">데이터 분석: Athena, Redshift 자연스럽게 선택</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이미 AWS 생태계 안에 완전히 포함</div>
+<div class="kb-diagram-note">Egress 비용:</div>
+<div class="kb-diagram-note">AWS: $0.09/GB (인터넷 전송)</div>
+<div class="kb-diagram-note">100TB 이전 비용: ~$9,000</div>
+<div class="kb-diagram-note">+ 중단 시간, 재검증 비용 추가</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 대도시(AWS)에 집([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 지으면 학교, 병원, 직장이 주변에 생겨 이사가 점점 어려워지는 것 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력은 도시 형성 원리.
 
@@ -139,34 +142,34 @@ Egress 비용:
 
 ## V. 실무 시나리오 — 금융사 멀티클라우드
 
-```
-배경:
-  금융기관, AWS 단일 클라우드
-  데이터: 5PB S3, ML: SageMaker 의존
-  
-리스크 식별:
-  AWS 장애 시 전체 서비스 중단 (2017 S3 사고)
-  협상 레버리지 없음 (가격 인상 수용)
-  
-이중화 전략 (단계적):
 
-  1단계: DR 구성 (3개월)
-     Azure: DR 사이트 구성
-     데이터: S3 -> Azure Blob 크로스 리전 복제
-     
-  2단계: 멀티 액티브 (12개월)
-     트래픽 50% Azure 전환
-     Kubernetes로 워크로드 이식성 확보
-     Terraform으로 인프라 코드화
-     
-  3단계: 데이터 페더레이션
-     Trino로 S3 + Azure Blob 통합 쿼리
-     데이터 이전 없이 분석 레이어 통합
-     
-결과:
-  AWS 협상 시 15% 할인 요청 승인
-  가용성 99.99% -> 99.999% 개선
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">금융기관, AWS 단일 클라우드</div>
+<div class="kb-diagram-note">데이터: 5PB S3, ML: SageMaker 의존</div>
+<div class="kb-diagram-note">리스크 식별:</div>
+<div class="kb-diagram-note">AWS 장애 시 전체 서비스 중단 (2017 S3 사고)</div>
+<div class="kb-diagram-note">협상 레버리지 없음 (가격 인상 수용)</div>
+<div class="kb-diagram-note">이중화 전략 (단계적):</div>
+<div class="kb-diagram-note">1단계: DR 구성 (3개월)</div>
+<div class="kb-diagram-note">Azure: DR 사이트 구성</div>
+<div class="kb-diagram-note">데이터: S3 -&gt; Azure Blob 크로스 리전 복제</div>
+<div class="kb-diagram-note">2단계: 멀티 액티브 (12개월)</div>
+<div class="kb-diagram-note">트래픽 50% Azure 전환</div>
+<div class="kb-diagram-note">Kubernetes로 워크로드 이식성 확보</div>
+<div class="kb-diagram-note">Terraform으로 인프라 코드화</div>
+<div class="kb-diagram-note">3단계: 데이터 페더레이션</div>
+<div class="kb-diagram-note">Trino로 S3 + Azure Blob 통합 쿼리</div>
+<div class="kb-diagram-note">데이터 이전 없이 분석 레이어 통합</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">AWS 협상 시 15% 할인 요청 승인</div>
+<div class="kb-diagram-note">가용성 99.99% -&gt; 99.999% 개선</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: AWS만 쓰다가 Azure [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구성하자마자 AWS가 할인 제안 — 대안이 있어야 협상이 된다.
 

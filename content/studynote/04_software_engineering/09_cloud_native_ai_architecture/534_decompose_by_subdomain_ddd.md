@@ -25,33 +25,32 @@ tags = ["studynote-software-engineering"]
   - **일반(Generic) 서브도메인**: 남들도 다 하는 거. '결제(PG)', '로그인'. 이건 짜지 않고 외부 솔루션([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), Keycloak 등)을 사다 쓴다.
   아키텍트는 이 3개의 조각(서브도메인) 모양대로 1:1 매칭하여 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)) 깡통을 찍어낸다.
 
-- **필요성**: 비즈니스 능력(부서)으로만 썰었더니, A부서와 B부서가 똑같은 `User` 테이블을 쳐다보며 피 터지게 싸웠다. A팀은 "유저 테이블에 '배송지' 컬럼 추가해!", B팀은 "유저 테이블에 '신용카드' 컬럼 추가해!" 테이블 하나에 컬럼이 500개가 달린 **갓 클래스(God Class / 뚱뚱한 괴물 테이블)**가 탄생했다. B팀이 '신용카드' 컬럼명을 살짝 바꿨더니 A팀 서버 전체가 500 에러를 토하며 기절했다(강한 결합). **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하면 우린 다 죽는다! 차라리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파편화(중복)시키더라도 서로의 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 완벽히 찢어내자!"**는 피눈물 나는 반성에서 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)(제한된 문맥) 분해법이 강림했다.
+- **필요성**: 비즈니스 능력(부서)으로만 썰었더니, A부서와 B부서가 똑같은 `User` 테이블을 쳐다보며 피 터지게 싸웠다. A팀은 "유저 테이블에 '배송지' 컬럼 추가해!", B팀은 "유저 테이블에 '신용카드' 컬럼 추가해!" 테이블 하나에 컬럼이 500개가 달린 <strong>갓 클래스(God Class / 뚱뚱한 괴물 테이블)</strong>가 탄생했다. B팀이 '신용카드' 컬럼명을 살짝 바꿨더니 A팀 서버 전체가 500 에러를 토하며 기절했다(강한 결합). <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 공유하면 우린 다 죽는다! 차라리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 파편화(중복)시키더라도 서로의 문맥(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)을 완벽히 찢어내자!"</strong>는 피눈물 나는 반성에서 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)(제한된 문맥) 분해법이 강림했다.
 
-- **💡 비유**: 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분해는 **'병원 수술실의 다국어 통역기 분리'**와 같습니다. 하나의 환자(User [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 두고, 정형외과(결제팀) 의사는 "뼈"를 보고, 피부과(배송팀) 의사는 "피부"를 봅니다. 두 의사에게 환자의 모든 것이 적힌 1,000페이지짜리 공용 차트(통짜 DB) 하나만 주면 서로 자기 글씨를 적느라 싸우고 차트가 찢어집니다. [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))는 두 의사에게 **'각자 전용 차트(독립 DB)'**를 따로 줍니다. 정형외과 차트에는 오직 '뼈' 이야기만, 피부과 차트에는 '피부' 이야기만 적습니다. 둘은 언어(문맥)가 다르므로 영원히 차트를 섞어 쓸 필요가 없고, 서로 방해받지 않고 광속으로 수술(개발)을 마칠 수 있습니다.
+- **💡 비유**: 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분해는 <strong>'병원 수술실의 다국어 통역기 분리'</strong>와 같습니다. 하나의 환자(User [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 두고, 정형외과(결제팀) 의사는 "뼈"를 보고, 피부과(배송팀) 의사는 "피부"를 봅니다. 두 의사에게 환자의 모든 것이 적힌 1,000페이지짜리 공용 차트(통짜 DB) 하나만 주면 서로 자기 글씨를 적느라 싸우고 차트가 찢어집니다. [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))는 두 의사에게 <strong>'각자 전용 차트(독립 DB)'</strong>를 따로 줍니다. 정형외과 차트에는 오직 '뼈' 이야기만, 피부과 차트에는 '피부' 이야기만 적습니다. 둘은 언어(문맥)가 다르므로 영원히 차트를 섞어 쓸 필요가 없고, 서로 방해받지 않고 광속으로 수술(개발)을 마칠 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))의 시대**: 2000년대 DBA들은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중복되는 건 죄악이다!"라며 무조건 1개의 완벽한 테이블(통짜 DB)로 모든 부서를 묶었다(결합 지옥).
-  2. **에릭 에반스의 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 출간 (2003)**: "개발자들이 기획자랑 딴소리하니까 버그가 난다. 기획자가 쓰는 단어([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))를 그대로 클래스 이름으로 써라! 그리고 그 단어의 뜻이 통하는 공간([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))에 펜스를 쳐라!"라는 철학이 나왔지만, 당시엔 서버를 찢을([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 기술이 없어 책장에 박혀있었다.
-  3. **MSA와 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)의 등장 (2010s~)**: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))가 서버를 1초 만에 찢어주자, 아키텍트들이 10년 묵은 에릭 에반스의 책을 꺼내 들었다. "어떻게 찢지? 아하! 이 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 펜스 1개당 서버 1개씩 띄우면 100% 완벽한 독립 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)네!"라며 DDD가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해의 글로벌 스탠다드로 화려하게 부활했다.
+  1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>)의 시대</strong>: 2000년대 DBA들은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중복되는 건 죄악이다!"라며 무조건 1개의 완벽한 테이블(통짜 DB)로 모든 부서를 묶었다(결합 지옥).
+  2. <strong>에릭 에반스의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a> 출간 (2003)</strong>: "개발자들이 기획자랑 딴소리하니까 버그가 난다. 기획자가 쓰는 단어([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/))를 그대로 클래스 이름으로 써라! 그리고 그 단어의 뜻이 통하는 공간([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))에 펜스를 쳐라!"라는 철학이 나왔지만, 당시엔 서버를 찢을([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 기술이 없어 책장에 박혀있었다.
+  3. <strong>MSA와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>의 등장 (2010s~)</strong>: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))가 서버를 1초 만에 찢어주자, 아키텍트들이 10년 묵은 에릭 에반스의 책을 꺼내 들었다. "어떻게 찢지? 아하! 이 [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) 펜스 1개당 서버 1개씩 띄우면 100% 완벽한 독립 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)네!"라며 DDD가 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분해의 글로벌 스탠다드로 화려하게 부활했다.
 
-- **📢 섹션 요약 비유**: 이 분해법은 **'사전(Dictionary) 찢기'**입니다. '배(Ship)'라는 단어를 두고 해군(항해팀)과 과일가게(상품팀)가 뜻을 두고 싸웁니다. 옛날엔 두 뜻을 하나의 사전에 욱여넣었습니다. DDD는 사전을 2권으로 찢어버립니다. 해군 전용 사전(항해 서브도메인)에는 배를 '탈 것'으로만, 과일 전용 사전(상품 서브도메인)에는 배를 '먹을 것'으로만 적어 각자 쥐여줍니다. 헷갈릴 일(버그)이 0%가 됩니다.
+- **📢 섹션 요약 비유**: 이 분해법은 <strong>'사전(Dictionary) 찢기'</strong>입니다. '배(Ship)'라는 단어를 두고 해군(항해팀)과 과일가게(상품팀)가 뜻을 두고 싸웁니다. 옛날엔 두 뜻을 하나의 사전에 욱여넣었습니다. DDD는 사전을 2권으로 찢어버립니다. 해군 전용 사전(항해 서브도메인)에는 배를 '탈 것'으로만, 과일 전용 사전(상품 서브도메인)에는 배를 '먹을 것'으로만 적어 각자 쥐여줍니다. 헷갈릴 일(버그)이 0%가 됩니다.
 
 ---
 
 다음은 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따른 분해 (Decom의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  하위 도메인에 따른 분해 (Decom                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 도메인에 따른 분해 (Decom</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따른 분해 (Decom가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따른 분해 (Decompose by Subdomain의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따른 분해 (Decompose by Subdomain의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 따른 분해 (Decompose by Subdomain의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-하위 도메인에 따른 분해 (Decompose by Subdomain 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하위 도메인에 따른 분해 (Decompose by Subdomain 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

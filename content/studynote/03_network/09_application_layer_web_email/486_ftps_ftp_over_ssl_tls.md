@@ -23,44 +23,35 @@ tags = ["studynote-network"]
 
 - **필요성**: 1990년대 후반, 인터넷 상에 Wireshark 같은 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 도구가 보급되면서 평문으로 통신하던 FTP는 발가벗겨진 채 길거리를 걷는 것과 같았다. 비밀번호가 털리고 기업의 기밀문서가 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)되었다. 하지만 이미 전 세계의 수많은 데몬(vsftpd, proftpd)과 클라이언트(알FTP)가 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 생태계에 깊게 뿌리내리고 있었다. "기존 FTP의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(USER, PASS, STOR) 구조와 프로그램들은 그대로 살리되, 그 아래로 흐르는 텍스트만 몰래 암호화할 수 없을까?"라는 레거시 인프라의 타협점이 FTPS를 탄생시켰다.
 
-- **💡 비유**: **고전 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)**가 투명한 유리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통해 물건을 보내는 것이라면, **FTPS**는 그 유리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 겉면에 두꺼운 검은색 시트지(SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))를 발라서 밖에서 안을 들여다볼 수 없게 만든 것입니다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 2개(제어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 써야 하고 설치가 복잡한 근본적인 뼈대는 그대로지만, 남이 쳐다보지 못하게 가리는 데는 성공했습니다.
+- **💡 비유**: <strong>고전 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a></strong>가 투명한 유리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통해 물건을 보내는 것이라면, <strong>FTPS</strong>는 그 유리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 겉면에 두꺼운 검은색 시트지(SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))를 발라서 밖에서 안을 들여다볼 수 없게 만든 것입니다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 2개(제어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 써야 하고 설치가 복잡한 근본적인 뼈대는 그대로지만, 남이 쳐다보지 못하게 가리는 데는 성공했습니다.
 
 - **등장 배경**:
   1. **평문 전송의 종말**: 비밀번호 탈취 사고가 속출하며 평문 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(Telnet, [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))들의 전면적인 암호화 퇴출 요구가 거세어졌다.
   2. **Netscape의 SSL 발명**: 1994년 넷스케이프가 만든 SSL 기술이 웹([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에서 대성공을 거두자, IETF는 이를 다른 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에도 적용하기 시작했다.
   3. **RFC 2228 제정**: 1997년, 기존 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 보안 관련 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`AUTH TLS`, `PROT P`)를 추가하는 스펙이 제정되며 FTPS가 공식 표준으로 자리 잡았다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          FTPS의 2가지 동작 모드 (Explicit vs Implicit)         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [ 1. 명시적 모드 (Explicit FTPS) ] - 포트 21번 유지 (표준)          │
-│                                                             │
-│ Client ────(포트 21, 처음엔 평문으로 접속)────▶ Server           │
-│         │                                         │         │
-│         │ "나 평문 싫어! AUTH TLS 할래!" (업그레이드 요청)│         │
-│         │◀───────────── (234 오케이, 암호화 시작!) ─│         │
-│         │                                         │         │
-│         ====== 🔒 이 순간부터 TLS 핸드셰이크 후 암호화 ======     │
-│         │                                         │         │
-│         │ (암호화) USER admin / PASS 1234 ────────▶│         │
-│                                                             │
-│ ----------------------------------------------------------- │
-│                                                             │
-│ [ 2. 묵시적 모드 (Implicit FTPS) ] - 포트 990번 사용 (비표준/사양)    │
-│                                                             │
-│ Client ────(포트 990, 묻지도 따지지도 않고 처음부터 🔒)──▶ Server  │
-│         │                                         │         │
-│         │ 💥 접속하자마자 즉시 TLS 핸드셰이크부터 강제 진행!│         │
-│         │                                         │         │
-│         │ (암호화) USER admin / PASS 1234 ────────▶│         │
-│                                                             │
-│ 🌟 실무 판단: 묵시적 모드(990)는 HTTPS(443)처럼 깔끔해 보이지만, 구형   │
-│ 클라이언트의 접속을 완전히 차단하는 비표준 꼼수다. 현대 인프라에선 기존    │
-│ 21번 포트를 쓰면서 협상을 통해 암호화로 전환하는 명시적(Explicit) 모드가 표준.│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FTPS의 2가지 동작 모드 (Explicit vs Implicit)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 명시적 모드 (Explicit FTPS)</div><div class="kb-diagram-note">- 포트 21번 유지 (표준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client (포트 21, 처음엔 평문으로 접속) ▶ Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 평문 싫어! AUTH TLS 할래!" (업그레이드 요청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (234 오케이, 암호화 시작!) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====== 🔒 이 순간부터 TLS 핸드셰이크 후 암호화 ======</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(암호화) USER admin / PASS 1234 ▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 묵시적 모드 (Implicit FTPS)</div><div class="kb-diagram-note">- 포트 990번 사용 (비표준/사양)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client (포트 990, 묻지도 따지지도 않고 처음부터 🔒)──▶ Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 접속하자마자 즉시 TLS 핸드셰이크부터 강제 진행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(암호화) USER admin / PASS 1234 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 실무 판단: 묵시적 모드(990)는 HTTPS(443)처럼 깔끔해 보이지만, 구형</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트의 접속을 완전히 차단하는 비표준 꼼수다. 현대 인프라에선 기존</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">21번 포트를 쓰면서 협상을 통해 암호화로 전환하는 명시적(Explicit) 모드가 표준.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** FTPS 구축 시 서버 관리자를 헷갈리게 하는 첫 번째 관문이다. Explicit(명시적) 모드는 우아한 타협안이다. 클라이언트가 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 똑같이 들어와서, 서버가 TLS를 지원하면 암호화 통신으로 진화(Upgrade)하고, 지원 안 하면 그냥 평문 FTP로 쓰거나 접속을 끊는다([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 극대화). 반면 Implicit(묵시적) 모드는 990번이라는 별도 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 파서 "여긴 무조건 암호화만 들어와"라고 벽을 친 방식이다. IETF는 표준 스펙에서 990번 묵시적 모드를 공식 폐기(Deprecated)하고, 명시적 모드(AUTH [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))만을 진정한 FTPS 스펙으로 인정하고 있다.
 
@@ -76,25 +67,29 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
 
 | 제어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) | 적용 대상 채널 | 기능 설명 | 비유 |
 |:---|:---|:---|:---|
-| **`AUTH TLS`** | **Control Channel (제어 채널)** | 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 통신을 평문에서 TLS로 업그레이드. (아이디, 비번 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지) | 내선 전화기 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지기 켜기 |
-| **`PROT C`** (Clear) | **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 암호화하지 않고 평문으로 전송. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본문은 그냥 보냄) | 짐은 그냥 투명 박스에 담기 |
-| **`PROT P`** (Private)| **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Channel ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널까지 완벽하게 TLS로 암호화 전송. (기밀문서 완벽 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | 짐도 강철 코팅 박스에 담기 |
+| <strong><code>AUTH TLS</code></strong> | **Control Channel (제어 채널)** | 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 통신을 평문에서 TLS로 업그레이드. (아이디, 비번 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지) | 내선 전화기 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지기 켜기 |
+| <strong><code>PROT C</code></strong> (Clear) | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Channel (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 암호화하지 않고 평문으로 전송. ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본문은 그냥 보냄) | 짐은 그냥 투명 박스에 담기 |
+| <strong><code>PROT P</code></strong> (Private)| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Channel (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널까지 완벽하게 TLS로 암호화 전송. (기밀문서 완벽 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) | 짐도 강철 코팅 박스에 담기 |
 
 실무에서는 당연히 제어 채널(`AUTH TLS`)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널(`PROT P`)을 모두 암호화하는 것이 기본이지만, 넷플릭스 영화처럼 해킹당해도 상관없는 거대한 대용량 미디어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 전송할 때는 CPU 암호화 부하를 아끼기 위해 제어 채널([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))만 암호화하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 평문(`PROT C`)으로 열어두는 기괴한 하이브리드 아키텍처 설계도 가능하다.
 
 ### 치명적 한계: 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) ALG와의 파멸적 충돌
 
-고전 FTP가 Passive 모드 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 때문에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 튕길 때, 똑똑한 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 패킷 내부 텍스트를 몰래 읽고 공인 IP로 고쳐주어 구원해 주던 기능이 **[ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) ([Application Layer Gateway](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/))**다.
-그런데 FTPS를 쓰는 순간, 텍스트가 TLS로 꽁꽁 암호화되므로 공유기([ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/))가 텍스트 안의 `PORT 192.168.x.x` 글자를 읽지 못한다! 결국 공유기는 수정을 포기하고 패킷을 그대로 던지게 되고, 사설 IP가 인터넷으로 노출되면서 **FTPS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널은 클라이언트단 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/공유기 환경에서 100% 무조건 접속 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)**이라는 파멸을 맞이하게 된다. 이를 해결하려면 서버와 클라이언트 양쪽의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 설정을 영혼까지 끌어모아 튜닝해야 하는 지옥이 열린다.
+고전 FTP가 Passive 모드 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 때문에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 튕길 때, 똑똑한 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 패킷 내부 텍스트를 몰래 읽고 공인 IP로 고쳐주어 구원해 주던 기능이 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">ALG</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">Application Layer Gateway</a>)</strong>다.
+그런데 FTPS를 쓰는 순간, 텍스트가 TLS로 꽁꽁 암호화되므로 공유기([ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/))가 텍스트 안의 `PORT 192.168.x.x` 글자를 읽지 못한다! 결국 공유기는 수정을 포기하고 패킷을 그대로 던지게 되고, 사설 IP가 인터넷으로 노출되면서 <strong>FTPS의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널은 클라이언트단 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/공유기 환경에서 100% 무조건 접속 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a></strong>이라는 파멸을 맞이하게 된다. 이를 해결하려면 서버와 클라이언트 양쪽의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 설정을 영혼까지 끌어모아 튜닝해야 하는 지옥이 열린다.
 
-```text
-[SFTP]
-    │
-    ▼
-[FTPS]
-    │
-    └──▶ [이메일 아키텍처]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SFTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FTPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이메일 아키텍처</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무사히 보내려면 중간에 경비 아저씨([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 주소 오타를 몰래 고쳐줘야 하는데, 편지봉투 전체를 강철 자물쇠([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))로 잠가버려서 경비 아저씨가 주소를 고쳐줄 수 없게 되어 결국 택배가 미아가 되는 비극입니다.
 
@@ -107,16 +102,16 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
 | 항목 | FTPS ([FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) over SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) | [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) ([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [File Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)) | 아키텍처 승자 |
 |:---|:---|:---|:---|
 | **근본 뿌리** | [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 기반 (RFC 959 확장) | [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 기반 (완전히 새로운 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | - |
-| **암호화 기술** | **SSL / [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)** ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 `.crt` 필요) | **[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)** (비대칭 키페어 `.pem` 필요) | - |
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사용** | **21번 (제어) + N만 개의 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))** | **22번 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (모든 통신 통합)** | **[SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 압승** ([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리의 신) |
-| **데몬(서버) 설치**| `vsftpd`, `proftpd` 등 별도 데몬 설치 및 세팅 | 리눅스 깔면 `sshd`에 100% 기본 내장 | **[SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 압승** (설치 공수 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) |
-| **[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과**| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 암호화 충돌로 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과 지옥 | 단일 터널이라 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 무사 통과 | **[SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 압승** (고객 민원 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) |
+| **암호화 기술** | <strong>SSL / <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a></strong> ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 `.crt` 필요) | <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a></strong> (비대칭 키페어 `.pem` 필요) | - |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 사용</strong> | <strong>21번 (제어) + N만 개의 랜덤 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong> | <strong>22번 단일 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (모든 통신 통합)</strong> | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a> 압승</strong> ([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리의 신) |
+| **데몬(서버) 설치**| `vsftpd`, `proftpd` 등 별도 데몬 설치 및 세팅 | 리눅스 깔면 `sshd`에 100% 기본 내장 | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a> 압승</strong> (설치 공수 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) |
+| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>/<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 통과</strong>| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 암호화 충돌로 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과 지옥 | 단일 터널이라 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 무사 통과 | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a> 압승</strong> (고객 민원 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) |
 
-오늘날 클라우드 및 엔터프라이즈 환경에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 아키텍처의 **사실상 표준(De facto)**은 SFTP다. FTPS는 기존 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 인프라를 버릴 수 없는 보수적인 조직(금융권 일부 레거시)이 억지로 수명을 연장하기 위해 쓰는 산소호흡기일 뿐이다.
+오늘날 클라우드 및 엔터프라이즈 환경에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 아키텍처의 <strong>사실상 표준(De facto)</strong>은 SFTP다. FTPS는 기존 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 인프라를 버릴 수 없는 보수적인 조직(금융권 일부 레거시)이 억지로 수명을 연장하기 위해 쓰는 산소호흡기일 뿐이다.
 
 ### 과목 융합 관점
 
-- **보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))**: FTPS는 웹 브라우저([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))와 마찬가지로 공인된 **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)(Certificate Authority)**로부터 발급받은 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 필요하다. 만약 서버에 자체 서명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(Self-Signed Certificate)를 대충 박아넣으면, FileZilla 클라이언트로 접속할 때 "알 수 없는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서입니다. 신뢰하시겠습니까?"라는 끔찍한 빨간색 팝업 경고창이 떠서 대고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 바닥으로 꽂아버린다.
+- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: FTPS는 웹 브라우저([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))와 마찬가지로 공인된 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>(Certificate Authority)</strong>로부터 발급받은 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 필요하다. 만약 서버에 자체 서명 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(Self-Signed Certificate)를 대충 박아넣으면, FileZilla 클라이언트로 접속할 때 "알 수 없는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서입니다. 신뢰하시겠습니까?"라는 끔찍한 빨간색 팝업 경고창이 떠서 대고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 바닥으로 꽂아버린다.
 - **클라우드 인프라 (AWS)**: AWS ALB(Application [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 전용 L7 스위치이므로 FTPS의 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 랜덤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 로드밸런싱할 수 없다. FTPS 서버 3대를 묶으려면 반드시 L4 수준의 NLB(Network [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))를 앞에 세워야 하며, Passive 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수천 개를 NLB의 Target Group과 EC2 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group에 1:1로 전부 매핑해서 뚫어줘야 하는 끔찍한 인프라 구성 빚을 떠안게 된다.
 
 - **📢 섹션 요약 비유**: FTPS가 '옛날 재래식 엔진 차에 비싼 껍데기(보안)만 씌운 차'라면, SFTP는 '애초에 설계부터 전기차(단일 터널)로 완전히 새로 뽑은 테슬라'입니다. 유지보수와 편리함에서 게임이 안 됩니다.
@@ -125,37 +120,37 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 구형 사내망 FTP의 보안 규제 ([ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)) 대응**: 보안 감사에서 "사내 인사팀 폴더 연동 시 평문 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 21번을 사용 중이므로 중대한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)"이라는 지적이 나왔다. 인사팀 서버는 15년 된 Windows Server 2008로 IIS(인터넷 정보 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 데몬이 돌고 있어 리눅스의 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))로 넘어가기엔 OS 교체 비용이 컸다.
+1. <strong>시나리오 — 구형 사내망 FTP의 보안 규제 (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/">ISMS</a>) 대응</strong>: 보안 감사에서 "사내 인사팀 폴더 연동 시 평문 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 21번을 사용 중이므로 중대한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)"이라는 지적이 나왔다. 인사팀 서버는 15년 된 Windows Server 2008로 IIS(인터넷 정보 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 데몬이 돌고 있어 리눅스의 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/)([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/))로 넘어가기엔 OS 교체 비용이 컸다.
    - **판단**: 이런 전형적인 레거시 OS 종속 환경에서는 FTPS 명시적 모드(Explicit) 도입이 정답이다. 기존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(21) 룰을 건드리지 않고, IIS 설정에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 `.pfx` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 밀어 넣고 "SSL 연결 강제 허용(AUTH [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))" 체크박스만 켜면 10분 만에 규제 컴플라이언스를 완벽히 준수하는 암호화 통신으로 둔갑할 수 있다. 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 빛을 발하는 순간이다.
 
-2. **시나리오 — FTPS 연동 협력사의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 붕괴**: 협력사가 FTPS(Explicit) 환경을 구축했다고 해서 우리 회사의 Java 배치 스크립트(Apache Commons Net [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))로 붙었다. 로그인은 잘 되는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 직전에 `425 Failed to establish connection`이 뜨며 터졌다.
+2. <strong>시나리오 — FTPS 연동 협력사의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 채널 붕괴</strong>: 협력사가 FTPS(Explicit) 환경을 구축했다고 해서 우리 회사의 Java 배치 스크립트(Apache Commons Net [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))로 붙었다. 로그인은 잘 되는데 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 직전에 `425 Failed to establish connection`이 뜨며 터졌다.
    - **판단**: 협력사의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어가 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 열어놓고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Passive) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 안 열었거나, 우리 쪽 NAT가 암호화된 `PASV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽지 못해 패킷이 미아가 된 것이다. 실무 팁: 자바 코드 단에서 `.execPBSZ(0)`와 `.execPROT("P")` 메서드를 명확히 순서대로 호출해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 암호화를 협상하고, `enterLocalPassiveMode()`를 켜서 클라이언트가 밖으로 나가도록 튜닝해야 간신히 통신이 수립된다. 그래도 안 되면 결국 협력사 인프라 팀을 갈궈서 Passive [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 범위를 넓게 타공하라고 압박하는 수밖에 없다.
 
-```text
-  ┌─────────────────────────────────────────────────────────────┐
-  │         실무 아키텍처: FTPS의 암호화 계층과 인증서 파이프라인        │
-  ├─────────────────────────────────────────────────────────────┤
-  │                                                             │
-  │ [인프라 세팅: SSL/TLS 인증서 탑재]                               │
-  │ 1. Let's Encrypt 나 Verisign에서 도메인(ftp.company.com) 인증서 발급│
-  │ 2. vsftpd.conf 설정:                                        │
-  │    rsa_cert_file=/etc/ssl/certs/ftp.crt                     │
-  │    rsa_private_key_file=/etc/ssl/private/ftp.key            │
-  │    ssl_enable=YES                                           │
-  │    force_local_data_ssl=YES  ◀─ 데이터 채널 평문 금지 🔒       │
-  │    force_local_logins_ssl=YES ◀─ 제어 채널 평문 금지 🔒       │
-  │                                                             │
-  │ [통신 검증: Wireshark 패킷 캡처 시야]                           │
-  │ Client ➔ Server: AUTH TLS (이때만 평문 노출)                   │
-  │ Server ➔ Client: 234 Proceed with negotiation.              │
-  │ === [ TLS Handshake 완료 ] ===                              │
-  │ Client ➔ Server: 0x1A 0xB4... (USER admin 이 암호화됨 🌟)    │
-  │ Client ➔ Server: 0x9F 0xC1... (PASS 1234 가 암호화됨 🌟)     │
-  │                                                             │
-  │ ✅ 판단: 설정 파일 몇 줄과 인증서만 있으면 낡은 FTP 데몬이 그 즉시      │
-  │ 최신 HTTPS 뺨치는 강력한 기밀성 방어 요새로 거듭난다. 단, 방화벽 지옥은 덤.│
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: FTPS의 암호화 계층과 인증서 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인프라 세팅: SSL/TLS 인증서 탑재</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Let's Encrypt 나 Verisign에서 도메인(ftp.company.com) 인증서 발급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. vsftpd.conf 설정:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rsa_cert_file=/etc/ssl/certs/ftp.crt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rsa_private_key_file=/etc/ssl/private/ftp.key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ssl_enable=YES</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">force_local_data_ssl=YES ◀─ 데이터 채널 평문 금지 🔒</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">force_local_logins_ssl=YES ◀─ 제어 채널 평문 금지 🔒</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">통신 검증: Wireshark 패킷 캡처 시야</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ➔ Server: AUTH TLS (이때만 평문 노출)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server ➔ Client: 234 Proceed with negotiation.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">===</div><div class="kb-diagram-node">TLS Handshake 완료</div><div class="kb-diagram-note">===</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ➔ Server: 0x1A 0xB4... (USER admin 이 암호화됨 🌟)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ➔ Server: 0x9F 0xC1... (PASS 1234 가 암호화됨 🌟)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 판단: 설정 파일 몇 줄과 인증서만 있으면 낡은 FTP 데몬이 그 즉시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 HTTPS 뺨치는 강력한 기밀성 방어 요새로 거듭난다. 단, 방화벽 지옥은 덤.</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 리눅스 `vsftpd` 환경에서 FTPS를 강제하는 모범 아키텍처 설정이다. `ssl_enable=YES`만 켜두면 평문 접속과 암호화 접속 양다리를 걸치게 되어 해커의 다운그레이드 공격에 당할 수 있다. 반드시 로긴(`force_local_logins_ssl`)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`force_local_data_ssl`) 모두 SSL을 강제(YES)해야 진정한 보안이 완성된다. 와이어샤크로 까봤을 때 오직 `AUTH TLS`라는 명시적 선언 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 딱 한 줄만 사람 눈에 보이고, 그 직후부터는 완벽한 우주어(이진 암호 스트림)로 바뀌어 날아가는 희열을 맛볼 수 있다.
 
@@ -164,7 +159,7 @@ FTPS가 일반적인 암호화 [프로토콜](/knowledge-base/studynote/03_netwo
 - **운영·보안적**: 발급받은 SSL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(X.509)의 만료일(보통 1년 또는 90일)을 모니터링 체계에 연동했는가? ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 만료되면 쉘 스크립트 백그라운드 배치가 일제히 `Certificate has expired` 에러를 뿜으며 전사 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 연동이 셧다운된다).
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 없이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)만 믿기**: "우리 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버는 인터넷에 안 열려있고 사내망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)) 안에서만 끼리끼리 통신하니까 암호화(FTPS) 필요 없고 그냥 평문 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 21번 쓸래"라는 안일한 인프라 철학. 현대 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 아키텍처에서는 내부망도 신뢰하지 않는다. 내부망 스위치가 감염([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))되면 사내망이 오히려 해커의 가장 달콤한 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 뷔페가 된다. 사내망이라도 반드시 FTPS나 SFTP로 암호화 캡슐을 씌워야 한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 없이 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>만 믿기</strong>: "우리 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버는 인터넷에 안 열려있고 사내망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)) 안에서만 끼리끼리 통신하니까 암호화(FTPS) 필요 없고 그냥 평문 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 21번 쓸래"라는 안일한 인프라 철학. 현대 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 아키텍처에서는 내부망도 신뢰하지 않는다. 내부망 스위치가 감염([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))되면 사내망이 오히려 해커의 가장 달콤한 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 뷔페가 된다. 사내망이라도 반드시 FTPS나 SFTP로 암호화 캡슐을 씌워야 한다.
 
 - **📢 섹션 요약 비유**: 아무리 집 안(사내망)이라고 해도 발가벗고(평문 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)) 돌아다니는 것은 위험합니다. 집에 혹시라도 도둑이나 쥐가 들어왔을 때를 대비해, 최소한의 두꺼운 잠옷(FTPS 암호화)은 항상 입고 자는 것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안의 기본입니다.
 
@@ -203,22 +198,26 @@ FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SFTP]
-    │
-    ▼
-[현재 개념: FTPS]
-    │
-    ├──▶ [확장 A: 이메일 아키텍처]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SFTP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FTPS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이메일 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 FTPS는 SFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이메일 아키텍처](/knowledge-base/studynote/03_network/09_application_layer_web_email/487_email_architecture_mua_mta_mda/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날 **[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)**는 투명한 비닐봉지에 물건을 담아 택배를 보내서 남들이 다 쳐다보는 위험한 시스템이었어요.
-2. **FTPS**는 똑같은 오토바이와 트럭([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21, 20)을 쓰지만, 비닐봉지 대신 **까만색 안전 코팅([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화)**을 덧발라서 절대 안을 훔쳐보지 못하게 만든 응급처치예요!
+1. 옛날 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a></strong>는 투명한 비닐봉지에 물건을 담아 택배를 보내서 남들이 다 쳐다보는 위험한 시스템이었어요.
+2. <strong>FTPS</strong>는 똑같은 오토바이와 트럭([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21, 20)을 쓰지만, 비닐봉지 대신 <strong>까만색 안전 코팅(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화)</strong>을 덧발라서 절대 안을 훔쳐보지 못하게 만든 응급처치예요!
 3. 하지만 짐 트럭이 들어올 큰 대문(랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 여전히 여러 개 뚫어야 하는 단점이 남아서, 결국 문을 딱 1개만 써도 되는 튼튼한 장갑차([SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/))에게 밀려나고 말았답니다.
 
 ---

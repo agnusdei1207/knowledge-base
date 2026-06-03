@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 50대가 밖으로 인터넷을 하려면 반드시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속에 있는 '[vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 소프트웨어)'를 거쳐야 했습니다.
 - 패킷 하나를 보낼 때마다 `VM 메모리 ➜ 하이퍼바이저 메모리(vSwitch) ➜ 물리 랜카드(NIC)`로 2~3번씩 복사(Copy)와 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching이 일어납니다. 10Gbps, 100Gbps 통신이 시작되면 서버의 CPU가 이 쓰레기 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(스위칭) 작업만 하다가 100% 뻗어버립니다.
 
-```text
-[DPDK 커널 우회 사용자 공간 고속 패킷…]
-    │
-    ▼
-[SR-IOV 통과 구조]
-    │
-    └──▶ [스마트NIC / DPU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV 통과 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC / DPU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) (컴퓨터 메인보드 슬롯) 표준 규격** 중 하나로, 한 개의 쇳덩어리 물리 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어 기기를, 마치 여러 개의 독립된 쇳덩어리 랜카드인 것처럼 논리적으로 잘게 쪼개어, **가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))과 물리 랜카드를 다이렉트로 직결(Pass-through)시켜버리는 하드웨어 기반의 입출력 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술**입니다.
+- **개념**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> (컴퓨터 메인보드 슬롯) 표준 규격</strong> 중 하나로, 한 개의 쇳덩어리 물리 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어 기기를, 마치 여러 개의 독립된 쇳덩어리 랜카드인 것처럼 논리적으로 잘게 쪼개어, <strong>가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 물리 랜카드를 다이렉트로 직결(Pass-through)시켜버리는 하드웨어 기반의 입출력 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술</strong>입니다.
 
-```text
-[DPDK 커널 우회 사용자 공간 고속 패킷…]
-    │
-    ▼
-[SR-IOV 통과 구조]
-    │
-    └──▶ [스마트NIC / DPU]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV 통과 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC / DPU</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,13 +65,13 @@ tags = ["studynote-network"]
 물리 랜카드 안의 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩을 아래 두 가지 부품으로 쪼갭니다.
 
 1. **PF (Physical Function, 물리 기능)**:
-   - 딱 1개만 존재하는 랜카드의 **'본체(대장)'**입니다. 
+   - 딱 1개만 존재하는 랜카드의 <strong>'본체(대장)'</strong>입니다. 
    - [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(VMWare, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 등)가 이 PF를 쥐고 랜카드의 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(속도, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 등)을 통제합니다.
 
 2. **VF (Virtual Function, 가상 기능)**:
-   - 대장 PF가 자기 능력을 쪼개서 만들어 낸 **수십, 수백 개의 '가짜 분신(부하)' 랜카드들**입니다.
-   - **다이렉트 패스스루([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Pass-through)**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 이 분신(VF) 하나하나를 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 엉덩이에 1:1로 다이렉트로 꽂아줍니다.
-   - **마법의 결과**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 윈도우 OS는 자기가 '소프트웨어 랜카드'를 쓰는 줄 모릅니다. **"오! 나한테 진짜 쇳덩어리 물리 랜카드(VF)가 직접 꽂혀있네!"**라고 완벽하게 착각하며, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))의 결재를 받지 않고 다이렉트로 VF를 통해 랜선 밖으로 패킷을 광속으로 쏴버립니다.
+   - 대장 PF가 자기 능력을 쪼개서 만들어 낸 <strong>수십, 수백 개의 '가짜 분신(부하)' 랜카드들</strong>입니다.
+   - <strong>다이렉트 패스스루(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> Pass-through)</strong>: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 이 분신(VF) 하나하나를 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 엉덩이에 1:1로 다이렉트로 꽂아줍니다.
+   - **마법의 결과**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 윈도우 OS는 자기가 '소프트웨어 랜카드'를 쓰는 줄 모릅니다. <strong>"오! 나한테 진짜 쇳덩어리 물리 랜카드(VF)가 직접 꽂혀있네!"</strong>라고 완벽하게 착각하며, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))의 결재를 받지 않고 다이렉트로 VF를 통해 랜선 밖으로 패킷을 광속으로 쏴버립니다.
 
 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…가 기반 조건을 만든다면, [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조는 그 위에서 핵심 메커니즘을 구현하고, 스마트NIC / DPU는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 - 패킷 복사(Copy)가 사라져 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 1ms 이하로 뚝 떨어집니다. 통신사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 핵심 코어망(UPF) 컨테이너를 띄울 때 필수적으로 켜야 하는 하드웨어 스펙입니다.
 
 **단점 (마이그레이션의 죽음)**
-- **하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)**: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 엉덩이에 1번 서버의 '진짜 쇳덩어리(VF)'를 억지로 용접해 놓은 꼴입니다.
+- <strong>하드웨어 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong>: [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 엉덩이에 1번 서버의 '진짜 쇳덩어리(VF)'를 억지로 용접해 놓은 꼴입니다.
 - **마이그레이션 불가**: 이 상태로 VM을 살려서 2번 서버로 이사([Live Migration](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/), 815번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 가려고 하면, 1번 서버의 쇳덩어리 랜카드를 뜯어서 가져갈 수가 없으므로 **이사 가는 순간 인터넷이 툭 끊기며 에러를 뿜습니다.** (클라우드의 생명인 '가상머신의 자유로운 이동'을 완전히 포기해야 하는 극단적 하드웨어 튜닝입니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))는 회사 사옥 1층의 '인간 경비원'입니다. 50개 부서([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 직원들이 택배를 보내려면 무조건 1층 경비원(CPU 소프트웨어)에게 택배를 주고 결재를 맡아야 해서 1층이 매일 꽉 막혔습니다. **[SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/)**는 경비원을 해고하고 건물 바깥 우체국(물리 랜카드)과 50개 부서 책상 사이에 **50개의 다이렉트 진공 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(VF)**를 벽을 뚫어(Pass-through) 강제로 공사해 버린 것입니다. 직원들은 경비원 허락 없이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 택배를 슝슝 날려버리니 속도가 미친 듯이 빠릅니다. 단, 책상에 쇠파이프(물리 하드웨어)가 용접되어 있기 때문에, 직원이 다른 층으로 이사(마이그레이션)를 가려고 하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 뜯을 수가 없어 이사를 포기해야 하는 치명적 단점이 있습니다.
+- **📢 섹션 요약 비유**: 기존 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))는 회사 사옥 1층의 '인간 경비원'입니다. 50개 부서([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 직원들이 택배를 보내려면 무조건 1층 경비원(CPU 소프트웨어)에게 택배를 주고 결재를 맡아야 해서 1층이 매일 꽉 막혔습니다. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a></strong>는 경비원을 해고하고 건물 바깥 우체국(물리 랜카드)과 50개 부서 책상 사이에 <strong>50개의 다이렉트 진공 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(VF)</strong>를 벽을 뚫어(Pass-through) 강제로 공사해 버린 것입니다. 직원들은 경비원 허락 없이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 택배를 슝슝 날려버리니 속도가 미친 듯이 빠릅니다. 단, 책상에 쇠파이프(물리 하드웨어)가 용접되어 있기 때문에, 직원이 다른 층으로 이사(마이그레이션)를 가려고 하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 뜯을 수가 없어 이사를 포기해야 하는 치명적 단점이 있습니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DPDK 커널 우회 사용자 공간 고속 패킷…]
-    │
-    ▼
-[현재 개념: SR-IOV 통과 구조]
-    │
-    ├──▶ [확장 A: 스마트NIC / DPU]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SR-IOV 통과 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트NIC / DPU</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC / DPU와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

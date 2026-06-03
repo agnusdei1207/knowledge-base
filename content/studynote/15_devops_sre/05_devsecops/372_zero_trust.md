@@ -31,23 +31,23 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              NIST SP 800-207 Zero Trust 구조                    │
-├──────────────────────────────────────────────────────────────────┤
-│  [주체: 사용자/기기/서비스]                                      │
-│         │                                                        │
-│  [PEP: Policy Enforcement Point]                                │
-│  접근 요청 중간자, 정책 집행                                     │
-│         │                                                        │
-│  [PE: Policy Engine + PA: Policy Administrator]                 │
-│  PDP (Policy Decision Point)                                    │
-│  신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정    │
-│         │                                                        │
-│  [보호 자원: 앱/API/데이터/서비스]                               │
-│  마이크로세그멘테이션으로 자원 간 격리                           │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST SP 800-207 Zero Trust 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">주체: 사용자/기기/서비스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PEP: Policy Enforcement Point</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 요청 중간자, 정책 집행</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PE: Policy Engine + PA: Policy Administrator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDP (Policy Decision Point)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">보호 자원: 앱/API/데이터/서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로세그멘테이션으로 자원 간 격리</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소          | 역할                                               | 구현 예시               |
 | :----------------- | :------------------------------------------------- | :---------------------- |
@@ -58,9 +58,9 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)               | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 양방향 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화                         | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)       |
 | [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)               | 사용자-앱 단위 최소 접근, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 대체                 | Cloudflare Access, Zscaler|
 
-**[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access)**: 사용자가 특정 애플리케이션에만 접근하며, 전체 네트워크 접근 권한을 부여하지 않는다. Agent-based (기기에 클라이언트 설치)와 Agentless (브라우저 기반)로 구분된다.
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a> Network Access)</strong>: 사용자가 특정 애플리케이션에만 접근하며, 전체 네트워크 접근 권한을 부여하지 않는다. Agent-based (기기에 클라이언트 설치)와 Agentless (브라우저 기반)로 구분된다.
 
-**[SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) ([Secure Access Service Edge](/knowledge-base/studynote/09_security/03_network_security/288_sase/))**: Gartner 2019년 제안. [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) + [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) ([Cloud Access Security Broker](/knowledge-base/studynote/09_security/16_data_privacy/829_casb/)) + [SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/) (Secure Web Gateway) + FWaaS ([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) + SD-WAN을 클라우드 기반으로 통합. Cloudflare One, Zscaler [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Exchange가 대표 구현이다.
+<strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a> (<a href="/knowledge-base/studynote/09_security/03_network_security/288_sase/">Secure Access Service Edge</a>)</strong>: Gartner 2019년 제안. [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) + [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) ([Cloud Access Security Broker](/knowledge-base/studynote/09_security/16_data_privacy/829_casb/)) + [SWG](/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/) (Secure Web Gateway) + FWaaS ([Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) + SD-WAN을 클라우드 기반으로 통합. Cloudflare One, Zscaler [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Exchange가 대표 구현이다.
 
 - 📢 섹션 요약 비유: ZTNA는 건물 내 모든 방의 열쇠가 개별 잠금장치로 되어 있는 것과 같다. 로비([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))에 들어왔다고 모든 방을 열 수 있는 것이 아니라, 각 방마다 신분증을 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -84,7 +84,7 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 도입 로드맵**
+<strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a> 도입 로드맵</strong>
 1. 신원 강화: [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) ([Multi-Factor Authentication](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)) 전사 적용, [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 통합 ([Okta](/knowledge-base/studynote/09_security/11_iam_access_control/551_okta_idaas/), Entra ID)
 2. 기기 상태 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) (Mobile Device [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 기기 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 점수 연동
 3. 네트워크 마이크로세그멘테이션: NSX-T 또는 [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 기반 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)/[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 격리
@@ -97,7 +97,7 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 - 규제 산업(금융·의료): [NIST SP 800-207](/knowledge-base/studynote/09_security/17_framework_compliance/850_nist_sp_800_207/) 준거 아키텍처 필수
 - 비용 최적화: 단계별 도입, 신원·[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 먼저, [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 이후, [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 통합 마지막
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 선언 후 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 미적용 → 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없는 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Trust는 허울뿐
 - [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 도입 후 레거시 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 병행 장기 유지 → 공격 경로 이중 노출
 - 마이크로세그멘테이션 과도 분할 → 운영 복잡도 폭증, 합법 트래픽 차단 빈번
@@ -131,24 +131,25 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경계 기반 보안 (방화벽 내부 신뢰)
-    │
-    ▼
-VPN (원격 접근 터널)
-    │
-    ▼
-ZTNA (사용자-앱 단위 최소 접근)
-    │
-    ▼
-NIST SP 800-207 ZTA (PEP/PDP/PE/PA)
-    │
-    ▼
-SASE (ZTNA+CASB+SWG+FWaaS 통합)
-    │
-    ▼
-AI 기반 적응형 Zero Trust (동적 리스크 점수)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경계 기반 보안 (방화벽 내부 신뢰)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VPN (원격 접근 터널)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZTNA (사용자-앱 단위 최소 접근)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NIST SP 800-207 ZTA (PEP/PDP/PE/PA)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SASE (ZTNA+CASB+SWG+FWaaS 통합)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI 기반 적응형 Zero Trust (동적 리스크 점수)</div>
+</div>
+</div>
+
+
 
 흐름은 "경계 신뢰 → 터널 기반 원격 접근 → 앱 단위 접근 제어 → 아키텍처 표준화 → 클라우드 통합 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 적응형"으로 진화한다.
 

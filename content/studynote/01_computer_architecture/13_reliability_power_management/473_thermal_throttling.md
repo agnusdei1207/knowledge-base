@@ -25,23 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 냉각 장치가 멀쩡해 보여도 칩 내부는 먼저 위험해질 수 있는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           왜 스로틀링이 필요한가: 열 발생 속도와 열 배출 속도의 차이       │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 워크로드 급증                                                               │
-│     │                                                                       │
-│     ▼                                                                       │
-│ 전력 소모 증가 ──▶ 다이 내부 열 발생 ──▶ 접합 온도 Tj 상승                  │
-│                                     │                                       │
-│                                     ├─ 냉각계가 따라오면 ───────▶ 정상 유지  │
-│                                     │                                       │
-│                                     └─ 냉각계가 늦으면 ───────▶ 한계 접근    │
-│                                                                │            │
-│                                                                ▼            │
-│                                               서멀 스로틀링 또는 비상 정지   │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 스로틀링이 필요한가: 열 발생 속도와 열 배출 속도의 차이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드 급증</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 소모 증가 ──▶ 다이 내부 열 발생 ──▶ 접합 온도 Tj 상승</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 냉각계가 따라오면 ▶ 정상 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 냉각계가 늦으면 ▶ 한계 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서멀 스로틀링 또는 비상 정지</div></div>
+</div>
+</div>
+
+
 
 즉 서멀 스로틀링은 냉각 장치가 못해서 생긴 보조 기능이 아니라, 열이 시간차를 두고 퍼지는 현실을 반영한 필수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계다. 강제 종료만을 마지막 수단으로 남겨 두고, 그 전에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 조금씩 내려 시스템을 안전 영역으로 되돌린다.
 
@@ -55,22 +52,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 센서가 본 온도를 어떤 순서로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한으로 바꾸는지를 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│           서멀 제어 루프: 센서가 감지하고, 하드웨어가 먼저 줄인다          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [DTS: 코어/캐시/패키지 센서] ──온도──▶ [열 제어기]                         │
-│                                         │                                 │
-│                                         ├─ 터보 부스트 해제               │
-│                                         ├─ P-state (Performance State) 하향│
-│                                         ├─ 전압 하향 · 클럭 감속          │
-│                                         ├─ T-state (Throttle State) 삭감  │
-│                                         ├─ 팬/펌프 가속 요청              │
-│                                         └─ 비상 차단 신호                 │
-│                                                                            │
-│ 제어 흐름: "미세 조정" → "강한 제한" → "물리 보호"                         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서멀 제어 루프: 센서가 감지하고, 하드웨어가 먼저 줄인다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DTS: 코어/캐시/패키지 센서</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">열 제어기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 터보 부스트 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ P-state (Performance State) 하향</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전압 하향 · 클럭 감속</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ T-state (Throttle State) 삭감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 팬/펌프 가속 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비상 차단 신호</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 흐름: "미세 조정" → "강한 제한" → "물리 보호"</div></div>
+</div>
+</div>
+
+
 
 가벼운 과열 단계에서는 P-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 하향과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조정을 통해 발열량을 줄이는 경우가 많다. 더 급한 상황에서는 듀티 사이클을 깎는 T-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 방식처럼 더 거친 제한이 동원되고, x86 계열에서는 대표적으로 PROCHOT# (Processor Hot) 신호로 플랫폼 전체에 과열을 알리기도 한다. 그래도 온도가 내려가지 않으면 최후에는 하드웨어가 비상 정지로 들어간다.
 
@@ -112,11 +110,11 @@ tags = ["studynote-computer-architecture"]
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **센서 동시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 코어 온도, 패키지 온도, 실제 주파수, 스로틀 플래그를 함께 본다.
+1. <strong>센서 동시 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 코어 온도, 패키지 온도, 실제 주파수, 스로틀 플래그를 함께 본다.
 2. **핫스팟 우선 판단**: 평균 온도보다 특정 코어 또는 캐시의 국소 온도가 먼저 임계치에 닿는지 본다.
 3. **열 경로 점검**: 히트싱크 압착, 서멀 인터페이스 재료, 팬 곡선, 흡기 온도, 랙 에어플로를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-4. **전력 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 분리**: 전력 제한 때문에 느린 것인지, 온도 때문에 느린 것인지 로그로 구분한다.
-5. **워크로드 특성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 벡터 연산 밀도, 지속적인 올코어 부하, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 사용 패턴이 핫스팟을 만드는지 본다.
+4. <strong>전력 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 분리</strong>: 전력 제한 때문에 느린 것인지, 온도 때문에 느린 것인지 로그로 구분한다.
+5. <strong>워크로드 특성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 벡터 연산 밀도, 지속적인 올코어 부하, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 사용 패턴이 핫스팟을 만드는지 본다.
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -134,9 +132,9 @@ tags = ["studynote-computer-architecture"]
 
 서멀 스로틀링의 가장 큰 효과는 과열 상황을 "즉시 장애"가 아니라 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 동반한 생존 모드"로 바꾼다는 점이다. 덕분에 프로세서는 손상을 피하고, 운영자는 냉각 부족이나 랙 설계 문제를 진단할 시간을 확보한다. 또한 열 폭주를 막으면 장기 신뢰성과 수명 측면에서도 이익이 크다.
 
-하지만 이것은 냉각을 대체하는 기술이 아니다. 스로틀링이 자주 발생하면 처리량이 흔들리고 응답시간이 늘어나며, 사용자 입장에서는 "사양은 높은데 오래 돌리면 느려지는 시스템"이 된다. 따라서 좋은 설계는 스로틀링이 **존재하되 자주 드러나지 않는 상태**를 목표로 해야 한다.
+하지만 이것은 냉각을 대체하는 기술이 아니다. 스로틀링이 자주 발생하면 처리량이 흔들리고 응답시간이 늘어나며, 사용자 입장에서는 "사양은 높은데 오래 돌리면 느려지는 시스템"이 된다. 따라서 좋은 설계는 스로틀링이 <strong>존재하되 자주 드러나지 않는 상태</strong>를 목표로 해야 한다.
 
-앞으로는 코어별 핫스팟 지도, 3차원 적층 패키지의 국소 열 제어, 스케줄러와 랙 냉각 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 연동이 더 중요해질 것이다. 결국 서멀 스로틀링은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이 아니라 **실리콘을 안전 영역에 붙잡아 두는 마지막 안전장치**로 기억하는 것이 정확하다.
+앞으로는 코어별 핫스팟 지도, 3차원 적층 패키지의 국소 열 제어, 스케줄러와 랙 냉각 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 연동이 더 중요해질 것이다. 결국 서멀 스로틀링은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기술이 아니라 <strong>실리콘을 안전 영역에 붙잡아 두는 마지막 안전장치</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 서멀 스로틀링은 운동선수가 탈진 직전에 페이스를 낮춰 완주를 노리는 전략과 같다. 기록은 조금 손해 보더라도, 쓰러져 경기를 끝내는 것보다는 훨씬 낫다.
 
@@ -155,21 +153,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 주파수 운용
-        │
-        ▼
-온칩 열 센서 도입
-        │
-        ▼
-DVFS 연계 온도 보호
-        │
-        ▼
-코어별 핫스팟 스로틀링
-        │
-        ▼
-시스템·랙 단위 열-전력 공동 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 주파수 운용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온칩 열 센서 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DVFS 연계 온도 보호</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">코어별 핫스팟 스로틀링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스템·랙 단위 열-전력 공동 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 "과열 시 정지"에서 "센서 기반 미세 제어"를 거쳐, 이제는 시스템 전체가 열과 전력을 함께 다루는 단계로 발전하고 있음을 보여준다.
 

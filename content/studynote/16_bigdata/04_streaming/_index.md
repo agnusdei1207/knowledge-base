@@ -17,23 +17,25 @@ tags = ["bigdata"]
 
 스트리밍 데이터는 "끝이 없는 데이터(Unbounded Data)"입니다. 기존의 데이터베이스나 배치 시스템은 데이터가 모두 도착했다고 가정하고 연산하지만, 스트리밍 시스템은 데이터가 영원히 들어온다고 가정하고 '창문(Window)' 단위로 잘라서 끊임없이 계산을 수행합니다.
 
-이 섹션에서는 스트리밍 파이프라인의 대동맥 역할을 하는 **Apache Kafka**와 실시간 연산의 표준인 **Apache Flink**, 그리고 스트리밍 처리 시스템이 반드시 보장해야 하는 `Exactly-Once`(정확히 한 번 처리) 시맨틱의 원리를 다룹니다.
+이 섹션에서는 스트리밍 파이프라인의 대동맥 역할을 하는 <strong>Apache Kafka</strong>와 실시간 연산의 표준인 **Apache Flink**, 그리고 스트리밍 처리 시스템이 반드시 보장해야 하는 `Exactly-Once`(정확히 한 번 처리) 시맨틱의 원리를 다룹니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-배치 처리 (Hadoop MapReduce)
-    │
-    ▼
-마이크로 배치 (Spark Streaming)
-    │
-    ▼
-진정한 스트리밍 (Apache Flink, Apache Storm)
-    │
-    ├─► Apache Kafka — 분산 메시지 큐 (영속성 스트림)
-    ├─► Exactly-Once 시맨틱
-    └─► Watermark 기반 이벤트 시간 처리
-    │
-    ▼
-카파 아키텍처 (배치 제거, 스트림 단일화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">배치 처리 (Hadoop MapReduce)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마이크로 배치 (Spark Streaming)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">진정한 스트리밍 (Apache Flink, Apache Storm)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Apache Kafka — 분산 메시지 큐 (영속성 스트림)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Exactly-Once 시맨틱</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Watermark 기반 이벤트 시간 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">카파 아키텍처 (배치 제거, 스트림 단일화)</div>
+</div>
+</div>
+
+

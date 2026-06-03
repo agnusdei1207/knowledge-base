@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 웹 쇼핑몰을 크롬(Chrome) 브라우저에 맞춰 기가 막히게 만들었다. 그런데 결제하려고 들어온 고객이 애플 맥북의 사파리(Safari) 브라우저를 쓰거나, 삼성페이 앱 내장 브라우저를 쓰자 결제 버튼이 화면 밖으로 밀려나 사라져버렸다. 이 고객은 영원히 떠난다. 안드로이드의 세계는 더 끔찍하다. 삼성, 샤오미, LG 기기마다 화면 비율, 노치 모양, OS 버전이 수천 가지로 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))되어 있다. 내 책상에서 잘 돈다고 세상에서 잘 돌 것이라는 착각을 깨부수기 위해 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 매트릭스가 필요하다.
 
-- **💡 비유**: [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트는 **'전기 플러그 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(돼지코) 테스트'**와 같습니다. 한국(크롬)에서 완벽하게 작동하는 헤어드라이어(소프트웨어)를 만들었습니다. 하지만 이것을 일본, 미국, 유럽(다양한 브라우저와 OS)에 들고 갔을 때 110V, 220V 구멍 모양에 상관없이 펑 터지지 않고 똑같이 따뜻한 바람을 내뿜는지 각 나라의 콘센트에 다 꽂아보는 필수 안전 검사입니다.
+- **💡 비유**: [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트는 <strong>'전기 플러그 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>(돼지코) 테스트'</strong>와 같습니다. 한국(크롬)에서 완벽하게 작동하는 헤어드라이어(소프트웨어)를 만들었습니다. 하지만 이것을 일본, 미국, 유럽(다양한 브라우저와 OS)에 들고 갔을 때 110V, 220V 구멍 모양에 상관없이 펑 터지지 않고 똑같이 따뜻한 바람을 내뿜는지 각 나라의 콘센트에 다 꽂아보는 필수 안전 검사입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **단일 플랫폼 시대**: 과거엔 윈도우(Windows) + IE(Internet Explorer) 천하였다. [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 걱정 없이 IE 하나에만 맞추면(ActiveX) 세상이 평화로웠다.
-  2. **모바일과 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))의 폭발**: 아이폰과 안드로이드가 등장하고, 브라우저가 크롬, 파이어폭스, 사파리로 나뉘면서 이른바 '파편화 지옥'이 열렸다. 화면 레이아웃이 미친 듯이 깨지기 시작했다.
+  2. <strong>모바일과 파편화(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>)의 폭발</strong>: 아이폰과 안드로이드가 등장하고, 브라우저가 크롬, 파이어폭스, 사파리로 나뉘면서 이른바 '파편화 지옥'이 열렸다. 화면 레이아웃이 미친 듯이 깨지기 시작했다.
   3. **디바이스 팜(Device Farm)과 클라우드 (현재)**: 회사가 수백 대의 폰을 살 수 없으므로, AWS Device Farm이나 BrowserStack 같은 클라우드 서비스가 등장했다. 한 번만 코드를 밀어 넣으면 지구상에 존재하는 1,000가지 기기 조합 화면을 캡처해서 보여주는 자동화 시대로 진화했다.
 
-- **📢 섹션 요약 비유**: [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트는 **'맞춤 정장(단일 환경)을 기성복([호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))으로 바꾸는 과정'**입니다. 모델 한 명 몸에 딱 맞춰 예쁘게 만든 옷을, 뚱뚱한 사람, 마른 사람, 팔이 긴 사람(다양한 기기와 화면) 등 수십만 명이 입었을 때도 찢어지지 않고 나름대로 핏이 살아있는지 모든 체형에 입혀보는 피팅 검사입니다.
+- **📢 섹션 요약 비유**: [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트는 <strong>'맞춤 정장(단일 환경)을 기성복(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>)으로 바꾸는 과정'</strong>입니다. 모델 한 명 몸에 딱 맞춰 예쁘게 만든 옷을, 뚱뚱한 사람, 마른 사람, 팔이 긴 사람(다양한 기기와 화면) 등 수십만 명이 입었을 때도 찢어지지 않고 나름대로 핏이 살아있는지 모든 체형에 입혀보는 피팅 검사입니다.
 
 ---
 
 다음은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트 (Compatibili의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  호환성 테스트 (Compatibili                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호환성 테스트 (Compatibili</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트 (Compatibili가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트 ([Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트 ([Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) Test)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 테스트 ([Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) Test)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-호환성 테스트 (Compatibility Test) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">호환성 테스트 (Compatibility Test) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

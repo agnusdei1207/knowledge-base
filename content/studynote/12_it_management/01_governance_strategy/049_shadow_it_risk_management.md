@@ -18,37 +18,38 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 섀도 IT 현황
 
-```
-섀도 IT (Shadow IT):
-  IT 부서 공식 승인 없이 사용되는 기술, 서비스, 기기
 
-규모:
-  Gartner: 기업 IT 지출의 40%가 섀도 IT (2021)
-  직원의 80%: 최소 1개 이상 미승인 앱 사용 (2022)
-  클라우드 앱 수: 대기업 평균 1,900개 (실제 승인: 30~50개)
 
-발생 원인:
-  IT 승인 프로세스 지연 (평균 3~6주)
-  → 직원이 즉시 사용 가능한 대안 선택
-  
-  비즈니스 요구 vs IT 표준의 갭:
-  "마케팅팀에 어제까지 데이터 보내야 하는데
-   IT가 2주 후에나 승인해준다 → 개인 Dropbox 사용"
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">섀도 IT (Shadow IT):</div>
+<div class="kb-diagram-note">IT 부서 공식 승인 없이 사용되는 기술, 서비스, 기기</div>
+<div class="kb-diagram-note">규모:</div>
+<div class="kb-diagram-note">Gartner: 기업 IT 지출의 40%가 섀도 IT (2021)</div>
+<div class="kb-diagram-note">직원의 80%: 최소 1개 이상 미승인 앱 사용 (2022)</div>
+<div class="kb-diagram-note">클라우드 앱 수: 대기업 평균 1,900개 (실제 승인: 30~50개)</div>
+<div class="kb-diagram-note">발생 원인:</div>
+<div class="kb-diagram-note">IT 승인 프로세스 지연 (평균 3~6주)</div>
+<div class="kb-diagram-note">→ 직원이 즉시 사용 가능한 대안 선택</div>
+<div class="kb-diagram-note">비즈니스 요구 vs IT 표준의 갭:</div>
+<div class="kb-diagram-note">"마케팅팀에 어제까지 데이터 보내야 하는데</div>
+<div class="kb-diagram-note">IT가 2주 후에나 승인해준다 → 개인 Dropbox 사용"</div>
+<div class="kb-diagram-note">주요 섀도 IT 사례:</div>
+<div class="kb-diagram-note">파일 공유: 개인 Google Drive, Dropbox, OneDrive</div>
+<div class="kb-diagram-note">협업: 개인 Slack, Discord, WhatsApp</div>
+<div class="kb-diagram-note">업무 도구: Notion, Trello, Airtable (개인 계정)</div>
+<div class="kb-diagram-note">AI: ChatGPT에 업무 데이터 입력</div>
+<div class="kb-diagram-note">개발: 미승인 라이브러리, 개인 GitHub</div>
+<div class="kb-diagram-note">하드웨어: 개인 USB, 스마트폰 핫스팟</div>
+<div class="kb-diagram-note">위험 분류:</div>
+<div class="kb-diagram-note">데이터 유출 (Data Exfiltration)</div>
+<div class="kb-diagram-note">컴플라이언스 위반 (GDPR, ISMS)</div>
+<div class="kb-diagram-note">취약점 노출 (패치 없는 앱)</div>
+<div class="kb-diagram-note">계정 공유/접근 통제 부재</div>
+</div>
+</div>
 
-주요 섀도 IT 사례:
-  파일 공유: 개인 Google Drive, Dropbox, OneDrive
-  협업: 개인 Slack, Discord, WhatsApp
-  업무 도구: Notion, Trello, Airtable (개인 계정)
-  AI: ChatGPT에 업무 데이터 입력
-  개발: 미승인 라이브러리, 개인 GitHub
-  하드웨어: 개인 USB, 스마트폰 핫스팟
 
-위험 분류:
-  데이터 유출 (Data Exfiltration)
-  컴플라이언스 위반 (GDPR, ISMS)
-  취약점 노출 (패치 없는 앱)
-  계정 공유/접근 통제 부재
-```
 
 > 📢 **섹션 요약 비유**: 섀도 IT = 몰래 사용하는 비공식 창고 — IT 창고(승인 시스템) 절차가 느려서 직원이 개인 창고(개인 클라우드) 사용. 보이지 않아 관리 불가, 보안 사고 위험!
 
@@ -56,42 +57,39 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 유형
 
-```
-섀도 IT 리스크 유형:
 
-1. 데이터 보안 리스크:
-  기밀 데이터 미승인 클라우드 업로드
-  
-  사례:
-  직원이 고객 DB → 개인 Google Sheets
-  → 고객 정보 유출 가능성
-  → GDPR 위반: €2천만 또는 매출 4% 과징금
 
-2. 접근 통제 리스크:
-  퇴직 직원 계정 회수 불가
-  
-  사례:
-  팀원 5명이 공유 Slack 사용
-  퇴직 직원: IT 모름 → 계정 유지 → 내부 채팅 접근
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">섀도 IT 리스크 유형:</div>
+<div class="kb-diagram-note">1. 데이터 보안 리스크:</div>
+<div class="kb-diagram-note">기밀 데이터 미승인 클라우드 업로드</div>
+<div class="kb-diagram-note">사례:</div>
+<div class="kb-diagram-note">직원이 고객 DB → 개인 Google Sheets</div>
+<div class="kb-diagram-note">→ 고객 정보 유출 가능성</div>
+<div class="kb-diagram-note">→ GDPR 위반: €2천만 또는 매출 4% 과징금</div>
+<div class="kb-diagram-note">2. 접근 통제 리스크:</div>
+<div class="kb-diagram-note">퇴직 직원 계정 회수 불가</div>
+<div class="kb-diagram-note">사례:</div>
+<div class="kb-diagram-note">팀원 5명이 공유 Slack 사용</div>
+<div class="kb-diagram-note">퇴직 직원: IT 모름 → 계정 유지 → 내부 채팅 접근</div>
+<div class="kb-diagram-note">3. 컴플라이언스 리스크:</div>
+<div class="kb-diagram-note">법적 요건 미충족 서비스 사용</div>
+<div class="kb-diagram-note">의료(HIPAA): 환자 데이터를 미국 외 서버에 저장 금지</div>
+<div class="kb-diagram-note">금융(PCI-DSS): 카드 데이터 특정 보안 기준 필요</div>
+<div class="kb-diagram-note">공공(ISMS): 중요 정보 자산 목록 관리 필수</div>
+<div class="kb-diagram-note">4. 운영 연속성 리스크:</div>
+<div class="kb-diagram-note">핵심 업무가 개인 계정 서비스에 의존</div>
+<div class="kb-diagram-note">사례:</div>
+<div class="kb-diagram-note">프로젝트 전체 문서를 개인 Notion에 저장</div>
+<div class="kb-diagram-note">담당자 퇴직 → 문서 접근 불가</div>
+<div class="kb-diagram-note">5. 기술 부채:</div>
+<div class="kb-diagram-note">미승인 도구 → 정식 시스템과 통합 어려움</div>
+<div class="kb-diagram-note">데이터 사일로 형성</div>
+</div>
+</div>
 
-3. 컴플라이언스 리스크:
-  법적 요건 미충족 서비스 사용
-  
-  의료(HIPAA): 환자 데이터를 미국 외 서버에 저장 금지
-  금융(PCI-DSS): 카드 데이터 특정 보안 기준 필요
-  공공(ISMS): 중요 정보 자산 목록 관리 필수
 
-4. 운영 연속성 리스크:
-  핵심 업무가 개인 계정 서비스에 의존
-  
-  사례:
-  프로젝트 전체 문서를 개인 Notion에 저장
-  담당자 퇴직 → 문서 접근 불가
-
-5. 기술 부채:
-  미승인 도구 → 정식 시스템과 통합 어려움
-  데이터 사일로 형성
-```
 
 > 📢 **섹션 요약 비유**: 섀도 IT 위험 = 비밀 거래처 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) — 공식 거래처(IT 승인)가 아닌 개인 거래처(섀도 IT). 품질 보증 없음(보안), 세금 신고 불가(컴플라이언스), 거래처 폐업 시 자료 없음(연속성)!
 
@@ -99,49 +97,44 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. CASB와 가시성 확보
 
-```
-CASB (Cloud Access Security Broker):
-  사용자 ↔ 클라우드 서비스 사이에서 보안 정책 강제
 
-위치:
-  직원 기기 → [CASB] → 클라우드 서비스
 
-기능:
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CASB (Cloud Access Security Broker):</div>
+<div class="kb-diagram-note">사용자 ↔ 클라우드 서비스 사이에서 보안 정책 강제</div>
+<div class="kb-diagram-note">위치:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CASB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">클라우드 서비스</div></div>
+<div class="kb-diagram-note">기능:</div>
+<div class="kb-diagram-note">1. Cloud App Discovery (가시성):</div>
+<div class="kb-diagram-note">모든 클라우드 앱 사용 현황 파악</div>
+<div class="kb-diagram-note">방법:</div>
+<div class="kb-diagram-note">네트워크 트래픽 로그 분석</div>
+<div class="kb-diagram-note">에이전트 기반 앱 사용 모니터링</div>
+<div class="kb-diagram-note">결과: 앱 목록 + 리스크 점수</div>
+<div class="kb-diagram-note">(업체 보안 등급, 컴플라이언스 인증 등)</div>
+<div class="kb-diagram-note">2. 정책 적용:</div>
+<div class="kb-diagram-note">고위험 앱: 차단</div>
+<div class="kb-diagram-note">중위험 앱: 사용 허용 + 경고</div>
+<div class="kb-diagram-note">저위험 앱: 허용</div>
+<div class="kb-diagram-note">사례:</div>
+<div class="kb-diagram-note">Google Drive(개인): 허용이지만 기밀 파일 업로드 차단</div>
+<div class="kb-diagram-note">Tor Browser: 완전 차단</div>
+<div class="kb-diagram-note">3. DLP (Data Loss Prevention):</div>
+<div class="kb-diagram-note">민감 데이터 클라우드 업로드 차단</div>
+<div class="kb-diagram-note">키워드 기반: "기밀", "고객 정보" 포함 파일</div>
+<div class="kb-diagram-note">정규식: 주민번호, 카드번호 패턴</div>
+<div class="kb-diagram-note">파일 유형: 특정 DB 덤프 파일</div>
+<div class="kb-diagram-note">4. 사용자 행동 분석 (UEBA):</div>
+<div class="kb-diagram-note">이상 패턴 탐지</div>
+<div class="kb-diagram-note">퇴직 예정자의 대량 다운로드 → 알림</div>
+<div class="kb-diagram-note">주요 제품:</div>
+<div class="kb-diagram-note">Netskope, Microsoft Defender for Cloud Apps</div>
+<div class="kb-diagram-note">Zscaler CASB, Cisco Cloudlock</div>
+</div>
+</div>
 
-1. Cloud App Discovery (가시성):
-  모든 클라우드 앱 사용 현황 파악
-  
-  방법:
-  네트워크 트래픽 로그 분석
-  에이전트 기반 앱 사용 모니터링
-  
-  결과: 앱 목록 + 리스크 점수
-  (업체 보안 등급, 컴플라이언스 인증 등)
 
-2. 정책 적용:
-  고위험 앱: 차단
-  중위험 앱: 사용 허용 + 경고
-  저위험 앱: 허용
-  
-  사례:
-  Google Drive(개인): 허용이지만 기밀 파일 업로드 차단
-  Tor Browser: 완전 차단
-
-3. DLP (Data Loss Prevention):
-  민감 데이터 클라우드 업로드 차단
-  
-  키워드 기반: "기밀", "고객 정보" 포함 파일
-  정규식: 주민번호, 카드번호 패턴
-  파일 유형: 특정 DB 덤프 파일
-
-4. 사용자 행동 분석 (UEBA):
-  이상 패턴 탐지
-  퇴직 예정자의 대량 다운로드 → 알림
-
-주요 제품:
-  Netskope, Microsoft Defender for Cloud Apps
-  Zscaler CASB, Cisco Cloudlock
-```
 
 > 📢 **섹션 요약 비유**: [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) = 세관 검사대 — 직원(사용자)이 클라우드(해외)로 가는 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모두 검사. 허가된 짐(승인 앱) OK. 금지 물품(기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 업로드) 압수. 허가 목록 없는 앱은 입국 차단!
 
@@ -149,39 +142,38 @@ CASB (Cloud Access Security Broker):
 
 ## Ⅳ. 거버넌스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```
-섀도 IT 거버넌스 전략:
 
-1. 차단보다 빠른 승인:
-  문제: IT 승인이 느려서 섀도 IT 발생
-  해결: 신속 승인 프로세스 (72시간 이내)
-  
-  서비스 카탈로그 확장:
-  자주 요청되는 SaaS 사전 검토 목록 운영
-  "즉시 사용 가능 앱" 목록 제공
 
-2. BYOA (Bring Your Own App) 정책:
-  직원이 앱 추천 → IT가 검토 → 빠른 승인
-  
-  기준:
-  SOC 2 Type II 인증 여부
-  SSO(Single Sign-On) 연동 가능 여부
-  데이터 저장 지역 (국내/EU 등)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">섀도 IT 거버넌스 전략:</div>
+<div class="kb-diagram-note">1. 차단보다 빠른 승인:</div>
+<div class="kb-diagram-note">문제: IT 승인이 느려서 섀도 IT 발생</div>
+<div class="kb-diagram-note">해결: 신속 승인 프로세스 (72시간 이내)</div>
+<div class="kb-diagram-note">서비스 카탈로그 확장:</div>
+<div class="kb-diagram-note">자주 요청되는 SaaS 사전 검토 목록 운영</div>
+<div class="kb-diagram-note">"즉시 사용 가능 앱" 목록 제공</div>
+<div class="kb-diagram-note">2. BYOA (Bring Your Own App) 정책:</div>
+<div class="kb-diagram-note">직원이 앱 추천 → IT가 검토 → 빠른 승인</div>
+<div class="kb-diagram-note">기준:</div>
+<div class="kb-diagram-note">SOC 2 Type II 인증 여부</div>
+<div class="kb-diagram-note">SSO(Single Sign-On) 연동 가능 여부</div>
+<div class="kb-diagram-note">데이터 저장 지역 (국내/EU 등)</div>
+<div class="kb-diagram-note">3. SSO 연동 강제:</div>
+<div class="kb-diagram-note">승인된 앱은 기업 SSO로 로그인 강제</div>
+<div class="kb-diagram-note">개인 계정 사용 불가</div>
+<div class="kb-diagram-note">→ 퇴직 시 즉시 접근 차단</div>
+<div class="kb-diagram-note">4. 정기 앱 감사:</div>
+<div class="kb-diagram-note">분기별 사용 앱 재검토</div>
+<div class="kb-diagram-note">미사용 앱 라이선스 해지</div>
+<div class="kb-diagram-note">신규 미승인 앱 발견 → 조치</div>
+<div class="kb-diagram-note">5. 교육 및 인식:</div>
+<div class="kb-diagram-note">섀도 IT 위험 교육 (GDPR, 정보 유출)</div>
+<div class="kb-diagram-note">보고 인센티브: 미승인 앱 발견 → IT 신고</div>
+</div>
+</div>
 
-3. SSO 연동 강제:
-  승인된 앱은 기업 SSO로 로그인 강제
-  개인 계정 사용 불가
-  → 퇴직 시 즉시 접근 차단
 
-4. 정기 앱 감사:
-  분기별 사용 앱 재검토
-  미사용 앱 라이선스 해지
-  신규 미승인 앱 발견 → 조치
-
-5. 교육 및 인식:
-  섀도 IT 위험 교육 (GDPR, 정보 유출)
-  보고 인센티브: 미승인 앱 발견 → IT 신고
-```
 
 > 📢 **섹션 요약 비유**: 섀도 IT 거버넌스 = 편의점 화장실 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) — "화장실 없다고 근처 카페 몰래 사용(섀도 IT)". 해결책: 화장실 쉽게 사용하게(빠른 승인). 고위험 구역은 잠금(차단). 모든 방문 기록([CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/))!
 
@@ -189,48 +181,45 @@ CASB (Cloud Access Security Broker):
 
 ## Ⅴ. 실무 시나리오 — [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) 도입 효과
 
-```
-IT 기업 CASB 도입 사례:
 
-배경:
-  직원 1,500명 테크 기업
-  원격 근무 확대 후 섀도 IT 급증
-  개인 ChatGPT에 코드 붙여넣기 관행
 
-도입 전 현황:
-  CASB 트래픽 분석 결과:
-  총 클라우드 앱 사용: 847개
-  IT 공식 승인: 47개
-  섀도 앱: 800개 (94.4%)
-  
-  고위험 발견:
-  개인 ChatGPT: 320명 사용, 일 평균 15회 코드 입력
-  개인 Google Drive: 450명 사용
-  Telegram 업무 채널: 120명
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">IT 기업 CASB 도입 사례:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">직원 1,500명 테크 기업</div>
+<div class="kb-diagram-note">원격 근무 확대 후 섀도 IT 급증</div>
+<div class="kb-diagram-note">개인 ChatGPT에 코드 붙여넣기 관행</div>
+<div class="kb-diagram-note">도입 전 현황:</div>
+<div class="kb-diagram-note">CASB 트래픽 분석 결과:</div>
+<div class="kb-diagram-note">총 클라우드 앱 사용: 847개</div>
+<div class="kb-diagram-note">IT 공식 승인: 47개</div>
+<div class="kb-diagram-note">섀도 앱: 800개 (94.4%)</div>
+<div class="kb-diagram-note">고위험 발견:</div>
+<div class="kb-diagram-note">개인 ChatGPT: 320명 사용, 일 평균 15회 코드 입력</div>
+<div class="kb-diagram-note">개인 Google Drive: 450명 사용</div>
+<div class="kb-diagram-note">Telegram 업무 채널: 120명</div>
+<div class="kb-diagram-note">조치:</div>
+<div class="kb-diagram-note">1. 즉시 차단 (고위험):</div>
+<div class="kb-diagram-note">개인 ChatGPT 차단</div>
+<div class="kb-diagram-note">(대신 기업 Azure OpenAI 배포)</div>
+<div class="kb-diagram-note">개인 Google Drive → 기업 Google Workspace로 이전</div>
+<div class="kb-diagram-note">2. 신속 승인 프로세스:</div>
+<div class="kb-diagram-note">48시간 내 승인 SLA 수립</div>
+<div class="kb-diagram-note">자주 요청 앱 사전 목록 구성</div>
+<div class="kb-diagram-note">Notion(팀용) → SSO 연동 후 공식 승인</div>
+<div class="kb-diagram-note">3. DLP 정책:</div>
+<div class="kb-diagram-note">코드 파일(.py, .java 등) 외부 업로드 모니터링</div>
+<div class="kb-diagram-note">개인 정보 패턴 업로드 차단</div>
+<div class="kb-diagram-note">결과 (6개월):</div>
+<div class="kb-diagram-note">고위험 섀도 앱: 800개 → 23개</div>
+<div class="kb-diagram-note">직원 민원: 처음 2주 증가 후 감소</div>
+<div class="kb-diagram-note">보안 인시던트: 전년 대비 67% 감소</div>
+<div class="kb-diagram-note">직원 만족도: "대안 제공" 덕분에 수용성 높음</div>
+</div>
+</div>
 
-조치:
 
-1. 즉시 차단 (고위험):
-  개인 ChatGPT 차단
-  (대신 기업 Azure OpenAI 배포)
-  
-  개인 Google Drive → 기업 Google Workspace로 이전
-
-2. 신속 승인 프로세스:
-  48시간 내 승인 SLA 수립
-  자주 요청 앱 사전 목록 구성
-  Notion(팀용) → SSO 연동 후 공식 승인
-
-3. DLP 정책:
-  코드 파일(.py, .java 등) 외부 업로드 모니터링
-  개인 정보 패턴 업로드 차단
-
-결과 (6개월):
-  고위험 섀도 앱: 800개 → 23개
-  직원 민원: 처음 2주 증가 후 감소
-  보안 인시던트: 전년 대비 67% 감소
-  직원 만족도: "대안 제공" 덕분에 수용성 높음
-```
 
 > 📢 **섹션 요약 비유**: [CASB](/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/) 도입 = 회사 복지 개선 + 규정 강화 — 몰래 쓰던 개인 앱 차단하면서 공식 대안(Azure OpenAI, Workspace) 제공. 고위험 800개→23개. "차단만"은 반발, "대안 제공"이 성공!
 

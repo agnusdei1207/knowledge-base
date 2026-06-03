@@ -33,19 +33,19 @@ UPS의 핵심 구조는 정류기, 직류 [버스](/knowledge-base/studynote/01_
 
 아래 그림은 온라인 UPS의 대표적인 전력 경로를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                   Online UPS power conditioning path                      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Utility AC ─▶ Rectifier ─▶ DC Bus ─▶ Inverter ─▶ Critical Load           │
-│                     │          ▲                                          │
-│                     │          │                                          │
-│                     └────▶ Battery / BMS                                 │
-│                                                                            │
-│ Utility AC ─────────────────────▶ Static Bypass ───────────────────────▶  │
-│                               (fault or maintenance path)                 │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Online UPS power conditioning path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility AC ─▶ Rectifier ─▶ DC Bus ─▶ Inverter ─▶ Critical Load</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Battery / BMS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility AC ▶ Static Bypass ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(fault or maintenance path)</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -97,7 +97,7 @@ UPS 토폴로지는 [보호](/knowledge-base/studynote/02_operating_system/10_se
 - 바이패스 경로와 정비 절차 없이 "배터리만 크면 된다"고 보는 설계
 - 배터리 수명과 온도 보정을 무시한 채 명판 런타임만 믿는 운영
 
-좋은 UPS 설계는 정전 순간만이 아니라 평상시 유지보수에서도 차이를 만든다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 구조와 정적 바이패스가 있으면 장비를 멈추지 않고도 일부 부품을 교체할 수 있고, 장애를 부분 고장으로 국한할 수 있다. 기술사 관점에서는 용량보다 **어떤 품질의 전기를 얼마나 오래, 어떤 중복도로 공급할 것인가**를 먼저 묻는 것이 맞다.
+좋은 UPS 설계는 정전 순간만이 아니라 평상시 유지보수에서도 차이를 만든다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 구조와 정적 바이패스가 있으면 장비를 멈추지 않고도 일부 부품을 교체할 수 있고, 장애를 부분 고장으로 국한할 수 있다. 기술사 관점에서는 용량보다 <strong>어떤 품질의 전기를 얼마나 오래, 어떤 중복도로 공급할 것인가</strong>를 먼저 묻는 것이 맞다.
 
 - **📢 섹션 요약 비유**: UPS 설계는 비상구를 많이 만드는 것만으로 끝나지 않는다. 불이 났을 때 문이 실제로 열리는지, 사람이 빠져나갈 동안 복도가 버텨 주는지까지 함께 설계해야 한다.
 
@@ -107,7 +107,7 @@ UPS 토폴로지는 [보호](/knowledge-base/studynote/02_operating_system/10_se
 
 UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단으로 이어지는 사슬을 끊을 수 있다. 장비 재부팅과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상을 줄이고, 유지보수 중에도 안정된 전원을 유지하며, 발전기·PDU·배터리 관리를 하나의 운영 체계로 묶을 수 있다. 특히 고밀도 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 UPS 효율과 배터리 기술이 곧 전력 손실, 공간 사용, 탄소 전략과 연결된다.
 
-다만 UPS는 영원한 전원원이 아니며, 잘못 설계하면 오히려 큰 단일 장애점이 될 수 있다. 따라서 UPS는 "정전 대비 배터리"로만 외우기보다, **전력 품질 정화 + 순간 무정전 + 상위 비상전원 연결**을 동시에 수행하는 아키텍처 컴포넌트로 이해해야 한다. 앞으로는 리튬이온, 플라이휠, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 전력망 연계 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확대되면서 UPS도 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치에서 에너지 운영 자산으로 진화할 가능성이 크다.
+다만 UPS는 영원한 전원원이 아니며, 잘못 설계하면 오히려 큰 단일 장애점이 될 수 있다. 따라서 UPS는 "정전 대비 배터리"로만 외우기보다, <strong>전력 품질 정화 + 순간 무정전 + 상위 비상전원 연결</strong>을 동시에 수행하는 아키텍처 컴포넌트로 이해해야 한다. 앞으로는 리튬이온, 플라이휠, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화, 전력망 연계 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 확대되면서 UPS도 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치에서 에너지 운영 자산으로 진화할 가능성이 크다.
 
 - **📢 섹션 요약 비유**: UPS는 경기장의 교체 선수 벤치와 같다. 주전 전원이 넘어져도 경기가 멈추지 않게 즉시 들어가고, 다음 지원 선수인 발전기가 도착할 때까지 시간을 벌어 준다.
 
@@ -125,24 +125,26 @@ UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-상용 전원 직접 공급
-    │
-    ▼
-오프라인 UPS
-: 정전 시 배터리 절체
-    │
-    ▼
-라인 인터랙티브 UPS
-: 전압 조정 기능 추가
-    │
-    ▼
-온라인 이중 변환 UPS
-: 상시 전력 정화 · 0ms급 절체
-    │
-    ▼
-모듈형 UPS · 리튬이온 · 발전기 연계 · 에너지 서비스화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">상용 전원 직접 공급</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오프라인 UPS</div>
+<div class="kb-diagram-note">: 정전 시 배터리 절체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">라인 인터랙티브 UPS</div>
+<div class="kb-diagram-note">: 전압 조정 기능 추가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온라인 이중 변환 UPS</div>
+<div class="kb-diagram-note">: 상시 전력 정화 · 0ms급 절체</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈형 UPS · 리튬이온 · 발전기 연계 · 에너지 서비스화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 생태계에서 가장 널리 알려지고 역사 깊은 초창기 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/)([Container Network Interface](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/100_cni_container_network_interface_flannel_calico/)) 플러그인 중 하나입니다. 코어OS(CoreOS)에서 개발했습니다.
 - **철학**: "[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 그딴 거 몰라도 됨! 그냥 물리 네트워크 구조가 어떻든 간에 신경 끄고, 모든 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드(서버)들을 거대한 가상 네트워크(Overlay) 하나로 묶어줄게!"
 
-```text
-[컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
-[Flannel]
-    │
-    └──▶ [Calico]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flannel</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Calico</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Flannel는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,26 +41,30 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Flannel은 백엔드 방식으로 여러 가지를 지원하지만, 99% 실무에서는 **[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) (817번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))** 방식을 씁니다.
+Flannel은 백엔드 방식으로 여러 가지를 지원하지만, 99% 실무에서는 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> (817번 문서 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong> 방식을 씁니다.
 
 1. **IP 대역 쪼개주기**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 전체에 `10.244.0.0/16` 이라는 거대한 가상 IP 덩어리를 줍니다. Flannel은 1번 서버(노드)에는 `10.244.1.0/24`를, 2번 서버에는 `10.244.2.0/24`를 사이좋게 떼어서 나눠줍니다.
 2. **포장지 씌우기 (Encapsulation)**: 
    - 1번 서버의 A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 2번 서버의 B [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 데이터를 쏩니다.
-   - 데이터가 서버 밖으로 나가기 직전, 1번 서버 바닥에 깔린 **flanneld (데몬 에이전트)**가 이 패킷을 낚아챕니다.
-   - 그리고 이 패킷을 커다란 '일반 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 택배 박스([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 껍데기)' 안에 쏙 넣고, 겉면 주소에 **"2번 서버의 진짜 물리적 IP 주소"**를 적어서 던집니다.
+   - 데이터가 서버 밖으로 나가기 직전, 1번 서버 바닥에 깔린 <strong>flanneld (데몬 에이전트)</strong>가 이 패킷을 낚아챕니다.
+   - 그리고 이 패킷을 커다란 '일반 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 택배 박스([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 껍데기)' 안에 쏙 넣고, 겉면 주소에 <strong>"2번 서버의 진짜 물리적 IP 주소"</strong>를 적어서 던집니다.
 3. **물리망의 속임수 통과**:
    - 데이터센터의 진짜 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(언더레이) 장비들은 "어? 그냥 1번 서버가 2번 서버로 평범한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷 보내는 거네?" 하고 묻지도 따지지도 않고 배달해 줍니다. 중간 라우터들은 박스 안에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) IP가 들어있는지 꿈에도 모릅니다.
 4. **목적지 해체 (Decapsulation)**:
    - 2번 서버의 `flanneld`가 박스를 받아 칼로 북북 찢습니다(디캡슐레이션). 그 안에서 원래 A가 보냈던 순수한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 패킷을 꺼내 B [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에게 살포시 건네줍니다.
 
-```text
-[컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
-[Flannel]
-    │
-    └──▶ [Calico]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flannel</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Calico</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Flannel의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ Flannel은 백엔드 방식으로 여러 가지를 지원하지만, 99% 실무�
 
 ### 2. 한계: 속도 저하와 보안의 부재
 - **캡슐화 오버헤드 폭발**: 패킷을 계속 박스로 싸고(Encap), 뜯고(Decap) 하는 작업을 리눅스 커널이 CPU를 갈아 넣어 해야 하므로 패킷 하나 보낼 때마다 미세한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 생기고 전송 속도가 떨어집니다. (다음 824번 Calico가 이 문제를 박살 냅니다.)
-- **Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 지원 불가 🌟**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 생명은 "웹 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)만 DB [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)에 접속할 수 있어!"라는 깐깐한 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 거는 것인데, Flannel은 길만 뚫을 줄 알지 이 **보안 통제 기능이 아예 없어서 실무(운영망)에서 쓸 수가 없습니다.**
+- <strong>Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> 지원 불가 🌟</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 생명은 "웹 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)만 DB [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)에 접속할 수 있어!"라는 깐깐한 미니 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 거는 것인데, Flannel은 길만 뚫을 줄 알지 이 **보안 통제 기능이 아예 없어서 실무(운영망)에서 쓸 수가 없습니다.**
 
 Flannel를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 망…가 기반 조건을 만든다면, Flannel는 그 위에서 핵심 메커니즘을 구현하고, Calico는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +88,7 @@ Flannel를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: Flannel은 국가(물리 라우터)의 감시를 피해 물건을 주고받는 완벽한 '우체국 이중 포장 꼼수'입니다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 마을([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 주민들은 국가에 등록되지 않은 불법 거주자들입니다. 1번 동네 주민 A가 2번 동네 주민 B에게 편지를 직접 보내면 우체국(물리 라우터)에서 주소를 몰라 편지를 찢어버립니다. **Flannel 요원**은 A의 편지를 뺏어서, 겉면에 '합법적인 1번 동네 이장 ➜ 2번 동네 이장(진짜 서버 IP)'이라고 적힌 대형 합법 봉투([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/))에 넣어 이중 포장을 합니다. 우체국은 겉봉투만 보고 무사통과시켜 줍니다. 2번 동네에 도착하면 요원이 겉봉투를 뜯고 진짜 편지를 B에게 몰래 전해줍니다. 도로 공사([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))가 전혀 필요 없는 기적의 밀수망이지만, 매번 편지를 이중 포장하고 뜯느라 우체국 직원이 땀을 뻘뻘 흘려(CPU 과부하) 속도가 좀 느린 것이 흠입니다.
+- **📢 섹션 요약 비유**: Flannel은 국가(물리 라우터)의 감시를 피해 물건을 주고받는 완벽한 '우체국 이중 포장 꼼수'입니다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 마을([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 주민들은 국가에 등록되지 않은 불법 거주자들입니다. 1번 동네 주민 A가 2번 동네 주민 B에게 편지를 직접 보내면 우체국(물리 라우터)에서 주소를 몰라 편지를 찢어버립니다. <strong>Flannel 요원</strong>은 A의 편지를 뺏어서, 겉면에 '합법적인 1번 동네 이장 ➜ 2번 동네 이장(진짜 서버 IP)'이라고 적힌 대형 합법 봉투([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/))에 넣어 이중 포장을 합니다. 우체국은 겉봉투만 보고 무사통과시켜 줍니다. 2번 동네에 도착하면 요원이 겉봉투를 뜯고 진짜 편지를 B에게 몰래 전해줍니다. 도로 공사([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))가 전혀 필요 없는 기적의 밀수망이지만, 매번 편지를 이중 포장하고 뜯느라 우체국 직원이 땀을 뻘뻘 흘려(CPU 과부하) 속도가 좀 느린 것이 흠입니다.
 
 ---
 
@@ -122,15 +130,19 @@ Flannel는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 컨테이너 네트워킹 인터페이스 쿠버네티스 망…]
-    │
-    ▼
-[현재 개념: Flannel]
-    │
-    ├──▶ [확장 A: Calico]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 컨테이너 네트워킹 인터페이스 쿠버네티스 망…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Flannel</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Calico</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 Flannel는 [컨테이너 네트워킹 인터페이스](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 망…에서 출발해 현재 메커니즘을 정교화하고, 이후 Calico와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: **전력 소모를 극한으로 줄여(Low-[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) 배터리 하나로 수년을 버티면서도, 전파 도달 거리는 와이파이와 달리 반경 수 km ~ 수십 km(Wide-Area)에 달하는 획기적인 통신 네트워크 기술**입니다.
+- **개념**: <strong>전력 소모를 극한으로 줄여(Low-<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a>) 배터리 하나로 수년을 버티면서도, 전파 도달 거리는 와이파이와 달리 반경 수 km ~ 수십 km(Wide-Area)에 달하는 획기적인 통신 네트워크 기술</strong>입니다.
 - **등장 배경**: 광활한 바다 양식장 온도 센서, 깊은 산속 송전탑 감시 센서, 아파트 지하실의 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)/수도 계량기 원격 검침 등에는 값비싼 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 요금제나 짧은 거리의 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))를 쓸 수 없습니다. 값싸게, 멀리, 오래가는 제3의 망이 필요해 탄생했습니다.
 
-```text
-[RPL]
-    │
-    ▼
-[LPWAN 개요]
-    │
-    └──▶ [비면허 대역 LPWAN 분야]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RPL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,23 +41,27 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 하나, **'속도([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Rate)와 실시간성을 잔인하게 포기'**했기 때문입니다.
+LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 하나, <strong>'속도(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Rate)와 실시간성을 잔인하게 포기'</strong>했기 때문입니다.
 
 1. **극단적인 저속 통신**: 
    - 전송 속도가 고작 100 bps ~ 수백 Kbps 수준입니다. 음악이나 사진은 절대 보낼 수 없으며, "현재 온도 24도", "수도 사용량 10L" 같은 몇 바이트짜리 텍스트 숫자만 하루에 한두 번 보냅니다.
-2. **좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) (Narrowband) 집중**: 
+2. <strong>좁은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (Narrowband) 집중</strong>: 
    - 돋보기로 햇빛을 모아 종이를 태우듯, 아주 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(차선)으로 전파의 힘(에너지)을 한 점으로 쫙 모아 쏘기 때문에, 작은 배터리 힘으로도 수십 km를 날아가고 지하 3층 콘크리트 벽까지 뚫고 나갑니다.
 3. **가벼운 프로토콜과 수면 모드**: 
    - 통신 연결 과정이 매우 단순하고, 평소에는 완전 기절 상태(Deep Sleep)로 있다가 하루에 딱 몇 초만 일어나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 잡니다.
 
-```text
-[RPL]
-    │
-    ▼
-[LPWAN 개요]
-    │
-    └──▶ [비면허 대역 LPWAN 분야]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RPL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,10 +73,10 @@ LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 �
 
 1. **비면허 대역 (Unlicensed Band)**: 
    - 누구나 공짜로 쓸 수 있는 주파수 대역(주로 900MHz 이하 Sub-1GHz 대역)을 쓰는 방식. 통신사를 거치지 않고 개인이 직접 안테나를 사다 망을 깔 수 있습니다.
-   - 대표 선수: **[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)([로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)), [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/)([시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/))**
+   - 대표 선수: <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>), <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">Sigfox</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/">시그폭스</a>)</strong>
 2. **면허 대역 (Licensed Band)**: 
    - SKT, KT 같은 이동통신사가 돈을 내고 정부에서 산 독점 주파수([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 대역)의 남는 자투리 공간을 활용하는 방식. 품질이 보장되고 통신사가 전국망을 다 깔아주는 대신 매월 요금을 내야 합니다.
-   - 대표 선수: **[NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/), [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) ([eMTC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))**
+   - 대표 선수: <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/">NB-IoT</a>, <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">eMTC</a>)</strong>
 
 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. RPL가 기반 조건을 만든다면, [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요는 그 위에서 핵심 메커니즘을 구현하고, 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -120,15 +128,19 @@ LPWAN이 장거리 통신과 10년 배터리를 동시에 이룬 비결은 단 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: RPL]
-    │
-    ▼
-[현재 개념: LPWAN 개요]
-    │
-    ├──▶ [확장 A: 비면허 대역 LPWAN 분야]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RPL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LPWAN 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비면허 대역 LPWAN 분야</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요는 RPL에서 출발해 현재 메커니즘을 정교화하고, 이후 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

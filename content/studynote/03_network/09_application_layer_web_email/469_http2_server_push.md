@@ -26,32 +26,33 @@ tags = ["studynote-network"]
 - **💡 비유**: 식당에서 손님이 "햄버거 세트"를 주문했을 때, 종업원이 햄버거를 먼저 가져다주고 나중에 손님이 "콜라 주세요", "감자튀김 주세요"라고 할 때마다 다시 주방을 오가는 것이 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1입니다. 반면, 서버 푸시는 종업원이 햄버거를 줄 때 알아서 콜라와 감자튀김까지 쟁반에 한 번에 담아 가져다주는 "센스 있는 서빙"과 같습니다.
 
 - **등장 배경**:
-  1. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 워터폴(Waterfall) 문제**: HTML 로드 → 파싱 → [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)/JS 요청 → 다운로드라는 순차적 흐름이 레이턴시 병목의 주범이었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/1.1의 워터폴(Waterfall) 문제</strong>: HTML 로드 → 파싱 → [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)/JS 요청 → 다운로드라는 순차적 흐름이 레이턴시 병목의 주범이었다.
   2. **인라인(Inlining) 꼼수의 한계**: 이를 우회하기 위해 CSS나 이미지(Base64)를 HTML 안에 직접 박아 넣는 인라이닝 기법이 쓰였으나, 이는 브라우저 캐싱을 방해하고 HTML 크기를 비대하게 만들었다.
-  3. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 등장**: 멀티플렉싱([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 지원하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 도입되면서, 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 위에서 독립적인 스트림으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송할 수 있는 인프라가 갖춰졌고, 이를 기반으로 서버 푸시가 표준화되었다.
+  3. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2의 등장</strong>: 멀티플렉싱([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 지원하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2가 도입되면서, 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 위에서 독립적인 스트림으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 전송할 수 있는 인프라가 갖춰졌고, 이를 기반으로 서버 푸시가 표준화되었다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          HTTP/1.1 vs HTTP/2 Server Push 타이밍 비교         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ [HTTP/1.1 전통적 방식]                                        │
-│ Client                  Server                              │
-│   │── GET /index.html ──▶│                                 │
-│   │◀── 200 OK (HTML) ────│  ← (1 RTT 소요)                  │
-│   │(파싱 후 CSS 필요 인지)  │                                │
-│   │── GET /style.css ───▶│                                 │
-│   │◀── 200 OK (CSS) ─────│  ← (추가 1 RTT 소요 = 총 2 RTT)   │
-│                                                             │
-│ [HTTP/2 Server Push 방식]                                    │
-│ Client                  Server                              │
-│   │── GET /index.html ──▶│  (서버: HTML 줄 때 CSS도 줘야지!)  │
-│   │◀── PUSH_PROMISE ─────│  (미리 약속)                      │
-│   │◀── 200 OK (HTML) ────│                                 │
-│   │◀── 200 OK (CSS) ─────│  ← HTML 파싱 전에 CSS 도착!       │
-│   │(파싱 시 이미 캐시에 있음)│  ← (총 1 RTT 만에 완료)           │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP/1.1 vs HTTP/2 Server Push 타이밍 비교</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/1.1 전통적 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GET /index.html ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 200 OK (HTML)</div><div class="kb-diagram-cell">← (1 RTT 소요)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파싱 후 CSS 필요 인지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GET /style.css ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 200 OK (CSS)</div><div class="kb-diagram-cell">← (추가 1 RTT 소요 = 총 2 RTT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 Server Push 방식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GET /index.html ──▶</div><div class="kb-diagram-cell">(서버: HTML 줄 때 CSS도 줘야지!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── PUSH_PROMISE</div><div class="kb-diagram-cell">(미리 약속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 200 OK (HTML)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 200 OK (CSS)</div><div class="kb-diagram-cell">← HTML 파싱 전에 CSS 도착!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파싱 시 이미 캐시에 있음)</div><div class="kb-diagram-cell">← (총 1 RTT 만에 완료)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 기존 방식은 브라우저가 HTML을 받아 해석(Parsing)하는 시간과 리소스를 재요청하는 시간이 직렬로 더해져 전체 로딩 시간이 길어진다. 반면 서버 푸시 구조에서는 서버가 HTML을 응답하는 동시에 `PUSH_PROMISE` 프레임으로 "내가 CSS도 같이 보낼게"라고 예고한 뒤, 곧바로 [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어넣는다. 따라서 브라우저가 HTML 파싱을 마치고 CSS를 찾을 때쯤에는 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 로컬 푸시 캐시(Push Cache)에 도달해 있어 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)) 없이 렌더링을 시작할 수 있다.
 
@@ -65,52 +66,41 @@ tags = ["studynote-network"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **클라이언트 스트림 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))** | 클라이언트의 원본 요청 스트림 | 홀수 번호의 스트림 ID 할당 (예: ID 1) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) | 본 주문서 |
+| <strong>클라이언트 스트림 (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)</strong> | 클라이언트의 원본 요청 스트림 | 홀수 번호의 스트림 ID 할당 (예: ID 1) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) | 본 주문서 |
 | **PUSH_PROMISE 프레임** | 서버가 푸시할 리소스의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 예고 | 요청 스트림 안에서 전송되며 푸시 스트림 ID 예고 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 Frame | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상품 교환권 |
-| **푸시 스트림 (Push [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))** | 실제 푸시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송되는 경로 | 짝수 번호의 스트림 ID 할당 (예: ID 2) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 음식 서빙 |
+| <strong>푸시 스트림 (Push <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)</strong> | 실제 푸시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송되는 경로 | 짝수 번호의 스트림 ID 할당 (예: ID 2) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 음식 서빙 |
 | **푸시 캐시 (Push Cache)** | 클라이언트가 수신한 푸시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 임시 저장 | 브라우저 네트워크 레벨에 존재, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시 이전 단계 | Browser Cache | 손님 테이블의 여분 접시 |
 | **RST_STREAM 프레임** | 클라이언트가 불필요한 푸시를 거절 | 이미 캐시에 리소스가 있을 때 서버에 취소 요청 전송 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 [Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/) | "반찬은 됐어요" 거절 |
 
 ### 서버 푸시 동작 메커니즘
 
-서버 푸시는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 계층에서 제어된다. 클라이언트의 명시적 요청 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있지만, 멋대로 보내는 것이 아니라 **기존의 클라이언트 요청 스트림에 연관(Associate)**지어서 보낸다.
+서버 푸시는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 계층에서 제어된다. 클라이언트의 명시적 요청 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있지만, 멋대로 보내는 것이 아니라 <strong>기존의 클라이언트 요청 스트림에 연관(Associate)</strong>지어서 보낸다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│              HTTP/2 Server Push 내부 프레임 교환 구조         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│ [Client]                                         [Server]     │
-│   │                                                 │         │
-│   │ 1. HEADERS (Stream 1) GET /index.html           │         │
-│   │────────────────────────────────────────────────▶│         │
-│   │                                                 │         │
-│   │ 2. PUSH_PROMISE (Stream 1, Promised Stream 2)   │         │
-│   │    - Method: GET, Path: /style.css              │         │
-│   │◀────────────────────────────────────────────────│         │
-│   │                                                 │         │
-│   │ 3. HEADERS (Stream 1) 200 OK                    │         │
-│   │◀────────────────────────────────────────────────│         │
-│   │                                                 │         │
-│   │ 4. DATA (Stream 1) <html>...</html>             │         │
-│   │◀────────────────────────────────────────────────│         │
-│   │                                                 │         │
-│   │ 5. HEADERS (Stream 2) 200 OK                    │         │
-│   │◀────────────────────────────────────────────────│         │
-│   │                                                 │         │
-│   │ 6. DATA (Stream 2) body { ... }                 │         │
-│   │◀────────────────────────────────────────────────│         │
-│                                                               │
-│  ※ Stream 1(홀수)은 클라이언트가 연 스트림                   │
-│  ※ Stream 2(짝수)는 서버가 푸시를 위해 연 스트림              │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP/2 Server Push 내부 프레임 교환 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-node">Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. HEADERS (Stream 1) GET /index.html</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. PUSH_PROMISE (Stream 1, Promised Stream 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Method: GET, Path: /style.css</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. HEADERS (Stream 1) 200 OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. DATA (Stream 1) &lt;html&gt;...&lt;/html&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. HEADERS (Stream 2) 200 OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. DATA (Stream 2) body { ... }</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Stream 1(홀수)은 클라이언트가 연 스트림</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Stream 2(짝수)는 서버가 푸시를 위해 연 스트림</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 클라이언트가 홀수 번호([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) 1)로 `index.html`을 요청하면, 서버는 응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전에 미리 `PUSH_PROMISE` 프레임을 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) 1을 통해 전송한다. 이 프레임은 "네가 `/style.css`를 요청한 것처럼 간주하고 내가 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) 2(짝수)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내겠다"는 의미다. 이후 서버는 [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) 1로 HTML을, [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) 2로 CSS를 동시에 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))하여 보낸다. 중요한 점은 `PUSH_PROMISE`가 반드시 HTML의 `DATA` 프레임보다 먼저 도착해야 한다는 것이다. 그렇지 않으면 브라우저가 HTML 파싱을 하다 `/style.css`를 발견하고 스스로 요청(GET)을 보내버리는 레이스 컨디션([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 발생하기 때문이다.
 
 ### 중복 푸시 (Over-pushing) 문제와 RST_STREAM
 
-서버 푸시의 치명적 약점은 서버가 **클라이언트 브라우저의 캐시 상태를 모른다**는 점이다. 클라이언트가 이미 `style.css`를 이전 방문을 통해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시에 가지고 있음에도 불구하고, 서버가 또다시 푸시를 시도하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생한다.
+서버 푸시의 치명적 약점은 서버가 <strong>클라이언트 브라우저의 캐시 상태를 모른다</strong>는 점이다. 클라이언트가 이미 `style.css`를 이전 방문을 통해 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시에 가지고 있음에도 불구하고, 서버가 또다시 푸시를 시도하면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생한다.
 
 클라이언트가 `PUSH_PROMISE`를 받고 나서 자신의 캐시에 이미 해당 리소스가 있음을 알게 되면, 즉각적으로 `RST_STREAM` (Reset [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 프레임을 서버로 보내 푸시를 중단시킨다. 하지만 `RST_STREAM`이 서버에 도달하기 전까지 서버가 밀어내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(In-flight [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 어쩔 수 없이 버려지는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 발생한다.
 
@@ -123,8 +113,8 @@ tags = ["studynote-network"]
 | 비교 항목 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 Server Push | `<link rel="preload">` | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 103 Early Hints |
 |:---|:---|:---|:---|
 | **작동 주체** | 서버가 능동적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 브라우저가 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 보고 직접 요청 | 서버가 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 주고 브라우저가 요청 |
-| **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 위험** | 높음 (브라우저 캐시 상태 무시 가능성) | 없음 (브라우저가 판단하여 요청) | 없음 (브라우저가 캐시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 요청) |
-| **네트워크 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/)** | 이론상 0 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) (HTML 응답과 동시) | 1 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 필요 (HTML 파싱 후) | 0.5 ~ 1 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) (최종 응답 전 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)) |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 낭비 위험</strong> | 높음 (브라우저 캐시 상태 무시 가능성) | 없음 (브라우저가 판단하여 요청) | 없음 (브라우저가 캐시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 요청) |
+| <strong>네트워크 <a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a></strong> | 이론상 0 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) (HTML 응답과 동시) | 1 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 필요 (HTML 파싱 후) | 0.5 ~ 1 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) (최종 응답 전 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)) |
 | **캐시 활용도** | 비효율적 (Push Cache의 수명 짧음) | 매우 우수 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시와 통합) | 매우 우수 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 다운) |
 | **실무 적용 현황** | **Chrome 등에서 지원 중단 추세** | 현재 웹 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 표준 | 서버 푸시의 대안으로 급부상 |
 
@@ -133,7 +123,7 @@ tags = ["studynote-network"]
 | 비교 항목 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 Server Push | [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) | [SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) ([Server-Sent Events](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)) |
 |:---|:---|:---|:---|
 | **목적** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로드 속도 최적화 | 실시간 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 | 서버의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 실시간 이벤트 스트리밍 |
-| **전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 정적 리소스 ([CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/), JS, 이미지) | 동적 애플리케이션 메시지 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등) | 서버의 이벤트 알림 (텍스트 기반) |
+| <strong>전송 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 정적 리소스 ([CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/), JS, 이미지) | 동적 애플리케이션 메시지 ([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등) | 서버의 이벤트 알림 (텍스트 기반) |
 | **연결 지속성** | 일회성 (리소스를 보내면 끝) | 지속적 연결 (Full-duplex) | 지속적 연결 (Half-duplex) |
 
 - **📢 섹션 요약 비유**: 서버 푸시가 '정해진 코스 요리를 한 번에 다 깔아주는 것'이라면, 웹소켓은 '종업원과 계속 대화하며 음식을 추가 주문하는 것'이고, Early Hints는 '주방에서 요리하는 동안 에피타이저 메뉴판만 미리 던져주는 것'입니다.
@@ -142,38 +132,35 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 Over-pushing으로 인한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 초과 및 레이턴시 증가**: 글로벌 이커머스 사이트에서 모든 방문자에게 2MB짜리 핵심 JS 번들을 서버 푸시하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했다. 하지만 재방문자들은 이미 이 JS를 브라우저 캐시에 가지고 있었다. 서버는 무조건 푸시를 시작했고, 클라이언트가 `RST_STREAM`을 보내 취소하기 전까지 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크를 채워, 오히려 중요한 본문 HTML의 전송이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 점유)되는 역효과가 발생했다.
+1. <strong>시나리오 — 글로벌 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 Over-pushing으로 인한 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 초과 및 레이턴시 증가</strong>: 글로벌 이커머스 사이트에서 모든 방문자에게 2MB짜리 핵심 JS 번들을 서버 푸시하도록 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)했다. 하지만 재방문자들은 이미 이 JS를 브라우저 캐시에 가지고 있었다. 서버는 무조건 푸시를 시작했고, 클라이언트가 `RST_STREAM`을 보내 취소하기 전까지 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크를 채워, 오히려 중요한 본문 HTML의 전송이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 점유)되는 역효과가 발생했다.
    - **판단**: 푸시는 캐시 적중률이 극히 낮은 자산(예: 1회성 토큰, 만료 주기가 매우 짧은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이나, 캐시를 뚫고 업데이트를 강제해야 하는 긴급 보안 패치 등에만 제한적으로 사용해야 한다. 혹은 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)나 클라이언트 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 통해 브라우저 캐시 상태를 서버가 인지할 수 있는 복잡한 로직이 선행되어야 한다.
 
-2. **시나리오 — [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이에서의 Push 적용 실패**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 Nginx를 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이로 사용하며 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2를 활성화했다. 백엔드 WAS가 "이 리소스를 푸시해라"라는 의미로 `Link: <...>; rel=preload` 헤더를 달아 보냈으나, 중간의 CDN이나 프록시가 서버 푸시를 올바르게 처리하지 못하고 단순 헤더로만 클라이언트에 전달했다.
+2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 게이트웨이에서의 Push 적용 실패</strong>: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 Nginx를 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이로 사용하며 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2를 활성화했다. 백엔드 WAS가 "이 리소스를 푸시해라"라는 의미로 `Link: <...>; rel=preload` 헤더를 달아 보냈으나, 중간의 CDN이나 프록시가 서버 푸시를 올바르게 처리하지 못하고 단순 헤더로만 클라이언트에 전달했다.
    - **판단**: 서버 푸시는 [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 체인 상의 모든 중간 노드([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), LB)가 이를 완벽히 지원하고 변환할 수 있어야 동작한다. 실무에서는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 레벨에서 `Link` 헤더를 가로채어 엣지 서버(Edge Server)가 직접 푸시를 쏘아주는 기능([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) Push)을 활용하는 것이 그나마 현실적인 대안이다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────┐
-  │         실무 최적화 의사결정 플로우 (Server Push 도입)         │
-  ├──────────────────────────────────────────────────────────────┤
-  │                                                              │
-  │     [페이지 로드 성능(FCP, LCP) 개선 요구 발생]                │
-  │                         │                                    │
-  │                         ▼                                    │
-  │            초기 렌더링에 필수적인 리소스인가?                    │
-  │           (Critical Rendering Path 포함)                     │
-  │            ├─ 아니오 ────▶ [일반적인 비동기 로딩 지연 처리]      │
-  │            │                                                 │
-  │            ▼ 예                                              │
-  │        클라이언트 캐시 적중률이 높은 자산인가?                   │
-  │            ├─ 예 ───────▶ [<link rel="preload"> 사용]        │
-  │            │                (재방문 시 대역폭 낭비 방지)          │
-  │            │                                                 │
-  │            ▼ 아니오                                          │
-  │       서버의 동적 처리(DB 연동 등) 대기 시간이 긴가?              │
-  │            ├─ 예 ───────▶ [HTTP 103 Early Hints 적용]        │
-  │            │                (서버 대기 중 브라우저가 미리 요청)   │
-  │            │                                                 │
-  │            ▼ 아니오                                          │
-  │    [HTTP/2 Server Push 검토] (단, 브라우저 지원 여부 확인 필수)    │
-  └──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 최적화 의사결정 플로우 (Server Push 도입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 로드 성능(FCP, LCP) 개선 요구 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 렌더링에 필수적인 리소스인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Critical Rendering Path 포함)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일반적인 비동기 로딩 지연 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 캐시 적중률이 높은 자산인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">&lt;link rel="preload"&gt; 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재방문 시 대역폭 낭비 방지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 아니오</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버의 동적 처리(DB 연동 등) 대기 시간이 긴가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 103 Early Hints 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버 대기 중 브라우저가 미리 요청)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 아니오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 Server Push 검토</div><div class="kb-diagram-note">(단, 브라우저 지원 여부 확인 필수)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 위 플로우는 웹 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 과정에서 서버 푸시가 더 이상 "만능 치트키"가 아님을 보여준다. 캐시 무효화 위험, 중간 프록시의 지원 한계, 크롬 브라우저의 지원 중단 등 실무적 리스크가 너무 크기 때문에, 최우선적으로 `preload`나 `103 Early Hints`를 검토해야 한다. 서버 푸시는 다른 모든 수단이 실패했을 때, 제한된 폐쇄망 환경이나 매우 특수한 조건에서만 고려하는 최후의 수단으로 자리 잡았다.
 
@@ -197,7 +184,7 @@ tags = ["studynote-network"]
 
 ### 미래 전망
 - **Server Push의 퇴장과 Early Hints의 부상**: Google Chrome 팀의 주도 하에, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비와 구현 복잡도가 큰 Server Push 기술은 점진적으로 웹 브라우저에서 제거되고 있다. 그 자리를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 응답 상태 코드 `103 Early Hints`가 대체하고 있다. Early Hints는 서버가 "이 리소스들이 필요할 거야"라고 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)만 주고, 요청 자체는 브라우저가 자신의 캐시 상태를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후 직접 판단하게 하여 Over-pushing 문제를 근본적으로 해결한다.
-- **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 기반 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3에서의 재편**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 표준에도 Server Push 스펙이 존재하지만, 브라우저 벤더들의 지원 의지가 낮아 웹 환경보다는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간의 백엔드 통신([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 등)이나 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경 등 특정 조건에서만 생존할 것으로 예측된다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> 기반 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3에서의 재편</strong>: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 표준에도 Server Push 스펙이 존재하지만, 브라우저 벤더들의 지원 의지가 낮아 웹 환경보다는 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간의 백엔드 통신([gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) 등)이나 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경 등 특정 조건에서만 생존할 것으로 예측된다.
 
 ### 참고 표준
 - **RFC 7540**: [Hypertext Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Version 2 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2) - Section 8.2 Server Push
@@ -220,21 +207,25 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: HTTP/2 헤더 압축]
-    │
-    ▼
-[현재 개념: HTTP/2 서버 푸시]
-    │
-    ├──▶ [확장 A: HTTP/3 특징]
-    └──▶ [확장 B: 지능형 애플리케이션 전달]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/2 헤더 압축</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 서버 푸시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/3 특징</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
+</div>
+</div>
+
+
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 서버 푸시는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 특징와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 서버 푸시는 식당 종업원 아주머니의 **"센스 있는 쟁반 서빙"**이에요!
+1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 서버 푸시는 식당 종업원 아주머니의 <strong>"센스 있는 쟁반 서빙"</strong>이에요!
 2. 손님이 "햄버거 주세요"라고만 했는데, 아주머니가 "어차피 콜라도 먹을 거지?" 하면서 햄버거와 콜라를 한 쟁반에 같이 가져다줘서 기다리는 시간을 확 줄여준답니다.
 3. 하지만 가끔 손님이 가방에 콜라를 싸 왔는데도 억지로 콜라를 줘서 테이블 자리가 낭비되기도 해요. 그래서 요즘은 "콜라 갖다 줄까?"라고 먼저 물어보는 방식(Early Hints)으로 바뀌고 있어요!
 

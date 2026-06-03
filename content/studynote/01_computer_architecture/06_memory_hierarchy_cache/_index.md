@@ -17,32 +17,30 @@ tags = ["computer_architecture"]
 
 ### 속도의 격차: 폰 노이만 병목과 계층화의 이유
 
-CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라졌으나, 메인 메모리 (DRAM)의 속도 향상은 이에 미치지 못했다. 이 속도 차이로 인해 CPU가 데이터를 기다리며 노는 현상이 발생하는데, 이를 **'폰 노이만 병목 (Von Neumann Bottleneck)'**이라 한다.
+CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라졌으나, 메인 메모리 (DRAM)의 속도 향상은 이에 미치지 못했다. 이 속도 차이로 인해 CPU가 데이터를 기다리며 노는 현상이 발생하는데, 이를 <strong>'폰 노이만 병목 (Von Neumann Bottleneck)'</strong>이라 한다.
 
-메모리 계층 구조가 필요한 이유는 세 가지이다. 첫째, **경제성** 때문이다. 모든 메모리를 CPU만큼 빠른 소자 (SRAM)로 만들면 비용이 천문학적으로 상승한다. 둘째, **참조의 지역성** 때문이다. 프로그램은 특정 시점에 메모리의 좁은 범위만 집중적으로 사용한다. 셋째, **평균 접근 시간 최소화**를 통해 CPU의 유휴 상태를 방지하기 위함이다.
+메모리 계층 구조가 필요한 이유는 세 가지이다. 첫째, **경제성** 때문이다. 모든 메모리를 CPU만큼 빠른 소자 (SRAM)로 만들면 비용이 천문학적으로 상승한다. 둘째, **참조의 지역성** 때문이다. 프로그램은 특정 시점에 메모리의 좁은 범위만 집중적으로 사용한다. 셋째, <strong>평균 접근 시간 최소화</strong>를 통해 CPU의 유휴 상태를 방지하기 위함이다.
 
 이 그림은 전형적인 메모리 계층 구조의 피라미드 모델을 보여준다. 위로 갈수록 빠르고 비싸며, 아래로 갈수록 느리고 저렴하다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Memory Hierarchy Pyramid                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│           /  [ Registers ]  \          Speed: < 1ns         │
-│          /───────────────────\         Cost : Highest       │
-│         /    [ L1 Cache ]     \        Size : Smallest      │
-│        /───────────────────────\                            │
-│       /      [ L2 Cache ]       \                           │
-│      /───────────────────────────\                          │
-│     /        [ L3 Cache ]         \                         │
-│    /───────────────────────────────\       Speed: ~100ns    │
-│   /      [ Main Memory (DRAM) ]     \      Size : GB        │
-│  /───────────────────────────────────\                      │
-│ /      [ Storage (SSD / HDD) ]        \    Speed: ~ms       │
-│/───────────────────────────────────────\   Size : TB        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Hierarchy Pyramid</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Registers</div><div class="kb-diagram-note">\ Speed: &lt; 1ns</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Cost : Highest</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L1 Cache</div><div class="kb-diagram-note">\ Size : Smallest</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L2 Cache</div><div class="kb-diagram-note">\</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L3 Cache</div><div class="kb-diagram-note">\</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Speed: ~100ns</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Main Memory (DRAM)</div><div class="kb-diagram-note">\ Size : GB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Storage (SSD / HDD)</div><div class="kb-diagram-note">\ Speed: ~ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Size : TB</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '상위 계층은 하위 계층의 복사본 (Subset)'이라는 점이다. 캐시 메모리는 메인 메모리의 일부를 미리 가져다 놓는 임시 저장소 역할을 한다. 실무에서는 이 계층 간의 데이터 이동 오버헤드를 줄이는 것이 아키텍처 최적화의 핵심이다.
 
@@ -76,27 +74,23 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 이 구조도는 캐시 적중 (Hit)과 실패 (Miss) 시의 데이터 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Cache Access and Miss Penalty               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU ] ──(1) Req Data──▶ [ Cache Controller ]           │
-│                                     │                       │
-│          ┌──────────────────────────┴──────┐                │
-│          ▼ (Hit!)                          ▼ (Miss!)        │
-│   [ Return Data ] ◀──(2)── [ Access Main Memory ] ──┐       │
-│                                            │        │       │
-│                                     (3) Fill Cache  │       │
-│                                            ▼        │       │
-│                                     [ Replace Policy ]      │
-│                                                             │
-│   * Miss Penalty: 메모리에서 가져오는 동안 CPU는 Stall됨   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 'Miss Penalty'의 최소화이다. 캐시 미스가 발생하면 수백 사이클 동안 CPU가 멈출 수 있다. 실무에서는 이를 방지하기 위해 **데이터 프리페칭 (Data Prefetching)**이나 **다단계 캐시 (L1~L3)**를 구성하여 페널티를 분산시킨다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Access and Miss Penalty</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cache Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Hit!) ▼ (Miss!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Return Data</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Access Main Memory</div><div class="kb-diagram-note">──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) Fill Cache</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Replace Policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Miss Penalty: 메모리에서 가져오는 동안 CPU는 Stall됨</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 'Miss Penalty'의 최소화이다. 캐시 미스가 발생하면 수백 사이클 동안 CPU가 멈출 수 있다. 실무에서는 이를 방지하기 위해 <strong>데이터 프리페칭 (Data Prefetching)</strong>이나 <strong>다단계 캐시 (L1~L3)</strong>를 구성하여 페널티를 분산시킨다.
 
 📢 **섹션 요약 비유**: 다이렉트 매핑은 내 자리가 지정된 독서실과 같아 찾기는 쉽지만 누가 내 자리에 앉으면 싸워야 하고, 풀 어쏘시에이티브는 아무 데나 앉는 카페와 같아 자리는 잘 나지만 빈자리 찾기가 힘든 것과 같습니다.
 
@@ -136,22 +130,20 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 이 도식은 캐시 적중률에 따른 AMAT (Average Memory Access Time) 변화를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Hit Rate vs Average Access Time               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   AMAT = Hit Time + (Miss Rate x Miss Penalty)              │
-│                                                             │
-│   Access Time ▲                                             │
-│               │ \                                           │
-│               │  \  <-- Miss Rate가 조금만 올라도           │
-│               │   \     성능은 절벽으로 떨어짐              │
-│               └──────────────────────────────────▶          │
-│                          Hit Rate (%)                       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hit Rate vs Average Access Time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMAT = Hit Time + (Miss Rate x Miss Penalty)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access Time ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ &lt;-- Miss Rate가 조금만 올라도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 성능은 절벽으로 떨어짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hit Rate (%)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 캐시 튜닝은 '창고 최적화'와 같습니다. 물건을 많이 쌓아두는 것보다, 오늘 나갈 물건(Working Set)을 문 앞(L1 캐시)에 정확히 배치하는 '데이터 물류 전문가'의 안목이 필요합니다.
 
@@ -166,7 +158,7 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 ### 미래 전망: Near-Memory Computing과 PIM
 
-데이터 이동 거리를 줄이는 것이 성능의 끝판왕이다. 향후 아키텍처는 캐시를 넘어 메모리 칩 내부에 연산 장치를 심는 **PIM (Processing-In-Memory)**이나, 프로세서 바로 위에 메모리를 쌓는 **HBM (High Bandwidth Memory)** 기술이 주류가 될 것이다. 또한 AI 가속기에서는 명시적으로 메모리를 관리하는 **Scratchpad Memory**가 캐시의 대안으로 부상하고 있다. 기술사는 하드웨어가 자동으로 관리해 주던 '캐시'의 시대에서, 소프트웨어가 메모리 배치를 직접 통제하는 '명시적 메모리 관리' 시대로의 변화를 준비해야 한다.
+데이터 이동 거리를 줄이는 것이 성능의 끝판왕이다. 향후 아키텍처는 캐시를 넘어 메모리 칩 내부에 연산 장치를 심는 <strong>PIM (Processing-In-Memory)</strong>이나, 프로세서 바로 위에 메모리를 쌓는 **HBM (High Bandwidth Memory)** 기술이 주류가 될 것이다. 또한 AI 가속기에서는 명시적으로 메모리를 관리하는 <strong>Scratchpad Memory</strong>가 캐시의 대안으로 부상하고 있다. 기술사는 하드웨어가 자동으로 관리해 주던 '캐시'의 시대에서, 소프트웨어가 메모리 배치를 직접 통제하는 '명시적 메모리 관리' 시대로의 변화를 준비해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 메모리는 '재료가 스스로 요리되는 스마트 팬'과 같아질 것입니다. 재료를 주방으로 옮길 필요 없이, 창고 안에서 이미 요리가 되어 나오는 혁신적인 구조가 완성될 것입니다.
 

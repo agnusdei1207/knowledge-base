@@ -25,14 +25,14 @@ tags = ["studynote-software-engineering"]
 
 - **결정(Decision)의 정의**: 결정은 분기문을 통해 생성되는 논리적 결과이다. if, while, for, do-while, [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), ?: (삼항 연산자) 등이 결정에 해당한다. 각 결정은 최소 2개의 결과(참/거짓, 혹은 해당 분기 수)를 갖는다.
 
-- **비유**: 결정 커버리지는 **'교차로 양쪽 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'**과 같다. 교차로에서 좌회전과 우회전(두 branch)이 있는데, 항상 좌회만 한다면(만 테스트) 우회전 경로의 안전성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못한다. 양쪽 모두 한 번씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해봐야 교차로 전체의 안전을/를한 것이다.
+- **비유**: 결정 커버리지는 <strong>'교차로 양쪽 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 같다. 교차로에서 좌회전과 우회전(두 branch)이 있는데, 항상 좌회만 한다면(만 테스트) 우회전 경로의 안전성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못한다. 양쪽 모두 한 번씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해봐야 교차로 전체의 안전을/를한 것이다.
 
 - **등장 배경 및 발전 과정**:
 1. **1970년대**: 구조적 테스트 기법의 일환으로 결정 커버리지 개념 도입
 2. **1990년대**: DO-178B 표준에서 안전 중요 소프트웨어에 필수적인 커버리지 수준으로 규정
 3. **현재**: 자동, 항공기 제어 시스템 등 안전 중요 시스템 테스트의 핵심 지표
 
-- **섹션 요약 비유**: 결정 커버리지는 **'배낭 양쪽 경로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'**과 같다. 산책길에서 왼쪽 길과 오른쪽 길(두 branch)이 갈라지고, 항상 왼쪽으로만 가면 오른쪽 길에이/가이나부터지 않다。양쪽 모두 한 번씩 걸어보면"오른쪽 길은 험난하지만 경치가 좋다"는 것을알 수 있다. 테스트도 마찬가지로 두 모두 테스트해야 시스템 전체를할 수 있다.
+- **섹션 요약 비유**: 결정 커버리지는 <strong>'배낭 양쪽 경로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>과 같다. 산책길에서 왼쪽 길과 오른쪽 길(두 branch)이 갈라지고, 항상 왼쪽으로만 가면 오른쪽 길에이/가이나부터지 않다。양쪽 모두 한 번씩 걸어보면"오른쪽 길은 험난하지만 경치가 좋다"는 것을알 수 있다. 테스트도 마찬가지로 두 모두 테스트해야 시스템 전체를할 수 있다.
 
 ---
 
@@ -40,18 +40,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 결정 커버리지 (Decision Co의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 결정 커버리지 (Decision Co │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 커버리지 (Decision Co</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 결정 커버리지 (Decision Co가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -72,7 +71,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-결정 커버리지 (Decision Coverage / 분기 커버리지)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+결정 커버리지 (Decision Coverage / 분기 커버리지)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 결정 커버리지 (Decision Coverage / 분기 커버리지)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -148,21 +147,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

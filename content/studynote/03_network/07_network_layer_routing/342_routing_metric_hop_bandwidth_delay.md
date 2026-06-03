@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 라우터가 특정 목적지 네트워크에 도달하기 위한 여러 경로 중, 최적 경로(Best Path)를 결정하기 위해 사용하는 계산 값(비용, Cost).
-- **필요성**: 서울에서 부산을 갈 때, A길은 톨게이트를 3번 통과해야 하지만 8차선 아우토반이다. B길은 톨게이트를 1번만 통과하면 되지만 1차선 진흙탕 국도다. 라우터가 A길과 B길 중 하나를 선택하려면 "톨게이트 개수"를 중요하게 여길지, "도로의 넓이"를 중요하게 여길지 점수를 매기는 **평가 기준표**가 필요했다. 이 점수표가 바로 메트릭이다.
+- **필요성**: 서울에서 부산을 갈 때, A길은 톨게이트를 3번 통과해야 하지만 8차선 아우토반이다. B길은 톨게이트를 1번만 통과하면 되지만 1차선 진흙탕 국도다. 라우터가 A길과 B길 중 하나를 선택하려면 "톨게이트 개수"를 중요하게 여길지, "도로의 넓이"를 중요하게 여길지 점수를 매기는 <strong>평가 기준표</strong>가 필요했다. 이 점수표가 바로 메트릭이다.
 
 - **💡 비유**: 내비게이션 앱에서 목적지를 검색하면 여러 추천 경로가 뜹니다.
   - 경로 1: **"최단 거리"** (거리는 짧지만 골목길이라 늦게 도착함 -> [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) 방식)
   - 경로 2: **"최소 시간"** (거리는 좀 돌아가지만 뻥 뚫린 고속도로라 빨리 도착함 -> [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 방식)
-  - 여기서 '거리'나 '시간'처럼 내비게이션이 길의 우열을 가릴 때 쓰는 **"점수 계산 공식"**이 바로 메트릭입니다.
+  - 여기서 '거리'나 '시간'처럼 내비게이션이 길의 우열을 가릴 때 쓰는 <strong>"점수 계산 공식"</strong>이 바로 메트릭입니다.
 
-```text
-[동적 라우팅]
-    │
-    ▼
-[메트릭]
-    │
-    └──▶ [관리 거리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">동적 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">관리 거리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 메트릭은 오디션 프로그램의 **"심사 기준"**입니다. 심사위원([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 RIP냐 OSPF냐에 따라 외모(거리)를 볼지, 가창력([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 볼지 기준이 다르지만, 어쨌든 1등 점수를 받은 사람 딱 한 명만 무대([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 설 수 있습니다.
 
@@ -50,36 +54,35 @@ tags = ["studynote-network"]
 - **치명적 약점**: 100Mbps 선로로 라우터 5개를 거치는 길(5점)과, 10Mbps 구식 선로로 라우터 2개만 거치는 길(2점)이 있다면, RIP는 멍청하게 2점짜리 구식 선로가 1등이라고 판단하고 그쪽으로 패킷을 몰아넣어 인터넷을 거북이로 만든다.
 
 ### 2. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (Open [Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) First)의 잣대: Cost ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
-- **기준**: 선로의 **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 속도)**을 계산하여 넓은 고속도로일수록 점수를 확 낮춰준다.
+- **기준**: 선로의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>, 속도)</strong>을 계산하여 넓은 고속도로일수록 점수를 확 낮춰준다.
 - **계산법**: $\text{Cost} = \frac{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8}{\text{[Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(bps)}}$
-  - 10Mbps [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^7$ = **Cost [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)**
+  - 10Mbps [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^7$ = <strong>Cost <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
   - 100Mbps 패스트이더넷 = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8$ = **Cost 1**
   - OSPF는 목적지까지 통과하는 모든 선로의 Cost를 덧셈하여, 가장 숫자가 작은(가장 넓은) 길을 1등으로 뽑는다.
 
 ### 3. [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) (시스코 전용)의 잣대: 복합 메트릭 (K 상수)
-- **기준**: OSPF처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 하나만 보는 게 아니라, **[Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)), Delay([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), Load(부하), [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/)([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)), MTU**라는 5가지 요소를 짬뽕해서 계산한다. (실제로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 2개만 주로 쓴다).
+- **기준**: OSPF처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 하나만 보는 게 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), Delay(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>), Load(부하), <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>), MTU</strong>라는 5가지 요소를 짬뽕해서 계산한다. (실제로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 2개만 주로 쓴다).
 - **계산법**: 엄청나게 복잡한 수학 공식(DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 돌려 천만 단위의 거대한 메트릭 점수를 뽑아낸다. 가장 똑똑하고 정밀하게 최단+최적의 길을 찾아낸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                RIP vs OSPF 메트릭 판단의 극단적 예시            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 라우터 ] ──── (10Mbps 느린 국도) ────▶ [ 목적지 ]       │
- │        │                                             ▲      │
- │        └── (1Gbps 고속도로) ──▶ [중간 라우터] ── (1Gbps) ──┘      │
- │                                                             │
- │   * RIP의 선택: 윗길(직통)은 라우터 0개(1점), 아랫길은 라우터 1개(2점). │
- │               "직통이 짱이지! 윗길로 가자!" ──▶ 통신 마비 됨.      │
- │                                                             │
- │   * OSPF의 선택: 윗길은 Cost 10, 아랫길은 Cost 1+1=2.           │
- │                "좀 돌아가도 빠른 게 짱이지! 아랫길로 가자!" ──▶ 쾌적함.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP vs OSPF 메트릭 판단의 극단적 예시</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목적지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간 라우터</div><div class="kb-diagram-note">── (1Gbps) ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RIP의 선택: 윗길(직통)은 라우터 0개(1점), 아랫길은 라우터 1개(2점).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"직통이 짱이지! 윗길로 가자!" ──▶ 통신 마비 됨.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OSPF의 선택: 윗길은 Cost 10, 아랫길은 Cost 1+1=2.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"좀 돌아가도 빠른 게 짱이지! 아랫길로 가자!" ──▶ 쾌적함.</div></div>
+</div>
+</div>
+
+
 
 ### 4. 메트릭이 완벽하게 똑같다면? ([ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/))
 A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우터는 어떤 길을 선택할까?
-라우터는 두 길을 모두 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올려놓고, 패킷이 100개 들어오면 A길로 50개, B길로 50개씩 번갈아 쏘며 부하를 완벽하게 반으로 나누는 **[ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) (Equal Cost Multi-Path)** 스위칭이라는 환상적인 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)을 수행한다.
+라우터는 두 길을 모두 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올려놓고, 패킷이 100개 들어오면 A길로 50개, B길로 50개씩 번갈아 쏘며 부하를 완벽하게 반으로 나누는 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a> (Equal Cost Multi-Path)</strong> 스위칭이라는 환상적인 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)을 수행한다.
 
 - **📢 섹션 요약 비유**: ** 메트릭은 라우터가 길을 선택할 때 치르는 **"가성비 계산기"**입니다. 멍청한 계산기([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 무조건 거리가 짧은 게 가성비라 우기고, 똑똑한 계산기([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))는 차가 안 막히는 게 가성비라 우기며 가장 싼(낮은 점수) 길만 채택합니다.
 
@@ -137,15 +140,19 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 동적 라우팅]
-    │
-    ▼
-[현재 개념: 메트릭]
-    │
-    ├──▶ [확장 A: 관리 거리]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 동적 라우팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 메트릭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 관리 거리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 메트릭는 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

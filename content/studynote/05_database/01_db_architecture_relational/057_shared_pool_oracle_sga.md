@@ -30,18 +30,24 @@ tags = ["database"]
 
 공유 풀은 크게 두 개의 캐시로 나뉜다.
 
-- **[Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) Cache**: SQL 문장, 파스 트리(Parse Tree), [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 저장한다.
-- **[Data Dictionary Cache](/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/)**: 테이블, 컬럼, 권한, 객체 정보 같은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a> Cache</strong>: SQL 문장, 파스 트리(Parse Tree), [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))을 저장한다.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/056_data_dictionary_cache/">Data Dictionary Cache</a></strong>: 테이블, 컬럼, 권한, 객체 정보 같은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장한다.
 
-```text
-SQL 입력
-   ↓
-Library Cache 확인
-   ├─ Hit → Soft Parse
-   └─ Miss → Hard Parse
-            ↓
-Data Dictionary Cache 확인
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SQL 입력</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Library Cache 확인</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Hit → Soft Parse</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Miss → Hard Parse</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Data Dictionary Cache 확인</div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 같은 SQL은 다시 분석하지 않고 재사용할 수 있다.
 
@@ -81,8 +87,8 @@ SQL이 들어오면 Oracle은 먼저 공유 풀에서 같은 문장이 있었는
 
 SGA의 다른 영역과 비교하면 공유 풀의 역할이 더 분명해진다.
 
-- **[Buffer Cache](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)**: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 저장한다.
-- **[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) Log Buffer**: 변경 이력을 임시로 저장한다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a></strong>: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 저장한다.
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/">Redo</a> Log Buffer</strong>: 변경 이력을 임시로 저장한다.
 - **Shared Pool**: SQL과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장한다.
 
 이 세 영역이 각각 제 역할을 해야 Oracle이 안정적으로 빠르게 동작한다.
@@ -93,17 +99,23 @@ SGA의 다른 영역과 비교하면 공유 풀의 역할이 더 분명해진다
 
 ## 관련 개념 맵
 
-```text
-SQL 입력
-   ↓
-공유 풀
-   ├─ Library Cache
-   └─ Data Dictionary Cache
-   ↓
-Soft Parse / Hard Parse
-   ↓
-CPU 절감 / 성능 향상
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SQL 입력</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">공유 풀</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Library Cache</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Data Dictionary Cache</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Soft Parse / Hard Parse</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CPU 절감 / 성능 향상</div>
+</div>
+</div>
+
+
 
 ---
 

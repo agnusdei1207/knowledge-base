@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 차세대 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) QUIC이 전통적인 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨의 TCP를 우회하여, UDP를 기반 전송 계층으로 채택하고 그 위의 유저 스페이스(User Space) 애플리케이션 레벨에서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 혼잡 제어, 연결 관리를 소프트웨어적으로 직접 구현한 아키텍처 사상.
-- **필요성**: 구글의 천재 엔지니어들은 TCP를 뜯어고쳐 우주 최강의 새 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들고 싶었다. 그런데 벽에 부딪혔다. 1) 전 세계 통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Middlebox)들은 겉면에 TCP나 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더가 아닌 모르는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 200번)이 날아오면 "해킹이네!" 하고 모조리 썰어버렸다(Ossification, 네트워크 경직 현상). 2) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 코드를 고치려면 윈도우 7, 리눅스, iOS 같은 수억 대의 OS를 전부 패치해야 했다(불가능). **"야! 어차피 통신사가 TCP랑 UDP만 통과시켜 준다며? 그럼 제일 속이 텅 빈 깡통인 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 박스를 주워와라. 그리고 그 깡통 안에 우리가 만든 최첨단 엔진([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))을 구겨 넣고 브라우저 단에서 직접 돌려버리자!!"** 이것이 QUIC이 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에 기생하게 된 위대한 발상의 전환이다.
+- **필요성**: 구글의 천재 엔지니어들은 TCP를 뜯어고쳐 우주 최강의 새 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들고 싶었다. 그런데 벽에 부딪혔다. 1) 전 세계 통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Middlebox)들은 겉면에 TCP나 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더가 아닌 모르는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(예: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 200번)이 날아오면 "해킹이네!" 하고 모조리 썰어버렸다(Ossification, 네트워크 경직 현상). 2) [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 코드를 고치려면 윈도우 7, 리눅스, iOS 같은 수억 대의 OS를 전부 패치해야 했다(불가능). <strong>"야! 어차피 통신사가 TCP랑 UDP만 통과시켜 준다며? 그럼 제일 속이 텅 빈 깡통인 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 박스를 주워와라. 그리고 그 깡통 안에 우리가 만든 최첨단 엔진(<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>)을 구겨 넣고 브라우저 단에서 직접 돌려버리자!!"</strong> 이것이 QUIC이 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에 기생하게 된 위대한 발상의 전환이다.
 
-- **💡 비유**: QUIC의 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기생 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 **"[트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) 작전"**과 완벽히 같습니다.
+- **💡 비유**: QUIC의 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기생 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/">트로이 목마</a> 작전"</strong>과 완벽히 같습니다.
   - 철통같은 성벽(통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))은 오직 친숙한 "마차([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))"나 "빈 수레([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))"만 통과시켜 줍니다. 신무기(새 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 절대 못 들어갑니다.
-  - 그래서 구글은 성문이 통과시켜 주는 가장 허술한 **"빈 수레([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더)"**를 하나 가져옵니다.
+  - 그래서 구글은 성문이 통과시켜 주는 가장 허술한 <strong>"빈 수레(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 헤더)"</strong>를 하나 가져옵니다.
   - 그리고 그 수레 안에 엄청난 파괴력을 가진 특수 부대원들(QUIC의 혼잡 제어, 암호화, 다중 차선 엔진)을 꽉꽉 채워 숨긴 뒤, 성문을 유유히 통과합니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "오 그냥 평범한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 쓰레기 패킷이네~ 통과!" 하고 속아 넘어갑니다.
 
-```text
-[QUIC]
-    │
-    ▼
-[QUIC 전송]
-    │
-    └──▶ [HOL 블로킹 문제 해결]
-```
 
-- **📢 섹션 요약 비유**: ** TCP가 정부([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 수십 년 전에 지어놓고 규정이 빡세서 리모델링조차 맘대로 못 하는 **"낡은 공공 인프라 철도망"**이라면, QUIC은 차가 쌩쌩 달릴 수 있게 민간 기업(브라우저 앱)이 텅 빈 들판([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 위에 자기 돈으로 직접 깔고 매일매일 아스팔트를 새로 까는 **"최첨단 민자 고속도로"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HOL 블로킹 문제 해결</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> TCP가 정부(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)가 수십 년 전에 지어놓고 규정이 빡세서 리모델링조차 맘대로 못 하는 </strong>"낡은 공공 인프라 철도망"<strong>이라면, QUIC은 차가 쌩쌩 달릴 수 있게 민간 기업(브라우저 앱)이 텅 빈 들판(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>) 위에 자기 돈으로 직접 깔고 매일매일 아스팔트를 새로 까는 </strong>"최첨단 민자 고속도로"**입니다.
 
 ---
 
@@ -44,37 +48,36 @@ tags = ["studynote-network"]
 
 ### 1. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)의 치명적 장점
 - **TCP의 한계**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신을 하려면 앱(크롬)이 OS(윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 "야 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신 좀 해줘"라고 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 날려야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어갔다 나오는 이 문지방 넘는 비용([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)이 데이터가 폭주할 땐 엄청난 렉을 유발했다.
-- **[QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) (User Space)**: [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 코드는 아예 OS 밑으로 안 내려간다. 크롬 브라우저 소스 코드 안에 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 엔진이 통째로 들어있다. 
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (User Space)</strong>: [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 코드는 아예 OS 밑으로 안 내려간다. 크롬 브라우저 소스 코드 안에 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 엔진이 통째로 들어있다. 
 - **진화의 속도**: 윈도우 OS의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 코드를 MS가 업데이트해 줄 때까지 5년을 기다릴 필요가 없다. 구글이 크롬 브라우저 앱만 업데이트(백그라운드 자동 패치)하면, 전 세계 수십억 명의 사용자 폰에 오늘 밤 즉시 구글의 최신 혼잡 제어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) v2 등)이 100% 쫙 깔린다. 이 업데이트 속도가 QUIC을 세계 표준으로 멱살 잡고 끌어올렸다.
 
 ### 2. 중간 상자(Middlebox)의 참견 원천 차단
 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))들의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 아주 오지랖이 넓다.
 - **TCP의 비애**: TCP는 헤더를 까보면 "오 얘네 이제 악수(SYN)하네? 얘네 윈도우 사이즈(속도)가 1MB네? 어라 이 패킷 순서가 틀렸네 짤라!" 라며 중간 라우터들이 온갖 참견을 하고 데이터를 뜯어고친다. 통신사 맘대로 트래픽 셰이핑(Shaping)을 걸어 속도를 떨어뜨리기도 한다.
 - **QUIC의 방어 (100% 암호화)**: 
-  - QUIC은 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 깡통 헤더 8바이트 뒤에 있는 **모든 알맹이를 100% 몽땅 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3으로 흑색 잉크 칠(암호화)**을 해버린다. 심지어 TCP에선 훤히 보였던 `ACK 영수증`이나 `패킷 순서 번호` 같은 통신 제어 신호마저도 암호화 박스 안에 다 넣어버린다.
-  - **통신사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 뇌구조**: 패킷을 열어봤는데 맨 앞 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 껍데기 말고는 안이 죄다 시커먼 암호문이다. "뭐야 이거? 쟤네가 지금 처음 인사하는 건지, 다운로드 중인지, 속도가 빠른지 느린지 도무지 읽을 수가 없네 ㅆㅂ... 에라 모르겠다 그냥 통과나 시켜!"
+  - QUIC은 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 깡통 헤더 8바이트 뒤에 있는 <strong>모든 알맹이를 100% 몽땅 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3으로 흑색 잉크 칠(암호화)</strong>을 해버린다. 심지어 TCP에선 훤히 보였던 `ACK 영수증`이나 `패킷 순서 번호` 같은 통신 제어 신호마저도 암호화 박스 안에 다 넣어버린다.
+  - <strong>통신사 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>의 뇌구조</strong>: 패킷을 열어봤는데 맨 앞 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 껍데기 말고는 안이 죄다 시커먼 암호문이다. "뭐야 이거? 쟤네가 지금 처음 인사하는 건지, 다운로드 중인지, 속도가 빠른지 느린지 도무지 읽을 수가 없네 ㅆㅂ... 에라 모르겠다 그냥 통과나 시켜!"
   - 이 철벽 암호화 덕분에 QUIC은 전 세계 어떤 싸구려 통신망을 통과해도 망가지지 않는 극강의 무결성을 확보했다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                TCP vs QUIC의 패킷 내용 노출도 비교 도식           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 구형 TCP + TLS(HTTPS) 패킷 ]                              │
- │   [ IP 헤더 ] + [ TCP 헤더 (포트, ACK, Seq, 플래그 전부 보임!) ] │
- │             + [ TLS 헤더 (인사말 보임) ] + [ 암호화된 진짜 데이터 ] │
- │   * 방화벽 왈: "오호 통신 상태가 다 보이네? 내 맘대로 통제해야지~"        │
- │                                                             │
- │   [ 최첨단 QUIC 패킷 ]                                         │
- │   [ IP 헤더 ] + [ UDP 깡통 헤더 (포트번호 달랑 2개 보임 끝) ]       │
- │             + █ █ █ █ [ 100% 암호화 영역 ] █ █ █ █             │
- │                 (여기에 QUIC 헤더, ACK, TLS 인사, 데이터 다 숨어있음)│
- │                                                             │
- │   * 방화벽 왈: "뭐가 들었는지 알 수가 없네. 통제 불가. 통과시켜!"         │
- │                                                             │
- │   ▶ "이 100% 블랙박스화 전략이 QUIC을 막을 수 없게 만든 원동력이다."   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP vs QUIC의 패킷 내용 노출도 비교 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구형 TCP + TLS(HTTPS) 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 헤더</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">TCP 헤더 (포트, ACK, Seq, 플래그 전부 보임!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+</div><div class="kb-diagram-node">TLS 헤더 (인사말 보임)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">암호화된 진짜 데이터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방화벽 왈: "오호 통신 상태가 다 보이네? 내 맘대로 통제해야지~"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최첨단 QUIC 패킷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 헤더</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">UDP 깡통 헤더 (포트번호 달랑 2개 보임 끝)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">+ █ █ █ █</div><div class="kb-diagram-node">100% 암호화 영역</div><div class="kb-diagram-note">█ █ █ █</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(여기에 QUIC 헤더, ACK, TLS 인사, 데이터 다 숨어있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방화벽 왈: "뭐가 들었는지 알 수가 없네. 통제 불가. 통과시켜!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 100% 블랙박스화 전략이 QUIC을 막을 수 없게 만든 원동력이다."</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 전송의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -96,8 +99,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기업 보안 담당자들에겐 이 블랙박스([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))가 골칫덩어리다. 직원들이 어떤 미친 짓(사내 기밀 유출)을 하는지 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 패킷을 까볼 수가 없기 때문이다. 그래서 깐깐한 대기업/금융권 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서는 **"[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 443 포트로 나가는 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 트래픽은 묻지도 따지지도 않고 다 차단(Drop)해!"**라는 룰을 걸어둔다.
-차단당한 크롬 브라우저는 "앗! QUIC이 막혔네?" 하고 0.1초 만에 포기한 뒤, 얌전하게 기존의 낡고 투명한 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반의 HTTPS로 우회([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 접속**을 시도하여 멈춤 없이 인터넷을 살려내는 똑똑한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 플랜까지 갖추고 있다.
+기업 보안 담당자들에겐 이 블랙박스([QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/))가 골칫덩어리다. 직원들이 어떤 미친 짓(사내 기밀 유출)을 하는지 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 패킷을 까볼 수가 없기 때문이다. 그래서 깐깐한 대기업/금융권 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서는 <strong>"<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 443 포트로 나가는 <a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> 트래픽은 묻지도 따지지도 않고 다 차단(Drop)해!"</strong>라는 룰을 걸어둔다.
+차단당한 크롬 브라우저는 "앗! QUIC이 막혔네?" 하고 0.1초 만에 포기한 뒤, 얌전하게 기존의 낡고 투명한 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 기반의 HTTPS로 우회(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a>) 접속</strong>을 시도하여 멈춤 없이 인터넷을 살려내는 똑똑한 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 플랜까지 갖추고 있다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -105,7 +108,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** QUIC이 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에 지어진 것은 대기업이 **"페이퍼 컴퍼니(가짜 명의)"**를 세우는 것과 같습니다. 무지막지한 규제(기존 TCP의 한계와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 참견)를 피하기 위해, 아무런 규제가 없는 텅 빈 깡통 회사([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))를 하나 내세운 뒤, 그 뒤에서 진짜 모든 사업(통신 제어)을 암암리에 고속으로 처리해 버리는 완벽한 합법적 우회로입니다.
+- **📢 섹션 요약 비유**: <strong> QUIC이 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 위에 지어진 것은 대기업이 </strong>"페이퍼 컴퍼니(가짜 명의)"**를 세우는 것과 같습니다. 무지막지한 규제(기존 TCP의 한계와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 참견)를 피하기 위해, 아무런 규제가 없는 텅 빈 깡통 회사([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))를 하나 내세운 뒤, 그 뒤에서 진짜 모든 사업(통신 제어)을 암암리에 고속으로 처리해 버리는 완벽한 합법적 우회로입니다.
 
 ---
 
@@ -128,15 +131,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: QUIC]
-    │
-    ▼
-[현재 개념: QUIC 전송]
-    │
-    ├──▶ [확장 A: HOL 블로킹 문제 해결]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QUIC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HOL 블로킹 문제 해결</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 전송는 QUIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제 해결와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

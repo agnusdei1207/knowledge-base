@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발 예산을 짜려면 "이 소프트웨어가 얼마나 거대한가(규모)?"를 측정해야 한다. 과거에는 코드 라인 수(LOC, Lines of [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 기준으로 비용을 줬다. 하지만 LOC 방식은 치명적인 단점이 있었다. **개발을 시작하기도 전에 코드가 몇 줄이 나올지 알 방법이 없고, 능력 없는 개발자가 복잡하게 1,000줄로 짠 코드가 천재가 10줄로 짠 코드보다 더 많은 돈을 받는 모순**이 발생했다.
+소프트웨어 개발 예산을 짜려면 "이 소프트웨어가 얼마나 거대한가(규모)?"를 측정해야 한다. 과거에는 코드 라인 수(LOC, Lines of [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 기준으로 비용을 줬다. 하지만 LOC 방식은 치명적인 단점이 있었다. <strong>개발을 시작하기도 전에 코드가 몇 줄이 나올지 알 방법이 없고, 능력 없는 개발자가 복잡하게 1,000줄로 짠 코드가 천재가 10줄로 짠 코드보다 더 많은 돈을 받는 모순</strong>이 발생했다.
 
-그래서 사용자 관점의 화면 수, DB 테이블 수를 세는 **[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))** 제도가 도입되었다. 그러나 이미 수십 년간 LOC 기준으로 예산, 인력, 유지보수 비용([COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델 등)을 계산해오던 조직들은 직관적인 LOC 지표를 버리기 힘들었다. 
+그래서 사용자 관점의 화면 수, DB 테이블 수를 세는 <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>, <a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>)</strong> 제도가 도입되었다. 그러나 이미 수십 년간 LOC 기준으로 예산, 인력, 유지보수 비용([COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델 등)을 계산해오던 조직들은 직관적인 LOC 지표를 버리기 힘들었다. 
 
-이 간극을 메우기 위해 **"[기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 먼저 구한 다음, 이걸 다시 LOC로 변환(역산)해 보자"**는 아이디어가 나왔고, 이것이 바로 역추산 기법인 **백파이어링(Backfiring)**이다.
+이 간극을 메우기 위해 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)를 먼저 구한 다음, 이걸 다시 LOC로 변환(역산)해 보자"</strong>는 아이디어가 나왔고, 이것이 바로 역추산 기법인 <strong>백파이어링(Backfiring)</strong>이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 집을 지을 때 "벽돌(LOC)이 몇 장 들어가냐"로 돈을 계산했다. 벽돌 개수를 미리 알 수 없자 "방이 몇 개냐([기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/))"로 계산법을 바꿨다. 백파이어링은 "방이 3개([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))면, 대충 벽돌은 3만 장(역산 LOC)쯤 들어가겠네"라고 수학적으로 역추산해 보는 것이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 백파이어링 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) LOC 역산의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  백파이어링 FP LOC 역산                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백파이어링 FP LOC 역산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 백파이어링 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) LOC 역산가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,8 +75,8 @@ tags = ["studynote-software-engineering"]
 
 | 규모 산정 기법 | 산정 기준 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| **LOC (Lines of [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | 개발자의 코드 줄 수 | 직관적, 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풍부 | 개발 전 예측 불가, 언어별 편차 심함 |
-| **[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) ([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/))** | 사용자 요구 기능 개수 | 개발 전 산정 가능, 언어 독립적 | 복잡한 내부 로직(수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 측정에 취약 |
+| <strong>LOC (Lines of <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 개발자의 코드 줄 수 | 직관적, 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풍부 | 개발 전 예측 불가, 언어별 편차 심함 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>)</strong> | 사용자 요구 기능 개수 | 개발 전 산정 가능, 언어 독립적 | 복잡한 내부 로직(수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 측정에 취약 |
 | **Backfiring (역산)** | FP를 LOC로 변환 | **FP의 사전 예측력 + LOC의 익숙함 결합** | 환산 계수가 현실 프로젝트와 안 맞을 수 있음 |
 
 즉, 백파이어링은 LOC와 FP가 가진 각각의 한계를 상호 보완하기 위해 만들어진 '하이브리드 추산 브릿지'다.
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-백파이어링 FP LOC 역산 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">백파이어링 FP LOC 역산 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

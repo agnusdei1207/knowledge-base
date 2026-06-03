@@ -21,22 +21,24 @@ tags = ["studynote-ict-convergence"]
 
 클라우드 컴퓨팅은 서버, 스토리지, 네트워크, 플랫폼 같은 자원을 인터넷을 통해 필요할 때 빌려 쓰고 사용량에 따라 비용을 지불하는 제공 모델이다. 문제는 시장에서 "서버를 외부에 두었다"는 이유만으로 호스팅, 가상 서버 임대, 관리형 아웃소싱까지 모두 클라우드라고 부르기 시작했다는 점이다. 그래서 NIST는 무엇이 진짜 클라우드인지를 판별하기 위해 5가지 핵심 특징을 제시했다.
 
-이 기준이 중요한 이유는 클라우드의 본질이 장비 위치가 아니라 **운영 방식의 전환**에 있기 때문이다. 전산실 밖에 서버가 있어도 여전히 승인 티켓을 넣고 며칠 뒤 자원을 받으며, 트래픽 급증 때 자동 확장이 안 되고, 사용량 가시성이 없다면 그것은 "남의 서버를 쓰는 전통 운영"일 뿐이다. 반대로 퍼블릭이든 프라이빗이든 이 5가지가 충족되면 비로소 클라우드다운 민첩성과 자동화가 생긴다.
+이 기준이 중요한 이유는 클라우드의 본질이 장비 위치가 아니라 <strong>운영 방식의 전환</strong>에 있기 때문이다. 전산실 밖에 서버가 있어도 여전히 승인 티켓을 넣고 며칠 뒤 자원을 받으며, 트래픽 급증 때 자동 확장이 안 되고, 사용량 가시성이 없다면 그것은 "남의 서버를 쓰는 전통 운영"일 뿐이다. 반대로 퍼블릭이든 프라이빗이든 이 5가지가 충족되면 비로소 클라우드다운 민첩성과 자동화가 생긴다.
 
 NIST의 5대 특징은 서로 떨어진 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 흐름으로 연결된다. 아래 그림은 왜 클라우드가 단순한 원격 자산이 아니라 유틸리티 운영 모델인지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Utility cloud, not just remote servers                             │
-├────────────────────────────────────────────────────────────────────┤
-│ user request -> self-service portal -> shared pool -> scale -> meter│
-│                                                                    │
-│ missing self-service => ticket-based outsourcing                   │
-│ missing pooling      => simple hosting                             │
-│ missing elasticity   => fixed-capacity rental                      │
-│ missing metering     => flat lease, weak utility model             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility cloud, not just remote servers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user request -&gt; self-service portal -&gt; shared pool -&gt; scale -&gt; meter</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing self-service =&gt; ticket-based outsourcing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing pooling =&gt; simple hosting</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing elasticity =&gt; fixed-capacity rental</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing metering =&gt; flat lease, weak utility model</div></div>
+</div>
+</div>
+
+
 
 여기서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))는 사람이 콘솔에서 클릭하는 경로와 자동화 도구가 호출하는 경로를 함께 포함한다. 즉 클라우드는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 서버"가 아니라 "표준화된 방식으로 즉시 요청하고, 공유 자원에서 받아 쓰며, 쓰는 만큼 측정되는 운영 체계"라고 기억해야 한다.
 
@@ -58,27 +60,22 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 
 아래 그림은 5대 특징이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정에서 어떻게 이어지는지 압축한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ NIST five characteristics in one provisioning loop                 │
-├────────────────────────────────────────────────────────────────────┤
-│ 1. request via portal or API                                       │
-│        │                                                           │
-│        ▼                                                           │
-│ 2. allocate from pooled compute / storage / network resources      │
-│        │                                                           │
-│        ▼                                                           │
-│ 3. expose service over standard network access                     │
-│        │                                                           │
-│        ▼                                                           │
-│ 4. scale out or in as workload changes                             │
-│        │                                                           │
-│        ▼                                                           │
-│ 5. meter usage for billing, governance, and optimization           │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-특히 [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)은 단순히 하드웨어를 많이 모아 두는 개념이 아니다. 물리 서버 여러 대를 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 필요한 순간에 재할당할 수 있어야 한다. 그래서 클라우드의 핵심 역량은 "장비가 많다"가 아니라 **자원을 빠르게 조합하고 회수하는 자동화된 풀 관리 능력**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST five characteristics in one provisioning loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. request via portal or API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. allocate from pooled compute / storage / network resources</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. expose service over standard network access</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. scale out or in as workload changes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. meter usage for billing, governance, and optimization</div></div>
+</div>
+</div>
+
+
+
+특히 [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)은 단순히 하드웨어를 많이 모아 두는 개념이 아니다. 물리 서버 여러 대를 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)해 필요한 순간에 재할당할 수 있어야 한다. 그래서 클라우드의 핵심 역량은 "장비가 많다"가 아니라 <strong>자원을 빠르게 조합하고 회수하는 자동화된 풀 관리 능력</strong>이다.
 
 또한 측정 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 청구서 발행용 기능으로만 보면 부족하다. 사용량 계측은 용량 계획, [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/), 내부 부서별 비용 배분, 비효율 자원 제거까지 이어진다. 즉 미터링은 돈을 받기 위한 기능이면서 동시에 클라우드 운영을 통제하는 계기판이기도 하다.
 
@@ -108,18 +105,21 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 5대 특징을 단순 암기보다 **설계 점검표**로 써야 한다. 예를 들어 주문형 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 필요하다면 콘솔 클릭만 허용하는 것이 아니라, 승인 정책이 내장된 IaC와 표준 템플릿이 있어야 한다. 신속한 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을 기대한다면 애플리케이션 상태를 외부화하고 자동 확장 규칙을 설계해야 하며, 측정 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살리려면 자원 태깅과 비용 가시화 체계가 준비되어야 한다.
+실무에서는 5대 특징을 단순 암기보다 <strong>설계 점검표</strong>로 써야 한다. 예를 들어 주문형 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 필요하다면 콘솔 클릭만 허용하는 것이 아니라, 승인 정책이 내장된 IaC와 표준 템플릿이 있어야 한다. 신속한 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을 기대한다면 애플리케이션 상태를 외부화하고 자동 확장 규칙을 설계해야 하며, 측정 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 살리려면 자원 태깅과 비용 가시화 체계가 준비되어야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Cloud adoption works only when design matches the five traits      │
-├────────────────────────────────────────────────────────────────────┤
-│ self-service -> API / IaC / guardrails                             │
-│ pooling      -> tenant isolation / capacity abstraction            │
-│ elasticity   -> stateless design / automated scale rules           │
-│ metering     -> tagging / showback / cost visibility               │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud adoption works only when design matches the five traits</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self-service -&gt; API / IaC / guardrails</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pooling -&gt; tenant isolation / capacity abstraction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">elasticity -&gt; stateless design / automated scale rules</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metering -&gt; tagging / showback / cost visibility</div></div>
+</div>
+</div>
+
+
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -136,7 +136,7 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 - 미터링은 청구서에서만 보고, 부서별 태깅과 비용 분석 체계를 만들지 않은 경우
 - 공유 자원 구조를 도입하고도 격리 정책과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준을 준비하지 않은 경우
 
-기술사 답안에서는 "클라우드는 유연하다"는 추상적 표현보다, **자동화 여부, 자원 공유 구조, [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) 구현 가능성, 비용 가시성**을 기준으로 판단해야 한다. 특히 일정한 고정 부하와 강한 규제 환경에서는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)나 프라이빗 구성이 더 나을 수 있다는 점도 함께 언급해야 설계 답안이 균형을 갖는다.
+기술사 답안에서는 "클라우드는 유연하다"는 추상적 표현보다, <strong>자동화 여부, 자원 공유 구조, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a> 구현 가능성, 비용 가시성</strong>을 기준으로 판단해야 한다. 특히 일정한 고정 부하와 강한 규제 환경에서는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)나 프라이빗 구성이 더 나을 수 있다는 점도 함께 언급해야 설계 답안이 균형을 갖는다.
 
 - **📢 섹션 요약 비유**: 클라우드는 택시처럼 필요할 때 부르는 모델이지만, 매일 같은 시간에 같은 경로로 장거리 출퇴근한다면 자가용이 더 나을 수 있다. 중요한 것은 "유행이라서 클라우드"가 아니라, 다섯 가지 특징이 내 업무 패턴과 정말 맞는가다.
 
@@ -144,11 +144,11 @@ NIST가 정의한 5대 특징은 각각 독립된 기능처럼 보이지만 실�
 
 ## Ⅴ. 기대효과 및 결론
 
-NIST 5대 특징이 제대로 구현되면 인프라는 준비 시간, 확장 속도, 비용 가시성, 전 세계 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 측면에서 전통 환경보다 훨씬 민첩해진다. 개발 조직은 장비 조달보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포에 집중할 수 있고, 운영 조직은 자원 사용량을 근거로 표준화와 최적화를 추진할 수 있다. 결국 클라우드의 가장 큰 효과는 서버를 외부에 둔 것이 아니라 **인프라를 반복 가능한 운영 모델로 바꾼 것**에 있다.
+NIST 5대 특징이 제대로 구현되면 인프라는 준비 시간, 확장 속도, 비용 가시성, 전 세계 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) 측면에서 전통 환경보다 훨씬 민첩해진다. 개발 조직은 장비 조달보다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포에 집중할 수 있고, 운영 조직은 자원 사용량을 근거로 표준화와 최적화를 추진할 수 있다. 결국 클라우드의 가장 큰 효과는 서버를 외부에 둔 것이 아니라 <strong>인프라를 반복 가능한 운영 모델로 바꾼 것</strong>에 있다.
 
 물론 전제조건도 분명하다. 자동화 없이 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 공허하고, 상태 의존 구조에서는 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 제한되며, 미터링 없이는 비용 폭증을 통제하기 어렵다. 또한 네트워크 의존, 보안 경계, [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이슈는 여전히 설계자가 풀어야 할 숙제다. 따라서 NIST의 정의는 클라우드 찬양이 아니라, 클라우드를 제대로 운영하기 위한 최소 규범에 가깝다.
 
-앞으로의 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 엣지 클라우드, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 역시 이 다섯 가지를 더 빠르고 더 자동화된 방식으로 구현하는 방향으로 발전한다. 결론적으로 클라우드 5대 특징은 "기능 목록"이 아니라 **유틸리티형 컴퓨팅이 성립하는 조건**으로 기억하는 것이 맞다.
+앞으로의 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/), 엣지 클라우드, [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 역시 이 다섯 가지를 더 빠르고 더 자동화된 방식으로 구현하는 방향으로 발전한다. 결론적으로 클라우드 5대 특징은 "기능 목록"이 아니라 <strong>유틸리티형 컴퓨팅이 성립하는 조건</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 수도 시스템은 물이 멀리 있다는 사실보다, 언제 틀어도 나오고 많이 쓰면 더 공급되며 쓴 만큼만 요금이 찍힌다는 점이 중요하다. 클라우드도 마찬가지로, 장비 위치보다 운영 방식이 본질이다.
 
@@ -169,27 +169,27 @@ NIST 5대 특징이 제대로 구현되면 인프라는 준비 시간, 확장 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-가상화 · 자동화 · 표준 네트워크
-        │
-        ▼
-주문형 셀프 서비스
-        │
-        ▼
-광범위한 네트워크 접근
-        │
-        ▼
-자원 풀링
-        │
-        ▼
-신속한 탄력성
-        │
-        ▼
-측정 가능한 서비스
-        │
-        ▼
-클라우드 네이티브 · 서버리스 · 비용 최적화 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">가상화 · 자동화 · 표준 네트워크</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">주문형 셀프 서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">광범위한 네트워크 접근</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자원 풀링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">신속한 탄력성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">측정 가능한 서비스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브 · 서버리스 · 비용 최적화 운영</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

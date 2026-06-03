@@ -33,26 +33,27 @@ tags = ["studynote-data-engineering"]
 
 | 핵심 구성 요소 | 수학적 의미 | 실무적 의미 (스팸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 예시) |
 | :--- | :--- | :--- |
-| **사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Prior)** | $P(C)$ | 전체 메일 중 스팸 메일이 차지하는 기본 비율 |
+| <strong>사전 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Prior)</strong> | $P(C)$ | 전체 메일 중 스팸 메일이 차지하는 기본 비율 |
 | **우 도 (Likelihood)** | $P(F \vert C)$ | 스팸 메일 중에서 '무료'라는 단어가 등장할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
-| **사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) (Posterior)** | $P(C \vert F)$ | '무료' 단어가 들어간 메일을 받았을 때, 이것이 스팸일 최종 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| <strong>사후 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Posterior)</strong> | $P(C \vert F)$ | '무료' 단어가 들어간 메일을 받았을 때, 이것이 스팸일 최종 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           나이브 베이즈의 곱셈과 라플라스 스무딩 보정         │
-├──────────────────────────────────────────────────────────────┤
-│ 1. Zero Probability 문제 발생:                               │
-│    P(스팸 | "안녕", "무료", "비트코인")                      │
-│    = P(스팸) × P("안녕"|스팸) × P("무료"|스팸) × P("비트코인"|스팸) │
-│    = 0.5 × 0.1 × 0.4 × 0 (학습 때 못 본 단어 등장!) = 0       │
-│                                                              │
-│ 2. Laplace Smoothing 개입 (보통 α=1):                        │
-│    기존 확률: (특정 단어 등장 횟수) / (해당 클래스 전체 단어 수)   │
-│    보정 확률: (등장 횟수 + α) / (전체 단어 수 + α × 단어종류수) │
-│                                                              │
-│ 3. Log-sum 보정: 아주 작은 확률들의 곱셈을 로그 덧셈으로 변환! │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이브 베이즈의 곱셈과 라플라스 스무딩 보정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Zero Probability 문제 발생:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(스팸</div><div class="kb-diagram-cell">"안녕", "무료", "비트코인")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= P(스팸) × P("안녕"</div><div class="kb-diagram-cell">스팸) × P("무료"</div><div class="kb-diagram-cell">스팸) × P("비트코인"</div><div class="kb-diagram-cell">스팸)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0.5 × 0.1 × 0.4 × 0 (학습 때 못 본 단어 등장!) = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Laplace Smoothing 개입 (보통 α=1):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 확률: (특정 단어 등장 횟수) / (해당 클래스 전체 단어 수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보정 확률: (등장 횟수 + α) / (전체 단어 수 + α × 단어종류수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Log-sum 보정: 아주 작은 확률들의 곱셈을 로그 덧셈으로 변환!</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램이 보여주듯, 스무딩을 적용하면 한 번도 보지 못한 단어(비트코인)가 나오더라도 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 아니라 0.001 같은 아주 작은 값을 갖게 된다. 덕분에 "안녕", "무료" 같은 다른 중요한 단어들의 정보가 0에 곱해져 증발해버리는 대참사를 막을 수 있다.
 
@@ -66,7 +67,7 @@ tags = ["studynote-data-engineering"]
 
 | 비교 항목 | 가우시안 (Gaussian) | 다항 분포 (Multinomial) | 베르누이 (Bernoulli) |
 | :--- | :--- | :--- | :--- |
-| **다루는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 연속적인 실수 수치 | 이산적인 카운트 (빈도수) | 0 또는 1 (이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
+| <strong>다루는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 연속적인 실수 수치 | 이산적인 카운트 (빈도수) | 0 또는 1 (이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
 | **적용 사례** | 붓꽃(Iris) 길이 예측, 온도 | 긴 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) | 짧은 제목 스팸 여부, 단어 유무 |
 | **핵심 계산법** | 정규 분포의 평균과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 단어가 몇 번 나타났는가 | 단어가 존재하냐 마느냐 |
 
@@ -81,7 +82,7 @@ tags = ["studynote-data-engineering"]
 실무에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 선택할 때 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "빠르게 쳐내는 1차 필터망"으로 가장 훌륭한 선택지다. 
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **변수 독립성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 피처들이 서로 강하게 연관되어 있다면(예: 아파트 평수와 방 개수), 나이브 가정이 깨지면서 예측 성능이 급락한다. 이때는 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))로 넘어가야 한다.
+1. <strong>변수 독립성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 피처들이 서로 강하게 연관되어 있다면(예: 아파트 평수와 방 개수), 나이브 가정이 깨지면서 예측 성능이 급락한다. 이때는 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))로 넘어가야 한다.
 2. **배치 vs 온라인 학습**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 단순히 횟수를 누적(Count)하는 방식이므로, 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 업데이트하는 온라인 학습(Online [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))에 극도로 유리하다.
 3. **전처리 품질 통제**: 단어 사전을 만들 때 너무 희소한 단어나 의미 없는 불용어(Stopwords)를 제거하지 않으면, 스무딩 연산에서 분모가 너무 커져 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 뭉개지는 왜곡 현상이 발생한다.
 
@@ -108,27 +109,29 @@ tags = ["studynote-data-engineering"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **베이즈 정리 (Bayes' Theorem)** | 알고리즘의 기초가 되는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 역산 법칙 |
-| **[TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) (Term Frequency - Inverse [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Frequency)** | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)에 텍스트를 넣기 전 단어의 중요도 가중치를 보정하는 전처리 |
-| **[언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 보정 (Log-sum Trick)** | 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값의 연속 곱셈을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 덧셈으로 바꿔 컴퓨터 연산 한계를 극복 |
-| **온라인 학습 (Online [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))** | 전체 재학습 없이 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 빈도만 추가하여 모델을 갱신하는 기법 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/">TF-IDF</a> (Term Frequency - Inverse <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> Frequency)</strong> | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)에 텍스트를 넣기 전 단어의 중요도 가중치를 보정하는 전처리 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/">언더플로우</a> 보정 (Log-sum Trick)</strong> | 작은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값의 연속 곱셈을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 덧셈으로 바꿔 컴퓨터 연산 한계를 극복 |
+| <strong>온라인 학습 (Online <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong> | 전체 재학습 없이 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 빈도만 추가하여 모델을 갱신하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-조건부 확률과 베이즈 정리 (이론적 토대)
-    │
-    ▼
-순진한 독립성 가정 (연산량 폭발 문제 해결)
-    │
-    ▼
-Naive Bayes Classifier (초고속 분류기 탄생)
-    │
-    ▼
-Zero Probability 에러 발생
-    │
-    ▼
-라플라스 스무딩 (Laplace Smoothing 결합)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">조건부 확률과 베이즈 정리 (이론적 토대)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">순진한 독립성 가정 (연산량 폭발 문제 해결)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Naive Bayes Classifier (초고속 분류기 탄생)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Zero Probability 에러 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">라플라스 스무딩 (Laplace Smoothing 결합)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "복잡한 수학 계산 → 과감한 생략으로 가속화 → 예외 상황 발생 → 보정 수학 도입"으로 완성되는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)형 알고리즘의 발전 궤적을 보여준다.
 

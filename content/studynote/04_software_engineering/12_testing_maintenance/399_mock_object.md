@@ -34,7 +34,7 @@ public void 결제_진행(Order order) {
 - **비극 3**: 속도가 미친 듯이 느리다. DB와 네트워크를 탔다 오므로 1번 테스트에 수십 초가 걸린다.
 
 **"내 로직(`금액 > 0`)이 맞는지 확인하고 싶은 거지, 진짜 은행 서버가 잘 돌아가는지 테스트하려는 게 아니잖아!"**
-이 문제를 해결하기 위해, 진짜 은행 서버 대신 메모리 안에서만 0.001초 만에 "결제 성공!" 이라고 대답해 주는 **가짜 은행 인형([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) Object)**을 꽂아 넣는 '격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))' 기술이 등장했다.
+이 문제를 해결하기 위해, 진짜 은행 서버 대신 메모리 안에서만 0.001초 만에 "결제 성공!" 이라고 대답해 주는 <strong>가짜 은행 인형(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a> Object)</strong>을 꽂아 넣는 '격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))' 기술이 등장했다.
 
 > 📢 **섹션 요약 비유**: 우주 비행사가 화성 착륙 훈련([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))을 하려고 진짜 화성(실제 DB)까지 날아갈 수는 없습니다. 대신 지구에 화성과 중력이 100% 똑같은 수조 세트장([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) 객체)을 만들어 놓고, 안전하고 싸고 빠르게 내 우주복(내 코드)의 성능만 떼어서 검사하는 완벽한 훈련 기법입니다.
 
@@ -70,10 +70,10 @@ public void 결제_진행(Order order) {
 
 Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지만, 학문적으로는 역할에 따라 세밀하게 나뉜다.
 
-1. **[Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) ([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/))**: 로직에 아무 영향도 안 주는데, 깡통 객체가 하나 필요할 때 빈 껍데기만 만들어 던져주는 것.
-2. **[Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/) ([스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))**: 무조건 미리 정해둔 긍정/부정의 하드코딩된 결괏값만 수동적으로 리턴하는 바보 인형 (상태 검증용).
-3. **[Spy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) ([스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/))**: 기본적으로 진짜 서버/객체를 호출하되, 호출된 횟수나 파라미터를 몰래 옆에서 감시해서 기록해 두는 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/).
-4. **[Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/) (목)**: [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)의 기능에 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)의 감시 기능까지 합쳐져, "행위(Behavior)가 올바르게 일어났는가?"를 직접 Assertion(단언)할 수 있는 완성형 지능 인형.
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">Dummy</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a>)</strong>: 로직에 아무 영향도 안 주는데, 깡통 객체가 하나 필요할 때 빈 껍데기만 만들어 던져주는 것.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">Stub</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/">스텁</a>)</strong>: 무조건 미리 정해둔 긍정/부정의 하드코딩된 결괏값만 수동적으로 리턴하는 바보 인형 (상태 검증용).
+3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">Spy</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>)</strong>: 기본적으로 진짜 서버/객체를 호출하되, 호출된 횟수나 파라미터를 몰래 옆에서 감시해서 기록해 두는 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/).
+4. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a> (목)</strong>: [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/)의 기능에 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)의 감시 기능까지 합쳐져, "행위(Behavior)가 올바르게 일어났는가?"를 직접 Assertion(단언)할 수 있는 완성형 지능 인형.
 
 ---
 
@@ -135,21 +135,23 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-목 객체 (Mock Object) 기반 격리 테스트 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">목 객체 (Mock Object) 기반 격리 테스트 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

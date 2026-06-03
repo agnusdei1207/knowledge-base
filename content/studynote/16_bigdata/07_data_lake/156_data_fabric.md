@@ -10,9 +10,9 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 Gartner가 정의한 아키텍처 개념으로, [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·클라우드·엣지 등 이기종 환경에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **위치 무관하게 통합 접근**할 수 있는 지능형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 레이어다.
-2. **능동적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))**와 **[지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))**를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 의미론적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 AI가 자동으로 발견하고, 접근 경로를 동적으로 최적화한다.
-3. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))가 **조직 원칙 중심([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권)**이라면, [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 **기술 원칙 중심(지능형 통합 레이어)**으로 상호 보완적 개념이다.
+1. [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)([Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/))은 Gartner가 정의한 아키텍처 개념으로, [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)·클라우드·엣지 등 이기종 환경에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>위치 무관하게 통합 접근</strong>할 수 있는 지능형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 레이어다.
+2. <strong>능동적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>)</strong>와 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong>를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 의미론적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 AI가 자동으로 발견하고, 접근 경로를 동적으로 최적화한다.
+3. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))가 <strong>조직 원칙 중심(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 소유권)</strong>이라면, [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 <strong>기술 원칙 중심(지능형 통합 레이어)</strong>으로 상호 보완적 개념이다.
 
 ---
 
@@ -36,38 +36,24 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│               Data Fabric 아키텍처                               │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌────────────┐   │
-│  │ 온프레미스 │  │  AWS S3   │  │ Azure DL  │  │  SaaS DB   │   │
-│  │  Oracle   │  │  Parquet  │  │  Gen2     │  │ Salesforce │   │
-│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬──────┘   │
-│        │              │              │              │           │
-│        └──────────────┴──────────────┴──────────────┘           │
-│                              │                                   │
-│         ┌────────────────────▼──────────────────────┐           │
-│         │          Data Fabric 레이어                 │           │
-│         │                                           │           │
-│         │  ┌────────────────┐  ┌──────────────────┐ │           │
-│         │  │ 능동적 메타데이터│  │ 지식 그래프       │ │           │
-│         │  │ (Active Metadata│  │ (Knowledge Graph) │ │           │
-│         │  │  AI 자동 수집)  │  │ 의미 관계 맵핑    │ │           │
-│         │  └────────────────┘  └──────────────────┘ │           │
-│         │                                           │           │
-│         │  ┌────────────────┐  ┌──────────────────┐ │           │
-│         │  │ 통합 거버넌스   │  │ 데이터 가상화     │ │           │
-│         │  │ (정책 엔진)     │  │ (물리 이동 없음)  │ │           │
-│         │  └────────────────┘  └──────────────────┘ │           │
-│         └────────────────────────────────────────────┘           │
-│                              │                                   │
-│         ┌────────────────────▼──────────────────────┐           │
-│         │        소비자 (BI / ML / 앱)               │           │
-│         └───────────────────────────────────────────┘           │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Fabric 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스</div><div class="kb-diagram-cell">AWS S3</div><div class="kb-diagram-cell">Azure DL</div><div class="kb-diagram-cell">SaaS DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">Parquet</div><div class="kb-diagram-cell">Gen2</div><div class="kb-diagram-cell">Salesforce</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Fabric 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">능동적 메타데이터</div><div class="kb-diagram-cell">지식 그래프</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Active Metadata</div><div class="kb-diagram-cell">(Knowledge Graph)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 자동 수집)</div><div class="kb-diagram-cell">의미 관계 맵핑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 거버넌스</div><div class="kb-diagram-cell">데이터 가상화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정책 엔진)</div><div class="kb-diagram-cell">(물리 이동 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 (BI / ML / 앱)</div></div>
+</div>
+</div>
+
+
 
 **핵심 기술 구성 요소**
 
@@ -85,7 +71,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. 비교 및 연결
 
-**[Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) 비교**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a> vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a> 비교</strong>
 
 | 항목 | [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) | [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) |
 |:---|:---|:---|
@@ -95,7 +81,7 @@ tags = ["studynote-bigdata"]
 | 도입 복잡도 | 기술 플랫폼 구축 필요 | 조직 문화 변화 필요 |
 | 상호 보완성 | [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) 조직에 Fabric 기술 적용 가능 | Fabric 위에 [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 원칙 구현 가능 |
 
-**[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) vs 물리적 통합**
+<strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/">데이터 가상화</a> vs 물리적 통합</strong>
 
 | 항목 | 물리적 통합 ([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) | [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) |
 |:---|:---|:---|
@@ -110,9 +96,9 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 도입 적합 시나리오**
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a> 도입 적합 시나리오</strong>
 
-- **[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)/하이브리드**: AWS + Azure + [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 대기업
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a>/하이브리드</strong>: AWS + Azure + [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 대기업
 - **M&A 후 통합**: 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 가진 두 회사 시스템을 빠르게 통합
 - **레거시 현대화**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 레거시 DB를 즉시 클라우드로 이전하지 않고도 분석 통합
 - **규제 환경**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거주지([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Residency) 규제로 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 불가한 경우
@@ -139,7 +125,7 @@ tags = ["studynote-bigdata"]
 | 거버넌스 일원화 | 멀티 소스에 통합 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 |
 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 발견 | 숨겨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 자동 탐색, 분석 준비 시간 단축 |
 
-[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 Gartner가 2022년부터 Top [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Trend로 꾸준히 선정하고 있는 아키텍처 방향이다. 단기적으로는 [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)와 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 중장기적으로는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 능동적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)로 진화한다. 기술사 시험에서는 **능동적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 개념**, **[Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/) 비교**, **[데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) 원리와 한계**가 핵심 논점이다.
+[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 Gartner가 2022년부터 Top [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Trend로 꾸준히 선정하고 있는 아키텍처 방향이다. 단기적으로는 [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/)와 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 중장기적으로는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 능동적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)로 진화한다. 기술사 시험에서는 <strong>능동적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 개념</strong>, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">Data Fabric</a> vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/">Data Mesh</a> 비교</strong>, <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/">데이터 가상화</a> 원리와 한계</strong>가 핵심 논점이다.
 
 > 📢 **섹션 요약 비유**: [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세계의 인터넷과 같다. 세계 각지의 서버([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스)가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(패브릭 레이어)로 연결되어, 어디서든 원하는 정보를 위치 걱정 없이 가져올 수 있다.
 
@@ -161,21 +147,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 사일로 (Data Silo) — 부서별 분산 저장, 통합 활용 불가 문제]
-    │
-    ▼
-[ETL / ELT — 중앙 집중 복사·변환, 실시간성·유연성 한계]
-    │
-    ▼
-[데이터 패브릭 (Data Fabric) — 메타데이터 지능으로 위치 무관 데이터 연결]
-    │
-    ▼
-[데이터 메시 (Data Mesh) — 도메인 오너십 분산, 데이터 제품화 전략]
-    │
-    ▼
-[지식 그래프 + AI 자동화 — 패브릭 기반 자동 데이터 발견·품질·거버넌스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 (Data Silo) — 부서별 분산 저장, 통합 활용 불가 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ETL / ELT — 중앙 집중 복사·변환, 실시간성·유연성 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric) — 메타데이터 지능으로 위치 무관 데이터 연결</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 오너십 분산, 데이터 제품화 전략</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 + AI 자동화 — 패브릭 기반 자동 데이터 발견·품질·거버넌스</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 문제를 ETL로 임시 해결하던 방식에서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 지능 기반 패브릭으로 진화하고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스([데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/))와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합의 미래를 만들어가는 과정을 보여준다.
 

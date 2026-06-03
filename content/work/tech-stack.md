@@ -8,7 +8,7 @@ tags = ["work"]
 tags = ["work"]
 +++
 
-우리 조직에서 사용하고 연구하는 핵심 기술 및 라이브러리 목록과 가이드라인입니다. 각 기술의 이론적 배경과 기초 개념은 관련 **Study Note**에서 깊이 있게 학습할 수 있습니다.
+우리 조직에서 사용하고 연구하는 핵심 기술 및 라이브러리 목록과 가이드라인입니다. 각 기술의 이론적 배경과 기초 개념은 관련 <strong>Study Note</strong>에서 깊이 있게 학습할 수 있습니다.
 
 ---
 
@@ -18,7 +18,7 @@ tags = ["work"]
     *   *이론 및 설계:* **소프트웨어 공학의 디자인 패턴** 및 **OS 비동기 I/O 원리** 참고.
 *   **Docker & Docker Compose:** 모든 로컬 개발 환경 및 사내 호스팅 서비스(Gitea, Jenkins 등)의 표준 컨테이너화 도구.
     *   *이론 및 설계:* **클라우드 아키텍처 및 컨테이너 가상화** 참고.
-*   **Git (GitHub):** 형상 관리 및 **[README](../README.md)** 지식 공동 저장소의 핵심 백엔드.
+*   **Git (GitHub):** 형상 관리 및 <strong><a href="../README.md">README</a></strong> 지식 공동 저장소의 핵심 백엔드.
     *   *프로세스 관리:* **DevOps CI/CD 파이프라인** 참고.
 
 ---
@@ -39,7 +39,7 @@ tags = ["work"]
 *   **LangChain / LlamaIndex:** AI 에이전트 워크플로우를 빌드하기 위한 오케스트레이션 프레임워크.
 *   **Model Context Protocol (MCP):** 에이전트가 CLI나 특정 IDE에 종속되지 않고 외부 시스템과 연결되도록 만드는 표준 인터페이스.
 *   **Claude Code:** 코드와 문서를 직접 읽고 수정하며, MCP를 통해 공용 지식 툴을 호출할 수 있는 작업형 AI 클라이언트.
-*   **Codex Python SDK (`openai-codex`):** 내부 문서 자동화 워커, PR 생성기, 검토 배치 작업을 Python 서비스로 구현할 때 쓰는 Codex 실행 SDK.
+*   <strong>Codex Python SDK (<code>openai-codex</code>):</strong> 내부 문서 자동화 워커, PR 생성기, 검토 배치 작업을 Python 서비스로 구현할 때 쓰는 Codex 실행 SDK.
     *   *이론 및 설계:* **머신러닝/딥러닝 및 LLM/RAG 구조** 참고.
 
 ---

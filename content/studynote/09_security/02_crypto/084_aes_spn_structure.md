@@ -44,13 +44,19 @@ AES의 상태는 4x4 [바이트](/knowledge-base/studynote/01_computer_architect
 | MixColumns | 열 단위 선형 혼합 | 확산 강화 |
 | AddRoundKey | 라운드 키 XOR | 키 의존성 부여 |
 
-```text
-Plaintext
-  ↓ AddRoundKey
-[SubBytes → ShiftRows → MixColumns → AddRoundKey] × (Nr-1)
-  ↓ Final round: SubBytes → ShiftRows → AddRoundKey
-Ciphertext
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-note">↓ AddRoundKey</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SubBytes → ShiftRows → MixColumns → AddRoundKey</div><div class="kb-diagram-note">× (Nr-1)</div></div>
+<div class="kb-diagram-note">↓ Final round: SubBytes → ShiftRows → AddRoundKey</div>
+<div class="kb-diagram-note">Ciphertext</div>
+</div>
+</div>
+
+
 
 키 길이에 따라 라운드 수는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 12, 14로 달라진다. 즉 AES는 한 번의 강한 연산이 아니라, 약간씩 성질이 다른 연산을 반복해 전체 보안을 만든다. 키 스케줄은 매 라운드 키를 생성해 같은 구조라도 다른 혼합이 나오게 한다.
 
@@ -117,18 +123,21 @@ AES의 장점은 강한 보안성과 높은 구현 효율을 동시에 제공한
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Plaintext
-  │
-  ▼
-AddRoundKey
-  │
-  ▼
-SubBytes → ShiftRows → MixColumns
-  │
-  ▼
-마지막 라운드 후 Ciphertext
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Plaintext</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AddRoundKey</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SubBytes → ShiftRows → MixColumns</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">마지막 라운드 후 Ciphertext</div>
+</div>
+</div>
+
+
 
 흐름의 핵심은 각 라운드가 서로 다른 성질을 반복해 구조를 흐린다는 점이다.
 

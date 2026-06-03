@@ -25,30 +25,26 @@ tags = ["studynote-design-supervision"]
 
 | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 전술 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 구체적 전술 기법의 예시 |
 |---|---|---|
-| **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 예방 | Ping/Echo(탐지), Active-Passive [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), 예외 처리(예방) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))** | 자원 요구 통제, 자원 관리 | 이벤트 큐 속도 조절(통제), [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)), [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(관리) |
-| **[보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))** | 공격 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 공격 탐지, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), 암호화, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
-| **수정 용이성 ([Modifiability](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/))** | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 증가 | 인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 런타임 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) 적용 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 예방 | Ping/Echo(탐지), Active-Passive [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), 예외 처리(예방) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong> | 자원 요구 통제, 자원 관리 | 이벤트 큐 속도 조절(통제), [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)), [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(관리) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | 공격 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 공격 탐지, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), 암호화, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| <strong>수정 용이성 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/">Modifiability</a>)</strong> | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 증가 | 인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 런타임 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) 적용 |
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│       Architecture Tactics : Stimulus-Response Mechanism    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 자극 (Stimulus) ]                 [ 응답 (Response) ]   │
-│   - 서버 A의 전원 장애                - 서버 B로 트래픽 전환│
-│   - 해커의 비정상 패킷 유입           - 침입 차단 및 로그   │
-│          │                                   ▲              │
-│          │                                   │              │
-│          ▼                                   │              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │               [ 아키텍처 전술 제어부 ]              │   │
-│   │                                                     │   │
-│   │  - 가용성 전술 : Heartbeat 모니터링, Redundancy     │   │
-│   │  - 보안성 전술 : IDS/IPS 침입 탐지 룰 적용          │   │
-│   └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Architecture Tactics : Stimulus-Response Mechanism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자극 (Stimulus)</div><div class="kb-diagram-node">응답 (Response)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서버 A의 전원 장애 - 서버 B로 트래픽 전환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커의 비정상 패킷 유입 - 침입 차단 및 로그</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 전술 제어부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성 전술 : Heartbeat 모니터링, Redundancy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안성 전술 : IDS/IPS 침입 탐지 룰 적용</div></div>
+</div>
+</div>
+
+
 위 다이어그램은 외부의 자극이 시스템에 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)될 때, 아키텍처 내부에 내장된 전술들이 이를 감지하고 적절한 응답을 만들어내어 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 유지하는 메커니즘을 보여준다. 단일 전술들이 모여서 하나의 거대한 '아키텍처 패턴(예: 클러스터링 패턴)'을 이룬다.
 
 - **📢 섹션 요약 비유**: 건물에 화재(자극)가 발생했을 때 연기를 감지하는 화재경보기([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 전술)와 물을 뿌리는 스프링클러([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전술)가 동작하여 사람들의 대피 시간(응답)을 확보하는 소방 시스템과 같다.
@@ -69,8 +65,8 @@ tags = ["studynote-design-supervision"]
 ### Ⅳ. 실무 적용 및 기술사 판단
 실무 설계 및 감리에서 아키텍처 전술은 [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)(Trade-off) 분석과 추적성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 도구로 쓰인다.
 
-1. **[상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) (Trade-off) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)**: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 같은 평가에서, "왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되었는가?"를 찾을 때 아키텍트가 적용한 '보안 전술(강력한 암호화)'이 원인임을 역추적해 낸다. 모든 전술은 공짜가 아니다.
-2. **감리에서의 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 제안요청서(RFP)에 요구된 99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표가 물리 배포 뷰나 프로세스 뷰에 '[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전술(Active-Passive)'이나 '[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 전술'로 실체화되어 있는지 추적하여 평가해야 한다.
+1. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/">상충점</a> (Trade-off) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method) 같은 평가에서, "왜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되었는가?"를 찾을 때 아키텍트가 적용한 '보안 전술(강력한 암호화)'이 원인임을 역추적해 낸다. 모든 전술은 공짜가 아니다.
+2. <strong>감리에서의 추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>) <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 제안요청서(RFP)에 요구된 99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표가 물리 배포 뷰나 프로세스 뷰에 '[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전술(Active-Passive)'이나 '[서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 전술'로 실체화되어 있는지 추적하여 평가해야 한다.
 3. **오버엔지니어링 경계**: 요구되는 품질 수준을 넘어서는 과도한 전술(예: 불필요한 실시간 캐시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 적용은 복잡도만 높이므로 시스템 성격에 맞게 기각하는 결단이 필요하다.
 
 - **📢 섹션 요약 비유**: 무거운 방탄복(보안 전술)을 입히면 병사의 달리기 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 떨어진다. 작전 지역이 시가지인지 평야인지에 따라 방탄복 두께와 기동성 사이의 완벽한 밸런스([상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/) 조율)를 찾는 것이 지휘관(아키텍트)의 판단이다.
@@ -88,18 +84,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비기능 요구사항 정의 (품질 속성)
-    │
-    ▼
-아키텍처 전술 (Tactics) 선택 · 자극과 응답 메커니즘 설계
-    │
-    ▼
-아키텍처 패턴 (Patterns) 구성 · 여러 전술의 복합적 템플릿화
-    │
-    ▼
-ATAM 평가 및 상충점 (Trade-off) 조율
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비기능 요구사항 정의 (품질 속성)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 전술 (Tactics) 선택 · 자극과 응답 메커니즘 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 패턴 (Patterns) 구성 · 여러 전술의 복합적 템플릿화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM 평가 및 상충점 (Trade-off) 조율</div>
+</div>
+</div>
+
+
 
 이 흐름도는 목표 설정에서 시작해 구체적 전술 선택을 거쳐 완성된 패턴을 형성하고, 최종적으로 평가를 통해 조율하는 아키텍처 설계 과정을 보여준다.
 

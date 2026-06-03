@@ -21,16 +21,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **SSR (Server-Side Rendering)**: 서버가 DB에서 데이터를 가져와 HTML 틀에 꽂아 넣은 뒤, '완성된 형태의 HTML 문서'를 브라우저로 내려주는 방식 (과거 JSP, PHP).
-  - **[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) (Client-Side Rendering)**: 서버는 텅 빈 HTML 껍데기와 엄청나게 큰 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 내려주고, 브라우저가 그 JS를 실행해 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 데이터를 요청하고 직접 HTML을 그려내는 방식 (React, Vue).
+  - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a> (Client-Side Rendering)</strong>: 서버는 텅 빈 HTML 껍데기와 엄청나게 큰 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 내려주고, 브라우저가 그 JS를 실행해 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 데이터를 요청하고 직접 HTML을 그려내는 방식 (React, Vue).
 
 - **필요성**: 옛날 웹사이트는 링크를 누를 때마다 1초씩 하얀 화면이 떴다가(깜빡거림) 넘어갔다(SSR의 한계). 사용자들은 스마트폰 앱처럼 부드럽게 넘어가는 웹사이트를 원했고, 그래서 브라우저가 모든 렌더링을 독차지하는 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) 시대가 열렸다. 하지만 CSR로 쇼핑몰을 만들었더니, 구글 검색 봇이 빈 HTML 껍데기만 읽고 가서 네이버나 구글에 검색이 하나도 안 되는 대참사가 터졌다. 각자의 치명적인 장단점을 이해하고 비즈니스에 맞게 선택해야 했다.
 
-- **💡 비유**: **SSR은 '완성된 밀키트(도시락)'**를 배달받는 것입니다. 뚜껑만 열면 바로 먹을 수 있어 빠르지만, 반찬을 바꾸고 싶으면 식당에 다시 주문하고 새 도시락이 올 때까지 기다려야 합니다. **CSR은 '주방장이 와서 요리해 주는 것'**입니다. 주방장(JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 집에 도착하기까지 시간이 꽤 걸리지만, 한 번 주방 세팅이 끝나면 "계란 추가요!", "소금 더 쳐주세요!" 할 때마다 즉석에서 0.1초 만에 요리(화면 변환)가 뚝딱 나옵니다.
+- **💡 비유**: <strong>SSR은 '완성된 밀키트(도시락)'</strong>를 배달받는 것입니다. 뚜껑만 열면 바로 먹을 수 있어 빠르지만, 반찬을 바꾸고 싶으면 식당에 다시 주문하고 새 도시락이 올 때까지 기다려야 합니다. <strong>CSR은 '주방장이 와서 요리해 주는 것'</strong>입니다. 주방장(JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))이 집에 도착하기까지 시간이 꽤 걸리지만, 한 번 주방 세팅이 끝나면 "계란 추가요!", "소금 더 쳐주세요!" 할 때마다 즉석에서 0.1초 만에 요리(화면 변환)가 뚝딱 나옵니다.
 
 - **등장 배경 및 발전 과정**:
   1. **전통적 웹 (SSR의 지배)**: 2000년대, 서버의 성능이 브라우저(IE)보다 압도적으로 좋았기에 모든 연산을 서버가 다 하는 것이 당연했다.
-  2. **AJAX와 SPA의 등장 ([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) 혁명)**: 2010년대, 자바스크립트 V8 엔진이 미친 듯이 빨라지며 React, Angular 등 브라우저가 화면을 독점하는 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) App)와 CSR이 대세를 장악했다.
-  3. **SEO와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 속도의 한계 (하이브리드 SSR)**: CSR의 치명적 약점([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도, 검색 엔진 노출 불가)을 극복하기 위해, React 코드를 서버에서 미리 한 번 렌더링해 주는 Next.js(SSR+[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))가 현대 프론트엔드 아키텍처의 표준이 되었다.
+  2. <strong>AJAX와 SPA의 등장 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/">CSR</a> 혁명)</strong>: 2010년대, 자바스크립트 V8 엔진이 미친 듯이 빨라지며 React, Angular 등 브라우저가 화면을 독점하는 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) App)와 CSR이 대세를 장악했다.
+  3. <strong>SEO와 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 속도의 한계 (하이브리드 SSR)</strong>: CSR의 치명적 약점([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도, 검색 엔진 노출 불가)을 극복하기 위해, React 코드를 서버에서 미리 한 번 렌더링해 주는 Next.js(SSR+[CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))가 현대 프론트엔드 아키텍처의 표준이 되었다.
 
 - **📢 섹션 요약 비유**: 렌더링 방식은 그림을 어디서 그릴까 하는 붓의 위치 싸움입니다. 서버에서 그림을 다 그리고 택배로 완성품을 보낼지(SSR), 아니면 텅 빈 도화지와 물감(자바스크립트)을 보내서 브라우저가 직접 그리게 할지([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 결정하는 것입니다.
 
@@ -38,18 +38,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 서버 사이드 렌더링 (SSR) vs 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  서버 사이드 렌더링 (SSR) vs                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 사이드 렌더링 (SSR) vs</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 서버 사이드 렌더링 (SSR) vs 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 ([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 ([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 ([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 (CSR) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 (CSR) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

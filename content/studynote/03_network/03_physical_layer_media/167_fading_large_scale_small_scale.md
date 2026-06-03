@@ -25,21 +25,19 @@ tags = ["studynote-network"]
 
 이 그림은 평균 전력과 빠른 요동이 함께 존재하는 모습을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            무선 신호의 두 겹 변화: 평균선과 빠른 출렁임         │
-├──────────────────────────────────────────────────────────────┤
-│ 수신 전력                                                    │
-│   ▲                                                          │
-│   │      대규모 페이딩이 만든 평균선                         │
-│   │    ───────────────────────────────                       │
-│   │   /                              \                       │
-│   │  /                                \                      │
-│   │ /   소규모 페이딩의 빠른 진동      \                     │
-│   │/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\                    │
-│   └──────────────────────────────────────────────▶ 거리/시간  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무선 신호의 두 겹 변화: 평균선과 빠른 출렁임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 전력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 페이딩이 만든 평균선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 소규모 페이딩의 빠른 진동 \</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 거리/시간</div></div>
+</div>
+</div>
+
+
 
 즉 페이딩은 하나의 현상이 아니라, 느린 평균 변화와 빠른 순간 변화가 겹쳐진 복합 채널 거동이다. 이 두 층을 분리해야 원인과 대응이 깔끔해진다.
 
@@ -60,22 +58,21 @@ tags = ["studynote-network"]
 
 이 그림은 두 종류의 원인이 어떻게 겹치는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│         경로 손실 위에 음영과 다중 경로가 겹치는 무선 채널      │
-├──────────────────────────────────────────────────────────────┤
-│ 기지국 Tx                                                     │
-│   │                                                          │
-│   ├──────────── 직진 경로 ───────────▶ 단말 Rx               │
-│   │                           ▲                              │
-│   ├──▶ 건물 반사 경로 ────────┘                              │
-│   │                                                          │
-│   └──▶ 큰 건물 차폐 ──▶ 평균 전력 저하(음영)                 │
-│                                                              │
-│ 거리 증가      : 평균 수신 전력 하락                         │
-│ 반사/산란 증가 : 짧은 구간에서 급격한 세기 진동              │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 손실 위에 음영과 다중 경로가 겹치는 무선 채널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 Tx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직진 경로 ▶ 단말 Rx</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 건물 반사 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 큰 건물 차폐 ──▶ 평균 전력 저하(음영)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리 증가 : 평균 수신 전력 하락</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반사/산란 증가 : 짧은 구간에서 급격한 세기 진동</div></div>
+</div>
+</div>
+
+
 
 결국 대규모 페이딩은 "얼마나 약해질 수 있는가"의 문제이고, 소규모 페이딩은 "얼마나 빠르게 흔들리는가"의 문제다. 무선 시스템은 둘 중 하나만 해결해서는 안정한 품질을 만들 수 없다.
 
@@ -155,24 +152,24 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-자유 공간 경로 손실 (FSPL)
-    │
-    ▼
-대규모 페이딩
-    │
-    ├──────────────▶ 거리 감쇠 · 음영 마진 · 셀 계획
-    │
-    ▼
-소규모 페이딩
-    │
-    ├──────────────▶ 다중 경로 · 지연 확산
-    │
-    ├──────────────▶ 도플러 확산 · 코히런스 시간
-    │
-    ▼
-다이버시티 · 등화기 · OFDM · MIMO
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">자유 공간 경로 손실 (FSPL)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 페이딩</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 거리 감쇠 · 음영 마진 · 셀 계획</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">소규모 페이딩</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 다중 경로 · 지연 확산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 도플러 확산 · 코히런스 시간</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다이버시티 · 등화기 · OFDM · MIMO</div>
+</div>
+</div>
+
+
 
 이 흐름도는 평균 손실 계산에서 시작해, 빠른 채널 변동을 보상하는 현대 무선 기법으로 이어지는 학습 경로를 보여준다.
 

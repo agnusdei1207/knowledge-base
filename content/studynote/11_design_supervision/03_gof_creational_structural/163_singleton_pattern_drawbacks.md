@@ -35,20 +35,22 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 같은 단일 인스턴스 요구가 전혀 다른 결합 구조를 만들 수 있음을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│           전통 Singleton vs DI 컨테이너 관리형 Singleton            │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ 전통 Singleton                │ DI + IoC 컨테이너                   │
-│                               │                                      │
-│ ServiceA ── getInstance() ─┐  │ Container ── 생성/보관 ── SharedObj │
-│ ServiceB ── getInstance() ─┼─▶│    │                    ┌───────────┐ │
-│ ServiceC ── getInstance() ─┘  │    ├─ inject ────────▶ │ ServiceA   │ │
-│                               │    ├─ inject ────────▶ │ ServiceB   │ │
-│ 숨겨진 직접 의존              │    └─ inject ────────▶ │ ServiceC   │ │
-│ 전역 상태 변경 파급           │       의존성 명시      └───────────┘ │
-└───────────────────────────────┴──────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 Singleton vs DI 컨테이너 관리형 Singleton</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 Singleton</div><div class="kb-diagram-cell">DI + IoC 컨테이너</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceA ── getInstance() ─</div><div class="kb-diagram-cell">Container ── 생성/보관 ── SharedObj</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceB ── getInstance() ─ ─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceC ── getInstance() ─</div><div class="kb-diagram-cell">─ inject ▶</div><div class="kb-diagram-cell">ServiceA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ inject ▶</div><div class="kb-diagram-cell">ServiceB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숨겨진 직접 의존</div><div class="kb-diagram-cell">─ inject ▶</div><div class="kb-diagram-cell">ServiceC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 상태 변경 파급</div><div class="kb-diagram-cell">의존성 명시</div></div>
+</div>
+</div>
+
+
 
 | 단점 | 왜 발생하는가 | 실제 문제 |
 | :--- | :--- | :--- |
@@ -131,24 +133,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전역 객체 공유 요구
-    │
-    ▼
-전통 Singleton Pattern
-    │
-    ├─ 장점: 단일 인스턴스 보장
-    └─ 한계: 전역 상태 · 숨겨진 결합 · 테스트 어려움
-    │
-    ▼
-DI (Dependency Injection) · IoC 컨테이너
-    │
-    ▼
-컨테이너 관리형 Singleton 스코프
-    │
-    ▼
-명시적 의존성 · 테스트 가능 설계 · 유연한 스코프 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전역 객체 공유 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">전통 Singleton Pattern</div>
+<div class="kb-diagram-tree-item" style="--depth:2">장점: 단일 인스턴스 보장</div>
+<div class="kb-diagram-tree-item" style="--depth:2">한계: 전역 상태 · 숨겨진 결합 · 테스트 어려움</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DI (Dependency Injection) · IoC 컨테이너</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 관리형 Singleton 스코프</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">명시적 의존성 · 테스트 가능 설계 · 유연한 스코프 관리</div>
+</div>
+</div>
+
+
 
 이 흐름도는 공유 자원 필요가 전통 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/)으로 출발해, 결국 의존성 관리 체계로 진화하는 과정을 보여 준다.
 

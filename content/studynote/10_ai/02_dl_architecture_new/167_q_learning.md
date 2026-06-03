@@ -21,23 +21,24 @@ tags = ["studynote-ai"]
 
 큐-러닝 ([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))은 에이전트가 환경과 상호작용하며 "지금 이 행동이 결국 얼마나 이득인가"를 학습하는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)처럼 정답 레이블이 주어지지 않고, 동적 계획법 ([Dynamic Programming](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))처럼 환경의 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)도 미리 알 필요가 없다. 대신 시행착오로 받은 보상을 바탕으로 상태-행동 [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)를 점진적으로 고쳐 나간다.
 
-이 방식이 필요한 이유는 현실의 의사결정 문제가 대부분 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 (Delayed Reward)** 구조를 갖기 때문이다. 지금 한 행동은 즉시 보상이 0일 수 있지만, 몇 단계 뒤 큰 이득이나 큰 손실로 이어질 수 있다. 큐-러닝은 이 미래 가치를 현재 선택에 끌어와 반영함으로써, 단기 반응이 아니라 장기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 학습하게 만든다.
+이 방식이 필요한 이유는 현실의 의사결정 문제가 대부분 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 보상 (Delayed Reward)</strong> 구조를 갖기 때문이다. 지금 한 행동은 즉시 보상이 0일 수 있지만, 몇 단계 뒤 큰 이득이나 큰 손실로 이어질 수 있다. 큐-러닝은 이 미래 가치를 현재 선택에 끌어와 반영함으로써, 단기 반응이 아니라 장기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 학습하게 만든다.
 
 아래 그림은 큐-러닝이 왜 필요한지, 즉 "지금의 선택이 나중 결과와 연결된다"는 점을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        큐-러닝이 푸는 문제: 지금 행동의 미래 가치를 추정        │
-├──────────────────────────────────────────────────────────────┤
-│ S0(출발) ──오른쪽──▶ S1 ──오른쪽──▶ Goal(+10)                │
-│    │                                                         │
-│    └──아래쪽──▶ Trap(-5)                                     │
-│                                                              │
-│ S0에서 '오른쪽'의 즉시 보상은 0일 수 있다.                    │
-│ 그래도 두 단계 뒤 Goal(+10) 가능성이 높다면                  │
-│ 현재 행동의 Q값은 크게 평가되어야 한다.                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐-러닝이 푸는 문제: 지금 행동의 미래 가치를 추정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0(출발) ──오른쪽──▶ S1 ──오른쪽──▶ Goal(+10)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──아래쪽──▶ Trap(-5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0에서 '오른쪽'의 즉시 보상은 0일 수 있다.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래도 두 단계 뒤 Goal(+10) 가능성이 높다면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 행동의 Q값은 크게 평가되어야 한다.</div></div>
+</div>
+</div>
+
+
 
 즉, 큐-러닝은 "당장 받은 점수"만 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 "앞으로 벌어질 결과"를 현재 의사결정에 접어 넣는 방법이다. 이 특징 덕분에 미로 탐색, 게임 플레이, 로봇 경로 선택처럼 순차 의사결정이 필요한 문제에서 기본 기준점으로 자주 사용된다.
 
@@ -57,24 +58,20 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 
 아래 흐름은 에이전트가 값을 갱신하는 순환 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│              큐-러닝 학습 루프 (Learning Loop)               │
-├──────────────────────────────────────────────────────────────┤
-│ 현재 상태 s 관측                                             │
-│      │                                                       │
-│      ▼                                                       │
-│ ε-탐욕 정책 (ε-Greedy Policy)으로 행동 a 선택                │
-│      │                                                       │
-│      ▼                                                       │
-│ 환경이 보상 r, 다음 상태 s' 반환                             │
-│      │                                                       │
-│      ▼                                                       │
-│ Q(s,a) 갱신: 현재 보상 + 다음 상태의 최대 기대가치 반영      │
-│      │                                                       │
-│      └────────────── 다음 상태 s'에서 반복 ──────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐-러닝 학습 루프 (Learning Loop)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 s 관측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-탐욕 정책 (ε-Greedy Policy)으로 행동 a 선택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경이 보상 r, 다음 상태 s' 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a) 갱신: 현재 보상 + 다음 상태의 최대 기대가치 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 상태 s'에서 반복</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -84,7 +81,7 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 | ε-탐욕 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)과 활용의 균형 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/), 후반에는 활용 비중 증가 |
 | `max_a' Q(s', a')` | 다음 상태의 최적 행동 가정 | 오프-폴리시 ([Off-Policy](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/))의 핵심 |
 
-여기서 중요한 점은 큐-러닝이 실제로 무엇을 했든 업데이트 시점에는 **다음 상태에서 가장 좋은 행동**을 기준으로 계산한다는 것이다. 그래서 에이전트가 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 과정에서 다소 엉뚱한 행동을 했더라도, 학습 자체는 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향으로 수렴하려고 한다. 이것이 큐-러닝이 오프-폴리시 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는 이유다.
+여기서 중요한 점은 큐-러닝이 실제로 무엇을 했든 업데이트 시점에는 <strong>다음 상태에서 가장 좋은 행동</strong>을 기준으로 계산한다는 것이다. 그래서 에이전트가 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) 과정에서 다소 엉뚱한 행동을 했더라도, 학습 자체는 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향으로 수렴하려고 한다. 이것이 큐-러닝이 오프-폴리시 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되는 이유다.
 
 - **📢 섹션 요약 비유**: 큐-러닝은 여행 가계부와 같다. 오늘은 길을 잘못 들어 택시비를 더 냈더라도, 가계부를 정리할 때는 "다음엔 가장 좋은 길로 가면 얼마를 아낄 수 있는지"까지 함께 적어 두는 방식이다.
 
@@ -104,7 +101,7 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 
 또 다른 경계는 표 기반 큐-러닝과 DQN의 차이다. 표 기반 방식은 상태가 수백~수천 개일 때 해석이 쉽고 안정적이지만, 이미지·센서·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 벡터처럼 상태가 커지면 테이블 자체를 만들 수 없다. 이때는 Q-테이블 대신 신경망이 Q함수를 근사하는 DQN으로 넘어간다.
 
-즉, 큐-러닝은 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 전체에서 **출발점이자 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)** 역할을 한다. [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/)), [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/), [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-활용 균형, 함수 근사 확장이라는 주요 개념이 모두 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 주변에서 연결된다.
+즉, 큐-러닝은 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 전체에서 <strong>출발점이자 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a></strong> 역할을 한다. [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/)), [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/), [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)-활용 균형, 함수 근사 확장이라는 주요 개념이 모두 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 주변에서 연결된다.
 
 - **📢 섹션 요약 비유**: 큐-러닝과 SARSA의 차이는 운전 연습과 비슷하다. 큐-러닝은 "가장 이상적인 주행"을 기준으로 배우고, SARSA는 "내가 실제로 몰았던 서툰 주행"까지 그대로 반영해 더 조심스럽게 배우는 셈이다.
 
@@ -159,21 +156,23 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-MDP (Markov Decision Process)
-    │
-    ▼
-상태 가치 · 행동 가치 · 보상 설계
-    │
-    ▼
-큐-러닝 (Q-Learning) · ε-탐욕 정책 (ε-Greedy Policy)
-    │
-    ▼
-SARSA · 오프-폴리시/온-폴리시 비교
-    │
-    ▼
-DQN (Deep Q-Network) · Double DQN · Deep RL
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">MDP (Markov Decision Process)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">상태 가치 · 행동 가치 · 보상 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">큐-러닝 (Q-Learning) · ε-탐욕 정책 (ε-Greedy Policy)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SARSA · 오프-폴리시/온-폴리시 비교</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DQN (Deep Q-Network) · Double DQN · Deep RL</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)이 "작은 표 기반 문제"에서 출발해 "함수 근사 기반 대규모 문제"로 확장되는 경로를 보여준다.
 

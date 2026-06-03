@@ -19,26 +19,26 @@ tags = ["computer_architecture"]
 
 현대 컴퓨터 시스템은 두 가지 상반된 요구에 직면해 있다. 첫째는 **'절대 죽지 않는 시스템'** (고신뢰성)이고, 둘째는 **'전기를 적게 먹는 시스템'** (저전력)이다. 금융 결제나 자율주행 제어 시스템은 0.1초의 중단도 허용되지 않으며, 스마트폰이나 거대 데이터 센터는 전력 소모가 곧 비용이자 생존의 문제이다.
 
-신뢰성 및 전력 관리가 중요한 이유는 세 가지이다. 첫째, 하드웨어는 물리적 소모품이므로 **반드시 고장 난다**는 가정하에 시스템을 설계해야 하기 때문이며 (Fault Tolerance), 둘째, 전력 소모로 인한 **발열**이 반도체의 수명과 성능을 깎아먹는 주범이기 때문이고, 셋째, 기업의 **ESG 경영 및 운영 비용 (OPEX)** 관점에서 에너지 효율이 핵심 지표가 되었기 때문이다.
+신뢰성 및 전력 관리가 중요한 이유는 세 가지이다. 첫째, 하드웨어는 물리적 소모품이므로 <strong>반드시 고장 난다</strong>는 가정하에 시스템을 설계해야 하기 때문이며 (Fault Tolerance), 둘째, 전력 소모로 인한 <strong>발열</strong>이 반도체의 수명과 성능을 깎아먹는 주범이기 때문이고, 셋째, 기업의 **ESG 경영 및 운영 비용 (OPEX)** 관점에서 에너지 효율이 핵심 지표가 되었기 때문이다.
 
 이 그림은 시스템의 신뢰성을 나타내는 RAS 지표의 상호 관계를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 RAS (Reliability, Availability, Serviceability) │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. Reliability (신뢰성)  : 고장 나지 않고 얼마나 오래 가나? │
-│   2. Availability (가용성) : 필요할 때 즉시 사용 가능한가?   │
-│   3. Serviceability (유지보수성) : 고장 시 얼마나 빨리 고치나?│
-│                                                             │
-│   [ Availability Formula ]                                  │
-│   A = MTBF / (MTBF + MTTR)                                  │
-│   * MTBF: Mean Time Between Failures                        │
-│   * MTTR: Mean Time To Repair                               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAS (Reliability, Availability, Serviceability)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Reliability (신뢰성) : 고장 나지 않고 얼마나 오래 가나?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Availability (가용성) : 필요할 때 즉시 사용 가능한가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Serviceability (유지보수성) : 고장 시 얼마나 빨리 고치나?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Availability Formula</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A = MTBF / (MTBF + MTTR)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MTBF: Mean Time Between Failures</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MTTR: Mean Time To Repair</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '가용성 공식'이다. 가용성을 높이려면 고장이 덜 나게 하거나(MTBF ↑), 고장 났을 때 빨리 복구(MTTR ↓)해야 한다. 실무에서는 이를 위해 이중화 (Redundancy)와 실시간 모니터링 체계를 구축한다.
 
@@ -71,21 +71,19 @@ tags = ["computer_architecture"]
 
 이 구조도는 DVFS가 전력 소모를 어떻게 최적화하는지 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Dynamic Voltage and Frequency Scaling       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Workload ] ──▶ [ Controller ] ──▶ [ Power Mgmt IC ]     │
-│          ▲                │                  │              │
-│          │                ▼                  ▼              │
-│   [ High Load ]  -> [ High V / High f ] -> [ Peak Perf ]    │
-│   [ Low Load  ]  -> [ Low V / Low f  ]  -> [ Power Save ]   │
-│                                                             │
-│   * 원리: 전력은 전압의 제곱에 비례하므로 전압 조절이 핵심  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic Voltage and Frequency Scaling</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Workload</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Controller</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Power Mgmt IC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">High Load</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">High V / High f</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Peak Perf</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Low Load</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Low V / Low f</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Power Save</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 전력은 전압의 제곱에 비례하므로 전압 조절이 핵심</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '동적 대응'이다. 문서 작업만 할 때는 전압을 낮춰 배터리를 아끼고, 게임을 켤 때는 전압을 높여 성능을 뽑아낸다. 실무에서는 이 조절 과정의 지연 시간 (Transition Latency)을 최소화하는 것이 사용자 경험의 핵심이다.
 
@@ -122,24 +120,23 @@ tags = ["computer_architecture"]
 - **판단**: 단일 장애점 (SPOF)을 완전히 제거하는 **N+1 또는 2N 이중화** 아키텍처를 설계한다. 메모리는 반드시 **ECC** 기능이 탑재된 서버용 모듈을 사용하고, 저장장치는 **RAID 6** (디스크 2개 동시 고장 대비)를 구성한다. 또한 전원 공급 장치 (PSU)도 이중화하여 전력 계통 사고에 대비하는 'Fail-safe' 전략을 수립한다.
 
 **시나리오 2: 하이퍼스케일 데이터 센터의 전력 비용 절감**
-- **판단**: 개별 서버의 DVFS 설정을 넘어, 데이터 센터 전체의 **PUE (Power Usage Effectiveness)**를 낮추는 전략을 취한다. 공조 시스템의 효율을 위해 서버 배치 구조를 **Hot/Cold Aisle**로 재편하고, 소프트웨어적으로는 **VM 컨소시데이션 (Consolidation)** 기술을 통해 사용량이 적은 물리 서버의 전원을 완전히 끄는 (Power Gating) 지능형 스케줄링을 제안한다.
+- **판단**: 개별 서버의 DVFS 설정을 넘어, 데이터 센터 전체의 <strong>PUE (Power Usage Effectiveness)</strong>를 낮추는 전략을 취한다. 공조 시스템의 효율을 위해 서버 배치 구조를 <strong>Hot/Cold Aisle</strong>로 재편하고, 소프트웨어적으로는 **VM 컨소시데이션 (Consolidation)** 기술을 통해 사용량이 적은 물리 서버의 전원을 완전히 끄는 (Power Gating) 지능형 스케줄링을 제안한다.
 
 이 도식은 시스템 장애 발생 시 복구 경로를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Fault Recovery and Continuity Flow            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Fault Detected ] ──▶ [ Isolation ] ──▶ [ Reconfiguration ] │
-│          │                  (격리)               (재구성)      │
-│          ▼                                         │        │
-│   [ Correctable? ] ──(YES)──▶ [ Transparent Recovery ]      │
-│          │                                         │        │
-│        (NO) ──▶ [ Fail-over to Backup ] ◀──────────┘        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fault Recovery and Continuity Flow</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Fault Detected</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Isolation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reconfiguration</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(격리) (재구성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Correctable?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Transparent Recovery</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fail-over to Backup</div><div class="kb-diagram-connector">◀</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 설계 판단은 '재난 대책 본부장'의 역할과 같습니다. 사고가 날 것을 미리 대비하여 대피소(이중화)를 짓고, 평상시에는 에너지 낭비를 감시하여 가장 효율적인 도시(시스템)를 운영하는 관리 능력이 핵심입니다.
 
@@ -154,7 +151,7 @@ tags = ["computer_architecture"]
 
 ### 미래 전망: 자율 치유 (Self-healing) 및 친환경 아키텍처
 
-향후 시스템은 사람이 개입하지 않아도 AI가 하드웨어 결함 징후를 예측하고 스스로 경로를 우회하는 **자율 치유 아키텍처**로 진화할 것이다. 또한 태양광이나 풍력 등 재생 에너지를 직접 공급받아 연산량을 조절하는 **Carbon-aware Computing**이 새로운 표준이 될 것이다. 기술사는 물리적인 견고함을 넘어, 데이터와 AI를 활용하여 시스템의 생명력을 연장하고 지구 환경과 공존하는 '지속 가능한 아키텍트'로 거듭나야 한다.
+향후 시스템은 사람이 개입하지 않아도 AI가 하드웨어 결함 징후를 예측하고 스스로 경로를 우회하는 <strong>자율 치유 아키텍처</strong>로 진화할 것이다. 또한 태양광이나 풍력 등 재생 에너지를 직접 공급받아 연산량을 조절하는 <strong>Carbon-aware Computing</strong>이 새로운 표준이 될 것이다. 기술사는 물리적인 견고함을 넘어, 데이터와 AI를 활용하여 시스템의 생명력을 연장하고 지구 환경과 공존하는 '지속 가능한 아키텍트'로 거듭나야 한다.
 
 📢 **섹션 요약 비유**: 미래의 컴퓨터는 '스스로 상처를 치료하는 피부'를 가지고, '에너지를 아껴 쓰는 지혜로운 생명체'와 같은 모습으로 진화하여 우리 곁에 영원히 머물게 될 것입니다.
 

@@ -41,24 +41,20 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 초안에서 베이스라인이 설정되고, 통제된 변경을 거쳐 다음 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 이어지는 과정을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                baseline lifecycle: approved reference state                │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Draft artifacts                                                            │
-│   │                                                                        │
-│   ▼                                                                        │
-│ Review / verify / sign-off                                                 │
-│   │                                                                        │
-│   ▼                                                                        │
-│ Baseline v1.0  ──▶ development / test / release use this as reference      │
-│   │                                                                        │
-│   └── change request ──▶ impact analysis ──▶ approval / reject             │
-│                                         │                                  │
-│                                         ▼                                  │
-│                                   Baseline v1.1                            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">baseline lifecycle: approved reference state</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Draft artifacts</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Review / verify / sign-off</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline v1.0 ──▶ development / test / release use this as reference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── change request ──▶ impact analysis ──▶ approval / reject</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline v1.1</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 베이스라인이 “절대 변경 금지”가 아니라 “통제되지 않은 직접 수정 금지”라는 점이다. 즉 승인된 베이스라인을 원본 삼아 개발·테스트·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행하고, 변경이 필요하면 변경 요청과 영향도 분석을 거쳐 새로운 베이스라인으로 진화시킨다. 따라서 좋은 베이스라인 관리에는 [형상 식별](/knowledge-base/studynote/04_software_engineering/01_overview_principles/021_configuration_identification/), 승인 기록, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이력, 추적성 자료가 함께 있어야 한다.
 
@@ -92,7 +88,7 @@ tags = ["studynote-software-engineering"]
 1. **베이스라인 대상 형상 항목이 명확한가?** 문서만 묶고 코드·테스트를 빼면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 끊긴다.
 2. **승인 기준과 승인권자가 정의돼 있는가?** 누구 판단으로 동결됐는지 모르면 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응이 어렵다.
 3. **변경 요청과 영향도 분석 기록이 연결되는가?** 베이스라인만 있고 변경 이력이 없으면 관리가 무의미하다.
-4. **저장소 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 정책이 있는가?** 승인된 태그·브랜치·문서를 직접 수정 가능하게 두면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 훼손된다.
+4. <strong>저장소 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 정책이 있는가?</strong> 승인된 태그·브랜치·문서를 직접 수정 가능하게 두면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 훼손된다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -108,7 +104,7 @@ tags = ["studynote-software-engineering"]
 
 베이스라인을 정확히 운영하면 프로젝트는 “현재 무엇이 공식 기준인지”를 분명히 유지할 수 있다. 그 결과 변경 비용 산정, 일정 예측, 계약 관리, 품질 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 장애 시점 복원, 릴리스 회귀 분석이 쉬워진다. 특히 여러 팀이 병렬로 일하는 대규모 프로젝트일수록 베이스라인은 협업 마찰을 줄이는 공통 좌표가 된다.
 
-물론 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 너무 자주 만들면 승인 오버헤드가 커지고, 너무 늦게 만들면 통제 시점을 놓친다. 그래서 베이스라인은 많이 만드는 것이 중요한 게 아니라, **프로젝트 관문마다 필요한 단위로 정확히 설정하고 추적 가능하게 관리하는 것**이 중요하다. 결국 베이스라인은 문서 한 묶음이 아니라, 변경을 질서 있게 받아들이기 위한 프로젝트의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
+물론 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 너무 자주 만들면 승인 오버헤드가 커지고, 너무 늦게 만들면 통제 시점을 놓친다. 그래서 베이스라인은 많이 만드는 것이 중요한 게 아니라, <strong>프로젝트 관문마다 필요한 단위로 정확히 설정하고 추적 가능하게 관리하는 것</strong>이 중요하다. 결국 베이스라인은 문서 한 묶음이 아니라, 변경을 질서 있게 받아들이기 위한 프로젝트의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
 - **📢 섹션 요약 비유**: 베이스라인은 배가 항해할 때 찍어 두는 기준 좌표와 같다. 좌표가 있어야 어디서 방향을 틀었는지, 어디로 돌아가야 하는지 설명할 수 있다.
 
@@ -127,21 +123,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-요구사항·설계 초안
-    │
-    ▼
-검토 · 승인 · 형상 식별
-    │
-    ▼
-베이스라인 (Baseline) 확정
-    │
-    ├── 개발 · 테스트 · 배포의 기준선
-    ├── 변경 요청 · 영향도 분석 · 승인
-    │
-    ▼
-새로운 베이스라인과 추적성 유지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">요구사항·설계 초안</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">검토 · 승인 · 형상 식별</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">베이스라인 (Baseline) 확정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">개발 · 테스트 · 배포의 기준선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">변경 요청 · 영향도 분석 · 승인</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">새로운 베이스라인과 추적성 유지</div>
+</div>
+</div>
+
+
 
 이 흐름은 베이스라인이 단발성 문서 고정이 아니라, 승인된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서 시작해 통제된 변경과 다음 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 이어지는 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 축임을 보여 준다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [IT PPM](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/) (Information Technology [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 개별 프로젝트 성공보다, **제한된 예산과 인력을 어떤 조합에 배치해야 기업 가치가 가장 커지는지**를 다루는 거버넌스다.
+> 1. **본질**: [IT PPM](/knowledge-base/studynote/12_it_management/01_governance_strategy/029_it_ppm/) (Information Technology [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Portfolio [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 개별 프로젝트 성공보다, <strong>제한된 예산과 인력을 어떤 조합에 배치해야 기업 가치가 가장 커지는지</strong>를 다루는 거버넌스다.
 > 2. **가치**: 운영, 확장, 혁신 예산을 균형 있게 배분해 좀비 프로젝트를 줄이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 중요한 과제에 자원을 집중시킨다.
-> 3. **판단 포인트**: 높은 수익 예상만으로는 부족하며, **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 적합성·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)·병목 자원 용량·중단 기준**까지 함께 봐야 진짜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리가 된다.
+> 3. **판단 포인트**: 높은 수익 예상만으로는 부족하며, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 적합성·<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>·병목 자원 용량·중단 기준</strong>까지 함께 봐야 진짜 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리가 된다.
 
 ---
 
@@ -23,7 +23,7 @@ tags = ["studynote-enterprise"]
 
 이 관리 체계가 필요한 이유는 기업의 예산과 핵심 인력이 항상 부족하기 때문이다. 현업 요구를 받는 대로 모두 시작하면 유지보수 과제와 혁신 과제가 섞여 병목 자원이 과부하되고, 어떤 프로젝트도 충분한 집중을 받지 못한다. 그 결과 중복 투자, 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 매몰비용 오류, 좀비 프로젝트가 누적된다.
 
-특히 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 환경에서는 운영 안정화에만 돈을 쓰면 미래 성장 동력이 사라지고, 반대로 혁신 실험에만 몰아주면 현재 사업을 지탱하는 코어 시스템이 흔들린다. 따라서 PPM의 본질은 "많이 하는 것"이 아니라 **무엇을 멈추고 무엇에 더 태울지 결정하는 것**이다.
+특히 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 환경에서는 운영 안정화에만 돈을 쓰면 미래 성장 동력이 사라지고, 반대로 혁신 실험에만 몰아주면 현재 사업을 지탱하는 코어 시스템이 흔들린다. 따라서 PPM의 본질은 "많이 하는 것"이 아니라 <strong>무엇을 멈추고 무엇에 더 태울지 결정하는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: PPM은 농구 감독이 모든 선수를 동시에 코트에 넣는 것이 아니라, 경기 상황에 맞춰 수비형·공격형·신예 선수를 적절히 조합해 승률을 높이는 운영과 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IT PPM은 보통 **수요 수집 → 평가 → 예산 버킷 배분 → 용량 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 정기 재조정**의 루프로 움직인다. 여기서 중요한 것은 예산만 보는 것이 아니라, 병목 인력과 기술 제약까지 같이 보는 것이다.
+IT PPM은 보통 <strong>수요 수집 → 평가 → 예산 버킷 배분 → 용량 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> → 정기 재조정</strong>의 루프로 움직인다. 여기서 중요한 것은 예산만 보는 것이 아니라, 병목 인력과 기술 제약까지 같이 보는 것이다.
 
 | 예산 버킷 | 목적 | 대표 대상 | 핵심 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) | 일반적 판단 |
 | :-- | :-- | :-- | :-- | :-- |
@@ -43,31 +43,29 @@ IT PPM은 보통 **수요 수집 → 평가 → 예산 버킷 배분 → 용량 
 
 아래 그림은 수요를 어떻게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 의사결정으로 바꾸는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ IT PPM decision cycle                                                │
-├──────────────────────────────────────────────────────────────────────┤
-│ Demand intake                                                        │
-│   -> candidate projects / mandatory work / ideas                     │
-│                                                                      │
-│ Scoring                                                              │
-│   -> strategic fit / ROI / risk / compliance / dependency            │
-│                                                                      │
-│ Bucket balance                                                       │
-│   -> Run / Grow / Transform allocation                               │
-│                                                                      │
-│ Capacity gate                                                        │
-│   -> budget / architect / DBA / security reviewer availability       │
-│                                                                      │
-│ Decision                                                             │
-│   -> fund / defer / pilot / stop                                     │
-│                                                                      │
-│ Quarterly review                                                     │
-│   -> rebalance by market and delivery result                         │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 가장 중요한 단계는 **Capacity gate**다. 예산이 있다고 해서 곧바로 착수할 수 있는 것이 아니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리자, 보안 검토자, 아키텍트처럼 희소한 자원이 부족하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 따라서 PPM은 프로젝트 승인 체계이면서 동시에 조직 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 조절 장치다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT PPM decision cycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand intake</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; candidate projects / mandatory work / ideas</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scoring</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; strategic fit / ROI / risk / compliance / dependency</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bucket balance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Run / Grow / Transform allocation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capacity gate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; budget / architect / DBA / security reviewer availability</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; fund / defer / pilot / stop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quarterly review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; rebalance by market and delivery result</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 가장 중요한 단계는 <strong>Capacity gate</strong>다. 예산이 있다고 해서 곧바로 착수할 수 있는 것이 아니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리자, 보안 검토자, 아키텍트처럼 희소한 자원이 부족하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 따라서 PPM은 프로젝트 승인 체계이면서 동시에 조직 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 조절 장치다.
 
 - **📢 섹션 요약 비유**: PPM은 냉장고에 있는 재료만 세는 일이 아니라, 요리사 수와 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지 개수까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 오늘 만들 수 있는 메뉴를 결정하는 주방 운영과 같다.
 
@@ -95,7 +93,7 @@ IT PPM을 이해하려면 프로젝트 관리 (PM, [Project](/knowledge-base/stu
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 PPM은 대개 두 가지 순간에 진가를 드러낸다. 첫째는 **중복 투자 제거**다. 비슷한 목표를 가진 프로젝트가 부서별로 따로 올라오면 중앙 시야 없이는 중복을 발견하기 어렵다. 둘째는 **병목 자원 조절**이다. 승인된 과제를 한꺼번에 시작하면 중요 인력이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 모두 늦어진다.
+실무에서 PPM은 대개 두 가지 순간에 진가를 드러낸다. 첫째는 <strong>중복 투자 제거</strong>다. 비슷한 목표를 가진 프로젝트가 부서별로 따로 올라오면 중앙 시야 없이는 중복을 발견하기 어렵다. 둘째는 <strong>병목 자원 조절</strong>이다. 승인된 과제를 한꺼번에 시작하면 중요 인력이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 모두 늦어진다.
 
 ### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -112,7 +110,7 @@ IT PPM을 이해하려면 프로젝트 관리 (PM, [Project](/knowledge-base/stu
 - 점수 모델은 만들었지만 실제로는 임원 목소리 큰 과제가 모두 통과하는 경우
 - 승인 프로젝트 수를 늘리는 것을 성과로 착각해 WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 통제하지 않는 경우
 
-기술사 답안에서는 "선정"과 "중단"을 함께 언급해야 한다. 좋은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 많이 승인된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오가 아니라, **가치 없는 과제를 빨리 멈추고 중요한 과제에 집중한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오**다.
+기술사 답안에서는 "선정"과 "중단"을 함께 언급해야 한다. 좋은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 많이 승인된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오가 아니라, <strong>가치 없는 과제를 빨리 멈추고 중요한 과제에 집중한 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>폴리오</strong>다.
 
 - **📢 섹션 요약 비유**: PPM은 고속도로 진입 램프에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 두어 차를 질서 있게 들여보내는 교통관제와 같아서, 차를 많이 넣는 것보다 막히지 않게 흘려보내는 것이 더 중요하다.
 
@@ -124,7 +122,7 @@ IT PPM이 정착하면 중복 투자가 줄고, 우선순위 결정 근거가 �
 
 그러나 PPM도 만능은 아니다. 지나치게 정교한 점수 모델은 관리비용만 키울 수 있고, 현장의 실험 자유를 지나치게 묶으면 관료화가 생긴다. 그래서 최근에는 분기 단위 재조정, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 투자, 가치 흐름 중심 펀딩처럼 더 가벼운 린 PPM이 확산되고 있다.
 
-결론적으로 IT PPM은 프로젝트 목록 관리가 아니라, **기업이 현재를 지키면서 미래를 살 수 있도록 예산과 인력을 배분하는 최고 수준의 투자 거버넌스**로 기억해야 한다.
+결론적으로 IT PPM은 프로젝트 목록 관리가 아니라, <strong>기업이 현재를 지키면서 미래를 살 수 있도록 예산과 인력을 배분하는 최고 수준의 투자 거버넌스</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 PPM은 장난감을 많이 사 주는 부모가 아니라, 지금 필요한 학용품과 미래를 위한 악기 수업비를 함께 계산해 주는 살림 설계와 같다.
 
@@ -143,21 +141,23 @@ IT PPM이 정착하면 중복 투자가 줄고, 우선순위 결정 근거가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Project-by-project approval
-        │
-        ▼
-Portfolio visibility and scoring
-        │
-        ▼
-Run / Grow / Transform budget split
-        │
-        ▼
-Capacity-based prioritization and stop gate
-        │
-        ▼
-Lean PPM and value-stream funding
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Project-by-project approval</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Portfolio visibility and scoring</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Run / Grow / Transform budget split</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Capacity-based prioritization and stop gate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lean PPM and value-stream funding</div>
+</div>
+</div>
+
+
 
 이 흐름은 개별 프로젝트 중심 관리에서, 동적 자원 재배분과 가치 흐름 중심 거버넌스로 진화하는 과정을 보여준다.
 

@@ -42,7 +42,7 @@ tags = ["studynote-bigdata"]
 | 유일성 | Uniqueness | 중복이 없는가? |
 | 유효성 | Validity | 정해진 형식·규칙을 따르는가? |
 
-**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 **식당 음식 평가 기준**과 같다. 맛([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 양(완전성), 신선도(적시성), 위생(유효성), 메뉴 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 중복 주문 없음(유일성) — 이 중 하나라도 빠지면 좋은 식당이 아니다.
+**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 <strong>식당 음식 평가 기준</strong>과 같다. 맛([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 양(완전성), 신선도(적시성), 위생(유효성), 메뉴 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)), 중복 주문 없음(유일성) — 이 중 하나라도 빠지면 좋은 식당이 아니다.
 
 ---
 
@@ -50,40 +50,37 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 6차원 상세 설명
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                  데이터 품질 6차원                            │
-│                                                              │
-│  ┌──────────────┐  완전성(Completeness)                      │
-│  │ NULL 비율    │  · 필수 항목 채움 비율 = 채워진 값/전체 × 100│
-│  │ 측정         │  · 목표: 핵심 필드 99.9% 이상              │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  정확성(Accuracy)                          │
-│  │ 외부 기준    │  · 실세계 정보와 일치 여부                  │
-│  │ 비교         │  · 검증: 공공 DB 대조, 현장 확인 샘플링     │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  일관성(Consistency)                       │
-│  │ 시스템 간    │  · 동일 속성이 다른 시스템 간 일치           │
-│  │ 비교         │  · 예: CRM 고객 나이 ≠ DW 고객 나이 → 불일치│
-│  └──────────────┘                                            │
-│  ┌──────────────┐  적시성(Timeliness)                        │
-│  │ SLA 기준     │  · 데이터가 사용 가능한 시점의 최신성        │
-│  │ 측정         │  · 배치: 매일 06:00 갱신 SLA              │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  유일성(Uniqueness)                        │
-│  │ 중복 탐지    │  · 동일 엔티티의 중복 레코드 없음            │
-│  │ 알고리즘     │  · 중복률 = 중복 레코드 수/전체 레코드 수    │
-│  └──────────────┘                                            │
-│  ┌──────────────┐  유효성(Validity)                          │
-│  │ 규칙 검사    │  · 형식·도메인·참조 무결성 준수             │
-│  │ 엔진         │  · 예: 날짜 형식, 코드 목록, FK 무결성      │
-│  └──────────────┘                                            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 6차원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전성(Completeness)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL 비율</div><div class="kb-diagram-cell">· 필수 항목 채움 비율 = 채워진 값/전체 × 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정</div><div class="kb-diagram-cell">· 목표: 핵심 필드 99.9% 이상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확성(Accuracy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 기준</div><div class="kb-diagram-cell">· 실세계 정보와 일치 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">· 검증: 공공 DB 대조, 현장 확인 샘플링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성(Consistency)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 간</div><div class="kb-diagram-cell">· 동일 속성이 다른 시스템 간 일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">· 예: CRM 고객 나이 ≠ DW 고객 나이 → 불일치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적시성(Timeliness)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA 기준</div><div class="kb-diagram-cell">· 데이터가 사용 가능한 시점의 최신성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정</div><div class="kb-diagram-cell">· 배치: 매일 06:00 갱신 SLA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유일성(Uniqueness)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 탐지</div><div class="kb-diagram-cell">· 동일 엔티티의 중복 레코드 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">· 중복률 = 중복 레코드 수/전체 레코드 수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유효성(Validity)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙 검사</div><div class="kb-diagram-cell">· 형식·도메인·참조 무결성 준수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔진</div><div class="kb-diagram-cell">· 예: 날짜 형식, 코드 목록, FK 무결성</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 품질 점수 계산
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 종합 점수 (DQS, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) Score)**:
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 종합 점수 (DQS, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> Score)</strong>:
 
 ```
 DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
@@ -104,7 +101,7 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 | 유효성 | 96.3% | 0.05 | 4.8 |
 | **종합 DQS** | | | **96.1%** |
 
-**📢 섹션 요약 비유**: 품질 점수는 **학교 성적표**와 같다. 수학만 100점(완전성만 완벽)이고 나머지가 엉망이면 진학에 실패한다. 종합 점수가 중요하다.
+**📢 섹션 요약 비유**: 품질 점수는 <strong>학교 성적표</strong>와 같다. 수학만 100점(완전성만 완벽)이고 나머지가 엉망이면 진학에 실패한다. 종합 점수가 중요하다.
 
 ---
 
@@ -129,7 +126,7 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 vs [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)(Cleansing) | 정제는 DQ 향상을 위한 활동 |
 | DQ 차원 vs DQ 규칙 | 차원은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계, 규칙은 세부 검사 기준 |
 
-**📢 섹션 요약 비유**: 6차원과 실제 문제의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 **건강검진 항목**과 같다. 혈압([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 체중(완전성), 혈당(유효성) 등 각 항목이 다른 건강 위험을 측정하듯, 각 차원은 다른 유형의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위험을 잡아낸다.
+**📢 섹션 요약 비유**: 6차원과 실제 문제의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 <strong>건강검진 항목</strong>과 같다. 혈압([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)), 체중(완전성), 혈당(유효성) 등 각 항목이 다른 건강 위험을 측정하듯, 각 차원은 다른 유형의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위험을 잡아낸다.
 
 ---
 
@@ -137,24 +134,27 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 
 ### 4.1 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 DQ 검사
 
-```
-[소스 데이터 추출]
-         │
-         ▼
-[DQ 검사 1: 완전성 + 유효성 검사] ──실패──▶ [격리(Quarantine) + 알림]
-         │통과
-         ▼
-[데이터 변환(Transformation)]
-         │
-         ▼
-[DQ 검사 2: 일관성 + 유일성 검사] ──실패──▶ [오류 로그 + 수동 검토 큐]
-         │통과
-         ▼
-[목적 시스템 로드]
-         │
-         ▼
-[DQ 검사 3: 적시성 + 정확성 샘플링] ──실패──▶ [대시보드 경보]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스 데이터 추출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 1: 완전성 + 유효성 검사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">격리(Quarantine) + 알림</div></div>
+<div class="kb-diagram-note">통과</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 변환(Transformation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 2: 일관성 + 유일성 검사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 로그 + 수동 검토 큐</div></div>
+<div class="kb-diagram-note">통과</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목적 시스템 로드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 3: 적시성 + 정확성 샘플링</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대시보드 경보</div></div>
+</div>
+</div>
+
+
 
 **"Fail Fast" 원칙**: 품질 문제는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최대한 앞단에서 잡아야 수정 비용 최소화.
 
@@ -177,7 +177,7 @@ SELECT
 FROM customers;
 ```
 
-**📢 섹션 요약 비유**: [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 DQ 검사는 **공장 품질 검사 라인**과 같다. 불량품을 최대한 공정 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 걸러야 완성품 폐기 비용을 줄일 수 있다.
+**📢 섹션 요약 비유**: [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 DQ 검사는 <strong>공장 품질 검사 라인</strong>과 같다. 불량품을 최대한 공정 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 걸러야 완성품 폐기 비용을 줄일 수 있다.
 
 ---
 
@@ -194,9 +194,9 @@ FROM customers;
 
 ### 5.2 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 좋은가"를 다각도에서 측정하는 **표준 언어**다. 조직마다 비즈니스 우선순위에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하되, 모든 차원을 지속적으로 측정하고 개선하는 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 체계(DQM, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))**를 구축해야 한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 6차원은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 좋은가"를 다각도에서 측정하는 <strong>표준 언어</strong>다. 조직마다 비즈니스 우선순위에 따라 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다르게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하되, 모든 차원을 지속적으로 측정하고 개선하는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 관리 체계(DQM, <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>를 구축해야 한다.
 
-**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 **지속적인 운동 습관**과 같다. 한 번 좋아진다고 끝이 아니라, 꾸준히 측정하고 관리해야 오래 건강(품질)을 유지할 수 있다.
+**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리는 <strong>지속적인 운동 습관</strong>과 같다. 한 번 좋아진다고 끝이 아니라, 꾸준히 측정하고 관리해야 오래 건강(품질)을 유지할 수 있다.
 
 ---
 
@@ -216,21 +216,23 @@ FROM customers;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 수집 (Data Ingestion) — 원천 시스템에서 원시 데이터 유입]
-    │
-    ▼
-[데이터 품질 진단 (DQ Assessment) — 완전성·정확성·일관성·적시성 측정]
-    │
-    ▼
-[데이터 클렌징 (Data Cleansing) — 결측·중복·오류 데이터 처리]
-    │
-    ▼
-[마스터 데이터 관리 (MDM — Master Data Management) — 핵심 데이터 단일 진실 공급원 확보]
-    │
-    ▼
-[데이터 거버넌스 (Data Governance) — 지속적 품질 측정·정책·책임 체계 운영]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집 (Data Ingestion) — 원천 시스템에서 원시 데이터 유입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 진단 (DQ Assessment) — 완전성·정확성·일관성·적시성 측정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 클렌징 (Data Cleansing) — 결측·중복·오류 데이터 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 데이터 관리 (MDM — Master Data Management) — 핵심 데이터 단일 진실 공급원 확보</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 (Data Governance) — 지속적 품질 측정·정책·책임 체계 운영</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 품질 진단·클렌징을 거쳐 [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/)와 거버넌스로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 체계를 나타낸다.
 

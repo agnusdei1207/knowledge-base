@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-해커가 직접 타겟 서버(피해자)에게 트래픽을 쏘지 않고, 정상적으로 운영되는 제3의 인터넷 서버들([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 등)을 **'반사경(Reflector)'**이자 **'확성기(Amplifier)'**로 악용하여 피해자에게 엄청난 트래픽 폭탄을 쏟아붓게 만드는 최신/최악의 디도스 기법입니다.
+해커가 직접 타겟 서버(피해자)에게 트래픽을 쏘지 않고, 정상적으로 운영되는 제3의 인터넷 서버들([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 등)을 <strong>'반사경(Reflector)'</strong>이자 <strong>'확성기(Amplifier)'</strong>로 악용하여 피해자에게 엄청난 트래픽 폭탄을 쏟아붓게 만드는 최신/최악의 디도스 기법입니다.
 
-```text
-[UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
-[반사 증폭 공격]
-    │
-    └──▶ [NTP 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,22 +41,26 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 반사 (Reflection) - "경찰 추적 회피 (IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))"
-- 해커는 질문 패킷을 정상 서버([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 등)에 던질 때, 겉면에 적힌 '출발지 IP'를 자기 주소가 아니라 **'공격할 타겟(피해자) 서버의 IP'**로 위장(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))해서 씁니다.
+- 해커는 질문 패킷을 정상 서버([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 등)에 던질 때, 겉면에 적힌 '출발지 IP'를 자기 주소가 아니라 <strong>'공격할 타겟(피해자) 서버의 IP'</strong>로 위장(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))해서 씁니다.
 - 멍청한([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반) 정상 서버들은 질문을 받고, "아, 피해자 IP에서 질문이 왔구나!"라고 속아서, 진짜 해커가 아닌 억울한 피해자 서버 쪽으로 일제히 답장을 날려버립니다(반사). 경찰이 추적해도 해커 IP는 패킷 어디에도 남지 않습니다.
 
 ### 2. 증폭 (Amplification) - "작은 조약돌로 바위 만들기"
 - 이 공격의 진짜 무서운 점입니다. 해커는 대답이 아주 길게 나오는 특수한 질문([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))만 골라서 묻습니다.
-- 해커가 고작 **60바이트**짜리 가벼운 질문 패킷을 보내면, 속은 정상 서버는 **3,000바이트(50배 증폭)**짜리 거대한 응답 패킷 박스를 피해자에게 던집니다.
+- 해커가 고작 <strong>60바이트</strong>짜리 가벼운 질문 패킷을 보내면, 속은 정상 서버는 <strong>3,000바이트(50배 증폭)</strong>짜리 거대한 응답 패킷 박스를 피해자에게 던집니다.
 - 해커가 자기 노트북으로 1Gbps 트래픽을 쏘면, 반사 서버를 거쳐 피해자에게 도달할 때는 무려 50Gbps 짜리 쓰나미가 되어 서버를 완전히 박살 냅니다.
 
-```text
-[UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
-[반사 증폭 공격]
-    │
-    └──▶ [NTP 증폭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP 증폭</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -78,7 +86,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- DRDoS는 구조상 **절대적으로 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 통신 프로토콜만 악용**할 수 있습니다. 
+- DRDoS는 구조상 <strong>절대적으로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 통신 프로토콜만 악용</strong>할 수 있습니다. 
 - 만약 TCP였다면 서버가 "진짜 연결할 거야?"라고 3-way 핸드셰이크를 거치므로 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 꼼수가 즉시 들통납니다. 하지만 UDP는 묻지도 따지지도 않고 답장(응답)을 휙 던져버리는 특성이 있어 반사 공격의 완벽한 먹잇감이 됩니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -110,15 +118,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: UDP Flood 리소스 고갈 유도 / Nu…]
-    │
-    ▼
-[현재 개념: 반사 증폭 공격]
-    │
-    ├──▶ [확장 A: NTP 증폭]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UDP Flood 리소스 고갈 유도 / Nu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 반사 증폭 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NTP 증폭</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 반사 증폭 공격는 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

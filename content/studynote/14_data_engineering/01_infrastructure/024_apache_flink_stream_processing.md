@@ -20,24 +20,24 @@ tags = ["studynote-data-engineering"]
 
 Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) 엔진으로, 2014년 Apache 프로젝트로 편입되었다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        Spark Streaming(마이크로배치) vs Flink(네이티브)          │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  [Spark Streaming]                                           │
-│  스트림 → [배치1(1초)] → 처리 → [배치2(1초)] → 처리 ...         │
-│  지연: 0.5초~수초 (배치 크기에 비례)                             │
-│                                                              │
-│  [Apache Flink]                                              │
-│  스트림 → 이벤트1 → 처리(즉시) → 이벤트2 → 처리(즉시) ...        │
-│  지연: 1ms~10ms (이벤트 도착 즉시 처리)                          │
-│                                                              │
-│  핵심 차이:                                                    │
-│  Flink = 실시간 개별 이벤트 처리                                 │
-│  Spark Streaming = 짧은 배치의 연속                             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Streaming(마이크로배치) vs Flink(네이티브)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배치1(1초)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배치2(1초)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">처리 ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연: 0.5초~수초 (배치 크기에 비례)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림 → 이벤트1 → 처리(즉시) → 이벤트2 → 처리(즉시) ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연: 1ms~10ms (이벤트 도착 즉시 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 차이:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flink = 실시간 개별 이벤트 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Streaming = 짧은 배치의 연속</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: Spark Streaming은 1초마다 우편물을 배달하는 집배원이고, Flink는 편지가 오자마자 즉각 배달하는 퀵서비스다. 둘 다 빠르지만 긴급 편지에는 퀵서비스가 필요하다.
 
@@ -47,28 +47,35 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 
 ### Flink 핵심 아키텍처
 
-```text
-[DataStream API / Table API / SQL]
-              │
-              ▼
-[JobManager — 작업 스케줄링, 체크포인트 조율]
-              │
-         ┌────┴────┐
-         ▼         ▼
-[TaskManager1]  [TaskManager2]
-[Task:Slot1~4]  [Task:Slot1~4]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DataStream API / Table API / SQL</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">JobManager — 작업 스케줄링, 체크포인트 조율</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TaskManager1</div><div class="kb-diagram-node">TaskManager2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Task:Slot1~4</div><div class="kb-diagram-node">Task:Slot1~4</div></div>
+</div>
+</div>
+
+
 
 ### 이벤트 시간 처리와 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)
 
-```text
-이벤트 시간: 12:00:01  12:00:03  12:00:02  12:00:05
-                              (늦게 도착한 이벤트)
-                                                
-워터마크 = "현재 시각 - 최대 지연 허용(2초)"
-→ 워터마크 12:00:01 = "12:00:03 이전 이벤트 모두 도착 가정"
-→ 12:00:00~12:00:02 윈도우 닫기 → 집계 실행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이벤트 시간: 12:00:01 12:00:03 12:00:02 12:00:05</div>
+<div class="kb-diagram-note">(늦게 도착한 이벤트)</div>
+<div class="kb-diagram-note">워터마크 = "현재 시각 - 최대 지연 허용(2초)"</div>
+<div class="kb-diagram-note">→ 워터마크 12:00:01 = "12:00:03 이전 이벤트 모두 도착 가정"</div>
+<div class="kb-diagram-note">→ 12:00:00~12:00:02 윈도우 닫기 → 집계 실행</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 기차역의 출발 기준선이다. "마지막 탑승 기준 2분 후 출발"처럼, 지정 시간이 지나면 늦게 오는 승객(이벤트)을 기다리지 않고 집계(출발)한다.
 
@@ -79,10 +86,10 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 | 항목 | [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/) | [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams |
 |:---|:---|:---|:---|
 | **처리 모델** | 네이티브 스트리밍 | 마이크로 배치 | 네이티브 스트리밍 |
-| **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)** | 1~10ms | 500ms~수초 | 1~10ms |
+| <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong> | 1~10ms | 500ms~수초 | 1~10ms |
 | **상태 관리** | RocksDB 대용량 | 메모리/Checkpoint | RocksDB |
 | **Exactly-once** | ✅ | ✅ | ✅ |
-| **복잡 [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)** | ✅ (Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)) | 제한적 | 제한적 |
+| <strong>복잡 <a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a></strong> | ✅ (Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)) | 제한적 | 제한적 |
 | **배포 규모** | 수천 노드 | 수천 노드 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 내 |
 
 - **📢 섹션 요약 비유**: Flink는 전문 마라토너(특화된 스트리밍 처리), Spark는 철인 3종 선수(배치+스트리밍 통합), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 옆에 딸린 조깅 트랙이다.
@@ -94,10 +101,10 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 ### 실무 시나리오: 실시간 이상 거래 탐지
 금융사 카드 거래 스트림에서 이상 패턴 즉각 탐지.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽 (초당 100,000 TPS 카드 거래).
-2. **Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) 패턴**: 5분 내 동일 카드 다른 국가 3회 이상 거래.
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스</strong>: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽 (초당 100,000 TPS 카드 거래).
+2. <strong>Flink <a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a> 패턴</strong>: 5분 내 동일 카드 다른 국가 3회 이상 거래.
 3. **상태 저장**: RocksDB Backend로 카드별 거래 이력 유지.
-4. **[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)**: 허용 이벤트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 30초 ([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 고려).
+4. <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a></strong>: 허용 이벤트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 30초 ([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 고려).
 5. **결과**: 이상 패턴 탐지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) < 50ms → 즉각 차단 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -125,29 +132,31 @@ Flink는 [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)** | 이벤트 시간 기반 윈도우 닫기 기준 |
-| **RocksDB [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend** | 대용량 상태 저장; Flink 권장 백엔드 |
+| <strong><a href="/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/">워터마크</a></strong> | 이벤트 시간 기반 윈도우 닫기 기준 |
+| <strong>RocksDB <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Backend</strong> | 대용량 상태 저장; Flink 권장 백엔드 |
 | **Exactly-once** | 중복/누락 없는 처리 보장; 체크포인트 기반 |
-| **Flink [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)** | 복합 이벤트 패턴 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| **[Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/)** | Flink의 주요 소스/싱크 메시지 큐 |
+| <strong>Flink <a href="/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/">CEP</a></strong> | 복합 이벤트 패턴 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/">Apache Kafka</a></strong> | Flink의 주요 소스/싱크 메시지 큐 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Spark Streaming — 마이크로 배치 기반 스트림 처리]
-    │
-    ▼
-[Apache Flink — 네이티브 스트리밍, 이벤트 시간, 워터마크]
-    │
-    ▼
-[Flink CEP — 복합 이벤트 패턴 탐지]
-    │
-    ▼
-[Flink SQL — 선언적 스트림 처리]
-    │
-    ▼
-[Flink + Lakehouse — 실시간 스트림→Delta/Iceberg 적재]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming — 마이크로 배치 기반 스트림 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink — 네이티브 스트리밍, 이벤트 시간, 워터마크</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flink CEP — 복합 이벤트 패턴 탐지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flink SQL — 선언적 스트림 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Flink + Lakehouse — 실시간 스트림→Delta/Iceberg 적재</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

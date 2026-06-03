@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 등대(Beacon)가 바다 한가운데서 배들에게 "여기 암초가 있음!" 하고 깜빡거리듯, **실내 특정 위치에 부착되어 반경 50m 이내의 스마트폰들에게 자신의 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) ID 정보를 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0 저전력) 전파로 쉴 새 없이 브로드캐스팅(방송)하는 초소형 무선 송신기**입니다.
+- 등대(Beacon)가 바다 한가운데서 배들에게 "여기 암초가 있음!" 하고 깜빡거리듯, <strong>실내 특정 위치에 부착되어 반경 50m 이내의 스마트폰들에게 자신의 고유 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> ID 정보를 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 4.0 저전력) 전파로 쉴 새 없이 브로드캐스팅(방송)하는 초소형 무선 송신기</strong>입니다.
 - 실내에서는 위성 GPS가 터지지 않으므로, 이 비컨 전파를 받아 오차 1~2m 단위로 사용자의 실내 위치를 정밀하게 파악(Indoor Positioning)하거나 맞춤형 마케팅 알림을 보내는 데 핵심적으로 쓰입니다.
 
-```text
-[BLE]
-    │
-    ▼
-[비컨 기술]
-    │
-    └──▶ [ZigBee]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BLE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비컨 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZigBee</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비컨 기술은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,14 +47,18 @@ tags = ["studynote-network"]
 3. 내 폰에 깔려있던 스타필드(백화점) 앱이 이 번호를 보고 폰을 깨웁니다. "어? 1234번 비컨 전파네? 이건 나이키 앞이잖아!"
 4. 스타필드 앱이 LTE망을 타고 클라우드 서버에 접속해 나이키 할인 쿠폰 이미지를 다운받아, 스마트폰 화면에 푸시(Push) 알림을 띄웁니다.
 
-```text
-[BLE]
-    │
-    ▼
-[비컨 기술]
-    │
-    └──▶ [ZigBee]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">BLE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비컨 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZigBee</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 비컨 기술의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -62,12 +70,12 @@ tags = ["studynote-network"]
 
 ### 1. iBeacon (아이비컨) - 애플(Apple) 주도
 - **특징**: 애플이 2013년에 가장 먼저 발표하여 시장을 선점한 비컨 규격입니다.
-- **방식**: 오직 UUID(고유 그룹 아이디), Major(지역 번호), Minor(매장 상세 번호)라는 단순한 **'숫자 코드 3개'**만 전파에 실어 보냅니다.
-- **한계**: 폰에 반드시 해당 코드를 해석할 수 있는 **전용 앱(App)**이 미리 설치되어 있어야만 동작합니다. (스타벅스 앱이 없으면 사이렌오더 비컨 알림이 안 옴)
+- **방식**: 오직 UUID(고유 그룹 아이디), Major(지역 번호), Minor(매장 상세 번호)라는 단순한 <strong>'숫자 코드 3개'</strong>만 전파에 실어 보냅니다.
+- **한계**: 폰에 반드시 해당 코드를 해석할 수 있는 <strong>전용 앱(App)</strong>이 미리 설치되어 있어야만 동작합니다. (스타벅스 앱이 없으면 사이렌오더 비컨 알림이 안 옴)
 
 ### 2. Eddystone (에디스톤) - 구글(Google) 주도 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))
 - **특징**: iBeacon의 '전용 앱 필수'라는 치명적 단점을 박살내기 위해 구글이 내놓은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 비컨 규격입니다.
-- **혁신 (Eddystone-URL)**: 비컨이 무의미한 숫자 ID 대신, **아예 "[https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://nike.com/coupon" 이라는 인터넷 웹사이트 주소(URL) 자체를 허공에 뿌려버립니다.**
+- **혁신 (Eddystone-URL)**: 비컨이 무의미한 숫자 ID 대신, <strong>아예 "<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">https</a>://nike.com/coupon" 이라는 인터넷 웹사이트 주소(URL) 자체를 허공에 뿌려버립니다.</strong>
 - **결과**: 사용자는 특정 백화점 앱을 깔지 않아도 됩니다. 안드로이드폰 기본 브라우저(크롬)가 URL 전파를 줍자마자 바로 할인 웹페이지 창을 띄워버려, 폭발적인 사용자 접근성을 만들어 냅니다. (게다가 온도나 배터리 상태 같은 원격 측정 정보-Telemetry-도 섞어 보낼 수 있어 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 관리에 탁월합니다.)
 
 비컨 기술을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. BLE가 기반 조건을 만든다면, 비컨 기술은 그 위에서 핵심 메커니즘을 구현하고, ZigBee는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -120,15 +128,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: BLE]
-    │
-    ▼
-[현재 개념: 비컨 기술]
-    │
-    ├──▶ [확장 A: ZigBee]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BLE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비컨 기술</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ZigBee</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 비컨 기술는 BLE에서 출발해 현재 메커니즘을 정교화하고, 이후 ZigBee와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

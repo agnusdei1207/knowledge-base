@@ -23,26 +23,23 @@ tags = ["studynote-operating-system"]
 
 - **필요성**: [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서 전역 변수를 사용하면 레스 컨디션([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 발생한다. 매번 뮤텍스로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)할 수 있지만 오버헤드가 크다. TLS는 이 문제를 근본적으로 해결하여, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 고유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 안전하게 유지한다.
 
-```text
-┌─────────────────────────────────────────────────────────────────────┐
-│           전역 변수 vs TLS — 스레드별 데이터 격리                   │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  전역 변수 (공유 — 레스 컨디션 위험):                               │
-│  ┌─────────────────────────────┐                                    │
-│  │ int thread_id = 0;          │  Thread A: thread_id = 1           │
-│  │ srand(42);                 │  Thread B: thread_id = 1  │ ▶ 충돌! │
-│  └─────────────────────────────┘                                    │
-│                                                                     │
-│  TLS 변수 (스레드별 독립 — 안전):                                   │
-│  ┌─────────────┐ ┌─────────────┐                                    │
-│  │ Thread A    │ │ Thread B    │                                    │
-│  │ tid = 1   │ │ tid = 2    │  ← 각자 독립 저장                     │
-│  │ seed = 42 │ │ seed = 99 │  ← 동기화 불필요                       │
-│  │ buf = ... │ │ buf = ... │                                        │
-│  └─────────────┘ └─────────────┘                                    │
-└─────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 변수 vs TLS — 스레드별 데이터 격리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 변수 (공유 — 레스 컨디션 위험):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int thread_id = 0;</div><div class="kb-diagram-cell">Thread A: thread_id = 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">srand(42);</div><div class="kb-diagram-cell">Thread B: thread_id = 1</div><div class="kb-diagram-cell">▶ 충돌!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 변수 (스레드별 독립 — 안전):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A</div><div class="kb-diagram-cell">Thread B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tid = 1</div><div class="kb-diagram-cell">tid = 2</div><div class="kb-diagram-cell">← 각자 독립 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seed = 42</div><div class="kb-diagram-cell">seed = 99</div><div class="kb-diagram-cell">← 동기화 불필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">buf = ...</div><div class="kb-diagram-cell">buf = ...</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 전역 변수 thread_id를 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 쓰면 레스 컨디션이 발생하여 결과가 예측 불가능해진다. 반면 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 변수 tid는 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 물리적으로 다른 메모리에 접근하므로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 없이 안전하다. errno가 TLS로 구현되어 있는 이유가 바로 이것이다 — 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 시스템 콜 오류 번호가 독립적으로 유지되어야 하기 때문이다.
 
@@ -60,33 +57,28 @@ tags = ["studynote-operating-system"]
 | **_Thread_local** | C11 | C11 표준, 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서 초기화 가능 |
 | **thread_local** | C++ | C++[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 키워드, static + non-static 모두 지원 |
 | **ThreadLocal** | Java | java.lang.ThreadLocal, 커스텀 익명명으로 접근 |
-| **__declspec([thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))** | Windows MSVC | 마이크로소프트 특수 키워드 |
+| <strong>__declspec(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">thread</a>)</strong> | Windows MSVC | 마이크로소프트 특수 키워드 |
 | **__thread_local** | [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) | [rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 1.59+, std::[thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)::LocalKey |
 
 ### [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 스토리지 레이아웃
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│              TLS 메모리 레이아웃 (x86-64 예시)                          │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  고주소 (High Address)                                                  │
-│  ┌────────────────────────────────────────────────┐                     │
-│  │         TCB (Thread Control Block)                 │                 │
-│  │         ┌─────────────────────────────┐          │                   │
-│  │         │ TLS Array (스레드별 데이터)     │          │               │
-│  │         │  ┌──────┐ ┌──────┐ ... ┌──────┐│          │                │
-│  │         │  │t_id  │ │seed  │ ... │buf  ││          │                 │
-│  │         │  └──────┘ └──────┘     └──────┘│          │                │
-│ │         └─────────────────────────────────────┘          │            │
-│  └────────────────────────────────────────────────┘                     │
-│                                                                         │
-│  FS (fs = 0) 레지스터 → __thread 변수 저장                              │
-│  GS (gs = 지정) 레지스터 → 현재 스레드 TCB 주소                         │
-│                                                                         │
-│  fs:[tls_index] → 해당 스레드의 TLS 데이터에 직접 접근                  │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 메모리 레이아웃 (x86-64 예시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고주소 (High Address)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCB (Thread Control Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS Array (스레드별 데이터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_id</div><div class="kb-diagram-cell">seed</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">buf</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FS (fs = 0) 레지스터 → __thread 변수 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GS (gs = 지정) 레지스터 → 현재 스레드 TCB 주소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">fs:</div><div class="kb-diagram-node">tls_index</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">해당 스레드의 TLS 데이터에 직접 접근</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램활** x86-64 아키텍처에서 TLS는 FS (FS [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통해 접근된다. 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 TCB 내부에 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 배열이 위치하며, FS [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 현재 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 TCB를 가리키므로, FS 오프셋 계산으로 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 접근할 수 있다. 이것이 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 접근이 전역 변수 접근과 거의 동일한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장하는 이유다 (단일 명령어로 접근 가능).
 
@@ -101,8 +93,8 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 전역 변수 + 뮤텍스 | [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) | __thread |
 |:---|:---|::---|:---:|
 | **레이스 컨디션** | 위험 ([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 필요) | 없음 (독립) | 없음 |
-| **접근 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | L1 캐시 (공유) | L1 캐시 ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 캐시) | L1 캐시 (동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) |
-| **동적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** | 불가 (컴파일 타임) | 한계적 (C11)/풍부 | 불가 (컴파일 타임) |
+| <strong>접근 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | L1 캐시 (공유) | L1 캐시 ([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 캐시) | L1 캐시 (동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) |
+| <strong>동적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 불가 (컴파일 타임) | 한계적 (C11)/풍부 | 불가 (컴파일 타임) |
 | **포터터 공유** | 가능 (위험) | 불가 | 불가 |
 
 - **📢 섹션 요약 비율**: TLS는 "각 직원이 개인 사물함을 가지는 방식"으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 격리를 통해 레스 컨디션 문제를 근본적으로 해결합니다.
@@ -114,8 +106,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **과도한 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 사용**: 모든 변수를 TLS로 만들면 메모리 사용량이 N배가 된다. 진짜 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 고유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 TLS에 저장해야 한다.
-- **TLS로 숨검번호 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: TLS에 rand() 시드를 저장하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 독립 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 보장되지만, 보안상 예측 가능한 난수는 보안에 취약점이 될 수 있다. 암호학적으로 안전한 난수에는 /dev/urandom 사용.
+- <strong>과도한 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 사용</strong>: 모든 변수를 TLS로 만들면 메모리 사용량이 N배가 된다. 진짜 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 고유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 TLS에 저장해야 한다.
+- <strong>TLS로 숨검번호 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: TLS에 rand() 시드를 저장하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 독립 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 보장되지만, 보안상 예측 가능한 난수는 보안에 취약점이 될 수 있다. 암호학적으로 안전한 난수에는 /dev/urandom 사용.
 
 - **📢 섹션 요약 비율**: TLS는 "필요한 것만 개인 사물함에 넣는" 원칙을 지켜야 합니다. 모든 물건을 사물함에 넣으면 공간이 부족해집니다.
 
@@ -142,15 +134,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[취소 점 (Cancellation Point)]
-    │
-    ▼
-[스레드 로컬 저장소 (TLS, Thread-Local Storage)]
-    │
-    ├──▶ [스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]
-    └──▶ [상향 호출 (Upcall)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">취소 점 (Cancellation Point)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 로컬 저장소 (TLS, Thread-Local Storage)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상향 호출 (Upcall)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

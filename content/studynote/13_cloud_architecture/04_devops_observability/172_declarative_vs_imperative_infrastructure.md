@@ -25,19 +25,21 @@ tags = ["studynote-cloud-architecture"]
 
 아래 그림은 같은 목표라도 운영 책임이 어디에 놓이는지가 다름을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│              Same goal, different ownership of change             │
-├───────────────────────────────┬────────────────────────────────────┤
-│ Imperative                    │ Declarative                        │
-├───────────────────────────────┼────────────────────────────────────┤
-│ step 1: create network        │ network.cidr = 10.0.0.0/16        │
-│ step 2: create subnet         │ subnet.count = 3                  │
-│ step 3: attach route          │ route.private = nat-gw            │
-│ fail at step 2 => partial     │ diff engine => converge to target │
-│ rollback logic is manual      │ retry => same target, same result │
-└───────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same goal, different ownership of change</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imperative</div><div class="kb-diagram-cell">Declarative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 1: create network</div><div class="kb-diagram-cell">network.cidr = 10.0.0.0/16</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 2: create subnet</div><div class="kb-diagram-cell">subnet.count = 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 3: attach route</div><div class="kb-diagram-cell">route.private = nat-gw</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fail at step 2 =&gt; partial</div><div class="kb-diagram-cell">diff engine =&gt; converge to target</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rollback logic is manual</div><div class="kb-diagram-cell">retry =&gt; same target, same result</div></div>
+</div>
+</div>
+
+
 
 운영자가 원하는 것은 "명령을 많이 친 사실"이 아니라 "환경이 원하는 모습으로 유지되는 사실"이다. 선언형은 바로 이 유지 문제를 해결하기 위해 등장했고, Kubernetes와 Terraform이 널리 채택되면서 현대 클라우드 운영의 기본 철학이 되었다.
 
@@ -49,34 +51,33 @@ tags = ["studynote-cloud-architecture"]
 
 선언형과 명령형의 차이는 문법보다 제어 루프에 있다. 선언형 도구는 Desired State를 입력으로 받아 실제 상태를 읽고, 차이를 계산한 뒤 필요한 변경만 적용한다. 이 입력은 보통 Git에 저장된 HashiCorp Configuration Language (HCL)나 YAML Ain't Markup Language (YAML) 같은 선언 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 반면 명령형 도구는 작성된 순서대로 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 호출하며, 중간 실패와 부분 적용을 직접 다뤄야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Declarative control loop                          │
-├────────────────────────────────────────────────────────────────────┤
-│ Git / HCL / YAML                                                  │
-│      │                                                            │
-│      ▼                                                            │
-│ Planner / Controller                                              │
-│      │  compare desired vs actual                                 │
-│      ▼                                                            │
-│ Cloud API / Cluster API                                           │
-│      │                                                            │
-│      ▼                                                            │
-│ Actual State ────────────────┐                                    │
-│      ▲                       │ drift / refresh                    │
-│      └───────────────────────┘                                    │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Imperative execution path                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Script step1 -> step2 -> step3 -> step4                           │
-│      │          │                                                  │
-│      └─ fail here => partial state + explicit recovery needed      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Declarative control loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git / HCL / YAML</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Planner / Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">compare desired vs actual</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud API / Cluster API</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actual State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">drift / refresh</div></div>
+</div>
+</div>
+
+
+
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imperative execution path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Script step1 -&gt; step2 -&gt; step3 -&gt; step4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail here =&gt; partial state + explicit recovery needed</div></div>
+</div>
+</div>
+
+
 
 | 비교 항목 | 선언형 접근 | 명령형 접근 |
 | :--- | :--- | :--- |
@@ -117,21 +118,22 @@ tags = ["studynote-cloud-architecture"]
 
 실무에서는 "둘 중 하나만 순수하게 사용"하기보다 경계를 명확히 나누는 것이 중요하다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 되는 인프라는 선언형으로 두고, 예외 절차는 별도 파이프라인 단계나 운영 스크립트로 분리해야 한다. 선언형 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 과도한 `local-exec`, `shell`, `kubectl edit` 관행을 숨기면 겉만 선언형이고 실제 운영은 명령형 부채가 된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Selection guide                                │
-├────────────────────────────────────────────────────────────────────┤
-│ Is it a long-lived desired state?                                 │
-│      ├─ yes -> prefer declarative                                 │
-│      │        (IaC, Git review, drift detection, safe re-apply)   │
-│      └─ no                                                         │
-│          │                                                         │
-│          ▼                                                         │
-│ Is strict sequence / human checkpoint the main value?             │
-│      ├─ yes -> imperative with guard, log, rollback plan          │
-│      └─ no  -> wrap into declarative or operator pattern          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Selection guide</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it a long-lived desired state?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; prefer declarative</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IaC, Git review, drift detection, safe re-apply)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is strict sequence / human checkpoint the main value?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; imperative with guard, log, rollback plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; wrap into declarative or operator pattern</div></div>
+</div>
+</div>
+
+
 
 | 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
@@ -179,18 +181,22 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Manual ClickOps / Shell Script
-    │
-    ├─ problem: hidden order, drift, retry fear
-    ▼
-Infrastructure as Code (IaC)
-    │
-    ├─ Declarative: Terraform / Kubernetes / GitOps
-    └─ Imperative: bootstrap / migration / emergency fix
-    ▼
-State ownership + safe re-apply + audited change management
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Manual ClickOps / Shell Script</div>
+<div class="kb-diagram-tree-item" style="--depth:2">problem: hidden order, drift, retry fear</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Infrastructure as Code (IaC)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Declarative: Terraform / Kubernetes / GitOps</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Imperative: bootstrap / migration / emergency fix</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">State ownership + safe re-apply + audited change management</div>
+</div>
+</div>
+
+
 
 이 흐름은 인프라 운영이 "명령 실행"에서 "상태 수렴 관리"로 이동해 온 과정과, 여전히 남는 절차성 예외 작업의 위치를 함께 보여준다.
 

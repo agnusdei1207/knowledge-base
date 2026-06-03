@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 이로 인해 끔찍한 재앙이 시작되었다. 2019년, 1억 명의 고객 데이터를 가진 미국의 캐피털 원(Capital One) 은행은 AWS 클라우드의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 권한이 뚫려 막대한 데이터를 해커에게 헌납했다. 해커가 암호를 깬 것이 아니라, 개발자가 열어둔 뒷문([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)으로 그냥 걸어 들어온 것이다.
 
-가트너(Gartner)는 경고했다. **"클라우드 보안 사고의 99%는 사용자의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수(Misconfiguration)다."** 수만 개의 클라우드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 사람이 눈으로 확인하는 것은 불가능하다. 그래서 **"AWS 계정을 24시간 감시하다가, 누가 위험하게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 바꾸면 1초 만에 알람을 울리고 도로 잠가버리는 로봇"**이 탄생했다. 이것이 **CSPM(클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))**이다.
+가트너(Gartner)는 경고했다. <strong>"클라우드 보안 사고의 99%는 사용자의 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 실수(Misconfiguration)다."</strong> 수만 개의 클라우드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 사람이 눈으로 확인하는 것은 불가능하다. 그래서 <strong>"AWS 계정을 24시간 감시하다가, 누가 위험하게 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>을 바꾸면 1초 만에 알람을 울리고 도로 잠가버리는 로봇"</strong>이 탄생했다. 이것이 <strong>CSPM(클라우드 보안 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/">형상 관리</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 클라우드는 수만 개의 창문이 있는 거대한 빌딩이다. 개발자들이 환기한다고 창문을 열어두고 퇴근하면 밤에 도둑이 들어온다. CSPM은 24시간 빌딩을 순찰하며 열린 창문을 찾아내고, 자동으로 닫아버리는 '무인 로봇 경비원'이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) (CSPM)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라우드 보안 형상 관리 (CSPM)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 보안 형상 관리 (CSPM)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) (CSPM)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,12 +75,12 @@ CSPM은 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_we
 
 | 용어 (약어) | 풀네임 및 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상 | 핵심 역할 (무엇을 막는가?) |
 |:---|:---|:---|
-| **CSPM** | [Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture Mgt. | **클라우드 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류** (예: S3 열림, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 오류) |
-| **[CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/)** | Cloud Workload [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **서버 내부의 작업(Workload)** (예: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 악성코드, 서버 백신) |
-| **CIEM** | Cloud Infra Entitlement Mgt. | **클라우드 권한([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) 과다 부여** (예: 평직원에게 Admin 권한 부여) |
-| **[CNAPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/)**| Cloud-Native App [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **위의 3가지를 모두 하나로 합친 최신 통합 보안 플랫폼** |
+| **CSPM** | [Cloud Security](/knowledge-base/studynote/09_security/17_framework_compliance/842_iso_27017_cloud_security/) Posture Mgt. | <strong>클라우드 인프라 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 오류</strong> (예: S3 열림, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 오류) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/">CWPP</a></strong> | Cloud Workload [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **서버 내부의 작업(Workload)** (예: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 악성코드, 서버 백신) |
+| **CIEM** | Cloud Infra Entitlement Mgt. | <strong>클라우드 권한(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a>) 과다 부여</strong> (예: 평직원에게 Admin 권한 부여) |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/">CNAPP</a></strong>| Cloud-Native App [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | **위의 3가지를 모두 하나로 합친 최신 통합 보안 플랫폼** |
 
-최근의 보안 솔루션 트렌드는 CSPM 따로, [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 따로 사는 것이 아니라, 이 모든 것을 하나로 합친 **[CNAPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/)(씨냅)** 아키텍처로 진화했다.
+최근의 보안 솔루션 트렌드는 CSPM 따로, [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 따로 사는 것이 아니라, 이 모든 것을 하나로 합친 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/256_cnapp_cloud_native_application_protection/">CNAPP</a>(씨냅)</strong> 아키텍처로 진화했다.
 
 - **📢 섹션 요약 비유**: CSPM은 집의 '창문과 대문 자물쇠'를 검사하는 것이고, CWPP는 집 안에서 돌아가는 '공기청정기와 냉장고 안의 곰팡이'를 검사하는 것이며, CIEM은 '집 열쇠를 누구에게 몇 개 복사해 줬는지' 장부를 검사하는 것이다. 이 세 개를 한 번에 검사하는 종합 경비 업체가 CNAPP이다.
 
@@ -95,7 +94,7 @@ CSPM은 클라우드 제공자([CSP](/knowledge-base/studynote/09_security/05_we
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 CSPM의 실무 트렌드는 **"사고가 터진 뒤에 고치는 것조차 늦다"**는 위기감에서 출발한다.
+최근 CSPM의 실무 트렌드는 <strong>"사고가 터진 뒤에 고치는 것조차 늦다"</strong>는 위기감에서 출발한다.
 
 - **📢 섹션 요약 비유**: 클라우드 보안 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) (CSPM) [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 결합은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -132,21 +131,23 @@ CSPM과 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategori
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라우드 보안 형상 관리 (CSPM) 데브옵스 결합 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 보안 형상 관리 (CSPM) 데브옵스 결합 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

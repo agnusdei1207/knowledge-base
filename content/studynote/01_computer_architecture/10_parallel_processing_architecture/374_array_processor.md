@@ -27,22 +27,23 @@ tags = ["studynote-computer-architecture"]
 
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 왜 빠른지 먼저 보면 구조적 차이가 분명해진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        same operation, different hardware organization       │
-├───────────────────────┬──────────────────────────────────────┤
-│ scalar CPU            │ array processor                      │
-├───────────────────────┼──────────────────────────────────────┤
-│ one ALU handles       │ many PE cells handle                │
-│ data0 -> data1 -> ... │ data0,data1,... at same time        │
-│                       │                                      │
-│ cycle1 : data0        │ cycle1 : data0 data1 data2 data3    │
-│ cycle2 : data1        │          data4 data5 data6 data7    │
-│ cycle3 : data2        │                                      │
-└───────────────────────┴──────────────────────────────────────┘
-```
 
-이 그림의 핵심은 명령 수를 줄이는 것이 아니라, **같은 명령을 받아 실행하는 자리 자체를 복제한다**는 점이다. 따라서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나를 극적으로 줄이는 구조라기보다, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조로 이해해야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same operation, different hardware organization</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scalar CPU</div><div class="kb-diagram-cell">array processor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one ALU handles</div><div class="kb-diagram-cell">many PE cells handle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data0 -&gt; data1 -&gt; ...</div><div class="kb-diagram-cell">data0,data1,... at same time</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle1 : data0</div><div class="kb-diagram-cell">cycle1 : data0 data1 data2 data3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle2 : data1</div><div class="kb-diagram-cell">data4 data5 data6 data7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle3 : data2</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 명령 수를 줄이는 것이 아니라, <strong>같은 명령을 받아 실행하는 자리 자체를 복제한다</strong>는 점이다. 따라서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나를 극적으로 줄이는 구조라기보다, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 한 사람이 운동장 줄을 따라 쓰레기를 하나씩 줍는 대신, 반장이 "지금 줍자"라고 외치면 운동장 칸마다 서 있던 학생들이 동시에 자기 앞 쓰레기를 줍는 방식이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서다.
 
@@ -64,26 +65,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전역 명령 배포와 국소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 동시에 작동하는 모습을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            broadcast control + local data movement           │
-├──────────────────────────────────────────────────────────────┤
-│                  Control Unit                               │
-│                       │                                      │
-│          instruction broadcast to all PE                     │
-│                       ▼                                      │
-│    ┌────────┬────────┬────────┬────────┐                     │
-│    │  PE00  │  PE01  │  PE02  │  PE03  │                     │
-│    ├────────┼────────┼────────┼────────┤                     │
-│    │  PE10  │  PE11  │  PE12  │  PE13  │                     │
-│    ├────────┼────────┼────────┼────────┤                     │
-│    │  PE20  │  PE21  │  PE22  │  PE23  │                     │
-│    └────────┴────────┴────────┴────────┘                     │
-│      ↔ local exchange ↔ local exchange ↔ local exchange      │
-└──────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서는 두 종류의 흐름이 분리된다. 위에서 아래로 내려오는 것은 **제어 흐름**이고, 좌우 또는 상하로 움직이는 것은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름**이다. 제어는 중앙 집중적이지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 분산적으로 움직이기 때문에, 같은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이라도 [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)보다 공간 구조가 훨씬 더 강하게 드러난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">broadcast control + local data movement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Unit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction broadcast to all PE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE00</div><div class="kb-diagram-cell">PE01</div><div class="kb-diagram-cell">PE02</div><div class="kb-diagram-cell">PE03</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE10</div><div class="kb-diagram-cell">PE11</div><div class="kb-diagram-cell">PE12</div><div class="kb-diagram-cell">PE13</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE20</div><div class="kb-diagram-cell">PE21</div><div class="kb-diagram-cell">PE22</div><div class="kb-diagram-cell">PE23</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↔ local exchange ↔ local exchange ↔ local exchange</div></div>
+</div>
+</div>
+
+
+
+이 구조에서는 두 종류의 흐름이 분리된다. 위에서 아래로 내려오는 것은 <strong>제어 흐름</strong>이고, 좌우 또는 상하로 움직이는 것은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>이다. 제어는 중앙 집중적이지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 분산적으로 움직이기 때문에, 같은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이라도 [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)보다 공간 구조가 훨씬 더 강하게 드러난다.
 
 또한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 활성 PE 비율이 중요하다. 예를 들어 64개의 PE를 두었는데 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 40개뿐이거나 분기 때문에 절반만 실행되면, 남는 PE는 성능에 기여하지 못한 채 전력만 소모한다. 따라서 문제 크기와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 하드웨어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 잘 맞추는 것이 핵심 원리이자 핵심 제약이다.
 
@@ -131,7 +129,7 @@ tags = ["studynote-computer-architecture"]
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 무시하고 작은 작업을 반복해서 오프로딩하는 경우
 - PE 수만 보고 성능을 예측하고 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 유휴율을 계산하지 않는 경우
 
-기술사 관점에서는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"만 말하면 부족하다. 반드시 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성, 메모리 공급, 분기 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 활용률**을 함께 판단해야 한다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이론상 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 높아도 실제 활용률이 낮으면 기대 성능이 나오지 않는 대표 구조이기 때문이다.
+기술사 관점에서는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"만 말하면 부족하다. 반드시 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성, 메모리 공급, 분기 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>, 활용률</strong>을 함께 판단해야 한다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이론상 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 높아도 실제 활용률이 낮으면 기대 성능이 나오지 않는 대표 구조이기 때문이다.
 
 - **📢 섹션 요약 비유**: 대형 학원 강의실을 빌려 놓고 학생이 세 명만 오면 공간이 남아돌듯, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서도 계산 패턴과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 맞지 않으면 큰 하드웨어가 오히려 비경제적이다.
 
@@ -141,7 +139,7 @@ tags = ["studynote-computer-architecture"]
 
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 가장 큰 효과는 대량 반복 계산을 제어 오버헤드가 낮은 형태로 밀어붙일 수 있다는 점이다. 같은 실리콘 면적에서 복잡한 제어기보다 많은 산술기를 배치하므로, 조건이 맞는 작업에서는 전력 대비 성능과 단위 시간당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 크게 높일 수 있다. 이 때문에 과거 슈퍼컴퓨터의 실험적 구조였던 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 철학이 오늘날 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기와 그래픽 연산의 중심으로 되돌아왔다.
 
-다만 만능 구조는 아니다. 범용성은 낮고, 메모리 병목과 유휴 PE 문제를 피하려면 소프트웨어 스케줄링과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 정교해야 한다. 결국 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 기억할 때는 "연산기를 많이 붙인 프로세서"가 아니라, **문제의 규칙성을 하드웨어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 직접 대응시키는 구조**로 이해하는 것이 정확하다.
+다만 만능 구조는 아니다. 범용성은 낮고, 메모리 병목과 유휴 PE 문제를 피하려면 소프트웨어 스케줄링과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 정교해야 한다. 결국 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 기억할 때는 "연산기를 많이 붙인 프로세서"가 아니라, <strong>문제의 규칙성을 하드웨어 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>로 직접 대응시키는 구조</strong>로 이해하는 것이 정확하다.
 
 앞으로의 확장 방향은 세 가지로 볼 수 있다. 첫째, 시스톨릭 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 더 예측 가능하게 만드는 특화화가 강화된다. 둘째, 메모리 근접 컴퓨팅과 결합해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 줄이려는 시도가 늘어난다. 셋째, 범용 CPU와 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 가속기를 함께 쓰는 이기종 컴퓨팅이 표준이 되면서, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 독립 주연보다 강력한 조연의 위치를 더 공고히 할 가능성이 크다.
 
@@ -161,25 +159,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-플린의 분류법
-    │
-    ▼
-SIMD (Single Instruction Multiple Data)
-    │
-    ├─ 벡터 프로세서 (1D stream 중심)
-    │
-    └─ 배열 프로세서 (2D/space 병렬 중심)
-             │
-             ▼
-GPU (Graphics Processing Unit)
-             │
-             ▼
-시스톨릭 배열 · TPU (Tensor Processing Unit)
-             │
-             ▼
-인공지능 가속기 · 이기종 컴퓨팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">플린의 분류법</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">벡터 프로세서 (1D stream 중심)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">배열 프로세서 (2D/space 병렬 중심)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GPU (Graphics Processing Unit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시스톨릭 배열 · TPU (Tensor Processing Unit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">인공지능 가속기 · 이기종 컴퓨팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 원리 → 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구현 → 상용 가속기 → [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 특화"로 이어지는 계보를 보여준다.
 

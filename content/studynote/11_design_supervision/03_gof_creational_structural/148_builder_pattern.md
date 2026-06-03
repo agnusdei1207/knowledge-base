@@ -10,7 +10,7 @@ tags = ["studynote-design-supervision"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) ([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 패턴은 파라미터가 수십 개에 달하는 복잡한 객체의 **'[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정(조립)'과 '최종 표현 방법'을 분리**하여, 동일한 조립 공정으로 서로 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가진 객체를 유연하게 만들어내는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이다.
+> 1. **본질**: [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) ([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 패턴은 파라미터가 수십 개에 달하는 복잡한 객체의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 과정(조립)'과 '최종 표현 방법'을 분리</strong>하여, 동일한 조립 공정으로 서로 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가진 객체를 유연하게 만들어내는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Creational) [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)이다.
 > 2. **가치**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자에 파라미터가 무한정 늘어나는 텔레스코핑 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)(점층적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)의 지옥을 박살 낸다. 메서드 체이닝(Method [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))을 통해 어떤 값이 들어가는지 직관적으로 코드를 읽게 해 주며, 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 가독성을 극대화한다.
 > 3. **판단 포인트**: 완성된 객체는 더 이상 수정할 수 없는 불변성(Immutability)을 확보할 수 있으므로, 매개변수가 4개 이상이거나 선택적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 다양한 복합 객체(DTO, Entity 등)를 안전하게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 실무 아키텍처의 필수 표준으로 도입해야 한다.
 
@@ -32,36 +32,31 @@ tags = ["studynote-design-supervision"]
 
 GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 조립 지휘자(Director)와 실제 조립공([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 철저히 분리된 구조다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          GoF 전통적 빌더 패턴의 아키텍처 (Director & Builder)        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       +----------------+            +------------------+    │
-│       │   Director     │ o─────────▶│     Builder      │    │
-│       +----------------+            +------------------+    │
-│       │ + Construct()  │            │ + BuildPartA()   │    │
-│       +----------------+            │ + BuildPartB()   │    │
-│               │                     │ + GetResult()    │    │
-│               │                     +------------------+    │
-│               │                               ▲             │
-│               │                     +---------┴---------+   │
-│               │                     │  ConcreteBuilder  │   │
-│               │                     +-------------------+   │
-│               └────────────────────▶│ + BuildPartA()    │   │
-│                                     │ + BuildPartB()    │   │
-│                                     │ + GetResult()     │   │
-│                                     +-------------------+   │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 전통적 빌더 패턴의 아키텍처 (Director &amp; Builder)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Director</div><div class="kb-diagram-cell">o ▶</div><div class="kb-diagram-cell">Builder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Construct()</div><div class="kb-diagram-cell">+ BuildPartA()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+----------------+</div><div class="kb-diagram-cell">+ BuildPartB()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ GetResult()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteBuilder</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">+ BuildPartA()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ BuildPartB()</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ GetResult()</div></div>
+</div>
+</div>
+
+
 
 **주요 역할**:
-1. **[Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)**: 부품을 조립하기 위한 추상 인터페이스를 정의한다. (도면 역할)
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a></strong>: 부품을 조립하기 위한 추상 인터페이스를 정의한다. (도면 역할)
 2. **ConcreteBuilder**: 인터페이스를 구현하여 실제로 제품의 부품을 만들고 조립한다.
 3. **Director**: 클라이언트 대신 `Builder` 인터페이스의 메서드들을 호출해 정해진 순서대로 조립 알고리즘을 캡슐화한다. (공장장 역할)
 4. **Product**: 최종적으로 만들어진 복합 객체.
 
-현대 자바(Java)에서는 Director를 생략하고, 클래스 내부에 `public static class Builder` 정적 이너 클래스(Static Inner Class)를 두는 **이펙티브 자바(Effective Java) 스타일의 심플 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)**이 사실상 업계 표준으로 굳어졌다. `User.builder().name("홍길동").age(20).build();` 형태로 메서드 체이닝을 활용해 직관적으로 조립한다.
+현대 자바(Java)에서는 Director를 생략하고, 클래스 내부에 `public static class Builder` 정적 이너 클래스(Static Inner Class)를 두는 <strong>이펙티브 자바(Effective Java) 스타일의 심플 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/">빌더 패턴</a></strong>이 사실상 업계 표준으로 굳어졌다. `User.builder().name("홍길동").age(20).build();` 형태로 메서드 체이닝을 활용해 직관적으로 조립한다.
 
 - **📢 섹션 요약 비유**: Director는 자동차 공장의 자동화 컨베이어 벨트 프로그램이고, Builder는 실제 로봇 팔입니다. 로봇 팔([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))은 '바퀴 끼우기', '문 달기' 능력만 있고, 컨베이어 벨트(Director)가 "먼저 바퀴 끼우고, 그다음 문 달아!"라고 순서를 지휘하여 최종 자동차(Product)를 뽑아냅니다.
 
@@ -73,9 +68,9 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 
 | 비교 항목 | 팩토리 패턴 ([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) / [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/)) | [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/) ([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) |
 | :--- | :--- | :--- |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직** | 단일 메서드 호출로 **한 번에 즉시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**하여 반환 | 여러 메서드 호출을 거쳐 **점진적(단계별)으로 조립 후 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 로직</strong> | 단일 메서드 호출로 <strong>한 번에 즉시 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>하여 반환 | 여러 메서드 호출을 거쳐 <strong>점진적(단계별)으로 조립 후 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> |
 | **객체의 복잡도** | 비교적 단순하거나, 다형성(Sub-class) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 처리에 적합 | 매개변수가 수십 개고, 선택적 조립 과정이 매우 복잡한 객체 |
-| **초점 (Focus)**| **"무엇(What)"**을 만들 것인가 (인스턴스의 다형성 캡슐화) | **"어떻게(How)"** 조립할 것인가 (복잡한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 안전한 할당) |
+| **초점 (Focus)**| <strong>"무엇(What)"</strong>을 만들 것인가 (인스턴스의 다형성 캡슐화) | **"어떻게(How)"** 조립할 것인가 (복잡한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 안전한 할당) |
 | **반환 시점** | 공장 메서드를 호출하는 즉시 인스턴스 반환 | 세팅을 다 끝내고 마지막에 `build()` 메서드를 호출할 때 반환 |
 
 또한 `Setter`를 이용한 자바빈즈(JavaBeans) 패턴과 비교할 때, [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 객체를 반환하기 전에 상태를 고정시킬 수 있어 '불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))' [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 강제할 수 있다는 점이 가장 압도적인 차별점이다.
@@ -89,13 +84,13 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 실무에서 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델(Entity)과 [데이터 전송 객체](/knowledge-base/studynote/11_design_supervision/06_exam_summary/401_process/)(DTO)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 무조건 적용해야 하는 방어적 코딩의 필수 아키텍처다.
 
 ### 실무 판단 시나리오
-1. **Lombok `@Builder` 어노테이션의 남용 주의**: 실무 스프링 부트(Spring Boot) 개발 시 롬복의 `@Builder`를 클래스 상단에 무지성으로 붙이면, 원치 않는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID) 필드나 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어야 할 날짜 필드까지 밖에서 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)로 값을 조작할 수 있게 열려버리는 [보안 캡슐화](/knowledge-base/studynote/03_network/09_application_layer_web_email/491_smtps_pop3s_imaps_secure_email/) 파괴가 일어난다. 
-   - **판단**: 아키텍트는 반드시 클래스 레벨이 아닌, 의도된 필드만 파라미터로 받는 **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Constructor) 위에만 `@Builder`를 선언**하도록 강제하여, 개발자가 함부로 PK(Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 변조하지 못하게 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어야 한다.
-2. **불완전 객체 방지 ([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 융합)**: [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 `build()` 메서드를 칠 때 필수 값이 누락되면 어떻게 할 것인가? 
+1. <strong>Lombok <code>@Builder</code> 어노테이션의 남용 주의</strong>: 실무 스프링 부트(Spring Boot) 개발 시 롬복의 `@Builder`를 클래스 상단에 무지성으로 붙이면, 원치 않는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID) 필드나 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어야 할 날짜 필드까지 밖에서 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)로 값을 조작할 수 있게 열려버리는 [보안 캡슐화](/knowledge-base/studynote/03_network/09_application_layer_web_email/491_smtps_pop3s_imaps_secure_email/) 파괴가 일어난다. 
+   - **판단**: 아키텍트는 반드시 클래스 레벨이 아닌, 의도된 필드만 파라미터로 받는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자(Constructor) 위에만 <code>@Builder</code>를 선언</strong>하도록 강제하여, 개발자가 함부로 PK(Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 변조하지 못하게 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어야 한다.
+2. <strong>불완전 객체 방지 (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a> 융합)</strong>: [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 `build()` 메서드를 칠 때 필수 값이 누락되면 어떻게 할 것인가? 
    - **판단**: [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)의 궁극적 가치는 `build()` 단계에서 무결성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 있다. `build()` 메서드 내부 또는 타겟 클래스의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 내부에 `if (name == null) throw new IllegalArgumentException()` 같은 빡센 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))을 박아 넣어, 필수 재료가 빠진 쓰레기 객체가 런타임에 돌아다니지 못하게 시스템 입구에서 폭파시켜야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **단순한 객체에 무지성 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 적용 (오버엔지니어링)**: 필드가 2~3개밖에 안 되는 단순한 객체에 굳이 수십 줄짜리 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 클래스를 만들거나 롬복 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)를 붙이는 행위. 코드 양만 비대해지고 직관적인 `new User(A, B)` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드만 일으키는 전형적인 패턴 중독 현상이다. 필드가 4개 이상이거나 확장 가능성이 클 때만 써야 한다.
+- <strong>단순한 객체에 무지성 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">빌더</a> 적용 (오버엔지니어링)</strong>: 필드가 2~3개밖에 안 되는 단순한 객체에 굳이 수십 줄짜리 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 클래스를 만들거나 롬복 [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)를 붙이는 행위. 코드 양만 비대해지고 직관적인 `new User(A, B)` [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 호출보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드만 일으키는 전형적인 패턴 중독 현상이다. 필드가 4개 이상이거나 확장 가능성이 클 때만 써야 한다.
 
 - **📢 섹션 요약 비유**: [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 우주선을 조립하는 매뉴얼입니다. 나사 100개를 순서대로 꼼꼼하게 다 끼운 뒤 마지막으로 조립관이 도장을 쾅 찍어야(`build()`) 날아갈 수 있습니다. 만약 나사가 2개밖에 없는 미니카 장난감이라면 굳이 이런 두꺼운 매뉴얼과 검사관을 부를 필요 없이 그냥 손으로 끼우는(`new`) 게 훨씬 빠릅니다.
 
@@ -105,7 +100,7 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 
 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) Pattern)을 도입하면 악명 높은 '점층적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 지옥(Telescoping Constructor)'에서 탈출할 수 있다. 수십 개의 매개변수에 `null`, `0`, `""` 같은 의미 없는 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 값을 끼워 맞추며 코딩하던 고통이 사라지고, 메서드 체이닝(Method [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))을 통해 마치 영어를 읽듯 직관적이고 우아한 객체 초기화 코드를 작성할 수 있다.
 
-가장 중요한 아키텍처적 승리는 **불변성(Immutability)의 확보**다. Setter 메서드를 열어두어 누군가 중간에 객체 상태를 훼손(Side-effect)할 리스크를 원천 차단하고, [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 객체를 무결점으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 내는 방파제가 된다. [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 복잡한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한을 안전하게 캡슐화하고 가독성을 극대화하기 위한 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 마스터피스다.
+가장 중요한 아키텍처적 승리는 <strong>불변성(Immutability)의 확보</strong>다. Setter 메서드를 열어두어 누군가 중간에 객체 상태를 훼손(Side-effect)할 리스크를 원천 차단하고, [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 객체를 무결점으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 내는 방파제가 된다. [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 복잡한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 권한을 안전하게 캡슐화하고 가독성을 극대화하기 위한 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 마스터피스다.
 
 - **📢 섹션 요약 비유**: [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 시멘트를 붓기 전의 '거푸집'입니다. 시멘트가 마르기 전([빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) 단계)에는 철근을 넣고 모양을 마음대로 수정할 수 있지만, 한 번 다 굳어서 쇳덩이 건물(`build()`)이 완성되고 나면 누구도 그 건물의 뼈대를 바꿀 수 없는 완벽하게 튼튼하고 안전한 상태(불변성)가 됩니다.
 
@@ -115,28 +110,30 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) (Creational Pattern)** | 객체를 뚝딱 만들어내는 패턴류. Factory, [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), Prototype과 함께 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 유연성을 담당하는 형제 패턴. |
-| **텔레스코핑 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 (Telescoping)** | 파라미터가 1개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 2개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 3개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 무식하게 겹겹이 계속 만들어내는 지옥. [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 부숴버린 1순위 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 적폐. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a> (Creational Pattern)</strong> | 객체를 뚝딱 만들어내는 패턴류. Factory, [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), Prototype과 함께 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 유연성을 담당하는 형제 패턴. |
+| <strong>텔레스코핑 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 (Telescoping)</strong> | 파라미터가 1개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 2개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자, 3개인 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 무식하게 겹겹이 계속 만들어내는 지옥. [빌더](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)가 부숴버린 1순위 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 적폐. |
 | **불변성 (Immutability)** | 한 번 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면 상태가 변하지 않는 객체의 특성. [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)을 쓰면 `Setter`를 아예 없앨 수 있어 멀티스레드 락이 필요 없는 불변 객체가 완성됨. |
-| **메서드 체이닝 (Method [Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))** | `obj.setA().setB().build()` 처럼 자기 자신(`this`)을 계속 반환하여 기차처럼 마침표(.)로 코드를 이어나가는 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)의 시그니처 코딩 기법. |
+| <strong>메서드 체이닝 (Method <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong> | `obj.setA().setB().build()` 처럼 자기 자신(`this`)을 계속 반환하여 기차처럼 마침표(.)로 코드를 이어나가는 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)의 시그니처 코딩 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-텔레스코핑 생성자 (Telescoping Constructor) / 매개변수 조합별로 생성자를 수십 개 만듦 (코드 중복 지옥)
-    │
-    ▼
-자바빈즈 패턴 (JavaBeans Pattern) / 기본 생성자로 만들고 Setter로 값을 넣음 (불변성 깨짐, 런타임 붕괴 위험)
-    │
-    ▼
-GoF 빌더 패턴 (Builder Pattern) / Director와 Builder를 분리해 안전하게 단계별 조립
-    │
-    ▼
-이펙티브 자바 스타일 빌더 (Static Inner Class Builder) / Director 생략, 체이닝으로 심플하게 압축
-    │
-    ▼
-Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴파일 타임에 자동 생성 (현대 자바 생태계 표준화)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">텔레스코핑 생성자 (Telescoping Constructor) / 매개변수 조합별로 생성자를 수십 개 만듦 (코드 중복 지옥)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자바빈즈 패턴 (JavaBeans Pattern) / 기본 생성자로 만들고 Setter로 값을 넣음 (불변성 깨짐, 런타임 붕괴 위험)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GoF 빌더 패턴 (Builder Pattern) / Director와 Builder를 분리해 안전하게 단계별 조립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이펙티브 자바 스타일 빌더 (Static Inner Class Builder) / Director 생략, 체이닝으로 심플하게 압축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴파일 타임에 자동 생성 (현대 자바 생태계 표준화)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 클라이언트-서버 아키텍처 (Clien의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  클라이언트-서버 아키텍처 (Clien                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트-서버 아키텍처 (Clien</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 클라이언트-서버 아키텍처 (Clien가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -47,7 +46,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 일을 시키며 서비스를 요청하는 **'고객([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))'**과, 요청을 받아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내주거나 무거운 연산을 대신해 주는 **'종업원(Server)'** 두 개의 독립된 컴포넌트로 역할(관심사)을 완벽하게 찢어버린(2-Tier) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처입니다.
+- **개념**: 일을 시키며 서비스를 요청하는 <strong>'고객(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)'</strong>과, 요청을 받아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내주거나 무거운 연산을 대신해 주는 **'종업원(Server)'** 두 개의 독립된 컴포넌트로 역할(관심사)을 완벽하게 찢어버린(2-Tier) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처입니다.
 - 인터넷 생태계(웹 브라우저 ➜ 웹 서버)를 탄생시킨 가장 위대하고 흔한 아키텍처 패턴입니다.
 
 - **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -77,7 +76,7 @@ tags = ["studynote-software-engineering"]
 - **3-Tier로의 분화**: 클라이언트가 서버 1대랑 통신했더니 씬 클라이언트의 서버가 다 터져 죽었습니다. 그래서 서버 딴을 **[클라이언트] ➜ [웹 서버(UI)] ➜ [WAS(비즈니스 로직)] ➜ [DB 서버]** 처럼 뒤쪽 종업원들을 3명, 4명으로 쪼개는 N-Tier(1066번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 등) 아키텍처로 무한 증식해 나갔습니다.
 - 최근엔 폰(클라이언트) 성능이 아이폰 15처럼 미치도록 좋아져서, 다시 서버의 짐을 폰으로 떠넘기는(온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) Thick Client로의 회귀가 살짝 유행하고 있습니다.
 
-> 📢 **섹션 요약 비유**: 기존 **메인프레임 중앙 집중형**은 **'미슐랭 3스타 천재 셰프 1명(서버)' 혼자서 홀 서빙, 양파 까기, 고기 굽기, 돈 계산을 다 하는 1인 식당**입니다. 손님이 3명만 넘어가도 셰프는 과로사로 쓰러집니다. 이를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨 **클라이언트-서버(C/S) 아키텍처**는 **'손님(클라이언트)'과 '주방장(서버)'의 역할 분담 혁명**입니다. 여기서 짐을 누가 지느냐에 따라 두 식당으로 나뉩니다. **Thick [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)(뚱뚱한 클라이언트)**는 '샤브샤브 고기구이 집'입니다. 주방장(서버)은 그냥 날고기와 버너([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 테이블에 띡 던져주고 쿨하게 주방으로 갑니다. 손님(내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 직접 불을 켜고 고기를 굽고 자르고 미친 듯이 요리(연산)를 다 해야 합니다. 주방장은 천 명의 손님이 와도 고기만 던져주면 되니 하나도 안 피곤하지만, 손님은 직접 굽느라 힘듭니다. 반면 **Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)(가벼운 클라이언트)**는 '파인다이닝 코스 요리'입니다. 손님(내 크롬 브라우저)은 가만히 앉아서 포크(마우스)만 들고 입만 쩍 벌리고 있으면, 주방장(서버)이 주방에서 썰고 볶고 지지고 다 해서 완벽한 요리(결과 화면)를 입안으로 쏙 넣어줍니다. 손님은 엄청 편하고 앱 업데이트를 할 필요가 없지만, 셰프(서버)는 주방에서 코피를 쏟으며 트래픽 부하와 싸워야 하는 인터넷 통신망의 영원한 역할 분담 저울질입니다.
+> 📢 **섹션 요약 비유**: 기존 <strong>메인프레임 중앙 집중형</strong>은 <strong>'미슐랭 3스타 천재 셰프 1명(서버)' 혼자서 홀 서빙, 양파 까기, 고기 굽기, 돈 계산을 다 하는 1인 식당</strong>입니다. 손님이 3명만 넘어가도 셰프는 과로사로 쓰러집니다. 이를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨 <strong>클라이언트-서버(C/S) 아키텍처</strong>는 <strong>'손님(클라이언트)'과 '주방장(서버)'의 역할 분담 혁명</strong>입니다. 여기서 짐을 누가 지느냐에 따라 두 식당으로 나뉩니다. <strong>Thick <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(뚱뚱한 클라이언트)</strong>는 '샤브샤브 고기구이 집'입니다. 주방장(서버)은 그냥 날고기와 버너([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 테이블에 띡 던져주고 쿨하게 주방으로 갑니다. 손님(내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 직접 불을 켜고 고기를 굽고 자르고 미친 듯이 요리(연산)를 다 해야 합니다. 주방장은 천 명의 손님이 와도 고기만 던져주면 되니 하나도 안 피곤하지만, 손님은 직접 굽느라 힘듭니다. 반면 <strong>Thin <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(가벼운 클라이언트)</strong>는 '파인다이닝 코스 요리'입니다. 손님(내 크롬 브라우저)은 가만히 앉아서 포크(마우스)만 들고 입만 쩍 벌리고 있으면, 주방장(서버)이 주방에서 썰고 볶고 지지고 다 해서 완벽한 요리(결과 화면)를 입안으로 쏙 넣어줍니다. 손님은 엄청 편하고 앱 업데이트를 할 필요가 없지만, 셰프(서버)는 주방에서 코피를 쏟으며 트래픽 부하와 싸워야 하는 인터넷 통신망의 영원한 역할 분담 저울질입니다.
 
 - **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -118,21 +117,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-클라이언트-서버 아키텍처 (Client-Server) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라이언트-서버 아키텍처 (Client-Server) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

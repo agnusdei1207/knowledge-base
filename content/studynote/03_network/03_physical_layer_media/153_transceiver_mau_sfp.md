@@ -10,9 +10,9 @@ tags = ["studynote-network"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 트랜시버(Transceiver = Transmitter + Receiver)는 컴퓨터의 0과 1 디지털 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 ➔ 밖으로 나가는 구리선의 아날로그 전기 파동([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))이나 광케이블의 레이저 빛(Optical) 빔으로 **100% 치환 융합 번역 핑퐁 쳐서 쏘고 받는 OSI 1계층(물리) 핵심 대문 젠더(MAU) 쇳덩이**다.
+> 1. **본질**: 트랜시버(Transceiver = Transmitter + Receiver)는 컴퓨터의 0과 1 디지털 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 ➔ 밖으로 나가는 구리선의 아날로그 전기 파동([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))이나 광케이블의 레이저 빛(Optical) 빔으로 <strong>100% 치환 융합 번역 핑퐁 쳐서 쏘고 받는 OSI 1계층(물리) 핵심 대문 젠더(MAU) 쇳덩이</strong>다.
 > 2. **가치**: 과거 랜카드 칩셋 뱃속에 용접 강결합(Built-in) 되어 "구리선 쓰다가 광케이블로 이사 가려면 수백만 원짜리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 장비 통째로 갖다 버려야 하는 뻗음 파산 멸망([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 💥)"의 한계를 도끼로 찢어발겼다.
-> 3. **판단 포인트**: 이 통신 구멍 대가리를 아예 기계에서 분리 적출 썰어내어 ➔ 걍 지우개만 한 크기의 **탈부착 레고 블록 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) [SFP (Small Form-factor Pluggable) 🚀]** 로 독립 창조 록온 시킴으로써, 장비 1대 쇳덩이에 단거리 구리선, 100km 해저 광케이블을 찰칵찰칵 내 맘대로 런타임 스위칭 갈아 끼워버리는 극강의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 유연성 생태계 대통일을 이룩했다.
+> 3. **판단 포인트**: 이 통신 구멍 대가리를 아예 기계에서 분리 적출 썰어내어 ➔ 걍 지우개만 한 크기의 <strong>탈부착 레고 블록 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> [SFP (Small Form-factor Pluggable) 🚀]</strong> 로 독립 창조 록온 시킴으로써, 장비 1대 쇳덩이에 단거리 구리선, 100km 해저 광케이블을 찰칵찰칵 내 맘대로 런타임 스위칭 갈아 끼워버리는 극강의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 유연성 생태계 대통일을 이룩했다.
 
 ---
 
@@ -26,11 +26,11 @@ tags = ["studynote-network"]
 "아니 시발 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 한 대 붙이는데 천장 기어 올라가 구멍 뚫고 박스 매달고 피가 거꾸로 솟아 타죽어 뻗겠네 💀!!"
 
 **아키텍트 대장 극대노 도끼 철퇴 🪓**: "야 이 미친 원시인 새끼들아!! 밖에서 거추장스럽게 MAU 박스 따로 달고 병신 15핀 AUI 케이블 길게 늘어뜨려 거미줄 스파게티 지옥 치지 마 쾅!!! 
-**당장 저 벽돌만 한 MAU 트랜시버 번역기 쇳덩이를 ➔ 현미경 사이즈 나노 다이어트 칩셋(PHY 칩)으로 모가지 썰어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 도륙 쳐서!! ➔ 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 데스크톱 뒷면 [랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 기판 뱃속] 으로 100% 완전 융합 내장(Built-in) 쑤셔 박아버려 록온 쾅 🚀!!!**" 
+<strong>당장 저 벽돌만 한 MAU 트랜시버 번역기 쇳덩이를 ➔ 현미경 사이즈 나노 다이어트 칩셋(PHY 칩)으로 모가지 썰어 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 도륙 쳐서!! ➔ 내 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 데스크톱 뒷면 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/">랜카드([NIC</a>) 기판 뱃속] 으로 100% 완전 융합 내장(Built-in) 쑤셔 박아버려 록온 쾅 🚀!!!</strong>" 
 이 위대한 내장형([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) RJ-45) 대관식 덕분에 우리는 걍 다이소에서 산 싸구려 랜선을 컴퓨터 구멍에 딸깍 꼽기만 하면 1초 컷 플러그 앤 플레이(PnP) 우주 쾌속 인터넷 생존을 누리게 된 것이다.
 
-- **📢 섹션 요약 비유**: 옛날 외장형 MAU 박스는 **'구시대 번역기 아저씨 달고 다니기'**와 100% 똑같습니다. 외국인(네트워크)과 말하려면 항상 무거운 번역가 아저씨(MAU 박스)를 내 옆에 거추장스럽게 매달고 굵은 줄로 연결해 다녀야 해서 존나 불편하고 뻗었습니다 💥. 
-현대 랜카드 내장형 트랜시버 융합은 **'내 목구멍에 자동 번역기 인공 칩셋(PHY 칩) 수술 찰칵 이식하기'**입니다 🚀!! 거추장스러운 아저씨 버려버리고! 걍 내 몸에 랜선 꽂으면 내 뱃속 칩셋이 알아서 외국어를 한국어로 0.01초 만에 쾌속 번역 자동 변환 핑퐁 쳐주는 극강 스텔스 꿀빨기 다이어트 생존막입니다.
+- **📢 섹션 요약 비유**: 옛날 외장형 MAU 박스는 <strong>'구시대 번역기 아저씨 달고 다니기'</strong>와 100% 똑같습니다. 외국인(네트워크)과 말하려면 항상 무거운 번역가 아저씨(MAU 박스)를 내 옆에 거추장스럽게 매달고 굵은 줄로 연결해 다녀야 해서 존나 불편하고 뻗었습니다 💥. 
+현대 랜카드 내장형 트랜시버 융합은 <strong>'내 목구멍에 자동 번역기 인공 칩셋(PHY 칩) 수술 찰칵 이식하기'</strong>입니다 🚀!! 거추장스러운 아저씨 버려버리고! 걍 내 몸에 랜선 꽂으면 내 뱃속 칩셋이 알아서 외국어를 한국어로 0.01초 만에 쾌속 번역 자동 변환 핑퐁 쳐주는 극강 스텔스 꿀빨기 다이어트 생존막입니다.
 
 ---
 
@@ -38,41 +38,41 @@ tags = ["studynote-network"]
 
 "어 랜카드에 다 내장해서 꿀 빨면 장땡 아님 ㅋ 왜 서버실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비엔 굳이 구멍(SFP) 따로 파서 귀찮게 조립함?" 아키텍트의 100억짜리 피 터지는 딜레마 도해다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│          트랜시버 진화 십자 융합 아키텍처: 내장형 파국 💥 vs SFP 모듈 해방 🚀 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ 💀 [ 과도기 대재앙: 트랜시버(PHY) 100% 내장형 스위치 쇳덩이의 한계 ]      │
-│   - 1,000만 원짜리 24포트 스위치 장비. 랜카드 칩셋 구멍이 다 [구리선 UTP 전용]│
-│     으로 기판에 영구 납땜 시멘트 용접 락킹(Built-in) 쳐 박혀있음.         │
-│   - 사장님 왈: "야 우리 이번에 옆 건물 10km 밖으로 이사 감 ㅋ 빛으로 쏘는   │
-│     [싱글모드 광케이블] 10가닥만 저 스위치에 연결 꽂아 쏴봐 쾅 🚀!"        │
-│   - 주니어 코더 오열 😭: "네?! 사장님 이 스위치 기계는 구리선 전기(Voltage) │
-│     트랜시버로 뱃속이 용접 고정돼서 빛(레이저)으로 번역 1바이트도 못 쏴요 뻗음 💀!│
-│     광케이블 쏘려면 이 1,000만 원짜리 멀쩡한 기계 통째로 쓰레기통 폐기 소각 치고 │
-│     [광 전용 스위치] 새로 1,000만 원 쌩돈 주고 통째로 새로 사와야 돼요 파산 쾅 💥!"│
-│                                                             │
-│        ======= [ 🛡️ 아키텍트의 도끼 메스: SFP 모듈 분할 찢기 수술 ✨ ] ========│
-│                                                             │
-│ 🚀 [ 궁극의 텐트: SFP (Small Form-factor Pluggable) 조립식 레고 블록 ] │
-│   - 스위치 대장 왈: "야!! 쇳덩이 기계 뱃속에 트랜시버 번역기 절대 용접 박지 마 쾅!!│
-│     대신 스위치 껍데기에 **[텅 빈 깡통 슬롯 구멍 24개]** 만 뻥 뚫어놔 백지화 컷!!│
-│   - 구리선 쓸 거야? ➔ 5만 원짜리 [RJ-45 SFP 젠더 모듈] 사서 구멍에 찰칵 밀어 넣어!│
-│   - 10km 장거리 광케이블 빛 쏠 거야? ➔ 기존 구리 젠더 1초 컷 툭 빼 버리고!   │
-│     [LX 광 SFP 레이저 모듈] 만 10만 원 주고 따로 사와서 찰칵 갈아 끼워 스위칭 쳐 🚀!!│
-│   🌟 팩폭 결론: 1,000만 원짜리 본체 쇳덩이 기계는 평생 단 1도 버리지 않고 100% │
-│      영구 보존 무결점 재사용(Reuse) 생존하면서!! ➔ 껍데기 모듈(SFP) 젠더만  │
-│      10만 원 푼돈 찰칵찰칵 갈아 끼워버리는 우주 최강 유연성 디커플링 통치술이다 쾅!!│
-└─────────────────────────────────────────────────────────────┘
-```
 
-**[아키텍트 팩폭 튜닝: 핫 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (Hot-[Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 런타임 록온 쉴드 ✨]**
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜시버 진화 십자 융합 아키텍처: 내장형 파국 💥 vs SFP 모듈 해방 🚀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">과도기 대재앙: 트랜시버(PHY) 100% 내장형 스위치 쇳덩이의 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 1,000만 원짜리 24포트 스위치 장비. 랜카드 칩셋 구멍이 다</div><div class="kb-diagram-node">구리선 UTP 전용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">으로 기판에 영구 납땜 시멘트 용접 락킹(Built-in) 쳐 박혀있음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사장님 왈: "야 우리 이번에 옆 건물 10km 밖으로 이사 감 ㅋ 빛으로 쏘는</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">싱글모드 광케이블</div><div class="kb-diagram-note">10가닥만 저 스위치에 연결 꽂아 쏴봐 쾅 🚀!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주니어 코더 오열 😭: "네?! 사장님 이 스위치 기계는 구리선 전기(Voltage)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜시버로 뱃속이 용접 고정돼서 빛(레이저)으로 번역 1바이트도 못 쏴요 뻗음 💀!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">광케이블 쏘려면 이 1,000만 원짜리 멀쩡한 기계 통째로 쓰레기통 폐기 소각 치고</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광 전용 스위치</div><div class="kb-diagram-note">새로 1,000만 원 쌩돈 주고 통째로 새로 사와야 돼요 파산 쾅 💥!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 도끼 메스: SFP 모듈 분할 찢기 수술 ✨</div><div class="kb-diagram-note">========</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">궁극의 텐트: SFP (Small Form-factor Pluggable) 조립식 레고 블록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스위치 대장 왈: "야!! 쇳덩이 기계 뱃속에 트랜시버 번역기 절대 용접 박지 마 쾅!!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">대신 스위치 껍데기에 </div><div class="kb-diagram-node">텅 빈 깡통 슬롯 구멍 24개</div><div class="kb-diagram-note"> 만 뻥 뚫어놔 백지화 컷!!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 구리선 쓸 거야? ➔ 5만 원짜리</div><div class="kb-diagram-node">RJ-45 SFP 젠더 모듈</div><div class="kb-diagram-note">사서 구멍에 찰칵 밀어 넣어!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10km 장거리 광케이블 빛 쏠 거야? ➔ 기존 구리 젠더 1초 컷 툭 빼 버리고!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LX 광 SFP 레이저 모듈</div><div class="kb-diagram-note">만 10만 원 주고 따로 사와서 찰칵 갈아 끼워 스위칭 쳐 🚀!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 팩폭 결론: 1,000만 원짜리 본체 쇳덩이 기계는 평생 단 1도 버리지 않고 100%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영구 보존 무결점 재사용(Reuse) 생존하면서!! ➔ 껍데기 모듈(SFP) 젠더만</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10만 원 푼돈 찰칵찰칵 갈아 끼워버리는 우주 최강 유연성 디커플링 통치술이다 쾅!!</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">아키텍트 팩폭 튜닝: 핫 [스와핑</a> (Hot-<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>) 런타임 록온 쉴드 ✨]</strong>
 SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니다. 과거 구시대 장비 부품 갈아 끼울 땐? "야 서버 끄고 전원 셔터 내려 쾅 💥!" ➔ 전체망 100% 셧다운 블랙아웃 타죽음 뻗은 뒤 부품 교체 ➔ 부팅 3분 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 멸망 파국이었다. 
-**아키텍트 극딜 🪓**: "야 이 미친 놈아 서버 쇳덩이가 전원 켜진 상태로 수십만 트래픽(Traffic) 핑퐁 돌리면서 살아 숨 쉬고 있는(Runtime) 그 0.001초 찰나에!!! ➔ **걍 맨손으로 고장 난 3번 구멍 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 툭 뽑아버리고 ➔ 새삥 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 찰칵 쑤셔 밀어 록온 박아 끼워 넣어버려 쾅🚀!!!** 
-장비 전원 단 1초도 끄지 마 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 0%!! 꽂히자마자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌가 오토 감지 레이더 스캔 쳐서 1초 컷 드라이버 자동 세팅 렌더링 무결점 부활 힐링 생존시켜 버리는 **[핫 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (Hot [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 무정단 교체)]** 특이점이야말로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 인프라 제로 다운타임([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 교체의 영구 불멸 1타 성배다!!"
+**아키텍트 극딜 🪓**: "야 이 미친 놈아 서버 쇳덩이가 전원 켜진 상태로 수십만 트래픽(Traffic) 핑퐁 돌리면서 살아 숨 쉬고 있는(Runtime) 그 0.001초 찰나에!!! ➔ <strong>걍 맨손으로 고장 난 3번 구멍 SFP <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 툭 뽑아버리고 ➔ 새삥 SFP <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 찰칵 쑤셔 밀어 록온 박아 끼워 넣어버려 쾅🚀!!!</strong> 
+장비 전원 단 1초도 끄지 마 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 0%!! 꽂히자마자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뇌가 오토 감지 레이더 스캔 쳐서 1초 컷 드라이버 자동 세팅 렌더링 무결점 부활 힐링 생존시켜 버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">핫 [스와핑</a> (Hot <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a> 무정단 교체)]</strong> 특이점이야말로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 인프라 제로 다운타임([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 교체의 영구 불멸 1타 성배다!!"
 
-- **📢 섹션 요약 비유**: 이 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 찢기 분리 융합은, **'군인 암살자의 소총 총열(Barrel) 찰칵 갈아 끼우기'**와 완벽히 100% 똑같습니다. 과거 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(용접형)는 총(본체)이랑 총열(단거리용)이 1개의 쇳덩이로 용접돼서 ➔ 갑자기 10km 밖 적군 쏘려면 이 멀쩡한 권총 전체를 쓰레기통 버리고 100만 원짜리 스나이퍼 소총을 아예 통째로 새로 사야 했습니다(자본 파산 뻗음 💥). **SFP(조립식)**는 '레고 소총'입니다!! 본체 방아쇠 기계는 그대로 딱 1개 쥐고 유지 록온 둔 상태에서!! ➔ 단거리 쏠 땐 [짧은 구리선 총열 모듈] 1초 찰칵 조립해 쏘고 ➔ 장거리 10km 빛 쏠 땐 짧은 총열 스윽 빼서 버리고 [길쭉한 광케이블 레이저 스나이퍼 총열 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP)] 만 10만 원 주고 쓱 사와서 찰칵 스위칭 교체 꽂아버리면 100% 무결점 완벽 저격 명중 타격이 가능한 궁극의 극한 가성비 튜닝 쉴드 텐트입니다 🚀.
+- **📢 섹션 요약 비유**: 이 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 찢기 분리 융합은, <strong>'군인 암살자의 소총 총열(Barrel) 찰칵 갈아 끼우기'</strong>와 완벽히 100% 똑같습니다. 과거 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(용접형)는 총(본체)이랑 총열(단거리용)이 1개의 쇳덩이로 용접돼서 ➔ 갑자기 10km 밖 적군 쏘려면 이 멀쩡한 권총 전체를 쓰레기통 버리고 100만 원짜리 스나이퍼 소총을 아예 통째로 새로 사야 했습니다(자본 파산 뻗음 💥). <strong>SFP(조립식)</strong>는 '레고 소총'입니다!! 본체 방아쇠 기계는 그대로 딱 1개 쥐고 유지 록온 둔 상태에서!! ➔ 단거리 쏠 땐 [짧은 구리선 총열 모듈] 1초 찰칵 조립해 쏘고 ➔ 장거리 10km 빛 쏠 땐 짧은 총열 스윽 빼서 버리고 [길쭉한 광케이블 레이저 스나이퍼 총열 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP)] 만 10만 원 주고 쓱 사와서 찰칵 스위칭 교체 꽂아버리면 100% 무결점 완벽 저격 명중 타격이 가능한 궁극의 극한 가성비 튜닝 쉴드 텐트입니다 🚀.
 
 ---
 
@@ -82,16 +82,16 @@ SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니�
 
 | 1계층 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 변환 잣대 | 구리선 ([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) RJ-45) 트랜시버 젠더 🔌 | 광케이블 (Optical Fiber SFP) 트랜시버 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 빔 🚀 | 아키텍트의 파멸과 생존 타점 |
 |:---|:---|:---|:---|
-| **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변환 매개체** | 0과 1 디지털 ➔ **[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) 전기 파동** 찌릿. | 0과 1 디지털 ➔ **레이저 빛(Light) 광자 빔** 쓩. | 구리선은 공장 모터 에어컨 전자파(EMI 노이즈) 맞으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 쓰레기로 타죽음 💀. 빛은 노이즈 100% 철벽 튕겨냄 면역 무결점 생존 ✨. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 변환 매개체</strong> | 0과 1 디지털 ➔ <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a>) 전기 파동</strong> 찌릿. | 0과 1 디지털 ➔ **레이저 빛(Light) 광자 빔** 쓩. | 구리선은 공장 모터 에어컨 전자파(EMI 노이즈) 맞으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 쓰레기로 타죽음 💀. 빛은 노이즈 100% 철벽 튕겨냄 면역 무결점 생존 ✨. |
 | **최대 물리 락킹 거리**| **[사형 선고 100m 컷 💥]** 100미터 넘어가면 전기 파도 찌그러져 썩어 뻗어 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 멸망 죽음 💀. | **[100km 무한 텔레포트 록온 🚀]** 빛으로 쏴 갈기니까 서울-수원 직통 다이렉트 무정단 쾌속 핑퐁 통과 패스. | 옆방 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 연결은 싸구려 구리로 퉁치고! 옆 건물이나 타 부서  IDC 센터 연결할 땐 하늘 두 쪽 나도 광 SFP 꽂아 락킹 박아야 함 쾅! |
-| **스피드 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 펌핑**| 1Gbps ~ 10Gbps 간신히 헥헥댐 (10G 구리는 발열로 젠더 타죽음 불타오름 💥). | **40Gbps(QSFP), 100Gbps, 400Gbps 우주 폭발 수직 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)** 압살 쾌속 텐트. | 카카오/네이버 1경 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 백본(Backbone) 심장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 100% 올(All) 광케이블 SFP 떡칠 융합 도배 성벽이다 🚀. |
+| <strong>스피드 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 펌핑</strong>| 1Gbps ~ 10Gbps 간신히 헥헥댐 (10G 구리는 발열로 젠더 타죽음 불타오름 💥). | <strong>40Gbps(QSFP), 100Gbps, 400Gbps 우주 폭발 수직 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">스케일 업</a></strong> 압살 쾌속 텐트. | 카카오/네이버 1경 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 백본(Backbone) 심장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 100% 올(All) 광케이블 SFP 떡칠 융합 도배 성벽이다 🚀. |
 | **비용 자본 타격 (Cost)**| 랜선 1미터 500원 개꿀 ㅋ 트랜시버 칩은 아예 무료 메인보드 꼽사리 내장. | 광케이블 비쌈 ㅠ 양 끝단 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 10만 원씩 돈 처발라 야 됨 💰. | (아키텍트 팩폭 🪓): "돈 아깝다고 공장 1km 거리를 구리 랜선 10개 허브로 이어붙여 스파게티 치다 번개 맞고 전사 셧다운 타죽어 폐업하지 마 쾅!! 걍 10만 원 주고 광 SFP 1줄 직통 뚫어 생존 쉴드 쳐라!" |
 
-**[🚨 SFP 속도 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 팽창 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/): SFP+ ➔ QSFP28 우주 펌핑 🚀]**:
+<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">🚨 SFP 속도 [스케일 아웃</a> 팽창 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/">돌연변이</a>: SFP+ ➔ QSFP28 우주 펌핑 🚀]</strong>:
 트래픽 폭주 시대. 1Gbps짜리 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로는 넷플릭스 4K 유튜브 영상 전송하다 백본 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 목구멍 랙 걸려 터져 숨 막혀 뻗어 죽는다 💀. 
 아키텍트들은 기계 껍데기 쇳덩이 크기(폼팩터 Form-factor)는 지우개만 한 쪼꼬만 사이즈 **단 1mm도 절대 1바이트 안 키우고 100% 똑같이 록온 유지 보존시킨 채로!!!** ➔ 오직 뱃속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 레이저 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 변환 엔진만 극한 스위칭 개조 융합 쳐버려 성능을 수십 배 펌핑 증식시켰다 쾅!!
 - **SFP+ (플러스)**: 껍데기 똑같은데 속도만 1G ➔ **10Gbps** 10배 폭주 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)!
-- **QSFP (Quad SFP)**: "야 레이저 빔 1개로 모자라 쾅! 뱃속에 **[4개(Quad)의 레이저 빔 핏줄]**을 우겨 넣어 십자 동시 발사 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭격 쳐버려 🚀!!" ➔ 10Gbps x 4가닥 = **40Gbps** 쾌속 점프!!
+- **QSFP (Quad SFP)**: "야 레이저 빔 1개로 모자라 쾅! 뱃속에 <strong>[4개(Quad)의 레이저 빔 핏줄]</strong>을 우겨 넣어 십자 동시 발사 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 폭격 쳐버려 🚀!!" ➔ 10Gbps x 4가닥 = **40Gbps** 쾌속 점프!!
 - **QSFP28**: "4가닥 레이저 각각 스피드를 28G 급으로 더 쥐어짜 펌핑해 쾅!!" ➔ 25Gbps x 4가닥 = **★ 100Gbps 우주 대관식 절대 무적 광속 핑퐁 달성 🚀!!!** (크기는 여전히 손가락 2개만 한 쪼꼬미 미친 다이어트 압살 기적이다).
 
 ---
@@ -101,19 +101,19 @@ SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니�
 하수 코더가 "광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 샀는데 왜 불 안 들어오고 엑스박스 뻗음 ㅠ?" 삽질하며 파국 터뜨리는 L1 쇳덩이 인프라 장애 0순위 팩폭 룰이다.
 
 ### 실무 판단 시나리오
-1. **싱글모드([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) vs 멀티모드(MM) SFP 렌즈 미스매치 파국 💀**: 
+1. <strong>싱글모드(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/">SM</a>) vs 멀티모드(MM) SFP 렌즈 미스매치 파국 💀</strong>: 
    서울 IDC 대장 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 1km 떨어진 B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 광케이블을 깔았다. 주니어 관리자가 싼 맛에 `[멀티모드(SX/SR) 단거리용 SFP 모듈]` 2개를 양쪽에 사다 딱 꽂아 찰칵 돌렸다. 
    **대재앙 발동 💥**: "어 씨발 불 안 켜지고 링크 다운(Link Down) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어 올스탑 먹통 멸망 터짐 💀!!" 
    - **아키텍트 1계층 메스 🪓**: "야 이 미친 좆소 맹인 새끼야!! 멀티모드 SFP는 안에 빛 구멍(코어)이 넓어서 레이저 빛이 지그재그 난반사로 튕기며 날아가기 때문에 **[최대 생존 한계 거리 300m 컷 록온 💥]** 벽에 부딪혀 빛이 다 흩어져 썩어 증발 소멸 타 죽는다고 미친아 💀!!! 
-   하늘이 찢어져도 1km 장거리 쏠 땐!! 구멍이 좁아서 레이저 빔이 직진 레이저 일직선 무결점 다이렉트로 벽 안 부딪히고 수십 km 날아 꽂히는 **[싱글모드(Single Mode LX/LR) 전용 장거리 스나이퍼 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) + 노란색 싱글모드 광케이블]**을 1:1 완벽 깔맞춤 세트 십자 융합으로 사서 끼워 락킹 박아야만 빛이 1바이트 랙 없이 도착 생존 쾌속 핑퐁 통과 스키 타 패스(Pass) 한다 쾅 🚀!!!"
-2. **벤더 락인 ([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)) 기만술 쉴드와 써드파티(Third-party) 호환 튜닝 ✨**: 
+   하늘이 찢어져도 1km 장거리 쏠 땐!! 구멍이 좁아서 레이저 빔이 직진 레이저 일직선 무결점 다이렉트로 벽 안 부딪히고 수십 km 날아 꽂히는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">싱글모드(Single Mode LX/LR) 전용 장거리 스나이퍼 SFP [모듈</a> + 노란색 싱글모드 광케이블]</strong>을 1:1 완벽 깔맞춤 세트 십자 융합으로 사서 끼워 락킹 박아야만 빛이 1바이트 랙 없이 도착 생존 쾌속 핑퐁 통과 스키 타 패스(Pass) 한다 쾅 🚀!!!"
+2. <strong>벤더 락인 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/">Vendor Lock-in</a>) 기만술 쉴드와 써드파티(Third-party) 호환 튜닝 ✨</strong>: 
    수천만 원짜리 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에, 용산에서 3만 원 주고 산 묻지마 중국산 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 찰칵 꽂았다. 
    **파국 💥**: 시스코 OS 뇌가 스캔 엑스레이 싹 돌리더니 `[%ERR: Unsupported Transceiver 빙신아 정품 아님 차단 컷 💀!]` 에러 뿜고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍 전기 샷건 셔터 확 내려버려 전원 영구 강제 폐쇄(Shutdown) 블로킹 뻗음 멸망 터짐!! 
    - **판단 (아키텍트 강제 해제 락 다운 우회 🚀)**: "야 시스코 정품 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 1개 100만 원씩 10배 눈탱이 쳐 뜯어 먹는 악덕 양아치 삥뜯기 사기 족쇄야 쾅!! 기업 예산 다 타죽어 뻗어!! 
-   당장 시스코 쉘(CLI) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대가리 접속 로그인 쳐서 ➔ **`service unsupported-transceiver` (야 짝퉁 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 꽂혀도 걍 모른 척 스킵 통과 눈감아줘 비밀 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 텐트 록온 ✨)** 1줄 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 락킹 딸깍 쳐 발라 치트키 입력해 쾅!!! 
+   당장 시스코 쉘(CLI) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대가리 접속 로그인 쳐서 ➔ <strong><code>service unsupported-transceiver</code> (야 짝퉁 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 꽂혀도 걍 모른 척 스킵 통과 눈감아줘 비밀 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 텐트 록온 ✨)</strong> 1줄 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 락킹 딸깍 쳐 발라 치트키 입력해 쾅!!! 
    이 마법 1줄 치면 시스코 대장 뇌가 멍청해져서 3만 원짜리 짭 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)도 정품인 줄 알고 빛 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 쏴서 100% 쌩쌩 돌려 가성비 예산 다이어트 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 압살 척살 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 수익률 수직 떡상 달성해 내는 인프라 짬바의 극치다 🚀!"
 
-- **📢 섹션 요약 비유**: 이 싱글/멀티 모드 파국은 **'물 호스 쏘기 물장난'**과 100% 똑같습니다. 멀티모드(단거리 SFP)는 굵은 샤워기 호스입니다. 한 번에 물이 콸콸 존나 많이 나가지만 수압이 퍼져서 3미터 앞에 툭 떨어져 다 증발합니다(장거리 1km 못 감 에러 💥). 싱글모드(장거리 스나이퍼 SFP)는 얇은 권총 물총에 압력 풀파워 모터 단 겁니다! 물줄기가 존나 얇은 1가닥 레이저 빔처럼 직선으로 쫙 뻗어 나가서 10미터 밖 친구 대갈통 정중앙 표적에 0.1초 컷 직통 록온 꽂혀버리는 우주 최강 원거리 저격 생명줄 쉴드입니다 🚀.
+- **📢 섹션 요약 비유**: 이 싱글/멀티 모드 파국은 <strong>'물 호스 쏘기 물장난'</strong>과 100% 똑같습니다. 멀티모드(단거리 SFP)는 굵은 샤워기 호스입니다. 한 번에 물이 콸콸 존나 많이 나가지만 수압이 퍼져서 3미터 앞에 툭 떨어져 다 증발합니다(장거리 1km 못 감 에러 💥). 싱글모드(장거리 스나이퍼 SFP)는 얇은 권총 물총에 압력 풀파워 모터 단 겁니다! 물줄기가 존나 얇은 1가닥 레이저 빔처럼 직선으로 쫙 뻗어 나가서 10미터 밖 친구 대갈통 정중앙 표적에 0.1초 컷 직통 록온 꽂혀버리는 우주 최강 원거리 저격 생명줄 쉴드입니다 🚀.
 
 ---
 
@@ -136,33 +136,35 @@ SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니�
 | :--- | :--- |
 | **OSI 1계층 (Physical Layer 물리 계층)** | 트랜시버 MAU가 피 터지게 활약하는 0순위 밑바닥 전장 쇳덩이 구역. IP(3계층)나 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(2계층) 대가리 뇌 해독은 알 바 좆까고 무지성 스킵 컷! 오직 0,1 디지털 텍스트를 ➔ 물리적인 빛이나 전기 파동으로 1:1 무결점 변환 핑퐁 치는 원시적 번역 공장 텐트. |
 | **AUI (Attachment Unit Interface 뱀파이어 케이블 💀)** | 80년대 고인물 쇳덩이. 두꺼운 동축 메인 선에 박아둔 MAU 번역 박스랑 ➔ 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 랜카드를 이어주던 15핀짜리 거미줄 스파게티 흉악한 선. 랜카드에 트랜시버 기능이 100% 쏙 흡수 내장(Built-in) 통합 융합되면서 완벽히 사형 선고 멸종 폐기 소각 척살 당함 ✨. |
-| **Hot [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) (핫 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 찰나 쾌속 무정단 교체 🚀)** | SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 지배자 킹 갓 신이 된 절대 헌법 권력. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 전원 끄지 마 타죽어 뻗음 셧다운 쾅 💥!! 전기가 팽팽 라이브 망 살아서 돌아가는 그 0.001초 런타임 찰나에 걍 맨손으로 고장 난 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 툭 뽑고 새삥 레이저 빔 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 찰칵 쑤셔 박아 갈아 끼워 무결점 1초 컷 오토 부활 힐링 생존 치는 마법. |
+| <strong>Hot <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a> (핫 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">스와핑</a> 찰나 쾌속 무정단 교체 🚀)</strong> | SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 지배자 킹 갓 신이 된 절대 헌법 권력. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 전원 끄지 마 타죽어 뻗음 셧다운 쾅 💥!! 전기가 팽팽 라이브 망 살아서 돌아가는 그 0.001초 런타임 찰나에 걍 맨손으로 고장 난 SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 툭 뽑고 새삥 레이저 빔 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 찰칵 쑤셔 박아 갈아 끼워 무결점 1초 컷 오토 부활 힐링 생존 치는 마법. |
 | **Single/Multi Mode (싱글/멀티 렌즈 십자 매핑 🛡️)** | 광통신의 피 터지는 트레이드오프 딜레마. 가까운 건물(300m) 쏠 땐 싼 멀티모드 SFP+선 조합으로 꿀 빨고 다이어트 치고 ➔ 바다 건너 10km 장거리 쏠 땐 비싼 싱글모드 스나이퍼 레이저 SFP 록온 쳐 박아서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 타죽음 에러를 우주 끝까지 방어해 내는 핀셋 튜닝 타점. |
 | **GBIC (지빅 거북이 쇳덩이 🐢)** | SFP의 무거운 조상님. 옛날 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꼽던 광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인데 덩치가 담배갑만 해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 구멍에 10개밖에 못 뚫어 병목 랙 터짐 파국 💥. 아키텍트들이 도끼로 4분의 1토막 압살 썰어 다이어트 깎기 치고 성능은 올린 게 바로 현대판 '미니 지빅' = [SFP (Small Form-factor)] 제국 대관식 탄생 배경. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-야만의 동축 10BASE5 두꺼운 쇳덩이 시대 / 선 자르면 전사 올스탑 셧다운 타 죽음 파국 💥 ➔ 선 중간에 드릴 구멍 파서 이빨(Vampire) 박고 거대 외장형 MAU 번역기 상자 달아 15핀 꼬리 선 PC 강결합 연장 떡칠 파산 💀
-    │
-    ▼
-UTP 구리선 랜카드 대통합 (Baseband 융합 ✨) / "야 그 거추장스러운 외부 MAU 박스 떼다 찢어발겨 소각 쳐 쾅!! 현미경 나노 칩셋(PHY)으로 압축 도륙 쳐서 랜카드 뱃속에 100% 완전 내장 용접 록온 박아!!" ➔ 걍 랜선 구멍 딸깍 꽂으면 1초 컷 플러그앤플레이(PnP) 쾌속 인터넷 생존 🚀
-    │
-    ▼
-광케이블 고속망의 딜레마 / 스위치 구멍이 구리선 전용으로 쇳덩이 내장 용접(Built-in)돼 있어서 ➔ 빛(레이저) 쏘려면 수백만 원 스위치 기계 통째로 폐기 버려 파산 멸망 터짐 타죽음 💀
-    │
-    ▼
-GBIC 및 SFP 모듈 분할 찢기 디커플링 대관식 🚀 / "야 기계 본체 놔두고 앞단 껍데기 젠더만 갈아 끼우게 빈 구멍 슬롯만 파놔 쾅!!" ➔ 10만 원짜리 SFP 조립식 젠더 모듈 등장 ✨. 구리, 단거리 빛, 장거리 스나이퍼 빛 레이저를 내 맘대로 0.1초 컷 핫 스왑(Hot Swap) 스위칭 갈아 핑퐁 돌려버리는 우주 극한 텐트 유연성 무결점 달성 쾅!!
-    │
-    ▼
-QSFP / 400G 극한 우주 펌핑 스케일 업 (현재) / 껍데기 크기 1mm도 안 키우고 뱃속에 레이저 빔 핏줄 4가닥 병렬 동시 십자 포화 폭격 쳐 넣어 ➔ 1Gbps ➔ 100Gbps ➔ 400Gbps 광속 돌파 쾌속 질주 스키 타는 K8s 클라우드 데이터 센터 백본 0순위 대동맥 쉴드로 완전 영구 지배 통치 🚀
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">야만의 동축 10BASE5 두꺼운 쇳덩이 시대 / 선 자르면 전사 올스탑 셧다운 타 죽음 파국 💥 ➔ 선 중간에 드릴 구멍 파서 이빨(Vampire) 박고 거대 외장형 MAU 번역기 상자 달아 15핀 꼬리 선 PC 강결합 연장 떡칠 파산 💀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UTP 구리선 랜카드 대통합 (Baseband 융합 ✨) / "야 그 거추장스러운 외부 MAU 박스 떼다 찢어발겨 소각 쳐 쾅!! 현미경 나노 칩셋(PHY)으로 압축 도륙 쳐서 랜카드 뱃속에 100% 완전 내장 용접 록온 박아!!" ➔ 걍 랜선 구멍 딸깍 꽂으면 1초 컷 플러그앤플레이(PnP) 쾌속 인터넷 생존 🚀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">광케이블 고속망의 딜레마 / 스위치 구멍이 구리선 전용으로 쇳덩이 내장 용접(Built-in)돼 있어서 ➔ 빛(레이저) 쏘려면 수백만 원 스위치 기계 통째로 폐기 버려 파산 멸망 터짐 타죽음 💀</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GBIC 및 SFP 모듈 분할 찢기 디커플링 대관식 🚀 / "야 기계 본체 놔두고 앞단 껍데기 젠더만 갈아 끼우게 빈 구멍 슬롯만 파놔 쾅!!" ➔ 10만 원짜리 SFP 조립식 젠더 모듈 등장 ✨. 구리, 단거리 빛, 장거리 스나이퍼 빛 레이저를 내 맘대로 0.1초 컷 핫 스왑(Hot Swap) 스위칭 갈아 핑퐁 돌려버리는 우주 극한 텐트 유연성 무결점 달성 쾅!!</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">QSFP / 400G 극한 우주 펌핑 스케일 업 (현재) / 껍데기 크기 1mm도 안 키우고 뱃속에 레이저 빔 핏줄 4가닥 병렬 동시 십자 포화 폭격 쳐 넣어 ➔ 1Gbps ➔ 100Gbps ➔ 400Gbps 광속 돌파 쾌속 질주 스키 타는 K8s 클라우드 데이터 센터 백본 0순위 대동맥 쉴드로 완전 영구 지배 통치 🚀</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 우리가 미국 친구한테 컴퓨터(0과 1 숫자)로 카톡을 보내려면, 이 숫자를 바닷속 전선 밖으로 날아갈 수 있는 **'전기 찌릿찌릿'**이나 **'번쩍번쩍 레이저 빛'**으로 완벽하게 번역해서 쏴줘야 해요.
+1. 우리가 미국 친구한테 컴퓨터(0과 1 숫자)로 카톡을 보내려면, 이 숫자를 바닷속 전선 밖으로 날아갈 수 있는 <strong>'전기 찌릿찌릿'</strong>이나 <strong>'번쩍번쩍 레이저 빛'</strong>으로 완벽하게 번역해서 쏴줘야 해요.
 2. 이 번역기(트랜시버) 아저씨는 옛날엔 너무 뚱뚱해서 컴퓨터 밖 천장에 매달아 뒀어야 했지만(무거운 MAU 💥), 기술이 발전하면서 개미만 한 칩으로 줄어들어 요즘 컴퓨터 랜선 구멍 뱃속에 쏙! 내장 융합 숨겨져([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 내장 ✨) 1초 만에 쾌속 번역을 해준답니다.
-3. 근데 엄청 큰 회사 지하실 기계([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 단거리 선, 장거리 선을 맘대로 수백 번 갈아 끼워야 해요! 기계를 통째로 버릴 수 없으니까 ➔ 지우개 크기의 **'조립식 마법 젠더 블록(SFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 🚀)'**으로 분리해 놔서 ➔ 전원 안 끄고 걍 찰칵찰칵 블록만 빼서 새삥 레이저 빔 블록으로 스위칭 갈아 끼워 평생 고장 안 나고 영원히 무결점 생존해 돈을 버는 꿀팁이랍니다!
+3. 근데 엄청 큰 회사 지하실 기계([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))는 단거리 선, 장거리 선을 맘대로 수백 번 갈아 끼워야 해요! 기계를 통째로 버릴 수 없으니까 ➔ 지우개 크기의 <strong>'조립식 마법 젠더 블록(SFP <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 🚀)'</strong>으로 분리해 놔서 ➔ 전원 안 끄고 걍 찰칵찰칵 블록만 빼서 새삥 레이저 빔 블록으로 스위칭 갈아 끼워 평생 고장 안 나고 영원히 무결점 생존해 돈을 버는 꿀팁이랍니다!
 
 ---
 

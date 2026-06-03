@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 원격 미디어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(Remote or Virtual [Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 ISO 이미지(ISO 9660 디스크 이미지)나 부팅 디스크를 호스트 서버에 **가상 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)/CD-ROM**처럼 보이게 만드는 대역외 설치 기술이다.
+> 1. **본질**: 원격 미디어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)(Remote or Virtual [Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/))가 ISO 이미지(ISO 9660 디스크 이미지)나 부팅 디스크를 호스트 서버에 <strong>가상 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a>/CD-ROM</strong>처럼 보이게 만드는 대역외 설치 기술이다.
 > 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 전혀 없거나 부팅이 깨진 베어메탈 서버도 현장 방문 없이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS) 설치, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 도구 부팅, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 진행할 수 있다.
 > 3. **판단 포인트**: 1~2대 긴급 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에는 매우 유용하지만, 대량 배포에는 PXE (Preboot Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))나 이미지 자동화가 더 효율적이며, 관리망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 이미지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 반드시 따라야 한다.
 
@@ -51,25 +51,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 그대로 복사되는 것이 아니라, BMC가 중간에서 "읽을 수 있는 부팅 장치"를 흉내 내는 구조를 나타낸다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Admin PC / Image Repository                                               │
-│  ISO / IMG                                                                │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ HTTPS / CIFS / NFS
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ BMC                                                                        │
-│  Image Cache / Remote Share Client                                         │
-│  Virtual USB-CD Emulation                                                  │
-└───────────────┬────────────────────────────────────────────────────────────┘
-                │ USB Mass Storage / Virtual CD-ROM
-                ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ Host Server                                                                │
-│  BIOS / UEFI ─────▶ Boot Manager ─────▶ Installer / Rescue Environment     │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin PC / Image Repository</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO / IMG</div></div>
+<div class="kb-diagram-note">HTTPS / CIFS / NFS</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BMC</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Image Cache / Remote Share Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual USB-CD Emulation</div></div>
+<div class="kb-diagram-note">USB Mass Storage / Virtual CD-ROM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Server</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIOS / UEFI ▶ Boot Manager ▶ Installer / Rescue Environment</div></div>
+</div>
+</div>
+
+
 
 중요한 실무 포인트는 설치 ISO가 항상 한 번에 통째로 복사되는 것이 아니라, 호스트가 읽는 블록을 BMC가 순차적으로 제공하는 경우가 많다는 점이다. 그래서 관리망이 불안정하거나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊기면 설치 중간에 읽기 오류가 날 수 있다. 즉 원격 미디어는 편리하지만, 로컬 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))처럼 완전히 독립적인 저장장치와 동일하다고 보면 안 된다.
 
@@ -101,7 +101,7 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 다음 네 가지를 먼저 확인해야 한다.
 
-1. **이미지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)**: ISO [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명을 확인해 오염된 설치 이미지를 막는다.
+1. <strong>이미지 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>: ISO [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 서명을 확인해 오염된 설치 이미지를 막는다.
 2. **부트 순서 통제**: 설치 후에도 가상 미디어가 남아 있으면 다음 재부팅에서 다시 설치 화면으로 들어갈 수 있으므로 자동 언마운트가 필요하다.
 3. **관리망 품질**: WAN 지연이 크거나 BMC가 느리면 설치 시간이 길어지고 실패 확률이 높아진다.
 4. **권한 통제**: OS 설치 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 꽂을 수 있다는 것은 곧 루트 권한에 준하는 영향력을 가진다는 뜻이므로, 일반 운영자와 권한을 분리해야 한다.
@@ -130,7 +130,7 @@ tags = ["studynote-computer-architecture"]
 
 다만 이 기술은 어디까지나 원격 삽입된 가상 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)이므로, 속도와 안정성은 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) 구현과 관리망 품질의 영향을 받는다. 대규모 표준 배포에는 PXE, 자동 응답 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 이미지 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/), 인프라 코드화가 더 적합하다. 또한 보안상 설치 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어는 곧 시스템 전체 지배권과 연결되므로, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 로그와 권한 분리가 필수다.
 
-정리하면 원격 미디어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 "ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 기능"이 아니라, **사람이 꽂아야 하던 부팅 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 네트워크로 대체한 하드웨어 설치 계층**으로 기억해야 한다.
+정리하면 원격 미디어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)는 "ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 기능"이 아니라, <strong>사람이 꽂아야 하던 부팅 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>를 네트워크로 대체한 하드웨어 설치 계층</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 평소엔 창고 문이 멀리 있어 불편하지만, 필요할 때 버튼 한 번으로 창고 선반이 눈앞으로 내려오면 작업 속도가 완전히 달라진다. 원격 미디어 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)가 바로 그런 역할을 한다.
 
@@ -148,22 +148,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Physical USB / DVD
-      │
-      ▼
-Local Crash Cart Install
-      │
-      ▼
-BMC-based Virtual Media
-      │
-      ├──▶ Remote OS Install
-      ├──▶ Rescue / Firmware Boot
-      └──▶ KVM-assisted Recovery
-      │
-      ▼
-API (Application Programming Interface)-driven Bare-metal Provisioning + PXE
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Physical USB / DVD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Local Crash Cart Install</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BMC-based Virtual Media</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Remote OS Install</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ Rescue / Firmware Boot</div>
+<div class="kb-diagram-tree-item" style="--depth:3">▶ KVM-assisted Recovery</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">API (Application Programming Interface)-driven Bare-metal Provisioning + PXE</div>
+</div>
+</div>
+
+
 
 이 흐름은 설치 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 사람 손의 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 원격 가상 장치와 자동화 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)으로 확장되는 과정을 보여준다.
 

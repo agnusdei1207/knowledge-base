@@ -23,7 +23,7 @@ tags = ["studynote-computer-architecture"]
 
 IHS가 필요한 두 번째 이유는 열 밀도다. die 위 특정 코어나 chiplet만 강하게 일하면 작은 면적에 수십 와트가 집중된 hotspot이 생긴다. 이 열을 그대로 큰 히트싱크에 전달하려면 접촉 면적이 너무 작고 불균일하다. IHS는 먼저 열을 옆으로 펼친 뒤, 외부 쿨러가 다루기 쉬운 면적으로 넘겨 준다.
 
-그래서 IHS는 단순한 뚜껑이 아니라, **기계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)층과 열 확산층을 합친 패키지 수준의 인터페이스 부품**이다.
+그래서 IHS는 단순한 뚜껑이 아니라, <strong>기계 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>층과 열 확산층을 합친 패키지 수준의 인터페이스 부품</strong>이다.
 - **📢 섹션 요약 비유**: IHS는 못 위에 바로 망치를 대지 않고 작은 금속판을 한 장 얹는 것과 같다. 힘이 넓게 퍼져 부서지지 않고, 열도 한 점에 몰리지 않는다.
 
 ---
@@ -44,22 +44,21 @@ IHS가 필요한 두 번째 이유는 열 밀도다. die 위 특정 코어나 ch
 
 이 그림은 IHS가 열 경로에서 어떤 위치를 차지하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│            CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Transistor Junction]                                                      │
-│          │                                                                 │
-│          ▼                                                                 │
-│ [Silicon Die / Chiplet]                                                    │
-│          │  internal TIM or solder                                         │
-│          ▼                                                                 │
-│ [IHS : copper + nickel cap]  -> lateral heat spreading                     │
-│          │  external TIM                                                   │
-│          ▼                                                                 │
-│ [Heatsink / Cold Plate] -> [Fin / Radiator] -> [Airflow / Coolant]         │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transistor Junction</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Silicon Die / Chiplet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">internal TIM or solder</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IHS : copper + nickel cap</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">lateral heat spreading</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">external TIM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Heatsink / Cold Plate</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fin / Radiator</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Airflow / Coolant</div></div>
+</div>
+</div>
+
+
 
 즉 좋은 IHS 구조는 "열을 빨리 빼는 것"과 "압력을 안전하게 받는 것"을 동시에 만족해야 한다.
 - **📢 섹션 요약 비유**: 뜨거운 프라이팬 한 점의 열을 넓은 철판으로 먼저 퍼뜨리면 손잡이가 덜 위험해지는 것처럼, IHS는 뜨거운 점열을 넓게 펼쳐 쿨러가 다루기 쉽게 만든다.
@@ -75,7 +74,7 @@ IHS의 존재를 이해하려면 direct-die cooling과 비교하면 경계가 �
 | IHS 사용 | 기계적 안전성, 표준 쿨러 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 열 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 계면이 늘어 열저항 증가 가능 | 일반 데스크톱, 서버, 워크스테이션 |
 | Direct-Die Cooling | 내부 계면 감소, 더 낮은 온도 가능성 | die 파손 위험, 장착 난도 높음 | extreme tuning, 실험 환경 |
 
-또한 IHS 아래의 접합 방식도 중요하다. soldered IHS는 금속 접합 덕분에 열전도가 뛰어나고, paste 기반 내부 TIM은 저렴하지만 온도 상승 폭이 더 클 수 있다. 즉 IHS는 "있느냐 없느냐"뿐 아니라, **무엇으로 접합되었느냐**까지 성능에 영향을 준다.
+또한 IHS 아래의 접합 방식도 중요하다. soldered IHS는 금속 접합 덕분에 열전도가 뛰어나고, paste 기반 내부 TIM은 저렴하지만 온도 상승 폭이 더 클 수 있다. 즉 IHS는 "있느냐 없느냐"뿐 아니라, <strong>무엇으로 접합되었느냐</strong>까지 성능에 영향을 준다.
 - **📢 섹션 요약 비유**: IHS는 안전모를 쓴 자전거와 비슷하고, direct-die는 헬멧을 벗고 더 가볍게 달리는 자전거와 비슷하다. 빨라질 수는 있지만 넘어졌을 때 위험도 훨씬 크다.
 
 ---
@@ -110,7 +109,7 @@ IHS가 잘 설계되면 CPU는 작은 die에서 발생한 높은 열밀도를 �
 
 반대로 IHS가 완전무결한 해법은 아니다. 내부 [TIM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) 품질, 표면 평탄도, [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 위치, 쿨러 압력에 따라 병목이 달라지며, 극한 성능만 추구하면 direct-die가 더 낮은 온도를 줄 수도 있다. 앞으로는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) hotspot 분포와 액체 냉각 확산을 더 잘 반영하는 lid 설계, 고성능 접합 재료, 패키지 수준 [vapor chamber](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/738_vapor_chamber/) 같은 방향으로 발전할 가능성이 있다.
 
-결론적으로 IHS는 "CPU 위 금속 덮개"가 아니라, **열 확산과 기계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 동시에 수행하는 패키징 핵심 부품**으로 기억해야 한다.
+결론적으로 IHS는 "CPU 위 금속 덮개"가 아니라, <strong>열 확산과 기계 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>를 동시에 수행하는 패키징 핵심 부품</strong>으로 기억해야 한다.
 - **📢 섹션 요약 비유**: IHS는 뜨거운 요리를 올리는 받침대와 같다. 음식이 한 점에서 타지 않게 열을 넓게 퍼뜨리고, 접시가 깨지지 않도록 힘도 함께 나눠 준다.
 
 ---
@@ -128,21 +127,23 @@ IHS가 잘 설계되면 CPU는 작은 die에서 발생한 높은 열밀도를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Bare Die 패키지
-        │
-        ▼
-금속 IHS 도입
-        │
-        ▼
-Soldered IHS / 고성능 TIM
-        │
-        ▼
-Chiplet hotspot 대응 패키징
-        │
-        ▼
-고급 cold plate · vapor chamber 결합 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bare Die 패키지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">금속 IHS 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Soldered IHS / 고성능 TIM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chiplet hotspot 대응 패키징</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고급 cold plate · vapor chamber 결합 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 CPU 냉각이 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 캡에서 출발해, 이제는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 열 분포와 냉각 인터페이스 전체를 조율하는 패키징 기술로 발전하고 있음을 보여 준다.
 

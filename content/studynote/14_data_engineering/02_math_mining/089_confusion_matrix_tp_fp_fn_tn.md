@@ -32,24 +32,24 @@ tags = ["studynote-data-engineering"]
 | :--- | :--- | :--- |
 | **TP (True Positive)** | 실제 양성 (Positive)을 양성으로 맞춤 | 진짜 양성 (정답) |
 | **TN (True Negative)** | 실제 음성 (Negative)을 음성으로 맞춤 | 진짜 음성 (정답) |
-| **[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (False Positive)** | 실제 음성인데 모델이 **양성**으로 틀림 | **가짜 양성 (1종 오류, 오탐)** |
-| **FN (False Negative)** | 실제 양성인데 모델이 **음성**으로 틀림 | **가짜 음성 (2종 오류, 미탐)** |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (False Positive)</strong> | 실제 음성인데 모델이 <strong>양성</strong>으로 틀림 | **가짜 양성 (1종 오류, 오탐)** |
+| **FN (False Negative)** | 실제 양성인데 모델이 <strong>음성</strong>으로 틀림 | **가짜 음성 (2종 오류, 미탐)** |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           혼동 행렬 (Confusion Matrix) 구조와 오답의 성격    │
-├──────────────────────────────────────────────────────────────┤
-│                     [ 실제 클래스 (Actual) ]                 │
-│                 Positive (1)          Negative (0)           │
-│              ┌─────────────────┬───────────────────┐         │
-│  [모델 예측] │ True Positive   │ False Positive    │         │
-│ Positive (1) │ (TP) 맞춤!      │ (FP) 1종 오류 🚨  │         │
-│              ├─────────────────┼───────────────────┤         │
-│  [모델 예측] │ False Negative  │ True Negative     │         │
-│ Negative (0) │ (FN) 2종 오류 🚨│ (TN) 맞춤!        │         │
-│              └─────────────────┴───────────────────┘         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼동 행렬 (Confusion Matrix) 구조와 오답의 성격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실제 클래스 (Actual)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (1) Negative (0)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 예측</div><div class="kb-diagram-note">True Positive │ False Positive │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (1)</div><div class="kb-diagram-cell">(TP) 맞춤!</div><div class="kb-diagram-cell">(FP) 1종 오류 🚨</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 예측</div><div class="kb-diagram-note">False Negative │ True Negative │</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Negative (0)</div><div class="kb-diagram-cell">(FN) 2종 오류 🚨</div><div class="kb-diagram-cell">(TN) 맞춤!</div></div>
+</div>
+</div>
+
+
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 만든 결과물을 4가지 범주로 쪼개어, 단순 정답(TP, TN) 외에 모델이 저지른 두 가지 치명적 실수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN)의 위치를 보여준다. 모든 고급 평가 지표는 오직 이 4개의 변수 조합으로 계산된다.
 
 - **📢 섹션 요약 비유**: 모델 예측(P/N)은 의사의 진단이고, T/F는 진단의 결과입니다. 의사가 암이라고 했는데 진짜 암이면 TP, 암이라고 했는데 건강하면 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(놀래킴), 건강하다고 했는데 숨은 암이 있으면 FN(치명적 실수)이 됩니다.
@@ -62,8 +62,8 @@ tags = ["studynote-data-engineering"]
 | 항목 | 1종 오류 (False Positive, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) | 2종 오류 (False Negative, FN) |
 | :--- | :--- | :--- |
 | **개념** | 없는 것을 있다고 과잉 예측 (Overkill) | 있는 것을 없다고 놓침 (Miss) |
-| **발생 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)** | 불필요한 조사 비용, 정상 사용자 불편 | 치명적 위험의 방치, 시스템 파괴 |
-| **개선 집중 지표**| **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))** = TP / (TP + [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) | **[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))** = TP / (TP + FN) |
+| <strong>발생 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 불필요한 조사 비용, 정상 사용자 불편 | 치명적 위험의 방치, 시스템 파괴 |
+| **개선 집중 지표**| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> = TP / (TP + [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> = TP / (TP + FN) |
 | **실제 사례** | 스팸 메일이 아닌데 스팸함으로 날려버림 | 실제 암 환자인데 정상으로 판정하여 방치함 |
 
 이 두 오류를 조율하는 것이 모델 튜닝의 핵심이다. 모델의 판정 임계값(Threshold)을 높이면 보수적이 되어 FP는 줄지만 FN이 늘어나고([정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 상승), 임계값을 낮추면 예민해져 FN은 줄지만 FP가 급증한다([재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 상승). 이 둘의 조화로움을 단일 숫자로 나타낸 것이 [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 이다.
@@ -76,11 +76,11 @@ tags = ["studynote-data-engineering"]
 실무에서 기술사나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어가 내려야 하는 가장 중요한 판단은 "현재 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 FP와 FN 중 어느 것이 더 치명적인 비용(Cost)을 발생시키는가?"를 결정하는 것이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정 포인트
-1. **의료/보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (FN 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**:
+1. <strong>의료/보안 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (FN 최소화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong>:
    - 질병 진단이나 불량품 탐지에서는 놓치는 것(FN)의 비용이 천문학적이다. 모델이 조금 과도하게 경보([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))를 울리더라도, [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) ([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))을 극대화하는 방향으로 임계값을 낮춰야 한다.
-2. **법적/사용자 경험 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))**:
+2. <strong>법적/사용자 경험 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> 최소화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong>:
    - 유튜브의 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 위반 차단 시스템이나 스팸 메일 필터는 무고한 사용자를 차단([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))하면 치명적인 신뢰 하락을 부른다. 놓치는 영상(FN)이 있더라도 확실한 것만 차단하도록 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) ([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))를 높여야 한다.
-3. **불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대응 (Class Imbalance)**:
+3. <strong>불균형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 대응 (Class Imbalance)</strong>:
    - 혼동 행렬에서 TN만 기형적으로 높고 TP가 0에 가깝다면, [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 같은 오버샘플링 ([Oversampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/)) 기법이나 클래스 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) (Class [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))를 부여하여 소수 클래스에 대한 학습력을 강제로 끌어올려야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -107,21 +107,23 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정확도 (Accuracy)의 착시 현상 발견
-    │
-    ▼
-혼동 행렬 (Confusion Matrix) 도입 · 오류의 세분화 (FP, FN)
-    │
-    ▼
-파생 지표 생성 (Precision, Recall, F1-Score)
-    │
-    ▼
-임계값 (Threshold) 변화에 따른 동적 평가 (ROC Curve)
-    │
-    ▼
-비용 함수 (Cost Matrix) 결합 및 비즈니스 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정확도 (Accuracy)의 착시 현상 발견</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">혼동 행렬 (Confusion Matrix) 도입 · 오류의 세분화 (FP, FN)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파생 지표 생성 (Precision, Recall, F1-Score)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">임계값 (Threshold) 변화에 따른 동적 평가 (ROC Curve)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비용 함수 (Cost Matrix) 결합 및 비즈니스 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 정답률 평가가 한계에 부딪혀 세분화된 오류 분석 도구(혼동 행렬)로 발전하고, 이후 연속적인 임계값 분석과 비즈니스 가치로 연결되는 과정을 보여준다.
 

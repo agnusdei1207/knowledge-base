@@ -18,24 +18,26 @@ tags = ["studynote-ict-convergence"]
 
 ## I. Flash Loan 동작 원리
 
-```
-하나의 이더리움 트랜잭션 내에서:
 
-1. 프로토콜에서 자금 대출 (예: 100만 DAI)
-   |
-   v
-2. 대출금으로 DeFi 작업 수행
-   (아비트라지, 청산, 담보 교환 등)
-   |
-   v
-3. 원금 + 수수료 상환 (0.09% Aave 기준)
-   |
-   v
-4a. 상환 성공 -> 트랜잭션 완료(Commit)
-4b. 상환 실패 -> 전체 롤백(Revert)
-```
 
-- **[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))**: 1~4가 모두 성공하거나 모두 실패
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">하나의 이더리움 트랜잭션 내에서:</div>
+<div class="kb-diagram-note">1. 프로토콜에서 자금 대출 (예: 100만 DAI)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">2. 대출금으로 DeFi 작업 수행</div>
+<div class="kb-diagram-note">(아비트라지, 청산, 담보 교환 등)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">3. 원금 + 수수료 상환 (0.09% Aave 기준)</div>
+<div class="kb-diagram-note">v</div>
+<div class="kb-diagram-note">4a. 상환 성공 -&gt; 트랜잭션 완료(Commit)</div>
+<div class="kb-diagram-note">4b. 상환 실패 -&gt; 전체 롤백(Revert)</div>
+</div>
+</div>
+
+
+
+- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">Atomicity</a>)</strong>: 1~4가 모두 성공하거나 모두 실패
 - **담보 불필요**: 상환이 보장되므로 신용 평가 불필요
 - **수수료**: Aave 0.09%, dYdX 2 wei 고정
 
@@ -47,39 +49,55 @@ tags = ["studynote-ict-convergence"]
 
 ### 2-1. 아비트라지 (Arbitrage)
 
-```
-DEX A: ETH = 2,000 DAI
-DEX B: ETH = 2,100 DAI
 
-Flash Loan 1,000,000 DAI
-  -> DEX A에서 500 ETH 매수 (200만 DAI)
-  -> DEX B에서 500 ETH 매도 (210만 DAI)
-  -> 차익 10만 DAI - 수수료 = 순이익
-  -> 원금 상환
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DEX A: ETH = 2,000 DAI</div>
+<div class="kb-diagram-note">DEX B: ETH = 2,100 DAI</div>
+<div class="kb-diagram-note">Flash Loan 1,000,000 DAI</div>
+<div class="kb-diagram-tree-item" style="--depth:1">DEX A에서 500 ETH 매수 (200만 DAI)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">DEX B에서 500 ETH 매도 (210만 DAI)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">차익 10만 DAI - 수수료 = 순이익</div>
+<div class="kb-diagram-tree-item" style="--depth:1">원금 상환</div>
+</div>
+</div>
+
+
 
 ### 2-2. 청산 (Liquidation)
 
-```
-담보 부족 포지션 발생
-  -> Flash Loan으로 부채 즉시 상환
-  -> 담보 자산 인수 (할인 가격)
-  -> 담보 매각으로 Flash Loan 상환
-  -> 청산 보너스 획득
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">담보 부족 포지션 발생</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Flash Loan으로 부채 즉시 상환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">담보 자산 인수 (할인 가격)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">담보 매각으로 Flash Loan 상환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">청산 보너스 획득</div>
+</div>
+</div>
+
+
 
 ### 2-3. 담보 전환 (Collateral Swap)
 
-```
-기존: ETH 담보 -> DAI 대출
-목표: WBTC 담보로 전환
 
-Flash Loan DAI
-  -> DAI 대출 상환 (ETH 담보 회수)
-  -> ETH -> WBTC 교환
-  -> WBTC 담보로 재대출
-  -> Flash Loan 상환
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존: ETH 담보 -&gt; DAI 대출</div>
+<div class="kb-diagram-note">목표: WBTC 담보로 전환</div>
+<div class="kb-diagram-note">Flash Loan DAI</div>
+<div class="kb-diagram-tree-item" style="--depth:1">DAI 대출 상환 (ETH 담보 회수)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">ETH -&gt; WBTC 교환</div>
+<div class="kb-diagram-tree-item" style="--depth:1">WBTC 담보로 재대출</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Flash Loan 상환</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 순식간에 여러 가게를 돌며 싸게 사서 비싸게 파는 번개 쇼핑 — 손에서 돈이 나갔다 들어오는 시간이 0.
 
@@ -87,17 +105,22 @@ Flash Loan DAI
 
 ## III. Flash Loan Attack 패턴
 
-```
-대표 공격 사례: bZx Attack (2020)
 
-1. Flash Loan 10,000 ETH
-2. 일부로 WBTC 공매도 포지션 설정 (bZx)
-3. 나머지로 Uniswap에서 WBTC 대량 매수
-   -> WBTC 가격 급등
-4. bZx의 오라클이 부풀려진 가격 참조
-   -> 공매도 포지션 청산 이익 획득
-5. 이익으로 원금 상환
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대표 공격 사례: bZx Attack (2020)</div>
+<div class="kb-diagram-note">1. Flash Loan 10,000 ETH</div>
+<div class="kb-diagram-note">2. 일부로 WBTC 공매도 포지션 설정 (bZx)</div>
+<div class="kb-diagram-note">3. 나머지로 Uniswap에서 WBTC 대량 매수</div>
+<div class="kb-diagram-tree-item" style="--depth:1">WBTC 가격 급등</div>
+<div class="kb-diagram-note">4. bZx의 오라클이 부풀려진 가격 참조</div>
+<div class="kb-diagram-tree-item" style="--depth:1">공매도 포지션 청산 이익 획득</div>
+<div class="kb-diagram-note">5. 이익으로 원금 상환</div>
+</div>
+</div>
+
+
 
 | 공격 유형          | 설명                          |
 |-------------------|-------------------------------|

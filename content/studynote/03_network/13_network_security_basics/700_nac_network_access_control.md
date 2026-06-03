@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 외부 인터넷이 아니라 **회사 내부망(사내망)에 직원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 노트북, 스마트폰, 프린터 등(Endpoint)이 접속을 시도할 때, 해당 단말기의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 보안 상태를 깐깐하게 검사하여 안전한 기기만 네트워크 접속을 허락하는 내부 보안 통제 시스템**입니다.
+- **개념**: 외부 인터넷이 아니라 <strong>회사 내부망(사내망)에 직원의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, 노트북, 스마트폰, 프린터 등(Endpoint)이 접속을 시도할 때, 해당 단말기의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>과 보안 상태를 깐깐하게 검사하여 안전한 기기만 네트워크 접속을 허락하는 내부 보안 통제 시스템</strong>입니다.
 - **배경**: 직원들이 개인 스마트폰이나 패드를 회사로 가져와 업무에 쓰는 BYOD(Bring Your Own Device) 시대가 열리면서, 외부에서 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)를 묻혀 오는 통제 불가능한 기기들을 막기 위해 탄생했습니다.
 
-```text
-[샌드박스 망분석 시스템]
-    │
-    ▼
-[NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    └──▶ [도청 네트워크 토폴로지 취약]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,17 +53,21 @@ NAC의 가장 강력하고 고유한 기능입니다. 신분이 직원이 맞아
 
 ### Step 3. 치료 및 격리 (Quarantine & Remediation)
 - 위생 점사가 100점 만점인 깨끗한 PC만 사내망의 핵심 서버가 있는 정상 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 대역으로 들여보내 줍니다.
-- **격리**: 만약 백신이 꺼져있거나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 감염된 PC라면, 가차 없이 사내망 진입을 막고 **"치료망(Quarantine Zone)"**이라는 가두리 양식장에 가둬버립니다.
+- **격리**: 만약 백신이 꺼져있거나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 감염된 PC라면, 가차 없이 사내망 진입을 막고 <strong>"치료망(Quarantine Zone)"</strong>이라는 가두리 양식장에 가둬버립니다.
 - **치료**: 이 치료망에서는 카톡도 안 되고 오직 "백신 업데이트 서버"로만 접속이 가능합니다. 직원이 백신을 다운받고 윈도우 패치를 100% 완료해야만, 다시 검사 후 사내망으로 풀어줍니다.
 
-```text
-[샌드박스 망분석 시스템]
-    │
-    ▼
-[NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    └──▶ [도청 네트워크 토폴로지 취약]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ NAC의 가장 강력하고 고유한 기능입니다. 신분이 직원이 맞아
 ## Ⅲ. 비교 및 연결
 
 - 단순한 랜선 접속 차단을 넘어, "홍길동 대리는 사내망에는 들어오되, 재무팀 서버에는 접근 금지"라는 식으로 세밀한 횡적(Lateral) 접근 제어를 수행합니다.
-- 이처럼 **'기기의 건강 상태를 매번 검사하고, 최소한의 권한만 주는' NAC의 핵심 사상은 오늘날 차세대 보안 철학인 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))의 근간**이 되었습니다.
+- 이처럼 <strong>'기기의 건강 상태를 매번 검사하고, 최소한의 권한만 주는' NAC의 핵심 사상은 오늘날 차세대 보안 철학인 <a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)의 근간</strong>이 되었습니다.
 
 NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [샌드박스 망분석 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)이 기반 조건을 만든다면, NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단은 그 위에서 핵심 메커니즘을 구현하고, [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -120,15 +128,19 @@ NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_secu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 샌드박스 망분석 시스템]
-    │
-    ▼
-[현재 개념: NAC 내부 접근 단말기 관리 무결성 진단]
-    │
-    ├──▶ [확장 A: 도청 네트워크 토폴로지 취약]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 샌드박스 망분석 시스템</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAC 내부 접근 단말기 관리 무결성 진단</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 도청 네트워크 토폴로지 취약</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단는 [샌드박스 망분석 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -28,13 +28,19 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Super Key
-  ↓ minimality
-Candidate Key
-  ↓ choose one
-Primary Key
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Super Key</div>
+<div class="kb-diagram-note">↓ minimality</div>
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-note">↓ choose one</div>
+<div class="kb-diagram-note">Primary Key</div>
+</div>
+</div>
+
+
 
 | 조건 | 의미 |
 | :-- | :-- |
@@ -101,29 +107,41 @@ Primary Key
 
 ## 관련 개념 맵
 
-```text
-Super Key
-  ↓
-Candidate Key
-  ↓
-Primary Key
-  ↓
-Foreign Key
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Super Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Primary Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Foreign Key</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Uniqueness
-  ↓
-Minimality
-  ↓
-Candidate Key
-  ↓
-Normalization
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Uniqueness</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Minimality</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Candidate Key</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Normalization</div>
+</div>
+</div>
+
+
 
 ---
 

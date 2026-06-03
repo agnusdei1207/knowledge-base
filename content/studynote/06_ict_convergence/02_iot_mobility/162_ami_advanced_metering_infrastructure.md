@@ -11,9 +11,9 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: AMI (Advanced Metering Infrastructure)는 스마트 미터, 통신망, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 시스템을 묶어 **계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 양방향으로 수집·전달·제어하는 전력 정보 인프라**다.
+> 1. **본질**: AMI (Advanced Metering Infrastructure)는 스마트 미터, 통신망, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 시스템을 묶어 <strong>계량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 양방향으로 수집·전달·제어하는 전력 정보 인프라</strong>다.
 > 2. **가치**: 월 1회 검침 수준을 넘어 시간대별 사용량, 원격 개폐, 요금 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 수요 반응 ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), Demand Response)까지 지원해 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 실행 기반이 된다.
-> 3. **판단 포인트**: AMI는 단순 계량기 교체 사업이 아니라, **통신 방식·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·운영 시스템 연계**가 함께 설계되어야 효과가 나는 구조다.
+> 3. **판단 포인트**: AMI는 단순 계량기 교체 사업이 아니라, <strong>통신 방식·<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질·보안·운영 시스템 연계</strong>가 함께 설계되어야 효과가 나는 구조다.
 
 ---
 
@@ -23,7 +23,7 @@ AMI는 전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockcha
 
 이 개념이 중요해진 배경은 전력 소비 패턴이 더 촘촘하게 관리되어야 하기 때문이다. 태양광, 전기차, 에너지 저장 장치 ([ESS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/), [Energy Storage System](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/))가 늘어나면서 전력망은 단순 총량보다 시간대별 부하 변화에 민감해졌다. 월말 검침 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로는 피크 대응, 실시간 요금제, 정전 탐지, 원격 개폐 같은 운영을 수행하기 어렵다.
 
-결국 AMI는 "사용량을 아는 것"을 넘어, **언제 얼마나 쓰였는지와 그에 따라 무엇을 조정할지**를 연결하는 인프라다. 이 연결 고리가 없으면 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 계측 없는 제어 구상에 머물 가능성이 크다.
+결국 AMI는 "사용량을 아는 것"을 넘어, <strong>언제 얼마나 쓰였는지와 그에 따라 무엇을 조정할지</strong>를 연결하는 인프라다. 이 연결 고리가 없으면 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 계측 없는 제어 구상에 머물 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 기존 계량기가 한 달에 한 번 점수만 알려 주는 시험지라면, AMI는 시간대별 풀이 과정까지 계속 보내 주는 전자 학습 기록장과 같다.
 
@@ -31,22 +31,23 @@ AMI는 전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockcha
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 운영 시스템으로 올라가고, 그 결과가 다시 현장 제어로 내려가는 **양방향 폐루프**다. 스마트 미터는 사용량, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 이벤트 정보를 측정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집중 장치 (DCU, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Concentrator Unit)나 메시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으며, 상위의 MDMS (Meter [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·저장·분석해 과금, 장애 대응, 수요 관리에 활용한다.
+AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중앙 운영 시스템으로 올라가고, 그 결과가 다시 현장 제어로 내려가는 <strong>양방향 폐루프</strong>다. 스마트 미터는 사용량, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 이벤트 정보를 측정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집중 장치 (DCU, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Concentrator Unit)나 메시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으며, 상위의 MDMS (Meter [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)는 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·저장·분석해 과금, 장애 대응, 수요 관리에 활용한다.
 
 아래 그림은 AMI의 기본 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                        AMI의 양방향 운영 구조                        │
-├──────────────────────────────────────────────────────────────────────┤
-│ [스마트 미터] --검침 데이터--> [DCU/RF Mesh] --WAN--> [MDMS/운영센터] │
-│      ▲                                                       │        │
-│      │                                                       │        │
-│      └-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --┘        │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집만으로 끝나지 않는다는 것이다. MDMS는 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 저장하는 창고가 아니라, 이상 사용량 탐지, 누락 보정, 시간대별 과금, 정전 위치 추정 같은 운영 판단의 중심이 된다. 즉 AMI는 계량기 네트워크라기보다 **센서 계층과 운영 계층을 연결하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 플랫폼**에 가깝다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMI의 양방향 운영 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 미터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DCU/RF Mesh</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MDMS/운영센터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집만으로 끝나지 않는다는 것이다. MDMS는 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 저장하는 창고가 아니라, 이상 사용량 탐지, 누락 보정, 시간대별 과금, 정전 위치 추정 같은 운영 판단의 중심이 된다. 즉 AMI는 계량기 네트워크라기보다 <strong>센서 계층과 운영 계층을 연결하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 플랫폼</strong>에 가깝다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -56,7 +57,7 @@ AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database
 | MDMS | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·저장·분석 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 정합성, 과금 연계 |
 | 운영 시스템 | [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), 정전 관리, 고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 실시간성, 보안, 업무 시스템 연동 |
 
-따라서 AMI의 핵심 원리는 "자동 검침"이 아니라, **정밀 계측 + 안정 통신 + 운영 자동화**의 결합이다. 이 세 축 중 하나라도 약하면 AMI는 단순 원격 검침 수준에 머물 수 있다.
+따라서 AMI의 핵심 원리는 "자동 검침"이 아니라, <strong>정밀 계측 + 안정 통신 + 운영 자동화</strong>의 결합이다. 이 세 축 중 하나라도 약하면 AMI는 단순 원격 검침 수준에 머물 수 있다.
 
 - **📢 섹션 요약 비유**: AMI는 집집마다 온도계만 다는 것이 아니라, 측정값을 중앙으로 보내고 다시 냉난방 지시까지 내리는 스마트 빌딩 제어망과 같다.
 
@@ -64,7 +65,7 @@ AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database
 
 ## Ⅲ. 비교 및 연결
 
-AMI의 경계는 AMR과 비교할 때 가장 선명해진다. AMR은 사용량을 자동으로 읽어 오는 데 초점이 있지만, AMI는 양방향 통신을 통해 요금 정보 전달, 원격 개폐, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 수요 제어까지 지원할 수 있다. 즉 AMR이 자동화된 검침이라면, AMI는 **운영 가능한 계량 인프라**다.
+AMI의 경계는 AMR과 비교할 때 가장 선명해진다. AMR은 사용량을 자동으로 읽어 오는 데 초점이 있지만, AMI는 양방향 통신을 통해 요금 정보 전달, 원격 개폐, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 수요 제어까지 지원할 수 있다. 즉 AMR이 자동화된 검침이라면, AMI는 <strong>운영 가능한 계량 인프라</strong>다.
 
 | 항목 | AMR | AMI |
 | :--- | :--- | :--- |
@@ -76,7 +77,7 @@ AMI의 경계는 AMR과 비교할 때 가장 선명해진다. AMR은 사용량�
 
 또한 AMI는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/), 전기차 충전 인프라와 긴밀히 연결된다. 실시간 요금제가 작동하려면 고객 단위 사용량을 세밀하게 읽을 수 있어야 하고, 정전 복구를 빠르게 하려면 어느 구간에서 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 이벤트가 발생했는지 파악할 수 있어야 한다. 이런 점에서 AMI는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 하위 요소이면서도, 실제 현장 실행력을 좌우하는 기반 기술이다.
 
-즉 AMI는 단독 기술이 아니라, **전력 운영의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 계층**으로 이해해야 한다. 이 관점이 있어야 왜 통신 표준, 보안, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 전력 장비만큼 중요한지도 설명된다.
+즉 AMI는 단독 기술이 아니라, <strong>전력 운영의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 입력 계층</strong>으로 이해해야 한다. 이 관점이 있어야 왜 통신 표준, 보안, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 전력 장비만큼 중요한지도 설명된다.
 
 - **📢 섹션 요약 비유**: AMR이 택배 배송 완료 문자 한 번 보내는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면, AMI는 위치 추적, 도착 예정 시간, 문 앞 사진, 배송 지시 변경까지 가능한 스마트 배송 체계와 같다.
 
@@ -100,7 +101,7 @@ AMI의 경계는 AMR과 비교할 때 가장 선명해진다. AMR은 사용량�
 - 통신 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 전국 단일 방식만 강제하는 설계
 - 스마트 미터를 대량 배치하면서도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·암호화 없이 운영하는 보안 취약 구조
 
-기술사 관점에서는 AMI를 "원격 검침 시스템"으로만 답하면 부족하다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올라오고, 누가 이를 해석하며, 어떤 제어가 다시 내려가는지까지 설명해야 한다. 즉 AMI는 **계측 장치 + 통신망 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 체계**를 함께 보는 문제다.
+기술사 관점에서는 AMI를 "원격 검침 시스템"으로만 답하면 부족하다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올라오고, 누가 이를 해석하며, 어떤 제어가 다시 내려가는지까지 설명해야 한다. 즉 AMI는 <strong>계측 장치 + 통신망 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 운영 체계</strong>를 함께 보는 문제다.
 
 - **📢 섹션 요약 비유**: AMI 구축은 마이크만 많이 설치하는 회의실 공사가 아니다. 스피커, 녹음기, 제어판, 보안 장치가 함께 연결되어야 제대로 운영된다.
 
@@ -110,7 +111,7 @@ AMI의 경계는 AMR과 비교할 때 가장 선명해진다. AMR은 사용량�
 
 AMI가 제대로 구축되면 검침 자동화 비용 절감뿐 아니라, 피크 부하 관리, 정전 대응 향상, 부정 사용 탐지, 고객 에너지 절감 유도 같은 효과를 얻을 수 있다. 특히 시간대별 과금과 수요 반응은 AMI 없이는 정밀하게 운영하기 어렵다. 따라서 AMI는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 사업의 부속 기능이 아니라, 핵심 실행 기반에 가깝다.
 
-반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나 통신망이 불안정하면 오히려 잘못된 과금과 운영 혼선을 만들 수 있다. 또한 스마트 미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴을 추정할 수 있어 보안과 프라이버시 대책이 반드시 따라야 한다. 그래서 AMI는 장비 도입 프로젝트가 아니라, **전력 운영을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 바꾸는 인프라 전환**으로 기억하는 것이 맞다.
+반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 낮거나 통신망이 불안정하면 오히려 잘못된 과금과 운영 혼선을 만들 수 있다. 또한 스마트 미터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 생활 패턴을 추정할 수 있어 보안과 프라이버시 대책이 반드시 따라야 한다. 그래서 AMI는 장비 도입 프로젝트가 아니라, <strong>전력 운영을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반으로 바꾸는 인프라 전환</strong>으로 기억하는 것이 맞다.
 
 결론적으로 AMI는 계량기 자동화의 다음 단계가 아니라, 현장 사용량과 중앙 제어를 연결하는 양방향 정보 기반이다. 이 본질을 이해해야 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/)와의 연결도 자연스럽게 설명할 수 있다.
 
@@ -130,21 +131,23 @@ AMI가 제대로 구축되면 검침 자동화 비용 절감뿐 아니라, 피�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-수동 검침
-    │
-    ▼
-AMR (Automated Meter Reading)
-    │
-    ▼
-AMI (Advanced Metering Infrastructure)
-    │
-    ▼
-수요 반응 (DR) · 실시간 요금제
-    │
-    ▼
-스마트 그리드 · 마이크로그리드 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">수동 검침</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AMR (Automated Meter Reading)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AMI (Advanced Metering Infrastructure)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">수요 반응 (DR) · 실시간 요금제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스마트 그리드 · 마이크로그리드 운영</div>
+</div>
+</div>
+
+
 
 이 흐름은 "검침 자동화 → 양방향 운영 → 에너지 최적화"로 전력 정보 인프라가 진화하는 과정을 보여준다.
 

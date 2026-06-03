@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터 시스템이나 네트워크에서 발생하는 모든 이벤트를 실시간으로 모니터링하고 분석하여, 해킹, 악성코드 감염, 비정상적인 접근 등 **보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 위반하는 침입(Intrusion) 행위를 '탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))'하고 관리자에게 '경고(Alert)'를 보내는 보안 시스템**입니다.
+- **개념**: 컴퓨터 시스템이나 네트워크에서 발생하는 모든 이벤트를 실시간으로 모니터링하고 분석하여, 해킹, 악성코드 감염, 비정상적인 접근 등 <strong>보안 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 위반하는 침입(Intrusion) 행위를 '탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)'하고 관리자에게 '경고(Alert)'를 보내는 보안 시스템</strong>입니다.
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 '사전 접근 제어(문단속)'라면, IDS는 '사후 감시 및 탐지(순찰)'를 담당합니다.
 
-```text
-[상태 기반 감시 기술의 원리]
-    │
-    ▼
-[NIDS 공격]
-    │
-    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NIDS 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,25 +44,29 @@ tags = ["studynote-network"]
 어디에 CCTV를 설치하느냐에 따라 NIDS와 HIDS로 나뉩니다.
 
 ### 1. NIDS (Network [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 네트워크 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))
-- **설치 위치**: 서버나 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 내부가 아니라, **네트워크 길목([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 미러 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 라우터 뒷단)**에 독자적인 장비로 설치됩니다.
-- **원리 ([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 장치)**: 회사 랜선을 돌아다니는 모든 패킷을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring) 기능을 이용해 전부 '복사'해서 자기 쪽으로 가져옵니다. 그리고 그 패킷 뭉치 속에 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/), 디도스(DDoS) 공격, 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 징후가 있는지 샅샅이 뒤집니다.
+- **설치 위치**: 서버나 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 내부가 아니라, <strong>네트워크 길목(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 미러 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>, 라우터 뒷단)</strong>에 독자적인 장비로 설치됩니다.
+- <strong>원리 (<a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a> 장치)</strong>: 회사 랜선을 돌아다니는 모든 패킷을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Mirroring) 기능을 이용해 전부 '복사'해서 자기 쪽으로 가져옵니다. 그리고 그 패킷 뭉치 속에 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/), 디도스(DDoS) 공격, 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 징후가 있는지 샅샅이 뒤집니다.
 - **장점 (은폐성)**: 해커가 서버를 뚫고 들어와도, NIDS 장비는 투명 인간처럼 네트워크 밖에서 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)만 하고 있으므로 해커가 NIDS의 존재를 눈치채거나 장비를 꺼버리기가 매우 힘듭니다. (공격자에게 IP가 보이지 않는 Promiscuous 모드로 동작)
 - **단점**: 요즘처럼 모든 웹 통신이 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)(SSL)로 암호화되어 버리면, NIDS는 겉 껍데기만 볼 뿐 알맹이(Payload)의 내용을 풀지 못해 해킹 여부를 알 수 없는 까막눈이 됩니다.
 
 ### 2. HIDS (Host [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 호스트 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))
-- **설치 위치**: 윈도우, 리눅스 같은 **개별 서버나 중요 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) '내부'에 백신 소프트웨어처럼 직접 설치**됩니다.
+- **설치 위치**: 윈도우, 리눅스 같은 <strong>개별 서버나 중요 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> '내부'에 백신 소프트웨어처럼 직접 설치</strong>됩니다.
 - **원리**: 밖에서 날아오는 네트워크 패킷이 아니라, 서버 내부의 상태(누가 로그인 실패를 5번 했나?, 누가 윈도우 [시스템 레지스트리](/knowledge-base/studynote/02_operating_system/10_security/665_windows_registry_configuration_manager/) 파일을 갑자기 바꿨나?)를 감시합니다.
-- **장점**: 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))이라도, 어차피 서버 내부에 도착하면 평문으로 풀리므로 **암호화를 무력화하고 정확한 탐지**가 가능합니다. 트로이 목마나 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지에 탁월합니다.
+- **장점**: 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))이라도, 어차피 서버 내부에 도착하면 평문으로 풀리므로 <strong>암호화를 무력화하고 정확한 탐지</strong>가 가능합니다. 트로이 목마나 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지에 탁월합니다.
 - **단점**: 서버 CPU를 잡아먹어 서버를 느려지게 만들며, 해커가 서버 관리자 권한(Root)을 탈취하면 HIDS 소프트웨어부터 강제로 꺼버릴 수 있습니다.
 
-```text
-[상태 기반 감시 기술의 원리]
-    │
-    ▼
-[NIDS 공격]
-    │
-    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: NIDS 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -66,7 +74,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- NIDS의 가장 큰 약점은 이름 그대로 **'탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))'만 할 뿐 '차단(Prevention)'을 하지 못한다는 점**입니다.
+- NIDS의 가장 큰 약점은 이름 그대로 <strong>'탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)'만 할 뿐 '차단(Prevention)'을 하지 못한다는 점</strong>입니다.
 - 네트워크에 해커가 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격을 던지면, NIDS는 그걸 보고 "삐용삐용! 해커가 들어왔습니다!"라고 알람 메일만 보냅니다. 알람이 울린 순간 이미 해커의 악성 코드는 서버에 도달해 버린 뒤입니다. (이 수동성을 극복하기 위해 나온 방어 장비가 다음 695번의 IPS입니다.)
 
 NIDS 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리가 기반 조건을 만든다면, NIDS 공격은 그 위에서 핵심 메커니즘을 구현하고, [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -119,15 +127,19 @@ NIDS 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_per
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 상태 기반 감시 기술의 원리]
-    │
-    ▼
-[현재 개념: NIDS 공격]
-    │
-    ├──▶ [확장 A: 스노트, Suricata 와 오용 탐지 vs…]
-    └──▶ [확장 B: 자동화된 신뢰 체계]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 상태 기반 감시 기술의 원리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NIDS 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스노트, Suricata 와 오용 탐지 vs…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
+</div>
+</div>
+
+
 
 NIDS 공격는 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

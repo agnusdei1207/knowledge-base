@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **비용의 악몽**: 기업 본사와 지사를 안전하게 연결하려면 통신사가 파는 전용망([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/), 984번)을 썼습니다. 보안과 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))은 완벽하지만 일반 인터넷 요금의 10배~100배로 미치도록 비쌉니다.
 - **클라우드 트래픽 병목 (헤어핀 현상)**: 부산 지사 직원이 MS 오피스 365(클라우드)를 씁니다. 옛날 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 보안 때문에 무조건 '부산 ➜ 서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ 미국 클라우드'로 빙빙 돌아가게 설계되어 본사 회선이 폭발했습니다.
 
-```text
-[Thread / Matter 표준 망]
-    │
-    ▼
-[SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    └──▶ [SASE 네트워킹/보안 융합 클라우드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안에서만 놀던 850번 **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))** 기술을, 수백 km 떨어진 본사와 지사를 잇는 광역망(WAN)으로 확장한 것입니다.
-- 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)) 대신 싸구려 광랜 인터넷 2개, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망 등을 짬뽕으로(하이브리드) 꽂아두고, **소프트웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 이용해 마치 1개의 거대한 가상 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)(Overlay)처럼 묶어버리는 기술**입니다.
+- **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안에서만 놀던 850번 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/">소프트웨어 정의 네트워킹</a>)</strong> 기술을, 수백 km 떨어진 본사와 지사를 잇는 광역망(WAN)으로 확장한 것입니다.
+- 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)) 대신 싸구려 광랜 인터넷 2개, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망 등을 짬뽕으로(하이브리드) 꽂아두고, <strong>소프트웨어 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술을 이용해 마치 1개의 거대한 가상 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(Overlay)처럼 묶어버리는 기술</strong>입니다.
 
-```text
-[Thread / Matter 표준 망]
-    │
-    ▼
-[SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    └──▶ [SASE 네트워킹/보안 융합 클라우드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -83,7 +91,7 @@ SD-WAN의 존재 이유입니다.
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 지사에서 인터넷으로 바로 나가는 문(Breakout)을 뚫어놨으니 해커가 지사로 쳐들어오기 딱 좋습니다.
-- 그래서 요즘 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 라우터 기계 안에는 아예 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 침입 방지([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)), [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 백신이 통합된 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/)([NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/)) 칩셋이 통째로 박혀 나옵니다. 이것이 클라우드 보안과 결합하여 진화한 것이 바로 다음 장의 **1042번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/)**입니다.
+- 그래서 요즘 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 라우터 기계 안에는 아예 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 침입 방지([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)), [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 백신이 통합된 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/)([NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/)) 칩셋이 통째로 박혀 나옵니다. 이것이 클라우드 보안과 결합하여 진화한 것이 바로 다음 장의 <strong>1042번 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a></strong>입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ SD-WAN의 존재 이유입니다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날 지사 연결([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))은 서울에서 부산까지 뚫린 **'비싼 KTX 전용 VIP 철도'**였습니다. 안전하고 빠르지만, 직원들이 싼 물건을 보낼 때도 이 비싼 KTX를 태워야 해서 운송비로 회사가 파산할 지경이었습니다. **[SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)**은 철도 옆에 **'공짜 고속도로(일반 인터넷)'**와 **'국도([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))'**를 여러 개 뚫어놓고, 기차역 입구에 **'[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 천재 소장(클라우드 컨트롤러)'**을 앉혀둔 것입니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소장은 화물을 열어보고 "이건 1급 기밀(결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이니까 VIP KTX 태워!" "이건 잡동사니(유튜브)니까 그냥 공짜 고속도로 트럭에 싣고 가!"라며 짐의 종류(애플리케이션)에 따라 실시간으로 3개의 길을 요리조리 골라 태웁니다. 운송비는 반토막 나고, 본사 사장님은 서울 책상에 앉아서 마우스 클릭 하나로 전국 100개 기차역의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소장들을 원격 조종(중앙 집중 관리)할 수 있는 지사망의 절대 혁명입니다.
+- **📢 섹션 요약 비유**: 옛날 지사 연결([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))은 서울에서 부산까지 뚫린 <strong>'비싼 KTX 전용 VIP 철도'</strong>였습니다. 안전하고 빠르지만, 직원들이 싼 물건을 보낼 때도 이 비싼 KTX를 태워야 해서 운송비로 회사가 파산할 지경이었습니다. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">SD-WAN</a></strong>은 철도 옆에 <strong>'공짜 고속도로(일반 인터넷)'</strong>와 <strong>'국도(<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)'</strong>를 여러 개 뚫어놓고, 기차역 입구에 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 천재 소장(클라우드 컨트롤러)'</strong>을 앉혀둔 것입니다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소장은 화물을 열어보고 "이건 1급 기밀(결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이니까 VIP KTX 태워!" "이건 잡동사니(유튜브)니까 그냥 공짜 고속도로 트럭에 싣고 가!"라며 짐의 종류(애플리케이션)에 따라 실시간으로 3개의 길을 요리조리 골라 태웁니다. 운송비는 반토막 나고, 본사 사장님은 서울 책상에 앉아서 마우스 클릭 하나로 전국 100개 기차역의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소장들을 원격 조종(중앙 집중 관리)할 수 있는 지사망의 절대 혁명입니다.
 
 ---
 
@@ -114,15 +122,19 @@ SD-WAN의 존재 이유입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Thread / Matter 표준 망]
-    │
-    ▼
-[현재 개념: SD-WAN 중앙 정책 관리형 브랜치]
-    │
-    ├──▶ [확장 A: SASE 네트워킹/보안 융합 클라우드]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Thread / Matter 표준 망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SD-WAN 중앙 정책 관리형 브랜치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SASE 네트워킹/보안 융합 클라우드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

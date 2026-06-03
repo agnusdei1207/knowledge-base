@@ -19,27 +19,24 @@ tags = ["operating_system"]
 
 CPU는 컴퓨터 시스템에서 가장 비싸고 빠른 자원이다. 반면 I/O 작업은 상대적으로 매우 느리다. 만약 한 프로세스가 I/O 작업을 하는 동안 CPU가 가만히 기다린다면 엄청난 낭비가 발생한다. CPU 스케줄링은 이러한 유휴 시간 (Idle Time)을 최소화하고, 여러 프로세스가 동시에 실행되는 것 같은 **다중 프로그래밍 (Multiprogramming)** 효과를 내기 위한 운영체제의 핵심 전략이다.
 
-스케줄링이 필요한 이유는 세 가지이다. 첫째, **자원 이용률 (Utilization)**을 극대화하여 시스템의 투자 대비 효율을 높이기 위해서이며, 둘째, 대화형 시스템에서 사용자가 느끼는 **응답 시간**을 최소화하기 위해서이고, 셋째, 특정 프로세스가 무한히 기다리는 **기아 상태 (Starvation)**를 방지하여 공정성을 담보하기 위함이다.
+스케줄링이 필요한 이유는 세 가지이다. 첫째, <strong>자원 이용률 (Utilization)</strong>을 극대화하여 시스템의 투자 대비 효율을 높이기 위해서이며, 둘째, 대화형 시스템에서 사용자가 느끼는 <strong>응답 시간</strong>을 최소화하기 위해서이고, 셋째, 특정 프로세스가 무한히 기다리는 <strong>기아 상태 (Starvation)</strong>를 방지하여 공정성을 담보하기 위함이다.
 
 이 그림은 CPU 스케줄링이 일어나는 시점인 프로세스 상태 전이의 핵심 지점을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 CPU Scheduling Dispatch Points              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Ready State ] ─────(1) Dispatch─────▶ [ Running State ] │
-│          ▲                                       │          │
-│          │                                (2) Terminated    │
-│          │                                       │          │
-│   (3) Interrupt / Time-out                       ▼          │
-│          │                                    [ Exit ]      │
-│          └───────────────────────────────────────┘          │
-│                                                             │
-│   (4) Wait for I/O Event ◀───────────────────────┘          │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Scheduling Dispatch Points</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Ready State</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Running State</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Terminated</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) Interrupt / Time-out ▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Exit</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) Wait for I/O Event ◀</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '선점 (Preemption)' 여부이다. (1), (2) 시점에만 스케줄링이 일어나면 비선점 방식이고, (3)처럼 OS가 강제로 CPU를 뺏어올 수 있으면 선점 방식이다. 실무에서는 응답성이 중요한 서버나 개인용 PC에서는 선점형 스케줄링이 필수적이다.
 
@@ -73,24 +70,22 @@ CPU는 컴퓨터 시스템에서 가장 비싸고 빠른 자원이다. 반면 I/
 
 이 구조도는 MLFQ가 어떻게 CPU 바운드와 I/O 바운드 프로세스를 구분하여 처리하는지 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Multi-Level Feedback Queue (MLFQ)              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Queue 0 ] (Quantum=8)  ──▶ [ Highest Priority ]         │
-│          │ (Time-out)                                       │
-│          ▼                                                  │
-│   [ Queue 1 ] (Quantum=16) ──▶ [ Medium Priority ]          │
-│          │ (Time-out)                                       │
-│          ▼                                                  │
-│   [ Queue 2 ] (FCFS)       ──▶ [ Lowest Priority ]          │
-│                                                             │
-│   * I/O Bound: 상위 큐 유지 (높은 응답성)                   │
-│   * CPU Bound: 하위 큐로 강등 (낮은 오버헤드)               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Level Feedback Queue (MLFQ)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Queue 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Highest Priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Time-out)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Queue 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Medium Priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Time-out)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Queue 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lowest Priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* I/O Bound: 상위 큐 유지 (높은 응답성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CPU Bound: 하위 큐로 강등 (낮은 오버헤드)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '피드백'이다. 처음에 높은 우선순위를 주었다가, 주어진 시간 안에 일을 못 끝내고 CPU를 계속 쓰면(CPU Bound) 점점 아래 큐로 보낸다. 반면 짧게 쓰고 CPU를 반납하는(I/O Bound) 프로세스는 위에 머물게 하여 응답성을 높인다. 실무에서는 이 메커니즘 덕분에 복잡한 설정 없이도 시스템이 스스로 최적의 평형점을 찾아간다.
 
@@ -125,29 +120,28 @@ CPU는 컴퓨터 시스템에서 가장 비싸고 빠른 자원이다. 반면 I/
 ### 기술사적 판단: 시스템 부하에 따른 스케줄링 전략
 
 **시나리오 1: 마감 시한이 정해진 작업이 많은 실시간 제어 시스템**
-- **판단**: 공정성보다는 **기한 준수 (Deadline)**가 최우선이다. **EDF (Earliest Deadline First)**나 **RM (Rate Monotonic)** 스케줄링을 적용한다. 또한 특정 프로세스가 CPU를 독점하지 못하도록 하드웨어 타이머를 이용한 강력한 선점 기능을 활성화하고, 실시간 우선순위 (RT Priority)를 부여한다.
+- **판단**: 공정성보다는 <strong>기한 준수 (Deadline)</strong>가 최우선이다. <strong>EDF (Earliest Deadline First)</strong>나 **RM (Rate Monotonic)** 스케줄링을 적용한다. 또한 특정 프로세스가 CPU를 독점하지 못하도록 하드웨어 타이머를 이용한 강력한 선점 기능을 활성화하고, 실시간 우선순위 (RT Priority)를 부여한다.
 
 **시나리오 2: 대규모 웹 서비스의 요청 처리 병목**
-- **판단**: CPU 스케줄링 자체보다는 **부하 분산 (Load Balancing)**과 **CPU 친화도 (Affinity)**를 점검한다. 특정 코어에만 프로세스가 몰리지 않는지 확인하고, 캐시 적중률을 높이기 위해 가능하면 동일한 코어에서 실행되도록 설정한다. 또한 컨텍스트 스위칭 비용을 줄이기 위해 인터럽트 처리를 분산시키는 IRQ Balancing 기술을 적용한다.
+- **판단**: CPU 스케줄링 자체보다는 <strong>부하 분산 (Load Balancing)</strong>과 <strong>CPU 친화도 (Affinity)</strong>를 점검한다. 특정 코어에만 프로세스가 몰리지 않는지 확인하고, 캐시 적중률을 높이기 위해 가능하면 동일한 코어에서 실행되도록 설정한다. 또한 컨텍스트 스위칭 비용을 줄이기 위해 인터럽트 처리를 분산시키는 IRQ Balancing 기술을 적용한다.
 
 이 도식은 멀티코어 환경에서 스케줄러가 부하를 평탄화 (Migration)하는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Multicore Load Balancing Decision              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Core 0: Overloaded ]        [ Core 1: Idle ]            │
-│   Queue: P1, P2, P3, P4         Queue: (Empty)              │
-│          │                             ▲                    │
-│          └──────── (Migration) ────────┘                    │
-│                                                             │
-│   * 고려사항:                                               │
-│     1. 캐시 오염 (Cache Warm-up 비용 발생)                  │
-│     2. NUMA 아키텍처 (메모리 접근 거리 차이)                │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multicore Load Balancing Decision</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0: Overloaded</div><div class="kb-diagram-node">Core 1: Idle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue: P1, P2, P3, P4 Queue: (Empty)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Migration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 고려사항:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 캐시 오염 (Cache Warm-up 비용 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. NUMA 아키텍처 (메모리 접근 거리 차이)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 스케줄링 판단은 마트의 계산대 관리와 같습니다. 한 줄이 너무 길면 옆의 빈 계산대로 손님을 보내되(Load Balancing), 이미 바구니에 물건을 다 꺼내놓은 손님(캐시가 로드된 프로세스)은 가급적 그 자리에서 계산을 마치게 하는 세밀함이 필요합니다.
 
@@ -162,7 +156,7 @@ CPU는 컴퓨터 시스템에서 가장 비싸고 빠른 자원이다. 반면 I/
 
 ### 미래 전망: 에너지 인지형 스케줄링 (Energy-aware)
 
-향후 스케줄링은 성능뿐만 아니라 '전력 소모'를 핵심 변수로 고려할 것이다. 모바일이나 데이터 센터에서 배터리 수명을 늘리고 탄소 배출을 줄이기 위해, 부하가 적을 때는 저전력 코어 (Little Core)로 작업을 몰고, 고성능이 필요할 때만 빅 코어 (Big Core)를 깨우는 **Big.LITTLE 스케줄링**이 표준화될 것이다. 또한 클라우드 환경에서는 VM의 가상 CPU 스케줄링이 물리 CPU와 어떻게 조화를 이룰지가 성능 최적화의 핵심 쟁점이 될 것이다.
+향후 스케줄링은 성능뿐만 아니라 '전력 소모'를 핵심 변수로 고려할 것이다. 모바일이나 데이터 센터에서 배터리 수명을 늘리고 탄소 배출을 줄이기 위해, 부하가 적을 때는 저전력 코어 (Little Core)로 작업을 몰고, 고성능이 필요할 때만 빅 코어 (Big Core)를 깨우는 <strong>Big.LITTLE 스케줄링</strong>이 표준화될 것이다. 또한 클라우드 환경에서는 VM의 가상 CPU 스케줄링이 물리 CPU와 어떻게 조화를 이룰지가 성능 최적화의 핵심 쟁점이 될 것이다.
 
 📢 **섹션 요약 비유**: 미래의 스케줄러는 단순히 일을 빨리 끝내는 매니저를 넘어, 회사의 전기세(에너지)까지 걱정하며 업무 효율을 짜내는 '스마트 그린 매니저'로 진화할 것입니다.
 

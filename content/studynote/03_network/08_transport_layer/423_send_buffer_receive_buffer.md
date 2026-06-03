@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: TCP가 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림 통신을 보장하고 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) 및 오류 제어를 수행하기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS) 메모리 공간에 할당하는 송신(Send) 및 수신(Receive)용 임시 저장 공간([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/Buffer).
-- **필요성**: 만약 버퍼가 없다면 어떨까? 내가 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB를 저장 버튼을 눌러 인터넷으로 쏜다. 내 엑셀 프로그램은 랜카드가 그 10MB를 1460바이트씩 잘라서 미국 구글에 도착하고 영수증(ACK)이 다 돌아올 때까지(몇 초 소요), **화면이 하얗게 굳어서(응답 없음) 다른 마우스 클릭조차 못 하고 마냥 기다려야 한다**. 이 동기화의 끔찍함을 막기 위해, "프로그램아, 넌 그냥 10MB를 OS 창고(송신 버퍼)에 휙 던져두고 넌 바로 하던 일(마우스 클릭) 계속해! 내가 창고에서 알아서 조금씩 빼서 택배 부치고 영수증 챙길게!"라는 **비동기화(Asynchronous) 쿠션**이 버퍼의 절대적 존재 이유다.
+- **필요성**: 만약 버퍼가 없다면 어떨까? 내가 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB를 저장 버튼을 눌러 인터넷으로 쏜다. 내 엑셀 프로그램은 랜카드가 그 10MB를 1460바이트씩 잘라서 미국 구글에 도착하고 영수증(ACK)이 다 돌아올 때까지(몇 초 소요), **화면이 하얗게 굳어서(응답 없음) 다른 마우스 클릭조차 못 하고 마냥 기다려야 한다**. 이 동기화의 끔찍함을 막기 위해, "프로그램아, 넌 그냥 10MB를 OS 창고(송신 버퍼)에 휙 던져두고 넌 바로 하던 일(마우스 클릭) 계속해! 내가 창고에서 알아서 조금씩 빼서 택배 부치고 영수증 챙길게!"라는 <strong>비동기화(Asynchronous) 쿠션</strong>이 버퍼의 절대적 존재 이유다.
 
-- **💡 비유**: 버퍼는 배달의 민족 **"라이더 픽업 존(선반)"**과 같습니다.
+- **💡 비유**: 버퍼는 배달의 민족 <strong>"라이더 픽업 존(선반)"</strong>과 같습니다.
   - **송신 버퍼**: 주방장(애플리케이션)이 햄버거 100개를 순식간에 다 만들어서 배달 선반(송신 버퍼)에 쌓아둡니다. 주방장은 바로 퇴근합니다. 라이더([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))는 선반에 있는 햄버거를 오토바이 통에 들어가는 만큼만([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) 조금씩 빼서 알아서 배달합니다.
   - **수신 버퍼**: 배달된 햄버거 세트의 감자튀김, 콜라, 햄버거 조각들이 도착하는 대로 경비실 보관함(수신 버퍼)에 쌓입니다. 경비원은 콜라만 왔다고 손님(어플리케이션)을 부르지 않고, **세트가 완벽히 다 모여야만** 손님에게 "가져가세요"라고 연락합니다.
 
-```text
-[윈도우 스케일옵션]
-    │
-    ▼
-[송신 버퍼 / 수신 버퍼]
-    │
-    └──▶ [어리석은 윈도우 증후군 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 스케일옵션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신 버퍼 / 수신 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">어리석은 윈도우 증후군 문제</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 송수신 버퍼는 급성질인 **"사장님(어플리케이션)"**과 일처리가 느린 **"거래처(네트워크)"** 사이에서, 양쪽이 스트레스받지 않도록 서류를 대신 쌓아두고 스케줄을 조율해 주는 **"능구렁이 비서([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))"**의 책상 서랍입니다.
 
@@ -41,7 +45,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신은 본질적으로 **"내 송신 버퍼의 물을 상대방 수신 버퍼로 넘겨붓는 과정"**이다.
+[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 통신은 본질적으로 <strong>"내 송신 버퍼의 물을 상대방 수신 버퍼로 넘겨붓는 과정"</strong>이다.
 
 ### 1. 송신 버퍼 (Send Buffer)의 라이프 사이클
 1. **적재**: 어플리케이션 계층이 1MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `write()` 또는 `send()` 함수를 통해 송신 버퍼에 콸콸 들이붓는다.
@@ -54,27 +58,25 @@ tags = ["studynote-network"]
 1. **수신**: 밖에서 조각난 1460바이트짜리 패킷들이 수신 버퍼로 툭툭 떨어져 쌓인다.
 2. **조립**: 1번, 2번, 3번이 순서대로 도착했다. OS는 이걸 예쁘게 하나로 이어 붙인다. 만약 2번이 안 오고 1번, 3번이 오면 조립을 못 하고 버퍼에 임시로 놔둔 채 2번을 다시 달라고 소리친다(중복 ACK).
 3. **반출**: 조립이 끝난 덩어리를 수신 쪽 애플리케이션(크롬 브라우저)이 `read()` 함수를 써서 쑥 빼간다. 그러면 버퍼에 다시 빈 공간이 생긴다.
-4. **마법의 계산 ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))**: 수신자 TCP는 매번 영수증을 쏠 때 자기 버퍼 상태를 체크한다. **"내 수신 버퍼의 전체 크기(예: 64KB) - 현재 조립 못 하고 쌓여있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) = 남은 빈 공간(예: 20KB)"**. 이 20KB를 `Window Size` 칸에 적어서 송신자에게 던져주는 것이다.
+4. <strong>마법의 계산 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/">Window Size</a>)</strong>: 수신자 TCP는 매번 영수증을 쏠 때 자기 버퍼 상태를 체크한다. <strong>"내 수신 버퍼의 전체 크기(예: 64KB) - 현재 조립 못 하고 쌓여있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> = 남은 빈 공간(예: 20KB)"</strong>. 이 20KB를 `Window Size` 칸에 적어서 송신자에게 던져주는 것이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                송신 버퍼와 수신 버퍼의 물 붓기 핑퐁 구조          │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 어플리케이션 A (송신) ]                      [ 어플리케이션 B (수신) ]│
- │         │ (콸콸콸)                                ▲ (야금야금 빼감)   │
- │         ▼                                         │             │
- │   [ 송신 버퍼 (가득참) ]                      [ 수신 버퍼 (점점참) ]   │
- │         │                                         ▲             │
- │         └─── (남은 공간만큼만 TCP 패킷 발송!) ───────┘             │
- │                                                             │
- │   * 딜레마: 어플 B가 롤(LOL) 하느라 바빠서 수신 버퍼에서 데이터를 안 빼감.│
- │   * 방어: 수신 버퍼가 100% 꽉 차버림! ──▶ 수신자가 [Window=0] 발송! │
- │   * 결과: 송신 버퍼는 전송을 강제 중지하고, 어플 A가 붓는 물도 차단함. │
- │                                                             │
- │   ▶ "이것이 두 톱니바퀴(버퍼)가 물려 돌아가는 Flow Control의 미학이다!"│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 버퍼와 수신 버퍼의 물 붓기 핑퐁 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">어플리케이션 A (송신)</div><div class="kb-diagram-node">어플리케이션 B (수신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(콸콸콸) ▲ (야금야금 빼감)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신 버퍼 (가득참)</div><div class="kb-diagram-node">수신 버퍼 (점점참)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(남은 공간만큼만 TCP 패킷 발송!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 딜레마: 어플 B가 롤(LOL) 하느라 바빠서 수신 버퍼에서 데이터를 안 빼감.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Window=0</div><div class="kb-diagram-note">발송!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 송신 버퍼는 전송을 강제 중지하고, 어플 A가 붓는 물도 차단함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이것이 두 톱니바퀴(버퍼)가 물려 돌아가는 Flow Control의 미학이다!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 송신/수신 버퍼는 댐과 댐을 잇는 **"저수지"**입니다. 비가 미친 듯이 와서 상류 댐(송신 버퍼)에 물이 가득 차도, 하류 댐(수신 버퍼)에 빈 공간이 없으면 절대 수문을 열지 않음으로써, 마을(어플리케이션)이 홍수에 떠내려가는 재앙을 완벽하게 통제해 냅니다.
 
@@ -132,15 +134,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 윈도우 스케일옵션]
-    │
-    ▼
-[현재 개념: 송신 버퍼 / 수신 버퍼]
-    │
-    ├──▶ [확장 A: 어리석은 윈도우 증후군 문제]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 윈도우 스케일옵션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 송신 버퍼 / 수신 버퍼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 어리석은 윈도우 증후군 문제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 송신 버퍼 / 수신 버퍼는 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

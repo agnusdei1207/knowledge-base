@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 1세대: 846번의 **[DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)** (소프트웨어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 우회, 여전히 메인 CPU가 일함)
-- 2세대: 848번의 **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC 기본 모델** (랜카드 안의 ARM 미니 CPU로 일을 떠넘김). 하지만 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 10만 줄이 넘어가면 ARM CPU도 소프트웨어 연산을 하느라 패킷 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생했습니다.
+- 1세대: 846번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong> (소프트웨어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 우회, 여전히 메인 CPU가 일함)
+- 2세대: 848번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>/SmartNIC 기본 모델</strong> (랜카드 안의 ARM 미니 CPU로 일을 떠넘김). 하지만 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 10만 줄이 넘어가면 ARM CPU도 소프트웨어 연산을 하느라 패킷 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생했습니다.
 
-```text
-[멀티 테넌트]
-    │
-    ▼
-[네트워크 펑션 오프로딩]
-    │
-    └──▶ [광통신 네트워크 이더넷]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,25 +41,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/)(네트워크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프로그래밍 언어)**로 짜여진 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 코드를 컴파일(Compile)하여, 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 안에 박혀있는 **전용 하드웨어 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)/eBPF가속기) 회로 자체에 강제로 때려 박아버려(하드웨어 이양), 소프트웨어 개입 0%로 패킷을 광속 처리하는 궁극의 초저지연 기술**입니다.
+- **개념**: <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a>(네트워크 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 프로그래밍 언어)</strong>로 짜여진 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 코드를 컴파일(Compile)하여, 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) 안에 박혀있는 <strong>전용 하드웨어 칩셋(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>/eBPF가속기) 회로 자체에 강제로 때려 박아버려(하드웨어 이양), 소프트웨어 개입 0%로 패킷을 광속 처리하는 궁극의 초저지연 기술</strong>입니다.
 
 ### 1. [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 기능 컴파일 구조 (소프트웨어를 쇳덩어리로 굽기) 🌟
 - 개발자가 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 코딩을 합니다. "VNI 100번 달고 온 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 박스가 오면, 껍데기를 다 벗겨내고 안에 든 놈 목적지가 DB이면 무조건 버려라(보안 룰)."
-- [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 컴파일러(P4C)가 이 C언어 같은 텍스트 코드를 번역하여, **[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 랜카드 칩셋 안의 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 회로(파이프라인 매치/액션 테이블) 모양 그 자체를 물리적으로 변형시켜 굽습니다.** 
+- [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 컴파일러(P4C)가 이 C언어 같은 텍스트 코드를 번역하여, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 랜카드 칩셋 안의 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a> 회로(파이프라인 매치/액션 테이블) 모양 그 자체를 물리적으로 변형시켜 굽습니다.</strong> 
 - 쇳덩어리 자체가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 회로가 되어버렸기 때문에, 패킷이 랜카드 구멍으로 들어오자마자 0.0001초 만에 하드웨어 단에서 목이 잘려 나갑니다(극강의 라인-레이트 속도 100Gbps 처리).
 
 ### 2. [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))의 무덤과 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 다이렉트 처리
 - 서버 뱃속에서 CPU를 퍼먹으며 헐떡거리던 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), 860번) 전체 코드 수만 줄을 통째로 이 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 쇳덩어리 칩셋에 하드 코딩(Offload)해 버립니다.
 - 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에서 나온 패킷은 메인 OS를 아예 거치지 않고, [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 칩셋을 다이렉트로 통과하며 터널 포장(Encap)과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사를 완벽히 받고 랜선으로 날아갑니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파급 최소화).
 
-```text
-[멀티 테넌트]
-    │
-    ▼
-[네트워크 펑션 오프로딩]
-    │
-    └──▶ [광통신 네트워크 이더넷]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 이 미친 기술의 종착지는 클라우드 회사의 '서버 장사' 꼼수입니다. (AWS Nitro 아키텍처)
 - 서버의 메인보드와 CPU는 100% 순수하게 고객에게 월세를 받고 빌려줍니다(베어메탈, CPU 자원 회수율 100%).
-- **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 관리자)조차 이 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 랜카드 안에 박아 넣어버립니다.** 즉, 서버의 주인이 메인 CPU가 아니라, 엉덩이에 꽂힌 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))가 서버 전체를 배후에서 장악하고 통제하는 신비로운 하드웨어 전복 구조(Infrastructure Processing)가 완성됩니다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 관리자)조차 이 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 랜카드 안에 박아 넣어버립니다.</strong> 즉, 서버의 주인이 메인 CPU가 아니라, 엉덩이에 꽂힌 랜카드([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))가 서버 전체를 배후에서 장악하고 통제하는 신비로운 하드웨어 전복 구조(Infrastructure Processing)가 완성됩니다.
 
 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)가 기반 조건을 만든다면, 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 그 위에서 핵심 메커니즘을 구현하고, [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -75,7 +83,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 네트워크 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 진화의 역사를 공장 라인에 비유해 봅시다. 1세대는 사장님(메인 CPU)이 직접 택배 박스를 칼로 찢고 물건을 꺼내 검사하는 수작업(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통신)이었습니다. 2세대(일반 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))는 사장님 대신 공장 입구에 '인간 경비원(미니 ARM CPU)'을 둔 것입니다. 사장님은 편해졌지만, 택배가 100만 개가 오면 경비원이 과로로 쓰러집니다. **3세대([P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) + [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 이양 기술)**는 공장 입구 철문에 아예 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 레이저 엑스레이 자동 커팅 기계([P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 하드웨어 컴파일)'를 용접해서 박아버린 것입니다. 인간 경비원이 눈으로 볼 필요도 없이, 박스가 컨베이어 벨트를 빛의 속도로 타고 지나가며 레이저에 의해 박스가 뜯기고(터널 해체), 폭발물이면 바닥으로 떨어지고([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하드 드랍), 합격품만 사장님 책상으로 1초 만에 직행하는 0% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율의 완벽한 터미네이터 무인 공장 시스템입니다.
+- **📢 섹션 요약 비유**: 네트워크 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 진화의 역사를 공장 라인에 비유해 봅시다. 1세대는 사장님(메인 CPU)이 직접 택배 박스를 칼로 찢고 물건을 꺼내 검사하는 수작업(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통신)이었습니다. 2세대(일반 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))는 사장님 대신 공장 입구에 '인간 경비원(미니 ARM CPU)'을 둔 것입니다. 사장님은 편해졌지만, 택배가 100만 개가 오면 경비원이 과로로 쓰러집니다. <strong>3세대(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/">P4</a> + <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 하드웨어 이양 기술)</strong>는 공장 입구 철문에 아예 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 레이저 엑스레이 자동 커팅 기계([P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 하드웨어 컴파일)'를 용접해서 박아버린 것입니다. 인간 경비원이 눈으로 볼 필요도 없이, 박스가 컨베이어 벨트를 빛의 속도로 타고 지나가며 레이저에 의해 박스가 뜯기고(터널 해체), 폭발물이면 바닥으로 떨어지고([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하드 드랍), 합격품만 사장님 책상으로 1초 만에 직행하는 0% [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)율의 완벽한 터미네이터 무인 공장 시스템입니다.
 
 ---
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 멀티 테넌트]
-    │
-    ▼
-[현재 개념: 네트워크 펑션 오프로딩]
-    │
-    ├──▶ [확장 A: 광통신 네트워크 이더넷]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티 테넌트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 펑션 오프로딩</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광통신 네트워크 이더넷</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

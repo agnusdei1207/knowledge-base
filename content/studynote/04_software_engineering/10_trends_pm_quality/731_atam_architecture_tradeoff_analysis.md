@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 그렇다면 "이 아키텍처가 좋은 설계인가?"를 어떻게 알 수 있을까? 개발자는 "MSA로 쪼개서 최신 유행을 따랐으니 좋은 설계다!"라고 우기고, 보안팀은 "암호화가 안 되어 있으니 쓰레기다!"라고 싸운다. 
 
-아키텍처의 좋고 나쁨은 '코드의 형태'가 아니라 **'비즈니스의 목표'를 달성할 수 있느냐**로 결정되어야 한다. 이를 위해 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(개발자, 테스터, 고객, 보안팀)가 모두 모여 현재 설계된 아키텍처의 약점과 위험을 객관적으로 찾아내는 회의 기법이 바로 **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)(아키텍처 트레이드오프 분석 방법론)**이다.
+아키텍처의 좋고 나쁨은 '코드의 형태'가 아니라 <strong>'비즈니스의 목표'를 달성할 수 있느냐</strong>로 결정되어야 한다. 이를 위해 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(개발자, 테스터, 고객, 보안팀)가 모두 모여 현재 설계된 아키텍처의 약점과 위험을 객관적으로 찾아내는 회의 기법이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a>(아키텍처 트레이드오프 분석 방법론)</strong>이다.
 
 - **📢 섹션 요약 비유**: ATAM은 건물을 짓기 전에 설계도를 펴놓고 벌이는 '종합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 회의'다. 소방관은 "불이 나면 도망갈 곳이 있냐?"를 묻고, 건물주는 "공사비가 너무 비싸지 않냐?"를 묻는다. 이 충돌하는 요구사항(트레이드오프)을 조율하는 과정이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 트레이드오프 분석 평가 트리의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ATAM 트레이드오프 분석 평가 트리                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM 트레이드오프 분석 평가 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) 트레이드오프 분석 평가 트리가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ tags = ["studynote-software-engineering"]
 
 | 평가 방법론 | 약어 의미 | 핵심 초점 (어디에 집중하는가?) |
 |:---|:---|:---|
-| **[ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)** | [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 간의 **트레이드오프와 [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)** |
-| **[CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/)** | Cost Benefit Analysis Method | ATAM의 결과물에 **경제적 가치(비용 대비 효과, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))**를 더함 |
-| **[SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/)** | [Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method | 아키텍처가 향후 기능 변경에 얼마나 잘 버티는지(**변경 용이성**) 평가 (ATAM의 조상) |
-| **ARID** | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Reviews for Intermediate Designs| 아직 설계가 **미완성된 중간 단계**에서 핵심 모듈만 빠르게 리뷰함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a></strong> | [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method | 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 간의 <strong>트레이드오프와 <a href="/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/">위험 식별</a></strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/">CBAM</a></strong> | Cost Benefit Analysis Method | ATAM의 결과물에 <strong>경제적 가치(비용 대비 효과, <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/">ROI</a>)</strong>를 더함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/">SAAM</a></strong> | [Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method | 아키텍처가 향후 기능 변경에 얼마나 잘 버티는지(**변경 용이성**) 평가 (ATAM의 조상) |
+| **ARID** | [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Reviews for Intermediate Designs| 아직 설계가 <strong>미완성된 중간 단계</strong>에서 핵심 모듈만 빠르게 리뷰함 |
 
 보통 실무에서는 ATAM으로 "보안을 높이려면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어집니다"라는 트레이드오프를 도출한 뒤, CBAM을 써서 경영진에게 "보안을 높이면 서버비가 10억 더 들지만, 해킹을 막아 100억을 아낄 수 있습니다"라고 경제적 설득을 한다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 ATAM을 정석대로 수행하면, 코딩을 시작하기도 전에 설계의 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(예: "이 아키텍처로는 연말 이벤트 트래픽을 절대 못 버틴다")을 발견하여 수십억 원의 재작업(Rework) 비용을 아낄 수 있다.
 
-결론적으로 기술 리더(Software Architect)의 진정한 역량은 최신 프레임워크를 아는 것이 아니다. A라는 기술과 B라는 기술 사이에서 발생하는 **수백 가지의 트레이드오프를 비즈니스 목표에 맞게 저울질(Balancing)하고, 그 결정을 팀원들에게 논리적으로 설득해 내는 능력**이야말로 아키텍트의 존재 이유이며, ATAM은 그 저울질을 위한 완벽한 수학적 도구다.
+결론적으로 기술 리더(Software Architect)의 진정한 역량은 최신 프레임워크를 아는 것이 아니다. A라는 기술과 B라는 기술 사이에서 발생하는 <strong>수백 가지의 트레이드오프를 비즈니스 목표에 맞게 저울질(Balancing)하고, 그 결정을 팀원들에게 논리적으로 설득해 내는 능력</strong>이야말로 아키텍트의 존재 이유이며, ATAM은 그 저울질을 위한 완벽한 수학적 도구다.
 
 - **📢 섹션 요약 비유**: 최고의 요리사는 '가장 비싼 재료'를 쓰는 사람이 아니라, 단맛과 짠맛(트레이드오프)을 절묘하게 섞어서 손님이 원하는 '가장 맛있는 음식(비즈니스 가치)'을 만들어내는 사람이다. ATAM은 그 황금 비율을 찾는 레시피 연구 회의다.
 
@@ -132,21 +131,23 @@ ATAM을 정석대로 수행하면, 코딩을 시작하기도 전에 설계의 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ATAM 트레이드오프 분석 평가 트리 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATAM 트레이드오프 분석 평가 트리 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

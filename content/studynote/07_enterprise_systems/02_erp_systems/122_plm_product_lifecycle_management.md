@@ -10,30 +10,32 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PLM은 제품의 **기획→설계→제조→[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)→폐기까지 전 생명주기에 걸친 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·프로세스·사람을 통합 관리**하는 엔터프라이즈 시스템이다.
-> 2. **가치**: CAD 도면·[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)(부품 목록)·변경 이력·품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되면 **설계 변경 누락·부품 불일치·품질 사고**가 발생하지만, PLM이 **단일 제품 [데이터 허브](/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/)**를 제공하여 전사 협업을 보장한다.
-> 3. **판단 포인트**: PLM은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(생산·재무)·[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))과 통합되어 **제품 중심 디지털 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))**를 구성하며, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천이 된다.
+> 1. **본질**: PLM은 제품의 <strong>기획→설계→제조→<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>→폐기까지 전 생명주기에 걸친 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>·프로세스·사람을 통합 관리</strong>하는 엔터프라이즈 시스템이다.
+> 2. **가치**: CAD 도면·[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)(부품 목록)·변경 이력·품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서별로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되면 <strong>설계 변경 누락·부품 불일치·품질 사고</strong>가 발생하지만, PLM이 <strong>단일 제품 <a href="/knowledge-base/studynote/16_bigdata/09_platform/180_data_hub/">데이터 허브</a></strong>를 제공하여 전사 협업을 보장한다.
+> 3. **판단 포인트**: PLM은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(생산·재무)·[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)(제조 실행)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))과 통합되어 <strong>제품 중심 디지털 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a>)</strong>를 구성하며, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    PLM이 관리하는 제품 전주기                          │
-├───────────────────────────────────────────────────────┤
-│  기획 → 설계(CAD) → 시뮬레이션(CAE) → 제조(CAM)     │
-│     → 품질관리 → 서비스·유지보수 → 폐기·재활용      │
-│                                                       │
-│  PLM 관리 대상:                                       │
-│   - CAD 도면·3D 모델                                 │
-│   - BOM (Bill of Materials, 부품 목록)               │
-│   - ECO (Engineering Change Order, 설계 변경)        │
-│   - 품질·시험 데이터                                 │
-└───────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: PLM은 제품의 **출생(기획)부터 사망(폐기)**까지의 모든 기록을 보관하는 전자 건강 기록부다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLM이 관리하는 제품 전주기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 → 설계(CAD) → 시뮬레이션(CAE) → 제조(CAM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 품질관리 → 서비스·유지보수 → 폐기·재활용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLM 관리 대상:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CAD 도면·3D 모델</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BOM (Bill of Materials, 부품 목록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ECO (Engineering Change Order, 설계 변경)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질·시험 데이터</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: PLM은 제품의 <strong>출생(기획)부터 사망(폐기)</strong>까지의 모든 기록을 보관하는 전자 건강 기록부다.
 
 ---
 
@@ -44,8 +46,8 @@ tags = ["studynote-enterprise-systems"]
 | 기능 | 설명 |
 |:---|:---|
 | **CAD 관리** | 도면·3D 모델 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 |
-| **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 관리** | 부품 구성 트리, E-[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)/M-[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) |
-| **[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)** | ECR→ECO→ECN 워크플로 |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a> 관리</strong> | 부품 구성 트리, E-[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)/M-[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/">변경 관리</a></strong> | ECR→ECO→ECN 워크플로 |
 | **프로젝트 관리** | 제품 개발 일정·마일스톤 |
 | **품질 관리** | [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/)·CAPA 연동 |
 
@@ -57,9 +59,9 @@ tags = ["studynote-enterprise-systems"]
 
 | 비교 | PLM | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) |
 |:---|:---|:---|:---|
-| **관점** | **제품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 경영·재무 | 제조 실행 |
+| **관점** | <strong>제품 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 경영·재무 | 제조 실행 |
 | **단계** | 설계~폐기 | 계획~재무 | 생산 현장 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | CAD·[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)·ECO | 주문·재고·원가 | 실적·품질 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | CAD·[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)·ECO | 주문·재고·원가 | 실적·품질 |
 
 ---
 
@@ -72,7 +74,7 @@ PLM→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_e
 
 ## Ⅴ. 기대효과 및 결론
 
-PLM은 **제조업 [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)([디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/))의 핵심 축**이며, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시뮬레이션과 결합하여 제품 개발 기간을 30~50% 단축하고 있다.
+PLM은 <strong>제조업 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>)의 핵심 축</strong>이며, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시뮬레이션과 결합하여 제품 개발 기간을 30~50% 단축하고 있다.
 
 ---
 
@@ -80,34 +82,36 @@ PLM은 **제조업 [DX](/knowledge-base/studynote/04_software_engineering/10_tre
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)** | 부품 구성 목록 (PLM 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
+| <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/">BOM</a></strong> | 부품 구성 목록 (PLM 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
 | **ECO** | 설계 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) |
-| **Digital [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)** | PLM→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)→[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속성 |
-| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)** | PLM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 가상 모델 |
+| <strong>Digital <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong> | PLM→[ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)→[MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연속성 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a></strong> | PLM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 가상 모델 |
 | **CAD/CAE/CAM** | PLM이 관리하는 설계 도구 산출물 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[PDM (Product Data Management, 1990s)]
-    │
-    ▼
-[PLM (전주기 확장, 2000s) — Siemens·PTC·Dassault]
-    │
-    ▼
-[클라우드 PLM (2015~) — SaaS 기반]
-    │
-    ▼
-[Digital Thread + 디지털 트윈 (2020~)]
-    │
-    ▼
-[현재: AI PLM — 생성적 설계·자동 BOM 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">PDM (Product Data Management, 1990s)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PLM (전주기 확장, 2000s) — Siemens·PTC·Dassault</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 PLM (2015~) — SaaS 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Digital Thread + 디지털 트윈 (2020~)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI PLM — 생성적 설계·자동 BOM 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. PLM은 제품의 **출생(기획)부터 은퇴(폐기)**까지의 모든 기록을 관리하는 시스템이에요.
-2. 레시피([BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))를 바꾸려면 **승인(ECO)**을 받아야 해서 실수가 줄어요.
-3. 덕분에 자동차·비행기 같은 복잡한 제품도 **체계적으로 개발**할 수 있답니다!
+1. PLM은 제품의 <strong>출생(기획)부터 은퇴(폐기)</strong>까지의 모든 기록을 관리하는 시스템이에요.
+2. 레시피([BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))를 바꾸려면 <strong>승인(ECO)</strong>을 받아야 해서 실수가 줄어요.
+3. 덕분에 자동차·비행기 같은 복잡한 제품도 <strong>체계적으로 개발</strong>할 수 있답니다!
 
 ---
 

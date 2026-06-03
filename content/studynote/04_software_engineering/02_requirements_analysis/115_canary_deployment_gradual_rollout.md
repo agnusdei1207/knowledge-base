@@ -10,28 +10,30 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 **전체 트래픽의 1~5%에만 먼저 노출**하고, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%→50%→100%)하는 **위험 최소화 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
-> 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%→5%→25%→100%"로 **단계적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** 후 전환하므로 장애 시 영향 범위가 극히 제한된다.
-> 3. **판단 포인트**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService·Argo Rollouts·AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 트래픽 비율을 제어하며, Kayenta 같은 **자동 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석(ACA)**과 결합하면 사람 개입 없는 완전 자동 롤아웃이 가능하다.
+> 1. **본질**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 신버전을 <strong>전체 트래픽의 1~5%에만 먼저 노출</strong>하고, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%→50%→100%)하는 <strong>위험 최소화 배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
+> 2. **가치**: 블루/그린이 "한 번에 100% 전환"이라면, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "1%→5%→25%→100%"로 <strong>단계적 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> 후 전환하므로 장애 시 영향 범위가 극히 제한된다.
+> 3. **판단 포인트**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService·Argo Rollouts·AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 트래픽 비율을 제어하며, Kayenta 같은 <strong>자동 <a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 분석(ACA)</strong>과 결합하면 사람 개입 없는 완전 자동 롤아웃이 가능하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌───────────────────────────────────────────────────────┐
-│    카나리 배포 트래픽 점진 확대                         │
-├───────────────────────────────────────────────────────┤
-│  Phase 1: v2 → 1% 트래픽 (카나리)                    │
-│           v1 → 99% 트래픽 (베이스라인)                │
-│           → 메트릭 관찰 (에러율, 레이턴시)             │
-│  Phase 2: v2 → 10% 트래픽                            │
-│  Phase 3: v2 → 50% 트래픽                            │
-│  Phase 4: v2 → 100% 트래픽 (완전 전환)               │
-│                                                       │
-│  문제 발생 시: 즉시 v2 → 0%, v1 → 100% (롤백)       │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리 배포 트래픽 점진 확대</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: v2 → 1% 트래픽 (카나리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1 → 99% 트래픽 (베이스라인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메트릭 관찰 (에러율, 레이턴시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: v2 → 10% 트래픽</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 3: v2 → 50% 트래픽</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 4: v2 → 100% 트래픽 (완전 전환)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 발생 시: 즉시 v2 → 0%, v1 → 100% (롤백)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 탄광의 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새에서 유래했다. 새가 먼저 들어가서 유독 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(버그)를 감지하면 광부(사용자 전체)가 들어가지 않는다.
 
@@ -43,19 +45,19 @@ tags = ["studynote-software-engineering"]
 
 | 방식 | 도구 | 특징 |
 |:---|:---|:---|
-| **[Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/)** | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService | L7 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 헤더 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a></strong> | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService | L7 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 헤더 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 | **K8s Native** | Argo Rollouts | AnalysisRun으로 자동 판정 |
-| **[Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/)** | AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 인프라 레벨, 간단 |
-| **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)** | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 글로벌 트래픽 분배 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/">Load Balancer</a></strong> | AWS ALB [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 인프라 레벨, 간단 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a></strong> | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | 글로벌 트래픽 분배 |
 
 ### [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) vs 블루/그린
 
 | 비교 | 블루/그린 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
 |:---|:---|:---|
-| **전환** | 100% 한 번에 | **1%→[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%→100% 점진** |
+| **전환** | 100% 한 번에 | <strong>1%→<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%→100% 점진</strong> |
 | **리소스** | 2배 (구/신 동시 운영) | **+α만 추가** |
-| **위험** | 100% 사용자 영향 | **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 1%만 영향** |
-| **[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 깊이** | 배포 전 테스트 | **실 트래픽으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)** |
+| **위험** | 100% 사용자 영향 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 1%만 영향</strong> |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 깊이</strong> | 배포 전 테스트 | <strong>실 트래픽으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> |
 
 - **📢 섹션 요약 비유**: 블루/그린은 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(ON/OFF), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 디머(Dimmer, 밝기 조절)이다.
 
@@ -68,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | **속도** | 중간 | 빠름 | **느림 (단계적)** |
 | **위험** | 중간 | 중간 | **최저** |
 | **복잡도** | 낮음 | 중간 | **높음** |
-| **[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)** | 느림 | 즉시 | **즉시** |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 느림 | 즉시 | **즉시** |
 
 ---
 
@@ -87,7 +89,7 @@ strategy:
 ```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 비율 즉시 100%**: 1%→100% 한 번에 올리면 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 아니라 빅뱅 배포.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 비율 즉시 100%</strong>: 1%→100% 한 번에 올리면 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포가 아니라 빅뱅 배포.
 
 ---
 
@@ -109,32 +111,34 @@ strategy:
 |:---|:---|
 | **블루/그린 배포** | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)의 대안 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | **Argo Rollouts** | K8s 네이티브 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포 도구 |
-| **[Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) VirtualService** | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) 기반 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> VirtualService</strong> | [Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/) 기반 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
 | **Kayenta ACA** | 자동 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석 (통계적 판정) |
-| **[피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)** | 코드 레벨 점진적 릴리즈 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/">피처 플래그</a></strong> | 코드 레벨 점진적 릴리즈 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[롤링 업데이트 (2000s) — Pod 순차 교체]
-    │
-    ▼
-[블루/그린 배포 (2010s) — 100% 전환]
-    │
-    ▼
-[카나리 배포 (2015~) — 1%→100% 점진 확대]
-    │
-    ▼
-[ACA + Argo Rollouts (2020~) — 자동 판정·자동 확대]
-    │
-    ▼
-[현재: Progressive Delivery — 카나리+피처플래그+ACA 통합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">롤링 업데이트 (2000s) — Pod 순차 교체</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블루/그린 배포 (2010s) — 100% 전환</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 배포 (2015~) — 1%→100% 점진 확대</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ACA + Argo Rollouts (2020~) — 자동 판정·자동 확대</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Progressive Delivery — 카나리+피처플래그+ACA 통합</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 새 요리를 만들면 처음에 **10명 중 1명에게만** 맛보게 해요 ([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)).
 2. "맛있다!"라고 하면 점점 더 많은 사람에게 주고, "맛없다!"라고 하면 즉시 멈춰요.
-3. 이렇게 하면 **모든 손님이 한꺼번에 맛없는 요리를 먹는 사고**를 막을 수 있답니다!
+3. 이렇게 하면 <strong>모든 손님이 한꺼번에 맛없는 요리를 먹는 사고</strong>를 막을 수 있답니다!
 
 ---
 

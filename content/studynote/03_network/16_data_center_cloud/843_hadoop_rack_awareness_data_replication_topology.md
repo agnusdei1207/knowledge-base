@@ -20,23 +20,27 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 테라바이트급 거대한 빅데이터를 작게 조각(보통 128MB 블록 단위) 내어 수천 대의 싸구려 서버([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 쫙 흩뿌려서 저장하는 구글 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템입니다.
-- **3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) ([Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) = 3)의 법칙**: 싸구려 하드디스크가 터질 것을 대비해, 원본 블록 1개를 만들면 반드시 다른 서버에 복사본 2개를 더 만들어 **총 3개의 쌍둥이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록**을 클러스터 어딘가에 숨겨둡니다. 
+- <strong>3중 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication Factor</a> = 3)의 법칙</strong>: 싸구려 하드디스크가 터질 것을 대비해, 원본 블록 1개를 만들면 반드시 다른 서버에 복사본 2개를 더 만들어 <strong>총 3개의 쌍둥이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 블록</strong>을 클러스터 어딘가에 숨겨둡니다. 
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 컴퓨터들은 거대한 철제 선반인 **랙(Rack)**에 수십 대씩 꽂혀있고, 랙 맨 꼭대기에는 이들을 묶어주는 **ToR (Top of Rack) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**가 달려있습니다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 컴퓨터들은 거대한 철제 선반인 <strong>랙(Rack)</strong>에 수십 대씩 꽂혀있고, 랙 맨 꼭대기에는 이들을 묶어주는 <strong>ToR (Top of Rack) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>가 달려있습니다.
 
 - **만약 랙 인식 기능이 없다면 (재앙 시나리오)**: 
   - 하둡 중앙 통제 서버([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 복사본 3개를 랜덤으로 뿌렸는데, 운 나쁘게 '1번 랙'에 꽂힌 서버 3대에 나란히 복사본이 들어갔습니다.
   - 다음 날, 1번 랙 꼭대기에 달린 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 고장 나거나 1번 랙 전체 전원 플러그가 뽑혔습니다.
-  - 1번 랙이 통째로 죽으면서, 그 안에 있던 원본과 복사본 2개가 한날한시에 다 날아가 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 우주에서 완벽하게 영구 삭제([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss)**되는 대재앙이 터집니다.
+  - 1번 랙이 통째로 죽으면서, 그 안에 있던 원본과 복사본 2개가 한날한시에 다 날아가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 우주에서 완벽하게 영구 삭제(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Loss)</strong>되는 대재앙이 터집니다.
 
-```text
-[마이크로 터스트 존 방화벽 보안 적용 체계…]
-    │
-    ▼
-[하둡 랙 인식]
-    │
-    └──▶ [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 하둡 랙 인식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,14 +50,18 @@ tags = ["studynote-network"]
 
 하둡 랙 인식는 대규모 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 연결 구조와 운영 효율을 다루는 축라는 관점에서 이해해야 한다. 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…와 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목… 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-```text
-[마이크로 터스트 존 방화벽 보안 적용 체계…]
-    │
-    ▼
-[하둡 랙 인식]
-    │
-    └──▶ [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 하둡 랙 인식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,7 +73,7 @@ tags = ["studynote-network"]
 
 1. **첫 번째 블록 (원본)**: 글을 쓰고 있는 나 자신(클라이언트)이 속해 있는 랙의 아무 서버([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 저장합니다. (네트워크 이동 거리를 0으로 만들어 저장 속도를 극대화합니다.)
 2. **두 번째 블록 (복사본 1)**: **가장 중요한 규칙입니다. 반드시 첫 번째 블록이 있는 랙과 '완전히 다른 랙(예: 2번 랙)'에 있는 서버에 저장합니다.** (1번 랙 전원이 뽑히는 재앙을 100% 방어합니다.)
-3. **세 번째 블록 (복사본 2)**: **두 번째 블록이 들어간 랙(2번 랙) 안의 '또 다른 서버'**에 저장합니다.
+3. **세 번째 블록 (복사본 2)**: <strong>두 번째 블록이 들어간 랙(2번 랙) 안의 '또 다른 서버'</strong>에 저장합니다.
    - *왜 아예 3번 랙으로 안 보낼까요?* 서로 다른 3개의 랙으로 다 찢어버리면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들을 거치는 트래픽(East-West 트래픽)이 너무 많이 발생해 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(비용)이 터져버립니다. 
    - 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(전원)가 고장 나는 확률보다, 서버 1대의 하드디스크가 죽을 확률이 수백 배 높습니다. 따라서 "랙 2개에만 찢어 놔도 랙 전원 차단 방어는 성공적이고, 나머지 하나는 같은 랙에 둬서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 막자!"라는 최적의 가성비 타협점(Trade-off)을 찾은 것입니다.
 
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **읽기 속도 극대화**: 사용자가 하둡에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내 읽을 때, 하둡은 3개의 복사본 중 **사용자와 네트워크 거리(홉 수)가 가장 가까운 랙**에 있는 복사본을 골라 던져줍니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최소화). 이를 위해 랙 인식 지도가 필수적으로 쓰입니다.
+- **읽기 속도 극대화**: 사용자가 하둡에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내 읽을 때, 하둡은 3개의 복사본 중 <strong>사용자와 네트워크 거리(홉 수)가 가장 가까운 랙</strong>에 있는 복사본을 골라 던져줍니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최소화). 이를 위해 랙 인식 지도가 필수적으로 쓰입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 하둡 랙 인식([Rack Awareness](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/))은 기업의 '완벽한 계란 바구니 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'입니다. 1번 바구니(1번 랙)에 금덩이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 3개를 다 넣어두면, 바구니 끈이 뚝 끊어지는 순간 금덩이 3개가 한 번에 다 박살 납니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영구 삭제). 그렇다고 1번, 2번, 3번 바구니에 1개씩 다 찢어 놓으려니, 배달부(네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 3곳을 뛰어다니느라 배달비(트래픽 비용)가 3배로 터집니다. **하둡의 천재적인 랙 인식 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**은 타협안입니다. 금덩이 1개는 1번 바구니에 넣고, 나머지 금덩이 2개는 2번 바구니에 몰아넣습니다. 1번 바구니가 터지면 2번 바구니의 금을 쓰면 되고, 배달부도 두 군데 바구니만 들르면 되므로 네트워크 트래픽 낭비도 기가 막히게 최소화하는 최고의 재난 방어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 물류 시스템입니다.
+- **📢 섹션 요약 비유**: 하둡 랙 인식([Rack Awareness](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/))은 기업의 '완벽한 계란 바구니 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'입니다. 1번 바구니(1번 랙)에 금덩이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 3개를 다 넣어두면, 바구니 끈이 뚝 끊어지는 순간 금덩이 3개가 한 번에 다 박살 납니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영구 삭제). 그렇다고 1번, 2번, 3번 바구니에 1개씩 다 찢어 놓으려니, 배달부(네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 3곳을 뛰어다니느라 배달비(트래픽 비용)가 3배로 터집니다. <strong>하둡의 천재적인 랙 인식 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 타협안입니다. 금덩이 1개는 1번 바구니에 넣고, 나머지 금덩이 2개는 2번 바구니에 몰아넣습니다. 1번 바구니가 터지면 2번 바구니의 금을 쓰면 되고, 배달부도 두 군데 바구니만 들르면 되므로 네트워크 트래픽 낭비도 기가 막히게 최소화하는 최고의 재난 방어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 물류 시스템입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 마이크로 터스트 존 방화벽 보안 적용 체계…]
-    │
-    ▼
-[현재 개념: 하둡 랙 인식]
-    │
-    ├──▶ [확장 A: 가상머신 하이퍼바이저 가상 스위치 구조 병목…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하둡 랙 인식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 하둡 랙 인식는 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

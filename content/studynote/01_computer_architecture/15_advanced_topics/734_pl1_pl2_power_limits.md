@@ -23,14 +23,14 @@ PL1과 PL2는 CPU가 소비할 수 있는 전력을 두 개의 시간 축으로 
 
 이 때문에 하나의 고정 전력 숫자만으로는 현실을 설명할 수 없다. 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하면 사용감이 둔해지고, 반대로 순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 무한정 허용하면 노트북 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), 메인보드 전원부, 쿨러가 버티지 못한다. PL1과 PL2는 바로 이 충돌을 풀기 위한 타협점이다. 최근 인텔 문서에서는 PL1을 Processor Base [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) (PBP), PL2를 Maximum Turbo [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) (MTP)와 거의 같은 의미로 제시해 이해를 돕기도 한다.
 
-즉 PL1/PL2는 단순 제한이 아니라, **"얼마나 세게, 얼마나 오래"를 나눠서 설계하는 전력 운영 규칙**이다.
+즉 PL1/PL2는 단순 제한이 아니라, <strong>"얼마나 세게, 얼마나 오래"를 나눠서 설계하는 전력 운영 규칙</strong>이다.
 - **📢 섹션 요약 비유**: PL1은 오래 달릴 수 있는 조깅 속도이고, PL2는 잠깐만 허용되는 전력 질주 속도다. 좋은 선수라도 전 구간을 전력 질주로 달리면 결국 쓰러진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 사용률, 온도를 바탕으로 실시간 전력을 추정하고, BIOS나 펌웨어가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 PL1·PL2·Tau를 기준으로 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조정한다. 여기서 Tau는 흔히 "PL2를 몇 초 동안 허용하는가"로 설명되지만, 더 정확히는 **장기 평균이 PL1에 수렴하도록 만드는 시간창 또는 시간 상수**에 가깝다. 그래서 실제 동작은 단순 타이머보다 조금 더 연속적이며, 온도나 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계를 먼저 만나면 Tau가 끝나기 전에도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아질 수 있다.
+CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 사용률, 온도를 바탕으로 실시간 전력을 추정하고, BIOS나 펌웨어가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 PL1·PL2·Tau를 기준으로 배수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 조정한다. 여기서 Tau는 흔히 "PL2를 몇 초 동안 허용하는가"로 설명되지만, 더 정확히는 <strong>장기 평균이 PL1에 수렴하도록 만드는 시간창 또는 시간 상수</strong>에 가깝다. 그래서 실제 동작은 단순 타이머보다 조금 더 연속적이며, 온도나 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 한계를 먼저 만나면 Tau가 끝나기 전에도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 낮아질 수 있다.
 
 | 항목 | 의미 | 실무 해석 |
 | :--- | :--- | :--- |
@@ -41,21 +41,22 @@ CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math
 
 이 그림은 CPU가 왜 처음에는 빠르고, 긴 부하에서는 결국 지속 가능한 수준으로 내려오는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│      짧은 작업은 PL2를 쓰고, 장기 평균이 차오르면 PL1 근처로 수렴한다      │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Power                                                                      │
-│  ^                                                                         │
-│  |  PL2 ────────────────┐                                                  │
-│  |                      │  burst turbo 구간                                │
-│  |                      │                                                  │
-│  |  PL1 ────────────────────────────────┬───────────────────────────────   │
-│  |                                      │                                  │
-│  +--------------------------------------┴-------------------------------> t │
-│                         Tau 평균 창이 차며 전력과 클럭이 낮아진다          │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 작업은 PL2를 쓰고, 장기 평균이 차오르면 PL1 근처로 수렴한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PL2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">burst turbo 구간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PL1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------------------------------------- -------------------------------&gt; t</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tau 평균 창이 차며 전력과 클럭이 낮아진다</div></div>
+</div>
+</div>
+
+
 
 메인보드 제조사나 노트북 OEM은 이 값을 임의로 조정할 수 있다. PL1을 크게 높이거나 PL1=PL2로 맞추면 장시간 더 빠를 수 있지만, 그 대가로 발열, 소음, 소비전력, 전원부 부담이 커진다.
 - **📢 섹션 요약 비유**: PL2는 신용카드 한도처럼 잠깐 빌려 쓰는 힘이고, Tau는 그 카드값이 얼마나 빨리 월말 청구서로 돌아오는지를 정하는 규칙이다. 결국 오래 살려면 월급 수준인 PL1 안에서 살아야 한다.
@@ -64,7 +65,7 @@ CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math
 
 ## Ⅲ. 비교 및 연결
 
-PL1과 PL2는 자주 [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) 같은 온도 한계와 섞여 이해되지만, 둘은 다루는 대상이 다르다. PL1/PL2는 **전력 예산 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)**, TjMax와 PROCHOT#는 **열 안전 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)선**이다. 따라서 시스템은 온도 여유가 있어도 PL2를 먼저 맞아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 꺾일 수 있고, 반대로 PL2 여유가 남아 있어도 냉각이 약하면 TjMax에 먼저 닿아 스로틀링이 걸릴 수 있다.
+PL1과 PL2는 자주 [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) 같은 온도 한계와 섞여 이해되지만, 둘은 다루는 대상이 다르다. PL1/PL2는 <strong>전력 예산 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>, TjMax와 PROCHOT#는 <strong>열 안전 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>선</strong>이다. 따라서 시스템은 온도 여유가 있어도 PL2를 먼저 맞아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 꺾일 수 있고, 반대로 PL2 여유가 남아 있어도 냉각이 약하면 TjMax에 먼저 닿아 스로틀링이 걸릴 수 있다.
 
 | 제한 종류 | 무엇을 제한하는가 | 대표 현상 | 주된 목적 |
 | :--- | :--- | :--- | :--- |
@@ -73,7 +74,7 @@ PL1과 PL2는 자주 [TjMax](/knowledge-base/studynote/01_computer_architecture/
 | ICCMax | 순간 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) | 급격한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하나 전원부 스트레스 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) | 전기적 안정성 확보 |
 | [TjMax](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/735_tjmax/) / PROCHOT# | 온도 | [thermal throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) | 실리콘 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
-AMD 플랫폼에서는 PPT (Package [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Tracking), TDC (Thermal Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)), EDC (Electrical Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 비슷한 역할을 분담한다. 이름은 달라도 핵심은 같다. **순간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 장기 지속성, 안전 마진은 하나의 숫자로 해결되지 않는다**는 사실이다.
+AMD 플랫폼에서는 PPT (Package [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Tracking), TDC (Thermal Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)), EDC (Electrical Design [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))가 비슷한 역할을 분담한다. 이름은 달라도 핵심은 같다. <strong>순간 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>, 장기 지속성, 안전 마진은 하나의 숫자로 해결되지 않는다</strong>는 사실이다.
 - **📢 섹션 요약 비유**: PL1/PL2가 예산표라면, TjMax는 화재 경보다. 예산이 남아 있어도 불이 나면 뛰쳐나와야 하고, 불이 안 나도 예산을 넘기면 카드가 정지된다.
 
 ---
@@ -108,7 +109,7 @@ PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧�
 
 다만 PL1/PL2는 숫자만 높인다고 좋은 것이 아니다. 플랫폼 설계가 받쳐 주지 못하면 팬 소음, 스로틀링, 부품 수명 저하, 전원 불안정으로 되돌아온다. 앞으로는 고정 Tau보다 workload 예측, 배터리 상태, 온도 상승률까지 함께 반영하는 더 적응형 전력 제어가 확대될 가능성이 높다.
 
-결론적으로 PL1과 PL2는 "CPU를 느리게 묶는 족쇄"가 아니라, **burst [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [지속 가능성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/)을 동시에 설계하기 위한 전력 운영 언어**다.
+결론적으로 PL1과 PL2는 "CPU를 느리게 묶는 족쇄"가 아니라, <strong>burst <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>과 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/">지속 가능성</a>을 동시에 설계하기 위한 전력 운영 언어</strong>다.
 - **📢 섹션 요약 비유**: 좋은 가계부는 오늘 기분 내자고 월급 전체를 한 번에 쓰지 않는다. 잠깐의 사치와 오래 버틸 생활비를 나누어 관리해야 집안이 굴러간다.
 
 ---
@@ -126,21 +127,23 @@ PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 TDP 중심 설계
-        │
-        ▼
-PL1 (지속 전력) + PL2 (순간 전력)
-        │
-        ▼
-Tau 기반 평균 전력 제어
-        │
-        ▼
-OEM / BIOS별 전력 프로파일 튜닝
-        │
-        ▼
-workload·배터리·열상승률 반영 적응형 전력 제어
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 TDP 중심 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PL1 (지속 전력) + PL2 (순간 전력)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tau 기반 평균 전력 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OEM / BIOS별 전력 프로파일 튜닝</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">workload·배터리·열상승률 반영 적응형 전력 제어</div>
+</div>
+</div>
+
+
 
 이 흐름은 전력 관리가 단순 정적 숫자에서 출발해, 이제는 시간 축과 플랫폼 상태를 함께 반영하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층으로 발전했음을 보여 준다.
 

@@ -28,14 +28,18 @@ tags = ["studynote-network"]
    - "내가 순서가 뒤죽박죽으로 들어오더라도, 버리지 않고 임시로 내 메모리(버퍼)에 저장해 둘 수 있는 빈 공간의 크기"입니다.
    - 수신 윈도우가 1이면, 오직 순서에 딱 맞는 1개만 받아먹고 나머지는 다 버립니다(옹졸함). 수신 윈도우가 10이면, 10개가 섞여 들어와도 일단 뱃속에 다 품어줍니다(관대함).
 
-```text
-[슬라이딩 윈도우 프로토콜 개념]
-    │
-    ▼
-[윈도우 크기, 송신/수신 윈도우]
-    │
-    └──▶ [HDLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,14 +55,18 @@ tags = ["studynote-network"]
 | **Go-Back-N (GBN)** | **$N$** (여러 개) | **1** | 기관총처럼 쏘지만, 수신기는 까탈스러워서 순서 어긋나면 다 버림. (연대 책임 재전송). |
 | **Selective Repeat (SR)** | **$N$** (여러 개) | **$N$** (여러 개) | 쏘기도 많이 쏘고, 수신기도 넓은 아량으로 다 받아줌. 에러 난 것만 쏙 다시 받음. (가장 똑똑하고 복잡함). |
 
-```text
-[슬라이딩 윈도우 프로토콜 개념]
-    │
-    ▼
-[윈도우 크기, 송신/수신 윈도우]
-    │
-    └──▶ [HDLC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,12 +75,12 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 프레임을 구별하기 위해 헤더에 0, 1, 2, 3.. 이라는 '순서 번호(Sequence Number)'를 붙입니다. 
-만약 헤더의 순서 번호 공간이 **m비트**라면, 우리가 쓸 수 있는 번호는 총 **$2^m$개** ($0$부터 $2^m - 1$까지)입니다. (예: 3비트면 0~7번까지 총 8개 번호를 돌려 씁니다).
+만약 헤더의 순서 번호 공간이 <strong>m비트</strong>라면, 우리가 쓸 수 있는 번호는 총 **$2^m$개** ($0$부터 $2^m - 1$까지)입니다. (예: 3비트면 0~7번까지 총 8개 번호를 돌려 씁니다).
 
 이때 **SR(Selective Repeat)** 방식에서 윈도우 사이즈를 욕심부려 전체 번호 개수(8칸)만큼 다 늘려버리면 치명적인 버그가 터집니다.
 - 1차 전송: 송신기가 0~7번을 다 쐈습니다. 수신기도 다 받아서 ACK 0(새로운 0번 내놔)을 쳤는데 이 ACK가 날아갔습니다.
-- 2차 전송: 송신기는 타임아웃이 걸려 아까 그 **'옛날 0~7번'**을 다시 쏩니다.
-- 수신기의 착각: 수신기는 방금 자기가 0~7을 다 비우고 윈도우를 전진시켰기 때문에, 날아온 이 옛날 0번을 **'새로운 2회차의 0번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 착각하고 낼름 받아버립니다.** ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복의 대재앙).
+- 2차 전송: 송신기는 타임아웃이 걸려 아까 그 <strong>'옛날 0~7번'</strong>을 다시 쏩니다.
+- 수신기의 착각: 수신기는 방금 자기가 0~7을 다 비우고 윈도우를 전진시켰기 때문에, 날아온 이 옛날 0번을 <strong>'새로운 2회차의 0번 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>'로 착각하고 낼름 받아버립니다.</strong> ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복의 대재앙).
 
 **[ 절대 룰 ]**
 - GBN의 최대 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/): **$2^m - 1$** (전체 번호보다 무조건 1개는 작아야 함).
@@ -86,7 +94,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 송신 윈도우는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 머신이 한 번에 날릴 수 있는 **'야구공의 묶음 수'**이고, 수신 윈도우는 포수가 들고 있는 **'포수 미트의 크기'**입니다. 포수 미트가 1개(GBN)면 공이 5개가 날아올 때 1개만 잡고 나머진 다 얼굴에 맞아 튕겨 나가지만, 미트가 5개(SR)면 5개의 공을 한 번에 다 잡아서 주머니에 차곡차곡 모아둘 수 있는 여유가 생깁니다.
+- **📢 섹션 요약 비유**: <strong> 송신 윈도우는 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 머신이 한 번에 날릴 수 있는 </strong>'야구공의 묶음 수'**이고, 수신 윈도우는 포수가 들고 있는 **'포수 미트의 크기'**입니다. 포수 미트가 1개(GBN)면 공이 5개가 날아올 때 1개만 잡고 나머진 다 얼굴에 맞아 튕겨 나가지만, 미트가 5개(SR)면 5개의 공을 한 번에 다 잡아서 주머니에 차곡차곡 모아둘 수 있는 여유가 생깁니다.
 
 ---
 
@@ -128,15 +136,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 슬라이딩 윈도우 프로토콜 개념]
-    │
-    ▼
-[현재 개념: 윈도우 크기, 송신/수신 윈도우]
-    │
-    ├──▶ [확장 A: HDLC]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슬라이딩 윈도우 프로토콜 개념</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 윈도우 크기, 송신/수신 윈도우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우는 [슬라이딩 윈도우 프로토콜](/knowledge-base/studynote/03_network/04_data_link_layer_error/214_sliding_window_protocol/) 개념에서 출발해 현재 메커니즘을 정교화하고, 이후 HDLC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

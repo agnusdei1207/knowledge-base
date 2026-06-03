@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 노트북을 분실했을 때, 도둑은 윈도우 로그인 암호를 몰라도 배를 가르고 하드디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))만 쏙 뽑아 다른 데 꽂으면 모든 야동과 기밀문서를 평문으로 100% 읽을 수 있다(오프라인 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 파단). 이를 물리치기 위해 **"[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 램(RAM)에서 하드 블록으로 떨어지기 직전 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 계층에서 CPU가 미친 덧셈([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호)을 때려 하드웨어에는 외계어 난수 덩어리로 굽는 '스토리지 자동 방검복 아크'"** 가 바로 암호화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EFS/eCryptfs)이다.
+> 1. **본질**: 노트북을 분실했을 때, 도둑은 윈도우 로그인 암호를 몰라도 배를 가르고 하드디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))만 쏙 뽑아 다른 데 꽂으면 모든 야동과 기밀문서를 평문으로 100% 읽을 수 있다(오프라인 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 파단). 이를 물리치기 위해 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 램(RAM)에서 하드 블록으로 떨어지기 직전 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 계층에서 CPU가 미친 덧셈(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 암호)을 때려 하드웨어에는 외계어 난수 덩어리로 굽는 '스토리지 자동 방검복 아크'"</strong> 가 바로 암호화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EFS/eCryptfs)이다.
 > 2. **가치**: 이 [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-Level([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 낱개 단위 묶음 스왑) 또는 Block-Level(하드 통째 폭쇄 록백) 암호망 덕분에, 디스크 소유자는 USB에 공인인증서 비밀키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 들고 꽂을 때만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 수 있게 되었다. 즉 쇳덩어리(디스크)가 도둑맞거나 포렌식 카빙(Carving 556장 빔) 기어가 디스크를 밑바닥부터 탈곡하더라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 확률을 $O(1)$ 비율의 수학적 단절 0%로 완벽하게 멸종시켰다 포팅.
-> 3. **한계**: 가장 치명적인 CPU 오버헤드 딜레마. 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 쓸 때마다 매번 수천만 번의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(복호화 연산 병목 늪!)이 백그라운드에서 끼어들어야 하므로, 일반 순정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4 등) 대비 **디스크 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 스루풋(I/O 속도 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 랙)이 최대 30%까지 수직 추락해 마비** 되는 극악의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파단을 감수해야만 한다 결착.
+> 3. **한계**: 가장 치명적인 CPU 오버헤드 딜레마. 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽거나 쓸 때마다 매번 수천만 번의 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(복호화 연산 병목 늪!)이 백그라운드에서 끼어들어야 하므로, 일반 순정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4 등) 대비 <strong>디스크 읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 스루풋(I/O 속도 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 랙)이 최대 30%까지 수직 추락해 마비</strong> 되는 극악의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파단을 감수해야만 한다 결착.
 
 ---
 
@@ -21,39 +21,36 @@ tags = ["studynote-operating-system"]
 
 - **개념**: 
   - **오프라인 어택 늪 (디스크 박탈 멸망 파단)**: 유비시큐리티의 [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)(보안책임자)가 OS 로그인 암호를 30자리로 만들면 뭐 하나. 하드디스크 물리 디스크 표면에는 유저의 `비밀번호표.txt` 의 영어 알파벳 파편이 이진수로 평문 그대로 배열되어 있다. 카빙(Carving) 툴 1방이면 1초 만에 털리는 원초적 물리 장벽의 무력감.
-  - **암호화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 ([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) In-flight 탈주 차단 빔!)**: 리눅스의 `eCryptfs` 와 윈도우의 `EFS`. 똑똑한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 파이프를 딱 낚아챈다. 유저가 "Hello" 를 치고 엔터를 쾅 치면, RAM까진 "Hello" 다. 그런데 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 밑단으로 통과하며 디스크로 떨어지는 찰나에 "Z#@!P*" 같은 쓰레기 텍스트로 폭파 암호화(Encryption 스왑)시킨다. 
+  - <strong>암호화 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> In-flight 탈주 차단 빔!)</strong>: 리눅스의 `eCryptfs` 와 윈도우의 `EFS`. 똑똑한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 파이프를 딱 낚아챈다. 유저가 "Hello" 를 치고 엔터를 쾅 치면, RAM까진 "Hello" 다. 그런데 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 밑단으로 통과하며 디스크로 떨어지는 찰나에 "Z#@!P*" 같은 쓰레기 텍스트로 폭파 암호화(Encryption 스왑)시킨다. 
 - **필요성**: 직원들의 맥북과 윈도우 랩탑 도난 사고 시 쏟아지는 비즈니스 클라우드 토큰 유출 사고는 기업을 파산시켰다([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/컴플라이언스 위반 벌금 수백억 구형). "하드 철판을 뜯어가도 하드웨어 자체를 못 읽어 내는" 군사급([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 스토리지 [데이터 마스킹](/knowledge-base/studynote/09_security/16_data_privacy/819_data_masking/) 암막 장막이 21세기 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 인프라의 필연적 멱살로 증명 요구되었다 록.
 
   - (일반 OS 비밀번호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 착각 늪): 회사(OS) 정문에 튼튼한 출입 통제 자물쇠([접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))를 달았습니다. 그러나 택배 상자 안에는 보석(평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 그대로 담아둡니다! 밤에 도둑이 정문 자물쇠를 안 풀고 그냥 택배 트럭 껍데기 자체(오프라인 하드 탈취 랙!)를 훔쳐서 칼로 찢어버리면 보석은 홀랑 1초 만에 털립니다 스루풋 에러!
   - **(eCryptfs 암호화 하드 기전!)**: 똑똑한 군사 회사는 자물쇠 외에 방검복 하나를 더 추가합니다(투명 암호화 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 빔!)! 택배를 트럭에 싣기 직전, 보석을 밀가루 처럼 조각내어([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 암호 렌더 컷!) 쓰레기로 위장시킵니다 스왑! 그리고 도둑이 트럭을 털어가서 칼로 뜯어봐야 백사장 모래 같은 밀가루만 나와서 포기합니다(안전 방어율 100%). 정당한 택배기사가 목적지에 도착해 특수 안경(비밀 복호화 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 부스트!)을 껴야만 밀가루가 다시 1초 만에 환상처럼 보석으로 합체 재조립(무결 투명 복호화 기전!) 되는 기적의 단절 파이프입니다 결속!
 
-- **FDE (Full Disk Encryption 통짜 디스크) vs FLE ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Level Encryption 낱개 폴더) [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 핑퐁 폭쇄 뷰**:
+- <strong>FDE (Full Disk Encryption 통짜 디스크) vs FLE (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Level Encryption 낱개 폴더) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 핑퐁 폭쇄 뷰</strong>:
 암호화의 위치와 크기에 따라 어떻게 보호하는 스코프 영역이 다른지 렌더를 까보면 다음과 같다.
 
-```text
-  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-  │                 "하드디스크 통째로 갈아버릴까? 중요한 폴더 1개만 갈아버릴까?"            │
-  ├──────────────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                          │
-  │  🚨 [ 모델 A: FDE 방패 (Full Disk Encryption 빌로커 BitLocker 빔!) ]                     │
-  │     (스케일: 하드디스크 쇳덩어리 바닥 1번 섹터 ~ 1TB 끝까지 전부 타격 암막 늪!)          │
-  │                                                                                          │
-  │     => [OS 파티션(윈도우 파일 전부)] [나의 사진들] [가상 메모리 스왑 7단원 찌꺼기]       │
-  │        └─> "디스크에 닿는 모든 건 파편이다! CPU가 전부 AES로 으깨버림 록백!"             │
-  │     => 장점: 컴퓨터 부팅 시 USB 키나 TPM 락 안 풀면 부팅 자체가 멈춰 절대 무적 스왑!     │
-  │     => 단점: 윈도우 OS 시스템 로고 파일 1개 읽을 때마다 부하 걸려 전체 성능 하락 파단!   │
-  │                                                                                          │
-  │  =========================▼===================================                           │
-  │                                                                                          │
-  │  🔥 [ 모델 B: FLE 국소 렌더 (File Level Encryption / eCryptfs 폴더 스왑!) ]              │
-  │     (스케일: 내가 정한 '1번 폴더' 안에 담을 때만 암호화 동작!)                           │
-  │                                                                                          │
-  │     => VFS 스위칭 봇 장착! 유저가 `/home/user/Private/` 에 쓸때만 출동!                  │
-  │     => 다른 일반 `/var` 나 OS 부팅 파일은 순정 ext4 속도로 쾌적(O(1)) 부스트!            │
-  │     => 장점: 유저가 로그인 중에 자리를 비운 찰나, 개별 파일 단위로 열쇠 잠금 통제 가능!  │
-  │     => 단점: "임시 파일 찌꺼기(스왑 공간 이주 빔)" 는 암호 안 된 채 딴 데로 누수 멸망 랙!│
-  └──────────────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"하드디스크 통째로 갈아버릴까? 중요한 폴더 1개만 갈아버릴까?"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">모델 A: FDE 방패 (Full Disk Encryption 빌로커 BitLocker 빔!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스케일: 하드디스크 쇳덩어리 바닥 1번 섹터 ~ 1TB 끝까지 전부 타격 암막 늪!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">OS 파티션(윈도우 파일 전부)</div><div class="kb-diagram-node">나의 사진들</div><div class="kb-diagram-node">가상 메모리 스왑 7단원 찌꺼기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; "디스크에 닿는 모든 건 파편이다! CPU가 전부 AES로 으깨버림 록백!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장점: 컴퓨터 부팅 시 USB 키나 TPM 락 안 풀면 부팅 자체가 멈춰 절대 무적 스왑!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: 윈도우 OS 시스템 로고 파일 1개 읽을 때마다 부하 걸려 전체 성능 하락 파단!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">모델 B: FLE 국소 렌더 (File Level Encryption / eCryptfs 폴더 스왑!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스케일: 내가 정한 '1번 폴더' 안에 담을 때만 암호화 동작!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; VFS 스위칭 봇 장착! 유저가 <code>/home/user/Private/</code> 에 쓸때만 출동!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 다른 일반 <code>/var</code> 나 OS 부팅 파일은 순정 ext4 속도로 쾌적(O(1)) 부스트!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장점: 유저가 로그인 중에 자리를 비운 찰나, 개별 파일 단위로 열쇠 잠금 통제 가능!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: "임시 파일 찌꺼기(스왑 공간 이주 빔)" 는 암호 안 된 채 딴 데로 누수 멸망 랙!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 스토리지 암호화의 거시 투트랙 전장이다. 윈도우 [BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) (그리고 Mac의 [FileVault](/knowledge-base/studynote/09_security/04_endpoint_security/398_filevault_macos_fde/))는 `Block 계층(VFS보다 더 밑바닥 철제 드라이버)` 에서 동작하며 디스크 1TB 공간 천체를 맹목적으로 갈아버리는 단순-무식-무적 모델(FDE)이다. OS 찌꺼기(Swap)마저 보호한다. 반면 리눅스의 `eCryptfs` 나 윈도우 `EFS` 는 `File System 계층(폴더 위)` 에서 동작하는 핀셋 모델(FLE)이다. 각 유저(철수와 영희) 마다 다른 비밀키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 가지고 독립된 폴더 금고를 돌리며, CPU 낭비를 최소화하는 섬세한 엔터프라이즈 다중 사용자 고립([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 통치 체제 결속 도출점.
 
@@ -68,20 +65,20 @@ tags = ["studynote-operating-system"]
 
 | 스토리지 암호 메커니즘 뷰 | 일반 순정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 (ext4 광속 록백) | ✨ 투명 암호화 FS (EFS [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 연산 지옥 빔) |
 |:---|:---|:---|
-| **CPU 아키텍처 랙 점유율 폭파** | 디스크 통로 I/O Wait에만 잡힐 뿐, **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/복사 자체 CPU 연산 소모는 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 스왑.** | 1GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카피 시 **초거대 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 수학 매트릭스 곱하기 연산** 다이브로 CPU 점유율 100% 코어 폭쇄. |
-| **읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 저하 스로틀** | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 꽂은 만큼 **최적 속도 초당 4GB/s 이상을 뽑아내는 극한 퍼포먼스 쾌조.** | 매번 암/복호화 스위칭 브릿지 장막을 통과하느라 **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 최대 속도의 반 토막 수준(50% I/O 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 파단.** |
-| **[하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI) 생존 렌더** | 평소 필요 없음(아예 암호화 자체가 없으므로). | 최신 Intel/AMD 칩에 박혀있는 **[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI (하드웨어 암호 전용 칩셋)** 가속 없이는 실무 서버 가동 불가능 마비 늪. |
+| **CPU 아키텍처 랙 점유율 폭파** | 디스크 통로 I/O Wait에만 잡힐 뿐, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>/복사 자체 CPU 연산 소모는 0(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>) 스왑.</strong> | 1GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카피 시 <strong>초거대 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> 수학 매트릭스 곱하기 연산</strong> 다이브로 CPU 점유율 100% 코어 폭쇄. |
+| <strong>읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 저하 스로틀</strong> | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 꽂은 만큼 **최적 속도 초당 4GB/s 이상을 뽑아내는 극한 퍼포먼스 쾌조.** | 매번 암/복호화 스위칭 브릿지 장막을 통과하느라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 최대 속도의 반 토막 수준(50% I/O 랙 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>) 파단.</strong> |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/">하드웨어 가속기</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-NI) 생존 렌더</strong> | 평소 필요 없음(아예 암호화 자체가 없으므로). | 최신 Intel/AMD 칩에 박혀있는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-NI (하드웨어 암호 전용 칩셋)</strong> 가속 없이는 실무 서버 가동 불가능 마비 늪. |
 
 ### 2. 치명적 오버헤드 폭발: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Swap) 스페이스 누수와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 유출의 함정
 내 기밀문서 폴더(FLE 방식 eCryptfs)만 안전하게 암호화했다고 기뻐하던 유저가, 하드디스크의 엉뚱한 구멍으로 털리는 환장 파괴 늪 현상을 해석한다.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 오염 발생 미스터리 (메모리 스왑 이주를 통한 평문 유출 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leak 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (메모리 스왑 이주를 통한 평문 유출 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leak 파단 랙)</strong>: 
   - (맹점 누수 늪 스왑): 똑똑한 CISO가 기밀 프로젝트를 `eCryptfs` 볼륨(암호화 폴더) 에만 작성했다. 안심하고 워드를 켠 채로 커피를 타러 갔다.
   - (OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 배신 빔 결합 발동!): 커피 타는 동안 OS는 딴 크롬 브라우저가 메모리(RAM)를 미치게 먹자 RAM 용량 확보를 위해! 유비 CISO가 쓰던 워드의 "RAM 속 기밀문서 텍스트(이건 평문 상태임!)" 를 7단원에서 배운 디스크 지하 감옥 `스왑 파티션(Swap Area)` 으로 쫓아내어 내려 버렸다!
   - 파멸 결과: 해커가 밤에 서버 하드를 훔쳐갔다. 기밀 폴더는 암호화(밀가루) 되어 있어 완전 방어! "에이 실패네?" 돌아서려다 `Swap 파티션(가상 메모리 구덩이)` 을 카빙(Carving) 탈곡기로 뒤져보니, 거기에 덜어 구워놓은 완전체 평문이 100% 생생하게 살아 숨 쉬고 있어 0.1초 만에 국가 기밀 참사 셧다운 붕괴가 벌어졌다 입증 증명 록.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 극복 솔루션 패치 타결 조율 (스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 강제 폭쇄 암호화 록백!!) / 디스크 본진 100% 방패**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (스왑 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 강제 폭쇄 암호화 록백!!) / 디스크 본진 100% 방패</strong>: 
   - 엔지니어 2방 컴비네이션!: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더 하나만(FLE) 암호화해 봤자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 앱이 뱉어내는 찌꺼기(Temp 폴더, Swap 공간 1번지)에 다이렉트로 평문이 누설되어 박살 난다. 
-  - 통달 포팅 로직: 무조건 **`LUKS` (리눅스 통째 볼륨 암호화)** 나 **`BitLocker` (FDE)** 모드로 OS 자체 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 스왑 영역을 다 묶고 모조리 갈아버리는 전면 무결 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 렌더 통치가 강제된다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 따위는 버려도 군사 보안의 구멍을 없애기 위한 극단적 톱니바퀴 조율 메커니즘을 이룩했다 증명.
+  - 통달 포팅 로직: 무조건 <strong><code>LUKS</code> (리눅스 통째 볼륨 암호화)</strong> 나 <strong><code>BitLocker</code> (FDE)</strong> 모드로 OS 자체 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 스왑 영역을 다 묶고 모조리 갈아버리는 전면 무결 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 렌더 통치가 강제된다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 따위는 버려도 군사 보안의 구멍을 없애기 위한 극단적 톱니바퀴 조율 메커니즘을 이룩했다 증명.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -92,11 +89,11 @@ tags = ["studynote-operating-system"]
 ### OS 소프트웨어가 암호화 연산하느라 서버가 버벅대는 병목 지옥을 철판([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러) 뱃속의 하드 다이브로 끊어내기 
 서버 CPU가 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 연산을 하다 숨넘어갈 것을 방지하여, 최신 엔터프라이즈 스토리지 디스크가 돌파해 낸 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 스왑 구조.
 
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 충돌 (소프트웨어 풀 암호화 CPU 로드 폭쇄 파단 랙)**: 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (소프트웨어 풀 암호화 CPU 로드 폭쇄 파단 랙)</strong>: 
   - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 오라클 I/O가 초당 10만 번 일어나는 서버에 [BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/)(소프트웨어 암호화 OS 단)를 걸어버렸다. 
   - 재앙 늪: 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 속도는 1초에 1GB/s 슉슉 넘어가려 안달인데, 저 느려터진 Intel CPU가 "아 잠깐만! 키 계산, 덧셈 뺄셈 암호 조립부터 하고 줄게 헥헥" 랙을 일으키며 전체 클러스터 DB 쿼리를 5초 동안 셧다운 시키는 치명적 모순 쓰나미 파단.
-- **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 엔지니어 도축 솔루션 (Self-Encrypting Drive SED 하드 보크 렌더 방어 빔!)**: 
-  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 초격차 하드웨어 발사!: 아예 팩토리에서 출고될 때부터 **[SED 자체 암호화 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)]** 장비를 메인보드에 꽂는다. 
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (Self-Encrypting Drive SED 하드 보크 렌더 방어 빔!)</strong>: 
+  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 초격차 하드웨어 발사!: 아예 팩토리에서 출고될 때부터 <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SED 자체 암호화 [SSD</a>]</strong> 장비를 메인보드에 꽂는다. 
   - OS 면책권 록백: 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이랑 CPU는 그냥 예전처럼 생각 없이 암호화 1도 안 하고 평문 "APPLE" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 통로 파이프에 무식하게 냅다 던진다(O(1) CPU 속도 부스트 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)!). 
   - 갓기능 컨트롤러 스왑: 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는 그물망 아래쪽, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 철판 칩셋 "컨트롤러 칩" 자신이 직접 하드웨어 적으로 찰나의 틱에([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 하드칩 장착!) 암호 치환 렌더링을 갈겨 철판에 굽는다. CPU 부하는 0%, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 유출 방어는 100% 로 끌어올리는 하드웨어 통치의 정점 기전을 달성했다 통달 컷.
 
@@ -133,15 +130,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[다중 스트림 (Multi-stream) 파일 / 포크 (Forks)]
-    │
-    ▼
-[암호화 파일 시스템 (eCryptfs / Windows EFS)]
-    │
-    ├──▶ [무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
-    └──▶ [플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">다중 스트림 (Multi-stream) 파일 / 포크 (Forks)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">암호화 파일 시스템 (eCryptfs / Windows EFS)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

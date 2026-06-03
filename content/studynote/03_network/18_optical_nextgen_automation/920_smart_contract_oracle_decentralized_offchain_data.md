@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - **온체인(On-Chain)의 한계**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 네트워크 안에서 일어나는 비트코인 송금(A가 B에게 1코인 줌)은 수학적으로 완벽히 검증합니다. 
 - 하지만 보안을 위해 일반 인터넷(Off-Chain)의 웹서버([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)와는 완벽히 단절된 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 속에 갇혀 있습니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 어제 환율, 주식 가격, 축구 경기 결과를 절대 자가 검색(Fetch)할 수 없는 눈먼 바보입니다.
 
-```text
-[DLT]
-    │
-    ▼
-[스마트 컨트랙트 오라클]
-    │
-    └──▶ [양자 중계기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 오라클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 중계기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,16 +41,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 외부 현실 세계(Off-Chain, 일반 인터넷망)의 날씨, 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 스포츠 결과 등을 수집하여, 폐쇄된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부(On-Chain)의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 읽을 수 있도록 **[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 다리를 놓아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣어주는(Feed) 미들웨어 통신 체계이자 중개자(Agent)**입니다. (대표 솔루션: 체인링크 Chainlink)
+- **개념**: 외부 현실 세계(Off-Chain, 일반 인터넷망)의 날씨, 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 스포츠 결과 등을 수집하여, 폐쇄된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부(On-Chain)의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 읽을 수 있도록 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 다리를 놓아 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 밀어 넣어주는(Feed) 미들웨어 통신 체계이자 중개자(Agent)</strong>입니다. (대표 솔루션: 체인링크 Chainlink)
 
-```text
-[DLT]
-    │
-    ▼
-[스마트 컨트랙트 오라클]
-    │
-    └──▶ [양자 중계기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 오라클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 중계기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,7 +65,7 @@ tags = ["studynote-network"]
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 1만 대의 컴퓨터가 투표([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))해서 조작이 0%로 완벽합니다. 그런데 밖에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져다주는 '오라클' 놈이 사기를 치면 어떻게 될까요?
 
 - **중앙화 오라클의 참사**: 오라클 서버 1대가 네이버 날씨에 접속해 "오늘 맑음" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 밀어 넣습니다. 
-- **단일 고장점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 해킹**: 해커가 이 오라클 서버 1대만 딱 해킹해서 "오늘 폭우 내림!"으로 값을 변조해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 쏴버립니다. 
+- <strong>단일 고장점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>) 해킹</strong>: 해커가 이 오라클 서버 1대만 딱 해킹해서 "오늘 폭우 내림!"으로 값을 변조해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 쏴버립니다. 
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 멍청하게 "오! 비 왔네! A에게 1억 원 입금 쾅!" 하고 1초 만에 실행시켜 버립니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 시스템 자체는 100% 무결점이었지만, 밖에서 들어온 '가짜 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 한 방에 1억 원이 털리는 재앙이 터집니다. (Garbage In, Garbage Out)
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DLT가 기반 조건을 만든다면, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클은 그 위에서 핵심 메커니즘을 구현하고, [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -76,11 +84,11 @@ tags = ["studynote-network"]
 
 해커의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작을 막기 위해 천재들은 오라클에도 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 민주주의를 씌워버렸습니다. (체인링크의 핵심 원리)
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Source 다이버시티)**: 
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소스 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (Source 다이버시티)</strong>: 
    - 기상청 1곳만 보지 않습니다. 기상청, 네이버 날씨, 구글 날씨 등 50개의 다른 인터넷 API에서 동시에 날씨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어옵니다.
-2. **오라클 노드 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 오라클)**:
+2. <strong>오라클 노드 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 오라클)</strong>:
    - 밖에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어오는 심부름꾼(오라클 노드)을 1명이 아니라 1,000명의 낯선 사람으로 찢어버립니다.
-3. **오프체인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 합의 연동 (진실성 보장)**:
+3. <strong>오프체인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 합의 연동 (진실성 보장)</strong>:
    - 1,000명의 오라클 심부름꾼들이 각자 인터넷에서 긁어온 "어제 삼성전자 주가" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 안으로 던집니다.
    - [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 이 1,000개의 주식 가격 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 모아서 **"가장 많이 나온 값(다수결, 중간값)"만을 진실(True)로 확정 짓습니다.**
    - 만약 오라클 심부름꾼 3명이 해커에게 뇌물을 받고 뻥을 쳐도, 나머지 997명이 가져온 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 압살되어 버려집니다(진실성 100% 서명 보장망). 그리고 뻥을 친 3명의 오라클 노드는 막대한 벌금(Stake Slashing)을 뜯기고 네트워크에서 영구 퇴출당하는 냉혹한 인센티브 구조로 굴러갑니다.
@@ -91,7 +99,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 감옥 독방에 갇힌 '장님 판사'입니다. 판사는 법전(코드 로직)은 1초 만에 완벽히 외워서 판결을 내리지만, 감옥 창문이 막혀있어 밖에서 오늘 진짜로 비가 왔는지 절대 볼 수 없습니다. **오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))**은 바깥 구경을 하고 감옥 면회실로 들어와 장님 판사에게 귀엣말을 해주는 유일한 '심부름꾼(통신 다리)'입니다. 하지만 심부름꾼 1명만 믿었다가 그놈이 해커에게 돈을 받고 "판사님 밖은 맑습니다(거짓 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"라고 사기를 쳐 판결을 망치는 대형 사고(오라클 문제)가 터졌습니다. 이를 막기 위해 도입된 **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 오라클망(DON)**은, 1,000명의 생판 모르는 심부름꾼을 동시에 면회실로 불러 똑같은 질문을 던지는 것입니다. 1,000명 중 900명이 "비가 옵니다!"라고 외치면 장님 판사가 "그래, 비가 오는 게 진실이구나!"라고 다수결 검증을 끝낸 뒤 판결 망치를 두드리는, 100% 무결점 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 진실성 수혈 시스템입니다.
+- **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 감옥 독방에 갇힌 '장님 판사'입니다. 판사는 법전(코드 로직)은 1초 만에 완벽히 외워서 판결을 내리지만, 감옥 창문이 막혀있어 밖에서 오늘 진짜로 비가 왔는지 절대 볼 수 없습니다. <strong>오라클(<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>은 바깥 구경을 하고 감옥 면회실로 들어와 장님 판사에게 귀엣말을 해주는 유일한 '심부름꾼(통신 다리)'입니다. 하지만 심부름꾼 1명만 믿었다가 그놈이 해커에게 돈을 받고 "판사님 밖은 맑습니다(거짓 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"라고 사기를 쳐 판결을 망치는 대형 사고(오라클 문제)가 터졌습니다. 이를 막기 위해 도입된 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 오라클망(DON)</strong>은, 1,000명의 생판 모르는 심부름꾼을 동시에 면회실로 불러 똑같은 질문을 던지는 것입니다. 1,000명 중 900명이 "비가 옵니다!"라고 외치면 장님 판사가 "그래, 비가 오는 게 진실이구나!"라고 다수결 검증을 끝낸 뒤 판결 망치를 두드리는, 100% 무결점 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 진실성 수혈 시스템입니다.
 
 ---
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DLT]
-    │
-    ▼
-[현재 개념: 스마트 컨트랙트 오라클]
-    │
-    ├──▶ [확장 A: 양자 중계기]
-    └──▶ [확장 B: 의미 기반 통신 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DLT</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 컨트랙트 오라클</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 중계기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
+</div>
+</div>
+
+
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클는 DLT에서 출발해 현재 메커니즘을 정교화하고, 이후 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

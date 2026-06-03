@@ -22,20 +22,22 @@ tags = ["studynote-network"]
 아무리 뛰어난 광섬유([매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))와 증폭기가 있더라도, 라우터의 전기적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)를 광신호로 바꾸고 복원하는 종단 장치 없이는 통신이 성립되지 않는다. 광통신의 송신단은 E-O(Electrical-to-Optical) 변환을 수행하는 **광원(Light Source)** 영역이며, 수신단은 O-E(Optical-to-Electrical) 변환을 수행하는 **수광소자(Photodetector)** 영역이다.
 초창기에는 저렴한 [발광 다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))가 광원으로 쓰였으나, 빛이 넓게 퍼지고 스펙트럼이 두꺼워 분산을 극심하게 유발했기 때문에 고속 전송의 병목이 되었다. 이를 해결하기 위해 직진성과 파장 순도가 압도적인 레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)(LD)가 등장했다. 반대로 수신단에서는 도달한 미세한 빛 알갱이(광자)를 전자로 정확히 카운트해야 하는데, 구조가 단순한 PIN [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 감도 한계를 돌파하기 위해 내부에서 전자를 눈사태처럼 폭증시키는 APD(Avalanche Photodiode)가 장거리 통신용으로 채택되었다. 이 소자들의 특성 매칭이 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP, QSFP) 설계의 본질이다.
 
-```text
-이 도식은 디지털 전기 신호가 빛으로 변환되어 전달되고 다시 전기로 복원되는 전체 시스템 단계를 시각화한다.
-┌────────────────────────────────────────────────────────┐
-│ [디지털 광통신 E-O, O-E 변환 아키텍처]                 │
-│                                                        │
-│   [ 송신기 (Tx) ]                       [ 수신기 (Rx) ]│
-│                                                        │
-│ 전기 (0101)                 광섬유                 전기│
-│ ────▶ [구동 회로] ──> [ 광원 ] ===> [ 수광소자 ] ──> ──▶ │
-│                       (LD/LED)          (PIN/APD)      │
-│                     E-O 변환          O-E 변환         │
-│                      (전류->빛)        (빛->전류)      │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 디지털 전기 신호가 빛으로 변환되어 전달되고 다시 전기로 복원되는 전체 시스템 단계를 시각화한다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 광통신 E-O, O-E 변환 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">송신기 (Tx)</div><div class="kb-diagram-node">수신기 (Rx)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전기 (0101) 광섬유 전기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">구동 회로</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">광원</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">수광소자</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LD/LED) (PIN/APD)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-O 변환 O-E 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전류-&gt;빛) (빛-&gt;전류)</div></div>
+</div>
+</div>
+
+
 이 그림의 핵심은 송신단이 전류의 양을 제어하여 빛의 깜빡임을 만들고, 수신단은 날아온 빛의 강도를 다시 전류의 크기로 읽어낸다는 점이다. 변환 과정에서 지연시간(응답 속도)이 생기고 선형성이 어긋나면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 일그러진다. 따라서 소자가 얼마나 빠르게(수 GHz 이상) 전기와 빛을 교환할 수 있는지가 통신 장비의 한계 속도를 결정짓는다.
 
 - **📢 섹션 요약 비유**: 모스 부호를 전기로 치면(라우터), 전등이 반짝거리고(광원), 멀리서 그 불빛을 망원경으로 본 사람이 다시 종이에 모스 부호로 적어내는(수광소자) 과정이 1초에 수백억 번 일어나는 것과 같습니다.
@@ -48,25 +50,27 @@ tags = ["studynote-network"]
 
 | 소자 구분 | 주요 부품 | 핵심 물리 원리 | 특징 및 응용 |
 |:---|:---|:---|:---|
-| **광원 (Tx)** | **[LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)** (Light Emitting [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) | **자발 방출 (Spontaneous)**: 전자가 정공과 결합하며 무작위 위상의 빛 발산 | 스펙트럼 넓음, 속도 느림, 저렴함, 구형 MMF용 |
+| **광원 (Tx)** | <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/">LED</a></strong> (Light Emitting [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) | **자발 방출 (Spontaneous)**: 전자가 정공과 결합하며 무작위 위상의 빛 발산 | 스펙트럼 넓음, 속도 느림, 저렴함, 구형 MMF용 |
 | | **LD** (Laser [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) | **유도 방출 (Stimulated)**: 거울 공진기를 통해 특정 파장과 위상의 빛만 증폭 | 직진성 우수, 좁은 선폭, 고속 100G 이상 SMF용 |
 | | **VCSEL** (표면발광레이저) | 수직 방향 공진기로 표면 발광 | LD의 속도 + LED의 저가 생산성 결합. 최신 MMF용 핵심 |
-| **수광소자(Rx)** | **PIN [Diode](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)** | **광전 효과**: P층과 N층 사이 넓은 I층(공핍층)에서 빛을 흡수해 전자-정공 쌍 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 응답 속도 빠름, 바이어스 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 낮음, 범용 수신기 |
+| **수광소자(Rx)** | <strong>PIN <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a></strong> | **광전 효과**: P층과 N층 사이 넓은 I층(공핍층)에서 빛을 흡수해 전자-정공 쌍 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 응답 속도 빠름, 바이어스 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 낮음, 범용 수신기 |
 | | **APD** (Avalanche Photodiode) | **눈사태 증배 (Avalanche)**: 고전압 전계로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 전자를 가속시켜 연쇄 충돌로 수백 배 증폭 | 수신 감도 극대화, 장거리 및 미약 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 검출 필수 |
 
-```text
-이 도식은 수광소자인 PIN 다이오드와 APD의 내부 구조와 전계 증폭 차이를 보여준다.
-┌──────────────────────────────────────────────────────────────┐
-│ [PIN Diode vs APD (Avalanche Photodiode) 메커니즘]           │
-│                                                              │
-│ 1) PIN Diode: 1개의 광자(빛) -> 1개의 전자 생성 (정직한 변환)│
-│    빛 ──▶ [ P 층 ] ── [ I 층 (흡수) ] ── [ N 층 ] ──▶ 전류 1 │
-│                                                              │
-│ 2) APD: 1개의 광자 -> 충돌 가속 증배 -> 100개의 전자 생성    │
-│    빛 ──▶ [ 흡수층 ] ── [ 증배층 (고전압 가속) ] ──▶ 전류 100│
-│                        (눈사태 연쇄 충돌 폭발)               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 수광소자인 PIN 다이오드와 APD의 내부 구조와 전계 증폭 차이를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PIN Diode vs APD (Avalanche Photodiode) 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) PIN Diode: 1개의 광자(빛) -&gt; 1개의 전자 생성 (정직한 변환)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P 층</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">I 층 (흡수)</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">N 층</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전류 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) APD: 1개의 광자 -&gt; 충돌 가속 증배 -&gt; 100개의 전자 생성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흡수층</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">증배층 (고전압 가속)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전류 100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(눈사태 연쇄 충돌 폭발)</div></div>
+</div>
+</div>
+
+
 이 흐름의 핵심은 수신 감도를 높이는 방식의 차이다. PIN [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 빛 알갱이 하나가 들어오면 정직하게 전자 하나를 내놓지만, APD는 내부에 강력한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(수십~수백 V)을 걸어 첫 번째 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 전자가 다른 원자를 때려 부수며 전자를 폭발적으로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Avalanche)하도록 만든다. 따라서 APD는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 아주 미약한 장거리 해저 통신망에서 구세주 같은 역할을 한다.
 
 - **📢 섹션 요약 비유**: PIN [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)가 빗방울 하나당 컵에 물 한 방울씩 정직하게 모으는 것이라면, APD는 빗방울 하나가 떨어지면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 눌려 수도꼭지가 확 열리면서 컵을 순식간에 채우는 고감도 증폭 장치와 같습니다.
@@ -79,33 +83,33 @@ tags = ["studynote-network"]
 
 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) | LD (레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)) | PIN [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) | APD |
 |:---|:---|:---|:---|:---|
-| **응답 속도 / [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)**| 수백 Mbps 한계 | 수십 ~ 수백 Gbps | 매우 빠름 | 빠르지만 PIN보다는 다소 늦음 |
+| <strong>응답 속도 / <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>| 수백 Mbps 한계 | 수십 ~ 수백 Gbps | 매우 빠름 | 빠르지만 PIN보다는 다소 늦음 |
 | **광 스펙트럼 선폭**| 수십 nm (넓고 퍼짐) | 1 nm 이하 (날카로움) | (수신 파장 커버 대역 넓음) | (수신 파장 커버 대역 넓음) |
 | **작동 온도 민감도** | 둔감함 | 매우 민감 (쿨러 필수) | 둔감함 | 매우 민감 (온도 보상 회로 필수)|
 | **구동 회로 복잡도** | 단순 ([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Modulation)| 복잡 (외부 변조기 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 결합) | 단순 (저전압 5V 이하) | 복잡 (고전압 역바이어스 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) |
-| **실무 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 매칭**| 구형 100M/1G 멀티모드 | 장거리 10G/100G (LR/ER) | 단거리/중거리 범용 Rx | 장거리 롱홀 (ZR), 초고감도 Rx |
+| <strong>실무 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/">트랜시버</a> 매칭</strong>| 구형 100M/1G 멀티모드 | 장거리 10G/100G (LR/ER) | 단거리/중거리 범용 Rx | 장거리 롱홀 (ZR), 초고감도 Rx |
 
-```text
-이 매트릭스는 대역폭(속도)과 거리에 따른 최적 광 매체 선택 기준을 보여준다.
-┌────────────────────────────────────────────────────────┐
-│ [실무 트랜시버 설계 시 송/수신 소자 매칭 전략]         │
-│                                                        │
-│ 거리/예산 ▲                                           │
-│  장거리,   │ [ 롱홀 (ZR, 80km+) ]                      │
-│  하이엔드  │  Tx: DFB-LD (정밀 레이저)                 │
-│            │  Rx: APD (눈사태 증폭 수신)               │
-│            │                                           │
-│  중거리,   │ [ 범용 백본 (LR, 10km) ]                  │
-│  엔터프라이즈│ Tx: FP-LD 또는 DFB-LD                   │
-│            │  Rx: PIN 다이오드 (안정성 확보)           │
-│            │                                           │
-│  근거리,   │ [ 데이터센터 랙 간 (SR, 100m) ]           │
-│  고효율    │  Tx: VCSEL (표면 발광 저가 레이저)        │
-│            │  Rx: PIN 다이오드                         │
-│            └──────────────────────────────────────▶│
-│                저속(1G)       고속(10G)      초고속(100G)│
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 매트릭스는 대역폭(속도)과 거리에 따른 최적 광 매체 선택 기준을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 트랜시버 설계 시 송/수신 소자 매칭 전략</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리/예산 ▲</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">장거리,</div><div class="kb-diagram-node">롱홀 (ZR, 80km+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이엔드</div><div class="kb-diagram-cell">Tx: DFB-LD (정밀 레이저)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rx: APD (눈사태 증폭 수신)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">중거리,</div><div class="kb-diagram-node">범용 백본 (LR, 10km)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈</div><div class="kb-diagram-cell">Tx: FP-LD 또는 DFB-LD</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rx: PIN 다이오드 (안정성 확보)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">근거리,</div><div class="kb-diagram-node">데이터센터 랙 간 (SR, 100m)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고효율</div><div class="kb-diagram-cell">Tx: VCSEL (표면 발광 저가 레이저)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rx: PIN 다이오드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저속(1G) 고속(10G) 초고속(100G)</div></div>
+</div>
+</div>
+
+
 이 비교도의 핵심은 칩셋 단가와 물리적 한계를 절충하는 상용 조합의 공식이다. 장거리(80km 이상)로 갈수록 약해진 빛을 잡기 위해 반드시 고가의 APD를 쓰고 파장이 날카로운 DFB-LD를 써야 한다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 100m 이내 통신은 굳이 증폭 수신이 필요 없으므로 저렴한 PIN을 박고, 송신기는 대량 생산이 쉬운 VCSEL을 조합하여 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 단가를 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 수준으로 떨어뜨린다.
 
 - **📢 섹션 요약 비유**: 동네 배달(근거리)은 저렴한 경차(VCSEL)와 일반 알바생(PIN) 조합으로 가성비를 뽑고, 대륙 횡단 특급 배송(장거리)은 고속 스포츠카(LD)와 극도로 예민한 전문 저격수(APD)를 매칭하는 비용 최적화 전략입니다.
@@ -117,26 +121,26 @@ tags = ["studynote-network"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터나 통신사 국사에서 광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(SFP+, QSFP28 등)을 다룰 때 내장된 소자의 특성을 모르면 장애를 유발할 수 있다.
 
 - **실무 시나리오**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 포트에 장거리용 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(ZR 타입, 80km 전송용 LD+APD 조합)을 꽂고 현장 테스트를 위해 불과 3미터짜리 패치코드로 두 장비를 직결(Loop-back)했다. 
-- **결과 ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: APD 소자는 미약한 빛을 수백 배 증폭하도록 설계되었는데, 코앞에서 쏜 강력한 레이저(LD) 출력이 그대로 꽂히면 눈사태 증배 현상이 폭주하여 APD 소자가 영구적으로 타버린다(Burn-out).
-- **기술사적 판단**: 장거리용 고출력(LD)과 고감도(APD) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 근거리에서 테스트하거나 임시 연결할 때는 반드시 물리적 **광 감쇠기(Optical Attenuator)**를 중간에 삽입하여 빛의 세기를 -10dBm 이하 안전 범위로 인위적으로 깎아주어야 장비 소손을 막을 수 있다.
+- <strong>결과 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: APD 소자는 미약한 빛을 수백 배 증폭하도록 설계되었는데, 코앞에서 쏜 강력한 레이저(LD) 출력이 그대로 꽂히면 눈사태 증배 현상이 폭주하여 APD 소자가 영구적으로 타버린다(Burn-out).
+- **기술사적 판단**: 장거리용 고출력(LD)과 고감도(APD) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 근거리에서 테스트하거나 임시 연결할 때는 반드시 물리적 <strong>광 감쇠기(Optical Attenuator)</strong>를 중간에 삽입하여 빛의 세기를 -10dBm 이하 안전 범위로 인위적으로 깎아주어야 장비 소손을 막을 수 있다.
 
-```text
-이 도식은 장거리 모듈 근거리 직결 시 APD 파손을 방지하는 감쇠기 삽입 의사결정 플로우다.
-┌────────────────────────────────────────────────────────┐
-│ [장거리 트랜시버(LD+APD) 취급 안전 체크리스트]         │
-│                                                        │
-│ [ 광링크 결선 전 파워 밸런스 점검 ]                    │
-│        │                                               │
-│ (Tx 스펙상 출력 파워가 Rx 최대 허용 파워보다 큰가?)    │
-│        ├─ NO ──> [ 정상 연결 운용 ]                    │
-│        │                                               │
-│       YES (근거리 직결 시 발생)                        │
-│        v                                               │
-│ [ ⚠️ 경고: 수광소자(APD) 포화 및 영구 손상 위험 ]      │
-│        │                                               │
-│ [ 조치: 광 패치코드 중간에 5~10dB 광 감쇠기 삽입 체결] │
-└────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 장거리 모듈 근거리 직결 시 APD 파손을 방지하는 감쇠기 삽입 의사결정 플로우다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 트랜시버(LD+APD) 취급 안전 체크리스트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">광링크 결선 전 파워 밸런스 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tx 스펙상 출력 파워가 Rx 최대 허용 파워보다 큰가?)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ NO ──&gt;</div><div class="kb-diagram-node">정상 연결 운용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES (근거리 직결 시 발생)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">⚠️ 경고: 수광소자(APD) 포화 및 영구 손상 위험</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">조치: 광 패치코드 중간에 5~10dB 광 감쇠기 삽입 체결</div></div>
+</div>
+</div>
+
+
 이 흐름도의 요지는, 모든 광 수신 소자에는 '과부하 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Overload Point)'가 존재한다는 것이다. 특히 APD가 들어간 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 수신 한계치가 매우 낮아 빔 파워에 극도로 취약하다. 현장 엔지니어가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)시트의 Tx Power와 Rx Sensitivity를 확인하지 않고 선을 꽂는 행위는 네트워크 카드를 파괴하는 가장 흔한 실수다.
 
 - **📢 섹션 요약 비유**: 어둠 속에서 희미한 별빛을 찾기 위해 동공을 최대한 확장시킨 천체 망원경(APD)에 대고, 코앞에서 강력한 군용 플래시라이트(LD)를 켜서 눈을 멀게 만드는 것과 똑같은 치명적 실수입니다.
@@ -163,15 +167,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 광증폭기]
-    │
-    ▼
-[현재 개념: 광전송 용어]
-    │
-    ├──▶ [확장 A: 자유 공간 광통신 / 레이저 통신]
-    └──▶ [확장 B: 고속 광전송 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광증폭기</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광전송 용어</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자유 공간 광통신 / 레이저 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
+</div>
+</div>
+
+
 
 광전송 용어는 광증폭기에서 출발해 현재 메커니즘을 정교화하고, 이후 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/) / 레이저 통신와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

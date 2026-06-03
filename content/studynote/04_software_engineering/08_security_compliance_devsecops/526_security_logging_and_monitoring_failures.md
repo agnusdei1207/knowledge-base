@@ -19,35 +19,34 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 로깅(Logging)은 '일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'다. 일반 로깅은 `java.lang.NullPointerException 터짐` 처럼 버그 잡을 때 쓴다. **보안 로깅([Security Logging](/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/))**은 목적이 다르다. 해커를 잡을 때 쓴다. `[2024-05-01 12:00:00] (언제) | [IP: 104.22.x.x] (어디서) | [User: Admin] (누가) | [Action: DROP TABLE] (무엇을) | [Result: Success] (어떻게)` 처럼 법정에서 검사가 들이밀 수 있는 '완벽한 6하 원칙 육하원칙 증거 쪼가리'를 1초에 만 번씩 미친 듯이 찍어내는 행위다.
+- **개념**: 로깅(Logging)은 '일기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'다. 일반 로깅은 `java.lang.NullPointerException 터짐` 처럼 버그 잡을 때 쓴다. <strong>보안 로깅(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/526_security_logging/">Security Logging</a>)</strong>은 목적이 다르다. 해커를 잡을 때 쓴다. `[2024-05-01 12:00:00] (언제) | [IP: 104.22.x.x] (어디서) | [User: Admin] (누가) | [Action: DROP TABLE] (무엇을) | [Result: Success] (어떻게)` 처럼 법정에서 검사가 들이밀 수 있는 '완벽한 6하 원칙 육하원칙 증거 쪼가리'를 1초에 만 번씩 미친 듯이 찍어내는 행위다.
 
-- **필요성**: 2013년, 한국의 유명 방송사와 은행들의 컴퓨터 수만 대가 일제히 포맷되어 뻗어버린 3.20 사이버 테러가 터졌다. 경찰이 범인을 잡으려 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 까봐!" 했는데, 해커가 치밀하게 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 찌꺼기까지 싹 다 지우고(Covering Tracks) 날아가 버려서 수사에 엄청난 애를 먹었다. **아무리 비싼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))을 세워놔도 한 번 뚫리면 끝이다. 뚫린 뒤의 유일한 구원줄은 "해커가 방에 들어와서 금고를 열기까지의 10분간의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))"뿐이다.** 이 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이 날아가거나(용량 초과), 해커가 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화기를 부수는 짓(위변조)을 물리적으로 불가능하게 만드는 초강력 중앙 통제 시스템이 회사 존폐의 필수 조건이 되었다.
+- **필요성**: 2013년, 한국의 유명 방송사와 은행들의 컴퓨터 수만 대가 일제히 포맷되어 뻗어버린 3.20 사이버 테러가 터졌다. 경찰이 범인을 잡으려 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버 까봐!" 했는데, 해커가 치밀하게 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 찌꺼기까지 싹 다 지우고(Covering Tracks) 날아가 버려서 수사에 엄청난 애를 먹었다. <strong>아무리 비싼 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>)을 세워놔도 한 번 뚫리면 끝이다. 뚫린 뒤의 유일한 구원줄은 "해커가 방에 들어와서 금고를 열기까지의 10분간의 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 영상(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)"뿐이다.</strong> 이 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이 날아가거나(용량 초과), 해커가 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화기를 부수는 짓(위변조)을 물리적으로 불가능하게 만드는 초강력 중앙 통제 시스템이 회사 존폐의 필수 조건이 되었다.
 
-- **💡 비유**: 보안 로깅은 비행기의 **'블랙박스(FDR/CVR)'**와 100% 똑같습니다. 일반 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 자동차의 '엔진 경고등'입니다. 엔진이 고장 나면 켜지죠. 하지만 블랙박스(보안 로깅)는 비행기 엔진이 고장 나서 비행기가 바다에 추락해 산산조각이 나도(해킹 대참사), 절대 부서지지 않는 티타늄 껍데기([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지) 안에서 그날 조종사가 무슨 스위치를 조작했고 무슨 대화를 나눴는지(6하 원칙)를 수심 1만 미터 아래에서도 영원히 보존합니다. 비행기는 잃어도, 블랙박스가 살아있어야 다음 비행기 추락(2차 해킹)을 막을 수 있습니다.
+- **💡 비유**: 보안 로깅은 비행기의 <strong>'블랙박스(FDR/CVR)'</strong>와 100% 똑같습니다. 일반 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 자동차의 '엔진 경고등'입니다. 엔진이 고장 나면 켜지죠. 하지만 블랙박스(보안 로깅)는 비행기 엔진이 고장 나서 비행기가 바다에 추락해 산산조각이 나도(해킹 대참사), 절대 부서지지 않는 티타늄 껍데기([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지) 안에서 그날 조종사가 무슨 스위치를 조작했고 무슨 대화를 나눴는지(6하 원칙)를 수심 1만 미터 아래에서도 영원히 보존합니다. 비행기는 잃어도, 블랙박스가 살아있어야 다음 비행기 추락(2차 해킹)을 막을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 낭만 시대**: 옛날엔 톰캣(Tomcat) 서버 1대 하드디스크에 `catalina.out` 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 냅뒀다. 서버 꺼지거나 디스크 꽉 차면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 다 날아갔다.
-  2. **빅데이터 ELK의 대통일 (2010년대)**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대로 서버가 100대로 찢어지자 100대 서버에 일일이 SSH로 들어가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까보는 게 불가능해졌다. **[Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/), Logstash, [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) (ELK)**가 등장하여, 100대 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한 중앙 우물로 초광속으로 빨아들여 구글 검색창처럼 1초 만에 띄워주는 로깅의 혁명이 일어났다.
-  3. **[WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지와 법적 증거주의 (현재)**: 해커들이 ELK 서버마저 뚫어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 지우기 시작하자, 아예 한 번 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쏘면 창조주(사장님)조차 영원히 지울 수 없게 블록체인급으로 굳어버리는 **오브젝트 락([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))** 기반 클라우드 스토리지(S3 등) 백업이 [K-ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/886_k_isms/) 등 국가 컴플라이언스(법) 필수 요건으로 굳어졌다.
+  1. <strong>텍스트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 낭만 시대</strong>: 옛날엔 톰캣(Tomcat) 서버 1대 하드디스크에 `catalina.out` 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 냅뒀다. 서버 꺼지거나 디스크 꽉 차면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 다 날아갔다.
+  2. **빅데이터 ELK의 대통일 (2010년대)**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대로 서버가 100대로 찢어지자 100대 서버에 일일이 SSH로 들어가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 까보는 게 불가능해졌다. <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/">Elasticsearch</a>, Logstash, <a href="/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/">Kibana</a> (ELK)</strong>가 등장하여, 100대 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 한 중앙 우물로 초광속으로 빨아들여 구글 검색창처럼 1초 만에 띄워주는 로깅의 혁명이 일어났다.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지와 법적 증거주의 (현재)</strong>: 해커들이 ELK 서버마저 뚫어 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 지우기 시작하자, 아예 한 번 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쏘면 창조주(사장님)조차 영원히 지울 수 없게 블록체인급으로 굳어버리는 <strong>오브젝트 락(<a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a>)</strong> 기반 클라우드 스토리지(S3 등) 백업이 [K-ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/886_k_isms/) 등 국가 컴플라이언스(법) 필수 요건으로 굳어졌다.
 
-- **📢 섹션 요약 비유**: 로깅을 내 서버(로컬) 하드디스크에 남겨두는 것은, 은행에 든 도둑의 얼굴을 찍은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 **'도둑이 바로 부술 수 있는 은행 안방 녹화기'**에 저장하는 멍청한 짓입니다. 진짜 보안 로깅은 도둑의 얼굴이 찍히는 0.1초의 찰나에, 그 영상 데이터가 광케이블을 타고 저 멀리 있는 절대 뚫리지 않는 **'지하 100층 군부대 비밀 서버(ELK + [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))'**로 빛의 속도로 실시간 전송되어 박제되는 소름 돋는 무결점 증거 보존술입니다.
+- **📢 섹션 요약 비유**: 로깅을 내 서버(로컬) 하드디스크에 남겨두는 것은, 은행에 든 도둑의 얼굴을 찍은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 <strong>'도둑이 바로 부술 수 있는 은행 안방 녹화기'</strong>에 저장하는 멍청한 짓입니다. 진짜 보안 로깅은 도둑의 얼굴이 찍히는 0.1초의 찰나에, 그 영상 데이터가 광케이블을 타고 저 멀리 있는 절대 뚫리지 않는 <strong>'지하 100층 군부대 비밀 서버(ELK + <a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a>)'</strong>로 빛의 속도로 실시간 전송되어 박제되는 소름 돋는 무결점 증거 보존술입니다.
 
 ---
 
 다음은 보안 로깅 (Logging)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  보안 로깅 (Logging)                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 로깅 (Logging)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 보안 로깅 (Logging)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-보안 로깅 (Logging)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+보안 로깅 (Logging)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 보안 로깅 (Logging)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-보안 로깅 (Logging) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보안 로깅 (Logging) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

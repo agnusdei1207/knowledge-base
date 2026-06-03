@@ -28,15 +28,21 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-Team
-  ↓
-Scrum Events
-  ↓
-Impediment Removal
-  ↓
-Continuous Improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Team</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Scrum Events</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Impediment Removal</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Continuous Improvement</div>
+</div>
+</div>
+
+
 
 | 역할 | 핵심 행동 |
 | :-- | :-- |
@@ -99,29 +105,41 @@ SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 
 
 ## 관련 개념 맵
 
-```text
-Scrum Team
-  ↓
-Scrum Master
-  ↓
-Impediment Removal
-  ↓
-Team Improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Scrum Team</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Scrum Master</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Impediment Removal</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Team Improvement</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-애자일 팀
-  ↓
-스크럼 이벤트
-  ↓
-서번트 리더십
-  ↓
-지속적 개선
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">애자일 팀</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">스크럼 이벤트</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">서번트 리더십</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">지속적 개선</div>
+</div>
+</div>
+
+
 
 ---
 

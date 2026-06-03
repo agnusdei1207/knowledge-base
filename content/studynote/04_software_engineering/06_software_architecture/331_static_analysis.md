@@ -21,12 +21,12 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: '정적(Static)'이라는 말은 "프로그램이 움직이지 않는다(실행되지 않는다)"는 뜻이다. 코드를 그냥 하나의 거대한 문자열 문서로 취급하여, AST(추상 구문 트리)라는 문법 구조도로 분해한 뒤, "이 구조도 안에서 쓰이지 않는 변수가 있나?", "비밀번호가 평문으로 적혀있나?"를 정해진 룰(Rule)에 따라 검사하는 방식이다.
 
-- **필요성**: 은행 앱을 만들었다. C언어로 메모리를 할당(`malloc`)하고 해제(`free`)하는 코드를 짰는데, 어떤 희박한 `if` 조건(예: 10년에 한 번 터질까 말까 한 예외)을 탈 때는 `free`를 빼먹었다고 치자. 이 코드를 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)(직접 실행해서 테스트)으로 잡으려면, 테스터가 수만 가지 경우의 수를 다 눌러보다가 하필 그 10년에 한 번 터지는 경로를 우연히 밟아야만 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)를 발견할 수 있다. 하지만 정적 분석은 **"코드가 실행될 수 있는 모든 경로([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/))를 수학적으로 싹 다 미리 계산해 버리기"** 때문에, 테스트를 안 해봐도 "이 경로로 가면 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 100% 남!"이라고 단번에 잡아낸다.
+- **필요성**: 은행 앱을 만들었다. C언어로 메모리를 할당(`malloc`)하고 해제(`free`)하는 코드를 짰는데, 어떤 희박한 `if` 조건(예: 10년에 한 번 터질까 말까 한 예외)을 탈 때는 `free`를 빼먹었다고 치자. 이 코드를 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)(직접 실행해서 테스트)으로 잡으려면, 테스터가 수만 가지 경우의 수를 다 눌러보다가 하필 그 10년에 한 번 터지는 경로를 우연히 밟아야만 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)를 발견할 수 있다. 하지만 정적 분석은 <strong>"코드가 실행될 수 있는 모든 경로(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a>)를 수학적으로 싹 다 미리 계산해 버리기"</strong> 때문에, 테스트를 안 해봐도 "이 경로로 가면 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 100% 남!"이라고 단번에 잡아낸다.
 
-- **💡 비유**: 정적 분석은 **'건물 설계도(블루프린트) 검토'**와 같습니다. 건물을 다 짓고 나서 흔들어보며 무너지나 테스트([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))하는 게 아닙니다. 건물을 짓기 전에 종이에 그려진 설계도만 보고, "기둥 두께가 이 정도면 진도 7에 무너집니다", "여기 화장실에 배수구 설계가 빠졌네요"라고 지적하는 똑똑한 감리사입니다.
+- **💡 비유**: 정적 분석은 <strong>'건물 설계도(블루프린트) 검토'</strong>와 같습니다. 건물을 다 짓고 나서 흔들어보며 무너지나 테스트([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))하는 게 아닙니다. 건물을 짓기 전에 종이에 그려진 설계도만 보고, "기둥 두께가 이 정도면 진도 7에 무너집니다", "여기 화장실에 배수구 설계가 빠졌네요"라고 지적하는 똑똑한 감리사입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 컴파일러**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 C 컴파일러 자체가 기초적인 정적 분석기였다. 문법 틀리면 에러를 내뿜었기 때문이다. 하지만 문법은 맞는데 논리가 쓰레기인 코드(논리적 오류)는 잡지 못했다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>의 컴파일러</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 C 컴파일러 자체가 기초적인 정적 분석기였다. 문법 틀리면 에러를 내뿜었기 때문이다. 하지만 문법은 맞는데 논리가 쓰레기인 코드(논리적 오류)는 잡지 못했다.
   2. **Lint의 탄생 (1970s)**: C언어의 허술함을 잡기 위해 문법적 모호함과 버그 가능성을 경고해 주는 `Lint`라는 도구가 등장하며, 언어와 독립적인 전문 정적 분석 시장이 열렸다.
   3. **DevSecOps의 심장 (현재)**: 코드가 수백만 줄로 비대해지자 인간의 코드 리뷰로는 한계가 왔다. 현재는 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 정적 분석 서버가 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))와 결합되어, 보안 취약점([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))과 [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))을 자동 스캔하는 데브옵스의 심장이 되었다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 정적 분석 (Static Analys의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  정적 분석 (Static Analys                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 분석 (Static Analys</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 정적 분석 (Static Analys가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-정적 분석 (Static Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+정적 분석 (Static Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 정적 분석 (Static Analysis)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-정적 분석 (Static Analysis) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정적 분석 (Static Analysis) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

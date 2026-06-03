@@ -21,42 +21,35 @@ tags = ["algorithm_stats"]
 
 셸 정렬([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) Sort)은 1959년 Donald Shell이 고안한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/))의 가장 큰 단점인 "한 번에 한 칸씩만 이동"이라는 제약조건을 개선하기 위해 도입되었다. [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)에서 역순으로 정렬된 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 정렬하려면 모든 원소가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 앞쪽으로 이동해야 하는데, 이때 각 이동이 한 칸씩만 이루어져 매우 비효율적이다. 셸 정렬은 이 문제를 "Gap을 두어 멀리 떨어진 원소들도 한 번에 여러 칸 이동 가능하게 함으로써" 해결한다.
 
-셸 정렬의 핵심 아이디어는 **간격(Interval) 기반의 부분 정렬**이다. 먼저 큰 Gap으로 시작하여 큰 규모의 이동으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 정렬 상태에 가깝게 만들고, Gap을 줄여가면서 정밀한 정렬을 수행한다. 마지막에는 Gap=1인 일반적인 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 되어 최종 정렬을 완료한다.
+셸 정렬의 핵심 아이디어는 <strong>간격(Interval) 기반의 부분 정렬</strong>이다. 먼저 큰 Gap으로 시작하여 큰 규모의 이동으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 정렬 상태에 가깝게 만들고, Gap을 줄여가면서 정밀한 정렬을 수행한다. 마지막에는 Gap=1인 일반적인 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 되어 최종 정렬을 완료한다.
 
 > 이 도식은 셸 정렬의 Gap 기반 정렬 원리를 보여준다.
 
-```text
-[셸 정렬: Gap 기반 부분 정렬]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ 배열: [23, 29, 10, 14, 11, 30, 18] │
-│ │
-│ [Gap = 4 (N/2)] │
-│ ──────────────────────────────────── │
-│ 인덱스: 0 1 2 3 4 5 6 │
-│ 값: 23 29 10 14 11 30 18 │
-│ Gap=4 → 같은 그룹: (23,11), (29,30), (10,18), (14,?)│
-│ │
-│ 그룹 내에서 삽입 정렬: │
-│ (23, 11) → (11, 23) │
-│ (29, 30) → 유지 │
-│ (10, 18) → (10, 18) 유지 │
-│ │
-│ 결과: [11, 29, 10, 14, 23, 30, 18] │
-│ │
-│ [Gap = 2 (4/2)] │
-│ ──────────────────────────────────── │
-│ 같은 Gap=2 그룹: (11,10,23,18), (29,14,30) │
-│ 그룹 내에서 삽입 정렬 │
-│ │
-│ [Gap = 1 (마지막 삽입 정렬)] │
-│ ──────────────────────────────────── │
-│ 이제 전체 배열에 대해 일반 삽입 정렬 수행 │
-│ → O(N²)이지만 이미정렬되어 있어 매우 빠름 │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬: Gap 기반 부분 정렬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">23, 29, 10, 14, 11, 30, 18</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gap = 4 (N/2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스: 0 1 2 3 4 5 6</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값: 23 29 10 14 11 30 18</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gap=4 → 같은 그룹: (23,11), (29,30), (10,18), (14,?)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그룹 내에서 삽입 정렬:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(23, 11) → (11, 23)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(29, 30) → 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10, 18) → (10, 18) 유지</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">11, 29, 10, 14, 23, 30, 18</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gap = 2 (4/2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 Gap=2 그룹: (11,10,23,18), (29,14,30)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그룹 내에서 삽입 정렬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gap = 1 (마지막 삽입 정렬)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 전체 배열에 대해 일반 삽입 정렬 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ O(N²)이지만 이미정렬되어 있어 매우 빠름</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 셸 정렬의 효율은 Gap 시퀀스의 선택에 크게 의존한다.
 - **원인**: Gap 시퀀스가 좋으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 빠르게 부분 정렬 상태에 도달한다.
@@ -69,41 +62,36 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-셸 정렬의 핵심은 **Gap 시퀀스(Gap Sequence)**의 선택이다. 원래 Shell이 제안한 시퀀스는 N/2, N/4, ..., 1이며, 이는 O(N²) 복잡도를 가진다. 그러나 Knuth이 제안한 시퀀스 (N/3, N/9, ..., 1)는 O(N^1.5) 수준으로 개선하며, Pratt의 시퀀스는 O(N log² N)에 가까운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+셸 정렬의 핵심은 <strong>Gap 시퀀스(Gap Sequence)</strong>의 선택이다. 원래 Shell이 제안한 시퀀스는 N/2, N/4, ..., 1이며, 이는 O(N²) 복잡도를 가진다. 그러나 Knuth이 제안한 시퀀스 (N/3, N/9, ..., 1)는 O(N^1.5) 수준으로 개선하며, Pratt의 시퀀스는 O(N log² N)에 가까운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 **Knuth Gap 시퀀스**: h = 1, 4, 14, 40, 121, ... (3h + 1), 평균적으로 가장 실용적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
 
-```text
-[셸 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ function shell_sort(A): │
-│ n = length(A) │
-│ gap = n // 2 // 초기 Gap │
-│ │
-│ while gap > 0: │
-│ for i in range(gap, n): │
-│ temp = A[i] │
-│ j = i │
-│ │
-│ while j >= gap and A[j - gap] > temp:│
-│ A[j] = A[j - gap] │
-│ j = j - gap │
-│ │
-│ A[j] = temp │
-│ │
-│ gap = gap // 2 // Gap 감소 │
-│ │
-│ [시간 복잡도] │
-│ ──────────────────────────────────── │
-│ Shell 원래 시퀀스: O(N²) │
-│ Knuth 시퀀스: O(N^1.5) │
-│ Pratt 시퀀스: O(N log² N) │
-│ Sedgewick 시퀀스: O(N^1.3) ~ O(N log N) │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬 의사코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function shell_sort(A):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n = length(A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gap = n // 2 // 초기 Gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while gap &gt; 0:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i in range(gap, n):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">temp = A</div><div class="kb-diagram-node">i</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j = i</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">while j &gt;= gap and A</div><div class="kb-diagram-node">j - gap</div><div class="kb-diagram-note">&gt; temp:</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">= A</div><div class="kb-diagram-node">j - gap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">j = j - gap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">= temp</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gap = gap // 2 // Gap 감소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">시간 복잡도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell 원래 시퀀스: O(N²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knuth 시퀀스: O(N^1.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pratt 시퀀스: O(N log² N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sedgewick 시퀀스: O(N^1.3) ~ O(N log N)</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 셸 정렬의 시간 복잡도는 Gap 시퀀스의 선택에 따라 크게 달라진다.
 - **원인**: Gap이 크면 멀리 있는 원소끼리 빠르게 교환하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르게 부분 정렬 상태로 만들 수 있기 때문이다.
@@ -116,25 +104,23 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-셸 정렬의 실무 적용은 제한적이다. **메모리 제약 환경**: 추가 메모리를 거의 사용하지 않고(O(1)) 기존 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)보다 훨씬 나은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다. **소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: N이 수천 이하일 때 단순한 구현으로적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻을 수 있다. **교육용**: 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전 과정을 이해하는 데 유용하다.
+셸 정렬의 실무 적용은 제한적이다. **메모리 제약 환경**: 추가 메모리를 거의 사용하지 않고(O(1)) 기존 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)보다 훨씬 나은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다. <strong>소규모 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: N이 수천 이하일 때 단순한 구현으로적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻을 수 있다. **교육용**: 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전 과정을 이해하는 데 유용하다.
 
-```text
-[셸 정렬 vs 기타 정렬 비교]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ ┌──────────┬────────────┬────────────┬──────────┐ │
-│ │ │ 시간 복잡도 │ 공간 복잡도 │ 안정성 │ │
-│ ├──────────┼────────────┼────────────┼──────────┤ │
-│ │ 셸 정렬 │ O(N^1.5) │ O(1) │ 불안정 │ │
-│ │ 삽입 정렬 │ O(N²) │ O(1) │ 안정 │ │
-│ │ 힙 정렬 │ O(N log N) │ O(1) │ 불안정 │ │
-│ │ 합병 정렬 │ O(N log N) │ O(N) │ 안정 │ │
-│ │ Timsort │ O(N log N) │ O(N) │ 안정 │ │
-│ └──────────┴────────────┴────────────┴──────────┘ │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬 vs 기타 정렬 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">공간 복잡도</div><div class="kb-diagram-cell">안정성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셸 정렬</div><div class="kb-diagram-cell">O(N^1.5)</div><div class="kb-diagram-cell">O(1)</div><div class="kb-diagram-cell">불안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입 정렬</div><div class="kb-diagram-cell">O(N²)</div><div class="kb-diagram-cell">O(1)</div><div class="kb-diagram-cell">안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 정렬</div><div class="kb-diagram-cell">O(N log N)</div><div class="kb-diagram-cell">O(1)</div><div class="kb-diagram-cell">불안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합병 정렬</div><div class="kb-diagram-cell">O(N log N)</div><div class="kb-diagram-cell">O(N)</div><div class="kb-diagram-cell">안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timsort</div><div class="kb-diagram-cell">O(N log N)</div><div class="kb-diagram-cell">O(N)</div><div class="kb-diagram-cell">안정</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 셸 정렬은 먼 훗날의 큰 목표(큰 Gap)를 먼저 설정하고, 점점 세부적인 계획(작은 Gap)을 세워나가며, 결국 정확한 일별 계획(Gap=1)을 세우는설계와 같습니다.
 
@@ -142,9 +128,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-셸 정렬의 품질 관리에서 가장 중요한 것은 **Gap 시퀀스 선택**과 **안정성 여부**이다.
+셸 정렬의 품질 관리에서 가장 중요한 것은 <strong>Gap 시퀀스 선택</strong>과 <strong>안정성 여부</strong>이다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**: 불안정 정렬이므로 동일 값 사이의 순서가 보존되지 않는다. Gap 시퀀스에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라지므로 적절한 시퀀스 선택이 중요하다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 불안정 정렬이므로 동일 값 사이의 순서가 보존되지 않는다. Gap 시퀀스에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라지므로 적절한 시퀀스 선택이 중요하다.
 
 📢 **섹션 요약 비유**: 셸 정렬의 품질 관리는 시공의 관리와/과 같습니다. 단계별 공정(Gap)을 잘못 설정하면 전체가 지연되듯이, Gap 시퀀스 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 알고리즘성능을 좌우합니다.
 
@@ -162,26 +148,21 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[셸 정렬 (Shell Sort) 핵심 개념 맵]
 
-┌─────────────────────────────────┐
-│ 셸 정렬 (Shell Sort) │
-└────────────────┬────────────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 핵심 원리 │ │ Gap 시퀀스 │ │ 시간 복잡도 │
-│ Principle │ │ Gap Sequence │ │ Time Complexity│
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ Gap 기반 삽입 │ │ Shell: N/2 │ │ O(N²) 원래 │
-│ 정렬 반복 │ │ Knuth: 3h+1 │ │ O(N^1.5) Knuth│
-│ 점진적 정밀화│ │ Pratt: 2^i3^j │ │ O(N log²N) Pratt│
-│ │ │ │ │ │
-└──────────────┘ └──────────────┘ └──────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬 (Shell Sort) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셸 정렬 (Shell Sort)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 원리</div><div class="kb-diagram-cell">Gap 시퀀스</div><div class="kb-diagram-cell">시간 복잡도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Principle</div><div class="kb-diagram-cell">Gap Sequence</div><div class="kb-diagram-cell">Time Complexity</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gap 기반 삽입</div><div class="kb-diagram-cell">Shell: N/2</div><div class="kb-diagram-cell">O(N²) 원래</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 반복</div><div class="kb-diagram-cell">Knuth: 3h+1</div><div class="kb-diagram-cell">O(N^1.5) Knuth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점진적 정밀화</div><div class="kb-diagram-cell">Pratt: 2^i3^j</div><div class="kb-diagram-cell">O(N log²N) Pratt</div></div>
+</div>
+</div>
+
+
 
 
 ### 📌 관련 개념 맵
@@ -197,18 +178,21 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[삽입 정렬 (Insertion Sort) — O(n²), 이미 정렬된 배열엔 O(n)]
-│
-▼
-[셸 정렬 (Shell Sort) — Gap 기반 분할, 원소 이동 거리 단축]
-│
-▼
-[Gap 시퀀스 최적화 (Knuth·Pratt·Ciura) — O(n^1.5)~O(n log²n)]
-│
-▼
-[힙 정렬 (Heap Sort) / 퀵 정렬 (Quick Sort) — O(n log n) 목표]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — O(n²), 이미 정렬된 배열엔 O(n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">셸 정렬 (Shell Sort) — Gap 기반 분할, 원소 이동 거리 단축</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Gap 시퀀스 최적화 (Knuth·Pratt·Ciura) — O(n^1.5)~O(n log²n)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 (Heap Sort) / 퀵 정렬 (Quick Sort) — O(n log n) 목표</div></div>
+</div>
+</div>
+
+
 셸 정렬은 Gap을 점차 줄여 가며 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 반복하는 방식으로, Gap 시퀀스 선택에 따라 O(n^1.5)까지 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

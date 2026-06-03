@@ -29,29 +29,31 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-유스케이스 뷰는 주로 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 **[유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/) ([Use Case Diagram](/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/))**을 통해 시각화된다. 이 다이어그램은 시스템 내부의 복잡성을 숨기고 오직 상호작용에만 초점을 맞춘다.
+유스케이스 뷰는 주로 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/">Use Case Diagram</a>)</strong>을 통해 시각화된다. 이 다이어그램은 시스템 내부의 복잡성을 숨기고 오직 상호작용에만 초점을 맞춘다.
 
 핵심 구성 요소는 다음과 같다.
 - **액터 (Actor)**: 시스템 외부에서 상호작용하는 모든 주체(사람, 타 시스템, 타이머 등)로, 졸라맨(Stickman) 형태로 그린다.
 - **유스케이스 (Use Case)**: 시스템이 제공하는 단위 기능(예: '결제하기')으로, 타원(동그라미)으로 그린다.
 - **시스템 경계 (System Boundary)**: 개발할 시스템의 범위를 나타내는 큰 사각형 박스로, 유스케이스는 안에, 액터는 밖에 배치한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  유스케이스 다이어그램의 기본 구조           │
-├──────────────────────────────────────────────────────────────┤
-│               [온라인 쇼핑몰 시스템 (Boundary)]              │
-│                                                              │
-│      Actor           ┌──────────────────┐                    │
-│        O             │  (상품 검색하기) │                    │
-│       /|＼ ──────────▶ │                  │                    │
-│       / ＼           │                  │                    │
-│     고객             │  (상품 결제하기) │◀──────── O       │
-│                      │                  │       /|＼     │
-│                      └──────────────────┘       / ＼     │
-│                                                  외부 결제사 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 다이어그램의 기본 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">온라인 쇼핑몰 시스템 (Boundary)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">(상품 검색하기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">＼ ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객</div><div class="kb-diagram-cell">(상품 결제하기)</div><div class="kb-diagram-cell">◀ O</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ＼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 결제사</div></div>
+</div>
+</div>
+
+
 
 이처럼 선(Association) 하나로 고객이 상품을 검색하고 결제하는 상호작용을 직관적으로 드러낸다. 코드나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블 구조는 이 도면에 들어오지 못한다.
 
@@ -80,9 +82,9 @@ tags = ["studynote-design"]
 
 ### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **액터의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 오류**: 액터를 사람으로만 한정 짓지 않았는가? 외부 연동 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버나 배치 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 같은 '비인간 액터'도 반드시 도출해야 한다.
+1. <strong>액터의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 오류</strong>: 액터를 사람으로만 한정 짓지 않았는가? 외부 연동 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버나 배치 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 같은 '비인간 액터'도 반드시 도출해야 한다.
 2. **기능의 세분화 수준**: 유스케이스가 너무 개발자 관점의 CRUD(`DB 저장하기`, `세션 생성하기`)로 쪼개져 있지 않은가? 사용자 관점의 가치 있는 비즈니스 행위(`회원가입하기`)로 통합되어야 한다.
-3. **추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 확보**: 도출된 유스케이스가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰의 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이나 클래스 다이어그램과 1:1 이상으로 매핑되고 증명되는가?
+3. <strong>추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>) 확보</strong>: 도출된 유스케이스가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰의 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이나 클래스 다이어그램과 1:1 이상으로 매핑되고 증명되는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -107,28 +109,30 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포 뷰를 유스케이스 뷰가 통합 검증하는 아키텍처 프레임워크 |
+| <strong>4+1 <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a> 모델</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포 뷰를 유스케이스 뷰가 통합 검증하는 아키텍처 프레임워크 |
 | **액터 (Actor)** | 시스템 경계 외부에 존재하며 상호작용하는 모든 인간/비인간 주체 |
-| **인클루드/익스텐드 ([Include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)/Extend)** | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)에서 필수 공통 기능과 선택적 부가 기능을 분리하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선 |
-| **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/) ([Sequence Diagram](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))** | 유스케이스(무엇을)를 바탕으로 객체 간의 시간적 메시지 흐름(어떻게)을 검증하는 동적 모델링 |
+| <strong>인클루드/익스텐드 (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">Include</a>/Extend)</strong> | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)에서 필수 공통 기능과 선택적 부가 기능을 분리하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">Sequence Diagram</a>)</strong> | 유스케이스(무엇을)를 바탕으로 객체 간의 시간적 메시지 흐름(어떻게)을 검증하는 동적 모델링 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 요구사항 정의
-    │
-    ▼
-액터 (Actor) 및 유스케이스 (Use Case) 도출
-    │
-    ▼
-유스케이스 뷰 (+1 View) · 시스템 경계 (Boundary) 설정
-    │
-    ▼
-Include / Extend 관계를 통한 시나리오 정교화
-    │
-    ▼
-4대 기술 뷰 (논리, 프로세스, 구현, 물리) 검증 및 매핑
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 요구사항 정의</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">액터 (Actor) 및 유스케이스 (Use Case) 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유스케이스 뷰 (+1 View) · 시스템 경계 (Boundary) 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Include / Extend 관계를 통한 시나리오 정교화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">4대 기술 뷰 (논리, 프로세스, 구현, 물리) 검증 및 매핑</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

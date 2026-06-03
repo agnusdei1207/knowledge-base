@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 252번에서 말했듯 `new` 키워드를 직접 쓰는 순간 결합도가 폭발합니다.
-- `팩토리 메서드`는 다른 말로 **가상 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자(Virtual Constructor) 패턴**이라고도 불립니다. 즉, 진짜 `new`를 때리는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 부모가 몰래 숨겨버리고(가상), 자식들이 그 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 버튼을 대신 누르게 꼼수를 부리는 구조입니다.
+- `팩토리 메서드`는 다른 말로 <strong>가상 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자(Virtual Constructor) 패턴</strong>이라고도 불립니다. 즉, 진짜 `new`를 때리는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 부모가 몰래 숨겨버리고(가상), 자식들이 그 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 버튼을 대신 누르게 꼼수를 부리는 구조입니다.
 
 - **📢 섹션 요약 비유**: 팩토리 메서드 (Factory Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 팩토리 메서드 (Factory Met의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  팩토리 메서드 (Factory Met                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩토리 메서드 (Factory Met</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 팩토리 메서드 (Factory Met가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -49,7 +48,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 상위(부모) 클래스는 뼈대(인터페이스)만 잡아두고 실제 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 일은 하지 않으며, **객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하기 위한 구멍(인터페이스/추상 메서드)만 정의해 두고, 구체적으로 어떤 클래스의 인스턴스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(`new`)할지에 대한 결정권은 100% 서브(자식) 클래스에게 위임(떠넘기기)하는 설계 패턴**입니다.
+- **개념**: GoF [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) 중 하나로, 상위(부모) 클래스는 뼈대(인터페이스)만 잡아두고 실제 객체를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 일은 하지 않으며, <strong>객체를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하기 위한 구멍(인터페이스/추상 메서드)만 정의해 두고, 구체적으로 어떤 클래스의 인스턴스를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(<code>new</code>)할지에 대한 결정권은 100% 서브(자식) 클래스에게 위임(떠넘기기)하는 설계 패턴</strong>입니다.
 
 - **📢 섹션 요약 비유**: 팩토리 메서드 (Factory Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -71,10 +70,10 @@ tags = ["studynote-software-engineering"]
 1. **Product (제품 껍데기)**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 로봇의 공통 껍데기 규격 (예: `Robot 인터페이스` - `공격하기()`).
 2. **Concrete Product (진짜 제품)**: 실제로 `new` 쳐서 튀어나올 진짜 로봇들 (예: `MazingaZ`, `TaekwonV`).
 3. **Creator (공장 본사 껍데기) 🌟 (핵심)**:
-   - 공통 로직을 담은 추상 부모 클래스입니다. 안에 텅 빈 **`createRobot()` 이라는 추상 메서드(이게 팩토리 메서드임!)** 구멍만 파놓고 지는 `new`를 절대 안 합니다.
+   - 공통 로직을 담은 추상 부모 클래스입니다. 안에 텅 빈 <strong><code>createRobot()</code> 이라는 추상 메서드(이게 팩토리 메서드임!)</strong> 구멍만 파놓고 지는 `new`를 절대 안 합니다.
 4. **Concrete Creator (하청업체 공장 자식들)**:
    - 본사(Creator)를 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받은 자식 공장들입니다. (예: `MazingaFactory`, `TaekwonVFactory`)
-   - 빈 구멍으로 남아있던 `createRobot()` 함수를 오버라이딩하여, **이 안에서 비로소 자기가 맡은 제품을 `return new MazingaZ();` 하고 진짜로 낳아줍니다([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).**
+   - 빈 구멍으로 남아있던 `createRobot()` 함수를 오버라이딩하여, <strong>이 안에서 비로소 자기가 맡은 제품을 <code>return new MazingaZ();</code> 하고 진짜로 낳아줍니다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>).</strong>
 
 - **📢 섹션 요약 비유**: 팩토리 메서드 (Factory Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -89,9 +88,9 @@ tags = ["studynote-software-engineering"]
 - 오늘 마징가Z와 태권V만 찍어내고 있었습니다.
 - 사장님이 "내일 에반게리온 추가해!"라고 합니다.
 - 기존의 본사 코드(`Creator`)나 기존 로봇 코드(`Product`)의 배를 가르고 수정할까요? **절대 단 1줄도 수정하지 않습니다(Closed)!**
-- 개발자는 밖에서 그냥 `Evangelion` 껍데기 클래스 하나 만들고, `EvangelionFactory(자식)` 공장 클래스 하나를 딸깍 만들어서 **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 라인에 툭 끼워 넣기만 하면(Open)**, 본사 코드는 1도 모르는 사이에 에반게리온이 무한대로 찍혀 나오는 마법의 확장성을 얻습니다.
+- 개발자는 밖에서 그냥 `Evangelion` 껍데기 클래스 하나 만들고, `EvangelionFactory(자식)` 공장 클래스 하나를 딸깍 만들어서 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 라인에 툭 끼워 넣기만 하면(Open)</strong>, 본사 코드는 1도 모르는 사이에 에반게리온이 무한대로 찍혀 나오는 마법의 확장성을 얻습니다.
 
-> 📢 **섹션 요약 비유**: **[팩토리 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/)**은 글로벌 피자 프랜차이즈(본사)의 **'가맹점 지사 100% 재량권 짬처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'**입니다. 바보 같은 프랜차이즈 본사([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 하드코딩)는 서울 본사에서 "페퍼로니 피자 레시피([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 페퍼로니)"를 못 박아버렸습니다. 제주도에 매장을 내니 손님들이 흑돼지 피자를 찾는데 본사 레시피 코드에 막혀서 못 팔고 망합니다. 이를 부순 **팩토리 메서드(본사 Creator)**는 본사 메뉴얼에 피자 레시피를 적지 않습니다! 대신 텅 빈 구멍 명령인 **`나만의_특산물_피자_만들기()`([추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 메서드)** 하나만 띡 적어놓습니다. 그리고 구체적으로 무슨 피자(구체 Product)를 굽고 무슨 토핑을 넣을지에 대한 100%의 권한과 책임은, **서울 강남점(자식 공장 1), 제주 서귀포점(자식 공장 2)** 같은 현지 가맹점(Concrete Creator)들에게 완벽하게 떠넘겨 버립니다(위임). 강남점은 그 빈 구멍 함수 안에 `new 불고기피자()`를 채워 넣어 굽고, 제주점은 그 구멍 안에 `new 흑돼지피자()`를 채워 구워냅니다. 본사는 피자를 굽는([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는) 고통에서 해방되어 핵심 시스템만 관리하고, 내일 부산점이 새로 오픈해도 본사는 신경 1도 안 쓰고 부산점이 알아서 `new 해물피자()`를 찍어내는 궁극의 하청업체 다형성 생산 라인입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/378_factory_method_summary/">팩토리 메서드 패턴</a></strong>은 글로벌 피자 프랜차이즈(본사)의 <strong>'가맹점 지사 100% 재량권 짬처리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>'</strong>입니다. 바보 같은 프랜차이즈 본사([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 하드코딩)는 서울 본사에서 "페퍼로니 피자 레시피([new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 페퍼로니)"를 못 박아버렸습니다. 제주도에 매장을 내니 손님들이 흑돼지 피자를 찾는데 본사 레시피 코드에 막혀서 못 팔고 망합니다. 이를 부순 <strong>팩토리 메서드(본사 Creator)</strong>는 본사 메뉴얼에 피자 레시피를 적지 않습니다! 대신 텅 빈 구멍 명령인 <strong><code>나만의_특산물_피자_만들기()</code>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/">추상 팩토리</a> 메서드)</strong> 하나만 띡 적어놓습니다. 그리고 구체적으로 무슨 피자(구체 Product)를 굽고 무슨 토핑을 넣을지에 대한 100%의 권한과 책임은, **서울 강남점(자식 공장 1), 제주 서귀포점(자식 공장 2)** 같은 현지 가맹점(Concrete Creator)들에게 완벽하게 떠넘겨 버립니다(위임). 강남점은 그 빈 구멍 함수 안에 `new 불고기피자()`를 채워 넣어 굽고, 제주점은 그 구멍 안에 `new 흑돼지피자()`를 채워 구워냅니다. 본사는 피자를 굽는([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는) 고통에서 해방되어 핵심 시스템만 관리하고, 내일 부산점이 새로 오픈해도 본사는 신경 1도 안 쓰고 부산점이 알아서 `new 해물피자()`를 찍어내는 궁극의 하청업체 다형성 생산 라인입니다.
 
 - **📢 섹션 요약 비유**: 팩토리 메서드 (Factory Method)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -136,21 +135,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-팩토리 메서드 (Factory Method) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">팩토리 메서드 (Factory Method) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

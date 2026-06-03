@@ -23,13 +23,16 @@ tags = ["studynote-devops-sre"]
 
 코드와 실제 인프라가 어긋나면 드리프트와 사람 의존 배포가 누적돼 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 느려진다. 따라서 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
-```text
-Deployment / Control / Feedback Flow
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desired State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Plan / Diff</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Apply Engine</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">State &amp; Policy</div></div>
+</div>
+</div>
+
+
 
 이 그림은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,13 +51,16 @@ Deployment / Control / Feedback Flow
 | Apply Engine | 클라우드 API나 컨트롤러를 통해 반영 | 실행 권한과 순서 의존성을 통제 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) & [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 백엔드 잠금, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 관리 | 동시 변경과 drift를 막는 핵심 계층 |
 
-```text
-Reference Architecture
 
-┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
-│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
-└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Reference Architecture</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desired State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Plan / Diff</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Apply Engine</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">State &amp; Policy</div></div>
+</div>
+</div>
+
+
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -121,16 +127,20 @@ Reference Architecture
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Retry Safety]
-    │
-    ▼
-[멱등성]
-    │
-    ├──▶ [Desired State]
-    ├──▶ [Declarative Model]
-    └──▶ [Version Control]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Retry Safety</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멱등성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Desired State</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Declarative Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Version Control</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

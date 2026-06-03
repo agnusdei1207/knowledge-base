@@ -34,31 +34,29 @@ tags = ["database"]
 
 | 정규형 | 분해 기준 (제거 대상) | 핵심 요건 |
 |:---|:---|:---|
-| [제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)) | 반복 집단 제거 | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 **원자값**만 가짐 |
+| [제1정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/) ([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/)) | 반복 집단 제거 | 모든 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 <strong>원자값</strong>만 가짐 |
 | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) | 부분 함수 종속 제거 | 복합 기본키의 일부에만 종속된 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 분리 |
 | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) | 이행적 함수 종속 제거 | 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 꼬리 무는 종속 (A→B, B→C) 분리 |
 | [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/) | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 제약 | 모든 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 후보키 ([Candidate Key](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/))가 아닌 종속 분리 |
 | [제4정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)) | [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)) 제거 | 하나의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 여러 독립적 값을 가질 때 분리 |
 | [제5정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/) (5NF) | 조인 종속 (JD) 제거 | 3개 이상의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) 가능 시 분리 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  정규화 과정의 무손실 분해 원리               │
-├──────────────────────────────────────────────────────────────┤
-│ [원래 테이블: 수강] (학번, 과목코드, 성적, 과목명)                 │
-│         │ (부분 함수 종속 발생: 과목코드 ─▶ 과목명)             │
-│         ▼                                                    │
-│ ┌──────────────────────┐  ┌────────────────────────┐         │
-│ │ [테이블 A: 성적]      │  │ [테이블 B: 과목]        │         │
-│ │ 학번, 과목코드, 성적    │  │ 과목코드(PK), 과목명      │         │
-│ └──────────────────────┘  └────────────────────────┘         │
-│         │                             │                      │
-│         └──────▶ 조인 (JOIN) ◀──────┘                      │
-│                (과목코드 기준)                                  │
-│         ▼                                                    │
-│ [완벽히 복원된 원래 테이블] (가짜 데이터 없음 = 무손실)               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 과정의 무손실 분해 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">원래 테이블: 수강</div><div class="kb-diagram-note">(학번, 과목코드, 성적, 과목명)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부분 함수 종속 발생: 과목코드 ─▶ 과목명)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 A: 성적</div><div class="kb-diagram-node">테이블 B: 과목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번, 과목코드, 성적</div><div class="kb-diagram-cell">과목코드(PK), 과목명</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조인 (JOIN) ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과목코드 기준)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">완벽히 복원된 원래 테이블</div><div class="kb-diagram-note">(가짜 데이터 없음 = 무손실)</div></div>
+</div>
+</div>
+
+
 
 이 그림은 분해 후 외래키를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 연결할 때, 어떤 정보의 손실이나 잉여 없이 완벽히 복원되어야 한다는 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)의 핵심을 보여준다.
 
@@ -89,11 +87,11 @@ tags = ["database"]
 
 ### 실무 판단 포인트 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **어디까지 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)할 것인가?**
-   - 일반적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB에서는 **[제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 또는 [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)**까지만 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해도 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)의 99%를 방지할 수 있다. 4NF와 5NF는 학술적 성격이 강해 특수한 케이스가 아니면 지양한다.
+1. <strong>어디까지 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>할 것인가?</strong>
+   - 일반적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB에서는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">제3정규형</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a>) 또는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/">BCNF</a></strong>까지만 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해도 [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)의 99%를 방지할 수 있다. 4NF와 5NF는 학술적 성격이 강해 특수한 케이스가 아니면 지양한다.
 2. **언제 멈출 것인가?**
    - 갱신보다 조회가 압도적으로 많은 테이블 (예: 통계성 게시판, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 테이블)이라면 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 기준을 완화하고 읽기 최적화 설계를 채택한다.
-3. **[무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)가 제대로 되었는가?**
+3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a>가 제대로 되었는가?</strong>
    - 분해된 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)들의 공통 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 적어도 한 쪽 테이블에서는 기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))나 유일키 (Unique [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 역할을 해야 무손실 조인이 성립한다.
 
 - **📢 섹션 요약 비유**: 외과 수술([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))을 너무 깊게 하면 종양(중복)은 완벽히 제거되지만, 환자(DB)가 회복하지 못해 걷지도(조회) 못하게 됩니다. 살 수 있는 선까지만 자르는 것이 명의입니다.
@@ -121,21 +119,23 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-데이터 종속성 파악 (Functional Dependency)
-    │
-    ▼
-정규화 적용 (1NF ~ BCNF)
-    │
-    ▼
-무손실 분해 및 종속성 보존 검증
-    │
-    ▼
-논리적 무결성 확보 (Anomaly 제거)
-    │
-    ▼
-성능 튜닝 및 반정규화 (De-normalization) 결합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">데이터 종속성 파악 (Functional Dependency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정규화 적용 (1NF ~ BCNF)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무손실 분해 및 종속성 보존 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">논리적 무결성 확보 (Anomaly 제거)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">성능 튜닝 및 반정규화 (De-normalization) 결합</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 분석을 시작으로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 거쳐 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확보한 뒤, 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 타협점인 반정규화로 이어지는 실무적 발전 과정을 보여준다.
 

@@ -29,20 +29,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              VXLAN 오버레이 구조                                  │
-├──────────────────────────────────────────────────────────────────┤
-│  [VM A] ─────────────────────────────── [VM B]                  │
-│  논리 네트워크 (Overlay, VNI=10001)                               │
-│    │                                       │                    │
-│  [VTEP A]                               [VTEP B]               │
-│  VXLAN 터널 엔드포인트                  VXLAN 터널 엔드포인트    │
-│    └── UDP/IP 캡슐화 ──▶ [물리 네트워크] ──▶ 역캡슐화 ──────────┘│
-│                                                                  │
-│  VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)   │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 오버레이 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VM A</div><div class="kb-diagram-node">VM B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 네트워크 (Overlay, VNI=10001)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VTEP A</div><div class="kb-diagram-node">VTEP B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 터널 엔드포인트 VXLAN 터널 엔드포인트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 네트워크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">역캡슐화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)</div></div>
+</div>
+</div>
+
+
 
 | 항목           | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)                  | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)                          |
 | :------------- | :-------------------- | :----------------------------- |
@@ -51,9 +52,9 @@ tags = ["studynote-devops-sre"]
 | 제어 평면      | [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) ([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/))     | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) (권장)                |
 | 멀티테넌시     | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 공유             | VNI별 완전 격리                |
 
-**[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/)**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 제어 평면으로, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/IP 주소를 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 업데이트로 배포해 VTEP 간 플러드(Flood & Learn) 없이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 학습을 수행한다.
+<strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/">EVPN</a></strong>: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 제어 평면으로, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/IP 주소를 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 업데이트로 배포해 VTEP 간 플러드(Flood & Learn) 없이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 학습을 수행한다.
 
-**[SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/)**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) + [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) + [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 컴퓨팅을 통합해 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체를 소프트웨어로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한다. VMware NSX + vSAN + vSphere가 대표 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 구현이다.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a></strong>: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) + [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) + [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 컴퓨팅을 통합해 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체를 소프트웨어로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한다. VMware NSX + vSAN + vSphere가 대표 [SDDC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/) 구현이다.
 
 - 📢 섹션 요약 비유: VXLAN은 물리 도로(Underlay) 위에 가상의 전용 도로(Overlay)를 추가로 그리는 것이다. 테넌트마다 전용 도로를 할당해 완전히 분리된 길을 달릴 수 있다.
 
@@ -74,13 +75,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>/<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 설계 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. VTEP 위치: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(소프트웨어 VTEP) vs 물리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(하드웨어 VTEP) 선택
 2. [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 제어 평면 적용으로 플러드 트래픽 제거
 3. MTU [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버헤드 50바이트를 고려해 물리 인터페이스 MTU를 1600 이상으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 4. VNI 네이밍 규칙 정의: 테넌트·환경(prod/dev)·[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID 매핑 문서화
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) MTU 미설정 → 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
 - [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [EVPN](/knowledge-base/studynote/03_network/16_data_center_cloud/820_evpn_ethernet_vpn_bgp_control_plane/) 없이 플러드 모드 → 브로드캐스트 폭풍
 - [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) Controller [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure) 구성
@@ -111,24 +112,25 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통 VLAN (4,096 세그먼트 한계)
-    │
-    ▼
-OpenFlow + SDN Controller — 제어/데이터 평면 분리
-    │
-    ▼
-VXLAN (24비트 VNI, 16M 세그먼트) — 멀티테넌트 확장
-    │
-    ▼
-BGP EVPN — VXLAN 제어 평면, 플러드 제거
-    │
-    ▼
-SDDC (NSX-T + vSAN + vSphere) — 전체 데이터센터 추상화
-    │
-    ▼
-eBPF (Cilium) — 오버레이 없는 직접 네트워킹
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 VLAN (4,096 세그먼트 한계)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenFlow + SDN Controller — 제어/데이터 평면 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">VXLAN (24비트 VNI, 16M 세그먼트) — 멀티테넌트 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BGP EVPN — VXLAN 제어 평면, 플러드 제거</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SDDC (NSX-T + vSAN + vSphere) — 전체 데이터센터 추상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">eBPF (Cilium) — 오버레이 없는 직접 네트워킹</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

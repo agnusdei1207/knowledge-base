@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/) (Hardware [Lock Elision](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/), HLE)은 락 자체를 없애는 기술이 아니라, 충돌이 없을 것이라고 가정하고 **실제 락 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략한 채 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 추측 실행**하는 하드웨어 최적화다.
+> 1. **본질**: 하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/) (Hardware [Lock Elision](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/), HLE)은 락 자체를 없애는 기술이 아니라, 충돌이 없을 것이라고 가정하고 <strong>실제 락 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 생략한 채 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>을 추측 실행</strong>하는 하드웨어 최적화다.
 > 2. **가치**: 짧고 경합이 낮은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에서는 락 변수 캐시 라인 바운싱을 줄여, 기존 락 코드를 크게 바꾸지 않고도 병렬성을 끌어올릴 수 있다.
 > 3. **판단 포인트**: HLE는 항상 일반 락 경로를 대체할 수 없어야 하며, 중단 (Abort) 비율·보안 제한·CPU 지원 여부를 확인하지 않으면 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 운영 안정성이 함께 나빠질 수 있다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/)은 기존 락 획득 명령을 그대로 두면서, CPU (Central Processing Unit)가 내부적으로는 락 변수에 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하지 않고 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 병렬로 실행해 보는 낙관적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다. 즉 프로그램은 여전히 락을 사용하는 것처럼 보이지만, 하드웨어는 "정말로 서로 충돌하지 않으면 락을 안 잡은 셈으로 처리해도 되지 않을까?"를 시도한다. 이 개념의 핵심은 락 제거가 아니라 **불필요한 직렬화 제거**다.
+하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/)은 기존 락 획득 명령을 그대로 두면서, CPU (Central Processing Unit)가 내부적으로는 락 변수에 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하지 않고 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 병렬로 실행해 보는 낙관적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법이다. 즉 프로그램은 여전히 락을 사용하는 것처럼 보이지만, 하드웨어는 "정말로 서로 충돌하지 않으면 락을 안 잡은 셈으로 처리해도 되지 않을까?"를 시도한다. 이 개념의 핵심은 락 제거가 아니라 <strong>불필요한 직렬화 제거</strong>다.
 
 이 기술이 등장한 배경은 전통적 락이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌보다 락 변수 하나를 둘러싼 경합을 더 크게 만드는 경우가 많았기 때문이다. 예를 들어 두 스레드가 같은 큰 해시 테이블에 접근하더라도 서로 다른 버킷만 만진다면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌은 없을 수 있다. 그런데도 단일 스핀락을 쓰면 둘 다 락 캐시 라인을 번갈아 소유하며 기다려야 하므로, 병목은 자료구조가 아니라 락 변수에서 먼저 생긴다.
 
@@ -45,24 +45,21 @@ HLE는 x86 계열에서 `XACQUIRE`, `XRELEASE` [힌트](/knowledge-base/studynot
 
 다음 그림은 HLE가 락 변수보다 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 기준으로 직렬화를 결정한다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ HLE 경로: 락 변수 대신 데이터 충돌이 직렬화 기준이 된다                    │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ XACQUIRE lock op                                                            │
-│        │                                                                     │
-│        ├─ 성공 가능 ─▶ [락 변수 메모리 쓰기 생략]                           │
-│        │                 │                                                   │
-│        │                 ▼                                                   │
-│        │           [Read/Write Set 추적]                                     │
-│        │                 │                                                   │
-│        │     conflict / interrupt / capacity abort?                          │
-│        │                 │                                                   │
-│        └──── abort ──────┴────────▶ [Rollback + 일반 락 경로]                │
-│                          │                                                   │
-│                          └──────── no abort ─▶ XRELEASE에서 commit           │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HLE 경로: 락 변수 대신 데이터 충돌이 직렬화 기준이 된다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XACQUIRE lock op</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 변수 메모리 쓰기 생략</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Read/Write Set 추적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">conflict / interrupt / capacity abort?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rollback + 일반 락 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no abort ─▶ XRELEASE에서 commit</div></div>
+</div>
+</div>
+
+
 
 또 하나 중요한 특성은 하위 호환성이다. HLE [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 이해하지 못하는 CPU에서는 해당 프리픽스가 사실상 무시되어 기존 락 코드처럼 동작한다. 덕분에 동일 바이너리로 폭넓은 호환을 기대할 수 있었지만, 반대로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장은 어디까지나 "지원되는 CPU + 맞는 워크로드"에서만 얻을 수 있는 부가 최적화라는 뜻이기도 하다.
 
@@ -84,7 +81,7 @@ HLE는 보통 일반 락, 제한적 [트랜잭셔널 메모리](/knowledge-base/
 
 이 차이는 중요한 실무 의미를 갖는다. HLE는 "잘되면 이득"인 낙관적 가속이므로 correctness를 맡기면 안 되고, RTM은 잘 쓰면 더 강력하지만 지원 불가 명령, 시스템 콜, 긴 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/), 예외 처리까지 고려해야 해 설계 복잡도가 커진다. [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 알고리즘은 락 변수 자체를 없애지만, ABA 문제나 메모리 회수 문제 같은 별도의 난제를 새로 가져온다.
 
-결국 HLE는 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 패밀리 안에서 가장 보수적이고, 가장 레거시 친화적인 위치에 있다. 그래서 기술사 관점에서는 "HLE가 락을 대체한다"가 아니라, **기존 락 모델 위에 얹는 투명한 추측 실행 최적화**라고 정리하는 편이 정확하다.
+결국 HLE는 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 패밀리 안에서 가장 보수적이고, 가장 레거시 친화적인 위치에 있다. 그래서 기술사 관점에서는 "HLE가 락을 대체한다"가 아니라, <strong>기존 락 모델 위에 얹는 투명한 추측 실행 최적화</strong>라고 정리하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 일반 락이 정식 예약제라면, HLE는 빈자리면 그냥 앉아 보는 자유석이고, RTM은 행사장 전체를 통째로 빌리는 방식이다. 자유는 커질수록 규칙과 책임도 함께 늘어난다.
 
@@ -117,11 +114,11 @@ HLE는 보통 일반 락, 제한적 [트랜잭셔널 메모리](/knowledge-base/
 
 ## Ⅴ. 기대효과 및 결론
 
-HLE가 잘 맞는 코드에서는 락 변수 하나를 둘러싼 불필요한 직렬화를 줄여, 멀티코어 확장성과 평균 지연을 개선할 수 있다. 특히 레거시 소프트웨어를 대수술하지 않고도 하드웨어가 일부 병렬성을 되찾아 준다는 점이 매력적이다. 즉 HLE의 가치는 "새 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 모델 도입"보다 **기존 모델의 낭비를 줄이는 것**에 있다.
+HLE가 잘 맞는 코드에서는 락 변수 하나를 둘러싼 불필요한 직렬화를 줄여, 멀티코어 확장성과 평균 지연을 개선할 수 있다. 특히 레거시 소프트웨어를 대수술하지 않고도 하드웨어가 일부 병렬성을 되찾아 준다는 점이 매력적이다. 즉 HLE의 가치는 "새 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 모델 도입"보다 <strong>기존 모델의 낭비를 줄이는 것</strong>에 있다.
 
 그러나 이득은 항상 조건부다. 중단 확률이 높아지면 롤백과 재실행 비용이 쌓이고, 보안 정책이나 CPU 세대에 따라 기능 자체가 꺼질 수 있으며, 설계자가 통제할 수 있는 범위도 제한적이다. 앞으로도 낙관적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 자체는 다양한 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 계열 확장이나 언어 런타임 최적화로 이어지겠지만, HLE 자체는 역사적 의미와 제한적 실무 활용을 함께 가진 기술로 보는 편이 균형 잡힌 관점이다.
 
-따라서 하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/)은 "락을 없애는 마법"이 아니라, **원래 있던 락을 필요할 때만 진짜로 잡게 만드는 투명한 추측 최적화**로 기억해야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻되, correctness는 언제나 기존 락이 책임진다는 점을 잊지 않는 것이 핵심이다.
+따라서 하드웨어 [락 엘리전](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/)은 "락을 없애는 마법"이 아니라, <strong>원래 있던 락을 필요할 때만 진짜로 잡게 만드는 투명한 추측 최적화</strong>로 기억해야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻되, correctness는 언제나 기존 락이 책임진다는 점을 잊지 않는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: HLE는 무인 계산대 같은 기술이다. 손님이 질서 있게 움직이면 계산이 빨라지지만, 충돌이나 보안 문제가 생기면 언제든 직원이 있는 일반 계산대로 돌아가야 안전하다.
 
@@ -140,21 +137,23 @@ HLE가 잘 맞는 코드에서는 락 변수 하나를 둘러싼 불필요한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 스핀락 · 뮤텍스
-        │
-        ▼
-낙관적 동기화 아이디어
-        │
-        ▼
-TSX 기반 HLE · RTM
-        │
-        ▼
-abort 분석 · 보안 완화 · 선택적 비활성화
-        │
-        ▼
-보다 정교한 HTM · 런타임 기반 충돌 회피 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 스핀락 · 뮤텍스</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">낙관적 동기화 아이디어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TSX 기반 HLE · RTM</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">abort 분석 · 보안 완화 · 선택적 비활성화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">보다 정교한 HTM · 런타임 기반 충돌 회피 최적화</div>
+</div>
+</div>
+
+
 
 이 흐름은 락 중심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 "무조건 직렬화"에서 "가능하면 추측 병렬화"로 확장되었지만, 결국 보안과 운영 안정성 조건까지 함께 판단해야 하는 단계로 발전했음을 보여 준다.
 

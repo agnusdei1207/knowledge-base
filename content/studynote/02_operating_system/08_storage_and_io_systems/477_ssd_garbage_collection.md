@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SSD의 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)은 '덮어쓰기'가 안 되어 쓰레기(Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 가득 차버린 낸드 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 블록에서, **아직 살아있는 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Valid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들만 쏙쏙 뽑아 새 블록으로 이사(Copy)시킨 뒤, 옛날 블록 전체에 고압 전기를 쏴서 텅 빈 깨끗한 상태(Erase)로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하는 내부 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 대청소 작업**이다.
-> 2. **가치**: 이 끔찍한 쓰레기 수거 작업이 없으면 SSD는 한 바퀴 용량을 다 채우는 순간 더 이상 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 빈 공간(Free Block)을 잃고 컴퓨터가 뻗어버리는 일회용 저장소로 전락하기 때문에, **SSD의 생명 연장과 재사용성을 보장하는 가장 필수적인 심장 박동**이다.
-> 3. **융합(한계)**: 유저가 엑셀 저장을 누를 때 하필 이 대청소가 같이 터지면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 100배 느려지는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 절벽(Write Cliff / 렉)'이 발생하므로, 컨트롤러는 이를 덮기 위해 **오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)(OP) 여유 공간**과 OS의 **TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**를 융합하여 백그라운드에서 유저 몰래 청소하는 극한의 눈치 게임을 펼친다.
+> 1. **본질**: SSD의 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)은 '덮어쓰기'가 안 되어 쓰레기(Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 가득 차버린 낸드 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 블록에서, <strong>아직 살아있는 정상 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Valid <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)들만 쏙쏙 뽑아 새 블록으로 이사(Copy)시킨 뒤, 옛날 블록 전체에 고압 전기를 쏴서 텅 빈 깨끗한 상태(Erase)로 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화하는 내부 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a>의 대청소 작업</strong>이다.
+> 2. **가치**: 이 끔찍한 쓰레기 수거 작업이 없으면 SSD는 한 바퀴 용량을 다 채우는 순간 더 이상 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 빈 공간(Free Block)을 잃고 컴퓨터가 뻗어버리는 일회용 저장소로 전락하기 때문에, <strong>SSD의 생명 연장과 재사용성을 보장하는 가장 필수적인 심장 박동</strong>이다.
+> 3. **융합(한계)**: 유저가 엑셀 저장을 누를 때 하필 이 대청소가 같이 터지면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 100배 느려지는 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 절벽(Write Cliff / 렉)'이 발생하므로, 컨트롤러는 이를 덮기 위해 <strong>오버 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a>(OP) 여유 공간</strong>과 OS의 <strong>TRIM <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>를 융합하여 백그라운드에서 유저 몰래 청소하는 극한의 눈치 게임을 펼친다.
 
 ---
 
@@ -27,33 +27,30 @@ tags = ["studynote-operating-system"]
   2. **Erase 사이즈의 거대함**: 1장만 지우면 되는데 무조건 512장(1블록)을 같이 묶어서 지워야 하는 병맛 같은 물리적 한계.
   3. **GC의 등장**: 결국 쓰레기장에 남은 쓸만한 물건만 밖으로 건져내고 쓰레기장 전체를 불태우는 방식으로 공간 낭비를 돌파.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        SSD 가비지 컬렉션(GC)의 피눈물 나는 3단계 런타임 시각화        │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 상황: 낡은 블록 1번 안에 쓰레기 3개와 쓸만한 놈 1개가 섞여 있음 ]   │
-│                                                                       │
-│ ┌─── 블록 1 (낡음) ───┐     ┌─── 블록 2 (새 텅 빈 방) ───┐            │
-│ │ [ 💀 쓰레기 (A) ] │     │ [           ]         │                   │
-│ │ [ 💀 쓰레기 (B) ] │     │ [           ]         │                   │
-│ │ [ 🟢 유효함 (C) ] │     │ [           ]         │                   │
-│ │ [ 💀 쓰레기 (D) ] │     │ [           ]         │                   │
-│ └───────────────────┘     └─────────────────────────┘                 │
-│                                                                       │
-│ ▶ 1단계: 유효 데이터 이주 (Read & Copy)                               │
-│  - 컨트롤러: "어휴, 저 🟢 C 하나 때문에 블록 1번을 통째로 못 지우네!" │
-│  - 블록 1의 🟢 C 를 복사해서 ──▶ 새 블록 2의 첫째 칸에 옮겨 씀!       │
-│  - 이제 블록 1의 C도 [ 💀 쓰레기 ]로 마킹됨 (원본 역할 끝남).         │
-│                                                                       │
-│ ▶ 2단계: 다이너마이트 폭파 (Erase!)                                   │
-│  - 컨트롤러: "좋아! 블록 1에 이제 쓰레기 4개뿐이지? 20V 전기 쏴!"     │
-│  - 💥 블록 1 전체가 하얗게 불타며 완벽한 [ 텅 빈 프리 블록 ]으로 부활!│
-│                                                                       │
-│ ▶ 3단계: 장부(매핑 테이블) 갱신 (Update FTL)                          │
-│  - OS야, 앞으론 데이터 C 부를 땐 블록 2번으로 와라. 화살표 쓱 수정~   │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 가비지 컬렉션(GC)의 피눈물 나는 3단계 런타임 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 낡은 블록 1번 안에 쓰레기 3개와 쓸만한 놈 1개가 섞여 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 1 (낡음) 블록 2 (새 텅 빈 방)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (A)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 유효함 (C)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (D)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1단계: 유효 데이터 이주 (Read &amp; Copy)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨트롤러: "어휴, 저 🟢 C 하나 때문에 블록 1번을 통째로 못 지우네!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 1의 🟢 C 를 복사해서 ──▶ 새 블록 2의 첫째 칸에 옮겨 씀!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 이제 블록 1의 C도</div><div class="kb-diagram-node">💀 쓰레기</div><div class="kb-diagram-note">로 마킹됨 (원본 역할 끝남).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2단계: 다이너마이트 폭파 (Erase!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨트롤러: "좋아! 블록 1에 이제 쓰레기 4개뿐이지? 20V 전기 쏴!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- 💥 블록 1 전체가 하얗게 불타며 완벽한</div><div class="kb-diagram-node">텅 빈 프리 블록</div><div class="kb-diagram-note">으로 부활!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3단계: 장부(매핑 테이블) 갱신 (Update FTL)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS야, 앞으론 데이터 C 부를 땐 블록 2번으로 와라. 화살표 쓱 수정~</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 이 아름다운 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정을 위해 하드웨어는 엄청난 '시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'을 피눈물로 지불해야 한다. C를 복사하는 시간(Read+Write)에 블록을 폭파하는 시간(Erase 5ms)까지, 한낱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개 살리자고 디스크가 몇 밀리초 동안 멈춰버리는 것이다. 유저가 게임을 다운받는 와중에 이 짓거리가 터지면 다운로드 속도가 1GB/s에서 50MB/s로 수직 낙하하는 '프리징(Freeze)'의 주범이 된다.
 
 - **📢 섹션 요약 비유**: 냉장고([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 김치통(블록)들로 꽉 차서 새 반찬을 넣을 곳이 없습니다. 통 안에는 쉰 김치(쓰레기)가 잔뜩 있고 멀쩡한 김치(유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 한 쪼가리뿐입니다. 쉰 김치만 쏙 빼서 버리면 좋겠지만 이 김치통은 무조건 통째로 비워야(Erase) 하는 마법의 통입니다. 그래서 새 김치통(프리 블록)을 하나 가져와서 멀쩡한 김치 한 쪼가리를 옮겨 담고, 기존 김치통은 통째로 쓰레기통에 쏟아버려 빈 통으로 부활시키는 설거지 노가다입니다.
@@ -64,15 +61,15 @@ tags = ["studynote-operating-system"]
 
 ### [Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) ([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))의 끔찍한 나비효과
 
-[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 가장 큰 죄악은 **"나는 쓰라고 명령하지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 SSD가 혼자서 마음대로 썼다 지웠다 반복한다"**는 점이다.
+[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 가장 큰 죄악은 <strong>"나는 쓰라고 명령하지 않은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 SSD가 혼자서 마음대로 썼다 지웠다 반복한다"</strong>는 점이다.
 - OS(유저)가 SSD에 "4KB 써라!"라고 명령했다. (Host Write: 4KB).
 - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부는 꽉 차서 4KB를 쓸 빈방이 없었다. GC를 발동한다.
 - GC가 빈 블록을 만들기 위해, 낡은 블록 5개를 뒤져서 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1.9MB어치를 새 블록으로 이사시켰다(복사 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생).
 - 그리고 낡은 블록을 지운 뒤, 마침내 유저가 시킨 4KB를 그 빈 공간에 썼다.
 - **물리적 결과 (NAND Write)**: 
-  유저가 시킨 건 4KB인데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 낸드 칩은 이사 가느라 1.9MB를 썼고, 거기에 4KB를 더 썼다. 총 **약 2MB(2000KB)의 물리적 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)**가 발생했다!
+  유저가 시킨 건 4KB인데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 낸드 칩은 이사 가느라 1.9MB를 썼고, 거기에 4KB를 더 썼다. 총 <strong>약 2MB(2000KB)의 물리적 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>가 발생했다!
 - **WA 계수 = 2000 / 4 = 500배 폭증**.
-이것을 **[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/), WA)**이라 부르며, 낸드 셀의 제한된 수명(TBW)을 빛의 속도로 갉아먹어 비싼 SSD를 1년 만에 사망하게 만드는 가장 무서운 암 덩어리다.
+이것을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">Write Amplification</a>, WA)</strong>이라 부르며, 낸드 셀의 제한된 수명(TBW)을 빛의 속도로 갉아먹어 비싼 SSD를 1년 만에 사망하게 만드는 가장 무서운 암 덩어리다.
 
 ---
 
@@ -87,7 +84,7 @@ tags = ["studynote-operating-system"]
    - 유저가 100GB짜리 영화를 한 방에 냅다 다운받는다. 
    - 쟁여둔 빈방이 순식간에 다 털렸다. 램 잔고가 0이 됐다.
    - 당장 4KB를 더 받아야 하는데 빈방이 없다. 컨트롤러는 다운로드를 강제로 '일시 정지(Stall)'시키고, 다운받는 와중에 눈앞에서 쓰레기 블록을 털어 이사시키고 폭파(Erase)하는 대청소를 눈물을 흘리며 쌩으로 돌린다.
-   - 유저가 보는 다운로드 속도 막대기가 바닥으로 뚝 떨어지는 **'[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 절벽(Write Cliff)'** 현상이 바로 이 포그라운드 GC가 터졌다는 확실한 증거다.
+   - 유저가 보는 다운로드 속도 막대기가 바닥으로 뚝 떨어지는 <strong>'<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 절벽(Write Cliff)'</strong> 현상이 바로 이 포그라운드 GC가 터졌다는 확실한 증거다.
 
 - **📢 섹션 요약 비유**: 손님이 식당에 안 올 때 알바생이 미리미리 빈 그릇을 다 씻어두면(백그라운드 GC) 단체 손님이 몰려와도 1초 만에 요리가 나갑니다. 하지만 알바생이 놀다가 단체 손님이 와서 그릇이 동났을 때(빈방 고갈), 손님을 카운터에 세워두고 그제야 허겁지겁 빈 그릇을 퐁퐁으로 씻고 있으면(포그라운드 GC) 손님은 빡쳐서 식당 리뷰에 별점 1점을 남깁니다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락).
 
@@ -97,19 +94,19 @@ tags = ["studynote-operating-system"]
 
 ### 비교 1: Over-Provisioning (OP) 여유 공간의 마법
 
-GC의 속도와 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA)을 줄이는 유일한 물리적 해결책은 **'빈 공간을 많이 남겨두는 것'**뿐이다. 공간이 빽빽할수록 이사 갈 빈집 찾기가 지옥이 되기 때문이다.
+GC의 속도와 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA)을 줄이는 유일한 물리적 해결책은 <strong>'빈 공간을 많이 남겨두는 것'</strong>뿐이다. 공간이 빽빽할수록 이사 갈 빈집 찾기가 지옥이 되기 때문이다.
 
 | 사용 상황 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내 빈 공간 상태 | GC의 이사(Copy) 난이도 | [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA) | 체감 수명과 속도 |
 |:---|:---|:---|:---|:---|
-| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 용량 99% 사용 중** | 꽉 차서 숨 막힘 | 낡은 블록에 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(살릴 놈)가 99% 차 있음. 이놈들 다 옮기느라 토 나옴 | ☠️ 10배~100배 폭발 | 3달 안에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗고 속도 기어다님 |
-| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 용량 50% 사용 중** | 빈 공간 널널함 | 낡은 블록 까보면 50%가 이미 쓰레기임. 살릴 놈 절반만 쓱 옮기면 됨 | 🟢 2배 수준으로 양호 | 5년 쾌적하게 쌩쌩 돌아감 |
-| **제조사 강제 OP [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%**| 유저 몰래 숨겨둔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% | 100% 꽉 채워도 숨겨진 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 도망갈 빈집이 무조건 보장됨 | 최소한 서버가 즉사하는 건 막음 | 벤치마크 속도를 보장하는 방파제 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 용량 99% 사용 중</strong> | 꽉 차서 숨 막힘 | 낡은 블록에 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(살릴 놈)가 99% 차 있음. 이놈들 다 옮기느라 토 나옴 | ☠️ 10배~100배 폭발 | 3달 안에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗고 속도 기어다님 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 용량 50% 사용 중</strong> | 빈 공간 널널함 | 낡은 블록 까보면 50%가 이미 쓰레기임. 살릴 놈 절반만 쓱 옮기면 됨 | 🟢 2배 수준으로 양호 | 5년 쾌적하게 쌩쌩 돌아감 |
+| <strong>제조사 강제 OP <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%</strong>| 유저 몰래 숨겨둔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% | 100% 꽉 채워도 숨겨진 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 도망갈 빈집이 무조건 보장됨 | 최소한 서버가 즉사하는 건 막음 | 벤치마크 속도를 보장하는 방파제 |
 
 **[핵심 교훈]**: "SSD는 용량을 꽉 채워 쓰면 고장 난다"는 말이 미신이 아니라 100% 하드웨어 아키텍처(GC)에서 비롯된 진리다. 꽉 찬 SSD에서 GC를 돌리는 건, 만원 지하철에서 맨 안쪽 사람이 밖으로 빠져나가기 위해 100명의 사람을 이리저리 밀치고 자리를 바꾸는 끔찍한 오버헤드와 같다.
 
 ### TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/): [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 위대한 자백 (결정적 융합)
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) SSD의 GC는 최악의 바보였다. OS에서 10GB 영화를 휴지통에 넣고 비워버렸다. OS 장부(NTFS)에선 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 날아갔지만, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 하드웨어는 OS의 장부를 못 읽는다. 그래서 그 10GB 공간을 "아직 유저가 소중히 아끼는 10GB 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 착각하고, GC가 돌 때마다 그 10GB를 새 블록으로 낑낑대며 평생 이사(Copy)시켜주는 개삽질을 반복했다.
-이를 타개하기 위해 OS가 SSD에게 **"야! 방금 나 10GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제했어! 너네 그 10GB LBA 주소에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들 싹 다 쓰레기(Invalid)로 마킹해! 이사시킬 때 버려도 돼!"**라고 귓속말을 날려주는 **TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**가 발명되었다.
+이를 타개하기 위해 OS가 SSD에게 <strong>"야! 방금 나 10GB <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 삭제했어! 너네 그 10GB LBA 주소에 있는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들 싹 다 쓰레기(Invalid)로 마킹해! 이사시킬 때 버려도 돼!"</strong>라고 귓속말을 날려주는 <strong>TRIM <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>가 발명되었다.
 TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 훌훌 버리고 홀가분하게 GC를 돌릴 수 있게 되어 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 역사상 가장 위대한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 구원자가 되었다.
 
 - **📢 섹션 요약 비유**: 옛날 이사업체(GC)는 집주인(OS)이 뭘 버렸는지 몰라서 방구석에 처박힌 낡은 곰 인형(삭제된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))까지 애지중지 새집으로 다 옮겨 담았습니다(삽질 낭비). TRIM은 집주인이 이사 전날 낡은 곰 인형에 "이거 쓰레기니까 버려!"라고 노란 딱지(TRIM)를 딱 붙여주는 겁니다. 이사업체는 딱지 붙은 건 쿨하게 놔두고 가벼운 짐만 새집에 옮기면 되니 이사 속도가 빛처럼 빨라집니다.
@@ -125,10 +122,10 @@ TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/
    - GC가 터질 때마다 파편을 주워 모으느라 서버 응답 시간이 1초씩 툭툭 끊긴다(Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)).
 3. **신의 아키텍처 (LSM Tree / Append-Only)**:
    - [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)나 최신 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) DB 개발자들은 SSD의 이 GC 렉을 피하기 위해 **덮어쓰기(Random Write) 자체를 코딩에서 완전히 금지시켜버렸다.**
-   - 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 끝에 덧붙여 쓰는 **순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Append-Only)**만 한다.
+   - 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 끝에 덧붙여 쓰는 <strong>순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(Append-Only)</strong>만 한다.
    - 이렇게 하면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부의 블록 1번, 2번, 3번이 순서대로 100% 꽉꽉 뭉쳐서 채워진다. 
    - 낡은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 삭제할 때도 무작위로 안 지우고 "어제 자 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 10GB 통째로 날려!"라고 뭉텅이로 지운다.
-   - **결과**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 블록 안에 쓰레기 100%만 존재하거나, 유효 100%만 존재하게 된다! GC가 이사(Copy)를 다닐 필요 없이 그냥 쓰레기 블록을 쿨하게 통째로 폭파(Erase)시켜버리면 끝이므로, **[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA)이 1에 수렴하며 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 영구기관처럼 100만 IOPS를 뿜어낸다.**
+   - **결과**: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 블록 안에 쓰레기 100%만 존재하거나, 유효 100%만 존재하게 된다! GC가 이사(Copy)를 다닐 필요 없이 그냥 쓰레기 블록을 쿨하게 통째로 폭파(Erase)시켜버리면 끝이므로, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>(WA)이 1에 수렴하며 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 영구기관처럼 100만 IOPS를 뿜어낸다.</strong>
 
 - **📢 섹션 요약 비유**: 문서 작업할 때 글자 하나 틀렸다고 그 부분만 화이트로 칠하고 다시 쓰면(랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 종이가 더러워지고 화이트 마르는 걸(GC) 기다려야 합니다. 고수들은 틀리든 말든 화이트를 안 쓰고 무조건 밑으로 죽죽 이어서 새로운 버전을 씁니다(순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)). 나중에 낡은 종이는 통째로 찢어서 휴지통에 버리면 끝이죠. SSD는 이 화이트(부분 삭제)를 극도로 혐오하는 기계입니다.
 
@@ -140,8 +137,8 @@ TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/) 한계 극복** | 덮어쓰기가 불가능한 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)의 치명적 결함을, 무효화(Invalidate)와 후청소(GC)라는 백그라운드 꼼수로 가려내 유저에게 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 환상 제공 |
-| **[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 수명(TBW)의 극적 보존** | TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)을 결합하여 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이사([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 수천 번의 낸드 수명으로 수년간 서버를 굴릴 수 있게 함 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/">Erase-before-write</a> 한계 극복</strong> | 덮어쓰기가 불가능한 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)의 치명적 결함을, 무효화(Invalidate)와 후청소(GC)라는 백그라운드 꼼수로 가려내 유저에게 연속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)의 환상 제공 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 수명(TBW)의 극적 보존</strong> | TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)을 결합하여 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이사([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 수천 번의 낸드 수명으로 수년간 서버를 굴릴 수 있게 함 |
 | **Storage 벤더의 기술 격차** | 이 쓰레기를 얼마나 스마트하게 묶어 버리느냐([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 삼성, 마이크론 등 컨트롤러 칩셋 제조사의 기술력과 가격을 가르는 절대 지표 |
 
 ### 결론 및 미래 전망
@@ -163,15 +160,19 @@ TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[플래시 메모리 한계]
-    │
-    ▼
-[가비지 컬렉션 (Garbage Collection in SSD)]
-    │
-    ├──▶ [FTL (Flash Translation Layer)]
-    └──▶ [마모 평준화 (Wear Leveling)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">플래시 메모리 한계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection in SSD)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FTL (Flash Translation Layer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마모 평준화 (Wear Leveling)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

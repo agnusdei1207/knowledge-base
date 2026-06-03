@@ -41,23 +41,22 @@ REST의 핵심 제약은 [Client-Server](/knowledge-base/studynote/04_software_e
 
 아래 그림은 REST 요청이 자원 중심으로 흘러가는 기본 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ REST request flow                                            │
-├──────────────────────────────────────────────────────────────┤
-│ Client                                                       │
-│   │  GET /orders/100                                         │
-│   ▼                                                          │
-│ Cache / Gateway / Proxy                                      │
-│   │                                                          │
-│   ▼                                                          │
-│ Resource endpoint -> representation(JSON/XML)                │
-│   │                                                          │
-│   └-> HTTP status + links + cache metadata                   │
-└──────────────────────────────────────────────────────────────┘
-```
 
-즉 REST의 핵심은 URL만 예쁘게 짓는 것이 아니라, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 자체가 가진 의미를 살려 **웹의 기본 동작 원리 위에 API를 얹는 것**이다. 그래서 메서드 의미와 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 무시한 채 `POST /getUser` 같은 형태를 쓰면 HTTP를 터널처럼 쓰는 셈이 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST request flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /orders/100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache / Gateway / Proxy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource endpoint -&gt; representation(JSON/XML)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; HTTP status + links + cache metadata</div></div>
+</div>
+</div>
+
+
+
+즉 REST의 핵심은 URL만 예쁘게 짓는 것이 아니라, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 자체가 가진 의미를 살려 <strong>웹의 기본 동작 원리 위에 API를 얹는 것</strong>이다. 그래서 메서드 의미와 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 무시한 채 `POST /getUser` 같은 형태를 쓰면 HTTP를 터널처럼 쓰는 셈이 된다.
 
 - **📢 섹션 요약 비유**: REST는 집집마다 주소를 붙이고, 택배·반품·조회 규칙을 표준화한 동네와 같다. 주소만 있고 규칙이 없으면 오히려 더 혼란스럽다.
 
@@ -106,7 +105,7 @@ REST는 이후 [Richardson Maturity Model](/knowledge-base/studynote/07_enterpri
 
 REST를 제대로 적용하면 API의 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/), 캐시 효율, 확장성, 도구 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 좋아진다. 웹 프런트엔드, 모바일 앱, 외부 파트너가 같은 자원 규칙을 공유하므로 문서화와 운영 자동화도 쉬워진다. 특히 [무상태성](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)과 계층화는 클라우드 환경에서 수평 확장과 게이트웨이 운영에 큰 장점을 준다.
 
-반면 REST가 모든 통합 문제의 정답은 아니다. 강한 계약, 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장, 초저지연 이진 통신이 더 중요한 환경에서는 [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), 이벤트 기반 방식이 더 적절할 수 있다. 따라서 REST는 "HTTP로 API를 만든다"가 아니라 **웹의 제약을 이용해 단순하고 확장 가능한 인터페이스를 설계하는 방식**으로 기억해야 한다.
+반면 REST가 모든 통합 문제의 정답은 아니다. 강한 계약, 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장, 초저지연 이진 통신이 더 중요한 환경에서는 [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/153_soap_simple_object_access_protocol/), [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/), 이벤트 기반 방식이 더 적절할 수 있다. 따라서 REST는 "HTTP로 API를 만든다"가 아니라 <strong>웹의 제약을 이용해 단순하고 확장 가능한 인터페이스를 설계하는 방식</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: REST는 동네 전체가 같은 교통 법규를 쓰게 만드는 일과 같다. 규칙이 통일되면 새 차가 들어와도 훨씬 덜 헷갈린다.
 
@@ -124,20 +123,22 @@ REST를 제대로 적용하면 API의 [가독성](/knowledge-base/studynote/04_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RPC over HTTP
-  │
-  ▼
-REST resource design
-  │
-  ▼
-RESTful API maturity
-  │
-  ├─> HTTP caching / stateless auth
-  │
-  ▼
-Hypermedia / API governance / modern web APIs
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RPC over HTTP</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">REST resource design</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RESTful API maturity</div>
+<div class="kb-diagram-tree-item" style="--depth:1">HTTP caching / stateless auth</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hypermedia / API governance / modern web APIs</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

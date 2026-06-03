@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 중 노이즈나 충돌로 인해 수신 측에 패킷 에러(손상)나 유실이 발생했을 때, 수신 측이 송신 측에게 **"야! [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨졌어! 못 받았으니까 똑같은 거 다시 쏴줘(재전송)!"라고 자동으로 요구하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 100%를 보장하는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 기법**입니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 중 노이즈나 충돌로 인해 수신 측에 패킷 에러(손상)나 유실이 발생했을 때, 수신 측이 송신 측에게 <strong>"야! <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 깨졌어! 못 받았으니까 똑같은 거 다시 쏴줘(재전송)!"라고 자동으로 요구하여 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 100%를 보장하는 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a> 기법</strong>입니다.
 - 주로 L2([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)나 L4(전송 계층, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에서 지독하게 씁니다.
 
-```text
-[해밍 거리]
-    │
-    ▼
-[자동 재전송 요구 선택적/GBN]
-    │
-    └──▶ [HDLC 비트 스터핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,14 +59,18 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 - **에러 발생 시**: 송신자는 "아, 3번만 깨졌어? 4, 5번은 정상이지? **오케이, 3번 박스 1개만 핀셋으로 집어서 딱 1개만 재전송해 줄게!**"
 - **치명적 단점 (구현의 복잡성)**: 통신 효율은 우주 최강입니다. 하지만 수신자 컴퓨터가 터집니다. 4, 5번을 받아놓고 3번이 올 때까지 뱃속 임시 메모리(버퍼)에 순서가 꼬인 채로 들고 있어야 하고, 나중에 3번이 오면 스스로 퍼즐을 다시 순서대로 재조립(Reassembly)해야 하므로 수신기의 하드웨어 로직과 메모리가 미친 듯이 비싸고 복잡해집니다.
 
-```text
-[해밍 거리]
-    │
-    ▼
-[자동 재전송 요구 선택적/GBN]
-    │
-    └──▶ [HDLC 비트 스터핑]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,7 +78,7 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 ## Ⅲ. 비교 및 연결
 
-- **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)**: 기본적으로 Go-Back-N의 철학을 쓰지만, 최신 인터넷에서는 버려지는 트래픽이 아까워 SACK(Selective ACK, 선택적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답)라는 옵션을 추가해 3번 방식(선택적 재전송)의 마법을 살짝 섞어 쓰는 영리한 하이브리드 방식을 채택하고 있습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: 기본적으로 Go-Back-N의 철학을 쓰지만, 최신 인터넷에서는 버려지는 트래픽이 아까워 SACK(Selective ACK, 선택적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답)라는 옵션을 추가해 3번 방식(선택적 재전송)의 마법을 살짝 섞어 쓰는 영리한 하이브리드 방식을 채택하고 있습니다.
 
 자동 재전송 요구 선택적/GBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 기반 조건을 만든다면, 자동 재전송 요구 선택적/GBN는 그 위에서 핵심 메커니즘을 구현하고, [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +88,7 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ARQ 방식은 책 100권을 목적지에 배송하다가 중간에 5번 책이 물에 젖어 찢어진(오류 발생) 상황 대처법입니다. **Stop-and-Wait**은 1권 보내고 잘 받았다는 카톡이 오면 2권을 보내는 '숨 막히는 극소심 배달'입니다. 안전하지만 100권 보내는데 1년이 걸립니다. **Go-Back-N**은 1번부터 10번까지 트럭으로 막 던집니다. 목적지에서 "5번 책 젖었어요!" 클레임이 들어오면, 배송 기사가 욱해서 "아 짜증나! 그럼 방금 보낸 멀쩡한 6, 7, 8, 9, 10번 책 싹 다 버려! 5번부터 10번까지 박스 통째로 다시 쏠게!"라고 무식하게 덮어씌우는 '분노의 일괄 재배송'입니다(통신 낭비 발생). 이를 개선한 **선택적 재전송(Selective Repeat)**은 기사가 "오케이, 멀쩡한 6~10번은 책꽂이에 잘 꽂아두시고, 찢어진 5번 책 한 권만 오토바이 퀵으로 다시 보내줄게!"라고 하는 합리적 배달입니다. 택배비(트래픽)는 아끼지만, 책을 받는 사람(수신기)이 책 번호를 일일이 엑셀에 적어두고 빈 공간을 맞춰놔야 하는 고도의 뇌지컬(버퍼 메모리)을 요구하는 궁극의 재전송 기법입니다.
+- **📢 섹션 요약 비유**: ARQ 방식은 책 100권을 목적지에 배송하다가 중간에 5번 책이 물에 젖어 찢어진(오류 발생) 상황 대처법입니다. <strong>Stop-and-Wait</strong>은 1권 보내고 잘 받았다는 카톡이 오면 2권을 보내는 '숨 막히는 극소심 배달'입니다. 안전하지만 100권 보내는데 1년이 걸립니다. <strong>Go-Back-N</strong>은 1번부터 10번까지 트럭으로 막 던집니다. 목적지에서 "5번 책 젖었어요!" 클레임이 들어오면, 배송 기사가 욱해서 "아 짜증나! 그럼 방금 보낸 멀쩡한 6, 7, 8, 9, 10번 책 싹 다 버려! 5번부터 10번까지 박스 통째로 다시 쏠게!"라고 무식하게 덮어씌우는 '분노의 일괄 재배송'입니다(통신 낭비 발생). 이를 개선한 <strong>선택적 재전송(Selective Repeat)</strong>은 기사가 "오케이, 멀쩡한 6~10번은 책꽂이에 잘 꽂아두시고, 찢어진 5번 책 한 권만 오토바이 퀵으로 다시 보내줄게!"라고 하는 합리적 배달입니다. 택배비(트래픽)는 아끼지만, 책을 받는 사람(수신기)이 책 번호를 일일이 엑셀에 적어두고 빈 공간을 맞춰놔야 하는 고도의 뇌지컬(버퍼 메모리)을 요구하는 궁극의 재전송 기법입니다.
 
 ---
 
@@ -122,15 +130,19 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 해밍 거리]
-    │
-    ▼
-[현재 개념: 자동 재전송 요구 선택적/GBN]
-    │
-    ├──▶ [확장 A: HDLC 비트 스터핑]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해밍 거리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자동 재전송 요구 선택적/GBN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC 비트 스터핑</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 자동 재전송 요구 선택적/GBN는 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

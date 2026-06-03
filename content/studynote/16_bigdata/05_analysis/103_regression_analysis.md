@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델링:** 하나 이상의 독립변수($X$)와 종속변수($Y$) 사이의 상관관계를 함수로 공식화하여 미래의 수치 값을 예측함.
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 모델링:</strong> 하나 이상의 독립변수($X$)와 종속변수($Y$) 사이의 상관관계를 함수로 공식화하여 미래의 수치 값을 예측함.
 - **최소제곱법 (OLS):** 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트와 회귀선 사이의 거리의 제곱합(Error)을 최소화하는 최적의 직선([Best Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/) Line)을 도출함.
 - **설명력 확보:** 단순한 수치 예측을 넘어, 어떤 변수가 결과에 유의미한 영향을 주는지 통계적으로 입증 가능함.
 
@@ -20,7 +20,7 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **수학적 기본 모델:** $Y = \beta_0 + \beta_1 X_1 + \dots + \beta_n X_n + \epsilon$
-- **Bilingual [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) Diagram:**
+- <strong>Bilingual <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> Diagram:</strong>
 ```text
 [Linear Regression Concepts / 선형 회귀 핵심 개념]
 
@@ -57,9 +57,9 @@ tags = ["studynote-bigdata"]
 | **비유 (Analogy)** | 있는 그대로의 직선 | 깐깐한 거름망 | 부드러운 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 전처리:** [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 전 **[다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))** [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필수적임. VIF 지수가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이상인 변수는 제거하거나 PCA로 차원을 축소해야 모델의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 확보함.
-- **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표:** 단순 정확도보다는 **[결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)($R^2$)**를 통해 모델의 설명력을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)/RMSE를 통해 오차의 크기를 평가함.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 연계:** 대규모 빅데이터 환경에서는 Spark의 MLlib LinearRegression을 사용하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 연산 가속을 꾀함.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 전처리:</strong> [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) 전 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">다중 공선성</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필수적임. VIF 지수가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이상인 변수는 제거하거나 PCA로 차원을 축소해야 모델의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 확보함.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표:</strong> 단순 정확도보다는 **[결정 계수](/knowledge-base/studynote/14_data_engineering/02_math_mining/098_coefficient_of_determination_r_squared/)($R^2$)**를 통해 모델의 설명력을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/)/RMSE를 통해 오차의 크기를 평가함.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 엔지니어링 연계:</strong> 대규모 빅데이터 환경에서는 Spark의 MLlib LinearRegression을 사용하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 연산 가속을 꾀함.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **예측 가능성 증대:** 불확실한 미래 수치를 정교한 수식 기반으로 예측하여 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 낮춤.
@@ -73,15 +73,19 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[상위 개념: Predictive Analytics, Supervised Learning]
-    │
-    ▼
-[하위 개념: OLS, Regularization (L1, L2), Logistic Regression]
-    │
-    ▼
-[연관 기술: Pearson Correlation, VIF, R-Squared, Gradient Descent]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: Predictive Analytics, Supervised Learning</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: OLS, Regularization (L1, L2), Logistic Regression</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연관 기술: Pearson Correlation, VIF, R-Squared, Gradient Descent</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 상위 개념: [Predictive Analytics](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/), Supervised Learning에서 출발해 연관 기술: [Pearson Correlation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/), VIF, R-Squared, Gradient Descent까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

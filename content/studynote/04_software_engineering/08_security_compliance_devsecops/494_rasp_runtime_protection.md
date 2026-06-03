@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: RASP(라스프)는 단어 뜻 그대로 "런타임(서버가 도는 중)에 앱 스스로가 자기를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(Self-Protection)한다"는 뜻이다. 자바 서버 켤 때 `-javaagent` 옵션 하나만 꽂으면 방어막이 서버 뱃속으로 녹아든다. 해커가 `' OR 1=1` 을 날렸다. 옛날 같으면 문지기([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))가 막았겠지만 해커가 암호화 우회로 문지기를 속였다. 하지만 뱃속에 있는 RASP 요원은 속지 않는다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문자열이 진짜 `execute()` 함수를 타고 DB로 넘어가려는 최후의 0.1초 순간, "어? 원래 개발자가 짠 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 뼈대랑 모양이 다르네? 인젝션이다!" 라며 DB 문을 쾅 닫고 에러를 뱉어내 버린다.
 
-- **필요성**: 세상의 모든 회사 앞마당엔 1억짜리 **[WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/))**가 서 있다. 그런데 WAF는 '네트워크 패킷 껍데기'만 보고 막는다. 해커가 악성 코드를 URL 인코딩(`%27`)하거나 100조각으로 쪼개서(Chunked) 보내면 WAF는 바보같이 다 통과시켜 준다. 결국 악성 코드가 서버 안(JVM)으로 들어와서 예쁘게 하나로 합쳐진 뒤 서버를 펑 터뜨렸다. **껍데기를 보는 문지기([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))는 더 이상 믿을 수 없다. 앱 깊숙한 곳에서, 데이터가 진짜 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(무기)로 조립되어 실행되는 마지막 종착지에서 방아쇠를 강제로 뽑아버릴 내부 경호원(RASP)**이 절대적으로 필요해진 것이다.
+- **필요성**: 세상의 모든 회사 앞마당엔 1억짜리 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/">웹 방화벽</a>)</strong>가 서 있다. 그런데 WAF는 '네트워크 패킷 껍데기'만 보고 막는다. 해커가 악성 코드를 URL 인코딩(`%27`)하거나 100조각으로 쪼개서(Chunked) 보내면 WAF는 바보같이 다 통과시켜 준다. 결국 악성 코드가 서버 안(JVM)으로 들어와서 예쁘게 하나로 합쳐진 뒤 서버를 펑 터뜨렸다. <strong>껍데기를 보는 문지기(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>)는 더 이상 믿을 수 없다. 앱 깊숙한 곳에서, 데이터가 진짜 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(무기)로 조립되어 실행되는 마지막 종착지에서 방아쇠를 강제로 뽑아버릴 내부 경호원(RASP)</strong>이 절대적으로 필요해진 것이다.
 
-- **💡 비유**: RASP는 대통령의 뇌 속에 이식한 **'독극물 무효화 나노 칩'**과 같습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))은 청와대 정문을 지키는 경호원입니다. 암살자(해커)가 독이 든 캡슐을 비타민 영양제(인코딩 우회)로 완벽하게 위장해서 경호원을 속이고 대통령 입까지 무사히 전달했습니다. 대통령(서버)이 약을 꿀꺽 삼키는 순간! 위장 속에 있던 나노 칩(RASP)이 0.1초 만에 성분을 엑스레이로 분석하고 "이건 비타민이 아니라 청산가리(악성 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))다!"라고 판단하여, 독이 혈관(DB)으로 퍼지기 직전에 화학적으로 싹 다 분해해서 토해내게 만들어버리는 궁극의 최후 방벽입니다.
+- **💡 비유**: RASP는 대통령의 뇌 속에 이식한 <strong>'독극물 무효화 나노 칩'</strong>과 같습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))은 청와대 정문을 지키는 경호원입니다. 암살자(해커)가 독이 든 캡슐을 비타민 영양제(인코딩 우회)로 완벽하게 위장해서 경호원을 속이고 대통령 입까지 무사히 전달했습니다. 대통령(서버)이 약을 꿀꺽 삼키는 순간! 위장 속에 있던 나노 칩(RASP)이 0.1초 만에 성분을 엑스레이로 분석하고 "이건 비타민이 아니라 청산가리(악성 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))다!"라고 판단하여, 독이 혈관(DB)으로 퍼지기 직전에 화학적으로 싹 다 분해해서 토해내게 만들어버리는 궁극의 최후 방벽입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))의 한계와 절망**: WAF는 쏟아지는 해킹 우회 기법을 막으려다 가짜 경고(오탐)를 너무 많이 뱉어내, 화가 난 기업들이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터를 꺼버리는(Bypass) 병크가 일상화되었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a>)의 한계와 절망</strong>: WAF는 쏟아지는 해킹 우회 기법을 막으려다 가짜 경고(오탐)를 너무 많이 뱉어내, 화가 난 기업들이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터를 꺼버리는(Bypass) 병크가 일상화되었다.
   2. **가트너의 RASP 개념 선포 (2012)**: "앱 밖에서 지키니까 털리지. 아예 앱 안쪽 런타임 환경(JVM/.NET) 안으로 뚫고 들어가서 스스로 막게 해라!"라며 RASP라는 미친 사상을 처음 세상에 내놓았다.
-  3. **[Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 사태를 거치며 신격화 ([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)~현재)**: 전 세계 서버를 초토화시킨 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)포제이 사태 때, WAF는 속수무책으로 다 뚫렸다. 하지만 RASP를 달아둔 소수 기업들의 서버는, RASP가 "어? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 찍는 함수가 왜 갑자기 외부 IP(해커 서버)로 쉘 권한을 달라고 통신(RCE)을 시도하지? 미친 거 아냐! 썰어버려!"라며 패치 0일 차([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))에 아무것도 안 하고 100% 무상으로 서버를 살려내며 그 압도적 위대함을 전 세계에 팩트로 증명해 버렸다.
+  3. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/">Log4Shell</a> 사태를 거치며 신격화 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/">2021</a>~현재)</strong>: 전 세계 서버를 초토화시킨 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)포제이 사태 때, WAF는 속수무책으로 다 뚫렸다. 하지만 RASP를 달아둔 소수 기업들의 서버는, RASP가 "어? [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 찍는 함수가 왜 갑자기 외부 IP(해커 서버)로 쉘 권한을 달라고 통신(RCE)을 시도하지? 미친 거 아냐! 썰어버려!"라며 패치 0일 차([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))에 아무것도 안 하고 100% 무상으로 서버를 살려내며 그 압도적 위대함을 전 세계에 팩트로 증명해 버렸다.
 
-- **📢 섹션 요약 비유**: WAF가 도둑이 담장을 넘을 때 **'얼굴 생김새(패킷 패턴)'**만 보고 몽둥이로 때리는 기도(경비원)라면, RASP는 도둑이 집 안에 얌전히 앉아있다가 갑자기 품에서 **'칼을 빼어 들어 찌르는 그 물리적인 행위(함수 실행 맥락)'** 자체를 인지하고 팔을 꺾어버리는 실내 전속 밀착 보디가드입니다.
+- **📢 섹션 요약 비유**: WAF가 도둑이 담장을 넘을 때 <strong>'얼굴 생김새(패킷 패턴)'</strong>만 보고 몽둥이로 때리는 기도(경비원)라면, RASP는 도둑이 집 안에 얌전히 앉아있다가 갑자기 품에서 **'칼을 빼어 들어 찌르는 그 물리적인 행위(함수 실행 맥락)'** 자체를 인지하고 팔을 꺾어버리는 실내 전속 밀착 보디가드입니다.
 
 ---
 
 다음은 RASP (Runtime Applic의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  RASP (Runtime Applic                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RASP (Runtime Applic</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 RASP (Runtime Applic가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ RASP (Runtime Application Self-Protection) - 실행 환경 내부에서 공격 �
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-RASP (Runtime Application Self-Protection)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+RASP (Runtime Application Self-Protection)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: RASP (Runtime Application Self-Protection)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ RASP (Runtime Application Self-Protection)은 '어떻게 빠르게 짜는가'가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-RASP (Runtime Application Self-Protection) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RASP (Runtime Application Self-Protection) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

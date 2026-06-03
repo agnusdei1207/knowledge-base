@@ -10,28 +10,34 @@ tags = ["studynote-cloud-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Strangler Fig는 **기존 모놀리스 시스템을 한 번에 교체하지 않고, 새 기능을 MSA로 만들어 점진적으로 모놀리스를 교살(Strangle)**하여 최종적으로 대체하는 마이그레이션 패턴이다(Martin Fowler).
-> 2. **가치**: 빅뱅 교체(Big Bang Rewrite)는 **고위험·장기간·실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 높음**이지만, Strangler Fig는 **점진적·저위험**으로 운영 중인 시스템을 중단 없이 전환한다.
-> 3. **판단 포인트**: [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)/Proxy가 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 담당하여 **기능별로 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)→모놀리스 트래픽을 점진 전환**하며, Anti-corruption Layer([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))로 신·구 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환을 처리한다.
+> 1. **본질**: Strangler Fig는 <strong>기존 모놀리스 시스템을 한 번에 교체하지 않고, 새 기능을 MSA로 만들어 점진적으로 모놀리스를 교살(Strangle)</strong>하여 최종적으로 대체하는 마이그레이션 패턴이다(Martin Fowler).
+> 2. **가치**: 빅뱅 교체(Big Bang Rewrite)는 <strong>고위험·장기간·실패 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 높음</strong>이지만, Strangler Fig는 <strong>점진적·저위험</strong>으로 운영 중인 시스템을 중단 없이 전환한다.
+> 3. **판단 포인트**: [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)/Proxy가 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 담당하여 <strong>기능별로 새 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>→모놀리스 트래픽을 점진 전환</strong>하며, Anti-corruption Layer([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))로 신·구 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환을 처리한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-1단계: 새 기능 → MSA로 개발 (모놀리스 옆에)
-2단계: API GW → 새 기능은 MSA로 라우팅, 나머지는 모놀리스
-3단계: 기능 하나씩 MSA로 이전 → 모놀리스 축소
-4단계: 모놀리스 완전 제거 (교살 완료)
-```
 
-- **📢 섹션 요약 비유**: Strangler Fig는 **무화과 나무가 기존 나무를 감싸며 대체**하는 것이다. 기존 나무(모놀리스)가 점차 사라진다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">1단계: 새 기능 → MSA로 개발 (모놀리스 옆에)</div>
+<div class="kb-diagram-note">2단계: API GW → 새 기능은 MSA로 라우팅, 나머지는 모놀리스</div>
+<div class="kb-diagram-note">3단계: 기능 하나씩 MSA로 이전 → 모놀리스 축소</div>
+<div class="kb-diagram-note">4단계: 모놀리스 완전 제거 (교살 완료)</div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: Strangler Fig는 <strong>무화과 나무가 기존 나무를 감싸며 대체</strong>하는 것이다. 기존 나무(모놀리스)가 점차 사라진다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Strangler Fig는 **모놀리스→[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 전환의 사실상 표준 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이며, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway와 ACL이 핵심 인프라이다.
+Strangler Fig는 <strong>모놀리스→<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 전환의 사실상 표준 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이며, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway와 ACL이 핵심 인프라이다.
 
 ---
 
@@ -39,24 +45,30 @@ Strangler Fig는 **모놀리스→[MSA](/knowledge-base/studynote/01_computer_ar
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)** | 점진적 교체 |
-| **[API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)** | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환 |
-| **[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)** | 신·구 변환 레이어 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/">Strangler Fig</a></strong> | 점진적 교체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong> | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> | 신·구 변환 레이어 |
 | **Big Bang** | 위험한 대안 |
 | **Feature Toggle** | 점진 전환 제어 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Big Bang Rewrite (고위험)] → [Strangler Fig (Fowler, 2004)]
-    → [API GW 기반 라우팅 (2015~)]
-    → [현재: 도메인별 Strangler — DDD 기반 분해]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Big Bang Rewrite (고위험)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Strangler Fig (Fowler, 2004)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API GW 기반 라우팅 (2015~)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 도메인별 Strangler — DDD 기반 분해</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Strangler Fig는 **덩굴이 큰 나무를 감싸** 천천히 대체하는 거예요.
 2. 한 번에 바꾸면 **위험하니까** 조금씩 새것으로 바꿔요.
-3. 결국 큰 나무(모놀리스)는 사라지고 **덩굴([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))만** 남아요!
+3. 결국 큰 나무(모놀리스)는 사라지고 <strong>덩굴(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)만</strong> 남아요!
 
 ---
 

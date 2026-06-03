@@ -32,25 +32,23 @@ tags = ["it_management"]
 
 RNN은 이전 은닉 상태 $h_{t-1}$과 현재 입력 $x_t$를 받아 새로운 은닉 상태 $h_t$를 출력한다. LSTM은 이 단순한 구조 내부에 정보의 흐름을 통제하는 3개의 게이트(망각, 입력, 출력)와 장기 기억을 담당하는 셀 상태 (Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 컨베이어 벨트를 추가했다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  LSTM 셀 (Cell)의 게이트 구조                │
-├──────────────────────────────────────────────────────────────┤
-│               [ 장기 기억: Cell State (C_t) ] ─────────▶   │
-│                 ▲                         ▲                  │
-│                 │ (버릴 건 버림)          │ (새로 기억할 것) │
-│            ┌────┴────┐               ┌────┴────┐             │
-│            │ 망각 게이트 │               │ 입력 게이트 │             │
-│            │ (Forget)  │               │ (Input)   │             │
-│            └────▲────┘               └────▲────┘             │
-│                 │                         │                  │
-│ [이전 단기기억] ─┴───────┬─────────────────┴──────── [출력 게이트] │
-│ h_{t-1}                │                             (Output)│
-│                        │                                 │   │
-│ [현재 입력] x_t ───────┘                                 ▼   │
-│                                                [새 단기기억] h_t │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 셀 (Cell)의 게이트 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장기 기억: Cell State (C_t)</div><div class="kb-diagram-connector">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버릴 건 버림)</div><div class="kb-diagram-cell">(새로 기억할 것)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망각 게이트</div><div class="kb-diagram-cell">입력 게이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Forget)</div><div class="kb-diagram-cell">(Input)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이전 단기기억</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">출력 게이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_{t-1}</div><div class="kb-diagram-cell">(Output)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 입력</div><div class="kb-diagram-connector">▼</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">새 단기기억</div><div class="kb-diagram-note">h_t</div></div>
+</div>
+</div>
+
+
 
 1. **망각 게이트 (Forget Gate)**: 이전 셀 상태에서 불필요한 과거 정보를 얼마나 지울지 $0$과 $1$ 사이의 값으로 결정한다. (예: 문장의 주어가 단수에서 복수로 바뀌면 이전 단수 상태를 지움)
 2. **입력 게이트 (Input Gate)**: 현재 들어온 새로운 입력 정보 중 얼마나 셀 상태에 추가할지 결정한다.
@@ -69,7 +67,7 @@ RNN은 이전 은닉 상태 $h_{t-1}$과 현재 입력 $x_t$를 받아 새로운
 | 비교 항목 | Vanilla [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) | [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) ([Long Short-Term Memory](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/)) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 | :--- | :--- | :--- | :--- |
 | **처리 방식** | 순차적 처리 (이전 단계 완료 필수) | 순차적 처리 (게이트 연산 추가) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 ([Self-Attention](/knowledge-base/studynote/10_ai/02_dl_architecture_new/124_self_attention/) 기반) |
-| **[장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/)** | 매우 취약 ([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 발생) | 우수 (Cell State로 기억 보존) | 매우 우수 (모든 시점을 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/">장기 의존성</a></strong> | 매우 취약 ([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 발생) | 우수 (Cell State로 기억 보존) | 매우 우수 (모든 시점을 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) |
 | **연산 복잡도** | 구조가 단순하고 빠름 | 게이트 연산으로 인해 무거움 | $O(N^2)$ 복잡도로 시퀀스가 길면 자원 소모 극심 |
 | **적합한 환경** | 짧은 시계열 패턴 분석 | 시계열 예측, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 임베디드 | 대규모 자연어 처리 ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)), 번역 |
 
@@ -84,7 +82,7 @@ LSTM은 RNN의 약점을 훌륭히 보완했지만, [데이터](/knowledge-base/
 최근 자연어 처리(NLP) 분야에서는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))가 대세가 되었지만, 실무의 모든 문제가 NLP는 아니다. 인프라 모니터링, 공장 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 주식 차트와 같은 연속적인 수치형 시계열 예측에서는 여전히 LSTM이나 이를 간소화한 [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) ([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/))가 훌륭한 타협점이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 분석하려는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간적 순서에 따라 의미가 달라지는 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가? (순서가 무관하다면 일반 DNN 적용)
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 특성 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 분석하려는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간적 순서에 따라 의미가 달라지는 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가? (순서가 무관하다면 일반 DNN 적용)
 2. **연산 자원 평가**: 실시간 처리가 필요한 엣지 디바이스나 자원이 제한된 환경인가? (무거운 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 대신 경량화된 [GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/)/[LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) 도입 고려)
 3. **시퀀스 길이 제어**: 너무 긴 시퀀스를 한 번에 넣고 있지 않은가? Window Size를 적절히 조절하여 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘라주어야 학습이 안정된다.
 
@@ -110,28 +108,30 @@ RNN과 LSTM은 독립된 점으로 존재하던 [데이터](/knowledge-base/stud
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[BPTT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/) ([Backpropagation Through Time](/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/))** | RNN과 LSTM을 학습시키기 위해 시간을 거슬러 올라가며 오차를 역전파하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 (Gradient Vanishing / Exploding)** | 긴 시퀀스 학습 시 오차 값이 0으로 수렴하거나 무한대로 발산하는 현상 |
-| **[GRU](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/) ([Gated Recurrent Unit](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/))** | LSTM의 3개 게이트를 2개(Update, Reset)로 줄여 성능은 유지하고 연산량은 낮춘 경량화 모델 |
-| **[Seq2Seq](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/) ([Sequence to Sequence](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/))** | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM을 인코더와 디코더로 연결하여 기계 번역 등에 활용하는 아키텍처 패턴 |
+| <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/">BPTT</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/114_bptt_backpropagation_through_time/">Backpropagation Through Time</a>)</strong> | RNN과 LSTM을 학습시키기 위해 시간을 거슬러 올라가며 오차를 역전파하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>/폭발 (Gradient Vanishing / Exploding)</strong> | 긴 시퀀스 학습 시 오차 값이 0으로 수렴하거나 무한대로 발산하는 현상 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">GRU</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/294_gru/">Gated Recurrent Unit</a>)</strong> | LSTM의 3개 게이트를 2개(Update, Reset)로 줄여 성능은 유지하고 연산량은 낮춘 경량화 모델 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/245_seq2seq_context_vector_attention_dynamic_weight/">Seq2Seq</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/295_seq2seq/">Sequence to Sequence</a>)</strong> | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM을 인코더와 디코더로 연결하여 기계 번역 등에 활용하는 아키텍처 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-독립적 데이터 처리 (Feedforward NN)
-    │
-    ▼
-순차 데이터의 시간적 의존성 학습: RNN (Recurrent Neural Network)
-    │
-    ▼
-장기 의존성(기울기 소실) 문제 극복: LSTM (Long Short-Term Memory)
-    │
-    ▼
-구조 경량화 및 효율성 극대화: GRU (Gated Recurrent Unit)
-    │
-    ▼
-직렬 병목 극복 및 Attention 도입: Transformer 및 LLM 시대 도래
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">독립적 데이터 처리 (Feedforward NN)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">순차 데이터의 시간적 의존성 학습: RNN (Recurrent Neural Network)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">장기 의존성(기울기 소실) 문제 극복: LSTM (Long Short-Term Memory)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">구조 경량화 및 효율성 극대화: GRU (Gated Recurrent Unit)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">직렬 병목 극복 및 Attention 도입: Transformer 및 LLM 시대 도래</div>
+</div>
+</div>
+
+
 
 이 흐름도는 단순한 순차 기억에서 출발해 장기 기억 문제를 극복하고, 궁극적으로 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리의 한계를 넘어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Attention으로 진화하는 자연어/시계열 처리 모델의 발전사를 보여준다.
 

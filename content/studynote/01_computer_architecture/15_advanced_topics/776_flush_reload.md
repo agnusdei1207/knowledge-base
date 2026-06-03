@@ -21,18 +21,21 @@ tags = ["studynote-computer-architecture"]
 
 Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속한다. 공격자와 피해자가 같은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드나 dedup된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유할 때, 공격자는 특정 주소의 캐시 라인을 강제로 비운 뒤 피해자가 그 라인을 다시 가져왔는지를 읽기 시간으로 판별한다.
 
-이 기법이 강력한 이유는 관측 단위가 세트가 아니라 **라인**이라는 점이다. 즉 “어느 구역을 썼는가” 수준이 아니라, “거의 어느 함수나 테이블 조각을 썼는가” 수준까지 좁혀 볼 수 있다. 그래서 취약한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 구현의 분기, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 테이블 조회, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 흐름을 세밀하게 추적하는 데 자주 쓰인다.
+이 기법이 강력한 이유는 관측 단위가 세트가 아니라 <strong>라인</strong>이라는 점이다. 즉 “어느 구역을 썼는가” 수준이 아니라, “거의 어느 함수나 테이블 조각을 썼는가” 수준까지 좁혀 볼 수 있다. 그래서 취약한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 구현의 분기, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 테이블 조회, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 흐름을 세밀하게 추적하는 데 자주 쓰인다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Flush line X -> victim may use X -> reload X                │
-├──────────────────────────────────────────────────────────────┤
-│ flush : line X not cached                                   │
-│ wait  : victim executes                                     │
-│ reload: fast => victim used X                               │
-│         slow => victim did not use X                        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flush line X -&gt; victim may use X -&gt; reload X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flush : line X not cached</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait : victim executes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reload: fast =&gt; victim used X</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">slow =&gt; victim did not use X</div></div>
+</div>
+</div>
+
+
 
 이 구조 때문에 Flush+Reload는 “공유 최적화가 오히려 감시 창이 되는 순간”을 보여주는 대표 사례다.
 
@@ -51,19 +54,19 @@ Flush+Reload는 캐시 타이밍 공격 계열 중 가장 정밀한 축에 속�
 | Reload | 같은 주소 재접근 후 시간 측정 | fast = used, slow = unused |
 | Repeat | 여러 라인·여러 입력에 대해 반복 | 비밀과의 상관관계 강화 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Shared physical page                                        │
-├──────────────────────────────────────────────────────────────┤
-│ attacker map  ---- same file/page ----  victim map          │
-│      │                                      │               │
-│      └─ clflush line L                      │               │
-│                                             ▼               │
-│                                  victim touches line L      │
-│                                             │               │
-│ attacker reloads line L <-------------------┘               │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared physical page</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">attacker map ---- same file/page ---- victim map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ clflush line L</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">victim touches line L</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">attacker reloads line L &lt;-------------------</div></div>
+</div>
+</div>
+
+
 
 예를 들어 Square-and-Multiply 방식의 취약한 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 지수 연산에서 특정 multiply 코드 경로가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 1일 때만 실행된다면, 그 코드가 담긴 캐시 라인을 Flush+Reload로 추적해 비밀 지수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 통계적으로 복원할 수 있다. 핵심은 “같은 줄을 공유하기 때문에, 남의 발자국이 내 측정 시간에 직접 남는다”는 점이다.
 
@@ -94,7 +97,7 @@ Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 �
 
 ### 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. **공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 축소**: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)화  
+1. <strong>공유 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 축소</strong>: KSM과 dedup 비활성화, 민감 코드·데이터의 프로세스 전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)화  
 2. **구현 개선**: constant-time crypto, secret-dependent branch 제거, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI 같은 전용 명령 사용  
 3. **관측 통제**: `clflush` 사용 모니터링, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), 정밀 타이머 제한  
 4. **실행 배치**: 민감 워크로드를 비신뢰 코드와 같은 코어·LLC에 두지 않기  
@@ -120,7 +123,7 @@ Flush+Reload 대응의 출발점은 “무엇을 공유하고 있는가”를 �
 
 Flush+Reload를 이해하고 방어하는 과정은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 전제를 다시 보게 만든다. 같은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 공유하고, 같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 합치고, 같은 캐시를 쓰는 일이 메모리 효율에는 좋지만, 보안 측면에서는 정밀한 관측 채널이 될 수 있기 때문이다.
 
-물론 공유를 모두 끊는 것은 비싸다. 메모리 사용량이 늘고, 배치 효율이 떨어지며, 운영 복잡도도 올라간다. 그래서 현실적인 방향은 보안 등급에 따라 공유 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 계층화하고, 민감 연산에는 constant-time 구현과 하드웨어 가속을 우선 적용하는 것이다. Flush+Reload가 남기는 교훈은 명확하다. **같이 쓰는 자원은 같이 새는 자원**이 될 수 있다.
+물론 공유를 모두 끊는 것은 비싸다. 메모리 사용량이 늘고, 배치 효율이 떨어지며, 운영 복잡도도 올라간다. 그래서 현실적인 방향은 보안 등급에 따라 공유 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 계층화하고, 민감 연산에는 constant-time 구현과 하드웨어 가속을 우선 적용하는 것이다. Flush+Reload가 남기는 교훈은 명확하다. <strong>같이 쓰는 자원은 같이 새는 자원</strong>이 될 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 시스템은 공용 거실을 넓게 만드는 것만 잘하는 집이 아니라, 비밀 이야기를 할 방은 따로 마련해 두는 집과 같다.
 
@@ -139,24 +142,25 @@ Flush+Reload를 이해하고 방어하는 과정은 [성능](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 라이브러리 · Dedup
-  │
-  ▼
-Shared Physical Page
-  │
-  ▼
-Flush (`clflush`)
-  │
-  ▼
-Victim Reload into Cache
-  │
-  ▼
-Line-level Timing Trace
-  │
-  ▼
-Constant-time · Dedup Off · Workload Isolation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 라이브러리 · Dedup</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Shared Physical Page</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flush (<code>clflush</code>)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Victim Reload into Cache</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Line-level Timing Trace</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Constant-time · Dedup Off · Workload Isolation</div>
+</div>
+</div>
+
+
 
 이 흐름은 “공유된 한 줄의 흔적이 어떻게 정밀한 정보 누출로 이어지고, 다시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 방어로 닫히는가”를 보여준다.
 

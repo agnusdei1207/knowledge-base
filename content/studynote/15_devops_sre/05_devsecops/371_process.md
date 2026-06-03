@@ -21,12 +21,12 @@ tags = ["studynote-devops-sre"]
 
 DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전달 속도와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 동시에 높이는 문화·프랙티스·도구의 집합이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)/[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 기반 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))으로 안정성과 혁신 속도의 균형을 수치화한다.
 
-**[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 핵심**:
+<strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 핵심</strong>:
 - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)): 코드 병합 시 자동 빌드·테스트. 도구: GitHub Actions, [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
 - CD ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)): 언제든지 릴리즈 가능한 상태 유지
 - 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): Blue-Green, [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/), [Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/)
 
-**[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong>:
 - [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/): 멀티클라우드 선언적 인프라 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)
 - [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/): 에이전트리스 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/), YAML [Playbook](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)
 
@@ -36,20 +36,23 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ## Ⅱ. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 핵심 키워드
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              K8s 핵심 구성 요소 요약                             │
-├──────────────────────────────────────────────────────────────────┤
-│  Control Plane: kube-apiserver, etcd, scheduler, controller-mgr  │
-│  Worker Node: kubelet, kube-proxy, Container Runtime (containerd)│
-│  핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap     │
-│  스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)   │
-│  스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버 │
-│  네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)  │
-└──────────────────────────────────────────────────────────────────┘
-```
 
-**[서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) ([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), Linkerd)**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 핵심 구성 요소 요약</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane: kube-apiserver, etcd, scheduler, controller-mgr</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Node: kubelet, kube-proxy, Container Runtime (containerd)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)</div></div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>, Linkerd)</strong>:
 - [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 자동 암호화, 트래픽 제어, Retry/[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/[Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)
 - [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)(Jaeger), [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 수집([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)), 가시성 제공
 
@@ -59,17 +62,17 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ## Ⅲ. [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) & [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 키워드
 
-**[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3대 지주**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a> 3대 지주</strong>:
 - [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/) ([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)): [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/). RED [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Rate/Errors/Duration)
 - [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)): ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) + Logstash + [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/)), Loki + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)
 - Traces (추적): Jaeger, Zipkin, [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)
 
-**[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 지표**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 핵심 지표</strong>:
 - [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)): 측정 가능한 지표 ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) %, 레이턴시 p99)
 - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)): 목표치 (99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))
 - [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/): SLO에서 허용하는 오류 허용치 (100% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)%)
 
-**[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)**: Netflix [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/), Chaos [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), Litmus로 프로덕션 장애 발생 전 시스템 약점을 발견한다.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a></strong>: Netflix [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/), Chaos [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), Litmus로 프로덕션 장애 발생 전 시스템 약점을 발견한다.
 
 - 📢 섹션 요약 비유: [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 자동차 계기판이다. 속도([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)), 경고 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), GPS 경로(추적)가 함께 있어야 운전자([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))가 안전하게 운영한다.
 
@@ -83,7 +86,7 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 - [Bulkhead](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/): [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)풀 격리로 장애 전파 방지
 - [Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/): [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 보상 로직
 
-**[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [12-Factor App](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/)**: [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 단일화, 의존성 명시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 환경변수 분리, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/), [포트 바인딩](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스트림 등.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">12-Factor App</a></strong>: [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/) 단일화, 의존성 명시, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 환경변수 분리, [무상태 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/012_stateless_processes/), [포트 바인딩](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/013_port_binding/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스트림 등.
 
 - 📢 섹션 요약 비유: Circuit Breaker는 전기 두꺼비집이다. 과부하(연속 장애)가 걸리면 자동으로 차단해 전체 회로(시스템)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
 
@@ -91,14 +94,14 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ## Ⅴ. 보안([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 핵심 키워드
 
-**[SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/)/[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)**:
+<strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a>/<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a>/<a href="/knowledge-base/studynote/09_security/05_web_app_security/453_sca/">SCA</a></strong>:
 - [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static AST): 소스코드 취약점 분석 ([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))
 - [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) (Dynamic AST): 실행 중 취약점 분석 ([OWASP ZAP](/knowledge-base/studynote/09_security/05_web_app_security/485_owasp_zap/))
 - [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) ([Software Composition Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/495_sca_software_composition_analysis/)): [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 취약점 (Snyk)
 
-**[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)**: Never Trust, Always Verify 원칙. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), SPIFFE/SPIRE로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 신원 증명.
+<strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a></strong>: Never Trust, Always Verify 원칙. [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/), SPIFFE/SPIRE로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 신원 증명.
 
-**[공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)**: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)), Cosign + Sigstore, SLSA ([Supply chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Levels for Software Artifacts).
+<strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/">공급망 보안</a></strong>: [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([Software Bill of Materials](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)), Cosign + Sigstore, SLSA ([Supply chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) Levels for Software Artifacts).
 
 - 📢 섹션 요약 비유: DevSecOps에서 SBOM은 식품 성분표이다. 소프트웨어에 어떤 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 재료([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))가 들어있는지 명시해, 특정 재료에 문제가 생기면 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·교체할 수 있다.
 
@@ -117,27 +120,27 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Agile + CI/CD (개발·배포 자동화)
-    │
-    ▼
-IaC + GitOps (인프라 코드화, 선언적 관리)
-    │
-    ▼
-컨테이너 / K8s (불변 인프라, 오케스트레이션)
-    │
-    ▼
-서비스 메시 + 옵저버빌리티 (가시성, mTLS)
-    │
-    ▼
-SRE + Error Budget (신뢰성 수치화)
-    │
-    ▼
-Platform Engineering + FinOps (내부 플랫폼화, 비용 최적화)
-    │
-    ▼
-AI-assisted DevOps (자율 장애 탐지·복구)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Agile + CI/CD (개발·배포 자동화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IaC + GitOps (인프라 코드화, 선언적 관리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">컨테이너 / K8s (불변 인프라, 오케스트레이션)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 메시 + 옵저버빌리티 (가시성, mTLS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRE + Error Budget (신뢰성 수치화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Platform Engineering + FinOps (내부 플랫폼화, 비용 최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI-assisted DevOps (자율 장애 탐지·복구)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

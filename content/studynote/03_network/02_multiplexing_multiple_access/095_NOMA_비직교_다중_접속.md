@@ -30,31 +30,29 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NOMA가 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 파괴하고도 통신을 성공시키는 비결은 송신단의 **중첩 부호화 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) Coding)**와 수신단의 **순차적 간섭 제거 (SIC)**라는 두 기둥에 있다.
+NOMA가 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 파괴하고도 통신을 성공시키는 비결은 송신단의 <strong>중첩 부호화 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">Superposition</a> Coding)</strong>와 수신단의 <strong>순차적 간섭 제거 (SIC)</strong>라는 두 기둥에 있다.
 
 | 구성 기술 | 역할 및 동작 원리 |
 | :--- | :--- |
-| **[Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/) Coding (송신)** | 기지국이 동일 주파수 자원에 여러 단말의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더해(중첩해) 전송한다. 전파가 좋은 근거리 사용자에겐 약한 전력을, 전파가 나쁜 원거리 사용자에겐 강한 전력을 배분한다. |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">Superposition</a> Coding (송신)</strong> | 기지국이 동일 주파수 자원에 여러 단말의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더해(중첩해) 전송한다. 전파가 좋은 근거리 사용자에겐 약한 전력을, 전파가 나쁜 원거리 사용자에겐 강한 전력을 배분한다. |
 | **SIC (수신)** | 수신된 복합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 속에서 가장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도가 센 타인의 데이터를 먼저 해독한 뒤 원본에서 빼버리고(Cancellation), 남은 미약한 자신의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 최종 해독한다. |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        NOMA의 전력 도메인 중첩과 SIC (Successive Interference Cancellation) │
-├──────────────────────────────────────────────────────────────┤
-│ [기지국 송신 (Superposition Coding)]                            │
-│   강한 전력(먼 단말 B용) + 약한 전력(가까운 단말 A용) ───▶ 중첩 전송  │
-│                                                              │
-│ [단말 A (근거리, 약한 신호 타겟)의 수신 및 해독 과정 (SIC 로직)]    │
-│                                                              │
-│  1단계: 전체 신호 수신     2단계: B 신호 먼저 해독/제거     3단계: A 신호 획득 │
-│  ┌───────┐                ┌───────┐                ┌───────┐ │
-│  │ 단말 B│ (큰 전력)  ───▶  │ 단말 B│ 알아내서 뺌 ──▶ │       │ │
-│  ├───────┤                └───────┘                ├───────┤ │
-│  │ 단말 A│ (작은 전력)                            │ 단말 A│ │
-│  └───────┘                                         └───────┘ │
-│  (가장 강한 신호를 먼저 해독하여 원본에서 빼버림으로써 간섭 제거)      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOMA의 전력 도메인 중첩과 SIC (Successive Interference Cancellation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 송신 (Superposition Coding)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강한 전력(먼 단말 B용) + 약한 전력(가까운 단말 A용) ▶ 중첩 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단말 A (근거리, 약한 신호 타겟)의 수신 및 해독 과정 (SIC 로직)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 전체 신호 수신 2단계: B 신호 먼저 해독/제거 3단계: A 신호 획득</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말 B</div><div class="kb-diagram-cell">(큰 전력) ▶</div><div class="kb-diagram-cell">단말 B</div><div class="kb-diagram-cell">알아내서 뺌 ──▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말 A</div><div class="kb-diagram-cell">(작은 전력)</div><div class="kb-diagram-cell">단말 A</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가장 강한 신호를 먼저 해독하여 원본에서 빼버림으로써 간섭 제거)</div></div>
+</div>
+</div>
+
+
 
 가까이 있는 단말 A는 귀가 매우 밝다. 하지만 기지국이 자신에겐 약하게, 멀리 있는 단말 B에겐 강하게 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 쏘았으므로, A에게 도착한 덩어리는 B의 시끄러운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 A의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 묻힌 형태다. A는 자신의 우수한 전파 환경을 이용해 가장 시끄럽게 들리는 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 완벽히 해독해 내고, 전체 파형에서 B의 몫을 수학적으로 제거해 버린다(SIC). 시끄러운 소음이 사라진 뒤, A는 온전히 남은 자신의 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 읽어내는 천재적인 역발상을 보여준다.
 
@@ -68,7 +66,7 @@ NOMA는 직교 [다중 접속](/knowledge-base/studynote/03_network/02_multiplex
 
 | 비교 항목 | [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 주력 OMA) | NOMA ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비직교) |
 | :--- | :--- | :--- |
-| **[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 축** | 시간, 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할 | 전력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중첩 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> 축</strong> | 시간, 주파수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할 | 전력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 중첩 |
 | **동시 접속 허용** | 불가능 (자원이 분할되어야 함) | 가능 (동일 블록에 다수 단말 중첩) |
 | **수용 용량 (Capacity)** | 가용 주파수 대역의 수에 한계 종속 | 중첩을 통해 한계 초과 수용 가능 ([mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) 유리) |
 | **단말 연산 복잡도** | 비교적 단순함 | SIC 연산으로 인해 CPU, 배터리 소모 큼 |
@@ -86,7 +84,7 @@ NOMA는 직교 [다중 접속](/knowledge-base/studynote/03_network/02_multiplex
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
 1. **단말 사용자 페어링 (User Pairing) 최적화**: 아무 단말기나 중첩해서는 안 된다. NOMA의 핵심은 전력 차이를 명확히 두는 것이므로, 기지국 스케줄러는 반드시 전파 품질 차이가 극심한([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 이득 차이가 큰) 셀 중심부 사용자와 가장자리 사용자를 짝지어야 한다. 거리가 비슷한 두 단말을 묶으면 전력 차이가 없어 수신단에서 SIC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 붕괴된다.
-2. **배터리 소모와 저지연 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 타협**: 단말기가 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 복원하고 차감하는 SIC 과정은 막대한 DSP (디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 연산을 유발한다. 따라서 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 같은 저전력 기기에 너무 복잡한 다중 NOMA 중첩을 요구하면 배터리가 방전되거나 5G의 핵심인 초저지연 ([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 저해할 수 있다. 실무에선 최대 2~3명까지만 페어링을 제한하는 부분적 NOMA (Fractional NOMA)를 도입해야 한다.
+2. <strong>배터리 소모와 저지연 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 타협</strong>: 단말기가 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 먼저 복원하고 차감하는 SIC 과정은 막대한 DSP (디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 연산을 유발한다. 따라서 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 같은 저전력 기기에 너무 복잡한 다중 NOMA 중첩을 요구하면 배터리가 방전되거나 5G의 핵심인 초저지연 ([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))을 저해할 수 있다. 실무에선 최대 2~3명까지만 페어링을 제한하는 부분적 NOMA (Fractional NOMA)를 도입해야 한다.
 
 ### 보안 및 프라이버시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 가까운 단말 A는 통신 원리상 무조건 원거리 단말 B의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 100% 완벽히 해독해 내야 한다. 만약 B의 데이터가 상위 계층(App/Transport)에서 강력하게 암호화되어 있지 않다면, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/PHY 계층 구조만으로 A가 B의 개인 패킷을 엿듣는 끔찍한 프라이버시 탈취(Eavesdropping)가 발생한다. NOMA 적용 구간에서는 강력한 페이로드 (Payload) 암호화가 필수 전제조건이다.
@@ -110,27 +108,29 @@ NOMA는 주파수라는 유한한 물리적 자원을 쪼개어 쓴다는 수십
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **SIC (Successive Interference Cancellation)** | 수신기가 겹친 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 중 큰 것부터 차례로 해독하여 삭감해 나가는 NOMA의 핵심 두뇌 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| **[mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) (Massive Machine Type Communications)** | 평방 킬로미터당 100만 개 이상의 기기가 폭발적으로 동시 접속해야 하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 요구사항으로 NOMA가 필요한 이유 |
-| **[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))** | NOMA가 극복하고자 하는 과거의 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식으로, [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(겹침 불가) 규칙 때문에 자원 고갈 한계에 도달함 |
+| <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a> (Massive Machine Type Communications)</strong> | 평방 킬로미터당 100만 개 이상의 기기가 폭발적으로 동시 접속해야 하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 요구사항으로 NOMA가 필요한 이유 |
+| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> (Orthogonal Frequency <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a>)</strong> | NOMA가 극복하고자 하는 과거의 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 방식으로, [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(겹침 불가) 규칙 때문에 자원 고갈 한계에 도달함 |
 | **사용자 페어링 (User Pairing)** | NOMA의 성공 여부를 가르는 핵심으로, 거리가 멀고 가까운 단말을 적절히 짝지어 전력 차이를 만들어 내는 기지국 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-OMA (직교 다중 접속) 한계 도달 (OFDMA의 주파수 분할 고갈)
-    │
-    ▼
-mMTC 초연결 요구사항 폭증 (수백억 개 기기 동시 접속 필요)
-    │
-    ▼
-NOMA (비직교 다중 접속) 개념 대두 (전력 도메인 중첩 부호화)
-    │
-    ▼
-단말기 연산력 향상에 따른 SIC (순차적 간섭 제거) 알고리즘 실현
-    │
-    ▼
-AI/ML 기반 동적 페어링 및 공간 분할(MIMO) 결합 (6G 진화 방향)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">OMA (직교 다중 접속) 한계 도달 (OFDMA의 주파수 분할 고갈)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">mMTC 초연결 요구사항 폭증 (수백억 개 기기 동시 접속 필요)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NOMA (비직교 다중 접속) 개념 대두 (전력 도메인 중첩 부호화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">단말기 연산력 향상에 따른 SIC (순차적 간섭 제거) 알고리즘 실현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI/ML 기반 동적 페어링 및 공간 분할(MIMO) 결합 (6G 진화 방향)</div>
+</div>
+</div>
+
+
 
 이 흐름도는 자원을 피자 조각처럼 나누는 방식이 한계에 부딪힌 뒤, 어떻게 전력을 통해 겹쳐 쓰고 지능적으로 해독해 내는 3차원 통신 구조로 나아가는지 보여준다.
 

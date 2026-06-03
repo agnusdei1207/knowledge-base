@@ -27,21 +27,25 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 가상화 도입 전후의 아키텍처 변화를 통해 왜 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 혁명이 일어났는지 시각화한다.
 
-```text
-┌────────────── 전통적인 베어메탈 (1:1 강결합) ───────────────┐
-│ [App 1 / 앱 1]    [App 2 / 앱 2]    [App 3 / 앱 3]    │
-│ [OS / 운영체제]  [OS / 운영체제]  [OS / 운영체제]  │
-│ [Server 1 / 서버 1] (10%)  [Server 2 / 서버 2] (15%)  [Server 3 / 서버 3] (20%)  │
-│ * 문제: CPU 80%가 놀고 있음. 장비 고장 시 복구 수일 소요      │
-├────────────── 가상화 아키텍처 (N:1 서버 통합) ──────────────┤
-│ ┌─VM 1─┐ ┌─VM 2─┐ ┌─VM 3─┐                            │
-│ │App 1 │ │App 2 │ │App 3 │ (VM은 파일 형태로 즉시 백업/복제 가능)
-│ │ OS_A │ │ OS_B │ │ OS_C │                            │
-│ └──────┘ └──────┘ └──────┘                            │
-│ ═════════ [ Hypervisor (가상화 제어기) ] ═════════      │
-│ ─────────── [ 단일 고성능 물리 Server ] (활용률 80%) ────── │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적인 베어메탈 (1:1 강결합)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">App 1 / 앱 1</div><div class="kb-diagram-node">App 2 / 앱 2</div><div class="kb-diagram-node">App 3 / 앱 3</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS / 운영체제</div><div class="kb-diagram-node">OS / 운영체제</div><div class="kb-diagram-node">OS / 운영체제</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Server 1 / 서버 1</div><div class="kb-diagram-note">(10%)</div><div class="kb-diagram-node">Server 2 / 서버 2</div><div class="kb-diagram-note">(15%)</div><div class="kb-diagram-node">Server 3 / 서버 3</div><div class="kb-diagram-note">(20%)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제: CPU 80%가 놀고 있음. 장비 고장 시 복구 수일 소요</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">가상화 아키텍처 (N:1 서버 통합)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─VM 1─ ─VM 2─ ─VM 3─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App 1</div><div class="kb-diagram-cell">App 2</div><div class="kb-diagram-cell">App 3</div><div class="kb-diagram-cell">(VM은 파일 형태로 즉시 백업/복제 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS_A</div><div class="kb-diagram-cell">OS_B</div><div class="kb-diagram-cell">OS_C</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hypervisor (가상화 제어기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 고성능 물리 Server</div><div class="kb-diagram-note">(활용률 80%)</div></div>
+</div>
+</div>
+
+
 
 이 아키텍처의 혁신은 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'에 있다. 위에 올라탄 게스트 OS들은 밑에 깔린 실제 하드웨어가 인텔인지 AMD인지, 디스크가 삼성인지 WD인지 알 필요가 없다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 중간에서 완벽한 번역기 역할을 해주기 때문이다. 따라서 물리 서버가 노후화되어도 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 그대로 복사해 새 서버에 올리면 1분 만에 시스템이 마이그레이션되는 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)(vMotion 등)의 기적이 탄생했다.
 
@@ -58,29 +62,30 @@ tags = ["cloud_architecture"]
 | 종류 | 아키텍처 특징 | 장점 및 내부 메커니즘 | 단점 및 병목 | 대표 솔루션 |
 |:---|:---|:---|:---|:---|
 | **Type 1 (Bare-metal)** | 물리 하드웨어 위에 OS 없이 **직접** [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 설치 | 중간에 호스트 OS가 없어 오버헤드가 극히 적음. 하드웨어 직접 스케줄링 | 설치가 까다롭고 전용 장비 필요 | VMware ESXi, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Xen |
-| **Type 2 (Hosted)** | 윈도우/맥 등 **호스트 OS 위**에 일반 프로그램처럼 설치 | 개인 PC에 쉽게 설치. 다양한 하드웨어 드라이버 지원(OS 의존) | 호스트 OS를 거치므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실(오버헤드) 큼 | VMware Workstation, VirtualBox |
+| **Type 2 (Hosted)** | 윈도우/맥 등 <strong>호스트 OS 위</strong>에 일반 프로그램처럼 설치 | 개인 PC에 쉽게 설치. 다양한 하드웨어 드라이버 지원(OS 의존) | 호스트 OS를 거치므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 손실(오버헤드) 큼 | VMware Workstation, VirtualBox |
 
-실무 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 퍼블릭 클라우드는 100% **Type 1 (베어메탈)** 방식을 사용한다. 특히 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체를 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 만들어버리는 **[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-based [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))**은 AWS, GCP 등 현대 클라우드의 절대적인 표준으로 자리 잡았다.
+실무 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 퍼블릭 클라우드는 100% **Type 1 (베어메탈)** 방식을 사용한다. 특히 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체를 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 만들어버리는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>-based <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">Virtual Machine</a>)</strong>은 AWS, GCP 등 현대 클라우드의 절대적인 표준으로 자리 잡았다.
 
 아래 다이어그램은 Type 1 환경에서 CPU와 메모리 주소가 어떻게 변환되어 실행되는지 그 내부 타이밍과 상태 전이를 보여준다.
 
-```text
-[Guest OS 1 / 게스트 OS 1]                  [Hypervisor (KVM)]                        [Physical CPU/RAM]
-     │                                              │                                         │
-     │ 1. 특권 명령어 (Privileged Instr.) 실행 시도   │                                         │
-     │ (예: CPU 인터럽트 중지)                        │                                         │
-     ├─────────────────────────────────────────────>│ 2. Trap (CPU 예외 발생 및 가로채기)         │
-     │                                              ├────────────────────────────────────────>│
-     │                                              │ 3. 명령어 에뮬레이션 (안전하게 해석)         │
-     │                                              │ 4. 메모리 주소 변환 (Shadow Page Table)   │
-     │                                              │    (Guest 가상 주소 -> 물리 메모리 주소)     │
-     │                                              │<────────────────────────────────────────┤
-     │ 5. 실행 완료 착각 (가짜 결과 반환)               │                                         │
-     │<─────────────────────────────────────────────┤                                         │
-     │                                              │                                         │
-```
 
-이 메커니즘의 핵심은 **[Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) and Emulate (가로채서 흉내내기)**이다. 게스트 OS가 함부로 진짜 CPU 전원을 끄거나 메모리를 지우려(특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 하면, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이를 중간에 낚아채어([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 자기 선에서 가짜로 흉내내어(Emulate) 결과만 돌려준다. 이로 인해 VM1이 시스템을 다운시키는 파괴적 명령을 내려도 물리 서버 전체나 VM2에는 전혀 영향을 주지 않는 완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))가 성립된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Guest OS 1 / 게스트 OS 1</div><div class="kb-diagram-node">Hypervisor (KVM)</div><div class="kb-diagram-node">Physical CPU/RAM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 특권 명령어 (Privileged Instr.) 실행 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: CPU 인터럽트 중지)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">2. Trap (CPU 예외 발생 및 가로채기)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 명령어 에뮬레이션 (안전하게 해석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 메모리 주소 변환 (Shadow Page Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Guest 가상 주소 -&gt; 물리 메모리 주소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 실행 완료 착각 (가짜 결과 반환)</div></div>
+</div>
+</div>
+
+
+
+이 메커니즘의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> and Emulate (가로채서 흉내내기)</strong>이다. 게스트 OS가 함부로 진짜 CPU 전원을 끄거나 메모리를 지우려(특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 하면, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 이를 중간에 낚아채어([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) 자기 선에서 가짜로 흉내내어(Emulate) 결과만 돌려준다. 이로 인해 VM1이 시스템을 다운시키는 파괴적 명령을 내려도 물리 서버 전체나 VM2에는 전혀 영향을 주지 않는 완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))가 성립된다.
 
 📢 **섹션 요약 비유**: 가짜 현실 공간(매트릭스) 안에서 주인공이 벽을 부수려([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행) 하면, 매트릭스의 메인 컴퓨터([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))가 그 행동을 가로채서 진짜 현실의 벽이 무너지는 것을 막고 화면에만 벽이 무너진 것처럼 가짜 영상을 보여주는 것과 같습니다.
 
@@ -104,7 +109,7 @@ tags = ["cloud_architecture"]
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 번역 비용이 너무 컸다. 그래서 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)는 게스트 OS의 심장([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 수술하여 가상화 환경임을 스스로 인지하게 만들었으나, 윈도우처럼 소스코드가 닫힌 OS는 개조할 수 없다는 치명적 단점이 있었다. 결국 인텔과 AMD가 CPU 칩셋 안에 가상화 전용 실행 링(Ring -1)을 물리적으로 박아 넣은 '[하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)'를 출시하면서, 현재는 OS 수정 없이도 100%에 가까운 네이티브 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 기반 구조로 천하 통일되었다.
 
 **과목 융합 관점**
-1. **네트워크 가상화 ([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 융합)**: VM이 통신할 때 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 소프트웨어 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))를 거치면 패킷 지연이 발생한다. 이를 타파하기 위해 물리적 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하나를 하드웨어적으로 여러 개로 쪼개어 게스트 OS에 다이렉트로 꽂아주는 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 기술이 융합되어, 네트워크 오버헤드 없이 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 100G 통신이 가능해졌다.
+1. <strong>네트워크 가상화 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/">SR-IOV</a> 융합)</strong>: VM이 통신할 때 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 소프트웨어 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/))를 거치면 패킷 지연이 발생한다. 이를 타파하기 위해 물리적 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하나를 하드웨어적으로 여러 개로 쪼개어 게스트 OS에 다이렉트로 꽂아주는 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 기술이 융합되어, 네트워크 오버헤드 없이 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 100G 통신이 가능해졌다.
 
 📢 **섹션 요약 비유**: 한국인(CPU)이 프랑스인(Guest OS)과 대화할 때, 처음엔 번역기를 일일이 돌리느라 느렸고([전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)), 다음엔 프랑스인에게 한국어를 조금 가르쳐 대화했으나 한계가 있었고([반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)), 결국 뇌에 동시통역 칩([하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/))을 심어 OS 수정 없이 빛의 속도로 대화하게 된 진화 과정입니다.
 
@@ -114,26 +119,29 @@ tags = ["cloud_architecture"]
 
 실무에서 가상화 환경을 운영할 때 가장 흔히 겪는 장애는 '오버프로비저닝(Over-provisioning)'의 남용과 스토리지 I/O 병목이다. 
 
-**실무 의사결정 시나리오 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong>실무 의사결정 시나리오 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 1. **자원 오버커밋(Over-commit)의 양날의 검**: 물리 서버의 RAM이 100GB일 때, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 4개에 각각 30GB씩 총 120GB를 할당하는 것이 가상화의 핵심 마법(메모리 오버커밋)이다. 평소엔 VM들이 메모리를 다 안 쓰므로 문제가 없으나, 블랙프라이데이 이벤트 시 4개의 VM이 동시에 메모리를 100% 요구하면 물리 서버 전체가 뻗어버리는 대형 장애([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))가 발생한다. 실무에서는 CPU는 3:1 비율로 오버커밋을 허용하되, 메모리(RAM)는 절대 오버커밋을 허용하지 않는 보수적 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 정책이 안전하다.
-2. **[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 탈출 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Escape) 보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 해커가 Guest OS를 장악한 뒤, 가상화의 취약점(드라이버 버그 등)을 역이용하여 밑단에 깔린 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 제어권을 탈취하는 공격이다. 이 경우 동일 서버에 올라간 다른 회사의 VM들까지 전부 털리게 된다. 이를 막기 위해 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)(Air-gap) 수준의 격리가 필요한 국방 데이터는 물리 서버 자체를 임대하는 베어메탈 클라우드를 써야 한다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> 탈출 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> Escape) 보안 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 해커가 Guest OS를 장악한 뒤, 가상화의 취약점(드라이버 버그 등)을 역이용하여 밑단에 깔린 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 제어권을 탈취하는 공격이다. 이 경우 동일 서버에 올라간 다른 회사의 VM들까지 전부 털리게 된다. 이를 막기 위해 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)(Air-gap) 수준의 격리가 필요한 국방 데이터는 물리 서버 자체를 임대하는 베어메탈 클라우드를 써야 한다.
 
 아래는 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라 설계 시 가상화 레벨을 선택하는 의사결정 트리이다.
 
-```text
-[신규 시스템 인프라 아키텍처 선정]
-         │
-[고성능 DB 등 디스크 I/O와 CPU 연산이 극한으로 필요한가?]
- ├─ (Yes) ──> [물리적 완전 격리: 가상화 없는 Bare-metal 서버 채택]
- │             (오버헤드 0%, 성능 100% 독점 보장)
- │
- └─ (No) ──> [밀리초 단위의 초고속 스케일아웃(확장)과 MSA 구조가 필요한가?]
-              ├─ (Yes) ──> [운영체제 레벨 가상화: Docker 컨테이너 및 K8s 채택]
-              │             (부팅 시간 0.1초, 완벽한 CI/CD 파이프라인 대응)
-              │
-              └─ (No)  ──> [전통적 분리: Type 1 하이퍼바이저 기반 범용 VM 채택]
-                           (커널이 완벽히 격리된 강력한 보안 보장, 레거시 마이그레이션)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신규 시스템 인프라 아키텍처 선정</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고성능 DB 등 디스크 I/O와 CPU 연산이 극한으로 필요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">물리적 완전 격리: 가상화 없는 Bare-metal 서버 채택</div></div>
+<div class="kb-diagram-note">(오버헤드 0%, 성능 100% 독점 보장)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">밀리초 단위의 초고속 스케일아웃(확장)과 MSA 구조가 필요한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">운영체제 레벨 가상화: Docker 컨테이너 및 K8s 채택</div></div>
+<div class="kb-diagram-note">(부팅 시간 0.1초, 완벽한 CI/CD 파이프라인 대응)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">전통적 분리: Type 1 하이퍼바이저 기반 범용 VM 채택</div></div>
+<div class="kb-diagram-note">(커널이 완벽히 격리된 강력한 보안 보장, 레거시 마이그레이션)</div>
+</div>
+</div>
+
+
 
 이 판단 로직은 가상화([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 만능이 아님을 짚어준다. VM은 내부에 무거운 Guest OS를 하나씩 품고 있어 부팅에 수십 초가 걸리고 수 기가바이트의 이미지를 가진다. 따라서 마이크로서비스처럼 찰나의 순간에 복제되어야 하는 워크로드는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/))를 쓰는 것이 현대 클라우드의 상식이다.
 
@@ -147,12 +155,12 @@ tags = ["cloud_architecture"]
 
 | 기대효과 구분 | 정량적 및 정성적 개선 지표 |
 |:---|:---|
-| **비용 절감 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))** | 물리 서버 대수를 1/5로 축소하여 하드웨어 구매 비용 및 전력/냉각 비용 80% 절감 |
+| <strong>비용 절감 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>)</strong> | 물리 서버 대수를 1/5로 축소하여 하드웨어 구매 비용 및 전력/냉각 비용 80% 절감 |
 | **운영 유연성 (Agility)** | 하드웨어 고장 시 다른 서버로 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지를 즉시 vMotion 이동시켜 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 5분 이내 달성 |
 | **소프트웨어 정의 (SDx)** | 네트워크([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)), 스토리지([SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/)) 가상화의 촉매가 되어 진정한 클라우드([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))를 탄생시킴 |
 
 **미래 전망**
-과거의 무거운 VM과 현재의 가벼운 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 사이의 간극을 메우기 위해, 최근에는 **마이크로VM (MicroVM, 예: AWS Firecracker)**이 대세로 떠오르고 있다. 이는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 0.1초 만에 부팅될 만큼 극도로 가벼우면서도, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기반의 강력한 하드웨어 격리 보안을 제공하여 '[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))' 아키텍처를 뒤에서 떠받치는 핵심 엔진으로 진화하고 있다.
+과거의 무거운 VM과 현재의 가벼운 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 사이의 간극을 메우기 위해, 최근에는 <strong>마이크로VM (MicroVM, 예: AWS Firecracker)</strong>이 대세로 떠오르고 있다. 이는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 0.1초 만에 부팅될 만큼 극도로 가벼우면서도, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기반의 강력한 하드웨어 격리 보안을 제공하여 '[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))' 아키텍처를 뒤에서 떠받치는 핵심 엔진으로 진화하고 있다.
 
 📢 **섹션 요약 비유**: 가상화는 딱딱한 얼음(하드웨어) 속에 갇혀 있던 물(소프트웨어)을 녹여, 어떤 모양의 그릇(클라우드)에 담아도 자유자재로 형태를 바꾸며 흐를 수 있게 만든 인프라 생태계의 기적적인 연금술입니다.
 
@@ -168,21 +176,23 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[물리 서버 (Bare Metal) — 하드웨어 자원 1:1 점유, 낮은 활용률·비효율]
-    │
-    ▼
-[하이퍼바이저 가상화 (Type 1/2) — 하드웨어를 분할하여 다수의 VM 동시 운용]
-    │
-    ▼
-[컨테이너 (Container / Docker) — OS 커널 공유, 프로세스 격리, 초경량 이식성]
-    │
-    ▼
-[마이크로VM (Firecracker) — VM 보안격리 + 컨테이너 경량성 결합, 서버리스 기반]
-    │
-    ▼
-[SDDC (Software Defined Data Center) — CPU·스토리지·네트워크 모두 소프트웨어로 가상화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버 (Bare Metal) — 하드웨어 자원 1:1 점유, 낮은 활용률·비효율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 가상화 (Type 1/2) — 하드웨어를 분할하여 다수의 VM 동시 운용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Container / Docker) — OS 커널 공유, 프로세스 격리, 초경량 이식성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로VM (Firecracker) — VM 보안격리 + 컨테이너 경량성 결합, 서버리스 기반</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC (Software Defined Data Center) — CPU·스토리지·네트워크 모두 소프트웨어로 가상화</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 물리 서버의 낮은 활용률 문제를 해결하기 위해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가상화가 등장하고, 더 가벼운 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)→마이크로VM 격리로 진화하며, 컴퓨팅·스토리지·네트워크 전체를 소프트웨어로 통제하는 SDDC로 귀결되는 클라우드 인프라 가상화의 핵심 계보를 보여준다.
 

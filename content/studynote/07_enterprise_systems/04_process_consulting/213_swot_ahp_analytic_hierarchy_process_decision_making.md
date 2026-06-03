@@ -42,23 +42,21 @@ SWOT-AHP의 전개는 보통 4단계다. 먼저 목표를 정의하고, SWOT 관
 
 아래 그림은 SWOT 요인이 AHP 계층에 들어가 최종 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 점수로 변환되는 흐름을 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ SWOT-AHP hierarchy                                                  │
-├──────────────────────────────────────────────────────────────────────┤
-│ Goal: IT strategy priority                                          │
-│   │                                                                  │
-│   ├─ Criteria: S / W / O / T                                         │
-│   │      │                                                           │
-│   │      ├─ Factors: S1 S2 / W1 W2 / O1 O2 / T1 T2                  │
-│   │      │                                                           │
-│   │      └─ Pairwise comparison (1..9 scale)                        │
-│   │                                                                  │
-│   └─ Alternatives: A / B / C                                         │
-│             │                                                        │
-│             └─ Global weight -> final ranking                        │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SWOT-AHP hierarchy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: IT strategy priority</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Criteria: S / W / O / T</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Factors: S1 S2 / W1 W2 / O1 O2 / T1 T2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Pairwise comparison (1..9 scale)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Alternatives: A / B / C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Global weight -&gt; final ranking</div></div>
+</div>
+</div>
+
+
 
 AHP에서 중요한 것은 숫자 자체보다 비교의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이다. 예를 들어 보안을 클라우드 전환보다 훨씬 중요하다고 하고, 클라우드 전환을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼보다 중요하다고 하면서, 다시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼을 보안보다 훨씬 중요하다고 답하면 판단 체계가 흔들린다. 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 지표가 CR ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Ratio)이며, 일반적으로 0.1 이하일 때 수용 가능한 수준으로 본다. 따라서 SWOT-AHP는 단순한 점수 놀이가 아니라, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 검사하는 절차까지 포함한다.
 
@@ -116,21 +114,23 @@ SWOT-AHP의 가장 큰 효과는 [전략](/knowledge-base/studynote/04_software_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Environmental scan
-        │
-        ▼
-SWOT factor discovery
-        │
-        ▼
-AHP hierarchy design
-        │
-        ▼
-Pairwise weighting and CR check
-        │
-        ▼
-Strategy ranking and portfolio decision
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Environmental scan</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SWOT factor discovery</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AHP hierarchy design</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Pairwise weighting and CR check</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Strategy ranking and portfolio decision</div>
+</div>
+</div>
+
+
 
 이 흐름은 "환경 진단 → 요인 구조화 → 계층화 → [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 투자 우선순위 결정"의 전개를 보여준다.
 

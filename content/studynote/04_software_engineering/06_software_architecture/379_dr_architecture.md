@@ -23,32 +23,31 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 2021년 한국 datacenter 화재로 인해 음카드, 한겨레 등 주요 서비스가 수일에 걸쳐 마비된 사례에서 볼 수 있듯이, [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 전략이 부재하거나하면 대규모 장애 시 회복이 매우 어렵다. 또한 금전적 손실 외에 고객 신뢰 상실, 규제 제재 등 도 발생한다.
 
-- **💡 비유**: [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 아키텍처는 **'항공사 비행기의 안전'**와 같다. 비행기에는 엔진를 위한 이중 엔진, 대피용 미끄럼틀, 충돌 가능성에 대한 Procedures 등이 있으며, 이러한 보안는"이렇게 하면이/가 maximise된다"는 목표에 따라 설계된다. 소프트웨어 시스템도 마찬가지로 대규모 재해([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴 등)가 발생해도"얼마나 빨리 그리고 얼마나 완전하게에게서비스를 제공할 수 있게 회복하는가"를로 설계된다.
+- **💡 비유**: [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 아키텍처는 <strong>'항공사 비행기의 안전'</strong>와 같다. 비행기에는 엔진를 위한 이중 엔진, 대피용 미끄럼틀, 충돌 가능성에 대한 Procedures 등이 있으며, 이러한 보안는"이렇게 하면이/가 maximise된다"는 목표에 따라 설계된다. 소프트웨어 시스템도 마찬가지로 대규모 재해([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴 등)가 발생해도"얼마나 빨리 그리고 얼마나 완전하게에게서비스를 제공할 수 있게 회복하는가"를로 설계된다.
 
 - **등장 배경 및 발전 과정**:
 1. **1990년대**: 인터넷 보급과 함께 웹 서비스의 중요성 증가, [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 개념 발전
-2. **2001년 9/[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)**: 미국 terrorist 공격으로 [비즈니스 연속성 계획](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/)(BCP/[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))의 중요성 본격적 인식
+2. <strong>2001년 9/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a></strong>: 미국 terrorist 공격으로 [비즈니스 연속성 계획](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/)(BCP/[DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/))의 중요성 본격적 인식
 3. **2010년대**: [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 확산으로 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 구축 비용대폭적 감소
 4. **현재**: [Ransomware](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 공격 증가에 따른 DR의 중요성 , Cloud [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)-as-a-Service) 확산
 
-- **📢 섹션 요약 비유**: [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 아키텍처는 **'해상 Cruise선의 난파선 대피 '**와 같다. cruise선이 침몰할 경우, 승객은 정해진 위치로 대피하고, 구명보트에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하여 손실될 승객 수를 최소화하며, 구조 신호기를 작동시켜 구조대가 최대한 빨리 도착하도록 한다. 소프트웨어 시스템에서도 대규모 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 곳에 복제하고, 미리해진 절차에 따라 failover하여 피해을/를하는 것이 DR의 핵심이다.
+- **📢 섹션 요약 비유**: [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 아키텍처는 <strong>'해상 Cruise선의 난파선 대피 '</strong>와 같다. cruise선이 침몰할 경우, 승객은 정해진 위치로 대피하고, 구명보트에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하여 손실될 승객 수를 최소화하며, 구조 신호기를 작동시켜 구조대가 최대한 빨리 도착하도록 한다. 소프트웨어 시스템에서도 대규모 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다른 곳에 복제하고, 미리해진 절차에 따라 failover하여 피해을/를하는 것이 DR의 핵심이다.
 
 ---
 
 다음은 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 재해 복구 (DR) 아키텍처 │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재해 복구 (DR) 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 재해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-재해 복구 (DR) 아키텍처 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재해 복구 (DR) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

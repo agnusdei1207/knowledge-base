@@ -18,41 +18,38 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 경계 보안의 한계
 
-```
-전통 경계 보안 (Perimeter Security):
 
-    인터넷 (위험)
-        │
-    방화벽 ← 경계
-        │
-    내부 네트워크 (신뢰)
-    PC ─ 서버 ─ DB
-    
-가정: 방화벽 안 = 신뢰
-문제: 방화벽 한 번 통과하면 내부 자유롭게 이동
 
-경계 보안의 실패:
-  1. 클라우드:
-  데이터가 클라우드(경계 밖)에 있음
-  "경계" 개념 붕괴
-  
-  2. 원격 근무:
-  직원이 집, 카페에서 접속
-  "내부" 네트워크의 의미 사라짐
-  
-  3. 내부자 위협 (Insider Threat):
-  방화벽 안쪽 직원/계정 침해
-  → 내부 = 신뢰 가정이 위험
-  
-  4. 라테럴 무브먼트 (Lateral Movement):
-  해커: 하나의 엔드포인트 침해
-  → 내부망 자유 이동 → 중요 시스템 침해
-  
-  SolarWinds 공급망 공격 (2020):
-  정상 소프트웨어 업데이트로 내부 침투
-  → 18,000개 조직 내부에서 자유 이동
-  → 수개월간 탐지 불가
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 경계 보안 (Perimeter Security):</div>
+<div class="kb-diagram-note">인터넷 (위험)</div>
+<div class="kb-diagram-note">방화벽 ← 경계</div>
+<div class="kb-diagram-note">내부 네트워크 (신뢰)</div>
+<div class="kb-diagram-note">PC ─ 서버 ─ DB</div>
+<div class="kb-diagram-note">가정: 방화벽 안 = 신뢰</div>
+<div class="kb-diagram-note">문제: 방화벽 한 번 통과하면 내부 자유롭게 이동</div>
+<div class="kb-diagram-note">경계 보안의 실패:</div>
+<div class="kb-diagram-note">1. 클라우드:</div>
+<div class="kb-diagram-note">데이터가 클라우드(경계 밖)에 있음</div>
+<div class="kb-diagram-note">"경계" 개념 붕괴</div>
+<div class="kb-diagram-note">2. 원격 근무:</div>
+<div class="kb-diagram-note">직원이 집, 카페에서 접속</div>
+<div class="kb-diagram-note">"내부" 네트워크의 의미 사라짐</div>
+<div class="kb-diagram-note">3. 내부자 위협 (Insider Threat):</div>
+<div class="kb-diagram-note">방화벽 안쪽 직원/계정 침해</div>
+<div class="kb-diagram-note">→ 내부 = 신뢰 가정이 위험</div>
+<div class="kb-diagram-note">4. 라테럴 무브먼트 (Lateral Movement):</div>
+<div class="kb-diagram-note">해커: 하나의 엔드포인트 침해</div>
+<div class="kb-diagram-note">→ 내부망 자유 이동 → 중요 시스템 침해</div>
+<div class="kb-diagram-note">SolarWinds 공급망 공격 (2020):</div>
+<div class="kb-diagram-note">정상 소프트웨어 업데이트로 내부 침투</div>
+<div class="kb-diagram-note">→ 18,000개 조직 내부에서 자유 이동</div>
+<div class="kb-diagram-note">→ 수개월간 탐지 불가</div>
+</div>
+</div>
+
+
 
 > 📢 **섹션 요약 비유**: 전통 경계 보안은 성벽 — 성벽([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 있으면 안전하다 생각했는데, 적이 성문을 통과하자 안에서 자유롭게 돌아다녔어요. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 방마다 자물쇠!
 
@@ -60,46 +57,41 @@ tags = ["studynote-security"]
 
 ## Ⅱ. [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙
 
-```
-제로 트러스트 3대 원칙 (Microsoft ZTA):
 
-1. 명시적 검증 (Verify Explicitly):
-   모든 접근 요청: 항상 인증·인가
-   
-   고려 요소:
-   - 사용자 ID + MFA
-   - 디바이스 상태 (패치, 암호화)
-   - 위치 (IP, 국가)
-   - 서비스/리소스
-   - 이상 행위 (비정상 패턴)
-   
-   예: 내부망에서도 매 리소스 접근 시 재검증
 
-2. 최소 권한 (Least Privileged Access):
-   필요한 것만, 필요한 시간만
-   
-   JIT (Just-In-Time) 접근:
-   필요할 때만 권한 부여 → 완료 후 즉시 회수
-   
-   JEA (Just Enough Access):
-   특정 작업에만 필요한 권한
-   
-   예: DB 관리자 → 항상 DB 접근 X
-   필요 시 15분 JIT 권한 부여 → 자동 회수
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제로 트러스트 3대 원칙 (Microsoft ZTA):</div>
+<div class="kb-diagram-note">1. 명시적 검증 (Verify Explicitly):</div>
+<div class="kb-diagram-note">모든 접근 요청: 항상 인증·인가</div>
+<div class="kb-diagram-note">고려 요소:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">사용자 ID + MFA</div>
+<div class="kb-diagram-tree-item" style="--depth:1">디바이스 상태 (패치, 암호화)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">위치 (IP, 국가)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">서비스/리소스</div>
+<div class="kb-diagram-tree-item" style="--depth:1">이상 행위 (비정상 패턴)</div>
+<div class="kb-diagram-note">예: 내부망에서도 매 리소스 접근 시 재검증</div>
+<div class="kb-diagram-note">2. 최소 권한 (Least Privileged Access):</div>
+<div class="kb-diagram-note">필요한 것만, 필요한 시간만</div>
+<div class="kb-diagram-note">JIT (Just-In-Time) 접근:</div>
+<div class="kb-diagram-note">필요할 때만 권한 부여 → 완료 후 즉시 회수</div>
+<div class="kb-diagram-note">JEA (Just Enough Access):</div>
+<div class="kb-diagram-note">특정 작업에만 필요한 권한</div>
+<div class="kb-diagram-note">예: DB 관리자 → 항상 DB 접근 X</div>
+<div class="kb-diagram-note">필요 시 15분 JIT 권한 부여 → 자동 회수</div>
+<div class="kb-diagram-note">3. 침해 가정 (Assume Breach):</div>
+<div class="kb-diagram-note">이미 침해되었다고 가정하고 설계</div>
+<div class="kb-diagram-note">마이크로세그멘테이션:</div>
+<div class="kb-diagram-note">네트워크를 작은 구역으로 분할</div>
+<div class="kb-diagram-note">구역 간 이동 = 항상 검증</div>
+<div class="kb-diagram-note">End-to-End 암호화:</div>
+<div class="kb-diagram-note">내부 트래픽도 암호화 (도청 가정)</div>
+<div class="kb-diagram-note">탐지·대응 강화:</div>
+<div class="kb-diagram-note">침해 전제 → 탐지와 대응이 핵심</div>
+</div>
+</div>
 
-3. 침해 가정 (Assume Breach):
-   이미 침해되었다고 가정하고 설계
-   
-   마이크로세그멘테이션:
-   네트워크를 작은 구역으로 분할
-   구역 간 이동 = 항상 검증
-   
-   End-to-End 암호화:
-   내부 트래픽도 암호화 (도청 가정)
-   
-   탐지·대응 강화:
-   침해 전제 → 탐지와 대응이 핵심
-```
+
 
 > 📢 **섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 원칙은 방마다 열쇠 — 집에 들어왔어도([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과) 방마다(리소스) 자물쇠. 항상 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)), 필요한 방만(최소 권한), 도둑이 있다고 가정(침해 가정)!
 
@@ -107,51 +99,43 @@ tags = ["studynote-security"]
 
 ## Ⅲ. 기술 구성 요소
 
-```
-제로 트러스트 기술 아키텍처:
 
-1. IAM (Identity and Access Management):
-   핵심: "ID가 새로운 경계"
-   
-   MFA (Multi-Factor Authentication):
-   비밀번호 + 생체인식/OTP/하드웨어 키
-   
-   RBAC/ABAC:
-   역할/속성 기반 접근 제어
-   
-   PAM (Privileged Access Management):
-   관리자 계정 JIT 접근
-   
-   도구: Okta, Microsoft Entra ID (Azure AD)
 
-2. 마이크로세그멘테이션:
-   가상 방화벽으로 내부 네트워크 분할
-   
-   서버 A (웹) ← 검증 → 서버 B (앱)
-   서버 B (앱) ← 검증 → 서버 C (DB)
-   
-   도구: VMware NSX, Illumio, Guardicore
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">제로 트러스트 기술 아키텍처:</div>
+<div class="kb-diagram-note">1. IAM (Identity and Access Management):</div>
+<div class="kb-diagram-note">핵심: "ID가 새로운 경계"</div>
+<div class="kb-diagram-note">MFA (Multi-Factor Authentication):</div>
+<div class="kb-diagram-note">비밀번호 + 생체인식/OTP/하드웨어 키</div>
+<div class="kb-diagram-note">RBAC/ABAC:</div>
+<div class="kb-diagram-note">역할/속성 기반 접근 제어</div>
+<div class="kb-diagram-note">PAM (Privileged Access Management):</div>
+<div class="kb-diagram-note">관리자 계정 JIT 접근</div>
+<div class="kb-diagram-note">도구: Okta, Microsoft Entra ID (Azure AD)</div>
+<div class="kb-diagram-note">2. 마이크로세그멘테이션:</div>
+<div class="kb-diagram-note">가상 방화벽으로 내부 네트워크 분할</div>
+<div class="kb-diagram-note">서버 A (웹) ← 검증 → 서버 B (앱)</div>
+<div class="kb-diagram-note">서버 B (앱) ← 검증 → 서버 C (DB)</div>
+<div class="kb-diagram-note">도구: VMware NSX, Illumio, Guardicore</div>
+<div class="kb-diagram-note">3. 디바이스 신뢰 (Device Trust):</div>
+<div class="kb-diagram-note">엔드포인트 상태 검증</div>
+<div class="kb-diagram-tree-item" style="--depth:1">OS 버전, 패치 수준</div>
+<div class="kb-diagram-tree-item" style="--depth:1">암호화(BitLocker, FileVault)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">EDR(Endpoint Detection &amp; Response) 에이전트</div>
+<div class="kb-diagram-note">도구: CrowdStrike, Microsoft Intune</div>
+<div class="kb-diagram-note">4. ZTNA (Zero Trust Network Access):</div>
+<div class="kb-diagram-note">VPN 대체</div>
+<div class="kb-diagram-note">기존 VPN: 한 번 연결 → 내부망 전체 접근</div>
+<div class="kb-diagram-note">ZTNA: 앱별 개별 접근 제어</div>
+<div class="kb-diagram-note">도구: Cloudflare Access, Zscaler ZPA</div>
+<div class="kb-diagram-note">5. 지속적 모니터링:</div>
+<div class="kb-diagram-note">SIEM + UEBA (User Entity Behavior Analytics)</div>
+<div class="kb-diagram-note">이상 행위 실시간 탐지</div>
+</div>
+</div>
 
-3. 디바이스 신뢰 (Device Trust):
-   엔드포인트 상태 검증
-   - OS 버전, 패치 수준
-   - 암호화(BitLocker, FileVault)
-   - EDR(Endpoint Detection & Response) 에이전트
-   
-   도구: CrowdStrike, Microsoft Intune
 
-4. ZTNA (Zero Trust Network Access):
-   VPN 대체
-   
-   기존 VPN: 한 번 연결 → 내부망 전체 접근
-   ZTNA: 앱별 개별 접근 제어
-   
-   도구: Cloudflare Access, Zscaler ZPA
-
-5. 지속적 모니터링:
-   SIEM + UEBA (User Entity Behavior Analytics)
-   이상 행위 실시간 탐지
-```
 
 > 📢 **섹션 요약 비유**: ZT 기술은 스마트 오피스 시스템 — 입장 시 얼굴 인식([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)/[MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)), 각 방 출입증(마이크로세그멘테이션), 노트북 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(디바이스 신뢰), 수상한 행동 감지([UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/))!
 
@@ -213,48 +197,45 @@ Phase 4 (3년~): 가시성/자동화
 
 ## Ⅴ. 실무 시나리오 — 금융기업 ZT 전환
 
-```
-보험회사 제로 트러스트 전환:
 
-배경:
-  전통 VPN + 내부망 신뢰 구조
-  임직원 1,500명, 재택 근무 50%
-  침해 우려: 내부 계정 2개 탈취 사고 (랜섬웨어)
 
-현황 문제:
-  VPN으로 접속 → 내부망 전체 접근
-  관리자 계정 항상 활성화
-  내부 서버 간 이동 자유로움
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">보험회사 제로 트러스트 전환:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">전통 VPN + 내부망 신뢰 구조</div>
+<div class="kb-diagram-note">임직원 1,500명, 재택 근무 50%</div>
+<div class="kb-diagram-note">침해 우려: 내부 계정 2개 탈취 사고 (랜섬웨어)</div>
+<div class="kb-diagram-note">현황 문제:</div>
+<div class="kb-diagram-note">VPN으로 접속 → 내부망 전체 접근</div>
+<div class="kb-diagram-note">관리자 계정 항상 활성화</div>
+<div class="kb-diagram-note">내부 서버 간 이동 자유로움</div>
+<div class="kb-diagram-note">제로 트러스트 전환 (2년):</div>
+<div class="kb-diagram-note">Phase 1 (6개월): ID 강화</div>
+<div class="kb-diagram-note">MFA: Duo Security 전직원 도입</div>
+<div class="kb-diagram-note">PAM: CyberArk - 관리자 JIT 접근</div>
+<div class="kb-diagram-note">Azure AD: 조건부 액세스 정책</div>
+<div class="kb-diagram-note">Phase 2 (12개월): ZTNA + 디바이스</div>
+<div class="kb-diagram-note">Zscaler ZPA: VPN 대체</div>
+<div class="kb-diagram-note">Microsoft Intune: 디바이스 등록/관리</div>
+<div class="kb-diagram-note">컴플라이언트 디바이스만 접속 허용</div>
+<div class="kb-diagram-note">Phase 3 (18개월): 세그멘테이션</div>
+<div class="kb-diagram-note">Illumio: 서버 간 이동 정책</div>
+<div class="kb-diagram-note">핵심 시스템(보험 DB): 화이트리스트만 접근</div>
+<div class="kb-diagram-note">모니터링:</div>
+<div class="kb-diagram-note">Microsoft Sentinel: SIEM + UEBA</div>
+<div class="kb-diagram-note">이상 로그인 자동 탐지 + 차단</div>
+<div class="kb-diagram-note">결과:</div>
+<div class="kb-diagram-note">동일 침해 시나리오 재현 테스트:</div>
+<div class="kb-diagram-note">전: 침투 후 3시간 내 핵심 DB 접근</div>
+<div class="kb-diagram-note">후: 침투 성공해도 다음 레이어에서 차단</div>
+<div class="kb-diagram-note">탐지 시간: 3일 → 2시간</div>
+<div class="kb-diagram-note">비용: 2년 구현 8억원</div>
+<div class="kb-diagram-note">예방한 랜섬웨어 피해 추정: 50억원 이상</div>
+</div>
+</div>
 
-제로 트러스트 전환 (2년):
 
-Phase 1 (6개월): ID 강화
-  MFA: Duo Security 전직원 도입
-  PAM: CyberArk - 관리자 JIT 접근
-  Azure AD: 조건부 액세스 정책
-
-Phase 2 (12개월): ZTNA + 디바이스
-  Zscaler ZPA: VPN 대체
-  Microsoft Intune: 디바이스 등록/관리
-  컴플라이언트 디바이스만 접속 허용
-
-Phase 3 (18개월): 세그멘테이션
-  Illumio: 서버 간 이동 정책
-  핵심 시스템(보험 DB): 화이트리스트만 접근
-
-모니터링:
-  Microsoft Sentinel: SIEM + UEBA
-  이상 로그인 자동 탐지 + 차단
-
-결과:
-  동일 침해 시나리오 재현 테스트:
-  전: 침투 후 3시간 내 핵심 DB 접근
-  후: 침투 성공해도 다음 레이어에서 차단
-  탐지 시간: 3일 → 2시간
-  
-  비용: 2년 구현 8억원
-  예방한 랜섬웨어 피해 추정: 50억원 이상
-```
 
 > 📢 **섹션 요약 비유**: 보험사 ZT 전환은 방어 깊이 쌓기 — [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 하나(성벽 하나)에서 [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)+[ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)+[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)+모니터링(겹겹이 방어). 성벽 하나 뚫려도 안쪽에서 막아요!
 

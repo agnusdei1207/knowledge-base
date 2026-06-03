@@ -10,9 +10,9 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 하이퍼오토메이션([초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))은 단순 반복적인 마우스 클릭을 대신하던 무식한 매크로([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))에, 글씨를 읽고(OCR), 언어를 이해하며(NLP), 스스로 판단하는 지능(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 **레고 블록처럼 결합하여 인간의 '뇌'와 '손발'을 모두 통째로 자동화하는 궁극의 아키텍처**다.
+> 1. **본질**: 하이퍼오토메이션([초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))은 단순 반복적인 마우스 클릭을 대신하던 무식한 매크로([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))에, 글씨를 읽고(OCR), 언어를 이해하며(NLP), 스스로 판단하는 지능(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))을 <strong>레고 블록처럼 결합하여 인간의 '뇌'와 '손발'을 모두 통째로 자동화하는 궁극의 아키텍처</strong>다.
 > 2. **가치**: 기존 RPA는 "사진으로 된 영수증"이나 "고객의 짜증 섞인 불만 이메일" 등 정형화되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만나면 에러를 뱉고 멈춰버렸으나, AI가 눈(Vision)과 귀(Language)가 되어 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 쇳덩어리(시스템)가 이해할 수 있는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)로 번역해 줌으로써 자동화의 범위를 무한대로 확장시켰다.
-> 3. **판단 포인트**: 이 융합 구조에서는 단순히 봇(Bot)을 여러 개 띄우는 것이 중요한 게 아니라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))과 RPA의 오케스트레이터를 끊김 없이 연결하는 **[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)) 기반의 거버넌스 설계**가 생사를 가른다.
+> 3. **판단 포인트**: 이 융합 구조에서는 단순히 봇(Bot)을 여러 개 띄우는 것이 중요한 게 아니라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))과 RPA의 오케스트레이터를 끊김 없이 연결하는 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>) 기반의 거버넌스 설계</strong>가 생사를 가른다.
 
 ---
 
@@ -20,7 +20,7 @@ tags = ["studynote-enterprise-systems"]
 
 기업들은 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)(로봇 프로세스 자동화)를 도입하며 환호했다. 직원이 매일 엑셀을 열고 복사해서 사내 시스템에 붙여넣던 단순 노동을 봇(Bot)이 눈 깜짝할 새 끝내줬기 때문이다. 하지만 기쁨은 잠시였다. 회계 부서에 RPA를 붙이려고 하니, 세금계산서가 예쁜 엑셀이 아니라 삐뚤빼뚤하게 스캔된 PDF 사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 들어왔다. 고객 센터에 붙이려 하니, 메일 내용이 "배송 언제 와요? 짜증 나네" 같은 자연어(사람 말)였다. 무식한 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇은 화면 좌표나 표(Table) 구조가 없으면 그 자리에서 바보가 되어 멈춰버렸다.
 
-아키텍트들은 깨달았다. "RPA는 '손과 발'일 뿐이다. 눈과 귀, 그리고 뇌가 없다!" 이 한계를 박살 내기 위해 봇(Bot)의 머리에 구글의 이미지 인식(OCR)을 달고, 귀에 챗GPT 같은 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)/NLP)을 이식하기 시작했다. AI가 지저분한 사진을 읽고 의도를 파악해서 예쁜 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 번역해 주면, 대기하고 있던 RPA가 그걸 받아 시스템에 광속으로 타이핑하는 것이다. 가트너(Gartner)가 명명한 이 파괴적인 기술의 융합, 이것이 바로 **하이퍼오토메이션([Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/))**이다.
+아키텍트들은 깨달았다. "RPA는 '손과 발'일 뿐이다. 눈과 귀, 그리고 뇌가 없다!" 이 한계를 박살 내기 위해 봇(Bot)의 머리에 구글의 이미지 인식(OCR)을 달고, 귀에 챗GPT 같은 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)/NLP)을 이식하기 시작했다. AI가 지저분한 사진을 읽고 의도를 파악해서 예쁜 엑셀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 번역해 주면, 대기하고 있던 RPA가 그걸 받아 시스템에 광속으로 타이핑하는 것이다. 가트너(Gartner)가 명명한 이 파괴적인 기술의 융합, 이것이 바로 <strong>하이퍼오토메이션(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">Hyperautomation</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: RPA가 공장에 있는 '눈먼 로봇 팔'이라면(항상 같은 위치에 있는 박스만 줍기 가능), 하이퍼오토메이션은 로봇 팔 위에 '첨단 카메라와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 두뇌'를 달아준 것이다. 박스가 거꾸로 놓여있든(비정형 문서), 색깔이 다르든 간에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 눈으로 쳐다보고 판단한 뒤 로봇 팔로 정확히 집어내 포장해 버리는 완벽한 작업자다.
 
@@ -31,27 +31,27 @@ tags = ["studynote-enterprise-systems"]
 ### 감각([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) ➔ 추론(ML) ➔ 행동([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))의 3단 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 하이퍼오토메이션은 비정형의 카오스(인간의 세계)를 정형화된 질서(기계의 세계)로 끌고 내려오는 폭포수 아키텍처다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│           하이퍼오토메이션 (RPA + AI) 융합 처리 아키텍처             │
-├────────────────────────────────────────────────────────┤
-│   [ 1단계: 비정형 데이터 유입 (카오스) ]                      │
-│    - 이메일: "제품 고장 났어요. 교환 환불 좀 (영수증 사진 첨부)"     │
-│             │                                          │
-│             ▼                                          │
-│   [ 2단계: AI Cognitive Services (뇌와 눈의 개입) ]        │
-│    - NLP (자연어 처리): "고장, 환불" ➔ [의도: 반품 처리] 분류    │
-│    - OCR (이미지 인식): 사진 속 영수증 ➔ [금액: 5만 원, 날짜 추출]│
-│             │  (비정형 ➔ 정형 데이터셋(JSON)으로 변환 완료!)  │
-│             ▼                                          │
-│   [ 3단계: RPA Bot (손발의 무자비한 실행) ]                 │
-│    - 봇이 JSON 데이터를 넘겨받음                              │
-│    - 사내 ERP(SAP) 화면 오픈 ➔ 반품 메뉴 클릭 ➔ 5만 원 자동 환불│
-│    - 고객에게 "환불 처리되었습니다" 이메일 발송 광클릭            │
-└────────────────────────────────────────────────────────┘
-```
 
-여기서 핵심은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 직접 바닥부터 만드는 것이 아니다. UiPath, Automation Anywhere 같은 최신 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 플랫폼들은 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 '드래그 앤 드롭'으로 조립할 수 있게 **[Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Understanding (문서 이해)**이나 **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Center** 같은 쇳덩어리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 기본 탑재하여 제공한다. 아키텍트는 블록만 끼워 맞추면 끝난다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼오토메이션 (RPA + AI) 융합 처리 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 비정형 데이터 유입 (카오스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이메일: "제품 고장 났어요. 교환 환불 좀 (영수증 사진 첨부)"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: AI Cognitive Services (뇌와 눈의 개입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- NLP (자연어 처리): "고장, 환불" ➔</div><div class="kb-diagram-node">의도: 반품 처리</div><div class="kb-diagram-note">분류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">- OCR (이미지 인식): 사진 속 영수증 ➔</div><div class="kb-diagram-node">금액: 5만 원, 날짜 추출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비정형 ➔ 정형 데이터셋(JSON)으로 변환 완료!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: RPA Bot (손발의 무자비한 실행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 봇이 JSON 데이터를 넘겨받음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사내 ERP(SAP) 화면 오픈 ➔ 반품 메뉴 클릭 ➔ 5만 원 자동 환불</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고객에게 "환불 처리되었습니다" 이메일 발송 광클릭</div></div>
+</div>
+</div>
+
+
+
+여기서 핵심은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 직접 바닥부터 만드는 것이 아니다. UiPath, Automation Anywhere 같은 최신 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 플랫폼들은 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 '드래그 앤 드롭'으로 조립할 수 있게 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> Understanding (문서 이해)</strong>이나 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Center</strong> 같은 쇳덩어리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 기본 탑재하여 제공한다. 아키텍트는 블록만 끼워 맞추면 끝난다.
 
 - **📢 섹션 요약 비유**: 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 '외국인 고객이 식당에 온 상황'이다. 고객이 아랍어로 뭐라 뭐라 하면서 종이쪽지를 내밀면(비정형 이메일/사진), 똑똑한 통역사 AI가 그걸 듣고 읽은 다음 주방장에게 "짜장면 1개, 짬뽕 1개 달랍니다"라고 깔끔한 한글 번역 메모([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))로 넘겨준다. 그러면 행동 대장 주방장([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))은 아무 생각 없이 불을 켜고 요리(시스템 타이핑)만 미친 듯이 하면 되는 완벽한 분업이다.
 
@@ -64,13 +64,13 @@ tags = ["studynote-enterprise-systems"]
 
 | 비교 항목 | 전통적 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) | 하이퍼오토메이션 / IPA (Intelligent [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Automation) |
 |:---|:---|:---|
-| **처리 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | **[정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 전용 (엑셀, DB, 정해진 화면 UI)** | **[비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 환영 (이메일, PDF 스캔본, 음성, 챗봇 대화)** |
-| **판단 능력 (지능)** | **지능 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/). (if-then 규칙에 없으면 에러 내고 죽음)** | **지능 충만. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)으로 의도를 추론하고 예외 상황을 스스로 학습** |
+| <strong>처리 가능한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/">정형 데이터</a> 전용 (엑셀, DB, 정해진 화면 UI)</strong> | <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 환영 (이메일, PDF 스캔본, 음성, 챗봇 대화)</strong> |
+| **판단 능력 (지능)** | <strong>지능 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>. (if-then 규칙에 없으면 에러 내고 죽음)</strong> | <strong>지능 충만. <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>으로 의도를 추론하고 예외 상황을 스스로 학습</strong> |
 | **자동화 대상 업무** | 백오피스의 단순 엑셀 복사/붙여넣기 노가다 | 고객 응대, 대출 서류 심사, 계약서 법무 검토 등 **인지적 업무** |
-| **도입 기술 융합** | 단일 스크립트 기반 화면 제어 도구 (매크로) | **[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) + OCR + NLP(언어 모델) + [Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)(업무 발굴)** |
+| **도입 기술 융합** | 단일 스크립트 기반 화면 제어 도구 (매크로) | <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/">RPA</a> + OCR + NLP(언어 모델) + <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>(업무 발굴)</strong> |
 | **실패 처리 방식** | 뻗으면 개발자가 와서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보고 고쳐줄 때까지 멈춤 | **모르는 문서가 나오면 사람(Human-in-the-loop)에게 물어보고 학습함** |
 
-하이퍼오토메이션의 가장 소름 돋는 기능은 **Human-in-the-loop(HITL)**다. AI가 글씨가 너무 뭉개져 헷갈리면([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 80% 미만), 로봇이 일을 멈추는 게 아니라 직원 화면에 팝업을 띄워 "주인님, 이거 3자입니까 8자입니까?"라고 묻는다. 직원이 '3'이라고 클릭해 주면 그 즉시 봇이 일을 재개하고, AI는 그 패턴을 재학습(Retraining)하여 다음번엔 혼자 처리한다. 로봇과 인간의 완벽한 쇳덩어리 교감이다.
+하이퍼오토메이션의 가장 소름 돋는 기능은 <strong>Human-in-the-loop(HITL)</strong>다. AI가 글씨가 너무 뭉개져 헷갈리면([신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 80% 미만), 로봇이 일을 멈추는 게 아니라 직원 화면에 팝업을 띄워 "주인님, 이거 3자입니까 8자입니까?"라고 묻는다. 직원이 '3'이라고 클릭해 주면 그 즉시 봇이 일을 재개하고, AI는 그 패턴을 재학습(Retraining)하여 다음번엔 혼자 처리한다. 로봇과 인간의 완벽한 쇳덩어리 교감이다.
 
 - **📢 섹션 요약 비유**: 전통적 RPA가 사수가 시킨 대로만 타자 치는 '눈치 없는 인턴 사원'이라면, 하이퍼오토메이션은 모르는 영수증이 나오면 옆자리 선배에게 "이거 밥값 맞죠?"라고 물어보고, 선배가 "응" 하면 그걸 기억수첩([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/))에 적어뒀다가 다음부터는 안 물어보고 알아서 척척 회계 처리를 해내는 '에이스 대리'다.
 
@@ -80,10 +80,10 @@ tags = ["studynote-enterprise-systems"]
 
 ### 실무 시나리오
 1. **금융권 무역 서류(L/C, B/L) 심사 자동화**: 은행 외환부서는 수출입 기업이 던지는 수백 장의 종이 선하증권(B/L)을 돋보기로 보며 신용장(L/C) 글자와 틀린 곳이 없는지 심사한다. 국가마다 양식이 다 달라 기존 RPA는 도입조차 불가했다. 아키텍트는 딥러닝 기반의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-OCR을 도입한다. 양식이 달라도 AI가 텍스트 위치를 스스로 찾아내어 '선적일', '금액'을 뽑아내 텍스트로 치환하면, [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇이 은행 내부 심사 시스템에 접속해 1초 만에 타이핑하고 두 서류의 글자를 비교하여 승인/반려 버튼을 알아서 누른다. 3일 걸리던 심사 시간이 3분으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다.
-2. **[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))을 통한 '숨은 꿀 빠는 업무' 색출**: "자동화를 하긴 해야 하는데, 우리 회사 직원들이 무슨 단순 업무를 제일 많이 하는지 모르겠네?" 이 문제를 해결하기 위해 아키텍트는 전 직원의 PC에 프로세스 디스커버리([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Discovery) 요원 프로그램을 깐다. 직원들의 마우스 클릭과 화면 전환 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 몇 달간 몰래 긁어모은 뒤 AI가 분석해 낸다. "김 대리 팀이 매일 오후 3시에 엑셀을 열고 SAP 화면을 300번 왕복 클릭하며 시간을 버리고 있습니다! 이걸 RPA로 만들면 월 1,000시간 절약 가능!" 자동화할 일거리 자체를 AI가 찾아주는 진정한 오토메이션의 0단계다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>)을 통한 '숨은 꿀 빠는 업무' 색출</strong>: "자동화를 하긴 해야 하는데, 우리 회사 직원들이 무슨 단순 업무를 제일 많이 하는지 모르겠네?" 이 문제를 해결하기 위해 아키텍트는 전 직원의 PC에 프로세스 디스커버리([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Discovery) 요원 프로그램을 깐다. 직원들의 마우스 클릭과 화면 전환 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 몇 달간 몰래 긁어모은 뒤 AI가 분석해 낸다. "김 대리 팀이 매일 오후 3시에 엑셀을 열고 SAP 화면을 300번 왕복 클릭하며 시간을 버리고 있습니다! 이걸 RPA로 만들면 월 1,000시간 절약 가능!" 자동화할 일거리 자체를 AI가 찾아주는 진정한 오토메이션의 0단계다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **AI의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 오류(False Positive)를 무시한 핵심 프로세스 완전 자동화**: "AI가 영수증도 다 읽고 알아서 결제 승인 누르도록 Unattended 봇(완전 무인)으로 돌려버려라!"라고 지시하는 C-Level의 만용. OCR은 아무리 좋아도 99%다. 1% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 50,000원을 500,000원으로 잘못 읽었을 때, RPA가 중간에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차(Human-in-the-loop) 없이 공급사 계좌로 50만 원을 쏴버리면 회사는 엄청난 재무 손실을 본다. AI가 개입된 자동화는 반드시 "AI의 확신도([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Score)가 95% 이하일 때는 무조건 사람(직원)에게 결재 알림을 보낸다"는 쇳덩어리 안전장치를 박아야 한다.
+- <strong>AI의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>적 오류(False Positive)를 무시한 핵심 프로세스 완전 자동화</strong>: "AI가 영수증도 다 읽고 알아서 결제 승인 누르도록 Unattended 봇(완전 무인)으로 돌려버려라!"라고 지시하는 C-Level의 만용. OCR은 아무리 좋아도 99%다. 1% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 50,000원을 500,000원으로 잘못 읽었을 때, RPA가 중간에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차(Human-in-the-loop) 없이 공급사 계좌로 50만 원을 쏴버리면 회사는 엄청난 재무 손실을 본다. AI가 개입된 자동화는 반드시 "AI의 확신도([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Score)가 95% 이하일 때는 무조건 사람(직원)에게 결재 알림을 보낸다"는 쇳덩어리 안전장치를 박아야 한다.
 
 - **📢 섹션 요약 비유**: 안전장치 없는 [초자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)는, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 자율주행 기능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 믿고 고속도로에서 앞 유리를 가린 채 시속 150km로 달리는 자동차([RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/)) 안에 누워 잠을 자는 짓이다. AI가 99% 잘 피하더라도 1번 차선을 잘못 읽으면 바로 저승행이다. 핸들에서 손을 떼더라도 앞을 주시하며 언제든 브레이크(사람의 개입)를 밟을 준비를 해두는 것이 생존 거버넌스다.
 
@@ -91,7 +91,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅴ. 기대효과 및 결론
 
-하이퍼오토메이션은 인간을 디지털 노가다에서 해방시켰던 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 1.0 시대를 넘어, 지적 판단의 영역마저 기계에게 위임하는 **엔터프라이즈 자동화의 최종 진화형(End-game)**이다.
+하이퍼오토메이션은 인간을 디지털 노가다에서 해방시켰던 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 1.0 시대를 넘어, 지적 판단의 영역마저 기계에게 위임하는 <strong>엔터프라이즈 자동화의 최종 진화형(End-game)</strong>이다.
 
 과거에는 자동화를 하고 싶어도 "사람 눈으로 보고 판단해야 해서 안 돼요"라며 포기했던 수많은 업무의 벽이, 눈(OCR)과 귀([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/)), 뇌([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)/NLP)를 장착한 로봇 봇(Bot) 군단에 의해 산산조각 나고 있다. 기업의 아키텍트는 이제 단순히 시스템을 '구축'하는 사람이 아니라, AI와 RPA를 레고처럼 조립하여 보이지 않는 '가상의 지능형 디지털 노동자(Digital Worker)'를 수천 명 고용하고 관리하는 디지털 인력청장(Governance Controller)으로 거듭나야 한다.
 
@@ -104,26 +104,28 @@ tags = ["studynote-enterprise-systems"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **OCR (Optical Character Recognition)** | 종이 팩스, 스캔 PDF, 영수증 사진을 컴퓨터가 인식할 수 있는 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(String)로 치환해 맹인인 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇에게 빛을 선사하는 마법의 눈알 |
-| **[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))** | "대체 무슨 업무를 자동화해야 돈이 될까?"라는 질문에, 직원들의 서버 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)를 분석하여 병목 구간과 노가다 구간을 시각적으로 찾아주는 엑스레이 탐지기 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">프로세스 마이닝</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/">Process Mining</a>)</strong> | "대체 무슨 업무를 자동화해야 돈이 될까?"라는 질문에, 직원들의 서버 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)를 분석하여 병목 구간과 노가다 구간을 시각적으로 찾아주는 엑스레이 탐지기 |
 | **Human-in-the-loop (HITL)** | AI가 헷갈려 할 때 봇이 스스로 멈추고 사람에게 SOS를 쳐서 검수를 받고 다시 일을 시작하게 만드는, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 오류 사고를 막는 가장 안전한 방파제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 IT 자동화(배치 스크립트, API)의 레거시 통합 한계 직면
-    │
-    ▼
-화면 껍데기(UI)를 조작하는 단순 매크로 ──▶ RPA (Robotic Process Automation) 1.0 전성기
-    │
-    ▼
-비정형 데이터(사진, 이메일, 문서)를 만나면 RPA가 먹통이 되는 쇳덩어리 한계 봉착
-    │
-    ▼
-AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방에 배치 ──▶ 지능 부여
-    │
-    ▼
-프로세스 마이닝 기반의 자동화 대상 발굴부터, 인간과의 협업(HITL)까지 포함한 '하이퍼오토메이션' 세계관 확립
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 IT 자동화(배치 스크립트, API)의 레거시 통합 한계 직면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">화면 껍데기(UI)를 조작하는 단순 매크로 ──▶ RPA (Robotic Process Automation) 1.0 전성기</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비정형 데이터(사진, 이메일, 문서)를 만나면 RPA가 먹통이 되는 쇳덩어리 한계 봉착</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방에 배치 ──▶ 지능 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 마이닝 기반의 자동화 대상 발굴부터, 인간과의 협업(HITL)까지 포함한 '하이퍼오토메이션' 세계관 확립</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "손발(매크로)의 발전 → 맹점(비정형) 직면 → 눈과 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))의 장착 → 전체 업무 프로세스를 통째로 자동화하는 엔터프라이즈의 진화"라는 지능형 자동화의 역사적 궤적을 보여준다.
 

@@ -25,23 +25,24 @@ tags = ["ai"]
 
 이 도식은 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)이 맞닥뜨릴 수 있는 전형적인 지형 공간 구조와 주요 문제 발생 지점을 보여준다. 여기서 Y축은 목적 함수의 평가 점수([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 의미한다. 
 
-```text
-       평가 점수 (Objective Function Value)
-          ▲
-          │                          [Global Maxima] 
-          │                           전역 최적해 (진짜 목표)
-          │                              /▼\
-          │                             /   \
-          │                            /     \
-          │     [Local Maxima]        /       \
-          │       지역 최적해        /        [Plateau] 평탄역
-          │         /▼\            /         (기울기 0)
-          │        /   \          /         ─────
-          │       /     \________/
-          │      /      [Ridge] 능선
-          │[Start]
-          └───────────────────────────────────────────────► 상태 공간 (State Space)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">평가 점수 (Objective Function Value)</div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Global Maxima</div></div>
+<div class="kb-diagram-note">전역 최적해 (진짜 목표)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Local Maxima</div><div class="kb-diagram-note">/ \</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">지역 최적해 /</div><div class="kb-diagram-node">Plateau</div><div class="kb-diagram-note">평탄역</div></div>
+<div class="kb-diagram-note">/▼\ / (기울기 0)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Ridge</div><div class="kb-diagram-note">능선</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Start</div></div>
+<div class="kb-diagram-tree-item" style="--depth:5">상태 공간 (State Space)</div>
+</div>
+</div>
+
+
 
 이 흐름의 핵심은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 오직 "현재 위치보다 높은 곳"으로만 이동한다는 점이다. 따라서 [Start] 지점에서 출발할 경우 가장 가까운 꼭대기인 [Local Maxima]에 도달하게 되며, 이 지점에서는 더 이상 주변에 높은 곳이 없으므로 탐색이 종료된다. 시스템 전체의 해법(Global Maxima)을 찾지 못한 채 멈춰버리는 이 현상이 언덕 오르기의 가장 치명적인 병목이자 구조적 한계이다. 실무에서는 이 지점의 실패율을 낮추기 위해 무작위 재시작(Random-Restart) 등을 결합하여 관찰해야 한다.
 
@@ -55,29 +56,30 @@ tags = ["ai"]
 
 | 구성 요소 | 역할 | 내부 동작 | 
 |:---|:---|:---|
-| **[Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)** | 탐색의 기준점 | 오직 이 노드만 메모리에 유지 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a></strong> | 탐색의 기준점 | 오직 이 노드만 메모리에 유지 |
 | **Neighbor Generator** | 이웃 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)에서 한 번의 조작으로 도달 가능한 모든 상태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | **Objective Function** | 상태 가치 평가 | 각 이웃 상태의 목적 함수 점수를 연산 |
-| **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Evaluator** | 방향 결정 | 평가 점수가 가장 높은 이웃을 다음 [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) State로 교체 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Evaluator</strong> | 방향 결정 | 평가 점수가 가장 높은 이웃을 다음 [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) State로 교체 |
 
 아래는 탐색 과정에서 다음 상태를 결정하는 제어 흐름도이다. 각 단계는 이전 상태의 정보 없이 현재 주어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 의존하는 마르코프 특성([Markov Property](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/))을 띤다.
 
-```text
-[현재 상태 S 평가]
-       │
-       ▼
-[이웃 상태 N1, N2, N3 생성]
-       │
-       ▼ (목적 함수 적용)
-[점수 N1=10, N2=25, N3=5 도출]
-       │
-       ▼
-[최고 점수 N_max 탐색] (N_max = N2)
-       │
-       ├─ (N_max <= S의 점수?) ──[YES]──► (탐색 종료: 지역 최적해 도달)
-       │
-       └─ [NO] ─────────────────────────► (S = N_max 갱신 후 반복)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 상태 S 평가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이웃 상태 N1, N2, N3 생성</div></div>
+<div class="kb-diagram-note">▼ (목적 함수 적용)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점수 N1=10, N2=25, N3=5 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최고 점수 N_max 탐색</div><div class="kb-diagram-note">(N_max = N2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (N_max &lt;= S의 점수?) ──</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──► (탐색 종료: 지역 최적해 도달)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">NO</div><div class="kb-diagram-note">► (S = N_max 갱신 후 반복)</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 현재 점수와 최고 이웃 점수를 비교하는 판단 분기(Branch)에 있다. 평가 점수가 갱신되지 않으면 즉시 탐색을 종료하는 그리디(Greedy) 특성 때문에, 탐색 속도는 극단적으로 빠르지만 전역 해를 보장하지 못한다. 이를 수식으로 나타내면 `if f(Neighbor) <= f(Current) then Return Current` 와 같이 표현되며, 내리막길을 허용하지 않는 엄격성 때문에 국소 최적화의 늪에 빠지게 된다.
 
@@ -91,9 +93,9 @@ tags = ["ai"]
 
 | 항목 | 언덕 오르기 ([Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)) | A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 시뮬레이티드 어닐링 ([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) | 판단 포인트 |
 |:---|:---|:---|:---|:---|
-| **기억 장소 (Memory)** | O(1) ([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만 유지) | O(b^d) (모든 프론티어 유지) | O(1) | **자원 제약 환경**에서 Hill Climbing이 압도적 유리 |
+| **기억 장소 (Memory)** | O(1) ([현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)만 유지) | O(b^d) (모든 프론티어 유지) | O(1) | <strong>자원 제약 환경</strong>에서 Hill Climbing이 압도적 유리 |
 | **해 보장 (Optimality)** | 미보장 (지역 최적해 위험) | 보장 ([허용적 휴리스틱](/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/) 조건 시) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 보장 (온도 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링) | 정확도가 생명인 경우 배제 |
-| **탐색 유연성** | 전혀 없음 (오르막만 허용) | 완전성 지향 | 유연함 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 내리막 허용) | **노이즈 많은 환경**에서 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 채택 |
+| **탐색 유연성** | 전혀 없음 (오르막만 허용) | 완전성 지향 | 유연함 ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 내리막 허용) | <strong>노이즈 많은 환경</strong>에서 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 채택 |
 
 이 비교 매트릭스는 각 방식이 어느 상황에서 구조적 한계를 가지는지 보여준다. 언덕 오르기 방식은 상태 공간의 트리 깊이가 무한하거나(예: 연속 변수 공간), 메모리 자원이 극도로 제한된 임베디드 디바이스 환경에서 유리하다. 반면, 복잡한 미로 찾기와 같이 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))이 필수적인 상황에서는 A*의 탐색 방식이 불가피하다. 따라서 실무에서는 단일 사용보다 언덕 오르기를 베이스로 하되 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 수용을 결합한 변형 모델을 채택하는 것이 일반적이다.
 
@@ -105,20 +107,26 @@ tags = ["ai"]
 
 실무에서 [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)은 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 문제, 회로 기판 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 최적화 등 정답이 여러 개 존재해도 되는 근사 해(Approximate Solution) 환경에 주로 쓰인다.
 
-**도입 및 운영 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Anti-Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))**
+<strong>도입 및 운영 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-Pattern</a>)</strong>
 - **Plateau (평탄역) 탈출 실패**: 주변 이웃들의 목적 함수 값이 모두 같을 때 방향성을 상실하여 무한 루프에 빠짐.
 - **실무 해결책**: 평탄역에서는 무작위 이동(Random Walk)을 일정 횟수 허용하는 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 로직을 추가하거나, '무작위 재시작(Random-Restart [Hill Climbing](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/))'을 통해 공간의 다른 지점에서 여러 번 찔러보도록 설계해야 한다.
 
-```text
-[실무 의사결정 트리: 최적화 탐색 알고리즘 선택]
-[문제: 해 공간이 무한/연속적인가?] 
- ├─ [No] ─► 완전 탐색(A*, BFS) 고려
- └─ [Yes] ─► [메모리 제한이 극심한가?]
-              ├─ [No] ─► 유전 알고리즘 (Population 기반)
-              └─ [Yes] ─► [전역 최적해가 필수인가?]
-                           ├─ [No] ─► 기본 Hill Climbing (속도 최우선)
-                           └─ [Yes] ─► 시뮬레이티드 어닐링 (Simulated Annealing)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 최적화 탐색 알고리즘 선택</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">문제: 해 공간이 무한/연속적인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No</div><div class="kb-diagram-note">─► 완전 탐색(A*, BFS) 고려</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">메모리 제한이 극심한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No</div><div class="kb-diagram-note">─► 유전 알고리즘 (Population 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">전역 최적해가 필수인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No</div><div class="kb-diagram-note">─► 기본 Hill Climbing (속도 최우선)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─► 시뮬레이티드 어닐링 (Simulated Annealing)</div></div>
+</div>
+</div>
+
+
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 공간 크기와 메모리, 그리고 해의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 요구사항을 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)한다는 점이다. 언덕 오르기 단독 배포는 매우 위험하며, 언제든 "갇힘(Stuck)" 상태를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화할 수 있는 워치독(Watchdog) 메커니즘을 함께 운영해야 한다.
 
@@ -136,30 +144,32 @@ tags = ["ai"]
 
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/) ([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))** | 언덕 오르기의 역방향(최소화) 확장판으로, 신경망 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 최적화의 핵심
-- **Simulated Annealing ([모의 담금질](/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/))** | 언덕 오르기가 빠지는 지역 최적해 문제를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 내리막 허용으로 해결
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a>)</strong> | 언덕 오르기의 역방향(최소화) 확장판으로, 신경망 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 최적화의 핵심
+- <strong>Simulated Annealing (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/396_simulated_annealing_heuristic/">모의 담금질</a>)</strong> | 언덕 오르기가 빠지는 지역 최적해 문제를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 내리막 허용으로 해결
 - **Random-Restart (무작위 재시작)** | 한 위치에서 언덕 오르기가 멈추면 아예 다른 랜덤 위치에서 다시 시작하는 기법
-- **Genetic [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 여러 개의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태(Population)를 동시에 언덕 오르기처럼 다루는 집단 최적화
+- <strong>Genetic <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a> (유전 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong> | 여러 개의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태(Population)를 동시에 언덕 오르기처럼 다루는 집단 최적화
 - **Local Maxima (지역 최적해)** | [언덕 오르기 탐색](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)이 가장 주의해야 할 대표적 장애물 상태
 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[무작위 탐색 (Random Search) — 해 공간 무작위 표본, 보장 없음]
-    │
-    ▼
-[언덕 오르기 (Hill Climbing) — 현재보다 나은 이웃으로 이동, 지역 최적해 위험]
-    │
-    ▼
-[무작위 재시작 언덕 오르기 (Random-Restart HC) — 여러 시작점으로 지역 최적해 완화]
-    │
-    ▼
-[모의 담금질 (Simulated Annealing) — 확률적 내리막 허용으로 탈출]
-    │
-    ▼
-[경사 하강법 (Gradient Descent) — 연속 미분 가능 공간에서 언덕 내리기, 딥러닝 핵심]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">무작위 탐색 (Random Search) — 해 공간 무작위 표본, 보장 없음</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">언덕 오르기 (Hill Climbing) — 현재보다 나은 이웃으로 이동, 지역 최적해 위험</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무작위 재시작 언덕 오르기 (Random-Restart HC) — 여러 시작점으로 지역 최적해 완화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">모의 담금질 (Simulated Annealing) — 확률적 내리막 허용으로 탈출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">경사 하강법 (Gradient Descent) — 연속 미분 가능 공간에서 언덕 내리기, 딥러닝 핵심</div></div>
+</div>
+</div>
+
+
 이 흐름은 탐욕적 이웃 이동이라는 언덕 오르기의 직관적 아이디어가 지역 최적해 함정을 극복하는 다양한 메타휴리스틱으로 발전하고, 그 역방향(최소화) 개념이 현대 딥러닝의 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)으로 계승되는 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -21,16 +21,20 @@ tags = ["studynote-network"]
 
 과거 중환자실의 환자들은 심전도, 혈압, 산소포화도를 재기 위해 온몸에 치렁치렁한 유선 케이블을 달고 있어야 했다. 이는 환자의 움직임을 극도로 제한하고 스트레스를 유발했다. 이를 무선화하기 위해 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)나 Wi-Fi를 시도했으나, 배터리가 너무 빨리 닳거나 인체에 닿는 전자파의 안전성 문제가 대두되었다.
 
-이에 대응하여 오직 '사람의 몸'이라는 특수한 환경을 위한 전용 무선 통신 규격을 만든 것이 **[WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/)(Wireless Body Area Network)**이다. 몸속(In-body), 피부 표면(On-body), 그리고 몸 주변 3m 이내(Off-body)라는 세 가지 영역을 커버하며 U-Health(유비쿼터스 헬스케어) 시대의 가장 밑단에 위치한 핵심 인프라가 되었다.
+이에 대응하여 오직 '사람의 몸'이라는 특수한 환경을 위한 전용 무선 통신 규격을 만든 것이 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/">WBAN</a>(Wireless Body Area Network)</strong>이다. 몸속(In-body), 피부 표면(On-body), 그리고 몸 주변 3m 이내(Off-body)라는 세 가지 영역을 커버하며 U-Health(유비쿼터스 헬스케어) 시대의 가장 밑단에 위치한 핵심 인프라가 되었다.
 
-```text
-[수중 음파 통신망]
-    │
-    ▼
-[체내 통신]
-    │
-    └──▶ [LPWAN 로라]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수중 음파 통신망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">체내 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LPWAN 로라</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 병원의 무거운 링거 줄과 전선들을 모두 잘라내고, 사람 피부와 몸속에 보이지 않는 얇은 투명 거미줄(무선 통신망)을 쳐서 의사 선생님의 컴퓨터와 바로 연결해 주는 마법이다.
 
@@ -40,26 +44,26 @@ tags = ["studynote-network"]
 
 [WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 시스템은 인체를 중심으로 하는 Star(별) 모양의 통신 토폴로지를 갖는다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                [ 병원 / 클라우드 서버 (WAN) ]          │
-│                (생체 데이터 분석, 응급 알람)           │
-└──────────────▲─────────────────────────────────────────┘
-               │ (인터넷망: 5G, Wi-Fi 등)
-┌──────────────▼──────────┐
-│      [ 허브 (Hub) ]     │ ◀ 스마트폰, 스마트워치, 전용 단말기
-│   (Coordinator 역할)    │    (데이터를 모아 외부로 쏘는 역할)
-└───────▲───────────▲─────┘
-        │ (WBAN: IEEE 802.15.6 / Bluetooth BLE)
-┌───────▼──────┐ ┌──────▼───────┐
-│ [ 체외 센서 ]  │ │ [ 체내 센서 ]  │
-│ (스마트 패치,  │ │ (캡슐 내시경,  │
-│  인슐린 펌프)  │ │  심박 조율기)  │
-└──────────────┘ └──────────────┘
-```
 
-1. **[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) ([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/[Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))**: 환자의 주머니에 있는 스마트폰이나 손목의 스마트워치가 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 한다. 몸 곳곳의 센서에서 올라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합해 병원 서버로 넘겨주는 중계기(Gateway)다.
-2. **[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 제어**: WBAN은 의료 사고를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전송 우선순위(Priority)를 엄격히 나눈다. 예를 들어 '심박수 급정지' 같은 응급 신호는 가장 높은 우선순위를 받아 채널이 혼잡해도 무조건 가장 먼저 뚫고 나가야 한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">병원 / 클라우드 서버 (WAN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(생체 데이터 분석, 응급 알람)</div></div>
+<div class="kb-diagram-note">(인터넷망: 5G, Wi-Fi 등)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">허브 (Hub)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">스마트폰, 스마트워치, 전용 단말기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Coordinator 역할)</div><div class="kb-diagram-cell">(데이터를 모아 외부로 쏘는 역할)</div></div>
+<div class="kb-diagram-note">(WBAN: IEEE 802.15.6 / Bluetooth BLE)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">체외 센서</div><div class="kb-diagram-node">체내 센서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스마트 패치,</div><div class="kb-diagram-cell">(캡슐 내시경,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인슐린 펌프)</div><div class="kb-diagram-cell">심박 조율기)</div></div>
+</div>
+</div>
+
+
+
+1. <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)</strong>: 환자의 주머니에 있는 스마트폰이나 손목의 스마트워치가 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 한다. 몸 곳곳의 센서에서 올라오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 취합해 병원 서버로 넘겨주는 중계기(Gateway)다.
+2. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 계층 제어</strong>: WBAN은 의료 사고를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전송 우선순위(Priority)를 엄격히 나눈다. 예를 들어 '심박수 급정지' 같은 응급 신호는 가장 높은 우선순위를 받아 채널이 혼잡해도 무조건 가장 먼저 뚫고 나가야 한다.
 3. **인체 통신 (HBC: Human Body Communication)**: 전파 대신, 사람의 몸 자체를 전깃줄([도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/))처럼 활용하여 미세한 전류로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 파격적인 방식도 WBAN의 물리 계층 표준에 포함되어 있다.
 
 - **📢 섹션 요약 비유**: 몸 곳곳에 숨어 있는 첩보원들(센서)이 반장님(스마트폰)에게 무전([WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/))을 치면, 반장님이 그 내용을 모아서 본부(병원)로 전화([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 걸어 보고하는 시스템이다.
@@ -74,7 +78,7 @@ tags = ["studynote-network"]
 |:---:|:---|:---|:---|
 | **통신 반경** | **3m 이내 (인체 중심)** | 10m 이내 (방 안) | 100m 이내 (건물/층) |
 | **주요 표준** | **IEEE 802.15.6** | IEEE 802.15.4 ([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)), 802.15.1 ([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)) | IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) (Wi-Fi) |
-| **[전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)** | **극도로 낮음 (수십 년 버텨야 함)** | 낮음 | 높음 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a></strong> | **극도로 낮음 (수십 년 버텨야 함)** | 낮음 | 높음 |
 | **인체 안전성(SAR)**| 엄격한 제한 규정 있음 | 일반적 수준 | 일반적 수준 |
 | **대표 기기** | 심박 조율기, 캡슐 내시경 | 무선 이어폰, 스마트 홈 센서 | 노트북, 스마트폰 |
 
@@ -90,7 +94,7 @@ WBAN은 좁은 의미의 IoT인 'IoMT (Internet of Medical Things, 의료 [사�
 가장 대표적인 것이 '캡슐 내시경'이다. 알약만 한 내시경을 삼키면, 내장이 움직이는 대로 위와 장을 통과하며 사진을 찍는다. 이때 찍힌 사진들은 [WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 통신을 통해 환자의 허리띠에 찬 수신기로 실시간 전송된다. 환자는 병원에 입원할 필요 없이 평소처럼 출근하면 된다.
 
 **기술사 판단 포인트 (Trade-off):**
-[WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 시스템을 설계할 때 직면하는 가장 큰 물리적 장벽은 **'인체에 의한 전파 감쇠(Body Path Loss)'**다.
+[WBAN](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/927_wban_wireless_body_area_network_healthcare_sar/) 시스템을 설계할 때 직면하는 가장 큰 물리적 장벽은 <strong>'인체에 의한 전파 감쇠(Body Path Loss)'</strong>다.
 1. 인체의 70%는 물이기 때문에, 고주파 전파(2.4GHz 등)는 몸을 통과하지 못하고 피부에 다 흡수되어 버린다. 따라서 체내 삽입형 기기는 전파 투과율이 높은 400MHz 대역(MICS 밴드) 등 저주파수를 선택해야 한다.
 2. 반대로 피부에 붙이는 체외 기기는 대역폭이 높은 고주파([UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 등)를 쓸 수 있으나, 이 경우 전자파 흡수율(SAR: Specific Absorption Rate)이 높아져 피부 조직 온도를 올릴 수 있다. 통신 속도를 낮추더라도 SAR 규정치(예: 1.6 W/kg)를 통과하는 극저전력 설계가 최우선이다.
 
@@ -125,15 +129,19 @@ WBAN은 환자의 삶의 질을 혁신적으로 끌어올리는 기술이다. �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 수중 음파 통신망]
-    │
-    ▼
-[현재 개념: 체내 통신]
-    │
-    ├──▶ [확장 A: LPWAN 로라]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 수중 음파 통신망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 체내 통신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LPWAN 로라</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 체내 통신는 [수중 음파 통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

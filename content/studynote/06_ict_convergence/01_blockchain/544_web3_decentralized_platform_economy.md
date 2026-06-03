@@ -11,8 +11,8 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Web 3.0(Read-Write-Own)은 Web 2.0의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·수익 독점 구조를 깨고, **사용자가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 플랫폼 수익에 직접 참여**하는 토큰 인센티브 기반 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 경제 패러다임이다.
-> 2. **가치**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융)·GameFi·SocialFi가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수익([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Revenue)을 토큰 홀더와 공유함으로써 **Creator Economy**와 플랫폼 경제의 Web3 전환을 주도한다.
+> 1. **본질**: Web 3.0(Read-Write-Own)은 Web 2.0의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·수익 독점 구조를 깨고, <strong>사용자가 자신의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 플랫폼 수익에 직접 참여</strong>하는 토큰 인센티브 기반 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 경제 패러다임이다.
+> 2. **가치**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융)·GameFi·SocialFi가 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수익([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Revenue)을 토큰 홀더와 공유함으로써 <strong>Creator Economy</strong>와 플랫폼 경제의 Web3 전환을 주도한다.
 > 3. **판단 포인트**: 토큰 인센티브 경제(Token-Incentivized Economy)의 성공은 실사용 가치(Real Utility) 기반 토크노믹스(Tokenomics) 설계에 달려 있으며, 투기 중심 설계는 생태계 붕괴로 이어진다.
 
 ---
@@ -37,25 +37,23 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 
 ### Web 3.0 플랫폼 경제 구조
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              Web 3.0 탈중앙화 플랫폼 경제                │
-│                                                         │
-│  사용자(User) ◄──── 토큰 보상 ────┐                     │
-│       │                           │                     │
-│       │ 사용·기여                 │                     │
-│       ▼                           │                     │
-│  프로토콜(Protocol)                │                     │
-│  스마트 컨트랙트 자동 집행         │                     │
-│       │                           │                     │
-│       │ 프로토콜 수수료           │                     │
-│       ▼                           │                     │
-│  DAO 트레저리 ────── 거버넌스 투표 ─►  토큰 홀더         │
-│       │              (수익 분배 결정)                     │
-│       │                                                  │
-│       └──────────────────── 개발자 보조금                │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web 3.0 탈중앙화 플랫폼 경제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자(User) ◄ 토큰 보상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용·기여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜(Protocol)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 자동 집행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 수수료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO 트레저리 거버넌스 투표 ─► 토큰 홀더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수익 분배 결정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 보조금</div></div>
+</div>
+</div>
+
+
 
 ### 토크노믹스(Tokenomics) 핵심 설계 요소
 
@@ -77,20 +75,20 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 
 | 분야 | 설명 | 대표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 토큰 역할 |
 |:---|:---|:---|:---|
-| **[DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)** | [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융 (대출·스왑·파생상품) | Uniswap, Aave, Compound | 거버넌스 + 수수료 분배 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/">DeFi</a></strong> | [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융 (대출·스왑·파생상품) | Uniswap, Aave, Compound | 거버넌스 + 수수료 분배 |
 | **GameFi** | 게임 + 금융, P2E(Play-to-Earn) | Axie Infinity, StepN | 게임 내 경제 + 실물 환금 |
 | **SocialFi** | SNS + 금융, 크리에이터 수익화 | Lens [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), Friend.tech | 팔로워 토큰·콘텐츠 수익 |
 | **NFT 마켓** | 디지털 자산 거래 | OpenSea, Blur | 플랫폼 수수료 + 로열티 |
-| **[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/)** | 탈중앙 거버넌스 | MakerDAO, Uniswap [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) | 의결권 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a></strong> | 탈중앙 거버넌스 | MakerDAO, Uniswap [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) | 의결권 |
 
 ### Web 2.0 vs Web 3.0 플랫폼 경제 비교
 
 | 항목 | Web 2.0 | Web 3.0 |
 |:---|:---|:---|
 | **수익 귀속** | 플랫폼 기업 | 토큰 홀더 + 생태계 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유** | 플랫폼 | 사용자 ([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)·지갑) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 소유</strong> | 플랫폼 | 사용자 ([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/)·지갑) |
 | **진입 장벽** | 낮음(무료) | 중간(가스비·UX) |
-| **검열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)** | 없음 | 높음([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)) |
+| <strong>검열 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong> | 없음 | 높음([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)) |
 | **프로그래머빌리티** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제한 | 컴포저빌리티 |
 
 - **📢 섹션 요약 비유**: — "Web 2.0 유튜브는 구글이 광고 수익의 45%를 가져가지만, Web 3.0 Mirror.xyz는 글쓴이가 수익의 100%를 토큰으로 직접 받는다.
@@ -104,12 +102,12 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 1. **팬 토큰(Fan Token)**: 크리에이터가 자신의 커뮤니티 토큰 발행 → 팬이 투자자·파트너화
 2. **NFT 로열티**: 2차 판매 시 창작자 자동 로열티(ERC-2981)
 3. **Music NFT**: 음악 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 분할 소유 → 팬이 음원 수익 참여
-4. **[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 크리에이터**: 커뮤니티가 토큰으로 콘텐츠 자금 조달
+4. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 크리에이터</strong>: 커뮤니티가 토큰으로 콘텐츠 자금 조달
 
 ### 기술사 핵심 판단
 - **컴포저빌리티(Composability)**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 레고처럼 조합 가능 → 혁신 속도 가속
 - **Fork 위협**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 경쟁자가 Fork하여 동일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 가능 → 커뮤니티 충성도·브랜드가 경쟁력
-- **규제 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)**: 토큰이 증권으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 SEC 규제 대상 → STO·유틸리티 토큰 구분 설계 중요
+- <strong>규제 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>: 토큰이 증권으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 SEC 규제 대상 → STO·유틸리티 토큰 구분 설계 중요
 - **Rug Pull 방지**: 창업팀 토큰 베스팅·[DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스·멀티시그 트레저리 필수
 
 - **📢 섹션 요약 비유**: — "Web 3.0 플랫폼은 가맹점이 아닌 협동조합 — 플랫폼 이익이 구성원 전체에 귀속되어야 지속 가능하다.
@@ -120,12 +118,12 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 
 | 효과 항목 | 내용 |
 |:---|:---|
-| **[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)** | 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 플랫폼 대신 사용자가 소유 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a></strong> | 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 플랫폼 대신 사용자가 소유 |
 | **수익 민주화** | 생태계 기여자에게 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수익 직접 분배 |
 | **개방형 혁신** | 컴포저빌리티로 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합 창출 |
 | **새 금융 모델** | DeFi로 은행 계좌 없이도 글로벌 금융 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용 |
 
-Web 3.0은 단순한 기술 트렌드가 아니라 인터넷 플랫폼 경제의 **소유권 패러다임 전환**이다. 토큰 인센티브로 사용자가 플랫폼의 공동 소유자가 되는 구조는, 실사용 가치 중심의 토크노믹스 설계가 뒷받침될 때만 지속 가능하다.
+Web 3.0은 단순한 기술 트렌드가 아니라 인터넷 플랫폼 경제의 <strong>소유권 패러다임 전환</strong>이다. 토큰 인센티브로 사용자가 플랫폼의 공동 소유자가 되는 구조는, 실사용 가치 중심의 토크노믹스 설계가 뒷받침될 때만 지속 가능하다.
 
 - **📢 섹션 요약 비유**: — "Web 3.0은 인터넷 역사의 세 번째 장 — 읽기(Web 1)·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Web 2)에 이어, 이제 '소유하기(Web 3)'가 추가됐다.
 

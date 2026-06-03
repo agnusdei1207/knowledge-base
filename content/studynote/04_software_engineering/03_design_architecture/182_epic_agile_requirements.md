@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-에픽은 **"너무 커서 바로 구현할 수는 없지만, 분명한 사용자 가치나 비즈니스 목적을 가진 요구사항 묶음"**이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서는 모든 요구를 처음부터 세부 기능 단위로 쪼개 두지 않는다. 큰 목표를 먼저 백로그에 담아 두고, 구현 시점이 가까워질수록 점진적으로 세분화한다. 그 중간 단위가 바로 에픽이다.
+에픽은 <strong>"너무 커서 바로 구현할 수는 없지만, 분명한 사용자 가치나 비즈니스 목적을 가진 요구사항 묶음"</strong>이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서는 모든 요구를 처음부터 세부 기능 단위로 쪼개 두지 않는다. 큰 목표를 먼저 백로그에 담아 두고, 구현 시점이 가까워질수록 점진적으로 세분화한다. 그 중간 단위가 바로 에픽이다.
 
-이 개념이 필요한 이유는 백로그를 너무 거칠게 두면 실행 계획을 세우기 어렵고, 반대로 너무 잘게 쪼개면 초기에 문서화 비용이 지나치게 커지기 때문이다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표만 있으면 개발팀은 당장 무엇을 만들어야 할지 막연해지고, 반대로 세세한 작업 목록만 있으면 왜 그것을 만드는지 맥락을 잃는다. 에픽은 이 둘 사이에서 **의미 있는 큰 요구를 유지하면서도 세분화 가능한 상태**를 만들어 준다.
+이 개념이 필요한 이유는 백로그를 너무 거칠게 두면 실행 계획을 세우기 어렵고, 반대로 너무 잘게 쪼개면 초기에 문서화 비용이 지나치게 커지기 때문이다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표만 있으면 개발팀은 당장 무엇을 만들어야 할지 막연해지고, 반대로 세세한 작업 목록만 있으면 왜 그것을 만드는지 맥락을 잃는다. 에픽은 이 둘 사이에서 <strong>의미 있는 큰 요구를 유지하면서도 세분화 가능한 상태</strong>를 만들어 준다.
 
-따라서 에픽은 단순히 "큰 기능"이 아니라, **나중에 여러 유저 스토리로 분해될 준비가 된 요구사항**이라고 보는 편이 정확하다. 즉 아직은 큼직하지만, 무한정 추상적인 구호가 아니라 구체적 사용자 가치와 범위 경계를 가진 항목이어야 한다.
+따라서 에픽은 단순히 "큰 기능"이 아니라, <strong>나중에 여러 유저 스토리로 분해될 준비가 된 요구사항</strong>이라고 보는 편이 정확하다. 즉 아직은 큼직하지만, 무한정 추상적인 구호가 아니라 구체적 사용자 가치와 범위 경계를 가진 항목이어야 한다.
 
 - **📢 섹션 요약 비유**: 에픽은 "집안 대청소" 같은 큰 계획으로, 오늘 당장 끝낼 수는 없지만 방별로 나누면 실제 실행이 가능한 목표와 같다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-에픽의 핵심 원리는 **큰 요구를 바로 구현하지 않고, 가치가 보이는 단위까지 단계적으로 분해하는 것**이다. 보통 제품 목표나 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)가 위에 있고, 그 아래에 에픽이 놓이며, 에픽은 다시 여러 유저 스토리와 작업으로 쪼개진다. 이때 중요한 것은 "잘게 나누는 것" 자체가 아니라, **각 하위 항목이 독립적으로 계획·구현·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하도록 만드는 것**이다.
+에픽의 핵심 원리는 <strong>큰 요구를 바로 구현하지 않고, 가치가 보이는 단위까지 단계적으로 분해하는 것</strong>이다. 보통 제품 목표나 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)가 위에 있고, 그 아래에 에픽이 놓이며, 에픽은 다시 여러 유저 스토리와 작업으로 쪼개진다. 이때 중요한 것은 "잘게 나누는 것" 자체가 아니라, <strong>각 하위 항목이 독립적으로 계획·구현·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능하도록 만드는 것</strong>이다.
 
 | 구성 요소 | 질문 | 작성 포인트 |
 | :--- | :--- | :--- |
@@ -43,28 +43,28 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 제품 목표가 에픽을 거쳐 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 스토리로 내려가는 구조를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ From product goal to sprint backlog                               │
-├────────────────────────────────────────────────────────────────────┤
-│ Product Goal : 결제 전환율 향상                                   │
-│        │                                                           │
-│        ▼                                                           │
-│ Epic : 간편결제 도입                                               │
-│   ├─ Story 1 : 카드 등록                                           │
-│   ├─ Story 2 : 생체 인증 결제                                      │
-│   ├─ Story 3 : 결제 실패 재시도                                    │
-│   └─ Story 4 : 정산/환불 조회                                      │
-│        │                                                           │
-│        ├─ Sprint 1 : 등록 + 기본 결제                              │
-│        ├─ Sprint 2 : 실패 처리 + 예외 흐름                         │
-│        └─ Sprint 3 : 정산/조회 + 운영 검증                         │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림의 핵심은 에픽이 "큰 요구를 그냥 붙잡아 두는 상자"가 아니라, **스토리 분해와 순차 전달의 중심축**이라는 점이다. 좋은 에픽은 스토리 분해 기준이 명확하다. 예를 들어 사용자 역할별, 업무 단계별, 정상/예외 흐름별, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위별로 나눌 수 있어야 한다. 반대로 분해 기준이 없다면 그것은 아직 요구가 아니라 구호에 가깝다.
 
-또한 에픽의 완료는 퍼센트 숫자만으로 판단하면 안 된다. 하위 스토리가 모두 끝났는지, 실제 릴리스가 가능한지, 목표한 사용자 가치가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)됐는지까지 함께 봐야 한다. 즉 에픽은 **규모가 큰 만큼 결과 기준도 스토리보다 한 단계 위에서 정의**되어야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From product goal to sprint backlog</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Goal : 결제 전환율 향상</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Epic : 간편결제 도입</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 1 : 카드 등록</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 2 : 생체 인증 결제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 3 : 결제 실패 재시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 4 : 정산/환불 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 1 : 등록 + 기본 결제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 2 : 실패 처리 + 예외 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 3 : 정산/조회 + 운영 검증</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 에픽이 "큰 요구를 그냥 붙잡아 두는 상자"가 아니라, <strong>스토리 분해와 순차 전달의 중심축</strong>이라는 점이다. 좋은 에픽은 스토리 분해 기준이 명확하다. 예를 들어 사용자 역할별, 업무 단계별, 정상/예외 흐름별, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위별로 나눌 수 있어야 한다. 반대로 분해 기준이 없다면 그것은 아직 요구가 아니라 구호에 가깝다.
+
+또한 에픽의 완료는 퍼센트 숫자만으로 판단하면 안 된다. 하위 스토리가 모두 끝났는지, 실제 릴리스가 가능한지, 목표한 사용자 가치가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)됐는지까지 함께 봐야 한다. 즉 에픽은 <strong>규모가 큰 만큼 결과 기준도 스토리보다 한 단계 위에서 정의</strong>되어야 한다.
 
 - **📢 섹션 요약 비유**: 에픽은 큰 이삿짐을 방별 상자로 나눠야 실제 운반이 가능해지는 것처럼, 큰 요구를 움직일 수 있는 단위로 쪼개는 중심 상자와 같다.
 
@@ -72,7 +72,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-에픽을 제대로 설명하려면 [theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), story, task와의 경계를 분명히 해야 한다. 이름은 조직마다 조금씩 달라도, 핵심은 **추상도와 실행 가능성의 차이**다. 에픽은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 구현 사이의 다리 역할을 한다.
+에픽을 제대로 설명하려면 [theme](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/), story, task와의 경계를 분명히 해야 한다. 이름은 조직마다 조금씩 달라도, 핵심은 <strong>추상도와 실행 가능성의 차이</strong>다. 에픽은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 구현 사이의 다리 역할을 한다.
 
 | 수준 | 대표 질문 | 시간 범위 | 완료 기준 | 예시 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -81,9 +81,9 @@ tags = ["studynote-software-engineering"]
 | 유저 스토리 | 이번 반복에서 무엇을 전달할 것인가? | 1 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 내 | 구현·테스트·수용 완료 | 카드 등록 가능 |
 | 작업 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) | 누가 어떤 구현 일을 할 것인가? | 수시간~수일 | 작업 완료 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 구현, 화면 수정 |
 
-이 비교에서 자주 나오는 혼동이 있다. "기능이 크다"는 이유만으로 모두 에픽은 아니다. 너무 추상적이면 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)이고, 이미 한 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 안에 끝낼 수 있으면 유저 스토리다. 즉 에픽은 단순한 크기보다 **적절한 분해 전 단계**라는 점이 중요하다.
+이 비교에서 자주 나오는 혼동이 있다. "기능이 크다"는 이유만으로 모두 에픽은 아니다. 너무 추상적이면 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)이고, 이미 한 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 안에 끝낼 수 있으면 유저 스토리다. 즉 에픽은 단순한 크기보다 <strong>적절한 분해 전 단계</strong>라는 점이 중요하다.
 
-또한 조직에 따라 feature나 capability 같은 중간 용어가 추가되기도 한다. 그러나 기술사 답안이나 기본 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 설명에서는 에픽을 **스토리보다 크고, [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)보다 구체적인 요구사항 묶음**으로 설명하면 구조가 가장 명확하다. 이후 release planning, backlog refinement, 우선순위 관리가 모두 이 계층 구조를 바탕으로 돌아간다.
+또한 조직에 따라 feature나 capability 같은 중간 용어가 추가되기도 한다. 그러나 기술사 답안이나 기본 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 설명에서는 에픽을 <strong>스토리보다 크고, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>보다 구체적인 요구사항 묶음</strong>으로 설명하면 구조가 가장 명확하다. 이후 release planning, backlog refinement, 우선순위 관리가 모두 이 계층 구조를 바탕으로 돌아간다.
 
 - **📢 섹션 요약 비유**: [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)가 여행 목적이라면, 에픽은 도시별 여행 계획이고, 유저 스토리는 하루 일정이며, 작업은 가방 싸기나 표 예매 같은 실제 행동에 가깝다.
 
@@ -91,11 +91,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 에픽은 **큰 요구를 언제, 어떻게 쪼개고, 어떤 기준으로 추적할 것인가**의 문제로 나타난다. 예를 들어 "간편결제 도입"은 에픽이 될 수 있지만, "버튼 색상 수정"은 스토리나 작업에 가깝다. 반대로 "전사 디지털 혁신"은 너무 추상적이어서 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)에 가깝다. 즉 에픽은 크기만 큰 항목이 아니라, **명확한 사용자 가치와 분해 가능성을 동시에 가진 요구**여야 한다.
+실무에서 에픽은 <strong>큰 요구를 언제, 어떻게 쪼개고, 어떤 기준으로 추적할 것인가</strong>의 문제로 나타난다. 예를 들어 "간편결제 도입"은 에픽이 될 수 있지만, "버튼 색상 수정"은 스토리나 작업에 가깝다. 반대로 "전사 디지털 혁신"은 너무 추상적이어서 [테마](/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/)에 가깝다. 즉 에픽은 크기만 큰 항목이 아니라, <strong>명확한 사용자 가치와 분해 가능성을 동시에 가진 요구</strong>여야 한다.
 
 ### 실무 판단 기준
 
-1. **한 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 안에 끝낼 수 없는가?** 그렇다면 에픽 후보가 된다.
+1. <strong>한 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/">스프린트</a> 안에 끝낼 수 없는가?</strong> 그렇다면 에픽 후보가 된다.
 2. **사용자 또는 비즈니스 가치가 분명한가?** 활동 목록만 있으면 에픽이 아니라 작업 묶음일 가능성이 크다.
 3. **분해 축이 있는가?** 사용자 역할, 업무 단계, 예외 흐름, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위 등으로 스토리 분해가 가능해야 한다.
 4. **완료 시점을 어떻게 판단할 것인가?** 하위 스토리 완료뿐 아니라 릴리스 가능성과 성과 지표가 필요하다.
@@ -115,11 +115,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-에픽을 잘 쓰면 제품 백로그는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 실행 사이의 연결성이 높아진다. 경영진은 큰 방향과 투자 우선순위를 볼 수 있고, 제품 책임자는 릴리스 단위 가치를 관리할 수 있으며, 개발팀은 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 들어갈 만큼 작은 스토리로 작업을 끊어 가져갈 수 있다. 즉 에픽은 **큰 요구를 유연하게 다루게 하는 완충 계층**이다.
+에픽을 잘 쓰면 제품 백로그는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 실행 사이의 연결성이 높아진다. 경영진은 큰 방향과 투자 우선순위를 볼 수 있고, 제품 책임자는 릴리스 단위 가치를 관리할 수 있으며, 개발팀은 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)에 들어갈 만큼 작은 스토리로 작업을 끊어 가져갈 수 있다. 즉 에픽은 <strong>큰 요구를 유연하게 다루게 하는 완충 계층</strong>이다.
 
 반대로 에픽이 없으면 백로그는 두 극단으로 흐르기 쉽다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구호만 가득하거나, 맥락 없는 잔업 목록만 남는다. 그래서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)에서 에픽의 가치는 문서 양을 늘리는 데 있지 않고, **적절한 크기의 요구 단위를 유지해 변화와 추적 가능성을 동시에 확보하는 데** 있다.
 
-정리하면 에픽은 **"스토리로 분해되기 전의 큰 가치 단위"**로 기억하면 된다. 구현보다 한 단계 위에서 범위와 목적을 붙잡고, 실행 직전에는 충분히 작게 나누는 것, 이것이 에픽을 잘 쓰는 핵심이다.
+정리하면 에픽은 <strong>"스토리로 분해되기 전의 큰 가치 단위"</strong>로 기억하면 된다. 구현보다 한 단계 위에서 범위와 목적을 붙잡고, 실행 직전에는 충분히 작게 나누는 것, 이것이 에픽을 잘 쓰는 핵심이다.
 
 - **📢 섹션 요약 비유**: 좋은 여행 계획은 "유럽 여행"만 적어 두지 않고 도시별 일정으로 나누되, 각각이 왜 필요한 여정인지 큰 그림도 잃지 않는 것과 같다.
 
@@ -139,21 +139,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-비즈니스 목표 · 제품 방향
-        │
-        ▼
-에픽 (큰 가치 단위 정의)
-        │
-        ▼
-유저 스토리로 분해
-        │
-        ▼
-스프린트 단위 구현 · 검증
-        │
-        ▼
-릴리스 · 성과 측정 · 다음 에픽 조정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">비즈니스 목표 · 제품 방향</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">에픽 (큰 가치 단위 정의)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">유저 스토리로 분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스프린트 단위 구현 · 검증</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">릴리스 · 성과 측정 · 다음 에픽 조정</div>
+</div>
+</div>
+
+
 
 이 흐름도는 에픽이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 목표에서 출발해, 점진적 구현과 피드백을 거쳐 다시 제품 계획으로 돌아가는 연결 고리임을 보여 준다.
 

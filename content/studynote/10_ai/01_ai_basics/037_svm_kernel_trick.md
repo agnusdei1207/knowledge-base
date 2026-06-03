@@ -18,27 +18,29 @@ tags = ["studynote-ai"]
 
 ## I. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)의 직관
 
-```
-문제: XOR 데이터 — 2D에서 선형 분리 불가능
 
-원래 공간 (2D):
-  (+) (0,0), (1,1)
-  (-) (1,0), (0,1)
-  -> 직선으로 분리 불가!
 
-특징 변환 φ: R^2 -> R^3
-  φ(x1, x2) = (x1, x2, x1*x2)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">문제: XOR 데이터 — 2D에서 선형 분리 불가능</div>
+<div class="kb-diagram-note">원래 공간 (2D):</div>
+<div class="kb-diagram-note">(+) (0,0), (1,1)</div>
+<div class="kb-diagram-note">(-) (1,0), (0,1)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">직선으로 분리 불가!</div>
+<div class="kb-diagram-note">특징 변환 φ: R^2 -&gt; R^3</div>
+<div class="kb-diagram-note">φ(x1, x2) = (x1, x2, x1*x2)</div>
+<div class="kb-diagram-note">변환된 공간 (3D):</div>
+<div class="kb-diagram-note">(+): (0,0,0), (1,1,1)</div>
+<div class="kb-diagram-note">(-): (1,0,0), (0,1,0)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">3D에서 평면으로 분리 가능!</div>
+<div class="kb-diagram-note">커널 트릭:</div>
+<div class="kb-diagram-note">φ(xi) · φ(xj)를 직접 계산하지 않고</div>
+<div class="kb-diagram-note">K(xi, xj) = (xi · xj + 1)^2 &lt;- 다항식 커널</div>
+<div class="kb-diagram-note">로 대체 -&gt; 변환 없이 내적 계산</div>
+</div>
+</div>
 
-변환된 공간 (3D):
-  (+): (0,0,0), (1,1,1)
-  (-): (1,0,0), (0,1,0)
-  -> 3D에서 평면으로 분리 가능!
 
-커널 트릭:
-  φ(xi) · φ(xj)를 직접 계산하지 않고
-  K(xi, xj) = (xi · xj + 1)^2  <- 다항식 커널
-  로 대체 -> 변환 없이 내적 계산
-```
 
 > 📢 **섹션 요약 비유**: 2D 지도에서 길이 겹쳐 분리 안 되는 도로를 3D 입체 교차로로 올려서 분리하는 것 — [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 입체 지도를 그리지 않고 수식만으로 같은 효과를 낸다.
 

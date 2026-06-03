@@ -19,11 +19,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-텔레햅틱은 원격지의 물체를 단순히 보는 것이 아니라, **내가 힘을 주고 그 반작용을 다시 손으로 받는 것**까지 포함한 통신이다. 즉 순방향으로는 손의 위치·속도·명령이 전송되고, 역방향으로는 힘·진동·표면 거칠기 같은 촉각 피드백이 돌아온다. 이 구조는 영상 스트리밍처럼 한쪽으로 흘러가는 미디어가 아니라, 네트워크를 가로지르는 실시간 제어 루프다.
+텔레햅틱은 원격지의 물체를 단순히 보는 것이 아니라, <strong>내가 힘을 주고 그 반작용을 다시 손으로 받는 것</strong>까지 포함한 통신이다. 즉 순방향으로는 손의 위치·속도·명령이 전송되고, 역방향으로는 힘·진동·표면 거칠기 같은 촉각 피드백이 돌아온다. 이 구조는 영상 스트리밍처럼 한쪽으로 흘러가는 미디어가 아니라, 네트워크를 가로지르는 실시간 제어 루프다.
 
-이 기술이 필요한 이유는 카메라 화면만으로는 물체의 무게, 미끄러움, 탄성, 접촉 순간을 정확히 판단하기 어렵기 때문이다. 원격 수술에서는 조직의 저항을 느껴야 하고, 방사선 구역 정비에서는 밸브가 잠겼는지 손끝의 토크 변화로 판단해야 하며, 가상현실에서는 시각 정보만으로는 몰입감이 쉽게 끊긴다. 결국 텔레햅틱은 **거리 때문에 끊어진 손의 감각을 네트워크로 이어 붙이는 기술**이다.
+이 기술이 필요한 이유는 카메라 화면만으로는 물체의 무게, 미끄러움, 탄성, 접촉 순간을 정확히 판단하기 어렵기 때문이다. 원격 수술에서는 조직의 저항을 느껴야 하고, 방사선 구역 정비에서는 밸브가 잠겼는지 손끝의 토크 변화로 판단해야 하며, 가상현실에서는 시각 정보만으로는 몰입감이 쉽게 끊긴다. 결국 텔레햅틱은 <strong>거리 때문에 끊어진 손의 감각을 네트워크로 이어 붙이는 기술</strong>이다.
 
-디지털 후각은 여기서 한 단계 더 나아간다. 냄새를 통째로 보내는 것이 아니라, 전자 코 센서가 향의 패턴을 추정해 "어떤 향 조합을 어떤 강도로 분사할지"라는 레시피 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 바꾸고, 수신 측 후각 디스플레이가 이를 재구성한다. 즉 촉각은 힘의 폐루프, 후각은 조성 레시피의 재현 채널이라는 점에서 역할이 다르지만, 둘 다 **감각을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환해 원격지에서 다시 느끼게 한다**는 공통점을 가진다.
+디지털 후각은 여기서 한 단계 더 나아간다. 냄새를 통째로 보내는 것이 아니라, 전자 코 센서가 향의 패턴을 추정해 "어떤 향 조합을 어떤 강도로 분사할지"라는 레시피 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 바꾸고, 수신 측 후각 디스플레이가 이를 재구성한다. 즉 촉각은 힘의 폐루프, 후각은 조성 레시피의 재현 채널이라는 점에서 역할이 다르지만, 둘 다 <strong>감각을 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 변환해 원격지에서 다시 느끼게 한다</strong>는 공통점을 가진다.
 
 - **📢 섹션 요약 비유**: 화상통화가 멀리 있는 친구를 창문 너머로 보는 것이라면, 텔레햅틱은 그 창문에 장갑과 냄새 구멍을 붙여서 악수의 힘과 빵 냄새까지 건너오게 만드는 것과 같다.
 
@@ -31,9 +31,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-텔레햅틱 시스템은 보통 마스터 장치, 네트워크 전송 계층, 엣지 제어기, 슬레이브 로봇, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 엔진으로 구성된다. 마스터 장치는 사용자의 움직임과 힘 입력을 샘플링하고, 슬레이브는 원격 환경과 접촉한 힘·진동을 다시 측정해 되돌려 보낸다. 이때 진짜 어려운 부분은 단순 전달이 아니라, **네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 지터 (Jitter) 가 있는 상태에서도 제어 루프가 불안정해지지 않게 만드는 것**이다.
+텔레햅틱 시스템은 보통 마스터 장치, 네트워크 전송 계층, 엣지 제어기, 슬레이브 로봇, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 엔진으로 구성된다. 마스터 장치는 사용자의 움직임과 힘 입력을 샘플링하고, 슬레이브는 원격 환경과 접촉한 힘·진동을 다시 측정해 되돌려 보낸다. 이때 진짜 어려운 부분은 단순 전달이 아니라, <strong>네트워크 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>과 지터 (Jitter) 가 있는 상태에서도 제어 루프가 불안정해지지 않게 만드는 것</strong>이다.
 
-특히 역감 채널은 보통 500~1,000Hz 수준의 높은 샘플링 빈도를 가지므로, 오래된 패킷을 늦게 받는 것보다 최신 상태를 빠르게 받는 것이 더 중요하다. 반대로 후각 채널은 냄새 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 장치의 분사·혼합·환기 시간이 필요해 상대적으로 느린 동작을 한다. 따라서 모든 감각을 같은 큐에 넣는 것이 아니라, **촉각은 초저지연 루프, 후각은 레시피 기반 부가 채널**로 분리해야 전체 경험이 안정된다.
+특히 역감 채널은 보통 500~1,000Hz 수준의 높은 샘플링 빈도를 가지므로, 오래된 패킷을 늦게 받는 것보다 최신 상태를 빠르게 받는 것이 더 중요하다. 반대로 후각 채널은 냄새 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 장치의 분사·혼합·환기 시간이 필요해 상대적으로 느린 동작을 한다. 따라서 모든 감각을 같은 큐에 넣는 것이 아니라, <strong>촉각은 초저지연 루프, 후각은 레시피 기반 부가 채널</strong>로 분리해야 전체 경험이 안정된다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -46,23 +46,22 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 감각별 채널이 어떻게 서로 다른 시간 요구를 가지는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Tele-haptics + digital olfaction pipeline                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Operator hand                                                     │
-│   │                                                               │
-│   ├─ position / force intent ─▶ Edge controller ─▶ Remote robot   │
-│   │          (sub-ms local capture)        (local servo loop)     │
-│   │                                                               │
-│   └◀─ force / vibration feedback ◀──────────── sensors ◀──────────┘
-│        target: kinesthetic loop often needs sub-10ms RTT          │
-│                                                                    │
-│ Remote smell sensor ─▶ recipe encoding ─▶ scent renderer           │
-│                              │                                     │
-│                              └─ slower side channel, timestamp sync│
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tele-haptics + digital olfaction pipeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operator hand</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ position / force intent ─▶ Edge controller ─▶ Remote robot</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sub-ms local capture) (local servo loop)</div></div>
+<div class="kb-diagram-note">◀─ force / vibration feedback ◀ sensors ◀</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target: kinesthetic loop often needs sub-10ms RTT</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote smell sensor ─▶ recipe encoding ─▶ scent renderer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ slower side channel, timestamp sync</div></div>
+</div>
+</div>
+
+
 
 광역망에서는 빛의 속도 한계 때문에 전 세계 어디서나 1ms 왕복을 보장할 수 없다. 그래서 실제 설계는 "원격 로봇 근처에서 국소 제어 루프를 닫고, 사용자에게는 엣지에서 안정화된 피드백을 제공하는 구조"로 간다. 여기에 시간 영역 패시비티 (Time-domain Passivity) 나 예측 보상, 가상 스프링/댐퍼 모델을 더해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겨도 손의 감각이 폭주하지 않도록 만든다.
 
@@ -83,7 +82,7 @@ tags = ["studynote-ict-convergence"]
 
 이 비교가 중요한 이유는 "모든 감각을 같은 기준으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하면 된다"는 오해를 깨기 때문이다. 예를 들어 후각은 인간의 감각 지각과 장치 분사 속도 자체가 느리므로, 밀리초 단위로 강박적으로 묶기보다 사건 기반으로 맞추는 편이 낫다. 반면 역감은 늦은 재전송 패킷이 현재 조작을 방해하므로, 오래된 패킷을 복구하는 것보다 최신 상태를 빠르게 전달하는 설계가 필요하다.
 
-이 과정에서 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 초고신뢰 저지연 통신 ([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), Ultra-Reliable Low-Latency Communications), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 함께 연결된다. 결국 텔레햅틱은 단순히 통신망이 빨라지는 문제가 아니라, **제어공학·네트워크·센서 융합·사람의 감각 특성**이 한 시스템 안에서 동시에 맞물리는 문제다.
+이 과정에서 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 초고신뢰 저지연 통신 ([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/), Ultra-Reliable Low-Latency Communications), [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/), [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/), [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 함께 연결된다. 결국 텔레햅틱은 단순히 통신망이 빨라지는 문제가 아니라, <strong>제어공학·네트워크·센서 융합·사람의 감각 특성</strong>이 한 시스템 안에서 동시에 맞물리는 문제다.
 
 - **📢 섹션 요약 비유**: 영화는 조금 늦어도 내용을 따라갈 수 있지만, 줄타기 곡예사는 손의 균형 감각이 늦게 오면 바로 떨어진다. 텔레햅틱은 영화 배달보다 균형 잡기 훨씬 가까운 문제다.
 
@@ -91,9 +90,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 중요한 판단은 "정말 풀 스펙 텔레햅틱이 필요한가"다. 단순 알림용 진동이면 일반 모바일 네트워크와 완만한 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)으로도 충분하지만, 수술·정비·정밀 조립처럼 힘의 오차가 사고로 이어지는 업무라면 역감 루프를 별도 설계해야 한다. 이런 경우에는 영상 품질보다 **제어 루프 안정성, 긴급 정지, 로컬 자율 제어**가 우선순위가 된다.
+실무에서 가장 중요한 판단은 "정말 풀 스펙 텔레햅틱이 필요한가"다. 단순 알림용 진동이면 일반 모바일 네트워크와 완만한 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)으로도 충분하지만, 수술·정비·정밀 조립처럼 힘의 오차가 사고로 이어지는 업무라면 역감 루프를 별도 설계해야 한다. 이런 경우에는 영상 품질보다 <strong>제어 루프 안정성, 긴급 정지, 로컬 자율 제어</strong>가 우선순위가 된다.
 
-[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 역감 채널은 일반적으로 과거 패킷의 재전송보다 최신 상태 유지가 중요하므로, 상태 스트림에는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) ([User Datagram Protocol](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 계열 전송이 더 잘 맞는 경우가 많다. 반면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 향 카트리지 교체 정보처럼 순서와 완전성이 더 중요한 관리 채널은 신뢰형 전송을 별도로 쓸 수 있다. 즉 텔레햅틱은 "하나의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라 **채널별 통신 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 분리**가 기본이다.
+[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 역감 채널은 일반적으로 과거 패킷의 재전송보다 최신 상태 유지가 중요하므로, 상태 스트림에는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) ([User Datagram Protocol](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 계열 전송이 더 잘 맞는 경우가 많다. 반면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 향 카트리지 교체 정보처럼 순서와 완전성이 더 중요한 관리 채널은 신뢰형 전송을 별도로 쓸 수 있다. 즉 텔레햅틱은 "하나의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"이 아니라 <strong>채널별 통신 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 분리</strong>가 기본이다.
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -111,7 +110,7 @@ tags = ["studynote-ict-convergence"]
 - 영상과 촉각의 타임스탬프를 분리 운영해 사용자가 접촉 순간을 어긋나게 느끼는 경우
 - 후각 채널을 "느리니까 아무렇게나" 다뤄 잔향과 과분사가 쌓이는 경우
 
-결론적으로 텔레햅틱 설계는 네트워크를 빠르게 만드는 문제를 넘어, **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 남아도 안전하게 쓸 수 있는 구조를 만드는 문제**다. 기술사 관점에서도 "몇 ms가 목표인가"만 외우기보다, 그 목표가 왜 필요한지와 목표를 못 맞출 때 어떤 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요한지까지 답해야 완성도가 높다.
+결론적으로 텔레햅틱 설계는 네트워크를 빠르게 만드는 문제를 넘어, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 남아도 안전하게 쓸 수 있는 구조를 만드는 문제</strong>다. 기술사 관점에서도 "몇 ms가 목표인가"만 외우기보다, 그 목표가 왜 필요한지와 목표를 못 맞출 때 어떤 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요한지까지 답해야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 미끄러운 계단을 오를 때는 속도보다 난간이 더 중요하다. 텔레햅틱도 빠른 통신만으로는 부족하고, 미끄러질 때 붙잡아 줄 안전 설계가 꼭 필요하다.
 
@@ -123,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 
 하지만 전제조건도 분명하다. 물리 거리의 한계, 로봇 액추에이터 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 센서 캘리브레이션, 배터리와 착용성, 냄새 재현 장치의 안전성 같은 요소가 동시에 맞아야 한다. 특히 후각은 촉각보다 느리고 잔향이 남기 쉽기 때문에, "정확한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)"보다 "의미 있는 순간에 맞는 재현"이 더 중요할 수 있다.
 
-결론적으로 이 주제는 멀티미디어의 확장이 아니라, **통신망 위에 인간의 감각과 제어 루프를 올리는 시스템 공학**으로 기억해야 한다. 텔레햅틱은 미디어 서비스가 아니라 제어 시스템이고, 디지털 후각은 부가 효과가 아니라 현실감을 완성하는 또 하나의 시간축이다.
+결론적으로 이 주제는 멀티미디어의 확장이 아니라, <strong>통신망 위에 인간의 감각과 제어 루프를 올리는 시스템 공학</strong>으로 기억해야 한다. 텔레햅틱은 미디어 서비스가 아니라 제어 시스템이고, 디지털 후각은 부가 효과가 아니라 현실감을 완성하는 또 하나의 시간축이다.
 
 - **📢 섹션 요약 비유**: 좋은 원격 체험은 화면만 선명한 방송이 아니라, 손과 코까지 현장에 잠시 데려다 놓는 여행과 같다. 다만 그 여행이 안전하려면 길이 빠른 것만큼 흔들리지도 않아야 한다.
 
@@ -144,22 +143,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Hand / device intent capture
-        │
-        ▼
-Position-force packetization + timestamp
-        │
-        ├──────────────► URLLC + edge control path
-        │                     │
-        │                     ▼
-        │               remote actuation + force feedback
-        │
-        └──────────────► olfactory recipe channel
-                              │
-                              ▼
-                    scent rendering + multimodal sync
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Hand / device intent capture</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Position-force packetization + timestamp</div>
+<div class="kb-diagram-tree-item" style="--depth:4">URLLC + edge control path</div>
+<div class="kb-diagram-note">remote actuation + force feedback</div>
+<div class="kb-diagram-tree-item" style="--depth:4">olfactory recipe channel</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">scent rendering + multimodal sync</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "사용자 의도 캡처 → 촉각 제어 루프 → 후각 부가 채널 → 최종 감각 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"라는 텔레햅틱 시스템의 이중 경로를 보여 준다.
 

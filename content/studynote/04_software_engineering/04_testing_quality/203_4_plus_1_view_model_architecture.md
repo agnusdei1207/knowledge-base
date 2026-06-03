@@ -26,18 +26,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 아키텍처 뷰 모델 (4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  아키텍처 뷰 모델 (4+1 View)                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 뷰 모델 (4+1 View)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 아키텍처 뷰 모델 (4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -93,8 +92,8 @@ tags = ["studynote-software-engineering"]
 
 ### 기술사 판단 포인트
 
-- 이 개념을 **언제 채택**해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
-- 이 개념을 **언제 회피**해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
+- 이 개념을 <strong>언제 채택</strong>해야 하는가: 중·대규모 프로젝트, 품질·안정성이 핵심 요구사항일 때
+- 이 개념을 <strong>언제 회피</strong>해야 하는가: 극소규모 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/), 즉각적 출시가 최우선일 때
 
 - **📢 섹션 요약 비유**: 아키텍처 뷰 모델 (4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 적용은 요리사가 레시피를 따라 요리하는 과정과 같다. 레시피(원칙)를 완전히 무시하면 매번 결과가 들쑥날쑥하지만, 레시피를 맹목적으로 따르되 재료 상황(프로젝트 특성)에 맞게 조정하는 것이 진정한 전문가의 판단이다.
 
@@ -131,21 +130,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-아키텍처 뷰 모델 (4+1 View) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">아키텍처 뷰 모델 (4+1 View) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

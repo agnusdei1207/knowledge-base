@@ -35,36 +35,31 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              시맨틱 캐시 RAG 파이프라인                   │
-│                                                         │
-│  사용자 질의                                             │
-│      │                                                  │
-│      ▼                                                  │
-│  임베딩 생성(Embedding)                                  │
-│      │                                                  │
-│      ▼                                                  │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │         시맨틱 캐시 조회                          │    │
-│  │  코사인 유사도 ≥ 임계치(예: 0.92)?               │    │
-│  │  ┌─── YES ───┐         ┌─── NO ────┐            │    │
-│  │  │캐시 히트  │         │캐시 미스  │            │    │
-│  │  │저장 답변  │         │LLM 호출   │            │    │
-│  │  │즉시 반환  │         │답변 생성  │            │    │
-│  │  └───────────┘         └─────┬─────┘            │    │
-│  │                              │ 캐시 저장         │    │
-│  └──────────────────────────────┼──────────────────┘    │
-│                                 │                       │
-│                            사용자 응답                   │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 캐시 RAG 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 질의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 생성(Embedding)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 캐시 조회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 ≥ 임계치(예: 0.92)?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES NO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 히트</div><div class="kb-diagram-cell">캐시 미스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 답변</div><div class="kb-diagram-cell">LLM 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 반환</div><div class="kb-diagram-cell">답변 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 응답</div></div>
+</div>
+</div>
+
+
 
 **핵심 구성 요소**
 
-1. **[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델**: 질의를 벡터로 변환. text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-3-small, BGE-M3 등
-2. **벡터 [유사도 검색](/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/)**: FAISS 또는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 벡터 인덱스에서 가장 가까운 캐시 항목 검색
-3. **유사도 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold)**: 0.90~0.95 일반적. 낮으면 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)↑ but 부정확 답변↑
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 모델</strong>: 질의를 벡터로 변환. text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-3-small, BGE-M3 등
+2. <strong>벡터 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/348_similarity_search/">유사도 검색</a></strong>: FAISS 또는 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 벡터 인덱스에서 가장 가까운 캐시 항목 검색
+3. <strong>유사도 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a>(Threshold)</strong>: 0.90~0.95 일반적. 낮으면 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)↑ but 부정확 답변↑
 
 ### [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 주요 구현체
 
@@ -105,17 +100,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**캐시 무효화(Cache Invalidation) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**
+<strong>캐시 무효화(Cache Invalidation) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
-1. **[TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(Time-To-Live) 기반**: 시간 기반 만료. 빠르게 변하는 정보(주가, 날씨)에 적합. 단, 너무 짧으면 히트율 감소.
+1. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(Time-To-Live) 기반</strong>: 시간 기반 만료. 빠르게 변하는 정보(주가, 날씨)에 적합. 단, 너무 짧으면 히트율 감소.
 2. **이벤트 기반(Event-Driven)**: [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) 업데이트 시 관련 캐시 항목 즉시 삭제. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 파이프라인과 캐시 연동 설계 필요.
-3. **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 기반(Version Tag)**: [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그를 캐시 키에 포함 — [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 시 전체 캐시 자동 무효화.
+3. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 기반(Version Tag)</strong>: [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그를 캐시 키에 포함 — [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 변경 시 전체 캐시 자동 무효화.
 
 **기술사 판단 포인트**
 
-1. **[임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 튜닝**: 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 질의 샘플로 오프라인 평가 후 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 결정 — 비즈니스 리스크에 맞게 조정
+1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 튜닝</strong>: 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 질의 샘플로 오프라인 평가 후 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 결정 — 비즈니스 리스크에 맞게 조정
 2. **캐시 워밍(Cache Warming)**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작 전 예상 FAQ를 미리 캐시에 적재 → [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 캐시 미스 방지
-3. **[멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 격리**: 사용자별 캐시 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 분리 → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 혼재 방지
+3. <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/">멀티테넌트</a> 격리</strong>: 사용자별 캐시 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 분리 → [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 혼재 방지
 4. **모니터링**: [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)율, 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 오답율을 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + Grafana로 실시간 추적
 
 - **📢 섹션 요약 비유**: 캐시 무효화는 도서관 책 업데이트 — 새 판이 나오면 이전 정보를 알려주던 사서는 즉시 새 책으로 교체해야 한다.

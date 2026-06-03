@@ -15,7 +15,7 @@ tags = ["it_management"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/))은 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에서 도출된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 바탕으로, 구체적인 시스템 개발 우선순위, 일정, 비용을 수립하는(1-3년) 계획이다.
 > 2. **가치**:ISP의적 방향을실행 가능한 프로젝트 단위로 구체화하여,과 인력을 효율적으로 배분하고 중복 투자를 방지한다.
-> 3. **[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**: ISMP는ISP의 하위 개념으로,ISP가 "어디로 가야 하는가(방향)"를 정의하면, ISMP는 "무엇을、까지에(프로그램/일정)"를정의한다.
+> 3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: ISMP는ISP의 하위 개념으로,ISP가 "어디로 가야 하는가(방향)"를 정의하면, ISMP는 "무엇을、까지에(프로그램/일정)"를정의한다.
 
 ---
 
@@ -25,26 +25,27 @@ tags = ["it_management"]
 
 ISMP가 필요한 이유는 다음과 같다. 첫째, 정보시스템 개발이기업의에 직결되기 때문이다. 시장 변화에 빠르게 대응하기 위해시스템를 개발해야 하지만, 이는 단순한 기술 결정이 아닌 비용, 인력, 비즈니스 우선순위 등을 종합적으로 고려한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정이다. 둘째, 중복 투자 방지의 필요성이다. 개별 부서가 독립적으로 시스템을 개발하면 동일하거나 유사한 기능을 가진 시스템이수 존재하여 예산 낭비가 발생한다. ISMP는 전사적 관점에서 이러한 중복을에 방지한다. 셋째, 규제 및 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요구이다. 금융위원회, [금융감독원](/knowledge-base/studynote/09_security/17_framework_compliance/889_fss_cyber_supervision/) 등 규제 기관들은 금융회사에 정보시스템 운영 및 개발에 대한 체계적 관리 계획을 요구하고 있으며, 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서도 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 존재 여부를 확인한다.
 
-```text
-이 도식은 ISP와 ISMP의 관계를 보여준다.
 
-[ISP: 정보화 전략 계획]
-────────────────────────
-기간: 3-5년 (전략 레벨)
-범위: 전사적 (Enterprise-wide)
-내용: 비지니스-IT 정렬, IT 전략, 투자 방향
-수립 주기: 매년 또는 경영환경 변화 시
 
-│
-│ ISP의 전략적 방향을
-▼
-[ISMP: 정보시스템 마스터플랜]
-───────────────────────────
-기간: 1-3년 (전술 레벨)
-범위: 정보시스템 specific
-내용: 시스템 개발 우선순위, 일정, 비용
-수립 주기: 매년 갱신
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 ISP와 ISMP의 관계를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP: 정보화 전략 계획</div></div>
+<div class="kb-diagram-note">기간: 3-5년 (전략 레벨)</div>
+<div class="kb-diagram-note">범위: 전사적 (Enterprise-wide)</div>
+<div class="kb-diagram-note">내용: 비지니스-IT 정렬, IT 전략, 투자 방향</div>
+<div class="kb-diagram-note">수립 주기: 매년 또는 경영환경 변화 시</div>
+<div class="kb-diagram-note">ISP의 전략적 방향을</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISMP: 정보시스템 마스터플랜</div></div>
+<div class="kb-diagram-note">기간: 1-3년 (전술 레벨)</div>
+<div class="kb-diagram-note">범위: 정보시스템 specific</div>
+<div class="kb-diagram-note">내용: 시스템 개발 우선순위, 일정, 비용</div>
+<div class="kb-diagram-note">수립 주기: 매년 갱신</div>
+</div>
+</div>
+
+
 
 ISMP는ISP와 비교할 때보다실행에 초점을 맞춘다. ISP가 "디지털 기반의 고객 경험Leader가 된다"는를 설정한다면, ISMP는 "1년 차에 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템을 고도화하고, 2년 차에 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 고객 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 도입하며, 3년 차에 사적 통합 분석 플랫폼을 구축한다"는실시를 제시한다.
 
@@ -72,35 +73,32 @@ ISMP에서 중요한 부분은 시스템의 [분류](/knowledge-base/studynote/1
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준 | 유형 | 설명 | 예시 |
 |:---|:---|:---|:---|
-| **[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 중요도** | 핵심 시스템 | 비즈니스의 핵심 기능 | 오엠에스([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>적 중요도</strong> | 핵심 시스템 | 비즈니스의 핵심 기능 | 오엠에스([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) |
 | **|** 지원 시스템 | 핵심 시스템 지원 | 그룹웨어, 문서관리 |
 | **|** 기타 시스템 | 일반 업무 지원 | 전산회계, 급여관리 |
 | **기술적 플랫폼** | 레거시 시스템 | mainframe 기반 기존 시스템 | IBM 메인프레임 기반 시스템 |
 | **|** 오픈 시스템 | 표준 기술 기반 시스템 | Unix/Linux 서버 기반 |
 | **|** 클라우드 시스템 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)/[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) 활용 | Salesforce, M365, AWS |
 
-```text
-이 도식은 시스템 우선순위 결정 시 활용되는 매트릭스를 보여준다.
 
-비지니스 영향도 (높음)
-│
-중요함 │ 긴급함
-┌───────────────┼───────────────┐
-│ │ │
-│ [1순위] │ [2순위] │
-│ (중요+긴급) │ (긴급) │
-│ 즉시 실행 │ 계획에 포함 │
-│ │ │
-낮음 ────┼───────────────┼───────────────┼─────
-│ │ │
-│ [4순위] │ [3순위] │
-│ (긴급) │ (보통) │
-│ 모니터링 │ 후순위 처리 │
-│ │ │
-└───────────────┴───────────────┘
-│
-비즈니스 영향도 (낮음)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 시스템 우선순위 결정 시 활용되는 매트릭스를 보여준다.</div>
+<div class="kb-diagram-note">비지니스 영향도 (높음)</div>
+<div class="kb-diagram-note">중요함 │ 긴급함</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1순위</div><div class="kb-diagram-node">2순위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중요+긴급)</div><div class="kb-diagram-cell">(긴급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 실행</div><div class="kb-diagram-cell">계획에 포함</div></div>
+<div class="kb-diagram-note">낮음</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4순위</div><div class="kb-diagram-node">3순위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(긴급)</div><div class="kb-diagram-cell">(보통)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">후순위 처리</div></div>
+<div class="kb-diagram-note">비즈니스 영향도 (낮음)</div>
+</div>
+</div>
+
+
 
 이 매트릭스는 시스템 개발 우선순위를 결정할 때 활용된다. 비즈니스 영향도가 높고 긴급한 시스템(제1순위)은 즉시 개발에 착수하고, 영향도는 높지만 긴급하지 않은 시스템(제2순위)은 로드맵에 포함시킨다. 반대로 영향도가 낮고 긴급한 시스템(제3순위)은리소스 시 후순위로 밀리며, 영향도도 긴급도도 낮은 시스템(제4순위)은 지속적인 모니터링만 실시한다.
 
@@ -127,27 +125,23 @@ ISMP의 주요 산출물과 실무에서의 활용 방안을 분석한다.
 
 ISP와ISMP는 독립적으로 존재하는 것이 아니라 유기적으로되어야 한다.
 
-```text
-이 도식은 ISP와ISMP의 정보 흐름을 보여준다.
 
-[ISP (3-5년)]
-│
-│ (전략적 방향, 목표)
-▼
-┌─────────────────────────────────────────────────────────┐
-│ ISMP (1-3년) │
-│ │
-│ [현황 분석] ──> [요구 분석] ──> [설계] ──> [계획 수립] │
-│ │ │ │
-│ │ ISP에서 정한 방향 반영 │ │
-│ │ │ │
-│ └────────────────────────────────────────────┘ │
-│ │ │
-│ │ (상위 전략, 예산 프레임) │
-│ ▼ │
-│ [ISP 갱신 시 반영] │
-└─────────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 도식은 ISP와ISMP의 정보 흐름을 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP (3-5년)</div></div>
+<div class="kb-diagram-note">(전략적 방향, 목표)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISMP (1-3년)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현황 분석</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">요구 분석</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">계획 수립</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP에서 정한 방향 반영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상위 전략, 예산 프레임)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 갱신 시 반영</div></div>
+</div>
+</div>
+
+
 
 ISP가업데이트되면 그 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향에 맞춰 ISMP도 함께되어야 한다. 예를 들어, ISP에서 "클라우드 퍼스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"을 신규 채택하면, ISMP에서 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시스템의 클라우드 이전 일정을하거나, 신규 개발프로젝트 클라우드 기반 시스템의 비중을높이는의이 이루어져야 한다.
 
@@ -165,7 +159,7 @@ ISP가업데이트되면 그 [전략](/knowledge-base/studynote/04_software_engi
 * **상황**:ISMP에 프로젝트 일정이 결정된 후, 사업부서에서요구가 폭주하여 프로젝트 범위가 계속 확대됨.
 * **해결**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))를 통해 범위 변경을 엄격히 관리하고, 주요 변경은 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 전체 일정과 예산에 반영하도록 규정
 
-**시나리오 2: 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 노후화로 인한 유지보수 비용 증가**
+<strong>시나리오 2: 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 노후화로 인한 유지보수 비용 증가</strong>
 * **상황**: 오래된 레거시 시스템의 유지보수 비용이 신규 개발 예산을 잠식함.
 * **해결**: Legacy 시스템의/현대화 일정을ISMP에 반드시 포함하고,감가상각 형태로 예산을 배정
 
@@ -173,30 +167,22 @@ ISP가업데이트되면 그 [전략](/knowledge-base/studynote/04_software_engi
 * **상황**: 회사가 클라우드 퍼스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립했지만, 기존ISMP에는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 확장 계획이 포함되어 있음.
 * **해결**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)-[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 연계를 강화하여 상위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 변경 시 하위 계획이자동 반영되는를
 
-```text
-이 플로우는ISMP 프로젝트의 우선순위 재조정 프로세스를 보여준다.
 
-[분기별ISMP 이행 상황 검토]
-│
-┌────┴────┐
-│ │
-(양호) (부진)
-│ │
-│ ┌────┴────┐
-│ │ │
-│ (일정초과) (예산초과)
-│ │ │
-│ │ ▼
-│ │ [우선순위 재조정 검토]
-│ │ │
-│ │ ┌────┴────┐
-│ │ │ │
-│ │ (타 프로젝트 (일정/범위
-│ │ 로부터 자원 차입) 조정)
-│ │ │ │
-▼ ▼ ▼ ▼
-[다음 분기 계획에 반영]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">이 플로우는ISMP 프로젝트의 우선순위 재조정 프로세스를 보여준다.</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분기별ISMP 이행 상황 검토</div></div>
+<div class="kb-diagram-note">(양호) (부진)</div>
+<div class="kb-diagram-note">(일정초과) (예산초과)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 재조정 검토</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(타 프로젝트 (일정/범위</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로부터 자원 차입) 조정)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다음 분기 계획에 반영</div></div>
+</div>
+</div>
+
+
 
 ISMP는 일회성 문서가 아니라 정기적으로 검토하고업데이트하는 żywy 문서이다. 분기별 이행 상황 검토를 통해 병목을 조기에 발견하고, 필요시 우선순위를 재조정하여 전체 일정과 예산의전역을 관리해야 한다.
 
@@ -217,9 +203,9 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 
 #### 미래 전망
 
-* **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)**: 전통적인 연도별ISMP 갱신을 넘어Quarterly업데이트 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 로드맵으로 전환
+* <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a></strong>: 전통적인 연도별ISMP 갱신을 넘어Quarterly업데이트 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 로드맵으로 전환
 * **자동화된ISMP**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시스템 현황 분석 및 최적화 추천 도입
-* **[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)시스템에서 없고 클라우드 기반만 존재하는 환경에 맞춘 새로운 형태의ISMP
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/">ISMP</a></strong>: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)시스템에서 없고 클라우드 기반만 존재하는 환경에 맞춘 새로운 형태의ISMP
 
 📢 **섹션 요약 비유**: ISMP는기업의 '항해 도표'입니다. 항해도표가 없으면 부표 없이 바다를 헤매듯, [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/) 없이는 기업의 정보시스템이 될림lessly합니다. 정기적으로 별과 자리를 확인하며(분기 검토) 항해도표를업데이트해야 안전하게에 도착할 수 있습니다.
 
@@ -234,24 +220,25 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[현황 분석 (As-Is Analysis)]
-│
-▼
-[미래 목표 정의 (To-Be Vision)]
-│
-▼
-[정보화 마스터 플랜 (ISMP, Information System Master Plan)]
-│
-▼
-[과제 도출 (Task Derivation)]
-│
-▼
-[로드맵 수립 (Roadmap Planning)]
-│
-▼
-[사업 발주 (Project Initiation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">현황 분석 (As-Is Analysis)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미래 목표 정의 (To-Be Vision)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정보화 마스터 플랜 (ISMP, Information System Master Plan)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과제 도출 (Task Derivation)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">로드맵 수립 (Roadmap Planning)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업 발주 (Project Initiation)</div></div>
+</div>
+</div>
+
+
 
 정보화 마스터 플랜이 현황 분석에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립·과제 도출·로드맵·발주로 이어지는 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획의 전체 흐름이다.
 

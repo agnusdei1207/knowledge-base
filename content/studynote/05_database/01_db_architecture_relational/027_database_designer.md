@@ -18,20 +18,21 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│            DB 설계 3단계 프로세스                     │
-├──────────────────────────────────────────────────────┤
-│ 1. 개념적 설계       : E-R 다이어그램                 │
-│    (업무 요구사항 → 엔티티·관계 모델)                  │
-│       ↓                                              │
-│ 2. 논리적 설계       : 관계형 스키마                  │
-│    (E-R → 테이블, 정규화 3NF/BCNF)                   │
-│       ↓                                              │
-│ 3. 물리적 설계       : DBMS 구현                     │
-│    (인덱스, 파티션, 클러스터, 스토리지 매개변수)        │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 설계 3단계 프로세스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개념적 설계 : E-R 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(업무 요구사항 → 엔티티·관계 모델)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 논리적 설계 : 관계형 스키마</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(E-R → 테이블, 정규화 3NF/BCNF)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 물리적 설계 : DBMS 구현</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인덱스, 파티션, 클러스터, 스토리지 매개변수)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DB 설계는 건물 설계와 같다. 개념 설계는 건물 용도·공간 배치(E-R), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 건축 도면(테이블 구조), 물리 설계는 실제 재료·시공 방법([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 스토리지)이다.
 
@@ -45,19 +46,24 @@ tags = ["studynote-database"]
 |:---|:---|:---|
 | **요구사항 분석** | 업무 인터뷰, 문서 검토 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)서 |
 | **개념적 설계** | E-R 다이어그램 작성 | ERD, 엔티티 정의서 |
-| **[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 설계** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도출 | 테이블 정의서, ERD |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 설계</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도출 | 테이블 정의서, ERD |
 | **물리적 설계** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 결정 | 물리 설계서, [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) |
 | **검토** | 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) | 설계 검토 보고서 |
 
 ### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단
 
-```text
-정규화 (3NF):      데이터 중복 최소화, 이상 현상 방지
-                   → OLTP (거래 처리) 환경 적합
 
-역정규화 (De-Norm): 조인 감소로 쿼리 성능 향상
-                   → OLAP, 대용량 읽기 환경 적합
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정규화 (3NF): 데이터 중복 최소화, 이상 현상 방지</div>
+<div class="kb-diagram-note">→ OLTP (거래 처리) 환경 적합</div>
+<div class="kb-diagram-note">역정규화 (De-Norm): 조인 감소로 쿼리 성능 향상</div>
+<div class="kb-diagram-note">→ OLAP, 대용량 읽기 환경 적합</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주제별로 완벽히 정리하면 찾기는 쉽지만 여러 책장(테이블)을 돌아다녀야 한다. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 자주 보는 책들을 한 책장에 모아두는 것이다.
 
@@ -78,8 +84,8 @@ tags = ["studynote-database"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 물리 설계 핵심 결정사항
-1. **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: WHERE 절 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 높은 컬럼 → [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/); 낮은 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) → [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵.
-2. **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 날짜 범위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(월별) → 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빠른 삭제.
+1. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: WHERE 절 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 높은 컬럼 → [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/); 낮은 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) → [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 날짜 범위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(월별) → 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빠른 삭제.
 3. **테이블스페이스 분리**: 대형 테이블·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 별도 테이블스페이스 → I/O [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/).
 
 ### [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 시대의 설계자 역할 확장
@@ -93,8 +99,8 @@ tags = ["studynote-database"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 최적화 |
-| **[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)** | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 방지 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 최적화 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 방지 |
 | **확장성** | 설계 단계부터 수평 확장 고려 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 DB 설계 도구([AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) for [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Design)는 워크로드 패턴을 분석하여 최적 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 자동 추천하고, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 실시간으로 최적화하는 방향으로 발전하고 있다.
@@ -108,28 +114,30 @@ tags = ["studynote-database"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ERD** | 개념·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 핵심 산출물 |
-| **[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)** | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) 기법 |
-| **[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)** | 물리 설계의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 도구 |
-| **[DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)** | DB 설계자와 역할 분리되는 운영 전문가 |
-| **[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)** | 전사 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)를 담당하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 역할 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) 기법 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> | 물리 설계의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 도구 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | DB 설계자와 역할 분리되는 운영 전문가 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a></strong> | 전사 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)를 담당하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[요구사항 분석 — 업무 데이터 요구사항 도출]
-    │
-    ▼
-[개념적 설계 — E-R 다이어그램, 엔티티 정의]
-    │
-    ▼
-[논리적 설계 — 정규화, 관계형 스키마]
-    │
-    ▼
-[물리적 설계 — 인덱스, 파티션, 스토리지]
-    │
-    ▼
-[AI 자동 설계 — 워크로드 기반 자동 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 분석 — 업무 데이터 요구사항 도출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개념적 설계 — E-R 다이어그램, 엔티티 정의</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 설계 — 정규화, 관계형 스키마</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 설계 — 인덱스, 파티션, 스토리지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동 설계 — 워크로드 기반 자동 최적화</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

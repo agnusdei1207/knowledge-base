@@ -35,24 +35,24 @@ Firebase를 기준으로 보면 BaaS의 핵심은 클라이언트가 관리형 �
 
 아래 그림은 Firebase형 BaaS에서 책임이 어떻게 재배치되는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Firebase-style BaaS architecture                                   │
-├────────────────────────────────────────────────────────────────────┤
-│ Web / iOS / Android app                                             │
-│        │ SDK / HTTPS / WebSocket                                    │
-│        ▼                                                            │
-│ Firebase BaaS                                                       │
-│   ├─ Authentication                                                 │
-│   ├─ Firestore / Realtime DB                                        │
-│   ├─ Cloud Storage                                                  │
-│   ├─ Cloud Functions                                                │
-│   └─ Firebase Cloud Messaging                                       │
-│        │                                                            │
-│        ▼                                                            │
-│ Security Rules + Access Control + Auto Scaling + Analytics                     │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firebase-style BaaS architecture</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web / iOS / Android app</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDK / HTTPS / WebSocket</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firebase BaaS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Authentication</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Firestore / Realtime DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cloud Storage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cloud Functions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Firebase Cloud Messaging</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Rules + Access Control + Auto Scaling + Analytics</div></div>
+</div>
+</div>
+
+
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -65,7 +65,7 @@ Firebase를 기준으로 보면 BaaS의 핵심은 클라이언트가 관리형 �
 
 BaaS의 진짜 핵심은 기능 목록보다 "보안과 운영을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경계에서 규칙으로 통제한다"는 데 있다. Firebase의 보안 규칙은 사용자의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 상태, 문서 경로, 필드 값 조건을 기반으로 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한을 제한한다. 또한 Cloud Functions는 클라이언트에 두기 위험한 결제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 관리자 후처리, 외부 시스템 연동을 이벤트 기반으로 처리해 BaaS의 단순함과 서버 측 통제를 동시에 보완한다.
 
-즉 BaaS는 백엔드가 사라지는 모델이 아니라, 직접 코딩하고 운영하던 백엔드를 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)화된 조합 요소로 바꾸는 모델**이다. 개발자는 서버 머신보다 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 보안 규칙을 더 많이 설계하게 된다.
+즉 BaaS는 백엔드가 사라지는 모델이 아니라, 직접 코딩하고 운영하던 백엔드를 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>화된 조합 요소로 바꾸는 모델</strong>이다. 개발자는 서버 머신보다 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)과 보안 규칙을 더 많이 설계하게 된다.
 
 - **📢 섹션 요약 비유**: BaaS는 자동화된 대형 창고를 빌려 쓰는 것과 같다. 물건을 어디에 넣고 누가 꺼낼 수 있는지 규칙만 잘 정하면, 지게차 운전과 창고 확장은 창고 회사가 대신 해 준다.
 
@@ -84,7 +84,7 @@ BaaS를 올바르게 이해하려면 [PaaS](/knowledge-base/studynote/06_ict_con
 | 확장성 제어 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자 중심 | 플랫폼과 사용자 공동 | 사용자 주도 |
 | 대표 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), 규칙 설계 실수 | 플랫폼 제약 | 운영 복잡도, 인력 비용 |
 
-Firebase와 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BaaS의 비교도 중요하다. Firebase는 모바일 SDK, 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 푸시, 분석 통합이 강점이고, Supabase 같은 대안은 PostgreSQL 기반이라 SQL 친화성과 이식성 측면에서 더 매력적일 수 있다. 따라서 BaaS 채택은 "무조건 Firebase냐 아니냐"보다, **얼마나 빠른 출시가 필요한지와 얼마나 오래 특정 플랫폼에 묶여도 되는지**를 함께 따지는 문제다.
+Firebase와 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) BaaS의 비교도 중요하다. Firebase는 모바일 SDK, 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 푸시, 분석 통합이 강점이고, Supabase 같은 대안은 PostgreSQL 기반이라 SQL 친화성과 이식성 측면에서 더 매력적일 수 있다. 따라서 BaaS 채택은 "무조건 Firebase냐 아니냐"보다, <strong>얼마나 빠른 출시가 필요한지와 얼마나 오래 특정 플랫폼에 묶여도 되는지</strong>를 함께 따지는 문제다.
 
 또한 BaaS는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)와 긴밀히 연결된다. 클라이언트가 직접 읽고 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 BaaS가 맡고, 권한이 민감하거나 외부 시스템과 연결되는 작업은 Cloud Functions 같은 FaaS가 담당하는 조합이 일반적이다. 이 때문에 현대 BaaS는 단일 제품이라기보다 관리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 이벤트 함수가 결합된 클라우드 조합물에 가깝다.
 
@@ -113,7 +113,7 @@ Firebase와 [오픈소스](/knowledge-base/studynote/12_it_management/05_securit
 - `allow read, write: if true;` 같은 과도하게 넓은 규칙으로 사실상 공개 DB를 만드는 경우
 - Firebase 사용 편의성만 보고 비용, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 이관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 나중으로 미루는 경우
 
-핵심 판단은 단순하다. BaaS는 백엔드가 중요하지 않은 시스템이 아니라, **공통 백엔드 기능이 차별화 요소가 아닌 시스템**에서 가장 강하다. 따라서 차별화가 UI/UX와 빠른 실험에 있을 때는 강력한 선택이지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙 자체가 경쟁력인 시스템이라면 더 신중해야 한다.
+핵심 판단은 단순하다. BaaS는 백엔드가 중요하지 않은 시스템이 아니라, <strong>공통 백엔드 기능이 차별화 요소가 아닌 시스템</strong>에서 가장 강하다. 따라서 차별화가 UI/UX와 빠른 실험에 있을 때는 강력한 선택이지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙 자체가 경쟁력인 시스템이라면 더 신중해야 한다.
 
 - **📢 섹션 요약 비유**: 학예회 무대를 빨리 올려야 할 때는 조명과 음향이 갖춰진 대관 공연장을 쓰는 게 훨씬 낫다. 하지만 복잡한 기계 장치와 맞춤 무대가 핵심인 공연이라면 내 전용 무대가 더 맞을 수 있다.
 
@@ -125,7 +125,7 @@ BaaS를 잘 활용하면 작은 팀도 큰 제품처럼 보이는 [서비스](/k
 
 하지만 BaaS는 장기적으로 설계 자유도를 줄일 수 있다. [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이 플랫폼 성격에 맞춰 굳어지고, 비용 구조가 사용량에 민감해지며, 특정 클라우드 기능에 강하게 의존할수록 이전 난이도가 커진다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 빨랐던 선택이 나중에 리팩터링 부담으로 돌아올 수 있다는 점을 인정해야 한다.
 
-결국 BaaS는 "백엔드를 없애는 기술"이 아니라, **백엔드의 공통 부분을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 사서 쓰는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**으로 기억하는 것이 정확하다. 빠른 실험, 실시간 기능, 적은 운영 인력에는 매우 유효하지만, 복잡한 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 지배하는 만능 해법은 아니다.
+결국 BaaS는 "백엔드를 없애는 기술"이 아니라, <strong>백엔드의 공통 부분을 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>로 사서 쓰는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>으로 기억하는 것이 정확하다. 빠른 실험, 실시간 기능, 적은 운영 인력에는 매우 유효하지만, 복잡한 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 지배하는 만능 해법은 아니다.
 
 - **📢 섹션 요약 비유**: 조립식 가구는 빨리 방을 꾸미게 해 주지만, 집 구조 자체를 바꾸는 공사는 해 주지 못한다. BaaS도 앱을 빨리 세우는 데는 탁월하지만 모든 구조적 문제를 대신 해결해 주지는 않는다.
 
@@ -144,20 +144,23 @@ BaaS를 잘 활용하면 작은 팀도 큰 제품처럼 보이는 [서비스](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모바일 앱 공통 백엔드 반복 개발
-        │
-        ▼
-BaaS (Backend as a Service)
-        │
-        ├──────────────► Auth · DB · Storage · Push 통합
-        ├──────────────► Firebase형 실시간 동기화
-        ▼
-Cloud Functions 기반 서버리스 보완
-        │
-        ▼
-오픈소스 BaaS · 탈출 전략 · 조합형 백엔드
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모바일 앱 공통 백엔드 반복 개발</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BaaS (Backend as a Service)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Auth · DB · Storage · Push 통합</div>
+<div class="kb-diagram-tree-item" style="--depth:4">Firebase형 실시간 동기화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Cloud Functions 기반 서버리스 보완</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오픈소스 BaaS · 탈출 전략 · 조합형 백엔드</div>
+</div>
+</div>
+
+
 
 이 흐름은 백엔드 기능이 점차 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)화되고, 이후에는 실시간성·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)·이식성까지 함께 고려하는 방향으로 진화하고 있음을 보여 준다.
 

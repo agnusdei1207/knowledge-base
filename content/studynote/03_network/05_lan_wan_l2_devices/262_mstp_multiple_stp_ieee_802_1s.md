@@ -30,16 +30,20 @@ tags = ["studynote-network"]
   - **PVST**: 1000명에게 각자 내비게이션 경로를 1000장 그려줌. (본사 직원 과로사)
   - **MSTP**: "1번~500번 기사는 1번 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(인스턴스 1)에 타! 501~1000번 기사는 2번 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(인스턴스 2)에 타!" (고작 2대의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경로만 관리하면 완벽한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 탑승 완료!)
 
-```text
-[백업 포트, 대체 포트 추가]
-    │
-    ▼
-[MSTP]
-    │
-    └──▶ [이더채널 / 링크 어그리게이션]
-```
 
-- **📢 섹션 요약 비유**: ** MSTP는 수백 개의 점조직([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))들을 성향이 비슷한 몇 개의 **"연합 조직(Instance)"**으로 통폐합하여, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 관리해야 할 서류([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)) 더미를 획기적으로 줄여주는 구조조정 전문가입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">백업 포트, 대체 포트 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MSTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이더채널 / 링크 어그리게이션</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> MSTP는 수백 개의 점조직(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>)들을 성향이 비슷한 몇 개의 </strong>"연합 조직(Instance)"**으로 통폐합하여, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 관리해야 할 서류([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)) 더미를 획기적으로 줄여주는 구조조정 전문가입니다.
 
 ---
 
@@ -48,36 +52,37 @@ tags = ["studynote-network"]
 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)는 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))과 CPU 부하의 딜레마 속에서 세 가지 형태로 진화했다.
 
 ### 1. CST (Common Spanning Tree) - IEEE 802.1D
-- **특징**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크 전체를 통틀어 물리적 토폴로지 위에 **단 1개**의 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)만 돌린다.
+- **특징**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크 전체를 통틀어 물리적 토폴로지 위에 <strong>단 1개</strong>의 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)만 돌린다.
 - **장점**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하가 매우 적다. (계산할 트리가 하나뿐이니까)
 - **단점**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10과 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20이 가는 길이 똑같다. 차단(Block)된 예비 링크는 어떤 VLAN의 데이터도 보낼 수 없어 대역폭의 50%가 낭비된다.
 
 ### 2. PVST+ (Per-[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) Spanning Tree Plus) - [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 전용
-- **특징**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1개당 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)를 1개씩 **개별적으로(Per-[VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))** 돌린다.
-- **장점**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10은 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 쓰게 하고(2번 막음), [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20은 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 쓰게 할 수 있다(1번 막음). 막힌 링크 없이 완벽한 **[로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)(부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))**이 가능하다.
+- **특징**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1개당 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)를 1개씩 <strong>개별적으로(Per-<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>)</strong> 돌린다.
+- **장점**: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10은 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 쓰게 하고(2번 막음), [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20은 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 쓰게 할 수 있다(1번 막음). 막힌 링크 없이 완벽한 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>(부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)</strong>이 가능하다.
 - **단점**: 대규모 엔터프라이즈 환경에서 VLAN이 500개라면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 초당 500개의 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 패킷을 처리해야 하므로 저사양 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 CPU 100%를 치고 뻗어버린다. (Scalability 부족)
 
 ### 3. MSTP (Multiple Spanning Tree [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) - IEEE 802.1s
 - **특징**: 여러 개의 VLAN을 묶어서 하나의 **MSTI(Multiple Spanning Tree Instance)** 그룹을 만든다.
-- **[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 예시**:
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 예시</strong>:
   - `Instance 1`: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 20, 30을 할당 (이 그룹은 메인 링크 사용)
   - `Instance 2`: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 40, 50, 60을 할당 (이 그룹은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 링크 사용)
 - **장점**: [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)(PVST의 장점)을 완벽히 달성하면서도, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 계산할 트리는 단 2개(Instance 1, 2)뿐이므로 CPU 부하(CST의 장점)까지 완벽하게 잡아낸 현존 최고의 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 아키텍처다. 밑바탕 알고리즘은 [RSTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/)(802.1w)를 사용하므로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간도 1초로 매우 빠르다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                STP 방식별 CPU 부하 vs 로드밸런싱 비교           │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   1. CST  (1개 트리) : 부하 낮음 😇 / 로드 밸런싱 안됨 😡        │
- │   2. PVST (VLAN수 트리): 부하 폭발 😡 / 로드 밸런싱 완벽 😇        │
- │   3. MSTP (몇 개 트리) : 부하 낮음 😇 / 로드 밸런싱 완벽 😇        │
- │                                                             │
- │  * MSTP는 그룹(Instance)이라는 바구니에 VLAN을 담는 마법의 기술!   │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** 개별 학생([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 1000명의 성적을 일일이 관리(PVST)하다가 쓰러지기 일보 직전인 교사에게, 학생들을 **"문과반(Instance 1)과 이과반(Instance 2)"** 두 반으로만 나누어 그룹별 평균만 관리하게 만들어준 획기적인 교육청 시스템이 바로 MSTP입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 방식별 CPU 부하 vs 로드밸런싱 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CST (1개 트리) : 부하 낮음 😇 / 로드 밸런싱 안됨 😡</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. PVST (VLAN수 트리): 부하 폭발 😡 / 로드 밸런싱 완벽 😇</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. MSTP (몇 개 트리) : 부하 낮음 😇 / 로드 밸런싱 완벽 😇</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MSTP는 그룹(Instance)이라는 바구니에 VLAN을 담는 마법의 기술!</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 개별 학생(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>) 1000명의 성적을 일일이 관리(PVST)하다가 쓰러지기 일보 직전인 교사에게, 학생들을 </strong>"문과반(Instance 1)과 이과반(Instance 2)"** 두 반으로만 나누어 그룹별 평균만 관리하게 만들어준 획기적인 교육청 시스템이 바로 MSTP입니다.
 
 ---
 
@@ -133,15 +138,19 @@ MSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 백업 포트, 대체 포트 추가]
-    │
-    ▼
-[현재 개념: MSTP]
-    │
-    ├──▶ [확장 A: 이더채널 / 링크 어그리게이션]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 백업 포트, 대체 포트 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MSTP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이더채널 / 링크 어그리게이션</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 MSTP는 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) / 링크 어그리게이션와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

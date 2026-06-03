@@ -20,28 +20,28 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: OpenID Connect는 비영리 재단인 OpenID Foundation에서 제정한 자격 증명(Identity) 레이어다. OAuth 2.0 프로토콜을 뼈대로 삼아, 클라이언트(앱)가 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버([IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))에게 "이 토큰을 발급받은 사용자가 구체적으로 누구(이름, 이메일, 프로필 사진)인지"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 해주는 표준화된 규격이다.
-- **필요성**: OAuth 2.0(546번 문서)은 "이 앱이 내 캘린더에 글을 쓰게 해줘"라는 **권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))**을 넘겨주는 Access Token만 발급한다. 이 토큰은 뜻을 알 수 없는 난수 문자열이라, 앱 개발자가 이 토큰을 들고 온 사용자가 홍길동인지 이순신인지, 심지어 언제 로그인했는지 알 방법이 없었다. 그래서 개발자들은 억지로 OAuth로 발급받은 권한 토큰을 가지고 다시 페이스북 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 찔러 유저 정보를 가져와서 로그인 처리([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))를 하는 등 기형적인 해킹(Confused Deputy 문제)을 일삼았다. "그냥 처음부터 토큰 안에 명함(신원)을 파서 같이 주면 안 되나?"라는 절실한 요구가 OIDC의 탄생 배경이다.
+- **필요성**: OAuth 2.0(546번 문서)은 "이 앱이 내 캘린더에 글을 쓰게 해줘"라는 <strong>권한(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>)</strong>을 넘겨주는 Access Token만 발급한다. 이 토큰은 뜻을 알 수 없는 난수 문자열이라, 앱 개발자가 이 토큰을 들고 온 사용자가 홍길동인지 이순신인지, 심지어 언제 로그인했는지 알 방법이 없었다. 그래서 개발자들은 억지로 OAuth로 발급받은 권한 토큰을 가지고 다시 페이스북 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 찔러 유저 정보를 가져와서 로그인 처리([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))를 하는 등 기형적인 해킹(Confused Deputy 문제)을 일삼았다. "그냥 처음부터 토큰 안에 명함(신원)을 파서 같이 주면 안 되나?"라는 절실한 요구가 OIDC의 탄생 배경이다.
 - **등장 배경**: ① [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) OpenID 1.0/2.0의 복잡성과 OAuth와의 파편화 → ② OAuth 2.0 남용에 따른 심각한 보안/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 사고 빈발 → ③ OAuth 2.0 아키텍처 위에 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 포맷의 신분증을 한 장 더 끼워 넣은 깔끔한 통합 표준([OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)) 제정.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│             OAuth 2.0 한계와 OpenID Connect(OIDC)의 해결책 시각화  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [과거: OAuth 2.0 오용 사태 - 반쪽짜리 인증]                       │
-│   앱: "구글아 토큰 줘!" ─▶ 구글: "여기 [Access Token: 8fx#@...]"  │
-│   앱: "근데 이 토큰 주인이 누구야? 이름이 뭐야? 알 수 없네..."          │
-│   (결과: 앱이 유저 신원을 몰라 자사 DB에 로그인을 못 시킴. 억지 연동)      │
-│                                                             │
-│   [현재: OIDC의 완벽한 인증 (소셜 로그인)]                         │
-│   앱: "구글아 OIDC 스코프(openid)로 토큰 줘!"                    │
-│   구글: "여기 [Access Token: 8fx#@... (이건 캘린더용)] 이랑,      │
-│          [ID Token: eyJhbG... (이건 유저 신분증 명찰)] 같이 받아!" │
-│                                                             │
-│   앱: "앗, ID Token을 열어보니 이름: 홍길동, 메일: hong@gmail 이네!  │
-│        로그인 처리 완료!"                                        │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 한계와 OpenID Connect(OIDC)의 해결책 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">과거: OAuth 2.0 오용 사태 - 반쪽짜리 인증</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Access Token: 8fx#@...</div><div class="kb-diagram-note">"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "근데 이 토큰 주인이 누구야? 이름이 뭐야? 알 수 없네..."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과: 앱이 유저 신원을 몰라 자사 DB에 로그인을 못 시킴. 억지 연동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재: OIDC의 완벽한 인증 (소셜 로그인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "구글아 OIDC 스코프(openid)로 토큰 줘!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">구글: "여기</div><div class="kb-diagram-node">Access Token: 8fx#@... (이건 캘린더용)</div><div class="kb-diagram-note">이랑,</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ID Token: eyJhbG... (이건 유저 신분증 명찰)</div><div class="kb-diagram-note">같이 받아!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "앗, ID Token을 열어보니 이름: 홍길동, 메일: hong@gmail 이네!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그인 처리 완료!"</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 이 도식은 IT 업계에서 가장 흔하게 혼동하는 OAuth와 OIDC의 차이를 1초 만에 박살 내준다. OAuth는 목적지 서버의 문을 따기 위한 '열쇠(Access Token)'만 준다. 열쇠에는 주인의 이름이 안 적혀 있다. OIDC는 앱(클라이언트)을 호출할 때 스코프([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))에 `openid`라는 단어를 추가로 넣기만 하면, [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버(구글)가 열쇠와 함께 '얼굴 사진과 이름이 박힌 사원증([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/))'을 세트로 던져준다. 앱은 그 사원증을 보고 바로 자사 DB의 회원과 매칭시켜 완벽한 '구글로 로그인' 기능을 구현할 수 있게 된다.
 
@@ -55,48 +55,36 @@ tags = ["studynote-network"]
 
 | 요소명 | 의미 및 역할 | 작동 원리 | 비유 |
 |:---|:---|:---|:---|
-| **[OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/) (OP)** | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 제공자 | 사용자를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하고 클라이언트에게 ID Token을 발급하는 거대 플랫폼 서버 (구글, 카카오) | 국가 신분증 발급처 |
-| **Relying Party ([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))** | 클라이언트 (앱) | OP를 믿고(Rely) 사용자의 신원 정보를 넘겨받아 로그인 처리를 하는 타사 앱 | 신분증 검사하는 술집 |
-| **[ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/)** | 디지털 신분증 | 사용자의 신원, 토큰 발급 시간, 만료 시간 등을 서명하여 담은 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 포맷의 덩어리 | 주민등록증 본체 |
+| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a> (OP)</strong> | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 제공자 | 사용자를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하고 클라이언트에게 ID Token을 발급하는 거대 플랫폼 서버 (구글, 카카오) | 국가 신분증 발급처 |
+| <strong>Relying Party (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/">RP</a>)</strong> | 클라이언트 (앱) | OP를 믿고(Rely) 사용자의 신원 정보를 넘겨받아 로그인 처리를 하는 타사 앱 | 신분증 검사하는 술집 |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/">ID Token</a></strong> | 디지털 신분증 | 사용자의 신원, 토큰 발급 시간, 만료 시간 등을 서명하여 담은 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)) 포맷의 덩어리 | 주민등록증 본체 |
 | **UserInfo Endpoint** | 추가 정보 조회소 | ID Token에 다 담지 못한 주소, 전화번호 등의 추가 프로필을 Access Token을 내밀고 더 가져올 수 있는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 주소 | 주민센터 무인 발급기 |
 
 ### [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) ([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/)) 통신 흐름도 ([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Flow 결합)
 
 OIDC는 OAuth 2.0의 흐름(Dance)에 거의 100% 무임승차한다. 개발자가 서버로 보내는 파라미터 중에 `scope=openid` 딱 하나만 더 추가하면, 마지막 응답 단계에서 기적이 일어난다.
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               OIDC 소셜 로그인 인증 흐름 (OAuth 2.0 기반)         │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [사용자(Browser)]             [RP (우리가 만든 앱)]     [OP (카카오/구글)]│
-│           │                             │                      │  │
-│           │ ① "카카오로 로그인" 클릭        │                      │  │
-│           ├────────────────────────────▶│                      │  │
-│           │                             │ ② Redirect (scope=openid) │
-│           │ ③ 카카오 로그인 화면으로 이동   │◀──────────────────────┤  │
-│           │◀────────────────────────────┤                      │  │
-│           │                             │                      │  │
-│           │ ④ 카카오 계정 로그인 & 정보 제공 동의                  │  │
-│           ├────────────────────────────────────────────────────▶│  │
-│           │                                                    │  │
-│           │ ⑤ 임시 "Auth Code" 발급 후 RP 앱으로 Redirect          │  │
-│           │◀────────────────────────────────────────────────────┤  │
-│           │                             │                      │  │
-│           │ ⑥ Code를 우리 앱(백엔드)으로 전달│                      │  │
-│           ├────────────────────────────▶│                      │  │
-│           │                             │ ⑦ Code + Secret 제시 │  │
-│           │                             ├──────────────────────▶│  │
-│           │                             │                      │  │
-│      ==== 여기서부터 OIDC의 마법이 발동 (Access Token과 ID Token 동시 발급) ==== │
-│           │                             │                      │  │
-│           │                             │ ⑧ [Access Token] +   │  │
-│           │                             │    [ID Token (JWT)] 반환│  │
-│           │                             │◀──────────────────────┤  │
-│           │                             │                      │  │
-│           │ ⑨ ID Token 뜯어보고(Decoded) "홍길동" 자동 회원가입 및 로그인 처리! │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OIDC 소셜 로그인 인증 흐름 (OAuth 2.0 기반)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자(Browser)</div><div class="kb-diagram-node">RP (우리가 만든 앱)</div><div class="kb-diagram-node">OP (카카오/구글)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① "카카오로 로그인" 클릭</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Redirect (scope=openid)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 카카오 로그인 화면으로 이동</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 카카오 계정 로그인 &amp; 정보 제공 동의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 임시 "Auth Code" 발급 후 RP 앱으로 Redirect</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ Code를 우리 앱(백엔드)으로 전달</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑦ Code + Secret 제시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">==== 여기서부터 OIDC의 마법이 발동 (Access Token과 ID Token 동시 발급) ====</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ ⑧</div><div class="kb-diagram-node">Access Token</div><div class="kb-diagram-note">+ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">ID Token (JWT)</div><div class="kb-diagram-note">반환│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑨ ID Token 뜯어보고(Decoded) "홍길동" 자동 회원가입 및 로그인 처리!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 앞서 546번 문서에서 본 OAuth 2.0 흐름과 ⑦번까지 완벽히 똑같다. 하지만 ⑧번 응답을 받을 때, 백엔드 앱([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))은 목적지 서버를 열 수 있는 열쇠인 `Access Token`뿐만 아니라, 클라이언트 본인이 뜯어서 읽어볼 수 있는 명찰인 `ID Token`을 덤으로 받는다. 이 ID Token은 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형식으로 만들어져 있어([JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)), [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 서버는 추가로 카카오 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버를 찌를 필요 없이 토큰만 뜯어서 이메일과 닉네임을 알아내고 즉시 로그인 완료 화면을 띄울 수 있다. 엄청난 속도 향상과 로직의 단순화를 가져온다.
 
@@ -108,7 +96,7 @@ OIDC는 OAuth 2.0의 흐름(Dance)에 거의 100% 무임승차한다. 개발자�
 
 ### ID Token의 내부 구조 ([Claims](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)) 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 메커니즘
 
-OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))라는 표준 포맷(549번 문서에서 상술)을 따른다. 그 안에는 사용자의 정보를 나타내는 **[클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)([Claims](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/))**이라는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 조각들이 들어 있다.
+OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) ([JSON Web Token](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/))라는 표준 포맷(549번 문서에서 상술)을 따른다. 그 안에는 사용자의 정보를 나타내는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/">클레임</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/">Claims</a>)</strong>이라는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 조각들이 들어 있다.
 
 | 주요 [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) ([Claims](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)) | 의미 | 설명 (예시) |
 |:---|:---|:---|
@@ -118,24 +106,23 @@ OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10
 | **exp (Expiration)** | 만료 시간 | 이 신분증의 유효기간 (보통 발급 후 10분 등 극히 짧게 세팅) |
 | **iat (Issued At)** | 발급 시간 | 이 신분증이 언제 만들어졌는가? (타임스탬프) |
 
-```text
-┌───────────────────────────────────────────────────────────────┐
-│               ID Token (JWT) 탈취에 대비한 강력한 서명 검증 원리    │
-├───────────────────────────────────────────────────────────────┤
-│                                                               │
-│   [해커의 장난 시도]                                             │
-│   해커가 ID Token 중간의 "sub":"홍길동" 을 "sub":"관리자" 로 조작함.     │
-│                                                               │
-│   [우리 앱 (RP)의 방어 로직]                                       │
-│   RP: "어? 구글이 준 토큰이네. 근데 구글 진짜 도장(서명)이 찍혀있나?"        │
-│                                                               │
-│   1. 구글의 공개키(Public Key) 서버에 접속해 구글의 자물쇠를 가져옴.         │
-│   2. 해커가 바꾼 조작된 문서(Payload)와 구글 자물쇠를 수학적으로 맞춰봄 (RSA).│
-│   3. RP: "이봐! 문서 내용이 바뀌어서 구글 도장(Signature)이랑 수학 공식이 안 맞아!"│
-│                                                               │
-│   => 결과: 해커의 위조 로그인 시도 100% 차단 (인증 거부 Drop)            │
-└───────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID Token (JWT) 탈취에 대비한 강력한 서명 검증 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 장난 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 ID Token 중간의 "sub":"홍길동" 을 "sub":"관리자" 로 조작함.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">우리 앱 (RP)의 방어 로직</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP: "어? 구글이 준 토큰이네. 근데 구글 진짜 도장(서명)이 찍혀있나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 구글의 공개키(Public Key) 서버에 접속해 구글의 자물쇠를 가져옴.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 해커가 바꾼 조작된 문서(Payload)와 구글 자물쇠를 수학적으로 맞춰봄 (RSA).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. RP: "이봐! 문서 내용이 바뀌어서 구글 도장(Signature)이랑 수학 공식이 안 맞아!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 해커의 위조 로그인 시도 100% 차단 (인증 거부 Drop)</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** OIDC가 단순한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 덩어리가 아니라 위대한 보안 규격인 이유는 끝부분에 달린 **디지털 서명(Signature)** 덕분이다. 카카오나 구글(OP)은 ID 토큰을 만들 때 자신들의 절대 비밀인 '개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'로 문서 전체를 암호학적으로 도장 찍어 보낸다. 우리 앱([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))은 토큰 안의 이메일이나 이름(Payload)을 믿기 전에, 반드시 구글의 '공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'를 가져와서 그 도장이 진짜 구글이 찍은 게 맞는지 역산해본다. 단 한 글자라도 위조되었다면 서명 공식이 깨져서 즉각 튕겨낸다. 이 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 빼먹는 것이 초보 개발자들이 가장 많이 저지르는 최악의 보안 결함이다.
 
@@ -147,15 +134,15 @@ OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10
 
 1. **상황**: 고객이 핀테크 앱(토스)에 가입하면서, 국민은행에 있는 자신의 계좌 정보를 끌어오고 싶다. 핀테크 앱은 고객이 진짜 그 고객이 맞는지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))와 계좌 열람 권한([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 동시에 얻어내야 한다.
 2. **과거의 한계**: 구형 OAuth만 쓰면 권한은 받지만, 이 고객이 토스 앱의 회원가입자 정보와 완벽히 일치하는지 국민은행 측에서 강력하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 주지 못해 대포통장 연동 등의 사기 위험이 컸다.
-3. **의사결정 및 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 조치 (FAPI 표준 결합)**:
-   - 금융권 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 규격(FAPI)은 **OAuth 2.0 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)(계좌 열람)와 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(고객 본인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))**을 하나의 세트로 묶어 강제한다.
+3. <strong>의사결정 및 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> 조치 (FAPI 표준 결합)</strong>:
+   - 금융권 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 규격(FAPI)은 <strong>OAuth 2.0 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>(계좌 열람)와 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/">OIDC</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(고객 본인 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>)</strong>을 하나의 세트로 묶어 강제한다.
    - 고객이 토스에서 "국민은행 연동"을 누르면 국민은행(OP) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 창이 뜬다.
    - 국민은행은 로그인한 고객이 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후, 토스 앱([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))에게 `Access Token(계좌 열람 열쇠)`과 `ID Token(이 사람은 주민번호 뒷자리 XX인 홍길동이 맞음)`을 세트로 넘겨준다.
    - 토스 앱 백엔드는 ID 토큰의 서명을 완벽히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 "진짜 국민은행이 보증한 홍길동이 맞네"라고 신원을 100% 확정한 뒤, Access Token으로 계좌를 조회해 대시보드에 뿌려준다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **aud(Audience) 및 [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 누락 금지**: ID 토큰을 받을 때 개발자가 라이브러리를 대충 쓰면 서명만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 끝내는 경우가 많다. 해커가 다른 앱(예: 해커의 게임 앱)에서 탈취한 구글 ID 토큰을 우리 앱의 로그인 창에 슬쩍 밀어 넣는 공격(Token Substitution)이 발생할 수 있다. 토큰을 뜯었을 때 `aud(관객)` 필드에 적힌 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ID가 **반드시 우리 회사가 구글에서 발급받은 ID와 일치**하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하며, [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어를 위해 `nonce` (일회용 난수) 값의 일치 여부를 무조건 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 발급받은 OIDC의 **[ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/) 자체를 우리 앱 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 유지용 토큰으로 재사용**하는 행위. 구글이 발급해 준 ID Token은 "구글이 이 사람을 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)했음"을 증명하는 1회성 명함일 뿐이다. 이걸 쿠키에 구워 넣고 계속 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 쓴다면, 구글 쪽에서 계정이 정지되어도 우리 앱에서는 토큰 만료 전까지 활보하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 붕괴가 일어난다. 소셜 로그인 직후, 우리 앱만의 자체 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이나 자체 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)(Access Token)를 새로 발급하여 사용하는 것이 글로벌 아키텍처 원칙이다.
+- <strong>aud(Audience) 및 <a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">nonce</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 누락 금지</strong>: ID 토큰을 받을 때 개발자가 라이브러리를 대충 쓰면 서명만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 끝내는 경우가 많다. 해커가 다른 앱(예: 해커의 게임 앱)에서 탈취한 구글 ID 토큰을 우리 앱의 로그인 창에 슬쩍 밀어 넣는 공격(Token Substitution)이 발생할 수 있다. 토큰을 뜯었을 때 `aud(관객)` 필드에 적힌 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ID가 <strong>반드시 우리 회사가 구글에서 발급받은 ID와 일치</strong>하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하며, [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 방어를 위해 `nonce` (일회용 난수) 값의 일치 여부를 무조건 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 발급받은 OIDC의 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/">ID Token</a> 자체를 우리 앱 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>) 유지용 토큰으로 재사용</strong>하는 행위. 구글이 발급해 준 ID Token은 "구글이 이 사람을 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)했음"을 증명하는 1회성 명함일 뿐이다. 이걸 쿠키에 구워 넣고 계속 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 쓴다면, 구글 쪽에서 계정이 정지되어도 우리 앱에서는 토큰 만료 전까지 활보하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 붕괴가 일어난다. 소셜 로그인 직후, 우리 앱만의 자체 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이나 자체 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/)(Access Token)를 새로 발급하여 사용하는 것이 글로벌 아키텍처 원칙이다.
 
 - **📢 섹션 요약 비유**: 구글이 끊어준 출입증([ID Token](/knowledge-base/studynote/09_security/05_web_app_security/515_id_token_jwt/))은 정문에 들어올 때 "나 구글 친구야"라고 증명하는 용도이지, 회사 내부 식당이나 회의실 문을 열고 다닐 때 쓰는 만능열쇠가 아닙니다. 일단 정문에 들어왔으면 우리 회사 전용 출입증(자체 Token)으로 바꿔 매고 다녀야 안전합니다.
 
@@ -166,16 +153,16 @@ OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10
 | 구분 | 자체 회원가입 구축 시 (과거) | [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 소셜 로그인 도입 시 | 개선 효과 |
 |:---|:---|:---|:---|
 | **정량 (전환율)** | 아이디/비밀번호/이메일 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 등 가입 절차 5단계 (이탈률 높음) | "카카오로 1초 만에 시작하기" 클릭 1번 | 신규 고객 회원가입 이탈률 **50% 이상 감소 (폭발적 성장)** |
-| **정량 (보안 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))** | 자체 DB에 사용자 비밀번호 저장 (해킹 시 회사 파산 위험) | 비밀번호 0건 저장 (구글/애플에 보안 책임 전가) | 비밀번호 유출에 따른 기업의 법적 책임/손해배상 **100% 면제** |
-| **정성 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질)** | 가짜 이메일, 가짜 전화번호 입력 난무 | 통신사 및 거대 플랫폼이 이미 실명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 정보 획득 | 확보된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Profile)의 질적 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 극대화 |
+| <strong>정량 (보안 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>)</strong> | 자체 DB에 사용자 비밀번호 저장 (해킹 시 회사 파산 위험) | 비밀번호 0건 저장 (구글/애플에 보안 책임 전가) | 비밀번호 유출에 따른 기업의 법적 책임/손해배상 **100% 면제** |
+| <strong>정성 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질)</strong> | 가짜 이메일, 가짜 전화번호 입력 난무 | 통신사 및 거대 플랫폼이 이미 실명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 정보 획득 | 확보된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Profile)의 질적 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 극대화 |
 
 ### 미래 전망 및 진화 방향
 - **Apple의 "Sign in with Apple" 강제 및 표준화**: 애플은 앱스토어에 소셜 로그인(구글, 페이스북)을 하나라도 넣으려면 무조건 애플 로그인도 넣도록 정책을 강제했다. 이 애플 로그인의 뒷단 뼈대가 바로 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 규격이다. OIDC는 거대 빅테크들의 독자 규격 전쟁을 멈추고 전 세계를 하나의 통일된 신원 연합(Identity [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))으로 평정했다.
-- **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 신원 증명 ([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), Decentralized Identity)과의 경쟁 및 융합**: OIDC의 유일한 단점은 "구글이나 카카오(OP)가 죽으면 전 세계 수십만 개의 앱 로그인이 동시에 죽는다"는 거대 플랫폼 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반으로 내 신원 정보를 내 폰에 직접 저장하는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 기술이 차세대 웹3.0(Web3) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)으로 부상하고 있으나, 당분간은 사용자 편의성에서 압도적인 OIDC가 B2C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시장을 철권통치할 것이다.
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 신원 증명 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/">DID</a>, Decentralized Identity)과의 경쟁 및 융합</strong>: OIDC의 유일한 단점은 "구글이나 카카오(OP)가 죽으면 전 세계 수십만 개의 앱 로그인이 동시에 죽는다"는 거대 플랫폼 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반으로 내 신원 정보를 내 폰에 직접 저장하는 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 기술이 차세대 웹3.0(Web3) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)으로 부상하고 있으나, 당분간은 사용자 편의성에서 압도적인 OIDC가 B2C [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시장을 철권통치할 것이다.
 
 ### 참고 표준
 - **OpenID Connect Core 1.0**: [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/) 프로토콜의 핵심 규격 (OAuth 2.0 위에 ID Token과 UserInfo API를 어떻게 얹을지 정의).
-- **[JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) (RFC 7519) / JWS (RFC 7515)**: ID Token의 형태([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))와 디지털 서명(Signature)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 암호학적 기반 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준.
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a> (RFC 7519) / JWS (RFC 7515)</strong>: ID Token의 형태([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))와 디지털 서명(Signature)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 암호학적 기반 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준.
 
 결국 OIDC는 "권한"만 따지던 바보 같은 로봇(OAuth)에게 "그래서 네가 누군데?"라는 인간의 본질적 질문(신원)을 던질 수 있는 눈과 귀를 달아준 위대한 발명품이다. 번거로운 가입 절차 없이 클릭 한 번으로 수백 개의 앱을 옮겨 다니는 현대 스마트폰의 쾌적한 디지털 유목민 생활은, 오롯이 OIDC라는 보이지 않는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 신분증 교환 인프라가 뒷받침하고 있기에 가능했다.
 
@@ -194,15 +181,19 @@ OIDC가 발급하는 `ID Token`은 [JWT](/knowledge-base/studynote/03_network/10
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SAML 2.0]
-    │
-    ▼
-[현재 개념: OpenID Connect]
-    │
-    ├──▶ [확장 A: JWT]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SAML 2.0</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OpenID Connect</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: JWT</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 OpenID Connect는 SAML 2.0에서 출발해 현재 메커니즘을 정교화하고, 이후 JWT와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,39 +18,38 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개요
 
-```
-기업 애자일 (Enterprise Agile):
 
-애자일의 진화:
-  팀 레벨 애자일:
-    Scrum, Kanban, XP
-    1~9인 팀 내 반복 개발
-    
-  프로그램 레벨:
-    여러 팀 조율 (ART — Agile Release Train)
-    
-  포트폴리오 레벨:
-    전략 투자 결정
-    에픽(Epic) 우선순위화
 
-필요 배경:
-  대기업: 50~500개 개발팀
-  문제: 팀 간 의존성, 릴리즈 불일치, 전략 단절
-  
-  전통적 해결: PMO + 프로젝트 계획
-  애자일 해결: 가치 흐름 정렬 + 지속 딜리버리
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기업 애자일 (Enterprise Agile):</div>
+<div class="kb-diagram-note">애자일의 진화:</div>
+<div class="kb-diagram-note">팀 레벨 애자일:</div>
+<div class="kb-diagram-note">Scrum, Kanban, XP</div>
+<div class="kb-diagram-note">1~9인 팀 내 반복 개발</div>
+<div class="kb-diagram-note">프로그램 레벨:</div>
+<div class="kb-diagram-note">여러 팀 조율 (ART — Agile Release Train)</div>
+<div class="kb-diagram-note">포트폴리오 레벨:</div>
+<div class="kb-diagram-note">전략 투자 결정</div>
+<div class="kb-diagram-note">에픽(Epic) 우선순위화</div>
+<div class="kb-diagram-note">필요 배경:</div>
+<div class="kb-diagram-note">대기업: 50~500개 개발팀</div>
+<div class="kb-diagram-note">문제: 팀 간 의존성, 릴리즈 불일치, 전략 단절</div>
+<div class="kb-diagram-note">전통적 해결: PMO + 프로젝트 계획</div>
+<div class="kb-diagram-note">애자일 해결: 가치 흐름 정렬 + 지속 딜리버리</div>
+<div class="kb-diagram-note">가치 흐름 (Value Stream):</div>
+<div class="kb-diagram-note">고객에게 가치를 전달하는 단계별 흐름</div>
+<div class="kb-diagram-note">전통: 기획→설계→개발→테스트→배포 (순차)</div>
+<div class="kb-diagram-note">애자일: 지속적 소규모 딜리버리 + 피드백 루프</div>
+<div class="kb-diagram-note">기업 애자일 지표:</div>
+<div class="kb-diagram-note">Lead Time: 아이디어 → 프로덕션 도달 시간</div>
+<div class="kb-diagram-note">Flow Velocity: 시간당 가치 단위 처리량</div>
+<div class="kb-diagram-note">Time-to-Market: 아이디어 → 고객 가치 실현 시간</div>
+<div class="kb-diagram-note">Business Value: 스프린트별 비즈니스 가치 측정</div>
+</div>
+</div>
 
-가치 흐름 (Value Stream):
-  고객에게 가치를 전달하는 단계별 흐름
-  전통: 기획→설계→개발→테스트→배포 (순차)
-  애자일: 지속적 소규모 딜리버리 + 피드백 루프
 
-기업 애자일 지표:
-  Lead Time: 아이디어 → 프로덕션 도달 시간
-  Flow Velocity: 시간당 가치 단위 처리량
-  Time-to-Market: 아이디어 → 고객 가치 실현 시간
-  Business Value: 스프린트별 비즈니스 가치 측정
-```
 
 > 📢 **섹션 요약 비유**: 기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 공장 전체 컨베이어 개선 — 한 작업자(팀)가 빨라지는 게 아니라, 공장 전체(전 팀)의 흐름을 끊김 없이 만드는 경영 방식.
 
@@ -98,51 +97,47 @@ SAFe의 장단점:
 
 ## Ⅲ. Spotify 모델 & [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)
 
-```
-Spotify 모델:
 
-구조:
-  Squad (분대): 8명 이하 자율팀, 제품 영역 소유
-  Tribe (부족): 관련 Squad 집합 (40~150명)
-  Chapter (챕터): 기능별 전문가 커뮤니티
-  Guild (길드): 조직 전체의 관심사 그룹
 
-특징:
-  Squad = 자율적 미니 스타트업
-  Matrix 조직: Chapter(전문성) + Squad(제품)
-  
-실제:
-  Spotify는 이 모델을 그대로 따르지 않음
-  → 맥락 없이 복사하는 "Spotify 극장" 위험
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Spotify 모델:</div>
+<div class="kb-diagram-note">구조:</div>
+<div class="kb-diagram-note">Squad (분대): 8명 이하 자율팀, 제품 영역 소유</div>
+<div class="kb-diagram-note">Tribe (부족): 관련 Squad 집합 (40~150명)</div>
+<div class="kb-diagram-note">Chapter (챕터): 기능별 전문가 커뮤니티</div>
+<div class="kb-diagram-note">Guild (길드): 조직 전체의 관심사 그룹</div>
+<div class="kb-diagram-note">특징:</div>
+<div class="kb-diagram-note">Squad = 자율적 미니 스타트업</div>
+<div class="kb-diagram-note">Matrix 조직: Chapter(전문성) + Squad(제품)</div>
+<div class="kb-diagram-note">실제:</div>
+<div class="kb-diagram-note">Spotify는 이 모델을 그대로 따르지 않음</div>
+<div class="kb-diagram-note">→ 맥락 없이 복사하는 "Spotify 극장" 위험</div>
+<div class="kb-diagram-note">OKR (Objectives and Key Results):</div>
+<div class="kb-diagram-note">정의:</div>
+<div class="kb-diagram-note">O (Objective): 야심찬 질적 목표</div>
+<div class="kb-diagram-note">KR (Key Result): 측정 가능한 결과 지표</div>
+<div class="kb-diagram-note">O: "전 세계 최고의 검색 엔진이 된다"</div>
+<div class="kb-diagram-note">KR1: 검색 결과 CTR 15% 향상</div>
+<div class="kb-diagram-note">KR2: P99 레이턴시 200ms 이하</div>
+<div class="kb-diagram-note">KR3: 월간 활성 사용자 20% 증가</div>
+<div class="kb-diagram-note">애자일 + OKR 통합:</div>
+<div class="kb-diagram-note">포트폴리오 OKR → 팀 스프린트 목표 정렬</div>
+<div class="kb-diagram-note">예:</div>
+<div class="kb-diagram-note">회사 OKR: 결제 전환율 25% 향상</div>
+<div class="kb-diagram-note">→ 팀 OKR: 결제 UX 개선 (페이지 이탈률 30% 감소)</div>
+<div class="kb-diagram-note">→ 스프린트: 결제 단계 3→1단계 축소</div>
+<div class="kb-diagram-note">정렬(Alignment):</div>
+<div class="kb-diagram-note">전략 → 팀 목표 → 스프린트 태스크</div>
+<div class="kb-diagram-note">끊김 없는 일직선</div>
+<div class="kb-diagram-note">분기별 OKR 주기:</div>
+<div class="kb-diagram-note">기업: 연간 OKR</div>
+<div class="kb-diagram-note">부서: 분기 OKR (기업 OKR 기여)</div>
+<div class="kb-diagram-note">팀: 스프린트 OKR (부서 OKR 기여)</div>
+</div>
+</div>
 
-OKR (Objectives and Key Results):
 
-정의:
-  O (Objective): 야심찬 질적 목표
-  KR (Key Result): 측정 가능한 결과 지표
-  
-  O: "전 세계 최고의 검색 엔진이 된다"
-  KR1: 검색 결과 CTR 15% 향상
-  KR2: P99 레이턴시 200ms 이하
-  KR3: 월간 활성 사용자 20% 증가
-
-애자일 + OKR 통합:
-  포트폴리오 OKR → 팀 스프린트 목표 정렬
-  
-  예:
-  회사 OKR: 결제 전환율 25% 향상
-  → 팀 OKR: 결제 UX 개선 (페이지 이탈률 30% 감소)
-  → 스프린트: 결제 단계 3→1단계 축소
-
-  정렬(Alignment):
-  전략 → 팀 목표 → 스프린트 태스크
-  끊김 없는 일직선
-
-분기별 OKR 주기:
-  기업: 연간 OKR
-  부서: 분기 OKR (기업 OKR 기여)
-  팀: 스프린트 OKR (부서 OKR 기여)
-```
 
 > 📢 **섹션 요약 비유**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) + [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 나침반 + 배 — OKR이 방향(목표)을 가리키고, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 그 방향으로 빠르게 노를 저어요. 방향 없이 빠른 것도, 느린 방향도 낭비.
 
@@ -150,45 +145,42 @@ OKR (Objectives and Key Results):
 
 ## Ⅳ. 기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 실패 패턴
 
-```
-기업 애자일 전환 실패 패턴:
 
-1. Agile Theater (애자일 극장):
-   형식만 있고 실질이 없음
-   - 스탠드업 미팅 하지만 상태 보고로 변질
-   - 스프린트 있지만 모든 요구사항 처음부터 확정
-   - "아직 2주 남았으니까 가능합니다" = 폭포수 + 스프린트 이름
-   
-2. 팀만 애자일, 조직은 폭포수:
-   개발팀: 2주 스프린트
-   결재 구조: 3~6개월 예산 승인
-   → 팀이 빨라도 조직 게이트에서 지연
 
-3. 기술 부채 무시:
-   빠른 딜리버리 압박 → 기술 부채 누적
-   → 나중에 속도 급감 (Scrum: "Done의 정의" 필요)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기업 애자일 전환 실패 패턴:</div>
+<div class="kb-diagram-note">1. Agile Theater (애자일 극장):</div>
+<div class="kb-diagram-note">형식만 있고 실질이 없음</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스탠드업 미팅 하지만 상태 보고로 변질</div>
+<div class="kb-diagram-tree-item" style="--depth:1">스프린트 있지만 모든 요구사항 처음부터 확정</div>
+<div class="kb-diagram-tree-item" style="--depth:1">"아직 2주 남았으니까 가능합니다" = 폭포수 + 스프린트 이름</div>
+<div class="kb-diagram-note">2. 팀만 애자일, 조직은 폭포수:</div>
+<div class="kb-diagram-note">개발팀: 2주 스프린트</div>
+<div class="kb-diagram-note">결재 구조: 3~6개월 예산 승인</div>
+<div class="kb-diagram-note">→ 팀이 빨라도 조직 게이트에서 지연</div>
+<div class="kb-diagram-note">3. 기술 부채 무시:</div>
+<div class="kb-diagram-note">빠른 딜리버리 압박 → 기술 부채 누적</div>
+<div class="kb-diagram-note">→ 나중에 속도 급감 (Scrum: "Done의 정의" 필요)</div>
+<div class="kb-diagram-note">4. 변화 관리 실패:</div>
+<div class="kb-diagram-note">경영진 지원 없음</div>
+<div class="kb-diagram-note">매니저 역할 변화 없음 (마이크로매니지먼트 유지)</div>
+<div class="kb-diagram-note">성공 패턴:</div>
+<div class="kb-diagram-note">1. 가치 흐름 매핑 (Value Stream Mapping):</div>
+<div class="kb-diagram-note">고객 가치 전달 경로의 낭비 식별</div>
+<div class="kb-diagram-note">→ 핵심 병목에 집중</div>
+<div class="kb-diagram-note">2. 심리적 안전감:</div>
+<div class="kb-diagram-note">실패 = 학습 기회 문화</div>
+<div class="kb-diagram-note">블레임 없는 포스트모텀</div>
+<div class="kb-diagram-note">3. 지속적 통합/배포 (CI/CD):</div>
+<div class="kb-diagram-note">기술적 기반 없이 애자일 프로세스만 → 한계</div>
+<div class="kb-diagram-note">→ DevOps 파이프라인이 애자일의 기술적 전제</div>
+<div class="kb-diagram-note">4. Product Thinking:</div>
+<div class="kb-diagram-note">프로젝트(기한 있음) → 제품(지속적 진화)으로 전환</div>
+</div>
+</div>
 
-4. 변화 관리 실패:
-   경영진 지원 없음
-   매니저 역할 변화 없음 (마이크로매니지먼트 유지)
-   
-성공 패턴:
 
-1. 가치 흐름 매핑 (Value Stream Mapping):
-   고객 가치 전달 경로의 낭비 식별
-   → 핵심 병목에 집중
-
-2. 심리적 안전감:
-   실패 = 학습 기회 문화
-   블레임 없는 포스트모텀
-
-3. 지속적 통합/배포 (CI/CD):
-   기술적 기반 없이 애자일 프로세스만 → 한계
-   → DevOps 파이프라인이 애자일의 기술적 전제
-
-4. Product Thinking:
-   프로젝트(기한 있음) → 제품(지속적 진화)으로 전환
-```
 
 > 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 전환 실패는 운동복만 입은 것 — 운동복([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 의식) 입었다고 건강(민첩성)해지는 게 아니에요. 실제 운동(가치 흐름 개선)이 없으면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 극장.
 
@@ -196,48 +188,46 @@ OKR (Objectives and Key Results):
 
 ## Ⅴ. 실무 시나리오 — 은행 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)
 
-```
-대형 은행 디지털 전환 기업 애자일:
 
-배경:
-  전통 은행: 5,000명 IT 조직
-  문제: 시간시장 12~18개월, 핀테크 경쟁
 
-Phase 1 — 가치 흐름 파악 (3개월):
-  현재 상태: 고객 → 대출 승인 → 14일 소요
-  이상 상태: 고객 → 대출 승인 → 1일 이내
-  
-  낭비 식별:
-  - 서류 수작업 검토: 5일
-  - 결재 라인 대기: 4일
-  - 시스템 간 데이터 재입력: 2일
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">대형 은행 디지털 전환 기업 애자일:</div>
+<div class="kb-diagram-note">배경:</div>
+<div class="kb-diagram-note">전통 은행: 5,000명 IT 조직</div>
+<div class="kb-diagram-note">문제: 시간시장 12~18개월, 핀테크 경쟁</div>
+<div class="kb-diagram-note">Phase 1 — 가치 흐름 파악 (3개월):</div>
+<div class="kb-diagram-note">현재 상태: 고객 → 대출 승인 → 14일 소요</div>
+<div class="kb-diagram-note">이상 상태: 고객 → 대출 승인 → 1일 이내</div>
+<div class="kb-diagram-note">낭비 식별:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">서류 수작업 검토: 5일</div>
+<div class="kb-diagram-tree-item" style="--depth:1">결재 라인 대기: 4일</div>
+<div class="kb-diagram-tree-item" style="--depth:1">시스템 간 데이터 재입력: 2일</div>
+<div class="kb-diagram-note">Phase 2 — 구조 재편 (6개월):</div>
+<div class="kb-diagram-note">기존: 기능 조직 (개발팀, QA팀, 배포팀)</div>
+<div class="kb-diagram-note">새 구조: 가치 흐름별 팀</div>
+<div class="kb-diagram-note">"대출 팀": FE + BE + DBA + QA + 비즈니스 분석가</div>
+<div class="kb-diagram-note">"카드 팀", "투자 팀" 동일 구성</div>
+<div class="kb-diagram-note">1 Squad = 8명, 2주 스프린트</div>
+<div class="kb-diagram-note">Phase 3 — OKR + 애자일 정렬:</div>
+<div class="kb-diagram-note">은행 OKR: 대출 심사 시간 14일 → 1일 (Q3)</div>
+<div class="kb-diagram-note">대출팀 OKR:</div>
+<div class="kb-diagram-note">KR1: 자동 심사율 60% → 85%</div>
+<div class="kb-diagram-note">KR2: 서류 디지털화 100%</div>
+<div class="kb-diagram-note">스프린트 1: OCR 문서 인식 API 통합</div>
+<div class="kb-diagram-note">스프린트 2: 신용 자동 평가 룰 엔진 구현</div>
+<div class="kb-diagram-note">결과 (6개월 후):</div>
+<div class="kb-diagram-note">대출 심사 시간: 14일 → 2.5일 (80% 감소)</div>
+<div class="kb-diagram-note">시간시장: 18개월 → 3개월</div>
+<div class="kb-diagram-note">고객 만족도: NPS +25점</div>
+<div class="kb-diagram-note">남은 과제:</div>
+<div class="kb-diagram-note">규제 대응 (금융당국 승인 프로세스)</div>
+<div class="kb-diagram-note">레거시 시스템 통합 (COBOL 코어 뱅킹)</div>
+<div class="kb-diagram-note">→ 이 부분은 애자일로도 빠르게 못 함 (현실 인식 필요)</div>
+</div>
+</div>
 
-Phase 2 — 구조 재편 (6개월):
-  기존: 기능 조직 (개발팀, QA팀, 배포팀)
-  새 구조: 가치 흐름별 팀
-    "대출 팀": FE + BE + DBA + QA + 비즈니스 분석가
-    "카드 팀", "투자 팀" 동일 구성
-  
-  1 Squad = 8명, 2주 스프린트
 
-Phase 3 — OKR + 애자일 정렬:
-  은행 OKR: 대출 심사 시간 14일 → 1일 (Q3)
-  대출팀 OKR:
-    KR1: 자동 심사율 60% → 85%
-    KR2: 서류 디지털화 100%
-  스프린트 1: OCR 문서 인식 API 통합
-  스프린트 2: 신용 자동 평가 룰 엔진 구현
-
-결과 (6개월 후):
-  대출 심사 시간: 14일 → 2.5일 (80% 감소)
-  시간시장: 18개월 → 3개월
-  고객 만족도: NPS +25점
-  
-남은 과제:
-  규제 대응 (금융당국 승인 프로세스)
-  레거시 시스템 통합 (COBOL 코어 뱅킹)
-  → 이 부분은 애자일로도 빠르게 못 함 (현실 인식 필요)
-```
 
 > 📢 **섹션 요약 비유**: 은행 기업 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 14차선 도로 만들기 — 기존 도로(14일 대출)의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(결재)과 좁은 구간(수작업)을 없애고, 고속도로(자동화 + 자율팀)로 재설계.
 

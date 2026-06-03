@@ -33,23 +33,23 @@ K8s의 Kubelet은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_ia
 
 | 구성 요소 | 역할 | 동작 방식 |
 | :--- | :--- | :--- |
-| **[Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/)** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 라이프사이클 관리 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제 시 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인 바이너리 실행 |
-| **[CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인** | 실질적 네트워크 구성 | IPAM(IP 할당), veth [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 갱신 |
-| **[Overlay Network](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)** | 노드 간 논리적 통신망 | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), IPIP 등을 사용해 기존 물리망 위를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/">Kubelet</a></strong> | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 라이프사이클 관리 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제 시 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 플러그인 바이너리 실행 |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a> 플러그인</strong> | 실질적 네트워크 구성 | IPAM(IP 할당), veth [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 갱신 |
+| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/">Overlay Network</a></strong> | 노드 간 논리적 통신망 | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), IPIP 등을 사용해 기존 물리망 위를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  오버레이 네트워크 캡슐화 통신 흐름                 │
-├──────────────────────────────────────────────────────────────┤
-│ Node 1 (IP: 192.168.1.10)              Node 2 (IP: 10.0.0.5) │
-│ ┌───────────────┐                      ┌───────────────┐     │
-│ │ Pod A (10.1.x)│──▶ [VXLAN 캡슐화] ──▶│ Pod B (10.2.x)│     │
-│ └───────────────┘    (가짜 겉봉투 씌움)  └───────────────┘     │
-│       │                                        ▲             │
-│       ▼                                        │             │
-│ [물리 라우터] ───── (192.168.1.10 ─▶ 10.0.0.5) ─────┘             │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버레이 네트워크 캡슐화 통신 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1 (IP: 192.168.1.10) Node 2 (IP: 10.0.0.5)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN 캡슐화</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Pod B (10.2.x)│</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가짜 겉봉투 씌움)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">물리 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">10.0.0.5)</div></div>
+</div>
+</div>
+
+
 
 물리 라우터는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 가상 IP 대역을 모르기 때문에 패킷을 버린다. 따라서 CNI는 출발지와 목적지 물리 노드 IP를 적은 새 헤더로 원본 패킷을 감싸는 캡슐화 작업을 수행해 물리망을 통과시킨다. 
 
@@ -64,8 +64,8 @@ K8s의 Kubelet은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_ia
 | 항목 | [Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) (플란넬) | [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) (칼리코) | [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) (실리움) |
 | :--- | :--- | :--- | :--- |
 | **통신 방식** | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 기반 오버레이 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 기반 다이렉트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (필요시 오버레이) | [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) (Extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 기반 |
-| **Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** | 미지원 (보안 통제 불가) | 완벽 지원 (L3/L4 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) | 완벽 지원 (L7 가시성 및 보안) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 및 복잡도** | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낮음, 매우 단순함 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높음, 엔터프라이즈 표준 | 초고성능, 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 요구 |
+| <strong>Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | 미지원 (보안 통제 불가) | 완벽 지원 (L3/L4 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) | 완벽 지원 (L7 가시성 및 보안) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 및 복잡도</strong> | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낮음, 매우 단순함 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높음, 엔터프라이즈 표준 | 초고성능, 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 요구 |
 
 Flannel은 단순 통신만 뚫어주기 때문에 소규모 개발망에 적합하다. 반면 Calico는 패킷 캡슐화 오버헤드를 없앤 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 통신과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 지원해 사실상의 산업 표준이 되었다. 최근에는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준에서 네트워크를 낚아채는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기술을 적용한 Cilium이 차세대 CNI로 부상하고 있다.
 
@@ -78,9 +78,9 @@ Flannel은 단순 통신만 뚫어주기 때문에 소규모 개발망에 적합
 클러스터를 구축할 때 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 선택은 아키텍처의 근간을 결정하는 핵심 의사결정이다. 한 번 설치된 CNI를 운영 중에 교체하는 것은 전체 네트워크 단절을 의미하므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 선택이 매우 중요하다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 필요 여부**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 통신을 차단하는 보안 규칙이 필요한가? (그렇다면 Flannel은 배제한다.)
-2. **물리망 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 연동 가능성**: 노드가 위치한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 지원하는가? (지원한다면 Calico의 Non-Overlay 모드를 채택해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.)
-3. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 제약**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 최신 eBPF를 지원할 만큼 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인가? (구형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이라면 [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 도입을 보류해야 한다.)
+1. <strong>Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a> 필요 여부</strong>: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간 통신을 차단하는 보안 규칙이 필요한가? (그렇다면 Flannel은 배제한다.)
+2. <strong>물리망 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 연동 가능성</strong>: 노드가 위치한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 지원하는가? (지원한다면 Calico의 Non-Overlay 모드를 채택해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다.)
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 제약</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 최신 eBPF를 지원할 만큼 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)인가? (구형 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이라면 [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 도입을 보류해야 한다.)
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 보안이 중요한 금융권 망에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만 보고 Network Policy를 미지원하는 CNI를 채택하는 설계.
@@ -105,27 +105,29 @@ Flannel은 단순 통신만 뚫어주기 때문에 소규모 개발망에 적합
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **Kube-proxy** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) IP를 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 포워딩하는 노드 내 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 에이전트 |
-| **Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간의 트래픽 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)/Egress를 통제하는 K8s [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙 |
-| **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))** | 노드 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 교환하여 캡슐화 없이 통신하게 해주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| **[eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)** | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 수정 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에서 샌드박스화된 코드를 실행하는 기술 |
+| <strong>Network <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 간의 트래픽 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)/Egress를 통제하는 K8s [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙 |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>)</strong> | 노드 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 교환하여 캡슐화 없이 통신하게 해주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a></strong> | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 수정 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간에서 샌드박스화된 코드를 실행하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Underlay Network 한계 (물리 라우터 파드 IP 인식 불가)
-    │
-    ▼
-오버레이 네트워크 캡슐화 (VXLAN, IPIP) · Flannel
-    │
-    ▼
-CNI (Container Network Interface) 표준화
-    │
-    ▼
-다이렉트 라우팅 및 보안 규칙 (BGP, Network Policy) · Calico
-    │
-    ▼
-커널 네이티브 네트워크 가속 및 가시성 확보 (eBPF) · Cilium
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Underlay Network 한계 (물리 라우터 파드 IP 인식 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오버레이 네트워크 캡슐화 (VXLAN, IPIP) · Flannel</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CNI (Container Network Interface) 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다이렉트 라우팅 및 보안 규칙 (BGP, Network Policy) · Calico</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">커널 네이티브 네트워크 가속 및 가시성 확보 (eBPF) · Cilium</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

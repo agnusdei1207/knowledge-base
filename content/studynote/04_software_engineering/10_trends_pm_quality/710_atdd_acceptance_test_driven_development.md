@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 TDD의 '[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))'는 개발자의 시선(함수 수준)에 갇혀 있기 때문에, 고객의 비즈니스 요구사항(인수 조건)과 어긋날 위험이 항상 존재한다.
 
-이를 해결하기 위해 **"코딩([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))을 시작하기 전에, 아예 고객이 통과시켜 줄 기준([인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))부터 먼저 영어/한국어 문장으로 적어놓고 그걸 통과시키는 코드만 짜자!"**는 아이디어가 나왔다. 이것이 기획자와 개발자의 소통 장벽을 부수는 **ATDD(Acceptance [Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))**다.
+이를 해결하기 위해 <strong>"코딩(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a>)을 시작하기 전에, 아예 고객이 통과시켜 줄 기준(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a>)부터 먼저 영어/한국어 문장으로 적어놓고 그걸 통과시키는 코드만 짜자!"</strong>는 아이디어가 나왔다. 이것이 기획자와 개발자의 소통 장벽을 부수는 <strong>ATDD(Acceptance <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/">Test-Driven Development</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: TDD가 "나사를 완벽하게 꽉 조였는가?"를 테스트하는 것이라면, ATDD는 나사를 조이기 전에 "고객이 주문한 게 책상이 맞지? 의자 아니지?"를 먼저 다 같이 합의서에 도장 찍고 시작하는 것이다.
 
@@ -31,18 +31,17 @@ TDD의 '[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_
 
 다음은 ATDD (인수 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ATDD (인수 테스트 주도 개발)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATDD (인수 테스트 주도 개발)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 ATDD (인수 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -54,7 +53,7 @@ TDD의 '[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ATDD는 단순히 코드를 짜는 기법이 아니라, **Three Amigos(기획자, 개발자, QA)**가 함께 모여 일하는 협업 워크플로우에 가깝다.
+ATDD는 단순히 코드를 짜는 기법이 아니라, <strong>Three Amigos(기획자, 개발자, QA)</strong>가 함께 모여 일하는 협업 워크플로우에 가깝다.
 
 - **📢 섹션 요약 비유**: ATDD (인수 [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/)) [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 연계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -72,13 +71,13 @@ ATDD는 단순히 코드를 짜는 기법이 아니라, **Three Amigos(기획자
 
 ## Ⅲ. 비교 및 연결
 
-기획자의 자연어(문장)를 코드로 바꿔주는 다리 역할을 하는 것이 **[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) ([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/), [행위 주도 개발](/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/))**다. ATDD는 목적(무엇을)이고, BDD는 수단(어떻게)이다.
+기획자의 자연어(문장)를 코드로 바꿔주는 다리 역할을 하는 것이 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/">Behavior-Driven Development</a>, <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/412_process/">행위 주도 개발</a>)</strong>다. ATDD는 목적(무엇을)이고, BDD는 수단(어떻게)이다.
 
 | 개념 | 초점 | 특징 및 도구 |
 |:---|:---|:---|
-| **[TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)** | 개발자 중심 | 클래스와 메서드가 의도대로 작동하는가? (JUnit, Jest) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/">TDD</a></strong> | 개발자 중심 | 클래스와 메서드가 의도대로 작동하는가? (JUnit, Jest) |
 | **ATDD** | 비즈니스(고객) 중심 | 소프트웨어가 고객의 요구(인수 조건)를 만족하는가? |
-| **[BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)** | 커뮤니케이션 중심 | ATDD를 실현하기 위해 기획자와 개발자가 소통하는 **문법(Given-When-Then)** (Cucumber, Gherkin) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a></strong> | 커뮤니케이션 중심 | ATDD를 실현하기 위해 기획자와 개발자가 소통하는 **문법(Given-When-Then)** (Cucumber, Gherkin) |
 
 [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/) 프레임워크(Cucumber)를 쓰면, 기획자가 아래처럼 'Gherkin 문법'으로 메모장에 글을 쓰면, 이것이 곧바로 자동화 테스트 코드로 변환된다.
 
@@ -139,21 +138,23 @@ ATDD 체계를 정착시키면, "기획자가 원한 것", "개발자가 만든 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ATDD (인수 테스트 주도 개발) BDD 연계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ATDD (인수 테스트 주도 개발) BDD 연계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

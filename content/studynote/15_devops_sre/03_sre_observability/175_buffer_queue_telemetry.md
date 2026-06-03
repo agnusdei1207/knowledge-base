@@ -25,16 +25,18 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 아래 그림은 왜 경계 텔레메트리가 선행 지표가 되는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Delay hides in the boundary buffer                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Producer OK  --->  [ Buffer / Queue ]  --->  Consumer OK            │
-│ latency low        depth↑ age↑ lag↑         CPU 60%                 │
-│                                                                      │
-│ Each side can look healthy while user-visible waiting grows.         │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delay hides in the boundary buffer</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Buffer / Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Consumer OK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">latency low depth↑ age↑ lag↑ CPU 60%</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Each side can look healthy while user-visible waiting grows.</div></div>
+</div>
+</div>
+
+
 
 따라서 [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 큐 텔레메트리는 "문제가 터진 뒤 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 지표"가 아니라, 포화가 오기 전에 경고를 주는 선행 계기판이다.
 
@@ -50,18 +52,21 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 아래 그림은 경계 버퍼에서 반드시 수집해야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 정리한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  Core signals around a queue edge                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ ingress rate  ─┐                                                     │
-│                ├─> backlog depth -----------┐                        │
-│ egress rate   ─┘                            ├─> oldest age           │
-│                                             ├─> time to drain        │
-│ retry / dead-letter / drop -------------> ├─> failure pressure       │
-│ pool wait / ack latency ------------------> └─> hidden saturation    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core signals around a queue edge</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ingress rate ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; backlog depth -----------</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">egress rate ─ ─&gt; oldest age</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; time to drain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retry / dead-letter / drop -------------&gt; ─&gt; failure pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pool wait / ack latency ------------------&gt; ─&gt; hidden saturation</div></div>
+</div>
+</div>
+
+
 
 | 지표 | 의미 | 왜 중요한가 |
 | :--- | :--- | :--- |
@@ -80,7 +85,7 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 ## Ⅲ. 비교 및 연결
 
-큐 텔레메트리는 CPU, 평균 응답시간, 에러율과 다르게 **경계 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 선행 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**를 준다. CPU는 열심히 일하는지를 보여 줄 뿐 기다림을 직접 보여 주지 않고, 평균 레이턴시는 이미 사용자가 느낀 뒤에야 튄다. 반면 큐의 age와 lag는 아직 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나지 않았어도 "곧 느려질 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"를 먼저 알려 준다.
+큐 텔레메트리는 CPU, 평균 응답시간, 에러율과 다르게 <strong>경계 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>의 선행 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>를 준다. CPU는 열심히 일하는지를 보여 줄 뿐 기다림을 직접 보여 주지 않고, 평균 레이턴시는 이미 사용자가 느낀 뒤에야 튄다. 반면 큐의 age와 lag는 아직 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이 나지 않았어도 "곧 느려질 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"를 먼저 알려 준다.
 
 | 관측 대상 | 잘 보여 주는 것 | 놓치기 쉬운 것 |
 | :--- | :--- | :--- |
@@ -89,7 +94,7 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 | 에러율 | 실패한 요청 | 느리지만 아직 성공하는 작업 |
 | Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Telemetry | 미래의 포화, backlog, 소비 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 버퍼 밖 비즈니스 로직 오류 |
 
-또한 같은 큐라도 보는 포인트가 다르다. [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)는 backlog와 lag가 핵심이고, 커넥션 풀은 wait time과 pending request 수가 중요하다. [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은 [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대비 [queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) size가 중요하며, 네트워크 버퍼는 drop과 retransmission이 함께 봐야 한다. 즉 이름은 달라도 **생산-소비 경계에서 대기열이 생긴다**는 공통 구조를 따라 계측 항목을 읽어야 한다.
+또한 같은 큐라도 보는 포인트가 다르다. [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/)는 backlog와 lag가 핵심이고, 커넥션 풀은 wait time과 pending request 수가 중요하다. [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)은 [active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대비 [queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) size가 중요하며, 네트워크 버퍼는 drop과 retransmission이 함께 봐야 한다. 즉 이름은 달라도 <strong>생산-소비 경계에서 대기열이 생긴다</strong>는 공통 구조를 따라 계측 항목을 읽어야 한다.
 
 이 지표는 Backpressure, Autoscaling, Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (DLQ), Microburst Detection과도 연결된다. backlog가 늘면 소비자를 늘리거나 생산자를 제한해야 하고, age가 늘는데 depth가 크지 않다면 [head-of-line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) blocking이나 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 쏠림을 의심해야 한다. DLQ가 증가하면 단순 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아니라 처리 실패가 함께 발생하고 있다는 뜻이다.
 
@@ -111,22 +116,25 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 아래 흐름은 큐 알람이 떴을 때의 실전 판단 순서를 요약한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                    Backlog alarm decision flow                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ backlog alert                                                        │
-│   ├─ age stable and burst short? -> observe / mild autoscale         │
-│   ├─ consumers maxed out?      -> scale out / add partitions         │
-│   ├─ single hot partition?     -> rebalance / shard / remove lock    │
-│   ├─ retry or DLQ rising?      -> isolate poison message             │
-│   └─ downstream slow?          -> trace database path / backpressure │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-실무 판단의 핵심은 세 가지다. 첫째, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))에 맞는 age 기준**을 잡아야 한다. 사용자에게 2분 이내 처리 보장을 한 시스템이라면 oldest age 60초부터 경고해야 한다. 둘째, **오토스케일링은 depth보다 처리율과 함께 봐야 한다**. 단순히 큐 길이만 보고 늘리면 잠깐의 burst에도 과도하게 확장될 수 있다. 셋째, **DLQ를 정상적인 완충 장치로 오해하면 안 된다**. 특히 결제, 주문 같은 핵심 토픽에서는 DLQ 1건도 비즈니스 실패 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다.
 
-기술사 답안에서는 Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Telemetry를 단순 "큐 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링"이 아니라, **경계 포화의 선행 지표, 파생 지표(time-to-drain), autoscaling/backpressure 연계, DLQ 해석, per-[partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) skew**까지 포함해 설명해야 한다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backlog alarm decision flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backlog alert</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ age stable and burst short? -&gt; observe / mild autoscale</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ consumers maxed out? -&gt; scale out / add partitions</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ single hot partition? -&gt; rebalance / shard / remove lock</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ retry or DLQ rising? -&gt; isolate poison message</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ downstream slow? -&gt; trace database path / backpressure</div></div>
+</div>
+</div>
+
+
+
+실무 판단의 핵심은 세 가지다. 첫째, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준 목표 (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>, <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>)에 맞는 age 기준</strong>을 잡아야 한다. 사용자에게 2분 이내 처리 보장을 한 시스템이라면 oldest age 60초부터 경고해야 한다. 둘째, **오토스케일링은 depth보다 처리율과 함께 봐야 한다**. 단순히 큐 길이만 보고 늘리면 잠깐의 burst에도 과도하게 확장될 수 있다. 셋째, **DLQ를 정상적인 완충 장치로 오해하면 안 된다**. 특히 결제, 주문 같은 핵심 토픽에서는 DLQ 1건도 비즈니스 실패 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다.
+
+기술사 답안에서는 Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Telemetry를 단순 "큐 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링"이 아니라, <strong>경계 포화의 선행 지표, 파생 지표(time-to-drain), autoscaling/backpressure 연계, DLQ 해석, per-<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">partition</a> skew</strong>까지 포함해 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 은행 대기줄을 보고 창구를 더 여는 일은 단순히 줄 길이만 보는 것이 아니다. 손님이 얼마나 빨리 들어오고, 창구가 얼마나 빨리 처리하고, 가장 오래 기다린 손님이 몇 분째 서 있는지를 함께 봐야 정확한 판단이 된다.
 
@@ -138,7 +146,7 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 한계도 있다. 클라우드 큐의 일부 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 근사값이며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)나 순서 보장이 강한 시스템은 단순 스케일아웃으로 해결되지 않을 수 있다. 또한 재시도 루프가 숨겨져 있으면 depth는 낮아도 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 길어질 수 있다. 그래서 큐 텔레메트리는 트레이싱, 다운스트림 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), DLQ 분석과 함께 읽어야 한다.
 
-결국 이 주제의 핵심은 "큐 길이를 보는 것"이 아니라, **시스템 경계에서 기다림이 어떻게 만들어지고 얼마나 빨리 해소되는지를 측정하는 것**이다. 경계 버퍼는 실패가 시작되는 장소가 아니라, 실패가 보이기 전에 먼저 말해 주는 장소다.
+결국 이 주제의 핵심은 "큐 길이를 보는 것"이 아니라, <strong>시스템 경계에서 기다림이 어떻게 만들어지고 얼마나 빨리 해소되는지를 측정하는 것</strong>이다. 경계 버퍼는 실패가 시작되는 장소가 아니라, 실패가 보이기 전에 먼저 말해 주는 장소다.
 
 - **📢 섹션 요약 비유**: 택배 물류창고가 꽉 차기 시작하면 아직 고객에게 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문자가 가지 않았어도 이미 문제가 시작된 것이다. 창고 적재량과 가장 오래 쌓인 상자의 시간을 보면 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 미리 막을 수 있다.
 
@@ -158,21 +166,23 @@ Buffer/[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Ingress / egress rate measurement
-    │
-    ▼
-Depth + lag + oldest age observation
-    │
-    ▼
-Time-to-drain and backpressure judgment
-    │
-    ▼
-Autoscaling / DLQ / partition-skew response
-    │
-    ▼
-Proactive control of boundary saturation
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Ingress / egress rate measurement</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Depth + lag + oldest age observation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Time-to-drain and backpressure judgment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Autoscaling / DLQ / partition-skew response</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Proactive control of boundary saturation</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

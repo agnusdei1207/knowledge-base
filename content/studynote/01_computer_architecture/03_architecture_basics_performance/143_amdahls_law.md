@@ -19,9 +19,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-암달의 법칙 (Amdahl's Law)은 **전체 작업 중 개선 가능한 부분의 비율이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상의 상한선을 결정한다**는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 원리다. 이 법칙이 중요한 이유는 컴퓨터 시스템의 병목이 보통 가장 느린 부분에 숨어 있기 때문이다. 중앙처리장치 (Central Processing Unit, CPU) 코어를 늘리거나 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 붙여도, 초기화·[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 계산·입출력·락 대기처럼 동시에 처리할 수 없는 구간이 남아 있으면 전체 시간은 그 구간 때문에 멈춘다.
+암달의 법칙 (Amdahl's Law)은 <strong>전체 작업 중 개선 가능한 부분의 비율이 전체 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상의 상한선을 결정한다</strong>는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 원리다. 이 법칙이 중요한 이유는 컴퓨터 시스템의 병목이 보통 가장 느린 부분에 숨어 있기 때문이다. 중앙처리장치 (Central Processing Unit, CPU) 코어를 늘리거나 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 붙여도, 초기화·[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 계산·입출력·락 대기처럼 동시에 처리할 수 없는 구간이 남아 있으면 전체 시간은 그 구간 때문에 멈춘다.
 
-즉 암달의 법칙은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증설" 자체를 부정하는 것이 아니라, **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율과 순차 구간의 잔존량을 먼저 측정하라**고 요구한다. 그래서 이 법칙은 멀티코어 설계, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램 튜닝, 가속기 도입, 클라우드 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 판단의 공통 기준으로 쓰인다.
+즉 암달의 법칙은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증설" 자체를 부정하는 것이 아니라, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 비율과 순차 구간의 잔존량을 먼저 측정하라</strong>고 요구한다. 그래서 이 법칙은 멀티코어 설계, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램 튜닝, 가속기 도입, 클라우드 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 판단의 공통 기준으로 쓰인다.
 
 - **📢 섹션 요약 비유**: 주방에 요리사 10명을 더 넣어도 마지막 plating을 셰프 1명이 해야 한다면, 식당 전체 주문 속도는 그 마지막 한 사람의 손속도에 묶인다.
 
@@ -29,7 +29,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-암달의 법칙의 핵심은 전체 실행 시간을 **순차 구간**과 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 구간**으로 나누는 데 있다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율을 `P`, 사용한 프로세서 수를 `N`이라고 하면 전체 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 다음처럼 표현된다.
+암달의 법칙의 핵심은 전체 실행 시간을 <strong>순차 구간</strong>과 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 구간</strong>으로 나누는 데 있다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율을 `P`, 사용한 프로세서 수를 `N`이라고 하면 전체 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 다음처럼 표현된다.
 
 \[
 [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) = \frac{1}{(1-P) + \frac{P}{N}}
@@ -43,22 +43,22 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 예를 들어 전체 작업의 90%만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능하다면, 코어를 아무리 많이 추가해도 최대 속도 향상은 10배다. 95% [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화라면 상한은 20배다. 이 계산은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어의 가치를 평가할 때 "몇 개 넣을 수 있느냐"보다 "얼마나 순차 비율을 줄였느냐"가 더 중요함을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                  암달의 법칙이 보여주는 병렬화의 한계               │
-├──────────────────────────────────────────────────────────────────────┤
-│ 전체 실행 시간 = 순차 구간 + 병렬 구간                              │
-│                                                                      │
-│ 1코어 실행:   [ 순차 10% ][                병렬 90%                ] │
-│ 4코어 실행:   [ 순차 10% ][      병렬 90% / 4로 분할 처리         ] │
-│ 64코어 실행:  [ 순차 10% ][ 병렬 90% / 64로 더 작아짐             ] │
-│                                                                      │
-│ 그런데도 남는 것                                                     │
-│                └──────────── 순차 10%는 끝까지 그대로 ────────────┘ │
-│                                                                      │
-│ N → ∞ 여도 전체 속도 향상 상한 = 1 / 0.10 = 10배                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암달의 법칙이 보여주는 병렬화의 한계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 실행 시간 = 순차 구간 + 병렬 구간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90%</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90% / 4로 분할 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">64코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90% / 64로 더 작아짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그런데도 남는 것</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 10%는 끝까지 그대로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N → ∞ 여도 전체 속도 향상 상한 = 1 / 0.10 = 10배</div></div>
+</div>
+</div>
+
+
 
 이 그림의 요점은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 계속 쪼갤 수 있어도, 순차 구간은 전체 시간의 바닥처럼 남는다는 점이다. 실제 시스템에서는 여기에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용까지 추가되므로 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 이론치보다 더 낮아지는 경우가 많다.
 
@@ -75,7 +75,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ## Ⅲ. 비교 및 연결
 
-암달의 법칙을 제대로 이해하려면 **[속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/))**, **[컴퓨터 성능 방정식](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/) ([Performance Equation](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/))**, **구스타프슨의 법칙 (Gustafson's Law)**과 함께 봐야 한다. 암달의 법칙은 고정된 문제 크기에서 "얼마나 더 빨라질 수 있는가"를 묻는 반면, 구스타프슨의 법칙은 자원이 늘 때 "더 큰 문제를 같은 시간 안에 처리할 수 있는가"를 본다.
+암달의 법칙을 제대로 이해하려면 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">속도 향상도</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">Speedup</a>)</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong>, <strong>구스타프슨의 법칙 (Gustafson's Law)</strong>과 함께 봐야 한다. 암달의 법칙은 고정된 문제 크기에서 "얼마나 더 빨라질 수 있는가"를 묻는 반면, 구스타프슨의 법칙은 자원이 늘 때 "더 큰 문제를 같은 시간 안에 처리할 수 있는가"를 본다.
 
 | 비교 항목 | 암달의 법칙 (Amdahl's Law) | 구스타프슨의 법칙 (Gustafson's Law) |
 | :--- | :--- | :--- |
@@ -84,7 +84,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 | 강조점 | 순차 병목의 제거 | 확장 가능한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업의 확대 |
 | 잘 맞는 관점 | 지연시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 중심 대규모 연산 |
 
-이 차이는 설계 의사결정을 바꾼다. 예를 들어 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄여야 하는 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 암달의 법칙 관점이 더 중요하다. 반대로 과학 계산이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 키우며 많은 자원을 계속 활용하는 환경은 구스타프슨의 법칙 설명력이 더 크다. 즉 둘은 서로 반박하는 법칙이라기보다, **문제의 크기를 고정해서 볼 것인가 확장해서 볼 것인가**의 차이다.
+이 차이는 설계 의사결정을 바꾼다. 예를 들어 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄여야 하는 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 암달의 법칙 관점이 더 중요하다. 반대로 과학 계산이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 키우며 많은 자원을 계속 활용하는 환경은 구스타프슨의 법칙 설명력이 더 크다. 즉 둘은 서로 반박하는 법칙이라기보다, <strong>문제의 크기를 고정해서 볼 것인가 확장해서 볼 것인가</strong>의 차이다.
 
 - **📢 섹션 요약 비유**: 암달은 "피자 1판을 더 빨리 굽는 법"을 묻고, 구스타프슨은 "오븐이 많아졌으니 피자 100판 주문을 동시에 받을 수 있는가"를 묻는다.
 
@@ -92,7 +92,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 암달의 법칙은 단순 수식 암기가 아니라 **투자 우선순위를 정하는 기준**으로 써야 한다. 핵심은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 추가 전에 순차 병목을 계측하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 이후에는 오버헤드가 새 병목이 되는지 확인하는 것이다.
+실무에서 암달의 법칙은 단순 수식 암기가 아니라 <strong>투자 우선순위를 정하는 기준</strong>으로 써야 한다. 핵심은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 추가 전에 순차 병목을 계측하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 이후에는 오버헤드가 새 병목이 되는지 확인하는 것이다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -119,7 +119,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 암달의 법칙을 이해하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 더 냉정하게 볼 수 있다. 이 법칙은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화는 중요하지만 만능은 아니다"라는 사실을 분명히 보여 주며, 병목 제거와 구조 개선이 왜 하드웨어 증설보다 먼저 검토되어야 하는지 설명한다. 특히 멀티코어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 가속기 활용이 일반화된 지금도 이 법칙은 여전히 유효하다.
 
-다만 암달의 법칙은 **문제 크기가 고정되어 있다는 전제** 위에서 가장 강하게 작동한다. 그래서 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 문제 자체가 커지는 환경에서는 구스타프슨의 법칙과 함께 봐야 균형 잡힌 판단이 가능하다. 결국 이 개념은 "코어를 몇 개 더 살까"보다 **"전체 시간에서 끝까지 남는 비병렬 구간을 얼마나 줄일 수 있는가"**로 기억하는 것이 맞다.
+다만 암달의 법칙은 **문제 크기가 고정되어 있다는 전제** 위에서 가장 강하게 작동한다. 그래서 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 문제 자체가 커지는 환경에서는 구스타프슨의 법칙과 함께 봐야 균형 잡힌 판단이 가능하다. 결국 이 개념은 "코어를 몇 개 더 살까"보다 <strong>"전체 시간에서 끝까지 남는 비병렬 구간을 얼마나 줄일 수 있는가"</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 줄다리기에서 힘센 사람을 더 데려오는 것보다, 묶인 매듭 하나를 먼저 풀어 주는 편이 전체 움직임을 더 크게 바꾼다.
 
@@ -137,26 +137,27 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-컴퓨터 성능 측정
-    │
-    ▼
-실행 시간 분해
-(컴퓨터 성능 방정식, Performance Equation)
-    │
-    ▼
-부분 개선의 전체 효과 분석
-(암달의 법칙, Amdahl's Law)
-    │
-    ├──▶ 병렬 효율성 · 멀티코어 투자 한계 판단
-    │
-    ▼
-고정 문제 크기의 한계 보완
-(구스타프슨의 법칙, Gustafson's Law)
-    │
-    ▼
-대규모 병렬 처리 · 가속기 · 분산 확장 전략
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">컴퓨터 성능 측정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실행 시간 분해</div>
+<div class="kb-diagram-note">(컴퓨터 성능 방정식, Performance Equation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">부분 개선의 전체 효과 분석</div>
+<div class="kb-diagram-note">(암달의 법칙, Amdahl's Law)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 병렬 효율성 · 멀티코어 투자 한계 판단</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">고정 문제 크기의 한계 보완</div>
+<div class="kb-diagram-note">(구스타프슨의 법칙, Gustafson's Law)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대규모 병렬 처리 · 가속기 · 분산 확장 전략</div>
+</div>
+</div>
+
+
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 "측정"하는 단계에서 출발해, "부분 개선의 효과 계산"을 거쳐, "확장 전략의 재해석"으로 이어지는 사고의 순서를 보여 준다.
 

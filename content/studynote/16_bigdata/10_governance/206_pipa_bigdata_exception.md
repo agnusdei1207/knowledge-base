@@ -21,14 +21,14 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 개정 배경
 
-개정 전 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)은 **사전 동의 원칙**을 기반으로 모든 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리에 정보 주체의 동의를 요구했다. 이로 인해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습, [의료 빅데이터](/knowledge-base/studynote/16_bigdata/11_industry/215_healthcare_bigdata/) 연구, 금융 신용 분석 등에서 다음과 같은 문제가 발생했다:
+개정 전 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)은 <strong>사전 동의 원칙</strong>을 기반으로 모든 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 처리에 정보 주체의 동의를 요구했다. 이로 인해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습, [의료 빅데이터](/knowledge-base/studynote/16_bigdata/11_industry/215_healthcare_bigdata/) 연구, 금융 신용 분석 등에서 다음과 같은 문제가 발생했다:
 
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족**: 수백만 건의 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해 개별 동의 취득 불가능
-- **연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 제한**: 10년 전 수집한 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 새로운 연구 불가
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 불가**: A병원 진료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + B보험사 청구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 불가
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 부족</strong>: 수백만 건의 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해 개별 동의 취득 불가능
+- <strong>연구 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 활용 제한</strong>: 10년 전 수집한 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 새로운 연구 불가
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 결합 불가</strong>: A병원 진료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + B보험사 청구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 불가
 - **산업 경쟁력 약화**: 글로벌 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기업 대비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 능력 열위
 
-**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 개정은 **의료 연구 규정 현실화**와 같다. 기존에는 모든 환자에게 일일이 동의를 받아야 연구할 수 있었지만, 익명화(가명처리) 조건 하에 대규모 연구를 허용하여 의학 발전을 가능하게 하는 것과 같은 원리다.
+**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 개정은 <strong>의료 연구 규정 현실화</strong>와 같다. 기존에는 모든 환자에게 일일이 동의를 받아야 연구할 수 있었지만, 익명화(가명처리) 조건 하에 대규모 연구를 허용하여 의학 발전을 가능하게 하는 것과 같은 원리다.
 
 ---
 
@@ -36,22 +36,24 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 구성
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    한국 데이터 3법 (2020.08)                     │
-├──────────────────┬──────────────────────┬────────────────────────┤
-│  개인정보보호법  │    신용정보법        │   정보통신망법         │
-│  (PIPA)         │  (Credit Info Act)   │  (Network Act)         │
-├──────────────────┼──────────────────────┼────────────────────────┤
-│ • 가명정보 개념  │ • 개인신용정보       │ • 온라인 서비스        │
-│   법제화         │   가명처리 허용      │   개인정보 규정을      │
-│ • 결합 전문기관  │ • 금융 빅데이터      │   개인정보보호법으로   │
-│   프레임워크     │   분석 허용          │   통합 이관            │
-│ • PIPC 신설      │ • 마이데이터         │ • 규제 일원화          │
-│   (개인정보보호  │   (본인신용정보관리) │                        │
-│    위원회)       │   제도 도입          │                        │
-└──────────────────┴──────────────────────┴────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국 데이터 3법 (2020.08)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인정보보호법</div><div class="kb-diagram-cell">신용정보법</div><div class="kb-diagram-cell">정보통신망법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PIPA)</div><div class="kb-diagram-cell">(Credit Info Act)</div><div class="kb-diagram-cell">(Network Act)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 가명정보 개념</div><div class="kb-diagram-cell">• 개인신용정보</div><div class="kb-diagram-cell">• 온라인 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법제화</div><div class="kb-diagram-cell">가명처리 허용</div><div class="kb-diagram-cell">개인정보 규정을</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 결합 전문기관</div><div class="kb-diagram-cell">• 금융 빅데이터</div><div class="kb-diagram-cell">개인정보보호법으로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크</div><div class="kb-diagram-cell">분석 허용</div><div class="kb-diagram-cell">통합 이관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• PIPC 신설</div><div class="kb-diagram-cell">• 마이데이터</div><div class="kb-diagram-cell">• 규제 일원화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인정보보호</div><div class="kb-diagram-cell">(본인신용정보관리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위원회)</div><div class="kb-diagram-cell">제도 도입</div></div>
+</div>
+</div>
+
+
 
 ### 가명처리 특례 활용 조건
 
@@ -66,28 +68,28 @@ tags = ["studynote-bigdata"]
 
 ### 결합 전문기관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 프로세스
 
-```
-기관 A (병원)             기관 B (보험사)
-    │                           │
-    │ 가명처리된 진료 데이터    │ 가명처리된 청구 데이터
-    │                           │
-    └───────────┬───────────────┘
-                │ 각각 전송
-                ▼
-    ┌───────────────────────────┐
-    │   결합 전문기관           │
-    │   (PIPC 지정)             │
-    │  - 두 데이터셋 결합       │
-    │  - 결합 키 삭제           │
-    │  - 추가 가명처리          │
-    └───────────────────────────┘
-                │
-                ▼
-    결합된 가명 데이터셋
-    (기관 A, B 모두에게 제공)
-```
 
-**📢 섹션 요약 비유**: 결합 전문기관은 **공증인**과 같다. 두 사람(기관)이 서로의 비밀([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 직접 교환하기 불안할 때, 신뢰할 수 있는 공증인이 중간에서 안전하게 결합해준다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기관 A (병원) 기관 B (보험사)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가명처리된 진료 데이터</div><div class="kb-diagram-cell">가명처리된 청구 데이터</div></div>
+<div class="kb-diagram-note">각각 전송</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합 전문기관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PIPC 지정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 두 데이터셋 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결합 키 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 추가 가명처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결합된 가명 데이터셋</div>
+<div class="kb-diagram-note">(기관 A, B 모두에게 제공)</div>
+</div>
+</div>
+
+
+
+**📢 섹션 요약 비유**: 결합 전문기관은 <strong>공증인</strong>과 같다. 두 사람(기관)이 서로의 비밀([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 직접 교환하기 불안할 때, 신뢰할 수 있는 공증인이 중간에서 안전하게 결합해준다.
 
 ---
 
@@ -97,7 +99,7 @@ tags = ["studynote-bigdata"]
 
 | 구분 | 정의 | 특정 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 적용 법규 |
 |:---|:---|:---|:---|
-| **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)** | 직접 또는 간접 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능한 정보 | 가능 | [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 전면 적용 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a></strong> | 직접 또는 간접 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 가능한 정보 | 가능 | [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 전면 적용 |
 | **가명정보** | 추가 정보 없이는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 불가, 복원 가능 | 추가 정보 있으면 가능 | 특례 조항 적용 |
 | **익명정보** | 어떤 방법으로도 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 불가, 복원 불가 | 불가 | [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 미적용 |
 
@@ -107,10 +109,10 @@ tags = ["studynote-bigdata"]
 |:---|:---|:---|
 | **가명처리 허용 목적** | 공익·연구·통계·기록 보존 | 통계·과학 연구·공익 기록 |
 | **동의 면제** | 허용 (적절한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)조치 조건) | 허용 (가명처리 조건) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합** | 명시적 규정 없음 | 결합 전문기관 프레임워크 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 결합</strong> | 명시적 규정 없음 | 결합 전문기관 프레임워크 |
 | **감독 기관** | 각국 감독기관 ([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) | PIPC ([개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/)위원회) |
 
-**📢 섹션 요약 비유**: 가명정보는 **도서관 대출 카드에서 이름을 가린 것**과 같다. 이름을 모르면 누구의 카드인지 알 수 없지만, 원래 이름 목록(키 테이블)이 있으면 복원할 수 있다. 익명정보는 아예 이름 목록 자체를 파기한 것이다.
+**📢 섹션 요약 비유**: 가명정보는 <strong>도서관 대출 카드에서 이름을 가린 것</strong>과 같다. 이름을 모르면 누구의 카드인지 알 수 없지만, 원래 이름 목록(키 테이블)이 있으면 복원할 수 있다. 익명정보는 아예 이름 목록 자체를 파기한 것이다.
 
 ---
 
@@ -119,7 +121,7 @@ tags = ["studynote-bigdata"]
 ### 가명처리 적용 절차
 
 1. **목적 검토**: 처리 목적이 통계·연구·공익에 해당하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-2. **처리할 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 목록 확정**: 가명처리가 필요한 필드 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
+2. <strong>처리할 <a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 목록 확정</strong>: 가명처리가 필요한 필드 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
 3. **가명처리 기법 선택**: [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹, 가명화, 일반화, 집계화 등 적용
 4. **적정성 검토**: 재식별 위험성 평가 — 준식별자(나이+성별+주소 조합) 위험도 분석
 5. **키 테이블 분리 보관**: 원본 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)↔가명 매핑 테이블 격리 저장
@@ -134,7 +136,7 @@ tags = ["studynote-bigdata"]
 | 안전조치 미이행 | 매출의 3% 이하 과징금 |
 | 목적 외 처리 | 5년 이하 징역 또는 5천만원 이하 벌금 |
 
-**📢 섹션 요약 비유**: 가명처리 의무는 **의약품 임상시험 절차**와 같다. 환자 동의 없는 연구가 허용되지만, 반드시 윤리위원회 심의, 익명화, 기록 관리라는 엄격한 조건을 지켜야 하며, 위반 시 허가가 취소된다.
+**📢 섹션 요약 비유**: 가명처리 의무는 <strong>의약품 임상시험 절차</strong>와 같다. 환자 동의 없는 연구가 허용되지만, 반드시 윤리위원회 심의, 익명화, 기록 관리라는 엄격한 조건을 지켜야 하며, 위반 시 허가가 취소된다.
 
 ---
 
@@ -144,16 +146,16 @@ tags = ["studynote-bigdata"]
 
 | 영역 | 기대효과 |
 |:---|:---|
-| **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 산업** | 의료·금융·[통신 빅데이터](/knowledge-base/studynote/16_bigdata/11_industry/225_telecom_bigdata/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 합법 개발 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 산업</strong> | 의료·금융·[통신 빅데이터](/knowledge-base/studynote/16_bigdata/11_industry/225_telecom_bigdata/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 합법 개발 |
 | **의료 연구** | 전국 단위 EHR(전자의무기록) 기반 역학 연구 가능 |
 | **금융 혁신** | 대안 신용 평가 모델 개발 (통신 사용 이력 + 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) |
-| **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | PIPC 통합으로 감독·집행 일원화 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | PIPC 통합으로 감독·집행 일원화 |
 
 ### 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법은 한국이 **[데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)로 전환하기 위한 법적 기반**을 마련한 역사적 입법이다. 그러나 가명처리 특례는 "허용"이지 "면제"가 아니다. 가명처리 적정성, 재식별 금지, 키 테이블 분리의 3가지 핵심 의무를 철저히 이행할 때만 법적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 받는다. 정보통신기술사는 이 법적 프레임워크를 이해하고, 빅데이터 프로젝트 설계 시 가명처리 절차를 아키텍처에 반영해야 한다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법은 한국이 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/">데이터 경제</a>로 전환하기 위한 법적 기반</strong>을 마련한 역사적 입법이다. 그러나 가명처리 특례는 "허용"이지 "면제"가 아니다. 가명처리 적정성, 재식별 금지, 키 테이블 분리의 3가지 핵심 의무를 철저히 이행할 때만 법적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 받는다. 정보통신기술사는 이 법적 프레임워크를 이해하고, 빅데이터 프로젝트 설계 시 가명처리 절차를 아키텍처에 반영해야 한다.
 
-**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법의 가명처리 특례는 **음주 운전 금지 예외 규정**이 아니라 **대리운전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 합법화**와 같다. 운전([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용)을 완전히 금지하는 것이 아니라, 안전하게 활용할 수 있는 방법(가명처리)을 만들어 합법화한 것이다.
+**📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법의 가명처리 특례는 <strong>음주 운전 금지 예외 규정</strong>이 아니라 <strong>대리운전 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 합법화</strong>와 같다. 운전([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용)을 완전히 금지하는 것이 아니라, 안전하게 활용할 수 있는 방법(가명처리)을 만들어 합법화한 것이다.
 
 ---
 
@@ -171,21 +173,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개인정보 원칙 (PIPA / GDPR) — 정보주체 동의 기반, 목적 외 활용 금지]
-    │
-    ▼
-[데이터 3법 개정 (2020) — 가명정보 개념 신설, 연구·통계·공익 목적 활용 허용]
-    │
-    ▼
-[가명 처리 (Pseudonymization) — 식별자 제거·치환 후 추가 정보 없이 재식별 불가]
-    │
-    ▼
-[결합 전문기관 — 국가 지정 기관을 통한 안전한 가명 데이터 결합·분석]
-    │
-    ▼
-[차분 프라이버시 / 합성 데이터 — 수학적 프라이버시 보장 강화, 차세대 빅데이터 특례 기술]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 원칙 (PIPA / GDPR) — 정보주체 동의 기반, 목적 외 활용 금지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 3법 개정 (2020) — 가명정보 개념 신설, 연구·통계·공익 목적 활용 허용</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가명 처리 (Pseudonymization) — 식별자 제거·치환 후 추가 정보 없이 재식별 불가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결합 전문기관 — 국가 지정 기관을 통한 안전한 가명 데이터 결합·분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차분 프라이버시 / 합성 데이터 — 수학적 프라이버시 보장 강화, 차세대 빅데이터 특례 기술</div></div>
+</div>
+</div>
+
+
 이 흐름은 원칙적으로 동의 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 금지하던 규제 체계가 빅데이터·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 공익적 활용 요건을 수용하여 가명정보 특례를 도입하고, 기술적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)로 강화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 법제와 기술의 공진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

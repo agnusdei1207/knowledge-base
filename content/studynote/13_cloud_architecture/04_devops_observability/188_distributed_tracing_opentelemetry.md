@@ -32,25 +32,25 @@ tags = ["studynote-cloud-architecture"]
 
 ### [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) 흐름
 
-```
-[사용자 결제 요청 추적]
 
-User → API Gateway → Auth Svc → Cart Svc → Payment Svc → Notif Svc
-│      │              │           │            │              │
-│      trace_id=X001  ←──────── HTTP 헤더로 trace_id 전파 ──→│
-│
-│
-Trace X001 재구성:
-┌─────────────────────────────────────────────────────────┐
-│ Span: API-GW         [|────────────────────────|]  250ms│
-│   Span: Auth         [  |──|  ]  30ms                   │
-│   Span: Cart         [      |────|  ]  80ms             │
-│   Span: Payment      [           |──────────|  ] 120ms  │
-│     Span: DB-Query   [             |────────|  ]  90ms  │← 병목!
-│   Span: Notification [                       |─|]  20ms │
-└─────────────────────────────────────────────────────────┘
-→ Payment 서비스의 DB 쿼리가 90ms (전체의 36%) 차지 → 최적화 대상
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 결제 요청 추적</div></div>
+<div class="kb-diagram-note">User → API Gateway → Auth Svc → Cart Svc → Payment Svc → Notif Svc</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trace_id=X001 ← HTTP 헤더로 trace_id 전파 ──→</div></div>
+<div class="kb-diagram-note">Trace X001 재구성:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: API-GW</div><div class="kb-diagram-node">|────────────────────────|</div><div class="kb-diagram-note">250ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: Auth</div><div class="kb-diagram-node">|──|</div><div class="kb-diagram-note">30ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: Cart</div><div class="kb-diagram-node">|────|</div><div class="kb-diagram-note">80ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: Payment</div><div class="kb-diagram-node">|──────────|</div><div class="kb-diagram-note">120ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: DB-Query</div><div class="kb-diagram-node">|────────|</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">병목!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Span: Notification</div><div class="kb-diagram-node">|─|</div><div class="kb-diagram-note">20ms</div></div>
+<div class="kb-diagram-note">→ Payment 서비스의 DB 쿼리가 90ms (전체의 36%) 차지 → 최적화 대상</div>
+</div>
+</div>
+
+
 
 | 개념 | 설명 |
 |:---|:---|
@@ -76,7 +76,7 @@ Trace X001 재구성:
 | Datadog [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스 통합, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석 | 엔터프라이즈 |
 | Honeycomb | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 고 카디널리티 특화, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 강력 | 복잡한 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) |
 
-**샘플링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):**
+<strong>샘플링 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>:</strong>
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 설명 | 적합 상황 |
 |:---|:---|:---|
 | 헤드 기반 샘플링 | 요청 시작 시 무작위 샘플링 | 저비용, 빠름 |
@@ -89,7 +89,7 @@ Trace X001 재구성:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Java 계측 예시 (자동 계측):**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a> Java 계측 예시 (자동 계측):</strong>
 ```bash
 # Java 에이전트로 자동 계측 (코드 수정 없음)
 java -javaagent:opentelemetry-javaagent.jar \
@@ -98,13 +98,19 @@ java -javaagent:opentelemetry-javaagent.jar \
      -jar payment-service.jar
 ```
 
-**[OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector 역할:**
-```
-앱 SDK → OTel Collector → Jaeger (트레이스)
-                        → Prometheus (메트릭)
-                        → Loki (로그)
-[하나의 Collector에서 백엔드 분기, 앱은 하나의 엔드포인트만 알면 됨]
-```
+<strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a> Collector 역할:</strong>
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">앱 SDK → OTel Collector → Jaeger (트레이스)</div>
+<div class="kb-diagram-note">→ Prometheus (메트릭)</div>
+<div class="kb-diagram-note">→ Loki (로그)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하나의 Collector에서 백엔드 분기, 앱은 하나의 엔드포인트만 알면 됨</div></div>
+</div>
+</div>
+
+
 
 **실무 트러블슈팅 워크플로:**
 1. [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 대시보드에서 p99 레이턴시 급등 감지
@@ -142,17 +148,21 @@ java -javaagent:opentelemetry-javaagent.jar \
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 로그 분석 (MSA에서 불가)
-    │
-    ▼
-분산 추적: Trace ID로 서비스 간 요청 흐름 추적
-    ├─► Jaeger · Zipkin · Tempo
-    └─► Span: 각 서비스 호출 단위
-    │
-    ▼
-OpenTelemetry: 벤더 중립 수집 표준
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 로그 분석 (MSA에서 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 추적: Trace ID로 서비스 간 요청 흐름 추적</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Jaeger · Zipkin · Tempo</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Span: 각 서비스 호출 단위</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OpenTelemetry: 벤더 중립 수집 표준</div>
+</div>
+</div>
+
+
 2. Trace ID는 바통이고, 각 선수의 시간 기록이 Span이에요.
 3. 경주(요청)가 끝나면 어느 선수([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 가장 느렸는지 정확히 알 수 있어요!
 

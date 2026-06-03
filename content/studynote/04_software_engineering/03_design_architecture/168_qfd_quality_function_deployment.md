@@ -25,22 +25,19 @@ QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언
 
 이 그림은 QFD가 왜 단순 요구 수집이 아니라 "번역 파이프라인"으로 불리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 QFD cascade: from voice to work             │
-├──────────────────────────────────────────────────────────────┤
-│ VOC (customer needs)                                        │
-│        │                                                     │
-│        ▼                                                     │
-│ HoQ 1: product characteristics                              │
-│        │                                                     │
-│        ▼                                                     │
-│ HoQ 2: subsystem / component specs                           │
-│        │                                                     │
-│        ▼                                                     │
-│ process specs / test criteria / operation metrics            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QFD cascade: from voice to work</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VOC (customer needs)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HoQ 1: product characteristics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HoQ 2: subsystem / component specs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">process specs / test criteria / operation metrics</div></div>
+</div>
+</div>
+
+
 
 즉 QFD의 핵심은 요구사항을 한 번 정리하고 끝내는 것이 아니라, 상위 요구를 하위 실행 항목까지 끊기지 않게 전개하는 데 있다. 이 연결성이 있어야 설계와 테스트가 처음 고객 요구와 같은 방향을 바라본다.
 
@@ -62,17 +59,18 @@ QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 �
 
 이 그림은 HoQ의 핵심 구조를 단순화한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                    House of Quality (HoQ)                   │
-├──────────────────────────────────────────────────────────────┤
-│ Roof: HOW vs HOW correlation (+ / -)                        │
-│                                                              │
-│ WHAT + importance ─▶ Relationship Matrix ◀─ HOW metrics      │
-│                                                              │
-│ Competitive review ─▶ weighted priority ─▶ target values     │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">House of Quality (HoQ)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Roof: HOW vs HOW correlation (+ / -)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHAT + importance ─▶ Relationship Matrix ◀─ HOW metrics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Competitive review ─▶ weighted priority ─▶ target values</div></div>
+</div>
+</div>
+
+
 
 QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 제품 수준 기술 특성은 다음 단계에서는 다시 WHAT이 되어, 세부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계·부품 선택·공정 조건·테스트 기준으로 이어진다. 그래서 QFD를 제대로 쓰면 "고객이 왜 그 기능을 원하는가"와 "테스터가 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가"가 한 줄의 추적성으로 연결된다.
 
@@ -105,7 +103,7 @@ QFD는 종종 [카노 모델](/knowledge-base/studynote/04_software_engineering/
 
 ### 실무 시나리오
 
-1. **모바일 금융 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**: 고객 요구 중요도가 "거래 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 5, 응답 속도 4"라면, QFD는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표, 이중 승인율, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간 같은 기술 목표의 우선순위를 정하게 한다.
+1. <strong>모바일 금융 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 고객 요구 중요도가 "거래 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 5, 응답 속도 4"라면, QFD는 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표, 이중 승인율, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간 같은 기술 목표의 우선순위를 정하게 한다.
 2. **임베디드 제품 개발**: "배터리가 오래간다"라는 요구를 평균 전력 소비량, 대기 전력, 충전 시간으로 분해해야 하드웨어·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 팀이 같은 기준으로 움직일 수 있다.
 3. **프로젝트 착수 의사결정**: 경쟁사 벤치마크를 HoQ에 반영하면, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 차별화 포인트인지 정량적으로 판단할 수 있다.
 
@@ -150,21 +148,24 @@ QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-VOC 수집
-    │
-    ▼
-WHAT 정리 · 중요도 부여
-    │
-    ▼
-HoQ 작성
-    │
-    ├──────────────▶ HOW 도출 · 관계 점수화
-    ├──────────────▶ 상충 관계 분석
-    ├──────────────▶ 목표치·우선순위 결정
-    ▼
-설계 · 구현 · 테스트 · 운영 지표 전개
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">VOC 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">WHAT 정리 · 중요도 부여</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HoQ 작성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ HOW 도출 · 관계 점수화</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 상충 관계 분석</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 목표치·우선순위 결정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">설계 · 구현 · 테스트 · 운영 지표 전개</div>
+</div>
+</div>
+
+
 
 이 흐름도는 고객의 언어가 HoQ를 거쳐 기술 목표와 실행 지표로 번역되는 QFD의 전개 구조를 요약한다.
 

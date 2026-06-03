@@ -23,27 +23,24 @@ tags = ["studynote-bigdata"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 팀마다 위키 문서와 구두 지식으로 버틸 수 있다. 그러나 테이블 수가 수백 개를 넘고, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool (dbt)·Spark·Airflow·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)·웨어하우스로 흩어지면 질문이 반복된다. "매출의 공식 정의는 무엇인가?", "이 컬럼은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)인가?", "이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 깨지면 어느 대시보드가 영향을 받는가?" 같은 질문에 즉시 답하지 못하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 저장소는 많아도 신뢰는 낮은 상태가 된다.
 
-아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한 이유를 보여 준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 단순 보관소가 아니라 **흩어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 설명, 책임, 흐름을 한 곳에 연결하는 계층**이라는 점이다.
+아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한 이유를 보여 준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 단순 보관소가 아니라 <strong>흩어진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 설명, 책임, 흐름을 한 곳에 연결하는 계층</strong>이라는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ 데이터 허브가 풀어 주는 단절 문제                             │
-├──────────────────────────────────────────────────────────────┤
-│ Source Systems                                                │
-│  DB · SaaS · Stream · File                                   │
-│        │                                                     │
-│        ▼                                                     │
-│  각기 다른 파이프라인 · 용어 · 권한 체계                     │
-│        │                                                     │
-│        ▼                                                     │
-│  "어디 있지?" "누가 책임지지?" "믿어도 되나?"                │
-│        │                                                     │
-│        ▼                                                     │
-│  Data Hub: Catalog + Lineage + Policy + Ownership            │
-└──────────────────────────────────────────────────────────────┘
-```
 
-따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 중앙 집중 저장소라기보다 중앙 집중 **이해 계층**에 가깝다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), 웨어하우스, 스트림 플랫폼에 흩어져 있어도, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스를 묶어 주면 조직은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지도를 갖게 된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 허브가 풀어 주는 단절 문제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Systems</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB · SaaS · Stream · File</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각기 다른 파이프라인 · 용어 · 권한 체계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어디 있지?" "누가 책임지지?" "믿어도 되나?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Hub: Catalog + Lineage + Policy + Ownership</div></div>
+</div>
+</div>
+
+
+
+따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 중앙 집중 저장소라기보다 중앙 집중 <strong>이해 계층</strong>에 가깝다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), 웨어하우스, 스트림 플랫폼에 흩어져 있어도, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스를 묶어 주면 조직은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지도를 갖게 된다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 큰 도서관의 종합 안내 데스크와 같다. 책을 직접 다 쌓아 두기보다, 어떤 책이 어디 있고 누가 담당하며 어떤 규칙으로 빌릴 수 있는지 한 번에 알려 준다.
 
@@ -64,32 +61,29 @@ tags = ["studynote-bigdata"]
 
 아래 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 대체하는 것이 아니라, 그 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 통제 레이어를 얹는 방식을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Data Hub 아키텍처                                             │
-├──────────────────────────────────────────────────────────────┤
-│ Producers                                                     │
-│  Operational DB · Change Stream · Batch · dbt · BI          │
-│        │                                                     │
-│        ▼                                                     │
-│  Ingestion Connectors                                         │
-│        │                                                     │
-│        ├─ Data Plane ─────▶ Lakehouse / Warehouse / Topic    │
-│        │                                                     │
-│        └─ Metadata Plane ─▶ Entity Graph                     │
-│                              ├─ Catalog / Search             │
-│                              ├─ Lineage                      │
-│                              ├─ Ownership / Policy           │
-│                              └─ Quality / Freshness          │
-│                                        │                     │
-│                                        ▼                     │
-│                           BI · Model · App · Audit Consumer  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Hub 아키텍처</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producers</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operational DB · Change Stream · Batch · dbt · BI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingestion Connectors</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data Plane ▶ Lakehouse / Warehouse / Topic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Metadata Plane ─▶ Entity Graph</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Catalog / Search</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Lineage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Ownership / Policy</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Quality / Freshness</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI · Model · App · Audit Consumer</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심 원리는 엔티티(Entity) 중심 모델이다. 예를 들어 `sales.orders`라는 Dataset이 있고, 이를 읽는 dbt 모델, 이를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 Dashboard, 이를 소유한 Team, 이를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ML) Feature가 모두 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 묶인다. 그러면 단순 검색을 넘어 "이 컬럼을 바꾸면 어떤 리포트와 배치가 깨지는가?"를 즉시 추적할 수 있다.
 
-즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 본질은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 중앙에서 독점하는 것이 아니라, **흩어진 자산의 의미와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 중앙에서 이해 가능하게 만드는 것**이다. 그래서 검색, 계보, 권한, 품질이 따로 놀면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 가치가 크게 떨어진다.
+즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 본질은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 중앙에서 독점하는 것이 아니라, <strong>흩어진 자산의 의미와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 중앙에서 이해 가능하게 만드는 것</strong>이다. 그래서 검색, 계보, 권한, 품질이 따로 놀면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 가치가 크게 떨어진다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 도시 지도와 지하철 노선도, 건물 관리자 명단을 한 장에 합친 안내판과 같다. 목적지만 보이는 것이 아니라 어떻게 연결되고 누가 관리하는지도 함께 보여 준다.
 
@@ -109,7 +103,7 @@ tags = ["studynote-bigdata"]
 
 즉 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh와 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Hub는 경쟁 개념이 아니다. [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh가 "누가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제품처럼 소유할 것인가"에 대한 조직 철학이라면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 그 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소유 환경에서도 공통 검색·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·계보를 가능하게 하는 플랫폼이다. 반대로 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse는 중요한 저장소일 수 있지만, 그것만으로는 상하류 영향이나 책임자 정보를 쉽게 알 수 없다.
 
-[Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 자주 헷갈린다. [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry는 주로 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 관리하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 그 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 **누가 쓰고 어디로 흘러가는지**까지 다룬다. 즉 Registry가 계약서라면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 계약서, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도, 담당자 목록, 사용 이력을 함께 가진 시스템이다.
+[Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 자주 헷갈린다. [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry는 주로 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 관리하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 그 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 <strong>누가 쓰고 어디로 흘러가는지</strong>까지 다룬다. 즉 Registry가 계약서라면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 계약서, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도, 담당자 목록, 사용 이력을 함께 가진 시스템이다.
 
 - **📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Warehouse가 곡물을 보관하는 창고라면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 어떤 곡물이 어디 창고에 있고 어느 공장에서 쓰이며 누가 관리하는지 알려 주는 물류 관제센터와 같다.
 
@@ -117,7 +111,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 "한 번에 전사 전체 등록"보다 **핵심 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)부터 단계적으로** 확장하는 편이 성공률이 높다. 매출, 고객, 주문, 핵심 대시보드처럼 질문과 충돌이 가장 많이 생기는 자산을 먼저 올리고, 이후 Airflow·dbt·Spark·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 커넥터로 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 범위를 넓혀 가는 방식이 일반적이다.
+실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 "한 번에 전사 전체 등록"보다 <strong>핵심 <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/">데이터 제품</a>부터 단계적으로</strong> 확장하는 편이 성공률이 높다. 매출, 고객, 주문, 핵심 대시보드처럼 질문과 충돌이 가장 많이 생기는 자산을 먼저 올리고, 이후 Airflow·dbt·Spark·[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 커넥터로 자동 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 범위를 넓혀 가는 방식이 일반적이다.
 
 | 적용 과제 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
@@ -135,7 +129,7 @@ tags = ["studynote-bigdata"]
 4. 신선도와 품질 실패가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 화면에서 함께 보이는가?
 5. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 컬럼(예: PII)이 검색은 되되 접근은 통제되도록 설계됐는가?
 
-[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 명확하다. 첫째, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 단순 검색 박스로만 운영해 품질과 계보를 연결하지 않는 경우다. 둘째, 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 모든 설명과 태깅을 수동으로 떠안아 병목이 되는 경우다. 셋째, 자산 등록은 많지만 실제 owner와 SLA가 없어 아무도 믿지 않는 경우다. 기술사 관점에서는 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 도입"이 아니라, **자동 수집·소유권·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·품질 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)**를 묶어서 설명해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 본질이 드러난다.
+[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 명확하다. 첫째, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 단순 검색 박스로만 운영해 품질과 계보를 연결하지 않는 경우다. 둘째, 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 모든 설명과 태깅을 수동으로 떠안아 병목이 되는 경우다. 셋째, 자산 등록은 많지만 실제 owner와 SLA가 없어 아무도 믿지 않는 경우다. 기술사 관점에서는 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 도입"이 아니라, <strong>자동 수집·소유권·<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>·품질 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>를 묶어서 설명해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)의 본질이 드러난다.
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 운영은 학교에 사물함을 많이 놓는 일이 아니라, 각 사물함 주인 이름표와 사용 규칙, 위치 안내도를 같이 붙이는 일과 같다. 그래야 물건이 많아져도 찾고 관리할 수 있다.
 
@@ -143,7 +137,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 제대로 작동하면 분석가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 시간보다 해석하는 시간에 집중할 수 있고, 엔지니어는 컬럼 변경 전에 영향을 받을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 대시보드를 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 보안 조직은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디에 퍼져 있는지 추적하기 쉬워지고, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) owner는 자신의 자산이 실제로 어디에서 쓰이는지 볼 수 있다. 즉 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 검색 편의보다 **조직 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)**를 높이는 효과가 크다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 제대로 작동하면 분석가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 시간보다 해석하는 시간에 집중할 수 있고, 엔지니어는 컬럼 변경 전에 영향을 받을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 대시보드를 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 보안 조직은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 어디에 퍼져 있는지 추적하기 쉬워지고, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) owner는 자신의 자산이 실제로 어디에서 쓰이는지 볼 수 있다. 즉 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 검색 편의보다 <strong>조직 전체의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a></strong>를 높이는 효과가 크다.
 
 그러나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 있다고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 자동으로 좋아지지는 않는다. 소유권이 모호하면 설명은 금방 낡고, 자동 수집이 약하면 계보는 비어 버리며, 권한 연동이 없으면 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 찾기 쉬운 위험 지도가 될 수도 있다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 기술 도구이면서 동시에 운영 규율이다.
 
@@ -167,21 +161,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다양한 데이터 소스 증가
-    │
-    ▼
-메타데이터 자동 수집
-    │
-    ▼
-Catalog + Lineage + Ownership 통합
-    │
-    ▼
-Policy · Quality · PII 제어 연동
-    │
-    ▼
-셀프서비스 분석 · 영향 분석 · 규정 준수 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다양한 데이터 소스 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메타데이터 자동 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Catalog + Lineage + Ownership 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Policy · Quality · PII 제어 연동</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">셀프서비스 분석 · 영향 분석 · 규정 준수 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 저장 중심 플랫폼이, 탐색성과 거버넌스를 갖춘 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 플랫폼으로 진화하는 방향을 보여 준다.
 

@@ -21,35 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 
   - **Filter (필터/깔때기)**: 데이터가 들어오면, 지지고 볶고(Transform, Filter, Enrich) 결과물을 뱉어내는 100% 독립된 작은 공장. (상태를 저장하지 않음).
-  - **[Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) ([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/호스)**: 필터와 필터 사이를 이어주는 통로. 데이터를 임시로 담는 버퍼(Buffer) 역할이나 단순히 전달하는 튜브 역할을 한다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">Pipe</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>/호스)</strong>: 필터와 필터 사이를 이어주는 통로. 데이터를 임시로 담는 버퍼(Buffer) 역할이나 단순히 전달하는 튜브 역할을 한다.
 
-- **필요성 (신성한 로직의 짬뽕과 병목의 저주)**: 넷플릭스 동영상 인코딩 서버를 짰다. `비디오 파일` ➡ `[1.화질 압축 ➡ 2.자막 입히기 ➡ 3.워터마크 박기]` ➡ `완성본`. 초보 개발자가 함수 1개 뱃속에 저 3개의 무거운 로직을 `A(); B(); C();` 순서대로 쌩 하드코딩으로 때려 박았다. 그런데 2번 자막 입히기 로직이 렉 걸려서 서버가 뻗었다! 1번([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))과 3번([워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)) 로직은 멀쩡한데 1통으로 묶여있어 같이 죽었다. 내일 사장님이 "[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 빼고 걍 배포해 ㅋ" 지시했다. 코드 수정하려고 열어보니 3개의 변수가 끈적하게 스파게티로 얽혀있어 3번을 도려내자마자 서버가 컴파일 에러를 뿜으며 폭파됐다(강결합의 공포). **"아 씨발! 이 3개의 작업 라인을 완벽한 남남으로 찢어(Decoupling) 놓고, 걍 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(호스)로만 연결해 두면, 에러 난 놈만 쏙 빼고 레고처럼 이어붙이면 되잖아!!"** 이 절박함이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터의 컨베이어 벨트를 깔게 했다.
+- **필요성 (신성한 로직의 짬뽕과 병목의 저주)**: 넷플릭스 동영상 인코딩 서버를 짰다. `비디오 파일` ➡ `[1.화질 압축 ➡ 2.자막 입히기 ➡ 3.워터마크 박기]` ➡ `완성본`. 초보 개발자가 함수 1개 뱃속에 저 3개의 무거운 로직을 `A(); B(); C();` 순서대로 쌩 하드코딩으로 때려 박았다. 그런데 2번 자막 입히기 로직이 렉 걸려서 서버가 뻗었다! 1번([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))과 3번([워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)) 로직은 멀쩡한데 1통으로 묶여있어 같이 죽었다. 내일 사장님이 "[워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 빼고 걍 배포해 ㅋ" 지시했다. 코드 수정하려고 열어보니 3개의 변수가 끈적하게 스파게티로 얽혀있어 3번을 도려내자마자 서버가 컴파일 에러를 뿜으며 폭파됐다(강결합의 공포). <strong>"아 씨발! 이 3개의 작업 라인을 완벽한 남남으로 찢어(Decoupling) 놓고, 걍 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(호스)로만 연결해 두면, 에러 난 놈만 쏙 빼고 레고처럼 이어붙이면 되잖아!!"</strong> 이 절박함이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터의 컨베이어 벨트를 깔게 했다.
 
-- **💡 비유**: 쌩 코딩 1통짜리 처리는 **'혼자서 세차장 거품 칠, 물 뿌리기, 왁스 칠 3단계를 다 하는 1인 세차 달인'**입니다. 달인이 쓰러지면 세차장은 문 닫습니다. [파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/)는 **'거대한 자동 세차 터널(터널 세차장)'**입니다. 차가 컨베이어 벨트([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 타고 들어갑니다. 거품 기계(Filter 1), 물총 기계(Filter 2), 건조 기계(Filter 3)가 일렬로 서 있습니다. 건조 기계가 고장 나면? 걍 건조 기계만 치워버리고([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)), 차는 젖은 채로 밖으로 나옵니다(유연한 생존). 기계들은 서로 대화하지 않고 오직 들어온 차를 자기 역할대로 조질 뿐인 가장 완벽한 공장 분업술입니다.
+- **💡 비유**: 쌩 코딩 1통짜리 처리는 <strong>'혼자서 세차장 거품 칠, 물 뿌리기, 왁스 칠 3단계를 다 하는 1인 세차 달인'</strong>입니다. 달인이 쓰러지면 세차장은 문 닫습니다. [파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/)는 <strong>'거대한 자동 세차 터널(터널 세차장)'</strong>입니다. 차가 컨베이어 벨트([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 타고 들어갑니다. 거품 기계(Filter 1), 물총 기계(Filter 2), 건조 기계(Filter 3)가 일렬로 서 있습니다. 건조 기계가 고장 나면? 걍 건조 기계만 치워버리고([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)), 차는 젖은 채로 밖으로 나옵니다(유연한 생존). 기계들은 서로 대화하지 않고 오직 들어온 차를 자기 역할대로 조질 뿐인 가장 완벽한 공장 분업술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Unix [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) (1970s)**: 천재 해커들이 발명한 `ls | grep "text" | wc -l`. 텍스트 스트림을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 넘기며 마법을 부린 컴퓨터 공학의 가장 위대한 유산.
-  2. **Java I/O [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) (1990s)**: `InputStream`에 `BufferedInputStream` 껍데기 씌우고 `GzipInputStream` 또 씌우며([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 융합) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리의 국룰로 안착.
-  3. **Cloud [Data Pipeline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) (현재)**: 서버 1대 램(RAM) 안의 장난감을 넘어섬. `Kafka`가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))가 되고, `Spark/Logstash` 컨테이너가 필터(Filter)가 되어 K8s 클라우드 우주에서 테라바이트급 빅데이터를 초당 100만 건씩 썰어버리는 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)(이벤트 주도) 생태계로 진화함.
+  1. <strong>Unix <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/">Shell</a> (1970s)</strong>: 천재 해커들이 발명한 `ls | grep "text" | wc -l`. 텍스트 스트림을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 넘기며 마법을 부린 컴퓨터 공학의 가장 위대한 유산.
+  2. <strong>Java I/O <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> (1990s)</strong>: `InputStream`에 `BufferedInputStream` 껍데기 씌우고 `GzipInputStream` 또 씌우며([데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) 융합) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리의 국룰로 안착.
+  3. <strong>Cloud <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">Data Pipeline</a> (현재)</strong>: 서버 1대 램(RAM) 안의 장난감을 넘어섬. `Kafka`가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))가 되고, `Spark/Logstash` 컨테이너가 필터(Filter)가 되어 K8s 클라우드 우주에서 테라바이트급 빅데이터를 초당 100만 건씩 썰어버리는 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)(이벤트 주도) 생태계로 진화함.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'정수기 필터 교체'**와 같습니다. 원효대사 해골물(똥 코드)은 물이랑 독이 섞여 있어서 마시면 죽습니다. 정수기는 물을 정화하기 위해 `[1차 부직포 필터 ➡ 2차 숯 필터 ➡ 3차 멤브레인 필터]`를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 일렬 연결해 둡니다. 2차 숯 필터가 다 썩었으면? 정수기 안 부숩니다. 숯 필터만 쏙 빼서 새 걸로 1초 컷 갈아 끼우면 다시 물이 콸콸 나오는 무한대의 유지보수 쾌감입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'정수기 필터 교체'</strong>와 같습니다. 원효대사 해골물(똥 코드)은 물이랑 독이 섞여 있어서 마시면 죽습니다. 정수기는 물을 정화하기 위해 `[1차 부직포 필터 ➡ 2차 숯 필터 ➡ 3차 멤브레인 필터]`를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 일렬 연결해 둡니다. 2차 숯 필터가 다 썩었으면? 정수기 안 부숩니다. 숯 필터만 쏙 빼서 새 걸로 1초 컷 갈아 끼우면 다시 물이 콸콸 나오는 무한대의 유지보수 쾌감입니다.
 
 ---
 
 다음은 [파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) 스트림의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  파이프-필터 아키텍처 스트림                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프-필터 아키텍처 스트림</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) 스트림가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) 스트림의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) 스트림의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [파이프-필터 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) 스트림의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-파이프-필터 아키텍처 스트림 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파이프-필터 아키텍처 스트림 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

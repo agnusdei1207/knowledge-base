@@ -17,33 +17,29 @@ tags = ["security"]
 
 ### 보이지 않는 신뢰의 끈: PKI와 프로토콜
 
-우리가 온라인 뱅킹을 하거나 쇼핑몰에 접속할 때, 상대방이 진짜 은행이고 쇼핑몰인지 어떻게 믿을 수 있을까? **PKI**는 디지털 세상에서 인감증명서를 떼어주는 '온라인 동사무소'와 같다. 그리고 **보안 프로토콜**은 그 증명서를 확인하고 안전하게 대화하는 '비밀 대화 규칙'이다.
+우리가 온라인 뱅킹을 하거나 쇼핑몰에 접속할 때, 상대방이 진짜 은행이고 쇼핑몰인지 어떻게 믿을 수 있을까? <strong>PKI</strong>는 디지털 세상에서 인감증명서를 떼어주는 '온라인 동사무소'와 같다. 그리고 <strong>보안 프로토콜</strong>은 그 증명서를 확인하고 안전하게 대화하는 '비밀 대화 규칙'이다.
 
-PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, **신원 확인 (Authentication)**을 위해서이다. 가짜 사이트 (Phishing)에 속지 않으려면 공인된 기관의 보증이 필요하다. 둘째, **데이터 변조 방지**를 위해서이며 (Integrity), 셋째, 거래 사실을 나중에 부정할 수 없게 하는 **부인 방지 (Non-repudiation)**를 통해 전자상거래의 법적 효력을 확보하기 위함이다.
+PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, <strong>신원 확인 (Authentication)</strong>을 위해서이다. 가짜 사이트 (Phishing)에 속지 않으려면 공인된 기관의 보증이 필요하다. 둘째, <strong>데이터 변조 방지</strong>를 위해서이며 (Integrity), 셋째, 거래 사실을 나중에 부정할 수 없게 하는 <strong>부인 방지 (Non-repudiation)</strong>를 통해 전자상거래의 법적 효력을 확보하기 위함이다.
 
 이 그림은 PKI를 구성하는 핵심 주체들과 인증서 유통 흐름을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 PKI (Public Key Infrastructure) Model       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Root CA ] (최상위 인증기관)                             │
-│          │                                                  │
-│          ▼                                                  │
-│   [ Sub CA / RA ] (등록 대행 기관)                          │
-│          │                                                  │
-│   ┌──────┴─────────────────────────────────┐                │
-│   ▼ (Issue Certificate)                    ▼ (Query Status) │
-│ [ User / Server ] ◀─── (Trust?) ────▶ [ Relying Party ]     │
-│ (Cert Holder)                         (검증자: 쇼핑몰 등)   │
-│                                            │                │
-│   * Repository: 인증서 및 폐기 목록(CRL) 저장소             │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '신뢰의 전이'이다. 내가 모르는 서버라도, 내가 믿는 CA가 발급한 인증서를 들고 있다면 그 서버를 믿을 수 있게 된다. 실무에서는 이 신뢰의 사슬 (Chain of Trust)이 끊기거나 인증서가 탈취되었을 때를 대비한 **CRL**이나 **OCSP**와 같은 실시간 폐기 여부 확인 기술이 매우 중요하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI (Public Key Infrastructure) Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Root CA</div><div class="kb-diagram-note">(최상위 인증기관)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sub CA / RA</div><div class="kb-diagram-note">(등록 대행 기관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Issue Certificate) ▼ (Query Status)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">User / Server</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Relying Party</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cert Holder) (검증자: 쇼핑몰 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Repository: 인증서 및 폐기 목록(CRL) 저장소</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '신뢰의 전이'이다. 내가 모르는 서버라도, 내가 믿는 CA가 발급한 인증서를 들고 있다면 그 서버를 믿을 수 있게 된다. 실무에서는 이 신뢰의 사슬 (Chain of Trust)이 끊기거나 인증서가 탈취되었을 때를 대비한 <strong>CRL</strong>이나 <strong>OCSP</strong>와 같은 실시간 폐기 여부 확인 기술이 매우 중요하다.
 
 ### 보안 프로토콜의 주요 계층
 
@@ -62,34 +58,32 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, **�
 
 디지털 인증서의 국제 표준 규격이다.
 - **포함 정보**: 발급자 정보, 소유자 공개키, 유효 기간, CA의 디지털 서명.
-- **신뢰 체인**: 브라우저에 미리 내장된 **Root CA**의 공개키를 시작으로 하위 인증서의 서명을 연쇄적으로 검증함.
+- **신뢰 체인**: 브라우저에 미리 내장된 <strong>Root CA</strong>의 공개키를 시작으로 하위 인증서의 서명을 연쇄적으로 검증함.
 
 ### TLS (Transport Layer Security) 1.3
 
 현대 웹 보안의 표준 프로토콜이다.
-- **Handshake 혁신**: 기존 2-RTT (왕복 2회)에서 **1-RTT**로 단축하여 접속 속도 향상.
+- **Handshake 혁신**: 기존 2-RTT (왕복 2회)에서 <strong>1-RTT</strong>로 단축하여 접속 속도 향상.
 - **보안 강화**: 취약한 암호 알고리즘 폐기, Perfect Forward Secrecy (PFS) 의무화.
 
 이 구조도는 TLS 핸드쉐이크를 통해 대칭키가 안전하게 생성되는 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 TLS 1.3 Handshake (1-RTT)                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Client ] ──▶ Client Hello + Key Share ──▶ [ Server ]    │
-│                                                  │          │
-│   [ Client ] ◀── Server Hello + Encrypted Ext ◀──┘          │
-│          │       + Certificate + Finished                   │
-│          │                                                  │
-│   [ Symmetric Key Derived! ] ──▶ (Secure Data Transfer)     │
-│                                                             │
-│   * 특징: 비대칭키로 '세션키'를 합의하고 이후 대칭키로 통신 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
 
-이 다이어그램의 핵심은 '성능과 보안의 조화'이다. 암호화 통신을 시작하기 위한 인사(Handshake) 횟수를 줄이면서도, 나중에 서버의 개인키가 털려도 과거의 통신 내용은 복호화할 수 없게 만드는 **완전 순방향 비밀성 (PFS)**을 하드웨어적으로 구현한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 1.3 Handshake (1-RTT)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── Server Hello + Encrypted Ext ◀──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Certificate + Finished</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Symmetric Key Derived!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Secure Data Transfer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 비대칭키로 '세션키'를 합의하고 이후 대칭키로 통신</div></div>
+</div>
+</div>
+
+
+
+이 다이어그램의 핵심은 '성능과 보안의 조화'이다. 암호화 통신을 시작하기 위한 인사(Handshake) 횟수를 줄이면서도, 나중에 서버의 개인키가 털려도 과거의 통신 내용은 복호화할 수 없게 만드는 <strong>완전 순방향 비밀성 (PFS)</strong>을 하드웨어적으로 구현한다.
 
 📢 **섹션 요약 비유**: TLS 핸드쉐이크는 '비밀 금고를 열기 전의 암호 맞추기'와 같습니다. 서로가 누구인지 확인한 뒤, 이번 수다에만 쓸 일회용 암호(세션키)를 순식간에 정하고 대화를 시작하는 과정입니다.
 
@@ -129,25 +123,22 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, **�
 - **판단**: 단순 ID/PW나 생체 인증만으로는 법적 부인 방지 효력이 부족할 수 있다. 사용자의 단말 내 안전한 영역 (TEE)에 저장된 개인키를 이용한 **전자서명 (Digital Signature)** 기술을 적용한다. PKI 체계를 기반으로 거래 내역(원문)과 서명값을 함께 서버에 저장하여, 나중에 고객이 "내가 이체한 적 없다"고 주장할 수 없도록 '기술적 증거력'을 확보한다.
 
 **시나리오 2: 웹 서버의 TLS 설정 최적화 및 보안 강화**
-- **판단**: 호환성보다는 보안을 우선한다. 취약점이 발견된 SSL 3.0, TLS 1.0/1.1은 차단하고 **TLS 1.2/1.3만 허용**하도록 Cipher Suite를 튜닝한다. 또한 인증서 유효성 확인 지연을 줄이기 위해 **OCSP Stapling** 기술을 서버에 적용하여 브라우저의 성능 저하를 방어한다. 더불어 **HSTS (Strict Transport Security)**를 활성화하여 강제 HTTPS 통신을 보장한다.
+- **판단**: 호환성보다는 보안을 우선한다. 취약점이 발견된 SSL 3.0, TLS 1.0/1.1은 차단하고 <strong>TLS 1.2/1.3만 허용</strong>하도록 Cipher Suite를 튜닝한다. 또한 인증서 유효성 확인 지연을 줄이기 위해 **OCSP Stapling** 기술을 서버에 적용하여 브라우저의 성능 저하를 방어한다. 더불어 <strong>HSTS (Strict Transport Security)</strong>를 활성화하여 강제 HTTPS 통신을 보장한다.
 
 이 도식은 기술사가 체크해야 할 '인증서 라이프사이클 관리' 프로세스를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Certificate Lifecycle Management              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ 1. Generation ] ──▶ [ 2. Issuance ] ──▶ [ 3. Install ]  │
-│          ▲                                        │         │
-│          │          ┌─────────────────────────────┘         │
-│          │          ▼                                       │
-│   [ 5. Renewal ] ◀── [ 4. Expiry / Revocation Monitor ]     │
-│                                                             │
-│   * 핵심: 만료 전 자동 갱신 알림 및 폐기 목록 상시 동기화   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate Lifecycle Management</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Generation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. Issuance</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3. Install</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">5. Renewal</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">4. Expiry / Revocation Monitor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 만료 전 자동 갱신 알림 및 폐기 목록 상시 동기화</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 판단은 '국가 보안 문서 관리자'와 같습니다. 문서(인증서)를 누가 만들었는지, 도장이 진짜인지, 혹시 잃어버린 문서(폐기 목록)는 아닌지를 찰나의 순간에 판별하는 체계를 설계합니다.
 
@@ -162,7 +153,7 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, **�
 
 ### 미래 전망: DID (분산 신원 증명)와 양자 내성 보안
 
-향후 PKI는 중앙 집중형 CA의 한계를 넘어, 블록체인 기반의 **DID (Decentralized Identity)**로 진화할 것이다. 사용자가 자신의 신원 정보를 스스로 관리하고 필요한 정보만 선택적으로 제출하는 (Zero-Knowledge Proof) '자기 주권 신원' 시대가 열릴 것이다. 또한 양자 컴퓨터로 현재의 비대칭키 (RSA/ECC)가 깨지는 것에 대비하여 **PQC (양자 내성 암호)** 프로토콜로의 대대적인 마이그레이션이 시작될 것이다. 기술사는 기존의 PKI 체계를 유지하면서도, 분산화된 신뢰 모델을 수용하는 하이브리드 보안 아키텍처를 설계해야 한다.
+향후 PKI는 중앙 집중형 CA의 한계를 넘어, 블록체인 기반의 <strong>DID (Decentralized Identity)</strong>로 진화할 것이다. 사용자가 자신의 신원 정보를 스스로 관리하고 필요한 정보만 선택적으로 제출하는 (Zero-Knowledge Proof) '자기 주권 신원' 시대가 열릴 것이다. 또한 양자 컴퓨터로 현재의 비대칭키 (RSA/ECC)가 깨지는 것에 대비하여 **PQC (양자 내성 암호)** 프로토콜로의 대대적인 마이그레이션이 시작될 것이다. 기술사는 기존의 PKI 체계를 유지하면서도, 분산화된 신뢰 모델을 수용하는 하이브리드 보안 아키텍처를 설계해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 보안은 '내 몸 자체가 신분증이 되는 세상'과 같아질 것입니다. 종이 서류나 중앙 서버의 확인 없이도, 내가 나임을 증명하는 수학적 증표가 나를 따라다니며 온 세상의 문을 안전하게 열어줄 것입니다.
 

@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 KISS (Keep It Simple의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  KISS (Keep It Simple                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KISS (Keep It Simple</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 KISS (Keep It Simple가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -51,7 +50,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **명칭 유래**: 1960년대 미국 해군에서 전투기 수리 매뉴얼을 만들 때 쓰던 표어. (전투 중에 기계가 복잡하면 수리를 못 하고 죽으니까 제발 멍청할 정도로 단순하게 만들라는 뜻)
-- **개념**: 시스템과 소스 코드는 **필요한 목적을 달성하는 선에서 무조건 가장 '단순하고, 직관적이고, 읽기 쉽게' 작성되어야 한다는 원칙**입니다. 
+- **개념**: 시스템과 소스 코드는 <strong>필요한 목적을 달성하는 선에서 무조건 가장 '단순하고, 직관적이고, 읽기 쉽게' 작성되어야 한다는 원칙</strong>입니다. 
 - 복잡함은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 가장 큰 적입니다. 복잡할수록 버그가 터질 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/))이 기하급수적으로 올라가고 유지보수 비용(시간)이 폭발하기 때문입니다.
 
 - **📢 섹션 요약 비유**: KISS (Keep It Simple, Stupid) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -82,11 +81,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 불필요한 **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Extends) 뎁스 줄이기** (부모 ➜ 자식 ➜ 손자 ➜ 증손자... 미쳐버립니다).
-- 불필요한 **[디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)(GoF) 남용하지 않기**. (단순히 게시판 짜는데 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), [데코레이터 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/) 떡칠하면 맞아 죽습니다.)
+- 불필요한 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>(Extends) 뎁스 줄이기</strong> (부모 ➜ 자식 ➜ 손자 ➜ 증손자... 미쳐버립니다).
+- 불필요한 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/">디자인 패턴</a>(GoF) 남용하지 않기</strong>. (단순히 게시판 짜는데 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/), [데코레이터 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/155_decorator_pattern/) 떡칠하면 맞아 죽습니다.)
 - 변수명과 함수명을 줄이지 말고 `calc_total_monthly_salary()` 처럼 멍청할 정도로 길고 명확하게 적기.
 
-> 📢 **섹션 요약 비유**: **KISS(Keep It Simple, Stupid) 원칙**은 파리 한 마리를 잡으려는 사람에게 **'파리채 대신 레이저 유도 미사일 시스템을 만드는 짓거리 방지법'**입니다. 방에 파리가 한 마리 날아다닙니다. 오버 엔지니어링에 빠진 멍청한 천재 기술자(KISS 위반)는, 천장에 적외선 스캐너를 달고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝으로 파리 날갯짓을 분석한 뒤, 소형 레이저 터렛으로 0.1초 만에 파리를 태워 죽이는 1억짜리 복잡한 방공망(스파게티 아키텍처)을 설계합니다. 시스템은 무겁고, 툭하면 합선되어 집이 불타고, 레이저가 고장 나면 수리에 한 달이 걸립니다. KISS 원칙을 깨달은 동네 아저씨(클린 코더)는 코웃음을 칩니다. **"야 이 바보야, 제발 좀 단순하게 살아라(Keep it simple, stupid)!!"** 그리고 500원짜리 싸구려 파리채(가장 단순하고 직관적인 10줄짜리 코드)를 들고 와서 1초 만에 파리를 쳐 죽이고 벽에 탁 걸어놓습니다. 파리채는 고장 나지도 않고, 배터리도 안 들고, 3살짜리 조카가 와도 사용법(유지보수 및 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/))을 1초 만에 이해합니다. 복잡한 겉멋을 철저히 버리고, 기능 목적만 100% 달성하는 가장 원시적이고 단순한 도구(코드)야말로 수백 년이 지나도 썩지 않는 최강의 소프트웨어라는 미니멀리즘 헌법입니다.
+> 📢 **섹션 요약 비유**: <strong>KISS(Keep It Simple, Stupid) 원칙</strong>은 파리 한 마리를 잡으려는 사람에게 <strong>'파리채 대신 레이저 유도 미사일 시스템을 만드는 짓거리 방지법'</strong>입니다. 방에 파리가 한 마리 날아다닙니다. 오버 엔지니어링에 빠진 멍청한 천재 기술자(KISS 위반)는, 천장에 적외선 스캐너를 달고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 딥러닝으로 파리 날갯짓을 분석한 뒤, 소형 레이저 터렛으로 0.1초 만에 파리를 태워 죽이는 1억짜리 복잡한 방공망(스파게티 아키텍처)을 설계합니다. 시스템은 무겁고, 툭하면 합선되어 집이 불타고, 레이저가 고장 나면 수리에 한 달이 걸립니다. KISS 원칙을 깨달은 동네 아저씨(클린 코더)는 코웃음을 칩니다. **"야 이 바보야, 제발 좀 단순하게 살아라(Keep it simple, stupid)!!"** 그리고 500원짜리 싸구려 파리채(가장 단순하고 직관적인 10줄짜리 코드)를 들고 와서 1초 만에 파리를 쳐 죽이고 벽에 탁 걸어놓습니다. 파리채는 고장 나지도 않고, 배터리도 안 들고, 3살짜리 조카가 와도 사용법(유지보수 및 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/))을 1초 만에 이해합니다. 복잡한 겉멋을 철저히 버리고, 기능 목적만 100% 달성하는 가장 원시적이고 단순한 도구(코드)야말로 수백 년이 지나도 썩지 않는 최강의 소프트웨어라는 미니멀리즘 헌법입니다.
 
 - **📢 섹션 요약 비유**: KISS (Keep It Simple, Stupid) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -131,21 +130,23 @@ KISS (Keep It Simple, Stupid) 원칙은 '어떻게 빠르게 짜는가'가 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-KISS (Keep It Simple, Stupid) 원칙 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">KISS (Keep It Simple, Stupid) 원칙 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

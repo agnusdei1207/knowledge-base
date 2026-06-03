@@ -17,33 +17,29 @@ tags = ["data_engineering"]
 
 ### '학습'보다 힘든 '서빙'의 시대
 
-인공지능 모델을 만드는 것 (Training)이 학문의 영역이라면, 이를 수천만 명에게 서비스하는 것 (Serving)은 고도의 엔지니어링 영역이다. 특히 최근의 초거대 언어 모델 (LLM)은 모델 하나를 로드하는 데만 수백 GB의 GPU 메모리가 필요하며, 한 단어를 생성할 때마다 막대한 연산량이 소모된다. **서빙 공학**은 이러한 '연산의 비효율'을 기술적으로 파단하는 과정이다.
+인공지능 모델을 만드는 것 (Training)이 학문의 영역이라면, 이를 수천만 명에게 서비스하는 것 (Serving)은 고도의 엔지니어링 영역이다. 특히 최근의 초거대 언어 모델 (LLM)은 모델 하나를 로드하는 데만 수백 GB의 GPU 메모리가 필요하며, 한 단어를 생성할 때마다 막대한 연산량이 소모된다. <strong>서빙 공학</strong>은 이러한 '연산의 비효율'을 기술적으로 파단하는 과정이다.
 
-모델 서빙 공학이 필요한 이유는 세 가지이다. 첫째, **추론 지연 시간 (Latency) 단축**을 위해서이다. 사용자는 챗봇의 답변을 몇 분씩 기다려주지 않는다. 둘째, **추론 비용 (Inference Cost) 최적화**를 위해서이며 (H100 등 고가 GPU 자원 절약), 셋째, 모델의 **운영 안정성**을 확보하여 트래픽 폭증 시에도 서비스가 중단되지 않게 하기 위함이다.
+모델 서빙 공학이 필요한 이유는 세 가지이다. 첫째, <strong>추론 지연 시간 (Latency) 단축</strong>을 위해서이다. 사용자는 챗봇의 답변을 몇 분씩 기다려주지 않는다. 둘째, <strong>추론 비용 (Inference Cost) 최적화</strong>를 위해서이며 (H100 등 고가 GPU 자원 절약), 셋째, 모델의 <strong>운영 안정성</strong>을 확보하여 트래픽 폭증 시에도 서비스가 중단되지 않게 하기 위함이다.
 
 이 그림은 모델이 학습 완료 후 실제 서비스 배포를 위해 거치는 최적화 파이프라인을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Model Serving Optimization Pipeline         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Trained Model ] (Heavy, FP32)                           │
-│          │                                                  │
-│          ▼ (Optimization Layer)                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │ 1. Quantization: 데이터 정밀도 축소 (FP32 -> INT8)  │   │
-│   │ 2. Pruning: 불필요한 가중치 연결 제거               │   │
-│   │ 3. Distillation: 큰 모델의 지식을 작은 모델로 전수  │   │
-│   └─────────────────────────────────────────────────────┘   │
-│          │                                                  │
-│          ▼ (Serving Engine)                                 │
-│   [ Serving Hub: vLLM / NVIDIA Triton / TGI ]               │
-│                                                             │
-│   * 핵심: "정확도는 유지하되, 속도는 높이고 크기는 줄인다"  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Serving Optimization Pipeline</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Trained Model</div><div class="kb-diagram-note">(Heavy, FP32)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Optimization Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Quantization: 데이터 정밀도 축소 (FP32 -&gt; INT8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Pruning: 불필요한 가중치 연결 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Distillation: 큰 모델의 지식을 작은 모델로 전수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Serving Engine)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Serving Hub: vLLM / NVIDIA Triton / TGI</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: "정확도는 유지하되, 속도는 높이고 크기는 줄인다"</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '추론 효율화'이다. 학습 때는 정밀한 계산 (FP32)이 중요하지만, 서빙 때는 적당한 정밀도 (INT8)로 빠르게 답하는 것이 경제적이다. 실무에서는 이러한 하드웨어 가속기 (NVIDIA TensorRT 등)와 소프트웨어 최적화 기법의 결합이 서비스 생존의 핵심 변수가 된다.
 
@@ -71,24 +67,22 @@ LLM은 가변적인 길이의 문장을 생성하므로 메모리 관리가 극�
 
 거대 모델 (Teacher)의 예측 확률 분포를 작은 모델 (Student)이 따라 배우게 하는 학습 공학이다.
 
-이 구조도는 **모델 증류**를 통한 경량화 과정을 보여준다.
+이 구조도는 <strong>모델 증류</strong>를 통한 경량화 과정을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Knowledge Distillation Model                │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Teacher Model ] (Gigantic) ──┐ (Predict Probabilities)  │
-│                                  │                          │
-│          ┌───────────────────────┴──────────────┐           │
-│          ▼ (Mimic)                              ▼ (Soft Loss)│
-│   [ Student Model ] (Compact) ──────────▶ [ Loss Function ] │
-│                                                             │
-│   * 결과: 작은 모델이 큰 모델의 통찰력을 습득함             │
-│   * 실무: 모바일용 AI나 임베디드 AI 구축의 필수 관문        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge Distillation Model</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Teacher Model</div><div class="kb-diagram-note">(Gigantic) ── (Predict Probabilities)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Mimic) ▼ (Soft Loss)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Student Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Loss Function</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 작은 모델이 큰 모델의 통찰력을 습득함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무: 모바일용 AI나 임베디드 AI 구축의 필수 관문</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '지식의 압축'이다. 파라미터가 1/10이어도 성능은 90% 이상 유지하는 효율적인 모델을 탄생시킨다. 실무에서는 이러한 Student 모델을 다시 양자화하여 저사양 기기에서도 실시간 추론이 가능하게 만든다.
 
@@ -123,28 +117,26 @@ LLM은 가변적인 길이의 문장을 생성하므로 메모리 관리가 극�
 ### 기술사적 판단: 초거대 AI 서빙 인프라 및 최적화 전략
 
 **시나리오 1: LLM 서비스 사용자 급증으로 인한 GPU 메모리 부족 (OOM)과 장애 발생**
-- **판단**: 단순히 서버를 늘리는 것은 비용상 한계가 있다. 우선 **PagedAttention (vLLM)** 도입을 통해 메모리 활용률을 극대화한다. 또한 모델의 가중치를 4비트로 압축하는 **AWQ**나 **GPTQ** 양자화 기법을 적용하여 모델 크기를 줄인다. 동시 요청 처리를 위해 **Continuous Batching** 기술을 활성화하여 GPU의 유휴 시간을 0에 가깝게 관리하는 아키텍처 튜닝을 수행한다.
+- **판단**: 단순히 서버를 늘리는 것은 비용상 한계가 있다. 우선 **PagedAttention (vLLM)** 도입을 통해 메모리 활용률을 극대화한다. 또한 모델의 가중치를 4비트로 압축하는 <strong>AWQ</strong>나 **GPTQ** 양자화 기법을 적용하여 모델 크기를 줄인다. 동시 요청 처리를 위해 **Continuous Batching** 기술을 활성화하여 GPU의 유휴 시간을 0에 가깝게 관리하는 아키텍처 튜닝을 수행한다.
 
 **시나리오 2: 내부 기밀을 다루는 Private LLM의 응답 속도 최적화**
-- **판단**: 외부 API를 쓸 수 없으므로 자체 최적화가 생명이다. 문서 검색 효율을 높이기 위해 **RAG (검색 증강 생성)** 파이프라인에 **벡터 DB 인덱싱** 최적화를 수행한다. 또한 자주 묻는 질문에 대해서는 **Semantic Caching**을 도입하여, 동일한 질문이 아니더라도 의미가 비슷하면 과거의 답변을 즉시 반환함으로써 GPU 연산 자체를 생략하는 지능형 서빙 전략을 수립한다.
+- **판단**: 외부 API를 쓸 수 없으므로 자체 최적화가 생명이다. 문서 검색 효율을 높이기 위해 **RAG (검색 증강 생성)** 파이프라인에 **벡터 DB 인덱싱** 최적화를 수행한다. 또한 자주 묻는 질문에 대해서는 <strong>Semantic Caching</strong>을 도입하여, 동일한 질문이 아니더라도 의미가 비슷하면 과거의 답변을 즉시 반환함으로써 GPU 연산 자체를 생략하는 지능형 서빙 전략을 수립한다.
 
 이 도식은 기술사가 주도하는 '모델 서빙 SLA 보장 의사결정 트리'를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Model Serving SLA Decision Tree               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   TTFT(첫 글자 속도)가 중요한가? ──▶ [YES] ──▶ Stream/Streaming│
-│          │                                                  │
-│   비용 절감이 최우선인가? ──▶ [YES] ──▶ Quantization/Spot Inst│
-│          │                                                  │
-│   정확도가 1%라도 낮아지면 안 되나? ──▶ [YES] ──▶ FP16/No Prune │
-│          │                                                  │
-│   * TTFT: Time To First Token (사용자 체감 성능의 핵심)     │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Serving SLA Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Stream/Streaming</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Quantization/Spot Inst</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">FP16/No Prune</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TTFT: Time To First Token (사용자 체감 성능의 핵심)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 서빙 판단은 '대형 콘서트장의 관객 관리'와 같습니다. 한꺼번에 수만 명(트래픽)이 몰릴 때 입구(메모리)에서 병목이 생기지 않게 하고, 가수(모델)의 목소리가 끝까지 잘 들리게 스피커(인프라)를 배치하며, 티켓팅(비용) 효율을 극대화하는 총감독입니다.
 
@@ -159,7 +151,7 @@ LLM은 가변적인 길이의 문장을 생성하므로 메모리 관리가 극�
 
 ### 미래 전망: 온디바이스 AI와 분산 추론 (Decentralized AI)
 
-향후 모델 서빙은 중앙 서버를 벗어나 사용자의 기기 내부로 들어가는 **온디바이스 AI**가 주류가 될 것이다. 또한 수만 개의 개인 단말기 유휴 자원을 묶어 거대 모델을 협업 추론하는 **분산 AI 네트워크** 기술이 부상할 것이다. 기술사는 클라우드 스택을 넘어, 하드웨어 특성에 따른 모델 컴파일 (TVM 등)과 저전력 환경에서의 추론 안정성을 보장하는 '임베디드 AI 아키텍트'로서의 전문성을 확장해야 한다.
+향후 모델 서빙은 중앙 서버를 벗어나 사용자의 기기 내부로 들어가는 <strong>온디바이스 AI</strong>가 주류가 될 것이다. 또한 수만 개의 개인 단말기 유휴 자원을 묶어 거대 모델을 협업 추론하는 **분산 AI 네트워크** 기술이 부상할 것이다. 기술사는 클라우드 스택을 넘어, 하드웨어 특성에 따른 모델 컴파일 (TVM 등)과 저전력 환경에서의 추론 안정성을 보장하는 '임베디드 AI 아키텍트'로서의 전문성을 확장해야 한다.
 
 📢 **섹션 요약 비유**: 미래의 AI 서빙은 '우리 곁의 공기'와 같아질 것입니다. 어디에나 존재하지만 그 존재감(지연 시간/비용)은 느끼지 못할 정도로 가볍고 빠르며, 우리가 필요한 지능을 실시간으로 공급하는 완벽한 인프라가 완성될 것입니다.
 

@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 드라이브([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 모터와 바늘(Head)로 긁어 읽던 아날로그 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 멸종시키고, 전자가 방(Cell) 안에 갇혀있는지 없는지로 0과 1을 판별하는 **낸드 플래시([NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/)) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 메모리로 저장장치를 100% 디지털화한 하드웨어 혁명**이다.
-> 2. **가치**: 바늘이 이동하는 물리적 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 8ms)을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))으로 증발시켜 버려 **랜덤 액세스(Random I/O) 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 수만 배 폭등**시켰으며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 무거운 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(엘리베이터 정렬 등)를 무용지물(Noop)로 만들어 시스템 병목을 파괴했다.
-> 3. **융합(한계)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 건 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 4KB) 단위로 빠르지만, 지우는 건 무조건 거대한 블록(Block, 수 MB) 단위로만 가능한 치명적 물리 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/))을 갖고 있어, 이를 덮기 위해 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 **[FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))이라는 초지능 펌웨어와 백그라운드 [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)가 완벽하게 융합**되어 동작한다.
+> 1. **본질**: 솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 드라이브([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 모터와 바늘(Head)로 긁어 읽던 아날로그 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 멸종시키고, 전자가 방(Cell) 안에 갇혀있는지 없는지로 0과 1을 판별하는 <strong>낸드 플래시(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/">NAND Flash</a>) <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 메모리로 저장장치를 100% 디지털화한 하드웨어 혁명</strong>이다.
+> 2. **가치**: 바늘이 이동하는 물리적 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 8ms)을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))으로 증발시켜 버려 <strong>랜덤 액세스(Random I/O) 속도를 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a> 대비 수만 배 폭등</strong>시켰으며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 무거운 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(엘리베이터 정렬 등)를 무용지물(Noop)로 만들어 시스템 병목을 파괴했다.
+> 3. **융합(한계)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 건 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 4KB) 단위로 빠르지만, 지우는 건 무조건 거대한 블록(Block, 수 MB) 단위로만 가능한 치명적 물리 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/))을 갖고 있어, 이를 덮기 위해 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">Flash Translation Layer</a>)이라는 초지능 펌웨어와 백그라운드 <a href="/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/">가비지 컬렉터</a>(GC)가 완벽하게 융합</strong>되어 동작한다.
 
 ---
 
@@ -25,28 +25,26 @@ tags = ["studynote-operating-system"]
 - **등장 배경 및 I/O 병목의 해방**:
   1. **Memory Wall의 극대화**: CPU와 디스크 간 100만 배 속도 차이로 인해 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 일상화됨.
   2. **NAND 플래시의 대중화**: MP3 플레이어나 USB에 쓰이던 비싼 낸드 칩의 단가가 폭락하며 수백 GB를 엮어 메인 드라이브로 쓸 수 있게 됨.
-  3. **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 패러다임 붕괴**: 바늘 동선을 짜던 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFQ)들이 무더기로 실직당하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O(Multi-queue)의 시대가 벼락처럼 도래함.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 패러다임 붕괴</strong>: 바늘 동선을 짜던 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFQ)들이 무더기로 실직당하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O(Multi-queue)의 시대가 벼락처럼 도래함.
 
-```text
-┌─────────────────────────────────────────────────────────────────────────────┐
-│        SSD 내부의 물리적/논리적 계층 구조 (Cell -> Page -> Block)           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ [ 1. 셀 (Cell) ] - 가장 작은 모래알 (1비트 ~ 4비트 저장)                    │
-│   전자가 갇혀있으면 0, 비어있으면 1 (SLC, MLC, TLC, QLC)                    │
-│                                                                             │
-│ [ 2. 페이지 (Page) ] - 책의 한 페이지 (보통 4KB ~ 16KB 크기)                │
-│   ┌─[Cell][Cell][Cell][Cell]... ┐ ◀ 이 줄 묶음이 1개의 Page!                │
-│   🔥 핵심 룰 1: 읽기(Read)와 쓰기(Write)는 무조건 [Page 단위]로 수행!       │
-│                                                                             │
-│ [ 3. 블록 (Block) ] - 책 한 권 (수십~수백 개의 Page 묶음. 수 MB)            │
-│   ┌────────────────────────────────┐                                        │
-│   │ [ Page 1 ] [ Page 2 ] [ Page 3 ] ... │                                  │
-│   └────────────────────────────────┘                                        │
-│   ☠️ 핵심 룰 2: 지우기(Erase)는 무조건 무식하게 [Block 단위]로만 수행!      │
-│     (페이지 1장만 지우고 싶어도, 블록 전체를 날려버려야 하는 끔찍한 제약)   │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 내부의 물리적/논리적 계층 구조 (Cell -&gt; Page -&gt; Block)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 셀 (Cell)</div><div class="kb-diagram-note">- 가장 작은 모래알 (1비트 ~ 4비트 저장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자가 갇혀있으면 0, 비어있으면 1 (SLC, MLC, TLC, QLC)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 페이지 (Page)</div><div class="kb-diagram-note">- 책의 한 페이지 (보통 4KB ~ 16KB 크기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Cell</div><div class="kb-diagram-node">Cell</div><div class="kb-diagram-node">Cell</div><div class="kb-diagram-node">Cell</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">이 줄 묶음이 1개의 Page!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">🔥 핵심 룰 1: 읽기(Read)와 쓰기(Write)는 무조건</div><div class="kb-diagram-node">Page 단위</div><div class="kb-diagram-note">로 수행!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 블록 (Block)</div><div class="kb-diagram-note">- 책 한 권 (수십~수백 개의 Page 묶음. 수 MB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Page 1</div><div class="kb-diagram-node">Page 2</div><div class="kb-diagram-node">Page 3</div><div class="kb-diagram-note">... │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">☠️ 핵심 룰 2: 지우기(Erase)는 무조건 무식하게</div><div class="kb-diagram-node">Block 단위</div><div class="kb-diagram-note">로만 수행!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(페이지 1장만 지우고 싶어도, 블록 전체를 날려버려야 하는 끔찍한 제약)</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** "읽고 쓰는 건 낱장([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 되는데, 지우는 건 무조건 책 한 권(Block)을 통째로 불태워야 한다"는 이 미친 비대칭성([Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/))이 바로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구조의 알파요 오메가다. 이 거지 같은 하드웨어의 생리적 약점을 덮어주기 위해 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기판 안에는 컴퓨터 본체의 CPU를 뺨치는 초고지능 두뇌([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) Controller + [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))가 쉬지 않고 땀을 뻘뻘 흘리며 사기([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))를 치고 있다.
 
 - **📢 섹션 요약 비유**: 연필로 공책에 글씨([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 쓸 때, 빈 줄([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에는 언제든 1줄씩 빠르게 글을 쓸 수 있습니다(Write 빠름). 그런데 글씨를 고치고 싶어서 지우개를 댔더니, 1줄만 못 지우고 무조건 '공책 한 권 100장(Block)' 전체가 한 번에 싹 다 지워져 버리는(Erase 단위 큼) 저주받은 공책입니다. 이 지옥 같은 룰을 뚫고 1줄만 고치는 꼼수를 부리는 게 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 기술의 전부입니다.
@@ -59,7 +57,7 @@ tags = ["studynote-operating-system"]
 
 SSD는 HDD의 바늘을 없앤 천사 같지만, 속을 파보면 악마 같은 족쇄 두 개를 차고 있다.
 
-1. **덮어쓰기 불가 ([Erase-before-write](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/) / No In-place Update)**:
+1. <strong>덮어쓰기 불가 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/476_flash_memory_limitations/">Erase-before-write</a> / No In-place Update)</strong>:
    - 램(RAM)이나 HDD는 기존에 값이 들어있던 5번지에 새로운 값을 냅다 덧칠(덮어쓰기)하면 끝이다.
    - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 낸드 셀은 한 번 전자를 채워(0) 넣으면, 그걸 비우기(Erase) 전에는 다른 전자를 덮어쓸 수 없는 물리적 한계가 있다.
    - 더 환장하는 건, 쓸 땐 4KB([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))씩 쓰는데, **지울 땐 무조건 2MB(Block) 덩어리를 고압 전기로 통째로 구워버려야(Erase)** 지워진다. 4KB 하나 고치겠다고 2MB를 통째로 지우는 병목이 발생한다.
@@ -74,11 +72,11 @@ SSD는 HDD의 바늘을 없앤 천사 같지만, 속을 파보면 악마 같은 
 
 이 두 가지 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 OS(윈도우/리눅스)가 알게 되면 어떻게 될까?
 "아니, C드라이브 5번 섹터에 글씨 덮어쓰려니까 블록 지우고 쓰느라 1초 걸리고, 거기에만 계속 쓰면 그 자리 칩이 타버린다고? 이런 쓰레기 기계를 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 붙여 써!"라며 퇴짜를 놨을 것이다.
-- **기만술의 극치 ([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))**:
-  - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안에 들어있는 미니 컴퓨터 칩(컨트롤러) 안에 **[FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) (플래시 번역 계층)**이라는 사기꾼 펌웨어가 들어간다.
+- <strong>기만술의 극치 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a>)</strong>:
+  - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안에 들어있는 미니 컴퓨터 칩(컨트롤러) 안에 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a> (플래시 번역 계층)</strong>이라는 사기꾼 펌웨어가 들어간다.
   - OS가 "야 LBA 10번지(4KB)에 덮어써!"라고 명령한다.
   - FTL은 10번지를 지우지 않는다. 그냥 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 구석에 있는 텅 빈 '새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(예: 물리 900번지)'에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1초 만에 휙 쓴다(Out-of-place Update).
-  - 그리고 자기 내부 매핑 장부([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))에 **"앞으로 OS가 10번지라고 부르면 900번지로 뻥쳐라"**라고 화살표를 슬쩍 꺾어버린다!
+  - 그리고 자기 내부 매핑 장부([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))에 <strong>"앞으로 OS가 10번지라고 부르면 900번지로 뻥쳐라"</strong>라고 화살표를 슬쩍 꺾어버린다!
   - 10번지에 있던 옛날 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 '유효하지 않음(Invalid)' 딱지를 붙이고 방치한다. 
   - OS는 덮어쓰기가 0.001ms 만에 끝난 줄 알고 "와 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 개빠르네!" 하고 감탄하며 완벽하게 속아 넘어간다.
 
@@ -94,25 +92,28 @@ SSD를 살 때 가격을 결정하는 낸드 셀의 저장 계급도다.
 
 | 낸드 타입 | 1개 셀(모래알)당 저장 용량 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 구분 난이도 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도 및 수명 | 주 사용처 |
 |:---|:---|:---|:---|:---|
-| **[SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) (Single)**| 딱 1비트 (0, 1) | 전기 조금/많음 2단계 (쉬움) | **수명 수만 번, 속도 우주 최강🚀** | 초고가 엔터프라이즈 서버 캐시 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/">SLC</a> (Single)</strong>| 딱 1비트 (0, 1) | 전기 조금/많음 2단계 (쉬움) | **수명 수만 번, 속도 우주 최강🚀** | 초고가 엔터프라이즈 서버 캐시 |
 | **MLC (Multi)** | 2비트 (00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))| 전기 4단계로 쪼갬 (보통) | 수명 수천 번, 속도 준수함 | 과거 고급 PC용 (단종 추세) |
-| **TLC (Triple)**| 3비트 (000 ~ 111) | 전기 8단계로 쪼갬 (어려움) | 수명 1~2천 번, 가성비 뛰어남 | **현재 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)/스마트폰 절대 대세** |
+| **TLC (Triple)**| 3비트 (000 ~ 111) | 전기 8단계로 쪼갬 (어려움) | 수명 1~2천 번, 가성비 뛰어남 | <strong>현재 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>/스마트폰 절대 대세</strong> |
 | **QLC (Quad)** | **4비트 (0000 ~ 1111)** | 전기 16단계로 미세하게 쪼갬 | **수명 수백 번 ☠️, 속도 지옥 🐢**| 싼 맛에 쓰는 거대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 창고 |
 
 ### 왜 QLC로 갈수록 느려지고 수명이 깎이는가?
 하나의 방(Cell) 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 4개씩(QLC) 우겨넣으면 용량은 4배로 뻥튀기되어 가격이 똥값이 된다.
 하지만 물이 반쯤 찬 컵(Cell)을 상상해 보라. SLC는 물이 있냐/없냐만 보면 되니 0.1초 컷이다. 
-QLC는 이 물의 높이를 무려 **16단계로 초정밀 측정**해야 한다. "이게 3단계 높이인가? 4단계 높이인가?"를 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 미세하게 넣었다 뺐다 하며 저울질(Read/Write) 하느라 속도가 처참하게 곤두박질친다. 게다가 미세 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 계속 때려 박으니 칩이 금방 닳아서 죽어버린다(Wear-out). 이를 속이기 위해 제조사들은 TLC/QLC 드라이브 앞단에 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시(가짜 고속도로)를 10GB쯤 깔아서 벤치마크 사기를 치는 것이 현대 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 설계의 어두운 이면이다.
+QLC는 이 물의 높이를 무려 <strong>16단계로 초정밀 측정</strong>해야 한다. "이게 3단계 높이인가? 4단계 높이인가?"를 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 미세하게 넣었다 뺐다 하며 저울질(Read/Write) 하느라 속도가 처참하게 곤두박질친다. 게다가 미세 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 계속 때려 박으니 칩이 금방 닳아서 죽어버린다(Wear-out). 이를 속이기 위해 제조사들은 TLC/QLC 드라이브 앞단에 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시(가짜 고속도로)를 10GB쯤 깔아서 벤치마크 사기를 치는 것이 현대 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 설계의 어두운 이면이다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────┐
-│ 플래시 타입│ 가격 (용량)   │ 읽기/쓰기 렉 │ 데이터 보존력(수명)│
-├──────────┼────────────┼────────────┼───────────────────────────┤
-│ SLC      │ 💰 미치게 비쌈 │ 🚀 0 딜레이  │ 🟢 대대손손 물려줌  │
-│ TLC      │ 💵 아주 합리적 │ 🟢 쓸 만함   │ 🟡 3~5년 거뜬함     │
-│ QLC      │ 🪙 껌값 수준  │ 🐢 숨 막힘   │ ☠️ 토렌트 돌리면 사망│
-└──────────┴────────────┴────────────┴───────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래시 타입</div><div class="kb-diagram-cell">가격 (용량)</div><div class="kb-diagram-cell">읽기/쓰기 렉</div><div class="kb-diagram-cell">데이터 보존력(수명)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLC</div><div class="kb-diagram-cell">💰 미치게 비쌈</div><div class="kb-diagram-cell">🚀 0 딜레이</div><div class="kb-diagram-cell">🟢 대대손손 물려줌</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLC</div><div class="kb-diagram-cell">💵 아주 합리적</div><div class="kb-diagram-cell">🟢 쓸 만함</div><div class="kb-diagram-cell">🟡 3~5년 거뜬함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QLC</div><div class="kb-diagram-cell">🪙 껌값 수준</div><div class="kb-diagram-cell">🐢 숨 막힘</div><div class="kb-diagram-cell">☠️ 토렌트 돌리면 사망</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 자본주의 시장은 결국 용량(가격)이 이긴다. 느려 터진 TLC와 QLC의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 스위칭 렉을 어떻게든 가려보려고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 제조사들은 컨트롤러 칩 안에 ARM 코어를 2개, 3개씩 박아넣고 램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))을 기가바이트 단위로 발라가며 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 칩 인터리빙(채널 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 흑마술을 피 터지게 쥐어짜고 있는 중이다.
 
 - **📢 섹션 요약 비유**: 물통(셀)에 물을 담을 때, 물이 있냐 없냐만 보면([SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)) 1초면 됩니다. 하지만 물통 하나에 물 눈금을 16개(QLC) 그어놓고 스포이트로 13번째 눈금에 정확히 맞춰 넣으라고 하면 눈이 빠지게 들여다보느라 시간이 100배 걸립니다. 컵 1개로 16개 효과를 내어 싸게 팔 수 있지만, 속도와 수명은 걸레짝이 되는 치명적 상술입니다.
@@ -126,17 +127,17 @@ QLC는 이 물의 높이를 무려 **16단계로 초정밀 측정**해야 한다
    - 윈도우에서 10GB짜리 영화를 '휴지통 비우기'로 삭제했다.
    - OS 입장에서는 장부(NTFS)에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름만 쓱 지우고 끝이다. 
    - 💥 **비극**: OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지웠다고 생각하지만, 그 사실을 하드웨어인 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러에게 알려주지 않았다! [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 입장에서는 그 10GB 공간이 아직도 '사용 중인 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Valid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))'라고 굳게 믿고 있다.
-2. **[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 폭주와 렉**:
-   - SSD가 꽉 찼을 때, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부 펌웨어는 빈 블록을 만들기 위해 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 딴 곳으로 낑낑대며 이사시키는 **[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)**을 돈다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a>(GC) 폭주와 렉</strong>:
+   - SSD가 꽉 찼을 때, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부 펌웨어는 빈 블록을 만들기 위해 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 딴 곳으로 낑낑대며 이사시키는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/">가비지 컬렉션</a>(GC)</strong>을 돈다.
    - OS가 안 쓰는 10GB 쓰레기를 지워졌다고 말 안 해준 탓에, SSD는 그 10GB 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살리겠다고 이사시키느라 CPU와 플래시 수명을 통째로 갉아먹는다([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)). 갑자기 컴퓨터가 프리즈(Freeze) 걸리는 원인이다.
-3. **TRIM [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 구원**:
-   - 빡친 제조사들이 OS 벤더와 협의해 **`TRIM` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)**를 만들었다.
+3. <strong>TRIM <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>의 구원</strong>:
+   - 빡친 제조사들이 OS 벤더와 협의해 <strong><code>TRIM</code> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>를 만들었다.
    - 윈도우에서 휴지통을 비우는 순간, OS가 SSD에게 `TRIM(LBA 100~500)` 신호를 쏴준다. "야! 이거 내가 지운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이니까, 네 장부에서 싹 다 쓰레기(Invalid)로 처리하고 이사시킬 때 버려도 돼!"
    - 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄 덕분에 SSD는 불필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이사 노가다를 피하고 항상 쾌적한 새것 같은 속도(Clean [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 1년 내내 유지할 수 있게 되었다. 실무 리눅스 서버 구축 시 `fstrim` 데몬을 크론([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/))에 박아두는 건 생존을 위한 제1법칙이다.
 
 ### [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less SSD의 꼼수 (HMB)
 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안에 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 장부(가짜 주소 매핑표)를 두려면 캐시용 RAM([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))이 필수다. 근데 원가 절감한다고 디램을 빼버린 '디램리스([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)'들이 시장을 덮쳤다. 이놈들은 장부 둘 곳이 없어서 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) 구석에 장부를 뒀다가 속도가 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 수준으로 박살 났다.
-이를 구원하기 위해 **HMB ([Host Memory Buffer](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/))** 기술이 나왔다. "야, 컴퓨터 본체(Host)에 16GB 램이 널려있는데 SSD가 램이 왜 필요해? [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고 건너가서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 램을 64MB만 훔쳐 쓰자!" OS가 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 불쌍하다고 자기 램을 살짝 떼어 빌려줌으로써 똥컴 SSD를 심폐 소생술 해버리는 눈물겨운 하드웨어-OS 공조 작전이다.
+이를 구원하기 위해 <strong>HMB (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/">Host Memory Buffer</a>)</strong> 기술이 나왔다. "야, 컴퓨터 본체(Host)에 16GB 램이 널려있는데 SSD가 램이 왜 필요해? [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고 건너가서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 램을 64MB만 훔쳐 쓰자!" OS가 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 불쌍하다고 자기 램을 살짝 떼어 빌려줌으로써 똥컴 SSD를 심폐 소생술 해버리는 눈물겨운 하드웨어-OS 공조 작전이다.
 
 - **📢 섹션 요약 비유**: 이삿짐센터([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) GC)가 방을 치우는데, 엄마(OS)가 버릴 물건(삭제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 "버림" 딱지(TRIM)를 안 붙여두면 일꾼은 그걸 귀중품인 줄 알고 땀 뻘뻘 흘리며 새집으로 정성스레 옮깁니다. 나중에 "어 그거 버린 건데?" 하면 일꾼은 화병으로 쓰러지죠(속도 저하). 버릴 물건에 TRIM 딱지 하나만 붙여주면 일꾼의 헛수고를 완벽히 막아내는 겁니다.
 
@@ -148,8 +149,8 @@ QLC는 이 물의 높이를 무려 **16단계로 초정밀 측정**해야 한다
 
 | 구분 | 내용 |
 |:---|:---|
-| **[Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) ([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)) 0화** | 모터와 바늘을 뜯어내고 전기 신호로 셀을 다이렉트 점프하여 랜덤 액세스 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 최소 1만 배 이상 우주 끝까지 폭발 |
-| **[디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)(CFQ) 멸종** | OS가 바늘 동선 아끼겠다고 CPU 자원을 갈아 넣던 복잡한 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 큐를 파괴하고 Noop(무지성 투입)의 쾌속 직진 시대 개막 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>) 0화</strong> | 모터와 바늘을 뜯어내고 전기 신호로 셀을 다이렉트 점프하여 랜덤 액세스 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 대비 최소 1만 배 이상 우주 끝까지 폭발 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/">디스크 스케줄링</a>(CFQ) 멸종</strong> | OS가 바늘 동선 아끼겠다고 CPU 자원을 갈아 넣던 복잡한 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 큐를 파괴하고 Noop(무지성 투입)의 쾌속 직진 시대 개막 |
 | **물리적 내구성 및 전성비** | 쇳덩어리 구동부가 없어 노트북을 바닥에 던져도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살(Head Crash) 나지 않으며, 배터리 소모와 소음을 0으로 수렴시킴 |
 
 ### 결론 및 미래 전망
@@ -171,15 +172,19 @@ QLC는 이 물의 높이를 무려 **16단계로 초정밀 측정**해야 한다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[리눅스 I/O 스케줄러]
-    │
-    ▼
-[솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
-    │
-    ├──▶ [플래시 메모리 한계]
-    └──▶ [가비지 컬렉션 (Garbage Collection in SSD)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 I/O 스케줄러</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 메모리 한계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection in SSD)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

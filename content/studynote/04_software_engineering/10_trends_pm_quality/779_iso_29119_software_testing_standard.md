@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 회사마다 테스트 계획서 양식이 달랐고, 영국 회사와 인도 하청업체가 쓰는 테스팅 용어가 달라 의사소통이 마비되었다. "[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)"라는 단어 하나를 두고도 서로 다른 의미로 해석했다.
 
-이 난장판을 끝내기 위해, 세계 3대 표준화 기구인 ISO, IEC, IEEE가 합심하여 기존의 낡은 표준들을 모두 폐기하고 2013년에 새롭게 제정한 통합 테스팅 표준이 바로 **ISO/IEC/IEEE 29119**다. 이 표준의 탄생으로 전 세계 테스터들은 마침내 하나의 통일된 교과서를 갖게 되었다.
+이 난장판을 끝내기 위해, 세계 3대 표준화 기구인 ISO, IEC, IEEE가 합심하여 기존의 낡은 표준들을 모두 폐기하고 2013년에 새롭게 제정한 통합 테스팅 표준이 바로 <strong>ISO/IEC/IEEE 29119</strong>다. 이 표준의 탄생으로 전 세계 테스터들은 마침내 하나의 통일된 교과서를 갖게 되었다.
 
 - **📢 섹션 요약 비유**: 각 나라마다 센티미터, 인치, 척, 자 등 길이를 재는 단위가 달라서 건물을 지을 때마다 붕괴 사고가 났다. 29119는 전 세계 모든 목수와 건축가들이 무조건 '미터(m)'법 하나만 쓰기로 도장을 찍은 위대한 합의다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 ISO/IEC/IEEE 29119 소의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  ISO/IEC/IEEE 29119 소                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC/IEEE 29119 소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 ISO/IEC/IEEE 29119 소가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -81,7 +80,7 @@ ISO 29119 시리즈는 테스팅의 모든 것을 다루기 위해 5개(최근 �
 | **적용 결과** | "우리는 국제 표준 문서 양식과 기법을 씁니다." | "우리 회사의 QA 조직은 레벨 3 수준입니다." |
 | **비유** | 요리 학교의 '표준 레시피 북' | 미슐랭 가이드의 '별점 심사표' |
 
-실무에서는 **ISO 29119에 정의된 프로세스와 문서 양식을 도입하여 훈련하면, 자연스럽게 [TMMi](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/) 레벨 3 이상의 심사를 통과**할 수 있는 튼튼한 토대가 마련된다.
+실무에서는 <strong>ISO 29119에 정의된 프로세스와 문서 양식을 도입하여 훈련하면, 자연스럽게 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/">TMMi</a> 레벨 3 이상의 심사를 통과</strong>할 수 있는 튼튼한 토대가 마련된다.
 
 - **📢 섹션 요약 비유**: 요리사 자격증을 따려면 칼질은 어떻게 하고 양파는 어떻게 써는지 정확한 규칙(ISO 29119)을 알아야 한다. 이 규칙을 매일 식당에서 100% 지키고 있는지 검사하러 나오는 심사관이 TMMi다.
 
@@ -109,7 +108,7 @@ ISO 29119의 문서를 무작정 모든 프로젝트에 100% 적용하려고 하
 
 ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거나 새로운 QA 담당자가 입사해도 1시간 안에 기존의 테스트 문서를 읽고 다음 테스트를 진행할 수 있다. 완벽한 커뮤니케이션 프로토콜이 생기기 때문이다.
 
-결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 **'테스트를 대하는 과학적 태도([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))'**다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
+결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 <strong>'테스트를 대하는 과학적 태도(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)'</strong>다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
 
 - **📢 섹션 요약 비유**: 이 표준은 오케스트라의 공통 악보다. 바이올린(개발자)과 첼로(QA)가 서로 다른 동네에서 왔더라도, 같은 악보(ISO 29119)를 펼쳐놓으면 지휘자(아키텍트)의 손짓 한 번에 완벽한 화음(품질)을 만들어 낼 수 있다.
 
@@ -132,21 +131,23 @@ ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

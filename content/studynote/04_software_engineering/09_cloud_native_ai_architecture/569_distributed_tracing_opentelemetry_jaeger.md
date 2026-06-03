@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 옵저버빌리티의 가장 화려한 꽃. 하나의 사용자 요청(Request)이 여러 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) ➡ 주문 ➡ 결제 ➡ 재고)를 거치며 뻗어나갈 때, 각 구간(Span)에서 소모된 시간과 에러 여부를 하나의 나무뿌리(Tree) 모양 그래프로 엮어서 보여주는 아키텍처다.
 
-- **필요성 (사일로화된 로그의 맹점과 블레임 게임)**: 모놀리식 시절엔 서버 1대에서 에러 로그가 나면 그냥 그 줄(Line)만 고치면 됐다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 왔다. 결제 버튼이 10초 렉이 걸려 터졌다. 프론트엔드 팀은 "백엔드가 느려요!" 백엔드 A팀은 "우린 0.1초 컷인데? B팀 찌르다 터진 거 아님?" B팀은 "우리 DB 정상인데?" 1주일 내내 서로 핑계만 대다(Blame Game) 회사가 망한다. ELK(568장)에 로그가 수억 줄 쌓여 있어도, **어떤 텍스트 1줄이 방금 터진 '그 1만 원짜리 결제'의 로그인지 꿰어맞출(Correlation) 연결 고리가 물리적으로 전혀 없었기 때문**이다. 이 암흑을 뚫기 위해 궤적을 그리는 형광펜(Trace)이 발명되었다.
+- **필요성 (사일로화된 로그의 맹점과 블레임 게임)**: 모놀리식 시절엔 서버 1대에서 에러 로그가 나면 그냥 그 줄(Line)만 고치면 됐다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대가 왔다. 결제 버튼이 10초 렉이 걸려 터졌다. 프론트엔드 팀은 "백엔드가 느려요!" 백엔드 A팀은 "우린 0.1초 컷인데? B팀 찌르다 터진 거 아님?" B팀은 "우리 DB 정상인데?" 1주일 내내 서로 핑계만 대다(Blame Game) 회사가 망한다. ELK(568장)에 로그가 수억 줄 쌓여 있어도, <strong>어떤 텍스트 1줄이 방금 터진 '그 1만 원짜리 결제'의 로그인지 꿰어맞출(Correlation) 연결 고리가 물리적으로 전혀 없었기 때문</strong>이다. 이 암흑을 뚫기 위해 궤적을 그리는 형광펜(Trace)이 발명되었다.
 
-- **💡 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 수하물 **'택배 송장 번호 추적 시스템'**과 100% 똑같습니다. 옛날엔 우체국, 물류센터, 배달 기사들이 각자 "나 상자 1개 처리함"이라는 텍스트 장부(Log)만 썼습니다. 내 택배가 분실되면 전국 장부를 다 뒤져야 하죠(디버깅 지옥). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 짐에 **'고유 바코드([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))'**를 딱 붙이는 겁니다. 물류센터 1번([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)), 2번(주문 서버)을 지날 때마다 바코드를 띡! 띡! 찍습니다(Span). 고객은 스마트폰에서 바코드 번호만 치면 "옥천 허브에서 3일째 멈춰있음(병목 지점 1초 컷)"을 완벽한 지도로 볼 수 있는 기적의 가시성입니다.
+- **💡 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 수하물 <strong>'택배 송장 번호 추적 시스템'</strong>과 100% 똑같습니다. 옛날엔 우체국, 물류센터, 배달 기사들이 각자 "나 상자 1개 처리함"이라는 텍스트 장부(Log)만 썼습니다. 내 택배가 분실되면 전국 장부를 다 뒤져야 하죠(디버깅 지옥). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 짐에 <strong>'고유 바코드(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/">Trace ID</a>)'</strong>를 딱 붙이는 겁니다. 물류센터 1번([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)), 2번(주문 서버)을 지날 때마다 바코드를 띡! 띡! 찍습니다(Span). 고객은 스마트폰에서 바코드 번호만 치면 "옥천 허브에서 3일째 멈춰있음(병목 지점 1초 컷)"을 완벽한 지도로 볼 수 있는 기적의 가시성입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **구글 Dapper 논문 (2010)**: 구글이 1만 대 서버를 굴리며 디버깅하다 미쳐서 발명한 전설의 논문. "야! 요청 1개에 랜덤 난수([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/)) 하나 파서 끝까지 달고 다녀!" [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적의 교과서가 됨.
   2. **Zipkin / Jaeger 춘추전국시대 (2010s 중반)**: 트위터가 Zipkin을 오픈소스로 풀고, 우버(Uber)가 Jaeger를 만들며 K8s 생태계의 대세가 됨.
-  3. **[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) ([OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)) 천하통일 (현재)**: 툴마다 규격이 달라 코드 짜기 빡치자, CNCF가 "전 세계 트레이스 규격은 무조건 [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 1개로 합친다!"라고 선언. 전 우주의 파편화된 표준이 하나로 대통합됨.
+  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a>) 천하통일 (현재)</strong>: 툴마다 규격이 달라 코드 짜기 빡치자, CNCF가 "전 세계 트레이스 규격은 무조건 [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 1개로 합친다!"라고 선언. 전 우주의 파편화된 표준이 하나로 대통합됨.
 
-- **📢 섹션 요약 비유**: ELK 로그가 파편화된 **'살인 사건 현장의 핏자국(증거)'**이라면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 아예 살인자가 처음 집에 들어와서 나갈 때까지의 동선을 바닥에 **'야광 페인트 발자국(Trace)'**으로 쫙 그려놓는 것입니다. 탐정(개발자)은 핏자국을 일일이 분석할 필요 없이, 그냥 발자국만 쭉 따라가면 칼이 떨어진 곳(에러 병목 지점)으로 0.1초 만에 도착하는 궁극의 네비게이션입니다.
+- **📢 섹션 요약 비유**: ELK 로그가 파편화된 <strong>'살인 사건 현장의 핏자국(증거)'</strong>이라면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적은 아예 살인자가 처음 집에 들어와서 나갈 때까지의 동선을 바닥에 <strong>'야광 페인트 발자국(Trace)'</strong>으로 쫙 그려놓는 것입니다. 탐정(개발자)은 핏자국을 일일이 분석할 필요 없이, 그냥 발자국만 쭉 따라가면 칼이 떨어진 곳(에러 병목 지점)으로 0.1초 만에 도착하는 궁극의 네비게이션입니다.
 
 ---
 
 다음은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  분산 추적 (Distributed T                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 추적 (Distributed T</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추적 (Distributed [Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-분산 추적 (Distributed Tracing) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 추적 (Distributed Tracing) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

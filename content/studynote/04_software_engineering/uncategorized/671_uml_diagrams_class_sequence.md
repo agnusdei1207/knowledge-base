@@ -19,11 +19,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))은 소프트웨어 시스템의 산출물을 명세, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 구축, 문서화하는 데 사용되는 범용 모델링 언어다. 그중 **[클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)**은 시스템을 구성하는 클래스와 그들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(정적)를 나타내며, **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)**은 객체 간의 시간 순서에 따른 메시지 교환(동적)을, **[액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)**은 어떤 기능이 수행되는 과정의 제어 흐름과 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(동적)을 표현한다.
+- **개념**: [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))은 소프트웨어 시스템의 산출물을 명세, [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/), 구축, 문서화하는 데 사용되는 범용 모델링 언어다. 그중 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">클래스 다이어그램</a></strong>은 시스템을 구성하는 클래스와 그들 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(정적)를 나타내며, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a></strong>은 객체 간의 시간 순서에 따른 메시지 교환(동적)을, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/">액티비티 다이어그램</a></strong>은 어떤 기능이 수행되는 과정의 제어 흐름과 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)(동적)을 표현한다.
 
 - **필요성**: 수십만 라인의 코드를 가진 엔터프라이즈 시스템을 텍스트나 구두로 설명하는 것은 불가능하다. 건물을 지을 때 평면도(정적 구조)와 배관/배선도(동적 흐름)가 필수적이듯, 소프트웨어 역시 "어떤 모듈이 존재하는가?(클래스)"와 "그 모듈들이 어떻게 협력하여 결과를 내는가?(시퀀스/액티비티)"에 대한 청사진이 없으면 개발자마다 각기 다른 방향으로 코드를 작성하여 시스템이 붕괴한다.
 
-- **💡 비유**: **[클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)**은 연극의 '등장인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도와 배역 설명서'입니다. 누가 왕이고 누가 신하인지 정적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여줍니다. **[시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)**은 배우들이 시간에 따라 대사를 주고받는 '대본(Script)'이며, **[액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)**은 배우의 동선과 무대 장치의 움직임을 지시하는 '무대 연출 콘티'와 같습니다.
+- **💡 비유**: <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/">클래스 다이어그램</a></strong>은 연극의 '등장인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도와 배역 설명서'입니다. 누가 왕이고 누가 신하인지 정적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여줍니다. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a></strong>은 배우들이 시간에 따라 대사를 주고받는 '대본(Script)'이며, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/">액티비티 다이어그램</a></strong>은 배우의 동선과 무대 장치의 움직임을 지시하는 '무대 연출 콘티'와 같습니다.
 
 - **등장 배경 및 발전 과정**:
   1. **객체지향 방법론의 난립과 통합**: 1990년대 초, Booch, Rumbaugh(OMT), Jacobson(OOBE) 등 수많은 객체지향 설계 표기법이 난립하여 시장의 혼란을 초래했다. 이에 세 거장(Three Amigos)이 모여 각자의 장점을 합친 UML을 탄생시켰고, OMG(Object [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Group)의 표준으로 채택되었다.
@@ -31,28 +31,26 @@ tags = ["studynote-software-engineering"]
 
 UML의 정적/동적 다이어그램 체계가 시스템을 어떻게 다차원적으로 투영하는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하면 다음과 같다.
 
-```text
-  ┌───────────────────────────────────────────────────────────┐
-  │         UML 다이어그램의 다차원 투영 (정적 뷰 vs 동적 뷰)         │
-  ├───────────────────────────────────────────────────────────┤
-  │                                                           │
-  │                   [ 객체지향 시스템 모델링 ]                   │
-  │                             │                             │
-  │       ┌─────────────────────┴─────────────────────┐       │
-  │       ▼ (뼈대와 구조)                           ▼ (협력과 행위) │
-  │  [ 정적 뷰 (Static View) ]           [ 동적 뷰 (Dynamic View) ] │
-  │    "어떤 부품들이 있는가?"                "부품들이 어떻게 움직이는가?"│
-  │                                                           │
-  │  1. 클래스 (Class) 다이어그램           1. 시퀀스 (Sequence) 다이어그램 │
-  │     - 시스템의 논리적 구조 정의           - 시간 순서에 따른 메시지 교환 │
-  │  2. 객체 (Object) 다이어그램            2. 액티비티 (Activity) 다이어그램│
-  │  3. 컴포넌트 (Component) 다이어그램       - 비즈니스 로직의 제어 흐름    │
-  │  4. 배포 (Deployment) 다이어그램        3. 상태 (State Machine) 다이어그램│
-  │                                                           │
-  │  * 상호 보완성: 클래스 다이어그램에 정의되지 않은 객체와 메서드는       │
-  │              시퀀스 다이어그램의 메시지로 사용될 수 없다. (상호 검증)  │
-  └───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UML 다이어그램의 다차원 투영 (정적 뷰 vs 동적 뷰)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">객체지향 시스템 모델링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (뼈대와 구조) ▼ (협력과 행위)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 뷰 (Static View)</div><div class="kb-diagram-node">동적 뷰 (Dynamic View)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어떤 부품들이 있는가?" "부품들이 어떻게 움직이는가?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 클래스 (Class) 다이어그램 1. 시퀀스 (Sequence) 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템의 논리적 구조 정의 - 시간 순서에 따른 메시지 교환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 객체 (Object) 다이어그램 2. 액티비티 (Activity) 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 컴포넌트 (Component) 다이어그램 - 비즈니스 로직의 제어 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 배포 (Deployment) 다이어그램 3. 상태 (State Machine) 다이어그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상호 보완성: 클래스 다이어그램에 정의되지 않은 객체와 메서드는</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시퀀스 다이어그램의 메시지로 사용될 수 없다. (상호 검증)</div></div>
+</div>
+</div>
+
+
 
   **[다이어그램 해설]** UML은 단일 도면이 아니라 시스템을 엑스레이, MRI, 3D 스캐너로 각각 촬영하는 복합 의료 기기와 같다. 좌측의 정적 뷰(특히 [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/))는 시스템에 어떤 명사(클래스)와 동사(메서드)가 있는지, 그리고 그들이 상속인지 포함 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인지 뼈대를 그린다. 하지만 뼈대만으로는 이 프로그램이 실제로 어떻게 동작하는지 알 수 없다. 우측의 동적 뷰(특히 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/))는 정적 뷰에서 정의된 클래스들이 런타임에 어떻게 객체로 생성되어, 시간의 흐름에 따라 서로 메서드(메시지)를 호출하며 시나리오를 완성하는지 증명한다. 이 두 축의 상호 교차 검증을 통해 설계의 논리적 무결성이 확보된다.
 
@@ -77,7 +75,7 @@ UML의 정적/동적 다이어그램 체계가 시스템을 어떻게 다차원�
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 클래스, 시퀀스, [액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 클래스, 시퀀스, [액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 클래스, 시퀀스, [액티비티 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/237_activity_diagram_dynamic_workflow_uml/)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -153,21 +151,23 @@ UML의 정적/동적 다이어그램 체계가 시스템을 어떻게 다차원�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-UML 클래스, 시퀀스, 액티비티 다이어그램 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UML 클래스, 시퀀스, 액티비티 다이어그램 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

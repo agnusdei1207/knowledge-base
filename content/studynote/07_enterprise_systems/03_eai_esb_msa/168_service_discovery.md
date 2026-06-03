@@ -43,22 +43,23 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 동적 환경에서 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)가 어떻게 순환하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│            Service Discovery control loop in dynamic MSA            │
-├──────────────────────────────────────────────────────────────────────┤
-│ [Instance boot] ─▶ Register ─▶ [Registry]                           │
-│      ▲                         │                                     │
-│      │                         ├─ Health check / heartbeat           │
-│      │                         ▼                                     │
-│ [Scale in / fail] ◀─ Deregister │                                    │
-│                                └─ Lookup ─▶ [Caller / LB] ─▶ Route   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Discovery control loop in dynamic MSA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Instance boot</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Registry</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Health check / heartbeat</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Scale in / fail</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ Deregister │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Caller / LB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Route</div></div>
+</div>
+</div>
+
+
 
 이 구조의 핵심은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 "정답 그 자체"가 아니라 최신 상태를 최대한 빠르게 반영하는 조정자라는 점이다. 따라서 너무 긴 캐시를 두면 죽은 인스턴스를 오래 호출하게 되고, 너무 짧게 두면 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 부하가 커진다. 또한 헬스 체크는 단순 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 연결 여부만 보는지, 실제 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)까지 포함하는지에 따라 정확도와 민감도가 달라진다.
 
-[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 보통 클라이언트 사이드와 서버 사이드 방식으로 구현된다. 다만 어떤 방식을 쓰든 공통 핵심은 **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름과 실제 주소를 분리하고, 살아 있는 대상만 선택하게 만드는 것**이다.
+[서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 보통 클라이언트 사이드와 서버 사이드 방식으로 구현된다. 다만 어떤 방식을 쓰든 공통 핵심은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 이름과 실제 주소를 분리하고, 살아 있는 대상만 선택하게 만드는 것</strong>이다.
 
 - **📢 섹션 요약 비유**: [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 가게 간판만 보고 찾아가는 것이 아니라, 오늘 실제로 문을 열었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 길을 안내해 주는 안내소와 같다.
 
@@ -114,7 +115,7 @@ tags = ["studynote-enterprise"]
 
 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)를 적용하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 의존성이 정적 주소에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이동한다. 그 결과 오토스케일링, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/)가 훨씬 자연스러워지고, 애플리케이션은 "어디에 붙을까"보다 "무슨 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 부를까"에 집중할 수 있다. 이는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 운영의 핵심 전제 중 하나다.
 
-하지만 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 도입한다고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 복잡성이 사라지는 것은 아니다. 오히려 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 캐시, 장애 감지, [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/), 잘못된 헬스 체크 같은 새로운 문제가 생길 수 있다. 따라서 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 단순 편의 기능이 아니라, **동적 시스템의 위치 정보와 생존 정보를 관리하는 기반 인프라**로 기억해야 한다.
+하지만 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 도입한다고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 복잡성이 사라지는 것은 아니다. 오히려 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 캐시, 장애 감지, [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/), 잘못된 헬스 체크 같은 새로운 문제가 생길 수 있다. 따라서 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)는 단순 편의 기능이 아니라, <strong>동적 시스템의 위치 정보와 생존 정보를 관리하는 기반 인프라</strong>로 기억해야 한다.
 
 앞으로는 플랫폼 내장형 디스커버리와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 더 보편화되겠지만, 핵심 원리는 그대로다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 위치를 하드코딩하지 않고, 실시간 상태를 반영해 가장 적절한 대상에게 요청을 전달하는 것, 그것이 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)의 본질이다.
 
@@ -135,19 +136,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정적 IP / 설정 파일 의존
-    │
-    ▼
-서비스 레지스트리 도입
-    │
-    ├─ 등록 / 헬스 체크 / 조회
-    ├─ 클라이언트 사이드 디스커버리
-    └─ 서버 사이드 디스커버리
-    │
-    ▼
-Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정적 IP / 설정 파일 의존</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 레지스트리 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">등록 / 헬스 체크 / 조회</div>
+<div class="kb-diagram-tree-item" style="--depth:2">클라이언트 사이드 디스커버리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">서버 사이드 디스커버리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅</div>
+</div>
+</div>
+
+
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 고정 주소 기반 통신에서, 상태 기반 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)과 플랫폼 자동화 중심으로 발전하는 모습을 보여 준다.
 

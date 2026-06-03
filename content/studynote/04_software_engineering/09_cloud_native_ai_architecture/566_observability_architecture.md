@@ -20,36 +20,35 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **Monitoring ([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링)**: "CPU 80% 넘었네? 삐용삐용! (증상 알림)". 알려진 문제(Known Unknowns)에 대한 수동적 감시.
-  - **[Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)/가시성)**: "CPU가 80% 찍은 이유는, 1초 전 배송 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 캐시가 깨져서 1만 건의 트래픽이 일제히 오라클 DB를 타격(Full Scan)했기 때문이야! (원인 규명)". 시스템 내부 출력을 통해 내부 상태를 100% 유추할 수 있는 시스템의 철학적 투명성(Unknown Unknowns 방어).
+  - <strong>Monitoring (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링)</strong>: "CPU 80% 넘었네? 삐용삐용! (증상 알림)". 알려진 문제(Known Unknowns)에 대한 수동적 감시.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a>/가시성)</strong>: "CPU가 80% 찍은 이유는, 1초 전 배송 서버 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 캐시가 깨져서 1만 건의 트래픽이 일제히 오라클 DB를 타격(Full Scan)했기 때문이야! (원인 규명)". 시스템 내부 출력을 통해 내부 상태를 100% 유추할 수 있는 시스템의 철학적 투명성(Unknown Unknowns 방어).
 
-- **필요성 ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 파편화가 부른 디버깅의 무간지옥)**: 모놀리식 통짜 서버 시절엔 에러가 나면 그냥 1대 서버에 들어가서 `tail -f spring.log` [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 1개만 까보면 3분 만에 범인을 잡았다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대엔 결제를 쏘면 50개의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 비동기 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))로 핑퐁을 친다. 에러가 났다! 50대의 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 SSH로 들어가서 까볼 것인가? "결제팀은 정상인데? 장바구니 팀은? 난 못 받았는데?" 서로 멱살 잡고 핑퐁 치며 범인 찾기에 1주일이 날아간다. **"아 ㅆㅂ! 유저가 쏜 1개의 리퀘스트가 도대체 어느 서버에서, 몇 초 동안 머물다, 어디서 뻗었는지 한눈에 볼 수 있는 3D 엑스레이 도면 좀 당장 가져와!!"** 이 피맺힌 절규가 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)를 MSA의 0순위 생존 헌법으로 만들었다.
+- <strong>필요성 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 파편화가 부른 디버깅의 무간지옥)</strong>: 모놀리식 통짜 서버 시절엔 에러가 나면 그냥 1대 서버에 들어가서 `tail -f spring.log` [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 1개만 까보면 3분 만에 범인을 잡았다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대엔 결제를 쏘면 50개의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 비동기 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))로 핑퐁을 친다. 에러가 났다! 50대의 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 SSH로 들어가서 까볼 것인가? "결제팀은 정상인데? 장바구니 팀은? 난 못 받았는데?" 서로 멱살 잡고 핑퐁 치며 범인 찾기에 1주일이 날아간다. **"아 ㅆㅂ! 유저가 쏜 1개의 리퀘스트가 도대체 어느 서버에서, 몇 초 동안 머물다, 어디서 뻗었는지 한눈에 볼 수 있는 3D 엑스레이 도면 좀 당장 가져와!!"** 이 피맺힌 절규가 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)를 MSA의 0순위 생존 헌법으로 만들었다.
 
-- **💡 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 병원의 **'체온계(열나면 삐용삐용)'**라면, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 **'전신 MRI 엑스레이 기계'**입니다. 체온계는 "환자가 아프다"는 것만 알려줄 뿐, 맹장염인지 장염인지 원인을 몰라 의사가 배를 갈라봐야 합니다([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뒤지기 노가다). 엑스레이([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 환자의 배를 1도 가르지 않고도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 1초 스캔만으로 "장염 3기! 소장 중간에 염증 터짐!"이라고 내부 상태의 근본 원인을 투명하게 완벽히 짚어내는 초첨단 진단 마술입니다.
+- **💡 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 병원의 <strong>'체온계(열나면 삐용삐용)'</strong>라면, [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 <strong>'전신 MRI 엑스레이 기계'</strong>입니다. 체온계는 "환자가 아프다"는 것만 알려줄 뿐, 맹장염인지 장염인지 원인을 몰라 의사가 배를 갈라봐야 합니다([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 뒤지기 노가다). 엑스레이([옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 환자의 배를 1도 가르지 않고도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 1초 스캔만으로 "장염 3기! 소장 중간에 염증 터짐!"이라고 내부 상태의 근본 원인을 투명하게 완벽히 짚어내는 초첨단 진단 마술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Log [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 원시 시대**: 10대 서버 들어가서 `grep Error *.log` 무지성 타이핑.
-  2. **[APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) (Application [Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/)) 과도기**: NewRelic, Jennifer, Datadog 같은 비싼 상용 툴을 서버에 박아서 함수 실행 시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시작 (주로 Java 모놀리식용).
-  3. **Cloud-Native [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (현재)**: 컨테이너가 1초마다 죽고 살아나는 K8s 환경이 도래. 옛날 상용 툴들이 추적을 못 하고 뻗음. 결국 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 3대장([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + ELK + Jaeger)과 **[OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)(글로벌 수집 표준)**이 천하 통일을 이뤄내며 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)/[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/트레이스를 100% 융합하는 3D 엑스레이 시대를 열어젖힘.
+  1. <strong>Log <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/">SSH</a> 원시 시대</strong>: 10대 서버 들어가서 `grep Error *.log` 무지성 타이핑.
+  2. <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a> (Application <a href="/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/">Performance Monitoring</a>) 과도기</strong>: NewRelic, Jennifer, Datadog 같은 비싼 상용 툴을 서버에 박아서 함수 실행 시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 시작 (주로 Java 모놀리식용).
+  3. <strong>Cloud-Native <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a> (현재)</strong>: 컨테이너가 1초마다 죽고 살아나는 K8s 환경이 도래. 옛날 상용 툴들이 추적을 못 하고 뻗음. 결국 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 3대장([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + ELK + Jaeger)과 <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OpenTelemetry</a>(글로벌 수집 표준)</strong>이 천하 통일을 이뤄내며 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)/[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/트레이스를 100% 융합하는 3D 엑스레이 시대를 열어젖힘.
 
-- **📢 섹션 요약 비유**: 이 진화는 **'범인 몽타주 찾기'**와 같습니다. 옛날엔 목격자 5명(서버 5대)한테 일일이 "어떻게 생겼어?" 물어보며 노트에 몽타주(Log)를 그렸습니다. [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 골목마다 깔린 **'초정밀 4K [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 통합 관제 센터'**입니다. 범인(트래픽)이 A 골목(결제 서버)에서 1초 머물고, B 골목([카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에서 돌부리에 걸려 넘어지는(에러) 모든 궤적을 하나의 커다란 스크린에서 마우스 스크롤 1번으로 완벽하게 되감기(Replay) 해버리는 압도적 통제술입니다.
+- **📢 섹션 요약 비유**: 이 진화는 <strong>'범인 몽타주 찾기'</strong>와 같습니다. 옛날엔 목격자 5명(서버 5대)한테 일일이 "어떻게 생겼어?" 물어보며 노트에 몽타주(Log)를 그렸습니다. [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 골목마다 깔린 <strong>'초정밀 4K <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 통합 관제 센터'</strong>입니다. 범인(트래픽)이 A 골목(결제 서버)에서 1초 머물고, B 골목([카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에서 돌부리에 걸려 넘어지는(에러) 모든 궤적을 하나의 커다란 스크린에서 마우스 스크롤 1번으로 완벽하게 되감기(Replay) 해버리는 압도적 통제술입니다.
 
 ---
 
 다음은 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (Observabilit의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  옵저버빌리티 (Observabilit                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵저버빌리티 (Observabilit</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (Observabilit가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -70,7 +69,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) / 가시성) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) / 가시성) 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) ([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) / 가시성) 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -146,21 +145,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-옵저버빌리티 (Observability / 가시성) 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">옵저버빌리티 (Observability / 가시성) 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

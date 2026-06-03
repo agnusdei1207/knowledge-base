@@ -30,33 +30,32 @@ tags = ["studynote-bigdata"]
 
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 결정 경계(Decision Boundary)를 어떻게 형성하느냐에 따라 다양한 원리가 존재한다.
 
-1. **[로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))**:
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/">로지스틱 회귀</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/">Logistic Regression</a>)</strong>:
    [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 선형 결합 결과를 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) 함수에 통과시켜 0과 1 사이의 확률값으로 변환한다. 확률이 0.5 이상이면 클래스 1로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
-2. **결정 트리 ([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))**:
+2. <strong>결정 트리 (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">Decision Tree</a>)</strong>:
    특성(Feature) 값에 따라 스무고개 하듯 if-else 규칙 분기를 만든다. 노드를 나눌 때는 정보 이득(Information Gain)이 최대화되는 기준을 선택한다.
-3. **[SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))**:
+3. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">SVM</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/">Support Vector Machine</a>)</strong>:
    [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 범주로 나누는 가장 여백(Margin)이 넓은 최적의 초평면을 그린다. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))을 사용해 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 수 있다.
-4. **[앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) ([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))**:
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">Ensemble</a>)</strong>:
    여러 개의 약한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 결합하여 강력한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 만드는 기법이다. 트리를 병렬로 만드는 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))나 순차적으로 오차를 보완하는 LightGBM (Light [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) Machine)이 대표적이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 [ 주요 분류 알고리즘의 결정 경계 ]          │
-├─────────────────────────────────────────────────────────────┤
-│ 1. Logistic Regression      2. Decision Tree                │
-│       │   ●   ●             │ ┌───────┐ ┌───────┐         │
-│     ● │ ●   ●               │ │   ●   │ │ ●   ● │         │
-│  ─────┼──────── (선형)      │ └───────┘ └───────┘ (계단형)│
-│   ▲   │   ▲                 │   ▲   ┌───────┐             │
-│   ▲ ▲│                     │   ▲ ▲│   ▲   │             │
-│                                                             │
-│ 3. SVM (Kernel Trick)       4. Ensemble (Random Forest)     │
-│       │     ●               │    복수의 결정 트리가 다수결로  │
-│    ●  (  ●    )  (비선형)   │    투표하여 가장 안정적이고   │
-│   ▲ ▲  \   ●               │    복잡한 비선형 경계를 형성  │
-│   ▲   │   ▲                 │                               │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">주요 분류 알고리즘의 결정 경계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Logistic Regression 2. Decision Tree</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">● ●</div><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선형)</div><div class="kb-diagram-cell">(계단형)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. SVM (Kernel Trick) 4. Ensemble (Random Forest)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">복수의 결정 트리가 다수결로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ( ● ) (비선형)</div><div class="kb-diagram-cell">투표하여 가장 안정적이고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ ▲ \ ●</div><div class="kb-diagram-cell">복잡한 비선형 경계를 형성</div></div>
+</div>
+</div>
+
+
 
 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 모델을 학습한 후에는 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))을 통해 예측값과 실제 정답을 교차 검증하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가한다.
 
@@ -71,8 +70,8 @@ tags = ["studynote-bigdata"]
 | 비교 항목 | [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) / 의사결정 나무 | [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) (XGBoost, LightGBM) |
 | :--- | :--- | :--- |
 | **설명력 (해석 가능성)** | 우수 (가중치와 분기 규칙을 사람에게 설명 가능) | 낮음 (블랙박스화되어 결과 도출 과정 설명이 어려움) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 및 복잡도** | 상대적으로 낮음 / 과적합 위험 높음 | 매우 높음 / 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 압도적인 정확도 |
-| **적용 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)** | 금융/의료 등 설명 책임이 규제로 강제되는 분야 | 이미지, 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 예측 정확도가 최우선인 분야 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 및 복잡도</strong> | 상대적으로 낮음 / 과적합 위험 높음 | 매우 높음 / 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 압도적인 정확도 |
+| <strong>적용 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | 금융/의료 등 설명 책임이 규제로 강제되는 분야 | 이미지, 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 및 예측 정확도가 최우선인 분야 |
 
 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 평가할 때 정확도(Accuracy)만을 신뢰해선 안 된다. 전체의 99%가 정상 거래인 **클래스 불균형** 상황에서는 "모두 정상"으로만 찍어도 정확도가 99%가 나오기 때문이다. 이때는 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)), [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)), [F1 Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/), 그리고 AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) 지표를 함께 비교해야 한다.
 
@@ -88,7 +87,7 @@ tags = ["studynote-bigdata"]
    - 사기 탐지처럼 소수 클래스를 맞추는 것이 핵심일 경우, 합성 소수 표본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기법인 [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) (Synthetic Minority Over-sampling Technique)를 쓰거나 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 내부에서 소수 클래스에 가중치를 주어야 한다.
 2. **임계값 (Threshold) 튜닝**:
    - [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 반환하는 확률의 기본 기준점은 0.5다. 하지만 암 환자를 놓치는 FN (False Negative)이 오진을 하는 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) (False Positive)보다 훨씬 치명적이라면, 이 기준점을 0.3으로 낮춰 의심되면 바로 환자로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하도록 전략적 조정을 해야 한다.
-3. **설명 가능한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 도입**:
+3. <strong>설명 가능한 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 도입</strong>:
    - [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 모델을 신용 심사에 쓸 경우 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) (eXplainable [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 기법이 필요하다. [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/))이나 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) (Local Interpretable Model-agnostic Explanations)을 결합하여 왜 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)되었는지 설명할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 화재경보기를 설치할 때, 알람이 안 울려 집이 타는 것이 무서우면 담배 연기만 나도 울리게 임계값을 예민하게 맞춰야 하고, 자꾸 울려서 잠을 깨는 것이 싫다면 진짜 불꽃이 보일 때만 울리도록 세팅해야 한다.
@@ -109,28 +108,30 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))** | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 성립하기 위해 반드시 정답 레이블이 존재하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 |
-| **의사결정 나무 ([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))** | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 위해 스무고개 형태의 규칙을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 직관적인 화이트박스 모델 |
-| **[혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/))** | TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN을 통해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 어떤 종류의 에러를 냈는지 분석하는 표 |
-| **[데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/) ([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/))** | 시간이 지나면서 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성이 변해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지는 현상 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">지도 학습</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/">Supervised Learning</a>)</strong> | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 성립하기 위해 반드시 정답 레이블이 존재하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 |
+| <strong>의사결정 나무 (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/">Decision Tree</a>)</strong> | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 위해 스무고개 형태의 규칙을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 직관적인 화이트박스 모델 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">혼동 행렬</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/">Confusion Matrix</a>)</strong> | TP, TN, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN을 통해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 어떤 종류의 에러를 냈는지 분석하는 표 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">Data Drift</a>)</strong> | 시간이 지나면서 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성이 변해 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지는 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-분류 (Classification) 방법론의 진화
-    │
-    ▼
-규칙 기반 분류 (인간이 직접 if-else 하드코딩)
-    │
-    ▼
-통계/수학적 기계 학습 (Logistic Regression, SVM, Decision Tree)
-    │
-    ▼
-앙상블 학습 (Random Forest, XGBoost, LightGBM - 다수결로 성능 극대화)
-    │
-    ▼
-딥러닝 기반 분류 & XAI (신경망 도입 및 SHAP을 통한 결과 설명력 확보)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">분류 (Classification) 방법론의 진화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">규칙 기반 분류 (인간이 직접 if-else 하드코딩)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">통계/수학적 기계 학습 (Logistic Regression, SVM, Decision Tree)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">앙상블 학습 (Random Forest, XGBoost, LightGBM - 다수결로 성능 극대화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">딥러닝 기반 분류 &amp; XAI (신경망 도입 및 SHAP을 통한 결과 설명력 확보)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

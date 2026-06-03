@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드 디스크 드라이브(HDD)는 0과 1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기장(Magnetism)으로 코팅된 **둥근 원판(Platter)에 기록하고, 모터가 원판을 미친 듯이 회전시키면 기계 팔(Actuator Arm) 끝에 달린 바늘(Head)이 날아다니며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 100% 아날로그 물리 기계 장치**다.
-> 2. **가치**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(RAM, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 아무리 빨라도 전기가 끊기면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가거나(휘발성) 가격이 비싼 반면, HDD는 자석의 성질을 이용해 전원이 꺼져도 **수십 년간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않는 비휘발성(Non-volatile)과 테라바이트 급의 압도적인 용량 대비 가성비를 인류에게 선사**했다.
-> 3. **융합(한계)**: 하지만 바늘이 원하는 위치로 이동해야 하는 기계적 렉([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))과 원판이 돌아가는 딜레이([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) 때문에 CPU 속도보다 1,000만 배 느린 병목을 유발하며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이를 메우기 위해 **[엘리베이터 알고리즘](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/)(I/O 스케줄링)과 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시(RAM Buffer)라는 소프트웨어적 꼼수를 강제로 융합**해야만 했다.
+> 1. **본질**: 하드 디스크 드라이브(HDD)는 0과 1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자기장(Magnetism)으로 코팅된 <strong>둥근 원판(Platter)에 기록하고, 모터가 원판을 미친 듯이 회전시키면 기계 팔(Actuator Arm) 끝에 달린 바늘(Head)이 날아다니며 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 읽고 쓰는 100% 아날로그 물리 기계 장치</strong>다.
+> 2. **가치**: [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(RAM, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 아무리 빨라도 전기가 끊기면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아가거나(휘발성) 가격이 비싼 반면, HDD는 자석의 성질을 이용해 전원이 꺼져도 <strong>수십 년간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 잃지 않는 비휘발성(Non-volatile)과 테라바이트 급의 압도적인 용량 대비 가성비를 인류에게 선사</strong>했다.
+> 3. **융합(한계)**: 하지만 바늘이 원하는 위치로 이동해야 하는 기계적 렉([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))과 원판이 돌아가는 딜레이([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) 때문에 CPU 속도보다 1,000만 배 느린 병목을 유발하며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이를 메우기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/">엘리베이터 알고리즘</a>(I/O 스케줄링)과 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시(RAM Buffer)라는 소프트웨어적 꼼수를 강제로 융합</strong>해야만 했다.
 
 ---
 
@@ -32,29 +32,25 @@ tags = ["studynote-operating-system"]
   2. **IBM RAMAC (1956년)의 등장**: 냉장고 2개만 한 크기에 5MB 용량을 담은 최초의 HDD가 등장해 램덤 액세스 혁명을 일으켰다.
   3. **집적도의 극한 진화**: 100만 배 작아지고 100만 배 빽빽해져, 손바닥만 한 쇳덩이 하나에 도서관 1,000개 분량(20TB)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자석으로 욱여넣는 현대 나노 공학의 기적으로 진화했다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│        하드 디스크(HDD) 내부의 물리적 구조와 데이터 탐색 시각화           │
-├───────────────────────────────────────────────────────────────────────────┤
-│                                                                           │
-│ ┌─────────────────────────┐                                               │
-│ │   트랙(Track): 동심원 원형 띠 │                                         │
-│ │  / ┌─────────────────┐ \  │      기계 팔(Actuator Arm)                  │
-│ │ / / ┌───────────────┐ \ \ │      │                                      │
-│ ││ │ │ [ 섹터 Sector ] │ │ │ │  ◀──┼────(바늘 Head)                       │
-│ ││ │ │   512 Bytes   │ │ │ │      │  (이동: Seek)                         │
-│ │ \ \ └───────────────┘ / / │      │                                      │
-│ │  \ └─────────────────┘ /  │                                             │
-│ └─────────────────────────┘                                               │
-│   플래터 (Platter) ─ 초당 7200번 미친 듯이 회전! (RPM)                    │
-│                                                                           │
-│ ▶ 1. Seek (탐색): 바늘(Head)이 안팎으로 징~ 움직여 트랙을 찾음.           │
-│ ▶ 2. Latency (회전 지연): 플래터가 팽팽 돌아가서, 찾고 있는 섹터가        │
-│    바늘 밑에 정확히 도착할 때까지 멍하니 기다림.                          │
-│ ▶ 3. Transfer (전송): 바늘이 섹터의 0, 1 자석값을 전기 신호로 쫙 빨아들임.│
-└───────────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** 초보자들이 HDD를 SSD처럼 "전기 신호로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 불러오는 칩"으로 착각하는데, HDD는 철저한 모터와 쇳덩어리로 이루어진 **아날로그 물리 역학의 결정체**다. 저 바늘이 플래터 위를 날아다니는 간격은 고작 몇 나노미터다. (비행기가 땅 위 1mm 간격으로 초음속 비행하는 것과 같다). 컴퓨터가 켜져 있을 때 본체를 발로 차면 이 바늘이 원판을 긁어버려 디스크가 물리적으로 박살 나는 '헤드 크래시(Head Crash)' 재앙이 터지는 이유다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크(HDD) 내부의 물리적 구조와 데이터 탐색 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랙(Track): 동심원 원형 띠</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \</div><div class="kb-diagram-cell">기계 팔(Actuator Arm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">││ │</div><div class="kb-diagram-node">섹터 Sector</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (바늘 Head)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">512 Bytes</div><div class="kb-diagram-cell">(이동: Seek)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래터 (Platter) ─ 초당 7200번 미친 듯이 회전! (RPM)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. Seek (탐색): 바늘(Head)이 안팎으로 징~ 움직여 트랙을 찾음.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Latency (회전 지연): 플래터가 팽팽 돌아가서, 찾고 있는 섹터가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘 밑에 정확히 도착할 때까지 멍하니 기다림.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. Transfer (전송): 바늘이 섹터의 0, 1 자석값을 전기 신호로 쫙 빨아들임.</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** 초보자들이 HDD를 SSD처럼 "전기 신호로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 불러오는 칩"으로 착각하는데, HDD는 철저한 모터와 쇳덩어리로 이루어진 <strong>아날로그 물리 역학의 결정체</strong>다. 저 바늘이 플래터 위를 날아다니는 간격은 고작 몇 나노미터다. (비행기가 땅 위 1mm 간격으로 초음속 비행하는 것과 같다). 컴퓨터가 켜져 있을 때 본체를 발로 차면 이 바늘이 원판을 긁어버려 디스크가 물리적으로 박살 나는 '헤드 크래시(Head Crash)' 재앙이 터지는 이유다.
 
 - **📢 섹션 요약 비유**: 서랍장(플래터)에서 서류를 찾을 때, 내 손(헤드)을 움직여서 3번째 서랍을 잡는 시간이 '[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek)'입니다. 서랍을 열고 내 서류가 나올 때까지 뒤적거리며 기다리는 시간이 '[회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'입니다. 서류를 찾아서 복사기로 빼내는 시간이 '[전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)(Transfer)'입니다. 이 세 가지 노가다가 합쳐져야 비로소 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 화면에 뜹니다.
 
@@ -67,8 +63,8 @@ tags = ["studynote-operating-system"]
 10TB짜리 HDD 안에는 원판(플래터) 1장이 아니라, 여러 장의 플래터가 햄버거 패티처럼 층층이 겹쳐져 있다. 
 - 기계 팔은 빗(Comb) 모양으로 생겨서, 모든 층의 원판 사이에 바늘이 동시에 끼워져 있다. 
 - 기계 팔이 한 번 안쪽으로 쓱 들어가서 50번 트랙에 멈추면, 1층, 2층, 3층 원판의 50번 트랙에 바늘이 동시에 닿게 된다.
-- 이 **"위아래 층을 수직으로 뚫은 같은 번호의 트랙들의 묶음"**을 **실린더(Cylinder)**라고 부른다.
-- **최적화의 진실**: OS가 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 기록할 때, 1층 원판을 쫙 칠하고 다 차면 2층 원판으로 넘어가는 게 아니다. **기계 팔을 안 움직이고([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 절약), 그 자리에 멈춰 서서 1층 50번 트랙, 2층 50번 트랙, 3층 50번 트랙(즉, 실린더 단위)으로 위에서 아래로 뚫고 내려가며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 적어버린다!** 가장 비싼 물리적 바늘 이동 비용을 0으로 만들어 스루풋을 극대화한 기계 공학의 천재적 트릭이다.
+- 이 <strong>"위아래 층을 수직으로 뚫은 같은 번호의 트랙들의 묶음"</strong>을 <strong>실린더(Cylinder)</strong>라고 부른다.
+- **최적화의 진실**: OS가 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 디스크에 기록할 때, 1층 원판을 쫙 칠하고 다 차면 2층 원판으로 넘어가는 게 아니다. <strong>기계 팔을 안 움직이고(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> 절약), 그 자리에 멈춰 서서 1층 50번 트랙, 2층 50번 트랙, 3층 50번 트랙(즉, 실린더 단위)으로 위에서 아래로 뚫고 내려가며 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 적어버린다!</strong> 가장 비싼 물리적 바늘 이동 비용을 0으로 만들어 스루풋을 극대화한 기계 공학의 천재적 트릭이다.
 
 ---
 
@@ -77,7 +73,7 @@ tags = ["studynote-operating-system"]
 30년 넘게 디스크의 가장 기본 조각(섹터) 크기는 512바이트였다. 하지만 2010년대로 오면서 하드 용량이 테라바이트 급으로 미친 듯이 커졌다.
 - **512B의 한계**: 1TB 하드에 512B 섹터가 너무 많아지자, 섹터와 섹터 사이의 에러 보정 코드([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 찌꺼기 공간)와 주소록 크기가 하드디스크 면적의 15%를 넘게 파먹기 시작했다.
 - **Advanced Format (4KB 섹터)의 도래**: 하드 제조사들은 "야, 512B씩 8개 만들지 말고, 그냥 통짜 4096바이트(4KB)짜리 섹터 1개로 합쳐서 팔자!"라며 규격을 뒤엎었다.
-- **OS와의 완벽한 짝짜꿍**: 놀랍게도 이 4KB 섹터 크기는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 찢는 기본 단위인 **[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 크기 4KB**와 완벽하게 1:1로 일치한다. 이 톱니바퀴가 물리적으로 맞아떨어짐에 따라 OS는 디스크에서 4KB를 푹 퍼서 램의 4KB 빈방에 수학적 오버헤드 0으로 딱 꽂아 넣을 수 있게 된 완벽한 최적화가 달성되었다.
+- **OS와의 완벽한 짝짜꿍**: 놀랍게도 이 4KB 섹터 크기는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 찢는 기본 단위인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>) 크기 4KB</strong>와 완벽하게 1:1로 일치한다. 이 톱니바퀴가 물리적으로 맞아떨어짐에 따라 OS는 디스크에서 4KB를 푹 퍼서 램의 4KB 빈방에 수학적 오버헤드 0으로 딱 꽂아 넣을 수 있게 된 완벽한 최적화가 달성되었다.
 
 - **📢 섹션 요약 비유**: 옛날엔 포장지(에러 보정 코드) 값이 아까운 줄 모르고 사탕을 1개(512B)씩 개별 포장해서 팔았습니다. 하지만 사탕이 1억 개로 늘어나자 포장지 값 때문에 공장이 파산할 지경이 됐죠. 그래서 아예 사탕을 8개씩 묶어서 큰 봉지 하나(4KB)에 담아 포장지를 8분의 1로 아껴버린, 극한의 원가 절감이자 운송 최적화 패키징 기술입니다.
 
@@ -91,8 +87,8 @@ tags = ["studynote-operating-system"]
 
 | 특성 | HDD (하드 디스크) | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (솔리드 [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) | OS 커널의 대처 방안 |
 |:---|:---|:---|:---|
-| **저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)** | 자성 코팅된 회전 플래터 (아날로그) | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) (디지털) | -- |
-| **물리적 병목** | 바늘의 이동과 원판 회전 시간 **(기계적 렉)** | 지우고 다시 써야 하는 낸드 특성 **([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 렉)** | HDD는 엘리베이터 스케줄링(CFQ)으로 바늘 동선 아낌 / SSD는 무지성 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 큐(Noop) 채택 |
+| <strong>저장 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a></strong> | 자성 코팅된 회전 플래터 (아날로그) | [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) (디지털) | -- |
+| **물리적 병목** | 바늘의 이동과 원판 회전 시간 **(기계적 렉)** | 지우고 다시 써야 하는 낸드 특성 <strong>(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 렉)</strong> | HDD는 엘리베이터 스케줄링(CFQ)으로 바늘 동선 아낌 / SSD는 무지성 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 큐(Noop) 채택 |
 | **랜덤 액세스** | 100번 찌르고 1만 번 찌르면 기절함 **(극악)** | 1번이나 1만 번이나 전기 속도 똑같음 **(극강)** | DB 서버에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 훑을 땐 무조건 SSD에 얹어야 삼 |
 | **덮어쓰기(Write)**| 그 자리(섹터)에 자석 극성만 바로 바꿈 (빠름) | 그 자리에 못 쓰고 새 블록 찾아서 씀 (수명 닳음) | SSD는 `TRIM` 명령어로 백그라운드 짬처리를 해야 함 |
 
@@ -103,14 +99,17 @@ tags = ["studynote-operating-system"]
 - **하드웨어의 반란 (LBA 도입)**: 디스크 내부의 작은 칩셋(컨트롤러)이 반란을 일으켰다. "OS 너 복잡한 거 신경 끄고, 이 하드디스크는 그냥 0번부터 1억 번까지 있는 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Block)이라고 생각해!"
 - **LBA의 마법**: OS가 `LBA 500번 줘`라고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 주소(1차원)만 던지면, 칩셋이 자기 하드웨어 스펙에 맞춰 `C:10, H:2, S:5` 로 몰래 변환([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해서 바늘을 움직인다. 우리는 이 "[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) -> [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 맵핑" 철학을 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에서 이미 징그럽게 봤다. 컴퓨터의 역사는 끝없는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 반복이다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 계층       │ 주소의 형태   │ 주소 변환기   │ 최종 물리 위치          │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ 가상 메모리│ 가상 주소 (Virtual)│ MMU (칩셋)  │ 물리 램 프레임       │
-│ 하드 디스크│ LBA 블록 (Logical)│ Disk Controller│ CHS 섹터 (쇳덩어리)│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층</div><div class="kb-diagram-cell">주소의 형태</div><div class="kb-diagram-cell">주소 변환기</div><div class="kb-diagram-cell">최종 물리 위치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리</div><div class="kb-diagram-cell">가상 주소 (Virtual)</div><div class="kb-diagram-cell">MMU (칩셋)</div><div class="kb-diagram-cell">물리 램 프레임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크</div><div class="kb-diagram-cell">LBA 블록 (Logical)</div><div class="kb-diagram-cell">Disk Controller</div><div class="kb-diagram-cell">CHS 섹터 (쇳덩어리)</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 가상 주소의 환상은 메모리에만 있는 게 아니다. 하드디스크 역시 둥그런 플래터가 아니라 "끝이 안 보이는 네모난 1차원 선형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)"로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 완벽히 속여먹고 있다. OS는 자기가 바늘을 조종한다고 믿지만, 사실은 디스크 컨트롤러가 보여주는 가짜 매트릭스 위에서 포인터만 찌르고 있을 뿐이다.
 
 - **📢 섹션 요약 비유**: OS(손님)가 식당에서 "스테이크(LBA 500번) 주세요"라고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 주문을 합니다. 그러면 식당 매니저(디스크 컨트롤러)가 주방으로 들어가서 "야, 1번 냉장고 두 번째 칸에서 고기 꺼내서 3번 불판에 구워(CHS 물리 조작)!"라고 복잡한 지시를 대행합니다. 손님은 주방이 어떻게 생겼는지 평생 알 필요가 없는 완벽한 분업화입니다.
@@ -121,8 +120,8 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오: 빅데이터 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 노드에 아직도 HDD를 꽂는 이유
 1. **문제 상황**: SSD가 판을 치는 2025년에도, 수만 대의 서버로 묶인 AWS S3나 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드 저장소에는 여전히 무겁고 느려 터진 구형 쇳덩어리 HDD가 수백 개씩 꽂혀서 돌아간다. 속도 느린데 왜 안 버릴까?
-2. **[Sequential Access](/knowledge-base/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/)(순차 접근)의 마술**:
-   - 하드디스크의 약점은 바늘이 랜덤으로 점프 뛸 때 발생하는 **탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))**이다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/">Sequential Access</a>(순차 접근)의 마술</strong>:
+   - 하드디스크의 약점은 바늘이 랜덤으로 점프 뛸 때 발생하는 <strong>탐색 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)</strong>이다.
    - 빅데이터 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 시스템의 특성은? 100GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 한 번 열면 중간에 점프 안 뛰고 0바이트부터 100GB 끝까지 바늘을 고정해 두고 **순차적으로 쫙 긁어버린다 (Sequential Read).**
    - 10TB HDD가 바늘을 안 움직이고 순차적으로 원판만 돌리면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁으면 초당 200MB/s 이상의 무시무시한 스루풋을 뽐낸다! 심지어 이 속도는 네트워크 전송 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(1Gbps = 125MB/s)보다 빨라서 오히려 병목이 안 걸린다.
 3. **극한의 가성비 결단**:
@@ -143,8 +142,8 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **기가바이트(GB) 당 단가 극한의 인하**| 자성체 기록의 극단적 집적도 향상(SMR, HAMR)을 통해 테라바이트 급 저장 공간을 커피 한 잔 값에 제공하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭발 시대 견인 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(Persistence) 100% 보장** | 전원이 끊겨도 날아가지 않는 비휘발성 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)로서, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(RAM)의 휘발성이라는 태생적 공포를 완벽히 틀어막는 최후의 성역 |
-| **블록 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(LBA)의 표준 정립** | HDD가 만들어 놓은 512B/4KB 블록 인터페이스 규격은 후대 SSD와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술이 그대로 호환 복사하여 안착하게 만든 위대한 설계 유산 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a>(Persistence) 100% 보장</strong> | 전원이 끊겨도 날아가지 않는 비휘발성 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)로서, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(RAM)의 휘발성이라는 태생적 공포를 완벽히 틀어막는 최후의 성역 |
+| <strong>블록 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(LBA)의 표준 정립</strong> | HDD가 만들어 놓은 512B/4KB 블록 인터페이스 규격은 후대 SSD와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술이 그대로 호환 복사하여 안착하게 만든 위대한 설계 유산 |
 
 ### 결론 및 미래 전망
 
@@ -165,15 +164,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[io_uring]
-    │
-    ▼
-[하드 디스크 드라이브 (HDD) 구조]
-    │
-    ├──▶ [논리적 블록 주소 (LBA, Logical Block Address)]
-    └──▶ [디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">io_uring</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

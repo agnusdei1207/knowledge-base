@@ -20,7 +20,7 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 > 1. **ëì**: ìì ëíë(Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì ëì ëíê êì "ëìíë ë ììê ëìë ëì ììëì ëìì íë ëë íì(Dead Time)"ì íêë ëìê ìí, **ë(RAM)ì ëêì íêì ëí ë ê(A, B)ë ëìëê íí ìë ëêì êë ìê ìë êêì I/O ëëí íë êë**ìë.
-> 2. **êì**: íì ëí(A)ìì ëìíë ëìíë ëëëë ê ìëì ìê ëì, ëìì ìê ëëì ë ëí(B)ì ëíìí ííì ëìì ììëììëì **CPU, ëìí, ëìë ë ëë íëìì ììëì ë 1íëì ìë ìê([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) ìì 100% íêëìíë êíì ìëí([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**ì ëìëë.
+> 2. **êì**: íì ëí(A)ìì ëìíë ëìíë ëëëë ê ìëì ìê ëì, ëìì ìê ëëì ë ëí(B)ì ëíìí ííì ëìì ììëììëì <strong>CPU, ëìí, ëìë ë ëë íëìì ììëì ë 1íëì ìë ìê(<a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>) ìì 100% íêëìíë êíì ìëí(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>ì ëìëë.
 > 3. **ìí**: ì êëì ëìë I/O ìíëë ììíë ëì, íë ìíí êëíì(êì ìì, ëëí ììì)ìì íëì ìììë **íìë(Tearing) íìì ëëíë íëí/ë ëí ìì(Swap)ì íì ëëë ìí**ëì ìëê ëëëì 144Hz ììì ë ì ìë ëëì êëì ììíë.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -35,7 +35,7 @@ tags = ["studynote-operating-system"]
 
 - **ëì ëê ë ëë ìëì êíí**:
   1. **ëì ëíì íê**: I/O ììì CPUê ëêì êë ìë([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) ìëì íìíëì ëì ëì.
-  2. **[Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (íí) ììëì ëì**: ëëë êêì ìì ìê(ëí 1ê ëë) ë íìíë ëêë ìê(ìë)ì 2ëë ëíêíë ëëì ëë.
+  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/">Flip-Flop</a> (íí) ììëì ëì</strong>: ëëë êêì ìì ìê(ëí 1ê ëë) ë íìíë ëêë ìê(ìë)ì 2ëë ëíêíë ëëì ëë.
   3. **êëíìììì êì**: ëëíê íëì êëë ëìì êëíìëê íëì ëììì íìì ìììë íìì ìëí íêíë íë ëìíëìì íìì ë.
 
 ```text
@@ -132,11 +132,11 @@ tags = ["studynote-operating-system"]
 ### ìë ìëëì: [Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)(ëìë) ëíì Blue-Green ëí ìííì
 ìííìì ëí([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD) ìíëììë ì ìì ëíëì 'ìì(Swap)' ìíì 100% ëìíê ëìëì ììì ìëíê ìë.
 1. **ëì ìí**: ìëëíì(k8s) ìëì ì ëì(v2) ìì ìëìíí ë, êì ì(v1)ì ëê ì ìì ìë 10ì ëì ììëì ììì ìë(502 Bad Gateway)ë ëëë. (ëì ëíì ëë íì).
-2. **ìì ëíë ëì ([Blue-Green Deployment](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/))**:
+2. <strong>ìì ëíë ëì (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/">Blue-Green Deployment</a>)</strong>:
    - íëëì íêì ìì **ìë ëìì 2ìí(ëë, êë)** ëëìëë.
    - íì ìì íëíì ëë ìë(v1)ë ëê ìë (Front Buffer).
    - êëíì ìëë ì ëë êë ìë(v2)ì ì ìëë ììëê ìëê íìíêì ë ëìë (Back Bufferì ëìí ìê).
-3. **ìì(Swap)ì ìê ([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/))**:
+3. <strong>ìì(Swap)ì ìê (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/">Zero-Downtime</a>)</strong>:
    - ëëëëì(L4 ììì/Nginx)ì íëí ëìí íìí íìíë ëëìì **êëìë 0.001ì ëì í êìëëë!**
    - ììëì 1ìì ëêë ìì ëëëê ì ëìì íëì ëê ëë.
    - ëì ì ëìì ëêê íìë? íìíë ëì ëëë í êìëëë 1ì ëì ìëí ëë(Roll-back)ì ìêíë. ìêì ììë ëì ìëë ëììë ìëìííë ìììë ëìëì ìíë ëí ìíìë.
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 | êë | ëì |
 |:---|:---|
 | **íëìì êëë(Utilization) 100% ëì** | ëìíë ìë ìê ìë ìì íìë ìêëìë ëìíë íì ìê([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))ì ìêíì I/O ìëí([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì êì 2ëë ëíê |
-| **[Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ìì ìë** | ìê ìì(Front)ê ìê ìì(Back)ì ëëì ë ììë ììí êëíì, ë([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) ììë ìëí ìëë-ììí([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) íê êì |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a> ìì ìë</strong> | ìê ìì(Front)ê ìê ìì(Back)ì ëëì ë ììë ììí êëíì, ë([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) ììë ìëí ìëë-ììí([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) íê êì |
 | **UI/UX íìë(Tearing)ì ììí ëì** | ëëí êì ìê(V-Sync)ì [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ëëë ìêë ìêëë íìí ìì(Swap)ìë ëëíì ëëëì íë ìêì ìë íì íë |
 
 ### êë ë ëë ìë
@@ -192,15 +192,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[버퍼링 (Buffering)]
-    │
-    ▼
-[이중 버퍼링 (Double Buffering)]
-    │
-    ├──▶ [캐싱 (Caching)]
-    └──▶ [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼링 (Buffering)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이중 버퍼링 (Double Buffering)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐싱 (Caching)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

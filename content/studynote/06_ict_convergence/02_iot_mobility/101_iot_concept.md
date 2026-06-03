@@ -32,28 +32,26 @@ IoT 시스템은 크게 3개의 계층으로 구성된다. [데이터](/knowledg
 
 | 계층 | 역할 | 주요 기술 및 구성 요소 |
 | :--- | :--- | :--- |
-| **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층 ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)/App)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 가시화, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | 클라우드 플랫폼, BigData 처리, UI/UX, 대시보드 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층 (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>/App)</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 및 가시화, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공 | 클라우드 플랫폼, BigData 처리, UI/UX, 대시보드 |
 | **네트워크 계층 (Connectivity)** | 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 플랫폼으로 안전하게 전송 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi, [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) ([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)), [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) |
 | **디바이스 계층 (Sensing)** | 아날로그 물리량 측정 및 제어(Actuation) | 센서(온도, 조도, 위치 등), 액추에이터(모터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), RFID |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                  IoT의 Sense - Think - Act 루프              │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│ [ 3. Actuation ]                       [ 2. Processing ]     │
-│  행동 실행 / 제어 ◀───── 명령 ────── 클라우드 / 엣지 서버    │
-│       │                                      ▲               │
-│       │ 물리적 변화 발생                     │ 데이터 분석   │
-│       ▼                                      │               │
-│ [ 현실 세계 (Physical World) ]               │               │
-│       │                                      │               │
-│       │ 물리량 감지                          │ 원격 전송     │
-│       ▼                                      │               │
-│ [ 1. Sensing ]  ──────── 데이터 ──────▶ [ Network (LPWAN) ]  │
-│  센서 단말기                                                 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT의 Sense - Think - Act 루프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. Actuation</div><div class="kb-diagram-node">2. Processing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 실행 / 제어 ◀ 명령 클라우드 / 엣지 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 변화 발생</div><div class="kb-diagram-cell">데이터 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현실 세계 (Physical World)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리량 감지</div><div class="kb-diagram-cell">원격 전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. Sensing</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Network (LPWAN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 단말기</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 현실의 변화를 감지해 디지털로 보내고, 분석된 결과가 다시 현실의 물리적 동작(모터 제어, 온도 조절 등)으로 환원되는 IoT의 본질적 순환 고리를 보여준다.
 
@@ -69,9 +67,9 @@ IoT는 과거의 기기 간 통신인 M2M을 포괄하고, 나아가 사람과 �
 | :--- | :--- | :--- | :--- |
 | **연결 대상** | 특정 기기 간 1:1, 1:N 연결 | 만물과 인터넷의 개방형 연결 | 사물 + 사람 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + 프로세스 |
 | **통신 인프라** | 폐쇄망 (Cellular, 전용망 등) | 표준 IP 기반 개방형 네트워크 | 상황 인지형 지능형 네트워크 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용** | 단순 기기 모니터링 및 제어 | 빅데이터 분석을 통한 가치 창출 | 지능형 판단 및 생태계 융합 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 활용</strong> | 단순 기기 모니터링 및 제어 | 빅데이터 분석을 통한 가치 창출 | 지능형 판단 및 생태계 융합 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)) |
 
-최근에는 클라우드의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 문제를 해결하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 말단 기기 주변에서 1차적인 연산과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** 및 **[AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) + IoT)** 기술과 결합하여 한계를 돌파하고 있다.
+최근에는 클라우드의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 문제를 해결하기 위해, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 말단 기기 주변에서 1차적인 연산과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> 및 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/">AIoT</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> + IoT)</strong> 기술과 결합하여 한계를 돌파하고 있다.
 
 - **📢 섹션 요약 비유**: M2M이 두 사람이 종이컵 전화기로 비밀 얘기를 나누는 닫힌 통신이라면, IoT는 모두가 스마트폰을 들고 광장(인터넷)에 모여 수만 명과 동시에 정보를 교환하는 열린 생태계다.
 
@@ -82,7 +80,7 @@ IoT는 과거의 기기 간 통신인 M2M을 포괄하고, 나아가 사람과 �
 실무에서 IoT 프로젝트를 설계할 때 가장 경계해야 할 것은 '무목적적인 센서 달기'다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 것 자체가 목적이 되어서는 안 되며, 수집 비용 대비 비즈니스적 가치를 철저히 계산해야 한다.
 
 - **통신망 선택 판단**: 초당 수백 메가바이트를 쏟아내는 자율주행차(고대역폭)에는 5G가 필요하지만, 하루에 한 번 수도 사용량만 보내면 되는 스마트 미터기에는 배터리가 10년 가는 저전력 장거리 통신망인 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/))을 채택해야 ROI가 맞는다.
-- **보안 설계 ([Security by Design](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/))**: IoT 기기는 CPU와 메모리가 빈약하여 기존의 무거운 암호화 모듈을 얹기 어렵다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계부터 경량 암호 알고리즘을 적용하고, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 무선 업데이트(OTA) 기능을 반드시 구현하여 해커의 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)(Mirai [Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 등) 공격 기지로 전락하는 것을 막아야 한다.
+- <strong>보안 설계 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/">Security by Design</a>)</strong>: IoT 기기는 CPU와 메모리가 빈약하여 기존의 무거운 암호화 모듈을 얹기 어렵다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계부터 경량 암호 알고리즘을 적용하고, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 무선 업데이트(OTA) 기능을 반드시 구현하여 해커의 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/)(Mirai [Botnet](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 등) 공격 기지로 전락하는 것을 막아야 한다.
 
 - **📢 섹션 요약 비유**: 고속도로를 설계할 때 자전거(저전력 센서)와 대형 트럭(영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 같은 차선에서 달리게 하면 사고가 난다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 특성과 크기에 맞춰 좁은 골목길([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/))과 고속도로([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 알맞게 깔아주는 것이 설계자의 몫이다.
 
@@ -102,28 +100,30 @@ IoT 인프라가 제대로 구축되면 기업은 '예측 유지보수(Predictiv
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network)** | IoT 센서의 배터리 수명을 획기적으로 늘려주는 저전력 통신망 |
-| **[Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** | 클라우드로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 보내지 않고 센서 가까이서 즉시 처리해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 구조 |
-| **[Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))** | IoT가 수집한 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가상 공간에 똑같이 복제해 시뮬레이션하는 기술 |
-| **[Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) ([매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/))** | 삼성, 애플 등 제조사가 달라도 IoT 기기들이 서로 통신할 수 있게 해주는 국제 연동 표준 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> (Low <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Wide Area Network)</strong> | IoT 센서의 배터리 수명을 획기적으로 늘려주는 저전력 통신망 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>)</strong> | 클라우드로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 보내지 않고 센서 가까이서 즉시 처리해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 구조 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a>)</strong> | IoT가 수집한 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가상 공간에 똑같이 복제해 시뮬레이션하는 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">매터</a>)</strong> | 삼성, 애플 등 제조사가 달라도 IoT 기기들이 서로 통신할 수 있게 해주는 국제 연동 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-M2M (Machine to Machine) - 폐쇄망 단방향 제어
-    │
-    ▼
-IoT (Internet of Things) - IP 기반 개방형 초연결 네트워크 구축
-    │
-    ▼
-Edge Computing + IoT - 클라우드 부하 분산 및 실시간 처리 확보
-    │
-    ▼
-AIoT (AI + IoT) - 단말기 스스로 추론 및 의사결정 수행
-    │
-    ▼
-IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">M2M (Machine to Machine) - 폐쇄망 단방향 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoT (Internet of Things) - IP 기반 개방형 초연결 네트워크 구축</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Edge Computing + IoT - 클라우드 부하 분산 및 실시간 처리 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AIoT (AI + IoT) - 단말기 스스로 추론 및 의사결정 수행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 최적화</div>
+</div>
+</div>
+
+
 이 흐름도는 단순한 '연결'에서 출발해 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 궁극적으로 사물 자체가 지능을 가지는 방향으로 진화하는 IoT의 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -21,7 +21,7 @@ tags = ["studynote-cloud-architecture"]
 
 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)([Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)), 또는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 토글(Feature Toggle)은 소프트웨어 개발에서 새 기능을 코드에 포함하되 런타임 조건에 따라 활성/비활성화하는 기술이다. Martin Fowler의 블로그 포스트 "Feature Toggles (aka Feature Flags)"에서 체계적으로 정리된 개념이다.
 
-가장 중요한 개념은 **배포와 출시의 분리(Decouple [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) from Release)**이다. 전통적으로는 "코드 배포 = 기능 출시"였지만, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)를 사용하면 신기능 코드를 미리 프로덕션에 배포해두고 마케팅·비즈니스 일정에 맞춰 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 ON으로 전환하여 출시할 수 있다.
+가장 중요한 개념은 <strong>배포와 출시의 분리(Decouple <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> from Release)</strong>이다. 전통적으로는 "코드 배포 = 기능 출시"였지만, [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)를 사용하면 신기능 코드를 미리 프로덕션에 배포해두고 마케팅·비즈니스 일정에 맞춰 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 ON으로 전환하여 출시할 수 있다.
 
 Facebook, Google, Netflix 등은 수천 개의 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)를 동시에 운영하며, 일부 회사는 A/B 테스트·퍼스널라이제이션·점진적 출시 모두를 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 시스템 위에서 구현한다. LaunchDarkly, Unleash, Flagsmith, AWS AppConfig 등이 대표적인 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 관리 플랫폼이다.
 
@@ -42,29 +42,29 @@ Facebook, Google, Netflix 등은 수천 개의 [피처 플래그](/knowledge-bas
 
 ### [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 동작 구조
 
-```
-  ┌─────────────────────────────────────────────────────┐
-  │              Feature Flag 관리 서버                   │
-  │  (LaunchDarkly / Unleash / AWS AppConfig)            │
-  │                                                      │
-  │  플래그 정의: new_checkout_flow                       │
-  │    - 기본값: OFF                                     │
-  │    - 대상: user_segment = "beta_users"               │
-  │    - 가중치: 10% 랜덤 사용자                          │
-  └──────────────────────┬──────────────────────────────┘
-                         │ SDK 폴링 or 웹훅
-                         ▼
-  ┌──────────────────────────────────────────────────────┐
-  │                 애플리케이션 코드                       │
-  │                                                      │
-  │  if (featureFlag.isEnabled("new_checkout_flow",      │
-  │                             currentUser)) {          │
-  │      showNewCheckout();   // 신기능                  │
-  │  } else {                                            │
-  │      showOldCheckout();   // 기존 기능               │
-  │  }                                                   │
-  └──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Flag 관리 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LaunchDarkly / Unleash / AWS AppConfig)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래그 정의: new_checkout_flow</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기본값: OFF</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대상: user_segment = "beta_users"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가중치: 10% 랜덤 사용자</div></div>
+<div class="kb-diagram-note">SDK 폴링 or 웹훅</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (featureFlag.isEnabled("new_checkout_flow",</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">currentUser)) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">showNewCheckout(); // 신기능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">showOldCheckout(); // 기존 기능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 ### LaunchDarkly SDK 예시 (Java)
 
@@ -119,12 +119,12 @@ if (showNewUI) {
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[Trunk-based Development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/)(TBD)와의 연계**:
+<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/">Trunk-based Development</a>(TBD)와의 연계</strong>:
 - 기능 브랜치 없이 모든 개발자가 main/trunk에 직접 커밋
 - 미완성 기능은 [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)로 숨겨서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 유지
 - 장기 브랜치(feature branch)의 [merge conflict](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/) 문제 해결
 
-**킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 활용**:
+<strong>킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 활용</strong>:
 ```
 프로덕션 장애 시:
   1. 원인: 새 기능 v2 결제 로직 버그
@@ -174,17 +174,21 @@ if (showNewUI) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Feature Branch + 배포 = 기능 공개 (분리 불가)
-    │
-    ▼
-Feature Flag: 코드 배포 ≠ 기능 공개 (Decouple)
-    ├─► LaunchDarkly · Unleash · ConfigCat
-    └─► A/B Testing · Percentage Rollout
-    │
-    ▼
-Trunk-Based Development + Feature Flag = CD 극대화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Feature Branch + 배포 = 기능 공개 (분리 불가)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Feature Flag: 코드 배포 ≠ 기능 공개 (Decouple)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LaunchDarkly · Unleash · ConfigCat</div>
+<div class="kb-diagram-tree-item" style="--depth:2">A/B Testing · Percentage Rollout</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Trunk-Based Development + Feature Flag = CD 극대화</div>
+</div>
+</div>
+
+
 2. "이제 팔아도 돼"라는 신호가 오면 상자만 뜯으면 바로 판매 시작, 문제 생기면 다시 포장해서 치우면 돼.
 3. 가게를 다시 꾸미지(재배포) 않아도 판매 ON/OFF를 할 수 있어서 엄청 편리해.
 

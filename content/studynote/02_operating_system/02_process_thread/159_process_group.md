@@ -43,25 +43,23 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 프로세스 그룹, 터미널의 관계를 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              session / terminal / process-group relationship               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Session SID=4100, controlling terminal=/dev/pts/3                         │
-│                                                                            │
-│ Shell PID=4100, PGID=4100                                                  │
-│      │                                                                     │
-│      ├── Foreground PGID=5200  [vim]                                       │
-│      │        ▲                                                            │
-│      │        └── terminal SIGINT, SIGTSTP go here                         │
-│      │                                                                     │
-│      └── Background PGID=5300 [find | sort]                                │
-│               ├── PID=5300                                                 │
-│               └── PID=5301                                                 │
-│                                                                            │
-│ kill(-5300, SIGTERM)  ──▶ send signal to whole background group            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">session / terminal / process-group relationship</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session SID=4100, controlling terminal=/dev/pts/3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell PID=4100, PGID=4100</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── Foreground PGID=5200</div><div class="kb-diagram-node">vim</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── terminal SIGINT, SIGTSTP go here</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">── Background PGID=5300</div><div class="kb-diagram-node">find | sort</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PID=5300</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PID=5301</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kill(-5300, SIGTERM) ──▶ send signal to whole background group</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 핵심은 터미널 시그널이 “현재 포그라운드 프로세스 그룹”으로 전달된다는 점이다. 셸은 `tcsetpgrp()`로 어느 그룹이 터미널을 받을지 바꾸고, `kill(-pgid, sig)`처럼 음수 PID를 사용해 그룹 전체에 시그널을 보낸다. 따라서 프로세스 그룹은 시그널링, 작업 제어, 파이프라인 관리가 만나는 접점이다.
 
@@ -94,7 +92,7 @@ tags = ["studynote-operating-system"]
 
 1. **파이프라인 전체를 같은 PGID로 묶었는가?** 그렇지 않으면 작업 제어가 분열된다.
 2. **종료 신호를 리더 하나가 아니라 그룹 전체에 보냈는가?** 리더만 죽으면 하위 프로세스가 남을 수 있다.
-3. **[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·터미널 관계를 고려했는가?** 백그라운드 그룹이 터미널 읽기를 시도하면 `SIGTTIN` 같은 시그널을 받을 수 있다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>·터미널 관계를 고려했는가?</strong> 백그라운드 그룹이 터미널 읽기를 시도하면 `SIGTTIN` 같은 시그널을 받을 수 있다.
 4. **cgroup과 역할을 혼동하지 않았는가?** 자원 제한 문제는 다른 메커니즘으로 풀어야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -111,7 +109,7 @@ tags = ["studynote-operating-system"]
 
 프로세스 그룹을 올바르게 사용하면 셸과 터미널 기반 프로그램은 사용자 관점의 “작업”과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 관점의 “프로세스 묶음”을 자연스럽게 일치시킬 수 있다. 그 결과 파이프라인 종료, 중지·재개, 포그라운드 전환, 터미널 시그널 처리의 예측 가능성이 높아진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 이론에서 자주 나오는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 제어 터미널, 데몬화도 이 구조를 기반으로 설명된다.
 
-다만 프로세스 그룹은 만능 관리 단위가 아니다. 자원 격리나 보안 경계는 cgroup, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)), 권한 모델과 함께 설계해야 한다. 따라서 프로세스 그룹은 **“여러 프로세스를 같은 작업처럼 제어하기 위한 시그널·터미널 중심 단위”**로 기억하는 것이 가장 정확하다.
+다만 프로세스 그룹은 만능 관리 단위가 아니다. 자원 격리나 보안 경계는 cgroup, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)), 권한 모델과 함께 설계해야 한다. 따라서 프로세스 그룹은 <strong>“여러 프로세스를 같은 작업처럼 제어하기 위한 시그널·터미널 중심 단위”</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 프로세스 그룹은 여러 악기를 묶어 한 파트로 지휘하는 오케스트라 편성과 같다. 개별 연주자는 따로 존재하지만, 실제 지휘는 파트 단위로 이뤄진다.
 
@@ -130,21 +128,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-개별 프로세스 생성
-    │
-    ▼
-프로세스 그룹 (PGID) 형성
-    │
-    ├── 파이프라인 묶기
-    ├── 그룹 시그널 전달
-    │
-    ▼
-포그라운드 / 백그라운드 작업 제어
-    │
-    ▼
-세션 (Session) · 제어 터미널 · 데몬화와 연결
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">개별 프로세스 생성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">프로세스 그룹 (PGID) 형성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">파이프라인 묶기</div>
+<div class="kb-diagram-tree-item" style="--depth:2">그룹 시그널 전달</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">포그라운드 / 백그라운드 작업 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">세션 (Session) · 제어 터미널 · 데몬화와 연결</div>
+</div>
+</div>
+
+
 
 이 흐름은 프로세스 그룹이 단순한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호가 아니라, 파이프라인 실행에서 시작해 터미널 제어와 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 구조로 확장되는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 개념임을 보여 준다.
 

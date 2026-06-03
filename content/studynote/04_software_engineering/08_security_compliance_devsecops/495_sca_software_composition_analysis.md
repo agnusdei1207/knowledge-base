@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: SCA는 '재료 성분 분석기'다. 개발자가 `npm install`이나 `mvn install`을 치면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 꼬리에 꼬리를 물고 수백 개가 깔린다. [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 툴(Snyk, Black Duck, Dependabot 등)은 이 수백 개의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 이름과 버전표(바코드)를 쓱 읽은 뒤, 전 세계 해킹 족보(NVD의 [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 리스트)와 대조한다. "어? `jackson-databind 2.9.8` 쓰네? 이거 작년에 털린 버전이야!"라며 경고를 울려주는 기계다.
 
-- **필요성**: 2017년, 미국 신용평가사 에퀴팩스(Equifax)가 해킹당해 1.4억 명의 정보가 털린 이유는 아파치(Apache) `Struts2` [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점 때문이었다. 에퀴팩스 서버에는 최첨단 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))과 소스코드 스캐너([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))가 돌아가고 있었지만, **자기들이 다운받아 쓴 '[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)'가 썩어 들어가는 것은 모니터링 사각지대(Blind Spot)**였기 때문에 속수무책으로 당했다. 이 사건 이후 "내가 안 짠 남의 코드가 내 시스템을 파멸시킨다"는 공포심이 극에 달하며 SCA는 선택이 아닌 법적 필수 도입 툴로 격상되었다.
+- **필요성**: 2017년, 미국 신용평가사 에퀴팩스(Equifax)가 해킹당해 1.4억 명의 정보가 털린 이유는 아파치(Apache) `Struts2` [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 취약점 때문이었다. 에퀴팩스 서버에는 최첨단 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))과 소스코드 스캐너([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))가 돌아가고 있었지만, <strong>자기들이 다운받아 쓴 '<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>'가 썩어 들어가는 것은 모니터링 사각지대(Blind Spot)</strong>였기 때문에 속수무책으로 당했다. 이 사건 이후 "내가 안 짠 남의 코드가 내 시스템을 파멸시킨다"는 공포심이 극에 달하며 SCA는 선택이 아닌 법적 필수 도입 툴로 격상되었다.
 
-- **💡 비유**: SCA는 식당의 **'식자재 원산지 감별기'**와 같습니다. 주방장(개발자)이 요리 스킬([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))이 아무리 완벽해도, 요리에 들어간 간장([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))에서 대장균([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 취약점)이 나오면 손님(고객)은 식중독에 걸려 죽습니다. SCA는 아침에 식당에 들어오는 간장, 소금, 양파 트럭을 세워놓고 바코드를 찍어보며 "어? 이 간장 어제 뉴스에서 리콜 처리된 썩은 간장이네!" 라며 식자재 자체를 입구에서 걷어차 버리는 원초적 위생 관리자입니다.
+- **💡 비유**: SCA는 식당의 <strong>'식자재 원산지 감별기'</strong>와 같습니다. 주방장(개발자)이 요리 스킬([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/))이 아무리 완벽해도, 요리에 들어간 간장([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))에서 대장균([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) 취약점)이 나오면 손님(고객)은 식중독에 걸려 죽습니다. SCA는 아침에 식당에 들어오는 간장, 소금, 양파 트럭을 세워놓고 바코드를 찍어보며 "어? 이 간장 어제 뉴스에서 리콜 처리된 썩은 간장이네!" 라며 식자재 자체를 입구에서 걷어차 버리는 원초적 위생 관리자입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 낭만과 저주**: 2000년대까진 다들 맨땅에 코딩했다. 2010년 이후 `NPM`, `Maven` 생태계가 폭발하며 개발자들은 무지성으로 남의 코드를 다운받아 조립하기 시작했다.
+  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>의 낭만과 저주</strong>: 2000년대까진 다들 맨땅에 코딩했다. 2010년 이후 `NPM`, `Maven` 생태계가 폭발하며 개발자들은 무지성으로 남의 코드를 다운받아 조립하기 시작했다.
   2. **라이선스 소송의 피눈물**: 초창기 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/)(Black Duck)는 해킹 방어용이 아니었다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 공짜인 줄 알고 썼다가, "코드 공개 의무(GPL 라이선스)"에 걸려 회사의 소스코드를 강제로 다 까발려야 하는 끔찍한 법적 지뢰를 밟고 소송에 털리자, 이를 막기 위해 '라이선스 분석용'으로 등장했다.
-  3. **[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안의 대세 (현재)**: 라이선스는 기본이고, 솔라윈즈(SolarWinds) 사태 이후 해커들이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 집중 타격하는 **[공급망 공격](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/)([Supply Chain Attack](/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/))**이 대유행하자, 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 스캔이 SCA의 메인 엔진으로 자리 잡으며 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 보안의 심장이 되었다.
+  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/">공급망</a> 보안의 대세 (현재)</strong>: 라이선스는 기본이고, 솔라윈즈(SolarWinds) 사태 이후 해커들이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 집중 타격하는 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">공급망 공격</a>(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/764_supply_chain_attack/">Supply Chain Attack</a>)</strong>이 대유행하자, 취약점([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/)) 스캔이 SCA의 메인 엔진으로 자리 잡으며 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 보안의 심장이 되었다.
 
-- **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))가 **'내 성벽의 돌에 금이 갔는지 살피는 것'**이라면, SCA는 **'성문을 지키려고 외부에서 고용한 용병([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 중에 적군의 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(취약점/라이선스 위반)가 섞여 있는지 신원 조회를 하는 것'**입니다. 용병의 숫자가 90%인 현대 전쟁에서, 용병의 뒷조사를 안 하는 성은 무조건 안에서부터 털리게 됩니다.
+- **📢 섹션 요약 비유**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)([정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/))가 <strong>'내 성벽의 돌에 금이 갔는지 살피는 것'</strong>이라면, SCA는 <strong>'성문을 지키려고 외부에서 고용한 용병(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>) 중에 적군의 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/">스파이</a>(취약점/라이선스 위반)가 섞여 있는지 신원 조회를 하는 것'</strong>입니다. 용병의 숫자가 90%인 현대 전쟁에서, 용병의 뒷조사를 안 하는 성은 무조건 안에서부터 털리게 됩니다.
 
 ---
 
 다음은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Compos의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  SCA (Software Compos                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA (Software Compos</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Compos가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Composition Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Composition Analysis)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) (Software Composition Analysis)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-SCA (Software Composition Analysis) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SCA (Software Composition Analysis) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

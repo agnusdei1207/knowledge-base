@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: Jason A. Donenfeld가 기존 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 기술의 비대함과 느린 속도를 비판하며 개발한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 기반의 최신 레이어 3 보안 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) (2020년 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.6에 공식 병합됨).
-- **필요성**: IPsec이나 OpenVPN을 세팅해 본 엔지니어들은 안다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드가 100줄이 넘어간다. 게다가 C언어로 코드가 수십만 줄이라 보안 감사를 하다가 버그를 놓쳐 매년 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 해킹이 터진다. 모바일 환경에선 폰을 쓰다가 와이파이에서 LTE로 바뀌면 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN은 바로 툭 하고 끊어져서 다시 로그인해야 했다. **"야, 복잡한 기능 싹 다 빼! 세팅은 딱 3줄로 끝내고, 모바일에서 망이 바뀌어도 절대 안 끊기고, 코드 길이는 4천 줄로 압축해서 해커가 틈입할 구멍을 없앤 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) VPN을 만들자!"**
+- **필요성**: IPsec이나 OpenVPN을 세팅해 본 엔지니어들은 안다. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드가 100줄이 넘어간다. 게다가 C언어로 코드가 수십만 줄이라 보안 감사를 하다가 버그를 놓쳐 매년 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 해킹이 터진다. 모바일 환경에선 폰을 쓰다가 와이파이에서 LTE로 바뀌면 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) VPN은 바로 툭 하고 끊어져서 다시 로그인해야 했다. <strong>"야, 복잡한 기능 싹 다 빼! 세팅은 딱 3줄로 끝내고, 모바일에서 망이 바뀌어도 절대 안 끊기고, 코드 길이는 4천 줄로 압축해서 해커가 틈입할 구멍을 없앤 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> VPN을 만들자!"</strong>
 
 - **💡 비유**: 
-  - **[IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) / [OpenVPN](/knowledge-base/studynote/09_security/03_network_security/284_openvpn/)**: 수만 개의 부품과 센서로 이루어진 **"초거대 우주왕복선"**입니다. 뭐 하나 고장 나면 고치기도 힘들고 띄우는 데 시간(협상)도 오래 걸립니다.
-  - **WireGuard**: 오직 모터, 배터리, 바퀴 딱 3개의 초경량 부품으로만 만든 **"최고급 전기 자전거"**입니다. 고장 날 부품 자체가 없고, 페달을 밟으면 0.1초 만에 최고 속도로 튀어 나갑니다.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> / <a href="/knowledge-base/studynote/09_security/03_network_security/284_openvpn/">OpenVPN</a></strong>: 수만 개의 부품과 센서로 이루어진 <strong>"초거대 우주왕복선"</strong>입니다. 뭐 하나 고장 나면 고치기도 힘들고 띄우는 데 시간(협상)도 오래 걸립니다.
+  - **WireGuard**: 오직 모터, 배터리, 바퀴 딱 3개의 초경량 부품으로만 만든 <strong>"최고급 전기 자전거"</strong>입니다. 고장 날 부품 자체가 없고, 페달을 밟으면 0.1초 만에 최고 속도로 튀어 나갑니다.
 
-```text
-[DMVPN]
-    │
-    ▼
-[WireGuard]
-    │
-    └──▶ [QoS]
-```
 
-- **📢 섹션 요약 비유**: ** WireGuard는 복잡한 코스 요리 전문점([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))을 밀어내고 등장한 **"단일 메뉴 국밥집"**입니다. 짜장면, 짬뽕(다양한 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)) 다 버리고 무조건 "국밥 한 그릇(단일 최신 암호화)"만 팔기 때문에, 주방장(라우터)이 요리(패킷 처리)하는 속도가 타의 추종을 불허합니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QoS</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> WireGuard는 복잡한 코스 요리 전문점(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)을 밀어내고 등장한 </strong>"단일 메뉴 국밥집"**입니다. 짜장면, 짬뽕(다양한 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)) 다 버리고 무조건 "국밥 한 그릇(단일 최신 암호화)"만 팔기 때문에, 주방장(라우터)이 요리(패킷 처리)하는 속도가 타의 추종을 불허합니다.
 
 ---
 
@@ -44,7 +48,7 @@ tags = ["studynote-network"]
 ### 1. 군더더기 없는 암호화 체계 (No Agility)
 IPsec은 통신 전에 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상을 한다. "우리 암호화 뭐 쓸래? [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)? [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/)?" (이러다 맨날 에러 난다).
 WireGuard는 협상이라는 개념 자체가 아예 없다. (Crypto Agility의 배제).
-- 무조건 자기가 박아놓은 **"ChaCha20 for 암호화, Poly1305 for [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)"** 최신 조합 딱 하나만 쓴다.
+- 무조건 자기가 박아놓은 <strong>"ChaCha20 for 암호화, Poly1305 for <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>"</strong> 최신 조합 딱 하나만 쓴다.
 - 선택권이 없으니 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 꼬일 일이 0%이고, 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 ARM 칩셋(스마트폰)이나 저사양 공유기에서도 미치도록 가볍게 돌아가는 현존 최고 스피드의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ### 2. 크립토키 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Cryptokey [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))
@@ -52,35 +56,33 @@ WireGuard는 협상이라는 개념 자체가 아예 없다. (Crypto Agility의 
 - 내 WireGuard 인터페이스(`wg0`) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일에 적어둔다. 
   `Peer(상대방): [상대방의 공개키 = abcde...], [허용된 IP = 10.1.1.2/32]`
 - **들어올 때 (Inbound)**: 어떤 놈이 나한테 패킷을 쐈는데, 암호 덩어리를 뜯어보니(복호화) 그 열쇠가 아까 적어둔 공개키 `abcde...`와 완벽히 맞아떨어졌고 그 안의 알맹이 출발지 IP가 `10.1.1.2`다? **"암호가 풀렸네? 넌 100% 믿을 수 있는 놈이야! 통과!"** (별도의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사 싹 다 생략).
-- **나갈 때 (Outbound)**: 목적지가 `10.1.1.2`인 패킷을 쏴야 한다면? **"아까 그 공개키(`abcde...`)로 묻지도 따지지도 않고 바로 암호화해서 던진다!"**
+- **나갈 때 (Outbound)**: 목적지가 `10.1.1.2`인 패킷을 쏴야 한다면? <strong>"아까 그 공개키(<code>abcde...</code>)로 묻지도 따지지도 않고 바로 암호화해서 던진다!"</strong>
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                WireGuard의 로밍(Roaming) 불사신 능력             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 스마트폰 (재택근무) ]                                        │
- │   1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)                    │
- │      -> VPN 서버와 UDP로 짱짱하게 암호화 통신 중.                 │
- │                                                             │
- │   2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)     │
- │                                                             │
- │   * IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)│
- │                                                             │
- │   * WireGuard의 뇌구조:                                       │
- │     "IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...    │
- │      오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?     │
- │      그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"         │
- │                                                             │
- │   ▶ 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.│
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WireGuard의 로밍(Roaming) 불사신 능력</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 (재택근무)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; VPN 서버와 UDP로 짱짱하게 암호화 통신 중.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* WireGuard의 뇌구조:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.</div></div>
+</div>
+</div>
+
+
 
 ### 3. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 동작 (무자비한 속도)
 OpenVPN은 유저 스페이스(User Space)라는 일반 프로그램 영역에서 돌아가서, 패킷이 올 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저 영역을 왔다 갔다 하며 속도를 다 갉아먹는다([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching).
-WireGuard는 아예 4천 줄짜리 코드를 **리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 심장부**에 직접 이식해 버렸다. 랜카드로 패킷이 들어오자마자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바닥에서 빛의 속도로 암호화를 풀고 바로 튕겨내 버리므로 기가비트 트래픽도 씹어 먹는 퍼포먼스가 나온다.
+WireGuard는 아예 4천 줄짜리 코드를 <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>) 심장부</strong>에 직접 이식해 버렸다. 랜카드로 패킷이 들어오자마자 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바닥에서 빛의 속도로 암호화를 풀고 바로 튕겨내 버리므로 기가비트 트래픽도 씹어 먹는 퍼포먼스가 나온다.
 
-- **📢 섹션 요약 비유**: ** WireGuard의 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 능력은 **"얼굴 인식 아파트 출입구"**와 같습니다. 내가 무슨 옷(IP 주소)을 입고 있든, 우산을 쓰고 있든 간에, 내 얼굴(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 암호화)만 카메라에 정확히 인식되면 경비원(라우터)은 묻지도 따지지도 않고 문을 열어줍니다. 옷을 갈아입었다고 다시 주민등록등본([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상)을 떼오라고 닦달하지 않습니다.
+- **📢 섹션 요약 비유**: <strong> WireGuard의 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/">로밍</a> 능력은 </strong>"얼굴 인식 아파트 출입구"**와 같습니다. 내가 무슨 옷(IP 주소)을 입고 있든, 우산을 쓰고 있든 간에, 내 얼굴(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 암호화)만 카메라에 정확히 인식되면 경비원(라우터)은 묻지도 따지지도 않고 문을 열어줍니다. 옷을 갈아입었다고 다시 주민등록등본([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상)을 떼오라고 닦달하지 않습니다.
 
 ---
 
@@ -136,15 +138,19 @@ WireGuard는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: DMVPN]
-    │
-    ▼
-[현재 개념: WireGuard]
-    │
-    ├──▶ [확장 A: QoS]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DMVPN</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WireGuard</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QoS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 WireGuard는 DMVPN에서 출발해 현재 메커니즘을 정교화하고, 이후 QoS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

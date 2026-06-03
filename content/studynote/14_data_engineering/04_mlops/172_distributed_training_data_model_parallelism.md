@@ -21,20 +21,22 @@ tags = ["studynote-data-engineering"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 (Distributed [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))은 "GPU가 느리다"보다 먼저 "[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장에 모델이 안 들어간다"는 문제에서 출발한다. 예를 들어 70B 파라미터 모델을 [Brain Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) 16-bit ([BFloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/)) 기준 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 2바이트, 그래디언트 2바이트, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 8바이트로만 계산해도 파라미터당 약 12바이트가 필요하다. 활성값과 [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) 오버헤드를 빼고도 대략 840GB 수준이어서 80GB [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장으로는 물리적으로 불가능하다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                  Memory wall of large-model training              │
-├────────────────────────────────────────────────────────────────────┤
-│ 70B params                                                        │
-│ × (weights 2B + grads 2B + Adam states 8B)                        │
-│ ≈ 840 GB before activations                                       │
-│                                                                    │
-│ A100 80GB x 1  -> impossible                                      │
-│ A100 80GB x N  -> only possible if compute/memory are partitioned │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 두 가지 다른 병목이 갈린다. 첫째는 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 병목**이다. 모델은 한 GPU에 들어가지만 학습이 너무 오래 걸리는 경우다. 둘째는 **용량 병목**이다. 모델 자체가 한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 담기지 않는 경우다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 전자에, 모델 병렬화는 후자에 먼저 대응한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory wall of large-model training</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">70B params</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× (weights 2B + grads 2B + Adam states 8B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">≈ 840 GB before activations</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A100 80GB x 1 -&gt; impossible</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A100 80GB x N -&gt; only possible if compute/memory are partitioned</div></div>
+</div>
+</div>
+
+
+
+여기서 두 가지 다른 병목이 갈린다. 첫째는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 병목</strong>이다. 모델은 한 GPU에 들어가지만 학습이 너무 오래 걸리는 경우다. 둘째는 <strong>용량 병목</strong>이다. 모델 자체가 한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 담기지 않는 경우다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 전자에, 모델 병렬화는 후자에 먼저 대응한다.
 
 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 설계의 핵심 질문은 단순히 "GPU를 몇 장 쓸 것인가"가 아니다. "무엇을 나눌 것인가", "어디서 통신할 것인가", "어느 병목이 먼저 오는가"를 구분해야 한다. 이 구분이 없으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수는 늘었는데 속도도, 학습 가능 모델 크기도 기대만큼 오르지 않는다.
 
@@ -46,20 +48,22 @@ tags = ["studynote-data-engineering"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 모델 병렬화의 차이는 "분할 대상"이 어디냐에 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 모델 복사본을 여러 GPU에 두고 미니배치를 나누어 계산한 뒤, 각 GPU가 만든 그래디언트를 합친다. 모델 병렬화는 한 번의 순전파와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 자체가 여러 GPU를 지나가도록 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 레이어를 나눈다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                     Where the split happens                       │
-├───────────────────────────────┬────────────────────────────────────┤
-│ Data Parallelism              │ Model Parallelism                  │
-├───────────────────────────────┼────────────────────────────────────┤
-│ batch B0 -> GPU0 [full model] │ GPU0 [part of layer / stage]      │
-│ batch B1 -> GPU1 [full model] │ GPU1 [part of layer / stage]      │
-│ batch B2 -> GPU2 [full model] │ GPU2 [part of layer / stage]      │
-│ batch B3 -> GPU3 [full model] │ GPU3 [part of layer / stage]      │
-│ after backward: All-Reduce    │ during forward/backward: send      │
-│ same weights on all GPUs      │ activations / partial sums         │
-└───────────────────────────────┴────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Where the split happens</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Parallelism</div><div class="kb-diagram-cell">Model Parallelism</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">full model</div><div class="kb-diagram-note">GPU0</div><div class="kb-diagram-node">part of layer / stage</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">full model</div><div class="kb-diagram-note">GPU1</div><div class="kb-diagram-node">part of layer / stage</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">full model</div><div class="kb-diagram-note">GPU2</div><div class="kb-diagram-node">part of layer / stage</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">full model</div><div class="kb-diagram-note">GPU3</div><div class="kb-diagram-node">part of layer / stage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after backward: All-Reduce</div><div class="kb-diagram-cell">during forward/backward: send</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same weights on all GPUs</div><div class="kb-diagram-cell">activations / partial sums</div></div>
+</div>
+</div>
+
+
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 무엇을 나누나 | 대표 통신 | 가장 잘 해결하는 문제 |
 | :--- | :--- | :--- | :--- |
@@ -89,20 +93,22 @@ tags = ["studynote-data-engineering"]
 | 통신 위치 | 스텝 끝 그래디언트 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 레이어 내부 또는 스테이지 경계 |
 | 네트워크 민감도 | 상대적으로 낮음 | 매우 높음 |
 
-하드웨어 토폴로지도 선택을 바꾼다. 텐서 병렬화는 레이어마다 통신이 자주 발생하므로 NVLink 같은 고대역폭 링크 안쪽에 배치하는 편이 좋다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 스텝 끝에서만 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하므로 노드 간 InfiniBand를 타도 상대적으로 견디기 쉽다. 그래서 대형 학습 클러스터는 보통 **노드 내부는 TP/[PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/), 노드 간은 DP**라는 층위 구조를 갖는다.
+하드웨어 토폴로지도 선택을 바꾼다. 텐서 병렬화는 레이어마다 통신이 자주 발생하므로 NVLink 같은 고대역폭 링크 안쪽에 배치하는 편이 좋다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 스텝 끝에서만 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하므로 노드 간 InfiniBand를 타도 상대적으로 견디기 쉽다. 그래서 대형 학습 클러스터는 보통 <strong>노드 내부는 TP/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/">PP</a>, 노드 간은 DP</strong>라는 층위 구조를 갖는다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                 Typical placement of hybrid parallelism           │
-├────────────────────────────────────────────────────────────────────┤
-│ Node 0: GPU0 GPU1 GPU2 GPU3  <- TP / PP over NVLink              │
-│ Node 1: GPU4 GPU5 GPU6 GPU7  <- TP / PP over NVLink              │
-│    │            │                                                  │
-│    └────── DP gradient sync across nodes over InfiniBand ────────┘ │
-└────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 FSDP는 중요한 연결 고리다. 이름 때문에 모델 병렬화처럼 보이기 쉽지만, 철학적으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 계열이다. 모델을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하되 파라미터와 상태를 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)해 메모리 낭비를 줄이기 때문이다. 즉 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 DP와 MP의 이분법보다, **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)-[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)-분할을 어디까지 섞을 것인가**의 스펙트럼으로 이해하는 편이 정확하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical placement of hybrid parallelism</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0: GPU0 GPU1 GPU2 GPU3 &lt;- TP / PP over NVLink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1: GPU4 GPU5 GPU6 GPU7 &lt;- TP / PP over NVLink</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP gradient sync across nodes over InfiniBand</div></div>
+</div>
+</div>
+
+
+
+여기서 FSDP는 중요한 연결 고리다. 이름 때문에 모델 병렬화처럼 보이기 쉽지만, 철학적으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 계열이다. 모델을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하되 파라미터와 상태를 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)해 메모리 낭비를 줄이기 때문이다. 즉 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 DP와 MP의 이분법보다, <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>-<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>-분할을 어디까지 섞을 것인가</strong>의 스펙트럼으로 이해하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: 같은 이삿짐을 여러 트럭이 나눠 싣는 것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화라면, 너무 큰 가구를 분해해서 트럭 여러 대에 실어야 하는 것이 모델 병렬화다. 실제 이사는 보통 두 방법을 함께 쓴다.
 
@@ -112,22 +118,22 @@ tags = ["studynote-data-engineering"]
 
 실무에서 가장 먼저 해야 할 일은 병렬화 기법 선택이 아니라 메모리와 통신 프로파일링이다. 파라미터, 그래디언트, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태, 활성값 중 무엇이 먼저 한계에 닿는지 알아야 하기 때문이다. 그 다음 원칙은 "가장 단순한 방법부터 시작해, 정말 필요할 때만 더 복잡한 병렬화로 간다"이다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│                    Practical decision order                       │
-├────────────────────────────────────────────────────────────────────┤
-│ model fits on one GPU?                                            │
-│      ├─ yes -> start with DDP / gradient accumulation             │
-│      │                                                             │
-│      └─ no                                                         │
-│          │                                                         │
-│          ▼                                                         │
-│ memory issue from replicated states?                               │
-│      ├─ yes -> FSDP / ZeRO                                         │
-│      └─ no, single layer too large -> TP                           │
-│                     deep model across many GPUs -> add PP          │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical decision order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">model fits on one GPU?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; start with DDP / gradient accumulation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory issue from replicated states?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; FSDP / ZeRO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no, single layer too large -&gt; TP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">deep model across many GPUs -&gt; add PP</div></div>
+</div>
+</div>
+
+
 
 | 상황 | 권장 선택 | 이유 |
 | :--- | :--- | :--- |
@@ -144,7 +150,7 @@ tags = ["studynote-data-engineering"]
 3. 통신 병목을 무시하고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수만 늘려 선형 확장을 기대하는 것
 4. [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 복잡한 병렬화만 추가해 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 키우는 것
 
-기술사 답안에서는 "DP는 속도, MP는 용량"이라는 1차 구분 위에, FSDP/ZeRO와 TP/PP의 경계를 덧붙이면 답안 깊이가 살아난다. 특히 **토폴로지에 따라 병렬화 계층을 배치한다**는 점을 넣으면 실무성이 높아진다.
+기술사 답안에서는 "DP는 속도, MP는 용량"이라는 1차 구분 위에, FSDP/ZeRO와 TP/PP의 경계를 덧붙이면 답안 깊이가 살아난다. 특히 <strong>토폴로지에 따라 병렬화 계층을 배치한다</strong>는 점을 넣으면 실무성이 높아진다.
 
 - **📢 섹션 요약 비유**: 회사를 옮길 때 작은 짐은 사람 수를 늘려 나르면 되고, 너무 큰 냉장고는 분해하거나 특수 장비를 써야 한다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병렬화도 먼저 어떤 짐이 문제인지 봐야 한다.
 
@@ -175,18 +181,22 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Single-GPU training
-    │
-    ├─ throughput wall -> Data Parallelism (DDP)
-    ├─ memory wall from replicated states -> FSDP / ZeRO
-    └─ layer too large -> Tensor Parallelism / Pipeline Parallelism
-    ▼
-Hybrid 3D parallelism (DP + TP + PP)
-    │
-    ▼
-Large-scale foundation model training
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Single-GPU training</div>
+<div class="kb-diagram-tree-item" style="--depth:2">throughput wall -&gt; Data Parallelism (DDP)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">memory wall from replicated states -&gt; FSDP / ZeRO</div>
+<div class="kb-diagram-tree-item" style="--depth:2">layer too large -&gt; Tensor Parallelism / Pipeline Parallelism</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Hybrid 3D parallelism (DP + TP + PP)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Large-scale foundation model training</div>
+</div>
+</div>
+
+
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이 단순한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추가가 아니라, 병목 유형에 따라 병렬화 축을 단계적으로 확장하는 과정임을 보여준다.
 

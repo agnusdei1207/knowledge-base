@@ -33,18 +33,20 @@ ACL은 보통 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture
 
 아래 그림은 ACL이 의미 체계를 어떻게 격리하는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Domain protection with ACL                                           │
-├──────────────────────────────────────────────────────────────────────┤
-│ New Service -> Canonical Model -> ACL -> Legacy API / DB            │
-│                   ▲                │                                  │
-│                   │                ├─ request mapping                │
-│                   │                ├─ response mapping               │
-│                   │                └─ error / code translation       │
-│                   └──── domain purity preserved                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain protection with ACL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New Service -&gt; Canonical Model -&gt; ACL -&gt; Legacy API / DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ request mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ response mapping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ error / code translation</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">domain purity preserved</div></div>
+</div>
+</div>
+
+
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -71,7 +73,7 @@ ACL은 직접 연동, 공유 [커널](/knowledge-base/studynote/02_operating_sys
 | 공유 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 공통 모델 재사용 | 중복 모델 감소 | 개념 차이가 크면 강결합 심화 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 | 외부 트래픽 제어 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 중앙화 | 내부 의미 번역을 대체하지 못함 |
 
-[스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)과의 연결도 중요하다. 점진적 마이그레이션 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 당분간 레거시 기능을 활용해야 한다면 ACL이 경계 오염을 막아 준다. 반대로 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)에서는 ACL이 레거시 이벤트를 신규 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 변환하는 역할을 맡을 수 있다. 즉 ACL은 단순 통신 기술이 아니라, **새 시스템의 언어를 지키는 아키텍처 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)**이다.
+[스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)과의 연결도 중요하다. 점진적 마이그레이션 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 당분간 레거시 기능을 활용해야 한다면 ACL이 경계 오염을 막아 준다. 반대로 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)에서는 ACL이 레거시 이벤트를 신규 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)로 변환하는 역할을 맡을 수 있다. 즉 ACL은 단순 통신 기술이 아니라, <strong>새 시스템의 언어를 지키는 아키텍처 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 집 현관문, 인터폰, 보안문이 모두 다르듯, ACL은 "누가 들어오나"보다 "안으로 들어온 것이 우리 집 규칙에 맞는가"를 검사하는 장치다.
 
@@ -106,7 +108,7 @@ ACL은 직접 연동, 공유 [커널](/knowledge-base/studynote/02_operating_sys
 
 ACL이 잘 설계되면 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 자신의 언어와 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 유지할 수 있고, 레거시 변경 충격도 경계에서 흡수된다. 이는 코드 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/), 변경 용이성, 장애 분석 속도를 모두 높인다. 특히 레거시가 폐기되는 순간 ACL만 제거하거나 뒤편 구현만 교체하면 되므로, 현대화 프로그램의 후반 비용이 크게 줄어든다.
 
-반대로 ACL은 번역 계층인 만큼 추가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 추가 코드, 추가 운영 대상이라는 비용을 만든다. 또한 경계를 너무 넓게 잡으면 ACL이 거대한 중계 시스템으로 비대해질 수 있다. 따라서 ACL은 "모든 연동의 기본값"이 아니라, **의미 오염이 비즈니스 위험으로 이어지는 경계에 선택적으로 배치하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막**으로 기억해야 한다.
+반대로 ACL은 번역 계층인 만큼 추가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 추가 코드, 추가 운영 대상이라는 비용을 만든다. 또한 경계를 너무 넓게 잡으면 ACL이 거대한 중계 시스템으로 비대해질 수 있다. 따라서 ACL은 "모든 연동의 기본값"이 아니라, <strong>의미 오염이 비즈니스 위험으로 이어지는 경계에 선택적으로 배치하는 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>막</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 공기청정기는 바람을 막기 위한 장치가 아니라, 바깥 공기를 안쪽 공간 규칙에 맞게 정제해 주는 장치와 같다.
 
@@ -125,21 +127,23 @@ ACL이 잘 설계되면 신규 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-레거시 직접 연동의 의미 오염
-        │
-        ▼
-어댑터 / 퍼사드 기반 인터페이스 정리
-        │
-        ▼
-ACL을 통한 도메인 번역 계층 도입
-        │
-        ▼
-계약 테스트 · 표준 모델 정착
-        │
-        ▼
-레거시 교체 시 경계만 유지하고 뒤편 교체
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">레거시 직접 연동의 의미 오염</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">어댑터 / 퍼사드 기반 인터페이스 정리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ACL을 통한 도메인 번역 계층 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">계약 테스트 · 표준 모델 정착</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레거시 교체 시 경계만 유지하고 뒤편 교체</div>
+</div>
+</div>
+
+
 
 이 흐름은 "연결"에서 출발해 "의미 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"를 거쳐, 최종적으로 레거시 교체 유연성까지 확보하는 과정을 보여 준다.
 

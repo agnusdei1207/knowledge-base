@@ -13,9 +13,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 뉴로모픽 컴퓨팅 ([Neuromorphic](/knowledge-base/studynote/05_database/06_dw_olap_trends/382_neuromorphic_ai_database_trends/) Computing)은 연산기와 메모리를 분리한 폰 노이만 구조 대신, 뉴런과 시냅스처럼 **저장과 계산을 같은 자리에서 이벤트 기반으로 처리**하려는 뇌 모사형 컴퓨팅이다.
-> 2. **가치**: 항상 모든 회로를 깨우는 방식이 아니라, [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)가 생길 때만 반응하므로 **초저전력·저지연·상시 감시형 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)**에 특히 강하다.
-> 3. **판단 포인트**: 대규모 언어모델처럼 치밀한 행렬 연산이 핵심인 작업보다, 변화가 드문 센서 입력·로봇 반사 제어·웨어러블 감지처럼 **희소 이벤트 처리**가 중요한 영역에서 진가가 난다.
+> 1. **본질**: 뉴로모픽 컴퓨팅 ([Neuromorphic](/knowledge-base/studynote/05_database/06_dw_olap_trends/382_neuromorphic_ai_database_trends/) Computing)은 연산기와 메모리를 분리한 폰 노이만 구조 대신, 뉴런과 시냅스처럼 <strong>저장과 계산을 같은 자리에서 이벤트 기반으로 처리</strong>하려는 뇌 모사형 컴퓨팅이다.
+> 2. **가치**: 항상 모든 회로를 깨우는 방식이 아니라, [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)가 생길 때만 반응하므로 <strong>초저전력·저지연·상시 감시형 엣지 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a></strong>에 특히 강하다.
+> 3. **판단 포인트**: 대규모 언어모델처럼 치밀한 행렬 연산이 핵심인 작업보다, 변화가 드문 센서 입력·로봇 반사 제어·웨어러블 감지처럼 <strong>희소 이벤트 처리</strong>가 중요한 영역에서 진가가 난다.
 
 ---
 
@@ -23,9 +23,9 @@ tags = ["studynote-computer-architecture"]
 
 뉴로모픽 컴퓨팅은 인간의 신경계가 정보를 처리하는 방식을 하드웨어와 소프트웨어에 반영한 컴퓨팅 패러다임이다. 기존 컴퓨터는 CPU (Central Processing Unit), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 메모리가 분리되어 있어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 옮겨야 하고, 이 이동 비용이 성능과 전력의 큰 병목이 된다. 이를 흔히 [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 또는 폰 노이만 병목이라 부른다.
 
-문제는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 커질수록 계산보다 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동**이 더 비싸진다는 점이다. 예를 들어 센서가 24시간 켜져 있는 웨어러블이나 자율 로봇은, 매 순간 의미 있는 정보가 들어오지 않아도 기존 구조에서는 클럭과 메모리 계층이 계속 살아 있어야 한다. 반면 사람의 뇌는 모든 뉴런이 매 순간 발화하지 않고, 자극이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘을 때만 반응한다. 뉴로모픽 컴퓨팅은 이 점에 착안해 "항상 계산"이 아니라 "필요할 때만 계산"으로 관점을 바꾼다.
+문제는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 커질수록 계산보다 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동</strong>이 더 비싸진다는 점이다. 예를 들어 센서가 24시간 켜져 있는 웨어러블이나 자율 로봇은, 매 순간 의미 있는 정보가 들어오지 않아도 기존 구조에서는 클럭과 메모리 계층이 계속 살아 있어야 한다. 반면 사람의 뇌는 모든 뉴런이 매 순간 발화하지 않고, 자극이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘을 때만 반응한다. 뉴로모픽 컴퓨팅은 이 점에 착안해 "항상 계산"이 아니라 "필요할 때만 계산"으로 관점을 바꾼다.
 
-즉, 뉴로모픽의 출발점은 단순한 뇌 흉내가 아니라 **전력 효율 문제에 대한 아키텍처적 대응**이다. 초거대 모델 학습에서는 여전히 범용 가속기가 강하지만, 배터리 기반 기기나 실시간 반응형 장치에서는 이벤트 기반 구조가 훨씬 자연스럽다.
+즉, 뉴로모픽의 출발점은 단순한 뇌 흉내가 아니라 <strong>전력 효율 문제에 대한 아키텍처적 대응</strong>이다. 초거대 모델 학습에서는 여전히 범용 가속기가 강하지만, 배터리 기반 기기나 실시간 반응형 장치에서는 이벤트 기반 구조가 훨씬 자연스럽다.
 
 **📢 섹션 요약 비유**: 기존 컴퓨터가 매 초마다 전교생 출석을 전부 다시 부르는 학교라면, 뉴로모픽은 누가 손들 때만 선생님이 확인하는 교실이다. 조용할 때는 아무도 괜히 뛰어다니지 않으니 힘도 덜 들고 반응도 빨라진다.
 
@@ -33,7 +33,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-뉴로모픽 시스템의 핵심은 뉴런 코어, 시냅스 메모리, 이벤트 라우터, 그리고 [스파이킹 신경망](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) (Spiking Neural Network, [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)) 실행 모델의 결합이다. 각 뉴런은 입력 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 누적하다가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 발화하고, 시냅스는 연결 강도인 가중치를 저장한다. 중요한 점은 이 가중치가 멀리 있는 외부 메모리에만 존재하는 것이 아니라, 가능한 한 **연산이 일어나는 위치 근처**에 배치된다는 점이다.
+뉴로모픽 시스템의 핵심은 뉴런 코어, 시냅스 메모리, 이벤트 라우터, 그리고 [스파이킹 신경망](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) (Spiking Neural Network, [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)) 실행 모델의 결합이다. 각 뉴런은 입력 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 누적하다가 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 발화하고, 시냅스는 연결 강도인 가중치를 저장한다. 중요한 점은 이 가중치가 멀리 있는 외부 메모리에만 존재하는 것이 아니라, 가능한 한 <strong>연산이 일어나는 위치 근처</strong>에 배치된다는 점이다.
 
 | 구성 요소 | 역할 | 핵심 설계 포인트 |
 | :-- | :-- | :-- |
@@ -44,27 +44,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 뉴로모픽 칩이 "메모리에서 값을 꺼내 연산기로 보내는 구조"보다 "발화 이벤트가 연결망을 따라 퍼지는 구조"에 가깝다는 점을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│        뉴로모픽 처리 흐름: 저장과 계산이 가까운 이벤트 경로       │
-├────────────────────────────────────────────────────────────────────┤
-│  센서 이벤트                                                      │
-│      │                                                            │
-│      ▼                                                            │
-│  ┌──────────┐      스파이크      ┌──────────┐      스파이크       │
-│  │ 뉴런 코어 A│ ───────────────▶ │ 뉴런 코어 B│ ───────────────▶   │
-│  └────┬─────┘                    └────┬─────┘                    │
-│       │                               │                           │
-│       ▼                               ▼                           │
-│  ┌──────────┐                    ┌──────────┐                    │
-│  │시냅스 메모리│                    │시냅스 메모리│                    │
-│  └──────────┘                    └──────────┘                    │
-│       ▲                               ▲                           │
-│       └───── 가중치 참조 및 국소 업데이트 ─────┘                  │
-│                                                                    │
-│  특징: 데이터 블록 전체 이동보다, "발생한 이벤트"만 주소 기반 전달 │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴로모픽 처리 흐름: 저장과 계산이 가까운 이벤트 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 이벤트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파이크 스파이크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴런 코어 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">뉴런 코어 B</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시냅스 메모리</div><div class="kb-diagram-cell">시냅스 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 참조 및 국소 업데이트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 데이터 블록 전체 이동보다, "발생한 이벤트"만 주소 기반 전달</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 전력 효율이 높은 이유는 두 가지다. 첫째, 이벤트가 없으면 많은 회로가 유휴 상태를 유지한다. 둘째, 전체 프레임이나 대형 텐서를 매번 옮기지 않고 필요한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 전달하므로 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담이 줄어든다. 특히 DVS (Dynamic Vision Sensor) 같은 이벤트 센서와 결합하면, 입력 자체가 이미 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 형태이기 때문에 변환 비용도 낮다.
 
@@ -76,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-뉴로모픽 컴퓨팅을 제대로 이해하려면 기존 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기와의 경계를 분명히 봐야 한다. GPU나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 대규모 행렬 곱과 고밀도 텐서 연산에 최적화되어 있다. 반면 뉴로모픽은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)의 발생 여부와 시간 차이를 활용하는 **희소·비동기 처리**에 맞춰져 있다. 따라서 동일한 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어"로 묶이지만, 잘하는 일이 다르다.
+뉴로모픽 컴퓨팅을 제대로 이해하려면 기존 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기와의 경계를 분명히 봐야 한다. GPU나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 대규모 행렬 곱과 고밀도 텐서 연산에 최적화되어 있다. 반면 뉴로모픽은 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)의 발생 여부와 시간 차이를 활용하는 <strong>희소·비동기 처리</strong>에 맞춰져 있다. 따라서 동일한 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어"로 묶이지만, 잘하는 일이 다르다.
 
 | 비교 항목 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) / [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 중심 가속기 | 뉴로모픽 컴퓨팅 |
 | :-- | :-- | :-- |
@@ -86,9 +80,9 @@ tags = ["studynote-computer-architecture"]
 | 약점 | 메모리 이동 전력, 유휴 시 낭비 | 학습 난이도, 생태계 부족, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 한계 |
 | 대표 적합 영역 | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), 대형 비전 모델, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) | 웨어러블, 로봇 반사 제어, 이벤트 센서 |
 
-뉴로모픽은 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)), [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) ([Computing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/))과도 연결된다. 모두 메모리 근처에서 계산해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 줄이려는 흐름이기 때문이다. 다만 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)/CIM이 "메모리 중심 계산 최적화"라면, 뉴로모픽은 그 위에 **생물학적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 표현과 시간 기반 처리 모델**까지 얹은 개념이다. 또 소프트웨어 측면에서는 DNN (Deep Neural Network)보다 SNN이 더 자연스러운 짝이며, 학습 규칙으로는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 대신 STDP 같은 국소 규칙이 자주 언급된다.
+뉴로모픽은 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) ([Processing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)), [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) ([Computing-In-Memory](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/))과도 연결된다. 모두 메모리 근처에서 계산해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 줄이려는 흐름이기 때문이다. 다만 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)/CIM이 "메모리 중심 계산 최적화"라면, 뉴로모픽은 그 위에 <strong>생물학적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 표현과 시간 기반 처리 모델</strong>까지 얹은 개념이다. 또 소프트웨어 측면에서는 DNN (Deep Neural Network)보다 SNN이 더 자연스러운 짝이며, 학습 규칙으로는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 대신 STDP 같은 국소 규칙이 자주 언급된다.
 
-하지만 이것이 기존 딥러닝 가속기를 대체한다는 뜻은 아니다. 뉴로모픽은 "모든 AI의 미래"라기보다, 특정 조건에서 기존 구조보다 훨씬 잘 맞는 **전문화된 아키텍처**에 가깝다. 즉, 비교의 핵심은 우열이 아니라 **문제 형태와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 적합성**이다.
+하지만 이것이 기존 딥러닝 가속기를 대체한다는 뜻은 아니다. 뉴로모픽은 "모든 AI의 미래"라기보다, 특정 조건에서 기존 구조보다 훨씬 잘 맞는 <strong>전문화된 아키텍처</strong>에 가깝다. 즉, 비교의 핵심은 우열이 아니라 <strong>문제 형태와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름의 적합성</strong>이다.
 
 **📢 섹션 요약 비유**: GPU가 대형 화물열차라면, 뉴로모픽은 골목을 민첩하게 도는 자전거 배달망이다. 무거운 짐은 화물열차가 낫지만, 자주 바뀌는 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 즉시 전달할 때는 자전거가 훨씬 효율적이다.
 
@@ -96,7 +90,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 뉴로모픽 도입은 "새롭고 뇌를 닮았으니 좋다"가 아니라, 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격과 전력 제약을 기준으로 판단해야 한다. 가장 적합한 경우는 **항상 켜져 있어야 하지만 대부분의 시간은 조용한 시스템**이다. 예를 들어 키워드 스포팅, 이상 음향 감지, 웨어러블 생체신호 모니터링, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이벤트 카메라 기반 드론 회피 제어가 대표적이다.
+실무에서 뉴로모픽 도입은 "새롭고 뇌를 닮았으니 좋다"가 아니라, 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격과 전력 제약을 기준으로 판단해야 한다. 가장 적합한 경우는 <strong>항상 켜져 있어야 하지만 대부분의 시간은 조용한 시스템</strong>이다. 예를 들어 키워드 스포팅, 이상 음향 감지, 웨어러블 생체신호 모니터링, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이벤트 카메라 기반 드론 회피 제어가 대표적이다.
 
 반대로 대규모 언어모델 추론, 대형 추천 모델, 범용 클라우드 학습처럼 정확도와 생태계가 우선인 영역에서는 아직 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU가 훨씬 실용적이다. 뉴로모픽은 개발 도구, 디버깅, 학습 파이프라인, 인력 수급 측면에서 성숙도가 낮기 때문이다. 따라서 "전력 절감이 절대 목표인가", "입력이 희소 이벤트인가", "밀리초 이하 반응이 필요한가"를 먼저 봐야 한다.
 
@@ -113,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)급 학습 문제를 뉴로모픽 하나로 해결하려는 과도한 기대
 - 센서는 이벤트 기반이 아닌데, 변환 오버헤드를 무시하고 도입하는 설계
 
-기술사 관점에서는 "채택 여부"보다 "어디에 한정해 적용할 것인가"를 분명히 말하는 답안이 좋다. 즉, 뉴로모픽은 **엣지·센서·반사 제어용 특화 가속기**로 설명하고, 범용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플랫폼과는 분리해서 평가해야 한다.
+기술사 관점에서는 "채택 여부"보다 "어디에 한정해 적용할 것인가"를 분명히 말하는 답안이 좋다. 즉, 뉴로모픽은 <strong>엣지·센서·반사 제어용 특화 가속기</strong>로 설명하고, 범용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 플랫폼과는 분리해서 평가해야 한다.
 
 **📢 섹션 요약 비유**: 뉴로모픽은 만능 공구가 아니라 응급 구조용 자동제세동기 같은 장비다. 모든 병원을 그 기계 하나로 운영할 수는 없지만, 꼭 필요한 현장에서는 다른 장비보다 훨씬 빨리 사람을 살린다.
 
@@ -125,7 +119,7 @@ tags = ["studynote-computer-architecture"]
 
 동시에 한계도 분명하다. 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 성숙도, 소프트웨어 생태계 부족, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 재현성 문제, 기존 딥러닝 자산과의 호환성은 아직 큰 장벽이다. 특히 대형 범용 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)에서 뉴로모픽이 주류가 되려면, 하드웨어뿐 아니라 모델 표현과 학습 방식 전체가 함께 발전해야 한다.
 
-따라서 뉴로모픽은 "뇌를 닮은 신기한 칩"으로 기억하기보다, **희소 이벤트를 다루는 문제에서 메모리 이동과 상시 구동 비용을 줄이기 위한 구조적 해법**으로 기억하는 것이 정확하다. 미래 방향도 이 관점에서 보면 정리된다: 이벤트 센서 결합, 온칩 학습 개선, [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) 계열 소자와의 통합이 핵심 확장축이다.
+따라서 뉴로모픽은 "뇌를 닮은 신기한 칩"으로 기억하기보다, <strong>희소 이벤트를 다루는 문제에서 메모리 이동과 상시 구동 비용을 줄이기 위한 구조적 해법</strong>으로 기억하는 것이 정확하다. 미래 방향도 이 관점에서 보면 정리된다: 이벤트 센서 결합, 온칩 학습 개선, [CIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/432_cim/) 계열 소자와의 통합이 핵심 확장축이다.
 
 **📢 섹션 요약 비유**: 뉴로모픽은 모든 자동차를 대체하는 배가 아니라, 물길이 있는 도시에서 압도적으로 효율적인 수상버스에 가깝다. 길이 맞는 곳에서는 놀라운 힘을 내지만, 아무 도로에서나 다 잘 달리지는 않는다.
 
@@ -143,24 +137,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-폰 노이만 병목 인식
-        │
-        ▼
-메모리 월 (Memory Wall) · 데이터 이동 전력 문제
-        │
-        ▼
-이벤트 기반 처리 · 스파이크 표현
-        │
-        ▼
-스파이킹 신경망 (SNN) · 뉴로모픽 코어
-        │
-        ▼
-이벤트 센서 (DVS) · 엣지 초저전력 시스템
-        │
-        ▼
-온칩 학습 · CIM (Computing-In-Memory) 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">폰 노이만 병목 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">메모리 월 (Memory Wall) · 데이터 이동 전력 문제</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 기반 처리 · 스파이크 표현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스파이킹 신경망 (SNN) · 뉴로모픽 코어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">이벤트 센서 (DVS) · 엣지 초저전력 시스템</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">온칩 학습 · CIM (Computing-In-Memory) 융합</div>
+</div>
+</div>
+
+
 
 이 흐름은 "병목 인식 → 표현 방식 변화 → 하드웨어 특화 → 센서 결합 → 미래 통합"으로 발전하는 축을 보여준다.
 

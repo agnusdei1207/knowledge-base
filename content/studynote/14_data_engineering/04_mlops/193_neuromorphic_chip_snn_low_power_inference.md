@@ -34,19 +34,22 @@ tags = ["studynote-data-engineering"]
 
 ### 1.3 에너지 문제의 심각성
 
-```
-AI 에너지 소비 증가 추세
 
-GPT-3 학습:  1,287 MWh (300MW 발전소 5시간)
-GPT-4 추정:  50,000+ MWh
-───────────────────────────────────
-IoT 디바이스 배터리: 수십 mWh
-기존 GPU 추론: 100~400W
-뉴로모픽 추론: 10mW 미만 (목표)
 
-→ 에너지 격차: 10,000배 이상
-→ 뉴로모픽이 유일한 해결책 중 하나
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AI 에너지 소비 증가 추세</div>
+<div class="kb-diagram-note">GPT-3 학습: 1,287 MWh (300MW 발전소 5시간)</div>
+<div class="kb-diagram-note">GPT-4 추정: 50,000+ MWh</div>
+<div class="kb-diagram-note">IoT 디바이스 배터리: 수십 mWh</div>
+<div class="kb-diagram-note">기존 GPU 추론: 100~400W</div>
+<div class="kb-diagram-note">뉴로모픽 추론: 10mW 미만 (목표)</div>
+<div class="kb-diagram-note">→ 에너지 격차: 10,000배 이상</div>
+<div class="kb-diagram-note">→ 뉴로모픽이 유일한 해결책 중 하나</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 뉴로모픽 칩은 형광등([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 항상 켜짐) 대신 동작 감지 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/)(뉴로모픽, 움직임 있을 때만 켜짐)를 쓰는 것이다. 사람이 없는 시간에도 전기를 낭비하지 않는다.
 
@@ -58,37 +61,45 @@ IoT 디바이스 배터리: 수십 mWh
 
 SNN은 뉴런이 전기 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) = 0/1 펄스)를 통해 정보를 시간적으로 인코딩하는 신경망이다.
 
-```
-일반 ANN (Artificial Neural Network)
-  입력값: 0.7  →  가중합 → 활성화함수 → 출력값: 0.4
-  (연속 실수값, 매 클럭마다 연산)
 
-SNN (Spiking Neural Network)
-  시간 →
-  t=1: 스파이크!  ─┐
-  t=2: 조용       │  막전위(Membrane Potential) 누적
-  t=3: 스파이크!  ─┘
-  t=4: 조용
-  t=5: 스파이크!
 
-  임계값(Threshold) 초과 시만 출력 스파이크 발생
-  (이진 신호, 이벤트 있을 때만 연산)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 ANN (Artificial Neural Network)</div>
+<div class="kb-diagram-note">입력값: 0.7 → 가중합 → 활성화함수 → 출력값: 0.4</div>
+<div class="kb-diagram-note">(연속 실수값, 매 클럭마다 연산)</div>
+<div class="kb-diagram-note">SNN (Spiking Neural Network)</div>
+<div class="kb-diagram-note">시간 →</div>
+<div class="kb-diagram-note">t=1: 스파이크! ─</div>
+<div class="kb-diagram-note">t=2: 조용 │ 막전위(Membrane Potential) 누적</div>
+<div class="kb-diagram-note">t=3: 스파이크! ─</div>
+<div class="kb-diagram-note">t=4: 조용</div>
+<div class="kb-diagram-note">t=5: 스파이크!</div>
+<div class="kb-diagram-note">임계값(Threshold) 초과 시만 출력 스파이크 발생</div>
+<div class="kb-diagram-note">(이진 신호, 이벤트 있을 때만 연산)</div>
+</div>
+</div>
+
+
 
 #### [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 뉴런 모델: LIF (Leaky Integrate-and-Fire)
 
-```
-막전위 변화:
-  dV/dt = -(V - V_rest)/τ + I_input
 
-  V: 막전위 (Membrane Potential)
-  V_rest: 휴지 전위
-  τ: 시간 상수 (Leaky = 서서히 감소)
-  I_input: 입력 전류 (스파이크 신호)
 
-  V > V_threshold → 스파이크 발화(Fire)
-  → V 리셋 → 다시 누적 시작
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">막전위 변화:</div>
+<div class="kb-diagram-note">dV/dt = -(V - V_rest)/τ + I_input</div>
+<div class="kb-diagram-note">V: 막전위 (Membrane Potential)</div>
+<div class="kb-diagram-note">V_rest: 휴지 전위</div>
+<div class="kb-diagram-note">τ: 시간 상수 (Leaky = 서서히 감소)</div>
+<div class="kb-diagram-note">I_input: 입력 전류 (스파이크 신호)</div>
+<div class="kb-diagram-note">V &gt; V_threshold → 스파이크 발화(Fire)</div>
+<div class="kb-diagram-note">→ V 리셋 → 다시 누적 시작</div>
+</div>
+</div>
+
+
 
 ### 2.2 주요 뉴로모픽 칩 비교
 
@@ -102,29 +113,24 @@ SNN (Spiking Neural Network)
 
 ### 2.3 뉴로모픽 칩 내부 구조
 
-```
-┌───────────────────────────────────────────────────────┐
-│               뉴로모픽 칩 (Intel Loihi 2)              │
-│                                                       │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
-│  │  뉴로코어 0  │  │  뉴로코어 1  │  │  뉴로코어 N  │  │
-│  │             │  │             │  │             │  │
-│  │  뉴런 상태   │  │  뉴런 상태   │  │  뉴런 상태   │  │
-│  │  시냅스 가중치│  │  시냅스 가중치│  │  시냅스 가중치│  │
-│  │  (메모리+연산│  │  (메모리+연산 │  │  (메모리+연산 │  │
-│  │  같은 위치)  │  │  같은 위치)  │  │  같은 위치)  │  │
-│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  │
-│         │                │                │          │
-│         └────────────────┼────────────────┘          │
-│                          │ 스파이크 메시지 라우팅        │
-│                    ┌─────▼──────┐                    │
-│                    │  온칩 메시  │                    │
-│                    │  (NoC)     │                    │
-│                    └────────────┘                    │
-│                                                       │
-│  이벤트 없으면 → 연산 없음 → 전력 소비 없음              │
-└───────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴로모픽 칩 (Intel Loihi 2)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴로코어 0</div><div class="kb-diagram-cell">뉴로코어 1</div><div class="kb-diagram-cell">뉴로코어 N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴런 상태</div><div class="kb-diagram-cell">뉴런 상태</div><div class="kb-diagram-cell">뉴런 상태</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시냅스 가중치</div><div class="kb-diagram-cell">시냅스 가중치</div><div class="kb-diagram-cell">시냅스 가중치</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리+연산</div><div class="kb-diagram-cell">(메모리+연산</div><div class="kb-diagram-cell">(메모리+연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 위치)</div><div class="kb-diagram-cell">같은 위치)</div><div class="kb-diagram-cell">같은 위치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파이크 메시지 라우팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온칩 메시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NoC)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 없으면 → 연산 없음 → 전력 소비 없음</div></div>
+</div>
+</div>
+
+
 
 ### 2.4 에너지 효율 비교
 
@@ -155,26 +161,26 @@ SNN (Spiking Neural Network)
 
 ### 3.2 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/) 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-```
-ANN 학습: 역전파(Backpropagation)
-  → 연속값, 미분 가능, 잘 확립됨
 
-SNN 학습 도전:
-  스파이크 = 불연속 함수 → 미분 불가능!
-  
-해결 방법:
-┌─────────────────────────────────────────┐
-│  1. STDP (Spike-Timing-Dependent        │
-│     Plasticity): 생물학적 헤비안 학습    │
-│     "함께 발화하는 뉴런은 연결 강화"      │
-│                                         │
-│  2. Surrogate Gradient: 스파이크 함수를  │
-│     근사 미분 가능 함수로 대체 학습      │
-│                                         │
-│  3. ANN→SNN 변환: ANN 학습 후 변환      │
-│     (현재 가장 실용적인 방법)            │
-└─────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ANN 학습: 역전파(Backpropagation)</div>
+<div class="kb-diagram-note">→ 연속값, 미분 가능, 잘 확립됨</div>
+<div class="kb-diagram-note">SNN 학습 도전:</div>
+<div class="kb-diagram-note">스파이크 = 불연속 함수 → 미분 불가능!</div>
+<div class="kb-diagram-note">해결 방법:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. STDP (Spike-Timing-Dependent</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plasticity): 생물학적 헤비안 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"함께 발화하는 뉴런은 연결 강화"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Surrogate Gradient: 스파이크 함수를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근사 미분 가능 함수로 대체 학습</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ANN→SNN 변환: ANN 학습 후 변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 가장 실용적인 방법)</div></div>
+</div>
+</div>
+
+
 
 ### 3.3 적용 분야별 전망
 
@@ -194,22 +200,24 @@ SNN 학습 도전:
 
 ### 4.1 [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/) 성숙도 평가 (Gartner Hype Cycle)
 
-```
-성숙도 수준
-    │
-높음│                              /──── 생산성 안정기
-    │                             /      (2030+ 예상)
-    │          기대의 정점 /\     /
-    │                    /  \   /  회복기
-    │                   /    \_/
-    │                  /  환멸의 계곡
-    │                 /
-낮음│________________/ 기술 촉발기 (2020~현재)
-    └──────────────────────────────────────→ 시간
-    
-현재 위치: 기대의 정점 → 환멸의 계곡 전환점
-실용화 예상: 특수 도메인 2027~2030
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">성숙도 수준</div>
+<div class="kb-diagram-note">높음│ / 생산성 안정기</div>
+<div class="kb-diagram-note">/ (2030+ 예상)</div>
+<div class="kb-diagram-note">기대의 정점 /\ /</div>
+<div class="kb-diagram-note">/ \ / 회복기</div>
+<div class="kb-diagram-note">/ 환멸의 계곡</div>
+<div class="kb-diagram-note">낮음│________________/ 기술 촉발기 (2020~현재)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">→ 시간</div>
+<div class="kb-diagram-note">현재 위치: 기대의 정점 → 환멸의 계곡 전환점</div>
+<div class="kb-diagram-note">실용화 예상: 특수 도메인 2027~2030</div>
+</div>
+</div>
+
+
 
 ### 4.2 Intel Loihi 2 + LAVA 프레임워크 활용
 
@@ -241,27 +249,26 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 ### 4.4 뉴로모픽과 엣지 AI의 결합
 
-```
-미래 엣지 AI 계층 구조
 
-┌──────────────────────────────────────────┐
-│           최종 디바이스 (mW급)             │
-│      뉴로모픽 칩 (Loihi 2/TrueNorth)     │
-│   이벤트 감지, 키워드 인식, 이상 탐지     │
-└────────────────────┬─────────────────────┘
-                     │ 이상 감지 시 활성화
-┌────────────────────▼─────────────────────┐
-│           엣지 게이트웨이 (W급)            │
-│          NPU/GPU (Jetson/Hailo)          │
-│       복잡한 추론 (객체 인식, NLP)        │
-└────────────────────┬─────────────────────┘
-                     │ 중요 데이터만 전송
-┌────────────────────▼─────────────────────┐
-│           클라우드 (kW급)                  │
-│           GPU 클러스터                    │
-│       모델 학습, 복잡한 분석              │
-└──────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">미래 엣지 AI 계층 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 디바이스 (mW급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴로모픽 칩 (Loihi 2/TrueNorth)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 감지, 키워드 인식, 이상 탐지</div></div>
+<div class="kb-diagram-note">이상 감지 시 활성화</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 게이트웨이 (W급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPU/GPU (Jetson/Hailo)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡한 추론 (객체 인식, NLP)</div></div>
+<div class="kb-diagram-note">중요 데이터만 전송</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 (kW급)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 클러스터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 학습, 복잡한 분석</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 뉴로모픽 칩은 건물 로비의 경비원(자동 감지 센서) 역할이다. 평소에는 거의 잠든 상태로 서 있다가, 비정상 움직임(이벤트)을 감지하면 즉시 깨어나 대응하고, 심각한 상황에서만 상위 관제센터(클라우드)에 알린다.
 
@@ -280,22 +287,27 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 ### 5.2 상용화 로드맵
 
-```
-뉴로모픽 상용화 타임라인
-────────────────────────────────────────────────
-2020│ Intel Loihi 1 연구 배포
-2021│ IBM TrueNorth 군사/산업 시범
-2022│ Intel Loihi 2 출시 (LAVA 프레임워크)
-2023│ Samsung Neuromorphic Research 발표
-2024│ 웨어러블/IoT 파일럿 프로젝트 증가
-2025│ 특수 도메인 상용화 시작 예상
-2027│ 엣지 AI 주류 시장 진입 목표
-2030│ 범용 뉴로모픽 컴퓨팅 생태계 형성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">뉴로모픽 상용화 타임라인</div>
+<div class="kb-diagram-note">2020│ Intel Loihi 1 연구 배포</div>
+<div class="kb-diagram-note">2021│ IBM TrueNorth 군사/산업 시범</div>
+<div class="kb-diagram-note">2022│ Intel Loihi 2 출시 (LAVA 프레임워크)</div>
+<div class="kb-diagram-note">2023│ Samsung Neuromorphic Research 발표</div>
+<div class="kb-diagram-note">2024│ 웨어러블/IoT 파일럿 프로젝트 증가</div>
+<div class="kb-diagram-note">2025│ 특수 도메인 상용화 시작 예상</div>
+<div class="kb-diagram-note">2027│ 엣지 AI 주류 시장 진입 목표</div>
+<div class="kb-diagram-note">2030│ 범용 뉴로모픽 컴퓨팅 생태계 형성</div>
+</div>
+</div>
+
+
 
 ### 5.3 결론 요약
 
-[뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 현재 기술 성숙도가 낮으나, 에너지 효율에서의 근본적 혁신 가능성으로 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·자율주행·웨어러블의 미래 핵심 기술이다. 기술사 관점에서는 **현재의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU와 미래 뉴로모픽의 보완적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 명확히 이해하고, 에너지 제약이 극도로 중요한 환경에서의 적용 가능성을 평가할 수 있어야 한다.
+[뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 현재 기술 성숙도가 낮으나, 에너지 효율에서의 근본적 혁신 가능성으로 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)·자율주행·웨어러블의 미래 핵심 기술이다. 기술사 관점에서는 <strong>현재의 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>/NPU와 미래 뉴로모픽의 보완적 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 명확히 이해하고, 에너지 제약이 극도로 중요한 환경에서의 적용 가능성을 평가할 수 있어야 한다.
 
 📢 **섹션 요약 비유**: [뉴로모픽 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/)은 전기차 기술과 같다. 지금은 충전 인프라(소프트웨어 생태계)가 부족하고 비싸지만, 에너지 효율이라는 근본적 장점이 명확해서 미래에는 주류가 될 가능성이 높다.
 
@@ -321,23 +333,26 @@ dense = Dense.Dense(weights=W)       # 시냅스 가중치
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Von Neumann 아키텍처 (CPU · GPU): 메모리-연산 분리
-    │
-    ▼
-뉴로모픽 칩 (Neuromorphic): 뇌 모방 이벤트 구동
-    ├─► SNN (Spiking Neural Network): 스파이크 기반 연산
-    ├─► Intel Loihi · IBM TrueNorth · BrainChip Akida
-    └─► 이벤트 구동: 입력 변화 시에만 연산 (초저전력)
-    │
-    ▼
-응용 분야
-    ├─► IoT 센서 퓨전 · 로봇 실시간 제어
-    └─► 항상 켜진(Always-On) 음성 · 영상 감지
-    │
-    ▼
-ANN-SNN 변환 · 뉴로모픽 학습 알고리즘 (STDP)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Von Neumann 아키텍처 (CPU · GPU): 메모리-연산 분리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">뉴로모픽 칩 (Neuromorphic): 뇌 모방 이벤트 구동</div>
+<div class="kb-diagram-tree-item" style="--depth:2">SNN (Spiking Neural Network): 스파이크 기반 연산</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Intel Loihi · IBM TrueNorth · BrainChip Akida</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이벤트 구동: 입력 변화 시에만 연산 (초저전력)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">응용 분야</div>
+<div class="kb-diagram-tree-item" style="--depth:2">IoT 센서 퓨전 · 로봇 실시간 제어</div>
+<div class="kb-diagram-tree-item" style="--depth:2">항상 켜진(Always-On) 음성 · 영상 감지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ANN-SNN 변환 · 뉴로모픽 학습 알고리즘 (STDP)</div>
+</div>
+</div>
+
+
 2. SNN의 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)는 심장이 뛰는 박동과 같아요. 박동이 있을 때만 피(정보)가 흐르고, 박동 사이에는 에너지를 쓰지 않아요.
 3. 일반 GPU가 항상 켜진 슈퍼컴퓨터라면, 뉴로모픽 칩은 필요할 때만 깨어나는 스마트 워치예요. 훨씬 작고 배터리가 오래 가죠.
 

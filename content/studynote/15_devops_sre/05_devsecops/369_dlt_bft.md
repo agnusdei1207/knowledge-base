@@ -29,22 +29,21 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│              블록체인 블록 구조 및 BFT 합의                      │
-├──────────────────────────────────────────────────────────────────┤
-│  [블록 N-1]          [블록 N]            [블록 N+1]             │
-│  ┌──────────┐        ┌──────────┐        ┌──────────┐           │
-│  │ 헤더      │        │ 헤더      │        │ 헤더      │          │
-│  │ PrevHash │◀───────│ PrevHash │◀───────│ PrevHash │           │
-│  │ Merkle   │        │ Merkle   │        │ Merkle   │           │
-│  ├──────────┤        ├──────────┤        ├──────────┤           │
-│  │ 트랜잭션  │        │ 트랜잭션  │        │ 트랜잭션  │          │
-│  └──────────┘        └──────────┘        └──────────┘           │
-│                                                                  │
-│  PBFT: Pre-prepare → Prepare → Commit → Reply (3f+1 노드 필요)  │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 블록 구조 및 BFT 합의</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">블록 N-1</div><div class="kb-diagram-node">블록 N</div><div class="kb-diagram-node">블록 N+1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더</div><div class="kb-diagram-cell">헤더</div><div class="kb-diagram-cell">헤더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PrevHash</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">PrevHash</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">PrevHash</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merkle</div><div class="kb-diagram-cell">Merkle</div><div class="kb-diagram-cell">Merkle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션</div><div class="kb-diagram-cell">트랜잭션</div><div class="kb-diagram-cell">트랜잭션</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBFT: Pre-prepare → Prepare → Commit → Reply (3f+1 노드 필요)</div></div>
+</div>
+</div>
+
+
 
 | [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)   | 내결함성          | TPS       | 주요 사용처          |
 | :-------------- | :---------------- | :-------- | :------------------- |
@@ -74,14 +73,14 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a> 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. 필요성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/): 중앙 신뢰 기관 없이도 거래가 성립해야 하는가? (아니면 DB로 충분)
 2. 공개형 vs 허가형: TPS, 프라이버시, 규제 요건 기반 결정
 3. [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/): Reentrancy, [Integer Overflow](/knowledge-base/studynote/09_security/04_endpoint_security/333_integer_overflow/) 등 취약점 전문 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)
 4. [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 선택: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) (소규모, 고성능), PoS (대규모 탈중앙)
 5. 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 연동: 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 입력 신뢰 경로 설계
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
 - 불필요한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 도입 → "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 씻기([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) Washing)"
 - [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 배포 후 버그 발견 → 수정 불가로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 완전 중단
 - [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 노드 수를 너무 늘림 → O(n^2) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 복잡도로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급락
@@ -112,24 +111,25 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Bitcoin PoW (에너지 집약 탈중앙 합의)
-    │
-    ▼
-Ethereum 스마트 컨트랙트 + EVM (DApp 플랫폼)
-    │
-    ▼
-허가형 블록체인 (Hyperledger Fabric + PBFT)
-    │
-    ▼
-DeFi (탈중앙화 금융) / NFT / DAO
-    │
-    ▼
-Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)
-    │
-    ▼
-멀티체인 + 크로스체인 + AI 추론 검증
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Bitcoin PoW (에너지 집약 탈중앙 합의)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Ethereum 스마트 컨트랙트 + EVM (DApp 플랫폼)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">허가형 블록체인 (Hyperledger Fabric + PBFT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">DeFi (탈중앙화 금융) / NFT / DAO</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티체인 + 크로스체인 + AI 추론 검증</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

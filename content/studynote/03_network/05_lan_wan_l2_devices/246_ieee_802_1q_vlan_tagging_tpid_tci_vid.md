@@ -22,16 +22,20 @@ tags = ["studynote-network"]
 - **개념**: 802.1Q는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임에 소속 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 정보를 명시하는 '태깅(Tagging)' 기술의 IEEE 공식 표준이다.
 - **필요성**: 만약 A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 영업부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))와 인사부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20)가 있고, B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에도 영업부와 인사부가 있다고 치자. 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 1가닥의 선(트렁크)으로 연결하면, B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 건너온 데이터가 영업부 것인지 인사부 것인지 알 도리가 없다. 따라서 건너가는 택배 상자 겉면에 "이건 10번 방([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 물건이야!"라는 형광색 스티커를 붙여주어야 하는데, 이것이 바로 802.1Q 태그다.
 
-- **💡 비유**: 공항 수하물 컨베이어 벨트(트렁크 선로)에 서울행, 부산행, 제주행 짐들이 섞여서 돌아갑니다. 수하물을 구별하기 위해 각 가방 손잡이에 **"바코드 꼬리표(802.1Q Tag)"**를 매달아 놓는 것과 같습니다. 최종 목적지 공항에 도착하면 직원은 이 꼬리표를 떼어내고(Untag) 승객에게 짐을 돌려줍니다.
+- **💡 비유**: 공항 수하물 컨베이어 벨트(트렁크 선로)에 서울행, 부산행, 제주행 짐들이 섞여서 돌아갑니다. 수하물을 구별하기 위해 각 가방 손잡이에 <strong>"바코드 꼬리표(802.1Q Tag)"</strong>를 매달아 놓는 것과 같습니다. 최종 목적지 공항에 도착하면 직원은 이 꼬리표를 떼어내고(Untag) 승객에게 짐을 돌려줍니다.
 
-```text
-[가상 랜]
-    │
-    ▼
-[IEEE 802.1Q]
-    │
-    └──▶ [접근 포트 / 트렁크 포트]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">가상 랜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.1Q</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 포트 / 트렁크 포트</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 802.1Q 태깅은 수많은 사람들이 섞여서 지나가는 하나의 긴 통로(트렁크)에서, 서로 소속을 헷갈리지 않게 **"빨간색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 파란색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) 이름표(Tag)를 목에 걸어주는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템"**입니다.
 
@@ -40,45 +44,39 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 4바이트 태그의 삽입 위치
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 앞부분은 `[목적지 MAC] - [출발지 MAC] - [Type] - [Data]` 순으로 되어 있다. 802.1Q [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임을 밖으로 쏠 때, **[출발지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)]과 [Type] 사이를 강제로 벌리고 4바이트(32비트)의 태그를 삽입**한다.
+[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 앞부분은 `[목적지 MAC] - [출발지 MAC] - [Type] - [Data]` 순으로 되어 있다. 802.1Q [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임을 밖으로 쏠 때, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">출발지 [MAC</a>]과 [Type] 사이를 강제로 벌리고 4바이트(32비트)의 태그를 삽입</strong>한다.
 - 태그가 삽입되면서 원래 있던 FCS(에러 검출 코드) 값은 틀려지므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 FCS 값을 새롭게 다시 계산하여 맨 꼬리에 덮어쓴다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IEEE 802.1Q 프레임 태깅 구조 도식               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 일반 이더넷 프레임 (Untagged) ]                            │
- │   ┌────────┬────────┬───────┬──────────────────────┬─────┐  │
- │   │목적지MAC│출발지MAC │ Type  │   Payload (IP 패킷)   │ FCS │  │
- │   └────────┴────────┴───────┴──────────────────────┴─────┘  │
- │                       ▲ 여기를 벌리고 끼워 넣음               │
- │                                                             │
- │   [ 802.1Q 태그 이더넷 프레임 (Tagged) ]                       │
- │   ┌────────┬────────┬───────┬───────┬──────────────┬─────┐  │
- │   │목적지MAC│출발지MAC │ 802.1Q│ Type  │ Payload (IP) │ New │  │
- │   │        │        │ TAG(4B│       │              │ FCS │  │
- │   └────────┴────────┴───────┴───────┴──────────────┴─────┘  │
- │                      │       │                              │
- │                      └── ┬ ──┘                              │
- │                           ▼ 4바이트(32비트)의 내부 구조         │
- │                      [ TPID(16) | TCI(16) ]                 │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.1Q 프레임 태깅 구조 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">일반 이더넷 프레임 (Untagged)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Payload (IP 패킷)</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 여기를 벌리고 끼워 넣음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">802.1Q 태그 이더넷 프레임 (Tagged)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">802.1Q</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Payload (IP)</div><div class="kb-diagram-cell">New</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TAG(4B</div><div class="kb-diagram-cell">FCS</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 4바이트(32비트)의 내부 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">TPID(16) | TCI(16)</div></div>
+</div>
+</div>
+
+
 
 ### 2. 4바이트(32비트) 태그의 내부 구조
-태그는 크게 2바이트의 **TPID**와 2바이트의 **TCI**로 나뉜다.
+태그는 크게 2바이트의 <strong>TPID</strong>와 2바이트의 <strong>TCI</strong>로 나뉜다.
 
-1. **TPID (Tag [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), 16비트)**:
+1. <strong>TPID (Tag <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 16비트)</strong>:
    - 항상 `0x8100`이라는 고정된 값을 가진다.
    - 수신 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 값을 보면 "아, 이 프레임은 일반 프레임이 아니라 802.1Q 태그가 붙은 프레임이구나!"라고 단번에 인식([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))하게 해주는 마법의 번호다.
 2. **TCI (Tag Control Information, 16비트)**:
    - **PRI (Priority, 3비트)**: `IEEE 802.1p`라고 불리는 음성/영상 트래픽 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 부여하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). 0~7까지의 값을 갖는다.
    - **CFI (Canonical Format Indicator, 1비트)**: 토큰링 등 과거 망과의 호환성을 위한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (현재는 거의 `0`으로 고정).
-   - **VID ([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), 12비트) ★핵심**: 자신이 속한 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 번호를 나타낸다. 12비트이므로 $2^{12} = 4096$개의 숫자를 표현할 수 있다. (0과 4095는 예약되어 실제 사용 가능 범위는 1~4094번이다.)
+   - <strong>VID (<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 12비트) ★핵심</strong>: 자신이 속한 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 번호를 나타낸다. 12비트이므로 $2^{12} = 4096$개의 숫자를 표현할 수 있다. (0과 4095는 예약되어 실제 사용 가능 범위는 1~4094번이다.)
 
-- **📢 섹션 요약 비유**: ** 4바이트 꼬리표 중 절반(TPID `0x8100`)은 **"이거 꼬리표야! 주의해서 봐!"**라고 외치는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자이고, 나머지 절반 중 12비트(VID)가 진짜 **"나 10번 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 소속이야!"**라고 알려주는 핵심 정보칸입니다.
+- **📢 섹션 요약 비유**: <strong> 4바이트 꼬리표 중 절반(TPID <code>0x8100</code>)은 </strong>"이거 꼬리표야! 주의해서 봐!"<strong>라고 외치는 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>자이고, 나머지 절반 중 12비트(VID)가 진짜 </strong>"나 10번 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 소속이야!"**라고 알려주는 핵심 정보칸입니다.
 
 ---
 
@@ -134,15 +132,19 @@ IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 가상 랜]
-    │
-    ▼
-[현재 개념: IEEE 802.1Q]
-    │
-    ├──▶ [확장 A: 접근 포트 / 트렁크 포트]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가상 랜</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IEEE 802.1Q</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 접근 포트 / 트렁크 포트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

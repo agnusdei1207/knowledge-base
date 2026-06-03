@@ -32,29 +32,27 @@ SRE의 아키텍처적 근간은 완벽함을 포기하고, 측정 가능한 [�
 
 | 구성 요소 | 역할 및 정의 | SRE 관점의 설계 포인트 |
 | :--- | :--- | :--- |
-| **[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 정상 동작하는지 측정하는 실제 수치 (예: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 200 응답률) | 무엇을 측정할 것인가? (요청 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 에러율, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등) |
-| **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))** | 내부적으로 합의한 목표 달성 기준치 (예: 99.9% 가동률 보장) | **가장 중요함**. 100%를 목표로 삼지 않고 현실적 타협점 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** | 고객과 체결한 법적 계약 수치 (예: 99.0% 미만 시 위약금 지불) | SLO보다 항상 낮게 방어적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 재무적 위험 회피 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">Service Level Indicator</a>)</strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 정상 동작하는지 측정하는 실제 수치 (예: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 200 응답률) | 무엇을 측정할 것인가? (요청 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 에러율, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>)</strong> | 내부적으로 합의한 목표 달성 기준치 (예: 99.9% 가동률 보장) | **가장 중요함**. 100%를 목표로 삼지 않고 현실적 타협점 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | 고객과 체결한 법적 계약 수치 (예: 99.0% 미만 시 위약금 지불) | SLO보다 항상 낮게 방어적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 재무적 위험 회피 |
 
-SRE 팀은 SLO를 99.9%로 합의함으로써, 한 달 중 약 **43분의 합법적 장애 시간**을 얻어낸다. 이 43분이 바로 개발과 운영의 저울추 역할을 하는 혁명의 도구, **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))**이다.
+SRE 팀은 SLO를 99.9%로 합의함으로써, 한 달 중 약 <strong>43분의 합법적 장애 시간</strong>을 얻어낸다. 이 43분이 바로 개발과 운영의 저울추 역할을 하는 혁명의 도구, <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong>이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스    │
-├──────────────────────────────────────────────────────────────┤
-│ [ 이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준) ]             │
-│                                                              │
-│ 개발팀: "새로운 기능을 배포하고 싶습니다!"                     │
-│   │                                                          │
-│   ▼                                                          │
-│ 현재까지 깎아먹은 장애 시간이 43분을 초과했는가?                 │
-│                                                              │
-│ ├─▶ [아니오 (잔여 예산 20분)] ──▶ "배포 승인!" (속도 혁신 지속) │
-│ │                                                          │
-│ └─▶ [예 (예산 전액 소진)] ──────▶ "배포 강제 올스톱! (코드 프리즈)"│
-│                                  신뢰성 버그 수정에 전력투구! │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀: "새로운 기능을 배포하고 싶습니다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재까지 깎아먹은 장애 시간이 43분을 초과했는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아니오 (잔여 예산 20분)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"배포 승인!" (속도 혁신 지속)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예 (예산 전액 소진)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"배포 강제 올스톱! (코드 프리즈)"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신뢰성 버그 수정에 전력투구!</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 부모님이 아이에게 준 '한 달 지각 허용 쿠폰(43분)'과 같다. 쿠폰이 남아있을 때는 아이(개발팀)가 아침에 늦잠을 자며 아슬아슬하게 뛰어가는 모험(배포)을 할 수 있지만, 쿠폰을 다 쓰는 순간 무조건 일찍 일어나 모범생(시스템 안정성 올인) 모드로 전환해야 하는 철저한 타협 시스템이다.
 
@@ -80,8 +78,8 @@ SRE는 IT 운영 방법론의 패러다임을 바꾼 기점이다. 전통적 IT 
 
 실무에서 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 시스템이 작동하려면 경영진의 강력한 후원과 의사결정이 필요하다.
 
-1. **무늬만 SRE ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))**: 많은 회사가 운영팀의 간판을 'SRE 팀'으로 바꿔 달고도 여전히 수동으로 인프라를 프로비저닝하며, [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 소진되었는데도 비즈니스 부서의 압박에 밀려 신기능 배포를 묵인한다. [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 시 배포를 전면 중단할 수 있는 강제권(Veto [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))이 부여되지 않은 SRE는 가짜다.
-2. **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 버그 ([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 관리**: SRE 팀은 반복적이고 수작업인 운영 업무를 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))이라고 부른다. 구글은 SRE 엔지니어의 업무 시간 중 50% 이상이 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)에 쓰이는 것을 엄격히 금지한다. 나머지 50%의 시간은 반드시 시스템을 자동화하고 안정성을 높이는 아키텍처 코딩 개발에 투자하여 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 자체를 영구적으로 제거해 나가야 한다.
+1. <strong>무늬만 SRE (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>: 많은 회사가 운영팀의 간판을 'SRE 팀'으로 바꿔 달고도 여전히 수동으로 인프라를 프로비저닝하며, [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 소진되었는데도 비즈니스 부서의 압박에 밀려 신기능 배포를 묵인한다. [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 시 배포를 전면 중단할 수 있는 강제권(Veto [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))이 부여되지 않은 SRE는 가짜다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a> 버그 (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a>) 관리</strong>: SRE 팀은 반복적이고 수작업인 운영 업무를 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))이라고 부른다. 구글은 SRE 엔지니어의 업무 시간 중 50% 이상이 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)에 쓰이는 것을 엄격히 금지한다. 나머지 50%의 시간은 반드시 시스템을 자동화하고 안정성을 높이는 아키텍처 코딩 개발에 투자하여 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 자체를 영구적으로 제거해 나가야 한다.
 
 - **📢 섹션 요약 비유**: SRE 조직을 만들고도 배포 중단 권한을 주지 않는 것은, 축구 심판에게 레드카드를 쥐여주면서 "비싼 선수니까 반칙해도 카드는 꺼내지 마라"고 지시하는 꼴이다. 규칙이 집행되지 않는 시스템은 붕괴된다.
 
@@ -101,27 +99,29 @@ SRE와 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requ
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))** | SRE의 뼈대가 되는 지표로, 100% 대신 99.9% 등 타협된 목표를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 총량을 결정함 |
-| **[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) ([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))** | 수동 매뉴얼 운영을 버리고 서버 프로비저닝과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 코드로 짜서 자동화하는 SRE 엔지니어들의 핵심 무기 |
-| **[토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))** | 비생산적이고 반복적인 수작업 운영 업무. SRE의 궁극적 목표는 코딩을 통해 이 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 소멸시키는 것 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>)</strong> | SRE의 뼈대가 되는 지표로, 100% 대신 99.9% 등 타협된 목표를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)의 총량을 결정함 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a>)</strong> | 수동 매뉴얼 운영을 버리고 서버 프로비저닝과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 코드로 짜서 자동화하는 SRE 엔지니어들의 핵심 무기 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">토일</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/">Toil</a>)</strong> | 비생산적이고 반복적인 수작업 운영 업무. SRE의 궁극적 목표는 코딩을 통해 이 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 소멸시키는 것 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통적 ITIL / 시스템 관리자 (SysAdmin) · 매뉴얼 작업, 수동 복구
-    │
-    ▼
-데브옵스 (DevOps) · 개발과 운영의 문화적 융합 및 CI/CD 확산
-    │
-    ▼
-SRE (Site Reliability Engineering) · 운영을 소프트웨어 엔지니어링으로 코딩화
-    │
-    ▼
-SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정
-    │
-    ▼
-에러 예산 (Error Budget) · 데이터 기반의 배포 스로틀링(Throttling) 및 신뢰성 통제
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통적 ITIL / 시스템 관리자 (SysAdmin) · 매뉴얼 작업, 수동 복구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">데브옵스 (DevOps) · 개발과 운영의 문화적 융합 및 CI/CD 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SRE (Site Reliability Engineering) · 운영을 소프트웨어 엔지니어링으로 코딩화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">에러 예산 (Error Budget) · 데이터 기반의 배포 스로틀링(Throttling) 및 신뢰성 통제</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,38 +19,37 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 사용자가 `password123` 치고 회원가입을 한다. DB에 이걸 그대로 넣으면 미친 회사다. 그래서 믹서기(해시)에 넣고 갈아서 `A8bC9...`로 만들어 저장한다. 나중에 로그인할 때 다시 `password123`을 치면 믹서기에 한 번 더 갈아보고, 뱉어낸 `A8bC9...`가 DB와 똑같으면 "오! 통과!" 시켜주는 게 기본 원리다. 근데 일반 믹서기(SHA-256)는 너무 빨리 돌아서, 해커가 세상의 모든 단어를 다 갈아서 엑셀(레인보우 테이블)로 만들어놓고 역추적을 해버렸다. 그래서 **"소금([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 한 줌 뿌려서 레인보우 테이블을 맹인으로 만들고, 믹서기를 10만 번 뻑뻑하게 돌려(Stretching) 해커의 해독 속도를 기어 다니게 만드는 특수 믹서기([KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/))"**가 탄생했다.
+- **개념**: 사용자가 `password123` 치고 회원가입을 한다. DB에 이걸 그대로 넣으면 미친 회사다. 그래서 믹서기(해시)에 넣고 갈아서 `A8bC9...`로 만들어 저장한다. 나중에 로그인할 때 다시 `password123`을 치면 믹서기에 한 번 더 갈아보고, 뱉어낸 `A8bC9...`가 DB와 똑같으면 "오! 통과!" 시켜주는 게 기본 원리다. 근데 일반 믹서기(SHA-256)는 너무 빨리 돌아서, 해커가 세상의 모든 단어를 다 갈아서 엑셀(레인보우 테이블)로 만들어놓고 역추적을 해버렸다. 그래서 <strong>"소금(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a>)을 한 줌 뿌려서 레인보우 테이블을 맹인으로 만들고, 믹서기를 10만 번 뻑뻑하게 돌려(Stretching) 해커의 해독 속도를 기어 다니게 만드는 특수 믹서기(<a href="/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/">KDF</a>)"</strong>가 탄생했다.
 
-- **필요성**: 2010년대 넥슨, 네이트 등 대한민국의 거대 플랫폼들이 줄줄이 털렸다. 고객 수천만 명의 아이디와 비밀번호가 몽땅 중국 다크웹에 풀렸다. 사람들은 귀찮아서 모든 사이트(은행, 게임, 메일)의 비번을 통일해서 쓴다. A사이트(허접한 곳)가 털렸는데, B은행(철통 보안) 내 계좌의 돈이 해커에게 인출되는 기가 막힌 참사([Credential Stuffing](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/))가 도미노처럼 번졌다. **"우리 회사가 털리는 건 어쩔 수 없지만, 우리 때문에 고객의 다른 은행 계좌가 털리는 2차 가해(책임)는 무조건 막아야 한다"**는 무거운 윤리적, 법적 책무(KISA 가이드라인 2번)가 이 무자비한 비밀번호 해싱 기술을 멱살 잡고 끌어올렸다.
+- **필요성**: 2010년대 넥슨, 네이트 등 대한민국의 거대 플랫폼들이 줄줄이 털렸다. 고객 수천만 명의 아이디와 비밀번호가 몽땅 중국 다크웹에 풀렸다. 사람들은 귀찮아서 모든 사이트(은행, 게임, 메일)의 비번을 통일해서 쓴다. A사이트(허접한 곳)가 털렸는데, B은행(철통 보안) 내 계좌의 돈이 해커에게 인출되는 기가 막힌 참사([Credential Stuffing](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/))가 도미노처럼 번졌다. <strong>"우리 회사가 털리는 건 어쩔 수 없지만, 우리 때문에 고객의 다른 은행 계좌가 털리는 2차 가해(책임)는 무조건 막아야 한다"</strong>는 무거운 윤리적, 법적 책무(KISA 가이드라인 2번)가 이 무자비한 비밀번호 해싱 기술을 멱살 잡고 끌어올렸다.
 
-- **💡 비유**: 비밀번호 저장은 마피아(해커)에게 쫓기는 목격자 얼굴(비밀번호)을 숨기는 **'증인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 프로그램'**과 같습니다.
+- **💡 비유**: 비밀번호 저장은 마피아(해커)에게 쫓기는 목격자 얼굴(비밀번호)을 숨기는 <strong>'증인 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 프로그램'</strong>과 같습니다.
   - 평문 저장: 목격자 얼굴을 길거리에 그냥 내놓고 다니는 미친 짓.
   - 단순 해시(SHA-256): 목격자 얼굴에 선글라스 하나 씌워놓음. 마피아가 몽타주 책(레인보우 테이블)을 쓱 넘겨보면 1초 만에 누군지 알아챔.
-  - **[Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) + [KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/) (Bcrypt)**: 목격자 얼굴에 염산([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 부어서 아예 뼈까지 녹여버리고, 붕대로 10만 겹(Stretching) 칭칭 감아 미이라로 만들어버리는 잔혹하지만 완벽한 수술입니다. 마피아가 미이라를 훔쳐 가도, 붕대를 1장 푸는 데 1년이 걸리게 만들어(느린 연산 속도 강제) 결국 누군지 밝혀내는 것을 수학적으로 포기하게 만드는 징그러운 방어술입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/">Salt</a> + <a href="/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/">KDF</a> (Bcrypt)</strong>: 목격자 얼굴에 염산([Salt](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/))을 부어서 아예 뼈까지 녹여버리고, 붕대로 10만 겹(Stretching) 칭칭 감아 미이라로 만들어버리는 잔혹하지만 완벽한 수술입니다. 마피아가 미이라를 훔쳐 가도, 붕대를 1장 푸는 데 1년이 걸리게 만들어(느린 연산 속도 강제) 결국 누군지 밝혀내는 것을 수학적으로 포기하게 만드는 징그러운 방어술입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **고속 해시의 딜레마 (SHA-256의 몰락)**: SHA-256은 원래 "데이터가 안 깨지고 잘 왔는지 1초 만에 빛의 속도로 검사" 하려고 만든 착한 함수다. 해커가 비트코인 채굴기([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 1,000대를 끌고 와서 이 함수로 초당 수천억 개의 비밀번호를 쳐보며(Brute-force) 정답을 맞춰버렸다. "빠르다"는 게 해커에게 축복이 된 역설이 터졌다.
   2. **Bcrypt와 Scrypt의 구원 (방어적 늦춤)**: "해커를 열받게 하려면 암호화 속도를 고의로 똥컴처럼 느리게 만들면 되잖아!" 브루스 슈나이어 등 암호학의 신들이 일부러 연산을 복잡하게 꼬아서 CPU를 질척거리게 파먹는 `Bcrypt`를 만들었고, 이것이 수십 년간 1티어를 지켰다.
   3. **Argon2의 왕좌 등극 (현재)**: 해커가 CPU 대신 그래픽카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))를 사서 무식하게 병렬로 돌리자 Bcrypt도 위협받았다. 2015년 전 세계 해시 대회(PHC)에서 우승한 `Argon2`가 등장했다. GPU가 가장 싫어하는 '메모리(RAM)를 팍팍 긁어먹는 흑마법'을 갈아 넣어 해커의 하드웨어 투자 자체를 파산시켜 버리는 현존 인류 최고의 종결자로 군림 중이다.
 
-- **📢 섹션 요약 비유**: 옛날 방어법(SHA)은 도둑을 쫓아낼 때 **'빠른 권총'**을 쏘는 것과 같았습니다. 도둑도 기관총([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))을 들고 와서 같이 갈겨버렸죠. 현대의 비밀번호 해싱([KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/))은 우리 집 앞마당을 아예 **'무릎까지 푹푹 빠지는 끈적끈적한 늪지대(의도적인 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))'**로 만들어 버리는 것입니다. 도둑이 포르쉐(슈퍼컴퓨터)를 끌고 와도 늪지대에서는 무조건 바퀴가 빠져 기어 다닐 수밖에 없는 환장할 물리적 함정입니다.
+- **📢 섹션 요약 비유**: 옛날 방어법(SHA)은 도둑을 쫓아낼 때 <strong>'빠른 권총'</strong>을 쏘는 것과 같았습니다. 도둑도 기관총([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))을 들고 와서 같이 갈겨버렸죠. 현대의 비밀번호 해싱([KDF](/knowledge-base/studynote/09_security/03_network_security/144_hkdf_tls_1_3/))은 우리 집 앞마당을 아예 <strong>'무릎까지 푹푹 빠지는 끈적끈적한 늪지대(의도적인 연산 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)'</strong>로 만들어 버리는 것입니다. 도둑이 포르쉐(슈퍼컴퓨터)를 끌고 와도 늪지대에서는 무조건 바퀴가 빠져 기어 다닐 수밖에 없는 환장할 물리적 함정입니다.
 
 ---
 
 다음은 비밀번호 저장 방식의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  비밀번호 저장 방식                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀번호 저장 방식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 비밀번호 저장 방식가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -71,7 +70,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-비밀번호 저장 방식의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+비밀번호 저장 방식의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 비밀번호 저장 방식의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -147,21 +146,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-비밀번호 저장 방식 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비밀번호 저장 방식 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

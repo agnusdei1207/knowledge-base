@@ -33,23 +33,24 @@ tags = ["studynote-computer-architecture"]
 
 OPT의 동작 원리는 단순하지만 강력하다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생하면 현재 메모리에 있는 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 대해 “다음에 언제 다시 쓰이는가”를 조사하고, 그 시점이 가장 먼 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 제거한다. 다음 사용 시점이 무한대, 즉 다시는 안 쓰이는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 있다면 고민 없이 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내보내면 된다.
 
-아래 그림은 OPT가 현재 상태가 아니라 **미래 재참조 거리**를 기준으로 희생 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 고르는 과정을 보여준다.
+아래 그림은 OPT가 현재 상태가 아니라 <strong>미래 재참조 거리</strong>를 기준으로 희생 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 고르는 과정을 보여준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│              OPT의 판단 기준: 현재 인기도가 아니라 다음 사용 시점          │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 현재 프레임: [ A ][ B ][ C ]                                               │
-│ 새 요청 페이지: D                                                          │
-│                                                                            │
-│ 미래 참조열:        B ─── E ─── A ─── F ─── C ─── ...                     │
-│ 다음 사용 시점:     1       -       3       -       5                     │
-│                    A=3, B=1, C=5                                           │
-│                                                                            │
-│ 판단: 가장 늦게 다시 쓰일 페이지는 C                                      │
-│ 결과: C를 교체하고 D 적재                                                  │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPT의 판단 기준: 현재 인기도가 아니라 다음 사용 시점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">현재 프레임:</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 요청 페이지: D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미래 참조열: B E A F C ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 사용 시점: 1 - 3 - 5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A=3, B=1, C=5</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단: 가장 늦게 다시 쓰일 페이지는 C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: C를 교체하고 D 적재</div></div>
+</div>
+</div>
+
+
 
 이 원리를 수식처럼 정리하면 다음과 같다.
 
@@ -92,7 +93,7 @@ OPT와 LRU가 자주 함께 언급되는 이유는 지역성 (Locality) 때문�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 OPT는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 **오프라인 추적 분석 도구**로 쓰인다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/), 웹 캐시, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 워크로드의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 로그를 수집한 뒤, 같은 로그에 대해 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/)·[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)·Clock을 각각 시뮬레이션하면 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이론적 한계와 실제 차이를 볼 수 있다. 이때 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 결과가 곧 “이 워크로드에서 달성 가능한 최소 미스 수”가 된다.
+실무에서 OPT는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 아니라 <strong>오프라인 추적 분석 도구</strong>로 쓰인다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/), 웹 캐시, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 워크로드의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 로그를 수집한 뒤, 같은 로그에 대해 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/)·[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)·Clock을 각각 시뮬레이션하면 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이론적 한계와 실제 차이를 볼 수 있다. 이때 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 결과가 곧 “이 워크로드에서 달성 가능한 최소 미스 수”가 된다.
 
 기술사 답안이나 설계 판단에서는 OPT와의 차이를 해석하는 문장이 중요하다. 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 OPT와 거의 차이가 없다면, 더 복잡한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 바꿔도 실익이 작을 수 있다. 반대로 OPT와 실제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 사이 차이가 크다면, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선 여지가 있거나 지역성이 강한 워크로드를 현재 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 놓치고 있다는 뜻이다. 그런데 OPT조차 미스율이 높다면, 이는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 문제가 아니라 메모리 용량 부족이나 워크로드 구조 자체의 한계일 가능성이 높다.
 
@@ -140,29 +141,27 @@ OPT를 기준으로 삼으면 [페이지 교체](/knowledge-base/studynote/02_op
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-참조열 분석
-    │
-    ▼
-OPT (Optimal Replacement)
-    │
-    ├─ 이론적 최소 페이지 폴트 기준 수립
-    │
-    ▼
-LRU (Least Recently Used)
-    │
-    ├─ 과거 최근성으로 미래를 근사
-    │
-    ▼
-Clock Algorithm / NUR (Not Used Recently)
-    │
-    ├─ 낮은 오버헤드로 LRU 근사
-    │
-    ▼
-Working Set · PFF (Page Fault Frequency)
-    │
-    └─ 교체 정책을 넘어 메모리 할당량까지 동적으로 조정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">참조열 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OPT (Optimal Replacement)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이론적 최소 페이지 폴트 기준 수립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LRU (Least Recently Used)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">과거 최근성으로 미래를 근사</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Clock Algorithm / NUR (Not Used Recently)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">낮은 오버헤드로 LRU 근사</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Working Set · PFF (Page Fault Frequency)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">교체 정책을 넘어 메모리 할당량까지 동적으로 조정</div>
+</div>
+</div>
+
+
 
 이 흐름은 “완전한 미래 예측”에서 출발해 “현실적인 근사”와 “운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 확장”으로 이어지는 발전 방향을 보여 준다. OPT는 끝점이 아니라 출발점이며, 이후 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 모두 그 이상적 기준을 얼마나 싸고 안정적으로 흉내 낼 것인지에 대한 답변이다.
 

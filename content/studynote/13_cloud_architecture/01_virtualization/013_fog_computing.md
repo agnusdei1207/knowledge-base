@@ -27,20 +27,25 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 엣지 단말기들의 파편화를 포그 노드가 어떻게 중간에서 조율하고 통합하는지 배경 한계를 도식화한 것이다.
 
-```text
-┌────────────── 기존 클라우드-엣지 이분법의 한계 ───────────────┐
-│ [Sensor A / 센서 A] ──> │                               │          │
-│ [Sensor B / 센서 B] ──> │ 개별 엣지는 서로 상황을 모름     │──> Cloud │
-│ [Sensor C / 센서 C] ──> │ 국지적 협업 제어 불가          │          │
-├────────────── 포그 컴퓨팅 (Fog Computing) 도입 ───────────────┤
-│ [Sensor A / 센서 A] ─┐                                             │
-│ [Sensor B / 센서 B] ─┼─> [Fog Node (LAN Router/Switch)] ──> Cloud │
-│ [Sensor C / 센서 C] ─┘      (공장 내 센서 연동 통합 분석)                  │
-│                    (수 밀리초 내 로컬 집단 피드백 지시)           │
-└─────────────────────────────────────────────────────────┘
-```
 
-이 아키텍처의 핵심은 **상황 인식([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Awareness)의 범위 확장**이다. 단일 온도 센서(Edge)는 온도가 올랐다는 것만 알지만, 이를 모아주는 포그 노드는 온도 센서와 컨베이어 벨트 진동 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 분석해 화재 위험을 인지하고 전체 라인의 전원을 차단하는 광역 조치를 즉각 실행할 수 있다. 실무적으로 포그는 디바이스 간의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신 부하를 줄여주는 완충 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 완벽히 수행한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기존 클라우드-엣지 이분법의 한계</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor A / 센서 A</div><div class="kb-diagram-note">──&gt; │ │</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor B / 센서 B</div><div class="kb-diagram-note">──&gt; │ 개별 엣지는 서로 상황을 모름 │──&gt; Cloud</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor C / 센서 C</div><div class="kb-diagram-note">──&gt; │ 국지적 협업 제어 불가 │</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">포그 컴퓨팅 (Fog Computing) 도입</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor A / 센서 A</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor B / 센서 B</div><div class="kb-diagram-note">─ ─&gt;</div><div class="kb-diagram-node">Fog Node (LAN Router/Switch)</div><div class="kb-diagram-note">──&gt; Cloud</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor C / 센서 C</div><div class="kb-diagram-note">─ (공장 내 센서 연동 통합 분석)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수 밀리초 내 로컬 집단 피드백 지시)</div></div>
+</div>
+</div>
+
+
+
+이 아키텍처의 핵심은 <strong>상황 인식(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Awareness)의 범위 확장</strong>이다. 단일 온도 센서(Edge)는 온도가 올랐다는 것만 알지만, 이를 모아주는 포그 노드는 온도 센서와 컨베이어 벨트 진동 센서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 분석해 화재 위험을 인지하고 전체 라인의 전원을 차단하는 광역 조치를 즉각 실행할 수 있다. 실무적으로 포그는 디바이스 간의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 통신 부하를 줄여주는 완충 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 역할을 완벽히 수행한다.
 
 📢 **섹션 요약 비유**: 각기 다른 악기를 연주하는 단원(엣지 디바이스)들이 바로 멀리 떨어진 음반사 사장(클라우드)에게 개별 보고하는 것이 아니라, 현장의 오케스트라 지휘자(포그 노드)가 모든 소리를 종합해 현장에서 즉각 하모니를 맞추는 지휘 체계와 같습니다.
 
@@ -62,25 +67,28 @@ tags = ["cloud_architecture"]
 
 아래 구조도는 포그 노드 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면과 제어 평면의 동작 흐름을 보여준다.
 
-```text
-[Local IoT Devices (LAN)]
-      │ (Modbus, Zigbee, BLE)
-      ▼
-┌──────────────── Fog Node (Edge Router/Gateway) ─────────────────┐
-│ [Protocol Translator / 프로토콜 변환기] (다양한 이기종 통신 언어 통합)               │
-│         ↓                                                       │
-│ [Rule Engine & Analytics]                                       │
-│  ├─ Hot Data (이상 고열)  ──> [Local Actuator / 로컬 액추에이터] 즉시 차단 제어신호 │
-│  └─ Cold Data (일반 로그) ──> [Transient Cache Buffer / 임시 캐시] 적재    │
-│         ↓                                                       │
-│ [Network Function Virtualization (NFV) Firewall / DPI]          │
-└───────────────────────┬─────────────────────────────────────────┘
-                        │ (TCP/IP 보안 터널링)
-                        ▼
-            [Central Cloud Storage / 중앙 스토리지]
-```
 
-이 그림의 핵심은 포그 노드가 가진 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 추상화와 네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/))** 능력이다. 산업 현장에는 IP 네트워크가 아닌 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 등 구형 무선 규격이 난무한다. 포그 노드는 이 이기종 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 흡수하여 표준 IP 기반으로 번역하고 통합된 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 정책을 씌운 뒤 클라우드로 올려보낸다. 
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Local IoT Devices (LAN)</div></div>
+<div class="kb-diagram-note">(Modbus, Zigbee, BLE)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fog Node (Edge Router/Gateway)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Protocol Translator / 프로토콜 변환기</div><div class="kb-diagram-note">(다양한 이기종 통신 언어 통합)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rule Engine &amp; Analytics</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Hot Data (이상 고열) ──&gt;</div><div class="kb-diagram-node">Local Actuator / 로컬 액추에이터</div><div class="kb-diagram-note">즉시 차단 제어신호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ Cold Data (일반 로그) ──&gt;</div><div class="kb-diagram-node">Transient Cache Buffer / 임시 캐시</div><div class="kb-diagram-note">적재</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Network Function Virtualization (NFV) Firewall / DPI</div></div>
+<div class="kb-diagram-note">(TCP/IP 보안 터널링)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Central Cloud Storage / 중앙 스토리지</div></div>
+</div>
+</div>
+
+
+
+이 그림의 핵심은 포그 노드가 가진 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 추상화와 네트워크 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>)</strong> 능력이다. 산업 현장에는 IP 네트워크가 아닌 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 등 구형 무선 규격이 난무한다. 포그 노드는 이 이기종 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 흡수하여 표준 IP 기반으로 번역하고 통합된 보안 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 정책을 씌운 뒤 클라우드로 올려보낸다. 
 
 📢 **섹션 요약 비유**: 수십 개의 사투리와 외국어를 쓰는 상인(센서)들의 말을 중간 시장 관리자(포그 노드)가 취합하여, 현장에서 해결할 민원은 바로 조치하고 국가(클라우드)에 보고할 내용만 표준어로 번역해 서류를 올리는 통역 및 중간 결재 시스템과 같습니다.
 
@@ -102,10 +110,10 @@ tags = ["cloud_architecture"]
 │ 아키텍처 │ 디바이스 종속적 │ 네트워크 인프라 종속적│ [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버 종속적 │
 └──────────┴───────────────┴────────────────┴──────────────────┘
 
-이 비교 모델에서 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)의 본질은 **"컴퓨팅이 네트워크 장비 안으로 들어왔다"**는 점이다. 엣지가 개별 하드웨어 기기의 성능을 높이는 방향이라면, 포그는 여러 기기를 묶는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 자체를 똑똑하게 만들어 LAN 단위의 군집 지능을 달성하는 네트워킹 중심의 철학이다.
+이 비교 모델에서 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)의 본질은 <strong>"컴퓨팅이 네트워크 장비 안으로 들어왔다"</strong>는 점이다. 엣지가 개별 하드웨어 기기의 성능을 높이는 방향이라면, 포그는 여러 기기를 묶는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 자체를 똑똑하게 만들어 LAN 단위의 군집 지능을 달성하는 네트워킹 중심의 철학이다.
 
 **과목 융합 관점**
-1. **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) ([Software Defined Networking](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/))**: 포그 네트워크는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러와 융합된다. 수백 개의 포그 노드 라우터들이 개별적으로 움직이는 것이 아니라, 상위 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면이 트래픽 패턴을 분석하여 특정 포그 노드에 연산 부하가 몰리면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 경로를 동적으로 변경해주는 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Traffic Engineering)이 가능해진다.
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/">Software Defined Networking</a>)</strong>: 포그 네트워크는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러와 융합된다. 수백 개의 포그 노드 라우터들이 개별적으로 움직이는 것이 아니라, 상위 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면이 트래픽 패턴을 분석하여 특정 포그 노드에 연산 부하가 몰리면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 경로를 동적으로 변경해주는 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Traffic Engineering)이 가능해진다.
 
 📢 **섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 병사 개개인에게 스마트 고글을 씌워 전투력을 높이는 것이라면, [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)은 소대장 무전기 텐트에 전술 컴퓨터를 두어 분대원 전체의 움직임을 조율하는 전술 지휘소와 같습니다.
 
@@ -116,24 +124,27 @@ tags = ["cloud_architecture"]
 실무 아키텍트가 [포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)을 도입할 때는 국지적 트래픽 통합의 필요성과 이기종 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 복잡도를 가장 우선적으로 판단해야 한다.
 
 **실무 의사결정 시나리오 및 운영 플로우**
-1. **[스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 교통 제어 망**: 수백 개의 교차로에 달린 차량 인식 카메라(Edge)가 있다. 개별 카메라 자체 연산으로는 옆 교차로 상황을 알 수 없어 연쇄 신호등 제어가 불가능하다. 이때 동네 단위의 기지국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Fog Node)에서 수십 개 교차로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합(Aggregation)하여 분석하면, 중앙 클라우드까지 갈 필요 없이 구역 내 차량 흐름을 계산해 '녹색 점등 연속 파도'를 실시간으로 만들어 낼 수 있다.
-2. **보안 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (Rogue Node)**: 라우터 기반의 포그 노드는 물리적으로 대중에게 노출된 공간(전봇대 등)에 위치하기 쉽다. 암호화되지 않은 로컬 포그 노드가 해킹(Rogue Node)당하면 해당 LAN 전체의 센서 제어권이 탈취된다. 따라서 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)(신뢰할 수 있는 플랫폼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 하드웨어 기반의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 부팅 검증이 반드시 적용되어야 한다.
+1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/">스마트 시티</a> 교통 제어 망</strong>: 수백 개의 교차로에 달린 차량 인식 카메라(Edge)가 있다. 개별 카메라 자체 연산으로는 옆 교차로 상황을 알 수 없어 연쇄 신호등 제어가 불가능하다. 이때 동네 단위의 기지국 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Fog Node)에서 수십 개 교차로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합(Aggregation)하여 분석하면, 중앙 클라우드까지 갈 필요 없이 구역 내 차량 흐름을 계산해 '녹색 점등 연속 파도'를 실시간으로 만들어 낼 수 있다.
+2. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (Rogue Node)</strong>: 라우터 기반의 포그 노드는 물리적으로 대중에게 노출된 공간(전봇대 등)에 위치하기 쉽다. 암호화되지 않은 로컬 포그 노드가 해킹(Rogue Node)당하면 해당 LAN 전체의 센서 제어권이 탈취된다. 따라서 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)(신뢰할 수 있는 플랫폼 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 하드웨어 기반의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 부팅 검증이 반드시 적용되어야 한다.
 
 아래는 여러 센서가 혼재된 현장에서의 아키텍처 배치 의사결정 트리이다.
 
-```text
-[스마트 팩토리/시티 다중 센서 인프라 구축]
-         │
-[단일 기기의 독립적 제어만으로 충분한가?]
- ├─ (Yes) ──> [순수 엣지(Edge) 기반 디바이스 자체 처리 아키텍처 채택]
- │
- └─ (No: 여러 기기의 데이터를 취합해야만 의미 있는 결론이 나오는가?]
-              ├─ (No) ──> [중앙 Cloud Data Lake로 전체 전송 및 배치 분석]
-              │
-              └─ (Yes) ──> [데이터를 모으는 스위치/공유기 단에 연산 탑재 (Fog Node 배치)]
-                           ├─ 이기종(Zigbee/IP) 프로토콜 변환 모듈 활성화
-                           └─ 단기 버퍼 메모리를 통한 로컬 구간 협업 제어 로직 적용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 팩토리/시티 다중 센서 인프라 구축</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 기기의 독립적 제어만으로 충분한가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">순수 엣지(Edge) 기반 디바이스 자체 처리 아키텍처 채택</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">(No: 여러 기기의 데이터를 취합해야만 의미 있는 결론이 나오는가?]</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">중앙 Cloud Data Lake로 전체 전송 및 배치 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">데이터를 모으는 스위치/공유기 단에 연산 탑재 (Fog Node 배치)</div></div>
+<div class="kb-diagram-tree-item" style="--depth:8">이기종(Zigbee/IP) 프로토콜 변환 모듈 활성화</div>
+<div class="kb-diagram-tree-item" style="--depth:8">단기 버퍼 메모리를 통한 로컬 구간 협업 제어 로직 적용</div>
+</div>
+</div>
+
+
 
 이 플로우는 다수의 컴포넌트가 '지역적인 상호 작용'을 일으킬 때 포그 아키텍처가 유일한 해답이 됨을 보여준다. 모든 것을 엣지(너무 좁음)나 클라우드(너무 멈)로 밀어버리지 않고, 적절한 중간 기착지를 만들어 네트워크 파이프라인의 오버헤드를 줄이는 아키텍트적 균형 감각이 요구된다.
 
@@ -147,7 +158,7 @@ tags = ["cloud_architecture"]
 
 | 기대효과 구분 | 정량적 및 정성적 개선 지표 |
 |:---|:---|
-| **네트워크 효율성 ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))** | 엣지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 군집 요약 전송을 통해 코어 백본 네트워크 점유율 70% 이상 절감 |
+| <strong>네트워크 효율성 (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong> | 엣지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 군집 요약 전송을 통해 코어 백본 네트워크 점유율 70% 이상 절감 |
 | **지역적 복원력 (Local Resilience)** | 클라우드망 절단 시에도 포그 구역 내의 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 자율 제어 지속 유지 |
 | **이기종 통합 (Integration)** | 공장 내 수십 가지 산업 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 하나의 IP 게이트웨이로 통합 관리 |
 
@@ -167,21 +178,23 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[클라우드 컴퓨팅 (Cloud Computing) — 중앙 집중 처리, IoT 지연 문제 대두]
-    │
-    ▼
-[엣지 컴퓨팅 (Edge Computing) — 데이터 발생 지점 근처 처리로 지연 최소화]
-    │
-    ▼
-[포그 컴퓨팅 (Fog Computing) — 엣지와 클라우드 사이 중간 계층 분산 처리]
-    │
-    ▼
-[다계층 오프로딩 (Multi-tier Offloading) — 엣지·포그·클라우드 역할 분담 최적화]
-    │
-    ▼
-[MEC (Mobile Edge Computing) — 5G 기지국 내 포그 서버, 초저지연 서비스]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 컴퓨팅 (Cloud Computing) — 중앙 집중 처리, IoT 지연 문제 대두</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 (Edge Computing) — 데이터 발생 지점 근처 처리로 지연 최소화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포그 컴퓨팅 (Fog Computing) — 엣지와 클라우드 사이 중간 계층 분산 처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">다계층 오프로딩 (Multi-tier Offloading) — 엣지·포그·클라우드 역할 분담 최적화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MEC (Mobile Edge Computing) — 5G 기지국 내 포그 서버, 초저지연 서비스</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 클라우드 중앙 집중의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계를 극복하기 위해 엣지·[포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/)이 등장하고, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) MEC와 결합하여 초저지연 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 아키텍처로 발전하는 과정을 보여준다.
 

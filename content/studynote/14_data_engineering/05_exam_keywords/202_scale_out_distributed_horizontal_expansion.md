@@ -33,20 +33,21 @@ tags = ["studynote-data-engineering"]
 
 스케일 아웃은 공유 아무것도 없는(Shared-Nothing) 아키텍처를 기반으로 한다. 각 노드는 독립적인 CPU, 메모리, 스토리지를 가지며, 노드 간 통신은 네트워크를 통해서만 이루어진다.
 
-```
-스케일 아웃 구조
-┌─────────────────────────────────────────────────────┐
-│                   부하 분산기 (Load Balancer)         │
-└─────────┬──────────┬──────────┬──────────┬──────────┘
-          │          │          │          │
-      ┌───▼───┐  ┌───▼───┐  ┌───▼───┐  ┌───▼───┐
-      │ Node1 │  │ Node2 │  │ Node3 │  │ Node4 │
-      │ CPU   │  │ CPU   │  │ CPU   │  │ CPU   │
-      │ MEM   │  │ MEM   │  │ MEM   │  │ MEM   │
-      │ DISK  │  │ DISK  │  │ DISK  │  │ DISK  │
-      └───────┘  └───────┘  └───────┘  └───────┘
-         ↑ 노드 추가 시 선형 성능 향상 (이상적)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">스케일 아웃 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 분산기 (Load Balancer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node1</div><div class="kb-diagram-cell">Node2</div><div class="kb-diagram-cell">Node3</div><div class="kb-diagram-cell">Node4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">MEM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DISK</div><div class="kb-diagram-cell">DISK</div><div class="kb-diagram-cell">DISK</div><div class="kb-diagram-cell">DISK</div></div>
+<div class="kb-diagram-note">↑ 노드 추가 시 선형 성능 향상 (이상적)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 "혼자 더 많이 먹을 수 있게 위를 크게 하는 수술"이고, 스케일 아웃은 "친구를 더 불러서 나눠 먹는 것"이다. 수술은 한계가 있지만 친구는 계속 부를 수 있다.
 
@@ -72,18 +73,19 @@ tags = ["studynote-data-engineering"]
 
 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
 
-```
-파티셔닝 전략
-┌─────────────────────────────────────────────────────┐
-│  전체 데이터셋 (100TB)                               │
-│                                                     │
-│  ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐    │
-│  │ 샤드 1  │  │ 샤드 2  │  │ 샤드 3  │  │ 샤드 4  │    │
-│  │ 25TB   │  │ 25TB   │  │ 25TB   │  │ 25TB   │    │
-│  │ 해시 0  │  │ 해시 1  │  │ 해시 2  │  │ 해시 3  │    │
-│  └────────┘  └────────┘  └────────┘  └────────┘    │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">파티셔닝 전략</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터셋 (100TB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샤드 1</div><div class="kb-diagram-cell">샤드 2</div><div class="kb-diagram-cell">샤드 3</div><div class="kb-diagram-cell">샤드 4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">25TB</div><div class="kb-diagram-cell">25TB</div><div class="kb-diagram-cell">25TB</div><div class="kb-diagram-cell">25TB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 0</div><div class="kb-diagram-cell">해시 1</div><div class="kb-diagram-cell">해시 2</div><div class="kb-diagram-cell">해시 3</div></div>
+</div>
+</div>
+
+
 
 | [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 방식 | 설명 | 장점 | 단점 |
 |:---|:---|:---|:---|
@@ -95,35 +97,37 @@ tags = ["studynote-data-engineering"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 노드에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 향상.
 
-```
-복제 아키텍처 (복제 계수 = 3)
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│  ┌──────────┐    복제    ┌──────────┐               │
-│  │ Primary  │──────────▶│ Replica1 │               │
-│  │  Node    │           └──────────┘               │
-│  └──────────┘                                       │
-│       │         복제    ┌──────────┐               │
-│       └───────────────▶│ Replica2 │               │
-│                         └──────────┘               │
-└─────────────────────────────────────────────────────┘
-   쓰기: Primary만, 읽기: 세 노드 모두 처리 가능
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">복제 아키텍처 (복제 계수 = 3)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Replica1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Replica2</div></div>
+<div class="kb-diagram-note">쓰기: Primary만, 읽기: 세 노드 모두 처리 가능</div>
+</div>
+</div>
+
+
 
 #### 3. 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))
 
-```
-L4/L7 부하 분산기 구조
-                   ┌──────────────────┐
-  클라이언트 ──────▶│  Load Balancer   │
-                   │  (라운드로빈/최소  │
-                   │   연결/IP해시)    │
-                   └──┬───┬───┬───┬──┘
-                      │   │   │   │
-                   ┌──▼─┐ ┌▼──┐ ┌▼──┐ ┌▼──┐
-                   │WS1 │ │WS2│ │WS3│ │WS4│
-                   └────┘ └───┘ └───┘ └───┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">L4/L7 부하 분산기 구조</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ▶</div><div class="kb-diagram-cell">Load Balancer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(라운드로빈/최소</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결/IP해시)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WS1</div><div class="kb-diagram-cell">WS2</div><div class="kb-diagram-cell">WS3</div><div class="kb-diagram-cell">WS4</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "도서관 책을 A~Z 선반에 나눠 꽂기", [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 "같은 책을 3층 각 열람실에 비치하기", 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "어느 열람실에 안내할지 결정하는 안내 데스크"다.
 
@@ -133,7 +137,7 @@ L4/L7 부하 분산기 구조
 
 ### [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리 ([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/)) 트레이드오프
 
-브루어(Brewer)의 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 **[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))**, **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**, **[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 허용성([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance)** 중 동시에 2가지만 보장 가능.
+브루어(Brewer)의 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>)</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 허용성(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">Partition</a> Tolerance)</strong> 중 동시에 2가지만 보장 가능.
 
 ```
 CAP 트리앙글
@@ -179,18 +183,21 @@ CAP 트리앙글
 
 스케일 아웃이 효과적이려면 각 노드가 독립적으로 요청을 처리할 수 있는 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 설계가 필수다.
 
-```
-Stateful vs Stateless
-┌─────────────────────────────────────────────────────┐
-│  Stateful (문제):                                    │
-│  Client ──▶ Server1 (세션 A 보유)                    │
-│  Client ──▶ Server2 (세션 A 없음!) → 오류 발생        │
-│                                                     │
-│  Stateless (해결):                                   │
-│  Client ──▶ (JWT 토큰 포함) ──▶ Server1 또는 Server2  │
-│  모든 서버가 토큰으로 자체 검증 → 어디든 OK            │
-└─────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Stateful vs Stateless</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stateful (문제):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ Server1 (세션 A 보유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ Server2 (세션 A 없음!) → 오류 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stateless (해결):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ (JWT 토큰 포함) ──▶ Server1 또는 Server2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 서버가 토큰으로 자체 검증 → 어디든 OK</div></div>
+</div>
+</div>
+
+
 
 #### 2. 실무 적용 사례: 전자상거래 플랫폼
 
@@ -203,7 +210,7 @@ Stateful vs Stateless
 
 #### 3. 기술사 판단 포인트
 
-- **[파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 키 선택**: 핫스팟 방지를 위해 카디널리티(Cardinality)가 높은 컬럼 선택 필수
+- <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a> 키 선택</strong>: 핫스팟 방지를 위해 카디널리티(Cardinality)가 높은 컬럼 선택 필수
 - **재조정(Resharding) 비용**: 노드 추가 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재분배 다운타임 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 필요 ([일관된 해싱](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/283_reference_pattern/) 사용)
 - **네트워크 병목**: 스케일 아웃 시 노드 간 통신(셔플, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))이 병목이 될 수 있음. 10GbE 또는 [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) 활용
 
@@ -255,18 +262,23 @@ Stateful vs Stateless
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 서버 (Scale-Up: CPU·RAM 증설)
-    │ 물리적 한계
-    ▼
-Scale-Out: 수평 분산 (노드 추가)
-    ├─► 데이터 샤딩 · 파티셔닝
-    ├─► 로드 밸런싱 · 장애 격리
-    └─► Shared-Nothing 아키텍처
-    │
-    ▼
-클라우드 오토스케일링: K8s · Auto Scaling Group
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 서버 (Scale-Up: CPU·RAM 증설)</div>
+<div class="kb-diagram-note">물리적 한계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Scale-Out: 수평 분산 (노드 추가)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">데이터 샤딩 · 파티셔닝</div>
+<div class="kb-diagram-tree-item" style="--depth:2">로드 밸런싱 · 장애 격리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Shared-Nothing 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 오토스케일링: K8s · Auto Scaling Group</div>
+</div>
+</div>
+
+
 2. 슈퍼 셰프는 한 명이라 몸이 아프면 레스토랑 전체가 멈추지만, 100명 중 한 명이 아파도 나머지 99명이 계속 요리해요.
 3. 그래서 빅데이터처럼 엄청난 주문이 오는 곳에서는 "평범한 요리사 100명 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"인 스케일 아웃을 써요!
 

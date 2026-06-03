@@ -26,38 +26,32 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 CALMS의 5대 축과 그 상호 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다.
 
-```text
-[CALMS 프레임워크 5대 축]
-┌─────────────────┐
-│ Culture (문화) │
-│ - 심리적 안전감 │
-│ - 사일로 제거 │
-│ - 협업 문화 │
-└────────┬────────┘
-│
-┌─────────────────┼─────────────────┐
-│ │ │
-▼ ▼ ▼
-┌───────────┐ ┌───────────┐ ┌───────────┐
-│ Automation│ │ Lean │ │ Sharing │
-│ (자동화) │ │ (린) │ │ (공유) │
-│ │ │ │ │ │
-│ - CI/CD │ │ - 낭비 │ │ - 지식 │
-│ - 테스트 │ │ 제거 │ │ 공유 │
-│ - 배포 │ │ - 가치 │ │ - 협업 │
-│ 자동화 │ │ 흐름 │ │ 미팅 │
-└───────────┘ └───────────┘ └───────────┘
-│
-▼
-┌─────────────────┐
-│ Measurement │
-│ (측정) │
-│ - DORA 메트릭스│
-│ - 관측성 │
-│ - 지표 기반 │
-│ 의사결정 │
-└─────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS 프레임워크 5대 축</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Culture (문화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 심리적 안전감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사일로 제거</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 협업 문화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Automation</div><div class="kb-diagram-cell">Lean</div><div class="kb-diagram-cell">Sharing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자동화)</div><div class="kb-diagram-cell">(린)</div><div class="kb-diagram-cell">(공유)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CI/CD</div><div class="kb-diagram-cell">- 낭비</div><div class="kb-diagram-cell">- 지식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테스트</div><div class="kb-diagram-cell">제거</div><div class="kb-diagram-cell">공유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 배포</div><div class="kb-diagram-cell">- 가치</div><div class="kb-diagram-cell">- 협업</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화</div><div class="kb-diagram-cell">흐름</div><div class="kb-diagram-cell">미팅</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Measurement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(측정)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DORA 메트릭스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 관측성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지표 기반</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 CALMS가 순환 구조가 아니라선형적계층 구조이라는 점이다. 문화가 기반이 되어 자동화, 린, 공유, 측정이 가능하고, 측정된 결과가 다시 문화(인식 전환)를 변화시키는 긍정적 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를형성한다. 한 축만 추진하면 다른 축의 부족함이 병목으로 작용하여 전체 효과가 제한된다. 예를 들어 자동화만 되고 측정이 없으면 개선 효과가입증되기 어렵고, 측정만 되고 공유가 없으면 learnings가조직에활용지 않다.
 
@@ -73,51 +67,48 @@ CALMS의 각 구성 요소는 단순한 개념이 아니라, 구체적인 실무
 |:---|:---|:---|:---|
 | **Culture (문화)** | [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 제거, 공동 책임 | 무비판적 포스트모템,부서 간 협업 미팅, 공유된 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 직원 설문 조사 ([심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감 점수) |
 | **Automation (자동화)** | 수동 작업의 제거, 일관된 프로세스 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구축, 테스트 자동화, [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)화 | 배포 프로세스 자동화율 (%) |
-| **[Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) (린)** | 가치 흐름 최적화, 낭비(메다) 제거 | [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/), 배치 크기 최소화, WIP 제한 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 사이클 타임 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a> (린)</strong> | 가치 흐름 최적화, 낭비(메다) 제거 | [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/), 배치 크기 최소화, WIP 제한 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 사이클 타임 |
 | **Measurement (측정)** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정,지속적 개선 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 대시보드 운영 | 배포 빈도, 변경 실패율, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 |
 | **Sharing (공유)** | 지식 공유, transparency,상호 지원 | 기술 공유 발표, 협업 문서화,팀 간 멘토링 | 지식 공유 활동 횟수, 문서 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/) |
 
 아래는 [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크를 조직에 적용할 때의 단계적 발전 단계를 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
-```text
-[CALMS 성숙도 단계 모델]
 
-Level 1: 모름 (Unaware)
-┌──────────────────────────────────────┐
-│ 문화: 기존 사일로 유지 │
-│ 자동: 수동 배포, 스크립트 없다 │
-│ 린(Lean): 가치 흐름 미인식 │
-│ 측정: 측정 안 함 │
-│ 공유: 부서 내만 공유 │
-└──────────────────────────────────────┘
-▼
-Level 2: 탐색 (Exploring)
-┌──────────────────────────────────────┐
-│ 문화: DevOps 개념 인식, 몇몇 협업 시도│
-│ 자동: CI 도입, 빌드 자동화 시작 │
-│ 린(Lean): 가치 흐름 매핑 수행 │
-│ 측정: 배포 빈도 측정 시작 │
-│ 공유: 팀 내 성공 사례 공유 │
-└──────────────────────────────────────┘
-▼
-Level 3:실행 (Executing)
-┌──────────────────────────────────────┐
-│ 문화:팀 간 협업 문화 정착, 공유된 목표 │
-│ 자동: 완전한 CI/CD 파이프라인 운영 │
-│ 린(Lean): 작은 크기, WIP 제한 적용 │
-│ 측정: DORA 4대 지표 모두 모니터링 │
-│ 공유: 조직 전체 기술 공유 미팅 운영 │
-└──────────────────────────────────────┘
-▼
-Level 4: 최적화 (Optimizing)
-┌──────────────────────────────────────┐
-│ 문화: DevOps 문화가 조직의 │
-│ 자동: 셀프 서비스 파이프라인, IDP │
-│ 린(Lean):Continuous Improvement제도화 │
-│ 측정: 실시간 대시보드, 예측적분석 │
-│ 공유: 타 조직과 벤치마킹, 외부 발표 │
-└──────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS 성숙도 단계 모델</div></div>
+<div class="kb-diagram-note">Level 1: 모름 (Unaware)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문화: 기존 사일로 유지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동: 수동 배포, 스크립트 없다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린(Lean): 가치 흐름 미인식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: 측정 안 함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유: 부서 내만 공유</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 2: 탐색 (Exploring)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문화: DevOps 개념 인식, 몇몇 협업 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동: CI 도입, 빌드 자동화 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린(Lean): 가치 흐름 매핑 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: 배포 빈도 측정 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유: 팀 내 성공 사례 공유</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 3:실행 (Executing)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문화:팀 간 협업 문화 정착, 공유된 목표</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동: 완전한 CI/CD 파이프라인 운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린(Lean): 작은 크기, WIP 제한 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: DORA 4대 지표 모두 모니터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유: 조직 전체 기술 공유 미팅 운영</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Level 4: 최적화 (Optimizing)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문화: DevOps 문화가 조직의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동: 셀프 서비스 파이프라인, IDP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린(Lean):Continuous Improvement제도화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: 실시간 대시보드, 예측적분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유: 타 조직과 벤치마킹, 외부 발표</div></div>
+</div>
+</div>
+
+
 
 이 단계 핵심은 각 수준에서 필요한 활동의 성격이 다르다는 점이다. 수준 1에서 수준 2로는 기술(도구) 도입에 집중하고, 수준 2에서 수준 3으로는 프로세스와 문화에 집중하며, 수준 3에서 수준 4로는 측정과 공유를 통한 지속적 개선 체계에 집중해야 한다. 많은 조직이 수준 2에서하는데, 이는 기술 도입만으로는 한계에 도달하기 때문이다.
 
@@ -131,36 +122,30 @@ Level 4: 최적화 (Optimizing)
 
 | 관련 개념 | CALMS와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 차이점 | 시너지 효과 |
 |:---|:---|:---|:---|
-| **[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스** | Measurement에 해당 | CALMS는 5대 영역, DORA는 4가지 측정 지표 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표로 Measurement 성숙도 측정 |
-| **[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상 타파** | Culture에 해당 | CALMS는문화, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 타파는 문화 목표 | [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 제거를 통해 문화 기반 구축 |
-| ** ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))** | Lean과 Alignment 관련 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 개발 방법론, CALMS는 조직 전반 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) + CALMS로 프로세스 개선 |
-| **[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학)** | Automation + Measurement | SRE는 운영하는 방법론, CALMS는프레임워크 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관행([토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))을 CALMS에 녹임 |
+| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스</strong> | Measurement에 해당 | CALMS는 5대 영역, DORA는 4가지 측정 지표 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표로 Measurement 성숙도 측정 |
+| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 현상 타파</strong> | Culture에 해당 | CALMS는문화, [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 타파는 문화 목표 | [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 제거를 통해 문화 기반 구축 |
+| <strong> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>)</strong> | Lean과 Alignment 관련 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 개발 방법론, CALMS는 조직 전반 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) + CALMS로 프로세스 개선 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (사이트 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 공학)</strong> | Automation + Measurement | SRE는 운영하는 방법론, CALMS는프레임워크 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관행([토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 제거, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))을 CALMS에 녹임 |
 | **ISE (인사이트 기반 엔지니어링)** | Measurement + Sharing | ISE는 통찰력 기반 엔지니어링, CALMS는보다프레임워크 | 측정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 가설 수립과 공유 |
 
 CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/)([VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/))의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도 주목할 만하다. VSM은 [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) 영역의 핵심 도구로, 아이디어가 고객에게 가치로 전환되기까지의 전체 흐름에서 낭비(Muda)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기술이다. CALMS의 [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) 축을 실천할 때, VSM이개선를 발견하는 도구로 활용된다.
 
-```text
-[CALMS와 다른 방법론의 관계 맵]
-┌──────────────────┐
-│ CALMS Framework │
-│ (도입/평가 framework) │
-└────────┬─────────┘
-│
-┌─────────────────┼─────────────────┐
-│ │ │
-▼ ▼ ▼
-┌───────────┐ ┌───────────┐ ┌───────────┐
-│ Agile │ │ SRE │ │ Lean │
-│ (프로세스) │ │ () │ │ (최적화) │
-└─────┬─────┘ └─────┬─────┘ └─────┬─────┘
-│ │ │
-└───────────────┼───────────────┘
-▼
-┌───────────────┐
-│ DORA Metrics │
-│ () │
-└───────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS와 다른 방법론의 관계 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALMS Framework</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도입/평가 framework)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Agile</div><div class="kb-diagram-cell">SRE</div><div class="kb-diagram-cell">Lean</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(프로세스)</div><div class="kb-diagram-cell">()</div><div class="kb-diagram-cell">(최적화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA Metrics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">()</div></div>
+</div>
+</div>
+
+
 
 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 맵의 핵심은 CALMS가 모든 방법론과 framework를적으로 조직에할 때의"umbrella" 역할 을 한다는 점이다. CALMS가 없으면 조직은々적으로 도구와 방법론을 도입하게 되고, 서로 다른 사이의이/가.
 
@@ -173,7 +158,7 @@ CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/
 [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 프레임워크를 조직에할 때는 한 번에 모든 축을 추진하기보다, 현재 조직의 가장 큰 병목을 파악하고부터 집중함으로써 효과를입증하고 조직의 지원을 확보하는 것이 효과적이다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 중 가장 효과적인 추진 포인트가 불분명할 때**
+- <strong>시나리오 A: <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/">CALMS</a> 중 가장 효과적인 추진 포인트가 불분명할 때</strong>
 - **상황**: 팀이 [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 도입을 결정했으나, 문화, 자동, 린(Lean), 측정, 공유 중 어디서 시작해야 할지 모호함.
 - **판단**: 먼저 현재 조직의 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스를 측정하여 가장 낮은 성숙도를 가진 영역을 파악한다. 대체로 문화([심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감)가 가장 낮은 경우가 많으며, 이 경우 자동화를 먼저 추진하면 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)가 없는 조직에서도 효과적이다. 그러나 문화가 미성숙한 상태에서 자동화를 추진하면 "툴옵스"에 그칠 위험이 높다.
 
@@ -181,21 +166,24 @@ CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/
 - **상황**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 구축되었으나, 배포 빈도나 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 개선되지 않음.
 - **판단**: 자동화와 함께 Measurement와 Sharing이 병목일 수 있다. 먼저 대시보드를 구축하여 모든 사람이 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)를 볼 수 있게 하고, 정기적인 공유 미팅을 통해 개선 아이디어를 brainstorm하면, 자동화의에서이/가된다。
 
-```text
-[시나리오별 CALMS 추진 전략]
 
-상황 A: 문화 미성숙
-→ 문화우선: 심리적 안전감 구축 미팅, 포스트모템 공동 수행
-→ 자동은/는 (문화 기반 마련 후)
 
-상황 B: 자동화 완료, 효과 미미
-→ Measurement + Sharing 추가: 대시보드 + 정기 공유 미팅
-→ 자동의에서을/를
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오별 CALMS 추진 전략</div></div>
+<div class="kb-diagram-note">상황 A: 문화 미성숙</div>
+<div class="kb-diagram-note">→ 문화우선: 심리적 안전감 구축 미팅, 포스트모템 공동 수행</div>
+<div class="kb-diagram-note">→ 자동은/는 (문화 기반 마련 후)</div>
+<div class="kb-diagram-note">상황 B: 자동화 완료, 효과 미미</div>
+<div class="kb-diagram-note">→ Measurement + Sharing 추가: 대시보드 + 정기 공유 미팅</div>
+<div class="kb-diagram-note">→ 자동의에서을/를</div>
+<div class="kb-diagram-note">상황 C: 모두Initialized, 정체</div>
+<div class="kb-diagram-note">→ Lean 집중: 가치 흐름 매핑으로 병목분석</div>
+<div class="kb-diagram-note">→Continuous Improvement 체계화</div>
+</div>
+</div>
 
-상황 C: 모두Initialized, 정체
-→ Lean 집중: 가치 흐름 매핑으로 병목분석
-→Continuous Improvement 체계화
-```
+
 
 > 📢 **섹션 요약 비유**: CALMS의 5가지는 건강을 위해 equally 중요하다. 그러나 만성 피로감Hum의은/는부터 잡으면 된다. 자동화는 명품 운동화가 아니라실 활용약정이고, 문화는 운동에 대한이며, 측정은 체성분 분석이고, 공유는 PT 트레이너의 조언이다. 특정 관리가 부실하면 다른관리도이/가한다.
 
@@ -209,7 +197,7 @@ CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/
 |:---|:---|:---|:---|
 | **문화 (Culture)** | 부서 간 의심과 책임 회피 | 공유된 목표, [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감 | 직원 참여도 설문 20% 향상 |
 | **자동화 (Automation)** | 수동 배포, 스크립트 미비 | 완전한 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, 테스트 자동화 | 배포 시간 80% 단축 |
-| **린 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/))** | 대규모 배치, 낭비 인정 안 함 | 작은, 가치 흐름 최적화 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 50% 단축 |
+| <strong>린 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/">Lean</a>)</strong> | 대규모 배치, 낭비 인정 안 함 | 작은, 가치 흐름 최적화 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 50% 단축 |
 | **측정 (Measurement)** | 측정 안 함 또는 부정확 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4대 지표 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 | 의사결정 속도 30% 향상 |
 | **공유 (Sharing)** | 지식 사적 보유 | 조직 전체 기술 공유 문화 | 고립 팀 비율 60% 감소 |
 
@@ -232,24 +220,25 @@ CALMS와 [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CALMS Framework (DevOps Framework)]
-│
-▼
-[Culture (문화)]
-│
-▼
-[Automation (자동화)]
-│
-▼
-[Lean (린)]
-│
-▼
-[Measurement (측정)]
-│
-▼
-[Sharing (공유)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS Framework (DevOps Framework)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Culture (문화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Automation (자동화)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Lean (린)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Measurement (측정)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Sharing (공유)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 [CALMS Framework](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/162_calms_framework_devops_principles/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Framework)에서 출발해 Culture (문화), Automation (자동화), [Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) (린), Measurement (측정), Sharing (공유)으로 확장되는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙도 축의 순서를 보여준다.
 

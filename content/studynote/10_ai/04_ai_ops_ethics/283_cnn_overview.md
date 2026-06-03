@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/), [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 이미지의 **지역적 공간 패턴**을 추출하고, **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Sharing)**와 **이동 불변성(Translation Invariance)**으로 파라미터를 대폭 줄이면서 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·탐지·분할에 탁월한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
+> 1. **본질**: [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/), [합성곱 신경망](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))은 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))으로 이미지의 <strong>지역적 공간 패턴</strong>을 추출하고, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>와 <strong>이동 불변성(Translation Invariance)</strong>으로 파라미터를 대폭 줄이면서 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·탐지·분할에 탁월한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
 > 2. **가치**: [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)(Fully Connected Layer) 대비 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 수를 수천 배 이상 줄이고, 이미지 내 위치가 달라도 동일한 특성(엣지, 텍스처, 객체 부분)을 인식하는 이동 불변성으로 이미지 인식의 혁명을 이끌었다.
 > 3. **판단 포인트**: 기술사 시험에서 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)의 출력 크기 계산 공식, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 역할, [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 의미, 그리고 LeNet→AlexNet→VGG→ResNet의 발전 계보를 묻는 문제가 출제된다.
 
@@ -21,23 +21,26 @@ tags = ["studynote-ai"]
 
 ### [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 레이어의 한계
 
-전통적인 완전 연결층([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/), Fully Connected Layer)은 이미지를 1차원 벡터로 펼쳐 처리한다. 224×224×3 이미지라면 **150,528개의 입력 노드**가 필요하고, 첫 은닉층에 1,000개 뉴런만 있어도 **1억 5천만 개의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)**가 필요해 학습 불가능에 가깝다.
+전통적인 완전 연결층([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/), Fully Connected Layer)은 이미지를 1차원 벡터로 펼쳐 처리한다. 224×224×3 이미지라면 <strong>150,528개의 입력 노드</strong>가 필요하고, 첫 은닉층에 1,000개 뉴런만 있어도 <strong>1억 5천만 개의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a></strong>가 필요해 학습 불가능에 가깝다.
 
-또한 FC는 **공간 구조(Spatial Structure)를 무시**한다. 이미지에서 근접한 픽셀들은 높은 상관관계를 가지는데, FC는 이를 전혀 활용하지 못한다.
+또한 FC는 <strong>공간 구조(Spatial Structure)를 무시</strong>한다. 이미지에서 근접한 픽셀들은 높은 상관관계를 가지는데, FC는 이를 전혀 활용하지 못한다.
 
 CNN은 다음 핵심 아이디어로 이를 해결한다:
 1. **지역 수용 영역(Local Receptive Field)**: 한 번에 작은 영역(예: 3×3)만 처리
-2. **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Sharing)**: 동일한 필터를 이미지 전체에 반복 적용
-3. **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))**: 공간 해상도 축소로 이동 불변성 확보
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>: 동일한 필터를 이미지 전체에 반복 적용
+3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>)</strong>: 공간 해상도 축소로 이동 불변성 확보
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: CNN은 이미지를 한꺼번에 전체를 보는 것이 아니라, 돋보기로 작은 부분씩 훑으며([합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)) 패턴을 찾고, 같은 돋보기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유)를 이미지 전체에 재사용하는 효율적인 탐정 방법이다.
 
@@ -47,44 +50,46 @@ CNN은 다음 핵심 아이디어로 이를 해결한다:
 
 ### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 전체 아키텍처
 
-```
-입력 이미지 (H × W × C)
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  합성곱 블록 (Conv Block)                                    │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ Conv(3×3, F filters) → BN → ReLU                      │  │
-│  │ 출력: H' × W' × F  (특성 맵, Feature Map)             │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                  × 여러 회 반복                              │
-├──────────────────────────────────────────────────────────────┤
-│  풀링 레이어 (Pooling Layer)                                 │
-│  MaxPooling(2×2, stride=2) → H/2 × W/2 × F (공간 축소)     │
-├──────────────────────────────────────────────────────────────┤
-│  깊어질수록: 공간 크기(H,W)↓, 채널 수(F)↑                 │
-│  저수준 특성(엣지) → 중수준(텍스처) → 고수준(객체 부분)   │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-Flatten → FC Layer → Softmax → 분류 결과
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 이미지 (H × W × C)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성곱 블록 (Conv Block)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv(3×3, F filters) → BN → ReLU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: H' × W' × F (특성 맵, Feature Map)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× 여러 회 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">풀링 레이어 (Pooling Layer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MaxPooling(2×2, stride=2) → H/2 × W/2 × F (공간 축소)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깊어질수록: 공간 크기(H,W)↓, 채널 수(F)↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저수준 특성(엣지) → 중수준(텍스처) → 고수준(객체 부분)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Flatten → FC Layer → Softmax → 분류 결과</div>
+</div>
+</div>
+
+
 
 ### [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))
 
-```
-입력 (5×5)         필터 (3×3)         출력 특성 맵 (3×3)
-┌─────────────┐   ┌─────────┐        ┌─────────┐
-│ 1  2  3  0  1│  │ 1  0 -1 │        │  ●  ●  ● │
-│ 4  5  6  1  2│× │ 1  0 -1 │   →    │  ●  ●  ● │
-│ 7  8  9  2  1│  │ 1  0 -1 │        │  ●  ●  ● │
-│ 0  1  2  3  0│  └─────────┘        └─────────┘
-│ 1  0  1  2  3│
-└─────────────┘
-출력 크기 = (N - F + 2P) / S + 1
-  N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드
-예) (5 - 3 + 0) / 1 + 1 = 3
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 (5×5) 필터 (3×3) 출력 특성 맵 (3×3)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 0 1</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">● ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 5 6 1 2</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">● ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7 8 9 2 1</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">● ● ●</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2 3 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 1 2 3</div></div>
+<div class="kb-diagram-note">출력 크기 = (N - F + 2P) / S + 1</div>
+<div class="kb-diagram-note">N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드</div>
+<div class="kb-diagram-note">예) (5 - 3 + 0) / 1 + 1 = 3</div>
+</div>
+</div>
+
+
 
 ### 출력 크기 계산 공식
 
@@ -100,21 +105,22 @@ Flatten → FC Layer → Softmax → 분류 결과
 
 ### [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 레이어
 
-```
-Max Pooling (2×2, stride=2):
-┌───────────────────────────────────┐
-│  입력 4×4  →  출력 2×2           │
-│  ┌───┬───┐                        │
-│  │ 1  3  │  max→ 9               │
-│  │ 2  9  │                        │
-│  ├───┼───┤                        │
-│  │ 5  2  │  max→ 7               │
-│  │ 7  1  │                        │
-│  └───┴───┘                        │
-│  이동 불변성: 패턴이 조금 이동해도 │
-│  동일한 최대값이 출력됨            │
-└───────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Max Pooling (2×2, stride=2):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 4×4 → 출력 2×2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 3</div><div class="kb-diagram-cell">max→ 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 2</div><div class="kb-diagram-cell">max→ 7</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동 불변성: 패턴이 조금 이동해도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 최대값이 출력됨</div></div>
+</div>
+</div>
+
+
 
 ### 대표 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 아키텍처 계보
 
@@ -144,8 +150,8 @@ Max Pooling (2×2, stride=2):
 
 ### 이동 불변성(Translation Invariance) vs 이동 등변성(Translation Equivariance)
 
-- **[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 레이어**: **이동 등변성(Equivariance)** - 입력이 이동하면 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)도 같이 이동
-- **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 레이어**: **이동 불변성(Invariance)** - 입력이 조금 이동해도 출력이 동일
+- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> 레이어</strong>: **이동 등변성(Equivariance)** - 입력이 이동하면 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)도 같이 이동
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 레이어</strong>: **이동 불변성(Invariance)** - 입력이 조금 이동해도 출력이 동일
 
 두 개념의 결합으로 "고양이가 이미지의 어느 위치에 있든 고양이로 인식"이 가능하다.
 
@@ -167,30 +173,34 @@ Max Pooling (2×2, stride=2):
 ### 기술사 시험 판단 포인트
 
 1. **출력 크기 계산**: (N - F + 2P) / S + 1 공식 암기
-2. **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유 효과**: 파라미터 수 대폭 절감 이유
-3. **[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 역할**: 공간 크기 축소 + 이동 불변성 + 과적합 방지
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유 효과</strong>: 파라미터 수 대폭 절감 이유
+3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>의 역할</strong>: 공간 크기 축소 + 이동 불변성 + 과적합 방지
 4. **ResNet의 잔차 연결**: 그래디언트 소실 방지, H(x) = F(x) + x
 
 ### 잔차 연결(Residual Connection, Skip Connection)
 
-```
-입력 x
-  │   └──────────────────────────┐
-  ▼                              │ (지름길)
-Conv → BN → ReLU → Conv → BN    │
-  ▼                              │
-  (+)◄─────────────────────────-┘
-  ▼
-ReLU → 출력 H(x) = F(x) + x
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 x</div>
+<div class="kb-diagram-note">▼ │ (지름길)</div>
+<div class="kb-diagram-note">Conv → BN → ReLU → Conv → BN</div>
+<div class="kb-diagram-note">(+)◄ -</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ReLU → 출력 H(x) = F(x) + x</div>
+</div>
+</div>
+
+
 
 잔차 연결로 그래디언트가 곱셈 없이 덧셈으로 직접 전달 → 100층 이상의 네트워크 학습 가능.
 
 ### 주요 응용 분야
 
-- **이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Image [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))**: [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet
-- **[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))**: YOLO, Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 백본 사용)
-- **[이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)([Image Segmentation](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/))**: U-Net ([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/), Skip Connection)
+- <strong>이미지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(Image <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a>)</strong>: [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">객체 탐지</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">Object Detection</a>)</strong>: YOLO, Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 백본 사용)
+- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/">이미지 분할</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/">Image Segmentation</a>)</strong>: U-Net ([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/), Skip Connection)
 - **의료 영상**: X-ray 진단, MRI 분석 (소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) + [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))
 
 - **📢 섹션 요약 비유**: ResNet의 잔차 연결은 100층짜리 건물에 엘리베이터를 설치하는 것과 같다. 계단(순방향 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/))으로만 올라가면 너무 힘들어 그래디언트가 사라지지만(그래디언트 소실), 엘리베이터(잔차 경로)로 정보가 직접 전달된다.
@@ -204,7 +214,7 @@ CNN이 이미지 인식 혁명을 이끈 이유:
 1. **파라미터 효율성**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유로 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 대비 수만 배 파라미터 절감
 2. **이동 불변성**: 객체 위치에 무관한 강건한 인식
 3. **계층적 특성 추출**: 엣지 → 텍스처 → 부분 → 객체의 계층적 표현 학습
-4. **[전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/)([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))**: ImageNet 사전 학습 모델을 다양한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 적용
+4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">전이 학습</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/">Transfer Learning</a>)</strong>: ImageNet 사전 학습 모델을 다양한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 적용
 
 AlexNet이 2012년 ImageNet에서 압도적 1위를 기록한 이후, CNN은 컴퓨터 비전(Computer Vision)의 표준이 되었다. 현재는 Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(ViT)와의 하이브리드 형태(ConvNeXt, Swin [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 등)로 발전하고 있다.
 

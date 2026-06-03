@@ -19,13 +19,13 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**5G의 한계와 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 필요성**
+<strong>5G의 한계와 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 필요성</strong>
 
 - **커버리지 공백**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 지상 기지국은 해양·산악·극지 등 전 지구 육지의 20% 미만 커버.
 - **음영지역**: 실내·터널·도심 협곡. 빌딩 반사로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 왜곡.
-- **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통합 부재**: 5G는 네트워크가 AI를 서비스로 운반하지만, 망 자체에 AI가 내재화되지 않음.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 통합 부재</strong>: 5G는 네트워크가 AI를 서비스로 운반하지만, 망 자체에 AI가 내재화되지 않음.
 
-**[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) ITU-R IMT-2030 핵심 목표**
+<strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> ITU-R IMT-2030 핵심 목표</strong>
 
 | 지표 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) (IMT-2020) | [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) (IMT-2030 목표) |
 |:---:|:---:|:---:|
@@ -41,29 +41,27 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           6G 통합 네트워크 아키텍처 (3계층)                 │
-├──────────────────────────────────────────────────────────┤
-│  [비지상 계층 - NTN]                                       │
-│  LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)│
-│  HAPS(High-Altitude Platform Station, 20km 성층권)         │
-│        │  위성-지상 직접 통신 / 위성간 ISL 링크             │
-│        ▼                                                  │
-│  [지상 계층 - Terrestrial]                                 │
-│  6G gNB(THz 기지국, 초소형·밀집 배치)                      │
-│        │                                                  │
-│  [RIS 계층]                                                │
-│  ┌────────────────────────────────────────────────┐      │
-│  │ RIS(Reconfigurable Intelligent Surface)        │      │
-│  │ - 메타물질 패널(수백~수천 개 반사 소자)           │      │
-│  │ - 전파 방향·위상 프로그래머블 제어               │      │
-│  │ - 능동 증폭 없이 신호 반사·굴절 → 음영지역 제거   │      │
-│  └────────────────────────────────────────────────┘      │
-│        ▼                                                  │
-│  [단말 계층]  스마트폰·XR·자율주행·IoT                      │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6G 통합 네트워크 아키텍처 (3계층)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 계층 - NTN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HAPS(High-Altitude Platform Station, 20km 성층권)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성-지상 직접 통신 / 위성간 ISL 링크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지상 계층 - Terrestrial</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6G gNB(THz 기지국, 초소형·밀집 배치)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RIS 계층</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIS(Reconfigurable Intelligent Surface)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메타물질 패널(수백~수천 개 반사 소자)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전파 방향·위상 프로그래머블 제어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 능동 증폭 없이 신호 반사·굴절 → 음영지역 제거</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단말 계층</div><div class="kb-diagram-note">스마트폰·XR·자율주행·IoT</div></div>
+</div>
+</div>
+
+
 
 ### [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 핵심 기술 비교
 
@@ -89,7 +87,7 @@ tags = ["studynote-ict-convergence"]
 | [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)(정지궤도) | 35,786km | ~600ms | 기존 위성방송 |
 | [HAPS](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/596_haps_high_altitude_platform_station_drone/) | 20km (성층권) | ~1ms | SoftBank HAPSMobile |
 
-**[THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역의 과제**
+<strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/">THz</a> 대역의 과제</strong>
 
 - **대기 흡수(Molecular Absorption)**: 수증기·산소가 THz파 강하게 흡수 → 강우 시 급격한 감쇠.
 - **높은 경로 손실**: 주파수가 높을수록 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 급증 → 수십 m 셀 크기(Nano Cell) 필요.
@@ -101,7 +99,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 응용 시나리오**
+<strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 응용 시나리오</strong>
 
 | 시나리오 | [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 기술 | 요구 사항 |
 |:---|:---:|:---|

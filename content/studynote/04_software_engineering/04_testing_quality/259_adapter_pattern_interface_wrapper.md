@@ -27,18 +27,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 어댑터 (Adapter)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  어댑터 (Adapter)                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어댑터 (Adapter)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 어댑터 (Adapter)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -50,7 +49,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 한 클래스의 인터페이스(껍데기)를 클라이언트가 요구하는 다른 인터페이스로 100% 동일하게 **변환(감싸기)하여, 인터페이스가 맞지 않아 같이 쓸 수 없었던 두 클래스가 호환되어 찰떡같이 엮여 돌아가게 만들어주는 래퍼(Wrapper) 설계 패턴**입니다.
+- **개념**: GoF [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) 중 하나로, 한 클래스의 인터페이스(껍데기)를 클라이언트가 요구하는 다른 인터페이스로 100% 동일하게 <strong>변환(감싸기)하여, 인터페이스가 맞지 않아 같이 쓸 수 없었던 두 클래스가 호환되어 찰떡같이 엮여 돌아가게 만들어주는 래퍼(Wrapper) 설계 패턴</strong>입니다.
 - **목적**: 224번에서 배운 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)(충돌 방지 계층)의 가장 기본이 되는 기술적 구현체로, 기존 코드(구형 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))를 1줄도 건드리지 않고(Closed) 새 시스템에 억지로 편입시키는 기적의 재사용 기술입니다.
 
 - **📢 섹션 요약 비유**: 어댑터 (Adapter)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -73,7 +72,7 @@ tags = ["studynote-software-engineering"]
 2. **Adaptee (헌 놈 / 적응 대상)**: 구멍에 꽂히지 않는 뚱뚱한 플러그입니다. (`구형_카드사_모듈.doPayment()`)
 3. **Adapter (어댑터 번역기) 🌟**:
    - 내가 다이소에서 사 온 번역기 클래스입니다.
-   - 이놈은 내 시스템에 꽂혀야 하니 `PaySystem` 인터페이스를 **[상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(implements)** 받습니다. (이제 밖에서 보면 이놈은 완벽한 `최신_결제_기계` 플러그로 보입니다.)
+   - 이놈은 내 시스템에 꽂혀야 하니 `PaySystem` 인터페이스를 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>(implements)</strong> 받습니다. (이제 밖에서 보면 이놈은 완벽한 `최신_결제_기계` 플러그로 보입니다.)
    - 하지만 이 번역기 뱃속(멤버 변수)에는 낡은 `구형_카드사_모듈(Adaptee)`을 **객체로 몰래 품고(합성 Composition)** 있습니다.
    - 밖에서 내 시스템이 `Adapter.pay()` 전원 버튼을 누르는 순간! 번역기는 뱃속에서 `구형_카드사_모듈.doPayment()` 를 대신 찰칵 눌러주어 번역을 완벽히 마칩니다!
 
@@ -87,10 +86,10 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이미 엄청난 돈을 들여 만들어 놓은 낡은 **레거시(Legacy) 코드나 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(남이 짠 코드)**를 내 최신 시스템 구조에 억지로 우겨넣어야 할 때, 99.9% 확률로 이 패턴을 씁니다. 
+- 이미 엄청난 돈을 들여 만들어 놓은 낡은 <strong>레거시(Legacy) 코드나 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 외부 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>(남이 짠 코드)</strong>를 내 최신 시스템 구조에 억지로 우겨넣어야 할 때, 99.9% 확률로 이 패턴을 씁니다. 
 - (※ 만약 처음부터 둘 다 내가 짜는 코드라면? 굳이 어댑터 만들지 말고 처음부터 인터페이스를 통일해서 짜는 게 당연히 백배 빠릅니다. 어댑터는 '손댈 수 없는 남의 코드'를 엮을 때 쓰는 방패입니다.)
 
-> 📢 **섹션 요약 비유**: **어댑터(Adapter) 패턴**은 해외여행 갈 때 필수품인 **'다이소 돼지코(여행용 변환 멀티 어댑터)'**입니다. 내가 한국에서 쓰던 노트북 충전기(Adaptee 낡은 시스템)는 뾰족한 220V 쇠꼬챙이 규격을 가졌습니다. 유럽 호텔(Target 새로운 시스템) 벽에 달린 콘센트는 네모난 구멍 3개 규격입니다. 내 충전기를 벽에 냅다 꽂으려 하면 구멍이 안 맞아 죽어도 안 들어갑니다(인터페이스 불일치 에러). 멍청한 사람([어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) 모르는 놈)은 충전기 선을 가위로 잘라서 네모난 철사를 납땜으로 붙여버립니다(기존 코드 수정). 한국 오면 다시 뜯어야 하는 끔찍한 삽질입니다. 똑똑한 사람은 여행 가방에서 **'변환 돼지코(Adapter 클래스)'**를 꺼냅니다. 이 돼지코의 겉모습(Target 인터페이스 구현)은 완벽한 유럽식 네모 3구라서 벽에 쏙 들어갑니다. 그리고 돼지코의 뒷면(뱃속)에는 내 한국식 충전기가 꽂힐 수 있는 둥근 구멍이 뚫려있어 내 충전기를 품습니다(합성 Composition). 벽에서 유럽 전기가 흘러 들어오면 돼지코가 뱃속에서 그걸 한국 전기로 통역해 노트북에 흘려보냅니다. 내 소중한 충전기(기존 코드)는 흠집 하나 내지 않고 100% 무사히 보존하면서, 전혀 호환되지 않는 낯선 호텔(새로운 시스템)과 완벽한 결합(호환)을 이뤄낸 객체지향 최고의 평화협정 통역사입니다.
+> 📢 **섹션 요약 비유**: <strong>어댑터(Adapter) 패턴</strong>은 해외여행 갈 때 필수품인 <strong>'다이소 돼지코(여행용 변환 멀티 어댑터)'</strong>입니다. 내가 한국에서 쓰던 노트북 충전기(Adaptee 낡은 시스템)는 뾰족한 220V 쇠꼬챙이 규격을 가졌습니다. 유럽 호텔(Target 새로운 시스템) 벽에 달린 콘센트는 네모난 구멍 3개 규격입니다. 내 충전기를 벽에 냅다 꽂으려 하면 구멍이 안 맞아 죽어도 안 들어갑니다(인터페이스 불일치 에러). 멍청한 사람([어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/) 모르는 놈)은 충전기 선을 가위로 잘라서 네모난 철사를 납땜으로 붙여버립니다(기존 코드 수정). 한국 오면 다시 뜯어야 하는 끔찍한 삽질입니다. 똑똑한 사람은 여행 가방에서 <strong>'변환 돼지코(Adapter 클래스)'</strong>를 꺼냅니다. 이 돼지코의 겉모습(Target 인터페이스 구현)은 완벽한 유럽식 네모 3구라서 벽에 쏙 들어갑니다. 그리고 돼지코의 뒷면(뱃속)에는 내 한국식 충전기가 꽂힐 수 있는 둥근 구멍이 뚫려있어 내 충전기를 품습니다(합성 Composition). 벽에서 유럽 전기가 흘러 들어오면 돼지코가 뱃속에서 그걸 한국 전기로 통역해 노트북에 흘려보냅니다. 내 소중한 충전기(기존 코드)는 흠집 하나 내지 않고 100% 무사히 보존하면서, 전혀 호환되지 않는 낯선 호텔(새로운 시스템)과 완벽한 결합(호환)을 이뤄낸 객체지향 최고의 평화협정 통역사입니다.
 
 - **📢 섹션 요약 비유**: 어댑터 (Adapter)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -135,21 +134,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-어댑터 (Adapter) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">어댑터 (Adapter) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

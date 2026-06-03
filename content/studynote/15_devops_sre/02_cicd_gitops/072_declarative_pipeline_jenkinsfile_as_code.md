@@ -101,27 +101,39 @@ Jenkinsfile은 [파이프](/knowledge-base/studynote/02_operating_system/02_proc
 
 ## 관련 개념 맵
 
-```text
-Jenkinsfile
-  ↓
-Declarative Pipeline
-  ↓
-Stages / Steps
-  ↓
-CI/CD
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Jenkinsfile</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Declarative Pipeline</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Stages / Steps</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">CI/CD</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-```text
-Pipeline as Code
-  ↓
-Jenkinsfile
-  ↓
-Declarative Pipeline
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Pipeline as Code</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Jenkinsfile</div>
+<div class="kb-diagram-connector">↓</div>
+<div class="kb-diagram-note">Declarative Pipeline</div>
+</div>
+</div>
+
+
 
 ---
 

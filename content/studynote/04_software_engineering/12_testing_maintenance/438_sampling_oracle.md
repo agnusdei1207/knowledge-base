@@ -22,10 +22,10 @@ tags = ["studynote-software-engineering"]
 나이를 입력하면 성인(18세 이상)인지 미성년자인지 판별해 주는 시스템을 만들었다.
 나이 입력칸에는 1부터 100까지 숫자를 넣을 수 있다.
 
-* **[참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)의 미련한 짓**: "1살은 미성년자, 2살도 미성년자... 18살은 성인... 100살은 성인." 이렇게 100개의 정답지를 다 만든다. 너무 피곤하다.
-* **샘플링 오라클의 지혜**: "어차피 1살부터 17살까지는 코드가 똑같이 미성년자로 처리하잖아? 그럼 **대표로 딱 한 명(10살)**만 뽑자. 그리고 오류가 잘 나는 경계선인 **17, 18, 19살**을 뽑자. 그리고 성인 대표로 **50살**을 뽑자."
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/">참 오라클</a>의 미련한 짓</strong>: "1살은 미성년자, 2살도 미성년자... 18살은 성인... 100살은 성인." 이렇게 100개의 정답지를 다 만든다. 너무 피곤하다.
+* **샘플링 오라클의 지혜**: "어차피 1살부터 17살까지는 코드가 똑같이 미성년자로 처리하잖아? 그럼 <strong>대표로 딱 한 명(10살)</strong>만 뽑자. 그리고 오류가 잘 나는 경계선인 <strong>17, 18, 19살</strong>을 뽑자. 그리고 성인 대표로 <strong>50살</strong>을 뽑자."
 
-결국, 100개의 테스트 대신 **10, 17, 18, 19, 50] 딱 5개의 샘플**만 꼽아내어 정답지(오라클)를 만든다. 이 5개의 똘똘한 샘플만 정상 통과하면, 나머지 95개의 나이도 당연히 버그 없이 잘 돌아갈 것이라고 '수학적으로 확신'할 수 있다. 이것이 바로 **샘플링 오라클([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))**이다.
+결국, 100개의 테스트 대신 <strong>10, 17, 18, 19, 50] 딱 5개의 샘플</strong>만 꼽아내어 정답지(오라클)를 만든다. 이 5개의 똘똘한 샘플만 정상 통과하면, 나머지 95개의 나이도 당연히 버그 없이 잘 돌아갈 것이라고 '수학적으로 확신'할 수 있다. 이것이 바로 <strong>샘플링 오라클(<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>이다.
 
 > 📢 **섹션 요약 비유**: 국물 맛을 볼 때 냄비에 있는 국물을 100% 다 마셔봐야([참 오라클](/knowledge-base/studynote/04_software_engineering/11_testing_validation/437_true_oracle/)) 맛을 아는 것이 아닙니다. 숟가락으로 딱 한 입(샘플링)만 떠먹어 보더라도, 냄비 전체의 간이 잘 맞았는지 99% 정확하게 알아낼 수 있는 것과 같은 효율성의 원리입니다.
 
@@ -35,18 +35,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  샘플링 오라클 (Sampling Or                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플링 오라클 (Sampling Or</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -58,37 +57,36 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-샘플링 오라클이 성공하려면 **'어떤 샘플을 뽑을 것인가'**가 전부다. 아무 숫자나 랜덤하게 5개를 뽑았다가는 진짜 버그가 있는 구간을 쏙 피해 갈 수 있다. 
-그래서 샘플링 오라클은 반드시 **[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) 설계 기법(412번 문서)**과 영혼의 단짝처럼 붙어 다닌다.
+샘플링 오라클이 성공하려면 <strong>'어떤 샘플을 뽑을 것인가'</strong>가 전부다. 아무 숫자나 랜덤하게 5개를 뽑았다가는 진짜 버그가 있는 구간을 쏙 피해 갈 수 있다. 
+그래서 샘플링 오라클은 반드시 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/">블랙박스 테스트</a> 설계 기법(412번 문서)</strong>과 영혼의 단짝처럼 붙어 다닌다.
 
-1. **[동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/) ([Equivalence Partitioning](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/))**
+1. <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">동등 분할</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/">Equivalence Partitioning</a>)</strong>
    - 똑같은 결과를 낼 집단(클래스)을 나누고 중앙값을 찌른다.
    - 예: 점수가 0~100점일 때, 무효값(-[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 유효값(50), 무효값(150) 3개의 샘플 오라클을 만든다.
-2. **경곗값 분석 ([Boundary Value Analysis](/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/))**
+2. <strong>경곗값 분석 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/414_boundary_value_analysis/">Boundary Value Analysis</a>)</strong>
    - 버그가 서식하는 국경선(경계)을 찌른다.
    - 예: 100점 만점이라면 99, 100, 101이라는 3개의 샘플 오라클을 깐깐하게 만든다.
 
 이렇게 추출된 정예 멤버(샘플 입력값)들에 대해서만 완벽한 정답지(Expected Result)를 기획자와 개발자가 머리를 맞대고 계산해 내어 문서에 기록한다.
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────┐
-│           무한대의 입력을 5개의 샘플링 오라클로 압축하는 시각화               │
-├───────────────────────────────────────────────────────────────────────────────┤
-│                                                                               │
-│ [ 무한대의 고객 결제 금액 ] (0원 ~ 1억 원 이상)                               │
-│                                                                               │
-│ 1️⃣ [ 참 오라클 시도 ] : 모든 1원 단위마다 정답 엑셀표 만들기 -> (퇴사 충동)  │
-│                                                                               │
-│ 2️⃣ [ 샘플링 오라클 설계 ] (수학적 컷팅)                                      │
-│   - 샘플 1 (음수 결제)   : -500원   -> 정답: "에러 창 출력"                   │
-│   - 샘플 2 (0원 결제)    : 0원     -> 정답: "최소 결제액 부족 창"             │
-│   - 샘플 3 (정상 소액)   : 1만원   -> 정답: "결제 정상 진행"                  │
-│   - 샘플 4 (카드 한도액) : 100만원 -> 정답: "승인 로직 1차 통과"              │
-│   - 샘플 5 (한도 초과)   : 101만원 -> 정답: "한도 초과 에러 창"               │
-│                                                                               │
-│ ★ 결론: 무한대의 경우의 수를 단 5개의 '가성비 킹' 정답지로 완벽히 커버 완료!  │
-└───────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무한대의 입력을 5개의 샘플링 오라클로 압축하는 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">무한대의 고객 결제 금액</div><div class="kb-diagram-note">(0원 ~ 1억 원 이상)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">참 오라클 시도</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(퇴사 충동)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">샘플링 오라클 설계</div><div class="kb-diagram-note">(수학적 컷팅)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 1 (음수 결제) : -500원 -&gt; 정답: "에러 창 출력"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 2 (0원 결제) : 0원 -&gt; 정답: "최소 결제액 부족 창"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 3 (정상 소액) : 1만원 -&gt; 정답: "결제 정상 진행"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 4 (카드 한도액) : 100만원 -&gt; 정답: "승인 로직 1차 통과"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 5 (한도 초과) : 101만원 -&gt; 정답: "한도 초과 에러 창"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 결론: 무한대의 경우의 수를 단 5개의 '가성비 킹' 정답지로 완벽히 커버 완료!</div></div>
+</div>
+</div>
+
+
 
 ---
 
@@ -108,7 +106,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-우리가 실무에서 작성하는 수많은 자동화된 **[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))** 코드는 사실 100% 샘플링 오라클이다.
+우리가 실무에서 작성하는 수많은 자동화된 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a>)</strong> 코드는 사실 100% 샘플링 오라클이다.
 
 ```java
 // [ 전형적인 샘플링 오라클 기반의 단위 테스트 코드 ]
@@ -182,21 +180,23 @@ void 나이_성인_판별_테스트() {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-샘플링 오라클 (Sampling Oracle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">샘플링 오라클 (Sampling Oracle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -23,7 +23,7 @@ MSA는 애플리케이션을 주문, 결제, 배송, 회원 같은 **업무 능�
 
 이 개념이 등장한 배경은 대형 모놀리식 시스템의 한계 때문이다. 처음에는 하나의 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)가 개발과 배포에 유리하지만, 기능이 늘고 팀이 커지면 빌드 시간이 길어지고, 사소한 수정에도 전체 재배포가 필요하며, 특정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)만 확장하고 싶어도 시스템 전체를 함께 키워야 한다. 클라우드와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))가 일반화되면서, 기능 단위로 더 자주 배포하고 싶은 요구가 MSA를 밀어 올렸다.
 
-즉 MSA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 잘게 쪼갠다"는 형식보다, **변화 속도가 다른 기능들을 서로의 발목을 잡지 않게 분리한다**는 목적에서 이해해야 한다. 이 목적이 없다면 단순 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 이득보다 비용이 커질 수 있다.
+즉 MSA는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 잘게 쪼갠다"는 형식보다, <strong>변화 속도가 다른 기능들을 서로의 발목을 잡지 않게 분리한다</strong>는 목적에서 이해해야 한다. 이 목적이 없다면 단순 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 이득보다 비용이 커질 수 있다.
 
 - **📢 섹션 요약 비유**: MSA는 한 건물에 모든 부서가 몰려 있는 거대한 회사 대신, 주문팀·결제팀·배송팀이 각자 독립 사무실을 두고 필요할 때만 연결되는 구조와 같다. 한 팀이 야근한다고 다른 팀까지 모두 건물 전체를 다시 열 필요가 없다.
 
@@ -43,24 +43,24 @@ MSA의 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_
 
 아래 그림은 MSA의 대표적인 구성 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                      MSA의 기본 서비스 구성도                       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client                                                              │
-│   │                                                                  │
-│   ▼                                                                  │
-│ API Gateway                                                          │
-│   ├─ Order Service   ── Order DB                                     │
-│   ├─ Payment Service ── Payment DB                                   │
-│   ├─ Delivery Service ── Delivery DB                                 │
-│   └─ User Service    ── User DB                                      │
-│                                                                      │
-│ Services communicate via REST / gRPC / Event Bus                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 원리는 두 가지다. 첫째, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단순히 코드를 나눈 것이 아니라 **배포와 장애의 경계를 나눈 것**이어야 한다. 둘째, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공유하면 결국 배포와 변경 영향도가 다시 엮이므로, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유"가 매우 중요하다. 그래서 MSA는 아키텍처와 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계, 팀 구조, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인까지 함께 바꾸는 전환이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA의 기본 서비스 구성도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Order Service ── Order DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Payment Service ── Payment DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Delivery Service ── Delivery DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ User Service ── User DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Services communicate via REST / gRPC / Event Bus</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 원리는 두 가지다. 첫째, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단순히 코드를 나눈 것이 아니라 <strong>배포와 장애의 경계를 나눈 것</strong>이어야 한다. 둘째, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공유하면 결국 배포와 변경 영향도가 다시 엮이므로, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유"가 매우 중요하다. 그래서 MSA는 아키텍처와 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계, 팀 구조, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인까지 함께 바꾸는 전환이다.
 
 - **📢 섹션 요약 비유**: MSA는 한 주방에서 모든 음식을 만드는 방식이 아니라, 피자집·초밥집·디저트 가게가 각자 자기 주방을 가지고 주문받은 뒤 한 플랫폼에서 조합해 내보내는 구조와 같다.
 
@@ -80,7 +80,7 @@ MSA를 이해하는 가장 쉬운 방법은 [모놀리식 아키텍처](/knowled
 
 또한 MSA는 [서비스 지향 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/212_soa_service_oriented_architecture_esb/) ([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), [Service-Oriented Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/362_soa_wsdl_uddi_soap/))와도 연결된다. 둘 다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분해를 지향하지만, SOA가 전사 통합과 중앙 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 무게를 두었다면 MSA는 애플리케이션 내부의 빠른 배포와 자율 팀 운영에 더 초점을 둔다. 이 때문에 MSA에서는 "스마트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)"보다 "스마트 엔드포인트"가 강조되고, [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/), [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)), [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) 같은 운영 개념이 함께 중요해진다.
 
-결국 MSA의 장점은 기능 분해 그 자체가 아니라, **변화 속도와 장애 범위를 작은 단위로 제한할 수 있다는 점**에서 나온다. 반대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 잘못되면 네트워크 왕복만 늘어난 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모놀리식이 된다.
+결국 MSA의 장점은 기능 분해 그 자체가 아니라, <strong>변화 속도와 장애 범위를 작은 단위로 제한할 수 있다는 점</strong>에서 나온다. 반대로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계가 잘못되면 네트워크 왕복만 늘어난 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모놀리식이 된다.
 
 - **📢 섹션 요약 비유**: 모놀리식이 큰 백화점 한 건물이라면, MSA는 전문점 거리다. 전문점 거리는 필요한 가게만 확장하기 좋지만, 길 안내와 물류 체계가 엉성하면 오히려 손님이 더 헤맨다.
 
@@ -104,7 +104,7 @@ MSA를 이해하는 가장 쉬운 방법은 [모놀리식 아키텍처](/knowled
 - **보류**: 팀이 작고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 단순하며 단일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 더 중요할 때는 모놀리식이 더 낫다.
 - **주의**: 공통 테이블 공유, 과도한 동기 호출, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 불명확은 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-기술사 답안에서는 "확장성이 좋다"는 장점만 쓰면 부족하다. 독립 배포의 대가로 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/), [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 운영 복잡성이 증가한다는 trade-off를 반드시 같이 적어야 한다. 즉 MSA는 구조적 해법인 동시에 **운영 자동화를 전제로 하는 선택**이다.
+기술사 답안에서는 "확장성이 좋다"는 장점만 쓰면 부족하다. 독립 배포의 대가로 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/), [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 운영 복잡성이 증가한다는 trade-off를 반드시 같이 적어야 한다. 즉 MSA는 구조적 해법인 동시에 <strong>운영 자동화를 전제로 하는 선택</strong>이다.
 
 - **📢 섹션 요약 비유**: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 도입은 책상을 여러 개로 나누는 일이 아니라, 각 책상에 전화기·문서함·업무 규칙을 따로 두는 일과 같다. 자리만 쪼개고 협업 방식은 그대로면 방만 더 복잡해진다.
 
@@ -114,9 +114,9 @@ MSA를 이해하는 가장 쉬운 방법은 [모놀리식 아키텍처](/knowled
 
 MSA가 제대로 정착되면 기능별 독립 배포, 빠른 릴리스, 선택적 확장, 조직 자율성, 장애 격리 측면에서 큰 효과를 얻을 수 있다. 특히 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 스케일아웃, [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/), [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 같은 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 잘 결합된다. 결과적으로 변화가 잦은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 비즈니스 민첩성을 높이는 데 매우 유리하다.
 
-하지만 전제조건 없이 MSA를 도입하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 복잡성만 떠안게 된다. 네트워크 장애, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 테스트 난이도, 관측성 부족은 모놀리식에서 보지 못한 새로운 문제를 만든다. 따라서 MSA는 "더 현대적인 구조"라서가 아니라, **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수명주기와 조직 운영 요구를 더 잘 반영할 수 있을 때만 가치가 있는 구조**로 기억해야 한다.
+하지만 전제조건 없이 MSA를 도입하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 복잡성만 떠안게 된다. 네트워크 장애, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 테스트 난이도, 관측성 부족은 모놀리식에서 보지 못한 새로운 문제를 만든다. 따라서 MSA는 "더 현대적인 구조"라서가 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수명주기와 조직 운영 요구를 더 잘 반영할 수 있을 때만 가치가 있는 구조</strong>로 기억해야 한다.
 
-앞으로는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/), 내부 개발 플랫폼과 결합한 형태로 계속 진화하겠지만, 핵심은 변하지 않는다. MSA의 본질은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 그 자체가 아니라 **독립적으로 바뀌어야 하는 것들을 독립적으로 다룰 수 있게 만드는 설계**다.
+앞으로는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/), [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/), 내부 개발 플랫폼과 결합한 형태로 계속 진화하겠지만, 핵심은 변하지 않는다. MSA의 본질은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 그 자체가 아니라 <strong>독립적으로 바뀌어야 하는 것들을 독립적으로 다룰 수 있게 만드는 설계</strong>다.
 
 - **📢 섹션 요약 비유**: 좋은 MSA는 여러 팀이 자기 속도로 달려도 서로 충돌하지 않게 차선을 나눠 둔 고속도로와 같다. 차선만 늘리는 것이 아니라 표지판, 관제, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)까지 같이 갖춰야 진짜 효과가 난다.
 
@@ -135,19 +135,22 @@ MSA가 제대로 정착되면 기능별 독립 배포, 빠른 릴리스, 선택�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-모놀리식 아키텍처
-    │
-    ▼
-서비스 분해 요구 증가
-    │
-    ▼
-MSA (독립 배포 · 독립 데이터)
-    │
-    ├─ API Gateway · Service Discovery
-    ├─ Event-Driven Architecture
-    └─ Saga · Observability · Platform Engineering
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">모놀리식 아키텍처</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">서비스 분해 요구 증가</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MSA (독립 배포 · 독립 데이터)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">API Gateway · Service Discovery</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Event-Driven Architecture</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Saga · Observability · Platform Engineering</div>
+</div>
+</div>
+
+
 
 이 흐름은 "거대 단일 시스템 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 → 운영 자동화와 관측성 강화"로 이어지는 MSA의 확장 방향을 보여준다.
 

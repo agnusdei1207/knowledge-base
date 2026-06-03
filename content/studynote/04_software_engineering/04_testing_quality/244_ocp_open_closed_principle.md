@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 하수들의 코딩: 새로운 요구사항이 들어오면 무조건 기존 클래스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안으로 들어가서 `if ~ else` 문을 계속 덧붙이며 코드를 뚱뚱하게 뜯어고칩니다(수정).
-- **비극**: 100번 테스트 완료된 안전한 기존 코드에 칼을 대는 행위는 100% 확률로 예상치 못한 **사이드 이펙트 버그(회귀 버그)**를 유발합니다. 확장이 두려워집니다.
+- **비극**: 100번 테스트 완료된 안전한 기존 코드에 칼을 대는 행위는 100% 확률로 예상치 못한 <strong>사이드 이펙트 버그(회귀 버그)</strong>를 유발합니다. 확장이 두려워집니다.
 
 - **📢 섹션 요약 비유**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open-Closed Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open-Closed Pri의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  OCP (Open-Closed Pri                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCP (Open-Closed Pri</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open-Closed Pri가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 - 1988년 버트란드 마이어(Bertrand Meyer)가 제안한 가장 위대한 룰입니다.
 - **Open (개방 - 확장에 열림)**: "시스템에 새로운 기능, 새로운 요구사항을 덧붙이는 것(확장)은 무한대로, 아주 쉽게 허용되어야 한다."
 - **Closed (폐쇄 - 수정에 닫힘)**: "하지만 그 새로운 기능을 덧붙일 때, **기존에 잘 돌고 있던 핵심 클래스의 코드를 단 1줄이라도 변경(수정)하는 일은 절대 일어나서는 안 된다!**"
-- **모순의 해결**: 코드를 안 고치고 어떻게 기능을 추가하냐고요? **'[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)'와 '다형성'**을 무기로 쓰면 이 마법이 100% 현실이 됩니다.
+- **모순의 해결**: 코드를 안 고치고 어떻게 기능을 추가하냐고요? <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(인터페이스)'와 '다형성'</strong>을 무기로 쓰면 이 마법이 100% 현실이 됩니다.
 
 - **📢 섹션 요약 비유**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open-Closed Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -82,9 +81,9 @@ OCP를 지키려면 무조건 216번 헥사고날의 '[포트](/knowledge-base/s
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 앞으로 배울 GoF의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 패턴, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 패턴 등 23가지 디자인 패턴의 90%는 결국 **"어떻게 하면 이 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)(기존 코드 안 고치고 무한 확장하기) 원칙을 우아하게 달성할 수 있을까?"**에 대한 피 터지는 해답지 모음집입니다.
+- 앞으로 배울 GoF의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 패턴, [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)([Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 패턴 등 23가지 디자인 패턴의 90%는 결국 <strong>"어떻게 하면 이 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a>(기존 코드 안 고치고 무한 확장하기) 원칙을 우아하게 달성할 수 있을까?"</strong>에 대한 피 터지는 해답지 모음집입니다.
 
-> 📢 **섹션 요약 비유**: **[개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/)([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))**은 스마트폰의 **'절대 분해 금지, USB-C [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 연결 법칙'**과 같습니다. 옛날 싸구려 장난감([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 코드)은 빛이 나는 기능을 추가하고 싶으면, 장난감의 나사를 다 풀고 배를 갈라서(기존 코드 뜯어고치기 수정) 전구 전선을 납땜으로 억지로 쑤셔 붙여야 했습니다. 그러다 메인보드를 건드려 장난감이 타버립니다(버그 폭발). 이를 부숴버린 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙은, 스마트폰(핵심 시스템) 제조사가 폰의 배를 영원히 절대 열지 못하게(수정에 닫힘 Closed) 아예 본드로 밀봉해버리는 것입니다. 대신 폰 밑바닥에 **'USB-C [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(인터페이스/[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'**라는 만능 콘센트 구멍을 뚫어두었습니다. 나중에 빔프로젝터 기능이든 3D 카메라 기능이든 새로운 기능이 필요해지면(확장에 열림 Open), 스마트폰 나사를 풀고 배를 가르는 멍청한 짓은 절대 하지 않습니다! 그냥 밖에서 새로운 빔프로젝터 기계를 하나 사서(새로운 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 그 기계의 선을 스마트폰 밑바닥 USB-C [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 '찰칵' 꽂아주기만 하면(다형성 연결) 기존 폰은 1%의 손상도 없이 새로운 우주 최강의 기능을 마음껏 뿜어낼 수 있게 되는 플러그 앤 플레이(Plug & Play)의 극한 예술입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/">개방-폐쇄 원칙</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a>)</strong>은 스마트폰의 <strong>'절대 분해 금지, USB-C <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>) 연결 법칙'</strong>과 같습니다. 옛날 싸구려 장난감([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 위반 코드)은 빛이 나는 기능을 추가하고 싶으면, 장난감의 나사를 다 풀고 배를 갈라서(기존 코드 뜯어고치기 수정) 전구 전선을 납땜으로 억지로 쑤셔 붙여야 했습니다. 그러다 메인보드를 건드려 장난감이 타버립니다(버그 폭발). 이를 부숴버린 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 원칙은, 스마트폰(핵심 시스템) 제조사가 폰의 배를 영원히 절대 열지 못하게(수정에 닫힘 Closed) 아예 본드로 밀봉해버리는 것입니다. 대신 폰 밑바닥에 <strong>'USB-C <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(인터페이스/<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)'</strong>라는 만능 콘센트 구멍을 뚫어두었습니다. 나중에 빔프로젝터 기능이든 3D 카메라 기능이든 새로운 기능이 필요해지면(확장에 열림 Open), 스마트폰 나사를 풀고 배를 가르는 멍청한 짓은 절대 하지 않습니다! 그냥 밖에서 새로운 빔프로젝터 기계를 하나 사서(새로운 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), 그 기계의 선을 스마트폰 밑바닥 USB-C [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 '찰칵' 꽂아주기만 하면(다형성 연결) 기존 폰은 1%의 손상도 없이 새로운 우주 최강의 기능을 마음껏 뿜어낼 수 있게 되는 플러그 앤 플레이(Plug & Play)의 극한 예술입니다.
 
 - **📢 섹션 요약 비유**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) (Open-Closed Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,21 +128,23 @@ OCP를 지키려면 무조건 216번 헥사고날의 '[포트](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-OCP (Open-Closed Principle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">OCP (Open-Closed Principle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 프레임워크에서 **관리 대상 장비(Agent)가 사전에 정의된 특정 이벤트(장애, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과, 링크 다운 등)를 감지했을 때, 매니저(NMS)의 요청(Get)을 기다리지 않고 자발적으로 즉시 전송하는 비동기식 경보 메시지**입니다.
+[SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 프레임워크에서 <strong>관리 대상 장비(Agent)가 사전에 정의된 특정 이벤트(장애, <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 초과, 링크 다운 등)를 감지했을 때, 매니저(NMS)의 요청(Get)을 기다리지 않고 자발적으로 즉시 전송하는 비동기식 경보 메시지</strong>입니다.
 
-```text
-[SNMP 명령]
-    │
-    ▼
-[SNMP Trap]
-    │
-    └──▶ [Syslog]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP 명령</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP Trap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Syslog</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,19 +45,23 @@ tags = ["studynote-network"]
 | 구분 | [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 방식 (Get / GetNext) | [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 방식 ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)) |
 |:---|:---|:---|
 | **주도권** | Manager (매니저가 물어봄) | Agent (장비가 스스로 보냄) |
-| **목적** | 평상시 트래픽, CPU 등 **주기적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집** | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 다운, 팬 고장 등 **긴급 장애 실시간 알림** |
+| **목적** | 평상시 트래픽, CPU 등 <strong>주기적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집</strong> | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 다운, 팬 고장 등 **긴급 장애 실시간 알림** |
 | **방식** | 동기식 (요청-응답) | 비동기식 ([단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통보) |
-| **[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)** | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 161 | **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 162** |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong> | [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 161 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 162</strong> |
 | **단점** | 간격(예: 1분) 사이에 발생한 1초짜리 장애를 놓칠 수 있음 | 매니저가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 제대로 받았는지 장비는 알 길이 없음 (v2c Inform으로 개선) |
 
-```text
-[SNMP 명령]
-    │
-    ▼
-[SNMP Trap]
-    │
-    └──▶ [Syslog]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP 명령</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP Trap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Syslog</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,8 +72,8 @@ tags = ["studynote-network"]
 에이전트가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 쏠 때 빈 껍데기만 쏘는 것이 아니라, 장애 상황을 설명하는 구체적인 정보(PDU)를 담아 보냅니다.
 1. **Enterprise**: 어떤 벤더([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/), Juniper 등)의 장비인지 (OID)
 2. **Agent Address**: [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 보낸 장비의 IP 주소
-3. **Generic [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Type**: 표준 경보 유형 (0: 콜드 부트, 1: 웜 부트, 2: 링크 다운, 3: 링크 업, 4: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패 등)
-4. **Specific [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Type**: 벤더 제조사가 정의한 특수 경보 유형
+3. <strong>Generic <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> Type</strong>: 표준 경보 유형 (0: 콜드 부트, 1: 웜 부트, 2: 링크 다운, 3: 링크 업, 4: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패 등)
+4. <strong>Specific <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a> Type</strong>: 벤더 제조사가 정의한 특수 경보 유형
 5. **Time Stamp**: 장비가 부팅된 후 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 발생할 때까지 걸린 시간 (언제 발생했는지)
 6. **Variable Bindings**: 현재 온도 값이나 어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 죽었는지에 대한 세부 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
@@ -84,7 +92,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 전통적인 Trap은 UDP의 특성상 매니저에게 도달했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 않습니다(Fire & Forget). 만약 네트워크 혼잡으로 [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 패킷이 유실되면 매니저는 장비가 죽은 줄도 모릅니다.
-- 이를 해결하기 위해 SNMPv2c에서 **Inform Request**가 추가되었습니다. Inform은 에이전트가 경보를 보내면, **매니저가 반드시 "잘 받았어(Response)"라고 대답**해 주어야 하며, 응답이 없으면 에이전트가 경보를 재전송하는 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)'입니다.
+- 이를 해결하기 위해 SNMPv2c에서 <strong>Inform Request</strong>가 추가되었습니다. Inform은 에이전트가 경보를 보내면, <strong>매니저가 반드시 "잘 받았어(Response)"라고 대답</strong>해 주어야 하며, 응답이 없으면 에이전트가 경보를 재전송하는 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)'입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SNMP 명령]
-    │
-    ▼
-[현재 개념: SNMP Trap]
-    │
-    ├──▶ [확장 A: Syslog]
-    └──▶ [확장 B: 자율 운영 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SNMP 명령</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMP Trap</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Syslog</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
+</div>
+</div>
+
+
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) Trap는 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령에서 출발해 현재 메커니즘을 정교화하고, 이후 Syslog와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

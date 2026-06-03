@@ -21,8 +21,8 @@ tags = ["studynote-ict-convergence"]
 
 2019년, 완벽하게 돌아가던 항공사 수요 예측 AI가 2020년 3월에 갑자기 모든 티켓 예측을 100% 틀리기 시작했다. 이유는 코로나19 때문이었다. AI는 "봄이 되면 사람들이 여행을 간다"고 과거 10년 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 배웠는데, 코로나라는 전대미문의 사건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 대격변)이 터지자 과거의 지식은 쓸모없는 쓰레기가 되었다.
 
-이처럼 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 일반 소프트웨어와 다르다. 소프트웨어 코드는 한 번 짜두면 영원히 똑같이 작동하지만, **[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 시간이 지나면 세상([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 동떨어져 무조건 부패한다.**
-이 피할 수 없는 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 부패' 현상을 **모델 드리프트(Model Drift)**라고 부르며, 이를 치료하는 유일한 백신이 바로 **재학습(Retraining)**이다.
+이처럼 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 일반 소프트웨어와 다르다. 소프트웨어 코드는 한 번 짜두면 영원히 똑같이 작동하지만, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 모델은 시간이 지나면 세상(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)과 동떨어져 무조건 부패한다.</strong>
+이 피할 수 없는 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 부패' 현상을 <strong>모델 드리프트(Model Drift)</strong>라고 부르며, 이를 치료하는 유일한 백신이 바로 <strong>재학습(Retraining)</strong>이다.
 
 - **📢 섹션 요약 비유**: 어제까지 "비트코인은 무조건 오른다"는 투자 법칙(모델)을 깨우친 주식 고수가, 오늘 아침 갑자기 발생한 전쟁 뉴스([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화)를 보지 않고 어제 법칙대로 계속 투자를 하다가 전 재산을 날려먹는 것이 모델 드리프트다.
 
@@ -32,30 +32,31 @@ tags = ["studynote-ict-convergence"]
 
 드리프트는 크게 '입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변하는 병'과 '정답의 룰 자체가 변하는 병' 두 가지로 나뉜다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│             [ 모델 드리프트의 2대 유형과 모니터링 파이프라인 ]    │
-├────────────────────────────────────────────────────────┤
-│ 1. 데이터 드리프트 (Data Drift / Covariate Shift)       │
-│    - "입력(X)의 분포가 변했다!"                             │
-│    - 과거: 주로 20대가 쇼핑몰에 옴 -> 현재: 갑자기 60대가 몰려옴   │
-│    - 모델이 한 번도 본 적 없는 데이터(60대)가 쏟아져서 당황함      │
-│                                                        │
-│ 2. 컨셉 드리프트 (Concept Drift)                        │
-│    - "정답(Y)의 법칙 자체가 변했다!"                         │
-│    - 과거: '마스크'를 검색하면 방한용 면 마스크를 샀음           │
-│    - 현재: '마스크'를 검색하면 코로나용 KF94 마스크를 삼         │
-│    - 똑같은 X(마스크 검색)가 들어와도 정답 Y가 완전히 바뀌어버림!  │
-│                                                        │
-│ 3. 모니터링 및 재학습 트리거 (Retraining Trigger)         │
-│    - PSI(Population Stability Index)나 KL 발산 지표를 사용해 │
-│      어제 데이터와 오늘 데이터의 모양이 5% 이상 틀어지면 삐용삐용! │
-│    - 알람이 울리면 사람을 안 부르고 시스템이 알아서 재학습 시작(CT) │
-└────────────────────────────────────────────────────────┘
-```
 
-1. **지속적 학습 ([Continuous Training](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/), [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))**: 모델 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)를 막는 자동화 파이프라인이다. 드리프트 알람이 울리면, 최신 1달 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어와서 모델 가중치를 다시 훈련한다. 이때 예전 지식을 너무 다 까먹게(Catastrophic Forgetting) 덮어씌우면 안 되므로 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 기법을 정교하게 쓴다.
-2. **[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) ([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))**: 재학습이 끝난 새 모델을 바로 손님에게 서비스하지 않는다. 기존 모델이 일하고 있는 뒤쪽(그림자)에 숨겨두고, 똑같은 손님 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줘보면서 "새 모델이 진짜 기존 모델보다 낫나?" 조용히 성적표를 매긴 뒤에 통과하면 교체한다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모델 드리프트의 2대 유형과 모니터링 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 드리프트 (Data Drift / Covariate Shift)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "입력(X)의 분포가 변했다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과거: 주로 20대가 쇼핑몰에 옴 -&gt; 현재: 갑자기 60대가 몰려옴</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델이 한 번도 본 적 없는 데이터(60대)가 쏟아져서 당황함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨셉 드리프트 (Concept Drift)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "정답(Y)의 법칙 자체가 변했다!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과거: '마스크'를 검색하면 방한용 면 마스크를 샀음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재: '마스크'를 검색하면 코로나용 KF94 마스크를 삼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 똑같은 X(마스크 검색)가 들어와도 정답 Y가 완전히 바뀌어버림!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 모니터링 및 재학습 트리거 (Retraining Trigger)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PSI(Population Stability Index)나 KL 발산 지표를 사용해</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어제 데이터와 오늘 데이터의 모양이 5% 이상 틀어지면 삐용삐용!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 알람이 울리면 사람을 안 부르고 시스템이 알아서 재학습 시작(CT)</div></div>
+</div>
+</div>
+
+
+
+1. <strong>지속적 학습 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">Continuous Training</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>)</strong>: 모델 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)를 막는 자동화 파이프라인이다. 드리프트 알람이 울리면, 최신 1달 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어와서 모델 가중치를 다시 훈련한다. 이때 예전 지식을 너무 다 까먹게(Catastrophic Forgetting) 덮어씌우면 안 되므로 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 기법을 정교하게 쓴다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/">섀도우 배포</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/">Shadow Deployment</a>)</strong>: 재학습이 끝난 새 모델을 바로 손님에게 서비스하지 않는다. 기존 모델이 일하고 있는 뒤쪽(그림자)에 숨겨두고, 똑같은 손님 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줘보면서 "새 모델이 진짜 기존 모델보다 낫나?" 조용히 성적표를 매긴 뒤에 통과하면 교체한다.
 
 - **📢 섹션 요약 비유**: [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)는 붕어빵 장수(모델)가 팥을 좋아하던 초등학생들만 상대하다가 갑자기 외국인 관광객들이 몰려와서 당황하는 것이고, [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)는 여전히 초등학생들이 오긴 오는데 애들이 갑자기 팥 대신 슈크림빵만 달라고 입맛(정답의 룰)이 확 바뀌어버린 현상이다.
 
@@ -70,7 +71,7 @@ tags = ["studynote-ict-convergence"]
 | **발생 원인** | 시간이 지나며 서서히 트렌드가 변함 | 전쟁, 코로나, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경 등 대격변 | 요일, 계절 등 특정 주기로 변함 |
 | **현상 예시** | 유선 이어폰 -> 무선 이어폰으로 유행 변화| 코로나 터지고 항공 수요 0으로 증발 | 겨울엔 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/), 여름엔 반팔 수요 폭발 |
 | **모니터링 난이도**| 감지하기 어려움 (가랑비에 옷 젖음) | **바로 감지됨 (에러율 수직 상승)** | 감지 쉬움 (매년 똑같이 일어남) |
-| **최적의 재학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**| **1주일, 1달 주기의 정기적 재학습(배치)** | **알람 울리면 즉시 비상 재학습 (Trigger)**| 겨울용 모델, 여름용 모델 여러 개 준비 |
+| <strong>최적의 재학습 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>| **1주일, 1달 주기의 정기적 재학습(배치)** | **알람 울리면 즉시 비상 재학습 (Trigger)**| 겨울용 모델, 여름용 모델 여러 개 준비 |
 
 현업에서 가장 무서운 것은 '점진적 드리프트(Gradual Drift)'다. 에러율이 하루에 0.01%씩 야금야금 떨어지기 때문에 모니터링 대시보드에 알람이 울리지 않는다. 6개월 뒤에 눈치챘을 때는 이미 수억 원의 매출이 날아간 뒤다.
 
@@ -82,13 +83,13 @@ tags = ["studynote-ict-convergence"]
 
 **실무 적용 시나리오:**
 신용카드 회사의 사기 결제([FDS](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/267_gnn_fraud_detection_knowledge_graph/)) 탐지 AI를 운영 중이다. 해커들은 AI를 피하기 위해 매주 새로운 사기 수법을 만들어낸다(극심한 [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)).
-[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어는 **Evidently [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)** 같은 드리프트 탐지 오픈소스를 파이프라인에 붙인다. 과거 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))의 분포와 오늘 들어온 실시간 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))의 분포를 1시간마다 비교하여 **PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/))** 점수를 잰다. PSI가 0.2를 넘어가자(드리프트 경고), 시스템은 밤 12시에 Airflow를 깨워 최근 1주일 치 해커들의 사기 패턴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹여 모델을 재학습시키고 아침 6시에 무중단으로 새 AI를 배포한다. 해커의 새로운 패턴을 하루 만에 AI가 완벽 방어해 낸다.
+[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 엔지니어는 <strong>Evidently <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong> 같은 드리프트 탐지 오픈소스를 파이프라인에 붙인다. 과거 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))의 분포와 오늘 들어온 실시간 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))의 분포를 1시간마다 비교하여 <strong>PSI (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/">Population Stability Index</a>)</strong> 점수를 잰다. PSI가 0.2를 넘어가자(드리프트 경고), 시스템은 밤 12시에 Airflow를 깨워 최근 1주일 치 해커들의 사기 패턴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹여 모델을 재학습시키고 아침 6시에 무중단으로 새 AI를 배포한다. 해커의 새로운 패턴을 하루 만에 AI가 완벽 방어해 낸다.
 
 **기술사 판단 포인트 (Trade-off):**
-재학습 아키텍처 설계 시 기술사는 **'재학습 비용([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))'과 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 인한 손실'**을 저울질해야 한다.
+재학습 아키텍처 설계 시 기술사는 <strong>'재학습 비용(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>)'과 '<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 인한 손실'</strong>을 저울질해야 한다.
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 바뀔 때마다 매시간 재학습([CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/))을 시키면 AI는 똑똑해지겠지만, 클라우드 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 서버비가 1억 원씩 터져나가 회사가 파산한다.
 2. 반대로 돈 아낀다고 1년에 한 번만 재학습하면 AI가 바보가 되어 고객이 이탈한다.
-3. 기술사는 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)를 설계할 때 무작정 "매일 밤 12시에 학습해라" 같은 멍청한 타임 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)(Time-based)을 쓰지 말고, 모델의 정확도나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 편차(PSI)가 임계치를 넘었을 때만 똑똑하게 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전원을 켜는 **이벤트 기반(Event-based) 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)**를 설계해야 MLOps의 가성비를 극대화할 수 있다.
+3. 기술사는 재학습 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)를 설계할 때 무작정 "매일 밤 12시에 학습해라" 같은 멍청한 타임 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)(Time-based)을 쓰지 말고, 모델의 정확도나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 편차(PSI)가 임계치를 넘었을 때만 똑똑하게 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 전원을 켜는 <strong>이벤트 기반(Event-based) 재학습 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a></strong>를 설계해야 MLOps의 가성비를 극대화할 수 있다.
 
 - **📢 섹션 요약 비유**: 집에 먼지가 쌓이는 것(드리프트)을 치우기 위해 청소 로봇을 돌린다. 먼지가 1톨 떨어질 때마다 매초 로봇을 돌리면 전기세([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 비용)가 폭탄을 맞는다. 현명한 집주인은 바닥에 먼지가 '1cm 두께'로 쌓였을 때만(이벤트 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 로봇의 전원을 켜서 전기세를 아끼면서도 집의 청결을 유지한다.
 

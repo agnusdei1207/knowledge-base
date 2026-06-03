@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 정형·반정형·비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원본에 가깝게 오래 보존하는 저장 계층이며, 핵심은 **저비용 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 + [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) + 컴퓨트 분리**다.
+> 1. **본질**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))는 정형·반정형·비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원본에 가깝게 오래 보존하는 저장 계층이며, 핵심은 <strong>저비용 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> + 컴퓨트 분리</strong>다.
 > 2. **가치**: 분석 목적이 바뀌어도 원본을 다시 해석할 수 있어 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 학습, 포렌식, 재처리에 강하고, [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) ([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) 기반으로 대규모 확장이 쉽다.
-> 3. **판단 포인트**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 승패는 많이 저장했는가가 아니라 **작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 계층화, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 품질, 테이블 포맷 운영**을 제대로 설계했는가에 달려 있다.
+> 3. **판단 포인트**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 승패는 많이 저장했는가가 아니라 <strong>작은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>, 계층화, <a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a> 품질, 테이블 포맷 운영</strong>을 제대로 설계했는가에 달려 있다.
 
 ---
 
@@ -43,19 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 왜 "스토리지는 싸게, 컴퓨트는 탄력적으로"라는 철학을 갖는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ Disaggregated data lake path                                │
-├──────────────────────────────────────────────────────────────┤
-│ Ingest nodes ──▶ Raw object tier ──▶ Table metadata         │
-│                     │                      │                 │
-│                     │                      ├─▶ query engines │
-│                     │                      ├─▶ batch jobs    │
-│                     │                      └─▶ AI training   │
-│                     │                                        │
-│                     └─▶ Cold archive / erasure coding        │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaggregated data lake path</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest nodes ──▶ Raw object tier ──▶ Table metadata</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ query engines</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ batch jobs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ AI training</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Cold archive / erasure coding</div></div>
+</div>
+</div>
+
+
 
 이 구조에서 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 많이 쓰이는 이유는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템보다 객체 수 확장과 내구성 관리에 유리하기 때문이다. 대신 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 너무 많아지면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 부하와 조회 지연이 커지므로, 배치 적재·컴팩션·열 지향 포맷 변환을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 정리해야 한다. 또한 복제만 고집하면 저장 효율이 나빠지므로, 대규모 환경에서는 소거 부호화 ([Erasure Coding](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/))와 수명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계하는 경우가 많다.
 
@@ -104,7 +105,7 @@ tags = ["studynote-computer-architecture"]
 
 잘 설계된 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수명 주기 전체의 유연성을 높인다. 수집 시점에는 빠르게 받아들이고, 활용 시점에는 분석 엔진을 바꿔 가며 재해석할 수 있기 때문에 새로운 분석 요구나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트에 대응하기 쉽다. 또한 컴퓨트와 스토리지를 분리하면 저장량 증가가 곧바로 고가 서버 증설로 이어지지 않아 비용 구조도 예측 가능해진다.
 
-다만 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 만능은 아니다. 강한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 짧은 응답 시간을 요구하는 온라인 거래 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 시스템에는 부적합하며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영 역량이 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스웜프 ([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))로 빠르게 타락한다. 그래서 이 아키텍처는 "많이 담는 기술"이 아니라, **원본 보존과 재해석 가능성을 중심으로 설계하는 장기 자산 관리 기술**로 기억하는 편이 정확하다.
+다만 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 만능은 아니다. 강한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 짧은 응답 시간을 요구하는 온라인 거래 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) 시스템에는 부적합하며, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영 역량이 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스웜프 ([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))로 빠르게 타락한다. 그래서 이 아키텍처는 "많이 담는 기술"이 아니라, <strong>원본 보존과 재해석 가능성을 중심으로 설계하는 장기 자산 관리 기술</strong>로 기억하는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 오늘의 질문에만 답하는 서랍이 아니라, 미래의 질문까지 대비해 원본 기록을 남겨 두는 거대한 도서관 서고와 같다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 좋으면 시간이 지날수록 더 큰 가치를 만든다.
 
@@ -122,21 +123,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-전통 파일 서버 · 스토리지 어레이
-    │
-    ▼
-하둡 분산 파일 시스템 (HDFS)
-    │
-    ▼
-오브젝트 스토리지 기반 데이터 레이크
-    │
-    ▼
-오픈 테이블 포맷 · 메타데이터 강화
-    │
-    ▼
-레이크하우스 · AI 학습 데이터 플랫폼
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 파일 서버 · 스토리지 어레이</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">하둡 분산 파일 시스템 (HDFS)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오브젝트 스토리지 기반 데이터 레이크</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오픈 테이블 포맷 · 메타데이터 강화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레이크하우스 · AI 학습 데이터 플랫폼</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장 장치 중심 사고가 원본 보존 중심 사고로 이동한 뒤, 다시 관리 질서와 분석 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 덧붙이는 방향으로 진화했음을 보여준다.
 

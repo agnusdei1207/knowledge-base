@@ -25,22 +25,19 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 지수 평균법이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 의사결정 앞단에서 어떤 역할을 하는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Burst prediction for scheduling                                    │
-├────────────────────────────────────────────────────────────────────┤
-│ actual bursts: t0, t1, t2, ...                                     │
-│              │                                                      │
-│              ▼                                                      │
-│     exponential averaging estimator                                │
-│              │                                                      │
-│              ▼                                                      │
-│ predicted next burst τ(n+1)                                        │
-│              │                                                      │
-│              ▼                                                      │
-│ SJF / SRTF-like scheduling priority                                │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Burst prediction for scheduling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual bursts: t0, t1, t2, ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">exponential averaging estimator</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">predicted next burst τ(n+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SJF / SRTF-like scheduling priority</div></div>
+</div>
+</div>
+
+
 
 예를 들어 텍스트 편집기 프로세스는 평소에는 짧은 burst를 반복하다가, 사용자가 대용량 Portable [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Format (PDF) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 출력 버튼을 누르는 순간 긴 burst로 바뀔 수 있다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 오래된 짧은 이력만 믿고 있으면 잘못된 우선순위를 계속 부여하게 된다. 지수 평균법은 이런 페이즈 변화 (Phase Change)를 조금이라도 빨리 감지하기 위해 등장한 현실적 타협이다.
 
@@ -71,17 +68,19 @@ tags = ["studynote-operating-system"]
 
 아래 예시는 프로세스가 갑자기 짧은 작업에서 긴 작업으로 바뀔 때 예측이 어떻게 따라가는지 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Phase change example (τ0 = 8 ms, α = 0.5)                          │
-├────────────────────────────────────────────────────────────────────┤
-│ actual burst t :   6   ->   7   ->   40   ->   40                  │
-│ predicted τ    :   7   ->   7   ->  23.5  ->  31.75                │
-│                                                                    │
-│ meaning: the predictor does not jump instantly,                    │
-│ but it turns toward the new trend quickly.                         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase change example (τ0 = 8 ms, α = 0.5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual burst t : 6 -&gt; 7 -&gt; 40 -&gt; 40</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">predicted τ : 7 -&gt; 7 -&gt; 23.5 -&gt; 31.75</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">meaning: the predictor does not jump instantly,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">but it turns toward the new trend quickly.</div></div>
+</div>
+</div>
+
+
 
 이 예시에서 보듯 지수 평균법은 완벽한 예언 도구가 아니다. 다만 과거를 모두 버리지 않으면서도 최근 변화를 무시하지 않는 균형점을 제공한다. 운영체제는 바로 이 "싸고 빠른 근사"를 필요로 한다.
 
@@ -102,7 +101,7 @@ tags = ["studynote-operating-system"]
 
 지수 평균법은 SJF와 SRTF를 위한 입력값 역할도 한다. SJF는 "다음 burst가 가장 짧을 것 같은 프로세스"를 먼저 선택하고, SRTF는 실행 도중에도 남은 시간이 더 짧아 보이는 작업이 오면 선점한다. 완벽한 미래 정보는 없지만, 예측값이 있으면 적어도 짧은 작업을 우대하는 방향으로 시스템을 움직일 수 있다.
 
-또한 현대 운영체제의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))도 철학적으로는 비슷하다. 공식 자체를 그대로 쓰지 않더라도, 최근에 CPU를 오래 썼는지 짧게 쓰고 I/O로 빠졌는지에 따라 우선순위를 조정한다. 즉 지수 평균법은 수식 하나를 넘어, **최근 행동을 더 믿는다**는 스케줄링 설계 원리로 확장된다.
+또한 현대 운영체제의 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))도 철학적으로는 비슷하다. 공식 자체를 그대로 쓰지 않더라도, 최근에 CPU를 오래 썼는지 짧게 쓰고 I/O로 빠졌는지에 따라 우선순위를 조정한다. 즉 지수 평균법은 수식 하나를 넘어, <strong>최근 행동을 더 믿는다</strong>는 스케줄링 설계 원리로 확장된다.
 
 - **📢 섹션 요약 비유**: 단순 평균이 오래된 성적표까지 모두 같은 비중으로 보는 담임 선생님이라면, 지수 평균법은 최근 시험 결과를 더 크게 반영하는 현실적인 평가 방식과 같다.
 
@@ -122,23 +121,26 @@ tags = ["studynote-operating-system"]
 
 아래 흐름은 `α`를 조정할 때 보는 실무 판단을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing α in practice                                             │
-├────────────────────────────────────────────────────────────────────┤
-│ need fast reaction to workload phase change?                       │
-│   ├─ yes -> raise α                                                │
-│   └─ no  -> lower α for smoother prediction                        │
-│ then verify: prediction error, fairness, starvation control        │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing α in practice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need fast reaction to workload phase change?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; raise α</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; lower α for smoother prediction</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then verify: prediction error, fairness, starvation control</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
 1. **목표가 평균 대기 시간인가, 공정성인가?** 예측값만으로 모든 스케줄링 목표를 만족할 수는 없다.
 2. **프로세스 성격이 자주 바뀌는가?** 그렇다면 `α`를 너무 낮게 두면 변화 감지가 늦어진다.
 3. **노이즈가 큰가?** 그렇다면 `α`를 너무 높이면 순간 burst에 과민 반응한다.
-4. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구현 비용이 작은가?** 공식은 단순해야 하고, 상태 유지도 가벼워야 한다.
+4. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 구현 비용이 작은가?</strong> 공식은 단순해야 하고, 상태 유지도 가벼워야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -154,9 +156,9 @@ tags = ["studynote-operating-system"]
 
 지수 평균법의 가장 큰 효과는 불가능한 미래 예측 문제를 매우 저렴한 방식으로 다룰 수 있게 해 준다는 점이다. 단 하나의 추정값만 유지하면 되므로 구현 부담이 작고, 최근 burst를 더 중시하기 때문에 짧은 작업 우대 정책을 실제 환경에 어느 정도 반영할 수 있다. 이 덕분에 평균 대기 시간 개선, 인터랙티브 작업 우대, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 판단의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보에 도움을 준다.
 
-물론 한계도 분명하다. 갑작스러운 페이즈 전환에는 오차가 생기며, 긴 작업 starvation이나 전반적인 공정성 문제는 별도 정책이 필요하다. 따라서 지수 평균법은 "정답을 알려 주는 공식"이 아니라, **최근 관측과 과거 관성을 압축해 다음 행동을 추정하는 가벼운 센서**로 이해하는 것이 정확하다.
+물론 한계도 분명하다. 갑작스러운 페이즈 전환에는 오차가 생기며, 긴 작업 starvation이나 전반적인 공정성 문제는 별도 정책이 필요하다. 따라서 지수 평균법은 "정답을 알려 주는 공식"이 아니라, <strong>최근 관측과 과거 관성을 압축해 다음 행동을 추정하는 가벼운 센서</strong>로 이해하는 것이 정확하다.
 
-정리하면 지수 평균법은 운영체제가 burst 길이를 직접 알 수 없을 때 사용하는 대표적인 현실 해법이다. 기억할 핵심은 분명하다. **최근값과 과거 추정값을 섞어 다음 burst를 예측하고, 그 섞는 비율 `α`가 반응성과 안정성을 결정한다.**
+정리하면 지수 평균법은 운영체제가 burst 길이를 직접 알 수 없을 때 사용하는 대표적인 현실 해법이다. 기억할 핵심은 분명하다. <strong>최근값과 과거 추정값을 섞어 다음 burst를 예측하고, 그 섞는 비율 <code>α</code>가 반응성과 안정성을 결정한다.</strong>
 
 - **📢 섹션 요약 비유**: 지수 평균법은 내일 날씨를 맞힐 때 오래전 계절 통계도 참고하되, 오늘 저녁 하늘빛을 더 크게 반영하는 예보 방식과 같다.
 
@@ -175,22 +177,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-future burst is unknowable
-        │
-        ▼
-observe past CPU bursts
-        │
-        ▼
-exponential averaging with recency weight α
-        │
-        ▼
-predicted next burst
-        │
-        ├──────────────▶ SJF / SRTF approximation
-        │
-        └──────────────▶ MLFQ-like recent-behavior heuristics
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">future burst is unknowable</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">observe past CPU bursts</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">exponential averaging with recency weight α</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">predicted next burst</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ SJF / SRTF approximation</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ-like recent-behavior heuristics</div>
+</div>
+</div>
+
+
 
 이 흐름도는 지수 평균법이 "미래를 모른다"는 문제에서 출발해, 과거 burst를 최근성 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 압축하고, 그 결과를 실제 스케줄링 정책의 입력값으로 사용하는 과정을 보여 준다.
 

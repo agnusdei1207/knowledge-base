@@ -26,14 +26,17 @@ tags = ["studynote-ai"]
 - **자동화된 최적화**: 수백만 번의 반복 학습 과정에서 인간을 대신해 모델의 성과를 실시간으로 평가
 - **정렬(Alignment) 달성**: AI가 인간의 도구로서 안전하고 유용하게 동작하도록 유도
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 보상 모델은 가수가 노래 연습을 할 때 옆에서 "이 부분은 감정이 부족해", "저 부분은 음정이 정확해"라고 채점해 주는 보컬 트레이너와 같다.
 
@@ -47,30 +50,31 @@ tags = ["studynote-ai"]
 |:---|:---|:---|
 | **입력 (Input)** | 프롬프트와 모델의 답변 쌍 (Prompt + Response) | 문맥을 이해해야 함 |
 | **출력 (Output)** | 단일 스칼라 점수 (Scalar Reward) | 답변의 품질을 나타내는 실수값 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋** | 인간이 두 답변 중 더 나은 것을 고른 결과 (A > B) | 상대적 선호도([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 기반 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>셋</strong> | 인간이 두 답변 중 더 나은 것을 고른 결과 (A > B) | 상대적 선호도([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)) 기반 |
 | **Bradley-Terry 모델** | 두 대상의 선호 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 지수 함수로 모델링 | 순위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환 |
 
-```text
-[ 보상 모델 학습 프로세스 (Pairwise Ranking) ]
 
-1. 데이터 준비: (프롬프트, 답변 A, 답변 B)
-2. 인간 라벨러: "A가 B보다 더 낫다" 선택 (A > B)
-3. 모델 연산: 
-   - Score_A = RM(Prompt, A)
-   - Score_B = RM(Prompt, B)
-4. 손실 함수 (Loss): 
-   - Loss = -log(σ(Score_A - Score_B)) ◀── A의 점수가 B보다 높도록 학습
 
-   ┌─────────────────────────────────────────────────┐
-   │ [Prompt] + [A] ──▶ [ Reward Model ] ──▶ Score A │
-   │                                                 │
-   │ [Prompt] + [B] ──▶ [ Reward Model ] ──▶ Score B │
-   └────────────────────────────────────────────┬────┘
-                                                ▼
-                                      Optimize: Score A > Score B
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">보상 모델 학습 프로세스 (Pairwise Ranking)</div></div>
+<div class="kb-diagram-note">1. 데이터 준비: (프롬프트, 답변 A, 답변 B)</div>
+<div class="kb-diagram-note">2. 인간 라벨러: "A가 B보다 더 낫다" 선택 (A &gt; B)</div>
+<div class="kb-diagram-note">3. 모델 연산:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Score_A = RM(Prompt, A)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Score_B = RM(Prompt, B)</div>
+<div class="kb-diagram-note">4. 손실 함수 (Loss):</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Loss = -log(σ(Score_A - Score_B)) ◀── A의 점수가 B보다 높도록 학습</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prompt</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reward Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score A</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prompt</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reward Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score B</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Optimize: Score A &gt; Score B</div>
+</div>
+</div>
 
-**핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**:
+
+
+<strong>핵심 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 - **Elo Rating**: 체스나 게임의 순위 시스템처럼 모델 답변들의 상대적 강점을 측정
 - **Preference Modeling**: 인간의 주관적 선호도를 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 공간에 매핑
 
@@ -86,7 +90,7 @@ tags = ["studynote-ai"]
 | 학습 목표 | 정답 텍스트의 다음 단어 예측 | 답변 품질에 대한 인간의 만족도 예측 |
 | 역할 | 모델의 기본 지식 및 말투 형성 | 모델의 도덕성 및 정교한 품질 정렬 |
 
-보상 모델은 이후 395번의 **[PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))** 또는 최신 기법인 **[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/))**와 연결되어 최종 모델을 최적화하는 기준이 된다.
+보상 모델은 이후 395번의 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">Proximal Policy Optimization</a>)</strong> 또는 최신 기법인 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">Direct Preference Optimization</a>)</strong>와 연결되어 최종 모델을 최적화하는 기준이 된다.
 
 - **📢 섹션 요약 비유**: SFT가 교과서를 통째로 외우는 공부라면, RM은 기출문제를 풀고 채점 기준표를 보며 출제자의 의도(인간의 가치)를 파악하는 공부다.
 
@@ -100,7 +104,7 @@ tags = ["studynote-ai"]
 3. **Over-optimization**: RM에 너무 과하게 맞추다 보면 모델의 창의성이나 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있다.
 
 ### 기술사 판단 포인트
-- 보상 모델은 단순한 채점기를 넘어 **'인간의 가치를 코드로 명문화한 것'**임을 이해해야 한다. 따라서 RM의 설계 시 보안, 윤리, 공정성 지표가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 어떻게 반영되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 체계([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance)가 동반되어야 한다.
+- 보상 모델은 단순한 채점기를 넘어 <strong>'인간의 가치를 코드로 명문화한 것'</strong>임을 이해해야 한다. 따라서 RM의 설계 시 보안, 윤리, 공정성 지표가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 어떻게 반영되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 체계([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Governance)가 동반되어야 한다.
 
 - **📢 섹션 요약 비유**: 심사위원이 "웃기기만 하면 점수를 잘 준다"는 소문이 나면 참가자들이 광대 짓만 하는(보상 해킹) 사태가 발생한다. 균형 잡힌 심사 기준(보상 설계)이 대회의 수준을 결정한다.
 

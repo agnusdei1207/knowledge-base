@@ -25,11 +25,11 @@ tags = ["studynote-algorithm"]
 C = max_{P(X)} I(X;Y)   [bits/channel use]
 ```
 
-섀넌의 **[채널 부호화 정리](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/) (Noisy [Channel Coding Theorem](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/))**:
+섀넌의 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/">채널 부호화 정리</a> (Noisy <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/">Channel Coding Theorem</a>)</strong>:
 - R < C이면: 임의로 작은 오류율 달성 가능 (부호 블록이 길면)
 - R > C이면: 오류율이 0으로 수렴 불가 (불가능)
 
-여기서 R은 **코드율 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Rate)** [bits/channel use].
+여기서 R은 <strong>코드율 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Rate)</strong> [bits/channel use].
 
 ### AWGN 채널의 섀넌-하틀리 정리
 
@@ -52,16 +52,19 @@ C = B · log₂(1 + S/N)   [bits/s]
 
 ### 채널 모델 다이어그램
 
-```
-       신호 X                   수신 신호 Y
-   ┌──────────┐   +잡음 N(0,σ²)   ┌──────────┐
-   │  송신기   │─────────────────►│  수신기   │
-   └──────────┘                   └──────────┘
-         │                              │
-    P(X) 최적화                   I(X;Y) 계산
-    ─────────────────────────────────────
-    C = max I(X;Y)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">신호 X 수신 신호 Y</div>
+<div class="kb-diagram-note">+잡음 N(0,σ²)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신기</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">수신기</div></div>
+<div class="kb-diagram-note">P(X) 최적화 I(X;Y) 계산</div>
+<div class="kb-diagram-note">C = max I(X;Y)</div>
+</div>
+</div>
+
+
 
 ### 주요 채널 모델 비교
 
@@ -71,45 +74,56 @@ C = B · log₂(1 + S/N)   [bits/s]
 | [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (이진 대칭) | 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전 | C = 1 - H(p) |
 | [BEC](/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/) (이진 소거) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) ε로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 소거 | C = 1 - ε |
 
-**[BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) (Binary Symmetric Channel, 이진 대칭 채널)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> (Binary Symmetric Channel, 이진 대칭 채널)</strong>:
 
-```
-  0 ────(1-p)──► 0
-    ╲─────p────► 1
 
-  1 ────(1-p)──► 1
-    ╲─────p────► 0
 
-C_BSC = 1 - H_b(p)   여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">0 (1-p)──► 0</div>
+<div class="kb-diagram-note">╲ p ► 1</div>
+<div class="kb-diagram-note">1 (1-p)──► 1</div>
+<div class="kb-diagram-note">╲ p ► 0</div>
+<div class="kb-diagram-note">C_BSC = 1 - H_b(p) 여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)</div>
+</div>
+</div>
 
-**[BEC](/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/) (Binary Erasure Channel, 이진 소거 채널)**:
 
-```
-  0 ──(1-ε)──► 0
-    ╲──(ε)───► ? (소거)
 
-  1 ──(1-ε)──► 1
-    ╲──(ε)───► ? (소거)
+<strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/">BEC</a> (Binary Erasure Channel, 이진 소거 채널)</strong>:
 
-C_BEC = 1 - ε
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">0 ──(1-ε)──► 0</div>
+<div class="kb-diagram-note">╲──(ε) ► ? (소거)</div>
+<div class="kb-diagram-note">1 ──(1-ε)──► 1</div>
+<div class="kb-diagram-note">╲──(ε) ► ? (소거)</div>
+<div class="kb-diagram-note">C_BEC = 1 - ε</div>
+</div>
+</div>
+
+
 
 BEC는 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) 설계에 핵심 채널 모델.
 
 ### [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) vs SNR의 트레이드오프
 
-```
-용량 C [bits/s]
-   ▲
-   │        ─ ─ ─ ─ ─   (SNR ↑)
-   │      ─ ─ ─ ─ ─
-   │    ─ ─ ─ ─ ─         B 증가: 선형 이득
-   │  ─ ─ ─ ─
-   └────────────────────► 대역폭 B [Hz]
 
-SNR 증가: 로그 이득 (수확 체감)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">용량 C</div><div class="kb-diagram-node">bits/s</div></div>
+<div class="kb-diagram-connector">▲</div>
+<div class="kb-diagram-note">─ ─ ─ ─ ─ (SNR ↑)</div>
+<div class="kb-diagram-note">─ ─ ─ ─ ─ B 증가: 선형 이득</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">► 대역폭 B</div><div class="kb-diagram-node">Hz</div></div>
+<div class="kb-diagram-note">SNR 증가: 로그 이득 (수확 체감)</div>
+</div>
+</div>
+
+
 
 - B를 2배로 → C도 약 2배 (선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
 - SNR을 2배로 → C는 1 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 증가 ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
@@ -133,7 +147,7 @@ SNR 증가: 로그 이득 (수확 체감)
 
 ### MIMO와 채널 용량
 
-**[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))** 에서 N_T 송신, N_R 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/):
+<strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">Multiple-Input Multiple-Output</a>)</strong> 에서 N_T 송신, N_R 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/):
 
 ```
 C_MIMO = Σᵢ log₂(1 + λᵢ·P/(N_T·σ²))
@@ -177,7 +191,7 @@ Massive MIMO 32×32 = 최대 32개 스트림:
 
 ## Ⅴ. 기대효과 및 결론
 
-채널 용량 이론은 **현대 무선 통신 설계의 이론적 상한**이다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/), [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 모두 섀넌 한계를 얼마나 가깝게 달성하는지를 기준으로 평가된다.
+채널 용량 이론은 <strong>현대 무선 통신 설계의 이론적 상한</strong>이다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [Wi-Fi 6E](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/158_wifi_6e/), [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/) 모두 섀넌 한계를 얼마나 가깝게 달성하는지를 기준으로 평가된다.
 
 섀넌 한계에 근접한 코드:
 1. [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) (1993, Berrou et al.)
@@ -204,24 +218,27 @@ Massive MIMO 32×32 = 최대 32개 스트림:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[신호대잡음비 (SNR, Signal-to-Noise Ratio)]
-    │
-    ▼
-[섀넌 용량 (Shannon Capacity)]
-    │
-    ▼
-[채널 부호화 (Channel Coding)]
-    │
-    ▼
-[오류 정정 (Error Correction)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">신호대잡음비 (SNR, Signal-to-Noise Ratio)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">섀넌 용량 (Shannon Capacity)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">채널 부호화 (Channel Coding)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">오류 정정 (Error Correction)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 잡음 환경에서 섀넌 용량과 채널 부호화, 오류 정정으로 발전하는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **채널 용량은 "도로 통행 한계"**: 아무리 운전을 잘해도 도로 용량 이상의 차는 보낼 수 없다.
-2. **[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 차선 수, SNR은 도로 포장 품질**: 차선이 많고 도로가 좋을수록 더 많은 차(정보)가 달린다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>은 차선 수, SNR은 도로 포장 품질</strong>: 차선이 많고 도로가 좋을수록 더 많은 차(정보)가 달린다.
 3. **MIMO는 "평행 도로 추가"**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)마다 새 도로를 하나씩 만들어 동시에 이용한다.
 
 ---

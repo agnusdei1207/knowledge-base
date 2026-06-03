@@ -23,19 +23,20 @@ tags = ["studynote-operating-system"]
 
 힙을 이해해야 하는 이유는 단순히 malloc/free를 외우기 위해서가 아니라, 주소 공간과 수명 관리가 어떻게 연결되는지 보기 위해서다. 메모리 문제는 대부분 '어디에 저장했는가'보다 '누가 언제 정리하는가'에서 시작한다.
 
-```text
-low addr
-┌────────────────────┐
-│ Text / Data        │
-├────────────────────┤
-│ Heap   →           │  grows up
-├────────────────────┤
-│ Free space         │
-├────────────────────┤
-│ Stack  ←           │  grows down
-└────────────────────┘
-high addr
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">low addr</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Text / Data</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap →</div><div class="kb-diagram-cell">grows up</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Free space</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack ←</div><div class="kb-diagram-cell">grows down</div></div>
+<div class="kb-diagram-note">high addr</div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 집 안의 서랍장은 크고 작은 물건을 임시로 넣기 편하지만, 정리하는 사람도 따로 필요하다.
 
@@ -125,18 +126,21 @@ mmap으로 받은 메모리나 공유 메모리도 넓게 보면 힙과 비슷�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-메모리 요청
-  │
-  ▼
-할당기에서 블록 확보
-  │
-  ▼
-객체 사용
-  │
-  ▼
-free / 해제 / 병합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 요청</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">할당기에서 블록 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">객체 사용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">free / 해제 / 병합</div>
+</div>
+</div>
+
+
 
 흐름의 핵심은 '할당'보다 '반납'까지 포함해야 한다는 점이다.
 

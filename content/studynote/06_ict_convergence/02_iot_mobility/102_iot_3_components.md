@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/); Internet of Things) 시스템은 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 **디바이스(Device)**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 **네트워크(Network)**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 가치를 창출하는 **플랫폼(Platform)**의 3대 구성 요소로 이루어진다.
+> 1. **본질**: [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/); Internet of Things) 시스템은 현실의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 **디바이스(Device)**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하는 **네트워크(Network)**, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석해 가치를 창출하는 <strong>플랫폼(Platform)</strong>의 3대 구성 요소로 이루어진다.
 > 2. **가치**: 이 3요소가 유기적으로 결합되어 센싱된 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 의미 있는 지능화된 정보(Intelligence)로 변환하는 'Sense-Connect-Think' 파이프라인을 완성한다.
 > 3. **판단 포인트**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 아키텍처 설계의 성패는 단순히 고성능 기기를 사는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증으로 인한 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부족이나 배터리 소모 같은 '병목 현상([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))'을 각 계층 간의 조율로 어떻게 해결하느냐에 달려 있다.
 
@@ -31,25 +31,25 @@ tags = ["studynote-ict-convergence"]
 
 IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 획득(Sense)하고, 전달(Connect)하며, 처리(Think)하는 선형적인 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 구조다. 각 구성 요소는 물리적 세계의 신호를 사이버 세계의 서비스로 변환하는 각 단계의 부담을 나눠 가진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          IoT 3-Component Core Architecture: 데이터 흐름       │
-├──────────────────────────────────────────────────────────────┤
-│ [Physical World]       [Communication]        [Cyber World]  │
-│                                                              │
-│  ( Component 1 )        ( Component 2 )       ( Component 3 )│
-│  [   Device    ]        [   Network   ]       [  Platform   ]│
-│  +-------------+        +-------------+       +-------------+│
-│  │ · Sensing   │───────▶│ · Routing   │──────▶│ · Analytics ││
-│  │ · Actuating │◀───────│ · Gateway   │◀──────│ · AI/Control││
-│  +-------------+        +-------------+       +-------------+│
-│   센서/MCU/RTOS         5G/LPWAN/MQTT         AWS/Azure/AI   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 3-Component Core Architecture: 데이터 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical World</div><div class="kb-diagram-node">Communication</div><div class="kb-diagram-node">Cyber World</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Component 1 ) ( Component 2 ) ( Component 3 )</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Device</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-node">Platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Sensing</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">· Routing</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">· Analytics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Actuating</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">· Gateway</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">· AI/Control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서/MCU/RTOS 5G/LPWAN/MQTT AWS/Azure/AI</div></div>
+</div>
+</div>
+
+
 
 - **디바이스 (Device)**: 스마트 센서와 액추에이터(Actuator)로 구성되며 임베디드 OS가 탑재된다. 주변 환경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들이고 플랫폼의 명령을 물리적 동작으로 수행한다.
 - **네트워크 (Network)**: Wi-Fi, 5G부터 저전력 장거리 통신망인 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network)까지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르고 손실 없이 목적지로 라우팅한다.
-- **플랫폼 (Platform/[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))**: 수집된 빅데이터를 저장하고, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)/AI를 통해 분석결과를 시각화하며, 외부 시스템과 연동하는 API를 제공한다.
+- <strong>플랫폼 (Platform/<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>)</strong>: 수집된 빅데이터를 저장하고, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)/AI를 통해 분석결과를 시각화하며, 외부 시스템과 연동하는 API를 제공한다.
 
 - **📢 섹션 요약 비유**: 편지 배달 시스템이다. 현장에서 편지를 쓰는 발신자(디바이스)가 우체국 배달망(네트워크)을 통해 편지를 보내면, 본부의 분석팀(플랫폼)이 내용을 읽고 지시사항을 다시 내려보낸다.
 
@@ -73,9 +73,9 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템을 설계할 때 단순 하드웨어 조립이 아닌 **병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 해결과 보안 내재화**에 집중해야 한다. 
+기술사는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시스템을 설계할 때 단순 하드웨어 조립이 아닌 <strong>병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 해결과 보안 내재화</strong>에 집중해야 한다. 
 
-예를 들어, 산불 감지 센서 수만 개를 설치할 때 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 5G망으로 플랫폼에 실시간 전송하도록 설계하면 통신비 폭탄과 배터리 방전으로 프로젝트는 실패한다. 이 경우, 산불 징후가 있을 때만 신호를 보내는 **온디바이스 엣지 처리**와 배터리로 수년간 버티는 **[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 등 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 네트워크**를 결합하는 의사결정을 내려야 한다. 
+예를 들어, 산불 감지 센서 수만 개를 설치할 때 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 5G망으로 플랫폼에 실시간 전송하도록 설계하면 통신비 폭탄과 배터리 방전으로 프로젝트는 실패한다. 이 경우, 산불 징후가 있을 때만 신호를 보내는 <strong>온디바이스 엣지 처리</strong>와 배터리로 수년간 버티는 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a> 등 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> 네트워크</strong>를 결합하는 의사결정을 내려야 한다. 
 
 또한, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 3대 구성 요소 특정 한 곳에만 적용하는 것이 아니라, 디바이스 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 네트워크 암호화, 플랫폼 접근통제 등 전체 계층에 수평적으로 적용하는 종단간 보안 아키텍처를 수립해야 한다.
 
@@ -97,34 +97,36 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) / [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/)** | 디바이스와 네트워크 레이어 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 초경량 메시징 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) ([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))** | 플랫폼의 과부하를 막기 위해 네트워크 단말이나 디바이스 가까이서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 기술 |
-| **[LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network)** | 저전력, 장거리 통신을 지원하여 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스에 최적화된 네트워크 통신망 |
-| **[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))** | 플랫폼 상에 물리적 디바이스를 똑같이 복제하여 시뮬레이션하고 최적화하는 기술 |
+| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/">MQTT</a> / <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a></strong> | 디바이스와 네트워크 레이어 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 초경량 메시징 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)</strong> | 플랫폼의 과부하를 막기 위해 네트워크 단말이나 디바이스 가까이서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 기술 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> (Low <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Wide Area Network)</strong> | 저전력, 장거리 통신을 지원하여 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스에 최적화된 네트워크 통신망 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">디지털 트윈</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/">Digital Twin</a>)</strong> | 플랫폼 상에 물리적 디바이스를 똑같이 복제하여 시뮬레이션하고 최적화하는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단순 사물 통신 (M2M)
-    │
-    ▼
-IoT 3대 구성 요소 확립 (Device - Network - Platform)
-    │
-    ▼
-경량화 프로토콜 (MQTT) 및 저전력 통신망 (LPWAN) 적용
-    │
-    ▼
-엣지 컴퓨팅 (Edge Computing) 확산 및 트래픽 분산
-    │
-    ▼
-지능형 사물인터넷 (AIoT) 및 디지털 트윈 (Digital Twin) 융합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단순 사물 통신 (M2M)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoT 3대 구성 요소 확립 (Device - Network - Platform)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">경량화 프로토콜 (MQTT) 및 저전력 통신망 (LPWAN) 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) 확산 및 트래픽 분산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지능형 사물인터넷 (AIoT) 및 디지털 트윈 (Digital Twin) 융합</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 세상은 우리 몸이 일하는 방식과 아주 똑같아요.
-2. 눈과 귀가 되어 온도와 소리를 느끼는 부분은 **디바이스**라고 불러요.
-3. 그 정보를 신경을 타고 슝 전달하는 건 **네트워크**고, 정보를 모아 "앗 뜨거워!"라고 생각하는 똑똑한 머리가 **플랫폼**이랍니다!
+2. 눈과 귀가 되어 온도와 소리를 느끼는 부분은 <strong>디바이스</strong>라고 불러요.
+3. 그 정보를 신경을 타고 슝 전달하는 건 <strong>네트워크</strong>고, 정보를 모아 "앗 뜨거워!"라고 생각하는 똑똑한 머리가 <strong>플랫폼</strong>이랍니다!
 
 ---
 

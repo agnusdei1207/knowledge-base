@@ -21,43 +21,36 @@ tags = ["algorithm_stats"]
 
 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Randomized [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1970년대 Yuri N. Fedor, Michael Rabin 등의 연구를 통해 컴퓨터 과학의 주요 분야로 자리 잡았다. 전통적인 결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 동일한 입력에 대해 항상 동일한 동작과 결과를 내놓는 반면, 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)에 영향을 받아 동일한 입력이라도 실행할 때마다 다른 경로를 탐색할 수 있다. 이러한 무작위성의 도입이 오히려 평균적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이나 구현의 단순함을 제공한다.
 
-랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요한 이유는 크게 두 가지이다. 첫째, **결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 더 단순하거나 더 빠른 경우가 많다**는 것이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 피벗을 랜덤하게 선택하면 평균적으로 O(N log N)을 보장하는 매우 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만들 수 있다. 둘째, **적대적 입력(Adversarial Input)에 강건하다**는 것이다. 결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 최악의 입력을 specially 설계되어 공격받을 수 있는 반면, 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 입력이 아무리 나쁘더라도 평균적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장된다.
+랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요한 이유는 크게 두 가지이다. 첫째, <strong>결정론적 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 더 단순하거나 더 빠른 경우가 많다</strong>는 것이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 피벗을 랜덤하게 선택하면 평균적으로 O(N log N)을 보장하는 매우 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만들 수 있다. 둘째, <strong>적대적 입력(Adversarial Input)에 강건하다</strong>는 것이다. 결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 최악의 입력을 specially 설계되어 공격받을 수 있는 반면, 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 입력이 아무리 나쁘더라도 평균적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장된다.
 
 > 이 도식은 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 두 가지 유형을 보여준다.
 
-```text
-[랜덤화 알고리즘의 두 가지 유형]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [1] 라스베이거스 알고리즘 (Las Vegas Algorithm) │
-│ ──────────────────────────────────── │
-│ - 항상 정확한 해를 반환 (정확성 100% 보장) │
-│ - 실행 시간이 무작위성에 따라 달라짐 │
-│ - 예: 퀵 정렬 (피벗 랜덤 선택) │
-│ → 항상 올바르게 정렬 │
-│ → 실행 시간은 피벗 선택에 따라 변동 │
-│ │
-│ [2] 몬테카를로 알고리즘 (Monte Carlo Algorithm) │
-│ ──────────────────────────────────── │
-│ - 실행 시간이 고정 (또는 제한적) │
-│ - 해의 정확도가 확률적 (정확하지 않을 수 있음) │
-│ - 예: Miller-Rabin 소수 판별 │
-│ → 빠르게 소수 여부 판정 │
-│ → 극히 낮은 확률로 오판정 가능 │
-│ │
-│ [핵심 비교] │
-│ ──────────────────────────────────── │
-│ ┌──────────┬───────────────┬───────────────┐ │
-│ │ 유형 │ 정확성 │ 실행 시간 │ │
-│ ├──────────┼───────────────┼───────────────┤ │
-│ │ Las Vegas │ 100% 정확 │ 확률적 │ │
-│ │ Monte Carlo│ 확률적 정확 │ 결정적 │ │
-│ │ Determinis│ 100% 정확 │ 결정적 │ │
-│ └──────────┴───────────────┴───────────────┘ │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜덤화 알고리즘의 두 가지 유형</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">라스베이거스 알고리즘 (Las Vegas Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 항상 정확한 해를 반환 (정확성 100% 보장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실행 시간이 무작위성에 따라 달라짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: 퀵 정렬 (피벗 랜덤 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 항상 올바르게 정렬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실행 시간은 피벗 선택에 따라 변동</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">몬테카를로 알고리즘 (Monte Carlo Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실행 시간이 고정 (또는 제한적)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해의 정확도가 확률적 (정확하지 않을 수 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: Miller-Rabin 소수 판별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 빠르게 소수 여부 판정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 극히 낮은 확률로 오판정 가능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형</div><div class="kb-diagram-cell">정확성</div><div class="kb-diagram-cell">실행 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Las Vegas</div><div class="kb-diagram-cell">100% 정확</div><div class="kb-diagram-cell">확률적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monte Carlo</div><div class="kb-diagram-cell">확률적 정확</div><div class="kb-diagram-cell">결정적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Determinis</div><div class="kb-diagram-cell">100% 정확</div><div class="kb-diagram-cell">결정적</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 "무작위성이 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 단순성을 높인다"는 반직관적 결론이다.
 - **원인**: 무작위성은 worst-case 시나리오가 발생하는 확률을 극적으로 낮추기 때문이다.
@@ -70,37 +63,32 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 원리는 **[기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)(E[값])** 분석이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 평균적으로의인지를 수학적으로 분석하며, 이는 확률론적 분석을 필요로 한다. 대표적인 예로 **랜덤 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)**과 **[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 랜덤화**가 있다.
+랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 원리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/">기댓값</a>(E[값])</strong> 분석이다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 평균적으로의인지를 수학적으로 분석하며, 이는 확률론적 분석을 필요로 한다. 대표적인 예로 <strong>랜덤 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a></strong>과 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a>의 랜덤화</strong>가 있다.
 
-**랜덤 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)**에서 피벗을 랜덤하게 선택하면, 입력 데이터의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순서에 관계없이 평균적으로 O(N log N) 복잡도를 보장한다. 이것은 결정론적 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 특정 입력에 대해 O(N²)가 될 수 있는 것에 비해 장점이다.
+<strong>랜덤 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a></strong>에서 피벗을 랜덤하게 선택하면, 입력 데이터의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순서에 관계없이 평균적으로 O(N log N) 복잡도를 보장한다. 이것은 결정론적 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 특정 입력에 대해 O(N²)가 될 수 있는 것에 비해 장점이다.
 
-```text
-[랜덤 퀵 정렬의 확률적 분석]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [결정론적 vs 랜덤 퀵 정렬 비교] │
-│ ──────────────────────────────────── │
-│ │
-│ 결정론적 QuickSort (피벗 = 첫 번째 원소): │
-│ - 이미 정렬된 입력에서 O(N²) │
-│ - 적대적 사용자가 항상 최악 입력 가능 │
-│ │
-│ 랜덤 QuickSort (피벗 = 랜덤 선택): │
-│ - 임의의 입력에 대해 평균 O(N log N) │
-│ - 피벗이 매번 최악의 위치일 확률: P = 2/N │
-│ - 이 확률이 낮으므로 O(N²)에 도달할 가능성이 극히 낮음│
-│ │
-│ [기댓값 분석] │
-│ ──────────────────────────────────── │
-│ E[T(N)] = (N-1) + (1/N) Σᵢ₌₀ᴺ⁻¹ [E[T(i)] + E[T(N-i-1)]]
-│ ≈ 1.386N log₂N │
-│ │
-│ → 정확히 O(N log N)의 상수배 │
-│ → 심지어 정렬된 입력에서도 동일한 성능! │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜덤 퀵 정렬의 확률적 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정론적 vs 랜덤 퀵 정렬 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정론적 QuickSort (피벗 = 첫 번째 원소):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이미 정렬된 입력에서 O(N²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 적대적 사용자가 항상 최악 입력 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤 QuickSort (피벗 = 랜덤 선택):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임의의 입력에 대해 평균 O(N log N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 피벗이 매번 최악의 위치일 확률: P = 2/N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 확률이 낮으므로 O(N²)에 도달할 가능성이 극히 낮음</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기댓값 분석</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">T(N)</div><div class="kb-diagram-note">= (N-1) + (1/N) Σᵢ₌₀ᴺ⁻¹ [E</div><div class="kb-diagram-node">T(i)</div><div class="kb-diagram-note">+ E</div><div class="kb-diagram-node">T(N-i-1)</div><div class="kb-diagram-note">]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">≈ 1.386N log₂N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정확히 O(N log N)의 상수배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 심지어 정렬된 입력에서도 동일한 성능!</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 랜덤 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 실제 데이터에서 거의 항상 O(N log N)에 동작하며, 심지어 이미 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서도 마찬가지이다.
 - **원인**: 피벗이 랜덤이므로 입력의 순서가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 미치지 않기 때문이다.
@@ -113,26 +101,27 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실무 적용은 광범위한 영역에서 나타난다. **[암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 두 개의 큰 소수를 랜덤하게 선택하며, 이 무작위성의 보안성이 전체 시스템의 보안을/를좌우한다. **[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)**: 체이닝에서 해시 함수를 랜덤하게 선택하는 универсал 해싱은 특정 키들이 모두 동일한 버킷에 모이는 것을 방지한다. **[근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)**: Monte Carlo분에서 난수 샘플링을 통해 적으로 추정한다.
+랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실무 적용은 광범위한 영역에서 나타난다. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">암호학</a></strong>: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 두 개의 큰 소수를 랜덤하게 선택하며, 이 무작위성의 보안성이 전체 시스템의 보안을/를좌우한다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a></strong>: 체이닝에서 해시 함수를 랜덤하게 선택하는 универсал 해싱은 특정 키들이 모두 동일한 버킷에 모이는 것을 방지한다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/">근사 알고리즘</a></strong>: Monte Carlo분에서 난수 샘플링을 통해 적으로 추정한다.
 
-**랜덤 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 구현**에서 피벗을 랜덤하게 선택하는 것만으로 결정론적 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 O(N²)가 발생할 가능성이 크게 줄어든다.
+<strong>랜덤 <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a> 구현</strong>에서 피벗을 랜덤하게 선택하는 것만으로 결정론적 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 O(N²)가 발생할 가능성이 크게 줄어든다.
 
-```text
-[랜덤 퀵 정렬 의사코드]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ function randomized_quicksort(A, low, high): │
-│ if low < high: │
-│ pivot_index = random(low, high) │
-│ pivot = A[pivot_index] │
-│ swap(A[pivot_index], A[high]) │
-│ partition_index = partition(A, low, high) │
-│ randomized_quicksort(A, low, partition_index - 1)
-│ randomized_quicksort(A, partition_index + 1, high)
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜덤 퀵 정렬 의사코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function randomized_quicksort(A, low, high):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if low &lt; high:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pivot_index = random(low, high)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">pivot = A</div><div class="kb-diagram-node">pivot_index</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">swap(A</div><div class="kb-diagram-node">pivot_index</div><div class="kb-diagram-note">, A</div><div class="kb-diagram-node">high</div><div class="kb-diagram-note">)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition_index = partition(A, low, high)</div></div>
+<div class="kb-diagram-note">randomized_quicksort(A, low, partition_index - 1)</div>
+<div class="kb-diagram-note">randomized_quicksort(A, partition_index + 1, high)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 길게 늘어진 차선 중 어디로 갈지 고르는 driver와 같습니다. 결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "항상 오른쪽 차선"을 고수하지만, 랜덤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "매번 무작위로 차선 선택"하여 교통 체증 가능성을 크게 줄입니다.
 
@@ -140,9 +129,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 품질 관리에서 가장 중요한 것은 **[난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)의품질**과 **확률적 분석의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**이다. 예측 가능한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)를 사용하면 보안 관련 응용에서 공격에 노출될 수 있다.
+랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 품질 관리에서 가장 중요한 것은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>의품질</strong>과 <strong>확률적 분석의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이다. 예측 가능한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)를 사용하면 보안 관련 응용에서 공격에 노출될 수 있다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 보안 관련 응용에서는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))를 사용해야 한다. [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석의 가정(난수의 균등 분포)이 실제 구현에서도 유지되는지 확인해야 한다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 보안 관련 응용에서는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))를 사용해야 한다. [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석의 가정(난수의 균등 분포)이 실제 구현에서도 유지되는지 확인해야 한다.
 
 📢 **섹션 요약 비유**: 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 품질 관리는 casino의 주사위 품질 관리와 같습니다. 주사위가 완전히하지 않으면([난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 게이머가 규칙을 깨고 이익을 취할 수 있어, 주사위의 완전이/가 casino 운영의근본입니다.
 
@@ -150,7 +139,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최신 동향은 **양자 랜덤화([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Randomness)**이다. 양자 컴퓨터에서는 양자역학적 불확정성을활용한의 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)가되어, 이론적으로 예측 불가능한 완전을/를제공할 수 있다.
+랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 최신 동향은 <strong>양자 랜덤화(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> Randomness)</strong>이다. 양자 컴퓨터에서는 양자역학적 불확정성을활용한의 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)가되어, 이론적으로 예측 불가능한 완전을/를제공할 수 있다.
 
 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 컴퓨터 과학의 가장 실용적인 도구 중 하나이다. 구현이 단순하고 성능이 우수하며, 적대적 입력에 강건하다는 점에서 많은 표준 라이브러리에서 채택되고 있다. 기술사 시험에서는 Las Vegas와 Monte Carlo의, 랜덤 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 분석을 검증한다.
 
@@ -160,28 +149,24 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[랜덤화 알고리즘 (Randomized Algorithm) 핵심 개념 맵]
 
-┌─────────────────────────────────┐
-│ 랜덤화 알고리즘 (Randomized Algorithm) │
-└────────────────┬────────────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 두 가지 유형 │ │ 대표 사례 │ │ 핵심 장점 │
-│ Two Types │ │ Examples │ │ Advantages │
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ Las Vegas │ │ 랜덤 퀵 정렬 │ │ 구현 단순성 │
-│ (정확+확률적 │ │ Miller-Rabin │ │ 평균 성능 우수 │
-│ 실행시간) │ │ Skip List │ │ 적대적 입력 │
-│ Monte Carlo │ │ Universal │ │ 강건성 │
-│ (확률적 정확+ │ │ Hashing │ │ │
-│ 고정 시간) │ │ RSA 키 생성 │ │ │
-└──────────────┘ └──────────────┘ └──────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜덤화 알고리즘 (Randomized Algorithm) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤화 알고리즘 (Randomized Algorithm)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 가지 유형</div><div class="kb-diagram-cell">대표 사례</div><div class="kb-diagram-cell">핵심 장점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two Types</div><div class="kb-diagram-cell">Examples</div><div class="kb-diagram-cell">Advantages</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Las Vegas</div><div class="kb-diagram-cell">랜덤 퀵 정렬</div><div class="kb-diagram-cell">구현 단순성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정확+확률적</div><div class="kb-diagram-cell">Miller-Rabin</div><div class="kb-diagram-cell">평균 성능 우수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행시간)</div><div class="kb-diagram-cell">Skip List</div><div class="kb-diagram-cell">적대적 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monte Carlo</div><div class="kb-diagram-cell">Universal</div><div class="kb-diagram-cell">강건성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확률적 정확+</div><div class="kb-diagram-cell">Hashing</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 시간)</div><div class="kb-diagram-cell">RSA 키 생성</div></div>
+</div>
+</div>
+
+
 
 
 
@@ -191,27 +176,29 @@ tags = ["algorithm_stats"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **라스베이거스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Las Vegas [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 항상 정확한 해를 반환하되 실행 시간이 확률적으로 결정되는 유형 |
-| **몬테카를로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Monte Carlo [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))** | 고정된 시간 내에 확률적 정확도로 해를 반환하는 유형 |
-| **[CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/) (Cryptographically Secure Pseudorandom Number Generator)** | 보안 응용에서 반드시 사용해야 하는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) |
+| <strong>라스베이거스 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Las Vegas <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 항상 정확한 해를 반환하되 실행 시간이 확률적으로 결정되는 유형 |
+| <strong>몬테카를로 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Monte Carlo <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong> | 고정된 시간 내에 확률적 정확도로 해를 반환하는 유형 |
+| <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/">CSPRNG</a> (Cryptographically Secure Pseudorandom Number Generator)</strong> | 보안 응용에서 반드시 사용해야 하는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적으로 안전한 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[결정론적 알고리즘 (Deterministic Algorithm) — 동일 입력 → 동일 출력]
-│
-▼
-[랜덤화 알고리즘 (Randomized Algorithm) — 무작위성 도입으로 평균 성능 향상]
-│
-▼
-[라스베이거스 (Las Vegas) vs 몬테카를로 (Monte Carlo) — 정확성/시간 트레이드오프]
-│
-▼
-[확률적 분석 (Probabilistic Analysis) — 기댓값 E[T(N)] 기반 성능 보장]
-│
-▼
-[양자 랜덤화 (Quantum Randomness) — 양자역학적 불확정성을 활용한 진정한 난수]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">결정론적 알고리즘 (Deterministic Algorithm) — 동일 입력 → 동일 출력</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜덤화 알고리즘 (Randomized Algorithm) — 무작위성 도입으로 평균 성능 향상</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">라스베이거스 (Las Vegas) vs 몬테카를로 (Monte Carlo) — 정확성/시간 트레이드오프</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">[확률적 분석 (Probabilistic Analysis) — 기댓값 E</div><div class="kb-diagram-node">T(N)</div><div class="kb-diagram-note">기반 성능 보장]</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양자 랜덤화 (Quantum Randomness) — 양자역학적 불확정성을 활용한 진정한 난수</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 결정론적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계에서 출발하여 무작위성을 도입한 랜덤화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 등장하고, 확률론적 분석으로 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장하며, 양자 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 진화하는 과정을 보여준다.
 

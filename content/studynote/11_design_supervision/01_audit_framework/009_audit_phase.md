@@ -29,32 +29,26 @@ tags = ["design_supervision"]
 
 다음 다이어그램은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 구조와 단계의 주요 업무 내용을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [3단계 감리 체계 도식] │
-│ │
-│ [사업 Lifecycle] │
-│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌───┐ │
-│ │ 요구정의 │───▶│ 설계 │───▶│ 종료 │───▶│운영│ │
-│ └────┬────┘ └────┬────┘ └────┬────┘ └───┘ │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
-│ │요구정의 │ │ 설계 │ │ 종료 │ │
-│ │ 감리 │ │ 감리 │ │ 감리 │ │
-│ └────┬────┘ └────┬────┘ └────┬────┘ │
-│ │ │ │ │
-│ │ 단계 │ 단계 │ │
-│ └──────┬──────┴──────┬──────┘ │
-│ │ Feed-Forward & Feedback │
-│ ▼ │
-│ [최종 시스템 품질 확보] │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">3단계 감리 체계 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사업 Lifecycle</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구정의</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">설계</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">종료</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">운영</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구정의</div><div class="kb-diagram-cell">설계</div><div class="kb-diagram-cell">종료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리</div><div class="kb-diagram-cell">감리</div><div class="kb-diagram-cell">감리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계</div><div class="kb-diagram-cell">단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feed-Forward &amp; Feedback</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 시스템 품질 확보</div></div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은 단계 감리가 독립적으로 존재하는 것이 아니라, 단계 감리의 결과가 단계에 Feed-Forward(전진 전달)되고, 단계에서 발견된 문제가 단계로 Feedback(피드백)되는 연속적 피드백 구조를형성한다는 점이다. 이 구조를 통해 문제의 조기 발견과 재발 방지가 가능해진다.
 
-📢 **섹션 요약 비유**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 **'건물 건축의 3단계 검사'**와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(요구정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 완료 후 문제을 방지합니다.
+📢 **섹션 요약 비유**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 <strong>'건물 건축의 3단계 검사'</strong>와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(요구정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 완료 후 문제을 방지합니다.
 
 ---
 
@@ -72,40 +66,35 @@ tags = ["design_supervision"]
 
 감리 단계별 문제가 subsequent 단계에 미치는 영향도를 분석한 도식이다.
 
-```text
-[단계별 문제 전파 영향도 분석]
-
-■ 요구정의 단계 문제 (예: 핵심 요구사항 누락)
-│
-├─► 설계 단계: 해당 요구사항을 설계하지 않음
-│ └─► 구현 단계: 기능 자체가에서
-│ └─► 종료 감리: 대 재작업 필요 or 감리 불합격
-│
-[영향 범위: 전체 시스템]
-[수정 비용: 10x (가장 )]
 
 
-■ 설계 단계 문제 (예: 비효율적 DB 구조)
-│
-├─► 구현 단계: 비효율적 구조로 구현
-│ └─► 종료 감리: 성능 저하, 재설계 필요
-│
-[영향 범위: 해당 모듈 + 연관 시스템]
-[수정 비용: 5x ()]
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">단계별 문제 전파 영향도 분석</div></div>
+<div class="kb-diagram-note">■ 요구정의 단계 문제 (예: 핵심 요구사항 누락)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">설계 단계: 해당 요구사항을 설계하지 않음</div>
+<div class="kb-diagram-note">─► 구현 단계: 기능 자체가에서</div>
+<div class="kb-diagram-note">─► 종료 감리: 대 재작업 필요 or 감리 불합격</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영향 범위: 전체 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수정 비용: 10x (가장 )</div></div>
+<div class="kb-diagram-note">■ 설계 단계 문제 (예: 비효율적 DB 구조)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">구현 단계: 비효율적 구조로 구현</div>
+<div class="kb-diagram-note">─► 종료 감리: 성능 저하, 재설계 필요</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영향 범위: 해당 모듈 + 연관 시스템</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수정 비용: 5x ()</div></div>
+<div class="kb-diagram-note">■ 종료 단계 문제 (예: 화면 UI 불일치)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">운영 단계: 사용 불편, 수정 요청</div>
+<div class="kb-diagram-tree-item" style="--depth:0">유지보수 비용 발생</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영향 범위: 해당 화면 only</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수정 비용: 1x (가장 )</div></div>
+</div>
+</div>
 
 
-■ 종료 단계 문제 (예: 화면 UI 불일치)
-│
-└─► 운영 단계: 사용 불편, 수정 요청
-└─► 유지보수 비용 발생
-│
-[영향 범위: 해당 화면 only]
-[수정 비용: 1x (가장 )]
-```
 
 이 분석의 핵심은 단계에서 발견된 문제일수록 영향 범위가이고 수정 비용이 큼다는 점이다. 요구정의 단계의 작은 누락이 종료 단계에서는 엄청난 수정 비용으로 이어질 수 있으므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 감리의이/가.
 
-📢 **섹션 요약 비유**: 단계별 문제의 증폭 효과는 **'종이접기 실수'**와 같습니다. 첫 번째 접을 잘못 접으면 그 오차가 열 번 접었을 때 엄청나게커지고,에는이 완전히 망가집니다. 가장 작은 실수를 earliest 단계에서 잡아내는 것이 핵심입니다.
+📢 **섹션 요약 비유**: 단계별 문제의 증폭 효과는 <strong>'종이접기 실수'</strong>와 같습니다. 첫 번째 접을 잘못 접으면 그 오차가 열 번 접었을 때 엄청나게커지고,에는이 완전히 망가집니다. 가장 작은 실수를 earliest 단계에서 잡아내는 것이 핵심입니다.
 
 ---
 
@@ -113,7 +102,7 @@ tags = ["design_supervision"]
 
 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계와 다른 형태의 감리([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리, 상주 감리 등)와의 관계를 분석해보자.
 
-**[3단계 감리 vs [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)/상주 감리 비교]**
+<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">3단계 감리 vs [애자일</a>/상주 감리 비교]</strong>
 
 | 구분 | [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) (전통적) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | 상주 감리 |
 |:---|:---|:---|:---|
@@ -125,25 +114,24 @@ tags = ["design_supervision"]
 
 이러한 다양한 감리 주기를 상호 보완적으로 활용하는 을 살펴보면 다음과 같다.
 
-```text
-[Hybrid 감리 모델: 3단계 + 스프린트 감리 융합]
 
-[프로젝트 전체 Timeline]
 
-│─ 요구정의 ─│─── 설계 ───┤────── 구현 ───────┤── 종료
-│ │ │ │ │ │
-│ ▼ ▼ │ │ ▼
-│ [요구정의] [설계감리] │ [스프린트 감리] [종료감리]
-│ 심층점검 심층점검 │ 각 스프린트 후 전체 종합
-│ │ │ │ │ │
-└────┼─────────┼──────────┴────────┼──────────┴──────
-│ │ │ │
-└─────────┴── 피드백 채널 ───┴──────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Hybrid 감리 모델: 3단계 + 스프린트 감리 융합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">프로젝트 전체 Timeline</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 요구정의 ─</div><div class="kb-diagram-cell">설계 구현 ── 종료</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">요구정의</div><div class="kb-diagram-node">설계감리</div><div class="kb-diagram-node">스프린트 감리</div><div class="kb-diagram-node">종료감리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">심층점검 심층점검</div><div class="kb-diagram-cell">각 스프린트 후 전체 종합</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">── 피드백 채널</div>
+</div>
+</div>
+
+
 
 이 Hybrid 모델의 핵심은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 체계성과 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리의성을 모두 확보하는 것이다. 대규모 요구정의와 설계에는 충분한 시간과 인력을 투입하여 심층 감리를 실시하고, 구현 단계에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위로 잦은 감리를 통해 문제을 즉시 발견하고 조치한다.
 
-📢 **섹션 요약 비유**: Hybrid 감리 모델은 **'자동차 제조의 품질 관리'**와 같습니다. 엔진 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다하게검사하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 완료 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 단계에 적절한 검증을 적용합니다.
+📢 **섹션 요약 비유**: Hybrid 감리 모델은 <strong>'자동차 제조의 품질 관리'</strong>와 같습니다. 엔진 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다하게검사하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 완료 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 단계에 적절한 검증을 적용합니다.
 
 ---
 
@@ -155,7 +143,7 @@ tags = ["design_supervision"]
 * **상황**: 사업자가 "이미 충분한 사전를 거쳤고, 요구사항이 명확하다"고 주장하며 요구정의 감리를 생략하자고 한다.
 * **기술사적 판단**: 요구정의 감리의 생략은 바람직하지 않다. 요구정의 감리에서 발견되는 문제(요구사항 누락, 중복, 모호함 등)는 이후 모든 단계에 전파되어 프로젝트 전체의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 높인다. 특히 계약 체결 전인 요구정의 단계에서 문제를 발견하면 사업자에게수정을 요구할 수 있지만, 계약이 체결된 후에는 변경 비용이 발생한다. , 요구정의 감리는 프로젝트가 본격화되기 전에 필수적으로 수행되어야 하며, 이를 생략하면 프로젝트overall의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 크게 증가한다.
 
-**2. 단계별 지적 판단: "같은 종류의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 여러 단계에서 반복됩니다"**
+<strong>2. 단계별 지적 판단: "같은 종류의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>이 여러 단계에서 반복됩니다"</strong>
 * **상황**: 요구정의 단계에서 "요구사항 추적 미흡"을 지적받았는데, 설계 감리에서도 같은 항목을 다시 지적받았다.
 * **기술사적 판단**: 이것은 단계 감리 지적 사항이 제대로 조치되지 않았음을。감리인은 2단계 감리에서 단계 지적 사항의 조치 여부를 반드시 확인해야 한다. 단계 지적이 제대로 조치되지 않았다면, 그것 자체가 Major 지적 대상이 된다. 또한 동일한 문제가 여러 단계에서 반복되는 것은 해당 사업자의 프로세스 자체에 체계적문제가 있을 가능성이 높으므로, 제도적 개선을 권고해야 한다.
 
@@ -163,21 +151,27 @@ tags = ["design_supervision"]
 * **상황**: 피감리인이 "테스트가 완전히 끝나지 않았으니 종료 감리를 조금 늦춰달라"고 요청한다.
 * **기술사적 판단**: 감리 단계는 프로젝트와 연동되므로,한 일정 변경은에영향을 미친다. 그러나 테스트의완결성은 종료 감리의 핵심 선행 조건이므로, 충분한 논의가 필요하다. 감리인은 "종료 감리의 전제 조건으로서 테스트 완결성이 어느 정도 수준이어야 하는지"를 명확히 하고, 만약 그 수준에 미치지 못한다면 종료 감리 연기보다는 테스트완결을 위한 가이드를 제공하는 것이 더 적절한 대응이다.
 
-```text
-[종료 감리 선행 조건 확인 ]
-1. 단위 테스트 완료율 100% ?
-2. 통합 테스트 완료 ?
-3. 시스템 테스트 완료 ?
-4. 성능 테스트 (TPS, 응답시간) 목표 달성 ?
-5. 보안 취약점 조치 완료 ?
-6. 데이터 마이그레이션 검증 완료 ?
-→ 전부 Yes: 종료 감리 실시
-→ 일부 No: 미완료 항목에 따라 연기 or 조건부 감리 결정
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 감리 선행 조건 확인</div></div>
+<div class="kb-diagram-note">1. 단위 테스트 완료율 100% ?</div>
+<div class="kb-diagram-note">2. 통합 테스트 완료 ?</div>
+<div class="kb-diagram-note">3. 시스템 테스트 완료 ?</div>
+<div class="kb-diagram-note">4. 성능 테스트 (TPS, 응답시간) 목표 달성 ?</div>
+<div class="kb-diagram-note">5. 보안 취약점 조치 완료 ?</div>
+<div class="kb-diagram-note">6. 데이터 마이그레이션 검증 완료 ?</div>
+<div class="kb-diagram-note">→ 전부 Yes: 종료 감리 실시</div>
+<div class="kb-diagram-note">→ 일부 No: 미완료 항목에 따라 연기 or 조건부 감리 결정</div>
+</div>
+</div>
+
+
 
 이 판단 플로우의 핵심은 종료 감리의 선행 조건이에 정의되어 있어야 한다는 점이다. 조건 미달 시한 연기가 아닌, 구체적인 개선 방안을 제시하는 것이 감리인의 역할이다.
 
-📢 **섹션 요약 비유**: 단계별 지적의 확인은 **'교사의 학습지도'**와 같습니다. 1학기 중간고사에서 "역사 인물 연표 암기 부족"을 지적받고, 기말고사에서도 같은 항목을 다시 지적받았다면, 그 학생은 공부 방법 자체에문제가 있는 것입니다. 교사는 단순히 채점하는 것이 아니라, 학습 방법을 지도해야 하듯이, 감리인도 재발 방지를 위한 프로세스 개선을Guidance해야 합니다.
+📢 **섹션 요약 비유**: 단계별 지적의 확인은 <strong>'교사의 학습지도'</strong>와 같습니다. 1학기 중간고사에서 "역사 인물 연표 암기 부족"을 지적받고, 기말고사에서도 같은 항목을 다시 지적받았다면, 그 학생은 공부 방법 자체에문제가 있는 것입니다. 교사는 단순히 채점하는 것이 아니라, 학습 방법을 지도해야 하듯이, 감리인도 재발 방지를 위한 프로세스 개선을Guidance해야 합니다.
 
 ---
 
@@ -188,14 +182,14 @@ tags = ["design_supervision"]
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
 | **단계별문제 조기 발견** | 단계에서 문제를 발견하여 증폭방지 | 요구정의 단계 발견 30% 이상 |
-| **프로젝트 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소** | 단계별 감리로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 누적되기 전에 조치 | 프로젝트 실패율 20% 이상 감소 |
+| <strong>프로젝트 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 감소</strong> | 단계별 감리로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 누적되기 전에 조치 | 프로젝트 실패율 20% 이상 감소 |
 | **책임 소재 명확화** | 단계별 감리로 문제 책임시기/담당자 명확 | 분쟁 건수 40% 이상 감소 |
 | **프로젝트 성숙도 향상** | 단계별 피드백으로 사업자 프로세스 개선 | 사업자 자체 품질 관리 수준 향상 |
 
 **미래 전망:**
 미래에는 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계가 더욱 유연하게 진화할 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 확산에 따라 3단계(요구정의/설계/종료)의 이 희석되고, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 기반한지속적적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))로의 전환이되고 있다. 그러나 여전히 요구정의와 설계의 기본프레임워크는 유지되므로, [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의핵심(단계별 평가, 피드백)은에서에도유지될 것으로 예상된다.
 
-📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 **'음식 조리법의 변화'**와 같습니다. 예전에는 recipe대로 재료를 준비하고(요구정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리에서 재료를추가하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 은 유지하되 방법이화될 것입니다.
+📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 <strong>'음식 조리법의 변화'</strong>와 같습니다. 예전에는 recipe대로 재료를 준비하고(요구정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리에서 재료를추가하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 은 유지하되 방법이화될 것입니다.
 
 ---
 
@@ -208,21 +202,23 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[감리 계획 수립]
-│
-▼
-[착수 단계]
-│
-▼
-[중간 단계(진도·품질 점검)]
-│
-▼
-[종료 단계]
-│
-▼
-[감리 보고서 및 사후 관리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 수립</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">착수 단계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">중간 단계(진도·품질 점검)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">종료 단계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 및 사후 관리</div></div>
+</div>
+</div>
+
+
 
 감리 단계는 계획에서 착수·중간·종료·사후 관리로 이어지는 품질 점검 흐름이다.
 

@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 2001~2003년, 전 세계 컴퓨터가 '블래스터(Blaster)' 웜 바이러스와 '코드 레드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Red)' 해킹에 싹 다 털렸다. 원인은 MS 윈도우와 IIS 웹 서버의 허접한 C언어 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 버그 때문이었다. 고객들은 "이딴 해킹투성이 윈도우 안 쓴다!"며 리눅스로 도망가려 했다. MS는 회사 존폐의 위기를 맞았다. 빌 게이츠는 2002년 "기능 개발 다 멈춰! 보안이 안 되면 출시 안 해!"라는 충격적인 『Trustworthy Computing(신뢰할 수 있는 컴퓨팅)』 선언문을 발표한다. **수만 명의 개발자가 제멋대로 코드 짜는 것을 막고, 군대처럼 획일적이고 숨 막히는 '보안 절차'를 억지로 멱살 잡아 체질을 개선하기 위해 탄생한 것이 MS-SDL이다.**
 
-- **💡 비유**: MS-SDL은 비행기를 타기 전 공항의 **'7단계 보안 검색대'**와 같습니다. 옛날에는 칼을 들고 타든 총을 들고 타든 표만 있으면 통과(오픈)시켰다가 비행기가 납치당했습니다(윈도우 해킹 대참사). 이제는 공항 입구에서 가방 검사, 몸 엑스레이, 신발 벗기, 여권 대조 등 7개의 깐깐한 문(Phase)을 거쳐야만 비행기(운영 서버)에 태워줍니다. 불편하고 귀찮아 죽겠지만, 비행기가 공중에서 폭파되는 것을 막는 절대 원칙입니다.
+- **💡 비유**: MS-SDL은 비행기를 타기 전 공항의 <strong>'7단계 보안 검색대'</strong>와 같습니다. 옛날에는 칼을 들고 타든 총을 들고 타든 표만 있으면 통과(오픈)시켰다가 비행기가 납치당했습니다(윈도우 해킹 대참사). 이제는 공항 입구에서 가방 검사, 몸 엑스레이, 신발 벗기, 여권 대조 등 7개의 깐깐한 문(Phase)을 거쳐야만 비행기(운영 서버)에 태워줍니다. 불편하고 귀찮아 죽겠지만, 비행기가 공중에서 폭파되는 것을 막는 절대 원칙입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **빌 게이츠의 분노 (2002)**: "기능 추가 다 멈춰!" 트러스트워디 컴퓨팅 메모 발표. 전사 개발팀 셧다운.
   2. **MS-SDL의 사내 의무화 (2004)**: MS 내부에 SDL을 전면 도입. 취약한 C언어 함수(`strcpy` 등) 사용을 금지하고 위협 모델링을 강제. 결과적으로 Windows Vista, SQL Server 2005의 해킹 취약점이 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 대비 90% 극적 감소하는 마법을 보여줌.
   3. **글로벌 표준화 (2008~현재)**: MS가 "우리만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아까우니 너희도 써라"며 이 룰을 전 세계에 무료 공개. 이후 OWASP SAMM, ISO 27034 등 세상의 모든 [Secure SDLC](/knowledge-base/studynote/04_software_engineering/11_testing_validation/471_secure_sdlc/) 규격의 '조상님'으로 군림함.
 
-- **📢 섹션 요약 비유**: MS-SDL은 동네 구멍가게 주먹구구식 요리법에 빡친 백종원이 나타나서, **"1단계: 무조건 손 닦아, 2단계: 칼 소독해, 3단계: 유통기한 확인해!"라며 벽에 대문짝만하게 붙여놓은 '대기업 프랜차이즈 식당의 위생 7계명 절대 수칙'**입니다. 이 수칙 하나로 식중독(해킹) 사고가 0건으로 줄어들었습니다.
+- **📢 섹션 요약 비유**: MS-SDL은 동네 구멍가게 주먹구구식 요리법에 빡친 백종원이 나타나서, <strong>"1단계: 무조건 손 닦아, 2단계: 칼 소독해, 3단계: 유통기한 확인해!"라며 벽에 대문짝만하게 붙여놓은 '대기업 프랜차이즈 식당의 위생 7계명 절대 수칙'</strong>입니다. 이 수칙 하나로 식중독(해킹) 사고가 0건으로 줄어들었습니다.
 
 ---
 
 다음은 Microsoft SDL (Secur의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  Microsoft SDL (Secur                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microsoft SDL (Secur</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 Microsoft SDL (Secur가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_d
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Development Lifecycle)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Development Lifecycle)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Development Lifecycle)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ Microsoft SDL ([Security](/knowledge-base/studynote/04_software_engineering/05_d
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-Microsoft SDL (Security Development Lifecycle) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Microsoft SDL (Security Development Lifecycle) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

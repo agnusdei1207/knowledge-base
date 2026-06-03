@@ -19,32 +19,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 연산 명령 안에 두 개의 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 위치를 명시하는 형식이다. 다만 `ADD R1, R2`처럼 첫 번째 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) `R1`이 **입력값이면서 동시에 결과 저장 위치**가 된다. 즉, 계산이 끝나면 기존 `R1` 값은 사라지고 새 값으로 덮어써진다.
+2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하나의 연산 명령 안에 두 개의 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 위치를 명시하는 형식이다. 다만 `ADD R1, R2`처럼 첫 번째 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) `R1`이 <strong>입력값이면서 동시에 결과 저장 위치</strong>가 된다. 즉, 계산이 끝나면 기존 `R1` 값은 사라지고 새 값으로 덮어써진다.
 
 이 형식이 필요했던 이유는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 실행 유연성 사이의 충돌 때문이다. [1-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/192_1_address_instruction/)는 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)) 하나에 모든 연산이 몰려 병목이 심했고, [3-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/194_3_address_instruction/)는 세 개의 주소를 모두 담아야 해서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭이 넓어졌다. 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) ([GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))를 활용해 병목을 줄이면서도, 결과 저장 위치를 따로 적지 않음으로써 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 절약했다.
 
 아래 그림은 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 핵심인 "왼쪽 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 덮어쓰기"를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      2-주소 명령어의 기본 의미: 왼쪽을 읽고, 다시 왼쪽에 씀 │
-├──────────────────────────────────────────────────────────────┤
-│ 명령어: ADD R1, R2                                          │
-│                                                              │
-│ 연산 전                                                     │
-│   R1 = 10          R2 = 20                                  │
-│      │                │                                     │
-│      └──────┐  ┌──────┘                                     │
-│             ▼  ▼                                            │
-│         ALU (Arithmetic Logic Unit)                         │
-│             │                                               │
-│             ▼                                               │
-│ 연산 후                                                     │
-│   R1 = 30          R2 = 20                                  │
-│                                                              │
-│ 핵심: 결과는 새 레지스터가 아니라 기존 R1 자리를 덮어쓴다.  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소 명령어의 기본 의미: 왼쪽을 읽고, 다시 왼쪽에 씀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: ADD R1, R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 전</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 = 10 R2 = 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (Arithmetic Logic Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 후</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 = 30 R2 = 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 결과는 새 레지스터가 아니라 기존 R1 자리를 덮어쓴다.</div></div>
+</div>
+</div>
+
+
 
 이 구조는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체는 짧게 만들지만, 나중에 원래 `R1` 값이 다시 필요하면 그 전에 `MOV` (Move) 같은 복사 명령을 넣어야 한다. 그래서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "한 줄은 짧지만, 프로그램 전체 줄 수는 늘 수 있는" 절충안으로 이해해야 한다.
 
@@ -54,7 +50,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 핵심은 주소 두 개가 모두 "읽기용"이 아니라는 점이다. 보통 첫 번째 필드는 **읽기 + [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)**, 두 번째 필드는 **읽기 전용**으로 해석된다. 따라서 하드웨어는 두 값을 읽은 뒤 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))에서 계산하고, 결과를 첫 번째 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 위치로 되돌려 쓴다.
+2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 핵심은 주소 두 개가 모두 "읽기용"이 아니라는 점이다. 보통 첫 번째 필드는 <strong>읽기 + <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>, 두 번째 필드는 <strong>읽기 전용</strong>으로 해석된다. 따라서 하드웨어는 두 값을 읽은 뒤 산술 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산 장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))에서 계산하고, 결과를 첫 번째 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 위치로 되돌려 쓴다.
 
 | 필드 | 의미 | 동작 역할 | 설계상 영향 |
 | :--- | :--- | :--- | :--- |
@@ -64,23 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 실제 실행 흐름은 단순해 보이지만, 소프트웨어 관점에서는 제약이 크다. 예를 들어 `Y = (A + B) * C`를 계산할 때 3-주소 구조라면 중간 결과를 새 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 자연스럽게 둘 수 있지만, 2-주소 구조에서는 덮어쓰기 때문에 중간 복사 전략이 중요해진다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      2-주소 명령어로 수식을 풀 때 생기는 복사 부담          │
-├──────────────────────────────────────────────────────────────┤
-│ 목표 식: Y = (A + B) * C                                    │
-│                                                              │
-│ 1) MOV R1, A      ── R1에 A 복사                            │
-│ 2) ADD R1, B      ── R1 = R1 + B                            │
-│ 3) MUL R1, C      ── R1 = R1 * C                            │
-│ 4) MOV Y, R1      ── 결과 저장                              │
-│                                                              │
-│ 3-주소였다면 중간 결과를 새 목적지에 둘 수 있지만,          │
-│ 2-주소는 덮어쓰기 때문에 사전 복사와 사후 저장이 잦아진다.  │
-└──────────────────────────────────────────────────────────────┘
-```
 
-그래서 2-주소 아키텍처의 평가는 단순히 "주소가 2개다"로 끝나지 않는다. **[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 개의 폭은 줄지만, 원본 보존 비용이 프로그램 전체로 흩어지는 구조**라는 점이 핵심이다. 특히 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 허용하는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열에서는 `ADD R1, [MEM]` 같은 형태로 이 오버헤드를 일부 줄이기도 했다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소 명령어로 수식을 풀 때 생기는 복사 부담</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 식: Y = (A + B) * C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) MOV R1, A ── R1에 A 복사</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) ADD R1, B ── R1 = R1 + B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) MUL R1, C ── R1 = R1 * C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) MOV Y, R1 ── 결과 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-주소였다면 중간 결과를 새 목적지에 둘 수 있지만,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소는 덮어쓰기 때문에 사전 복사와 사후 저장이 잦아진다.</div></div>
+</div>
+</div>
+
+
+
+그래서 2-주소 아키텍처의 평가는 단순히 "주소가 2개다"로 끝나지 않는다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 한 개의 폭은 줄지만, 원본 보존 비용이 프로그램 전체로 흩어지는 구조</strong>라는 점이 핵심이다. 특히 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 허용하는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열에서는 `ADD R1, [MEM]` 같은 형태로 이 오버헤드를 일부 줄이기도 했다.
 
 - **📢 섹션 요약 비유**: 2-주소 구조는 도시락 통 두 칸 중 한 칸을 반찬칸이자 빈칸처럼 함께 쓰는 것과 같다. 통은 작아져 들고 다니기 편하지만, 반찬을 섞는 순간 원래 맛은 사라져 다음 식사를 위해 따로 덜어 놓아야 한다.
 
@@ -100,7 +97,7 @@ tags = ["studynote-computer-architecture"]
 
 이 차이는 컴파일러와 [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/)에 직접 연결된다. 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 이름을 반복해 덮어쓰기 때문에 거짓 의존성 (False Dependency)을 만들기 쉽다. 그래서 현대 x86 같은 구조는 겉으로는 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 유지해도, 내부에서는 [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/) ([Register Renaming](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/))과 마이크로-연산 분해를 통해 사실상 3-주소처럼 실행한다.
 
-즉, 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순한 옛날 방식이 아니라 **외부 인터페이스와 내부 실행 전략이 분리되는 대표 사례**다. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 수준에서는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 코드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 지키고, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 비파괴적 실행으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보완하는 것이다.
+즉, 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 단순한 옛날 방식이 아니라 <strong>외부 인터페이스와 내부 실행 전략이 분리되는 대표 사례</strong>다. [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 수준에서는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 코드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 지키고, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 비파괴적 실행으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보완하는 것이다.
 
 - **📢 섹션 요약 비유**: 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 겉보기엔 2인용 책상 같지만, 실제 사무실 운영은 보조 테이블을 뒤에서 계속 꺼내 쓰는 방식과 같다. 겉은 단순하게 유지하면서, 속에서는 부족한 공간을 다른 장치로 메운다.
 
@@ -108,7 +105,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 주로 x86 계열처럼 긴 역사와 넓은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 가진 ISA에서 마주친다. 이때 중요한 판단은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄의 간결함"이 아니라, **복사 명령 증가와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박까지 포함한 전체 실행 비용**을 보는 것이다. 특히 컴파일러 백엔드, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 코드 생성기, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 도구를 다룰 때 이 관점이 중요하다.
+실무에서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 주로 x86 계열처럼 긴 역사와 넓은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 가진 ISA에서 마주친다. 이때 중요한 판단은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄의 간결함"이 아니라, <strong>복사 명령 증가와 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 압박까지 포함한 전체 실행 비용</strong>을 보는 것이다. 특히 컴파일러 백엔드, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 코드 생성기, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 도구를 다룰 때 이 관점이 중요하다.
 
 ### 설계/분석 시 체크포인트
 
@@ -121,7 +118,7 @@ tags = ["studynote-computer-architecture"]
 - **채택이 유리한 경우**: 코드 밀도, 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 기존 생태계 유지가 중요할 때
 - **회피 또는 보완이 필요한 경우**: 비파괴적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름, 대규모 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 최적화, 벡터 중심 연산이 중요할 때
 
-실제 현대 프로세서는 이 한계를 정면으로 드러낸다. 전통적 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 여전히 프로그래머에게 노출되지만, 실행 엔진은 내부적으로 더 많은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 동원해 파괴적 대입의 부작용을 숨긴다. 따라서 기술사 관점에서는 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 "최종 해답"이 아니라 **제약을 외부 포맷에서 내부 하드웨어로 이전한 설계 타협**으로 설명할 수 있어야 한다.
+실제 현대 프로세서는 이 한계를 정면으로 드러낸다. 전통적 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 여전히 프로그래머에게 노출되지만, 실행 엔진은 내부적으로 더 많은 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 동원해 파괴적 대입의 부작용을 숨긴다. 따라서 기술사 관점에서는 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 "최종 해답"이 아니라 <strong>제약을 외부 포맷에서 내부 하드웨어로 이전한 설계 타협</strong>으로 설명할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실무에서 쓰는 것은 오래된 도심 도로망을 그대로 두되, 지하에 우회도로를 새로 뚫어 교통 체증을 줄이는 것과 같다. 겉길은 익숙하지만, 진짜 속도는 보이지 않는 내부 보강 덕분에 나온다.
 
@@ -131,9 +128,9 @@ tags = ["studynote-computer-architecture"]
 
 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 가장 큰 효과는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포맷을 과도하게 키우지 않으면서도 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) 중심 구조보다 훨씬 유연한 연산을 가능하게 했다는 점이다. 이 덕분에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 범용 컴퓨팅 환경에서는 메모리 절약, 코드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 실용적인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 연산이라는 세 가지 목표를 동시에 어느 정도 만족시킬 수 있었다.
 
-하지만 한계도 분명하다. 파괴적 대입은 소프트웨어 입장에서 원본 추적을 어렵게 만들고, 컴파일러와 실행 엔진은 이를 보완하기 위해 더 복잡한 최적화 기법을 도입해야 한다. 결국 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "단순해서 좋은 구조"라기보다 **제한된 자원 아래에서 매우 성공적이었던 역사적 절충안**으로 기억하는 편이 정확하다.
+하지만 한계도 분명하다. 파괴적 대입은 소프트웨어 입장에서 원본 추적을 어렵게 만들고, 컴파일러와 실행 엔진은 이를 보완하기 위해 더 복잡한 최적화 기법을 도입해야 한다. 결국 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "단순해서 좋은 구조"라기보다 <strong>제한된 자원 아래에서 매우 성공적이었던 역사적 절충안</strong>으로 기억하는 편이 정확하다.
 
-미래 관점에서도 이 개념은 사라지지 않는다. 겉으로는 2-주소 형식을 유지하더라도, 내부는 3-주소형 마이크로-연산, [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/), 벡터 확장으로 보완하는 흐름이 계속되고 있기 때문이다. 따라서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 **코드 밀도와 실행 효율 사이의 긴장 관계를 보여주는 대표 개념**으로 기억해야 한다.
+미래 관점에서도 이 개념은 사라지지 않는다. 겉으로는 2-주소 형식을 유지하더라도, 내부는 3-주소형 마이크로-연산, [레지스터 리네이밍](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/239_register_renaming/), 벡터 확장으로 보완하는 흐름이 계속되고 있기 때문이다. 따라서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 <strong>코드 밀도와 실행 효율 사이의 긴장 관계를 보여주는 대표 개념</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 접이식 가구와 같다. 공간을 아끼는 데는 뛰어나지만, 넓은 작업이 필요해지면 보조 판을 덧대거나 다른 가구를 함께 써야 비로소 편하게 일할 수 있다.
 
@@ -151,25 +148,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-누산기 중심 1-주소 명령어
-            │
-            ▼
-범용 레지스터 도입
-            │
-            ▼
-2-주소 명령어 확산
-            │
-            ├─▶ 코드 밀도 향상
-            │
-            └─▶ 파괴적 대입 문제 발생
-                       │
-                       ▼
-레지스터 리네이밍 · 마이크로-연산 분해
-                       │
-                       ▼
-내부 실행의 3-주소화 · 벡터 확장 비파괴 연산 강화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">누산기 중심 1-주소 명령어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">범용 레지스터 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2-주소 명령어 확산</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 코드 밀도 향상</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ 파괴적 대입 문제 발생</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">레지스터 리네이밍 · 마이크로-연산 분해</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">내부 실행의 3-주소화 · 벡터 확장 비파괴 연산 강화</div>
+</div>
+</div>
+
+
 
 이 흐름은 "병목 해소 → 절충 채택 → 부작용 노출 → 내부 보완"이라는 진화를 보여준다.
 

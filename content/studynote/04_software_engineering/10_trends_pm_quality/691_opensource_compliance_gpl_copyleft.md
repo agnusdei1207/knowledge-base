@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-현대 소프트웨어 개발은 90% 이상의 코드를 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리에 의존한다. 개발자들은 GitHub나 NPM에서 코드를 복사해오면서 "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 무료"라고 생각하지만, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)는 비용이 무료(Free of charge)일 뿐, 사용할 때 지켜야 할 **법적 의무(License)**가 반드시 존재한다.
+현대 소프트웨어 개발은 90% 이상의 코드를 외부 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이브러리에 의존한다. 개발자들은 GitHub나 NPM에서 코드를 복사해오면서 "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 무료"라고 생각하지만, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)는 비용이 무료(Free of charge)일 뿐, 사용할 때 지켜야 할 <strong>법적 의무(License)</strong>가 반드시 존재한다.
 
-이러한 라이선스 의무를 어기면 심각한 문제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) Issue)가 발생한다. 2008년 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))는 자사 공유기 펌웨어에 GPL [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 쓰고도 소스코드를 공개하지 않아 고소당했고, 결국 소스코드 공개와 함께 엄청난 합의금을 물어야 했다. 기업의 자산인 '독점적 소스코드(Proprietary [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'를 지키기 위해서는 개발 초기부터 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 족보를 따지는 **[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 컴플라이언스** 체계가 필수적이다.
+이러한 라이선스 의무를 어기면 심각한 문제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) Issue)가 발생한다. 2008년 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))는 자사 공유기 펌웨어에 GPL [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 쓰고도 소스코드를 공개하지 않아 고소당했고, 결국 소스코드 공개와 함께 엄청난 합의금을 물어야 했다. 기업의 자산인 '독점적 소스코드(Proprietary [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))'를 지키기 위해서는 개발 초기부터 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)의 족보를 따지는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 컴플라이언스</strong> 체계가 필수적이다.
 
 - **📢 섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 라이선스는 식당의 '재료 사용 계약서'와 같다. 무료로 최고급 재료를 대주는 대신 "반드시 우리 농장 이름을 메뉴판에 크게 써야 해" 혹은 "네 식당의 비법 레시피도 동네 사람들에게 무료로 알려줘야 해"라는 무서운 조건이 숨어 있다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 컴플라이언스 GPL 카피레프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오픈소스 컴플라이언스 GPL 카피레프                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오픈소스 컴플라이언스 GPL 카피레프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 컴플라이언스 GPL 카피레프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -74,11 +73,11 @@ tags = ["studynote-software-engineering"]
 
 | 라이선스 | 전염성 강도 | 핵심 조건 ([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) $\rightarrow$ 기업 상용 코드) |
 |:---|:---|:---|
-| **Strong Copyleft** (GPL) | **강함** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 정적(Static)/동적(Dynamic) 링크로 연결하기만 해도 **전체 프로그램 소스코드를 다 공개**해야 함. |
+| **Strong Copyleft** (GPL) | **강함** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 정적(Static)/동적(Dynamic) 링크로 연결하기만 해도 <strong>전체 프로그램 소스코드를 다 공개</strong>해야 함. |
 | **Weak Copyleft** (LGPL) | 중간 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 수정한 부분만 공개. 내 코드를 단순히 **동적 링크(Dynamic Link, .dll/.so)로만 가져다 쓰면 내 코드는 비공개 가능.** |
-| **Network Copyleft** (AGPL) | **극상 (최악)** | 코드를 배포하지 않고 **클라우드 서버([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))에 올려서 서비스만 제공해도** 사용자가 접속하면 서버의 소스코드를 몽땅 공개해야 함. |
+| **Network Copyleft** (AGPL) | **극상 (최악)** | 코드를 배포하지 않고 <strong>클라우드 서버(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)에 올려서 서비스만 제공해도</strong> 사용자가 접속하면 서버의 소스코드를 몽땅 공개해야 함. |
 
-특히 **AGPL(Affero GPL)**은 클라우드 시대를 겨냥해 만들어진 가장 무서운 라이선스다. [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 유명 DB들이 클라우드 대기업(AWS 등)이 자기들 코드로 돈만 벌고 기여하지 않는 것을 막기 위해 라이선스를 AGPL(또는 SSPL)로 변경한 바 있다.
+특히 <strong>AGPL(Affero GPL)</strong>은 클라우드 시대를 겨냥해 만들어진 가장 무서운 라이선스다. [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 같은 유명 DB들이 클라우드 대기업(AWS 등)이 자기들 코드로 돈만 벌고 기여하지 않는 것을 막기 위해 라이선스를 AGPL(또는 SSPL)로 변경한 바 있다.
 
 - **📢 섹션 요약 비유**: GPL이 "책을 출판할 때만 원고를 공개해"라면, AGPL은 "도서관에 책을 비치해서 사람들이 와서 읽기만 해도 원고를 복사해 줘야 해"라는 클라우드 특화 방어막이다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오픈소스 컴플라이언스 GPL 카피레프트 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오픈소스 컴플라이언스 GPL 카피레프트 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

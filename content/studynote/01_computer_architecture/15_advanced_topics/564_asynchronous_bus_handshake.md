@@ -43,20 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 4-phase handshake에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 유효해야 하는지까지 함께 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ 4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다   │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ 1) Sender   : Data Stable, REQ ↑                                            │
-│ 2) Receiver : Data Sample, ACK ↑                                            │
-│ 3) Sender   : REQ ↓ after observing ACK                                     │
-│ 4) Receiver : ACK ↓, next transfer ready                                    │
-│                                                                              │
-│ Data  : [=========== valid ===========]                                     │
-│ REQ   : ________/‾‾‾‾‾‾‾‾\_____________________                              │
-│ ACK   : ________________/‾‾‾‾‾‾\______________                              │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Sender : Data Stable, REQ ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Receiver : Data Sample, ACK ↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Sender : REQ ↓ after observing ACK</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Receiver : ACK ↓, next transfer ready</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Data :</div><div class="kb-diagram-node">=========== valid ===========</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ : ________/‾‾‾‾‾‾‾‾\_____________________</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK : ________________/‾‾‾‾‾‾\______________</div></div>
+</div>
+</div>
+
+
 
 더 높은 효율이 필요하면 2-phase transition signaling처럼 에지 변화만으로 의미를 전달하는 방식도 쓸 수 있다. 하지만 구현 난이도는 4-phase보다 높아진다. 따라서 설계자는 안전성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 사이의 균형을 봐야 한다.
 
@@ -68,7 +70,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-비동기 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핸드셰이크를 이해하려면 strobe 방식과 동기식 ready/valid 방식까지 함께 봐야 한다. strobe는 송신 측이 타이밍을 일방적으로 선언하고, ready/valid는 공통 클럭 위에서 수신 가능 여부를 맞춘다. 반면 비동기 핸드셰이크는 공통 클럭이 없다는 전제를 받아들이고, **[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 왕복 자체를 타이밍 기준**으로 삼는다.
+비동기 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핸드셰이크를 이해하려면 strobe 방식과 동기식 ready/valid 방식까지 함께 봐야 한다. strobe는 송신 측이 타이밍을 일방적으로 선언하고, ready/valid는 공통 클럭 위에서 수신 가능 여부를 맞춘다. 반면 비동기 핸드셰이크는 공통 클럭이 없다는 전제를 받아들이고, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 왕복 자체를 타이밍 기준</strong>으로 삼는다.
 
 | 방식 | 시간 기준 | 장점 | 약점 | 적합한 환경 |
 | :-- | :-- | :-- | :-- | :-- |
@@ -76,7 +78,7 @@ tags = ["studynote-computer-architecture"]
 | 비동기 4-phase Handshake | REQ / ACK 왕복 | 속도차 허용, 안정성 높음 | 제어 오버헤드 큼 | 이기종 장치, [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 경계 |
 | 동기식 Ready / Valid | 공통 클럭 | 고처리량, 파이프라이닝 용이 | 클럭 배포 필요 | 온칩 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 |
 
-이 구조는 [Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))와 직접 연결된다. 서로 다른 클럭을 쓰는 블록끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘길 때는, 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 연결하는 대신 핸드셰이크 제어선과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 회로, 또는 비동기 FIFO를 넣어야 안전하다. 즉 핸드셰이크는 "클럭이 다르다"는 문제를 **[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 드러내는 방법**이다.
+이 구조는 [Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/))와 직접 연결된다. 서로 다른 클럭을 쓰는 블록끼리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘길 때는, 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 연결하는 대신 핸드셰이크 제어선과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 회로, 또는 비동기 FIFO를 넣어야 안전하다. 즉 핸드셰이크는 "클럭이 다르다"는 문제를 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>로 드러내는 방법</strong>이다.
 
 또한 GALS 구조에서는 코어 내부는 동기식으로 빠르게 돌리고, 블록 경계만 비동기 핸드셰이크로 묶는다. 이 방식은 전체 칩에 하나의 거대한 클럭을 강요하지 않고도 모듈성을 확보하게 해 준다. 결국 비동기 핸드셰이크는 느린 주변장치용 옛 기술이 아니라, 현대 칩 설계에서도 여전히 살아 있는 경계 기술이다.
 
@@ -113,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 비동기 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핸드셰이크의 가장 큰 장점은 서로 다른 속도와 서로 다른 클럭 세계를 안전하게 이어 준다는 점이다. 고정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 최악 조건에 맞춰 과도하게 잡지 않아도 되고, 상대가 느리면 자연스럽게 기다렸다가 진행하므로 호환성과 신뢰성이 높다. 특히 경계 조건이 복잡한 시스템일수록 이 "명시적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"의 가치가 커진다.
 
-반면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 제어 왕복 시간만큼 제한된다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선이 늘고 상태 기계가 복잡해지며, synchronizer와 timeout까지 포함하면 면적과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용도 증가한다. 따라서 비동기 핸드셰이크는 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로의 대체재라기보다, **다른 세계를 안전하게 이어 붙이는 접합 기술**로 기억하는 편이 맞다.
+반면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 제어 왕복 시간만큼 제한된다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선이 늘고 상태 기계가 복잡해지며, synchronizer와 timeout까지 포함하면 면적과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용도 증가한다. 따라서 비동기 핸드셰이크는 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로의 대체재라기보다, <strong>다른 세계를 안전하게 이어 붙이는 접합 기술</strong>로 기억하는 편이 맞다.
 
 앞으로 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 이종 집적, 초저전력 GALS 설계가 늘어날수록 이런 경계 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 중요성은 더 커질 가능성이 높다. 결국 비동기 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 핸드셰이크의 본질은 "모두가 같은 시계를 갖지 않아도, 서로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며 정확하게 일할 수 있다"는 데 있다.
 
@@ -134,21 +136,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 지연 기반 Strobe 제어
-        │
-        ▼
-4-phase REQ / ACK 핸드셰이크
-        │
-        ▼
-2-phase transition signaling
-        │
-        ▼
-Async FIFO · CDC bridge
-        │
-        ▼
-GALS · 칩렛 경계 제어 프로토콜
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 지연 기반 Strobe 제어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">4-phase REQ / ACK 핸드셰이크</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2-phase transition signaling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Async FIFO · CDC bridge</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">GALS · 칩렛 경계 제어 프로토콜</div>
+</div>
+</div>
+
+
 
 이 흐름은 비동기 통신이 단순한 주변장치 제어에서 출발해, 점차 클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계와 이종 시스템 통합을 책임지는 구조적 기술로 발전했음을 보여 준다.
 

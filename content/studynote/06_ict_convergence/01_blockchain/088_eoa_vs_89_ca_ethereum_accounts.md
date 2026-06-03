@@ -18,7 +18,7 @@ tags = ["ict_convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-비트코인이 `UTXO (Unspent Transaction Output)` 모델을 사용하여 단순한 '돈의 이동'만을 추적했다면, 이더리움은 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 저장하고 실행할 수 있는 **계정(Account) 모델**을 도입했다. 이 계정 모델은 크게 `EOA (Externally Owned Account)`와 `CA (Contract Account)` 두 가지로 나뉜다.
+비트코인이 `UTXO (Unspent Transaction Output)` 모델을 사용하여 단순한 '돈의 이동'만을 추적했다면, 이더리움은 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 저장하고 실행할 수 있는 <strong>계정(Account) 모델</strong>을 도입했다. 이 계정 모델은 크게 `EOA (Externally Owned Account)`와 `CA (Contract Account)` 두 가지로 나뉜다.
 
 EOA는 우리가 흔히 메타마스크(MetaMask) 같은 지갑을 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 일반적인 계정이다. 오직 개인키를 가진 주체만이 이 계정을 통제할 수 있다. 반면 CA는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 배포된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 그 자체로, 개인키가 없으며 오직 내장된 '코드'에 의해서만 통제된다. 만약 이 두 가지가 분리되지 않았다면, 기계(코드)가 스스로 끝없이 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 발생시켜 네트워크 자원을 고갈시키거나 누가 수수료를 내야 할지 모호해지는 문제가 생겼을 것이다.
 
@@ -32,31 +32,29 @@ EOA는 우리가 흔히 메타마스크(MetaMask) 같은 지갑을 통해 [생�
 
 | 계정 내부 필드 | EOA (외부 소유 계정) | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (컨트랙트 계정) |
 | :--- | :--- | :--- |
-| **[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) (논스)** | 계정에서 보낸 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 총 개수 | 계정이 배포한 컨트랙트의 총 개수 |
+| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> (논스)</strong> | 계정에서 보낸 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 총 개수 | 계정이 배포한 컨트랙트의 총 개수 |
 | **Balance (잔고)** | 보유한 이더([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))의 양 | 보유한 이더([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))의 양 |
 | **Storage Root** | 비어 있음 (상태 저장 불가) | 컨트랙트 상태 변수가 저장된 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 루트 |
-| **[Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Hash** | 비어 있음 (코드 없음) | 배포된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 바이트코드 해시 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Hash</strong> | 비어 있음 (코드 없음) | 배포된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 바이트코드 해시 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│            트랜잭션(Transaction) 발생과 전파 흐름          │
-├──────────────────────────────────────────────────────────────┤
-│ [인간/외부 시스템]                                           │
-│       │ 1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)     │
-│       ▼                                                      │
-│ ┌───────────┐         2. 트랜잭션 전송          ┌───────────┐│
-│ │    EOA    │─────────────────────────────────▶│    CA     ││
-│ │(코드 없음)│                                  │(코드 있음)││
-│ └───────────┘                                  └───────────┘│
-│                                                      │       │
-│               3. 내부 메시지(Internal Call) 발생       │       │
-│               (CA는 스스로 트랜잭션을 시작할 수 없음)   ▼       │
-│                                                ┌───────────┐│
-│                                                │ 다른 CA   ││
-│                                                └───────────┘│
-└──────────────────────────────────────────────────────────────┘
-```
-가장 중요한 원리는 **"[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시작점은 항상 EOA여야 한다"**는 것이다. CA는 EOA나 다른 CA로부터 메시지(호출)를 받았을 때만 깨어나서 코드를 실행하고, 다시 잠든다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션(Transaction) 발생과 전파 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">인간/외부 시스템</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 트랜잭션 전송</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EOA</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드 없음)</div><div class="kb-diagram-cell">(코드 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내부 메시지(Internal Call) 발생</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CA는 스스로 트랜잭션을 시작할 수 없음) ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 CA</div></div>
+</div>
+</div>
+
+
+가장 중요한 원리는 <strong>"<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 시작점은 항상 EOA여야 한다"</strong>는 것이다. CA는 EOA나 다른 CA로부터 메시지(호출)를 받았을 때만 깨어나서 코드를 실행하고, 다시 잠든다.
 
 - **📢 섹션 요약 비유**: 도미노 쓰러뜨리기와 같다. EOA는 첫 번째 도미노를 손가락으로 밀어 쓰러뜨리는 유일한 존재([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시작)이고, CA는 그 힘을 받아 다음 도미노를 차례로 쓰러뜨리는 중간 블록(내부 호출)이다.
 
@@ -69,13 +67,13 @@ EOA와 CA는 이더리움 생태계를 굴러가게 하는 두 개의 바퀴로,
 | 비교 축 | EOA (외부 소유 계정) | [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (컨트랙트 계정) |
 | :--- | :--- | :--- |
 | **제어 권한** | 개인키 (Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 소유자 | 컨트랙트에 작성된 로직 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) |
-| **[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 지불** | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 발생 시 직접 지불해야 함 | 스스로 지불 불가 (EOA가 낸 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)를 소모) |
-| **다중 서명/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)** | 불가능 (개인키 분실 시 자산 영구 상실) | 로직으로 구현 가능 (Multisig Wallet 등) |
-| **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용** | 무료 (오프라인에서 키 쌍 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 발생 ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 코드 배포 비용) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a>) 지불</strong> | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 발생 시 직접 지불해야 함 | 스스로 지불 불가 (EOA가 낸 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)를 소모) |
+| <strong>다중 서명/<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | 불가능 (개인키 분실 시 자산 영구 상실) | 로직으로 구현 가능 (Multisig Wallet 등) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 비용</strong> | 무료 (오프라인에서 키 쌍 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 발생 ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 코드 배포 비용) |
 
-EOA의 가장 큰 치명적 약점은 **"개인키를 잃어버리면 모든 것을 잃는다"**는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이다. 또한 복잡한 실행 조건(예: 하루 이체 한도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 3명 중 2명 서명 시 송금)을 스스로 부여할 수 없다. 반대로 CA는 유연한 로직 구현이 가능하지만 스스로 움직일 수 없고 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 낼 수 없다는 단점이 있다.
+EOA의 가장 큰 치명적 약점은 <strong>"개인키를 잃어버리면 모든 것을 잃는다"</strong>는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이다. 또한 복잡한 실행 조건(예: 하루 이체 한도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 3명 중 2명 서명 시 송금)을 스스로 부여할 수 없다. 반대로 CA는 유연한 로직 구현이 가능하지만 스스로 움직일 수 없고 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 낼 수 없다는 단점이 있다.
 
-이 둘의 장점을 합치기 위해 등장한 개념이 바로 **`AA (Account Abstraction, 계정 추상화 - ERC-4337)`**이다. 사용자의 지갑 자체를 하나의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))로 만들어, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 대납(Paymaster)이나 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능을 제공하려는 핵심 확장 흐름이다.
+이 둘의 장점을 합치기 위해 등장한 개념이 바로 <strong><code>AA (Account Abstraction, 계정 추상화 - ERC-4337)</code></strong>이다. 사용자의 지갑 자체를 하나의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))로 만들어, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 대납(Paymaster)이나 소셜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능을 제공하려는 핵심 확장 흐름이다.
 
 - **📢 섹션 요약 비유**: EOA는 열쇠를 잃어버리면 영영 열 수 없는 철제 금고이고, CA는 지문, 홍채, 비밀번호 등 다양한 조건으로 열리게 세팅할 수 있는 디지털 도어락이다. [계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/)([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))는 철제 금고 대신 모두에게 디지털 도어락을 달아주자는 움직임이다.
 
@@ -88,7 +86,7 @@ EOA의 가장 큰 치명적 약점은 **"개인키를 잃어버리면 모든 것
 ### 실무 설계 판단 포인트
 1. **자금 보관 및 다중 관리자 승인 (Multisig)**
    - **판단**: 기업의 운영 자금이나 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 관리자 권한을 단일 EOA에 부여하면, 해당 담당자 퇴사나 키 유출 시 치명적이다. 반드시 `Gnosis Safe` 같은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 기반의 다중 서명 지갑을 사용하여 로직으로 자금을 통제해야 한다.
-2. **사용자 온보딩 및 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비 장벽 (UX)**
+2. <strong>사용자 온보딩 및 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a>비 장벽 (UX)</strong>
    - **판단**: 일반 사용자가 서비스에 진입하려면 EOA를 만들고 거래소에서 이더([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))를 사서 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비로 써야 하는 허들이 있다. 이를 극복하기 위해 메타 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Meta-transaction)이나 `ERC-4337 (AA)` 구조를 도입해 기업(Paymaster)이 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 대납하도록 설계해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
@@ -112,33 +110,35 @@ EOA의 가장 큰 치명적 약점은 **"개인키를 잃어버리면 모든 것
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) ([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))** | EOA가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 발생시킬 때 네트워크 자원 사용료로 지불하는 비용 |
-| **[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))** | CA에 배포되어 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Ethereum Virtual Machine](/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/)) 위에서 실행되는 바이트코드 |
-| **ERC-4337 (Account [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))** | EOA와 경계를 허물어, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 자체가 지갑 역할을 하도록 돕는 이더리움 표준 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a>)</strong> | EOA가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 발생시킬 때 네트워크 자원 사용료로 지불하는 비용 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">Smart Contract</a>)</strong> | CA에 배포되어 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Ethereum Virtual Machine](/knowledge-base/studynote/06_ict_convergence/01_blockchain/023_evm_ethereum_virtual_machine/)) 위에서 실행되는 바이트코드 |
+| <strong>ERC-4337 (Account <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)</strong> | EOA와 경계를 허물어, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 자체가 지갑 역할을 하도록 돕는 이더리움 표준 |
 | **지갑 (Wallet)** | 사용자가 EOA의 개인키를 안전하게 보관하고 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 서명하게 해주는 소프트웨어 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-UTXO (비트코인의 단순 잔고 증명)
-    │
-    ▼
-Account Model 도입 (이더리움의 상태 저장)
-    │
-    ├─▶ EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불
-    └─▶ CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출
-             │
-             ▼
-Smart Contract Wallet (다중 서명, 소셜 복구 기능 등 제한적 적용)
-             │
-             ▼
-Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 및 UX 혁신
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">UTXO (비트코인의 단순 잔고 증명)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Account Model 도입 (이더리움의 상태 저장)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Smart Contract Wallet (다중 서명, 소셜 복구 기능 등 제한적 적용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 및 UX 혁신</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **EOA**는 네가 게임기에 동전을 넣고 '시작 버튼'을 누르는 손가락이에요.
-2. **[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)**는 동전이 들어오면 정해진 규칙대로 캐릭터를 움직이게 해주는 게임기 안의 '프로그램'이에요.
+1. <strong>EOA</strong>는 네가 게임기에 동전을 넣고 '시작 버튼'을 누르는 손가락이에요.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a></strong>는 동전이 들어오면 정해진 규칙대로 캐릭터를 움직이게 해주는 게임기 안의 '프로그램'이에요.
 3. 게임기([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))는 혼자서 동전을 넣거나 게임을 시작할 수 없고, 반드시 너(EOA)의 손가락이 필요하답니다!
 
 ---

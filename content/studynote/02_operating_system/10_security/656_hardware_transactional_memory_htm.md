@@ -12,30 +12,30 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)([HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/), 예: Intel TSX)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(ACID) 개념을 CPU 캐시 하드웨어 레벨로 가져와, 멀티코어 환경에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이 여러 변수를 원자적으로 수정하고 실패 시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))해 주는 혁신적인 기술이다.
-> 2. **메커니즘 ([Lock Elision](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/))**: 기존의 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 코드를 지우지 않고도, CPU가 락 획득 과정을 무시(Elision)하고 낙관적으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 동시 실행한다. 만약 두 코어가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드려 충돌(Conflict)이 나면 하드웨어가 상태를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시키고 전통적인 락 방식으로 재시도하게 만든다.
-> 3. **가치**: 복잡하고 버그가 나기 쉬운 소프트웨어 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반)을 직접 짤 필요 없이, 기존의 투박한 락([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 기반 자료구조에 HTM을 적용하는 것만으로 **수십 배의 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 급 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 확장 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**을 공짜로 얻어낼 수 있다.
+> 2. <strong>메커니즘 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/">Lock Elision</a>)</strong>: 기존의 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 코드를 지우지 않고도, CPU가 락 획득 과정을 무시(Elision)하고 낙관적으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))을 동시 실행한다. 만약 두 코어가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드려 충돌(Conflict)이 나면 하드웨어가 상태를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시키고 전통적인 락 방식으로 재시도하게 만든다.
+> 3. **가치**: 복잡하고 버그가 나기 쉬운 소프트웨어 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반)을 직접 짤 필요 없이, 기존의 투박한 락([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 기반 자료구조에 HTM을 적용하는 것만으로 <strong>수십 배의 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 급 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 확장 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>을 공짜로 얻어낼 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **[트랜잭셔널 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) (TM)**: 메모리 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 묶음을 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(원자적 연산)으로 묶어, 도중에 남이 끼어들면 취소하고 다시 시작하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델.
-  - **[HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) (Hardware Transactional Memory)**: 이 TM 기능을 소프트웨어가 아닌 CPU 칩 내부의 L1/L2 캐시 컨트롤러가 직접 하드웨어 속도로 수행하는 기술. (대표적으로 Intel의 TSX - Transactional [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) Extensions)
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">트랜잭셔널 메모리</a> (TM)</strong>: 메모리 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업 묶음을 하나의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(원자적 연산)으로 묶어, 도중에 남이 끼어들면 취소하고 다시 시작하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델.
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (Hardware Transactional Memory)</strong>: 이 TM 기능을 소프트웨어가 아닌 CPU 칩 내부의 L1/L2 캐시 컨트롤러가 직접 하드웨어 속도로 수행하는 기술. (대표적으로 Intel의 TSX - Transactional [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) Extensions)
 
-- **필요성 (Lock과 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-Free의 딜레마 극복)**: 
-  - 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 **[Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조**를 써야 한다. 하지만 포인터가 3~4개씩 얽혀 있는 복잡한 트리(Tree)나 해시맵을 소프트웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Compare-and-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/))만으로 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 하게 짜는 것은 박사급 엔지니어도 수개월이 걸리는 극악의 난이도다. (ABA 문제, 메모리 해제 문제 등)
-  - 반대로 **락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**을 쓰면 코딩은 쉽지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살 나고 캐시 핑퐁이 발생한다.
+- <strong>필요성 (Lock과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-Free의 딜레마 극복)</strong>: 
+  - 멀티코어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려면 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 자료구조</strong>를 써야 한다. 하지만 포인터가 3~4개씩 얽혀 있는 복잡한 트리(Tree)나 해시맵을 소프트웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Compare-and-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/))만으로 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 하게 짜는 것은 박사급 엔지니어도 수개월이 걸리는 극악의 난이도다. (ABA 문제, 메모리 해제 문제 등)
+  - 반대로 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>을 쓰면 코딩은 쉽지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살 나고 캐시 핑퐁이 발생한다.
   - **해결책**: "코딩은 락처럼 쉽게 하고, 실행은 락 프리처럼 빠르게 할 수 없을까?"라는 꿈을 이루기 위해, CPU가 "일단 락을 안 잡고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 막 실행해 보다가, 진짜 충돌이 나면 그때만 취소시켜 줄게"라고 지원하는 HTM이 등장했다.
 
-  - **기존 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))**: 여러 명이 회의실(공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쓸 때, 무조건 한 명씩 열쇠를 받아 문을 잠그고 들어가서 작업한다. (안전하지만 너무 느림)
-  - **소프트웨어 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)**: 문을 없앴다. 대신 사람들이 동시에 들어가서 각자 책상 위에 종이를 던지다가, 손이 부딪히면 잽싸게 종이를 줍고 다시 던지는 눈치 게임을 한다. (빠르지만 규칙이 너무 복잡함)
-  - **[HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) (하드웨어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))**: 문은 그대로 둔다. 하지만 사람들은 열쇠를 안 받고 그냥 '유체이탈'을 해서 벽을 통과해 방에 들어간다(낙관적 실행). 다들 자기 할 일을 하다가, 우연히 두 명의 유체가 같은 서랍(같은 메모리)을 여는 순간! 경비원(CPU)이 호루라기를 불어 두 유체를 방 밖으로 쫓아낸다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)). 쫓겨난 사람은 그때서야 진짜 열쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 받고 정상적으로 문을 열고 들어간다.
+  - <strong>기존 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong>: 여러 명이 회의실(공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쓸 때, 무조건 한 명씩 열쇠를 받아 문을 잠그고 들어가서 작업한다. (안전하지만 너무 느림)
+  - <strong>소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a></strong>: 문을 없앴다. 대신 사람들이 동시에 들어가서 각자 책상 위에 종이를 던지다가, 손이 부딪히면 잽싸게 종이를 줍고 다시 던지는 눈치 게임을 한다. (빠르지만 규칙이 너무 복잡함)
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (하드웨어 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>)</strong>: 문은 그대로 둔다. 하지만 사람들은 열쇠를 안 받고 그냥 '유체이탈'을 해서 벽을 통과해 방에 들어간다(낙관적 실행). 다들 자기 할 일을 하다가, 우연히 두 명의 유체가 같은 서랍(같은 메모리)을 여는 순간! 경비원(CPU)이 호루라기를 불어 두 유체를 방 밖으로 쫓아낸다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)). 쫓겨난 사람은 그때서야 진짜 열쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 받고 정상적으로 문을 열고 들어간다.
 
 - **발전 과정**:
-  1. **[STM](/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/) (Software TM)**: 2000년대 초반 컴파일러와 런타임 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 메모리 버전을 추적. 너무 무거워서 실패.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">STM</a> (Software TM)</strong>: 2000년대 초반 컴파일러와 런타임 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 메모리 버전을 추적. 너무 무거워서 실패.
   2. **Intel TSX 도입 (Haswell, 2013)**: CPU 캐시를 이용해 최초로 상용 HTM을 도입. (이후 보안 이슈로 비활성화/수정을 반복함)
-  3. **[Lock Elision](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/) 표준화**: glibc의 [pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) 뮤텍스 등에 TSX 코드가 내장되어, 일반 C/C++ 프로그램이 재컴파일 없이 HTM의 혜택을 받음.
+  3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/">Lock Elision</a> 표준화</strong>: glibc의 [pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) 뮤텍스 등에 TSX 코드가 내장되어, 일반 C/C++ 프로그램이 재컴파일 없이 HTM의 혜택을 받음.
 
 - **📢 섹션 요약 비유**: 복잡한 사거리에서 경찰(소프트웨어 락)을 없애면 사고가 날까 두려웠는데, 신호등 카메라(CPU 하드웨어)가 사고 직전의 시간을 1초 전으로 되돌려주는([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 마법을 부려 모든 차가 브레이크 없이 달리게 만든 것입니다.
 
@@ -47,8 +47,8 @@ tags = ["studynote-operating-system"]
 
 Intel TSX는 개발자에게 두 가지 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋)를 제공한다.
 
-1. **HLE ([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/))**: 기존 락 코드를 100% 그대로 둔 채, 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 접두사(`XACQUIRE`, `XRELEASE`)만 살짝 붙이는 방식. 하위 호환성이 완벽하다.
-2. **[RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) (Restricted Transactional Memory)**: 프로그래머가 명시적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시작과 끝을 코딩하는 방식.
+1. <strong>HLE (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/566_hardware_lock_elision/">Hardware Lock Elision</a>)</strong>: 기존 락 코드를 100% 그대로 둔 채, 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 접두사(`XACQUIRE`, `XRELEASE`)만 살짝 붙이는 방식. 하위 호환성이 완벽하다.
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/">RTM</a> (Restricted Transactional Memory)</strong>: 프로그래머가 명시적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 시작과 끝을 코딩하는 방식.
 
 ---
 
@@ -56,39 +56,37 @@ Intel TSX는 개발자에게 두 가지 [API](/knowledge-base/studynote/02_opera
 
 HTM이 내부적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하고 충돌을 감지하는 과정이다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Intel TSX (RTM) 트랜잭션 동작 흐름                   │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [상황 1: 트랜잭션 시작]                                             │
-  │   if ( _xbegin() == _XBEGIN_STARTED ) {                           │
-  │       // --- 하드웨어 트랜잭션 구역 진입 ---                              │
-  │       // CPU가 L1 캐시를 '임시 버퍼' 모드로 전환함.                     │
-  │       // 여기서 수정되는 변수들은 램에 바로 안 써지고 캐시에만 머묾(Write Set)│
-  │                                                                   │
-  │  [상황 2: 낙관적 병렬 실행]                                           │
-  │       node->val = 10;     (Write Set에 등록)                      │
-  │       next_node = node->next; (Read Set에 등록)                   │
-  │                                                                   │
-  │       // 만약 이때 다른 코어가 node->val을 읽거나 쓰면?                   │
-  │       // MESI 프로토콜의 Snoop 신호가 날아옴 -> CPU가 [충돌 감지!]      │
-  │       // 즉시 _xabort()가 강제 호출되며 모든 캐시 수정본을 날림(Rollback). │
-  │                                                                   │
-  │  [상황 3: 트랜잭션 성공적 종료 (Commit)]                              │
-  │       _xend();                                                    │
-  │       // 충돌이 없었다면, 캐시의 변경 사항이 단 1클럭 만에 메모리로 확정됨! │
-  │                                                                   │
-  │   } else {                                                        │
-  │  [상황 4: Fallback (롤백된 경우의 안전망)]                             │
-  │       // 충돌이 났거나, 캐시 용량(L1)을 초과해서 트랜잭션이 터진 경우        │
-  │       pthread_mutex_lock(&lock); // ◀ 전통적인 무식한 락(Lock)으로 우회 │
-  │       node->val = 10;                                             │
-  │       next_node = node->next;                                     │
-  │       pthread_mutex_unlock(&lock);                                │
-  │   }                                                               │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intel TSX (RTM) 트랜잭션 동작 흐름</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 트랜잭션 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ( _xbegin() == _XBEGIN_STARTED ) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// --- 하드웨어 트랜잭션 구역 진입 ---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// CPU가 L1 캐시를 '임시 버퍼' 모드로 전환함.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 여기서 수정되는 변수들은 램에 바로 안 써지고 캐시에만 머묾(Write Set)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 낙관적 병렬 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">node-&gt;val = 10; (Write Set에 등록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next_node = node-&gt;next; (Read Set에 등록)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 만약 이때 다른 코어가 node-&gt;val을 읽거나 쓰면?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">충돌 감지!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 즉시 _xabort()가 강제 호출되며 모든 캐시 수정본을 날림(Rollback).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 트랜잭션 성공적 종료 (Commit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_xend();</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 충돌이 없었다면, 캐시의 변경 사항이 단 1클럭 만에 메모리로 확정됨!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else {</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: Fallback (롤백된 경우의 안전망)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 충돌이 났거나, 캐시 용량(L1)을 초과해서 트랜잭션이 터진 경우</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_lock(&amp;lock); // ◀ 전통적인 무식한 락(Lock)으로 우회</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">node-&gt;val = 10;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next_node = node-&gt;next;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_unlock(&amp;lock);</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** HTM은 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)(L1/L2)를 일종의 임시 작업장으로 쓴다. 코어가 메모리를 읽으면 'Read Set', 쓰면 'Write Set'이라는 숨겨진 하드웨어 비트가 켜진다. 멀티코어 환경에서는 항상 MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 의해 "나 이거 수정할게"라는 브로드캐스트가 날아다닌다. 만약 내 Read Set이나 Write Set에 포함된 주소를 남이 건드리려고 한다는 MESI 신호를 내 캐시 컨트롤러가 엿듣게 되면, 하드웨어는 즉시 내 작업을 취소(Abort)하고 레지스터를 `_xbegin()` 직전 상태로 완벽히 되돌려 놓는다. 만약 아무도 안 건드렸다면 `_xend()`를 통해 임시 작업장의 내용을 진짜로 인정(Commit)한다.
 
@@ -100,7 +98,7 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 1. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `pthread_mutex_lock()`을 호출한다.
 2. CPU는 이 락 변수를 **진짜로 잠그지 않고 읽기만 한 뒤(생략, Elision)**, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 모드로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 실행한다.
 3. 락이 안 잠겨있으므로, 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들도 `pthread_mutex_lock()`을 통과하여 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 동시에 들어온다!
-4. **결과**: 분명히 코드는 '락'으로 짜여 있는데, 실제 하드웨어에서는 **'락 프리([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))'**로 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행되는 기적이 일어난다. (서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드릴 때만)
+4. **결과**: 분명히 코드는 '락'으로 짜여 있는데, 실제 하드웨어에서는 <strong>'락 프리(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a>)'</strong>로 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행되는 기적이 일어난다. (서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건드릴 때만)
 
 - **📢 섹션 요약 비유**: [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Elision은 놀이공원의 '프리패스 팔찌'입니다. 표([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 사려고 매표소에 줄을 서지 않고 그냥 통과해서 놀이기구를 탑니다. 만약 우연히 다른 사람과 같은 자리에 앉게 되면(충돌), 그때만 쫓겨나서 다시 매표소 줄([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 서면 됩니다.
 
@@ -112,15 +110,15 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 
 | 기법 | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리율) | 개발 난이도 | 특징 및 한계 |
 |:---|:---|:---|:---|
-| **[Coarse-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) (통 락)** | 최악 (모두 직렬화 됨) | 매우 쉬움 | 자료구조 전체를 뮤텍스 하나로 잠금. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 불가. |
-| **[Fine-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) (미세 락)** | 보통 ~ 좋음 | 매우 어려움 | 노드마다 락을 달아서 잠금. 데드락 위험 극상. |
-| **Software [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) ([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))**| 최상 | **극악 (학술적 영역)** | ABA 문제, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 제어(Hazard Pointer) 필수. |
-| **[HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) ([Lock Elision](/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/))** | **최상 ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 급)** | **매우 쉬움 (통 락 재활용)** | 하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(TSX 지원 CPU). [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 크기 한계. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/">Coarse-Grained</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (통 락)</strong> | 최악 (모두 직렬화 됨) | 매우 쉬움 | 자료구조 전체를 뮤텍스 하나로 잠금. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 불가. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> (미세 락)</strong> | 보통 ~ 좋음 | 매우 어려움 | 노드마다 락을 달아서 잠금. 데드락 위험 극상. |
+| <strong>Software <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a>)</strong>| 최상 | **극악 (학술적 영역)** | ABA 문제, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 제어(Hazard Pointer) 필수. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/270_lock_elision/">Lock Elision</a>)</strong> | <strong>최상 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a> 급)</strong> | **매우 쉬움 (통 락 재활용)** | 하드웨어 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(TSX 지원 CPU). [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 크기 한계. |
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 ([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))**: HTM의 치명적 한계는 **'용량 제한(Capacity Limit)'**이다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중에 건드리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 L1/L2 캐시 안에 들어가야 한다. 만약 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 수십 MB짜리 배열을 복사하려고 하면, 캐시가 꽉 차서(Cache Eviction) 무조건 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 Abort(실패)된다.
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중에 타이머 인터럽트나 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생하면 CPU는 즉시 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제 취소(Abort)시킨다. 즉, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 안에서는 절대로 `sleep()`, `malloc()`, I/O 같은 OS 시스템 콜을 부르면 안 된다는 엄격한 제약이 있다.
+- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: HTM의 치명적 한계는 <strong>'용량 제한(Capacity Limit)'</strong>이다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중에 건드리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 L1/L2 캐시 안에 들어가야 한다. 만약 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 수십 MB짜리 배열을 복사하려고 하면, 캐시가 꽉 차서(Cache Eviction) 무조건 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 Abort(실패)된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 도중에 타이머 인터럽트나 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 발생하면 CPU는 즉시 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제 취소(Abort)시킨다. 즉, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 안에서는 절대로 `sleep()`, `malloc()`, I/O 같은 OS 시스템 콜을 부르면 안 된다는 엄격한 제약이 있다.
 
 - **📢 섹션 요약 비유**: HTM은 100m 달리기 전력 질주와 같습니다. 짧은 거리(캐시 용량 내)를 무호흡(시스템 콜 없음)으로 뛰면 세계 신기록을 낼 수 있지만, 숨을 쉬거나 마라톤을 뛰려 하면 도중에 쓰러져서(Abort) 결국 걸어가는 것(전통적 락)만 못하게 됩니다.
 
@@ -130,45 +128,42 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 
 ### 실무 시나리오
 
-1. **시나리오 — 인메모리 DB(SAP HANA, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 병목**: B+ 트리나 레드-블랙 트리에 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 Insert를 한다. 루트 노드에 락을 걸면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이 0이 되고, 소프트웨어 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 트리를 짜려니 논리가 너무 복잡해 3년이 걸린다.
-   - **아키텍처 적용 ([HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 도입)**: 트리의 구조 변경 코드는 기존의 [Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)(가장 단순한 뮤텍스)으로 그대로 둔다. 대신 컴파일할 때 glibc의 **TSX 지원 [pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)**를 링킹한다.
+1. <strong>시나리오 — 인메모리 DB(SAP HANA, <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a>)의 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 트리 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 병목</strong>: B+ 트리나 레드-블랙 트리에 수백 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 Insert를 한다. 루트 노드에 락을 걸면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이 0이 되고, 소프트웨어 [Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 트리를 짜려니 논리가 너무 복잡해 3년이 걸린다.
+   - <strong>아키텍처 적용 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> 도입)</strong>: 트리의 구조 변경 코드는 기존의 [Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)(가장 단순한 뮤텍스)으로 그대로 둔다. 대신 컴파일할 때 glibc의 <strong>TSX 지원 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/">pthreads</a> <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a></strong>를 링킹한다.
    - **결과**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 동시에 트리에 Insert 하러 들어온다. [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 덕분에 락이 생략된다. 90개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 트리의 서로 다른 말단 노드(Leaf)를 수정하므로 아무 충돌 없이 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-Free처럼 동시에 Insert가 완료된다. 우연히 같은 노드를 건드린 10개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 Abort 되어 순차적으로 락을 잡고 처리된다. 개발 공수 0으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수십 배 향상된다.
 
-2. **시나리오 — 무분별한 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 적용으로 인한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 폭락 (Abort 폭풍)**: 개발자가 HTM이 마법인 줄 알고, [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안에서 화면에 로그를 찍는 `printf()`를 넣고 TSX로 돌렸다.
+2. <strong>시나리오 — 무분별한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/">HTM</a> 적용으로 인한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 폭락 (Abort 폭풍)</strong>: 개발자가 HTM이 마법인 줄 알고, [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안에서 화면에 로그를 찍는 `printf()`를 넣고 TSX로 돌렸다.
    - **원인 분석**: `printf`는 내부적으로 화면 출력을 위해 OS에 시스템 콜을 날리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼 락을 건드린다. 시스템 콜이 불리는 순간 CPU는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 100% Abort 시킨다. 1만 번을 시도해도 1만 번 실패하고, 결국 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) Lock으로 떨어지느라 엄청난 CPU 낭비(Overhead)만 발생했다.
-   - **대응 (기술사적 가이드)**: HTM이 적용되는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 안은 철저하게 **"메모리 연산([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 포인터 조작, 정수 덧셈)"**만 존재해야 한다. I/O 작업이나 동적 할당(`new/malloc`)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 밖으로 빼내는(Hoisting) 소프트웨어 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 반드시 병행되어야 한다.
+   - **대응 (기술사적 가이드)**: HTM이 적용되는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 안은 철저하게 <strong>"메모리 연산(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 포인터 조작, 정수 덧셈)"</strong>만 존재해야 한다. I/O 작업이나 동적 할당(`new/malloc`)은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 밖으로 빼내는(Hoisting) 소프트웨어 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)이 반드시 병행되어야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 멀티코어 동시성 제어 아키텍처 (HTM) 도입 플로우           │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [멀티스레드 병목 구간(Mutex/Spinlock)의 성능 최적화 프로젝트]             │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      임계 구역(Critical Section) 내부에서 I/O나 시스템 콜을 호출하는가?       │
-  │          ├─ 예 ─────▶ [HTM 적용 절대 불가] (무조건 Abort 터짐)        │
-  │          │            대책: 락을 유지하거나 로직 분리(Hoisting) 수행     │
-  │          └─ 아니오 (순수 메모리 데이터 구조 조작만 있음)                   │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      스레드 간의 실제 데이터 충돌 확률(Contention Probability)이 높은가?   │
-  │      (예: 모든 스레드가 글로벌 카운터 변수 1개만 미친 듯이 올림)               │
-  │          ├─ 예 ─────▶ [HTM 비효율적] (계속 충돌하여 롤백만 반복됨)      │
-  │          │            대책: Thread-Local 변수로 찢거나 원자적(Atomic) 사용│
-  │          │                                                        │
-  │          └─ 아니오 ──▶ [HTM 최적의 타겟!] (예: 거대 해시맵/트리 탐색)  │
-  │                         TSX 컴파일 활성화로 Lock-Free 성능 획득!      │
-  └───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 동시성 제어 아키텍처 (HTM) 도입 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 병목 구간(Mutex/Spinlock)의 성능 최적화 프로젝트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역(Critical Section) 내부에서 I/O나 시스템 콜을 호출하는가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 적용 절대 불가</div><div class="kb-diagram-note">(무조건 Abort 터짐)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 락을 유지하거나 로직 분리(Hoisting) 수행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 메모리 데이터 구조 조작만 있음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 간의 실제 데이터 충돌 확률(Contention Probability)이 높은가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 모든 스레드가 글로벌 카운터 변수 1개만 미친 듯이 올림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 비효율적</div><div class="kb-diagram-note">(계속 충돌하여 롤백만 반복됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: Thread-Local 변수로 찢거나 원자적(Atomic) 사용</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 최적의 타겟!</div><div class="kb-diagram-note">(예: 거대 해시맵/트리 탐색)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSX 컴파일 활성화로 Lock-Free 성능 획득!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** HTM은 만병통치약이 아니다. "충돌이 거의 안 날 것 같은데, 혹시 몰라서 락을 크게 걸어둔 곳(Low Contention, [Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))"에서 가장 빛을 발한다. 반대로 "모두가 하나의 변수를 놓고 싸우는 곳(High Contention)"에서는 HTM을 켜면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 오버헤드 때문에 전통적 스핀락보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 3배 이상 느려지는 대참사가 발생한다. (이를 방지하기 위해 glibc는 Abort가 일정 횟수 이상 터지면 스스로 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 시도를 포기하고 일반 락 모드로 다운그레이드하는 적응형 백오프 로직을 갖고 있다.)
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **하드웨어 취약점(보안) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: Intel TSX 기술은 과거 TAA(TSX Asynchronous Abort)와 같은 부채널(Side-channel) 해킹 취약점이 발견되어, 최신 마이크로코드 업데이트에서 강제로 비활성화된 경우가 많다. 클라우드나 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 장비의 CPU [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`lscpu | grep rtm`)에 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)/HLE [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 살아있는지 선결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필요하다.
-- **가짜 충돌 ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 방지**: HTM은 캐시 라인(64Byte) 단위로 충돌을 감지한다. 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 0번 바이트를 고치고 남의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 60번 바이트를 고쳤더라도(실제 충돌 아님), 캐시 하드웨어는 "충돌이다!"라며 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 엎어버린다(Capacity/False Abort). [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 설계가 여전히 요구된다.
+- <strong>하드웨어 취약점(보안) <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: Intel TSX 기술은 과거 TAA(TSX Asynchronous Abort)와 같은 부채널(Side-channel) 해킹 취약점이 발견되어, 최신 마이크로코드 업데이트에서 강제로 비활성화된 경우가 많다. 클라우드나 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 장비의 CPU [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`lscpu | grep rtm`)에 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)/HLE [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 살아있는지 선결 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필요하다.
+- <strong>가짜 충돌 (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">False Sharing</a>) 방지</strong>: HTM은 캐시 라인(64Byte) 단위로 충돌을 감지한다. 내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 0번 바이트를 고치고 남의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 60번 바이트를 고쳤더라도(실제 충돌 아님), 캐시 하드웨어는 "충돌이다!"라며 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 엎어버린다(Capacity/False Abort). [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 설계가 여전히 요구된다.
 
 - **📢 섹션 요약 비유**: HTM은 자율주행 모드와 같습니다. 고속도로(순수 메모리 연산, 낮은 충돌)에서는 운전대(락)를 놓고 눈을 감아도 완벽하게 달리지만, 복잡한 골목길이나 장애물(I/O, 잦은 충돌)이 나오면 바로 경고음(Abort)을 내며 사람이 수동으로 운전([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))하게 만듭니다.
 
@@ -206,15 +201,19 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
-    │
-    ▼
-[하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory Htm)]
-    │
-    ├──▶ [가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
-    └──▶ [Virtio]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory Htm)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Virtio</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

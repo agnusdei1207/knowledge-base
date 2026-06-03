@@ -20,21 +20,25 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전선을 타고 날아가면 노이즈 때문에 1비트라도 깨질 확률이 항상 존재합니다.
-FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 않고, **에러를 검출([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 등)하자마자 가차 없이 패킷을 쓰레기통에 버린 뒤, 송신기에게 [NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)(부정 응답)를 쳐서 재전송을 갈취**해 내는 것이 ARQ의 핵심입니다.
+FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 않고, <strong>에러를 검출(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> 등)하자마자 가차 없이 패킷을 쓰레기통에 버린 뒤, 송신기에게 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a>(부정 응답)를 쳐서 재전송을 갈취</strong>해 내는 것이 ARQ의 핵심입니다.
 
 이 핑퐁 게임이 원활하게 돌아가려면 세 가지 무기가 필요합니다.
 1. 에러 없이 받았다고 도장을 찍어주는 **ACK** [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
-2. 에러 났다고 징징대는 **[NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)** [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
-3. 송신자가 ACK가 올 때까지 무한정 기다리다 굶어 죽는 걸 막기 위한 **타이머([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))**
+2. 에러 났다고 징징대는 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a></strong> [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
+3. 송신자가 ACK가 올 때까지 무한정 기다리다 굶어 죽는 걸 막기 위한 <strong>타이머(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)</strong>
 
-```text
-[Chase Combining / IR]
-    │
-    ▼
-[ARQ 프로토콜 종류]
-    │
-    └──▶ [정지-대기 ARQ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chase Combining / IR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정지-대기 ARQ</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,16 +60,20 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 - **철학**: "에러 난 놈 딱 한 개만 핀셋으로 집어서 다시 쏘자."
 - GBN의 재전송 낭비를 막기 위해 탄생한 궁극의 효율성입니다. 3번이 깨지면 4번, 5번은 잘 보관해 두고 오직 3번만 재전송받습니다. 단, 수신기가 도착 순서가 꼬인 패킷들을 예쁘게 재조립해야 하므로 엄청나게 비싸고 똑똑한 메모리 버퍼(Buffer)가 양쪽 모두에게 필요합니다.
 
-```text
-[Chase Combining / IR]
-    │
-    ▼
-[ARQ 프로토콜 종류]
-    │
-    └──▶ [정지-대기 ARQ]
-```
 
-- **📢 섹션 요약 비유**: ** [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 진화는 **'중국집 배달 방식의 진화'**입니다. 철가방 하나에 짜장면 한 그릇만 배달하고 그릇을 찾아올 때까지 다음 배달을 안 나가는 것이 **정지-대기**, 짜장면 5그릇을 배달 갔는데 3번 그릇에 벌레가 나왔다고 4, 5번 그릇까지 몽땅 다 버리고 3~5번을 새로 요리해서 가져다주는 무식함이 **Go-Back-N**, 딱 벌레가 나온 3번 그릇 한 그릇만 주방에서 새로 만들어서 다시 보내주는 스마트함이 **Selective Repeat**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Chase Combining / IR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정지-대기 ARQ</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 진화는 </strong>'중국집 배달 방식의 진화'<strong>입니다. 철가방 하나에 짜장면 한 그릇만 배달하고 그릇을 찾아올 때까지 다음 배달을 안 나가는 것이 </strong>정지-대기<strong>, 짜장면 5그릇을 배달 갔는데 3번 그릇에 벌레가 나왔다고 4, 5번 그릇까지 몽땅 다 버리고 3~5번을 새로 요리해서 가져다주는 무식함이 </strong>Go-Back-N**, 딱 벌레가 나온 3번 그릇 한 그릇만 주방에서 새로 만들어서 다시 보내주는 스마트함이 **Selective Repeat**입니다.
 
 ---
 
@@ -121,15 +129,19 @@ FEC(전진 오류 수정)처럼 수신기가 스스로 고치려 낑낑대지 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: Chase Combining / IR]
-    │
-    ▼
-[현재 개념: ARQ 프로토콜 종류]
-    │
-    ├──▶ [확장 A: 정지-대기 ARQ]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Chase Combining / IR</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARQ 프로토콜 종류</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정지-대기 ARQ</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류는 Chase Combining / IR에서 출발해 현재 메커니즘을 정교화하고, 이후 정지-대기 ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

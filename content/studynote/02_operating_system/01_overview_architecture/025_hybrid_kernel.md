@@ -20,20 +20,20 @@ tags = ["studynote-operating-system"]
 
 순수 모놀리식과 순수 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)의 극단적 트레이드오프 사이에서, 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실용적 중간 지점을 찾는다.
 
-```text
-┌────────────────────────────────────────────────────────────┐
-│           커널 설계 스펙트럼                                 │
-├────────────────────────────────────────────────────────────┤
-│                                                            │
-│  모놀리식         하이브리드          마이크로커널             │
-│  (Linux)         (Windows, macOS)    (QNX, seL4)           │
-│    │                  │                  │                 │
-│  성능 ↑↑           성능 ↑              성능 ~               │
-│  안정성 ↓          안정성 ↑             안정성 ↑↑            │
-│  모듈성 ↓          모듈성 ↑             모듈성 ↑↑            │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 설계 스펙트럼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 하이브리드 마이크로커널</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Linux) (Windows, macOS) (QNX, seL4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 ↑↑ 성능 ↑ 성능 ~</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정성 ↓ 안정성 ↑ 안정성 ↑↑</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈성 ↓ 모듈성 ↑ 모듈성 ↑↑</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 스포츠카(모놀리식 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))와 SUV([마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 안정성)의 장점을 합친 크로스오버 차량이다. 완벽하지 않지만 일상과 험로 모두에서 실용적이다.
 
@@ -43,28 +43,29 @@ tags = ["studynote-operating-system"]
 
 ### macOS XNU 하이브리드 구조
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│  macOS XNU = Mach(마이크로커널) + BSD(모놀리식) 통합        │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  사용자 공간:  [앱] [POSIX API] [Darwin 프레임워크]        │
-│        │                                                 │
-│  커널 공간:                                               │
-│  ├─ Mach 레이어: IPC, 가상 메모리, 스레드 스케줄러          │
-│  ├─ BSD 레이어: POSIX API, 파일시스템, 네트워킹             │
-│  └─ I/O Kit: C++ 기반 드라이버 프레임워크                  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">macOS XNU = Mach(마이크로커널) + BSD(모놀리식) 통합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 공간:</div><div class="kb-diagram-node">앱</div><div class="kb-diagram-node">POSIX API</div><div class="kb-diagram-node">Darwin 프레임워크</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 공간:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Mach 레이어: IPC, 가상 메모리, 스레드 스케줄러</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ BSD 레이어: POSIX API, 파일시스템, 네트워킹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I/O Kit: C++ 기반 드라이버 프레임워크</div></div>
+</div>
+</div>
+
+
 
 ### Windows NT 하이브리드 구조
 
 | 레이어 | 역할 |
 |:---|:---|
-| **[HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) (Hardware [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)** | 하드웨어 독립적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
-| **Executive ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드)** | 메모리, 보안, I/O 관리자 |
-| **NT [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)** | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 핸들링 |
-| **드라이버 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드)** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/">HAL</a> (Hardware <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> Layer)</strong> | 하드웨어 독립적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
+| <strong>Executive (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드)</strong> | 메모리, 보안, I/O 관리자 |
+| <strong>NT <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a></strong> | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 핸들링 |
+| <strong>드라이버 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드)</strong> | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
 | **Win32 서브시스템 (사용자 모드)** | Win32 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공 |
 
 - **📢 섹션 요약 비유**: Windows NT는 층수가 잘 나뉜 고층 빌딩이다. 지하([HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/))가 땅(하드웨어)과의 인터페이스를 담당하고, 각 층(Executive, [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 역할을 나누되 모두 하나의 건물([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간)에 있다.
@@ -75,10 +76,10 @@ tags = ["studynote-operating-system"]
 
 | 항목 | 모놀리식 | 하이브리드 | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) |
 |:---|:---|:---|:---|
-| **[IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 방식** | 직접 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 혼합 | 메시지 패싱 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a> 방식</strong> | 직접 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) | 혼합 | 메시지 패싱 |
 | **드라이버 위치** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(기본)+사용자(옵션) | 사용자 공간 |
 | **실제 예** | Linux, Unix | Windows NT, macOS | QNX, seL4, MINIX |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 최고 | 높음 | 낮음~중간 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 최고 | 높음 | 낮음~중간 |
 | **드라이버 장애** | 시스템 크래시 | 부분 영향 | 격리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 
 - **📢 섹션 요약 비유**: 드라이버 장애 시 모놀리식은 집 전체가 정전(BSOD), 하이브리드는 한 방만 정전, [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)은 외부 발전기(서버)만 꺼져 집은 유지된다.
@@ -104,9 +105,9 @@ tags = ["studynote-operating-system"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·안정성 균형** | 모놀리식 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) + [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 구조 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>·안정성 균형</strong> | 모놀리식 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) + [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/) 구조 |
 | **광범위한 생태계** | Windows/macOS의 방대한 드라이버·SW 호환 |
-| **점진적 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)화** | 필요 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용자 공간으로 분리 가능 |
+| <strong>점진적 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">마이크로커널</a>화</strong> | 필요 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 사용자 공간으로 분리 가능 |
 
 현대 OS는 전통적 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 넘어 [가상화 하이퍼바이저](/knowledge-base/studynote/02_operating_system/11_exam_summary/743_virtualization_hypervisor/)(Type-1: [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), Hyper-V)와 통합되어 "게스트 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)"로서의 역할도 겸하는 방향으로 발전하고 있으며, Windows 11의 WSL2(Windows Subsystem for Linux 2)는 Hyper-V 경량 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 위에서 실제 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 실행하는 혁신적 하이브리드 접근을 보여준다.
 
@@ -118,29 +119,31 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[모놀리식 커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/)** | 하이브리드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) |
-| **[마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)** | 하이브리드의 구조 기반 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/023_monolithic_kernel/">모놀리식 커널</a></strong> | 하이브리드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기반 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/">마이크로커널</a></strong> | 하이브리드의 구조 기반 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) |
 | **XNU (macOS)** | Mach + BSD 통합 하이브리드의 대표 |
 | **Windows NT Executive** | 레이어드 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 대표 |
 | **BSOD** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 오류 시 하이브리드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 장애 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모놀리식 커널 — 단순, 고성능, 낮은 안정성]
-    │
-    ▼
-[마이크로커널 — 높은 안정성, IPC 오버헤드]
-    │
-    ▼
-[하이브리드 커널 — 실용적 절충 (Windows NT, macOS XNU)]
-    │
-    ▼
-[하이퍼바이저 통합 — VM 기반 OS 격리 (Hyper-V, KVM)]
-    │
-    ▼
-[WSL2 / 컨테이너 — 경량 VM 커널 격리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 커널 — 단순, 고성능, 낮은 안정성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로커널 — 높은 안정성, IPC 오버헤드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 커널 — 실용적 절충 (Windows NT, macOS XNU)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 통합 — VM 기반 OS 격리 (Hyper-V, KVM)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WSL2 / 컨테이너 — 경량 VM 커널 격리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

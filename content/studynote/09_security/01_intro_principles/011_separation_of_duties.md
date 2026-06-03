@@ -27,15 +27,18 @@ tags = ["security"]
 
 💡 **비유하자면**, 영화관에서 표를 판매하는 직원과 입장할 때 표를 확인하고 찢는 직원이 분리되어 있는 것과 같습니다. 한 명이 두 가지를 모두 하면 돈을 빼돌리고 표 없이 사람을 들여보내는 부정을 쉽게 저지를 수 있기 때문입니다.
 
-```text
-[기존 구조의 한계: 단일 권한 독점]
-┌───────────────────────────────────────────────┐
-│              Super User (Admin)               │
-│  [개발] ───> [배포] ───> [DB 접근] ───> [로그 삭제] │
-│   └────────────────▲──────────────────────────┘
-│                    │ 부정이 발생해도 감지 및 통제 불가 (Human SPOF)
-└────────────────────┴──────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존 구조의 한계: 단일 권한 독점</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Super User (Admin)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개발</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">배포</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">DB 접근</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">로그 삭제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부정이 발생해도 감지 및 통제 불가 (Human SPOF)</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 권한 분리가 없는 환경에서 단일 사용자가 모든 생명주기를 통제할 때 발생하는 위험을 보여준다. 이런 배치는 권한 남용뿐만 아니라 공격자에게 '매력적인 단일 타겟'을 제공하기 때문이며, 따라서 관리자 계정 침해는 곧바로 시스템 전체의 장악과 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 삭제를 통한 증거 인멸로 이어진다. 실무에서는 이러한 수퍼유저 패턴을 강력하게 제한해야 한다.
 
@@ -52,28 +55,28 @@ tags = ["security"]
 | **Initiator (기안자)** | 작업 요청 및 시작 | 코드 작성, 비용 지출 기안, 인프라 변경 요청 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 권한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 승인 권한 배제 | 기획안 작성자 |
 | **Approver (승인자)** | 작업의 타당성 검토 및 승인 | [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) 리뷰, 예산 결재, 배포 승인 | 기안자와 동일 인물일 수 없음 (SoD 충돌 룰) | 부서장 / 검토자 |
 | **Executor (실행자)** | 승인된 작업의 실제 시스템 반영 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), DBA의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 | 승인된 스크립트만 실행, 임의 변경 불가 | 시스템 봇 / 실행 부서 |
-| **Auditor ([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자)** | 전체 프로세스의 규정 준수 검토 | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 권한 부여 이력 검토 | 운영/개발 시스템 변경 권한 일체 없음 | 외부 회계/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 법인 |
+| <strong>Auditor (<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>자)</strong> | 전체 프로세스의 규정 준수 검토 | [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 권한 부여 이력 검토 | 운영/개발 시스템 변경 권한 일체 없음 | 외부 회계/[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 법인 |
 | **SoD Matrix** | 역할 간 충돌(Conflict) 정의 테이블 | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 시스템에서 역할 할당 시 충돌 여부 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [XACML](/knowledge-base/studynote/09_security/11_iam_access_control/574_xacml/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 평가, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 제약 | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 규정집 |
 
-```text
-[직무 분리(SoD)를 적용한 권한 통제 워크플로우]
 
-       (요청)              (승인/거절)             (실행/반영)
-[Developer] ─────────> [Security/Manager] ─────────> [CI/CD System] ──> [Production]
-      │                        │                           │                 ▲
-      │                        │                           │                 │
-      ├────────────────────────┼───────────────────────────┤(감사/로깅)       │
-      ▼                        ▼                           ▼                 │
-┌──────────────────────────────────────────────────────────────────┐         │
-│                        Audit Log & SIEM                          │◀────────┘
-└──────────────────────────────┬───────────────────────────────────┘
-                               │(모니터링)
-                         [Auditor / SOC]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">직무 분리(SoD)를 적용한 권한 통제 워크플로우</div></div>
+<div class="kb-diagram-note">(요청) (승인/거절) (실행/반영)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Security/Manager</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">CI/CD System</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Production</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">(감사/로깅)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Log &amp; SIEM</div><div class="kb-diagram-cell">◀</div></div>
+<div class="kb-diagram-note">(모니터링)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Auditor / SOC</div></div>
+</div>
+</div>
+
+
 
 이 구조도의 핵심은 시스템의 상태를 변경하는 전체 파이프라인이 기안, 승인, 실행, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 독립적인 주체로 쪼개져 있다는 점이다. 이러한 배치는 어떤 한 개인이 악의적 의도를 갖더라도 타인의 동조(공모, Collusion) 없이는 프로덕션 환경을 변경할 수 없도록 강제하기 위함이다. 따라서 내부자 위협에 대한 저항성이 극대화되며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자(Auditor)를 별도로 분리하여 투명성을 보장한다. 실무에서는 이 파이프라인을 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 및 [SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/) 도구와 연동하여 물리적/논리적으로 강제하는 것이 중요하다.
 
-[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)의 내부 메커니즘은 철저하게 **상호 배타적 역할(Mutually Exclusive Roles)**에 기반한다. 예를 들어, 시스템에서 '구매 요청자' 역할과 '구매 승인자' 역할을 정의하고, SoD 매트릭스에 의해 한 사용자가 두 역할을 동시에 가질 수 없도록 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 제약 조건(Constraints)을 설정한다. 사용자에게 권한을 할당하는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 단계에서 이 룰을 위반하는 요청이 발생하면 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 시스템이 자동으로 할당을 거부([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))한다.
+[직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)의 내부 메커니즘은 철저하게 <strong>상호 배타적 역할(Mutually Exclusive Roles)</strong>에 기반한다. 예를 들어, 시스템에서 '구매 요청자' 역할과 '구매 승인자' 역할을 정의하고, SoD 매트릭스에 의해 한 사용자가 두 역할을 동시에 가질 수 없도록 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) 제약 조건(Constraints)을 설정한다. 사용자에게 권한을 할당하는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 단계에서 이 룰을 위반하는 요청이 발생하면 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 시스템이 자동으로 할당을 거부([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/))한다.
 
 📢 **섹션 요약 비유**: 은행에서 금고 문을 여는 비밀번호를 아는 사람과 금고 열쇠를 가진 사람을 철저히 분리하여, 혼자서는 절대 금고를 열 수 없게 설계한 것과 같습니다.
 
@@ -90,20 +93,24 @@ tags = ["security"]
 | **주요 위협** | 내부자 부정행위, 결제 사기, 무단 배포 | 자격 증명 탈취 후 횡적 이동(Lateral Movement) | 두 가지가 결합되어야 방어 시너지 발생 |
 | **적용 사례** | 개발자와 운영자의 권한 분리, 결재의 4눈 원칙 | DBA에게 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 권한만 부여하고 DROP 권한 회수 | SoD 매트릭스와 최소 권한 롤 정의의 병행 |
 
-```text
-[권한 제어 모델의 2차원 매트릭스]
 
-        강 ↑
-   (SoD)   │    [ 관료적 병목 ]       [ 이상적인 보안 상태 ]
-   역할    │  - 안전하지만 느림         - 분할된 최소 권한
-   분리    │  - 생산성 저하 우려        - JIT/결재 시스템 자동화
-   수준    │
-        약 │    [ 최고 위험 구역 ]      [ 타겟팅 위험 구역 ]
-           │  - Super User 존재         - 한 명이 넓은 영역 커버
-           │  - 내부자 위협/해킹 취약   - 권한 탈취 시 파급력 큼
-           └───────────────────────────────────────────────→
-             약                   권한 범위 제한 (PoLP)  강
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">권한 제어 모델의 2차원 매트릭스</div></div>
+<div class="kb-diagram-note">강 ↑</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">(SoD)</div><div class="kb-diagram-node">관료적 병목</div><div class="kb-diagram-node">이상적인 보안 상태</div></div>
+<div class="kb-diagram-note">역할 │ - 안전하지만 느림 - 분할된 최소 권한</div>
+<div class="kb-diagram-note">분리 │ - 생산성 저하 우려 - JIT/결재 시스템 자동화</div>
+<div class="kb-diagram-note">수준</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">약</div><div class="kb-diagram-node">최고 위험 구역</div><div class="kb-diagram-node">타겟팅 위험 구역</div></div>
+<div class="kb-diagram-note">- Super User 존재 - 한 명이 넓은 영역 커버</div>
+<div class="kb-diagram-note">- 내부자 위협/해킹 취약 - 권한 탈취 시 파급력 큼</div>
+<div class="kb-diagram-note">약 권한 범위 제한 (PoLP) 강</div>
+</div>
+</div>
+
+
 
 이 매트릭스의 핵심은 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(SoD)와 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)(PoLP) 중 하나만 높일 경우 보안의 불균형이 발생한다는 점이다. SoD만 강하면 권한은 분리되어 있지만 각자가 너무 큰 권한을 가져 위험하고, PoLP만 강하면 권한은 작지만 한 사람이 여러 역할을 수행해 룰을 우회할 수 있다. 따라서 이상적인 보안 상태는 역할이 철저히 분리되면서도 각 역할이 가지는 권한이 최소화된 우상단 영역에 위치한다. 실무에서는 이 두 가지를 동시에 충족하기 위해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적 설계와 시스템 자동화가 수반되어야 한다.
 
@@ -116,30 +123,33 @@ tags = ["security"]
 실무에서 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 적용할 때는 비즈니스 민첩성(Agility)과의 충돌을 가장 주의해야 한다. 무분별한 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 심각한 병목 현상을 유발한다.
 
 #### 1. 실무 시나리오 및 의사결정
-- **소규모 스타트업의 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경**: 인력이 부족하여 개발자가 운영(배포)까지 담당해야 하는 상황이다. 물리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)가 불가능하므로, '논리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)'를 적용한다. 즉, 개발자가 직접 배포하더라도 반드시 GitHub Actions/GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 등 자동화된 파이프라인을 통해서만 배포하도록 강제하고, 프로덕션 서버에 대한 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속은 차단(Break-Glass 시에만 허용)한다.
+- <strong>소규모 스타트업의 <a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> 환경</strong>: 인력이 부족하여 개발자가 운영(배포)까지 담당해야 하는 상황이다. 물리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)가 불가능하므로, '논리적 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)'를 적용한다. 즉, 개발자가 직접 배포하더라도 반드시 GitHub Actions/GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 등 자동화된 파이프라인을 통해서만 배포하도록 강제하고, 프로덕션 서버에 대한 직접 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 접속은 차단(Break-Glass 시에만 허용)한다.
 - **금융권 결제 시스템 개발**: 강력한 SoD가 법적으로 요구된다. 개발계, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)계(Staging), 운영계의 망과 계정을 물리적으로 완전히 분리한다. 개발 조직은 소스코드를 형상관리 시스템에 커밋하고 팀장의 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 승인(4눈 원칙)을 거친 후, 분리된 운영 조직이 정해진 배포 윈도우에 배포를 실행한다.
-- **클라우드 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 권한 설계**: AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 짤 때, 계정을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 권한([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Full Access)과 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수정할 수 있는 권한을 서로 다른 그룹에 분리하여, 권한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자가 스스로에게 관리자 권한을 부여하는 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 방지한다.
+- <strong>클라우드 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> 권한 설계</strong>: AWS [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 짤 때, 계정을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있는 권한([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) Full Access)과 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수정할 수 있는 권한을 서로 다른 그룹에 분리하여, 권한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자가 스스로에게 관리자 권한을 부여하는 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))을 방지한다.
 
 #### 2. 도입 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
 - **가짜 4눈 원칙 (Rubber Stamping)**: [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 위해 승인 단계를 만들었으나, 승인자가 내용을 검토하지 않고 맹목적으로 승인(OK) 버튼만 누르는 경우. 이는 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 향상 없이 프로세스만 지연시킨다.
-- **공모(Collusion) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 간과**: 직무를 분리해 둔 두 명의 직원이 서로 짜고 부정행위를 저지르는 경우. SoD는 공모를 완벽히 막을 수 없으므로, 강력한 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 기반 이상 행위 탐지)가 반드시 백업으로 존재해야 한다.
+- <strong>공모(Collusion) <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 간과</strong>: 직무를 분리해 둔 두 명의 직원이 서로 짜고 부정행위를 저지르는 경우. SoD는 공모를 완벽히 막을 수 없으므로, 강력한 [탐지 통제](/knowledge-base/studynote/09_security/01_intro_principles/054_detective_controls/)([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 기반 이상 행위 탐지)가 반드시 백업으로 존재해야 한다.
 - **예외 처리 남용**: '긴급 배포'라는 명목하에 SoD 원칙을 우회하는 예외 계정을 만들어 두고 일상적으로 사용하는 경우.
 
-```text
-[직무 분리 예외 상황(Break-Glass) 운영 플로우]
 
-[장애 발생] ──> 일반 프로세스로는 시간 내 복구 불가 (SoD 병목)
-                  │
-                  ▼
-[Firecall 계정] ──> 물리적 금고/Vault에서 초특권(Super Admin) 계정 인출
-                  │ (알람 즉시 SOC 및 CISO 전송)
-                  ▼
-[장애 조치] ──> 신속한 시스템 복구 실행
-                  │
-                  ▼
-[사후 감사] ──> 사용된 세션 전체 비디오 녹화 및 키스트로크 로깅 분석
-                정당성 검토 후 비밀번호 즉시 로테이션 (비활성화)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">직무 분리 예외 상황(Break-Glass) 운영 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 발생</div><div class="kb-diagram-note">──&gt; 일반 프로세스로는 시간 내 복구 불가 (SoD 병목)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Firecall 계정</div><div class="kb-diagram-note">──&gt; 물리적 금고/Vault에서 초특권(Super Admin) 계정 인출</div></div>
+<div class="kb-diagram-note">(알람 즉시 SOC 및 CISO 전송)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">장애 조치</div><div class="kb-diagram-note">──&gt; 신속한 시스템 복구 실행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">사후 감사</div><div class="kb-diagram-note">──&gt; 사용된 세션 전체 비디오 녹화 및 키스트로크 로깅 분석</div></div>
+<div class="kb-diagram-note">정당성 검토 후 비밀번호 즉시 로테이션 (비활성화)</div>
+</div>
+</div>
+
+
 
 이 플로우의 핵심은 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 원칙이 장애 상황에서 가용성을 해치지 않도록 합법적인 우회(Break-Glass) 절차를 설계하되, 사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 비용을 극대화하여 남용을 억제한다는 점이다. 이런 배치는 가용성과 기밀성의 트레이드오프를 해결하기 때문이며, 따라서 기업은 시스템 마비라는 최악의 사태를 막으면서도 책임 추적성을 잃지 않게 된다. 실무에서는 Firecall 계정 사용 시 경영진에게 즉시 SMS 알림이 가도록 설정해야 한다.
 
@@ -157,7 +167,7 @@ tags = ["security"]
 | 권한 구조가 평면적이어서 컴플라이언스 심사 탈락 | SoD 매트릭스 기반의 체계적 권한 관리로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 통과 보장 |
 | 배포 및 변경 작업 중 치명적인 휴먼 에러 발생 빈도 높음 | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) 및 승인 절차를 통한 에러율 획기적 감소 |
 
-미래의 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 고정적인 권한 테이블을 넘어, **문맥 기반의 동적 통제([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))**와 결합하는 방향으로 진화하고 있다. 즉, 평상시에는 권한이 분리되어 있다가 사용자의 위치, 시간, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)(IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리) 티켓의 상태에 따라 자동으로 일시적인 권한과 승인 플로우가 매핑되는 지능형 권한 관리([IGA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/619_id_governance_iga/)) 시스템이 표준이 될 것이다.
+미래의 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 고정적인 권한 테이블을 넘어, <strong>문맥 기반의 동적 통제(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/">ABAC</a>)</strong>와 결합하는 방향으로 진화하고 있다. 즉, 평상시에는 권한이 분리되어 있다가 사용자의 위치, 시간, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)(IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리) 티켓의 상태에 따라 자동으로 일시적인 권한과 승인 플로우가 매핑되는 지능형 권한 관리([IGA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/619_id_governance_iga/)) 시스템이 표준이 될 것이다.
 
 📢 **섹션 요약 비유**: 잘 설계된 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)는 마치 다축 톱니바퀴처럼 서로 맞물려 돌아가면서, 하나의 톱니가 고장 나거나 폭주하더라도 전체 기계가 무너지지 않도록 지탱해주는 안전 장치입니다.
 
@@ -165,29 +175,31 @@ tags = ["security"]
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-- **[Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) (최소 권한)** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)와 함께 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)의 양대 산맥으로, 권한의 깊이를 제한함
-- **[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 시스템적으로 구현하기 위한 역할 기반 접근 제어 모델
+- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/">Least Privilege</a> (최소 권한)</strong> | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)와 함께 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)의 양대 산맥으로, 권한의 깊이를 제한함
+- <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a> (<a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">Role-Based Access Control</a>)</strong> | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 시스템적으로 구현하기 위한 역할 기반 접근 제어 모델
 - **Four-Eyes Principle (4눈 원칙)** | 중요한 결정이나 행동은 반드시 두 사람의 확인을 거치도록 하는 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)의 하위 개념
 - **Break-Glass Procedure** | 긴급 상황 시 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/) 등의 통제를 일시적으로 우회하기 위한 사후 통제 기반 비상 절차
 - **Collusion (공모)** | [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)를 무력화하기 위해 분리된 권한을 가진 2인 이상이 담합하는 내부자 위협
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[최소 권한 원칙 (Principle of Least Privilege) — 필요 최소한의 권한만 부여]
-    │
-    ▼
-[직무 분리 (Separation of Duties) — 단일 주체의 완전한 권한 집중 차단]
-    │
-    ▼
-[2인 통제 (Two-Person Integrity) — 핵심 작업에 2명 이상의 승인 요구]
-    │
-    ▼
-[역할 기반 접근 통제 (RBAC — Role-Based Access Control) — 직무 분리 자동화]
-    │
-    ▼
-[내부 감사 (Internal Audit) / SOX 준수 — 직무 분리 통제 적정성 정기 검증]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">최소 권한 원칙 (Principle of Least Privilege) — 필요 최소한의 권한만 부여</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">직무 분리 (Separation of Duties) — 단일 주체의 완전한 권한 집중 차단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2인 통제 (Two-Person Integrity) — 핵심 작업에 2명 이상의 승인 요구</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">역할 기반 접근 통제 (RBAC — Role-Based Access Control) — 직무 분리 자동화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내부 감사 (Internal Audit) / SOX 준수 — 직무 분리 통제 적정성 정기 검증</div></div>
+</div>
+</div>
+
+
 
 이 흐름은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에서 출발해 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)→2인 통제→[RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)→[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 프레임워크로 이어지는 내부 통제 체계 진화를 나타낸다.
 

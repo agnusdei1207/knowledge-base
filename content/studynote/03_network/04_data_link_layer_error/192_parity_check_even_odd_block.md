@@ -19,29 +19,33 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-송신기와 수신기가 사전에 "우리는 무조건 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1의 개수를 '짝수'로 맞춰서 보내자!"라고 룰을 정합니다. 이를 **[짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)([Even Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/))**라고 합니다. (홀수로 맞추면 [Odd Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/)).
+송신기와 수신기가 사전에 "우리는 무조건 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1의 개수를 '짝수'로 맞춰서 보내자!"라고 룰을 정합니다. 이를 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">짝수 패리티</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">Even Parity</a>)</strong>라고 합니다. (홀수로 맞추면 [Odd Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/109_odd_parity/)).
 
-- **송신할 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `1010001` (이 안에 1이 총 3개(홀수) 있습니다).
-- **[패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 짝수로 만들어야 하므로, 꼬리에 `1`을 강제로 하나 달아줍니다.
-- **최종 송신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: `1010001` + **`1`** (이제 1의 총개수는 4개가 되어 [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) 조건을 만족합니다).
+- <strong>송신할 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `1010001` (이 안에 1이 총 3개(홀수) 있습니다).
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/">패리티 비트</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 짝수로 만들어야 하므로, 꼬리에 `1`을 강제로 하나 달아줍니다.
+- <strong>최종 송신 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: `1010001` + <strong><code>1</code></strong> (이제 1의 총개수는 4개가 되어 [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) 조건을 만족합니다).
 
 **[수신기의 검사]**
 - 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았는데 `1010011` + `1` 로 수신되었습니다 (원본의 끝부분 0이 1로 깨짐).
 - 수신기는 전체 1의 개수를 세어봅니다. "어? 1이 5개(홀수)네? 우리 짝수로 보내기로 했잖아! 전송 중에 깨졌군. 다 버려!" (에러 검출 성공).
 
 ### [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 패리티의 치명적 한계
-이 방식은 **단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러(딱 1개만 깨졌을 때)**만 완벽히 잡습니다. 
-만약 번개가 크게 쳐서 `1010001`이 `0110001`로 **2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 뒤집혀 버리면**, 1의 개수는 그대로 3개 ➔ 꼬리의 `1`과 합치면 4개(짝수)가 유지됩니다. 
-수신기는 1의 개수가 짝수이므로 "오! 아무 문제 없네!" 하고 **심각하게 깨진 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정상으로 착각**하고 받아버리는 끔찍한 결함이 있습니다.
+이 방식은 <strong>단일 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 에러(딱 1개만 깨졌을 때)</strong>만 완벽히 잡습니다. 
+만약 번개가 크게 쳐서 `1010001`이 `0110001`로 <strong>2개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 동시에 뒤집혀 버리면</strong>, 1의 개수는 그대로 3개 ➔ 꼬리의 `1`과 합치면 4개(짝수)가 유지됩니다. 
+수신기는 1의 개수가 짝수이므로 "오! 아무 문제 없네!" 하고 <strong>심각하게 깨진 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 정상으로 착각</strong>하고 받아버리는 끔찍한 결함이 있습니다.
 
-```text
-[역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
-[패리티 검사]
-    │
-    └──▶ [검사합]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">검사합</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 패리티 검사는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,22 +57,26 @@ tags = ["studynote-network"]
 
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 개의 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(블록)로 쪼개어 가로로 쌓습니다.
 2. 각 행(가로줄) 끝에 1차원 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 답니다.
-3. 가장 밑바닥에 각 열(세로줄)의 1의 개수를 맞추는 **수직 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) 블록**을 한 줄 더 추가합니다.
+3. 가장 밑바닥에 각 열(세로줄)의 1의 개수를 맞추는 <strong>수직 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/">패리티 비트</a> 블록</strong>을 한 줄 더 추가합니다.
 
 **[효과]**
-가로와 세로가 크로스되는 교차점을 찾을 수 있기 때문에, 에러가 발생했다는 사실(검출)뿐만 아니라, **"몇 행 몇 열의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깨졌는지" 정확한 위치까지 추적하여 스스로 1비트를 고칠 수 있는 [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)(FEC) 능력**을 갖추게 됩니다.
+가로와 세로가 크로스되는 교차점을 찾을 수 있기 때문에, 에러가 발생했다는 사실(검출)뿐만 아니라, <strong>"몇 행 몇 열의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 깨졌는지" 정확한 위치까지 추적하여 스스로 1비트를 고칠 수 있는 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/">순방향 에러 수정</a>(FEC) 능력</strong>을 갖추게 됩니다.
 또한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 패리티가 못 잡던 2개~3개의 다중 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러도 기가 막히게 검출해 냅니다.
 
-```text
-[역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
-[패리티 검사]
-    │
-    └──▶ [검사합]
-```
 
-- **📢 섹션 요약 비유**: ** [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 패리티 검사는 소풍 갈 때 선생님이 **"우리 반은 무조건 짝수(30명)여야 출발한다!"**고 세는 것과 같습니다. 한 명이 도망가면(29명) 바로 눈치채지만, 2명이 동시에 도망가고 다른 반 학생 2명이 몰래 껴들어 오면(2비트 에러), 총원은 30명으로 유지되어 선생님이 전혀 눈치채지 못하고 출발해 버리는 허술한 출석 체크입니다. 이차원 패리티는 이를 가로세로 분단별로 두 번 세는 철저한 방식입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">검사합</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 패리티 검사는 소풍 갈 때 선생님이 </strong>"우리 반은 무조건 짝수(30명)여야 출발한다!"**고 세는 것과 같습니다. 한 명이 도망가면(29명) 바로 눈치채지만, 2명이 동시에 도망가고 다른 반 학생 2명이 몰래 껴들어 오면(2비트 에러), 총원은 30명으로 유지되어 선생님이 전혀 눈치채지 못하고 출발해 버리는 허술한 출석 체크입니다. 이차원 패리티는 이를 가로세로 분단별로 두 번 세는 철저한 방식입니다.
 
 ---
 
@@ -124,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 역방향 에러 수정 / 자동 재전송 요청]
-    │
-    ▼
-[현재 개념: 패리티 검사]
-    │
-    ├──▶ [확장 A: 검사합]
-    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 역방향 에러 수정 / 자동 재전송 요청</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패리티 검사</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 검사합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
+</div>
+</div>
+
+
 
 패리티 검사는 역방향 에러 수정 / 자동 재전송 요청에서 출발해 현재 메커니즘을 정교화하고, 이후 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

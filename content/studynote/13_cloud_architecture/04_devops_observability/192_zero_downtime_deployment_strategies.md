@@ -44,23 +44,27 @@ tags = ["studynote-cloud-architecture"]
 
 ### 배포 흐름 다이어그램
 
-```
-[Rolling Update]
-v1 v1 v1 v1
-     ↓ 순차 교체
-v2 v1 v1 v1  →  v2 v2 v1 v1  →  v2 v2 v2 v1  →  v2 v2 v2 v2
 
-[Blue-Green]
-  현재: LB → [Blue: v1 v1 v1 v1]
-                              ↓ 신버전 준비 완료 후 LB 전환
-  전환: LB → [Green: v2 v2 v2 v2]
-        (Blue는 롤백 대기로 유지)
 
-[Canary]
-  1단계: LB → 95% → [v1] / 5% → [v2-canary]
-  2단계: LB → 80% → [v1] / 20% → [v2-canary]
-  3단계: LB → 0%  → [v1] / 100% → [v2]
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Rolling Update</div></div>
+<div class="kb-diagram-note">v1 v1 v1 v1</div>
+<div class="kb-diagram-note">↓ 순차 교체</div>
+<div class="kb-diagram-note">v2 v1 v1 v1 → v2 v2 v1 v1 → v2 v2 v2 v1 → v2 v2 v2 v2</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Blue-Green</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Blue: v1 v1 v1 v1</div></div>
+<div class="kb-diagram-note">↓ 신버전 준비 완료 후 LB 전환</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Green: v2 v2 v2 v2</div></div>
+<div class="kb-diagram-note">(Blue는 롤백 대기로 유지)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Canary</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v2-canary</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v2-canary</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v2</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: Rolling은 달리는 버스의 바퀴를 하나씩 교체하는 것, Blue-Green은 새 버스를 완전히 만든 뒤 승객을 한 번에 이동시키는 것, Canary는 일부 승객만 새 버스에 먼저 태워보는 것이다.
 
@@ -90,18 +94,24 @@ v2 v1 v1 v1  →  v2 v2 v1 v1  →  v2 v2 v2 v1  →  v2 v2 v2 v2
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 결정 트리**:
-```
-DB 스키마 변경 있는가?
-  └─ Yes → Blue-Green (가장 안전)
-  └─ No → 트래픽 규모가 크고 리스크 최소화 필요?
-              └─ Yes → Canary (점진적 가중치)
-              └─ No → 자원 제약 있는가?
-                         └─ Yes → Rolling Update
-                         └─ No → Blue-Green 또는 Canary
-```
+<strong>배포 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 선택 결정 트리</strong>:
 
-**[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시간 비교**:
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">DB 스키마 변경 있는가?</div>
+<div class="kb-diagram-tree-item" style="--depth:1">Yes → Blue-Green (가장 안전)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">No → 트래픽 규모가 크고 리스크 최소화 필요?</div>
+<div class="kb-diagram-tree-item" style="--depth:7">Yes → Canary (점진적 가중치)</div>
+<div class="kb-diagram-tree-item" style="--depth:7">No → 자원 제약 있는가?</div>
+<div class="kb-diagram-tree-item" style="--depth:8">Yes → Rolling Update</div>
+<div class="kb-diagram-tree-item" style="--depth:8">No → Blue-Green 또는 Canary</div>
+</div>
+</div>
+
+
+
+<strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 시간 비교</strong>:
 - Rolling: 역방향 [롤링 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/193_rolling_update_deployment_kubernetes/), 수 분 소요
 - Blue-Green: 로드밸런서 전환 1~2초, 즉시
 - [Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/): 신버전 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0%로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 수 초 이내
@@ -146,19 +156,23 @@ DB 스키마 변경 있는가?
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-다운타임 배포 (서비스 중단 후 교체)
-    │
-    ▼
-무중단 배포 전략
-    ├─► Rolling Update: 순차 교체
-    ├─► Blue-Green: 환경 전환 (즉시 롤백)
-    ├─► Canary: 소수 트래픽 → 점진 확대
-    └─► Shadow: 트래픽 미러링 (무영향 검증)
-    │
-    ▼
-Progressive Delivery + 자동 판단 (Argo Rollouts)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">다운타임 배포 (서비스 중단 후 교체)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">무중단 배포 전략</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Rolling Update: 순차 교체</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Blue-Green: 환경 전환 (즉시 롤백)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Canary: 소수 트래픽 → 점진 확대</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Shadow: 트래픽 미러링 (무영향 검증)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Progressive Delivery + 자동 판단 (Argo Rollouts)</div>
+</div>
+</div>
+
+
 2. 블루-그린은 새 버스를 완전히 만들어 놓고 "자, 모두 옮겨 타세요!" 하고 한 번에 이동하는 것이야.
 3. 카나리는 몇 명의 친구한테만 새 버스를 먼저 태워봐서 안전한지 확인한 다음 모두를 옮기는 방법이야.
 

@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 송신 측이 네트워크 혼잡 발생 가능성을 최소화하기 위해 설정하는 변수로, [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/) 단계(지수적 증가)에서 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/) 단계(선형적 증가)로 전환되는 기준점.
 - **필요성**: 차를 샀다. 액셀을 밟으니 시속 10km, 20km, 40km, 80km, 160km로 무섭게 가속([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))이 붙는다. 문제는 이 차가 시속 320km를 밟는 순간 엔진이 터진다는 것이다. **"야! 어디까지 액셀을 밟아도 되는지 '안전 커트라인'을 정해둬야지! 커트라인에 도달하면 그때부터는 시속 1km씩만 조심조심 올려!"** 이 커트라인이 없다면 TCP는 1초 만에 기가비트를 쏘아대며 모든 라우터를 터뜨려버릴 것이다.
 
-- **💡 비유**: ssthresh는 고무풍선을 불 때의 **"풍선 표면 장력 한계선"**과 같습니다.
+- **💡 비유**: ssthresh는 고무풍선을 불 때의 <strong>"풍선 표면 장력 한계선"</strong>과 같습니다.
   - 처음엔 에어 펌프로 공기를 훅훅(배수) 불어 넣어도 풍선이 잘 커집니다.
   - 하지만 풍선이 터지기 직전 크기(ssthresh)에 도달하면, 그때부터는 공기를 훅훅 불어 넣으면 풍선이 터집니다. 
   - 이 커트라인부터는 입으로 아주 조심스럽게 호~ 호~(1씩 더하기) 불어 넣어야 풍선을 최대한 크고 안전하게 부풀릴 수 있습니다.
 
-```text
-[슬로우 스타트]
-    │
-    ▼
-[임계치]
-    │
-    └──▶ [혼잡 회피]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">혼잡 회피</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** 임계치(ssthresh)는 과속 방지 카메라가 찍히는 **"단속 규정 속도"**입니다. 규정 속도까지는 시원하게 밟고([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)), 규정 속도 근처에 다다르면 단속에 안 걸리게 눈치를 보며 브레이크를 살살 밟아([혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)) 정속 주행을 유지하게 만드는 기준점입니다.
 
@@ -43,33 +47,34 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. ssthresh의 작동 시퀀스
-- **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태**: 연결이 갓 맺어지면, 내 컴퓨터는 길이 빵빵 뚫려있다고 믿으므로 `ssthresh`를 엄청나게 큰 값(예: 65,535 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))으로 둔다.
-- **1단계 ([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))**: `CWND=1`부터 시작해서 `2, 4, 8, 16...` 미친 듯이 뻥튀기를 시전한다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 연결이 갓 맺어지면, 내 컴퓨터는 길이 빵빵 뚫려있다고 믿으므로 `ssthresh`를 엄청나게 큰 값(예: 65,535 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))으로 둔다.
+- <strong>1단계 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/">Slow Start</a>)</strong>: `CWND=1`부터 시작해서 `2, 4, 8, 16...` 미친 듯이 뻥튀기를 시전한다.
 - **사고 발생 (Drop)**: `CWND=32`를 쐈는데 영수증이 안 온다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)).
-- **2단계 (ssthresh의 갱신)**: "앗! 32개 쐈더니 터지네! 그럼 32개의 절반인 **16개**가 이 도로의 안전선이구나!" ──▶ 즉시 **`ssthresh = 16`**으로 수정해버린다! (이것이 가장 중요한 갱신 룰이다).
+- **2단계 (ssthresh의 갱신)**: "앗! 32개 쐈더니 터지네! 그럼 32개의 절반인 <strong>16개</strong>가 이 도로의 안전선이구나!" ──▶ 즉시 <strong><code>ssthresh = 16</code></strong>으로 수정해버린다! (이것이 가장 중요한 갱신 룰이다).
 - **3단계 (재출발과 기어 변속)**: 타임아웃이 났으므로 `CWND=1`로 곤두박질친다. 다시 `1, 2, 4, 8`로 가속한다.
   - 드디어 `CWND = 16`이 되었다!
   - 뇌구조: "앗! 아까 새로 그어둔 커트라인(16)에 도달했다! 여기서 또 32로 두 배 뛰면 아까처럼 또 사고 나겠지? **이제부터는 곱하기(x2) 금지! 더하기(+1)로 바꾼다!!**" ──▶ `17, 18, 19...`로 조심스레 올라간다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                ssthresh의 갱신과 기어 변속 시각화                │
- ├─────────────────────────────────────────────────────────────┤
- │ CWND                                                        │
- │ 32 |         /(사고 펑!!)                                     │
- │    |       /  |                                             │
- │ 16 |     /    |                 * ─ * ─ * ◀ 혼잡 회피(+1)      │
- │    |   /      |               / ◀ 여기서 기어 변속!! (ssthresh = 16) │
- │  8 | /        |             /                               │
- │  4 |/         |           /                                 │
- │  2 |          |         /                                   │
- │  1 |          * ─ * ─ * ◀ 다시 Slow Start 시작                  │
- │    |____________________________________ 시간(RTT)            │
- │                                                             │
- │   ▶ "ssthresh = MAX( 사고 났을 때의 CWND / 2, 2 MSS )"           │
- │   ▶ "최소한 2개(2 MSS) 밑으로는 커트라인을 깎지 않는다."              │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ssthresh의 갱신과 기어 변속 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32</div><div class="kb-diagram-cell">/(사고 펑!!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">* ─ * ─ * ◀ 혼잡 회피(+1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/ ◀ 여기서 기어 변속!! (ssthresh = 16)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">* ─ * ─ * ◀ 다시 Slow Start 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "ssthresh = MAX( 사고 났을 때의 CWND / 2, 2 MSS )"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "최소한 2개(2 MSS) 밑으로는 커트라인을 깎지 않는다."</div></div>
+</div>
+</div>
+
+
 
 ### 2. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 관건
 이 `ssthresh` 값이 너무 빨리 깎이면(네트워크가 조금만 덜컹거려도 깎임), 내 컴퓨터는 평생 속도를 못 내고 계속 17, 18, 19로 기어가게 된다(다운로드 속도 저하). 반대로 너무 늦게 깎이면 버퍼가 계속 터져서 패킷이 다 죽는다. 
@@ -131,15 +136,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 슬로우 스타트]
-    │
-    ▼
-[현재 개념: 임계치]
-    │
-    ├──▶ [확장 A: 혼잡 회피]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슬로우 스타트</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 임계치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 혼잡 회피</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 임계치는 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

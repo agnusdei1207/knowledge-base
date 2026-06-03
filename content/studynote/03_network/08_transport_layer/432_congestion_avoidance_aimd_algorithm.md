@@ -22,19 +22,23 @@ tags = ["studynote-network"]
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어의 2단계로, CWND가 ssthresh([임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)) 이상일 때 네트워크 혼잡을 유발하지 않도록 윈도우 크기를 선형적(Linear, +1 MSS per [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))으로 서서히 증가시키는 상태.
 - **필요성**: 슬로우 스타트는 눈을 감고 엑셀을 밟는 것과 같다. `1 -> 2 -> 4 -> 8 -> 16 -> 32`. 만약 도로의 한계가 17이었다면? 16에서 32로 두 배 점프하는 순간 라우터는 터진다. **"임계점(16)에 도달했다는 건 이제 턱밑까지 물이 찼다는 뜻이야! 여기서부터는 32로 점프하지 말고, 17, 18, 19... 이렇게 1씩만 올려서 도로 한계선(17)을 조심조심 더듬으면서 찾아내자!"**
 
-- **💡 비유**: AIMD(혼잡 회피)는 젠가(Jenga) 게임에서 **"탑이 아슬아슬할 때의 블록 빼기"**와 같습니다.
+- **💡 비유**: AIMD(혼잡 회피)는 젠가(Jenga) 게임에서 <strong>"탑이 아슬아슬할 때의 블록 빼기"</strong>와 같습니다.
   - 게임 초반([Slow Start](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/))에는 탑이 튼튼하니 한 번에 블록을 2, 3개씩 휙휙 빼도 무너지지 않습니다.
   - 탑이 휘청거리기 시작하는 시점(ssthresh)부터는, 숨을 꾹 참고 **조심스럽게 딱 1개씩만(Additive Increase)** 빼야 합니다.
   - 그러다 결국 탑이 와르르 무너지면(Packet Drop), 벌칙으로 쌓아둔 점수를 **절반으로 왕창 깎아버립니다(Multiplicative Decrease)**.
 
-```text
-[임계치]
-    │
-    ▼
-[혼잡 회피]
-    │
-    └──▶ [빠른 재전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">임계치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 회피</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빠른 재전송</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AIMD는 회사원의 **"월급과 주식 투자"**의 법칙입니다. 매달 월급을 모을 때는 100만 원씩 찔끔찔끔 힘겹게 더해지지만(Additive Increase), 경제 위기(혼잡)가 와서 주식이 폭락할 때는 순식간에 내 재산이 반토막(Multiplicative Decrease) 나버리는 눈물겨운 현실의 수학입니다.
 
@@ -46,8 +50,8 @@ tags = ["studynote-network"]
 슬로우 스타트는 영수증(ACK) 1개가 올 때마다 CWND를 1씩 늘렸다(그래서 패킷 10개를 쏘면 10개가 와서 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)=20$으로 2배가 되었다).
 하지만 혼잡 회피 상태에 들어가면 로직이 바뀐다.
 - 내가 패킷 10개를 쐈다 (`CWND=10`).
-- 영수증(ACK)이 1개 올 때마다 CWND를 `1` 올리는 게 아니라, **`1 / 10` (즉 `1 / CWND`)** 만큼만 찔끔 올린다.
-- 결과적으로 영수증 10개가 다 도착해야 비로소 `$1/10 * 10 = 1$` 이 되어, **내 CWND는 10에서 딱 11로 딱 1칸 성장**하게 된다. (완벽한 선형 증가 곡선).
+- 영수증(ACK)이 1개 올 때마다 CWND를 `1` 올리는 게 아니라, <strong><code>1 / 10</code> (즉 <code>1 / CWND</code>)</strong> 만큼만 찔끔 올린다.
+- 결과적으로 영수증 10개가 다 도착해야 비로소 `$1/10 * 10 = 1$` 이 되어, <strong>내 CWND는 10에서 딱 11로 딱 1칸 성장</strong>하게 된다. (완벽한 선형 증가 곡선).
 
 ### 2. AIMD에 의한 공평성(Fairness) 수렴 원리
 네트워크 공학에서 가장 아름다운 현상으로 꼽힌다. 
@@ -60,24 +64,23 @@ tags = ["studynote-network"]
 6. 다시 둘 다 1Mbps씩 똑같이 야금야금 올린다 (Additive Increase). A는 41M, B는 11M...
 - **결과**: 이 짓을 수십 번 반복하다 보면, 많이 쏘던 놈은 훅훅 깎이고, 적게 쏘던 놈은 찔끔 깎이면서 **마침내 A와 B가 50M : 50M 로 완벽하게 1:1 수렴(Fairness)하게 된다**.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                AIMD 공평성(Fairness) 수렴의 마법 핑퐁            │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 100M 대역폭 한계선 ]                                        │
- │                                                             │
- │   * 1라운드 혼잡: A(80) + B(20) = 100 ──▶ 절반 삭감!           │
- │                 A(40) + B(10) = 50  (격차 30으로 줄어듦)       │
- │                                                             │
- │   * 2라운드 증가: 둘 다 25씩 똑같이 늘림 (+25)                    │
- │                 A(65) + B(35) = 100 ──▶ 꽉 참! 절반 삭감!      │
- │                 A(32.5) + B(17.5) = 50 (격차 15로 더 줄어듦!) │
- │                                                             │
- │   ▶ "이 톱니바퀴를 무한 반복하면, 결국 거인과 난쟁이는 완벽하게       │
- │      똑같은 덩치 (50 vs 50)로 키가 맞춰지는 기적이 일어난다!"        │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIMD 공평성(Fairness) 수렴의 마법 핑퐁</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">100M 대역폭 한계선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1라운드 혼잡: A(80) + B(20) = 100 ──▶ 절반 삭감!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A(40) + B(10) = 50 (격차 30으로 줄어듦)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 2라운드 증가: 둘 다 25씩 똑같이 늘림 (+25)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A(65) + B(35) = 100 ──▶ 꽉 참! 절반 삭감!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A(32.5) + B(17.5) = 50 (격차 15로 더 줄어듦!)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 톱니바퀴를 무한 반복하면, 결국 거인과 난쟁이는 완벽하게</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑같은 덩치 (50 vs 50)로 키가 맞춰지는 기적이 일어난다!"</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** AIMD는 세금 징수의 원리와 같습니다. 돈을 벌 때(속도 증가)는 부자나 빈자나 똑같이 연 1천만 원씩 일률적으로 벌게 놔둡니다(Additive). 하지만 국가 위기(혼잡)가 오면 재산 비례세(Multiplicative)를 때려, 부자의 재산을 절반(40M) 몰수하고 빈자의 재산도 절반(10M) 몰수합니다. 이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수십 번 반복하면 부자와 빈자의 재산 격차는 사라지고 평등해집니다.
 
@@ -135,15 +138,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 임계치]
-    │
-    ▼
-[현재 개념: 혼잡 회피]
-    │
-    ├──▶ [확장 A: 빠른 재전송]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 임계치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 혼잡 회피</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 빠른 재전송</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 혼잡 회피는 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [빠른 재전송](/knowledge-base/studynote/03_network/08_transport_layer/433_fast_retransmit_3_dup_ack/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

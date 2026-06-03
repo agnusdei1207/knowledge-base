@@ -20,18 +20,22 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소(32비트)를 네트워크의 규모에 따라 A, B, C, D, E의 5개 등급으로 나눈 '클라스풀([Classful](/knowledge-base/studynote/03_network/06_network_layer_ip/297_ip_address_exhaustion_classful_addressing/))' [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 체계.
-- **필요성**: 라우터 입장에서 패킷이 날아왔을 때, 이 주소의 어디까지가 '동네 번호(Network ID)'고 어디부터가 '집 번호(Host ID)'인지 알아야 편지를 배달할 수 있다. [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(`/24` 같은 것)가 발명되기 전이었으므로, 주소의 맨 첫 번째 숫자 크기만 딱 보면 "아! 100으로 시작하니까 A 클래스구나! 첫 번째 칸만 동네 번호네!"라고 **기계적으로 즉시 인식하기 위한 하드코딩된 규칙**이 필요했다.
+- **필요성**: 라우터 입장에서 패킷이 날아왔을 때, 이 주소의 어디까지가 '동네 번호(Network ID)'고 어디부터가 '집 번호(Host ID)'인지 알아야 편지를 배달할 수 있다. [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(`/24` 같은 것)가 발명되기 전이었으므로, 주소의 맨 첫 번째 숫자 크기만 딱 보면 "아! 100으로 시작하니까 A 클래스구나! 첫 번째 칸만 동네 번호네!"라고 <strong>기계적으로 즉시 인식하기 위한 하드코딩된 규칙</strong>이 필요했다.
 
-- **💡 비유**: 전화번호의 맨 앞자리를 보고 지역을 아는 것과 같습니다. **`02`**로 시작하면 "아, 서울(A클래스)이구나, 지역 번호가 짧고 번호가 많지!", **`031`**로 시작하면 "경기도(B클래스)구나!", **`064`**로 시작하면 "제주도(C클래스)구나!"라고, **맨 앞자리 숫자만 보고도 동네의 크기와 규칙을 단번에 눈치채는 직관적 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)법**입니다.
+- **💡 비유**: 전화번호의 맨 앞자리를 보고 지역을 아는 것과 같습니다. <strong><code>02</code></strong>로 시작하면 "아, 서울(A클래스)이구나, 지역 번호가 짧고 번호가 많지!", <strong><code>031</code></strong>로 시작하면 "경기도(B클래스)구나!", <strong><code>064</code></strong>로 시작하면 "제주도(C클래스)구나!"라고, <strong>맨 앞자리 숫자만 보고도 동네의 크기와 규칙을 단번에 눈치채는 직관적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>법</strong>입니다.
 
-```text
-[IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    ▼
-[클래스 A, B, C, D, E]
-    │
-    └──▶ [사설 IP 영역: 10.x, 172.16.x…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** A, B, C 클래스는 택배 박스의 크기입니다. 우체국 기계가 박스 표면의 **"시작 바코드(최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))"**만 슥 읽어보고 이것이 초대형 박스(A), 중형 박스(B), 소형 박스(C)인지 0.001초 만에 자동 분류하는 고전적인 하드웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술입니다.
 
@@ -40,47 +44,48 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 클래스 A (0 ~ 127) - 거인들의 제국
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 규칙**: 첫 번째 1바이트(8비트)의 맨 앞자리가 무조건 **`0`**으로 시작한다. (`00000000` ~ `01111111`)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 규칙</strong>: 첫 번째 1바이트(8비트)의 맨 앞자리가 무조건 <strong><code>0</code></strong>으로 시작한다. (`00000000` ~ `01111111`)
 - **십진수 범위**: **0 ~ 127** (단, 0은 미지정, 127은 루프백으로 예약되어 실제 가용은 1~126)
 - **구조**: `[Net 8비트] . [Host 24비트]`
-- **가용 호스트 수**: 한 동네에 $2^{24} - 2$ = **16,777,214대**의 PC를 수용. (전 세계에 이 동네는 딱 126개밖에 없다). 구글, 애플, 미 국방성 같은 극초대형 기관이 통째로 가져갔다.
+- **가용 호스트 수**: 한 동네에 $2^{24} - 2$ = <strong>16,777,214대</strong>의 PC를 수용. (전 세계에 이 동네는 딱 126개밖에 없다). 구글, 애플, 미 국방성 같은 극초대형 기관이 통째로 가져갔다.
 
 ### 2. 클래스 B (128 ~ 191) - 중견 제국
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 규칙**: 맨 앞자리가 무조건 **`10`**으로 시작한다. (`10000000` ~ `10111111`)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 규칙</strong>: 맨 앞자리가 무조건 <strong><code>10</code></strong>으로 시작한다. (`10000000` ~ `10111111`)
 - **십진수 범위**: **128 ~ 191**
 - **구조**: `[Net 16비트] . [Host 16비트]`
-- **가용 호스트 수**: 한 동네에 $2^{16} - 2$ = **65,534대**의 PC를 수용. 대학교나 대기업 본사에 알맞다. (인터넷 역사상 가장 빠르게 고갈된 클래스다).
+- **가용 호스트 수**: 한 동네에 $2^{16} - 2$ = <strong>65,534대</strong>의 PC를 수용. 대학교나 대기업 본사에 알맞다. (인터넷 역사상 가장 빠르게 고갈된 클래스다).
 
 ### 3. 클래스 C (192 ~ 223) - 평민들의 마을
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 규칙**: 맨 앞자리가 무조건 **`110`**으로 시작한다. (`11000000` ~ `11011111`)
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 규칙</strong>: 맨 앞자리가 무조건 <strong><code>110</code></strong>으로 시작한다. (`11000000` ~ `11011111`)
 - **십진수 범위**: **192 ~ 223**
 - **구조**: `[Net 24비트] . [Host 8비트]`
-- **가용 호스트 수**: 한 동네에 $2^8 - 2$ = **254대**의 PC를 수용. 소규모 사무실, PC방, 일반 가정용이다.
+- **가용 호스트 수**: 한 동네에 $2^8 - 2$ = <strong>254대</strong>의 PC를 수용. 소규모 사무실, PC방, 일반 가정용이다.
 
 ### 4. 클래스 D (224 ~ 239) - 멀티캐스트 전용 (중요★)
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 규칙**: 맨 앞자리가 **`1110`**으로 시작한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 규칙</strong>: 맨 앞자리가 <strong><code>1110</code></strong>으로 시작한다.
 - **십진수 범위**: **224 ~ 239**
-- **특징**: 이 주소는 컴퓨터의 랜카드에 세팅할 수 없는 주소다. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), RIPv2 같은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜이 자기들끼리 방송을 하거나, IPTV 셋톱박스에 방송을 쏴줄 때 가입자들만 들을 수 있게 하는 **[다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(1:N) 멀티캐스트용 예약 주소**다.
+- **특징**: 이 주소는 컴퓨터의 랜카드에 세팅할 수 없는 주소다. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), RIPv2 같은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜이 자기들끼리 방송을 하거나, IPTV 셋톱박스에 방송을 쏴줄 때 가입자들만 들을 수 있게 하는 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/">다대다</a>(1:N) 멀티캐스트용 예약 주소</strong>다.
 
 ### 5. 클래스 E (240 ~ 255) - 실험용 (접근 금지)
-- **[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 규칙**: 맨 앞자리가 **`1111`**로 시작한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 규칙</strong>: 맨 앞자리가 <strong><code>1111</code></strong>로 시작한다.
 - **십진수 범위**: **240 ~ 255** (단, `255.255.255.255`는 전체 브로드캐스트용)
 - **특징**: IANA가 미래를 위해 꽁꽁 숨겨둔 주소. 컴퓨터에 이 주소를 입력하면 "유효하지 않은 주소입니다"라며 OS 단에서 에러를 뿜어낸다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                클래스(Class) 구분 요약 1초 판별법               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   IP: 172.16.5.9  ──▶ 첫 숫자 172 ──▶ (128~191 사이네?) ──▶ B 클래스 │
- │   IP: 10.0.0.1    ──▶ 첫 숫자 10  ──▶ (0~127 사이네?)   ──▶ A 클래스 │
- │   IP: 203.25.1.1  ──▶ 첫 숫자 203 ──▶ (192~223 사이네?) ──▶ C 클래스 │
- │   IP: 224.0.0.5   ──▶ 첫 숫자 224 ──▶ (224~239 사이네?) ──▶ D 멀티!  │
- │                                                             │
- │   * 라우터는 이렇게 십진수가 아닌 이진수 맨 앞자리 0, 10, 110만 보고 │
- │     순식간에 네트워크 길이를 잘라버린다! (서브넷 마스크가 필요 없음)    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스(Class) 구분 요약 1초 판별법</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 172.16.5.9 ──▶ 첫 숫자 172 ──▶ (128~191 사이네?) ──▶ B 클래스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 10.0.0.1 ──▶ 첫 숫자 10 ──▶ (0~127 사이네?) ──▶ A 클래스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 203.25.1.1 ──▶ 첫 숫자 203 ──▶ (192~223 사이네?) ──▶ C 클래스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 224.0.0.5 ──▶ 첫 숫자 224 ──▶ (224~239 사이네?) ──▶ D 멀티!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 라우터는 이렇게 십진수가 아닌 이진수 맨 앞자리 0, 10, 110만 보고</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순식간에 네트워크 길이를 잘라버린다! (서브넷 마스크가 필요 없음)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** A, B, C 클래스는 **"대/중/소 아파트 단지"**이고, D 클래스는 아파트 단지 내에 설치된 **"동네 방송국 전용 채널 주파수"**이며, E 클래스는 일반인이 절대 들어갈 수 없는 **"군사 통제 구역"**입니다.
 
@@ -138,15 +143,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: IP 주소 고갈 문제, 클라스풀 주소체계]
-    │
-    ▼
-[현재 개념: 클래스 A, B, C, D, E]
-    │
-    ├──▶ [확장 A: 사설 IP 영역: 10.x, 172.16.x…]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클래스 A, B, C, D, E</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사설 IP 영역: 10.x, 172.16.x…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 클래스 A, B, C, D, E는 IP 주소 고갈 문제, 클라스풀 주소체계에서 출발해 현재 메커니즘을 정교화하고, 이후 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,32 +23,31 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 기업들은 자신들의 코드의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~80% 이상이 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 코드([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), SDK)로 구성되어 있음을하고 있다. 이러한 외부 의존성을 하나하나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 어려우며, 공격자들은 바로의을/를 활용하여에 악성 코드를 삽입하거나, 개발 도구를 타compromising하여 대규모 피해을 발생시킨다.
 
-- **💡 비유**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'식품 제조 위생 관리 시스템'**과 같다. 식품 제조은([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 제공자), 제조 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 포장재(배포 환경) 등 수많은 외부 협력사와의 관계를、어느 한 에서도 위생 문제가 발생하면 최종 제품(사용자에게 배포되는 소프트웨어)에가 미친다. 따라서 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에 걸쳐 원료 검수, 제조 과정 감시, 포장 검사를 실시하여 불량품(악성 코드)가 소비자(사용자)에게 도달하는 것을방지한다.
+- **💡 비유**: 소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 <strong>'식품 제조 위생 관리 시스템'</strong>과 같다. 식품 제조은([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 제공자), 제조 공장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), 포장재(배포 환경) 등 수많은 외부 협력사와의 관계를、어느 한 에서도 위생 문제가 발생하면 최종 제품(사용자에게 배포되는 소프트웨어)에가 미친다. 따라서 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)에 걸쳐 원료 검수, 제조 과정 감시, 포장 검사를 실시하여 불량품(악성 코드)가 소비자(사용자)에게 도달하는 것을방지한다.
 
 - **등장 배경 및 발전 과정**:
-1. **2014년 [Heartbleed](/knowledge-base/studynote/09_security/03_network_security/297_heartbleed/)**: OpenSSL 취약점으로 대규모 보안 사고 발생, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 보안 중요성 대두
+1. <strong>2014년 <a href="/knowledge-base/studynote/09_security/03_network_security/297_heartbleed/">Heartbleed</a></strong>: OpenSSL 취약점으로 대규모 보안 사고 발생, [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 보안 중요성 대두
 2. **2020년 SolarWinds**: [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 소프트웨어 업데이트Mechanism을 통해 악성코드 배포, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격의 실증
 3. **2021년 Log4j**: Java 기반 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 로깅 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 치명적 취약점, 세계적 피해
 4. **현재**: 각국 정부와 기업에서 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 규제 및 프레임워크 도입 가속
 
-- **📢 섹션 요약 비유**: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 **'국제 우울 분석aparentemente 무장 해적단을 예방하는 해군 활동'**과 같다. 해상 교역로(소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))를 위협하는 해적(악의적 공격자)을에 탐지하고 차단하기 위해, 항구에서 입항하는 모든 선박(코드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 검사하고, 승무원을 확인하며([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 물품(악성 코드)을 적발하여하는 것이다.
+- **📢 섹션 요약 비유**: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안은 <strong>'국제 우울 분석aparentemente 무장 해적단을 예방하는 해군 활동'</strong>과 같다. 해상 교역로(소프트웨어 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))를 위협하는 해적(악의적 공격자)을에 탐지하고 차단하기 위해, 항구에서 입항하는 모든 선박(코드, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 검사하고, 승무원을 확인하며([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 물품(악성 코드)을 적발하여하는 것이다.
 
 ---
 
 다음은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 (Supply Chain의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 공급망 보안 (Supply Chain │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물] │
-│ │ │ │ │
-│ ▼ ▼ ▼ │
-│ 요구 분석 설계·적용 품질 검증 │
-│ │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공급망 보안 (Supply Chain</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 (Supply Chain가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,7 +68,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 보안 ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -145,21 +144,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-│
-▼
-공급망 보안 (Supply Chain Security) 개념 정립
-│
-▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-│
-▼
-클라우드 네이티브·AI 기반 확장 적용
-│
-▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공급망 보안 (Supply Chain Security) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

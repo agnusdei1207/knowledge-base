@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. Delta Lake는 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에 **`_delta_log` [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)**를 추가하여 객체 스토리지에서 ACID ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실현한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스토리지 레이어다.
+1. Delta Lake는 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에 <strong><code>_delta_log</code> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>를 추가하여 객체 스토리지에서 ACID ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실현한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스토리지 레이어다.
 2. `MERGE INTO`, `UPDATE`, `DELETE`, 타임 트래블(Time Travel), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Evolution)를 지원하여 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 핵심 구현 기술로 자리 잡았다.
 3. Spark 네이티브로 설계되었고 현재는 Linux Foundation에 기증되어 Spark·Flink·Trino 등 멀티엔진으로 확산되고 있다.
 
@@ -35,23 +35,22 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│               Delta Lake 내부 구조                            │
-├──────────────────────────────────────────────────────────────┤
-│  객체 스토리지 버킷 (S3 / ADLS / GCS)                         │
-│                                                              │
-│  ┌─────────────────────────────┐  ┌──────────────────────┐  │
-│  │  _delta_log/                │  │  데이터 파일 (Parquet) │  │
-│  │  ├── 00000.json  (커밋 0)   │  │  ├── part-0001.parquet│  │
-│  │  ├── 00001.json  (커밋 1)   │  │  ├── part-0002.parquet│  │
-│  │  ├── 00002.json  (커밋 2)   │  │  └── ...             │  │
-│  │  └── 00010.checkpoint.parquet│  └──────────────────────┘  │
-│  └─────────────────────────────┘                            │
-│                                                              │
-│  커밋 로그 내용: {add/remove 파일 목록, 스키마, 통계, 타임스탬프} │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake 내부 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 버킷 (S3 / ADLS / GCS)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_delta_log/</div><div class="kb-diagram-cell">데이터 파일 (Parquet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000.json (커밋 0)</div><div class="kb-diagram-cell">── part-0001.parquet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00001.json (커밋 1)</div><div class="kb-diagram-cell">── part-0002.parquet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00002.json (커밋 2)</div><div class="kb-diagram-cell">── ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00010.checkpoint.parquet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커밋 로그 내용: {add/remove 파일 목록, 스키마, 통계, 타임스탬프}</div></div>
+</div>
+</div>
+
+
 
 **주요 기능 상세**
 
@@ -71,7 +70,7 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 
 ## Ⅲ. 비교 및 연결
 
-**Delta Lake vs [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) vs [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/)**
+<strong>Delta Lake vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/">Apache Iceberg</a> vs <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/">Apache Hudi</a></strong>
 
 | 항목 | Delta Lake | [Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) | [Apache Hudi](/knowledge-base/studynote/16_bigdata/07_data_lake/149_apache_hudi/) |
 |:---|:---|:---|:---|
@@ -84,10 +83,10 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 
 **연관 기술 연결**
 
-- **[Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)**: Delta Lake의 Bronze/Silver/Gold 계층 구현 기반
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/">Medallion Architecture</a></strong>: Delta Lake의 Bronze/Silver/Gold 계층 구현 기반
 - **AutoLoader**: 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 자동 감지하여 Delta 테이블로 적재
-- **[DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) (Delta Live Tables)**: 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 프레임워크
-- **[Unity Catalog](/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/)**: Delta Lake 테이블의 거버넌스 관리
+- <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/">DLT</a> (Delta Live Tables)</strong>: 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 프레임워크
+- <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/150_unity_catalog/">Unity Catalog</a></strong>: Delta Lake 테이블의 거버넌스 관리
 
 > 📢 **섹션 요약 비유**: Delta Lake(Spark 전문가), Iceberg(전 회사 어디서나 쓰이는 범용 도구), Hudi([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 특화 전문가)는 같은 문제를 다른 관점에서 해결한다. 선택은 기존 엔진 생태계에 따라 달라진다.
 
@@ -97,8 +96,8 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 
 **도입 시나리오**
 
-- **[CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)**: MySQL/Postgres 변경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 MERGE INTO로 레이크에 실시간 반영
-- **[GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 준수**: 사용자 삭제 요청을 DELETE로 처리, VACUUM으로 물리 삭제
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: MySQL/Postgres 변경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 MERGE INTO로 레이크에 실시간 반영
+- <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/">GDPR</a> 준수</strong>: 사용자 삭제 요청을 DELETE로 처리, VACUUM으로 물리 삭제
 - **스트리밍 + 배치 통합**: Spark Structured Streaming이 Delta 테이블에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 배치 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 읽기
 - **소급 재처리**: 잘못된 변환 발견 시 VERSION [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) OF로 과거 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 재처리
 
@@ -124,7 +123,7 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 | 규정 준수 | [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 대응을 위한 물리적 삭제 경로 확보 |
 | 실험 재현성 | 타임 트래블로 ML 모델 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 고정 가능 |
 
-Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 생태계의 선두 구현체로, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼 밖에서도 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Trino, Flink 등 다양한 엔진에서 사용 가능하다. 기술사 시험에서는 **[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 구조**, **MERGE INTO 동작**, **타임 트래블 메커니즘**이 주요 출제 포인트다.
+Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 생태계의 선두 구현체로, [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) 플랫폼 밖에서도 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Trino, Flink 등 다양한 엔진에서 사용 가능하다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 구조</strong>, **MERGE INTO 동작**, <strong>타임 트래블 메커니즘</strong>이 주요 출제 포인트다.
 
 > 📢 **섹션 요약 비유**: Delta Lake는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 설치한 것이다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 없으면 차들이 충돌하지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))이 있으면 수천 대가 동시에 달려도 질서 있게 통행한다.
 
@@ -145,21 +144,23 @@ Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_secur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[_delta_log (트랜잭션 로그)]
-    │
-    ▼
-[MERGE INTO (Upsert)]
-    │
-    ▼
-[OPTIMIZE + Z-ORDER]
-    │
-    ▼
-[VACUUM (파일 정리)]
-    │
-    ▼
-[AutoLoader]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">_delta_log (트랜잭션 로그)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MERGE INTO (Upsert)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OPTIMIZE + Z-ORDER</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VACUUM (파일 정리)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AutoLoader</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 _delta_log ([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에서 출발해 AutoLoader까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

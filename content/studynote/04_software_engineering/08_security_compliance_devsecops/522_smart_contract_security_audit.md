@@ -21,33 +21,32 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위의 프로그램([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))은 이더리움(Ethereum) [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 같은 가상 머신 위에서 도는 자판기다. "100원 넣으면 커피 줄게"라는 코드를 올린다. 그런데 코드를 멍청하게 짜서 해커가 "100원 넣고, 커피가 나오기 0.001초 직전에 동전을 실에 묶어 다시 빼기(Reentrancy 재진입 공격)"를 1만 번 반복하면, 자판기는 커피 1만 개를 뱉고 돈은 100원도 못 받는 지옥이 펼쳐진다. 이걸 막기 위한 방어 코딩과 검수 과정이다.
 
-- **필요성**: 2016년, 이더리움 역사상 최악의 참사인 'The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건'이 터졌다. 펀드 모금 컨트랙트에 코드 단 1줄의 허점(재진입 취약점)이 있었는데, 해커가 이 구멍을 통해 단 며칠 만에 600억 원 치의 이더리움을 싹 다 훔쳐 갔다. 기존 서버(AWS)였다면 서버 끄고 코드를 고치면 되지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 '수정 불가([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))' 룰 때문에 개발자도 코드를 멈출 권한이 없어서 두 눈 뜨고 600억이 빨리는 걸 구경만 해야 했다(결국 하드포크라는 억지 꼼수로 롤백하긴 했다). **코드 배포가 곧 돌이킬 수 없는 '신계약(God's Contract)'이 되는 세상에서, 배포 전 단 1줄의 논리적 결함도 허락하지 않는 1000% 무결점 테스팅의 족쇄**가 절대적으로 필요해졌다.
+- **필요성**: 2016년, 이더리움 역사상 최악의 참사인 'The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건'이 터졌다. 펀드 모금 컨트랙트에 코드 단 1줄의 허점(재진입 취약점)이 있었는데, 해커가 이 구멍을 통해 단 며칠 만에 600억 원 치의 이더리움을 싹 다 훔쳐 갔다. 기존 서버(AWS)였다면 서버 끄고 코드를 고치면 되지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 '수정 불가([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))' 룰 때문에 개발자도 코드를 멈출 권한이 없어서 두 눈 뜨고 600억이 빨리는 걸 구경만 해야 했다(결국 하드포크라는 억지 꼼수로 롤백하긴 했다). <strong>코드 배포가 곧 돌이킬 수 없는 '신계약(God's Contract)'이 되는 세상에서, 배포 전 단 1줄의 논리적 결함도 허락하지 않는 1000% 무결점 테스팅의 족쇄</strong>가 절대적으로 필요해졌다.
 
-- **💡 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 우주로 쏘아 올린 **'보이저 탐사선의 핵심 엔진 코드'**와 똑같습니다. 일반 웹 서버는 우리 집 거실에 있는 컴퓨터라 고장 나면 뚜껑 열고 고치면(패치 배포) 됩니다. 하지만 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 1번 배포(Deploy)하는 순간 지구에서 수억 킬로미터 떨어진 우주([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크)로 날아가 버립니다. 우주에서 버그(해킹 구멍)가 발견되면? 고칠 방법이 없습니다. 그냥 그 1,000억짜리 탐사선이 우주 미아가 되는 걸 눈물 흘리며 지켜봐야 합니다. 그래서 우주로 쏘기 전 랩실에서 현미경으로 코드를 1만 번 뜯어보는 극한의 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))만이 유일한 생존법입니다.
+- **💡 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 우주로 쏘아 올린 <strong>'보이저 탐사선의 핵심 엔진 코드'</strong>와 똑같습니다. 일반 웹 서버는 우리 집 거실에 있는 컴퓨터라 고장 나면 뚜껑 열고 고치면(패치 배포) 됩니다. 하지만 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 1번 배포(Deploy)하는 순간 지구에서 수억 킬로미터 떨어진 우주([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크)로 날아가 버립니다. 우주에서 버그(해킹 구멍)가 발견되면? 고칠 방법이 없습니다. 그냥 그 1,000억짜리 탐사선이 우주 미아가 되는 걸 눈물 흘리며 지켜봐야 합니다. 그래서 우주로 쏘기 전 랩실에서 현미경으로 코드를 1만 번 뜯어보는 극한의 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))만이 유일한 생존법입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **무정부 상태의 도래 (2015)**: 이더리움이 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 들고나오자 누구나 돈 복사 기계를 짰다. [솔리디티](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/)([Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/))라는 신생 언어의 맹점을 몰라 수천억 원의 코인이 매일 털렸다.
-  2. **The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 사태와 피의 각성 (2016)**: 재진입(Reentrancy) 공격으로 600억이 증발하며 코인 시장 전체가 박살 날 뻔했다. "아, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 코딩 1줄 실수하면 끝이구나"를 깨달은 전 세계 천재들이 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 회사(CertiK, Quantstamp 등)를 떼돈 벌며 차리기 시작했다.
-  3. **디파이([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 해킹의 고도화 (현재)**: 단순 문법 에러를 넘어, 0.1초 만에 1,000억을 빌려서 시세를 조작하고 갚는 플래시론([Flash Loan](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)) 공격 등, **코드는 완벽한데 '경제학적 비즈니스 로직(설계)'을 비틀어버리는 초고도화 해킹**이 폭발하며 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 난이도가 신의 경지로 치솟았다.
+  2. <strong>The <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> 사태와 피의 각성 (2016)</strong>: 재진입(Reentrancy) 공격으로 600억이 증발하며 코인 시장 전체가 박살 날 뻔했다. "아, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 코딩 1줄 실수하면 끝이구나"를 깨달은 전 세계 천재들이 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 회사(CertiK, Quantstamp 등)를 떼돈 벌며 차리기 시작했다.
+  3. <strong>디파이(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/">DeFi</a>) 해킹의 고도화 (현재)</strong>: 단순 문법 에러를 넘어, 0.1초 만에 1,000억을 빌려서 시세를 조작하고 갚는 플래시론([Flash Loan](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)) 공격 등, <strong>코드는 완벽한데 '경제학적 비즈니스 로직(설계)'을 비틀어버리는 초고도화 해킹</strong>이 폭발하며 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 난이도가 신의 경지로 치솟았다.
 
-- **📢 섹션 요약 비유**: 기존 웹 해킹이 은행 도둑이 들어와서 **'금고의 돈을 주머니에 훔쳐 도망가는 물리적 범죄'**라면, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 해킹은 변호사가 들어와서 은행 약관(코드)의 띄어쓰기 맹점을 파고들어 **'내 통장 잔고를 100배로 불려달라고 합법적인 계약(Contract) 소송을 걸어 은행을 통째로 파산시키는 치명적 지능 범죄'**입니다. 약관(코드)이 한 번 등록되면 우주 끝날 때까지 안 바뀌기 때문에, 도장을 찍기 전 변호사 10명([보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)팀)이 약관을 분자 단위로 뜯어보는 수밖에 없습니다.
+- **📢 섹션 요약 비유**: 기존 웹 해킹이 은행 도둑이 들어와서 <strong>'금고의 돈을 주머니에 훔쳐 도망가는 물리적 범죄'</strong>라면, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 해킹은 변호사가 들어와서 은행 약관(코드)의 띄어쓰기 맹점을 파고들어 <strong>'내 통장 잔고를 100배로 불려달라고 합법적인 계약(Contract) 소송을 걸어 은행을 통째로 파산시키는 치명적 지능 범죄'</strong>입니다. 약관(코드)이 한 번 등록되면 우주 끝날 때까지 안 바뀌기 때문에, 도장을 찍기 전 변호사 10명([보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)팀)이 약관을 분자 단위로 뜯어보는 수밖에 없습니다.
 
 ---
 
 다음은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)/[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) (Smart의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  블록체인/스마트 컨트랙트 (Smart                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인/스마트 컨트랙트 (Smart</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)/[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) (Smart가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)/[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) (Reentrancy 공격 방어 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)/[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) (Reentrancy 공격 방어 등)의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)/[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) ([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)) [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/) (Reentrancy 공격 방어 등)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-블록체인/스마트 컨트랙트 (Smart Contract) 보안 감사 (Reentrancy 공격 방어 등) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록체인/스마트 컨트랙트 (Smart Contract) 보안 감사 (Reentrancy 공격 방어 등) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

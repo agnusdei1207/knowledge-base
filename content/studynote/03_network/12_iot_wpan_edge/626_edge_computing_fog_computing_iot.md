@@ -21,14 +21,18 @@ tags = ["studynote-network"]
 
 - 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(Cloud)로 쫙 빨아들여 분석하는 기존 방식은, 수십억 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 내뿜는 폭발적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양(트래픽)을 감당하지 못해 인터넷망을 마비시키고, 수백 밀리초(ms)의 [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 유발하여 실시간 자율주행이나 공장 자동화 로봇 제어에 쓸 수 없게 되었습니다.
 
-```text
-[oneM2M 아키텍처]
-    │
-    ▼
-[엣지 컴퓨팅]
-    │
-    └──▶ [MEC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -36,20 +40,24 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저 멀리 중앙 클라우드까지 보내지 않고, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 처음 발생하는 센서 바로 옆이나 현장 근처의 끝자락(Edge, 엣지 서버나 게이트웨이 장비)에서 즉각적으로 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 분석과 연산을 처리해 버리는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 방식**입니다.
+- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저 멀리 중앙 클라우드까지 보내지 않고, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 처음 발생하는 센서 바로 옆이나 현장 근처의 끝자락(Edge, 엣지 서버나 게이트웨이 장비)에서 즉각적으로 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 분석과 연산을 처리해 버리는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 방식</strong>입니다.
 - **장점**:
-  1. **초저지연 (Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))**: 현장에서 바로 결정을 내리므로 자율주행차 브레이크 제어처럼 1ms 찰나의 반응 속도를 보장합니다.
+  1. <strong>초저지연 (Ultra-Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 현장에서 바로 결정을 내리므로 자율주행차 브레이크 제어처럼 1ms 찰나의 반응 속도를 보장합니다.
   2. **통신망 부하 감소**: 쓸데없는 고화질 영상 원본은 현장에서 다 처리하고 버린 뒤, "10시 5분에 불량품 1개 발생함"이라는 10바이트짜리 요약 결과 텍스트만 중앙 클라우드로 보내므로 인터넷 트래픽이 획기적으로 줍니다.
   3. **보안 및 프라이버시**: 병원의 환자 얼굴 영상이나 공장의 극비 설계도가 현장 밖(외부 인터넷)으로 빠져나가지 않으므로 원천적인 보안이 달성됩니다.
 
-```text
-[oneM2M 아키텍처]
-    │
-    ▼
-[엣지 컴퓨팅]
-    │
-    └──▶ [MEC]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,8 +66,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 개념은 비슷하지만, 어디서 연산을 처리하느냐에 따른 뉘앙스 차이가 있습니다.
-- **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) (Edge)**: 연산 주체가 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 생산하는 장비 그 자체(예: 스마트폰 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/), 테슬라 자율주행 칩)나 바로 앞의 게이트웨이**에 극단적으로 치우쳐 있는 형태입니다. (말단에서 즉결 처분)
-- **[포그 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/) (Fog)**: 클라우드(구름)가 너무 멀리 떠 있다면, 포그(안개)는 우리 주변 길바닥에 깔려 있다는 비유([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 주도). 엣지 장비 하나에 책임을 다 떠넘기지 않고, **동네 기지국, 동네 라우터, 여러 엣지 노드들이 LAN망 내에서 구름처럼 서로 연합하여 중간 규모의 연산을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리**하는 구조입니다. (중간 관리자들의 연합)
+- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (Edge)</strong>: 연산 주체가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 생산하는 장비 그 자체(예: 스마트폰 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a>, 테슬라 자율주행 칩)나 바로 앞의 게이트웨이</strong>에 극단적으로 치우쳐 있는 형태입니다. (말단에서 즉결 처분)
+- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">포그 컴퓨팅</a> (Fog)</strong>: 클라우드(구름)가 너무 멀리 떠 있다면, 포그(안개)는 우리 주변 길바닥에 깔려 있다는 비유([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 주도). 엣지 장비 하나에 책임을 다 떠넘기지 않고, <strong>동네 기지국, 동네 라우터, 여러 엣지 노드들이 LAN망 내에서 구름처럼 서로 연합하여 중간 규모의 연산을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>하는 구조입니다. (중간 관리자들의 연합)
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. oneM2M 아키텍처가 기반 조건을 만든다면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 그 위에서 핵심 메커니즘을 구현하고, MEC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -76,8 +84,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 클라우드를 죽이는 기술이 아닙니다.
-- **엣지(Edge)**는 1초가 급한 "앞차 브레이크 밟았음, 우리도 서야 해!"라는 즉각적인 실시간 판단을 도맡습니다.
-- **클라우드(Cloud)**는 엣지가 버린 수천만 대의 주행 기록을 한 달에 한 번씩 넘겨받아 거대한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 딥러닝 모델을 천천히 똑똑하게 학습시킨 뒤, 그 똑똑해진 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 다시 엣지 장비로 다운로드(배포)해 주는 거대한 훈련소 역할을 하며 공생합니다.
+- <strong>엣지(Edge)</strong>는 1초가 급한 "앞차 브레이크 밟았음, 우리도 서야 해!"라는 즉각적인 실시간 판단을 도맡습니다.
+- <strong>클라우드(Cloud)</strong>는 엣지가 버린 수천만 대의 주행 기록을 한 달에 한 번씩 넘겨받아 거대한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 딥러닝 모델을 천천히 똑똑하게 학습시킨 뒤, 그 똑똑해진 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 다시 엣지 장비로 다운로드(배포)해 주는 거대한 훈련소 역할을 하며 공생합니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -108,15 +116,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: oneM2M 아키텍처]
-    │
-    ▼
-[현재 개념: 엣지 컴퓨팅]
-    │
-    ├──▶ [확장 A: MEC]
-    └──▶ [확장 B: 자율형 엣지 협업]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: oneM2M 아키텍처</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 엣지 컴퓨팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MEC</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
+</div>
+</div>
+
+
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)는 oneM2M 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

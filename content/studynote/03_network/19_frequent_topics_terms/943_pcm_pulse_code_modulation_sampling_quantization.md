@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 마이크로 들어온 **연속적인 [아날로그 신호](/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/)(음성, 음악)를 '[표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ➜ [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ➜ 부호화'라는 3단계 컨베이어 벨트를 거쳐 0과 1의 불연속적인 디지털 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 변환하는 통신/[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 방식의 글로벌 표준 규격**입니다.
+- **개념**: 마이크로 들어온 <strong>연속적인 <a href="/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/">아날로그 신호</a>(음성, 음악)를 '<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">표본화</a> ➜ <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> ➜ 부호화'라는 3단계 컨베이어 벨트를 거쳐 0과 1의 불연속적인 디지털 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스트림(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)으로 변환하는 통신/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 방식의 글로벌 표준 규격</strong>입니다.
 - 우리가 컴퓨터로 듣는 MP3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 전화 통화 소리(G.711 코덱), WAV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 근본 뼈대가 바로 이 PCM 덩어리입니다.
 
-```text
-[에일리어싱]
-    │
-    ▼
-[펄스부호변조]
-    │
-    └──▶ [다중화기 / 역다중화기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 펄스부호변조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,25 +45,29 @@ tags = ["studynote-network"]
 
 ### 1단계: [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) - "칼질하기" 🌟
 - 연속된 소리의 물결 곡선(파동) 위에 1초마다 몇 개의 '점(표본)'을 찍어서 값을 추출할지 결정합니다.
-- 942번 문서에서 배운 **나이퀴스트 정리**에 따라, 인간의 일반적인 전화 통화 최고 음역대인 **4,000Hz (4kHz)**를 살려내기 위해 1초에 최소 2배인 **8,000번 (8kHz)**의 칼질을 해서 점을 톡톡 찍어냅니다.
+- 942번 문서에서 배운 <strong>나이퀴스트 정리</strong>에 따라, 인간의 일반적인 전화 통화 최고 음역대인 <strong>4,000Hz (4kHz)</strong>를 살려내기 위해 1초에 최소 2배인 <strong>8,000번 (8kHz)</strong>의 칼질을 해서 점을 톡톡 찍어냅니다.
 
 ### 2단계: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) - "반올림하여 줄 세우기" 🌟
 - [표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)로 찍은 점의 높이가 '3.141592V'처럼 무한 소수라면 컴퓨터에 저장할 수 없습니다.
 - 이 점의 높이를 가장 가까운 정수 칸막이(예: 3V 또는 4V)로 강제로 끌어당겨 **'반올림'** 해버립니다.
-- **[양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) Noise) 🌟**: 3.14V를 3V로 깎아버렸으니, 원본 목소리에서 0.14V만큼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파괴되어 날아갔습니다. 이 강제 반올림 때문에 스피커에서 들리는 미세한 쇳소리(잡음)를 [양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)이라고 하며, PCM의 숙명적인 맹점입니다. 이 잡음을 줄이려면 반올림 칸막이([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)를 8비트에서 16비트로 엄청나게 촘촘하게 썰어야 합니다.
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/">양자화 잡음</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a> Noise) 🌟</strong>: 3.14V를 3V로 깎아버렸으니, 원본 목소리에서 0.14V만큼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파괴되어 날아갔습니다. 이 강제 반올림 때문에 스피커에서 들리는 미세한 쇳소리(잡음)를 [양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)이라고 하며, PCM의 숙명적인 맹점입니다. 이 잡음을 줄이려면 반올림 칸막이([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)를 8비트에서 16비트로 엄청나게 촘촘하게 썰어야 합니다.
 
 ### 3단계: 부호화 (Encoding) - "0과 1로 번역하기"
 - [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 반올림된 정수값 '3'을 컴퓨터가 읽을 수 있는 8비트 이진수(예: `00000011`)로 변환합니다.
 - 결과적으로 1초에 8,000번 점을 찍고, 1개 점당 8비트의 숫자를 부여했으니, 1초의 전화 통화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **$8,000 \times 8 = 64,000 bps (64Kbps)$**의 인터넷 트래픽을 잡아먹게 됩니다. (전 세계 전화기 ISDN의 절대 표준 속도)
 
-```text
-[에일리어싱]
-    │
-    ▼
-[펄스부호변조]
-    │
-    └──▶ [다중화기 / 역다중화기]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 펄스부호변조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,8 +76,8 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 반올림 오차(잡음)를 줄이려고 무작정 16비트, 24비트로 용량을 늘리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 터집니다. 
-- **[컴팬딩](/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/) ([Companding](/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/) / 압신)**: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다. 
-- 그래서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 칸막이를 자를 때 일정한 간격(선형)으로 자르지 않고, **작은 소리 구간은 칸막이를 엄청 촘촘하게(세밀하게 반올림) 자르고, 큰 폭발음 소리 구간은 칸막이를 듬성듬성(대충 반올림) 잘라서(비선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 아끼면서 귀에 들리는 잡음은 기가 막히게 날려버리는 마법을 씁니다. ($\mu$-law, A-law 등)
+- <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">컴팬딩</a> (<a href="/knowledge-base/studynote/03_network/01_data_communication/061_컴팬딩_압신_mu_law_A_law/">Companding</a> / 압신)</strong>: 사람의 귀는 '큰 소리의 오차'는 둔감하고, '작은 속삭임의 오차'에는 엄청 예민합니다. 
+- 그래서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 칸막이를 자를 때 일정한 간격(선형)으로 자르지 않고, <strong>작은 소리 구간은 칸막이를 엄청 촘촘하게(세밀하게 반올림) 자르고, 큰 폭발음 소리 구간은 칸막이를 듬성듬성(대충 반올림) 잘라서(비선형 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량은 아끼면서 귀에 들리는 잡음은 기가 막히게 날려버리는 마법을 씁니다. ($\mu$-law, A-law 등)
 
 펄스부호변조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)이 기반 조건을 만든다면, 펄스부호변조는 그 위에서 핵심 메커니즘을 구현하고, [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,7 +87,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: PCM(펄스부호변조)은 구불구불 이어져 있는 '아날로그 롤러코스터 레일'을 엑셀(디지털 숫자)로 그려내는 도축 작업입니다. 첫째, **[표본화](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))**는 롤러코스터 레일 위에 1미터 간격으로 페인트 점을 8,000개 찍는 칼질입니다. 둘째, **[양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))**는 각 페인트 점의 지상 높이가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).3미터일 때, 자재를 아끼기 위해 반올림하여 강제로 10미터짜리 철골 기둥에 맞춰버리는 억지 작업입니다. 이때 0.3미터의 오차가 생겨 레일이 약간 덜컹거리는데 이것이 **'[양자화 잡음](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)'**입니다. 셋째, **부호화(Encoding)**는 이 반올림한 높이 '[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)'을 이메일로 보내기 위해 '01010'이라는 텍스트 숫자로 바꿔 타자 치는 것입니다. 목적지(수신자 컴퓨터)는 이 텍스트 숫자를 보고 기둥을 세운 뒤 그 위로 레일(파동)을 부드럽게 덮어 씌우면, 아무리 먼 거리를 전송했더라도 원본 롤러코스터와 거의 똑같은 복제품이 100% 디지털로 뚝딱 부활하는 마법의 아키텍처입니다.
+- **📢 섹션 요약 비유**: PCM(펄스부호변조)은 구불구불 이어져 있는 '아날로그 롤러코스터 레일'을 엑셀(디지털 숫자)로 그려내는 도축 작업입니다. 첫째, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">표본화</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)</strong>는 롤러코스터 레일 위에 1미터 간격으로 페인트 점을 8,000개 찍는 칼질입니다. 둘째, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong>는 각 페인트 점의 지상 높이가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).3미터일 때, 자재를 아끼기 위해 반올림하여 강제로 10미터짜리 철골 기둥에 맞춰버리는 억지 작업입니다. 이때 0.3미터의 오차가 생겨 레일이 약간 덜컹거리는데 이것이 <strong>'<a href="/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/">양자화 잡음</a>'</strong>입니다. 셋째, <strong>부호화(Encoding)</strong>는 이 반올림한 높이 '[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)'을 이메일로 보내기 위해 '01010'이라는 텍스트 숫자로 바꿔 타자 치는 것입니다. 목적지(수신자 컴퓨터)는 이 텍스트 숫자를 보고 기둥을 세운 뒤 그 위로 레일(파동)을 부드럽게 덮어 씌우면, 아무리 먼 거리를 전송했더라도 원본 롤러코스터와 거의 똑같은 복제품이 100% 디지털로 뚝딱 부활하는 마법의 아키텍처입니다.
 
 ---
 
@@ -121,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 에일리어싱]
-    │
-    ▼
-[현재 개념: 펄스부호변조]
-    │
-    ├──▶ [확장 A: 다중화기 / 역다중화기]
-    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 에일리어싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 펄스부호변조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다중화기 / 역다중화기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
+</div>
+</div>
+
+
 
 펄스부호변조는 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

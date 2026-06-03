@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 옛날 VXLAN은 오버레이 터널([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)은 환상적이었지만, 정작 **통제탑(제어 평면, Control Plane)의 뇌가 없었습니다.**
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 낯선 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 찾을 때, 옛날 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 하던 버릇 그대로 "이 IP 가진 사람 응답해!"라며 모든 망에 패킷을 다 던져서 물어보는 무식한 **Flooding(브로드캐스트/[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))** 짓거리를 했습니다. 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 이 묻지도 따지지도 않는 탐색 방송(BUM 트래픽)이 태풍이 되어 네트워크를 마비시켰습니다.
+- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 낯선 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 찾을 때, 옛날 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 하던 버릇 그대로 "이 IP 가진 사람 응답해!"라며 모든 망에 패킷을 다 던져서 물어보는 무식한 <strong>Flooding(브로드캐스트/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong> 짓거리를 했습니다. 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 이 묻지도 따지지도 않는 탐색 방송(BUM 트래픽)이 태풍이 되어 네트워크를 마비시켰습니다.
 
-```text
-[STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    ▼
-[EVPN]
-    │
-    └──▶ [클라우드 네이티브 네트워킹 스케일아웃 분산…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: EVPN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 인터넷 전 세계 국가망을 엮어주던 가장 강력하고 똑똑한 외교관 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜인 **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), 구체적으로 MP-[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))를 개조하여, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 IP 주소 이동 경로를 스마트하게 엑셀로 정리하고 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 전파해 주는 차세대 L2/L3 통합 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 제어 평면(Control Plane) 기술 표준**입니다.
-- **완벽한 한 쌍**: 요즘 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 택배 상자([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 박스를 쓰고, 길을 알려주는 네비게이션 두뇌(Control Plane)는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) EVPN을 쓴다"**를 신앙처럼 외우고 다닙니다. 이 둘이 짝꿍으로 돌아갑니다.
+- **개념**: 인터넷 전 세계 국가망을 엮어주던 가장 강력하고 똑똑한 외교관 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>, 구체적으로 MP-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)를 개조하여, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소와 IP 주소 이동 경로를 스마트하게 엑셀로 정리하고 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들에게 전파해 주는 차세대 L2/L3 통합 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 제어 평면(Control Plane) 기술 표준</strong>입니다.
+- **완벽한 한 쌍**: 요즘 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 택배 상자(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)는 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 박스를 쓰고, 길을 알려주는 네비게이션 두뇌(Control Plane)는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> EVPN을 쓴다"</strong>를 신앙처럼 외우고 다닙니다. 이 둘이 짝꿍으로 돌아갑니다.
 
-```text
-[STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    ▼
-[EVPN]
-    │
-    └──▶ [클라우드 네이티브 네트워킹 스케일아웃 분산…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: EVPN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -57,17 +65,17 @@ tags = ["studynote-network"]
 
 ### 1. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 및 IP 주소의 동적 학습과 전파 ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기반) 🌟
 - 기존엔 플러딩(소리치기)으로 남의 주소를 겨우 물어물어 배웠습니다.
-- **EVPN 혁명**: 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 서버 A가 꽂히면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜을 써서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 대장 서버에게 "야! 나한테 서버 A(IP 1.1.1.1, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):bb) 꽂혔어!"라고 **엑셀 장부(Route NLRI 업데이트 메시지)에 우아하게 적어서 상부에 보고**합니다.
+- **EVPN 혁명**: 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 서버 A가 꽂히면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 프로토콜을 써서 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 대장 서버에게 "야! 나한테 서버 A(IP 1.1.1.1, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):bb) 꽂혔어!"라고 <strong>엑셀 장부(Route NLRI 업데이트 메시지)에 우아하게 적어서 상부에 보고</strong>합니다.
 - 대장 서버는 이 장부를 순식간에 전국의 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 싹 복사해서 뿌려줍니다. 즉, 전국의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 소리 한 번 지르지 않고도 서로의 위치([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/IP)를 100% 장부로 꿰고 있게 됩니다.
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 브로드캐스트 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) ([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Suppression) 🌟
 - 내가 부산 서버 IP를 아는데 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 모르면 보통 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(소리치기)를 던집니다.
 - 하지만 EVPN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 내 책상에 이미 전국의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 엑셀 장부가 꽂혀 있습니다. 
-- 폰([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 "부산 서버 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 소리를 빽 지르려는 찰나, **내 바로 위에 있는 VTEP [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 입을 콱 틀어막으며 "소리치지 마! 내 엑셀 장부에 부산 애 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 다 적혀 있어. 이거 받아!"라며 그 자리에서 0.001초 만에 바로 대답([Proxy ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/))해 버립니다.** 망 전체의 브로드캐스트 쓰레기 트래픽이 완전히 소멸합니다.
+- 폰([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 "부산 서버 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 소리를 빽 지르려는 찰나, <strong>내 바로 위에 있는 VTEP <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 입을 콱 틀어막으며 "소리치지 마! 내 엑셀 장부에 부산 애 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 다 적혀 있어. 이거 받아!"라며 그 자리에서 0.001초 만에 바로 대답(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/315_proxy_arp_subnet_proxy_response/">Proxy ARP</a>)해 버립니다.</strong> 망 전체의 브로드캐스트 쓰레기 트래픽이 완전히 소멸합니다.
 
 ### 3. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 애니캐스트 게이트웨이 (Anycast Gateway)
 - 서버가 다른 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 대역(L3)으로 이사를 갈 때마다 기본 게이트웨이 IP를 바꿔줘야 했습니다.
-- EVPN은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 모든 1층(Leaf) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 **"니들 전부 다 IP 192.168.1.254(게이트웨이 IP)를 똑같이 달고 있어!"**라고 지시합니다. (동일 IP 다중 부여, Anycast)
+- EVPN은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 모든 1층(Leaf) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 <strong>"니들 전부 다 IP 192.168.1.254(게이트웨이 IP)를 똑같이 달고 있어!"</strong>라고 지시합니다. (동일 IP 다중 부여, Anycast)
 - 서버가 1층 1번 랙에서 10번 랙으로 이사를 훌쩍 가더라도, 이사 간 동네 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 자기 동네 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)인 양 똑같은 게이트웨이 얼굴을 하고 받아주므로 단 1초의 통신 단절이나 IP [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 변경 없이 완벽한 L3 마이그레이션이 터집니다.
 
 EVPN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…가 기반 조건을 만든다면, EVPN는 그 위에서 핵심 메커니즘을 구현하고, [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -78,7 +86,7 @@ EVPN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 구형 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 통신은 눈먼 자들의 '동네방네 확성기 찾기'였습니다. 서울에 있는 철수가 부산의 영희를 찾을 때, 전국 아파트 방송 스피커를 다 켜고 "영희야 어디 있니!!!!"라고 소리쳐서 응답을 기다렸습니다(플러딩/[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)). 아파트(클라우드) 주민들이 노이즈 스트레스로 미쳐버렸습니다. **[BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) EVPN**은 전국 모든 주민의 집 주소와 연락처를 실시간으로 완벽하게 정리해 놓은 '전국구 스마트 엑셀 주소록(Control Plane)'입니다. 철수가 방송 스피커 마이크를 들고 소리를 지르려는 찰나, 아파트 경비 아저씨(Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 마이크를 뺏으며 "소리 지르지 마! 내 책상에 있는 EVPN 엑셀 장부 보니까 영희 부산 101동에 산대! 당장 이 주소로 조용히 다이렉트로 택배 쏴!"라고 짚어줍니다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)). 불필요한 메가폰 소음이 0이 되고 통신망이 도서관처럼 평온해지는 통제탑의 기적입니다.
+- **📢 섹션 요약 비유**: 구형 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 통신은 눈먼 자들의 '동네방네 확성기 찾기'였습니다. 서울에 있는 철수가 부산의 영희를 찾을 때, 전국 아파트 방송 스피커를 다 켜고 "영희야 어디 있니!!!!"라고 소리쳐서 응답을 기다렸습니다(플러딩/[ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)). 아파트(클라우드) 주민들이 노이즈 스트레스로 미쳐버렸습니다. <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> EVPN</strong>은 전국 모든 주민의 집 주소와 연락처를 실시간으로 완벽하게 정리해 놓은 '전국구 스마트 엑셀 주소록(Control Plane)'입니다. 철수가 방송 스피커 마이크를 들고 소리를 지르려는 찰나, 아파트 경비 아저씨(Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 마이크를 뺏으며 "소리 지르지 마! 내 책상에 있는 EVPN 엑셀 장부 보니까 영희 부산 101동에 산대! 당장 이 주소로 조용히 다이렉트로 택배 쏴!"라고 짚어줍니다([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)). 불필요한 메가폰 소음이 0이 되고 통신망이 도서관처럼 평온해지는 통제탑의 기적입니다.
 
 ---
 
@@ -120,15 +128,19 @@ EVPN는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: STT 가상화 망 패킷 오프로드 LSO 지원…]
-    │
-    ▼
-[현재 개념: EVPN]
-    │
-    ├──▶ [확장 A: 클라우드 네이티브 네트워킹 스케일아웃 분산…]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EVPN</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 EVPN는 [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…에서 출발해 현재 메커니즘을 정교화하고, 이후 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

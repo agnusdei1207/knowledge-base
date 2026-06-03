@@ -21,25 +21,27 @@ tags = ["bigdata"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-빅데이터 시대의 가장 큰 딜레마는 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유용성(Utility)과 프라이버시(Privacy)의 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Trade-off)"**이다. 이름이나 주민등록번호 같은 명시적 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))만 삭제하면 안전할 것이라는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 생각은, 1990년대 매사추세츠 주지사의 의료 기록이 이름 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋과 선거인 명부의 단순 결합(성별, 우편번호, 생년월일 조합)만으로 재식별(Re-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))되는 사건을 통해 산산조각 났다. 
+빅데이터 시대의 가장 큰 딜레마는 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 유용성(Utility)과 프라이버시(Privacy)의 상충 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Trade-off)"</strong>이다. 이름이나 주민등록번호 같은 명시적 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)([Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))만 삭제하면 안전할 것이라는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 생각은, 1990년대 매사추세츠 주지사의 의료 기록이 이름 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋과 선거인 명부의 단순 결합(성별, 우편번호, 생년월일 조합)만으로 재식별(Re-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))되는 사건을 통해 산산조각 났다. 
 
-이러한 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와의 결합을 통한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 **연결 공격(Linkage Attack)**이라 부르며, 이를 방어하기 위해 나이, 성별, 지역 같은 **준식별자(Quasi-[Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), QI)**들을 어떻게 뭉뚱그리고 숨길 것인지에 대한 정밀한 수학적 기준이 필요해졌다. 이것이 바로 비식별화(De-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))의 핵심 메커니즘인 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델(k, l, t 모델)의 등장 배경이다.
+이러한 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와의 결합을 통한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)을 <strong>연결 공격(Linkage Attack)</strong>이라 부르며, 이를 방어하기 위해 나이, 성별, 지역 같은 <strong>준식별자(Quasi-<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, QI)</strong>들을 어떻게 뭉뚱그리고 숨길 것인지에 대한 정밀한 수학적 기준이 필요해졌다. 이것이 바로 비식별화(De-[identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))의 핵심 메커니즘인 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델(k, l, t 모델)의 등장 배경이다.
 
 다음은 단순 삭제의 한계와 연결 공격의 위험성을 보여주는 도식이다.
 
-```text
-[연결 공격 (Linkage Attack)의 원리]
 
-[익명화된 의료 데이터 (병원 제공)]      [공개된 유권자 명부 (정부 제공)]
-┌────────┬────────┬──────┬─────┐  ┌────────┬────────┬──────┬──────┐
-│  나이  │우편번호│ 성별 │ 질병│  │  이름  │  나이  │우편번호│ 성별 │
-├────────┼────────┼──────┼─────┤  ├────────┼────────┼──────┼──────┤
-│   35   │ 13524  │  남  │ 암  │==│ 홍길동 │   35   │ 13524  │  남  │
-│   42   │ 04511  │  여  │감기 │  │ 김철수 │   29   │ 12345  │  남  │
-│   35   │ 13524  │  여  │치통 │  │ 이영희 │   42   │ 04511  │  여  │
-└────────┴────────┴──────┴─────┘  └────────┴────────┴──────┴──────┘
-      ▲ 준식별자(QI) 집합이 겹침!! => (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">연결 공격 (Linkage Attack)의 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">익명화된 의료 데이터 (병원 제공)</div><div class="kb-diagram-node">공개된 유권자 명부 (정부 제공)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">우편번호</div><div class="kb-diagram-cell">성별</div><div class="kb-diagram-cell">질병</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">우편번호</div><div class="kb-diagram-cell">성별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">남</div><div class="kb-diagram-cell">암</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">남</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">42</div><div class="kb-diagram-cell">04511</div><div class="kb-diagram-cell">여</div><div class="kb-diagram-cell">감기</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">29</div><div class="kb-diagram-cell">12345</div><div class="kb-diagram-cell">남</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">여</div><div class="kb-diagram-cell">치통</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">42</div><div class="kb-diagram-cell">04511</div><div class="kb-diagram-cell">여</div></div>
+<div class="kb-diagram-note">▲ 준식별자(QI) 집합이 겹침!! =&gt; (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!</div>
+</div>
+</div>
+
+
 
 이 도식의 핵심은, 이름이라는 '직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)'를 지웠더라도, [나이+우편번호+성별]이라는 '준식별자'의 조합이 세상에 단 한 명만을 가리킨다면 프라이버시는 철저히 파괴된다는 점이다. 이를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 의도적으로 흐릿하게 만드는 기술이 필요하다.
 
@@ -49,17 +51,17 @@ tags = ["bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-비식별화를 위한 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델은 방어하고자 하는 공격의 종류에 따라 세 가지 단계로 진화해 왔다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조는 크게 **[식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)**, **준식별자(QI)**, **[민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)(Sensitive [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))**로 나뉘며, 비식별화는 주로 준식별자를 조작(일반화, [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 등)하여 이루어진다.
+비식별화를 위한 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델은 방어하고자 하는 공격의 종류에 따라 세 가지 단계로 진화해 왔다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조는 크게 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">식별자</a>(ID)</strong>, **준식별자(QI)**, <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/">민감정보</a>(Sensitive <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">Attribute</a>)</strong>로 나뉘며, 비식별화는 주로 준식별자를 조작(일반화, [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 등)하여 이루어진다.
 
 #### 1. [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/) ([k-Anonymity](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/))
 - **정의**: 동일한 준식별자(QI) 조합을 가진 레코드가 최소한 `k`개 이상 존재하도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일반화(Generalization)하거나 삭제(Suppression)하는 모델.
 - **방어 목적**: 연결 공격(Linkage Attack)에 의한 재식별 방지. 특정 개인을 특정 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(1/k) 이하로만 추정하게 만듦.
-- **한계**: 같은 QI 그룹 내에 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)가 모두 동일한 값으로 쏠려 있다면, 해당 그룹의 사람을 찾는 순간 질병도 100% 확정되는 **동질성 공격(Homogeneity Attack)**에 취약.
+- **한계**: 같은 QI 그룹 내에 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)가 모두 동일한 값으로 쏠려 있다면, 해당 그룹의 사람을 찾는 순간 질병도 100% 확정되는 <strong>동질성 공격(Homogeneity Attack)</strong>에 취약.
 
 #### 2. [l-다양성](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/) ([l-Diversity](/knowledge-base/studynote/09_security/16_data_privacy/815_l_diversity/))
 - **정의**: [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)이 적용된 각 동질 집단(Equivalence Class) 내에서, [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)의 종류가 최소 `l`개 이상 서로 다르게 존재하도록 보장하는 모델.
 - **방어 목적**: 동질성 공격(Homogeneity Attack) 및 배경지식 공격 방어.
-- **한계**: [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)가 다양하더라도 그 값들의 '분포'가 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포와 너무 다르면(예: 특정 질병 비율이 비정상적으로 높음) 공격자가 유추할 수 있는 **쏠림 공격([Skewness](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) Attack)**에 취약.
+- **한계**: [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)가 다양하더라도 그 값들의 '분포'가 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포와 너무 다르면(예: 특정 질병 비율이 비정상적으로 높음) 공격자가 유추할 수 있는 <strong>쏠림 공격(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/">Skewness</a> Attack)</strong>에 취약.
 
 #### 3. [t-근접성](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/) ([t-Closeness](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/))
 - **정의**: 각 동질 집단 내 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/)의 분포와, 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셋의 [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 분포 간의 차이(거리)가 `t` 이하가 되도록 맞추는 가장 엄격한 모델.
@@ -69,30 +71,33 @@ tags = ["bigdata"]
 
 아래 도식은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 세 가지 모델을 거치며 어떻게 변환되는지 보여준다.
 
-```text
-[원본 데이터] (QI: 나이/지역, 민감: 질병)
-35세, 서울, 위암
-36세, 서울, 위암
-38세, 부산, 감기
--------------------
-      │ (범주화 연산: 30대, 수도권 등으로 묶음)
-      ▼
-[k-익명성 적용 (k=2)] -> 2명씩 묶음, 특정 개인 식별 방지
-(30대, 수도권) -> 위암
-(30대, 수도권) -> 위암   <-- (문제점: 그룹을 찾으면 100% 위암임을 알게 됨! 동질성 공격 노출)
--------------------
-      │ (민감 정보 섞기 연산)
-      ▼
-[l-다양성 적용 (l=2)] -> 그룹 내 민감정보 최소 2개 이상
-(30대, 수도권) -> 위암
-(30대, 수도권) -> 폐렴   <-- (문제점: 다양하긴 한데, 둘 다 중증 암/폐질환에 쏠려 있음!)
--------------------
-      │ (분포 평활화 연산)
-      ▼
-[t-근접성 적용] -> 그룹 분포가 전체 분포(경증 80%, 중증 20%)를 따르게 만듦
-(30대, 수도권) -> 위암
-(30대, 수도권) -> 감기   <-- (안전! 특정 질병을 유추하기 매우 어려워짐)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터</div><div class="kb-diagram-note">(QI: 나이/지역, 민감: 질병)</div></div>
+<div class="kb-diagram-note">35세, 서울, 위암</div>
+<div class="kb-diagram-note">36세, 서울, 위암</div>
+<div class="kb-diagram-note">38세, 부산, 감기</div>
+<div class="kb-diagram-note">(범주화 연산: 30대, 수도권 등으로 묶음)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">k-익명성 적용 (k=2)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">2명씩 묶음, 특정 개인 식별 방지</div></div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암 &lt;-- (문제점: 그룹을 찾으면 100% 위암임을 알게 됨! 동질성 공격 노출)</div>
+<div class="kb-diagram-note">(민감 정보 섞기 연산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">l-다양성 적용 (l=2)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">그룹 내 민감정보 최소 2개 이상</div></div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 폐렴 &lt;-- (문제점: 다양하긴 한데, 둘 다 중증 암/폐질환에 쏠려 있음!)</div>
+<div class="kb-diagram-note">(분포 평활화 연산)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">t-근접성 적용</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">그룹 분포가 전체 분포(경증 80%, 중증 20%)를 따르게 만듦</div></div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
+<div class="kb-diagram-note">(30대, 수도권) -&gt; 감기 &lt;-- (안전! 특정 질병을 유추하기 매우 어려워짐)</div>
+</div>
+</div>
+
+
 
 이 메커니즘의 핵심은 단계를 거듭할수록(k → l → t) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준은 극대화되지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 섞고 평활화해야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본래 특징(유용성, Utility)이 심각하게 파괴된다는 트레이드오프를 갖는다는 점이다.
 
@@ -102,7 +107,7 @@ tags = ["bigdata"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-비식별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립할 때는 고전적인 k-l-t 모델과, 최근 애플과 구글이 적극 활용하는 **[차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)([Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/))** 모델을 비교하여 아키텍처를 결정해야 한다.
+비식별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립할 때는 고전적인 k-l-t 모델과, 최근 애플과 구글이 적극 활용하는 <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>)</strong> 모델을 비교하여 아키텍처를 결정해야 한다.
 
 #### 1. 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모델 기술 매트릭스 비교
 
@@ -111,7 +116,7 @@ tags = ["bigdata"]
 | **작동 방식** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범주화(Generalization) 및 삭제 | [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 종류의 다양화 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 수학적 노이즈(Noise) 주입 |
 | **방어 대상** | 연결 공격 (Linkage) | 동질성 공격 (Homogeneity) | 모든 형태의 추론 및 재식별 공격 방어 |
 | **적용 시점** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 전 (정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 전 | 질의 시점 (Query) 또는 수집 시점(Local DP) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성** | 비교적 원본 형태 유지 (높음) | 다소 훼손됨 (중간) | 노이즈 주입으로 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 큼 (낮음), 통계만 유효 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유용성</strong> | 비교적 원본 형태 유지 (높음) | 다소 훼손됨 (중간) | 노이즈 주입으로 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 훼손 큼 (낮음), 통계만 유효 |
 | **실무 판단** | 일반적인 공공/금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 시 기본 요건 | 병원/질병 등 민감도가 매우 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 시 | 대규모 유저 행동 통계(OS 텔레메트리, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습) 시 필수 |
 
 위 비교표에서 볼 수 있듯, k, l 모델은 기존의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 주고받아야 할 때(예: 마케팅용 고객 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)) 유용하지만 수학적 한계가 명확하다. 반면 [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본을 숨기고 통계적 특성만 활용하는 최신 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 강력한 시너지를 발휘한다.
@@ -129,37 +134,36 @@ tags = ["bigdata"]
 
 #### 1. 실무 시나리오: 금융사-통신사 간 신용평가 모델 개발을 위한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합
 - **상황**: A은행의 금융 연체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 B통신의 통화/위치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 결합하여 신용소외자(Thin Filer)를 위한 새로운 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 대출 평가 모델을 만들고자 한다.
-- **[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**: 두 회사가 주민등록번호를 SHA-256으로 해시(Hash)해서 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))한다. (해시 값은 사전 공격(Dictionary Attack)에 의해 쉽게 뚫리므로 완벽한 불법이자 치명적 보안 위협이다.)
-- **의사결정 플로우 및 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인**:
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 두 회사가 주민등록번호를 SHA-256으로 해시(Hash)해서 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))한다. (해시 값은 사전 공격(Dictionary Attack)에 의해 쉽게 뚫리므로 완벽한 불법이자 치명적 보안 위협이다.)
+- <strong>의사결정 플로우 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong>:
   1. [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(주민번호 등)는 철저히 삭제하거나 난수 기반의 일방향 해시 후 결합키([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로만 1회성 사용.
   2. 통신사의 위치 정보(준식별자)는 'GPS 좌표'에서 '구/동 단위'로 일반화(Generalization).
   3. 나이는 1세 단위에서 10년 단위로 범주화(Categorization).
   4. ARX나 ARX-like 비식별화 도구를 사용하여 결합된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 `k=3` 이상의 익명성을 충족하는지 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)).
   5. 조건 미달 시, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 예: 100세 이상 노인) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과감히 삭제(Suppression)하여 모델을 통과시킴.
 
-```text
-[실무 비식별화 파이프라인 의사결정 트리]
 
-[결합된 Raw Dataset]
-       │
-       ▼
-[QI 식별 및 k-익명성 수치 계산]
-       │
-       ├─ (k < 목표치) ──> [일반화/삭제 레벨 증가 (예: 동->구, 나이->10대)] ─┐
-       │                                                          │ (루프)
-       ▼ (k >= 목표치 달성) <─────────────────────────────────────────┘
-[민감정보 쏠림 분석 (l-다양성 검증)]
-       │
-       ├─ (특정 질병/연체 쏠림 발생) ──> [데이터 라우팅 재배치 또는 민감 데이터 억제]
-       │
-       ▼ (통과)
-[유용성(Utility Loss) 측정]
-       │
-       ├─ (정보 손실률 > 30%) ──> "비즈니스 가치 없음. 파라미터 재조정 요망"
-       │
-       ▼
-[최종 가명정보 데이터셋 생성 및 반출]
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 비식별화 파이프라인 의사결정 트리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">결합된 Raw Dataset</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">QI 식별 및 k-익명성 수치 계산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (k &lt; 목표치) ──&gt;</div><div class="kb-diagram-node">일반화/삭제 레벨 증가 (예: 동-&gt;구, 나이-&gt;10대)</div><div class="kb-diagram-note">─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(루프)</div></div>
+<div class="kb-diagram-note">▼ (k &gt;= 목표치 달성) &lt;</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">민감정보 쏠림 분석 (l-다양성 검증)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─ (특정 질병/연체 쏠림 발생) ──&gt;</div><div class="kb-diagram-node">데이터 라우팅 재배치 또는 민감 데이터 억제</div></div>
+<div class="kb-diagram-note">▼ (통과)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유용성(Utility Loss) 측정</div></div>
+<div class="kb-diagram-tree-item" style="--depth:3">(정보 손실률 &gt; 30%) ──&gt; "비즈니스 가치 없음. 파라미터 재조정 요망"</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 가명정보 데이터셋 생성 및 반출</div></div>
+</div>
+</div>
+
+
 
 #### 2. 실무 컴플라이언스 체크포인트
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '가족 정보'나 '희귀병' 등 극단적인 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))가 섞여 있으면, 전체 k값을 맞추기 위해 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 과도하게 삭제되어 유용성이 박살난다. 사전에 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 제거(Suppression)하는 전처리가 필수다.
@@ -176,39 +180,41 @@ tags = ["bigdata"]
 | 구분 | 정량/정성적 기대효과 및 미래 방향 |
 |:---|:---|
 | **비즈니스 안정성** | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 시 발생하는 징벌적 손해배상 및 형사처벌 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제로(0) 수준으로 경감 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 타파** | 이기종 산업 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합이 합법적으로 활성화되어, 융합 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 예측 정확도 대폭 상승 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 타파</strong> | 이기종 산업 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합이 합법적으로 활성화되어, 융합 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 예측 정확도 대폭 상승 |
 | **기술의 진화 (표준)** | ISO/IEC 20889(비식별화 기술 표준)에 기반하여, 재현 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Synthetic Data](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기술로 패러다임이 진화 중 |
 
-결론적으로, 고전적인 k-l-t 모델은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하여 프라이버시를 지키는 강력한 기반을 제공했지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성 훼손이라는 꼬리표를 달고 다녔다. 향후 빅데이터 생태계는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성만을 완벽히 모방하여 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들어내는 **[합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)([Synthetic Data](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/))** 기술과 융합하여, 프라이버시 침해율 0%와 유용성 100%를 동시에 추구하는 궁극의 아키텍처로 나아갈 것이다.
+결론적으로, 고전적인 k-l-t 모델은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하여 프라이버시를 지키는 강력한 기반을 제공했지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유용성 훼손이라는 꼬리표를 달고 다녔다. 향후 빅데이터 생태계는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성만을 완벽히 모방하여 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들어내는 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/">합성 데이터</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/">Synthetic Data</a>)</strong> 기술과 융합하여, 프라이버시 침해율 0%와 유용성 100%를 동시에 추구하는 궁극의 아키텍처로 나아갈 것이다.
 
 > 📢 **섹션 요약 비유**: 남의 일기장을 까맣게 덧칠해서 빌려주는(가명처리) 불편한 시절을 지나, 이제는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 그 일기장의 필체와 감성만 쏙 빼닮은 완전히 가짜 소설책([합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/))을 새로 써서 안심하고 팔 수 있는 마법의 시대로 접어들고 있습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) ([Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/))** | 특정 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 포함되었는지 여부를 알 수 없도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 시 통계적 노이즈(Laplace 등)를 주입하는 최신 기술
-- **[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/) ([Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/))** | 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복호화하지 않고 그 상태 그대로 연산(덧셈, 곱셈 등)을 수행하여 결과를 얻을 수 있는 차세대 암호 기술
-- **재현 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Synthetic Data](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/))** | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 패턴을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 등)가 학습하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 가상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 이슈가 원천적으로 없음
+- <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>)</strong> | 특정 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 포함되었는지 여부를 알 수 없도록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 시 통계적 노이즈(Laplace 등)를 주입하는 최신 기술
+- <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호</a> (<a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">Homomorphic Encryption</a>)</strong> | 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복호화하지 않고 그 상태 그대로 연산(덧셈, 곱셈 등)을 수행하여 결과를 얻을 수 있는 차세대 암호 기술
+- <strong>재현 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (<a href="/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/">Synthetic Data</a>)</strong> | 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 패턴을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/) 등)가 학습하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 가상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 이슈가 원천적으로 없음
 - **연결 공격 (Linkage Attack)** | 익명화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 외부의 다른 공개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조합 및 대조하여 특정 개인을 재식별해내는 공격 기법
-- **준식별자 (Quasi-[Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))** | 단독으로는 특정 개인을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없으나, 다른 정보와 결합할 경우 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)에 사용될 수 있는 정보 (예: 나이, 성별, 우편번호)
+- <strong>준식별자 (Quasi-<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>)</strong> | 단독으로는 특정 개인을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없으나, 다른 정보와 결합할 경우 개인 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)에 사용될 수 있는 정보 (예: 나이, 성별, 우편번호)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[개인정보 보호법·GDPR — 개인정보 처리 규제 강화]
-    │
-    ▼
-[비식별화 (De-identification) — 가명처리·익명처리·총계처리]
-    │
-    ▼
-[차등 프라이버시 (Differential Privacy) — 수학적 프라이버시 보장 노이즈 주입]
-    │
-    ▼
-[합성 데이터 (Synthetic Data) — GAN 기반 통계 패턴 보존 가상 데이터 생성]
-    │
-    ▼
-[연합 학습 (Federated Learning) — 원본 데이터 이동 없이 분산 학습]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호법·GDPR — 개인정보 처리 규제 강화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비식별화 (De-identification) — 가명처리·익명처리·총계처리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">차등 프라이버시 (Differential Privacy) — 수학적 프라이버시 보장 노이즈 주입</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합성 데이터 (Synthetic Data) — GAN 기반 통계 패턴 보존 가상 데이터 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 (Federated Learning) — 원본 데이터 이동 없이 분산 학습</div></div>
+</div>
+</div>
+
+
 비식별화는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 균형을 맞추는 출발점이며, [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)·[합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)으로 진화해 프라이버시 보존 AI의 기반이 된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

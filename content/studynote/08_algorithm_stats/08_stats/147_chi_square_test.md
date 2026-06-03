@@ -94,22 +94,22 @@ E_ij = (i행 합계 × j열 합계) / 전체 합계
 
 **2×2 분할표 예시**:
 
-```
-┌────────────────────────────────────────────────┐
-│           분할표 (2×2 Contingency Table)         │
-├─────────────────┬──────────────┬───────────────┤
-│                 │  제품 선호 Y  │ 제품 비선호 N  │
-├─────────────────┼──────────────┼───────────────┤
-│   남성          │  O=45 E=40   │  O=15 E=20    │
-│   여성          │  O=35 E=40   │  O=25 E=20    │
-└─────────────────┴──────────────┴───────────────┘
 
-χ² = (45-40)²/40 + (15-20)²/20 + (35-40)²/40 + (25-20)²/20
-   = 0.625 + 1.25 + 0.625 + 1.25 = 3.75
 
-df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
-3.75 < 3.84 → 경계선상, 통계적으로 유의하지 않음
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할표 (2×2 Contingency Table)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품 선호 Y</div><div class="kb-diagram-cell">제품 비선호 N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남성</div><div class="kb-diagram-cell">O=45 E=40</div><div class="kb-diagram-cell">O=15 E=20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여성</div><div class="kb-diagram-cell">O=35 E=40</div><div class="kb-diagram-cell">O=25 E=20</div></div>
+<div class="kb-diagram-note">χ² = (45-40)²/40 + (15-20)²/20 + (35-40)²/40 + (25-20)²/20</div>
+<div class="kb-diagram-note">= 0.625 + 1.25 + 0.625 + 1.25 = 3.75</div>
+<div class="kb-diagram-note">df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)</div>
+<div class="kb-diagram-note">3.75 &lt; 3.84 → 경계선상, 통계적으로 유의하지 않음</div>
+</div>
+</div>
+
+
 
 **예이츠 보정 (Yates' Correction)**: 2×2 표 + 소표본(기대 빈도 < 5)일 때:
 
@@ -134,22 +134,23 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 | 충분한 표본 | 전체 n ≥ 20 권장 | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 저하 |
 | 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 연속형에 직접 적용 불가 | — |
 
-**소셀([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)) 문제 해결책**:
+<strong>소셀(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 문제 해결책</strong>:
 - 범주 병합 (Category Merging)
 - 피셔의 정확 검정 (Fisher's Exact Test): 소표본 2×2 표에 정확한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
 - 예이츠 보정
 
-```
-┌─────────────────────────────────────────────────┐
-│         χ² 검정 적용 가이드                      │
-├──────────────┬──────────────────────────────────┤
-│  모든 E ≥ 5  │  χ² 검정 사용                   │
-├──────────────┼──────────────────────────────────┤
-│  일부 E < 5  │  예이츠 보정 or 범주 병합        │
-├──────────────┼──────────────────────────────────┤
-│  2×2 소표본  │  Fisher's Exact Test             │
-└──────────────┴──────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">χ² 검정 적용 가이드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 E ≥ 5</div><div class="kb-diagram-cell">χ² 검정 사용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일부 E &lt; 5</div><div class="kb-diagram-cell">예이츠 보정 or 범주 병합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2×2 소표본</div><div class="kb-diagram-cell">Fisher's Exact Test</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: "기대 빈도 ≥ 5" 조건은 "최소 5명 이상인 그룹만 통계 비교"와 같다. 단 1명짜리 그룹을 포함시키면 "1명 중 1명이 선호" = 100%가 나와 통계가 의미를 잃는다.
 
@@ -157,7 +158,7 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 
 ## Ⅴ. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특징 선택과 GWAS 응용
 
-**특징 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) — ML**:
+<strong>특징 선택 (Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>) — ML</strong>:
 
 범주형 타겟(y)과 각 입력 특징(x_i)의 χ² 통계량을 계산해 높은 순으로 특징 선택:
 
@@ -196,21 +197,23 @@ X_new = selector.fit_transform(X, y)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[기술 통계 (Descriptive Statistics) — 평균·분산·빈도 요약]
-    │
-    ▼
-[가설 검정 (Hypothesis Testing) — 귀무가설 H₀, 대립가설 H₁]
-    │
-    ▼
-[카이제곱 검정 (Chi-Square Test) — 범주형 변수 빈도, 관찰값 vs 기대값]
-    │
-    ▼
-[독립성 검정 (Independence Test) / 적합도 검정 (Goodness-of-Fit)]
-    │
-    ▼
-[p-값 해석 (p-value) → 유의수준 α와 비교 → 귀무가설 기각 여부 판정]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">기술 통계 (Descriptive Statistics) — 평균·분산·빈도 요약</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">가설 검정 (Hypothesis Testing) — 귀무가설 H₀, 대립가설 H₁</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">카이제곱 검정 (Chi-Square Test) — 범주형 변수 빈도, 관찰값 vs 기대값</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">독립성 검정 (Independence Test) / 적합도 검정 (Goodness-of-Fit)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">p-값 해석 (p-value) → 유의수준 α와 비교 → 귀무가설 기각 여부 판정</div></div>
+</div>
+</div>
+
+
 카이제곱 검정은 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 관찰 빈도와 기대 빈도 간 차이를 수치화하여, 독립성 및 분포 적합성을 검증하는 비모수 통계 기법이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

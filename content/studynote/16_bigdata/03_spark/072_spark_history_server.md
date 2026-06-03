@@ -27,7 +27,7 @@ Spark 애플리케이션 실행 중에는 `http://driver-host:4040`으로 실시
 - 어제 밤 배치 작업이 2시간 걸렸다 → 왜 느렸는지 분석하려면?
 - 클러스터에서 동시에 수십 개 작업이 실행 중 → 과거 완료 작업 추적이 필요하다면?
 
-Spark History Server는 이 공백을 채우는 **사후 분석(Post-mortem Analysis) 도구**다.
+Spark History Server는 이 공백을 채우는 <strong>사후 분석(Post-mortem Analysis) 도구</strong>다.
 
 ### 2. 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 동작
 
@@ -42,32 +42,28 @@ Spark History Server는 이 공백을 채우는 **사후 분석(Post-mortem Anal
 
 ### 1. History Server 동작 흐름
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  Spark Application (실행 중)                                │
-│                                                            │
-│  Driver ─── Event 생성 ──→ EventLog Writer                 │
-│             (Stage/Task/Executor 이벤트)                   │
-└──────────────────────────┬─────────────────────────────────┘
-                           │ 이벤트 로그 파일 스트리밍 기록
-                           ▼
-              ┌─────────────────────────┐
-              │  HDFS / S3 / 로컬       │
-              │  /spark/eventlogs/      │
-              │  app_001.json.inprogress│
-              │  app_001.json (완료 후) │
-              └────────────┬────────────┘
-                           │ 주기적 스캔
-                           ▼
-┌──────────────────────────────────────────────────────────┐
-│  Spark History Server (18080 포트)                        │
-│                                                          │
-│  ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐ │
-│  │ Jobs 탭 │  │Stages 탭 │  │Storage탭 │  │SQL 탭    │ │
-│  └─────────┘  └──────────┘  └──────────┘  └──────────┘ │
-└──────────────────────────────────────────────────────────┘
-              브라우저 접속: http://history-server:18080
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Application (실행 중)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver Event 생성 ──→ EventLog Writer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stage/Task/Executor 이벤트)</div></div>
+<div class="kb-diagram-note">이벤트 로그 파일 스트리밍 기록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS / S3 / 로컬</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/spark/eventlogs/</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app_001.json.inprogress</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app_001.json (완료 후)</div></div>
+<div class="kb-diagram-note">주기적 스캔</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark History Server (18080 포트)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jobs 탭</div><div class="kb-diagram-cell">Stages 탭</div><div class="kb-diagram-cell">Storage탭</div><div class="kb-diagram-cell">SQL 탭</div></div>
+<div class="kb-diagram-note">브라우저 접속: http://history-server:18080</div>
+</div>
+</div>
+
+
 
 ### 2. 핵심 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -119,9 +115,9 @@ $SPARK_HOME/sbin/stop-history-server.sh
 
 ### 2. 연결 개념
 
-- **이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)**: History Server의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스
-- **[Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 탭**: Catalyst [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) → AQE 적용 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- **Ganglia / [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) + [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)**: 클러스터 수준 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 보완
+- <strong>이벤트 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>: History Server의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/">Spark SQL</a> 탭</strong>: Catalyst [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) → AQE 적용 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- <strong>Ganglia / <a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a> + <a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a></strong>: 클러스터 수준 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링과 보완
 
 **📢 섹션 요약 비유**
 > 실시간 Spark UI는 "경기 중 스코어보드", History Server는 "경기 종료 후 하이라이트 분석 영상"이다. 둘 다 필요하지만 문제 분석은 주로 하이라이트 영상에서 이루어진다.
@@ -132,11 +128,11 @@ $SPARK_HOME/sbin/stop-history-server.sh
 
 ### 1. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 진단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) (History Server 활용)
 
-- [ ] **Stage Duration [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 특정 Stage가 전체의 80% 이상 차지 → 해당 Stage 병목 집중 분석
-- [ ] **[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Duration 분포**: 동일 Stage 내 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 편차가 10배 이상 → Skew 의심
+- [ ] <strong>Stage Duration <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 특정 Stage가 전체의 80% 이상 차지 → 해당 Stage 병목 집중 분석
+- [ ] <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Duration 분포</strong>: 동일 Stage 내 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 편차가 10배 이상 → Skew 의심
 - [ ] **Shuffle Spill 크기**: 메모리 스필 > 0 → `spark.executor.memory` 증가 또는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 조정
 - [ ] **GC Time 비율**: Executor GC Time > 총 실행 시간의 5% → 힙 메모리 부족 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)
-- [ ] **SQL 탭 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)**: BroadcastHashJoin 대신 SortMergeJoin → 소규모 테이블 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 추가
+- [ ] <strong>SQL 탭 <a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a></strong>: BroadcastHashJoin 대신 SortMergeJoin → 소규모 테이블 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 추가
 - [ ] **Failed Stages/Tasks**: 재시도 횟수 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 하드웨어 오류 또는 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 여부 판단
 
 ### 2. 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [용량 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_capacity_management/)
@@ -167,7 +163,7 @@ spark.history.fs.cleaner.maxAge=7d  # 7일 이후 자동 삭제
 
 ### 2. 결론
 
-Spark History Server는 프로덕션 Spark 클러스터의 **필수 운영 인프라**다. 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 활성화와 History Server 배포는 클러스터 구성 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 반드시 포함해야 하며, SQL 탭의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 활용한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화는 기술사 수준의 Spark 운영 역량을 보여준다.
+Spark History Server는 프로덕션 Spark 클러스터의 <strong>필수 운영 인프라</strong>다. 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 활성화와 History Server 배포는 클러스터 구성 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 반드시 포함해야 하며, SQL 탭의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 활용한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화는 기술사 수준의 Spark 운영 역량을 보여준다.
 
 **📢 섹션 요약 비유**
 > Spark History Server 없는 클러스터 운영은 "비행기록장치 없는 항공사 운영"과 같다. 사고가 났을 때([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제) 원인을 알 수 없으므로, 블랙박스(이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 분석 센터(History Server)는 필수 안전 장치다.
@@ -186,21 +182,23 @@ Spark History Server는 프로덕션 Spark 클러스터의 **필수 운영 인�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[Spark Web UI (포트 4040 — 실시간 작업 모니터링)]
-    │
-    ▼
-[이벤트 로그 (Event Log — HDFS/S3 영구 저장)]
-    │
-    ▼
-[Spark History Server (포트 18080 — 사후 분석 UI)]
-    │
-    ▼
-[SQL 탭 실행 계획 시각화 (AQE 재최적화 확인)]
-    │
-    ▼
-[Prometheus / Grafana 연계 — 클러스터 메트릭 통합 대시보드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Web UI (포트 4040 — 실시간 작업 모니터링)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 로그 (Event Log — HDFS/S3 영구 저장)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Spark History Server (포트 18080 — 사후 분석 UI)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 탭 실행 계획 시각화 (AQE 재최적화 확인)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Prometheus / Grafana 연계 — 클러스터 메트릭 통합 대시보드</div></div>
+</div>
+</div>
+
+
 Spark 작업 완료 후 사후 분석은 History Server가 담당하며, 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 SQL [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 병목을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/Grafana와 연계해 운영 인텔리전스를 완성한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

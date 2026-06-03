@@ -11,9 +11,9 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 지역성 모델(Locality Model)은 인간이 작성한 컴퓨터 프로그램이 **"한 번 접근한 메모리나 그 근처의 메모리를 가까운 미래에 또다시 집중적으로 접근할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 극도로 높다"**는 통계적, 경험적 자연법칙이다.
-> 2. **가치**: 캐시(Cache) 크기가 아무리 작아도([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), L1 캐시, 물리 램), 이 지역성 덕분에 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/))이 99%에 달하게 만들어 **느려터진 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(디스크)와 메인 메모리 시스템을 램(RAM) 스피드로 돌아가게 만드는 단 하나의 기적적인 구원자**다.
-> 3. **융합**: 루프(Loop)를 도는 **[시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)(Temporal)**과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))을 순차 접근하는 **[공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)(Spatial)**으로 나뉘며, 이는 하드웨어 캐시 라인 설계부터 운영체제의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 메모리 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))까지 컴퓨터 구조 전체를 관통하는 핵심 설계 이념으로 융합된다.
+> 1. **본질**: 지역성 모델(Locality Model)은 인간이 작성한 컴퓨터 프로그램이 <strong>"한 번 접근한 메모리나 그 근처의 메모리를 가까운 미래에 또다시 집중적으로 접근할 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 극도로 높다"</strong>는 통계적, 경험적 자연법칙이다.
+> 2. **가치**: 캐시(Cache) 크기가 아무리 작아도([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), L1 캐시, 물리 램), 이 지역성 덕분에 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/))이 99%에 달하게 만들어 <strong>느려터진 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(디스크)와 메인 메모리 시스템을 램(RAM) 스피드로 돌아가게 만드는 단 하나의 기적적인 구원자</strong>다.
+> 3. **융합**: 루프(Loop)를 도는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>(Temporal)</strong>과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))을 순차 접근하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a>(Spatial)</strong>으로 나뉘며, 이는 하드웨어 캐시 라인 설계부터 운영체제의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 메모리 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))까지 컴퓨터 구조 전체를 관통하는 핵심 설계 이념으로 융합된다.
 
 ---
 
@@ -23,31 +23,29 @@ tags = ["studynote-operating-system"]
 - **필요성**: 디스크 속도는 8ms, 램 속도는 100ns 다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 CPU가 디스크를 계속 긁으면 컴퓨터는 느려서 쓸 수가 없다. OS 공학자들은 패닉에 빠졌다. "16GB 램에 100GB짜리 앱들을 쑤셔 넣으면 무조건 디스크 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 펑펑 터져서 서버가 죽을 텐데 어떻게 하지?" 이때 나타난 한 줄기 빛이 바로 '지역성'이었다. "가만 분석해 보니, 100GB짜리 앱이라도 지금 1초 동안은 딱 10MB짜리 for문 루프만 미친 듯이 도네? 그럼 그 10MB만 램에 예쁘게 올려놓으면, 나머지 99.9GB가 디스크에 박혀있어도 폴트가 단 한 번도 안 터지고 로켓처럼 돌잖아!" 지역성이야말로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 사기극에서 현실로 만들어준 절대적 수학 근거였다.
 
 - **등장 배경 및 캐시의 존재 이유**:
-  1. **[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 회의론**: "디스크가 너무 느려서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 실전에서 절대 못 쓴다"는 비관론 팽배.
+  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 회의론</strong>: "디스크가 너무 느려서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)는 실전에서 절대 못 쓴다"는 비관론 팽배.
   2. **Peter Denning의 증명**: 1968년 데닝 교수가 "프로그램은 지역성 모델을 따르므로, 그 지역([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 램에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해 주면 디스크 렉은 수학적으로 0에 수렴한다"고 논문으로 증명함.
   3. **모든 캐시 아키텍처의 바이블**: 이후 L1/L2 하드웨어 캐시, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), 웹 브라우저 캐시, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 등 세상에 존재하는 "크고 느린 놈 앞에 작고 빠른 놈을 두는" 모든 아키텍처의 근본 철학으로 자리 잡음.
 
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│        프로그램 런타임 중 지역성(Locality)의 이동(Phase) 시각화       │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│ [ 메모리 주소 0 ~ 10,000 번지 / 시간의 흐름 ──▶ ]                     │
-│                                                                       │
-│ Time 1: [ 초기화 국면 ]                                               │
-│   0번지 ~ 500번지 안에서만 변수들이 10만 번 핑퐁 됨! (Locality 1)     │
-│                                                                       │
-│ Time 2: [ 파일 읽기 국면 ]                                            │
-│   갑자기 5000번지 ~ 5500번지로 훅 건너뜀 (Context Shift).             │
-│   이곳에서만 또 5만 번 핑퐁 되며 빙글빙글 돎! (Locality 2)            │
-│                                                                       │
-│ Time 3: [ 연산 및 출력 국면 ]                                         │
-│   9000번지 ~ 9200번지로 또 건너뜀. 여기서 미친 듯이 돎! (Locality 3)  │
-│                                                                       │
-│ ✅ 결론: 프로그램 전체 용량은 10,000번지(크다)지만, 특정 찰나의 시간  │
-│    (Time)에 요구하는 램의 크기는 고작 500번지 뭉텅이(작다)에 불과함.  │
-└───────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 런타임 중 지역성(Locality)의 이동(Phase) 시각화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 주소 0 ~ 10,000 번지 / 시간의 흐름 ──▶</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Time 1:</div><div class="kb-diagram-node">초기화 국면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0번지 ~ 500번지 안에서만 변수들이 10만 번 핑퐁 됨! (Locality 1)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Time 2:</div><div class="kb-diagram-node">파일 읽기 국면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갑자기 5000번지 ~ 5500번지로 훅 건너뜀 (Context Shift).</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이곳에서만 또 5만 번 핑퐁 되며 빙글빙글 돎! (Locality 2)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Time 3:</div><div class="kb-diagram-node">연산 및 출력 국면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9000번지 ~ 9200번지로 또 건너뜀. 여기서 미친 듯이 돎! (Locality 3)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 프로그램 전체 용량은 10,000번지(크다)지만, 특정 찰나의 시간</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Time)에 요구하는 램의 크기는 고작 500번지 뭉텅이(작다)에 불과함.</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 프로그램은 결코 0번지부터 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번지까지 골고루 공평하게 접근하지 않는다. 메뚜기처럼 이 동네(지역 1)에서 신나게 파먹고 놀다가, 단물이 빠지면 저 동네(지역 2)로 점프 뛰어가서 또 거기서만 미친 듯이 파먹는 습성을 가졌다. OS의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)기([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 이 메뚜기가 파먹고 있는 '현재 동네(지역)'의 풀([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))만 귀신같이 램에 남겨주고, 떠나버린 옛날 동네의 풀은 과감히 디스크로 쫓아버림으로써 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막아낸다.
 
 - **📢 섹션 요약 비유**: 주방장이 코스 요리를 만들 때, 주방 전체의 100가지 조리 도구(전체 메모리)를 한 번에 다 꺼내놓고 이리저리 뛰어다니며 요리하지 않습니다. 에피타이저 썰 때는 도마와 칼(Locality 1)만 도마에 올려놓고 10분간 집중하고, 스테이크 구울 때는 프라이팬과 집게(Locality 2)만 꺼내놓고 집중합니다. 좁은 조리대(RAM)로도 세계 최고의 요리를 코스별로 다 빼낼 수 있는 동선 정리의 마법입니다.
@@ -68,7 +66,7 @@ tags = ["studynote-operating-system"]
 #### 2. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))
 - **개념**: "방금 100번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽었다면, 1초 뒤에는 그 옆에 있는 104번지나 108번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 99.9%다."
 - **원인**: C언어의 `배열(Array)` 순차 탐색, 프로그램의 기계어 코드(`Instruction`)가 위에서 아래로 순서대로 실행되는 자연스러운 흐름(Sequential execution) 때문이다.
-- **하드웨어/OS의 대응**: CPU가 1바이트만 달라고 해도 멍청하게 1바이트만 가져오지 않고, 냅다 주변 64바이트(캐시 라인)나 4KB([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 **한꺼번에 통째로 퍼온다(Readahead / [선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))**. 어차피 0.1초 뒤에 그 옆에 걸 찾을 테니까 미리 가져와서 캐시 미스를 0으로 만드는 흑마술이다.
+- **하드웨어/OS의 대응**: CPU가 1바이트만 달라고 해도 멍청하게 1바이트만 가져오지 않고, 냅다 주변 64바이트(캐시 라인)나 4KB([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 <strong>한꺼번에 통째로 퍼온다(Readahead / <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">선행 페이징</a>)</strong>. 어차피 0.1초 뒤에 그 옆에 걸 찾을 테니까 미리 가져와서 캐시 미스를 0으로 만드는 흑마술이다.
 
 ---
 
@@ -110,24 +108,27 @@ for (int j = 0; j < 1024; j++) {
 | 하드웨어 계층 | 속도 | 크기 | 활용하는 지역성의 종류 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|:---|:---|
 | **L1 / L2 캐시** | 1~5 ns | 수 MB | **공간 지역성** (64B 캐시 라인 단위로 한 번에 긁어옴) |
-| **[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) (주소 캐시)**| 1 ns | 수십 KB | **시간 지역성** (루프 도는 동안 매핑 주소가 절대 안 변함) |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (주소 캐시)</strong>| 1 ns | 수십 KB | **시간 지역성** (루프 도는 동안 매핑 주소가 절대 안 변함) |
 | **물리 램 (RAM)** | 100 ns | 수십 GB | **시간/공간 융합** ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 및 4KB 덩어리 유지) |
-| **디스크 캐시 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)**| 100 ns | 수 GB | **시간 지역성** (한 번 열어본 파일은 램에 계속 남겨둠) |
-| **디스크 ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))**| 0.1~8 ms | 수 TB | 최종 보관소. 여기서 벗어나면 영원히 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty) 맞음 |
+| <strong>디스크 캐시 (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)</strong>| 100 ns | 수 GB | **시간 지역성** (한 번 열어본 파일은 램에 계속 남겨둠) |
+| <strong>디스크 (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a>/<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a>)</strong>| 0.1~8 ms | 수 TB | 최종 보관소. 여기서 벗어나면 영원히 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Penalty) 맞음 |
 
 ### [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 지역성의 짝짜꿍
 
-- **[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)**: 철저히 **[시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))**을 신봉한다. "최근에 안 쓴 놈은 당분간 안 쓴다"는 종교적 믿음이다.
-- **[선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) ([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) / Readahead)**: 철저히 **[공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))**을 신봉한다. "지금 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찔렀어? 그럼 묻지도 따지지도 말고 옆에 있는 11번, 12번, 13번을 몽땅 램에 쑤셔 넣어!"라는 과격한 배달 작전이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 철저히 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">Temporal Locality</a>)</strong>을 신봉한다. "최근에 안 쓴 놈은 당분간 안 쓴다"는 종교적 믿음이다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">선행 페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a> / Readahead)</strong>: 철저히 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">Spatial Locality</a>)</strong>을 신봉한다. "지금 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찔렀어? 그럼 묻지도 따지지도 말고 옆에 있는 11번, 12번, 13번을 몽땅 램에 쑤셔 넣어!"라는 과격한 배달 작전이다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────────────┐
-│ 지역성 종류│ 프로그램 패턴 │ OS의 방어 기제 │ 최적화 튜닝 포인트     │
-├──────────┼────────────┼────────────┼─────────────────────────────────┤
-│ 시간 지역성│ for문, 카운터 │ LRU 페이지 교체│ 변수 재활용 극대화     │
-│ 공간 지역성│ 배열 훑기    │ Prepaging (미리읽기)│ SoA 구조, 패딩 패킹│
-└──────────┴────────────┴────────────┴─────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성 종류</div><div class="kb-diagram-cell">프로그램 패턴</div><div class="kb-diagram-cell">OS의 방어 기제</div><div class="kb-diagram-cell">최적화 튜닝 포인트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 지역성</div><div class="kb-diagram-cell">for문, 카운터</div><div class="kb-diagram-cell">LRU 페이지 교체</div><div class="kb-diagram-cell">변수 재활용 극대화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 지역성</div><div class="kb-diagram-cell">배열 훑기</div><div class="kb-diagram-cell">Prepaging (미리읽기)</div><div class="kb-diagram-cell">SoA 구조, 패딩 패킹</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 프로그래머가 객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))의 낭만에 취해, 메모리에 노드들이 파편화되어 흩어지는 Linked List나 수많은 객체 포인터 참조를 남발하면, 시간/공간 지역성이 모두 붕괴되어 하드웨어가 제공하는 캐시 로켓([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)/[Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))에 단 하나도 탑승하지 못하고 시스템 성능이 지하실로 처박힌다. Data-Oriented Design([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 설계)이 C++ 게임 서버의 바이블이 된 이유가 이 지역성을 극한으로 쥐어짜기 위함이다.
 
 - **📢 섹션 요약 비유**: 시간 지역성은 "자주 찾는 단골집(for문)은 아예 내 집 바로 옆(캐시)으로 이사시켜라"는 것이고, 공간 지역성은 "마트에 라면([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 첫 칸) 사러 간 김에 그 옆에 진열된 참치캔과 계란([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 다음 칸)까지 한 번에 바구니에 다 쓸어 담아와라"는 생활 밀착형 심부름 최적화 기술입니다.
@@ -140,7 +141,7 @@ for (int j = 0; j < 1024; j++) {
 지역성 모델은 CPU 칩셋을 넘어 클라우드 서버와 전 세계 인터넷 트래픽 통제([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에도 100% 동일하게 작용한다.
 1. **문제 상황**: 넷플릭스 본사 서버(디스크)에 영화가 1만 개(100PB) 있다. 한국 유저들이 영화를 볼 때마다 미국 본사 서버에서 퍼오면 해저 케이블 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 때문에 로딩이 10초씩 걸린다.
 2. **지역성(Locality)의 발견**: 
-   - 넷플릭스 엔지니어들이 통계를 내보니, 한국 유저들이 보는 영화의 80%는 상위 20개의 '최신 유행 한국 드라마(오징어 게임 등)'에 집중되어 있었다. (**[시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)의 확장인 파레토 법칙**).
+   - 넷플릭스 엔지니어들이 통계를 내보니, 한국 유저들이 보는 영화의 80%는 상위 20개의 '최신 유행 한국 드라마(오징어 게임 등)'에 집중되어 있었다. (<strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>의 확장인 파레토 법칙</strong>).
 3. **엣지 캐시(Edge Cache) 램 증설**:
    - 넷플릭스는 한국 통신사(SK, KT) 기지국에 아주 작은 서버 램(Cache)을 박아두고, 오직 저 '가장 핫한 20개 드라마([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'만 미국에서 미리 퍼와서 저장([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/))해 둔다.
    - 유저가 '오징어 게임'을 클릭하면, 미국(디스크)까지 안 가고 한국 엣지 서버(램)에서 0.01초 만에 영상을 쏴준다([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)).
@@ -163,7 +164,7 @@ for (int j = 0; j < 1024; j++) {
 |:---|:---|
 | **EAT(실질 접근 시간) 마법 달성** | 디스크 접근 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)($p$)을 0.0001% 이하로 억제하여 8백만 배의 디스크 페널티를 투명하게 지워버리는 1등 공신 |
 | **소프트웨어 튜닝 패러다임** | "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 Big-O 표기법보다, 메모리 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)(Locality)이 실제 런타임 성능을 지배한다"는 현대 최적화의 정석 정립 |
-| **[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델 탄생**| 특정 국면(Phase)에서 집중적으로 모이는 이 '지역성 덩어리'를 OS가 수학적으로 측정하고 램을 보호하게 만드는 방어 모델의 씨앗 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>) 모델 탄생</strong>| 특정 국면(Phase)에서 집중적으로 모이는 이 '지역성 덩어리'를 OS가 수학적으로 측정하고 램을 보호하게 만드는 방어 모델의 씨앗 |
 
 ### 결론 및 미래 전망
 
@@ -184,15 +185,19 @@ for (int j = 0; j < 1024; j++) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[스래싱 원인]
-    │
-    ▼
-[지역성 모델 (Locality Model)]
-    │
-    ├──▶ [워킹 셋 모델 (Working-Set Model)]
-    └──▶ [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 원인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">지역성 모델 (Locality Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">워킹 셋 모델 (Working-Set Model)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

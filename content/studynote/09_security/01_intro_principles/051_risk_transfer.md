@@ -31,28 +31,26 @@ tags = ["studynote-security"]
 ### [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Treatment) 4대 매트릭스의 분기 로직
 위험 전가는 언제 쓰이는가? 위험의 '발생 가능성'과 '피해 규모(영향도)'의 2x2 매트릭스에서 결정된다.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│ 위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix) │
-├────────────────────────────────────────────────────────┤
-│ │ │
-│ 피해 규모 (Impact) │ [ 위험 수용 ] │
-│ ▲ │ (Acceptance) │
-│ │ 낮음 │ 무시하고 버팀 (볼펜 도난 수준) │
-│ │ ├──────────────────────────────────┤
-│ │ │ │
-│ │ 높음 │ ★★ [ 위험 전가 (Transfer) ] ★★ │
-│ │ │ 보험 가입, 클라우드 아웃소싱으로 떠넘김│
-│ └──────────┼──────────────────────────────────┤
-│ │ 낮음 높음 │
-│ │ ◀───── 발생 가능성 (Probability) │
-│ │
-│ [ 위험 회피 (Avoidance) ] : 가능성/피해 모두 큼 ──▶ 사업 아예 철수│
-│ [ 위험 감소 (Mitigation) ] : 시스템 해킹 방어 ──▶ 방화벽 등 보안투자│
-└────────────────────────────────────────────────────────┘
-```
 
-위험 전가는 **"발생할 확률은 벼락 맞을 정도로 매우 낮지만, 한 번 터지면 회사 기둥뿌리가 뽑히는(피해 규모 매우 높음) 재앙"**에 대한 가장 완벽한 수학적 정답이다. 지진으로 인한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴나, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)로 인한 1,000억 원대 영업 손실이 전가의 핵심 타겟이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">피해 규모 (Impact)</div><div class="kb-diagram-node">위험 수용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(Acceptance)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">무시하고 버팀 (볼펜 도난 수준)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">│ 높음 │ ★★</div><div class="kb-diagram-node">위험 전가 (Transfer)</div><div class="kb-diagram-note">★★</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보험 가입, 클라우드 아웃소싱으로 떠넘김</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 높음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 발생 가능성 (Probability)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 회피 (Avoidance)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사업 아예 철수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">위험 감소 (Mitigation)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">방화벽 등 보안투자</div></div>
+</div>
+</div>
+
+
+
+위험 전가는 <strong>"발생할 확률은 벼락 맞을 정도로 매우 낮지만, 한 번 터지면 회사 기둥뿌리가 뽑히는(피해 규모 매우 높음) 재앙"</strong>에 대한 가장 완벽한 수학적 정답이다. 지진으로 인한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴나, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)로 인한 1,000억 원대 영업 손실이 전가의 핵심 타겟이다.
 
 - **📢 섹션 요약 비유**: 위험 전가는 '폭탄 돌리기'가 아니라 '비싼 돈 주고 폭탄 해체 전문가 고용하기'다. 내가 만지면 터져서 죽을 확률이 낮더라도 죽음(파산)이라는 결과가 너무 끔찍하므로, 대가를 지불하고 그 폭탄의 폭발 피해를 튼튼한 장갑차를 입은 보험사에게 떠안기는 논리다.
 
@@ -65,8 +63,8 @@ tags = ["studynote-security"]
 
 | 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 철학 및 행동 | 아키텍처 및 재무적 조치 | 발생 시 결과 |
 |:---|:---|:---|:---|
-| **[위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) (Accept)** | "어쩔 수 없지. 터지면 우리가 몸으로 때우자." | 별도의 비용 투자 안 함 (경영진 사인 ) | 회사가 **재무적 타격 100% 독박** |
-| **위험 전가 (Transfer)**| "터지면 죽는다. 남한테 돈 주고 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 넘기자." | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입, AWS 등 **클라우드로 인프라 위탁** | 회사의 **재무적 타격은 방어**됨 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">위험 수용</a> (Accept)</strong> | "어쩔 수 없지. 터지면 우리가 몸으로 때우자." | 별도의 비용 투자 안 함 (경영진 사인 ) | 회사가 **재무적 타격 100% 독박** |
+| **위험 전가 (Transfer)**| "터지면 죽는다. 남한테 돈 주고 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 넘기자." | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입, AWS 등 **클라우드로 인프라 위탁** | 회사의 <strong>재무적 타격은 방어</strong>됨 |
 
 자체 IDC(인터넷 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))를 운영하던 회사가 디도스 방어 장비(DDoS Anti-sinkhole) 수십억 원 치를 사는 대신, 그냥 인프라를 AWS(아마존 클라우드)로 이관해 버리는 행위도 거대한 '위험 전가'의 일환이다. "네트워크 마비의 책임과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 수고스러움을 AWS라는 거인에게 돈(클라우드 이용료)을 주고 떠넘긴 것"이다.
 
@@ -78,10 +76,10 @@ tags = ["studynote-security"]
 
 ### 실무 시나리오
 1. **사이버 보안 보험 (Cyber Liability Insurance) 가입**: 해커가 기업 DB를 털어 고객 1,000만 명의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 유출되었다. 피해 보상 소송으로 500억 원이 필요할 때, 회사가 가입해 둔 사이버 배상책임 보험이 폭발한다. 보험사가 소송 비용, 고객 배상금, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 협상금(일부 국가), 심지어 포렌식 전문가 고용 비용까지 전액 커버하여 회사의 흑자 부도를 막아내는 전형적인 재무적 위험 전가다.
-2. **[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) / 클라우드 아웃소싱 및 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계약 체결**: 결제 시스템(PG)을 직접 만들지 않고 토스페이먼츠(Toss) 같은 외부 결제망을 쓴다. 이때 계약서에 "장애 시 초당 X원의 페널티를 지급한다"는 강력한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 걸어둔다. 결제망이 터져 매출이 날아가더라도 그 재무적 손실액을 토스페이먼츠로부터 보상받는 완벽한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 외주화다.
+2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> / 클라우드 아웃소싱 및 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> 계약 체결</strong>: 결제 시스템(PG)을 직접 만들지 않고 토스페이먼츠(Toss) 같은 외부 결제망을 쓴다. 이때 계약서에 "장애 시 초당 X원의 페널티를 지급한다"는 강력한 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))를 걸어둔다. 결제망이 터져 매출이 날아가더라도 그 재무적 손실액을 토스페이먼츠로부터 보상받는 완벽한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 외주화다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **"외주 줬으니 내 책임은 없다"는 명성 위험(Reputation [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 망각**: CISO들의 가장 멍청한 착각. 클라우드 사업자(AWS)의 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수로 고객 정보가 털렸을 때, 벌금이나 피해 보상금은 AWS로부터 돌려받을 수 있다(재무적 전가). 그러나 언론 1면에 "XX 기업 고객 정보 천만 건 유출!"이라고 대서특필되어 **기업의 브랜드 이미지가 박살 나고 고객이 탈퇴하는 '명성 위험'과 대표이사의 '형사 처벌'은 절대 외주업체나 보험사에게 전가할 수 없다.** 전가는 돈만 보전해 줄 뿐, 도의적/법적 본연의 책임은 영원히 원청 기업에 귀속된다.
+- <strong>"외주 줬으니 내 책임은 없다"는 명성 위험(Reputation <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>) 망각</strong>: CISO들의 가장 멍청한 착각. 클라우드 사업자(AWS)의 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수로 고객 정보가 털렸을 때, 벌금이나 피해 보상금은 AWS로부터 돌려받을 수 있다(재무적 전가). 그러나 언론 1면에 "XX 기업 고객 정보 천만 건 유출!"이라고 대서특필되어 **기업의 브랜드 이미지가 박살 나고 고객이 탈퇴하는 '명성 위험'과 대표이사의 '형사 처벌'은 절대 외주업체나 보험사에게 전가할 수 없다.** 전가는 돈만 보전해 줄 뿐, 도의적/법적 본연의 책임은 영원히 원청 기업에 귀속된다.
 
 - **📢 섹션 요약 비유**: 택배(외주)를 불렀는데 택배차가 사고가 나서 고객 선물이 다 부서졌다. 물건값(재무적 피해)은 택배 회사가 물어주겠지만, 고객이 화가 나서 우리 회사 쇼핑몰을 탈퇴하는 것(명성 하락)은 택배 회사가 대신 막아줄 수 없는 치명적인 한계다.
 
@@ -101,27 +99,29 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))** | 위험을 외주(아웃소싱)로 전가할 때, "네가 보안 사고 치면 얼마를 물어내라"고 명시적으로 못을 박는 쇳덩어리 계약서 |
-| **[위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) ([Risk Acceptance](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/))** | 전가를 하려니 보험료가 더 비싸거나 배보다 배꼽이 큰 경우, 경영진이 사인을 하고 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 그냥 온몸으로 얻어맞겠다고 결단하는 행위 |
-| **[잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))** | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(감소), 회피 등의 조치를 다 취하고 나서도 끝까지 바닥에 남아있는 독기 품은 위험. 위험 전가가 노리는 궁극적 타겟 표적 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | 위험을 외주(아웃소싱)로 전가할 때, "네가 보안 사고 치면 얼마를 물어내라"고 명시적으로 못을 박는 쇳덩어리 계약서 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">위험 수용</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">Risk Acceptance</a>)</strong> | 전가를 하려니 보험료가 더 비싸거나 배보다 배꼽이 큰 경우, 경영진이 사인을 하고 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 그냥 온몸으로 얻어맞겠다고 결단하는 행위 |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/">잔여 위험</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/">Residual Risk</a>)</strong> | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(감소), 회피 등의 조치를 다 취하고 나서도 끝까지 바닥에 남아있는 독기 품은 위험. 위험 전가가 노리는 궁극적 타겟 표적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정보 시스템의 복잡도 증가 및 제로데이 해킹 공격의 일상화
-│
-▼
-기술적 보안 통제(방화벽 등) 비용 폭증 및 100% 방어의 불가능성 인지
-│
-▼
-잔여 위험(Residual Risk) 식별 및 위험 평가(Risk Assessment) 매트릭스 도출
-│
-▼
-발생 가능성은 낮으나 치명적 피해를 주는 위험 ──▶ 제3자에게 위험 전가(Transfer) 실행
-│
-▼
-사이버 보험 시장 폭발적 성장 및 클라우드(SaaS/IaaS) 기반의 인프라 책임 공유 모델(Shared Responsibility) 정착
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정보 시스템의 복잡도 증가 및 제로데이 해킹 공격의 일상화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">기술적 보안 통제(방화벽 등) 비용 폭증 및 100% 방어의 불가능성 인지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잔여 위험(Residual Risk) 식별 및 위험 평가(Risk Assessment) 매트릭스 도출</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">발생 가능성은 낮으나 치명적 피해를 주는 위험 ──▶ 제3자에게 위험 전가(Transfer) 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">사이버 보험 시장 폭발적 성장 및 클라우드(SaaS/IaaS) 기반의 인프라 책임 공유 모델(Shared Responsibility) 정착</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "기술적 방어의 한계 도달 → 재무적 충격에 대한 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 평가 → 보험/아웃소싱을 통한 재무적 방패(전가) 확보"로 귀결되는 정보보안 경영 거버넌스의 진화를 보여준다.
 

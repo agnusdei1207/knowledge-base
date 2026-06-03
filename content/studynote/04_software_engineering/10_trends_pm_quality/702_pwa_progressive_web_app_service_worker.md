@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 반면 웹(Web)은 한 번만 만들면 모든 기기에서 접속할 수 있었지만, 치명적인 단점이 있었다. **① 인터넷이 끊기면 아예 먹통이 되고, ② 푸시 알림을 보낼 수 없으며, ③ 홈 화면에 아이콘을 깔 수 없었다.** 즉, 사용자 경험(UX)이 네이티브 앱에 비해 너무 떨어졌다.
 
-구글은 이 간극을 메우기 위해 **"웹의 뛰어난 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)(URL)을 유지하면서, 네이티브 앱의 강력한 기능(오프라인, 푸시 알림)을 점진적(Progressive)으로 더해보자"**는 비전을 제시했고, 이것이 바로 **PWA(Progressive Web App)**다.
+구글은 이 간극을 메우기 위해 <strong>"웹의 뛰어난 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/">접근성</a>(URL)을 유지하면서, 네이티브 앱의 강력한 기능(오프라인, 푸시 알림)을 점진적(Progressive)으로 더해보자"</strong>는 비전을 제시했고, 이것이 바로 <strong>PWA(Progressive Web App)</strong>다.
 
 - **📢 섹션 요약 비유**: PWA는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 자동차다. 평소에는 평범한 자동차(웹사이트)처럼 도로를 달리지만, 버튼을 누르면 하늘을 나는 비행기(네이티브 앱)로 변신해서 스마트폰 바탕화면에 내려앉는다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 PWA (Progressive Web의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  PWA (Progressive Web                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PWA (Progressive Web</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 PWA (Progressive Web가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,7 +75,7 @@ PWA가 네이티브 앱처럼 동작하게 만드는 3대 핵심 기술 요소�
 
 | 개발 방식 | 대표 기술 | 동작 원리 | 장단점 (UX vs 비용) |
 |:---|:---|:---|:---|
-| **Native App** | Swift(iOS), Kotlin(Android) | OS 전용 코드로 각각 개발 | **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)/UX 최상**, 개발/유지보수 비용 최악 (2팀 필요) |
+| **Native App** | Swift(iOS), Kotlin(Android) | OS 전용 코드로 각각 개발 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>/UX 최상</strong>, 개발/유지보수 비용 최악 (2팀 필요) |
 | **Cross-Platform**| React Native, Flutter | 하나의 코드로 짜면 OS별 껍데기(네이티브)로 씌워줌 | [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/), 여전히 **앱 스토어 심사와 30% 수수료** 존재 |
 | **PWA** | [Service Worker](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/784_pwa_service_worker_caching_network/), Manifest | 웹사이트 자체가 앱으로 둔갑함 | **앱 스토어 거칠 필요 없음(URL 배포)**, iOS 등 일부 OS에서 백그라운드 제약 존재 |
 
@@ -131,21 +130,23 @@ PWA를 성공적으로 도입하면 (스타벅스, 트위터, 핀터레스트 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-PWA (Progressive Web App) 오프라인 워커 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PWA (Progressive Web App) 오프라인 워커 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

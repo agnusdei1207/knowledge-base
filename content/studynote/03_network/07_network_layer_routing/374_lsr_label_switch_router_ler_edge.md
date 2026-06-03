@@ -20,22 +20,26 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 백본(Backbone) 네트워크를 구성하는 물리적/논리적 장비의 역할 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/). LER(Label Edge Router)는 망의 가장자리에, LSR(Label [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) Router)은 망의 중심(Core)에 위치한다.
-- **필요성**: 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에 100대의 라우터가 있다. 100대가 모두 IP를 까보고([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Lookup), 딱지를 붙이고, 떼어내면 라우터가 너무 힘들다. 분업이 절실했다. "야! 국경(Edge)에 있는 라우터 10대는 빡세게 IP 까보고 딱지 붙이는([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 지능적인 일을 해! 그리고 망 안쪽(Core)에 있는 나머지 90대의 멍청이 라우터들은 뇌 빼고 딱지 번호만 갈아 끼우며 빛의 속도로 던지기만 해!"라는 **극단적인 분업화**가 도래했다.
+- **필요성**: 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))에 100대의 라우터가 있다. 100대가 모두 IP를 까보고([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Lookup), 딱지를 붙이고, 떼어내면 라우터가 너무 힘들다. 분업이 절실했다. "야! 국경(Edge)에 있는 라우터 10대는 빡세게 IP 까보고 딱지 붙이는([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 지능적인 일을 해! 그리고 망 안쪽(Core)에 있는 나머지 90대의 멍청이 라우터들은 뇌 빼고 딱지 번호만 갈아 끼우며 빛의 속도로 던지기만 해!"라는 <strong>극단적인 분업화</strong>가 도래했다.
 
-- **💡 비유**: [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 망은 거대한 **"수하물 처리 공항"**과 같습니다.
-  - **LER (체크인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))**: 공항 입구에서 승객의 여권(IP 주소)을 깐깐하게 심사한 뒤, 캐리어 겉면에 "바코드 태그(Label Push)"를 철썩 붙여서 레일로 밀어 넣습니다.
+- **💡 비유**: [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 망은 거대한 <strong>"수하물 처리 공항"</strong>과 같습니다.
+  - <strong>LER (체크인 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>)</strong>: 공항 입구에서 승객의 여권(IP 주소)을 깐깐하게 심사한 뒤, 캐리어 겉면에 "바코드 태그(Label Push)"를 철썩 붙여서 레일로 밀어 넣습니다.
   - **LSR (지하 수하물 로봇)**: 지하 레일에 있는 멍청한 바코드 스캐너 기계입니다. 캐리어에 든 게 뭔지, 주인이 누군지 안 봅니다. 오직 겉면의 바코드(Label)만 띡 찍고, '어? 15번은 도쿄행 비행기 레일로 던져(Swap)!' 하고 기계적으로 넘깁니다.
 
-```text
-[MPLS]
-    │
-    ▼
-[LSR, LER]
-    │
-    └──▶ [LDP, RSVP-TE]
-```
 
-- **📢 섹션 요약 비유**: ** LER은 택배 접수처에서 물건을 받아 송장(Label)을 붙여주고, 도착한 택배의 송장을 뜯어 고객에게 전달해 주는 **친절한 접수처 직원**이며, LSR은 그 송장 바코드만 보고 밤새 물건을 상하차하는 **물류 센터의 침묵하는 상하차 알바생**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSR, LER</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LDP, RSVP-TE</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> LER은 택배 접수처에서 물건을 받아 송장(Label)을 붙여주고, 도착한 택배의 송장을 뜯어 고객에게 전달해 주는 </strong>친절한 접수처 직원<strong>이며, LSR은 그 송장 바코드만 보고 밤새 물건을 상하차하는 </strong>물류 센터의 침묵하는 상하차 알바생**입니다.
 
 ---
 
@@ -46,12 +50,12 @@ tags = ["studynote-network"]
 ### 1. [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) LER (입구 문지기) - Push (삽입)
 - 고객의 PC에서 평범한 IP 패킷(`목적지 8.8.8.8`)이 통신사 입구 LER로 들어온다.
 - LER은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))을 보고 "아, 8.8.8.8로 가려면 저기 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) 터널을 타야 하네?" 판단한다.
-- 패킷 겉면에 **`Label: 100`** 이라는 딱지를 찰싹 붙여서(Push) 터널 안으로 뻥 차 넣는다.
+- 패킷 겉면에 <strong><code>Label: 100</code></strong> 이라는 딱지를 찰싹 붙여서(Push) 터널 안으로 뻥 차 넣는다.
 
 ### 2. Core LSR (중심 알바생) - Swap (교환)
 - 알바생 LSR이 딱지가 붙은 패킷을 받는다. 
 - 자기가 가진 LFIB(Label 전용 고속 맵핑 테이블)를 본다. 
-- "수첩에 적혀있네. 1번 포트로 들어온 **100번 딱지**는, 떼어버리고 새 딱지 **200번**을 붙여서(Swap) 3번 포트로 던져라!"
+- "수첩에 적혀있네. 1번 포트로 들어온 <strong>100번 딱지</strong>는, 떼어버리고 새 딱지 <strong>200번</strong>을 붙여서(Swap) 3번 포트로 던져라!"
 - LSR은 IP는 까지도 않고 100번 딱지를 200번으로 바꿔치기한 후 번개같이 옆 라우터로 넘긴다. (이 짓을 코어 망에서 수십 번 반복한다).
 
 ### 3. [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) LER (출구 문지기) - [Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/) (제거)
@@ -59,33 +63,31 @@ tags = ["studynote-network"]
 - 이 LER은 패킷을 받고 "오, 나한테 올 놈이네!" 하고 겉면에 붙어있던 더러워진 Label 딱지를 완전히 뜯어버린다([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)).
 - 그리고 속에 있던 뽀얀 순수 원래 IP 패킷만 꺼내서 최종 목적지(구글 서버)로 점잖게 배달해 준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                MPLS Label 스위칭의 전체 여정 (Push-Swap-Pop)       │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 고객 ] ── (일반 IP 패킷) ──▶ [ Ingress LER ]               │
- │                                    │ (딱지 10번 붙임 - Push)  │
- │                                    ▼                        │
- │                                 [ LSR ]                     │
- │                                    │ (10번 떼고 20번 붙임 - Swap)│
- │                                    ▼                        │
- │                                 [ LSR ]                     │
- │                                    │ (20번 떼고 30번 붙임 - Swap)│
- │                                    ▼                        │
- │   [ 구글 ] ◀── (일반 IP 패킷) ── [ Egress LER ]                │
- │                                      (30번 딱지 다 뜯음! - Pop)│
- │                                                             │
- │   ▶ 코어 망(LSR)은 IP가 뭔지 모르고 평화롭고 미치도록 빠르게 일한다!    │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MPLS Label 스위칭의 전체 여정 (Push-Swap-Pop)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고객</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingress LER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(딱지 10번 붙임 - Push)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10번 떼고 20번 붙임 - Swap)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LSR</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(20번 떼고 30번 붙임 - Swap)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">구글</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Egress LER</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(30번 딱지 다 뜯음! - Pop)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 코어 망(LSR)은 IP가 뭔지 모르고 평화롭고 미치도록 빠르게 일한다!</div></div>
+</div>
+</div>
+
+
 
 ### 4. 꼼수 최적화 (PHP - Penultimate Hop Popping)
 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) LER(출구)은 딱지를 떼는 일([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/))과, IP 주소를 보고 최종 배달하는 일(IP Lookup)을 2번 연속해야 해서 부하가 심하다.
-- **PHP 꼼수**: 출구 바로 **전(Penultimate) 단계에 있는 알바생 LSR**이 눈치껏 미리 알아서 딱지를 떼어내서([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 출구 LER에게 민둥산 패킷을 던져준다.
+- **PHP 꼼수**: 출구 바로 <strong>전(Penultimate) 단계에 있는 알바생 LSR</strong>이 눈치껏 미리 알아서 딱지를 떼어내서([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 출구 LER에게 민둥산 패킷을 던져준다.
 - 출구 LER은 "오예, 딱지 뜯는 일 덜었네!" 하며 IP 배달만 집중할 수 있게 되어 전체 성능이 확 올라간다. 통신사 MPLS의 기본 동작이다.
 
-- **📢 섹션 요약 비유**: ** PHP 꼼수는 옷가게에서 내가([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) LER) 손님에게 옷을 포장해서 줘야 할 때, 옆에 있던 착한 후배 알바생(전 단계 LSR)이 미리 공장 비닐 껍데기(Label)를 다 뜯어서 나에게 건네주어, 나는 옷 개는 작업(IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))만 편하게 할 수 있도록 돕는 **"극강의 분업 센스"**입니다.
+- **📢 섹션 요약 비유**: <strong> PHP 꼼수는 옷가게에서 내가(<a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> LER) 손님에게 옷을 포장해서 줘야 할 때, 옆에 있던 착한 후배 알바생(전 단계 LSR)이 미리 공장 비닐 껍데기(Label)를 다 뜯어서 나에게 건네주어, 나는 옷 개는 작업(IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)만 편하게 할 수 있도록 돕는 </strong>"극강의 분업 센스"**입니다.
 
 ---
 
@@ -141,15 +143,19 @@ LSR, LER는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_ro
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MPLS]
-    │
-    ▼
-[현재 개념: LSR, LER]
-    │
-    ├──▶ [확장 A: LDP, RSVP-TE]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MPLS</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LSR, LER</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LDP, RSVP-TE</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 LSR, LER는 MPLS에서 출발해 현재 메커니즘을 정교화하고, 이후 [LDP](/knowledge-base/studynote/03_network/07_network_layer_routing/375_ldp_label_distribution_protocol_rsvp_te/), RSVP-TE와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

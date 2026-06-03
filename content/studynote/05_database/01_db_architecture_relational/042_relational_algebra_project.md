@@ -58,38 +58,37 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 프로젝트 vs 실렉트
 
-```
-실렉트 (Select, σ) vs 프로젝트 (Project, π):
 
-실렉트 (σ):
-  조건에 맞는 튜플(행) 선택
-  수평적 부분집합
-  결과 속성 수 = 원본과 동일
-  
-  σ_{Salary > 4800}(Employee):
-    EmpID | Name   | Dept | Salary
-    ------+--------+------+-------
-    E001  | 김철수 | 개발 | 5000
-    E003  | 박민준 | 개발 | 5500
-    E004  | 최수진 | 개발 | 5000
 
-프로젝트 (π):
-  지정한 속성(열) 추출
-  수직적 부분집합
-  중복 자동 제거
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">실렉트 (Select, σ) vs 프로젝트 (Project, π):</div>
+<div class="kb-diagram-note">실렉트 (σ):</div>
+<div class="kb-diagram-note">조건에 맞는 튜플(행) 선택</div>
+<div class="kb-diagram-note">수평적 부분집합</div>
+<div class="kb-diagram-note">결과 속성 수 = 원본과 동일</div>
+<div class="kb-diagram-note">σ_{Salary &gt; 4800}(Employee):</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EmpID</div><div class="kb-diagram-cell">Name</div><div class="kb-diagram-cell">Dept</div><div class="kb-diagram-cell">Salary</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E001</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">5000</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E003</div><div class="kb-diagram-cell">박민준</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">5500</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E004</div><div class="kb-diagram-cell">최수진</div><div class="kb-diagram-cell">개발</div><div class="kb-diagram-cell">5000</div></div>
+<div class="kb-diagram-note">프로젝트 (π):</div>
+<div class="kb-diagram-note">지정한 속성(열) 추출</div>
+<div class="kb-diagram-note">수직적 부분집합</div>
+<div class="kb-diagram-note">중복 자동 제거</div>
+<div class="kb-diagram-note">조합:</div>
+<div class="kb-diagram-note">π_{Name, Salary}(σ_{Dept='개발'}(Employee))</div>
+<div class="kb-diagram-note">= 개발 부서의 이름과 급여</div>
+<div class="kb-diagram-note">SQL 대응:</div>
+<div class="kb-diagram-note">σ = WHERE 절</div>
+<div class="kb-diagram-note">π = SELECT 컬럼 목록</div>
+<div class="kb-diagram-note">SELECT Name, Salary</div>
+<div class="kb-diagram-note">FROM Employee</div>
+<div class="kb-diagram-note">WHERE Dept = '개발'</div>
+</div>
+</div>
 
-조합:
-  π_{Name, Salary}(σ_{Dept='개발'}(Employee))
-  = 개발 부서의 이름과 급여
 
-SQL 대응:
-  σ = WHERE 절
-  π = SELECT 컬럼 목록
-  
-  SELECT Name, Salary
-  FROM Employee
-  WHERE Dept = '개발'
-```
 
 > 📢 **섹션 요약 비유**: 실렉트는 행(가로줄) 필터, 프로젝트는 열(세로줄) 필터 — SQL WHERE(행)와 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 컬럼 목록(열)이 각각 대응.
 
@@ -97,28 +96,29 @@ SQL 대응:
 
 ## Ⅲ. 중복 제거와 집합 의미
 
-```
-프로젝트의 중복 제거:
 
-집합 기반 관계 대수:
-  관계 = 집합 (중복 없음)
-  프로젝트 결과 = 집합
-  → 중복 튜플 자동 제거
 
-SQL과의 차이:
-  SQL 기본: 중복 허용 (multiset/bag)
-  
-  SELECT Name, Dept FROM Employee
-  → 중복 포함 반환 가능
-  
-  SELECT DISTINCT Name, Dept FROM Employee
-  → 중복 제거 (관계 대수 π와 동등)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">프로젝트의 중복 제거:</div>
+<div class="kb-diagram-note">집합 기반 관계 대수:</div>
+<div class="kb-diagram-note">관계 = 집합 (중복 없음)</div>
+<div class="kb-diagram-note">프로젝트 결과 = 집합</div>
+<div class="kb-diagram-note">→ 중복 튜플 자동 제거</div>
+<div class="kb-diagram-note">SQL과의 차이:</div>
+<div class="kb-diagram-note">SQL 기본: 중복 허용 (multiset/bag)</div>
+<div class="kb-diagram-note">SELECT Name, Dept FROM Employee</div>
+<div class="kb-diagram-note">→ 중복 포함 반환 가능</div>
+<div class="kb-diagram-note">SELECT DISTINCT Name, Dept FROM Employee</div>
+<div class="kb-diagram-note">→ 중복 제거 (관계 대수 π와 동등)</div>
+<div class="kb-diagram-note">중복 제거 비용:</div>
+<div class="kb-diagram-note">대용량 테이블에서 DISTINCT 비용 큼</div>
+<div class="kb-diagram-note">정렬(Sort) 또는 해시(Hash) 기반 처리</div>
+<div class="kb-diagram-note">인덱스 활용 시 비용 감소</div>
+</div>
+</div>
 
-중복 제거 비용:
-  대용량 테이블에서 DISTINCT 비용 큼
-  정렬(Sort) 또는 해시(Hash) 기반 처리
-  인덱스 활용 시 비용 감소
-```
+
 
 > 📢 **섹션 요약 비유**: 프로젝트 중복 제거는 반 명단 정리 — "개발부"가 여러 명이어도 부서 이름 목록에는 "개발"이 한 번만 나온다.
 

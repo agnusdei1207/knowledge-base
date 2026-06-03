@@ -26,7 +26,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 경찰이 음주 단속을 할 때 매일 똑같은 장소, 똑같은 시간(예: 강남역 사거리, 밤 10시)에만 단속 카메라를 켜둔다면 어떻게 될까요? 처음 며칠은 음주 운전자가 많이 잡히겠지만(버그 발견), 곧 모든 운전자가 그 길을 피해 골목길로 돌아가버립니다(내성 발생). 단속 실적이 0건이라고 해서 "우리 동네에 음주 운전자가 한 명도 없다"고 기뻐하면 안 됩니다. 카메라([테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/))의 위치를 계속 바꾸고 불시 단속(시나리오 갱신)을 해야만 숨어있는 진짜 범죄자([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))를 잡을 수 있습니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 수동 테스트**: QA 테스터가 직감과 경험(탐색적 테스트)으로 앱을 괴롭히던 시절에는 매번 시나리오가 달라져 패러독스가 적었다.
+  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 수동 테스트</strong>: QA 테스터가 직감과 경험(탐색적 테스트)으로 앱을 괴롭히던 시절에는 매번 시나리오가 달라져 패러독스가 적었다.
   2. **테스트 자동화의 함정**: Selenium 등 스크립트 자동화가 득세하면서 매일 똑같은 스텝만 반복 검증하게 되었고, 이로 인해 자동화가 잡지 못하는 기괴한 버그가 폭증했다.
   3. **지능형 테스트의 부상**: [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/)를 뚫어내기 위해 현재는 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 테스트(Property-based Testing) 등 예측을 파괴하는 툴들이 주류로 부상 중이다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  살충제 패러독스 테스트 갱신                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살충제 패러독스 테스트 갱신</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-살충제 패러독스 테스트 갱신 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">살충제 패러독스 테스트 갱신 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

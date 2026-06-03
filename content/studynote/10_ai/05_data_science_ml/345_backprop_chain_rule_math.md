@@ -31,14 +31,17 @@ tags = ["studynote-ai"]
 
 *전체 비용은 O([순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용) 의 상수 배
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "모든 사원의 성과급을 계산할 때, 각 사원을 하나씩 회의실에 불러 따로 평가하는(수치 미분) 대신, 전체 회의에서 한 번에 책임 분담을 계산하는([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))" 방법이다.
 
@@ -48,65 +51,71 @@ tags = ["studynote-ai"]
 
 ### 연쇄 법칙 (Chain Rule) 기본
 
-```
-  합성 함수 y = f(g(x)) 의 미분:
-  dy/dx = (dy/dg) · (dg/dx)
 
-  다변수 체인 룰:
-  ∂L/∂w = ∂L/∂z · ∂z/∂w   (z = wx + b)
 
-  실제 수식:
-  z = wx + b → ∂z/∂w = x
-  a = σ(z)   → ∂a/∂z = σ'(z)
-  L = loss(a)→ ∂L/∂a = loss'(a)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">합성 함수 y = f(g(x)) 의 미분:</div>
+<div class="kb-diagram-note">dy/dx = (dy/dg) · (dg/dx)</div>
+<div class="kb-diagram-note">다변수 체인 룰:</div>
+<div class="kb-diagram-note">∂L/∂w = ∂L/∂z · ∂z/∂w (z = wx + b)</div>
+<div class="kb-diagram-note">실제 수식:</div>
+<div class="kb-diagram-note">z = wx + b → ∂z/∂w = x</div>
+<div class="kb-diagram-note">a = σ(z) → ∂a/∂z = σ'(z)</div>
+<div class="kb-diagram-note">L = loss(a)→ ∂L/∂a = loss'(a)</div>
+<div class="kb-diagram-note">따라서: ∂L/∂w = ∂L/∂a · ∂a/∂z · ∂z/∂w</div>
+<div class="kb-diagram-note">= loss'(a) · σ'(z) · x</div>
+</div>
+</div>
 
-  따라서: ∂L/∂w = ∂L/∂a · ∂a/∂z · ∂z/∂w
-                = loss'(a) · σ'(z) · x
-```
+
 
 ### 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
 
-```
-  순전파 (Forward Pass): 좌 → 우
-  역전파 (Backward Pass): 우 → 좌
 
-  x ──▶[× w]──▶ z ──▶[σ]──▶ a ──▶[L]──▶ Loss
-  ↑             ↑            ↑           |
-  w             w            a           |
-                ▲            ▲           ▼
-                │    역전파   │ ∂L/∂a ←──┘
-                │            │
-  ∂L/∂w ◀──────│────────────┘
-       = ∂L/∂z · ∂z/∂w
-       = (∂L/∂a · σ'(z)) · x
 
-  계산 그래프 노드별 역전파 규칙:
-  ┌───────────────────────────────────────────────────┐
-  │  덧셈 노드: 기울기를 그대로 양 쪽으로 분배          │
-  │  곱셈 노드: 기울기 × 상대방 입력값 (교차 곱)       │
-  │  활성화 노드: 기울기 × 활성화 함수 도함수           │
-  └───────────────────────────────────────────────────┘
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">순전파 (Forward Pass): 좌 → 우</div>
+<div class="kb-diagram-note">역전파 (Backward Pass): 우 → 좌</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">× w</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">σ</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">L</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Loss</div></div>
+<div class="kb-diagram-note">w w a</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파</div><div class="kb-diagram-cell">∂L/∂a ←──</div></div>
+<div class="kb-diagram-note">∂L/∂w ◀ │</div>
+<div class="kb-diagram-note">= ∂L/∂z · ∂z/∂w</div>
+<div class="kb-diagram-note">= (∂L/∂a · σ'(z)) · x</div>
+<div class="kb-diagram-note">계산 그래프 노드별 역전파 규칙:</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덧셈 노드: 기울기를 그대로 양 쪽으로 분배</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">곱셈 노드: 기울기 × 상대방 입력값 (교차 곱)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활성화 노드: 기울기 × 활성화 함수 도함수</div></div>
+</div>
+</div>
+
+
 
 ### 2층 신경망 전체 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수식 전개
 
-```
-  구조: x → [Linear 1] → h → [ReLU] → a → [Linear 2] → y → [MSE] → L
 
-  Forward:
-  h₁ = W₁x + b₁
-  a₁ = ReLU(h₁)
-  y = W₂a₁ + b₂
-  L = (1/2)(y - t)²   (t: 정답)
 
-  Backward (연쇄 법칙):
-  δL/δy = y - t                         (MSE 도함수)
-  δL/δW₂ = δL/δy · a₁ᵀ               (Linear 2)
-  δL/δa₁ = W₂ᵀ · δL/δy               (a₁ 기울기)
-  δL/δh₁ = δL/δa₁ ⊙ ReLU'(h₁)        (ReLU 역전파)
-  δL/δW₁ = δL/δh₁ · xᵀ              (Linear 1)
-  δL/δb₁ = δL/δh₁                    (bias 기울기)
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Linear 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ReLU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Linear 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSE</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">L</div></div>
+<div class="kb-diagram-note">Forward:</div>
+<div class="kb-diagram-note">h₁ = W₁x + b₁</div>
+<div class="kb-diagram-note">a₁ = ReLU(h₁)</div>
+<div class="kb-diagram-note">y = W₂a₁ + b₂</div>
+<div class="kb-diagram-note">L = (1/2)(y - t)² (t: 정답)</div>
+<div class="kb-diagram-note">Backward (연쇄 법칙):</div>
+<div class="kb-diagram-note">δL/δy = y - t (MSE 도함수)</div>
+<div class="kb-diagram-note">δL/δW₂ = δL/δy · a₁ᵀ (Linear 2)</div>
+<div class="kb-diagram-note">δL/δa₁ = W₂ᵀ · δL/δy (a₁ 기울기)</div>
+<div class="kb-diagram-note">δL/δh₁ = δL/δa₁ ⊙ ReLU'(h₁) (ReLU 역전파)</div>
+<div class="kb-diagram-note">δL/δW₁ = δL/δh₁ · xᵀ (Linear 1)</div>
+<div class="kb-diagram-note">δL/δb₁ = δL/δh₁ (bias 기울기)</div>
+</div>
+</div>
+
+
 
 ### 수치 미분 vs 자동 미분 비교
 

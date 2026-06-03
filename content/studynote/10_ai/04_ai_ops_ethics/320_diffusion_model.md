@@ -11,9 +11,9 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 점진적으로 가우시안 노이즈를 추가하는 **순방향 과정([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))**과, 노이즈 예측 신경망이 역방향으로 노이즈를 제거하며 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 **역방향 과정(Reverse [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))**으로 학습하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
+> 1. **본질**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) ([Diffusion Model](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/))은 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 점진적으로 가우시안 노이즈를 추가하는 <strong>순방향 과정(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong>과, 노이즈 예측 신경망이 역방향으로 노이즈를 제거하며 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원하는 <strong>역방향 과정(Reverse <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong>으로 학습하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델이다.
 > 2. **가치**: GAN의 훈련 불안정성과 모드 붕괴 없이 텍스트 프롬프트로 고품질·다양한 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 Stable Diffusion, DALL-E 3, Midjourney의 기반 기술로, 현재 이미지·비디오·오디오 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI의 사실상 표준이다.
-> 3. **판단 포인트**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)의 핵심 학습 목표는 각 노이즈 레벨에서 추가된 노이즈 ε을 정확히 예측하는 **노이즈 예측 신경망(U-Net, [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))** 훈련이며, 추론 시 순수 노이즈에서 시작해 T 스텝 역방향으로 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+> 3. **판단 포인트**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)의 핵심 학습 목표는 각 노이즈 레벨에서 추가된 노이즈 ε을 정확히 예측하는 <strong>노이즈 예측 신경망(U-Net, <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>)</strong> 훈련이며, 추론 시 순수 노이즈에서 시작해 T 스텝 역방향으로 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
 ---
 
@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 사진에 매우 조금씩(T=1000 스텝) 노이즈를 추가해 결국 완전한 노이즈(정규분포)로 만든다. 신경망은 이 역과정 — 완전 노이즈에서 원본 이미지를 복원하는 — 을 학습한다. 학습이 완성되면 순수 노이즈에서 출발해 텍스트 조건(프롬프트)에 맞는 임의의 이미지를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure │
-│ New requirement │ Design decision point │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 "지우개로 그림 지우기 역교사"다. 선생님이 완성된 그림을 조금씩 지워 결국 빈 종이(노이즈)로 만드는 과정을 보여주면, AI는 빈 종이에서 조금씩 그림을 그려 완성하는 역과정을 학습한다. 1000번 지운 것을 1000번 역으로 복원하는 것이 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 본질이다.
 
@@ -38,33 +41,29 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│ 디퓨전 모델 순방향/역방향 과정 및 학습 구조 │
-├──────────────────────────────────────────────────────────────────┤
-│ │
-│ 순방향 과정 (Forward Diffusion, q): │
-│ x_0(원본) → x_1 → x_2 → ... → x_T(순수 노이즈) │
-│ q(x_t | x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I) │
-│ β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가) │
-│ │
-│ x_t 직접 계산 (닫힌 형식): │
-│ x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε (ε ~ N(0, I)) │
-│ │
-│ 역방향 과정 (Reverse Diffusion, p_θ): │
-│ x_T → x_{T-1} → ... → x_0 (신경망 ε_θ로 노이즈 예측 후 제거) │
-│ │
-│ 학습 목표: ||ε - ε_θ(x_t, t, c)||² (노이즈 예측 MSE 손실) │
-│ c: 조건 (텍스트 임베딩 등), t: 타임스텝 │
-│ │
-│ Latent Diffusion Model (LDM, Stable Diffusion): │
-│ 픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 → 100배 빠름 │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ 텍스트 프롬프트 → CLIP 텍스트 인코더 → 조건 벡터 c │ │
-│ │ 잠재 노이즈 z_T → U-Net(노이즈 예측) → z_0 → VAE 디코딩 → 이미지│ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디퓨전 모델 순방향/역방향 과정 및 학습 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순방향 과정 (Forward Diffusion, q):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_0(원본) → x_1 → x_2 → ... → x_T(순수 노이즈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">q(x_t</div><div class="kb-diagram-cell">x_{t-1}) = N(x_t; √(1-β_t)·x_{t-1}, β_t·I)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">β_t: 노이즈 스케줄 (0.0001~0.02, 점점 증가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_t 직접 계산 (닫힌 형식):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_t = √ᾱ_t·x_0 + √(1-ᾱ_t)·ε (ε ~ N(0, I))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역방향 과정 (Reverse Diffusion, p_θ):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_T → x_{T-1} → ... → x_0 (신경망 ε_θ로 노이즈 예측 후 제거)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 목표:</div><div class="kb-diagram-cell">ε - ε_θ(x_t, t, c)</div><div class="kb-diagram-cell">² (노이즈 예측 MSE 손실)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c: 조건 (텍스트 임베딩 등), t: 타임스텝</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Latent Diffusion Model (LDM, Stable Diffusion):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">픽셀 공간 대신 VAE 잠재 공간에서 디퓨전 수행 → 100배 빠름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 프롬프트 → CLIP 텍스트 인코더 → 조건 벡터 c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잠재 노이즈 z_T → U-Net(노이즈 예측) → z_0 → VAE 디코딩 → 이미지</div></div>
+</div>
+</div>
+
+
 
 | 모델 | 기반 기술 | 특징 |
 |:---|:---|:---|
@@ -80,7 +79,7 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-**CFG (Classifier-Free Guidance, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 없는 안내)**: 텍스트 조건 w의 세기를 조절하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지가 프롬프트를 얼마나 충실히 따를지 제어한다. CFG 스케일이 높을수록 프롬프트 충실도 높지만 다양성 감소. [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 실용화의 핵심 기법이다.
+<strong>CFG (Classifier-Free Guidance, <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>기 없는 안내)</strong>: 텍스트 조건 w의 세기를 조절하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지가 프롬프트를 얼마나 충실히 따를지 제어한다. CFG 스케일이 높을수록 프롬프트 충실도 높지만 다양성 감소. [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 실용화의 핵심 기법이다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
@@ -94,12 +93,12 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제 이슈**:
-- **[저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 문제**: 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저작물 포함 여부 — 미국 판례에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 소송 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중
-- **[딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/) 악용**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act에서 합성 미디어에 워터마킹 의무화
-- **[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지**: [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) (Content Credentials), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지 AI로 출처 투명성 확보
+<strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 규제 이슈</strong>:
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> 문제</strong>: 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저작물 포함 여부 — 미국 판례에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 소송 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중
+- <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/">딥페이크</a> 악용</strong>: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act에서 합성 미디어에 워터마킹 의무화
+- <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 이미지 탐지</strong>: [C2PA](/knowledge-base/studynote/09_security/19_ai_advanced_security/962_c2pa/) (Content Credentials), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 탐지 AI로 출처 투명성 확보
 
-**이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질 평가 지표**:
+<strong>이미지 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 품질 평가 지표</strong>:
 - FID (Fréchet Inception Distance): 실제/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지 분포 간 거리 → 낮을수록 품질
 - [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) Score: 텍스트 프롬프트와 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 의미적 일치도
 - IS (Inception Score): [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 이미지의 다양성과 선명도
@@ -134,9 +133,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **[디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)**은 완성된 그림을 지우개로 1000번 지워 빈 종이로 만들고, AI가 **역순으로 1000번 그려 복원**하는 법을 배우는 거예요!
-2. 다 배우면 **아무 노이즈(빈 종이)에서 출발**해서 "고양이 우주비행사"처럼 **텍스트 설명에 맞는 그림을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**할 수 있어요.
-3. **Stable Diffusion, DALL-E 3, Midjourney**가 모두 이 원리로 만들어진 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI예요!
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/">디퓨전 모델</a></strong>은 완성된 그림을 지우개로 1000번 지워 빈 종이로 만들고, AI가 <strong>역순으로 1000번 그려 복원</strong>하는 법을 배우는 거예요!
+2. 다 배우면 <strong>아무 노이즈(빈 종이)에서 출발</strong>해서 "고양이 우주비행사"처럼 <strong>텍스트 설명에 맞는 그림을 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>할 수 있어요.
+3. <strong>Stable Diffusion, DALL-E 3, Midjourney</strong>가 모두 이 원리로 만들어진 이미지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) AI예요!
 
 ---
 

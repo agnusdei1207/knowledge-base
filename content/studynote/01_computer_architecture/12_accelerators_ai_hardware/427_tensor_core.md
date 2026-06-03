@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 즉 텐서 코어의 등장은 "GPU가 AI에도 쓸 수 있다"에서 "GPU가 AI를 위해 구조를 바꿨다"로 넘어간 사건이다. 범용 가속기였던 GPU가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 성격을 본격적으로 띠게 된 분기점이라고 볼 수 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│        왜 텐서 코어가 필요해졌는가: 제어보다 계산이 많다        │
-├──────────────────────────────────────────────────────────────┤
-│ 딥러닝 레이어 입력  ─▶  대규모 행렬 곱셈  ─▶  활성화/정규화      │
-│                         │                                    │
-│                         ├─ 범용 CUDA 코어:                    │
-│                         │   작은 FMA를 매우 많이 반복         │
-│                         │   → 명령/스케줄링 부담 증가         │
-│                         │                                    │
-│                         └─ 텐서 코어:                         │
-│                             행렬 타일 단위로 묶어서 처리      │
-│                             → 처리량/전력 효율 개선           │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 텐서 코어가 필요해졌는가: 제어보다 계산이 많다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딥러닝 레이어 입력 ─▶ 대규모 행렬 곱셈 ─▶ 활성화/정규화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 범용 CUDA 코어:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 FMA를 매우 많이 반복</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 명령/스케줄링 부담 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 텐서 코어:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행렬 타일 단위로 묶어서 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 처리량/전력 효율 개선</div></div>
+</div>
+</div>
+
+
 
 이 그림의 핵심은 병목이 단순 연산기 개수 부족이 아니라, 반복되는 행렬 패턴을 범용 방식으로 처리하는 데 있다는 점이다. 텐서 코어는 바로 이 반복 패턴을 하드웨어가 이해하도록 만든 장치다.
 
@@ -63,19 +64,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 텐서 코어가 단순히 "빠른 곱셈기"가 아니라, 입력 형식과 누적 경로까지 하나의 파이프라인으로 설계된 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│          텐서 코어의 기본 처리 흐름: 타일 단위 행렬 연산        │
-├──────────────────────────────────────────────────────────────┤
-│ 입력 A 타일 (FP16/BF16/TF32) ─┐                              │
-│                                ├─▶ 병렬 곱셈기 배열 ─┐        │
-│ 입력 B 타일 (FP16/BF16/TF32) ─┘                    │        │
-│                                                    ├─▶ 누적기 │
-│ 기존 C 타일 / 부분합 (FP32) ───────────────────────┘   (FP32)│
-│                                                             │
-│ 결과 D 타일 ─▶ 레지스터/공유 메모리로 반환                  │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서 코어의 기본 처리 흐름: 타일 단위 행렬 연산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 A 타일 (FP16/BF16/TF32) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 병렬 곱셈기 배열 ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 B 타일 (FP16/BF16/TF32) ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 누적기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 C 타일 / 부분합 (FP32) (FP32)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 D 타일 ─▶ 레지스터/공유 메모리로 반환</div></div>
+</div>
+</div>
+
+
 
 이 구조 덕분에 텐서 코어는 "곱셈을 싸게" 만드는 동시에 "누적 정확도를 망치지 않도록" 설계된다. 그래서 텐서 코어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의는 FLOPS만이 아니라, 지원 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 누적 방식까지 함께 봐야 정확하다.
 
@@ -108,25 +111,22 @@ tags = ["studynote-computer-architecture"]
 
 대표 판단 기준은 세 가지다. 첫째, 학습과 추론에서 FP16, BF16, TF32 같은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 허용할 수 있는가를 본다. 둘째, 배치 크기와 히든 차원이 타일 친화적인 배수인지 확인한다. 셋째, PyTorch, cuDNN, TensorRT 같은 프레임워크가 텐서 코어 경로를 자동 또는 명시적으로 활성화하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           텐서 코어 활용 판단 체크: 스펙보다 경로가 중요        │
-├──────────────────────────────────────────────────────────────┤
-│ 1. 정밀도 허용?  ── 아니오 ─▶ FP32 고정 → 활용도 낮음         │
-│        │                                                     │
-│       예                                                     │
-│        ▼                                                     │
-│ 2. 차원 정렬 적합? ─ 아니오 ─▶ 패딩/타일 재설계 필요           │
-│        │                                                     │
-│       예                                                     │
-│        ▼                                                     │
-│ 3. 라이브러리 경로 최적화? ─ 아니오 ─▶ 커널/옵션 점검          │
-│        │                                                     │
-│       예                                                     │
-│        ▼                                                     │
-│    텐서 코어 활성화 → 처리량 증가, 전력당 성능 개선            │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서 코어 활용 판단 체크: 스펙보다 경로가 중요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정밀도 허용? ── 아니오 ─▶ FP32 고정 → 활용도 낮음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 차원 정렬 적합? ─ 아니오 ─▶ 패딩/타일 재설계 필요</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 라이브러리 경로 최적화? ─ 아니오 ─▶ 커널/옵션 점검</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서 코어 활성화 → 처리량 증가, 전력당 성능 개선</div></div>
+</div>
+</div>
+
+
 
 기술사 관점에서는 채택 조건과 회피 조건을 동시에 말해야 한다. 대규모 모델 학습, 대량 추론, 영상 인식, 생성형 AI처럼 행렬 연산 비중이 큰 경우에는 텐서 코어가 매우 효과적이다. 반대로 제어 로직이 많고 행렬 밀도가 낮은 워크로드, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 저하가 절대 허용되지 않는 일부 과학 계산, 메모리 이동이 연산보다 더 큰 병목인 경우에는 기대 이득이 제한적일 수 있다.
 
@@ -172,25 +172,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-범용 GPU 병렬화
-    │
-    ▼
-CUDA 코어 기반 FMA 반복
-    │
-    ▼
-행렬 연산 병목 심화
-    │
-    ▼
-텐서 코어 도입
-    │
-    ├─▶ 혼합 정밀도 (FP16/BF16/TF32)
-    │
-    ├─▶ 딥러닝 라이브러리 최적화 (cuDNN, TensorRT)
-    │
-    ▼
-FP8 · 양자화 · 차세대 AI 가속 구조
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">범용 GPU 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CUDA 코어 기반 FMA 반복</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">행렬 연산 병목 심화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">텐서 코어 도입</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 혼합 정밀도 (FP16/BF16/TF32)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 딥러닝 라이브러리 최적화 (cuDNN, TensorRT)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP8 · 양자화 · 차세대 AI 가속 구조</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 → 행렬 특화 가속 → 저정밀도·소프트웨어 결합 최적화"로 발전하는 방향을 보여준다.
 

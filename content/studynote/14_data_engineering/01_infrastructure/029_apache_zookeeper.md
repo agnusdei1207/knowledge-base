@@ -18,23 +18,23 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│          ZooKeeper 분산 조율 서비스                        │
-├──────────────────────────────────────────────────────────┤
-│                                                           │
-│  분산 잠금:    노드 A      ZooKeeper     노드 B           │
-│               "잠금 요청" →  [Lock Znode] ← "대기"       │
-│               잠금 획득 → 작업 수행 → 잠금 해제           │
-│                                                           │
-│  리더 선출:   노드1, 노드2, 노드3가 경쟁                   │
-│               → ZooKeeper가 공정한 리더 선출              │
-│               → 리더 장애 시 자동 재선출                  │
-│                                                           │
-│  ZooKeeper 앙상블 (최소 3개, 홀수 권장):                   │
-│  [ZK1] [ZK2] [ZK3]  → 과반수(2개) 살아있으면 정상 운영   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 분산 조율 서비스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 잠금: 노드 A ZooKeeper 노드 B</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock Znode</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">"대기"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잠금 획득 → 작업 수행 → 잠금 해제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리더 선출: 노드1, 노드2, 노드3가 경쟁</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ZooKeeper가 공정한 리더 선출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 리더 장애 시 자동 재선출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 앙상블 (최소 3개, 홀수 권장):</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">ZK1</div><div class="kb-diagram-node">ZK2</div><div class="kb-diagram-node">ZK3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">과반수(2개) 살아있으면 정상 운영</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ZooKeeper는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 신뢰할 수 있는 공증인이다. 여러 서버가 "내가 리더야!"라고 주장할 때, ZooKeeper라는 공증인이 공정하게 하나만 인정하고 나머지에게 통보한다.
 
@@ -44,19 +44,24 @@ tags = ["studynote-data-engineering"]
 
 ### [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) znode ([데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/))
 
-```text
-ZooKeeper 데이터 트리 (/):
-  /kafka/
-    /brokers/
-      /0001  → broker 1 연결 정보
-      /0002  → broker 2 연결 정보
-    /controller → 현재 컨트롤러(리더) 브로커 ID
 
-znode 타입:
-  persistent: 클라이언트 연결 끊겨도 유지
-  ephemeral:  클라이언트 세션 종료 시 자동 삭제 (리더 선출에 활용)
-  sequential: 순서 번호 자동 부여 (공정한 잠금 구현)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">ZooKeeper 데이터 트리 (/):</div>
+<div class="kb-diagram-note">/kafka/</div>
+<div class="kb-diagram-note">/brokers/</div>
+<div class="kb-diagram-note">/0001 → broker 1 연결 정보</div>
+<div class="kb-diagram-note">/0002 → broker 2 연결 정보</div>
+<div class="kb-diagram-note">/controller → 현재 컨트롤러(리더) 브로커 ID</div>
+<div class="kb-diagram-note">znode 타입:</div>
+<div class="kb-diagram-note">persistent: 클라이언트 연결 끊겨도 유지</div>
+<div class="kb-diagram-note">ephemeral: 클라이언트 세션 종료 시 자동 삭제 (리더 선출에 활용)</div>
+<div class="kb-diagram-note">sequential: 순서 번호 자동 부여 (공정한 잠금 구현)</div>
+</div>
+</div>
+
+
 
 ### ZAB [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
@@ -89,17 +94,22 @@ ZAB (ZooKeeper Atomic Broadcast):
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 의존성 제거
 
-```text
-전통 Kafka 아키텍처:
-  Kafka Broker + ZooKeeper 앙상블 분리 운영
-  → ZooKeeper 관리 부담, ZK-Kafka 버전 호환 이슈
 
-Kafka KRaft (Kafka 3.3+, 2022):
-  Kafka 내장 Raft 합의 프로토콜
-  → ZooKeeper 완전 제거 가능
-  → 단일 클러스터 운영, 관리 단순화
-  → 메타데이터 처리 성능 10배 향상
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">전통 Kafka 아키텍처:</div>
+<div class="kb-diagram-note">Kafka Broker + ZooKeeper 앙상블 분리 운영</div>
+<div class="kb-diagram-note">→ ZooKeeper 관리 부담, ZK-Kafka 버전 호환 이슈</div>
+<div class="kb-diagram-note">Kafka KRaft (Kafka 3.3+, 2022):</div>
+<div class="kb-diagram-note">Kafka 내장 Raft 합의 프로토콜</div>
+<div class="kb-diagram-note">→ ZooKeeper 완전 제거 가능</div>
+<div class="kb-diagram-note">→ 단일 클러스터 운영, 관리 단순화</div>
+<div class="kb-diagram-note">→ 메타데이터 처리 성능 10배 향상</div>
+</div>
+</div>
+
+
 
 ### [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 적용 사례
 
@@ -118,7 +128,7 @@ Kafka (2.x 이하): 컨트롤러 선출, 토픽 메타데이터
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)** | 과반수 합의로 [Split Brain](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지 |
+| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong> | 과반수 합의로 [Split Brain](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방지 |
 | **고가용성** | 앙상블로 장애 내성 |
 | **범용 조율** | 잠금·리더·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·디스커버리 통합 |
 
@@ -132,29 +142,31 @@ ZooKeeper는 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **[Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)/ZAB** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| **[etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/)** | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 핵심 조율 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a>/ZAB</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/">etcd</a></strong> | [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 핵심 조율 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | **KRaft** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 내장 [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 대체 |
 | **리더 선출** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 핵심 조율 패턴 |
-| **[CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리** | ZooKeeper는 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 |
+| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리</strong> | ZooKeeper는 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분산 시스템 조율 문제 — Split Brain, 리더 선출]
-    │
-    ▼
-[Apache ZooKeeper — ZAB 프로토콜, 범용 조율 서비스]
-    │
-    ▼
-[etcd — Raft 기반, Kubernetes 표준 조율]
-    │
-    ▼
-[Kafka KRaft — ZooKeeper 의존성 제거]
-    │
-    ▼
-[서비스 메시 — Consul 기반 서비스 디스커버리]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분산 시스템 조율 문제 — Split Brain, 리더 선출</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apache ZooKeeper — ZAB 프로토콜, 범용 조율 서비스</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">etcd — Raft 기반, Kubernetes 표준 조율</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka KRaft — ZooKeeper 의존성 제거</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시 — Consul 기반 서비스 디스커버리</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -21,14 +21,14 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: '궤변(Fallacy)'은 언뜻 들으면 맞는 말 같지만 실제로는 틀린 논리를 말한다. "버그가 하나도 없는(오류 부재) 프로그램은 훌륭한 프로그램이다"라는 명제가 바로 궤변이다. [오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/)은 시스템이 스펙(명세서)대로 완벽하게 작동하여 크래시(Crash)나 예외(Exception)가 0건이라 할지라도, 사용자가 원하지 않는 기능이거나 사용하기 너무 불편하다면 그 소프트웨어는 철저하게 실패한 프로젝트라고 정의한다.
 
-- **필요성**: 코드를 짜는 개발팀과 테스트를 돌리는 QA팀은 흔히 "요구사항 명세서(Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))"를 성경처럼 믿고 그 문서에 쓰인 대로만 테스트([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 한다. 하지만 최초 기획 단계의 명세서 자체가 시장의 니즈를 잘못 파악했거나 낡은 문서라면? 수십억을 들여 1년 동안 버그 없는 완벽한 쓰레기를 만드는 꼴이 된다. 결국 품질(Quality)의 최종 심판자는 [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)(Coverage)나 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 개수가 아니라 **'고객의 비즈니스 가치(Value)'**임을 상기시키는 철학적 지표가 필요했다.
+- **필요성**: 코드를 짜는 개발팀과 테스트를 돌리는 QA팀은 흔히 "요구사항 명세서(Requirements [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/))"를 성경처럼 믿고 그 문서에 쓰인 대로만 테스트([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 한다. 하지만 최초 기획 단계의 명세서 자체가 시장의 니즈를 잘못 파악했거나 낡은 문서라면? 수십억을 들여 1년 동안 버그 없는 완벽한 쓰레기를 만드는 꼴이 된다. 결국 품질(Quality)의 최종 심판자는 [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)(Coverage)나 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 개수가 아니라 <strong>'고객의 비즈니스 가치(Value)'</strong>임을 상기시키는 철학적 지표가 필요했다.
 
 - **💡 비유**: 당신이 목수에게 '멋진 개집'을 지어달라고 주문했습니다. 목수는 1달 동안 최고급 나무를 깎아 비가 새지 않고, 못 하나 튀어나온 곳 없는(버그 제로) 완벽한 집을 지었습니다. 그런데 집의 입구가 너무 작아서 당신의 개(대형견)가 들어갈 수조차 없습니다. 목수는 "도면에 적힌 크기대로 완벽히 지었으니 내 잘못이 아니다"라고 주장하지만(오류 부재), 당신 입장에서는 결국 아무 쓸모 없는 나무 상자에 불과한 상황(궤변의 실체)입니다.
 
 - **등장 배경 및 발전 과정**:
   1. **전통적 QA (버그 사냥꾼 시대)**: 1980~90년대 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)) 시절, 품질 관리의 목표는 무조건 '에러(Error)를 0으로 만드는 것'이었다.
   2. **테스팅 7원칙의 정립**: ISTQB(국제 소프트웨어 테스팅 자격 위원회)가 수십 년간의 프로젝트 실패 사례를 분석한 결과, 실패 원인의 절반 이상이 "버그"가 아니라 "요구사항 불일치"임을 깨닫고 이를 7대 원칙 중 마지막 원칙으로 명문화했다.
-  3. **[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 Shift-Left의 대두**: 이 궤변을 피하려면 제품을 다 만들고 나서 사용자를 부르면 늦다. 짧은 주기([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))로 동작하는 소프트웨어를 고객에게 계속 보여주고 피드백을 받는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 선언의 가장 강력한 이론적 배경이 되었다.
+  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a>과 Shift-Left의 대두</strong>: 이 궤변을 피하려면 제품을 다 만들고 나서 사용자를 부르면 늦다. 짧은 주기([Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/))로 동작하는 소프트웨어를 고객에게 계속 보여주고 피드백을 받는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 선언의 가장 강력한 이론적 배경이 되었다.
 
 - **📢 섹션 요약 비유**: 시험공부를 할 때, 수학 교과서를 첫 장부터 끝 장까지 100번 읽어서 오타를 하나도 없이 달달 외웠더라도(오류 0%), 다음 날 시험 과목이 수학이 아니라 '영어'라면 그 노력은 완전히 빵점(쓸모없음)이 되는 것과 같습니다. 방향이 틀리면 속도(완벽함)는 의미가 없습니다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) 요구사항 미달의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  오류 부재의 궤변 요구사항 미달                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 부재의 궤변 요구사항 미달</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) 요구사항 미달가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) 요구사항 미달의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) 요구사항 미달의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: [오류 부재의 궤변](/knowledge-base/studynote/04_software_engineering/11_testing_validation/393_absence_of_errors_fallacy/) 요구사항 미달의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-오류 부재의 궤변 요구사항 미달 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오류 부재의 궤변 요구사항 미달 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

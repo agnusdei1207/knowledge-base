@@ -38,16 +38,19 @@ tags = ["studynote-ai"]
 | 영화 평점 예측 | 장르, 감독, 배우, 개봉연도 | 평점 (1~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) |
 
 ### 1.3 입력 공간 (Input Space)
-피처 벡터 X = (x₁, x₂, ..., xₙ)가 존재하는 n차원 공간을 **입력 공간(Input Space)** 또는 **특성 공간(Feature Space)**이라 한다.
+피처 벡터 X = (x₁, x₂, ..., xₙ)가 존재하는 n차원 공간을 **입력 공간(Input Space)** 또는 <strong>특성 공간(Feature Space)</strong>이라 한다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 피처는 집을 설명하는 "스펙표"(방 수, 층수, 위치)이고, 라벨은 그 집의 "실제 매매가"다. 좋은 스펙표(피처)일수록 실제 가격(라벨)을 더 정확히 예측할 수 있다.
 
@@ -57,44 +60,49 @@ tags = ["studynote-ai"]
 
 ### 2.1 피처 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                피처 처리 파이프라인                        │
-│                                                         │
-│  원시 데이터        피처 공학         모델 입력             │
-│  (Raw Data)    (Feature Eng.)    (Input Space)          │
-│                                                         │
-│  ┌──────────┐   ┌──────────────┐   ┌──────────────┐    │
-│  │나이: 25   │   │나이 정규화    │   │[0.3, 1, 0, 0,│    │
-│  │직업: 학생 │──▶│직업: 원-핫   │──▶│ 0.7, 50000]  │    │
-│  │수입: 50만 │   │수입: 로그변환 │   └──────────────┘    │
-│  └──────────┘   └──────────────┘        X 벡터          │
-│                                                         │
-│         ▼ 모델 학습/예측 ▼                               │
-│                                                         │
-│         ŷ = f(X) → 라벨 예측                            │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 처리 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 피처 공학 모델 입력</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data) (Feature Eng.) (Input Space)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이: 25</div><div class="kb-diagram-cell">나이 정규화</div><div class="kb-diagram-cell">[0.3, 1, 0, 0,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직업: 학생</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">직업: 원-핫</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">0.7, 50000]</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수입: 50만</div><div class="kb-diagram-cell">수입: 로그변환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X 벡터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 모델 학습/예측 ▼</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ŷ = f(X) → 라벨 예측</div></div>
+</div>
+</div>
+
+
 
 ### 2.2 피처 공학 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 유형
 
 | 유형 | 기법 | 예시 |
 |:---|:---|:---|
-| **특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))** | 불필요한 피처 제거 | 상관관계 분석, RFE |
+| <strong>특성 선택(Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong> | 불필요한 피처 제거 | 상관관계 분석, RFE |
 | **특성 추출(Feature Extraction)** | 기존 피처에서 새 피처 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), t-SNE, [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/) |
 | **특성 변환(Feature Transformation)** | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), 인코딩 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) |
 | **파생 특성(Derived Feature)** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반 신규 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 나이/수입 비율, BMI 계산 |
 
 ### 2.3 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))
 
-```
-      고차원 특성 공간         →        저차원 주성분 공간
-  x₁ ──┐                           PC1 (분산 최대 방향)
-  x₂ ──┤  PCA 변환   ────────▶     PC2 (PC1에 직교)
-  x₃ ──┤  (선형 투영)               PC3 ...
-  xₙ ──┘
-  n차원                             k차원 (k < n)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고차원 특성 공간 → 저차원 주성분 공간</div>
+<div class="kb-diagram-note">x₁ ── PC1 (분산 최대 방향)</div>
+<div class="kb-diagram-note">x₂ ── PCA 변환 ▶ PC2 (PC1에 직교)</div>
+<div class="kb-diagram-note">x₃ ── (선형 투영) PC3 ...</div>
+<div class="kb-diagram-note">xₙ ──</div>
+<div class="kb-diagram-note">n차원 k차원 (k &lt; n)</div>
+</div>
+</div>
+
+
 
 PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 최대가 되는 방향(주성분)으로 투영하여 차원을 줄이는 기법이다. 공분산 행렬(Covariance Matrix)의 고유벡터(Eigenvector)가 주성분이 된다.
 
@@ -142,17 +150,17 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 4.1 피처 엔지니어링 실무 워크플로우
-1. **[탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))**: 분포, 결측치, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+1. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/">탐색적 데이터 분석</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/">EDA</a>)</strong>: 분포, 결측치, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 2. **상관관계 분석**: 피처 간 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) 점검
 3. **인코딩**: 범주형 변수 수치화 (레이블/원-핫 선택)
-4. **[스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)**: 수치형 변수 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)/표준화
-5. **[차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 또는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 기반 피처 선택
-6. **파생 특성 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)**: 비즈니스 인사이트 반영
+4. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong>: 수치형 변수 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)/표준화
+5. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/">차원 축소</a></strong>: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 또는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 기반 피처 선택
+6. <strong>파생 특성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 비즈니스 인사이트 반영
 
 ### 4.2 기술사 핵심 판단 포인트
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)**: 라벨 정보가 피처에 포함되지 않도록 주의
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage)</strong>: 라벨 정보가 피처에 포함되지 않도록 주의
 - **피처 중요도 해석**: 모델 설명 가능성([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/), [Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) 요구 시 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 활용
-- **[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 적용 시기**: 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(100차원 이상), [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 필요 시, 다중공선성 제거 시
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a> 적용 시기</strong>: 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(100차원 이상), [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 필요 시, 다중공선성 제거 시
 - **인코딩 선택 기준**: 트리 모델 → 레이블 인코딩 가능, 선형/신경망 → 원-핫 필요
 
 ### 4.3 실무 예시: 고객 이탈 예측
@@ -203,7 +211,7 @@ PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 피처는 사람을 설명하는 **키, 몸무게, 나이** 같은 정보들이에요.
-2. 라벨은 그 사람이 **농구 선수인지 아닌지**처럼 우리가 맞혀야 하는 정답이에요.
+2. 라벨은 그 사람이 <strong>농구 선수인지 아닌지</strong>처럼 우리가 맞혀야 하는 정답이에요.
 3. PCA는 수백 가지 정보를 "가장 중요한 몇 가지"로 줄여서 컴퓨터가 더 빨리 배울 수 있게 도와주는 마법이에요!
 
 ---

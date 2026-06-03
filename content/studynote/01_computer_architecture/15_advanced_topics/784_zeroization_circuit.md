@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-제로화 (Zeroization)는 비밀 정보를 단순히 숨기는 것이 아니라, 필요 시 즉시 **쓸모없게 만드는 것**을 뜻한다. 이때 중요한 점은 "항상 비트를 0으로 덮는다"는 좁은 의미에만 묶이지 않는다는 것이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 Static Random Access Memory ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)) 는 실제 0화나 방전이 가능하지만, 플래시나 전기적으로 지울 수 있는 프로그램 가능 읽기 전용 메모리 (Electrically Erasable Programmable Read-Only Memory, EEPROM) 같은 비휘발성 저장소는 암호 래핑 키를 파기하는 crypto erase나 슬롯 무효화가 더 현실적일 수 있다. 핵심은 **[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가능성**이다.
+제로화 (Zeroization)는 비밀 정보를 단순히 숨기는 것이 아니라, 필요 시 즉시 <strong>쓸모없게 만드는 것</strong>을 뜻한다. 이때 중요한 점은 "항상 비트를 0으로 덮는다"는 좁은 의미에만 묶이지 않는다는 것이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 Static Random Access Memory ([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)) 는 실제 0화나 방전이 가능하지만, 플래시나 전기적으로 지울 수 있는 프로그램 가능 읽기 전용 메모리 (Electrically Erasable Programmable Read-Only Memory, EEPROM) 같은 비휘발성 저장소는 암호 래핑 키를 파기하는 crypto erase나 슬롯 무효화가 더 현실적일 수 있다. 핵심은 <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 불가능성</strong>이다.
 
 이 회로가 중요한 이유는 물리 공격을 완전히 막기 어렵기 때문이다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 우회, 전원 글리치, 장비 도난 같은 상황에서 장치 자체는 언젠가 공격자 손에 들어갈 수 있다. 따라서 보안 장비는 "내 몸은 빼앗겨도 내 비밀은 남기지 않는다"는 마지막 방어선을 가져야 하며, 제로화 회로가 바로 그 역할을 한다.
 
@@ -43,24 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 zeroization 경로의 전형적인 구성을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                  Zeroization path: detect, isolate, then erase            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ Tamper Sensors / Authorized Zeroize Command                               │
-│                 │                                                         │
-│                 ▼                                                         │
-│        Always-On Tamper Controller                                        │
-│                 │                                                         │
-│       ┌─────────┼───────────┬───────────────┐                             │
-│       ▼         ▼           ▼               ▼                             │
-│   Reg/SRAM   Cache/Buffers  Backup RAM   NVM key slots / wrap key        │
-│   clear      scrub/reset    clear        erase or invalidate             │
-│       └───────────────┬───────────────┬────────────────┘                  │
-│                       ▼               ▼                                    │
-│                 Tamper latch     Reboot lockout                           │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zeroization path: detect, isolate, then erase</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Sensors / Authorized Zeroize Command</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Always-On Tamper Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reg/SRAM Cache/Buffers Backup RAM NVM key slots / wrap key</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clear scrub/reset clear erase or invalidate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper latch Reboot lockout</div></div>
+</div>
+</div>
+
+
 
 여기서 중요한 것은 속도와 범위다. 센서가 울린 뒤 수 밀리초 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 프로빙이나 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 캡처에 시간을 줄 수 있고, 일부 저장소만 지우면 다른 복사본이 남아 공격 가치가 유지된다. 그래서 고신뢰 장치는 "비밀이 어디에 몇 번 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되는지"를 아키텍처 단계에서부터 줄이고, zeroize 경로도 그 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 경로를 따라 설계한다.
 
@@ -100,10 +96,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **CPU [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존형 zeroize**: 글리치나 정지 상황에서 가장 먼저 무력화된다.
+- <strong>CPU <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 의존형 zeroize</strong>: 글리치나 정지 상황에서 가장 먼저 무력화된다.
 - **휘발성 저장소만 소거**: NVM metadata나 wrapping key가 남으면 비밀이 부활할 수 있다.
 - **전원 제거 상황 미고려**: 장비를 뽑아 가져가면 zeroize도 멈추는 구조는 위험하다.
-- **[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 누락**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 버퍼, 디버그 램, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) scratchpad가 실제 유출 경로가 된다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>본 누락</strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 버퍼, 디버그 램, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) scratchpad가 실제 유출 경로가 된다.
 
 기술사 관점에서는 "0으로 지운다"는 문장만 쓰면 부족하다. 어떤 저장소를 어떤 방식으로, 어떤 전원 조건에서, 어떤 시간 안에 무효화하는지까지 적어야 실제 아키텍처 설계 지식으로 인정받는다.
 
@@ -133,23 +129,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-탬퍼 감지
-    │
-    ▼
-Always-on controller
-    │
-    ├──▶ Reg/SRAM clear
-    ├──▶ Cache/DMA scrub
-    ├──▶ Backup RAM erase
-    └──▶ NVM crypto erase / slot invalidate
-    │
-    ▼
-Tamper latch · reboot lockout
-    │
-    ▼
-안전한 재프로비저닝
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">탬퍼 감지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Always-on controller</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Reg/SRAM clear</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Cache/DMA scrub</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Backup RAM erase</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ NVM crypto erase / slot invalidate</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tamper latch · reboot lockout</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">안전한 재프로비저닝</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순 삭제가 아니라, 감지부터 lockout과 재등록까지 이어지는 zeroization 수명주기를 보여 준다.
 

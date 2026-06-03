@@ -39,17 +39,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 세 축이 독립된 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라, 서로 맞물려야 성과가 나는 구조임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                3P 정렬 구조: 한 축만 강해도 부족              │
-├──────────────────────────────────────────────────────────────┤
-│            People ───── 역량 · 문화 · 역할                   │
-│               ▲                     │                         │
-│               │                     ▼                         │
-│ Platform/Technology ◀── Process ── 흐름 · 통제 · 책임        │
-│    시스템 · 데이터 · 자동화                                   │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3P 정렬 구조: 한 축만 강해도 부족</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">People 역량 · 문화 · 역할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform/Technology ◀── Process ── 흐름 · 통제 · 책임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 · 데이터 · 자동화</div></div>
+</div>
+</div>
+
+
 
 핵심 원리는 "증상과 원인의 축을 분리하되, 처방은 통합한다"는 데 있다. 예를 들어 운영장애가 많다면 도구 자체보다, 변경관리 절차 미비와 야간 인력 역량 부족이 원인일 수 있다. 반대로 현업 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 크다면 단순 교육 부족이 아니라, 도입하려는 시스템이 실제 프로세스를 반영하지 못했을 가능성도 있다.
 
@@ -120,19 +121,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-현상 문제 인식
-      │
-      ▼
-3P 분해 (People · Process · Platform/Technology)
-      │
-      ├─ 교육·역할 재정의
-      ├─ 프로세스 재설계
-      └─ 시스템·자동화 개선
-      │
-      ▼
-정렬된 조직 운영 · 디지털 전환 성과
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">현상 문제 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">3P 분해 (People · Process · Platform/Technology)</div>
+<div class="kb-diagram-tree-item" style="--depth:3">교육·역할 재정의</div>
+<div class="kb-diagram-tree-item" style="--depth:3">프로세스 재설계</div>
+<div class="kb-diagram-tree-item" style="--depth:3">시스템·자동화 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">정렬된 조직 운영 · 디지털 전환 성과</div>
+</div>
+</div>
+
+
 
 이 흐름도는 3P가 기술 목록이 아니라, 원인 분해와 개선 실행을 연결하는 진단 프레임워크임을 보여준다.
 

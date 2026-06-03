@@ -20,7 +20,7 @@ tags = ["studynote-security"]
 ---
 
 ### Ⅰ. 개요 (Context & Background)
-**정보 보안(Information Security)**은 IT 인프라의 최후의 보루이자 비즈니스 생존을 위한 필수 보험이다. 과거에는 외부 인터넷과 내부 인트라넷을 물리적으로 분리하고 방화벽(Firewall) 하나만 세우는 '경계 기반 보안(Perimeter Security)' 모델이 유효했다. 그러나 스마트폰, 원격 근무, 하이브리드 클라우드의 폭발적 도입으로 시스템의 '경계' 자체가 증발해버렸다.
+<strong>정보 보안(Information Security)</strong>은 IT 인프라의 최후의 보루이자 비즈니스 생존을 위한 필수 보험이다. 과거에는 외부 인터넷과 내부 인트라넷을 물리적으로 분리하고 방화벽(Firewall) 하나만 세우는 '경계 기반 보안(Perimeter Security)' 모델이 유효했다. 그러나 스마트폰, 원격 근무, 하이브리드 클라우드의 폭발적 도입으로 시스템의 '경계' 자체가 증발해버렸다.
 랜섬웨어(Ransomware)와 APT(지능형 지속 위협) 공격은 기존의 패턴 매칭(백신) 방어망을 비웃듯 시스템의 심장부로 침투한다. 이러한 현대의 비대칭적 사이버 전쟁에서 승리하기 위해, 정보 보안은 단일 솔루션 도입을 넘어 거버넌스(ISMS), 암호학 수학 논리, 애플리케이션 취약점 방어(OWASP), 인프라 네트워크 격리 기술을 모두 융합한 다층적 방어(Defense in Depth) 아키텍처로 진화하였다. 
 
 ---
@@ -40,32 +40,30 @@ tags = ["studynote-security"]
 
 #### 2. SSL/TLS 핸드쉐이크 및 하이브리드 암호화 아키텍처 (ASCII)
 가장 강력한 보안은 대칭키의 '속도'와 비대칭키의 '안전한 키 교환'을 결합한 하이브리드 방식이다.
-```text
-    [ SSL/TLS 하이브리드 암호화 아키텍처 / SSL/TLS Hybrid Encryption Architecture ]
-    
-    [ Client (Browser) ]                                [ Server (Web) ]
-           |                                                   |
-           | -- 1. ClientHello (지원 Cipher Suite, 난수 A) --> |
-           |                                                   |
-           | <- 2. ServerHello (선택 Cipher Suite, 난수 B) --- |
-           | <- 3. Certificate (서버의 공개키가 포함된 인증서) |
-           | <- 4. ServerHelloDone --------------------------- |
-           |                                                   |
-    (인증서 무결성을 CA 공개키로 검증)                         |
-    (난수 A + 난수 B로 Pre-Master Secret 생성)                 |
-    (Pre-Master Secret을 '서버 공개키'로 암호화)               |
-           |                                                   |
-           | -- 5. ClientKeyExchange (암호화된 Secret) ------> |
-           |                                                   |
-           |                   (서버 개인키로 복호화하여 Pre-Master Secret 획득)
-           |                   (양측 모두 Master Secret 도출 -> 최종 대칭키[AES] 생성)
-           |                                                   |
-           | -- 6. ChangeCipherSpec / Finished --------------> |
-           | <- 7. ChangeCipherSpec / Finished --------------- |
-           |                                                   |
-    =======v===================================================v======
-    [ 양방향 대칭키(AES-256) 암호화된 완벽한 보안 채널 (Secure Data) ]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SSL/TLS 하이브리드 암호화 아키텍처 / SSL/TLS Hybrid Encryption Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Client (Browser)</div><div class="kb-diagram-node">Server (Web)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 1. ClientHello (지원 Cipher Suite, 난수 A) --&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- 2. ServerHello (선택 Cipher Suite, 난수 B) ---</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- 3. Certificate (서버의 공개키가 포함된 인증서)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- 4. ServerHelloDone ---------------------------</div></div>
+<div class="kb-diagram-note">(인증서 무결성을 CA 공개키로 검증)</div>
+<div class="kb-diagram-note">(난수 A + 난수 B로 Pre-Master Secret 생성)</div>
+<div class="kb-diagram-note">(Pre-Master Secret을 '서버 공개키'로 암호화)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 5. ClientKeyExchange (암호화된 Secret) ------&gt;</div></div>
+<div class="kb-diagram-note">(서버 개인키로 복호화하여 Pre-Master Secret 획득)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AES</div><div class="kb-diagram-note">생성)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 6. ChangeCipherSpec / Finished --------------&gt;</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- 7. ChangeCipherSpec / Finished ---------------</div></div>
+<div class="kb-diagram-note">=======v===================================================v======</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 대칭키(AES-256) 암호화된 완벽한 보안 채널 (Secure Data)</div></div>
+</div>
+</div>
+
+
 
 #### 3. 암호화 기반 핵심 수식 (RSA 알고리즘)
 - **키 생성**: 두 개의 아주 큰 소수 $p, q$를 선택하여 $n = p \times q$ 계산. 오일러 파이 함수 $\phi(n) = (p-1)(q-1)$.
@@ -101,11 +99,11 @@ tags = ["studynote-security"]
 
 **시나리오 1: 하이브리드 클라우드의 제로 트러스트(Zero Trust) 아키텍처 도입**
 - **문제 상황**: VPN을 통해 내부망에 접속한 사용자의 PC가 랜섬웨어에 감염되어, 신뢰받은 내부망(Trusted Zone) 전체가 래터럴 무브먼트(Lateral Movement) 공격에 의해 초토화됨.
-- **기술사적 결단**: "내부망은 안전하다"는 경계 보안의 환상을 완전히 파단한다. 마이크로 세그멘테이션(Micro-segmentation)을 통해 서버와 서버 사이의 통신(East-West 트래픽)까지 모두 방화벽으로 차단하고, 모든 요청마다 신원(Identity), 디바이스 상태, 컨텍스트를 동적으로 재검증하는 **제로 트러스트 아키텍처(ZTA)**를 전사 표준으로 강제한다.
+- **기술사적 결단**: "내부망은 안전하다"는 경계 보안의 환상을 완전히 파단한다. 마이크로 세그멘테이션(Micro-segmentation)을 통해 서버와 서버 사이의 통신(East-West 트래픽)까지 모두 방화벽으로 차단하고, 모든 요청마다 신원(Identity), 디바이스 상태, 컨텍스트를 동적으로 재검증하는 <strong>제로 트러스트 아키텍처(ZTA)</strong>를 전사 표준으로 강제한다.
 
 **시나리오 2: 대규모 고객 개인정보 데이터베이스 암호화 설계**
 - **문제 상황**: 1,000만 명의 고객 비밀번호와 주민등록번호가 저장된 RDBMS에서, 속도 저하를 우려하여 평문 저장 및 취약한 해시(MD5)를 사용 중.
-- **기술사적 결단**: 컴플라이언스(개인정보보호법)를 준수하고 해킹 시에도 데이터를 무용지물로 만들기 위한 아키텍처를 도입한다. 비밀번호는 단방향 해시 함수인 **SHA-256에 솔트(Salt)를 추가**하여 레인보우 테이블 공격을 원천 무력화한다. 주민등록번호 등 양방향 복호화가 필요한 데이터는 **AES-256 대칭키 암호화**를 적용하되, 키 관리 서버(KMS)를 DB와 물리적으로 완전히 분리하는 망분리 아키텍처를 결착시킨다.
+- **기술사적 결단**: 컴플라이언스(개인정보보호법)를 준수하고 해킹 시에도 데이터를 무용지물로 만들기 위한 아키텍처를 도입한다. 비밀번호는 단방향 해시 함수인 <strong>SHA-256에 솔트(Salt)를 추가</strong>하여 레인보우 테이블 공격을 원천 무력화한다. 주민등록번호 등 양방향 복호화가 필요한 데이터는 <strong>AES-256 대칭키 암호화</strong>를 적용하되, 키 관리 서버(KMS)를 DB와 물리적으로 완전히 분리하는 망분리 아키텍처를 결착시킨다.
 
 **도입 시 고려사항 (안티패턴)**
 - **보안과 사용성의 역설 (Anti-pattern)**: 보안 강도를 높이기 위해 30일마다 복잡한 비밀번호를 강제로 변경하게 하면, 사용자는 포스트잇에 비밀번호를 적어 모니터에 붙여두는 최악의 취약점을 양산한다(Social Engineering 취약점). 기술사는 비밀번호 없는 생체 인증(FIDO)이나 MFA(다중 인증)를 도입하여 사용성과 보안의 대립 관계를 기술적으로 융합해야 한다.
@@ -122,7 +120,7 @@ tags = ["studynote-security"]
 | **DRP 및 백업(Air-gap)** | 랜섬웨어 및 물리적 재해 (단전 등) | 목표 복구 시간(RTO) 2시간 이내, 데이터 복구 시점(RPO) 10분 달성 |
 
 **미래 전망 및 진화 방향**:
-가까운 미래에 양자 컴퓨터(Quantum Computer)가 상용화되면, 소인수분해에 의존하는 현재의 공개키 암호(RSA) 체계는 쇼어 알고리즘(Shor's Algorithm)에 의해 몇 초 만에 완전히 붕괴될 것이다. 따라서 글로벌 IT 인프라는 수학적 난제를 격자(Lattice) 기반의 복잡성으로 우회하는 **양자 내성 암호(PQC, Post-Quantum Cryptography)**로 전면 전환하는 대격변을 마주하고 있으며, 이는 IT 아키텍트의 최우선 마이그레이션 과제가 될 것이다.
+가까운 미래에 양자 컴퓨터(Quantum Computer)가 상용화되면, 소인수분해에 의존하는 현재의 공개키 암호(RSA) 체계는 쇼어 알고리즘(Shor's Algorithm)에 의해 몇 초 만에 완전히 붕괴될 것이다. 따라서 글로벌 IT 인프라는 수학적 난제를 격자(Lattice) 기반의 복잡성으로 우회하는 <strong>양자 내성 암호(PQC, Post-Quantum Cryptography)</strong>로 전면 전환하는 대격변을 마주하고 있으며, 이는 IT 아키텍트의 최우선 마이그레이션 과제가 될 것이다.
 
 **※ 참고 표준/가이드**:
 - ISO/IEC 27001: 정보보안 관리체계(ISMS)의 국제 표준 핵심 규격.

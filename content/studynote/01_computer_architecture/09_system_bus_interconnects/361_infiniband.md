@@ -11,37 +11,39 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인피니밴드 (InfiniBand)는 범용 인터넷용 네트워크가 아니라, 서버와 가속기 노드 사이를 **초저지연·고대역폭으로 묶기 위해 설계된 채널 기반 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)드 패브릭 (Switched Fabric)** 이다.
-> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 다중 메모리 복사를 우회하는 **[RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))** 를 기본 전제로 삼아, CPU 부담을 크게 낮추면서도 수 마이크로초급 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 안정적으로 유지한다.
-> 3. **판단 포인트**: 인피니밴드는 가장 빠른 인터커넥트 중 하나이지만, 비용·운영 복잡도·전용 생태계 부담이 크므로 **대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산이나 스토리지 패브릭처럼 통신 자체가 병목인 환경** 에서 선택해야 한다.
+> 1. **본질**: 인피니밴드 (InfiniBand)는 범용 인터넷용 네트워크가 아니라, 서버와 가속기 노드 사이를 <strong>초저지연·고대역폭으로 묶기 위해 설계된 채널 기반 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>드 패브릭 (Switched Fabric)</strong> 이다.
+> 2. **가치**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 다중 메모리 복사를 우회하는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> (Remote <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/">Direct Memory Access</a>)</strong> 를 기본 전제로 삼아, CPU 부담을 크게 낮추면서도 수 마이크로초급 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간을 안정적으로 유지한다.
+> 3. **판단 포인트**: 인피니밴드는 가장 빠른 인터커넥트 중 하나이지만, 비용·운영 복잡도·전용 생태계 부담이 크므로 <strong>대규모 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 연산이나 스토리지 패브릭처럼 통신 자체가 병목인 환경</strong> 에서 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-인피니밴드 (InfiniBand)는 **고성능 컴퓨팅용 상호연결망**을 위해 만들어진 채널 기반 네트워크 표준이다. 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))이 다양한 장비와 서비스가 섞인 범용 망을 지향한다면, 인피니밴드는 처음부터 서버·스토리지·가속기 노드 사이의 동서 트래픽을 빠르게 흘리는 데 초점을 맞췄다.
+인피니밴드 (InfiniBand)는 <strong>고성능 컴퓨팅용 상호연결망</strong>을 위해 만들어진 채널 기반 네트워크 표준이다. 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))이 다양한 장비와 서비스가 섞인 범용 망을 지향한다면, 인피니밴드는 처음부터 서버·스토리지·가속기 노드 사이의 동서 트래픽을 빠르게 흘리는 데 초점을 맞췄다.
 
-이 기술이 필요해진 이유는 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 통신 비용이 더 빨리 커졌기 때문이다. 수백~수천 대의 노드가 하나의 작업을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수행하면, 각 노드가 계산한 중간 결과를 매우 짧은 주기로 교환해야 한다. 이때 전통적인 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))** 기반 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입, 버퍼 복사, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 처리, 재전송 대기 때문에 CPU를 소모하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차를 키운다.
+이 기술이 필요해진 이유는 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 통신 비용이 더 빨리 커졌기 때문이다. 수백~수천 대의 노드가 하나의 작업을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 수행하면, 각 노드가 계산한 중간 결과를 매우 짧은 주기로 교환해야 한다. 이때 전통적인 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">Transmission Control Protocol</a>/Internet <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong> 기반 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입, 버퍼 복사, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 처리, 재전송 대기 때문에 CPU를 소모하고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차를 키운다.
 
-인피니밴드는 이런 병목을 줄이기 위해 애플리케이션이 메모리를 등록해 두면 **HCA (Host Channel [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))** 가 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭이 이를 예측 가능하게 전달하도록 설계됐다. 즉, 핵심은 단순히 "더 빠른 랜선"이 아니라, **노드 간 통신을 메모리-대-메모리 전송처럼 다루려는 발상** 이다.
+인피니밴드는 이런 병목을 줄이기 위해 애플리케이션이 메모리를 등록해 두면 <strong>HCA (Host Channel <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong> 가 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭이 이를 예측 가능하게 전달하도록 설계됐다. 즉, 핵심은 단순히 "더 빠른 랜선"이 아니라, **노드 간 통신을 메모리-대-메모리 전송처럼 다루려는 발상** 이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      왜 인피니밴드가 필요한가: 소프트웨어 경로를 줄여야 한다       │
-├──────────────────────────────────────────────────────────────────────┤
-│ 일반 TCP/IP 경로                                                    │
-│ Application → Kernel → TCP/IP Stack → Network Interface Card        │
-│             → Network → Network Interface Card → Kernel → Application│
-│        ↑ 복사/문맥전환/프로토콜 처리 누적                           │
-│                                                                      │
-│ InfiniBand 경로                                                     │
-│ Application → 등록 메모리 → HCA → InfiniBand Switch → HCA          │
-│             → 원격 메모리                                           │
-│                  ↑ 커널 개입 최소화, CPU 부담 감소                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 그림은 인피니밴드가 속도만 높인 것이 아니라 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나가는 단계 자체를 줄였다는 점** 을 보여준다. 단계가 줄면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간뿐 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차도 줄어들어, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)처럼 "가끔 느려도 안 되는" 작업에 특히 강하다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 인피니밴드가 필요한가: 소프트웨어 경로를 줄여야 한다</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 TCP/IP 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application → Kernel → TCP/IP Stack → Network Interface Card</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Network → Network Interface Card → Kernel → Application</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 복사/문맥전환/프로토콜 처리 누적</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfiniBand 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application → 등록 메모리 → HCA → InfiniBand Switch → HCA</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원격 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 커널 개입 최소화, CPU 부담 감소</div></div>
+</div>
+</div>
+
+
+
+이 그림은 인피니밴드가 속도만 높인 것이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 지나가는 단계 자체를 줄였다는 점</strong> 을 보여준다. 단계가 줄면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간뿐 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차도 줄어들어, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)처럼 "가끔 느려도 안 되는" 작업에 특히 강하다.
 
 - **📢 섹션 요약 비유**: 일반 도로망이 모든 차종을 받는 시내 도로라면, 인피니밴드는 공장 내부 부품만 나르는 전용 컨베이어벨트다. 외부 손님을 태우는 데는 불편하지만, 공장 안에서는 가장 빠르고 규칙적으로 움직인다.
 
@@ -49,7 +51,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-인피니밴드의 핵심 구성요소는 **HCA, [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Pair, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭, Subnet Manager, 신용 기반 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)** 다. 애플리케이션은 Verbs 계층을 통해 메모리를 등록하고 작업 요청을 큐에 올리며, HCA는 이 큐를 읽어 패킷 생성과 전송을 하드웨어 수준에서 수행한다.
+인피니밴드의 핵심 구성요소는 <strong>HCA, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> Pair, <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 패브릭, Subnet Manager, 신용 기반 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong> 다. 애플리케이션은 Verbs 계층을 통해 메모리를 등록하고 작업 요청을 큐에 올리며, HCA는 이 큐를 읽어 패킷 생성과 전송을 하드웨어 수준에서 수행한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
@@ -61,24 +63,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 인피니밴드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 내부 흐름을 단순화한 것이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│          InfiniBand 데이터 경로: 메모리와 패브릭을 직접 연결        │
-├──────────────────────────────────────────────────────────────────────┤
-│ 송신 노드                                                            │
-│ Application ─▶ QP 등록 ─▶ HCA ─▶ InfiniBand Switch ─▶ HCA ─▶ 원격 메모리 │
-│        │            │                         │                      │
-│        │            └─ RDMA Read/Write/Send ─┘                      │
-│        └─ 메모리 등록(Memory Registration)                          │
-│                                                                      │
-│ 제어면                                                               │
-│ Subnet Manager ── 경로 설정/주소 관리/패브릭 초기화                │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-여기서 중요한 것은 두 가지다. 첫째, **메모리 등록 (Memory Registration)** 을 통해 HCA가 접근 가능한 버퍼를 미리 고정함으로써, 전송 시점마다 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입하지 않게 만든다. 둘째, **Credit-based [Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)** 로 수신 측 버퍼 여유가 있을 때만 송신하게 하여, 패킷 드롭 이후 재전송에 기대는 방식보다 더 예측 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만든다.
 
-이 구조 덕분에 인피니밴드는 **[RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) Write, [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) Read, Send/Receive** 같은 통신 모델을 안정적으로 제공한다. 특히 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산에서는 작은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가보다 **[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시점의 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Tail [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))** 이 더 치명적인데, 인피니밴드는 이를 줄이는 데 강점을 가진다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfiniBand 데이터 경로: 메모리와 패브릭을 직접 연결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 노드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application ─▶ QP 등록 ─▶ HCA ─▶ InfiniBand Switch ─▶ HCA ─▶ 원격 메모리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RDMA Read/Write/Send ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 등록(Memory Registration)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subnet Manager ── 경로 설정/주소 관리/패브릭 초기화</div></div>
+</div>
+</div>
+
+
+
+여기서 중요한 것은 두 가지다. 첫째, **메모리 등록 (Memory Registration)** 을 통해 HCA가 접근 가능한 버퍼를 미리 고정함으로써, 전송 시점마다 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입하지 않게 만든다. 둘째, <strong>Credit-based <a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a></strong> 로 수신 측 버퍼 여유가 있을 때만 송신하게 하여, 패킷 드롭 이후 재전송에 기대는 방식보다 더 예측 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만든다.
+
+이 구조 덕분에 인피니밴드는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> Write, <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> Read, Send/Receive</strong> 같은 통신 모델을 안정적으로 제공한다. 특히 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산에서는 작은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가보다 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 시점의 꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Tail <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> 이 더 치명적인데, 인피니밴드는 이를 줄이는 데 강점을 가진다.
 
 - **📢 섹션 요약 비유**: 인피니밴드는 주문을 받을 때마다 주방장이 뛰어다니는 식당이 아니라, 주문표가 레일을 타고 자동으로 전달되는 회전식 주방이다. 손님이 많아져도 동선이 정리돼 있어 전체 흐름이 덜 무너진다.
 
@@ -86,7 +89,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-인피니밴드를 제대로 이해하려면 **[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 기반 RDMA와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**, 그리고 **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 패브릭으로의 진화** 를 함께 봐야 한다. 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 하나의 공유 경로를 여러 장치가 나눠 쓰지만, 현대 대규모 시스템은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 경로가 많은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)드 패브릭이 더 유리하다. 인피니밴드는 바로 그 전환을 대표하는 사례다.
+인피니밴드를 제대로 이해하려면 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 기반 RDMA와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>, 그리고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>에서 패브릭으로의 진화</strong> 를 함께 봐야 한다. 내부 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))는 하나의 공유 경로를 여러 장치가 나눠 쓰지만, 현대 대규모 시스템은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 경로가 많은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)드 패브릭이 더 유리하다. 인피니밴드는 바로 그 전환을 대표하는 사례다.
 
 | 항목 | 인피니밴드 (InfiniBand) | [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) + [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) ([RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) over Converged [Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) |
 | :-- | :-- | :-- |
@@ -98,7 +101,7 @@ tags = ["studynote-computer-architecture"]
 
 이 표의 핵심은 "누가 더 좋으냐"보다 **어떤 철학으로 비용과 복잡도를 교환했는가** 다. 인피니밴드는 처음부터 RDMA와 무손실 전송을 중심으로 만들어져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 특성이 좋지만, 장비와 운영 체계가 전용적이다. 반면 RoCE는 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 생태계를 활용할 수 있어 유연하지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 혼잡 관리가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 좌우한다.
 
-또한 인피니밴드는 **[RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)**, **[NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) over Fabrics)**, **MPI ([Message Passing Interface](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/227_mpi_message_passing_interface_distributed_computing/))** 와 자연스럽게 연결된다. 즉 단순 케이블 규격이 아니라, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 접근·고성능 메시징·스토리지 분리를 모두 떠받치는 기반 인터커넥트로 이해해야 한다.
+또한 인피니밴드는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a></strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/">NVMe over Fabrics</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">Non-Volatile Memory Express</a> over Fabrics)</strong>, <strong>MPI (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/227_mpi_message_passing_interface_distributed_computing/">Message Passing Interface</a>)</strong> 와 자연스럽게 연결된다. 즉 단순 케이블 규격이 아니라, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 접근·고성능 메시징·스토리지 분리를 모두 떠받치는 기반 인터커넥트로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 인피니밴드는 처음부터 경주용으로 만든 서킷이고, RoCE는 일반 고속도로를 최대한 경주장처럼 튜닝한 방식이다. 둘 다 빠를 수는 있지만, 설계 출발점이 다르니 유지 방식도 달라진다.
 
@@ -106,11 +109,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 인피니밴드는 "빠른 네트워크가 필요하다"는 이유만으로 선택하면 안 된다. 핵심 판단 기준은 **통신 시간이 전체 작업 시간의 얼마를 차지하는가**, 그리고 **[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차가 비즈니스 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 무너뜨리는가** 다.
+실무에서 인피니밴드는 "빠른 네트워크가 필요하다"는 이유만으로 선택하면 안 된다. 핵심 판단 기준은 **통신 시간이 전체 작업 시간의 얼마를 차지하는가**, 그리고 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 편차가 비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 무너뜨리는가</strong> 다.
 
-대표적인 채택 사례는 대규모 **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 클러스터** 의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이다. 예를 들어 수백~수천 개 GPU가 All-Reduce를 반복하면, 한 번의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 학습 스텝을 멈추게 만든다. 이때 인피니밴드는 GPUDirect [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 계열 기술과 결합해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 간 교환 경로를 단축하고, 학습 자원의 유휴 시간을 줄인다.
+대표적인 채택 사례는 대규모 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">Graphics Processing Unit</a>) 클러스터</strong> 의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이다. 예를 들어 수백~수천 개 GPU가 All-Reduce를 반복하면, 한 번의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 학습 스텝을 멈추게 만든다. 이때 인피니밴드는 GPUDirect [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 계열 기술과 결합해 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 간 교환 경로를 단축하고, 학습 자원의 유휴 시간을 줄인다.
 
-두 번째는 고성능 스토리지 패브릭이다. **[NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)** 환경에서 원격 SSD를 거의 로컬처럼 보이게 하려면, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간뿐 아니라 CPU 오버헤드도 작아야 한다. 인피니밴드는 이런 요구에 잘 맞지만, 운영팀이 패브릭 관리·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·경로 설계까지 감당할 역량이 있는지 함께 봐야 한다.
+두 번째는 고성능 스토리지 패브릭이다. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/">NVMe over Fabrics</a></strong> 환경에서 원격 SSD를 거의 로컬처럼 보이게 하려면, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간뿐 아니라 CPU 오버헤드도 작아야 한다. 인피니밴드는 이런 요구에 잘 맞지만, 운영팀이 패브릭 관리·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)·경로 설계까지 감당할 역량이 있는지 함께 봐야 한다.
 
 ### 기술사형 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -131,11 +134,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-적절한 환경에서 인피니밴드는 **[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상, CPU 오버헤드 절감, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 안정성 확보** 라는 세 가지 효과를 동시에 준다. 그래서 초거대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산, 과학 계산, 대규모 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습, 초저지연 스토리지 액세스에서 꾸준히 채택되어 왔다.
+적절한 환경에서 인피니밴드는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 향상, CPU 오버헤드 절감, <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 안정성 확보</strong> 라는 세 가지 효과를 동시에 준다. 그래서 초거대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산, 과학 계산, 대규모 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습, 초저지연 스토리지 액세스에서 꾸준히 채택되어 왔다.
 
-다만 전제조건도 분명하다. 전용 하드웨어와 운영 숙련도가 필요하고, 범용 인터넷 생태계와의 직접 호환성은 상대적으로 낮다. 따라서 인피니밴드는 모든 곳에 깔아야 할 표준이 아니라, **[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)·[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·[RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 중에서도 가장 강한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장이 필요할 때 선택하는 고급 인터커넥트** 로 기억하는 것이 맞다.
+다만 전제조건도 분명하다. 전용 하드웨어와 운영 숙련도가 필요하고, 범용 인터넷 생태계와의 직접 호환성은 상대적으로 낮다. 따라서 인피니밴드는 모든 곳에 깔아야 할 표준이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>·<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>·<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a> 중에서도 가장 강한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 보장이 필요할 때 선택하는 고급 인터커넥트</strong> 로 기억하는 것이 맞다.
 
-앞으로는 더 높은 링크 속도와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내 집계 가속, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 중심 패브릭 최적화가 계속 강화될 가능성이 크다. 그러나 기술의 본질은 변하지 않는다. 인피니밴드는 "네트워크를 빠르게 만든다"기보다, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 하나의 거대한 메모리 기계처럼 보이게 하려는 시도** 라는 관점에서 이해해야 한다.
+앞으로는 더 높은 링크 속도와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내 집계 가속, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 중심 패브릭 최적화가 계속 강화될 가능성이 크다. 그러나 기술의 본질은 변하지 않는다. 인피니밴드는 "네트워크를 빠르게 만든다"기보다, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템을 하나의 거대한 메모리 기계처럼 보이게 하려는 시도</strong> 라는 관점에서 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 잘 설계된 인피니밴드 패브릭은 여러 공장을 그냥 연결한 것이 아니라, 창고와 생산라인이 하나의 초대형 공장처럼 동시에 움직이게 만드는 공동 레일 시스템이다.
 
@@ -154,24 +157,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-공유 버스 (Shared Bus)
-    │
-    ▼
-스위치드 패브릭 (Switched Fabric)
-    │
-    ├─▶ 인피니밴드 (InfiniBand)
-    │        │
-    │        ├─▶ RDMA (Remote Direct Memory Access)
-    │        │        │
-    │        │        └─▶ MPI · GPU 클러스터 · NVMe over Fabrics
-    │        │
-    │        └─▶ 무손실 흐름 제어 · 초저지연 인터커넥트
-    │
-    └─▶ 이더넷 기반 확장
-             │
-             └─▶ RoCE (RDMA over Converged Ethernet)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">공유 버스 (Shared Bus)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스위치드 패브릭 (Switched Fabric)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 인피니밴드 (InfiniBand)</div>
+<div class="kb-diagram-note">─▶ RDMA (Remote Direct Memory Access)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ MPI · GPU 클러스터 · NVMe over Fabrics</div></div>
+<div class="kb-diagram-note">─▶ 무손실 흐름 제어 · 초저지연 인터커넥트</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ 이더넷 기반 확장</div>
+<div class="kb-diagram-tree-item" style="--depth:6">▶ RoCE (RDMA over Converged Ethernet)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "공유 경로"에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 패브릭"으로, 다시 "전용 고성능 패브릭"과 "범용망 확장형 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)"로 갈라지는 진화 방향을 보여준다.
 

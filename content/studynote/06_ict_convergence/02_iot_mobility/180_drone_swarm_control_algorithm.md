@@ -19,32 +19,32 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-드론 스웜은 여러 대의 무인 비행체를 하나의 협력 집단으로 운용하는 기술이다. 중요한 점은 "여러 대를 띄운다"가 아니라, **각 기체가 주변 기체와 환경을 함께 고려해 움직인다**는 데 있다. 따라서 스웜은 단순한 편대 비행보다 넓은 개념이며, 군집 제어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 의사결정, 충돌 회피, 임무 분담이 모두 포함된다.
+드론 스웜은 여러 대의 무인 비행체를 하나의 협력 집단으로 운용하는 기술이다. 중요한 점은 "여러 대를 띄운다"가 아니라, <strong>각 기체가 주변 기체와 환경을 함께 고려해 움직인다</strong>는 데 있다. 따라서 스웜은 단순한 편대 비행보다 넓은 개념이며, 군집 제어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 의사결정, 충돌 회피, 임무 분담이 모두 포함된다.
 
 이 기술이 필요한 이유는 드론 수가 늘어날수록 중앙 제어만으로는 즉시성과 확장성을 동시에 얻기 어렵기 때문이다. 5대 정도는 지상국에서 경로를 계산해도 되지만, 수십 대가 실내 물류창고, 재난 현장, 도심 협소 공역에서 함께 움직이면 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 100밀리초도 안전성과 효율을 크게 바꾼다. 한 대가 갑자기 장애물을 발견했을 때 중앙 서버를 거쳐 전체 명령을 다시 배포하면 늦을 수 있으므로, 현장 근처 기체가 먼저 피하고 나머지가 연쇄적으로 조정하는 구조가 필요해진다.
 
-또한 스웜은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure) 을 줄이는 관점에서도 의미가 크다. 중앙 링크가 잠시 끊겨도 각 기체가 최소한의 안전 거리 유지, 충돌 회피, 임시 호버링 같은 기본 행동을 계속 수행할 수 있어야 실제 현장에서 쓸 수 있다. 그래서 드론 스웜은 "중앙 명령을 없애는 기술"이라기보다, **중앙 계획이 실패해도 하늘에서 바로 무너지지 않게 만드는 기술**이라고 보는 편이 정확하다.
+또한 스웜은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) ([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure) 을 줄이는 관점에서도 의미가 크다. 중앙 링크가 잠시 끊겨도 각 기체가 최소한의 안전 거리 유지, 충돌 회피, 임시 호버링 같은 기본 행동을 계속 수행할 수 있어야 실제 현장에서 쓸 수 있다. 그래서 드론 스웜은 "중앙 명령을 없애는 기술"이라기보다, <strong>중앙 계획이 실패해도 하늘에서 바로 무너지지 않게 만드는 기술</strong>이라고 보는 편이 정확하다.
 
 아래 그림은 중앙 관제만 있는 구조와 스웜형 구조의 차이를 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Control architecture: centralized vs swarm                         │
-├────────────────────────────────────────────────────────────────────┤
-│ Centralized only                                                   │
-│   Drone A ─┐                                                       │
-│   Drone B ─┼──▶ Ground planner ───▶ commands to all drones         │
-│   Drone C ─┘                                                       │
-│   └─ network delay or controller failure affects whole fleet       │
-│                                                                    │
-│ Swarm / hybrid                                                     │
-│   Drone A ◀────▶ Drone B ◀────▶ Drone C                            │
-│      │            │             │                                  │
-│      └──── local sensing and avoidance ─────▶ safe motion          │
-│                   ▲                                                │
-│                   └─ mission goal may still come from ground       │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control architecture: centralized vs swarm</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Centralized only</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone A ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone B ─ ──▶ Ground planner ▶ commands to all drones</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone C ─</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network delay or controller failure affects whole fleet</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Swarm / hybrid</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone A ◀ ▶ Drone B ◀ ▶ Drone C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local sensing and avoidance ▶ safe motion</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mission goal may still come from ground</div></div>
+</div>
+</div>
+
+
 
 결국 드론 스웜의 필요성은 "더 많은 드론을 띄우기 위해서"만이 아니다. 통신 품질이 일정하지 않은 환경에서도 협력 비행을 유지하고, 장애물과 배터리 저하 같은 현장 변수를 기체 가까이에서 빠르게 처리하기 위해 등장한 아키텍처다.
 
@@ -54,7 +54,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실전 스웜 제어는 보통 **임무 계층, 상태 추정 계층, 이웃 공유 계층, 제어 계층, 안전 계층**으로 나뉜다. 임무 계층은 "어느 구역을 수색할 것인가" 같은 큰 목표를 정하고, 각 드론은 GNSS (Global Navigation Satellite System), IMU (Inertial Measurement Unit), 비전, [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/)) 같은 센서로 자신의 위치와 자세를 추정한다. 그 위에서 FANET (Flying Ad-hoc Network) 또는 제한적 메쉬 링크로 이웃 드론의 상태를 공유하고, 마지막으로 군집 제어 법칙이 속도와 방향을 계산한다.
+실전 스웜 제어는 보통 <strong>임무 계층, 상태 추정 계층, 이웃 공유 계층, 제어 계층, 안전 계층</strong>으로 나뉜다. 임무 계층은 "어느 구역을 수색할 것인가" 같은 큰 목표를 정하고, 각 드론은 GNSS (Global Navigation Satellite System), IMU (Inertial Measurement Unit), 비전, [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) ([Ultra-Wideband](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/598_uwb_ultra_wideband_indoor_positioning/)) 같은 센서로 자신의 위치와 자세를 추정한다. 그 위에서 FANET (Flying Ad-hoc Network) 또는 제한적 메쉬 링크로 이웃 드론의 상태를 공유하고, 마지막으로 군집 제어 법칙이 속도와 방향을 계산한다.
 
 스웜 제어의 핵심은 각 기체의 입력을 하나의 명령으로 합성하는 것이다. 개념적으로는 다음과 같이 이해할 수 있다.
 
@@ -62,27 +62,24 @@ tags = ["studynote-ict-convergence"]
 
 여기서 `goal`은 목표 지점으로 가려는 힘이고, `formation`은 대형 유지, `separation`은 근접 충돌 방지, `obstacle`은 장애물 회피, `consensus`는 이웃과 속도·방향을 맞추는 항이다. 즉 한 대의 드론은 혼자 똑똑하게 날기보다, **목표를 향하면서도 이웃과 부딪히지 않고 집단 패턴을 유지하도록** 제어된다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Local control loop inside one swarm drone                          │
-├────────────────────────────────────────────────────────────────────┤
-│ mission goal / leader waypoint                                     │
-│              │                                                     │
-│              ▼                                                     │
-│ self-state estimator ◀──── sensors (GNSS / IMU / vision / UWB)    │
-│              │                                                     │
-│              ├──── receive neighbor states via FANET               │
-│              ▼                                                     │
-│ swarm control law                                                  │
-│   - formation keeping                                              │
-│   - separation radius                                              │
-│   - obstacle avoidance                                             │
-│   - velocity consensus                                             │
-│              │                                                     │
-│              ▼                                                     │
-│ autopilot / motor command ───▶ motion ───▶ next sensor update      │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local control loop inside one swarm drone</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mission goal / leader waypoint</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self-state estimator ◀ sensors (GNSS / IMU / vision / UWB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">receive neighbor states via FANET</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swarm control law</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- formation keeping</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- separation radius</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- obstacle avoidance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- velocity consensus</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">autopilot / motor command ▶ motion ▶ next sensor update</div></div>
+</div>
+</div>
+
+
 
 대표 제어 요소를 정리하면 다음과 같다.
 
@@ -94,7 +91,7 @@ tags = ["studynote-ict-convergence"]
 | 충돌 회피 ([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Avoidance) | 최소 분리 거리 보장 | 반응 속도와 진동 없는 궤적이 중요 |
 | 임무 재할당 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Reallocation) | 이탈 기체 발생 시 역할 재배분 | 배터리, 고장, 링크 품질 반영 필요 |
 
-여기서 가장 중요한 안전 파라미터는 분리 반경과 갱신 주기다. 예를 들어 실내 고밀도 비행에서는 20~50Hz 수준의 빠른 갱신과 짧은 반응 루프가 필요하고, 넓은 야외 탐색에서는 더 느린 공유 주기로도 충분할 수 있다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 본질은 화려한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)보다 **주어진 공역과 기체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 안에서 안정적으로 반복되는 제어 주기**를 만드는 데 있다.
+여기서 가장 중요한 안전 파라미터는 분리 반경과 갱신 주기다. 예를 들어 실내 고밀도 비행에서는 20~50Hz 수준의 빠른 갱신과 짧은 반응 루프가 필요하고, 넓은 야외 탐색에서는 더 느린 공유 주기로도 충분할 수 있다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 본질은 화려한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)보다 <strong>주어진 공역과 기체 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 안에서 안정적으로 반복되는 제어 주기</strong>를 만드는 데 있다.
 
 - **📢 섹션 요약 비유**: 자전거 동호회가 달릴 때도 목적지는 같지만, 앞사람과 간격 유지, 장애물 피하기, 속도 맞추기를 동시에 한다. 스웜 제어는 그 규칙을 기계가 매 순간 자동으로 수행하게 만드는 것과 같다.
 
@@ -113,7 +110,7 @@ tags = ["studynote-ict-convergence"]
 
 이 비교가 중요한 이유는 스웜이 곧 완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형을 뜻하지 않기 때문이다. 예를 들어 야간 라이트쇼는 센티미터 수준 위치 정합과 초 단위 타이밍이 중요하므로 중앙에서 궤적을 미리 계산하고, 현장에서는 로컬 충돌 회피만 보조하는 하이브리드 구조가 오히려 적합하다. 반대로 붕괴 건물 탐색처럼 장애물과 통신 단절이 계속 바뀌는 환경에서는 보이드 계열이나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 기반 재배치가 더 실용적이다.
 
-또한 드론 스웜은 단독 기술이 아니라 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) (Edge [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)), [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) (Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 저지연 무선망, 지상 교통관리 시스템과도 연결된다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "대형 유지 코드"가 아니라, **[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로봇 시스템 전체를 묶는 제어 프레임**이다.
+또한 드론 스웜은 단독 기술이 아니라 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) (Edge [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)), [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) (Simultaneous Localization and [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 저지연 무선망, 지상 교통관리 시스템과도 연결된다. 즉 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "대형 유지 코드"가 아니라, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 로봇 시스템 전체를 묶는 제어 프레임</strong>이다.
 
 - **📢 섹션 요약 비유**: 악보를 완벽히 외워 움직이는 합창단은 중앙 계획형에 가깝고, 산길에서 서로 눈치 보며 간격을 맞추는 등산대는 행동형 스웜에 가깝다. 둘 다 단체 행동이지만 규칙과 강점이 다르다.
 
@@ -121,27 +118,28 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 묻는 질문은 "이 스웜이 어떤 실패를 견뎌야 하는가"다. 공연용 드론은 패턴 정확도가 중요하고, 재난 대응 드론은 링크 단절과 장애물 변화에 대한 생존성이 더 중요하다. 따라서 기술사 관점에서는 단순히 "드론 수가 많으니 스웜"이 아니라, **[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중 무엇을 우선할지**를 먼저 정해야 한다.
+실무에서 가장 먼저 묻는 질문은 "이 스웜이 어떤 실패를 견뎌야 하는가"다. 공연용 드론은 패턴 정확도가 중요하고, 재난 대응 드론은 링크 단절과 장애물 변화에 대한 생존성이 더 중요하다. 따라서 기술사 관점에서는 단순히 "드론 수가 많으니 스웜"이 아니라, <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>·<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 중 무엇을 우선할지</strong>를 먼저 정해야 한다.
 
 다음 의사결정 흐름은 현장에서 자주 쓰는 판단 축을 요약한다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Choosing a swarm control style                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ Is the mission preplanned and the network stable?                  │
-│   ├─ Yes -> centralized or hybrid trajectory + local avoidance     │
-│   └─ No  -> distributed coordination is preferred                  │
-│                                                                    │
-│ Is precise formation more important than adaptability?             │
-│   ├─ Yes -> leader-follower / virtual structure                    │
-│   └─ No  -> behavior-based coverage / consensus control            │
-│                                                                    │
-│ Are dynamic obstacles dense?                                       │
-│   ├─ Yes -> add local RVO or MPC safety layer                      │
-│   └─ No  -> simpler separation rule may be enough                  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing a swarm control style</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is the mission preplanned and the network stable?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; centralized or hybrid trajectory + local avoidance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; distributed coordination is preferred</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is precise formation more important than adaptability?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; leader-follower / virtual structure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; behavior-based coverage / consensus control</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Are dynamic obstacles dense?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; add local RVO or MPC safety layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; simpler separation rule may be enough</div></div>
+</div>
+</div>
+
+
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -169,9 +167,9 @@ tags = ["studynote-ict-convergence"]
 
 드론 스웜이 제대로 구현되면 단일 드론보다 넓은 지역을 빠르게 커버하고, 일부 기체 고장에도 임무를 지속하며, 장애물 변화에 즉시 대응할 수 있다. 결과적으로 수색 범위 확대, 검사 시간 단축, 군집 협업, 재난 현장 적응성 같은 장점을 얻는다. 특히 "한 대의 고성능 기체" 대신 "여러 대의 협력 기체"로 문제를 바꾸는 점이 스웜의 가장 큰 효과다.
 
-하지만 대가도 있다. 기체 수가 늘수록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 무선 간섭, 공역 안전성, 규제 대응, 배터리 관리가 함께 어려워진다. 또한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현장 적응력이 높지만, 전체 패턴의 예측 가능성과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 용이성은 오히려 낮아질 수 있다. 그래서 드론 스웜은 "드론을 많이 띄우는 기술"이 아니라, **협력 규칙과 안전 계층을 통해 복잡성을 통제하는 기술**로 이해해야 한다.
+하지만 대가도 있다. 기체 수가 늘수록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 난이도, 무선 간섭, 공역 안전성, 규제 대응, 배터리 관리가 함께 어려워진다. 또한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현장 적응력이 높지만, 전체 패턴의 예측 가능성과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 용이성은 오히려 낮아질 수 있다. 그래서 드론 스웜은 "드론을 많이 띄우는 기술"이 아니라, <strong>협력 규칙과 안전 계층을 통해 복잡성을 통제하는 기술</strong>로 이해해야 한다.
 
-앞으로는 온디바이스 추론, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 시뮬레이션, 도심 저고도 교통관리 연계가 중요해질 가능성이 크다. 결론적으로 기억해야 할 문장은 이것이다. **좋은 스웜은 모든 드론이 똑같이 똑똑한 상태가 아니라, 각 드론이 최소한의 로컬 규칙으로 전체 임무를 안전하게 이어 가는 상태**다.
+앞으로는 온디바이스 추론, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 시뮬레이션, 도심 저고도 교통관리 연계가 중요해질 가능성이 크다. 결론적으로 기억해야 할 문장은 이것이다. <strong>좋은 스웜은 모든 드론이 똑같이 똑똑한 상태가 아니라, 각 드론이 최소한의 로컬 규칙으로 전체 임무를 안전하게 이어 가는 상태</strong>다.
 
 - **📢 섹션 요약 비유**: 좋은 축구팀은 모든 선수가 감독처럼 판단하지 않아도 된다. 각자 자리에서 기본 규칙을 지키면 팀 전체가 자연스럽게 공격과 수비를 이어 간다.
 
@@ -192,24 +190,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-임무 목표 설정
-        │
-        ▼
-자기 위치 추정 + 이웃 상태 공유
-        │
-        ▼
-스웜 제어 법칙
-        │
-        ├──────────────► 대형 유지 (formation keeping)
-        │
-        ├──────────────► 충돌 회피 (separation / obstacle avoidance)
-        │
-        └──────────────► 임무 재배치 (task reallocation)
-                           │
-                           ▼
-                 군집 전체의 안정적 탐색 · 이동 · 협업
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">임무 목표 설정</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">자기 위치 추정 + 이웃 상태 공유</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스웜 제어 법칙</div>
+<div class="kb-diagram-tree-item" style="--depth:4">대형 유지 (formation keeping)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">충돌 회피 (separation / obstacle avoidance)</div>
+<div class="kb-diagram-tree-item" style="--depth:4">임무 재배치 (task reallocation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">군집 전체의 안정적 탐색 · 이동 · 협업</div>
+</div>
+</div>
+
+
 
 이 흐름도는 "목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 상태 공유 → 제어 법칙 → 안전/협업 행동"으로 이어지는 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 경로를 보여 준다.
 

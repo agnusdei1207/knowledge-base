@@ -11,8 +11,8 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시계열 DB([Time-Series Database](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/))는 타임스탬프를 기본 인덱스로 삼아 **시간 순서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 고속 삽입·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·집계**에 특화된 스토리지로, 일반 RDBMS 대비 100배 이상의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우위를 제공한다.
-> 2. **가치**: 보간법(Interpolation)으로 결측 구간을 채우고 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 고해상도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저해상도로 집계하여, **[Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 같은 대시보드가 어떤 시간 범위도 일관된 응답 속도로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)**할 수 있게 한다.
+> 1. **본질**: 시계열 DB([Time-Series Database](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/))는 타임스탬프를 기본 인덱스로 삼아 <strong>시간 순서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 고속 삽입·<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·집계</strong>에 특화된 스토리지로, 일반 RDBMS 대비 100배 이상의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우위를 제공한다.
+> 2. **가치**: 보간법(Interpolation)으로 결측 구간을 채우고 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))으로 고해상도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저해상도로 집계하여, <strong><a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a> 같은 대시보드가 어떤 시간 범위도 일관된 응답 속도로 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>할 수 있게 한다.
 > 3. **판단 포인트**: 카디널리티 폭발(Cardinality Explosion)—태그 조합 수의 급격한 증가—이 시계열 DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하의 주범이며, 태그 설계 시 고카디널리티 값(userId, IP 등)을 태그가 아닌 필드(Field)로 분리하는 것이 기술사 답안의 핵심이다.
 
 ---
@@ -56,81 +56,83 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 시계열 DB 내부 구조 ([InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) 기준)
 
-```
-InfluxDB 데이터 모델:
 
-  측정(Measurement) = 테이블 유사
-  ┌──────────────────────────────────────────────────────┐
-  │  Measurement: cpu_usage                              │
-  ├──────────────┬───────────────────────────────────────┤
-  │  태그(Tags)   │  host="server01", region="ap-east"    │
-  │  (인덱스 O)   │  → 이 조합이 시리즈(Series)를 식별     │
-  ├──────────────┼───────────────────────────────────────┤
-  │  필드(Fields) │  value=45.2, user=32.1, system=13.1   │
-  │  (인덱스 X)   │  → 실제 측정값 (인덱스 없음)           │
-  ├──────────────┼───────────────────────────────────────┤
-  │  타임스탬프   │  2026-04-21T10:00:00Z                 │
-  └──────────────┴───────────────────────────────────────┘
 
-⚠️ 카디널리티 = 고유 시리즈 수 = 태그 조합 수
-   host(1000대) × region(10) = 10,000 시리즈 → 관리 가능
-   host(1000대) × userId(100만) = 10억 시리즈 → 폭발!
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">InfluxDB 데이터 모델:</div>
+<div class="kb-diagram-note">측정(Measurement) = 테이블 유사</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Measurement: cpu_usage</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태그(Tags)</div><div class="kb-diagram-cell">host="server01", region="ap-east"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인덱스 O)</div><div class="kb-diagram-cell">→ 이 조합이 시리즈(Series)를 식별</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필드(Fields)</div><div class="kb-diagram-cell">value=45.2, user=32.1, system=13.1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인덱스 X)</div><div class="kb-diagram-cell">→ 실제 측정값 (인덱스 없음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임스탬프</div><div class="kb-diagram-cell">2026-04-21T10:00:00Z</div></div>
+<div class="kb-diagram-note">⚠️ 카디널리티 = 고유 시리즈 수 = 태그 조합 수</div>
+<div class="kb-diagram-note">host(1000대) × region(10) = 10,000 시리즈 → 관리 가능</div>
+<div class="kb-diagram-note">host(1000대) × userId(100만) = 10억 시리즈 → 폭발!</div>
+</div>
+</div>
+
+
 
 ### 2.2 보간법 (Interpolation) 유형
 
-```
-결측값 처리 시나리오:
-시간:  10:00  10:10  10:20  10:30  10:40
-CPU:   45     ?      ?      50     ?
 
-1. LOCF (Last Observation Carried Forward):
-   → 45  45  45  50  50
-   장점: 단순, 급격한 변화 없음
-   단점: 실제 변화 반영 불가
 
-2. 선형 보간 (Linear Interpolation):
-   → 45  46.7  48.3  50  50 (마지막은 LOCF)
-   장점: 완만한 변화에 자연스러움
-   단점: 급격한 변화 시 부정확
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">결측값 처리 시나리오:</div>
+<div class="kb-diagram-note">시간: 10:00 10:10 10:20 10:30 10:40</div>
+<div class="kb-diagram-note">CPU: 45 ? ? 50 ?</div>
+<div class="kb-diagram-note">1. LOCF (Last Observation Carried Forward):</div>
+<div class="kb-diagram-note">→ 45 45 45 50 50</div>
+<div class="kb-diagram-note">장점: 단순, 급격한 변화 없음</div>
+<div class="kb-diagram-note">단점: 실제 변화 반영 불가</div>
+<div class="kb-diagram-note">2. 선형 보간 (Linear Interpolation):</div>
+<div class="kb-diagram-note">→ 45 46.7 48.3 50 50 (마지막은 LOCF)</div>
+<div class="kb-diagram-note">장점: 완만한 변화에 자연스러움</div>
+<div class="kb-diagram-note">단점: 급격한 변화 시 부정확</div>
+<div class="kb-diagram-note">3. 스플라인 보간 (Spline Interpolation):</div>
+<div class="kb-diagram-note">→ 3차 다항식으로 더 부드러운 곡선</div>
+<div class="kb-diagram-note">장점: 자연스러운 곡선</div>
+<div class="kb-diagram-note">단점: 진동(Runge's phenomenon) 위험</div>
+<div class="kb-diagram-note">4. NOCB (Next Observation Carried Backward):</div>
+<div class="kb-diagram-note">→ 45 50 50 50 (다음 값으로 채움)</div>
+<div class="kb-diagram-note">적합: 이벤트 기반 데이터</div>
+<div class="kb-diagram-note">5. 평균 보간:</div>
+<div class="kb-diagram-note">→ (45+50)/2 = 47.5로 채움</div>
+<div class="kb-diagram-note">적합: 간단한 갭 채움</div>
+</div>
+</div>
 
-3. 스플라인 보간 (Spline Interpolation):
-   → 3차 다항식으로 더 부드러운 곡선
-   장점: 자연스러운 곡선
-   단점: 진동(Runge's phenomenon) 위험
 
-4. NOCB (Next Observation Carried Backward):
-   → 45  50  50  50  (다음 값으로 채움)
-   적합: 이벤트 기반 데이터
-
-5. 평균 보간:
-   → (45+50)/2 = 47.5로 채움
-   적합: 간단한 갭 채움
-```
 
 ### 2.3 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) / 연속 집계 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────┐
-│               데이터 롤업 계층 구조                         │
-│                                                           │
-│  원시 데이터 (1초 해상도, 30일 보관)                        │
-│  2026-04-21T10:00:00  CPU=45                             │
-│  2026-04-21T10:00:01  CPU=46                             │
-│  ...                                                     │
-│       ↓ 롤업 (1분 집계, AVG/MAX/MIN)                      │
-│  1분 집계 (1분 해상도, 6개월 보관)                          │
-│  2026-04-21T10:00:00  AVG=45.2  MAX=67  MIN=43           │
-│       ↓ 롤업 (1시간 집계)                                  │
-│  1시간 집계 (1시간 해상도, 2년 보관)                        │
-│  2026-04-21T10:00:00  AVG=48.1  MAX=92  MIN=31           │
-│       ↓ 롤업 (1일 집계)                                   │
-│  1일 집계 (1일 해상도, 10년 보관)                          │
-│  2026-04-21        AVG=52.3  MAX=98  MIN=20              │
-│                                                           │
-│  저장 절감: 1초 × 86,400초/일 → 1일 1개 = 86,400배 압축  │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 롤업 계층 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 (1초 해상도, 30일 보관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2026-04-21T10:00:00 CPU=45</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2026-04-21T10:00:01 CPU=46</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 롤업 (1분 집계, AVG/MAX/MIN)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1분 집계 (1분 해상도, 6개월 보관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2026-04-21T10:00:00 AVG=45.2 MAX=67 MIN=43</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 롤업 (1시간 집계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1시간 집계 (1시간 해상도, 2년 보관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2026-04-21T10:00:00 AVG=48.1 MAX=92 MIN=31</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 롤업 (1일 집계)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1일 집계 (1일 해상도, 10년 보관)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2026-04-21 AVG=52.3 MAX=98 MIN=20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 절감: 1초 × 86,400초/일 → 1일 1개 = 86,400배 압축</div></div>
+</div>
+</div>
+
+
 
 ### 2.4 TimescaleDB 연속 집계 (Continuous Aggregates)
 
@@ -165,29 +167,31 @@ SELECT add_continuous_aggregate_policy(
 
 ### 3.1 카디널리티 폭발 (Cardinality Explosion) 문제 분석
 
-```
-카디널리티 폭발 사례:
 
-  정상 설계:
-    태그: host (1,000), region (5), env (3)
-    시리즈 수: 1,000 × 5 × 3 = 15,000 → 관리 가능
 
-  잘못된 설계:
-    태그: host, region, env, user_id (1억), request_id (무한대)
-    시리즈 수: 1,000 × 5 × 3 × 1억 = 1.5조 → 메모리 초과!
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">카디널리티 폭발 사례:</div>
+<div class="kb-diagram-note">정상 설계:</div>
+<div class="kb-diagram-note">태그: host (1,000), region (5), env (3)</div>
+<div class="kb-diagram-note">시리즈 수: 1,000 × 5 × 3 = 15,000 → 관리 가능</div>
+<div class="kb-diagram-note">잘못된 설계:</div>
+<div class="kb-diagram-note">태그: host, region, env, user_id (1억), request_id (무한대)</div>
+<div class="kb-diagram-note">시리즈 수: 1,000 × 5 × 3 × 1억 = 1.5조 → 메모리 초과!</div>
+<div class="kb-diagram-note">카디널리티 폭발 증상:</div>
+<div class="kb-diagram-tree-item" style="--depth:1">쿼리 속도 급격히 저하</div>
+<div class="kb-diagram-tree-item" style="--depth:1">메모리 사용량 급증 (시리즈별 메타데이터)</div>
+<div class="kb-diagram-tree-item" style="--depth:1">TSM(Time-Structured Merge Tree) 파일 과다 생성</div>
+<div class="kb-diagram-tree-item" style="--depth:1">InfluxDB: "too many series" 오류</div>
+<div class="kb-diagram-note">해결책:</div>
+<div class="kb-diagram-note">1. 고카디널리티 값 → 태그 → 필드(Field)로 이동</div>
+<div class="kb-diagram-note">2. 태그 수 최소화 (5개 이하 권장)</div>
+<div class="kb-diagram-note">3. 시리즈 카디널리티 제한 정책 설정</div>
+<div class="kb-diagram-note">4. 데이터 모델 재설계 (측정 분리)</div>
+</div>
+</div>
 
-카디널리티 폭발 증상:
-  - 쿼리 속도 급격히 저하
-  - 메모리 사용량 급증 (시리즈별 메타데이터)
-  - TSM(Time-Structured Merge Tree) 파일 과다 생성
-  - InfluxDB: "too many series" 오류
 
-해결책:
-  1. 고카디널리티 값 → 태그 → 필드(Field)로 이동
-  2. 태그 수 최소화 (5개 이하 권장)
-  3. 시리즈 카디널리티 제한 정책 설정
-  4. 데이터 모델 재설계 (측정 분리)
-```
 
 ### 3.2 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) vs [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) vs TimescaleDB 비교
 
@@ -202,27 +206,26 @@ SELECT add_continuous_aggregate_policy(
 
 ### 3.3 [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 대시보드 연동 아키텍처
 
-```
-┌──────────────────────────────────────────────────────────┐
-│              Grafana 통합 모니터링 스택                     │
-│                                                           │
-│  메트릭 수집: Prometheus / InfluxDB                        │
-│  로그 수집:   Loki / Elasticsearch                        │
-│  트레이싱:    Jaeger / Tempo                              │
-│                     ↓                                    │
-│               Grafana (시각화)                             │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  대시보드 패널:                                   │    │
-│  │  - 시계열 차트: CPU, 메모리, 네트워크 트렌드       │    │
-│  │  - 히트맵: 요청 분포, 지연 분포                   │    │
-│  │  - 게이지: 현재 상태 (녹/황/적 신호등)            │    │
-│  │  - 테이블: 상위 N개 이슈 서버                     │    │
-│  └─────────────────────────────────────────────────┘    │
-│                     ↓                                    │
-│              AlertManager (알림)                          │
-│  임계값 초과 → Slack / PagerDuty / Email 발송             │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana 통합 모니터링 스택</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭 수집: Prometheus / InfluxDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 수집: Loki / Elasticsearch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트레이싱: Jaeger / Tempo</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana (시각화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 패널:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시계열 차트: CPU, 메모리, 네트워크 트렌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 히트맵: 요청 분포, 지연 분포</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 게이지: 현재 상태 (녹/황/적 신호등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테이블: 상위 N개 이슈 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AlertManager (알림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계값 초과 → Slack / PagerDuty / Email 발송</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) + [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 마치 비행기 조종석 계기판이다. 수천 개의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 모아서, 조종사가 한눈에 모든 상태를 볼 수 있게 정리해주고, 이상이 생기면 경고등을 켜준다.
 
@@ -232,28 +235,28 @@ SELECT add_continuous_aggregate_policy(
 
 ### 4.1 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 시계열 파이프라인 설계
 
-```
-┌──────────────────────────────────────────────────────────┐
-│           IoT → 시계열 DB → 대시보드 파이프라인             │
-│                                                           │
-│  센서 레이어                                              │
-│  온도·습도·전력 센서 × 10,000개 → MQTT 브로커              │
-│       ↓                                                  │
-│  수집 레이어                                              │
-│  Telegraf (InfluxData 에이전트) → InfluxDB                │
-│  - 플러그인: MQTT, Kafka, Modbus, OPC-UA 지원            │
-│       ↓                                                  │
-│  처리 레이어                                              │
-│  Kapacitor (스트림 처리) 또는 Flux 스크립트               │
-│  - 이상값 탐지 (3σ 이상 = 알림)                           │
-│  - 보간법 적용 (결측값 처리)                               │
-│       ↓                                                  │
-│  시각화 레이어                                            │
-│  Grafana → InfluxDB 데이터소스                           │
-│  - 실시간 대시보드 (5초 자동 갱신)                         │
-│  - 경보 규칙 (임계값 초과 시 SMS 발송)                    │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT → 시계열 DB → 대시보드 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도·습도·전력 센서 × 10,000개 → MQTT 브로커</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Telegraf (InfluxData 에이전트) → InfluxDB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 플러그인: MQTT, Kafka, Modbus, OPC-UA 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kapacitor (스트림 처리) 또는 Flux 스크립트</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이상값 탐지 (3σ 이상 = 알림)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보간법 적용 (결측값 처리)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각화 레이어</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana → InfluxDB 데이터소스</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실시간 대시보드 (5초 자동 갱신)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경보 규칙 (임계값 초과 시 SMS 발송)</div></div>
+</div>
+</div>
+
+
 
 ### 4.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))
 
@@ -281,19 +284,25 @@ END;
 
 ### 4.3 기술사 답안 핵심 포인트
 
-```
-시계열 DB 설계 시 필수 언급:
-  ✓ 카디널리티 폭발 방지: 고카디널리티 값 → 필드(Field)
-  ✓ 보간법 선택 기준:
-    - 센서 데이터 (완만한 변화) → 선형 또는 스플라인
-    - 이벤트 기반 데이터 → LOCF
-    - 결측 비율 높음 → 평균 보간 주의
-  ✓ 롤업 설계: 원시(초) → 1분 → 1시간 → 1일 계층
-  ✓ 보관 정책 (RP) + 연속 쿼리 (CQ) 연계
-  ✓ Grafana 대시보드: 변수(Variables)로 동적 필터링
-  ✓ AlertManager 경보 체계: PagerDuty/Slack 연동
-  ✓ 백필(Backfill): 과거 데이터로 롤업 소급 생성
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">시계열 DB 설계 시 필수 언급:</div>
+<div class="kb-diagram-note">✓ 카디널리티 폭발 방지: 고카디널리티 값 → 필드(Field)</div>
+<div class="kb-diagram-note">✓ 보간법 선택 기준:</div>
+<div class="kb-diagram-tree-item" style="--depth:2">센서 데이터 (완만한 변화) → 선형 또는 스플라인</div>
+<div class="kb-diagram-tree-item" style="--depth:2">이벤트 기반 데이터 → LOCF</div>
+<div class="kb-diagram-tree-item" style="--depth:2">결측 비율 높음 → 평균 보간 주의</div>
+<div class="kb-diagram-note">✓ 롤업 설계: 원시(초) → 1분 → 1시간 → 1일 계층</div>
+<div class="kb-diagram-note">✓ 보관 정책 (RP) + 연속 쿼리 (CQ) 연계</div>
+<div class="kb-diagram-note">✓ Grafana 대시보드: 변수(Variables)로 동적 필터링</div>
+<div class="kb-diagram-note">✓ AlertManager 경보 체계: PagerDuty/Slack 연동</div>
+<div class="kb-diagram-note">✓ 백필(Backfill): 과거 데이터로 롤업 소급 생성</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 카디널리티 폭발 방지는 마치 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템에서 "책 제목"을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 번호로 쓰지 않는 것과 같다. 책 제목은 수백만 가지라 색인이 폭발적으로 커지므로, "분야(컴퓨터)+ 저자 첫 글자"처럼 카디널리티가 낮은 값으로 인덱스를 만들어야 한다.
 
@@ -312,22 +321,25 @@ END;
 
 ### 5.2 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 관리
 
-```
-┌──────────────────────────────────────────────────────┐
-│            시계열 데이터 생명주기                        │
-│                                                      │
-│  핫(Hot) 저장소: SSD, 최근 30일                       │
-│  → 1초 해상도, 빠른 쓰기/읽기                          │
-│       ↓ 롤업 + RP                                    │
-│  웜(Warm) 저장소: HDD, 최근 1년                       │
-│  → 1분 해상도, 집계된 통계                             │
-│       ↓ 롤업 + RP                                    │
-│  콜드(Cold) 저장소: S3/Glacier, 장기 보관              │
-│  → 1시간/1일 해상도, Parquet 변환 저장                 │
-│       ↓ 분석 시                                      │
-│  레이크하우스 쿼리: Athena/Spark로 과거 분석            │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 데이터 생명주기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핫(Hot) 저장소: SSD, 최근 30일</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1초 해상도, 빠른 쓰기/읽기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 롤업 + RP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웜(Warm) 저장소: HDD, 최근 1년</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1분 해상도, 집계된 통계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 롤업 + RP</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드(Cold) 저장소: S3/Glacier, 장기 보관</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1시간/1일 해상도, Parquet 변환 저장</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 분석 시</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이크하우스 쿼리: Athena/Spark로 과거 분석</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기는 마치 신문 보관과 같다. 이번 주 신문은 책상 위(핫 저장소)에, 지난달 신문은 책장에(웜), 5년 전 신문은 창고에(콜드) 보관하고, 필요할 때만 창고에서 꺼내 열람한다.
 
@@ -350,27 +362,30 @@ END;
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **시계열 DB**는 마치 매초마다 체온을 재서 기록하는 의료 기기처럼, 시간 순서대로 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 빠르게 저장하고 "지난 1시간 평균 체온"을 순식간에 계산할 수 있는 특별한 기록장이에요.
+1. <strong>시계열 DB</strong>는 마치 매초마다 체온을 재서 기록하는 의료 기기처럼, 시간 순서대로 쌓이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 빠르게 저장하고 "지난 1시간 평균 체온"을 순식간에 계산할 수 있는 특별한 기록장이에요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-RDBMS (범용, 시계열 비최적화)
-    │
-    ▼
-시계열 DB (InfluxDB · TimescaleDB · Prometheus)
-    ├─► 시간 기반 파티셔닝 · 압축 (Gorilla · Delta-of-Delta)
-    ├─► 보간법 (Interpolation): 선형 · 스플라인 · LOCF
-    └─► 롤업 (Rollup): 5분 → 1시간 → 1일 집계
-    │
-    ▼
-실시간 대시보드 (Grafana · Kibana)
-    │
-    ▼
-IoT · 모니터링 · 금융 틱 데이터 분석
-```
-2. **보간법**은 체온계가 잠깐 고장나서 몇 분간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없을 때, "아까 36.5도였고 나중에 37도가 됐으니, 그 사이에는 36.7도 정도였겠지"라고 빈 칸을 채우는 방법이에요.
-3. **카디널리티 폭발**은 마치 도서관에서 모든 책의 제목을 색인으로 만들면 색인 카드가 책보다 더 많아지는 것처럼, 너무 다양한 태그를 사용하면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 색인이 폭발적으로 커지는 문제예요.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">RDBMS (범용, 시계열 비최적화)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">시계열 DB (InfluxDB · TimescaleDB · Prometheus)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">시간 기반 파티셔닝 · 압축 (Gorilla · Delta-of-Delta)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">보간법 (Interpolation): 선형 · 스플라인 · LOCF</div>
+<div class="kb-diagram-tree-item" style="--depth:2">롤업 (Rollup): 5분 → 1시간 → 1일 집계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실시간 대시보드 (Grafana · Kibana)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">IoT · 모니터링 · 금융 틱 데이터 분석</div>
+</div>
+</div>
+
+
+2. <strong>보간법</strong>은 체온계가 잠깐 고장나서 몇 분간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없을 때, "아까 36.5도였고 나중에 37도가 됐으니, 그 사이에는 36.7도 정도였겠지"라고 빈 칸을 채우는 방법이에요.
+3. <strong>카디널리티 폭발</strong>은 마치 도서관에서 모든 책의 제목을 색인으로 만들면 색인 카드가 책보다 더 많아지는 것처럼, 너무 다양한 태그를 사용하면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 색인이 폭발적으로 커지는 문제예요.
 
 ---
 

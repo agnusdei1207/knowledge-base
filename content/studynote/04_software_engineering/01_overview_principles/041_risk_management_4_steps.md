@@ -115,29 +115,30 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 위험 모니터링
 
-```
-위험 모니터링 활동:
 
-정기 검토:
-  주간/격주 위험 레지스터 검토
-  위험 상태 업데이트 (확률, 영향도 재평가)
 
-위험 트리거 (Risk Trigger):
-  위험 발생 전 조기 경보 신호
-  예: 핵심 개발자 이직 면접 소문 → 인력 위험 트리거
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">위험 모니터링 활동:</div>
+<div class="kb-diagram-note">정기 검토:</div>
+<div class="kb-diagram-note">주간/격주 위험 레지스터 검토</div>
+<div class="kb-diagram-note">위험 상태 업데이트 (확률, 영향도 재평가)</div>
+<div class="kb-diagram-note">위험 트리거 (Risk Trigger):</div>
+<div class="kb-diagram-note">위험 발생 전 조기 경보 신호</div>
+<div class="kb-diagram-note">예: 핵심 개발자 이직 면접 소문 → 인력 위험 트리거</div>
+<div class="kb-diagram-note">잔존 위험 (Residual Risk):</div>
+<div class="kb-diagram-note">대응 후 남은 위험</div>
+<div class="kb-diagram-note">허용 기준 초과 시 추가 대응</div>
+<div class="kb-diagram-note">2차 위험 (Secondary Risk):</div>
+<div class="kb-diagram-note">대응 활동 자체가 만든 새 위험</div>
+<div class="kb-diagram-note">예: 크로스 트레이닝 → 기존 담당자 업무 지연</div>
+<div class="kb-diagram-note">위험 레지스터 (Risk Register):</div>
+<div class="kb-diagram-note">ID, 설명, 확률, 영향도, RE, 대응, 담당자, 상태</div>
+<div class="kb-diagram-note">프로젝트 전 기간 관리 문서</div>
+</div>
+</div>
 
-잔존 위험 (Residual Risk):
-  대응 후 남은 위험
-  허용 기준 초과 시 추가 대응
 
-2차 위험 (Secondary Risk):
-  대응 활동 자체가 만든 새 위험
-  예: 크로스 트레이닝 → 기존 담당자 업무 지연
-
-위험 레지스터 (Risk Register):
-  ID, 설명, 확률, 영향도, RE, 대응, 담당자, 상태
-  프로젝트 전 기간 관리 문서
-```
 
 > 📢 **섹션 요약 비유**: 위험 모니터링은 기상 레이더 — 폭풍이 오기 전에 미리 감지하고 경로를 바꾸는 것, 이미 상륙 후 대피는 너무 늦다.
 

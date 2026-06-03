@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터 내부에서 하드디스크와 메인보드가 통신할 때 쓰는 전통적인 로컬 기계어(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 패킷을, 전 세계를 덮고 있는 **[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 패킷(인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 껍데기 안에 캡슐화(Encapsulation)하여, 멀리 떨어진 외장 스토리지([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))를 인터넷망(IP)을 타고 원격으로 접근하여 블록(Block) 단위로 읽고 쓸 수 있게 만든 국제 네트워크 스토리지 표준 규격**입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 제정)
+- **개념**: 컴퓨터 내부에서 하드디스크와 메인보드가 통신할 때 쓰는 전통적인 로컬 기계어(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 패킷을, 전 세계를 덮고 있는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷(인터넷 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 껍데기 안에 캡슐화(Encapsulation)하여, 멀리 떨어진 외장 스토리지(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)를 인터넷망(IP)을 타고 원격으로 접근하여 블록(Block) 단위로 읽고 쓸 수 있게 만든 국제 네트워크 스토리지 표준 규격</strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 제정)
 - IP-[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Storage Area Network](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))을 구축하는 가장 대표적이고 저렴한 핵심 기술입니다.
 
-```text
-[FCoE]
-    │
-    ▼
-[iSCSI]
-    │
-    └──▶ [인피니밴드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCoE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인피니밴드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: iSCSI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,17 +43,21 @@ tags = ["studynote-network"]
 
 809번의 FCoE와 810번의 iSCSI는 비슷해 보이지만 스케일이 다릅니다.
 
-- **[FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/) (L2 계층의 족쇄)**: 깐깐한 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패킷을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) '[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)' 껍데기에만 담았습니다. 그래서 라우터를 넘어 다른 네트워크망(해외)으로 나갈 수가 없고, 오직 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전산실(동일 서브넷) 안에서만 놀아야 하는 태생적 한계가 있습니다.
-- **[iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) (L3 IP 라우팅의 자유) 🌟**: 가장 중요한 차이입니다. iSCSI는 인터넷의 공용어인 **IP 주소와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(기본 3260번)** 껍데기로 완전히 포장해버렸습니다. 덕분에 인터넷(라우터)을 타고 중국이든 아프리카든 마음대로 태평양 해저 케이블을 건너가 원격 스토리지를 내 C드라이브처럼 쓸 수 있습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/">FCoE</a> (L2 계층의 족쇄)</strong>: 깐깐한 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패킷을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) '[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)' 껍데기에만 담았습니다. 그래서 라우터를 넘어 다른 네트워크망(해외)으로 나갈 수가 없고, 오직 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전산실(동일 서브넷) 안에서만 놀아야 하는 태생적 한계가 있습니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> (L3 IP 라우팅의 자유) 🌟</strong>: 가장 중요한 차이입니다. iSCSI는 인터넷의 공용어인 <strong>IP 주소와 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(기본 3260번)</strong> 껍데기로 완전히 포장해버렸습니다. 덕분에 인터넷(라우터)을 타고 중국이든 아프리카든 마음대로 태평양 해저 케이블을 건너가 원격 스토리지를 내 C드라이브처럼 쓸 수 있습니다.
 
-```text
-[FCoE]
-    │
-    ▼
-[iSCSI]
-    │
-    └──▶ [인피니밴드]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">FCoE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인피니밴드</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: iSCSI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,7 +67,7 @@ tags = ["studynote-network"]
 
 ### 1. 0원에 수렴하는 네트워크 구축 비용
 - 비싼 광케이블 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))도 필요 없고, 809번에서 배운 비싼 무결손 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(DCB [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))도 필요 없습니다. 
-- 그냥 이마트에서 파는 **싸구려 일반 아이피타임(IPTIME) 기가비트 공유기와 싸구려 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))만 있으면 그 위에 바로 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 스토리지망을 거대하게 뚝딱 구축**할 수 있습니다. 중소기업이나 가난한 벤처기업 전산실의 영원한 빛과 소금입니다.
+- 그냥 이마트에서 파는 <strong>싸구려 일반 아이피타임(IPTIME) 기가비트 공유기와 싸구려 랜선(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)만 있으면 그 위에 바로 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> 스토리지망을 거대하게 뚝딱 구축</strong>할 수 있습니다. 중소기업이나 가난한 벤처기업 전산실의 영원한 빛과 소금입니다.
 
 ### 2. AWS / 클라우드 인프라의 표준 디스크
 - 아마존 AWS에서 가상 서버(EC2)를 빌리고, 거기에 100GB짜리 하드디스크(EBS 볼륨)를 클릭 한 번으로 갖다 붙입니다. 이 뒤에서 돌아가는 뼈대 기술 중 하나가 바로 IP 통신망으로 스토리지를 엮어주는 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 구조입니다.
@@ -78,7 +86,7 @@ iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 가장 큰 단점은 **'CPU 과부하(오버헤드)'**입니다. 
+- 가장 큰 단점은 <strong>'CPU 과부하(오버헤드)'</strong>입니다. 
 - 무거운 하드디스크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(SCSI)를 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기에 구겨 넣고 포장하는 작업(캡슐화)을 순수하게 '컴퓨터의 중앙 뇌(CPU 소프트웨어)'가 다 해야 합니다. 
 - 네트워크 속도가 10기가, 100기가로 폭증하면 서버 CPU는 내 프로그램은 안 돌리고 이 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 택배 포장만 하다가 과로사(병목 현상 폭발)해버립니다. (이를 해결하기 위해 랜카드 자체 칩셋에 하드웨어적으로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장 기능을 심어 CPU의 짐을 덜어주는 비싼 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 랜카드가 등장했습니다.)
 
@@ -88,7 +96,7 @@ iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 로컬 하드디스크([SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 내 책상 서랍 속에 있는 튼튼하고 빠른 '개인 금고'라면, **[iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/)**는 우체국 '해외 직구 택배망'을 이용해 미국에 있는 대형 은행의 금고를 내 서랍처럼 쓰는 마법입니다. 옛날([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))엔 미국 금고를 쓰려면 태평양에 나만의 100억짜리 전용 아스팔트 고속도로를 깔아야 했습니다(극악의 비용). **[iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/)**는 그럴 필요 없이, 흔해 빠진 공용 '우체국 IP 택배 박스'에 금고 열쇠와 서류(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 담아 보내면, 전 세계 우체부(라우터)들이 공용 배송망을 타고 알아서 미국 금고까지 배달을 릴레이로 전달해 줍니다. 길거리에 깔린 공짜 택배망을 그대로 활용하니 비용이 0원에 수렴하는 대신, 택배 박스를 포장하고 주소를 100번씩 적느라 내 머리(서버 CPU)가 아파 죽을 지경(오버헤드)이 되는 가성비 스토리지 통신 규격입니다.
+- **📢 섹션 요약 비유**: 로컬 하드디스크([SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 내 책상 서랍 속에 있는 튼튼하고 빠른 '개인 금고'라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 우체국 '해외 직구 택배망'을 이용해 미국에 있는 대형 은행의 금고를 내 서랍처럼 쓰는 마법입니다. 옛날([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))엔 미국 금고를 쓰려면 태평양에 나만의 100억짜리 전용 아스팔트 고속도로를 깔아야 했습니다(극악의 비용). <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 그럴 필요 없이, 흔해 빠진 공용 '우체국 IP 택배 박스'에 금고 열쇠와 서류(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 담아 보내면, 전 세계 우체부(라우터)들이 공용 배송망을 타고 알아서 미국 금고까지 배달을 릴레이로 전달해 줍니다. 길거리에 깔린 공짜 택배망을 그대로 활용하니 비용이 0원에 수렴하는 대신, 택배 박스를 포장하고 주소를 100번씩 적느라 내 머리(서버 CPU)가 아파 죽을 지경(오버헤드)이 되는 가성비 스토리지 통신 규격입니다.
 
 ---
 
@@ -111,15 +119,19 @@ iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: FCoE]
-    │
-    ▼
-[현재 개념: iSCSI]
-    │
-    ├──▶ [확장 A: 인피니밴드]
-    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FCoE</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: iSCSI</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 인피니밴드</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
+</div>
+</div>
+
+
 
 iSCSI는 FCoE에서 출발해 현재 메커니즘을 정교화하고, 이후 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

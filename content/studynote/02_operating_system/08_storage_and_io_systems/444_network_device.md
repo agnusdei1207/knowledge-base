@@ -11,46 +11,44 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 장치(Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 유닉스의 "모든 것은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다(블록/문자)"라는 철학의 틀에 담기엔 패킷(Packet)의 크기(가변적)와 통신 구조([비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/), 이벤트 지향)가 너무 기형적이어서, **기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 밖으로 뛰쳐나와 '[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))'이라는 독자적인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 세계관을 구축한 이단아적 하드웨어 장치**다.
-> 2. **가치**: 단순히 로컬 디스크를 읽는 수준을 넘어, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이라는 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 소프트웨어 엔진과 결합하여, **전 세계 수십억 대의 이기종 컴퓨터와 1:N, N:M으로 실시간 통신할 수 있는 광활한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 관문을 제공**한다.
-> 3. **융합**: [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 10Gbps+ 통신 시대가 열리며 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)의 끔찍한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉과 메모리 복사 병목(Overhead)을 피하기 위해, 최근에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 완전히 우회([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)하여 **유저 앱이 직접 랜카드와 다이렉트 DMA로 통신하는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 아키텍처로 융합, 진화**하고 있다.
+> 1. **본질**: 네트워크 장치(Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 유닉스의 "모든 것은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다(블록/문자)"라는 철학의 틀에 담기엔 패킷(Packet)의 크기(가변적)와 통신 구조([비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/), 이벤트 지향)가 너무 기형적이어서, <strong>기존 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a>) 밖으로 뛰쳐나와 '<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)'이라는 독자적인 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 세계관을 구축한 이단아적 하드웨어 장치</strong>다.
+> 2. **가치**: 단순히 로컬 디스크를 읽는 수준을 넘어, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이라는 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 소프트웨어 엔진과 결합하여, <strong>전 세계 수십억 대의 이기종 컴퓨터와 1:N, N:M으로 실시간 통신할 수 있는 광활한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅의 관문을 제공</strong>한다.
+> 3. **융합**: [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 10Gbps+ 통신 시대가 열리며 기존 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)의 끔찍한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉과 메모리 복사 병목(Overhead)을 피하기 위해, 최근에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 완전히 우회([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)하여 <strong>유저 앱이 직접 랜카드와 다이렉트 DMA로 통신하는 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> 아키텍처로 융합, 진화</strong>하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 하드디스크는 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(`b`), 마우스는 [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)(`c`)로 관리되며 `/dev` 디렉토리 밑에 예쁘게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 등록된다. 하지만 랜카드(eth0, wlan0)는 `/dev` 밑에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 존재하지 않는다! 네트워크 장치는 블록(512B)도 아니고 문자(1B)도 아닌, **가변적인 '패킷(Packet, 1500B 등)'** 단위로 움직인다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 장치를 다루기 위해 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 함수(`read/write`) 대신, [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(`socket()`, `send()`, `recv()`)이라는 완전히 차별화된 시스템 콜([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 패러다임을 별도로 만들어 붙였다.
-- **필요성**: 하드디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제든 그 자리에 있다는 걸 100% 확신한다. 하지만 네트워크는 언제 지구 반대편에서 패킷이 날아올지 아무도 모른다. 내 폰에서 보낸 카카오톡 메시지가 중간 공유기에서 유실될 수도 있고(비신뢰성), 순서가 뒤죽박죽 섞여서 도착할 수도 있다. 기존의 멍청한 블록/문자 드라이버로는 이 복잡다단한 네트워크 통신의 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 재전송, 혼잡 제어를 절대 감당할 수 없었다. 그래서 **OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 거대한 '[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)' 공장을 차리고, 랜카드 하드웨어는 그 공장에 원자재(전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 패킷)만 퍼 나르는 특수 보급선으로 완전히 분리**해야만 했다.
+- **필요성**: 하드디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제든 그 자리에 있다는 걸 100% 확신한다. 하지만 네트워크는 언제 지구 반대편에서 패킷이 날아올지 아무도 모른다. 내 폰에서 보낸 카카오톡 메시지가 중간 공유기에서 유실될 수도 있고(비신뢰성), 순서가 뒤죽박죽 섞여서 도착할 수도 있다. 기존의 멍청한 블록/문자 드라이버로는 이 복잡다단한 네트워크 통신의 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 재전송, 혼잡 제어를 절대 감당할 수 없었다. 그래서 <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 내부에 거대한 '<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>' 공장을 차리고, 랜카드 하드웨어는 그 공장에 원자재(전기 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 패킷)만 퍼 나르는 특수 보급선으로 완전히 분리</strong>해야만 했다.
 
 - **등장 배경 및 유닉스 철학의 파괴**:
-  1. **"모든 것은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다"의 위기**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 유닉스 설계자들은 네트워크도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`open, read`)로 다뤄보려 했으나 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 복잡성([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), IP 주소 매핑 등) 앞에 좌절했다.
+  1. <strong>"모든 것은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이다"의 위기</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 유닉스 설계자들은 네트워크도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`open, read`)로 다뤄보려 했으나 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 복잡성([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), IP 주소 매핑 등) 앞에 좌절했다.
   2. **Berkeley Sockets (BSD)의 승리**: 1980년대 캘리포니아 버클리 대학에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd)의 껍데기는 빌려 쓰되, 내부 알맹이는 완전히 다르게 돌아가는 '[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'를 발명하여 표준으로 굳혔다.
-  3. **네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 편입**: 패킷을 까고 조립하는 무거운 연산([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)을 유저 앱이 하면 너무 느리고 해킹 위험이 컸다. 결국 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뚱뚱해지는 걸 감수하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부에 이 공장을 박아넣었다.
+  3. <strong>네트워크 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 편입</strong>: 패킷을 까고 조립하는 무거운 연산([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)을 유저 앱이 하면 너무 느리고 해킹 위험이 컸다. 결국 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뚱뚱해지는 걸 감수하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부에 이 공장을 박아넣었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│        블록/문자 장치 파이프라인 vs 네트워크 소켓 장치 파이프라인 비교 │
-├────────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│ ▶ 1. 일반 디바이스 (HDD, 마우스) - 단순한 파일 I/O                     │
-│   [ 유저 앱 ] `read()` 호출                                            │
-│       │                                                                │
-│   [ OS VFS (가상 파일 시스템) ]                                        │
-│       │ ──▶ [ 블록 드라이버 ] ──▶ [ 하드디스크 칩셋 ]                  │
-│                                                                        │
-│ ▶ 2. 네트워크 장치 (랜카드) - 거대한 프로토콜 팩토리의 개입            │
-│   [ 유저 앱 ] `recv()` 호출 (소켓 API 사용)                            │
-│       │ (VFS를 뚫고 특수 소켓 레이어로 진입)                           │
-│       ▼                                                                │
-│   [ OS 커널 내부의 거대한 TCP/IP 스택 팩토리 ]                         │
-│    - 4층: 포트(Port) 번호 까서 내 앱 찾기 (TCP/UDP)                    │
-│    - 3층: IP 주소 까서 에러 났는지 확인 (IP)                           │
-│    - 2층: MAC 주소 까서 내 랜카드 거 맞는지 확인 (Ethernet)            │
-│       │ (복잡한 연산 후 알맹이 데이터만 쏙 빼냄)                       │
-│       ▼                                                                │
-│   [ 랜카드 디바이스 드라이버 ] ◀──(인터럽트 핑퐁)──▶ [ 랜카드 칩셋 ]   │
-└────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록/문자 장치 파이프라인 vs 네트워크 소켓 장치 파이프라인 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 일반 디바이스 (HDD, 마우스) - 단순한 파일 I/O</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱</div><div class="kb-diagram-note"><code>read()</code> 호출</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS VFS (가상 파일 시스템)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 드라이버</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드디스크 칩셋</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 네트워크 장치 (랜카드) - 거대한 프로토콜 팩토리의 개입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱</div><div class="kb-diagram-note"><code>recv()</code> 호출 (소켓 API 사용)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VFS를 뚫고 특수 소켓 레이어로 진입)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 내부의 거대한 TCP/IP 스택 팩토리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 4층: 포트(Port) 번호 까서 내 앱 찾기 (TCP/UDP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3층: IP 주소 까서 에러 났는지 확인 (IP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2층: MAC 주소 까서 내 랜카드 거 맞는지 확인 (Ethernet)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복잡한 연산 후 알맹이 데이터만 쏙 빼냄)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">랜카드 디바이스 드라이버</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">랜카드 칩셋</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 네트워크 I/O는 일반 디스크 I/O보다 압도적으로 무겁고 복잡하다. 랜카드에서 들어온 0101 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 유저 앱에 주면 쓰레기에 불과하다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 포장지(헤더)를 3번, 4번씩 뜯어보고(Decapsulation), 에러 검사([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 하고, 순서를 맞추는 중노동([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 거친 후에야 비로소 깨끗한 "Hello" 문자열이 앱으로 배달된다. 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 연산 오버헤드 때문에 옛날엔 1Gbps 속도만 넘어도 CPU가 터져 나갔다.
 
 - **📢 섹션 요약 비유**: 마트(하드디스크)에서 과자를 사 올 땐 껍질 한 번만 까면 먹을 수 있습니다. 하지만 해외 직구(네트워크)로 과자를 사면, 세관(IP)에서 엑스레이 검사하고, 배송지 스티커([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 떼어내고, 뽁뽁이([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장)를 수십 번 풀어헤쳐야 비로소 과자를 먹을 수 있습니다. 까는 작업([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 연산)에 힘이 너무 많이 들어가는 극한의 배송 시스템입니다.
@@ -63,9 +61,9 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 네트워크 패킷 1개를 처리하기 위해 쓰는 거대한 박스(구조체)다.
 - 랜카드에 1,500바이트(MTU)짜리 패킷 하나가 들어온다.
-- 리눅스는 이 1,500바이트를 담기 위해 램(kmalloc)에 **`sk_buff`라는 거대한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조체**를 즉시 할당한다. 
+- 리눅스는 이 1,500바이트를 담기 위해 램(kmalloc)에 <strong><code>sk_buff</code>라는 거대한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 구조체</strong>를 즉시 할당한다. 
 - 패킷이 1계층부터 4계층으로 올라갈 때마다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이리저리 복사하면 서버가 뻗는다.
-- 그래서 리눅스 형님들은 **"[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원본은 가만히 냅두고, `sk_buff` 안에 있는 포인터 화살표만 헤더 크기만큼 앞으로 밀었다 당겼다 하면서 껍질을 깐 것처럼 사기 치자!"**라는 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)(계층 간 제로카피) 매커니즘을 이 구조체 안에 예술적으로 박아넣었다.
+- 그래서 리눅스 형님들은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 원본은 가만히 냅두고, <code>sk_buff</code> 안에 있는 포인터 화살표만 헤더 크기만큼 앞으로 밀었다 당겼다 하면서 껍질을 깐 것처럼 사기 치자!"</strong>라는 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)(계층 간 제로카피) 매커니즘을 이 구조체 안에 예술적으로 박아넣었다.
 - 하지만 10Gbps 랜카드 시대가 열리며 1초에 수천만 개의 패킷이 쏟아지자, 아무리 잘 짰어도 이 `sk_buff`를 램에 수천만 번 `malloc`하고 `free`하는 것 자체로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))이 폭발해 버리는 병목이 터졌다.
 
 ---
@@ -74,11 +72,11 @@ tags = ["studynote-operating-system"]
 
 10Gbps 네트워크 환경에서 고전적 OS가 어떻게 질식사하는지 보여주는 눈물겨운 역사다.
 
-1. **과거 (순수 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방식)**: 
+1. <strong>과거 (순수 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 방식)</strong>: 
    - 랜카드에 패킷 1개가 들어올 때마다 랜카드는 CPU에게 `하드웨어 인터럽트(IRQ)` 벼락을 쏜다.
-   - 1초에 천만 개 패킷이 들어오면 CPU는 초당 천만 번 벼락을 맞고 비명을 지르며([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 하던 일(유저 앱 연산)을 다 멈추고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 튕겨 들어간다. 서버가 100% 멈춘다. (이게 유명한 **[Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm**).
-2. **리눅스의 NAPI ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) + [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) 융합)**:
-   - "야 안 되겠다. 패킷 1개 올 땐 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 깨우고, 그 뒤로 패킷이 폭우처럼 쏟아질 때는 랜카드 너 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 끄고 찌그러져 있어! **내가(CPU가) 1초에 수백 번씩 직접 랜카드 버퍼를 뒤져서 뭉텅이로 퍼갈게([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))!**"
+   - 1초에 천만 개 패킷이 들어오면 CPU는 초당 천만 번 벼락을 맞고 비명을 지르며([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 하던 일(유저 앱 연산)을 다 멈추고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 튕겨 들어간다. 서버가 100% 멈춘다. (이게 유명한 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Storm</strong>).
+2. <strong>리눅스의 NAPI (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> 융합)</strong>:
+   - "야 안 되겠다. 패킷 1개 올 땐 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 깨우고, 그 뒤로 패킷이 폭우처럼 쏟아질 때는 랜카드 너 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 끄고 찌그러져 있어! <strong>내가(CPU가) 1초에 수백 번씩 직접 랜카드 버퍼를 뒤져서 뭉텅이로 퍼갈게(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)!</strong>"
    - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 즉각성과 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 대용량 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 합친 이 NAPI 기술 덕분에 리눅스는 10G, 40G 통신 시대를 간신히 버텨낼 수 있었다.
 
 - **📢 섹션 요약 비유**: 택배 1개가 올 때마다 초인종([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 누르면, 택배가 하루에 1만 개 올 때 집주인(CPU)은 하루 종일 초인종 소리에 미쳐서 아무 일도 못 합니다. 똑똑한 집주인(NAPI)은 택배 기사에게 "첫 택배 올 때만 초인종 누르고, 그다음부턴 문 앞에 그냥 꽉 꽉 쌓아둬. 내가 30분에 한 번씩 문 열고 나가서([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 한 방에 다 들고 올게!"라고 룰을 바꿔서 자기 평화를 되찾은 겁니다.
@@ -91,27 +89,30 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크 I/O (`read()`) | 네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) I/O (`recv()`) |
 |:---|:---|:---|
-| **응답성 ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))**| 디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 무조건 있으므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 돼도 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼옴 | **지구 반대편에서 패킷이 안 오면 프로세스가 영원히 얼어붙음 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))** |
-| **에러 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)** | 배드 섹터 빼고는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 깨지거나 유실될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0% | 라우터 전원이 나가면 패킷이 흔적도 없이 공중분해 됨 (**유실률 높음**) |
+| <strong>응답성 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong>| 디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 무조건 있으므로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 돼도 100% [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼옴 | <strong>지구 반대편에서 패킷이 안 오면 프로세스가 영원히 얼어붙음 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)</strong> |
+| <strong>에러 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a></strong> | 배드 섹터 빼고는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 깨지거나 유실될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0% | 라우터 전원이 나가면 패킷이 흔적도 없이 공중분해 됨 (**유실률 높음**) |
 | **OS 램 버퍼 역할** | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache (나중에 몰아서 쓰려고 둠) | [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) Buffer (**순서 맞추고 재전송할 때까지 보관하는 인질 수용소**) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 순서** | 항상 순서대로 잘 읽힘 | 1번 패킷보다 2번 패킷이 먼저 도착하는 미친 일상 다반사 (Out-of-Order) |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 순서</strong> | 항상 순서대로 잘 읽힘 | 1번 패킷보다 2번 패킷이 먼저 도착하는 미친 일상 다반사 (Out-of-Order) |
 
 ### Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(논블로킹) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)과 [Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) (epoll)의 혁명
 디스크 I/O는 어차피 금방 끝나니까 앱이 `read` 치고 잠깐 멈춰([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 있어도 된다. 
 하지만 네트워크는 클라이언트가 폰을 꺼버리면 영원히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 온다. 아파치(Apache) 서버처럼 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 하나당 1스레드를 붙여서 멍하니 기다리게([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 만들면, 악성 유저 1만 명이 접속만 하고 아무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 안 보내는 공격([Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/))에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 꽉 차서 서버가 뻗어버린다.
-- **해결책**: Nginx와 Node.js는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 **`Non-blocking(논블로킹)`** 모드로 바꿨다. 
+- **해결책**: Nginx와 Node.js는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 <strong><code>Non-blocking(논블로킹)</code></strong> 모드로 바꿨다. 
 - "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왔어? 안 왔어? 그럼 난 안 기다리고 딴 놈 주문받으러 갈게!(EAGAIN 에러 뱉음)"
-- 그리고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 궁극의 네트워크 튜닝 기술인 **`epoll / kqueue`**를 써서, 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 중 "진짜로 패킷이 도착한 3개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 번호"만 OS가 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 쪽지로 쏙 넘겨주게 만들었다 (Event-driven).
+- 그리고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 궁극의 네트워크 튜닝 기술인 <strong><code>epoll / kqueue</code></strong>를 써서, 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 중 "진짜로 패킷이 도착한 3개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 번호"만 OS가 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 쪽지로 쏙 넘겨주게 만들었다 (Event-driven).
 - 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 1만 명의 유저를 렉 0초로 감당해 내는 현대 고성능 웹서버의 핵심 척추다.
 
-```text
-┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
-│ 아키텍처   │ 소켓 대기 방식 │ 1만 유저 접속 시 │ 서버 터지는 원인          │
-├──────────┼────────────┼────────────┼───────────────────────────────────────┤
-│ Apache   │ 멍하니 멈춤(Block)│ 스레드 1만개 필요 │ 램(스택) 폭발, 스위칭 렉│
-│ Nginx    │ 안오면 바로 튐(Non)│ 스레드 1개면 떡침 │ 🟢 거의 안 터짐 극강   │
-└──────────┴────────────┴────────────┴───────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">소켓 대기 방식</div><div class="kb-diagram-cell">1만 유저 접속 시</div><div class="kb-diagram-cell">서버 터지는 원인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache</div><div class="kb-diagram-cell">멍하니 멈춤(Block)</div><div class="kb-diagram-cell">스레드 1만개 필요</div><div class="kb-diagram-cell">램(스택) 폭발, 스위칭 렉</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nginx</div><div class="kb-diagram-cell">안오면 바로 튐(Non)</div><div class="kb-diagram-cell">스레드 1개면 떡침</div><div class="kb-diagram-cell">🟢 거의 안 터짐 극강</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 네트워크 I/O의 불확실성(가장 긴 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 소프트웨어 아키텍처로 극복한 눈물겨운 진화도다. 디스크는 기계(모터)를 기다리지만, 네트워크는 알 수 없는 인간(유저)과 지구의 물리적 거리(광랜 속도)를 기다려야 하므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러가 절대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 네트워크 큐에 묶어두면([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 안 된다는 철칙을 낳았다.
 
 - **📢 섹션 요약 비유**: 햄버거집 알바생([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 손님([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))이 지갑에서 동전 100원짜리를 10분 동안 천천히 꺼내는 걸 카운터에서 멍하니 다 기다려주면([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 뒤에 100명이 줄 서서 화냅니다. 알바생은 "동전 다 찾으시면 옆에 종 쳐주세요(epoll 이벤트)" 하고 쿨하게 옆으로 치운 뒤, 돈 바로 낼 수 있는 다음 손님 주문부터 쭉쭉 빼야(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 햄버거집이 망하지 않습니다.
@@ -121,18 +122,18 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: DPDK를 통한 [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회) 흑마술
-1. **[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 몰락**: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 몰락</strong>: 
    - 증권사 HFT(초고빈도 매매)나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신사 라우터는 1초에 1억 개의 패킷을 처리해야 한다.
    - 랜카드가 패킷을 1억 개 쏘면 -> OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 1억 번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 -> `sk_buff` 1억 번 malloc 하고 -> [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 까고 -> 유저 램으로 1억 번 복사(Memcpy)한다.
    - 아무리 비싼 CPU를 꽂아도 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뻘짓하는 오버헤드 때문에 대역폭의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%도 못 쓰고 불타버린다.
-2. **DPDK의 구원 (Intel [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane Development Kit)**:
+2. <strong>DPDK의 구원 (Intel <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)</strong>:
    - "OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)아, 너 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 너무 느리고 쓰레기야. 넌 빠져!"
-   - 랜카드 칩셋을 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 분리시켜버리고, **유저 앱(C/C++ 코드)이 다이렉트로 랜카드 하드웨어 큐(Ring Buffer)와 메모리 맵([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))으로 직통 연결**을 뚫어버린다.
+   - 랜카드 칩셋을 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 분리시켜버리고, <strong>유저 앱(C/C++ 코드)이 다이렉트로 랜카드 하드웨어 큐(Ring Buffer)와 메모리 맵(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a>)으로 직통 연결</strong>을 뚫어버린다.
    - 유저 앱은 무한 `while` 문을 돌며(100% CPU 점유) 랜카드 버퍼를 그냥 포인터로 푹푹 퍼먹는다. 
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 복사 0번, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 0번, 시스템 콜 0번! 패킷 하나 처리하는 데 수십 마이크로초 걸리던 게 **1나노초(ns)** 급으로 분쇄된다. 현대 100G, 400G 엔터프라이즈 네트워크 장비는 전부 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 버리고 이 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)로 갈아탔다.
 
 ### [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/)/XDP의 반격 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 콧대 세우기)
-DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 팀은 "야, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안 우회하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 젤 빨리 패킷 쳐내게 해줄게!" 라며 **[XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) ([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/))**를 도입했다.
+DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 팀은 "야, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안 우회하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 젤 빨리 패킷 쳐내게 해줄게!" 라며 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/">eXpress Data Path</a>)</strong>를 도입했다.
 랜카드에 패킷이 들어오자마자([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP로 올라가기도 전 0.001초 찰나에), 유저가 찔러넣은 `eBPF` 샌드박스 코드가 튀어나와 패킷을 보고 "아 이거 디도스(DDoS) 쓰레기 패킷이네. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 올리지 말고 지금 당장 랜카드 단에서 Drop 해서 버려버려!" 하고 찢어버린다. 
 이 흑마술 덕분에 클라우드 서버들은 디도스 10기가를 맞아도 CPU 1%도 안 쓰고 모조리 튕겨내는 무적 방패를 얻게 되었다.
 
@@ -146,9 +147,9 @@ DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅�
 
 | 구분 | 내용 |
 |:---|:---|
-| **[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) API의 글로벌 표준화** | 버클리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 인터페이스라는 완벽한 추상화를 통해, 내 폰의 카톡이 미국 아마존 리눅스 서버와 1도 다름없는 C언어 코드로 실시간 통신 |
-| **넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 아키텍처 폭발**| [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 불확실성을 피하기 위해 epoll, [io_uring](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) 기반의 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 생태계(Node.js, Go)를 강제 탄생시킴 |
-| **[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass 혁명 촉발** | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 무거움이 한계에 다다르자, [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 같은 0-Copy 하드웨어 직통 기술을 발전시켜 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 대역폭을 수백 배 확장 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> API의 글로벌 표준화</strong> | 버클리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 인터페이스라는 완벽한 추상화를 통해, 내 폰의 카톡이 미국 아마존 리눅스 서버와 1도 다름없는 C언어 코드로 실시간 통신 |
+| <strong>넌블로킹(Non-<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">blocking</a>) 아키텍처 폭발</strong>| [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))의 불확실성을 피하기 위해 epoll, [io_uring](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) 기반의 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)) 생태계(Node.js, Go)를 강제 탄생시킴 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass 혁명 촉발</strong> | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 무거움이 한계에 다다르자, [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 같은 0-Copy 하드웨어 직통 기술을 발전시켜 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 대역폭을 수백 배 확장 |
 
 ### 결론 및 미래 전망
 
@@ -169,15 +170,19 @@ DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[문자 장치]
-    │
-    ▼
-[네트워크 장치 (소켓 인터페이스) (Network Device)]
-    │
-    ├──▶ [I/O 하드웨어 인터페이스 요소]
-    └──▶ [포트 (Port) / 버스 (Bus)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">문자 장치</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스) (Network Device)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

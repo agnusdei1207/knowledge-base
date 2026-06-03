@@ -23,10 +23,10 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 웹 브라우저에서 '포토샵'을 돌린다고 치자. 100MB짜리 사진에 필터를 입히는 픽셀 연산을 자바스크립트로 돌리면 브라우저가 멈추고 뻗어버린다. JS는 태생이 HTML 요소(DOM)를 살짝살짝 조작하려고 만든 가벼운 스크립트 언어이지, 무거운 수학 연산을 하도록 설계되지 않았다. "브라우저 안에서도 C++처럼 쌩쌩 돌아가는 진짜 기계어(바이너리)를 실행할 수는 없을까?"라는 전 세계 프론트엔드 개발자들의 오랜 염원이 필요했다.
 
-- **💡 비유**: 자바스크립트(JS)가 주문을 받을 때마다 요리책을 보며(인터프리터) 재료를 손질해 요리를 내어주는 **'초보 요리사'**라면, 웹어셈블리([Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))는 이미 공장에서 조리가 완벽하게 끝난 레토르트 식품(바이너리 코드)을 가져와 전자레인지에 딱 3분만 데워서 바로 내어주는 **'[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 밀키트 시스템'**입니다.
+- **💡 비유**: 자바스크립트(JS)가 주문을 받을 때마다 요리책을 보며(인터프리터) 재료를 손질해 요리를 내어주는 <strong>'초보 요리사'</strong>라면, 웹어셈블리([Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/))는 이미 공장에서 조리가 완벽하게 끝난 레토르트 식품(바이너리 코드)을 가져와 전자레인지에 딱 3분만 데워서 바로 내어주는 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 밀키트 시스템'</strong>입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **JS의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계와 꼼수들**: ActiveX, Flash, Java Applet 등 브라우저에 플러그인을 깔아서 무거운 작업을 돌렸으나, 보안과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 모두 멸망했다. 그 후 구글의 PNaCl이나 모질라의 asm.js 같은 실험이 있었으나 널리 퍼지지 못했다.
+  1. <strong>JS의 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 한계와 꼼수들</strong>: ActiveX, Flash, Java Applet 등 브라우저에 플러그인을 깔아서 무거운 작업을 돌렸으나, 보안과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 문제로 모두 멸망했다. 그 후 구글의 PNaCl이나 모질라의 asm.js 같은 실험이 있었으나 널리 퍼지지 못했다.
   2. **Wasm의 탄생 (2017)**: Google, Mozilla, Apple, Microsoft 등 적대적이던 4대 브라우저 벤더가 역사상 처음으로 손을 잡고, 플러그인 없이 브라우저 자체에서 돌아가는 통합 표준인 WebAssembly 1.0을 공식 발표했다.
   3. **WASI와 클라우드 백엔드 진출 (현재)**: Wasm은 브라우저를 벗어나, Wasmtime 같은 런타임과 WASI(WebAssembly System Interface) 표준을 통해 서버 OS의 파일과 네트워크까지 직접 통제하며 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))를 위협하는 백엔드 아키텍처로 폭발적 진화를 거듭하고 있다.
 
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 웹어셈블리 (WebAssembly) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  웹어셈블리 (WebAssembly)                         │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹어셈블리 (WebAssembly)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 웹어셈블리 (WebAssembly) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-웹어셈블리 (WebAssembly) 적용 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+웹어셈블리 (WebAssembly) 적용 아키텍처의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 웹어셈블리 (WebAssembly) 적용 아키텍처의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-웹어셈블리 (WebAssembly) 적용 아키텍처 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">웹어셈블리 (WebAssembly) 적용 아키텍처 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

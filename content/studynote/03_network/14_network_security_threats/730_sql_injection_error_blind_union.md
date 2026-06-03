@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 해커가 웹사이트의 검색창, 로그인 창, 주소창 등에 악의적인 **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리문(SQL)**을 몰래 삽입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))하여, 백엔드 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 속이고 권한을 탈취하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 공격입니다.
+- **개념**: 해커가 웹사이트의 검색창, 로그인 창, 주소창 등에 악의적인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 쿼리문(SQL)</strong>을 몰래 삽입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))하여, 백엔드 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 속이고 권한을 탈취하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 공격입니다.
 - **원인**: 개발자가 짠 서버 코드가, 사용자가 친 글자를 무비판적으로 믿고 그대로 DB에 찔러 넣기(조립하기) 때문에 발생합니다.
 
-```text
-[크로스 사이트 요청 위조]
-    │
-    ▼
-[APT (Advanced Persistent…]
-    │
-    └──▶ [버퍼 오버플로우 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,14 +46,18 @@ tags = ["studynote-network"]
 - 조작된 로직: `SELECT * FROM members WHERE ID = 'admin' -- AND PW = '아무거나'`
 - 뒤쪽 패스워드 묻는 코드가 `--`(주석 기호) 때문에 삭제(투명화)되어버리고, DB는 무조건 "오 관리자(admin) 맞네!" 하고 서버 문을 활짝 열어버리는 마법이 일어납니다.
 
-```text
-[크로스 사이트 요청 위조]
-    │
-    ▼
-[APT (Advanced Persistent…]
-    │
-    └──▶ [버퍼 오버플로우 공격]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,7 +76,7 @@ tags = ["studynote-network"]
 ### 3. Blind (블라인드) [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) - "장님 스무고개" 🌟
 보안이 좀 잘 된 서버는 Error 메시지도 안 보여주고 UNION 결과도 막아버립니다. (화면에 아무 변화가 없습니다.)
 - **Boolean-based (참/거짓) 스무고개**: 해커가 `and (select 비밀번호첫글자 from admin) = 'A'`를 쳐봅니다. 화면이 정상으로 뜨면 "아 첫 글자가 A구나!", 화면이 안 뜨면 "A가 아니네, 그럼 B를 넣어볼까?" 하고 미친 듯이 수만 번 질문을 던져 장님 코끼리 만지듯 비밀번호를 한 글자씩 빼냅니다.
-- **Time-based (시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 스무고개**: 참/거짓으로 화면 변화조차 없을 때 씁니다. 해커가 `and IF(비밀번호 첫 글자='A', SLEEP(5), 0)`이라고 던집니다. 만약 웹사이트가 5초 동안 멈췄다가([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뜨면? "아, 첫 글자가 A가 맞아서 컴퓨터가 5초 잤구나!"라고 서버의 응답 속도를 스톱워치로 재서 비밀번호를 알아내는 징글징글하고 악랄한 끝판왕 스무고개 기법입니다.
+- <strong>Time-based (시간 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>) 스무고개</strong>: 참/거짓으로 화면 변화조차 없을 때 씁니다. 해커가 `and IF(비밀번호 첫 글자='A', SLEEP(5), 0)`이라고 던집니다. 만약 웹사이트가 5초 동안 멈췄다가([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 뜨면? "아, 첫 글자가 A가 맞아서 컴퓨터가 5초 잤구나!"라고 서버의 응답 속도를 스톱워치로 재서 비밀번호를 알아내는 징글징글하고 악랄한 끝판왕 스무고개 기법입니다.
 
 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 크로스 사이트 요청 위조가 기반 조건을 만든다면, [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 그 위에서 핵심 메커니즘을 구현하고, [버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,8 +92,8 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **근본 해결책**: 개발자가 쿼리문을 짤 때 입력값을 절대 그냥 합치지 말고, **`Prepared Statement(미리 준비된 구문, 바인딩)`**라는 안전망을 써야 합니다.
-- 이렇게 하면 해커가 `OR '1'='1` 이라는 해킹 코드를 쳐도, 서버는 이를 "실행할 코드"로 보지 않고 **"오, 이 사람의 로그인 아이디가 `OR '1'='1` 이구나. 참 특이한 이름이네. 가입된 적 없으니 꺼져!"**라며 단순한 글자(String) 덩어리로 취급해버려 해킹이 100% 무력화됩니다. (추가로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 앞선 696번 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 장비를 써서 차단합니다.)
+- **근본 해결책**: 개발자가 쿼리문을 짤 때 입력값을 절대 그냥 합치지 말고, <strong><code>Prepared Statement(미리 준비된 구문, 바인딩)</code></strong>라는 안전망을 써야 합니다.
+- 이렇게 하면 해커가 `OR '1'='1` 이라는 해킹 코드를 쳐도, 서버는 이를 "실행할 코드"로 보지 않고 <strong>"오, 이 사람의 로그인 아이디가 <code>OR '1'='1</code> 이구나. 참 특이한 이름이네. 가입된 적 없으니 꺼져!"</strong>라며 단순한 글자(String) 덩어리로 취급해버려 해킹이 100% 무력화됩니다. (추가로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 단에서 앞선 696번 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 장비를 써서 차단합니다.)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 크로스 사이트 요청 위조]
-    │
-    ▼
-[현재 개념: APT (Advanced Persistent…]
-    │
-    ├──▶ [확장 A: 버퍼 오버플로우 공격]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 크로스 사이트 요청 위조</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: APT (Advanced Persistent…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 버퍼 오버플로우 공격</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 크로스 사이트 요청 위조에서 출발해 현재 메커니즘을 정교화하고, 이후 [버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

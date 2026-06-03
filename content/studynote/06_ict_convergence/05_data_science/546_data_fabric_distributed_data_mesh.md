@@ -38,26 +38,27 @@ tags = ["studynote-ict-convergence"]
 
 ### [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 구조
 
-```
-[데이터 패브릭]
-소스A  소스B  소스C  소스D
-  └──────┴──────┴──────┘
-         메타데이터 계층
-    (자동 카탈로그 + 계보 + 품질)
-         │
-    가상 통합 계층
-    (논리적 단일 뷰, 물리적 이동 최소화)
-         │
-    소비자 (BI, ML, API)
 
-[데이터 메시]
-도메인A팀     도메인B팀     도메인C팀
-데이터 제품   데이터 제품   데이터 제품
-(Sales)      (Marketing)   (Operations)
-    └────────────┼────────────┘
-         연합 거버넌스 (공통 표준)
-         셀프 서비스 인프라 플랫폼
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭</div></div>
+<div class="kb-diagram-note">소스A 소스B 소스C 소스D</div>
+<div class="kb-diagram-note">메타데이터 계층</div>
+<div class="kb-diagram-note">(자동 카탈로그 + 계보 + 품질)</div>
+<div class="kb-diagram-note">가상 통합 계층</div>
+<div class="kb-diagram-note">(논리적 단일 뷰, 물리적 이동 최소화)</div>
+<div class="kb-diagram-note">소비자 (BI, ML, API)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시</div></div>
+<div class="kb-diagram-note">도메인A팀 도메인B팀 도메인C팀</div>
+<div class="kb-diagram-note">데이터 제품 데이터 제품 데이터 제품</div>
+<div class="kb-diagram-note">(Sales) (Marketing) (Operations)</div>
+<div class="kb-diagram-note">연합 거버넌스 (공통 표준)</div>
+<div class="kb-diagram-note">셀프 서비스 인프라 플랫폼</div>
+</div>
+</div>
+
+
 
 ### [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙
 
@@ -87,9 +88,9 @@ tags = ["studynote-ict-convergence"]
 ### [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) ([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/))
 
 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 발행할 때 맺는 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 개념의 형식적 약속:
-- **[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))**: 필드명, 타입, 의미.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>)</strong>: 필드명, 타입, 의미.
 - **품질 지표**: 완전성(Completeness), 정확도(Accuracy), 적시성(Timeliness).
-- **[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리**: Breaking Change 시 소비자 사전 통보.
+- <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong>: Breaking Change 시 소비자 사전 통보.
 
 - **📢 섹션 요약 비유**: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 식재료 납품 업체와의 계약서야. "매주 화요일 신선도 A등급 채소를 100kg 납품한다"처럼, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)도 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·품질·갱신 주기를 약속하고 지켜야 해.
 
@@ -97,17 +98,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 - 글로벌 제조사 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 전환**:
+<strong>시나리오 - 글로벌 제조사 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a> 전환</strong>:
 - 기존: 중앙 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 레이크 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요청 평균 처리 4.2일.
 - 문제: 영업·생산·물류 팀의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이해 부재로 분석 오류 빈발.
 
-**[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 전환 (1년 프로젝트)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a> 전환 (1년 프로젝트)</strong>:
 - [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀 3개 (영업, 생산, 물류) 각자 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 소유.
 - 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 플랫폼: [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) + dbt + Apache Atlas ([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)).
 - [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) 도입: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시 소비자 30일 전 통보 의무.
 - 결과: 분석 요청 처리 4.2일 → 0.8일, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈 67% 감소.
 
-**[데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) 적용 (레거시 통합 시나리오)**:
+<strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/">데이터 패브릭</a> 적용 (레거시 통합 시나리오)</strong>:
 - [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), S3 레이크 이기종 연결.
 - Collibra/Alation [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)로 자동 계보(Lineage) 추적.
 - 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 없이 가상 계층에서 SQL 통합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 제공.
@@ -125,7 +126,7 @@ tags = ["studynote-ict-convergence"]
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)과 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 현대 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 두 가지 방향성을 제시한다. 기술 통합(패브릭)과 조직 자율성([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))의 균형을 찾는 것이 엔터프라이즈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전략의 핵심이다.
 
 - **분석 민첩성**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 → 중앙 의존 없이 빠른 인사이트 도출.
-- **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 향상**: [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 책임자([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) Owner)가 품질에 직접 책임.
+- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 향상</strong>: [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 책임자([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) Owner)가 품질에 직접 책임.
 - **거버넌스 확장성**: 연합 거버넌스로 전사 표준 유지 + [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 혁신 속도 확보.
 
 - **📢 섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 중앙 주방 하나에서 수백 개 메뉴를 만들던 레스토랑이, 각 요리 전문가([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)에게 자기 코너를 주되 위생 기준(거버넌스)을 공통으로 지키는 푸드코트로 진화한 것이야.

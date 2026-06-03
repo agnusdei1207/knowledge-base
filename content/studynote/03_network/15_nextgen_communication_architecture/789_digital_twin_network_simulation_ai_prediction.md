@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 물리적으로 존재하는 수십만 대의 현실 네트워크 인프라(기지국, 라우터, 광케이블, 트래픽 흐름)를, **[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))과 빅데이터를 이용해 클라우드 서버의 가상 공간(Virtual Space)에 똑같은 쌍둥이 모델(소프트웨어 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))로 1:1 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 구축하는 선행 관측 모형 아키텍처**입니다.
+- **개념**: 물리적으로 존재하는 수십만 대의 현실 네트워크 인프라(기지국, 라우터, 광케이블, 트래픽 흐름)를, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)과 빅데이터를 이용해 클라우드 서버의 가상 공간(Virtual Space)에 똑같은 쌍둥이 모델(소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">클론</a>)로 1:1 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>하여 구축하는 선행 관측 모형 아키텍처</strong>입니다.
 - 산업용 공장([스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))의 기계를 복제하던 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기술을, 거대한 국가급 네트워크 인프라 전체로 확장한 개념입니다.
 
-```text
-[비지상 네트워크망]
-    │
-    ▼
-[디지털 트윈 네트워크 망]
-    │
-    └──▶ [네트워크 프로그래밍 모델 P4 지원 고정 하…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,25 +41,29 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그냥 그림만 그리는 3D 모델링이 아닙니다. 두 세계가 **살아 숨 쉬며 실시간으로 호흡을 맞추는([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))** 것이 핵심입니다.
+그냥 그림만 그리는 3D 모델링이 아닙니다. 두 세계가 <strong>살아 숨 쉬며 실시간으로 호흡을 맞추는(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>)</strong> 것이 핵심입니다.
 
-1. **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 및 매핑 (현실 ➜ 가상)**: 
+1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수집 및 매핑 (현실 ➜ 가상)</strong>: 
    - 서울 강남 기지국의 트래픽 양, 온열, 고장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 등의 텔레메트리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 0.1초 단위로 쫙 빨아들여, 가상 공간에 만들어둔 가짜 강남 기지국 모델에 그대로 피드백합니다. 가상 기지국도 진짜 기지국처럼 온도가 올라가고 트래픽이 차오릅니다.
-2. **[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 시뮬레이션 (가상 공간 내 테스트)**: 
+2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 기반 시뮬레이션 (가상 공간 내 테스트)</strong>: 
    - 가상 공간 안의 시간은 내 마음대로 빨리 돌릴 수 있습니다. AI가 쌍둥이 망 안에서 온갖 짓을 다 해봅니다. "만약 크리스마스이브 12시에 카톡이 100배 폭주하면(가상 트래픽 주입) 강남 기지국이 터질까?" 시뮬레이션했더니 진짜 터집니다. 
-3. **고장 예측 및 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 도출 (선행 관측)**:
+3. <strong>고장 예측 및 최적 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 도출 (선행 관측)</strong>:
    - 가상 망에서 어떻게 해야 기지국이 안 터지는지 1만 번을 반복 학습([강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/))시켜, "B 경로를 차단하고 C 라우터로 트래픽을 돌리면 절대 안 터짐"이라는 최적의 해답([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 찾아냅니다.
 4. **자가 치유망 강제 집행 (가상 ➜ 현실) 🌟**:
-   - 가상 공간에서 완벽히 검증을 마친 그 '트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를, 크리스마스가 오기 1시간 전에 **실제 현실의 라우터 장비([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)에 쏴서 강제로 세팅(적용)해 버립니다.** 현실 네트워크는 사고가 나기도 전에 완벽하게 면역 백신(자가 치유)을 맞게 됩니다.
+   - 가상 공간에서 완벽히 검증을 마친 그 '트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를, 크리스마스가 오기 1시간 전에 <strong>실제 현실의 라우터 장비(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 컨트롤러)에 쏴서 강제로 세팅(적용)해 버립니다.</strong> 현실 네트워크는 사고가 나기도 전에 완벽하게 면역 백신(자가 치유)을 맞게 됩니다.
 
-```text
-[비지상 네트워크망]
-    │
-    ▼
-[디지털 트윈 네트워크 망]
-    │
-    └──▶ [네트워크 프로그래밍 모델 P4 지원 고정 하…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,15 +125,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 비지상 네트워크망]
-    │
-    ▼
-[현재 개념: 디지털 트윈 네트워크 망]
-    │
-    ├──▶ [확장 A: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
-    └──▶ [확장 B: AI 기반 네트워크 최적화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비지상 네트워크망</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 네트워크 망</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
+</div>
+</div>
+
+
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망는 [비지상 네트워크망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/788_ntn_non_terrestrial_network_leo_satellite/)에서 출발해 현재 메커니즘을 정교화하고, 이후 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

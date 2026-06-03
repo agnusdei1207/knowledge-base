@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(자원 뺏기)할 때 `비용 공식(Min Cost)`이 철저하게 최적화될수록, 매번 데드락이 터질 때마다 **재수 없이 똑같이 싼 비용의 타겟 1명**만 계속 핀포인트로 희생되어 영원히 자원을 못 잡고 굶어 죽어가는 **기아 역병(Starvation)**을 원천 차단하는 브레이크 메커니즘이다.
+> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(자원 뺏기)할 때 `비용 공식(Min Cost)`이 철저하게 최적화될수록, 매번 데드락이 터질 때마다 <strong>재수 없이 똑같이 싼 비용의 타겟 1명</strong>만 계속 핀포인트로 희생되어 영원히 자원을 못 잡고 굶어 죽어가는 <strong>기아 역병(Starvation)</strong>을 원천 차단하는 브레이크 메커니즘이다.
 > 2. **가치**: "네가 싼놈이건 뭐건 아무튼 3번 이상 두들겨 팼으면 이젠 면제권 주고 VIP로 살려준다(희생 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 누적 룰)!"는 도덕적 수식을 추가하여, 전체 시스템의 데드락 이기주의로 인해 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 홀로 고독하게 프로세스 누수에 빠져 엿먹는 부작용을 막아낸다.
 > 3. **융합**: 이는 데드락 자체의 해결책은 커녕 되려 희생 비용 단가 연산을 비싸게 오염시키는 잡음이지만, 멀티 태스킹 환경 공정성(Fairness)이라는 OS 최고 철학 달성을 위해 기존 `Victim Selection` 공식 안에 필수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 보정값(Modifier) 파라미터로 철저하게 융합된다.
 
@@ -26,31 +26,31 @@ tags = ["studynote-operating-system"]
 
 이때 똑똑한 OS 공식이 다시 뇌를 굴린다.
 "음 EFG는 벤츠네? A 똥차! 또 네 녀석이 여기서 비용 점수 제일 만만하다. 야 넌 뒤로 [후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)해 임마!"
-... 이런 식으로 세상의 모든 데드락 십자포화를 혼자 독박 쓰고 A는 100년 내내 [후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)-재시작-[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 무한 루프 반복하며 평생 실행을 끝마치지 못하는 병, 이게 바로 **데드락 조치가 낳은 부작용 기아(Starvation)**다.
+... 이런 식으로 세상의 모든 데드락 십자포화를 혼자 독박 쓰고 A는 100년 내내 [후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)-재시작-[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 무한 루프 반복하며 평생 실행을 끝마치지 못하는 병, 이게 바로 <strong>데드락 조치가 낳은 부작용 기아(Starvation)</strong>다.
 
 **💡 비유**: 교실의 불량배(데드락 락)가 돈(자원)을 뺏을 희망의 먹잇감을 찾을 때 "가장 안경 쓰고 작고 만만한 놈(최소 비용 희생양 타겟)"을 설정했다. 안경 쓴 철수는 월요일 삥 뜯기고([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 당함), 화요일도 지목당해 삥 뜯기고, 수요일도 타겟팅 당해 평생 빵집을 못 간다(기아 굶어죽음). 이 고리를 끊으려면 시스템(경찰)이 개입해서 "야 철수 3번 뜯겼으니 이젠 철수 건드리지 마!(기아 방지 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))" 쉴드를 쳐 줘야 한다.
 
-```text
-┌────────────────────────────────────────────────────────────────┐
-│         연쇄 롤백의 독, 기아(Starvation) 예방 쉴드 튜닝        │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  [기존의 비인간적 효율 1순위 비용 공식]                        │
-│  Cost = α(여태까지 실행된 시간) + β(보유 자원량)               │
-│  ▶ 문제: '실행된 시간'이 낮은 뉴비는 계속 채점 1등으로 죽어남. │
-│                                                                │
-│  [기아 방지 쉴드판이 융합된 진화 채점(Counter 추가)]           │
-│  Cost = α(실행시간) + β(자원량) + γ(★지금까지 롤백당한 횟수)   │
-│                                                                │
-│  ▶ 결과 조율:                                                  │
-│  OS: "야 쟤 방금 튼 뉴비라 싸니까 한 번 더 죽이자."            │
-│  내면: "잠깐! 쟤(Rollback_Count 탑재)는 뉴비지만 벌써          │
-│         5번이나 희생당해서 분노 게이지 카운터(γ) 점수가        │
-│         엄청 커졌어! 이젠 죽방 비용이 남들보다 비싸!"          │
-│  OS: "아 진짜? 쟤 많이 맞았구나. 미안, 이번 데드락에선         │
-│       쟤는 면제, 딴 놈 잡아 족쳐!" (기적적인 회생, 기아 파괴)  │
-└────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연쇄 롤백의 독, 기아(Starvation) 예방 쉴드 튜닝</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기존의 비인간적 효율 1순위 비용 공식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost = α(여태까지 실행된 시간) + β(보유 자원량)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 문제: '실행된 시간'이 낮은 뉴비는 계속 채점 1등으로 죽어남.</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기아 방지 쉴드판이 융합된 진화 채점(Counter 추가)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost = α(실행시간) + β(자원량) + γ(★지금까지 롤백당한 횟수)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 조율:</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 쟤 방금 튼 뉴비라 싸니까 한 번 더 죽이자."</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내면: "잠깐! 쟤(Rollback_Count 탑재)는 뉴비지만 벌써</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번이나 희생당해서 분노 게이지 카운터(γ) 점수가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엄청 커졌어! 이젠 죽방 비용이 남들보다 비싸!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아 진짜? 쟤 많이 맞았구나. 미안, 이번 데드락에선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쟤는 면제, 딴 놈 잡아 족쳐!" (기적적인 회생, 기아 파괴)</div></div>
+</div>
+</div>
+
+
 
 **📢 섹션 요약 비유**: 오로지 '효율 최적화 공리주의'만 쫓던 인공지능이 "계속 희생당한 저 불쌍한 사람에게 도의적인 딱지 보너스 점수([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 얹어주어 한 번쯤은 살려 보내주는 감성적 공정(Fairness)"을 부여하는 고퀄리티 채점 튜닝입니다.
 
@@ -62,10 +62,10 @@ tags = ["studynote-operating-system"]
 
 OS와 DBMS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 락 대기 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 깊숙이 `Rollback Count` 변수가 이식되어 있다.
 
-1. **[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 적립 (PCB / [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) ID)**: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 교착 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위한 `Victim(희생자 선점 타겟)`으로 지명되어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)당할 때마다, 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 메타데이터인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 블락 숫자를 1씩 징벌적으로 증가(++)시켜 준다.
-2. **Cost Function 교란 방어선 (Threshold [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))**: 
+1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> 적립 (PCB / <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">Transaction</a> ID)</strong>: 특정 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 교착 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위한 `Victim(희생자 선점 타겟)`으로 지명되어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)당할 때마다, 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 메타데이터인 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 블락 숫자를 1씩 징벌적으로 증가(++)시켜 준다.
+2. <strong>Cost Function 교란 방어선 (Threshold <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong>: 
    - 데드락 피해 평가 시, 원래 자원이 가장 적고 어려서 10점(제일 쌈=죽임)인 타겟이라도 이 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 숫자가 X값 오버 플로우되면 가산점이 부여돼 100만 점(죽이면 안 됨 VIP)으로 둔갑한다. 흔히 `에이징(Aging)` 기법의 변형판 튜닝이다.
-3. **무사 탈출 시 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 초기화**: 천신만고 끝에 데드락을 뚫고 연산을 마쳐 자원을 뱉어내면, 이 억울함 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 0으로 리셋되며 소멸한다.
+3. <strong>무사 탈출 시 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 초기화</strong>: 천신만고 끝에 데드락을 뚫고 연산을 마쳐 자원을 뱉어내면, 이 억울함 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 0으로 리셋되며 소멸한다.
 
 **📢 섹션 요약 비유**: 너무 많이 맞아서 맷집 게이지([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 포인트)가 꽉 차서 붉은 아우라가 도는 유닛은 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 머신조차도 다시는 때리지 못하도록, 수식에 무적 쉴드 파라미터 변수([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/) Count)를 붙여 시스템 약자를 보호합니다.
 
@@ -77,7 +77,7 @@ OS와 DBMS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_
 |:---|:---|:---|
 | 발생의 근원 | 여러 프로세스가 원을 그려 뻗음(구조적 참몰) | 데드락 조치하려고 한 놈만 팼더니 생김 (부작용) |
 | 피해 범위 구분 | 여러 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 집단 전체가 동시 마비됨 | 운 나쁜 딱 특정(1개) 프로세스 하나만 영원히 잠수 탐 |
-| 해결 열쇠 지점 | OS가 하나 죽이거나, 뺏거나 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 파괴술) | 타겟 공식에 희생당한 **[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 더하기** 뿐 |
+| 해결 열쇠 지점 | OS가 하나 죽이거나, 뺏거나 ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 파괴술) | 타겟 공식에 희생당한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>) 더하기</strong> 뿐 |
 
 **📢 섹션 요약 비유**: 데드락은 "다들 차가 엉켜 움직이지 못하는 집단 마비 교통사고" 이고, 기아 상태는 경찰관 교통지도가 이상해서 "내 차 딱 하나만 맨날 양보해야 해서 영원히 집으로 못 가는 소외 현상"입니다. 방어의 타깃 포인트가 아예 다릅니다.
 
@@ -88,8 +88,8 @@ OS와 DBMS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_
 **실무 시나리오**:
 1. **RDBMS InnoDB 데드락 재시도 큐 관리 (Retry Backoff)**: [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 로직까지 DB 내부에 덕지덕지 바르면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 좀 커진다 판단하여, 현대 앱 서버(Spring 프레임워크) 단에서 재시도할 때 이 개념을 차용한다. 한 세션이 데드락 희생자로 선정되어 튕겨([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 나왔다? 다시 재시도 찌를 때 `Thread Sleep(5ms * Count)` 방식을 주거나 지수 백오프(Exponential Backoff)로 아예 다른 타이밍 우주 좌표계로 프로세스 진입 시간을 비틀어 밀어 넣어 애초에 동일 데드락 놈들과 다시 멱살을 잡지 못하게 우회 기폭 시켜 기아를 뜯어낸다.
 
-**[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)**:
-- **비용 공식을 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)만능주의로 지배(오버 웨이팅)**: 기아 방지하겠다고 "네가 비록 10만 개 자원을 잡은 대지주 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이라도 무조건 한 번 데드락 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 터졌으니 너 보호해([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Priority) 줌!" 이라 세팅해놓으면? 그 대규모 쓰레기가 똥고집을 부리게 되어 나머지 전체 서버 자원 스케줄링이 그놈 하나 살리자고 꽉 막히는 기형적(Utilization 박살) 역순환이 벌어진다. 모든 건 조율(Tuning)이다.
+<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong>비용 공식을 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a>만능주의로 지배(오버 웨이팅)</strong>: 기아 방지하겠다고 "네가 비록 10만 개 자원을 잡은 대지주 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이라도 무조건 한 번 데드락 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 터졌으니 너 보호해([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Priority) 줌!" 이라 세팅해놓으면? 그 대규모 쓰레기가 똥고집을 부리게 되어 나머지 전체 서버 자원 스케줄링이 그놈 하나 살리자고 꽉 막히는 기형적(Utilization 박살) 역순환이 벌어진다. 모든 건 조율(Tuning)이다.
 
 **📢 섹션 요약 비유**: 너무 약자를 보호한답시고 (한번 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 터진 애 무조건 생존), 반대로 걔가 고집부리며 다른 정상인 100만 명 앞길 막는 똥차(병목)로 변신하게 놔둔다면 그건 또 다른 전체 시스템 범죄입니다. 점수 파라미터는 저울 위의 칼등처럼 맞춰 둬야 합니다.
 
@@ -102,7 +102,7 @@ OS와 DBMS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_
 | 철학의 완성도 | 차가운 공리주의 최적화 (가장 싼 놈아 영원히 죽어) | 공정성(Fairness)을 포섭한 완강한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 생태계 |
 | 성능적 함의 | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 비용 수치가 가장 가벼워 시스템 오버헤드는 거의 0 | 횟수를 트래킹할 메타 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증폭, 간접적 오버헤드 |
 
-`기아 상태(Starvation)`는 아이러니하게도 데드락을 스마트하고 효율적으로 풀려던 '[Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) 최적 공식'의 결벽증이 스스로 낳은 골치 아픈 변종 바이러스였다. 하지만 엔지니어들은 이마저도 **희생 카운팅 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 배리어([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) Threshold)**라는 고도화된 점수 융합 변수를 다시 찔러 넣으면서, 가장 가벼운 희생양의 죽음이라는 최소 손실과 누구나 언젠간 기회를 얻어 끝마칠 수 있다는 완벽한 평등성 모두를 지배하는 스케줄링 예술로 승화시켜냈다.
+`기아 상태(Starvation)`는 아이러니하게도 데드락을 스마트하고 효율적으로 풀려던 '[Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) 최적 공식'의 결벽증이 스스로 낳은 골치 아픈 변종 바이러스였다. 하지만 엔지니어들은 이마저도 <strong>희생 카운팅 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 배리어(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a> Threshold)</strong>라는 고도화된 점수 융합 변수를 다시 찔러 넣으면서, 가장 가벼운 희생양의 죽음이라는 최소 손실과 누구나 언젠간 기회를 얻어 끝마칠 수 있다는 완벽한 평등성 모두를 지배하는 스케줄링 예술로 승화시켜냈다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -119,15 +119,19 @@ OS와 DBMS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[후퇴 (Rollback)]
-    │
-    ▼
-[기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)]
-    │
-    ├──▶ [라이브락 (Livelock)과 교착 상태의 차이점]
-    └──▶ [동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">후퇴 (Rollback)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브락 (Livelock)과 교착 상태의 차이점</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

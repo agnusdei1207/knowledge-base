@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 장비 제조사(Vendor)마다 기계를 통제하는 명령어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생김새가 완전히 달랐습니다.
 - 자동화 스크립트(파이썬)를 짜는 개발자는 시스코용 코드 100줄, 아리스타용 코드 100줄을 일일이 다르게 짜야 했고(하드웨어 종속), 코드가 수백만 줄로 불어나는 스파게티 지옥에 빠졌습니다.
 
-```text
-[NETCONF (Network Configu…]
-    │
-    ▼
-[YANG 데이터 모델링]
-    │
-    └──▶ [RESTCONF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YANG 데이터 모델링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTCONF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 네트워크 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Configuration), 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)), 알람([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 등의 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생김새(타입, 제약 조건, 계층 구조)를 컴퓨터와 인간이 모두 쉽게 읽을 수 있도록 정의해 놓은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)) 언어'**입니다. (RFC 6020 표준)
-- **비유**: YANG 자체는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아 보내는 택배 박스(NETCONF)가 아닙니다. 택배 박스 안에 들어갈 **"주문서 양식(빈칸 서식 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))"** 그 자체입니다.
+- **개념**: 네트워크 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Configuration), 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)), 알람([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 등의 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 생김새(타입, 제약 조건, 계층 구조)를 컴퓨터와 인간이 모두 쉽게 읽을 수 있도록 정의해 놓은 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 모델링 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>) 언어'</strong>입니다. (RFC 6020 표준)
+- **비유**: YANG 자체는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아 보내는 택배 박스(NETCONF)가 아닙니다. 택배 박스 안에 들어갈 <strong>"주문서 양식(빈칸 서식 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)"</strong> 그 자체입니다.
 
-```text
-[NETCONF (Network Configu…]
-    │
-    ▼
-[YANG 데이터 모델링]
-    │
-    └──▶ [RESTCONF]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">YANG 데이터 모델링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTCONF</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -68,8 +76,8 @@ YANG의 가장 무서운 파워입니다. 사람이 실수(휴먼 에러)하는 
 - 만약 관리자가 술에 취해서 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에 `65536`이나 문자열 `abc`를 적어서 NETCONF로 쏘면? 장비에 들어가기도 전에 YANG 파서(Parser)가 **"야! 서식에 안 맞잖아!" 하고 에러를 뿜으며 전송 자체를 막아버립니다.** 완벽한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 방패입니다.
 
 ### 3. [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))과 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리
-- **[Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: 관리자가 "IP를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1로 바꿔라"라고 세팅하는 값. (수정 가능)
-- **[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)**: 현재 장비의 "CPU 온도 80도", "팬 회전수 300" 같은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 값. (읽기 전용, 수정 불가)
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 관리자가 "IP를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).0.0.1로 바꿔라"라고 세팅하는 값. (수정 가능)
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>: 현재 장비의 "CPU 온도 80도", "팬 회전수 300" 같은 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 값. (읽기 전용, 수정 불가)
 - YANG은 이 둘의 속성을 완벽히 분리해(`config false;`) 실수로 쿨러 온도를 임의 조작하는 미친 짓을 막습니다.
 
 YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NETCONF (Network Configu…가 기반 조건을 만든다면, YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링은 그 위에서 핵심 메커니즘을 구현하고, RESTCONF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -86,8 +94,8 @@ YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **YANG**은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이런 모양(XML 트리)으로 생겨야 해"라고 **서식(형식)**을 짜줍니다.
-2. **NETCONF**는 그 YANG 서식에 맞춰 예쁘게 작성된 실제 XML [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들고, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널을 뚫어서 장비로 직접 **배달([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))**합니다.
+1. <strong>YANG</strong>은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이런 모양(XML 트리)으로 생겨야 해"라고 <strong>서식(형식)</strong>을 짜줍니다.
+2. <strong>NETCONF</strong>는 그 YANG 서식에 맞춰 예쁘게 작성된 실제 XML [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들고, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널을 뚫어서 장비로 직접 <strong>배달(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>합니다.
 3. 이 둘의 결합으로, 파이썬(Python) 개발자는 장비 제조사 매뉴얼을 볼 필요 없이 YANG 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 딱 열어보면 "아, 이 장비는 IP 세팅할 때 요런 모양으로 던지면 되는구나!" 하고 10분 만에 자동화 코드를 짜낼 수 있습니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -96,7 +104,7 @@ YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 옛날엔 은행(네트워크 장비)에 대출([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))을 받으러 갈 때 규격화된 양식이 없었습니다. 손님마다 줄 없는 이면지에 삐뚤빼뚤하게 자기 맘대로 신상정보를 써서 내밀었기 때문에(비표준 CLI), 은행원은 이걸 해독하느라 시간이 다 갔습니다(자동화 실패). **YANG(양) 모델**은 전국 모든 은행이 100% 똑같이 통일하여 사용하는 구멍 송송 뚫린 완벽한 **'표준 대출 신청서 양식지'**입니다. 이 양식지에는 "주민번호 칸에는 무조건 숫자 13자리만 써라!([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 강제)"라고 깐깐한 규칙이 박혀 있습니다. 손님이 이 빈칸 규칙에 맞춰 예쁘게 글씨를 채워 넣은 뒤(XML화), 우체국 특급 등기(NETCONF)를 통해 은행으로 쏴 보내면, 은행 컴퓨터는 0.1초 만에 양식지를 스캔해 오류 없이 대출 업무([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅)를 완벽하게 자동화 처리하는 기적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뼈대입니다.
+- **📢 섹션 요약 비유**: 옛날엔 은행(네트워크 장비)에 대출([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))을 받으러 갈 때 규격화된 양식이 없었습니다. 손님마다 줄 없는 이면지에 삐뚤빼뚤하게 자기 맘대로 신상정보를 써서 내밀었기 때문에(비표준 CLI), 은행원은 이걸 해독하느라 시간이 다 갔습니다(자동화 실패). <strong>YANG(양) 모델</strong>은 전국 모든 은행이 100% 똑같이 통일하여 사용하는 구멍 송송 뚫린 완벽한 <strong>'표준 대출 신청서 양식지'</strong>입니다. 이 양식지에는 "주민번호 칸에는 무조건 숫자 13자리만 써라!([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 강제)"라고 깐깐한 규칙이 박혀 있습니다. 손님이 이 빈칸 규칙에 맞춰 예쁘게 글씨를 채워 넣은 뒤(XML화), 우체국 특급 등기(NETCONF)를 통해 은행으로 쏴 보내면, 은행 컴퓨터는 0.1초 만에 양식지를 스캔해 오류 없이 대출 업무([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅)를 완벽하게 자동화 처리하는 기적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 뼈대입니다.
 
 ---
 
@@ -119,15 +127,19 @@ YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NETCONF (Network Configu…]
-    │
-    ▼
-[현재 개념: YANG 데이터 모델링]
-    │
-    ├──▶ [확장 A: RESTCONF]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NETCONF (Network Configu…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: YANG 데이터 모델링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RESTCONF</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링는 NETCONF (Network Configu…에서 출발해 현재 메커니즘을 정교화하고, 이후 RESTCONF와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

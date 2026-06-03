@@ -21,23 +21,24 @@ tags = ["studynote-ai"]
 
 A3C와 PPO는 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) ([Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) 계열이 부딪힌 두 가지 대표 병목을 해결한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책 경사법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)은 보상이 늦고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 커서 학습이 쉽게 흔들렸고, [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))은 연속 행동 제어나 큰 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 분포를 직접 다루는 데 한계가 있었다. [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)이 행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 가치 평가를 분리해 문제를 줄였지만, 여전히 한쪽에는 경험 수집 속도 문제가, 다른 한쪽에는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 폭주 문제가 남아 있었다.
 
-A3C는 2016년 DeepMind가 제안해, 여러 워커가 서로 다른 환경을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)하며 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 비동기로 갱신하는 방식을 보였다. 이어 2017년 OpenAI가 제안한 PPO는 TRPO (Trust Region [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Optimization)의 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 너무 멀리 움직이지 말라"는 아이디어를 더 단순한 1차 최적화 형태로 바꿔, 구현 난이도와 안정성의 균형을 크게 개선했다. 그래서 강화학습의 역사에서 A3C는 **확장성의 전환점**, PPO는 **실용성의 전환점**으로 자주 묶여 설명된다.
+A3C는 2016년 DeepMind가 제안해, 여러 워커가 서로 다른 환경을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)하며 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 비동기로 갱신하는 방식을 보였다. 이어 2017년 OpenAI가 제안한 PPO는 TRPO (Trust Region [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Optimization)의 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 너무 멀리 움직이지 말라"는 아이디어를 더 단순한 1차 최적화 형태로 바꿔, 구현 난이도와 안정성의 균형을 크게 개선했다. 그래서 강화학습의 역사에서 A3C는 **확장성의 전환점**, PPO는 <strong>실용성의 전환점</strong>으로 자주 묶여 설명된다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why A3C and PPO mattered                                             │
-├──────────────────────────────────────────────────────────────────────┤
-│ Policy Gradient                                                      │
-│   ├─ high variance                                                   │
-│   └─ slow single-worker sampling                                     │
-│        │                                                             │
-│        ▼                                                             │
-│ Actor-Critic                                                         │
-│   ├─ better evaluation signal                                        │
-│   ├─ but sampling bottleneck remains  -> A3C                         │
-│   └─ but update instability remains -> TRPO -> PPO                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why A3C and PPO mattered</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Gradient</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ high variance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ slow single-worker sampling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ better evaluation signal</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ but sampling bottleneck remains -&gt; A3C</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ but update instability remains -&gt; TRPO -&gt; PPO</div></div>
+</div>
+</div>
+
+
 
 즉 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 같은 가계도에 있지만 해결하는 pain point가 다르다. A3C는 "여러 명이 동시에 경험을 모으게 하자"는 답이고, PPO는 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 급발진하지 않게 안전벨트를 매자"는 답이다.
 
@@ -49,23 +50,24 @@ A3C는 2016년 DeepMind가 제안해, 여러 워커가 서로 다른 환경을 [
 
 A3C의 핵심은 여러 워커가 각자 환경과 상호작용하면서 로컬 네트워크로 경험을 쌓고, 그 기울기를 글로벌 네트워크에 비동기로 반영하는 구조다. 이 방식은 한 워커의 연속 경험만 보는 것보다 샘플 상관관계를 줄이고, 재현 버퍼 없이도 다양한 상태를 빠르게 모으게 해 준다. 대신 업데이트 시점이 완전히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되지 않기 때문에, 어떤 워커는 이미 오래된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아 약간의 stale gradient를 보낼 수 있다.
 
-PPO의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 방식보다 **업데이트를 제한하는 목적 함수**에 있다. 보통 rollout을 모은 뒤 어드밴티지 추정값을 계산하고, `r_t = π_new(a_t|s_t) / π_old(a_t|s_t)` 비율이 너무 커지거나 작아지면 `clip(r_t, 1-ε, 1+ε)`로 잘라낸다. 여기서 `ε`는 흔히 0.1~0.2 수준이며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 번에 급격히 이동하는 것을 막는다. PPO는 여기에 가치 손실, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스, GAE (Generalized Advantage Estimation) 같은 보조 장치를 결합해 안정성을 높인다.
+PPO의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 방식보다 <strong>업데이트를 제한하는 목적 함수</strong>에 있다. 보통 rollout을 모은 뒤 어드밴티지 추정값을 계산하고, `r_t = π_new(a_t|s_t) / π_old(a_t|s_t)` 비율이 너무 커지거나 작아지면 `clip(r_t, 1-ε, 1+ε)`로 잘라낸다. 여기서 `ε`는 흔히 0.1~0.2 수준이며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 번에 급격히 이동하는 것을 막는다. PPO는 여기에 가치 손실, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스, GAE (Generalized Advantage Estimation) 같은 보조 장치를 결합해 안정성을 높인다.
 
-```text
-┌──────────────────────────────┬───────────────────────────────────────┐
-│ A3C                          │ PPO                                   │
-├──────────────────────────────┼───────────────────────────────────────┤
-│ worker_1 -> env -> grad ----┐│ rollout with π_old                    │
-│ worker_2 -> env -> grad ----┼┼-> advantage estimate                 │
-│ worker_n -> env -> grad ----┘│        │                              │
-│                │             │        ▼                              │
-│                ▼             │ ratio r_t = π_new / π_old             │
-│         global parameters    │        │                              │
-│                ▲             │        ▼                              │
-│         sync local copy      │ clipped objective + mini-batch epochs │
-│ solved bottleneck: sampling  │ solved bottleneck: unstable updates   │
-└──────────────────────────────┴───────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A3C</div><div class="kb-diagram-cell">PPO</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_1 -&gt; env -&gt; grad ----</div><div class="kb-diagram-cell">rollout with π_old</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_2 -&gt; env -&gt; grad ---- -&gt; advantage estimate</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_n -&gt; env -&gt; grad ----</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">ratio r_t = π_new / π_old</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">global parameters</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync local copy</div><div class="kb-diagram-cell">clipped objective + mini-batch epochs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">solved bottleneck: sampling</div><div class="kb-diagram-cell">solved bottleneck: unstable updates</div></div>
+</div>
+</div>
+
+
 
 | 항목 | A3C | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) |
 | :--- | :--- | :--- |
@@ -83,7 +85,7 @@ A3C가 경험 수집을 [분산](/knowledge-base/studynote/08_algorithm_stats/08
 
 ## Ⅲ. 비교 및 연결
 
-A3C와 PPO를 비교할 때는 "누가 더 최신인가"보다 "무엇을 제어하는가"를 봐야 한다. A3C는 비동기 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성으로 샘플 다양성을 확보했고, TRPO는 Kullback-Leibler (KL) 거리 제약으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 이동 폭을 엄격히 통제했으며, PPO는 그 통제를 더 단순한 클리핑과 KL penalty 형태로 바꿨다. 따라서 A3C와 PPO는 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다, **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화와 안정화라는 서로 다른 축의 해법**이다.
+A3C와 PPO를 비교할 때는 "누가 더 최신인가"보다 "무엇을 제어하는가"를 봐야 한다. A3C는 비동기 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성으로 샘플 다양성을 확보했고, TRPO는 Kullback-Leibler (KL) 거리 제약으로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 이동 폭을 엄격히 통제했으며, PPO는 그 통제를 더 단순한 클리핑과 KL penalty 형태로 바꿨다. 따라서 A3C와 PPO는 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화와 안정화라는 서로 다른 축의 해법</strong>이다.
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 핵심 제어 축 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
@@ -126,7 +128,7 @@ A3C와 PPO를 비교할 때는 "누가 더 최신인가"보다 "무엇을 제어
 - A3C에서 워커 수만 늘리고 글로벌 모델 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용을 관리하지 않는 것
 - 샘플이 매우 비싼 문제에 PPO를 기본값처럼 적용하는 것
 
-기술사 답안에서는 "PPO가 무조건 우월하다"고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, **A3C는 수집 구조 혁신, PPO는 업데이트 안정화 혁신**이라고 분리해 적는 편이 좋다. 그래야 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 안정성, 샘플 효율의 세 축을 기준으로 설계 판단을 설명할 수 있다.
+기술사 답안에서는 "PPO가 무조건 우월하다"고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다, <strong>A3C는 수집 구조 혁신, PPO는 업데이트 안정화 혁신</strong>이라고 분리해 적는 편이 좋다. 그래야 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, 안정성, 샘플 효율의 세 축을 기준으로 설계 판단을 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 연습생을 많이 뽑는 것과 훈련 규칙을 잘 만드는 것은 다른 문제다. A3C는 연습생 숫자를 늘리는 쪽이고, PPO는 훈련 도중 무리해서 다치지 않게 코칭 강도를 조절하는 쪽이다.
 
@@ -136,7 +138,7 @@ A3C와 PPO를 비교할 때는 "누가 더 최신인가"보다 "무엇을 제어
 
 A3C와 PPO는 강화학습이 "느리고 불안정한 실험"에서 "확장 가능하고 관리 가능한 학습"으로 넘어가는 데 핵심 역할을 했다. A3C는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 샘플링과 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)의 실용화를 밀어 올렸고, PPO는 복잡한 신뢰 영역 아이디어를 현업 엔지니어도 구현 가능한 수준으로 단순화했다. 그 결과 로보틱스, 게임, 추천 최적화, 언어 모델 정렬까지 같은 철학이 넓게 퍼졌다.
 
-하지만 둘 다 만능은 아니다. A3C는 비동기 노이즈와 하드웨어 비효율이 약점이고, PPO는 안정적이지만 샘플 비용이 큰 on-[policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라는 한계가 있다. 따라서 기억해야 할 핵심은 "A3C냐 PPO냐"의 이분법이 아니라, **경험 수집을 어떻게 넓히고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트를 어떻게 안전하게 만들 것인가**라는 설계 질문이다.
+하지만 둘 다 만능은 아니다. A3C는 비동기 노이즈와 하드웨어 비효율이 약점이고, PPO는 안정적이지만 샘플 비용이 큰 on-[policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라는 한계가 있다. 따라서 기억해야 할 핵심은 "A3C냐 PPO냐"의 이분법이 아니라, <strong>경험 수집을 어떻게 넓히고 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 업데이트를 어떻게 안전하게 만들 것인가</strong>라는 설계 질문이다.
 
 - **📢 섹션 요약 비유**: A3C는 많은 손을 확보해 연습량을 늘린 방법이고, PPO는 한 번에 자세를 너무 바꾸지 않게 만든 안전 훈련법이다. 강화학습의 성숙은 결국 이 두 가지를 함께 다루는 방향으로 진화했다.
 
@@ -156,25 +158,25 @@ A3C와 PPO는 강화학습이 "느리고 불안정한 실험"에서 "확장 가�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정책 경사법 (Policy Gradient)
-    │
-    ▼
-액터-크리틱 (Actor-Critic)
-    │
-    ├─ 병렬 경험 수집 문제 해결 ──▶ A3C
-    │
-    └─ 정책 급변 문제 해결
-            │
-            ▼
-TRPO (Trust Region Policy Optimization)
-            │
-            ▼
-PPO (Proximal Policy Optimization)
-            │
-            ▼
-분산형 PPO · 로보틱스 · RLHF
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정책 경사법 (Policy Gradient)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">액터-크리틱 (Actor-Critic)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">병렬 경험 수집 문제 해결 ──▶ A3C</div>
+<div class="kb-diagram-tree-item" style="--depth:2">정책 급변 문제 해결</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">TRPO (Trust Region Policy Optimization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">PPO (Proximal Policy Optimization)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산형 PPO · 로보틱스 · RLHF</div>
+</div>
+</div>
+
+
 
 이 흐름은 강화학습이 "평가 구조 확립 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 안정화 → 대규모 응용" 순으로 실용화된 과정을 요약한다.
 

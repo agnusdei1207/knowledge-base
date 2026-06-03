@@ -106,24 +106,27 @@ tags = ["ai"]
 
 실무 게임 엔진(Stockfish 등 체스 엔진) 아키텍처에서는 앞서 언급한 최적의 노드 정렬(Move [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))을 구현하여 프루닝 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 높이는 것이 엔지니어의 핵심 역량이다.
 
-**도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 실무 최적화 기법**
-- **[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (Transposition Table)**: 바둑이나 체스에서는 수순만 다르고 결과 보드는 똑같은 중복 상태가 발생한다. 이미 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 판별이 끝난 보드 상태를 Zobrist Hashing 기법을 통해 메모리에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해두어 연산을 이중 스킵해야 한다.
-- **킬러 무브 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) (Killer [Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))**: 이전에 다른 형제 노드에서 강력한 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 발생시켰던 특정 수(Killer Move)를 기억해뒀다가, 다음 번 탐색 시 우선적으로 왼쪽(최우선 탐색)에 배치하여 프루닝 성공률을 극대화하는 실무적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+<strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 최적화 기법</strong>
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> (Transposition Table)</strong>: 바둑이나 체스에서는 수순만 다르고 결과 보드는 똑같은 중복 상태가 발생한다. 이미 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 판별이 끝난 보드 상태를 Zobrist Hashing 기법을 통해 메모리에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해두어 연산을 이중 스킵해야 한다.
+- <strong>킬러 무브 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (Killer <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong>: 이전에 다른 형제 노드에서 강력한 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)를 발생시켰던 특정 수(Killer Move)를 기억해뒀다가, 다음 번 탐색 시 우선적으로 왼쪽(최우선 탐색)에 배치하여 프루닝 성공률을 극대화하는 실무적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
-```text
-[실무 운영 플로우: 강력한 체스 엔진의 탐색 파이프라인]
 
-[상태 노드 확장]
-       │
-       ▼
-[Move Ordering 적용] ── (킬러 무브, 상대방 기물 포획 등 '좋아보이는 수'부터 정렬)
-       │
-       ▼
-[Transposition Table 검사] ── (이미 과거에 연산해 본 판인지 Zobrist 캐시 확인)
-       │ (Hit) ──► 즉시 결과 반환 (연산 0)
-       ▼ (Miss)
-[알파-베타 가지치기 재귀 실행] ── (α >= β 발동 시 Cut-off)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">실무 운영 플로우: 강력한 체스 엔진의 탐색 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">상태 노드 확장</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Move Ordering 적용</div><div class="kb-diagram-note">── (킬러 무브, 상대방 기물 포획 등 '좋아보이는 수'부터 정렬)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Transposition Table 검사</div><div class="kb-diagram-note">── (이미 과거에 연산해 본 판인지 Zobrist 캐시 확인)</div></div>
+<div class="kb-diagram-note">(Hit) ──► 즉시 결과 반환 (연산 0)</div>
+<div class="kb-diagram-note">▼ (Miss)</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알파-베타 가지치기 재귀 실행</div><div class="kb-diagram-note">── (α &gt;= β 발동 시 Cut-off)</div></div>
+</div>
+</div>
+
+
 
 이 운영 플로우는 순수한 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 실무에서 어떻게 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 진화하는지 명확히 보여준다. 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)는 맨눈으로 수천만 노드를 줄여주고, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)과 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 정렬이 그 위에서 부스터 역할을 하여 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 ms 단위로 통제한다.
 
@@ -141,29 +144,31 @@ tags = ["ai"]
 
 ---
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **[미니맥스 알고리즘](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/) ([Minimax Algorithm](/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/))** | 상대의 최선의 방어를 전제로 나의 최대 이익을 찾는 뼈대 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)
-- **Move [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) (노드 정렬 기법)** | 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)의 효율성을 극대화하기 위해 유망한 수를 먼저 검사하게 만드는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/">미니맥스 알고리즘</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/019_minimax_algorithm/">Minimax Algorithm</a>)</strong> | 상대의 최선의 방어를 전제로 나의 최대 이익을 찾는 뼈대 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)
+- <strong>Move <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a> (노드 정렬 기법)</strong> | 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)의 효율성을 극대화하기 위해 유망한 수를 먼저 검사하게 만드는 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
 - **Zobrist Hashing** | 체스판의 상태를 고유한 64비트 정수로 변환하여 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 효율을 극대화하는 해시 매핑 기술
 - **트랜스포지션 테이블 (Transposition Table)** | 다른 수순으로 똑같은 국면에 도달했을 때, 중복 연산을 방지하는 거대 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)
-- **[깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))** | 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 알파, 베타값을 들고 바닥까지 빠르게 찍고 올라오기 위해 사용하는 핵심 순회 로직
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">깊이 우선 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/">DFS</a>)</strong> | 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)가 알파, 베타값을 들고 바닥까지 빠르게 찍고 올라오기 위해 사용하는 핵심 순회 로직
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[게임 트리 (Game Tree) — 경우의 수 전체 탐색 공간]
-    │
-    ▼
-[미니맥스 알고리즘 (Minimax) — 상대 최선 방어 전제로 나의 최대 이익 탐색]
-    │
-    ▼
-[알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요한 가지 제거, O(b^d) → O(b^(d/2))]
-    │
-    ▼
-[Move Ordering (노드 정렬) — 유망한 수 선탐색으로 가지치기 효율 극대화]
-    │
-    ▼
-[MCTS (Monte Carlo Tree Search) — 확률 시뮬레이션 기반 AlphaGo의 탐색 전략]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">게임 트리 (Game Tree) — 경우의 수 전체 탐색 공간</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">미니맥스 알고리즘 (Minimax) — 상대 최선 방어 전제로 나의 최대 이익 탐색</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요한 가지 제거, O(b^d) → O(b^(d/2))</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Move Ordering (노드 정렬) — 유망한 수 선탐색으로 가지치기 효율 극대화</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS (Monte Carlo Tree Search) — 확률 시뮬레이션 기반 AlphaGo의 탐색 전략</div></div>
+</div>
+</div>
+
+
 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)의 지수적 탐색 공간을 알파-베타 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로 절반 수준으로 줄이고, Move Ordering으로 효율을 극대화한 뒤 MCTS로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 탐색까지 확장되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

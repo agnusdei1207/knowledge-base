@@ -19,24 +19,26 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-확장성 설계는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량, 요청량, 동시 사용자 수가 증가할 때 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 얼마나 예측 가능하게 늘어나는지를 다루는 설계 원칙이다. 빅데이터 플랫폼에서는 저장 용량만 커지면 되는 것이 아니라, 적재 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시간, 스트리밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 동시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간까지 함께 고려해야 한다. 즉 확장성은 "더 큰 서버"의 문제가 아니라 **증가하는 부하를 여러 축에서 흡수하는 구조**의 문제다.
+확장성 설계는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량, 요청량, 동시 사용자 수가 증가할 때 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 얼마나 예측 가능하게 늘어나는지를 다루는 설계 원칙이다. 빅데이터 플랫폼에서는 저장 용량만 커지면 되는 것이 아니라, 적재 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시간, 스트리밍 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 동시 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간까지 함께 고려해야 한다. 즉 확장성은 "더 큰 서버"의 문제가 아니라 <strong>증가하는 부하를 여러 축에서 흡수하는 구조</strong>의 문제다.
 
 단일 노드 중심 설계는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단순하지만 금방 한계에 부딪힌다. 중앙 처리 장치, 메모리, 디스크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 네트워크 인터페이스 가운데 하나라도 포화되면 전체 플랫폼이 막힌다. 특히 빅데이터에서는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회, 셔플, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제, 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 병합, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 트래픽이 함께 얽혀 병목이 더 빨리 드러난다.
 
 따라서 확장성은 수직 확장만으로 해결되지 않는다. 더 비싼 장비로 잠시 버틸 수는 있지만, 장애 시 영향 범위가 커지고 비용 증가 곡선도 가파르다. 반면 수평 확장은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복잡도가 늘어나는 대가를 치르지만, 더 작은 단위로 실패를 흡수하고 점진적으로 용량을 키울 수 있다. 빅데이터 플랫폼이 거의 예외 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계산을 택하는 이유가 여기에 있다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Single-node limit vs distributed growth                           │
-├────────────────────────────────────────────────────────────────────┤
-│ Single node                                                        │
-│   compute / memory / disk / network -> one box hits one ceiling   │
-│                                                                    │
-│ Distributed platform                                               │
-│   partitioned data + parallel workers + replica / rebalance       │
-│   -> throughput grows, but coordination cost must be controlled    │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single-node limit vs distributed growth</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single node</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">compute / memory / disk / network -&gt; one box hits one ceiling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distributed platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partitioned data + parallel workers + replica / rebalance</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; throughput grows, but coordination cost must be controlled</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 확장성 설계는 식당에 손님이 늘 때 주방을 더 큰 한 칸으로 키울지, 조리대와 직원을 여러 구역으로 나눌지 결정하는 일과 같다. 손님이 계속 늘면 결국 한 칸 주방만으로는 감당이 안 된다.
 
@@ -46,23 +48,23 @@ tags = ["studynote-bigdata"]
 
 빅데이터 플랫폼의 확장성은 보통 저장과 계산을 분리하는 데서 시작한다. 객체 스토리지나 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)은 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비교적 저렴하게 저장하고, Spark·Flink·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 같은 계산 계층은 필요할 때 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 워커를 늘려 처리한다. 여기에 [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/), [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), 캐시 계층이 붙어 전체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 이룬다.
 
-핵심 원리는 세 가지다. 첫째, **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능한 단위로 나눈다**. 둘째, **계산 자원을 부하에 따라 늘리고 줄인다**. 셋째, **노드 추가 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재분배 비용을 통제한다**. 이 세 가지가 맞물리지 않으면 노드를 많이 추가해도 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 셔플 폭증, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 병목 때문에 기대한 만큼 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 늘지 않는다.
+핵심 원리는 세 가지다. 첫째, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능한 단위로 나눈다</strong>. 둘째, **계산 자원을 부하에 따라 늘리고 줄인다**. 셋째, <strong>노드 추가 시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 재분배 비용을 통제한다</strong>. 이 세 가지가 맞물리지 않으면 노드를 많이 추가해도 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 셔플 폭증, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 병목 때문에 기대한 만큼 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 늘지 않는다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Scalable big-data platform                                        │
-├────────────────────────────────────────────────────────────────────┤
-│ Ingest -> Queue / Log -> Partitioned Storage -> Elastic Compute   │
-│                         │                          │               │
-│                         │                          ├─ batch jobs   │
-│                         │                          ├─ stream jobs  │
-│                         │                          └─ query layer  │
-│                         │                                          │
-│                         └─ metadata / partition map / statistics   │
-│                                                                    │
-│ Scale works only if partitioning, scheduling, and rebalance align  │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scalable big-data platform</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest -&gt; Queue / Log -&gt; Partitioned Storage -&gt; Elastic Compute</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ batch jobs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stream jobs</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ query layer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ metadata / partition map / statistics</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scale works only if partitioning, scheduling, and rebalance align</div></div>
+</div>
+</div>
+
+
 
 | 계층 | 확장 레버 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -74,7 +76,7 @@ tags = ["studynote-bigdata"]
 
 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)도 구분해서 봐야 한다. [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 조회 패턴에 맞게 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 나누는 방식이고, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 물리 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방식이다. 예를 들어 날짜 기반 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/))을 가능하게 하고, [해시 샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/282_embedded_document_pattern/)은 노드 간 저장 부하를 균등화한다. 빅데이터 플랫폼에서는 이 둘을 함께 써야 하는 경우가 많다.
 
-자동 확장 역시 상태 없는 계산 계층과 상태 저장 계층을 분리해서 봐야 한다. Spark 실행기나 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 워커는 비교적 쉽게 늘릴 수 있지만, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 브로커, [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 노드, [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 샤드는 노드 추가 뒤 리밸런싱과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 따른다. 따라서 자동 확장은 "인스턴스를 띄울 수 있는가"보다 **상태를 안전하게 재배치할 수 있는가**로 판단해야 한다.
+자동 확장 역시 상태 없는 계산 계층과 상태 저장 계층을 분리해서 봐야 한다. Spark 실행기나 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 워커는 비교적 쉽게 늘릴 수 있지만, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 브로커, [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 노드, [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 샤드는 노드 추가 뒤 리밸런싱과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 따른다. 따라서 자동 확장은 "인스턴스를 띄울 수 있는가"보다 <strong>상태를 안전하게 재배치할 수 있는가</strong>로 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 확장성 아키텍처는 창고에 선반만 더 놓는 일이 아니라, 입고 통로·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)대·지게차 동선까지 다시 맞추는 일과 같다. 선반 수만 늘리면 오히려 창고 안이 더 막힐 수 있다.
 
@@ -93,7 +95,7 @@ tags = ["studynote-bigdata"]
 
 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)의 차이도 실무에서 자주 헷갈린다. 예를 들어 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 테이블에서 `dt=2026-05-01` 같은 날짜 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분할이다. 반면 사용자 프로필 저장소에서 `hash(user_id) % N`은 물리 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 위한 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)에 가깝다. 전자는 스캔 범위를 줄이는 데 강하고, 후자는 저장 부하를 고르게 나누는 데 강하다.
 
-또한 빅데이터 플랫폼은 단일 제품이 아니라 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/), 서빙 저장소가 연결된 체계다. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 소비자 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 직결되고, Spark 셔플은 네트워크 확장성과 연결되며, Iceberg·[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 계열 테이블은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 설계와 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 결국 확장성은 한 계층의 기술이 아니라 **전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**이다.
+또한 빅데이터 플랫폼은 단일 제품이 아니라 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/), 서빙 저장소가 연결된 체계다. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 소비자 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 직결되고, Spark 셔플은 네트워크 확장성과 연결되며, Iceberg·[Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)·[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 계열 테이블은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 설계와 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 관리가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 결국 확장성은 한 계층의 기술이 아니라 <strong>전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름의 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
 - **📢 섹션 요약 비유**: 수직 확장은 한 대형 엘리베이터를 더 빠른 모델로 바꾸는 것이고, 수평 확장은 여러 엘리베이터와 층별 동선을 나누는 것이다. 사람 수가 계속 늘면 결국 동선 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 더 중요해진다.
 
@@ -132,9 +134,9 @@ tags = ["studynote-bigdata"]
 
 좋은 확장성 설계는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량이 늘어도 처리 시간이 갑자기 무너지지 않게 만든다. 저장과 계산을 적절히 분리하고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)을 조회 패턴에 맞추며, 재분배와 컴팩션을 통제하면 비용 증가를 상대적으로 완만하게 유지할 수 있다. 또한 장애가 나도 일부 노드나 일부 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수준에서 격리되어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 범위를 좁힐 수 있다.
 
-하지만 확장성은 공짜가 아니다. 노드가 늘수록 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/), 네트워크 셔플, 합의, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 복잡도도 함께 증가한다. 따라서 설계의 목적은 무한 확장 자체가 아니라 **예측 가능한 증가와 통제 가능한 운영 비용**을 만드는 데 있어야 한다.
+하지만 확장성은 공짜가 아니다. 노드가 늘수록 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/), 네트워크 셔플, 합의, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 복잡도도 함께 증가한다. 따라서 설계의 목적은 무한 확장 자체가 아니라 <strong>예측 가능한 증가와 통제 가능한 운영 비용</strong>을 만드는 데 있어야 한다.
 
-결론적으로 빅데이터에서 확장성은 하드웨어 크기의 문제가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 재배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 문제다. 기억할 핵심은 단순하다. **수평 확장은 노드를 늘리는 행위가 아니라, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)·샤드·리밸런싱 비용까지 포함해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 설계하는 일**이다.
+결론적으로 빅데이터에서 확장성은 하드웨어 크기의 문제가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 재배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 문제다. 기억할 핵심은 단순하다. <strong>수평 확장은 노드를 늘리는 행위가 아니라, <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>·샤드·리밸런싱 비용까지 포함해 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화를 설계하는 일</strong>이다.
 
 - **📢 섹션 요약 비유**: 확장성 설계는 건물을 처음부터 증축 가능하게 설계하는 것과 같다. 기둥 위치와 배관을 잘 잡아 두면 층을 올리기 쉽지만, 처음 구조가 엉키면 나중에 조금만 늘려도 공사가 크게 난다.
 
@@ -155,24 +157,25 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 노드 병목
-    │
-    ▼
-분산 저장 · 분산 계산 도입
-    │
-    ▼
-파티셔닝 · 샤딩 설계
-    │
-    ▼
-오토스케일 · 리밸런싱 자동화
-    │
-    ▼
-스큐 제어 · 컴팩션 · 메타데이터 최적화
-    │
-    ▼
-예측 가능한 대규모 데이터 플랫폼 운영
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 노드 병목</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">분산 저장 · 분산 계산 도입</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">파티셔닝 · 샤딩 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">오토스케일 · 리밸런싱 자동화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스큐 제어 · 컴팩션 · 메타데이터 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">예측 가능한 대규모 데이터 플랫폼 운영</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

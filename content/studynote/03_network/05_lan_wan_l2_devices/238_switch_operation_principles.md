@@ -23,26 +23,30 @@ tags = ["studynote-network"]
 - **필요성**: 1계층 장비인 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오면 2, 3, 4번 등 나머지 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 무식하게 복사해서 뿌렸다. 이러면 엉뚱한 PC들도 필요 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 폐기해야 하니 CPU가 낭비되고, 무엇보다 두 대가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 내부에서 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 발생했다. 스위치는 편지봉투(프레임) 겉면의 이름([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 읽고 정확히 그 집([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 문만 열어주기 위해 발명되었다.
 
 - **💡 비유**: 
-  - **[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))**: 동네 한가운데 서서 "홍길동 씨! 편지 왔어요!"라고 소리치는 **"우물정자 동네 이장님"**입니다. 길동이가 아닌 사람들도 시끄러워서 깨게 됩니다.
-  - **스위치(Switch)**: 각 세대의 동호수([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 수첩에 적어놓고, 편지가 오면 조용히 길동이네 집 우편함([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에만 편지를 꽂아주고 오는 **"스마트한 우체부"**입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)</strong>: 동네 한가운데 서서 "홍길동 씨! 편지 왔어요!"라고 소리치는 <strong>"우물정자 동네 이장님"</strong>입니다. 길동이가 아닌 사람들도 시끄러워서 깨게 됩니다.
+  - **스위치(Switch)**: 각 세대의 동호수([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 수첩에 적어놓고, 편지가 오면 조용히 길동이네 집 우편함([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에만 편지를 꽂아주고 오는 <strong>"스마트한 우체부"</strong>입니다.
 
-```text
-[충돌 도메인 / 브로드캐스트 도메인]
-    │
-    ▼
-[스위치 의 동작 원리]
-    │
-    └──▶ [MAC 주소 테이블]
-```
 
-- **📢 섹션 요약 비유**: ** 스위치는 들어오는 기차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 행선지 표지판([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 보고 0.001초 만에 **"철도 선로([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 방향을 정확히 착! 하고 바꿔주는 철도 신호수"**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">충돌 도메인 / 브로드캐스트 도메인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 의 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 주소 테이블</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 스위치는 들어오는 기차(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)의 행선지 표지판(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)을 보고 0.001초 만에 </strong>"철도 선로([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 방향을 정확히 착! 하고 바꿔주는 철도 신호수"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 스위치 내부 구조 ([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩과 백플레인)
-- **[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit)**: 스위치는 CPU가 소프트웨어로 패킷을 처리하지 않는다. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 읽고 테이블을 검색하는 모든 과정을 하드웨어 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 구워버려서 기계적으로(Wire-speed) 처리한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> (Application-Specific Integrated Circuit)</strong>: 스위치는 CPU가 소프트웨어로 패킷을 처리하지 않는다. [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 읽고 테이블을 검색하는 모든 과정을 하드웨어 칩([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 구워버려서 기계적으로(Wire-speed) 처리한다.
 - **Switching Fabric (백플레인)**: 내부에서 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 5번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 간에 독립적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속도로를 임시로 뚫어준다(회선 교환처럼). 
 
 ### 2. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD의 종식과 전이중(Full-Duplex) 통신
@@ -50,31 +54,26 @@ tags = ["studynote-network"]
 - 스위치 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부에 전용 버퍼(메모리)가 있어 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 저장한다.
 - 따라서 동시에 말을 해도(송수신) 절대 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하지 않는 **전이중(Full-Duplex)** 통신이 완성된다. [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)별로 쪼개진 것이다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                 허브(Hub) vs 스위치(Switch)                 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 허브 (더미) ] - L1 장비                                   │
- │       │                                                     │
- │       ├─▶ (모든 포트로 전기 신호 복사/증폭) Flooding              │
- │       │   (Collision 발생 가능성 극대화)                       │
- │                                                             │
- │ ─────────────────────────────────────────────────────────── │
- │                                                             │
- │   [ L2 스위치 ] - L2 장비                                     │
- │       │     ┌───────── CAM Table ──────────┐                │
- │       │     │ Port 1 : 00:AA:BB:... (PC A) │                │
- │       │     │ Port 3 : 00:CC:DD:... (PC B) │                │
- │       │     └──────────────────────────────┘                │
- │       │                                                     │
- │       └─▶ (MAC 읽고 Port 3으로만 조용히 전달) Switching         │
- │           (Collision 완벽 차단, 전이중 통신)                   │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 모든 파이프가 뻥 뚫려 있어서 어느 한 곳에 물감을 타면 전체 물이 다 오염되는 거대한 **"공용 수영장"**이라면, 스위치는 수많은 파이프에 **"지능형 밸브"**를 달아 내가 원하는 수도꼭지로만 정확히 물을 틀어주는 최첨단 배관 시스템입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허브(Hub) vs 스위치(Switch)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">허브 (더미)</div><div class="kb-diagram-note">- L1 장비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (모든 포트로 전기 신호 복사/증폭) Flooding</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Collision 발생 가능성 극대화)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">L2 스위치</div><div class="kb-diagram-note">- L2 장비</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAM Table</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port 1 : 00:AA:BB:... (PC A)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port 3 : 00:CC:DD:... (PC B)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (MAC 읽고 Port 3으로만 조용히 전달) Switching</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Collision 완벽 차단, 전이중 통신)</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>가 모든 파이프가 뻥 뚫려 있어서 어느 한 곳에 물감을 타면 전체 물이 다 오염되는 거대한 </strong>"공용 수영장"**이라면, 스위치는 수많은 파이프에 **"지능형 밸브"**를 달아 내가 원하는 수도꼭지로만 정확히 물을 틀어주는 최첨단 배관 시스템입니다.
 
 ---
 
@@ -130,15 +129,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 충돌 도메인 / 브로드캐스트 도메인]
-    │
-    ▼
-[현재 개념: 스위치 의 동작 원리]
-    │
-    ├──▶ [확장 A: MAC 주소 테이블]
-    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 충돌 도메인 / 브로드캐스트 도메인</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스위치 의 동작 원리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC 주소 테이블</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
+</div>
+</div>
+
+
 
 스위치 의 동작 원리는 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

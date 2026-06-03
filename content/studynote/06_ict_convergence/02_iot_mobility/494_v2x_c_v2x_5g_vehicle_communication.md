@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-**[V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신 종류**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a> 통신 종류</strong>
 
 - **V2V(Vehicle-to-Vehicle)**: 차량 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/). 충돌 경보(FCW), 긴급 제동 경고(EEBL).
 - **V2I(Vehicle-to-Infrastructure)**: 차량-[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등·노변 기지국([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)) 통신. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 위반 경고, 최적 속도 안내(SPaT).
@@ -34,26 +34,25 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```
-┌──────────────────────────────────────────────────────────┐
-│              V2X 통신 기술 체계 및 아키텍처               │
-├──────────────────────────────────────────────────────────┤
-│  [WAVE / DSRC]               [C-V2X (3GPP)]              │
-│  IEEE 802.11p                                            │
-│  5.9GHz DSRC 대역            모드 4 (직접 통신, PC5 인터페이스)│
-│  독립 인프라 필요              ↑ 셀룰러 망 없이 차량 간 직접  │
-│                                                          │
-│  RSU(Road Side Unit)        모드 3 (네트워크 통신, Uu 인터페이스)│
-│  ↕ 차량 통신                  ↑ 기지국(eNB/gNB) 경유       │
-│                                                          │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  5G NR-V2X (Release 16+)                         │   │
-│  │  - uRLLC 슬라이스 활용 (지연 < 1ms 목표)          │   │
-│  │  - 그룹캐스트(Groupcast) 지원                     │   │
-│  │  - 군집주행(Platooning) 핵심 인프라               │   │
-│  └──────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V2X 통신 기술 체계 및 아키텍처</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">WAVE / DSRC</div><div class="kb-diagram-node">C-V2X (3GPP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.11p</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5.9GHz DSRC 대역 모드 4 (직접 통신, PC5 인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립 인프라 필요 ↑ 셀룰러 망 없이 차량 간 직접</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSU(Road Side Unit) 모드 3 (네트워크 통신, Uu 인터페이스)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 차량 통신 ↑ 기지국(eNB/gNB) 경유</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G NR-V2X (Release 16+)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- uRLLC 슬라이스 활용 (지연 &lt; 1ms 목표)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그룹캐스트(Groupcast) 지원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 군집주행(Platooning) 핵심 인프라</div></div>
+</div>
+</div>
+
+
 
 ### [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) vs [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 비교표
 
@@ -73,7 +72,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-**[C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 3 vs 모드 4 선택 기준**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a> 모드 3 vs 모드 4 선택 기준</strong>
 
 | 조건 | 모드 3 (네트워크) | 모드 4 ([직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)) |
 |:---|:---:|:---:|
@@ -83,7 +82,7 @@ tags = ["studynote-ict-convergence"]
 | 음영 지역 통신 | 불가 | 가능 ([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) |
 | [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/) 구축 완료 후 | uRLLC와 시너지 | 보완적 활용 |
 
-**군집 주행([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)) 요구사항**
+<strong>군집 주행(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/">Platooning</a>) 요구사항</strong>
 
 트럭 군집 주행에서는 선두 차량의 가속·제동 명령이 후속 차량에 10ms 이내에 전달되어야 한다. [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 모드 4 + [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) 슬라이스의 결합으로 이 요구사항을 충족한다.
 
@@ -93,7 +92,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**[C-ITS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/)(Cooperative Intelligent Transport System) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**
+<strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/173_c_its_cooperative_intelligent_transport_systems/">C-ITS</a>(Cooperative Intelligent Transport System) <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>
 
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 기술 | 내용 |
 |:---|:---:|:---|

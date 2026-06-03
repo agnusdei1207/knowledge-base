@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 868번 MANO 프레임워크의 중간 관리자 계층으로, 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)) 등 **1개 또는 동일한 종류의 여러 개 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)(Virtual Network Function) 인스턴스들의 탄생부터 소멸까지의 '생명주기(Lifecycle)'를 현장에서 직접 1:1로 밀착 관리하는 전담 소프트웨어 매니저**입니다.
+- **개념**: 868번 MANO 프레임워크의 중간 관리자 계층으로, 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)) 등 <strong>1개 또는 동일한 종류의 여러 개 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>(Virtual Network Function) 인스턴스들의 탄생부터 소멸까지의 '생명주기(Lifecycle)'를 현장에서 직접 1:1로 밀착 관리하는 전담 소프트웨어 매니저</strong>입니다.
 - **존재 양식**: VNF를 만든 회사(시스코, 에릭슨 등)마다 "우리 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF는 우리가 제일 잘 아니까, 관리 매니저(VNFM)도 우리 걸 써라!"라며 세트로 묶어서 팔거나(특화 VNFM), 모든 회사의 VNF를 다 관리해 주는 범용(Generic) VNFM을 씁니다.
 
-```text
-[NFVO]
-    │
-    ▼
-[VNFM]
-    │
-    └──▶ [VIM (Virtualised Infrast…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VNFM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,23 +49,27 @@ tags = ["studynote-network"]
 ### 2. 자동 확장 및 축소 (Scaling Up/Down/Out/In) 🌟
 클라우드의 마법인 '[탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Elasticity)'을 직접 손으로 쥐락펴락하는 주범입니다.
 - **모니터링**: 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 CPU가 90%를 넘으며 터지기 일보 직전입니다.
-- **[Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) (수평 확장)**: VNFM이 이 비명을 듣고 즉각 개입하여, VIM에게 방을 하나 더 파달라고 한 뒤 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 똑같이 생긴 **'2번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)(복사본)'을 1분 만에 뚝딱 찍어내어 옆에 붙여줍니다.** 트래픽 부하가 완벽히 반반으로 갈라지며 안정을 찾습니다. 새벽이 되어 트래픽이 줄면 다시 2번을 삭제(Scale-in)하여 전기세를 아낍니다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a> (수평 확장)</strong>: VNFM이 이 비명을 듣고 즉각 개입하여, VIM에게 방을 하나 더 파달라고 한 뒤 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 똑같이 생긴 <strong>'2번 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">클론</a>(복사본)'을 1분 만에 뚝딱 찍어내어 옆에 붙여줍니다.</strong> 트래픽 부하가 완벽히 반반으로 갈라지며 안정을 찾습니다. 새벽이 되어 트래픽이 줄면 다시 2번을 삭제(Scale-in)하여 전기세를 아낍니다.
 
 ### 3. 자가 치유 및 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) (Healing & Fault [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 🌟
 - **장애 감지**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 갑자기 핑(Ping) 응답을 안 하고 심장 박동이 멎었습니다(소프트웨어 에러 또는 뻗음).
-- **자동 치유(Auto-Healing)**: VNFM은 밤에 자고 있는 인간 엔지니어를 깨우지 않습니다. 지가 알아서 즉각 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 프로세스를 **강제 재부팅(Reboot)**시키거나, 아예 헌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 찢어버리고 새 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF를 깨끗하게 새로 하나 파서(Re-instantiation) 0.1초 만에 죽은 자리에 그대로 끼워 넣습니다. 
+- **자동 치유(Auto-Healing)**: VNFM은 밤에 자고 있는 인간 엔지니어를 깨우지 않습니다. 지가 알아서 즉각 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 프로세스를 <strong>강제 재부팅(Reboot)</strong>시키거나, 아예 헌 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 찢어버리고 새 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF를 깨끗하게 새로 하나 파서(Re-instantiation) 0.1초 만에 죽은 자리에 그대로 끼워 넣습니다. 
 
 ### 4. 종료 및 삭제 (Termination)
 - 사업이 끝나서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 필요 없어지면, 라이선스를 회수하고 서버에서 흔적도 없이 삭제하여 서버 메모리를 땅 소장([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))에게 고스란히 반납합니다.
 
-```text
-[NFVO]
-    │
-    ▼
-[VNFM]
-    │
-    └──▶ [VIM (Virtualised Infrast…]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: VNFM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -69,7 +77,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-- **[NFVO](/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/)**: 숲 전체([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ 라우터 ➜ DB로 이어지는 거대한 흐름)를 봅니다. 특정 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 1대가 왜 고장 났는지는 관심 없습니다.
+- <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/">NFVO</a></strong>: 숲 전체([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ 라우터 ➜ DB로 이어지는 거대한 흐름)를 봅니다. 특정 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 1대가 왜 고장 났는지는 관심 없습니다.
 - **VNFM**: 나무 1그루([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))만 미친 듯이 쳐다보고 가꿉니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 아프면 약을 주고 잎이 좁으면 가지(복사본)를 쳐주는 나무 1그루 전담 원예사입니다.
 
 VNFM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. NFVO가 기반 조건을 만든다면, VNFM는 그 위에서 핵심 메커니즘을 구현하고, [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) (Virtualised Infrast…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -122,15 +130,19 @@ VNFM는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: NFVO]
-    │
-    ▼
-[현재 개념: VNFM]
-    │
-    ├──▶ [확장 A: VIM (Virtualised Infrast…]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFVO</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VNFM</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VIM (Virtualised Infrast…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 VNFM는 NFVO에서 출발해 현재 메커니즘을 정교화하고, 이후 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) (Virtualised Infrast…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

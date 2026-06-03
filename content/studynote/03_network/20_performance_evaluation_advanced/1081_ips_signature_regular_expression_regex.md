@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) (L3/L4)**: IP 주소와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)(껍데기)만 보고 문을 열어줍니다. 해커가 정상적인 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80번)를 달고 들어오면 문을 활짝 열어주는 바보입니다.
-- **[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) (Intrusion Prevention System, 침입 방지 시스템)**: 껍데기는 기본이고, 패킷의 진짜 속살(L7 페이로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 싹 다 뜯어봐서 악성코드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격이 들어있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 **'실시간으로 즉각 차단(Drop)'**해 버리는 네트워크의 경찰입니다. (탐지만 하고 보고서만 쓰는 IDS와 달리 직접 죽입니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> (L3/L4)</strong>: IP 주소와 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)(껍데기)만 보고 문을 열어줍니다. 해커가 정상적인 웹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(80번)를 달고 들어오면 문을 활짝 열어주는 바보입니다.
+- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> (Intrusion Prevention System, 침입 방지 시스템)</strong>: 껍데기는 기본이고, 패킷의 진짜 속살(L7 페이로드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 싹 다 뜯어봐서 악성코드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격이 들어있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 <strong>'실시간으로 즉각 차단(Drop)'</strong>해 버리는 네트워크의 경찰입니다. (탐지만 하고 보고서만 쓰는 IDS와 달리 직접 죽입니다.)
 
-```text
-[네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
-[IPS 시그니처 정규식]
-    │
-    └──▶ [웹쉘 탐지 프로토콜 파서]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,14 +45,18 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 - **시그니처 (수배 전단지)**: 과거에 알려진 해킹 공격들의 특징적인 문자열 패턴이나 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 배열을 모아둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스입니다. ([Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 등 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 룰셋이 유명합니다.)
 - **동작**: 패킷이 들어오면 IPS는 패킷 내용과 수십만 개의 시그니처 DB를 빛의 속도로 1:1 비교(패턴 매칭)합니다.
 
-```text
-[네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
-[IPS 시그니처 정규식]
-    │
-    └──▶ [웹쉘 탐지 프로토콜 파서]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -84,7 +92,7 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **CPU의 비명 ([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) 공격)**: 정규식은 문자 하나하나마다 수십 가지 경우의 수를 계산해야 하는 엄청난 CPU 연산 괴물입니다. 
+- <strong>CPU의 비명 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/865_redos/">ReDoS</a> 공격)</strong>: 정규식은 문자 하나하나마다 수십 가지 경우의 수를 계산해야 하는 엄청난 CPU 연산 괴물입니다. 
 - 해커가 이를 역이용합니다. 일부러 정규식이 계산하기 미치도록 복잡한 쓰레기 패킷(예: 엄청나게 긴 특수문자 조합)을 1초에 1만 번씩 날리면([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) 공격), IPS의 CPU가 정규식을 풀다가 100% 과부하가 걸려 네트워크 전체가 뻗어버리는 대참사가 터집니다.
 - **해결책**: 실무에서는 무작정 정규식부터 돌리지 않습니다. 가볍고 빠른 `content: "exe"` (단순 문자열 매칭)로 1차 필터링을 한 뒤, 여기서 걸린 놈들만 2차로 무거운 `pcre` (정규식)를 돌려 핀셋으로 적발하는 하이브리드 엔진 설계가 필수적입니다.
 
@@ -94,7 +102,7 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)**이 여권(IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 클럽 문을 열어주는 **'멍청한 가드'**라면, **[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)**는 클럽 안으로 들어가는 손님의 가방 속까지 다 뜯어서 마약이나 칼이 있는지 뒤져보는 **'현미경 엑스레이'**입니다. 해커가 엑스레이를 속이려고 마약 봉지에 '사탕'이라고 적거나(단순 문자열 회피), 마약을 잘게 부숴서 밀가루처럼 위장합니다(공격 코드 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)). IPS에 탑재된 **'[정규 표현식](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/)([Regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/))'**은 아무리 부수고 위장해도 마약 특유의 **'화학적 분자 구조(패턴)' 자체를 냄새 맡아 찾아내는 '마약 탐지견'**과 같습니다. 해커가 대소문자를 바꾸고 띄어쓰기를 섞는 등 수만 가지 방법으로 변장해도, 마약 탐지견(정규식)은 오직 본질적인 해킹의 뼈대 패턴만을 추적하여 100% 찢어버립니다. 단, 탐지견이 너무 복잡한 냄새를 오래 맡으면 코가 마비되듯, 정규식이 너무 복잡해지면 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비의 CPU가 타버리는 양날의 검입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a></strong>이 여권(IP/[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 클럽 문을 열어주는 <strong>'멍청한 가드'</strong>라면, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a></strong>는 클럽 안으로 들어가는 손님의 가방 속까지 다 뜯어서 마약이나 칼이 있는지 뒤져보는 <strong>'현미경 엑스레이'</strong>입니다. 해커가 엑스레이를 속이려고 마약 봉지에 '사탕'이라고 적거나(단순 문자열 회피), 마약을 잘게 부숴서 밀가루처럼 위장합니다(공격 코드 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)). IPS에 탑재된 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">정규 표현식</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">Regex</a>)'</strong>은 아무리 부수고 위장해도 마약 특유의 <strong>'화학적 분자 구조(패턴)' 자체를 냄새 맡아 찾아내는 '마약 탐지견'</strong>과 같습니다. 해커가 대소문자를 바꾸고 띄어쓰기를 섞는 등 수만 가지 방법으로 변장해도, 마약 탐지견(정규식)은 오직 본질적인 해킹의 뼈대 패턴만을 추적하여 100% 찢어버립니다. 단, 탐지견이 너무 복잡한 냄새를 오래 맡으면 코가 마비되듯, 정규식이 너무 복잡해지면 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비의 CPU가 타버리는 양날의 검입니다.
 
 ---
 
@@ -117,15 +125,19 @@ IPS가 해커를 잡는 가장 기본적이고 확실한 블랙리스트 방식�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 네트워크 포렌식 패킷 덤프 파싱]
-    │
-    ▼
-[현재 개념: IPS 시그니처 정규식]
-    │
-    ├──▶ [확장 A: 웹쉘 탐지 프로토콜 파서]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 포렌식 패킷 덤프 파싱</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPS 시그니처 정규식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 웹쉘 탐지 프로토콜 파서</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식는 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

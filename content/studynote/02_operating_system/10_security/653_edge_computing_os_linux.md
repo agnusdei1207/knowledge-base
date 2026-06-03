@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) OS는 클라우드의 중앙집중식 처리를 탈피하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 말단(드론, 자율주행차, [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))에서 즉각적인 연산과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하기 위해 **초경량, 고속 부팅, 실시간성**을 극대화한 특수 목적형 리눅스 환경이다.
+> 1. **본질**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) OS는 클라우드의 중앙집중식 처리를 탈피하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 발생하는 말단(드론, 자율주행차, [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))에서 즉각적인 연산과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론을 수행하기 위해 <strong>초경량, 고속 부팅, 실시간성</strong>을 극대화한 특수 목적형 리눅스 환경이다.
 > 2. **메커니즘**: 범용 리눅스의 불필요한 기능(systemd, 무거운 셸 등)을 걷어내고, Yocto Project나 Buildroot를 이용해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 수 MB 단위로 다이어트(Custom Build)하며, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진(K3s, MicroK8s)을 올려 엣지 노드 간의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 배포를 최적화한다.
 > 3. **가치**: 클라우드로 보내는 네트워크 트래픽 비용을 90% 이상 절감하고, 통신 단절(Offline) 상태에서도 독자 생존이 가능한 자율적이고 회복력(Resilience) 있는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 인프라의 가장 밑단(Bottom-tier)을 지탱한다.
 
@@ -26,12 +26,12 @@ tags = ["studynote-operating-system"]
   - 공장 센서에서 1초에 수기가바이트씩 쏟아지는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 전부 클라우드로 올리면 통신망이 마비되고 통신비가 폭발한다.
   - **해결책**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 태어난 곳에서 즉시(1~10ms 이내) 1차 가공 및 추론(Inference)을 끝내야 한다. 이를 위해선 CPU, RAM, 전력이 극도로 모자란 엣지 기기에서 1초 만에 부팅되고 메모리를 거의 안 먹는 초경량 OS가 필수적이다.
 
-  - **[클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)**: 모든 민원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 '서울 본청(클라우드)'으로 보내서 처리하는 시스템. 정확하지만 오래 걸리고 배송비가 엄청나다.
-  - **[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)**: 동네마다 '출장소(엣지)'를 세워, 단순 민원은 동네에서 1초 만에 처리하고, 중요한 결과만 저녁에 본청으로 요약해서 보내는 시스템. 엣지 OS는 이 작은 출장소에서 일하는, 군더더기 없이 일만 하는 '1인 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 로봇 직원'이다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a></strong>: 모든 민원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 '서울 본청(클라우드)'으로 보내서 처리하는 시스템. 정확하지만 오래 걸리고 배송비가 엄청나다.
+  - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a></strong>: 동네마다 '출장소(엣지)'를 세워, 단순 민원은 동네에서 1초 만에 처리하고, 중요한 결과만 저녁에 본청으로 요약해서 보내는 시스템. 엣지 OS는 이 작은 출장소에서 일하는, 군더더기 없이 일만 하는 '1인 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 로봇 직원'이다.
 
 - **발전 과정**:
   1. **임베디드 리눅스 (과거)**: 셋톱박스나 라우터에 들어가는 정적인 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 덩어리. 한 번 구우면 업데이트가 불가능함.
-  2. **경량화 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) OS (중기)**: Alpine Linux처럼 패키지를 줄이고 Docker를 돌릴 수 있게 만든 최소한의 리눅스.
+  2. <strong>경량화 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> OS (중기)</strong>: Alpine Linux처럼 패키지를 줄이고 Docker를 돌릴 수 있게 만든 최소한의 리눅스.
   3. **Cloud-Native Edge OS (현대)**: K3s 등 초경량 쿠버네티스와 결합하여, 클라우드 마스터가 엣지 장비들의 앱([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 OTA([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/))로 실시간 관리/배포할 수 있는 융합형 OS (예: k3OS, Ubuntu Core, KubeEdge).
 
 - **📢 섹션 요약 비유**: 무거운 갑옷(범용 OS)을 벗어 던지고, 오직 총([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)과 무전기([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 통신)만 챙긴 채 최전선(Edge)에 낙하산으로 침투하는 특수부대원의 생존 장비입니다.
@@ -46,10 +46,10 @@ tags = ["studynote-operating-system"]
 
 | 요구사항 | 구현 기술 / 메커니즘 | 목표 | 비유 |
 |:---|:---|:---|:---|
-| **고속 부팅 (Fast Boot)** | systemd 제거, BusyBox/initrd 통합, 필요 없는 드라이버 모듈화 방지(Built-in) | 전원 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 후 **1~3초 이내**에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구동 | 출동 즉시 사격 개시 |
+| **고속 부팅 (Fast Boot)** | systemd 제거, BusyBox/initrd 통합, 필요 없는 드라이버 모듈화 방지(Built-in) | 전원 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 후 <strong>1~3초 이내</strong>에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구동 | 출동 즉시 사격 개시 |
 | **초경량 (Small Footprint)**| Yocto [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) 기반 커스텀 빌드, musl libc 사용, GUI [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 완전 삭제 | OS 전체 용량 **수십 MB ~ 수백 MB** 유지 | 군장 무게 최소화 |
-| **[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/) ([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))** | RootFS를 Read-Only로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/). 업데이트 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통째로 A/B 스왑(Swap) 적용 | 기기 변조 방지 및 **[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 감염 차단** | 방탄복 (변형 불가) |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 지향 (CaaS)** | K3s, MicroK8s, containerd 내장 | 중앙에서 던져주는 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 즉각 실행 | 무기 교체 용이성 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/">불변 인프라</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a>)</strong> | RootFS를 Read-Only로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/). 업데이트 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 통째로 A/B 스왑(Swap) 적용 | 기기 변조 방지 및 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a> 감염 차단</strong> | 방탄복 (변형 불가) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 지향 (CaaS)</strong> | K3s, MicroK8s, containerd 내장 | 중앙에서 던져주는 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 즉각 실행 | 무기 교체 용이성 |
 
 ---
 
@@ -57,32 +57,29 @@ tags = ["studynote-operating-system"]
 
 엣지 장비는 라즈베리 파이(ARM), 인텔 NUC(x86), [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) 등 하드웨어가 천차만별이다. 우분투를 깔면 안 돌아가는 경우가 태반이다. 따라서 엔지니어가 직접 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 루트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 요리해야 한다.
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 Yocto Project 기반 엣지 OS 빌드 파이프라인             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │  [1. 레시피(Recipes) 작성]                                           │
-  │   - BSP (Board Support Package): "이 보드는 ARM Cortex-A53 칩이야"  │
-  │   - Kernel: "USB 마우스, 블루투스 드라이버 다 빼고 카메라만 넣어!"        │
-  │   - Rootfs: "Systemd 빼고 가벼운 SysVinit 넣고, Python도 빼!"         │
-  │                                                                   │
-  │  [2. BitBake (빌드 엔진)]                                           │
-  │   - 크로스 컴파일러(Cross-Compiler)를 이용해 x86 서버에서 ARM용 코드를     │
-  │     소스코드부터 100% 새로 컴파일 (수 시간 ~ 수십 시간 소요).             │
-  │                                                                   │
-  │  [3. 이미지 산출물 생성]                                              │
-  │   ┌───────────────────────────────────────────────────────────┐   │
-  │   │  boot.img (부트로더 + 커널 zImage) - 약 5MB                  │   │
-  │   │  rootfs.ext4 (명령어 + K3s 바이너리) - 약 50MB                │   │
-  │   └───────────────────────────────────────────────────────────┘   │
-  │                                                                   │
-  │  [4. 플래싱 및 1초 부팅]                                              │
-  │   - 산출물을 SD카드나 eMMC에 굽고 전원을 켜면, 로고도 없이 1초 만에 쉘이 뜸! │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** 우분투나 데비안 같은 배포판은 "이 폰을 누가 어떤 부품을 꽂아 쓸지 모르니 일단 드라이버 10만 개를 다 넣어두자"는 철학이다. 그래서 부팅 시 하드웨어를 스캔(udev)하느라 시간이 다 간다. 엣지 OS는 하드웨어가 고정되어 있으므로, Yocto 같은 툴을 이용해 **"내 장비에 없는 부품의 드라이버 코드는 아예 컴파일 단계에서 삭제"**해 버린다(Tailor-made). 그 결과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기가 5MB 수준으로 줄어들며, [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 램으로 올리는 시간이 0.1초 단위로 단축된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yocto Project 기반 엣지 OS 빌드 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 레시피(Recipes) 작성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BSP (Board Support Package): "이 보드는 ARM Cortex-A53 칩이야"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Kernel: "USB 마우스, 블루투스 드라이버 다 빼고 카메라만 넣어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rootfs: "Systemd 빼고 가벼운 SysVinit 넣고, Python도 빼!"</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. BitBake (빌드 엔진)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 크로스 컴파일러(Cross-Compiler)를 이용해 x86 서버에서 ARM용 코드를</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스코드부터 100% 새로 컴파일 (수 시간 ~ 수십 시간 소요).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 이미지 산출물 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">boot.img (부트로더 + 커널 zImage) - 약 5MB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rootfs.ext4 (명령어 + K3s 바이너리) - 약 50MB</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">4. 플래싱 및 1초 부팅</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물을 SD카드나 eMMC에 굽고 전원을 켜면, 로고도 없이 1초 만에 쉘이 뜸!</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** 우분투나 데비안 같은 배포판은 "이 폰을 누가 어떤 부품을 꽂아 쓸지 모르니 일단 드라이버 10만 개를 다 넣어두자"는 철학이다. 그래서 부팅 시 하드웨어를 스캔(udev)하느라 시간이 다 간다. 엣지 OS는 하드웨어가 고정되어 있으므로, Yocto 같은 툴을 이용해 <strong>"내 장비에 없는 부품의 드라이버 코드는 아예 컴파일 단계에서 삭제"</strong>해 버린다(Tailor-made). 그 결과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 크기가 5MB 수준으로 줄어들며, [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 램으로 올리는 시간이 0.1초 단위로 단축된다.
 
 ---
 
@@ -90,7 +87,7 @@ tags = ["studynote-operating-system"]
 
 수만 대의 가로등(엣지)에 설치된 OS를 업데이트하다가 정전이 나면 가로등이 먹통(벽돌, Brick)이 된다. 이를 막기 위해 엣지 OS는 듀얼 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 구조를 기본 탑재한다.
 
-1. 디스크를 **A [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(현재 OS)**, **B [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(예비 OS)**, **[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))** 3개로 나눈다.
+1. 디스크를 <strong>A <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(현재 OS)</strong>, <strong>B <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(예비 OS)</strong>, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>)</strong> 3개로 나눈다.
 2. 클라우드에서 새 OS 이미지가 내려오면 B [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 백그라운드로 쓴다. (A는 계속 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중)
 3. 다운로드가 완료되면 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)의 포인터를 B로 바꾸고 재부팅한다.
 4. 만약 B로 부팅하다가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이 나면, 하드웨어 워치독(Watchdog)이 이를 감지하여 강제 재부팅 시 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/) 포인터를 다시 A로 원복시킨다(Self-Healing). 벽돌 현상이 원천 차단된다.
@@ -108,13 +105,13 @@ tags = ["studynote-operating-system"]
 | 비교 항목 | 일반 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) (K8s) | K3s (Rancher 개발) | MicroK8s (Canonical 개발) |
 |:---|:---|:---|:---|
 | **바이너리 크기** | 수백 MB (여러 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 분리) | **약 40MB (단일 바이너리 통합)** | 수십 MB (Snap 패키징) |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)스토어** | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) (메모리 많이 먹고 무거움) | **SQLite (초경량 RDBMS 기반)** | dqlite |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>스토어</strong> | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) (메모리 많이 먹고 무거움) | **SQLite (초경량 RDBMS 기반)** | dqlite |
 | **메모리(RAM) 요구량**| 최소 2GB 이상 | **512MB RAM 환경에서도 동작** | 1GB 내외 |
 | **아키텍처 목적** | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 수천 대 노드 관리 | 라즈베리파이 등 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 노드 구동 | 개발자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 및 로컬 소규모 클러스터 |
 
 ### 과목 융합 관점
 
-- **[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS)**: 엣지 기기의 빈약한 램(1GB)에서 K3s와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 돌리려면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 빈발한다. 따라서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 시 **ZRAM (메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑)**을 활성화하여 1GB 램을 논리적 1.5GB처럼 쓰게 만드는 OS 튜닝이 필수적으로 융합된다.
+- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: 엣지 기기의 빈약한 램(1GB)에서 K3s와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 추론 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 돌리려면 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 빈발한다. 따라서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 시 <strong>ZRAM (메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 스왑)</strong>을 활성화하여 1GB 램을 논리적 1.5GB처럼 쓰게 만드는 OS 튜닝이 필수적으로 융합된다.
 - **네트워크 (NW)**: 엣지는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 무선망을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 연결이 자주 끊긴다. 엣지 OS 내부에 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 브로커를 내장하거나, 클라우드와 끊겨도 엣지 노드끼리 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 엣지 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Edge [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 네트워크 기술이 결합되어야 한다.
 
 - **📢 섹션 요약 비유**: 거대한 항공모함(K8s)을 소형 모터보트(엣지)에 구겨 넣을 수 없으니, 항공모함의 지휘 기능 중 무거운 레이더([etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/))를 떼어내고 가벼운 무전기(SQLite)를 달아 만든 특수 정찰보트(K3s)입니다.
@@ -125,41 +122,38 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 — [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)의 비전(Vision) 불량 검사기 도입**: 컨베이어 벨트에서 1초에 10장씩 사진을 찍어 불량을 걸러내야 한다. 공장의 PC에 일반 우분투를 깔았더니 공장장이 실수로 전원을 내렸다가 켤 때마다 부팅이 1분이 걸리고 GUI 화면이 떠서 조작이 꼬인다.
+1. <strong>시나리오 — <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a>의 비전(Vision) 불량 검사기 도입</strong>: 컨베이어 벨트에서 1초에 10장씩 사진을 찍어 불량을 걸러내야 한다. 공장의 PC에 일반 우분투를 깔았더니 공장장이 실수로 전원을 내렸다가 켤 때마다 부팅이 1분이 걸리고 GUI 화면이 떠서 조작이 꼬인다.
    - **아키텍처 적용**: **Ubuntu Core** (Canonical의 엣지 전용 OS)를 도입한다. 이 OS는 GUI가 없고 모든 것을 Snap([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 유사한 패키지)으로 관리한다. 루트 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 Read-Only라 공장 먼지나 정전으로 인한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4) 깨짐 현상이 원천 차단된다. 부팅 시 3초 만에 불량 검사 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 자동 실행되며, 공장장은 폰으로 대시보드만 보면 된다.
 
-2. **시나리오 — 오프라인 환경(지하 광산)의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 생존 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)**: 엣지 노드들이 중앙 클라우드 컨트롤 플레인([마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/))과 통신이 끊겼다. 일반 K8s라면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들이 갈 길을 잃고 재시작 루프에 빠져 공장 가동이 멈춘다.
-   - **대응 (KubeEdge 아키텍처)**: KubeEdge 같은 엣지 특화 프레임워크는 엣지 노드 쪽에 `EdgeCore`라는 자율 에이전트를 두고, 클라우드에서 내려온 마지막 명령(Manifest)을 로컬 디스크(SQLite)에 캐싱해 둔다. 광산에 인터넷이 끊기면 엣지 노드는 클라우드를 찾지 않고 **로컬 캐시를 마스터 삼아 스스로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들을 살려내고 유지**한다(Autonomous Survival). 인터넷이 복구되면 그동안 쌓인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 클라우드로 동기화한다.
+2. <strong>시나리오 — 오프라인 환경(지하 광산)의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 생존 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 엣지 노드들이 중앙 클라우드 컨트롤 플레인([마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/))과 통신이 끊겼다. 일반 K8s라면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))들이 갈 길을 잃고 재시작 루프에 빠져 공장 가동이 멈춘다.
+   - **대응 (KubeEdge 아키텍처)**: KubeEdge 같은 엣지 특화 프레임워크는 엣지 노드 쪽에 `EdgeCore`라는 자율 에이전트를 두고, 클라우드에서 내려온 마지막 명령(Manifest)을 로컬 디스크(SQLite)에 캐싱해 둔다. 광산에 인터넷이 끊기면 엣지 노드는 클라우드를 찾지 않고 <strong>로컬 캐시를 마스터 삼아 스스로 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>들을 살려내고 유지</strong>한다(Autonomous Survival). 인터넷이 복구되면 그동안 쌓인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 클라우드로 동기화한다.
 
 ### 의사결정 및 튜닝 플로우
 
-```text
-  ┌───────────────────────────────────────────────────────────────────┐
-  │                 엣지 컴퓨팅 OS 인프라 설계 의사결정 플로우             │
-  ├───────────────────────────────────────────────────────────────────┤
-  │                                                                   │
-  │   [수백 대의 원격 하드웨어(IoT/엣지)에 배포할 운영체제 선정]                │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      하드웨어 스펙이 극도로 제약되어 있는가? (RAM 512MB 이하, ARM 칩셋)      │
-  │          ├─ 예 ─────▶ [Yocto Project / Buildroot 기반 커스텀 빌드]    │
-  │          │            (개발 난이도 극상, 엔지니어 갈아 넣어야 함)          │
-  │          └─ 아니오 (RAM 2GB 이상, 인텔 x86 또는 라즈베리파이 4 이상)      │
-  │                │                                                  │
-  │                ▼                                                  │
-  │      중앙 클라우드(K8s)와 연동하여 컨테이너를 원격으로 쏘고 관리할 것인가?    │
-  │          ├─ 예 ─────▶ [K3s가 내장된 k3OS 또는 Ubuntu Core + MicroK8s]│
-  │          │            (운영 편의성 극대화, OTA 및 GitOps 배포 가능)       │
-  │          │                                                        │
-  │          └─ 아니오 ──▶ 단순 펌웨어 형태의 Alpine Linux + Docker 배포    │
-  └───────────────────────────────────────────────────────────────────┘
-```
 
-**[다이어그램 해설]** "엣지 환경에 그냥 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 깔아서 쓰면 안 되나?"라는 질문은 현장의 참혹함을 모르는 소리다. 전국에 흩어진 1만 대의 공유킥보드 컴퓨터에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 깔았는데 10대가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉으로 죽었다고 치자. 직원이 트럭을 타고 10곳을 돌며 USB를 꽂고 포맷해야 한다(Truck roll 비용). 엣지 OS 아키텍처 설계의 1원칙은 성능이 아니라 **"원격에서 완벽하게 초기화하고(Self-healing), 해킹 당해도(Read-only) 부팅만 껐다 켜면 복구되는 불변성(Immutability)"**을 OS 가장 밑바닥에 심는 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지 컴퓨팅 OS 인프라 설계 의사결정 플로우</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">수백 대의 원격 하드웨어(IoT/엣지)에 배포할 운영체제 선정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 스펙이 극도로 제약되어 있는가? (RAM 512MB 이하, ARM 칩셋)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Yocto Project / Buildroot 기반 커스텀 빌드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발 난이도 극상, 엔지니어 갈아 넣어야 함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (RAM 2GB 이상, 인텔 x86 또는 라즈베리파이 4 이상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 클라우드(K8s)와 연동하여 컨테이너를 원격으로 쏘고 관리할 것인가?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K3s가 내장된 k3OS 또는 Ubuntu Core + MicroK8s</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(운영 편의성 극대화, OTA 및 GitOps 배포 가능)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단순 펌웨어 형태의 Alpine Linux + Docker 배포</div></div>
+</div>
+</div>
+
+
+
+**[다이어그램 해설]** "엣지 환경에 그냥 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 깔아서 쓰면 안 되나?"라는 질문은 현장의 참혹함을 모르는 소리다. 전국에 흩어진 1만 대의 공유킥보드 컴퓨터에 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)를 깔았는데 10대가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉으로 죽었다고 치자. 직원이 트럭을 타고 10곳을 돌며 USB를 꽂고 포맷해야 한다(Truck roll 비용). 엣지 OS 아키텍처 설계의 1원칙은 성능이 아니라 <strong>"원격에서 완벽하게 초기화하고(Self-healing), 해킹 당해도(Read-only) 부팅만 껐다 켜면 복구되는 불변성(Immutability)"</strong>을 OS 가장 밑바닥에 심는 것이다.
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **[TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 연동**: 엣지 기기는 길거리에 방치되므로 도둑이 훔쳐 갈 수 있다. 도둑이 디스크를 빼서 PC에 연결해도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 수 없도록, 디스크 전체 암호화([LUKS](/knowledge-base/studynote/09_security/04_endpoint_security/399_luks_linux_unified_key_setup/)) 키를 엣지 보드 내부에 납땜 된 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 칩에 하드웨어적으로 바인딩(Binding)했는가?
-- **Real-Time (실시간성)**: 자율주행이나 로봇팔 제어 엣지인가? 그렇다면 일반 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로는 핑계가 튀어 로봇이 사고를 낸다. 반드시 **[PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/)** 패치가 적용된 [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) 기반으로 OS를 빌드해야 한다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">TPM</a> (<a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">Trusted Platform Module</a>) 연동</strong>: 엣지 기기는 길거리에 방치되므로 도둑이 훔쳐 갈 수 있다. 도둑이 디스크를 빼서 PC에 연결해도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼 수 없도록, 디스크 전체 암호화([LUKS](/knowledge-base/studynote/09_security/04_endpoint_security/399_luks_linux_unified_key_setup/)) 키를 엣지 보드 내부에 납땜 된 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 칩에 하드웨어적으로 바인딩(Binding)했는가?
+- **Real-Time (실시간성)**: 자율주행이나 로봇팔 제어 엣지인가? 그렇다면 일반 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로는 핑계가 튀어 로봇이 사고를 낸다. 반드시 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/">PREEMPT_RT</a></strong> 패치가 적용된 [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/) 기반으로 OS를 빌드해야 한다.
 
 - **📢 섹션 요약 비유**: 엣지 OS 설계는 우주 탐사선 만들기입니다. 우주(현장)로 한 번 쏘아 올리면 사람이 고치러 갈 수 없기 때문에, 스스로 고장 난 부품([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 리셋하고 통신이 끊겨도 혼자 살아서 임무([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 완수하는 극강의 자생력이 핵심입니다.
 
@@ -176,8 +170,8 @@ tags = ["studynote-operating-system"]
 | **정성 (보안/프라이버시)**| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(얼굴, 음성)가 클라우드로 전송됨 | 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 현장에서 즉시 폐기 | 컴플라이언스 및 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 완벽 준수 |
 
 ### 미래 전망
-- **[Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)) 기반 초미니 엣지**: K3s 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진조차 무겁다고 판단하여, [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 대신 크기가 수십 KB에 불과하고 시작 시간이 나노초(ns) 단위인 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 바이너리 런타임(WasmEdge 등)을 엣지 OS의 기본 실행 환경으로 대체하는 움직임이 시작되었다.
-- **[Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))**: 엣지 OS들이 각자 현장에서 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 조금씩 학습시킨 뒤, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(사진)는 빼고 '학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Weights)' 숫자만 클라우드 본사로 보내어 거대한 글로벌 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 합심하여 키우는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처의 인프라로 진화하고 있다.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/">Wasm</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/">WebAssembly</a>) 기반 초미니 엣지</strong>: K3s 같은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 엔진조차 무겁다고 판단하여, [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 대신 크기가 수십 KB에 불과하고 시작 시간이 나노초(ns) 단위인 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) 바이너리 런타임(WasmEdge 등)을 엣지 OS의 기본 실행 환경으로 대체하는 움직임이 시작되었다.
+- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a>)</strong>: 엣지 OS들이 각자 현장에서 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 조금씩 학습시킨 뒤, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)(사진)는 빼고 '학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Weights)' 숫자만 클라우드 본사로 보내어 거대한 글로벌 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 합심하여 키우는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처의 인프라로 진화하고 있다.
 
 ### 결론
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) OS는 무한한 자원을 펑펑 쓰는 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 시대의 안티테제(Antithesis)다. 1바이트의 메모리, 1밀리초의 부팅 시간을 깎아내기 위해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뼛속까지 해체하고 재조립(Yocto)하는 이 기술은, 리눅스 철학의 근본인 '작고 단단한 도구'로의 회귀를 보여준다. 앞으로 펼쳐질 수백억 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스와 모빌리티 혁명은 클라우드의 거대한 뇌뿐만 아니라, 현장에서 반사 신경으로 즉각 반응하는 수십억 개의 날렵한 엣지 OS 신경망 없이는 결코 완성될 수 없다.
@@ -197,15 +191,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
-    │
-    ▼
-[엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망) (Edge Computing OS Linux)]
-    │
-    ├──▶ [리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
-    └──▶ [CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망) (Edge Computing OS Linux)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

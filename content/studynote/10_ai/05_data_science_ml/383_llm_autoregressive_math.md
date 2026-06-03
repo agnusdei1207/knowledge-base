@@ -23,14 +23,17 @@ tags = ["studynote-ai"]
 
 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 계열은 모두 이 원리로 사전학습된다. 인간의 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)처럼 "앞 내용을 보고 다음을 예측"하는 자연스러운 귀납 구조다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 자기 회귀 언어 모델은 "앞 글자들을 보고 다음 글자를 맞추는 받아쓰기 게임"을 무한 반복하며 언어 패턴을 학습하는 것이다.
 
@@ -57,16 +60,19 @@ L(θ) = Σ_{t=1}^{n} log P(xₜ | x₁,...,xₜ₋₁ ; θ)
 ### 교사 강요 (Teacher Forcing)
 
 학습 시 실제 토큰(Ground Truth)을 이전 입력으로 사용:
-```
-┌──────────────────────────────────────────────────────┐
-│  학습:   [BOS, "오늘", "날씨", "가"] → "맑다" 예측   │
-│           ↑실제 토큰 사용 (Teacher Forcing)           │
-│                                                      │
-│  추론:   [BOS, "오늘"] → "날씨" 예측 →               │
-│           [BOS, "오늘", "날씨"] → "가" 예측 → ...     │
-│           ↑이전 예측 토큰 사용 (Auto-Regressive)      │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-note">학습:</div><div class="kb-diagram-node">BOS, "오늘", "날씨", "가"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"맑다" 예측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑실제 토큰 사용 (Teacher Forcing)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">추론:</div><div class="kb-diagram-node">BOS, "오늘"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"날씨" 예측 →</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">BOS, "오늘", "날씨"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"가" 예측 → ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑이전 예측 토큰 사용 (Auto-Regressive)</div></div>
+</div>
+</div>
+
+
 
 ### 퍼플렉시티 (Perplexity)
 
@@ -105,8 +111,8 @@ PPL=100 : 매 위치에서 100가지 균등 분포로 추측하는 수준
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **Beam Search**: 각 단계에서 상위 k개 후보 유지, 최종 가장 높은 시퀀스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 선택
-**[Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)**: P(xₜ)를 T로 나눠 재조정 → T<1 집중, T>1 다양성
-**Exposure [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)**: Teacher Forcing의 학습-추론 불일치 → Scheduled Sampling으로 완화
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: P(xₜ)를 T로 나눠 재조정 → T<1 집중, T>1 다양성
+<strong>Exposure <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a></strong>: Teacher Forcing의 학습-추론 불일치 → Scheduled Sampling으로 완화
 
 기술사 포인트: 연쇄 법칙 분해, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도 최대화, 퍼플렉시티 수식을 정확히 쓰고 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 계열과의 연관성을 설명.
 

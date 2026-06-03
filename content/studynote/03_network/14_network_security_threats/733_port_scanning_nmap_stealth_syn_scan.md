@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 전 세계에서 가장 널리 사용되는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 네트워크 탐색 및 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구입니다.
 - **목적**: 특정 서버나 네트워크 대역에 살아있는 호스트(IP)가 몇 개인지, 각각의 서버에 어떤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있고, 심지어 어떤 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)와 프로그램([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))이 돌아가고 있는지를 엑스레이 찍듯 완벽하게 스캔해 냅니다.
 
-```text
-[제로 데이 공격]
-    │
-    ▼
-[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    └──▶ [방화벽 우회기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 데이 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽 우회기법</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,22 +55,26 @@ tags = ["studynote-network"]
 
 ### 3. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) FIN Scan (`-sF` 옵션) - "비정상 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 꼼수"
 - **원리**: 연결도 안 했는데 뜬금없이 "연결 끊자!"라는 `[FIN]` 패킷을 던집니다.
-  - **닫힌 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: RFC 표준에 따라 "너 누군데 갑자기 끊자고 해?"라며 튕겨내는 `[RST]` 패킷을 보냅니다.
-  - **열린 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)**: 표준에 따르면 정상 연결 상태가 아니면 이 패킷을 무시(아무 응답 없음)하도록 되어 있습니다. (※ 윈도우 OS는 이 표준을 따르지 않아 윈도우 스캔 시엔 잘 안 먹힙니다.)
+  - <strong>닫힌 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: RFC 표준에 따라 "너 누군데 갑자기 끊자고 해?"라며 튕겨내는 `[RST]` 패킷을 보냅니다.
+  - <strong>열린 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 표준에 따르면 정상 연결 상태가 아니면 이 패킷을 무시(아무 응답 없음)하도록 되어 있습니다. (※ 윈도우 OS는 이 표준을 따르지 않아 윈도우 스캔 시엔 잘 안 먹힙니다.)
 - **특징**: SYN 스캔을 잡아내는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 우회하기 위해 깃발([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))을 이상하게 비틀어 던지는 변태적 스캔 방식입니다. (이 외에도 모든 깃발을 다 끄는 NULL Scan `-sN`, 다 켜는 X-MAS Scan `-sX`가 있습니다.)
 
 ### 4. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Scan (`-sU` 옵션) - "어렵고 느린 스캔"
 - **원리**: 인사 과정이 없는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 53번)를 스캔합니다. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 패킷을 던져서 아무 응답이 없으면 '열린 것'으로 짐작하고, `ICMP Port Unreachable` 에러가 날아오면 '닫힌 것'으로 확정합니다.
 - **특징**: 핑퐁이 없어서 타임아웃을 길게 기다려야 하므로 스캔 속도가 엄청나게 느리고 결과가 부정확합니다.
 
-```text
-[제로 데이 공격]
-    │
-    ▼
-[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    └──▶ [방화벽 우회기법]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">제로 데이 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽 우회기법</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,15 +135,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 제로 데이 공격]
-    │
-    ▼
-[현재 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    ├──▶ [확장 A: 방화벽 우회기법]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 제로 데이 공격</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 방화벽 우회기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…는 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -11,55 +11,46 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10(1+0)과 01(0+1)은 단일 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 혹은 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))만으로는 도달할 수 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계와 안정성의 이율배반 트레이드오프를 타파하기 위해, 속도의 제왕인 **[RAID 0](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/)([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/))** 과 불사조 생존력의 **[RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))** 을 앞뒤 레고 블록 단위로 계층화시켜 겹겹이 합체(Nested/Hybrid [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/))시킨 엔터프라이즈 궁극의 스토리지 아키텍처다.
+> 1. **본질**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10(1+0)과 01(0+1)은 단일 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/)([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 혹은 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))만으로는 도달할 수 없는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계와 안정성의 이율배반 트레이드오프를 타파하기 위해, 속도의 제왕인 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/">RAID 0</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/">스트라이핑</a>)</strong> 과 불사조 생존력의 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/">RAID 1</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)</strong> 을 앞뒤 레고 블록 단위로 계층화시켜 겹겹이 합체(Nested/Hybrid [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/))시킨 엔터프라이즈 궁극의 스토리지 아키텍처다.
 > 2. **가치**: 가장 극혐오스런 패널티인 패리티 연산을 일절 없앴기 때문에(No Parity Calculation CPU Overhead), 수만 번의 무작위 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 융단 폭격 덮쳐도 최저 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간(Random Write IOPS 극대화)으로 씹어 먹으면서, 동시에 디스크 여럿이 부서져도 파티션이 끄떡없이 생존 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되는 완벽한 무결점 쉴드를 제공한다.
-> 3. **결정적 차이**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10은 **거울(1)들을 로프(0)로 묶은 것**이고, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01은 **로프(0)들을 통째로 거울(1)에 비춘 것**이라 불리우며, 고장 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 단일 지점 재앙([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기하학적 차이로 인해 실무에서는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01을 완전히 혐오 쓰레기 폐기시키고 **오직 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10만이 RDBMS 고성능 원본 DB의 전 세계 절대 스탠더드 국룰 1티어로 군림**하고 있다.
+> 3. **결정적 차이**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10은 <strong>거울(1)들을 로프(0)로 묶은 것</strong>이고, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01은 <strong>로프(0)들을 통째로 거울(1)에 비춘 것</strong>이라 불리우며, 고장 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 단일 지점 재앙([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기하학적 차이로 인해 실무에서는 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01을 완전히 혐오 쓰레기 폐기시키고 <strong>오직 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 10만이 RDBMS 고성능 원본 DB의 전 세계 절대 스탠더드 국룰 1티어로 군림</strong>하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 레이드 기술자들은 더 이상 단일 숫자 (0, 1, 5, 6) 의 수학 방정식만으로는 만족할 수 없었다. "[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 0은 미치도록 빠른데 한 개만 고장 나도 파산이고, [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 1은 절대 안 죽는데 너무 공간이 아깝고 하나 마나 한 속도밖에 안 나와서 답답하다. 남는 게 돈이고 슬롯 베이(Bay) 면 그냥 둘을 짬뽕하면 안 될까?" 라는 무식하고도 자본주의적인 발상 발명에서 Hybrid(중첩) RAID가 태동했다.
-- **필요성**: 수천만 명의 동시 결제 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리하는 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB / MySQL) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 마스터 서버를 세팅할 때, 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5나 6 등 '패리티(Parity)' 기반의 구성안은 글자 한 개 바꿀 때마다 `RMW(Read-Modify-Write) 4배~6배 징수 패널티`로 스토리지 락 병목 붕괴에 빠져 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 타임아웃되어 클라이언트 단에 응답할 수가 없었다. **따라서 모든 기업은 CPU 패리티 수학 덧셈 따위 없이 그냥 "깡 스피드 복사" 로 물리 디스크 스핀들을 I/O를 직격 돌파하는([스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/)) 동시에, 뒤로 몰래 거울(미러)을 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 쳐놓는 무적 하이엔드 자본주의 전사** [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 체제 방패를 무조건 채택 세워야만 DB 장애를 면할 수 있게 되었다.
+- **필요성**: 수천만 명의 동시 결제 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리하는 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB / MySQL) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 마스터 서버를 세팅할 때, 앞선 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5나 6 등 '패리티(Parity)' 기반의 구성안은 글자 한 개 바꿀 때마다 `RMW(Read-Modify-Write) 4배~6배 징수 패널티`로 스토리지 락 병목 붕괴에 빠져 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 타임아웃되어 클라이언트 단에 응답할 수가 없었다. <strong>따라서 모든 기업은 CPU 패리티 수학 덧셈 따위 없이 그냥 "깡 스피드 복사" 로 물리 디스크 스핀들을 I/O를 직격 돌파하는(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/">스트라이핑</a>) 동시에, 뒤로 몰래 거울(미러)을 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 쳐놓는 무적 하이엔드 자본주의 전사</strong> [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 체제 방패를 무조건 채택 세워야만 DB 장애를 면할 수 있게 되었다.
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10(1+0) 과 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01(0+1)의 결합 엮임 물리 매핑 트리 차이점**:
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 10(1+0) 과 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 01(0+1)의 결합 엮임 물리 매핑 트리 차이점</strong>:
 이 앞뒤 순서 레고 조립을 어떻게 역기초 하느냐에 따라 왜 하나는 천국이고 하나는 지옥(01)인지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 트리 다이어그램으로 체계화 시각 묘사하면 아래 뼈대와 같다.
 
-```text
-  ┌────────────────────────────────────────────────────────────────────────────────┐
-  │                 RAID 10 vs RAID 01 아키텍처 계층의 하늘과 땅 차이              │
-  ├────────────────────────────────────────────────────────────────────────────────┤
-  │                                                                                │
-  │   [ 승리자: RAID 10 (Striping over Mirroring / 거울들을 묶기) ]                │
-  │                                                                                │
-  │         [ 거대 가상 볼륨 /dev/md0 (스트라이핑 끈 묶음 RAID 0 계층) ]           │
-  │                          /                    \                                │
-  │             (A/B/C 데이터 분배 팍!)        (D/E/F 데이터 분배 팍!)             │
-  │             /                                    \                             │
-  │     [ 서브 미러 그룹 1 ]                     [ 서브 미러 그룹 2 ]              │
-  │     (디스크1 == 디스크2)                     (디스크3 == 디스크4)              │
-  │       (A)      (A)                           (D)      (D)                      │
-  │                                                                                │
-  │   [ 💥 디스크 1 파괴! ] ─▶ 디스크 2만 살아있어도 서브 그룹 1 전체 100% 생존!   │
-  │   [ 💥 1파괴, 3파괴! ] ─▶ 다른 방에 불났으니 쌍 파괴도 운 좋게 방어 생존!!     │
-  │                                                                                │
-  │ ────────────────────────────────────────────────────────────────               │
-  │                                                                                │
-  │   [ 패배자: RAID 01 (Mirroring over Striping / 배 묶음을 통째복사) ]           │
-  │                                                                                │
-  │            [ 거대 가상 볼륨 /dev/md0 (미러링 거울 껍데기 RAID 1 계층)]         │
-  │                          /                    \                                │
-  │             (왼쪽 군락지로 똑같이 복제)     ==    (오른쪽 똑같이 복제)         │
-  │             /                                    \                             │
-  │     [ 서브 스트라이프 묶음 그룹 1 ]         [ 서브 스트라이프 묶음 그룹 2 ]    │
-  │     (디스크1 분산 디스크2)                   (디스크3 분산 디스크4)            │
-  │      (A)         (B)                     (A)        (B)                        │
-  │                                                                                │
-  │   [ 💥 디스크 1 파괴! ] ─▶ 묶음 그룹 1 전체 즉사 붕괴! (그룹 2로만 연명)       │
-  │   [ 💥 1파괴 중 기적적 확률로 디스크 4마저 파괴! ] ─▶ 그룹 2마저 즉사!         │
-  │     = 두 개의 거울 뒷면 스트라이프가 다 부서져 데이터 100% 완전 삭제 사망폭발! │
-  └────────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 10 vs RAID 01 아키텍처 계층의 하늘과 땅 차이</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">승리자: RAID 10 (Striping over Mirroring / 거울들을 묶기)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거대 가상 볼륨 /dev/md0 (스트라이핑 끈 묶음 RAID 0 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A/B/C 데이터 분배 팍!) (D/E/F 데이터 분배 팍!)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브 미러 그룹 1</div><div class="kb-diagram-node">서브 미러 그룹 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크1 == 디스크2) (디스크3 == 디스크4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) (A) (D) (D)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 디스크 1 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">디스크 2만 살아있어도 서브 그룹 1 전체 100% 생존!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 1파괴, 3파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">다른 방에 불났으니 쌍 파괴도 운 좋게 방어 생존!!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">패배자: RAID 01 (Mirroring over Striping / 배 묶음을 통째복사)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">거대 가상 볼륨 /dev/md0 (미러링 거울 껍데기 RAID 1 계층)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 군락지로 똑같이 복제) == (오른쪽 똑같이 복제)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">서브 스트라이프 묶음 그룹 1</div><div class="kb-diagram-node">서브 스트라이프 묶음 그룹 2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크1 분산 디스크2) (디스크3 분산 디스크4)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) (B) (A) (B)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 디스크 1 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">묶음 그룹 1 전체 즉사 붕괴! (그룹 2로만 연명)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">💥 1파괴 중 기적적 확률로 디스크 4마저 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">그룹 2마저 즉사!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 두 개의 거울 뒷면 스트라이프가 다 부서져 데이터 100% 완전 삭제 사망폭발!</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 두 조립 체계는 단순히 0과 1의 순서만 바꾼 게 아니라 **'장애 허용 관문(단일 지점 폭파)이 어디서 박살 나느냐 설계결함'** 이다. 
 `RAID 10(1+0)`은 제일 밑바닥 하드웨어 단위에 [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)(각자 거울 미러 방패 복재) 쌍을 튼튼하게 박아 놓고, 그 무적의 호위 무사 "그룹들 끼리를" 위에서 [RAID 0](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) 끈으로 엮어 속도를 달린 것이다. 한쪽이 죽어도 그 쌍둥이만 무사하면 전체 팀 배의 속도 구멍은 없다. 반면 `RAID 01(0+1)`은 젤 밑바닥 기초 부실 공사로 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 끈으로 엮어놓고, 이 불안한 배 묶음(디스크 하나 터지면 전체 스트라이프 렉이 증발하는 시한폭탄)을 전체 왼쪽 성벽과 오른쪽 성벽 덩어리로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))해놓은 것이다. 이는 디스크 하나만 고장 나도 왼쪽 전체 블레이드 절반 스토리지 랙이 죄다 다운 처리되어 날아가는 최악의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 폭망(Rebuilding 랙 오버헤드의 아수라장)을 맞이하게 된다.
@@ -72,11 +63,11 @@ tags = ["studynote-operating-system"]
 
 ### 1. I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 특성 (DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 구원자, No Parity Overhead)
 
-가용 가능한 공간(50%)을 무려 절반이나 허공에 돈다발로 날려 먹으면서까지 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10을 울며 겨자 먹기로 구축해야 하는 절대 이유는, R5/R6가 지닌 **"XOR 수학 계산 읽기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 형벌(Penalty)"** 로부터 우주적인 자유를 얻기 위함이다. 
+가용 가능한 공간(50%)을 무려 절반이나 허공에 돈다발로 날려 먹으면서까지 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10을 울며 겨자 먹기로 구축해야 하는 절대 이유는, R5/R6가 지닌 <strong>"XOR 수학 계산 읽기 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 형벌(Penalty)"</strong> 로부터 우주적인 자유를 얻기 위함이다. 
 
-| I/O 패턴 파워 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)/6 의 스로틀 병목 패널티 | **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 의 폭발적인 극복 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Booster)** |
+| I/O 패턴 파워 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/)/6 의 스로틀 병목 패널티 | <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 10 의 폭발적인 극복 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Booster)</strong> |
 |:---|:---|:---|
-| **랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) (Random [Write Update](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/))** | 공식 역계산 때문에 4번에서 6번까지 IO 뻥튀기 억울한 연산 I/O 허덕임 치솟음 | 어차피 패리티 수식 장부 그딴 거 없음. 그냥 들어오면 양쪽(미러 페어)에 **직빵 "단 2회" 똑같이 쓰고 커밋 끝전송 땡!** 속도 스트레스 이탈 타락 락이 제로! |
+| <strong>랜덤 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> (Random <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/406_write_update/">Write Update</a>)</strong> | 공식 역계산 때문에 4번에서 6번까지 IO 뻥튀기 억울한 연산 I/O 허덕임 치솟음 | 어차피 패리티 수식 장부 그딴 거 없음. 그냥 들어오면 양쪽(미러 페어)에 **직빵 "단 2회" 똑같이 쓰고 커밋 끝전송 땡!** 속도 스트레스 이탈 타락 락이 제로! |
 | **순차 읽기 (Sequential Read)** | 준수함. 하지만 장애시 복원 역연산 읽어오느라 랙 걸림 | 디스크 스핀들을 죄다 N개 나눠서 팍팍 돌려 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스플릿(Striping Spread) 읽어대므로 깡 스피드 물리 엔진 한계치 100% 우걱 달성. |
 
 - [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) DB나 MSSQL, 고부하 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))의 특징인 수많은 `Row(행) 트랜잭션 커밋 덤프`는 이 깡무식한 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 원시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 파워로만 응답 속도 밀리초(ms) 티어를 커버 쳐 낼 수 있다. (요즘 플래시 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위에서는 그 격차가 줄었으나 여전히 기업 결재 메인 DB 백본 아키텍처의 원칙은 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10이다)
@@ -85,10 +76,10 @@ tags = ["studynote-operating-system"]
 
 R10의 아킬레스건은 기절할 듯한 구매 가성비 낭비 파탄에 있다. 
 
-- **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 용량 보존 계산식** = `총 디스크 갯수(N) ÷ 2  = 무조건 50% 버림 타워`
-- 만약 대용량 시스템 20TB 엔터프라이즈 하드 드라이브를 **10장 구매**했다? (총 투자액 200TB 원석 용량 지출 결재!)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 용량 보존 계산식</strong> = `총 디스크 갯수(N) ÷ 2  = 무조건 50% 버림 타워`
+- 만약 대용량 시스템 20TB 엔터프라이즈 하드 드라이브를 <strong>10장 구매</strong>했다? (총 투자액 200TB 원석 용량 지출 결재!)
   - [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6로 짠다면: 2개 스페어 날아감. $20TB \times (10장 - 2)$ = **실제 가용 용량 160TB** (아키텍트 칭찬 확보 여유)
-  - **[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10으로 짠다면?**: 공간의 딱 절반인 **실 가용 공간 100TB** 만 쥐여지고 100테라 어치의 피 같은 돈, 서버 디스크 슬롯 베이(Bay 전기세 등)가 허무하게 거울 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 인프라 보험으로 사라진다. 
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 10으로 짠다면?</strong>: 공간의 딱 절반인 **실 가용 공간 100TB** 만 쥐여지고 100테라 어치의 피 같은 돈, 서버 디스크 슬롯 베이(Bay 전기세 등)가 허무하게 거울 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 인프라 보험으로 사라진다. 
 
 - **📢 섹션 요약 비유**: 이 구조(R10)는 무조건 가장 강력하고 제일 빠른 포르쉐 V8 터보 엔진을 단 장갑차인 건 맞는데, 기능 유지비 연비(공간 용량 50%)가 너무 끔찍하게 타들어 가서 돈이 펑펑 썩어나는 1티어 0.1% [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 핵심 통장 잔고가 아니면 함부로 들이는 인스턴스가 아닙니다.
 
@@ -102,10 +93,10 @@ R10의 아킬레스건은 기절할 듯한 구매 가성비 낭비 파탄에 있
 | 붕괴 폭발 시나리오 계산법 | [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 01 (스트라이프를 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) | [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 (미러 거울들을 엮음) | 지표 극복 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)차 |
 |:---|:---|:---|:---|
 | **그룹핑 박살** | a b c (Group1) / A B C (Group2) | a A / b B / c C (3개의 페어) |
-| **디스크 `a` 가 죽었다고 가정 💥** | Group1 이라는 덩어리 전함 통째로 사망! | 1번 페어의 a만 죽고, 짝꿍 짝 A는 생존! 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 쌩쌩 생존 이상무 | (동일) |
-| **이어서 두 번째 디스크 랜덤 사망 폭격 타격! ☄️** | b, c 가 죽음 (어차피 G1 죽음 노상관) / **A, B, C 중 1개라도 죽으면? ➔ 우주 대폭발 파괴 100% 사망 (살아있는 G2배 마저 파괴)** | 유일하게 사망점과 겹치는 짝꿍 'A' 자리만 안 맞히면? b,B,c,C 4개 중 누가 맞아터지더라도 절대 파괴 없음 초생존 억까 버팀 쉴드 | **레이드 10이 압도적으로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 보존 생존 유리함 우위 점거** |
+| <strong>디스크 <code>a</code> 가 죽었다고 가정 💥</strong> | Group1 이라는 덩어리 전함 통째로 사망! | 1번 페어의 a만 죽고, 짝꿍 짝 A는 생존! 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 쌩쌩 생존 이상무 | (동일) |
+| **이어서 두 번째 디스크 랜덤 사망 폭격 타격! ☄️** | b, c 가 죽음 (어차피 G1 죽음 노상관) / **A, B, C 중 1개라도 죽으면? ➔ 우주 대폭발 파괴 100% 사망 (살아있는 G2배 마저 파괴)** | 유일하게 사망점과 겹치는 짝꿍 'A' 자리만 안 맞히면? b,B,c,C 4개 중 누가 맞아터지더라도 절대 파괴 없음 초생존 억까 버팀 쉴드 | <strong>레이드 10이 압도적으로 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 보존 생존 유리함 우위 점거</strong> |
 
-**결론 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Standard Verdict)**:
+<strong>결론 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Standard Verdict)</strong>:
 하드 고장 시 도미노로 전체 랙 파티션이 통재로 Rebuilding (1개 죽었는데 스트라이프 덩어리 1테라 전체를 마비시키며 복원) 대재앙에 걸리는 01 아키텍처는 IT 역사에서 범죄자 취급을 받는다. 오직 `RAID 10` 만이 고장 난 짝꿍 단 한 블록짜리만 `1:1 복사기 스피드 핫스왑` 으로 신속하게 메워 때우는(복원 시간 최단 경축) 놀라운 우아함을 자랑하며 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 전공 도서 표준으로 등재되었다. 
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의점
@@ -121,9 +112,9 @@ R10의 아킬레스건은 기절할 듯한 구매 가성비 낭비 파탄에 있
 
 | 시스템 아키텍쳐 기준 (동일예산 디스크 10개) | 일반 [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) / [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) 구성 모델 기반 | 초호화 하이브리드 끝판왕 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 적용 모델망 | 달성 개선 효과율 격차 |
 |:---|:---|:---|:---|
-| **정량 (Random Write IOPS [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))** | 수식 락으로 인해 초당 1만 IOPS 스루풋 좌절 한계 | RMW 대수학 패널티 0% 방어 ➔ 10만 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 디스크 깡스펙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관통 I/O 타격 발산! | 거래량 커밋 DB 속도 장애 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) **무결점 응답률 수직 부스터 수십배 이륙** |
+| <strong>정량 (Random Write IOPS <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)</strong> | 수식 락으로 인해 초당 1만 IOPS 스루풋 좌절 한계 | RMW 대수학 패널티 0% 방어 ➔ 10만 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 디스크 깡스펙 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관통 I/O 타격 발산! | 거래량 커밋 DB 속도 장애 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) **무결점 응답률 수직 부스터 수십배 이륙** |
 | **정량 (복원/Rebuild 타임 재난)** | XOR 역산으로 CPU 과부하 + 일주일 밤낮 거대 리빌딩 스트레스 | 옆자리 거울 쌍둥이한테서 걍 1:1 대면 [DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) 복붙만 때리면 됨. 수 시간 내 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부활! | 재난 다운타임, 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 랙 스터터링(버벅임 징후) 완벽 해방 소거 |
-| **정성 (야간 운영 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 통계)** | 1장 뻑나면 P,Q 깎고 깎이는 며칠 리빌드 내내 불안 초조 서버 지켜봄 | 에러 로깅 삑 나면 무덤덤하게 다음 날 핫스왑 당겨 밀어넣음. 속도저하도 없음 평온 | 무중단 1티어 99.9999% [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 인프라 달성 완료 구축 |
+| <strong>정성 (야간 운영 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 통계)</strong> | 1장 뻑나면 P,Q 깎고 깎이는 며칠 리빌드 내내 불안 초조 서버 지켜봄 | 에러 로깅 삑 나면 무덤덤하게 다음 날 핫스왑 당겨 밀어넣음. 속도저하도 없음 평온 | 무중단 1티어 99.9999% [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 인프라 달성 완료 구축 |
 
 ### 미래 전망 통찰
 - 엔터프라이즈 하이엔드 인프라 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Exadata, 순수 플래시 어레이 올플래시 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 스토리지) 에서도 절대적 기준점이다. 최근에는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 의 대중화와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통로로 인해 패리티 연산 스톡 병목이 줄어 들었다고 하나, RMW(수정 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 가 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 셀 자체의 웨어레벨링 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 낭비 수명을 갉아먹는 '[쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))' 을 두 배로 터트리는 악연 궁합 탓에, 여전히 아무런 생각 없이 1:1 미러 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 치는 직관력 깡패 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 10 이 수명이나 속도 면에서 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 군락이나 K8s [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)(Persistent [Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)) 풀 기반에서 신급 티어로 떠받들려진다.
@@ -153,15 +144,19 @@ R10의 아킬레스건은 기절할 듯한 구매 가성비 낭비 파탄에 있
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[RAID 6 (분산 이중 패리티)]
-    │
-    ▼
-[RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)]
-    │
-    ├──▶ [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
-    └──▶ [핫 스페어 (Hot Spare) 디스크 자동 재구성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 6 (분산 이중 패리티)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

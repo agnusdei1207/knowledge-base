@@ -38,23 +38,25 @@ CSAT audit의 흐름은 `설문 설계 → 대상 선정 → 수집 → 분석 �
 | 개선 | 문제 목록 | remediation plan |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 재조사 결과 | 개선 완료 여부 |
 
-```text
-사용자 경험
-    │
-    ▼
-CSAT 조사
-    │
-    ▼
-RCA (Root Cause Analysis)
-    │
-    ├─ 화면 개선
-    ├─ 권한 조정
-    ├─ 속도 개선
-    └─ 교육 보완
-    │
-    ▼
-재측정 → 감리 종료
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">사용자 경험</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSAT 조사</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RCA (Root Cause Analysis)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">화면 개선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">권한 조정</div>
+<div class="kb-diagram-tree-item" style="--depth:2">속도 개선</div>
+<div class="kb-diagram-tree-item" style="--depth:2">교육 보완</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재측정 → 감리 종료</div>
+</div>
+</div>
+
+
 
 VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))는 현장의 불만과 요구를 모으는 입력이고, CSAT는 그 만족도를 점수화한 출력이다. 두 지표를 함께 봐야 문제의 양과 질을 동시에 파악할 수 있다.
 
@@ -105,21 +107,23 @@ CSAT remediation audit는 현업 불만을 구조화하고, 개선의 우선순�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-운영 이관
-    │
-    ▼
-CSAT / VOC 수집
-    │
-    ▼
-RCA (Root Cause Analysis)
-    │
-    ▼
-remediation 계획과 실행
-    │
-    ▼
-재측정 및 감리 종료
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">운영 이관</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CSAT / VOC 수집</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">RCA (Root Cause Analysis)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">remediation 계획과 실행</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">재측정 및 감리 종료</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

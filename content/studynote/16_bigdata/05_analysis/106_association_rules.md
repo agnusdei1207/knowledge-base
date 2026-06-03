@@ -32,32 +32,33 @@ tags = ["studynote-bigdata"]
 
 | 지표 | 수식 | 의미 |
 |:---|:---|:---|
-| **[지지도](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) ([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/))** | P(A ∩ B) | 전체 거래 중 A와 B가 함께 등장하는 비율 |
-| **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))** | P(B\|A) = P(A ∩ B)/P(A) | A가 있을 때 B가 같이 있을 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) |
-| **[향상도](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) ([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/))** | [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">지지도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | P(A ∩ B) | 전체 거래 중 A와 B가 함께 등장하는 비율 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a>)</strong> | P(B\|A) = P(A ∩ B)/P(A) | A가 있을 때 B가 같이 있을 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">향상도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">Lift</a>)</strong> | [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│             연관 규칙 마이닝 파이프라인                          │
-├──────────────────────────────────────────────────────────────────┤
-│  거래 DB                                                         │
-│  T1: {우유, 빵, 버터}                                            │
-│  T2: {맥주, 기저귀, 콜라}          Step 1: 빈발 항목 집합 생성   │
-│  T3: {우유, 기저귀, 맥주, 콜라}  ──────────────────────────────▶│
-│  T4: {빵, 우유}                    min_support 임계값 적용       │
-│  ...                                                             │
-├──────────────────────────────────────────────────────────────────┤
-│  빈발 항목 집합 (Frequent Itemsets)                              │
-│  {맥주, 기저귀}: support=0.4                                     │
-│  {맥주, 콜라}:   support=0.3    Step 2: 규칙 생성 & 필터링      │
-│  {기저귀, 콜라}: support=0.3  ──────────────────────────────────▶│
-│                                  min_confidence 임계값 적용      │
-├──────────────────────────────────────────────────────────────────┤
-│  최종 규칙                                                       │
-│  {기저귀} → {맥주}   conf=0.80, lift=2.1  ✅ 의미 있음          │
-│  {빵}     → {우유}   conf=0.67, lift=1.3  ✅ 의미 있음          │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연관 규칙 마이닝 파이프라인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 DB</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: {우유, 빵, 버터}</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: {맥주, 기저귀, 콜라} Step 1: 빈발 항목 집합 생성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T3: {우유, 기저귀, 맥주, 콜라} ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T4: {빵, 우유} min_support 임계값 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈발 항목 집합 (Frequent Itemsets)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{맥주, 기저귀}: support=0.4</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{맥주, 콜라}: support=0.3 Step 2: 규칙 생성 &amp; 필터링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{기저귀, 콜라}: support=0.3 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min_confidence 임계값 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 규칙</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{기저귀} → {맥주} conf=0.80, lift=2.1 ✅ 의미 있음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{빵} → {우유} conf=0.67, lift=1.3 ✅ 의미 있음</div></div>
+</div>
+</div>
+
+
 
 ### Apriori vs [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth
 
@@ -66,7 +67,7 @@ tags = ["studynote-bigdata"]
 | **핵심 아이디어** | 후보 항목 집합 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 스캔 반복 | DB를 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Tree로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 후보 없이 마이닝 |
 | **DB 스캔 횟수** | 아이템 수 k번 반복 | 2회 (트리 구성 + 마이닝) |
 | **메모리 사용** | 낮음 | 높음 (트리 전체 메모리 적재) |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 아이템 종류 많을수록 급격히 느려짐 | 대용량에서 압도적 우위 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 아이템 종류 많을수록 급격히 느려짐 | 대용량에서 압도적 우위 |
 | **구현 복잡도** | 단순 | 복잡 |
 
 - **📢 섹션 요약 비유**: Apriori는 도서관에서 한 권씩 모든 책 조합을 찾는 방식이고, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth는 목차(트리)를 먼저 만들어놓고 거기서만 검색하는 방식이다.
@@ -140,21 +141,23 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[데이터 마이닝]
-    │
-    ▼
-[연관 규칙]
-    │
-    ▼
-[Apriori 알고리즘]
-    │
-    ▼
-[FP-Growth]
-    │
-    ▼
-[협업 필터링]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마이닝</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">연관 규칙</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Apriori 알고리즘</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">FP-Growth</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링</div></div>
+</div>
+</div>
+
+
 
 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)의 빈발 패턴 탐색이 연관 규칙과 Apriori를 거쳐 더 효율적인 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth 및 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)으로 발전하는 흐름이다.
 

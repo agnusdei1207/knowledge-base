@@ -35,32 +35,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 애플리케이션이 확장 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실제로 활용하는 흐름을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             ISA 확장이 실제 성능으로 이어지는 전체 경로            │
-├──────────────────────────────────────────────────────────────────────┤
-│ 응용 프로그램                                                       │
-│      │                                                               │
-│      ▼                                                               │
-│ 컴파일러 / 라이브러리                                                │
-│  - intrinsic, auto-vectorization, 암호화 라이브러리 호출            │
-│      │                                                               │
-│      ▼                                                               │
-│ 명령어 디코더                                                        │
-│  - 기본 ISA 인가? ────────────────┐                                  │
-│  - 확장 명령어 인가? ───────┐     │                                  │
-│                            │     │                                  │
-│                            ▼     ▼                                  │
-│                    확장 실행 유닛   기본 실행 유닛                   │
-│                 (벡터, 암호화, 가상화)  (산술·메모리 연산)          │
-│                            │     │                                  │
-│                            └──┬──┘                                  │
-│                               ▼                                     │
-│                         결과 레지스터 저장                           │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-핵심은 **반복적인 소프트웨어 절차를 더 넓은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭, 더 적은 분기, 더 짧은 실행 경로로 치환**하는 데 있다. 예를 들어 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 확장은 128비트, 256비트, 512비트 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 이용해 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 연산하고, 암호화 확장은 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 한 라운드 같은 고정 패턴을 전용 회로로 실행한다. 이 방식은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 줄여 디코드 부담을 낮추고, 같은 작업당 에너지 소비도 줄이는 효과가 있다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA 확장이 실제 성능으로 이어지는 전체 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일러 / 라이브러리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- intrinsic, auto-vectorization, 암호화 라이브러리 호출</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 디코더</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기본 ISA 인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 확장 명령어 인가?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장 실행 유닛 기본 실행 유닛</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(벡터, 암호화, 가상화) (산술·메모리 연산)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 레지스터 저장</div></div>
+</div>
+</div>
+
+
+
+핵심은 <strong>반복적인 소프트웨어 절차를 더 넓은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 폭, 더 적은 분기, 더 짧은 실행 경로로 치환</strong>하는 데 있다. 예를 들어 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 확장은 128비트, 256비트, 512비트 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 이용해 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 연산하고, 암호화 확장은 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 한 라운드 같은 고정 패턴을 전용 회로로 실행한다. 이 방식은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 줄여 디코드 부담을 낮추고, 같은 작업당 에너지 소비도 줄이는 효과가 있다.
 
 | 확장 유형 | 대표 예시 | 하드웨어 변화 | 얻는 이점 |
 | :--- | :--- | :--- | :--- |
@@ -103,9 +97,9 @@ tags = ["studynote-computer-architecture"]
 
 1. **대상 CPU 탐지**: CPUID (CPU [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 기능 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 런타임 디스패치로 확장 지원 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 2. **대체 경로 확보**: 확장이 없는 장비에서도 동작할 스칼라 경로 또는 하위 확장 경로가 존재하는가?
-3. **전력·발열 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 넓은 벡터 연산이 지속될 때 클럭 저하나 열 스로틀링이 발생하지 않는가?
+3. <strong>전력·발열 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 넓은 벡터 연산이 지속될 때 클럭 저하나 열 스로틀링이 발생하지 않는가?
 4. **문맥 전환 비용 점검**: 대형 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태 저장이 잦은 워크로드에서 오히려 손해가 나지 않는가?
-5. **컴파일 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정리**: 빌드 타깃 고정, 다중 바이너리, 함수 단위 멀티버전 중 무엇을 쓸지 결정했는가?
+5. <strong>컴파일 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 정리</strong>: 빌드 타깃 고정, 다중 바이너리, 함수 단위 멀티버전 중 무엇을 쓸지 결정했는가?
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -121,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장의 가장 큰 효과는 **같은 알고리즘을 더 짧은 명령 경로로 실행하게 만들어, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 전성비를 동시에 개선하는 것**이다. 잘 설계된 확장은 CPU가 외부 가속기를 부르지 않고도 상당한 수준의 암호화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 미디어 처리, 벡터 계산을 수행하게 해 준다. 이는 서버에서는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상으로, 모바일에서는 배터리 절감으로, 임베디드에서는 실시간성 확보로 이어진다.
+[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장의 가장 큰 효과는 <strong>같은 알고리즘을 더 짧은 명령 경로로 실행하게 만들어, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>과 전성비를 동시에 개선하는 것</strong>이다. 잘 설계된 확장은 CPU가 외부 가속기를 부르지 않고도 상당한 수준의 암호화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 미디어 처리, 벡터 계산을 수행하게 해 준다. 이는 서버에서는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상으로, 모바일에서는 배터리 절감으로, 임베디드에서는 실시간성 확보로 이어진다.
 
 다만 확장이 늘수록 생태계는 복잡해진다. 명세 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 소프트웨어 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 상태 관리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 범위가 모두 확장되기 때문이다. 그래서 앞으로의 방향은 무작정 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 추가하는 것이 아니라, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/)-V처럼 표준화된 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조를 세우거나, CPU 내부 확장과 외부 가속기 사이의 역할 분담을 더 명확히 하는 쪽에 가깝다.
 
@@ -143,25 +137,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-기본 ISA의 범용 처리
-    │
-    ▼
-멀티미디어 확장 등장
-(MMX (MultiMedia eXtensions), SSE 계열)
-    │
-    ▼
-벡터 폭 확대·암호화 확장
-(AVX, NEON, AES-NI)
-    │
-    ▼
-가상화·보안·행렬 연산 확장
-(가상화, 제어 흐름 보호, 행렬 가속)
-    │
-    ▼
-모듈형·도메인 특화 확장 생태계
-(RISC-V Vector Extension, 사용자 정의 확장)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기본 ISA의 범용 처리</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티미디어 확장 등장</div>
+<div class="kb-diagram-note">(MMX (MultiMedia eXtensions), SSE 계열)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">벡터 폭 확대·암호화 확장</div>
+<div class="kb-diagram-note">(AVX, NEON, AES-NI)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">가상화·보안·행렬 연산 확장</div>
+<div class="kb-diagram-note">(가상화, 제어 흐름 보호, 행렬 가속)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">모듈형·도메인 특화 확장 생태계</div>
+<div class="kb-diagram-note">(RISC-V Vector Extension, 사용자 정의 확장)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "범용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 보완 → 반복 작업 가속 → 보안·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 통합 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화"로 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 확장의 진화 방향을 보여준다.
 

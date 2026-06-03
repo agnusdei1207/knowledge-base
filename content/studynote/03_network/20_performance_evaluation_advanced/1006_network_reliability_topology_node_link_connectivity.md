@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라우터나 광케이블에 물리적인 고장, 단선, 화재 등 재난이 발생했을 때, 네트워크 전체가 붕괴되지 않고 **우회로를 통해 얼마나 끈질기게 살아남아 정상적인 통신 상태(Connectivity)를 유지해 낼 수 있는가**를 나타내는 맷집(내결함성, [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 지표입니다.
+- **개념**: 라우터나 광케이블에 물리적인 고장, 단선, 화재 등 재난이 발생했을 때, 네트워크 전체가 붕괴되지 않고 <strong>우회로를 통해 얼마나 끈질기게 살아남아 정상적인 통신 상태(Connectivity)를 유지해 낼 수 있는가</strong>를 나타내는 맷집(내결함성, [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 지표입니다.
 - **토폴로지(Topology)**: 기계와 선을 어떻게 엮었느냐(별 모양, 거미줄 모양 등)하는 기하학적 밑그림이 이 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 99% 결정합니다.
 
-```text
-[호손율 / 블로킹 확률]
-    │
-    ▼
-[망 신뢰도]
-    │
-    └──▶ [MTBF 통신망 생존성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -39,14 +43,18 @@ tags = ["studynote-network"]
 
 수학자들은 망을 점(노드, 라우터)과 선(링크, 랜선)으로 된 그래프로 보고 방어력을 점수화했습니다.
 
-```text
-[호손율 / 블로킹 확률]
-    │
-    ▼
-[망 신뢰도]
-    │
-    └──▶ [MTBF 통신망 생존성]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -55,7 +63,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **질문**: 네트워크가 둘로 쪼개져 붕괴(단절)되려면, **'기계(라우터/노드)'를 최소 몇 대 박살 내야 하는가?**
-- **해석**: 점수가 3점이라면, 해커가 라우터를 1대나 2대 부수더라도 망은 우회로를 통해 살아남지만, **지독하게 핵심 라우터 3대를 핀셋으로 콕 집어 폭파하면 망이 완전히 절반으로 찢어진다는 뜻**입니다. 점수가 높을수록 맷집이 강한 우주방어 망입니다.
+- **해석**: 점수가 3점이라면, 해커가 라우터를 1대나 2대 부수더라도 망은 우회로를 통해 살아남지만, <strong>지독하게 핵심 라우터 3대를 핀셋으로 콕 집어 폭파하면 망이 완전히 절반으로 찢어진다는 뜻</strong>입니다. 점수가 높을수록 맷집이 강한 우주방어 망입니다.
 
 - **질문**: 네트워크가 붕괴되려면, **'랜선(링크)'을 최소 몇 가닥 가위로 잘라야 하는가?**
 - **해석**: 병목 구간(병목 링크)이 존재하면 점수가 바닥을 칩니다. 아무리 튼튼해 보여도 한강을 넘는 다리가 딱 1개(단일 링크)뿐이라면, 그 선 1가닥만 포크레인으로 찍어버리면 강북과 강남의 통신이 절단 납니다(링크 연결도 1점 = 최악의 취약점 망).
@@ -63,11 +71,11 @@ tags = ["studynote-network"]
 어떻게 선을 꽂아야 안 터질까요?
 
 1. **스타(Star) 토폴로지**: 한가운데 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 두고 뻗은 별 모양. 
-   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 최악**: 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1대만 불타면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 직원이 통신 멸망합니다.
-2. **링(Ring) 토폴로지 (896번 [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/))**: 동그랗게 원을 그린 모양. 
-   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 중간**: 선이 1번 끊어지면 반대 방향으로 빙 돌아가서 살아남습니다. 하지만 선이 2곳에서 뚝딱 끊어지면 망이 고립됩니다.
-3. **풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Full [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지**: 모든 컴퓨터가 나머지 모든 컴퓨터와 빠짐없이 1:1 전용 랜선으로 미친 듯이 엉켜있는 거미줄 모양.
-   - **[신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 극강**: 노드가 $N$개면, 링크 수가 $\frac{N(N-1)}{2}$ 개로 폭발합니다. 선이 수십 가닥 잘려나가도 100% 다른 우회로가 존재해 좀비처럼 살아남습니다. 국가 국방망이나 코어망(코어 라우터 간 연결)에 돈을 떡칠해서 구축하는 궁극의 맷집입니다.
+   - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 최악</strong>: 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1대만 불타면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 직원이 통신 멸망합니다.
+2. <strong>링(Ring) 토폴로지 (896번 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>)</strong>: 동그랗게 원을 그린 모양. 
+   - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 중간</strong>: 선이 1번 끊어지면 반대 방향으로 빙 돌아가서 살아남습니다. 하지만 선이 2곳에서 뚝딱 끊어지면 망이 고립됩니다.
+3. <strong>풀 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>(Full <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>) 토폴로지</strong>: 모든 컴퓨터가 나머지 모든 컴퓨터와 빠짐없이 1:1 전용 랜선으로 미친 듯이 엉켜있는 거미줄 모양.
+   - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 극강</strong>: 노드가 $N$개면, 링크 수가 $\frac{N(N-1)}{2}$ 개로 폭발합니다. 선이 수십 가닥 잘려나가도 100% 다른 우회로가 존재해 좀비처럼 살아남습니다. 국가 국방망이나 코어망(코어 라우터 간 연결)에 돈을 떡칠해서 구축하는 궁극의 맷집입니다.
 
 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 기반 조건을 만든다면, 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 그 위에서 핵심 메커니즘을 구현하고, [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -83,7 +91,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 실제 데이터센터는 무식하게 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깔 돈이 없습니다. 그래서 **[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(Redundancy)**라는 꼼수를 씁니다. 
+- 실제 데이터센터는 무식하게 풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 깔 돈이 없습니다. 그래서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>(Redundancy)</strong>라는 꼼수를 씁니다. 
 - "모든 선을 2개씩 꽂고(Active-Standby), 메인 라우터 옆에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 라우터 1대를 더 사서 나란히 둬라([VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))." 즉, 노드 연결도와 링크 연결도를 강제로 "2점(2가닥 끊어져야 죽음)" 이상으로 끌어올리는 최소한의 방어막 구축술입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -92,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(토폴로지 연결도)는 성을 지키는 **'우물과 수로의 맷집 테스트'**입니다. **스타(Star) 형**은 마을 한가운데 거대한 공동 우물(중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 파고 100집이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 1개씩 연결한 형태입니다. 편하지만 적군이 우물에 독을 타면(중앙 노드 마비) 100집이 다 몰살당하는 맷집 0점짜리 시스템입니다. **풀 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Full [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 형**은 이웃집 100곳이 각자 1:1로 비밀 지하 수로(링크)를 서로서로 미친 듯이 뚫어놓은 우주방어 성채입니다. 적군이 1번 집으로 가는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 50개 폭파해도, 1번 집은 남은 49개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통해 이웃집에서 어떻게든 물을 끌어와(우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 살아남습니다. 연결도가 높다는 것은, 적군이 도끼로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 10번, 20번 내리찍어도 절대로 마을 전체의 물길이 고립되지 않고 샛길로 끈질기게 피가 도는(생존성 극대화) 불사조의 그물망을 의미합니다.
+- **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(토폴로지 연결도)는 성을 지키는 <strong>'우물과 수로의 맷집 테스트'</strong>입니다. <strong>스타(Star) 형</strong>은 마을 한가운데 거대한 공동 우물(중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))을 파고 100집이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 1개씩 연결한 형태입니다. 편하지만 적군이 우물에 독을 타면(중앙 노드 마비) 100집이 다 몰살당하는 맷집 0점짜리 시스템입니다. <strong>풀 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>(Full <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>) 형</strong>은 이웃집 100곳이 각자 1:1로 비밀 지하 수로(링크)를 서로서로 미친 듯이 뚫어놓은 우주방어 성채입니다. 적군이 1번 집으로 가는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 50개 폭파해도, 1번 집은 남은 49개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 통해 이웃집에서 어떻게든 물을 끌어와(우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 살아남습니다. 연결도가 높다는 것은, 적군이 도끼로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 10번, 20번 내리찍어도 절대로 마을 전체의 물길이 고립되지 않고 샛길로 끈질기게 피가 도는(생존성 극대화) 불사조의 그물망을 의미합니다.
 
 ---
 
@@ -115,15 +123,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 호손율 / 블로킹 확률]
-    │
-    ▼
-[현재 개념: 망 신뢰도]
-    │
-    ├──▶ [확장 A: MTBF 통신망 생존성]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 호손율 / 블로킹 확률</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망 신뢰도</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,16 +19,20 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 겉봉투의 주소(IP)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 보고 패킷을 차단합니다. 이를 속이는 방법은 크게 **'내용물 숨기기([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))'**와 **'검사기 눈 피하기([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))'** 두 가지로 나뉩니다.
+[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 겉봉투의 주소(IP)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 보고 패킷을 차단합니다. 이를 속이는 방법은 크게 <strong>'내용물 숨기기(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a>)'</strong>와 <strong>'검사기 눈 피하기(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>)'</strong> 두 가지로 나뉩니다.
 
-```text
-[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    ▼
-[방화벽 우회기법]
-    │
-    └──▶ [비인가 AP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비인가 AP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,22 +44,26 @@ tags = ["studynote-network"]
 
 ### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 우회)
 - **문제 상황**: 회사가 보안을 위해 80번([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))과 53번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 빼고는 카카오톡이나 게임, 원격접속([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 싹 다 막아버렸습니다.
-- **해결([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 우회)**: 해커는 막혀버린 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)(22번) 원격접속 제어 데이터를 일반적인 웹페이지 HTML 소스코드인 척 **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 껍데기로 한 겹 포장(Encapsulation)**합니다.
+- <strong>해결(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 우회)</strong>: 해커는 막혀버린 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)(22번) 원격접속 제어 데이터를 일반적인 웹페이지 HTML 소스코드인 척 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 껍데기로 한 겹 포장(Encapsulation)</strong>합니다.
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 겉면에 '목적지 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷'이라고 적혀 있으니 "아, 평범한 웹서핑이네" 하고 통과시켜 줍니다. 집 밖의 해커 서버는 이 껍데기를 벗기고 안의 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 데이터를 실행하여 사내 서버를 완벽히 통제합니다.
-- **[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 우회**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 요청(TXT 레코드 등) 안에 악성코드의 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 숨겨서 밖으로 빼내는 방식도 널리 쓰입니다. (DNS는 인터넷의 필수망이라 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 차단할 수가 없습니다.)
+- <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 우회</strong>: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 요청(TXT 레코드 등) 안에 악성코드의 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 숨겨서 밖으로 빼내는 방식도 널리 쓰입니다. (DNS는 인터넷의 필수망이라 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 차단할 수가 없습니다.)
 
 ### 2. [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) ([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/), [OpenVPN](/knowledge-base/studynote/09_security/03_network_security/284_openvpn/)) 악용
 - 직원이 사내망에서 불법 토렌트 사이트에 들어가려 합니다. 회사의 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/)([NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/))이 패킷을 뜯어보고 차단합니다.
-- 직원이 외부의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버로 **강력한 암호화 터널([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))**을 하나 뚫습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 직원이 외부와 뭔가 통신하는 것은 알지만, 데이터가 100% 암호화되어 있으므로 안에 토렌트가 들었는지 회사 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 회피)이 들었는지 뜯어보지 못하고 까막눈이 되어 통과시켜 줍니다.
+- 직원이 외부의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버로 <strong>강력한 암호화 터널(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>을 하나 뚫습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 직원이 외부와 뭔가 통신하는 것은 알지만, 데이터가 100% 암호화되어 있으므로 안에 토렌트가 들었는지 회사 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 회피)이 들었는지 뜯어보지 못하고 까막눈이 되어 통과시켜 줍니다.
 
-```text
-[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    ▼
-[방화벽 우회기법]
-    │
-    └──▶ [비인가 AP]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비인가 AP</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -81,9 +89,9 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **[차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/)([NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/))**이나 고급 **[WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)**:
+- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/">차세대 방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/">NGFW</a>)</strong>이나 고급 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/">WAF</a></strong>:
   - 아무리 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 껍데기를 씌워도, 패킷을 심층 분석(Deep Packet Inspection)하여 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 본문 안에 이상한 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 규격이 섞여 있으면 "[터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 꼼수 쓰네!" 라며 찢어버립니다.
-  - 조각난 패킷이 들어오면 입구에서 통과시키지 않고, **[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 자신의 배때기 안에서 직접 100% 다 조립해 본 뒤(Reassembly)** 악성코드인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 나서야 내부로 들여보내는 철통 방어를 씁니다.
+  - 조각난 패킷이 들어오면 입구에서 통과시키지 않고, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 자신의 배때기 안에서 직접 100% 다 조립해 본 뒤(Reassembly)</strong> 악성코드인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 나서야 내부로 들여보내는 철통 방어를 씁니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -114,15 +122,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…]
-    │
-    ▼
-[현재 개념: 방화벽 우회기법]
-    │
-    ├──▶ [확장 A: 비인가 AP]
-    └──▶ [확장 B: 예측형 위협 대응]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 방화벽 우회기법</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비인가 AP</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
+</div>
+</div>
+
+
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법는 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…에서 출발해 현재 메커니즘을 정교화하고, 이후 비인가 AP와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

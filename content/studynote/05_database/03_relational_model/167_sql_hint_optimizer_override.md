@@ -25,20 +25,19 @@ tags = ["studynote-database"]
 
 아래 그림은 힌트가 왜 등장했는지 보여 준다. 핵심은 힌트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸는 기능이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 선택지를 제한해 잘못된 길을 피하게 만든다는 점이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             힌트의 등장 배경: 자율 선택이 항상 정답은 아님           │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL 요청                                                             │
-│   │                                                                  │
-│   ├─ 통계 정확 ───────────────▶ CBO 자율 선택 ───────────────▶ 안정     │
-│   │                                                                  │
-│   └─ 통계 왜곡·데이터 편향 ─▶ 잘못된 계획 선택 ───────────────▶ 지연     │
-│                                   ▲                                  │
-│                                   │                                  │
-│                         Hint = 탐색 공간 보정 / 강제                   │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힌트의 등장 배경: 자율 선택이 항상 정답은 아님</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 통계 정확 ▶ CBO 자율 선택 ▶ 안정</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 통계 왜곡·데이터 편향 ─▶ 잘못된 계획 선택 ▶ 지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hint = 탐색 공간 보정 / 강제</div></div>
+</div>
+</div>
+
+
 
 따라서 힌트는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 부정하는 개념이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 잘못 판단할 가능성이 높은 지점에 제한적으로 개입하는 장치로 이해하는 것이 맞다.
 
@@ -58,28 +57,28 @@ tags = ["studynote-database"]
 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | `PARALLEL` | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도 증가 | CPU·I/O 경합 유발 가능 |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행 | `DRIVING_SITE` | 원격 조인 위치 | 네트워크 비용과 함께 판단 |
 
-아래 그림은 힌트가 실행 단계가 아니라 **최적화 단계**에 개입한다는 점을 보여 준다.
+아래 그림은 힌트가 실행 단계가 아니라 <strong>최적화 단계</strong>에 개입한다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 힌트가 개입하는 위치: 실행 전 최적화 단계             │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                             │
-│   SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...               │
-│      │                                                               │
-│      ▼                                                               │
-│ Parser ──▶ Hint Resolver ──▶ Optimizer Search Space ──▶ Final Plan    │
-│               │                    │                     │             │
-│               │                    ├─ join order 제한    │             │
-│               │                    ├─ access path 제한   │             │
-│               │                    └─ join method 우선   │             │
-│               └─ alias·scope 불일치 시 무시                              │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-실무적으로 중요한 포인트는 힌트가 "정답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"하는 것이 아니라, **후보군을 줄여서 특정 계획으로 수렴시키는 것**이라는 점이다. 예를 들어 `LEADING(c o)`는 고객 테이블을 구동 테이블로 먼저 읽게 만들고, `INDEX(o IDX_ORDER_DT)`는 주문 테이블에 대해 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하도록 유도한다. 이 조합은 소량 탐색형 온라인 거래 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서는 매우 유효할 수 있지만, 대량 집계 환경에서는 오히려 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 전체 스캔이 더 나을 수 있다.
 
-또 하나의 핵심은 별칭 (Alias) 일치다. `FROM orders o`라고 적었으면 힌트 안에서도 `orders`가 아니라 `o`를 써야 하며, 서브쿼리 블록 이름이 다르면 힌트가 적용되지 않는다. 그래서 힌트는 강력하지만, 문법보다 **문맥과 범위**를 정확히 맞추는 정밀 도구에 가깝다.
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힌트가 개입하는 위치: 실행 전 최적화 단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Text</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parser ──▶ Hint Resolver ──▶ Optimizer Search Space ──▶ Final Plan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ join order 제한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ access path 제한</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ join method 우선</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alias·scope 불일치 시 무시</div></div>
+</div>
+</div>
+
+
+
+실무적으로 중요한 포인트는 힌트가 "정답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"하는 것이 아니라, <strong>후보군을 줄여서 특정 계획으로 수렴시키는 것</strong>이라는 점이다. 예를 들어 `LEADING(c o)`는 고객 테이블을 구동 테이블로 먼저 읽게 만들고, `INDEX(o IDX_ORDER_DT)`는 주문 테이블에 대해 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하도록 유도한다. 이 조합은 소량 탐색형 온라인 거래 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서는 매우 유효할 수 있지만, 대량 집계 환경에서는 오히려 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 전체 스캔이 더 나을 수 있다.
+
+또 하나의 핵심은 별칭 (Alias) 일치다. `FROM orders o`라고 적었으면 힌트 안에서도 `orders`가 아니라 `o`를 써야 하며, 서브쿼리 블록 이름이 다르면 힌트가 적용되지 않는다. 그래서 힌트는 강력하지만, 문법보다 <strong>문맥과 범위</strong>를 정확히 맞추는 정밀 도구에 가깝다.
 
 - **📢 섹션 요약 비유**: 힌트는 요리사에게 "재료를 바꿔라"가 아니라 "이 재료를 먼저 손질하고 이 불로 익혀라"라고 순서를 지정하는 조리 지시서와 같다.
 
@@ -99,7 +98,7 @@ tags = ["studynote-database"]
 
 이 비교가 중요한 이유는 힌트가 만능이 아니기 때문이다. 예를 들어 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)) 예측이 틀려 계획이 흔들리는 상황이라면, 힌트로 `INDEX`를 박아도 근본 문제는 남는다. 반대로 특정 벤더 패키지 SQL처럼 소스를 바꾸기 어렵고, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)만 안정화하면 되는 경우에는 힌트보다 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)이 더 적절할 수 있다.
 
-또한 힌트는 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)), 카디널리티 (Cardinality), 바인드 피킹 (Bind Peeking)과 강하게 연결된다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 예상 행 수를 바탕으로 경로를 고르는데, 그 예측이 틀리면 힌트는 잘못된 판단을 일시적으로 덮어쓴다. 결국 좋은 튜닝은 "힌트를 쓸 줄 안다"보다, **왜 힌트가 필요해졌는지 설명할 수 있다**에 더 가깝다.
+또한 힌트는 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)), 카디널리티 (Cardinality), 바인드 피킹 (Bind Peeking)과 강하게 연결된다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 예상 행 수를 바탕으로 경로를 고르는데, 그 예측이 틀리면 힌트는 잘못된 판단을 일시적으로 덮어쓴다. 결국 좋은 튜닝은 "힌트를 쓸 줄 안다"보다, <strong>왜 힌트가 필요해졌는지 설명할 수 있다</strong>에 더 가깝다.
 
 - **📢 섹션 요약 비유**: 힌트는 수동 기어, 통계 튜닝은 도로 정보 업데이트, 계획 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 경로 즐겨찾기와 같다. 셋은 비슷해 보여도 쓰는 순간이 다르다.
 
@@ -138,7 +137,7 @@ tags = ["studynote-database"]
 
 힌트를 적절히 쓰면 장애 상황에서 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 빠르게 안정화하고, 핵심 업무의 응답시간을 예측 가능하게 만들 수 있다. 특히 접근 경로와 [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/)를 통제하면 "어제까지 50밀리초 (ms, millisecond)였던 SQL이 오늘 8초" 같은 급격한 변동을 줄이는 데 효과적이다. 운영 관점에서는 짧은 시간 안에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 확보하는 현실적 수단이 된다.
 
-하지만 힌트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 업무가 변해도 스스로 진화하지 않는다. 오늘의 정답이 내년의 오답이 될 수 있고, 개발자 교체나 SQL 리팩터링 시 힌트의 의미가 사라질 수도 있다. 따라서 힌트는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 대체하는 기술이 아니라, **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 다시 잘 판단할 수 있을 때까지 제한적으로 쓰는 조정 장치**로 기억하는 것이 가장 실무적이다.
+하지만 힌트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 업무가 변해도 스스로 진화하지 않는다. 오늘의 정답이 내년의 오답이 될 수 있고, 개발자 교체나 SQL 리팩터링 시 힌트의 의미가 사라질 수도 있다. 따라서 힌트는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 대체하는 기술이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 다시 잘 판단할 수 있을 때까지 제한적으로 쓰는 조정 장치</strong>로 기억하는 것이 가장 실무적이다.
 
 앞으로는 적응형 최적화 (Adaptive Optimization), 계획 안정화, 자동 통계 관리가 더 정교해지겠지만, 힌트의 의미는 여전히 남는다. 시스템이 흔들릴 때 어디에 사람이 개입해야 하는지 보여 주는 마지막 수동 손잡이이기 때문이다.
 
@@ -159,19 +158,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-규칙 기반 옵티마이저 (RBO, Rule Based Optimizer)
-    │
-    ▼
-비용 기반 옵티마이저 (CBO, Cost Based Optimizer)
-    │
-    ├─ 통계 정보 · 히스토그램
-    ├─ 실행 계획 (Execution Plan)
-    └─ 힌트 (Hint)
-    │
-    ▼
-SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">규칙 기반 옵티마이저 (RBO, Rule Based Optimizer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비용 기반 옵티마이저 (CBO, Cost Based Optimizer)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">통계 정보 · 히스토그램</div>
+<div class="kb-diagram-tree-item" style="--depth:2">실행 계획 (Execution Plan)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">힌트 (Hint)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝이 단순 규칙 암기에서, 통계 기반 판단과 제한적 인간 개입을 함께 쓰는 방향으로 발전해 왔음을 보여 준다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 반면 당시 소프트웨어는 개발자가 짠 알 수 없는 코드 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) 하나뿐이었다. 사장님은 시스템이 어떻게 돌아가는지 몰랐고, 개발자는 이 시스템이 왜 필요한지 비즈니스 목적을 몰랐다.
 
-잭맨은 **"건축이나 비행기 제조처럼, 소프트웨어도 보는 사람의 관점([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))과 시스템의 본질(What, How, Where 등)에 따라 설계도를 완벽하게 쪼개서 관리해야 한다"**고 주장하며, 가로 세로 6칸짜리 거대한 표(Matrix)를 세상에 내놓았다. 이것이 오늘날 모든 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))의 조상 격인 **[잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)**다.
+잭맨은 <strong>"건축이나 비행기 제조처럼, 소프트웨어도 보는 사람의 관점(<a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)과 시스템의 본질(What, How, Where 등)에 따라 설계도를 완벽하게 쪼개서 관리해야 한다"</strong>고 주장하며, 가로 세로 6칸짜리 거대한 표(Matrix)를 세상에 내놓았다. 이것이 오늘날 모든 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))의 조상 격인 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/">잭맨 프레임워크</a></strong>다.
 
 - **📢 섹션 요약 비유**: 63빌딩을 지을 때, 건물주가 보는 '조감도', 건축가가 보는 '골조 도면', 전기 기사가 보는 '배선도'가 따로 필요하다. [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 이 흩어진 도면들을 모아 "누가(관점), 무엇을(내용) 볼 것인가?"로 딱 36칸 서랍장에 완벽히 정리해 놓은 설계도 보관함이다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) 6x6 매트릭스의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  잭맨 프레임워크 6x6 매트릭스                           │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잭맨 프레임워크 6x6 매트릭스</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) 6x6 매트릭스가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -76,10 +75,10 @@ tags = ["studynote-software-engineering"]
 
 | 프레임워크 | 주도 기관 | 핵심 특징 |
 |:---|:---|:---|
-| **[Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)** | IBM (John [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)) | EA의 **'시초이자 뼈대'**. 방법론(어떻게 채워라)은 안 알려주고 서랍장 껍데기([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법)만 제공함. |
-| **[TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)** | [The Open Group](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) | 현재 전 세계 **[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 실무의 절대 표준**. 아키텍처를 실제로 개발하고 적용하는 '단계별 프로세스([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))'를 제공함. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/">Zachman</a></strong> | IBM (John [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/)) | EA의 **'시초이자 뼈대'**. 방법론(어떻게 채워라)은 안 알려주고 서랍장 껍데기([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법)만 제공함. |
+| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a></strong> | [The Open Group](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) | 현재 전 세계 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 실무의 절대 표준</strong>. 아키텍처를 실제로 개발하고 적용하는 '단계별 프로세스([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))'를 제공함. |
 | **DoDAF** | 미국 국방부 | 국방/군사 목적에 맞게 작전, 시스템, 기술 관점으로 특화된 아키텍처. |
-| **범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)**| 대한민국 정부 | 한국 공공기관들이 행정망을 짤 때 강제로 지켜야 하는 한국형 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크. |
+| <strong>범정부 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a></strong>| 대한민국 정부 | 한국 공공기관들이 행정망을 짤 때 강제로 지켜야 하는 한국형 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크. |
 
 즉, 잭맨이 주기율표([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계)를 만들었다면, TOGAF는 그 원소들을 가지고 어떻게 화학 실험(구축 프로세스)을 할지 알려주는 요리책이다.
 
@@ -109,7 +108,7 @@ tags = ["studynote-software-engineering"]
 
 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)를 조직의 DNA에 이식하면, 시스템을 바라보는 '장님 코끼리 만지기'식의 오해가 사라진다. 코더는 "이 코드가 회사의 어떤 비즈니스 목표(Why)를 위해 돌아가는가"를 알게 되고, 경영진은 "내가 지시한 비즈니스가 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(What)와 로직(How)으로 돌아가는가"를 한눈에 파악할 수 있다.
 
-결론적으로 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 소프트웨어를 '예술'이나 '마법'에서 **'공학'과 '건축'의 반열로 끌어올린 위대한 철학**이다. 기술사는 아무리 낡은 모델이라도 이 36칸의 매트릭스가 묻고 있는 "다각적 통찰(Holistic [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))"을 머릿속에 장착하고, 파편화된 코드들을 하나의 거대한 비즈니스 생태계(Enterprise)로 엮어내는 거시적 시야를 가져야 한다.
+결론적으로 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 소프트웨어를 '예술'이나 '마법'에서 <strong>'공학'과 '건축'의 반열로 끌어올린 위대한 철학</strong>이다. 기술사는 아무리 낡은 모델이라도 이 36칸의 매트릭스가 묻고 있는 "다각적 통찰(Holistic [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))"을 머릿속에 장착하고, 파편화된 코드들을 하나의 거대한 비즈니스 생태계(Enterprise)로 엮어내는 거시적 시야를 가져야 한다.
 
 - **📢 섹션 요약 비유**: [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 거대한 코끼리를 설명하는 36장의 엑스레이 필름이다. 피부만 찍은 사진, 뼈만 찍은 사진, 피만 찍은 사진들을 다 합쳐서 봐야만 코끼리라는 거대한 생명체(엔터프라이즈)가 어떻게 살아 숨 쉬는지 100% 이해할 수 있다.
 
@@ -132,21 +131,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-잭맨 프레임워크 6x6 매트릭스 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잭맨 프레임워크 6x6 매트릭스 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

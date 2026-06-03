@@ -11,42 +11,41 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비동기 I/O(AIO)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB 읽어와!"라고 명령만 툭 던져두고 **결과를 기다리지 않은 채 즉시 다음 코드를 실행하며, 나중에 OS가 램(RAM)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 채우면 "다 퍼왔어!"라고 시그널이나 콜백(Callback)으로 알려주는 100% 논블로킹 아키텍처**다.
-> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 처리를 멍하니 기다리는([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 낭비 시간이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 계속 찔러보는([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 헛수고를 0으로 만들어, **단 1개의 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만으로도 수만 개의 디스크 I/O와 네트워크 요청을 동시에 버벅임 없이(C10K 돌파) 쳐낼 수 있는 최고의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))**을 제공한다.
-> 3. **융합**: 콜백 지옥(Callback Hell)이라는 끔찍한 코드 복잡성을 유발하지만, 현대 프로그래밍 언어의 **`async/await` 문법 및 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)(Node.js, Netty)**와 융합되면서 겉으로는 동기식(Sync)처럼 편하게 짜고 속으론 100% 비동기로 돌아가는 백엔드 생태계의 패러다임 시프트를 완성했다.
+> 1. **본질**: 비동기 I/O(AIO)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에게 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 10MB 읽어와!"라고 명령만 툭 던져두고 <strong>결과를 기다리지 않은 채 즉시 다음 코드를 실행하며, 나중에 OS가 램(RAM)에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다 채우면 "다 퍼왔어!"라고 시그널이나 콜백(Callback)으로 알려주는 100% 논블로킹 아키텍처</strong>다.
+> 2. **가치**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 I/O 처리를 멍하니 기다리는([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 낭비 시간이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때까지 계속 찔러보는([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 헛수고를 0으로 만들어, <strong>단 1개의 메인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>만으로도 수만 개의 디스크 I/O와 네트워크 요청을 동시에 버벅임 없이(C10K 돌파) 쳐낼 수 있는 최고의 스루풋(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>을 제공한다.
+> 3. **융합**: 콜백 지옥(Callback Hell)이라는 끔찍한 코드 복잡성을 유발하지만, 현대 프로그래밍 언어의 <strong><code>async/await</code> 문법 및 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a>(Node.js, Netty)</strong>와 융합되면서 겉으로는 동기식(Sync)처럼 편하게 짜고 속으론 100% 비동기로 돌아가는 백엔드 생태계의 패러다임 시프트를 완성했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: AIO 시스템 콜(예: POSIX `aio_read()`)을 호출하면, 이 함수는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 퍼와졌는지 상관없이 즉각(0.001초 만에) 메인 프로그램으로 리턴(`Return`)된다. 리턴값은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아니라 "응 접수증(Ticket) 끊어줄게. 일 시작했어"라는 영수증일 뿐이다. OS는 백그라운드([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))에서 열심히 디스크를 긁어 유저 버퍼에 채워 넣고, 이 작업이 100% 완료되면 그제야 유저 프로세스에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 때려 콜백 함수를 실행시킨다.
-- **필요성**: 앞 장의 '넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))' I/O는 똑똑해 보였지만 사실 반쪽짜리였다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 에러(`EAGAIN`)를 뱉고 튀긴 했지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착했을 땐 **결국 유저 앱이 직접 `read()` 함수를 호출해서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 유저 버퍼로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 낑낑대며 복사**해야 했다. 그 복사하는 찰나의 순간엔 결국 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 막힌다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). "왜 내가 짐을 챙겨야 해? OS 네가 아예 내 방(버퍼)에 짐을 다 옮겨놓고, 포장까지 싹 다 뜯은 다음에 나한테 '밥상 다 차렸다'고 카톡만 줘!"라는 궁극의 귀차니즘과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 갈망이 완벽한 비동기 I/O를 탄생시켰다.
+- **필요성**: 앞 장의 '넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))' I/O는 똑똑해 보였지만 사실 반쪽짜리였다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없으면 에러(`EAGAIN`)를 뱉고 튀긴 했지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착했을 땐 <strong>결국 유저 앱이 직접 <code>read()</code> 함수를 호출해서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 버퍼에서 유저 버퍼로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 낑낑대며 복사</strong>해야 했다. 그 복사하는 찰나의 순간엔 결국 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 막힌다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). "왜 내가 짐을 챙겨야 해? OS 네가 아예 내 방(버퍼)에 짐을 다 옮겨놓고, 포장까지 싹 다 뜯은 다음에 나한테 '밥상 다 차렸다'고 카톡만 줘!"라는 궁극의 귀차니즘과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 갈망이 완벽한 비동기 I/O를 탄생시켰다.
 
 - **등장 배경 및 콜백의 도래**:
   1. **멀티스레드 렉의 폭발**: I/O 대기를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 개수(1만 개)로 덮어씌우던 아파치(Apache) 모델이 서버 램을 파먹고 붕괴함.
   2. **Event-Driven 아키텍처의 각성**: "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 늘리지 말고 이벤트 큐를 쓰자." 
   3. **비동기의 표준화**: 윈도우의 IOCP가 서버 시장을 휩쓸자, 리눅스도 AIO를 도입했으나 멍청하게 설계되어 욕을 먹다가 최근 `io_uring`으로 각성하여 전 세계를 통일 중이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│        블로킹, 넌블로킹, 그리고 완벽한 비동기(AIO)의 동작 궤적 시각화│
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ ▶ 1. 블로킹 I/O (전통적 렉)                                          │
-│   앱: `read()` ───(OS가 짐 나르는 8ms 동안 앱 기절 🥶)──▶ 읽기완료   │
-│                                                                      │
-│ ▶ 2. 넌블로킹 I/O (반쪽짜리 진화 - 여전히 내가 짐 나름)              │
-│   앱: `read()` ─▶ "없어!" ─▶ (딴일함) ─▶ `read()` ─▶ "왔어!"         │
-│                                            └──(복사 렉 🥶)─▶         │
-│                                                                      │
-│ ▶ 3. 비동기 I/O (AIO - 궁극의 게으름)                                │
-│   앱: `aio_read(버퍼주소)` ─▶ (0ms 컷) ─▶ (딴일함 🚀 계속 딴일함)    │
-│       │ (OS가 백그라운드에서 디스크 긁어서 내 버퍼에 꽉꽉 채워넣음)  │
-│       ▼                                                              │
-│   OS: (짐 다 채웠다!) 💥 시그널 빵! -> `Callback_함수()` 자동 실행!  │
-└──────────────────────────────────────────────────────────────────────┘
-```
-**[다이어그램 해설]** "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 주체가 누구인가?" AIO의 100% 비동기를 달성하는 핵심은 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사(I/O Copy) 자체를 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 하드웨어가 백그라운드에서 완전히 대행**한다는 점이다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 이 무거운 메모리 복사 작업에 단 1클럭의 시간도 할애하지 않으므로, 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만으로 수만 개의 I/O를 공 굴리듯 저글링 할 수 있는 마법이 성립한다.
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로킹, 넌블로킹, 그리고 완벽한 비동기(AIO)의 동작 궤적 시각화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 블로킹 I/O (전통적 렉)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: <code>read()</code> (OS가 짐 나르는 8ms 동안 앱 기절 🥶)──▶ 읽기완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 넌블로킹 I/O (반쪽짜리 진화 - 여전히 내가 짐 나름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: <code>read()</code> ─▶ "없어!" ─▶ (딴일함) ─▶ <code>read()</code> ─▶ "왔어!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(복사 렉 🥶)─▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 비동기 I/O (AIO - 궁극의 게으름)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: <code>aio_read(버퍼주소)</code> ─▶ (0ms 컷) ─▶ (딴일함 🚀 계속 딴일함)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 백그라운드에서 디스크 긁어서 내 버퍼에 꽉꽉 채워넣음)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: (짐 다 채웠다!) 💥 시그널 빵! -&gt; <code>Callback_함수()</code> 자동 실행!</div></div>
+</div>
+</div>
+
+
+**[다이어그램 해설]** "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 주체가 누구인가?" AIO의 100% 비동기를 달성하는 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복사(I/O Copy) 자체를 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>과 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a> 하드웨어가 백그라운드에서 완전히 대행</strong>한다는 점이다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 이 무거운 메모리 복사 작업에 단 1클럭의 시간도 할애하지 않으므로, 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만으로 수만 개의 I/O를 공 굴리듯 저글링 할 수 있는 마법이 성립한다.
 
 - **📢 섹션 요약 비유**: 세탁기에 빨래를 넣고 1시간 동안 세탁기 앞을 지키는 게 동기(Sync)입니다. 세탁기 돌려놓고 소파에서 TV를 보다가, 1시간 뒤 세탁기에서 "삐리리릭~" 종료음(콜백/시그널)이 나면 그때 빨래를 꺼내 널면 되는 완벽한 살림 노하우가 비동기(Async)입니다.
 
@@ -56,7 +55,7 @@ tags = ["studynote-operating-system"]
 
 ### 콜백(Callback) 지옥과 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))
 
-비동기 I/O를 돌리려면 필연적으로 애플리케이션의 뼈대가 **'[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))'** 구조로 바뀌어야 한다.
+비동기 I/O를 돌리려면 필연적으로 애플리케이션의 뼈대가 <strong>'<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">이벤트 루프</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/">Event Loop</a>)'</strong> 구조로 바뀌어야 한다.
 - 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 거대한 `while(true)` 루프를 돈다. 이 루프는 OS가 던져주는 '완료 이벤트(시그널)'를 줍는 일만 한다.
 - 사용자가 DB에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 가공해 전송하라고 지시했다.
 - 코드: `aio_read(DB_file, 콜백함수A)` -> 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 즉시 다음 줄로 넘어간다.
@@ -72,10 +71,10 @@ tags = ["studynote-operating-system"]
 비동기 I/O가 그토록 훌륭한데 왜 예전 리눅스 서버들은 안 썼을까? **리눅스가 멍청하게 만들었기 때문이다.**
 1. **POSIX AIO (소프트웨어 사기극)**:
    - 글리비씨(`glibc`)가 제공하는 표준 `aio_read`를 썼더니 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 쓰레기였다.
-   - 까보니 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 진정한 비동기를 지원하는 게 아니라, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 유저 공간에 몰래 **[스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) 100개를 띄워놓고 거기서 '블로킹 read'를 치는 꼼수**를 부리고 있었다. (이럴 거면 톰캣이랑 다를 게 뭐냐며 개발자들이 분노함).
-2. **libaio (반쪽짜리 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 지원)**:
+   - 까보니 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 진정한 비동기를 지원하는 게 아니라, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 유저 공간에 몰래 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>) 100개를 띄워놓고 거기서 '블로킹 read'를 치는 꼼수</strong>를 부리고 있었다. (이럴 거면 톰캣이랑 다를 게 뭐냐며 개발자들이 분노함).
+2. <strong>libaio (반쪽짜리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 지원)</strong>:
    - 빡친 리눅스는 진짜 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) AIO를 만들었다. 그런데 치명적 제약이 있었다.
-   - **오직 `O_DIRECT` ([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 우회) 플래그를 쓸 때만 비동기로 동작했다.** 
+   - <strong>오직 <code>O_DIRECT</code> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a> 우회) 플래그를 쓸 때만 비동기로 동작했다.</strong> 
    - 만약 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)(일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 타는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다시 '블로킹' 늪에 빠져 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 정지시켜 버렸다. 
    - 결국 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) DB 같은 극한의 `O_DIRECT` 성애자들을 제외하고, Nginx나 Node.js는 이 쓰레기 같은 리눅스 AIO를 버리고 `epoll`이라는 넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 꼼수로 도망쳐 10년을 버텼다. (최근 `io_uring`이 나오기 전까지의 암흑기).
 
@@ -91,25 +90,28 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 블로킹 ([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) | 넌블로킹 (Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) |
 |:---|:---|:---|
-| **동기 ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/))** | **(가장 낡은 일반 방식)**<br>`read()` 치면 디스크 긁고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가져올 때까지 앱이 멈춰서 풀 대기함. | **(폴링의 지옥)**<br>`read()` 치면 에러 뱉고 도망감. 앱이 "다 됐냐?"고 `while` 문 돌며 계속 찔러서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사해 옴. |
-| **비동기 (Asynchronous)** | **(I/O 멀티플렉싱 - epoll/[select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))**<br>[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 OS가 알림(Event)은 줌. 하지만 알림을 받은 앱이 `read()` 쳐서 **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해 올 때는 멈춤([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이 발생함**. | **(궁극의 이상향 - AIO/IOCP)**<br>명령 던져두고 잊어버림. OS가 내 램(버퍼)에 복사까지 완벽히 끝낸 뒤 "다 차려놨다 먹어라(Callback)"고 부름. |
+| <strong>동기 (<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>)</strong> | **(가장 낡은 일반 방식)**<br>`read()` 치면 디스크 긁고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가져올 때까지 앱이 멈춰서 풀 대기함. | **(폴링의 지옥)**<br>`read()` 치면 에러 뱉고 도망감. 앱이 "다 됐냐?"고 `while` 문 돌며 계속 찔러서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사해 옴. |
+| **비동기 (Asynchronous)** | <strong>(I/O 멀티플렉싱 - epoll/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">select</a>)</strong><br>[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 OS가 알림(Event)은 줌. 하지만 알림을 받은 앱이 `read()` 쳐서 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 복사해 올 때는 멈춤(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)이 발생함</strong>. | **(궁극의 이상향 - AIO/IOCP)**<br>명령 던져두고 잊어버림. OS가 내 램(버퍼)에 복사까지 완벽히 끝낸 뒤 "다 차려놨다 먹어라(Callback)"고 부름. |
 
-*(참고: Node.js나 Nginx를 흔히 '비동기 넌블로킹' 서버라 부르지만, 리눅스 시스템 레벨에서 뜯어보면 완벽한 AIO가 아니라 `epoll`을 기반으로 한 **'[비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 통지 + 넌블로킹/동기식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사'**의 혼합형 꼼수에 가깝다. 완벽한 AIO는 윈도우의 IOCP다.)*
+*(참고: Node.js나 Nginx를 흔히 '비동기 넌블로킹' 서버라 부르지만, 리눅스 시스템 레벨에서 뜯어보면 완벽한 AIO가 아니라 `epoll`을 기반으로 한 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">비동기적</a> 통지 + 넌블로킹/동기식 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복사'</strong>의 혼합형 꼼수에 가깝다. 완벽한 AIO는 윈도우의 IOCP다.)*
 
 ### [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 완전한 멸종
 비동기 I/O를 완성하면 시스템의 CPU 파이프라인에서 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switch가 사실상 멸종된다.
-[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1만 개면 1초에 1만 번씩 스택을 갈아엎어야 하지만, AIO 환경에선 **단 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(코어당 1개)가 CPU에 영구적으로 알박기를 한다.**
+[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 1만 개면 1초에 1만 번씩 스택을 갈아엎어야 하지만, AIO 환경에선 <strong>단 1개의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(코어당 1개)가 CPU에 영구적으로 알박기를 한다.</strong>
 수만 개의 네트워크 요청이 들어와도 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 안 깨우고 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 콜백 메모만 꽂아두면 되므로, CPU 코어는 L1 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 99%를 유지하며 그 메모들을 미친 듯이 씹어먹는 괴물이 된다.
 
-```text
-┌──────────┬────────────┬────────────┬────────────────────────────┐
-│ 스레드 개수│ 10,000개 (Sync)│ 1개 (epoll) │ 1개 (AIO/IOCP)      │
-├──────────┼────────────┼────────────┼────────────────────────────┤
-│ 램 사용량  │ 20GB (스택 터짐)│ 10MB (깃털) │ 10MB (깃털)        │
-│ CPU 낭비  │ 90% (컨텍스트)│ 5% (루프 스캔)│ **0% (그냥 완벽)**  │
-│ I/O 카피  │ 유저가 직접 함 │ 유저가 직접 함 │ **OS 커널이 대행**│
-└──────────┴────────────┴────────────┴────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 개수</div><div class="kb-diagram-cell">10,000개 (Sync)</div><div class="kb-diagram-cell">1개 (epoll)</div><div class="kb-diagram-cell">1개 (AIO/IOCP)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 사용량</div><div class="kb-diagram-cell">20GB (스택 터짐)</div><div class="kb-diagram-cell">10MB (깃털)</div><div class="kb-diagram-cell">10MB (깃털)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 낭비</div><div class="kb-diagram-cell">90% (컨텍스트)</div><div class="kb-diagram-cell">5% (루프 스캔)</div><div class="kb-diagram-cell">0% (그냥 완벽)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 카피</div><div class="kb-diagram-cell">유저가 직접 함</div><div class="kb-diagram-cell">유저가 직접 함</div><div class="kb-diagram-cell">OS 커널이 대행</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** 동기 블로킹은 인건비(램)와 교통비(CPU 스위칭)가 모두 터지는 최악의 사업 모델이다. AIO는 인건비를 1명으로 줄이고(싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)), 물건 수송마저 정부(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 무임승차로 던져버리는 극악의 마진율을 자랑하는 천재적 사업 구조다.
 
 - **📢 섹션 요약 비유**: 1만 명의 손님이 올 때, 1만 명의 알바생을 고용해서 1:1로 밀착 마크하는 게 블로킹입니다. AIO는 백종원 셰프 딱 1명을 주방에 두고, 손님 1만 명의 주문을 포스기(이벤트 큐)로 받은 뒤 셰프가 순서대로 웍을 돌려 1초에 하나씩 빼내는 미친 1인 주방 시스템입니다. 인건비(램)는 0에 수렴하고 수익(스루풋)은 1만 배가 됩니다.
@@ -122,7 +124,7 @@ tags = ["studynote-operating-system"]
 1. **문제 상황**: 프론트엔드/Node.js 개발자가 자바스크립트로 `const data = await fs.promises.readFile();` 코드를 아주 예쁘고 우아하게 짰다.
 2. **환상**: 개발자는 "오~ 코드가 동기식처럼 위에서 아래로 예쁘게 떨어지는데 사실 안 멈추는 비동기네! 마법이다!"라고 찬양한다.
 3. **진실 (Under the hood)**:
-   - V8 엔진 밑바닥의 **libuv (C언어 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))**에서는 피 터지는 노가다가 돌아가고 있다.
+   - V8 엔진 밑바닥의 <strong>libuv (C언어 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>)</strong>에서는 피 터지는 노가다가 돌아가고 있다.
    - `await`를 만나는 순간 자바스크립트 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 하던 함수의 뇌 상태([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), Closure 변수들)를 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 한구석에 욱여넣고 기절한 척 도망간다. (이른바 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)/상태 머신 변환).
    - 밑바닥 C언어는 OS에게 `epoll`이나 `AIO` 시스템 콜을 때리고, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 큐에 이벤트가 꽂힐 때까지 다른 `await` 멈춰 둔 함수들을 끄집어와서 돌려막기 한다.
    - 디스크가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 긁어서 콜백이 떨어지면, 아까 힙에 쑤셔 박아뒀던 뇌 상태(상태 머신)를 다시 꺼내와 `await` 아랫줄부터 실행을 재개시킨다.
@@ -150,7 +152,7 @@ AIO를 쓰면 [스레드](/knowledge-base/studynote/02_operating_system/02_proce
 
 ### 결론 및 미래 전망
 
-비동기 I/O (Asynchronous I/O, AIO)는 "멍청하게 기다리지 말고, 똑똑하게 딴 일을 해라"라는 자본주의 효율성의 극치를 컴퓨터 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처로 승화시킨 위대한 패러다임 전환이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스는 이 철학을 온전히 구현하지 못해 반쪽짜리 넌블로킹(epoll)에 기대어 10여 년을 버텼지만, 마침내 **`io_uring`** 이라는 궁극의 링 버퍼 기반 100% 비동기 I/O 프레임워크를 탄생시키며 윈도우(IOCP)를 능가하는 우주 최강의 스루풋을 손에 쥐었다 (다음 장에서 서술). 메모리와 디스크, 그리고 네트워크의 속도 차이가 영원히 존재하는 한, AIO의 '던져놓고 콜백 받기' 철학은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 인프라를 지탱하는 가장 굵고 단단한 철근으로 영원히 작동할 것이다.
+비동기 I/O (Asynchronous I/O, AIO)는 "멍청하게 기다리지 말고, 똑똑하게 딴 일을 해라"라는 자본주의 효율성의 극치를 컴퓨터 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처로 승화시킨 위대한 패러다임 전환이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스는 이 철학을 온전히 구현하지 못해 반쪽짜리 넌블로킹(epoll)에 기대어 10여 년을 버텼지만, 마침내 <strong><code>io_uring</code></strong> 이라는 궁극의 링 버퍼 기반 100% 비동기 I/O 프레임워크를 탄생시키며 윈도우(IOCP)를 능가하는 우주 최강의 스루풋을 손에 쥐었다 (다음 장에서 서술). 메모리와 디스크, 그리고 네트워크의 속도 차이가 영원히 존재하는 한, AIO의 '던져놓고 콜백 받기' 철학은 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 인프라를 지탱하는 가장 굵고 단단한 철근으로 영원히 작동할 것이다.
 
 - **📢 섹션 요약 비유**: 짜장면 배달을 시킬 때, 배달원이 올 때까지 현관문 열고 문 밖만 바라보는 바보(블로킹) 시대는 끝났습니다. 이제는 문 앞에 "도착하면 두고 문자 주세요(AIO)"라는 쪽지 하나 붙여놓고 집 안에서 넷플릭스 10편을 연속으로 때리다가, 문자가 띠링 울리면 그제야 문을 열어 1초 만에 짜장면을 가져오는 '위대한 게으름의 최적화'가 세상을 지배하고 있습니다.
 
@@ -167,15 +169,19 @@ AIO를 쓰면 [스레드](/knowledge-base/studynote/02_operating_system/02_proce
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[논블로킹 I/O (Non-blocking I/O)]
-    │
-    ▼
-[비동기 I/O (Asynchronous I/O, AIO)]
-    │
-    ├──▶ [I/O 완료 포트 (IOCP, I/O Completion Port)]
-    └──▶ [epoll / kqueue]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">논블로킹 I/O (Non-blocking I/O)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비동기 I/O (Asynchronous I/O, AIO)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 완료 포트 (IOCP, I/O Completion Port)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">epoll / kqueue</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

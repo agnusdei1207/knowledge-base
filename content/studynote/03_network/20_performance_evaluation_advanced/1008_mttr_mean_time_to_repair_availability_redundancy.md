@@ -20,16 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 서버나 스위치가 고장 나서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 접속이 불가능한 '블랙아웃(마비)' 시간을 다운타임이라고 부릅니다. 
-- 대기업 통신망은 이 다운타임 1초가 수백만 원의 매출 손실로 직결되므로, 고장을 안 내는 것보다 **'고장이 나더라도 고객이 눈치채기 전에 1초 만에 살려내는 것'**에 사활을 겁니다.
+- 대기업 통신망은 이 다운타임 1초가 수백만 원의 매출 손실로 직결되므로, 고장을 안 내는 것보다 <strong>'고장이 나더라도 고객이 눈치채기 전에 1초 만에 살려내는 것'</strong>에 사활을 겁니다.
 
-```text
-[MTBF 통신망 생존성]
-    │
-    ▼
-[MTTR 회선 이중화]
-    │
-    └──▶ [백홀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백홀</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: **[평균 수리 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)**. 장비나 시스템이 고장 나서 멈춘(Failure) 순간부터, 엔지니어가 달려와 고장을 인지하고 부품을 갈아 끼워 **완벽하게 원래 정상 상태(Restore)로 다시 부활시킬 때까지 걸린 1회당 '평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(수리) 소요 시간'**입니다.
+- **개념**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">평균 수리 시간</a></strong>. 장비나 시스템이 고장 나서 멈춘(Failure) 순간부터, 엔지니어가 달려와 고장을 인지하고 부품을 갈아 끼워 <strong>완벽하게 원래 정상 상태(Restore)로 다시 부활시킬 때까지 걸린 1회당 '평균 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(수리) 소요 시간'</strong>입니다.
 - 숫자가 작을수록 훌륭하고 돈값을 하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)입니다.
 
-```text
-[MTBF 통신망 생존성]
-    │
-    ▼
-[MTTR 회선 이중화]
-    │
-    └──▶ [백홀]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백홀</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -59,10 +67,10 @@ tags = ["studynote-network"]
 
 $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) = \frac{[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)}{[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/) + [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)} = \frac{[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)}{[MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)} $$
 
-- **해석**: "전체 시간(건강한 시간 + 수리하는 아픈 시간) 중에서, **순수하게 쌩쌩하게 건강했던 시간([MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/))이 차지하는 비율(%)**"입니다.
-- **[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 99.999% (파이브 나인즈, Five-Nines)**로 올리기 위한 2가지 방법:
-  1. 분자의 **[MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/)(수명)를 무한대로 늘립니다**. (근데 기계는 언젠가 무조건 고장 나니 불가능합니다.)
-  2. 분모에 있는 **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(수리 시간)을 0초([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))로 수렴하게 극단적으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)시켜 버립니다!** (현대 클라우드의 절대 법칙)
+- **해석**: "전체 시간(건강한 시간 + 수리하는 아픈 시간) 중에서, <strong>순수하게 쌩쌩하게 건강했던 시간(<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a>)이 차지하는 비율(%)</strong>"입니다.
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>을 99.999% (파이브 나인즈, Five-Nines)</strong>로 올리기 위한 2가지 방법:
+  1. 분자의 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/">MTTF</a>(수명)를 무한대로 늘립니다</strong>. (근데 기계는 언젠가 무조건 고장 나니 불가능합니다.)
+  2. 분모에 있는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(수리 시간)을 0초(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)로 수렴하게 극단적으로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>시켜 버립니다!</strong> (현대 클라우드의 절대 법칙)
 
 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성이 기반 조건을 만든다면, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 그 위에서 핵심 메커니즘을 구현하고, [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,11 +87,11 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 사람이 뛰어가서 고치면 아무리 빨라도 10분이 넘게 걸립니다. 기계의 꼼수가 필요합니다.
-- **[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Standby [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 구조 ([VRRP](/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/) / L4 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/))**:
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>-Standby <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 구조 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/">VRRP</a> / L4 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>)</strong>:
   - 전산실에 똑같은 비싼 스위치를 2대 사서 병렬로 연결합니다. 1호기([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))만 일하고 2호기(Standby)는 놀게 냅둡니다.
-  - 1호기가 번개를 맞아 '펑' 터졌습니다. **원래라면 인간이 고칠 때까지 1시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 동안 뻗어야 합니다.**
+  - 1호기가 번개를 맞아 '펑' 터졌습니다. <strong>원래라면 인간이 고칠 때까지 1시간(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>) 동안 뻗어야 합니다.</strong>
   - 하지만 심박 센서(Heartbeat)를 쓰던 2호기가 1호기가 죽은 걸 0.05초 만에 눈치채고, 자기가 1호기 행세를 하며 0.1초 만에 트래픽을 넘겨받아 부활(Fail-over)해 버립니다!
-  - **기적**: 진짜 1호기 기계는 타서 죽어버렸지만, 바깥 고객이 느끼기엔 인터넷이 끊긴 체감 시간이 '0.1초'뿐이었습니다. 즉 **사용자가 체감하는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(수리 시간)이 1시간에서 0.1초로 마술처럼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)**되며, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 99.999% 무중단 스펙으로 뻥튀기되는 인프라 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 정수입니다.
+  - **기적**: 진짜 1호기 기계는 타서 죽어버렸지만, 바깥 고객이 느끼기엔 인터넷이 끊긴 체감 시간이 '0.1초'뿐이었습니다. 즉 <strong>사용자가 체감하는 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(수리 시간)이 1시간에서 0.1초로 마술처럼 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>되며, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 99.999% 무중단 스펙으로 뻥튀기되는 인프라 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 정수입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -91,7 +99,7 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **[MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)([평균 수리 시간](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))**은 포뮬러 원(F1) 자동차 경주의 **'피트 스탑(Pit Stop) 타이어 교체 시간'**입니다. 아무리 엔진이 튼튼한 차(높은 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))라도 타이어는 결국 닳아서 터집니다. 차가 멈췄을 때 정비소로 끌고 와 멍청한 정비공 1명이 수동 스패너로 타이어 4개를 갈아 끼우면 10분([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))이 걸려 경주에서 꼴찌가 됩니다([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 글로벌 최고 통신망 기업들은 **'[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)'와 '자동화'라는 피트 스탑 마법사 20명 부대**를 고용합니다. 서버가 터져서 정비소에 들어오는 찰나의 순간, 대기하던 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 서버(Standby)가 빛의 속도로 튀어나와 0.1초 만에 타이어(업무)를 통째로 갈아 끼워버립니다. 관중(사용자)들은 차가 멈췄었는지조차 눈치채지 못합니다. 고장이 났다는 사실 자체를 우주에서 가장 짧은 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)) 안에 덮어버려서, 고객에게 영원히 멈추지 않는 불사조([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.99%)를 보여주는 인프라 심폐소생술입니다.
+- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">평균 수리 시간</a>)</strong>은 포뮬러 원(F1) 자동차 경주의 <strong>'피트 스탑(Pit Stop) 타이어 교체 시간'</strong>입니다. 아무리 엔진이 튼튼한 차(높은 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/))라도 타이어는 결국 닳아서 터집니다. 차가 멈췄을 때 정비소로 끌고 와 멍청한 정비공 1명이 수동 스패너로 타이어 4개를 갈아 끼우면 10분([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))이 걸려 경주에서 꼴찌가 됩니다([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 글로벌 최고 통신망 기업들은 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a>'와 '자동화'라는 피트 스탑 마법사 20명 부대</strong>를 고용합니다. 서버가 터져서 정비소에 들어오는 찰나의 순간, 대기하던 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 서버(Standby)가 빛의 속도로 튀어나와 0.1초 만에 타이어(업무)를 통째로 갈아 끼워버립니다. 관중(사용자)들은 차가 멈췄었는지조차 눈치채지 못합니다. 고장이 났다는 사실 자체를 우주에서 가장 짧은 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)) 안에 덮어버려서, 고객에게 영원히 멈추지 않는 불사조([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.99%)를 보여주는 인프라 심폐소생술입니다.
 
 ---
 
@@ -114,15 +122,19 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: MTBF 통신망 생존성]
-    │
-    ▼
-[현재 개념: MTTR 회선 이중화]
-    │
-    ├──▶ [확장 A: 백홀]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MTBF 통신망 생존성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MTTR 회선 이중화</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백홀</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성에서 출발해 현재 메커니즘을 정교화하고, 이후 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

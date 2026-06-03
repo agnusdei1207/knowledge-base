@@ -37,20 +37,20 @@ tags = ["studynote-computer-architecture"]
 | **지수 (Exponent)** | 11비트 | 수의 스케일(배율) 결정 | $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-308}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{308}$ 범위 커버 |
 | **가수 (Mantissa)** | 52비트 | 실제 유효 숫자(디테일) 저장 | 10진수 기준 15~17자리 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 보존 |
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           배정밀도 (FP64) 비트 레이아웃 및 구성              │
-├──────────────────────────────────────────────────────────────┤
-│ [63]    [62 <--- 11 bits ---> 52]    [51 <---- 52 bits ----> 0]
-│ ┌──┐    ┌───────────────────────┐    ┌────────────────────────┐
-│ │ S│    │   지수부 (Exponent)   │    │    가수부 (Mantissa)   │
-│ └──┘    └───────────────────────┘    └────────────────────────┘
-│ 부호           배율 결정 (크기)             유효 숫자 (정밀도)  │
-│                                                              │
-│ * 지수 편향 (Bias): 1023                                     │
-│ * 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)         │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배정밀도 (FP64) 비트 레이아웃 및 구성</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">63</div><div class="kb-diagram-node">62 &lt;--- 11 bits ---&gt; 52</div><div class="kb-diagram-node">51 &lt;---- 52 bits ----&gt; 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">지수부 (Exponent)</div><div class="kb-diagram-cell">가수부 (Mantissa)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 배율 결정 (크기) 유효 숫자 (정밀도)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 지수 편향 (Bias): 1023</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)</div></div>
+</div>
+</div>
+
+
 
 FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 포함해 총 53비트의 연산을 수행한다. 이는 소수점 아래 15번째 자리까지의 미세한 변화도 놓치지 않고 덧셈기에 적립함을 의미한다. 반면 11비트의 지수부는 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 값 1023을 사용하여 매우 작은 소수부터 우주적 크기의 정수까지 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 없이 표현할 수 있게 해준다.
 
@@ -64,9 +64,9 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 | 비교 항목 | [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) (FP32) | 배정밀도 (FP64) | 아키텍처 판단 포인트 |
 | :--- | :--- | :--- | :--- |
-| **메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)** | 4 Bytes | 8 Bytes | 메모리 병목 (Memory Bound) 심화 |
+| <strong>메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | 4 Bytes | 8 Bytes | 메모리 병목 (Memory Bound) 심화 |
 | **캐시 (Cache) 효율**| 라인당 16개 적재 | 라인당 8개 적재 | 캐시 미스 (Cache Miss) 증가 |
-| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 복잡도** | 24x24 곱셈기 | 53x53 곱셈기 | 다이(Die) 면적 약 4배 차지 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> 복잡도</strong> | 24x24 곱셈기 | 53x53 곱셈기 | 다이(Die) 면적 약 4배 차지 |
 | **적용 분야** | 3D 그래픽스, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습 | 과학 시뮬레이션, 금융 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) vs [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) |
 
 동일한 캐시 메모리에 적재할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양이 절반으로 줄어들며, FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) 내부의 곱셈기 크기는 기하급수적으로 커진다. 이로 인해 파이프라인의 임계 경로 (Critical Path)가 길어지고 전체 클럭 주파수를 저하시킬 위험이 있다.
@@ -81,7 +81,7 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
 1. **상쇄 오차 (Catastrophic Cancellation) 방어**: 두 개의 매우 비슷한 큰 수끼리 뺄셈을 할 때 유효숫자가 증발하는 현상. 유체역학이나 기상 예측 시스템에서 이런 연산이 빈번하다면 반드시 FP64를 채택해야 한다.
-2. **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 및 딥러닝 연산**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습이나 3D 게임 좌표계 연산에 `double`을 무분별하게 사용하면 VRAM이 2배로 소모되고, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 활용이 제한되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 폭락한다. 이 경우 FP32나 심지어 FP16, BF16 채택을 우선 고려해야 한다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 및 딥러닝 연산</strong>: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습이나 3D 게임 좌표계 연산에 `double`을 무분별하게 사용하면 VRAM이 2배로 소모되고, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 활용이 제한되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 폭락한다. 이 경우 FP32나 심지어 FP16, BF16 채택을 우선 고려해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 요구사항 분석 없이 "정밀하면 무조건 좋다"는 마인드로 모든 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 변수를 `double`로 선언하는 설계.
@@ -105,28 +105,30 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **FP32 ([단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/))** | 배정밀도의 절반 크기로 딥러닝과 그래픽스 등 범용적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 책임지는 기본 포맷 |
-| **[IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/)** | 컴퓨터가 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 표현하는 방식을 규정한 국제 표준 |
+| <strong>FP32 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/">단정밀도</a>)</strong> | 배정밀도의 절반 크기로 딥러닝과 그래픽스 등 범용적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 책임지는 기본 포맷 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/">IEEE 754</a></strong> | 컴퓨터가 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 표현하는 방식을 규정한 국제 표준 |
 | **상쇄 오차 (Catastrophic Cancellation)** | 비슷한 값의 뺄셈에서 유효숫자가 크게 손실되는 현상으로, FP64가 필요한 주요 원인 |
-| **[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))** | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 실제 수행하는 하드웨어 장치로, FP64 지원 시 면적이 크게 증가 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">Arithmetic Logic Unit</a>)</strong> | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 실제 수행하는 하드웨어 장치로, FP64 지원 시 면적이 크게 증가 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-정수 연산 한계 돌파
-    │
-    ▼
-FP32 (단정밀도) · IEEE 754 표준화
-    │
-    ▼
-잘림 오차 (Truncation Error) · 상쇄 오차 (Cancellation)
-    │
-    ▼
-FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보
-    │
-    ▼
-최신 AI 가속기에서의 혼합 정밀도 (Mixed Precision) 연산
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">정수 연산 한계 돌파</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP32 (단정밀도) · IEEE 754 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">잘림 오차 (Truncation Error) · 상쇄 오차 (Cancellation)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">최신 AI 가속기에서의 혼합 정밀도 (Mixed Precision) 연산</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식이 단순성에서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로, 그리고 최근에는 목적에 따라 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 혼합하여 효율을 극대화하는 방향으로 진화하고 있음을 보여준다.
 

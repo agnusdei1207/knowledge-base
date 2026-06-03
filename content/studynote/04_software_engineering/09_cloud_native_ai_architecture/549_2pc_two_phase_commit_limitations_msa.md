@@ -23,31 +23,30 @@ tags = ["studynote-software-engineering"]
 
 - **필요성(탄생 배경)**: 모놀리식 시절에는 DB가 1대라 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 엔진이 트랜잭션을 알아서 막아줬다. 그런데 회사가 커지면서 DB를 2개로 물리적으로 쪼개버렸다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB 환경에서도 "우린 1원도 틀리면 안 돼!"라는 금융권의 똥고집이 X/Open XA라는 글로벌 2PC 표준 규격을 만들어냈다. 코디네이터([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Manager) 서버를 하나 더 띄우고, 이 놈이 모든 DB를 감시하게 만든 강제 동기화의 서막이다.
 
-- **💡 비유**: 2PC는 수십 명이 참여하는 **'결혼식 단체 만세 삼창'**과 같습니다. 코디네이터(사회자)가 "다들 두 손 위로 올려서 준비하세요!(Prepare)"라고 소리칩니다. 한 명이라도 손을 안 올리면 사회자는 영원히 "손 올리세요!"라고 기다리며 만세를 안 부릅니다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 모두가 손을 올린 게 100% 확인되면 그제야 "만세!(Commit)"를 외칩니다. 만약 중간에 한 놈이 화장실에 가서 10분 동안 안 돌아오면, 나머지 99명은 10분 동안 팔을 들고 땀을 뻘뻘 흘리며 얼어붙은 채 기다려야 합니다([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 경합/리소스 고갈).
+- **💡 비유**: 2PC는 수십 명이 참여하는 <strong>'결혼식 단체 만세 삼창'</strong>과 같습니다. 코디네이터(사회자)가 "다들 두 손 위로 올려서 준비하세요!(Prepare)"라고 소리칩니다. 한 명이라도 손을 안 올리면 사회자는 영원히 "손 올리세요!"라고 기다리며 만세를 안 부릅니다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 모두가 손을 올린 게 100% 확인되면 그제야 "만세!(Commit)"를 외칩니다. 만약 중간에 한 놈이 화장실에 가서 10분 동안 안 돌아오면, 나머지 99명은 10분 동안 팔을 들고 땀을 뻘뻘 흘리며 얼어붙은 채 기다려야 합니다([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 경합/리소스 고갈).
 
-- **[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 몰락 과정**:
-  1. **[온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대 (신뢰망)**: 사내 전산실은 네트워크가 끊길 일이 거의 없어서 2PC가 쌩쌩 잘 돌았다. (성공률 99.9%)
-  2. **클라우드 / [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 찢기 시대 (의심망)**: 앱을 50개로 찢고 AWS 클라우드에 올렸다. AWS는 1초에도 수백 번씩 마이크로 지연과 네트워크 단절([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 일어난다. 
+- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 시대의 몰락 과정</strong>:
+  1. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/">온프레미스</a> 시대 (신뢰망)</strong>: 사내 전산실은 네트워크가 끊길 일이 거의 없어서 2PC가 쌩쌩 잘 돌았다. (성공률 99.9%)
+  2. <strong>클라우드 / <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 찢기 시대 (의심망)</strong>: 앱을 50개로 찢고 AWS 클라우드에 올렸다. AWS는 1초에도 수백 번씩 마이크로 지연과 네트워크 단절([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))이 일어난다. 
   3. **파멸적 셧다운**: 2PC 코디네이터가 50개 DB에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸었는데 1개 DB가 네트워크에 걸려 3초간 먹통이 됐다. 3초 동안 전사의 모든 DB 스레드가 락이 풀리기만을 기다리다가([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) Exhaustion) 쇼핑몰 전체가 하얗게 뻗어버리는 대참사가 반복되며 2PC는 클라우드의 절대 악으로 규정되었다.
 
-- **📢 섹션 요약 비유**: 2PC는 **'모든 차선의 차량이 100% 정지한 것을 확인한 뒤에만 출발 신호를 켜는 구석기 수동 신호등'**입니다. 안전([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 100점이지만, 꼬리물기 차량 1대만 있어도 신호등이 파란불을 절대 안 켜주기 때문에 서울 시내 전체 교통이 마비([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 제로)되는 융통성 0점의 시스템입니다.
+- **📢 섹션 요약 비유**: 2PC는 <strong>'모든 차선의 차량이 100% 정지한 것을 확인한 뒤에만 출발 신호를 켜는 구석기 수동 신호등'</strong>입니다. 안전([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 100점이지만, 꼬리물기 차량 1대만 있어도 신호등이 파란불을 절대 안 켜주기 때문에 서울 시내 전체 교통이 마비([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 제로)되는 융통성 0점의 시스템입니다.
 
 ---
 
 다음은 2PC (Two-Phase Commi의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  2PC (Two-Phase Commi                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2PC (Two-Phase Commi</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 2PC (Two-Phase Commi가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-software-engineering"]
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-2PC (Two-Phase Commit)의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 적용 한계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+2PC (Two-Phase Commit)의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 적용 한계의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
 - **📢 섹션 요약 비유**: 2PC (Two-Phase Commit)의 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 적용 한계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
@@ -144,21 +143,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-2PC (Two-Phase Commit)의 MSA 적용 한계 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">2PC (Two-Phase Commit)의 MSA 적용 한계 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

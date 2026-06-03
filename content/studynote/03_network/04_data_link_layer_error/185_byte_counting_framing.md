@@ -23,7 +23,7 @@ tags = ["studynote-network"]
 
 이 방식이 매력적인 이유는 매우 직관적이기 때문이다. 시작 플래그나 escape 문자를 넣지 않아도 되고, payload 안에 어떤 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)가 들어와도 특별히 변형하지 않아도 된다. 즉 송신기는 "이 프레임은 총 48바이트다" 또는 "payload 길이는 47바이트다"라고 적어 두고, 수신기는 그 규칙만 믿고 읽으면 된다.
 
-다만 이 단순함은 **길이 필드에 대한 절대적 신뢰**를 전제로 한다. [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 경계를 표시하는 다른 단서가 거의 없기 때문에, count 값이 틀리면 수신기는 다음 프레임의 일부를 현재 프레임이라고 오해할 수 있다. 그래서 이 기법은 "효율적이지만 스스로 회복하기 어려운" [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 방식으로 이해해야 한다.
+다만 이 단순함은 <strong>길이 필드에 대한 절대적 신뢰</strong>를 전제로 한다. [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 경계를 표시하는 다른 단서가 거의 없기 때문에, count 값이 틀리면 수신기는 다음 프레임의 일부를 현재 프레임이라고 오해할 수 있다. 그래서 이 기법은 "효율적이지만 스스로 회복하기 어려운" [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 방식으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 방식은 택배 상자 겉면에 "안에 물건 12개"라고 적어 두고 그 숫자만 믿고 확인하는 것과 같다. 라벨이 맞으면 빠르지만, 라벨이 틀리면 뒤의 상자까지 같이 헷갈리기 쉽다.
 
@@ -31,7 +31,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심 원리는 간단하다. 송신기는 프레임 앞에 count field를 붙이고, 수신기는 먼저 그 필드를 읽은 뒤 남은 길이만큼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모은다. 여기서 count가 **프레임 전체 길이인지, payload 길이인지, 헤더를 포함하는지**는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약으로 명확히 정해져 있어야 한다. 규약이 흔들리면 같은 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)열도 송수신 측이 다르게 해석한다.
+핵심 원리는 간단하다. 송신기는 프레임 앞에 count field를 붙이고, 수신기는 먼저 그 필드를 읽은 뒤 남은 길이만큼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모은다. 여기서 count가 <strong>프레임 전체 길이인지, payload 길이인지, 헤더를 포함하는지</strong>는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약으로 명확히 정해져 있어야 한다. 규약이 흔들리면 같은 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)열도 송수신 측이 다르게 해석한다.
 
 | 설계 요소 | 선택 포인트 | 영향 |
 | :--- | :--- | :--- |
@@ -42,24 +42,26 @@ tags = ["studynote-network"]
 
 아래 그림은 정상 동작 시 수신기가 어떻게 프레임을 자르는지 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Normal parsing with byte counting                                 │
-├───────────────────────────────────────────────────────────────────┤
-│ Stream : [05][A][B][C][D][04][X][Y][Z]                            │
-│          └──── Frame 1 ────┘└── Frame 2 ──┘                      │
-│                                                                   │
-│ Receiver steps                                                    │
-│   1) read count = 05                                              │
-│   2) collect next 4 bytes -> Frame 1 complete                     │
-│   3) next byte becomes new count = 04                             │
-│   4) collect next 3 bytes -> Frame 2 complete                     │
-└───────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal parsing with byte counting</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Stream :</div><div class="kb-diagram-node">05</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame 1 ── Frame 2 ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver steps</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) read count = 05</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) collect next 4 bytes -&gt; Frame 1 complete</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) next byte becomes new count = 04</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) collect next 3 bytes -&gt; Frame 2 complete</div></div>
+</div>
+</div>
+
+
 
 이 방식은 parser [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) machine도 단순하게 만든다. `READ_LENGTH -> READ_BODY -> FRAME_DONE`처럼 상태가 명확하고, delimiter를 찾기 위해 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 계속 검색할 필요도 없다. 그래서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계나 제어가 쉬운 환경에서 매력적으로 보인다.
 
-그러나 이 단순성은 길이 필드가 정확하다는 전제와 함께만 성립한다. delimiter 기반 방식은 다음 flag를 찾으며 다시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 시도할 수 있지만, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 잘못 읽기 시작하면 **다음 length [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 자체를 놓쳐 버릴 위험**이 크다.
+그러나 이 단순성은 길이 필드가 정확하다는 전제와 함께만 성립한다. delimiter 기반 방식은 다음 flag를 찾으며 다시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 시도할 수 있지만, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 잘못 읽기 시작하면 <strong>다음 length <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">byte</a> 자체를 놓쳐 버릴 위험</strong>이 크다.
 
 - **📢 섹션 요약 비유**: [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 영화관 좌석표에 "이번 줄은 10칸"이라고 써 놓고 그 숫자만큼만 세는 방식과 같다. 숫자만 맞으면 아주 빠르지만, 한 번 잘못 적히면 다음 줄 시작점도 같이 틀어진다.
 
@@ -78,21 +80,23 @@ tags = ["studynote-network"]
 
 아래 그림은 count field 하나가 깨졌을 때 왜 문제가 커지는지 보여 준다.
 
-```text
-┌───────────────────────────────────────────────────────────────────┐
-│ Desynchronization by one corrupted length field                    │
-├───────────────────────────────────────────────────────────────────┤
-│ Original : [05][A][B][C][D][04][X][Y][Z]                          │
-│ Corrupt  : [07][A][B][C][D][04][X][Y][Z]                          │
-│                                                                   │
-│ Receiver thinks Frame 1 = [07][A][B][C][D][04][X]                 │
-│ Remaining stream starts at [Y]                                    │
-│   -> Y is now misread as the next length field                    │
-│   -> all later boundaries become unreliable                       │
-└───────────────────────────────────────────────────────────────────┘
-```
 
-이 취약점 때문에 순수한 [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) counting은 현대 링크 계층에서 단독 [framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 방식으로는 잘 쓰이지 않는다. 다만 길이 필드 자체는 여전히 중요해서, 이미 외부에서 경계가 잡혀 있거나 헤더가 강하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 length 정보를 적극 사용한다. 즉 **문제는 length field 자체가 아니라, 그것만 믿고 전체 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 맡기는 설계**다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desynchronization by one corrupted length field</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Original :</div><div class="kb-diagram-node">05</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Corrupt :</div><div class="kb-diagram-node">07</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Receiver thinks Frame 1 =</div><div class="kb-diagram-node">07</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Remaining stream starts at</div><div class="kb-diagram-node">Y</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Y is now misread as the next length field</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; all later boundaries become unreliable</div></div>
+</div>
+</div>
+
+
+
+이 취약점 때문에 순수한 [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) counting은 현대 링크 계층에서 단독 [framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 방식으로는 잘 쓰이지 않는다. 다만 길이 필드 자체는 여전히 중요해서, 이미 외부에서 경계가 잡혀 있거나 헤더가 강하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 length 정보를 적극 사용한다. 즉 <strong>문제는 length field 자체가 아니라, 그것만 믿고 전체 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>를 맡기는 설계</strong>다.
 
 184번 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 메커니즘 문서와 연결하면 위치가 명확하다. [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)의 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 중 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 "가장 단순한 길이 기반 방식"이고, 이후 기술은 delimiter와 stuffing을 통해 복원력과 투명성을 더 강화하는 방향으로 발전했다.
 
@@ -106,7 +110,7 @@ tags = ["studynote-network"]
 
 ### 실무 판단 기준
 
-1. **count field [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 있는가?** 헤더 checksum이나 CRC가 없으면 길이 오류를 늦게 발견한다.
+1. <strong>count field <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>가 있는가?</strong> 헤더 checksum이나 CRC가 없으면 길이 오류를 늦게 발견한다.
 2. **최대 길이 제한을 두었는가?** 비정상 count가 버퍼 고갈이나 과도한 대기를 유발하지 않게 해야 한다.
 3. **재동기화 단서가 있는가?** start delimiter, [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/), reset 절차가 있으면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성이 높아진다.
 4. **링크 품질이 어떤가?** 노이즈가 심한 환경에서는 delimiter 기반 방식이 더 안전하다.
@@ -123,7 +127,7 @@ tags = ["studynote-network"]
 - 길이 오류 시 parser reset [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 계속 다음 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 길이로 해석하는 구현
 - "length field가 있으니 stuffing이나 delimiter는 불필요하다"라고 단정하는 답안
 
-기술사 답안에서는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트를 단순히 "길이를 적는다"에서 끝내지 말고, **오버헤드는 작지만 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 상실에 약하다**는 본질을 분명히 써야 한다. 그리고 현대 설계에서는 보통 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치와 함께 쓰거나, delimiter 기반 방식으로 진화했다는 연결까지 보여 주는 것이 좋다.
+기술사 답안에서는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트를 단순히 "길이를 적는다"에서 끝내지 말고, <strong>오버헤드는 작지만 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 상실에 약하다</strong>는 본질을 분명히 써야 한다. 그리고 현대 설계에서는 보통 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치와 함께 쓰거나, delimiter 기반 방식으로 진화했다는 연결까지 보여 주는 것이 좋다.
 
 - **📢 섹션 요약 비유**: [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 방식은 빠른 계산대와 같다. 손님 수만 정확히 세면 빨리 끝나지만, 숫자를 잘못 세면 다음 줄 손님까지 같이 꼬여 버린다.
 
@@ -133,9 +137,9 @@ tags = ["studynote-network"]
 
 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 방식의 장점은 분명하다. 구조가 단순하고, payload를 가공하지 않아도 되며, 정상 동작 시 parsing 비용이 낮다. 그래서 framing의 출발점을 설명할 때 매우 좋은 예가 되고, 실제 시스템에서도 length field 자체는 여전히 널리 쓰인다.
 
-하지만 순수한 [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) counting은 **self-recovery가 약하다**는 치명적 한계를 가진다. 프레임 경계가 오직 숫자 하나에 의존하면, 그 숫자가 깨졌을 때 수신기는 어디서 다시 맞춰야 하는지 알기 어렵다. 그래서 현대 링크 설계는 delimiter, stuffing, 헤더 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 같은 장치를 함께 넣어 복원력을 강화한다.
+하지만 순수한 [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) counting은 <strong>self-recovery가 약하다</strong>는 치명적 한계를 가진다. 프레임 경계가 오직 숫자 하나에 의존하면, 그 숫자가 깨졌을 때 수신기는 어디서 다시 맞춰야 하는지 알기 어렵다. 그래서 현대 링크 설계는 delimiter, stuffing, 헤더 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), [timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 같은 장치를 함께 넣어 복원력을 강화한다.
 
-정리하면 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 방식은 **"가장 단순한 길이 기반 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)이지만, 길이 필드 오류에 취약해 단독 사용은 위험한 방법"** 으로 기억하면 된다. 시험에서는 장점보다 이 취약점과 진화 방향을 함께 쓰는 것이 핵심이다.
+정리하면 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트 방식은 <strong>"가장 단순한 길이 기반 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/">프레이밍</a>이지만, 길이 필드 오류에 취약해 단독 사용은 위험한 방법"</strong> 으로 기억하면 된다. 시험에서는 장점보다 이 취약점과 진화 방향을 함께 쓰는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 줄자 하나로 상자를 포장하는 방법과 같다. 줄자가 정확하면 깔끔하지만, 눈금 하나가 틀리면 포장 전체가 비뚤어진다.
 
@@ -154,19 +158,22 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Continuous byte stream
-    │
-    ▼
-Length field based framing
-    │
-    ▼
-Fast normal parsing
-    │
-    ├──────────────▶ Corrupted count -> desynchronization cascade
-    ├──────────────▶ Header protection and sanity checks
-    └──────────────▶ Byte stuffing / bit stuffing evolution
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Continuous byte stream</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Length field based framing</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Fast normal parsing</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Corrupted count -&gt; desynchronization cascade</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Header protection and sanity checks</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ Byte stuffing / bit stuffing evolution</div>
+</div>
+</div>
+
+
 
 이 흐름도는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트가 단순한 length framing에서 출발해, 오류 취약점 때문에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치와 다른 [framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법으로 확장되는 과정을 보여 준다.
 

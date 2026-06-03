@@ -18,19 +18,21 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│   아키텍처 비교: 전통 VM vs. 컨테이너 vs. 유니커널        │
-├─────────────────────────────────────────────────────────┤
-│ 전통 VM:       [App] + [Full OS] + [Hypervisor]         │
-│ 컨테이너:      [App] + [컨테이너 런타임] + [Host OS]     │
-│ 유니커널:      [App + LibOS] + [Hypervisor]              │
-│                                                         │
-│ 크기: 전통 VM(수 GB) > 컨테이너(수십~수백 MB)            │
-│       > 유니커널(수 MB~수십 MB)                          │
-│ 부팅: 전통 VM(분) > 컨테이너(초) > 유니커널(밀리초)       │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 비교: 전통 VM vs. 컨테이너 vs. 유니커널</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">전통 VM:</div><div class="kb-diagram-node">App</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Full OS</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Hypervisor</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">컨테이너:</div><div class="kb-diagram-node">App</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">컨테이너 런타임</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Host OS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">유니커널:</div><div class="kb-diagram-node">App + LibOS</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Hypervisor</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크기: 전통 VM(수 GB) &gt; 컨테이너(수십~수백 MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 유니커널(수 MB~수십 MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부팅: 전통 VM(분) &gt; 컨테이너(초) &gt; 유니커널(밀리초)</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 맞춤 제작 레이싱 카다. 일반 자동차(전통 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))는 에어컨, 뒷좌석, 라디오가 다 달려있다. 레이싱 카([유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/))는 달리기에 필요한 것만 남기고 다 뺐다 — 더 빠르고 가볍지만 짐 싣기는 불편하다.
 
@@ -40,18 +42,23 @@ tags = ["studynote-operating-system"]
 
 ### [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/) 빌드 과정
 
-```text
-[애플리케이션 코드]
-        │ 컴파일 타임 링킹
-        ▼
-[LibOS 라이브러리 선택]
-  - 네트워크 스택: miniip / lwIP
-  - 파일 시스템: MirageFS
-  - TLS: 최소화 TLS 구현
-        │
-        ▼
-[단일 실행 이미지] ──> 하이퍼바이저(KVM/Xen) 직접 실행
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 코드</div></div>
+<div class="kb-diagram-note">컴파일 타임 링킹</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">LibOS 라이브러리 선택</div></div>
+<div class="kb-diagram-tree-item" style="--depth:1">네트워크 스택: miniip / lwIP</div>
+<div class="kb-diagram-tree-item" style="--depth:1">파일 시스템: MirageFS</div>
+<div class="kb-diagram-tree-item" style="--depth:1">TLS: 최소화 TLS 구현</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">단일 실행 이미지</div><div class="kb-diagram-note">──&gt; 하이퍼바이저(KVM/Xen) 직접 실행</div></div>
+</div>
+</div>
+
+
 
 ### 주요 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/) 프레임워크
 
@@ -97,7 +104,7 @@ tags = ["studynote-operating-system"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 부팅** | 밀리초 단위 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 부팅</strong> | 밀리초 단위 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) |
 | **최소 공격 표면** | 불필요한 OS 기능 완전 제거 |
 | **낮은 메모리 사용** | 수 MB 단위 이미지 |
 
@@ -112,28 +119,30 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **LibOS** | [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)의 OS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| **[Exokernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/026_exokernel/)** | 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 최소화 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)과 유사) |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)** | [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)의 비교 대상 경량 격리 기술 |
-| **[FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/)** | [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)의 핵심 활용 워크로드 |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/026_exokernel/">Exokernel</a></strong> | 하드웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 최소화 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)과 유사) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> | [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)의 비교 대상 경량 격리 기술 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/">FaaS</a></strong> | [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)의 핵심 활용 워크로드 |
 | **MirageOS** | OCaml 기반 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/) 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[전통 모놀리식 OS — 범용성, 큰 공격 표면]
-    │
-    ▼
-[마이크로커널 — 최소 커널 + 서비스 분리]
-    │
-    ▼
-[유니커널 — App+LibOS 단일 이미지]
-    │
-    ▼
-[컨테이너 기반 유니커널 — Kata Containers 등]
-    │
-    ▼
-[Wasm 유니커널 — 포터블 초경량 서버리스 런타임]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">전통 모놀리식 OS — 범용성, 큰 공격 표면</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로커널 — 최소 커널 + 서비스 분리</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">유니커널 — App+LibOS 단일 이미지</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 기반 유니커널 — Kata Containers 등</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wasm 유니커널 — 포터블 초경량 서버리스 런타임</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

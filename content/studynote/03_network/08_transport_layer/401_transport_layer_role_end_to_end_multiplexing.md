@@ -22,21 +22,25 @@ tags = ["studynote-network"]
 - **개념**: OSI 7계층 중 4계층에 해당하며, 종단(End-to-End, 송신자 프로세스와 수신자 프로세스) 간의 논리적 통신을 제공하고 투명하고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 보장하는 계층. (대표 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/): [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)).
 - **필요성**: 3계층(IP)의 능력은 딱 "우리 집 컴퓨터에서 저기 미국 구글 컴퓨터 앞마당까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져놓는 것"까지다. 그런데 내 컴퓨터 안에는 크롬 브라우저 창이 10개 떠 있고, 카카오톡이 켜져 있다. IP가 구글에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아오긴 했는데, 이게 유튜브 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 카톡 메시지인지 구별할 길이 없다! **"컴퓨터 대 컴퓨터(Host-to-Host)의 통신을 넘어, 프로그램 대 프로그램(Process-to-Process)의 정밀한 통신 채널을 뚫어주자!"** 이것이 전송 계층이 탄생한 이유다.
 
-- **💡 비유**: 전송 계층은 거대한 아파트([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))의 **"1층 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 직원"**과 같습니다.
+- **💡 비유**: 전송 계층은 거대한 아파트([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))의 <strong>"1층 우편물 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 직원"</strong>과 같습니다.
   - **3계층 (IP)**: 우체국 트럭이 "서울시 강남구 래미안 아파트(IP 주소)" 앞마당에 택배 100상자를 훅 던져놓고 갑니다.
-  - **4계층 (전송 계층)**: 1층 직원이 택배 상자를 까보고, 겉면에 적힌 **"101호(크롬), 102호(카카오톡)"라는 호수([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))**를 보고 정확한 집 앞까지 배달을 완료해 줍니다. 
+  - **4계층 (전송 계층)**: 1층 직원이 택배 상자를 까보고, 겉면에 적힌 <strong>"101호(크롬), 102호(카카오톡)"라는 호수(<a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>)</strong>를 보고 정확한 집 앞까지 배달을 완료해 줍니다. 
   - 만약 중간에 택배가 파손되었으면, 직원이 우체국에 전화를 걸어 "택배 부서졌으니 다시 보내라([오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/))!"라고 따져줍니다.
 
-```text
-[로케이터/ID 분리 구조 (LISP]
-    │
-    ▼
-[전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    └──▶ [포트 번호]
-```
 
-- **📢 섹션 요약 비유**: ** 전송 계층은 단순히 물건을 나르는 화물차(IP)가 아니라, 화물칸 안의 물건이 깨졌는지 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고([오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)), **받는 사람의 손아귀(프로세스)에 정확히 쥐여줄 때까지 끝까지 책임지는 우체국 특급 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">로케이터/ID 분리 구조 (LISP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 번호</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> 전송 계층은 단순히 물건을 나르는 화물차(IP)가 아니라, 화물칸 안의 물건이 깨졌는지 꼼꼼히 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a>), </strong>받는 사람의 손아귀(프로세스)에 정확히 쥐여줄 때까지 끝까지 책임지는 우체국 특급 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)**입니다.
 
 ---
 
@@ -44,31 +48,31 @@ tags = ["studynote-network"]
 
 ### 1. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))와 역다중화(Demultiplexing)
 현대 컴퓨터가 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 통신을 할 수 있는 1등 공신이다.
-- **[다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (보낼 때)**: 내 PC에서 롤([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 8000), 크롬([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80), 카톡([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 9000) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동시에 뿜어져 나온다. 전송 계층은 이 세 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 3계층 IP 튜브(내 공인 IP) 안으로 꽉꽉 압축해서 쑤셔 넣는다.
+- <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (보낼 때)</strong>: 내 PC에서 롤([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 8000), 크롬([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80), 카톡([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 9000) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동시에 뿜어져 나온다. 전송 계층은 이 세 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 3계층 IP 튜브(내 공인 IP) 안으로 꽉꽉 압축해서 쑤셔 넣는다.
 - **역다중화 (받을 때)**: 목적지 서버의 전송 계층이 이 튜브를 터뜨려 내용물을 쏟아낸 뒤, [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)를 돋보기로 보고 "아! 이건 80번이니까 웹서버 프로세스한테 던지고, 8000번이니까 게임 서버 프로세스한테 던져라!" 라며 완벽하게 가르마를 타준다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                포트 번호를 이용한 다중화/역다중화 도식             │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 내 PC (클라이언트) ]                       [ 구글 서버 ]      │
- │                                                             │
- │   (크롬) :8081 ──┐                       ┌── :80 (웹 서버)   │
- │   (카톡) :9091 ──┼──▶ [ 인터넷 망 ] ──▶──┼── :443 (보안웹 서버)│
- │   (게임) :7071 ──┘  (하나의 IP 튜브)       └── :53 (DNS 서버)   │
- │    ▲ (다중화)                                 ▲ (역다중화)       │
- │                                                             │
- │   ▶ "랜선(IP)은 하나지만, 그 속에는 수만 개의 독립된 차선(Port)이   │
- │      존재하여 프로그램들이 절대 서로 충돌하지 않고 쾌속 질주한다!"   │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 번호를 이용한 다중화/역다중화 도식</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (클라이언트)</div><div class="kb-diagram-node">구글 서버</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(크롬) :8081 ── ── :80 (웹 서버)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터넷 망</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">── ── :443 (보안웹 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(게임) :7071 ── (하나의 IP 튜브) ── :53 (DNS 서버)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (다중화) ▲ (역다중화)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "랜선(IP)은 하나지만, 그 속에는 수만 개의 독립된 차선(Port)이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">존재하여 프로그램들이 절대 서로 충돌하지 않고 쾌속 질주한다!"</div></div>
+</div>
+</div>
+
+
 
 ### 2. [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 통제 (오류/흐름/혼잡 제어)
 3계층이 무책임하게 버린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송 계층(특히 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 수습한다.
-- **[오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/))**: 패킷 번호를 매겨놓고 기다리다가, 5번 패킷이 안 오면 "야! 5번 다시 보내!"라고 재전송(Retransmission)을 요구한다.
-- **[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))**: 내 컴퓨터 RAM(버퍼)이 꽉 찼는데 서버가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부으면 버려진다. "야, 나 체할 것 같아! 천천히 좀 보내([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 조절)!"라고 송신자의 속도를 제어한다.
-- **혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/))**: 너와 나 사이의 문제가 아니라 인터넷망 자체가 꽉 막혔을 때, "망 터지겠다! 우리 다 같이 눈치껏 속도 좀 확 줄이자!"라며 통신량을 자체적으로 깎아버리는 공공의 이익을 위한 통제다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">Error Control</a>)</strong>: 패킷 번호를 매겨놓고 기다리다가, 5번 패킷이 안 오면 "야! 5번 다시 보내!"라고 재전송(Retransmission)을 요구한다.
+- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>)</strong>: 내 컴퓨터 RAM(버퍼)이 꽉 찼는데 서버가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아부으면 버려진다. "야, 나 체할 것 같아! 천천히 좀 보내([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/) 조절)!"라고 송신자의 속도를 제어한다.
+- <strong>혼잡 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a>)</strong>: 너와 나 사이의 문제가 아니라 인터넷망 자체가 꽉 막혔을 때, "망 터지겠다! 우리 다 같이 눈치껏 속도 좀 확 줄이자!"라며 통신량을 자체적으로 깎아버리는 공공의 이익을 위한 통제다.
 
 - **📢 섹션 요약 비유**: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -86,7 +90,7 @@ tags = ["studynote-network"]
 | 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
 | 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** 전송 계층의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)/역다중화는 공항의 **"수하물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 벨트"**입니다. 수백 대의 비행기에서 쏟아져 나온 가방(IP 패킷)들을 하나의 거대한 벨트에 올려놓지만, 스캐너가 가방 겉면에 붙은 바코드([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호)를 읽고 정확하게 1번 출구, 2번 출구로 가방을 밀어내어 주인을 찾아줍니다.
+- **📢 섹션 요약 비유**: <strong> 전송 계층의 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>/역다중화는 공항의 </strong>"수하물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 벨트"**입니다. 수백 대의 비행기에서 쏟아져 나온 가방(IP 패킷)들을 하나의 거대한 벨트에 올려놓지만, 스캐너가 가방 겉면에 붙은 바코드([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호)를 읽고 정확하게 1번 출구, 2번 출구로 가방을 밀어내어 주인을 찾아줍니다.
 
 ---
 
@@ -128,15 +132,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 로케이터/ID 분리 구조 (LISP]
-    │
-    ▼
-[현재 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
-    │
-    ├──▶ [확장 A: 포트 번호]
-    └──▶ [확장 B: 적응형 저지연 전송]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 로케이터/ID 분리 구조 (LISP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전송 계층의 역할: 종단 간 오류/흐름/혼잡…</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 포트 번호</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
+</div>
+</div>
+
+
 
 전송 계층의 역할: 종단 간 오류/흐름/혼잡…는 로케이터/ID 분리 구조 (LISP에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

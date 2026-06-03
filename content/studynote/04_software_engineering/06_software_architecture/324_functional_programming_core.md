@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 시대에 개발자들은 무수히 많은 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 객체 내부에 감춰두고 `Setter`로 요리조리 값을 바꿨다. 싱글 코어 시절엔 문제가 없었다. 하지만 CPU 코어가 8개, 16개로 늘어나는 멀티코어 시대가 오자 재앙이 터졌다. 8개의 스레드가 동시에 은행 계좌 객체의 `balance(잔고)` 변수를 수정하려다 서로 충돌하고 데드락에 빠져 시스템이 매일 밤 뻗어버렸다. 복잡한 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 제어 없이 멀티스레드 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 완벽하게 해낼 구원자가 필요했다. 그 해답이 바로 "애초에 상태(변수)를 절대 바꾸지 않으면 충돌할 일도 없다"는 함수형의 철학이었다.
 
-- **💡 비유**: 기존 명령형(객체지향/절차적) 프로그래밍은 **'찰흙 빚기'**입니다. 하나의 찰흙(변수)을 가져다가 이리 뭉치고 저리 떼어내며 계속 모양(상태)을 바꿉니다. 여러 명이 동시에 만지면 엉망진창이 됩니다. **함수형 프로그래밍**은 **'3D 프린터 연속 인쇄'**입니다. 찰흙을 만지는 게 아니라, 네모난 블록을 넣으면 세모난 블록을 새로 찍어내고(순수 함수), 그걸 다시 넣으면 동그란 블록을 새로 찍어냅니다. 원본은 절대 손상되지 않으므로 100명이 동시에 작업해도 완벽히 안전합니다.
+- **💡 비유**: 기존 명령형(객체지향/절차적) 프로그래밍은 <strong>'찰흙 빚기'</strong>입니다. 하나의 찰흙(변수)을 가져다가 이리 뭉치고 저리 떼어내며 계속 모양(상태)을 바꿉니다. 여러 명이 동시에 만지면 엉망진창이 됩니다. <strong>함수형 프로그래밍</strong>은 <strong>'3D 프린터 연속 인쇄'</strong>입니다. 찰흙을 만지는 게 아니라, 네모난 블록을 넣으면 세모난 블록을 새로 찍어내고(순수 함수), 그걸 다시 넣으면 동그란 블록을 새로 찍어냅니다. 원본은 절대 손상되지 않으므로 100명이 동시에 작업해도 완벽히 안전합니다.
 
 - **등장 배경 및 발전 과정**:
   1. **수학적 근원 (1930s)**: 알론조 처치의 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 대수([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) Calculus)라는 수학 이론에서 출발했다. (컴퓨터가 발명되기도 전에 나온 개념)
@@ -36,18 +36,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 함수형 프로그래밍 (Functiona의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  함수형 프로그래밍 (Functiona                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수형 프로그래밍 (Functiona</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 함수형 프로그래밍 (Functiona가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -141,21 +140,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-함수형 프로그래밍 (Functional Programming) 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">함수형 프로그래밍 (Functional Programming) 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

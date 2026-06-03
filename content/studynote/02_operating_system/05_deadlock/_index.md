@@ -17,33 +17,31 @@ tags = ["operating_system"]
 
 ### 멈춰버린 시스템: 교착 상태의 공포
 
-다중 프로그래밍 환경에서 여러 프로세스는 한정된 자원을 공유한다. 이때 각 프로세스가 자원을 하나씩 쥐고 있으면서 서로가 가진 나머지 자원을 요구할 때, 아무도 양보하지 않는 상황이 발생한다. 이것이 운영체제의 난제 중 하나인 **교착 상태 (Deadlock)**이다.
+다중 프로그래밍 환경에서 여러 프로세스는 한정된 자원을 공유한다. 이때 각 프로세스가 자원을 하나씩 쥐고 있으면서 서로가 가진 나머지 자원을 요구할 때, 아무도 양보하지 않는 상황이 발생한다. 이것이 운영체제의 난제 중 하나인 <strong>교착 상태 (Deadlock)</strong>이다.
 
-교착 상태 관리가 필요한 이유는 명확하다. 첫째, 교착 상태가 발생하면 해당 프로세스뿐만 아니라 **시스템 전체의 자원 이용률**이 급격히 떨어지기 때문이고, 둘째, 사용자의 요청에 응답하지 못하는 **서비스 마비** 상태를 초래하기 때문이며, 셋째, 이를 해결하기 위해 프로세스를 강제 종료할 경우 **데이터 유실이나 부적합성**이 발생할 수 있기 때문이다.
+교착 상태 관리가 필요한 이유는 명확하다. 첫째, 교착 상태가 발생하면 해당 프로세스뿐만 아니라 <strong>시스템 전체의 자원 이용률</strong>이 급격히 떨어지기 때문이고, 둘째, 사용자의 요청에 응답하지 못하는 **서비스 마비** 상태를 초래하기 때문이며, 셋째, 이를 해결하기 위해 프로세스를 강제 종료할 경우 <strong>데이터 유실이나 부적합성</strong>이 발생할 수 있기 때문이다.
 
 이 그림은 교착 상태의 전형적인 모습인 '순환 대기 (Circular Wait)'를 시각화한다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Deadlock: Circular Wait Scenario            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│       [ Resource R1 ] ◀─────── (Holds) ─────── [ Process P1 ]│
-│              │                                     ▲        │
-│           (Requests)                             (Requests) │
-│              ▼                                     │        │
-│       [ Process P2 ] ─────── (Holds) ───────▶ [ Resource R2 ]│
-│                                                             │
-│   * P1은 R2를 원하고, P2는 R1을 원하지만 둘 다 놓지 않음   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock: Circular Wait Scenario</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Resource R1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Process P1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Requests) (Requests)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Process P2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource R2</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* P1은 R2를 원하고, P2는 R1을 원하지만 둘 다 놓지 않음</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '닫힌 루프'이다. 자원 할당 그래프에서 이러한 사이클이 형성되면 교착 상태의 필요조건이 갖춰진 것이다. 실무에서는 데이터베이스의 레코드 락이나 세마포어를 잘못 관리했을 때 빈번하게 발생하며, 이를 방지하기 위한 설계적 가이드라인이 필수적이다.
 
 ### 교착 상태 발생의 4대 필요조건 (Coffman 조건)
 
-이 4가지 조건이 **동시에 모두 만족**될 때만 교착 상태가 발생한다.
+이 4가지 조건이 <strong>동시에 모두 만족</strong>될 때만 교착 상태가 발생한다.
 1. **상호 배제 (Mutual Exclusion)**: 자원은 한 번에 한 프로세스만 사용할 수 있다.
 2. **점유 및 대기 (Hold and Wait)**: 자원을 가진 채로 다른 자원을 기다린다.
 3. **비선점 (No Preemption)**: 남이 가진 자원을 강제로 뺏을 수 없다.
@@ -68,27 +66,27 @@ tags = ["operating_system"]
 
 ### 은행가 알고리즘 (Banker's Algorithm)
 
-회피 전략의 대표주자로, 다익스트라 (Dijkstra)가 제안했다. 자원을 할당해 주었을 때 모든 프로세스가 무사히 끝날 수 있는 **안전 순서 (Safe Sequence)**가 존재하는지 미리 계산한다.
+회피 전략의 대표주자로, 다익스트라 (Dijkstra)가 제안했다. 자원을 할당해 주었을 때 모든 프로세스가 무사히 끝날 수 있는 <strong>안전 순서 (Safe Sequence)</strong>가 존재하는지 미리 계산한다.
 
 이 구조도는 은행가 알고리즘의 의사결정 데이터를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 Banker's Algorithm Data Structures          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   1. Available[m] : 각 자원 종류별 가용 개수                │
-│   2. Max[n][m]    : 각 프로세스의 최대 자원 요구량          │
-│   3. Allocation[n][m] : 현재 할당된 자원 양                 │
-│   4. Need[n][m]   : 추가로 필요한 자원 양 (Max - Alloc)     │
-│                                                             │
-│   [ Check Logic ]                                           │
-│   if (Request_i <= Available) {                             │
-│       Try Allocation and Check if Safe State exists?        │
-│   }                                                         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Banker's Algorithm Data Structures</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">1. Available</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 자원 종류별 가용 개수</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">2. Max</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 프로세스의 최대 자원 요구량</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">3. Allocation</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 현재 할당된 자원 양</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">4. Need</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 추가로 필요한 자원 양 (Max - Alloc)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Check Logic</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (Request_i &lt;= Available) {</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Try Allocation and Check if Safe State exists?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 '최악의 상황 가정'이다. 프로세스가 나중에 요구할 수 있는 최대량 (Max)을 고려하여, 가용 자원 (Available)이 이를 감당할 수 있을 때만 빌려준다. 실무적으로는 모든 프로세스의 최대 요구량을 미리 아는 것이 불가능에 가깝기 때문에 이론적 모델로 주로 활용된다.
 
@@ -128,27 +126,26 @@ tags = ["operating_system"]
 - **판단**: 네트워크 지연으로 인해 예방이나 회피 전략을 실시간으로 구현하기 어렵다. **Wait-Die** 또는 **Wound-Wait** 알고리즘을 적용하여 트랜잭션의 타임스탬프를 기준으로 선점 여부를 결정한다. 또한 모든 서비스가 공유 자원(DB 레코드 등)에 접근하는 순서를 일관되게 정의하여 '순환 대기' 조건을 원천 배제한다.
 
 **시나리오 2: 운영 중인 서버에서 데드락 의심 증상 발견**
-- **판단**: 사후 조치인 **탐지 및 복구** 모드로 전환한다. `jstack`이나 `pstack` 도구를 통해 스레드 덤프를 분석하여 사이클을 찾는다. 복구 시에는 모든 프로세스를 죽이지 않고, 사이클을 깨뜨릴 수 있는 **최소 비용의 프로세스 하나를 선정하여 강제 종료 (Preemption)**하고 롤백한다.
+- **판단**: 사후 조치인 **탐지 및 복구** 모드로 전환한다. `jstack`이나 `pstack` 도구를 통해 스레드 덤프를 분석하여 사이클을 찾는다. 복구 시에는 모든 프로세스를 죽이지 않고, 사이클을 깨뜨릴 수 있는 <strong>최소 비용의 프로세스 하나를 선정하여 강제 종료 (Preemption)</strong>하고 롤백한다.
 
 이 도식은 데이터베이스 트랜잭션에서 데드락을 회피하는 타임스탬프 기반 기법을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               Wait-Die vs Wound-Wait (Timestamp)            │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Wait-Die ] (Non-preemptive)                             │
-│   - 오래된 T가 자원 요청 -> 기다림 (Wait)                   │
-│   - 젊은 T가 자원 요청 -> 포기/종료 (Die)                   │
-│                                                             │
-│   [ Wound-Wait ] (Preemptive)                               │
-│   - 오래된 T가 자원 요청 -> 젊은 T의 자원 뺏음 (Wound)      │
-│   - 젊은 T가 자원 요청 -> 기다림 (Wait)                     │
-│                                                             │
-│   * T: Transaction (낮은 타임스탬프가 고참)                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait-Die vs Wound-Wait (Timestamp)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wait-Die</div><div class="kb-diagram-note">(Non-preemptive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오래된 T가 자원 요청 -&gt; 기다림 (Wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 젊은 T가 자원 요청 -&gt; 포기/종료 (Die)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Wound-Wait</div><div class="kb-diagram-note">(Preemptive)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오래된 T가 자원 요청 -&gt; 젊은 T의 자원 뺏음 (Wound)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 젊은 T가 자원 요청 -&gt; 기다림 (Wait)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* T: Transaction (낮은 타임스탬프가 고참)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 데드락 관리는 '교통 체증 예방'과 같습니다. 사고가 나기 전에 일방통행로를 만들거나(순환 대기 파괴), 사고가 나면 가장 방해가 되는 차를 견인(프로세스 종료)하여 흐름을 뚫어주는 결단이 필요합니다.
 

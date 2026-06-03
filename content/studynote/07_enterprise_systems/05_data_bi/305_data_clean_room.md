@@ -51,31 +51,30 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clean Room 흐름
 
-```
-  기업 A (광고주)                    기업 B (퍼블리셔)
-  ┌──────────────────┐              ┌──────────────────┐
-  │ 고객 구매 데이터   │              │ 방문자 행동 로그   │
-  │ (해시 처리 후)     │              │ (해시 처리 후)     │
-  │ email_hash, age  │              │ email_hash, page  │
-  └────────┬─────────┘              └────────┬─────────┘
-           │  해시 키만 제공                   │  해시 키만 제공
-           └──────────────┬──────────────────┘
-                          ▼
-           ┌───────────────────────────────────┐
-           │        DATA CLEAN ROOM            │
-           │  (격리 실행 환경 / TEE)             │
-           │  ① 해시 키 기반 익명 조인           │
-           │  ② 집계 쿼리 실행                  │
-           │  ③ k-anonymity 임계값 적용          │
-           │  ④ Differential Privacy 노이즈 추가 │
-           └──────────────┬────────────────────┘
-                          ▼
-           ┌────────────────────────────────────┐
-           │  집계 결과만 반환                   │
-           │  예) "캠페인 전환율: 12%"            │
-           │  원시 PII는 어느 쪽도 볼 수 없음      │
-           └────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">기업 A (광고주) 기업 B (퍼블리셔)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 구매 데이터</div><div class="kb-diagram-cell">방문자 행동 로그</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해시 처리 후)</div><div class="kb-diagram-cell">(해시 처리 후)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">email_hash, age</div><div class="kb-diagram-cell">email_hash, page</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 키만 제공</div><div class="kb-diagram-cell">해시 키만 제공</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATA CLEAN ROOM</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(격리 실행 환경 / TEE)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 해시 키 기반 익명 조인</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 집계 쿼리 실행</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ k-anonymity 임계값 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Differential Privacy 노이즈 추가</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 결과만 반환</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) "캠페인 전환율: 12%"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 PII는 어느 쪽도 볼 수 없음</div></div>
+</div>
+</div>
+
+
 
 ### 클린 룸 유형 비교
 
@@ -141,21 +140,23 @@ Google, Apple의 프라이버시 강화 [정책](/knowledge-base/studynote/10_ai
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-쿠키 기반 광고 타겟팅 (서드파티 데이터)
-    │
-    ▼
-개인정보 규제 강화 (GDPR, 쿠키리스 시대)
-    │
-    ▼
-Data Clean Room - 원시 데이터 비공개 협업 분석
-    │
-    ▼
-MPC/차분 프라이버시/동형암호 프라이버시 기술 통합
-    │
-    ▼
-Snowflake/Google Ads DCR 플랫폼 상용화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">쿠키 기반 광고 타겟팅 (서드파티 데이터)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">개인정보 규제 강화 (GDPR, 쿠키리스 시대)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Data Clean Room - 원시 데이터 비공개 협업 분석</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MPC/차분 프라이버시/동형암호 프라이버시 기술 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Snowflake/Google Ads DCR 플랫폼 상용화</div>
+</div>
+</div>
+
+
 
 > **키워드**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Clean Room, Privacy-Preserving Analytics, MPC, [Differential Privacy](/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/), Cookieless, First-Party [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 

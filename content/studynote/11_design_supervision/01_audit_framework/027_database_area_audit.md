@@ -18,19 +18,22 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-```text
-┌──────────────────────────────────────────────────────┐
-│         DB 영역 감리 주요 점검 항목                   │
-├──────────────────────────────────────────────────────┤
-│ □ 데이터 모델 (ERD)    : 요구사항 반영, 정규화 수준  │
-│ □ 데이터 표준          : 도메인·코드·용어 표준 준수  │
-│ □ 무결성               : PK/FK/제약 조건 적용 여부  │
-│ □ 성능                 : 인덱스 설계, 실행 계획 분석│
-│ □ 보안                 : 개인정보 암호화, 접근 통제 │
-│ □ 가용성               : 백업·복구 정책, HA 구성    │
-│ □ 데이터 품질          : 중복·결측·오류 데이터 관리 │
-└──────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 영역 감리 주요 점검 항목</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 모델 (ERD) : 요구사항 반영, 정규화 수준</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 표준 : 도메인·코드·용어 표준 준수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 무결성 : PK/FK/제약 조건 적용 여부</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 성능 : 인덱스 설계, 실행 계획 분석</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 보안 : 개인정보 암호화, 접근 통제</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 가용성 : 백업·복구 정책, HA 구성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 품질 : 중복·결측·오류 데이터 관리</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: DB 감리는 건물의 기초 공사 점검이다. 아무리 외관이 화려해도(응용 시스템) 기초(DB)가 부실하면 전체가 흔들린다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 오류는 사업 운영 오류로 직결된다.
 
@@ -78,9 +81,9 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 자동화 DB 감리 도구
-- **Toad for [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) / DBeaver**: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 비교, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석.
-- **[SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) DB Analyzer**: SQL 코드 품질 분석.
-- **[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) ([동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/))**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점 자동 탐지.
+- <strong>Toad for <a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a> / DBeaver</strong>: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 비교, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석.
+- <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/">SonarQube</a> DB Analyzer</strong>: SQL 코드 품질 분석.
+- <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/">DAST</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/">동적 분석</a>)</strong>: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점 자동 탐지.
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 (DQM) 연계
 - DB 감리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기준(완전성·[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)·[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))을 정량 측정.
@@ -94,9 +97,9 @@ tags = ["studynote-design-supervision"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)** | 암호화 미적용 적발·조치 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)** | FK·제약 조건 누락 방지 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화** | 불필요 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 제거, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 개선 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 암호화 미적용 적발·조치 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | FK·제약 조건 누락 방지 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 최적화</strong> | 불필요 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 제거, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 개선 |
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 DB 감리는 자동으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 분석하고 최적 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추천하며, 이상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 머신러닝으로 탐지하는 방향으로 발전하고 있다.
 
@@ -109,28 +112,30 @@ tags = ["studynote-design-supervision"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ERD** | DB 감리의 핵심 검토 산출물 |
-| **[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)** | DB 암호화 의무화 법적 근거 |
-| **[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)** | DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리의 핵심 분석 도구 |
-| **[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질** | DB 감리와 연계되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 활동 |
-| **[ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)** | DB 보안 감리 기준 제공 |
+| <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/">개인정보보호법</a></strong> | DB 암호화 의무화 법적 근거 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a></strong> | DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 감리의 핵심 분석 도구 |
+| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질</strong> | DB 감리와 연계되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 활동 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | DB 보안 감리 기준 제공 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[수동 DB 점검 — ERD 리뷰, 쿼리 분석]
-    │
-    ▼
-[DB 영역 감리 체계화 — 5대 감리 영역 중 하나]
-    │
-    ▼
-[개인정보보호 강화 — 암호화 의무 확대]
-    │
-    ▼
-[자동화 도구 통합 — SonarQube, DAST, 실행계획]
-    │
-    ▼
-[AI DB 감리 — 이상 탐지 + 최적화 자동 추천]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">수동 DB 점검 — ERD 리뷰, 쿼리 분석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DB 영역 감리 체계화 — 5대 감리 영역 중 하나</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보보호 강화 — 암호화 의무 확대</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 도구 통합 — SonarQube, DAST, 실행계획</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI DB 감리 — 이상 탐지 + 최적화 자동 추천</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

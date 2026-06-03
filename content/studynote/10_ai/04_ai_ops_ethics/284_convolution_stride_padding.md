@@ -21,9 +21,9 @@ tags = ["studynote-ai"]
 
 ### [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산의 탄생 배경
 
-완전 연결 계층(FCN, Fully Connected Network)은 이미지를 1차원 벡터로 펼쳐 처리하기 때문에 **공간 정보(Spatial Information)**를 완전히 무시하고, 파라미터 수가 폭발적으로 증가한다. 예를 들어 224×224×3 이미지를 512차원 은닉층에 연결하면 약 7,700만 개의 파라미터가 필요하다.
+완전 연결 계층(FCN, Fully Connected Network)은 이미지를 1차원 벡터로 펼쳐 처리하기 때문에 <strong>공간 정보(Spatial Information)</strong>를 완전히 무시하고, 파라미터 수가 폭발적으로 증가한다. 예를 들어 224×224×3 이미지를 512차원 은닉층에 연결하면 약 7,700만 개의 파라미터가 필요하다.
 
-[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산(Convolution [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))은 이러한 문제를 **[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Sharing)**와 **지역 연결(Local Connectivity)**로 해결한다. 필터 하나가 전체 입력 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 위를 슬라이딩하며 동일한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 재사용하므로 파라미터가 크게 줄어든다.
+[합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산(Convolution [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))은 이러한 문제를 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>와 <strong>지역 연결(Local Connectivity)</strong>로 해결한다. 필터 하나가 전체 입력 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 위를 슬라이딩하며 동일한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 재사용하므로 파라미터가 크게 줄어든다.
 
 ### 핵심 개념 정의
 
@@ -35,14 +35,17 @@ tags = ["studynote-ai"]
 | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 입력 가장자리에 추가하는 테두리 | 제로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 일반적 |
 | 수용 영역 (Receptive Field) | 출력 뉴런 하나가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 입력 영역 | 깊을수록 넓어짐 |
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터는 '도장'이다. 동일한 도장(필터)을 종이(입력) 위에서 일정 간격([스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 찍으며 문양(특징)을 추출한다. 가장자리에 여백([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어두면 종이 끝까지 고르게 찍을 수 있다.
 
@@ -67,27 +70,26 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 흐름
 
-```
-입력 특징 맵 (5×5)           필터 (3×3)          출력 특징 맵 (3×3)
-┌───────────────────┐       ┌─────────┐       ┌───────────┐
-│ 1  2  3  4  5     │       │ 1  0  1 │       │ ?  ?  ?   │
-│ 6  7  8  9  10    │  ✦    │ 0  1  0 │  =   │ ?  ?  ?   │
-│ 11 12 13 14 15    │       │ 1  0  1 │       │ ?  ?  ?   │
-│ 16 17 18 19 20    │       └─────────┘       └───────────┘
-│ 21 22 23 24 25    │
-└───────────────────┘
-       Stride=1, Padding=0
-       출력 크기: (5-3+0)/1+1 = 3
 
-슬라이딩 순서:
-┌──────────────────────────────────────────────────┐
-│  [0,0] → [0,1] → [0,2]                          │
-│    ↓                                             │
-│  [1,0] → [1,1] → [1,2]                          │
-│    ↓                                             │
-│  [2,0] → [2,1] → [2,2]                          │
-└──────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">입력 특징 맵 (5×5) 필터 (3×3) 출력 특징 맵 (3×3)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 4 5</div><div class="kb-diagram-cell">1 0 1</div><div class="kb-diagram-cell">? ? ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 7 8 9 10</div><div class="kb-diagram-cell">✦</div><div class="kb-diagram-cell">0 1 0</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">? ? ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11 12 13 14 15</div><div class="kb-diagram-cell">1 0 1</div><div class="kb-diagram-cell">? ? ?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16 17 18 19 20</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">21 22 23 24 25</div></div>
+<div class="kb-diagram-note">Stride=1, Padding=0</div>
+<div class="kb-diagram-note">출력 크기: (5-3+0)/1+1 = 3</div>
+<div class="kb-diagram-note">슬라이딩 순서:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">0,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0,2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2,2</div></div>
+</div>
+</div>
+
+
 
 ### [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 종류 비교
 
@@ -99,25 +101,29 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Dilated/Atrous Convolution)
 
-팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 필터 원소 사이에 **팽창률(Dilation Rate, d)**만큼 간격을 두어 **수용 영역을 지수적으로 확장**한다.
+팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 필터 원소 사이에 <strong>팽창률(Dilation Rate, d)</strong>만큼 간격을 두어 <strong>수용 영역을 지수적으로 확장</strong>한다.
 
-```
-일반 3×3 합성곱       팽창률 2인 3×3 합성곱
-(수용 영역: 3×3)      (수용 영역: 5×5)
-┌─────────┐           ┌─────────────────┐
-│ ■ ■ ■   │           │ ■ · ■ · ■       │
-│ ■ ■ ■   │           │ · · · · ·       │
-│ ■ ■ ■   │           │ ■ · ■ · ■       │
-└─────────┘           │ · · · · ·       │
-                      │ ■ · ■ · ■       │
-                      └─────────────────┘
-■ = 활성 가중치, · = 건너뜀
-파라미터 수는 동일, 수용 영역만 확장
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">일반 3×3 합성곱 팽창률 2인 3×3 합성곱</div>
+<div class="kb-diagram-note">(수용 영역: 3×3) (수용 영역: 5×5)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">■ · ■ · ■</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">· · · · ·</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">■ · ■ · ■</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· · · · ·</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ · ■ · ■</div></div>
+<div class="kb-diagram-note">■ = 활성 가중치, · = 건너뜀</div>
+<div class="kb-diagram-note">파라미터 수는 동일, 수용 영역만 확장</div>
+</div>
+</div>
+
+
 
 ### 전치 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Transposed Convolution, 업샘플링)
 
-전치 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Transposed Convolution, 디컨볼루션이라고도 불리지만 수학적 디컨볼루션은 아님)은 **[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 맵을 업샘플링**하는 학습 가능한 방법으로, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) 구조와 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), [Generative Adversarial Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))에서 사용된다.
+전치 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)(Transposed Convolution, 디컨볼루션이라고도 불리지만 수학적 디컨볼루션은 아님)은 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 맵을 업샘플링</strong>하는 학습 가능한 방법으로, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-[Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)) 구조와 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델([GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/), [Generative Adversarial Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))에서 사용된다.
 
 - **📢 섹션 요약 비유**: [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)는 '걸음 폭'이다. 한 걸음([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1)씩 꼼꼼히 찍으면 촘촘한 지도가 나오고, 두 걸음([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2)씩 뛰면 지도가 절반 크기로 줄어든다. 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '망원경 필터'로, 같은 필터 크기로 더 넓은 풍경을 한번에 본다.
 
@@ -135,9 +141,9 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 다른 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 변형과 연결
 
-- **깊이별 분리 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Depthwise Separable Convolution)**: MobileNet에서 사용. 채널별로 공간 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 적용 → 계산량 대폭 감소
-- **그룹 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Group Convolution)**: 채널을 그룹으로 나눠 독립적으로 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) → ResNeXt에서 활용
-- **팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Dilated Convolution)**: DeepLab, WaveNet에서 수용 영역 확장에 사용
+- <strong>깊이별 분리 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Depthwise Separable Convolution)</strong>: MobileNet에서 사용. 채널별로 공간 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 후 1×1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 적용 → 계산량 대폭 감소
+- <strong>그룹 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Group Convolution)</strong>: 채널을 그룹으로 나눠 독립적으로 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) → ResNeXt에서 활용
+- <strong>팽창 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> (Dilated Convolution)</strong>: DeepLab, WaveNet에서 수용 영역 확장에 사용
 
 - **📢 섹션 요약 비유**: [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 1 vs 2는 사진을 찍을 때 매 cm마다 찍느냐, 2 cm마다 찍느냐의 차이다. 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 돋보기로 보이지 않는 먼 곳까지 '공짜로' 더 넓게 보는 방법이다.
 
@@ -147,18 +153,18 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 설계 선택 기준
 
-**[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 선택**:
-- **Same [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)**: U-Net, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 크기 유지가 중요한 구조
-- **Valid [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)**: 정보 손실을 감수하더라도 경계 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)(Boundary [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) 없애고 싶을 때
+<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 선택</strong>:
+- <strong>Same <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a></strong>: U-Net, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 크기 유지가 중요한 구조
+- <strong>Valid <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a></strong>: 정보 손실을 감수하더라도 경계 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)(Boundary [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) 없애고 싶을 때
 
-**[스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 선택**:
-- **[Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1**: 공간 정보 최대 보존 ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·검출 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이어)
-- **[Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대신 다운샘플링 (최근 VGG 이후 트렌드)
-- **[Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=4 이상**: ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 패치 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에서 사용
+<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">스트라이드</a> 선택</strong>:
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=1</strong>: 공간 정보 최대 보존 ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·검출 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 레이어)
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=2</strong>: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대신 다운샘플링 (최근 VGG 이후 트렌드)
+- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a>=4 이상</strong>: ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 패치 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에서 사용
 
-**팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 활용**:
-- **시맨틱 분할 (Semantic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))**: DeepLabV3+에서 다중 팽창률(ASPP, Atrous Spatial Pyramid [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 적용
-- **음성 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Audio Generation)**: WaveNet에서 장거리 의존성 포착
+<strong>팽창 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> 활용</strong>:
+- <strong>시맨틱 분할 (Semantic <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>: DeepLabV3+에서 다중 팽창률(ASPP, Atrous Spatial Pyramid [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 적용
+- <strong>음성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (Audio Generation)</strong>: WaveNet에서 장거리 의존성 포착
 
 ### 기술사 서술 포인트
 
@@ -178,17 +184,19 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 공식 정리 (시험 필수)
 
-```
-┌─────────────────────────────────────────────────────────┐
-│           출력 크기 공식                                 │
-│                                                         │
-│   O = floor( (I - F + 2P) / S ) + 1                    │
-│                                                         │
-│   - 동일 패딩 조건: P = (F-1) / 2  (S=1일 때)          │
-│   - 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)   │
-│     예) F=3, d=2 → F_d = 3 + 2×1 = 5                  │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 크기 공식</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O = floor( (I - F + 2P) / S ) + 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동일 패딩 조건: P = (F-1) / 2 (S=1일 때)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) F=3, d=2 → F_d = 3 + 2×1 = 5</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '특징 탐정'이다. 작은 돋보기(필터)로 이미지 전체를 꼼꼼히([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1) 훑거나 빠르게([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2) 살피고, 가장자리도 놓치지 않으려면 여백([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어 두는 것이다.
 

@@ -8,7 +8,7 @@ tags = ["work"]
 tags = ["work"]
 +++
 
-Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면, **Git 저장소를 백엔드로 사용하는 오픈소스 CMS**입니다.
+Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면, <strong>Git 저장소를 백엔드로 사용하는 오픈소스 CMS</strong>입니다.
 
 관련 문서:
 - [knowledge-pipeline](/knowledge-base/work/knowledge-pipeline/)
@@ -21,7 +21,7 @@ Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면
 
 ## 1. 한 줄 정의
 
-Decap CMS는 **브라우저에서 문서를 수정하면, 그 결과를 별도 DB가 아니라 Git 저장소에 커밋 또는 PR로 반영하는 웹 편집 UI**입니다.
+Decap CMS는 <strong>브라우저에서 문서를 수정하면, 그 결과를 별도 DB가 아니라 Git 저장소에 커밋 또는 PR로 반영하는 웹 편집 UI</strong>입니다.
 
 즉, Notion처럼 자기 DB를 중심으로 돌아가는 SaaS형 CMS가 아닙니다.
 
@@ -45,7 +45,7 @@ Decap CMS는 **브라우저에서 문서를 수정하면, 그 결과를 별도 D
 
 즉, 무거운 서버 애플리케이션을 새로 올리는 느낌보다는,
 
-**정적 사이트 안에 웹 편집 콘솔을 하나 붙이는 방식**에 가깝습니다.
+<strong>정적 사이트 안에 웹 편집 콘솔을 하나 붙이는 방식</strong>에 가깝습니다.
 
 ---
 

@@ -11,8 +11,8 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 기계 독해 (MRC, Machine Reading Comprehension)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간처럼 수백 장짜리 교과서([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 본문)를 쭉 훑어 읽은 뒤, 사용자가 질문(Question)을 던지면 **본문 속에서 정확한 정답이 있는 텍스트 구역의 '시작점과 끝점(Start/End Span)'을 빨간펜으로 쫙 밑줄 그어 발췌(Extraction)**해 내는 고도의 텍스트 추론 아키텍처다.
-> 2. **가치**: 기존 챗봇이 자기가 아는 통계적 지식으로 헛소리([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/))를 뱉었다면, 순수 MRC 모델은 **"오직 주어진 본문 문서 안에서만 정답을 칼같이 잘라내서 대답"**하므로 법률 판례나 사내 매뉴얼 검색처럼 단 한 글자의 거짓말도 용납되지 않는 엔터프라이즈(B2B) 검색 인프라의 완벽한 수호신이다.
+> 1. **본질**: 기계 독해 (MRC, Machine Reading Comprehension)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 인간처럼 수백 장짜리 교과서([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 본문)를 쭉 훑어 읽은 뒤, 사용자가 질문(Question)을 던지면 <strong>본문 속에서 정확한 정답이 있는 텍스트 구역의 '시작점과 끝점(Start/End Span)'을 빨간펜으로 쫙 밑줄 그어 발췌(Extraction)</strong>해 내는 고도의 텍스트 추론 아키텍처다.
+> 2. **가치**: 기존 챗봇이 자기가 아는 통계적 지식으로 헛소리([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/))를 뱉었다면, 순수 MRC 모델은 <strong>"오직 주어진 본문 문서 안에서만 정답을 칼같이 잘라내서 대답"</strong>하므로 법률 판례나 사내 매뉴얼 검색처럼 단 한 글자의 거짓말도 용납되지 않는 엔터프라이즈(B2B) 검색 인프라의 완벽한 수호신이다.
 > 3. **판단 포인트**: 최근 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 문장을 새로 지어내는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))에 왕좌를 넘겨주었으나, 수천억 개 파라미터를 돌릴 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 돈이 없는 가난한 인프라에서는 여전히 3억 개짜리 가벼운 MRC 전용 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 100배 빠른 속도와 압도적 가성비로 팩트 추출(Extraction)의 최전선을 방어하는 1군 백엔드 기술이다.
 
 ---
@@ -21,18 +21,21 @@ tags = ["studynote-ai"]
 
 수십 년간 구글 같은 검색 엔진(Search Engine)은 우리가 질문을 던지면 "이 웹페이지 10개에 네가 찾는 단어가 많이 들어있어"라며 파란색 링크 문서 목록만 던져주고 도망갔다. 결국 수백 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 문서 안에서 진짜 내가 원하는 정답 1줄을 찾는 끔찍한 막일(Reading)은 또다시 사용자의 몫이었다.
 
-이 분노에서 탄생한 것이 **기계 독해 (MRC)**다. "[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)아, 네가 검색된 문서 100장을 다 읽어봐. 그리고 내가 **'스티브 잡스가 창업한 년도가 언제야?'**라고 물어보면, 문서 링크를 주지 말고 문서 3페이지 5번째 줄에 적힌 **'1976년'**이라는 단어 딱 4글자만 형광펜으로 칠해서 나한테 정답으로 뱉어내!"
+이 분노에서 탄생한 것이 <strong>기계 독해 (MRC)</strong>다. "[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)아, 네가 검색된 문서 100장을 다 읽어봐. 그리고 내가 <strong>'스티브 잡스가 창업한 년도가 언제야?'</strong>라고 물어보면, 문서 링크를 주지 말고 문서 3페이지 5번째 줄에 적힌 <strong>'1976년'</strong>이라는 단어 딱 4글자만 형광펜으로 칠해서 나한테 정답으로 뱉어내!"
 
-MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))의 흐름과 인과관계를 인간의 수능 비문학 독해(국어 영역) 수준으로 이해하게 만드는 인지 능력의 퀀텀 점프였다. 이 모델들의 지능을 채점하기 위해 스탠퍼드 대학이 위키백과를 긁어 만든 **SQuAD (Stanford Question Answering Dataset)**라는 수능 모의고사 벤치마크가 등장했고, 인간의 평균 독해 점수(82점)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 90점으로 짓밟아버리며 자연어 처리의 황금기를 열어젖혔다.
+MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))의 흐름과 인과관계를 인간의 수능 비문학 독해(국어 영역) 수준으로 이해하게 만드는 인지 능력의 퀀텀 점프였다. 이 모델들의 지능을 채점하기 위해 스탠퍼드 대학이 위키백과를 긁어 만든 <strong>SQuAD (Stanford Question Answering Dataset)</strong>라는 수능 모의고사 벤치마크가 등장했고, 인간의 평균 독해 점수(82점)를 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 90점으로 짓밟아버리며 자연어 처리의 황금기를 열어젖혔다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 기존 검색 엔진이 도서관 사서다. "공룡 멸종 이유 찾아주세요" 하면 관련 책 10권을 내 책상에 쿵 하고 던져주고 사라진다(책 읽기는 내 몫). MRC [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)은 책을 다 읽은 초천재 비서다. 책 10권을 1초 만에 스캔하더니 책 3권 15페이지 딱 한 줄에 형광펜을 쫙 그어 내밀며 "소행성 충돌 때문입니다"라고 정답의 알맹이만 입에 떠먹여 주는 기적의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
 
@@ -42,29 +45,30 @@ MRC는 딥러닝(NLP)이 단순한 단어 번역기를 넘어, 문맥([Context](
 
 순수 MRC 딥러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 심장부에는 텍스트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Generation)하는 게 아니라, 텍스트의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)표를 찢어서 찾아내는 **Extractive (추출형)** 아키텍처가 박혀 있다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           기계 독해 (MRC)의 정답 밑줄 긋기 (Span Extraction) 수학적 뇌 구조 │
-├──────────────────────────────────────────────────────────────┤
-│  [1. 융합 입력 (Input Formulation)]                            │
-│   * (질문 Question): "이순신이 태어난 해는?"                       │
-│   * (본문 Context) : "조선의 명장 이순신은 한양에서 1545년에 태어났다." │
-│   * 트랜스포머 뇌에 주입: [CLS] 이순신이 태어난 해는? [SEP] 조선의 명장... │
-│                                                              │
-│  [2. 딥러닝 뇌(BERT)의 문맥 파악 연산 (Self-Attention)]            │
-│   * '태어난'이라는 단어 텐서와 '1545년'이라는 단어 텐서가 3차원 우주 공간에서 │
-│     서로 강력하게 달라붙으며(Attention) 강한 문맥적 교집합을 형성함!      │
-│                                                              │
-│  [3. 정답 색출 (Start/End Pointer Network) - 핵심 마법!]         │
-│   * 모델은 말을 지어내지 않음. 오직 본문의 모든 단어 위에 2개의 확률 화살표를 던짐.│
-│   * 화살표 1 (Start): "정답의 시작 단어일 확률은?" ─▶ '1545년' 단어에 99% 확신!│
-│   * 화살표 2 (End): "정답이 끝나는 단어일 확률은?" ─▶ '1545년에' 단어에 99% 확신!│
-│   * 결과 렌더링: 본문에서 딱 [1545년] 부분만 가위로 싹둑 잘라서 유저에게 뱉어냄!│
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기계 독해 (MRC)의 정답 밑줄 긋기 (Span Extraction) 수학적 뇌 구조</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1. 융합 입력 (Input Formulation)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (질문 Question): "이순신이 태어난 해는?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (본문 Context) : "조선의 명장 이순신은 한양에서 1545년에 태어났다."</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 트랜스포머 뇌에 주입:</div><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">이순신이 태어난 해는?</div><div class="kb-diagram-node">SEP</div><div class="kb-diagram-note">조선의 명장...</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2. 딥러닝 뇌(BERT)의 문맥 파악 연산 (Self-Attention)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* '태어난'이라는 단어 텐서와 '1545년'이라는 단어 텐서가 3차원 우주 공간에서</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 강력하게 달라붙으며(Attention) 강한 문맥적 교집합을 형성함!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">3. 정답 색출 (Start/End Pointer Network) - 핵심 마법!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 모델은 말을 지어내지 않음. 오직 본문의 모든 단어 위에 2개의 확률 화살표를 던짐.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 화살표 1 (Start): "정답의 시작 단어일 확률은?" ─▶ '1545년' 단어에 99% 확신!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 화살표 2 (End): "정답이 끝나는 단어일 확률은?" ─▶ '1545년에' 단어에 99% 확신!</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">* 결과 렌더링: 본문에서 딱</div><div class="kb-diagram-node">1545년</div><div class="kb-diagram-note">부분만 가위로 싹둑 잘라서 유저에게 뱉어냄!</div></div>
+</div>
+</div>
+
+
 
 **핵심 원리 (추출형 포인터 네트워크)**:
-챗GPT처럼 말을 유창하게 새로 창조하는(Generative) 방식이 아니라, 주어진 본문 텍스트 1,000자(Token)의 머리 위에 각각 **"네가 정답의 시작점(Start)이냐?"**와 **"네가 정답의 끝점(End)이냐?"**를 묻는 독립적인 두 개의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 뿌린다. 그리고 이 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 뾰족하게 치솟는 구간을 수학적 가위(Span)로 싹둑 오려내는 것이다. 
+챗GPT처럼 말을 유창하게 새로 창조하는(Generative) 방식이 아니라, 주어진 본문 텍스트 1,000자(Token)의 머리 위에 각각 <strong>"네가 정답의 시작점(Start)이냐?"</strong>와 <strong>"네가 정답의 끝점(End)이냐?"</strong>를 묻는 독립적인 두 개의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))를 뿌린다. 그리고 이 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 뾰족하게 치솟는 구간을 수학적 가위(Span)로 싹둑 오려내는 것이다. 
 이 멍청해 보일 정도로 완고한 수식 구조 덕분에, 모델은 본문에 존재하지 않는 단어를 절대 지어낼 수 없으므로 팩트 조작([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)) 방어력이 100%에 달하는 우주 최강의 팩트 체크 방패가 완성된다.
 
 | 요소 | 역할 |
@@ -85,12 +89,12 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 | MRC 아키텍처 분파 | 추출형 기계 독해 (Extractive QA) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 기계 독해 (Generative QA / [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) |
 |:---|:---|:---|
 | **정답을 뱉는 방식** | 본문에 있는 글자를 토씨 하나 안 틀리고 그대로 가위로 오려서 뱉어냄 (Start/End 포인터). | 본문을 읽고 이해한 뒤, 자기만의 새로운 자연스러운 문장으로 요약해서 새로 글을 씀. |
-| **대표적인 딥러닝 모델**| **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)**, RoBERTa, ALBERT ([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 중심 모델) | **[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4**, BART, T5, Llama 3 ([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 중심 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) |
-| **[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)(거짓말)**| **사실상 0%.** 본문에 답이 없으면 "정답 없음(No Answer)"이라고 말할 수 있는 강건함. | **위험함.** 본문에 답이 없는데도 아는 척하며 자기 뇌(파라미터) 찌꺼기 상식으로 거짓말을 지어낼 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 존재. |
+| **대표적인 딥러닝 모델**| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a></strong>, RoBERTa, ALBERT ([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 중심 모델) | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4</strong>, BART, T5, Llama 3 ([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 중심 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/">할루시네이션</a>(거짓말)</strong>| **사실상 0%.** 본문에 답이 없으면 "정답 없음(No Answer)"이라고 말할 수 있는 강건함. | **위험함.** 본문에 답이 없는데도 아는 척하며 자기 뇌(파라미터) 찌꺼기 상식으로 거짓말을 지어낼 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 존재. |
 | **인프라 비용(서버비)** | 1억 개 파라미터 수준. 일반 CPU나 싼 GPU에서도 1초에 1,000명 처리 가능. 가성비 킹. | 1,000억 개 파라미터 수준. 초비싼 H100 서버 도배 필수. 답변 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 병목([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 끔찍함. |
 | **실무 적용 타겟** | 사내 규정 검색, 법률 판례 팩트 체크, 은행 약관 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 답변(B2B) | 고객센터 친절한 챗봇, 블로그 요약, 감성적인 아이디어 브레인스토밍(B2C) |
 
-최근 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 시스템이 세상을 휩쓸고 있지만, 실무 금융권이나 국방 망에서는 RAG의 유창한 거짓말 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 짊어지느니, 답변은 조금 뻣뻣하더라도 100% 팩트 문장만 칼같이 오려주는 **추출형 MRC([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 기반)**를 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 꽂아 넣거나 둘을 하이브리드로 섞어 쓰는(하단 방어막) 아키텍처가 굳건히 살아 숨 쉬고 있다.
+최근 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 시스템이 세상을 휩쓸고 있지만, 실무 금융권이나 국방 망에서는 RAG의 유창한 거짓말 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 짊어지느니, 답변은 조금 뻣뻣하더라도 100% 팩트 문장만 칼같이 오려주는 <strong>추출형 MRC(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> 기반)</strong>를 메인 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 꽂아 넣거나 둘을 하이브리드로 섞어 쓰는(하단 방어막) 아키텍처가 굳건히 살아 숨 쉬고 있다.
 
 - **📢 섹션 요약 비유**: 추출형 MRC([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))는 딱딱하고 융통성 없는 공무원이다. "대출 조건이 뭡니까?" 물어보면 규정집 제3조 2항의 "신용 1등급 이상"이라는 문장을 가위로 오려서 툭 던져주지만 절대 틀린 말은 안 한다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 MRC([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))는 엄청 친절한 영업 사원이다. "고객님, 신용 1등급이시면 어쩌고저쩌고~" 하며 예쁜 말로 포장해 주지만, 가끔 안 되는 대출도 된다고 미친 헛소리([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))를 해서 회사를 소송에 휘말리게 하는 위험한 천재다.
 
@@ -101,8 +105,8 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 수십만 장의 사내 위키(Confluence) PDF 문서를 뒤져서 임직원 질문에 0.1초 만에 대답하는 엔터프라이즈 MRC [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 짤 때, 주니어들이 가장 많이 터트리는 구조적 병목이 있다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. **Retriever-Reader (투-스테이지 쾌속 검색) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 필수 구축**: 10만 장짜리 사내 문서를 통째로 딥러닝 MRC([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 뇌)에 한 번에 다 쑤셔 넣으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리가 즉사하고 대답에 3일이 걸린다. 무조건 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 2개로 찢어야 한다. 1단계(Retriever)에서 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)(BM25)나 가벼운 벡터 DB로 질문과 관련된 "가장 유력한 용의자 문서 딱 5장([Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/))"만 번개처럼 1차로 긁어온다. 2단계(Reader)에서 아주 무겁고 똑똑한 MRC 딥러닝 모델이 그 5장만 현미경으로 딥다이브로 뚫어져라 읽어내어 최종 정답(Span) 1줄을 오려내는 **2-Stage 아키텍처 (검색 + 독해 분리)**가 대용량 실시간 서빙의 유일한 해답이다.
-2. **거절할 줄 아는 용기 (Unanswerable Question) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 세팅**: SQuAD 2.0 벤치마크부터 도입된 가장 끔찍한 난이도다. 유저가 "아인슈타인이 아이폰을 만든 해는?"이라고 본문에 아예 없는 악의적인 질문을 던졌다. 멍청한 MRC는 본문에서 억지로 숫자를 찾아 "1955년"이라고 엉터리로 빨간 줄을 쳐준다. 훈련 시킬 때 반드시 "정답이 없는 함정 질문" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 30% 이상 강제로 섞여 먹여서, 모델이 "이 본문엔 정답이 없습니다(No Answer 클래스)"라고 0점 처리하고 당당하게 대답을 포기하는 회피 기동(Threshold 튜닝)을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 뼛속 깊이 박아 넣어야만 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)을 막는다.
+1. <strong>Retriever-Reader (투-스테이지 쾌속 검색) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 필수 구축</strong>: 10만 장짜리 사내 문서를 통째로 딥러닝 MRC([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 뇌)에 한 번에 다 쑤셔 넣으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리가 즉사하고 대답에 3일이 걸린다. 무조건 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 2개로 찢어야 한다. 1단계(Retriever)에서 [엘라스틱서치](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/)(BM25)나 가벼운 벡터 DB로 질문과 관련된 "가장 유력한 용의자 문서 딱 5장([Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/))"만 번개처럼 1차로 긁어온다. 2단계(Reader)에서 아주 무겁고 똑똑한 MRC 딥러닝 모델이 그 5장만 현미경으로 딥다이브로 뚫어져라 읽어내어 최종 정답(Span) 1줄을 오려내는 <strong>2-Stage 아키텍처 (검색 + 독해 분리)</strong>가 대용량 실시간 서빙의 유일한 해답이다.
+2. <strong>거절할 줄 아는 용기 (Unanswerable Question) <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 세팅</strong>: SQuAD 2.0 벤치마크부터 도입된 가장 끔찍한 난이도다. 유저가 "아인슈타인이 아이폰을 만든 해는?"이라고 본문에 아예 없는 악의적인 질문을 던졌다. 멍청한 MRC는 본문에서 억지로 숫자를 찾아 "1955년"이라고 엉터리로 빨간 줄을 쳐준다. 훈련 시킬 때 반드시 "정답이 없는 함정 질문" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 30% 이상 강제로 섞여 먹여서, 모델이 "이 본문엔 정답이 없습니다(No Answer 클래스)"라고 0점 처리하고 당당하게 대답을 포기하는 회피 기동(Threshold 튜닝)을 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)에 뼛속 깊이 박아 넣어야만 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/)을 막는다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **문서 토큰(Token) 쪼개기 시 문단 허리 절단 버그**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 모델의 뇌 용량은 한 번에 512글자(Token)밖에 못 읽는다. 1만 글자짜리 PDF를 넣으려면 512글자씩 깍두기 썰듯 잘라야 한다. 이때 코딩을 대충 짜서 512글자 위치에서 문장의 허리를 두 동강 내버리면("나는 어제 사과를 먹 / 었다"), 정답이 딱 잘린 부위에 걸쳐 있을 경우 MRC 뇌가 맥락을 잃고 붕괴한다. 무조건 깍두기를 썰 때 앞뒤 문단이 50글자씩 겹치게(Overlap/[Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 슬라이딩 윈도우로 안전하게 비스듬히 썰어 겹쳐서 모델 입에 밀어 넣어주는 전처리 방어벽이 필수다.
@@ -113,7 +117,7 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 
 ## Ⅴ. 기대효과 및 결론
 
-기계 독해(MRC)의 성취는 컴퓨터가 단순히 글자를 기계적으로 매칭(검색)하던 원시 시대에서 벗어나, 문맥의 숨겨진 의미와 인과관계를 인간의 수능 시험처럼 입체적으로 파악하는 **'인지적 문해력(Reading Comprehension)'**의 1차 임계점을 돌파한 위대한 역사적 마일스톤이다.
+기계 독해(MRC)의 성취는 컴퓨터가 단순히 글자를 기계적으로 매칭(검색)하던 원시 시대에서 벗어나, 문맥의 숨겨진 의미와 인과관계를 인간의 수능 시험처럼 입체적으로 파악하는 <strong>'인지적 문해력(Reading Comprehension)'</strong>의 1차 임계점을 돌파한 위대한 역사적 마일스톤이다.
 
 비록 창의적인 글짓기 능력은 거대 언어 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))에게 왕좌를 내어주었지만, MRC의 뼈대였던 어텐션(Attention) 기반의 토큰 매핑 수학과 2-Stage 검색-독해(Retriever-Reader) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처는 고스란히 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/)) 시스템의 척추뼈로 이식되어 살아 숨 쉬고 있다.
 
@@ -127,10 +131,10 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **SQuAD (스탠퍼드 질의응답 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋)** | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 독해력을 인간 고3 수험생 수준과 비교하기 위해 만든 전 세계에서 가장 유명한 영어 시험지 벤치마크. 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가의 절대 기준 |
-| **[BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) (Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations)** | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 앞단([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))만 떼어내 만든 모델로, 문맥을 양방향으로 미친 듯이 정밀하게 읽어내어 추출형 MRC 시장의 생태계를 평정한 황제 딥러닝 뇌 |
-| **Retriever-Reader [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인** | 10만 장 문서에서 거칠게 5장만 대충 긁어오는 놈(Retriever)과, 그 5장을 돋보기로 파헤쳐서 정답 1줄을 뽑아내는 놈(Reader)이 융합된 실무 대용량 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 검색 아키텍처 |
-| **[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))** | MRC의 "찾아내기" 기술과 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 "말 지어내기" 기술을 섞어, 팩트를 찾은 뒤 예쁜 말로 포장해서 뱉어주는 현대 챗봇 시스템의 완전체 융합 |
+| <strong>SQuAD (스탠퍼드 질의응답 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>셋)</strong> | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 독해력을 인간 고3 수험생 수준과 비교하기 위해 만든 전 세계에서 가장 유명한 영어 시험지 벤치마크. 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가의 절대 기준 |
+| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/">BERT</a> (Bidirectional <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a> Representations)</strong> | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 앞단([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))만 떼어내 만든 모델로, 문맥을 양방향으로 미친 듯이 정밀하게 읽어내어 추출형 MRC 시장의 생태계를 평정한 황제 딥러닝 뇌 |
+| <strong>Retriever-Reader <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인</strong> | 10만 장 문서에서 거칠게 5장만 대충 긁어오는 놈(Retriever)과, 그 5장을 돋보기로 파헤쳐서 정답 1줄을 뽑아내는 놈(Reader)이 융합된 실무 대용량 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 검색 아키텍처 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/">검색 증강 생성</a>)</strong> | MRC의 "찾아내기" 기술과 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 "말 지어내기" 기술을 섞어, 팩트를 찾은 뒤 예쁜 말로 포장해서 뱉어주는 현대 챗봇 시스템의 완전체 융합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +144,7 @@ MRC의 패러다임은 고객의 니즈에 따라 팩트 추출(Extractive) 방�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 기계 독해(MRC)는 100장짜리 두꺼운 동화책을 통째로 꿀꺽 삼킨 다음, 우리가 궁금한 걸 물어보면 대답해 주는 **'슈퍼 스피드 독서 천재 로봇'**이에요.
+1. 기계 독해(MRC)는 100장짜리 두꺼운 동화책을 통째로 꿀꺽 삼킨 다음, 우리가 궁금한 걸 물어보면 대답해 주는 <strong>'슈퍼 스피드 독서 천재 로봇'</strong>이에요.
 2. 옛날 검색 로봇은 "주인공 이름 어딨어?" 물으면 "3페이지랑 5페이지에 이름 비슷해 보이는 글자 있어!" 하고 책만 툭 던져주고 도망갔어요.
 3. 하지만 MRC 로봇은 책을 쫙 스캔하더니 3페이지 5번째 줄의 **[백설 공주] 딱 네 글자에만 시뻘건 형광펜을 쫙 쳐서** 정답만 우리 입에 쏙 넣어주는 최고의 비서랍니다!
 

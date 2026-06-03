@@ -103,21 +103,23 @@ Bayes는 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_pro
 
 ### 관련 키워드 및 발전 흐름도
 
-```text
-prior
-  │
-  ▼
-evidence
-  │
-  ▼
-likelihood
-  │
-  ▼
-normalization
-  │
-  ▼
-posterior
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">prior</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">evidence</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">likelihood</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">normalization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">posterior</div>
+</div>
+</div>
+
+
 
 ### 어린이를 위한 3줄 비유 설명
 

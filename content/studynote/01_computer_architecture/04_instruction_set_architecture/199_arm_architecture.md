@@ -35,28 +35,22 @@ ARM의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/
 
 다음 그림은 ARM 코어가 왜 전력 효율적인지 보여준다. 복잡한 메모리-직접 연산을 줄이고, 규칙적인 해독과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심 실행으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정돈한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│                 ARM 코어의 기본 실행 흐름과 병목 분리                    │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 명령어 Fetch                                                            │
-│      │                                                                  │
-│      ▼                                                                  │
-│ 규칙적 Decode ─────▶ 레지스터 파일 (Register File)                       │
-│      │                              │                                    │
-│      │                              ├───────▶ ALU (Arithmetic Logic Unit)│
-│      │                              │                 │                  │
-│      │                              │                 ▼                  │
-│      │                              │            결과 레지스터 갱신       │
-│      │                              │                                    │
-│      └──────────────────────────────┴───────▶ LSU (Load/Store Unit)      │
-│                                                        │                  │
-│                                                        ▼                  │
-│                                                 캐시/메모리 접근          │
-├──────────────────────────────────────────────────────────────────────────┤
-│ 핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리               │
-└──────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM 코어의 기본 실행 흐름과 병목 분리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 Fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙적 Decode ▶ 레지스터 파일 (Register File)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ALU (Arithmetic Logic Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 레지스터 갱신</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ LSU (Load/Store Unit)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시/메모리 접근</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리</div></div>
+</div>
+</div>
+
+
 
 | 요소 | ARM에서의 의미 | 설계상 효과 |
 | :--- | :--- | :--- |
@@ -99,7 +93,7 @@ ARM 내부에서도 AArch32 (32-bit ARM Execution [State](/knowledge-base/studyn
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **전력 예산이 엄격한가**: 스마트폰, 차량용 제어기, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) (Internet of Things) 장비처럼 와트 단위 관리가 핵심이면 ARM 우선 검토 가치가 높다.
-2. **[SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 통합이 중요한가**: CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 보안 모듈을 한 칩에 묶어야 하면 ARM 생태계가 강하다.
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/">SoC</a> 통합이 중요한가</strong>: CPU, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 보안 모듈을 한 칩에 묶어야 하면 ARM 생태계가 강하다.
 3. **소프트웨어 이식성이 확보되는가**: 컴파일러, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 패키지의 ARM 지원 상태를 먼저 확인해야 한다.
 4. **메모리 모델과 정렬 이슈를 이해하는가**: x86 전제의 코드, 특히 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)·배리어·구조체 정렬 가정은 ARM 포팅 시 오류 원인이 되기 쉽다.
 
@@ -139,24 +133,25 @@ ARM 아키텍처의 가장 큰 효과는 제한된 전력과 면적 안에서 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Acorn의 저전력 RISC 설계
-    │
-    ▼
-ARM ISA 정착 · 로드/스토어 구조 확산
-    │
-    ▼
-Thumb / Thumb-2로 코드 밀도 개선
-    │
-    ▼
-AArch64 도입 · 모바일을 넘어 서버 확장
-    │
-    ▼
-big.LITTLE · NEON · SoC 통합 고도화
-    │
-    ▼
-클라우드 ARM 서버 · 고성능 노트북 · AI 결합형 플랫폼
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Acorn의 저전력 RISC 설계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ARM ISA 정착 · 로드/스토어 구조 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Thumb / Thumb-2로 코드 밀도 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">AArch64 도입 · 모바일을 넘어 서버 확장</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">big.LITTLE · NEON · SoC 통합 고도화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 ARM 서버 · 고성능 노트북 · AI 결합형 플랫폼</div>
+</div>
+</div>
+
+
 
 이 흐름은 ARM이 "저전력 임베디드 코어"에서 출발해, 코드 밀도 개선과 64비트 전환을 거쳐 범용 컴퓨팅 플랫폼으로 확장된 과정을 보여준다.
 

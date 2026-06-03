@@ -25,47 +25,34 @@ tags = ["algorithm_stats"]
 
 > 이 도식은 분할 정복의 3단계 절차를 보여준다.
 
-```text
-[분할 정복 (Divide and Conquer) 3단계]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ ┌─────────────────────────────────────────┐ │
-│ │ 분할 정복 3단계 │ │
-│ └─────────────────────────────────────────┘ │
-│ │
-│ ┌───────────────┐ │
-│ │ 1. DIVIDE │ ← 큰 문제를 작게 분할 │
-│ │ 분할 │ (입력을 같은 크기의 │
-│ └───────┬───────┘ 부분문제로 분할) │
-│ │ │
-│ ▼ │
-│ ┌───────────────┐ │
-│ │ 2. CONQUER │ ← 각 부분문제를 재귀적 해결 │
-│ │ 정복 │ (부분문제 충분히 작으면 │
-│ └───────┬───────┘ 직접 해결 = 기저사례) │
-│ │ │
-│ ▼ │
-│ ┌───────────────┐ │
-│ │ 3. COMBINE │ ← 하위 문제의 해를 결합 │
-│ │ 결합 │ (부분해들을 통합하여 │
-│ └───────────────┘ 전체 해 구성) │
-│ │
-│ [합병 정렬로 이해하기] │
-│ ──────────────────── │
-│ Divide: [5, 2, 8, 1, 9] → [5, 2, 8] + [1, 9] │
-│ 더 작게 분할 → [5, 2] + [8] + [1] + [9] │
-│ → [5] + [2] + [8] + [1] + [9] │
-│ │
-│ Conquer: 각 조각을 정렬 │
-│ [2, 5] + [1, 8] + [9] │
-│ → [1, 2, 5, 8, 9] (합병) │
-│ │
-│ Combine: [2, 5] + [1, 8] 합병 → [1, 2, 5, 8] │
-│ [1, 2, 5, 8] + [9] 합병 → [1, 2, 5, 8, 9] │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 (Divide and Conquer) 3단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할 정복 3단계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DIVIDE</div><div class="kb-diagram-cell">← 큰 문제를 작게 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할</div><div class="kb-diagram-cell">(입력을 같은 크기의</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분문제로 분할)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CONQUER</div><div class="kb-diagram-cell">← 각 부분문제를 재귀적 해결</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정복</div><div class="kb-diagram-cell">(부분문제 충분히 작으면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 해결 = 기저사례)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. COMBINE</div><div class="kb-diagram-cell">← 하위 문제의 해를 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합</div><div class="kb-diagram-cell">(부분해들을 통합하여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 해 구성)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬로 이해하기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Divide:</div><div class="kb-diagram-node">5, 2, 8, 1, 9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5, 2, 8</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">1, 9</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5, 2</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">9</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">9</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conquer: 각 조각을 정렬</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2, 5</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">1, 8</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">9</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 5, 8, 9</div><div class="kb-diagram-note">(합병)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Combine:</div><div class="kb-diagram-node">2, 5</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">1, 8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 5, 8</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">1, 2, 5, 8</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 5, 8, 9</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 분할 정복의 핵심은 하위 문제들이 서로 독립적(Independent)이라는 것이다. 서로Overlap되면 비효율적이거나 중복 계산이 발생한다.
 - **원인**: 독립적인 하위 문제들은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀어도 서로하지 않아 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화도 가능하다.
@@ -78,44 +65,36 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 **[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Recurrence [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))**로 표현되고, 이를 해석하는 대표적 방법이 **마스터 정리(Master Theorem)**이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)란 T(N) = aT(N/b) + f(N)에서와 같이 문제 크기 N을 b로 나누어 a개의 하위 문제로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀고, 그 결과를 결합하는 데 f(N)의 비용이 드는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식을 말한다. 예를 들어 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 T(N) = 2T(N/2) + O(N)인데, 이는 두 개의 N/2 크기 하위 문제로 분할하고 결합에 O(N)이 든다는 것을 의미한다.
+분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Recurrence <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>로 표현되고, 이를 해석하는 대표적 방법이 <strong>마스터 정리(Master Theorem)</strong>이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)란 T(N) = aT(N/b) + f(N)에서와 같이 문제 크기 N을 b로 나누어 a개의 하위 문제로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀고, 그 결과를 결합하는 데 f(N)의 비용이 드는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식을 말한다. 예를 들어 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 T(N) = 2T(N/2) + O(N)인데, 이는 두 개의 N/2 크기 하위 문제로 분할하고 결합에 O(N)이 든다는 것을 의미한다.
 
 마스터 정리에 따르면, f(N)과 N^{log_b a}를 비교하여 복잡도가 결정된다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 a=2, b=2이므로 N^{log₂²} = N^1 = N이고, f(N) = N이므로 f(N) = Θ(N^{log_b a} · log⁰N) = Θ(N log⁰N) = Θ(N)이므로 T(N) = Θ(N log N)이다.
 
-```text
-[마스터 정리 (Master Theorem) 적용]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ 재귀 관계: T(N) = aT(N/b) + f(N) │
-│ │
-│ ├── f(N) = O(N^{log_b a - ε}) → T(N) = Θ(N^{log_b a})
-│ ├── f(N) = Θ(N^{log_b a}) → T(N) = Θ(N^{log_b a} log N)
-│ └── f(N) = Ω(N^{log_b a + ε}) → T(N) = Θ(f(N)) │
-│ (증명 조건 필요) │
-│ │
-│ [합병 정렬 적용] │
-│ ──────────────────── │
-│ T(N) = 2T(N/2) + N │
-│ │
-│ a = 2, b = 2, f(N) = N │
-│ N^{log_b a} = N^{log_2 2} = N^1 = N │
-│ │
-│ f(N) = Θ(N^{log_b a}) = Θ(N) │
-│ → T(N) = Θ(N^{log_b a} log N) = Θ(N log N) │
-│ │
-│ [퀵 정렬 (평균) 적용] │
-│ ──────────────────── │
-│ T(N) = 2T(N/2) + N (피벗이 항상 중앙에 위치) │
-│ → Θ(N log N) (합병 정렬과 동일) │
-│ │
-│ [퀵 정렬 (최악) 적용] │
-│ ──────────────────── │
-│ T(N) = T(N-1) + N (피벗이 항상 최솟값/최댓값) │
-│ → Θ(N²) │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 정리 (Master Theorem) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀 관계: T(N) = aT(N/b) + f(N)</div></div>
+<div class="kb-diagram-note">── f(N) = O(N^{log_b a - ε}) → T(N) = Θ(N^{log_b a})</div>
+<div class="kb-diagram-note">── f(N) = Θ(N^{log_b a}) → T(N) = Θ(N^{log_b a} log N)</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── f(N) = Ω(N^{log_b a + ε}) → T(N) = Θ(f(N))</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(증명 조건 필요)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T(N) = 2T(N/2) + N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a = 2, b = 2, f(N) = N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N^{log_b a} = N^{log_2 2} = N^1 = N</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(N) = Θ(N^{log_b a}) = Θ(N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ T(N) = Θ(N^{log_b a} log N) = Θ(N log N)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (평균) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T(N) = 2T(N/2) + N (피벗이 항상 중앙에 위치)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Θ(N log N) (합병 정렬과 동일)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (최악) 적용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T(N) = T(N-1) + N (피벗이 항상 최솟값/최댓값)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Θ(N²)</div></div>
+</div>
+</div>
+
+
 
 - **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N²)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
 - **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택의 운에 따라 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
@@ -128,44 +107,36 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-분할 정복의 대표적 사례는 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)), Strassen 행렬 곱셈이다. **[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)**은 분할 정복의 가장 단순한 형태로, 정렬된 배열에서 목표 값을 찾을 때 중앙을 기준으로 반을 버리고 나머지 반에서만 계속 탐색한다.
+분할 정복의 대표적 사례는 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)), Strassen 행렬 곱셈이다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a></strong>은 분할 정복의 가장 단순한 형태로, 정렬된 배열에서 목표 값을 찾을 때 중앙을 기준으로 반을 버리고 나머지 반에서만 계속 탐색한다.
 
-**실무 구현 시 주의사항**은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을하지 말아야 한다.
+<strong>실무 구현 시 주의사항</strong>은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을하지 말아야 한다.
 
-```text
-[분할 정복 구현 패턴]
 
-┌──────────────────────────────────────────────────────┐
-│ │
-│ [전형적 분할 정복 의사코드] │
-│ ──────────────────── │
-│ function DAC(input, left, right): │
-│ if left >= right: // 기저 사례: 원소 1개 │
-│ return │
-│ │
-│ mid = (left + right) // 2 // 분할 │
-│ │
-│ DAC(input, left, mid) // 정복: 좌측 │
-│ DAC(input, mid+1, right) // 정복: 우측 │
-│ │
-│ combine(input, left, mid, right) // 결합 │
-│ │
-│ [고속 푸리에 변환 (FFT) - O(N log N)] │
-│ ──────────────────── │
-│ A(x) = A_even(x²) + x · A_odd(x²) │
-│ A_even: 짝수 계수, A_odd: 홀수 계수 │
-│ │
-│ F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합 │
-│ → O(N log N)에 가능 │
-│ │
-│ [Strassen 행렬 곱셈 - O(N^2.81)] │
-│ ──────────────────── │
-│ 일반: 8번의 + 4번의 결합 = O(N³) │
-│ Strassen: 7번의 (특별한 곱셈) + 결합 = O(N^2.81)│
-│ → 상수 계수 개선 (8→7) but 복잡한 구현 │
-│ │
-└──────────────────────────────────────────────────────┘
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 구현 패턴</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">전형적 분할 정복 의사코드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function DAC(input, left, right):</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if left &gt;= right: // 기저 사례: 원소 1개</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mid = (left + right) // 2 // 분할</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAC(input, left, mid) // 정복: 좌측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAC(input, mid+1, right) // 정복: 우측</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">combine(input, left, mid, right) // 결합</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">고속 푸리에 변환 (FFT) - O(N log N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A(x) = A_even(x²) + x · A_odd(x²)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A_even: 짝수 계수, A_odd: 홀수 계수</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F(A) = F(A_even) ∪ F(A_odd)로 분할 후 결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ O(N log N)에 가능</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Strassen 행렬 곱셈 - O(N^2.81)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반: 8번의 + 4번의 결합 = O(N³)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strassen: 7번의 (특별한 곱셈) + 결합 = O(N^2.81)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 상수 계수 개선 (8→7) but 복잡한 구현</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 분할 정복은 물류 창고의 물품을 정리하는 것과 같습니다. 전체 창고의 물품을 한 사람이 정리하면 N의 시간이 들지만, 4개의 구역으로 나눠 각 담당에게 동시에 정리하게 하면(분할), 각 구역 정리 후 합치면(결합) 총 처리 시간이 1/4로 줄어듭니다.
 
@@ -173,9 +144,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-분할 정복의 품질 관리는 **[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이 관리**, **기저 사례 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**, **결합 로직 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)**이 핵심이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 깊어지면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우가 발생할 수 있으므로, N이 큰 경우 반드시 반복적 구현이나 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 사용을 고려해야 한다.
+분할 정복의 품질 관리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 깊이 관리</strong>, <strong>기저 사례 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>, <strong>결합 로직 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이 핵심이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 깊어지면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우가 발생할 수 있으므로, N이 큰 경우 반드시 반복적 구현이나 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 사용을 고려해야 한다.
 
-**품질 관리 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)**는 다음과 같다. 기저 사례(Base Case)가 모든 가능한 입력 경로에서 도달 가능한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 분할이 균형(Balanced)된 경우와 불균형(Unbalanced)된 경우를 모두 테스트해야 한다. 결합(Combine) 로직이 정확한지 수학적 불변량(Invariant)을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 기저 사례(Base Case)가 모든 가능한 입력 경로에서 도달 가능한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 분할이 균형(Balanced)된 경우와 불균형(Unbalanced)된 경우를 모두 테스트해야 한다. 결합(Combine) 로직이 정확한지 수학적 불변량(Invariant)을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 📢 **섹션 요약 비유**: 분할 정복의 품질 관리는 대형 building 시공와 같습니다. 기초(기저 사례)가 부실하면 building 전체가 흔들리고, 공사 팀(하위 문제) 간 조율(결합)이 없으면building이합니다.
 
@@ -183,7 +154,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-분할 정복의 최신 동향은 **[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분할 정복(Parallel Divide and Conquer)**와 **[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 분할 정복**이다. 멀티코어 CPU와 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 활용하면, 분할된 하위 문제들을 동시에 처리하여 이론적 시간 복잡도보다 훨씬 빠르게 실행할 수 있다. 또한 **Akka, Spark** 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 기반이 되는 것이 바로 분할 정복 아이디어이다.
+분할 정복의 최신 동향은 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 분할 정복(Parallel Divide and Conquer)</strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 가속 분할 정복</strong>이다. 멀티코어 CPU와 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 활용하면, 분할된 하위 문제들을 동시에 처리하여 이론적 시간 복잡도보다 훨씬 빠르게 실행할 수 있다. 또한 **Akka, Spark** 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 기반이 되는 것이 바로 분할 정복 아이디어이다.
 
 분할 정복은 컴퓨팅의 가장 기초적인 설계 패러다임 중 하나이다. 이 패러다임을 이해하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/), Strassen 등 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 원리를 직관적으로 이해할 수 있게 된다. 기술사 시험에서도 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 도출, 마스터 정리 적용, 분할 정복 vs [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 구분 등이 빈번하게 출제된다.
 
@@ -193,70 +164,61 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-```text
-[분할 정복 (Divide and Conquer) 핵심 개념 맵]
 
-┌─────────────────────────────────┐
-│ 분할 정복 (Divide and Conquer) │
-└────────────────┬────────────────┘
-│
-┌───────────────────┼───────────────────┐
-│ │ │
-▼ ▼ ▼
-┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-│ 1. DIVIDE │ │ 2. CONQUER │ │ 3. COMBINE │
-│ 분할 │ │ 정복 │ │ 결합 │
-├──────────────┤ ├──────────────┤ ├──────────────┤
-│ 입력 분할 │ │ 재귀적 해결 │ │ 부분해 통합 │
-│ 입력 크기 N │ │ T(N)=aT(N/b) │ │ f(N) 비용 │
-│ N/b sized × a│ │ 기저 사례 │ │ │
-└──────────────┘ └──────────────┘ └──────────────┘
-│ │ │
-└───────────────────┴────────────────────┘
-│
-▼
-┌─────────────────────────────────┐
-│ 대표 알고리즘 (Representatives) │
-├─────────────────────────────────┤
-│ 합병 정렬: T(N)=2T(N/2)+O(N) │
-│ 퀵 정렬: T(N)=2T(N/2)+O(N) │
-│ FFT: T(N)=2T(N/2)+O(N) │
-│ 이진 탐색: T(N)=T(N/2)+O(1) │
-│ Strassen: O(N^2.81) │
-└─────────────────────────────────┘
 
-[분할 정복 vs 동적 프로그래밍]
-- 공통점: 하위 문제 분할 + 재귀
-- 차이점: DP는 하위 문제 중복(OVERLAP) → 메모이제이션
-DC는 하위 문제 독립(INDEPENDENT) → 중복 없음
-```
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 (Divide and Conquer) 핵심 개념 맵</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할 정복 (Divide and Conquer)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DIVIDE</div><div class="kb-diagram-cell">2. CONQUER</div><div class="kb-diagram-cell">3. COMBINE</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할</div><div class="kb-diagram-cell">정복</div><div class="kb-diagram-cell">결합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 분할</div><div class="kb-diagram-cell">재귀적 해결</div><div class="kb-diagram-cell">부분해 통합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 크기 N</div><div class="kb-diagram-cell">T(N)=aT(N/b)</div><div class="kb-diagram-cell">f(N) 비용</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N/b sized × a</div><div class="kb-diagram-cell">기저 사례</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 알고리즘 (Representatives)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합병 정렬: T(N)=2T(N/2)+O(N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퀵 정렬: T(N)=2T(N/2)+O(N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FFT: T(N)=2T(N/2)+O(N)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이진 탐색: T(N)=T(N/2)+O(1)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strassen: O(N^2.81)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 vs 동적 프로그래밍</div></div>
+<div class="kb-diagram-tree-item" style="--depth:0">공통점: 하위 문제 분할 + 재귀</div>
+<div class="kb-diagram-tree-item" style="--depth:0">차이점: DP는 하위 문제 중복(OVERLAP) → 메모이제이션</div>
+<div class="kb-diagram-note">DC는 하위 문제 독립(INDEPENDENT) → 중복 없음</div>
+</div>
+</div>
+
+
 
 
 ### 📌 관련 개념 맵
 
 - **분할 정복 (Divide and Conquer)**
-- **[합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/) ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))**
-- **[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))**
-- **[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) ([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))**
-- **점화식 (Recurrence [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))**
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">합병 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">Merge Sort</a>)</strong>
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">Quick Sort</a>)</strong>
+- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">Binary Search</a>)</strong>
+- <strong>점화식 (Recurrence <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[분할 정복 (Divide and Conquer)]
-│
-▼
-[합병 정렬 (Merge Sort)]
-│
-▼
-[퀵 정렬 (Quick Sort)]
-│
-▼
-[이진 탐색 (Binary Search)]
-│
-▼
-[점화식 (Recurrence Relation)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 (Divide and Conquer)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합병 정렬 (Merge Sort)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (Quick Sort)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 (Binary Search)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">점화식 (Recurrence Relation)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 분할 정복 (Divide and Conquer)에서 출발해 점화식 (Recurrence [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -19,8 +19,8 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-> 1. **ëì**: ëìí ìììë(Disk Scheduling)ì ìì êì íëììê ëìì íëëìíì êê ëë ìì(ëë)ë êìëëê I/O ììì ëê ììë ë, **ììììê ì ììëì í([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))ì ëì ë íëìì ëë(Head)ì ëëì ìë ëìì 1mmëë ìë ì ìëë ììë ìëì(Sorting)íë ìëì êíìë êì**ìë.
-> 2. **êì**: êì ëêê ëìí êêì ëì **'íì ìê([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))'ì ììí**íê, ëëìë ìê ìì ëìíë ìì í ìë **ëìíì ìì ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ê ììí êëëì êëí**íë êì ìì ìëì ëíë.
+> 1. **ëì**: ëìí ìììë(Disk Scheduling)ì ìì êì íëììê ëìì íëëìíì êê ëë ìì(ëë)ë êìëëê I/O ììì ëê ììë ë, <strong>ììììê ì ììëì í(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)ì ëì ë íëìì ëë(Head)ì ëëì ìë ëìì 1mmëë ìë ì ìëë ììë ìëì(Sorting)íë ìëì êíìë êì</strong>ìë.
+> 2. **êì**: êì ëêê ëìí êêì ëì <strong>'íì ìê(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>)'ì ììí</strong>íê, ëëìë ìê ìì ëìíë ìì í ìë <strong>ëìíì ìì ìëë(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)ê ììí êëëì êëí</strong>íë êì ìì ìëì ëíë.
 > 3. **ìí(íê)**: ëìí ëìë ìëëë êìì ìë ììì íì ëìëíë êì íì([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))ì ëìíëë, ìì OSë íìì(ëì ììí)ê êíì(Fairness) ìììì ìíêë íë **C-SCANìë CFQ êì íìëëë ìêëììë ìí ìí**íë.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -30,7 +30,7 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **êë**: ììììì ëë I/O ëìì ììë `I/O ìììë`ëë ìíêì ì ìë. ì 3êê `ëë 10ë`, `ëë 1000ë`, `ëë 20ë`ì ììëëê íì ëìë. ëë(ëìí)ë ëìì ììëë 10ë -> 1000ë -> 20ë ììë ëëì ëëêíë ìëë. ìììëë ì ëëì êëìì `10ë -> 20ë -> 1000ë` ììë ì ììëí ìë. ëëì í ëíìë ìëìíê ììíë ìì ìê ëëë ììí ëììë.
-- **íìì**: CPUë ëì ìëë êìì ëìê I/O ìì ìë êë 1ì ëì íì ëìëëë. íìë íëëìíë ëëì í ë ì~ íê ìììëë ëë 8ëëìê êëë. ëì ëëì 1ë íëê 1ë ë íëì íê ìë ìë êë íëë? ëë ìììë ëë ìêì ë êê, ìì ëìíë ìì ìëë ìêì 1%ë ì ëë **'ëìí ìëì(Disk [Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))'** ììì íììë. "ìëêë ì ëìíê ëêì ìëìë(ëë)ê íêìíì ìê ëìì ìëíê ììì!"ëë ìëíì ìììëì ìì ììë.
+- **íìì**: CPUë ëì ìëë êìì ëìê I/O ìì ìë êë 1ì ëì íì ëìëëë. íìë íëëìíë ëëì í ë ì~ íê ìììëë ëë 8ëëìê êëë. ëì ëëì 1ë íëê 1ë ë íëì íê ìë ìë êë íëë? ëë ìììë ëë ìêì ë êê, ìì ëìíë ìì ìëë ìêì 1%ë ì ëë <strong>'ëìí ìëì(Disk <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)'</strong> ììì íììë. "ìëêë ì ëìíê ëêì ìëìë(ëë)ê íêìíì ìê ëìì ìëíê ììì!"ëë ìëíì ìììëì ìì ììë.
 - **ð ëì**: ëìí ìììëì **íë êìëì ìëí ëì ëí ìê**ì êë. êëê, ëìê, ìíêìì íë ìì ëììë 100ê ëììë. ìë êì(ìììë ìì)ë ìì ëìì ìê ììëë êë êëê ëì êëê ëì êë êë ëë ìì íëë íëì 10ê ëëíê ëìëëë(íì ìê ëë). ëíë êì(I/O ìììë)ë ììì ì 100êë ìëë ì íëê, êë -> ìí -> ëììë í ëì ì íê ìëêë ììì ëì(ìëëìí ìêëì)ì ìë. ëìì ìììë êëê(ìëíë)ì ìêìê íëì 100ê([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì ë ìë ì ìë.
 
 - **ëì ëê ë OSì ììë**:
@@ -73,11 +73,11 @@ tags = ["studynote-operating-system"]
 
 ìììì ìììëë íì ëìëë ë ëë íëë ìëë. 
 
-1. **íì ìê([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) ììí = ìì ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) êëí**
+1. <strong>íì ìê(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a>) ììí = ìì ìëë(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) êëí</strong>
    - **ìë**: êì ëëì ììì ê, ìê ë ëë ìììì ìì êêì ëëí ìì ìëíë ê ìì ìêë íìììë. ìë ëì ëëê ìì ìììë.
    - **ëìì**: êêì ëë ìêë ëë, 100ë ë íë êìì ìë ììì ìëë ìë êëëë íì ëëì ìì ìëë. ììí íìì ììë í ëì íëëì íëë.
 
-2. **êíì (Fairness) ëì = êì ìí([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) ëì**
+2. <strong>êíì (Fairness) ëì = êì ìí(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) ëì</strong>
    - **ìë**: êìì ëíìë ëíë, ëë ìë êëë ëì ëìíëê ëìê êì ìëí ìì íë. ìë ìêì êë([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))ì ììë êìë.
    - **ëìì**: ì ëë ìë ë íë ìëíìêëê ëëì ëêë ëêì ìêì íë. ëëì ìëíë ìê ëì ëìíë ìë ëìíë ë í ëëëë ìì ììí íì([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì ë ëììë.
 
@@ -105,7 +105,7 @@ tags = ["studynote-operating-system"]
 | ëê ìë | CPU ìììë (ëê ìììë) | ëìí I/O ìììë (ëë ëìì) |
 |:---|:---|:---|
 | **êë ëì** | ëëì 0/1 ìííìì ìëë (ììêì êì êë) | **ëêê ëë êêì ëë ëë(Head)** |
-| **ììì ëí** | ìì ìëì([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))ê êíì (íì íí) | **êêì ëì ëë ìì ([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) ììí)** |
+| **ììì ëí** | ìì ìëì([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))ê êíì (íì íí) | <strong>êêì ëì ëë ìì (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/">Seek Time</a> ììí)</strong> |
 | **ìì(Preemption)** | íë ì ëê ëì ìë 0.001ì ëì êì êë | í ë ëë ìììê ììíë **ìë ìì ëêë** |
 | **ìì ìêëì** | Round-Robin, [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) | SCAN (ìëëìí), CFQ (ìì êí íì) |
 
@@ -145,8 +145,8 @@ tags = ["studynote-operating-system"]
    - ëëì OSê ìë ëë ë ëëê [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ìììë `CFQ(ìëëìí)` ìììëë ëëë. 
    - ëìì ììì ëíììë ììê ì ìë(Sorting)íëë ììí CPU ììë íëê 0.1ì ëì ëëìë.
    - êëë ìì SSDë ììê ìëëë ëìëììë ìëê ëêìë! ìììëì ìë ëêëê ìëí **íìê(Overhead)**ê ëìëëë.
-4. **ììëìì ìí (`noop / none`)**:
-   - ìëìëì SSDê ëë ìëìì OS ëë ìììëë **`noop` (No [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/), ìë ìë ì íê ëìì ëë ìì ëê)**ìë ëêëëë.
+4. <strong>ììëìì ìí (<code>noop / none</code>)</strong>:
+   - ìëìëì SSDê ëë ìëìì OS ëë ìììëë <strong><code>noop</code> (No <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>, ìë ìë ì íê ëìì ëë ìì ëê)</strong>ìë ëêëëë.
    - ìë ììì ì íë CPUê ëëíìê, ììë IOPSê êëë SSDì êíë ëì ìëíë.
    - ëëì êê íì ìëì íë ìë íêìì êìì ëìí ìììëì 'ëì'ì ìë ê ìëì ëíê ìì ììë íì ììë.
 
@@ -159,8 +159,8 @@ tags = ["studynote-operating-system"]
 | êë | ëì |
 |:---|:---|
 | **íëìì ìë(Wear) ìì** | ëììë íë ëëì êëì/êìêë ëê í ëíìë ëëëê íê ëëì, íëëìí ììììí ëíì ëëì ëëìì êììë êì |
-| **ìëë([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) êëí**| ëìíê êì ìííë [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)(8ms) ëëë ìëì íí 1ms ìíë ììíì ìë ìê/ìê ìëì ìë íììí |
-| **[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) ëì**| êíìì êëí ëëëì([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) ìêëìì íí, êìì ëí íììëë 1ì ììë ëìê ìëì ëê íì ììí ëì ëì |
+| <strong>ìëë(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>) êëí</strong>| ëìíê êì ìííë [Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)(8ms) ëëë ìëì íí 1ms ìíë ììíì ìë ìê/ìê ìëì ìë íììí |
+| <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>) ëì</strong>| êíìì êëí ëëëì([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) ìêëìì íí, êìì ëí íììëë 1ì ììë ëìê ìëì ëê íì ììí ëì ëì |
 
 ### êë ë ëë ìë
 
@@ -197,15 +197,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
-    │
-    ▼
-[디스크 스케줄링 (Disk Scheduling) 목적]
-    │
-    ├──▶ [FCFS (First-Come, First-Served) 스케줄링]
-    └──▶ [SSTF (Shortest Seek Time First)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

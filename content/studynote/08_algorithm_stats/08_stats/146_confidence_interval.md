@@ -19,9 +19,9 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. 신뢰 구간의 정의와 구성
 
-**신뢰 구간 ([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))**: 모수 θ의 추정치와 불확실성을 구간으로 표현.
+<strong>신뢰 구간 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Interval, <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>)</strong>: 모수 θ의 추정치와 불확실성을 구간으로 표현.
 
-**95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 공식 (σ 알 때)**:
+<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 공식 (σ 알 때)</strong>:
 
 ```
 CI = x̄ ± z_{α/2} · (σ/√n)
@@ -30,7 +30,7 @@ z_{0.025} = 1.96 (양측 95% CI)
 z_{0.005} = 2.576 (양측 99% CI)
 ```
 
-**95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 공식 (σ 모를 때, t-분포 사용)**:
+<strong>95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 공식 (σ 모를 때, t-분포 사용)</strong>:
 
 ```
 CI = x̄ ± t_{α/2, n-1} · (s/√n)
@@ -46,18 +46,23 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 
 **95% CI의 올바른 해석 예시**:
 
-```
-100번 반복 실험 시 신뢰 구간 시각화:
 
-실험  1: ├────────•────────┤ ← 모수 포함 ✅
-실험  2:     ├────────•────────┤ ✅
-실험  3: ├──────•──────┤ ✅
-실험  4:               ├────•────┤ ❌ (모수 미포함)
-실험  5:         ├────────•────────┤ ✅
-...
-약 95개의 구간이 모수 μ를 포함 ─────│──────
-                                    ↑ 모수 μ (고정값)
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">100번 반복 실험 시 신뢰 구간 시각화:</div>
+<div class="kb-diagram-note">실험 1: • ← 모수 포함 ✅</div>
+<div class="kb-diagram-note">실험 2: • ✅</div>
+<div class="kb-diagram-note">실험 3: • ✅</div>
+<div class="kb-diagram-note">실험 4: • ❌ (모수 미포함)</div>
+<div class="kb-diagram-note">실험 5: • ✅</div>
+<div class="kb-diagram-note">...</div>
+<div class="kb-diagram-note">약 95개의 구간이 모수 μ를 포함 │</div>
+<div class="kb-diagram-note">↑ 모수 μ (고정값)</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 신뢰 구간은 "낚시 그물의 크기"와 같다. 그물을 100번 던지면 약 95번은 물고기(모수)를 잡는다 — 물고기가 그물 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%가 아니라, 그물을 던지는 방법이 95% 성공률을 보장하는 것이다.
 
@@ -65,9 +70,9 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 
 ## Ⅱ. 학생 t-분포와 소표본 보정
 
-**학생 t-분포 (Student t-Distribution)**는 영국 통계학자 윌리엄 고셋(W.S. Gosset)이 맥주 품질 관리를 위해 개발 (필명 "Student").
+<strong>학생 t-분포 (Student t-Distribution)</strong>는 영국 통계학자 윌리엄 고셋(W.S. Gosset)이 맥주 품질 관리를 위해 개발 (필명 "Student").
 
-**t-분포 vs [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)**:
+<strong>t-분포 vs <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a></strong>:
 
 | 특성 | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) N(0,1) | t-분포 t(df) |
 |:---|:---:|:---:|
@@ -76,7 +81,7 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 | df = ∞ | — | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/)로 수렴 |
 | df = 1 | — | 코시 분포 (가장 두꺼운 꼬리) |
 
-꼬리가 두꺼운 이유: σ를 모르고 s로 추정하는 **추가적 불확실성**을 반영.
+꼬리가 두꺼운 이유: σ를 모르고 s로 추정하는 <strong>추가적 불확실성</strong>을 반영.
 
 **자유도 (Degrees of Freedom, df)**:
 - 단일 표본: df = n - 1
@@ -92,7 +97,7 @@ df가 커질수록 t-분포는 [정규 분포](/knowledge-base/studynote/08_algo
 
 ## Ⅲ. 신뢰 구간 폭과 표본 크기
 
-**신뢰 구간 폭과 표본 크기의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**:
+<strong>신뢰 구간 폭과 표본 크기의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>:
 
 ```
 폭 = 2 × z_{α/2} × σ/√n
@@ -106,7 +111,7 @@ df가 커질수록 t-분포는 [정규 분포](/knowledge-base/studynote/08_algo
 n = (z_{α/2} · σ / MoE)²
 ```
 
-**표본 크기별 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 변화**:
+<strong>표본 크기별 95% <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 폭 변화</strong>:
 
 | n | 상대적 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭 | 설명 |
 |:---:|:---:|:---|
@@ -117,17 +122,20 @@ n = (z_{α/2} · σ / MoE)²
 
 **핵심 법칙**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(폭)를 k배 높이려면 표본 크기를 k²배 늘려야 한다.
 
-```
-┌──────────────────────────────────────────────┐
-│         표본 크기와 CI 폭의 관계               │
-├──────┬───────────────────────────────────────┤
-│ n=10 │ ├──────────────────────────────────┤  │
-│ n=25 │     ├──────────────────────┤         │
-│ n=100│          ├──────────┤                │
-│ n=400│               ├─────┤               │
-└──────┴───────────────────────────────────────┘
-              x̄ 중심
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표본 크기와 CI 폭의 관계</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=10</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=25</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=100</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=400</div></div>
+<div class="kb-diagram-note">x̄ 중심</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭이 반으로 줄어 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상에는 제곱 비용이 든다.
 
@@ -135,14 +143,14 @@ n = (z_{α/2} · σ / MoE)²
 
 ## Ⅳ. 부트스트랩 신뢰 구간
 
-**부트스트랩 신뢰 구간 (Bootstrap [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Interval)**은 비모수적(Non-Parametric) 방법으로, 분포 가정 없이 CI를 추정한다.
+<strong>부트스트랩 신뢰 구간 (Bootstrap <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Interval)</strong>은 비모수적(Non-Parametric) 방법으로, 분포 가정 없이 CI를 추정한다.
 
 **절차**:
 1. 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(n개)에서 복원 추출([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) with Replacement)로 B개 부트스트랩 표본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 2. 각 표본에서 통계량(평균, 중앙값 등) 계산 → {θ̂*₁, ..., θ̂*_B}
 3. 이 B개 통계량의 경험적 분포로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 구성
 
-**방법별 부트스트랩 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)**:
+<strong>방법별 부트스트랩 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong>:
 - **백분위수(Percentile) 방법**: θ̂*의 2.5%, 97.5% 분위수
 - **BCa (Bias-Corrected and Accelerated)**: 편향과 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/) 보정, 가장 정확
 
@@ -165,14 +173,14 @@ CI가 0을 포함하면 → 통계적으로 유의미한 차이 없음
 CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 **임상 시험 (Clinical Trial)**: 새 약품의 효과 크기 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
-- 규제 기관(FDA)은 단순 p-값이 아닌 **효과 크기의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)** 요구
+- 규제 기관(FDA)은 단순 p-값이 아닌 <strong>효과 크기의 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a></strong> 요구
 - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 하한이 최소 임상 유의 차이(MCID)를 초과해야 승인
 
 **선거 여론 조사**:
 - "A 후보 지지율 48% ± 3.5% (95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))"
 - MoE = 3.5%이면 n ≈ 784명 (σ_p = 0.5 가정)
 
-**z-분포 vs t-분포 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 비교**:
+<strong>z-분포 vs t-분포 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a> 비교</strong>:
 
 | 조건 | 사용 분포 | 95% [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 임계값 |
 |:---|:---:|:---:|
@@ -200,24 +208,25 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[점 추정 (Point Estimation) — 표본 통계량 하나로 모수 추정, 불확실성 미표현]
-    │
-    ▼
-[신뢰 구간 (Confidence Interval) — 표본 분포 기반 모수의 범위 추정]
-    │
-    ▼
-[t-분포 (Student's t-Distribution) — 소표본 신뢰 구간, 자유도에 따른 폭 조정]
-    │
-    ▼
-[부트스트랩 신뢰 구간 (Bootstrap CI) — 재표본 시뮬레이션, 분포 가정 없이 구간 추정]
-    │
-    ▼
-[베이즈 신용 구간 (Bayesian Credible Interval) — 사전 분포 반영, 사후 확률 직접 해석]
-    │
-    ▼
-[A/B 테스트 신뢰 구간 — 실험 설계·표본 크기 계산·통계적 유의성 판단의 실무 표준]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">점 추정 (Point Estimation) — 표본 통계량 하나로 모수 추정, 불확실성 미표현</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰 구간 (Confidence Interval) — 표본 분포 기반 모수의 범위 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">t-분포 (Student's t-Distribution) — 소표본 신뢰 구간, 자유도에 따른 폭 조정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">부트스트랩 신뢰 구간 (Bootstrap CI) — 재표본 시뮬레이션, 분포 가정 없이 구간 추정</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 신용 구간 (Bayesian Credible Interval) — 사전 분포 반영, 사후 확률 직접 해석</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">A/B 테스트 신뢰 구간 — 실험 설계·표본 크기 계산·통계적 유의성 판단의 실무 표준</div></div>
+</div>
+</div>
+
+
 이 흐름은 단일 점 추정의 한계를 보완하기 위해 신뢰 구간이 도입되고, 소표본·비정규·사전 정보 반영 요건에 따라 다양한 구간 추정 기법으로 확장되는 통계적 추론 방법론의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

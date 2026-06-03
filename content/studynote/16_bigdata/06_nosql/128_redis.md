@@ -32,7 +32,7 @@ tags = ["studynote-bigdata"]
 | **Sorted Set (ZSet)** | ZADD/ZRANGE/ZRANK | O(log N) | 실시간 리더보드, 순위 |
 | **Bitmap** | SETBIT/BITCOUNT | O(1)/O(N) | 일별 출석 체크 |
 | **HyperLogLog** | PFADD/PFCOUNT | O(1) | 근사 카디널리티(UV 측정) |
-| **[Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)** | XADD/XREAD | O(1) | 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 대체 |
+| <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a></strong> | XADD/XREAD | O(1) | 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 대체 |
 
 📢 **섹션 요약 비유**
 > Redis는 스위스 아미 나이프와 같다. 단순한 캐시(칼날)를 기본으로, 상황에 따라 큐(가위)·순위표(톱)·Pub/Sub(코르크 오프너) 등 다양한 도구를 꺼내 쓸 수 있다. 하지만 모든 도구를 동시에 쓰려 하면 오히려 복잡해진다.
@@ -43,65 +43,65 @@ tags = ["studynote-bigdata"]
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│              Redis 처리 모델 (단일 스레드 이벤트 루프)       │
-│                                                         │
-│  Client 1 ──┐                                           │
-│  Client 2 ──┤──→ [소켓 큐] ──→ [이벤트 루프] ──→ 응답    │
-│  Client 3 ──┘       (epoll)    (단일 스레드)             │
-│                                                         │
-│  * 컨텍스트 스위칭 없음 → 초저지연                          │
-│  * 명령은 원자적으로 순차 처리 → 레이스 컨디션 없음             │
-│  * I/O 스레드(Redis 6.0+): 네트워크 I/O 병렬화             │
-└─────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis 처리 모델 (단일 스레드 이벤트 루프)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client 1 ──</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">소켓 큐</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">이벤트 루프</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">응답</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client 3 ── (epoll) (단일 스레드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컨텍스트 스위칭 없음 → 초저지연</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 명령은 원자적으로 순차 처리 → 레이스 컨디션 없음</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* I/O 스레드(Redis 6.0+): 네트워크 I/O 병렬화</div></div>
+</div>
+</div>
+
+
 
 ### [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(Persistence) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-```text
-┌───────────────────────────────────────────────────────────┐
-│                 Redis 영속성 메커니즘                        │
-│                                                           │
-│  ┌─────────────────┐      ┌─────────────────────────────┐ │
-│  │  RDB (Snapshot) │      │  AOF (Append-Only File)     │ │
-│  │                 │      │                             │ │
-│  │  주기적 fork()  │      │  모든 쓰기 명령을 로그 파일에  │ │
-│  │  → 전체 메모리  │      │  순차 추가 (fsync 정책 선택)  │ │
-│  │    직렬화       │      │                             │ │
-│  │                 │      │  always: 매 명령 fsync      │ │
-│  │  장점: 빠른 복구│      │  everysec: 1초마다 (기본)    │ │
-│  │  단점: 데이터   │      │  no: OS에 위임              │ │
-│  │    손실 가능    │      │                             │ │
-│  │  (마지막 스냅샷 │      │  장점: 데이터 손실 최소화     │ │
-│  │   이후 소실)   │      │  단점: 파일 크기 증가, 재시작  │ │
-│  │                 │      │        시간 증가             │ │
-│  └─────────────────┘      └─────────────────────────────┘ │
-│                                                           │
-│  권장: RDB + AOF 혼합 (Hybrid Persistence)                │
-│  → 빠른 복구 + 최소 데이터 손실                             │
-└───────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis 영속성 메커니즘</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDB (Snapshot)</div><div class="kb-diagram-cell">AOF (Append-Only File)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기적 fork()</div><div class="kb-diagram-cell">모든 쓰기 명령을 로그 파일에</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 메모리</div><div class="kb-diagram-cell">순차 추가 (fsync 정책 선택)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직렬화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">always: 매 명령 fsync</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 빠른 복구</div><div class="kb-diagram-cell">everysec: 1초마다 (기본)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 데이터</div><div class="kb-diagram-cell">no: OS에 위임</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 가능</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(마지막 스냅샷</div><div class="kb-diagram-cell">장점: 데이터 손실 최소화</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후 소실)</div><div class="kb-diagram-cell">단점: 파일 크기 증가, 재시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 증가</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권장: RDB + AOF 혼합 (Hybrid Persistence)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 빠른 복구 + 최소 데이터 손실</div></div>
+</div>
+</div>
+
+
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) Cluster 구조
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│           Redis Cluster (수평 확장)                       │
-│                                                          │
-│  Hash Slots: 0 ~ 16383 (총 16384개)                      │
-│                                                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
-│  │  Master 1    │  │  Master 2    │  │  Master 3    │   │
-│  │  Slot 0~5460 │  │ Slot 5461~   │  │ Slot 10923~  │   │
-│  │              │  │   10922      │  │   16383      │   │
-│  │  Replica 1   │  │  Replica 2   │  │  Replica 3   │   │
-│  └──────────────┘  └──────────────┘  └──────────────┘   │
-│                                                          │
-│  CRC16(key) % 16384 → 슬롯 번호 → 담당 마스터 노드         │
-│  클라이언트: MOVED 리다이렉션으로 올바른 노드로 라우팅         │
-└──────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis Cluster (수평 확장)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash Slots: 0 ~ 16383 (총 16384개)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master 1</div><div class="kb-diagram-cell">Master 2</div><div class="kb-diagram-cell">Master 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 0~5460</div><div class="kb-diagram-cell">Slot 5461~</div><div class="kb-diagram-cell">Slot 10923~</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10922</div><div class="kb-diagram-cell">16383</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replica 1</div><div class="kb-diagram-cell">Replica 2</div><div class="kb-diagram-cell">Replica 3</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRC16(key) % 16384 → 슬롯 번호 → 담당 마스터 노드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트: MOVED 리다이렉션으로 올바른 노드로 라우팅</div></div>
+</div>
+</div>
+
+
 
 ### [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/): MULTI/EXEC
 
@@ -133,14 +133,19 @@ tags = ["studynote-bigdata"]
 
 ### Pub/Sub [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 패턴
 
-```text
-Publisher ──→ Channel "news:sports" ──→ Subscriber A
-                                   ──→ Subscriber B
-                                   ──→ Subscriber C
 
-* 메시지 보장 없음(Fire-and-forget)
-* 영속성 필요 시 Redis Stream 사용 권장
-```
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Publisher ──→ Channel "news:sports" ──→ Subscriber A</div>
+<div class="kb-diagram-tree-item" style="--depth:8">→ Subscriber B</div>
+<div class="kb-diagram-tree-item" style="--depth:8">→ Subscriber C</div>
+<div class="kb-diagram-note">* 메시지 보장 없음(Fire-and-forget)</div>
+<div class="kb-diagram-note">* 영속성 필요 시 Redis Stream 사용 권장</div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**
 > Redis와 Memcached의 차이는 만능 슈퍼마켓([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))과 편의점(Memcached)의 차이와 같다. 편의점은 빠르고 단순하지만 취급 품목이 한정적이다. 슈퍼마켓은 거의 모든 것을 구할 수 있지만, 단순한 우유 한 팩만 사러 가기에는 약간 과한 느낌이다.
@@ -162,19 +167,22 @@ Publisher ──→ Channel "news:sports" ──→ Subscriber A
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 포인트
 
-```text
-⚠️ Redis 운영 시 주의 사항:
 
-1. KEYS * 명령 금지 → SCAN 0 COUNT 100 MATCH "prefix:*" 사용
-   (KEYS는 단일 스레드를 블로킹하여 전체 서비스 지연)
 
-2. Big Key 방지 → Hash/Set 아이템 수 10,000개 이하 권장
-   (1개의 큰 키 삭제 시 UNLINK로 비동기 삭제)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">⚠️ Redis 운영 시 주의 사항:</div>
+<div class="kb-diagram-note">1. KEYS * 명령 금지 → SCAN 0 COUNT 100 MATCH "prefix:*" 사용</div>
+<div class="kb-diagram-note">(KEYS는 단일 스레드를 블로킹하여 전체 서비스 지연)</div>
+<div class="kb-diagram-note">2. Big Key 방지 → Hash/Set 아이템 수 10,000개 이하 권장</div>
+<div class="kb-diagram-note">(1개의 큰 키 삭제 시 UNLINK로 비동기 삭제)</div>
+<div class="kb-diagram-note">3. 메모리 정책 설정 → maxmemory-policy</div>
+<div class="kb-diagram-note">allkeys-lru: 캐시 용도</div>
+<div class="kb-diagram-note">noeviction: 데이터 손실 불허 시</div>
+</div>
+</div>
 
-3. 메모리 정책 설정 → maxmemory-policy
-   allkeys-lru: 캐시 용도
-   noeviction: 데이터 손실 불허 시
-```
+
 
 📢 **섹션 요약 비유**
 > Redis의 `KEYS *` 명령은 도서관 사서가 모든 책을 하나하나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하느라 다른 손님을 못 받는 것과 같다. `SCAN`은 조금씩 나눠서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하니 다른 손님도 동시에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)할 수 있다. 실무에서 `KEYS *`는 절대 금지어다.
@@ -193,7 +201,7 @@ Publisher ──→ Channel "news:sports" ──→ Subscriber A
 | TPS | 3,000 | 180,000 |
 
 ### 결론
-Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 자리잡았다. 단순 캐시 레이어를 넘어 실시간 분석·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징·[세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/)·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금·이벤트 스트리밍까지 단일 인프라로 처리할 수 있다. 기술사 시험에서는 **자료구조 선택 근거**, **[영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정 기준**, **클러스터 슬롯 분배 원리**가 핵심 논점이다.
+Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 자리잡았다. 단순 캐시 레이어를 넘어 실시간 분석·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징·[세션 관리](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/)·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 잠금·이벤트 스트리밍까지 단일 인프라로 처리할 수 있다. 기술사 시험에서는 **자료구조 선택 근거**, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/">영속성</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 결정 기준</strong>, <strong>클러스터 슬롯 분배 원리</strong>가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
 > Redis를 도입한 아키텍처는 도서관 앞에 짧은 대출 기간의 회전서가를 설치한 것과 같다. 자주 빌리는 책(인기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 회전서가([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))에서 즉시 집어가고, 오래된 자료(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 깊숙한 창고(RDBMS)에서 꺼낸다. 덕분에 대부분의 방문객(요청)이 창고까지 가지 않아도 된다.
@@ -212,18 +220,21 @@ Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[인메모리 (In-Memory)]
-    │
-    ▼
-[Redis (Redis)]
-    │
-    ▼
-[키-값 저장소 (Key-Value Store)]
-    │
-    ▼
-[캐싱 (Caching)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">인메모리 (In-Memory)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Redis (Redis)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">키-값 저장소 (Key-Value Store)</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">캐싱 (Caching)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 인메모리 특성이 Redis의 [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)와 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 구조로 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

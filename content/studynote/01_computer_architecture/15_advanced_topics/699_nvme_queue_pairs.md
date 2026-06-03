@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-플래시 기반 SSD는 내부에 여러 채널과 다이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 활용할 수 있지만, 오래된 저장장치 인터페이스는 이를 충분히 살리지 못했다. AHCI는 원래 하드디스크 중심 시대에 설계되어 **하나의 명령 큐와 최대 32개 깊이**만 제공했다. CPU 코어 수가 많고 입출력 (Input/Output, I/O) 요청이 폭발하는 서버 환경에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이 단일 큐를 함께 만지게 되어 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)과 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용이 커진다.
+플래시 기반 SSD는 내부에 여러 채널과 다이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 활용할 수 있지만, 오래된 저장장치 인터페이스는 이를 충분히 살리지 못했다. AHCI는 원래 하드디스크 중심 시대에 설계되어 <strong>하나의 명령 큐와 최대 32개 깊이</strong>만 제공했다. CPU 코어 수가 많고 입출력 (Input/Output, I/O) 요청이 폭발하는 서버 환경에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이 단일 큐를 함께 만지게 되어 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)과 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용이 커진다.
 
 NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철학은 "장치가 빠르니 큐도 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이어야 한다"는 것이다. 즉 저장장치가 병목이 아니라 소프트웨어 경로와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용이 병목이 되는 시대에 맞춰, 큐 자체를 멀티코어 친화적으로 다시 설계한 것이다.
 
@@ -43,25 +43,23 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 아래 그림은 큐 쌍이 코어별 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 끌어내는지를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                NVMe queue pairs: parallel paths per core            │
-├──────────────────────────────────────────────────────────────────────┤
-│ CPU Core 0 ──▶ SQ0 ──▶ Doorbell0 ──┐                                │
-│                ▲        │           │                                │
-│                └── CQ0 ◀┘           │                                │
-│                                      ▼                               │
-│ CPU Core 1 ──▶ SQ1 ──▶ Doorbell1 ──┐ NVMe Controller ──▶ flash media  │
-│                ▲        │           │                                │
-│                └── CQ1 ◀┘           │                                │
-│                                      ▼                               │
-│ CPU Core N ──▶ SQN ──▶ DoorbellN ──┘                                │
-│                ▲                                                    │
-│                └── CQN ◀──── completion via MSI-X or polling        │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-즉 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 단순히 큐 개수를 늘린 것이 아니라, **호스트 멀티코어 구조와 저장장치 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 맞물리게 만든 인터페이스 계약**이다. 그래서 드라이버와 애플리케이션이 이를 제대로 활용할 때 IOPS (Input/Output Operations Per Second)와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 함께 개선된다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe queue pairs: parallel paths per core</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 0 ──▶ SQ0 ──▶ Doorbell0 ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQ0 ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 1 ──▶ SQ1 ──▶ Doorbell1 ── NVMe Controller ──▶ flash media</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQ1 ◀</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core N ──▶ SQN ──▶ DoorbellN ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQN ◀ completion via MSI-X or polling</div></div>
+</div>
+</div>
+
+
+
+즉 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 단순히 큐 개수를 늘린 것이 아니라, <strong>호스트 멀티코어 구조와 저장장치 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 맞물리게 만든 인터페이스 계약</strong>이다. 그래서 드라이버와 애플리케이션이 이를 제대로 활용할 때 IOPS (Input/Output Operations Per Second)와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 함께 개선된다.
 
 - **📢 섹션 요약 비유**: [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 각 택배 기사에게 자기 전용 적재함과 수령함을 따로 배정한 것과 같다. 서로 같은 함을 뒤지지 않으니 싸움이 줄고 배송 흐름이 훨씬 빨라진다.
 
@@ -79,7 +77,7 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 | CPU 점유 | 낮은 편 | 중간 | 높음 |
 | 적합한 환경 | 범용 클라이언트 저장장치 | 대부분의 서버 워크로드 | 극저지연 전용 코어 환경 |
 
-이 비교에서 중요한 연결점이 하나 더 있다. 큐 쌍은 **명령을 어떤 경로로 보낼지**에 관한 구조이고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 **어떤 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 저장공간을 접근할지**에 관한 구조다. 즉 큐 쌍과 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 경쟁 관계가 아니라 서로 다른 차원의 설계 요소다.
+이 비교에서 중요한 연결점이 하나 더 있다. 큐 쌍은 <strong>명령을 어떤 경로로 보낼지</strong>에 관한 구조이고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 <strong>어떤 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 저장공간을 접근할지</strong>에 관한 구조다. 즉 큐 쌍과 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 경쟁 관계가 아니라 서로 다른 차원의 설계 요소다.
 
 - **📢 섹션 요약 비유**: AHCI가 한 창구에서 번호표를 부르는 은행이라면, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방식은 창구를 많이 둔 은행이고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 특별 고객이 아예 창구 앞에서 자기 번호가 뜨기만 기다리는 방식이다. 빠르지만 전담 인력이 필요하다.
 
@@ -87,7 +85,7 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 큐 쌍을 "많이 만들수록 좋다"고 단순화하면 안 된다. 중요한 것은 **코어, 큐, 메모리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 배치 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)**이다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서는 코어별 또는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 그룹별로 큐를 분리하고, 가능한 한 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리와 장치 경로를 쓰게 해야 메모리 원격 접근 비용을 줄일 수 있다.
+실무에서는 큐 쌍을 "많이 만들수록 좋다"고 단순화하면 안 된다. 중요한 것은 <strong>코어, 큐, 메모리, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 배치 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 서버에서는 코어별 또는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 그룹별로 큐를 분리하고, 가능한 한 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리와 장치 경로를 쓰게 해야 메모리 원격 접근 비용을 줄일 수 있다.
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -103,7 +101,7 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 - [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 경계를 무시해 원격 메모리와 원격 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 섞어 쓰는 구성
 - 극저지연이 필요하지 않은데도 과도한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)으로 CPU 코어를 낭비하는 구성
 
-기술사 관점에서 큐 쌍은 "빠른 SSD의 부속 기능"이 아니라, **저장장치 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 시스템 소프트웨어가 받아들이는 핵심 접점**이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 분석할 때는 장치 사양만 보지 말고 큐 매핑과 완료 처리 방식까지 같이 봐야 한다.
+기술사 관점에서 큐 쌍은 "빠른 SSD의 부속 기능"이 아니라, <strong>저장장치 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 시스템 소프트웨어가 받아들이는 핵심 접점</strong>이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 분석할 때는 장치 사양만 보지 말고 큐 매핑과 완료 처리 방식까지 같이 봐야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 주방은 냄비를 많이 사는 것만으로 완성되지 않는다. 요리사마다 작업대와 재료 동선을 잘 배치해야 진짜 속도가 난다. [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍도 바로 그 작업대 배치에 해당한다.
 
@@ -111,9 +109,9 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 ## Ⅴ. 기대효과 및 결론
 
-[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 SSD의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 호스트가 제대로 활용하게 만들어, 높은 IOPS와 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 노릴 수 있게 했다. 멀티코어 서버, 대규모 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 고성능 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집약형 시스템에서 이 구조의 효과는 특히 크다. 즉 NVMe의 혁신은 낸드 플래시 자체뿐 아니라, **호스트-장치 인터페이스를 멀티코어 시대에 맞게 재설계한 것**에 있다.
+[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 SSD의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 호스트가 제대로 활용하게 만들어, 높은 IOPS와 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 노릴 수 있게 했다. 멀티코어 서버, 대규모 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 고성능 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집약형 시스템에서 이 구조의 효과는 특히 크다. 즉 NVMe의 혁신은 낸드 플래시 자체뿐 아니라, <strong>호스트-장치 인터페이스를 멀티코어 시대에 맞게 재설계한 것</strong>에 있다.
 
-다만 큐 쌍은 만능이 아니다. 큐 수가 많아질수록 메모리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 소프트웨어 관리 비용도 커지며, 잘못 배치하면 오히려 캐시 오염과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동이 생긴다. 따라서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 "수많은 문"이 아니라 **워크로드에 맞게 설계된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 입출력 경로**로 기억해야 한다.
+다만 큐 쌍은 만능이 아니다. 큐 수가 많아질수록 메모리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 소프트웨어 관리 비용도 커지며, 잘못 배치하면 오히려 캐시 오염과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동이 생긴다. 따라서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 "수많은 문"이 아니라 <strong>워크로드에 맞게 설계된 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 입출력 경로</strong>로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 큐 쌍은 고속도로의 톨게이트를 무한히 늘린 것이 아니라, 차종과 목적지에 맞게 차선을 잘 분리한 설계다. 차선이 많아도 안내가 엉망이면 막히고, 잘 맞추면 놀랄 만큼 부드럽게 흐른다.
 
@@ -131,21 +129,24 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-AHCI (Advanced Host Controller Interface)
-    : 단일 큐, 깊이 32
-    │
-    ▼
-NVMe (Non-Volatile Memory Express)
-    : 다중 Queue Pair 기반 병렬 I/O
-    │
-    ├──▶ MSI-X (Message Signaled Interrupts eXtended)
-    │     : 완료 통지 분산
-    │
-    ▼
-SPDK (Storage Performance Development Kit) · Polling
-    : 사용자 공간 저지연 최적화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">AHCI (Advanced Host Controller Interface)</div>
+<div class="kb-diagram-note">: 단일 큐, 깊이 32</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">NVMe (Non-Volatile Memory Express)</div>
+<div class="kb-diagram-note">: 다중 Queue Pair 기반 병렬 I/O</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ MSI-X (Message Signaled Interrupts eXtended)</div>
+<div class="kb-diagram-note">: 완료 통지 분산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SPDK (Storage Performance Development Kit) · Polling</div>
+<div class="kb-diagram-note">: 사용자 공간 저지연 최적화</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,9 +19,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-수십 년간 운영된 거대한 모놀리식(Monolithic) 시스템을 최신 클라우드 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경으로 옮기는 작업은 기업의 생사가 걸린 프로젝트다. 과거에는 새 시스템을 완벽히 다 지을 때까지 몇 년을 기다린 후, D-Day 자정에 구형 서버의 전원을 끄고 신형 서버를 켜는 **빅뱅 방식(Big Bang Rewrite)**을 썼다. 하지만 이 방식은 숨겨진 버그로 인해 오픈 첫날 시스템이 멈추는 대형 사고를 수없이 만들어냈다.
+수십 년간 운영된 거대한 모놀리식(Monolithic) 시스템을 최신 클라우드 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경으로 옮기는 작업은 기업의 생사가 걸린 프로젝트다. 과거에는 새 시스템을 완벽히 다 지을 때까지 몇 년을 기다린 후, D-Day 자정에 구형 서버의 전원을 끄고 신형 서버를 켜는 <strong>빅뱅 방식(Big Bang Rewrite)</strong>을 썼다. 하지만 이 방식은 숨겨진 버그로 인해 오픈 첫날 시스템이 멈추는 대형 사고를 수없이 만들어냈다.
 
-마틴 파울러(Martin Fowler)는 호주 여행 중, 숙주 나무를 감싸고 자라면서 서서히 숙주를 죽이고(Strangle) 자신이 그 자리를 대체하는 '스트랭글러 무화과나무([Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) Tree)'를 보고 영감을 얻었다. 시스템 개편 역시 **새로운 덩굴([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))을 하나씩 자라게 하여, 낡은 나무(레거시)를 천천히, 그러나 확실하게 덮어버리자**는 것이 스트랭글러 패턴의 핵심이다.
+마틴 파울러(Martin Fowler)는 호주 여행 중, 숙주 나무를 감싸고 자라면서 서서히 숙주를 죽이고(Strangle) 자신이 그 자리를 대체하는 '스트랭글러 무화과나무([Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/) Tree)'를 보고 영감을 얻었다. 시스템 개편 역시 <strong>새로운 덩굴(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a>)을 하나씩 자라게 하여, 낡은 나무(레거시)를 천천히, 그러나 확실하게 덮어버리자</strong>는 것이 스트랭글러 패턴의 핵심이다.
 
 - **📢 섹션 요약 비유**: 낡은 다리를 부수고 옆에 새 다리를 짓는 동안 차가 못 다니게 하는 것(빅뱅)이 아니라, 낡은 다리의 기둥을 하나씩 몰래 새 기둥으로 교체하여 운전자들은 공사 중인지도 모르게 새 다리를 완성하는 마법이다.
 
@@ -29,18 +29,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 스트랭글러 패턴 레거시 분할의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  스트랭글러 패턴 레거시 분할                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트랭글러 패턴 레거시 분할</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 스트랭글러 패턴 레거시 분할가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -52,7 +51,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스트랭글러 패턴은 **파사드([Facade](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/)) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)**를 통한 점진적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환이 핵심 원리다.
+스트랭글러 패턴은 <strong>파사드(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">Facade</a>) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a></strong>를 통한 점진적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환이 핵심 원리다.
 
 - **📢 섹션 요약 비유**: 스트랭글러 패턴 레거시 분할은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -76,7 +75,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | **Big Bang** | D-Day를 정해 한 번에 스위칭 | **매우 높음** | 레거시 코드가 너무 엉망이라 도저히 분리할 수 없을 때 |
 | **Strangler** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 통한 점진적 기능 교체 | **낮음** | URL 기반으로 기능([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이 명확히 쪼개질 수 있을 때 |
-| **Branch by [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)**| 코드 내부의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층(인터페이스)을 통한 점진적 교체 | 낮음 | 레거시 시스템 내부에서 같은 DB와 프로세스를 공유해야 할 때 |
+| <strong>Branch by <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a></strong>| 코드 내부의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층(인터페이스)을 통한 점진적 교체 | 낮음 | 레거시 시스템 내부에서 같은 DB와 프로세스를 공유해야 할 때 |
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 두고 네트워크(URL) 수준에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 쪼개면 스트랭글러 패턴이고, 거대한 레거시 코드 뭉치 '내부'에서 인터페이스를 만들어 새 코드로 분기시키면 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 분기(Branch by [Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 패턴이다.
 
@@ -92,7 +91,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 패턴이 교과서처럼 아름답게 작동하려면 **[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 분리**라는 가장 거대한 장벽을 넘어야 한다.
+이 패턴이 교과서처럼 아름답게 작동하려면 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 분리</strong>라는 가장 거대한 장벽을 넘어야 한다.
 
 - **📢 섹션 요약 비유**: 스트랭글러 패턴 레거시 분할은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -129,21 +128,23 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-스트랭글러 패턴 레거시 분할 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">스트랭글러 패턴 레거시 분할 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

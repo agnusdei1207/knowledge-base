@@ -11,9 +11,9 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 응답 시간 (Response Time)은 요청이 들어온 순간부터 사용자가 결과를 받기까지의 **전체 경과 시간**이며, CPU (Central Processing Unit) 실행 시간만이 아니라 대기와 입출력까지 모두 포함한다.
+> 1. **본질**: 응답 시간 (Response Time)은 요청이 들어온 순간부터 사용자가 결과를 받기까지의 <strong>전체 경과 시간</strong>이며, CPU (Central Processing Unit) 실행 시간만이 아니라 대기와 입출력까지 모두 포함한다.
 > 2. **가치**: 시스템은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 높아도 응답 시간이 길면 느리게 체감되므로, 인터랙티브 환경에서는 응답 시간이 곧 품질과 사용자 만족도를 좌우한다.
-> 3. **판단 포인트**: 응답 시간을 줄이려면 무조건 클럭을 높이기보다 **큐 대기·I/O (Input/Output) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)** 중 어디가 병목인지 먼저 구분해야 한다.
+> 3. **판단 포인트**: 응답 시간을 줄이려면 무조건 클럭을 높이기보다 <strong>큐 대기·I/O (Input/Output) <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·스케줄링 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong> 중 어디가 병목인지 먼저 구분해야 한다.
 
 ---
 
@@ -31,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-응답 시간은 보통 하나의 숫자로 보이지만, 실제로는 여러 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간의 합이다. 가장 단순하게 보면 **응답 시간 = 큐 대기 시간 + CPU [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 + I/O 대기 시간 + 결과 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)**으로 이해할 수 있다. 이때 CPU [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간은 전체의 일부일 뿐이며, 부하가 높을수록 큐 대기 비중이 급격히 커진다.
+응답 시간은 보통 하나의 숫자로 보이지만, 실제로는 여러 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간의 합이다. 가장 단순하게 보면 <strong>응답 시간 = 큐 대기 시간 + CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 시간 + I/O 대기 시간 + 결과 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/">반환 시간</a></strong>으로 이해할 수 있다. 이때 CPU [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간은 전체의 일부일 뿐이며, 부하가 높을수록 큐 대기 비중이 급격히 커진다.
 
 | 구성 요소 | 의미 | 길어지는 대표 원인 | 줄이는 대표 방법 |
 | :--- | :--- | :--- | :--- |
@@ -42,30 +42,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하나의 요청이 응답 시간으로 누적되는 과정을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 응답 시간의 누적 경로: 요청에서 결과까지             │
-├──────────────────────────────────────────────────────────────────────┤
-│ 사용자 요청                                                          │
-│    │                                                                 │
-│    ▼                                                                 │
-│ 작업 큐 진입 ──▶ [큐 대기 시간]                                      │
-│    │                                                                 │
-│    ▼                                                                 │
-│ CPU 실행   ──▶ [연산 + 캐시 미스 처리]                               │
-│    │                                                                 │
-│    ▼                                                                 │
-│ I/O 요청   ──▶ [저장장치/장치 응답 대기]                             │
-│    │                                                                 │
-│    ▼                                                                 │
-│ 결과 반환  ──▶ [출력/전송/렌더링]                                    │
-│    │                                                                 │
-│    ▼                                                                 │
-│ 사용자 체감 완료                                                     │
-│                                                                      │
-│ 전체 응답 시간 = 대기 + 실행 + I/O + 반환                            │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 시간의 누적 경로: 요청에서 결과까지</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">큐 대기 시간</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연산 + 캐시 미스 처리</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저장장치/장치 응답 대기</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/전송/렌더링</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 체감 완료</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 응답 시간 = 대기 + 실행 + I/O + 반환</div></div>
+</div>
+</div>
+
+
 
 핵심은 병목이 한곳에만 있지 않다는 점이다. 프로세서가 빨라져도 메모리 계층이 느리면 CPU는 대기 상태에 머무르고, 디스크가 빨라져도 스케줄링 큐가 길면 여전히 응답 시간은 길다. 그래서 현대 시스템은 클럭 향상만으로 해결하기보다 캐시 계층, 프리패치, 비동기 I/O, 우선순위 스케줄링처럼 기다림을 줄이거나 숨기는 구조를 함께 사용한다.
 
@@ -94,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 응답 시간을 평균값 하나로만 보면 위험하다. 평균은 양호해 보여도 특정 구간의 긴 대기, 즉 P99 (99th Percentile) 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크면 사용자는 시스템을 불안정하다고 느낀다. 따라서 응답 시간은 **평균·최대·백분위수**를 함께 보고, 어느 구간에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하는지 분해해서 분석해야 한다.
+실무에서는 응답 시간을 평균값 하나로만 보면 위험하다. 평균은 양호해 보여도 특정 구간의 긴 대기, 즉 P99 (99th Percentile) 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크면 사용자는 시스템을 불안정하다고 느낀다. 따라서 응답 시간은 <strong>평균·최대·백분위수</strong>를 함께 보고, 어느 구간에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하는지 분해해서 분석해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -106,8 +98,8 @@ tags = ["studynote-computer-architecture"]
 ### 대표 판단 사례
 
 - **데스크톱·모바일 사용자 인터페이스 (User Interface)**: 100ms 안팎의 반응성 확보가 중요하므로, 최대 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)보다 즉시 응답을 우선하는 스케줄링과 캐시 최적화가 유리하다.
-- **웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 서버**: CPU 사용률을 무작정 높이기보다 큐 길이와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 응답을 제어해 P99 응답 시간을 안정화하는 편이 더 중요하다.
-- **RTOS (Real-Time [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))**: 평균이 아니라 최악 조건에서도 마감 시간을 넘지 않는 설계가 필요하므로, 예측 불가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요소를 줄여 WCRT를 통제해야 한다.
+- <strong>웹 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>) 서버</strong>: CPU 사용률을 무작정 높이기보다 큐 길이와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 응답을 제어해 P99 응답 시간을 안정화하는 편이 더 중요하다.
+- <strong>RTOS (Real-Time <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a>)</strong>: 평균이 아니라 최악 조건에서도 마감 시간을 넘지 않는 설계가 필요하므로, 예측 불가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요소를 줄여 WCRT를 통제해야 한다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -123,7 +115,7 @@ tags = ["studynote-computer-architecture"]
 
 응답 시간을 잘 관리하면 시스템은 단순히 빠른 것이 아니라, 예측 가능하고 쾌적하게 느껴진다. 사용자는 즉각 반응한다고 체감하고, 운영자는 병목 위치를 더 정확히 파악하며, 실시간 시스템은 마감 시간 준수 가능성을 높일 수 있다. 즉 응답 시간은 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 안정성, 설계 품질을 함께 드러내는 통합 지표다.
 
-다만 응답 시간 단축은 언제나 비용을 수반한다. 더 큰 캐시, 더 많은 여유 자원, 낮은 큐 점유율, 더 빠른 저장장치는 모두 면적·전력·비용과 교환된다. 그래서 좋은 설계는 모든 요청을 무조건 가장 빠르게 만드는 것이 아니라, **어떤 요청의 응답 시간을 우선 보장해야 가치가 큰지**를 구분하는 데서 출발한다.
+다만 응답 시간 단축은 언제나 비용을 수반한다. 더 큰 캐시, 더 많은 여유 자원, 낮은 큐 점유율, 더 빠른 저장장치는 모두 면적·전력·비용과 교환된다. 그래서 좋은 설계는 모든 요청을 무조건 가장 빠르게 만드는 것이 아니라, <strong>어떤 요청의 응답 시간을 우선 보장해야 가치가 큰지</strong>를 구분하는 데서 출발한다.
 
 결론적으로 응답 시간은 컴퓨터가 얼마나 많은 일을 하는가보다, 사용자가 그 결과를 얼마나 제때 받는가를 묻는 척도다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 논할 때는 CPU 실행 시간만 보지 말고, 큐와 메모리와 I/O를 포함한 전체 경로를 함께 봐야 한다.
 
@@ -143,21 +135,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-CPU 실행 시간 중심 성능 인식
-    │
-    ▼
-대기 시간 · I/O 지연 포함한 응답 시간 관점
-    │
-    ▼
-대화형 시스템 · 시분할 운영체제의 반응성 요구
-    │
-    ▼
-캐시 · 스케줄링 · 비동기 I/O를 통한 응답 시간 최적화
-    │
-    ▼
-P99 꼬리 지연 · WCRT 보장 중심의 현대 성능 관리
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">CPU 실행 시간 중심 성능 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대기 시간 · I/O 지연 포함한 응답 시간 관점</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">대화형 시스템 · 시분할 운영체제의 반응성 요구</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">캐시 · 스케줄링 · 비동기 I/O를 통한 응답 시간 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">P99 꼬리 지연 · WCRT 보장 중심의 현대 성능 관리</div>
+</div>
+</div>
+
+
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 단순 연산 속도에서 출발해, 사용자 체감과 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장까지 확장되는 과정을 보여준다.
 

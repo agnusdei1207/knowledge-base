@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 하나의 고정 알고리즘이 아니라, 큐 개수·타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))·승급/강등 규칙으로 성격이 결정되는 **파라미터화된 스케줄링 프레임워크**다.
+> 1. **본질**: [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 하나의 고정 알고리즘이 아니라, 큐 개수·타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))·승급/강등 규칙으로 성격이 결정되는 <strong>파라미터화된 스케줄링 프레임워크</strong>다.
 > 2. **가치**: 이 파라미터를 잘 조합하면 짧은 대화형 작업은 빠르게 응답시키고, 긴 CPU 바운드 작업은 뒤로 보내 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))도 지킬 수 있다.
 > 3. **판단 포인트**: 파라미터가 과격하면 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 과도한 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/), gaming, 부스트 폭주가 발생하므로 "몇 개의 큐를 둘 것인가"보다 "왜 그 숫자인가"가 더 중요하다.
 
@@ -19,27 +19,26 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-[MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 파라미터는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 프로세스를 어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 다시 이동시킬지 정하는 조정 손잡이다. 같은 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 구조라도 큐를 3개 둘지 8개 둘지, 최상위 큐의 타임 퀀텀을 4ms로 둘지 20ms로 둘지, 오래 기다린 작업을 언제 끌어올릴지에 따라 시스템은 완전히 다른 성격을 띤다. 즉 MLFQ의 실체는 규칙 집합보다 **튜닝된 숫자 집합**에 가깝다.
+[MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 파라미터는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 프로세스를 어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 다시 이동시킬지 정하는 조정 손잡이다. 같은 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 구조라도 큐를 3개 둘지 8개 둘지, 최상위 큐의 타임 퀀텀을 4ms로 둘지 20ms로 둘지, 오래 기다린 작업을 언제 끌어올릴지에 따라 시스템은 완전히 다른 성격을 띤다. 즉 MLFQ의 실체는 규칙 집합보다 <strong>튜닝된 숫자 집합</strong>에 가깝다.
 
 이런 파라미터가 필요한 이유는 범용 운영체제가 하나의 워크로드만 상대하지 않기 때문이다. 대화형 사용자 인터페이스는 짧은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 원하지만, 컴파일·렌더링·배치 분석은 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 공정성이 더 중요하다. [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))처럼 미래 실행 시간을 미리 알아야 하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 현실적이지 않으므로, 운영체제는 과거 행동을 보고 우선순위를 바꾸는 MLFQ를 쓰되 그 강도를 파라미터로 조절한다.
 
 아래 그림은 MLFQ가 사실상 다섯 개 안팎의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 손잡이 위에서 움직인다는 점을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                 MLFQ의 핵심 조정 손잡이                    │
-├──────────────────────────────────────────────────────────────┤
-│ 신규 작업 진입 위치 : Q0 ? Q1 ?                             │
-│                                                              │
-│ Q0 [RR, q=8ms]  ── demote rule ──▶  Q1 [RR, q=16ms]         │
-│   ▲                         ▲                    │            │
-│   │                         │                    ▼            │
-│   └────── promotion / boost ┴───────  Q2 [FCFS or q=32ms]   │
-│                                                              │
-│ 조정 항목: queue count / per-queue policy / demotion /      │
-│           promotion / initial placement                      │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLFQ의 핵심 조정 손잡이</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 작업 진입 위치 : Q0 ? Q1 ?</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">Q0</div><div class="kb-diagram-node">RR, q=8ms</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RR, q=16ms</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">promotion / boost Q2</div><div class="kb-diagram-node">FCFS or q=32ms</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조정 항목: queue count / per-queue policy / demotion /</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">promotion / initial placement</div></div>
+</div>
+</div>
+
+
 
 중요한 점은 어느 하나의 값만 좋다고 해서 전체가 좋아지지 않는다는 사실이다. 큐 개수와 퀀텀, 부스트 주기, 진입 규칙은 서로 묶여 작동하며, 하나를 바꾸면 다른 값도 다시 맞춰야 한다.
 
@@ -59,23 +58,25 @@ tags = ["studynote-operating-system"]
 | 승급 기준 | 기아 방지 방식 | 긴 주기 boost | 짧은 주기 boost 또는 적극 [aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) |
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 배치 | 새 작업의 시작 우선순위 | 중간 큐 배치 | 최상위 큐 배치 |
 
-특히 강등 기준은 gaming 방지와 직결된다. 프로세스가 퀀텀을 다 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 직전에 일부러 I/O를 호출해 최상위 큐에 머무르는 것을 막으려면, 단일 퀀텀 소모가 아니라 **이 큐에서 누적 사용한 총 CPU allotment**를 기준으로 내려야 한다. 승급 기준 역시 단순하지 않다. 너무 짧은 부스트는 무거운 작업을 자꾸 위로 끌어올려 응답성을 해치고, 너무 긴 부스트는 하위 큐 작업을 굶긴다.
+특히 강등 기준은 gaming 방지와 직결된다. 프로세스가 퀀텀을 다 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 직전에 일부러 I/O를 호출해 최상위 큐에 머무르는 것을 막으려면, 단일 퀀텀 소모가 아니라 <strong>이 큐에서 누적 사용한 총 CPU allotment</strong>를 기준으로 내려야 한다. 승급 기준 역시 단순하지 않다. 너무 짧은 부스트는 무거운 작업을 자꾸 위로 끌어올려 응답성을 해치고, 너무 긴 부스트는 하위 큐 작업을 굶긴다.
 
 아래 예시는 파라미터가 실제 실행 패턴을 어떻게 바꾸는지 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│       파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)      │
-├──────────────────────────────────────────────────────────────┤
-│ t=0      P1(new) in Q0, P2(new) in Q0                       │
-│ t=8      P1 quantum expire  → Q1 demote                     │
-│ t=12     P2 blocks for I/O   → stays near Q0                │
-│ t=24     P1 quantum expire  → Q2 demote                     │
-│ t=200    global boost       → P1, P2 모두 Q0로 승급         │
-│                                                              │
-│ 결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감 │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=0 P1(new) in Q0, P2(new) in Q0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=8 P1 quantum expire → Q1 demote</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=12 P2 blocks for I/O → stays near Q0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=24 P1 quantum expire → Q2 demote</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=200 global boost → P1, P2 모두 Q0로 승급</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘 덕분에 MLFQ는 실행 시간을 미리 몰라도 어느 정도 SJF에 가까운 효과를 낸다. 대신 그 효과는 파라미터가 적절할 때만 유지되며, 값이 흔들리면 공정성과 응답성이 동시에 무너질 수 있다.
 
@@ -103,7 +104,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사 관점에서는 "MLFQ가 좋다"가 아니라 **어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 맞게 파라미터를 배치할 것인가**를 답해야 한다. 사용자가 느끼는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요한 시스템이라면 최상위 큐의 타임 퀀텀을 짧게 두고, 하위 큐에는 더 긴 퀀텀을 부여해 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 줄이는 계단형 구성이 유리하다. 반대로 배치 중심 시스템이라면 큐 수를 줄이고 하위 큐의 연속 실행 시간을 길게 잡아 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 확보하는 편이 낫다.
+기술사 관점에서는 "MLFQ가 좋다"가 아니라 <strong>어떤 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 목표에 맞게 파라미터를 배치할 것인가</strong>를 답해야 한다. 사용자가 느끼는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요한 시스템이라면 최상위 큐의 타임 퀀텀을 짧게 두고, 하위 큐에는 더 긴 퀀텀을 부여해 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 줄이는 계단형 구성이 유리하다. 반대로 배치 중심 시스템이라면 큐 수를 줄이고 하위 큐의 연속 실행 시간을 길게 잡아 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 확보하는 편이 낫다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -129,7 +130,7 @@ tags = ["studynote-operating-system"]
 
 파라미터가 잘 맞는 MLFQ는 실행 시간을 모르는 현실에서도 짧은 작업을 빠르게 발견하고, 긴 작업은 뒤로 보내 전체 시스템 체감 성능을 높인다. 이는 단일 스케줄링 규칙만으로는 얻기 어려운 절충 효과다. 특히 대화형 응답성과 배치 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 동시에 다뤄야 하는 범용 운영체제에서 강점을 가진다.
 
-반대로 파라미터 의존성은 분명한 한계다. 하드웨어가 바뀌고, 코어 수가 늘고, 워크로드가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 중심으로 이동하면 과거의 적정 퀀텀과 부스트 주기가 그대로 통하지 않는다. 그래서 MLFQ는 오늘날에도 중요한 개념이지만, 그 자체를 만능 해법으로 외우기보다 **행동을 관찰해 우선순위를 조절하는 설계 철학**으로 기억하는 편이 정확하다.
+반대로 파라미터 의존성은 분명한 한계다. 하드웨어가 바뀌고, 코어 수가 늘고, 워크로드가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 중심으로 이동하면 과거의 적정 퀀텀과 부스트 주기가 그대로 통하지 않는다. 그래서 MLFQ는 오늘날에도 중요한 개념이지만, 그 자체를 만능 해법으로 외우기보다 <strong>행동을 관찰해 우선순위를 조절하는 설계 철학</strong>으로 기억하는 편이 정확하다.
 
 결론적으로 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) 파라미터는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 부속 옵션이 아니라, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 성격을 정의하는 본체다. 좋은 MLFQ는 큐를 많이 가진 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 아니라, 목표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질에 맞게 숫자와 규칙이 정렬된 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
 
@@ -149,21 +150,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-고정 우선순위 · RR
-    │
-    ▼
-다단계 큐 (Multilevel Queue)
-    │
-    ▼
-다단계 피드백 큐 (MLFQ)
-    │
-    ▼
-boost · aging · gaming 방지
-    │
-    ▼
-공정성 중심 스케줄러 (예: CFS)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">고정 우선순위 · RR</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 큐 (Multilevel Queue)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">다단계 피드백 큐 (MLFQ)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">boost · aging · gaming 방지</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">공정성 중심 스케줄러 (예: CFS)</div>
+</div>
+</div>
+
+
 
 이 흐름은 단순한 고정 우선순위에서 출발해, 피드백 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 기아 방지 규칙을 거쳐 현대적 공정성 모델로 확장되는 경로를 보여 준다.
 

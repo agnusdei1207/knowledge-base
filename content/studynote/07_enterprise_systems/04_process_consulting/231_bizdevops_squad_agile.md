@@ -11,9 +11,9 @@ tags = ["studynote-enterprise"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BizDevOps 스쿼드는 비즈니스, 개발, 운영 인력을 하나의 제품 단위로 묶어 **아이디어에서 운영까지의 핸드오프를 줄이는 조직 구조**다.
+> 1. **본질**: BizDevOps 스쿼드는 비즈니스, 개발, 운영 인력을 하나의 제품 단위로 묶어 <strong>아이디어에서 운영까지의 핸드오프를 줄이는 조직 구조</strong>다.
 > 2. **가치**: 스쿼드 (Squad)의 속도와 챕터 (Chapter)의 전문성을 함께 확보하면 배포 리드타임과 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 크게 줄일 수 있다.
-> 3. **판단 포인트**: 진짜 전환이 되려면 **제품 오너십, 독립 배포 가능한 아키텍처, 챕터 기반 표준화, 플랫폼 지원**이 함께 있어야 한다.
+> 3. **판단 포인트**: 진짜 전환이 되려면 <strong>제품 오너십, 독립 배포 가능한 아키텍처, 챕터 기반 표준화, 플랫폼 지원</strong>이 함께 있어야 한다.
 
 ---
 
@@ -42,23 +42,24 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 제품 오너십과 기능 전문성이 교차하는 매트릭스 구조를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Squad matrix                                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Product axis                                                         │
-│   Squad A  -> PO + FE + BE + Ops                                     │
-│   Squad B  -> PO + FE + BE + Ops                                     │
-│   Squad C  -> PO + FE + BE + Ops                                     │
-│                                                                      │
-│ Skill axis                                                           │
-│   FE Chapter  -> standards / coaching / review                       │
-│   BE Chapter  -> standards / coaching / review                       │
-│   Ops Chapter -> platform / reliability / tooling                    │
-│                                                                      │
-│ Rule: Squad decides "what now", Chapter aligns "how well"           │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad matrix</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product axis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad A -&gt; PO + FE + BE + Ops</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad B -&gt; PO + FE + BE + Ops</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad C -&gt; PO + FE + BE + Ops</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Skill axis</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FE Chapter -&gt; standards / coaching / review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BE Chapter -&gt; standards / coaching / review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ops Chapter -&gt; platform / reliability / tooling</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: Squad decides "what now", Chapter aligns "how well"</div></div>
+</div>
+</div>
+
+
 
 이 구조의 본질은 "두 명의 상사"를 만드는 것이 아니라, 의사결정 축을 분리하는 데 있다. 스쿼드는 제품 목표와 우선순위를, 챕터는 기술 품질과 전문성 성장을 담당한다. 이 분리가 명확해야 스쿼드의 자율성과 전사 표준화가 동시에 성립한다.
 
@@ -107,7 +108,7 @@ tags = ["studynote-enterprise"]
 - 운영 책임을 선언했지만 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 온콜, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 권한은 다른 팀에 남겨 둔 경우
 - 모놀리식 시스템을 그대로 둔 채 독립 배포를 기대하는 경우
 
-기술사 답안에서는 BizDevOps를 조직 유행어가 아니라 **핸드오프 제거, 책임 일원화, 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)**의 구조적 해법으로 설명해야 한다. 그리고 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 표준화가 없으면 장기 유지가 어렵다는 한계까지 같이 언급하는 것이 좋다.
+기술사 답안에서는 BizDevOps를 조직 유행어가 아니라 <strong>핸드오프 제거, 책임 일원화, 빠른 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>의 구조적 해법으로 설명해야 한다. 그리고 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 표준화가 없으면 장기 유지가 어렵다는 한계까지 같이 언급하는 것이 좋다.
 
 - **📢 섹션 요약 비유**: 스쿼드 전환은 책상만 붙여 앉히는 것이 아니라, 그 팀에게 주문서·공구함·재고 열쇠를 함께 맡겨 진짜로 한 팀처럼 일하게 만드는 일과 같다.
 
@@ -119,7 +120,7 @@ tags = ["studynote-enterprise"]
 
 다만 모든 조직에 일괄 적용할 수 있는 만능 구조는 아니다. 코어 시스템의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)가 높거나 규제가 매우 강한 영역에서는 완전한 자율성보다 통제와 단계적 전환이 필요하다. 그래서 현실적인 성공 패턴은 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)부터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 스쿼드를 운영하고, 공통 플랫폼과 챕터 체계를 먼저 깔아 주는 방식이다.
 
-결론적으로 BizDevOps 스쿼드는 조직을 예쁘게 재배치하는 기법이 아니라, **고객 가치 전달 속도를 높이기 위해 비즈니스·개발·운영의 경계를 다시 설계하는 운영 시스템**으로 기억해야 한다.
+결론적으로 BizDevOps 스쿼드는 조직을 예쁘게 재배치하는 기법이 아니라, <strong>고객 가치 전달 속도를 높이기 위해 비즈니스·개발·운영의 경계를 다시 설계하는 운영 시스템</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 좋은 스쿼드는 달리기 계주 팀이 아니라, 한 썰매에 함께 타고 같은 방향으로 속도를 내는 개썰매 팀과 같다.
 
@@ -138,21 +139,23 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Functional silo organization
-        │
-        ▼
-Dev and Ops collaboration
-        │
-        ▼
-BizDevOps product squad
-        │
-        ▼
-Chapter / platform-supported scaling
-        │
-        ▼
-Team topology and autonomous product flow
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Functional silo organization</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Dev and Ops collaboration</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">BizDevOps product squad</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Chapter / platform-supported scaling</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Team topology and autonomous product flow</div>
+</div>
+</div>
+
+
 
 이 흐름은 부서 중심 일하기에서, 제품 중심의 자율 팀과 플랫폼 보완 구조로 진화하는 과정을 보여준다.
 

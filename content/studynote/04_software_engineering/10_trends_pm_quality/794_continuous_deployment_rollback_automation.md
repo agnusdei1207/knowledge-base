@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 "왜 배포는 이렇게 고통스러운가?"라는 질문에, 익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 선구자들은 이렇게 답했다. **"배포가 아프다면, 아프지 않을 때까지 더 자주 배포해라(If it hurts, do it more often)."**
 
-한 달 치 코드를 모아서 배포하니까 디버깅이 불가능한 것이다. 개발자가 코드를 한 줄 고쳤을 때, 그 코드가 즉시 실서버로 나가게 만들자. 에러가 나면 방금 고친 그 한 줄만 되돌리면([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 된다. 인간의 불안감을 기계적인 파이프라인으로 대체한 이 위대한 철학이 바로 **[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)([Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))**다.
+한 달 치 코드를 모아서 배포하니까 디버깅이 불가능한 것이다. 개발자가 코드를 한 줄 고쳤을 때, 그 코드가 즉시 실서버로 나가게 만들자. 에러가 나면 방금 고친 그 한 줄만 되돌리면([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 된다. 인간의 불안감을 기계적인 파이프라인으로 대체한 이 위대한 철학이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/">Continuous Deployment</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 한 달 치 일기를 몰아서 쓰면(빅뱅 배포) 무슨 일이 있었는지 기억이 안 나서 머리가 아프다. 밥을 먹을 때마다 1줄씩 일기를 쓰면([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)), 기억할 필요도 없고 틀린 글자도 1초 만에 고칠 수 있다.
 
@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 다음은 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 자동화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 파이프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                  지속적 배포 롤백 자동화 정책 파이프                        │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
-│       │                    │                    │          │
-│       ▼                    ▼                    ▼          │
-│   요구 분석           설계·적용           품질 검증        │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지속적 배포 롤백 자동화 정책 파이프</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램은 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 자동화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 파이프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -77,11 +76,11 @@ CD([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requi
 | 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 작동 방식 (V1 = 구버전, V2 = 신버전) | [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도 | 단점 |
 |:---|:---|:---|:---|
 | **빅뱅 (Big Bang)** | 서버를 끄고 V1을 싹 다 지운 뒤 V2를 깐다. | **최악** ([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가) | 오픈 때마다 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 1시간 멈춤 (다운타임). |
-| **블루/그린 (Blue/Green)**| V1과 V2 서버를 똑같은 크기로 두 벌 띄워놓고, **라우터(L4) 스위치만 V2로 1초 만에 딸깍 넘긴다.** | **[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)** (다시 V1으로 딸깍!) | 서버 비용이 2배로 든다. |
-| **롤링 ([Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/))** | V1 서버 10대 중 1대씩 차례대로 V2로 교체한다. | **느림** (1대씩 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)해야 함) | 교체 도중 V1과 V2 코드가 공존해서 버그가 발생할 수 있다. |
-| **[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) ([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/))** | 전체 유저 중 **극소수(1%)에게만 V2를 먼저 배포**하여 반응/에러를 본 뒤 늘려간다. | 빠름 | 인프라 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 등)이 매우 복잡하다. |
+| **블루/그린 (Blue/Green)**| V1과 V2 서버를 똑같은 크기로 두 벌 띄워놓고, **라우터(L4) 스위치만 V2로 1초 만에 딸깍 넘긴다.** | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a></strong> (다시 V1으로 딸깍!) | 서버 비용이 2배로 든다. |
+| <strong>롤링 (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/">Rolling Update</a>)</strong> | V1 서버 10대 중 1대씩 차례대로 V2로 교체한다. | **느림** (1대씩 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)해야 함) | 교체 도중 V1과 V2 코드가 공존해서 버그가 발생할 수 있다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a>)</strong> | 전체 유저 중 <strong>극소수(1%)에게만 V2를 먼저 배포</strong>하여 반응/에러를 본 뒤 늘려간다. | 빠름 | 인프라 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 등)이 매우 복잡하다. |
 
-현대 CD 파이프라인에서는 비용이 많이 드는 블루/그린 대신, 쿠버네티스의 Ingress나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시에 기반을 둔 **[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 배포**가 글로벌 표준으로 쓰인다.
+현대 CD 파이프라인에서는 비용이 많이 드는 블루/그린 대신, 쿠버네티스의 Ingress나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시에 기반을 둔 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">Canary</a>) 자동 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 배포</strong>가 글로벌 표준으로 쓰인다.
 
 - **📢 섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 배포는 광산에 들어갈 때 독가스가 있는지 보려고 예민한 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새를 먼저 들여보내는 것이다. 배포한 코드가 1%의 유저([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아)에게 에러를 뿜으면, 즉시 배포를 멈추고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하여 99%의 유저를 살려낸다.
 
@@ -109,7 +108,7 @@ CD([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requi
 
 자동화된 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 내재화된 CD 파이프라인을 구축하면, 개발자의 심리적 안정감([Psychological Safety](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/))이 극대화된다. "내가 짠 코드가 회사를 망하게 하면 어떡하지?"라는 공포가 사라지고, 하루에도 수십 번씩 실험적인 기능을 런칭하며 비즈니스의 극한의 혁신(Agility)을 끌어낼 수 있다.
 
-결론적으로 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD)는 소프트웨어 딜리버리의 최종 진화 형태다. 기술 리더는 인간의 집중력과 엑셀로 만든 수동 배포 체크리스트를 믿어서는 안 된다. 배포의 모든 과정을 기계([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))에 위임하고, 인간은 오직 **"이 기계가 얼마나 빨리 에러를 감지하고 스스로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)할 수 있는가([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) & Self-healing)"**를 설계하는 데만 집중해야 한다.
+결론적으로 [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD)는 소프트웨어 딜리버리의 최종 진화 형태다. 기술 리더는 인간의 집중력과 엑셀로 만든 수동 배포 체크리스트를 믿어서는 안 된다. 배포의 모든 과정을 기계([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))에 위임하고, 인간은 오직 <strong>"이 기계가 얼마나 빨리 에러를 감지하고 스스로 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>할 수 있는가(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a> &amp; Self-healing)"</strong>를 설계하는 데만 집중해야 한다.
 
 - **📢 섹션 요약 비유**: 옛날 배포는 로켓 발사였다. 카운트다운을 세며 온 직원이 숨죽여 지켜봤다. 지금의 CD 배포는 수돗물이다. 수도꼭지를 틀면 물이 콸콸 나오고, 더러운 물(에러)이 나오면 정수기(자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))가 알아서 걸러준다. 배포는 더 이상 이벤트가 아니라 일상이어야 한다.
 
@@ -132,21 +131,23 @@ CD([지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-소프트웨어 위기 (Software Crisis) 인식
-    │
-    ▼
-지속적 배포 롤백 자동화 정책 파이프라인 구성 개념 정립
-    │
-    ▼
-표준화 및 방법론 체계화 (ISO, CMMI, Agile)
-    │
-    ▼
-클라우드 네이티브·AI 기반 확장 적용
-    │
-    ▼
-지속적 개선 및 DevOps·MLOps 통합
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 배포 롤백 자동화 정책 파이프라인 구성 개념 정립</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
+</div>
+</div>
+
+
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

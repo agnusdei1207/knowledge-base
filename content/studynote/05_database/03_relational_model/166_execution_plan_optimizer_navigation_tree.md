@@ -25,27 +25,25 @@ tags = ["studynote-database"]
 
 이 그림은 실행 계획이 SQL 문장 자체가 아니라, SQL 뒤에서 움직이는 실제 처리 경로를 보여 준다는 점을 설명한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│             SQL과 실행 계획의 관계: 선언형 요청 vs 물리 경로         │
-├──────────────────────────────────────────────────────────────────────┤
-│ SQL Text                                                            │
-│   SELECT * FROM orders o JOIN customers c ON o.cust_id = c.id       │
-│   WHERE c.name = 'KIM';                                             │
-│                                                                      │
-│        "무엇을 구할까?"                                             │
-│                │                                                     │
-│                ▼                                                     │
-│ Optimizer                                                            │
-│   ├─ customer name index scan                                        │
-│   ├─ customer row fetch                                               │
-│   ├─ orders access path decision                                      │
-│   └─ join method selection                                            │
-│                │                                                     │
-│                ▼                                                     │
-│ Execution Plan = "어떤 순서와 방법으로 읽을까?"                    │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL과 실행 계획의 관계: 선언형 요청 vs 물리 경로</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Text</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT * FROM orders o JOIN customers c ON o.cust_id = c.id</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE c.name = 'KIM';</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"무엇을 구할까?"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimizer</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer name index scan</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer row fetch</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ orders access path decision</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ join method selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution Plan = "어떤 순서와 방법으로 읽을까?"</div></div>
+</div>
+</div>
+
+
 
 즉 실행 계획은 SQL 문법 해설서가 아니라, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 물리적 의사결정을 보여 주는 X선 사진이다. 그래서 SQL 튜닝의 시작점은 보통 SQL 문장 자체보다 실행 계획을 먼저 보는 데서 출발한다.
 
@@ -55,7 +53,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-실행 계획은 보통 **연산자 ([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/)) + 객체 (Object) + 예상 행 수 + 비용 + 조건식**으로 구성된다. 여기서 핵심은 트리를 어떻게 읽느냐이다. 일반적으로 가장 아래쪽 리프 노드 (Leaf Node)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 시작되고, 부모 연산자가 자식 연산자의 결과를 받아 위로 합성해 간다. 따라서 `SELECT STATEMENT`가 가장 위에 있다고 해서 그 줄부터 실행되는 것이 아니라, 실제 작업은 테이블 접근과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스캔처럼 가장 안쪽의 연산부터 시작된다.
+실행 계획은 보통 <strong>연산자 (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/">Operation</a>) + 객체 (Object) + 예상 행 수 + 비용 + 조건식</strong>으로 구성된다. 여기서 핵심은 트리를 어떻게 읽느냐이다. 일반적으로 가장 아래쪽 리프 노드 (Leaf Node)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 시작되고, 부모 연산자가 자식 연산자의 결과를 받아 위로 합성해 간다. 따라서 `SELECT STATEMENT`가 가장 위에 있다고 해서 그 줄부터 실행되는 것이 아니라, 실제 작업은 테이블 접근과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스캔처럼 가장 안쪽의 연산부터 시작된다.
 
 | 구성 요소 | 의미 | 해석 포인트 |
 | :--- | :--- | :--- |
@@ -67,22 +65,24 @@ tags = ["studynote-database"]
 
 아래 그림은 실행 계획이 위에서 아래로 읽는 문서가 아니라, 아래에서 위로 결과가 합쳐지는 네비게이션 트리임을 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│                 실행 계획 읽기: 리프에서 루트로 올라감               │
-├──────────────────────────────────────────────────────────────────────┤
-│ Id  Operation                         Object         Exec Order      │
-│  0  SELECT STATEMENT                                   ▲             │
-│  1   HASH JOIN                                         │ ④           │
-│  2    TABLE ACCESS BY INDEX ROWID       CUSTOMERS      │ ②           │
-│  3     INDEX RANGE SCAN                 IDX_CUST_NAME  │ ①           │
-│  4    TABLE ACCESS FULL                 ORDERS         │ ③           │
-│                                                                      │
-│ 흐름: IDX_CUST_NAME → CUSTOMERS → ORDERS → HASH JOIN → RESULT        │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 트리에서 `INDEX RANGE SCAN`이 먼저 고객 후보를 찾고, `TABLE ACCESS BY INDEX ROWID`가 실제 고객 행을 읽는다. 그 다음 주문 테이블 전체를 읽어 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)을 수행하고, 마지막에 최종 결과를 반환한다. 여기서 핵심은 **들여쓰기와 부모-자식 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)**를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 만들어지고 어디서 소비되는지를 보는 것이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 계획 읽기: 리프에서 루트로 올라감</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Id Operation Object Exec Order</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 SELECT STATEMENT ▲</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 HASH JOIN</div><div class="kb-diagram-cell">④</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 TABLE ACCESS BY INDEX ROWID CUSTOMERS</div><div class="kb-diagram-cell">②</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 INDEX RANGE SCAN IDX_CUST_NAME</div><div class="kb-diagram-cell">①</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 TABLE ACCESS FULL ORDERS</div><div class="kb-diagram-cell">③</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">흐름: IDX_CUST_NAME → CUSTOMERS → ORDERS → HASH JOIN → RESULT</div></div>
+</div>
+</div>
+
+
+
+이 트리에서 `INDEX RANGE SCAN`이 먼저 고객 후보를 찾고, `TABLE ACCESS BY INDEX ROWID`가 실제 고객 행을 읽는다. 그 다음 주문 테이블 전체를 읽어 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)을 수행하고, 마지막에 최종 결과를 반환한다. 여기서 핵심은 <strong>들여쓰기와 부모-자식 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 만들어지고 어디서 소비되는지를 보는 것이다.
 
 또 하나 중요한 축은 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) ([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/))와 카디널리티다. 조건식이 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 0.01%만 고른다면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 유리할 가능성이 높고, 30% 이상을 읽는다면 랜덤 I/O보다 순차 스캔이 나을 수 있다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 이 예측값으로 비용을 계산하므로, 카디널리티가 틀리면 그 위의 조인 방식과 정렬 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)도 함께 흔들린다.
 
@@ -92,7 +92,7 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 비교 및 연결
 
-실행 계획을 제대로 이해하려면 **예상 계획**과 **실제 실행 통계**를 구분해야 한다. `EXPLAIN PLAN`은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 실행 전에 예상한 길이고, 실제 실행 통계는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 끝난 뒤 정말 몇 행을 읽었고 어떤 연산에서 시간이 썼는지 보여 준다. 예상 계획은 빠른 구조 진단에 좋고, 실제 통계는 예측이 맞았는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 강하다.
+실행 계획을 제대로 이해하려면 <strong>예상 계획</strong>과 <strong>실제 실행 통계</strong>를 구분해야 한다. `EXPLAIN PLAN`은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 실행 전에 예상한 길이고, 실제 실행 통계는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 끝난 뒤 정말 몇 행을 읽었고 어떤 연산에서 시간이 썼는지 보여 준다. 예상 계획은 빠른 구조 진단에 좋고, 실제 통계는 예측이 맞았는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 데 강하다.
 
 | 비교 항목 | 예상 실행 계획 | 실제 실행 통계 |
 | :--- | :--- | :--- |
@@ -101,9 +101,9 @@ tags = ["studynote-database"]
 | 한계 | 통계 오류를 그대로 반영 | 실행 비용이 들고 상황 재현이 필요 |
 | 주 용도 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 누락, 조인 구조 점검 | 예측 오차, 실제 시간 분포 분석 |
 
-또한 실행 계획은 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/), [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) ([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)), 통계 정보와 직접 연결된다. [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 통계에 따라 실행 계획을 만들고, [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 그 선택을 부분적으로 강제한다. 따라서 실행 계획을 읽는다는 것은 단순히 트리 모양을 읽는 것이 아니라, **[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 왜 그 선택을 했는지 역추적하는 일**과 같다.
+또한 실행 계획은 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/), [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) ([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)), 통계 정보와 직접 연결된다. [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)는 통계에 따라 실행 계획을 만들고, [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 그 선택을 부분적으로 강제한다. 따라서 실행 계획을 읽는다는 것은 단순히 트리 모양을 읽는 것이 아니라, <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 왜 그 선택을 했는지 역추적하는 일</strong>과 같다.
 
-실무에서 자주 만나는 경계 비교는 `TABLE ACCESS FULL`과 `INDEX RANGE SCAN`, `Nested Loop Join`과 `Hash Join`이다. 소량 탐색에서는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 중첩 루프가 빠르지만, 대량 결합에서는 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 순차 스캔이 더 낫다. 결국 실행 계획의 가치는 "어떤 연산이 무조건 좋다"를 외우는 데 있는 것이 아니라, **현재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량에서 어떤 연산이 맞는지 판단하는 기준**을 제공하는 데 있다.
+실무에서 자주 만나는 경계 비교는 `TABLE ACCESS FULL`과 `INDEX RANGE SCAN`, `Nested Loop Join`과 `Hash Join`이다. 소량 탐색에서는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 중첩 루프가 빠르지만, 대량 결합에서는 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 순차 스캔이 더 낫다. 결국 실행 계획의 가치는 "어떤 연산이 무조건 좋다"를 외우는 데 있는 것이 아니라, <strong>현재 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>량에서 어떤 연산이 맞는지 판단하는 기준</strong>을 제공하는 데 있다.
 
 - **📢 섹션 요약 비유**: 예상 실행 계획은 내비게이션의 추천 경로이고, 실제 실행 통계는 주행 후에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 블랙박스 기록과 같다. 둘을 같이 봐야 길이 왜 막혔는지 정확히 알 수 있다.
 
@@ -111,7 +111,7 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-가장 흔한 실무 시나리오는 "어제까지 빠르던 SQL이 오늘 갑자기 느려진 경우"다. 예를 들어 쇼핑몰 주문 조회 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 평소에는 고객 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타다가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재량 증가와 통계 부정확성 때문에 갑자기 주문 테이블 전체 스캔으로 바뀌면 응답시간이 수십 배로 튈 수 있다. 이때 단순히 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 더 만들기보다, 먼저 실행 계획에서 **어느 단계의 예상 행 수가 틀어졌는지**를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+가장 흔한 실무 시나리오는 "어제까지 빠르던 SQL이 오늘 갑자기 느려진 경우"다. 예를 들어 쇼핑몰 주문 조회 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 평소에는 고객 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 타다가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재량 증가와 통계 부정확성 때문에 갑자기 주문 테이블 전체 스캔으로 바뀌면 응답시간이 수십 배로 튈 수 있다. 이때 단순히 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 더 만들기보다, 먼저 실행 계획에서 <strong>어느 단계의 예상 행 수가 틀어졌는지</strong>를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 ### 실무 점검 순서
 
@@ -132,7 +132,7 @@ tags = ["studynote-database"]
 - 실제 실행 통계 없이 예상 계획만 보고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 단정하는 행동
 - `SELECT *` 남발, 함수 기반 조건, 불필요한 정렬로 계획을 왜곡하는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 작성
 
-기술사 관점에서는 "실행 계획을 볼 줄 안다"보다 한 단계 더 들어가야 한다. 즉, 트리를 읽고 병목을 찾는 것에서 끝나지 않고 **왜 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 그렇게 판단했는지**, 그리고 **통계·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 중 무엇으로 개입할지**까지 말할 수 있어야 설계 답안으로 완성된다.
+기술사 관점에서는 "실행 계획을 볼 줄 안다"보다 한 단계 더 들어가야 한다. 즉, 트리를 읽고 병목을 찾는 것에서 끝나지 않고 <strong>왜 <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>가 그렇게 판단했는지</strong>, 그리고 <strong>통계·<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>·<a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a> 중 무엇으로 개입할지</strong>까지 말할 수 있어야 설계 답안으로 완성된다.
 
 - **📢 섹션 요약 비유**: 실행 계획 분석은 병원 진료와 같다. 열이 난다고 무조건 해열제부터 먹이는 것이 아니라, 엑스레이와 검사표를 보고 원인이 폐인지 목인지 먼저 구분해야 한다.
 
@@ -163,22 +163,24 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-규칙 기반 최적화
-    │
-    ▼
-비용 기반 옵티마이저 (CBO, Cost Based Optimizer)
-    │
-    ▼
-실행 계획 (Execution Plan)
-    │
-    ├─ 접근 경로 (Access Path)
-    ├─ 조인 순서 (Join Order)
-    └─ 조인 방식 (Join Method)
-    │
-    ▼
-실제 실행 통계 · 적응형 최적화 · 계획 안정화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">규칙 기반 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비용 기반 옵티마이저 (CBO, Cost Based Optimizer)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실행 계획 (Execution Plan)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">접근 경로 (Access Path)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">조인 순서 (Join Order)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">조인 방식 (Join Method)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">실제 실행 통계 · 적응형 최적화 · 계획 안정화</div>
+</div>
+</div>
+
+
 
 이 흐름은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝이 단순 문법 수정에서, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 판단과 실제 실행 결과를 함께 해석하는 방향으로 발전해 왔음을 보여 준다.
 

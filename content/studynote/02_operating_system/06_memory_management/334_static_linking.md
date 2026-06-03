@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정적 연결 (Static Linking)은 컴파일의 마지막 단계(Link Time)에서, 프로그램이 사용하는 **모든 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드(예: printf, 수학 함수)를 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.exe) 내부에 물리적으로 몽땅 복사해 넣어 단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 융합**하는 고전적인 링킹 기법이다.
-> 2. **가치**: 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 외부 시스템 환경이나 DLL(동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 존재 여부에 전혀 영향을 받지 않는 **완벽한 이식성(Portability)**과 실행 독립성을 보장하여, 배포가 극도로 단순해진다.
+> 1. **본질**: 정적 연결 (Static Linking)은 컴파일의 마지막 단계(Link Time)에서, 프로그램이 사용하는 <strong>모든 외부 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 코드(예: printf, 수학 함수)를 실행 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(.exe) 내부에 물리적으로 몽땅 복사해 넣어 단일 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>로 융합</strong>하는 고전적인 링킹 기법이다.
+> 2. **가치**: 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 외부 시스템 환경이나 DLL(동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 존재 여부에 전혀 영향을 받지 않는 <strong>완벽한 이식성(Portability)</strong>과 실행 독립성을 보장하여, 배포가 극도로 단순해진다.
 > 3. **융합**: 과거 용량 부족으로 동적 링킹에 밀려났으나, 최근 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경, 그리고 Go(Golang)와 [Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/) 언어의 부상과 함께 "의존성 없는 무결점 배포"를 위한 핵심 아키텍처로 화려하게 부활했다.
 
 ---
@@ -27,25 +27,22 @@ tags = ["studynote-operating-system"]
   2. **동적 링킹으로의 쇠퇴**: 90년대 들어 다중 프로그래밍이 보편화되면서, 똑같은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 메모리에 중복 적재하는 정적 링킹은 "메모리 낭비의 주범"으로 낙인찍혀 윈도우(DLL)와 리눅스(SO) 생태계에서 밀려났다.
   3. **클라우드 시대의 부활**: 2010년대 이후 디스크와 램 용량이 수백 GB 단위로 커지고, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 환경이 대세가 되면서 "의존성 없는 단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 배포"가 주는 운영적 이점이 메모리 낭비 비용을 압도하게 되었다. Go 언어는 이를 언어 차원의 기본 철학으로 삼으며 정적 링킹의 르네상스를 이끌었다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│           정적 링킹 (Static Linking)의 빌드 파이프라인             │
-├────────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│ [소스 코드] main.c                                                 │
-│     │ (컴파일러)                                                   │
-│     ▼                                                              │
-│ [목적 파일] main.o (10KB)                                          │
-│     │                                                              │
-│     │          [정적 라이브러리] libc.a (수학, 입출력 코드 5MB)    │
-│     │                   │                                          │
-│     └──────┬────────────┘                                          │
-│            │ (링커 - Linker)                                       │
-│            ▼                                                       │
-│   [최종 실행 파일] a.out (5MB + 10KB = 약 5.01MB)                  │
-│   * 특징: 내부를 열어보면 printf의 01010 기계어가 통째로 들어있음! │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 링킹 (Static Linking)의 빌드 파이프라인</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">소스 코드</div><div class="kb-diagram-note">main.c</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(컴파일러)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">목적 파일</div><div class="kb-diagram-note">main.o (10KB)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 라이브러리</div><div class="kb-diagram-note">libc.a (수학, 입출력 코드 5MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(링커 - Linker)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">최종 실행 파일</div><div class="kb-diagram-note">a.out (5MB + 10KB = 약 5.01MB)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 내부를 열어보면 printf의 01010 기계어가 통째로 들어있음!</div></div>
+</div>
+</div>
+
+
 **[다이어그램 해설]** 링커(Linker)의 역할이 가장 극대화되는 순간이다. 링커는 `main.o`에서 `printf`를 호출하는 부분을 발견하면, `libc.a`라는 정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 보관소를 뒤져 `printf`의 실제 기계어 코드를 통째로 복사해 `a.out` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 물리적으로 붙여넣는다. 그 결과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량은 비대해지지만, 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 완성된 하나의 독립된 생태계가 된다.
 
 - **📢 섹션 요약 비유**: 레고 블록으로 성을 만들 때, 필요한 특수 부품을 빌려 쓰지 않고 아예 본드(링커)로 내 성에 영구적으로 붙여버려서, 누구에게 주든 부서지지 않는 완제품을 만드는 것과 같습니다.
@@ -58,8 +55,8 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **소스/오브젝트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** | 프로그래머가 작성한 고유 비즈니스 로직 | 컴파일러를 통해 기계어로 변환되나 주소가 미확정 상태임 | `.c`, `.o` | 나만의 비밀 소스 레시피 |
-| **정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)** | 범용 함수들이 컴파일되어 모인 보관소 | 여러 `.o` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태 (아카이브) | `.a` (Linux), `.lib` (Win) | 재료 도매상 (양파, 마늘) |
+| <strong>소스/오브젝트 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | 프로그래머가 작성한 고유 비즈니스 로직 | 컴파일러를 통해 기계어로 변환되나 주소가 미확정 상태임 | `.c`, `.o` | 나만의 비밀 소스 레시피 |
+| <strong>정적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a></strong> | 범용 함수들이 컴파일되어 모인 보관소 | 여러 `.o` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태 (아카이브) | `.a` (Linux), `.lib` (Win) | 재료 도매상 (양파, 마늘) |
 | **링커 (Linker)** | 오브젝트와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 결합 | 미해결 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Unresolved [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))의 주소를 절대/상대 주소로 덮어쓰며 코드 복사 | `ld` | 모든 재료를 섞어 요리 완성 |
 | **주소 재배치 (Relocation)** | 융합된 코드들의 주소 공간 재정렬 | 각각 0번지부터 시작하던 목적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 하나의 큰 주소 공간에 일렬로 배치 | Symbol Table | 각각의 방을 하나의 큰 집 도면으로 합치기 |
 
@@ -67,28 +64,27 @@ tags = ["studynote-operating-system"]
 
 ### 정적 링킹의 메모리 및 주소 재배치 아키텍처
 
-정적 링킹 과정에서 가장 복잡한 작업은 **주소 재배치(Address Relocation)**다. 여러 목적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 합쳐지면 코드의 위치가 바뀌므로, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)(JUMP) 주소들도 전부 새 위치에 맞게 수정되어야 한다.
+정적 링킹 과정에서 가장 복잡한 작업은 <strong>주소 재배치(Address Relocation)</strong>다. 여러 목적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 합쳐지면 코드의 위치가 바뀌므로, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)(JUMP) 주소들도 전부 새 위치에 맞게 수정되어야 한다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              정적 링킹 과정에서의 주소 재배치 (Relocation)           │
-├──────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│ [main.o] 주소 0번지부터 시작         [math.o] 주소 0번지부터 시작    │
-│  0x00: LOAD A                       0x00: ADD A, B                   │
-│  0x04: CALL ?? (math 함수 주소 모름)  0x04: RETURN                   │
-│                                                                      │
-│                   │ 링커(Linker) 개입                                │
-│                   ▼                                                  │
-│ [합쳐진 최종 실행 파일 a.out 메모리 레이아웃]                        │
-│                                                                      │
-│  0x1000: LOAD A            (main.o 영역)                             │
-│  0x1004: CALL 0x2000 ◀─── 링커가 빈칸을 '0x2000'으로 채워 넣음!      │
-│  ...                                                                 │
-│  0x2000: ADD A, B          (math.o 영역이 여기에 배치됨)             │
-│  0x2004: RETURN                                                      │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 링킹 과정에서의 주소 재배치 (Relocation)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">main.o</div><div class="kb-diagram-note">주소 0번지부터 시작</div><div class="kb-diagram-node">math.o</div><div class="kb-diagram-note">주소 0번지부터 시작</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00: LOAD A 0x00: ADD A, B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x04: CALL ?? (math 함수 주소 모름) 0x04: RETURN</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">링커(Linker) 개입</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">합쳐진 최종 실행 파일 a.out 메모리 레이아웃</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1000: LOAD A (main.o 영역)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1004: CALL 0x2000 ◀ 링커가 빈칸을 '0x2000'으로 채워 넣음!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x2000: ADD A, B (math.o 영역이 여기에 배치됨)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x2004: RETURN</div></div>
+</div>
+</div>
+
+
 
 **[다이어그램 해설]** 컴파일 직후의 `main.o`는 외부 함수의 주소를 모르는 상태(미해결 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))다. 링커는 `main.o`와 `math.o`를 하나의 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 이어 붙이면서, `math.o` 코드가 새롭게 위치한 메모리 번지(0x2000)를 정확히 계산하여 `main.o`의 [CALL](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 빈칸에 하드코딩해 넣는다. 이 과정이 끝나면 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 모든 메모리 주소가 완벽하게 계산된 단단한 기계어 덩어리만 남으며, 실행 시점에 OS(동적 링커)가 개입할 여지나 필요성이 완전히 사라진다.
 
@@ -97,7 +93,7 @@ tags = ["studynote-operating-system"]
 ### 스마트 링킹 (Dead [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Elimination)
 
 모든 정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 무식하게 다 복사하면 용량이 수백 MB를 넘어가게 된다.
-- 현대의 링커는 똑똑하게 작동하여, 정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`.a`) 아카이브 안에 있는 수천 개의 함수 중 **내 프로그램이 실제로 한 번이라도 호출한 함수(오브젝트)만 선별적으로 추출하여 복사**한다.
+- 현대의 링커는 똑똑하게 작동하여, 정적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`.a`) 아카이브 안에 있는 수천 개의 함수 중 <strong>내 프로그램이 실제로 한 번이라도 호출한 함수(오브젝트)만 선별적으로 추출하여 복사</strong>한다.
 - 이를 통해 정적 링킹의 가장 큰 단점인 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기 비대화'를 어느 정도 억제한다.
 
 - **📢 섹션 요약 비유**: 퍼즐 세트 상자([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))를 통째로 가져오는 것이 아니라, 내가 만든 성에 딱 끼워 넣을 블록 몇 개만 골라서 접착제로 단단히 붙여버리는 정교한 조립 과정입니다.
@@ -110,24 +106,27 @@ tags = ["studynote-operating-system"]
 
 | 비교 항목 | 정적 연결 (Static Linking) | [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) |
 |:---|:---|:---|
-| **[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 포함 여부**| 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 물리적으로 내장 | 포인터([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있고 실제 코드는 외부에 존재 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 포함 여부</strong>| 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 물리적으로 내장 | 포인터([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))만 있고 실제 코드는 외부에 존재 |
 | **의존성 (Dependency)**| **전혀 없음** (단일 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 배포 끝) | 매우 높음 (실행 환경에 해당 DLL/SO가 있어야 함) |
 | **메모리/디스크 효율** | 매우 나쁨 (동일 코드 중복 적재) | 매우 좋음 (시스템 전체가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 공유) |
 | **보안 패치 방법** | 소스코드를 다시 링킹(컴파일)해서 새 EXE 배포 | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(DLL/SO)만 교체하면 즉시 반영 |
-| **부팅([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩) 속도**| **매우 빠름** (주소 변환/검색 오버헤드 0) | 미세하게 느림 (런타임 [주소 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/) 발생) |
+| <strong>부팅(<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 로딩) 속도</strong>| **매우 빠름** (주소 변환/검색 오버헤드 0) | 미세하게 느림 (런타임 [주소 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/) 발생) |
 
 ### 비교 2: [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 환경에서의 패러다임 전환
 
-현대 클라우드 환경에서는 메모리의 낭비보다 **'배포의 불확실성 제거'**가 압도적으로 중요한 가치를 지닌다.
+현대 클라우드 환경에서는 메모리의 낭비보다 <strong>'배포의 불확실성 제거'</strong>가 압도적으로 중요한 가치를 지닌다.
 
-```text
-┌──────────┬────────────┬────────────┬─────────────────────────┐
-│ 환경       │ 정적 링킹    │ 동적 링킹    │ 클라우드 적합성   │
-├──────────┼────────────┼────────────┼─────────────────────────┤
-│ PC/모바일  │ 용량 낭비 심함│ 효율성 극대화 │ 부적합          │
-│ Docker   │ 완벽한 고립 보장│ 의존성 꼬임 위험│ 매우 적합     │
-└──────────┴────────────┴────────────┴─────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">정적 링킹</div><div class="kb-diagram-cell">동적 링킹</div><div class="kb-diagram-cell">클라우드 적합성</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC/모바일</div><div class="kb-diagram-cell">용량 낭비 심함</div><div class="kb-diagram-cell">효율성 극대화</div><div class="kb-diagram-cell">부적합</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker</div><div class="kb-diagram-cell">완벽한 고립 보장</div><div class="kb-diagram-cell">의존성 꼬임 위험</div><div class="kb-diagram-cell">매우 적합</div></div>
+</div>
+</div>
+
+
 **[매트릭스 해설]** [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 공유하고 나머지 환경은 격리하는데, 만약 앱을 동적 링킹으로 빌드하면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 안에 베이스 OS(Ubuntu 등)의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 전부 넣어줘야 해서 이미지가 무거워진다. 반면 Go 언어처럼 `정적 링킹(Static Binary)`으로 빌드한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 의존성이 제로이므로, 베이스 이미지가 0바이트인 텅 빈 `scratch` [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서도 완벽하게 단독 실행된다. 이것이 현대 백엔드 생태계에서 정적 링킹이 부활한 가장 결정적인 이유다.
 
 - **📢 섹션 요약 비유**: 옛날엔 집이 좁아 가전제품을 이웃과 같이 쓰는(동적) 게 유리했지만, 요즘은 원룸([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))마다 내 풀옵션 가전(정적)을 다 채워 넣어야 세입자 입주(배포)가 바로바로 되는 것과 같습니다.
@@ -148,7 +147,7 @@ tags = ["studynote-operating-system"]
 1. **문제 상황**: 프로그램 내부에 정적 링킹으로 박아넣은 Zlib [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에서 치명적인 해킹 취약점이 발견되었다.
 2. **운영 위기**:
    - 동적 링킹이었다면 서버 관리자가 OS의 Zlib [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개만 업데이트하면 끝난다.
-   - 하지만 정적 링킹의 경우, 해당 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 포함하고 있는 자사의 **모든 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 300개의 소스코드를 다시 꺼내어, 일일이 링킹(빌드)하고 300개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 전부 재배포**해야 한다.
+   - 하지만 정적 링킹의 경우, 해당 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 포함하고 있는 자사의 <strong>모든 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 300개의 소스코드를 다시 꺼내어, 일일이 링킹(빌드)하고 300개의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 전부 재배포</strong>해야 한다.
 3. **의사결정 판단**: 보안 패치 주기가 극도로 잦고 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 광범위하게 공유하는 코어 OS 환경에서는 절대적으로 동적 링킹을 써야 한다.
 
 - **📢 섹션 요약 비유**: 텐트에 버너를 아예 용접(정적 링킹)해버리면 텐트만 치면 바로 고기를 구울 수 있어 편하지만, 버너가 고장 나면 텐트 전체를 공장으로 다시 보내서 수리해야 하는 치명적인 유지보수 약점이 존재합니다.
@@ -161,9 +160,9 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **배포의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(Zero-Dependency)**| 타겟 시스템의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 환경(DLL Hell)을 전혀 타지 않아 배포 성공률 100% 달성 |
+| <strong>배포의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(Zero-Dependency)</strong>| 타겟 시스템의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 환경(DLL Hell)을 전혀 타지 않아 배포 성공률 100% 달성 |
 | **최대 실행 속도** | 런타임에 동적 링커가 주소를 찾는 오버헤드가 제로(0)이므로 실행 속도가 가장 빠름 |
-| **[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 경량화** | OS 이미지 없이 순수 바이너리 하나만으로 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 구동 가능 (이미지 크기 극소화) |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 경량화</strong> | OS 이미지 없이 순수 바이너리 하나만으로 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 구동 가능 (이미지 크기 극소화) |
 
 ### 결론 및 미래 전망
 
@@ -184,15 +183,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]
-    │
-    ▼
-[정적 연결 (Static Linking)]
-    │
-    ├──▶ [스와핑 (Swapping)]
-    └──▶ [스왑 아웃 (Swap out) / 스왑 인 (Swap in)]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">공유 라이브러리 (Shared Library) 스터브 (Stub) 코드</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">정적 연결 (Static Linking)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스와핑 (Swapping)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스왑 아웃 (Swap out) / 스왑 인 (Swap in)</div></div>
+</div>
+</div>
+
+
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

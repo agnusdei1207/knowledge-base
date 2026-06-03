@@ -25,18 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 양자화가 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라, "같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 같은 메모리로 몇 개의 값을 운반할 수 있는가"를 바꾸는 구조적 선택임을 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│      같은 32-bit 버스라도 표현 방식에 따라 운반량이 달라짐   │
-├───────────────┬──────────────────────┬───────────────────────┤
-│ 표현 형식     │ 32-bit 버스 1회 전송  │ 상대 저장 크기         │
-├───────────────┼──────────────────────┼───────────────────────┤
-│ FP32          │ 1개 값                │ 1x                    │
-│ FP16          │ 2개 값                │ 1/2x                  │
-│ INT8          │ 4개 값                │ 1/4x                  │
-│ INT4          │ 8개 값                │ 1/8x                  │
-└───────────────┴──────────────────────┴───────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 32-bit 버스라도 표현 방식에 따라 운반량이 달라짐</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표현 형식</div><div class="kb-diagram-cell">32-bit 버스 1회 전송</div><div class="kb-diagram-cell">상대 저장 크기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32</div><div class="kb-diagram-cell">1개 값</div><div class="kb-diagram-cell">1x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16</div><div class="kb-diagram-cell">2개 값</div><div class="kb-diagram-cell">1/2x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT8</div><div class="kb-diagram-cell">4개 값</div><div class="kb-diagram-cell">1/4x</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT4</div><div class="kb-diagram-cell">8개 값</div><div class="kb-diagram-cell">1/8x</div></div>
+</div>
+</div>
+
+
 
 즉 양자화는 "숫자를 대충 만든다"는 의미보다 "같은 하드웨어가 한 번에 처리할 수 있는 정보량을 늘린다"는 의미로 이해해야 한다. 정확도 손실은 부작용이지만, 메모리와 전력 절감은 구조적으로 확정되는 이득이다.
 
@@ -52,19 +54,21 @@ tags = ["studynote-computer-architecture"]
 
 하드웨어 입장에서는 입력과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정수로 바꾼 뒤, 정수 곱셈-누산만 빠르게 수행하고 마지막에 필요할 때만 다시 실수 영역으로 복원하는 흐름이 중요하다.
 
-```text
-┌────────────┐   quantize    ┌────────────┐   INT MAC    ┌────────────┐
-│ FP32 입력   │ ───────────▶ │ INT8 입력   │ ───────────▶ │            │
-├────────────┤               ├────────────┤              │ INT32 누산 │
-│ FP32 가중치 │ ───────────▶ │ INT8 가중치 │ ───────────▶ │            │
-└────────────┘               └────────────┘              └─────┬──────┘
-                                                                 │
-                                                                 ▼
-                                                          ┌────────────┐
-                                                          │ dequantize │
-                                                          │ FP16/FP32  │
-                                                          └────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">quantize INT MAC</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 입력</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">INT8 입력</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT32 누산</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 가중치</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">INT8 가중치</div><div class="kb-diagram-cell">▶</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dequantize</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16/FP32</div></div>
+</div>
+</div>
+
+
 
 이 그림에서 중요한 지점은 두 가지다. 첫째, 곱셈은 가벼운 정수 회로에서 처리되므로 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 텐서 처리 장치 ([Tensor Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)) 같은 가속기가 높은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도를 확보하기 쉽다. 둘째, 누산은 보통 더 넓은 INT32 (32-bit Integer)나 FP16/FP32로 받아 오차가 누적되어 폭발하는 것을 막는다.
 
@@ -119,17 +123,17 @@ FP16 또는 BF16은 학습과 추론 모두에 널리 쓰이며, 동적 범위�
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **하드웨어 지원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 대상 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), CPU (Central Processing Unit)가 INT8 또는 INT4 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 실제로 가속하는가?
+1. <strong>하드웨어 지원 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 대상 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), CPU (Central Processing Unit)가 INT8 또는 INT4 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 실제로 가속하는가?
 2. **양자화 대상 분리**: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)만 줄일지, 활성값까지 함께 줄일지 구분했는가?
-3. **정확도 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)**: Top-1 정확도, perplexity, BLEU (Bilingual Evaluation Understudy), 응답 안전성 등 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 핵심 지표를 미리 정했는가?
+3. <strong>정확도 기준 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: Top-1 정확도, perplexity, BLEU (Bilingual Evaluation Understudy), 응답 안전성 등 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 핵심 지표를 미리 정했는가?
 4. **예외 계층 관리**: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/), 출력 헤드, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 큰 계층을 저비트에서 제외할 필요가 있는가?
-5. **배포 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)**: 모델 변환 후 실제 런타임이 정수 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 타는지 프로파일링했는가?
+5. <strong>배포 경로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: 모델 변환 후 실제 런타임이 정수 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 타는지 프로파일링했는가?
 
 ### 대표적인 의사결정 패턴
 
 - **모바일 / 엣지 추론**: 배터리와 메모리가 제한적이므로 INT8이 가장 실용적이다. 전체 INT8 경로가 확보되면 CPU (Central Processing Unit) 폴백을 줄여 발열과 지연시간을 동시에 잡을 수 있다.
-- **클라우드 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 서빙**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 수용량과 토큰 처리량이 핵심이므로 INT4 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 양자화를 적극 검토한다. 다만 품질 하락이 응답 신뢰도에 직접 영향을 주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 일부 계층은 FP16으로 남기는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))가 안전하다.
-- **고위험 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)**: 의료, 금융 심사, 안전 제어처럼 작은 오차도 부담이 큰 경우에는 INT8 도입 전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 급격히 커진다. 이때는 BF16 또는 FP16을 유지하고, 양자화는 보조 후보로 두는 편이 합리적이다.
+- <strong>클라우드 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 서빙</strong>: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 수용량과 토큰 처리량이 핵심이므로 INT4 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 양자화를 적극 검토한다. 다만 품질 하락이 응답 신뢰도에 직접 영향을 주는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 일부 계층은 FP16으로 남기는 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))가 안전하다.
+- <strong>고위험 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 의료, 금융 심사, 안전 제어처럼 작은 오차도 부담이 큰 경우에는 INT8 도입 전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 급격히 커진다. 이때는 BF16 또는 FP16을 유지하고, 양자화는 보조 후보로 두는 편이 합리적이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -167,21 +171,23 @@ FP16 또는 BF16은 학습과 추론 모두에 널리 쓰이며, 동적 범위�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-FP32 중심 추론
-    │
-    ▼
-FP16 · BF16 저정밀 연산 확산
-    │
-    ▼
-INT8 양자화 + 정수 가속기 표준화
-    │
-    ▼
-INT4 가중치 양자화 · LLM 경량화
-    │
-    ▼
-FP8 · 양자화 친화형 모델 · 하드웨어/소프트웨어 공동 설계
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">FP32 중심 추론</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP16 · BF16 저정밀 연산 확산</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">INT8 양자화 + 정수 가속기 표준화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">INT4 가중치 양자화 · LLM 경량화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">FP8 · 양자화 친화형 모델 · 하드웨어/소프트웨어 공동 설계</div>
+</div>
+</div>
+
+
 
 이 흐름은 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 절감 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 절감 → 가속기 최적화 → 모델 구조 공동 설계"로 진화하는 방향을 보여준다.
 

@@ -26,7 +26,7 @@ tags = ["studynote-ict-convergence"]
 - [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드: [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), [Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)), [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 처리가 CPU를 직접 소비
 - 보안 강화: [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 모델에서 모든 패킷에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/암호화 요구 증가
 
-**[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 등장**: 네트워크 처리를 위한 전용 프로세서가 필요하다는 인식에서 탄생. NVIDIA BlueField, Intel [IPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/437_ipu/)(Infrastructure Processing Unit), Marvell OCTEON 등이 대표 제품.
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 등장</strong>: 네트워크 처리를 위한 전용 프로세서가 필요하다는 인식에서 탄생. NVIDIA BlueField, Intel [IPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/437_ipu/)(Infrastructure Processing Unit), Marvell OCTEON 등이 대표 제품.
 
 - **📢 섹션 요약 비유**: [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 없는 CPU는 연구자가 모든 행정 업무까지 직접 처리하는 상황이다 — 행정 직원([DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))을 두면 연구자(CPU)는 연구에만 집중할 수 있다.
 
@@ -34,25 +34,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 내부 구조**:
+<strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 내부 구조</strong>:
 
-```
-┌───────────────────────────────────────────────────────────┐
-│                  DPU / SmartNIC 카드                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐ │
-│  │  NIC 포트    │  │  ARM 코어    │  │ FPGA/ASIC 가속기 │ │
-│  │ (100/400Gbps)│  │ (OS 실행     │  │ (암호화, 압축,   │ │
-│  │              │  │  SW 프로그래밍)│  │  매칭, 오프로드) │ │
-│  └──────┬───────┘  └──────┬───────┘  └──────────────────┘ │
-│         └─────────────────┘                               │
-│              PCIe 인터페이스                               │
-└───────────────────────────────────────────────────────────┘
-         ↕ PCIe 연결
-  ┌──────────────────┐
-  │   호스트 CPU     │
-  │  (애플리케이션)   │
-  └──────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPU / SmartNIC 카드</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC 포트</div><div class="kb-diagram-cell">ARM 코어</div><div class="kb-diagram-cell">FPGA/ASIC 가속기</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100/400Gbps)</div><div class="kb-diagram-cell">(OS 실행</div><div class="kb-diagram-cell">(암호화, 압축,</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SW 프로그래밍)</div><div class="kb-diagram-cell">매칭, 오프로드)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe 인터페이스</div></div>
+<div class="kb-diagram-note">↕ PCIe 연결</div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 CPU</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(애플리케이션)</div></div>
+</div>
+</div>
+
+
 
 | [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 기능 | 내용 | 효과 |
 |:---|:---|:---|
@@ -62,7 +61,7 @@ tags = ["studynote-ict-convergence"]
 | [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/)) | 서버 간 [Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 메모리 전송 | 초저지연 통신 |
 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) / 패킷 필터링 | 인라인 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 적용 | CPU 없이 보안 처리 |
 
-**SmartNIC vs [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)**:
+<strong>SmartNIC vs <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a></strong>:
 - SmartNIC: [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) + 경량 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/). 패킷 처리 특화.
 - [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/): [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) + ARM 코어(완전한 OS 실행) + [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)/[ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/). 더 광범위한 인프라 기능 실행 가능.
 
@@ -73,11 +72,11 @@ tags = ["studynote-ict-convergence"]
 ## Ⅲ. 비교 및 연결
 
 **NVIDIA BlueField 활용 시나리오**:
-1. **[SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([Software Defined Networking](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/)) 가속**: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)/[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 처리를 DPU로 이관
-2. **StorageClass [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)**: [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)([NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)) 타겟 처리를 DPU가 담당, 호스트 CPU 개입 없이 블록 스토리지 I/O 처리
-3. **[Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access 가속**: 모든 동서(East-West) 트래픽에 대한 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) DPU에서 실시간 적용
+1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/215_sdn_software_defined_networking_openflow/">Software Defined Networking</a>) 가속</strong>: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/)/[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 처리를 DPU로 이관
+2. <strong>StorageClass <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a></strong>: [NVMe-oF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)([NVMe over Fabrics](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/499_nvme_over_fabrics/)) 타겟 처리를 DPU가 담당, 호스트 CPU 개입 없이 블록 스토리지 I/O 처리
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a> Network Access 가속</strong>: 모든 동서(East-West) 트래픽에 대한 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) DPU에서 실시간 적용
 
-**[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) vs 제어 평면**:
+<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> vs 제어 평면</strong>:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane): DPU가 처리 — 패킷 포워딩, 암호화, 필터링 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 집약)
 - 제어 평면(Control Plane): CPU가 처리 — [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 갱신, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포 (지능적 결정)
 
@@ -102,7 +101,7 @@ tags = ["studynote-ict-convergence"]
 
 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)/SmartNIC 도입의 기대 효과:
 - **CPU 효율 극대화**: 인프라 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 애플리케이션 처리 가능 코어 20~40% 증가
-- **네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)**: 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 없이 100/400Gbps 라인 레이트 처리
+- <strong>네트워크 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 없이 100/400Gbps 라인 레이트 처리
 - **보안 강화**: 인라인 암호화, 필터링으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 [Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 구현
 - **전력 효율**: 전용 ASIC이 CPU보다 동일 작업을 10분의 1 전력으로 처리
 

@@ -20,19 +20,21 @@ tags = ["studynote-database"]
 
 DML은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조회·삽입·갱신·삭제하는 언어로, 구현 철학에 따라 두 가지로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│         절차적 DML vs 비절차적 DML 비교                    │
-├──────────────────────────┬───────────────────────────────┤
-│     절차적(Procedural)    │    비절차적(Non-Procedural)    │
-├──────────────────────────┼───────────────────────────────┤
-│  HOW: 레코드 탐색 경로    │  WHAT: 원하는 결과 선언        │
-│  네트워크·계층형 DB 시대  │  관계형 DB, SQL               │
-│  DL/1 (IBM IMS), COBOL   │  SQL (SELECT, UPDATE 등)      │
-│  레코드 단위 처리         │  집합(Set) 단위 처리           │
-│  옵티마이저 불필요        │  옵티마이저 필수               │
-└──────────────────────────┴───────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절차적 DML vs 비절차적 DML 비교</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절차적(Procedural)</div><div class="kb-diagram-cell">비절차적(Non-Procedural)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HOW: 레코드 탐색 경로</div><div class="kb-diagram-cell">WHAT: 원하는 결과 선언</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크·계층형 DB 시대</div><div class="kb-diagram-cell">관계형 DB, SQL</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DL/1 (IBM IMS), COBOL</div><div class="kb-diagram-cell">SQL (SELECT, UPDATE 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레코드 단위 처리</div><div class="kb-diagram-cell">집합(Set) 단위 처리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵티마이저 불필요</div><div class="kb-diagram-cell">옵티마이저 필수</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 절차적 DML은 "1번 서랍 열고 → 3번 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 꺼내고 → 5번 항목 찾아라"는 지시이고, 비절차적 DML은 "김철수 씨 정보 주세요"라는 요청이다. 두 번째는 내부 과정은 DB가 알아서 처리한다.
 
@@ -42,22 +44,25 @@ DML은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architec
 
 ### SQL 비절차적 실행 흐름
 
-```text
-SQL 문 입력
-    │
-    ▼
-[파서 (Parser)] — 문법 검사, 파스 트리 생성
-    │
-    ▼
-[옵티마이저 (Optimizer)] — 최적 실행 계획 선택
-    │  ├─ 규칙 기반 (RBO, Rule-Based Optimizer)
-    │  └─ 비용 기반 (CBO, Cost-Based Optimizer) ← 현대 표준
-    ▼
-[실행 엔진 (Execution Engine)] — 계획 실행
-    │
-    ▼
-결과 집합(Result Set) 반환
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">SQL 문 입력</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">파서 (Parser)</div><div class="kb-diagram-note">— 문법 검사, 파스 트리 생성</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">옵티마이저 (Optimizer)</div><div class="kb-diagram-note">— 최적 실행 계획 선택</div></div>
+<div class="kb-diagram-note">─ 규칙 기반 (RBO, Rule-Based Optimizer)</div>
+<div class="kb-diagram-note">─ 비용 기반 (CBO, Cost-Based Optimizer) ← 현대 표준</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">실행 엔진 (Execution Engine)</div><div class="kb-diagram-note">— 계획 실행</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">결과 집합(Result Set) 반환</div>
+</div>
+</div>
+
+
 
 ### 커서(Cursor) — 절차적 처리의 SQL 내 활용
 
@@ -87,7 +92,7 @@ CLOSE cur;
 | **처리 단위** | 레코드 단위 | 집합(Set) 단위 |
 | **접근 경로** | 개발자가 명시 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 자동 결정 |
 | **유연성** | 복잡한 로직 처리 용이 | 단순하고 이식성 높음 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | 행별 오버헤드 | 집합 처리로 고성능 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 행별 오버헤드 | 집합 처리로 고성능 |
 | **대표 기술** | PL/SQL, T-SQL, COBOL | SQL (ANSI 표준) |
 
 - **📢 섹션 요약 비유**: 비절차적 SQL은 자동 내비게이션이고, 절차적 DML은 운전자가 직접 경로를 지정하는 것이다. 내비게이션이 대부분의 경우 더 빠른 길을 찾지만, 특수한 상황에서는 운전자의 경험이 필요하다.
@@ -117,7 +122,7 @@ CLOSE cur;
 |:---|:---|
 | **생산성** | WHAT만 선언 → 개발 속도 향상 |
 | **이식성** | ANSI SQL 표준 → DB 독립성 |
-| **[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)** | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 자동 최적화 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 자동 최적화 |
 
 현대 NewSQL과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) SQL(Distributed SQL)은 비절차적 SQL의 선언적 간결함을 유지하면서 수평 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 지원하는 방향으로 발전하고 있다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)도 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 학습형 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)(Learned [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))로 진화하여 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 선택의 정확도를 높이고 있다.
 
@@ -129,29 +134,31 @@ CLOSE cur;
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **SQL [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)** | 비절차적 DML의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 핵심 |
-| **[실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) ([Execution Plan](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))** | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 선택 결과; EXPLAIN으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| <strong>SQL <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a></strong> | 비절차적 DML의 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 핵심 |
+| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">Execution Plan</a>)</strong> | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 선택 결과; EXPLAIN으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | **PL/SQL / T-SQL** | 절차적 확장 SQL; 커서·제어 구조 지원 |
 | **커서 (Cursor)** | 집합 SQL을 행 단위로 처리하는 절차적 메커니즘 |
-| **Learned [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/)** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 차세대 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 |
+| <strong>Learned <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/">Optimizer</a></strong> | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 차세대 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[절차적 DML — 네트워크/계층형 DB, 레코드 단위 네비게이션]
-    │
-    ▼
-[비절차적 DML (SQL) — 관계형 DB, 집합 처리, 옵티마이저]
-    │
-    ▼
-[PL/SQL / T-SQL — 절차적 확장; 커서·트리거·저장 프로시저]
-    │
-    ▼
-[CBO 옵티마이저 — 통계 기반 비용 최적 실행 계획]
-    │
-    ▼
-[AI Learned Optimizer — 머신러닝 기반 실행 계획 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">절차적 DML — 네트워크/계층형 DB, 레코드 단위 네비게이션</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">비절차적 DML (SQL) — 관계형 DB, 집합 처리, 옵티마이저</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">PL/SQL / T-SQL — 절차적 확장; 커서·트리거·저장 프로시저</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CBO 옵티마이저 — 통계 기반 비용 최적 실행 계획</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">AI Learned Optimizer — 머신러닝 기반 실행 계획 예측</div></div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

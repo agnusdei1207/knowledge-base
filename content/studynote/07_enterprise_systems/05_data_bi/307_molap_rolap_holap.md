@@ -44,26 +44,24 @@ MDX (Multidimensional Expressions)는 [OLAP](/knowledge-base/studynote/12_it_man
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/) 3차원 큐브 구조
 
-```
-  ┌────────────────────────────────────────────────┐
-  │           MOLAP Cube: Sales                    │
-  │                                                │
-  │         제품 차원 (Product)                     │
-  │        ┌─────┬─────┬─────┐                    │
-  │       /│     │     │     │/                   │
-  │      / └─────┴─────┴─────┘                    │
-  │  시간 / ──────────────────▶ 지역 차원 (Region)  │
-  │  차원 ┌─────┬─────┬─────┐                      │
-  │ (Time)│2022 │2023 │2024 │                      │
-  │       ├─────┼─────┼─────┤                      │
-  │       │ 서울 │ 부산 │ 대구 │  각 셀 = 사전 집계값 │
-  │       ├─────┼─────┼─────┤  (합계, 평균, 최대 등) │
-  │       │ ... │ ... │ ... │                      │
-  │       └─────┴─────┴─────┘                      │
-  │  큐브 빌드: 야간 배치 (수시간)                   │
-  │  조회 응답: <1초 (사전 집계 인덱스)              │
-  └────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MOLAP Cube: Sales</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품 차원 (Product)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 / ▶ 지역 차원 (Region)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차원</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Time)</div><div class="kb-diagram-cell">2022</div><div class="kb-diagram-cell">2023</div><div class="kb-diagram-cell">2024</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울</div><div class="kb-diagram-cell">부산</div><div class="kb-diagram-cell">대구</div><div class="kb-diagram-cell">각 셀 = 사전 집계값</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(합계, 평균, 최대 등)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐브 빌드: 야간 배치 (수시간)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조회 응답: &lt;1초 (사전 집계 인덱스)</div></div>
+</div>
+</div>
+
+
 
 ### [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -128,21 +126,23 @@ MDX (Multidimensional Expressions)는 [OLAP](/knowledge-base/studynote/12_it_man
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```
-평면 2D 리포트 한계 - 다차원 분석 필요성
-    │
-    ▼
-MOLAP - 전용 큐브 스토리지 (빠른 쿼리, 공간 비용)
-    │
-    ▼
-ROLAP - RDB 기반 스타 스키마 (확장성, 느린 쿼리)
-    │
-    ▼
-HOLAP - MOLAP+ROLAP 하이브리드 계층화
-    │
-    ▼
-현대 OLAP (Druid, ClickHouse) - 실시간 집계 진화
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">평면 2D 리포트 한계 - 다차원 분석 필요성</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">MOLAP - 전용 큐브 스토리지 (빠른 쿼리, 공간 비용)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ROLAP - RDB 기반 스타 스키마 (확장성, 느린 쿼리)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">HOLAP - MOLAP+ROLAP 하이브리드 계층화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">현대 OLAP (Druid, ClickHouse) - 실시간 집계 진화</div>
+</div>
+</div>
+
+
 
 > **키워드**: [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/), [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/), [HOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/338_holap/), [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) Cube, [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/), [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/), Drill-Down, ClickHouse
 

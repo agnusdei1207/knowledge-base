@@ -35,37 +35,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 같은 데이터를 두 관점에서 보여준다. 위쪽은 플래터 한 장의 평면 구조, 아래쪽은 여러 플래터를 세로로 본 구조다.
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                 트랙, 섹터, 실린더의 물리 관계                            │
-├────────────────────────────────────────────────────────────────────────────┤
-│ [Top View: 플래터 한 면]                                                   │
-│                                                                            │
-│          ┌────────────── Sector (섹터) ──────────────┐                     │
-│          ▼                                            ▼                     │
-│      ┌──────────────────────────────────────────────┐                       │
-│      │                  outer track                 │                       │
-│      │      ┌────────────────────────────────┐      │                       │
-│      │      │          middle track          │      │                       │
-│      │      │      ┌────────────────┐        │      │                       │
-│      │      │      │ inner track    │        │      │                       │
-│      │      │      └────────────────┘        │      │                       │
-│      │      └────────────────────────────────┘      │                       │
-│      └──────────────────────────────────────────────┘                       │
-│                   ▲                                                         │
-│                   └─ Track (트랙: 동심원 기록 경로)                         │
-│                                                                            │
-│ [Side View: 여러 플래터]                                                    │
-│                                                                            │
-│   Head 0 ──▶ ┌────────────────────┐   Platter 0 upper                       │
-│   Head 1 ──▶ └────────────────────┘   Platter 0 lower                       │
-│                │                │                                            │
-│   Head 2 ──▶ ┌─┼────────────────┼─┐ Platter 1 upper                         │
-│   Head 3 ──▶ └─┼────────────────┼─┘ Platter 1 lower                         │
-│                │                │                                            │
-│               same radius across surfaces  =  Cylinder (실린더)            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랙, 섹터, 실린더의 물리 관계</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Top View: 플래터 한 면</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sector (섹터)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">outer track</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">middle track</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">inner track</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Track (트랙: 동심원 기록 경로)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Side View: 여러 플래터</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head 0 ──▶ Platter 0 upper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head 1 ──▶ Platter 0 lower</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head 2 ──▶ ─ ─ Platter 1 upper</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head 3 ──▶ ─ ─ Platter 1 lower</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same radius across surfaces = Cylinder (실린더)</div></div>
+</div>
+</div>
+
+
 
 이 구조가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결되는 이유는 헤드 이동 비용과 회전 대기 비용이 다르기 때문이다. 다른 트랙으로 가려면 기계적으로 헤드가 움직여야 하므로 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 필요하지만, 같은 실린더 안에서 다른 면으로 바꾸는 것은 주로 헤드 스위칭 (Head Switching)으로 처리되어 훨씬 저렴하다. 따라서 연속 데이터가 같은 실린더 주변에 배치되면 대기 시간이 크게 줄고, 흩어져 있으면 HDD는 같은 양의 데이터도 훨씬 느리게 처리한다.
 
@@ -112,10 +102,10 @@ tags = ["studynote-computer-architecture"]
 
 ### 기술사 관점 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인이 **용량 부족**인지, **랜덤 I/O에 따른 헤드 이동 증가**인지 구분했는가?
-- 디스크를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소로만 보지 않고, **순차성·지역성·정렬**까지 함께 고려했는가?
-- HDD를 계속 쓸 경우, **[디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)·[버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)·[RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) (Redundant [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Independent Disks)**로 병목을 완화할 수 있는가?
-- 근본적으로 실린더/트랙 비용이 문제라면, **SSD나 티어링**으로 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체를 바꿔야 하는가?
+- 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인이 <strong>용량 부족</strong>인지, <strong>랜덤 I/O에 따른 헤드 이동 증가</strong>인지 구분했는가?
+- 디스크를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소로만 보지 않고, <strong>순차성·지역성·정렬</strong>까지 함께 고려했는가?
+- HDD를 계속 쓸 경우, <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/">디스크 스케줄링</a>·<a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>·<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> (Redundant <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a> of Independent Disks)</strong>로 병목을 완화할 수 있는가?
+- 근본적으로 실린더/트랙 비용이 문제라면, <strong>SSD나 티어링</strong>으로 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체를 바꿔야 하는가?
 
 결국 실무 판단은 “CHS를 직접 다룰 것인가”가 아니라, “CHS가 만들어내는 물리 비용을 무시해도 되는가”에 달려 있다. 소프트웨어가 LBA를 사용한다고 해서 기계 장치의 한계가 사라지는 것은 아니며, 병목 분석에서는 오히려 숨겨진 물리 구조를 다시 떠올려야 답이 보인다.
 
@@ -148,27 +138,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-플래터 (Platter) 기반 자기 기록
-    │
-    ▼
-트랙 (Track) · 섹터 (Sector) · 실린더 (Cylinder)
-    │
-    ▼
-CHS (Cylinder-Head-Sector) 주소 체계
-    │
-    ▼
-탐색 시간 (Seek Time) · 회전 지연 (Rotational Latency)
-    │
-    ▼
-LBA (Logical Block Addressing) · 디스크 스케줄링
-    │
-    ▼
-ZBR (Zoned Bit Recording) · 4KB 물리 섹터 · 고밀도 HDD
-    │
-    ▼
-SSD와의 역할 분화 · 계층형 스토리지
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">플래터 (Platter) 기반 자기 기록</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">트랙 (Track) · 섹터 (Sector) · 실린더 (Cylinder)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CHS (Cylinder-Head-Sector) 주소 체계</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">탐색 시간 (Seek Time) · 회전 지연 (Rotational Latency)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">LBA (Logical Block Addressing) · 디스크 스케줄링</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ZBR (Zoned Bit Recording) · 4KB 물리 섹터 · 고밀도 HDD</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">SSD와의 역할 분화 · 계층형 스토리지</div>
+</div>
+</div>
+
+
 
 이 흐름은 저장 위치를 물리 좌표로 이해하던 시대에서, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소로 추상화하면서도 물리 병목은 계속 관리해야 하는 방향으로 스토리지 설계가 발전해 온 과정을 보여준다.
 

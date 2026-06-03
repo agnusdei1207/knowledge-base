@@ -19,18 +19,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-단일 어텐션(Single-Head Attention)은 Q·K 내적으로 하나의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴만 포착한다. 그러나 자연어는 동시에 여러 종류의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 내포한다. "나는 어제 그 식당에서 맛있는 **그것**을 먹었다"에서 "그것"을 이해하려면 문법적으로는 목적어 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의미적으로는 "식당"과의 연관성, 거리적으로는 가장 가까운 명사 탐색 등 다양한 분석이 동시에 필요하다.
+단일 어텐션(Single-Head Attention)은 Q·K 내적으로 하나의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴만 포착한다. 그러나 자연어는 동시에 여러 종류의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 내포한다. "나는 어제 그 식당에서 맛있는 <strong>그것</strong>을 먹었다"에서 "그것"을 이해하려면 문법적으로는 목적어 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의미적으로는 "식당"과의 연관성, 거리적으로는 가장 가까운 명사 탐색 등 다양한 분석이 동시에 필요하다.
 
-**멀티 헤드 어텐션 (Multi-Head Attention)**은 이 문제를 H개의 독립적인 어텐션 헤드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 운영하여 해결한다. 각 헤드는 독립적인 W_Q^i, W_K^i, W_V^i를 학습하여 서로 다른 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전담하게 된다.
+<strong>멀티 헤드 어텐션 (Multi-Head Attention)</strong>은 이 문제를 H개의 독립적인 어텐션 헤드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 운영하여 해결한다. 각 헤드는 독립적인 W_Q^i, W_K^i, W_V^i를 학습하여 서로 다른 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전담하게 된다.
 
-```text
-┌──────────────────────────────────────────────┐
-│ Background Problem → Need → Adoption Value   │
-├──────────────────────────────────────────────┤
-│ Existing limitation │ Operational pressure   │
-│ New requirement     │ Design decision point  │
-└──────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 멀티 헤드 어텐션은 다각도 카메라 시스템이다. 하나의 카메라(단일 헤드)가 건물을 촬영하면 앞면만 보이지만, 8대 카메라(8헤드)가 동시에 전면·후면·좌면·우면·상면 등을 동시에 촬영해 건물 전체를 360도로 이해하는 것이다.
 
@@ -38,32 +41,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-```text
-┌──────────────────────────────────────────────────────────────────┐
-│         멀티 헤드 어텐션 (Multi-Head Attention) 구조                │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  입력 X (T × d_model)                                             │
-│      │                                                           │
-│      ├──▶ Head 1: Q₁=XW_Q¹, K₁=XW_K¹, V₁=XW_V¹                 │
-│      │    Attention(Q₁,K₁,V₁) → head₁  (T × d_v)               │
-│      │                                                           │
-│      ├──▶ Head 2: Q₂=XW_Q², K₂=XW_K², V₂=XW_V²                 │
-│      │    Attention(Q₂,K₂,V₂) → head₂  (T × d_v)               │
-│      │                                                           │
-│      ├──▶  ...         (H개 헤드 병렬 수행)                         │
-│      │                                                           │
-│      └──▶ Head H: Q_H=XW_QH, K_H=XW_KH, V_H=XW_VH              │
-│           Attention(Q_H,K_H,V_H) → head_H  (T × d_v)            │
-│                                                                  │
-│  ① Concat: [head₁; head₂; ...; head_H]  → (T × H·d_v)          │
-│  ② Linear: Concat · W_O  → (T × d_model)                        │
-│                                                                  │
-│  원논문 설정: d_model=512, H=8 → d_k=d_v=64 (512/8)              │
-│  총 파라미터: H×(d_model×d_k) × 3 + d_model×d_model              │
-│             ≈ 단일 헤드와 동일 (헤드당 차원이 1/H로 줄어듦)          │
-└──────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티 헤드 어텐션 (Multi-Head Attention) 구조</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 X (T × d_model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Head 1: Q₁=XW_Q¹, K₁=XW_K¹, V₁=XW_V¹</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention(Q₁,K₁,V₁) → head₁ (T × d_v)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Head 2: Q₂=XW_Q², K₂=XW_K², V₂=XW_V²</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention(Q₂,K₂,V₂) → head₂ (T × d_v)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ... (H개 헤드 병렬 수행)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Head H: Q_H=XW_QH, K_H=XW_KH, V_H=XW_VH</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention(Q_H,K_H,V_H) → head_H (T × d_v)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">① Concat:</div><div class="kb-diagram-node">head₁; head₂; ...; head_H</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(T × H·d_v)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Linear: Concat · W_O → (T × d_model)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원논문 설정: d_model=512, H=8 → d_k=d_v=64 (512/8)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 파라미터: H×(d_model×d_k) × 3 + d_model×d_model</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">≈ 단일 헤드와 동일 (헤드당 차원이 1/H로 줄어듦)</div></div>
+</div>
+</div>
+
+
 
 | 헤드 역할 예시 | 학습되는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 실제 관찰된 패턴 |
 |:---|:---|:---|
@@ -95,7 +94,7 @@ tags = ["studynote-ai"]
 
 **헤드 수 최적화**: 헤드 수 H가 너무 적으면 다양성이 부족하고, 너무 많으면 각 헤드의 차원 d_k=d_model/H가 너무 작아 표현력이 부족해진다. 실무에서는 d_k ≥ 32 수준을 유지하도록 H를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다(d_model=512이면 H=16이 한계).
 
-**어텐션 헤드 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))**: 학습 후 분석에서 일부 헤드는 다른 헤드와 중복된 패턴을 학습한다. 모델 경량화 시 중복 헤드를 제거([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 미미한 경우가 있으며, 이는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 활성 연구 분야다.
+<strong>어텐션 헤드 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong>: 학습 후 분석에서 일부 헤드는 다른 헤드와 중복된 패턴을 학습한다. 모델 경량화 시 중복 헤드를 제거([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))해도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하가 미미한 경우가 있으며, 이는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 모델 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 활성 연구 분야다.
 
 - **📢 섹션 요약 비유**: 헤드 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)는 8명 전문가 팀에서 "이 두 사람 결론이 항상 똑같네, 한 명은 해고해도 되겠다"라는 구조조정이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 거의 유지하면서 비용(파라미터)을 줄이는 경량화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -127,8 +126,8 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **멀티 헤드 어텐션**은 8명의 전문가가 같은 문장을 동시에 서로 다른 방식으로 분석하는 것인데, 문법 전문가, 의미 전문가, 대명사 전문가가 **각자 담당 분야를 동시에** 살펴봐요!
-2. 8명이 분석을 마치면 결과를 **한 데 모아서 합산**해 훨씬 풍부한 언어 이해를 만들어요.
+1. <strong>멀티 헤드 어텐션</strong>은 8명의 전문가가 같은 문장을 동시에 서로 다른 방식으로 분석하는 것인데, 문법 전문가, 의미 전문가, 대명사 전문가가 **각자 담당 분야를 동시에** 살펴봐요!
+2. 8명이 분석을 마치면 결과를 <strong>한 데 모아서 합산</strong>해 훨씬 풍부한 언어 이해를 만들어요.
 3. 놀라운 건 **파라미터(비용) 총합은 1명이 분석할 때와 같은데**, 8가지 관점의 이해를 동시에 얻는다는 점이에요!
 
 ---

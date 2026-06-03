@@ -19,17 +19,21 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 웹사이트 원본이 저장된 메인 서버(오리진)가 한 곳에 몰려있으면, **물리적 전파 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))**을 극복할 수 없습니다. 빛의 속도라도 한국에서 뉴욕 서버를 왕복하면 200ms가 넘어갑니다.
+- 웹사이트 원본이 저장된 메인 서버(오리진)가 한 곳에 몰려있으면, <strong>물리적 전파 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong>을 극복할 수 없습니다. 빛의 속도라도 한국에서 뉴욕 서버를 왕복하면 200ms가 넘어갑니다.
 - 갑자기 트래픽(DDoS나 수강 신청)이 1곳으로 몰리면(병목), 트래픽 요금([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/))이 수억 원 터지고 서버가 기절합니다.
 
-```text
-[WebRTC NAT 횡단]
-    │
-    ▼
-[CDN 엣지 노드 분산]
-    │
-    └──▶ [GSLB 지리적 DNS 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -38,16 +42,20 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 (클라우드플레어, 아카마이, AWS CloudFront)
-- **개념**: 본사 오리진 서버에 부하가 가는 것을 막기 위해, 유저와 물리적으로 가장 가까운 전 세계 각지의 통신망 끝자락(Edge)에 무수히 많은 **미니 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 서버(Edge Node, [PoP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/))**들을 거미줄처럼 흩뿌려 설치하고, 이미지/동영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 두어 초고속으로 대신 배달해 주는 글로벌 대리 배달 네트워크입니다.
+- **개념**: 본사 오리진 서버에 부하가 가는 것을 막기 위해, 유저와 물리적으로 가장 가까운 전 세계 각지의 통신망 끝자락(Edge)에 무수히 많은 <strong>미니 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 서버(Edge Node, <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/">PoP</a>)</strong>들을 거미줄처럼 흩뿌려 설치하고, 이미지/동영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 두어 초고속으로 대신 배달해 주는 글로벌 대리 배달 네트워크입니다.
 
-```text
-[WebRTC NAT 횡단]
-    │
-    ▼
-[CDN 엣지 노드 분산]
-    │
-    └──▶ [GSLB 지리적 DNS 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -58,17 +66,17 @@ tags = ["studynote-network"]
 ### 1. 엣지 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) (Edge [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))과 오리진 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)
 - 한국 유저 A가 처음 뉴욕 본사(오리진)에서 영상을 땡겨올 때, 중간에 있는 한국 엣지 서버가 그 영상을 자기 뱃속 디스크에 몰래 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다.
 - 1초 뒤 한국 유저 B가 같은 영상을 클릭하면? 엣지 서버가 "오케이! 내가 갖고 있어!" 하며 뉴욕 본사로 요청을 안 보내고 자기가 직접 쏴버립니다. 
-- **효과 ([오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))**: 뉴욕 본사 서버의 부하를 90% 이상 깎아내어([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 트래픽 요금 수백억 원을 아껴주는 기적을 낳습니다.
+- <strong>효과 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a>)</strong>: 뉴욕 본사 서버의 부하를 90% 이상 깎아내어([Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)) 트래픽 요금 수백억 원을 아껴주는 기적을 낳습니다.
 
 ### 2. 애니캐스트(Anycast)와 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
 유저는 어떻게 수만 개의 엣지 노드 중 자기와 가장 가까운 놈을 찾을까요?
-- [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 회사들은 전 세계의 모든 엣지 서버(서울, 도쿄, 뉴욕)에 똑같은 **'동일한 하나의 IP 주소(Anycast IP)'**를 쥐여줍니다.
-- 유저가 그 IP로 접속하면, 996번 라우터([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))가 인터넷 지도를 보고 **"물리적/네트워크 홉(Hop)이 가장 짧은 최단 거리 엣지 노드(서울 엣지)"**로 알아서 패킷을 꺾어 빨려 들어가게 만드는 궁극의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 길 찾기 마법입니다.
+- [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 회사들은 전 세계의 모든 엣지 서버(서울, 도쿄, 뉴욕)에 똑같은 <strong>'동일한 하나의 IP 주소(Anycast IP)'</strong>를 쥐여줍니다.
+- 유저가 그 IP로 접속하면, 996번 라우터([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))가 인터넷 지도를 보고 <strong>"물리적/네트워크 홉(Hop)이 가장 짧은 최단 거리 엣지 노드(서울 엣지)"</strong>로 알아서 패킷을 꺾어 빨려 들어가게 만드는 궁극의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 길 찾기 마법입니다.
 
 ### 3. 디도스(DDoS) 완벽 흡수 방어막
 - 러시아 해커가 1TB의 디도스 쓰레기 트래픽을 쏩니다.
 - 옛날엔 본사 서버 1대가 1TB를 다 맞고 터졌습니다.
-- **[CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 방패**: 트래픽이 전 세계 10만 대의 엣지 노드로 산산조각 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 빨려 들어갑니다. 엣지 노드 1대당 10GB씩 가볍게 나눠서 흡수한 뒤 쓰레기를 폐기 처리([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/필터링)하므로, 뒤에 숨어있는 본사 오리진 서버는 디도스 공격이 온지도 모른 채 평화롭게 꿀을 빱니다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> 방패</strong>: 트래픽이 전 세계 10만 대의 엣지 노드로 산산조각 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되어 빨려 들어갑니다. 엣지 노드 1대당 10GB씩 가볍게 나눠서 흡수한 뒤 쓰레기를 폐기 처리([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)/필터링)하므로, 뒤에 숨어있는 본사 오리진 서버는 디도스 공격이 온지도 모른 채 평화롭게 꿀을 빱니다.
 
 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단이 기반 조건을 만든다면, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 그 위에서 핵심 메커니즘을 구현하고, [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -93,7 +101,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 웹 서버는 서울에 딱 하나 있는 **'전국 배달 맛집(오리진 서버)'**입니다. 제주도, 부산에서 주문이 쏟아지면 배달 오토바이가 고속도로를 타고 수백 km를 달려야 해서 짜장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다 불어 터지고, 전화통([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))에 불이 나 식당이 터집니다. **[CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)**은 사장님이 전국 100개 주요 아파트 단지 입구마다 **'작은 배달 대행 초소(엣지 노드)'**를 지어놓은 미친 유통망입니다. 사장님은 새벽에 미리 짜장면(정적 콘텐츠 이미지/영상) 1,000그릇을 초소 냉장고에 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다. 제주도 아파트 주민이 주문을 누르면, 서울 본사로 전화가 가지 않고 10m 앞 아파트 입구 초소에서 0.1초 만에 짜장면이 배달됩니다(초저지연, 오리진 트래픽 90% 절감). 만약 진상 고객(해커 디도스) 10만 명이 주문 폭주 장난을 쳐도, 전국 100개 초소 아르바이트생들이 전화를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해서 맞으며 막아내기 때문에 서울 본사 셰프는 땀 한 방울 안 흘리고 안전하게 장사할 수 있는 우주 방어 배달 아키텍처입니다.
+- **📢 섹션 요약 비유**: 기존 웹 서버는 서울에 딱 하나 있는 <strong>'전국 배달 맛집(오리진 서버)'</strong>입니다. 제주도, 부산에서 주문이 쏟아지면 배달 오토바이가 고속도로를 타고 수백 km를 달려야 해서 짜장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 다 불어 터지고, 전화통([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))에 불이 나 식당이 터집니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> 엣지 노드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>은 사장님이 전국 100개 주요 아파트 단지 입구마다 <strong>'작은 배달 대행 초소(엣지 노드)'</strong>를 지어놓은 미친 유통망입니다. 사장님은 새벽에 미리 짜장면(정적 콘텐츠 이미지/영상) 1,000그릇을 초소 냉장고에 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 둡니다. 제주도 아파트 주민이 주문을 누르면, 서울 본사로 전화가 가지 않고 10m 앞 아파트 입구 초소에서 0.1초 만에 짜장면이 배달됩니다(초저지연, 오리진 트래픽 90% 절감). 만약 진상 고객(해커 디도스) 10만 명이 주문 폭주 장난을 쳐도, 전국 100개 초소 아르바이트생들이 전화를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해서 맞으며 막아내기 때문에 서울 본사 셰프는 땀 한 방울 안 흘리고 안전하게 장사할 수 있는 우주 방어 배달 아키텍처입니다.
 
 ---
 
@@ -116,15 +124,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: WebRTC NAT 횡단]
-    │
-    ▼
-[현재 개념: CDN 엣지 노드 분산]
-    │
-    ├──▶ [확장 A: GSLB 지리적 DNS 라우팅]
-    └──▶ [확장 B: AI 기반 성능 예측]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WebRTC NAT 횡단</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CDN 엣지 노드 분산</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GSLB 지리적 DNS 라우팅</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
+</div>
+</div>
+
+
 
 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단에서 출발해 현재 메커니즘을 정교화하고, 이후 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,21 +21,23 @@ tags = ["studynote-it-management"]
 
 ISO/IEC 27001은 "보안 장비를 몇 개 샀는가"를 묻는 표준이 아니라, 조직이 정보보안을 어떻게 관리하고 개선하는가를 묻는 표준이다. 글로벌 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 전환, 외주 개발, 원격근무가 일반화되면서 정보는 더 넓게 흐르고, 책임 경계는 더 복잡해졌다. 이 환경에서는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 접근통제, 암호화 같은 점대책만으로는 충분하지 않다. 누가 자산을 책임지고, 어떤 위험을 우선순위에 두며, 사고 이후 어떻게 시정조치를 반복할지까지 관리 체계로 묶어야 한다.
 
-그래서 ISO/IEC 27001은 조직 관점에서 보안을 다룬다. 범위를 정하고, 자산과 이해관계자를 파악하고, 위험을 평가하고, 필요한 통제를 선택해 운영하며, 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 경영 검토로 다시 개선하는 구조를 요구한다. 즉 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 핵심은 "안전한 시스템 하나"가 아니라 **지속적으로 보안을 관리하는 조직 능력**이다.
+그래서 ISO/IEC 27001은 조직 관점에서 보안을 다룬다. 범위를 정하고, 자산과 이해관계자를 파악하고, 위험을 평가하고, 필요한 통제를 선택해 운영하며, 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 경영 검토로 다시 개선하는 구조를 요구한다. 즉 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 핵심은 "안전한 시스템 하나"가 아니라 <strong>지속적으로 보안을 관리하는 조직 능력</strong>이다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Why ISO/IEC 27001 matters                                            │
-├───────────────────────────────┬──────────────────────────────────────┤
-│ Point security                │ Management system                    │
-│ - firewall                    │ - scope and context                  │
-│ - MFA                         │ - risk assessment                    │
-│ - encryption                  │ - control selection                  │
-│ - patching                    │ - audit, review, improvement         │
-├───────────────────────────────┴──────────────────────────────────────┤
-│ Goal: security as repeatable governance, not one-time setup          │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why ISO/IEC 27001 matters</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Point security</div><div class="kb-diagram-cell">Management system</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- firewall</div><div class="kb-diagram-cell">- scope and context</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MFA</div><div class="kb-diagram-cell">- risk assessment</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- encryption</div><div class="kb-diagram-cell">- control selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- patching</div><div class="kb-diagram-cell">- audit, review, improvement</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: security as repeatable governance, not one-time setup</div></div>
+</div>
+</div>
+
+
 
 따라서 ISO/IEC 27001은 침해사고가 절대 없음을 보증하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 아니다. 대신 사고 가능성을 체계적으로 낮추고, 사고가 나더라도 대응과 개선이 작동하는 조직 구조를 요구하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다.
 
@@ -57,27 +59,22 @@ ISO/IEC 27001의 본문은 조직의 맥락 이해부터 개선 활동까지 이
 
 아래 그림은 ISO/IEC 27001 운영 루프를 보여 준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ ISO/IEC 27001 operating loop                                         │
-├──────────────────────────────────────────────────────────────────────┤
-│ Context / scope / interested parties                                 │
-│                 │                                                    │
-│                 ▼                                                    │
-│ Risk assessment ──> risk treatment plan ──> SoA + control selection  │
-│                 │                                  │                 │
-│                 ▼                                  ▼                 │
-│      operation and evidence collection      Annex A reference        │
-│                 │                                                    │
-│                 ▼                                                    │
-│   monitoring / internal audit / management review                    │
-│                 │                                                    │
-│                 ▼                                                    │
-│          corrective action and continual improvement                 │
-└──────────────────────────────────────────────────────────────────────┘
-```
 
-이 구조에서 중요한 것은 문서와 운영의 연결이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서만 있고 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 점검, 접근권한 검토, 공급자 관리, 교육 이수, 시정조치 이력이 없으면 심사에서 약해진다. 결국 ISO/IEC 27001은 문서 표준이 아니라 **증적이 남는 운영 표준**이다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 27001 operating loop</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context / scope / interested parties</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk assessment ──&gt; risk treatment plan ──&gt; SoA + control selection</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operation and evidence collection Annex A reference</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">monitoring / internal audit / management review</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">corrective action and continual improvement</div></div>
+</div>
+</div>
+
+
+
+이 구조에서 중요한 것은 문서와 운영의 연결이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서만 있고 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 점검, 접근권한 검토, 공급자 관리, 교육 이수, 시정조치 이력이 없으면 심사에서 약해진다. 결국 ISO/IEC 27001은 문서 표준이 아니라 <strong>증적이 남는 운영 표준</strong>이다.
 
 - **📢 섹션 요약 비유**: 시험공부 계획표를 세우는 것만으로 성적이 오르지 않듯, ISO/IEC 27001도 문서만 만들어서는 의미가 없다. 계획표대로 공부하고 채점하고 틀린 문제를 다시 보는 루프가 돌아야 진짜 실력이 된다.
 
@@ -129,7 +126,7 @@ ISO/IEC 27001은 국제적으로 통용되는 [인증](/knowledge-base/studynote
 | 국내 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/)-P와 병행 또는 우선 적용 검토 |
 | 빠른 성장 단계 스타트업 | 범위를 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제한하고 운영 가능한 수준부터 시작 |
 
-기술사 답안에서는 "ISO/IEC 27001 = 위험 기반 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 표준"이라는 정의에 더해, **[SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/), 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 경영 검토, 지속적 개선**을 함께 언급해야 점수가 높다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 증명서 한 장이 아니라, 조직이 반복 가능한 보안 운영 리듬을 만들었는지 보는 장치이기 때문이다.
+기술사 답안에서는 "ISO/IEC 27001 = 위험 기반 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 표준"이라는 정의에 더해, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SoA</a>, 내부 <a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>, 경영 검토, 지속적 개선</strong>을 함께 언급해야 점수가 높다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 증명서 한 장이 아니라, 조직이 반복 가능한 보안 운영 리듬을 만들었는지 보는 장치이기 때문이다.
 
 - **📢 섹션 요약 비유**: 회사 전체 운동 계획을 세울 때, 달리기 기록표만 붙여 놓는다고 건강해지지 않는다. 누가 코치를 맡고, 주간 점검을 하고, 부족한 부분을 다시 훈련하는 루프가 돌아야 몸이 달라진다.
 
@@ -139,7 +136,7 @@ ISO/IEC 27001은 국제적으로 통용되는 [인증](/knowledge-base/studynote
 
 ISO/IEC 27001을 제대로 운영하면 보안 활동이 개인 역량이나 일회성 캠페인에 의존하지 않고, 조직 차원의 관리 체계로 자리 잡는다. 위험평가와 통제 선택의 근거가 남고, 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 시정조치가 반복되며, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 고객에게 일정 수준 이상의 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/)를 설명할 수 있다. 특히 해외 고객사, 대기업 벤더 등록, 클라우드 보안 신뢰 확보에서 효과가 크다.
 
-다만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 만능은 아니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 획득해도 운영이 형식화되면 실제 사고 대응력은 약할 수 있고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변화가 빠른 조직에서는 범위와 현실 사이 간극이 생기기 쉽다. 그래서 기억해야 할 핵심은 "ISO/IEC 27001은 보안을 증명하는 종이"가 아니라, **위험을 기준으로 보안을 계속 운영하고 개선하게 만드는 국제 관리체계**라는 점이다.
+다만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 만능은 아니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 획득해도 운영이 형식화되면 실제 사고 대응력은 약할 수 있고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변화가 빠른 조직에서는 범위와 현실 사이 간극이 생기기 쉽다. 그래서 기억해야 할 핵심은 "ISO/IEC 27001은 보안을 증명하는 종이"가 아니라, <strong>위험을 기준으로 보안을 계속 운영하고 개선하게 만드는 국제 관리체계</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 학교는 상장 하나로 완성되지 않는다. 수업 계획, 출결 관리, 시험, 피드백, 보충 수업이 계속 돌아갈 때 학교 수준이 유지된다. ISO/IEC 27001도 그런 운영 리듬을 만드는 표준이다.
 
@@ -159,24 +156,25 @@ ISO/IEC 27001을 제대로 운영하면 보안 활동이 개인 역량이나 일
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-Business context and scope
-        │
-        ▼
-Asset identification and risk assessment
-        │
-        ▼
-Risk treatment + SoA
-        │
-        ▼
-Annex A control operation
-        │
-        ▼
-Audit / management review / corrective action
-        │
-        ▼
-Certification and continual improvement
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">Business context and scope</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Asset identification and risk assessment</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Risk treatment + SoA</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Annex A control operation</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Audit / management review / corrective action</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Certification and continual improvement</div>
+</div>
+</div>
+
+
 
 이 흐름은 ISO/IEC 27001이 "범위 정의 → 위험평가 → 통제 적용 → 운영 점검 → 개선"으로 반복되는 관리체계임을 보여 준다.
 

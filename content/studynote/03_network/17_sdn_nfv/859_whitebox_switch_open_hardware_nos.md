@@ -22,14 +22,18 @@ tags = ["studynote-network"]
 - 기존 시스코, 주니퍼 같은 거대 벤더의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비는 하드웨어 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))과 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS, 예: 시스코 IOS)가 100% 결합하여 종속되어 나오는 폐쇄형(Blackbox) 장비였습니다.
 - 사용자는 장비 안에 새로운 기능(예: 새로운 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 기능)을 맘대로 코딩해 넣을 수 없었고, 고장 나거나 업그레이드하려면 무조건 벤더사가 부르는 게 값인 눈탱이 유지보수 비용을 물어야 했습니다.
 
-```text
-[SDDC]
-    │
-    ▼
-[화이트박스 스위치]
-    │
-    └──▶ [OVS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OVS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -37,17 +41,21 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 특정 제조사에 종속되지 않은 **범용 깡통 하드웨어(Bare-metal [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 구매한 뒤, 사용자가 자신의 입맛에 맞는 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS) 소프트웨어를 자유롭게 골라서 탑재(Install)해 사용하는 분리형 차세대 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비**입니다.
+- **개념**: 특정 제조사에 종속되지 않은 <strong>범용 깡통 하드웨어(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 구매한 뒤, 사용자가 자신의 입맛에 맞는 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 개방형 네트워크 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(NOS) 소프트웨어를 자유롭게 골라서 탑재(Install)해 사용하는 분리형 차세대 네트워크 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비</strong>입니다.
 - **철학**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)의 "하드웨어와 소프트웨어의 완벽한 분리(Decoupling)" 철학이 물리적 장비 제조 단게까지 파고든 극단적 결과물입니다.
 
-```text
-[SDDC]
-    │
-    ▼
-[화이트박스 스위치]
-    │
-    └──▶ [OVS]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OVS</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -61,7 +69,7 @@ tags = ["studynote-network"]
 
 ### 2. 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (NOS, Network OS)
 - 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 조종하기 위한 리눅스 기반의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 또는 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 소프트웨어입니다.
-- 대표적으로 페이스북([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))이 주도하는 **[SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) (883번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))**, Cumulus Linux, Pica8 등이 있습니다.
+- 대표적으로 페이스북([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))이 주도하는 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a> (883번 문서 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>, Cumulus Linux, Pica8 등이 있습니다.
 - 관리자는 빈 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [ONIE](/knowledge-base/studynote/03_network/17_sdn_nfv/884_onie_open_network_install_environment_bootloader/)(884번 문서)라는 부팅 프로그램을 이용해 이 [SONiC](/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 노트북에 리눅스 깔듯이 스윽 설치합니다.
 
 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SDDC가 기반 조건을 만든다면, 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 그 위에서 핵심 메커니즘을 구현하고, OVS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -79,8 +87,8 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 1. **극강의 원가 절감 (CAPEX/OPEX 파괴)**:
-   - 벤더사의 상표값과 소프트웨어 라이선스 값이 싹 빠지므로, 장비 도입 비용이 **최대 60~80% 저렴**해집니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 10만 대 깔아야 하는 클라우드 기업에겐 천문학적인 돈을 아껴줍니다.
-2. **소프트웨어 제어권(주권) [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 및 맞춤형 개발**:
+   - 벤더사의 상표값과 소프트웨어 라이선스 값이 싹 빠지므로, 장비 도입 비용이 <strong>최대 60~80% 저렴</strong>해집니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 10만 대 깔아야 하는 클라우드 기업에겐 천문학적인 돈을 아껴줍니다.
+2. <strong>소프트웨어 제어권(주권) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 및 맞춤형 개발</strong>:
    - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 OS가 흔한 리눅스(Linux) 환경과 똑같습니다. 
    - 개발자가 파이썬(Python)으로 사내 환경에 딱 맞는 로드밸런서 앱이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 안에 마음대로 깔아서 돌릴 수 있습니다. (Vendor Lock-in의 완벽한 해방)
 
@@ -90,7 +98,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: **기존 벤더(블랙박스) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 '애플의 맥북(MacBook)'입니다. 애플이 만든 비싼 알루미늄 기계에, 애플이 만든 macOS만 돌아갑니다. 사용자가 맘대로 뜯어서 부품을 바꾸거나 다른 OS를 깔 수 없는 비싸고 폐쇄적인 생태계입니다. 반면 **화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)**는 용산 전자상가에서 부품을 따로따로 싸게 사 온 '조립식 깡통 데스크탑 컴퓨터'입니다. 컴퓨터 케이스에는 상표도 없습니다. 사용자는 이 싼 깡통 컴퓨터에 자기가 직접 윈도우를 깔든, 우분투 리눅스를 깔든 입맛대로 맘대로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를(NOS) 덮어씌워 씁니다. 가격은 반의반 값인데 성능은 맥북과 똑같이 나오며, 고장 나면 부품만 쓱 갈아 끼우면 되는 완벽한 하드웨어 독립 선언입니다.
+- **📢 섹션 요약 비유**: <strong>기존 벤더(블랙박스) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 '애플의 맥북(MacBook)'입니다. 애플이 만든 비싼 알루미늄 기계에, 애플이 만든 macOS만 돌아갑니다. 사용자가 맘대로 뜯어서 부품을 바꾸거나 다른 OS를 깔 수 없는 비싸고 폐쇄적인 생태계입니다. 반면 <strong>화이트박스 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 용산 전자상가에서 부품을 따로따로 싸게 사 온 '조립식 깡통 데스크탑 컴퓨터'입니다. 컴퓨터 케이스에는 상표도 없습니다. 사용자는 이 싼 깡통 컴퓨터에 자기가 직접 윈도우를 깔든, 우분투 리눅스를 깔든 입맛대로 맘대로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를(NOS) 덮어씌워 씁니다. 가격은 반의반 값인데 성능은 맥북과 똑같이 나오며, 고장 나면 부품만 쓱 갈아 끼우면 되는 완벽한 하드웨어 독립 선언입니다.
 
 ---
 
@@ -113,15 +121,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: SDDC]
-    │
-    ▼
-[현재 개념: 화이트박스 스위치]
-    │
-    ├──▶ [확장 A: OVS]
-    └──▶ [확장 B: 프로그래머블 네트워크]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDDC</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화이트박스 스위치</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OVS</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
+</div>
+</div>
+
+
 
 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 SDDC에서 출발해 현재 메커니즘을 정교화하고, 이후 OVS와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

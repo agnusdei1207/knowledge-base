@@ -21,34 +21,38 @@ tags = ["studynote-network"]
 
 - **개념**: IP [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))를 직접적으로 통제하는 Flags 필드(3비트) 내의 2번, 3번째 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/).
 - **필요성**: 
-  - 원래 라우터의 1원칙은 "패킷이 크면 찢어서라도 목적지까지 배달해라"다. 하지만 TCP와 같은 상위 계층은 조각난 패킷을 재조립하는 데 엄청난 CPU 연산을 써야 하므로, "아예 처음부터 안 찢어지게 작게 보내고 싶다"는 니즈가 생겼다. 그래서 라우터에게 **"찢을 바엔 차라리 버려(DF)!"**라고 명령할 권한을 부여했다.
-  - 라우터가 임의로 패킷을 찢었을 때, 목적지 PC는 언제까지 기다려야 모든 조각이 다 온 건지 알 수가 없다. 누군가 꼬리표에 **"내가 마지막 조각이야(MF=0)"**라고 외쳐주지 않으면 영원히 버퍼 메모리만 차지하게 되므로 MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 탄생했다.
+  - 원래 라우터의 1원칙은 "패킷이 크면 찢어서라도 목적지까지 배달해라"다. 하지만 TCP와 같은 상위 계층은 조각난 패킷을 재조립하는 데 엄청난 CPU 연산을 써야 하므로, "아예 처음부터 안 찢어지게 작게 보내고 싶다"는 니즈가 생겼다. 그래서 라우터에게 <strong>"찢을 바엔 차라리 버려(DF)!"</strong>라고 명령할 권한을 부여했다.
+  - 라우터가 임의로 패킷을 찢었을 때, 목적지 PC는 언제까지 기다려야 모든 조각이 다 온 건지 알 수가 없다. 누군가 꼬리표에 <strong>"내가 마지막 조각이야(MF=0)"</strong>라고 외쳐주지 않으면 영원히 버퍼 메모리만 차지하게 되므로 MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 탄생했다.
 
 - **💡 비유**: 
   - **DF (Don't Fragment)**: 유리그릇에 **"취급 주의: 분해 불가"** 스티커를 붙이는 것. 택배 박스에 안 들어가면 억지로 쪼개지 말고 반송 처리하라는 강력한 경고입니다.
   - **MF (More Fragment)**: 긴 영화를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(ZIP) 3개로 나눠서 보낼 때 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름을 `영화.part1 (뒤에 더 있음)`, `영화.part2 (뒤에 더 있음)`, `영화.part3 (이게 끝!)`으로 지어주는 친절한 작명법입니다.
 
-```text
-[식별자, 플래그, 단편화 오프셋]
-    │
-    ▼
-[DF 비트 / MF 비트]
-    │
-    └──▶ [단편화 및 재조립]
-```
 
-- **📢 섹션 요약 비유**: ** DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 억지로 구겨 넣지 말고 차라리 터트려 버리라는 **"단일성 보장 각서"**이고, MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 뿔뿔이 흩어져 날아오는 조각 부대원들 중 맨 마지막 병사가 **"대장님! 제가 꼬장(마지막)입니다!"**라고 보고하는 종료 선언 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">식별자, 플래그, 단편화 오프셋</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">DF 비트 / MF 비트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단편화 및 재조립</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: <strong> DF <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>는 억지로 구겨 넣지 말고 차라리 터트려 버리라는 </strong>"단일성 보장 각서"<strong>이고, MF <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>는 뿔뿔이 흩어져 날아오는 조각 부대원들 중 맨 마지막 병사가 </strong>"대장님! 제가 꼬장(마지막)입니다!"**라고 보고하는 종료 선언 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 PMTUD (경로 MTU 탐색) 기술
-최신 컴퓨터(윈도우, 리눅스 등)는 네트워크로 데이터를 쏠 때 기본적으로 **모든 패킷의 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 무조건 `1`(Don't Fragment)로 세팅**해서 던진다.
-그 이유는 **PMTUD ([Path MTU Discovery](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/))**라는 꼼수를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위함이다.
+최신 컴퓨터(윈도우, 리눅스 등)는 네트워크로 데이터를 쏠 때 기본적으로 <strong>모든 패킷의 DF <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 무조건 <code>1</code>(Don't Fragment)로 세팅</strong>해서 던진다.
+그 이유는 <strong>PMTUD (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/">Path MTU Discovery</a>)</strong>라는 꼼수를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위함이다.
 1. 내 PC가 1500바이트 뚱뚱한 패킷에 `DF=1`을 달아 쏜다.
 2. 중간에 1400바이트밖에 통과 못 하는 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)/PPPoE 라우터를 만났다.
-3. 라우터 왈: "야! 이거 1500바이트라 찢어야 통과하는데, 네가 `DF=1(찢지마)` 붙여놨네? 룰에 따라 이 패킷 쓰레기통에 버린다! 대신 너한테 **[ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) (Type 3 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 4: [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) Needed)** 에러 메시지를 날려줄게. 우리 길 최대 1400바이트니까 다음부턴 작게 썰어와!"
+3. 라우터 왈: "야! 이거 1500바이트라 찢어야 통과하는데, 네가 `DF=1(찢지마)` 붙여놨네? 룰에 따라 이 패킷 쓰레기통에 버린다! 대신 너한테 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> (Type 3 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> 4: <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a> Needed)</strong> 에러 메시지를 날려줄게. 우리 길 최대 1400바이트니까 다음부턴 작게 썰어와!"
 4. [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 왈: "아! 중간 병목 구간이 1400이구나!" 하고 그때부터 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 모듈이 아예 1400바이트짜리로 작게 포장해서 보낸다.
 5. 결과적으로 중간 라우터가 땀 뻘뻘 흘리며 패킷을 찢는 부하(오버헤드)가 완전히 사라져 네트워크 속도가 쾌적해진다.
 
@@ -60,25 +64,25 @@ tags = ["studynote-network"]
 - 수신자 PC는 MF=0인 꼬리 조각이 안 왔기 때문에 조립을 시작하지 못하고 버퍼 메모리를 잡고 하염없이 기다리다, 일정 시간이 지나면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) "에잇 망했다!" 하고 **힘들게 모은 1번, 2번 조각마저 통째로 쓰레기통에 쏟아버린다(Drop)**. 
 - 결국 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 많이 발생할수록 패킷 하나만 잃어버려도 전체가 날아가 재전송해야 하는 최악의 효율이 발생하므로, 네트워크 엔지니어들은 기를 쓰고 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 일어나지 않게 MTU를 조절한다.
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                DF와 MF 비트의 극단적 운명 교차로               │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 2000 Bytes 패킷 ] ──▶ [ MTU 1500 라우터 통과 시도 ]         │
- │                                                             │
- │   상황 A) DF = 1 로 세팅되어 있을 때                             │
- │   라우터: "안 찢을 거면 여길 못 지나감. 패킷 즉각 사살(Drop)!"       │
- │          "송신자 녀석아 1500으로 작게 줄여서 다시 보내라(ICMP)!"     │
- │                                                             │
- │   상황 B) DF = 0 로 세팅되어 있을 때 (단편화 승인)                  │
- │   라우터: "좋아, 찢어준다. 두 조각으로 내버려!"                    │
- │   - 조각 1 (1500B): MF = 1 ("뒤에 500바이트짜리 하나 더 감!")     │
- │   - 조각 2 (500B) : MF = 0 ("내가 끝이야, 바로 조립해!")          │
- └─────────────────────────────────────────────────────────────┘
-```
 
-- **📢 섹션 요약 비유**: ** DF=1은 **"내 몸에 흠집 하나 내지 말고 배송하든가 아니면 아예 반송해라"**라는 VIP 고객의 엄포이며, MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 여러 대로 나뉘어 이사 가는 트럭들 중 1, 2호 차 뒤에는 **"후속 차량 있음"** 딱지를 붙이고, 3호 차에는 떼버리는 센스 있는 호송 작전입니다.
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DF와 MF 비트의 극단적 운명 교차로</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">2000 Bytes 패킷</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTU 1500 라우터 통과 시도</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 A) DF = 1 로 세팅되어 있을 때</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "안 찢을 거면 여길 못 지나감. 패킷 즉각 사살(Drop)!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"송신자 녀석아 1500으로 작게 줄여서 다시 보내라(ICMP)!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 B) DF = 0 로 세팅되어 있을 때 (단편화 승인)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "좋아, 찢어준다. 두 조각으로 내버려!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조각 1 (1500B): MF = 1 ("뒤에 500바이트짜리 하나 더 감!")</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조각 2 (500B) : MF = 0 ("내가 끝이야, 바로 조립해!")</div></div>
+</div>
+</div>
+
+
+
+- **📢 섹션 요약 비유**: ** DF=1은 **"내 몸에 흠집 하나 내지 말고 배송하든가 아니면 아예 반송해라"<strong>라는 VIP 고객의 엄포이며, MF <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>는 여러 대로 나뉘어 이사 가는 트럭들 중 1, 2호 차 뒤에는 </strong>"후속 차량 있음"** 딱지를 붙이고, 3호 차에는 떼버리는 센스 있는 호송 작전입니다.
 
 ---
 
@@ -134,15 +138,19 @@ DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_represent
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: 식별자, 플래그, 단편화 오프셋]
-    │
-    ▼
-[현재 개념: DF 비트 / MF 비트]
-    │
-    ├──▶ [확장 A: 단편화 및 재조립]
-    └──▶ [확장 B: 대규모 주소 자동화]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 식별자, 플래그, 단편화 오프셋</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DF 비트 / MF 비트</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 단편화 및 재조립</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
+</div>
+</div>
+
+
 
 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋에서 출발해 현재 메커니즘을 정교화하고, 이후 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 및 재조립와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -41,43 +41,35 @@ tags = ["studynote-data-engineering"]
 | 학습 목표 | 대조 학습 (매칭 쌍 유사도 최대, 비매칭 최소) |
 | 제로샷 능력 | 학습 없이 텍스트만으로 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 
-```
-[CLIP 대조 학습]
 
-배치 내 N개 이미지-텍스트 쌍:
-이미지:  [고양이 사진] [강아지 사진] [자동차 사진]
-텍스트:  ["귀여운 고양이"] ["강아지가 뛴다"] ["빨간 자동차"]
 
-이미지 인코더 → 이미지 임베딩 I₁, I₂, I₃
-텍스트 인코더 → 텍스트 임베딩 T₁, T₂, T₃
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">CLIP 대조 학습</div></div>
+<div class="kb-diagram-note">배치 내 N개 이미지-텍스트 쌍:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">이미지:</div><div class="kb-diagram-node">고양이 사진</div><div class="kb-diagram-node">강아지 사진</div><div class="kb-diagram-node">자동차 사진</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">텍스트:</div><div class="kb-diagram-node">"귀여운 고양이"</div><div class="kb-diagram-node">"강아지가 뛴다"</div><div class="kb-diagram-node">"빨간 자동차"</div></div>
+<div class="kb-diagram-note">이미지 인코더 → 이미지 임베딩 I₁, I₂, I₃</div>
+<div class="kb-diagram-note">텍스트 인코더 → 텍스트 임베딩 T₁, T₂, T₃</div>
+<div class="kb-diagram-note">유사도 행렬:</div>
+<div class="kb-diagram-note">T₁ T₂ T₃</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I₁</div><div class="kb-diagram-node">HIGH   LOW    LOW</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">매칭 쌍 높게</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I₂</div><div class="kb-diagram-node">LOW   HIGH   LOW</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">I₃</div><div class="kb-diagram-node">LOW    LOW   HIGH</div></div>
+<div class="kb-diagram-note">손실: N개 대각 원소 최대화, 나머지 최소화</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">GPT-4V / LMM 아키텍처</div></div>
+<div class="kb-diagram-note">이미지 입력</div>
+<div class="kb-diagram-note">Vision Encoder (CLIP ViT 등)</div>
+<div class="kb-diagram-note">이미지 패치 임베딩</div>
+<div class="kb-diagram-note">Linear Projection (차원 맞춤)</div>
+<div class="kb-diagram-note">텍스트 토큰</div>
+<div class="kb-diagram-note">LLM (GPT-4 등)</div>
+<div class="kb-diagram-note">(이미지+텍스트 통합 처리)</div>
+<div class="kb-diagram-note">텍스트 응답 생성</div>
+</div>
+</div>
 
-유사도 행렬:
-         T₁      T₂      T₃
-  I₁ [  HIGH   LOW    LOW  ]  ← 매칭 쌍 높게
-  I₂ [  LOW   HIGH   LOW  ]
-  I₃ [  LOW    LOW   HIGH ]
 
-손실: N개 대각 원소 최대화, 나머지 최소화
-
-[GPT-4V / LMM 아키텍처]
-
-이미지 입력
-     │
-Vision Encoder (CLIP ViT 등)
-     │
-이미지 패치 임베딩
-     │
-Linear Projection (차원 맞춤)
-     │
-     └────────────┐
-텍스트 토큰        │
-     └────────────┘
-                  │
-            LLM (GPT-4 등)
-            (이미지+텍스트 통합 처리)
-                  │
-            텍스트 응답 생성
-```
 
 **주요 멀티모달 모델**
 
@@ -102,7 +94,7 @@ Linear Projection (차원 맞춤)
 | 시각적 QA | ❌ | ✅ |
 | 복잡도 | 낮음 | 높음 |
 
-**[CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/) 활용 사례**
+<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> 활용 사례</strong>
 - 제로샷 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): 학습 없이 "이 이미지는 고양이입니까?"
 - 이미지-텍스트 검색: 텍스트로 이미지 검색 (Google Image Search 방식)
 - Stable Diffusion 가이드: CLIP이 텍스트-이미지 정렬 점수 계산
@@ -150,25 +142,27 @@ Linear Projection (차원 맞춤)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-단일 모달 AI (텍스트만 / 이미지만)
-    │
-    ▼
-CLIP (OpenAI, 2021) — 대조 학습으로 텍스트-이미지 정렬
-    │
-    ▼
-멀티모달 LLM (MLLM)
-    ├─► GPT-4V / GPT-4o — 이미지+텍스트+음성
-    ├─► LLaVA — 비전 인코더 + LLM 결합
-    ├─► Gemini — 네이티브 멀티모달
-    └─► ImageBind — 6가지 모달 통합
-    │
-    ▼
-비전 인코더 (ViT / SigLIP) + LLM 디코더
-    │
-    ▼
-옴니모달 AI — 모든 감각 통합 추론
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">단일 모달 AI (텍스트만 / 이미지만)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CLIP (OpenAI, 2021) — 대조 학습으로 텍스트-이미지 정렬</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">멀티모달 LLM (MLLM)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">GPT-4V / GPT-4o — 이미지+텍스트+음성</div>
+<div class="kb-diagram-tree-item" style="--depth:2">LLaVA — 비전 인코더 + LLM 결합</div>
+<div class="kb-diagram-tree-item" style="--depth:2">Gemini — 네이티브 멀티모달</div>
+<div class="kb-diagram-tree-item" style="--depth:2">ImageBind — 6가지 모달 통합</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">비전 인코더 (ViT / SigLIP) + LLM 디코더</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">옴니모달 AI — 모든 감각 통합 추론</div>
+</div>
+</div>
+
+
 
 ---
 

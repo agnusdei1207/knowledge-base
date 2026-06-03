@@ -67,14 +67,14 @@ graph TD
 *   **주요 문서:** `기술사 16과목 목록`.
 
 ### **R&D (연구 개발 허브)**
-*   **목적:** 검색, RAG, 문서 자동화, 에이전트 협업 등 **연구개발 가설과 실험**을 다루는 **쓰기 중심** 공간.
+*   **목적:** 검색, RAG, 문서 자동화, 에이전트 협업 등 <strong>연구개발 가설과 실험</strong>을 다루는 **쓰기 중심** 공간.
 *   **주요 문서:** `[R&D 가설 허브](/knowledge-base/r-and-d/)`, `[R&D 로드맵](/knowledge-base/r-and-d/r-and-d-roadmap/)`, `[N-gram 링커](/knowledge-base/r-and-d/n-gram-linker/)`, `[Graph DB 비교](/knowledge-base/r-and-d/graph-databases/)`.
 
 ---
 
 ## 아이디어 보관함 (Inbox)
 
-어디로 분류해야 할지 모르는 임시 메모, 갑자기 떠오른 비즈니스 아이디어, 오늘 배운 팁 등은 우선 **[아이디어 보관함](/knowledge-base/inbox/)**에 자유롭게 던져 두세요.
+어디로 분류해야 할지 모르는 임시 메모, 갑자기 떠오른 비즈니스 아이디어, 오늘 배운 팁 등은 우선 <strong><a href="/knowledge-base/inbox/">아이디어 보관함</a></strong>에 자유롭게 던져 두세요.
 정기적으로 이 공간을 비우며 적절한 카테고리(Work, Personal, Study, StudyNote, R&D)로 이동시키면 지식베이스의 신선함이 유지됩니다.
 
 ---

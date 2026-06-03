@@ -10,7 +10,7 @@ tags = ["studynote-computer-architecture"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: ASCII (American Standard [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) for Information Interchange)는 1960년대 서로 다른 제조사의 장비들이 문자(Alphabet)와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Control [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 동일하게 인식하도록 제정된 **최초의 7비트 범용 문자 인코딩 표준 규약**이다.
+> 1. **본질**: ASCII (American Standard [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) for Information Interchange)는 1960년대 서로 다른 제조사의 장비들이 문자(Alphabet)와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Control [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 동일하게 인식하도록 제정된 <strong>최초의 7비트 범용 문자 인코딩 표준 규약</strong>이다.
 > 2. **가치**: 대소문자의 차이를 오직 $32(0x20, \text{[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 5})$라는 규칙적인 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나로 제어하는 수학적 설계로, 컴파일러와 하드웨어의 문자 연산 속도를 극단적으로 끌어올렸다.
 > 3. **판단 포인트**: 현대 시스템에서도 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 헤더([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 등에서 하위 호환성을 유지하므로, ASCII의 구조적 원리를 이해하는 것은 인프라 최적화와 에러 방어의 핵심이다.
 
@@ -22,7 +22,7 @@ tags = ["studynote-computer-architecture"]
 
 ASCII 표준이 없던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨팅 시대에는 제조사(IBM, HP 등)마다 독자적인 문자 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 표를 사용했다. 이로 인해 서로 다른 기종 간 텍스트 파일을 공유하거나 네트워크 통신을 할 때 데이터가 호환되지 않는 심각한 파편화 문제가 발생했다. 텍스트 처리의 일관성과 기기 간 상호운용성을 보장하기 위해 전 세계 모든 컴퓨터가 준수해야 할 '공통 번역 사전'이 필수적으로 요구되었다.
 
-- **📢 섹션 요약 비유**: ASCII는 UN(국제연합)에서 채택한 **'공용어 사전'**과 같다. 각자의 방언을 쓰던 컴퓨터들이 네트워크로 대화하기 위해 무조건 따라야 하는 하나의 약속이다.
+- **📢 섹션 요약 비유**: ASCII는 UN(국제연합)에서 채택한 <strong>'공용어 사전'</strong>과 같다. 각자의 방언을 쓰던 컴퓨터들이 네트워크로 대화하기 위해 무조건 따라야 하는 하나의 약속이다.
 
 ---
 
@@ -30,34 +30,33 @@ ASCII 표준이 없던 [초기](/knowledge-base/studynote/03_network/08_transpor
 
 ASCII는 7비트([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 공간을 활용하여 총 128개의 문자와 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 할당한 정밀한 수학적 레이아웃이다.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│           ASCII 7-Bit Architecture Table Map                 │
-├──────────────────────────────────────────────────────────────┤
-│  용량: 2^7 = 128 codes (0 ~ 127)                             │
-│                                                              │
-│  [ 제어 문자 (0 ~ 31, 127) ]                                 │
-│   하드웨어 I/O 통제용 제어 신호.                               │
-│   0 (NUL): Null 문자 (C언어 문자열 종료)                       │
-│   10 (LF): Line Feed (줄 바꿈)                               │
-│   13 (CR): Carriage Return (커서 맨 앞으로)                    │
-│                                                              │
-│  [ 기호 및 숫자 (32 ~ 64) ]                                  │
-│   32 (Space), 48~57 ('0' ~ '9')                              │
-│   * 팁: 문자 '5' (53) - 48 = 정수 5                          │
-│                                                              │
-│  [ 영문 알파벳 대소문자 (65 ~ 122) ]                           │
-│   65 ('A'): 0100 0001    |  97 ('a'): 0110 0001              │
-│   66 ('B'): 0100 0010    |  98 ('b'): 0110 0010              │
-│                                                              │
-│   * 수학적 설계: 'a' (97) - 'A' (65) = 32 (비트 5)           │
-│     ──▶ 5번째 비트 하나만 XOR 반전시키면 대소문자가 바뀜!          │
-└──────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASCII 7-Bit Architecture Table Map</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량: 2^7 = 128 codes (0 ~ 127)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">제어 문자 (0 ~ 31, 127)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 I/O 통제용 제어 신호.</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 (NUL): Null 문자 (C언어 문자열 종료)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10 (LF): Line Feed (줄 바꿈)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">13 (CR): Carriage Return (커서 맨 앞으로)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기호 및 숫자 (32 ~ 64)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32 (Space), 48~57 ('0' ~ '9')</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 팁: 문자 '5' (53) - 48 = 정수 5</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">영문 알파벳 대소문자 (65 ~ 122)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">65 ('A'): 0100 0001</div><div class="kb-diagram-cell">97 ('a'): 0110 0001</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">66 ('B'): 0100 0010</div><div class="kb-diagram-cell">98 ('b'): 0110 0010</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수학적 설계: 'a' (97) - 'A' (65) = 32 (비트 5)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 5번째 비트 하나만 XOR 반전시키면 대소문자가 바뀜!</div></div>
+</div>
+</div>
+
+
 
 ASCII의 진정한 아키텍처적 무서움은 단순한 순서 나열이 아니라는 점이다. 대문자 `A(65)`와 소문자 `a(97)`의 차이는 정확히 $32$ (이진수 `0010 0000`)다. 즉, 대문자 판독이나 변환 함수를 구현할 때 복잡한 매핑 테이블을 검색할 필요 없이, 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와이즈 XOR 연산으로 튕겨주기만 하면 단 1클럭([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 만에 상태가 스위칭된다.
 
-- **📢 섹션 요약 비유**: 대소문자 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스위칭은 **'양면 점퍼'**를 뒤집어 입는 것과 같다. 새로운 옷(코드)을 찾으러 옷장(메모리)을 뒤지는 대신, 입고 있는 옷을 한 번 훌렁 뒤집기만 하면 색깔이 변하는 기적의 1차원적 디자인이다.
+- **📢 섹션 요약 비유**: 대소문자 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스위칭은 <strong>'양면 점퍼'</strong>를 뒤집어 입는 것과 같다. 새로운 옷(코드)을 찾으러 옷장(메모리)을 뒤지는 대신, 입고 있는 옷을 한 번 훌렁 뒤집기만 하면 색깔이 변하는 기적의 1차원적 디자인이다.
 
 ---
 
@@ -67,14 +66,14 @@ ASCII가 시스템 내부에서 메모리와 통신을 어떻게 지배하는지
 
 | 영역 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 및 특징 | 비교/연결 포인트 |
 |:---|:---|:---|
-| **7비트 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)** | 128개의 문자/기호 공간 | 영어권 통신에 완벽 호환되며 메모리 풋프린트가 가장 작음 |
-| **8번째 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)** | [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) ([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)) | 1960년대 노이즈 심한 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 통신에서 에러 검출용으로 예약됨 |
-| **제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)** | 터미널 하드웨어 직접 제어 | 프린터, 화면 스크롤 등을 텍스트 스트림 하나로 융합 처리 |
+| <strong>7비트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a></strong> | 128개의 문자/기호 공간 | 영어권 통신에 완벽 호환되며 메모리 풋프린트가 가장 작음 |
+| <strong>8번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/">MSB</a></strong> | [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) ([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)) | 1960년대 노이즈 심한 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 통신에서 에러 검출용으로 예약됨 |
+| <strong>제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong> | 터미널 하드웨어 직접 제어 | 프린터, 화면 스크롤 등을 텍스트 스트림 하나로 융합 처리 |
 | **NUL (0)** | C언어의 문자열 종료 방식 | 길이 변수(Length) 저장 오버헤드 없이 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)(ZF)로 루프 탈출 |
 
 특히 `\0` (NUL) 문자는 소프트웨어와 하드웨어의 전설적 융합이다. 파스칼(Pascal)과 달리 C언어는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 길이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 없이 문자열 맨 끝에 NUL을 삽입한다. CPU는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 스캔하다가 0번 코드를 만나면 [제로 플래그](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/168_zero_flag/)(ZF)를 즉시 활성화하여 메모리 낭비 없이 루프를 고속으로 탈출한다.
 
-- **📢 섹션 요약 비유**: NUL 종료 문자는 꼬리잡기 놀이에서 **'마지막 사람에게 씌운 빨간 모자'**다. 인원수를 일일이 세어볼 필요 없이, 훑어보다 빨간 모자가 보이면 "여기서 끝이다!" 하고 바로 알 수 있는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통과 방식이다.
+- **📢 섹션 요약 비유**: NUL 종료 문자는 꼬리잡기 놀이에서 <strong>'마지막 사람에게 씌운 빨간 모자'</strong>다. 인원수를 일일이 세어볼 필요 없이, 훑어보다 빨간 모자가 보이면 "여기서 끝이다!" 하고 바로 알 수 있는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통과 방식이다.
 
 ---
 
@@ -83,8 +82,8 @@ ASCII가 시스템 내부에서 메모리와 통신을 어떻게 지배하는지
 ASCII의 낡은 유산이 현대 웹과 임베디드 개발에서 어떤 영향을 미치는지 판단해야 한다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 헤더 최적화**: 전 세계 브라우저의 `HTTP/1.1` 헤더는 반드시 순수한 7비트 ASCII 텍스트로 평문 전송되어야 한다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 하드웨어 엔진들이 ASCII 기준으로 최적화되어 있어 헤더에 [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([Unicode](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/))가 섞이면 디코딩 오버헤드가 발생하거나 세션이 차단(Drop)된다.
-2. **임베디드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking)**: [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU)에서 문자열 숫자(예: `"123"`)를 정수로 파싱할 때 무거운 변환 함수(`atoi()`) 대신, 문자(예: `'7'`)에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와이즈 AND 연산(`& 0x0F`)만 걸어주면 즉시 정수(7)로 다운캐스팅되어 0.01초 내 스캐닝 처리가 가능하다.
+1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 헤더 최적화</strong>: 전 세계 브라우저의 `HTTP/1.1` 헤더는 반드시 순수한 7비트 ASCII 텍스트로 평문 전송되어야 한다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 하드웨어 엔진들이 ASCII 기준으로 최적화되어 있어 헤더에 [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([Unicode](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/))가 섞이면 디코딩 오버헤드가 발생하거나 세션이 차단(Drop)된다.
+2. <strong>임베디드 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스킹 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Masking)</strong>: [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU)에서 문자열 숫자(예: `"123"`)를 정수로 파싱할 때 무거운 변환 함수(`atoi()`) 대신, 문자(예: `'7'`)에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와이즈 AND 연산(`& 0x0F`)만 걸어주면 즉시 정수(7)로 다운캐스팅되어 0.01초 내 스캐닝 처리가 가능하다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **줄 바꿈 문자(CRLF vs LF) 방치 충돌**: Windows는 줄 바꿈 시 `CR(13)` + `LF(10)` 2바이트를 강제 기록하고, Linux는 `LF(10)` 1바이트만 쓴다. Windows에서 작성한 셸 스크립트(`.sh`)를 그대로 Linux에서 실행하면 눈에 안 보이는 유령 `CR(^M)` 코드가 파서 오류(`/bin/bash^M: bad interpreter`)를 터트린다. 이 경우 `dos2unix` 유틸리티로 불필요한 아스키 13번 코드를 제거(Trim)해야 한다.
@@ -99,7 +98,7 @@ ASCII는 하드웨어 자원이 극도로 제한적이었던 시기에 7비트�
 
 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 텍스트 프로세싱을 가능하게 한 이 우아한 매핑 구조 덕분에 컴퓨터 통신망은 폭발적으로 성장할 수 있었다. 비록 현재는 14만 개 이상의 문자를 담는 거대한 [유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)([Unicode](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)) 시대가 되었지만, 그 가장 근원적인 인코딩인 UTF-8의 하위 1바이트는 여전히 60년 전 ASCII 규칙과 100% 호환되도록 설계되어, 현대 IT [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 영원한 뼈대 노릇을 묵묵히 수행하고 있다.
 
-- **📢 섹션 요약 비유**: ASCII는 현대 컴퓨팅의 **'라틴어 알파벳'**이다. 지금은 수많은 파생 인코딩이 나와 세상이 복잡해졌지만, 시스템 부팅이나 네트워크 헤더 같은 가장 근원적인 통신을 파헤쳐보면 여전히 가장 가볍고 단순한 7비트 ASCII가 뼛속 깊이 시스템을 지탱하고 있다.
+- **📢 섹션 요약 비유**: ASCII는 현대 컴퓨팅의 <strong>'라틴어 알파벳'</strong>이다. 지금은 수많은 파생 인코딩이 나와 세상이 복잡해졌지만, 시스템 부팅이나 네트워크 헤더 같은 가장 근원적인 통신을 파헤쳐보면 여전히 가장 가볍고 단순한 7비트 ASCII가 뼛속 깊이 시스템을 지탱하고 있다.
 
 ---
 
@@ -107,31 +106,34 @@ ASCII는 하드웨어 자원이 극도로 제한적이었던 시기에 7비트�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **EBCDIC (Extended [Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) Interchange [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IBM 메인프레임에서 쓰이던 독자적 문자 코드. ASCII와의 개방성 경쟁에서 패배하여 도태됨 |
+| <strong>EBCDIC (Extended <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">Binary Coded Decimal</a> Interchange <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IBM 메인프레임에서 쓰이던 독자적 문자 코드. ASCII와의 개방성 경쟁에서 패배하여 도태됨 |
 | **NUL 종결자 (\0)** | ASCII 0번 코드로, C언어에서 문자열의 끝을 알려 CPU가 즉시 제어 상태를 전환하게 하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
-| **[유니코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/) ([Unicode](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/)) & [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/)** | 세계의 모든 글자를 통합한 현대 인코딩의 거대한 배. UTF-8의 1바이트 영역은 ASCII와 100% 완벽히 하위 호환됨 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/">유니코드</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/104_unicode/">Unicode</a>) &amp; <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/">UTF-8</a></strong> | 세계의 모든 글자를 통합한 현대 인코딩의 거대한 배. UTF-8의 1바이트 영역은 ASCII와 100% 완벽히 하위 호환됨 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-독자적 기계어 비트 표 (혼돈)
-    │
-    ▼
-ASCII (American Standard Code for Information Interchange) 제정
-    │ 7비트 범용 문자 인코딩 통일
-    ▼
-EUC-KR / CP949 등 국가별 확장 (8비트)
-    │
-    ▼
-Unicode (유니코드) 통합 평면
-    │
-    ▼
-UTF-8 (ASCII 하위 호환 가변 길이 인코딩)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">독자적 기계어 비트 표 (혼돈)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">ASCII (American Standard Code for Information Interchange) 제정</div>
+<div class="kb-diagram-note">7비트 범용 문자 인코딩 통일</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EUC-KR / CP949 등 국가별 확장 (8비트)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Unicode (유니코드) 통합 평면</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">UTF-8 (ASCII 하위 호환 가변 길이 인코딩)</div>
+</div>
+</div>
+
+
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. ASCII (아스키)는 전 세계 컴퓨터들이 키보드로 글자를 칠 때 서로 외계어로 깨지지 않게 돕는 **'우주 공통 번역 사전'**이에요.
+1. ASCII (아스키)는 전 세계 컴퓨터들이 키보드로 글자를 칠 때 서로 외계어로 깨지지 않게 돕는 <strong>'우주 공통 번역 사전'</strong>이에요.
 2. 이 사전의 65번을 누르면 어느 컴퓨터든 무조건 똑같은 대문자 `A`가 나오고, 계산 버튼(XOR)을 한 번만 누르면 소문자 `a`로 훌렁 옷을 갈아입는 마법도 들어있죠.
 3. 게다가 삐빅! 울리는 벨 소리나 엔터(줄 바꿈) 같은 행동도 번호표로 통일시켜버려서, 컴퓨터 장치들이 완벽하게 대화할 수 있게 만든 영웅이랍니다!
 

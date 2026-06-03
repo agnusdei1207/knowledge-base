@@ -20,20 +20,24 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 시스코 라우터(IOS) 내부에 탑재된 실시간 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 및 트래픽 분석 도구. 능동적으로 패킷을 생성하여 타겟 장비까지의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 패킷 유실, 지터 등을 측정한다.
-- **필요성**: 회사에 메인선(KT 100M)과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)선(LG 10M)이 있다. 평소에 KT로 데이터를 보낸다(Static Route: `ip route 0.0.0.0 0.0.0.0 KT_IP`). 그런데 포크레인이 회사 밖 5km 지점의 KT 해저 케이블을 끊어먹었다. 내 라우터와 연결된 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 선은 물리적으로 살아있기 때문에(Link UP), 라우터는 회선이 죽은 줄도 모르고 끝없이 KT 쪽으로 패킷을 쏟아부어 인터넷이 영원히 먹통(블랙홀)이 된다. **"아놔, 내 눈앞의 물리적 선이 살아있어도 그 너머의 실제 인터넷(8.8.8.8)이 뚫려있는지 실시간으로 찔러보고 확인해서(Ping), 끊겼으면 알아서 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)선으로 꺾어주는 정찰병이 절실하다!"**
+- **필요성**: 회사에 메인선(KT 100M)과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)선(LG 10M)이 있다. 평소에 KT로 데이터를 보낸다(Static Route: `ip route 0.0.0.0 0.0.0.0 KT_IP`). 그런데 포크레인이 회사 밖 5km 지점의 KT 해저 케이블을 끊어먹었다. 내 라우터와 연결된 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 선은 물리적으로 살아있기 때문에(Link UP), 라우터는 회선이 죽은 줄도 모르고 끝없이 KT 쪽으로 패킷을 쏟아부어 인터넷이 영원히 먹통(블랙홀)이 된다. <strong>"아놔, 내 눈앞의 물리적 선이 살아있어도 그 너머의 실제 인터넷(8.8.8.8)이 뚫려있는지 실시간으로 찔러보고 확인해서(Ping), 끊겼으면 알아서 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>선으로 꺾어주는 정찰병이 절실하다!"</strong>
 
-- **💡 비유**: IP SLA는 탄광에 데리고 들어가는 **"카나리아(새)"**와 같습니다.
+- **💡 비유**: IP SLA는 탄광에 데리고 들어가는 <strong>"카나리아(새)"</strong>와 같습니다.
   - 내 눈앞의 갱도(물리적 링크)가 아무리 멀쩡해 보여도, 저 멀리 갱도 끝에서 독가스(L3 장애)가 새어 나오면 광부(라우터)는 눈치채지 못하고 죽습니다.
-  - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 **비상 탈출구([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))**로 대피하여 생명을 구합니다.
+  - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 <strong>비상 탈출구(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>로 대피하여 생명을 구합니다.
 
-```text
-[GLBP]
-    │
-    ▼
-[IP SLA]
-    │
-    └──▶ [Anycast 라우팅 (BGP Anycast]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GLBP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP SLA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: ** IP SLA는 자율 주행 자동차 전방의 **"레이더/라이다 센서"**입니다. 차가 눈감고 달리다가 벽에 부딪혀야(Link Down) 멈추는 게 아니라, 레이더 전파(탐지 패킷)를 계속 쏴서 앞 도로가 막혔는지 미리 파악하고 스티어링 휠을 돌릴 수 있게 해주는 고도의 센서 기술입니다.
 
@@ -48,14 +52,18 @@ tags = ["studynote-network"]
 - 임무: `구글 DNS(8.8.8.8)`를 향해 5초마다 한 번씩 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo(Ping)를 쏜다.
 - 조건: 2초 안에 대답이 안 오면 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)(실패)으로 간주한다.
 
-```text
-[GLBP]
-    │
-    ▼
-[IP SLA]
-    │
-    └──▶ [Anycast 라우팅 (BGP Anycast]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">GLBP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">IP SLA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
+</div>
+</div>
+
+
 
 - **📢 섹션 요약 비유**: IP SLA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,38 +78,37 @@ tags = ["studynote-network"]
 ### 3. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 조작 (Static Route 묶기)
 이게 마법의 마무리다. 관리자가 쳐둔 Static 룰 뒤에 아까 만든 트랙 1번의 운명을 걸어버린다.
 - **메인 룰**: `ip route 0.0.0.0 0.0.0.0 [KT IP] track 1`
-  - (해석: KT 쪽으로 가는 메인 길은, **Track 1번에 불이 들어와 있을 때(구글 핑이 정상일 때)만 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 남겨둔다!**)
-- **[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 룰**: `ip route 0.0.0.0 0.0.0.0 [LG IP] 200`
+  - (해석: KT 쪽으로 가는 메인 길은, <strong>Track 1번에 불이 들어와 있을 때(구글 핑이 정상일 때)만 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블에 남겨둔다!</strong>)
+- <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 룰</strong>: `ip route 0.0.0.0 0.0.0.0 [LG IP] 200`
   - (해석: AD 200점짜리 플로팅 스태틱(Floating Static) 예비 길이다. 평소엔 죽어있다).
 
-```text
- ┌─────────────────────────────────────────────────────────────┐
- │                IP SLA + Track 기반 무중단 페일오버(Failover) 시나리오 │
- ├─────────────────────────────────────────────────────────────┤
- │                                                             │
- │   [ 평소 상태 (정상) ]                                          │
- │   - SLA 센서: 구글 핑 성공! ──▶ Track 1: UP 상태!              │
- │   - 라우팅 테이블: 메인 KT 선로 유지 (AD 1점이라 LG선은 무시됨).      │
- │                                                             │
- │   [ KT 통신사 외부 5km 지점 포크레인 단절 발생!! ]                  │
- │   - SLA 센서: 구글 핑 타임아웃! (3번 연속 실패)                  │
- │   - Track 1 상태 변경: DOWN! (불 꺼짐)                        │
- │                                                             │
- │   [ 기적의 오토 페일오버 발동 ]                                   │
- │   - 라우터 왈: "트랙 1 불 꺼졌네? 메인 KT 룰 라우팅 테이블에서 삭제해!!" │
- │   - 라우터 왈: "어? 1등 길 삭제되니까 뒤에 숨어있던 AD 200점짜리       │
- │               LG 백업 길이 위로 둥둥 떠오르네(플로팅)? LG로 쏴라!!"   │
- │                                                             │
- │   ▶ 결과: 라우터 물리 링크는 켜져 있는데도 귀신같이 우회로로 자동 전환됨. │
- └─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP SLA + Track 기반 무중단 페일오버(Failover) 시나리오</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">평소 상태 (정상)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA 센서: 구글 핑 성공! ──▶ Track 1: UP 상태!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우팅 테이블: 메인 KT 선로 유지 (AD 1점이라 LG선은 무시됨).</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">KT 통신사 외부 5km 지점 포크레인 단절 발생!!</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA 센서: 구글 핑 타임아웃! (3번 연속 실패)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Track 1 상태 변경: DOWN! (불 꺼짐)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">기적의 오토 페일오버 발동</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우터 왈: "트랙 1 불 꺼졌네? 메인 KT 룰 라우팅 테이블에서 삭제해!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우터 왈: "어? 1등 길 삭제되니까 뒤에 숨어있던 AD 200점짜리</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LG 백업 길이 위로 둥둥 떠오르네(플로팅)? LG로 쏴라!!"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 라우터 물리 링크는 켜져 있는데도 귀신같이 우회로로 자동 전환됨.</div></div>
+</div>
+</div>
+
+
 
 ### 4. 진단 도구로써의 가치 (Voice Jitter 등)
 IP SLA는 단순 핑뿐만 아니라 훨씬 고차원적인 진단을 할 수 있다.
-- **[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Jitter 탐지**: 목적지 라우터까지 가상 VoIP 패킷을 날려보고 "아, 지연이 15ms고 패킷 유실률이 2%네. 이 회선 통화 품질 개판이네"라고 점수([MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/))를 매겨 관리자에게 리포팅해 준다.
-- **[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 탐지**: "저쪽 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번에 접속해 보고 로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 잘 뜨는지 10초마다 확인해!"라는 L7(애플리케이션) 레벨의 정찰도 가능하다.
+- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> Jitter 탐지</strong>: 목적지 라우터까지 가상 VoIP 패킷을 날려보고 "아, 지연이 15ms고 패킷 유실률이 2%네. 이 회선 통화 품질 개판이네"라고 점수([MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/))를 매겨 관리자에게 리포팅해 준다.
+- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 탐지</strong>: "저쪽 웹서버 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 80번에 접속해 보고 로그인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 잘 뜨는지 10초마다 확인해!"라는 L7(애플리케이션) 레벨의 정찰도 가능하다.
 
-- **📢 섹션 요약 비유**: ** IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) + Track 연동 기술은 자동차의 **"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)), 센서(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
+- **📢 섹션 요약 비유**: <strong> IP <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> + Track 연동 기술은 자동차의 </strong>"스마트 크루즈 컨트롤 + 긴급 제동(AEB)"**입니다. 운전자가 페달을 밟지 않아도([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)), 센서(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 끊임없이 앞차와의 거리를 계산하다가 사고가 감지되는 순간 0.1초 만에 브레이크를 밟고 핸들을 꺾어(Track 연동) 탑승객의 목숨을 구합니다.
 
 ---
 
@@ -143,15 +150,19 @@ IP SLA는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rout
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-[선행 개념: GLBP]
-    │
-    ▼
-[현재 개념: IP SLA]
-    │
-    ├──▶ [확장 A: Anycast 라우팅 (BGP Anycast]
-    └──▶ [확장 B: 의도 기반 라우팅]
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GLBP</div></div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP SLA</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Anycast 라우팅 (BGP Anycast</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
+</div>
+</div>
+
+
 
 IP SLA는 GLBP에서 출발해 현재 메커니즘을 정교화하고, 이후 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

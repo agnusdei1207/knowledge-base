@@ -19,27 +19,28 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-Test-and-Set은 잠금 변수의 **이전 값 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Test)** 과 **잠금 상태 기록(Set)** 을 분리하지 않고 한 번에 수행하는 [하드웨어 동기화](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) 명령이다. 멀티코어 환경에서는 여러 CPU (Central Processing Unit) 코어가 같은 메모리 주소를 거의 동시에 읽을 수 있으므로, 단순한 검사 후 대입 방식만으로는 누가 먼저 락을 잡았는지 안전하게 판정할 수 없다.
+Test-and-Set은 잠금 변수의 <strong>이전 값 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(Test)</strong> 과 **잠금 상태 기록(Set)** 을 분리하지 않고 한 번에 수행하는 [하드웨어 동기화](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) 명령이다. 멀티코어 환경에서는 여러 CPU (Central Processing Unit) 코어가 같은 메모리 주소를 거의 동시에 읽을 수 있으므로, 단순한 검사 후 대입 방식만으로는 누가 먼저 락을 잡았는지 안전하게 판정할 수 없다.
 
 문제의 핵심은 "읽은 직후부터 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 직전까지"의 아주 짧은 틈이다. 소프트웨어 관점에서는 한 줄처럼 보여도, 기계 수준에서는 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 서로 다른 단계로 나뉜다. 따라서 두 코어가 모두 `0`을 읽은 뒤 각자 `1`을 써 버리면, 둘 다 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가는 사고가 발생한다.
 
 아래 그림은 왜 단순한 조건 검사만으로는 락을 만들 수 없는지를 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│      소프트웨어식 잠금의 실패: 읽기와 쓰기 사이 틈이 존재함         │
-├──────────────────────────────────────────────────────────────────────┤
-│ 초기 lock = 0                                                       │
-│                                                                      │
-│ Core A                    시간 축                     Core B         │
-│  read lock = 0     ─────────────────────────▶         read lock = 0  │
-│  "들어가도 되겠네"                                     "나도 되겠네" │
-│  write lock = 1    ─────────────────────────▶         write lock = 1 │
-│  critical section  ─────────────────────────▶         critical section│
-│                                                                      │
-│ 결과: 둘 다 진입하여 상호 배제 실패                                  │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어식 잠금의 실패: 읽기와 쓰기 사이 틈이 존재함</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 lock = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A 시간 축 Core B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read lock = 0 ▶ read lock = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"들어가도 되겠네" "나도 되겠네"</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write lock = 1 ▶ write lock = 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">critical section ▶ critical section</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 둘 다 진입하여 상호 배제 실패</div></div>
+</div>
+</div>
+
+
 
 그래서 Test-and-Set은 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이를 소프트웨어에 맡기지 않는다. 하드웨어가 해당 메모리 위치를 잠시 독점하고, **이전 값을 반환하면서 동시에 잠금 값을 기록** 하도록 만들어 "승자 1명, 패자 다수" 구조를 강제한다.
 
@@ -57,29 +58,29 @@ Test-and-Set의 전형적 의미는 `old = *lock; *lock = 1; return old;` 이다
 | Set | 같은 주소에 잠금 값 `1` 기록 | 이후 경쟁자는 모두 "잠김"을 보게 됨 |
 | Return old | 읽어 둔 옛값 반환 | 락 획득 성공/실패를 즉시 판정 |
 
-현대 프로세서는 과거처럼 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통째로 묶기보다, 해당 캐시 라인을 독점 상태로 확보해 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장한다. 예를 들어 MESI (Modified, Exclusive, Shared, Invalid) 계열 프로토콜에서는 락 변수가 담긴 캐시 라인을 한 코어가 배타적으로 확보한 뒤 수정한다. 즉 Test-and-Set은 단순한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아니라 **[캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜과 결합된 [원자적 읽기-수정-쓰기](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/567_atomic_rmw/) 시퀀스** 다.
+현대 프로세서는 과거처럼 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통째로 묶기보다, 해당 캐시 라인을 독점 상태로 확보해 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장한다. 예를 들어 MESI (Modified, Exclusive, Shared, Invalid) 계열 프로토콜에서는 락 변수가 담긴 캐시 라인을 한 코어가 배타적으로 확보한 뒤 수정한다. 즉 Test-and-Set은 단순한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> 프로토콜과 결합된 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/567_atomic_rmw/">원자적 읽기-수정-쓰기</a> 시퀀스</strong> 다.
 
 아래 그림은 성공과 실패가 어떻게 갈리는지 보여준다.
 
-```text
-┌──────────────────────────────────────────────────────────────────────┐
-│              Test-and-Set의 원자적 승자 결정 흐름                   │
-├──────────────────────────────────────────────────────────────────────┤
-│ 공유 변수 lock = 0                                                  │
-│                                                                      │
-│ Core A                  Cache Coherence               Core B         │
-│   │                           │                         │            │
-│   ├─ T&S(lock) 요청 ─────────▶│                         │            │
-│   │                           ├─ lock line 독점 부여    │            │
-│   │                           │                         ├─ T&S 요청  │
-│   │◀──────── old=0, write=1 ──┤                         │            │
-│   │   락 획득 성공             │                         │            │
-│   │                           ├─ 이후 관측 값은 1       │            │
-│   │                           │───────────────▶         │            │
-│   │                           │                         │◀─ old=1    │
-│   │                           │                         │   획득 실패 │
-└──────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test-and-Set의 원자적 승자 결정 흐름</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 변수 lock = 0</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A Cache Coherence Core B</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ T&amp;S(lock) 요청 ▶</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ lock line 독점 부여</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ T&amp;S 요청</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ old=0, write=1 ──</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락 획득 성공</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 이후 관측 값은 1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ old=1</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">획득 실패</div></div>
+</div>
+</div>
+
+
 
 이 메커니즘 덕분에 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))의 기본 코드가 성립한다.
 
@@ -89,7 +90,7 @@ while (test_and_set(&lock) == 1) {
 }
 ```
 
-하지만 이 단순함에는 대가가 있다. 실패한 코어도 매번 `1`을 다시 쓰려 하므로, 락이 이미 잡혀 있어도 캐시 라인 소유권 경쟁이 반복된다. 즉 Test-and-Set은 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 보장에는 강하지만, 경합이 커질수록 메모리 시스템을 시끄럽게 만드는 명령** 이다.
+하지만 이 단순함에는 대가가 있다. 실패한 코어도 매번 `1`을 다시 쓰려 하므로, 락이 이미 잡혀 있어도 캐시 라인 소유권 경쟁이 반복된다. 즉 Test-and-Set은 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> 보장에는 강하지만, 경합이 커질수록 메모리 시스템을 시끄럽게 만드는 명령</strong> 이다.
 
 - **📢 섹션 요약 비유**: 번호표 기계 앞에서 가장 먼저 버튼을 누른 사람만 표를 받는다. 문제는 뒤에 선 사람들도 계속 버튼을 세게 눌러 기계를 흔들기 때문에, 규칙은 단순해도 혼잡은 심해질 수 있다는 점이다.
 
@@ -118,7 +119,7 @@ CAS는 더 나아가 "현재 값이 내가 기대한 값과 같을 때만 갱신
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 Test-and-Set 기반 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 **[임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)이 매우 짧고, 잠깐만 기다리면 끝나는 경우** 에만 의미가 있다. 예를 들어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 자료구조를 수십 나노초~수백 나노초 안에 보호하는 상황에서는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용보다 [바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))가 더 저렴할 수 있다.
+실무에서 Test-and-Set 기반 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>이 매우 짧고, 잠깐만 기다리면 끝나는 경우</strong> 에만 의미가 있다. 예를 들어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 자료구조를 수십 나노초~수백 나노초 안에 보호하는 상황에서는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용보다 [바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))가 더 저렴할 수 있다.
 
 반대로 락을 잡은 채 입출력(I/O), [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/), [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 같은 긴 작업이 들어가면 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 곧바로 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 된다. 기다리는 코어들이 계속 회전하면서 CPU 시간을 태우고, Test-and-Set의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁 때문에 캐시 라인 왕복 비용까지 더해져 전체 처리량이 급락한다.
 
@@ -135,7 +136,7 @@ CAS는 더 나아가 "현재 값이 내가 기대한 값과 같을 때만 갱신
 - [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨텍스트와 일반 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 문맥에서 같은 락을 무분별하게 공유
 - 다중 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 환경에서 경합이 심한 전역 락을 단일 Test-and-Set으로 처리
 
-기술사 관점에서 핵심 판단은 "[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 확보"와 "확장성 비용"을 동시에 설명하는 것이다. Test-and-Set은 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 가장 기본적인 해법이지만, 현대 다코어 시스템에서는 **[정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)의 출발점** 이지 **확장성의 종착점** 은 아니다.
+기술사 관점에서 핵심 판단은 "[원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) 확보"와 "확장성 비용"을 동시에 설명하는 것이다. Test-and-Set은 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 가장 기본적인 해법이지만, 현대 다코어 시스템에서는 <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a>의 출발점</strong> 이지 **확장성의 종착점** 은 아니다.
 
 - **📢 섹션 요약 비유**: 문 앞에서 잠깐 서 있는 사람에게는 손잡이 앞 대기가 빠르다. 하지만 안에서 오래 머무는 사람에게 같은 규칙을 쓰면, 복도 전체가 막혀 모두가 헛걸음만 하게 된다.
 
@@ -147,7 +148,7 @@ Test-and-Set의 가장 큰 의미는 "[상호 배제](/knowledge-base/studynote/
 
 다만 장점은 단순성과 즉시성이고, 한계는 경합 확장성이다. 코어가 많아질수록 한 개의 락 변수에 대한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경쟁이 시스템 전체 병목으로 번지기 쉽다. 그래서 현대 설계는 Test-and-Set 자체를 버리기보다, 이를 TTAS·지수 백오프(Exponential Backoff)·큐 기반 락·[CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)·LL/SC (Load-Linked/Store-Conditional) 같은 더 세련된 기법으로 발전시켜 왔다.
 
-결국 Test-and-Set은 "락의 원형"으로 기억하는 것이 가장 정확하다. **읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하나로 묶는 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)의 출발점** 이며, 동시에 **그 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 어떤 비용으로 얻는가** 를 고민하게 만드는 기준점이다.
+결국 Test-and-Set은 "락의 원형"으로 기억하는 것이 가장 정확하다. <strong>읽기와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 하나로 묶는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>의 출발점</strong> 이며, 동시에 <strong>그 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/">원자성</a>을 어떤 비용으로 얻는가</strong> 를 고민하게 만드는 기준점이다.
 
 - **📢 섹션 요약 비유**: Test-and-Set은 가장 단순한 자물쇠 설계도다. 문을 확실히 잠그는 법은 알려 주지만, 사람들이 많아졌을 때 복도 흐름까지 좋게 만들려면 그 위에 더 똑똑한 출입 관리가 덧붙어야 한다.
 
@@ -165,23 +166,24 @@ Test-and-Set의 가장 큰 의미는 "[상호 배제](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-경합 조건 (Race Condition)
-        │
-        ▼
-원자적 읽기-수정-쓰기 (Atomic RMW)
-        │
-        ▼
-Test-and-Set 기반 스핀락
-        │
-        ├──────────────▶ TTAS · Back-off
-        │
-        ▼
-CAS · LL/SC 기반 락프리 구조
-        │
-        ▼
-확장형 동기화: Queue Lock · HTM (Hardware Transactional Memory)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">경합 조건 (Race Condition)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">원자적 읽기-수정-쓰기 (Atomic RMW)</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Test-and-Set 기반 스핀락</div>
+<div class="kb-diagram-tree-item" style="--depth:4">▶ TTAS · Back-off</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">CAS · LL/SC 기반 락프리 구조</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">확장형 동기화: Queue Lock · HTM (Hardware Transactional Memory)</div>
+</div>
+</div>
+
+
 
 이 흐름은 "단순한 락 획득"에서 시작해 "경합 완화"와 "락 자체 축소" 방향으로 진화하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 설계의 흐름을 보여준다.
 

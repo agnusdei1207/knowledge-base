@@ -38,11 +38,17 @@ def matmul_naive(A, B):
 
 ### 1.2 캐시 미스 문제
 
-```
-메모리 접근 패턴:
-A[i][k]: 행 방향 접근 → 캐시 친화적 ✓
-B[k][j]: 열 방향 접근 → 캐시 미스 빈번 ✗
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">메모리 접근 패턴:</div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">k</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">캐시 친화적 ✓</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">B</div><div class="kb-diagram-node">k</div><div class="kb-diagram-node">j</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">캐시 미스 빈번 ✗</div></div>
+</div>
+</div>
+
+
 
 B 행렬을 전치(transpose)하면 j 방향 접근이 행 방향으로 바뀌어 캐시 효율 개선.
 
@@ -56,27 +62,30 @@ B 행렬을 전치(transpose)하면 j 방향 접근이 행 방향으로 바뀌�
 
 2N×2N 행렬을 N×N 블록으로 분할:
 
-```
-[C11 C12]   [A11 A12]   [B11 B12]
-[C21 C22] = [A21 A22] × [B21 B22]
 
-나이브: 8번 재귀 곱셈 → T(N) = 8T(N/2) + O(N²) → O(N³)
 
-Strassen:
-M1 = (A11+A22)(B11+B22)
-M2 = (A21+A22)B11
-M3 = A11(B12-B22)
-M4 = A22(B21-B11)
-M5 = (A11+A12)B22
-M6 = (A21-A11)(B11+B12)
-M7 = (A12-A22)(B21+B22)
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row"><div class="kb-diagram-node">C11 C12</div><div class="kb-diagram-node">A11 A12</div><div class="kb-diagram-node">B11 B12</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">C21 C22</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">A21 A22</div><div class="kb-diagram-note">×</div><div class="kb-diagram-node">B21 B22</div></div>
+<div class="kb-diagram-note">나이브: 8번 재귀 곱셈 → T(N) = 8T(N/2) + O(N²) → O(N³)</div>
+<div class="kb-diagram-note">Strassen:</div>
+<div class="kb-diagram-note">M1 = (A11+A22)(B11+B22)</div>
+<div class="kb-diagram-note">M2 = (A21+A22)B11</div>
+<div class="kb-diagram-note">M3 = A11(B12-B22)</div>
+<div class="kb-diagram-note">M4 = A22(B21-B11)</div>
+<div class="kb-diagram-note">M5 = (A11+A12)B22</div>
+<div class="kb-diagram-note">M6 = (A21-A11)(B11+B12)</div>
+<div class="kb-diagram-note">M7 = (A12-A22)(B21+B22)</div>
+<div class="kb-diagram-note">C11 = M1+M4-M5+M7</div>
+<div class="kb-diagram-note">C12 = M3+M5</div>
+<div class="kb-diagram-note">C21 = M2+M4</div>
+<div class="kb-diagram-note">C22 = M1-M2+M3+M6</div>
+<div class="kb-diagram-note">→ 7번 재귀 곱셈 → O(N^log₂7) ≈ O(N^2.807)</div>
+</div>
+</div>
 
-C11 = M1+M4-M5+M7
-C12 = M3+M5
-C21 = M2+M4
-C22 = M1-M2+M3+M6
-→ 7번 재귀 곱셈 → O(N^log₂7) ≈ O(N^2.807)
-```
+
 
 ### 2.2 실용성 한계
 
@@ -179,47 +188,59 @@ C = α·op(A)·op(B) + β·C
 
 ## 📌 관련 개념 맵
 
-```
-행렬 곱셈 최적화
-├── 알고리즘
-│   ├── 나이브 O(N³)
-│   ├── Strassen O(N^2.807)
-│   └── 이론 한계 (O(N^2.37))
-├── 캐시 최적화
-│   ├── 전치 최적화
-│   └── 블록 행렬 곱셈
-├── 하드웨어 가속
-│   ├── SIMD (AVX-512)
-│   ├── GPU (Tensor Core)
-│   └── TPU (Google)
-└── 라이브러리
-    ├── BLAS (OpenBLAS, MKL)
-    ├── cuBLAS (NVIDIA GPU)
-    └── NumPy/PyTorch 자동 활용
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">행렬 곱셈 최적화</div>
+<div class="kb-diagram-tree-item" style="--depth:0">알고리즘</div>
+<div class="kb-diagram-note">── 나이브 O(N³)</div>
+<div class="kb-diagram-note">── Strassen O(N^2.807)</div>
+<div class="kb-diagram-note">── 이론 한계 (O(N^2.37))</div>
+<div class="kb-diagram-tree-item" style="--depth:0">캐시 최적화</div>
+<div class="kb-diagram-note">── 전치 최적화</div>
+<div class="kb-diagram-note">── 블록 행렬 곱셈</div>
+<div class="kb-diagram-tree-item" style="--depth:0">하드웨어 가속</div>
+<div class="kb-diagram-note">── SIMD (AVX-512)</div>
+<div class="kb-diagram-note">── GPU (Tensor Core)</div>
+<div class="kb-diagram-note">── TPU (Google)</div>
+<div class="kb-diagram-tree-item" style="--depth:0">라이브러리</div>
+<div class="kb-diagram-tree-item" style="--depth:2">BLAS (OpenBLAS, MKL)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">cuBLAS (NVIDIA GPU)</div>
+<div class="kb-diagram-tree-item" style="--depth:2">NumPy/PyTorch 자동 활용</div>
+</div>
+</div>
+
+
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-```
-나이브 행렬 곱셈 O(N³)
-     │  이론적 개선
-     ▼
-Strassen O(N^2.807) (1969)
-     │  캐시 효율 최적화
-     ▼
-블록 GEMM + BLAS (1970s~80s)
-     │  GPU 병렬화
-     ▼
-cuBLAS / cuDNN (2007~)
-     │  딥러닝 전용 하드웨어
-     ▼
-Tensor Core FP16/INT8 (2017~)
-     │  이론 한계 접근
-     ▼
-Williams et al. O(N^2.37) (2024)
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">나이브 행렬 곱셈 O(N³)</div>
+<div class="kb-diagram-note">이론적 개선</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Strassen O(N^2.807) (1969)</div>
+<div class="kb-diagram-note">캐시 효율 최적화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">블록 GEMM + BLAS (1970s~80s)</div>
+<div class="kb-diagram-note">GPU 병렬화</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">cuBLAS / cuDNN (2007~)</div>
+<div class="kb-diagram-note">딥러닝 전용 하드웨어</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Tensor Core FP16/INT8 (2017~)</div>
+<div class="kb-diagram-note">이론 한계 접근</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">Williams et al. O(N^2.37) (2024)</div>
+</div>
+</div>
+
+
 
 **핵심 키워드**: Strassen, GEMM, BLAS, 블록 행렬, [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/), cuBLAS, AMP, 캐시 최적화
 

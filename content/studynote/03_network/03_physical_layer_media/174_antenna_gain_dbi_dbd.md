@@ -24,15 +24,18 @@ tags = ["network"]
 
 아래 그림은 같은 송신 전력도 공간 분포가 달라지면 체감 성능이 달라진다는 점을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Same transmitter power, different spatial shapes                  │
-├────────────────────────────────────────────────────────────────────┤
-│ isotropic reference : spread energy over a sphere                 │
-│ dipole reference    : squeeze more energy toward the horizon      │
-│ high-gain antenna   : concentrate energy into a narrower main lobe│
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same transmitter power, different spatial shapes</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">isotropic reference : spread energy over a sphere</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dipole reference : squeeze more energy toward the horizon</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">high-gain antenna : concentrate energy into a narrower main lobe</div></div>
+</div>
+</div>
+
+
 
 핵심은 전력 총량보다 방향별 전력 밀도가 중요하다는 점이다. 무선 링크는 결국 상대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있는 방향에서 충분한 전력 밀도를 확보해야 성립한다. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 이득은 송신기 출력보다 앞서 읽어야 하는 공간 설계 지표다.
 
@@ -57,22 +60,21 @@ tags = ["network"]
 
 아래 그림은 gain이 어떻게 만들어지는지를 구조적으로 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ What builds antenna gain                                          │
-├────────────────────────────────────────────────────────────────────┤
-│ input power Pt                                                    │
-│   │                                                               │
-│   ├─ mismatch / conductor / dielectric losses                     │
-│   ▼                                                               │
-│ radiated power Prad = Pt × efficiency η                           │
-│   │                                                               │
-│   └─ spatial concentration D                                      │
-│            ▼                                                      │
-│         gain G = η × D                                            │
-│ reference: isotropic -> dBi, half-wave dipole -> dBd             │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What builds antenna gain</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">input power Pt</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mismatch / conductor / dielectric losses</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radiated power Prad = Pt × efficiency η</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ spatial concentration D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gain G = η × D</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reference: isotropic -&gt; dBi, half-wave dipole -&gt; dBd</div></div>
+</div>
+</div>
+
+
 
 예를 들어 8 dBi는 주빔 방향 전력 밀도가 등방성 기준 약 `10^(8/10) ≈ 6.3`배라는 뜻이다. 하지만 이것은 "총전력이 6.3배가 되었다"는 말이 아니라, 같은 총전력을 특정 방향에 더 많이 배치했다는 뜻이다. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) gain을 읽을 때는 항상 기준 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 방사 방향을 함께 생각해야 한다.
 
@@ -104,26 +106,29 @@ dBi와 dBd는 숫자 표기가 비슷해 보여도 기준점이 다르다. dBi�
 
 아래 판단 흐름은 gain을 단순 숫자가 아니라 배치 전략으로 읽는 방법을 보여 준다.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│ Practical antenna gain choice                                     │
-├────────────────────────────────────────────────────────────────────┤
-│ need wide 360° indoor coverage?                                   │
-│   ├─ yes ─▶ low / medium gain omni                                │
-│   └─ no                                                           │
-│        ├─ corridor / sector ─▶ panel antenna                      │
-│        └─ point-to-point ─▶ high-gain directional antenna         │
-│ after choice: EIRP = Tx power - cable loss + antenna gain         │
-└────────────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical antenna gain choice</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need wide 360° indoor coverage?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ low / medium gain omni</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ corridor / sector ─▶ panel antenna</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ point-to-point ─▶ high-gain directional antenna</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after choice: EIRP = Tx power - cable loss + antenna gain</div></div>
+</div>
+</div>
+
+
 
 ### 실무 판단 기준
 
-1. **기준 단위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: 스펙이 dBi인지 dBd인지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 필요하면 변환한다.
-2. **패턴과 빔 폭 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)**: gain이 높아질수록 커버리지 모양이 어떻게 바뀌는지 본다.
+1. <strong>기준 단위 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 스펙이 dBi인지 dBd인지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 필요하면 변환한다.
+2. <strong>패턴과 빔 폭 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: gain이 높아질수록 커버리지 모양이 어떻게 바뀌는지 본다.
 3. **EIRP 점검**: 송신 출력, 케이블 손실, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) gain을 합쳐 법적 제한을 넘지 않는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 4. **설치 조건 검토**: 높이, 각도, 편파, 정렬 오차, 반사 환경이 실제 gain 활용도를 좌우한다.
-5. **[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목적 구분**: roaming이 필요한 환경인지, 장거리 고정 링크인지에 따라 적정 gain이 달라진다.
+5. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 목적 구분</strong>: roaming이 필요한 환경인지, 장거리 고정 링크인지에 따라 적정 gain이 달라진다.
 
 ### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -163,24 +168,22 @@ dBi와 dBd는 숫자 표기가 비슷해 보여도 기준점이 다르다. dBi�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-```text
-reference antenna
-    │
-    ├──────────────▶ isotropic baseline ─▶ dBi
-    └──────────────▶ dipole baseline    ─▶ dBd
-                           │
-                           ▼
-                 gain interpretation
-                           │
-         ┌─────────────────┼─────────────────┐
-         ▼                 ▼                 ▼
-   directivity        efficiency         beamwidth
-         │                 │                 │
-         └─────────────────┴─────────────────┘
-                           │
-                           ▼
-                 EIRP / link budget / coverage
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-note">reference antenna</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ isotropic baseline ─▶ dBi</div>
+<div class="kb-diagram-tree-item" style="--depth:2">▶ dipole baseline ─▶ dBd</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">gain interpretation</div>
+<div class="kb-diagram-note">directivity efficiency beamwidth</div>
+<div class="kb-diagram-connector">▼</div>
+<div class="kb-diagram-note">EIRP / link budget / coverage</div>
+</div>
+</div>
+
+
 
 이 흐름도는 gain이 단순 숫자가 아니라 기준 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 시작해 directivity, efficiency, beamwidth를 거쳐 실제 링크 설계와 규제 판단으로 이어지는 연쇄 개념임을 보여 준다.
 

@@ -19,27 +19,24 @@ tags = ["computer_architecture"]
 
 CPU와 메모리가 아무리 빨라도, 데이터를 읽고 쓰는 하드디스크나 네트워크 카드가 느리면 전체 시스템 성능은 하향 평준화된다. 입출력 시스템은 이러한 **'I/O Bound'** 문제를 해결하기 위해 버퍼링 (Buffering), 스풀링 (Spooling), 캐싱 (Caching) 등 다양한 하드웨어 및 소프트웨어 기법을 동원한다.
 
-I/O 및 저장장치 구조가 중요한 이유는 세 가지이다. 첫째, CPU가 I/O 완료를 기다리며 낭비되는 **유휴 시간**을 없애기 위해서이다. 둘째, 수많은 주변장치를 **표준화된 방식**으로 연결하여 확장성을 확보하기 위해서이며, 셋째, 데이터의 **영구 저장 및 무결성**을 보장하여 비즈니스 연속성을 유지하기 위함이다.
+I/O 및 저장장치 구조가 중요한 이유는 세 가지이다. 첫째, CPU가 I/O 완료를 기다리며 낭비되는 <strong>유휴 시간</strong>을 없애기 위해서이다. 둘째, 수많은 주변장치를 <strong>표준화된 방식</strong>으로 연결하여 확장성을 확보하기 위해서이며, 셋째, 데이터의 <strong>영구 저장 및 무결성</strong>을 보장하여 비즈니스 연속성을 유지하기 위함이다.
 
 이 그림은 CPU와 입출력 장치 사이의 데이터 전송 제어권 변화를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│              Evolution of I/O Control Architecture          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Level 1: Programmed I/O ] (CPU가 일일이 확인 - Poll)    │
-│          │                                                  │
-│   [ Level 2: Interrupt-driven I/O ] (완료 시 CPU에 알림)    │
-│          │                                                  │
-│   [ Level 3: DMA (Direct Memory Access) ] (메모리 직접 전송) │
-│          │                                                  │
-│   [ Level 4: I/O Channel / Processor ] (I/O 전담 보조 CPU)  │
-│                                                             │
-│   * 방향: CPU의 개입은 줄이고, 자율성은 높이는 방향         │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evolution of I/O Control Architecture</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Programmed I/O</div><div class="kb-diagram-note">(CPU가 일일이 확인 - Poll)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Interrupt-driven I/O</div><div class="kb-diagram-note">(완료 시 CPU에 알림)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: DMA (Direct Memory Access)</div><div class="kb-diagram-note">(메모리 직접 전송)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: I/O Channel / Processor</div><div class="kb-diagram-note">(I/O 전담 보조 CPU)</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방향: CPU의 개입은 줄이고, 자율성은 높이는 방향</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'CPU 해방'이다. 최신 시스템일수록 I/O 작업을 전담하는 하드웨어를 별도로 두어, 주 CPU는 오직 복잡한 연산에만 집중하게 만든다. 실무에서는 이러한 DMA 제어기 설정과 버스 대역폭 설계가 서버 전체의 동시 처리 능력을 결정한다.
 
@@ -61,23 +58,20 @@ DMA는 CPU의 권한을 잠시 빌려 메모리 버스를 직접 제어한다. �
 
 이 구조도는 DMA 제어기가 시스템 버스를 점유하는 방식을 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                 DMA Controller & Cycle Stealing             │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ CPU ] ──▶ [ DMA Request ] ──▶ [ DMA Controller ]        │
-│      │                                   │                  │
-│      │          ┌────────────────────────┴──────┐           │
-│      │          ▼ (Bus Grant)                   ▼ (Transfer)│
-│   [ System Bus (Address/Data) ] ◀───▶ [ I/O Device ]        │
-│          ▲                                                  │
-│          └─ [ Main Memory ]                                 │
-│                                                             │
-│   * Cycle Stealing: CPU가 버스를 안 쓰는 찰나에 데이터 전송 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Controller &amp; Cycle Stealing</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA Controller</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Bus Grant) ▼ (Transfer)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">System Bus (Address/Data)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">I/O Device</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Main Memory</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Cycle Stealing: CPU가 버스를 안 쓰는 찰나에 데이터 전송</div></div>
+</div>
+</div>
+
+
 
 이 다이어그램의 핵심은 'Cycle Stealing'이다. CPU와 DMA가 동시에 메모리를 쓰려 할 때, DMA에게 우선권을 주어 I/O 지연을 막는 것이 일반적이다. 실무에서는 이 과정에서 발생하는 캐시 불일치 (Cache Coherency) 문제를 하드웨어적으로 해결하는 것이 중요하다.
 
@@ -126,28 +120,27 @@ DMA는 CPU의 권한을 잠시 빌려 메모리 버스를 직접 제어한다. �
 ### 기술사적 판단: 엔터프라이즈 스토리지 설계 전략
 
 **시나리오 1: 로그 기록이 초당 수만 건 발생하는 고부하 DB 서버**
-- **판단**: 쓰기 성능과 복구 능력이 조화된 **RAID 10** 구성을 권고한다. 또한 일반 SATA SSD 대신 **NVMe** 드라이버를 사용하고, 커널의 I/O 스케줄러를 SSD에 최적화된 **'none'** 또는 **'mq-deadline'**으로 설정하여 소프트웨어 오버헤드를 제거한다.
+- **판단**: 쓰기 성능과 복구 능력이 조화된 **RAID 10** 구성을 권고한다. 또한 일반 SATA SSD 대신 **NVMe** 드라이버를 사용하고, 커널의 I/O 스케줄러를 SSD에 최적화된 **'none'** 또는 <strong>'mq-deadline'</strong>으로 설정하여 소프트웨어 오버헤드를 제거한다.
 
 **시나리오 2: 대규모 영상 편집 및 스트리밍 서비스 인프라**
-- **판단**: 단일 서버의 한계를 넘는 **NAS**나 **SAN** 아키텍처를 도입한다. 특히 고속 전송을 위해 **Fiber Channel (FC)**이나 **iSCSI** 기반의 전용 네트워크를 구축하고, 하드웨어 레벨의 **Write Cache**를 활성화하되 정전 대비용 BBU (Battery Backup Unit)를 반드시 장착하여 데이터 유실을 방지한다.
+- **판단**: 단일 서버의 한계를 넘는 <strong>NAS</strong>나 **SAN** 아키텍처를 도입한다. 특히 고속 전송을 위해 <strong>Fiber Channel (FC)</strong>이나 **iSCSI** 기반의 전용 네트워크를 구축하고, 하드웨어 레벨의 <strong>Write Cache</strong>를 활성화하되 정전 대비용 BBU (Battery Backup Unit)를 반드시 장착하여 데이터 유실을 방지한다.
 
 이 도식은 데이터 요청 시 계층별 응답 경로를 보여준다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│               I/O Request Decision Tree                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   [ Read Request ] ──▶ [ OS Page Cache ] ──▶ [ Hit? ] ──▶ [Return]│
-│                               │               │ (YES)       │
-│                               ▼               └─────────────┘│
-│   [ File System ] ──▶ [ Storage Controller Cache ] ──▶ [ Hit? ]│
-│                               │                         (YES)│
-│                               ▼                              │
-│   [ Physical Storage Access ] (IO Latency 발생)              │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
+
+
+<div class="kb-diagram" data-diagram="ascii-converted">
+<div class="kb-diagram-flow">
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Request Decision Tree</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Read Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS Page Cache</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hit?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Return</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">File System</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Storage Controller Cache</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hit?</div></div>
+<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
+<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Storage Access</div><div class="kb-diagram-note">(IO Latency 발생)</div></div>
+</div>
+</div>
+
+
 
 📢 **섹션 요약 비유**: 기술사의 스토리지 판단은 '도시 물류 허브 설계'와 같습니다. 물건(데이터)이 들어오는 양과 빈도를 분석하여, 창고(스토리지)를 어떻게 나누고 어떤 운송 수단(인터페이스)을 쓸지 결정하는 전략적 안목이 필요합니다.
 
@@ -162,7 +155,7 @@ DMA는 CPU의 권한을 잠시 빌려 메모리 버스를 직접 제어한다. �
 
 ### 미래 전망: 소프트웨어 정의 스토리지 (SDS)와 Computational Storage
 
-향후 저장장치는 단순히 데이터를 담는 통을 넘어, 저장장치 내부에서 직접 데이터를 가공하고 검색하는 **Computational Storage (PIM의 스토리지 버전)**로 진화할 것이다. 또한 하드웨어 종속성을 완전히 제거하고 소프트웨어로 스토리지를 가상화하는 **SDS**가 클라우드 인프라의 표준이 될 것이다. 기술사는 물리적인 디스크 구조를 넘어, 네트워크와 스토리지가 통합되는 **NVMe-over-Fabrics (NVMe-oF)**와 같은 최신 프로토콜에 대한 깊은 이해를 가져야 한다.
+향후 저장장치는 단순히 데이터를 담는 통을 넘어, 저장장치 내부에서 직접 데이터를 가공하고 검색하는 <strong>Computational Storage (PIM의 스토리지 버전)</strong>로 진화할 것이다. 또한 하드웨어 종속성을 완전히 제거하고 소프트웨어로 스토리지를 가상화하는 <strong>SDS</strong>가 클라우드 인프라의 표준이 될 것이다. 기술사는 물리적인 디스크 구조를 넘어, 네트워크와 스토리지가 통합되는 <strong>NVMe-over-Fabrics (NVMe-oF)</strong>와 같은 최신 프로토콜에 대한 깊은 이해를 가져야 한다.
 
 📢 **섹션 요약 비유**: 미래의 저장장치는 '스스로 생각하는 도서관'과 같아질 것입니다. 사서가 책을 찾아주는 게 아니라, 도서관 자체가 질문을 이해하고 정답이 적힌 페이지를 직접 펼쳐서 보여주는 지능형 저장소가 완성될 것입니다.
 
